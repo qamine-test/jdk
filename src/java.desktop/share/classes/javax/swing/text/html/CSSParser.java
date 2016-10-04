@@ -1,209 +1,209 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.text.html;
+pbckbge jbvbx.swing.text.html;
 
-import java.io.*;
+import jbvb.io.*;
 
 /**
- * A CSS parser. This works by way of a delegate that implements the
- * CSSParserCallback interface. The delegate is notified of the following
+ * A CSS pbrser. This works by wby of b delegbte thbt implements the
+ * CSSPbrserCbllbbck interfbce. The delegbte is notified of the following
  * events:
  * <ul>
- *   <li>Import statement: <code>handleImport</code>
- *   <li>Selectors <code>handleSelector</code>. This is invoked for each
- *       string. For example if the Reader contained p, bar , a {}, the delegate
- *       would be notified 4 times, for 'p,' 'bar' ',' and 'a'.
- *   <li>When a rule starts, <code>startRule</code>
- *   <li>Properties in the rule via the <code>handleProperty</code>. This
- *       is invoked one per property/value key, eg font size: foo;, would
- *       cause the delegate to be notified once with a value of 'font size'.
- *   <li>Values in the rule via the <code>handleValue</code>, this is notified
- *       for the total value.
- *   <li>When a rule ends, <code>endRule</code>
+ *   <li>Import stbtement: <code>hbndleImport</code>
+ *   <li>Selectors <code>hbndleSelector</code>. This is invoked for ebch
+ *       string. For exbmple if the Rebder contbined p, bbr , b {}, the delegbte
+ *       would be notified 4 times, for 'p,' 'bbr' ',' bnd 'b'.
+ *   <li>When b rule stbrts, <code>stbrtRule</code>
+ *   <li>Properties in the rule vib the <code>hbndleProperty</code>. This
+ *       is invoked one per property/vblue key, eg font size: foo;, would
+ *       cbuse the delegbte to be notified once with b vblue of 'font size'.
+ *   <li>Vblues in the rule vib the <code>hbndleVblue</code>, this is notified
+ *       for the totbl vblue.
+ *   <li>When b rule ends, <code>endRule</code>
  * </ul>
- * This will parse much more than CSS 1, and loosely implements the
- * recommendation for <i>Forward-compatible parsing</i> in section
- * 7.1 of the CSS spec found at:
- * <a href=http://www.w3.org/TR/REC-CSS1>http://www.w3.org/TR/REC-CSS1</a>.
- * If an error results in parsing, a RuntimeException will be thrown.
+ * This will pbrse much more thbn CSS 1, bnd loosely implements the
+ * recommendbtion for <i>Forwbrd-compbtible pbrsing</i> in section
+ * 7.1 of the CSS spec found bt:
+ * <b href=http://www.w3.org/TR/REC-CSS1>http://www.w3.org/TR/REC-CSS1</b>.
+ * If bn error results in pbrsing, b RuntimeException will be thrown.
  * <p>
- * This will preserve case. If the callback wishes to treat certain poritions
- * case insensitively (such as selectors), it should use toLowerCase, or
- * something similar.
+ * This will preserve cbse. If the cbllbbck wishes to trebt certbin poritions
+ * cbse insensitively (such bs selectors), it should use toLowerCbse, or
+ * something similbr.
  *
- * @author Scott Violet
+ * @buthor Scott Violet
  */
-class CSSParser {
-    // Parsing something like the following:
+clbss CSSPbrser {
+    // Pbrsing something like the following:
     // (@rule | ruleset | block)*
     //
     // @rule       (block | identifier)*; (block with {} ends @rule)
-    // block       matching [] () {} (that is, [()] is a block, [(){}{[]}]
-    //                                is a block, ()[] is two blocks)
-    // identifier  "*" | '*' | anything but a [](){} and whitespace
+    // block       mbtching [] () {} (thbt is, [()] is b block, [(){}{[]}]
+    //                                is b block, ()[] is two blocks)
+    // identifier  "*" | '*' | bnything but b [](){} bnd whitespbce
     //
     // ruleset     selector decblock
     // selector    (identifier | (block, except block '{}') )*
-    // declblock   declaration* block*
-    // declaration (identifier* stopping when identifier ends with :)
+    // declblock   declbrbtion* block*
+    // declbrbtion (identifier* stopping when identifier ends with :)
     //             (identifier* stopping when identifier ends with ;)
     //
-    // comments /* */ can appear any where, and are stripped.
+    // comments /* */ cbn bppebr bny where, bnd bre stripped.
 
 
-    // identifier - letters, digits, dashes and escaped characters
-    // block starts with { ends with matching }, () [] and {} always occur
-    //   in matching pairs, '' and "" also occur in pairs, except " may be
+    // identifier - letters, digits, dbshes bnd escbped chbrbcters
+    // block stbrts with { ends with mbtching }, () [] bnd {} blwbys occur
+    //   in mbtching pbirs, '' bnd "" blso occur in pbirs, except " mby be
 
 
-    // Indicates the type of token being parsed.
-    private static final int   IDENTIFIER = 1;
-    private static final int   BRACKET_OPEN = 2;
-    private static final int   BRACKET_CLOSE = 3;
-    private static final int   BRACE_OPEN = 4;
-    private static final int   BRACE_CLOSE = 5;
-    private static final int   PAREN_OPEN = 6;
-    private static final int   PAREN_CLOSE = 7;
-    private static final int   END = -1;
+    // Indicbtes the type of token being pbrsed.
+    privbte stbtic finbl int   IDENTIFIER = 1;
+    privbte stbtic finbl int   BRACKET_OPEN = 2;
+    privbte stbtic finbl int   BRACKET_CLOSE = 3;
+    privbte stbtic finbl int   BRACE_OPEN = 4;
+    privbte stbtic finbl int   BRACE_CLOSE = 5;
+    privbte stbtic finbl int   PAREN_OPEN = 6;
+    privbte stbtic finbl int   PAREN_CLOSE = 7;
+    privbte stbtic finbl int   END = -1;
 
-    private static final char[] charMapping = { 0, 0, '[', ']', '{', '}', '(',
+    privbte stbtic finbl chbr[] chbrMbpping = { 0, 0, '[', ']', '{', '}', '(',
                                                ')', 0};
 
 
-    /** Set to true if one character has been read ahead. */
-    private boolean        didPushChar;
-    /** The read ahead character. */
-    private int            pushedChar;
-    /** Temporary place to hold identifiers. */
-    private StringBuffer   unitBuffer;
-    /** Used to indicate blocks. */
-    private int[]          unitStack;
-    /** Number of valid blocks. */
-    private int            stackCount;
+    /** Set to true if one chbrbcter hbs been rebd bhebd. */
+    privbte boolebn        didPushChbr;
+    /** The rebd bhebd chbrbcter. */
+    privbte int            pushedChbr;
+    /** Temporbry plbce to hold identifiers. */
+    privbte StringBuffer   unitBuffer;
+    /** Used to indicbte blocks. */
+    privbte int[]          unitStbck;
+    /** Number of vblid blocks. */
+    privbte int            stbckCount;
     /** Holds the incoming CSS rules. */
-    private Reader         reader;
+    privbte Rebder         rebder;
     /** Set to true when the first non @ rule is encountered. */
-    private boolean        encounteredRuleSet;
-    /** Notified of state. */
-    private CSSParserCallback callback;
+    privbte boolebn        encounteredRuleSet;
+    /** Notified of stbte. */
+    privbte CSSPbrserCbllbbck cbllbbck;
     /** nextToken() inserts the string here. */
-    private char[]         tokenBuffer;
-    /** Current number of chars in tokenBufferLength. */
-    private int            tokenBufferLength;
-    /** Set to true if any whitespace is read. */
-    private boolean        readWS;
+    privbte chbr[]         tokenBuffer;
+    /** Current number of chbrs in tokenBufferLength. */
+    privbte int            tokenBufferLength;
+    /** Set to true if bny whitespbce is rebd. */
+    privbte boolebn        rebdWS;
 
 
-    // The delegate interface.
-    static interface CSSParserCallback {
-        /** Called when an @import is encountered. */
-        void handleImport(String importString);
-        // There is currently no way to distinguish between '"foo,"' and
-        // 'foo,'. But this generally isn't valid CSS. If it becomes
-        // a problem, handleSelector will have to be told if the string is
+    // The delegbte interfbce.
+    stbtic interfbce CSSPbrserCbllbbck {
+        /** Cblled when bn @import is encountered. */
+        void hbndleImport(String importString);
+        // There is currently no wby to distinguish between '"foo,"' bnd
+        // 'foo,'. But this generblly isn't vblid CSS. If it becomes
+        // b problem, hbndleSelector will hbve to be told if the string is
         // quoted.
-        void handleSelector(String selector);
-        void startRule();
-        // Property names are mapped to lower case before being passed to
-        // the delegate.
-        void handleProperty(String property);
-        void handleValue(String value);
+        void hbndleSelector(String selector);
+        void stbrtRule();
+        // Property nbmes bre mbpped to lower cbse before being pbssed to
+        // the delegbte.
+        void hbndleProperty(String property);
+        void hbndleVblue(String vblue);
         void endRule();
     }
 
-    CSSParser() {
-        unitStack = new int[2];
-        tokenBuffer = new char[80];
+    CSSPbrser() {
+        unitStbck = new int[2];
+        tokenBuffer = new chbr[80];
         unitBuffer = new StringBuffer();
     }
 
-    void parse(Reader reader, CSSParserCallback callback,
-               boolean inRule) throws IOException {
-        this.callback = callback;
-        stackCount = tokenBufferLength = 0;
-        this.reader = reader;
-        encounteredRuleSet = false;
+    void pbrse(Rebder rebder, CSSPbrserCbllbbck cbllbbck,
+               boolebn inRule) throws IOException {
+        this.cbllbbck = cbllbbck;
+        stbckCount = tokenBufferLength = 0;
+        this.rebder = rebder;
+        encounteredRuleSet = fblse;
         try {
             if (inRule) {
-                parseDeclarationBlock();
+                pbrseDeclbrbtionBlock();
             }
             else {
-                while (getNextStatement());
+                while (getNextStbtement());
             }
-        } finally {
-            callback = null;
-            reader = null;
+        } finblly {
+            cbllbbck = null;
+            rebder = null;
         }
     }
 
     /**
-     * Gets the next statement, returning false if the end is reached. A
-     * statement is either an @rule, or a ruleset.
+     * Gets the next stbtement, returning fblse if the end is rebched. A
+     * stbtement is either bn @rule, or b ruleset.
      */
-    private boolean getNextStatement() throws IOException {
+    privbte boolebn getNextStbtement() throws IOException {
         unitBuffer.setLength(0);
 
-        int token = nextToken((char)0);
+        int token = nextToken((chbr)0);
 
         switch (token) {
-        case IDENTIFIER:
+        cbse IDENTIFIER:
             if (tokenBufferLength > 0) {
                 if (tokenBuffer[0] == '@') {
-                    parseAtRule();
+                    pbrseAtRule();
                 }
                 else {
                     encounteredRuleSet = true;
-                    parseRuleSet();
+                    pbrseRuleSet();
                 }
             }
             return true;
-        case BRACKET_OPEN:
-        case BRACE_OPEN:
-        case PAREN_OPEN:
-            parseTillClosed(token);
+        cbse BRACKET_OPEN:
+        cbse BRACE_OPEN:
+        cbse PAREN_OPEN:
+            pbrseTillClosed(token);
             return true;
 
-        case BRACKET_CLOSE:
-        case BRACE_CLOSE:
-        case PAREN_CLOSE:
-            // Shouldn't happen...
+        cbse BRACKET_CLOSE:
+        cbse BRACE_CLOSE:
+        cbse PAREN_CLOSE:
+            // Shouldn't hbppen...
             throw new RuntimeException("Unexpected top level block close");
 
-        case END:
-            return false;
+        cbse END:
+            return fblse;
         }
         return true;
     }
 
     /**
-     * Parses an @ rule, stopping at a matching brace pair, or ;.
+     * Pbrses bn @ rule, stopping bt b mbtching brbce pbir, or ;.
      */
-    private void parseAtRule() throws IOException {
-        // PENDING: make this more effecient.
-        boolean        done = false;
-        boolean isImport = (tokenBufferLength == 7 &&
+    privbte void pbrseAtRule() throws IOException {
+        // PENDING: mbke this more effecient.
+        boolebn        done = fblse;
+        boolebn isImport = (tokenBufferLength == 7 &&
                             tokenBuffer[0] == '@' && tokenBuffer[1] == 'i' &&
                             tokenBuffer[2] == 'm' && tokenBuffer[3] == 'p' &&
                             tokenBuffer[4] == 'o' && tokenBuffer[5] == 'r' &&
@@ -214,204 +214,204 @@ class CSSParser {
             int       nextToken = nextToken(';');
 
             switch (nextToken) {
-            case IDENTIFIER:
+            cbse IDENTIFIER:
                 if (tokenBufferLength > 0 &&
                     tokenBuffer[tokenBufferLength - 1] == ';') {
                     --tokenBufferLength;
                     done = true;
                 }
                 if (tokenBufferLength > 0) {
-                    if (unitBuffer.length() > 0 && readWS) {
-                        unitBuffer.append(' ');
+                    if (unitBuffer.length() > 0 && rebdWS) {
+                        unitBuffer.bppend(' ');
                     }
-                    unitBuffer.append(tokenBuffer, 0, tokenBufferLength);
+                    unitBuffer.bppend(tokenBuffer, 0, tokenBufferLength);
                 }
-                break;
+                brebk;
 
-            case BRACE_OPEN:
-                if (unitBuffer.length() > 0 && readWS) {
-                    unitBuffer.append(' ');
+            cbse BRACE_OPEN:
+                if (unitBuffer.length() > 0 && rebdWS) {
+                    unitBuffer.bppend(' ');
                 }
-                unitBuffer.append(charMapping[nextToken]);
-                parseTillClosed(nextToken);
+                unitBuffer.bppend(chbrMbpping[nextToken]);
+                pbrseTillClosed(nextToken);
                 done = true;
-                // Skip a tailing ';', not really to spec.
+                // Skip b tbiling ';', not reblly to spec.
                 {
-                    int nextChar = readWS();
-                    if (nextChar != -1 && nextChar != ';') {
-                        pushChar(nextChar);
+                    int nextChbr = rebdWS();
+                    if (nextChbr != -1 && nextChbr != ';') {
+                        pushChbr(nextChbr);
                     }
                 }
-                break;
+                brebk;
 
-            case BRACKET_OPEN: case PAREN_OPEN:
-                unitBuffer.append(charMapping[nextToken]);
-                parseTillClosed(nextToken);
-                break;
+            cbse BRACKET_OPEN: cbse PAREN_OPEN:
+                unitBuffer.bppend(chbrMbpping[nextToken]);
+                pbrseTillClosed(nextToken);
+                brebk;
 
-            case BRACKET_CLOSE: case BRACE_CLOSE: case PAREN_CLOSE:
+            cbse BRACKET_CLOSE: cbse BRACE_CLOSE: cbse PAREN_CLOSE:
                 throw new RuntimeException("Unexpected close in @ rule");
 
-            case END:
+            cbse END:
                 done = true;
-                break;
+                brebk;
             }
         }
         if (isImport && !encounteredRuleSet) {
-            callback.handleImport(unitBuffer.toString());
+            cbllbbck.hbndleImport(unitBuffer.toString());
         }
     }
 
     /**
-     * Parses the next rule set, which is a selector followed by a
-     * declaration block.
+     * Pbrses the next rule set, which is b selector followed by b
+     * declbrbtion block.
      */
-    private void parseRuleSet() throws IOException {
-        if (parseSelectors()) {
-            callback.startRule();
-            parseDeclarationBlock();
-            callback.endRule();
+    privbte void pbrseRuleSet() throws IOException {
+        if (pbrseSelectors()) {
+            cbllbbck.stbrtRule();
+            pbrseDeclbrbtionBlock();
+            cbllbbck.endRule();
         }
     }
 
     /**
-     * Parses a set of selectors, returning false if the end of the stream
-     * is reached.
+     * Pbrses b set of selectors, returning fblse if the end of the strebm
+     * is rebched.
      */
-    private boolean parseSelectors() throws IOException {
-        // Parse the selectors
+    privbte boolebn pbrseSelectors() throws IOException {
+        // Pbrse the selectors
         int       nextToken;
 
         if (tokenBufferLength > 0) {
-            callback.handleSelector(new String(tokenBuffer, 0,
+            cbllbbck.hbndleSelector(new String(tokenBuffer, 0,
                                                tokenBufferLength));
         }
 
         unitBuffer.setLength(0);
         for (;;) {
-            while ((nextToken = nextToken((char)0)) == IDENTIFIER) {
+            while ((nextToken = nextToken((chbr)0)) == IDENTIFIER) {
                 if (tokenBufferLength > 0) {
-                    callback.handleSelector(new String(tokenBuffer, 0,
+                    cbllbbck.hbndleSelector(new String(tokenBuffer, 0,
                                                        tokenBufferLength));
                 }
             }
             switch (nextToken) {
-            case BRACE_OPEN:
+            cbse BRACE_OPEN:
                 return true;
 
-            case BRACKET_OPEN: case PAREN_OPEN:
-                parseTillClosed(nextToken);
-                // Not too sure about this, how we handle this isn't very
+            cbse BRACKET_OPEN: cbse PAREN_OPEN:
+                pbrseTillClosed(nextToken);
+                // Not too sure bbout this, how we hbndle this isn't very
                 // well spec'd.
                 unitBuffer.setLength(0);
-                break;
+                brebk;
 
-            case BRACKET_CLOSE: case BRACE_CLOSE: case PAREN_CLOSE:
+            cbse BRACKET_CLOSE: cbse BRACE_CLOSE: cbse PAREN_CLOSE:
                 throw new RuntimeException("Unexpected block close in selector");
 
-            case END:
-                // Prematurely hit end.
-                return false;
+            cbse END:
+                // Prembturely hit end.
+                return fblse;
             }
         }
     }
 
     /**
-     * Parses a declaration block. Which a number of declarations followed
-     * by a })].
+     * Pbrses b declbrbtion block. Which b number of declbrbtions followed
+     * by b })].
      */
-    private void parseDeclarationBlock() throws IOException {
+    privbte void pbrseDeclbrbtionBlock() throws IOException {
         for (;;) {
-            int token = parseDeclaration();
+            int token = pbrseDeclbrbtion();
             switch (token) {
-            case END: case BRACE_CLOSE:
+            cbse END: cbse BRACE_CLOSE:
                 return;
 
-            case BRACKET_CLOSE: case PAREN_CLOSE:
-                // Bail
-                throw new RuntimeException("Unexpected close in declaration block");
-            case IDENTIFIER:
-                break;
+            cbse BRACKET_CLOSE: cbse PAREN_CLOSE:
+                // Bbil
+                throw new RuntimeException("Unexpected close in declbrbtion block");
+            cbse IDENTIFIER:
+                brebk;
             }
         }
     }
 
     /**
-     * Parses a single declaration, which is an identifier a : and another
-     * identifier. This returns the last token seen.
+     * Pbrses b single declbrbtion, which is bn identifier b : bnd bnother
+     * identifier. This returns the lbst token seen.
      */
     // identifier+: identifier* ;|}
-    private int parseDeclaration() throws IOException {
+    privbte int pbrseDeclbrbtion() throws IOException {
         int    token;
 
-        if ((token = parseIdentifiers(':', false)) != IDENTIFIER) {
+        if ((token = pbrseIdentifiers(':', fblse)) != IDENTIFIER) {
             return token;
         }
-        // Make the property name to lowercase
+        // Mbke the property nbme to lowercbse
         for (int counter = unitBuffer.length() - 1; counter >= 0; counter--) {
-            unitBuffer.setCharAt(counter, Character.toLowerCase
-                                 (unitBuffer.charAt(counter)));
+            unitBuffer.setChbrAt(counter, Chbrbcter.toLowerCbse
+                                 (unitBuffer.chbrAt(counter)));
         }
-        callback.handleProperty(unitBuffer.toString());
+        cbllbbck.hbndleProperty(unitBuffer.toString());
 
-        token = parseIdentifiers(';', true);
-        callback.handleValue(unitBuffer.toString());
+        token = pbrseIdentifiers(';', true);
+        cbllbbck.hbndleVblue(unitBuffer.toString());
         return token;
     }
 
     /**
-     * Parses identifiers until <code>extraChar</code> is encountered,
-     * returning the ending token, which will be IDENTIFIER if extraChar
+     * Pbrses identifiers until <code>extrbChbr</code> is encountered,
+     * returning the ending token, which will be IDENTIFIER if extrbChbr
      * is found.
      */
-    private int parseIdentifiers(char extraChar,
-                                 boolean wantsBlocks) throws IOException {
+    privbte int pbrseIdentifiers(chbr extrbChbr,
+                                 boolebn wbntsBlocks) throws IOException {
         int   nextToken;
         int   ubl;
 
         unitBuffer.setLength(0);
         for (;;) {
-            nextToken = nextToken(extraChar);
+            nextToken = nextToken(extrbChbr);
 
             switch (nextToken) {
-            case IDENTIFIER:
+            cbse IDENTIFIER:
                 if (tokenBufferLength > 0) {
-                    if (tokenBuffer[tokenBufferLength - 1] == extraChar) {
+                    if (tokenBuffer[tokenBufferLength - 1] == extrbChbr) {
                         if (--tokenBufferLength > 0) {
-                            if (readWS && unitBuffer.length() > 0) {
-                                unitBuffer.append(' ');
+                            if (rebdWS && unitBuffer.length() > 0) {
+                                unitBuffer.bppend(' ');
                             }
-                            unitBuffer.append(tokenBuffer, 0,
+                            unitBuffer.bppend(tokenBuffer, 0,
                                               tokenBufferLength);
                         }
                         return IDENTIFIER;
                     }
-                    if (readWS && unitBuffer.length() > 0) {
-                        unitBuffer.append(' ');
+                    if (rebdWS && unitBuffer.length() > 0) {
+                        unitBuffer.bppend(' ');
                     }
-                    unitBuffer.append(tokenBuffer, 0, tokenBufferLength);
+                    unitBuffer.bppend(tokenBuffer, 0, tokenBufferLength);
                 }
-                break;
+                brebk;
 
-            case BRACKET_OPEN:
-            case BRACE_OPEN:
-            case PAREN_OPEN:
+            cbse BRACKET_OPEN:
+            cbse BRACE_OPEN:
+            cbse PAREN_OPEN:
                 ubl = unitBuffer.length();
-                if (wantsBlocks) {
-                    unitBuffer.append(charMapping[nextToken]);
+                if (wbntsBlocks) {
+                    unitBuffer.bppend(chbrMbpping[nextToken]);
                 }
-                parseTillClosed(nextToken);
-                if (!wantsBlocks) {
+                pbrseTillClosed(nextToken);
+                if (!wbntsBlocks) {
                     unitBuffer.setLength(ubl);
                 }
-                break;
+                brebk;
 
-            case BRACE_CLOSE:
-                // No need to throw for these two, we return token and
-                // caller can do whatever.
-            case BRACKET_CLOSE:
-            case PAREN_CLOSE:
-            case END:
+            cbse BRACE_CLOSE:
+                // No need to throw for these two, we return token bnd
+                // cbller cbn do whbtever.
+            cbse BRACKET_CLOSE:
+            cbse PAREN_CLOSE:
+            cbse END:
                 // Hit the end
                 return nextToken;
             }
@@ -419,47 +419,47 @@ class CSSParser {
     }
 
     /**
-     * Parses till a matching block close is encountered. This is only
-     * appropriate to be called at the top level (no nesting).
+     * Pbrses till b mbtching block close is encountered. This is only
+     * bppropribte to be cblled bt the top level (no nesting).
      */
-    private void parseTillClosed(int openToken) throws IOException {
+    privbte void pbrseTillClosed(int openToken) throws IOException {
         int       nextToken;
-        boolean   done = false;
+        boolebn   done = fblse;
 
-        startBlock(openToken);
+        stbrtBlock(openToken);
         while (!done) {
-            nextToken = nextToken((char)0);
+            nextToken = nextToken((chbr)0);
             switch (nextToken) {
-            case IDENTIFIER:
-                if (unitBuffer.length() > 0 && readWS) {
-                    unitBuffer.append(' ');
+            cbse IDENTIFIER:
+                if (unitBuffer.length() > 0 && rebdWS) {
+                    unitBuffer.bppend(' ');
                 }
                 if (tokenBufferLength > 0) {
-                    unitBuffer.append(tokenBuffer, 0, tokenBufferLength);
+                    unitBuffer.bppend(tokenBuffer, 0, tokenBufferLength);
                 }
-                break;
+                brebk;
 
-            case BRACKET_OPEN: case BRACE_OPEN: case PAREN_OPEN:
-                if (unitBuffer.length() > 0 && readWS) {
-                    unitBuffer.append(' ');
+            cbse BRACKET_OPEN: cbse BRACE_OPEN: cbse PAREN_OPEN:
+                if (unitBuffer.length() > 0 && rebdWS) {
+                    unitBuffer.bppend(' ');
                 }
-                unitBuffer.append(charMapping[nextToken]);
-                startBlock(nextToken);
-                break;
+                unitBuffer.bppend(chbrMbpping[nextToken]);
+                stbrtBlock(nextToken);
+                brebk;
 
-            case BRACKET_CLOSE: case BRACE_CLOSE: case PAREN_CLOSE:
-                if (unitBuffer.length() > 0 && readWS) {
-                    unitBuffer.append(' ');
+            cbse BRACKET_CLOSE: cbse BRACE_CLOSE: cbse PAREN_CLOSE:
+                if (unitBuffer.length() > 0 && rebdWS) {
+                    unitBuffer.bppend(' ');
                 }
-                unitBuffer.append(charMapping[nextToken]);
+                unitBuffer.bppend(chbrMbpping[nextToken]);
                 endBlock(nextToken);
                 if (!inBlock()) {
                     done = true;
                 }
-                break;
+                brebk;
 
-            case END:
-                // Prematurely hit end.
+            cbse END:
+                // Prembturely hit end.
                 throw new RuntimeException("Unclosed block");
             }
         }
@@ -468,160 +468,160 @@ class CSSParser {
     /**
      * Fetches the next token.
      */
-    private int nextToken(char idChar) throws IOException {
-        readWS = false;
+    privbte int nextToken(chbr idChbr) throws IOException {
+        rebdWS = fblse;
 
-        int     nextChar = readWS();
+        int     nextChbr = rebdWS();
 
-        switch (nextChar) {
-        case '\'':
-            readTill('\'');
+        switch (nextChbr) {
+        cbse '\'':
+            rebdTill('\'');
             if (tokenBufferLength > 0) {
                 tokenBufferLength--;
             }
             return IDENTIFIER;
-        case '"':
-            readTill('"');
+        cbse '"':
+            rebdTill('"');
             if (tokenBufferLength > 0) {
                 tokenBufferLength--;
             }
             return IDENTIFIER;
-        case '[':
+        cbse '[':
             return BRACKET_OPEN;
-        case ']':
+        cbse ']':
             return BRACKET_CLOSE;
-        case '{':
+        cbse '{':
             return BRACE_OPEN;
-        case '}':
+        cbse '}':
             return BRACE_CLOSE;
-        case '(':
+        cbse '(':
             return PAREN_OPEN;
-        case ')':
+        cbse ')':
             return PAREN_CLOSE;
-        case -1:
+        cbse -1:
             return END;
-        default:
-            pushChar(nextChar);
-            getIdentifier(idChar);
+        defbult:
+            pushChbr(nextChbr);
+            getIdentifier(idChbr);
             return IDENTIFIER;
         }
     }
 
     /**
-     * Gets an identifier, returning true if the length of the string is greater than 0,
-     * stopping when <code>stopChar</code>, whitespace, or one of {}()[] is
+     * Gets bn identifier, returning true if the length of the string is grebter thbn 0,
+     * stopping when <code>stopChbr</code>, whitespbce, or one of {}()[] is
      * hit.
      */
-    // NOTE: this could be combined with readTill, as they contain somewhat
-    // similar functionality.
-    private boolean getIdentifier(char stopChar) throws IOException {
-        boolean lastWasEscape = false;
-        boolean done = false;
-        int escapeCount = 0;
-        int escapeChar = 0;
-        int nextChar;
-        int intStopChar = (int)stopChar;
-        // 1 for '\', 2 for valid escape char [0-9a-fA-F], 3 for
-        // stop character (white space, ()[]{}) 0 otherwise
+    // NOTE: this could be combined with rebdTill, bs they contbin somewhbt
+    // similbr functionblity.
+    privbte boolebn getIdentifier(chbr stopChbr) throws IOException {
+        boolebn lbstWbsEscbpe = fblse;
+        boolebn done = fblse;
+        int escbpeCount = 0;
+        int escbpeChbr = 0;
+        int nextChbr;
+        int intStopChbr = (int)stopChbr;
+        // 1 for '\', 2 for vblid escbpe chbr [0-9b-fA-F], 3 for
+        // stop chbrbcter (white spbce, ()[]{}) 0 otherwise
         short type;
-        int escapeOffset = 0;
+        int escbpeOffset = 0;
 
         tokenBufferLength = 0;
         while (!done) {
-            nextChar = readChar();
-            switch (nextChar) {
-            case '\\':
+            nextChbr = rebdChbr();
+            switch (nextChbr) {
+            cbse '\\':
                 type = 1;
-                break;
+                brebk;
 
-            case '0': case '1': case '2': case '3': case '4': case '5':
-            case '6': case '7': case '8': case '9':
+            cbse '0': cbse '1': cbse '2': cbse '3': cbse '4': cbse '5':
+            cbse '6': cbse '7': cbse '8': cbse '9':
                 type = 2;
-                escapeOffset = nextChar - '0';
-                break;
+                escbpeOffset = nextChbr - '0';
+                brebk;
 
-            case 'a': case 'b': case 'c': case 'd': case 'e': case 'f':
+            cbse 'b': cbse 'b': cbse 'c': cbse 'd': cbse 'e': cbse 'f':
                 type = 2;
-                escapeOffset = nextChar - 'a' + 10;
-                break;
+                escbpeOffset = nextChbr - 'b' + 10;
+                brebk;
 
-            case 'A': case 'B': case 'C': case 'D': case 'E': case 'F':
+            cbse 'A': cbse 'B': cbse 'C': cbse 'D': cbse 'E': cbse 'F':
                 type = 2;
-                escapeOffset = nextChar - 'A' + 10;
-                break;
+                escbpeOffset = nextChbr - 'A' + 10;
+                brebk;
 
-            case '\'': case '"': case '[': case ']': case '{': case '}':
-            case '(': case ')':
-            case ' ': case '\n': case '\t': case '\r':
+            cbse '\'': cbse '"': cbse '[': cbse ']': cbse '{': cbse '}':
+            cbse '(': cbse ')':
+            cbse ' ': cbse '\n': cbse '\t': cbse '\r':
                 type = 3;
-                break;
+                brebk;
 
-            case '/':
+            cbse '/':
                 type = 4;
-                break;
+                brebk;
 
-            case -1:
-                // Reached the end
+            cbse -1:
+                // Rebched the end
                 done = true;
                 type = 0;
-                break;
+                brebk;
 
-            default:
+            defbult:
                 type = 0;
-                break;
+                brebk;
             }
-            if (lastWasEscape) {
+            if (lbstWbsEscbpe) {
                 if (type == 2) {
-                    // Continue with escape.
-                    escapeChar = escapeChar * 16 + escapeOffset;
-                    if (++escapeCount == 4) {
-                        lastWasEscape = false;
-                        append((char)escapeChar);
+                    // Continue with escbpe.
+                    escbpeChbr = escbpeChbr * 16 + escbpeOffset;
+                    if (++escbpeCount == 4) {
+                        lbstWbsEscbpe = fblse;
+                        bppend((chbr)escbpeChbr);
                     }
                 }
                 else {
-                    // no longer escaped
-                    lastWasEscape = false;
-                    if (escapeCount > 0) {
-                        append((char)escapeChar);
-                        // Make this simpler, reprocess the character.
-                        pushChar(nextChar);
+                    // no longer escbped
+                    lbstWbsEscbpe = fblse;
+                    if (escbpeCount > 0) {
+                        bppend((chbr)escbpeChbr);
+                        // Mbke this simpler, reprocess the chbrbcter.
+                        pushChbr(nextChbr);
                     }
                     else if (!done) {
-                        append((char)nextChar);
+                        bppend((chbr)nextChbr);
                     }
                 }
             }
             else if (!done) {
                 if (type == 1) {
-                    lastWasEscape = true;
-                    escapeChar = escapeCount = 0;
+                    lbstWbsEscbpe = true;
+                    escbpeChbr = escbpeCount = 0;
                 }
                 else if (type == 3) {
                     done = true;
-                    pushChar(nextChar);
+                    pushChbr(nextChbr);
                 }
                 else if (type == 4) {
-                    // Potential comment
-                    nextChar = readChar();
-                    if (nextChar == '*') {
+                    // Potentibl comment
+                    nextChbr = rebdChbr();
+                    if (nextChbr == '*') {
                         done = true;
-                        readComment();
-                        readWS = true;
+                        rebdComment();
+                        rebdWS = true;
                     }
                     else {
-                        append('/');
-                        if (nextChar == -1) {
+                        bppend('/');
+                        if (nextChbr == -1) {
                             done = true;
                         }
                         else {
-                            pushChar(nextChar);
+                            pushChbr(nextChbr);
                         }
                     }
                 }
                 else {
-                    append((char)nextChar);
-                    if (nextChar == intStopChar) {
+                    bppend((chbr)nextChbr);
+                    if (nextChbr == intStopChbr) {
                         done = true;
                     }
                 }
@@ -631,224 +631,224 @@ class CSSParser {
     }
 
     /**
-     * Reads till a <code>stopChar</code> is encountered, escaping characters
-     * as necessary.
+     * Rebds till b <code>stopChbr</code> is encountered, escbping chbrbcters
+     * bs necessbry.
      */
-    private void readTill(char stopChar) throws IOException {
-        boolean lastWasEscape = false;
-        int escapeCount = 0;
-        int escapeChar = 0;
-        int nextChar;
-        boolean done = false;
-        int intStopChar = (int)stopChar;
-        // 1 for '\', 2 for valid escape char [0-9a-fA-F], 0 otherwise
+    privbte void rebdTill(chbr stopChbr) throws IOException {
+        boolebn lbstWbsEscbpe = fblse;
+        int escbpeCount = 0;
+        int escbpeChbr = 0;
+        int nextChbr;
+        boolebn done = fblse;
+        int intStopChbr = (int)stopChbr;
+        // 1 for '\', 2 for vblid escbpe chbr [0-9b-fA-F], 0 otherwise
         short type;
-        int escapeOffset = 0;
+        int escbpeOffset = 0;
 
         tokenBufferLength = 0;
         while (!done) {
-            nextChar = readChar();
-            switch (nextChar) {
-            case '\\':
+            nextChbr = rebdChbr();
+            switch (nextChbr) {
+            cbse '\\':
                 type = 1;
-                break;
+                brebk;
 
-            case '0': case '1': case '2': case '3': case '4':case '5':
-            case '6': case '7': case '8': case '9':
+            cbse '0': cbse '1': cbse '2': cbse '3': cbse '4':cbse '5':
+            cbse '6': cbse '7': cbse '8': cbse '9':
                 type = 2;
-                escapeOffset = nextChar - '0';
-                break;
+                escbpeOffset = nextChbr - '0';
+                brebk;
 
-            case 'a': case 'b': case 'c': case 'd': case 'e': case 'f':
+            cbse 'b': cbse 'b': cbse 'c': cbse 'd': cbse 'e': cbse 'f':
                 type = 2;
-                escapeOffset = nextChar - 'a' + 10;
-                break;
+                escbpeOffset = nextChbr - 'b' + 10;
+                brebk;
 
-            case 'A': case 'B': case 'C': case 'D': case 'E': case 'F':
+            cbse 'A': cbse 'B': cbse 'C': cbse 'D': cbse 'E': cbse 'F':
                 type = 2;
-                escapeOffset = nextChar - 'A' + 10;
-                break;
+                escbpeOffset = nextChbr - 'A' + 10;
+                brebk;
 
-            case -1:
-                // Prematurely reached the end!
-                throw new RuntimeException("Unclosed " + stopChar);
+            cbse -1:
+                // Prembturely rebched the end!
+                throw new RuntimeException("Unclosed " + stopChbr);
 
-            default:
+            defbult:
                 type = 0;
-                break;
+                brebk;
             }
-            if (lastWasEscape) {
+            if (lbstWbsEscbpe) {
                 if (type == 2) {
-                    // Continue with escape.
-                    escapeChar = escapeChar * 16 + escapeOffset;
-                    if (++escapeCount == 4) {
-                        lastWasEscape = false;
-                        append((char)escapeChar);
+                    // Continue with escbpe.
+                    escbpeChbr = escbpeChbr * 16 + escbpeOffset;
+                    if (++escbpeCount == 4) {
+                        lbstWbsEscbpe = fblse;
+                        bppend((chbr)escbpeChbr);
                     }
                 }
                 else {
-                    // no longer escaped
-                    if (escapeCount > 0) {
-                        append((char)escapeChar);
+                    // no longer escbped
+                    if (escbpeCount > 0) {
+                        bppend((chbr)escbpeChbr);
                         if (type == 1) {
-                            lastWasEscape = true;
-                            escapeChar = escapeCount = 0;
+                            lbstWbsEscbpe = true;
+                            escbpeChbr = escbpeCount = 0;
                         }
                         else {
-                            if (nextChar == intStopChar) {
+                            if (nextChbr == intStopChbr) {
                                 done = true;
                             }
-                            append((char)nextChar);
-                            lastWasEscape = false;
+                            bppend((chbr)nextChbr);
+                            lbstWbsEscbpe = fblse;
                         }
                     }
                     else {
-                        append((char)nextChar);
-                        lastWasEscape = false;
+                        bppend((chbr)nextChbr);
+                        lbstWbsEscbpe = fblse;
                     }
                 }
             }
             else if (type == 1) {
-                lastWasEscape = true;
-                escapeChar = escapeCount = 0;
+                lbstWbsEscbpe = true;
+                escbpeChbr = escbpeCount = 0;
             }
             else {
-                if (nextChar == intStopChar) {
+                if (nextChbr == intStopChbr) {
                     done = true;
                 }
-                append((char)nextChar);
+                bppend((chbr)nextChbr);
             }
         }
     }
 
-    private void append(char character) {
+    privbte void bppend(chbr chbrbcter) {
         if (tokenBufferLength == tokenBuffer.length) {
-            char[] newBuffer = new char[tokenBuffer.length * 2];
-            System.arraycopy(tokenBuffer, 0, newBuffer, 0, tokenBuffer.length);
+            chbr[] newBuffer = new chbr[tokenBuffer.length * 2];
+            System.brrbycopy(tokenBuffer, 0, newBuffer, 0, tokenBuffer.length);
             tokenBuffer = newBuffer;
         }
-        tokenBuffer[tokenBufferLength++] = character;
+        tokenBuffer[tokenBufferLength++] = chbrbcter;
     }
 
     /**
-     * Parses a comment block.
+     * Pbrses b comment block.
      */
-    private void readComment() throws IOException {
-        int nextChar;
+    privbte void rebdComment() throws IOException {
+        int nextChbr;
 
         for(;;) {
-            nextChar = readChar();
-            switch (nextChar) {
-            case -1:
+            nextChbr = rebdChbr();
+            switch (nextChbr) {
+            cbse -1:
                 throw new RuntimeException("Unclosed comment");
-            case '*':
-                nextChar = readChar();
-                if (nextChar == '/') {
+            cbse '*':
+                nextChbr = rebdChbr();
+                if (nextChbr == '/') {
                     return;
                 }
-                else if (nextChar == -1) {
+                else if (nextChbr == -1) {
                     throw new RuntimeException("Unclosed comment");
                 }
                 else {
-                    pushChar(nextChar);
+                    pushChbr(nextChbr);
                 }
-                break;
-            default:
-                break;
+                brebk;
+            defbult:
+                brebk;
             }
         }
     }
 
     /**
-     * Called when a block start is encountered ({[.
+     * Cblled when b block stbrt is encountered ({[.
      */
-    private void startBlock(int startToken) {
-        if (stackCount == unitStack.length) {
-            int[]     newUS = new int[stackCount * 2];
+    privbte void stbrtBlock(int stbrtToken) {
+        if (stbckCount == unitStbck.length) {
+            int[]     newUS = new int[stbckCount * 2];
 
-            System.arraycopy(unitStack, 0, newUS, 0, stackCount);
-            unitStack = newUS;
+            System.brrbycopy(unitStbck, 0, newUS, 0, stbckCount);
+            unitStbck = newUS;
         }
-        unitStack[stackCount++] = startToken;
+        unitStbck[stbckCount++] = stbrtToken;
     }
 
     /**
-     * Called when an end block is encountered )]}
+     * Cblled when bn end block is encountered )]}
      */
-    private void endBlock(int endToken) {
-        int    startToken;
+    privbte void endBlock(int endToken) {
+        int    stbrtToken;
 
         switch (endToken) {
-        case BRACKET_CLOSE:
-            startToken = BRACKET_OPEN;
-            break;
-        case BRACE_CLOSE:
-            startToken = BRACE_OPEN;
-            break;
-        case PAREN_CLOSE:
-            startToken = PAREN_OPEN;
-            break;
-        default:
-            // Will never happen.
-            startToken = -1;
-            break;
+        cbse BRACKET_CLOSE:
+            stbrtToken = BRACKET_OPEN;
+            brebk;
+        cbse BRACE_CLOSE:
+            stbrtToken = BRACE_OPEN;
+            brebk;
+        cbse PAREN_CLOSE:
+            stbrtToken = PAREN_OPEN;
+            brebk;
+        defbult:
+            // Will never hbppen.
+            stbrtToken = -1;
+            brebk;
         }
-        if (stackCount > 0 && unitStack[stackCount - 1] == startToken) {
-            stackCount--;
+        if (stbckCount > 0 && unitStbck[stbckCount - 1] == stbrtToken) {
+            stbckCount--;
         }
         else {
-            // Invalid state, should do something.
-            throw new RuntimeException("Unmatched block");
+            // Invblid stbte, should do something.
+            throw new RuntimeException("Unmbtched block");
         }
     }
 
     /**
-     * @return true if currently in a block.
+     * @return true if currently in b block.
      */
-    private boolean inBlock() {
-        return (stackCount > 0);
+    privbte boolebn inBlock() {
+        return (stbckCount > 0);
     }
 
     /**
-     * Skips any white space, returning the character after the white space.
+     * Skips bny white spbce, returning the chbrbcter bfter the white spbce.
      */
-    private int readWS() throws IOException {
-        int nextChar;
-        while ((nextChar = readChar()) != -1 &&
-               Character.isWhitespace((char)nextChar)) {
-            readWS = true;
+    privbte int rebdWS() throws IOException {
+        int nextChbr;
+        while ((nextChbr = rebdChbr()) != -1 &&
+               Chbrbcter.isWhitespbce((chbr)nextChbr)) {
+            rebdWS = true;
         }
-        return nextChar;
+        return nextChbr;
     }
 
     /**
-     * Reads a character from the stream.
+     * Rebds b chbrbcter from the strebm.
      */
-    private int readChar() throws IOException {
-        if (didPushChar) {
-            didPushChar = false;
-            return pushedChar;
+    privbte int rebdChbr() throws IOException {
+        if (didPushChbr) {
+            didPushChbr = fblse;
+            return pushedChbr;
         }
-        return reader.read();
-        // Uncomment the following to do case insensitive parsing.
+        return rebder.rebd();
+        // Uncomment the following to do cbse insensitive pbrsing.
         /*
-        if (retValue != -1) {
-            return (int)Character.toLowerCase((char)retValue);
+        if (retVblue != -1) {
+            return (int)Chbrbcter.toLowerCbse((chbr)retVblue);
         }
-        return retValue;
+        return retVblue;
         */
     }
 
     /**
-     * Supports one character look ahead, this will throw if called twice
-     * in a row.
+     * Supports one chbrbcter look bhebd, this will throw if cblled twice
+     * in b row.
      */
-    private void pushChar(int tempChar) {
-        if (didPushChar) {
-            // Should never happen.
-            throw new RuntimeException("Can not handle look ahead of more than one character");
+    privbte void pushChbr(int tempChbr) {
+        if (didPushChbr) {
+            // Should never hbppen.
+            throw new RuntimeException("Cbn not hbndle look bhebd of more thbn one chbrbcter");
         }
-        didPushChar = true;
-        pushedChar = tempChar;
+        didPushChbr = true;
+        pushedChbr = tempChbr;
     }
 }

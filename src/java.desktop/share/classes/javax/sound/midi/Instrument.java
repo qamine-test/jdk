@@ -1,88 +1,88 @@
 /*
- * Copyright (c) 1999, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2004, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.sound.midi;
+pbckbge jbvbx.sound.midi;
 
-import java.net.URL;
+import jbvb.net.URL;
 
 
 
 /**
- * An instrument is a sound-synthesis algorithm with certain parameter
- * settings, usually designed to emulate a specific real-world
- * musical instrument or to achieve a specific sort of sound effect.
- * Instruments are typically stored in collections called soundbanks.
- * Before the instrument can be used to play notes, it must first be loaded
- * onto a synthesizer, and then it must be selected for use on
- * one or more channels, via a program-change command.  MIDI notes
- * that are subsequently received on those channels will be played using
+ * An instrument is b sound-synthesis blgorithm with certbin pbrbmeter
+ * settings, usublly designed to emulbte b specific rebl-world
+ * musicbl instrument or to bchieve b specific sort of sound effect.
+ * Instruments bre typicblly stored in collections cblled soundbbnks.
+ * Before the instrument cbn be used to plby notes, it must first be lobded
+ * onto b synthesizer, bnd then it must be selected for use on
+ * one or more chbnnels, vib b progrbm-chbnge commbnd.  MIDI notes
+ * thbt bre subsequently received on those chbnnels will be plbyed using
  * the sound of the selected instrument.
  *
- * @see Soundbank
- * @see Soundbank#getInstruments
- * @see Patch
- * @see Synthesizer#loadInstrument(Instrument)
- * @see MidiChannel#programChange(int, int)
- * @author Kara Kytle
+ * @see Soundbbnk
+ * @see Soundbbnk#getInstruments
+ * @see Pbtch
+ * @see Synthesizer#lobdInstrument(Instrument)
+ * @see MidiChbnnel#progrbmChbnge(int, int)
+ * @buthor Kbrb Kytle
  */
 
-public abstract class Instrument extends SoundbankResource {
+public bbstrbct clbss Instrument extends SoundbbnkResource {
 
 
     /**
-     * Instrument patch
+     * Instrument pbtch
      */
-    private final Patch patch;
+    privbte finbl Pbtch pbtch;
 
 
     /**
-     * Constructs a new MIDI instrument from the specified <code>Patch</code>.
-     * When a subsequent request is made to load the
-     * instrument, the sound bank will search its contents for this instrument's <code>Patch</code>,
-     * and the instrument will be loaded into the synthesizer at the
-     * bank and program location indicated by the <code>Patch</code> object.
-     * @param soundbank sound bank containing the instrument
-     * @param patch the patch of this instrument
-     * @param name the name of this instrument
-     * @param dataClass the class used to represent the sample's data.
+     * Constructs b new MIDI instrument from the specified <code>Pbtch</code>.
+     * When b subsequent request is mbde to lobd the
+     * instrument, the sound bbnk will sebrch its contents for this instrument's <code>Pbtch</code>,
+     * bnd the instrument will be lobded into the synthesizer bt the
+     * bbnk bnd progrbm locbtion indicbted by the <code>Pbtch</code> object.
+     * @pbrbm soundbbnk sound bbnk contbining the instrument
+     * @pbrbm pbtch the pbtch of this instrument
+     * @pbrbm nbme the nbme of this instrument
+     * @pbrbm dbtbClbss the clbss used to represent the sbmple's dbtb.
      *
-     * @see Synthesizer#loadInstrument(Instrument)
+     * @see Synthesizer#lobdInstrument(Instrument)
      */
-    protected Instrument(Soundbank soundbank, Patch patch, String name, Class<?> dataClass) {
+    protected Instrument(Soundbbnk soundbbnk, Pbtch pbtch, String nbme, Clbss<?> dbtbClbss) {
 
-        super(soundbank, name, dataClass);
-        this.patch = patch;
+        super(soundbbnk, nbme, dbtbClbss);
+        this.pbtch = pbtch;
     }
 
 
     /**
-     * Obtains the <code>Patch</code> object that indicates the bank and program
+     * Obtbins the <code>Pbtch</code> object thbt indicbtes the bbnk bnd progrbm
      * numbers where this instrument is to be stored in the synthesizer.
-     * @return this instrument's patch
+     * @return this instrument's pbtch
      */
-    public Patch getPatch() {
-        return patch;
+    public Pbtch getPbtch() {
+        return pbtch;
     }
 }

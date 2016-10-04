@@ -1,108 +1,108 @@
 /*
- * Copyright (c) 1996, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.net.www.http;
+pbckbge sun.net.www.http;
 
-import java.io.*;
+import jbvb.io.*;
 import sun.net.ProgressSource;
-import sun.net.www.MeteredStream;
+import sun.net.www.MeteredStrebm;
 
 /**
- * A stream that has the property of being able to be kept alive for
- * multiple downloads from the same server.
+ * A strebm thbt hbs the property of being bble to be kept blive for
+ * multiple downlobds from the sbme server.
  *
- * @author Stephen R. Pietrowicz (NCSA)
- * @author Dave Brown
+ * @buthor Stephen R. Pietrowicz (NCSA)
+ * @buthor Dbve Brown
  */
 public
-class KeepAliveStream extends MeteredStream implements Hurryable {
+clbss KeepAliveStrebm extends MeteredStrebm implements Hurrybble {
 
-    // instance variables
+    // instbnce vbribbles
     HttpClient hc;
 
-    boolean hurried;
+    boolebn hurried;
 
-    // has this KeepAliveStream been put on the queue for asynchronous cleanup.
-    protected boolean queuedForCleanup = false;
+    // hbs this KeepAliveStrebm been put on the queue for bsynchronous clebnup.
+    protected boolebn queuedForClebnup = fblse;
 
-    private static final KeepAliveStreamCleaner queue = new KeepAliveStreamCleaner();
-    private static Thread cleanerThread; // null
+    privbte stbtic finbl KeepAliveStrebmClebner queue = new KeepAliveStrebmClebner();
+    privbte stbtic Threbd clebnerThrebd; // null
 
     /**
      * Constructor
      */
-    public KeepAliveStream(InputStream is, ProgressSource pi, long expected, HttpClient hc)  {
+    public KeepAliveStrebm(InputStrebm is, ProgressSource pi, long expected, HttpClient hc)  {
         super(is, pi, expected);
         this.hc = hc;
     }
 
     /**
-     * Attempt to cache this connection
+     * Attempt to cbche this connection
      */
     public void close() throws IOException  {
-        // If the inputstream is closed already, just return.
+        // If the inputstrebm is closed blrebdy, just return.
         if (closed) {
             return;
         }
 
-        // If this stream has already been queued for cleanup.
-        if (queuedForCleanup) {
+        // If this strebm hbs blrebdy been queued for clebnup.
+        if (queuedForClebnup) {
             return;
         }
 
-        // Skip past the data that's left in the Inputstream because
-        // some sort of error may have occurred.
-        // Do this ONLY if the skip won't block. The stream may have
-        // been closed at the beginning of a big file and we don't want
-        // to hang around for nothing. So if we can't skip without blocking
-        // we just close the socket and, therefore, terminate the keepAlive
-        // NOTE: Don't close super class
+        // Skip pbst the dbtb thbt's left in the Inputstrebm becbuse
+        // some sort of error mby hbve occurred.
+        // Do this ONLY if the skip won't block. The strebm mby hbve
+        // been closed bt the beginning of b big file bnd we don't wbnt
+        // to hbng bround for nothing. So if we cbn't skip without blocking
+        // we just close the socket bnd, therefore, terminbte the keepAlive
+        // NOTE: Don't close super clbss
         try {
             if (expected > count) {
                 long nskip = expected - count;
-                if (nskip <= available()) {
+                if (nskip <= bvbilbble()) {
                     do {} while ((nskip = (expected - count)) > 0L
-                                 && skip(Math.min(nskip, available())) > 0L);
-                } else if (expected <= KeepAliveStreamCleaner.MAX_DATA_REMAINING && !hurried) {
-                    //put this KeepAliveStream on the queue so that the data remaining
-                    //on the socket can be cleanup asyncronously.
-                    queueForCleanup(new KeepAliveCleanerEntry(this, hc));
+                                 && skip(Mbth.min(nskip, bvbilbble())) > 0L);
+                } else if (expected <= KeepAliveStrebmClebner.MAX_DATA_REMAINING && !hurried) {
+                    //put this KeepAliveStrebm on the queue so thbt the dbtb rembining
+                    //on the socket cbn be clebnup bsyncronously.
+                    queueForClebnup(new KeepAliveClebnerEntry(this, hc));
                 } else {
                     hc.closeServer();
                 }
             }
-            if (!closed && !hurried && !queuedForCleanup) {
+            if (!closed && !hurried && !queuedForClebnup) {
                 hc.finished();
             }
-        } finally {
+        } finblly {
             if (pi != null)
-                pi.finishTracking();
+                pi.finishTrbcking();
 
-            if (!queuedForCleanup) {
-                // nulling out the underlying inputstream as well as
-                // httpClient to let gc collect the memories faster
+            if (!queuedForClebnup) {
+                // nulling out the underlying inputstrebm bs well bs
+                // httpClient to let gc collect the memories fbster
                 in = null;
                 hc = null;
                 closed = true;
@@ -110,82 +110,82 @@ class KeepAliveStream extends MeteredStream implements Hurryable {
         }
     }
 
-    /* we explicitly do not support mark/reset */
+    /* we explicitly do not support mbrk/reset */
 
-    public boolean markSupported()  {
-        return false;
+    public boolebn mbrkSupported()  {
+        return fblse;
     }
 
-    public void mark(int limit) {}
+    public void mbrk(int limit) {}
 
     public void reset() throws IOException {
-        throw new IOException("mark/reset not supported");
+        throw new IOException("mbrk/reset not supported");
     }
 
-    public synchronized boolean hurry() {
+    public synchronized boolebn hurry() {
         try {
-            /* CASE 0: we're actually already done */
+            /* CASE 0: we're bctublly blrebdy done */
             if (closed || count >= expected) {
-                return false;
-            } else if (in.available() < (expected - count)) {
-                /* CASE I: can't meet the demand */
-                return false;
+                return fblse;
+            } else if (in.bvbilbble() < (expected - count)) {
+                /* CASE I: cbn't meet the dembnd */
+                return fblse;
             } else {
-                /* CASE II: fill our internal buffer
+                /* CASE II: fill our internbl buffer
                  * Remind: possibly check memory here
                  */
                 int size = (int) (expected - count);
                 byte[] buf = new byte[size];
-                DataInputStream dis = new DataInputStream(in);
-                dis.readFully(buf);
-                in = new ByteArrayInputStream(buf);
+                DbtbInputStrebm dis = new DbtbInputStrebm(in);
+                dis.rebdFully(buf);
+                in = new ByteArrbyInputStrebm(buf);
                 hurried = true;
                 return true;
             }
-        } catch (IOException e) {
-            // e.printStackTrace();
-            return false;
+        } cbtch (IOException e) {
+            // e.printStbckTrbce();
+            return fblse;
         }
     }
 
-    private static void queueForCleanup(KeepAliveCleanerEntry kace) {
+    privbte stbtic void queueForClebnup(KeepAliveClebnerEntry kbce) {
         synchronized(queue) {
-            if(!kace.getQueuedForCleanup()) {
-                if (!queue.offer(kace)) {
-                    kace.getHttpClient().closeServer();
+            if(!kbce.getQueuedForClebnup()) {
+                if (!queue.offer(kbce)) {
+                    kbce.getHttpClient().closeServer();
                     return;
                 }
 
-                kace.setQueuedForCleanup();
+                kbce.setQueuedForClebnup();
                 queue.notifyAll();
             }
 
-            boolean startCleanupThread = (cleanerThread == null);
-            if (!startCleanupThread) {
-                if (!cleanerThread.isAlive()) {
-                    startCleanupThread = true;
+            boolebn stbrtClebnupThrebd = (clebnerThrebd == null);
+            if (!stbrtClebnupThrebd) {
+                if (!clebnerThrebd.isAlive()) {
+                    stbrtClebnupThrebd = true;
                 }
             }
 
-            if (startCleanupThread) {
-                java.security.AccessController.doPrivileged(
-                    new java.security.PrivilegedAction<Void>() {
+            if (stbrtClebnupThrebd) {
+                jbvb.security.AccessController.doPrivileged(
+                    new jbvb.security.PrivilegedAction<Void>() {
                     public Void run() {
-                        // We want to create the Keep-Alive-SocketCleaner in the
-                        // system threadgroup
-                        ThreadGroup grp = Thread.currentThread().getThreadGroup();
-                        ThreadGroup parent = null;
-                        while ((parent = grp.getParent()) != null) {
-                            grp = parent;
+                        // We wbnt to crebte the Keep-Alive-SocketClebner in the
+                        // system threbdgroup
+                        ThrebdGroup grp = Threbd.currentThrebd().getThrebdGroup();
+                        ThrebdGroup pbrent = null;
+                        while ((pbrent = grp.getPbrent()) != null) {
+                            grp = pbrent;
                         }
 
-                        cleanerThread = new Thread(grp, queue, "Keep-Alive-SocketCleaner");
-                        cleanerThread.setDaemon(true);
-                        cleanerThread.setPriority(Thread.MAX_PRIORITY - 2);
-                        // Set the context class loader to null in order to avoid
-                        // keeping a strong reference to an application classloader.
-                        cleanerThread.setContextClassLoader(null);
-                        cleanerThread.start();
+                        clebnerThrebd = new Threbd(grp, queue, "Keep-Alive-SocketClebner");
+                        clebnerThrebd.setDbemon(true);
+                        clebnerThrebd.setPriority(Threbd.MAX_PRIORITY - 2);
+                        // Set the context clbss lobder to null in order to bvoid
+                        // keeping b strong reference to bn bpplicbtion clbsslobder.
+                        clebnerThrebd.setContextClbssLobder(null);
+                        clebnerThrebd.stbrt();
                         return null;
                     }
                 });
@@ -193,7 +193,7 @@ class KeepAliveStream extends MeteredStream implements Hurryable {
         } // queue
     }
 
-    protected long remainingToRead() {
+    protected long rembiningToRebd() {
         return expected - count;
     }
 

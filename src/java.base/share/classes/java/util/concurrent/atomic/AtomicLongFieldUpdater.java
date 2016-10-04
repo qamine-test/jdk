@@ -1,450 +1,450 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * Written by Doug Lea with assistance from members of JCP JSR-166
- * Expert Group and released to the public domain, as explained at
- * http://creativecommons.org/publicdomain/zero/1.0/
+ * Written by Doug Leb with bssistbnce from members of JCP JSR-166
+ * Expert Group bnd relebsed to the public dombin, bs explbined bt
+ * http://crebtivecommons.org/publicdombin/zero/1.0/
  */
 
-package java.util.concurrent.atomic;
-import java.util.function.LongUnaryOperator;
-import java.util.function.LongBinaryOperator;
-import sun.misc.Unsafe;
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
-import java.security.AccessController;
-import java.security.PrivilegedExceptionAction;
-import java.security.PrivilegedActionException;
-import sun.reflect.CallerSensitive;
+pbckbge jbvb.util.concurrent.btomic;
+import jbvb.util.function.LongUnbryOperbtor;
+import jbvb.util.function.LongBinbryOperbtor;
+import sun.misc.Unsbfe;
+import jbvb.lbng.reflect.Field;
+import jbvb.lbng.reflect.Modifier;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedExceptionAction;
+import jbvb.security.PrivilegedActionException;
+import sun.reflect.CbllerSensitive;
 import sun.reflect.Reflection;
 
 /**
- * A reflection-based utility that enables atomic updates to
- * designated {@code volatile long} fields of designated classes.
- * This class is designed for use in atomic data structures in which
- * several fields of the same node are independently subject to atomic
- * updates.
+ * A reflection-bbsed utility thbt enbbles btomic updbtes to
+ * designbted {@code volbtile long} fields of designbted clbsses.
+ * This clbss is designed for use in btomic dbtb structures in which
+ * severbl fields of the sbme node bre independently subject to btomic
+ * updbtes.
  *
- * <p>Note that the guarantees of the {@code compareAndSet}
- * method in this class are weaker than in other atomic classes.
- * Because this class cannot ensure that all uses of the field
- * are appropriate for purposes of atomic access, it can
- * guarantee atomicity only with respect to other invocations of
- * {@code compareAndSet} and {@code set} on the same updater.
+ * <p>Note thbt the gubrbntees of the {@code compbreAndSet}
+ * method in this clbss bre webker thbn in other btomic clbsses.
+ * Becbuse this clbss cbnnot ensure thbt bll uses of the field
+ * bre bppropribte for purposes of btomic bccess, it cbn
+ * gubrbntee btomicity only with respect to other invocbtions of
+ * {@code compbreAndSet} bnd {@code set} on the sbme updbter.
  *
  * @since 1.5
- * @author Doug Lea
- * @param <T> The type of the object holding the updatable field
+ * @buthor Doug Leb
+ * @pbrbm <T> The type of the object holding the updbtbble field
  */
-public abstract class AtomicLongFieldUpdater<T> {
+public bbstrbct clbss AtomicLongFieldUpdbter<T> {
     /**
-     * Creates and returns an updater for objects with the given field.
-     * The Class argument is needed to check that reflective types and
-     * generic types match.
+     * Crebtes bnd returns bn updbter for objects with the given field.
+     * The Clbss brgument is needed to check thbt reflective types bnd
+     * generic types mbtch.
      *
-     * @param tclass the class of the objects holding the field
-     * @param fieldName the name of the field to be updated
-     * @param <U> the type of instances of tclass
-     * @return the updater
-     * @throws IllegalArgumentException if the field is not a
-     * volatile long type
-     * @throws RuntimeException with a nested reflection-based
-     * exception if the class does not hold field or is the wrong type,
-     * or the field is inaccessible to the caller according to Java language
-     * access control
+     * @pbrbm tclbss the clbss of the objects holding the field
+     * @pbrbm fieldNbme the nbme of the field to be updbted
+     * @pbrbm <U> the type of instbnces of tclbss
+     * @return the updbter
+     * @throws IllegblArgumentException if the field is not b
+     * volbtile long type
+     * @throws RuntimeException with b nested reflection-bbsed
+     * exception if the clbss does not hold field or is the wrong type,
+     * or the field is inbccessible to the cbller bccording to Jbvb lbngubge
+     * bccess control
      */
-    @CallerSensitive
-    public static <U> AtomicLongFieldUpdater<U> newUpdater(Class<U> tclass,
-                                                           String fieldName) {
-        Class<?> caller = Reflection.getCallerClass();
+    @CbllerSensitive
+    public stbtic <U> AtomicLongFieldUpdbter<U> newUpdbter(Clbss<U> tclbss,
+                                                           String fieldNbme) {
+        Clbss<?> cbller = Reflection.getCbllerClbss();
         if (AtomicLong.VM_SUPPORTS_LONG_CAS)
-            return new CASUpdater<U>(tclass, fieldName, caller);
+            return new CASUpdbter<U>(tclbss, fieldNbme, cbller);
         else
-            return new LockedUpdater<U>(tclass, fieldName, caller);
+            return new LockedUpdbter<U>(tclbss, fieldNbme, cbller);
     }
 
     /**
-     * Protected do-nothing constructor for use by subclasses.
+     * Protected do-nothing constructor for use by subclbsses.
      */
-    protected AtomicLongFieldUpdater() {
+    protected AtomicLongFieldUpdbter() {
     }
 
     /**
-     * Atomically sets the field of the given object managed by this updater
-     * to the given updated value if the current value {@code ==} the
-     * expected value. This method is guaranteed to be atomic with respect to
-     * other calls to {@code compareAndSet} and {@code set}, but not
-     * necessarily with respect to other changes in the field.
+     * Atomicblly sets the field of the given object mbnbged by this updbter
+     * to the given updbted vblue if the current vblue {@code ==} the
+     * expected vblue. This method is gubrbnteed to be btomic with respect to
+     * other cblls to {@code compbreAndSet} bnd {@code set}, but not
+     * necessbrily with respect to other chbnges in the field.
      *
-     * @param obj An object whose field to conditionally set
-     * @param expect the expected value
-     * @param update the new value
+     * @pbrbm obj An object whose field to conditionblly set
+     * @pbrbm expect the expected vblue
+     * @pbrbm updbte the new vblue
      * @return {@code true} if successful
-     * @throws ClassCastException if {@code obj} is not an instance
-     * of the class possessing the field established in the constructor
+     * @throws ClbssCbstException if {@code obj} is not bn instbnce
+     * of the clbss possessing the field estbblished in the constructor
      */
-    public abstract boolean compareAndSet(T obj, long expect, long update);
+    public bbstrbct boolebn compbreAndSet(T obj, long expect, long updbte);
 
     /**
-     * Atomically sets the field of the given object managed by this updater
-     * to the given updated value if the current value {@code ==} the
-     * expected value. This method is guaranteed to be atomic with respect to
-     * other calls to {@code compareAndSet} and {@code set}, but not
-     * necessarily with respect to other changes in the field.
+     * Atomicblly sets the field of the given object mbnbged by this updbter
+     * to the given updbted vblue if the current vblue {@code ==} the
+     * expected vblue. This method is gubrbnteed to be btomic with respect to
+     * other cblls to {@code compbreAndSet} bnd {@code set}, but not
+     * necessbrily with respect to other chbnges in the field.
      *
-     * <p><a href="package-summary.html#weakCompareAndSet">May fail
-     * spuriously and does not provide ordering guarantees</a>, so is
-     * only rarely an appropriate alternative to {@code compareAndSet}.
+     * <p><b href="pbckbge-summbry.html#webkCompbreAndSet">Mby fbil
+     * spuriously bnd does not provide ordering gubrbntees</b>, so is
+     * only rbrely bn bppropribte blternbtive to {@code compbreAndSet}.
      *
-     * @param obj An object whose field to conditionally set
-     * @param expect the expected value
-     * @param update the new value
+     * @pbrbm obj An object whose field to conditionblly set
+     * @pbrbm expect the expected vblue
+     * @pbrbm updbte the new vblue
      * @return {@code true} if successful
-     * @throws ClassCastException if {@code obj} is not an instance
-     * of the class possessing the field established in the constructor
+     * @throws ClbssCbstException if {@code obj} is not bn instbnce
+     * of the clbss possessing the field estbblished in the constructor
      */
-    public abstract boolean weakCompareAndSet(T obj, long expect, long update);
+    public bbstrbct boolebn webkCompbreAndSet(T obj, long expect, long updbte);
 
     /**
-     * Sets the field of the given object managed by this updater to the
-     * given updated value. This operation is guaranteed to act as a volatile
-     * store with respect to subsequent invocations of {@code compareAndSet}.
+     * Sets the field of the given object mbnbged by this updbter to the
+     * given updbted vblue. This operbtion is gubrbnteed to bct bs b volbtile
+     * store with respect to subsequent invocbtions of {@code compbreAndSet}.
      *
-     * @param obj An object whose field to set
-     * @param newValue the new value
+     * @pbrbm obj An object whose field to set
+     * @pbrbm newVblue the new vblue
      */
-    public abstract void set(T obj, long newValue);
+    public bbstrbct void set(T obj, long newVblue);
 
     /**
-     * Eventually sets the field of the given object managed by this
-     * updater to the given updated value.
+     * Eventublly sets the field of the given object mbnbged by this
+     * updbter to the given updbted vblue.
      *
-     * @param obj An object whose field to set
-     * @param newValue the new value
+     * @pbrbm obj An object whose field to set
+     * @pbrbm newVblue the new vblue
      * @since 1.6
      */
-    public abstract void lazySet(T obj, long newValue);
+    public bbstrbct void lbzySet(T obj, long newVblue);
 
     /**
-     * Gets the current value held in the field of the given object managed
-     * by this updater.
+     * Gets the current vblue held in the field of the given object mbnbged
+     * by this updbter.
      *
-     * @param obj An object whose field to get
-     * @return the current value
+     * @pbrbm obj An object whose field to get
+     * @return the current vblue
      */
-    public abstract long get(T obj);
+    public bbstrbct long get(T obj);
 
     /**
-     * Atomically sets the field of the given object managed by this updater
-     * to the given value and returns the old value.
+     * Atomicblly sets the field of the given object mbnbged by this updbter
+     * to the given vblue bnd returns the old vblue.
      *
-     * @param obj An object whose field to get and set
-     * @param newValue the new value
-     * @return the previous value
+     * @pbrbm obj An object whose field to get bnd set
+     * @pbrbm newVblue the new vblue
+     * @return the previous vblue
      */
-    public long getAndSet(T obj, long newValue) {
+    public long getAndSet(T obj, long newVblue) {
         long prev;
         do {
             prev = get(obj);
-        } while (!compareAndSet(obj, prev, newValue));
+        } while (!compbreAndSet(obj, prev, newVblue));
         return prev;
     }
 
     /**
-     * Atomically increments by one the current value of the field of the
-     * given object managed by this updater.
+     * Atomicblly increments by one the current vblue of the field of the
+     * given object mbnbged by this updbter.
      *
-     * @param obj An object whose field to get and set
-     * @return the previous value
+     * @pbrbm obj An object whose field to get bnd set
+     * @return the previous vblue
      */
     public long getAndIncrement(T obj) {
         long prev, next;
         do {
             prev = get(obj);
             next = prev + 1;
-        } while (!compareAndSet(obj, prev, next));
+        } while (!compbreAndSet(obj, prev, next));
         return prev;
     }
 
     /**
-     * Atomically decrements by one the current value of the field of the
-     * given object managed by this updater.
+     * Atomicblly decrements by one the current vblue of the field of the
+     * given object mbnbged by this updbter.
      *
-     * @param obj An object whose field to get and set
-     * @return the previous value
+     * @pbrbm obj An object whose field to get bnd set
+     * @return the previous vblue
      */
     public long getAndDecrement(T obj) {
         long prev, next;
         do {
             prev = get(obj);
             next = prev - 1;
-        } while (!compareAndSet(obj, prev, next));
+        } while (!compbreAndSet(obj, prev, next));
         return prev;
     }
 
     /**
-     * Atomically adds the given value to the current value of the field of
-     * the given object managed by this updater.
+     * Atomicblly bdds the given vblue to the current vblue of the field of
+     * the given object mbnbged by this updbter.
      *
-     * @param obj An object whose field to get and set
-     * @param delta the value to add
-     * @return the previous value
+     * @pbrbm obj An object whose field to get bnd set
+     * @pbrbm deltb the vblue to bdd
+     * @return the previous vblue
      */
-    public long getAndAdd(T obj, long delta) {
+    public long getAndAdd(T obj, long deltb) {
         long prev, next;
         do {
             prev = get(obj);
-            next = prev + delta;
-        } while (!compareAndSet(obj, prev, next));
+            next = prev + deltb;
+        } while (!compbreAndSet(obj, prev, next));
         return prev;
     }
 
     /**
-     * Atomically increments by one the current value of the field of the
-     * given object managed by this updater.
+     * Atomicblly increments by one the current vblue of the field of the
+     * given object mbnbged by this updbter.
      *
-     * @param obj An object whose field to get and set
-     * @return the updated value
+     * @pbrbm obj An object whose field to get bnd set
+     * @return the updbted vblue
      */
     public long incrementAndGet(T obj) {
         long prev, next;
         do {
             prev = get(obj);
             next = prev + 1;
-        } while (!compareAndSet(obj, prev, next));
+        } while (!compbreAndSet(obj, prev, next));
         return next;
     }
 
     /**
-     * Atomically decrements by one the current value of the field of the
-     * given object managed by this updater.
+     * Atomicblly decrements by one the current vblue of the field of the
+     * given object mbnbged by this updbter.
      *
-     * @param obj An object whose field to get and set
-     * @return the updated value
+     * @pbrbm obj An object whose field to get bnd set
+     * @return the updbted vblue
      */
     public long decrementAndGet(T obj) {
         long prev, next;
         do {
             prev = get(obj);
             next = prev - 1;
-        } while (!compareAndSet(obj, prev, next));
+        } while (!compbreAndSet(obj, prev, next));
         return next;
     }
 
     /**
-     * Atomically adds the given value to the current value of the field of
-     * the given object managed by this updater.
+     * Atomicblly bdds the given vblue to the current vblue of the field of
+     * the given object mbnbged by this updbter.
      *
-     * @param obj An object whose field to get and set
-     * @param delta the value to add
-     * @return the updated value
+     * @pbrbm obj An object whose field to get bnd set
+     * @pbrbm deltb the vblue to bdd
+     * @return the updbted vblue
      */
-    public long addAndGet(T obj, long delta) {
+    public long bddAndGet(T obj, long deltb) {
         long prev, next;
         do {
             prev = get(obj);
-            next = prev + delta;
-        } while (!compareAndSet(obj, prev, next));
+            next = prev + deltb;
+        } while (!compbreAndSet(obj, prev, next));
         return next;
     }
 
     /**
-     * Atomically updates the field of the given object managed by this updater
-     * with the results of applying the given function, returning the previous
-     * value. The function should be side-effect-free, since it may be
-     * re-applied when attempted updates fail due to contention among threads.
+     * Atomicblly updbtes the field of the given object mbnbged by this updbter
+     * with the results of bpplying the given function, returning the previous
+     * vblue. The function should be side-effect-free, since it mby be
+     * re-bpplied when bttempted updbtes fbil due to contention bmong threbds.
      *
-     * @param obj An object whose field to get and set
-     * @param updateFunction a side-effect-free function
-     * @return the previous value
+     * @pbrbm obj An object whose field to get bnd set
+     * @pbrbm updbteFunction b side-effect-free function
+     * @return the previous vblue
      * @since 1.8
      */
-    public final long getAndUpdate(T obj, LongUnaryOperator updateFunction) {
+    public finbl long getAndUpdbte(T obj, LongUnbryOperbtor updbteFunction) {
         long prev, next;
         do {
             prev = get(obj);
-            next = updateFunction.applyAsLong(prev);
-        } while (!compareAndSet(obj, prev, next));
+            next = updbteFunction.bpplyAsLong(prev);
+        } while (!compbreAndSet(obj, prev, next));
         return prev;
     }
 
     /**
-     * Atomically updates the field of the given object managed by this updater
-     * with the results of applying the given function, returning the updated
-     * value. The function should be side-effect-free, since it may be
-     * re-applied when attempted updates fail due to contention among threads.
+     * Atomicblly updbtes the field of the given object mbnbged by this updbter
+     * with the results of bpplying the given function, returning the updbted
+     * vblue. The function should be side-effect-free, since it mby be
+     * re-bpplied when bttempted updbtes fbil due to contention bmong threbds.
      *
-     * @param obj An object whose field to get and set
-     * @param updateFunction a side-effect-free function
-     * @return the updated value
+     * @pbrbm obj An object whose field to get bnd set
+     * @pbrbm updbteFunction b side-effect-free function
+     * @return the updbted vblue
      * @since 1.8
      */
-    public final long updateAndGet(T obj, LongUnaryOperator updateFunction) {
+    public finbl long updbteAndGet(T obj, LongUnbryOperbtor updbteFunction) {
         long prev, next;
         do {
             prev = get(obj);
-            next = updateFunction.applyAsLong(prev);
-        } while (!compareAndSet(obj, prev, next));
+            next = updbteFunction.bpplyAsLong(prev);
+        } while (!compbreAndSet(obj, prev, next));
         return next;
     }
 
     /**
-     * Atomically updates the field of the given object managed by this
-     * updater with the results of applying the given function to the
-     * current and given values, returning the previous value. The
-     * function should be side-effect-free, since it may be re-applied
-     * when attempted updates fail due to contention among threads.  The
-     * function is applied with the current value as its first argument,
-     * and the given update as the second argument.
+     * Atomicblly updbtes the field of the given object mbnbged by this
+     * updbter with the results of bpplying the given function to the
+     * current bnd given vblues, returning the previous vblue. The
+     * function should be side-effect-free, since it mby be re-bpplied
+     * when bttempted updbtes fbil due to contention bmong threbds.  The
+     * function is bpplied with the current vblue bs its first brgument,
+     * bnd the given updbte bs the second brgument.
      *
-     * @param obj An object whose field to get and set
-     * @param x the update value
-     * @param accumulatorFunction a side-effect-free function of two arguments
-     * @return the previous value
+     * @pbrbm obj An object whose field to get bnd set
+     * @pbrbm x the updbte vblue
+     * @pbrbm bccumulbtorFunction b side-effect-free function of two brguments
+     * @return the previous vblue
      * @since 1.8
      */
-    public final long getAndAccumulate(T obj, long x,
-                                       LongBinaryOperator accumulatorFunction) {
+    public finbl long getAndAccumulbte(T obj, long x,
+                                       LongBinbryOperbtor bccumulbtorFunction) {
         long prev, next;
         do {
             prev = get(obj);
-            next = accumulatorFunction.applyAsLong(prev, x);
-        } while (!compareAndSet(obj, prev, next));
+            next = bccumulbtorFunction.bpplyAsLong(prev, x);
+        } while (!compbreAndSet(obj, prev, next));
         return prev;
     }
 
     /**
-     * Atomically updates the field of the given object managed by this
-     * updater with the results of applying the given function to the
-     * current and given values, returning the updated value. The
-     * function should be side-effect-free, since it may be re-applied
-     * when attempted updates fail due to contention among threads.  The
-     * function is applied with the current value as its first argument,
-     * and the given update as the second argument.
+     * Atomicblly updbtes the field of the given object mbnbged by this
+     * updbter with the results of bpplying the given function to the
+     * current bnd given vblues, returning the updbted vblue. The
+     * function should be side-effect-free, since it mby be re-bpplied
+     * when bttempted updbtes fbil due to contention bmong threbds.  The
+     * function is bpplied with the current vblue bs its first brgument,
+     * bnd the given updbte bs the second brgument.
      *
-     * @param obj An object whose field to get and set
-     * @param x the update value
-     * @param accumulatorFunction a side-effect-free function of two arguments
-     * @return the updated value
+     * @pbrbm obj An object whose field to get bnd set
+     * @pbrbm x the updbte vblue
+     * @pbrbm bccumulbtorFunction b side-effect-free function of two brguments
+     * @return the updbted vblue
      * @since 1.8
      */
-    public final long accumulateAndGet(T obj, long x,
-                                       LongBinaryOperator accumulatorFunction) {
+    public finbl long bccumulbteAndGet(T obj, long x,
+                                       LongBinbryOperbtor bccumulbtorFunction) {
         long prev, next;
         do {
             prev = get(obj);
-            next = accumulatorFunction.applyAsLong(prev, x);
-        } while (!compareAndSet(obj, prev, next));
+            next = bccumulbtorFunction.bpplyAsLong(prev, x);
+        } while (!compbreAndSet(obj, prev, next));
         return next;
     }
 
-    private static class CASUpdater<T> extends AtomicLongFieldUpdater<T> {
-        private static final Unsafe unsafe = Unsafe.getUnsafe();
-        private final long offset;
-        private final Class<T> tclass;
-        private final Class<?> cclass;
+    privbte stbtic clbss CASUpdbter<T> extends AtomicLongFieldUpdbter<T> {
+        privbte stbtic finbl Unsbfe unsbfe = Unsbfe.getUnsbfe();
+        privbte finbl long offset;
+        privbte finbl Clbss<T> tclbss;
+        privbte finbl Clbss<?> cclbss;
 
-        CASUpdater(final Class<T> tclass, final String fieldName,
-                   final Class<?> caller) {
-            final Field field;
-            final int modifiers;
+        CASUpdbter(finbl Clbss<T> tclbss, finbl String fieldNbme,
+                   finbl Clbss<?> cbller) {
+            finbl Field field;
+            finbl int modifiers;
             try {
                 field = AccessController.doPrivileged(
                     new PrivilegedExceptionAction<Field>() {
                         public Field run() throws NoSuchFieldException {
-                            return tclass.getDeclaredField(fieldName);
+                            return tclbss.getDeclbredField(fieldNbme);
                         }
                     });
                 modifiers = field.getModifiers();
                 sun.reflect.misc.ReflectUtil.ensureMemberAccess(
-                    caller, tclass, null, modifiers);
-                ClassLoader cl = tclass.getClassLoader();
-                ClassLoader ccl = caller.getClassLoader();
+                    cbller, tclbss, null, modifiers);
+                ClbssLobder cl = tclbss.getClbssLobder();
+                ClbssLobder ccl = cbller.getClbssLobder();
                 if ((ccl != null) && (ccl != cl) &&
                     ((cl == null) || !isAncestor(cl, ccl))) {
-                  sun.reflect.misc.ReflectUtil.checkPackageAccess(tclass);
+                  sun.reflect.misc.ReflectUtil.checkPbckbgeAccess(tclbss);
                 }
-            } catch (PrivilegedActionException pae) {
-                throw new RuntimeException(pae.getException());
-            } catch (Exception ex) {
+            } cbtch (PrivilegedActionException pbe) {
+                throw new RuntimeException(pbe.getException());
+            } cbtch (Exception ex) {
                 throw new RuntimeException(ex);
             }
 
-            Class<?> fieldt = field.getType();
-            if (fieldt != long.class)
-                throw new IllegalArgumentException("Must be long type");
+            Clbss<?> fieldt = field.getType();
+            if (fieldt != long.clbss)
+                throw new IllegblArgumentException("Must be long type");
 
-            if (!Modifier.isVolatile(modifiers))
-                throw new IllegalArgumentException("Must be volatile type");
+            if (!Modifier.isVolbtile(modifiers))
+                throw new IllegblArgumentException("Must be volbtile type");
 
-            this.cclass = (Modifier.isProtected(modifiers) &&
-                           caller != tclass) ? caller : null;
-            this.tclass = tclass;
-            offset = unsafe.objectFieldOffset(field);
+            this.cclbss = (Modifier.isProtected(modifiers) &&
+                           cbller != tclbss) ? cbller : null;
+            this.tclbss = tclbss;
+            offset = unsbfe.objectFieldOffset(field);
         }
 
-        private void fullCheck(T obj) {
-            if (!tclass.isInstance(obj))
-                throw new ClassCastException();
-            if (cclass != null)
+        privbte void fullCheck(T obj) {
+            if (!tclbss.isInstbnce(obj))
+                throw new ClbssCbstException();
+            if (cclbss != null)
                 ensureProtectedAccess(obj);
         }
 
-        public boolean compareAndSet(T obj, long expect, long update) {
-            if (obj == null || obj.getClass() != tclass || cclass != null) fullCheck(obj);
-            return unsafe.compareAndSwapLong(obj, offset, expect, update);
+        public boolebn compbreAndSet(T obj, long expect, long updbte) {
+            if (obj == null || obj.getClbss() != tclbss || cclbss != null) fullCheck(obj);
+            return unsbfe.compbreAndSwbpLong(obj, offset, expect, updbte);
         }
 
-        public boolean weakCompareAndSet(T obj, long expect, long update) {
-            if (obj == null || obj.getClass() != tclass || cclass != null) fullCheck(obj);
-            return unsafe.compareAndSwapLong(obj, offset, expect, update);
+        public boolebn webkCompbreAndSet(T obj, long expect, long updbte) {
+            if (obj == null || obj.getClbss() != tclbss || cclbss != null) fullCheck(obj);
+            return unsbfe.compbreAndSwbpLong(obj, offset, expect, updbte);
         }
 
-        public void set(T obj, long newValue) {
-            if (obj == null || obj.getClass() != tclass || cclass != null) fullCheck(obj);
-            unsafe.putLongVolatile(obj, offset, newValue);
+        public void set(T obj, long newVblue) {
+            if (obj == null || obj.getClbss() != tclbss || cclbss != null) fullCheck(obj);
+            unsbfe.putLongVolbtile(obj, offset, newVblue);
         }
 
-        public void lazySet(T obj, long newValue) {
-            if (obj == null || obj.getClass() != tclass || cclass != null) fullCheck(obj);
-            unsafe.putOrderedLong(obj, offset, newValue);
+        public void lbzySet(T obj, long newVblue) {
+            if (obj == null || obj.getClbss() != tclbss || cclbss != null) fullCheck(obj);
+            unsbfe.putOrderedLong(obj, offset, newVblue);
         }
 
         public long get(T obj) {
-            if (obj == null || obj.getClass() != tclass || cclass != null) fullCheck(obj);
-            return unsafe.getLongVolatile(obj, offset);
+            if (obj == null || obj.getClbss() != tclbss || cclbss != null) fullCheck(obj);
+            return unsbfe.getLongVolbtile(obj, offset);
         }
 
-        public long getAndSet(T obj, long newValue) {
-            if (obj == null || obj.getClass() != tclass || cclass != null) fullCheck(obj);
-            return unsafe.getAndSetLong(obj, offset, newValue);
+        public long getAndSet(T obj, long newVblue) {
+            if (obj == null || obj.getClbss() != tclbss || cclbss != null) fullCheck(obj);
+            return unsbfe.getAndSetLong(obj, offset, newVblue);
         }
 
         public long getAndIncrement(T obj) {
@@ -455,9 +455,9 @@ public abstract class AtomicLongFieldUpdater<T> {
             return getAndAdd(obj, -1);
         }
 
-        public long getAndAdd(T obj, long delta) {
-            if (obj == null || obj.getClass() != tclass || cclass != null) fullCheck(obj);
-            return unsafe.getAndAddLong(obj, offset, delta);
+        public long getAndAdd(T obj, long deltb) {
+            if (obj == null || obj.getClbss() != tclbss || cclbss != null) fullCheck(obj);
+            return unsbfe.getAndAddLong(obj, offset, deltb);
         }
 
         public long incrementAndGet(T obj) {
@@ -468,141 +468,141 @@ public abstract class AtomicLongFieldUpdater<T> {
              return getAndAdd(obj, -1) - 1;
         }
 
-        public long addAndGet(T obj, long delta) {
-            return getAndAdd(obj, delta) + delta;
+        public long bddAndGet(T obj, long deltb) {
+            return getAndAdd(obj, deltb) + deltb;
         }
 
-        private void ensureProtectedAccess(T obj) {
-            if (cclass.isInstance(obj)) {
+        privbte void ensureProtectedAccess(T obj) {
+            if (cclbss.isInstbnce(obj)) {
                 return;
             }
             throw new RuntimeException(
-                new IllegalAccessException("Class " +
-                    cclass.getName() +
-                    " can not access a protected member of class " +
-                    tclass.getName() +
-                    " using an instance of " +
-                    obj.getClass().getName()
+                new IllegblAccessException("Clbss " +
+                    cclbss.getNbme() +
+                    " cbn not bccess b protected member of clbss " +
+                    tclbss.getNbme() +
+                    " using bn instbnce of " +
+                    obj.getClbss().getNbme()
                 )
             );
         }
     }
 
 
-    private static class LockedUpdater<T> extends AtomicLongFieldUpdater<T> {
-        private static final Unsafe unsafe = Unsafe.getUnsafe();
-        private final long offset;
-        private final Class<T> tclass;
-        private final Class<?> cclass;
+    privbte stbtic clbss LockedUpdbter<T> extends AtomicLongFieldUpdbter<T> {
+        privbte stbtic finbl Unsbfe unsbfe = Unsbfe.getUnsbfe();
+        privbte finbl long offset;
+        privbte finbl Clbss<T> tclbss;
+        privbte finbl Clbss<?> cclbss;
 
-        LockedUpdater(final Class<T> tclass, final String fieldName,
-                      final Class<?> caller) {
+        LockedUpdbter(finbl Clbss<T> tclbss, finbl String fieldNbme,
+                      finbl Clbss<?> cbller) {
             Field field = null;
             int modifiers = 0;
             try {
                 field = AccessController.doPrivileged(
                     new PrivilegedExceptionAction<Field>() {
                         public Field run() throws NoSuchFieldException {
-                            return tclass.getDeclaredField(fieldName);
+                            return tclbss.getDeclbredField(fieldNbme);
                         }
                     });
                 modifiers = field.getModifiers();
                 sun.reflect.misc.ReflectUtil.ensureMemberAccess(
-                    caller, tclass, null, modifiers);
-                ClassLoader cl = tclass.getClassLoader();
-                ClassLoader ccl = caller.getClassLoader();
+                    cbller, tclbss, null, modifiers);
+                ClbssLobder cl = tclbss.getClbssLobder();
+                ClbssLobder ccl = cbller.getClbssLobder();
                 if ((ccl != null) && (ccl != cl) &&
                     ((cl == null) || !isAncestor(cl, ccl))) {
-                  sun.reflect.misc.ReflectUtil.checkPackageAccess(tclass);
+                  sun.reflect.misc.ReflectUtil.checkPbckbgeAccess(tclbss);
                 }
-            } catch (PrivilegedActionException pae) {
-                throw new RuntimeException(pae.getException());
-            } catch (Exception ex) {
+            } cbtch (PrivilegedActionException pbe) {
+                throw new RuntimeException(pbe.getException());
+            } cbtch (Exception ex) {
                 throw new RuntimeException(ex);
             }
 
-            Class<?> fieldt = field.getType();
-            if (fieldt != long.class)
-                throw new IllegalArgumentException("Must be long type");
+            Clbss<?> fieldt = field.getType();
+            if (fieldt != long.clbss)
+                throw new IllegblArgumentException("Must be long type");
 
-            if (!Modifier.isVolatile(modifiers))
-                throw new IllegalArgumentException("Must be volatile type");
+            if (!Modifier.isVolbtile(modifiers))
+                throw new IllegblArgumentException("Must be volbtile type");
 
-            this.cclass = (Modifier.isProtected(modifiers) &&
-                           caller != tclass) ? caller : null;
-            this.tclass = tclass;
-            offset = unsafe.objectFieldOffset(field);
+            this.cclbss = (Modifier.isProtected(modifiers) &&
+                           cbller != tclbss) ? cbller : null;
+            this.tclbss = tclbss;
+            offset = unsbfe.objectFieldOffset(field);
         }
 
-        private void fullCheck(T obj) {
-            if (!tclass.isInstance(obj))
-                throw new ClassCastException();
-            if (cclass != null)
+        privbte void fullCheck(T obj) {
+            if (!tclbss.isInstbnce(obj))
+                throw new ClbssCbstException();
+            if (cclbss != null)
                 ensureProtectedAccess(obj);
         }
 
-        public boolean compareAndSet(T obj, long expect, long update) {
-            if (obj == null || obj.getClass() != tclass || cclass != null) fullCheck(obj);
+        public boolebn compbreAndSet(T obj, long expect, long updbte) {
+            if (obj == null || obj.getClbss() != tclbss || cclbss != null) fullCheck(obj);
             synchronized (this) {
-                long v = unsafe.getLong(obj, offset);
+                long v = unsbfe.getLong(obj, offset);
                 if (v != expect)
-                    return false;
-                unsafe.putLong(obj, offset, update);
+                    return fblse;
+                unsbfe.putLong(obj, offset, updbte);
                 return true;
             }
         }
 
-        public boolean weakCompareAndSet(T obj, long expect, long update) {
-            return compareAndSet(obj, expect, update);
+        public boolebn webkCompbreAndSet(T obj, long expect, long updbte) {
+            return compbreAndSet(obj, expect, updbte);
         }
 
-        public void set(T obj, long newValue) {
-            if (obj == null || obj.getClass() != tclass || cclass != null) fullCheck(obj);
+        public void set(T obj, long newVblue) {
+            if (obj == null || obj.getClbss() != tclbss || cclbss != null) fullCheck(obj);
             synchronized (this) {
-                unsafe.putLong(obj, offset, newValue);
+                unsbfe.putLong(obj, offset, newVblue);
             }
         }
 
-        public void lazySet(T obj, long newValue) {
-            set(obj, newValue);
+        public void lbzySet(T obj, long newVblue) {
+            set(obj, newVblue);
         }
 
         public long get(T obj) {
-            if (obj == null || obj.getClass() != tclass || cclass != null) fullCheck(obj);
+            if (obj == null || obj.getClbss() != tclbss || cclbss != null) fullCheck(obj);
             synchronized (this) {
-                return unsafe.getLong(obj, offset);
+                return unsbfe.getLong(obj, offset);
             }
         }
 
-        private void ensureProtectedAccess(T obj) {
-            if (cclass.isInstance(obj)) {
+        privbte void ensureProtectedAccess(T obj) {
+            if (cclbss.isInstbnce(obj)) {
                 return;
             }
             throw new RuntimeException(
-                new IllegalAccessException("Class " +
-                    cclass.getName() +
-                    " can not access a protected member of class " +
-                    tclass.getName() +
-                    " using an instance of " +
-                    obj.getClass().getName()
+                new IllegblAccessException("Clbss " +
+                    cclbss.getNbme() +
+                    " cbn not bccess b protected member of clbss " +
+                    tclbss.getNbme() +
+                    " using bn instbnce of " +
+                    obj.getClbss().getNbme()
                 )
             );
         }
     }
 
     /**
-     * Returns true if the second classloader can be found in the first
-     * classloader's delegation chain.
-     * Equivalent to the inaccessible: first.isAncestor(second).
+     * Returns true if the second clbsslobder cbn be found in the first
+     * clbsslobder's delegbtion chbin.
+     * Equivblent to the inbccessible: first.isAncestor(second).
      */
-    private static boolean isAncestor(ClassLoader first, ClassLoader second) {
-        ClassLoader acl = first;
+    privbte stbtic boolebn isAncestor(ClbssLobder first, ClbssLobder second) {
+        ClbssLobder bcl = first;
         do {
-            acl = acl.getParent();
-            if (second == acl) {
+            bcl = bcl.getPbrent();
+            if (second == bcl) {
                 return true;
             }
-        } while (acl != null);
-        return false;
+        } while (bcl != null);
+        return fblse;
     }
 }

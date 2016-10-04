@@ -1,90 +1,90 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package sun.lwawt;
+pbckbge sun.lwbwt;
 
-import java.awt.Label;
-import java.awt.peer.LabelPeer;
+import jbvb.bwt.Lbbel;
+import jbvb.bwt.peer.LbbelPeer;
 
-import javax.swing.JLabel;
-import javax.swing.SwingConstants;
+import jbvbx.swing.JLbbel;
+import jbvbx.swing.SwingConstbnts;
 
 /**
- * Lightweight implementation of {@link LabelPeer}. Delegates most of the work
- * to the {@link JLabel}.
+ * Lightweight implementbtion of {@link LbbelPeer}. Delegbtes most of the work
+ * to the {@link JLbbel}.
  */
-final class LWLabelPeer extends LWComponentPeer<Label, JLabel>
-        implements LabelPeer {
+finbl clbss LWLbbelPeer extends LWComponentPeer<Lbbel, JLbbel>
+        implements LbbelPeer {
 
-    LWLabelPeer(final Label target, final PlatformComponent platformComponent) {
-        super(target, platformComponent);
+    LWLbbelPeer(finbl Lbbel tbrget, finbl PlbtformComponent plbtformComponent) {
+        super(tbrget, plbtformComponent);
     }
 
     @Override
-    JLabel createDelegate() {
-        return new JLabel();
+    JLbbel crebteDelegbte() {
+        return new JLbbel();
     }
 
     @Override
-    void initializeImpl() {
-        super.initializeImpl();
-        setText(getTarget().getText());
-        setAlignment(getTarget().getAlignment());
+    void initiblizeImpl() {
+        super.initiblizeImpl();
+        setText(getTbrget().getText());
+        setAlignment(getTbrget().getAlignment());
     }
 
     @Override
-    public void setText(final String label) {
-        synchronized (getDelegateLock()) {
-            getDelegate().setText(label);
+    public void setText(finbl String lbbel) {
+        synchronized (getDelegbteLock()) {
+            getDelegbte().setText(lbbel);
         }
     }
 
     @Override
-    public void setAlignment(final int alignment) {
-        synchronized (getDelegateLock()) {
-            getDelegate().setHorizontalAlignment(convertAlignment(alignment));
+    public void setAlignment(finbl int blignment) {
+        synchronized (getDelegbteLock()) {
+            getDelegbte().setHorizontblAlignment(convertAlignment(blignment));
         }
     }
 
     /**
-     * Converts {@code Label} alignment constant to the {@code JLabel} constant.
-     * If wrong Label alignment provided returns default alignment.
+     * Converts {@code Lbbel} blignment constbnt to the {@code JLbbel} constbnt.
+     * If wrong Lbbel blignment provided returns defbult blignment.
      *
-     * @param alignment {@code Label} constant.
+     * @pbrbm blignment {@code Lbbel} constbnt.
      *
-     * @return {@code JLabel} constant.
+     * @return {@code JLbbel} constbnt.
      */
-    private static int convertAlignment(final int alignment) {
-        switch (alignment) {
-            case Label.CENTER:
-                return SwingConstants.CENTER;
-            case Label.RIGHT:
-                return SwingConstants.RIGHT;
-            default:
-                return SwingConstants.LEFT;
+    privbte stbtic int convertAlignment(finbl int blignment) {
+        switch (blignment) {
+            cbse Lbbel.CENTER:
+                return SwingConstbnts.CENTER;
+            cbse Lbbel.RIGHT:
+                return SwingConstbnts.RIGHT;
+            defbult:
+                return SwingConstbnts.LEFT;
         }
     }
 }

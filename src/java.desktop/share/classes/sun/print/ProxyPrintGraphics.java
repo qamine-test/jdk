@@ -1,100 +1,100 @@
 /*
- * Copyright (c) 2000, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2007, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.print;
+pbckbge sun.print;
 
-import java.awt.Graphics;
-import java.awt.PrintGraphics;
-import java.awt.PrintJob;
+import jbvb.bwt.Grbphics;
+import jbvb.bwt.PrintGrbphics;
+import jbvb.bwt.PrintJob;
 
 /**
- * A subclass of Graphics that can be printed to. The
- * graphics calls are forwared to another Graphics instance
- * that does the actual rendering.
+ * A subclbss of Grbphics thbt cbn be printed to. The
+ * grbphics cblls bre forwbred to bnother Grbphics instbnce
+ * thbt does the bctubl rendering.
  */
 
-public class ProxyPrintGraphics extends ProxyGraphics
-                                implements PrintGraphics {
+public clbss ProxyPrintGrbphics extends ProxyGrbphics
+                                implements PrintGrbphics {
 
-    private PrintJob printJob;
+    privbte PrintJob printJob;
 
-    public ProxyPrintGraphics(Graphics graphics, PrintJob thePrintJob) {
-        super(graphics);
+    public ProxyPrintGrbphics(Grbphics grbphics, PrintJob thePrintJob) {
+        super(grbphics);
         printJob = thePrintJob;
     }
 
     /**
-     * Returns the PrintJob object from which this PrintGraphics
-     * object originated.
+     * Returns the PrintJob object from which this PrintGrbphics
+     * object originbted.
      */
     public PrintJob getPrintJob() {
         return printJob;
     }
 
    /**
-     * Creates a new <code>Graphics</code> object that is
-     * a copy of this <code>Graphics</code> object.
-     * @return     a new graphics context that is a copy of
-     *                       this graphics context.
+     * Crebtes b new <code>Grbphics</code> object thbt is
+     * b copy of this <code>Grbphics</code> object.
+     * @return     b new grbphics context thbt is b copy of
+     *                       this grbphics context.
      */
-    public Graphics create() {
-        return new ProxyPrintGraphics(getGraphics().create(), printJob);
+    public Grbphics crebte() {
+        return new ProxyPrintGrbphics(getGrbphics().crebte(), printJob);
     }
 
 
     /**
-     * Creates a new <code>Graphics</code> object based on this
-     * <code>Graphics</code> object, but with a new translation and
-     * clip area.
+     * Crebtes b new <code>Grbphics</code> object bbsed on this
+     * <code>Grbphics</code> object, but with b new trbnslbtion bnd
+     * clip breb.
      * Refer to
-     * {@link sun.print.ProxyGraphics#createGraphics}
-     * for a complete description of this method.
+     * {@link sun.print.ProxyGrbphics#crebteGrbphics}
+     * for b complete description of this method.
      * <p>
-     * @param      x   the <i>x</i> coordinate.
-     * @param      y   the <i>y</i> coordinate.
-     * @param      width   the width of the clipping rectangle.
-     * @param      height   the height of the clipping rectangle.
-     * @return     a new graphics context.
-     * @see        java.awt.Graphics#translate
-     * @see        java.awt.Graphics#clipRect
+     * @pbrbm      x   the <i>x</i> coordinbte.
+     * @pbrbm      y   the <i>y</i> coordinbte.
+     * @pbrbm      width   the width of the clipping rectbngle.
+     * @pbrbm      height   the height of the clipping rectbngle.
+     * @return     b new grbphics context.
+     * @see        jbvb.bwt.Grbphics#trbnslbte
+     * @see        jbvb.bwt.Grbphics#clipRect
      */
-    public Graphics create(int x, int y, int width, int height) {
-        Graphics g = getGraphics().create(x, y, width, height);
-        return new ProxyPrintGraphics(g, printJob);
+    public Grbphics crebte(int x, int y, int width, int height) {
+        Grbphics g = getGrbphics().crebte(x, y, width, height);
+        return new ProxyPrintGrbphics(g, printJob);
     }
 
-    public Graphics getGraphics() {
-        return super.getGraphics();
+    public Grbphics getGrbphics() {
+        return super.getGrbphics();
     }
 
 
-   /* Spec implies dispose() should flush the page, but the implementation
-    * has in fact always done this on the getGraphics() call, thereby
-    * ensuring that multiple pages are cannot be rendered simultaneously.
-    * We will preserve that behaviour and there is consqeuently no need
-    * to take any action in this dispose method.
+   /* Spec implies dispose() should flush the pbge, but the implementbtion
+    * hbs in fbct blwbys done this on the getGrbphics() cbll, thereby
+    * ensuring thbt multiple pbges bre cbnnot be rendered simultbneously.
+    * We will preserve thbt behbviour bnd there is consqeuently no need
+    * to tbke bny bction in this dispose method.
     */
     public void dispose() {
      super.dispose();

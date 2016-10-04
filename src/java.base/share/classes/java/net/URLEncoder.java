@@ -1,130 +1,130 @@
 /*
- * Copyright (c) 1995, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.net;
+pbckbge jbvb.net;
 
-import java.io.ByteArrayOutputStream;
-import java.io.BufferedWriter;
-import java.io.OutputStreamWriter;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.io.CharArrayWriter;
-import java.nio.charset.Charset;
-import java.nio.charset.IllegalCharsetNameException;
-import java.nio.charset.UnsupportedCharsetException ;
-import java.util.BitSet;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import sun.security.action.GetBooleanAction;
-import sun.security.action.GetPropertyAction;
+import jbvb.io.ByteArrbyOutputStrebm;
+import jbvb.io.BufferedWriter;
+import jbvb.io.OutputStrebmWriter;
+import jbvb.io.IOException;
+import jbvb.io.UnsupportedEncodingException;
+import jbvb.io.ChbrArrbyWriter;
+import jbvb.nio.chbrset.Chbrset;
+import jbvb.nio.chbrset.IllegblChbrsetNbmeException;
+import jbvb.nio.chbrset.UnsupportedChbrsetException ;
+import jbvb.util.BitSet;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import sun.security.bction.GetBoolebnAction;
+import sun.security.bction.GetPropertyAction;
 
 /**
- * Utility class for HTML form encoding. This class contains static methods
- * for converting a String to the <CODE>application/x-www-form-urlencoded</CODE> MIME
- * format. For more information about HTML form encoding, consult the HTML
- * <A HREF="http://www.w3.org/TR/html4/">specification</A>.
+ * Utility clbss for HTML form encoding. This clbss contbins stbtic methods
+ * for converting b String to the <CODE>bpplicbtion/x-www-form-urlencoded</CODE> MIME
+ * formbt. For more informbtion bbout HTML form encoding, consult the HTML
+ * <A HREF="http://www.w3.org/TR/html4/">specificbtion</A>.
  *
  * <p>
- * When encoding a String, the following rules apply:
+ * When encoding b String, the following rules bpply:
  *
  * <ul>
- * <li>The alphanumeric characters &quot;{@code a}&quot; through
+ * <li>The blphbnumeric chbrbcters &quot;{@code b}&quot; through
  *     &quot;{@code z}&quot;, &quot;{@code A}&quot; through
- *     &quot;{@code Z}&quot; and &quot;{@code 0}&quot;
- *     through &quot;{@code 9}&quot; remain the same.
- * <li>The special characters &quot;{@code .}&quot;,
- *     &quot;{@code -}&quot;, &quot;{@code *}&quot;, and
- *     &quot;{@code _}&quot; remain the same.
- * <li>The space character &quot; &nbsp; &quot; is
- *     converted into a plus sign &quot;{@code +}&quot;.
- * <li>All other characters are unsafe and are first converted into
- *     one or more bytes using some encoding scheme. Then each byte is
- *     represented by the 3-character string
+ *     &quot;{@code Z}&quot; bnd &quot;{@code 0}&quot;
+ *     through &quot;{@code 9}&quot; rembin the sbme.
+ * <li>The specibl chbrbcters &quot;{@code .}&quot;,
+ *     &quot;{@code -}&quot;, &quot;{@code *}&quot;, bnd
+ *     &quot;{@code _}&quot; rembin the sbme.
+ * <li>The spbce chbrbcter &quot; &nbsp; &quot; is
+ *     converted into b plus sign &quot;{@code +}&quot;.
+ * <li>All other chbrbcters bre unsbfe bnd bre first converted into
+ *     one or more bytes using some encoding scheme. Then ebch byte is
+ *     represented by the 3-chbrbcter string
  *     &quot;<i>{@code %xy}</i>&quot;, where <i>xy</i> is the
- *     two-digit hexadecimal representation of the byte.
+ *     two-digit hexbdecimbl representbtion of the byte.
  *     The recommended encoding scheme to use is UTF-8. However,
- *     for compatibility reasons, if an encoding is not specified,
- *     then the default encoding of the platform is used.
+ *     for compbtibility rebsons, if bn encoding is not specified,
+ *     then the defbult encoding of the plbtform is used.
  * </ul>
  *
  * <p>
- * For example using UTF-8 as the encoding scheme the string &quot;The
- * string &#252;@foo-bar&quot; would get converted to
- * &quot;The+string+%C3%BC%40foo-bar&quot; because in UTF-8 the character
- * &#252; is encoded as two bytes C3 (hex) and BC (hex), and the
- * character @ is encoded as one byte 40 (hex).
+ * For exbmple using UTF-8 bs the encoding scheme the string &quot;The
+ * string &#252;@foo-bbr&quot; would get converted to
+ * &quot;The+string+%C3%BC%40foo-bbr&quot; becbuse in UTF-8 the chbrbcter
+ * &#252; is encoded bs two bytes C3 (hex) bnd BC (hex), bnd the
+ * chbrbcter @ is encoded bs one byte 40 (hex).
  *
- * @author  Herb Jellinek
+ * @buthor  Herb Jellinek
  * @since   1.0
  */
-public class URLEncoder {
-    static BitSet dontNeedEncoding;
-    static final int caseDiff = ('a' - 'A');
-    static String dfltEncName = null;
+public clbss URLEncoder {
+    stbtic BitSet dontNeedEncoding;
+    stbtic finbl int cbseDiff = ('b' - 'A');
+    stbtic String dfltEncNbme = null;
 
-    static {
+    stbtic {
 
-        /* The list of characters that are not encoded has been
-         * determined as follows:
+        /* The list of chbrbcters thbt bre not encoded hbs been
+         * determined bs follows:
          *
-         * RFC 2396 states:
+         * RFC 2396 stbtes:
          * -----
-         * Data characters that are allowed in a URI but do not have a
-         * reserved purpose are called unreserved.  These include upper
-         * and lower case letters, decimal digits, and a limited set of
-         * punctuation marks and symbols.
+         * Dbtb chbrbcters thbt bre bllowed in b URI but do not hbve b
+         * reserved purpose bre cblled unreserved.  These include upper
+         * bnd lower cbse letters, decimbl digits, bnd b limited set of
+         * punctubtion mbrks bnd symbols.
          *
-         * unreserved  = alphanum | mark
+         * unreserved  = blphbnum | mbrk
          *
-         * mark        = "-" | "_" | "." | "!" | "~" | "*" | "'" | "(" | ")"
+         * mbrk        = "-" | "_" | "." | "!" | "~" | "*" | "'" | "(" | ")"
          *
-         * Unreserved characters can be escaped without changing the
-         * semantics of the URI, but this should not be done unless the
-         * URI is being used in a context that does not allow the
-         * unescaped character to appear.
+         * Unreserved chbrbcters cbn be escbped without chbnging the
+         * sembntics of the URI, but this should not be done unless the
+         * URI is being used in b context thbt does not bllow the
+         * unescbped chbrbcter to bppebr.
          * -----
          *
-         * It appears that both Netscape and Internet Explorer escape
-         * all special characters from this list with the exception
-         * of "-", "_", ".", "*". While it is not clear why they are
-         * escaping the other characters, perhaps it is safest to
-         * assume that there might be contexts in which the others
-         * are unsafe if not escaped. Therefore, we will use the same
-         * list. It is also noteworthy that this is consistent with
-         * O'Reilly's "HTML: The Definitive Guide" (page 164).
+         * It bppebrs thbt both Netscbpe bnd Internet Explorer escbpe
+         * bll specibl chbrbcters from this list with the exception
+         * of "-", "_", ".", "*". While it is not clebr why they bre
+         * escbping the other chbrbcters, perhbps it is sbfest to
+         * bssume thbt there might be contexts in which the others
+         * bre unsbfe if not escbped. Therefore, we will use the sbme
+         * list. It is blso noteworthy thbt this is consistent with
+         * O'Reilly's "HTML: The Definitive Guide" (pbge 164).
          *
-         * As a last note, Intenet Explorer does not encode the "@"
-         * character which is clearly not unreserved according to the
-         * RFC. We are being consistent with the RFC in this matter,
-         * as is Netscape.
+         * As b lbst note, Intenet Explorer does not encode the "@"
+         * chbrbcter which is clebrly not unreserved bccording to the
+         * RFC. We bre being consistent with the RFC in this mbtter,
+         * bs is Netscbpe.
          *
          */
 
         dontNeedEncoding = new BitSet(256);
         int i;
-        for (i = 'a'; i <= 'z'; i++) {
+        for (i = 'b'; i <= 'z'; i++) {
             dontNeedEncoding.set(i);
         }
         for (i = 'A'; i <= 'Z'; i++) {
@@ -133,160 +133,160 @@ public class URLEncoder {
         for (i = '0'; i <= '9'; i++) {
             dontNeedEncoding.set(i);
         }
-        dontNeedEncoding.set(' '); /* encoding a space to a + is done
+        dontNeedEncoding.set(' '); /* encoding b spbce to b + is done
                                     * in the encode() method */
         dontNeedEncoding.set('-');
         dontNeedEncoding.set('_');
         dontNeedEncoding.set('.');
         dontNeedEncoding.set('*');
 
-        dfltEncName = AccessController.doPrivileged(
+        dfltEncNbme = AccessController.doPrivileged(
             new GetPropertyAction("file.encoding")
         );
     }
 
     /**
-     * You can't call the constructor.
+     * You cbn't cbll the constructor.
      */
-    private URLEncoder() { }
+    privbte URLEncoder() { }
 
     /**
-     * Translates a string into {@code x-www-form-urlencoded}
-     * format. This method uses the platform's default encoding
-     * as the encoding scheme to obtain the bytes for unsafe characters.
+     * Trbnslbtes b string into {@code x-www-form-urlencoded}
+     * formbt. This method uses the plbtform's defbult encoding
+     * bs the encoding scheme to obtbin the bytes for unsbfe chbrbcters.
      *
-     * @param   s   {@code String} to be translated.
-     * @deprecated The resulting string may vary depending on the platform's
-     *             default encoding. Instead, use the encode(String,String)
+     * @pbrbm   s   {@code String} to be trbnslbted.
+     * @deprecbted The resulting string mby vbry depending on the plbtform's
+     *             defbult encoding. Instebd, use the encode(String,String)
      *             method to specify the encoding.
-     * @return  the translated {@code String}.
+     * @return  the trbnslbted {@code String}.
      */
-    @Deprecated
-    public static String encode(String s) {
+    @Deprecbted
+    public stbtic String encode(String s) {
 
         String str = null;
 
         try {
-            str = encode(s, dfltEncName);
-        } catch (UnsupportedEncodingException e) {
-            // The system should always have the platform default
+            str = encode(s, dfltEncNbme);
+        } cbtch (UnsupportedEncodingException e) {
+            // The system should blwbys hbve the plbtform defbult
         }
 
         return str;
     }
 
     /**
-     * Translates a string into {@code application/x-www-form-urlencoded}
-     * format using a specific encoding scheme. This method uses the
-     * supplied encoding scheme to obtain the bytes for unsafe
-     * characters.
+     * Trbnslbtes b string into {@code bpplicbtion/x-www-form-urlencoded}
+     * formbt using b specific encoding scheme. This method uses the
+     * supplied encoding scheme to obtbin the bytes for unsbfe
+     * chbrbcters.
      * <p>
-     * <em><strong>Note:</strong> The <a href=
-     * "http://www.w3.org/TR/html40/appendix/notes.html#non-ascii-chars">
-     * World Wide Web Consortium Recommendation</a> states that
-     * UTF-8 should be used. Not doing so may introduce
-     * incompatibilities.</em>
+     * <em><strong>Note:</strong> The <b href=
+     * "http://www.w3.org/TR/html40/bppendix/notes.html#non-bscii-chbrs">
+     * World Wide Web Consortium Recommendbtion</b> stbtes thbt
+     * UTF-8 should be used. Not doing so mby introduce
+     * incompbtibilities.</em>
      *
-     * @param   s   {@code String} to be translated.
-     * @param   enc   The name of a supported
-     *    <a href="../lang/package-summary.html#charenc">character
-     *    encoding</a>.
-     * @return  the translated {@code String}.
+     * @pbrbm   s   {@code String} to be trbnslbted.
+     * @pbrbm   enc   The nbme of b supported
+     *    <b href="../lbng/pbckbge-summbry.html#chbrenc">chbrbcter
+     *    encoding</b>.
+     * @return  the trbnslbted {@code String}.
      * @exception  UnsupportedEncodingException
-     *             If the named encoding is not supported
-     * @see URLDecoder#decode(java.lang.String, java.lang.String)
+     *             If the nbmed encoding is not supported
+     * @see URLDecoder#decode(jbvb.lbng.String, jbvb.lbng.String)
      * @since 1.4
      */
-    public static String encode(String s, String enc)
+    public stbtic String encode(String s, String enc)
         throws UnsupportedEncodingException {
 
-        boolean needToChange = false;
+        boolebn needToChbnge = fblse;
         StringBuilder out = new StringBuilder(s.length());
-        Charset charset;
-        CharArrayWriter charArrayWriter = new CharArrayWriter();
+        Chbrset chbrset;
+        ChbrArrbyWriter chbrArrbyWriter = new ChbrArrbyWriter();
 
         if (enc == null)
-            throw new NullPointerException("charsetName");
+            throw new NullPointerException("chbrsetNbme");
 
         try {
-            charset = Charset.forName(enc);
-        } catch (IllegalCharsetNameException e) {
+            chbrset = Chbrset.forNbme(enc);
+        } cbtch (IllegblChbrsetNbmeException e) {
             throw new UnsupportedEncodingException(enc);
-        } catch (UnsupportedCharsetException e) {
+        } cbtch (UnsupportedChbrsetException e) {
             throw new UnsupportedEncodingException(enc);
         }
 
         for (int i = 0; i < s.length();) {
-            int c = (int) s.charAt(i);
-            //System.out.println("Examining character: " + c);
+            int c = (int) s.chbrAt(i);
+            //System.out.println("Exbmining chbrbcter: " + c);
             if (dontNeedEncoding.get(c)) {
                 if (c == ' ') {
                     c = '+';
-                    needToChange = true;
+                    needToChbnge = true;
                 }
                 //System.out.println("Storing: " + c);
-                out.append((char)c);
+                out.bppend((chbr)c);
                 i++;
             } else {
-                // convert to external encoding before hex conversion
+                // convert to externbl encoding before hex conversion
                 do {
-                    charArrayWriter.write(c);
+                    chbrArrbyWriter.write(c);
                     /*
-                     * If this character represents the start of a Unicode
-                     * surrogate pair, then pass in two characters. It's not
-                     * clear what should be done if a bytes reserved in the
-                     * surrogate pairs range occurs outside of a legal
-                     * surrogate pair. For now, just treat it as if it were
-                     * any other character.
+                     * If this chbrbcter represents the stbrt of b Unicode
+                     * surrogbte pbir, then pbss in two chbrbcters. It's not
+                     * clebr whbt should be done if b bytes reserved in the
+                     * surrogbte pbirs rbnge occurs outside of b legbl
+                     * surrogbte pbir. For now, just trebt it bs if it were
+                     * bny other chbrbcter.
                      */
                     if (c >= 0xD800 && c <= 0xDBFF) {
                         /*
                           System.out.println(Integer.toHexString(c)
-                          + " is high surrogate");
+                          + " is high surrogbte");
                         */
                         if ( (i+1) < s.length()) {
-                            int d = (int) s.charAt(i+1);
+                            int d = (int) s.chbrAt(i+1);
                             /*
-                              System.out.println("\tExamining "
+                              System.out.println("\tExbmining "
                               + Integer.toHexString(d));
                             */
                             if (d >= 0xDC00 && d <= 0xDFFF) {
                                 /*
                                   System.out.println("\t"
                                   + Integer.toHexString(d)
-                                  + " is low surrogate");
+                                  + " is low surrogbte");
                                 */
-                                charArrayWriter.write(d);
+                                chbrArrbyWriter.write(d);
                                 i++;
                             }
                         }
                     }
                     i++;
-                } while (i < s.length() && !dontNeedEncoding.get((c = (int) s.charAt(i))));
+                } while (i < s.length() && !dontNeedEncoding.get((c = (int) s.chbrAt(i))));
 
-                charArrayWriter.flush();
-                String str = new String(charArrayWriter.toCharArray());
-                byte[] ba = str.getBytes(charset);
-                for (int j = 0; j < ba.length; j++) {
-                    out.append('%');
-                    char ch = Character.forDigit((ba[j] >> 4) & 0xF, 16);
-                    // converting to use uppercase letter as part of
-                    // the hex value if ch is a letter.
-                    if (Character.isLetter(ch)) {
-                        ch -= caseDiff;
+                chbrArrbyWriter.flush();
+                String str = new String(chbrArrbyWriter.toChbrArrby());
+                byte[] bb = str.getBytes(chbrset);
+                for (int j = 0; j < bb.length; j++) {
+                    out.bppend('%');
+                    chbr ch = Chbrbcter.forDigit((bb[j] >> 4) & 0xF, 16);
+                    // converting to use uppercbse letter bs pbrt of
+                    // the hex vblue if ch is b letter.
+                    if (Chbrbcter.isLetter(ch)) {
+                        ch -= cbseDiff;
                     }
-                    out.append(ch);
-                    ch = Character.forDigit(ba[j] & 0xF, 16);
-                    if (Character.isLetter(ch)) {
-                        ch -= caseDiff;
+                    out.bppend(ch);
+                    ch = Chbrbcter.forDigit(bb[j] & 0xF, 16);
+                    if (Chbrbcter.isLetter(ch)) {
+                        ch -= cbseDiff;
                     }
-                    out.append(ch);
+                    out.bppend(ch);
                 }
-                charArrayWriter.reset();
-                needToChange = true;
+                chbrArrbyWriter.reset();
+                needToChbnge = true;
             }
         }
 
-        return (needToChange? out.toString() : s);
+        return (needToChbnge? out.toString() : s);
     }
 }

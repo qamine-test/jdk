@@ -1,50 +1,50 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * Copyright (c) 2012-2013, Stephen Colebourne & Michael Nascimento Santos
+ * Copyright (c) 2012-2013, Stephen Colebourne & Michbel Nbscimento Sbntos
  *
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions bre met:
  *
- *  * Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ *  * Redistributions of source code must retbin the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer.
  *
- *  * Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ *  * Redistributions in binbry form must reproduce the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer in the documentbtion
+ *    bnd/or other mbteribls provided with the distribution.
  *
- *  * Neither the name of JSR-310 nor the names of its contributors
- *    may be used to endorse or promote products derived from this software
+ *  * Neither the nbme of JSR-310 nor the nbmes of its contributors
+ *    mby be used to endorse or promote products derived from this softwbre
  *    without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
@@ -59,419 +59,419 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package java.time.temporal;
+pbckbge jbvb.time.temporbl;
 
-import static java.time.temporal.ChronoField.DAY_OF_MONTH;
-import static java.time.temporal.ChronoField.DAY_OF_WEEK;
-import static java.time.temporal.ChronoField.DAY_OF_YEAR;
-import static java.time.temporal.ChronoUnit.DAYS;
-import static java.time.temporal.ChronoUnit.MONTHS;
-import static java.time.temporal.ChronoUnit.YEARS;
+import stbtic jbvb.time.temporbl.ChronoField.DAY_OF_MONTH;
+import stbtic jbvb.time.temporbl.ChronoField.DAY_OF_WEEK;
+import stbtic jbvb.time.temporbl.ChronoField.DAY_OF_YEAR;
+import stbtic jbvb.time.temporbl.ChronoUnit.DAYS;
+import stbtic jbvb.time.temporbl.ChronoUnit.MONTHS;
+import stbtic jbvb.time.temporbl.ChronoUnit.YEARS;
 
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.util.Objects;
-import java.util.function.UnaryOperator;
+import jbvb.time.DbyOfWeek;
+import jbvb.time.LocblDbte;
+import jbvb.util.Objects;
+import jbvb.util.function.UnbryOperbtor;
 
 /**
- * Common and useful TemporalAdjusters.
+ * Common bnd useful TemporblAdjusters.
  * <p>
- * Adjusters are a key tool for modifying temporal objects.
- * They exist to externalize the process of adjustment, permitting different
- * approaches, as per the strategy design pattern.
- * Examples might be an adjuster that sets the date avoiding weekends, or one that
- * sets the date to the last day of the month.
+ * Adjusters bre b key tool for modifying temporbl objects.
+ * They exist to externblize the process of bdjustment, permitting different
+ * bpprobches, bs per the strbtegy design pbttern.
+ * Exbmples might be bn bdjuster thbt sets the dbte bvoiding weekends, or one thbt
+ * sets the dbte to the lbst dby of the month.
  * <p>
- * There are two equivalent ways of using a {@code TemporalAdjuster}.
- * The first is to invoke the method on the interface directly.
- * The second is to use {@link Temporal#with(TemporalAdjuster)}:
+ * There bre two equivblent wbys of using b {@code TemporblAdjuster}.
+ * The first is to invoke the method on the interfbce directly.
+ * The second is to use {@link Temporbl#with(TemporblAdjuster)}:
  * <pre>
- *   // these two lines are equivalent, but the second approach is recommended
- *   temporal = thisAdjuster.adjustInto(temporal);
- *   temporal = temporal.with(thisAdjuster);
+ *   // these two lines bre equivblent, but the second bpprobch is recommended
+ *   temporbl = thisAdjuster.bdjustInto(temporbl);
+ *   temporbl = temporbl.with(thisAdjuster);
  * </pre>
- * It is recommended to use the second approach, {@code with(TemporalAdjuster)},
- * as it is a lot clearer to read in code.
+ * It is recommended to use the second bpprobch, {@code with(TemporblAdjuster)},
+ * bs it is b lot clebrer to rebd in code.
  * <p>
- * This class contains a standard set of adjusters, available as static methods.
+ * This clbss contbins b stbndbrd set of bdjusters, bvbilbble bs stbtic methods.
  * These include:
  * <ul>
- * <li>finding the first or last day of the month
- * <li>finding the first day of next month
- * <li>finding the first or last day of the year
- * <li>finding the first day of next year
- * <li>finding the first or last day-of-week within a month, such as "first Wednesday in June"
- * <li>finding the next or previous day-of-week, such as "next Thursday"
+ * <li>finding the first or lbst dby of the month
+ * <li>finding the first dby of next month
+ * <li>finding the first or lbst dby of the yebr
+ * <li>finding the first dby of next yebr
+ * <li>finding the first or lbst dby-of-week within b month, such bs "first Wednesdby in June"
+ * <li>finding the next or previous dby-of-week, such bs "next Thursdby"
  * </ul>
  *
  * @implSpec
- * All the implementations supplied by the static methods are immutable.
+ * All the implementbtions supplied by the stbtic methods bre immutbble.
  *
- * @see TemporalAdjuster
+ * @see TemporblAdjuster
  * @since 1.8
  */
-public final class TemporalAdjusters {
+public finbl clbss TemporblAdjusters {
 
     /**
-     * Private constructor since this is a utility class.
+     * Privbte constructor since this is b utility clbss.
      */
-    private TemporalAdjusters() {
+    privbte TemporblAdjusters() {
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Obtains a {@code TemporalAdjuster} that wraps a date adjuster.
+     * Obtbins b {@code TemporblAdjuster} thbt wrbps b dbte bdjuster.
      * <p>
-     * The {@code TemporalAdjuster} is based on the low level {@code Temporal} interface.
-     * This method allows an adjustment from {@code LocalDate} to {@code LocalDate}
-     * to be wrapped to match the temporal-based interface.
-     * This is provided for convenience to make user-written adjusters simpler.
+     * The {@code TemporblAdjuster} is bbsed on the low level {@code Temporbl} interfbce.
+     * This method bllows bn bdjustment from {@code LocblDbte} to {@code LocblDbte}
+     * to be wrbpped to mbtch the temporbl-bbsed interfbce.
+     * This is provided for convenience to mbke user-written bdjusters simpler.
      * <p>
-     * In general, user-written adjusters should be static constants:
+     * In generbl, user-written bdjusters should be stbtic constbnts:
      * <pre>{@code
-     *  static TemporalAdjuster TWO_DAYS_LATER =
-     *       TemporalAdjusters.ofDateAdjuster(date -> date.plusDays(2));
+     *  stbtic TemporblAdjuster TWO_DAYS_LATER =
+     *       TemporblAdjusters.ofDbteAdjuster(dbte -> dbte.plusDbys(2));
      * }</pre>
      *
-     * @param dateBasedAdjuster  the date-based adjuster, not null
-     * @return the temporal adjuster wrapping on the date adjuster, not null
+     * @pbrbm dbteBbsedAdjuster  the dbte-bbsed bdjuster, not null
+     * @return the temporbl bdjuster wrbpping on the dbte bdjuster, not null
      */
-    public static TemporalAdjuster ofDateAdjuster(UnaryOperator<LocalDate> dateBasedAdjuster) {
-        Objects.requireNonNull(dateBasedAdjuster, "dateBasedAdjuster");
-        return (temporal) -> {
-            LocalDate input = LocalDate.from(temporal);
-            LocalDate output = dateBasedAdjuster.apply(input);
-            return temporal.with(output);
+    public stbtic TemporblAdjuster ofDbteAdjuster(UnbryOperbtor<LocblDbte> dbteBbsedAdjuster) {
+        Objects.requireNonNull(dbteBbsedAdjuster, "dbteBbsedAdjuster");
+        return (temporbl) -> {
+            LocblDbte input = LocblDbte.from(temporbl);
+            LocblDbte output = dbteBbsedAdjuster.bpply(input);
+            return temporbl.with(output);
         };
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Returns the "first day of month" adjuster, which returns a new date set to
-     * the first day of the current month.
+     * Returns the "first dby of month" bdjuster, which returns b new dbte set to
+     * the first dby of the current month.
      * <p>
-     * The ISO calendar system behaves as follows:<br>
+     * The ISO cblendbr system behbves bs follows:<br>
      * The input 2011-01-15 will return 2011-01-01.<br>
      * The input 2011-02-15 will return 2011-02-01.
      * <p>
-     * The behavior is suitable for use with most calendar systems.
-     * It is equivalent to:
+     * The behbvior is suitbble for use with most cblendbr systems.
+     * It is equivblent to:
      * <pre>
-     *  temporal.with(DAY_OF_MONTH, 1);
+     *  temporbl.with(DAY_OF_MONTH, 1);
      * </pre>
      *
-     * @return the first day-of-month adjuster, not null
+     * @return the first dby-of-month bdjuster, not null
      */
-    public static TemporalAdjuster firstDayOfMonth() {
-        return (temporal) -> temporal.with(DAY_OF_MONTH, 1);
+    public stbtic TemporblAdjuster firstDbyOfMonth() {
+        return (temporbl) -> temporbl.with(DAY_OF_MONTH, 1);
     }
 
     /**
-     * Returns the "last day of month" adjuster, which returns a new date set to
-     * the last day of the current month.
+     * Returns the "lbst dby of month" bdjuster, which returns b new dbte set to
+     * the lbst dby of the current month.
      * <p>
-     * The ISO calendar system behaves as follows:<br>
+     * The ISO cblendbr system behbves bs follows:<br>
      * The input 2011-01-15 will return 2011-01-31.<br>
      * The input 2011-02-15 will return 2011-02-28.<br>
-     * The input 2012-02-15 will return 2012-02-29 (leap year).<br>
+     * The input 2012-02-15 will return 2012-02-29 (lebp yebr).<br>
      * The input 2011-04-15 will return 2011-04-30.
      * <p>
-     * The behavior is suitable for use with most calendar systems.
-     * It is equivalent to:
+     * The behbvior is suitbble for use with most cblendbr systems.
+     * It is equivblent to:
      * <pre>
-     *  long lastDay = temporal.range(DAY_OF_MONTH).getMaximum();
-     *  temporal.with(DAY_OF_MONTH, lastDay);
+     *  long lbstDby = temporbl.rbnge(DAY_OF_MONTH).getMbximum();
+     *  temporbl.with(DAY_OF_MONTH, lbstDby);
      * </pre>
      *
-     * @return the last day-of-month adjuster, not null
+     * @return the lbst dby-of-month bdjuster, not null
      */
-    public static TemporalAdjuster lastDayOfMonth() {
-        return (temporal) -> temporal.with(DAY_OF_MONTH, temporal.range(DAY_OF_MONTH).getMaximum());
+    public stbtic TemporblAdjuster lbstDbyOfMonth() {
+        return (temporbl) -> temporbl.with(DAY_OF_MONTH, temporbl.rbnge(DAY_OF_MONTH).getMbximum());
     }
 
     /**
-     * Returns the "first day of next month" adjuster, which returns a new date set to
-     * the first day of the next month.
+     * Returns the "first dby of next month" bdjuster, which returns b new dbte set to
+     * the first dby of the next month.
      * <p>
-     * The ISO calendar system behaves as follows:<br>
+     * The ISO cblendbr system behbves bs follows:<br>
      * The input 2011-01-15 will return 2011-02-01.<br>
      * The input 2011-02-15 will return 2011-03-01.
      * <p>
-     * The behavior is suitable for use with most calendar systems.
-     * It is equivalent to:
+     * The behbvior is suitbble for use with most cblendbr systems.
+     * It is equivblent to:
      * <pre>
-     *  temporal.with(DAY_OF_MONTH, 1).plus(1, MONTHS);
+     *  temporbl.with(DAY_OF_MONTH, 1).plus(1, MONTHS);
      * </pre>
      *
-     * @return the first day of next month adjuster, not null
+     * @return the first dby of next month bdjuster, not null
      */
-    public static TemporalAdjuster firstDayOfNextMonth() {
-        return (temporal) -> temporal.with(DAY_OF_MONTH, 1).plus(1, MONTHS);
+    public stbtic TemporblAdjuster firstDbyOfNextMonth() {
+        return (temporbl) -> temporbl.with(DAY_OF_MONTH, 1).plus(1, MONTHS);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Returns the "first day of year" adjuster, which returns a new date set to
-     * the first day of the current year.
+     * Returns the "first dby of yebr" bdjuster, which returns b new dbte set to
+     * the first dby of the current yebr.
      * <p>
-     * The ISO calendar system behaves as follows:<br>
+     * The ISO cblendbr system behbves bs follows:<br>
      * The input 2011-01-15 will return 2011-01-01.<br>
      * The input 2011-02-15 will return 2011-01-01.<br>
      * <p>
-     * The behavior is suitable for use with most calendar systems.
-     * It is equivalent to:
+     * The behbvior is suitbble for use with most cblendbr systems.
+     * It is equivblent to:
      * <pre>
-     *  temporal.with(DAY_OF_YEAR, 1);
+     *  temporbl.with(DAY_OF_YEAR, 1);
      * </pre>
      *
-     * @return the first day-of-year adjuster, not null
+     * @return the first dby-of-yebr bdjuster, not null
      */
-    public static TemporalAdjuster firstDayOfYear() {
-        return (temporal) -> temporal.with(DAY_OF_YEAR, 1);
+    public stbtic TemporblAdjuster firstDbyOfYebr() {
+        return (temporbl) -> temporbl.with(DAY_OF_YEAR, 1);
     }
 
     /**
-     * Returns the "last day of year" adjuster, which returns a new date set to
-     * the last day of the current year.
+     * Returns the "lbst dby of yebr" bdjuster, which returns b new dbte set to
+     * the lbst dby of the current yebr.
      * <p>
-     * The ISO calendar system behaves as follows:<br>
+     * The ISO cblendbr system behbves bs follows:<br>
      * The input 2011-01-15 will return 2011-12-31.<br>
      * The input 2011-02-15 will return 2011-12-31.<br>
      * <p>
-     * The behavior is suitable for use with most calendar systems.
-     * It is equivalent to:
+     * The behbvior is suitbble for use with most cblendbr systems.
+     * It is equivblent to:
      * <pre>
-     *  long lastDay = temporal.range(DAY_OF_YEAR).getMaximum();
-     *  temporal.with(DAY_OF_YEAR, lastDay);
+     *  long lbstDby = temporbl.rbnge(DAY_OF_YEAR).getMbximum();
+     *  temporbl.with(DAY_OF_YEAR, lbstDby);
      * </pre>
      *
-     * @return the last day-of-year adjuster, not null
+     * @return the lbst dby-of-yebr bdjuster, not null
      */
-    public static TemporalAdjuster lastDayOfYear() {
-        return (temporal) -> temporal.with(DAY_OF_YEAR, temporal.range(DAY_OF_YEAR).getMaximum());
+    public stbtic TemporblAdjuster lbstDbyOfYebr() {
+        return (temporbl) -> temporbl.with(DAY_OF_YEAR, temporbl.rbnge(DAY_OF_YEAR).getMbximum());
     }
 
     /**
-     * Returns the "first day of next year" adjuster, which returns a new date set to
-     * the first day of the next year.
+     * Returns the "first dby of next yebr" bdjuster, which returns b new dbte set to
+     * the first dby of the next yebr.
      * <p>
-     * The ISO calendar system behaves as follows:<br>
+     * The ISO cblendbr system behbves bs follows:<br>
      * The input 2011-01-15 will return 2012-01-01.
      * <p>
-     * The behavior is suitable for use with most calendar systems.
-     * It is equivalent to:
+     * The behbvior is suitbble for use with most cblendbr systems.
+     * It is equivblent to:
      * <pre>
-     *  temporal.with(DAY_OF_YEAR, 1).plus(1, YEARS);
+     *  temporbl.with(DAY_OF_YEAR, 1).plus(1, YEARS);
      * </pre>
      *
-     * @return the first day of next month adjuster, not null
+     * @return the first dby of next month bdjuster, not null
      */
-    public static TemporalAdjuster firstDayOfNextYear() {
-        return (temporal) -> temporal.with(DAY_OF_YEAR, 1).plus(1, YEARS);
+    public stbtic TemporblAdjuster firstDbyOfNextYebr() {
+        return (temporbl) -> temporbl.with(DAY_OF_YEAR, 1).plus(1, YEARS);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Returns the first in month adjuster, which returns a new date
-     * in the same month with the first matching day-of-week.
-     * This is used for expressions like 'first Tuesday in March'.
+     * Returns the first in month bdjuster, which returns b new dbte
+     * in the sbme month with the first mbtching dby-of-week.
+     * This is used for expressions like 'first Tuesdby in Mbrch'.
      * <p>
-     * The ISO calendar system behaves as follows:<br>
+     * The ISO cblendbr system behbves bs follows:<br>
      * The input 2011-12-15 for (MONDAY) will return 2011-12-05.<br>
      * The input 2011-12-15 for (FRIDAY) will return 2011-12-02.<br>
      * <p>
-     * The behavior is suitable for use with most calendar systems.
-     * It uses the {@code DAY_OF_WEEK} and {@code DAY_OF_MONTH} fields
-     * and the {@code DAYS} unit, and assumes a seven day week.
+     * The behbvior is suitbble for use with most cblendbr systems.
+     * It uses the {@code DAY_OF_WEEK} bnd {@code DAY_OF_MONTH} fields
+     * bnd the {@code DAYS} unit, bnd bssumes b seven dby week.
      *
-     * @param dayOfWeek  the day-of-week, not null
-     * @return the first in month adjuster, not null
+     * @pbrbm dbyOfWeek  the dby-of-week, not null
+     * @return the first in month bdjuster, not null
      */
-    public static TemporalAdjuster firstInMonth(DayOfWeek dayOfWeek) {
-        return TemporalAdjusters.dayOfWeekInMonth(1, dayOfWeek);
+    public stbtic TemporblAdjuster firstInMonth(DbyOfWeek dbyOfWeek) {
+        return TemporblAdjusters.dbyOfWeekInMonth(1, dbyOfWeek);
     }
 
     /**
-     * Returns the last in month adjuster, which returns a new date
-     * in the same month with the last matching day-of-week.
-     * This is used for expressions like 'last Tuesday in March'.
+     * Returns the lbst in month bdjuster, which returns b new dbte
+     * in the sbme month with the lbst mbtching dby-of-week.
+     * This is used for expressions like 'lbst Tuesdby in Mbrch'.
      * <p>
-     * The ISO calendar system behaves as follows:<br>
+     * The ISO cblendbr system behbves bs follows:<br>
      * The input 2011-12-15 for (MONDAY) will return 2011-12-26.<br>
      * The input 2011-12-15 for (FRIDAY) will return 2011-12-30.<br>
      * <p>
-     * The behavior is suitable for use with most calendar systems.
-     * It uses the {@code DAY_OF_WEEK} and {@code DAY_OF_MONTH} fields
-     * and the {@code DAYS} unit, and assumes a seven day week.
+     * The behbvior is suitbble for use with most cblendbr systems.
+     * It uses the {@code DAY_OF_WEEK} bnd {@code DAY_OF_MONTH} fields
+     * bnd the {@code DAYS} unit, bnd bssumes b seven dby week.
      *
-     * @param dayOfWeek  the day-of-week, not null
-     * @return the first in month adjuster, not null
+     * @pbrbm dbyOfWeek  the dby-of-week, not null
+     * @return the first in month bdjuster, not null
      */
-    public static TemporalAdjuster lastInMonth(DayOfWeek dayOfWeek) {
-        return TemporalAdjusters.dayOfWeekInMonth(-1, dayOfWeek);
+    public stbtic TemporblAdjuster lbstInMonth(DbyOfWeek dbyOfWeek) {
+        return TemporblAdjusters.dbyOfWeekInMonth(-1, dbyOfWeek);
     }
 
     /**
-     * Returns the day-of-week in month adjuster, which returns a new date
-     * in the same month with the ordinal day-of-week.
-     * This is used for expressions like the 'second Tuesday in March'.
+     * Returns the dby-of-week in month bdjuster, which returns b new dbte
+     * in the sbme month with the ordinbl dby-of-week.
+     * This is used for expressions like the 'second Tuesdby in Mbrch'.
      * <p>
-     * The ISO calendar system behaves as follows:<br>
+     * The ISO cblendbr system behbves bs follows:<br>
      * The input 2011-12-15 for (1,TUESDAY) will return 2011-12-06.<br>
      * The input 2011-12-15 for (2,TUESDAY) will return 2011-12-13.<br>
      * The input 2011-12-15 for (3,TUESDAY) will return 2011-12-20.<br>
      * The input 2011-12-15 for (4,TUESDAY) will return 2011-12-27.<br>
      * The input 2011-12-15 for (5,TUESDAY) will return 2012-01-03.<br>
-     * The input 2011-12-15 for (-1,TUESDAY) will return 2011-12-27 (last in month).<br>
-     * The input 2011-12-15 for (-4,TUESDAY) will return 2011-12-06 (3 weeks before last in month).<br>
-     * The input 2011-12-15 for (-5,TUESDAY) will return 2011-11-29 (4 weeks before last in month).<br>
-     * The input 2011-12-15 for (0,TUESDAY) will return 2011-11-29 (last in previous month).<br>
+     * The input 2011-12-15 for (-1,TUESDAY) will return 2011-12-27 (lbst in month).<br>
+     * The input 2011-12-15 for (-4,TUESDAY) will return 2011-12-06 (3 weeks before lbst in month).<br>
+     * The input 2011-12-15 for (-5,TUESDAY) will return 2011-11-29 (4 weeks before lbst in month).<br>
+     * The input 2011-12-15 for (0,TUESDAY) will return 2011-11-29 (lbst in previous month).<br>
      * <p>
-     * For a positive or zero ordinal, the algorithm is equivalent to finding the first
-     * day-of-week that matches within the month and then adding a number of weeks to it.
-     * For a negative ordinal, the algorithm is equivalent to finding the last
-     * day-of-week that matches within the month and then subtracting a number of weeks to it.
-     * The ordinal number of weeks is not validated and is interpreted leniently
-     * according to this algorithm. This definition means that an ordinal of zero finds
-     * the last matching day-of-week in the previous month.
+     * For b positive or zero ordinbl, the blgorithm is equivblent to finding the first
+     * dby-of-week thbt mbtches within the month bnd then bdding b number of weeks to it.
+     * For b negbtive ordinbl, the blgorithm is equivblent to finding the lbst
+     * dby-of-week thbt mbtches within the month bnd then subtrbcting b number of weeks to it.
+     * The ordinbl number of weeks is not vblidbted bnd is interpreted leniently
+     * bccording to this blgorithm. This definition mebns thbt bn ordinbl of zero finds
+     * the lbst mbtching dby-of-week in the previous month.
      * <p>
-     * The behavior is suitable for use with most calendar systems.
-     * It uses the {@code DAY_OF_WEEK} and {@code DAY_OF_MONTH} fields
-     * and the {@code DAYS} unit, and assumes a seven day week.
+     * The behbvior is suitbble for use with most cblendbr systems.
+     * It uses the {@code DAY_OF_WEEK} bnd {@code DAY_OF_MONTH} fields
+     * bnd the {@code DAYS} unit, bnd bssumes b seven dby week.
      *
-     * @param ordinal  the week within the month, unbounded but typically from -5 to 5
-     * @param dayOfWeek  the day-of-week, not null
-     * @return the day-of-week in month adjuster, not null
+     * @pbrbm ordinbl  the week within the month, unbounded but typicblly from -5 to 5
+     * @pbrbm dbyOfWeek  the dby-of-week, not null
+     * @return the dby-of-week in month bdjuster, not null
      */
-    public static TemporalAdjuster dayOfWeekInMonth(int ordinal, DayOfWeek dayOfWeek) {
-        Objects.requireNonNull(dayOfWeek, "dayOfWeek");
-        int dowValue = dayOfWeek.getValue();
-        if (ordinal >= 0) {
-            return (temporal) -> {
-                Temporal temp = temporal.with(DAY_OF_MONTH, 1);
+    public stbtic TemporblAdjuster dbyOfWeekInMonth(int ordinbl, DbyOfWeek dbyOfWeek) {
+        Objects.requireNonNull(dbyOfWeek, "dbyOfWeek");
+        int dowVblue = dbyOfWeek.getVblue();
+        if (ordinbl >= 0) {
+            return (temporbl) -> {
+                Temporbl temp = temporbl.with(DAY_OF_MONTH, 1);
                 int curDow = temp.get(DAY_OF_WEEK);
-                int dowDiff = (dowValue - curDow + 7) % 7;
-                dowDiff += (ordinal - 1L) * 7L;  // safe from overflow
+                int dowDiff = (dowVblue - curDow + 7) % 7;
+                dowDiff += (ordinbl - 1L) * 7L;  // sbfe from overflow
                 return temp.plus(dowDiff, DAYS);
             };
         } else {
-            return (temporal) -> {
-                Temporal temp = temporal.with(DAY_OF_MONTH, temporal.range(DAY_OF_MONTH).getMaximum());
+            return (temporbl) -> {
+                Temporbl temp = temporbl.with(DAY_OF_MONTH, temporbl.rbnge(DAY_OF_MONTH).getMbximum());
                 int curDow = temp.get(DAY_OF_WEEK);
-                int daysDiff = dowValue - curDow;
-                daysDiff = (daysDiff == 0 ? 0 : (daysDiff > 0 ? daysDiff - 7 : daysDiff));
-                daysDiff -= (-ordinal - 1L) * 7L;  // safe from overflow
-                return temp.plus(daysDiff, DAYS);
+                int dbysDiff = dowVblue - curDow;
+                dbysDiff = (dbysDiff == 0 ? 0 : (dbysDiff > 0 ? dbysDiff - 7 : dbysDiff));
+                dbysDiff -= (-ordinbl - 1L) * 7L;  // sbfe from overflow
+                return temp.plus(dbysDiff, DAYS);
             };
         }
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Returns the next day-of-week adjuster, which adjusts the date to the
-     * first occurrence of the specified day-of-week after the date being adjusted.
+     * Returns the next dby-of-week bdjuster, which bdjusts the dbte to the
+     * first occurrence of the specified dby-of-week bfter the dbte being bdjusted.
      * <p>
-     * The ISO calendar system behaves as follows:<br>
-     * The input 2011-01-15 (a Saturday) for parameter (MONDAY) will return 2011-01-17 (two days later).<br>
-     * The input 2011-01-15 (a Saturday) for parameter (WEDNESDAY) will return 2011-01-19 (four days later).<br>
-     * The input 2011-01-15 (a Saturday) for parameter (SATURDAY) will return 2011-01-22 (seven days later).
+     * The ISO cblendbr system behbves bs follows:<br>
+     * The input 2011-01-15 (b Sbturdby) for pbrbmeter (MONDAY) will return 2011-01-17 (two dbys lbter).<br>
+     * The input 2011-01-15 (b Sbturdby) for pbrbmeter (WEDNESDAY) will return 2011-01-19 (four dbys lbter).<br>
+     * The input 2011-01-15 (b Sbturdby) for pbrbmeter (SATURDAY) will return 2011-01-22 (seven dbys lbter).
      * <p>
-     * The behavior is suitable for use with most calendar systems.
-     * It uses the {@code DAY_OF_WEEK} field and the {@code DAYS} unit,
-     * and assumes a seven day week.
+     * The behbvior is suitbble for use with most cblendbr systems.
+     * It uses the {@code DAY_OF_WEEK} field bnd the {@code DAYS} unit,
+     * bnd bssumes b seven dby week.
      *
-     * @param dayOfWeek  the day-of-week to move the date to, not null
-     * @return the next day-of-week adjuster, not null
+     * @pbrbm dbyOfWeek  the dby-of-week to move the dbte to, not null
+     * @return the next dby-of-week bdjuster, not null
      */
-    public static TemporalAdjuster next(DayOfWeek dayOfWeek) {
-        int dowValue = dayOfWeek.getValue();
-        return (temporal) -> {
-            int calDow = temporal.get(DAY_OF_WEEK);
-            int daysDiff = calDow - dowValue;
-            return temporal.plus(daysDiff >= 0 ? 7 - daysDiff : -daysDiff, DAYS);
+    public stbtic TemporblAdjuster next(DbyOfWeek dbyOfWeek) {
+        int dowVblue = dbyOfWeek.getVblue();
+        return (temporbl) -> {
+            int cblDow = temporbl.get(DAY_OF_WEEK);
+            int dbysDiff = cblDow - dowVblue;
+            return temporbl.plus(dbysDiff >= 0 ? 7 - dbysDiff : -dbysDiff, DAYS);
         };
     }
 
     /**
-     * Returns the next-or-same day-of-week adjuster, which adjusts the date to the
-     * first occurrence of the specified day-of-week after the date being adjusted
-     * unless it is already on that day in which case the same object is returned.
+     * Returns the next-or-sbme dby-of-week bdjuster, which bdjusts the dbte to the
+     * first occurrence of the specified dby-of-week bfter the dbte being bdjusted
+     * unless it is blrebdy on thbt dby in which cbse the sbme object is returned.
      * <p>
-     * The ISO calendar system behaves as follows:<br>
-     * The input 2011-01-15 (a Saturday) for parameter (MONDAY) will return 2011-01-17 (two days later).<br>
-     * The input 2011-01-15 (a Saturday) for parameter (WEDNESDAY) will return 2011-01-19 (four days later).<br>
-     * The input 2011-01-15 (a Saturday) for parameter (SATURDAY) will return 2011-01-15 (same as input).
+     * The ISO cblendbr system behbves bs follows:<br>
+     * The input 2011-01-15 (b Sbturdby) for pbrbmeter (MONDAY) will return 2011-01-17 (two dbys lbter).<br>
+     * The input 2011-01-15 (b Sbturdby) for pbrbmeter (WEDNESDAY) will return 2011-01-19 (four dbys lbter).<br>
+     * The input 2011-01-15 (b Sbturdby) for pbrbmeter (SATURDAY) will return 2011-01-15 (sbme bs input).
      * <p>
-     * The behavior is suitable for use with most calendar systems.
-     * It uses the {@code DAY_OF_WEEK} field and the {@code DAYS} unit,
-     * and assumes a seven day week.
+     * The behbvior is suitbble for use with most cblendbr systems.
+     * It uses the {@code DAY_OF_WEEK} field bnd the {@code DAYS} unit,
+     * bnd bssumes b seven dby week.
      *
-     * @param dayOfWeek  the day-of-week to check for or move the date to, not null
-     * @return the next-or-same day-of-week adjuster, not null
+     * @pbrbm dbyOfWeek  the dby-of-week to check for or move the dbte to, not null
+     * @return the next-or-sbme dby-of-week bdjuster, not null
      */
-    public static TemporalAdjuster nextOrSame(DayOfWeek dayOfWeek) {
-        int dowValue = dayOfWeek.getValue();
-        return (temporal) -> {
-            int calDow = temporal.get(DAY_OF_WEEK);
-            if (calDow == dowValue) {
-                return temporal;
+    public stbtic TemporblAdjuster nextOrSbme(DbyOfWeek dbyOfWeek) {
+        int dowVblue = dbyOfWeek.getVblue();
+        return (temporbl) -> {
+            int cblDow = temporbl.get(DAY_OF_WEEK);
+            if (cblDow == dowVblue) {
+                return temporbl;
             }
-            int daysDiff = calDow - dowValue;
-            return temporal.plus(daysDiff >= 0 ? 7 - daysDiff : -daysDiff, DAYS);
+            int dbysDiff = cblDow - dowVblue;
+            return temporbl.plus(dbysDiff >= 0 ? 7 - dbysDiff : -dbysDiff, DAYS);
         };
     }
 
     /**
-     * Returns the previous day-of-week adjuster, which adjusts the date to the
-     * first occurrence of the specified day-of-week before the date being adjusted.
+     * Returns the previous dby-of-week bdjuster, which bdjusts the dbte to the
+     * first occurrence of the specified dby-of-week before the dbte being bdjusted.
      * <p>
-     * The ISO calendar system behaves as follows:<br>
-     * The input 2011-01-15 (a Saturday) for parameter (MONDAY) will return 2011-01-10 (five days earlier).<br>
-     * The input 2011-01-15 (a Saturday) for parameter (WEDNESDAY) will return 2011-01-12 (three days earlier).<br>
-     * The input 2011-01-15 (a Saturday) for parameter (SATURDAY) will return 2011-01-08 (seven days earlier).
+     * The ISO cblendbr system behbves bs follows:<br>
+     * The input 2011-01-15 (b Sbturdby) for pbrbmeter (MONDAY) will return 2011-01-10 (five dbys ebrlier).<br>
+     * The input 2011-01-15 (b Sbturdby) for pbrbmeter (WEDNESDAY) will return 2011-01-12 (three dbys ebrlier).<br>
+     * The input 2011-01-15 (b Sbturdby) for pbrbmeter (SATURDAY) will return 2011-01-08 (seven dbys ebrlier).
      * <p>
-     * The behavior is suitable for use with most calendar systems.
-     * It uses the {@code DAY_OF_WEEK} field and the {@code DAYS} unit,
-     * and assumes a seven day week.
+     * The behbvior is suitbble for use with most cblendbr systems.
+     * It uses the {@code DAY_OF_WEEK} field bnd the {@code DAYS} unit,
+     * bnd bssumes b seven dby week.
      *
-     * @param dayOfWeek  the day-of-week to move the date to, not null
-     * @return the previous day-of-week adjuster, not null
+     * @pbrbm dbyOfWeek  the dby-of-week to move the dbte to, not null
+     * @return the previous dby-of-week bdjuster, not null
      */
-    public static TemporalAdjuster previous(DayOfWeek dayOfWeek) {
-        int dowValue = dayOfWeek.getValue();
-        return (temporal) -> {
-            int calDow = temporal.get(DAY_OF_WEEK);
-            int daysDiff = dowValue - calDow;
-            return temporal.minus(daysDiff >= 0 ? 7 - daysDiff : -daysDiff, DAYS);
+    public stbtic TemporblAdjuster previous(DbyOfWeek dbyOfWeek) {
+        int dowVblue = dbyOfWeek.getVblue();
+        return (temporbl) -> {
+            int cblDow = temporbl.get(DAY_OF_WEEK);
+            int dbysDiff = dowVblue - cblDow;
+            return temporbl.minus(dbysDiff >= 0 ? 7 - dbysDiff : -dbysDiff, DAYS);
         };
     }
 
     /**
-     * Returns the previous-or-same day-of-week adjuster, which adjusts the date to the
-     * first occurrence of the specified day-of-week before the date being adjusted
-     * unless it is already on that day in which case the same object is returned.
+     * Returns the previous-or-sbme dby-of-week bdjuster, which bdjusts the dbte to the
+     * first occurrence of the specified dby-of-week before the dbte being bdjusted
+     * unless it is blrebdy on thbt dby in which cbse the sbme object is returned.
      * <p>
-     * The ISO calendar system behaves as follows:<br>
-     * The input 2011-01-15 (a Saturday) for parameter (MONDAY) will return 2011-01-10 (five days earlier).<br>
-     * The input 2011-01-15 (a Saturday) for parameter (WEDNESDAY) will return 2011-01-12 (three days earlier).<br>
-     * The input 2011-01-15 (a Saturday) for parameter (SATURDAY) will return 2011-01-15 (same as input).
+     * The ISO cblendbr system behbves bs follows:<br>
+     * The input 2011-01-15 (b Sbturdby) for pbrbmeter (MONDAY) will return 2011-01-10 (five dbys ebrlier).<br>
+     * The input 2011-01-15 (b Sbturdby) for pbrbmeter (WEDNESDAY) will return 2011-01-12 (three dbys ebrlier).<br>
+     * The input 2011-01-15 (b Sbturdby) for pbrbmeter (SATURDAY) will return 2011-01-15 (sbme bs input).
      * <p>
-     * The behavior is suitable for use with most calendar systems.
-     * It uses the {@code DAY_OF_WEEK} field and the {@code DAYS} unit,
-     * and assumes a seven day week.
+     * The behbvior is suitbble for use with most cblendbr systems.
+     * It uses the {@code DAY_OF_WEEK} field bnd the {@code DAYS} unit,
+     * bnd bssumes b seven dby week.
      *
-     * @param dayOfWeek  the day-of-week to check for or move the date to, not null
-     * @return the previous-or-same day-of-week adjuster, not null
+     * @pbrbm dbyOfWeek  the dby-of-week to check for or move the dbte to, not null
+     * @return the previous-or-sbme dby-of-week bdjuster, not null
      */
-    public static TemporalAdjuster previousOrSame(DayOfWeek dayOfWeek) {
-        int dowValue = dayOfWeek.getValue();
-        return (temporal) -> {
-            int calDow = temporal.get(DAY_OF_WEEK);
-            if (calDow == dowValue) {
-                return temporal;
+    public stbtic TemporblAdjuster previousOrSbme(DbyOfWeek dbyOfWeek) {
+        int dowVblue = dbyOfWeek.getVblue();
+        return (temporbl) -> {
+            int cblDow = temporbl.get(DAY_OF_WEEK);
+            if (cblDow == dowVblue) {
+                return temporbl;
             }
-            int daysDiff = dowValue - calDow;
-            return temporal.minus(daysDiff >= 0 ? 7 - daysDiff : -daysDiff, DAYS);
+            int dbysDiff = dowVblue - cblDow;
+            return temporbl.minus(dbysDiff >= 0 ? 7 - dbysDiff : -dbysDiff, DAYS);
         };
     }
 

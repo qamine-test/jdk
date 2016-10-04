@@ -1,119 +1,119 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.security.cert;
+pbckbge jbvb.security.cert;
 
-import java.security.PublicKey;
+import jbvb.security.PublicKey;
 
 /**
- * This class represents the successful result of the PKIX certification
- * path builder algorithm. All certification paths that are built and
- * returned using this algorithm are also validated according to the PKIX
- * certification path validation algorithm.
+ * This clbss represents the successful result of the PKIX certificbtion
+ * pbth builder blgorithm. All certificbtion pbths thbt bre built bnd
+ * returned using this blgorithm bre blso vblidbted bccording to the PKIX
+ * certificbtion pbth vblidbtion blgorithm.
  *
- * <p>Instances of {@code PKIXCertPathBuilderResult} are returned by
- * the {@code build} method of {@code CertPathBuilder}
- * objects implementing the PKIX algorithm.
+ * <p>Instbnces of {@code PKIXCertPbthBuilderResult} bre returned by
+ * the {@code build} method of {@code CertPbthBuilder}
+ * objects implementing the PKIX blgorithm.
  *
- * <p>All {@code PKIXCertPathBuilderResult} objects contain the
- * certification path constructed by the build algorithm, the
- * valid policy tree and subject public key resulting from the build
- * algorithm, and a {@code TrustAnchor} describing the certification
- * authority (CA) that served as a trust anchor for the certification path.
+ * <p>All {@code PKIXCertPbthBuilderResult} objects contbin the
+ * certificbtion pbth constructed by the build blgorithm, the
+ * vblid policy tree bnd subject public key resulting from the build
+ * blgorithm, bnd b {@code TrustAnchor} describing the certificbtion
+ * buthority (CA) thbt served bs b trust bnchor for the certificbtion pbth.
  * <p>
  * <b>Concurrent Access</b>
  * <p>
- * Unless otherwise specified, the methods defined in this class are not
- * thread-safe. Multiple threads that need to access a single
- * object concurrently should synchronize amongst themselves and
- * provide the necessary locking. Multiple threads each manipulating
- * separate objects need not synchronize.
+ * Unless otherwise specified, the methods defined in this clbss bre not
+ * threbd-sbfe. Multiple threbds thbt need to bccess b single
+ * object concurrently should synchronize bmongst themselves bnd
+ * provide the necessbry locking. Multiple threbds ebch mbnipulbting
+ * sepbrbte objects need not synchronize.
  *
- * @see CertPathBuilderResult
+ * @see CertPbthBuilderResult
  *
  * @since       1.4
- * @author      Anne Anderson
+ * @buthor      Anne Anderson
  */
-public class PKIXCertPathBuilderResult extends PKIXCertPathValidatorResult
-    implements CertPathBuilderResult {
+public clbss PKIXCertPbthBuilderResult extends PKIXCertPbthVblidbtorResult
+    implements CertPbthBuilderResult {
 
-    private CertPath certPath;
+    privbte CertPbth certPbth;
 
     /**
-     * Creates an instance of {@code PKIXCertPathBuilderResult}
-     * containing the specified parameters.
+     * Crebtes bn instbnce of {@code PKIXCertPbthBuilderResult}
+     * contbining the specified pbrbmeters.
      *
-     * @param certPath the validated {@code CertPath}
-     * @param trustAnchor a {@code TrustAnchor} describing the CA that
-     * served as a trust anchor for the certification path
-     * @param policyTree the immutable valid policy tree, or {@code null}
-     * if there are no valid policies
-     * @param subjectPublicKey the public key of the subject
-     * @throws NullPointerException if the {@code certPath},
-     * {@code trustAnchor} or {@code subjectPublicKey} parameters
-     * are {@code null}
+     * @pbrbm certPbth the vblidbted {@code CertPbth}
+     * @pbrbm trustAnchor b {@code TrustAnchor} describing the CA thbt
+     * served bs b trust bnchor for the certificbtion pbth
+     * @pbrbm policyTree the immutbble vblid policy tree, or {@code null}
+     * if there bre no vblid policies
+     * @pbrbm subjectPublicKey the public key of the subject
+     * @throws NullPointerException if the {@code certPbth},
+     * {@code trustAnchor} or {@code subjectPublicKey} pbrbmeters
+     * bre {@code null}
      */
-    public PKIXCertPathBuilderResult(CertPath certPath,
+    public PKIXCertPbthBuilderResult(CertPbth certPbth,
         TrustAnchor trustAnchor, PolicyNode policyTree,
         PublicKey subjectPublicKey)
     {
         super(trustAnchor, policyTree, subjectPublicKey);
-        if (certPath == null)
-            throw new NullPointerException("certPath must be non-null");
-        this.certPath = certPath;
+        if (certPbth == null)
+            throw new NullPointerException("certPbth must be non-null");
+        this.certPbth = certPbth;
     }
 
     /**
-     * Returns the built and validated certification path. The
-     * {@code CertPath} object does not include the trust anchor.
-     * Instead, use the {@link #getTrustAnchor() getTrustAnchor()} method to
-     * obtain the {@code TrustAnchor} that served as the trust anchor
-     * for the certification path.
+     * Returns the built bnd vblidbted certificbtion pbth. The
+     * {@code CertPbth} object does not include the trust bnchor.
+     * Instebd, use the {@link #getTrustAnchor() getTrustAnchor()} method to
+     * obtbin the {@code TrustAnchor} thbt served bs the trust bnchor
+     * for the certificbtion pbth.
      *
-     * @return the built and validated {@code CertPath} (never
+     * @return the built bnd vblidbted {@code CertPbth} (never
      * {@code null})
      */
-    public CertPath getCertPath() {
-        return certPath;
+    public CertPbth getCertPbth() {
+        return certPbth;
     }
 
     /**
-     * Return a printable representation of this
-     * {@code PKIXCertPathBuilderResult}.
+     * Return b printbble representbtion of this
+     * {@code PKIXCertPbthBuilderResult}.
      *
-     * @return a {@code String} describing the contents of this
-     *         {@code PKIXCertPathBuilderResult}
+     * @return b {@code String} describing the contents of this
+     *         {@code PKIXCertPbthBuilderResult}
      */
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("PKIXCertPathBuilderResult: [\n");
-        sb.append("  Certification Path: " + certPath + "\n");
-        sb.append("  Trust Anchor: " + getTrustAnchor().toString() + "\n");
-        sb.append("  Policy Tree: " + String.valueOf(getPolicyTree()) + "\n");
-        sb.append("  Subject Public Key: " + getPublicKey() + "\n");
-        sb.append("]");
+        sb.bppend("PKIXCertPbthBuilderResult: [\n");
+        sb.bppend("  Certificbtion Pbth: " + certPbth + "\n");
+        sb.bppend("  Trust Anchor: " + getTrustAnchor().toString() + "\n");
+        sb.bppend("  Policy Tree: " + String.vblueOf(getPolicyTree()) + "\n");
+        sb.bppend("  Subject Public Key: " + getPublicKey() + "\n");
+        sb.bppend("]");
         return sb.toString();
     }
 }

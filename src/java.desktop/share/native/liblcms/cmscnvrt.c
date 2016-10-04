@@ -1,46 +1,46 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-// This file is available under and governed by the GNU General Public
-// License version 2 only, as published by the Free Software Foundation.
-// However, the following notice accompanied the original version of this
+// This file is bvbilbble under bnd governed by the GNU Generbl Public
+// License version 2 only, bs published by the Free Softwbre Foundbtion.
+// However, the following notice bccompbnied the originbl version of this
 // file:
 //
 //---------------------------------------------------------------------------------
 //
-//  Little Color Management System
-//  Copyright (c) 1998-2012 Marti Maria Saguer
+//  Little Color Mbnbgement System
+//  Copyright (c) 1998-2012 Mbrti Mbrib Sbguer
 //
-// Permission is hereby granted, free of charge, to any person obtaining
-// a copy of this software and associated documentation files (the "Software"),
-// to deal in the Software without restriction, including without limitation
+// Permission is hereby grbnted, free of chbrge, to bny person obtbining
+// b copy of this softwbre bnd bssocibted documentbtion files (the "Softwbre"),
+// to debl in the Softwbre without restriction, including without limitbtion
 // the rights to use, copy, modify, merge, publish, distribute, sublicense,
-// and/or sell copies of the Software, and to permit persons to whom the Software
+// bnd/or sell copies of the Softwbre, bnd to permit persons to whom the Softwbre
 // is furnished to do so, subject to the following conditions:
 //
-// The above copyright notice and this permission notice shall be included in
-// all copies or substantial portions of the Software.
+// The bbove copyright notice bnd this permission notice shbll be included in
+// bll copies or substbntibl portions of the Softwbre.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO
@@ -53,67 +53,67 @@
 //---------------------------------------------------------------------------------
 //
 
-#include "lcms2_internal.h"
+#include "lcms2_internbl.h"
 
 
-// Link several profiles to obtain a single LUT modelling the whole color transform. Intents, Black point
-// compensation and Adaptation parameters may vary across profiles. BPC and Adaptation refers to the PCS
-// after the profile. I.e, BPC[0] refers to connexion between profile(0) and profile(1)
+// Link severbl profiles to obtbin b single LUT modelling the whole color trbnsform. Intents, Blbck point
+// compensbtion bnd Adbptbtion pbrbmeters mby vbry bcross profiles. BPC bnd Adbptbtion refers to the PCS
+// bfter the profile. I.e, BPC[0] refers to connexion between profile(0) bnd profile(1)
 cmsPipeline* _cmsLinkProfiles(cmsContext     ContextID,
                               cmsUInt32Number nProfiles,
                               cmsUInt32Number Intents[],
                               cmsHPROFILE     hProfiles[],
                               cmsBool         BPC[],
-                              cmsFloat64Number AdaptationStates[],
-                              cmsUInt32Number dwFlags);
+                              cmsFlobt64Number AdbptbtionStbtes[],
+                              cmsUInt32Number dwFlbgs);
 
 //---------------------------------------------------------------------------------
 
-// This is the default routine for ICC-style intents. A user may decide to override it by using a plugin.
-// Supported intents are perceptual, relative colorimetric, saturation and ICC-absolute colorimetric
-static
-cmsPipeline* DefaultICCintents(cmsContext     ContextID,
+// This is the defbult routine for ICC-style intents. A user mby decide to override it by using b plugin.
+// Supported intents bre perceptubl, relbtive colorimetric, sbturbtion bnd ICC-bbsolute colorimetric
+stbtic
+cmsPipeline* DefbultICCintents(cmsContext     ContextID,
                                cmsUInt32Number nProfiles,
                                cmsUInt32Number Intents[],
                                cmsHPROFILE     hProfiles[],
                                cmsBool         BPC[],
-                               cmsFloat64Number AdaptationStates[],
-                               cmsUInt32Number dwFlags);
+                               cmsFlobt64Number AdbptbtionStbtes[],
+                               cmsUInt32Number dwFlbgs);
 
 //---------------------------------------------------------------------------------
 
-// This is the entry for black-preserving K-only intents, which are non-ICC. Last profile have to be a output profile
-// to do the trick (no devicelinks allowed at that position)
-static
-cmsPipeline*  BlackPreservingKOnlyIntents(cmsContext     ContextID,
+// This is the entry for blbck-preserving K-only intents, which bre non-ICC. Lbst profile hbve to be b output profile
+// to do the trick (no devicelinks bllowed bt thbt position)
+stbtic
+cmsPipeline*  BlbckPreservingKOnlyIntents(cmsContext     ContextID,
                                           cmsUInt32Number nProfiles,
                                           cmsUInt32Number Intents[],
                                           cmsHPROFILE     hProfiles[],
                                           cmsBool         BPC[],
-                                          cmsFloat64Number AdaptationStates[],
-                                          cmsUInt32Number dwFlags);
+                                          cmsFlobt64Number AdbptbtionStbtes[],
+                                          cmsUInt32Number dwFlbgs);
 
 //---------------------------------------------------------------------------------
 
-// This is the entry for black-plane preserving, which are non-ICC. Again, Last profile have to be a output profile
-// to do the trick (no devicelinks allowed at that position)
-static
-cmsPipeline*  BlackPreservingKPlaneIntents(cmsContext     ContextID,
+// This is the entry for blbck-plbne preserving, which bre non-ICC. Agbin, Lbst profile hbve to be b output profile
+// to do the trick (no devicelinks bllowed bt thbt position)
+stbtic
+cmsPipeline*  BlbckPreservingKPlbneIntents(cmsContext     ContextID,
                                            cmsUInt32Number nProfiles,
                                            cmsUInt32Number Intents[],
                                            cmsHPROFILE     hProfiles[],
                                            cmsBool         BPC[],
-                                           cmsFloat64Number AdaptationStates[],
-                                           cmsUInt32Number dwFlags);
+                                           cmsFlobt64Number AdbptbtionStbtes[],
+                                           cmsUInt32Number dwFlbgs);
 
 //---------------------------------------------------------------------------------
 
 
-// This is a structure holding implementations for all supported intents.
+// This is b structure holding implementbtions for bll supported intents.
 typedef struct _cms_intents_list {
 
     cmsUInt32Number Intent;
-    char            Description[256];
+    chbr            Description[256];
     cmsIntentFn     Link;
     struct _cms_intents_list*  Next;
 
@@ -121,27 +121,27 @@ typedef struct _cms_intents_list {
 
 
 // Built-in intents
-static cmsIntentsList DefaultIntents[] = {
+stbtic cmsIntentsList DefbultIntents[] = {
 
-    { INTENT_PERCEPTUAL,                            "Perceptual",                                   DefaultICCintents,            &DefaultIntents[1] },
-    { INTENT_RELATIVE_COLORIMETRIC,                 "Relative colorimetric",                        DefaultICCintents,            &DefaultIntents[2] },
-    { INTENT_SATURATION,                            "Saturation",                                   DefaultICCintents,            &DefaultIntents[3] },
-    { INTENT_ABSOLUTE_COLORIMETRIC,                 "Absolute colorimetric",                        DefaultICCintents,            &DefaultIntents[4] },
-    { INTENT_PRESERVE_K_ONLY_PERCEPTUAL,            "Perceptual preserving black ink",              BlackPreservingKOnlyIntents,  &DefaultIntents[5] },
-    { INTENT_PRESERVE_K_ONLY_RELATIVE_COLORIMETRIC, "Relative colorimetric preserving black ink",   BlackPreservingKOnlyIntents,  &DefaultIntents[6] },
-    { INTENT_PRESERVE_K_ONLY_SATURATION,            "Saturation preserving black ink",              BlackPreservingKOnlyIntents,  &DefaultIntents[7] },
-    { INTENT_PRESERVE_K_PLANE_PERCEPTUAL,           "Perceptual preserving black plane",            BlackPreservingKPlaneIntents, &DefaultIntents[8] },
-    { INTENT_PRESERVE_K_PLANE_RELATIVE_COLORIMETRIC,"Relative colorimetric preserving black plane", BlackPreservingKPlaneIntents, &DefaultIntents[9] },
-    { INTENT_PRESERVE_K_PLANE_SATURATION,           "Saturation preserving black plane",            BlackPreservingKPlaneIntents, NULL }
+    { INTENT_PERCEPTUAL,                            "Perceptubl",                                   DefbultICCintents,            &DefbultIntents[1] },
+    { INTENT_RELATIVE_COLORIMETRIC,                 "Relbtive colorimetric",                        DefbultICCintents,            &DefbultIntents[2] },
+    { INTENT_SATURATION,                            "Sbturbtion",                                   DefbultICCintents,            &DefbultIntents[3] },
+    { INTENT_ABSOLUTE_COLORIMETRIC,                 "Absolute colorimetric",                        DefbultICCintents,            &DefbultIntents[4] },
+    { INTENT_PRESERVE_K_ONLY_PERCEPTUAL,            "Perceptubl preserving blbck ink",              BlbckPreservingKOnlyIntents,  &DefbultIntents[5] },
+    { INTENT_PRESERVE_K_ONLY_RELATIVE_COLORIMETRIC, "Relbtive colorimetric preserving blbck ink",   BlbckPreservingKOnlyIntents,  &DefbultIntents[6] },
+    { INTENT_PRESERVE_K_ONLY_SATURATION,            "Sbturbtion preserving blbck ink",              BlbckPreservingKOnlyIntents,  &DefbultIntents[7] },
+    { INTENT_PRESERVE_K_PLANE_PERCEPTUAL,           "Perceptubl preserving blbck plbne",            BlbckPreservingKPlbneIntents, &DefbultIntents[8] },
+    { INTENT_PRESERVE_K_PLANE_RELATIVE_COLORIMETRIC,"Relbtive colorimetric preserving blbck plbne", BlbckPreservingKPlbneIntents, &DefbultIntents[9] },
+    { INTENT_PRESERVE_K_PLANE_SATURATION,           "Sbturbtion preserving blbck plbne",            BlbckPreservingKPlbneIntents, NULL }
 };
 
 
 // A pointer to the begining of the list
-static cmsIntentsList *Intents = DefaultIntents;
+stbtic cmsIntentsList *Intents = DefbultIntents;
 
-// Search the list for a suitable intent. Returns NULL if not found
-static
-cmsIntentsList* SearchIntent(cmsUInt32Number Intent)
+// Sebrch the list for b suitbble intent. Returns NULL if not found
+stbtic
+cmsIntentsList* SebrchIntent(cmsUInt32Number Intent)
 {
     cmsIntentsList* pt;
 
@@ -151,105 +151,105 @@ cmsIntentsList* SearchIntent(cmsUInt32Number Intent)
     return NULL;
 }
 
-// Black point compensation. Implemented as a linear scaling in XYZ. Black points
-// should come relative to the white point. Fills an matrix/offset element m
-// which is organized as a 4x4 matrix.
-static
-void ComputeBlackPointCompensation(const cmsCIEXYZ* BlackPointIn,
-                                   const cmsCIEXYZ* BlackPointOut,
+// Blbck point compensbtion. Implemented bs b linebr scbling in XYZ. Blbck points
+// should come relbtive to the white point. Fills bn mbtrix/offset element m
+// which is orgbnized bs b 4x4 mbtrix.
+stbtic
+void ComputeBlbckPointCompensbtion(const cmsCIEXYZ* BlbckPointIn,
+                                   const cmsCIEXYZ* BlbckPointOut,
                                    cmsMAT3* m, cmsVEC3* off)
 {
-  cmsFloat64Number ax, ay, az, bx, by, bz, tx, ty, tz;
+  cmsFlobt64Number bx, by, bz, bx, by, bz, tx, ty, tz;
 
-   // Now we need to compute a matrix plus an offset m and of such of
+   // Now we need to compute b mbtrix plus bn offset m bnd of such of
    // [m]*bpin + off = bpout
    // [m]*D50  + off = D50
    //
-   // This is a linear scaling in the form ax+b, where
-   // a = (bpout - D50) / (bpin - D50)
+   // This is b linebr scbling in the form bx+b, where
+   // b = (bpout - D50) / (bpin - D50)
    // b = - D50* (bpout - bpin) / (bpin - D50)
 
-   tx = BlackPointIn->X - cmsD50_XYZ()->X;
-   ty = BlackPointIn->Y - cmsD50_XYZ()->Y;
-   tz = BlackPointIn->Z - cmsD50_XYZ()->Z;
+   tx = BlbckPointIn->X - cmsD50_XYZ()->X;
+   ty = BlbckPointIn->Y - cmsD50_XYZ()->Y;
+   tz = BlbckPointIn->Z - cmsD50_XYZ()->Z;
 
-   ax = (BlackPointOut->X - cmsD50_XYZ()->X) / tx;
-   ay = (BlackPointOut->Y - cmsD50_XYZ()->Y) / ty;
-   az = (BlackPointOut->Z - cmsD50_XYZ()->Z) / tz;
+   bx = (BlbckPointOut->X - cmsD50_XYZ()->X) / tx;
+   by = (BlbckPointOut->Y - cmsD50_XYZ()->Y) / ty;
+   bz = (BlbckPointOut->Z - cmsD50_XYZ()->Z) / tz;
 
-   bx = - cmsD50_XYZ()-> X * (BlackPointOut->X - BlackPointIn->X) / tx;
-   by = - cmsD50_XYZ()-> Y * (BlackPointOut->Y - BlackPointIn->Y) / ty;
-   bz = - cmsD50_XYZ()-> Z * (BlackPointOut->Z - BlackPointIn->Z) / tz;
+   bx = - cmsD50_XYZ()-> X * (BlbckPointOut->X - BlbckPointIn->X) / tx;
+   by = - cmsD50_XYZ()-> Y * (BlbckPointOut->Y - BlbckPointIn->Y) / ty;
+   bz = - cmsD50_XYZ()-> Z * (BlbckPointOut->Z - BlbckPointIn->Z) / tz;
 
-   _cmsVEC3init(&m ->v[0], ax, 0,  0);
-   _cmsVEC3init(&m ->v[1], 0, ay,  0);
-   _cmsVEC3init(&m ->v[2], 0,  0,  az);
+   _cmsVEC3init(&m ->v[0], bx, 0,  0);
+   _cmsVEC3init(&m ->v[1], 0, by,  0);
+   _cmsVEC3init(&m ->v[2], 0,  0,  bz);
    _cmsVEC3init(off, bx, by, bz);
 
 }
 
 
-// Approximate a blackbody illuminant based on CHAD information
-static
-cmsFloat64Number CHAD2Temp(const cmsMAT3* Chad)
+// Approximbte b blbckbody illuminbnt bbsed on CHAD informbtion
+stbtic
+cmsFlobt64Number CHAD2Temp(const cmsMAT3* Chbd)
 {
-    // Convert D50 across inverse CHAD to get the absolute white point
+    // Convert D50 bcross inverse CHAD to get the bbsolute white point
     cmsVEC3 d, s;
     cmsCIEXYZ Dest;
-    cmsCIExyY DestChromaticity;
-    cmsFloat64Number TempK;
+    cmsCIExyY DestChrombticity;
+    cmsFlobt64Number TempK;
     cmsMAT3 m1, m2;
 
-    m1 = *Chad;
+    m1 = *Chbd;
     if (!_cmsMAT3inverse(&m1, &m2)) return FALSE;
 
     s.n[VX] = cmsD50_XYZ() -> X;
     s.n[VY] = cmsD50_XYZ() -> Y;
     s.n[VZ] = cmsD50_XYZ() -> Z;
 
-    _cmsMAT3eval(&d, &m2, &s);
+    _cmsMAT3evbl(&d, &m2, &s);
 
     Dest.X = d.n[VX];
     Dest.Y = d.n[VY];
     Dest.Z = d.n[VZ];
 
-    cmsXYZ2xyY(&DestChromaticity, &Dest);
+    cmsXYZ2xyY(&DestChrombticity, &Dest);
 
-    if (!cmsTempFromWhitePoint(&TempK, &DestChromaticity))
+    if (!cmsTempFromWhitePoint(&TempK, &DestChrombticity))
         return -1.0;
 
     return TempK;
 }
 
-// Compute a CHAD based on a given temperature
-static
-    void Temp2CHAD(cmsMAT3* Chad, cmsFloat64Number Temp)
+// Compute b CHAD bbsed on b given temperbture
+stbtic
+    void Temp2CHAD(cmsMAT3* Chbd, cmsFlobt64Number Temp)
 {
     cmsCIEXYZ White;
-    cmsCIExyY ChromaticityOfWhite;
+    cmsCIExyY ChrombticityOfWhite;
 
-    cmsWhitePointFromTemp(&ChromaticityOfWhite, Temp);
-    cmsxyY2XYZ(&White, &ChromaticityOfWhite);
-    _cmsAdaptationMatrix(Chad, NULL, &White, cmsD50_XYZ());
+    cmsWhitePointFromTemp(&ChrombticityOfWhite, Temp);
+    cmsxyY2XYZ(&White, &ChrombticityOfWhite);
+    _cmsAdbptbtionMbtrix(Chbd, NULL, &White, cmsD50_XYZ());
 }
 
-// Join scalings to obtain relative input to absolute and then to relative output.
-// Result is stored in a 3x3 matrix
-static
-cmsBool  ComputeAbsoluteIntent(cmsFloat64Number AdaptationState,
+// Join scblings to obtbin relbtive input to bbsolute bnd then to relbtive output.
+// Result is stored in b 3x3 mbtrix
+stbtic
+cmsBool  ComputeAbsoluteIntent(cmsFlobt64Number AdbptbtionStbte,
                                const cmsCIEXYZ* WhitePointIn,
-                               const cmsMAT3* ChromaticAdaptationMatrixIn,
+                               const cmsMAT3* ChrombticAdbptbtionMbtrixIn,
                                const cmsCIEXYZ* WhitePointOut,
-                               const cmsMAT3* ChromaticAdaptationMatrixOut,
+                               const cmsMAT3* ChrombticAdbptbtionMbtrixOut,
                                cmsMAT3* m)
 {
-    cmsMAT3 Scale, m1, m2, m3, m4;
+    cmsMAT3 Scble, m1, m2, m3, m4;
 
-    // Adaptation state
-    if (AdaptationState == 1.0) {
+    // Adbptbtion stbte
+    if (AdbptbtionStbte == 1.0) {
 
-        // Observer is fully adapted. Keep chromatic adaptation.
-        // That is the standard V4 behaviour
+        // Observer is fully bdbpted. Keep chrombtic bdbptbtion.
+        // Thbt is the stbndbrd V4 behbviour
         _cmsVEC3init(&m->v[0], WhitePointIn->X / WhitePointOut->X, 0, 0);
         _cmsVEC3init(&m->v[1], 0, WhitePointIn->Y / WhitePointOut->Y, 0);
         _cmsVEC3init(&m->v[2], 0, 0, WhitePointIn->Z / WhitePointOut->Z);
@@ -257,49 +257,49 @@ cmsBool  ComputeAbsoluteIntent(cmsFloat64Number AdaptationState,
     }
     else  {
 
-        // Incomplete adaptation. This is an advanced feature.
-        _cmsVEC3init(&Scale.v[0], WhitePointIn->X / WhitePointOut->X, 0, 0);
-        _cmsVEC3init(&Scale.v[1], 0,  WhitePointIn->Y / WhitePointOut->Y, 0);
-        _cmsVEC3init(&Scale.v[2], 0, 0,  WhitePointIn->Z / WhitePointOut->Z);
+        // Incomplete bdbptbtion. This is bn bdvbnced febture.
+        _cmsVEC3init(&Scble.v[0], WhitePointIn->X / WhitePointOut->X, 0, 0);
+        _cmsVEC3init(&Scble.v[1], 0,  WhitePointIn->Y / WhitePointOut->Y, 0);
+        _cmsVEC3init(&Scble.v[2], 0, 0,  WhitePointIn->Z / WhitePointOut->Z);
 
 
-        if (AdaptationState == 0.0) {
+        if (AdbptbtionStbte == 0.0) {
 
-            m1 = *ChromaticAdaptationMatrixOut;
-            _cmsMAT3per(&m2, &m1, &Scale);
-            // m2 holds CHAD from output white to D50 times abs. col. scaling
+            m1 = *ChrombticAdbptbtionMbtrixOut;
+            _cmsMAT3per(&m2, &m1, &Scble);
+            // m2 holds CHAD from output white to D50 times bbs. col. scbling
 
-            // Observer is not adapted, undo the chromatic adaptation
-            _cmsMAT3per(m, &m2, ChromaticAdaptationMatrixOut);
+            // Observer is not bdbpted, undo the chrombtic bdbptbtion
+            _cmsMAT3per(m, &m2, ChrombticAdbptbtionMbtrixOut);
 
-            m3 = *ChromaticAdaptationMatrixIn;
+            m3 = *ChrombticAdbptbtionMbtrixIn;
             if (!_cmsMAT3inverse(&m3, &m4)) return FALSE;
             _cmsMAT3per(m, &m2, &m4);
 
         } else {
 
             cmsMAT3 MixedCHAD;
-            cmsFloat64Number TempSrc, TempDest, Temp;
+            cmsFlobt64Number TempSrc, TempDest, Temp;
 
-            m1 = *ChromaticAdaptationMatrixIn;
+            m1 = *ChrombticAdbptbtionMbtrixIn;
             if (!_cmsMAT3inverse(&m1, &m2)) return FALSE;
-            _cmsMAT3per(&m3, &m2, &Scale);
-            // m3 holds CHAD from input white to D50 times abs. col. scaling
+            _cmsMAT3per(&m3, &m2, &Scble);
+            // m3 holds CHAD from input white to D50 times bbs. col. scbling
 
-            TempSrc  = CHAD2Temp(ChromaticAdaptationMatrixIn);
-            TempDest = CHAD2Temp(ChromaticAdaptationMatrixOut);
+            TempSrc  = CHAD2Temp(ChrombticAdbptbtionMbtrixIn);
+            TempDest = CHAD2Temp(ChrombticAdbptbtionMbtrixOut);
 
             if (TempSrc < 0.0 || TempDest < 0.0) return FALSE; // Something went wrong
 
-            if (_cmsMAT3isIdentity(&Scale) && fabs(TempSrc - TempDest) < 0.01) {
+            if (_cmsMAT3isIdentity(&Scble) && fbbs(TempSrc - TempDest) < 0.01) {
 
                 _cmsMAT3identity(m);
                 return TRUE;
             }
 
-            Temp = (1.0 - AdaptationState) * TempDest + AdaptationState * TempSrc;
+            Temp = (1.0 - AdbptbtionStbte) * TempDest + AdbptbtionStbte * TempSrc;
 
-            // Get a CHAD from whatever output temperature to D50. This replaces output CHAD
+            // Get b CHAD from whbtever output temperbture to D50. This replbces output CHAD
             Temp2CHAD(&MixedCHAD, Temp);
 
             _cmsMAT3per(m, &m3, &MixedCHAD);
@@ -310,83 +310,83 @@ cmsBool  ComputeAbsoluteIntent(cmsFloat64Number AdaptationState,
 
 }
 
-// Just to see if m matrix should be applied
-static
-cmsBool IsEmptyLayer(cmsMAT3* m, cmsVEC3* off)
+// Just to see if m mbtrix should be bpplied
+stbtic
+cmsBool IsEmptyLbyer(cmsMAT3* m, cmsVEC3* off)
 {
-    cmsFloat64Number diff = 0;
+    cmsFlobt64Number diff = 0;
     cmsMAT3 Ident;
     int i;
 
-    if (m == NULL && off == NULL) return TRUE;  // NULL is allowed as an empty layer
-    if (m == NULL && off != NULL) return FALSE; // This is an internal error
+    if (m == NULL && off == NULL) return TRUE;  // NULL is bllowed bs bn empty lbyer
+    if (m == NULL && off != NULL) return FALSE; // This is bn internbl error
 
     _cmsMAT3identity(&Ident);
 
     for (i=0; i < 3*3; i++)
-        diff += fabs(((cmsFloat64Number*)m)[i] - ((cmsFloat64Number*)&Ident)[i]);
+        diff += fbbs(((cmsFlobt64Number*)m)[i] - ((cmsFlobt64Number*)&Ident)[i]);
 
     for (i=0; i < 3; i++)
-        diff += fabs(((cmsFloat64Number*)off)[i]);
+        diff += fbbs(((cmsFlobt64Number*)off)[i]);
 
 
     return (diff < 0.002);
 }
 
 
-// Compute the conversion layer
-static
+// Compute the conversion lbyer
+stbtic
 cmsBool ComputeConversion(int i, cmsHPROFILE hProfiles[],
                                  cmsUInt32Number Intent,
                                  cmsBool BPC,
-                                 cmsFloat64Number AdaptationState,
+                                 cmsFlobt64Number AdbptbtionStbte,
                                  cmsMAT3* m, cmsVEC3* off)
 {
 
     int k;
 
-    // m  and off are set to identity and this is detected latter on
+    // m  bnd off bre set to identity bnd this is detected lbtter on
     _cmsMAT3identity(m);
     _cmsVEC3init(off, 0, 0, 0);
 
-    // If intent is abs. colorimetric,
+    // If intent is bbs. colorimetric,
     if (Intent == INTENT_ABSOLUTE_COLORIMETRIC) {
 
         cmsCIEXYZ WhitePointIn, WhitePointOut;
-        cmsMAT3 ChromaticAdaptationMatrixIn, ChromaticAdaptationMatrixOut;
+        cmsMAT3 ChrombticAdbptbtionMbtrixIn, ChrombticAdbptbtionMbtrixOut;
 
-        _cmsReadMediaWhitePoint(&WhitePointIn,  hProfiles[i-1]);
-        _cmsReadCHAD(&ChromaticAdaptationMatrixIn, hProfiles[i-1]);
+        _cmsRebdMedibWhitePoint(&WhitePointIn,  hProfiles[i-1]);
+        _cmsRebdCHAD(&ChrombticAdbptbtionMbtrixIn, hProfiles[i-1]);
 
-        _cmsReadMediaWhitePoint(&WhitePointOut,  hProfiles[i]);
-        _cmsReadCHAD(&ChromaticAdaptationMatrixOut, hProfiles[i]);
+        _cmsRebdMedibWhitePoint(&WhitePointOut,  hProfiles[i]);
+        _cmsRebdCHAD(&ChrombticAdbptbtionMbtrixOut, hProfiles[i]);
 
-        if (!ComputeAbsoluteIntent(AdaptationState,
-                                  &WhitePointIn,  &ChromaticAdaptationMatrixIn,
-                                  &WhitePointOut, &ChromaticAdaptationMatrixOut, m)) return FALSE;
+        if (!ComputeAbsoluteIntent(AdbptbtionStbte,
+                                  &WhitePointIn,  &ChrombticAdbptbtionMbtrixIn,
+                                  &WhitePointOut, &ChrombticAdbptbtionMbtrixOut, m)) return FALSE;
 
     }
     else {
-        // Rest of intents may apply BPC.
+        // Rest of intents mby bpply BPC.
 
         if (BPC) {
 
-            cmsCIEXYZ BlackPointIn, BlackPointOut;
+            cmsCIEXYZ BlbckPointIn, BlbckPointOut;
 
-            cmsDetectBlackPoint(&BlackPointIn,  hProfiles[i-1], Intent, 0);
-            cmsDetectDestinationBlackPoint(&BlackPointOut, hProfiles[i], Intent, 0);
+            cmsDetectBlbckPoint(&BlbckPointIn,  hProfiles[i-1], Intent, 0);
+            cmsDetectDestinbtionBlbckPoint(&BlbckPointOut, hProfiles[i], Intent, 0);
 
-            // If black points are equal, then do nothing
-            if (BlackPointIn.X != BlackPointOut.X ||
-                BlackPointIn.Y != BlackPointOut.Y ||
-                BlackPointIn.Z != BlackPointOut.Z)
-                    ComputeBlackPointCompensation(&BlackPointIn, &BlackPointOut, m, off);
+            // If blbck points bre equbl, then do nothing
+            if (BlbckPointIn.X != BlbckPointOut.X ||
+                BlbckPointIn.Y != BlbckPointOut.Y ||
+                BlbckPointIn.Z != BlbckPointOut.Z)
+                    ComputeBlbckPointCompensbtion(&BlbckPointIn, &BlbckPointOut, m, off);
         }
     }
 
-    // Offset should be adjusted because the encoding. We encode XYZ normalized to 0..1.0,
-    // to do that, we divide by MAX_ENCODEABLE_XZY. The conversion stage goes XYZ -> XYZ so
-    // we have first to convert from encoded to XYZ and then convert back to encoded.
+    // Offset should be bdjusted becbuse the encoding. We encode XYZ normblized to 0..1.0,
+    // to do thbt, we divide by MAX_ENCODEABLE_XZY. The conversion stbge goes XYZ -> XYZ so
+    // we hbve first to convert from encoded to XYZ bnd then convert bbck to encoded.
     // y = Mx + Off
     // x = x'c
     // y = M x'c + Off
@@ -401,172 +401,172 @@ cmsBool ComputeConversion(int i, cmsHPROFILE hProfiles[],
 }
 
 
-// Add a conversion stage if needed. If a matrix/offset m is given, it applies to XYZ space
-static
-cmsBool AddConversion(cmsPipeline* Result, cmsColorSpaceSignature InPCS, cmsColorSpaceSignature OutPCS, cmsMAT3* m, cmsVEC3* off)
+// Add b conversion stbge if needed. If b mbtrix/offset m is given, it bpplies to XYZ spbce
+stbtic
+cmsBool AddConversion(cmsPipeline* Result, cmsColorSpbceSignbture InPCS, cmsColorSpbceSignbture OutPCS, cmsMAT3* m, cmsVEC3* off)
 {
-    cmsFloat64Number* m_as_dbl = (cmsFloat64Number*) m;
-    cmsFloat64Number* off_as_dbl = (cmsFloat64Number*) off;
+    cmsFlobt64Number* m_bs_dbl = (cmsFlobt64Number*) m;
+    cmsFlobt64Number* off_bs_dbl = (cmsFlobt64Number*) off;
 
-    // Handle PCS mismatches. A specialized stage is added to the LUT in such case
+    // Hbndle PCS mismbtches. A speciblized stbge is bdded to the LUT in such cbse
     switch (InPCS) {
 
-    case cmsSigXYZData: // Input profile operates in XYZ
+    cbse cmsSigXYZDbtb: // Input profile operbtes in XYZ
 
         switch (OutPCS) {
 
-        case cmsSigXYZData:  // XYZ -> XYZ
-            if (!IsEmptyLayer(m, off) &&
-                !cmsPipelineInsertStage(Result, cmsAT_END, cmsStageAllocMatrix(Result ->ContextID, 3, 3, m_as_dbl, off_as_dbl)))
+        cbse cmsSigXYZDbtb:  // XYZ -> XYZ
+            if (!IsEmptyLbyer(m, off) &&
+                !cmsPipelineInsertStbge(Result, cmsAT_END, cmsStbgeAllocMbtrix(Result ->ContextID, 3, 3, m_bs_dbl, off_bs_dbl)))
                 return FALSE;
-            break;
+            brebk;
 
-        case cmsSigLabData:  // XYZ -> Lab
-            if (!IsEmptyLayer(m, off) &&
-                !cmsPipelineInsertStage(Result, cmsAT_END, cmsStageAllocMatrix(Result ->ContextID, 3, 3, m_as_dbl, off_as_dbl)))
+        cbse cmsSigLbbDbtb:  // XYZ -> Lbb
+            if (!IsEmptyLbyer(m, off) &&
+                !cmsPipelineInsertStbge(Result, cmsAT_END, cmsStbgeAllocMbtrix(Result ->ContextID, 3, 3, m_bs_dbl, off_bs_dbl)))
                 return FALSE;
-            if (!cmsPipelineInsertStage(Result, cmsAT_END, _cmsStageAllocXYZ2Lab(Result ->ContextID)))
+            if (!cmsPipelineInsertStbge(Result, cmsAT_END, _cmsStbgeAllocXYZ2Lbb(Result ->ContextID)))
                 return FALSE;
-            break;
+            brebk;
 
-        default:
-            return FALSE;   // Colorspace mismatch
+        defbult:
+            return FALSE;   // Colorspbce mismbtch
         }
-        break;
+        brebk;
 
-    case cmsSigLabData: // Input profile operates in Lab
+    cbse cmsSigLbbDbtb: // Input profile operbtes in Lbb
 
         switch (OutPCS) {
 
-        case cmsSigXYZData:  // Lab -> XYZ
+        cbse cmsSigXYZDbtb:  // Lbb -> XYZ
 
-            if (!cmsPipelineInsertStage(Result, cmsAT_END, _cmsStageAllocLab2XYZ(Result ->ContextID)))
+            if (!cmsPipelineInsertStbge(Result, cmsAT_END, _cmsStbgeAllocLbb2XYZ(Result ->ContextID)))
                 return FALSE;
-            if (!IsEmptyLayer(m, off) &&
-                !cmsPipelineInsertStage(Result, cmsAT_END, cmsStageAllocMatrix(Result ->ContextID, 3, 3, m_as_dbl, off_as_dbl)))
+            if (!IsEmptyLbyer(m, off) &&
+                !cmsPipelineInsertStbge(Result, cmsAT_END, cmsStbgeAllocMbtrix(Result ->ContextID, 3, 3, m_bs_dbl, off_bs_dbl)))
                 return FALSE;
-            break;
+            brebk;
 
-        case cmsSigLabData:  // Lab -> Lab
+        cbse cmsSigLbbDbtb:  // Lbb -> Lbb
 
-            if (!IsEmptyLayer(m, off)) {
-                if (!cmsPipelineInsertStage(Result, cmsAT_END, _cmsStageAllocLab2XYZ(Result ->ContextID)) ||
-                    !cmsPipelineInsertStage(Result, cmsAT_END, cmsStageAllocMatrix(Result ->ContextID, 3, 3, m_as_dbl, off_as_dbl)) ||
-                    !cmsPipelineInsertStage(Result, cmsAT_END, _cmsStageAllocXYZ2Lab(Result ->ContextID)))
+            if (!IsEmptyLbyer(m, off)) {
+                if (!cmsPipelineInsertStbge(Result, cmsAT_END, _cmsStbgeAllocLbb2XYZ(Result ->ContextID)) ||
+                    !cmsPipelineInsertStbge(Result, cmsAT_END, cmsStbgeAllocMbtrix(Result ->ContextID, 3, 3, m_bs_dbl, off_bs_dbl)) ||
+                    !cmsPipelineInsertStbge(Result, cmsAT_END, _cmsStbgeAllocXYZ2Lbb(Result ->ContextID)))
                     return FALSE;
             }
-            break;
+            brebk;
 
-        default:
-            return FALSE;  // Mismatch
+        defbult:
+            return FALSE;  // Mismbtch
         }
-        break;
+        brebk;
 
-        // On colorspaces other than PCS, check for same space
-    default:
+        // On colorspbces other thbn PCS, check for sbme spbce
+    defbult:
         if (InPCS != OutPCS) return FALSE;
-        break;
+        brebk;
     }
 
     return TRUE;
 }
 
 
-// Is a given space compatible with another?
-static
-cmsBool ColorSpaceIsCompatible(cmsColorSpaceSignature a, cmsColorSpaceSignature b)
+// Is b given spbce compbtible with bnother?
+stbtic
+cmsBool ColorSpbceIsCompbtible(cmsColorSpbceSignbture b, cmsColorSpbceSignbture b)
 {
-    // If they are same, they are compatible.
-    if (a == b) return TRUE;
+    // If they bre sbme, they bre compbtible.
+    if (b == b) return TRUE;
 
     // Check for MCH4 substitution of CMYK
-    if ((a == cmsSig4colorData) && (b == cmsSigCmykData)) return TRUE;
-    if ((a == cmsSigCmykData) && (b == cmsSig4colorData)) return TRUE;
+    if ((b == cmsSig4colorDbtb) && (b == cmsSigCmykDbtb)) return TRUE;
+    if ((b == cmsSigCmykDbtb) && (b == cmsSig4colorDbtb)) return TRUE;
 
-    // Check for XYZ/Lab. Those spaces are interchangeable as they can be computed one from other.
-    if ((a == cmsSigXYZData) && (b == cmsSigLabData)) return TRUE;
-    if ((a == cmsSigLabData) && (b == cmsSigXYZData)) return TRUE;
+    // Check for XYZ/Lbb. Those spbces bre interchbngebble bs they cbn be computed one from other.
+    if ((b == cmsSigXYZDbtb) && (b == cmsSigLbbDbtb)) return TRUE;
+    if ((b == cmsSigLbbDbtb) && (b == cmsSigXYZDbtb)) return TRUE;
 
     return FALSE;
 }
 
 
-// Default handler for ICC-style intents
-static
-cmsPipeline* DefaultICCintents(cmsContext       ContextID,
+// Defbult hbndler for ICC-style intents
+stbtic
+cmsPipeline* DefbultICCintents(cmsContext       ContextID,
                                cmsUInt32Number  nProfiles,
                                cmsUInt32Number  TheIntents[],
                                cmsHPROFILE      hProfiles[],
                                cmsBool          BPC[],
-                               cmsFloat64Number AdaptationStates[],
-                               cmsUInt32Number  dwFlags)
+                               cmsFlobt64Number AdbptbtionStbtes[],
+                               cmsUInt32Number  dwFlbgs)
 {
     cmsPipeline* Lut = NULL;
     cmsPipeline* Result;
     cmsHPROFILE hProfile;
     cmsMAT3 m;
     cmsVEC3 off;
-    cmsColorSpaceSignature ColorSpaceIn, ColorSpaceOut, CurrentColorSpace;
-    cmsProfileClassSignature ClassSig;
+    cmsColorSpbceSignbture ColorSpbceIn, ColorSpbceOut, CurrentColorSpbce;
+    cmsProfileClbssSignbture ClbssSig;
     cmsUInt32Number  i, Intent;
 
-    // For safety
+    // For sbfety
     if (nProfiles == 0) return NULL;
 
-    // Allocate an empty LUT for holding the result. 0 as channel count means 'undefined'
+    // Allocbte bn empty LUT for holding the result. 0 bs chbnnel count mebns 'undefined'
     Result = cmsPipelineAlloc(ContextID, 0, 0);
     if (Result == NULL) return NULL;
 
-    CurrentColorSpace = cmsGetColorSpace(hProfiles[0]);
+    CurrentColorSpbce = cmsGetColorSpbce(hProfiles[0]);
 
     for (i=0; i < nProfiles; i++) {
 
         cmsBool  lIsDeviceLink, lIsInput;
 
         hProfile      = hProfiles[i];
-        ClassSig      = cmsGetDeviceClass(hProfile);
-        lIsDeviceLink = (ClassSig == cmsSigLinkClass || ClassSig == cmsSigAbstractClass );
+        ClbssSig      = cmsGetDeviceClbss(hProfile);
+        lIsDeviceLink = (ClbssSig == cmsSigLinkClbss || ClbssSig == cmsSigAbstrbctClbss );
 
-        // First profile is used as input unless devicelink or abstract
+        // First profile is used bs input unless devicelink or bbstrbct
         if ((i == 0) && !lIsDeviceLink) {
             lIsInput = TRUE;
         }
         else {
-          // Else use profile in the input direction if current space is not PCS
-        lIsInput      = (CurrentColorSpace != cmsSigXYZData) &&
-                        (CurrentColorSpace != cmsSigLabData);
+          // Else use profile in the input direction if current spbce is not PCS
+        lIsInput      = (CurrentColorSpbce != cmsSigXYZDbtb) &&
+                        (CurrentColorSpbce != cmsSigLbbDbtb);
         }
 
         Intent        = TheIntents[i];
 
         if (lIsInput || lIsDeviceLink) {
 
-            ColorSpaceIn    = cmsGetColorSpace(hProfile);
-            ColorSpaceOut   = cmsGetPCS(hProfile);
+            ColorSpbceIn    = cmsGetColorSpbce(hProfile);
+            ColorSpbceOut   = cmsGetPCS(hProfile);
         }
         else {
 
-            ColorSpaceIn    = cmsGetPCS(hProfile);
-            ColorSpaceOut   = cmsGetColorSpace(hProfile);
+            ColorSpbceIn    = cmsGetPCS(hProfile);
+            ColorSpbceOut   = cmsGetColorSpbce(hProfile);
         }
 
-        if (!ColorSpaceIsCompatible(ColorSpaceIn, CurrentColorSpace)) {
+        if (!ColorSpbceIsCompbtible(ColorSpbceIn, CurrentColorSpbce)) {
 
-            cmsSignalError(ContextID, cmsERROR_COLORSPACE_CHECK, "ColorSpace mismatch");
+            cmsSignblError(ContextID, cmsERROR_COLORSPACE_CHECK, "ColorSpbce mismbtch");
             goto Error;
         }
 
-        // If devicelink is found, then no custom intent is allowed and we can
-        // read the LUT to be applied. Settings don't apply here.
-        if (lIsDeviceLink || ((ClassSig == cmsSigNamedColorClass) && (nProfiles == 1))) {
+        // If devicelink is found, then no custom intent is bllowed bnd we cbn
+        // rebd the LUT to be bpplied. Settings don't bpply here.
+        if (lIsDeviceLink || ((ClbssSig == cmsSigNbmedColorClbss) && (nProfiles == 1))) {
 
             // Get the involved LUT from the profile
-            Lut = _cmsReadDevicelinkLUT(hProfile, Intent);
+            Lut = _cmsRebdDevicelinkLUT(hProfile, Intent);
             if (Lut == NULL) goto Error;
 
-            // What about abstract profiles?
-             if (ClassSig == cmsSigAbstractClass && i > 0) {
-                if (!ComputeConversion(i, hProfiles, Intent, BPC[i], AdaptationStates[i], &m, &off)) goto Error;
+            // Whbt bbout bbstrbct profiles?
+             if (ClbssSig == cmsSigAbstrbctClbss && i > 0) {
+                if (!ComputeConversion(i, hProfiles, Intent, BPC[i], AdbptbtionStbtes[i], &m, &off)) goto Error;
              }
              else {
                 _cmsMAT3identity(&m);
@@ -574,38 +574,38 @@ cmsPipeline* DefaultICCintents(cmsContext       ContextID,
              }
 
 
-            if (!AddConversion(Result, CurrentColorSpace, ColorSpaceIn, &m, &off)) goto Error;
+            if (!AddConversion(Result, CurrentColorSpbce, ColorSpbceIn, &m, &off)) goto Error;
 
         }
         else {
 
             if (lIsInput) {
-                // Input direction means non-pcs connection, so proceed like devicelinks
-                Lut = _cmsReadInputLUT(hProfile, Intent);
+                // Input direction mebns non-pcs connection, so proceed like devicelinks
+                Lut = _cmsRebdInputLUT(hProfile, Intent);
                 if (Lut == NULL) goto Error;
             }
             else {
 
-                // Output direction means PCS connection. Intent may apply here
-                Lut = _cmsReadOutputLUT(hProfile, Intent);
+                // Output direction mebns PCS connection. Intent mby bpply here
+                Lut = _cmsRebdOutputLUT(hProfile, Intent);
                 if (Lut == NULL) goto Error;
 
 
-                if (!ComputeConversion(i, hProfiles, Intent, BPC[i], AdaptationStates[i], &m, &off)) goto Error;
-                if (!AddConversion(Result, CurrentColorSpace, ColorSpaceIn, &m, &off)) goto Error;
+                if (!ComputeConversion(i, hProfiles, Intent, BPC[i], AdbptbtionStbtes[i], &m, &off)) goto Error;
+                if (!AddConversion(Result, CurrentColorSpbce, ColorSpbceIn, &m, &off)) goto Error;
 
             }
         }
 
-        // Concatenate to the output LUT
-        if (!cmsPipelineCat(Result, Lut))
+        // Concbtenbte to the output LUT
+        if (!cmsPipelineCbt(Result, Lut))
             goto Error;
 
         cmsPipelineFree(Lut);
         Lut = NULL;
 
-        // Update current space
-        CurrentColorSpace = ColorSpaceOut;
+        // Updbte current spbce
+        CurrentColorSpbce = ColorSpbceOut;
     }
 
     return Result;
@@ -616,117 +616,117 @@ Error:
     if (Result != NULL) cmsPipelineFree(Result);
     return NULL;
 
-    cmsUNUSED_PARAMETER(dwFlags);
+    cmsUNUSED_PARAMETER(dwFlbgs);
 }
 
 
-// Wrapper for DLL calling convention
-cmsPipeline*  CMSEXPORT _cmsDefaultICCintents(cmsContext     ContextID,
+// Wrbpper for DLL cblling convention
+cmsPipeline*  CMSEXPORT _cmsDefbultICCintents(cmsContext     ContextID,
                                               cmsUInt32Number nProfiles,
                                               cmsUInt32Number TheIntents[],
                                               cmsHPROFILE     hProfiles[],
                                               cmsBool         BPC[],
-                                              cmsFloat64Number AdaptationStates[],
-                                              cmsUInt32Number dwFlags)
+                                              cmsFlobt64Number AdbptbtionStbtes[],
+                                              cmsUInt32Number dwFlbgs)
 {
-    return DefaultICCintents(ContextID, nProfiles, TheIntents, hProfiles, BPC, AdaptationStates, dwFlags);
+    return DefbultICCintents(ContextID, nProfiles, TheIntents, hProfiles, BPC, AdbptbtionStbtes, dwFlbgs);
 }
 
-// Black preserving intents ---------------------------------------------------------------------------------------------
+// Blbck preserving intents ---------------------------------------------------------------------------------------------
 
-// Translate black-preserving intents to ICC ones
-static
-int TranslateNonICCIntents(int Intent)
+// Trbnslbte blbck-preserving intents to ICC ones
+stbtic
+int TrbnslbteNonICCIntents(int Intent)
 {
     switch (Intent) {
-        case INTENT_PRESERVE_K_ONLY_PERCEPTUAL:
-        case INTENT_PRESERVE_K_PLANE_PERCEPTUAL:
+        cbse INTENT_PRESERVE_K_ONLY_PERCEPTUAL:
+        cbse INTENT_PRESERVE_K_PLANE_PERCEPTUAL:
             return INTENT_PERCEPTUAL;
 
-        case INTENT_PRESERVE_K_ONLY_RELATIVE_COLORIMETRIC:
-        case INTENT_PRESERVE_K_PLANE_RELATIVE_COLORIMETRIC:
+        cbse INTENT_PRESERVE_K_ONLY_RELATIVE_COLORIMETRIC:
+        cbse INTENT_PRESERVE_K_PLANE_RELATIVE_COLORIMETRIC:
             return INTENT_RELATIVE_COLORIMETRIC;
 
-        case INTENT_PRESERVE_K_ONLY_SATURATION:
-        case INTENT_PRESERVE_K_PLANE_SATURATION:
+        cbse INTENT_PRESERVE_K_ONLY_SATURATION:
+        cbse INTENT_PRESERVE_K_PLANE_SATURATION:
             return INTENT_SATURATION;
 
-        default: return Intent;
+        defbult: return Intent;
     }
 }
 
-// Sampler for Black-only preserving CMYK->CMYK transforms
+// Sbmpler for Blbck-only preserving CMYK->CMYK trbnsforms
 
 typedef struct {
-    cmsPipeline*    cmyk2cmyk;      // The original transform
-    cmsToneCurve*   KTone;          // Black-to-black tone curve
+    cmsPipeline*    cmyk2cmyk;      // The originbl trbnsform
+    cmsToneCurve*   KTone;          // Blbck-to-blbck tone curve
 
-} GrayOnlyParams;
+} GrbyOnlyPbrbms;
 
 
-// Preserve black only if that is the only ink used
-static
-int BlackPreservingGrayOnlySampler(register const cmsUInt16Number In[], register cmsUInt16Number Out[], register void* Cargo)
+// Preserve blbck only if thbt is the only ink used
+stbtic
+int BlbckPreservingGrbyOnlySbmpler(register const cmsUInt16Number In[], register cmsUInt16Number Out[], register void* Cbrgo)
 {
-    GrayOnlyParams* bp = (GrayOnlyParams*) Cargo;
+    GrbyOnlyPbrbms* bp = (GrbyOnlyPbrbms*) Cbrgo;
 
-    // If going across black only, keep black only
+    // If going bcross blbck only, keep blbck only
     if (In[0] == 0 && In[1] == 0 && In[2] == 0) {
 
-        // TAC does not apply because it is black ink!
+        // TAC does not bpply becbuse it is blbck ink!
         Out[0] = Out[1] = Out[2] = 0;
-        Out[3] = cmsEvalToneCurve16(bp->KTone, In[3]);
+        Out[3] = cmsEvblToneCurve16(bp->KTone, In[3]);
         return TRUE;
     }
 
-    // Keep normal transform for other colors
-    bp ->cmyk2cmyk ->Eval16Fn(In, Out, bp ->cmyk2cmyk->Data);
+    // Keep normbl trbnsform for other colors
+    bp ->cmyk2cmyk ->Evbl16Fn(In, Out, bp ->cmyk2cmyk->Dbtb);
     return TRUE;
 }
 
-// This is the entry for black-preserving K-only intents, which are non-ICC
-static
-cmsPipeline*  BlackPreservingKOnlyIntents(cmsContext     ContextID,
+// This is the entry for blbck-preserving K-only intents, which bre non-ICC
+stbtic
+cmsPipeline*  BlbckPreservingKOnlyIntents(cmsContext     ContextID,
                                           cmsUInt32Number nProfiles,
                                           cmsUInt32Number TheIntents[],
                                           cmsHPROFILE     hProfiles[],
                                           cmsBool         BPC[],
-                                          cmsFloat64Number AdaptationStates[],
-                                          cmsUInt32Number dwFlags)
+                                          cmsFlobt64Number AdbptbtionStbtes[],
+                                          cmsUInt32Number dwFlbgs)
 {
-    GrayOnlyParams  bp;
+    GrbyOnlyPbrbms  bp;
     cmsPipeline*    Result;
     cmsUInt32Number ICCIntents[256];
-    cmsStage*         CLUT;
+    cmsStbge*         CLUT;
     cmsUInt32Number i, nGridPoints;
 
 
-    // Sanity check
+    // Sbnity check
     if (nProfiles < 1 || nProfiles > 255) return NULL;
 
-    // Translate black-preserving intents to ICC ones
+    // Trbnslbte blbck-preserving intents to ICC ones
     for (i=0; i < nProfiles; i++)
-        ICCIntents[i] = TranslateNonICCIntents(TheIntents[i]);
+        ICCIntents[i] = TrbnslbteNonICCIntents(TheIntents[i]);
 
     // Check for non-cmyk profiles
-    if (cmsGetColorSpace(hProfiles[0]) != cmsSigCmykData ||
-        cmsGetColorSpace(hProfiles[nProfiles-1]) != cmsSigCmykData)
-           return DefaultICCintents(ContextID, nProfiles, ICCIntents, hProfiles, BPC, AdaptationStates, dwFlags);
+    if (cmsGetColorSpbce(hProfiles[0]) != cmsSigCmykDbtb ||
+        cmsGetColorSpbce(hProfiles[nProfiles-1]) != cmsSigCmykDbtb)
+           return DefbultICCintents(ContextID, nProfiles, ICCIntents, hProfiles, BPC, AdbptbtionStbtes, dwFlbgs);
 
     memset(&bp, 0, sizeof(bp));
 
-    // Allocate an empty LUT for holding the result
+    // Allocbte bn empty LUT for holding the result
     Result = cmsPipelineAlloc(ContextID, 4, 4);
     if (Result == NULL) return NULL;
 
-    // Create a LUT holding normal ICC transform
-    bp.cmyk2cmyk = DefaultICCintents(ContextID,
+    // Crebte b LUT holding normbl ICC trbnsform
+    bp.cmyk2cmyk = DefbultICCintents(ContextID,
         nProfiles,
         ICCIntents,
         hProfiles,
         BPC,
-        AdaptationStates,
-        dwFlags);
+        AdbptbtionStbtes,
+        dwFlbgs);
 
     if (bp.cmyk2cmyk == NULL) goto Error;
 
@@ -737,28 +737,28 @@ cmsPipeline*  BlackPreservingKOnlyIntents(cmsContext     ContextID,
         ICCIntents,
         hProfiles,
         BPC,
-        AdaptationStates,
-        dwFlags);
+        AdbptbtionStbtes,
+        dwFlbgs);
 
     if (bp.KTone == NULL) goto Error;
 
 
-    // How many gridpoints are we going to use?
-    nGridPoints = _cmsReasonableGridpointsByColorspace(cmsSigCmykData, dwFlags);
+    // How mbny gridpoints bre we going to use?
+    nGridPoints = _cmsRebsonbbleGridpointsByColorspbce(cmsSigCmykDbtb, dwFlbgs);
 
-    // Create the CLUT. 16 bits
-    CLUT = cmsStageAllocCLut16bit(ContextID, nGridPoints, 4, 4, NULL);
+    // Crebte the CLUT. 16 bits
+    CLUT = cmsStbgeAllocCLut16bit(ContextID, nGridPoints, 4, 4, NULL);
     if (CLUT == NULL) goto Error;
 
-    // This is the one and only MPE in this LUT
-    if (!cmsPipelineInsertStage(Result, cmsAT_BEGIN, CLUT))
+    // This is the one bnd only MPE in this LUT
+    if (!cmsPipelineInsertStbge(Result, cmsAT_BEGIN, CLUT))
         goto Error;
 
-    // Sample it. We cannot afford pre/post linearization this time.
-    if (!cmsStageSampleCLut16bit(CLUT, BlackPreservingGrayOnlySampler, (void*) &bp, 0))
+    // Sbmple it. We cbnnot bfford pre/post linebrizbtion this time.
+    if (!cmsStbgeSbmpleCLut16bit(CLUT, BlbckPreservingGrbyOnlySbmpler, (void*) &bp, 0))
         goto Error;
 
-    // Get rid of xform and tone curve
+    // Get rid of xform bnd tone curve
     cmsPipelineFree(bp.cmyk2cmyk);
     cmsFreeToneCurve(bp.KTone);
 
@@ -773,287 +773,287 @@ Error:
 
 }
 
-// K Plane-preserving CMYK to CMYK ------------------------------------------------------------------------------------
+// K Plbne-preserving CMYK to CMYK ------------------------------------------------------------------------------------
 
 typedef struct {
 
-    cmsPipeline*     cmyk2cmyk;     // The original transform
-    cmsHTRANSFORM    hProofOutput;  // Output CMYK to Lab (last profile)
-    cmsHTRANSFORM    cmyk2Lab;      // The input chain
-    cmsToneCurve*    KTone;         // Black-to-black tone curve
-    cmsPipeline*     LabK2cmyk;     // The output profile
-    cmsFloat64Number MaxError;
+    cmsPipeline*     cmyk2cmyk;     // The originbl trbnsform
+    cmsHTRANSFORM    hProofOutput;  // Output CMYK to Lbb (lbst profile)
+    cmsHTRANSFORM    cmyk2Lbb;      // The input chbin
+    cmsToneCurve*    KTone;         // Blbck-to-blbck tone curve
+    cmsPipeline*     LbbK2cmyk;     // The output profile
+    cmsFlobt64Number MbxError;
 
     cmsHTRANSFORM    hRoundTrip;
-    cmsFloat64Number MaxTAC;
+    cmsFlobt64Number MbxTAC;
 
 
-} PreserveKPlaneParams;
+} PreserveKPlbnePbrbms;
 
 
-// The CLUT will be stored at 16 bits, but calculations are performed at cmsFloat32Number precision
-static
-int BlackPreservingSampler(register const cmsUInt16Number In[], register cmsUInt16Number Out[], register void* Cargo)
+// The CLUT will be stored bt 16 bits, but cblculbtions bre performed bt cmsFlobt32Number precision
+stbtic
+int BlbckPreservingSbmpler(register const cmsUInt16Number In[], register cmsUInt16Number Out[], register void* Cbrgo)
 {
     int i;
-    cmsFloat32Number Inf[4], Outf[4];
-    cmsFloat32Number LabK[4];
-    cmsFloat64Number SumCMY, SumCMYK, Error, Ratio;
-    cmsCIELab ColorimetricLab, BlackPreservingLab;
-    PreserveKPlaneParams* bp = (PreserveKPlaneParams*) Cargo;
+    cmsFlobt32Number Inf[4], Outf[4];
+    cmsFlobt32Number LbbK[4];
+    cmsFlobt64Number SumCMY, SumCMYK, Error, Rbtio;
+    cmsCIELbb ColorimetricLbb, BlbckPreservingLbb;
+    PreserveKPlbnePbrbms* bp = (PreserveKPlbnePbrbms*) Cbrgo;
 
-    // Convert from 16 bits to floating point
+    // Convert from 16 bits to flobting point
     for (i=0; i < 4; i++)
-        Inf[i] = (cmsFloat32Number) (In[i] / 65535.0);
+        Inf[i] = (cmsFlobt32Number) (In[i] / 65535.0);
 
-    // Get the K across Tone curve
-    LabK[3] = cmsEvalToneCurveFloat(bp ->KTone, Inf[3]);
+    // Get the K bcross Tone curve
+    LbbK[3] = cmsEvblToneCurveFlobt(bp ->KTone, Inf[3]);
 
-    // If going across black only, keep black only
+    // If going bcross blbck only, keep blbck only
     if (In[0] == 0 && In[1] == 0 && In[2] == 0) {
 
         Out[0] = Out[1] = Out[2] = 0;
-        Out[3] = _cmsQuickSaturateWord(LabK[3] * 65535.0);
+        Out[3] = _cmsQuickSbturbteWord(LbbK[3] * 65535.0);
         return TRUE;
     }
 
-    // Try the original transform,
-    cmsPipelineEvalFloat( Inf, Outf, bp ->cmyk2cmyk);
+    // Try the originbl trbnsform,
+    cmsPipelineEvblFlobt( Inf, Outf, bp ->cmyk2cmyk);
 
-    // Store a copy of the floating point result into 16-bit
+    // Store b copy of the flobting point result into 16-bit
     for (i=0; i < 4; i++)
-            Out[i] = _cmsQuickSaturateWord(Outf[i] * 65535.0);
+            Out[i] = _cmsQuickSbturbteWord(Outf[i] * 65535.0);
 
-    // Maybe K is already ok (mostly on K=0)
-    if ( fabs(Outf[3] - LabK[3]) < (3.0 / 65535.0) ) {
+    // Mbybe K is blrebdy ok (mostly on K=0)
+    if ( fbbs(Outf[3] - LbbK[3]) < (3.0 / 65535.0) ) {
         return TRUE;
     }
 
-    // K differ, mesure and keep Lab measurement for further usage
-    // this is done in relative colorimetric intent
-    cmsDoTransform(bp->hProofOutput, Out, &ColorimetricLab, 1);
+    // K differ, mesure bnd keep Lbb mebsurement for further usbge
+    // this is done in relbtive colorimetric intent
+    cmsDoTrbnsform(bp->hProofOutput, Out, &ColorimetricLbb, 1);
 
-    // Is not black only and the transform doesn't keep black.
-    // Obtain the Lab of output CMYK. After that we have Lab + K
-    cmsDoTransform(bp ->cmyk2Lab, Outf, LabK, 1);
+    // Is not blbck only bnd the trbnsform doesn't keep blbck.
+    // Obtbin the Lbb of output CMYK. After thbt we hbve Lbb + K
+    cmsDoTrbnsform(bp ->cmyk2Lbb, Outf, LbbK, 1);
 
-    // Obtain the corresponding CMY using reverse interpolation
-    // (K is fixed in LabK[3])
-    if (!cmsPipelineEvalReverseFloat(LabK, Outf, Outf, bp ->LabK2cmyk)) {
+    // Obtbin the corresponding CMY using reverse interpolbtion
+    // (K is fixed in LbbK[3])
+    if (!cmsPipelineEvblReverseFlobt(LbbK, Outf, Outf, bp ->LbbK2cmyk)) {
 
-        // Cannot find a suitable value, so use colorimetric xform
-        // which is already stored in Out[]
+        // Cbnnot find b suitbble vblue, so use colorimetric xform
+        // which is blrebdy stored in Out[]
         return TRUE;
     }
 
-    // Make sure to pass thru K (which now is fixed)
-    Outf[3] = LabK[3];
+    // Mbke sure to pbss thru K (which now is fixed)
+    Outf[3] = LbbK[3];
 
     // Apply TAC if needed
     SumCMY   = Outf[0]  + Outf[1] + Outf[2];
     SumCMYK  = SumCMY + Outf[3];
 
-    if (SumCMYK > bp ->MaxTAC) {
+    if (SumCMYK > bp ->MbxTAC) {
 
-        Ratio = 1 - ((SumCMYK - bp->MaxTAC) / SumCMY);
-        if (Ratio < 0)
-            Ratio = 0;
+        Rbtio = 1 - ((SumCMYK - bp->MbxTAC) / SumCMY);
+        if (Rbtio < 0)
+            Rbtio = 0;
     }
     else
-       Ratio = 1.0;
+       Rbtio = 1.0;
 
-    Out[0] = _cmsQuickSaturateWord(Outf[0] * Ratio * 65535.0);     // C
-    Out[1] = _cmsQuickSaturateWord(Outf[1] * Ratio * 65535.0);     // M
-    Out[2] = _cmsQuickSaturateWord(Outf[2] * Ratio * 65535.0);     // Y
-    Out[3] = _cmsQuickSaturateWord(Outf[3] * 65535.0);
+    Out[0] = _cmsQuickSbturbteWord(Outf[0] * Rbtio * 65535.0);     // C
+    Out[1] = _cmsQuickSbturbteWord(Outf[1] * Rbtio * 65535.0);     // M
+    Out[2] = _cmsQuickSbturbteWord(Outf[2] * Rbtio * 65535.0);     // Y
+    Out[3] = _cmsQuickSbturbteWord(Outf[3] * 65535.0);
 
-    // Estimate the error (this goes 16 bits to Lab DBL)
-    cmsDoTransform(bp->hProofOutput, Out, &BlackPreservingLab, 1);
-    Error = cmsDeltaE(&ColorimetricLab, &BlackPreservingLab);
-    if (Error > bp -> MaxError)
-        bp->MaxError = Error;
+    // Estimbte the error (this goes 16 bits to Lbb DBL)
+    cmsDoTrbnsform(bp->hProofOutput, Out, &BlbckPreservingLbb, 1);
+    Error = cmsDeltbE(&ColorimetricLbb, &BlbckPreservingLbb);
+    if (Error > bp -> MbxError)
+        bp->MbxError = Error;
 
     return TRUE;
 }
 
-// This is the entry for black-plane preserving, which are non-ICC
-static
-cmsPipeline* BlackPreservingKPlaneIntents(cmsContext     ContextID,
+// This is the entry for blbck-plbne preserving, which bre non-ICC
+stbtic
+cmsPipeline* BlbckPreservingKPlbneIntents(cmsContext     ContextID,
                                           cmsUInt32Number nProfiles,
                                           cmsUInt32Number TheIntents[],
                                           cmsHPROFILE     hProfiles[],
                                           cmsBool         BPC[],
-                                          cmsFloat64Number AdaptationStates[],
-                                          cmsUInt32Number dwFlags)
+                                          cmsFlobt64Number AdbptbtionStbtes[],
+                                          cmsUInt32Number dwFlbgs)
 {
-    PreserveKPlaneParams bp;
+    PreserveKPlbnePbrbms bp;
     cmsPipeline*    Result = NULL;
     cmsUInt32Number ICCIntents[256];
-    cmsStage*         CLUT;
+    cmsStbge*         CLUT;
     cmsUInt32Number i, nGridPoints;
-    cmsHPROFILE hLab;
+    cmsHPROFILE hLbb;
 
-    // Sanity check
+    // Sbnity check
     if (nProfiles < 1 || nProfiles > 255) return NULL;
 
-    // Translate black-preserving intents to ICC ones
+    // Trbnslbte blbck-preserving intents to ICC ones
     for (i=0; i < nProfiles; i++)
-        ICCIntents[i] = TranslateNonICCIntents(TheIntents[i]);
+        ICCIntents[i] = TrbnslbteNonICCIntents(TheIntents[i]);
 
     // Check for non-cmyk profiles
-    if (cmsGetColorSpace(hProfiles[0]) != cmsSigCmykData ||
-        !(cmsGetColorSpace(hProfiles[nProfiles-1]) == cmsSigCmykData ||
-        cmsGetDeviceClass(hProfiles[nProfiles-1]) == cmsSigOutputClass))
-           return  DefaultICCintents(ContextID, nProfiles, ICCIntents, hProfiles, BPC, AdaptationStates, dwFlags);
+    if (cmsGetColorSpbce(hProfiles[0]) != cmsSigCmykDbtb ||
+        !(cmsGetColorSpbce(hProfiles[nProfiles-1]) == cmsSigCmykDbtb ||
+        cmsGetDeviceClbss(hProfiles[nProfiles-1]) == cmsSigOutputClbss))
+           return  DefbultICCintents(ContextID, nProfiles, ICCIntents, hProfiles, BPC, AdbptbtionStbtes, dwFlbgs);
 
-    // Allocate an empty LUT for holding the result
+    // Allocbte bn empty LUT for holding the result
     Result = cmsPipelineAlloc(ContextID, 4, 4);
     if (Result == NULL) return NULL;
 
 
     memset(&bp, 0, sizeof(bp));
 
-    // We need the input LUT of the last profile, assuming this one is responsible of
-    // black generation. This LUT will be seached in inverse order.
-    bp.LabK2cmyk = _cmsReadInputLUT(hProfiles[nProfiles-1], INTENT_RELATIVE_COLORIMETRIC);
-    if (bp.LabK2cmyk == NULL) goto Cleanup;
+    // We need the input LUT of the lbst profile, bssuming this one is responsible of
+    // blbck generbtion. This LUT will be sebched in inverse order.
+    bp.LbbK2cmyk = _cmsRebdInputLUT(hProfiles[nProfiles-1], INTENT_RELATIVE_COLORIMETRIC);
+    if (bp.LbbK2cmyk == NULL) goto Clebnup;
 
-    // Get total area coverage (in 0..1 domain)
-    bp.MaxTAC = cmsDetectTAC(hProfiles[nProfiles-1]) / 100.0;
-    if (bp.MaxTAC <= 0) goto Cleanup;
+    // Get totbl breb coverbge (in 0..1 dombin)
+    bp.MbxTAC = cmsDetectTAC(hProfiles[nProfiles-1]) / 100.0;
+    if (bp.MbxTAC <= 0) goto Clebnup;
 
 
-    // Create a LUT holding normal ICC transform
-    bp.cmyk2cmyk = DefaultICCintents(ContextID,
+    // Crebte b LUT holding normbl ICC trbnsform
+    bp.cmyk2cmyk = DefbultICCintents(ContextID,
                                          nProfiles,
                                          ICCIntents,
                                          hProfiles,
                                          BPC,
-                                         AdaptationStates,
-                                         dwFlags);
-    if (bp.cmyk2cmyk == NULL) goto Cleanup;
+                                         AdbptbtionStbtes,
+                                         dwFlbgs);
+    if (bp.cmyk2cmyk == NULL) goto Clebnup;
 
     // Now the tone curve
     bp.KTone = _cmsBuildKToneCurve(ContextID, 4096, nProfiles,
                                    ICCIntents,
                                    hProfiles,
                                    BPC,
-                                   AdaptationStates,
-                                   dwFlags);
-    if (bp.KTone == NULL) goto Cleanup;
+                                   AdbptbtionStbtes,
+                                   dwFlbgs);
+    if (bp.KTone == NULL) goto Clebnup;
 
-    // To measure the output, Last profile to Lab
-    hLab = cmsCreateLab4ProfileTHR(ContextID, NULL);
-    bp.hProofOutput = cmsCreateTransformTHR(ContextID, hProfiles[nProfiles-1],
-                                         CHANNELS_SH(4)|BYTES_SH(2), hLab, TYPE_Lab_DBL,
+    // To mebsure the output, Lbst profile to Lbb
+    hLbb = cmsCrebteLbb4ProfileTHR(ContextID, NULL);
+    bp.hProofOutput = cmsCrebteTrbnsformTHR(ContextID, hProfiles[nProfiles-1],
+                                         CHANNELS_SH(4)|BYTES_SH(2), hLbb, TYPE_Lbb_DBL,
                                          INTENT_RELATIVE_COLORIMETRIC,
                                          cmsFLAGS_NOCACHE|cmsFLAGS_NOOPTIMIZE);
-    if ( bp.hProofOutput == NULL) goto Cleanup;
+    if ( bp.hProofOutput == NULL) goto Clebnup;
 
-    // Same as anterior, but lab in the 0..1 range
-    bp.cmyk2Lab = cmsCreateTransformTHR(ContextID, hProfiles[nProfiles-1],
-                                         FLOAT_SH(1)|CHANNELS_SH(4)|BYTES_SH(4), hLab,
+    // Sbme bs bnterior, but lbb in the 0..1 rbnge
+    bp.cmyk2Lbb = cmsCrebteTrbnsformTHR(ContextID, hProfiles[nProfiles-1],
+                                         FLOAT_SH(1)|CHANNELS_SH(4)|BYTES_SH(4), hLbb,
                                          FLOAT_SH(1)|CHANNELS_SH(3)|BYTES_SH(4),
                                          INTENT_RELATIVE_COLORIMETRIC,
                                          cmsFLAGS_NOCACHE|cmsFLAGS_NOOPTIMIZE);
-    if (bp.cmyk2Lab == NULL) goto Cleanup;
-    cmsCloseProfile(hLab);
+    if (bp.cmyk2Lbb == NULL) goto Clebnup;
+    cmsCloseProfile(hLbb);
 
-    // Error estimation (for debug only)
-    bp.MaxError = 0;
+    // Error estimbtion (for debug only)
+    bp.MbxError = 0;
 
-    // How many gridpoints are we going to use?
-    nGridPoints = _cmsReasonableGridpointsByColorspace(cmsSigCmykData, dwFlags);
+    // How mbny gridpoints bre we going to use?
+    nGridPoints = _cmsRebsonbbleGridpointsByColorspbce(cmsSigCmykDbtb, dwFlbgs);
 
 
-    CLUT = cmsStageAllocCLut16bit(ContextID, nGridPoints, 4, 4, NULL);
-    if (CLUT == NULL) goto Cleanup;
+    CLUT = cmsStbgeAllocCLut16bit(ContextID, nGridPoints, 4, 4, NULL);
+    if (CLUT == NULL) goto Clebnup;
 
-    if (!cmsPipelineInsertStage(Result, cmsAT_BEGIN, CLUT))
-        goto Cleanup;
+    if (!cmsPipelineInsertStbge(Result, cmsAT_BEGIN, CLUT))
+        goto Clebnup;
 
-    cmsStageSampleCLut16bit(CLUT, BlackPreservingSampler, (void*) &bp, 0);
+    cmsStbgeSbmpleCLut16bit(CLUT, BlbckPreservingSbmpler, (void*) &bp, 0);
 
-Cleanup:
+Clebnup:
 
     if (bp.cmyk2cmyk) cmsPipelineFree(bp.cmyk2cmyk);
-    if (bp.cmyk2Lab) cmsDeleteTransform(bp.cmyk2Lab);
-    if (bp.hProofOutput) cmsDeleteTransform(bp.hProofOutput);
+    if (bp.cmyk2Lbb) cmsDeleteTrbnsform(bp.cmyk2Lbb);
+    if (bp.hProofOutput) cmsDeleteTrbnsform(bp.hProofOutput);
 
     if (bp.KTone) cmsFreeToneCurve(bp.KTone);
-    if (bp.LabK2cmyk) cmsPipelineFree(bp.LabK2cmyk);
+    if (bp.LbbK2cmyk) cmsPipelineFree(bp.LbbK2cmyk);
 
     return Result;
 }
 
 // Link routines ------------------------------------------------------------------------------------------------------
 
-// Chain several profiles into a single LUT. It just checks the parameters and then calls the handler
-// for the first intent in chain. The handler may be user-defined. Is up to the handler to deal with the
-// rest of intents in chain. A maximum of 255 profiles at time are supported, which is pretty reasonable.
+// Chbin severbl profiles into b single LUT. It just checks the pbrbmeters bnd then cblls the hbndler
+// for the first intent in chbin. The hbndler mby be user-defined. Is up to the hbndler to debl with the
+// rest of intents in chbin. A mbximum of 255 profiles bt time bre supported, which is pretty rebsonbble.
 cmsPipeline* _cmsLinkProfiles(cmsContext     ContextID,
                               cmsUInt32Number nProfiles,
                               cmsUInt32Number TheIntents[],
                               cmsHPROFILE     hProfiles[],
                               cmsBool         BPC[],
-                              cmsFloat64Number AdaptationStates[],
-                              cmsUInt32Number dwFlags)
+                              cmsFlobt64Number AdbptbtionStbtes[],
+                              cmsUInt32Number dwFlbgs)
 {
     cmsUInt32Number i;
     cmsIntentsList* Intent;
 
-    // Make sure a reasonable number of profiles is provided
+    // Mbke sure b rebsonbble number of profiles is provided
     if (nProfiles <= 0 || nProfiles > 255) {
-         cmsSignalError(ContextID, cmsERROR_RANGE, "Couldn't link '%d' profiles", nProfiles);
+         cmsSignblError(ContextID, cmsERROR_RANGE, "Couldn't link '%d' profiles", nProfiles);
         return NULL;
     }
 
     for (i=0; i < nProfiles; i++) {
 
-        // Check if black point is really needed or allowed. Note that
+        // Check if blbck point is reblly needed or bllowed. Note thbt
         // following Adobe's document:
-        // BPC does not apply to devicelink profiles, nor to abs colorimetric,
-        // and applies always on V4 perceptual and saturation.
+        // BPC does not bpply to devicelink profiles, nor to bbs colorimetric,
+        // bnd bpplies blwbys on V4 perceptubl bnd sbturbtion.
 
         if (TheIntents[i] == INTENT_ABSOLUTE_COLORIMETRIC)
             BPC[i] = FALSE;
 
         if (TheIntents[i] == INTENT_PERCEPTUAL || TheIntents[i] == INTENT_SATURATION) {
 
-            // Force BPC for V4 profiles in perceptual and saturation
+            // Force BPC for V4 profiles in perceptubl bnd sbturbtion
             if (cmsGetProfileVersion(hProfiles[i]) >= 4.0)
                 BPC[i] = TRUE;
         }
     }
 
-    // Search for a handler. The first intent in the chain defines the handler. That would
-    // prevent using multiple custom intents in a multiintent chain, but the behaviour of
-    // this case would present some issues if the custom intent tries to do things like
-    // preserve primaries. This solution is not perfect, but works well on most cases.
+    // Sebrch for b hbndler. The first intent in the chbin defines the hbndler. Thbt would
+    // prevent using multiple custom intents in b multiintent chbin, but the behbviour of
+    // this cbse would present some issues if the custom intent tries to do things like
+    // preserve primbries. This solution is not perfect, but works well on most cbses.
 
-    Intent = SearchIntent(TheIntents[0]);
+    Intent = SebrchIntent(TheIntents[0]);
     if (Intent == NULL) {
-        cmsSignalError(ContextID, cmsERROR_UNKNOWN_EXTENSION, "Unsupported intent '%d'", TheIntents[0]);
+        cmsSignblError(ContextID, cmsERROR_UNKNOWN_EXTENSION, "Unsupported intent '%d'", TheIntents[0]);
         return NULL;
     }
 
-    // Call the handler
-    return Intent ->Link(ContextID, nProfiles, TheIntents, hProfiles, BPC, AdaptationStates, dwFlags);
+    // Cbll the hbndler
+    return Intent ->Link(ContextID, nProfiles, TheIntents, hProfiles, BPC, AdbptbtionStbtes, dwFlbgs);
 }
 
 // -------------------------------------------------------------------------------------------------
 
-// Get information about available intents. nMax is the maximum space for the supplied "Codes"
-// and "Descriptions" the function returns the total number of intents, which may be greater
-// than nMax, although the matrices are not populated beyond this level.
-cmsUInt32Number CMSEXPORT cmsGetSupportedIntents(cmsUInt32Number nMax, cmsUInt32Number* Codes, char** Descriptions)
+// Get informbtion bbout bvbilbble intents. nMbx is the mbximum spbce for the supplied "Codes"
+// bnd "Descriptions" the function returns the totbl number of intents, which mby be grebter
+// thbn nMbx, blthough the mbtrices bre not populbted beyond this level.
+cmsUInt32Number CMSEXPORT cmsGetSupportedIntents(cmsUInt32Number nMbx, cmsUInt32Number* Codes, chbr** Descriptions)
 {
     cmsIntentsList* pt;
     cmsUInt32Number nIntents;
 
     for (nIntents=0, pt = Intents; pt != NULL; pt = pt -> Next)
     {
-        if (nIntents < nMax) {
+        if (nIntents < nMbx) {
             if (Codes != NULL)
                 Codes[nIntents] = pt ->Intent;
 
@@ -1067,23 +1067,23 @@ cmsUInt32Number CMSEXPORT cmsGetSupportedIntents(cmsUInt32Number nMax, cmsUInt32
     return nIntents;
 }
 
-// The plug-in registration. User can add new intents or override default routines
-cmsBool  _cmsRegisterRenderingIntentPlugin(cmsContext id, cmsPluginBase* Data)
+// The plug-in registrbtion. User cbn bdd new intents or override defbult routines
+cmsBool  _cmsRegisterRenderingIntentPlugin(cmsContext id, cmsPluginBbse* Dbtb)
 {
-    cmsPluginRenderingIntent* Plugin = (cmsPluginRenderingIntent*) Data;
+    cmsPluginRenderingIntent* Plugin = (cmsPluginRenderingIntent*) Dbtb;
     cmsIntentsList* fl;
 
-    // Do we have to reset the intents?
-    if (Data == NULL) {
+    // Do we hbve to reset the intents?
+    if (Dbtb == NULL) {
 
-       Intents = DefaultIntents;
+       Intents = DefbultIntents;
        return TRUE;
     }
 
-    fl = SearchIntent(Plugin ->Intent);
+    fl = SebrchIntent(Plugin ->Intent);
 
     if (fl == NULL) {
-        fl = (cmsIntentsList*) _cmsPluginMalloc(id, sizeof(cmsIntentsList));
+        fl = (cmsIntentsList*) _cmsPluginMblloc(id, sizeof(cmsIntentsList));
         if (fl == NULL) return FALSE;
     }
 

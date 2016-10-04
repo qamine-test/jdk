@@ -1,251 +1,251 @@
 /*
- * Copyright (c) 2000, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package javax.management.openmbean;
+pbckbge jbvbx.mbnbgement.openmbebn;
 
 
-// java import
+// jbvb import
 //
-import java.io.Serializable;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Set;
-import java.util.SortedMap;
-import java.util.TreeMap;
+import jbvb.io.Seriblizbble;
+import jbvb.util.Arrbys;
+import jbvb.util.Collection;
+import jbvb.util.Collections;
+import jbvb.util.LinkedHbshMbp;
+import jbvb.util.Mbp;
+import jbvb.util.Set;
+import jbvb.util.SortedMbp;
+import jbvb.util.TreeMbp;
 
 // jmx import
-import java.util.TreeSet;
+import jbvb.util.TreeSet;
 //
 
 
 /**
- * The <tt>CompositeDataSupport</tt> class is the <i>open data</i> class which
- * implements the <tt>CompositeData</tt> interface.
+ * The <tt>CompositeDbtbSupport</tt> clbss is the <i>open dbtb</i> clbss which
+ * implements the <tt>CompositeDbtb</tt> interfbce.
  *
  *
  * @since 1.5
  */
-public class CompositeDataSupport
-    implements CompositeData, Serializable {
+public clbss CompositeDbtbSupport
+    implements CompositeDbtb, Seriblizbble {
 
-    /* Serial version */
-    static final long serialVersionUID = 8003518976613702244L;
+    /* Seribl version */
+    stbtic finbl long seriblVersionUID = 8003518976613702244L;
 
     /**
-     * @serial Internal representation of the mapping of item names to their
-     * respective values.
-     *         A {@link SortedMap} is used for faster retrieval of elements.
+     * @seribl Internbl representbtion of the mbpping of item nbmes to their
+     * respective vblues.
+     *         A {@link SortedMbp} is used for fbster retrievbl of elements.
      */
-    private final SortedMap<String, Object> contents;
+    privbte finbl SortedMbp<String, Object> contents;
 
     /**
-     * @serial The <i>composite type </i> of this <i>composite data</i> instance.
+     * @seribl The <i>composite type </i> of this <i>composite dbtb</i> instbnce.
      */
-    private final CompositeType compositeType;
+    privbte finbl CompositeType compositeType;
 
     /**
-     * <p>Constructs a <tt>CompositeDataSupport</tt> instance with the specified
-     * <tt>compositeType</tt>, whose item values
-     * are specified by <tt>itemValues[]</tt>, in the same order as in
-     * <tt>itemNames[]</tt>.
-     * As a <tt>CompositeType</tt> does not specify any order on its items,
-     * the <tt>itemNames[]</tt> parameter is used
-     * to specify the order in which the values are given in <tt>itemValues[]</tt>.
-     * The items contained in this <tt>CompositeDataSupport</tt> instance are
-     * internally stored in a <tt>TreeMap</tt>,
-     * thus sorted in ascending lexicographic order of their names, for faster
-     * retrieval of individual item values.</p>
+     * <p>Constructs b <tt>CompositeDbtbSupport</tt> instbnce with the specified
+     * <tt>compositeType</tt>, whose item vblues
+     * bre specified by <tt>itemVblues[]</tt>, in the sbme order bs in
+     * <tt>itemNbmes[]</tt>.
+     * As b <tt>CompositeType</tt> does not specify bny order on its items,
+     * the <tt>itemNbmes[]</tt> pbrbmeter is used
+     * to specify the order in which the vblues bre given in <tt>itemVblues[]</tt>.
+     * The items contbined in this <tt>CompositeDbtbSupport</tt> instbnce bre
+     * internblly stored in b <tt>TreeMbp</tt>,
+     * thus sorted in bscending lexicogrbphic order of their nbmes, for fbster
+     * retrievbl of individubl item vblues.</p>
      *
-     * <p>The constructor checks that all the constraints listed below for each
-     * parameter are satisfied,
-     * and throws the appropriate exception if they are not.</p>
+     * <p>The constructor checks thbt bll the constrbints listed below for ebch
+     * pbrbmeter bre sbtisfied,
+     * bnd throws the bppropribte exception if they bre not.</p>
      *
-     * @param compositeType the <i>composite type </i> of this <i>composite
-     * data</i> instance; must not be null.
+     * @pbrbm compositeType the <i>composite type </i> of this <i>composite
+     * dbtb</i> instbnce; must not be null.
      *
-     * @param itemNames <tt>itemNames</tt> must list, in any order, all the
-     * item names defined in <tt>compositeType</tt>; the order in which the
-     * names are listed, is used to match values in <tt>itemValues[]</tt>; must
+     * @pbrbm itemNbmes <tt>itemNbmes</tt> must list, in bny order, bll the
+     * item nbmes defined in <tt>compositeType</tt>; the order in which the
+     * nbmes bre listed, is used to mbtch vblues in <tt>itemVblues[]</tt>; must
      * not be null or empty.
      *
-     * @param itemValues the values of the items, listed in the same order as
-     * their respective names in <tt>itemNames</tt>; each item value can be
-     * null, but if it is non-null it must be a valid value for the open type
+     * @pbrbm itemVblues the vblues of the items, listed in the sbme order bs
+     * their respective nbmes in <tt>itemNbmes</tt>; ebch item vblue cbn be
+     * null, but if it is non-null it must be b vblid vblue for the open type
      * defined in <tt>compositeType</tt> for the corresponding item; must be of
-     * the same size as <tt>itemNames</tt>; must not be null or empty.
+     * the sbme size bs <tt>itemNbmes</tt>; must not be null or empty.
      *
-     * @throws IllegalArgumentException <tt>compositeType</tt> is null, or
-     * <tt>itemNames[]</tt> or <tt>itemValues[]</tt> is null or empty, or one
-     * of the elements in <tt>itemNames[]</tt> is a null or empty string, or
-     * <tt>itemNames[]</tt> and <tt>itemValues[]</tt> are not of the same size.
+     * @throws IllegblArgumentException <tt>compositeType</tt> is null, or
+     * <tt>itemNbmes[]</tt> or <tt>itemVblues[]</tt> is null or empty, or one
+     * of the elements in <tt>itemNbmes[]</tt> is b null or empty string, or
+     * <tt>itemNbmes[]</tt> bnd <tt>itemVblues[]</tt> bre not of the sbme size.
      *
-     * @throws OpenDataException <tt>itemNames[]</tt> or
-     * <tt>itemValues[]</tt>'s size differs from the number of items defined in
-     * <tt>compositeType</tt>, or one of the elements in <tt>itemNames[]</tt>
-     * does not exist as an item name defined in <tt>compositeType</tt>, or one
-     * of the elements in <tt>itemValues[]</tt> is not a valid value for the
-     * corresponding item as defined in <tt>compositeType</tt>.
+     * @throws OpenDbtbException <tt>itemNbmes[]</tt> or
+     * <tt>itemVblues[]</tt>'s size differs from the number of items defined in
+     * <tt>compositeType</tt>, or one of the elements in <tt>itemNbmes[]</tt>
+     * does not exist bs bn item nbme defined in <tt>compositeType</tt>, or one
+     * of the elements in <tt>itemVblues[]</tt> is not b vblid vblue for the
+     * corresponding item bs defined in <tt>compositeType</tt>.
      */
-    public CompositeDataSupport(
-            CompositeType compositeType, String[] itemNames, Object[] itemValues)
-            throws OpenDataException {
-        this(makeMap(itemNames, itemValues), compositeType);
+    public CompositeDbtbSupport(
+            CompositeType compositeType, String[] itemNbmes, Object[] itemVblues)
+            throws OpenDbtbException {
+        this(mbkeMbp(itemNbmes, itemVblues), compositeType);
     }
 
-    private static SortedMap<String, Object> makeMap(
-            String[] itemNames, Object[] itemValues)
-            throws OpenDataException {
+    privbte stbtic SortedMbp<String, Object> mbkeMbp(
+            String[] itemNbmes, Object[] itemVblues)
+            throws OpenDbtbException {
 
-        if (itemNames == null || itemValues == null)
-            throw new IllegalArgumentException("Null itemNames or itemValues");
-        if (itemNames.length == 0 || itemValues.length == 0)
-            throw new IllegalArgumentException("Empty itemNames or itemValues");
-        if (itemNames.length != itemValues.length) {
-            throw new IllegalArgumentException(
-                    "Different lengths: itemNames[" + itemNames.length +
-                    "], itemValues[" + itemValues.length + "]");
+        if (itemNbmes == null || itemVblues == null)
+            throw new IllegblArgumentException("Null itemNbmes or itemVblues");
+        if (itemNbmes.length == 0 || itemVblues.length == 0)
+            throw new IllegblArgumentException("Empty itemNbmes or itemVblues");
+        if (itemNbmes.length != itemVblues.length) {
+            throw new IllegblArgumentException(
+                    "Different lengths: itemNbmes[" + itemNbmes.length +
+                    "], itemVblues[" + itemVblues.length + "]");
         }
 
-        SortedMap<String, Object> map = new TreeMap<String, Object>();
-        for (int i = 0; i < itemNames.length; i++) {
-            String name = itemNames[i];
-            if (name == null || name.equals(""))
-                throw new IllegalArgumentException("Null or empty item name");
-            if (map.containsKey(name))
-                throw new OpenDataException("Duplicate item name " + name);
-            map.put(itemNames[i], itemValues[i]);
+        SortedMbp<String, Object> mbp = new TreeMbp<String, Object>();
+        for (int i = 0; i < itemNbmes.length; i++) {
+            String nbme = itemNbmes[i];
+            if (nbme == null || nbme.equbls(""))
+                throw new IllegblArgumentException("Null or empty item nbme");
+            if (mbp.contbinsKey(nbme))
+                throw new OpenDbtbException("Duplicbte item nbme " + nbme);
+            mbp.put(itemNbmes[i], itemVblues[i]);
         }
 
-        return map;
+        return mbp;
     }
 
     /**
      * <p>
-     * Constructs a <tt>CompositeDataSupport</tt> instance with the specified <tt>compositeType</tt>, whose item names and corresponding values
-     * are given by the mappings in the map <tt>items</tt>.
-     * This constructor converts the keys to a string array and the values to an object array and calls
-     * <tt>CompositeDataSupport(javax.management.openmbean.CompositeType, java.lang.String[], java.lang.Object[])</tt>.
+     * Constructs b <tt>CompositeDbtbSupport</tt> instbnce with the specified <tt>compositeType</tt>, whose item nbmes bnd corresponding vblues
+     * bre given by the mbppings in the mbp <tt>items</tt>.
+     * This constructor converts the keys to b string brrby bnd the vblues to bn object brrby bnd cblls
+     * <tt>CompositeDbtbSupport(jbvbx.mbnbgement.openmbebn.CompositeType, jbvb.lbng.String[], jbvb.lbng.Object[])</tt>.
      *
-     * @param  compositeType  the <i>composite type </i> of this <i>composite data</i> instance;
+     * @pbrbm  compositeType  the <i>composite type </i> of this <i>composite dbtb</i> instbnce;
      *                        must not be null.
-     * @param  items  the mappings of all the item names to their values;
-     *                <tt>items</tt> must contain all the item names defined in <tt>compositeType</tt>;
+     * @pbrbm  items  the mbppings of bll the item nbmes to their vblues;
+     *                <tt>items</tt> must contbin bll the item nbmes defined in <tt>compositeType</tt>;
      *                must not be null or empty.
      *
-     * @throws IllegalArgumentException <tt>compositeType</tt> is null, or
-     * <tt>items</tt> is null or empty, or one of the keys in <tt>items</tt> is a null
+     * @throws IllegblArgumentException <tt>compositeType</tt> is null, or
+     * <tt>items</tt> is null or empty, or one of the keys in <tt>items</tt> is b null
      * or empty string.
-     * @throws OpenDataException <tt>items</tt>' size differs from the
+     * @throws OpenDbtbException <tt>items</tt>' size differs from the
      * number of items defined in <tt>compositeType</tt>, or one of the
-     * keys in <tt>items</tt> does not exist as an item name defined in
-     * <tt>compositeType</tt>, or one of the values in <tt>items</tt>
-     * is not a valid value for the corresponding item as defined in
+     * keys in <tt>items</tt> does not exist bs bn item nbme defined in
+     * <tt>compositeType</tt>, or one of the vblues in <tt>items</tt>
+     * is not b vblid vblue for the corresponding item bs defined in
      * <tt>compositeType</tt>.
-     * @throws ArrayStoreException one or more keys in <tt>items</tt> is not of
-     * the class <tt>java.lang.String</tt>.
+     * @throws ArrbyStoreException one or more keys in <tt>items</tt> is not of
+     * the clbss <tt>jbvb.lbng.String</tt>.
      */
-    public CompositeDataSupport(CompositeType compositeType,
-                                Map<String,?> items)
-            throws OpenDataException {
-        this(makeMap(items), compositeType);
+    public CompositeDbtbSupport(CompositeType compositeType,
+                                Mbp<String,?> items)
+            throws OpenDbtbException {
+        this(mbkeMbp(items), compositeType);
     }
 
-    private static SortedMap<String, Object> makeMap(Map<String, ?> items) {
+    privbte stbtic SortedMbp<String, Object> mbkeMbp(Mbp<String, ?> items) {
         if (items == null || items.isEmpty())
-            throw new IllegalArgumentException("Null or empty items map");
+            throw new IllegblArgumentException("Null or empty items mbp");
 
-        SortedMap<String, Object> map = new TreeMap<String, Object>();
+        SortedMbp<String, Object> mbp = new TreeMbp<String, Object>();
         for (Object key : items.keySet()) {
-            if (key == null || key.equals(""))
-                throw new IllegalArgumentException("Null or empty item name");
-            if (!(key instanceof String)) {
-                throw new ArrayStoreException("Item name is not string: " + key);
-                // This can happen because of erasure.  The particular
-                // exception is a historical artifact - an implementation
-                // detail that leaked into the API.
+            if (key == null || key.equbls(""))
+                throw new IllegblArgumentException("Null or empty item nbme");
+            if (!(key instbnceof String)) {
+                throw new ArrbyStoreException("Item nbme is not string: " + key);
+                // This cbn hbppen becbuse of erbsure.  The pbrticulbr
+                // exception is b historicbl brtifbct - bn implementbtion
+                // detbil thbt lebked into the API.
             }
-            map.put((String) key, items.get(key));
+            mbp.put((String) key, items.get(key));
         }
-        return map;
+        return mbp;
     }
 
-    private CompositeDataSupport(
-            SortedMap<String, Object> items, CompositeType compositeType)
-            throws OpenDataException {
+    privbte CompositeDbtbSupport(
+            SortedMbp<String, Object> items, CompositeType compositeType)
+            throws OpenDbtbException {
 
         // Check compositeType is not null
         //
         if (compositeType == null) {
-            throw new IllegalArgumentException("Argument compositeType cannot be null.");
+            throw new IllegblArgumentException("Argument compositeType cbnnot be null.");
         }
 
-        // item names defined in compositeType:
-        Set<String> namesFromType = compositeType.keySet();
-        Set<String> namesFromItems = items.keySet();
+        // item nbmes defined in compositeType:
+        Set<String> nbmesFromType = compositeType.keySet();
+        Set<String> nbmesFromItems = items.keySet();
 
-        // This is just a comparison, but we do it this way for a better
-        // exception message.
-        if (!namesFromType.equals(namesFromItems)) {
-            Set<String> extraFromType = new TreeSet<String>(namesFromType);
-            extraFromType.removeAll(namesFromItems);
-            Set<String> extraFromItems = new TreeSet<String>(namesFromItems);
-            extraFromItems.removeAll(namesFromType);
-            if (!extraFromType.isEmpty() || !extraFromItems.isEmpty()) {
-                throw new OpenDataException(
-                        "Item names do not match CompositeType: " +
-                        "names in items but not in CompositeType: " + extraFromItems +
-                        "; names in CompositeType but not in items: " + extraFromType);
+        // This is just b compbrison, but we do it this wby for b better
+        // exception messbge.
+        if (!nbmesFromType.equbls(nbmesFromItems)) {
+            Set<String> extrbFromType = new TreeSet<String>(nbmesFromType);
+            extrbFromType.removeAll(nbmesFromItems);
+            Set<String> extrbFromItems = new TreeSet<String>(nbmesFromItems);
+            extrbFromItems.removeAll(nbmesFromType);
+            if (!extrbFromType.isEmpty() || !extrbFromItems.isEmpty()) {
+                throw new OpenDbtbException(
+                        "Item nbmes do not mbtch CompositeType: " +
+                        "nbmes in items but not in CompositeType: " + extrbFromItems +
+                        "; nbmes in CompositeType but not in items: " + extrbFromType);
             }
         }
 
-        // Check each value, if not null, is of the open type defined for the
+        // Check ebch vblue, if not null, is of the open type defined for the
         // corresponding item
-        for (String name : namesFromType) {
-            Object value = items.get(name);
-            if (value != null) {
-                OpenType<?> itemType = compositeType.getType(name);
-                if (!itemType.isValue(value)) {
-                    throw new OpenDataException(
-                            "Argument value of wrong type for item " + name +
-                            ": value " + value + ", type " + itemType);
+        for (String nbme : nbmesFromType) {
+            Object vblue = items.get(nbme);
+            if (vblue != null) {
+                OpenType<?> itemType = compositeType.getType(nbme);
+                if (!itemType.isVblue(vblue)) {
+                    throw new OpenDbtbException(
+                            "Argument vblue of wrong type for item " + nbme +
+                            ": vblue " + vblue + ", type " + itemType);
                 }
             }
         }
 
-        // Initialize internal fields: compositeType and contents
+        // Initiblize internbl fields: compositeType bnd contents
         //
         this.compositeType = compositeType;
         this.contents = items;
     }
 
     /**
-     * Returns the <i>composite type </i> of this <i>composite data</i> instance.
+     * Returns the <i>composite type </i> of this <i>composite dbtb</i> instbnce.
      */
     public CompositeType getCompositeType() {
 
@@ -253,33 +253,33 @@ public class CompositeDataSupport
     }
 
     /**
-     * Returns the value of the item whose name is <tt>key</tt>.
+     * Returns the vblue of the item whose nbme is <tt>key</tt>.
      *
-     * @throws IllegalArgumentException  if <tt>key</tt> is a null or empty String.
+     * @throws IllegblArgumentException  if <tt>key</tt> is b null or empty String.
      *
-     * @throws InvalidKeyException  if <tt>key</tt> is not an existing item name for
-     * this <tt>CompositeData</tt> instance.
+     * @throws InvblidKeyException  if <tt>key</tt> is not bn existing item nbme for
+     * this <tt>CompositeDbtb</tt> instbnce.
      */
     public Object get(String key) {
 
-        if ( (key == null) || (key.trim().equals("")) ) {
-            throw new IllegalArgumentException("Argument key cannot be a null or empty String.");
+        if ( (key == null) || (key.trim().equbls("")) ) {
+            throw new IllegblArgumentException("Argument key cbnnot be b null or empty String.");
         }
-        if ( ! contents.containsKey(key.trim())) {
-            throw new InvalidKeyException("Argument key=\""+ key.trim() +"\" is not an existing item name for this CompositeData instance.");
+        if ( ! contents.contbinsKey(key.trim())) {
+            throw new InvblidKeyException("Argument key=\""+ key.trim() +"\" is not bn existing item nbme for this CompositeDbtb instbnce.");
         }
         return contents.get(key.trim());
     }
 
     /**
-     * Returns an array of the values of the items whose names are specified by
-     * <tt>keys</tt>, in the same order as <tt>keys</tt>.
+     * Returns bn brrby of the vblues of the items whose nbmes bre specified by
+     * <tt>keys</tt>, in the sbme order bs <tt>keys</tt>.
      *
-     * @throws IllegalArgumentException  if an element in <tt>keys</tt> is a null
+     * @throws IllegblArgumentException  if bn element in <tt>keys</tt> is b null
      * or empty String.
      *
-     * @throws InvalidKeyException  if an element in <tt>keys</tt> is not an existing
-     * item name for this <tt>CompositeData</tt> instance.
+     * @throws InvblidKeyException  if bn element in <tt>keys</tt> is not bn existing
+     * item nbme for this <tt>CompositeDbtb</tt> instbnce.
      */
     public Object[] getAll(String[] keys) {
 
@@ -294,193 +294,193 @@ public class CompositeDataSupport
     }
 
     /**
-     * Returns <tt>true</tt> if and only if this <tt>CompositeData</tt> instance contains
-     * an item whose name is <tt>key</tt>.
-     * If <tt>key</tt> is a null or empty String, this method simply returns false.
+     * Returns <tt>true</tt> if bnd only if this <tt>CompositeDbtb</tt> instbnce contbins
+     * bn item whose nbme is <tt>key</tt>.
+     * If <tt>key</tt> is b null or empty String, this method simply returns fblse.
      */
-    public boolean containsKey(String key) {
+    public boolebn contbinsKey(String key) {
 
-        if ( (key == null) || (key.trim().equals("")) ) {
-            return false;
+        if ( (key == null) || (key.trim().equbls("")) ) {
+            return fblse;
         }
-        return contents.containsKey(key);
+        return contents.contbinsKey(key);
     }
 
     /**
-     * Returns <tt>true</tt> if and only if this <tt>CompositeData</tt> instance
-     * contains an item
-     * whose value is <tt>value</tt>.
+     * Returns <tt>true</tt> if bnd only if this <tt>CompositeDbtb</tt> instbnce
+     * contbins bn item
+     * whose vblue is <tt>vblue</tt>.
      */
-    public boolean containsValue(Object value) {
+    public boolebn contbinsVblue(Object vblue) {
 
-        return contents.containsValue(value);
+        return contents.contbinsVblue(vblue);
     }
 
     /**
-     * Returns an unmodifiable Collection view of the item values contained in this
-     * <tt>CompositeData</tt> instance.
-     * The returned collection's iterator will return the values in the ascending
-     * lexicographic order of the corresponding
-     * item names.
+     * Returns bn unmodifibble Collection view of the item vblues contbined in this
+     * <tt>CompositeDbtb</tt> instbnce.
+     * The returned collection's iterbtor will return the vblues in the bscending
+     * lexicogrbphic order of the corresponding
+     * item nbmes.
      */
-    public Collection<?> values() {
+    public Collection<?> vblues() {
 
-        return Collections.unmodifiableCollection(contents.values());
+        return Collections.unmodifibbleCollection(contents.vblues());
     }
 
     /**
-     * Compares the specified <var>obj</var> parameter with this
-     * <code>CompositeDataSupport</code> instance for equality.
+     * Compbres the specified <vbr>obj</vbr> pbrbmeter with this
+     * <code>CompositeDbtbSupport</code> instbnce for equblity.
      * <p>
-     * Returns <tt>true</tt> if and only if all of the following statements are true:
+     * Returns <tt>true</tt> if bnd only if bll of the following stbtements bre true:
      * <ul>
-     * <li><var>obj</var> is non null,</li>
-     * <li><var>obj</var> also implements the <code>CompositeData</code> interface,</li>
-     * <li>their composite types are equal</li>
-     * <li>their contents, i.e. (name, value) pairs are equal. If a value contained in
-     * the content is an array, the value comparison is done as if by calling
-     * the {@link java.util.Arrays#deepEquals(Object[], Object[]) deepEquals} method
-     * for arrays of object reference types or the appropriate overloading of
-     * {@code Arrays.equals(e1,e2)} for arrays of primitive types</li>
+     * <li><vbr>obj</vbr> is non null,</li>
+     * <li><vbr>obj</vbr> blso implements the <code>CompositeDbtb</code> interfbce,</li>
+     * <li>their composite types bre equbl</li>
+     * <li>their contents, i.e. (nbme, vblue) pbirs bre equbl. If b vblue contbined in
+     * the content is bn brrby, the vblue compbrison is done bs if by cblling
+     * the {@link jbvb.util.Arrbys#deepEqubls(Object[], Object[]) deepEqubls} method
+     * for brrbys of object reference types or the bppropribte overlobding of
+     * {@code Arrbys.equbls(e1,e2)} for brrbys of primitive types</li>
      * </ul>
      * <p>
-     * This ensures that this <tt>equals</tt> method works properly for
-     * <var>obj</var> parameters which are different implementations of the
-     * <code>CompositeData</code> interface, with the restrictions mentioned in the
-     * {@link java.util.Collection#equals(Object) equals}
-     * method of the <tt>java.util.Collection</tt> interface.
+     * This ensures thbt this <tt>equbls</tt> method works properly for
+     * <vbr>obj</vbr> pbrbmeters which bre different implementbtions of the
+     * <code>CompositeDbtb</code> interfbce, with the restrictions mentioned in the
+     * {@link jbvb.util.Collection#equbls(Object) equbls}
+     * method of the <tt>jbvb.util.Collection</tt> interfbce.
      *
-     * @param  obj  the object to be compared for equality with this
-     * <code>CompositeDataSupport</code> instance.
-     * @return  <code>true</code> if the specified object is equal to this
-     * <code>CompositeDataSupport</code> instance.
+     * @pbrbm  obj  the object to be compbred for equblity with this
+     * <code>CompositeDbtbSupport</code> instbnce.
+     * @return  <code>true</code> if the specified object is equbl to this
+     * <code>CompositeDbtbSupport</code> instbnce.
      */
     @Override
-    public boolean equals(Object obj) {
+    public boolebn equbls(Object obj) {
         if (this == obj) {
             return true;
         }
 
-        // if obj is not a CompositeData, return false
-        if (!(obj instanceof CompositeData)) {
-            return false;
+        // if obj is not b CompositeDbtb, return fblse
+        if (!(obj instbnceof CompositeDbtb)) {
+            return fblse;
         }
 
-        CompositeData other = (CompositeData) obj;
+        CompositeDbtb other = (CompositeDbtb) obj;
 
-        // their compositeType should be equal
-        if (!this.getCompositeType().equals(other.getCompositeType()) ) {
-            return false;
+        // their compositeType should be equbl
+        if (!this.getCompositeType().equbls(other.getCompositeType()) ) {
+            return fblse;
         }
 
-        if (contents.size() != other.values().size()) {
-            return false;
+        if (contents.size() != other.vblues().size()) {
+            return fblse;
         }
 
-        for (Map.Entry<String,Object> entry : contents.entrySet()) {
-            Object e1 = entry.getValue();
+        for (Mbp.Entry<String,Object> entry : contents.entrySet()) {
+            Object e1 = entry.getVblue();
             Object e2 = other.get(entry.getKey());
 
             if (e1 == e2)
                 continue;
             if (e1 == null)
-                return false;
+                return fblse;
 
-            boolean eq = e1.getClass().isArray() ?
-                Arrays.deepEquals(new Object[] {e1}, new Object[] {e2}) :
-                e1.equals(e2);
+            boolebn eq = e1.getClbss().isArrby() ?
+                Arrbys.deepEqubls(new Object[] {e1}, new Object[] {e2}) :
+                e1.equbls(e2);
 
             if (!eq)
-                return false;
+                return fblse;
         }
 
-        // All tests for equality were successful
+        // All tests for equblity were successful
         //
         return true;
     }
 
     /**
-     * Returns the hash code value for this <code>CompositeDataSupport</code> instance.
+     * Returns the hbsh code vblue for this <code>CompositeDbtbSupport</code> instbnce.
      * <p>
-     * The hash code of a <code>CompositeDataSupport</code> instance is the sum of the hash codes
-     * of all elements of information used in <code>equals</code> comparisons
-     * (ie: its <i>composite type</i> and all the item values).
+     * The hbsh code of b <code>CompositeDbtbSupport</code> instbnce is the sum of the hbsh codes
+     * of bll elements of informbtion used in <code>equbls</code> compbrisons
+     * (ie: its <i>composite type</i> bnd bll the item vblues).
      * <p>
-     * This ensures that <code> t1.equals(t2) </code> implies that <code> t1.hashCode()==t2.hashCode() </code>
-     * for any two <code>CompositeDataSupport</code> instances <code>t1</code> and <code>t2</code>,
-     * as required by the general contract of the method
-     * {@link Object#hashCode() Object.hashCode()}.
+     * This ensures thbt <code> t1.equbls(t2) </code> implies thbt <code> t1.hbshCode()==t2.hbshCode() </code>
+     * for bny two <code>CompositeDbtbSupport</code> instbnces <code>t1</code> bnd <code>t2</code>,
+     * bs required by the generbl contrbct of the method
+     * {@link Object#hbshCode() Object.hbshCode()}.
      * <p>
-     * Each item value's hash code is added to the returned hash code.
-     * If an item value is an array,
-     * its hash code is obtained as if by calling the
-     * {@link java.util.Arrays#deepHashCode(Object[]) deepHashCode} method
-     * for arrays of object reference types or the appropriate overloading
-     * of {@code Arrays.hashCode(e)} for arrays of primitive types.
+     * Ebch item vblue's hbsh code is bdded to the returned hbsh code.
+     * If bn item vblue is bn brrby,
+     * its hbsh code is obtbined bs if by cblling the
+     * {@link jbvb.util.Arrbys#deepHbshCode(Object[]) deepHbshCode} method
+     * for brrbys of object reference types or the bppropribte overlobding
+     * of {@code Arrbys.hbshCode(e)} for brrbys of primitive types.
      *
-     * @return the hash code value for this <code>CompositeDataSupport</code> instance
+     * @return the hbsh code vblue for this <code>CompositeDbtbSupport</code> instbnce
      */
     @Override
-    public int hashCode() {
-        int hashcode = compositeType.hashCode();
+    public int hbshCode() {
+        int hbshcode = compositeType.hbshCode();
 
-        for (Object o : contents.values()) {
-            if (o instanceof Object[])
-                hashcode += Arrays.deepHashCode((Object[]) o);
-            else if (o instanceof byte[])
-                hashcode += Arrays.hashCode((byte[]) o);
-            else if (o instanceof short[])
-                hashcode += Arrays.hashCode((short[]) o);
-            else if (o instanceof int[])
-                hashcode += Arrays.hashCode((int[]) o);
-            else if (o instanceof long[])
-                hashcode += Arrays.hashCode((long[]) o);
-            else if (o instanceof char[])
-                hashcode += Arrays.hashCode((char[]) o);
-            else if (o instanceof float[])
-                hashcode += Arrays.hashCode((float[]) o);
-            else if (o instanceof double[])
-                hashcode += Arrays.hashCode((double[]) o);
-            else if (o instanceof boolean[])
-                hashcode += Arrays.hashCode((boolean[]) o);
+        for (Object o : contents.vblues()) {
+            if (o instbnceof Object[])
+                hbshcode += Arrbys.deepHbshCode((Object[]) o);
+            else if (o instbnceof byte[])
+                hbshcode += Arrbys.hbshCode((byte[]) o);
+            else if (o instbnceof short[])
+                hbshcode += Arrbys.hbshCode((short[]) o);
+            else if (o instbnceof int[])
+                hbshcode += Arrbys.hbshCode((int[]) o);
+            else if (o instbnceof long[])
+                hbshcode += Arrbys.hbshCode((long[]) o);
+            else if (o instbnceof chbr[])
+                hbshcode += Arrbys.hbshCode((chbr[]) o);
+            else if (o instbnceof flobt[])
+                hbshcode += Arrbys.hbshCode((flobt[]) o);
+            else if (o instbnceof double[])
+                hbshcode += Arrbys.hbshCode((double[]) o);
+            else if (o instbnceof boolebn[])
+                hbshcode += Arrbys.hbshCode((boolebn[]) o);
             else if (o != null)
-                hashcode += o.hashCode();
+                hbshcode += o.hbshCode();
         }
 
-        return hashcode;
+        return hbshcode;
     }
 
     /**
-     * Returns a string representation of this <code>CompositeDataSupport</code> instance.
+     * Returns b string representbtion of this <code>CompositeDbtbSupport</code> instbnce.
      * <p>
-     * The string representation consists of the name of this class (ie <code>javax.management.openmbean.CompositeDataSupport</code>),
-     * the string representation of the composite type of this instance, and the string representation of the contents
-     * (ie list the itemName=itemValue mappings).
+     * The string representbtion consists of the nbme of this clbss (ie <code>jbvbx.mbnbgement.openmbebn.CompositeDbtbSupport</code>),
+     * the string representbtion of the composite type of this instbnce, bnd the string representbtion of the contents
+     * (ie list the itemNbme=itemVblue mbppings).
      *
-     * @return  a string representation of this <code>CompositeDataSupport</code> instance
+     * @return  b string representbtion of this <code>CompositeDbtbSupport</code> instbnce
      */
     @Override
     public String toString() {
         return new StringBuilder()
-            .append(this.getClass().getName())
-            .append("(compositeType=")
-            .append(compositeType.toString())
-            .append(",contents=")
-            .append(contentString())
-            .append(")")
+            .bppend(this.getClbss().getNbme())
+            .bppend("(compositeType=")
+            .bppend(compositeType.toString())
+            .bppend(",contents=")
+            .bppend(contentString())
+            .bppend(")")
             .toString();
     }
 
-    private String contentString() {
+    privbte String contentString() {
         StringBuilder sb = new StringBuilder("{");
         String sep = "";
-        for (Map.Entry<String, Object> entry : contents.entrySet()) {
-            sb.append(sep).append(entry.getKey()).append("=");
-            String s = Arrays.deepToString(new Object[] {entry.getValue()});
-            sb.append(s.substring(1, s.length() - 1));
+        for (Mbp.Entry<String, Object> entry : contents.entrySet()) {
+            sb.bppend(sep).bppend(entry.getKey()).bppend("=");
+            String s = Arrbys.deepToString(new Object[] {entry.getVblue()});
+            sb.bppend(s.substring(1, s.length() - 1));
             sep = ", ";
         }
-        sb.append("}");
+        sb.bppend("}");
         return sb.toString();
     }
 }

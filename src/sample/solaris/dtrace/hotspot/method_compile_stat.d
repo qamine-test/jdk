@@ -1,21 +1,21 @@
-#!/usr/sbin/dtrace -Zs
+#!/usr/sbin/dtrbce -Zs
 /*
- * Copyright (c) 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -34,32 +34,32 @@
 */
 
 /*
- * Usage:
- *   1. method_compile_stat.d -c "java ..." TOP_RESULTS_COUNT INTERVAL_SECS
- *   2. method_compile_stat.d -p JAVA_PID TOP_RESULTS_COUNT INTERVAL_SECS
+ * Usbge:
+ *   1. method_compile_stbt.d -c "jbvb ..." TOP_RESULTS_COUNT INTERVAL_SECS
+ *   2. method_compile_stbt.d -p JAVA_PID TOP_RESULTS_COUNT INTERVAL_SECS
  *
- * This script prints statistics about TOP_RESULTS_COUNT (default is 25)
- * methods with largest/smallest compilation time every INTERVAL_SECS
- * (default is 60) seconds.
+ * This script prints stbtistics bbout TOP_RESULTS_COUNT (defbult is 25)
+ * methods with lbrgest/smbllest compilbtion time every INTERVAL_SECS
+ * (defbult is 60) seconds.
  *
  */
 
-#pragma D option quiet
-#pragma D option destructive
-#pragma D option defaultargs
-#pragma D option aggrate=100ms
+#prbgmb D option quiet
+#prbgmb D option destructive
+#prbgmb D option defbultbrgs
+#prbgmb D option bggrbte=100ms
 
 
-self char *str_ptr;
-self string class_name;
-self string method_name;
-self string signature;
+self chbr *str_ptr;
+self string clbss_nbme;
+self string method_nbme;
+self string signbture;
 
 int INTERVAL_SECS;
 
 :::BEGIN
 {
-    SAMPLE_NAME = "hotspot methods compilation tracing";
+    SAMPLE_NAME = "hotspot methods compilbtion trbcing";
 
     TOP_RESULTS_COUNT = $1 ? $1 : 25;
     INTERVAL_SECS = $2 ? $2 : 60;
@@ -68,7 +68,7 @@ int INTERVAL_SECS;
     LOADED_METHODS_CNT = 0;
     UNLOADED_METHODS_CNT = 0;
 
-    SAMPLING_TIME = timestamp + INTERVAL_SECS * 1000000000ull;
+    SAMPLING_TIME = timestbmp + INTERVAL_SECS * 1000000000ull;
 
     LINE_SEP =
     "------------------------------------------------------------------------";
@@ -78,197 +78,197 @@ int INTERVAL_SECS;
 
 /*
  * hotspot:::method-compile-begin
- *  arg0: char*,        a pointer to mUTF-8 string containing the name of
+ *  brg0: chbr*,        b pointer to mUTF-8 string contbining the nbme of
  *                          the compiler
- *  arg1: uintptr_t,    the length of the compiler name (in bytes)
- *  arg2: char*,        a pointer to mUTF-8 string containing the class name of
+ *  brg1: uintptr_t,    the length of the compiler nbme (in bytes)
+ *  brg2: chbr*,        b pointer to mUTF-8 string contbining the clbss nbme of
  *                          the method being compiled
- *  arg3: uintptr_t,    the length of the class name (in bytes)
- *  arg4: char*,        a pointer to mUTF-8 string containing the method name of
+ *  brg3: uintptr_t,    the length of the clbss nbme (in bytes)
+ *  brg4: chbr*,        b pointer to mUTF-8 string contbining the method nbme of
  *                          the method being compiled
- *  arg5: uintptr_t,    the length of the method name (in bytes)
- *  arg6: char*,        a pointer to mUTF-8 string containing the signature of
+ *  brg5: uintptr_t,    the length of the method nbme (in bytes)
+ *  brg6: chbr*,        b pointer to mUTF-8 string contbining the signbture of
  *                          the method being compiled
- *  arg7: uintptr_t,    the length of the signature(in bytes)
+ *  brg7: uintptr_t,    the length of the signbture(in bytes)
  */
-hotspot$target:::method-compile-begin
+hotspot$tbrget:::method-compile-begin
 {
-    /*compiler_name, len, class_name, len, method_name, len, signature, len*/
+    /*compiler_nbme, len, clbss_nbme, len, method_nbme, len, signbture, len*/
 
-    self->str_ptr = (char*) copyin(arg0, arg1+1);
-    self->str_ptr[arg1] = '\0';
-    compiler_name = (string) self->str_ptr;
+    self->str_ptr = (chbr*) copyin(brg0, brg1+1);
+    self->str_ptr[brg1] = '\0';
+    compiler_nbme = (string) self->str_ptr;
 
-    self->str_ptr = (char*) copyin(arg2, arg3+1);
-    self->str_ptr[arg3] = '\0';
-    self->class_name = (string) self->str_ptr;
+    self->str_ptr = (chbr*) copyin(brg2, brg3+1);
+    self->str_ptr[brg3] = '\0';
+    self->clbss_nbme = (string) self->str_ptr;
 
-    self->str_ptr = (char*) copyin(arg4, arg5+1);
-    self->str_ptr[arg5] = '\0';
-    self->method_name = (string) self->str_ptr;
+    self->str_ptr = (chbr*) copyin(brg4, brg5+1);
+    self->str_ptr[brg5] = '\0';
+    self->method_nbme = (string) self->str_ptr;
 
-    self->str_ptr = (char*) copyin(arg6, arg7+1);
-    self->str_ptr[arg7] = '\0';
-    self->signature = (string) self->str_ptr;
+    self->str_ptr = (chbr*) copyin(brg6, brg7+1);
+    self->str_ptr[brg7] = '\0';
+    self->signbture = (string) self->str_ptr;
 
-    self->ts[self->class_name, self->method_name, self->signature] = timestamp;
+    self->ts[self->clbss_nbme, self->method_nbme, self->signbture] = timestbmp;
 }
 
 /*
  * hotspot:::method-compile-end
- *  arg0: char*,        a pointer to mUTF-8 string containing the name of
+ *  brg0: chbr*,        b pointer to mUTF-8 string contbining the nbme of
  *                          the compiler
- *  arg1: uintptr_t,    the length of the compiler name (in bytes)
- *  arg2: char*,        a pointer to mUTF-8 string containing the class name of
+ *  brg1: uintptr_t,    the length of the compiler nbme (in bytes)
+ *  brg2: chbr*,        b pointer to mUTF-8 string contbining the clbss nbme of
  *                          the method being compiled
- *  arg3: uintptr_t,    the length of the class name (in bytes)
- *  arg4: char*,        a pointer to mUTF-8 string containing the method name of
+ *  brg3: uintptr_t,    the length of the clbss nbme (in bytes)
+ *  brg4: chbr*,        b pointer to mUTF-8 string contbining the method nbme of
  *                          the method being compiled
- *  arg5: uintptr_t,    the length of the method name (in bytes)
- *  arg6: char*,        a pointer to mUTF-8 string containing the signature of
+ *  brg5: uintptr_t,    the length of the method nbme (in bytes)
+ *  brg6: chbr*,        b pointer to mUTF-8 string contbining the signbture of
  *                          the method being compiled
- *  arg7: uintptr_t,    the length of the signature(in bytes)
- *  arg8: uintptr_t,    boolean value which indicates if method
- *                          has been compiled successfuly
+ *  brg7: uintptr_t,    the length of the signbture(in bytes)
+ *  brg8: uintptr_t,    boolebn vblue which indicbtes if method
+ *                          hbs been compiled successfuly
  */
-hotspot$target:::method-compile-end
+hotspot$tbrget:::method-compile-end
 {
-    /* compiler_name, len, class_name, len, method_name, len,
-       signature, len, isSuccess */
+    /* compiler_nbme, len, clbss_nbme, len, method_nbme, len,
+       signbture, len, isSuccess */
 
-    self->str_ptr = (char*) copyin(arg0, arg1+1);
-    self->str_ptr[arg1] = '\0';
-    compiler_name = (string) self->str_ptr;
+    self->str_ptr = (chbr*) copyin(brg0, brg1+1);
+    self->str_ptr[brg1] = '\0';
+    compiler_nbme = (string) self->str_ptr;
 
-    self->str_ptr = (char*) copyin(arg2, arg3+1);
-    self->str_ptr[arg3] = '\0';
-    self->class_name = (string) self->str_ptr;
+    self->str_ptr = (chbr*) copyin(brg2, brg3+1);
+    self->str_ptr[brg3] = '\0';
+    self->clbss_nbme = (string) self->str_ptr;
 
-    self->str_ptr = (char*) copyin(arg4, arg5+1);
-    self->str_ptr[arg5] = '\0';
-    self->method_name = (string) self->str_ptr;
+    self->str_ptr = (chbr*) copyin(brg4, brg5+1);
+    self->str_ptr[brg5] = '\0';
+    self->method_nbme = (string) self->str_ptr;
 
-    self->str_ptr = (char*) copyin(arg6, arg7+1);
-    self->str_ptr[arg7] = '\0';
-    self->signature = (string) self->str_ptr;
+    self->str_ptr = (chbr*) copyin(brg6, brg7+1);
+    self->str_ptr[brg7] = '\0';
+    self->signbture = (string) self->str_ptr;
 }
 
 /*
- * Method was successfuly compiled
+ * Method wbs successfuly compiled
  */
-hotspot$target:::method-compile-end
-/arg8 && self->ts[self->class_name, self->method_name, self->signature]/
+hotspot$tbrget:::method-compile-end
+/brg8 && self->ts[self->clbss_nbme, self->method_nbme, self->signbture]/
 {
-    /* compiler_name, len, class_name, len, method_name, len,
-       signature, len, isSuccess */
+    /* compiler_nbme, len, clbss_nbme, len, method_nbme, len,
+       signbture, len, isSuccess */
 
     COMPILED_METHODS_COUNT++;
 
-    @compile_time_top[self->class_name, self->method_name, self->signature] =
-     avg((timestamp -
-      self->ts[self->class_name, self->method_name, self->signature]) / 1000);
+    @compile_time_top[self->clbss_nbme, self->method_nbme, self->signbture] =
+     bvg((timestbmp -
+      self->ts[self->clbss_nbme, self->method_nbme, self->signbture]) / 1000);
 
-    @compile_time_last[self->class_name, self->method_name, self->signature] =
-     avg((timestamp -
-      self->ts[self->class_name, self->method_name, self->signature]) / 1000);
+    @compile_time_lbst[self->clbss_nbme, self->method_nbme, self->signbture] =
+     bvg((timestbmp -
+      self->ts[self->clbss_nbme, self->method_nbme, self->signbture]) / 1000);
 
-    self->ts[self->class_name, self->method_name, self->signature] = 0;
+    self->ts[self->clbss_nbme, self->method_nbme, self->signbture] = 0;
 }
 
 /*
- * Method compilation was failed
+ * Method compilbtion wbs fbiled
  */
-hotspot$target:::method-compile-end
-/arg8 != 1 && self->ts[self->class_name, self->method_name, self->signature]/
+hotspot$tbrget:::method-compile-end
+/brg8 != 1 && self->ts[self->clbss_nbme, self->method_nbme, self->signbture]/
 {
-    /* compiler_name, len, class_name, len, method_name, len,
-       signature, len, isSuccess */
+    /* compiler_nbme, len, clbss_nbme, len, method_nbme, len,
+       signbture, len, isSuccess */
 
-    @fail_compile_count[self->class_name,
-                        self->method_name, self->signature] = count();
+    @fbil_compile_count[self->clbss_nbme,
+                        self->method_nbme, self->signbture] = count();
 }
 
-hotspot$target:::compiled-method-load
+hotspot$tbrget:::compiled-method-lobd
 {
-    /* class_name, len, method_name, len, signature, len, code_address, size */
+    /* clbss_nbme, len, method_nbme, len, signbture, len, code_bddress, size */
 
     LOADED_METHODS_CNT ++;
 }
 
-hotspot$target:::compiled-method-unload
+hotspot$tbrget:::compiled-method-unlobd
 {
-    /* class_name, len, method_name, len, signature, len, code_address, size */
+    /* clbss_nbme, len, method_nbme, len, signbture, len, code_bddress, size */
 
     UNLOADED_METHODS_CNT ++;
 }
 
 
 tick-1sec
-/timestamp > SAMPLING_TIME/
+/timestbmp > SAMPLING_TIME/
 {
     trunc(@compile_time_top, TOP_RESULTS_COUNT);
-    trunc(@compile_time_last, -TOP_RESULTS_COUNT);
+    trunc(@compile_time_lbst, -TOP_RESULTS_COUNT);
 
     printf("\n");
     printf("%s\n", LINE_SEP);
-    printf("%Y\n", walltimestamp);
+    printf("%Y\n", wblltimestbmp);
     printf("%s\n", LINE_SEP);
 
     printf(
-        "\nTop %d methods with largest compilation time (in milleseconds):\n",
+        "\nTop %d methods with lbrgest compilbtion time (in milleseconds):\n",
         TOP_RESULTS_COUNT);
-    printa("%10@d %s::%s%s\n", @compile_time_top);
+    printb("%10@d %s::%s%s\n", @compile_time_top);
 
     printf(
-        "\nTop %d methods with smallest compilation time (in milleseconds):\n",
+        "\nTop %d methods with smbllest compilbtion time (in milleseconds):\n",
         TOP_RESULTS_COUNT);
-    printa("%10@d %s::%s%s\n", @compile_time_last);
+    printb("%10@d %s::%s%s\n", @compile_time_lbst);
 
     printf("\n");
     printf("Compiled methods:         %10d\n", COMPILED_METHODS_COUNT);
-    printf("Loaded compiled methods:  %10d\n", LOADED_METHODS_CNT);
-    printf("Unoaded compiled methods: %10d\n", UNLOADED_METHODS_CNT);
+    printf("Lobded compiled methods:  %10d\n", LOADED_METHODS_CNT);
+    printf("Unobded compiled methods: %10d\n", UNLOADED_METHODS_CNT);
 
-    printf("\nFailed compilation:\n");
-    printa("%10@d %s::%s%s\n", @fail_compile_count);
+    printf("\nFbiled compilbtion:\n");
+    printb("%10@d %s::%s%s\n", @fbil_compile_count);
 
-    SAMPLING_TIME = timestamp + INTERVAL_SECS * 1000000000ull;
+    SAMPLING_TIME = timestbmp + INTERVAL_SECS * 1000000000ull;
 }
 
 :::END
 {
     trunc(@compile_time_top, TOP_RESULTS_COUNT);
-    trunc(@compile_time_last, -TOP_RESULTS_COUNT);
+    trunc(@compile_time_lbst, -TOP_RESULTS_COUNT);
 
     printf("\n");
     printf("%s\n", LINE_SEP);
-    printf("%Y\n", walltimestamp);
+    printf("%Y\n", wblltimestbmp);
     printf("%s\n", LINE_SEP);
 
     printf(
-        "\nTop %d methods with largest compilation time (in milleseconds):\n",
+        "\nTop %d methods with lbrgest compilbtion time (in milleseconds):\n",
         TOP_RESULTS_COUNT);
-    printa("%10@d %s::%s%s\n", @compile_time_top);
+    printb("%10@d %s::%s%s\n", @compile_time_top);
 
     printf(
-        "\nTop %d methods with smallest compilation time (in milleseconds):\n",
+        "\nTop %d methods with smbllest compilbtion time (in milleseconds):\n",
         TOP_RESULTS_COUNT);
-    printa("%10@d %s::%s%s\n", @compile_time_last);
+    printb("%10@d %s::%s%s\n", @compile_time_lbst);
 
     printf("\n");
     printf("Compiled methods:         %10d\n", COMPILED_METHODS_COUNT);
-    printf("Loaded compiled methods:  %10d\n", LOADED_METHODS_CNT);
-    printf("Unoaded compiled methods: %10d\n", UNLOADED_METHODS_CNT);
+    printf("Lobded compiled methods:  %10d\n", LOADED_METHODS_CNT);
+    printf("Unobded compiled methods: %10d\n", UNLOADED_METHODS_CNT);
 
-    printf("\nFailed compilations:\n");
-    printa("%10@d %s::%s%s\n", @fail_compile_count);
+    printf("\nFbiled compilbtions:\n");
+    printb("%10@d %s::%s%s\n", @fbil_compile_count);
 
     printf("\nEND of %s\n", SAMPLE_NAME);
 }
 
-syscall::rexit:entry,
-syscall::exit:entry
-/pid == $target/
+syscbll::rexit:entry,
+syscbll::exit:entry
+/pid == $tbrget/
 {
    exit(0);
 }

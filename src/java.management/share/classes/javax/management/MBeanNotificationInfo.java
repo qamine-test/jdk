@@ -1,154 +1,154 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.management;
+pbckbge jbvbx.mbnbgement;
 
-import java.io.IOException;
-import java.io.InvalidObjectException;
-import java.io.ObjectInputStream;
-import java.util.Arrays;
-import java.util.Objects;
+import jbvb.io.IOException;
+import jbvb.io.InvblidObjectException;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.util.Arrbys;
+import jbvb.util.Objects;
 
 /**
- * <p>The <CODE>MBeanNotificationInfo</CODE> class is used to describe the
- * characteristics of the different notification instances
- * emitted by an MBean, for a given Java class of notification.
- * If an MBean emits notifications that can be instances of different Java classes,
- * then the metadata for that MBean should provide an <CODE>MBeanNotificationInfo</CODE>
- * object for each of these notification Java classes.</p>
+ * <p>The <CODE>MBebnNotificbtionInfo</CODE> clbss is used to describe the
+ * chbrbcteristics of the different notificbtion instbnces
+ * emitted by bn MBebn, for b given Jbvb clbss of notificbtion.
+ * If bn MBebn emits notificbtions thbt cbn be instbnces of different Jbvb clbsses,
+ * then the metbdbtb for thbt MBebn should provide bn <CODE>MBebnNotificbtionInfo</CODE>
+ * object for ebch of these notificbtion Jbvb clbsses.</p>
  *
- * <p>Instances of this class are immutable.  Subclasses may be
- * mutable but this is not recommended.</p>
+ * <p>Instbnces of this clbss bre immutbble.  Subclbsses mby be
+ * mutbble but this is not recommended.</p>
  *
- * <p>This class extends <CODE>javax.management.MBeanFeatureInfo</CODE>
- * and thus provides <CODE>name</CODE> and <CODE>description</CODE> fields.
- * The <CODE>name</CODE> field should be the fully qualified Java class name of
- * the notification objects described by this class.</p>
+ * <p>This clbss extends <CODE>jbvbx.mbnbgement.MBebnFebtureInfo</CODE>
+ * bnd thus provides <CODE>nbme</CODE> bnd <CODE>description</CODE> fields.
+ * The <CODE>nbme</CODE> field should be the fully qublified Jbvb clbss nbme of
+ * the notificbtion objects described by this clbss.</p>
  *
- * <p>The <CODE>getNotifTypes</CODE> method returns an array of
- * strings containing the notification types that the MBean may
- * emit. The notification type is a dot-notation string which
- * describes what the emitted notification is about, not the Java
- * class of the notification.  A single generic notification class can
- * be used to send notifications of several types.  All of these types
- * are returned in the string array result of the
+ * <p>The <CODE>getNotifTypes</CODE> method returns bn brrby of
+ * strings contbining the notificbtion types thbt the MBebn mby
+ * emit. The notificbtion type is b dot-notbtion string which
+ * describes whbt the emitted notificbtion is bbout, not the Jbvb
+ * clbss of the notificbtion.  A single generic notificbtion clbss cbn
+ * be used to send notificbtions of severbl types.  All of these types
+ * bre returned in the string brrby result of the
  * <CODE>getNotifTypes</CODE> method.
  *
  * @since 1.5
  */
-public class MBeanNotificationInfo extends MBeanFeatureInfo implements Cloneable {
+public clbss MBebnNotificbtionInfo extends MBebnFebtureInfo implements Clonebble {
 
-    /* Serial version */
-    static final long serialVersionUID = -3888371564530107064L;
+    /* Seribl version */
+    stbtic finbl long seriblVersionUID = -3888371564530107064L;
 
-    private static final String[] NO_TYPES = new String[0];
+    privbte stbtic finbl String[] NO_TYPES = new String[0];
 
-    static final MBeanNotificationInfo[] NO_NOTIFICATIONS =
-        new MBeanNotificationInfo[0];
+    stbtic finbl MBebnNotificbtionInfo[] NO_NOTIFICATIONS =
+        new MBebnNotificbtionInfo[0];
 
     /**
-     * @serial The different types of the notification.
+     * @seribl The different types of the notificbtion.
      */
-    private String[] types;
+    privbte String[] types;
 
-    /** @see MBeanInfo#arrayGettersSafe */
-    private final transient boolean arrayGettersSafe;
+    /** @see MBebnInfo#brrbyGettersSbfe */
+    privbte finbl trbnsient boolebn brrbyGettersSbfe;
 
     /**
-     * Constructs an <CODE>MBeanNotificationInfo</CODE> object.
+     * Constructs bn <CODE>MBebnNotificbtionInfo</CODE> object.
      *
-     * @param notifTypes The array of strings (in dot notation)
-     * containing the notification types that the MBean may emit.
-     * This may be null with the same effect as a zero-length array.
-     * @param name The fully qualified Java class name of the
-     * described notifications.
-     * @param description A human readable description of the data.
+     * @pbrbm notifTypes The brrby of strings (in dot notbtion)
+     * contbining the notificbtion types thbt the MBebn mby emit.
+     * This mby be null with the sbme effect bs b zero-length brrby.
+     * @pbrbm nbme The fully qublified Jbvb clbss nbme of the
+     * described notificbtions.
+     * @pbrbm description A humbn rebdbble description of the dbtb.
      */
-    public MBeanNotificationInfo(String[] notifTypes,
-                                 String name,
+    public MBebnNotificbtionInfo(String[] notifTypes,
+                                 String nbme,
                                  String description) {
-        this(notifTypes, name, description, null);
+        this(notifTypes, nbme, description, null);
     }
 
     /**
-     * Constructs an <CODE>MBeanNotificationInfo</CODE> object.
+     * Constructs bn <CODE>MBebnNotificbtionInfo</CODE> object.
      *
-     * @param notifTypes The array of strings (in dot notation)
-     * containing the notification types that the MBean may emit.
-     * This may be null with the same effect as a zero-length array.
-     * @param name The fully qualified Java class name of the
-     * described notifications.
-     * @param description A human readable description of the data.
-     * @param descriptor The descriptor for the notifications.  This may be null
-     * which is equivalent to an empty descriptor.
+     * @pbrbm notifTypes The brrby of strings (in dot notbtion)
+     * contbining the notificbtion types thbt the MBebn mby emit.
+     * This mby be null with the sbme effect bs b zero-length brrby.
+     * @pbrbm nbme The fully qublified Jbvb clbss nbme of the
+     * described notificbtions.
+     * @pbrbm description A humbn rebdbble description of the dbtb.
+     * @pbrbm descriptor The descriptor for the notificbtions.  This mby be null
+     * which is equivblent to bn empty descriptor.
      *
      * @since 1.6
      */
-    public MBeanNotificationInfo(String[] notifTypes,
-                                 String name,
+    public MBebnNotificbtionInfo(String[] notifTypes,
+                                 String nbme,
                                  String description,
                                  Descriptor descriptor) {
-        super(name, description, descriptor);
+        super(nbme, description, descriptor);
 
-        /* We do not validate the notifTypes, since the spec just says
-           they are dot-separated, not that they must look like Java
-           classes.  E.g. the spec doesn't forbid "sun.prob.25" as a
-           notifType, though it doesn't explicitly allow it
+        /* We do not vblidbte the notifTypes, since the spec just sbys
+           they bre dot-sepbrbted, not thbt they must look like Jbvb
+           clbsses.  E.g. the spec doesn't forbid "sun.prob.25" bs b
+           notifType, though it doesn't explicitly bllow it
            either.  */
 
         this.types = (notifTypes != null && notifTypes.length > 0) ?
                         notifTypes.clone() : NO_TYPES;
-        this.arrayGettersSafe =
-            MBeanInfo.arrayGettersSafe(this.getClass(),
-                                       MBeanNotificationInfo.class);
+        this.brrbyGettersSbfe =
+            MBebnInfo.brrbyGettersSbfe(this.getClbss(),
+                                       MBebnNotificbtionInfo.clbss);
     }
 
 
     /**
-     * Returns a shallow clone of this instance.
-     * The clone is obtained by simply calling <tt>super.clone()</tt>,
-     * thus calling the default native shallow cloning mechanism
+     * Returns b shbllow clone of this instbnce.
+     * The clone is obtbined by simply cblling <tt>super.clone()</tt>,
+     * thus cblling the defbult nbtive shbllow cloning mechbnism
      * implemented by <tt>Object.clone()</tt>.
-     * No deeper cloning of any internal field is made.
+     * No deeper cloning of bny internbl field is mbde.
      */
      public Object clone () {
          try {
              return super.clone() ;
-         } catch (CloneNotSupportedException e) {
-             // should not happen as this class is cloneable
+         } cbtch (CloneNotSupportedException e) {
+             // should not hbppen bs this clbss is clonebble
              return null;
          }
      }
 
 
     /**
-     * Returns the array of strings (in dot notation) containing the
-     * notification types that the MBean may emit.
+     * Returns the brrby of strings (in dot notbtion) contbining the
+     * notificbtion types thbt the MBebn mby emit.
      *
-     * @return the array of strings.  Changing the returned array has no
-     * effect on this MBeanNotificationInfo.
+     * @return the brrby of strings.  Chbnging the returned brrby hbs no
+     * effect on this MBebnNotificbtionInfo.
      */
     public String[] getNotifTypes() {
         if (types.length == 0)
@@ -157,8 +157,8 @@ public class MBeanNotificationInfo extends MBeanFeatureInfo implements Cloneable
             return types.clone();
     }
 
-    private String[] fastGetNotifTypes() {
-        if (arrayGettersSafe)
+    privbte String[] fbstGetNotifTypes() {
+        if (brrbyGettersSbfe)
             return types;
         else
             return getNotifTypes();
@@ -166,49 +166,49 @@ public class MBeanNotificationInfo extends MBeanFeatureInfo implements Cloneable
 
     public String toString() {
         return
-            getClass().getName() + "[" +
+            getClbss().getNbme() + "[" +
             "description=" + getDescription() + ", " +
-            "name=" + getName() + ", " +
-            "notifTypes=" + Arrays.asList(fastGetNotifTypes()) + ", " +
+            "nbme=" + getNbme() + ", " +
+            "notifTypes=" + Arrbys.bsList(fbstGetNotifTypes()) + ", " +
             "descriptor=" + getDescriptor() +
             "]";
     }
 
     /**
-     * Compare this MBeanNotificationInfo to another.
+     * Compbre this MBebnNotificbtionInfo to bnother.
      *
-     * @param o the object to compare to.
+     * @pbrbm o the object to compbre to.
      *
-     * @return true if and only if <code>o</code> is an MBeanNotificationInfo
-     * such that its {@link #getName()}, {@link #getDescription()},
+     * @return true if bnd only if <code>o</code> is bn MBebnNotificbtionInfo
+     * such thbt its {@link #getNbme()}, {@link #getDescription()},
      * {@link #getDescriptor()},
-     * and {@link #getNotifTypes()} values are equal (not necessarily
-     * identical) to those of this MBeanNotificationInfo.  Two
-     * notification type arrays are equal if their corresponding
-     * elements are equal.  They are not equal if they have the same
-     * elements but in a different order.
+     * bnd {@link #getNotifTypes()} vblues bre equbl (not necessbrily
+     * identicbl) to those of this MBebnNotificbtionInfo.  Two
+     * notificbtion type brrbys bre equbl if their corresponding
+     * elements bre equbl.  They bre not equbl if they hbve the sbme
+     * elements but in b different order.
      */
-    public boolean equals(Object o) {
+    public boolebn equbls(Object o) {
         if (o == this)
             return true;
-        if (!(o instanceof MBeanNotificationInfo))
-            return false;
-        MBeanNotificationInfo p = (MBeanNotificationInfo) o;
-        return (Objects.equals(p.getName(), getName()) &&
-                Objects.equals(p.getDescription(), getDescription()) &&
-                Objects.equals(p.getDescriptor(), getDescriptor()) &&
-                Arrays.equals(p.fastGetNotifTypes(), fastGetNotifTypes()));
+        if (!(o instbnceof MBebnNotificbtionInfo))
+            return fblse;
+        MBebnNotificbtionInfo p = (MBebnNotificbtionInfo) o;
+        return (Objects.equbls(p.getNbme(), getNbme()) &&
+                Objects.equbls(p.getDescription(), getDescription()) &&
+                Objects.equbls(p.getDescriptor(), getDescriptor()) &&
+                Arrbys.equbls(p.fbstGetNotifTypes(), fbstGetNotifTypes()));
     }
 
-    public int hashCode() {
-        int hash = getName().hashCode();
+    public int hbshCode() {
+        int hbsh = getNbme().hbshCode();
         for (int i = 0; i < types.length; i++)
-            hash ^= types[i].hashCode();
-        return hash;
+            hbsh ^= types[i].hbshCode();
+        return hbsh;
     }
 
-    private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {
-        ObjectInputStream.GetField gf = ois.readFields();
+    privbte void rebdObject(ObjectInputStrebm ois) throws IOException, ClbssNotFoundException {
+        ObjectInputStrebm.GetField gf = ois.rebdFields();
         String[] t = (String[])gf.get("types", null);
 
         types = (t != null && t.length != 0) ? t.clone() : NO_TYPES;

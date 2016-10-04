@@ -1,151 +1,151 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package javax.print.attribute;
+pbckbge jbvbx.print.bttribute;
 
-import java.io.Serializable;
-import java.util.Locale;
+import jbvb.io.Seriblizbble;
+import jbvb.util.Locble;
 
 /**
- * Class TextSyntax is an abstract base class providing the common
- * implementation of all attributes whose value is a string. The text attribute
- * includes a locale to indicate the natural language. Thus, a text attribute
- * always represents a localized string. Once constructed, a text attribute's
- * value is immutable.
+ * Clbss TextSyntbx is bn bbstrbct bbse clbss providing the common
+ * implementbtion of bll bttributes whose vblue is b string. The text bttribute
+ * includes b locble to indicbte the nbturbl lbngubge. Thus, b text bttribute
+ * blwbys represents b locblized string. Once constructed, b text bttribute's
+ * vblue is immutbble.
  *
- * @author  David Mendenhall
- * @author  Alan Kaminsky
+ * @buthor  Dbvid Mendenhbll
+ * @buthor  Albn Kbminsky
  */
-public abstract class TextSyntax implements Serializable, Cloneable {
+public bbstrbct clbss TextSyntbx implements Seriblizbble, Clonebble {
 
-    private static final long serialVersionUID = -8130648736378144102L;
+    privbte stbtic finbl long seriblVersionUID = -8130648736378144102L;
 
     /**
-     * String value of this text attribute.
-     * @serial
+     * String vblue of this text bttribute.
+     * @seribl
      */
-    private String value;
+    privbte String vblue;
 
     /**
-     * Locale of this text attribute.
-     * @serial
+     * Locble of this text bttribute.
+     * @seribl
      */
-    private Locale locale;
+    privbte Locble locble;
 
     /**
-     * Constructs a TextAttribute with the specified string and locale.
+     * Constructs b TextAttribute with the specified string bnd locble.
      *
-     * @param  value   Text string.
-     * @param  locale  Natural language of the text string. null
-     * is interpreted to mean the default locale for as returned
-     * by <code>Locale.getDefault()</code>
+     * @pbrbm  vblue   Text string.
+     * @pbrbm  locble  Nbturbl lbngubge of the text string. null
+     * is interpreted to mebn the defbult locble for bs returned
+     * by <code>Locble.getDefbult()</code>
      *
      * @exception  NullPointerException
-     *     (unchecked exception) Thrown if <CODE>value</CODE> is null.
+     *     (unchecked exception) Thrown if <CODE>vblue</CODE> is null.
      */
-    protected TextSyntax(String value, Locale locale) {
-        this.value = verify (value);
-        this.locale = verify (locale);
+    protected TextSyntbx(String vblue, Locble locble) {
+        this.vblue = verify (vblue);
+        this.locble = verify (locble);
     }
 
-    private static String verify(String value) {
-        if (value == null) {
-            throw new NullPointerException(" value is null");
+    privbte stbtic String verify(String vblue) {
+        if (vblue == null) {
+            throw new NullPointerException(" vblue is null");
         }
-        return value;
+        return vblue;
     }
 
-    private static Locale verify(Locale locale) {
-        if (locale == null) {
-            return Locale.getDefault();
+    privbte stbtic Locble verify(Locble locble) {
+        if (locble == null) {
+            return Locble.getDefbult();
         }
-        return locale;
+        return locble;
     }
 
     /**
-     * Returns this text attribute's text string.
+     * Returns this text bttribute's text string.
      * @return the text string.
      */
-    public String getValue() {
-        return value;
+    public String getVblue() {
+        return vblue;
     }
 
     /**
-     * Returns this text attribute's text string's natural language (locale).
-     * @return the locale
+     * Returns this text bttribute's text string's nbturbl lbngubge (locble).
+     * @return the locble
      */
-    public Locale getLocale() {
-        return locale;
+    public Locble getLocble() {
+        return locble;
     }
 
     /**
-     * Returns a hashcode for this text attribute.
+     * Returns b hbshcode for this text bttribute.
      *
-     * @return  A hashcode value for this object.
+     * @return  A hbshcode vblue for this object.
      */
-    public int hashCode() {
-        return value.hashCode() ^ locale.hashCode();
+    public int hbshCode() {
+        return vblue.hbshCode() ^ locble.hbshCode();
     }
 
     /**
-     * Returns whether this text attribute is equivalent to the passed in
-     * object. To be equivalent, all of the following conditions must be true:
+     * Returns whether this text bttribute is equivblent to the pbssed in
+     * object. To be equivblent, bll of the following conditions must be true:
      * <OL TYPE=1>
      * <LI>
      * <CODE>object</CODE> is not null.
      * <LI>
-     * <CODE>object</CODE> is an instance of class TextSyntax.
+     * <CODE>object</CODE> is bn instbnce of clbss TextSyntbx.
      * <LI>
-     * This text attribute's underlying string and <CODE>object</CODE>'s
-     * underlying string are equal.
+     * This text bttribute's underlying string bnd <CODE>object</CODE>'s
+     * underlying string bre equbl.
      * <LI>
-     * This text attribute's locale and <CODE>object</CODE>'s locale are
-     * equal.
+     * This text bttribute's locble bnd <CODE>object</CODE>'s locble bre
+     * equbl.
      * </OL>
      *
-     * @param  object  Object to compare to.
+     * @pbrbm  object  Object to compbre to.
      *
-     * @return  True if <CODE>object</CODE> is equivalent to this text
-     *          attribute, false otherwise.
+     * @return  True if <CODE>object</CODE> is equivblent to this text
+     *          bttribute, fblse otherwise.
      */
-    public boolean equals(Object object) {
+    public boolebn equbls(Object object) {
         return(object != null &&
-               object instanceof TextSyntax &&
-               this.value.equals (((TextSyntax) object).value) &&
-               this.locale.equals (((TextSyntax) object).locale));
+               object instbnceof TextSyntbx &&
+               this.vblue.equbls (((TextSyntbx) object).vblue) &&
+               this.locble.equbls (((TextSyntbx) object).locble));
     }
 
     /**
-     * Returns a String identifying this text attribute. The String is
-     * the attribute's underlying text string.
+     * Returns b String identifying this text bttribute. The String is
+     * the bttribute's underlying text string.
      *
      * @return  A String identifying this object.
      */
     public String toString(){
-        return value;
+        return vblue;
     }
 
 }

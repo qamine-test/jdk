@@ -3,120 +3,120 @@
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Licensed to the Apbche Softwbre Foundbtion (ASF) under one
+ * or more contributor license bgreements. See the NOTICE file
+ * distributed with this work for bdditionbl informbtion
+ * regbrding copyright ownership. The ASF licenses this file
+ * to you under the Apbche License, Version 2.0 (the
+ * "License"); you mby not use this file except in complibnce
+ * with the License. You mby obtbin b copy of the License bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.bpbche.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unless required by bpplicbble lbw or bgreed to in writing,
+ * softwbre distributed under the License is distributed on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
+ * specific lbngubge governing permissions bnd limitbtions
  * under the License.
  */
 /*
- * Copyright (c) 2005, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  */
 /*
- * $Id: DOMKeyInfoFactory.java 1333869 2012-05-04 10:42:44Z coheigea $
+ * $Id: DOMKeyInfoFbctory.jbvb 1333869 2012-05-04 10:42:44Z coheigeb $
  */
-package org.jcp.xml.dsig.internal.dom;
+pbckbge org.jcp.xml.dsig.internbl.dom;
 
-import java.math.BigInteger;
-import java.security.KeyException;
-import java.security.PublicKey;
-import java.util.List;
-import javax.xml.crypto.*;
-import javax.xml.crypto.dom.DOMCryptoContext;
-import javax.xml.crypto.dsig.keyinfo.*;
+import jbvb.mbth.BigInteger;
+import jbvb.security.KeyException;
+import jbvb.security.PublicKey;
+import jbvb.util.List;
+import jbvbx.xml.crypto.*;
+import jbvbx.xml.crypto.dom.DOMCryptoContext;
+import jbvbx.xml.crypto.dsig.keyinfo.*;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 /**
- * DOM-based implementation of KeyInfoFactory.
+ * DOM-bbsed implementbtion of KeyInfoFbctory.
  *
- * @author Sean Mullan
+ * @buthor Sebn Mullbn
  */
-public final class DOMKeyInfoFactory extends KeyInfoFactory {
+public finbl clbss DOMKeyInfoFbctory extends KeyInfoFbctory {
 
-    public DOMKeyInfoFactory() { }
+    public DOMKeyInfoFbctory() { }
 
-    @SuppressWarnings("rawtypes")
+    @SuppressWbrnings("rbwtypes")
     public KeyInfo newKeyInfo(List content) {
         return newKeyInfo(content, null);
     }
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @SuppressWbrnings({ "unchecked", "rbwtypes" })
     public KeyInfo newKeyInfo(List content, String id) {
         return new DOMKeyInfo(content, id);
     }
 
-    public KeyName newKeyName(String name) {
-        return new DOMKeyName(name);
+    public KeyNbme newKeyNbme(String nbme) {
+        return new DOMKeyNbme(nbme);
     }
 
-    public KeyValue newKeyValue(PublicKey key)  throws KeyException {
-        String algorithm = key.getAlgorithm();
-        if (algorithm.equals("DSA")) {
-            return new DOMKeyValue.DSA(key);
-        } else if (algorithm.equals("RSA")) {
-            return new DOMKeyValue.RSA(key);
-        } else if (algorithm.equals("EC")) {
-            return new DOMKeyValue.EC(key);
+    public KeyVblue newKeyVblue(PublicKey key)  throws KeyException {
+        String blgorithm = key.getAlgorithm();
+        if (blgorithm.equbls("DSA")) {
+            return new DOMKeyVblue.DSA(key);
+        } else if (blgorithm.equbls("RSA")) {
+            return new DOMKeyVblue.RSA(key);
+        } else if (blgorithm.equbls("EC")) {
+            return new DOMKeyVblue.EC(key);
         } else {
-            throw new KeyException("unsupported key algorithm: " + algorithm);
+            throw new KeyException("unsupported key blgorithm: " + blgorithm);
         }
     }
 
-    public PGPData newPGPData(byte[] keyId) {
-        return newPGPData(keyId, null, null);
+    public PGPDbtb newPGPDbtb(byte[] keyId) {
+        return newPGPDbtb(keyId, null, null);
     }
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    public PGPData newPGPData(byte[] keyId, byte[] keyPacket, List other) {
-        return new DOMPGPData(keyId, keyPacket, other);
+    @SuppressWbrnings({ "unchecked", "rbwtypes" })
+    public PGPDbtb newPGPDbtb(byte[] keyId, byte[] keyPbcket, List other) {
+        return new DOMPGPDbtb(keyId, keyPbcket, other);
     }
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    public PGPData newPGPData(byte[] keyPacket, List other) {
-        return new DOMPGPData(keyPacket, other);
+    @SuppressWbrnings({ "unchecked", "rbwtypes" })
+    public PGPDbtb newPGPDbtb(byte[] keyPbcket, List other) {
+        return new DOMPGPDbtb(keyPbcket, other);
     }
 
-    public RetrievalMethod newRetrievalMethod(String uri) {
-        return newRetrievalMethod(uri, null, null);
+    public RetrievblMethod newRetrievblMethod(String uri) {
+        return newRetrievblMethod(uri, null, null);
     }
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    public RetrievalMethod newRetrievalMethod(String uri, String type,
-        List transforms) {
+    @SuppressWbrnings({ "unchecked", "rbwtypes" })
+    public RetrievblMethod newRetrievblMethod(String uri, String type,
+        List trbnsforms) {
         if (uri == null) {
             throw new NullPointerException("uri must not be null");
         }
-        return new DOMRetrievalMethod(uri, type, transforms);
+        return new DOMRetrievblMethod(uri, type, trbnsforms);
     }
 
-    @SuppressWarnings("rawtypes")
-    public X509Data newX509Data(List content) {
-        return new DOMX509Data(content);
+    @SuppressWbrnings("rbwtypes")
+    public X509Dbtb newX509Dbtb(List content) {
+        return new DOMX509Dbtb(content);
     }
 
-    public X509IssuerSerial newX509IssuerSerial(String issuerName,
-        BigInteger serialNumber) {
-        return new DOMX509IssuerSerial(issuerName, serialNumber);
+    public X509IssuerSeribl newX509IssuerSeribl(String issuerNbme,
+        BigInteger seriblNumber) {
+        return new DOMX509IssuerSeribl(issuerNbme, seriblNumber);
     }
 
-    public boolean isFeatureSupported(String feature) {
-        if (feature == null) {
+    public boolebn isFebtureSupported(String febture) {
+        if (febture == null) {
             throw new NullPointerException();
         } else {
-            return false;
+            return fblse;
         }
     }
 
@@ -124,17 +124,17 @@ public final class DOMKeyInfoFactory extends KeyInfoFactory {
         return DOMURIDereferencer.INSTANCE;
     }
 
-    public KeyInfo unmarshalKeyInfo(XMLStructure xmlStructure)
-        throws MarshalException {
+    public KeyInfo unmbrshblKeyInfo(XMLStructure xmlStructure)
+        throws MbrshblException {
         if (xmlStructure == null) {
-            throw new NullPointerException("xmlStructure cannot be null");
+            throw new NullPointerException("xmlStructure cbnnot be null");
         }
-        if (!(xmlStructure instanceof javax.xml.crypto.dom.DOMStructure)) {
-            throw new ClassCastException("xmlStructure must be of type DOMStructure");
+        if (!(xmlStructure instbnceof jbvbx.xml.crypto.dom.DOMStructure)) {
+            throw new ClbssCbstException("xmlStructure must be of type DOMStructure");
         }
         Node node =
-            ((javax.xml.crypto.dom.DOMStructure) xmlStructure).getNode();
-        node.normalize();
+            ((jbvbx.xml.crypto.dom.DOMStructure) xmlStructure).getNode();
+        node.normblize();
 
         Element element = null;
         if (node.getNodeType() == Node.DOCUMENT_NODE) {
@@ -142,25 +142,25 @@ public final class DOMKeyInfoFactory extends KeyInfoFactory {
         } else if (node.getNodeType() == Node.ELEMENT_NODE) {
             element = (Element) node;
         } else {
-            throw new MarshalException
-                ("xmlStructure does not contain a proper Node");
+            throw new MbrshblException
+                ("xmlStructure does not contbin b proper Node");
         }
 
-        // check tag
-        String tag = element.getLocalName();
-        if (tag == null) {
-            throw new MarshalException("Document implementation must " +
-                "support DOM Level 2 and be namespace aware");
+        // check tbg
+        String tbg = element.getLocblNbme();
+        if (tbg == null) {
+            throw new MbrshblException("Document implementbtion must " +
+                "support DOM Level 2 bnd be nbmespbce bwbre");
         }
-        if (tag.equals("KeyInfo")) {
-            return new DOMKeyInfo(element, new UnmarshalContext(), getProvider());
+        if (tbg.equbls("KeyInfo")) {
+            return new DOMKeyInfo(element, new UnmbrshblContext(), getProvider());
         } else {
-            throw new MarshalException("invalid KeyInfo tag: " + tag);
+            throw new MbrshblException("invblid KeyInfo tbg: " + tbg);
         }
     }
 
-    private static class UnmarshalContext extends DOMCryptoContext {
-        UnmarshalContext() {}
+    privbte stbtic clbss UnmbrshblContext extends DOMCryptoContext {
+        UnmbrshblContext() {}
     }
 
 }

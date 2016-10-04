@@ -1,864 +1,864 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jdi;
+pbckbge com.sun.jdi;
 
 import com.sun.jdi.event.EventQueue;
-import com.sun.jdi.request.EventRequestManager;
+import com.sun.jdi.request.EventRequestMbnbger;
 
-import java.util.List;
-import java.util.Map;
+import jbvb.util.List;
+import jbvb.util.Mbp;
 
 /**
- * A virtual machine targeted for debugging.
- * More precisely, a {@link Mirror mirror} representing the
- * composite state of the target VM.
- * All other mirrors are associated with an instance of this
- * interface.  Access to all other mirrors is achieved
- * directly or indirectly through an instance of this
- * interface.
- * Access to global VM properties and control of VM execution
- * are supported directly by this interface.
+ * A virtubl mbchine tbrgeted for debugging.
+ * More precisely, b {@link Mirror mirror} representing the
+ * composite stbte of the tbrget VM.
+ * All other mirrors bre bssocibted with bn instbnce of this
+ * interfbce.  Access to bll other mirrors is bchieved
+ * directly or indirectly through bn instbnce of this
+ * interfbce.
+ * Access to globbl VM properties bnd control of VM execution
+ * bre supported directly by this interfbce.
  * <P>
- * Instances of this interface are created by instances of
- * {@link com.sun.jdi.connect.Connector}. For example,
- * an {@link com.sun.jdi.connect.AttachingConnector AttachingConnector}
- * attaches to a target VM and returns its virtual machine mirror.
- * A Connector will typically create a VirtualMachine by invoking
- * the VirtualMachineManager's {@link
- * com.sun.jdi.VirtualMachineManager#createVirtualMachine(Connection)}
- * createVirtualMachine(Connection) method.
+ * Instbnces of this interfbce bre crebted by instbnces of
+ * {@link com.sun.jdi.connect.Connector}. For exbmple,
+ * bn {@link com.sun.jdi.connect.AttbchingConnector AttbchingConnector}
+ * bttbches to b tbrget VM bnd returns its virtubl mbchine mirror.
+ * A Connector will typicblly crebte b VirtublMbchine by invoking
+ * the VirtublMbchineMbnbger's {@link
+ * com.sun.jdi.VirtublMbchineMbnbger#crebteVirtublMbchine(Connection)}
+ * crebteVirtublMbchine(Connection) method.
  * <p>
- * Note that a target VM launched by a launching connector is not
- * guaranteed to be stable until after the {@link com.sun.jdi.event.VMStartEvent} has been
+ * Note thbt b tbrget VM lbunched by b lbunching connector is not
+ * gubrbnteed to be stbble until bfter the {@link com.sun.jdi.event.VMStbrtEvent} hbs been
  * received.
  * <p>
- * Any method on <code>VirtualMachine</code> which
- * takes <code>VirtualMachine</code> as an parameter may throw
- * {@link com.sun.jdi.VMDisconnectedException} if the target VM is
- * disconnected and the {@link com.sun.jdi.event.VMDisconnectEvent} has been or is
- * available to be read from the {@link com.sun.jdi.event.EventQueue}.
+ * Any method on <code>VirtublMbchine</code> which
+ * tbkes <code>VirtublMbchine</code> bs bn pbrbmeter mby throw
+ * {@link com.sun.jdi.VMDisconnectedException} if the tbrget VM is
+ * disconnected bnd the {@link com.sun.jdi.event.VMDisconnectEvent} hbs been or is
+ * bvbilbble to be rebd from the {@link com.sun.jdi.event.EventQueue}.
  * <p>
- * Any method on <code>VirtualMachine</code> which
- * takes <code>VirtualMachine</code> as an parameter may throw
- * {@link com.sun.jdi.VMOutOfMemoryException} if the target VM has run out of memory.
+ * Any method on <code>VirtublMbchine</code> which
+ * tbkes <code>VirtublMbchine</code> bs bn pbrbmeter mby throw
+ * {@link com.sun.jdi.VMOutOfMemoryException} if the tbrget VM hbs run out of memory.
  *
- * @author Robert Field
- * @author Gordon Hirsch
- * @author James McIlree
+ * @buthor Robert Field
+ * @buthor Gordon Hirsch
+ * @buthor Jbmes McIlree
  * @since  1.3
  */
 @jdk.Exported
-public interface VirtualMachine extends Mirror {
+public interfbce VirtublMbchine extends Mirror {
 
     /**
-     * Returns the loaded reference types that
-     * match a given name. The name must be fully qualified
-     * (for example, java.lang.String). The returned list
-     * will contain a {@link ReferenceType} for each class
-     * or interface found with the given name. The search
-     * is confined to loaded classes only; no attempt is made
-     * to load a class of the given name.
+     * Returns the lobded reference types thbt
+     * mbtch b given nbme. The nbme must be fully qublified
+     * (for exbmple, jbvb.lbng.String). The returned list
+     * will contbin b {@link ReferenceType} for ebch clbss
+     * or interfbce found with the given nbme. The sebrch
+     * is confined to lobded clbsses only; no bttempt is mbde
+     * to lobd b clbss of the given nbme.
      * <P>
      * The returned list will include reference types
-     * loaded at least to the point of preparation and
-     * types (like array) for which preparation is
+     * lobded bt lebst to the point of prepbrbtion bnd
+     * types (like brrby) for which prepbrbtion is
      * not defined.
      *
-     * @param className the class/interface name to search for
-     * @return a list of {@link ReferenceType} objects, each
-     * mirroring a type in the target VM with the given name.
+     * @pbrbm clbssNbme the clbss/interfbce nbme to sebrch for
+     * @return b list of {@link ReferenceType} objects, ebch
+     * mirroring b type in the tbrget VM with the given nbme.
      */
-    List<ReferenceType> classesByName(String className);
+    List<ReferenceType> clbssesByNbme(String clbssNbme);
 
     /**
-     * Returns all loaded types. For each loaded type in the target
-     * VM a {@link ReferenceType} will be placed in the returned list.
-     * The list will include ReferenceTypes which mirror classes,
-     * interfaces, and array types.
+     * Returns bll lobded types. For ebch lobded type in the tbrget
+     * VM b {@link ReferenceType} will be plbced in the returned list.
+     * The list will include ReferenceTypes which mirror clbsses,
+     * interfbces, bnd brrby types.
      * <P>
      * The returned list will include reference types
-     * loaded at least to the point of preparation and
-     * types (like array) for which preparation is
+     * lobded bt lebst to the point of prepbrbtion bnd
+     * types (like brrby) for which prepbrbtion is
      * not defined.
      *
-     * @return a list of {@link ReferenceType} objects, each mirroring
-     * a loaded type in the target VM.
+     * @return b list of {@link ReferenceType} objects, ebch mirroring
+     * b lobded type in the tbrget VM.
      */
-    List<ReferenceType> allClasses();
+    List<ReferenceType> bllClbsses();
 
     /**
-     * All classes given are redefined according to the
-     * definitions supplied.  A method in a redefined class
-     * is called 'equivalent' (to the old version of the
+     * All clbsses given bre redefined bccording to the
+     * definitions supplied.  A method in b redefined clbss
+     * is cblled 'equivblent' (to the old version of the
      * method) if
      * <UL>
-     * <LI>their bytecodes are the same except for indicies into
-     *   the constant pool, and
-     * <LI>the referenced constants are equal.
+     * <LI>their bytecodes bre the sbme except for indicies into
+     *   the constbnt pool, bnd
+     * <LI>the referenced constbnts bre equbl.
      * </UL>
-     * Otherwise, the new method is called 'non-equivalent'.
-     * If a redefined method has active stack frames, those active
-     * frames continue to run the bytecodes of the previous version of the
-     * method.  If the new version of such a method is non-equivalent,
-     * then a method from one of these active frames is called 'obsolete' and
+     * Otherwise, the new method is cblled 'non-equivblent'.
+     * If b redefined method hbs bctive stbck frbmes, those bctive
+     * frbmes continue to run the bytecodes of the previous version of the
+     * method.  If the new version of such b method is non-equivblent,
+     * then b method from one of these bctive frbmes is cblled 'obsolete' bnd
      * {@link Method#isObsolete Method.isObsolete()}
-     * will return true when called on one of these methods.
-     * If resetting such a frame is desired, use
-     * {@link ThreadReference#popFrames ThreadReference.popFrames(StackFrame)}
-     * to pop the old obsolete method execution from the stack.
-     * New invocations of redefined methods will always invoke the new versions.
+     * will return true when cblled on one of these methods.
+     * If resetting such b frbme is desired, use
+     * {@link ThrebdReference#popFrbmes ThrebdReference.popFrbmes(StbckFrbme)}
+     * to pop the old obsolete method execution from the stbck.
+     * New invocbtions of redefined methods will blwbys invoke the new versions.
      * <p>
-     * This function does not cause any initialization except
-     * that which would occur under the customary JVM semantics.
-     * In other words, redefining a class does not cause
-     * its initializers to be run. The values of preexisting
-     * static variables will remain as they were prior to the
-     * call. However, completely uninitialized (new) static
-     * variables will be assigned their default value.
+     * This function does not cbuse bny initiblizbtion except
+     * thbt which would occur under the custombry JVM sembntics.
+     * In other words, redefining b clbss does not cbuse
+     * its initiblizers to be run. The vblues of preexisting
+     * stbtic vbribbles will rembin bs they were prior to the
+     * cbll. However, completely uninitiblized (new) stbtic
+     * vbribbles will be bssigned their defbult vblue.
      * <p>
-     * If a redefined class has instances then all those
-     * instances will have the fields defined by the redefined
-     * class at the completion of the call. Preexisting fields
-     * will retain their previous values. Any new fields will
-     * have their default values; no instance initializers or
-     * constructors are run.
+     * If b redefined clbss hbs instbnces then bll those
+     * instbnces will hbve the fields defined by the redefined
+     * clbss bt the completion of the cbll. Preexisting fields
+     * will retbin their previous vblues. Any new fields will
+     * hbve their defbult vblues; no instbnce initiblizers or
+     * constructors bre run.
      * <p>
-     * Threads need not be suspended.
+     * Threbds need not be suspended.
      * <p>
-     * No events are generated by this function.
+     * No events bre generbted by this function.
      * <p>
-     * All breakpoints in the redefined classes are deleted.
+     * All brebkpoints in the redefined clbsses bre deleted.
      * <p>
-     * Not all target virtual machines support this operation.
-     * Use {@link #canRedefineClasses() canRedefineClasses()}
-     * to determine if the operation is supported.
-     * Use {@link #canAddMethod() canAddMethod()}
-     * to determine if the redefinition can add methods.
-     * Use {@link #canUnrestrictedlyRedefineClasses() canUnrestrictedlyRedefineClasses()}
-     * to determine if the redefinition can change the schema,
-     * delete methods, change the class hierarchy, etc.
+     * Not bll tbrget virtubl mbchines support this operbtion.
+     * Use {@link #cbnRedefineClbsses() cbnRedefineClbsses()}
+     * to determine if the operbtion is supported.
+     * Use {@link #cbnAddMethod() cbnAddMethod()}
+     * to determine if the redefinition cbn bdd methods.
+     * Use {@link #cbnUnrestrictedlyRedefineClbsses() cbnUnrestrictedlyRedefineClbsses()}
+     * to determine if the redefinition cbn chbnge the schemb,
+     * delete methods, chbnge the clbss hierbrchy, etc.
      *
-     * @param classToBytes A map from {@link ReferenceType}
-     * to array of byte.
-     * The bytes represent the new class definition and
-     * are in Java Virtual Machine class file format.
+     * @pbrbm clbssToBytes A mbp from {@link ReferenceType}
+     * to brrby of byte.
+     * The bytes represent the new clbss definition bnd
+     * bre in Jbvb Virtubl Mbchine clbss file formbt.
      *
-     * @throws java.lang.UnsupportedOperationException if
-     * the target virtual machine does not support this
-     * operation.
+     * @throws jbvb.lbng.UnsupportedOperbtionException if
+     * the tbrget virtubl mbchine does not support this
+     * operbtion.
      * <UL>
-     * <LI>If {@link #canRedefineClasses() canRedefineClasses()}
-     * is false any call of this method will throw this exception.
-     * <LI>If {@link #canAddMethod() canAddMethod()} is false
-     * attempting to add a method will throw this exception.
-     * <LI>If {@link #canUnrestrictedlyRedefineClasses()
-     *            canUnrestrictedlyRedefineClasses()}
-     * is false, attempting any of the following will throw
+     * <LI>If {@link #cbnRedefineClbsses() cbnRedefineClbsses()}
+     * is fblse bny cbll of this method will throw this exception.
+     * <LI>If {@link #cbnAddMethod() cbnAddMethod()} is fblse
+     * bttempting to bdd b method will throw this exception.
+     * <LI>If {@link #cbnUnrestrictedlyRedefineClbsses()
+     *            cbnUnrestrictedlyRedefineClbsses()}
+     * is fblse, bttempting bny of the following will throw
      * this exception
      *   <UL>
-     *   <LI>changing the schema (the fields)
-     *   <LI>changing the hierarchy (subclasses, interfaces)
-     *   <LI>deleting a method
-     *   <LI>changing class modifiers
-     *   <LI>changing method modifiers
+     *   <LI>chbnging the schemb (the fields)
+     *   <LI>chbnging the hierbrchy (subclbsses, interfbces)
+     *   <LI>deleting b method
+     *   <LI>chbnging clbss modifiers
+     *   <LI>chbnging method modifiers
      *   </UL>
      * </UL>
      *
-     * @throws java.lang.NoClassDefFoundError if the bytes
-     * don't correspond to the reference type (the names
-     * don't match).
+     * @throws jbvb.lbng.NoClbssDefFoundError if the bytes
+     * don't correspond to the reference type (the nbmes
+     * don't mbtch).
      *
-     * @throws java.lang.VerifyError if a "verifier" detects
-     * that a class, though well formed, contains an internal
+     * @throws jbvb.lbng.VerifyError if b "verifier" detects
+     * thbt b clbss, though well formed, contbins bn internbl
      * inconsistency or security problem.
      *
-     * @throws java.lang.ClassFormatError if the bytes
-     * do not represent a valid class.
+     * @throws jbvb.lbng.ClbssFormbtError if the bytes
+     * do not represent b vblid clbss.
      *
-     * @throws java.lang.ClassCircularityError if a
-     * circularity has been detected while initializing a class.
+     * @throws jbvb.lbng.ClbssCirculbrityError if b
+     * circulbrity hbs been detected while initiblizing b clbss.
      *
-     * @throws java.lang.UnsupportedClassVersionError if the
-     * major and minor version numbers in bytes
-     * are not supported by the VM.
+     * @throws jbvb.lbng.UnsupportedClbssVersionError if the
+     * mbjor bnd minor version numbers in bytes
+     * bre not supported by the VM.
      *
-     * @throws VMCannotBeModifiedException if the VirtualMachine is read-only - see {@link VirtualMachine#canBeModified()}.
+     * @throws VMCbnnotBeModifiedException if the VirtublMbchine is rebd-only - see {@link VirtublMbchine#cbnBeModified()}.
      *
      * @see Method#isObsolete
-     * @see ThreadReference#popFrames
-     * @see #canRedefineClasses
-     * @see #canAddMethod
-     * @see #canUnrestrictedlyRedefineClasses
+     * @see ThrebdReference#popFrbmes
+     * @see #cbnRedefineClbsses
+     * @see #cbnAddMethod
+     * @see #cbnUnrestrictedlyRedefineClbsses
      *
      * @since 1.4
      */
-    void redefineClasses(Map<? extends ReferenceType,byte[]> classToBytes);
+    void redefineClbsses(Mbp<? extends ReferenceType,byte[]> clbssToBytes);
 
     /**
-     * Returns a list of the currently running threads. For each
-     * running thread in the target VM, a {@link ThreadReference}
-     * that mirrors it is placed in the list.
-     * The returned list contains threads created through
-     * java.lang.Thread, all native threads attached to
-     * the target VM through JNI, and system threads created
-     * by the target VM. Thread objects that have
-     * not yet been started
-     * (see {@link java.lang.Thread#start Thread.start()})
-     * and thread objects that have
-     * completed their execution are not included in the returned list.
+     * Returns b list of the currently running threbds. For ebch
+     * running threbd in the tbrget VM, b {@link ThrebdReference}
+     * thbt mirrors it is plbced in the list.
+     * The returned list contbins threbds crebted through
+     * jbvb.lbng.Threbd, bll nbtive threbds bttbched to
+     * the tbrget VM through JNI, bnd system threbds crebted
+     * by the tbrget VM. Threbd objects thbt hbve
+     * not yet been stbrted
+     * (see {@link jbvb.lbng.Threbd#stbrt Threbd.stbrt()})
+     * bnd threbd objects thbt hbve
+     * completed their execution bre not included in the returned list.
      *
-     * @return a list of {@link ThreadReference} objects, one for each
-     * running thread in the mirrored VM.
+     * @return b list of {@link ThrebdReference} objects, one for ebch
+     * running threbd in the mirrored VM.
      */
-    List<ThreadReference> allThreads();
+    List<ThrebdReference> bllThrebds();
 
     /**
-     * Suspends the execution of the application running in this
-     * virtual machine. All threads currently running will be suspended.
+     * Suspends the execution of the bpplicbtion running in this
+     * virtubl mbchine. All threbds currently running will be suspended.
      * <p>
-     * Unlike {@link java.lang.Thread#suspend Thread.suspend()},
-     * suspends of both the virtual machine and individual threads are
-     * counted. Before a thread will run again, it must be resumed
-     * (through {@link #resume} or {@link ThreadReference#resume})
-     * the same number of times it has been suspended.
+     * Unlike {@link jbvb.lbng.Threbd#suspend Threbd.suspend()},
+     * suspends of both the virtubl mbchine bnd individubl threbds bre
+     * counted. Before b threbd will run bgbin, it must be resumed
+     * (through {@link #resume} or {@link ThrebdReference#resume})
+     * the sbme number of times it hbs been suspended.
      *
-     * @throws VMCannotBeModifiedException if the VirtualMachine is read-only - see {@link VirtualMachine#canBeModified()}.
+     * @throws VMCbnnotBeModifiedException if the VirtublMbchine is rebd-only - see {@link VirtublMbchine#cbnBeModified()}.
      */
     void suspend();
 
     /**
-     * Continues the execution of the application running in this
-     * virtual machine. All threads are resumed as documented in
-     * {@link ThreadReference#resume}.
+     * Continues the execution of the bpplicbtion running in this
+     * virtubl mbchine. All threbds bre resumed bs documented in
+     * {@link ThrebdReference#resume}.
      *
-     * @throws VMCannotBeModifiedException if the VirtualMachine is read-only - see {@link VirtualMachine#canBeModified()}.
+     * @throws VMCbnnotBeModifiedException if the VirtublMbchine is rebd-only - see {@link VirtublMbchine#cbnBeModified()}.
      *
      * @see #suspend
      */
     void resume();
 
     /**
-     * Returns each thread group which does not have a parent. For each
-     * top level thread group a {@link ThreadGroupReference} is placed in the
+     * Returns ebch threbd group which does not hbve b pbrent. For ebch
+     * top level threbd group b {@link ThrebdGroupReference} is plbced in the
      * returned list.
      * <p>
-     * This command may be used as the first step in building a tree
-     * (or trees) of the existing thread groups.
+     * This commbnd mby be used bs the first step in building b tree
+     * (or trees) of the existing threbd groups.
      *
-     * @return a list of {@link ThreadGroupReference} objects, one for each
-     * top level thread group.
+     * @return b list of {@link ThrebdGroupReference} objects, one for ebch
+     * top level threbd group.
      */
-    List<ThreadGroupReference> topLevelThreadGroups();
+    List<ThrebdGroupReference> topLevelThrebdGroups();
 
     /**
-     * Returns the event queue for this virtual machine.
-     * A virtual machine has only one {@link EventQueue} object, this
-     * method will return the same instance each time it
+     * Returns the event queue for this virtubl mbchine.
+     * A virtubl mbchine hbs only one {@link EventQueue} object, this
+     * method will return the sbme instbnce ebch time it
      * is invoked.
      *
-     * @throws VMCannotBeModifiedException if the VirtualMachine is read-only - see {@link VirtualMachine#canBeModified()}.
+     * @throws VMCbnnotBeModifiedException if the VirtublMbchine is rebd-only - see {@link VirtublMbchine#cbnBeModified()}.
      *
-     * @return the {@link EventQueue} for this virtual machine.
+     * @return the {@link EventQueue} for this virtubl mbchine.
      */
     EventQueue eventQueue();
 
     /**
-     * Returns the event request manager for this virtual machine.
-     * The {@link EventRequestManager} controls user settable events
-     * such as breakpoints.
-     * A virtual machine has only one {@link EventRequestManager} object,
-     * this method will return the same instance each time it
+     * Returns the event request mbnbger for this virtubl mbchine.
+     * The {@link EventRequestMbnbger} controls user settbble events
+     * such bs brebkpoints.
+     * A virtubl mbchine hbs only one {@link EventRequestMbnbger} object,
+     * this method will return the sbme instbnce ebch time it
      * is invoked.
      *
-     * @throws VMCannotBeModifiedException if the VirtualMachine is read-only - see {@link VirtualMachine#canBeModified()}.
+     * @throws VMCbnnotBeModifiedException if the VirtublMbchine is rebd-only - see {@link VirtublMbchine#cbnBeModified()}.
      *
-     * @return the {@link EventRequestManager} for this virtual machine.
+     * @return the {@link EventRequestMbnbger} for this virtubl mbchine.
      */
-    EventRequestManager eventRequestManager();
+    EventRequestMbnbger eventRequestMbnbger();
 
     /**
-     * Creates a {@link BooleanValue} for the given value. This value
-     * can be used for setting and comparing against a value retrieved
-     * from a variable or field in this virtual machine.
+     * Crebtes b {@link BoolebnVblue} for the given vblue. This vblue
+     * cbn be used for setting bnd compbring bgbinst b vblue retrieved
+     * from b vbribble or field in this virtubl mbchine.
      *
-     * @param value a boolean for which to create the value
-     * @return the {@link BooleanValue} for the given boolean.
+     * @pbrbm vblue b boolebn for which to crebte the vblue
+     * @return the {@link BoolebnVblue} for the given boolebn.
      */
-    BooleanValue mirrorOf(boolean value);
+    BoolebnVblue mirrorOf(boolebn vblue);
 
     /**
-     * Creates a {@link ByteValue} for the given value. This value
-     * can be used for setting and comparing against a value retrieved
-     * from a variable or field in this virtual machine.
+     * Crebtes b {@link ByteVblue} for the given vblue. This vblue
+     * cbn be used for setting bnd compbring bgbinst b vblue retrieved
+     * from b vbribble or field in this virtubl mbchine.
      *
-     * @param value a byte for which to create the value
-     * @return the {@link ByteValue} for the given byte.
+     * @pbrbm vblue b byte for which to crebte the vblue
+     * @return the {@link ByteVblue} for the given byte.
      */
-    ByteValue mirrorOf(byte value);
+    ByteVblue mirrorOf(byte vblue);
 
     /**
-     * Creates a {@link CharValue} for the given value. This value
-     * can be used for setting and comparing against a value retrieved
-     * from a variable or field in this virtual machine.
+     * Crebtes b {@link ChbrVblue} for the given vblue. This vblue
+     * cbn be used for setting bnd compbring bgbinst b vblue retrieved
+     * from b vbribble or field in this virtubl mbchine.
      *
-     * @param value a char for which to create the value
-     * @return the {@link CharValue} for the given char.
+     * @pbrbm vblue b chbr for which to crebte the vblue
+     * @return the {@link ChbrVblue} for the given chbr.
      */
-    CharValue mirrorOf(char value);
+    ChbrVblue mirrorOf(chbr vblue);
 
     /**
-     * Creates a {@link ShortValue} for the given value. This value
-     * can be used for setting and comparing against a value retrieved
-     * from a variable or field in this virtual machine.
+     * Crebtes b {@link ShortVblue} for the given vblue. This vblue
+     * cbn be used for setting bnd compbring bgbinst b vblue retrieved
+     * from b vbribble or field in this virtubl mbchine.
      *
-     * @param value a short for which to create the value
-     * @return the {@link ShortValue} for the given short.
+     * @pbrbm vblue b short for which to crebte the vblue
+     * @return the {@link ShortVblue} for the given short.
      */
-    ShortValue mirrorOf(short value);
+    ShortVblue mirrorOf(short vblue);
 
     /**
-     * Creates an {@link IntegerValue} for the given value. This value
-     * can be used for setting and comparing against a value retrieved
-     * from a variable or field in this virtual machine.
+     * Crebtes bn {@link IntegerVblue} for the given vblue. This vblue
+     * cbn be used for setting bnd compbring bgbinst b vblue retrieved
+     * from b vbribble or field in this virtubl mbchine.
      *
-     * @param value an int for which to create the value
-     * @return the {@link IntegerValue} for the given int.
+     * @pbrbm vblue bn int for which to crebte the vblue
+     * @return the {@link IntegerVblue} for the given int.
      */
-    IntegerValue mirrorOf(int value);
+    IntegerVblue mirrorOf(int vblue);
 
     /**
-     * Creates a {@link LongValue} for the given value. This value
-     * can be used for setting and comparing against a value retrieved
-     * from a variable or field in this virtual machine.
+     * Crebtes b {@link LongVblue} for the given vblue. This vblue
+     * cbn be used for setting bnd compbring bgbinst b vblue retrieved
+     * from b vbribble or field in this virtubl mbchine.
      *
-     * @param value a long for which to create the value
-     * @return the {@link LongValue} for the given long.
+     * @pbrbm vblue b long for which to crebte the vblue
+     * @return the {@link LongVblue} for the given long.
      */
-    LongValue mirrorOf(long value);
+    LongVblue mirrorOf(long vblue);
 
     /**
-     * Creates a {@link FloatValue} for the given value. This value
-     * can be used for setting and comparing against a value retrieved
-     * from a variable or field in this virtual machine.
+     * Crebtes b {@link FlobtVblue} for the given vblue. This vblue
+     * cbn be used for setting bnd compbring bgbinst b vblue retrieved
+     * from b vbribble or field in this virtubl mbchine.
      *
-     * @param value a float for which to create the value
-     * @return the {@link FloatValue} for the given float.
+     * @pbrbm vblue b flobt for which to crebte the vblue
+     * @return the {@link FlobtVblue} for the given flobt.
      */
-    FloatValue mirrorOf(float value);
+    FlobtVblue mirrorOf(flobt vblue);
 
     /**
-     * Creates a {@link DoubleValue} for the given value. This value
-     * can be used for setting and comparing against a value retrieved
-     * from a variable or field in this virtual machine.
+     * Crebtes b {@link DoubleVblue} for the given vblue. This vblue
+     * cbn be used for setting bnd compbring bgbinst b vblue retrieved
+     * from b vbribble or field in this virtubl mbchine.
      *
-     * @param value a double for which to create the value
-     * @return the {@link DoubleValue} for the given double.
+     * @pbrbm vblue b double for which to crebte the vblue
+     * @return the {@link DoubleVblue} for the given double.
      */
-    DoubleValue mirrorOf(double value);
+    DoubleVblue mirrorOf(double vblue);
 
     /**
-     * Creates a string in this virtual machine.
-     * The created string can be used for setting and comparing against
-     * a string value retrieved from a variable or field in this
-     * virtual machine.
+     * Crebtes b string in this virtubl mbchine.
+     * The crebted string cbn be used for setting bnd compbring bgbinst
+     * b string vblue retrieved from b vbribble or field in this
+     * virtubl mbchine.
      *
-     * @param value the string to be created
-     * @return a {@link StringReference} that mirrors the newly created
-     * string in the target VM.
-     * @throws VMCannotBeModifiedException if the VirtualMachine is read-only
-     * -see {@link VirtualMachine#canBeModified()}.
+     * @pbrbm vblue the string to be crebted
+     * @return b {@link StringReference} thbt mirrors the newly crebted
+     * string in the tbrget VM.
+     * @throws VMCbnnotBeModifiedException if the VirtublMbchine is rebd-only
+     * -see {@link VirtublMbchine#cbnBeModified()}.
      */
-    StringReference mirrorOf(String value);
+    StringReference mirrorOf(String vblue);
 
 
     /**
-     * Creates a {@link VoidValue}.  This value
-     * can be passed to {@link ThreadReference#forceEarlyReturn}
-     * when a void method is to be exited.
+     * Crebtes b {@link VoidVblue}.  This vblue
+     * cbn be pbssed to {@link ThrebdReference#forceEbrlyReturn}
+     * when b void method is to be exited.
      *
-     * @return the {@link VoidValue}.
+     * @return the {@link VoidVblue}.
      */
-    VoidValue mirrorOfVoid();
+    VoidVblue mirrorOfVoid();
 
     /**
-     * Returns the {@link java.lang.Process} object for this
-     * virtual machine if launched
-     * by a {@link com.sun.jdi.connect.LaunchingConnector}
+     * Returns the {@link jbvb.lbng.Process} object for this
+     * virtubl mbchine if lbunched
+     * by b {@link com.sun.jdi.connect.LbunchingConnector}
      *
-     * @return the {@link java.lang.Process} object for this virtual
-     * machine, or null if it was not launched by a
-     * {@link com.sun.jdi.connect.LaunchingConnector}.
-     * @throws VMCannotBeModifiedException if the VirtualMachine is read-only
-     * -see {@link VirtualMachine#canBeModified()}.
+     * @return the {@link jbvb.lbng.Process} object for this virtubl
+     * mbchine, or null if it wbs not lbunched by b
+     * {@link com.sun.jdi.connect.LbunchingConnector}.
+     * @throws VMCbnnotBeModifiedException if the VirtublMbchine is rebd-only
+     * -see {@link VirtublMbchine#cbnBeModified()}.
      */
     Process process();
 
     /**
-     * Invalidates this virtual machine mirror.
-     * The communication channel to the target VM is closed, and
-     * the target VM prepares to accept another subsequent connection
-     * from this debugger or another debugger, including the
-     * following tasks:
+     * Invblidbtes this virtubl mbchine mirror.
+     * The communicbtion chbnnel to the tbrget VM is closed, bnd
+     * the tbrget VM prepbres to bccept bnother subsequent connection
+     * from this debugger or bnother debugger, including the
+     * following tbsks:
      * <ul>
-     * <li>All event requests are cancelled.
-     * <li>All threads suspended by {@link #suspend} or by
-     * {@link ThreadReference#suspend} are resumed as many
-     * times as necessary for them to run.
-     * <li>Garbage collection is re-enabled in all cases where it was
-     * disabled through {@link ObjectReference#disableCollection}.
+     * <li>All event requests bre cbncelled.
+     * <li>All threbds suspended by {@link #suspend} or by
+     * {@link ThrebdReference#suspend} bre resumed bs mbny
+     * times bs necessbry for them to run.
+     * <li>Gbrbbge collection is re-enbbled in bll cbses where it wbs
+     * disbbled through {@link ObjectReference#disbbleCollection}.
      * </ul>
-     * Any current method invocations executing in the target VM
-     * are continued after the disconnection. Upon completion of any such
-     * method invocation, the invoking thread continues from the
-     * location where it was originally stopped.
+     * Any current method invocbtions executing in the tbrget VM
+     * bre continued bfter the disconnection. Upon completion of bny such
+     * method invocbtion, the invoking threbd continues from the
+     * locbtion where it wbs originblly stopped.
      * <p>
-     * Resources originating in
-     * this VirtualMachine (ObjectReferences, ReferenceTypes, etc.)
-     * will become invalid.
+     * Resources originbting in
+     * this VirtublMbchine (ObjectReferences, ReferenceTypes, etc.)
+     * will become invblid.
      */
     void dispose();
 
     /**
-     * Causes the mirrored VM to terminate with the given error code.
-     * All resources associated with this VirtualMachine are freed.
-     * If the mirrored VM is remote, the communication channel
-     * to it will be closed. Resources originating in
-     * this VirtualMachine (ObjectReferences, ReferenceTypes, etc.)
-     * will become invalid.
+     * Cbuses the mirrored VM to terminbte with the given error code.
+     * All resources bssocibted with this VirtublMbchine bre freed.
+     * If the mirrored VM is remote, the communicbtion chbnnel
+     * to it will be closed. Resources originbting in
+     * this VirtublMbchine (ObjectReferences, ReferenceTypes, etc.)
+     * will become invblid.
      * <p>
-     * Threads running in the mirrored VM are abruptly terminated.
-     * A thread death exception is not thrown and
-     * finally blocks are not run.
+     * Threbds running in the mirrored VM bre bbruptly terminbted.
+     * A threbd debth exception is not thrown bnd
+     * finblly blocks bre not run.
      *
-     * @param exitCode the exit code for the target VM.  On some platforms,
-     * the exit code might be truncated, for example, to the lower order 8 bits.
+     * @pbrbm exitCode the exit code for the tbrget VM.  On some plbtforms,
+     * the exit code might be truncbted, for exbmple, to the lower order 8 bits.
      *
-     * @throws VMCannotBeModifiedException if the VirtualMachine is read-only - see {@link VirtualMachine#canBeModified()}.
+     * @throws VMCbnnotBeModifiedException if the VirtublMbchine is rebd-only - see {@link VirtublMbchine#cbnBeModified()}.
      */
     void exit(int exitCode);
 
     /**
-     * Determines if the target VM supports watchpoints
-     * for field modification.
+     * Determines if the tbrget VM supports wbtchpoints
+     * for field modificbtion.
      *
-     * @return <code>true</code> if the feature is supported,
-     * <code>false</code> otherwise.
+     * @return <code>true</code> if the febture is supported,
+     * <code>fblse</code> otherwise.
      */
-    boolean canWatchFieldModification();
+    boolebn cbnWbtchFieldModificbtion();
 
     /**
-     * Determines if the target VM supports watchpoints
-     * for field access.
+     * Determines if the tbrget VM supports wbtchpoints
+     * for field bccess.
      *
-     * @return <code>true</code> if the feature is supported,
-     * <code>false</code> otherwise.
+     * @return <code>true</code> if the febture is supported,
+     * <code>fblse</code> otherwise.
      */
-    boolean canWatchFieldAccess();
+    boolebn cbnWbtchFieldAccess();
 
     /**
-     * Determines if the target VM supports the retrieval
-     * of a method's bytecodes.
+     * Determines if the tbrget VM supports the retrievbl
+     * of b method's bytecodes.
      *
-     * @return <code>true</code> if the feature is supported,
-     * <code>false</code> otherwise.
+     * @return <code>true</code> if the febture is supported,
+     * <code>fblse</code> otherwise.
      */
-    boolean canGetBytecodes();
+    boolebn cbnGetBytecodes();
 
     /**
-     * Determines if the target VM supports the query
-     * of the synthetic attribute of a method or field.
+     * Determines if the tbrget VM supports the query
+     * of the synthetic bttribute of b method or field.
      *
-     * @return <code>true</code> if the feature is supported,
-     * <code>false</code> otherwise.
+     * @return <code>true</code> if the febture is supported,
+     * <code>fblse</code> otherwise.
      */
-    boolean canGetSyntheticAttribute();
+    boolebn cbnGetSyntheticAttribute();
 
     /**
-     * Determines if the target VM supports the retrieval
-     * of the monitors owned by a thread.
+     * Determines if the tbrget VM supports the retrievbl
+     * of the monitors owned by b threbd.
      *
-     * @return <code>true</code> if the feature is supported,
-     * <code>false</code> otherwise.
+     * @return <code>true</code> if the febture is supported,
+     * <code>fblse</code> otherwise.
      */
-    boolean canGetOwnedMonitorInfo();
+    boolebn cbnGetOwnedMonitorInfo();
 
     /**
-     * Determines if the target VM supports the retrieval
-     * of the monitor for which a thread is currently waiting.
+     * Determines if the tbrget VM supports the retrievbl
+     * of the monitor for which b threbd is currently wbiting.
      *
-     * @return <code>true</code> if the feature is supported,
-     * <code>false</code> otherwise.
+     * @return <code>true</code> if the febture is supported,
+     * <code>fblse</code> otherwise.
      */
-    boolean canGetCurrentContendedMonitor();
+    boolebn cbnGetCurrentContendedMonitor();
 
     /**
-     * Determines if the target VM supports the retrieval
-     * of the monitor information for an object.
+     * Determines if the tbrget VM supports the retrievbl
+     * of the monitor informbtion for bn object.
      *
-     * @return <code>true</code> if the feature is supported,
-     * <code>false</code> otherwise.
+     * @return <code>true</code> if the febture is supported,
+     * <code>fblse</code> otherwise.
      */
-    boolean canGetMonitorInfo();
+    boolebn cbnGetMonitorInfo();
 
     /**
-     * Determines if the target VM supports filtering
-     * events by specific instance object.  For example,
-     * see {@link com.sun.jdi.request.BreakpointRequest#addInstanceFilter}.
+     * Determines if the tbrget VM supports filtering
+     * events by specific instbnce object.  For exbmple,
+     * see {@link com.sun.jdi.request.BrebkpointRequest#bddInstbnceFilter}.
      *
-     * @return <code>true</code> if the feature is supported,
-     * <code>false</code> otherwise.
+     * @return <code>true</code> if the febture is supported,
+     * <code>fblse</code> otherwise.
      */
-    boolean canUseInstanceFilters();
+    boolebn cbnUseInstbnceFilters();
 
     /**
-     * Determines if the target VM supports any level
-     * of class redefinition.
-     * @see #redefineClasses
+     * Determines if the tbrget VM supports bny level
+     * of clbss redefinition.
+     * @see #redefineClbsses
      *
-     * @return <code>true</code> if the feature is supported,
-     * <code>false</code> otherwise.
+     * @return <code>true</code> if the febture is supported,
+     * <code>fblse</code> otherwise.
      *
      * @since 1.4
      */
-    boolean canRedefineClasses();
+    boolebn cbnRedefineClbsses();
 
     /**
-     * Determines if the target VM supports the addition
-     * of methods when performing class redefinition.
-     * @see #redefineClasses
+     * Determines if the tbrget VM supports the bddition
+     * of methods when performing clbss redefinition.
+     * @see #redefineClbsses
      *
-     * @return <code>true</code> if the feature is supported,
-     * <code>false</code> otherwise.
+     * @return <code>true</code> if the febture is supported,
+     * <code>fblse</code> otherwise.
      *
      * @since 1.4
      */
-    boolean canAddMethod();
+    boolebn cbnAddMethod();
 
     /**
-     * Determines if the target VM supports unrestricted
-     * changes when performing class redefinition.
-     * @see #redefineClasses
+     * Determines if the tbrget VM supports unrestricted
+     * chbnges when performing clbss redefinition.
+     * @see #redefineClbsses
      *
-     * @return <code>true</code> if the feature is supported,
-     * <code>false</code> otherwise.
+     * @return <code>true</code> if the febture is supported,
+     * <code>fblse</code> otherwise.
      *
      * @since 1.4
      */
-    boolean canUnrestrictedlyRedefineClasses();
+    boolebn cbnUnrestrictedlyRedefineClbsses();
 
     /**
-     * Determines if the target VM supports popping
-     * frames of a threads stack.
-     * @see ThreadReference#popFrames
+     * Determines if the tbrget VM supports popping
+     * frbmes of b threbds stbck.
+     * @see ThrebdReference#popFrbmes
      *
-     * @return <code>true</code> if the feature is supported,
-     * <code>false</code> otherwise.
+     * @return <code>true</code> if the febture is supported,
+     * <code>fblse</code> otherwise.
      *
      * @since 1.4
      */
-    boolean canPopFrames();
+    boolebn cbnPopFrbmes();
 
     /**
-     * Determines if the target VM supports getting
+     * Determines if the tbrget VM supports getting
      * the source debug extension.
      * @see ReferenceType#sourceDebugExtension
      *
-     * @return <code>true</code> if the feature is supported,
-     * <code>false</code> otherwise.
+     * @return <code>true</code> if the febture is supported,
+     * <code>fblse</code> otherwise.
      *
      * @since 1.4
      */
-    boolean canGetSourceDebugExtension();
+    boolebn cbnGetSourceDebugExtension();
 
     /**
-     * Determines if the target VM supports the creation of
-     * {@link com.sun.jdi.request.VMDeathRequest}s.
-     * @see com.sun.jdi.request.EventRequestManager#createVMDeathRequest
+     * Determines if the tbrget VM supports the crebtion of
+     * {@link com.sun.jdi.request.VMDebthRequest}s.
+     * @see com.sun.jdi.request.EventRequestMbnbger#crebteVMDebthRequest
      *
-     * @return <code>true</code> if the feature is supported,
-     * <code>false</code> otherwise.
+     * @return <code>true</code> if the febture is supported,
+     * <code>fblse</code> otherwise.
      *
      * @since 1.4
      */
-    boolean canRequestVMDeathEvent();
+    boolebn cbnRequestVMDebthEvent();
 
     /**
-     * Determines if the target VM supports the inclusion of return values
+     * Determines if the tbrget VM supports the inclusion of return vblues
      * in
      * {@link com.sun.jdi.event.MethodExitEvent}s.
-     * @see com.sun.jdi.request.EventRequestManager#createMethodExitRequest
+     * @see com.sun.jdi.request.EventRequestMbnbger#crebteMethodExitRequest
      *
-     * @return <code>true</code> if the feature is supported,
-     * <code>false</code> otherwise.
+     * @return <code>true</code> if the febture is supported,
+     * <code>fblse</code> otherwise.
      *
      * @since 1.6
      */
-    boolean canGetMethodReturnValues();
+    boolebn cbnGetMethodReturnVblues();
 
     /**
-     * Determines if the target VM supports the accessing of class instances,
-     * instance counts, and referring objects.
+     * Determines if the tbrget VM supports the bccessing of clbss instbnces,
+     * instbnce counts, bnd referring objects.
      *
-     * @see #instanceCounts
-     * @see ReferenceType#instances(long)
+     * @see #instbnceCounts
+     * @see ReferenceType#instbnces(long)
      * @see ObjectReference#referringObjects(long)
      *
-     * @return <code>true</code> if the feature is supported,
-     * <code>false</code> otherwise.
+     * @return <code>true</code> if the febture is supported,
+     * <code>fblse</code> otherwise.
      *
      * @since 1.6
      */
-    boolean canGetInstanceInfo();
+    boolebn cbnGetInstbnceInfo();
 
 
     /**
-     * Determines if the target VM supports the filtering of
-     * class prepare events by source name.
+     * Determines if the tbrget VM supports the filtering of
+     * clbss prepbre events by source nbme.
      *
-     * see {@link com.sun.jdi.request.ClassPrepareRequest#addSourceNameFilter}.
-     * @return <code>true</code> if the feature is supported,
-     * <code>false</code> otherwise.
+     * see {@link com.sun.jdi.request.ClbssPrepbreRequest#bddSourceNbmeFilter}.
+     * @return <code>true</code> if the febture is supported,
+     * <code>fblse</code> otherwise.
      *
      * @since 1.6
      */
-    boolean canUseSourceNameFilters();
+    boolebn cbnUseSourceNbmeFilters();
 
     /**
-     * Determines if the target VM supports the forcing of a method to
-     * return early.
+     * Determines if the tbrget VM supports the forcing of b method to
+     * return ebrly.
      *
-     * @see ThreadReference#forceEarlyReturn(Value)
+     * @see ThrebdReference#forceEbrlyReturn(Vblue)
      *
-     * @return <code>true</code> if the feature is supported,
-     * <code>false</code> otherwise.
+     * @return <code>true</code> if the febture is supported,
+     * <code>fblse</code> otherwise.
      *
      * @since 1.6
      */
-    boolean canForceEarlyReturn();
+    boolebn cbnForceEbrlyReturn();
 
     /**
-     * Determines if the target VM is a read-only VM.  If a method which
-     * would modify the state of the VM is called on a read-only VM,
-     * then {@link VMCannotBeModifiedException} is thrown.
+     * Determines if the tbrget VM is b rebd-only VM.  If b method which
+     * would modify the stbte of the VM is cblled on b rebd-only VM,
+     * then {@link VMCbnnotBeModifiedException} is thrown.
      *
-     * @return <code>true</code> if the feature is supported,
-     * <code>false</code> otherwise.
+     * @return <code>true</code> if the febture is supported,
+     * <code>fblse</code> otherwise.
      *
      * @since 1.5
      */
 
-    boolean canBeModified();
+    boolebn cbnBeModified();
 
     /**
-     * Determines if the target VM supports the creation of
+     * Determines if the tbrget VM supports the crebtion of
      * {@link com.sun.jdi.request.MonitorContendedEnterRequest}s.
      * {@link com.sun.jdi.request.MonitorContendedEnteredRequest}s.
-     * {@link com.sun.jdi.request.MonitorWaitRequest}s.
-     * {@link com.sun.jdi.request.MonitorWaitedRequest}s.
-     * @see com.sun.jdi.request.EventRequestManager#createMonitorContendedEnterRequest
-     * @see com.sun.jdi.request.EventRequestManager#createMonitorContendedEnteredRequest
-     * @see com.sun.jdi.request.EventRequestManager#createMonitorWaitRequest
-     * @see com.sun.jdi.request.EventRequestManager#createMonitorWaitedRequest
+     * {@link com.sun.jdi.request.MonitorWbitRequest}s.
+     * {@link com.sun.jdi.request.MonitorWbitedRequest}s.
+     * @see com.sun.jdi.request.EventRequestMbnbger#crebteMonitorContendedEnterRequest
+     * @see com.sun.jdi.request.EventRequestMbnbger#crebteMonitorContendedEnteredRequest
+     * @see com.sun.jdi.request.EventRequestMbnbger#crebteMonitorWbitRequest
+     * @see com.sun.jdi.request.EventRequestMbnbger#crebteMonitorWbitedRequest
      *
-     * @return <code>true</code> if the feature is supported,
-     * <code>false</code> otherwise.
-     *
-     * @since 1.6
-     */
-
-    boolean canRequestMonitorEvents();
-
-    /**
-     * Determines if the target VM supports getting which
-     * frame has acquired a monitor.
-     * @see com.sun.jdi.ThreadReference#ownedMonitorsAndFrames
-     *
-     * @return <code>true</code> if the feature is supported,
-     * <code>false</code> otherwise.
+     * @return <code>true</code> if the febture is supported,
+     * <code>fblse</code> otherwise.
      *
      * @since 1.6
      */
 
-     boolean canGetMonitorFrameInfo();
+    boolebn cbnRequestMonitorEvents();
+
+    /**
+     * Determines if the tbrget VM supports getting which
+     * frbme hbs bcquired b monitor.
+     * @see com.sun.jdi.ThrebdReference#ownedMonitorsAndFrbmes
+     *
+     * @return <code>true</code> if the febture is supported,
+     * <code>fblse</code> otherwise.
+     *
+     * @since 1.6
+     */
+
+     boolebn cbnGetMonitorFrbmeInfo();
 
 
     /**
-     * Determines if the target VM supports reading class file
-     * major and minor versions.
+     * Determines if the tbrget VM supports rebding clbss file
+     * mbjor bnd minor versions.
      *
-     * @see ReferenceType#majorVersion()
+     * @see ReferenceType#mbjorVersion()
      * @see ReferenceType#minorVersion()
      *
-     * @return <code>true</code> if the feature is supported,
-     * <code>false</code> otherwise.
+     * @return <code>true</code> if the febture is supported,
+     * <code>fblse</code> otherwise.
      *
      * @since 1.6
      */
-    boolean canGetClassFileVersion();
+    boolebn cbnGetClbssFileVersion();
 
     /**
-     * Determines if the target VM supports getting constant pool
-     * information of a class.
+     * Determines if the tbrget VM supports getting constbnt pool
+     * informbtion of b clbss.
      *
-     * @see ReferenceType#constantPoolCount()
-     * @see ReferenceType#constantPool()
+     * @see ReferenceType#constbntPoolCount()
+     * @see ReferenceType#constbntPool()
      *
-     * @return <code>true</code> if the feature is supported,
-     * <code>false</code> otherwise.
+     * @return <code>true</code> if the febture is supported,
+     * <code>fblse</code> otherwise.
      *
      * @since 1.6
      */
-    boolean canGetConstantPool();
+    boolebn cbnGetConstbntPool();
 
     /**
-     * Set this VM's default stratum (see {@link Location} for a
-     * discussion of strata).  Overrides the per-class default set
-     * in the class file.
+     * Set this VM's defbult strbtum (see {@link Locbtion} for b
+     * discussion of strbtb).  Overrides the per-clbss defbult set
+     * in the clbss file.
      * <P>
-     * Affects location queries (such as,
-     * {@link Location#sourceName()})
-     * and the line boundaries used in
+     * Affects locbtion queries (such bs,
+     * {@link Locbtion#sourceNbme()})
+     * bnd the line boundbries used in
      * single stepping.
      *
-     * @param stratum the stratum to set as VM default,
-     * or null to use per-class defaults.
+     * @pbrbm strbtum the strbtum to set bs VM defbult,
+     * or null to use per-clbss defbults.
      *
-     * @throws java.lang.UnsupportedOperationException if the
-     * target virtual machine does not support this operation.
+     * @throws jbvb.lbng.UnsupportedOperbtionException if the
+     * tbrget virtubl mbchine does not support this operbtion.
      *
      * @since 1.4
      */
-    void setDefaultStratum(String stratum);
+    void setDefbultStrbtum(String strbtum);
 
     /**
-     * Return this VM's default stratum.
+     * Return this VM's defbult strbtum.
      *
-     * @see #setDefaultStratum(String)
-     * @see ReferenceType#defaultStratum()
-     * @return <code>null</code> (meaning that the per-class
-     * default - {@link ReferenceType#defaultStratum()} -
-     * should be used) unless the default stratum has been
+     * @see #setDefbultStrbtum(String)
+     * @see ReferenceType#defbultStrbtum()
+     * @return <code>null</code> (mebning thbt the per-clbss
+     * defbult - {@link ReferenceType#defbultStrbtum()} -
+     * should be used) unless the defbult strbtum hbs been
      * set with
-     * {@link #setDefaultStratum(String)}.
+     * {@link #setDefbultStrbtum(String)}.
      *
      * @since 1.4
      */
-    String getDefaultStratum();
+    String getDefbultStrbtum();
 
     /**
-     * Returns the number of instances of each ReferenceType in the 'refTypes'
+     * Returns the number of instbnces of ebch ReferenceType in the 'refTypes'
      * list.
-     * Only instances that are reachable for the purposes of garbage collection
-     * are counted.
+     * Only instbnces thbt bre rebchbble for the purposes of gbrbbge collection
+     * bre counted.
      * <p>
-     * Not all target virtual machines support this operation.
-     * Use {@link VirtualMachine#canGetInstanceInfo()}
-     * to determine if the operation is supported.
+     * Not bll tbrget virtubl mbchines support this operbtion.
+     * Use {@link VirtublMbchine#cbnGetInstbnceInfo()}
+     * to determine if the operbtion is supported.
      *
-     * @see ReferenceType#instances(long)
+     * @see ReferenceType#instbnces(long)
      * @see ObjectReference#referringObjects(long)
-     * @param refTypes the list of {@link ReferenceType} objects for which counts
-     *        are to be obtained.
+     * @pbrbm refTypes the list of {@link ReferenceType} objects for which counts
+     *        bre to be obtbined.
      *
-     * @return an array of <code>long</code> containing one element for each
-     *         element in the 'refTypes' list.  Element i of the array contains
-     *         the number of instances in the target VM of the ReferenceType at
+     * @return bn brrby of <code>long</code> contbining one element for ebch
+     *         element in the 'refTypes' list.  Element i of the brrby contbins
+     *         the number of instbnces in the tbrget VM of the ReferenceType bt
      *         position i in the 'refTypes' list.
-     *         If the 'refTypes' list is empty, a zero-length array is returned.
-     *         If a ReferenceType in refTypes has been garbage collected, zero
-     *         is returned for its instance count.
-     * @throws java.lang.UnsupportedOperationException if
-     * the target virtual machine does not support this
-     * operation - see
-     * {@link VirtualMachine#canGetInstanceInfo() canGetInstanceInfo()}
+     *         If the 'refTypes' list is empty, b zero-length brrby is returned.
+     *         If b ReferenceType in refTypes hbs been gbrbbge collected, zero
+     *         is returned for its instbnce count.
+     * @throws jbvb.lbng.UnsupportedOperbtionException if
+     * the tbrget virtubl mbchine does not support this
+     * operbtion - see
+     * {@link VirtublMbchine#cbnGetInstbnceInfo() cbnGetInstbnceInfo()}
      * @throws NullPointerException if the 'refTypes' list is null.
      * @since 1.6
      */
-    long[] instanceCounts(List<? extends ReferenceType> refTypes);
+    long[] instbnceCounts(List<? extends ReferenceType> refTypes);
 
     /**
-     * Returns text information on the target VM and the
-     * debugger support that mirrors it. No specific format
-     * for this information is guaranteed.
-     * Typically, this string contains version information for the
-     * target VM and debugger interfaces.
-     * More precise information
-     * on VM and JDI versions is available through
-     * {@link #version}, {@link VirtualMachineManager#majorInterfaceVersion},
-     * and {@link VirtualMachineManager#minorInterfaceVersion}
+     * Returns text informbtion on the tbrget VM bnd the
+     * debugger support thbt mirrors it. No specific formbt
+     * for this informbtion is gubrbnteed.
+     * Typicblly, this string contbins version informbtion for the
+     * tbrget VM bnd debugger interfbces.
+     * More precise informbtion
+     * on VM bnd JDI versions is bvbilbble through
+     * {@link #version}, {@link VirtublMbchineMbnbger#mbjorInterfbceVersion},
+     * bnd {@link VirtublMbchineMbnbger#minorInterfbceVersion}
      *
      * @return the description.
      */
     String description();
 
     /**
-     * Returns the version of the Java Runtime Environment in the target
-     * VM as reported by the property <code>java.version</code>.
-     * For obtaining the JDI interface version, use
-     * {@link VirtualMachineManager#majorInterfaceVersion}
-     * and {@link VirtualMachineManager#minorInterfaceVersion}
+     * Returns the version of the Jbvb Runtime Environment in the tbrget
+     * VM bs reported by the property <code>jbvb.version</code>.
+     * For obtbining the JDI interfbce version, use
+     * {@link VirtublMbchineMbnbger#mbjorInterfbceVersion}
+     * bnd {@link VirtublMbchineMbnbger#minorInterfbceVersion}
      *
-     * @return the target VM version.
+     * @return the tbrget VM version.
      */
     String version();
 
     /**
-     * Returns the name of the target VM as reported by the
-     * property <code>java.vm.name</code>.
+     * Returns the nbme of the tbrget VM bs reported by the
+     * property <code>jbvb.vm.nbme</code>.
      *
-     * @return the target VM name.
+     * @return the tbrget VM nbme.
      */
-    String name();
+    String nbme();
 
-    /** All tracing is disabled. */
+    /** All trbcing is disbbled. */
     int TRACE_NONE        = 0x00000000;
-    /** Tracing enabled for JDWP packets sent to target VM. */
+    /** Trbcing enbbled for JDWP pbckets sent to tbrget VM. */
     int TRACE_SENDS       = 0x00000001;
-    /** Tracing enabled for JDWP packets received from target VM. */
+    /** Trbcing enbbled for JDWP pbckets received from tbrget VM. */
     int TRACE_RECEIVES    = 0x00000002;
-    /** Tracing enabled for internal event handling. */
+    /** Trbcing enbbled for internbl event hbndling. */
     int TRACE_EVENTS      = 0x00000004;
-    /** Tracing enabled for internal managment of reference types. */
+    /** Trbcing enbbled for internbl mbnbgment of reference types. */
     int TRACE_REFTYPES    = 0x00000008;
-    /** Tracing enabled for internal management of object references. */
+    /** Trbcing enbbled for internbl mbnbgement of object references. */
     int TRACE_OBJREFS      = 0x00000010;
-    /** All tracing is enabled. */
+    /** All trbcing is enbbled. */
     int TRACE_ALL         = 0x00ffffff;
 
     /**
-     * Traces the activities performed by the com.sun.jdi implementation.
-     * All trace information is output to System.err. The given trace
-     * flags are used to limit the output to only the information
-     * desired. The given flags are in effect and the corresponding
-     * trace will continue until the next call to
+     * Trbces the bctivities performed by the com.sun.jdi implementbtion.
+     * All trbce informbtion is output to System.err. The given trbce
+     * flbgs bre used to limit the output to only the informbtion
+     * desired. The given flbgs bre in effect bnd the corresponding
+     * trbce will continue until the next cbll to
      * this method.
      * <p>
-     * Output is implementation dependent and trace mode may be ignored.
+     * Output is implementbtion dependent bnd trbce mode mby be ignored.
      *
-     * @param traceFlags identifies which kinds of tracing to enable.
+     * @pbrbm trbceFlbgs identifies which kinds of trbcing to enbble.
      */
-    void setDebugTraceMode(int traceFlags);
+    void setDebugTrbceMode(int trbceFlbgs);
 }

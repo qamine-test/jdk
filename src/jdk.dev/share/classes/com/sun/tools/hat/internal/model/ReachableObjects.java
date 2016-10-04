@@ -1,126 +1,126 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
 /*
- * The Original Code is HAT. The Initial Developer of the
- * Original Code is Bill Foote, with contributions from others
- * at JavaSoft/Sun.
+ * The Originbl Code is HAT. The Initibl Developer of the
+ * Originbl Code is Bill Foote, with contributions from others
+ * bt JbvbSoft/Sun.
  */
 
-package com.sun.tools.hat.internal.model;
+pbckbge com.sun.tools.hbt.internbl.model;
 
-import java.util.Vector;
-import java.util.Hashtable;
-import java.util.Enumeration;
+import jbvb.util.Vector;
+import jbvb.util.Hbshtbble;
+import jbvb.util.Enumerbtion;
 
-import com.sun.tools.hat.internal.util.ArraySorter;
-import com.sun.tools.hat.internal.util.Comparer;
+import com.sun.tools.hbt.internbl.util.ArrbySorter;
+import com.sun.tools.hbt.internbl.util.Compbrer;
 
 /**
- * @author      A. Sundararajan
+ * @buthor      A. Sundbrbrbjbn
  */
 
-public class ReachableObjects {
-    public ReachableObjects(JavaHeapObject root,
-                            final ReachableExcludes excludes) {
+public clbss RebchbbleObjects {
+    public RebchbbleObjects(JbvbHebpObject root,
+                            finbl RebchbbleExcludes excludes) {
         this.root = root;
 
-        final Hashtable<JavaHeapObject, JavaHeapObject> bag = new Hashtable<JavaHeapObject, JavaHeapObject>();
-        final Hashtable<String, String> fieldsExcluded = new Hashtable<String, String>();  //Bag<String>
-        final Hashtable<String, String> fieldsUsed = new Hashtable<String, String>();   // Bag<String>
-        JavaHeapObjectVisitor visitor = new AbstractJavaHeapObjectVisitor() {
-            public void visit(JavaHeapObject t) {
+        finbl Hbshtbble<JbvbHebpObject, JbvbHebpObject> bbg = new Hbshtbble<JbvbHebpObject, JbvbHebpObject>();
+        finbl Hbshtbble<String, String> fieldsExcluded = new Hbshtbble<String, String>();  //Bbg<String>
+        finbl Hbshtbble<String, String> fieldsUsed = new Hbshtbble<String, String>();   // Bbg<String>
+        JbvbHebpObjectVisitor visitor = new AbstrbctJbvbHebpObjectVisitor() {
+            public void visit(JbvbHebpObject t) {
                 // Size is zero for things like integer fields
-                if (t != null && t.getSize() > 0 && bag.get(t) == null) {
-                    bag.put(t, t);
+                if (t != null && t.getSize() > 0 && bbg.get(t) == null) {
+                    bbg.put(t, t);
                     t.visitReferencedObjects(this);
                 }
             }
 
-            public boolean mightExclude() {
+            public boolebn mightExclude() {
                 return excludes != null;
             }
 
-            public boolean exclude(JavaClass clazz, JavaField f) {
+            public boolebn exclude(JbvbClbss clbzz, JbvbField f) {
                 if (excludes == null) {
-                    return false;
+                    return fblse;
                 }
-                String nm = clazz.getName() + "." + f.getName();
+                String nm = clbzz.getNbme() + "." + f.getNbme();
                 if (excludes.isExcluded(nm)) {
                     fieldsExcluded.put(nm, nm);
                     return true;
                 } else {
                     fieldsUsed.put(nm, nm);
-                    return false;
+                    return fblse;
                 }
             }
         };
-        // Put the closure of root and all objects reachable from root into
-        // bag (depth first), but don't include root:
+        // Put the closure of root bnd bll objects rebchbble from root into
+        // bbg (depth first), but don't include root:
         visitor.visit(root);
-        bag.remove(root);
+        bbg.remove(root);
 
-        // Now grab the elements into a vector, and sort it in decreasing size
-        JavaThing[] things = new JavaThing[bag.size()];
+        // Now grbb the elements into b vector, bnd sort it in decrebsing size
+        JbvbThing[] things = new JbvbThing[bbg.size()];
         int i = 0;
-        for (Enumeration<JavaHeapObject> e = bag.elements(); e.hasMoreElements(); ) {
-            things[i++] = (JavaThing) e.nextElement();
+        for (Enumerbtion<JbvbHebpObject> e = bbg.elements(); e.hbsMoreElements(); ) {
+            things[i++] = (JbvbThing) e.nextElement();
         }
-        ArraySorter.sort(things, new Comparer() {
-            public int compare(Object lhs, Object rhs) {
-                JavaThing left = (JavaThing) lhs;
-                JavaThing right = (JavaThing) rhs;
+        ArrbySorter.sort(things, new Compbrer() {
+            public int compbre(Object lhs, Object rhs) {
+                JbvbThing left = (JbvbThing) lhs;
+                JbvbThing right = (JbvbThing) rhs;
                 int diff = right.getSize() - left.getSize();
                 if (diff != 0) {
                     return diff;
                 }
-                return left.compareTo(right);
+                return left.compbreTo(right);
             }
         });
-        this.reachables = things;
+        this.rebchbbles = things;
 
-        this.totalSize = root.getSize();
+        this.totblSize = root.getSize();
         for (i = 0; i < things.length; i++) {
-            this.totalSize += things[i].getSize();
+            this.totblSize += things[i].getSize();
         }
 
         excludedFields = getElements(fieldsExcluded);
         usedFields = getElements(fieldsUsed);
     }
 
-    public JavaHeapObject getRoot() {
+    public JbvbHebpObject getRoot() {
         return root;
     }
 
-    public JavaThing[] getReachables() {
-        return reachables;
+    public JbvbThing[] getRebchbbles() {
+        return rebchbbles;
     }
 
-    public long getTotalSize() {
-        return totalSize;
+    public long getTotblSize() {
+        return totblSize;
     }
 
     public String[] getExcludedFields() {
@@ -131,18 +131,18 @@ public class ReachableObjects {
         return usedFields;
     }
 
-    private String[] getElements(Hashtable<?, ?> ht) {
-        Object[] keys = ht.keySet().toArray();
+    privbte String[] getElements(Hbshtbble<?, ?> ht) {
+        Object[] keys = ht.keySet().toArrby();
         int len = keys.length;
         String[] res = new String[len];
-        System.arraycopy(keys, 0, res, 0, len);
-        ArraySorter.sortArrayOfStrings(res);
+        System.brrbycopy(keys, 0, res, 0, len);
+        ArrbySorter.sortArrbyOfStrings(res);
         return res;
     }
 
-    private JavaHeapObject root;
-    private JavaThing[] reachables;
-    private String[]  excludedFields;
-    private String[]  usedFields;
-    private long totalSize;
+    privbte JbvbHebpObject root;
+    privbte JbvbThing[] rebchbbles;
+    privbte String[]  excludedFields;
+    privbte String[]  usedFields;
+    privbte long totblSize;
 }

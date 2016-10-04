@@ -1,24 +1,24 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  *
  */
@@ -27,27 +27,27 @@
  *
  * (C) Copyright IBM Corp. 1998-2010 - All Rights Reserved
  *
- * Developed at DIT - Government of Bhutan
+ * Developed bt DIT - Government of Bhutbn
  *
- * Contact person: Pema Geyleg - <pema_geyleg@druknet.bt>
+ * Contbct person: Pemb Geyleg - <pemb_geyleg@druknet.bt>
  *
- * This file is a modification of the ICU file KhmerReordering.cpp
- * by Jens Herden and Javier Sola who have given all their possible rights to IBM and the Governement of Bhutan
- * A first module for Dzongkha was developed by Karunakar under Panlocalisation funding.
- * Assistance for this module has been received from Namgay Thinley, Christopher Fynn and Javier Sola
+ * This file is b modificbtion of the ICU file KhmerReordering.cpp
+ * by Jens Herden bnd Jbvier Solb who hbve given bll their possible rights to IBM bnd the Governement of Bhutbn
+ * A first module for Dzongkhb wbs developed by Kbrunbkbr under Pbnlocblisbtion funding.
+ * Assistbnce for this module hbs been received from Nbmgby Thinley, Christopher Fynn bnd Jbvier Solb
  *
  */
 
 //#include <stdio.h>
 #include "LETypes.h"
-#include "OpenTypeTables.h"
-#include "TibetanReordering.h"
-#include "LEGlyphStorage.h"
+#include "OpenTypeTbbles.h"
+#include "TibetbnReordering.h"
+#include "LEGlyphStorbge.h"
 
 
 U_NAMESPACE_BEGIN
 
-// Characters that get referred to by name...
+// Chbrbcters thbt get referred to by nbme...
 enum
 {
     C_DOTTED_CIRCLE = 0x25CC,
@@ -57,63 +57,63 @@ enum
 
 enum
 {
-    // simple classes, they are used in the statetable (in this file) to control the length of a syllable
-    // they are also used to know where a character should be placed (location in reference to the base character)
-    // and also to know if a character, when independtly displayed, should be displayed with a dotted-circle to
-    // indicate error in syllable construction
-    _xx = TibetanClassTable::CC_RESERVED,
-    _ba = TibetanClassTable::CC_BASE,
-    _sj = TibetanClassTable::CC_SUBJOINED | TibetanClassTable::CF_DOTTED_CIRCLE | TibetanClassTable::CF_POS_BELOW,
-    _tp = TibetanClassTable::CC_TSA_PHRU  | TibetanClassTable::CF_DOTTED_CIRCLE | TibetanClassTable::CF_POS_ABOVE,
-    _ac = TibetanClassTable::CC_A_CHUNG |  TibetanClassTable::CF_DOTTED_CIRCLE | TibetanClassTable::CF_POS_BELOW,
-    _cs = TibetanClassTable::CC_COMP_SANSKRIT | TibetanClassTable::CF_DOTTED_CIRCLE | TibetanClassTable::CF_POS_BELOW,
-    _ha = TibetanClassTable::CC_HALANTA | TibetanClassTable::CF_DOTTED_CIRCLE | TibetanClassTable::CF_POS_BELOW,
-    _bv = TibetanClassTable::CC_BELOW_VOWEL | TibetanClassTable::CF_DOTTED_CIRCLE | TibetanClassTable::CF_POS_BELOW,
-    _av = TibetanClassTable::CC_ABOVE_VOWEL | TibetanClassTable::CF_DOTTED_CIRCLE | TibetanClassTable::CF_POS_ABOVE,
-    _an = TibetanClassTable::CC_ANUSVARA | TibetanClassTable::CF_DOTTED_CIRCLE | TibetanClassTable::CF_POS_ABOVE,
-    _cb = TibetanClassTable::CC_CANDRABINDU | TibetanClassTable::CF_DOTTED_CIRCLE | TibetanClassTable::CF_POS_ABOVE,
-    _vs = TibetanClassTable::CC_VISARGA | TibetanClassTable::CF_DOTTED_CIRCLE| TibetanClassTable::CF_POS_AFTER,
-    _as = TibetanClassTable::CC_ABOVE_S_MARK | TibetanClassTable::CF_DOTTED_CIRCLE | TibetanClassTable::CF_POS_ABOVE,
-    _bs = TibetanClassTable::CC_BELOW_S_MARK | TibetanClassTable::CF_DOTTED_CIRCLE | TibetanClassTable::CF_POS_BELOW,
-    _di = TibetanClassTable::CC_DIGIT | TibetanClassTable::CF_DIGIT,
-    _pd = TibetanClassTable::CC_PRE_DIGIT_MARK | TibetanClassTable::CF_DOTTED_CIRCLE | TibetanClassTable::CF_PREDIGIT | TibetanClassTable::CF_POS_BEFORE ,
-    _bd = TibetanClassTable::CC_POST_BELOW_DIGIT_M | TibetanClassTable::CF_DOTTED_CIRCLE | TibetanClassTable::CF_POS_AFTER
+    // simple clbsses, they bre used in the stbtetbble (in this file) to control the length of b syllbble
+    // they bre blso used to know where b chbrbcter should be plbced (locbtion in reference to the bbse chbrbcter)
+    // bnd blso to know if b chbrbcter, when independtly displbyed, should be displbyed with b dotted-circle to
+    // indicbte error in syllbble construction
+    _xx = TibetbnClbssTbble::CC_RESERVED,
+    _bb = TibetbnClbssTbble::CC_BASE,
+    _sj = TibetbnClbssTbble::CC_SUBJOINED | TibetbnClbssTbble::CF_DOTTED_CIRCLE | TibetbnClbssTbble::CF_POS_BELOW,
+    _tp = TibetbnClbssTbble::CC_TSA_PHRU  | TibetbnClbssTbble::CF_DOTTED_CIRCLE | TibetbnClbssTbble::CF_POS_ABOVE,
+    _bc = TibetbnClbssTbble::CC_A_CHUNG |  TibetbnClbssTbble::CF_DOTTED_CIRCLE | TibetbnClbssTbble::CF_POS_BELOW,
+    _cs = TibetbnClbssTbble::CC_COMP_SANSKRIT | TibetbnClbssTbble::CF_DOTTED_CIRCLE | TibetbnClbssTbble::CF_POS_BELOW,
+    _hb = TibetbnClbssTbble::CC_HALANTA | TibetbnClbssTbble::CF_DOTTED_CIRCLE | TibetbnClbssTbble::CF_POS_BELOW,
+    _bv = TibetbnClbssTbble::CC_BELOW_VOWEL | TibetbnClbssTbble::CF_DOTTED_CIRCLE | TibetbnClbssTbble::CF_POS_BELOW,
+    _bv = TibetbnClbssTbble::CC_ABOVE_VOWEL | TibetbnClbssTbble::CF_DOTTED_CIRCLE | TibetbnClbssTbble::CF_POS_ABOVE,
+    _bn = TibetbnClbssTbble::CC_ANUSVARA | TibetbnClbssTbble::CF_DOTTED_CIRCLE | TibetbnClbssTbble::CF_POS_ABOVE,
+    _cb = TibetbnClbssTbble::CC_CANDRABINDU | TibetbnClbssTbble::CF_DOTTED_CIRCLE | TibetbnClbssTbble::CF_POS_ABOVE,
+    _vs = TibetbnClbssTbble::CC_VISARGA | TibetbnClbssTbble::CF_DOTTED_CIRCLE| TibetbnClbssTbble::CF_POS_AFTER,
+    _bs = TibetbnClbssTbble::CC_ABOVE_S_MARK | TibetbnClbssTbble::CF_DOTTED_CIRCLE | TibetbnClbssTbble::CF_POS_ABOVE,
+    _bs = TibetbnClbssTbble::CC_BELOW_S_MARK | TibetbnClbssTbble::CF_DOTTED_CIRCLE | TibetbnClbssTbble::CF_POS_BELOW,
+    _di = TibetbnClbssTbble::CC_DIGIT | TibetbnClbssTbble::CF_DIGIT,
+    _pd = TibetbnClbssTbble::CC_PRE_DIGIT_MARK | TibetbnClbssTbble::CF_DOTTED_CIRCLE | TibetbnClbssTbble::CF_PREDIGIT | TibetbnClbssTbble::CF_POS_BEFORE ,
+    _bd = TibetbnClbssTbble::CC_POST_BELOW_DIGIT_M | TibetbnClbssTbble::CF_DOTTED_CIRCLE | TibetbnClbssTbble::CF_POS_AFTER
 };
 
 
-// Character class tables
-//_xx Non Combining characters
-//_ba Base Consonants
-//_sj Subjoined consonants
-//_tp Tsa - phru
-//_ac A-chung, Vowel Lengthening mark
-//_cs Precomposed Sanskrit vowel + subjoined consonants
-//_ha Halanta/Virama
+// Chbrbcter clbss tbbles
+//_xx Non Combining chbrbcters
+//_bb Bbse Consonbnts
+//_sj Subjoined consonbnts
+//_tp Tsb - phru
+//_bc A-chung, Vowel Lengthening mbrk
+//_cs Precomposed Sbnskrit vowel + subjoined consonbnts
+//_hb Hblbntb/Virbmb
 //_bv Below vowel
-//_av above vowel
-//_an Anusvara
-//_cb Candrabindu
-//_vs Visaraga/Post mark
-//_as Upper Stress marks
-//_bs Lower Stress marks
+//_bv bbove vowel
+//_bn Anusvbrb
+//_cb Cbndrbbindu
+//_vs Visbrbgb/Post mbrk
+//_bs Upper Stress mbrks
+//_bs Lower Stress mbrks
 //_di Digit
 //_pd Number pre combining, Needs reordering
-//_bd Other number combining marks
+//_bd Other number combining mbrks
 
-static const TibetanClassTable::CharClass tibetanCharClasses[] =
+stbtic const TibetbnClbssTbble::ChbrClbss tibetbnChbrClbsses[] =
 {
-   // 0    1    2    3    4    5    6    7    8    9   a     b   c    d     e   f
-    _xx, _ba, _xx, _xx, _ba, _ba, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, // 0F00 - 0F0F 0
+   // 0    1    2    3    4    5    6    7    8    9   b     b   c    d     e   f
+    _xx, _bb, _xx, _xx, _bb, _bb, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, // 0F00 - 0F0F 0
     _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _bd, _bd, _xx, _xx, _xx, _xx, _xx, _xx, // 0F10 - 0F1F 1
     _di, _di, _di, _di, _di, _di, _di, _di, _di, _di, _xx, _xx, _xx, _xx, _xx, _xx, // 0F20 - 0F2F 2
     _xx, _xx, _xx, _xx, _xx, _bs, _xx, _bs, _xx, _tp, _xx, _xx, _xx, _xx, _bd, _pd, // 0F30 - 0F3F 3
-    _ba, _ba, _ba, _ba, _ba, _ba, _ba, _ba, _xx, _ba, _ba, _ba, _ba, _ba, _ba, _ba, // 0F40 - 0F4F 4
-    _ba, _ba, _ba, _ba, _ba, _ba, _ba, _ba, _ba, _ba, _ba, _ba, _ba, _ba, _ba, _ba, // 0F50 - 0F5F 5
-    _ba, _ba, _ba, _ba, _ba, _ba, _ba, _ba, _ba, _ba, _ba, _xx, _xx, _xx, _xx, _xx, // 0F60 - 0F6F 6
-    _xx, _ac, _av, _cs, _bv, _bv, _cs, _cs, _cs, _cs, _av, _av, _av, _av, _an, _vs, // 0F70 - 0F7F 7
-    _av, _cs, _cb, _cb, _ha, _xx, _as, _as, _ba, _ba, _ba, _ba, _xx, _xx, _xx, _xx, // 0F80 - 0F8F 8
+    _bb, _bb, _bb, _bb, _bb, _bb, _bb, _bb, _xx, _bb, _bb, _bb, _bb, _bb, _bb, _bb, // 0F40 - 0F4F 4
+    _bb, _bb, _bb, _bb, _bb, _bb, _bb, _bb, _bb, _bb, _bb, _bb, _bb, _bb, _bb, _bb, // 0F50 - 0F5F 5
+    _bb, _bb, _bb, _bb, _bb, _bb, _bb, _bb, _bb, _bb, _bb, _xx, _xx, _xx, _xx, _xx, // 0F60 - 0F6F 6
+    _xx, _bc, _bv, _cs, _bv, _bv, _cs, _cs, _cs, _cs, _bv, _bv, _bv, _bv, _bn, _vs, // 0F70 - 0F7F 7
+    _bv, _cs, _cb, _cb, _hb, _xx, _bs, _bs, _bb, _bb, _bb, _bb, _xx, _xx, _xx, _xx, // 0F80 - 0F8F 8
     _sj, _sj, _sj, _sj, _sj, _sj, _sj, _sj, _xx, _sj, _sj, _sj, _sj, _sj, _sj, _sj, // 0F90 - 0F9F 9
-    _sj, _sj, _sj, _sj, _sj, _sj, _sj, _sj, _sj, _sj, _sj, _sj, _sj, _sj, _sj, _sj, // 0FA0 - 0FAF a
+    _sj, _sj, _sj, _sj, _sj, _sj, _sj, _sj, _sj, _sj, _sj, _sj, _sj, _sj, _sj, _sj, // 0FA0 - 0FAF b
     _sj, _sj, _sj, _sj, _sj, _sj, _sj, _sj, _sj, _sj, _sj, _sj, _sj, _xx, _sj, _sj, // 0FB0 - 0FBF b
     _xx, _xx, _xx, _xx, _xx, _xx, _bs, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, // 0FC0 - 0FCF c
     _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx,// 0FD0 - 0FDF  d
@@ -123,68 +123,68 @@ static const TibetanClassTable::CharClass tibetanCharClasses[] =
 
 
 //
-// Tibetan Class Tables
+// Tibetbn Clbss Tbbles
 //
 
 //
-// The range of characters defined in the above table is defined here. For Tibetan 0F00 to 0FFF
-// Even if the Tibetan range is bigger, most of the characters are not combinable, and therefore treated
-// as _xx
-static const TibetanClassTable tibetanClassTable = {0x0F00, 0x0FFF, tibetanCharClasses};
+// The rbnge of chbrbcters defined in the bbove tbble is defined here. For Tibetbn 0F00 to 0FFF
+// Even if the Tibetbn rbnge is bigger, most of the chbrbcters bre not combinbble, bnd therefore trebted
+// bs _xx
+stbtic const TibetbnClbssTbble tibetbnClbssTbble = {0x0F00, 0x0FFF, tibetbnChbrClbsses};
 
 
-// Below we define how a character in the input string is either in the tibetanCharClasses table
-// (in which case we get its type back), or an unknown object in which case we get _xx (CC_RESERVED) back
-TibetanClassTable::CharClass TibetanClassTable::getCharClass(LEUnicode ch) const
+// Below we define how b chbrbcter in the input string is either in the tibetbnChbrClbsses tbble
+// (in which cbse we get its type bbck), or bn unknown object in which cbse we get _xx (CC_RESERVED) bbck
+TibetbnClbssTbble::ChbrClbss TibetbnClbssTbble::getChbrClbss(LEUnicode ch) const
 {
-    if (ch < firstChar || ch > lastChar) {
+    if (ch < firstChbr || ch > lbstChbr) {
         return CC_RESERVED;
     }
 
-    return classTable[ch - firstChar];
+    return clbssTbble[ch - firstChbr];
 }
 
-const TibetanClassTable *TibetanClassTable::getTibetanClassTable()
+const TibetbnClbssTbble *TibetbnClbssTbble::getTibetbnClbssTbble()
 {
-    return &tibetanClassTable;
+    return &tibetbnClbssTbble;
 }
 
 
 
-class TibetanReorderingOutput : public UMemory {
-private:
-    le_int32 fSyllableCount;
+clbss TibetbnReorderingOutput : public UMemory {
+privbte:
+    le_int32 fSyllbbleCount;
     le_int32 fOutIndex;
-    LEUnicode *fOutChars;
+    LEUnicode *fOutChbrs;
 
-    LEGlyphStorage &fGlyphStorage;
+    LEGlyphStorbge &fGlyphStorbge;
 
 
 public:
-    TibetanReorderingOutput(LEUnicode *outChars, LEGlyphStorage &glyphStorage)
-        : fSyllableCount(0), fOutIndex(0), fOutChars(outChars), fGlyphStorage(glyphStorage)
+    TibetbnReorderingOutput(LEUnicode *outChbrs, LEGlyphStorbge &glyphStorbge)
+        : fSyllbbleCount(0), fOutIndex(0), fOutChbrs(outChbrs), fGlyphStorbge(glyphStorbge)
     {
         // nothing else to do...
     }
 
-    ~TibetanReorderingOutput()
+    ~TibetbnReorderingOutput()
     {
         // nothing to do here...
     }
 
     void reset()
     {
-        fSyllableCount += 1;
+        fSyllbbleCount += 1;
     }
 
-    void writeChar(LEUnicode ch, le_uint32 charIndex, FeatureMask featureMask)
+    void writeChbr(LEUnicode ch, le_uint32 chbrIndex, FebtureMbsk febtureMbsk)
     {
         LEErrorCode success = LE_NO_ERROR;
 
-        fOutChars[fOutIndex] = ch;
+        fOutChbrs[fOutIndex] = ch;
 
-        fGlyphStorage.setCharIndex(fOutIndex, charIndex, success);
-        fGlyphStorage.setAuxData(fOutIndex, featureMask, success);
+        fGlyphStorbge.setChbrIndex(fOutIndex, chbrIndex, success);
+        fGlyphStorbge.setAuxDbtb(fOutIndex, febtureMbsk, success);
 
         fOutIndex += 1;
     }
@@ -196,143 +196,143 @@ public:
 };
 
 
-//TODO remove unused flags
-#define ccmpFeatureTag LE_CCMP_FEATURE_TAG
-#define blwfFeatureTag LE_BLWF_FEATURE_TAG
-#define pstfFeatureTag LE_PSTF_FEATURE_TAG
-#define presFeatureTag LE_PRES_FEATURE_TAG
-#define blwsFeatureTag LE_BLWS_FEATURE_TAG
-#define abvsFeatureTag LE_ABVS_FEATURE_TAG
-#define pstsFeatureTag LE_PSTS_FEATURE_TAG
+//TODO remove unused flbgs
+#define ccmpFebtureTbg LE_CCMP_FEATURE_TAG
+#define blwfFebtureTbg LE_BLWF_FEATURE_TAG
+#define pstfFebtureTbg LE_PSTF_FEATURE_TAG
+#define presFebtureTbg LE_PRES_FEATURE_TAG
+#define blwsFebtureTbg LE_BLWS_FEATURE_TAG
+#define bbvsFebtureTbg LE_ABVS_FEATURE_TAG
+#define pstsFebtureTbg LE_PSTS_FEATURE_TAG
 
-#define blwmFeatureTag LE_BLWM_FEATURE_TAG
-#define abvmFeatureTag LE_ABVM_FEATURE_TAG
-#define distFeatureTag LE_DIST_FEATURE_TAG
+#define blwmFebtureTbg LE_BLWM_FEATURE_TAG
+#define bbvmFebtureTbg LE_ABVM_FEATURE_TAG
+#define distFebtureTbg LE_DIST_FEATURE_TAG
 
-#define prefFeatureTag LE_PREF_FEATURE_TAG
-#define abvfFeatureTag LE_ABVF_FEATURE_TAG
-#define cligFeatureTag LE_CLIG_FEATURE_TAG
-#define mkmkFeatureTag LE_MKMK_FEATURE_TAG
+#define prefFebtureTbg LE_PREF_FEATURE_TAG
+#define bbvfFebtureTbg LE_ABVF_FEATURE_TAG
+#define cligFebtureTbg LE_CLIG_FEATURE_TAG
+#define mkmkFebtureTbg LE_MKMK_FEATURE_TAG
 
-// Shaping features
-#define prefFeatureMask 0x80000000UL
-#define blwfFeatureMask 0x40000000UL
-#define abvfFeatureMask 0x20000000UL
-#define pstfFeatureMask 0x10000000UL
-#define presFeatureMask 0x08000000UL
-#define blwsFeatureMask 0x04000000UL
-#define abvsFeatureMask 0x02000000UL
-#define pstsFeatureMask 0x01000000UL
-#define cligFeatureMask 0x00800000UL
-#define ccmpFeatureMask 0x00040000UL
+// Shbping febtures
+#define prefFebtureMbsk 0x80000000UL
+#define blwfFebtureMbsk 0x40000000UL
+#define bbvfFebtureMbsk 0x20000000UL
+#define pstfFebtureMbsk 0x10000000UL
+#define presFebtureMbsk 0x08000000UL
+#define blwsFebtureMbsk 0x04000000UL
+#define bbvsFebtureMbsk 0x02000000UL
+#define pstsFebtureMbsk 0x01000000UL
+#define cligFebtureMbsk 0x00800000UL
+#define ccmpFebtureMbsk 0x00040000UL
 
-// Positioning features
-#define distFeatureMask 0x00400000UL
-#define blwmFeatureMask 0x00200000UL
-#define abvmFeatureMask 0x00100000UL
-#define mkmkFeatureMask 0x00080000UL
+// Positioning febtures
+#define distFebtureMbsk 0x00400000UL
+#define blwmFebtureMbsk 0x00200000UL
+#define bbvmFebtureMbsk 0x00100000UL
+#define mkmkFebtureMbsk 0x00080000UL
 
-#define tagPref    (ccmpFeatureMask | prefFeatureMask | presFeatureMask | cligFeatureMask | distFeatureMask)
-#define tagAbvf    (ccmpFeatureMask | abvfFeatureMask | abvsFeatureMask | cligFeatureMask | distFeatureMask | abvmFeatureMask | mkmkFeatureMask)
-#define tagPstf    (ccmpFeatureMask | blwfFeatureMask | blwsFeatureMask | prefFeatureMask | presFeatureMask | pstfFeatureMask | pstsFeatureMask | cligFeatureMask | distFeatureMask | blwmFeatureMask)
-#define tagBlwf    (ccmpFeatureMask | blwfFeatureMask | blwsFeatureMask | cligFeatureMask | distFeatureMask | blwmFeatureMask | mkmkFeatureMask)
-#define tagDefault (ccmpFeatureMask | prefFeatureMask | blwfFeatureMask | presFeatureMask | blwsFeatureMask | cligFeatureMask | distFeatureMask | abvmFeatureMask | blwmFeatureMask | mkmkFeatureMask)
+#define tbgPref    (ccmpFebtureMbsk | prefFebtureMbsk | presFebtureMbsk | cligFebtureMbsk | distFebtureMbsk)
+#define tbgAbvf    (ccmpFebtureMbsk | bbvfFebtureMbsk | bbvsFebtureMbsk | cligFebtureMbsk | distFebtureMbsk | bbvmFebtureMbsk | mkmkFebtureMbsk)
+#define tbgPstf    (ccmpFebtureMbsk | blwfFebtureMbsk | blwsFebtureMbsk | prefFebtureMbsk | presFebtureMbsk | pstfFebtureMbsk | pstsFebtureMbsk | cligFebtureMbsk | distFebtureMbsk | blwmFebtureMbsk)
+#define tbgBlwf    (ccmpFebtureMbsk | blwfFebtureMbsk | blwsFebtureMbsk | cligFebtureMbsk | distFebtureMbsk | blwmFebtureMbsk | mkmkFebtureMbsk)
+#define tbgDefbult (ccmpFebtureMbsk | prefFebtureMbsk | blwfFebtureMbsk | presFebtureMbsk | blwsFebtureMbsk | cligFebtureMbsk | distFebtureMbsk | bbvmFebtureMbsk | blwmFebtureMbsk | mkmkFebtureMbsk)
 
 
 
-// These are in the order in which the features need to be applied
+// These bre in the order in which the febtures need to be bpplied
 // for correct processing
-static const FeatureMap featureMap[] =
+stbtic const FebtureMbp febtureMbp[] =
 {
-    // Shaping features
-    {ccmpFeatureTag, ccmpFeatureMask},
-    {prefFeatureTag, prefFeatureMask},
-    {blwfFeatureTag, blwfFeatureMask},
-    {abvfFeatureTag, abvfFeatureMask},
-    {pstfFeatureTag, pstfFeatureMask},
-    {presFeatureTag, presFeatureMask},
-    {blwsFeatureTag, blwsFeatureMask},
-    {abvsFeatureTag, abvsFeatureMask},
-    {pstsFeatureTag, pstsFeatureMask},
-    {cligFeatureTag, cligFeatureMask},
+    // Shbping febtures
+    {ccmpFebtureTbg, ccmpFebtureMbsk},
+    {prefFebtureTbg, prefFebtureMbsk},
+    {blwfFebtureTbg, blwfFebtureMbsk},
+    {bbvfFebtureTbg, bbvfFebtureMbsk},
+    {pstfFebtureTbg, pstfFebtureMbsk},
+    {presFebtureTbg, presFebtureMbsk},
+    {blwsFebtureTbg, blwsFebtureMbsk},
+    {bbvsFebtureTbg, bbvsFebtureMbsk},
+    {pstsFebtureTbg, pstsFebtureMbsk},
+    {cligFebtureTbg, cligFebtureMbsk},
 
-    // Positioning features
-    {distFeatureTag, distFeatureMask},
-    {blwmFeatureTag, blwmFeatureMask},
-    {abvmFeatureTag, abvmFeatureMask},
-    {mkmkFeatureTag, mkmkFeatureMask},
+    // Positioning febtures
+    {distFebtureTbg, distFebtureMbsk},
+    {blwmFebtureTbg, blwmFebtureMbsk},
+    {bbvmFebtureTbg, bbvmFebtureMbsk},
+    {mkmkFebtureTbg, mkmkFebtureMbsk},
 };
 
-static const le_int32 featureMapCount = LE_ARRAY_SIZE(featureMap);
+stbtic const le_int32 febtureMbpCount = LE_ARRAY_SIZE(febtureMbp);
 
-// The stateTable is used to calculate the end (the length) of a well
-// formed Tibetan Syllable.
+// The stbteTbble is used to cblculbte the end (the length) of b well
+// formed Tibetbn Syllbble.
 //
-// Each horizontal line is ordered exactly the same way as the values in TibetanClassTable
-// CharClassValues in TibetanReordering.h This coincidence of values allows the
-// follow up of the table.
+// Ebch horizontbl line is ordered exbctly the sbme wby bs the vblues in TibetbnClbssTbble
+// ChbrClbssVblues in TibetbnReordering.h This coincidence of vblues bllows the
+// follow up of the tbble.
 //
-// Each line corresponds to a state, which does not necessarily need to be a type
-// of component... for example, state 2 is a base, with is always a first character
-// in the syllable, but the state could be produced a consonant of any type when
-// it is the first character that is analysed (in ground state).
+// Ebch line corresponds to b stbte, which does not necessbrily need to be b type
+// of component... for exbmple, stbte 2 is b bbse, with is blwbys b first chbrbcter
+// in the syllbble, but the stbte could be produced b consonbnt of bny type when
+// it is the first chbrbcter thbt is bnblysed (in ground stbte).
 //
-static const le_int8 tibetanStateTable[][TibetanClassTable::CC_COUNT] =
+stbtic const le_int8 tibetbnStbteTbble[][TibetbnClbssTbble::CC_COUNT] =
 {
 
 
-    //Dzongkha state table
-    //xx  ba  sj  tp  ac  cs  ha  bv  av  an  cb  vs  as  bs  di  pd  bd
-    { 1,  2,  4,  3,  8,  7,  9, 10, 14, 13, 17, 18, 19, 19, 20, 21, 21,}, //  0 - ground state
-    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,}, //  1 - exit state (or sign to the right of the syllable)
-    {-1, -1,  4,  3,  8,  7,  9, 10, 14, 13, 17, 18, 19, 19, -1, -1, -1,}, //  2 - Base consonant
-    {-1, -1,  5, -1,  8,  7, -1, 10, 14, 13, 17, 18, 19, 19, -1, -1, -1,}, //  3 - Tsa phru after base
-    {-1, -1,  4,  6,  8,  7,  9, 10, 14, 13, 17, 18, 19, 19, -1, -1, -1,}, //  4 - Subjoined consonant after base
-    {-1, -1,  5, -1,  8,  7, -1, 10, 14, 13, 17, 18, 19, 19, -1, -1, -1,}, //  5 - Subjoined consonant after tsa phru
-    {-1, -1, -1, -1,  8,  7, -1, 10, 14, 13, 17, 18, 19, 19, -1, -1, -1,}, //  6 - Tsa phru after subjoined consonant
-    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 19, 19, -1, -1, -1,}, //  7 - Pre Composed Sanskrit
+    //Dzongkhb stbte tbble
+    //xx  bb  sj  tp  bc  cs  hb  bv  bv  bn  cb  vs  bs  bs  di  pd  bd
+    { 1,  2,  4,  3,  8,  7,  9, 10, 14, 13, 17, 18, 19, 19, 20, 21, 21,}, //  0 - ground stbte
+    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,}, //  1 - exit stbte (or sign to the right of the syllbble)
+    {-1, -1,  4,  3,  8,  7,  9, 10, 14, 13, 17, 18, 19, 19, -1, -1, -1,}, //  2 - Bbse consonbnt
+    {-1, -1,  5, -1,  8,  7, -1, 10, 14, 13, 17, 18, 19, 19, -1, -1, -1,}, //  3 - Tsb phru bfter bbse
+    {-1, -1,  4,  6,  8,  7,  9, 10, 14, 13, 17, 18, 19, 19, -1, -1, -1,}, //  4 - Subjoined consonbnt bfter bbse
+    {-1, -1,  5, -1,  8,  7, -1, 10, 14, 13, 17, 18, 19, 19, -1, -1, -1,}, //  5 - Subjoined consonbnt bfter tsb phru
+    {-1, -1, -1, -1,  8,  7, -1, 10, 14, 13, 17, 18, 19, 19, -1, -1, -1,}, //  6 - Tsb phru bfter subjoined consonbnt
+    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 19, 19, -1, -1, -1,}, //  7 - Pre Composed Sbnskrit
     {-1, -1, -1, -1, -1, -1, -1, 10, 14, 13, 17, 18, 19, 19, -1, -1, -1,}, //  8 - A-chung
-    {-1, -1, -1, -1, -1, -1, -1, -1, 14, 13, 17, -1, 19, 19, -1, -1, -1,}, //  9 - Halanta
+    {-1, -1, -1, -1, -1, -1, -1, -1, 14, 13, 17, -1, 19, 19, -1, -1, -1,}, //  9 - Hblbntb
     {-1, -1, -1, -1, -1, -1, -1, 11, 14, 13, 17, 18, 19, 19, -1, -1, -1,}, // 10 - below vowel 1
     {-1, -1, -1, -1, -1, -1, -1, 12, 14, 13, 17, 18, 19, 19, -1, -1, -1,}, // 11 - below vowel 2
     {-1, -1, -1, -1, -1, -1, -1, -1, 14, 13, 17, 18, 19, 19, -1, -1, -1,}, // 12 - below vowel 3
-    {-1, -1, -1, -1, -1, -1, -1, -1, 14, 17, 17, 18, 19, 19, -1, -1, -1,}, // 13 - Anusvara before vowel
-    {-1, -1, -1, -1, -1, -1, -1, -1, 15, 17, 17, 18, 19, 19, -1, -1, -1,}, // 14 - above vowel 1
-    {-1, -1, -1, -1, -1, -1, -1, -1, 16, 17, 17, 18, 19, 19, -1, -1, -1,}, // 15 - above vowel 2
-    {-1, -1, -1, -1, -1, -1, -1, -1, -1, 17, 17, 18, 19, 19, -1, -1, -1,}, // 16 - above vowel 3
-    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 18, 19, 19, -1, -1, -1,}, // 17 - Anusvara or Candrabindu after vowel
-    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 19, 19, -1, -1, -1,}, // 18 - Visarga
-    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,}, // 19 - strss mark
+    {-1, -1, -1, -1, -1, -1, -1, -1, 14, 17, 17, 18, 19, 19, -1, -1, -1,}, // 13 - Anusvbrb before vowel
+    {-1, -1, -1, -1, -1, -1, -1, -1, 15, 17, 17, 18, 19, 19, -1, -1, -1,}, // 14 - bbove vowel 1
+    {-1, -1, -1, -1, -1, -1, -1, -1, 16, 17, 17, 18, 19, 19, -1, -1, -1,}, // 15 - bbove vowel 2
+    {-1, -1, -1, -1, -1, -1, -1, -1, -1, 17, 17, 18, 19, 19, -1, -1, -1,}, // 16 - bbove vowel 3
+    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 18, 19, 19, -1, -1, -1,}, // 17 - Anusvbrb or Cbndrbbindu bfter vowel
+    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 19, 19, -1, -1, -1,}, // 18 - Visbrgb
+    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,}, // 19 - strss mbrk
     {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 21, 21,}, // 20 - digit
-    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,}, // 21 - digit mark
+    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,}, // 21 - digit mbrk
 
 
 };
 
 
-const FeatureMap *TibetanReordering::getFeatureMap(le_int32 &count)
+const FebtureMbp *TibetbnReordering::getFebtureMbp(le_int32 &count)
 {
-    count = featureMapCount;
+    count = febtureMbpCount;
 
-    return featureMap;
+    return febtureMbp;
 }
 
 
-// Given an input string of characters and a location in which to start looking
-// calculate, using the state table, which one is the last character of the syllable
-// that starts in the starting position.
-le_int32 TibetanReordering::findSyllable(const TibetanClassTable *classTable, const LEUnicode *chars, le_int32 prev, le_int32 charCount)
+// Given bn input string of chbrbcters bnd b locbtion in which to stbrt looking
+// cblculbte, using the stbte tbble, which one is the lbst chbrbcter of the syllbble
+// thbt stbrts in the stbrting position.
+le_int32 TibetbnReordering::findSyllbble(const TibetbnClbssTbble *clbssTbble, const LEUnicode *chbrs, le_int32 prev, le_int32 chbrCount)
 {
     le_int32 cursor = prev;
-    le_int8 state = 0;
+    le_int8 stbte = 0;
 
-    while (cursor < charCount) {
-        TibetanClassTable::CharClass charClass = (classTable->getCharClass(chars[cursor]) & TibetanClassTable::CF_CLASS_MASK);
+    while (cursor < chbrCount) {
+        TibetbnClbssTbble::ChbrClbss chbrClbss = (clbssTbble->getChbrClbss(chbrs[cursor]) & TibetbnClbssTbble::CF_CLASS_MASK);
 
-        state = tibetanStateTable[state][charClass];
+        stbte = tibetbnStbteTbble[stbte][chbrClbss];
 
-        if (state < 0) {
-            break;
+        if (stbte < 0) {
+            brebk;
         }
 
         cursor += 1;
@@ -342,69 +342,69 @@ le_int32 TibetanReordering::findSyllable(const TibetanClassTable *classTable, co
 }
 
 
-// This is the real reordering function as applied to the Tibetan language
+// This is the rebl reordering function bs bpplied to the Tibetbn lbngubge
 
-le_int32 TibetanReordering::reorder(const LEUnicode *chars, le_int32 charCount, le_int32,
-                                  LEUnicode *outChars, LEGlyphStorage &glyphStorage)
+le_int32 TibetbnReordering::reorder(const LEUnicode *chbrs, le_int32 chbrCount, le_int32,
+                                  LEUnicode *outChbrs, LEGlyphStorbge &glyphStorbge)
 {
-    const TibetanClassTable *classTable = TibetanClassTable::getTibetanClassTable();
+    const TibetbnClbssTbble *clbssTbble = TibetbnClbssTbble::getTibetbnClbssTbble();
 
-    TibetanReorderingOutput output(outChars, glyphStorage);
-    TibetanClassTable::CharClass charClass;
+    TibetbnReorderingOutput output(outChbrs, glyphStorbge);
+    TibetbnClbssTbble::ChbrClbss chbrClbss;
     le_int32 i, prev = 0;
 
-    // This loop only exits when we reach the end of a run, which may contain
-    // several syllables.
-    while (prev < charCount) {
-        le_int32 syllable = findSyllable(classTable, chars, prev, charCount);
+    // This loop only exits when we rebch the end of b run, which mby contbin
+    // severbl syllbbles.
+    while (prev < chbrCount) {
+        le_int32 syllbble = findSyllbble(clbssTbble, chbrs, prev, chbrCount);
 
         output.reset();
 
-        // shall we add a dotted circle?
-        // If in the position in which the base should be (first char in the string) there is
-        // a character that has the Dotted circle flag (a character that cannot be a base)
-        // then write a dotted circle
-        if (classTable->getCharClass(chars[prev]) & TibetanClassTable::CF_DOTTED_CIRCLE) {
-            output.writeChar(C_DOTTED_CIRCLE, prev, tagDefault);
+        // shbll we bdd b dotted circle?
+        // If in the position in which the bbse should be (first chbr in the string) there is
+        // b chbrbcter thbt hbs the Dotted circle flbg (b chbrbcter thbt cbnnot be b bbse)
+        // then write b dotted circle
+        if (clbssTbble->getChbrClbss(chbrs[prev]) & TibetbnClbssTbble::CF_DOTTED_CIRCLE) {
+            output.writeChbr(C_DOTTED_CIRCLE, prev, tbgDefbult);
         }
 
-        // copy the rest to output, inverting the pre-number mark if present after a digit.
-        for (i = prev; i < syllable; i += 1) {
-            charClass = classTable->getCharClass(chars[i]);
+        // copy the rest to output, inverting the pre-number mbrk if present bfter b digit.
+        for (i = prev; i < syllbble; i += 1) {
+            chbrClbss = clbssTbble->getChbrClbss(chbrs[i]);
 
-           if ((TibetanClassTable::CF_DIGIT & charClass)
-              && ( classTable->getCharClass(chars[i+1]) & TibetanClassTable::CF_PREDIGIT))
+           if ((TibetbnClbssTbble::CF_DIGIT & chbrClbss)
+              && ( clbssTbble->getChbrClbss(chbrs[i+1]) & TibetbnClbssTbble::CF_PREDIGIT))
            {
-                         output.writeChar(C_PRE_NUMBER_MARK, i, tagPref);
-                         output.writeChar(chars[i], i+1 , tagPref);
+                         output.writeChbr(C_PRE_NUMBER_MARK, i, tbgPref);
+                         output.writeChbr(chbrs[i], i+1 , tbgPref);
                         i += 1;
           } else {
-            switch (charClass & TibetanClassTable::CF_POS_MASK) {
+            switch (chbrClbss & TibetbnClbssTbble::CF_POS_MASK) {
 
-                // If the present character is a number, and the next character is a pre-number combining mark
-            // then the two characters are reordered
+                // If the present chbrbcter is b number, bnd the next chbrbcter is b pre-number combining mbrk
+            // then the two chbrbcters bre reordered
 
-                case TibetanClassTable::CF_POS_ABOVE :
-                    output.writeChar(chars[i], i, tagAbvf);
-                    break;
+                cbse TibetbnClbssTbble::CF_POS_ABOVE :
+                    output.writeChbr(chbrs[i], i, tbgAbvf);
+                    brebk;
 
-                case TibetanClassTable::CF_POS_AFTER :
-                    output.writeChar(chars[i], i, tagPstf);
-                    break;
+                cbse TibetbnClbssTbble::CF_POS_AFTER :
+                    output.writeChbr(chbrs[i], i, tbgPstf);
+                    brebk;
 
-                case TibetanClassTable::CF_POS_BELOW :
-                    output.writeChar(chars[i], i, tagBlwf);
-                    break;
+                cbse TibetbnClbssTbble::CF_POS_BELOW :
+                    output.writeChbr(chbrs[i], i, tbgBlwf);
+                    brebk;
 
-                default:
-                    // default - any other characters
-                   output.writeChar(chars[i], i, tagDefault);
-                    break;
+                defbult:
+                    // defbult - bny other chbrbcters
+                   output.writeChbr(chbrs[i], i, tbgDefbult);
+                    brebk;
             } // switch
           } // if
         } // for
 
-        prev = syllable; // move the pointer to the start of next syllable
+        prev = syllbble; // move the pointer to the stbrt of next syllbble
     }
 
     return output.getOutputIndex();

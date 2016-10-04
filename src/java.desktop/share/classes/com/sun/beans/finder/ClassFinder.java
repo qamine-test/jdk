@@ -1,180 +1,180 @@
 /*
- * Copyright (c) 2006, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package com.sun.beans.finder;
+pbckbge com.sun.bebns.finder;
 
-import static sun.reflect.misc.ReflectUtil.checkPackageAccess;
+import stbtic sun.reflect.misc.ReflectUtil.checkPbckbgeAccess;
 
 /**
- * This is utility class that provides {@code static} methods
- * to find a class with the specified name using the specified class loader.
+ * This is utility clbss thbt provides {@code stbtic} methods
+ * to find b clbss with the specified nbme using the specified clbss lobder.
  *
  * @since 1.7
  *
- * @author Sergey A. Malenkov
+ * @buthor Sergey A. Mblenkov
  */
-public final class ClassFinder {
+public finbl clbss ClbssFinder {
 
     /**
-     * Returns the {@code Class} object associated
-     * with the class or interface with the given string name,
-     * using the default class loader.
+     * Returns the {@code Clbss} object bssocibted
+     * with the clbss or interfbce with the given string nbme,
+     * using the defbult clbss lobder.
      * <p>
-     * The {@code name} can denote an array class
-     * (see {@link Class#getName} for details).
+     * The {@code nbme} cbn denote bn brrby clbss
+     * (see {@link Clbss#getNbme} for detbils).
      *
-     * @param name  fully qualified name of the desired class
-     * @return class object representing the desired class
+     * @pbrbm nbme  fully qublified nbme of the desired clbss
+     * @return clbss object representing the desired clbss
      *
-     * @throws ClassNotFoundException  if the class cannot be located
-     *                                 by the specified class loader
+     * @throws ClbssNotFoundException  if the clbss cbnnot be locbted
+     *                                 by the specified clbss lobder
      *
-     * @see Class#forName(String)
-     * @see Class#forName(String,boolean,ClassLoader)
-     * @see ClassLoader#getSystemClassLoader()
-     * @see Thread#getContextClassLoader()
+     * @see Clbss#forNbme(String)
+     * @see Clbss#forNbme(String,boolebn,ClbssLobder)
+     * @see ClbssLobder#getSystemClbssLobder()
+     * @see Threbd#getContextClbssLobder()
      */
-    public static Class<?> findClass(String name) throws ClassNotFoundException {
-        checkPackageAccess(name);
+    public stbtic Clbss<?> findClbss(String nbme) throws ClbssNotFoundException {
+        checkPbckbgeAccess(nbme);
         try {
-            ClassLoader loader = Thread.currentThread().getContextClassLoader();
-            if (loader == null) {
-                // can be null in IE (see 6204697)
-                loader = ClassLoader.getSystemClassLoader();
+            ClbssLobder lobder = Threbd.currentThrebd().getContextClbssLobder();
+            if (lobder == null) {
+                // cbn be null in IE (see 6204697)
+                lobder = ClbssLobder.getSystemClbssLobder();
             }
-            if (loader != null) {
-                return Class.forName(name, false, loader);
+            if (lobder != null) {
+                return Clbss.forNbme(nbme, fblse, lobder);
             }
 
-        } catch (ClassNotFoundException exception) {
-            // use current class loader instead
-        } catch (SecurityException exception) {
-            // use current class loader instead
+        } cbtch (ClbssNotFoundException exception) {
+            // use current clbss lobder instebd
+        } cbtch (SecurityException exception) {
+            // use current clbss lobder instebd
         }
-        return Class.forName(name);
+        return Clbss.forNbme(nbme);
     }
 
     /**
-     * Returns the {@code Class} object associated with
-     * the class or interface with the given string name,
-     * using the given class loader.
+     * Returns the {@code Clbss} object bssocibted with
+     * the clbss or interfbce with the given string nbme,
+     * using the given clbss lobder.
      * <p>
-     * The {@code name} can denote an array class
-     * (see {@link Class#getName} for details).
+     * The {@code nbme} cbn denote bn brrby clbss
+     * (see {@link Clbss#getNbme} for detbils).
      * <p>
-     * If the parameter {@code loader} is null,
-     * the class is loaded through the default class loader.
+     * If the pbrbmeter {@code lobder} is null,
+     * the clbss is lobded through the defbult clbss lobder.
      *
-     * @param name    fully qualified name of the desired class
-     * @param loader  class loader from which the class must be loaded
-     * @return class object representing the desired class
+     * @pbrbm nbme    fully qublified nbme of the desired clbss
+     * @pbrbm lobder  clbss lobder from which the clbss must be lobded
+     * @return clbss object representing the desired clbss
      *
-     * @throws ClassNotFoundException  if the class cannot be located
-     *                                 by the specified class loader
+     * @throws ClbssNotFoundException  if the clbss cbnnot be locbted
+     *                                 by the specified clbss lobder
      *
-     * @see #findClass(String,ClassLoader)
-     * @see Class#forName(String,boolean,ClassLoader)
+     * @see #findClbss(String,ClbssLobder)
+     * @see Clbss#forNbme(String,boolebn,ClbssLobder)
      */
-    public static Class<?> findClass(String name, ClassLoader loader) throws ClassNotFoundException {
-        checkPackageAccess(name);
-        if (loader != null) {
+    public stbtic Clbss<?> findClbss(String nbme, ClbssLobder lobder) throws ClbssNotFoundException {
+        checkPbckbgeAccess(nbme);
+        if (lobder != null) {
             try {
-                return Class.forName(name, false, loader);
-            } catch (ClassNotFoundException exception) {
-                // use default class loader instead
-            } catch (SecurityException exception) {
-                // use default class loader instead
+                return Clbss.forNbme(nbme, fblse, lobder);
+            } cbtch (ClbssNotFoundException exception) {
+                // use defbult clbss lobder instebd
+            } cbtch (SecurityException exception) {
+                // use defbult clbss lobder instebd
             }
         }
-        return findClass(name);
+        return findClbss(nbme);
     }
 
     /**
-     * Returns the {@code Class} object associated
-     * with the class or interface with the given string name,
-     * using the default class loader.
+     * Returns the {@code Clbss} object bssocibted
+     * with the clbss or interfbce with the given string nbme,
+     * using the defbult clbss lobder.
      * <p>
-     * The {@code name} can denote an array class
-     * (see {@link Class#getName} for details).
+     * The {@code nbme} cbn denote bn brrby clbss
+     * (see {@link Clbss#getNbme} for detbils).
      * <p>
-     * This method can be used to obtain
-     * any of the {@code Class} objects
-     * representing {@code void} or primitive Java types:
-     * {@code char}, {@code byte}, {@code short},
-     * {@code int}, {@code long}, {@code float},
-     * {@code double} and {@code boolean}.
+     * This method cbn be used to obtbin
+     * bny of the {@code Clbss} objects
+     * representing {@code void} or primitive Jbvb types:
+     * {@code chbr}, {@code byte}, {@code short},
+     * {@code int}, {@code long}, {@code flobt},
+     * {@code double} bnd {@code boolebn}.
      *
-     * @param name  fully qualified name of the desired class
-     * @return class object representing the desired class
+     * @pbrbm nbme  fully qublified nbme of the desired clbss
+     * @return clbss object representing the desired clbss
      *
-     * @throws ClassNotFoundException  if the class cannot be located
-     *                                 by the specified class loader
+     * @throws ClbssNotFoundException  if the clbss cbnnot be locbted
+     *                                 by the specified clbss lobder
      *
-     * @see #resolveClass(String,ClassLoader)
+     * @see #resolveClbss(String,ClbssLobder)
      */
-    public static Class<?> resolveClass(String name) throws ClassNotFoundException {
-        return resolveClass(name, null);
+    public stbtic Clbss<?> resolveClbss(String nbme) throws ClbssNotFoundException {
+        return resolveClbss(nbme, null);
     }
 
     /**
-     * Returns the {@code Class} object associated with
-     * the class or interface with the given string name,
-     * using the given class loader.
+     * Returns the {@code Clbss} object bssocibted with
+     * the clbss or interfbce with the given string nbme,
+     * using the given clbss lobder.
      * <p>
-     * The {@code name} can denote an array class
-     * (see {@link Class#getName} for details).
+     * The {@code nbme} cbn denote bn brrby clbss
+     * (see {@link Clbss#getNbme} for detbils).
      * <p>
-     * If the parameter {@code loader} is null,
-     * the class is loaded through the default class loader.
+     * If the pbrbmeter {@code lobder} is null,
+     * the clbss is lobded through the defbult clbss lobder.
      * <p>
-     * This method can be used to obtain
-     * any of the {@code Class} objects
-     * representing {@code void} or primitive Java types:
-     * {@code char}, {@code byte}, {@code short},
-     * {@code int}, {@code long}, {@code float},
-     * {@code double} and {@code boolean}.
+     * This method cbn be used to obtbin
+     * bny of the {@code Clbss} objects
+     * representing {@code void} or primitive Jbvb types:
+     * {@code chbr}, {@code byte}, {@code short},
+     * {@code int}, {@code long}, {@code flobt},
+     * {@code double} bnd {@code boolebn}.
      *
-     * @param name    fully qualified name of the desired class
-     * @param loader  class loader from which the class must be loaded
-     * @return class object representing the desired class
+     * @pbrbm nbme    fully qublified nbme of the desired clbss
+     * @pbrbm lobder  clbss lobder from which the clbss must be lobded
+     * @return clbss object representing the desired clbss
      *
-     * @throws ClassNotFoundException  if the class cannot be located
-     *                                 by the specified class loader
+     * @throws ClbssNotFoundException  if the clbss cbnnot be locbted
+     *                                 by the specified clbss lobder
      *
-     * @see #findClass(String,ClassLoader)
-     * @see PrimitiveTypeMap#getType(String)
+     * @see #findClbss(String,ClbssLobder)
+     * @see PrimitiveTypeMbp#getType(String)
      */
-    public static Class<?> resolveClass(String name, ClassLoader loader) throws ClassNotFoundException {
-        Class<?> type = PrimitiveTypeMap.getType(name);
+    public stbtic Clbss<?> resolveClbss(String nbme, ClbssLobder lobder) throws ClbssNotFoundException {
+        Clbss<?> type = PrimitiveTypeMbp.getType(nbme);
         return (type == null)
-                ? findClass(name, loader)
+                ? findClbss(nbme, lobder)
                 : type;
     }
 
     /**
-     * Disable instantiation.
+     * Disbble instbntibtion.
      */
-    private ClassFinder() {
+    privbte ClbssFinder() {
     }
 }

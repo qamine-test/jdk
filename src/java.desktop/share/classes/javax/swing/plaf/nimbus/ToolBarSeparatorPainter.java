@@ -1,67 +1,67 @@
 /*
- * Copyright (c) 2005, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.plaf.nimbus;
+pbckbge jbvbx.swing.plbf.nimbus;
 
-import javax.swing.plaf.nimbus.AbstractRegionPainter.PaintContext.CacheMode;
-import java.awt.Dimension;
-import java.awt.Graphics2D;
-import java.awt.Insets;
-import javax.swing.JComponent;
+import jbvbx.swing.plbf.nimbus.AbstrbctRegionPbinter.PbintContext.CbcheMode;
+import jbvb.bwt.Dimension;
+import jbvb.bwt.Grbphics2D;
+import jbvb.bwt.Insets;
+import jbvbx.swing.JComponent;
 
 /**
- * A special painter implementation for tool bar separators in Nimbus.
- * The designer tool doesn't have support for painters which render
- * repeated patterns, but that's exactly what the toolbar separator design
- * is for Nimbus. This custom painter is designed to handle this situation.
- * When support is added to the design tool / code generator to deal with
- * repeated patterns, then we can remove this class.
+ * A specibl pbinter implementbtion for tool bbr sepbrbtors in Nimbus.
+ * The designer tool doesn't hbve support for pbinters which render
+ * repebted pbtterns, but thbt's exbctly whbt the toolbbr sepbrbtor design
+ * is for Nimbus. This custom pbinter is designed to hbndle this situbtion.
+ * When support is bdded to the design tool / code generbtor to debl with
+ * repebted pbtterns, then we cbn remove this clbss.
  * <p>
  */
-final class ToolBarSeparatorPainter extends AbstractRegionPainter {
-    private static final int SPACE = 3;
-    private static final int INSET = 2;
+finbl clbss ToolBbrSepbrbtorPbinter extends AbstrbctRegionPbinter {
+    privbte stbtic finbl int SPACE = 3;
+    privbte stbtic finbl int INSET = 2;
 
     @Override
-    protected PaintContext getPaintContext() {
-        //the paint context returned will have a few dummy values. The
-        //implementation of doPaint doesn't bother with the "decode" methods
-        //but calculates where to paint the circles manually. As such, we
-        //only need to indicate in our PaintContext that we don't want this
-        //to ever be cached
-        return new PaintContext(
+    protected PbintContext getPbintContext() {
+        //the pbint context returned will hbve b few dummy vblues. The
+        //implementbtion of doPbint doesn't bother with the "decode" methods
+        //but cblculbtes where to pbint the circles mbnublly. As such, we
+        //only need to indicbte in our PbintContext thbt we don't wbnt this
+        //to ever be cbched
+        return new PbintContext(
                 new Insets(1, 0, 1, 0),
                 new Dimension(38, 7),
-                false, CacheMode.NO_CACHING, 1, 1);
+                fblse, CbcheMode.NO_CACHING, 1, 1);
     }
 
     @Override
-    protected void doPaint(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {
-        //it is assumed that in the normal orientation the separator renders
-        //horizontally. Other code rotates it as necessary for a vertical
-        //separator.
+    protected void doPbint(Grbphics2D g, JComponent c, int width, int height, Object[] extendedCbcheKeys) {
+        //it is bssumed thbt in the normbl orientbtion the sepbrbtor renders
+        //horizontblly. Other code rotbtes it bs necessbry for b verticbl
+        //sepbrbtor.
         g.setColor(c.getForeground());
         int y = height / 2;
         for (int i=INSET; i<=width-INSET; i+=SPACE) {

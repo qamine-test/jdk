@@ -1,202 +1,202 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.media.sound;
+pbckbge com.sun.medib.sound;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Properties;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collections;
+import jbvb.util.List;
+import jbvb.util.Properties;
 
-import javax.sound.midi.Receiver;
-import javax.sound.midi.Sequencer;
-import javax.sound.midi.Synthesizer;
-import javax.sound.midi.Transmitter;
-import javax.sound.midi.spi.MidiDeviceProvider;
-import javax.sound.midi.spi.MidiFileReader;
-import javax.sound.midi.spi.MidiFileWriter;
-import javax.sound.midi.spi.SoundbankReader;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.Port;
-import javax.sound.sampled.SourceDataLine;
-import javax.sound.sampled.TargetDataLine;
-import javax.sound.sampled.spi.AudioFileReader;
-import javax.sound.sampled.spi.AudioFileWriter;
-import javax.sound.sampled.spi.FormatConversionProvider;
-import javax.sound.sampled.spi.MixerProvider;
+import jbvbx.sound.midi.Receiver;
+import jbvbx.sound.midi.Sequencer;
+import jbvbx.sound.midi.Synthesizer;
+import jbvbx.sound.midi.Trbnsmitter;
+import jbvbx.sound.midi.spi.MidiDeviceProvider;
+import jbvbx.sound.midi.spi.MidiFileRebder;
+import jbvbx.sound.midi.spi.MidiFileWriter;
+import jbvbx.sound.midi.spi.SoundbbnkRebder;
+import jbvbx.sound.sbmpled.Clip;
+import jbvbx.sound.sbmpled.Port;
+import jbvbx.sound.sbmpled.SourceDbtbLine;
+import jbvbx.sound.sbmpled.TbrgetDbtbLine;
+import jbvbx.sound.sbmpled.spi.AudioFileRebder;
+import jbvbx.sound.sbmpled.spi.AudioFileWriter;
+import jbvbx.sound.sbmpled.spi.FormbtConversionProvider;
+import jbvbx.sound.sbmpled.spi.MixerProvider;
 
 
 /**
- * JDK13Services uses the Service class in JDK 1.3 to discover a list of service
- * providers installed in the system.
+ * JDK13Services uses the Service clbss in JDK 1.3 to discover b list of service
+ * providers instblled in the system.
  * <p>
- * This class is public because it is called from javax.sound.midi.MidiSystem
- * and javax.sound.sampled.AudioSystem. The alternative would be to make
- * JSSecurityManager public, which is considered worse.
+ * This clbss is public becbuse it is cblled from jbvbx.sound.midi.MidiSystem
+ * bnd jbvbx.sound.sbmpled.AudioSystem. The blternbtive would be to mbke
+ * JSSecurityMbnbger public, which is considered worse.
  *
- * @author Matthias Pfisterer
+ * @buthor Mbtthibs Pfisterer
  */
-public final class JDK13Services {
+public finbl clbss JDK13Services {
 
     /**
-     * Filename of the properties file for default provider properties. This
-     * file is searched in the subdirectory "lib" of the JRE directory (this
-     * behaviour is hardcoded).
+     * Filenbme of the properties file for defbult provider properties. This
+     * file is sebrched in the subdirectory "lib" of the JRE directory (this
+     * behbviour is hbrdcoded).
      */
-    private static final String PROPERTIES_FILENAME = "sound.properties";
+    privbte stbtic finbl String PROPERTIES_FILENAME = "sound.properties";
 
     /**
-     * Properties loaded from the properties file for default provider
+     * Properties lobded from the properties file for defbult provider
      * properties.
      */
-    private static Properties properties;
+    privbte stbtic Properties properties;
 
     /**
-     * Private, no-args constructor to ensure against instantiation.
+     * Privbte, no-brgs constructor to ensure bgbinst instbntibtion.
      */
-    private JDK13Services() {
+    privbte JDK13Services() {
     }
 
     /**
-     * Obtains a List containing installed instances of the providers for the
-     * requested service. The returned List is immutable.
+     * Obtbins b List contbining instblled instbnces of the providers for the
+     * requested service. The returned List is immutbble.
      *
-     * @param serviceClass The type of providers requested. This should be one
-     *                     of AudioFileReader.class, AudioFileWriter.class,
-     *                     FormatConversionProvider.class, MixerProvider.class,
-     *                     MidiDeviceProvider.class, MidiFileReader.class,
-     *                     MidiFileWriter.class or SoundbankReader.class.
+     * @pbrbm serviceClbss The type of providers requested. This should be one
+     *                     of AudioFileRebder.clbss, AudioFileWriter.clbss,
+     *                     FormbtConversionProvider.clbss, MixerProvider.clbss,
+     *                     MidiDeviceProvider.clbss, MidiFileRebder.clbss,
+     *                     MidiFileWriter.clbss or SoundbbnkRebder.clbss.
      *
      * @return A List of providers of the requested type. This List is
-     *         immutable.
+     *         immutbble.
      */
-    public static List<?> getProviders(final Class<?> serviceClass) {
-        final List<?> providers;
-        if (!MixerProvider.class.equals(serviceClass)
-                && !FormatConversionProvider.class.equals(serviceClass)
-                && !AudioFileReader.class.equals(serviceClass)
-                && !AudioFileWriter.class.equals(serviceClass)
-                && !MidiDeviceProvider.class.equals(serviceClass)
-                && !SoundbankReader.class.equals(serviceClass)
-                && !MidiFileWriter.class.equals(serviceClass)
-                && !MidiFileReader.class.equals(serviceClass)) {
-            providers = new ArrayList<>(0);
+    public stbtic List<?> getProviders(finbl Clbss<?> serviceClbss) {
+        finbl List<?> providers;
+        if (!MixerProvider.clbss.equbls(serviceClbss)
+                && !FormbtConversionProvider.clbss.equbls(serviceClbss)
+                && !AudioFileRebder.clbss.equbls(serviceClbss)
+                && !AudioFileWriter.clbss.equbls(serviceClbss)
+                && !MidiDeviceProvider.clbss.equbls(serviceClbss)
+                && !SoundbbnkRebder.clbss.equbls(serviceClbss)
+                && !MidiFileWriter.clbss.equbls(serviceClbss)
+                && !MidiFileRebder.clbss.equbls(serviceClbss)) {
+            providers = new ArrbyList<>(0);
         } else {
-            providers = JSSecurityManager.getProviders(serviceClass);
+            providers = JSSecurityMbnbger.getProviders(serviceClbss);
         }
-        return Collections.unmodifiableList(providers);
+        return Collections.unmodifibbleList(providers);
     }
 
-    /** Obtain the provider class name part of a default provider property.
-        @param typeClass The type of the default provider property. This
-        should be one of Receiver.class, Transmitter.class, Sequencer.class,
-        Synthesizer.class, SourceDataLine.class, TargetDataLine.class,
-        Clip.class or Port.class.
-        @return The value of the provider class name part of the property
-        (the part before the hash sign), if available. If the property is
-        not set or the value has no provider class name part, null is returned.
+    /** Obtbin the provider clbss nbme pbrt of b defbult provider property.
+        @pbrbm typeClbss The type of the defbult provider property. This
+        should be one of Receiver.clbss, Trbnsmitter.clbss, Sequencer.clbss,
+        Synthesizer.clbss, SourceDbtbLine.clbss, TbrgetDbtbLine.clbss,
+        Clip.clbss or Port.clbss.
+        @return The vblue of the provider clbss nbme pbrt of the property
+        (the pbrt before the hbsh sign), if bvbilbble. If the property is
+        not set or the vblue hbs no provider clbss nbme pbrt, null is returned.
      */
-    public static synchronized String getDefaultProviderClassName(Class<?> typeClass) {
-        String value = null;
-        String defaultProviderSpec = getDefaultProvider(typeClass);
-        if (defaultProviderSpec != null) {
-            int hashpos = defaultProviderSpec.indexOf('#');
-            if (hashpos == 0) {
-                // instance name only; leave value as null
-            } else if (hashpos > 0) {
-                value = defaultProviderSpec.substring(0, hashpos);
+    public stbtic synchronized String getDefbultProviderClbssNbme(Clbss<?> typeClbss) {
+        String vblue = null;
+        String defbultProviderSpec = getDefbultProvider(typeClbss);
+        if (defbultProviderSpec != null) {
+            int hbshpos = defbultProviderSpec.indexOf('#');
+            if (hbshpos == 0) {
+                // instbnce nbme only; lebve vblue bs null
+            } else if (hbshpos > 0) {
+                vblue = defbultProviderSpec.substring(0, hbshpos);
             } else {
-                value = defaultProviderSpec;
+                vblue = defbultProviderSpec;
             }
         }
-        return value;
+        return vblue;
     }
 
 
-    /** Obtain the instance name part of a default provider property.
-        @param typeClass The type of the default provider property. This
-        should be one of Receiver.class, Transmitter.class, Sequencer.class,
-        Synthesizer.class, SourceDataLine.class, TargetDataLine.class,
-        Clip.class or Port.class.
-        @return The value of the instance name part of the property (the
-        part after the hash sign), if available. If the property is not set
-        or the value has no instance name part, null is returned.
+    /** Obtbin the instbnce nbme pbrt of b defbult provider property.
+        @pbrbm typeClbss The type of the defbult provider property. This
+        should be one of Receiver.clbss, Trbnsmitter.clbss, Sequencer.clbss,
+        Synthesizer.clbss, SourceDbtbLine.clbss, TbrgetDbtbLine.clbss,
+        Clip.clbss or Port.clbss.
+        @return The vblue of the instbnce nbme pbrt of the property (the
+        pbrt bfter the hbsh sign), if bvbilbble. If the property is not set
+        or the vblue hbs no instbnce nbme pbrt, null is returned.
      */
-    public static synchronized String getDefaultInstanceName(Class<?> typeClass) {
-        String value = null;
-        String defaultProviderSpec = getDefaultProvider(typeClass);
-        if (defaultProviderSpec != null) {
-            int hashpos = defaultProviderSpec.indexOf('#');
-            if (hashpos >= 0 && hashpos < defaultProviderSpec.length() - 1) {
-                value = defaultProviderSpec.substring(hashpos + 1);
+    public stbtic synchronized String getDefbultInstbnceNbme(Clbss<?> typeClbss) {
+        String vblue = null;
+        String defbultProviderSpec = getDefbultProvider(typeClbss);
+        if (defbultProviderSpec != null) {
+            int hbshpos = defbultProviderSpec.indexOf('#');
+            if (hbshpos >= 0 && hbshpos < defbultProviderSpec.length() - 1) {
+                vblue = defbultProviderSpec.substring(hbshpos + 1);
             }
         }
-        return value;
+        return vblue;
     }
 
 
-    /** Obtain the value of a default provider property.
-        @param typeClass The type of the default provider property. This
-        should be one of Receiver.class, Transmitter.class, Sequencer.class,
-        Synthesizer.class, SourceDataLine.class, TargetDataLine.class,
-        Clip.class or Port.class.
-        @return The complete value of the property, if available.
+    /** Obtbin the vblue of b defbult provider property.
+        @pbrbm typeClbss The type of the defbult provider property. This
+        should be one of Receiver.clbss, Trbnsmitter.clbss, Sequencer.clbss,
+        Synthesizer.clbss, SourceDbtbLine.clbss, TbrgetDbtbLine.clbss,
+        Clip.clbss or Port.clbss.
+        @return The complete vblue of the property, if bvbilbble.
         If the property is not set, null is returned.
      */
-    private static synchronized String getDefaultProvider(Class<?> typeClass) {
-        if (!SourceDataLine.class.equals(typeClass)
-                && !TargetDataLine.class.equals(typeClass)
-                && !Clip.class.equals(typeClass)
-                && !Port.class.equals(typeClass)
-                && !Receiver.class.equals(typeClass)
-                && !Transmitter.class.equals(typeClass)
-                && !Synthesizer.class.equals(typeClass)
-                && !Sequencer.class.equals(typeClass)) {
+    privbte stbtic synchronized String getDefbultProvider(Clbss<?> typeClbss) {
+        if (!SourceDbtbLine.clbss.equbls(typeClbss)
+                && !TbrgetDbtbLine.clbss.equbls(typeClbss)
+                && !Clip.clbss.equbls(typeClbss)
+                && !Port.clbss.equbls(typeClbss)
+                && !Receiver.clbss.equbls(typeClbss)
+                && !Trbnsmitter.clbss.equbls(typeClbss)
+                && !Synthesizer.clbss.equbls(typeClbss)
+                && !Sequencer.clbss.equbls(typeClbss)) {
             return null;
         }
-        String value;
-        String propertyName = typeClass.getName();
-        value = JSSecurityManager.getProperty(propertyName);
-        if (value == null) {
-            value = getProperties().getProperty(propertyName);
+        String vblue;
+        String propertyNbme = typeClbss.getNbme();
+        vblue = JSSecurityMbnbger.getProperty(propertyNbme);
+        if (vblue == null) {
+            vblue = getProperties().getProperty(propertyNbme);
         }
-        if ("".equals(value)) {
-            value = null;
+        if ("".equbls(vblue)) {
+            vblue = null;
         }
-        return value;
+        return vblue;
     }
 
 
-    /** Obtain a properties bundle containing property values from the
-        properties file. If the properties file could not be loaded,
+    /** Obtbin b properties bundle contbining property vblues from the
+        properties file. If the properties file could not be lobded,
         the properties bundle is empty.
     */
-    private static synchronized Properties getProperties() {
+    privbte stbtic synchronized Properties getProperties() {
         if (properties == null) {
             properties = new Properties();
-            JSSecurityManager.loadProperties(properties, PROPERTIES_FILENAME);
+            JSSecurityMbnbger.lobdProperties(properties, PROPERTIES_FILENAME);
         }
         return properties;
     }

@@ -1,114 +1,114 @@
 /*
- * Copyright (c) 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.management.snmp.jvminstr;
+pbckbge sun.mbnbgement.snmp.jvminstr;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
+import jbvb.net.InetAddress;
+import jbvb.net.UnknownHostException;
 
 /**
- * Notification Target data.
+ * Notificbtion Tbrget dbtb.
  */
-public class NotificationTargetImpl implements NotificationTarget {
-    private InetAddress address;
-    private int port;
-    private String community;
+public clbss NotificbtionTbrgetImpl implements NotificbtionTbrget {
+    privbte InetAddress bddress;
+    privbte int port;
+    privbte String community;
 
     /**
-     * Target parameter is a <CODE>java.lang.String</CODE>
-     * target synctax is <host>:<port>:community. Eg: "localhost:163:private".
-     * <p>The <code><em>host</em></code> is a host name, an IPv4 numeric
-     * host address, or an IPv6 numeric address enclosed in square
-     * brackets.</p>
-     * @throws IllegalArgumentException In case the target is malformed
+     * Tbrget pbrbmeter is b <CODE>jbvb.lbng.String</CODE>
+     * tbrget synctbx is <host>:<port>:community. Eg: "locblhost:163:privbte".
+     * <p>The <code><em>host</em></code> is b host nbme, bn IPv4 numeric
+     * host bddress, or bn IPv6 numeric bddress enclosed in squbre
+     * brbckets.</p>
+     * @throws IllegblArgumentException In cbse the tbrget is mblformed
      */
-    public NotificationTargetImpl(String target)
-        throws IllegalArgumentException, UnknownHostException  {
-        parseTarget(target);
+    public NotificbtionTbrgetImpl(String tbrget)
+        throws IllegblArgumentException, UnknownHostException  {
+        pbrseTbrget(tbrget);
     }
 
-    public NotificationTargetImpl(String address, int port,
+    public NotificbtionTbrgetImpl(String bddress, int port,
                                   String community)
         throws UnknownHostException {
-        this(InetAddress.getByName(address),port,community);
+        this(InetAddress.getByNbme(bddress),port,community);
     }
 
-    public NotificationTargetImpl(InetAddress address, int port,
+    public NotificbtionTbrgetImpl(InetAddress bddress, int port,
                                   String community) {
-        this.address = address;
+        this.bddress = bddress;
         this.port = port;
         this.community = community;
     }
 
-    private void parseTarget(String target)
-        throws IllegalArgumentException, UnknownHostException {
+    privbte void pbrseTbrget(String tbrget)
+        throws IllegblArgumentException, UnknownHostException {
 
-        if(target == null ||
-           target.length() == 0) throw new
-               IllegalArgumentException("Invalid target [" + target + "]");
+        if(tbrget == null ||
+           tbrget.length() == 0) throw new
+               IllegblArgumentException("Invblid tbrget [" + tbrget + "]");
 
-        String addrStr;
-        if (target.startsWith("[")) {
-            final int index = target.indexOf(']');
-            final int index2 = target.lastIndexOf(':');
+        String bddrStr;
+        if (tbrget.stbrtsWith("[")) {
+            finbl int index = tbrget.indexOf(']');
+            finbl int index2 = tbrget.lbstIndexOf(':');
             if(index == -1)
-                throw new IllegalArgumentException("Host starts with [ but " +
+                throw new IllegblArgumentException("Host stbrts with [ but " +
                                                    "does not end with ]");
-            addrStr = target.substring(1, index);
-            port = Integer.parseInt(target.substring(index + 2,
+            bddrStr = tbrget.substring(1, index);
+            port = Integer.pbrseInt(tbrget.substring(index + 2,
                                                      index2));
-            if (!isNumericIPv6Address(addrStr)) {
-            throw new IllegalArgumentException("Address inside [...] must " +
-                                               "be numeric IPv6 address");
+            if (!isNumericIPv6Address(bddrStr)) {
+            throw new IllegblArgumentException("Address inside [...] must " +
+                                               "be numeric IPv6 bddress");
             }
-            if (addrStr.startsWith("["))
-                throw new IllegalArgumentException("More than one [[...]]");
+            if (bddrStr.stbrtsWith("["))
+                throw new IllegblArgumentException("More thbn one [[...]]");
         } else {
-            final int index = target.indexOf(':');
-            final int index2 = target.lastIndexOf(':');
+            finbl int index = tbrget.indexOf(':');
+            finbl int index2 = tbrget.lbstIndexOf(':');
             if(index == -1) throw new
-                IllegalArgumentException("Missing port separator \":\"");
-            addrStr = target.substring(0, index);
+                IllegblArgumentException("Missing port sepbrbtor \":\"");
+            bddrStr = tbrget.substring(0, index);
 
-            port = Integer.parseInt(target.substring(index + 1,
+            port = Integer.pbrseInt(tbrget.substring(index + 1,
                                                      index2));
         }
 
-        address = InetAddress.getByName(addrStr);
+        bddress = InetAddress.getByNbme(bddrStr);
 
         //THE CHECK SHOULD BE STRONGER!!!
-        final int index = target.lastIndexOf(':');
+        finbl int index = tbrget.lbstIndexOf(':');
 
-        community = target.substring(index + 1, target.length());
+        community = tbrget.substring(index + 1, tbrget.length());
 
     }
 
-    /* True if this string, assumed to be a valid argument to
-     * InetAddress.getByName, is a numeric IPv6 address.
+    /* True if this string, bssumed to be b vblid brgument to
+     * InetAddress.getByNbme, is b numeric IPv6 bddress.
      */
-    private static boolean isNumericIPv6Address(String s) {
-        // address contains colon iff it's a numeric IPv6 address
+    privbte stbtic boolebn isNumericIPv6Address(String s) {
+        // bddress contbins colon iff it's b numeric IPv6 bddress
         return (s.indexOf(':') >= 0);
     }
 
@@ -117,7 +117,7 @@ public class NotificationTargetImpl implements NotificationTarget {
     }
 
     public InetAddress getAddress() {
-        return address;
+        return bddress;
     }
 
     public int getPort() {
@@ -125,7 +125,7 @@ public class NotificationTargetImpl implements NotificationTarget {
     }
 
     public String toString() {
-        return "address : " + address + " port : " + port +
+        return "bddress : " + bddress + " port : " + port +
             " community : " + community;
     }
 }

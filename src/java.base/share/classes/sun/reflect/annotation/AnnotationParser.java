@@ -1,129 +1,129 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.reflect.annotation;
+pbckbge sun.reflect.bnnotbtion;
 
-import java.lang.annotation.*;
-import java.util.*;
-import java.nio.ByteBuffer;
-import java.nio.BufferUnderflowException;
-import java.lang.reflect.*;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import sun.reflect.ConstantPool;
+import jbvb.lbng.bnnotbtion.*;
+import jbvb.util.*;
+import jbvb.nio.ByteBuffer;
+import jbvb.nio.BufferUnderflowException;
+import jbvb.lbng.reflect.*;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import sun.reflect.ConstbntPool;
 
-import sun.reflect.generics.parser.SignatureParser;
-import sun.reflect.generics.tree.TypeSignature;
-import sun.reflect.generics.factory.GenericsFactory;
-import sun.reflect.generics.factory.CoreReflectionFactory;
+import sun.reflect.generics.pbrser.SignbturePbrser;
+import sun.reflect.generics.tree.TypeSignbture;
+import sun.reflect.generics.fbctory.GenericsFbctory;
+import sun.reflect.generics.fbctory.CoreReflectionFbctory;
 import sun.reflect.generics.visitor.Reifier;
-import sun.reflect.generics.scope.ClassScope;
+import sun.reflect.generics.scope.ClbssScope;
 
 /**
- * Parser for Java programming language annotations.  Translates
- * annotation byte streams emitted by compiler into annotation objects.
+ * Pbrser for Jbvb progrbmming lbngubge bnnotbtions.  Trbnslbtes
+ * bnnotbtion byte strebms emitted by compiler into bnnotbtion objects.
  *
- * @author  Josh Bloch
+ * @buthor  Josh Bloch
  * @since   1.5
  */
-public class AnnotationParser {
+public clbss AnnotbtionPbrser {
     /**
-     * Parses the annotations described by the specified byte array.
-     * resolving constant references in the specified constant pool.
-     * The array must contain an array of annotations as described
-     * in the RuntimeVisibleAnnotations_attribute:
+     * Pbrses the bnnotbtions described by the specified byte brrby.
+     * resolving constbnt references in the specified constbnt pool.
+     * The brrby must contbin bn brrby of bnnotbtions bs described
+     * in the RuntimeVisibleAnnotbtions_bttribute:
      *
-     *   u2 num_annotations;
-     *   annotation annotations[num_annotations];
+     *   u2 num_bnnotbtions;
+     *   bnnotbtion bnnotbtions[num_bnnotbtions];
      *
-     * @throws AnnotationFormatError if an annotation is found to be
-     *         malformed.
+     * @throws AnnotbtionFormbtError if bn bnnotbtion is found to be
+     *         mblformed.
      */
-    public static Map<Class<? extends Annotation>, Annotation> parseAnnotations(
-                byte[] rawAnnotations,
-                ConstantPool constPool,
-                Class<?> container) {
-        if (rawAnnotations == null)
-            return Collections.emptyMap();
+    public stbtic Mbp<Clbss<? extends Annotbtion>, Annotbtion> pbrseAnnotbtions(
+                byte[] rbwAnnotbtions,
+                ConstbntPool constPool,
+                Clbss<?> contbiner) {
+        if (rbwAnnotbtions == null)
+            return Collections.emptyMbp();
 
         try {
-            return parseAnnotations2(rawAnnotations, constPool, container, null);
-        } catch(BufferUnderflowException e) {
-            throw new AnnotationFormatError("Unexpected end of annotations.");
-        } catch(IllegalArgumentException e) {
-            // Type mismatch in constant pool
-            throw new AnnotationFormatError(e);
+            return pbrseAnnotbtions2(rbwAnnotbtions, constPool, contbiner, null);
+        } cbtch(BufferUnderflowException e) {
+            throw new AnnotbtionFormbtError("Unexpected end of bnnotbtions.");
+        } cbtch(IllegblArgumentException e) {
+            // Type mismbtch in constbnt pool
+            throw new AnnotbtionFormbtError(e);
         }
     }
 
     /**
-     * Like {@link #parseAnnotations(byte[], sun.reflect.ConstantPool, Class)}
-     * with an additional parameter {@code selectAnnotationClasses} which selects the
-     * annotation types to parse (other than selected are quickly skipped).<p>
-     * This method is only used to parse select meta annotations in the construction
-     * phase of {@link AnnotationType} instances to prevent infinite recursion.
+     * Like {@link #pbrseAnnotbtions(byte[], sun.reflect.ConstbntPool, Clbss)}
+     * with bn bdditionbl pbrbmeter {@code selectAnnotbtionClbsses} which selects the
+     * bnnotbtion types to pbrse (other thbn selected bre quickly skipped).<p>
+     * This method is only used to pbrse select metb bnnotbtions in the construction
+     * phbse of {@link AnnotbtionType} instbnces to prevent infinite recursion.
      *
-     * @param selectAnnotationClasses an array of annotation types to select when parsing
+     * @pbrbm selectAnnotbtionClbsses bn brrby of bnnotbtion types to select when pbrsing
      */
-    @SafeVarargs
-    @SuppressWarnings("varargs") // selectAnnotationClasses is used safely
-    static Map<Class<? extends Annotation>, Annotation> parseSelectAnnotations(
-                byte[] rawAnnotations,
-                ConstantPool constPool,
-                Class<?> container,
-                Class<? extends Annotation> ... selectAnnotationClasses) {
-        if (rawAnnotations == null)
-            return Collections.emptyMap();
+    @SbfeVbrbrgs
+    @SuppressWbrnings("vbrbrgs") // selectAnnotbtionClbsses is used sbfely
+    stbtic Mbp<Clbss<? extends Annotbtion>, Annotbtion> pbrseSelectAnnotbtions(
+                byte[] rbwAnnotbtions,
+                ConstbntPool constPool,
+                Clbss<?> contbiner,
+                Clbss<? extends Annotbtion> ... selectAnnotbtionClbsses) {
+        if (rbwAnnotbtions == null)
+            return Collections.emptyMbp();
 
         try {
-            return parseAnnotations2(rawAnnotations, constPool, container, selectAnnotationClasses);
-        } catch(BufferUnderflowException e) {
-            throw new AnnotationFormatError("Unexpected end of annotations.");
-        } catch(IllegalArgumentException e) {
-            // Type mismatch in constant pool
-            throw new AnnotationFormatError(e);
+            return pbrseAnnotbtions2(rbwAnnotbtions, constPool, contbiner, selectAnnotbtionClbsses);
+        } cbtch(BufferUnderflowException e) {
+            throw new AnnotbtionFormbtError("Unexpected end of bnnotbtions.");
+        } cbtch(IllegblArgumentException e) {
+            // Type mismbtch in constbnt pool
+            throw new AnnotbtionFormbtError(e);
         }
     }
 
-    private static Map<Class<? extends Annotation>, Annotation> parseAnnotations2(
-                byte[] rawAnnotations,
-                ConstantPool constPool,
-                Class<?> container,
-                Class<? extends Annotation>[] selectAnnotationClasses) {
-        Map<Class<? extends Annotation>, Annotation> result =
-            new LinkedHashMap<Class<? extends Annotation>, Annotation>();
-        ByteBuffer buf = ByteBuffer.wrap(rawAnnotations);
-        int numAnnotations = buf.getShort() & 0xFFFF;
-        for (int i = 0; i < numAnnotations; i++) {
-            Annotation a = parseAnnotation2(buf, constPool, container, false, selectAnnotationClasses);
-            if (a != null) {
-                Class<? extends Annotation> klass = a.annotationType();
-                if (AnnotationType.getInstance(klass).retention() == RetentionPolicy.RUNTIME &&
-                    result.put(klass, a) != null) {
-                        throw new AnnotationFormatError(
-                            "Duplicate annotation for class: "+klass+": " + a);
+    privbte stbtic Mbp<Clbss<? extends Annotbtion>, Annotbtion> pbrseAnnotbtions2(
+                byte[] rbwAnnotbtions,
+                ConstbntPool constPool,
+                Clbss<?> contbiner,
+                Clbss<? extends Annotbtion>[] selectAnnotbtionClbsses) {
+        Mbp<Clbss<? extends Annotbtion>, Annotbtion> result =
+            new LinkedHbshMbp<Clbss<? extends Annotbtion>, Annotbtion>();
+        ByteBuffer buf = ByteBuffer.wrbp(rbwAnnotbtions);
+        int numAnnotbtions = buf.getShort() & 0xFFFF;
+        for (int i = 0; i < numAnnotbtions; i++) {
+            Annotbtion b = pbrseAnnotbtion2(buf, constPool, contbiner, fblse, selectAnnotbtionClbsses);
+            if (b != null) {
+                Clbss<? extends Annotbtion> klbss = b.bnnotbtionType();
+                if (AnnotbtionType.getInstbnce(klbss).retention() == RetentionPolicy.RUNTIME &&
+                    result.put(klbss, b) != null) {
+                        throw new AnnotbtionFormbtError(
+                            "Duplicbte bnnotbtion for clbss: "+klbss+": " + b);
             }
         }
         }
@@ -131,739 +131,739 @@ public class AnnotationParser {
     }
 
     /**
-     * Parses the parameter annotations described by the specified byte array.
-     * resolving constant references in the specified constant pool.
-     * The array must contain an array of annotations as described
-     * in the RuntimeVisibleParameterAnnotations_attribute:
+     * Pbrses the pbrbmeter bnnotbtions described by the specified byte brrby.
+     * resolving constbnt references in the specified constbnt pool.
+     * The brrby must contbin bn brrby of bnnotbtions bs described
+     * in the RuntimeVisiblePbrbmeterAnnotbtions_bttribute:
      *
-     *    u1 num_parameters;
+     *    u1 num_pbrbmeters;
      *    {
-     *        u2 num_annotations;
-     *        annotation annotations[num_annotations];
-     *    } parameter_annotations[num_parameters];
+     *        u2 num_bnnotbtions;
+     *        bnnotbtion bnnotbtions[num_bnnotbtions];
+     *    } pbrbmeter_bnnotbtions[num_pbrbmeters];
      *
-     * Unlike parseAnnotations, rawAnnotations must not be null!
-     * A null value must be handled by the caller.  This is so because
-     * we cannot determine the number of parameters if rawAnnotations
-     * is null.  Also, the caller should check that the number
-     * of parameters indicated by the return value of this method
-     * matches the actual number of method parameters.  A mismatch
-     * indicates that an AnnotationFormatError should be thrown.
+     * Unlike pbrseAnnotbtions, rbwAnnotbtions must not be null!
+     * A null vblue must be hbndled by the cbller.  This is so becbuse
+     * we cbnnot determine the number of pbrbmeters if rbwAnnotbtions
+     * is null.  Also, the cbller should check thbt the number
+     * of pbrbmeters indicbted by the return vblue of this method
+     * mbtches the bctubl number of method pbrbmeters.  A mismbtch
+     * indicbtes thbt bn AnnotbtionFormbtError should be thrown.
      *
-     * @throws AnnotationFormatError if an annotation is found to be
-     *         malformed.
+     * @throws AnnotbtionFormbtError if bn bnnotbtion is found to be
+     *         mblformed.
      */
-    public static Annotation[][] parseParameterAnnotations(
-                    byte[] rawAnnotations,
-                    ConstantPool constPool,
-                    Class<?> container) {
+    public stbtic Annotbtion[][] pbrsePbrbmeterAnnotbtions(
+                    byte[] rbwAnnotbtions,
+                    ConstbntPool constPool,
+                    Clbss<?> contbiner) {
         try {
-            return parseParameterAnnotations2(rawAnnotations, constPool, container);
-        } catch(BufferUnderflowException e) {
-            throw new AnnotationFormatError(
-                "Unexpected end of parameter annotations.");
-        } catch(IllegalArgumentException e) {
-            // Type mismatch in constant pool
-            throw new AnnotationFormatError(e);
+            return pbrsePbrbmeterAnnotbtions2(rbwAnnotbtions, constPool, contbiner);
+        } cbtch(BufferUnderflowException e) {
+            throw new AnnotbtionFormbtError(
+                "Unexpected end of pbrbmeter bnnotbtions.");
+        } cbtch(IllegblArgumentException e) {
+            // Type mismbtch in constbnt pool
+            throw new AnnotbtionFormbtError(e);
         }
     }
 
-    private static Annotation[][] parseParameterAnnotations2(
-                    byte[] rawAnnotations,
-                    ConstantPool constPool,
-                    Class<?> container) {
-        ByteBuffer buf = ByteBuffer.wrap(rawAnnotations);
-        int numParameters = buf.get() & 0xFF;
-        Annotation[][] result = new Annotation[numParameters][];
+    privbte stbtic Annotbtion[][] pbrsePbrbmeterAnnotbtions2(
+                    byte[] rbwAnnotbtions,
+                    ConstbntPool constPool,
+                    Clbss<?> contbiner) {
+        ByteBuffer buf = ByteBuffer.wrbp(rbwAnnotbtions);
+        int numPbrbmeters = buf.get() & 0xFF;
+        Annotbtion[][] result = new Annotbtion[numPbrbmeters][];
 
-        for (int i = 0; i < numParameters; i++) {
-            int numAnnotations = buf.getShort() & 0xFFFF;
-            List<Annotation> annotations =
-                new ArrayList<Annotation>(numAnnotations);
-            for (int j = 0; j < numAnnotations; j++) {
-                Annotation a = parseAnnotation(buf, constPool, container, false);
-                if (a != null) {
-                    AnnotationType type = AnnotationType.getInstance(
-                                              a.annotationType());
+        for (int i = 0; i < numPbrbmeters; i++) {
+            int numAnnotbtions = buf.getShort() & 0xFFFF;
+            List<Annotbtion> bnnotbtions =
+                new ArrbyList<Annotbtion>(numAnnotbtions);
+            for (int j = 0; j < numAnnotbtions; j++) {
+                Annotbtion b = pbrseAnnotbtion(buf, constPool, contbiner, fblse);
+                if (b != null) {
+                    AnnotbtionType type = AnnotbtionType.getInstbnce(
+                                              b.bnnotbtionType());
                     if (type.retention() == RetentionPolicy.RUNTIME)
-                        annotations.add(a);
+                        bnnotbtions.bdd(b);
                 }
             }
-            result[i] = annotations.toArray(EMPTY_ANNOTATIONS_ARRAY);
+            result[i] = bnnotbtions.toArrby(EMPTY_ANNOTATIONS_ARRAY);
         }
         return result;
     }
 
-    private static final Annotation[] EMPTY_ANNOTATIONS_ARRAY =
-                    new Annotation[0];
+    privbte stbtic finbl Annotbtion[] EMPTY_ANNOTATIONS_ARRAY =
+                    new Annotbtion[0];
 
     /**
-     * Parses the annotation at the current position in the specified
-     * byte buffer, resolving constant references in the specified constant
-     * pool.  The cursor of the byte buffer must point to an "annotation
-     * structure" as described in the RuntimeVisibleAnnotations_attribute:
+     * Pbrses the bnnotbtion bt the current position in the specified
+     * byte buffer, resolving constbnt references in the specified constbnt
+     * pool.  The cursor of the byte buffer must point to bn "bnnotbtion
+     * structure" bs described in the RuntimeVisibleAnnotbtions_bttribute:
      *
-     * annotation {
+     * bnnotbtion {
      *    u2    type_index;
-     *       u2    num_member_value_pairs;
-     *       {    u2    member_name_index;
-     *             member_value value;
-     *       }    member_value_pairs[num_member_value_pairs];
+     *       u2    num_member_vblue_pbirs;
+     *       {    u2    member_nbme_index;
+     *             member_vblue vblue;
+     *       }    member_vblue_pbirs[num_member_vblue_pbirs];
      *    }
      * }
      *
-     * Returns the annotation, or null if the annotation's type cannot
-     * be found by the VM, or is not a valid annotation type.
+     * Returns the bnnotbtion, or null if the bnnotbtion's type cbnnot
+     * be found by the VM, or is not b vblid bnnotbtion type.
      *
-     * @param exceptionOnMissingAnnotationClass if true, throw
-     * TypeNotPresentException if a referenced annotation type is not
-     * available at runtime
+     * @pbrbm exceptionOnMissingAnnotbtionClbss if true, throw
+     * TypeNotPresentException if b referenced bnnotbtion type is not
+     * bvbilbble bt runtime
      */
-    static Annotation parseAnnotation(ByteBuffer buf,
-                                              ConstantPool constPool,
-                                              Class<?> container,
-                                              boolean exceptionOnMissingAnnotationClass) {
-       return parseAnnotation2(buf, constPool, container, exceptionOnMissingAnnotationClass, null);
+    stbtic Annotbtion pbrseAnnotbtion(ByteBuffer buf,
+                                              ConstbntPool constPool,
+                                              Clbss<?> contbiner,
+                                              boolebn exceptionOnMissingAnnotbtionClbss) {
+       return pbrseAnnotbtion2(buf, constPool, contbiner, exceptionOnMissingAnnotbtionClbss, null);
     }
 
-    @SuppressWarnings("unchecked")
-    private static Annotation parseAnnotation2(ByteBuffer buf,
-                                              ConstantPool constPool,
-                                              Class<?> container,
-                                              boolean exceptionOnMissingAnnotationClass,
-                                              Class<? extends Annotation>[] selectAnnotationClasses) {
+    @SuppressWbrnings("unchecked")
+    privbte stbtic Annotbtion pbrseAnnotbtion2(ByteBuffer buf,
+                                              ConstbntPool constPool,
+                                              Clbss<?> contbiner,
+                                              boolebn exceptionOnMissingAnnotbtionClbss,
+                                              Clbss<? extends Annotbtion>[] selectAnnotbtionClbsses) {
         int typeIndex = buf.getShort() & 0xFFFF;
-        Class<? extends Annotation> annotationClass = null;
+        Clbss<? extends Annotbtion> bnnotbtionClbss = null;
         String sig = "[unknown]";
         try {
             try {
                 sig = constPool.getUTF8At(typeIndex);
-                annotationClass = (Class<? extends Annotation>)parseSig(sig, container);
-            } catch (IllegalArgumentException ex) {
-                // support obsolete early jsr175 format class files
-                annotationClass = (Class<? extends Annotation>)constPool.getClassAt(typeIndex);
+                bnnotbtionClbss = (Clbss<? extends Annotbtion>)pbrseSig(sig, contbiner);
+            } cbtch (IllegblArgumentException ex) {
+                // support obsolete ebrly jsr175 formbt clbss files
+                bnnotbtionClbss = (Clbss<? extends Annotbtion>)constPool.getClbssAt(typeIndex);
             }
-        } catch (NoClassDefFoundError e) {
-            if (exceptionOnMissingAnnotationClass)
-                // note: at this point sig is "[unknown]" or VM-style
-                // name instead of a binary name
+        } cbtch (NoClbssDefFoundError e) {
+            if (exceptionOnMissingAnnotbtionClbss)
+                // note: bt this point sig is "[unknown]" or VM-style
+                // nbme instebd of b binbry nbme
                 throw new TypeNotPresentException(sig, e);
-            skipAnnotation(buf, false);
+            skipAnnotbtion(buf, fblse);
             return null;
         }
-        catch (TypeNotPresentException e) {
-            if (exceptionOnMissingAnnotationClass)
+        cbtch (TypeNotPresentException e) {
+            if (exceptionOnMissingAnnotbtionClbss)
                 throw e;
-            skipAnnotation(buf, false);
+            skipAnnotbtion(buf, fblse);
             return null;
         }
-        if (selectAnnotationClasses != null && !contains(selectAnnotationClasses, annotationClass)) {
-            skipAnnotation(buf, false);
+        if (selectAnnotbtionClbsses != null && !contbins(selectAnnotbtionClbsses, bnnotbtionClbss)) {
+            skipAnnotbtion(buf, fblse);
             return null;
         }
-        AnnotationType type = null;
+        AnnotbtionType type = null;
         try {
-            type = AnnotationType.getInstance(annotationClass);
-        } catch (IllegalArgumentException e) {
-            skipAnnotation(buf, false);
+            type = AnnotbtionType.getInstbnce(bnnotbtionClbss);
+        } cbtch (IllegblArgumentException e) {
+            skipAnnotbtion(buf, fblse);
             return null;
         }
 
-        Map<String, Class<?>> memberTypes = type.memberTypes();
-        Map<String, Object> memberValues =
-            new LinkedHashMap<String, Object>(type.memberDefaults());
+        Mbp<String, Clbss<?>> memberTypes = type.memberTypes();
+        Mbp<String, Object> memberVblues =
+            new LinkedHbshMbp<String, Object>(type.memberDefbults());
 
         int numMembers = buf.getShort() & 0xFFFF;
         for (int i = 0; i < numMembers; i++) {
-            int memberNameIndex = buf.getShort() & 0xFFFF;
-            String memberName = constPool.getUTF8At(memberNameIndex);
-            Class<?> memberType = memberTypes.get(memberName);
+            int memberNbmeIndex = buf.getShort() & 0xFFFF;
+            String memberNbme = constPool.getUTF8At(memberNbmeIndex);
+            Clbss<?> memberType = memberTypes.get(memberNbme);
 
             if (memberType == null) {
-                // Member is no longer present in annotation type; ignore it
-                skipMemberValue(buf);
+                // Member is no longer present in bnnotbtion type; ignore it
+                skipMemberVblue(buf);
             } else {
-                Object value = parseMemberValue(memberType, buf, constPool, container);
-                if (value instanceof AnnotationTypeMismatchExceptionProxy)
-                    ((AnnotationTypeMismatchExceptionProxy) value).
-                        setMember(type.members().get(memberName));
-                memberValues.put(memberName, value);
+                Object vblue = pbrseMemberVblue(memberType, buf, constPool, contbiner);
+                if (vblue instbnceof AnnotbtionTypeMismbtchExceptionProxy)
+                    ((AnnotbtionTypeMismbtchExceptionProxy) vblue).
+                        setMember(type.members().get(memberNbme));
+                memberVblues.put(memberNbme, vblue);
             }
         }
-        return annotationForMap(annotationClass, memberValues);
+        return bnnotbtionForMbp(bnnotbtionClbss, memberVblues);
     }
 
     /**
-     * Returns an annotation of the given type backed by the given
-     * member -> value map.
+     * Returns bn bnnotbtion of the given type bbcked by the given
+     * member -> vblue mbp.
      */
-    public static Annotation annotationForMap(final Class<? extends Annotation> type,
-                                              final Map<String, Object> memberValues)
+    public stbtic Annotbtion bnnotbtionForMbp(finbl Clbss<? extends Annotbtion> type,
+                                              finbl Mbp<String, Object> memberVblues)
     {
-        return AccessController.doPrivileged(new PrivilegedAction<Annotation>() {
-            public Annotation run() {
-                return (Annotation) Proxy.newProxyInstance(
-                    type.getClassLoader(), new Class<?>[] { type },
-                    new AnnotationInvocationHandler(type, memberValues));
+        return AccessController.doPrivileged(new PrivilegedAction<Annotbtion>() {
+            public Annotbtion run() {
+                return (Annotbtion) Proxy.newProxyInstbnce(
+                    type.getClbssLobder(), new Clbss<?>[] { type },
+                    new AnnotbtionInvocbtionHbndler(type, memberVblues));
             }});
     }
 
     /**
-     * Parses the annotation member value at the current position in the
-     * specified byte buffer, resolving constant references in the specified
-     * constant pool.  The cursor of the byte buffer must point to a
-     * "member_value structure" as described in the
-     * RuntimeVisibleAnnotations_attribute:
+     * Pbrses the bnnotbtion member vblue bt the current position in the
+     * specified byte buffer, resolving constbnt references in the specified
+     * constbnt pool.  The cursor of the byte buffer must point to b
+     * "member_vblue structure" bs described in the
+     * RuntimeVisibleAnnotbtions_bttribute:
      *
-     *  member_value {
-     *    u1 tag;
+     *  member_vblue {
+     *    u1 tbg;
      *    union {
-     *       u2   const_value_index;
+     *       u2   const_vblue_index;
      *       {
-     *           u2   type_name_index;
-     *           u2   const_name_index;
-     *       } enum_const_value;
-     *       u2   class_info_index;
-     *       annotation annotation_value;
+     *           u2   type_nbme_index;
+     *           u2   const_nbme_index;
+     *       } enum_const_vblue;
+     *       u2   clbss_info_index;
+     *       bnnotbtion bnnotbtion_vblue;
      *       {
-     *           u2    num_values;
-     *           member_value values[num_values];
-     *       } array_value;
-     *    } value;
+     *           u2    num_vblues;
+     *           member_vblue vblues[num_vblues];
+     *       } brrby_vblue;
+     *    } vblue;
      * }
      *
-     * The member must be of the indicated type. If it is not, this
-     * method returns an AnnotationTypeMismatchExceptionProxy.
+     * The member must be of the indicbted type. If it is not, this
+     * method returns bn AnnotbtionTypeMismbtchExceptionProxy.
      */
-    @SuppressWarnings("unchecked")
-    public static Object parseMemberValue(Class<?> memberType,
+    @SuppressWbrnings("unchecked")
+    public stbtic Object pbrseMemberVblue(Clbss<?> memberType,
                                           ByteBuffer buf,
-                                          ConstantPool constPool,
-                                          Class<?> container) {
+                                          ConstbntPool constPool,
+                                          Clbss<?> contbiner) {
         Object result = null;
-        int tag = buf.get();
-        switch(tag) {
-          case 'e':
-              return parseEnumValue((Class<? extends Enum<?>>)memberType, buf, constPool, container);
-          case 'c':
-              result = parseClassValue(buf, constPool, container);
-              break;
-          case '@':
-              result = parseAnnotation(buf, constPool, container, true);
-              break;
-          case '[':
-              return parseArray(memberType, buf, constPool, container);
-          default:
-              result = parseConst(tag, buf, constPool);
+        int tbg = buf.get();
+        switch(tbg) {
+          cbse 'e':
+              return pbrseEnumVblue((Clbss<? extends Enum<?>>)memberType, buf, constPool, contbiner);
+          cbse 'c':
+              result = pbrseClbssVblue(buf, constPool, contbiner);
+              brebk;
+          cbse '@':
+              result = pbrseAnnotbtion(buf, constPool, contbiner, true);
+              brebk;
+          cbse '[':
+              return pbrseArrby(memberType, buf, constPool, contbiner);
+          defbult:
+              result = pbrseConst(tbg, buf, constPool);
         }
 
-        if (!(result instanceof ExceptionProxy) &&
-            !memberType.isInstance(result))
-            result = new AnnotationTypeMismatchExceptionProxy(
-                result.getClass() + "[" + result + "]");
+        if (!(result instbnceof ExceptionProxy) &&
+            !memberType.isInstbnce(result))
+            result = new AnnotbtionTypeMismbtchExceptionProxy(
+                result.getClbss() + "[" + result + "]");
         return result;
     }
 
     /**
-     * Parses the primitive or String annotation member value indicated by
-     * the specified tag byte at the current position in the specified byte
-     * buffer, resolving constant reference in the specified constant pool.
-     * The cursor of the byte buffer must point to an annotation member value
-     * of the type indicated by the specified tag, as described in the
-     * RuntimeVisibleAnnotations_attribute:
+     * Pbrses the primitive or String bnnotbtion member vblue indicbted by
+     * the specified tbg byte bt the current position in the specified byte
+     * buffer, resolving constbnt reference in the specified constbnt pool.
+     * The cursor of the byte buffer must point to bn bnnotbtion member vblue
+     * of the type indicbted by the specified tbg, bs described in the
+     * RuntimeVisibleAnnotbtions_bttribute:
      *
-     *       u2   const_value_index;
+     *       u2   const_vblue_index;
      */
-    private static Object parseConst(int tag,
-                                     ByteBuffer buf, ConstantPool constPool) {
+    privbte stbtic Object pbrseConst(int tbg,
+                                     ByteBuffer buf, ConstbntPool constPool) {
         int constIndex = buf.getShort() & 0xFFFF;
-        switch(tag) {
-          case 'B':
-            return Byte.valueOf((byte) constPool.getIntAt(constIndex));
-          case 'C':
-            return Character.valueOf((char) constPool.getIntAt(constIndex));
-          case 'D':
-            return Double.valueOf(constPool.getDoubleAt(constIndex));
-          case 'F':
-            return Float.valueOf(constPool.getFloatAt(constIndex));
-          case 'I':
-            return Integer.valueOf(constPool.getIntAt(constIndex));
-          case 'J':
-            return Long.valueOf(constPool.getLongAt(constIndex));
-          case 'S':
-            return Short.valueOf((short) constPool.getIntAt(constIndex));
-          case 'Z':
-            return Boolean.valueOf(constPool.getIntAt(constIndex) != 0);
-          case 's':
+        switch(tbg) {
+          cbse 'B':
+            return Byte.vblueOf((byte) constPool.getIntAt(constIndex));
+          cbse 'C':
+            return Chbrbcter.vblueOf((chbr) constPool.getIntAt(constIndex));
+          cbse 'D':
+            return Double.vblueOf(constPool.getDoubleAt(constIndex));
+          cbse 'F':
+            return Flobt.vblueOf(constPool.getFlobtAt(constIndex));
+          cbse 'I':
+            return Integer.vblueOf(constPool.getIntAt(constIndex));
+          cbse 'J':
+            return Long.vblueOf(constPool.getLongAt(constIndex));
+          cbse 'S':
+            return Short.vblueOf((short) constPool.getIntAt(constIndex));
+          cbse 'Z':
+            return Boolebn.vblueOf(constPool.getIntAt(constIndex) != 0);
+          cbse 's':
             return constPool.getUTF8At(constIndex);
-          default:
-            throw new AnnotationFormatError(
-                "Invalid member-value tag in annotation: " + tag);
+          defbult:
+            throw new AnnotbtionFormbtError(
+                "Invblid member-vblue tbg in bnnotbtion: " + tbg);
         }
     }
 
     /**
-     * Parses the Class member value at the current position in the
-     * specified byte buffer, resolving constant references in the specified
-     * constant pool.  The cursor of the byte buffer must point to a "class
-     * info index" as described in the RuntimeVisibleAnnotations_attribute:
+     * Pbrses the Clbss member vblue bt the current position in the
+     * specified byte buffer, resolving constbnt references in the specified
+     * constbnt pool.  The cursor of the byte buffer must point to b "clbss
+     * info index" bs described in the RuntimeVisibleAnnotbtions_bttribute:
      *
-     *       u2   class_info_index;
+     *       u2   clbss_info_index;
      */
-    private static Object parseClassValue(ByteBuffer buf,
-                                          ConstantPool constPool,
-                                          Class<?> container) {
-        int classIndex = buf.getShort() & 0xFFFF;
+    privbte stbtic Object pbrseClbssVblue(ByteBuffer buf,
+                                          ConstbntPool constPool,
+                                          Clbss<?> contbiner) {
+        int clbssIndex = buf.getShort() & 0xFFFF;
         try {
             try {
-                String sig = constPool.getUTF8At(classIndex);
-                return parseSig(sig, container);
-            } catch (IllegalArgumentException ex) {
-                // support obsolete early jsr175 format class files
-                return constPool.getClassAt(classIndex);
+                String sig = constPool.getUTF8At(clbssIndex);
+                return pbrseSig(sig, contbiner);
+            } cbtch (IllegblArgumentException ex) {
+                // support obsolete ebrly jsr175 formbt clbss files
+                return constPool.getClbssAt(clbssIndex);
             }
-        } catch (NoClassDefFoundError e) {
+        } cbtch (NoClbssDefFoundError e) {
             return new TypeNotPresentExceptionProxy("[unknown]", e);
         }
-        catch (TypeNotPresentException e) {
-            return new TypeNotPresentExceptionProxy(e.typeName(), e.getCause());
+        cbtch (TypeNotPresentException e) {
+            return new TypeNotPresentExceptionProxy(e.typeNbme(), e.getCbuse());
         }
     }
 
-    private static Class<?> parseSig(String sig, Class<?> container) {
-        if (sig.equals("V")) return void.class;
-        SignatureParser parser = SignatureParser.make();
-        TypeSignature typeSig = parser.parseTypeSig(sig);
-        GenericsFactory factory = CoreReflectionFactory.make(container, ClassScope.make(container));
-        Reifier reify = Reifier.make(factory);
-        typeSig.accept(reify);
+    privbte stbtic Clbss<?> pbrseSig(String sig, Clbss<?> contbiner) {
+        if (sig.equbls("V")) return void.clbss;
+        SignbturePbrser pbrser = SignbturePbrser.mbke();
+        TypeSignbture typeSig = pbrser.pbrseTypeSig(sig);
+        GenericsFbctory fbctory = CoreReflectionFbctory.mbke(contbiner, ClbssScope.mbke(contbiner));
+        Reifier reify = Reifier.mbke(fbctory);
+        typeSig.bccept(reify);
         Type result = reify.getResult();
-        return toClass(result);
+        return toClbss(result);
     }
-    static Class<?> toClass(Type o) {
-        if (o instanceof GenericArrayType)
-            return Array.newInstance(toClass(((GenericArrayType)o).getGenericComponentType()),
+    stbtic Clbss<?> toClbss(Type o) {
+        if (o instbnceof GenericArrbyType)
+            return Arrby.newInstbnce(toClbss(((GenericArrbyType)o).getGenericComponentType()),
                                      0)
-                .getClass();
-        return (Class)o;
+                .getClbss();
+        return (Clbss)o;
     }
 
     /**
-     * Parses the enum constant member value at the current position in the
-     * specified byte buffer, resolving constant references in the specified
-     * constant pool.  The cursor of the byte buffer must point to a
-     * "enum_const_value structure" as described in the
-     * RuntimeVisibleAnnotations_attribute:
+     * Pbrses the enum constbnt member vblue bt the current position in the
+     * specified byte buffer, resolving constbnt references in the specified
+     * constbnt pool.  The cursor of the byte buffer must point to b
+     * "enum_const_vblue structure" bs described in the
+     * RuntimeVisibleAnnotbtions_bttribute:
      *
      *       {
-     *           u2   type_name_index;
-     *           u2   const_name_index;
-     *       } enum_const_value;
+     *           u2   type_nbme_index;
+     *           u2   const_nbme_index;
+     *       } enum_const_vblue;
      */
-    @SuppressWarnings({"rawtypes", "unchecked"})
-    private static Object parseEnumValue(Class<? extends Enum> enumType, ByteBuffer buf,
-                                         ConstantPool constPool,
-                                         Class<?> container) {
-        int typeNameIndex = buf.getShort() & 0xFFFF;
-        String typeName  = constPool.getUTF8At(typeNameIndex);
-        int constNameIndex = buf.getShort() & 0xFFFF;
-        String constName = constPool.getUTF8At(constNameIndex);
+    @SuppressWbrnings({"rbwtypes", "unchecked"})
+    privbte stbtic Object pbrseEnumVblue(Clbss<? extends Enum> enumType, ByteBuffer buf,
+                                         ConstbntPool constPool,
+                                         Clbss<?> contbiner) {
+        int typeNbmeIndex = buf.getShort() & 0xFFFF;
+        String typeNbme  = constPool.getUTF8At(typeNbmeIndex);
+        int constNbmeIndex = buf.getShort() & 0xFFFF;
+        String constNbme = constPool.getUTF8At(constNbmeIndex);
 
-        if (!typeName.endsWith(";")) {
-            // support now-obsolete early jsr175-format class files.
-            if (!enumType.getName().equals(typeName))
-            return new AnnotationTypeMismatchExceptionProxy(
-                typeName + "." + constName);
-        } else if (enumType != parseSig(typeName, container)) {
-            return new AnnotationTypeMismatchExceptionProxy(
-                typeName + "." + constName);
+        if (!typeNbme.endsWith(";")) {
+            // support now-obsolete ebrly jsr175-formbt clbss files.
+            if (!enumType.getNbme().equbls(typeNbme))
+            return new AnnotbtionTypeMismbtchExceptionProxy(
+                typeNbme + "." + constNbme);
+        } else if (enumType != pbrseSig(typeNbme, contbiner)) {
+            return new AnnotbtionTypeMismbtchExceptionProxy(
+                typeNbme + "." + constNbme);
         }
 
         try {
-            return  Enum.valueOf(enumType, constName);
-        } catch(IllegalArgumentException e) {
-            return new EnumConstantNotPresentExceptionProxy(
-                (Class<? extends Enum<?>>)enumType, constName);
+            return  Enum.vblueOf(enumType, constNbme);
+        } cbtch(IllegblArgumentException e) {
+            return new EnumConstbntNotPresentExceptionProxy(
+                (Clbss<? extends Enum<?>>)enumType, constNbme);
         }
     }
 
     /**
-     * Parses the array value at the current position in the specified byte
-     * buffer, resolving constant references in the specified constant pool.
-     * The cursor of the byte buffer must point to an array value struct
-     * as specified in the RuntimeVisibleAnnotations_attribute:
+     * Pbrses the brrby vblue bt the current position in the specified byte
+     * buffer, resolving constbnt references in the specified constbnt pool.
+     * The cursor of the byte buffer must point to bn brrby vblue struct
+     * bs specified in the RuntimeVisibleAnnotbtions_bttribute:
      *
      *       {
-     *           u2    num_values;
-     *           member_value values[num_values];
-     *       } array_value;
+     *           u2    num_vblues;
+     *           member_vblue vblues[num_vblues];
+     *       } brrby_vblue;
      *
-     * If the array values do not match arrayType, an
-     * AnnotationTypeMismatchExceptionProxy will be returned.
+     * If the brrby vblues do not mbtch brrbyType, bn
+     * AnnotbtionTypeMismbtchExceptionProxy will be returned.
      */
-    @SuppressWarnings("unchecked")
-    private static Object parseArray(Class<?> arrayType,
+    @SuppressWbrnings("unchecked")
+    privbte stbtic Object pbrseArrby(Clbss<?> brrbyType,
                                      ByteBuffer buf,
-                                     ConstantPool constPool,
-                                     Class<?> container) {
-        int length = buf.getShort() & 0xFFFF;  // Number of array components
-        Class<?> componentType = arrayType.getComponentType();
+                                     ConstbntPool constPool,
+                                     Clbss<?> contbiner) {
+        int length = buf.getShort() & 0xFFFF;  // Number of brrby components
+        Clbss<?> componentType = brrbyType.getComponentType();
 
-        if (componentType == byte.class) {
-            return parseByteArray(length, buf, constPool);
-        } else if (componentType == char.class) {
-            return parseCharArray(length, buf, constPool);
-        } else if (componentType == double.class) {
-            return parseDoubleArray(length, buf, constPool);
-        } else if (componentType == float.class) {
-            return parseFloatArray(length, buf, constPool);
-        } else if (componentType == int.class) {
-            return parseIntArray(length, buf, constPool);
-        } else if (componentType == long.class) {
-            return parseLongArray(length, buf, constPool);
-        } else if (componentType == short.class) {
-            return parseShortArray(length, buf, constPool);
-        } else if (componentType == boolean.class) {
-            return parseBooleanArray(length, buf, constPool);
-        } else if (componentType == String.class) {
-            return parseStringArray(length, buf, constPool);
-        } else if (componentType == Class.class) {
-            return parseClassArray(length, buf, constPool, container);
+        if (componentType == byte.clbss) {
+            return pbrseByteArrby(length, buf, constPool);
+        } else if (componentType == chbr.clbss) {
+            return pbrseChbrArrby(length, buf, constPool);
+        } else if (componentType == double.clbss) {
+            return pbrseDoubleArrby(length, buf, constPool);
+        } else if (componentType == flobt.clbss) {
+            return pbrseFlobtArrby(length, buf, constPool);
+        } else if (componentType == int.clbss) {
+            return pbrseIntArrby(length, buf, constPool);
+        } else if (componentType == long.clbss) {
+            return pbrseLongArrby(length, buf, constPool);
+        } else if (componentType == short.clbss) {
+            return pbrseShortArrby(length, buf, constPool);
+        } else if (componentType == boolebn.clbss) {
+            return pbrseBoolebnArrby(length, buf, constPool);
+        } else if (componentType == String.clbss) {
+            return pbrseStringArrby(length, buf, constPool);
+        } else if (componentType == Clbss.clbss) {
+            return pbrseClbssArrby(length, buf, constPool, contbiner);
         } else if (componentType.isEnum()) {
-            return parseEnumArray(length, (Class<? extends Enum<?>>)componentType, buf,
-                                  constPool, container);
+            return pbrseEnumArrby(length, (Clbss<? extends Enum<?>>)componentType, buf,
+                                  constPool, contbiner);
         } else {
-            assert componentType.isAnnotation();
-            return parseAnnotationArray(length, (Class <? extends Annotation>)componentType, buf,
-                                        constPool, container);
+            bssert componentType.isAnnotbtion();
+            return pbrseAnnotbtionArrby(length, (Clbss <? extends Annotbtion>)componentType, buf,
+                                        constPool, contbiner);
         }
     }
 
-    private static Object parseByteArray(int length,
-                                  ByteBuffer buf, ConstantPool constPool) {
+    privbte stbtic Object pbrseByteArrby(int length,
+                                  ByteBuffer buf, ConstbntPool constPool) {
         byte[] result = new byte[length];
-        boolean typeMismatch = false;
-        int tag = 0;
+        boolebn typeMismbtch = fblse;
+        int tbg = 0;
 
         for (int i = 0; i < length; i++) {
-            tag = buf.get();
-            if (tag == 'B') {
+            tbg = buf.get();
+            if (tbg == 'B') {
                 int index = buf.getShort() & 0xFFFF;
                 result[i] = (byte) constPool.getIntAt(index);
             } else {
-                skipMemberValue(tag, buf);
-                typeMismatch = true;
+                skipMemberVblue(tbg, buf);
+                typeMismbtch = true;
             }
         }
-        return typeMismatch ? exceptionProxy(tag) : result;
+        return typeMismbtch ? exceptionProxy(tbg) : result;
     }
 
-    private static Object parseCharArray(int length,
-                                  ByteBuffer buf, ConstantPool constPool) {
-        char[] result = new char[length];
-        boolean typeMismatch = false;
-        byte tag = 0;
+    privbte stbtic Object pbrseChbrArrby(int length,
+                                  ByteBuffer buf, ConstbntPool constPool) {
+        chbr[] result = new chbr[length];
+        boolebn typeMismbtch = fblse;
+        byte tbg = 0;
 
         for (int i = 0; i < length; i++) {
-            tag = buf.get();
-            if (tag == 'C') {
+            tbg = buf.get();
+            if (tbg == 'C') {
                 int index = buf.getShort() & 0xFFFF;
-                result[i] = (char) constPool.getIntAt(index);
+                result[i] = (chbr) constPool.getIntAt(index);
             } else {
-                skipMemberValue(tag, buf);
-                typeMismatch = true;
+                skipMemberVblue(tbg, buf);
+                typeMismbtch = true;
             }
         }
-        return typeMismatch ? exceptionProxy(tag) : result;
+        return typeMismbtch ? exceptionProxy(tbg) : result;
     }
 
-    private static Object parseDoubleArray(int length,
-                                    ByteBuffer buf, ConstantPool constPool) {
+    privbte stbtic Object pbrseDoubleArrby(int length,
+                                    ByteBuffer buf, ConstbntPool constPool) {
         double[] result = new  double[length];
-        boolean typeMismatch = false;
-        int tag = 0;
+        boolebn typeMismbtch = fblse;
+        int tbg = 0;
 
         for (int i = 0; i < length; i++) {
-            tag = buf.get();
-            if (tag == 'D') {
+            tbg = buf.get();
+            if (tbg == 'D') {
                 int index = buf.getShort() & 0xFFFF;
                 result[i] = constPool.getDoubleAt(index);
             } else {
-                skipMemberValue(tag, buf);
-                typeMismatch = true;
+                skipMemberVblue(tbg, buf);
+                typeMismbtch = true;
             }
         }
-        return typeMismatch ? exceptionProxy(tag) : result;
+        return typeMismbtch ? exceptionProxy(tbg) : result;
     }
 
-    private static Object parseFloatArray(int length,
-                                   ByteBuffer buf, ConstantPool constPool) {
-        float[] result = new float[length];
-        boolean typeMismatch = false;
-        int tag = 0;
+    privbte stbtic Object pbrseFlobtArrby(int length,
+                                   ByteBuffer buf, ConstbntPool constPool) {
+        flobt[] result = new flobt[length];
+        boolebn typeMismbtch = fblse;
+        int tbg = 0;
 
         for (int i = 0; i < length; i++) {
-            tag = buf.get();
-            if (tag == 'F') {
+            tbg = buf.get();
+            if (tbg == 'F') {
                 int index = buf.getShort() & 0xFFFF;
-                result[i] = constPool.getFloatAt(index);
+                result[i] = constPool.getFlobtAt(index);
             } else {
-                skipMemberValue(tag, buf);
-                typeMismatch = true;
+                skipMemberVblue(tbg, buf);
+                typeMismbtch = true;
             }
         }
-        return typeMismatch ? exceptionProxy(tag) : result;
+        return typeMismbtch ? exceptionProxy(tbg) : result;
     }
 
-    private static Object parseIntArray(int length,
-                                 ByteBuffer buf, ConstantPool constPool) {
+    privbte stbtic Object pbrseIntArrby(int length,
+                                 ByteBuffer buf, ConstbntPool constPool) {
         int[] result = new  int[length];
-        boolean typeMismatch = false;
-        int tag = 0;
+        boolebn typeMismbtch = fblse;
+        int tbg = 0;
 
         for (int i = 0; i < length; i++) {
-            tag = buf.get();
-            if (tag == 'I') {
+            tbg = buf.get();
+            if (tbg == 'I') {
                 int index = buf.getShort() & 0xFFFF;
                 result[i] = constPool.getIntAt(index);
             } else {
-                skipMemberValue(tag, buf);
-                typeMismatch = true;
+                skipMemberVblue(tbg, buf);
+                typeMismbtch = true;
             }
         }
-        return typeMismatch ? exceptionProxy(tag) : result;
+        return typeMismbtch ? exceptionProxy(tbg) : result;
     }
 
-    private static Object parseLongArray(int length,
-                                  ByteBuffer buf, ConstantPool constPool) {
+    privbte stbtic Object pbrseLongArrby(int length,
+                                  ByteBuffer buf, ConstbntPool constPool) {
         long[] result = new long[length];
-        boolean typeMismatch = false;
-        int tag = 0;
+        boolebn typeMismbtch = fblse;
+        int tbg = 0;
 
         for (int i = 0; i < length; i++) {
-            tag = buf.get();
-            if (tag == 'J') {
+            tbg = buf.get();
+            if (tbg == 'J') {
                 int index = buf.getShort() & 0xFFFF;
                 result[i] = constPool.getLongAt(index);
             } else {
-                skipMemberValue(tag, buf);
-                typeMismatch = true;
+                skipMemberVblue(tbg, buf);
+                typeMismbtch = true;
             }
         }
-        return typeMismatch ? exceptionProxy(tag) : result;
+        return typeMismbtch ? exceptionProxy(tbg) : result;
     }
 
-    private static Object parseShortArray(int length,
-                                   ByteBuffer buf, ConstantPool constPool) {
+    privbte stbtic Object pbrseShortArrby(int length,
+                                   ByteBuffer buf, ConstbntPool constPool) {
         short[] result = new short[length];
-        boolean typeMismatch = false;
-        int tag = 0;
+        boolebn typeMismbtch = fblse;
+        int tbg = 0;
 
         for (int i = 0; i < length; i++) {
-            tag = buf.get();
-            if (tag == 'S') {
+            tbg = buf.get();
+            if (tbg == 'S') {
                 int index = buf.getShort() & 0xFFFF;
                 result[i] = (short) constPool.getIntAt(index);
             } else {
-                skipMemberValue(tag, buf);
-                typeMismatch = true;
+                skipMemberVblue(tbg, buf);
+                typeMismbtch = true;
             }
         }
-        return typeMismatch ? exceptionProxy(tag) : result;
+        return typeMismbtch ? exceptionProxy(tbg) : result;
     }
 
-    private static Object parseBooleanArray(int length,
-                                     ByteBuffer buf, ConstantPool constPool) {
-        boolean[] result = new boolean[length];
-        boolean typeMismatch = false;
-        int tag = 0;
+    privbte stbtic Object pbrseBoolebnArrby(int length,
+                                     ByteBuffer buf, ConstbntPool constPool) {
+        boolebn[] result = new boolebn[length];
+        boolebn typeMismbtch = fblse;
+        int tbg = 0;
 
         for (int i = 0; i < length; i++) {
-            tag = buf.get();
-            if (tag == 'Z') {
+            tbg = buf.get();
+            if (tbg == 'Z') {
                 int index = buf.getShort() & 0xFFFF;
                 result[i] = (constPool.getIntAt(index) != 0);
             } else {
-                skipMemberValue(tag, buf);
-                typeMismatch = true;
+                skipMemberVblue(tbg, buf);
+                typeMismbtch = true;
             }
         }
-        return typeMismatch ? exceptionProxy(tag) : result;
+        return typeMismbtch ? exceptionProxy(tbg) : result;
     }
 
-    private static Object parseStringArray(int length,
-                                    ByteBuffer buf,  ConstantPool constPool) {
+    privbte stbtic Object pbrseStringArrby(int length,
+                                    ByteBuffer buf,  ConstbntPool constPool) {
         String[] result = new String[length];
-        boolean typeMismatch = false;
-        int tag = 0;
+        boolebn typeMismbtch = fblse;
+        int tbg = 0;
 
         for (int i = 0; i < length; i++) {
-            tag = buf.get();
-            if (tag == 's') {
+            tbg = buf.get();
+            if (tbg == 's') {
                 int index = buf.getShort() & 0xFFFF;
                 result[i] = constPool.getUTF8At(index);
             } else {
-                skipMemberValue(tag, buf);
-                typeMismatch = true;
+                skipMemberVblue(tbg, buf);
+                typeMismbtch = true;
             }
         }
-        return typeMismatch ? exceptionProxy(tag) : result;
+        return typeMismbtch ? exceptionProxy(tbg) : result;
     }
 
-    private static Object parseClassArray(int length,
+    privbte stbtic Object pbrseClbssArrby(int length,
                                           ByteBuffer buf,
-                                          ConstantPool constPool,
-                                          Class<?> container) {
-        Object[] result = new Class<?>[length];
-        boolean typeMismatch = false;
-        int tag = 0;
+                                          ConstbntPool constPool,
+                                          Clbss<?> contbiner) {
+        Object[] result = new Clbss<?>[length];
+        boolebn typeMismbtch = fblse;
+        int tbg = 0;
 
         for (int i = 0; i < length; i++) {
-            tag = buf.get();
-            if (tag == 'c') {
-                result[i] = parseClassValue(buf, constPool, container);
+            tbg = buf.get();
+            if (tbg == 'c') {
+                result[i] = pbrseClbssVblue(buf, constPool, contbiner);
             } else {
-                skipMemberValue(tag, buf);
-                typeMismatch = true;
+                skipMemberVblue(tbg, buf);
+                typeMismbtch = true;
             }
         }
-        return typeMismatch ? exceptionProxy(tag) : result;
+        return typeMismbtch ? exceptionProxy(tbg) : result;
     }
 
-    private static Object parseEnumArray(int length, Class<? extends Enum<?>> enumType,
+    privbte stbtic Object pbrseEnumArrby(int length, Clbss<? extends Enum<?>> enumType,
                                          ByteBuffer buf,
-                                         ConstantPool constPool,
-                                         Class<?> container) {
-        Object[] result = (Object[]) Array.newInstance(enumType, length);
-        boolean typeMismatch = false;
-        int tag = 0;
+                                         ConstbntPool constPool,
+                                         Clbss<?> contbiner) {
+        Object[] result = (Object[]) Arrby.newInstbnce(enumType, length);
+        boolebn typeMismbtch = fblse;
+        int tbg = 0;
 
         for (int i = 0; i < length; i++) {
-            tag = buf.get();
-            if (tag == 'e') {
-                result[i] = parseEnumValue(enumType, buf, constPool, container);
+            tbg = buf.get();
+            if (tbg == 'e') {
+                result[i] = pbrseEnumVblue(enumType, buf, constPool, contbiner);
             } else {
-                skipMemberValue(tag, buf);
-                typeMismatch = true;
+                skipMemberVblue(tbg, buf);
+                typeMismbtch = true;
             }
         }
-        return typeMismatch ? exceptionProxy(tag) : result;
+        return typeMismbtch ? exceptionProxy(tbg) : result;
     }
 
-    private static Object parseAnnotationArray(int length,
-                                               Class<? extends Annotation> annotationType,
+    privbte stbtic Object pbrseAnnotbtionArrby(int length,
+                                               Clbss<? extends Annotbtion> bnnotbtionType,
                                                ByteBuffer buf,
-                                               ConstantPool constPool,
-                                               Class<?> container) {
-        Object[] result = (Object[]) Array.newInstance(annotationType, length);
-        boolean typeMismatch = false;
-        int tag = 0;
+                                               ConstbntPool constPool,
+                                               Clbss<?> contbiner) {
+        Object[] result = (Object[]) Arrby.newInstbnce(bnnotbtionType, length);
+        boolebn typeMismbtch = fblse;
+        int tbg = 0;
 
         for (int i = 0; i < length; i++) {
-            tag = buf.get();
-            if (tag == '@') {
-                result[i] = parseAnnotation(buf, constPool, container, true);
+            tbg = buf.get();
+            if (tbg == '@') {
+                result[i] = pbrseAnnotbtion(buf, constPool, contbiner, true);
             } else {
-                skipMemberValue(tag, buf);
-                typeMismatch = true;
+                skipMemberVblue(tbg, buf);
+                typeMismbtch = true;
             }
         }
-        return typeMismatch ? exceptionProxy(tag) : result;
+        return typeMismbtch ? exceptionProxy(tbg) : result;
     }
 
     /**
-     * Return an appropriate exception proxy for a mismatching array
-     * annotation where the erroneous array has the specified tag.
+     * Return bn bppropribte exception proxy for b mismbtching brrby
+     * bnnotbtion where the erroneous brrby hbs the specified tbg.
      */
-    private static ExceptionProxy exceptionProxy(int tag) {
-        return new AnnotationTypeMismatchExceptionProxy(
-            "Array with component tag: " + tag);
+    privbte stbtic ExceptionProxy exceptionProxy(int tbg) {
+        return new AnnotbtionTypeMismbtchExceptionProxy(
+            "Arrby with component tbg: " + tbg);
     }
 
     /**
-     * Skips the annotation at the current position in the specified
+     * Skips the bnnotbtion bt the current position in the specified
      * byte buffer.  The cursor of the byte buffer must point to
-     * an "annotation structure" OR two bytes into an annotation
-     * structure (i.e., after the type index).
+     * bn "bnnotbtion structure" OR two bytes into bn bnnotbtion
+     * structure (i.e., bfter the type index).
      *
-     * @parameter complete true if the byte buffer points to the beginning
-     *     of an annotation structure (rather than two bytes in).
+     * @pbrbmeter complete true if the byte buffer points to the beginning
+     *     of bn bnnotbtion structure (rbther thbn two bytes in).
      */
-    private static void skipAnnotation(ByteBuffer buf, boolean complete) {
+    privbte stbtic void skipAnnotbtion(ByteBuffer buf, boolebn complete) {
         if (complete)
             buf.getShort();   // Skip type index
         int numMembers = buf.getShort() & 0xFFFF;
         for (int i = 0; i < numMembers; i++) {
-            buf.getShort();   // Skip memberNameIndex
-            skipMemberValue(buf);
+            buf.getShort();   // Skip memberNbmeIndex
+            skipMemberVblue(buf);
         }
     }
 
     /**
-     * Skips the annotation member value at the current position in the
-     * specified byte buffer.  The cursor of the byte buffer must point to a
-     * "member_value structure."
+     * Skips the bnnotbtion member vblue bt the current position in the
+     * specified byte buffer.  The cursor of the byte buffer must point to b
+     * "member_vblue structure."
      */
-    private static void skipMemberValue(ByteBuffer buf) {
-        int tag = buf.get();
-        skipMemberValue(tag, buf);
+    privbte stbtic void skipMemberVblue(ByteBuffer buf) {
+        int tbg = buf.get();
+        skipMemberVblue(tbg, buf);
     }
 
     /**
-     * Skips the annotation member value at the current position in the
+     * Skips the bnnotbtion member vblue bt the current position in the
      * specified byte buffer.  The cursor of the byte buffer must point
-     * immediately after the tag in a "member_value structure."
+     * immedibtely bfter the tbg in b "member_vblue structure."
      */
-    private static void skipMemberValue(int tag, ByteBuffer buf) {
-        switch(tag) {
-          case 'e': // Enum value
-            buf.getInt();  // (Two shorts, actually.)
-            break;
-          case '@':
-            skipAnnotation(buf, true);
-            break;
-          case '[':
-            skipArray(buf);
-            break;
-          default:
-            // Class, primitive, or String
+    privbte stbtic void skipMemberVblue(int tbg, ByteBuffer buf) {
+        switch(tbg) {
+          cbse 'e': // Enum vblue
+            buf.getInt();  // (Two shorts, bctublly.)
+            brebk;
+          cbse '@':
+            skipAnnotbtion(buf, true);
+            brebk;
+          cbse '[':
+            skipArrby(buf);
+            brebk;
+          defbult:
+            // Clbss, primitive, or String
             buf.getShort();
         }
     }
 
     /**
-     * Skips the array value at the current position in the specified byte
-     * buffer.  The cursor of the byte buffer must point to an array value
+     * Skips the brrby vblue bt the current position in the specified byte
+     * buffer.  The cursor of the byte buffer must point to bn brrby vblue
      * struct.
      */
-    private static void skipArray(ByteBuffer buf) {
+    privbte stbtic void skipArrby(ByteBuffer buf) {
         int length = buf.getShort() & 0xFFFF;
         for (int i = 0; i < length; i++)
-            skipMemberValue(buf);
+            skipMemberVblue(buf);
     }
 
     /**
-     * Searches for given {@code element} in given {@code array} by identity.
-     * Returns {@code true} if found {@code false} if not.
+     * Sebrches for given {@code element} in given {@code brrby} by identity.
+     * Returns {@code true} if found {@code fblse} if not.
      */
-    private static boolean contains(Object[] array, Object element) {
-        for (Object e : array)
+    privbte stbtic boolebn contbins(Object[] brrby, Object element) {
+        for (Object e : brrby)
             if (e == element)
                 return true;
-        return false;
+        return fblse;
     }
 
     /*
-     * This method converts the annotation map returned by the parseAnnotations()
-     * method to an array.  It is called by Field.getDeclaredAnnotations(),
-     * Method.getDeclaredAnnotations(), and Constructor.getDeclaredAnnotations().
-     * This avoids the reflection classes to load the Annotation class until
+     * This method converts the bnnotbtion mbp returned by the pbrseAnnotbtions()
+     * method to bn brrby.  It is cblled by Field.getDeclbredAnnotbtions(),
+     * Method.getDeclbredAnnotbtions(), bnd Constructor.getDeclbredAnnotbtions().
+     * This bvoids the reflection clbsses to lobd the Annotbtion clbss until
      * it is needed.
      */
-    private static final Annotation[] EMPTY_ANNOTATION_ARRAY = new Annotation[0];
-    public static Annotation[] toArray(Map<Class<? extends Annotation>, Annotation> annotations) {
-        return annotations.values().toArray(EMPTY_ANNOTATION_ARRAY);
+    privbte stbtic finbl Annotbtion[] EMPTY_ANNOTATION_ARRAY = new Annotbtion[0];
+    public stbtic Annotbtion[] toArrby(Mbp<Clbss<? extends Annotbtion>, Annotbtion> bnnotbtions) {
+        return bnnotbtions.vblues().toArrby(EMPTY_ANNOTATION_ARRAY);
     }
 
-    static Annotation[] getEmptyAnnotationArray() { return EMPTY_ANNOTATION_ARRAY; }
+    stbtic Annotbtion[] getEmptyAnnotbtionArrby() { return EMPTY_ANNOTATION_ARRAY; }
 }

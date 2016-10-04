@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,105 +30,105 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-/* JVMTI tag definitions. */
+/* JVMTI tbg definitions. */
 
 /*
- * JVMTI tags are jlongs (64 bits) and how the hprof information is
- *   turned into a tag and/or extracted from a tag is here.
+ * JVMTI tbgs bre jlongs (64 bits) bnd how the hprof informbtion is
+ *   turned into b tbg bnd/or extrbcted from b tbg is here.
  *
- * Currently a special TAG_CHECK is placed in the high order 32 bits of
- *    the tag as a check.
+ * Currently b specibl TAG_CHECK is plbced in the high order 32 bits of
+ *    the tbg bs b check.
  *
  */
 
 #include "hprof.h"
 
-#define TAG_CHECK 0xfad4dead
+#define TAG_CHECK 0xfbd4debd
 
 jlong
-tag_create(ObjectIndex object_index)
+tbg_crebte(ObjectIndex object_index)
 {
-    jlong               tag;
+    jlong               tbg;
 
     HPROF_ASSERT(object_index != 0);
-    tag = TAG_CHECK;
-    tag = (tag << 32) | object_index;
-    return tag;
+    tbg = TAG_CHECK;
+    tbg = (tbg << 32) | object_index;
+    return tbg;
 }
 
 ObjectIndex
-tag_extract(jlong tag)
+tbg_extrbct(jlong tbg)
 {
-    HPROF_ASSERT(tag != (jlong)0);
-    if ( ((tag >> 32) & 0xFFFFFFFF) != TAG_CHECK) {
-        HPROF_ERROR(JNI_TRUE, "JVMTI tag value is not 0 and missing TAG_CHECK");
+    HPROF_ASSERT(tbg != (jlong)0);
+    if ( ((tbg >> 32) & 0xFFFFFFFF) != TAG_CHECK) {
+        HPROF_ERROR(JNI_TRUE, "JVMTI tbg vblue is not 0 bnd missing TAG_CHECK");
     }
-    return  (ObjectIndex)(tag & 0xFFFFFFFF);
+    return  (ObjectIndex)(tbg & 0xFFFFFFFF);
 }
 
-/* Tag a new jobject */
+/* Tbg b new jobject */
 void
-tag_new_object(jobject object, ObjectKind kind, SerialNumber thread_serial_num,
+tbg_new_object(jobject object, ObjectKind kind, SeriblNumber threbd_seribl_num,
                 jint size, SiteIndex site_index)
 {
     ObjectIndex  object_index;
-    jlong        tag;
+    jlong        tbg;
 
     HPROF_ASSERT(site_index!=0);
     /* New object for this site. */
-    object_index = object_new(site_index, size, kind, thread_serial_num);
-    /* Create and set the tag. */
-    tag = tag_create(object_index);
-    setTag(object, tag);
-    LOG3("tag_new_object", "tag", (int)tag);
+    object_index = object_new(site_index, size, kind, threbd_seribl_num);
+    /* Crebte bnd set the tbg. */
+    tbg = tbg_crebte(object_index);
+    setTbg(object, tbg);
+    LOG3("tbg_new_object", "tbg", (int)tbg);
 }
 
-/* Tag a jclass jobject if it hasn't been tagged. */
+/* Tbg b jclbss jobject if it hbsn't been tbgged. */
 void
-tag_class(JNIEnv *env, jclass klass, ClassIndex cnum,
-                SerialNumber thread_serial_num, SiteIndex site_index)
+tbg_clbss(JNIEnv *env, jclbss klbss, ClbssIndex cnum,
+                SeriblNumber threbd_seribl_num, SiteIndex site_index)
 {
     ObjectIndex object_index;
 
-    /* If the ClassIndex has an ObjectIndex, then we have tagged it. */
-    object_index = class_get_object_index(cnum);
+    /* If the ClbssIndex hbs bn ObjectIndex, then we hbve tbgged it. */
+    object_index = clbss_get_object_index(cnum);
 
     if ( object_index == 0 ) {
         jint        size;
-        jlong        tag;
+        jlong        tbg;
 
         HPROF_ASSERT(site_index!=0);
 
-        /* If we don't know the size of a java.lang.Class object, get it */
-        size =  gdata->system_class_size;
+        /* If we don't know the size of b jbvb.lbng.Clbss object, get it */
+        size =  gdbtb->system_clbss_size;
         if ( size == 0 ) {
-            size  = (jint)getObjectSize(klass);
-            gdata->system_class_size = size;
+            size  = (jint)getObjectSize(klbss);
+            gdbtb->system_clbss_size = size;
         }
 
-        /* Tag this java.lang.Class object if it hasn't been already */
-        tag = getTag(klass);
-        if ( tag == (jlong)0 ) {
+        /* Tbg this jbvb.lbng.Clbss object if it hbsn't been blrebdy */
+        tbg = getTbg(klbss);
+        if ( tbg == (jlong)0 ) {
             /* New object for this site. */
             object_index = object_new(site_index, size, OBJECT_CLASS,
-                                        thread_serial_num);
-            /* Create and set the tag. */
-            tag = tag_create(object_index);
-            setTag(klass, tag);
+                                        threbd_seribl_num);
+            /* Crebte bnd set the tbg. */
+            tbg = tbg_crebte(object_index);
+            setTbg(klbss, tbg);
         } else {
-            /* Get the ObjectIndex from the tag. */
-            object_index = tag_extract(tag);
+            /* Get the ObjectIndex from the tbg. */
+            object_index = tbg_extrbct(tbg);
         }
 
-        /* Record this object index in the Class table */
-        class_set_object_index(cnum, object_index);
+        /* Record this object index in the Clbss tbble */
+        clbss_set_object_index(cnum, object_index);
     }
 }

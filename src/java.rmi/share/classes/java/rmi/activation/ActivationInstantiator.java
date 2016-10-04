@@ -1,76 +1,76 @@
 /*
- * Copyright (c) 1997, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.rmi.activation;
+pbckbge jbvb.rmi.bctivbtion;
 
-import java.rmi.MarshalledObject;
-import java.rmi.Remote;
-import java.rmi.RemoteException;
+import jbvb.rmi.MbrshblledObject;
+import jbvb.rmi.Remote;
+import jbvb.rmi.RemoteException;
 
 /**
- * An <code>ActivationInstantiator</code> is responsible for creating
- * instances of "activatable" objects. A concrete subclass of
- * <code>ActivationGroup</code> implements the <code>newInstance</code>
- * method to handle creating objects within the group.
+ * An <code>ActivbtionInstbntibtor</code> is responsible for crebting
+ * instbnces of "bctivbtbble" objects. A concrete subclbss of
+ * <code>ActivbtionGroup</code> implements the <code>newInstbnce</code>
+ * method to hbndle crebting objects within the group.
  *
- * @author      Ann Wollrath
- * @see         ActivationGroup
+ * @buthor      Ann Wollrbth
+ * @see         ActivbtionGroup
  * @since       1.2
  */
-public interface ActivationInstantiator extends Remote {
+public interfbce ActivbtionInstbntibtor extends Remote {
 
    /**
-    * The activator calls an instantiator's <code>newInstance</code>
-    * method in order to recreate in that group an object with the
-    * activation identifier, <code>id</code>, and descriptor,
-    * <code>desc</code>. The instantiator is responsible for: <ul>
+    * The bctivbtor cblls bn instbntibtor's <code>newInstbnce</code>
+    * method in order to recrebte in thbt group bn object with the
+    * bctivbtion identifier, <code>id</code>, bnd descriptor,
+    * <code>desc</code>. The instbntibtor is responsible for: <ul>
     *
-    * <li> determining the class for the object using the descriptor's
-    * <code>getClassName</code> method,
+    * <li> determining the clbss for the object using the descriptor's
+    * <code>getClbssNbme</code> method,
     *
-    * <li> loading the class from the code location obtained from the
-    * descriptor (using the <code>getLocation</code> method),
+    * <li> lobding the clbss from the code locbtion obtbined from the
+    * descriptor (using the <code>getLocbtion</code> method),
     *
-    * <li> creating an instance of the class by invoking the special
-    * "activation" constructor of the object's class that takes two
-    * arguments: the object's <code>ActivationID</code>, and the
-    * <code>MarshalledObject</code> containing object specific
-    * initialization data, and
+    * <li> crebting bn instbnce of the clbss by invoking the specibl
+    * "bctivbtion" constructor of the object's clbss thbt tbkes two
+    * brguments: the object's <code>ActivbtionID</code>, bnd the
+    * <code>MbrshblledObject</code> contbining object specific
+    * initiblizbtion dbtb, bnd
     *
-    * <li> returning a MarshalledObject containing the stub for the
-    * remote object it created </ul>
+    * <li> returning b MbrshblledObject contbining the stub for the
+    * remote object it crebted </ul>
     *
-    * @param id the object's activation identifier
-    * @param desc the object's descriptor
-    * @return a marshalled object containing the serialized
-    * representation of remote object's stub
-    * @exception ActivationException if object activation fails
-    * @exception RemoteException if remote call fails
+    * @pbrbm id the object's bctivbtion identifier
+    * @pbrbm desc the object's descriptor
+    * @return b mbrshblled object contbining the seriblized
+    * representbtion of remote object's stub
+    * @exception ActivbtionException if object bctivbtion fbils
+    * @exception RemoteException if remote cbll fbils
     * @since 1.2
     */
-    public MarshalledObject<? extends Remote> newInstance(ActivationID id,
-                                                          ActivationDesc desc)
-        throws ActivationException, RemoteException;
+    public MbrshblledObject<? extends Remote> newInstbnce(ActivbtionID id,
+                                                          ActivbtionDesc desc)
+        throws ActivbtionException, RemoteException;
 }

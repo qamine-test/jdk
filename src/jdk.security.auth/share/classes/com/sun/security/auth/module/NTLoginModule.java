@@ -1,218 +1,218 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.security.auth.module;
+pbckbge com.sun.security.buth.module;
 
-import java.util.*;
-import java.io.IOException;
-import javax.security.auth.*;
-import javax.security.auth.callback.*;
-import javax.security.auth.login.*;
-import javax.security.auth.spi.*;
-import java.security.Principal;
-import com.sun.security.auth.NTUserPrincipal;
-import com.sun.security.auth.NTSidUserPrincipal;
-import com.sun.security.auth.NTDomainPrincipal;
-import com.sun.security.auth.NTSidDomainPrincipal;
-import com.sun.security.auth.NTSidPrimaryGroupPrincipal;
-import com.sun.security.auth.NTSidGroupPrincipal;
-import com.sun.security.auth.NTNumericCredential;
+import jbvb.util.*;
+import jbvb.io.IOException;
+import jbvbx.security.buth.*;
+import jbvbx.security.buth.cbllbbck.*;
+import jbvbx.security.buth.login.*;
+import jbvbx.security.buth.spi.*;
+import jbvb.security.Principbl;
+import com.sun.security.buth.NTUserPrincipbl;
+import com.sun.security.buth.NTSidUserPrincipbl;
+import com.sun.security.buth.NTDombinPrincipbl;
+import com.sun.security.buth.NTSidDombinPrincipbl;
+import com.sun.security.buth.NTSidPrimbryGroupPrincipbl;
+import com.sun.security.buth.NTSidGroupPrincipbl;
+import com.sun.security.buth.NTNumericCredentibl;
 
 /**
  * <p> This <code>LoginModule</code>
- * renders a user's NT security information as some number of
- * <code>Principal</code>s
- * and associates them with a <code>Subject</code>.
+ * renders b user's NT security informbtion bs some number of
+ * <code>Principbl</code>s
+ * bnd bssocibtes them with b <code>Subject</code>.
  *
  * <p> This LoginModule recognizes the debug option.
- * If set to true in the login Configuration,
- * debug messages will be output to the output stream, System.out.
+ * If set to true in the login Configurbtion,
+ * debug messbges will be output to the output strebm, System.out.
  *
- * <p> This LoginModule also recognizes the debugNative option.
- * If set to true in the login Configuration,
- * debug messages from the native component of the module
- * will be output to the output stream, System.out.
+ * <p> This LoginModule blso recognizes the debugNbtive option.
+ * If set to true in the login Configurbtion,
+ * debug messbges from the nbtive component of the module
+ * will be output to the output strebm, System.out.
  *
- * @see javax.security.auth.spi.LoginModule
+ * @see jbvbx.security.buth.spi.LoginModule
  */
 @jdk.Exported
-public class NTLoginModule implements LoginModule {
+public clbss NTLoginModule implements LoginModule {
 
-    private NTSystem ntSystem;
+    privbte NTSystem ntSystem;
 
-    // initial state
-    private Subject subject;
-    private CallbackHandler callbackHandler;
-    private Map<String, ?> sharedState;
-    private Map<String, ?> options;
+    // initibl stbte
+    privbte Subject subject;
+    privbte CbllbbckHbndler cbllbbckHbndler;
+    privbte Mbp<String, ?> shbredStbte;
+    privbte Mbp<String, ?> options;
 
-    // configurable option
-    private boolean debug = false;
-    private boolean debugNative = false;
+    // configurbble option
+    privbte boolebn debug = fblse;
+    privbte boolebn debugNbtive = fblse;
 
-    // the authentication status
-    private boolean succeeded = false;
-    private boolean commitSucceeded = false;
+    // the buthenticbtion stbtus
+    privbte boolebn succeeded = fblse;
+    privbte boolebn commitSucceeded = fblse;
 
-    private NTUserPrincipal userPrincipal;              // user name
-    private NTSidUserPrincipal userSID;                 // user SID
-    private NTDomainPrincipal userDomain;               // user domain
-    private NTSidDomainPrincipal domainSID;             // domain SID
-    private NTSidPrimaryGroupPrincipal primaryGroup;    // primary group
-    private NTSidGroupPrincipal groups[];               // supplementary groups
-    private NTNumericCredential iToken;                 // impersonation token
+    privbte NTUserPrincipbl userPrincipbl;              // user nbme
+    privbte NTSidUserPrincipbl userSID;                 // user SID
+    privbte NTDombinPrincipbl userDombin;               // user dombin
+    privbte NTSidDombinPrincipbl dombinSID;             // dombin SID
+    privbte NTSidPrimbryGroupPrincipbl primbryGroup;    // primbry group
+    privbte NTSidGroupPrincipbl groups[];               // supplementbry groups
+    privbte NTNumericCredentibl iToken;                 // impersonbtion token
 
     /**
-     * Initialize this <code>LoginModule</code>.
+     * Initiblize this <code>LoginModule</code>.
      *
      * <p>
      *
-     * @param subject the <code>Subject</code> to be authenticated. <p>
+     * @pbrbm subject the <code>Subject</code> to be buthenticbted. <p>
      *
-     * @param callbackHandler a <code>CallbackHandler</code> for communicating
-     *          with the end user (prompting for usernames and
-     *          passwords, for example). This particular LoginModule only
-     *          extracts the underlying NT system information, so this
-     *          parameter is ignored.<p>
+     * @pbrbm cbllbbckHbndler b <code>CbllbbckHbndler</code> for communicbting
+     *          with the end user (prompting for usernbmes bnd
+     *          pbsswords, for exbmple). This pbrticulbr LoginModule only
+     *          extrbcts the underlying NT system informbtion, so this
+     *          pbrbmeter is ignored.<p>
      *
-     * @param sharedState shared <code>LoginModule</code> state. <p>
+     * @pbrbm shbredStbte shbred <code>LoginModule</code> stbte. <p>
      *
-     * @param options options specified in the login
-     *                  <code>Configuration</code> for this particular
+     * @pbrbm options options specified in the login
+     *                  <code>Configurbtion</code> for this pbrticulbr
      *                  <code>LoginModule</code>.
      */
-    public void initialize(Subject subject, CallbackHandler callbackHandler,
-                           Map<String,?> sharedState,
-                           Map<String,?> options)
+    public void initiblize(Subject subject, CbllbbckHbndler cbllbbckHbndler,
+                           Mbp<String,?> shbredStbte,
+                           Mbp<String,?> options)
     {
 
         this.subject = subject;
-        this.callbackHandler = callbackHandler;
-        this.sharedState = sharedState;
+        this.cbllbbckHbndler = cbllbbckHbndler;
+        this.shbredStbte = shbredStbte;
         this.options = options;
 
-        // initialize any configured options
-        debug = "true".equalsIgnoreCase((String)options.get("debug"));
-        debugNative="true".equalsIgnoreCase((String)options.get("debugNative"));
+        // initiblize bny configured options
+        debug = "true".equblsIgnoreCbse((String)options.get("debug"));
+        debugNbtive="true".equblsIgnoreCbse((String)options.get("debugNbtive"));
 
-        if (debugNative == true) {
+        if (debugNbtive == true) {
             debug = true;
         }
     }
 
     /**
-     * Import underlying NT system identity information.
+     * Import underlying NT system identity informbtion.
      *
      * <p>
      *
-     * @return true in all cases since this <code>LoginModule</code>
+     * @return true in bll cbses since this <code>LoginModule</code>
      *          should not be ignored.
      *
-     * @exception FailedLoginException if the authentication fails. <p>
+     * @exception FbiledLoginException if the buthenticbtion fbils. <p>
      *
      * @exception LoginException if this <code>LoginModule</code>
-     *          is unable to perform the authentication.
+     *          is unbble to perform the buthenticbtion.
      */
-    public boolean login() throws LoginException {
+    public boolebn login() throws LoginException {
 
-        succeeded = false; // Indicate not yet successful
+        succeeded = fblse; // Indicbte not yet successful
 
         try {
-            ntSystem = new NTSystem(debugNative);
-        } catch (UnsatisfiedLinkError ule) {
+            ntSystem = new NTSystem(debugNbtive);
+        } cbtch (UnsbtisfiedLinkError ule) {
             if (debug) {
                 System.out.println("\t\t[NTLoginModule] " +
-                                   "Failed in NT login");
+                                   "Fbiled in NT login");
             }
-            throw new FailedLoginException
-                ("Failed in attempt to import the " +
-                 "underlying NT system identity information" +
-                 " on " + System.getProperty("os.name"));
+            throw new FbiledLoginException
+                ("Fbiled in bttempt to import the " +
+                 "underlying NT system identity informbtion" +
+                 " on " + System.getProperty("os.nbme"));
         }
 
-        if (ntSystem.getName() == null) {
-            throw new FailedLoginException
-                ("Failed in attempt to import the " +
-                 "underlying NT system identity information");
+        if (ntSystem.getNbme() == null) {
+            throw new FbiledLoginException
+                ("Fbiled in bttempt to import the " +
+                 "underlying NT system identity informbtion");
         }
-        userPrincipal = new NTUserPrincipal(ntSystem.getName());
+        userPrincipbl = new NTUserPrincipbl(ntSystem.getNbme());
         if (debug) {
             System.out.println("\t\t[NTLoginModule] " +
                                "succeeded importing info: ");
-            System.out.println("\t\t\tuser name = " +
-                userPrincipal.getName());
+            System.out.println("\t\t\tuser nbme = " +
+                userPrincipbl.getNbme());
         }
 
         if (ntSystem.getUserSID() != null) {
-            userSID = new NTSidUserPrincipal(ntSystem.getUserSID());
+            userSID = new NTSidUserPrincipbl(ntSystem.getUserSID());
             if (debug) {
                 System.out.println("\t\t\tuser SID = " +
-                        userSID.getName());
+                        userSID.getNbme());
             }
         }
-        if (ntSystem.getDomain() != null) {
-            userDomain = new NTDomainPrincipal(ntSystem.getDomain());
+        if (ntSystem.getDombin() != null) {
+            userDombin = new NTDombinPrincipbl(ntSystem.getDombin());
             if (debug) {
-                System.out.println("\t\t\tuser domain = " +
-                        userDomain.getName());
+                System.out.println("\t\t\tuser dombin = " +
+                        userDombin.getNbme());
             }
         }
-        if (ntSystem.getDomainSID() != null) {
-            domainSID =
-                new NTSidDomainPrincipal(ntSystem.getDomainSID());
+        if (ntSystem.getDombinSID() != null) {
+            dombinSID =
+                new NTSidDombinPrincipbl(ntSystem.getDombinSID());
             if (debug) {
-                System.out.println("\t\t\tuser domain SID = " +
-                        domainSID.getName());
+                System.out.println("\t\t\tuser dombin SID = " +
+                        dombinSID.getNbme());
             }
         }
-        if (ntSystem.getPrimaryGroupID() != null) {
-            primaryGroup =
-                new NTSidPrimaryGroupPrincipal(ntSystem.getPrimaryGroupID());
+        if (ntSystem.getPrimbryGroupID() != null) {
+            primbryGroup =
+                new NTSidPrimbryGroupPrincipbl(ntSystem.getPrimbryGroupID());
             if (debug) {
-                System.out.println("\t\t\tuser primary group = " +
-                        primaryGroup.getName());
+                System.out.println("\t\t\tuser primbry group = " +
+                        primbryGroup.getNbme());
             }
         }
         if (ntSystem.getGroupIDs() != null &&
             ntSystem.getGroupIDs().length > 0) {
 
             String groupSIDs[] = ntSystem.getGroupIDs();
-            groups = new NTSidGroupPrincipal[groupSIDs.length];
+            groups = new NTSidGroupPrincipbl[groupSIDs.length];
             for (int i = 0; i < groupSIDs.length; i++) {
-                groups[i] = new NTSidGroupPrincipal(groupSIDs[i]);
+                groups[i] = new NTSidGroupPrincipbl(groupSIDs[i]);
                 if (debug) {
                     System.out.println("\t\t\tuser group = " +
-                        groups[i].getName());
+                        groups[i].getNbme());
                 }
             }
         }
-        if (ntSystem.getImpersonationToken() != 0) {
-            iToken = new NTNumericCredential(ntSystem.getImpersonationToken());
+        if (ntSystem.getImpersonbtionToken() != 0) {
+            iToken = new NTNumericCredentibl(ntSystem.getImpersonbtionToken());
             if (debug) {
-                System.out.println("\t\t\timpersonation token = " +
-                        ntSystem.getImpersonationToken());
+                System.out.println("\t\t\timpersonbtion token = " +
+                        ntSystem.getImpersonbtionToken());
             }
         }
 
@@ -221,68 +221,68 @@ public class NTLoginModule implements LoginModule {
     }
 
     /**
-     * <p> This method is called if the LoginContext's
-     * overall authentication succeeded
-     * (the relevant REQUIRED, REQUISITE, SUFFICIENT and OPTIONAL LoginModules
+     * <p> This method is cblled if the LoginContext's
+     * overbll buthenticbtion succeeded
+     * (the relevbnt REQUIRED, REQUISITE, SUFFICIENT bnd OPTIONAL LoginModules
      * succeeded).
      *
-     * <p> If this LoginModule's own authentication attempt
-     * succeeded (checked by retrieving the private state saved by the
-     * <code>login</code> method), then this method associates some
-     * number of various <code>Principal</code>s
-     * with the <code>Subject</code> located in the
+     * <p> If this LoginModule's own buthenticbtion bttempt
+     * succeeded (checked by retrieving the privbte stbte sbved by the
+     * <code>login</code> method), then this method bssocibtes some
+     * number of vbrious <code>Principbl</code>s
+     * with the <code>Subject</code> locbted in the
      * <code>LoginModuleContext</code>.  If this LoginModule's own
-     * authentication attempted failed, then this method removes
-     * any state that was originally saved.
+     * buthenticbtion bttempted fbiled, then this method removes
+     * bny stbte thbt wbs originblly sbved.
      *
      * <p>
      *
-     * @exception LoginException if the commit fails.
+     * @exception LoginException if the commit fbils.
      *
-     * @return true if this LoginModule's own login and commit
-     *          attempts succeeded, or false otherwise.
+     * @return true if this LoginModule's own login bnd commit
+     *          bttempts succeeded, or fblse otherwise.
      */
-    public boolean commit() throws LoginException {
-        if (succeeded == false) {
+    public boolebn commit() throws LoginException {
+        if (succeeded == fblse) {
             if (debug) {
                 System.out.println("\t\t[NTLoginModule]: " +
-                    "did not add any Principals to Subject " +
-                    "because own authentication failed.");
+                    "did not bdd bny Principbls to Subject " +
+                    "becbuse own buthenticbtion fbiled.");
             }
-            return false;
+            return fblse;
         }
-        if (subject.isReadOnly()) {
-            throw new LoginException ("Subject is ReadOnly");
+        if (subject.isRebdOnly()) {
+            throw new LoginException ("Subject is RebdOnly");
         }
-        Set<Principal> principals = subject.getPrincipals();
+        Set<Principbl> principbls = subject.getPrincipbls();
 
-        // we must have a userPrincipal - everything else is optional
-        if (!principals.contains(userPrincipal)) {
-            principals.add(userPrincipal);
+        // we must hbve b userPrincipbl - everything else is optionbl
+        if (!principbls.contbins(userPrincipbl)) {
+            principbls.bdd(userPrincipbl);
         }
-        if (userSID != null && !principals.contains(userSID)) {
-            principals.add(userSID);
-        }
-
-        if (userDomain != null && !principals.contains(userDomain)) {
-            principals.add(userDomain);
-        }
-        if (domainSID != null && !principals.contains(domainSID)) {
-            principals.add(domainSID);
+        if (userSID != null && !principbls.contbins(userSID)) {
+            principbls.bdd(userSID);
         }
 
-        if (primaryGroup != null && !principals.contains(primaryGroup)) {
-            principals.add(primaryGroup);
+        if (userDombin != null && !principbls.contbins(userDombin)) {
+            principbls.bdd(userDombin);
+        }
+        if (dombinSID != null && !principbls.contbins(dombinSID)) {
+            principbls.bdd(dombinSID);
+        }
+
+        if (primbryGroup != null && !principbls.contbins(primbryGroup)) {
+            principbls.bdd(primbryGroup);
         }
         for (int i = 0; groups != null && i < groups.length; i++) {
-            if (!principals.contains(groups[i])) {
-                principals.add(groups[i]);
+            if (!principbls.contbins(groups[i])) {
+                principbls.bdd(groups[i]);
             }
         }
 
-        Set<Object> pubCreds = subject.getPublicCredentials();
-        if (iToken != null && !pubCreds.contains(iToken)) {
-            pubCreds.add(iToken);
+        Set<Object> pubCreds = subject.getPublicCredentibls();
+        if (iToken != null && !pubCreds.contbins(iToken)) {
+            pubCreds.bdd(iToken);
         }
         commitSucceeded = true;
         return true;
@@ -290,44 +290,44 @@ public class NTLoginModule implements LoginModule {
 
 
     /**
-     * <p> This method is called if the LoginContext's
-     * overall authentication failed.
-     * (the relevant REQUIRED, REQUISITE, SUFFICIENT and OPTIONAL LoginModules
+     * <p> This method is cblled if the LoginContext's
+     * overbll buthenticbtion fbiled.
+     * (the relevbnt REQUIRED, REQUISITE, SUFFICIENT bnd OPTIONAL LoginModules
      * did not succeed).
      *
-     * <p> If this LoginModule's own authentication attempt
-     * succeeded (checked by retrieving the private state saved by the
-     * <code>login</code> and <code>commit</code> methods),
-     * then this method cleans up any state that was originally saved.
+     * <p> If this LoginModule's own buthenticbtion bttempt
+     * succeeded (checked by retrieving the privbte stbte sbved by the
+     * <code>login</code> bnd <code>commit</code> methods),
+     * then this method clebns up bny stbte thbt wbs originblly sbved.
      *
      * <p>
      *
-     * @exception LoginException if the abort fails.
+     * @exception LoginException if the bbort fbils.
      *
-     * @return false if this LoginModule's own login and/or commit attempts
-     *          failed, and true otherwise.
+     * @return fblse if this LoginModule's own login bnd/or commit bttempts
+     *          fbiled, bnd true otherwise.
      */
-    public boolean abort() throws LoginException {
+    public boolebn bbort() throws LoginException {
         if (debug) {
             System.out.println("\t\t[NTLoginModule]: " +
-                "aborted authentication attempt");
+                "bborted buthenticbtion bttempt");
         }
 
-        if (succeeded == false) {
-            return false;
-        } else if (succeeded == true && commitSucceeded == false) {
+        if (succeeded == fblse) {
+            return fblse;
+        } else if (succeeded == true && commitSucceeded == fblse) {
             ntSystem = null;
-            userPrincipal = null;
+            userPrincipbl = null;
             userSID = null;
-            userDomain = null;
-            domainSID = null;
-            primaryGroup = null;
+            userDombin = null;
+            dombinSID = null;
+            primbryGroup = null;
             groups = null;
             iToken = null;
-            succeeded = false;
+            succeeded = fblse;
         } else {
-            // overall authentication succeeded and commit succeeded,
-            // but someone else's commit failed
+            // overbll buthenticbtion succeeded bnd commit succeeded,
+            // but someone else's commit fbiled
             logout();
         }
         return succeeded;
@@ -336,59 +336,59 @@ public class NTLoginModule implements LoginModule {
     /**
      * Logout the user.
      *
-     * <p> This method removes the <code>NTUserPrincipal</code>,
-     * <code>NTDomainPrincipal</code>, <code>NTSidUserPrincipal</code>,
-     * <code>NTSidDomainPrincipal</code>, <code>NTSidGroupPrincipal</code>s,
-     * and <code>NTSidPrimaryGroupPrincipal</code>
-     * that may have been added by the <code>commit</code> method.
+     * <p> This method removes the <code>NTUserPrincipbl</code>,
+     * <code>NTDombinPrincipbl</code>, <code>NTSidUserPrincipbl</code>,
+     * <code>NTSidDombinPrincipbl</code>, <code>NTSidGroupPrincipbl</code>s,
+     * bnd <code>NTSidPrimbryGroupPrincipbl</code>
+     * thbt mby hbve been bdded by the <code>commit</code> method.
      *
      * <p>
      *
-     * @exception LoginException if the logout fails.
+     * @exception LoginException if the logout fbils.
      *
-     * @return true in all cases since this <code>LoginModule</code>
+     * @return true in bll cbses since this <code>LoginModule</code>
      *          should not be ignored.
      */
-    public boolean logout() throws LoginException {
+    public boolebn logout() throws LoginException {
 
-        if (subject.isReadOnly()) {
-            throw new LoginException ("Subject is ReadOnly");
+        if (subject.isRebdOnly()) {
+            throw new LoginException ("Subject is RebdOnly");
         }
-        Set<Principal> principals = subject.getPrincipals();
-        if (principals.contains(userPrincipal)) {
-            principals.remove(userPrincipal);
+        Set<Principbl> principbls = subject.getPrincipbls();
+        if (principbls.contbins(userPrincipbl)) {
+            principbls.remove(userPrincipbl);
         }
-        if (principals.contains(userSID)) {
-            principals.remove(userSID);
+        if (principbls.contbins(userSID)) {
+            principbls.remove(userSID);
         }
-        if (principals.contains(userDomain)) {
-            principals.remove(userDomain);
+        if (principbls.contbins(userDombin)) {
+            principbls.remove(userDombin);
         }
-        if (principals.contains(domainSID)) {
-            principals.remove(domainSID);
+        if (principbls.contbins(dombinSID)) {
+            principbls.remove(dombinSID);
         }
-        if (principals.contains(primaryGroup)) {
-            principals.remove(primaryGroup);
+        if (principbls.contbins(primbryGroup)) {
+            principbls.remove(primbryGroup);
         }
         for (int i = 0; groups != null && i < groups.length; i++) {
-            if (principals.contains(groups[i])) {
-                principals.remove(groups[i]);
+            if (principbls.contbins(groups[i])) {
+                principbls.remove(groups[i]);
             }
         }
 
-        Set<Object> pubCreds = subject.getPublicCredentials();
-        if (pubCreds.contains(iToken)) {
+        Set<Object> pubCreds = subject.getPublicCredentibls();
+        if (pubCreds.contbins(iToken)) {
             pubCreds.remove(iToken);
         }
 
-        succeeded = false;
-        commitSucceeded = false;
-        userPrincipal = null;
-        userDomain = null;
+        succeeded = fblse;
+        commitSucceeded = fblse;
+        userPrincipbl = null;
+        userDombin = null;
         userSID = null;
-        domainSID = null;
+        dombinSID = null;
         groups = null;
-        primaryGroup = null;
+        primbryGroup = null;
         iToken = null;
         ntSystem = null;
 

@@ -1,49 +1,49 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-/* $Id: glx.h,v 1.38 2002/10/14 13:52:27 brianp Exp $ */
+/* $Id: glx.h,v 1.38 2002/10/14 13:52:27 bribnp Exp $ */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * Mesa 3-D graphics library
+ * Mesb 3-D grbphics librbry
  * Version:  4.1
  *
- * Copyright (C) 1999-2002  Brian Paul   All Rights Reserved.
+ * Copyright (C) 1999-2002  Bribn Pbul   All Rights Reserved.
  *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
+ * Permission is hereby grbnted, free of chbrge, to bny person obtbining b
+ * copy of this softwbre bnd bssocibted documentbtion files (the "Softwbre"),
+ * to debl in the Softwbre without restriction, including without limitbtion
  * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
+ * bnd/or sell copies of the Softwbre, bnd to permit persons to whom the
+ * Softwbre is furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included
- * in all copies or substantial portions of the Software.
+ * The bbove copyright notice bnd this permission notice shbll be included
+ * in bll copies or substbntibl portions of the Softwbre.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
  * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -62,25 +62,25 @@
 #include <GL/vms_x_fix.h>
 # ifdef __cplusplus
 /* VMS Xlib.h gives problems with C++.
- * this avoids a bunch of trivial warnings */
-#pragma message disable nosimpint
+ * this bvoids b bunch of trivibl wbrnings */
+#prbgmb messbge disbble nosimpint
 #endif
 #endif
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 #ifdef __VMS
 # ifdef __cplusplus
-#pragma message enable nosimpint
+#prbgmb messbge enbble nosimpint
 #endif
 #endif
 
-/* modified for inclusion in Java 2D source tree */
+/* modified for inclusion in Jbvb 2D source tree */
 /* #include <GL/gl.h> */
 #include "J2D_GL/gl.h"
 
 /*
 #if defined(USE_MGL_NAMESPACE)
-#include <GL/glx_mangle.h>
+#include <GL/glx_mbngle.h>
 #endif
 */
 
@@ -100,7 +100,7 @@ extern "C" {
 
 
 /*
- * Tokens for glXChooseVisual and glXGetConfig:
+ * Tokens for glXChooseVisubl bnd glXGetConfig:
  */
 #define GLX_USE_GL              1
 #define GLX_BUFFER_SIZE         2
@@ -134,7 +134,7 @@ extern "C" {
 
 
 /*
- * GLX 1.1 and later:
+ * GLX 1.1 bnd lbter:
  */
 #define GLX_VENDOR              1
 #define GLX_VERSION             2
@@ -142,7 +142,7 @@ extern "C" {
 
 
 /*
- * GLX 1.3 and later:
+ * GLX 1.3 bnd lbter:
  */
 #define GLX_CONFIG_CAVEAT               0x20
 #define GLX_DONT_CARE                   0xFFFFFFFF
@@ -201,29 +201,29 @@ extern "C" {
 #define GLX_PBUFFER                     0x8023
 
 /**
- * REMIND: these values are backwards from Sun's OpenGL headers, so we
- *         swap them here if building on Solaris/Sparc
+ * REMIND: these vblues bre bbckwbrds from Sun's OpenGL hebders, so we
+ *         swbp them here if building on Solbris/Spbrc
  */
-#ifdef __sparc
+#ifdef __spbrc
 #define GLX_PBUFFER_HEIGHT              0x8041
 #define GLX_PBUFFER_WIDTH               0x8040
-#else /* __sparc */
+#else /* __spbrc */
 #define GLX_PBUFFER_HEIGHT              0x8040
 #define GLX_PBUFFER_WIDTH               0x8041
-#endif /* __sparc */
+#endif /* __spbrc */
 
 /*
- * GLX 1.4 and later:
+ * GLX 1.4 bnd lbter:
  */
-#define GLX_SAMPLE_BUFFERS              0x186a0 /*100000*/
-#define GLX_SAMPLES                     0x186a1 /*100001*/
+#define GLX_SAMPLE_BUFFERS              0x186b0 /*100000*/
+#define GLX_SAMPLES                     0x186b1 /*100001*/
 
 
 
 typedef struct __GLXcontextRec *GLXContext;
-typedef XID GLXPixmap;
-typedef XID GLXDrawable;
-/* GLX 1.3 and later */
+typedef XID GLXPixmbp;
+typedef XID GLXDrbwbble;
+/* GLX 1.3 bnd lbter */
 typedef struct __GLXFBConfigRec *GLXFBConfig;
 typedef XID GLXFBConfigID;
 typedef XID GLXContextID;
@@ -232,117 +232,117 @@ typedef XID GLXPbuffer;
 
 
 
-extern XVisualInfo* glXChooseVisual( Display *dpy, int screen,
-                                     int *attribList );
+extern XVisublInfo* glXChooseVisubl( Displby *dpy, int screen,
+                                     int *bttribList );
 
-extern GLXContext glXCreateContext( Display *dpy, XVisualInfo *vis,
-                                    GLXContext shareList, Bool direct );
+extern GLXContext glXCrebteContext( Displby *dpy, XVisublInfo *vis,
+                                    GLXContext shbreList, Bool direct );
 
-extern void glXDestroyContext( Display *dpy, GLXContext ctx );
+extern void glXDestroyContext( Displby *dpy, GLXContext ctx );
 
-extern Bool glXMakeCurrent( Display *dpy, GLXDrawable drawable,
+extern Bool glXMbkeCurrent( Displby *dpy, GLXDrbwbble drbwbble,
                             GLXContext ctx);
 
-extern void glXCopyContext( Display *dpy, GLXContext src, GLXContext dst,
-                            unsigned long mask );
+extern void glXCopyContext( Displby *dpy, GLXContext src, GLXContext dst,
+                            unsigned long mbsk );
 
-extern void glXSwapBuffers( Display *dpy, GLXDrawable drawable );
+extern void glXSwbpBuffers( Displby *dpy, GLXDrbwbble drbwbble );
 
-extern GLXPixmap glXCreateGLXPixmap( Display *dpy, XVisualInfo *visual,
-                                     Pixmap pixmap );
+extern GLXPixmbp glXCrebteGLXPixmbp( Displby *dpy, XVisublInfo *visubl,
+                                     Pixmbp pixmbp );
 
-extern void glXDestroyGLXPixmap( Display *dpy, GLXPixmap pixmap );
+extern void glXDestroyGLXPixmbp( Displby *dpy, GLXPixmbp pixmbp );
 
-extern Bool glXQueryExtension( Display *dpy, int *errorb, int *event );
+extern Bool glXQueryExtension( Displby *dpy, int *errorb, int *event );
 
-extern Bool glXQueryVersion( Display *dpy, int *maj, int *min );
+extern Bool glXQueryVersion( Displby *dpy, int *mbj, int *min );
 
-extern Bool glXIsDirect( Display *dpy, GLXContext ctx );
+extern Bool glXIsDirect( Displby *dpy, GLXContext ctx );
 
-extern int glXGetConfig( Display *dpy, XVisualInfo *visual,
-                         int attrib, int *value );
+extern int glXGetConfig( Displby *dpy, XVisublInfo *visubl,
+                         int bttrib, int *vblue );
 
 extern GLXContext glXGetCurrentContext( void );
 
-extern GLXDrawable glXGetCurrentDrawable( void );
+extern GLXDrbwbble glXGetCurrentDrbwbble( void );
 
-extern void glXWaitGL( void );
+extern void glXWbitGL( void );
 
-extern void glXWaitX( void );
+extern void glXWbitX( void );
 
 extern void glXUseXFont( Font font, int first, int count, int list );
 
 
 
-/* GLX 1.1 and later */
-extern const char *glXQueryExtensionsString( Display *dpy, int screen );
+/* GLX 1.1 bnd lbter */
+extern const chbr *glXQueryExtensionsString( Displby *dpy, int screen );
 
-extern const char *glXQueryServerString( Display *dpy, int screen, int name );
+extern const chbr *glXQueryServerString( Displby *dpy, int screen, int nbme );
 
-extern const char *glXGetClientString( Display *dpy, int name );
-
-
-/* GLX 1.2 and later */
-extern Display *glXGetCurrentDisplay( void );
+extern const chbr *glXGetClientString( Displby *dpy, int nbme );
 
 
-/* GLX 1.3 and later */
-extern GLXFBConfig *glXChooseFBConfig( Display *dpy, int screen,
-                                       const int *attribList, int *nitems );
+/* GLX 1.2 bnd lbter */
+extern Displby *glXGetCurrentDisplby( void );
 
-extern int glXGetFBConfigAttrib( Display *dpy, GLXFBConfig config,
-                                 int attribute, int *value );
 
-extern GLXFBConfig *glXGetFBConfigs( Display *dpy, int screen,
+/* GLX 1.3 bnd lbter */
+extern GLXFBConfig *glXChooseFBConfig( Displby *dpy, int screen,
+                                       const int *bttribList, int *nitems );
+
+extern int glXGetFBConfigAttrib( Displby *dpy, GLXFBConfig config,
+                                 int bttribute, int *vblue );
+
+extern GLXFBConfig *glXGetFBConfigs( Displby *dpy, int screen,
                                      int *nelements );
 
-extern XVisualInfo *glXGetVisualFromFBConfig( Display *dpy,
+extern XVisublInfo *glXGetVisublFromFBConfig( Displby *dpy,
                                               GLXFBConfig config );
 
-extern GLXWindow glXCreateWindow( Display *dpy, GLXFBConfig config,
-                                  Window win, const int *attribList );
+extern GLXWindow glXCrebteWindow( Displby *dpy, GLXFBConfig config,
+                                  Window win, const int *bttribList );
 
-extern void glXDestroyWindow( Display *dpy, GLXWindow window );
+extern void glXDestroyWindow( Displby *dpy, GLXWindow window );
 
-extern GLXPixmap glXCreatePixmap( Display *dpy, GLXFBConfig config,
-                                  Pixmap pixmap, const int *attribList );
+extern GLXPixmbp glXCrebtePixmbp( Displby *dpy, GLXFBConfig config,
+                                  Pixmbp pixmbp, const int *bttribList );
 
-extern void glXDestroyPixmap( Display *dpy, GLXPixmap pixmap );
+extern void glXDestroyPixmbp( Displby *dpy, GLXPixmbp pixmbp );
 
-extern GLXPbuffer glXCreatePbuffer( Display *dpy, GLXFBConfig config,
-                                    const int *attribList );
+extern GLXPbuffer glXCrebtePbuffer( Displby *dpy, GLXFBConfig config,
+                                    const int *bttribList );
 
-extern void glXDestroyPbuffer( Display *dpy, GLXPbuffer pbuf );
+extern void glXDestroyPbuffer( Displby *dpy, GLXPbuffer pbuf );
 
-extern void glXQueryDrawable( Display *dpy, GLXDrawable draw, int attribute,
-                              unsigned int *value );
+extern void glXQueryDrbwbble( Displby *dpy, GLXDrbwbble drbw, int bttribute,
+                              unsigned int *vblue );
 
-extern GLXContext glXCreateNewContext( Display *dpy, GLXFBConfig config,
-                                       int renderType, GLXContext shareList,
+extern GLXContext glXCrebteNewContext( Displby *dpy, GLXFBConfig config,
+                                       int renderType, GLXContext shbreList,
                                        Bool direct );
 
-extern Bool glXMakeContextCurrent( Display *dpy, GLXDrawable draw,
-                                   GLXDrawable read, GLXContext ctx );
+extern Bool glXMbkeContextCurrent( Displby *dpy, GLXDrbwbble drbw,
+                                   GLXDrbwbble rebd, GLXContext ctx );
 
-extern GLXDrawable glXGetCurrentReadDrawable( void );
+extern GLXDrbwbble glXGetCurrentRebdDrbwbble( void );
 
-extern int glXQueryContext( Display *dpy, GLXContext ctx, int attribute,
-                            int *value );
+extern int glXQueryContext( Displby *dpy, GLXContext ctx, int bttribute,
+                            int *vblue );
 
-extern void glXSelectEvent( Display *dpy, GLXDrawable drawable,
-                            unsigned long mask );
+extern void glXSelectEvent( Displby *dpy, GLXDrbwbble drbwbble,
+                            unsigned long mbsk );
 
-extern void glXGetSelectedEvent( Display *dpy, GLXDrawable drawable,
-                                 unsigned long *mask );
+extern void glXGetSelectedEvent( Displby *dpy, GLXDrbwbble drbwbble,
+                                 unsigned long *mbsk );
 
 
-/* GLX 1.4 and later */
-extern void (*glXGetProcAddress(const GLubyte *procname))();
+/* GLX 1.4 bnd lbter */
+extern void (*glXGetProcAddress(const GLubyte *procnbme))();
 
 
 #ifndef GLX_GLXEXT_LEGACY
 
-/* modified for inclusion in Java 2D source tree */
+/* modified for inclusion in Jbvb 2D source tree */
 /* #include <GL/glxext.h> */
 #include "J2D_GL/glxext.h"
 
@@ -350,10 +350,10 @@ extern void (*glXGetProcAddress(const GLubyte *procname))();
 
 
 /*
- * 28. GLX_EXT_visual_info extension
+ * 28. GLX_EXT_visubl_info extension
  */
-#ifndef GLX_EXT_visual_info
-#define GLX_EXT_visual_info             1
+#ifndef GLX_EXT_visubl_info
+#define GLX_EXT_visubl_info             1
 
 #define GLX_X_VISUAL_TYPE_EXT           0x22
 #define GLX_TRANSPARENT_TYPE_EXT        0x23
@@ -372,7 +372,7 @@ extern void (*glXGetProcAddress(const GLubyte *procname))();
 #define GLX_TRANSPARENT_RGB_EXT         0x8008
 #define GLX_TRANSPARENT_INDEX_EXT       0x8009
 
-#endif /* 28. GLX_EXT_visual_info extension */
+#endif /* 28. GLX_EXT_visubl_info extension */
 
 
 
@@ -383,24 +383,24 @@ extern void (*glXGetProcAddress(const GLubyte *procname))();
 #define GLX_SGI_video_sync 1
 
 extern int glXGetVideoSyncSGI(unsigned int *count);
-extern int glXWaitVideoSyncSGI(int divisor, int remainder, unsigned int *count);
+extern int glXWbitVideoSyncSGI(int divisor, int rembinder, unsigned int *count);
 
 #endif /* GLX_SGI_video_sync */
 
 
 
 /*
- * 42. GLX_EXT_visual_rating
+ * 42. GLX_EXT_visubl_rbting
  */
-#ifndef GLX_EXT_visual_rating
-#define GLX_EXT_visual_rating           1
+#ifndef GLX_EXT_visubl_rbting
+#define GLX_EXT_visubl_rbting           1
 
 #define GLX_VISUAL_CAVEAT_EXT           0x20
 /*#define GLX_NONE_EXT                  0x8000*/
 #define GLX_SLOW_VISUAL_EXT             0x8001
 #define GLX_NON_CONFORMANT_VISUAL_EXT   0x800D
 
-#endif /* GLX_EXT_visual_rating */
+#endif /* GLX_EXT_visubl_rbting */
 
 
 
@@ -414,16 +414,16 @@ extern int glXWaitVideoSyncSGI(int divisor, int remainder, unsigned int *count);
 #define GLX_VISUAL_ID_EXT               0x800B
 #define GLX_SCREEN_EXT                  0x800C
 
-extern void glXFreeContextEXT(Display *dpy, GLXContext context);
+extern void glXFreeContextEXT(Displby *dpy, GLXContext context);
 
 extern GLXContextID glXGetContextIDEXT(const GLXContext context);
 
-extern Display *glXGetCurrentDisplayEXT(void);
+extern Displby *glXGetCurrentDisplbyEXT(void);
 
-extern GLXContext glXImportContextEXT(Display *dpy, GLXContextID contextID);
+extern GLXContext glXImportContextEXT(Displby *dpy, GLXContextID contextID);
 
-extern int glXQueryContextInfoEXT(Display *dpy, GLXContext context,
-                                  int attribute,int *value);
+extern int glXQueryContextInfoEXT(Displby *dpy, GLXContext context,
+                                  int bttribute,int *vblue);
 
 #endif /* GLX_EXT_import_context */
 
@@ -435,7 +435,7 @@ extern int glXQueryContextInfoEXT(Display *dpy, GLXContext context,
 #ifndef GLX_MESA_copy_sub_buffer
 #define GLX_MESA_copy_sub_buffer 1
 
-extern void glXCopySubBufferMESA( Display *dpy, GLXDrawable drawable,
+extern void glXCopySubBufferMESA( Displby *dpy, GLXDrbwbble drbwbble,
                                   int x, int y, int width, int height );
 
 #endif
@@ -443,27 +443,27 @@ extern void glXCopySubBufferMESA( Display *dpy, GLXDrawable drawable,
 
 
 /*
- * 216. GLX_MESA_pixmap_colormap
+ * 216. GLX_MESA_pixmbp_colormbp
  */
-#ifndef GLX_MESA_pixmap_colormap
-#define GLX_MESA_pixmap_colormap 1
+#ifndef GLX_MESA_pixmbp_colormbp
+#define GLX_MESA_pixmbp_colormbp 1
 
-extern GLXPixmap glXCreateGLXPixmapMESA( Display *dpy, XVisualInfo *visual,
-                                         Pixmap pixmap, Colormap cmap );
+extern GLXPixmbp glXCrebteGLXPixmbpMESA( Displby *dpy, XVisublInfo *visubl,
+                                         Pixmbp pixmbp, Colormbp cmbp );
 
-#endif /* GLX_MESA_pixmap_colormap */
+#endif /* GLX_MESA_pixmbp_colormbp */
 
 
 
 /*
- * 217. GLX_MESA_release_buffers
+ * 217. GLX_MESA_relebse_buffers
  */
-#ifndef GLX_MESA_release_buffers
-#define GLX_MESA_release_buffers 1
+#ifndef GLX_MESA_relebse_buffers
+#define GLX_MESA_relebse_buffers 1
 
-extern Bool glXReleaseBuffersMESA( Display *dpy, GLXDrawable d );
+extern Bool glXRelebseBuffersMESA( Displby *dpy, GLXDrbwbble d );
 
-#endif /* GLX_MESA_release_buffers */
+#endif /* GLX_MESA_relebse_buffers */
 
 
 
@@ -483,14 +483,14 @@ extern Bool glXSet3DfxModeMESA( int mode );
 
 
 /*
- * ARB 2. GLX_ARB_get_proc_address
+ * ARB 2. GLX_ARB_get_proc_bddress
  */
-#ifndef GLX_ARB_get_proc_address
-#define GLX_ARB_get_proc_address 1
+#ifndef GLX_ARB_get_proc_bddress
+#define GLX_ARB_get_proc_bddress 1
 
-extern void (*glXGetProcAddressARB(const GLubyte *procName))();
+extern void (*glXGetProcAddressARB(const GLubyte *procNbme))();
 
-#endif /* GLX_ARB_get_proc_address */
+#endif /* GLX_ARB_get_proc_bddress */
 
 
 
@@ -498,35 +498,35 @@ extern void (*glXGetProcAddressARB(const GLubyte *procName))();
 
 
 /**
- ** The following aren't in glxext.h yet.
+ ** The following bren't in glxext.h yet.
  **/
 
 
 /*
- * ???. GLX_NV_vertex_array_range
+ * ???. GLX_NV_vertex_brrby_rbnge
  */
-#ifndef GLX_NV_vertex_array_range
-#define GLX_NV_vertex_array_range
+#ifndef GLX_NV_vertex_brrby_rbnge
+#define GLX_NV_vertex_brrby_rbnge
 
-extern void *glXAllocateMemoryNV(GLsizei size, GLfloat readfreq, GLfloat writefreq, GLfloat priority);
+extern void *glXAllocbteMemoryNV(GLsizei size, GLflobt rebdfreq, GLflobt writefreq, GLflobt priority);
 extern void glXFreeMemoryNV(GLvoid *pointer);
-typedef void * ( * PFNGLXALLOCATEMEMORYNVPROC) (GLsizei size, GLfloat readfreq, GLfloat writefreq, GLfloat priority);
+typedef void * ( * PFNGLXALLOCATEMEMORYNVPROC) (GLsizei size, GLflobt rebdfreq, GLflobt writefreq, GLflobt priority);
 typedef void ( * PFNGLXFREEMEMORYNVPROC) (GLvoid *pointer);
 
-#endif /* GLX_NV_vertex_array_range */
+#endif /* GLX_NV_vertex_brrby_rbnge */
 
 
 
 /*
- * ???. GLX_MESA_agp_offset
+ * ???. GLX_MESA_bgp_offset
  */
-#ifndef GLX_MESA_agp_offset
-#define GLX_MESA_agp_offset 1
+#ifndef GLX_MESA_bgp_offset
+#define GLX_MESA_bgp_offset 1
 
 extern GLuint glXGetAGPOffsetMESA(const GLvoid *pointer);
 typedef GLuint (* PFNGLXGETAGPOFFSETMESAPROC) (const GLvoid *pointer);
 
-#endif /* GLX_MESA_agp_offset */
+#endif /* GLX_MESA_bgp_offset */
 
 
 

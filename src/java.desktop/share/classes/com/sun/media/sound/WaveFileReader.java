@@ -1,375 +1,375 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.media.sound;
+pbckbge com.sun.medib.sound;
 
-import java.io.DataInputStream;
-import java.io.EOFException;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
+import jbvb.io.DbtbInputStrebm;
+import jbvb.io.EOFException;
+import jbvb.io.File;
+import jbvb.io.FileInputStrebm;
+import jbvb.io.IOException;
+import jbvb.io.InputStrebm;
+import jbvb.net.URL;
 
-import javax.sound.sampled.AudioFileFormat;
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.UnsupportedAudioFileException;
+import jbvbx.sound.sbmpled.AudioFileFormbt;
+import jbvbx.sound.sbmpled.AudioFormbt;
+import jbvbx.sound.sbmpled.AudioInputStrebm;
+import jbvbx.sound.sbmpled.AudioSystem;
+import jbvbx.sound.sbmpled.UnsupportedAudioFileException;
 
 
 
 /**
- * WAVE file reader.
+ * WAVE file rebder.
  *
- * @author Kara Kytle
- * @author Jan Borgersen
- * @author Florian Bomers
+ * @buthor Kbrb Kytle
+ * @buthor Jbn Borgersen
+ * @buthor Floribn Bomers
  */
-public final class WaveFileReader extends SunFileReader {
+public finbl clbss WbveFileRebder extends SunFileRebder {
 
-    private static final int MAX_READ_LENGTH = 12;
+    privbte stbtic finbl int MAX_READ_LENGTH = 12;
 
     /**
-     * Obtains the audio file format of the input stream provided.  The stream must
-     * point to valid audio file data.  In general, audio file providers may
-     * need to read some data from the stream before determining whether they
-     * support it.  These parsers must
-     * be able to mark the stream, read enough data to determine whether they
-     * support the stream, and, if not, reset the stream's read pointer to its original
-     * position.  If the input stream does not support this, this method may fail
-     * with an IOException.
-     * @param stream the input stream from which file format information should be
-     * extracted
-     * @return an <code>AudioFileFormat</code> object describing the audio file format
-     * @throws UnsupportedAudioFileException if the stream does not point to valid audio
-     * file data recognized by the system
-     * @throws IOException if an I/O exception occurs
-     * @see InputStream#markSupported
-     * @see InputStream#mark
+     * Obtbins the budio file formbt of the input strebm provided.  The strebm must
+     * point to vblid budio file dbtb.  In generbl, budio file providers mby
+     * need to rebd some dbtb from the strebm before determining whether they
+     * support it.  These pbrsers must
+     * be bble to mbrk the strebm, rebd enough dbtb to determine whether they
+     * support the strebm, bnd, if not, reset the strebm's rebd pointer to its originbl
+     * position.  If the input strebm does not support this, this method mby fbil
+     * with bn IOException.
+     * @pbrbm strebm the input strebm from which file formbt informbtion should be
+     * extrbcted
+     * @return bn <code>AudioFileFormbt</code> object describing the budio file formbt
+     * @throws UnsupportedAudioFileException if the strebm does not point to vblid budio
+     * file dbtb recognized by the system
+     * @throws IOException if bn I/O exception occurs
+     * @see InputStrebm#mbrkSupported
+     * @see InputStrebm#mbrk
      */
-    public AudioFileFormat getAudioFileFormat(InputStream stream) throws UnsupportedAudioFileException, IOException {
-        // fix for 4489272: AudioSystem.getAudioFileFormat() fails for InputStream, but works for URL
-        AudioFileFormat aff = getFMT(stream, true);
-        // the following is not strictly necessary - but was implemented like that in 1.3.0 - 1.4.1
-        // so I leave it as it was. May remove this for 1.5.0
-        stream.reset();
-        return aff;
+    public AudioFileFormbt getAudioFileFormbt(InputStrebm strebm) throws UnsupportedAudioFileException, IOException {
+        // fix for 4489272: AudioSystem.getAudioFileFormbt() fbils for InputStrebm, but works for URL
+        AudioFileFormbt bff = getFMT(strebm, true);
+        // the following is not strictly necessbry - but wbs implemented like thbt in 1.3.0 - 1.4.1
+        // so I lebve it bs it wbs. Mby remove this for 1.5.0
+        strebm.reset();
+        return bff;
     }
 
 
     /**
-     * Obtains the audio file format of the URL provided.  The URL must
-     * point to valid audio file data.
-     * @param url the URL from which file format information should be
-     * extracted
-     * @return an <code>AudioFileFormat</code> object describing the audio file format
-     * @throws UnsupportedAudioFileException if the URL does not point to valid audio
-     * file data recognized by the system
-     * @throws IOException if an I/O exception occurs
+     * Obtbins the budio file formbt of the URL provided.  The URL must
+     * point to vblid budio file dbtb.
+     * @pbrbm url the URL from which file formbt informbtion should be
+     * extrbcted
+     * @return bn <code>AudioFileFormbt</code> object describing the budio file formbt
+     * @throws UnsupportedAudioFileException if the URL does not point to vblid budio
+     * file dbtb recognized by the system
+     * @throws IOException if bn I/O exception occurs
      */
-    public AudioFileFormat getAudioFileFormat(URL url) throws UnsupportedAudioFileException, IOException {
-        InputStream urlStream = url.openStream(); // throws IOException
-        AudioFileFormat fileFormat = null;
+    public AudioFileFormbt getAudioFileFormbt(URL url) throws UnsupportedAudioFileException, IOException {
+        InputStrebm urlStrebm = url.openStrebm(); // throws IOException
+        AudioFileFormbt fileFormbt = null;
         try {
-            fileFormat = getFMT(urlStream, false);
-        } finally {
-            urlStream.close();
+            fileFormbt = getFMT(urlStrebm, fblse);
+        } finblly {
+            urlStrebm.close();
         }
-        return fileFormat;
+        return fileFormbt;
     }
 
 
     /**
-     * Obtains the audio file format of the File provided.  The File must
-     * point to valid audio file data.
-     * @param file the File from which file format information should be
-     * extracted
-     * @return an <code>AudioFileFormat</code> object describing the audio file format
-     * @throws UnsupportedAudioFileException if the File does not point to valid audio
-     * file data recognized by the system
-     * @throws IOException if an I/O exception occurs
+     * Obtbins the budio file formbt of the File provided.  The File must
+     * point to vblid budio file dbtb.
+     * @pbrbm file the File from which file formbt informbtion should be
+     * extrbcted
+     * @return bn <code>AudioFileFormbt</code> object describing the budio file formbt
+     * @throws UnsupportedAudioFileException if the File does not point to vblid budio
+     * file dbtb recognized by the system
+     * @throws IOException if bn I/O exception occurs
      */
-    public AudioFileFormat getAudioFileFormat(File file) throws UnsupportedAudioFileException, IOException {
-        AudioFileFormat fileFormat = null;
-        FileInputStream fis = new FileInputStream(file);       // throws IOException
-        // part of fix for 4325421
+    public AudioFileFormbt getAudioFileFormbt(File file) throws UnsupportedAudioFileException, IOException {
+        AudioFileFormbt fileFormbt = null;
+        FileInputStrebm fis = new FileInputStrebm(file);       // throws IOException
+        // pbrt of fix for 4325421
         try {
-            fileFormat = getFMT(fis, false);
-        } finally {
+            fileFormbt = getFMT(fis, fblse);
+        } finblly {
             fis.close();
         }
 
-        return fileFormat;
+        return fileFormbt;
     }
 
 
     /**
-     * Obtains an audio stream from the input stream provided.  The stream must
-     * point to valid audio file data.  In general, audio file providers may
-     * need to read some data from the stream before determining whether they
-     * support it.  These parsers must
-     * be able to mark the stream, read enough data to determine whether they
-     * support the stream, and, if not, reset the stream's read pointer to its original
-     * position.  If the input stream does not support this, this method may fail
-     * with an IOException.
-     * @param stream the input stream from which the <code>AudioInputStream</code> should be
+     * Obtbins bn budio strebm from the input strebm provided.  The strebm must
+     * point to vblid budio file dbtb.  In generbl, budio file providers mby
+     * need to rebd some dbtb from the strebm before determining whether they
+     * support it.  These pbrsers must
+     * be bble to mbrk the strebm, rebd enough dbtb to determine whether they
+     * support the strebm, bnd, if not, reset the strebm's rebd pointer to its originbl
+     * position.  If the input strebm does not support this, this method mby fbil
+     * with bn IOException.
+     * @pbrbm strebm the input strebm from which the <code>AudioInputStrebm</code> should be
      * constructed
-     * @return an <code>AudioInputStream</code> object based on the audio file data contained
-     * in the input stream.
-     * @throws UnsupportedAudioFileException if the stream does not point to valid audio
-     * file data recognized by the system
-     * @throws IOException if an I/O exception occurs
-     * @see InputStream#markSupported
-     * @see InputStream#mark
+     * @return bn <code>AudioInputStrebm</code> object bbsed on the budio file dbtb contbined
+     * in the input strebm.
+     * @throws UnsupportedAudioFileException if the strebm does not point to vblid budio
+     * file dbtb recognized by the system
+     * @throws IOException if bn I/O exception occurs
+     * @see InputStrebm#mbrkSupported
+     * @see InputStrebm#mbrk
      */
-    public AudioInputStream getAudioInputStream(InputStream stream) throws UnsupportedAudioFileException, IOException {
-        // getFMT leaves the input stream at the beginning of the audio data
-        AudioFileFormat fileFormat = getFMT(stream, true); // throws UnsupportedAudioFileException, IOException
+    public AudioInputStrebm getAudioInputStrebm(InputStrebm strebm) throws UnsupportedAudioFileException, IOException {
+        // getFMT lebves the input strebm bt the beginning of the budio dbtb
+        AudioFileFormbt fileFormbt = getFMT(strebm, true); // throws UnsupportedAudioFileException, IOException
 
-        // we've got everything, and the stream is at the
-        // beginning of the audio data, so return an AudioInputStream.
-        return new AudioInputStream(stream, fileFormat.getFormat(), fileFormat.getFrameLength());
+        // we've got everything, bnd the strebm is bt the
+        // beginning of the budio dbtb, so return bn AudioInputStrebm.
+        return new AudioInputStrebm(strebm, fileFormbt.getFormbt(), fileFormbt.getFrbmeLength());
     }
 
 
     /**
-     * Obtains an audio stream from the URL provided.  The URL must
-     * point to valid audio file data.
-     * @param url the URL for which the <code>AudioInputStream</code> should be
+     * Obtbins bn budio strebm from the URL provided.  The URL must
+     * point to vblid budio file dbtb.
+     * @pbrbm url the URL for which the <code>AudioInputStrebm</code> should be
      * constructed
-     * @return an <code>AudioInputStream</code> object based on the audio file data pointed
+     * @return bn <code>AudioInputStrebm</code> object bbsed on the budio file dbtb pointed
      * to by the URL
-     * @throws UnsupportedAudioFileException if the URL does not point to valid audio
-     * file data recognized by the system
-     * @throws IOException if an I/O exception occurs
+     * @throws UnsupportedAudioFileException if the URL does not point to vblid budio
+     * file dbtb recognized by the system
+     * @throws IOException if bn I/O exception occurs
      */
-    public AudioInputStream getAudioInputStream(URL url) throws UnsupportedAudioFileException, IOException {
-        InputStream urlStream = url.openStream();  // throws IOException
-        AudioFileFormat fileFormat = null;
+    public AudioInputStrebm getAudioInputStrebm(URL url) throws UnsupportedAudioFileException, IOException {
+        InputStrebm urlStrebm = url.openStrebm();  // throws IOException
+        AudioFileFormbt fileFormbt = null;
         try {
-            fileFormat = getFMT(urlStream, false);
-        } finally {
-            if (fileFormat == null) {
-                urlStream.close();
+            fileFormbt = getFMT(urlStrebm, fblse);
+        } finblly {
+            if (fileFormbt == null) {
+                urlStrebm.close();
             }
         }
-        return new AudioInputStream(urlStream, fileFormat.getFormat(), fileFormat.getFrameLength());
+        return new AudioInputStrebm(urlStrebm, fileFormbt.getFormbt(), fileFormbt.getFrbmeLength());
     }
 
 
     /**
-     * Obtains an audio stream from the File provided.  The File must
-     * point to valid audio file data.
-     * @param file the File for which the <code>AudioInputStream</code> should be
+     * Obtbins bn budio strebm from the File provided.  The File must
+     * point to vblid budio file dbtb.
+     * @pbrbm file the File for which the <code>AudioInputStrebm</code> should be
      * constructed
-     * @return an <code>AudioInputStream</code> object based on the audio file data pointed
+     * @return bn <code>AudioInputStrebm</code> object bbsed on the budio file dbtb pointed
      * to by the File
-     * @throws UnsupportedAudioFileException if the File does not point to valid audio
-     * file data recognized by the system
-     * @throws IOException if an I/O exception occurs
+     * @throws UnsupportedAudioFileException if the File does not point to vblid budio
+     * file dbtb recognized by the system
+     * @throws IOException if bn I/O exception occurs
      */
-    public AudioInputStream getAudioInputStream(File file) throws UnsupportedAudioFileException, IOException {
-        FileInputStream fis = new FileInputStream(file); // throws IOException
-        AudioFileFormat fileFormat = null;
-        // part of fix for 4325421
+    public AudioInputStrebm getAudioInputStrebm(File file) throws UnsupportedAudioFileException, IOException {
+        FileInputStrebm fis = new FileInputStrebm(file); // throws IOException
+        AudioFileFormbt fileFormbt = null;
+        // pbrt of fix for 4325421
         try {
-            fileFormat = getFMT(fis, false);
-        } finally {
-            if (fileFormat == null) {
+            fileFormbt = getFMT(fis, fblse);
+        } finblly {
+            if (fileFormbt == null) {
                 fis.close();
             }
         }
-        return new AudioInputStream(fis, fileFormat.getFormat(), fileFormat.getFrameLength());
+        return new AudioInputStrebm(fis, fileFormbt.getFormbt(), fileFormbt.getFrbmeLength());
     }
 
 
     //--------------------------------------------------------------------
 
 
-    private AudioFileFormat getFMT(InputStream stream, boolean doReset) throws UnsupportedAudioFileException, IOException {
+    privbte AudioFileFormbt getFMT(InputStrebm strebm, boolebn doReset) throws UnsupportedAudioFileException, IOException {
 
-        // assumes sream is rewound
+        // bssumes srebm is rewound
 
-        int bytesRead;
-        int nread = 0;
+        int bytesRebd;
+        int nrebd = 0;
         int fmt;
         int length = 0;
-        int wav_type = 0;
-        short channels;
-        long sampleRate;
-        long avgBytesPerSec;
+        int wbv_type = 0;
+        short chbnnels;
+        long sbmpleRbte;
+        long bvgBytesPerSec;
         short blockAlign;
-        int sampleSizeInBits;
-        AudioFormat.Encoding encoding = null;
+        int sbmpleSizeInBits;
+        AudioFormbt.Encoding encoding = null;
 
-        DataInputStream dis = new DataInputStream( stream );
+        DbtbInputStrebm dis = new DbtbInputStrebm( strebm );
 
         if (doReset) {
-            dis.mark(MAX_READ_LENGTH);
+            dis.mbrk(MAX_READ_LENGTH);
         }
 
-        int magic = dis.readInt();
+        int mbgic = dis.rebdInt();
         int fileLength = rllong(dis);
-        int waveMagic = dis.readInt();
-        int totallength;
+        int wbveMbgic = dis.rebdInt();
+        int totbllength;
         if (fileLength <= 0) {
             fileLength = AudioSystem.NOT_SPECIFIED;
-            totallength = AudioSystem.NOT_SPECIFIED;
+            totbllength = AudioSystem.NOT_SPECIFIED;
         } else {
-            totallength = fileLength + 8;
+            totbllength = fileLength + 8;
         }
 
-        if ((magic != WaveFileFormat.RIFF_MAGIC) || (waveMagic != WaveFileFormat.WAVE_MAGIC)) {
+        if ((mbgic != WbveFileFormbt.RIFF_MAGIC) || (wbveMbgic != WbveFileFormbt.WAVE_MAGIC)) {
             // not WAVE, throw UnsupportedAudioFileException
             if (doReset) {
                 dis.reset();
             }
-            throw new UnsupportedAudioFileException("not a WAVE file");
+            throw new UnsupportedAudioFileException("not b WAVE file");
         }
 
-        // find and read the "fmt" chunk
-        // we break out of this loop either by hitting EOF or finding "fmt "
+        // find bnd rebd the "fmt" chunk
+        // we brebk out of this loop either by hitting EOF or finding "fmt "
         while(true) {
 
             try {
-                fmt = dis.readInt();
-                nread += 4;
-                if( fmt==WaveFileFormat.FMT_MAGIC ) {
+                fmt = dis.rebdInt();
+                nrebd += 4;
+                if( fmt==WbveFileFormbt.FMT_MAGIC ) {
                     // we've found the 'fmt' chunk
-                    break;
+                    brebk;
                 } else {
                     // else not 'fmt', skip this chunk
                     length = rllong(dis);
-                    nread += 4;
+                    nrebd += 4;
                     if (length % 2 > 0) length++;
-                    nread += dis.skipBytes(length);
+                    nrebd += dis.skipBytes(length);
                 }
-            } catch (EOFException eof) {
-                                // we've reached the end of the file without finding the 'fmt' chunk
-                throw new UnsupportedAudioFileException("Not a valid WAV file");
+            } cbtch (EOFException eof) {
+                                // we've rebched the end of the file without finding the 'fmt' chunk
+                throw new UnsupportedAudioFileException("Not b vblid WAV file");
             }
         }
 
-        // Read the format chunk size.
+        // Rebd the formbt chunk size.
         length = rllong(dis);
-        nread += 4;
+        nrebd += 4;
 
-        // This is the nread position at the end of the format chunk
-        int endLength = nread + length;
+        // This is the nrebd position bt the end of the formbt chunk
+        int endLength = nrebd + length;
 
-        // Read the wave format data out of the format chunk.
+        // Rebd the wbve formbt dbtb out of the formbt chunk.
 
         // encoding.
-        wav_type = rlshort(dis); nread += 2;
+        wbv_type = rlshort(dis); nrebd += 2;
 
-        if (wav_type == WaveFileFormat.WAVE_FORMAT_PCM)
-            encoding = AudioFormat.Encoding.PCM_SIGNED;  // if 8-bit, we need PCM_UNSIGNED, below...
-        else if ( wav_type == WaveFileFormat.WAVE_FORMAT_ALAW )
-            encoding = AudioFormat.Encoding.ALAW;
-        else if ( wav_type == WaveFileFormat.WAVE_FORMAT_MULAW )
-            encoding = AudioFormat.Encoding.ULAW;
+        if (wbv_type == WbveFileFormbt.WAVE_FORMAT_PCM)
+            encoding = AudioFormbt.Encoding.PCM_SIGNED;  // if 8-bit, we need PCM_UNSIGNED, below...
+        else if ( wbv_type == WbveFileFormbt.WAVE_FORMAT_ALAW )
+            encoding = AudioFormbt.Encoding.ALAW;
+        else if ( wbv_type == WbveFileFormbt.WAVE_FORMAT_MULAW )
+            encoding = AudioFormbt.Encoding.ULAW;
         else {
-            // we don't support any other WAVE formats....
-            throw new UnsupportedAudioFileException("Not a supported WAV file");
+            // we don't support bny other WAVE formbts....
+            throw new UnsupportedAudioFileException("Not b supported WAV file");
         }
-        // channels
-        channels = rlshort(dis); nread += 2;
-        if (channels <= 0) {
-            throw new UnsupportedAudioFileException("Invalid number of channels");
-        }
-
-        // sample rate.
-        sampleRate = rllong(dis); nread += 4;
-
-        // this is the avgBytesPerSec
-        avgBytesPerSec = rllong(dis); nread += 4;
-
-        // this is blockAlign value
-        blockAlign = rlshort(dis); nread += 2;
-
-        // this is the PCM-specific value bitsPerSample
-        sampleSizeInBits = (int)rlshort(dis); nread += 2;
-        if (sampleSizeInBits <= 0) {
-            throw new UnsupportedAudioFileException("Invalid bitsPerSample");
+        // chbnnels
+        chbnnels = rlshort(dis); nrebd += 2;
+        if (chbnnels <= 0) {
+            throw new UnsupportedAudioFileException("Invblid number of chbnnels");
         }
 
-        // if sampleSizeInBits==8, we need to use PCM_UNSIGNED
-        if ((sampleSizeInBits==8) && encoding.equals(AudioFormat.Encoding.PCM_SIGNED))
-            encoding = AudioFormat.Encoding.PCM_UNSIGNED;
+        // sbmple rbte.
+        sbmpleRbte = rllong(dis); nrebd += 4;
 
-        // skip any difference between the length of the format chunk
-        // and what we read
+        // this is the bvgBytesPerSec
+        bvgBytesPerSec = rllong(dis); nrebd += 4;
 
-        // if the length of the chunk is odd, there's an extra pad byte
-        // at the end.  i've never seen this in the fmt chunk, but we
-        // should check to make sure.
+        // this is blockAlign vblue
+        blockAlign = rlshort(dis); nrebd += 2;
+
+        // this is the PCM-specific vblue bitsPerSbmple
+        sbmpleSizeInBits = (int)rlshort(dis); nrebd += 2;
+        if (sbmpleSizeInBits <= 0) {
+            throw new UnsupportedAudioFileException("Invblid bitsPerSbmple");
+        }
+
+        // if sbmpleSizeInBits==8, we need to use PCM_UNSIGNED
+        if ((sbmpleSizeInBits==8) && encoding.equbls(AudioFormbt.Encoding.PCM_SIGNED))
+            encoding = AudioFormbt.Encoding.PCM_UNSIGNED;
+
+        // skip bny difference between the length of the formbt chunk
+        // bnd whbt we rebd
+
+        // if the length of the chunk is odd, there's bn extrb pbd byte
+        // bt the end.  i've never seen this in the fmt chunk, but we
+        // should check to mbke sure.
 
         if (length % 2 != 0) length += 1;
 
-        // $$jb: 07.28.99: endLength>nread, not length>nread.
+        // $$jb: 07.28.99: endLength>nrebd, not length>nrebd.
         //       This fixes #4257986
-        if (endLength > nread)
-            nread += dis.skipBytes(endLength - nread);
+        if (endLength > nrebd)
+            nrebd += dis.skipBytes(endLength - nrebd);
 
-        // we have a format now, so find the "data" chunk
-        // we break out of this loop either by hitting EOF or finding "data"
-        // $$kk: if "data" chunk precedes "fmt" chunk we are hosed -- can this legally happen?
-        nread = 0;
+        // we hbve b formbt now, so find the "dbtb" chunk
+        // we brebk out of this loop either by hitting EOF or finding "dbtb"
+        // $$kk: if "dbtb" chunk precedes "fmt" chunk we bre hosed -- cbn this legblly hbppen?
+        nrebd = 0;
         while(true) {
             try{
-                int datahdr = dis.readInt();
-                nread+=4;
-                if (datahdr == WaveFileFormat.DATA_MAGIC) {
-                    // we've found the 'data' chunk
-                    break;
+                int dbtbhdr = dis.rebdInt();
+                nrebd+=4;
+                if (dbtbhdr == WbveFileFormbt.DATA_MAGIC) {
+                    // we've found the 'dbtb' chunk
+                    brebk;
                 } else {
-                    // else not 'data', skip this chunk
-                    int thisLength = rllong(dis); nread += 4;
+                    // else not 'dbtb', skip this chunk
+                    int thisLength = rllong(dis); nrebd += 4;
                     if (thisLength % 2 > 0) thisLength++;
-                    nread += dis.skipBytes(thisLength);
+                    nrebd += dis.skipBytes(thisLength);
                 }
-            } catch (EOFException eof) {
-                // we've reached the end of the file without finding the 'data' chunk
-                throw new UnsupportedAudioFileException("Not a valid WAV file");
+            } cbtch (EOFException eof) {
+                // we've rebched the end of the file without finding the 'dbtb' chunk
+                throw new UnsupportedAudioFileException("Not b vblid WAV file");
             }
         }
-        // this is the length of the data chunk
-        int dataLength = rllong(dis); nread += 4;
+        // this is the length of the dbtb chunk
+        int dbtbLength = rllong(dis); nrebd += 4;
 
-        // now build the new AudioFileFormat and return
+        // now build the new AudioFileFormbt bnd return
 
-        AudioFormat format = new AudioFormat(encoding,
-                                             (float)sampleRate,
-                                             sampleSizeInBits, channels,
-                                             calculatePCMFrameSize(sampleSizeInBits, channels),
-                                             (float)sampleRate, false);
+        AudioFormbt formbt = new AudioFormbt(encoding,
+                                             (flobt)sbmpleRbte,
+                                             sbmpleSizeInBits, chbnnels,
+                                             cblculbtePCMFrbmeSize(sbmpleSizeInBits, chbnnels),
+                                             (flobt)sbmpleRbte, fblse);
 
-        return new WaveFileFormat(AudioFileFormat.Type.WAVE,
-                                  totallength,
-                                  format,
-                                  dataLength / format.getFrameSize());
+        return new WbveFileFormbt(AudioFileFormbt.Type.WAVE,
+                                  totbllength,
+                                  formbt,
+                                  dbtbLength / formbt.getFrbmeSize());
     }
 }

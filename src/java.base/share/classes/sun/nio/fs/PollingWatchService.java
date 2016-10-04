@@ -1,189 +1,189 @@
 /*
- * Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.nio.fs;
+pbckbge sun.nio.fs;
 
-import java.nio.file.*;
-import java.nio.file.attribute.*;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.security.PrivilegedExceptionAction;
-import java.security.PrivilegedActionException;
-import java.io.IOException;
-import java.util.*;
-import java.util.concurrent.*;
-import com.sun.nio.file.SensitivityWatchEventModifier;
+import jbvb.nio.file.*;
+import jbvb.nio.file.bttribute.*;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import jbvb.security.PrivilegedExceptionAction;
+import jbvb.security.PrivilegedActionException;
+import jbvb.io.IOException;
+import jbvb.util.*;
+import jbvb.util.concurrent.*;
+import com.sun.nio.file.SensitivityWbtchEventModifier;
 
 /**
- * Simple WatchService implementation that uses periodic tasks to poll
- * registered directories for changes.  This implementation is for use on
- * operating systems that do not have native file change notification support.
+ * Simple WbtchService implementbtion thbt uses periodic tbsks to poll
+ * registered directories for chbnges.  This implementbtion is for use on
+ * operbting systems thbt do not hbve nbtive file chbnge notificbtion support.
  */
 
-class PollingWatchService
-    extends AbstractWatchService
+clbss PollingWbtchService
+    extends AbstrbctWbtchService
 {
-    // map of registrations
-    private final Map<Object,PollingWatchKey> map =
-        new HashMap<Object,PollingWatchKey>();
+    // mbp of registrbtions
+    privbte finbl Mbp<Object,PollingWbtchKey> mbp =
+        new HbshMbp<Object,PollingWbtchKey>();
 
-    // used to execute the periodic tasks that poll for changes
-    private final ScheduledExecutorService scheduledExecutor;
+    // used to execute the periodic tbsks thbt poll for chbnges
+    privbte finbl ScheduledExecutorService scheduledExecutor;
 
-    PollingWatchService() {
-        // TBD: Make the number of threads configurable
+    PollingWbtchService() {
+        // TBD: Mbke the number of threbds configurbble
         scheduledExecutor = Executors
-            .newSingleThreadScheduledExecutor(new ThreadFactory() {
+            .newSingleThrebdScheduledExecutor(new ThrebdFbctory() {
                  @Override
-                 public Thread newThread(Runnable r) {
-                     Thread t = new Thread(r);
-                     t.setDaemon(true);
+                 public Threbd newThrebd(Runnbble r) {
+                     Threbd t = new Threbd(r);
+                     t.setDbemon(true);
                      return t;
                  }});
     }
 
     /**
-     * Register the given file with this watch service
+     * Register the given file with this wbtch service
      */
     @Override
-    WatchKey register(final Path path,
-                      WatchEvent.Kind<?>[] events,
-                      WatchEvent.Modifier... modifiers)
+    WbtchKey register(finbl Pbth pbth,
+                      WbtchEvent.Kind<?>[] events,
+                      WbtchEvent.Modifier... modifiers)
          throws IOException
     {
-        // check events - CCE will be thrown if there are invalid elements
-        final Set<WatchEvent.Kind<?>> eventSet =
-            new HashSet<WatchEvent.Kind<?>>(events.length);
-        for (WatchEvent.Kind<?> event: events) {
-            // standard events
-            if (event == StandardWatchEventKinds.ENTRY_CREATE ||
-                event == StandardWatchEventKinds.ENTRY_MODIFY ||
-                event == StandardWatchEventKinds.ENTRY_DELETE)
+        // check events - CCE will be thrown if there bre invblid elements
+        finbl Set<WbtchEvent.Kind<?>> eventSet =
+            new HbshSet<WbtchEvent.Kind<?>>(events.length);
+        for (WbtchEvent.Kind<?> event: events) {
+            // stbndbrd events
+            if (event == StbndbrdWbtchEventKinds.ENTRY_CREATE ||
+                event == StbndbrdWbtchEventKinds.ENTRY_MODIFY ||
+                event == StbndbrdWbtchEventKinds.ENTRY_DELETE)
             {
-                eventSet.add(event);
+                eventSet.bdd(event);
                 continue;
             }
 
             // OVERFLOW is ignored
-            if (event == StandardWatchEventKinds.OVERFLOW) {
+            if (event == StbndbrdWbtchEventKinds.OVERFLOW) {
                 continue;
             }
 
             // null/unsupported
             if (event == null)
                 throw new NullPointerException("An element in event set is 'null'");
-            throw new UnsupportedOperationException(event.name());
+            throw new UnsupportedOperbtionException(event.nbme());
         }
         if (eventSet.isEmpty())
-            throw new IllegalArgumentException("No events to register");
+            throw new IllegblArgumentException("No events to register");
 
-        // A modifier may be used to specify the sensitivity level
-        SensitivityWatchEventModifier sensivity = SensitivityWatchEventModifier.MEDIUM;
+        // A modifier mby be used to specify the sensitivity level
+        SensitivityWbtchEventModifier sensivity = SensitivityWbtchEventModifier.MEDIUM;
         if (modifiers.length > 0) {
-            for (WatchEvent.Modifier modifier: modifiers) {
+            for (WbtchEvent.Modifier modifier: modifiers) {
                 if (modifier == null)
                     throw new NullPointerException();
-                if (modifier instanceof SensitivityWatchEventModifier) {
-                    sensivity = (SensitivityWatchEventModifier)modifier;
+                if (modifier instbnceof SensitivityWbtchEventModifier) {
+                    sensivity = (SensitivityWbtchEventModifier)modifier;
                     continue;
                 }
-                throw new UnsupportedOperationException("Modifier not supported");
+                throw new UnsupportedOperbtionException("Modifier not supported");
             }
         }
 
-        // check if watch service is closed
+        // check if wbtch service is closed
         if (!isOpen())
-            throw new ClosedWatchServiceException();
+            throw new ClosedWbtchServiceException();
 
-        // registration is done in privileged block as it requires the
-        // attributes of the entries in the directory.
+        // registrbtion is done in privileged block bs it requires the
+        // bttributes of the entries in the directory.
         try {
-            final SensitivityWatchEventModifier s = sensivity;
+            finbl SensitivityWbtchEventModifier s = sensivity;
             return AccessController.doPrivileged(
-                new PrivilegedExceptionAction<PollingWatchKey>() {
+                new PrivilegedExceptionAction<PollingWbtchKey>() {
                     @Override
-                    public PollingWatchKey run() throws IOException {
-                        return doPrivilegedRegister(path, eventSet, s);
+                    public PollingWbtchKey run() throws IOException {
+                        return doPrivilegedRegister(pbth, eventSet, s);
                     }
                 });
-        } catch (PrivilegedActionException pae) {
-            Throwable cause = pae.getCause();
-            if (cause != null && cause instanceof IOException)
-                throw (IOException)cause;
-            throw new AssertionError(pae);
+        } cbtch (PrivilegedActionException pbe) {
+            Throwbble cbuse = pbe.getCbuse();
+            if (cbuse != null && cbuse instbnceof IOException)
+                throw (IOException)cbuse;
+            throw new AssertionError(pbe);
         }
     }
 
-    // registers directory returning a new key if not already registered or
-    // existing key if already registered
-    private PollingWatchKey doPrivilegedRegister(Path path,
-                                                 Set<? extends WatchEvent.Kind<?>> events,
-                                                 SensitivityWatchEventModifier sensivity)
+    // registers directory returning b new key if not blrebdy registered or
+    // existing key if blrebdy registered
+    privbte PollingWbtchKey doPrivilegedRegister(Pbth pbth,
+                                                 Set<? extends WbtchEvent.Kind<?>> events,
+                                                 SensitivityWbtchEventModifier sensivity)
         throws IOException
     {
-        // check file is a directory and get its file key if possible
-        BasicFileAttributes attrs = Files.readAttributes(path, BasicFileAttributes.class);
-        if (!attrs.isDirectory()) {
-            throw new NotDirectoryException(path.toString());
+        // check file is b directory bnd get its file key if possible
+        BbsicFileAttributes bttrs = Files.rebdAttributes(pbth, BbsicFileAttributes.clbss);
+        if (!bttrs.isDirectory()) {
+            throw new NotDirectoryException(pbth.toString());
         }
-        Object fileKey = attrs.fileKey();
+        Object fileKey = bttrs.fileKey();
         if (fileKey == null)
             throw new AssertionError("File keys must be supported");
 
-        // grab close lock to ensure that watch service cannot be closed
+        // grbb close lock to ensure thbt wbtch service cbnnot be closed
         synchronized (closeLock()) {
             if (!isOpen())
-                throw new ClosedWatchServiceException();
+                throw new ClosedWbtchServiceException();
 
-            PollingWatchKey watchKey;
-            synchronized (map) {
-                watchKey = map.get(fileKey);
-                if (watchKey == null) {
-                    // new registration
-                    watchKey = new PollingWatchKey(path, this, fileKey);
-                    map.put(fileKey, watchKey);
+            PollingWbtchKey wbtchKey;
+            synchronized (mbp) {
+                wbtchKey = mbp.get(fileKey);
+                if (wbtchKey == null) {
+                    // new registrbtion
+                    wbtchKey = new PollingWbtchKey(pbth, this, fileKey);
+                    mbp.put(fileKey, wbtchKey);
                 } else {
-                    // update to existing registration
-                    watchKey.disable();
+                    // updbte to existing registrbtion
+                    wbtchKey.disbble();
                 }
             }
-            watchKey.enable(events, sensivity.sensitivityValueInSeconds());
-            return watchKey;
+            wbtchKey.enbble(events, sensivity.sensitivityVblueInSeconds());
+            return wbtchKey;
         }
 
     }
 
     @Override
     void implClose() throws IOException {
-        synchronized (map) {
-            for (Map.Entry<Object,PollingWatchKey> entry: map.entrySet()) {
-                PollingWatchKey watchKey = entry.getValue();
-                watchKey.disable();
-                watchKey.invalidate();
+        synchronized (mbp) {
+            for (Mbp.Entry<Object,PollingWbtchKey> entry: mbp.entrySet()) {
+                PollingWbtchKey wbtchKey = entry.getVblue();
+                wbtchKey.disbble();
+                wbtchKey.invblidbte();
             }
-            map.clear();
+            mbp.clebr();
         }
         AccessController.doPrivileged(new PrivilegedAction<Void>() {
             @Override
@@ -195,73 +195,73 @@ class PollingWatchService
     }
 
     /**
-     * Entry in directory cache to record file last-modified-time and tick-count
+     * Entry in directory cbche to record file lbst-modified-time bnd tick-count
      */
-    private static class CacheEntry {
-        private long lastModified;
-        private int lastTickCount;
+    privbte stbtic clbss CbcheEntry {
+        privbte long lbstModified;
+        privbte int lbstTickCount;
 
-        CacheEntry(long lastModified, int lastTickCount) {
-            this.lastModified = lastModified;
-            this.lastTickCount = lastTickCount;
+        CbcheEntry(long lbstModified, int lbstTickCount) {
+            this.lbstModified = lbstModified;
+            this.lbstTickCount = lbstTickCount;
         }
 
-        int lastTickCount() {
-            return lastTickCount;
+        int lbstTickCount() {
+            return lbstTickCount;
         }
 
-        long lastModified() {
-            return lastModified;
+        long lbstModified() {
+            return lbstModified;
         }
 
-        void update(long lastModified, int tickCount) {
-            this.lastModified = lastModified;
-            this.lastTickCount = tickCount;
+        void updbte(long lbstModified, int tickCount) {
+            this.lbstModified = lbstModified;
+            this.lbstTickCount = tickCount;
         }
     }
 
     /**
-     * WatchKey implementation that encapsulates a map of the entries of the
-     * entries in the directory. Polling the key causes it to re-scan the
-     * directory and queue keys when entries are added, modified, or deleted.
+     * WbtchKey implementbtion thbt encbpsulbtes b mbp of the entries of the
+     * entries in the directory. Polling the key cbuses it to re-scbn the
+     * directory bnd queue keys when entries bre bdded, modified, or deleted.
      */
-    private class PollingWatchKey extends AbstractWatchKey {
-        private final Object fileKey;
+    privbte clbss PollingWbtchKey extends AbstrbctWbtchKey {
+        privbte finbl Object fileKey;
 
         // current event set
-        private Set<? extends WatchEvent.Kind<?>> events;
+        privbte Set<? extends WbtchEvent.Kind<?>> events;
 
-        // the result of the periodic task that causes this key to be polled
-        private ScheduledFuture<?> poller;
+        // the result of the periodic tbsk thbt cbuses this key to be polled
+        privbte ScheduledFuture<?> poller;
 
-        // indicates if the key is valid
-        private volatile boolean valid;
+        // indicbtes if the key is vblid
+        privbte volbtile boolebn vblid;
 
-        // used to detect files that have been deleted
-        private int tickCount;
+        // used to detect files thbt hbve been deleted
+        privbte int tickCount;
 
-        // map of entries in directory
-        private Map<Path,CacheEntry> entries;
+        // mbp of entries in directory
+        privbte Mbp<Pbth,CbcheEntry> entries;
 
-        PollingWatchKey(Path dir, PollingWatchService watcher, Object fileKey)
+        PollingWbtchKey(Pbth dir, PollingWbtchService wbtcher, Object fileKey)
             throws IOException
         {
-            super(dir, watcher);
+            super(dir, wbtcher);
             this.fileKey = fileKey;
-            this.valid = true;
+            this.vblid = true;
             this.tickCount = 0;
-            this.entries = new HashMap<Path,CacheEntry>();
+            this.entries = new HbshMbp<Pbth,CbcheEntry>();
 
-            // get the initial entries in the directory
-            try (DirectoryStream<Path> stream = Files.newDirectoryStream(dir)) {
-                for (Path entry: stream) {
+            // get the initibl entries in the directory
+            try (DirectoryStrebm<Pbth> strebm = Files.newDirectoryStrebm(dir)) {
+                for (Pbth entry: strebm) {
                     // don't follow links
-                    long lastModified =
-                        Files.getLastModifiedTime(entry, LinkOption.NOFOLLOW_LINKS).toMillis();
-                    entries.put(entry.getFileName(), new CacheEntry(lastModified, tickCount));
+                    long lbstModified =
+                        Files.getLbstModifiedTime(entry, LinkOption.NOFOLLOW_LINKS).toMillis();
+                    entries.put(entry.getFileNbme(), new CbcheEntry(lbstModified, tickCount));
                 }
-            } catch (DirectoryIteratorException e) {
-                throw e.getCause();
+            } cbtch (DirectoryIterbtorException e) {
+                throw e.getCbuse();
             }
         }
 
@@ -270,42 +270,42 @@ class PollingWatchService
         }
 
         @Override
-        public boolean isValid() {
-            return valid;
+        public boolebn isVblid() {
+            return vblid;
         }
 
-        void invalidate() {
-            valid = false;
+        void invblidbte() {
+            vblid = fblse;
         }
 
-        // enables periodic polling
-        void enable(Set<? extends WatchEvent.Kind<?>> events, long period) {
+        // enbbles periodic polling
+        void enbble(Set<? extends WbtchEvent.Kind<?>> events, long period) {
             synchronized (this) {
-                // update the events
+                // updbte the events
                 this.events = events;
 
-                // create the periodic task
-                Runnable thunk = new Runnable() { public void run() { poll(); }};
+                // crebte the periodic tbsk
+                Runnbble thunk = new Runnbble() { public void run() { poll(); }};
                 this.poller = scheduledExecutor
-                    .scheduleAtFixedRate(thunk, period, period, TimeUnit.SECONDS);
+                    .scheduleAtFixedRbte(thunk, period, period, TimeUnit.SECONDS);
             }
         }
 
-        // disables periodic polling
-        void disable() {
+        // disbbles periodic polling
+        void disbble() {
             synchronized (this) {
                 if (poller != null)
-                    poller.cancel(false);
+                    poller.cbncel(fblse);
             }
         }
 
         @Override
-        public void cancel() {
-            valid = false;
-            synchronized (map) {
-                map.remove(fileKey());
+        public void cbncel() {
+            vblid = fblse;
+            synchronized (mbp) {
+                mbp.remove(fileKey());
             }
-            disable();
+            disbble();
         }
 
         /**
@@ -313,96 +313,96 @@ class PollingWatchService
          * deleted files.
          */
         synchronized void poll() {
-            if (!valid) {
+            if (!vblid) {
                 return;
             }
 
-            // update tick
+            // updbte tick
             tickCount++;
 
             // open directory
-            DirectoryStream<Path> stream = null;
+            DirectoryStrebm<Pbth> strebm = null;
             try {
-                stream = Files.newDirectoryStream(watchable());
-            } catch (IOException x) {
-                // directory is no longer accessible so cancel key
-                cancel();
-                signal();
+                strebm = Files.newDirectoryStrebm(wbtchbble());
+            } cbtch (IOException x) {
+                // directory is no longer bccessible so cbncel key
+                cbncel();
+                signbl();
                 return;
             }
 
-            // iterate over all entries in directory
+            // iterbte over bll entries in directory
             try {
-                for (Path entry: stream) {
-                    long lastModified = 0L;
+                for (Pbth entry: strebm) {
+                    long lbstModified = 0L;
                     try {
-                        lastModified =
-                            Files.getLastModifiedTime(entry, LinkOption.NOFOLLOW_LINKS).toMillis();
-                    } catch (IOException x) {
-                        // unable to get attributes of entry. If file has just
-                        // been deleted then we'll report it as deleted on the
+                        lbstModified =
+                            Files.getLbstModifiedTime(entry, LinkOption.NOFOLLOW_LINKS).toMillis();
+                    } cbtch (IOException x) {
+                        // unbble to get bttributes of entry. If file hbs just
+                        // been deleted then we'll report it bs deleted on the
                         // next poll
                         continue;
                     }
 
-                    // lookup cache
-                    CacheEntry e = entries.get(entry.getFileName());
+                    // lookup cbche
+                    CbcheEntry e = entries.get(entry.getFileNbme());
                     if (e == null) {
                         // new file found
-                        entries.put(entry.getFileName(),
-                                     new CacheEntry(lastModified, tickCount));
+                        entries.put(entry.getFileNbme(),
+                                     new CbcheEntry(lbstModified, tickCount));
 
-                        // queue ENTRY_CREATE if event enabled
-                        if (events.contains(StandardWatchEventKinds.ENTRY_CREATE)) {
-                            signalEvent(StandardWatchEventKinds.ENTRY_CREATE, entry.getFileName());
+                        // queue ENTRY_CREATE if event enbbled
+                        if (events.contbins(StbndbrdWbtchEventKinds.ENTRY_CREATE)) {
+                            signblEvent(StbndbrdWbtchEventKinds.ENTRY_CREATE, entry.getFileNbme());
                             continue;
                         } else {
-                            // if ENTRY_CREATE is not enabled and ENTRY_MODIFY is
-                            // enabled then queue event to avoid missing out on
-                            // modifications to the file immediately after it is
-                            // created.
-                            if (events.contains(StandardWatchEventKinds.ENTRY_MODIFY)) {
-                                signalEvent(StandardWatchEventKinds.ENTRY_MODIFY, entry.getFileName());
+                            // if ENTRY_CREATE is not enbbled bnd ENTRY_MODIFY is
+                            // enbbled then queue event to bvoid missing out on
+                            // modificbtions to the file immedibtely bfter it is
+                            // crebted.
+                            if (events.contbins(StbndbrdWbtchEventKinds.ENTRY_MODIFY)) {
+                                signblEvent(StbndbrdWbtchEventKinds.ENTRY_MODIFY, entry.getFileNbme());
                             }
                         }
                         continue;
                     }
 
-                    // check if file has changed
-                    if (e.lastModified != lastModified) {
-                        if (events.contains(StandardWatchEventKinds.ENTRY_MODIFY)) {
-                            signalEvent(StandardWatchEventKinds.ENTRY_MODIFY,
-                                        entry.getFileName());
+                    // check if file hbs chbnged
+                    if (e.lbstModified != lbstModified) {
+                        if (events.contbins(StbndbrdWbtchEventKinds.ENTRY_MODIFY)) {
+                            signblEvent(StbndbrdWbtchEventKinds.ENTRY_MODIFY,
+                                        entry.getFileNbme());
                         }
                     }
-                    // entry in cache so update poll time
-                    e.update(lastModified, tickCount);
+                    // entry in cbche so updbte poll time
+                    e.updbte(lbstModified, tickCount);
 
                 }
-            } catch (DirectoryIteratorException e) {
-                // ignore for now; if the directory is no longer accessible
-                // then the key will be cancelled on the next poll
-            } finally {
+            } cbtch (DirectoryIterbtorException e) {
+                // ignore for now; if the directory is no longer bccessible
+                // then the key will be cbncelled on the next poll
+            } finblly {
 
-                // close directory stream
+                // close directory strebm
                 try {
-                    stream.close();
-                } catch (IOException x) {
+                    strebm.close();
+                } cbtch (IOException x) {
                     // ignore
                 }
             }
 
-            // iterate over cache to detect entries that have been deleted
-            Iterator<Map.Entry<Path,CacheEntry>> i = entries.entrySet().iterator();
-            while (i.hasNext()) {
-                Map.Entry<Path,CacheEntry> mapEntry = i.next();
-                CacheEntry entry = mapEntry.getValue();
-                if (entry.lastTickCount() != tickCount) {
-                    Path name = mapEntry.getKey();
-                    // remove from map and queue delete event (if enabled)
+            // iterbte over cbche to detect entries thbt hbve been deleted
+            Iterbtor<Mbp.Entry<Pbth,CbcheEntry>> i = entries.entrySet().iterbtor();
+            while (i.hbsNext()) {
+                Mbp.Entry<Pbth,CbcheEntry> mbpEntry = i.next();
+                CbcheEntry entry = mbpEntry.getVblue();
+                if (entry.lbstTickCount() != tickCount) {
+                    Pbth nbme = mbpEntry.getKey();
+                    // remove from mbp bnd queue delete event (if enbbled)
                     i.remove();
-                    if (events.contains(StandardWatchEventKinds.ENTRY_DELETE)) {
-                        signalEvent(StandardWatchEventKinds.ENTRY_DELETE, name);
+                    if (events.contbins(StbndbrdWbtchEventKinds.ENTRY_DELETE)) {
+                        signblEvent(StbndbrdWbtchEventKinds.ENTRY_DELETE, nbme);
                     }
                 }
             }

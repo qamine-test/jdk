@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 /*
@@ -27,148 +27,148 @@
  * (C) Copyright IBM Corp. 1998-2003 - All Rights Reserved
  */
 
-package sun.font;
+pbckbge sun.font;
 
-import java.awt.Font;
-import java.awt.font.FontRenderContext;
-import java.awt.font.LineMetrics;
+import jbvb.bwt.Font;
+import jbvb.bwt.font.FontRenderContext;
+import jbvb.bwt.font.LineMetrics;
 
-public class StandardTextSource extends TextSource {
-  char[] chars;
-  int start;
+public clbss StbndbrdTextSource extends TextSource {
+  chbr[] chbrs;
+  int stbrt;
   int len;
-  int cstart;
+  int cstbrt;
   int clen;
-  int level; // assumed all uniform
-  int flags; // see GlyphVector.java
+  int level; // bssumed bll uniform
+  int flbgs; // see GlyphVector.jbvb
   Font font;
   FontRenderContext frc;
   CoreMetrics cm;
 
   /**
-   * Create a simple implementation of a TextSource.
+   * Crebte b simple implementbtion of b TextSource.
    *
-   * Chars is an array containing clen chars in the context, in
-   * logical order, contiguously starting at cstart.  Start and len
-   * represent that portion of the context representing the true
-   * source; start, like cstart, is relative to the start of the
-   * character array.
+   * Chbrs is bn brrby contbining clen chbrs in the context, in
+   * logicbl order, contiguously stbrting bt cstbrt.  Stbrt bnd len
+   * represent thbt portion of the context representing the true
+   * source; stbrt, like cstbrt, is relbtive to the stbrt of the
+   * chbrbcter brrby.
    *
-   * Level is the bidi level (0-63 for the entire context. Flags is
-   * the layout flags. Font is the font, frc is the render context,
-   * and lm is the line metrics for the entire source text, but not
-   * necessarily the context.
+   * Level is the bidi level (0-63 for the entire context. Flbgs is
+   * the lbyout flbgs. Font is the font, frc is the render context,
+   * bnd lm is the line metrics for the entire source text, but not
+   * necessbrily the context.
    */
-  public StandardTextSource(char[] chars,
-                            int start,
+  public StbndbrdTextSource(chbr[] chbrs,
+                            int stbrt,
                             int len,
-                            int cstart,
+                            int cstbrt,
                             int clen,
                             int level,
-                            int flags,
+                            int flbgs,
                             Font font,
                             FontRenderContext frc,
                             CoreMetrics cm) {
-    if (chars == null) {
-      throw new IllegalArgumentException("bad chars: null");
+    if (chbrs == null) {
+      throw new IllegblArgumentException("bbd chbrs: null");
     }
-    if (cstart < 0) {
-      throw new IllegalArgumentException("bad cstart: " + cstart);
+    if (cstbrt < 0) {
+      throw new IllegblArgumentException("bbd cstbrt: " + cstbrt);
     }
-    if (start < cstart) {
-      throw new IllegalArgumentException("bad start: " + start + " for cstart: " + cstart);
+    if (stbrt < cstbrt) {
+      throw new IllegblArgumentException("bbd stbrt: " + stbrt + " for cstbrt: " + cstbrt);
     }
     if (clen < 0) {
-      throw new IllegalArgumentException("bad clen: " + clen);
+      throw new IllegblArgumentException("bbd clen: " + clen);
     }
-    if (cstart + clen > chars.length) {
-      throw new IllegalArgumentException("bad clen: " + clen + " cstart: " + cstart + " for array len: " + chars.length);
+    if (cstbrt + clen > chbrs.length) {
+      throw new IllegblArgumentException("bbd clen: " + clen + " cstbrt: " + cstbrt + " for brrby len: " + chbrs.length);
     }
     if (len < 0) {
-      throw new IllegalArgumentException("bad len: " + len);
+      throw new IllegblArgumentException("bbd len: " + len);
     }
-    if ((start + len) > (cstart + clen)) {
-      throw new IllegalArgumentException("bad len: " + len + " start: " + start + " for cstart: " + cstart + " clen: " + clen);
+    if ((stbrt + len) > (cstbrt + clen)) {
+      throw new IllegblArgumentException("bbd len: " + len + " stbrt: " + stbrt + " for cstbrt: " + cstbrt + " clen: " + clen);
     }
     if (font == null) {
-      throw new IllegalArgumentException("bad font: null");
+      throw new IllegblArgumentException("bbd font: null");
     }
     if (frc == null) {
-      throw new IllegalArgumentException("bad frc: null");
+      throw new IllegblArgumentException("bbd frc: null");
     }
 
-    this.chars = chars.clone();
-    this.start = start;
+    this.chbrs = chbrs.clone();
+    this.stbrt = stbrt;
     this.len = len;
-    this.cstart = cstart;
+    this.cstbrt = cstbrt;
     this.clen = clen;
     this.level = level;
-    this.flags = flags;
+    this.flbgs = flbgs;
     this.font = font;
     this.frc = frc;
 
     if (cm != null) {
         this.cm = cm;
     } else {
-        LineMetrics metrics = font.getLineMetrics(chars, cstart, clen, frc);
+        LineMetrics metrics = font.getLineMetrics(chbrs, cstbrt, clen, frc);
         this.cm = ((FontLineMetrics)metrics).cm;
     }
   }
 
-  /** Create a StandardTextSource whose context is coextensive with the source. */
-  public StandardTextSource(char[] chars,
-                            int start,
+  /** Crebte b StbndbrdTextSource whose context is coextensive with the source. */
+  public StbndbrdTextSource(chbr[] chbrs,
+                            int stbrt,
                             int len,
                             int level,
-                            int flags,
+                            int flbgs,
                             Font font,
                             FontRenderContext frc,
                             CoreMetrics cm) {
-    this(chars, start, len, start, len, level, flags, font, frc, cm);
+    this(chbrs, stbrt, len, stbrt, len, level, flbgs, font, frc, cm);
   }
 
-  /** Create a StandardTextSource whose context and source are coextensive with the entire char array. */
-  public StandardTextSource(char[] chars,
+  /** Crebte b StbndbrdTextSource whose context bnd source bre coextensive with the entire chbr brrby. */
+  public StbndbrdTextSource(chbr[] chbrs,
                             int level,
-                            int flags,
+                            int flbgs,
                             Font font,
                             FontRenderContext frc) {
-    this(chars, 0, chars.length, 0, chars.length, level, flags, font, frc, null);
+    this(chbrs, 0, chbrs.length, 0, chbrs.length, level, flbgs, font, frc, null);
   }
 
-  /** Create a StandardTextSource whose context and source are all the text in the String. */
-  public StandardTextSource(String str,
+  /** Crebte b StbndbrdTextSource whose context bnd source bre bll the text in the String. */
+  public StbndbrdTextSource(String str,
                             int level,
-                            int flags,
+                            int flbgs,
                             Font font,
                             FontRenderContext frc) {
-    this(str.toCharArray(), 0, str.length(), 0, str.length(), level, flags, font, frc, null);
+    this(str.toChbrArrby(), 0, str.length(), 0, str.length(), level, flbgs, font, frc, null);
   }
 
   // TextSource API
 
-  public char[] getChars() {
-    return chars.clone();
+  public chbr[] getChbrs() {
+    return chbrs.clone();
   }
 
-  public int getStart() {
-    return start;
+  public int getStbrt() {
+    return stbrt;
   }
 
   public int getLength() {
     return len;
   }
 
-  public int getContextStart() {
-    return cstart;
+  public int getContextStbrt() {
+    return cstbrt;
   }
 
   public int getContextLength() {
     return clen;
   }
 
-  public int getLayoutFlags() {
-    return flags;
+  public int getLbyoutFlbgs() {
+    return flbgs;
   }
 
   public int getBidiLevel() {
@@ -187,66 +187,66 @@ public class StandardTextSource extends TextSource {
     return cm;
   }
 
-  public TextSource getSubSource(int start, int length, int dir) {
-    if (start < 0 || length < 0 || (start + length) > len) {
-      throw new IllegalArgumentException("bad start (" + start + ") or length (" + length + ")");
+  public TextSource getSubSource(int stbrt, int length, int dir) {
+    if (stbrt < 0 || length < 0 || (stbrt + length) > len) {
+      throw new IllegblArgumentException("bbd stbrt (" + stbrt + ") or length (" + length + ")");
     }
 
     int level = this.level;
     if (dir != TextLineComponent.UNCHANGED) {
-        boolean ltr = (flags & 0x8) == 0;
+        boolebn ltr = (flbgs & 0x8) == 0;
         if (!(dir == TextLineComponent.LEFT_TO_RIGHT && ltr) &&
                 !(dir == TextLineComponent.RIGHT_TO_LEFT && !ltr)) {
-            throw new IllegalArgumentException("direction flag is invalid");
+            throw new IllegblArgumentException("direction flbg is invblid");
         }
         level = ltr? 0 : 1;
     }
 
-    return new StandardTextSource(chars, this.start + start, length, cstart, clen, level, flags, font, frc, cm);
+    return new StbndbrdTextSource(chbrs, this.stbrt + stbrt, length, cstbrt, clen, level, flbgs, font, frc, cm);
   }
 
   public String toString() {
     return toString(WITH_CONTEXT);
   }
 
-  public String toString(boolean withContext) {
+  public String toString(boolebn withContext) {
     StringBuilder sb = new StringBuilder(super.toString());
-    sb.append("[start:");
-    sb.append(start);
-    sb.append(", len:" );
-    sb.append(len);
-    sb.append(", cstart:");
-    sb.append(cstart);
-    sb.append(", clen:" );
-    sb.append(clen);
-    sb.append(", chars:\"");
-    int chStart, chLimit;
+    sb.bppend("[stbrt:");
+    sb.bppend(stbrt);
+    sb.bppend(", len:" );
+    sb.bppend(len);
+    sb.bppend(", cstbrt:");
+    sb.bppend(cstbrt);
+    sb.bppend(", clen:" );
+    sb.bppend(clen);
+    sb.bppend(", chbrs:\"");
+    int chStbrt, chLimit;
     if (withContext == WITH_CONTEXT) {
-        chStart = cstart;
-        chLimit = cstart + clen;
+        chStbrt = cstbrt;
+        chLimit = cstbrt + clen;
     }
     else {
-        chStart = start;
-        chLimit = start + len;
+        chStbrt = stbrt;
+        chLimit = stbrt + len;
     }
-    for (int i = chStart; i < chLimit; ++i) {
-      if (i > chStart) {
-        sb.append(" ");
+    for (int i = chStbrt; i < chLimit; ++i) {
+      if (i > chStbrt) {
+        sb.bppend(" ");
       }
-      sb.append(Integer.toHexString(chars[i]));
+      sb.bppend(Integer.toHexString(chbrs[i]));
     }
-    sb.append("\"");
-    sb.append(", level:");
-    sb.append(level);
-    sb.append(", flags:");
-    sb.append(flags);
-    sb.append(", font:");
-    sb.append(font);
-    sb.append(", frc:");
-    sb.append(frc);
-    sb.append(", cm:");
-    sb.append(cm);
-    sb.append("]");
+    sb.bppend("\"");
+    sb.bppend(", level:");
+    sb.bppend(level);
+    sb.bppend(", flbgs:");
+    sb.bppend(flbgs);
+    sb.bppend(", font:");
+    sb.bppend(font);
+    sb.bppend(", frc:");
+    sb.bppend(frc);
+    sb.bppend(", cm:");
+    sb.bppend(cm);
+    sb.bppend("]");
 
     return sb.toString();
   }

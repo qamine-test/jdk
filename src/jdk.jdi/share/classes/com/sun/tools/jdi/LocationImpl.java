@@ -1,87 +1,87 @@
 /*
- * Copyright (c) 1998, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2004, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.tools.jdi;
+pbckbge com.sun.tools.jdi;
 
 import com.sun.jdi.*;
 
-import java.util.*;
+import jbvb.util.*;
 
-public class LocationImpl extends MirrorImpl implements Location {
-    private final ReferenceTypeImpl declaringType;
-    private Method method;
-    private long methodRef;
-    private long codeIndex;
-    private LineInfo baseLineInfo = null;
-    private LineInfo otherLineInfo = null;
+public clbss LocbtionImpl extends MirrorImpl implements Locbtion {
+    privbte finbl ReferenceTypeImpl declbringType;
+    privbte Method method;
+    privbte long methodRef;
+    privbte long codeIndex;
+    privbte LineInfo bbseLineInfo = null;
+    privbte LineInfo otherLineInfo = null;
 
-    LocationImpl(VirtualMachine vm,
+    LocbtionImpl(VirtublMbchine vm,
                  Method method, long codeIndex) {
         super(vm);
 
         this.method = method;
-        this.codeIndex = method.isNative()? -1 : codeIndex;
-        this.declaringType = (ReferenceTypeImpl)method.declaringType();
+        this.codeIndex = method.isNbtive()? -1 : codeIndex;
+        this.declbringType = (ReferenceTypeImpl)method.declbringType();
     }
 
     /*
-     * This constructor allows lazy creation of the method mirror. This
-     * can be a performance savings if the method mirror does not yet
+     * This constructor bllows lbzy crebtion of the method mirror. This
+     * cbn be b performbnce sbvings if the method mirror does not yet
      * exist.
      */
-    LocationImpl(VirtualMachine vm, ReferenceTypeImpl declaringType,
+    LocbtionImpl(VirtublMbchine vm, ReferenceTypeImpl declbringType,
                  long methodRef, long codeIndex) {
         super(vm);
 
         this.method = null;
         this.codeIndex = codeIndex;
-        this.declaringType = declaringType;
+        this.declbringType = declbringType;
         this.methodRef = methodRef;
     }
 
-    public boolean equals(Object obj) {
-        if ((obj != null) && (obj instanceof Location)) {
-            Location other = (Location)obj;
-            return (method().equals(other.method())) &&
+    public boolebn equbls(Object obj) {
+        if ((obj != null) && (obj instbnceof Locbtion)) {
+            Locbtion other = (Locbtion)obj;
+            return (method().equbls(other.method())) &&
                    (codeIndex() == other.codeIndex()) &&
-                   super.equals(obj);
+                   super.equbls(obj);
         } else {
-            return false;
+            return fblse;
         }
     }
 
-    public int hashCode() {
+    public int hbshCode() {
         /*
-         * TO DO: better hash code?
+         * TO DO: better hbsh code?
          */
-        return method().hashCode() + (int)codeIndex();
+        return method().hbshCode() + (int)codeIndex();
     }
 
-    public int compareTo(Location object) {
-        LocationImpl other = (LocationImpl)object;
-        int rc = method().compareTo(other.method());
+    public int compbreTo(Locbtion object) {
+        LocbtionImpl other = (LocbtionImpl)object;
+        int rc = method().compbreTo(other.method());
         if (rc == 0) {
             long diff = codeIndex() - other.codeIndex();
             if (diff < 0)
@@ -94,14 +94,14 @@ public class LocationImpl extends MirrorImpl implements Location {
         return rc;
     }
 
-    public ReferenceType declaringType() {
-        return declaringType;
+    public ReferenceType declbringType() {
+        return declbringType;
     }
 
     public Method method() {
         if (method == null) {
-            method = declaringType.getMethodMirror(methodRef);
-            if (method.isNative()) {
+            method = declbringType.getMethodMirror(methodRef);
+            if (method.isNbtive()) {
                 codeIndex = -1;
             }
         }
@@ -109,119 +109,119 @@ public class LocationImpl extends MirrorImpl implements Location {
     }
 
     public long codeIndex() {
-        method();  // be sure information is up-to-date
+        method();  // be sure informbtion is up-to-dbte
         return codeIndex;
     }
 
-    LineInfo getBaseLineInfo(SDE.Stratum stratum) {
+    LineInfo getBbseLineInfo(SDE.Strbtum strbtum) {
         LineInfo lineInfo;
 
-        /* check if there is cached info to use */
-        if (baseLineInfo != null) {
-            return baseLineInfo;
+        /* check if there is cbched info to use */
+        if (bbseLineInfo != null) {
+            return bbseLineInfo;
         }
 
         /* compute the line info */
         MethodImpl methodImpl = (MethodImpl)method();
-        lineInfo = methodImpl.codeIndexToLineInfo(stratum,
+        lineInfo = methodImpl.codeIndexToLineInfo(strbtum,
                                                   codeIndex());
 
-        /* cache it */
-        addBaseLineInfo(lineInfo);
+        /* cbche it */
+        bddBbseLineInfo(lineInfo);
 
         return lineInfo;
     }
 
-    LineInfo getLineInfo(SDE.Stratum stratum) {
+    LineInfo getLineInfo(SDE.Strbtum strbtum) {
         LineInfo lineInfo;
 
-        /* base stratum is done slighly differently */
-        if (stratum.isJava()) {
-            return getBaseLineInfo(stratum);
+        /* bbse strbtum is done slighly differently */
+        if (strbtum.isJbvb()) {
+            return getBbseLineInfo(strbtum);
         }
 
-        /* check if there is cached info to use */
-        lineInfo = otherLineInfo; // copy because of concurrency
+        /* check if there is cbched info to use */
+        lineInfo = otherLineInfo; // copy becbuse of concurrency
         if (lineInfo != null &&
-                           stratum.id().equals(lineInfo.liStratum())) {
+                           strbtum.id().equbls(lineInfo.liStrbtum())) {
             return lineInfo;
         }
 
-        int baseLineNumber = lineNumber(SDE.BASE_STRATUM_NAME);
-        SDE.LineStratum lineStratum =
-                  stratum.lineStratum(declaringType, baseLineNumber);
+        int bbseLineNumber = lineNumber(SDE.BASE_STRATUM_NAME);
+        SDE.LineStrbtum lineStrbtum =
+                  strbtum.lineStrbtum(declbringType, bbseLineNumber);
 
-        if (lineStratum != null && lineStratum.lineNumber() != -1) {
-            lineInfo = new StratumLineInfo(stratum.id(),
-                                           lineStratum.lineNumber(),
-                                           lineStratum.sourceName(),
-                                           lineStratum.sourcePath());
+        if (lineStrbtum != null && lineStrbtum.lineNumber() != -1) {
+            lineInfo = new StrbtumLineInfo(strbtum.id(),
+                                           lineStrbtum.lineNumber(),
+                                           lineStrbtum.sourceNbme(),
+                                           lineStrbtum.sourcePbth());
         } else {
-            /* find best match */
+            /* find best mbtch */
             MethodImpl methodImpl = (MethodImpl)method();
-            lineInfo = methodImpl.codeIndexToLineInfo(stratum,
+            lineInfo = methodImpl.codeIndexToLineInfo(strbtum,
                                                       codeIndex());
         }
 
-        /* cache it */
-        addStratumLineInfo(lineInfo);
+        /* cbche it */
+        bddStrbtumLineInfo(lineInfo);
 
         return lineInfo;
     }
 
-    void addStratumLineInfo(LineInfo lineInfo) {
+    void bddStrbtumLineInfo(LineInfo lineInfo) {
         otherLineInfo = lineInfo;
     }
 
-    void addBaseLineInfo(LineInfo lineInfo) {
-        baseLineInfo = lineInfo;
+    void bddBbseLineInfo(LineInfo lineInfo) {
+        bbseLineInfo = lineInfo;
     }
 
-    public String sourceName() throws AbsentInformationException {
-        return sourceName(vm.getDefaultStratum());
+    public String sourceNbme() throws AbsentInformbtionException {
+        return sourceNbme(vm.getDefbultStrbtum());
     }
 
-    public String sourceName(String stratumID)
-                               throws AbsentInformationException {
-        return sourceName(declaringType.stratum(stratumID));
+    public String sourceNbme(String strbtumID)
+                               throws AbsentInformbtionException {
+        return sourceNbme(declbringType.strbtum(strbtumID));
     }
 
-    String sourceName(SDE.Stratum stratum)
-                               throws AbsentInformationException {
-        return getLineInfo(stratum).liSourceName();
+    String sourceNbme(SDE.Strbtum strbtum)
+                               throws AbsentInformbtionException {
+        return getLineInfo(strbtum).liSourceNbme();
     }
 
-    public String sourcePath() throws AbsentInformationException {
-        return sourcePath(vm.getDefaultStratum());
+    public String sourcePbth() throws AbsentInformbtionException {
+        return sourcePbth(vm.getDefbultStrbtum());
     }
 
-    public String sourcePath(String stratumID)
-                               throws AbsentInformationException {
-        return sourcePath(declaringType.stratum(stratumID));
+    public String sourcePbth(String strbtumID)
+                               throws AbsentInformbtionException {
+        return sourcePbth(declbringType.strbtum(strbtumID));
     }
 
-    String sourcePath(SDE.Stratum stratum)
-                               throws AbsentInformationException {
-        return getLineInfo(stratum).liSourcePath();
+    String sourcePbth(SDE.Strbtum strbtum)
+                               throws AbsentInformbtionException {
+        return getLineInfo(strbtum).liSourcePbth();
     }
 
     public int lineNumber() {
-        return lineNumber(vm.getDefaultStratum());
+        return lineNumber(vm.getDefbultStrbtum());
     }
 
-    public int lineNumber(String stratumID) {
-        return lineNumber(declaringType.stratum(stratumID));
+    public int lineNumber(String strbtumID) {
+        return lineNumber(declbringType.strbtum(strbtumID));
     }
 
-    int lineNumber(SDE.Stratum stratum) {
-        return getLineInfo(stratum).liLineNumber();
+    int lineNumber(SDE.Strbtum strbtum) {
+        return getLineInfo(strbtum).liLineNumber();
     }
 
     public String toString() {
         if (lineNumber() == -1) {
             return method().toString() + "+" + codeIndex();
         } else {
-            return declaringType().name() + ":" + lineNumber();
+            return declbringType().nbme() + ":" + lineNumber();
         }
     }
 }

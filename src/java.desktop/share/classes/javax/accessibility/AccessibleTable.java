@@ -1,222 +1,222 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.accessibility;
+pbckbge jbvbx.bccessibility;
 
 /**
- * Class AccessibleTable describes a user-interface component that
- * presents data in a two-dimensional table format.
+ * Clbss AccessibleTbble describes b user-interfbce component thbt
+ * presents dbtb in b two-dimensionbl tbble formbt.
  *
- * @author      Lynn Monsanto
+ * @buthor      Lynn Monsbnto
  * @since 1.3
  */
-public interface AccessibleTable {
+public interfbce AccessibleTbble {
 
     /**
-     * Returns the caption for the table.
+     * Returns the cbption for the tbble.
      *
-     * @return the caption for the table
+     * @return the cbption for the tbble
      */
-    public Accessible getAccessibleCaption();
+    public Accessible getAccessibleCbption();
 
     /**
-     * Sets the caption for the table.
+     * Sets the cbption for the tbble.
      *
-     * @param a the caption for the table
+     * @pbrbm b the cbption for the tbble
      */
-    public void setAccessibleCaption(Accessible a);
+    public void setAccessibleCbption(Accessible b);
 
     /**
-     * Returns the summary description of the table.
+     * Returns the summbry description of the tbble.
      *
-     * @return the summary description of the table
+     * @return the summbry description of the tbble
      */
-    public Accessible getAccessibleSummary();
+    public Accessible getAccessibleSummbry();
 
     /**
-     * Sets the summary description of the table
+     * Sets the summbry description of the tbble
      *
-     * @param a the summary description of the table
+     * @pbrbm b the summbry description of the tbble
      */
-    public void setAccessibleSummary(Accessible a);
+    public void setAccessibleSummbry(Accessible b);
 
     /**
-     * Returns the number of rows in the table.
+     * Returns the number of rows in the tbble.
      *
-     * @return the number of rows in the table
+     * @return the number of rows in the tbble
      */
     public int getAccessibleRowCount();
 
     /**
-     * Returns the number of columns in the table.
+     * Returns the number of columns in the tbble.
      *
-     * @return the number of columns in the table
+     * @return the number of columns in the tbble
      */
     public int getAccessibleColumnCount();
 
     /**
-     * Returns the Accessible at a specified row and column
-     * in the table.
+     * Returns the Accessible bt b specified row bnd column
+     * in the tbble.
      *
-     * @param r zero-based row of the table
-     * @param c zero-based column of the table
-     * @return the Accessible at the specified row and column
+     * @pbrbm r zero-bbsed row of the tbble
+     * @pbrbm c zero-bbsed column of the tbble
+     * @return the Accessible bt the specified row bnd column
      */
     public Accessible getAccessibleAt(int r, int c);
 
     /**
-     * Returns the number of rows occupied by the Accessible at
-     * a specified row and column in the table.
+     * Returns the number of rows occupied by the Accessible bt
+     * b specified row bnd column in the tbble.
      *
-     * @param r zero-based row of the table
-     * @param c zero-based column of the table
-     * @return the number of rows occupied by the Accessible at a
+     * @pbrbm r zero-bbsed row of the tbble
+     * @pbrbm c zero-bbsed column of the tbble
+     * @return the number of rows occupied by the Accessible bt b
      * given specified (row, column)
      */
     public int getAccessibleRowExtentAt(int r, int c);
 
     /**
-     * Returns the number of columns occupied by the Accessible at
-     * a specified row and column in the table.
+     * Returns the number of columns occupied by the Accessible bt
+     * b specified row bnd column in the tbble.
      *
-     * @param r zero-based row of the table
-     * @param c zero-based column of the table
-     * @return the number of columns occupied by the Accessible at a
-     * given specified row and column
+     * @pbrbm r zero-bbsed row of the tbble
+     * @pbrbm c zero-bbsed column of the tbble
+     * @return the number of columns occupied by the Accessible bt b
+     * given specified row bnd column
      */
     public int getAccessibleColumnExtentAt(int r, int c);
 
     /**
-     * Returns the row headers as an AccessibleTable.
+     * Returns the row hebders bs bn AccessibleTbble.
      *
-     * @return an AccessibleTable representing the row
-     * headers
+     * @return bn AccessibleTbble representing the row
+     * hebders
      */
-    public AccessibleTable getAccessibleRowHeader();
+    public AccessibleTbble getAccessibleRowHebder();
 
     /**
-     * Sets the row headers.
+     * Sets the row hebders.
      *
-     * @param table an AccessibleTable representing the
-     * row headers
+     * @pbrbm tbble bn AccessibleTbble representing the
+     * row hebders
      */
-    public void setAccessibleRowHeader(AccessibleTable table);
+    public void setAccessibleRowHebder(AccessibleTbble tbble);
 
     /**
-     * Returns the column headers as an AccessibleTable.
+     * Returns the column hebders bs bn AccessibleTbble.
      *
-     * @return an AccessibleTable representing the column
-     * headers
+     * @return bn AccessibleTbble representing the column
+     * hebders
      */
-    public AccessibleTable getAccessibleColumnHeader();
+    public AccessibleTbble getAccessibleColumnHebder();
 
     /**
-     * Sets the column headers.
+     * Sets the column hebders.
      *
-     * @param table an AccessibleTable representing the
-     * column headers
+     * @pbrbm tbble bn AccessibleTbble representing the
+     * column hebders
      */
-    public void setAccessibleColumnHeader(AccessibleTable table);
+    public void setAccessibleColumnHebder(AccessibleTbble tbble);
 
     /**
-     * Returns the description of the specified row in the table.
+     * Returns the description of the specified row in the tbble.
      *
-     * @param r zero-based row of the table
+     * @pbrbm r zero-bbsed row of the tbble
      * @return the description of the row
      */
     public Accessible getAccessibleRowDescription(int r);
 
     /**
-     * Sets the description text of the specified row of the table.
+     * Sets the description text of the specified row of the tbble.
      *
-     * @param r zero-based row of the table
-     * @param a the description of the row
+     * @pbrbm r zero-bbsed row of the tbble
+     * @pbrbm b the description of the row
      */
-    public void setAccessibleRowDescription(int r, Accessible a);
+    public void setAccessibleRowDescription(int r, Accessible b);
 
     /**
-     * Returns the description text of the specified column in the table.
+     * Returns the description text of the specified column in the tbble.
      *
-     * @param c zero-based column of the table
+     * @pbrbm c zero-bbsed column of the tbble
      * @return the text description of the column
      */
     public Accessible getAccessibleColumnDescription(int c);
 
     /**
-     * Sets the description text of the specified column in the table.
+     * Sets the description text of the specified column in the tbble.
      *
-     * @param c zero-based column of the table
-     * @param a the text description of the column
+     * @pbrbm c zero-bbsed column of the tbble
+     * @pbrbm b the text description of the column
      */
-    public void setAccessibleColumnDescription(int c, Accessible a);
+    public void setAccessibleColumnDescription(int c, Accessible b);
 
     /**
-     * Returns a boolean value indicating whether the accessible at
-     * a specified row and column is selected.
+     * Returns b boolebn vblue indicbting whether the bccessible bt
+     * b specified row bnd column is selected.
      *
-     * @param r zero-based row of the table
-     * @param c zero-based column of the table
-     * @return the boolean value true if the accessible at the
-     * row and column is selected. Otherwise, the boolean value
-     * false
+     * @pbrbm r zero-bbsed row of the tbble
+     * @pbrbm c zero-bbsed column of the tbble
+     * @return the boolebn vblue true if the bccessible bt the
+     * row bnd column is selected. Otherwise, the boolebn vblue
+     * fblse
      */
-    public boolean isAccessibleSelected(int r, int c);
+    public boolebn isAccessibleSelected(int r, int c);
 
     /**
-     * Returns a boolean value indicating whether the specified row
+     * Returns b boolebn vblue indicbting whether the specified row
      * is selected.
      *
-     * @param r zero-based row of the table
-     * @return the boolean value true if the specified row is selected.
-     * Otherwise, false.
+     * @pbrbm r zero-bbsed row of the tbble
+     * @return the boolebn vblue true if the specified row is selected.
+     * Otherwise, fblse.
      */
-    public boolean isAccessibleRowSelected(int r);
+    public boolebn isAccessibleRowSelected(int r);
 
     /**
-     * Returns a boolean value indicating whether the specified column
+     * Returns b boolebn vblue indicbting whether the specified column
      * is selected.
      *
-     * @param c zero-based column of the table
-     * @return the boolean value true if the specified column is selected.
-     * Otherwise, false.
+     * @pbrbm c zero-bbsed column of the tbble
+     * @return the boolebn vblue true if the specified column is selected.
+     * Otherwise, fblse.
      */
-    public boolean isAccessibleColumnSelected(int c);
+    public boolebn isAccessibleColumnSelected(int c);
 
     /**
-     * Returns the selected rows in a table.
+     * Returns the selected rows in b tbble.
      *
-     * @return an array of selected rows where each element is a
-     * zero-based row of the table
+     * @return bn brrby of selected rows where ebch element is b
+     * zero-bbsed row of the tbble
      */
     public int [] getSelectedAccessibleRows();
 
     /**
-     * Returns the selected columns in a table.
+     * Returns the selected columns in b tbble.
      *
-     * @return an array of selected columns where each element is a
-     * zero-based column of the table
+     * @return bn brrby of selected columns where ebch element is b
+     * zero-bbsed column of the tbble
      */
     public int [] getSelectedAccessibleColumns();
 }

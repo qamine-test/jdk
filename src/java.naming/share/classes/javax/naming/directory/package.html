@@ -1,88 +1,88 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
 <html>
-<head>
+<hebd>
 <!--
-Copyright (c) 1999, 2006, Oracle and/or its affiliates. All rights reserved.
+Copyright (c) 1999, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
 DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 
-This code is free software; you can redistribute it and/or modify it
-under the terms of the GNU General Public License version 2 only, as
-published by the Free Software Foundation.  Oracle designates this
-particular file as subject to the "Classpath" exception as provided
-by Oracle in the LICENSE file that accompanied this code.
+This code is free softwbre; you cbn redistribute it bnd/or modify it
+under the terms of the GNU Generbl Public License version 2 only, bs
+published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+by Orbcle in the LICENSE file thbt bccompbnied this code.
 
-This code is distributed in the hope that it will be useful, but WITHOUT
-ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-version 2 for more details (a copy is included in the LICENSE file that
-accompanied this code).
+This code is distributed in the hope thbt it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+version 2 for more detbils (b copy is included in the LICENSE file thbt
+bccompbnied this code).
 
-You should have received a copy of the GNU General Public License version
-2 along with this work; if not, write to the Free Software Foundation,
-Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+You should hbve received b copy of the GNU Generbl Public License version
+2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 
-Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-or visit www.oracle.com if you need additional information or have any
+Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
 questions.
 -->
-</head>
+</hebd>
 <body bgcolor="white">
 
-Extends the <tt>javax.naming</tt> package to provide functionality
-for accessing directory services.
+Extends the <tt>jbvbx.nbming</tt> pbckbge to provide functionblity
+for bccessing directory services.
 
 <p>
-This package defines the directory operations of the Java Naming and
-Directory Interface<font size=-2><sup>TM</sup></font> (JNDI). &nbsp;
-JNDI provides naming and directory functionality to applications
-written in the Java programming language.  It is designed to be
-independent of any specific naming or directory service
-implementation.  Thus a variety of services--new, emerging, and
-already deployed ones--can be accessed in a common way.
+This pbckbge defines the directory operbtions of the Jbvb Nbming bnd
+Directory Interfbce<font size=-2><sup>TM</sup></font> (JNDI). &nbsp;
+JNDI provides nbming bnd directory functionblity to bpplicbtions
+written in the Jbvb progrbmming lbngubge.  It is designed to be
+independent of bny specific nbming or directory service
+implementbtion.  Thus b vbriety of services--new, emerging, bnd
+blrebdy deployed ones--cbn be bccessed in b common wby.
 
 <p>
-This package allows applications to retrieve and update attributes
-associated with objects stored in a directory, and to search for
-objects using specified attributes.
+This pbckbge bllows bpplicbtions to retrieve bnd updbte bttributes
+bssocibted with objects stored in b directory, bnd to sebrch for
+objects using specified bttributes.
 
 <h4>The Directory Context</h4>
 
 The <tt>DirContext</tt>
-interface represents a <em>directory context</em>.
-It defines methods for examining and updating attributes associated with a
-<em>directory object</em>, or <em>directory entry</em> as it is sometimes
-called.
+interfbce represents b <em>directory context</em>.
+It defines methods for exbmining bnd updbting bttributes bssocibted with b
+<em>directory object</em>, or <em>directory entry</em> bs it is sometimes
+cblled.
 <p>
-You use	<tt>getAttributes()</tt> to retrieve the attributes 
-associated with a directory object (for which you supply the name).
-Attributes are modified using <tt>modifyAttributes()</tt>. 
-You can add, replace, or remove attributes and/or attribute values
-using this operation.
+You use	<tt>getAttributes()</tt> to retrieve the bttributes 
+bssocibted with b directory object (for which you supply the nbme).
+Attributes bre modified using <tt>modifyAttributes()</tt>. 
+You cbn bdd, replbce, or remove bttributes bnd/or bttribute vblues
+using this operbtion.
 <p>
-<tt>DirContext</tt> also behaves as a naming context
-by extending the <tt>Context</tt> interface in the <tt>javax.naming</tt> package.
-This means that any directory object can also provide
-a naming context. 
-For example, the directory object for a person might contain
-the attributes of that person, and at the same time provide
-a context for naming objects relative to that person
-such as his printers and home directory.
+<tt>DirContext</tt> blso behbves bs b nbming context
+by extending the <tt>Context</tt> interfbce in the <tt>jbvbx.nbming</tt> pbckbge.
+This mebns thbt bny directory object cbn blso provide
+b nbming context. 
+For exbmple, the directory object for b person might contbin
+the bttributes of thbt person, bnd bt the sbme time provide
+b context for nbming objects relbtive to thbt person
+such bs his printers bnd home directory.
 
-<h4>Searches</h4>
-<tt>DirContext</tt> contains methods for 
-performing content-based searching of the directory.
-In the simplest and most common form of usage, the application
-specifies a set of attributes--possibly with specific 
-values--to match, and submits this attribute set, to the 
-<tt>search()</tt> method.
-There are other overloaded forms of <tt>search()</tt>
-that support more sophisticated <em>search filters</em>.
+<h4>Sebrches</h4>
+<tt>DirContext</tt> contbins methods for 
+performing content-bbsed sebrching of the directory.
+In the simplest bnd most common form of usbge, the bpplicbtion
+specifies b set of bttributes--possibly with specific 
+vblues--to mbtch, bnd submits this bttribute set, to the 
+<tt>sebrch()</tt> method.
+There bre other overlobded forms of <tt>sebrch()</tt>
+thbt support more sophisticbted <em>sebrch filters</em>.
 
 
-<h2>Package Specification</h2>
+<h2>Pbckbge Specificbtion</h2>
 
-The JNDI API Specification and related documents can be found in the
-<a href="../../../../technotes/guides/jndi/index.html">JNDI documentation</a>.
+The JNDI API Specificbtion bnd relbted documents cbn be found in the
+<b href="../../../../technotes/guides/jndi/index.html">JNDI documentbtion</b>.
 
 @since 1.3
 

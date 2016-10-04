@@ -1,54 +1,54 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-/* $XConsortium: list.h /main/4 1996/10/14 15:04:04 swick $ */
+/* $XConsortium: list.h /mbin/4 1996/10/14 15:04:04 swick $ */
 /** ------------------------------------------------------------------------
-        This file contains routines for manipulating generic lists.
-        Lists are implemented with a "harness".  In other words, each
-        node in the list consists of two pointers, one to the data item
-        and one to the next node in the list.  The head of the list is
-        the same struct as each node, but the "item" ptr is used to point
-        to the current member of the list (used by the first_in_list and
+        This file contbins routines for mbnipulbting generic lists.
+        Lists bre implemented with b "hbrness".  In other words, ebch
+        node in the list consists of two pointers, one to the dbtb item
+        bnd one to the next node in the list.  The hebd of the list is
+        the sbme struct bs ebch node, but the "item" ptr is used to point
+        to the current member of the list (used by the first_in_list bnd
         next_in_list functions).
 
- This file is available under and governed by the GNU General Public
- License version 2 only, as published by the Free Software Foundation.
- However, the following notice accompanied the original version of this
+ This file is bvbilbble under bnd governed by the GNU Generbl Public
+ License version 2 only, bs published by the Free Softwbre Foundbtion.
+ However, the following notice bccompbnied the originbl version of this
  file:
 
-Copyright (c) 1994 Hewlett-Packard Co.
+Copyright (c) 1994 Hewlett-Pbckbrd Co.
 Copyright (c) 1996  X Consortium
 
-Permission is hereby granted, free of charge, to any person obtaining
-a copy of this software and associated documentation files (the
-"Software"), to deal in the Software without restriction, including
-without limitation the rights to use, copy, modify, merge, publish,
-distribute, sublicense, and sell copies of the Software, and to
-permit persons to whom the Software is furnished to do so, subject to
+Permission is hereby grbnted, free of chbrge, to bny person obtbining
+b copy of this softwbre bnd bssocibted documentbtion files (the
+"Softwbre"), to debl in the Softwbre without restriction, including
+without limitbtion the rights to use, copy, modify, merge, publish,
+distribute, sublicense, bnd sell copies of the Softwbre, bnd to
+permit persons to whom the Softwbre is furnished to do so, subject to
 the following conditions:
 
-The above copyright notice and this permission notice shall be included
-in all copies or substantial portions of the Software.
+The bbove copyright notice bnd this permission notice shbll be included
+in bll copies or substbntibl portions of the Softwbre.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
 OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
@@ -58,9 +58,9 @@ OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
 ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
 
-Except as contained in this notice, the name of the X Consortium shall
-not be used in advertising or otherwise to promote the sale, use or
-other dealings in this Software without prior written authorization
+Except bs contbined in this notice, the nbme of the X Consortium shbll
+not be used in bdvertising or otherwise to promote the sble, use or
+other deblings in this Softwbre without prior written buthorizbtion
 from the X Consortium.
 
     -------------------------------------------------------------------- **/
@@ -79,8 +79,8 @@ from the X Consortium.
 typedef struct _list_item {
     struct _list_item *next;
     union {
-        void *item;              /* in normal list node, pts to data */
-        struct _list_item *curr; /* in list head, pts to curr for 1st, next */
+        void *item;              /* in normbl list node, pts to dbtb */
+        struct _list_item *curr; /* in list hebd, pts to curr for 1st, next */
     } ptr;
 } list, list_item, *list_ptr;
 
@@ -95,7 +95,7 @@ void zero_list(
           list_ptr
 #endif
     );
-int32_t add_to_list (
+int32_t bdd_to_list (
 #if NeedFunctionPrototypes
           list_ptr , void *
 #endif
@@ -105,7 +105,7 @@ list_ptr new_list (
           void
 #endif
     );
-list_ptr dup_list_head (
+list_ptr dup_list_hebd (
 #if NeedFunctionPrototypes
           list_ptr , int32_t
 #endif

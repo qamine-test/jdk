@@ -1,50 +1,50 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * Copyright (c) 2008-2012, Stephen Colebourne & Michael Nascimento Santos
+ * Copyright (c) 2008-2012, Stephen Colebourne & Michbel Nbscimento Sbntos
  *
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions bre met:
  *
- *  * Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ *  * Redistributions of source code must retbin the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer.
  *
- *  * Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ *  * Redistributions in binbry form must reproduce the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer in the documentbtion
+ *    bnd/or other mbteribls provided with the distribution.
  *
- *  * Neither the name of JSR-310 nor the names of its contributors
- *    may be used to endorse or promote products derived from this software
+ *  * Neither the nbme of JSR-310 nor the nbmes of its contributors
+ *    mby be used to endorse or promote products derived from this softwbre
  *    without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
@@ -59,114 +59,114 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package java.time.format;
+pbckbge jbvb.time.formbt;
 
-import java.time.ZoneId;
-import java.time.chrono.Chronology;
-import java.time.chrono.IsoChronology;
-import java.time.temporal.TemporalAccessor;
-import java.time.temporal.TemporalField;
-import java.util.ArrayList;
-import java.util.Locale;
-import java.util.Objects;
-import java.util.Set;
-import java.util.function.Consumer;
+import jbvb.time.ZoneId;
+import jbvb.time.chrono.Chronology;
+import jbvb.time.chrono.IsoChronology;
+import jbvb.time.temporbl.TemporblAccessor;
+import jbvb.time.temporbl.TemporblField;
+import jbvb.util.ArrbyList;
+import jbvb.util.Locble;
+import jbvb.util.Objects;
+import jbvb.util.Set;
+import jbvb.util.function.Consumer;
 
 /**
- * Context object used during date and time parsing.
+ * Context object used during dbte bnd time pbrsing.
  * <p>
- * This class represents the current state of the parse.
- * It has the ability to store and retrieve the parsed values and manage optional segments.
- * It also provides key information to the parsing methods.
+ * This clbss represents the current stbte of the pbrse.
+ * It hbs the bbility to store bnd retrieve the pbrsed vblues bnd mbnbge optionbl segments.
+ * It blso provides key informbtion to the pbrsing methods.
  * <p>
- * Once parsing is complete, the {@link #toUnresolved()} is used to obtain the unresolved
- * result data. The {@link #toResolved()} is used to obtain the resolved result.
+ * Once pbrsing is complete, the {@link #toUnresolved()} is used to obtbin the unresolved
+ * result dbtb. The {@link #toResolved()} is used to obtbin the resolved result.
  *
  * @implSpec
- * This class is a mutable context intended for use from a single thread.
- * Usage of the class is thread-safe within standard parsing as a new instance of this class
- * is automatically created for each parse and parsing is single-threaded
+ * This clbss is b mutbble context intended for use from b single threbd.
+ * Usbge of the clbss is threbd-sbfe within stbndbrd pbrsing bs b new instbnce of this clbss
+ * is butombticblly crebted for ebch pbrse bnd pbrsing is single-threbded
  *
  * @since 1.8
  */
-final class DateTimeParseContext {
+finbl clbss DbteTimePbrseContext {
 
     /**
-     * The formatter, not null.
+     * The formbtter, not null.
      */
-    private DateTimeFormatter formatter;
+    privbte DbteTimeFormbtter formbtter;
     /**
-     * Whether to parse using case sensitively.
+     * Whether to pbrse using cbse sensitively.
      */
-    private boolean caseSensitive = true;
+    privbte boolebn cbseSensitive = true;
     /**
-     * Whether to parse using strict rules.
+     * Whether to pbrse using strict rules.
      */
-    private boolean strict = true;
+    privbte boolebn strict = true;
     /**
-     * The list of parsed data.
+     * The list of pbrsed dbtb.
      */
-    private final ArrayList<Parsed> parsed = new ArrayList<>();
+    privbte finbl ArrbyList<Pbrsed> pbrsed = new ArrbyList<>();
     /**
-     * List of Consumers<Chronology> to be notified if the Chronology changes.
+     * List of Consumers<Chronology> to be notified if the Chronology chbnges.
      */
-    private ArrayList<Consumer<Chronology>> chronoListeners = null;
+    privbte ArrbyList<Consumer<Chronology>> chronoListeners = null;
 
     /**
-     * Creates a new instance of the context.
+     * Crebtes b new instbnce of the context.
      *
-     * @param formatter  the formatter controlling the parse, not null
+     * @pbrbm formbtter  the formbtter controlling the pbrse, not null
      */
-    DateTimeParseContext(DateTimeFormatter formatter) {
+    DbteTimePbrseContext(DbteTimeFormbtter formbtter) {
         super();
-        this.formatter = formatter;
-        parsed.add(new Parsed());
+        this.formbtter = formbtter;
+        pbrsed.bdd(new Pbrsed());
     }
 
     /**
-     * Creates a copy of this context.
-     * This retains the case sensitive and strict flags.
+     * Crebtes b copy of this context.
+     * This retbins the cbse sensitive bnd strict flbgs.
      */
-    DateTimeParseContext copy() {
-        DateTimeParseContext newContext = new DateTimeParseContext(formatter);
-        newContext.caseSensitive = caseSensitive;
+    DbteTimePbrseContext copy() {
+        DbteTimePbrseContext newContext = new DbteTimePbrseContext(formbtter);
+        newContext.cbseSensitive = cbseSensitive;
         newContext.strict = strict;
         return newContext;
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Gets the locale.
+     * Gets the locble.
      * <p>
-     * This locale is used to control localization in the parse except
-     * where localization is controlled by the DecimalStyle.
+     * This locble is used to control locblizbtion in the pbrse except
+     * where locblizbtion is controlled by the DecimblStyle.
      *
-     * @return the locale, not null
+     * @return the locble, not null
      */
-    Locale getLocale() {
-        return formatter.getLocale();
+    Locble getLocble() {
+        return formbtter.getLocble();
     }
 
     /**
-     * Gets the DecimalStyle.
+     * Gets the DecimblStyle.
      * <p>
-     * The DecimalStyle controls the numeric parsing.
+     * The DecimblStyle controls the numeric pbrsing.
      *
-     * @return the DecimalStyle, not null
+     * @return the DecimblStyle, not null
      */
-    DecimalStyle getDecimalStyle() {
-        return formatter.getDecimalStyle();
+    DecimblStyle getDecimblStyle() {
+        return formbtter.getDecimblStyle();
     }
 
     /**
-     * Gets the effective chronology during parsing.
+     * Gets the effective chronology during pbrsing.
      *
-     * @return the effective parsing chronology, not null
+     * @return the effective pbrsing chronology, not null
      */
     Chronology getEffectiveChronology() {
-        Chronology chrono = currentParsed().chrono;
+        Chronology chrono = currentPbrsed().chrono;
         if (chrono == null) {
-            chrono = formatter.getChronology();
+            chrono = formbtter.getChronology();
             if (chrono == null) {
                 chrono = IsoChronology.INSTANCE;
             }
@@ -176,54 +176,54 @@ final class DateTimeParseContext {
 
     //-----------------------------------------------------------------------
     /**
-     * Checks if parsing is case sensitive.
+     * Checks if pbrsing is cbse sensitive.
      *
-     * @return true if parsing is case sensitive, false if case insensitive
+     * @return true if pbrsing is cbse sensitive, fblse if cbse insensitive
      */
-    boolean isCaseSensitive() {
-        return caseSensitive;
+    boolebn isCbseSensitive() {
+        return cbseSensitive;
     }
 
     /**
-     * Sets whether the parsing is case sensitive or not.
+     * Sets whether the pbrsing is cbse sensitive or not.
      *
-     * @param caseSensitive  changes the parsing to be case sensitive or not from now on
+     * @pbrbm cbseSensitive  chbnges the pbrsing to be cbse sensitive or not from now on
      */
-    void setCaseSensitive(boolean caseSensitive) {
-        this.caseSensitive = caseSensitive;
+    void setCbseSensitive(boolebn cbseSensitive) {
+        this.cbseSensitive = cbseSensitive;
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Helper to compare two {@code CharSequence} instances.
-     * This uses {@link #isCaseSensitive()}.
+     * Helper to compbre two {@code ChbrSequence} instbnces.
+     * This uses {@link #isCbseSensitive()}.
      *
-     * @param cs1  the first character sequence, not null
-     * @param offset1  the offset into the first sequence, valid
-     * @param cs2  the second character sequence, not null
-     * @param offset2  the offset into the second sequence, valid
-     * @param length  the length to check, valid
-     * @return true if equal
+     * @pbrbm cs1  the first chbrbcter sequence, not null
+     * @pbrbm offset1  the offset into the first sequence, vblid
+     * @pbrbm cs2  the second chbrbcter sequence, not null
+     * @pbrbm offset2  the offset into the second sequence, vblid
+     * @pbrbm length  the length to check, vblid
+     * @return true if equbl
      */
-    boolean subSequenceEquals(CharSequence cs1, int offset1, CharSequence cs2, int offset2, int length) {
+    boolebn subSequenceEqubls(ChbrSequence cs1, int offset1, ChbrSequence cs2, int offset2, int length) {
         if (offset1 + length > cs1.length() || offset2 + length > cs2.length()) {
-            return false;
+            return fblse;
         }
-        if (isCaseSensitive()) {
+        if (isCbseSensitive()) {
             for (int i = 0; i < length; i++) {
-                char ch1 = cs1.charAt(offset1 + i);
-                char ch2 = cs2.charAt(offset2 + i);
+                chbr ch1 = cs1.chbrAt(offset1 + i);
+                chbr ch2 = cs2.chbrAt(offset2 + i);
                 if (ch1 != ch2) {
-                    return false;
+                    return fblse;
                 }
             }
         } else {
             for (int i = 0; i < length; i++) {
-                char ch1 = cs1.charAt(offset1 + i);
-                char ch2 = cs2.charAt(offset2 + i);
-                if (ch1 != ch2 && Character.toUpperCase(ch1) != Character.toUpperCase(ch2) &&
-                        Character.toLowerCase(ch1) != Character.toLowerCase(ch2)) {
-                    return false;
+                chbr ch1 = cs1.chbrAt(offset1 + i);
+                chbr ch2 = cs2.chbrAt(offset2 + i);
+                if (ch1 != ch2 && Chbrbcter.toUpperCbse(ch1) != Chbrbcter.toUpperCbse(ch2) &&
+                        Chbrbcter.toLowerCbse(ch1) != Chbrbcter.toLowerCbse(ch2)) {
+                    return fblse;
                 }
             }
         }
@@ -231,208 +231,208 @@ final class DateTimeParseContext {
     }
 
     /**
-     * Helper to compare two {@code char}.
-     * This uses {@link #isCaseSensitive()}.
+     * Helper to compbre two {@code chbr}.
+     * This uses {@link #isCbseSensitive()}.
      *
-     * @param ch1  the first character
-     * @param ch2  the second character
-     * @return true if equal
+     * @pbrbm ch1  the first chbrbcter
+     * @pbrbm ch2  the second chbrbcter
+     * @return true if equbl
      */
-    boolean charEquals(char ch1, char ch2) {
-        if (isCaseSensitive()) {
+    boolebn chbrEqubls(chbr ch1, chbr ch2) {
+        if (isCbseSensitive()) {
             return ch1 == ch2;
         }
-        return charEqualsIgnoreCase(ch1, ch2);
+        return chbrEqublsIgnoreCbse(ch1, ch2);
     }
 
     /**
-     * Compares two characters ignoring case.
+     * Compbres two chbrbcters ignoring cbse.
      *
-     * @param c1  the first
-     * @param c2  the second
-     * @return true if equal
+     * @pbrbm c1  the first
+     * @pbrbm c2  the second
+     * @return true if equbl
      */
-    static boolean charEqualsIgnoreCase(char c1, char c2) {
+    stbtic boolebn chbrEqublsIgnoreCbse(chbr c1, chbr c2) {
         return c1 == c2 ||
-                Character.toUpperCase(c1) == Character.toUpperCase(c2) ||
-                Character.toLowerCase(c1) == Character.toLowerCase(c2);
+                Chbrbcter.toUpperCbse(c1) == Chbrbcter.toUpperCbse(c2) ||
+                Chbrbcter.toLowerCbse(c1) == Chbrbcter.toLowerCbse(c2);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Checks if parsing is strict.
+     * Checks if pbrsing is strict.
      * <p>
-     * Strict parsing requires exact matching of the text and sign styles.
+     * Strict pbrsing requires exbct mbtching of the text bnd sign styles.
      *
-     * @return true if parsing is strict, false if lenient
+     * @return true if pbrsing is strict, fblse if lenient
      */
-    boolean isStrict() {
+    boolebn isStrict() {
         return strict;
     }
 
     /**
-     * Sets whether parsing is strict or lenient.
+     * Sets whether pbrsing is strict or lenient.
      *
-     * @param strict  changes the parsing to be strict or lenient from now on
+     * @pbrbm strict  chbnges the pbrsing to be strict or lenient from now on
      */
-    void setStrict(boolean strict) {
+    void setStrict(boolebn strict) {
         this.strict = strict;
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Starts the parsing of an optional segment of the input.
+     * Stbrts the pbrsing of bn optionbl segment of the input.
      */
-    void startOptional() {
-        parsed.add(currentParsed().copy());
+    void stbrtOptionbl() {
+        pbrsed.bdd(currentPbrsed().copy());
     }
 
     /**
-     * Ends the parsing of an optional segment of the input.
+     * Ends the pbrsing of bn optionbl segment of the input.
      *
-     * @param successful  whether the optional segment was successfully parsed
+     * @pbrbm successful  whether the optionbl segment wbs successfully pbrsed
      */
-    void endOptional(boolean successful) {
+    void endOptionbl(boolebn successful) {
         if (successful) {
-            parsed.remove(parsed.size() - 2);
+            pbrsed.remove(pbrsed.size() - 2);
         } else {
-            parsed.remove(parsed.size() - 1);
+            pbrsed.remove(pbrsed.size() - 1);
         }
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Gets the currently active temporal objects.
+     * Gets the currently bctive temporbl objects.
      *
-     * @return the current temporal objects, not null
+     * @return the current temporbl objects, not null
      */
-    private Parsed currentParsed() {
-        return parsed.get(parsed.size() - 1);
+    privbte Pbrsed currentPbrsed() {
+        return pbrsed.get(pbrsed.size() - 1);
     }
 
     /**
-     * Gets the unresolved result of the parse.
+     * Gets the unresolved result of the pbrse.
      *
-     * @return the result of the parse, not null
+     * @return the result of the pbrse, not null
      */
-    Parsed toUnresolved() {
-        return currentParsed();
+    Pbrsed toUnresolved() {
+        return currentPbrsed();
     }
 
     /**
-     * Gets the resolved result of the parse.
+     * Gets the resolved result of the pbrse.
      *
-     * @return the result of the parse, not null
+     * @return the result of the pbrse, not null
      */
-    TemporalAccessor toResolved(ResolverStyle resolverStyle, Set<TemporalField> resolverFields) {
-        Parsed parsed = currentParsed();
-        parsed.chrono = getEffectiveChronology();
-        parsed.zone = (parsed.zone != null ? parsed.zone : formatter.getZone());
-        return parsed.resolve(resolverStyle, resolverFields);
+    TemporblAccessor toResolved(ResolverStyle resolverStyle, Set<TemporblField> resolverFields) {
+        Pbrsed pbrsed = currentPbrsed();
+        pbrsed.chrono = getEffectiveChronology();
+        pbrsed.zone = (pbrsed.zone != null ? pbrsed.zone : formbtter.getZone());
+        return pbrsed.resolve(resolverStyle, resolverFields);
     }
 
 
     //-----------------------------------------------------------------------
     /**
-     * Gets the first value that was parsed for the specified field.
+     * Gets the first vblue thbt wbs pbrsed for the specified field.
      * <p>
-     * This searches the results of the parse, returning the first value found
-     * for the specified field. No attempt is made to derive a value.
-     * The field may have an out of range value.
-     * For example, the day-of-month might be set to 50, or the hour to 1000.
+     * This sebrches the results of the pbrse, returning the first vblue found
+     * for the specified field. No bttempt is mbde to derive b vblue.
+     * The field mby hbve bn out of rbnge vblue.
+     * For exbmple, the dby-of-month might be set to 50, or the hour to 1000.
      *
-     * @param field  the field to query from the map, null returns null
-     * @return the value mapped to the specified field, null if field was not parsed
+     * @pbrbm field  the field to query from the mbp, null returns null
+     * @return the vblue mbpped to the specified field, null if field wbs not pbrsed
      */
-    Long getParsed(TemporalField field) {
-        return currentParsed().fieldValues.get(field);
+    Long getPbrsed(TemporblField field) {
+        return currentPbrsed().fieldVblues.get(field);
     }
 
     /**
-     * Stores the parsed field.
+     * Stores the pbrsed field.
      * <p>
-     * This stores a field-value pair that has been parsed.
-     * The value stored may be out of range for the field - no checks are performed.
+     * This stores b field-vblue pbir thbt hbs been pbrsed.
+     * The vblue stored mby be out of rbnge for the field - no checks bre performed.
      *
-     * @param field  the field to set in the field-value map, not null
-     * @param value  the value to set in the field-value map
-     * @param errorPos  the position of the field being parsed
-     * @param successPos  the position after the field being parsed
+     * @pbrbm field  the field to set in the field-vblue mbp, not null
+     * @pbrbm vblue  the vblue to set in the field-vblue mbp
+     * @pbrbm errorPos  the position of the field being pbrsed
+     * @pbrbm successPos  the position bfter the field being pbrsed
      * @return the new position
      */
-    int setParsedField(TemporalField field, long value, int errorPos, int successPos) {
+    int setPbrsedField(TemporblField field, long vblue, int errorPos, int successPos) {
         Objects.requireNonNull(field, "field");
-        Long old = currentParsed().fieldValues.put(field, value);
-        return (old != null && old.longValue() != value) ? ~errorPos : successPos;
+        Long old = currentPbrsed().fieldVblues.put(field, vblue);
+        return (old != null && old.longVblue() != vblue) ? ~errorPos : successPos;
     }
 
     /**
-     * Stores the parsed chronology.
+     * Stores the pbrsed chronology.
      * <p>
-     * This stores the chronology that has been parsed.
-     * No validation is performed other than ensuring it is not null.
+     * This stores the chronology thbt hbs been pbrsed.
+     * No vblidbtion is performed other thbn ensuring it is not null.
      * <p>
-     * The list of listeners is copied and cleared so that each
-     * listener is called only once.  A listener can add itself again
-     * if it needs to be notified of future changes.
+     * The list of listeners is copied bnd clebred so thbt ebch
+     * listener is cblled only once.  A listener cbn bdd itself bgbin
+     * if it needs to be notified of future chbnges.
      *
-     * @param chrono  the parsed chronology, not null
+     * @pbrbm chrono  the pbrsed chronology, not null
      */
-    void setParsed(Chronology chrono) {
+    void setPbrsed(Chronology chrono) {
         Objects.requireNonNull(chrono, "chrono");
-        currentParsed().chrono = chrono;
+        currentPbrsed().chrono = chrono;
         if (chronoListeners != null && !chronoListeners.isEmpty()) {
-            @SuppressWarnings({"rawtypes", "unchecked"})
+            @SuppressWbrnings({"rbwtypes", "unchecked"})
             Consumer<Chronology>[] tmp = new Consumer[1];
-            Consumer<Chronology>[] listeners = chronoListeners.toArray(tmp);
-            chronoListeners.clear();
+            Consumer<Chronology>[] listeners = chronoListeners.toArrby(tmp);
+            chronoListeners.clebr();
             for (Consumer<Chronology> l : listeners) {
-                l.accept(chrono);
+                l.bccept(chrono);
             }
         }
     }
 
     /**
-     * Adds a Consumer<Chronology> to the list of listeners to be notified
-     * if the Chronology changes.
-     * @param listener a Consumer<Chronology> to be called when Chronology changes
+     * Adds b Consumer<Chronology> to the list of listeners to be notified
+     * if the Chronology chbnges.
+     * @pbrbm listener b Consumer<Chronology> to be cblled when Chronology chbnges
      */
-    void addChronoChangedListener(Consumer<Chronology> listener) {
+    void bddChronoChbngedListener(Consumer<Chronology> listener) {
         if (chronoListeners == null) {
-            chronoListeners = new ArrayList<Consumer<Chronology>>();
+            chronoListeners = new ArrbyList<Consumer<Chronology>>();
         }
-        chronoListeners.add(listener);
+        chronoListeners.bdd(listener);
     }
 
     /**
-     * Stores the parsed zone.
+     * Stores the pbrsed zone.
      * <p>
-     * This stores the zone that has been parsed.
-     * No validation is performed other than ensuring it is not null.
+     * This stores the zone thbt hbs been pbrsed.
+     * No vblidbtion is performed other thbn ensuring it is not null.
      *
-     * @param zone  the parsed zone, not null
+     * @pbrbm zone  the pbrsed zone, not null
      */
-    void setParsed(ZoneId zone) {
+    void setPbrsed(ZoneId zone) {
         Objects.requireNonNull(zone, "zone");
-        currentParsed().zone = zone;
+        currentPbrsed().zone = zone;
     }
 
     /**
-     * Stores the parsed leap second.
+     * Stores the pbrsed lebp second.
      */
-    void setParsedLeapSecond() {
-        currentParsed().leapSecond = true;
+    void setPbrsedLebpSecond() {
+        currentPbrsed().lebpSecond = true;
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Returns a string version of the context for debugging.
+     * Returns b string version of the context for debugging.
      *
-     * @return a string representation of the context data, not null
+     * @return b string representbtion of the context dbtb, not null
      */
     @Override
     public String toString() {
-        return currentParsed().toString();
+        return currentPbrsed().toString();
     }
 
 }

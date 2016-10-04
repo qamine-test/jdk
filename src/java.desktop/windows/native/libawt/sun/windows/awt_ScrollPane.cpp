@@ -1,166 +1,166 @@
 /*
- * Copyright (c) 1996, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-#include "awt_ScrollPane.h"
+#include "bwt_ScrollPbne.h"
 
-#include "awt_Container.h"
-#include "awt_Insets.h"
-#include "awt_Panel.h"
-#include "awt_Scrollbar.h"   // static #defines
-#include "awt_Toolkit.h"
-#include "awt_Window.h"
+#include "bwt_Contbiner.h"
+#include "bwt_Insets.h"
+#include "bwt_Pbnel.h"
+#include "bwt_Scrollbbr.h"   // stbtic #defines
+#include "bwt_Toolkit.h"
+#include "bwt_Window.h"
 
-#include <java_awt_Adjustable.h>
-#include <java_awt_ScrollPane.h>
-#include <java_awt_ScrollPaneAdjustable.h>
-#include <java_awt_event_AdjustmentEvent.h>
+#include <jbvb_bwt_Adjustbble.h>
+#include <jbvb_bwt_ScrollPbne.h>
+#include <jbvb_bwt_ScrollPbneAdjustbble.h>
+#include <jbvb_bwt_event_AdjustmentEvent.h>
 
 
-/* IMPORTANT! Read the README.JNI file for notes on JNI converted AWT code.
+/* IMPORTANT! Rebd the README.JNI file for notes on JNI converted AWT code.
  */
 
 /***********************************************************************/
 // struct for _GetOffset() method
 struct GetOffsetStruct {
-    jobject scrollpane;
+    jobject scrollpbne;
     jint orient;
 };
 // struct for _SetScrollPos() method
 struct SetScrollPosStruct {
-    jobject scrollpane;
+    jobject scrollpbne;
     jint x, y;
 };
-// struct for _SetSpans() method
-struct SetSpansStruct {
-    jobject scrollpane;
-    jint parentWidth;
-    jint parentHeight;
+// struct for _SetSpbns() method
+struct SetSpbnsStruct {
+    jobject scrollpbne;
+    jint pbrentWidth;
+    jint pbrentHeight;
     jint childWidth;
     jint childHeight;
 };
 /************************************************************************
- * AwtScrollPane fields
+ * AwtScrollPbne fields
  */
 
-jfieldID AwtScrollPane::scrollbarDisplayPolicyID;
-jfieldID AwtScrollPane::hAdjustableID;
-jfieldID AwtScrollPane::vAdjustableID;
-jfieldID AwtScrollPane::unitIncrementID;
-jfieldID AwtScrollPane::blockIncrementID;
-jmethodID AwtScrollPane::postScrollEventID;
+jfieldID AwtScrollPbne::scrollbbrDisplbyPolicyID;
+jfieldID AwtScrollPbne::hAdjustbbleID;
+jfieldID AwtScrollPbne::vAdjustbbleID;
+jfieldID AwtScrollPbne::unitIncrementID;
+jfieldID AwtScrollPbne::blockIncrementID;
+jmethodID AwtScrollPbne::postScrollEventID;
 
 /************************************************************************
- * AwtScrollPane methods
+ * AwtScrollPbne methods
  */
 
-AwtScrollPane::AwtScrollPane() {
+AwtScrollPbne::AwtScrollPbne() {
 }
 
-LPCTSTR AwtScrollPane::GetClassName() {
-    return TEXT("SunAwtScrollPane");
+LPCTSTR AwtScrollPbne::GetClbssNbme() {
+    return TEXT("SunAwtScrollPbne");
 }
 
-/* Create a new AwtScrollPane object and window.   */
-AwtScrollPane* AwtScrollPane::Create(jobject self, jobject parent)
+/* Crebte b new AwtScrollPbne object bnd window.   */
+AwtScrollPbne* AwtScrollPbne::Crebte(jobject self, jobject pbrent)
 {
     JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
-    jobject target = NULL;
-    AwtScrollPane* c = NULL;
+    jobject tbrget = NULL;
+    AwtScrollPbne* c = NULL;
 
     try {
-        if (env->EnsureLocalCapacity(1) < 0) {
+        if (env->EnsureLocblCbpbcity(1) < 0) {
             return NULL;
         }
 
-        PDATA pData;
-        AwtComponent* awtParent;
-        JNI_CHECK_PEER_GOTO(parent, done);
+        PDATA pDbtb;
+        AwtComponent* bwtPbrent;
+        JNI_CHECK_PEER_GOTO(pbrent, done);
 
-        awtParent = (AwtComponent*)pData;
-        JNI_CHECK_NULL_GOTO(awtParent, "null awtParent", done);
+        bwtPbrent = (AwtComponent*)pDbtb;
+        JNI_CHECK_NULL_GOTO(bwtPbrent, "null bwtPbrent", done);
 
-        target = env->GetObjectField(self, AwtObject::targetID);
-        JNI_CHECK_NULL_GOTO(target, "null target", done);
+        tbrget = env->GetObjectField(self, AwtObject::tbrgetID);
+        JNI_CHECK_NULL_GOTO(tbrget, "null tbrget", done);
 
-        c = new AwtScrollPane();
+        c = new AwtScrollPbne();
 
         {
             DWORD style = WS_CHILD | WS_CLIPCHILDREN | WS_CLIPSIBLINGS;
-            jint scrollbarDisplayPolicy =
-                env->GetIntField(target, scrollbarDisplayPolicyID);
+            jint scrollbbrDisplbyPolicy =
+                env->GetIntField(tbrget, scrollbbrDisplbyPolicyID);
 
-            if (scrollbarDisplayPolicy
-                    == java_awt_ScrollPane_SCROLLBARS_ALWAYS) {
+            if (scrollbbrDisplbyPolicy
+                    == jbvb_bwt_ScrollPbne_SCROLLBARS_ALWAYS) {
                 style |= WS_HSCROLL | WS_VSCROLL;
             }
             DWORD exStyle = WS_EX_CLIENTEDGE;
 
             if (GetRTL()) {
                 exStyle |= WS_EX_RIGHT | WS_EX_LEFTSCROLLBAR;
-                if (GetRTLReadingOrder())
+                if (GetRTLRebdingOrder())
                     exStyle |= WS_EX_RTLREADING;
             }
 
-            jint x = env->GetIntField(target, AwtComponent::xID);
-            jint y = env->GetIntField(target, AwtComponent::yID);
-            jint width = env->GetIntField(target, AwtComponent::widthID);
-            jint height = env->GetIntField(target, AwtComponent::heightID);
-            c->CreateHWnd(env, L"", style, exStyle,
+            jint x = env->GetIntField(tbrget, AwtComponent::xID);
+            jint y = env->GetIntField(tbrget, AwtComponent::yID);
+            jint width = env->GetIntField(tbrget, AwtComponent::widthID);
+            jint height = env->GetIntField(tbrget, AwtComponent::heightID);
+            c->CrebteHWnd(env, L"", style, exStyle,
                           x, y, width, height,
-                          awtParent->GetHWnd(),
-                          reinterpret_cast<HMENU>(static_cast<INT_PTR>(
-                awtParent->CreateControlID())),
+                          bwtPbrent->GetHWnd(),
+                          reinterpret_cbst<HMENU>(stbtic_cbst<INT_PTR>(
+                bwtPbrent->CrebteControlID())),
                           ::GetSysColor(COLOR_WINDOWTEXT),
                           ::GetSysColor(COLOR_WINDOW),
                           self);
         }
-    } catch (...) {
-        env->DeleteLocalRef(target);
+    } cbtch (...) {
+        env->DeleteLocblRef(tbrget);
         throw;
     }
 
 done:
-    env->DeleteLocalRef(target);
+    env->DeleteLocblRef(tbrget);
     return c;
 }
 
-void AwtScrollPane::SetInsets(JNIEnv *env)
+void AwtScrollPbne::SetInsets(JNIEnv *env)
 {
     RECT outside;
     RECT inside;
     ::GetWindowRect(GetHWnd(), &outside);
     ::GetClientRect(GetHWnd(), &inside);
-    ::MapWindowPoints(GetHWnd(), 0, (LPPOINT)&inside, 2);
+    ::MbpWindowPoints(GetHWnd(), 0, (LPPOINT)&inside, 2);
 
-    if (env->EnsureLocalCapacity(1) < 0) {
+    if (env->EnsureLocblCbpbcity(1) < 0) {
         return;
     }
     jobject insets =
-      (env)->GetObjectField(GetPeer(env), AwtPanel::insets_ID);
+      (env)->GetObjectField(GetPeer(env), AwtPbnel::insets_ID);
 
-    DASSERT(!safe_ExceptionOccurred(env));
+    DASSERT(!sbfe_ExceptionOccurred(env));
 
     if (insets != NULL && (inside.top-outside.top) != 0) {
         (env)->SetIntField(insets, AwtInsets::topID, inside.top - outside.top);
@@ -169,13 +169,13 @@ void AwtScrollPane::SetInsets(JNIEnv *env)
         (env)->SetIntField(insets, AwtInsets::rightID, outside.right - inside.right);
     }
 
-    env->DeleteLocalRef(insets);
+    env->DeleteLocblRef(insets);
 }
 
-void AwtScrollPane::SetScrollInfo(int orient, int max, int page,
-                                  BOOL disableNoScroll)
+void AwtScrollPbne::SetScrollInfo(int orient, int mbx, int pbge,
+                                  BOOL disbbleNoScroll)
 {
-    DTRACE_PRINTLN4("AwtScrollPane::SetScrollInfo %d, %d, %d, %d", orient, max, page, disableNoScroll);
+    DTRACE_PRINTLN4("AwtScrollPbne::SetScrollInfo %d, %d, %d, %d", orient, mbx, pbge, disbbleNoScroll);
     SCROLLINFO si;
     int posBefore;
     int posAfter;
@@ -183,24 +183,24 @@ void AwtScrollPane::SetScrollInfo(int orient, int max, int page,
     posBefore = GetScrollPos(orient);
     si.cbSize = sizeof(SCROLLINFO);
     si.nMin = 0;
-    si.nMax = max;
-    si.fMask = SIF_RANGE;
-    if (disableNoScroll) {
-        si.fMask |= SIF_DISABLENOSCROLL;
+    si.nMbx = mbx;
+    si.fMbsk = SIF_RANGE;
+    if (disbbleNoScroll) {
+        si.fMbsk |= SIF_DISABLENOSCROLL;
     }
-    if (page > 0) {
-        si.fMask |= SIF_PAGE;
-        si.nPage = page;
+    if (pbge > 0) {
+        si.fMbsk |= SIF_PAGE;
+        si.nPbge = pbge;
     }
     ::SetScrollInfo(GetHWnd(), orient, &si, TRUE);
-    // scroll position may have changed when thumb is at the end of the bar
-    // and the page size changes
+    // scroll position mby hbve chbnged when thumb is bt the end of the bbr
+    // bnd the pbge size chbnges
     posAfter = GetScrollPos(orient);
     if (posBefore != posAfter) {
-        if(max==0 && posAfter==0) {
-            // Caller used nMin==nMax idiom to hide scrollbar.
-            // On the new themes (Windows XP, Vista) this would reset
-            // scroll position to zero ("just inside the range") (6404832).
+        if(mbx==0 && posAfter==0) {
+            // Cbller used nMin==nMbx idiom to hide scrollbbr.
+            // On the new themes (Windows XP, Vistb) this would reset
+            // scroll position to zero ("just inside the rbnge") (6404832).
             //
             PostScrollEvent(orient, SB_THUMBPOSITION, posBefore);
         }else{
@@ -209,289 +209,289 @@ void AwtScrollPane::SetScrollInfo(int orient, int max, int page,
     }
 }
 
-void AwtScrollPane::RecalcSizes(int parentWidth, int parentHeight,
+void AwtScrollPbne::RecblcSizes(int pbrentWidth, int pbrentHeight,
                                 int childWidth, int childHeight)
 {
     JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
-    if (env->EnsureLocalCapacity(2) < 0) {
+    if (env->EnsureLocblCbpbcity(2) < 0) {
         return;
     }
 
-    /* Determine border width without scrollbars. */
+    /* Determine border width without scrollbbrs. */
     int horzBorder = ::GetSystemMetrics(SM_CXEDGE);;
     int vertBorder = ::GetSystemMetrics(SM_CYEDGE);;
 
-    parentWidth -= (horzBorder * 2);
-    parentHeight -= (vertBorder * 2);
+    pbrentWidth -= (horzBorder * 2);
+    pbrentHeight -= (vertBorder * 2);
 
-    /* Enable each scrollbar as needed. */
-    jobject target = AwtObject::GetTarget(env);
-    jint policy = env->GetIntField(target,
-                                   AwtScrollPane::scrollbarDisplayPolicyID);
+    /* Enbble ebch scrollbbr bs needed. */
+    jobject tbrget = AwtObject::GetTbrget(env);
+    jint policy = env->GetIntField(tbrget,
+                                   AwtScrollPbne::scrollbbrDisplbyPolicyID);
 
-    BOOL needsHorz=(policy == java_awt_ScrollPane_SCROLLBARS_ALWAYS ||
-                    (policy == java_awt_ScrollPane_SCROLLBARS_AS_NEEDED &&
-                     childWidth > parentWidth));
+    BOOL needsHorz=(policy == jbvb_bwt_ScrollPbne_SCROLLBARS_ALWAYS ||
+                    (policy == jbvb_bwt_ScrollPbne_SCROLLBARS_AS_NEEDED &&
+                     childWidth > pbrentWidth));
     if (needsHorz) {
-        parentHeight -= ::GetSystemMetrics(SM_CYHSCROLL);
+        pbrentHeight -= ::GetSystemMetrics(SM_CYHSCROLL);
     }
-    BOOL needsVert=(policy == java_awt_ScrollPane_SCROLLBARS_ALWAYS ||
-                    (policy ==java_awt_ScrollPane_SCROLLBARS_AS_NEEDED &&
-                     childHeight > parentHeight));
+    BOOL needsVert=(policy == jbvb_bwt_ScrollPbne_SCROLLBARS_ALWAYS ||
+                    (policy ==jbvb_bwt_ScrollPbne_SCROLLBARS_AS_NEEDED &&
+                     childHeight > pbrentHeight));
     if (needsVert) {
-        parentWidth -= ::GetSystemMetrics(SM_CXVSCROLL);
+        pbrentWidth -= ::GetSystemMetrics(SM_CXVSCROLL);
     }
     /*
-     * Since the vertical scrollbar may have reduced the parent width
-     * enough to now require a horizontal scrollbar, we need to
-     * recalculate the horizontal metrics and scrollbar boolean.
+     * Since the verticbl scrollbbr mby hbve reduced the pbrent width
+     * enough to now require b horizontbl scrollbbr, we need to
+     * recblculbte the horizontbl metrics bnd scrollbbr boolebn.
      */
     if (!needsHorz) {
-        needsHorz = (policy == java_awt_ScrollPane_SCROLLBARS_ALWAYS ||
-                     (policy == java_awt_ScrollPane_SCROLLBARS_AS_NEEDED &&
-                      childWidth > parentWidth));
+        needsHorz = (policy == jbvb_bwt_ScrollPbne_SCROLLBARS_ALWAYS ||
+                     (policy == jbvb_bwt_ScrollPbne_SCROLLBARS_AS_NEEDED &&
+                      childWidth > pbrentWidth));
         if (needsHorz) {
-            parentHeight -= ::GetSystemMetrics(SM_CYHSCROLL);
+            pbrentHeight -= ::GetSystemMetrics(SM_CYHSCROLL);
         }
     }
 
-    /* Now set ranges -- setting the min and max the same disables them. */
+    /* Now set rbnges -- setting the min bnd mbx the sbme disbbles them. */
     if (needsHorz) {
         jobject hAdj =
-            env->GetObjectField(target, AwtScrollPane::hAdjustableID);
-        env->SetIntField(hAdj, AwtScrollPane::blockIncrementID, parentWidth);
-        SetScrollInfo(SB_HORZ, childWidth - 1, parentWidth,
-                      (policy == java_awt_ScrollPane_SCROLLBARS_ALWAYS));
-        env->DeleteLocalRef(hAdj);
+            env->GetObjectField(tbrget, AwtScrollPbne::hAdjustbbleID);
+        env->SetIntField(hAdj, AwtScrollPbne::blockIncrementID, pbrentWidth);
+        SetScrollInfo(SB_HORZ, childWidth - 1, pbrentWidth,
+                      (policy == jbvb_bwt_ScrollPbne_SCROLLBARS_ALWAYS));
+        env->DeleteLocblRef(hAdj);
     } else {
         SetScrollInfo(SB_HORZ, 0, 0,
-                      (policy == java_awt_ScrollPane_SCROLLBARS_ALWAYS));
+                      (policy == jbvb_bwt_ScrollPbne_SCROLLBARS_ALWAYS));
     }
 
     if (needsVert) {
         jobject vAdj =
-            env->GetObjectField(target, AwtScrollPane::vAdjustableID);
-        env->SetIntField(vAdj, AwtScrollPane::blockIncrementID, parentHeight);
-        SetScrollInfo(SB_VERT, childHeight - 1, parentHeight,
-                      (policy == java_awt_ScrollPane_SCROLLBARS_ALWAYS));
-        env->DeleteLocalRef(vAdj);
+            env->GetObjectField(tbrget, AwtScrollPbne::vAdjustbbleID);
+        env->SetIntField(vAdj, AwtScrollPbne::blockIncrementID, pbrentHeight);
+        SetScrollInfo(SB_VERT, childHeight - 1, pbrentHeight,
+                      (policy == jbvb_bwt_ScrollPbne_SCROLLBARS_ALWAYS));
+        env->DeleteLocblRef(vAdj);
     } else {
         SetScrollInfo(SB_VERT, 0, 0,
-                      (policy == java_awt_ScrollPane_SCROLLBARS_ALWAYS));
+                      (policy == jbvb_bwt_ScrollPbne_SCROLLBARS_ALWAYS));
     }
 
-    env->DeleteLocalRef(target);
+    env->DeleteLocblRef(tbrget);
 }
 
-void AwtScrollPane::Reshape(int x, int y, int w, int h)
+void AwtScrollPbne::Reshbpe(int x, int y, int w, int h)
 {
-    AwtComponent::Reshape(x, y, w, h);
+    AwtComponent::Reshbpe(x, y, w, h);
 }
 
-void AwtScrollPane::Show(JNIEnv *env)
+void AwtScrollPbne::Show(JNIEnv *env)
 {
     SetInsets(env);
-    SendMessage(WM_AWT_COMPONENT_SHOW);
+    SendMessbge(WM_AWT_COMPONENT_SHOW);
 }
 
-void AwtScrollPane::PostScrollEvent(int orient, int scrollCode, int pos) {
+void AwtScrollPbne::PostScrollEvent(int orient, int scrollCode, int pos) {
     if (scrollCode == SB_ENDSCROLL) {
         return;
     }
 
-    // convert Windows scroll bar ident to peer ident
+    // convert Windows scroll bbr ident to peer ident
     jint jorient;
     if (orient == SB_VERT) {
-        jorient = java_awt_Adjustable_VERTICAL;
+        jorient = jbvb_bwt_Adjustbble_VERTICAL;
     } else if (orient == SB_HORZ) {
-        jorient = java_awt_Adjustable_HORIZONTAL;
+        jorient = jbvb_bwt_Adjustbble_HORIZONTAL;
     } else {
         DASSERT(FALSE);
         return;
     }
 
-    // convert Windows scroll code to adjustment type and isAdjusting status
+    // convert Windows scroll code to bdjustment type bnd isAdjusting stbtus
     jint jscrollcode;
-    jboolean jadjusting = JNI_FALSE;
+    jboolebn jbdjusting = JNI_FALSE;
     SCROLLINFO si;
     switch (scrollCode) {
-      case SB_LINEUP:
-          jscrollcode = java_awt_event_AdjustmentEvent_UNIT_DECREMENT;
-          break;
-      case SB_LINEDOWN:
-          jscrollcode = java_awt_event_AdjustmentEvent_UNIT_INCREMENT;
-          break;
-      case SB_PAGEUP:
-          jscrollcode = java_awt_event_AdjustmentEvent_BLOCK_DECREMENT;
-          break;
-      case SB_PAGEDOWN:
-          jscrollcode = java_awt_event_AdjustmentEvent_BLOCK_INCREMENT;
-          break;
-      case SB_TOP:
-          jscrollcode = java_awt_event_AdjustmentEvent_TRACK;
+      cbse SB_LINEUP:
+          jscrollcode = jbvb_bwt_event_AdjustmentEvent_UNIT_DECREMENT;
+          brebk;
+      cbse SB_LINEDOWN:
+          jscrollcode = jbvb_bwt_event_AdjustmentEvent_UNIT_INCREMENT;
+          brebk;
+      cbse SB_PAGEUP:
+          jscrollcode = jbvb_bwt_event_AdjustmentEvent_BLOCK_DECREMENT;
+          brebk;
+      cbse SB_PAGEDOWN:
+          jscrollcode = jbvb_bwt_event_AdjustmentEvent_BLOCK_INCREMENT;
+          brebk;
+      cbse SB_TOP:
+          jscrollcode = jbvb_bwt_event_AdjustmentEvent_TRACK;
           ZeroMemory(&si, sizeof(si));
           si.cbSize = sizeof(si);
-          si.fMask = SIF_RANGE;
+          si.fMbsk = SIF_RANGE;
           ::GetScrollInfo(GetHWnd(), orient, &si);
           pos = si.nMin;
-          break;
-      case SB_BOTTOM:
-          jscrollcode = java_awt_event_AdjustmentEvent_TRACK;
+          brebk;
+      cbse SB_BOTTOM:
+          jscrollcode = jbvb_bwt_event_AdjustmentEvent_TRACK;
           ZeroMemory(&si, sizeof(si));
           si.cbSize = sizeof(si);
-          si.fMask = SIF_RANGE;
+          si.fMbsk = SIF_RANGE;
           ::GetScrollInfo(GetHWnd(), orient, &si);
-          pos = si.nMax;
-          break;
-      case SB_THUMBTRACK:
-          jscrollcode = java_awt_event_AdjustmentEvent_TRACK;
-          jadjusting = JNI_TRUE;
-          break;
-      case SB_THUMBPOSITION:
-          jscrollcode = java_awt_event_AdjustmentEvent_TRACK;
-          break;
-      default:
+          pos = si.nMbx;
+          brebk;
+      cbse SB_THUMBTRACK:
+          jscrollcode = jbvb_bwt_event_AdjustmentEvent_TRACK;
+          jbdjusting = JNI_TRUE;
+          brebk;
+      cbse SB_THUMBPOSITION:
+          jscrollcode = jbvb_bwt_event_AdjustmentEvent_TRACK;
+          brebk;
+      defbult:
           DASSERT(FALSE);
           return;
     }
 
     JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
-    env->CallVoidMethod(GetPeer(env), AwtScrollPane::postScrollEventID,
-                        jorient, jscrollcode, (jint)pos, jadjusting);
-    DASSERT(!safe_ExceptionOccurred(env));
+    env->CbllVoidMethod(GetPeer(env), AwtScrollPbne::postScrollEventID,
+                        jorient, jscrollcode, (jint)pos, jbdjusting);
+    DASSERT(!sbfe_ExceptionOccurred(env));
 }
 
 MsgRouting
-AwtScrollPane::WmNcHitTest(UINT x, UINT y, LRESULT& retVal)
+AwtScrollPbne::WmNcHitTest(UINT x, UINT y, LRESULT& retVbl)
 {
-    if (::IsWindow(AwtWindow::GetModalBlocker(AwtComponent::GetTopLevelParentForWindow(GetHWnd())))) {
-        retVal = HTCLIENT;
+    if (::IsWindow(AwtWindow::GetModblBlocker(AwtComponent::GetTopLevelPbrentForWindow(GetHWnd())))) {
+        retVbl = HTCLIENT;
         return mrConsume;
     }
-    return AwtCanvas::WmNcHitTest(x, y, retVal);
+    return AwtCbnvbs::WmNcHitTest(x, y, retVbl);
 }
 
-MsgRouting AwtScrollPane::WmVScroll(UINT scrollCode, UINT pos, HWND hScrollPane)
+MsgRouting AwtScrollPbne::WmVScroll(UINT scrollCode, UINT pos, HWND hScrollPbne)
 {
-    // While user scrolls using tracker, SCROLLINFO.nPos is not changed, SCROLLINFO.nTrackPos is changed instead.
-    int dragP = scrollCode == SB_THUMBPOSITION || scrollCode == SB_THUMBTRACK;
+    // While user scrolls using trbcker, SCROLLINFO.nPos is not chbnged, SCROLLINFO.nTrbckPos is chbnged instebd.
+    int drbgP = scrollCode == SB_THUMBPOSITION || scrollCode == SB_THUMBTRACK;
     int newPos = GetScrollPos(SB_VERT);
-    if ( dragP ) {
+    if ( drbgP ) {
         SCROLLINFO si;
         ZeroMemory(&si, sizeof(si));
         si.cbSize = sizeof(si);
-        si.fMask = SIF_TRACKPOS;
+        si.fMbsk = SIF_TRACKPOS;
         ::GetScrollInfo(GetHWnd(), SB_VERT, &si);
-        newPos = si.nTrackPos;
+        newPos = si.nTrbckPos;
     }
     PostScrollEvent(SB_VERT, scrollCode, newPos);
     return mrConsume;
 }
 
-MsgRouting AwtScrollPane::WmHScroll(UINT scrollCode, UINT pos, HWND hScrollPane)
+MsgRouting AwtScrollPbne::WmHScroll(UINT scrollCode, UINT pos, HWND hScrollPbne)
 {
-    // While user scrolls using tracker, SCROLLINFO.nPos is not changed, SCROLLINFO.nTrackPos is changed instead.
-    int dragP = scrollCode == SB_THUMBPOSITION || scrollCode == SB_THUMBTRACK;
+    // While user scrolls using trbcker, SCROLLINFO.nPos is not chbnged, SCROLLINFO.nTrbckPos is chbnged instebd.
+    int drbgP = scrollCode == SB_THUMBPOSITION || scrollCode == SB_THUMBTRACK;
     int newPos = GetScrollPos(SB_HORZ);
-    if ( dragP ) {
+    if ( drbgP ) {
         SCROLLINFO si;
         ZeroMemory(&si, sizeof(si));
         si.cbSize = sizeof(si);
-        si.fMask = SIF_TRACKPOS;
+        si.fMbsk = SIF_TRACKPOS;
         ::GetScrollInfo(GetHWnd(), SB_HORZ, &si);
-        newPos = si.nTrackPos;
+        newPos = si.nTrbckPos;
     }
     PostScrollEvent(SB_HORZ, scrollCode, newPos);
     return mrConsume;
 }
 
-MsgRouting AwtScrollPane::HandleEvent(MSG *msg, BOOL synthetic)
+MsgRouting AwtScrollPbne::HbndleEvent(MSG *msg, BOOL synthetic)
 {
-    // SunAwtScrollPane control doesn't cause activation on mouse/key events,
-    // so we can safely (for synthetic focus) pass them to the system proc.
-    return AwtComponent::HandleEvent(msg, synthetic);
+    // SunAwtScrollPbne control doesn't cbuse bctivbtion on mouse/key events,
+    // so we cbn sbfely (for synthetic focus) pbss them to the system proc.
+    return AwtComponent::HbndleEvent(msg, synthetic);
 }
 
-int AwtScrollPane::GetScrollPos(int orient)
+int AwtScrollPbne::GetScrollPos(int orient)
 {
     SCROLLINFO si;
     ZeroMemory(&si, sizeof(si));
     si.cbSize = sizeof(si);
-    si.fMask = SIF_POS;
+    si.fMbsk = SIF_POS;
     ::GetScrollInfo(GetHWnd(), orient, &si);
     return si.nPos;
 }
 
-jint AwtScrollPane::_GetOffset(void *param)
+jint AwtScrollPbne::_GetOffset(void *pbrbm)
 {
     JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
 
-    GetOffsetStruct *gos = (GetOffsetStruct *)param;
-    jobject self = gos->scrollpane;
+    GetOffsetStruct *gos = (GetOffsetStruct *)pbrbm;
+    jobject self = gos->scrollpbne;
     jint orient = gos->orient;
 
     jint result = 0;
-    AwtScrollPane *s = NULL;
+    AwtScrollPbne *s = NULL;
 
-    PDATA pData;
+    PDATA pDbtb;
     JNI_CHECK_PEER_GOTO(self, ret);
-    s = (AwtScrollPane *)pData;
+    s = (AwtScrollPbne *)pDbtb;
     if (::IsWindow(s->GetHWnd()))
     {
-        DTRACE_PRINTLN2("%x: WScrollPanePeer.getOffset(%d)", self, orient);
-        s->VerifyState();
-        int nBar = (orient == java_awt_Adjustable_HORIZONTAL) ? SB_HORZ : SB_VERT;
-        result = s->GetScrollPos(nBar);
+        DTRACE_PRINTLN2("%x: WScrollPbnePeer.getOffset(%d)", self, orient);
+        s->VerifyStbte();
+        int nBbr = (orient == jbvb_bwt_Adjustbble_HORIZONTAL) ? SB_HORZ : SB_VERT;
+        result = s->GetScrollPos(nBbr);
     }
 ret:
-   env->DeleteGlobalRef(self);
+   env->DeleteGlobblRef(self);
 
    delete gos;
 
    return result;
 }
 
-void AwtScrollPane::_SetInsets(void *param)
+void AwtScrollPbne::_SetInsets(void *pbrbm)
 {
     JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
 
-    jobject self = (jobject)param;
+    jobject self = (jobject)pbrbm;
 
-    AwtScrollPane *s = NULL;
+    AwtScrollPbne *s = NULL;
 
-    PDATA pData;
+    PDATA pDbtb;
     JNI_CHECK_PEER_GOTO(self, ret);
-    s = (AwtScrollPane *)pData;
+    s = (AwtScrollPbne *)pDbtb;
     if (::IsWindow(s->GetHWnd()))
     {
-        DTRACE_PRINTLN1("%x: WScrollPanePeer.setInsets()", self);
+        DTRACE_PRINTLN1("%x: WScrollPbnePeer.setInsets()", self);
         s->SetInsets(env);
-        s->VerifyState();
+        s->VerifyStbte();
     }
 ret:
-   env->DeleteGlobalRef(self);
+   env->DeleteGlobblRef(self);
 }
 
-void AwtScrollPane::_SetScrollPos(void *param)
+void AwtScrollPbne::_SetScrollPos(void *pbrbm)
 {
     JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
 
-    SetScrollPosStruct *spss = (SetScrollPosStruct *)param;
-    jobject self = spss->scrollpane;
+    SetScrollPosStruct *spss = (SetScrollPosStruct *)pbrbm;
+    jobject self = spss->scrollpbne;
     jint x = spss->x;
     jint y = spss->y;
 
-    AwtScrollPane *s = NULL;
+    AwtScrollPbne *s = NULL;
 
-    PDATA pData;
+    PDATA pDbtb;
     JNI_CHECK_PEER_GOTO(self, ret);
-    s = (AwtScrollPane *)pData;
+    s = (AwtScrollPbne *)pDbtb;
     if (::IsWindow(s->GetHWnd()))
     {
-        DTRACE_PRINTLN3("%x: WScrollPanePeer.setScrollPosition(%d, %d)", self, x, y);
+        DTRACE_PRINTLN3("%x: WScrollPbnePeer.setScrollPosition(%d, %d)", self, x, y);
         SCROLLINFO si;
         ZeroMemory(&si, sizeof(si));
-        si.fMask = SIF_POS;
+        si.fMbsk = SIF_POS;
         si.cbSize = sizeof(si);
         // set x
         si.nPos = x;
@@ -501,116 +501,116 @@ void AwtScrollPane::_SetScrollPos(void *param)
         ::SetScrollInfo(s->GetHWnd(), SB_VERT, &si, TRUE);
     }
 ret:
-   env->DeleteGlobalRef(self);
+   env->DeleteGlobblRef(self);
 
    delete spss;
 }
 
-void AwtScrollPane::_SetSpans(void *param)
+void AwtScrollPbne::_SetSpbns(void *pbrbm)
 {
     JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
 
-    SetSpansStruct *sss = (SetSpansStruct *)param;
-    jobject self = sss->scrollpane;
-    jint parentWidth = sss->parentWidth;
-    jint parentHeight = sss->parentHeight;
+    SetSpbnsStruct *sss = (SetSpbnsStruct *)pbrbm;
+    jobject self = sss->scrollpbne;
+    jint pbrentWidth = sss->pbrentWidth;
+    jint pbrentHeight = sss->pbrentHeight;
     jint childWidth = sss->childWidth;
     jint childHeight = sss->childHeight;
 
-    AwtScrollPane *s = NULL;
+    AwtScrollPbne *s = NULL;
 
-    PDATA pData;
+    PDATA pDbtb;
     JNI_CHECK_PEER_GOTO(self, ret);
-    s = (AwtScrollPane *)pData;
+    s = (AwtScrollPbne *)pDbtb;
     if (::IsWindow(s->GetHWnd()))
     {
-        DTRACE_PRINTLN5("%x: WScrollPanePeer.setSpans(%d, %d, %d, %d)", self,
-            parentWidth, parentHeight, childWidth, childHeight);
-        s->RecalcSizes(parentWidth, parentHeight, childWidth, childHeight);
-        s->VerifyState();
+        DTRACE_PRINTLN5("%x: WScrollPbnePeer.setSpbns(%d, %d, %d, %d)", self,
+            pbrentWidth, pbrentHeight, childWidth, childHeight);
+        s->RecblcSizes(pbrentWidth, pbrentHeight, childWidth, childHeight);
+        s->VerifyStbte();
     }
 ret:
-   env->DeleteGlobalRef(self);
+   env->DeleteGlobblRef(self);
 
    delete sss;
 }
 
 #ifdef DEBUG
-void AwtScrollPane::VerifyState()
+void AwtScrollPbne::VerifyStbte()
 {
     JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
-    if (env->EnsureLocalCapacity(3) < 0) {
+    if (env->EnsureLocblCbpbcity(3) < 0) {
         return;
     }
 
-    if (AwtToolkit::GetInstance().VerifyComponents() == FALSE) {
+    if (AwtToolkit::GetInstbnce().VerifyComponents() == FALSE) {
         return;
     }
 
-    if (m_callbacksEnabled == FALSE) {
+    if (m_cbllbbcksEnbbled == FALSE) {
         /* Component is not fully setup yet. */
         return;
     }
 
-    AwtComponent::VerifyState();
+    AwtComponent::VerifyStbte();
 
-    jobject target = AwtObject::GetTarget(env);
-    jobject child = JNU_CallMethodByName(env, NULL, GetPeer(env),
+    jobject tbrget = AwtObject::GetTbrget(env);
+    jobject child = JNU_CbllMethodByNbme(env, NULL, GetPeer(env),
                                          "getScrollSchild",
-                                         "()Ljava/awt/Component;").l;
+                                         "()Ljbvb/bwt/Component;").l;
 
-    DASSERT(!safe_ExceptionOccurred(env));
+    DASSERT(!sbfe_ExceptionOccurred(env));
 
     if (child != NULL) {
         jobject childPeer =
             (env)->GetObjectField(child, AwtComponent::peerID);
-        PDATA pData;
+        PDATA pDbtb;
         JNI_CHECK_PEER_RETURN(childPeer);
-        AwtComponent* awtChild = (AwtComponent *)pData;
+        AwtComponent* bwtChild = (AwtComponent *)pDbtb;
 
         /* Verify child window is positioned correctly. */
         RECT rect, childRect;
         ::GetClientRect(GetHWnd(), &rect);
-        ::MapWindowPoints(GetHWnd(), 0, (LPPOINT)&rect, 2);
-        ::GetWindowRect(awtChild->GetHWnd(), &childRect);
+        ::MbpWindowPoints(GetHWnd(), 0, (LPPOINT)&rect, 2);
+        ::GetWindowRect(bwtChild->GetHWnd(), &childRect);
         DASSERT(childRect.left <= rect.left && childRect.top <= rect.top);
 
-        env->DeleteLocalRef(childPeer);
+        env->DeleteLocblRef(childPeer);
     }
-    env->DeleteLocalRef(target);
-    env->DeleteLocalRef(child);
+    env->DeleteLocblRef(tbrget);
+    env->DeleteLocblRef(child);
 }
 #endif
 
 /************************************************************************
- * ScrollPane native methods
+ * ScrollPbne nbtive methods
  */
 
 extern "C" {
 
 /*
- * Class:     java_awt_ScrollPane
+ * Clbss:     jbvb_bwt_ScrollPbne
  * Method:    initIDs
- * Signature: ()V
+ * Signbture: ()V
  */
 JNIEXPORT void JNICALL
-Java_java_awt_ScrollPane_initIDs(JNIEnv *env, jclass cls)
+Jbvb_jbvb_bwt_ScrollPbne_initIDs(JNIEnv *env, jclbss cls)
 {
     TRY;
 
-    AwtScrollPane::scrollbarDisplayPolicyID =
-        env->GetFieldID(cls, "scrollbarDisplayPolicy", "I");
-    DASSERT(AwtScrollPane::scrollbarDisplayPolicyID != NULL);
-    CHECK_NULL(AwtScrollPane::scrollbarDisplayPolicyID);
+    AwtScrollPbne::scrollbbrDisplbyPolicyID =
+        env->GetFieldID(cls, "scrollbbrDisplbyPolicy", "I");
+    DASSERT(AwtScrollPbne::scrollbbrDisplbyPolicyID != NULL);
+    CHECK_NULL(AwtScrollPbne::scrollbbrDisplbyPolicyID);
 
-    AwtScrollPane::hAdjustableID =
-        env->GetFieldID(cls, "hAdjustable", "Ljava/awt/ScrollPaneAdjustable;");
-    DASSERT(AwtScrollPane::hAdjustableID != NULL);
-    CHECK_NULL(AwtScrollPane::hAdjustableID);
+    AwtScrollPbne::hAdjustbbleID =
+        env->GetFieldID(cls, "hAdjustbble", "Ljbvb/bwt/ScrollPbneAdjustbble;");
+    DASSERT(AwtScrollPbne::hAdjustbbleID != NULL);
+    CHECK_NULL(AwtScrollPbne::hAdjustbbleID);
 
-    AwtScrollPane::vAdjustableID =
-        env->GetFieldID(cls, "vAdjustable", "Ljava/awt/ScrollPaneAdjustable;");
-    DASSERT(AwtScrollPane::vAdjustableID != NULL);
+    AwtScrollPbne::vAdjustbbleID =
+        env->GetFieldID(cls, "vAdjustbble", "Ljbvb/bwt/ScrollPbneAdjustbble;");
+    DASSERT(AwtScrollPbne::vAdjustbbleID != NULL);
 
     CATCH_BAD_ALLOC;
 }
@@ -619,28 +619,28 @@ Java_java_awt_ScrollPane_initIDs(JNIEnv *env, jclass cls)
 
 
 /************************************************************************
- * ScrollPaneAdjustable native methods
+ * ScrollPbneAdjustbble nbtive methods
  */
 
 extern "C" {
 
 /*
- * Class:     java_awt_ScrollPaneAdjustable
+ * Clbss:     jbvb_bwt_ScrollPbneAdjustbble
  * Method:    initIDs
- * Signature: ()V
+ * Signbture: ()V
  */
 JNIEXPORT void JNICALL
-Java_java_awt_ScrollPaneAdjustable_initIDs(JNIEnv *env, jclass cls)
+Jbvb_jbvb_bwt_ScrollPbneAdjustbble_initIDs(JNIEnv *env, jclbss cls)
 {
     TRY;
 
-    AwtScrollPane::unitIncrementID = env->GetFieldID(cls,"unitIncrement", "I");
-    DASSERT(AwtScrollPane::unitIncrementID != NULL);
-    CHECK_NULL(AwtScrollPane::unitIncrementID);
+    AwtScrollPbne::unitIncrementID = env->GetFieldID(cls,"unitIncrement", "I");
+    DASSERT(AwtScrollPbne::unitIncrementID != NULL);
+    CHECK_NULL(AwtScrollPbne::unitIncrementID);
 
-    AwtScrollPane::blockIncrementID =
+    AwtScrollPbne::blockIncrementID =
         env->GetFieldID(cls,"blockIncrement", "I");
-    DASSERT(AwtScrollPane::blockIncrementID != NULL);
+    DASSERT(AwtScrollPbne::blockIncrementID != NULL);
 
     CATCH_BAD_ALLOC;
 }
@@ -649,166 +649,166 @@ Java_java_awt_ScrollPaneAdjustable_initIDs(JNIEnv *env, jclass cls)
 
 
 /************************************************************************
- * ScrollPanePeer native methods
+ * ScrollPbnePeer nbtive methods
  */
 
 extern "C" {
 
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WScrollPanePeer_initIDs(JNIEnv *env, jclass cls)
+Jbvb_sun_bwt_windows_WScrollPbnePeer_initIDs(JNIEnv *env, jclbss cls)
 {
     TRY;
 
-    AwtScrollPane::postScrollEventID =
+    AwtScrollPbne::postScrollEventID =
         env->GetMethodID(cls, "postScrollEvent", "(IIIZ)V");
-    DASSERT(AwtScrollPane::postScrollEventID != NULL);
+    DASSERT(AwtScrollPbne::postScrollEventID != NULL);
 
     CATCH_BAD_ALLOC;
 }
 
 /*
- * Class:     sun_awt_windows_WScrollPanePeer
- * Method:    create
- * Signature: (Lsun/awt/windows/WComponentPeer;)V
+ * Clbss:     sun_bwt_windows_WScrollPbnePeer
+ * Method:    crebte
+ * Signbture: (Lsun/bwt/windows/WComponentPeer;)V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WScrollPanePeer_create(JNIEnv *env, jobject self,
-                                            jobject parent)
+Jbvb_sun_bwt_windows_WScrollPbnePeer_crebte(JNIEnv *env, jobject self,
+                                            jobject pbrent)
 {
     TRY;
 
-    DTRACE_PRINTLN2("%x: WScrollPanePeer.create(%x)", self, parent);
+    DTRACE_PRINTLN2("%x: WScrollPbnePeer.crebte(%x)", self, pbrent);
 
-    PDATA pData;
-    JNI_CHECK_PEER_RETURN(parent);
-    AwtToolkit::CreateComponent(self, parent,
-                                (AwtToolkit::ComponentFactory)
-                                AwtScrollPane::Create);
+    PDATA pDbtb;
+    JNI_CHECK_PEER_RETURN(pbrent);
+    AwtToolkit::CrebteComponent(self, pbrent,
+                                (AwtToolkit::ComponentFbctory)
+                                AwtScrollPbne::Crebte);
     JNI_CHECK_PEER_CREATION_RETURN(self);
-    ((AwtScrollPane*)pData)->VerifyState();
+    ((AwtScrollPbne*)pDbtb)->VerifyStbte();
 
     CATCH_BAD_ALLOC;
 }
 
 /*
- * Class:     sun_awt_windows_WScrollPanePeer
+ * Clbss:     sun_bwt_windows_WScrollPbnePeer
  * Method:    getOffset
- * Signature: (I)I
+ * Signbture: (I)I
  */
 JNIEXPORT jint JNICALL
-Java_sun_awt_windows_WScrollPanePeer_getOffset(JNIEnv *env, jobject self,
+Jbvb_sun_bwt_windows_WScrollPbnePeer_getOffset(JNIEnv *env, jobject self,
                                                jint orient)
 {
     TRY;
 
     GetOffsetStruct *gos = new GetOffsetStruct;
-    gos->scrollpane = env->NewGlobalRef(self);
+    gos->scrollpbne = env->NewGlobblRef(self);
     gos->orient = orient;
 
-    return static_cast<jint>(reinterpret_cast<INT_PTR>(AwtToolkit::GetInstance().SyncCall(
-        (void *(*)(void *))AwtScrollPane::_GetOffset, gos)));
-    // global ref and gos are deleted in _GetOffset()
+    return stbtic_cbst<jint>(reinterpret_cbst<INT_PTR>(AwtToolkit::GetInstbnce().SyncCbll(
+        (void *(*)(void *))AwtScrollPbne::_GetOffset, gos)));
+    // globbl ref bnd gos bre deleted in _GetOffset()
 
     CATCH_BAD_ALLOC_RET(0);
 }
 
 /*
- * Class:     sun_awt_windows_WScrollPanePeer
+ * Clbss:     sun_bwt_windows_WScrollPbnePeer
  * Method:    setInsets
- * Signature: ()V
+ * Signbture: ()V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WScrollPanePeer_setInsets(JNIEnv *env, jobject self)
+Jbvb_sun_bwt_windows_WScrollPbnePeer_setInsets(JNIEnv *env, jobject self)
 {
     TRY
 
-    AwtToolkit::GetInstance().SyncCall(AwtScrollPane::_SetInsets,
-        env->NewGlobalRef(self));
-    // global ref is deleted in _SetInsets()
+    AwtToolkit::GetInstbnce().SyncCbll(AwtScrollPbne::_SetInsets,
+        env->NewGlobblRef(self));
+    // globbl ref is deleted in _SetInsets()
 
     CATCH_BAD_ALLOC;
 }
 
 /*
- * Class:     sun_awt_windows_WScrollPanePeer
+ * Clbss:     sun_bwt_windows_WScrollPbnePeer
  * Method:    setScrollPosition
- * Signature: (II)V
+ * Signbture: (II)V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WScrollPanePeer_setScrollPosition(JNIEnv *env,
+Jbvb_sun_bwt_windows_WScrollPbnePeer_setScrollPosition(JNIEnv *env,
                                                        jobject self,
                                                        jint x, jint y)
 {
     TRY;
 
     SetScrollPosStruct *ssps = new SetScrollPosStruct;
-    ssps->scrollpane = env->NewGlobalRef(self);
+    ssps->scrollpbne = env->NewGlobblRef(self);
     ssps->x = x;
     ssps->y = y;
 
-    AwtToolkit::GetInstance().SyncCall(AwtScrollPane::_SetScrollPos, ssps);
-    // global ref and ssps are deleted in _SetScrollPos()
+    AwtToolkit::GetInstbnce().SyncCbll(AwtScrollPbne::_SetScrollPos, ssps);
+    // globbl ref bnd ssps bre deleted in _SetScrollPos()
 
     CATCH_BAD_ALLOC;
 }
 
 /*
- * Class:     sun_awt_windows_WScrollPanePeer
- * Method:    _getHScrollbarHeight
- * Signature: ()I
+ * Clbss:     sun_bwt_windows_WScrollPbnePeer
+ * Method:    _getHScrollbbrHeight
+ * Signbture: ()I
  */
 JNIEXPORT jint JNICALL
-Java_sun_awt_windows_WScrollPanePeer__1getHScrollbarHeight(JNIEnv *env,
+Jbvb_sun_bwt_windows_WScrollPbnePeer__1getHScrollbbrHeight(JNIEnv *env,
                                                            jobject self)
 {
     TRY;
 
-    DTRACE_PRINTLN1("%x: WScrollPanePeer._getHScrollbarHeight()", self);
+    DTRACE_PRINTLN1("%x: WScrollPbnePeer._getHScrollbbrHeight()", self);
     return ::GetSystemMetrics(SM_CYHSCROLL);
 
     CATCH_BAD_ALLOC_RET(0);
 }
 
 /*
- * Class:     sun_awt_windows_WScrollPanePeer
- * Method:    _getVScrollbarWidth
- * Signature: ()I
+ * Clbss:     sun_bwt_windows_WScrollPbnePeer
+ * Method:    _getVScrollbbrWidth
+ * Signbture: ()I
  */
 JNIEXPORT jint JNICALL
-Java_sun_awt_windows_WScrollPanePeer__1getVScrollbarWidth(JNIEnv *env,
+Jbvb_sun_bwt_windows_WScrollPbnePeer__1getVScrollbbrWidth(JNIEnv *env,
                                                           jobject self)
 {
     TRY;
 
-    DTRACE_PRINTLN1("%x: WScrollPanePeer._getVScrollbarHeight()", self);
+    DTRACE_PRINTLN1("%x: WScrollPbnePeer._getVScrollbbrHeight()", self);
     return ::GetSystemMetrics(SM_CXVSCROLL);
 
     CATCH_BAD_ALLOC_RET(0);
 }
 
 /*
- * Class:     sun_awt_windows_WScrollPanePeer
- * Method:    setSpans
- * Signature: (IIII)V
+ * Clbss:     sun_bwt_windows_WScrollPbnePeer
+ * Method:    setSpbns
+ * Signbture: (IIII)V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WScrollPanePeer_setSpans(JNIEnv *env, jobject self,
-                                              jint parentWidth,
-                                              jint parentHeight,
+Jbvb_sun_bwt_windows_WScrollPbnePeer_setSpbns(JNIEnv *env, jobject self,
+                                              jint pbrentWidth,
+                                              jint pbrentHeight,
                                               jint childWidth,
                                               jint childHeight)
 {
     TRY;
 
-    SetSpansStruct *sss = new SetSpansStruct;
-    sss->scrollpane = env->NewGlobalRef(self);
-    sss->parentWidth = parentWidth;
-    sss->parentHeight = parentHeight;
+    SetSpbnsStruct *sss = new SetSpbnsStruct;
+    sss->scrollpbne = env->NewGlobblRef(self);
+    sss->pbrentWidth = pbrentWidth;
+    sss->pbrentHeight = pbrentHeight;
     sss->childWidth = childWidth;
     sss->childHeight = childHeight;
 
-    AwtToolkit::GetInstance().SyncCall(AwtScrollPane::_SetSpans, sss);
-    // global ref and sss are deleted in _SetSpans
+    AwtToolkit::GetInstbnce().SyncCbll(AwtScrollPbne::_SetSpbns, sss);
+    // globbl ref bnd sss bre deleted in _SetSpbns
 
     CATCH_BAD_ALLOC;
 }

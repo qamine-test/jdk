@@ -1,66 +1,66 @@
 /*
- * Copyright (c) 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.tracing.dtrace;
+pbckbge com.sun.trbcing.dtrbce;
 
-import java.lang.annotation.Target;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.ElementType;
+import jbvb.lbng.bnnotbtion.Tbrget;
+import jbvb.lbng.bnnotbtion.Retention;
+import jbvb.lbng.bnnotbtion.RetentionPolicy;
+import jbvb.lbng.bnnotbtion.ElementType;
 
 
 /**
- * This annotation describes the interface's field attributes
- * for the probes in a provider.
+ * This bnnotbtion describes the interfbce's field bttributes
+ * for the probes in b provider.
  *
- * This annotation provides the contents of field-specific annotations
- * that specify the stability attributes and dependency class of a
- * particular field, for the probes in a provider.
+ * This bnnotbtion provides the contents of field-specific bnnotbtions
+ * thbt specify the stbbility bttributes bnd dependency clbss of b
+ * pbrticulbr field, for the probes in b provider.
  * <p>
- * The default interface attributes for unspecified fields is
- * Private/Private/Unknown.
+ * The defbult interfbce bttributes for unspecified fields is
+ * Privbte/Privbte/Unknown.
  * <p>
- * @see <a href="http://docs.sun.com/app/docs/doc/817-6223/6mlkidlnp?a=view">Solaris Dynamic Tracing Guide, Chapter 39: Stability</a>
+ * @see <b href="http://docs.sun.com/bpp/docs/doc/817-6223/6mlkidlnp?b=view">Solbris Dynbmic Trbcing Guide, Chbpter 39: Stbbility</b>
  * @since 1.7
  */
 
 @Retention(RetentionPolicy.RUNTIME)
-@Target({})
-public @interface Attributes {
+@Tbrget({})
+public @interfbce Attributes {
   /**
-   * The stability level of the name.
+   * The stbbility level of the nbme.
    */
-  StabilityLevel name() default StabilityLevel.PRIVATE;
+  StbbilityLevel nbme() defbult StbbilityLevel.PRIVATE;
 
   /**
-   * The stability level of the data.
+   * The stbbility level of the dbtb.
    */
-  StabilityLevel data() default StabilityLevel.PRIVATE;
+  StbbilityLevel dbtb() defbult StbbilityLevel.PRIVATE;
 
   /**
-   * The interface attribute's dependency class.
+   * The interfbce bttribute's dependency clbss.
    */
-  DependencyClass dependency()  default DependencyClass.UNKNOWN;
+  DependencyClbss dependency()  defbult DependencyClbss.UNKNOWN;
 }

@@ -1,121 +1,121 @@
 /*
- * Copyright (c) 2009, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2009, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.ssl.krb5;
+pbckbge sun.security.ssl.krb5;
 
-import java.security.AccessControlContext;
-import java.security.Permission;
-import java.security.Principal;
-import java.util.Set;
-import javax.crypto.SecretKey;
-import javax.security.auth.Subject;
-import javax.security.auth.kerberos.KerberosKey;
-import javax.security.auth.kerberos.KeyTab;
-import javax.security.auth.kerberos.ServicePermission;
-import javax.security.auth.login.LoginException;
+import jbvb.security.AccessControlContext;
+import jbvb.security.Permission;
+import jbvb.security.Principbl;
+import jbvb.util.Set;
+import jbvbx.crypto.SecretKey;
+import jbvbx.security.buth.Subject;
+import jbvbx.security.buth.kerberos.KerberosKey;
+import jbvbx.security.buth.kerberos.KeyTbb;
+import jbvbx.security.buth.kerberos.ServicePermission;
+import jbvbx.security.buth.login.LoginException;
 
-import sun.security.jgss.GSSCaller;
+import sun.security.jgss.GSSCbller;
 import sun.security.jgss.krb5.Krb5Util;
 import sun.security.jgss.krb5.ServiceCreds;
-import sun.security.krb5.PrincipalName;
+import sun.security.krb5.PrincipblNbme;
 import sun.security.ssl.Krb5Proxy;
 
 /**
- * An implementation of Krb5Proxy that simply delegates to the appropriate
+ * An implementbtion of Krb5Proxy thbt simply delegbtes to the bppropribte
  * Kerberos APIs.
  */
-public class Krb5ProxyImpl implements Krb5Proxy {
+public clbss Krb5ProxyImpl implements Krb5Proxy {
 
     public Krb5ProxyImpl() { }
 
     @Override
-    public Subject getClientSubject(AccessControlContext acc)
+    public Subject getClientSubject(AccessControlContext bcc)
             throws LoginException {
-        return Krb5Util.getSubject(GSSCaller.CALLER_SSL_CLIENT, acc);
+        return Krb5Util.getSubject(GSSCbller.CALLER_SSL_CLIENT, bcc);
     }
 
     @Override
-    public Subject getServerSubject(AccessControlContext acc)
+    public Subject getServerSubject(AccessControlContext bcc)
             throws LoginException {
-        return Krb5Util.getSubject(GSSCaller.CALLER_SSL_SERVER, acc);
+        return Krb5Util.getSubject(GSSCbller.CALLER_SSL_SERVER, bcc);
     }
 
     @Override
-    public Object getServiceCreds(AccessControlContext acc)
+    public Object getServiceCreds(AccessControlContext bcc)
             throws LoginException {
         ServiceCreds serviceCreds =
-            Krb5Util.getServiceCreds(GSSCaller.CALLER_SSL_SERVER, null, acc);
+            Krb5Util.getServiceCreds(GSSCbller.CALLER_SSL_SERVER, null, bcc);
         return serviceCreds;
     }
 
     @Override
-    public String getServerPrincipalName(Object serviceCreds) {
-        return ((ServiceCreds)serviceCreds).getName();
+    public String getServerPrincipblNbme(Object serviceCreds) {
+        return ((ServiceCreds)serviceCreds).getNbme();
     }
 
     @Override
-    public String getPrincipalHostName(Principal principal) {
-        if (principal == null) {
+    public String getPrincipblHostNbme(Principbl principbl) {
+        if (principbl == null) {
            return null;
         }
-        String hostName = null;
+        String hostNbme = null;
         try {
-            PrincipalName princName =
-                new PrincipalName(principal.getName(),
-                        PrincipalName.KRB_NT_SRV_HST);
-            String[] nameParts = princName.getNameStrings();
-            if (nameParts.length >= 2) {
-                hostName = nameParts[1];
+            PrincipblNbme princNbme =
+                new PrincipblNbme(principbl.getNbme(),
+                        PrincipblNbme.KRB_NT_SRV_HST);
+            String[] nbmePbrts = princNbme.getNbmeStrings();
+            if (nbmePbrts.length >= 2) {
+                hostNbme = nbmePbrts[1];
             }
-        } catch (Exception e) {
+        } cbtch (Exception e) {
             // ignore
         }
-        return hostName;
+        return hostNbme;
     }
 
 
     @Override
-    public Permission getServicePermission(String principalName,
-            String action) {
-        return new ServicePermission(principalName, action);
+    public Permission getServicePermission(String principblNbme,
+            String bction) {
+        return new ServicePermission(principblNbme, bction);
     }
 
     @Override
-    public boolean isRelated(Subject subject, Principal princ) {
-        if (princ == null) return false;
-        Set<Principal> principals =
-                subject.getPrincipals(Principal.class);
-        if (principals.contains(princ)) {
-            // bound to this principal
+    public boolebn isRelbted(Subject subject, Principbl princ) {
+        if (princ == null) return fblse;
+        Set<Principbl> principbls =
+                subject.getPrincipbls(Principbl.clbss);
+        if (principbls.contbins(princ)) {
+            // bound to this principbl
             return true;
         }
-        for (KeyTab pc: subject.getPrivateCredentials(KeyTab.class)) {
+        for (KeyTbb pc: subject.getPrivbteCredentibls(KeyTbb.clbss)) {
             if (!pc.isBound()) {
                 return true;
             }
         }
-        return false;
+        return fblse;
     }
 }

@@ -1,129 +1,129 @@
 /*
- * Copyright (c) 2002, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt.X11;
+pbckbge sun.bwt.X11;
 
-import sun.awt.EmbeddedFrame;
-import java.awt.*;
-import java.awt.AWTKeyStroke;
-import java.util.logging.Logger;
+import sun.bwt.EmbeddedFrbme;
+import jbvb.bwt.*;
+import jbvb.bwt.AWTKeyStroke;
+import jbvb.util.logging.Logger;
 
-@SuppressWarnings("serial") // JDK-implementation class
-public class XEmbeddedFrame extends EmbeddedFrame {
+@SuppressWbrnings("seribl") // JDK-implementbtion clbss
+public clbss XEmbeddedFrbme extends EmbeddedFrbme {
 
-    private static final Logger log = Logger.getLogger(XEmbeddedFrame.class.getName());
+    privbte stbtic finbl Logger log = Logger.getLogger(XEmbeddedFrbme.clbss.getNbme());
 
-    long handle;
-    public XEmbeddedFrame() {
+    long hbndle;
+    public XEmbeddedFrbme() {
     }
 
-    // handle should be a valid X Window.
-    public XEmbeddedFrame(long handle) {
-        this(handle, false);
+    // hbndle should be b vblid X Window.
+    public XEmbeddedFrbme(long hbndle) {
+        this(hbndle, fblse);
     }
 
-    // Handle is the valid X window
-    public XEmbeddedFrame(long handle, boolean supportsXEmbed, boolean isTrayIconWindow) {
-        super(handle, supportsXEmbed);
+    // Hbndle is the vblid X window
+    public XEmbeddedFrbme(long hbndle, boolebn supportsXEmbed, boolebn isTrbyIconWindow) {
+        super(hbndle, supportsXEmbed);
 
-        if (isTrayIconWindow) {
-            XTrayIconPeer.suppressWarningString(this);
+        if (isTrbyIconWindow) {
+            XTrbyIconPeer.suppressWbrningString(this);
         }
 
-        this.handle = handle;
-        if (handle != 0) { // Has actual parent
-            addNotify();
-            if (!isTrayIconWindow) {
+        this.hbndle = hbndle;
+        if (hbndle != 0) { // Hbs bctubl pbrent
+            bddNotify();
+            if (!isTrbyIconWindow) {
                 show();
             }
         }
     }
 
-    public void addNotify()
+    public void bddNotify()
     {
         if (getPeer() == null) {
-            XToolkit toolkit = (XToolkit)Toolkit.getDefaultToolkit();
-            setPeer(toolkit.createEmbeddedFrame(this));
+            XToolkit toolkit = (XToolkit)Toolkit.getDefbultToolkit();
+            setPeer(toolkit.crebteEmbeddedFrbme(this));
         }
-        super.addNotify();
+        super.bddNotify();
     }
 
-    public XEmbeddedFrame(long handle, boolean supportsXEmbed) {
-        this(handle, supportsXEmbed, false);
+    public XEmbeddedFrbme(long hbndle, boolebn supportsXEmbed) {
+        this(hbndle, supportsXEmbed, fblse);
     }
 
     /*
-     * The method shouldn't be called in case of active XEmbed.
+     * The method shouldn't be cblled in cbse of bctive XEmbed.
      */
-    public boolean traverseIn(boolean direction) {
-        XEmbeddedFramePeer peer = (XEmbeddedFramePeer)getPeer();
+    public boolebn trbverseIn(boolebn direction) {
+        XEmbeddedFrbmePeer peer = (XEmbeddedFrbmePeer)getPeer();
         if (peer != null) {
             if (peer.supportsXEmbed() && peer.isXEmbedActive()) {
-                log.fine("The method shouldn't be called when XEmbed is active!");
+                log.fine("The method shouldn't be cblled when XEmbed is bctive!");
             } else {
-                return super.traverseIn(direction);
+                return super.trbverseIn(direction);
             }
         }
-        return false;
+        return fblse;
     }
 
-    protected boolean traverseOut(boolean direction) {
-        XEmbeddedFramePeer xefp = (XEmbeddedFramePeer) getPeer();
+    protected boolebn trbverseOut(boolebn direction) {
+        XEmbeddedFrbmePeer xefp = (XEmbeddedFrbmePeer) getPeer();
         if (direction == FORWARD) {
-            xefp.traverseOutForward();
+            xefp.trbverseOutForwbrd();
         }
         else {
-            xefp.traverseOutBackward();
+            xefp.trbverseOutBbckwbrd();
         }
         return true;
     }
 
     /*
-     * The method shouldn't be called in case of active XEmbed.
+     * The method shouldn't be cblled in cbse of bctive XEmbed.
      */
-    public void synthesizeWindowActivation(boolean doActivate) {
-        XEmbeddedFramePeer peer = (XEmbeddedFramePeer)getPeer();
+    public void synthesizeWindowActivbtion(boolebn doActivbte) {
+        XEmbeddedFrbmePeer peer = (XEmbeddedFrbmePeer)getPeer();
         if (peer != null) {
             if (peer.supportsXEmbed() && peer.isXEmbedActive()) {
-                log.fine("The method shouldn't be called when XEmbed is active!");
+                log.fine("The method shouldn't be cblled when XEmbed is bctive!");
             } else {
-                peer.synthesizeFocusInOut(doActivate);
+                peer.synthesizeFocusInOut(doActivbte);
             }
         }
     }
 
-    public void registerAccelerator(AWTKeyStroke stroke) {
-        XEmbeddedFramePeer xefp = (XEmbeddedFramePeer) getPeer();
+    public void registerAccelerbtor(AWTKeyStroke stroke) {
+        XEmbeddedFrbmePeer xefp = (XEmbeddedFrbmePeer) getPeer();
         if (xefp != null) {
-            xefp.registerAccelerator(stroke);
+            xefp.registerAccelerbtor(stroke);
         }
     }
-    public void unregisterAccelerator(AWTKeyStroke stroke) {
-        XEmbeddedFramePeer xefp = (XEmbeddedFramePeer) getPeer();
+    public void unregisterAccelerbtor(AWTKeyStroke stroke) {
+        XEmbeddedFrbmePeer xefp = (XEmbeddedFrbmePeer) getPeer();
         if (xefp != null) {
-            xefp.unregisterAccelerator(stroke);
+            xefp.unregisterAccelerbtor(stroke);
         }
     }
 }

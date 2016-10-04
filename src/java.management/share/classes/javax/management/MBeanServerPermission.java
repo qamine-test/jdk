@@ -1,89 +1,89 @@
 /*
- * Copyright (c) 2001, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.management;
+pbckbge jbvbx.mbnbgement;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.security.BasicPermission;
-import java.security.Permission;
-import java.security.PermissionCollection;
-import java.util.Collections;
-import java.util.Enumeration;
-import java.util.Set;
-import java.util.StringTokenizer;
+import jbvb.io.IOException;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.security.BbsicPermission;
+import jbvb.security.Permission;
+import jbvb.security.PermissionCollection;
+import jbvb.util.Collections;
+import jbvb.util.Enumerbtion;
+import jbvb.util.Set;
+import jbvb.util.StringTokenizer;
 
-/** A Permission to perform actions related to MBeanServers.
-    The <em>name</em> of the permission specifies the operation requested
-    or granted by the permission.  For a granted permission, it can be
-    <code>*</code> to allow all of the MBeanServer operations specified below.
-    Otherwise, for a granted or requested permission, it must be one of the
+/** A Permission to perform bctions relbted to MBebnServers.
+    The <em>nbme</em> of the permission specifies the operbtion requested
+    or grbnted by the permission.  For b grbnted permission, it cbn be
+    <code>*</code> to bllow bll of the MBebnServer operbtions specified below.
+    Otherwise, for b grbnted or requested permission, it must be one of the
     following:
     <dl>
-    <dt>createMBeanServer</dt>
-    <dd>Create a new MBeanServer object using the method
-    {@link MBeanServerFactory#createMBeanServer()} or
-    {@link MBeanServerFactory#createMBeanServer(java.lang.String)}.
-    <dt>findMBeanServer</dt>
-    <dd>Find an MBeanServer with a given name, or all MBeanServers in this
-    JVM, using the method {@link MBeanServerFactory#findMBeanServer}.
-    <dt>newMBeanServer</dt>
-    <dd>Create a new MBeanServer object without keeping a reference to it,
-    using the method {@link MBeanServerFactory#newMBeanServer()} or
-    {@link MBeanServerFactory#newMBeanServer(java.lang.String)}.
-    <dt>releaseMBeanServer</dt>
-    <dd>Remove the MBeanServerFactory's reference to an MBeanServer,
-    using the method {@link MBeanServerFactory#releaseMBeanServer}.
+    <dt>crebteMBebnServer</dt>
+    <dd>Crebte b new MBebnServer object using the method
+    {@link MBebnServerFbctory#crebteMBebnServer()} or
+    {@link MBebnServerFbctory#crebteMBebnServer(jbvb.lbng.String)}.
+    <dt>findMBebnServer</dt>
+    <dd>Find bn MBebnServer with b given nbme, or bll MBebnServers in this
+    JVM, using the method {@link MBebnServerFbctory#findMBebnServer}.
+    <dt>newMBebnServer</dt>
+    <dd>Crebte b new MBebnServer object without keeping b reference to it,
+    using the method {@link MBebnServerFbctory#newMBebnServer()} or
+    {@link MBebnServerFbctory#newMBebnServer(jbvb.lbng.String)}.
+    <dt>relebseMBebnServer</dt>
+    <dd>Remove the MBebnServerFbctory's reference to bn MBebnServer,
+    using the method {@link MBebnServerFbctory#relebseMBebnServer}.
     </dl>
-    The <em>name</em> of the permission can also denote a list of one or more
-    comma-separated operations.  Spaces are allowed at the beginning and
-    end of the <em>name</em> and before and after commas.
+    The <em>nbme</em> of the permission cbn blso denote b list of one or more
+    commb-sepbrbted operbtions.  Spbces bre bllowed bt the beginning bnd
+    end of the <em>nbme</em> bnd before bnd bfter commbs.
     <p>
-    <code>MBeanServerPermission("createMBeanServer")</code> implies
-    <code>MBeanServerPermission("newMBeanServer")</code>.
+    <code>MBebnServerPermission("crebteMBebnServer")</code> implies
+    <code>MBebnServerPermission("newMBebnServer")</code>.
  *
  * @since 1.5
  */
-public class MBeanServerPermission extends BasicPermission {
-    private static final long serialVersionUID = -5661980843569388590L;
+public clbss MBebnServerPermission extends BbsicPermission {
+    privbte stbtic finbl long seriblVersionUID = -5661980843569388590L;
 
-    private final static int
+    privbte finbl stbtic int
         CREATE = 0,
         FIND = 1,
         NEW = 2,
         RELEASE = 3,
         N_NAMES = 4;
 
-    private final static String[] names = {
-        "createMBeanServer",
-        "findMBeanServer",
-        "newMBeanServer",
-        "releaseMBeanServer",
+    privbte finbl stbtic String[] nbmes = {
+        "crebteMBebnServer",
+        "findMBebnServer",
+        "newMBebnServer",
+        "relebseMBebnServer",
     };
 
-    private final static int
+    privbte finbl stbtic int
         CREATE_MASK = 1<<CREATE,
         FIND_MASK = 1<<FIND,
         NEW_MASK = 1<<NEW,
@@ -91,281 +91,281 @@ public class MBeanServerPermission extends BasicPermission {
         ALL_MASK = CREATE_MASK|FIND_MASK|NEW_MASK|RELEASE_MASK;
 
     /*
-     * Map from permission masks to canonical names.  This array is
-     * filled in on demand.
+     * Mbp from permission mbsks to cbnonicbl nbmes.  This brrby is
+     * filled in on dembnd.
      *
-     * This isn't very scalable.  If we have more than five or six
+     * This isn't very scblbble.  If we hbve more thbn five or six
      * permissions, we should consider doing this differently,
-     * e.g. with a Map.
+     * e.g. with b Mbp.
      */
-    private final static String[] canonicalNames = new String[1 << N_NAMES];
+    privbte finbl stbtic String[] cbnonicblNbmes = new String[1 << N_NAMES];
 
     /*
-     * The target names mask.  This is not private to avoid having to
-     * generate accessor methods for accesses from the collection class.
+     * The tbrget nbmes mbsk.  This is not privbte to bvoid hbving to
+     * generbte bccessor methods for bccesses from the collection clbss.
      *
-     * This mask includes implied bits.  So if it has CREATE_MASK then
-     * it necessarily has NEW_MASK too.
+     * This mbsk includes implied bits.  So if it hbs CREATE_MASK then
+     * it necessbrily hbs NEW_MASK too.
      */
-    transient int mask;
+    trbnsient int mbsk;
 
-    /** <p>Create a new MBeanServerPermission with the given name.</p>
-        <p>This constructor is equivalent to
-        <code>MBeanServerPermission(name,null)</code>.</p>
-        @param name the name of the granted permission.  It must
-        respect the constraints spelt out in the description of the
-        {@link MBeanServerPermission} class.
-        @exception NullPointerException if the name is null.
-        @exception IllegalArgumentException if the name is not
-        <code>*</code> or one of the allowed names or a comma-separated
-        list of the allowed names.
+    /** <p>Crebte b new MBebnServerPermission with the given nbme.</p>
+        <p>This constructor is equivblent to
+        <code>MBebnServerPermission(nbme,null)</code>.</p>
+        @pbrbm nbme the nbme of the grbnted permission.  It must
+        respect the constrbints spelt out in the description of the
+        {@link MBebnServerPermission} clbss.
+        @exception NullPointerException if the nbme is null.
+        @exception IllegblArgumentException if the nbme is not
+        <code>*</code> or one of the bllowed nbmes or b commb-sepbrbted
+        list of the bllowed nbmes.
     */
-    public MBeanServerPermission(String name) {
-        this(name, null);
+    public MBebnServerPermission(String nbme) {
+        this(nbme, null);
     }
 
-    /** <p>Create a new MBeanServerPermission with the given name.</p>
-        @param name the name of the granted permission.  It must
-        respect the constraints spelt out in the description of the
-        {@link MBeanServerPermission} class.
-        @param actions the associated actions.  This parameter is not
-        currently used and must be null or the empty string.
-        @exception NullPointerException if the name is null.
-        @exception IllegalArgumentException if the name is not
-        <code>*</code> or one of the allowed names or a comma-separated
-        list of the allowed names, or if <code>actions</code> is a non-null
+    /** <p>Crebte b new MBebnServerPermission with the given nbme.</p>
+        @pbrbm nbme the nbme of the grbnted permission.  It must
+        respect the constrbints spelt out in the description of the
+        {@link MBebnServerPermission} clbss.
+        @pbrbm bctions the bssocibted bctions.  This pbrbmeter is not
+        currently used bnd must be null or the empty string.
+        @exception NullPointerException if the nbme is null.
+        @exception IllegblArgumentException if the nbme is not
+        <code>*</code> or one of the bllowed nbmes or b commb-sepbrbted
+        list of the bllowed nbmes, or if <code>bctions</code> is b non-null
         non-empty string.
      *
-     * @throws NullPointerException if <code>name</code> is <code>null</code>.
-     * @throws IllegalArgumentException if <code>name</code> is empty or
-     * if arguments are invalid.
+     * @throws NullPointerException if <code>nbme</code> is <code>null</code>.
+     * @throws IllegblArgumentException if <code>nbme</code> is empty or
+     * if brguments bre invblid.
      */
-    public MBeanServerPermission(String name, String actions) {
-        super(getCanonicalName(parseMask(name)), actions);
+    public MBebnServerPermission(String nbme, String bctions) {
+        super(getCbnonicblNbme(pbrseMbsk(nbme)), bctions);
 
-        /* It's annoying to have to parse the name twice, but since
-           Permission.getName() is final and since we can't access "this"
-           until after the call to the superclass constructor, there
-           isn't any very clean way to do this.  MBeanServerPermission
-           objects aren't constructed very often, luckily.  */
-        mask = parseMask(name);
+        /* It's bnnoying to hbve to pbrse the nbme twice, but since
+           Permission.getNbme() is finbl bnd since we cbn't bccess "this"
+           until bfter the cbll to the superclbss constructor, there
+           isn't bny very clebn wby to do this.  MBebnServerPermission
+           objects bren't constructed very often, luckily.  */
+        mbsk = pbrseMbsk(nbme);
 
-        /* Check that actions is a null empty string */
-        if (actions != null && actions.length() > 0)
-            throw new IllegalArgumentException("MBeanServerPermission " +
-                                               "actions must be null: " +
-                                               actions);
+        /* Check thbt bctions is b null empty string */
+        if (bctions != null && bctions.length() > 0)
+            throw new IllegblArgumentException("MBebnServerPermission " +
+                                               "bctions must be null: " +
+                                               bctions);
     }
 
-    MBeanServerPermission(int mask) {
-        super(getCanonicalName(mask));
-        this.mask = impliedMask(mask);
+    MBebnServerPermission(int mbsk) {
+        super(getCbnonicblNbme(mbsk));
+        this.mbsk = impliedMbsk(mbsk);
     }
 
-    private void readObject(ObjectInputStream in)
-            throws IOException, ClassNotFoundException {
-        in.defaultReadObject();
-        mask = parseMask(getName());
+    privbte void rebdObject(ObjectInputStrebm in)
+            throws IOException, ClbssNotFoundException {
+        in.defbultRebdObject();
+        mbsk = pbrseMbsk(getNbme());
     }
 
-    static int simplifyMask(int mask) {
-        if ((mask & CREATE_MASK) != 0)
-            mask &= ~NEW_MASK;
-        return mask;
+    stbtic int simplifyMbsk(int mbsk) {
+        if ((mbsk & CREATE_MASK) != 0)
+            mbsk &= ~NEW_MASK;
+        return mbsk;
     }
 
-    static int impliedMask(int mask) {
-        if ((mask & CREATE_MASK) != 0)
-            mask |= NEW_MASK;
-        return mask;
+    stbtic int impliedMbsk(int mbsk) {
+        if ((mbsk & CREATE_MASK) != 0)
+            mbsk |= NEW_MASK;
+        return mbsk;
     }
 
-    static String getCanonicalName(int mask) {
-        if (mask == ALL_MASK)
+    stbtic String getCbnonicblNbme(int mbsk) {
+        if (mbsk == ALL_MASK)
             return "*";
 
-        mask = simplifyMask(mask);
+        mbsk = simplifyMbsk(mbsk);
 
-        synchronized (canonicalNames) {
-            if (canonicalNames[mask] == null)
-                canonicalNames[mask] = makeCanonicalName(mask);
+        synchronized (cbnonicblNbmes) {
+            if (cbnonicblNbmes[mbsk] == null)
+                cbnonicblNbmes[mbsk] = mbkeCbnonicblNbme(mbsk);
         }
 
-        return canonicalNames[mask];
+        return cbnonicblNbmes[mbsk];
     }
 
-    private static String makeCanonicalName(int mask) {
-        final StringBuilder buf = new StringBuilder();
+    privbte stbtic String mbkeCbnonicblNbme(int mbsk) {
+        finbl StringBuilder buf = new StringBuilder();
         for (int i = 0; i < N_NAMES; i++) {
-            if ((mask & (1<<i)) != 0) {
+            if ((mbsk & (1<<i)) != 0) {
                 if (buf.length() > 0)
-                    buf.append(',');
-                buf.append(names[i]);
+                    buf.bppend(',');
+                buf.bppend(nbmes[i]);
             }
         }
         return buf.toString().intern();
-        /* intern() avoids duplication when the mask has only
-           one bit, so is equivalent to the string constants
-           we have for the names[] array.  */
+        /* intern() bvoids duplicbtion when the mbsk hbs only
+           one bit, so is equivblent to the string constbnts
+           we hbve for the nbmes[] brrby.  */
     }
 
-    /* Convert the string into a bitmask, including bits that
-       are implied by the permissions in the string.  */
-    private static int parseMask(String name) {
-        /* Check that target name is a non-null non-empty string */
-        if (name == null) {
-            throw new NullPointerException("MBeanServerPermission: " +
-                                           "target name can't be null");
+    /* Convert the string into b bitmbsk, including bits thbt
+       bre implied by the permissions in the string.  */
+    privbte stbtic int pbrseMbsk(String nbme) {
+        /* Check thbt tbrget nbme is b non-null non-empty string */
+        if (nbme == null) {
+            throw new NullPointerException("MBebnServerPermission: " +
+                                           "tbrget nbme cbn't be null");
         }
 
-        name = name.trim();
-        if (name.equals("*"))
+        nbme = nbme.trim();
+        if (nbme.equbls("*"))
             return ALL_MASK;
 
-        /* If the name is empty, nameIndex will barf. */
-        if (name.indexOf(',') < 0)
-            return impliedMask(1 << nameIndex(name.trim()));
+        /* If the nbme is empty, nbmeIndex will bbrf. */
+        if (nbme.indexOf(',') < 0)
+            return impliedMbsk(1 << nbmeIndex(nbme.trim()));
 
-        int mask = 0;
+        int mbsk = 0;
 
-        StringTokenizer tok = new StringTokenizer(name, ",");
-        while (tok.hasMoreTokens()) {
-            String action = tok.nextToken();
-            int i = nameIndex(action.trim());
-            mask |= (1 << i);
+        StringTokenizer tok = new StringTokenizer(nbme, ",");
+        while (tok.hbsMoreTokens()) {
+            String bction = tok.nextToken();
+            int i = nbmeIndex(bction.trim());
+            mbsk |= (1 << i);
         }
 
-        return impliedMask(mask);
+        return impliedMbsk(mbsk);
     }
 
-    private static int nameIndex(String name)
-            throws IllegalArgumentException {
+    privbte stbtic int nbmeIndex(String nbme)
+            throws IllegblArgumentException {
         for (int i = 0; i < N_NAMES; i++) {
-            if (names[i].equals(name))
+            if (nbmes[i].equbls(nbme))
                 return i;
         }
-        final String msg =
-            "Invalid MBeanServerPermission name: \"" + name + "\"";
-        throw new IllegalArgumentException(msg);
+        finbl String msg =
+            "Invblid MBebnServerPermission nbme: \"" + nbme + "\"";
+        throw new IllegblArgumentException(msg);
     }
 
-    public int hashCode() {
-        return mask;
+    public int hbshCode() {
+        return mbsk;
     }
 
     /**
-     * <p>Checks if this MBeanServerPermission object "implies" the specified
+     * <p>Checks if this MBebnServerPermission object "implies" the specified
      * permission.</p>
      *
-     * <p>More specifically, this method returns true if:</p>
+     * <p>More specificblly, this method returns true if:</p>
      *
      * <ul>
-     * <li> <i>p</i> is an instance of MBeanServerPermission,</li>
-     * <li> <i>p</i>'s target names are a subset of this object's target
-     * names</li>
+     * <li> <i>p</i> is bn instbnce of MBebnServerPermission,</li>
+     * <li> <i>p</i>'s tbrget nbmes bre b subset of this object's tbrget
+     * nbmes</li>
      * </ul>
      *
-     * <p>The <code>createMBeanServer</code> permission implies the
-     * <code>newMBeanServer</code> permission.</p>
+     * <p>The <code>crebteMBebnServer</code> permission implies the
+     * <code>newMBebnServer</code> permission.</p>
      *
-     * @param p the permission to check against.
+     * @pbrbm p the permission to check bgbinst.
      * @return true if the specified permission is implied by this object,
-     * false if not.
+     * fblse if not.
      */
-    public boolean implies(Permission p) {
-        if (!(p instanceof MBeanServerPermission))
-            return false;
+    public boolebn implies(Permission p) {
+        if (!(p instbnceof MBebnServerPermission))
+            return fblse;
 
-        MBeanServerPermission that = (MBeanServerPermission) p;
+        MBebnServerPermission thbt = (MBebnServerPermission) p;
 
-        return ((this.mask & that.mask) == that.mask);
+        return ((this.mbsk & thbt.mbsk) == thbt.mbsk);
     }
 
     /**
-     * Checks two MBeanServerPermission objects for equality. Checks that
-     * <i>obj</i> is an MBeanServerPermission, and represents the same
-     * list of allowable actions as this object.
+     * Checks two MBebnServerPermission objects for equblity. Checks thbt
+     * <i>obj</i> is bn MBebnServerPermission, bnd represents the sbme
+     * list of bllowbble bctions bs this object.
      *
-     * @param obj the object we are testing for equality with this object.
-     * @return true if the objects are equal.
+     * @pbrbm obj the object we bre testing for equblity with this object.
+     * @return true if the objects bre equbl.
      */
-    public boolean equals(Object obj) {
+    public boolebn equbls(Object obj) {
         if (obj == this)
             return true;
 
-        if (! (obj instanceof MBeanServerPermission))
-            return false;
+        if (! (obj instbnceof MBebnServerPermission))
+            return fblse;
 
-        MBeanServerPermission that = (MBeanServerPermission) obj;
+        MBebnServerPermission thbt = (MBebnServerPermission) obj;
 
-        return (this.mask == that.mask);
+        return (this.mbsk == thbt.mbsk);
     }
 
     public PermissionCollection newPermissionCollection() {
-        return new MBeanServerPermissionCollection();
+        return new MBebnServerPermissionCollection();
     }
 }
 
 /**
- * Class returned by {@link MBeanServerPermission#newPermissionCollection()}.
+ * Clbss returned by {@link MBebnServerPermission#newPermissionCollection()}.
  *
- * @serial include
+ * @seribl include
  */
 
 /*
- * Since every collection of MBSP can be represented by a single MBSP,
- * that is what our PermissionCollection does.  We need to define a
- * PermissionCollection because the one inherited from BasicPermission
- * doesn't know that createMBeanServer implies newMBeanServer.
+ * Since every collection of MBSP cbn be represented by b single MBSP,
+ * thbt is whbt our PermissionCollection does.  We need to define b
+ * PermissionCollection becbuse the one inherited from BbsicPermission
+ * doesn't know thbt crebteMBebnServer implies newMBebnServer.
  *
- * Though the serial form is defined, the TCK does not check it.  We do
- * not require independent implementations to duplicate it.  Even though
- * PermissionCollection is Serializable, instances of this class will
- * hardly ever be serialized, and different implementations do not
- * typically exchange serialized permission collections.
+ * Though the seribl form is defined, the TCK does not check it.  We do
+ * not require independent implementbtions to duplicbte it.  Even though
+ * PermissionCollection is Seriblizbble, instbnces of this clbss will
+ * hbrdly ever be seriblized, bnd different implementbtions do not
+ * typicblly exchbnge seriblized permission collections.
  *
- * If we did require that a particular form be respected here, we would
- * logically also have to require it for
- * MBeanPermission.newPermissionCollection, which would preclude an
- * implementation from defining a PermissionCollection there with an
+ * If we did require thbt b pbrticulbr form be respected here, we would
+ * logicblly blso hbve to require it for
+ * MBebnPermission.newPermissionCollection, which would preclude bn
+ * implementbtion from defining b PermissionCollection there with bn
  * optimized "implies" method.
  */
-class MBeanServerPermissionCollection extends PermissionCollection {
-    /** @serial Null if no permissions in collection, otherwise a
-        single permission that is the union of all permissions that
-        have been added.  */
-    private MBeanServerPermission collectionPermission;
+clbss MBebnServerPermissionCollection extends PermissionCollection {
+    /** @seribl Null if no permissions in collection, otherwise b
+        single permission thbt is the union of bll permissions thbt
+        hbve been bdded.  */
+    privbte MBebnServerPermission collectionPermission;
 
-    private static final long serialVersionUID = -5661980843569388590L;
+    privbte stbtic finbl long seriblVersionUID = -5661980843569388590L;
 
-    public synchronized void add(Permission permission) {
-        if (!(permission instanceof MBeanServerPermission)) {
-            final String msg =
-                "Permission not an MBeanServerPermission: " + permission;
-            throw new IllegalArgumentException(msg);
+    public synchronized void bdd(Permission permission) {
+        if (!(permission instbnceof MBebnServerPermission)) {
+            finbl String msg =
+                "Permission not bn MBebnServerPermission: " + permission;
+            throw new IllegblArgumentException(msg);
         }
-        if (isReadOnly())
-            throw new SecurityException("Read-only permission collection");
-        MBeanServerPermission mbsp = (MBeanServerPermission) permission;
+        if (isRebdOnly())
+            throw new SecurityException("Rebd-only permission collection");
+        MBebnServerPermission mbsp = (MBebnServerPermission) permission;
         if (collectionPermission == null)
             collectionPermission = mbsp;
         else if (!collectionPermission.implies(permission)) {
-            int newmask = collectionPermission.mask | mbsp.mask;
-            collectionPermission = new MBeanServerPermission(newmask);
+            int newmbsk = collectionPermission.mbsk | mbsp.mbsk;
+            collectionPermission = new MBebnServerPermission(newmbsk);
         }
     }
 
-    public synchronized boolean implies(Permission permission) {
+    public synchronized boolebn implies(Permission permission) {
         return (collectionPermission != null &&
                 collectionPermission.implies(permission));
     }
 
-    public synchronized Enumeration<Permission> elements() {
+    public synchronized Enumerbtion<Permission> elements() {
         Set<Permission> set;
         if (collectionPermission == null)
             set = Collections.emptySet();
         else
             set = Collections.singleton((Permission) collectionPermission);
-        return Collections.enumeration(set);
+        return Collections.enumerbtion(set);
     }
 }

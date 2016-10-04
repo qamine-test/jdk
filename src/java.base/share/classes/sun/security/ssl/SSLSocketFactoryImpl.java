@@ -1,152 +1,152 @@
 /*
- * Copyright (c) 1997, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.ssl;
+pbckbge sun.security.ssl;
 
-import java.io.*;
-import java.net.*;
-import javax.net.ssl.SSLSocketFactory;
+import jbvb.io.*;
+import jbvb.net.*;
+import jbvbx.net.ssl.SSLSocketFbctory;
 
 
 /**
- * Implementation of an SSL socket factory.  This provides the public
- * hooks to create SSL sockets, using a "high level" programming
- * interface which encapsulates system security policy defaults rather than
- * offering application flexibility.  In particular, it uses a configurable
- * authentication context (and the keys held there) rather than offering
- * any flexibility about which keys to use; that context defaults to the
- * process-default context, but may be explicitly specified.
+ * Implementbtion of bn SSL socket fbctory.  This provides the public
+ * hooks to crebte SSL sockets, using b "high level" progrbmming
+ * interfbce which encbpsulbtes system security policy defbults rbther thbn
+ * offering bpplicbtion flexibility.  In pbrticulbr, it uses b configurbble
+ * buthenticbtion context (bnd the keys held there) rbther thbn offering
+ * bny flexibility bbout which keys to use; thbt context defbults to the
+ * process-defbult context, but mby be explicitly specified.
  *
- * @author David Brownell
+ * @buthor Dbvid Brownell
  */
-final public class SSLSocketFactoryImpl extends SSLSocketFactory {
+finbl public clbss SSLSocketFbctoryImpl extends SSLSocketFbctory {
 
-    private SSLContextImpl context;
+    privbte SSLContextImpl context;
 
     /**
-     * Constructor used to instantiate the default factory. This method is
-     * only called if the old "ssl.SocketFactory.provider" property in the
-     * java.security file is set.
+     * Constructor used to instbntibte the defbult fbctory. This method is
+     * only cblled if the old "ssl.SocketFbctory.provider" property in the
+     * jbvb.security file is set.
      */
-    public SSLSocketFactoryImpl() throws Exception {
-        this.context = SSLContextImpl.DefaultSSLContext.getDefaultImpl();
+    public SSLSocketFbctoryImpl() throws Exception {
+        this.context = SSLContextImpl.DefbultSSLContext.getDefbultImpl();
     }
 
     /**
-     * Constructs an SSL socket factory.
+     * Constructs bn SSL socket fbctory.
      */
-    SSLSocketFactoryImpl(SSLContextImpl context) {
+    SSLSocketFbctoryImpl(SSLContextImpl context) {
         this.context = context;
     }
 
     /**
-     * Creates an unconnected socket.
+     * Crebtes bn unconnected socket.
      *
      * @return the unconnected socket
-     * @see java.net.Socket#connect(java.net.SocketAddress, int)
+     * @see jbvb.net.Socket#connect(jbvb.net.SocketAddress, int)
      */
     @Override
-    public Socket createSocket() {
+    public Socket crebteSocket() {
         return new SSLSocketImpl(context);
     }
 
     /**
-     * Constructs an SSL connection to a named host at a specified port.
-     * This acts as the SSL client, and may authenticate itself or rejoin
-     * existing SSL sessions allowed by the authentication context which
-     * has been configured.
+     * Constructs bn SSL connection to b nbmed host bt b specified port.
+     * This bcts bs the SSL client, bnd mby buthenticbte itself or rejoin
+     * existing SSL sessions bllowed by the buthenticbtion context which
+     * hbs been configured.
      *
-     * @param host name of the host with which to connect
-     * @param port number of the server's port
+     * @pbrbm host nbme of the host with which to connect
+     * @pbrbm port number of the server's port
      */
     @Override
-    public Socket createSocket(String host, int port)
+    public Socket crebteSocket(String host, int port)
     throws IOException, UnknownHostException
     {
         return new SSLSocketImpl(context, host, port);
     }
 
     /**
-     * Returns a socket layered over an existing socket to a
-     * ServerSocket on the named host, at the given port.  This
-     * constructor can be used when tunneling SSL through a proxy. The
-     * host and port refer to the logical destination server.  This
-     * socket is configured using the socket options established for
-     * this factory.
+     * Returns b socket lbyered over bn existing socket to b
+     * ServerSocket on the nbmed host, bt the given port.  This
+     * constructor cbn be used when tunneling SSL through b proxy. The
+     * host bnd port refer to the logicbl destinbtion server.  This
+     * socket is configured using the socket options estbblished for
+     * this fbctory.
      *
-     * @param s the existing socket
-     * @param host the server host
-     * @param port the server port
-     * @param autoClose close the underlying socket when this socket is closed
+     * @pbrbm s the existing socket
+     * @pbrbm host the server host
+     * @pbrbm port the server port
+     * @pbrbm butoClose close the underlying socket when this socket is closed
      *
-     * @exception IOException if the connection can't be established
+     * @exception IOException if the connection cbn't be estbblished
      * @exception UnknownHostException if the host is not known
      */
     @Override
-    public Socket createSocket(Socket s, String host, int port,
-            boolean autoClose) throws IOException {
-        return new SSLSocketImpl(context, s, host, port, autoClose);
+    public Socket crebteSocket(Socket s, String host, int port,
+            boolebn butoClose) throws IOException {
+        return new SSLSocketImpl(context, s, host, port, butoClose);
     }
 
     @Override
-    public Socket createSocket(Socket s, InputStream consumed,
-            boolean autoClose) throws IOException {
+    public Socket crebteSocket(Socket s, InputStrebm consumed,
+            boolebn butoClose) throws IOException {
         if (s == null) {
             throw new NullPointerException(
-                    "the existing socket cannot be null");
+                    "the existing socket cbnnot be null");
         }
 
-        return new SSLSocketImpl(context, s, consumed, autoClose);
+        return new SSLSocketImpl(context, s, consumed, butoClose);
     }
 
     /**
-     * Constructs an SSL connection to a server at a specified address
-     * and TCP port.  This acts as the SSL client, and may authenticate
-     * itself or rejoin existing SSL sessions allowed by the authentication
-     * context which has been configured.
+     * Constructs bn SSL connection to b server bt b specified bddress
+     * bnd TCP port.  This bcts bs the SSL client, bnd mby buthenticbte
+     * itself or rejoin existing SSL sessions bllowed by the buthenticbtion
+     * context which hbs been configured.
      *
-     * @param address the server's host
-     * @param port its port
+     * @pbrbm bddress the server's host
+     * @pbrbm port its port
      */
     @Override
-    public Socket createSocket(InetAddress address, int port)
+    public Socket crebteSocket(InetAddress bddress, int port)
     throws IOException
     {
-        return new SSLSocketImpl(context, address, port);
+        return new SSLSocketImpl(context, bddress, port);
     }
 
 
     /**
-     * Constructs an SSL connection to a named host at a specified port.
-     * This acts as the SSL client, and may authenticate itself or rejoin
-     * existing SSL sessions allowed by the authentication context which
-     * has been configured. The socket will also bind() to the local
-     * address and port supplied.
+     * Constructs bn SSL connection to b nbmed host bt b specified port.
+     * This bcts bs the SSL client, bnd mby buthenticbte itself or rejoin
+     * existing SSL sessions bllowed by the buthenticbtion context which
+     * hbs been configured. The socket will blso bind() to the locbl
+     * bddress bnd port supplied.
      */
     @Override
-    public Socket createSocket(String host, int port,
+    public Socket crebteSocket(String host, int port,
         InetAddress clientAddress, int clientPort)
     throws IOException
     {
@@ -155,44 +155,44 @@ final public class SSLSocketFactoryImpl extends SSLSocketFactory {
     }
 
     /**
-     * Constructs an SSL connection to a server at a specified address
-     * and TCP port.  This acts as the SSL client, and may authenticate
-     * itself or rejoin existing SSL sessions allowed by the authentication
-     * context which has been configured. The socket will also bind() to
-     * the local address and port supplied.
+     * Constructs bn SSL connection to b server bt b specified bddress
+     * bnd TCP port.  This bcts bs the SSL client, bnd mby buthenticbte
+     * itself or rejoin existing SSL sessions bllowed by the buthenticbtion
+     * context which hbs been configured. The socket will blso bind() to
+     * the locbl bddress bnd port supplied.
      */
     @Override
-    public Socket createSocket(InetAddress address, int port,
+    public Socket crebteSocket(InetAddress bddress, int port,
         InetAddress clientAddress, int clientPort)
     throws IOException
     {
-        return new SSLSocketImpl(context, address, port,
+        return new SSLSocketImpl(context, bddress, port,
                 clientAddress, clientPort);
     }
 
 
     /**
-     * Returns the subset of the supported cipher suites which are
-     * enabled by default.  These cipher suites all provide a minimum
-     * quality of service whereby the server authenticates itself
-     * (preventing person-in-the-middle attacks) and where traffic
-     * is encrypted to provide confidentiality.
+     * Returns the subset of the supported cipher suites which bre
+     * enbbled by defbult.  These cipher suites bll provide b minimum
+     * qublity of service whereby the server buthenticbtes itself
+     * (preventing person-in-the-middle bttbcks) bnd where trbffic
+     * is encrypted to provide confidentiblity.
      */
     @Override
-    public String[] getDefaultCipherSuites() {
-        return context.getDefaultCipherSuiteList(false).toStringArray();
+    public String[] getDefbultCipherSuites() {
+        return context.getDefbultCipherSuiteList(fblse).toStringArrby();
     }
 
     /**
-     * Returns the names of the cipher suites which could be enabled for use
-     * on an SSL connection.  Normally, only a subset of these will actually
-     * be enabled by default, since this list may include cipher suites which
-     * do not support the mutual authentication of servers and clients, or
-     * which do not protect data confidentiality.  Servers may also need
-     * certain kinds of certificates to use certain cipher suites.
+     * Returns the nbmes of the cipher suites which could be enbbled for use
+     * on bn SSL connection.  Normblly, only b subset of these will bctublly
+     * be enbbled by defbult, since this list mby include cipher suites which
+     * do not support the mutubl buthenticbtion of servers bnd clients, or
+     * which do not protect dbtb confidentiblity.  Servers mby blso need
+     * certbin kinds of certificbtes to use certbin cipher suites.
      */
     @Override
     public String[] getSupportedCipherSuites() {
-        return context.getSupportedCipherSuiteList().toStringArray();
+        return context.getSupportedCipherSuiteList().toStringArrby();
     }
 }

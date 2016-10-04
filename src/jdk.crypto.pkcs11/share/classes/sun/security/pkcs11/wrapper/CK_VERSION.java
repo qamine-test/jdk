@@ -1,35 +1,35 @@
 /*
- * Copyright (c) 2003, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  */
 
-/* Copyright  (c) 2002 Graz University of Technology. All rights reserved.
+/* Copyright  (c) 2002 Grbz University of Technology. All rights reserved.
  *
- * Redistribution and use in  source and binary forms, with or without
- * modification, are permitted  provided that the following conditions are met:
+ * Redistribution bnd use in  source bnd binbry forms, with or without
+ * modificbtion, bre permitted  provided thbt the following conditions bre met:
  *
- * 1. Redistributions of  source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ * 1. Redistributions of  source code must retbin the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer.
  *
- * 2. Redistributions in  binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ * 2. Redistributions in  binbry form must reproduce the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer in the documentbtion
+ *    bnd/or other mbteribls provided with the distribution.
  *
- * 3. The end-user documentation included with the redistribution, if any, must
- *    include the following acknowledgment:
+ * 3. The end-user documentbtion included with the redistribution, if bny, must
+ *    include the following bcknowledgment:
  *
- *    "This product includes software developed by IAIK of Graz University of
+ *    "This product includes softwbre developed by IAIK of Grbz University of
  *     Technology."
  *
- *    Alternately, this acknowledgment may appear in the software itself, if
- *    and wherever such third-party acknowledgments normally appear.
+ *    Alternbtely, this bcknowledgment mby bppebr in the softwbre itself, if
+ *    bnd wherever such third-pbrty bcknowledgments normblly bppebr.
  *
- * 4. The names "Graz University of Technology" and "IAIK of Graz University of
+ * 4. The nbmes "Grbz University of Technology" bnd "IAIK of Grbz University of
  *    Technology" must not be used to endorse or promote products derived from
- *    this software without prior written permission.
+ *    this softwbre without prior written permission.
  *
- * 5. Products derived from this software may not be called
- *    "IAIK PKCS Wrapper", nor may "IAIK" appear in their name, without prior
- *    written permission of Graz University of Technology.
+ * 5. Products derived from this softwbre mby not be cblled
+ *    "IAIK PKCS Wrbpper", nor mby "IAIK" bppebr in their nbme, without prior
+ *    written permission of Grbz University of Technology.
  *
  *  THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESSED OR IMPLIED
  *  WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
@@ -45,34 +45,34 @@
  *  POSSIBILITY  OF SUCH DAMAGE.
  */
 
-package sun.security.pkcs11.wrapper;
+pbckbge sun.security.pkcs11.wrbpper;
 
 
 
 /**
- * class CK_VERSION describes the version of a Cryptoki interface, a Cryptoki
- * library, or an SSL implementation, or the hardware or firmware version of a
+ * clbss CK_VERSION describes the version of b Cryptoki interfbce, b Cryptoki
+ * librbry, or bn SSL implementbtion, or the hbrdwbre or firmwbre version of b
  * slot or token.<p>
  * <B>PKCS#11 structure:</B>
  * <PRE>
  * typedef struct CK_VERSION {&nbsp;&nbsp;
- *   CK_BYTE major;&nbsp;&nbsp;
+ *   CK_BYTE mbjor;&nbsp;&nbsp;
  *   CK_BYTE minor;&nbsp;&nbsp;
  * } CK_VERSION;
  * </PRE>
  *
- * @author Karl Scheibelhofer <Karl.Scheibelhofer@iaik.at>
- * @author Martin Schlaeffer <schlaeff@sbox.tugraz.at>
+ * @buthor Kbrl Scheibelhofer <Kbrl.Scheibelhofer@ibik.bt>
+ * @buthor Mbrtin Schlbeffer <schlbeff@sbox.tugrbz.bt>
  */
-public class CK_VERSION {
+public clbss CK_VERSION {
 
     /**
      * <B>PKCS#11:</B>
      * <PRE>
-     *   CK_BYTE major;
+     *   CK_BYTE mbjor;
      * </PRE>
      */
-    public byte major;  /* integer portion of version number */
+    public byte mbjor;  /* integer portion of version number */
 
     /**
      * <B>PKCS#11:</B>
@@ -82,26 +82,26 @@ public class CK_VERSION {
      */
     public byte minor;  /* 1/100ths portion of version number */
 
-    public CK_VERSION(int major, int minor) {
-        this.major = (byte)major;
+    public CK_VERSION(int mbjor, int minor) {
+        this.mbjor = (byte)mbjor;
         this.minor = (byte)minor;
     }
 
     /**
-     * Returns the string representation of CK_VERSION.
+     * Returns the string representbtion of CK_VERSION.
      *
-     * @return the string representation of CK_VERSION
+     * @return the string representbtion of CK_VERSION
      */
     public String toString() {
         StringBuilder buffer = new StringBuilder();
 
-        buffer.append(major & 0xff);
-        buffer.append('.');
+        buffer.bppend(mbjor & 0xff);
+        buffer.bppend('.');
         int m = minor & 0xff;
         if (m < 10) {
-            buffer.append('0');
+            buffer.bppend('0');
         }
-        buffer.append(m);
+        buffer.bppend(m);
 
         return buffer.toString();
     }

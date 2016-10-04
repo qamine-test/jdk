@@ -1,131 +1,131 @@
 /*
- * Copyright (c) 1997, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt.geom;
+pbckbge jbvb.bwt.geom;
 
-import java.io.Serializable;
+import jbvb.io.Seriblizbble;
 
 /**
- * The <code>Rectangle2D</code> class describes a rectangle
- * defined by a location {@code (x,y)} and dimension
+ * The <code>Rectbngle2D</code> clbss describes b rectbngle
+ * defined by b locbtion {@code (x,y)} bnd dimension
  * {@code (w x h)}.
  * <p>
- * This class is only the abstract superclass for all objects that
- * store a 2D rectangle.
- * The actual storage representation of the coordinates is left to
- * the subclass.
+ * This clbss is only the bbstrbct superclbss for bll objects thbt
+ * store b 2D rectbngle.
+ * The bctubl storbge representbtion of the coordinbtes is left to
+ * the subclbss.
  *
- * @author      Jim Graham
+ * @buthor      Jim Grbhbm
  * @since 1.2
  */
-public abstract class Rectangle2D extends RectangularShape {
+public bbstrbct clbss Rectbngle2D extends RectbngulbrShbpe {
     /**
-     * The bitmask that indicates that a point lies to the left of
-     * this <code>Rectangle2D</code>.
+     * The bitmbsk thbt indicbtes thbt b point lies to the left of
+     * this <code>Rectbngle2D</code>.
      * @since 1.2
      */
-    public static final int OUT_LEFT = 1;
+    public stbtic finbl int OUT_LEFT = 1;
 
     /**
-     * The bitmask that indicates that a point lies above
-     * this <code>Rectangle2D</code>.
+     * The bitmbsk thbt indicbtes thbt b point lies bbove
+     * this <code>Rectbngle2D</code>.
      * @since 1.2
      */
-    public static final int OUT_TOP = 2;
+    public stbtic finbl int OUT_TOP = 2;
 
     /**
-     * The bitmask that indicates that a point lies to the right of
-     * this <code>Rectangle2D</code>.
+     * The bitmbsk thbt indicbtes thbt b point lies to the right of
+     * this <code>Rectbngle2D</code>.
      * @since 1.2
      */
-    public static final int OUT_RIGHT = 4;
+    public stbtic finbl int OUT_RIGHT = 4;
 
     /**
-     * The bitmask that indicates that a point lies below
-     * this <code>Rectangle2D</code>.
+     * The bitmbsk thbt indicbtes thbt b point lies below
+     * this <code>Rectbngle2D</code>.
      * @since 1.2
      */
-    public static final int OUT_BOTTOM = 8;
+    public stbtic finbl int OUT_BOTTOM = 8;
 
     /**
-     * The <code>Float</code> class defines a rectangle specified in float
-     * coordinates.
+     * The <code>Flobt</code> clbss defines b rectbngle specified in flobt
+     * coordinbtes.
      * @since 1.2
      */
-    public static class Float extends Rectangle2D implements Serializable {
+    public stbtic clbss Flobt extends Rectbngle2D implements Seriblizbble {
         /**
-         * The X coordinate of this <code>Rectangle2D</code>.
+         * The X coordinbte of this <code>Rectbngle2D</code>.
          * @since 1.2
-         * @serial
+         * @seribl
          */
-        public float x;
+        public flobt x;
 
         /**
-         * The Y coordinate of this <code>Rectangle2D</code>.
+         * The Y coordinbte of this <code>Rectbngle2D</code>.
          * @since 1.2
-         * @serial
+         * @seribl
          */
-        public float y;
+        public flobt y;
 
         /**
-         * The width of this <code>Rectangle2D</code>.
+         * The width of this <code>Rectbngle2D</code>.
          * @since 1.2
-         * @serial
+         * @seribl
          */
-        public float width;
+        public flobt width;
 
         /**
-         * The height of this <code>Rectangle2D</code>.
+         * The height of this <code>Rectbngle2D</code>.
          * @since 1.2
-         * @serial
+         * @seribl
          */
-        public float height;
+        public flobt height;
 
         /**
-         * Constructs a new <code>Rectangle2D</code>, initialized to
-         * location (0.0,&nbsp;0.0) and size (0.0,&nbsp;0.0).
+         * Constructs b new <code>Rectbngle2D</code>, initiblized to
+         * locbtion (0.0,&nbsp;0.0) bnd size (0.0,&nbsp;0.0).
          * @since 1.2
          */
-        public Float() {
+        public Flobt() {
         }
 
         /**
-         * Constructs and initializes a <code>Rectangle2D</code>
-         * from the specified <code>float</code> coordinates.
+         * Constructs bnd initiblizes b <code>Rectbngle2D</code>
+         * from the specified <code>flobt</code> coordinbtes.
          *
-         * @param x the X coordinate of the upper-left corner
-         *          of the newly constructed <code>Rectangle2D</code>
-         * @param y the Y coordinate of the upper-left corner
-         *          of the newly constructed <code>Rectangle2D</code>
-         * @param w the width of the newly constructed
-         *          <code>Rectangle2D</code>
-         * @param h the height of the newly constructed
-         *          <code>Rectangle2D</code>
+         * @pbrbm x the X coordinbte of the upper-left corner
+         *          of the newly constructed <code>Rectbngle2D</code>
+         * @pbrbm y the Y coordinbte of the upper-left corner
+         *          of the newly constructed <code>Rectbngle2D</code>
+         * @pbrbm w the width of the newly constructed
+         *          <code>Rectbngle2D</code>
+         * @pbrbm h the height of the newly constructed
+         *          <code>Rectbngle2D</code>
          * @since 1.2
         */
-        public Float(float x, float y, float w, float h) {
+        public Flobt(flobt x, flobt y, flobt w, flobt h) {
             setRect(x, y, w, h);
         }
 
@@ -165,23 +165,23 @@ public abstract class Rectangle2D extends RectangularShape {
          * {@inheritDoc}
          * @since 1.2
          */
-        public boolean isEmpty() {
+        public boolebn isEmpty() {
             return (width <= 0.0f) || (height <= 0.0f);
         }
 
         /**
-         * Sets the location and size of this <code>Rectangle2D</code>
-         * to the specified <code>float</code> values.
+         * Sets the locbtion bnd size of this <code>Rectbngle2D</code>
+         * to the specified <code>flobt</code> vblues.
          *
-         * @param x the X coordinate of the upper-left corner
-         *          of this <code>Rectangle2D</code>
-         * @param y the Y coordinate of the upper-left corner
-         *          of this <code>Rectangle2D</code>
-         * @param w the width of this <code>Rectangle2D</code>
-         * @param h the height of this <code>Rectangle2D</code>
+         * @pbrbm x the X coordinbte of the upper-left corner
+         *          of this <code>Rectbngle2D</code>
+         * @pbrbm y the Y coordinbte of the upper-left corner
+         *          of this <code>Rectbngle2D</code>
+         * @pbrbm w the width of this <code>Rectbngle2D</code>
+         * @pbrbm h the height of this <code>Rectbngle2D</code>
          * @since 1.2
          */
-        public void setRect(float x, float y, float w, float h) {
+        public void setRect(flobt x, flobt y, flobt w, flobt h) {
             this.x = x;
             this.y = y;
             this.width = w;
@@ -193,21 +193,21 @@ public abstract class Rectangle2D extends RectangularShape {
          * @since 1.2
          */
         public void setRect(double x, double y, double w, double h) {
-            this.x = (float) x;
-            this.y = (float) y;
-            this.width = (float) w;
-            this.height = (float) h;
+            this.x = (flobt) x;
+            this.y = (flobt) y;
+            this.width = (flobt) w;
+            this.height = (flobt) h;
         }
 
         /**
          * {@inheritDoc}
          * @since 1.2
          */
-        public void setRect(Rectangle2D r) {
-            this.x = (float) r.getX();
-            this.y = (float) r.getY();
-            this.width = (float) r.getWidth();
-            this.height = (float) r.getHeight();
+        public void setRect(Rectbngle2D r) {
+            this.x = (flobt) r.getX();
+            this.y = (flobt) r.getY();
+            this.width = (flobt) r.getWidth();
+            this.height = (flobt) r.getHeight();
         }
 
         /**
@@ -216,14 +216,14 @@ public abstract class Rectangle2D extends RectangularShape {
          */
         public int outcode(double x, double y) {
             /*
-             * Note on casts to double below.  If the arithmetic of
-             * x+w or y+h is done in float, then some bits may be
-             * lost if the binary exponents of x/y and w/h are not
-             * similar.  By converting to double before the addition
-             * we force the addition to be carried out in double to
-             * avoid rounding error in the comparison.
+             * Note on cbsts to double below.  If the brithmetic of
+             * x+w or y+h is done in flobt, then some bits mby be
+             * lost if the binbry exponents of x/y bnd w/h bre not
+             * similbr.  By converting to double before the bddition
+             * we force the bddition to be cbrried out in double to
+             * bvoid rounding error in the compbrison.
              *
-             * See bug 4320890 for problems that this inaccuracy causes.
+             * See bug 4320890 for problems thbt this inbccurbcy cbuses.
              */
             int out = 0;
             if (this.width <= 0) {
@@ -247,22 +247,22 @@ public abstract class Rectangle2D extends RectangularShape {
          * {@inheritDoc}
          * @since 1.2
          */
-        public Rectangle2D getBounds2D() {
-            return new Float(x, y, width, height);
+        public Rectbngle2D getBounds2D() {
+            return new Flobt(x, y, width, height);
         }
 
         /**
          * {@inheritDoc}
          * @since 1.2
          */
-        public Rectangle2D createIntersection(Rectangle2D r) {
-            Rectangle2D dest;
-            if (r instanceof Float) {
-                dest = new Rectangle2D.Float();
+        public Rectbngle2D crebteIntersection(Rectbngle2D r) {
+            Rectbngle2D dest;
+            if (r instbnceof Flobt) {
+                dest = new Rectbngle2D.Flobt();
             } else {
-                dest = new Rectangle2D.Double();
+                dest = new Rectbngle2D.Double();
             }
-            Rectangle2D.intersect(this, r, dest);
+            Rectbngle2D.intersect(this, r, dest);
             return dest;
         }
 
@@ -270,26 +270,26 @@ public abstract class Rectangle2D extends RectangularShape {
          * {@inheritDoc}
          * @since 1.2
          */
-        public Rectangle2D createUnion(Rectangle2D r) {
-            Rectangle2D dest;
-            if (r instanceof Float) {
-                dest = new Rectangle2D.Float();
+        public Rectbngle2D crebteUnion(Rectbngle2D r) {
+            Rectbngle2D dest;
+            if (r instbnceof Flobt) {
+                dest = new Rectbngle2D.Flobt();
             } else {
-                dest = new Rectangle2D.Double();
+                dest = new Rectbngle2D.Double();
             }
-            Rectangle2D.union(this, r, dest);
+            Rectbngle2D.union(this, r, dest);
             return dest;
         }
 
         /**
-         * Returns the <code>String</code> representation of this
-         * <code>Rectangle2D</code>.
-         * @return a <code>String</code> representing this
-         * <code>Rectangle2D</code>.
+         * Returns the <code>String</code> representbtion of this
+         * <code>Rectbngle2D</code>.
+         * @return b <code>String</code> representing this
+         * <code>Rectbngle2D</code>.
          * @since 1.2
          */
         public String toString() {
-            return getClass().getName()
+            return getClbss().getNbme()
                 + "[x=" + x +
                 ",y=" + y +
                 ",w=" + width +
@@ -297,65 +297,65 @@ public abstract class Rectangle2D extends RectangularShape {
         }
 
         /*
-         * JDK 1.6 serialVersionUID
+         * JDK 1.6 seriblVersionUID
          */
-        private static final long serialVersionUID = 3798716824173675777L;
+        privbte stbtic finbl long seriblVersionUID = 3798716824173675777L;
     }
 
     /**
-     * The <code>Double</code> class defines a rectangle specified in
-     * double coordinates.
+     * The <code>Double</code> clbss defines b rectbngle specified in
+     * double coordinbtes.
      * @since 1.2
      */
-    public static class Double extends Rectangle2D implements Serializable {
+    public stbtic clbss Double extends Rectbngle2D implements Seriblizbble {
         /**
-         * The X coordinate of this <code>Rectangle2D</code>.
+         * The X coordinbte of this <code>Rectbngle2D</code>.
          * @since 1.2
-         * @serial
+         * @seribl
          */
         public double x;
 
         /**
-         * The Y coordinate of this <code>Rectangle2D</code>.
+         * The Y coordinbte of this <code>Rectbngle2D</code>.
          * @since 1.2
-         * @serial
+         * @seribl
          */
         public double y;
 
         /**
-         * The width of this <code>Rectangle2D</code>.
+         * The width of this <code>Rectbngle2D</code>.
          * @since 1.2
-         * @serial
+         * @seribl
          */
         public double width;
 
         /**
-         * The height of this <code>Rectangle2D</code>.
+         * The height of this <code>Rectbngle2D</code>.
          * @since 1.2
-         * @serial
+         * @seribl
          */
         public double height;
 
         /**
-         * Constructs a new <code>Rectangle2D</code>, initialized to
-         * location (0,&nbsp;0) and size (0,&nbsp;0).
+         * Constructs b new <code>Rectbngle2D</code>, initiblized to
+         * locbtion (0,&nbsp;0) bnd size (0,&nbsp;0).
          * @since 1.2
          */
         public Double() {
         }
 
         /**
-         * Constructs and initializes a <code>Rectangle2D</code>
-         * from the specified <code>double</code> coordinates.
+         * Constructs bnd initiblizes b <code>Rectbngle2D</code>
+         * from the specified <code>double</code> coordinbtes.
          *
-         * @param x the X coordinate of the upper-left corner
-         *          of the newly constructed <code>Rectangle2D</code>
-         * @param y the Y coordinate of the upper-left corner
-         *          of the newly constructed <code>Rectangle2D</code>
-         * @param w the width of the newly constructed
-         *          <code>Rectangle2D</code>
-         * @param h the height of the newly constructed
-         *          <code>Rectangle2D</code>
+         * @pbrbm x the X coordinbte of the upper-left corner
+         *          of the newly constructed <code>Rectbngle2D</code>
+         * @pbrbm y the Y coordinbte of the upper-left corner
+         *          of the newly constructed <code>Rectbngle2D</code>
+         * @pbrbm w the width of the newly constructed
+         *          <code>Rectbngle2D</code>
+         * @pbrbm h the height of the newly constructed
+         *          <code>Rectbngle2D</code>
          * @since 1.2
          */
         public Double(double x, double y, double w, double h) {
@@ -398,7 +398,7 @@ public abstract class Rectangle2D extends RectangularShape {
          * {@inheritDoc}
          * @since 1.2
          */
-        public boolean isEmpty() {
+        public boolebn isEmpty() {
             return (width <= 0.0) || (height <= 0.0);
         }
 
@@ -417,7 +417,7 @@ public abstract class Rectangle2D extends RectangularShape {
          * {@inheritDoc}
          * @since 1.2
          */
-        public void setRect(Rectangle2D r) {
+        public void setRect(Rectbngle2D r) {
             this.x = r.getX();
             this.y = r.getY();
             this.width = r.getWidth();
@@ -451,7 +451,7 @@ public abstract class Rectangle2D extends RectangularShape {
          * {@inheritDoc}
          * @since 1.2
          */
-        public Rectangle2D getBounds2D() {
+        public Rectbngle2D getBounds2D() {
             return new Double(x, y, width, height);
         }
 
@@ -459,9 +459,9 @@ public abstract class Rectangle2D extends RectangularShape {
          * {@inheritDoc}
          * @since 1.2
          */
-        public Rectangle2D createIntersection(Rectangle2D r) {
-            Rectangle2D dest = new Rectangle2D.Double();
-            Rectangle2D.intersect(this, r, dest);
+        public Rectbngle2D crebteIntersection(Rectbngle2D r) {
+            Rectbngle2D dest = new Rectbngle2D.Double();
+            Rectbngle2D.intersect(this, r, dest);
             return dest;
         }
 
@@ -469,21 +469,21 @@ public abstract class Rectangle2D extends RectangularShape {
          * {@inheritDoc}
          * @since 1.2
          */
-        public Rectangle2D createUnion(Rectangle2D r) {
-            Rectangle2D dest = new Rectangle2D.Double();
-            Rectangle2D.union(this, r, dest);
+        public Rectbngle2D crebteUnion(Rectbngle2D r) {
+            Rectbngle2D dest = new Rectbngle2D.Double();
+            Rectbngle2D.union(this, r, dest);
             return dest;
         }
 
         /**
-         * Returns the <code>String</code> representation of this
-         * <code>Rectangle2D</code>.
-         * @return a <code>String</code> representing this
-         * <code>Rectangle2D</code>.
+         * Returns the <code>String</code> representbtion of this
+         * <code>Rectbngle2D</code>.
+         * @return b <code>String</code> representing this
+         * <code>Rectbngle2D</code>.
          * @since 1.2
          */
         public String toString() {
-            return getClass().getName()
+            return getClbss().getNbme()
                 + "[x=" + x +
                 ",y=" + y +
                 ",w=" + width +
@@ -491,75 +491,75 @@ public abstract class Rectangle2D extends RectangularShape {
         }
 
         /*
-         * JDK 1.6 serialVersionUID
+         * JDK 1.6 seriblVersionUID
          */
-        private static final long serialVersionUID = 7771313791441850493L;
+        privbte stbtic finbl long seriblVersionUID = 7771313791441850493L;
     }
 
     /**
-     * This is an abstract class that cannot be instantiated directly.
-     * Type-specific implementation subclasses are available for
-     * instantiation and provide a number of formats for storing
-     * the information necessary to satisfy the various accessor
+     * This is bn bbstrbct clbss thbt cbnnot be instbntibted directly.
+     * Type-specific implementbtion subclbsses bre bvbilbble for
+     * instbntibtion bnd provide b number of formbts for storing
+     * the informbtion necessbry to sbtisfy the vbrious bccessor
      * methods below.
      *
-     * @see java.awt.geom.Rectangle2D.Float
-     * @see java.awt.geom.Rectangle2D.Double
-     * @see java.awt.Rectangle
+     * @see jbvb.bwt.geom.Rectbngle2D.Flobt
+     * @see jbvb.bwt.geom.Rectbngle2D.Double
+     * @see jbvb.bwt.Rectbngle
      * @since 1.2
      */
-    protected Rectangle2D() {
+    protected Rectbngle2D() {
     }
 
     /**
-     * Sets the location and size of this <code>Rectangle2D</code>
-     * to the specified <code>double</code> values.
+     * Sets the locbtion bnd size of this <code>Rectbngle2D</code>
+     * to the specified <code>double</code> vblues.
      *
-     * @param x the X coordinate of the upper-left corner
-     *          of this <code>Rectangle2D</code>
-     * @param y the Y coordinate of the upper-left corner
-     *          of this <code>Rectangle2D</code>
-     * @param w the width of this <code>Rectangle2D</code>
-     * @param h the height of this <code>Rectangle2D</code>
+     * @pbrbm x the X coordinbte of the upper-left corner
+     *          of this <code>Rectbngle2D</code>
+     * @pbrbm y the Y coordinbte of the upper-left corner
+     *          of this <code>Rectbngle2D</code>
+     * @pbrbm w the width of this <code>Rectbngle2D</code>
+     * @pbrbm h the height of this <code>Rectbngle2D</code>
      * @since 1.2
      */
-    public abstract void setRect(double x, double y, double w, double h);
+    public bbstrbct void setRect(double x, double y, double w, double h);
 
     /**
-     * Sets this <code>Rectangle2D</code> to be the same as the specified
-     * <code>Rectangle2D</code>.
-     * @param r the specified <code>Rectangle2D</code>
+     * Sets this <code>Rectbngle2D</code> to be the sbme bs the specified
+     * <code>Rectbngle2D</code>.
+     * @pbrbm r the specified <code>Rectbngle2D</code>
      * @since 1.2
      */
-    public void setRect(Rectangle2D r) {
+    public void setRect(Rectbngle2D r) {
         setRect(r.getX(), r.getY(), r.getWidth(), r.getHeight());
     }
 
     /**
      * Tests if the specified line segment intersects the interior of this
-     * <code>Rectangle2D</code>.
+     * <code>Rectbngle2D</code>.
      *
-     * @param x1 the X coordinate of the start point of the specified
+     * @pbrbm x1 the X coordinbte of the stbrt point of the specified
      *           line segment
-     * @param y1 the Y coordinate of the start point of the specified
+     * @pbrbm y1 the Y coordinbte of the stbrt point of the specified
      *           line segment
-     * @param x2 the X coordinate of the end point of the specified
+     * @pbrbm x2 the X coordinbte of the end point of the specified
      *           line segment
-     * @param y2 the Y coordinate of the end point of the specified
+     * @pbrbm y2 the Y coordinbte of the end point of the specified
      *           line segment
      * @return <code>true</code> if the specified line segment intersects
-     * the interior of this <code>Rectangle2D</code>; <code>false</code>
+     * the interior of this <code>Rectbngle2D</code>; <code>fblse</code>
      * otherwise.
      * @since 1.2
      */
-    public boolean intersectsLine(double x1, double y1, double x2, double y2) {
+    public boolebn intersectsLine(double x1, double y1, double x2, double y2) {
         int out1, out2;
         if ((out2 = outcode(x2, y2)) == 0) {
             return true;
         }
         while ((out1 = outcode(x1, y1)) != 0) {
             if ((out1 & out2) != 0) {
-                return false;
+                return fblse;
             }
             if ((out1 & (OUT_LEFT | OUT_RIGHT)) != 0) {
                 double x = getX();
@@ -582,45 +582,45 @@ public abstract class Rectangle2D extends RectangularShape {
 
     /**
      * Tests if the specified line segment intersects the interior of this
-     * <code>Rectangle2D</code>.
-     * @param l the specified {@link Line2D} to test for intersection
-     * with the interior of this <code>Rectangle2D</code>
+     * <code>Rectbngle2D</code>.
+     * @pbrbm l the specified {@link Line2D} to test for intersection
+     * with the interior of this <code>Rectbngle2D</code>
      * @return <code>true</code> if the specified <code>Line2D</code>
-     * intersects the interior of this <code>Rectangle2D</code>;
-     * <code>false</code> otherwise.
+     * intersects the interior of this <code>Rectbngle2D</code>;
+     * <code>fblse</code> otherwise.
      * @since 1.2
      */
-    public boolean intersectsLine(Line2D l) {
+    public boolebn intersectsLine(Line2D l) {
         return intersectsLine(l.getX1(), l.getY1(), l.getX2(), l.getY2());
     }
 
     /**
-     * Determines where the specified coordinates lie with respect
-     * to this <code>Rectangle2D</code>.
-     * This method computes a binary OR of the appropriate mask values
-     * indicating, for each side of this <code>Rectangle2D</code>,
-     * whether or not the specified coordinates are on the same side
-     * of the edge as the rest of this <code>Rectangle2D</code>.
-     * @param x the specified X coordinate
-     * @param y the specified Y coordinate
-     * @return the logical OR of all appropriate out codes.
+     * Determines where the specified coordinbtes lie with respect
+     * to this <code>Rectbngle2D</code>.
+     * This method computes b binbry OR of the bppropribte mbsk vblues
+     * indicbting, for ebch side of this <code>Rectbngle2D</code>,
+     * whether or not the specified coordinbtes bre on the sbme side
+     * of the edge bs the rest of this <code>Rectbngle2D</code>.
+     * @pbrbm x the specified X coordinbte
+     * @pbrbm y the specified Y coordinbte
+     * @return the logicbl OR of bll bppropribte out codes.
      * @see #OUT_LEFT
      * @see #OUT_TOP
      * @see #OUT_RIGHT
      * @see #OUT_BOTTOM
      * @since 1.2
      */
-    public abstract int outcode(double x, double y);
+    public bbstrbct int outcode(double x, double y);
 
     /**
      * Determines where the specified {@link Point2D} lies with
-     * respect to this <code>Rectangle2D</code>.
-     * This method computes a binary OR of the appropriate mask values
-     * indicating, for each side of this <code>Rectangle2D</code>,
-     * whether or not the specified <code>Point2D</code> is on the same
-     * side of the edge as the rest of this <code>Rectangle2D</code>.
-     * @param p the specified <code>Point2D</code>
-     * @return the logical OR of all appropriate out codes.
+     * respect to this <code>Rectbngle2D</code>.
+     * This method computes b binbry OR of the bppropribte mbsk vblues
+     * indicbting, for ebch side of this <code>Rectbngle2D</code>,
+     * whether or not the specified <code>Point2D</code> is on the sbme
+     * side of the edge bs the rest of this <code>Rectbngle2D</code>.
+     * @pbrbm p the specified <code>Point2D</code>
+     * @return the logicbl OR of bll bppropribte out codes.
      * @see #OUT_LEFT
      * @see #OUT_TOP
      * @see #OUT_RIGHT
@@ -632,18 +632,18 @@ public abstract class Rectangle2D extends RectangularShape {
     }
 
     /**
-     * Sets the location and size of the outer bounds of this
-     * <code>Rectangle2D</code> to the specified rectangular values.
+     * Sets the locbtion bnd size of the outer bounds of this
+     * <code>Rectbngle2D</code> to the specified rectbngulbr vblues.
      *
-     * @param x the X coordinate of the upper-left corner
-     *          of this <code>Rectangle2D</code>
-     * @param y the Y coordinate of the upper-left corner
-     *          of this <code>Rectangle2D</code>
-     * @param w the width of this <code>Rectangle2D</code>
-     * @param h the height of this <code>Rectangle2D</code>
+     * @pbrbm x the X coordinbte of the upper-left corner
+     *          of this <code>Rectbngle2D</code>
+     * @pbrbm y the Y coordinbte of the upper-left corner
+     *          of this <code>Rectbngle2D</code>
+     * @pbrbm w the width of this <code>Rectbngle2D</code>
+     * @pbrbm h the height of this <code>Rectbngle2D</code>
      * @since 1.2
      */
-    public void setFrame(double x, double y, double w, double h) {
+    public void setFrbme(double x, double y, double w, double h) {
         setRect(x, y, w, h);
     }
 
@@ -651,15 +651,15 @@ public abstract class Rectangle2D extends RectangularShape {
      * {@inheritDoc}
      * @since 1.2
      */
-    public Rectangle2D getBounds2D() {
-        return (Rectangle2D) clone();
+    public Rectbngle2D getBounds2D() {
+        return (Rectbngle2D) clone();
     }
 
     /**
      * {@inheritDoc}
      * @since 1.2
      */
-    public boolean contains(double x, double y) {
+    public boolebn contbins(double x, double y) {
         double x0 = getX();
         double y0 = getY();
         return (x >= x0 &&
@@ -672,9 +672,9 @@ public abstract class Rectangle2D extends RectangularShape {
      * {@inheritDoc}
      * @since 1.2
      */
-    public boolean intersects(double x, double y, double w, double h) {
+    public boolebn intersects(double x, double y, double w, double h) {
         if (isEmpty() || w <= 0 || h <= 0) {
-            return false;
+            return fblse;
         }
         double x0 = getX();
         double y0 = getY();
@@ -688,9 +688,9 @@ public abstract class Rectangle2D extends RectangularShape {
      * {@inheritDoc}
      * @since 1.2
      */
-    public boolean contains(double x, double y, double w, double h) {
+    public boolebn contbins(double x, double y, double w, double h) {
         if (isEmpty() || w <= 0 || h <= 0) {
-            return false;
+            return fblse;
         }
         double x0 = getX();
         double y0 = getY();
@@ -701,230 +701,230 @@ public abstract class Rectangle2D extends RectangularShape {
     }
 
     /**
-     * Returns a new <code>Rectangle2D</code> object representing the
-     * intersection of this <code>Rectangle2D</code> with the specified
-     * <code>Rectangle2D</code>.
-     * @param r the <code>Rectangle2D</code> to be intersected with
-     * this <code>Rectangle2D</code>
-     * @return the largest <code>Rectangle2D</code> contained in both
-     *          the specified <code>Rectangle2D</code> and in this
-     *          <code>Rectangle2D</code>.
+     * Returns b new <code>Rectbngle2D</code> object representing the
+     * intersection of this <code>Rectbngle2D</code> with the specified
+     * <code>Rectbngle2D</code>.
+     * @pbrbm r the <code>Rectbngle2D</code> to be intersected with
+     * this <code>Rectbngle2D</code>
+     * @return the lbrgest <code>Rectbngle2D</code> contbined in both
+     *          the specified <code>Rectbngle2D</code> bnd in this
+     *          <code>Rectbngle2D</code>.
      * @since 1.2
      */
-    public abstract Rectangle2D createIntersection(Rectangle2D r);
+    public bbstrbct Rectbngle2D crebteIntersection(Rectbngle2D r);
 
     /**
-     * Intersects the pair of specified source <code>Rectangle2D</code>
-     * objects and puts the result into the specified destination
-     * <code>Rectangle2D</code> object.  One of the source rectangles
-     * can also be the destination to avoid creating a third Rectangle2D
-     * object, but in this case the original points of this source
-     * rectangle will be overwritten by this method.
-     * @param src1 the first of a pair of <code>Rectangle2D</code>
-     * objects to be intersected with each other
-     * @param src2 the second of a pair of <code>Rectangle2D</code>
-     * objects to be intersected with each other
-     * @param dest the <code>Rectangle2D</code> that holds the
-     * results of the intersection of <code>src1</code> and
+     * Intersects the pbir of specified source <code>Rectbngle2D</code>
+     * objects bnd puts the result into the specified destinbtion
+     * <code>Rectbngle2D</code> object.  One of the source rectbngles
+     * cbn blso be the destinbtion to bvoid crebting b third Rectbngle2D
+     * object, but in this cbse the originbl points of this source
+     * rectbngle will be overwritten by this method.
+     * @pbrbm src1 the first of b pbir of <code>Rectbngle2D</code>
+     * objects to be intersected with ebch other
+     * @pbrbm src2 the second of b pbir of <code>Rectbngle2D</code>
+     * objects to be intersected with ebch other
+     * @pbrbm dest the <code>Rectbngle2D</code> thbt holds the
+     * results of the intersection of <code>src1</code> bnd
      * <code>src2</code>
      * @since 1.2
      */
-    public static void intersect(Rectangle2D src1,
-                                 Rectangle2D src2,
-                                 Rectangle2D dest) {
-        double x1 = Math.max(src1.getMinX(), src2.getMinX());
-        double y1 = Math.max(src1.getMinY(), src2.getMinY());
-        double x2 = Math.min(src1.getMaxX(), src2.getMaxX());
-        double y2 = Math.min(src1.getMaxY(), src2.getMaxY());
-        dest.setFrame(x1, y1, x2-x1, y2-y1);
+    public stbtic void intersect(Rectbngle2D src1,
+                                 Rectbngle2D src2,
+                                 Rectbngle2D dest) {
+        double x1 = Mbth.mbx(src1.getMinX(), src2.getMinX());
+        double y1 = Mbth.mbx(src1.getMinY(), src2.getMinY());
+        double x2 = Mbth.min(src1.getMbxX(), src2.getMbxX());
+        double y2 = Mbth.min(src1.getMbxY(), src2.getMbxY());
+        dest.setFrbme(x1, y1, x2-x1, y2-y1);
     }
 
     /**
-     * Returns a new <code>Rectangle2D</code> object representing the
-     * union of this <code>Rectangle2D</code> with the specified
-     * <code>Rectangle2D</code>.
-     * @param r the <code>Rectangle2D</code> to be combined with
-     * this <code>Rectangle2D</code>
-     * @return the smallest <code>Rectangle2D</code> containing both
-     * the specified <code>Rectangle2D</code> and this
-     * <code>Rectangle2D</code>.
+     * Returns b new <code>Rectbngle2D</code> object representing the
+     * union of this <code>Rectbngle2D</code> with the specified
+     * <code>Rectbngle2D</code>.
+     * @pbrbm r the <code>Rectbngle2D</code> to be combined with
+     * this <code>Rectbngle2D</code>
+     * @return the smbllest <code>Rectbngle2D</code> contbining both
+     * the specified <code>Rectbngle2D</code> bnd this
+     * <code>Rectbngle2D</code>.
      * @since 1.2
      */
-    public abstract Rectangle2D createUnion(Rectangle2D r);
+    public bbstrbct Rectbngle2D crebteUnion(Rectbngle2D r);
 
     /**
-     * Unions the pair of source <code>Rectangle2D</code> objects
-     * and puts the result into the specified destination
-     * <code>Rectangle2D</code> object.  One of the source rectangles
-     * can also be the destination to avoid creating a third Rectangle2D
-     * object, but in this case the original points of this source
-     * rectangle will be overwritten by this method.
-     * @param src1 the first of a pair of <code>Rectangle2D</code>
-     * objects to be combined with each other
-     * @param src2 the second of a pair of <code>Rectangle2D</code>
-     * objects to be combined with each other
-     * @param dest the <code>Rectangle2D</code> that holds the
-     * results of the union of <code>src1</code> and
+     * Unions the pbir of source <code>Rectbngle2D</code> objects
+     * bnd puts the result into the specified destinbtion
+     * <code>Rectbngle2D</code> object.  One of the source rectbngles
+     * cbn blso be the destinbtion to bvoid crebting b third Rectbngle2D
+     * object, but in this cbse the originbl points of this source
+     * rectbngle will be overwritten by this method.
+     * @pbrbm src1 the first of b pbir of <code>Rectbngle2D</code>
+     * objects to be combined with ebch other
+     * @pbrbm src2 the second of b pbir of <code>Rectbngle2D</code>
+     * objects to be combined with ebch other
+     * @pbrbm dest the <code>Rectbngle2D</code> thbt holds the
+     * results of the union of <code>src1</code> bnd
      * <code>src2</code>
      * @since 1.2
      */
-    public static void union(Rectangle2D src1,
-                             Rectangle2D src2,
-                             Rectangle2D dest) {
-        double x1 = Math.min(src1.getMinX(), src2.getMinX());
-        double y1 = Math.min(src1.getMinY(), src2.getMinY());
-        double x2 = Math.max(src1.getMaxX(), src2.getMaxX());
-        double y2 = Math.max(src1.getMaxY(), src2.getMaxY());
-        dest.setFrameFromDiagonal(x1, y1, x2, y2);
+    public stbtic void union(Rectbngle2D src1,
+                             Rectbngle2D src2,
+                             Rectbngle2D dest) {
+        double x1 = Mbth.min(src1.getMinX(), src2.getMinX());
+        double y1 = Mbth.min(src1.getMinY(), src2.getMinY());
+        double x2 = Mbth.mbx(src1.getMbxX(), src2.getMbxX());
+        double y2 = Mbth.mbx(src1.getMbxY(), src2.getMbxY());
+        dest.setFrbmeFromDibgonbl(x1, y1, x2, y2);
     }
 
     /**
-     * Adds a point, specified by the double precision arguments
-     * <code>newx</code> and <code>newy</code>, to this
-     * <code>Rectangle2D</code>.  The resulting <code>Rectangle2D</code>
-     * is the smallest <code>Rectangle2D</code> that
-     * contains both the original <code>Rectangle2D</code> and the
+     * Adds b point, specified by the double precision brguments
+     * <code>newx</code> bnd <code>newy</code>, to this
+     * <code>Rectbngle2D</code>.  The resulting <code>Rectbngle2D</code>
+     * is the smbllest <code>Rectbngle2D</code> thbt
+     * contbins both the originbl <code>Rectbngle2D</code> bnd the
      * specified point.
      * <p>
-     * After adding a point, a call to <code>contains</code> with the
-     * added point as an argument does not necessarily return
-     * <code>true</code>. The <code>contains</code> method does not
+     * After bdding b point, b cbll to <code>contbins</code> with the
+     * bdded point bs bn brgument does not necessbrily return
+     * <code>true</code>. The <code>contbins</code> method does not
      * return <code>true</code> for points on the right or bottom
-     * edges of a rectangle. Therefore, if the added point falls on
-     * the left or bottom edge of the enlarged rectangle,
-     * <code>contains</code> returns <code>false</code> for that point.
-     * @param newx the X coordinate of the new point
-     * @param newy the Y coordinate of the new point
+     * edges of b rectbngle. Therefore, if the bdded point fblls on
+     * the left or bottom edge of the enlbrged rectbngle,
+     * <code>contbins</code> returns <code>fblse</code> for thbt point.
+     * @pbrbm newx the X coordinbte of the new point
+     * @pbrbm newy the Y coordinbte of the new point
      * @since 1.2
      */
-    public void add(double newx, double newy) {
-        double x1 = Math.min(getMinX(), newx);
-        double x2 = Math.max(getMaxX(), newx);
-        double y1 = Math.min(getMinY(), newy);
-        double y2 = Math.max(getMaxY(), newy);
+    public void bdd(double newx, double newy) {
+        double x1 = Mbth.min(getMinX(), newx);
+        double x2 = Mbth.mbx(getMbxX(), newx);
+        double y1 = Mbth.min(getMinY(), newy);
+        double y2 = Mbth.mbx(getMbxY(), newy);
         setRect(x1, y1, x2 - x1, y2 - y1);
     }
 
     /**
      * Adds the <code>Point2D</code> object <code>pt</code> to this
-     * <code>Rectangle2D</code>.
-     * The resulting <code>Rectangle2D</code> is the smallest
-     * <code>Rectangle2D</code> that contains both the original
-     * <code>Rectangle2D</code> and the specified <code>Point2D</code>.
+     * <code>Rectbngle2D</code>.
+     * The resulting <code>Rectbngle2D</code> is the smbllest
+     * <code>Rectbngle2D</code> thbt contbins both the originbl
+     * <code>Rectbngle2D</code> bnd the specified <code>Point2D</code>.
      * <p>
-     * After adding a point, a call to <code>contains</code> with the
-     * added point as an argument does not necessarily return
-     * <code>true</code>. The <code>contains</code>
+     * After bdding b point, b cbll to <code>contbins</code> with the
+     * bdded point bs bn brgument does not necessbrily return
+     * <code>true</code>. The <code>contbins</code>
      * method does not return <code>true</code> for points on the right
-     * or bottom edges of a rectangle. Therefore, if the added point falls
-     * on the left or bottom edge of the enlarged rectangle,
-     * <code>contains</code> returns <code>false</code> for that point.
-     * @param     pt the new <code>Point2D</code> to add to this
-     * <code>Rectangle2D</code>.
+     * or bottom edges of b rectbngle. Therefore, if the bdded point fblls
+     * on the left or bottom edge of the enlbrged rectbngle,
+     * <code>contbins</code> returns <code>fblse</code> for thbt point.
+     * @pbrbm     pt the new <code>Point2D</code> to bdd to this
+     * <code>Rectbngle2D</code>.
      * @since 1.2
      */
-    public void add(Point2D pt) {
-        add(pt.getX(), pt.getY());
+    public void bdd(Point2D pt) {
+        bdd(pt.getX(), pt.getY());
     }
 
     /**
-     * Adds a <code>Rectangle2D</code> object to this
-     * <code>Rectangle2D</code>.  The resulting <code>Rectangle2D</code>
-     * is the union of the two <code>Rectangle2D</code> objects.
-     * @param r the <code>Rectangle2D</code> to add to this
-     * <code>Rectangle2D</code>.
+     * Adds b <code>Rectbngle2D</code> object to this
+     * <code>Rectbngle2D</code>.  The resulting <code>Rectbngle2D</code>
+     * is the union of the two <code>Rectbngle2D</code> objects.
+     * @pbrbm r the <code>Rectbngle2D</code> to bdd to this
+     * <code>Rectbngle2D</code>.
      * @since 1.2
      */
-    public void add(Rectangle2D r) {
-        double x1 = Math.min(getMinX(), r.getMinX());
-        double x2 = Math.max(getMaxX(), r.getMaxX());
-        double y1 = Math.min(getMinY(), r.getMinY());
-        double y2 = Math.max(getMaxY(), r.getMaxY());
+    public void bdd(Rectbngle2D r) {
+        double x1 = Mbth.min(getMinX(), r.getMinX());
+        double x2 = Mbth.mbx(getMbxX(), r.getMbxX());
+        double y1 = Mbth.min(getMinY(), r.getMinY());
+        double y2 = Mbth.mbx(getMbxY(), r.getMbxY());
         setRect(x1, y1, x2 - x1, y2 - y1);
     }
 
     /**
-     * Returns an iteration object that defines the boundary of this
-     * <code>Rectangle2D</code>.
-     * The iterator for this class is multi-threaded safe, which means
-     * that this <code>Rectangle2D</code> class guarantees that
-     * modifications to the geometry of this <code>Rectangle2D</code>
-     * object do not affect any iterations of that geometry that
-     * are already in process.
-     * @param at an optional <code>AffineTransform</code> to be applied to
-     * the coordinates as they are returned in the iteration, or
-     * <code>null</code> if untransformed coordinates are desired
-     * @return    the <code>PathIterator</code> object that returns the
+     * Returns bn iterbtion object thbt defines the boundbry of this
+     * <code>Rectbngle2D</code>.
+     * The iterbtor for this clbss is multi-threbded sbfe, which mebns
+     * thbt this <code>Rectbngle2D</code> clbss gubrbntees thbt
+     * modificbtions to the geometry of this <code>Rectbngle2D</code>
+     * object do not bffect bny iterbtions of thbt geometry thbt
+     * bre blrebdy in process.
+     * @pbrbm bt bn optionbl <code>AffineTrbnsform</code> to be bpplied to
+     * the coordinbtes bs they bre returned in the iterbtion, or
+     * <code>null</code> if untrbnsformed coordinbtes bre desired
+     * @return    the <code>PbthIterbtor</code> object thbt returns the
      *          geometry of the outline of this
-     *          <code>Rectangle2D</code>, one segment at a time.
+     *          <code>Rectbngle2D</code>, one segment bt b time.
      * @since 1.2
      */
-    public PathIterator getPathIterator(AffineTransform at) {
-        return new RectIterator(this, at);
+    public PbthIterbtor getPbthIterbtor(AffineTrbnsform bt) {
+        return new RectIterbtor(this, bt);
     }
 
     /**
-     * Returns an iteration object that defines the boundary of the
-     * flattened <code>Rectangle2D</code>.  Since rectangles are already
-     * flat, the <code>flatness</code> parameter is ignored.
-     * The iterator for this class is multi-threaded safe, which means
-     * that this <code>Rectangle2D</code> class guarantees that
-     * modifications to the geometry of this <code>Rectangle2D</code>
-     * object do not affect any iterations of that geometry that
-     * are already in process.
-     * @param at an optional <code>AffineTransform</code> to be applied to
-     * the coordinates as they are returned in the iteration, or
-     * <code>null</code> if untransformed coordinates are desired
-     * @param flatness the maximum distance that the line segments used to
-     * approximate the curved segments are allowed to deviate from any
-     * point on the original curve.  Since rectangles are already flat,
-     * the <code>flatness</code> parameter is ignored.
-     * @return    the <code>PathIterator</code> object that returns the
+     * Returns bn iterbtion object thbt defines the boundbry of the
+     * flbttened <code>Rectbngle2D</code>.  Since rectbngles bre blrebdy
+     * flbt, the <code>flbtness</code> pbrbmeter is ignored.
+     * The iterbtor for this clbss is multi-threbded sbfe, which mebns
+     * thbt this <code>Rectbngle2D</code> clbss gubrbntees thbt
+     * modificbtions to the geometry of this <code>Rectbngle2D</code>
+     * object do not bffect bny iterbtions of thbt geometry thbt
+     * bre blrebdy in process.
+     * @pbrbm bt bn optionbl <code>AffineTrbnsform</code> to be bpplied to
+     * the coordinbtes bs they bre returned in the iterbtion, or
+     * <code>null</code> if untrbnsformed coordinbtes bre desired
+     * @pbrbm flbtness the mbximum distbnce thbt the line segments used to
+     * bpproximbte the curved segments bre bllowed to devibte from bny
+     * point on the originbl curve.  Since rectbngles bre blrebdy flbt,
+     * the <code>flbtness</code> pbrbmeter is ignored.
+     * @return    the <code>PbthIterbtor</code> object thbt returns the
      *          geometry of the outline of this
-     *          <code>Rectangle2D</code>, one segment at a time.
+     *          <code>Rectbngle2D</code>, one segment bt b time.
      * @since 1.2
      */
-    public PathIterator getPathIterator(AffineTransform at, double flatness) {
-        return new RectIterator(this, at);
+    public PbthIterbtor getPbthIterbtor(AffineTrbnsform bt, double flbtness) {
+        return new RectIterbtor(this, bt);
     }
 
     /**
-     * Returns the hashcode for this <code>Rectangle2D</code>.
-     * @return the hashcode for this <code>Rectangle2D</code>.
+     * Returns the hbshcode for this <code>Rectbngle2D</code>.
+     * @return the hbshcode for this <code>Rectbngle2D</code>.
      * @since 1.2
      */
-    public int hashCode() {
-        long bits = java.lang.Double.doubleToLongBits(getX());
-        bits += java.lang.Double.doubleToLongBits(getY()) * 37;
-        bits += java.lang.Double.doubleToLongBits(getWidth()) * 43;
-        bits += java.lang.Double.doubleToLongBits(getHeight()) * 47;
+    public int hbshCode() {
+        long bits = jbvb.lbng.Double.doubleToLongBits(getX());
+        bits += jbvb.lbng.Double.doubleToLongBits(getY()) * 37;
+        bits += jbvb.lbng.Double.doubleToLongBits(getWidth()) * 43;
+        bits += jbvb.lbng.Double.doubleToLongBits(getHeight()) * 47;
         return (((int) bits) ^ ((int) (bits >> 32)));
     }
 
     /**
      * Determines whether or not the specified <code>Object</code> is
-     * equal to this <code>Rectangle2D</code>.  The specified
-     * <code>Object</code> is equal to this <code>Rectangle2D</code>
-     * if it is an instance of <code>Rectangle2D</code> and if its
-     * location and size are the same as this <code>Rectangle2D</code>.
-     * @param obj an <code>Object</code> to be compared with this
-     * <code>Rectangle2D</code>.
-     * @return     <code>true</code> if <code>obj</code> is an instance
-     *                     of <code>Rectangle2D</code> and has
-     *                     the same values; <code>false</code> otherwise.
+     * equbl to this <code>Rectbngle2D</code>.  The specified
+     * <code>Object</code> is equbl to this <code>Rectbngle2D</code>
+     * if it is bn instbnce of <code>Rectbngle2D</code> bnd if its
+     * locbtion bnd size bre the sbme bs this <code>Rectbngle2D</code>.
+     * @pbrbm obj bn <code>Object</code> to be compbred with this
+     * <code>Rectbngle2D</code>.
+     * @return     <code>true</code> if <code>obj</code> is bn instbnce
+     *                     of <code>Rectbngle2D</code> bnd hbs
+     *                     the sbme vblues; <code>fblse</code> otherwise.
      * @since 1.2
      */
-    public boolean equals(Object obj) {
+    public boolebn equbls(Object obj) {
         if (obj == this) {
             return true;
         }
-        if (obj instanceof Rectangle2D) {
-            Rectangle2D r2d = (Rectangle2D) obj;
+        if (obj instbnceof Rectbngle2D) {
+            Rectbngle2D r2d = (Rectbngle2D) obj;
             return ((getX() == r2d.getX()) &&
                     (getY() == r2d.getY()) &&
                     (getWidth() == r2d.getWidth()) &&
                     (getHeight() == r2d.getHeight()));
         }
-        return false;
+        return fblse;
     }
 }

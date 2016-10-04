@@ -1,159 +1,159 @@
 /*
- * Copyright (c) 2000, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jndi.dns;
+pbckbge com.sun.jndi.dns;
 
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Enumeration;
+import jbvb.util.ArrbyList;
+import jbvb.util.Compbrbtor;
+import jbvb.util.Enumerbtion;
 
-import javax.naming.*;
+import jbvbx.nbming.*;
 
 
 /**
- * <tt>DnsName</tt> implements compound names for DNS as specified by
- * RFCs 1034 and 1035, and as updated and clarified by RFCs 1123 and 2181.
+ * <tt>DnsNbme</tt> implements compound nbmes for DNS bs specified by
+ * RFCs 1034 bnd 1035, bnd bs updbted bnd clbrified by RFCs 1123 bnd 2181.
  *
- * <p> The labels in a domain name correspond to JNDI atomic names.
- * Each label must be less than 64 octets in length, and only the
- * optional root label at the end of the name may be 0 octets long.
- * The sum of the lengths of all labels in a name, plus the number of
- * non-root labels plus 1, must be less than 256.  The textual
- * representation of a domain name consists of the labels, escaped as
- * needed, dot-separated, and ordered right-to-left.
+ * <p> The lbbels in b dombin nbme correspond to JNDI btomic nbmes.
+ * Ebch lbbel must be less thbn 64 octets in length, bnd only the
+ * optionbl root lbbel bt the end of the nbme mby be 0 octets long.
+ * The sum of the lengths of bll lbbels in b nbme, plus the number of
+ * non-root lbbels plus 1, must be less thbn 256.  The textubl
+ * representbtion of b dombin nbme consists of the lbbels, escbped bs
+ * needed, dot-sepbrbted, bnd ordered right-to-left.
  *
- * <p> A label consists of a sequence of octets, each of which may
- * have any value from 0 to 255.
+ * <p> A lbbel consists of b sequence of octets, ebch of which mby
+ * hbve bny vblue from 0 to 255.
  *
- * <p> <em>Host names</em> are a subset of domain names.
- * Their labels contain only ASCII letters, digits, and hyphens, and
- * none may begin or end with a hyphen.  While names not conforming to
- * these rules may be valid domain names, they will not be usable by a
- * number of DNS applications, and should in most cases be avoided.
+ * <p> <em>Host nbmes</em> bre b subset of dombin nbmes.
+ * Their lbbels contbin only ASCII letters, digits, bnd hyphens, bnd
+ * none mby begin or end with b hyphen.  While nbmes not conforming to
+ * these rules mby be vblid dombin nbmes, they will not be usbble by b
+ * number of DNS bpplicbtions, bnd should in most cbses be bvoided.
  *
- * <p> DNS does not specify an encoding (such as UTF-8) to use for
- * octets with non-ASCII values.  As of this writing there is some
- * work going on in this area, but it is not yet finalized.
- * <tt>DnsName</tt> currently converts any non-ASCII octets into
- * characters using ISO-LATIN-1 encoding, in effect taking the
- * value of each octet and storing it directly into the low-order byte
- * of a Java character and <i>vice versa</i>.  As a consequence, no
- * character in a DNS name will ever have a non-zero high-order byte.
- * When the work on internationalizing domain names has stabilized
- * (see for example <i>draft-ietf-idn-idna-10.txt</i>), <tt>DnsName</tt>
- * may be updated to conform to that work.
+ * <p> DNS does not specify bn encoding (such bs UTF-8) to use for
+ * octets with non-ASCII vblues.  As of this writing there is some
+ * work going on in this breb, but it is not yet finblized.
+ * <tt>DnsNbme</tt> currently converts bny non-ASCII octets into
+ * chbrbcters using ISO-LATIN-1 encoding, in effect tbking the
+ * vblue of ebch octet bnd storing it directly into the low-order byte
+ * of b Jbvb chbrbcter bnd <i>vice versb</i>.  As b consequence, no
+ * chbrbcter in b DNS nbme will ever hbve b non-zero high-order byte.
+ * When the work on internbtionblizing dombin nbmes hbs stbbilized
+ * (see for exbmple <i>drbft-ietf-idn-idnb-10.txt</i>), <tt>DnsNbme</tt>
+ * mby be updbted to conform to thbt work.
  *
- * <p> Backslash (<tt>\</tt>) is used as the escape character in the
- * textual representation of a domain name.  The character sequence
- * `<tt>\DDD</tt>', where <tt>DDD</tt> is a 3-digit decimal number
- * (with leading zeros if needed), represents the octet whose value
- * is <tt>DDD</tt>.  The character sequence `<tt>\C</tt>', where
- * <tt>C</tt> is a character other than <tt>'0'</tt> through
- * <tt>'9'</tt>, represents the octet whose value is that of
- * <tt>C</tt> (again using ISO-LATIN-1 encoding); this is particularly
- * useful for escaping <tt>'.'</tt> or backslash itself.  Backslash is
- * otherwise not allowed in a domain name.  Note that escape characters
- * are interpreted when a name is parsed.  So, for example, the character
- * sequences `<tt>S</tt>', `<tt>\S</tt>', and `<tt>\083</tt>' each
- * represent the same one-octet name.  The <tt>toString()</tt> method
- * does not generally insert escape sequences except where necessary.
- * If, however, the <tt>DnsName</tt> was constructed using unneeded
- * escapes, those escapes may appear in the <tt>toString</tt> result.
+ * <p> Bbckslbsh (<tt>\</tt>) is used bs the escbpe chbrbcter in the
+ * textubl representbtion of b dombin nbme.  The chbrbcter sequence
+ * `<tt>\DDD</tt>', where <tt>DDD</tt> is b 3-digit decimbl number
+ * (with lebding zeros if needed), represents the octet whose vblue
+ * is <tt>DDD</tt>.  The chbrbcter sequence `<tt>\C</tt>', where
+ * <tt>C</tt> is b chbrbcter other thbn <tt>'0'</tt> through
+ * <tt>'9'</tt>, represents the octet whose vblue is thbt of
+ * <tt>C</tt> (bgbin using ISO-LATIN-1 encoding); this is pbrticulbrly
+ * useful for escbping <tt>'.'</tt> or bbckslbsh itself.  Bbckslbsh is
+ * otherwise not bllowed in b dombin nbme.  Note thbt escbpe chbrbcters
+ * bre interpreted when b nbme is pbrsed.  So, for exbmple, the chbrbcter
+ * sequences `<tt>S</tt>', `<tt>\S</tt>', bnd `<tt>\083</tt>' ebch
+ * represent the sbme one-octet nbme.  The <tt>toString()</tt> method
+ * does not generblly insert escbpe sequences except where necessbry.
+ * If, however, the <tt>DnsNbme</tt> wbs constructed using unneeded
+ * escbpes, those escbpes mby bppebr in the <tt>toString</tt> result.
  *
- * <p> Atomic names passed as parameters to methods of
- * <tt>DnsName</tt>, and those returned by them, are unescaped.  So,
- * for example, <tt>(new&nbsp;DnsName()).add("a.b")</tt> creates an
- * object representing the one-label domain name <tt>a\.b</tt>, and
- * calling <tt>get(0)</tt> on this object returns <tt>"a.b"</tt>.
+ * <p> Atomic nbmes pbssed bs pbrbmeters to methods of
+ * <tt>DnsNbme</tt>, bnd those returned by them, bre unescbped.  So,
+ * for exbmple, <tt>(new&nbsp;DnsNbme()).bdd("b.b")</tt> crebtes bn
+ * object representing the one-lbbel dombin nbme <tt>b\.b</tt>, bnd
+ * cblling <tt>get(0)</tt> on this object returns <tt>"b.b"</tt>.
  *
- * <p> While DNS names are case-preserving, comparisons between them
- * are case-insensitive.  When comparing names containing non-ASCII
- * octets, <tt>DnsName</tt> uses case-insensitive comparison
- * between pairs of ASCII values, and exact binary comparison
+ * <p> While DNS nbmes bre cbse-preserving, compbrisons between them
+ * bre cbse-insensitive.  When compbring nbmes contbining non-ASCII
+ * octets, <tt>DnsNbme</tt> uses cbse-insensitive compbrison
+ * between pbirs of ASCII vblues, bnd exbct binbry compbrison
  * otherwise.
 
- * <p> A <tt>DnsName</tt> instance is not synchronized against
- * concurrent access by multiple threads.
+ * <p> A <tt>DnsNbme</tt> instbnce is not synchronized bgbinst
+ * concurrent bccess by multiple threbds.
  *
- * @author Scott Seligman
+ * @buthor Scott Seligmbn
  */
 
 
-public final class DnsName implements Name {
+public finbl clbss DnsNbme implements Nbme {
 
-    // If non-null, the domain name represented by this DnsName.
-    private String domain = "";
+    // If non-null, the dombin nbme represented by this DnsNbme.
+    privbte String dombin = "";
 
-    // The labels of this domain name, as a list of strings.  Index 0
-    // corresponds to the leftmost (least significant) label:  note that
-    // this is the reverse of the ordering used by the Name interface.
-    private ArrayList<String> labels = new ArrayList<>();
+    // The lbbels of this dombin nbme, bs b list of strings.  Index 0
+    // corresponds to the leftmost (lebst significbnt) lbbel:  note thbt
+    // this is the reverse of the ordering used by the Nbme interfbce.
+    privbte ArrbyList<String> lbbels = new ArrbyList<>();
 
-    // The number of octets needed to carry this domain name in a DNS
-    // packet.  Equal to the sum of the lengths of each label, plus the
-    // number of non-root labels, plus 1.  Must remain less than 256.
-    private short octets = 1;
+    // The number of octets needed to cbrry this dombin nbme in b DNS
+    // pbcket.  Equbl to the sum of the lengths of ebch lbbel, plus the
+    // number of non-root lbbels, plus 1.  Must rembin less thbn 256.
+    privbte short octets = 1;
 
 
     /**
-     * Constructs a <tt>DnsName</tt> representing the empty domain name.
+     * Constructs b <tt>DnsNbme</tt> representing the empty dombin nbme.
      */
-    public DnsName() {
+    public DnsNbme() {
     }
 
     /**
-     * Constructs a <tt>DnsName</tt> representing a given domain name.
+     * Constructs b <tt>DnsNbme</tt> representing b given dombin nbme.
      *
-     * @param   name    the domain name to parse
-     * @throws InvalidNameException if <tt>name</tt> does not conform
-     *          to DNS syntax.
+     * @pbrbm   nbme    the dombin nbme to pbrse
+     * @throws InvblidNbmeException if <tt>nbme</tt> does not conform
+     *          to DNS syntbx.
      */
-    public DnsName(String name) throws InvalidNameException {
-        parse(name);
+    public DnsNbme(String nbme) throws InvblidNbmeException {
+        pbrse(nbme);
     }
 
     /*
-     * Returns a new DnsName with its name components initialized to
-     * the components of "n" in the range [beg,end).  Indexing is as
-     * for the Name interface, with 0 being the most significant.
+     * Returns b new DnsNbme with its nbme components initiblized to
+     * the components of "n" in the rbnge [beg,end).  Indexing is bs
+     * for the Nbme interfbce, with 0 being the most significbnt.
      */
-    private DnsName(DnsName n, int beg, int end) {
-        // Compute indexes into "labels", which has least-significant label
-        // at index 0 (opposite to the convention used for "beg" and "end").
+    privbte DnsNbme(DnsNbme n, int beg, int end) {
+        // Compute indexes into "lbbels", which hbs lebst-significbnt lbbel
+        // bt index 0 (opposite to the convention used for "beg" bnd "end").
         int b = n.size() - end;
         int e = n.size() - beg;
-        labels.addAll(n.labels.subList(b, e));
+        lbbels.bddAll(n.lbbels.subList(b, e));
 
         if (size() == n.size()) {
-            domain = n.domain;
+            dombin = n.dombin;
             octets = n.octets;
         } else {
-            for (String label: labels) {
-                if (label.length() > 0) {
-                    octets += (short) (label.length() + 1);
+            for (String lbbel: lbbels) {
+                if (lbbel.length() > 0) {
+                    octets += (short) (lbbel.length() + 1);
                 }
             }
         }
@@ -161,26 +161,26 @@ public final class DnsName implements Name {
 
 
     public String toString() {
-        if (domain == null) {
+        if (dombin == null) {
             StringBuilder buf = new StringBuilder();
-            for (String label: labels) {
-                if (buf.length() > 0 || label.length() == 0) {
-                    buf.append('.');
+            for (String lbbel: lbbels) {
+                if (buf.length() > 0 || lbbel.length() == 0) {
+                    buf.bppend('.');
                 }
-                escape(buf, label);
+                escbpe(buf, lbbel);
             }
-            domain = buf.toString();
+            dombin = buf.toString();
         }
-        return domain;
+        return dombin;
     }
 
     /**
-     * Does this domain name follow <em>host name</em> syntax?
+     * Does this dombin nbme follow <em>host nbme</em> syntbx?
      */
-    public boolean isHostName() {
-        for (String label: labels) {
-            if (!isHostNameLabel(label)) {
-                return false;
+    public boolebn isHostNbme() {
+        for (String lbbel: lbbels) {
+            if (!isHostNbmeLbbel(lbbel)) {
+                return fblse;
             }
         }
         return true;
@@ -191,412 +191,412 @@ public final class DnsName implements Name {
     }
 
     public int size() {
-        return labels.size();
+        return lbbels.size();
     }
 
-    public boolean isEmpty() {
+    public boolebn isEmpty() {
         return (size() == 0);
     }
 
-    public int hashCode() {
+    public int hbshCode() {
         int h = 0;
         for (int i = 0; i < size(); i++) {
-            h = 31 * h + getKey(i).hashCode();
+            h = 31 * h + getKey(i).hbshCode();
         }
         return h;
     }
 
-    public boolean equals(Object obj) {
-        if (!(obj instanceof Name) || (obj instanceof CompositeName)) {
-            return false;
+    public boolebn equbls(Object obj) {
+        if (!(obj instbnceof Nbme) || (obj instbnceof CompositeNbme)) {
+            return fblse;
         }
-        Name n = (Name) obj;
+        Nbme n = (Nbme) obj;
         return ((size() == n.size()) &&         // shortcut:  do sizes differ?
-                (compareTo(obj) == 0));
+                (compbreTo(obj) == 0));
     }
 
-    public int compareTo(Object obj) {
-        Name n = (Name) obj;
-        return compareRange(0, size(), n);      // never 0 if sizes differ
+    public int compbreTo(Object obj) {
+        Nbme n = (Nbme) obj;
+        return compbreRbnge(0, size(), n);      // never 0 if sizes differ
     }
 
-    public boolean startsWith(Name n) {
+    public boolebn stbrtsWith(Nbme n) {
         return ((size() >= n.size()) &&
-                (compareRange(0, n.size(), n) == 0));
+                (compbreRbnge(0, n.size(), n) == 0));
     }
 
-    public boolean endsWith(Name n) {
+    public boolebn endsWith(Nbme n) {
         return ((size() >= n.size()) &&
-                (compareRange(size() - n.size(), size(), n) == 0));
+                (compbreRbnge(size() - n.size(), size(), n) == 0));
     }
 
     public String get(int pos) {
         if (pos < 0 || pos >= size()) {
-            throw new ArrayIndexOutOfBoundsException();
+            throw new ArrbyIndexOutOfBoundsException();
         }
-        int i = size() - pos - 1;       // index of "pos" component in "labels"
-        return labels.get(i);
+        int i = size() - pos - 1;       // index of "pos" component in "lbbels"
+        return lbbels.get(i);
     }
 
-    public Enumeration<String> getAll() {
-        return new Enumeration<String>() {
+    public Enumerbtion<String> getAll() {
+        return new Enumerbtion<String>() {
             int pos = 0;
-            public boolean hasMoreElements() {
+            public boolebn hbsMoreElements() {
                 return (pos < size());
             }
             public String nextElement() {
                 if (pos < size()) {
                     return get(pos++);
                 }
-                throw new java.util.NoSuchElementException();
+                throw new jbvb.util.NoSuchElementException();
             }
         };
     }
 
-    public Name getPrefix(int pos) {
-        return new DnsName(this, 0, pos);
+    public Nbme getPrefix(int pos) {
+        return new DnsNbme(this, 0, pos);
     }
 
-    public Name getSuffix(int pos) {
-        return new DnsName(this, pos, size());
+    public Nbme getSuffix(int pos) {
+        return new DnsNbme(this, pos, size());
     }
 
     public Object clone() {
-        return new DnsName(this, 0, size());
+        return new DnsNbme(this, 0, size());
     }
 
     public Object remove(int pos) {
         if (pos < 0 || pos >= size()) {
-            throw new ArrayIndexOutOfBoundsException();
+            throw new ArrbyIndexOutOfBoundsException();
         }
-        int i = size() - pos - 1;     // index of element to remove in "labels"
-        String label = labels.remove(i);
-        int len = label.length();
+        int i = size() - pos - 1;     // index of element to remove in "lbbels"
+        String lbbel = lbbels.remove(i);
+        int len = lbbel.length();
         if (len > 0) {
             octets -= (short) (len + 1);
         }
-        domain = null;          // invalidate "domain"
-        return label;
+        dombin = null;          // invblidbte "dombin"
+        return lbbel;
     }
 
-    public Name add(String comp) throws InvalidNameException {
-        return add(size(), comp);
+    public Nbme bdd(String comp) throws InvblidNbmeException {
+        return bdd(size(), comp);
     }
 
-    public Name add(int pos, String comp) throws InvalidNameException {
+    public Nbme bdd(int pos, String comp) throws InvblidNbmeException {
         if (pos < 0 || pos > size()) {
-            throw new ArrayIndexOutOfBoundsException();
+            throw new ArrbyIndexOutOfBoundsException();
         }
-        // Check for empty labels:  may have only one, and only at end.
+        // Check for empty lbbels:  mby hbve only one, bnd only bt end.
         int len = comp.length();
         if ((pos > 0 && len == 0) ||
-            (pos == 0 && hasRootLabel())) {
-                throw new InvalidNameException(
-                        "Empty label must be the last label in a domain name");
+            (pos == 0 && hbsRootLbbel())) {
+                throw new InvblidNbmeException(
+                        "Empty lbbel must be the lbst lbbel in b dombin nbme");
         }
-        // Check total name length.
+        // Check totbl nbme length.
         if (len > 0) {
             if (octets + len + 1 >= 256) {
-                throw new InvalidNameException("Name too long");
+                throw new InvblidNbmeException("Nbme too long");
             }
             octets += (short) (len + 1);
         }
 
-        int i = size() - pos;   // index for insertion into "labels"
-        verifyLabel(comp);
-        labels.add(i, comp);
+        int i = size() - pos;   // index for insertion into "lbbels"
+        verifyLbbel(comp);
+        lbbels.bdd(i, comp);
 
-        domain = null;          // invalidate "domain"
+        dombin = null;          // invblidbte "dombin"
         return this;
     }
 
-    public Name addAll(Name suffix) throws InvalidNameException {
-        return addAll(size(), suffix);
+    public Nbme bddAll(Nbme suffix) throws InvblidNbmeException {
+        return bddAll(size(), suffix);
     }
 
-    public Name addAll(int pos, Name n) throws InvalidNameException {
-        if (n instanceof DnsName) {
-            // "n" is a DnsName so we can insert it as a whole, rather than
-            // verifying and inserting it component-by-component.
+    public Nbme bddAll(int pos, Nbme n) throws InvblidNbmeException {
+        if (n instbnceof DnsNbme) {
+            // "n" is b DnsNbme so we cbn insert it bs b whole, rbther thbn
+            // verifying bnd inserting it component-by-component.
             // More code, but less work.
-            DnsName dn = (DnsName) n;
+            DnsNbme dn = (DnsNbme) n;
 
             if (dn.isEmpty()) {
                 return this;
             }
-            // Check for empty labels:  may have only one, and only at end.
-            if ((pos > 0 && dn.hasRootLabel()) ||
-                (pos == 0 && hasRootLabel())) {
-                    throw new InvalidNameException(
-                        "Empty label must be the last label in a domain name");
+            // Check for empty lbbels:  mby hbve only one, bnd only bt end.
+            if ((pos > 0 && dn.hbsRootLbbel()) ||
+                (pos == 0 && hbsRootLbbel())) {
+                    throw new InvblidNbmeException(
+                        "Empty lbbel must be the lbst lbbel in b dombin nbme");
             }
 
             short newOctets = (short) (octets + dn.octets - 1);
             if (newOctets > 255) {
-                throw new InvalidNameException("Name too long");
+                throw new InvblidNbmeException("Nbme too long");
             }
             octets = newOctets;
-            int i = size() - pos;       // index for insertion into "labels"
-            labels.addAll(i, dn.labels);
+            int i = size() - pos;       // index for insertion into "lbbels"
+            lbbels.bddAll(i, dn.lbbels);
 
-            // Preserve "domain" if we're appending or prepending,
-            // otherwise invalidate it.
+            // Preserve "dombin" if we're bppending or prepending,
+            // otherwise invblidbte it.
             if (isEmpty()) {
-                domain = dn.domain;
-            } else if (domain == null || dn.domain == null) {
-                domain = null;
+                dombin = dn.dombin;
+            } else if (dombin == null || dn.dombin == null) {
+                dombin = null;
             } else if (pos == 0) {
-                domain += (dn.domain.equals(".") ? "" : ".") + dn.domain;
+                dombin += (dn.dombin.equbls(".") ? "" : ".") + dn.dombin;
             } else if (pos == size()) {
-                domain = dn.domain + (domain.equals(".") ? "" : ".") + domain;
+                dombin = dn.dombin + (dombin.equbls(".") ? "" : ".") + dombin;
             } else {
-                domain = null;
+                dombin = null;
             }
 
-        } else if (n instanceof CompositeName) {
-            n = (DnsName) n;            // force ClassCastException
+        } else if (n instbnceof CompositeNbme) {
+            n = (DnsNbme) n;            // force ClbssCbstException
 
-        } else {                // "n" is a compound name, but not a DnsName.
-            // Add labels least-significant first:  sometimes more efficient.
+        } else {                // "n" is b compound nbme, but not b DnsNbme.
+            // Add lbbels lebst-significbnt first:  sometimes more efficient.
             for (int i = n.size() - 1; i >= 0; i--) {
-                add(pos, n.get(i));
+                bdd(pos, n.get(i));
             }
         }
         return this;
     }
 
 
-    boolean hasRootLabel() {
+    boolebn hbsRootLbbel() {
         return (!isEmpty() &&
-                get(0).equals(""));
+                get(0).equbls(""));
     }
 
     /*
-     * Helper method for public comparison methods.  Lexicographically
-     * compares components of this name in the range [beg,end) with
-     * all components of "n".  Indexing is as for the Name interface,
-     * with 0 being the most significant.  Returns negative, zero, or
-     * positive as these name components are less than, equal to, or
-     * greater than those of "n".
+     * Helper method for public compbrison methods.  Lexicogrbphicblly
+     * compbres components of this nbme in the rbnge [beg,end) with
+     * bll components of "n".  Indexing is bs for the Nbme interfbce,
+     * with 0 being the most significbnt.  Returns negbtive, zero, or
+     * positive bs these nbme components bre less thbn, equbl to, or
+     * grebter thbn those of "n".
      */
-    private int compareRange(int beg, int end, Name n) {
-        if (n instanceof CompositeName) {
-            n = (DnsName) n;                    // force ClassCastException
+    privbte int compbreRbnge(int beg, int end, Nbme n) {
+        if (n instbnceof CompositeNbme) {
+            n = (DnsNbme) n;                    // force ClbssCbstException
         }
-        // Loop through labels, starting with most significant.
-        int minSize = Math.min(end - beg, n.size());
+        // Loop through lbbels, stbrting with most significbnt.
+        int minSize = Mbth.min(end - beg, n.size());
         for (int i = 0; i < minSize; i++) {
-            String label1 = get(i + beg);
-            String label2 = n.get(i);
+            String lbbel1 = get(i + beg);
+            String lbbel2 = n.get(i);
 
-            int j = size() - (i + beg) - 1;     // index of label1 in "labels"
-            // assert (label1 == labels.get(j));
+            int j = size() - (i + beg) - 1;     // index of lbbel1 in "lbbels"
+            // bssert (lbbel1 == lbbels.get(j));
 
-            int c = compareLabels(label1, label2);
+            int c = compbreLbbels(lbbel1, lbbel2);
             if (c != 0) {
                 return c;
             }
         }
-        return ((end - beg) - n.size());        // longer range wins
+        return ((end - beg) - n.size());        // longer rbnge wins
     }
 
     /*
-     * Returns a key suitable for hashing the label at index i.
-     * Indexing is as for the Name interface, with 0 being the most
-     * significant.
+     * Returns b key suitbble for hbshing the lbbel bt index i.
+     * Indexing is bs for the Nbme interfbce, with 0 being the most
+     * significbnt.
      */
     String getKey(int i) {
-        return keyForLabel(get(i));
+        return keyForLbbel(get(i));
     }
 
 
     /*
-     * Parses a domain name, setting the values of instance vars accordingly.
+     * Pbrses b dombin nbme, setting the vblues of instbnce vbrs bccordingly.
      */
-    private void parse(String name) throws InvalidNameException {
+    privbte void pbrse(String nbme) throws InvblidNbmeException {
 
-        StringBuilder label = new StringBuilder();      // label being parsed
+        StringBuilder lbbel = new StringBuilder();      // lbbel being pbrsed
 
-        for (int i = 0; i < name.length(); i++) {
-            char c = name.charAt(i);
+        for (int i = 0; i < nbme.length(); i++) {
+            chbr c = nbme.chbrAt(i);
 
-            if (c == '\\') {                    // found an escape sequence
-                c = getEscapedOctet(name, i++);
-                if (isDigit(name.charAt(i))) {  // sequence is \DDD
-                    i += 2;                     // consume remaining digits
+            if (c == '\\') {                    // found bn escbpe sequence
+                c = getEscbpedOctet(nbme, i++);
+                if (isDigit(nbme.chbrAt(i))) {  // sequence is \DDD
+                    i += 2;                     // consume rembining digits
                 }
-                label.append(c);
+                lbbel.bppend(c);
 
-            } else if (c != '.') {              // an unescaped octet
-                label.append(c);
+            } else if (c != '.') {              // bn unescbped octet
+                lbbel.bppend(c);
 
-            } else {                            // found '.' separator
-                add(0, label.toString());       // check syntax, then add label
-                                                //   to end of name
-                label.delete(0, i);             // clear buffer for next label
+            } else {                            // found '.' sepbrbtor
+                bdd(0, lbbel.toString());       // check syntbx, then bdd lbbel
+                                                //   to end of nbme
+                lbbel.delete(0, i);             // clebr buffer for next lbbel
             }
         }
 
-        // If name is neither "." nor "", the octets (zero or more)
-        // from the rightmost dot onward are now added as the final
-        // label of the name.  Those two are special cases in that for
-        // all other domain names, the number of labels is one greater
-        // than the number of dot separators.
-        if (!name.equals("") && !name.equals(".")) {
-            add(0, label.toString());
+        // If nbme is neither "." nor "", the octets (zero or more)
+        // from the rightmost dot onwbrd bre now bdded bs the finbl
+        // lbbel of the nbme.  Those two bre specibl cbses in thbt for
+        // bll other dombin nbmes, the number of lbbels is one grebter
+        // thbn the number of dot sepbrbtors.
+        if (!nbme.equbls("") && !nbme.equbls(".")) {
+            bdd(0, lbbel.toString());
         }
 
-        domain = name;          // do this last, since add() sets it to null
+        dombin = nbme;          // do this lbst, since bdd() sets it to null
     }
 
     /*
-     * Returns (as a char) the octet indicated by the escape sequence
-     * at a given position within a domain name.
-     * @throws InvalidNameException if a valid escape sequence is not found.
+     * Returns (bs b chbr) the octet indicbted by the escbpe sequence
+     * bt b given position within b dombin nbme.
+     * @throws InvblidNbmeException if b vblid escbpe sequence is not found.
      */
-    private static char getEscapedOctet(String name, int pos)
-                                                throws InvalidNameException {
+    privbte stbtic chbr getEscbpedOctet(String nbme, int pos)
+                                                throws InvblidNbmeException {
         try {
-            // assert (name.charAt(pos) == '\\');
-            char c1 = name.charAt(++pos);
+            // bssert (nbme.chbrAt(pos) == '\\');
+            chbr c1 = nbme.chbrAt(++pos);
             if (isDigit(c1)) {          // sequence is `\DDD'
-                char c2 = name.charAt(++pos);
-                char c3 = name.charAt(++pos);
+                chbr c2 = nbme.chbrAt(++pos);
+                chbr c3 = nbme.chbrAt(++pos);
                 if (isDigit(c2) && isDigit(c3)) {
-                    return (char)
+                    return (chbr)
                         ((c1 - '0') * 100 + (c2 - '0') * 10 + (c3 - '0'));
                 } else {
-                    throw new InvalidNameException(
-                            "Invalid escape sequence in " + name);
+                    throw new InvblidNbmeException(
+                            "Invblid escbpe sequence in " + nbme);
                 }
             } else {                    // sequence is `\C'
                 return c1;
             }
-        } catch (IndexOutOfBoundsException e) {
-            throw new InvalidNameException(
-                    "Invalid escape sequence in " + name);
+        } cbtch (IndexOutOfBoundsException e) {
+            throw new InvblidNbmeException(
+                    "Invblid escbpe sequence in " + nbme);
         }
     }
 
     /*
-     * Checks that this label is valid.
-     * @throws InvalidNameException if label is not valid.
+     * Checks thbt this lbbel is vblid.
+     * @throws InvblidNbmeException if lbbel is not vblid.
      */
-    private static void verifyLabel(String label) throws InvalidNameException {
-        if (label.length() > 63) {
-            throw new InvalidNameException(
-                    "Label exceeds 63 octets: " + label);
+    privbte stbtic void verifyLbbel(String lbbel) throws InvblidNbmeException {
+        if (lbbel.length() > 63) {
+            throw new InvblidNbmeException(
+                    "Lbbel exceeds 63 octets: " + lbbel);
         }
-        // Check for two-byte characters.
-        for (int i = 0; i < label.length(); i++) {
-            char c = label.charAt(i);
+        // Check for two-byte chbrbcters.
+        for (int i = 0; i < lbbel.length(); i++) {
+            chbr c = lbbel.chbrAt(i);
             if ((c & 0xFF00) != 0) {
-                throw new InvalidNameException(
-                        "Label has two-byte char: " + label);
+                throw new InvblidNbmeException(
+                        "Lbbel hbs two-byte chbr: " + lbbel);
             }
         }
     }
 
     /*
-     * Does this label conform to host name syntax?
+     * Does this lbbel conform to host nbme syntbx?
      */
-    private static boolean isHostNameLabel(String label) {
-        for (int i = 0; i < label.length(); i++) {
-            char c = label.charAt(i);
-            if (!isHostNameChar(c)) {
-                return false;
+    privbte stbtic boolebn isHostNbmeLbbel(String lbbel) {
+        for (int i = 0; i < lbbel.length(); i++) {
+            chbr c = lbbel.chbrAt(i);
+            if (!isHostNbmeChbr(c)) {
+                return fblse;
             }
         }
-        return !(label.startsWith("-") || label.endsWith("-"));
+        return !(lbbel.stbrtsWith("-") || lbbel.endsWith("-"));
     }
 
-    private static boolean isHostNameChar(char c) {
+    privbte stbtic boolebn isHostNbmeChbr(chbr c) {
         return (c == '-' ||
-                c >= 'a' && c <= 'z' ||
+                c >= 'b' && c <= 'z' ||
                 c >= 'A' && c <= 'Z' ||
                 c >= '0' && c <= '9');
     }
 
-    private static boolean isDigit(char c) {
+    privbte stbtic boolebn isDigit(chbr c) {
         return (c >= '0' && c <= '9');
     }
 
     /*
-     * Append a label to buf, escaping as needed.
+     * Append b lbbel to buf, escbping bs needed.
      */
-    private static void escape(StringBuilder buf, String label) {
-        for (int i = 0; i < label.length(); i++) {
-            char c = label.charAt(i);
+    privbte stbtic void escbpe(StringBuilder buf, String lbbel) {
+        for (int i = 0; i < lbbel.length(); i++) {
+            chbr c = lbbel.chbrAt(i);
             if (c == '.' || c == '\\') {
-                buf.append('\\');
+                buf.bppend('\\');
             }
-            buf.append(c);
+            buf.bppend(c);
         }
     }
 
     /*
-     * Compares two labels, ignoring case for ASCII values.
-     * Returns negative, zero, or positive as the first label
-     * is less than, equal to, or greater than the second.
-     * See keyForLabel().
+     * Compbres two lbbels, ignoring cbse for ASCII vblues.
+     * Returns negbtive, zero, or positive bs the first lbbel
+     * is less thbn, equbl to, or grebter thbn the second.
+     * See keyForLbbel().
      */
-    private static int compareLabels(String label1, String label2) {
-        int min = Math.min(label1.length(), label2.length());
+    privbte stbtic int compbreLbbels(String lbbel1, String lbbel2) {
+        int min = Mbth.min(lbbel1.length(), lbbel2.length());
         for (int i = 0; i < min; i++) {
-            char c1 = label1.charAt(i);
-            char c2 = label2.charAt(i);
+            chbr c1 = lbbel1.chbrAt(i);
+            chbr c2 = lbbel2.chbrAt(i);
             if (c1 >= 'A' && c1 <= 'Z') {
-                c1 += 'a' - 'A';                        // to lower case
+                c1 += 'b' - 'A';                        // to lower cbse
             }
             if (c2 >= 'A' && c2 <= 'Z') {
-                c2 += 'a' - 'A';                        // to lower case
+                c2 += 'b' - 'A';                        // to lower cbse
             }
             if (c1 != c2) {
                 return (c1 - c2);
             }
         }
-        return (label1.length() - label2.length());     // the longer one wins
+        return (lbbel1.length() - lbbel2.length());     // the longer one wins
     }
 
     /*
-     * Returns a key suitable for hashing a label.  Two labels map to
-     * the same key iff they are equal, taking possible case-folding
-     * into account.  See compareLabels().
+     * Returns b key suitbble for hbshing b lbbel.  Two lbbels mbp to
+     * the sbme key iff they bre equbl, tbking possible cbse-folding
+     * into bccount.  See compbreLbbels().
      */
-    private static String keyForLabel(String label) {
-        StringBuilder sb = new StringBuilder(label.length());
-        for (int i = 0; i < label.length(); i++) {
-            char c = label.charAt(i);
+    privbte stbtic String keyForLbbel(String lbbel) {
+        StringBuilder sb = new StringBuilder(lbbel.length());
+        for (int i = 0; i < lbbel.length(); i++) {
+            chbr c = lbbel.chbrAt(i);
             if (c >= 'A' && c <= 'Z') {
-                c += 'a' - 'A';                         // to lower case
+                c += 'b' - 'A';                         // to lower cbse
             }
-            sb.append(c);
+            sb.bppend(c);
         }
         return sb.toString();
     }
 
 
     /**
-     * Serializes only the domain name string, for compactness and to avoid
-     * any implementation dependency.
+     * Seriblizes only the dombin nbme string, for compbctness bnd to bvoid
+     * bny implementbtion dependency.
      *
-     * @serialdata      The domain name string.
+     * @seribldbtb      The dombin nbme string.
      */
-    private void writeObject(java.io.ObjectOutputStream s)
-            throws java.io.IOException {
+    privbte void writeObject(jbvb.io.ObjectOutputStrebm s)
+            throws jbvb.io.IOException {
         s.writeObject(toString());
     }
 
-    private void readObject(java.io.ObjectInputStream s)
-            throws java.io.IOException, ClassNotFoundException {
+    privbte void rebdObject(jbvb.io.ObjectInputStrebm s)
+            throws jbvb.io.IOException, ClbssNotFoundException {
         try {
-            parse((String) s.readObject());
-        } catch (InvalidNameException e) {
-            // shouldn't happen
-            throw new java.io.StreamCorruptedException(
-                    "Invalid name: " + domain);
+            pbrse((String) s.rebdObject());
+        } cbtch (InvblidNbmeException e) {
+            // shouldn't hbppen
+            throw new jbvb.io.StrebmCorruptedException(
+                    "Invblid nbme: " + dombin);
         }
     }
 
-    private static final long serialVersionUID = 7040187611324710271L;
+    privbte stbtic finbl long seriblVersionUID = 7040187611324710271L;
 }

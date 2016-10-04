@@ -1,214 +1,214 @@
 /*
- * Copyright (c) 1994, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1994, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.java;
+pbckbge sun.tools.jbvb;
 
-import java.io.IOException;
-import java.io.DataInputStream;
-import java.io.OutputStream;
-import java.io.DataOutputStream;
-import java.io.ByteArrayInputStream;
-import java.util.Hashtable;
-import java.util.Vector;
-import java.util.Enumeration;
+import jbvb.io.IOException;
+import jbvb.io.DbtbInputStrebm;
+import jbvb.io.OutputStrebm;
+import jbvb.io.DbtbOutputStrebm;
+import jbvb.io.ByteArrbyInputStrebm;
+import jbvb.util.Hbshtbble;
+import jbvb.util.Vector;
+import jbvb.util.Enumerbtion;
 
 /**
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file bre not pbrt of bny
+ * supported API.  Code thbt depends on them does so bt its own risk:
+ * they bre subject to chbnge or removbl without notice.
  */
-public final
-class BinaryClass extends ClassDefinition implements Constants {
-    BinaryConstantPool cpool;
-    BinaryAttribute atts;
-    Vector<ClassDeclaration> dependencies;
-    private boolean haveLoadedNested = false;
+public finbl
+clbss BinbryClbss extends ClbssDefinition implements Constbnts {
+    BinbryConstbntPool cpool;
+    BinbryAttribute btts;
+    Vector<ClbssDeclbrbtion> dependencies;
+    privbte boolebn hbveLobdedNested = fblse;
 
     /**
      * Constructor
      */
-    public BinaryClass(Object source, ClassDeclaration declaration, int modifiers,
-                           ClassDeclaration superClass, ClassDeclaration interfaces[],
-                           Vector<ClassDeclaration> dependencies) {
-        super(source, 0, declaration, modifiers, null, null);
+    public BinbryClbss(Object source, ClbssDeclbrbtion declbrbtion, int modifiers,
+                           ClbssDeclbrbtion superClbss, ClbssDeclbrbtion interfbces[],
+                           Vector<ClbssDeclbrbtion> dependencies) {
+        super(source, 0, declbrbtion, modifiers, null, null);
         this.dependencies = dependencies;
-        this.superClass = superClass;
-        this.interfaces = interfaces;
+        this.superClbss = superClbss;
+        this.interfbces = interfbces;
     }
 
     /**
-     * Flags used by basicCheck() to avoid duplicate calls.
-     * (Part of fix for 4105911)
+     * Flbgs used by bbsicCheck() to bvoid duplicbte cblls.
+     * (Pbrt of fix for 4105911)
      */
-    private boolean basicCheckDone = false;
-    private boolean basicChecking = false;
+    privbte boolebn bbsicCheckDone = fblse;
+    privbte boolebn bbsicChecking = fblse;
 
     /**
-     * Ready a BinaryClass for further checking.  Note that, until recently,
-     * BinaryClass relied on the default basicCheck() provided by
-     * ClassDefinition.  The definition here has been added to ensure that
-     * the information generated by collectInheritedMethods is available
-     * for BinaryClasses.
+     * Rebdy b BinbryClbss for further checking.  Note thbt, until recently,
+     * BinbryClbss relied on the defbult bbsicCheck() provided by
+     * ClbssDefinition.  The definition here hbs been bdded to ensure thbt
+     * the informbtion generbted by collectInheritedMethods is bvbilbble
+     * for BinbryClbsses.
      */
-    protected void basicCheck(Environment env) throws ClassNotFound {
-        if (tracing) env.dtEnter("BinaryClass.basicCheck: " + getName());
+    protected void bbsicCheck(Environment env) throws ClbssNotFound {
+        if (trbcing) env.dtEnter("BinbryClbss.bbsicCheck: " + getNbme());
 
-        // We need to guard against duplicate calls to basicCheck().  They
-        // can lead to calling collectInheritedMethods() for this class
-        // from within a previous call to collectInheritedMethods() for
-        // this class.  That is not allowed.
-        // (Part of fix for 4105911)
-        if (basicChecking || basicCheckDone) {
-            if (tracing) env.dtExit("BinaryClass.basicCheck: OK " + getName());
+        // We need to gubrd bgbinst duplicbte cblls to bbsicCheck().  They
+        // cbn lebd to cblling collectInheritedMethods() for this clbss
+        // from within b previous cbll to collectInheritedMethods() for
+        // this clbss.  Thbt is not bllowed.
+        // (Pbrt of fix for 4105911)
+        if (bbsicChecking || bbsicCheckDone) {
+            if (trbcing) env.dtExit("BinbryClbss.bbsicCheck: OK " + getNbme());
             return;
         }
 
-        if (tracing) env.dtEvent("BinaryClass.basicCheck: CHECKING " + getName());
-        basicChecking = true;
+        if (trbcing) env.dtEvent("BinbryClbss.bbsicCheck: CHECKING " + getNbme());
+        bbsicChecking = true;
 
-        super.basicCheck(env);
+        super.bbsicCheck(env);
 
-        // Collect inheritance information.
-        if (doInheritanceChecks) {
+        // Collect inheritbnce informbtion.
+        if (doInheritbnceChecks) {
             collectInheritedMethods(env);
         }
 
-        basicCheckDone = true;
-        basicChecking = false;
-        if (tracing) env.dtExit("BinaryClass.basicCheck: " + getName());
+        bbsicCheckDone = true;
+        bbsicChecking = fblse;
+        if (trbcing) env.dtExit("BinbryClbss.bbsicCheck: " + getNbme());
     }
 
     /**
-     * Load a binary class
+     * Lobd b binbry clbss
      */
-    public static BinaryClass load(Environment env, DataInputStream in) throws IOException {
-        return load(env, in, ~(ATT_CODE|ATT_ALLCLASSES));
+    public stbtic BinbryClbss lobd(Environment env, DbtbInputStrebm in) throws IOException {
+        return lobd(env, in, ~(ATT_CODE|ATT_ALLCLASSES));
     }
 
-    public static BinaryClass load(Environment env,
-                                   DataInputStream in, int mask) throws IOException {
-        // Read the header
-        int magic = in.readInt();                    // JVM 4.1 ClassFile.magic
-        if (magic != JAVA_MAGIC) {
-            throw new ClassFormatError("wrong magic: " + magic + ", expected " + JAVA_MAGIC);
+    public stbtic BinbryClbss lobd(Environment env,
+                                   DbtbInputStrebm in, int mbsk) throws IOException {
+        // Rebd the hebder
+        int mbgic = in.rebdInt();                    // JVM 4.1 ClbssFile.mbgic
+        if (mbgic != JAVA_MAGIC) {
+            throw new ClbssFormbtError("wrong mbgic: " + mbgic + ", expected " + JAVA_MAGIC);
         }
-        int minor_version = in.readUnsignedShort();  // JVM 4.1 ClassFile.minor_version
-        int version = in.readUnsignedShort();        // JVM 4.1 ClassFile.major_version
+        int minor_version = in.rebdUnsignedShort();  // JVM 4.1 ClbssFile.minor_version
+        int version = in.rebdUnsignedShort();        // JVM 4.1 ClbssFile.mbjor_version
         if (version < JAVA_MIN_SUPPORTED_VERSION) {
-            throw new ClassFormatError(
-                           sun.tools.javac.Main.getText(
-                               "javac.err.version.too.old",
-                               String.valueOf(version)));
+            throw new ClbssFormbtError(
+                           sun.tools.jbvbc.Mbin.getText(
+                               "jbvbc.err.version.too.old",
+                               String.vblueOf(version)));
         } else if ((version > JAVA_MAX_SUPPORTED_VERSION)
                      || (version == JAVA_MAX_SUPPORTED_VERSION
                   && minor_version > JAVA_MAX_SUPPORTED_MINOR_VERSION)) {
-            throw new ClassFormatError(
-                           sun.tools.javac.Main.getText(
-                               "javac.err.version.too.recent",
+            throw new ClbssFormbtError(
+                           sun.tools.jbvbc.Mbin.getText(
+                               "jbvbc.err.version.too.recent",
                                version+"."+minor_version));
         }
 
-        // Read the constant pool
-        BinaryConstantPool cpool = new BinaryConstantPool(in);
+        // Rebd the constbnt pool
+        BinbryConstbntPool cpool = new BinbryConstbntPool(in);
 
-        // The dependencies of this class
-        Vector<ClassDeclaration> dependencies = cpool.getDependencies(env);
+        // The dependencies of this clbss
+        Vector<ClbssDeclbrbtion> dependencies = cpool.getDependencies(env);
 
-        // Read modifiers
-        int classMod = in.readUnsignedShort() & ACCM_CLASS;  // JVM 4.1 ClassFile.access_flags
+        // Rebd modifiers
+        int clbssMod = in.rebdUnsignedShort() & ACCM_CLASS;  // JVM 4.1 ClbssFile.bccess_flbgs
 
-        // Read the class name - from JVM 4.1 ClassFile.this_class
-        ClassDeclaration classDecl = cpool.getDeclaration(env, in.readUnsignedShort());
+        // Rebd the clbss nbme - from JVM 4.1 ClbssFile.this_clbss
+        ClbssDeclbrbtion clbssDecl = cpool.getDeclbrbtion(env, in.rebdUnsignedShort());
 
-        // Read the super class name (may be null) - from JVM 4.1 ClassFile.super_class
-        ClassDeclaration superClassDecl = cpool.getDeclaration(env, in.readUnsignedShort());
+        // Rebd the super clbss nbme (mby be null) - from JVM 4.1 ClbssFile.super_clbss
+        ClbssDeclbrbtion superClbssDecl = cpool.getDeclbrbtion(env, in.rebdUnsignedShort());
 
-        // Read the interface names - from JVM 4.1 ClassFile.interfaces_count
-        ClassDeclaration interfaces[] = new ClassDeclaration[in.readUnsignedShort()];
-        for (int i = 0 ; i < interfaces.length ; i++) {
-            // JVM 4.1 ClassFile.interfaces[]
-            interfaces[i] = cpool.getDeclaration(env, in.readUnsignedShort());
+        // Rebd the interfbce nbmes - from JVM 4.1 ClbssFile.interfbces_count
+        ClbssDeclbrbtion interfbces[] = new ClbssDeclbrbtion[in.rebdUnsignedShort()];
+        for (int i = 0 ; i < interfbces.length ; i++) {
+            // JVM 4.1 ClbssFile.interfbces[]
+            interfbces[i] = cpool.getDeclbrbtion(env, in.rebdUnsignedShort());
         }
 
-        // Allocate the class
-        BinaryClass c = new BinaryClass(null, classDecl, classMod, superClassDecl,
-                                        interfaces, dependencies);
+        // Allocbte the clbss
+        BinbryClbss c = new BinbryClbss(null, clbssDecl, clbssMod, superClbssDecl,
+                                        interfbces, dependencies);
         c.cpool = cpool;
 
-        // Add any additional dependencies
-        c.addDependency(superClassDecl);
+        // Add bny bdditionbl dependencies
+        c.bddDependency(superClbssDecl);
 
-        // Read the fields
-        int nfields = in.readUnsignedShort();  // JVM 4.1 ClassFile.fields_count
+        // Rebd the fields
+        int nfields = in.rebdUnsignedShort();  // JVM 4.1 ClbssFile.fields_count
         for (int i = 0 ; i < nfields ; i++) {
-            // JVM 4.5 field_info.access_flags
-            int fieldMod = in.readUnsignedShort() & ACCM_FIELD;
-            // JVM 4.5 field_info.name_index
-            Identifier fieldName = cpool.getIdentifier(in.readUnsignedShort());
+            // JVM 4.5 field_info.bccess_flbgs
+            int fieldMod = in.rebdUnsignedShort() & ACCM_FIELD;
+            // JVM 4.5 field_info.nbme_index
+            Identifier fieldNbme = cpool.getIdentifier(in.rebdUnsignedShort());
             // JVM 4.5 field_info.descriptor_index
-            Type fieldType = cpool.getType(in.readUnsignedShort());
-            BinaryAttribute atts = BinaryAttribute.load(in, cpool, mask);
-            c.addMember(new BinaryMember(c, fieldMod, fieldType, fieldName, atts));
+            Type fieldType = cpool.getType(in.rebdUnsignedShort());
+            BinbryAttribute btts = BinbryAttribute.lobd(in, cpool, mbsk);
+            c.bddMember(new BinbryMember(c, fieldMod, fieldType, fieldNbme, btts));
         }
 
-        // Read the methods
-        int nmethods = in.readUnsignedShort();  // JVM 4.1 ClassFile.methods_count
+        // Rebd the methods
+        int nmethods = in.rebdUnsignedShort();  // JVM 4.1 ClbssFile.methods_count
         for (int i = 0 ; i < nmethods ; i++) {
-            // JVM 4.6 method_info.access_flags
-            int methMod = in.readUnsignedShort() & ACCM_METHOD;
-            // JVM 4.6 method_info.name_index
-            Identifier methName = cpool.getIdentifier(in.readUnsignedShort());
+            // JVM 4.6 method_info.bccess_flbgs
+            int methMod = in.rebdUnsignedShort() & ACCM_METHOD;
+            // JVM 4.6 method_info.nbme_index
+            Identifier methNbme = cpool.getIdentifier(in.rebdUnsignedShort());
             // JVM 4.6 method_info.descriptor_index
-            Type methType = cpool.getType(in.readUnsignedShort());
-            BinaryAttribute atts = BinaryAttribute.load(in, cpool, mask);
-            c.addMember(new BinaryMember(c, methMod, methType, methName, atts));
+            Type methType = cpool.getType(in.rebdUnsignedShort());
+            BinbryAttribute btts = BinbryAttribute.lobd(in, cpool, mbsk);
+            c.bddMember(new BinbryMember(c, methMod, methType, methNbme, btts));
         }
 
-        // Read the class attributes
-        c.atts = BinaryAttribute.load(in, cpool, mask);
+        // Rebd the clbss bttributes
+        c.btts = BinbryAttribute.lobd(in, cpool, mbsk);
 
         // See if the SourceFile is known
-        byte data[] = c.getAttribute(idSourceFile);
-        if (data != null) {
-            DataInputStream dataStream = new DataInputStream(new ByteArrayInputStream(data));
-            // JVM 4.7.2 SourceFile_attribute.sourcefile_index
-            c.source = cpool.getString(dataStream.readUnsignedShort());
+        byte dbtb[] = c.getAttribute(idSourceFile);
+        if (dbtb != null) {
+            DbtbInputStrebm dbtbStrebm = new DbtbInputStrebm(new ByteArrbyInputStrebm(dbtb));
+            // JVM 4.7.2 SourceFile_bttribute.sourcefile_index
+            c.source = cpool.getString(dbtbStrebm.rebdUnsignedShort());
         }
 
-        // See if the Documentation is know
-        data = c.getAttribute(idDocumentation);
-        if (data != null) {
-            c.documentation = new DataInputStream(new ByteArrayInputStream(data)).readUTF();
+        // See if the Documentbtion is know
+        dbtb = c.getAttribute(idDocumentbtion);
+        if (dbtb != null) {
+            c.documentbtion = new DbtbInputStrebm(new ByteArrbyInputStrebm(dbtb)).rebdUTF();
         }
 
-        // Was it compiled as deprecated?
-        if (c.getAttribute(idDeprecated) != null) {
+        // Wbs it compiled bs deprecbted?
+        if (c.getAttribute(idDeprecbted) != null) {
             c.modifiers |= M_DEPRECATED;
         }
 
-        // Was it synthesized by the compiler?
+        // Wbs it synthesized by the compiler?
         if (c.getAttribute(idSynthetic) != null) {
             c.modifiers |= M_SYNTHETIC;
         }
@@ -217,164 +217,164 @@ class BinaryClass extends ClassDefinition implements Constants {
     }
 
     /**
-     * Called when an environment ties a binary definition to a declaration.
-     * At this point, auxiliary definitions may be loaded.
+     * Cblled when bn environment ties b binbry definition to b declbrbtion.
+     * At this point, buxilibry definitions mby be lobded.
      */
 
-    public void loadNested(Environment env) {
-        loadNested(env, 0);
+    public void lobdNested(Environment env) {
+        lobdNested(env, 0);
     }
 
-    public void loadNested(Environment env, int flags) {
-        // Sanity check.
-        if (haveLoadedNested) {
-            // Duplicate calls most likely should not occur, but they do
-            // in javap.  Be tolerant of them for the time being.
-            // throw new CompilerError("multiple loadNested");
-            if (tracing) env.dtEvent("loadNested: DUPLICATE CALL SKIPPED");
+    public void lobdNested(Environment env, int flbgs) {
+        // Sbnity check.
+        if (hbveLobdedNested) {
+            // Duplicbte cblls most likely should not occur, but they do
+            // in jbvbp.  Be tolerbnt of them for the time being.
+            // throw new CompilerError("multiple lobdNested");
+            if (trbcing) env.dtEvent("lobdNested: DUPLICATE CALL SKIPPED");
             return;
         }
-        haveLoadedNested = true;
-        // Read class-nesting information.
+        hbveLobdedNested = true;
+        // Rebd clbss-nesting informbtion.
         try {
-            byte data[];
-            data = getAttribute(idInnerClasses);
-            if (data != null) {
-                initInnerClasses(env, data, flags);
+            byte dbtb[];
+            dbtb = getAttribute(idInnerClbsses);
+            if (dbtb != null) {
+                initInnerClbsses(env, dbtb, flbgs);
             }
-        } catch (IOException ee) {
-            // The inner classes attribute is not well-formed.
-            // It may, for example, contain no data.  Report this.
-            // We used to throw a CompilerError here (bug 4095108).
-            env.error(0, "malformed.attribute", getClassDeclaration(),
-                      idInnerClasses);
-            if (tracing)
-                env.dtEvent("loadNested: MALFORMED ATTRIBUTE (InnerClasses)");
+        } cbtch (IOException ee) {
+            // The inner clbsses bttribute is not well-formed.
+            // It mby, for exbmple, contbin no dbtb.  Report this.
+            // We used to throw b CompilerError here (bug 4095108).
+            env.error(0, "mblformed.bttribute", getClbssDeclbrbtion(),
+                      idInnerClbsses);
+            if (trbcing)
+                env.dtEvent("lobdNested: MALFORMED ATTRIBUTE (InnerClbsses)");
         }
     }
 
-    private void initInnerClasses(Environment env,
-                                  byte data[],
-                                  int flags) throws IOException {
-        DataInputStream ds = new DataInputStream(new ByteArrayInputStream(data));
-        int nrec = ds.readUnsignedShort();  // InnerClasses_attribute.number_of_classes
+    privbte void initInnerClbsses(Environment env,
+                                  byte dbtb[],
+                                  int flbgs) throws IOException {
+        DbtbInputStrebm ds = new DbtbInputStrebm(new ByteArrbyInputStrebm(dbtb));
+        int nrec = ds.rebdUnsignedShort();  // InnerClbsses_bttribute.number_of_clbsses
         for (int i = 0; i < nrec; i++) {
-            // For each inner class name transformation, we have a record
+            // For ebch inner clbss nbme trbnsformbtion, we hbve b record
             // with the following fields:
             //
-            //    u2 inner_class_info_index;   // CONSTANT_Class_info index
-            //    u2 outer_class_info_index;   // CONSTANT_Class_info index
-            //    u2 inner_name_index;         // CONSTANT_Utf8_info index
-            //    u2 inner_class_access_flags; // access_flags bitmask
+            //    u2 inner_clbss_info_index;   // CONSTANT_Clbss_info index
+            //    u2 outer_clbss_info_index;   // CONSTANT_Clbss_info index
+            //    u2 inner_nbme_index;         // CONSTANT_Utf8_info index
+            //    u2 inner_clbss_bccess_flbgs; // bccess_flbgs bitmbsk
             //
-            // The spec states that outer_class_info_index is 0 iff
-            // the inner class is not a member of its enclosing class (i.e.
-            // it is a local or anonymous class).  The spec also states
-            // that if a class is anonymous then inner_name_index should
+            // The spec stbtes thbt outer_clbss_info_index is 0 iff
+            // the inner clbss is not b member of its enclosing clbss (i.e.
+            // it is b locbl or bnonymous clbss).  The spec blso stbtes
+            // thbt if b clbss is bnonymous then inner_nbme_index should
             // be 0.
             //
-            // Prior to jdk1.2, javac did not implement the spec.  Instead
-            // it <em>always</em> set outer_class_info_index to the
-            // enclosing outer class and if the class was anonymous,
-            // it set inner_name_index to be the index of a CONSTANT_Utf8
-            // entry containing the null string "" (idNull).  This code is
-            // designed to handle either kind of class file.
+            // Prior to jdk1.2, jbvbc did not implement the spec.  Instebd
+            // it <em>blwbys</em> set outer_clbss_info_index to the
+            // enclosing outer clbss bnd if the clbss wbs bnonymous,
+            // it set inner_nbme_index to be the index of b CONSTANT_Utf8
+            // entry contbining the null string "" (idNull).  This code is
+            // designed to hbndle either kind of clbss file.
             //
-            // See also the compileClass() method in SourceClass.java.
+            // See blso the compileClbss() method in SourceClbss.jbvb.
 
-            // Read in the inner_class_info
-            // InnerClasses_attribute.classes.inner_class_info_index
-            int inner_index = ds.readUnsignedShort();
+            // Rebd in the inner_clbss_info
+            // InnerClbsses_bttribute.clbsses.inner_clbss_info_index
+            int inner_index = ds.rebdUnsignedShort();
             // could check for zero.
-            ClassDeclaration inner = cpool.getDeclaration(env, inner_index);
+            ClbssDeclbrbtion inner = cpool.getDeclbrbtion(env, inner_index);
 
-            // Read in the outer_class_info.  Note that the index will be
-            // zero if the class is "not a member".
-            ClassDeclaration outer = null;
-            // InnerClasses_attribute.classes.outer_class_info_index
-            int outer_index = ds.readUnsignedShort();
+            // Rebd in the outer_clbss_info.  Note thbt the index will be
+            // zero if the clbss is "not b member".
+            ClbssDeclbrbtion outer = null;
+            // InnerClbsses_bttribute.clbsses.outer_clbss_info_index
+            int outer_index = ds.rebdUnsignedShort();
             if (outer_index != 0) {
-                outer = cpool.getDeclaration(env, outer_index);
+                outer = cpool.getDeclbrbtion(env, outer_index);
             }
 
-            // Read in the inner_name_index.  This may be zero.  An anonymous
-            // class will either have an inner_nm_index of zero (as the spec
-            // dictates) or it will have an inner_nm of idNull (for classes
-            // generated by pre-1.2 compilers).  Handle both.
+            // Rebd in the inner_nbme_index.  This mby be zero.  An bnonymous
+            // clbss will either hbve bn inner_nm_index of zero (bs the spec
+            // dictbtes) or it will hbve bn inner_nm of idNull (for clbsses
+            // generbted by pre-1.2 compilers).  Hbndle both.
             Identifier inner_nm = idNull;
-            // InnerClasses_attribute.classes.inner_name_index
-            int inner_nm_index = ds.readUnsignedShort();
+            // InnerClbsses_bttribute.clbsses.inner_nbme_index
+            int inner_nm_index = ds.rebdUnsignedShort();
             if (inner_nm_index != 0) {
                 inner_nm = Identifier.lookup(cpool.getString(inner_nm_index));
             }
 
-            // Read in the modifiers for the inner class.
-            // InnerClasses_attribute.classes.inner_name_index
-            int mods = ds.readUnsignedShort();
+            // Rebd in the modifiers for the inner clbss.
+            // InnerClbsses_bttribute.clbsses.inner_nbme_index
+            int mods = ds.rebdUnsignedShort();
 
-            // Is the class accessible?
+            // Is the clbss bccessible?
             // The old code checked for
             //
-            //    (!inner_nm.equals(idNull) && (mods & M_PRIVATE) == 0)
+            //    (!inner_nm.equbls(idNull) && (mods & M_PRIVATE) == 0)
             //
-            // which we will preserve to keep it working for class files
-            // generated by 1.1 compilers.  In addition we check for
+            // which we will preserve to keep it working for clbss files
+            // generbted by 1.1 compilers.  In bddition we check for
             //
             //    (outer != null)
             //
-            // as an additional check that only makes sense with 1.2
-            // generated files.  Note that it is entirely possible that
-            // the M_PRIVATE bit is always enough.  We are being
-            // conservative here.
+            // bs bn bdditionbl check thbt only mbkes sense with 1.2
+            // generbted files.  Note thbt it is entirely possible thbt
+            // the M_PRIVATE bit is blwbys enough.  We bre being
+            // conservbtive here.
             //
-            // The ATT_ALLCLASSES flag causes the M_PRIVATE modifier
-            // to be ignored, and is used by tools such as 'javap' that
-            // wish to examine all classes regardless of the normal access
-            // controls that apply during compilation.  Note that anonymous
-            // and local classes are still not considered accessible, though
-            // named local classes in jdk1.1 may slip through.  Note that
-            // this accessibility test is an optimization, and it is safe to
-            // err on the side of greater accessibility.
-            boolean accessible =
+            // The ATT_ALLCLASSES flbg cbuses the M_PRIVATE modifier
+            // to be ignored, bnd is used by tools such bs 'jbvbp' thbt
+            // wish to exbmine bll clbsses regbrdless of the normbl bccess
+            // controls thbt bpply during compilbtion.  Note thbt bnonymous
+            // bnd locbl clbsses bre still not considered bccessible, though
+            // nbmed locbl clbsses in jdk1.1 mby slip through.  Note thbt
+            // this bccessibility test is bn optimizbtion, bnd it is sbfe to
+            // err on the side of grebter bccessibility.
+            boolebn bccessible =
                 (outer != null) &&
-                (!inner_nm.equals(idNull)) &&
+                (!inner_nm.equbls(idNull)) &&
                 ((mods & M_PRIVATE) == 0 ||
-                 (flags & ATT_ALLCLASSES) != 0);
+                 (flbgs & ATT_ALLCLASSES) != 0);
 
-            // The reader should note that there has been a significant change
-            // in the way that the InnerClasses attribute is being handled.
-            // In particular, previously the compiler called initInner() for
-            // <em>every</em> inner class.  Now the compiler does not call
-            // initInner() if the inner class is inaccessible.  This means
-            // that inaccessible inner classes don't have any of the processing
-            // from initInner() done for them: fixing the access flags,
-            // setting outerClass, setting outerMember in their outerClass,
-            // etc.  We believe this is fine: if the class is inaccessible
-            // and binary, then everyone who needs to see its internals
-            // has already been compiled.  Hopefully.
+            // The rebder should note thbt there hbs been b significbnt chbnge
+            // in the wby thbt the InnerClbsses bttribute is being hbndled.
+            // In pbrticulbr, previously the compiler cblled initInner() for
+            // <em>every</em> inner clbss.  Now the compiler does not cbll
+            // initInner() if the inner clbss is inbccessible.  This mebns
+            // thbt inbccessible inner clbsses don't hbve bny of the processing
+            // from initInner() done for them: fixing the bccess flbgs,
+            // setting outerClbss, setting outerMember in their outerClbss,
+            // etc.  We believe this is fine: if the clbss is inbccessible
+            // bnd binbry, then everyone who needs to see its internbls
+            // hbs blrebdy been compiled.  Hopefully.
 
-            if (accessible) {
+            if (bccessible) {
                 Identifier nm =
-                    Identifier.lookupInner(outer.getName(), inner_nm);
+                    Identifier.lookupInner(outer.getNbme(), inner_nm);
 
-                // Tell the type module about the nesting relation:
-                Type.tClass(nm);
+                // Tell the type module bbout the nesting relbtion:
+                Type.tClbss(nm);
 
-                if (inner.equals(getClassDeclaration())) {
-                    // The inner class in the record is this class.
+                if (inner.equbls(getClbssDeclbrbtion())) {
+                    // The inner clbss in the record is this clbss.
                     try {
-                        ClassDefinition outerClass = outer.getClassDefinition(env);
-                        initInner(outerClass, mods);
-                    } catch (ClassNotFound e) {
+                        ClbssDefinition outerClbss = outer.getClbssDefinition(env);
+                        initInner(outerClbss, mods);
+                    } cbtch (ClbssNotFound e) {
                         // report the error elsewhere
                     }
-                } else if (outer.equals(getClassDeclaration())) {
-                    // The outer class in the record is this class.
+                } else if (outer.equbls(getClbssDeclbrbtion())) {
+                    // The outer clbss in the record is this clbss.
                     try {
-                        ClassDefinition innerClass =
-                            inner.getClassDefinition(env);
-                        initOuter(innerClass, mods);
-                    } catch (ClassNotFound e) {
+                        ClbssDefinition innerClbss =
+                            inner.getClbssDefinition(env);
+                        initOuter(innerClbss, mods);
+                    } cbtch (ClbssNotFound e) {
                         // report the error elsewhere
                     }
                 }
@@ -382,151 +382,151 @@ class BinaryClass extends ClassDefinition implements Constants {
         }
     }
 
-    private void initInner(ClassDefinition outerClass, int mods) {
-        if (getOuterClass() != null)
-            return;             // already done
+    privbte void initInner(ClbssDefinition outerClbss, int mods) {
+        if (getOuterClbss() != null)
+            return;             // blrebdy done
         /******
-        // Maybe set static, protected, or private.
+        // Mbybe set stbtic, protected, or privbte.
         if ((modifiers & M_PUBLIC) != 0)
             mods &= M_STATIC;
         else
             mods &= M_PRIVATE | M_PROTECTED | M_STATIC;
         modifiers |= mods;
         ******/
-        // For an inner class, the class access may have been weakened
-        // from that originally declared the source.  We must take the
-        // actual access permissions against which we check any source
-        // we are currently compiling from the InnerClasses attribute.
-        // We attempt to guard here against bogus combinations of modifiers.
+        // For bn inner clbss, the clbss bccess mby hbve been webkened
+        // from thbt originblly declbred the source.  We must tbke the
+        // bctubl bccess permissions bgbinst which we check bny source
+        // we bre currently compiling from the InnerClbsses bttribute.
+        // We bttempt to gubrd here bgbinst bogus combinbtions of modifiers.
         if ((mods & M_PRIVATE) != 0) {
-            // Private cannot be combined with public or protected.
+            // Privbte cbnnot be combined with public or protected.
             mods &= ~(M_PUBLIC | M_PROTECTED);
         } else if ((mods & M_PROTECTED) != 0) {
-            // Protected cannot be combined with public.
+            // Protected cbnnot be combined with public.
             mods &= ~M_PUBLIC;
         }
         if ((mods & M_INTERFACE) != 0) {
-            // All interfaces are implicitly abstract.
-            // All interfaces that are members of a type are implicitly static.
+            // All interfbces bre implicitly bbstrbct.
+            // All interfbces thbt bre members of b type bre implicitly stbtic.
             mods |= (M_ABSTRACT | M_STATIC);
         }
-        if (outerClass.isInterface()) {
-            // All types that are members of interfaces are implicitly
-            // public and static.
+        if (outerClbss.isInterfbce()) {
+            // All types thbt bre members of interfbces bre implicitly
+            // public bnd stbtic.
             mods |= (M_PUBLIC | M_STATIC);
             mods &= ~(M_PRIVATE | M_PROTECTED);
         }
         modifiers = mods;
 
-        setOuterClass(outerClass);
+        setOuterClbss(outerClbss);
 
         for (MemberDefinition field = getFirstMember();
              field != null;
              field = field.getNextMember()) {
-            if (field.isUplevelValue()
-                    && outerClass.getType().equals(field.getType())
-                    && field.getName().toString().startsWith(prefixThis)) {
+            if (field.isUplevelVblue()
+                    && outerClbss.getType().equbls(field.getType())
+                    && field.getNbme().toString().stbrtsWith(prefixThis)) {
                 setOuterMember(field);
             }
         }
     }
 
-    private void initOuter(ClassDefinition innerClass, int mods) {
-        if (innerClass instanceof BinaryClass)
-            ((BinaryClass)innerClass).initInner(this, mods);
-        addMember(new BinaryMember(innerClass));
+    privbte void initOuter(ClbssDefinition innerClbss, int mods) {
+        if (innerClbss instbnceof BinbryClbss)
+            ((BinbryClbss)innerClbss).initInner(this, mods);
+        bddMember(new BinbryMember(innerClbss));
     }
 
     /**
-     * Write the class out to a given stream.  This function mirrors the loader.
+     * Write the clbss out to b given strebm.  This function mirrors the lobder.
      */
-    public void write(Environment env, OutputStream out) throws IOException {
-        DataOutputStream data = new DataOutputStream(out);
+    public void write(Environment env, OutputStrebm out) throws IOException {
+        DbtbOutputStrebm dbtb = new DbtbOutputStrebm(out);
 
-        // write out the header
-        data.writeInt(JAVA_MAGIC);
-        data.writeShort(env.getMinorVersion());
-        data.writeShort(env.getMajorVersion());
+        // write out the hebder
+        dbtb.writeInt(JAVA_MAGIC);
+        dbtb.writeShort(env.getMinorVersion());
+        dbtb.writeShort(env.getMbjorVersion());
 
-        // Write out the constant pool
-        cpool.write(data, env);
+        // Write out the constbnt pool
+        cpool.write(dbtb, env);
 
-        // Write class information
-        data.writeShort(getModifiers() & ACCM_CLASS);
-        data.writeShort(cpool.indexObject(getClassDeclaration(), env));
-        data.writeShort((getSuperClass() != null)
-                        ? cpool.indexObject(getSuperClass(), env) : 0);
-        data.writeShort(interfaces.length);
-        for (int i = 0 ; i < interfaces.length ; i++) {
-            data.writeShort(cpool.indexObject(interfaces[i], env));
+        // Write clbss informbtion
+        dbtb.writeShort(getModifiers() & ACCM_CLASS);
+        dbtb.writeShort(cpool.indexObject(getClbssDeclbrbtion(), env));
+        dbtb.writeShort((getSuperClbss() != null)
+                        ? cpool.indexObject(getSuperClbss(), env) : 0);
+        dbtb.writeShort(interfbces.length);
+        for (int i = 0 ; i < interfbces.length ; i++) {
+            dbtb.writeShort(cpool.indexObject(interfbces[i], env));
         }
 
-        // count the fields and the methods
+        // count the fields bnd the methods
         int fieldCount = 0, methodCount = 0;
         for (MemberDefinition f = firstMember; f != null; f = f.getNextMember())
             if (f.isMethod()) methodCount++; else fieldCount++;
 
-        // write out each the field count, and then each field
-        data.writeShort(fieldCount);
+        // write out ebch the field count, bnd then ebch field
+        dbtb.writeShort(fieldCount);
         for (MemberDefinition f = firstMember; f != null; f = f.getNextMember()) {
             if (!f.isMethod()) {
-                data.writeShort(f.getModifiers() & ACCM_FIELD);
-                String name = f.getName().toString();
-                String signature = f.getType().getTypeSignature();
-                data.writeShort(cpool.indexString(name, env));
-                data.writeShort(cpool.indexString(signature, env));
-                BinaryAttribute.write(((BinaryMember)f).atts, data, cpool, env);
+                dbtb.writeShort(f.getModifiers() & ACCM_FIELD);
+                String nbme = f.getNbme().toString();
+                String signbture = f.getType().getTypeSignbture();
+                dbtb.writeShort(cpool.indexString(nbme, env));
+                dbtb.writeShort(cpool.indexString(signbture, env));
+                BinbryAttribute.write(((BinbryMember)f).btts, dbtb, cpool, env);
             }
         }
 
-        // write out each method count, and then each method
-        data.writeShort(methodCount);
+        // write out ebch method count, bnd then ebch method
+        dbtb.writeShort(methodCount);
         for (MemberDefinition f = firstMember; f != null; f = f.getNextMember()) {
             if (f.isMethod()) {
-                data.writeShort(f.getModifiers() & ACCM_METHOD);
-                String name = f.getName().toString();
-                String signature = f.getType().getTypeSignature();
-                data.writeShort(cpool.indexString(name, env));
-                data.writeShort(cpool.indexString(signature, env));
-                BinaryAttribute.write(((BinaryMember)f).atts, data, cpool, env);
+                dbtb.writeShort(f.getModifiers() & ACCM_METHOD);
+                String nbme = f.getNbme().toString();
+                String signbture = f.getType().getTypeSignbture();
+                dbtb.writeShort(cpool.indexString(nbme, env));
+                dbtb.writeShort(cpool.indexString(signbture, env));
+                BinbryAttribute.write(((BinbryMember)f).btts, dbtb, cpool, env);
             }
         }
 
-        // write out the class attributes
-        BinaryAttribute.write(atts, data, cpool, env);
-        data.flush();
+        // write out the clbss bttributes
+        BinbryAttribute.write(btts, dbtb, cpool, env);
+        dbtb.flush();
     }
 
     /**
      * Get the dependencies
      */
-    public Enumeration<ClassDeclaration> getDependencies() {
+    public Enumerbtion<ClbssDeclbrbtion> getDependencies() {
         return dependencies.elements();
     }
 
     /**
-     * Add a dependency
+     * Add b dependency
      */
-    public void addDependency(ClassDeclaration c) {
-        if ((c != null) && !dependencies.contains(c)) {
-            dependencies.addElement(c);
+    public void bddDependency(ClbssDeclbrbtion c) {
+        if ((c != null) && !dependencies.contbins(c)) {
+            dependencies.bddElement(c);
         }
     }
 
     /**
-     * Get the constant pool
+     * Get the constbnt pool
      */
-    public BinaryConstantPool getConstants() {
+    public BinbryConstbntPool getConstbnts() {
         return cpool;
     }
 
     /**
-     * Get a class attribute
+     * Get b clbss bttribute
      */
-    public byte getAttribute(Identifier name)[] {
-        for (BinaryAttribute att = atts ; att != null ; att = att.next) {
-            if (att.name.equals(name)) {
-                return att.data;
+    public byte getAttribute(Identifier nbme)[] {
+        for (BinbryAttribute btt = btts ; btt != null ; btt = btt.next) {
+            if (btt.nbme.equbls(nbme)) {
+                return btt.dbtb;
             }
         }
         return null;

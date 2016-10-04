@@ -1,117 +1,117 @@
 /*
- * Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.net;
+pbckbge jbvb.net;
 
-import java.io.*;
-import java.security.PrivilegedAction;
+import jbvb.io.*;
+import jbvb.security.PrivilegedAction;
 
 /*
- * This class PlainSocketImpl simply delegates to the appropriate real
- * SocketImpl. We do this because PlainSocketImpl is already extended
+ * This clbss PlbinSocketImpl simply delegbtes to the bppropribte rebl
+ * SocketImpl. We do this becbuse PlbinSocketImpl is blrebdy extended
  * by SocksSocketImpl.
  * <p>
- * There are two possibilities for the real SocketImpl,
- * TwoStacksPlainSocketImpl or DualStackPlainSocketImpl. We use
- * DualStackPlainSocketImpl on systems that have a dual stack
- * TCP implementation. Otherwise we create an instance of
- * TwoStacksPlainSocketImpl and delegate to it.
+ * There bre two possibilities for the rebl SocketImpl,
+ * TwoStbcksPlbinSocketImpl or DublStbckPlbinSocketImpl. We use
+ * DublStbckPlbinSocketImpl on systems thbt hbve b dubl stbck
+ * TCP implementbtion. Otherwise we crebte bn instbnce of
+ * TwoStbcksPlbinSocketImpl bnd delegbte to it.
  *
- * @author Chris Hegarty
+ * @buthor Chris Hegbrty
  */
 
-class PlainSocketImpl extends AbstractPlainSocketImpl
+clbss PlbinSocketImpl extends AbstrbctPlbinSocketImpl
 {
-    private AbstractPlainSocketImpl impl;
+    privbte AbstrbctPlbinSocketImpl impl;
 
     /* the windows version. */
-    private static float version;
+    privbte stbtic flobt version;
 
-    /* java.net.preferIPv4Stack */
-    private static boolean preferIPv4Stack = false;
+    /* jbvb.net.preferIPv4Stbck */
+    privbte stbtic boolebn preferIPv4Stbck = fblse;
 
-    /* If the version supports a dual stack TCP implementation */
-    private static boolean useDualStackImpl = false;
+    /* If the version supports b dubl stbck TCP implementbtion */
+    privbte stbtic boolebn useDublStbckImpl = fblse;
 
     /* sun.net.useExclusiveBind */
-    private static String exclBindProp;
+    privbte stbtic String exclBindProp;
 
     /* True if exclusive binding is on for Windows */
-    private static boolean exclusiveBind = true;
+    privbte stbtic boolebn exclusiveBind = true;
 
-    static {
-        java.security.AccessController.doPrivileged( new PrivilegedAction<Object>() {
+    stbtic {
+        jbvb.security.AccessController.doPrivileged( new PrivilegedAction<Object>() {
                 public Object run() {
                     version = 0;
                     try {
-                        version = Float.parseFloat(System.getProperties().getProperty("os.version"));
-                        preferIPv4Stack = Boolean.parseBoolean(
-                                          System.getProperties().getProperty("java.net.preferIPv4Stack"));
+                        version = Flobt.pbrseFlobt(System.getProperties().getProperty("os.version"));
+                        preferIPv4Stbck = Boolebn.pbrseBoolebn(
+                                          System.getProperties().getProperty("jbvb.net.preferIPv4Stbck"));
                         exclBindProp = System.getProperty("sun.net.useExclusiveBind");
-                    } catch (NumberFormatException e ) {
-                        assert false : e;
+                    } cbtch (NumberFormbtException e ) {
+                        bssert fblse : e;
                     }
                     return null; // nothing to return
                 } });
 
-        // (version >= 6.0) implies Vista or greater.
-        if (version >= 6.0 && !preferIPv4Stack) {
-                useDualStackImpl = true;
+        // (version >= 6.0) implies Vistb or grebter.
+        if (version >= 6.0 && !preferIPv4Stbck) {
+                useDublStbckImpl = true;
         }
 
         if (exclBindProp != null) {
             // sun.net.useExclusiveBind is true
             exclusiveBind = exclBindProp.length() == 0 ? true
-                    : Boolean.parseBoolean(exclBindProp);
+                    : Boolebn.pbrseBoolebn(exclBindProp);
         } else if (version < 6.0) {
-            exclusiveBind = false;
+            exclusiveBind = fblse;
         }
     }
 
     /**
-     * Constructs an empty instance.
+     * Constructs bn empty instbnce.
      */
-    PlainSocketImpl() {
-        if (useDualStackImpl) {
-            impl = new DualStackPlainSocketImpl(exclusiveBind);
+    PlbinSocketImpl() {
+        if (useDublStbckImpl) {
+            impl = new DublStbckPlbinSocketImpl(exclusiveBind);
         } else {
-            impl = new TwoStacksPlainSocketImpl(exclusiveBind);
+            impl = new TwoStbcksPlbinSocketImpl(exclusiveBind);
         }
     }
 
     /**
-     * Constructs an instance with the given file descriptor.
+     * Constructs bn instbnce with the given file descriptor.
      */
-    PlainSocketImpl(FileDescriptor fd) {
-        if (useDualStackImpl) {
-            impl = new DualStackPlainSocketImpl(fd, exclusiveBind);
+    PlbinSocketImpl(FileDescriptor fd) {
+        if (useDublStbckImpl) {
+            impl = new DublStbckPlbinSocketImpl(fd, exclusiveBind);
         } else {
-            impl = new TwoStacksPlainSocketImpl(fd, exclusiveBind);
+            impl = new TwoStbcksPlbinSocketImpl(fd, exclusiveBind);
         }
     }
 
-    // Override methods in SocketImpl that access impl's fields.
+    // Override methods in SocketImpl thbt bccess impl's fields.
 
     protected FileDescriptor getFileDescriptor() {
         return impl.getFileDescriptor();
@@ -125,8 +125,8 @@ class PlainSocketImpl extends AbstractPlainSocketImpl
         return impl.getPort();
     }
 
-    protected int getLocalPort() {
-        return impl.getLocalPort();
+    protected int getLocblPort() {
+        return impl.getLocblPort();
     }
 
     void setSocket(Socket soc) {
@@ -149,12 +149,12 @@ class PlainSocketImpl extends AbstractPlainSocketImpl
         return impl.toString();
     }
 
-    // Override methods in AbstractPlainSocketImpl that access impl's fields.
+    // Override methods in AbstrbctPlbinSocketImpl thbt bccess impl's fields.
 
-    protected synchronized void create(boolean stream) throws IOException {
-        impl.create(stream);
+    protected synchronized void crebte(boolebn strebm) throws IOException {
+        impl.crebte(strebm);
 
-        // set fd to delegate's fd to be compatible with older releases
+        // set fd to delegbte's fd to be compbtible with older relebses
         this.fd = impl.fd;
     }
 
@@ -164,43 +164,43 @@ class PlainSocketImpl extends AbstractPlainSocketImpl
         impl.connect(host, port);
     }
 
-    protected void connect(InetAddress address, int port) throws IOException {
-        impl.connect(address, port);
+    protected void connect(InetAddress bddress, int port) throws IOException {
+        impl.connect(bddress, port);
     }
 
-    protected void connect(SocketAddress address, int timeout) throws IOException {
-        impl.connect(address, timeout);
+    protected void connect(SocketAddress bddress, int timeout) throws IOException {
+        impl.connect(bddress, timeout);
     }
 
-    public void setOption(int opt, Object val) throws SocketException {
-        impl.setOption(opt, val);
+    public void setOption(int opt, Object vbl) throws SocketException {
+        impl.setOption(opt, vbl);
     }
 
     public Object getOption(int opt) throws SocketException {
         return impl.getOption(opt);
     }
 
-    synchronized void doConnect(InetAddress address, int port, int timeout) throws IOException {
-        impl.doConnect(address, port, timeout);
+    synchronized void doConnect(InetAddress bddress, int port, int timeout) throws IOException {
+        impl.doConnect(bddress, port, timeout);
     }
 
-    protected synchronized void bind(InetAddress address, int lport)
+    protected synchronized void bind(InetAddress bddress, int lport)
         throws IOException
     {
-        impl.bind(address, lport);
+        impl.bind(bddress, lport);
     }
 
-    protected synchronized void accept(SocketImpl s) throws IOException {
-        if (s instanceof PlainSocketImpl) {
-            // pass in the real impl not the wrapper.
-            SocketImpl delegate = ((PlainSocketImpl)s).impl;
-            delegate.address = new InetAddress();
-            delegate.fd = new FileDescriptor();
-            impl.accept(delegate);
-            // set fd to delegate's fd to be compatible with older releases
-            s.fd = delegate.fd;
+    protected synchronized void bccept(SocketImpl s) throws IOException {
+        if (s instbnceof PlbinSocketImpl) {
+            // pbss in the rebl impl not the wrbpper.
+            SocketImpl delegbte = ((PlbinSocketImpl)s).impl;
+            delegbte.bddress = new InetAddress();
+            delegbte.fd = new FileDescriptor();
+            impl.bccept(delegbte);
+            // set fd to delegbte's fd to be compbtible with older relebses
+            s.fd = delegbte.fd;
         } else {
-            impl.accept(s);
+            impl.bccept(s);
         }
     }
 
@@ -208,35 +208,35 @@ class PlainSocketImpl extends AbstractPlainSocketImpl
         impl.setFileDescriptor(fd);
     }
 
-    void setAddress(InetAddress address) {
-        impl.setAddress(address);
+    void setAddress(InetAddress bddress) {
+        impl.setAddress(bddress);
     }
 
     void setPort(int port) {
         impl.setPort(port);
     }
 
-    void setLocalPort(int localPort) {
-        impl.setLocalPort(localPort);
+    void setLocblPort(int locblPort) {
+        impl.setLocblPort(locblPort);
     }
 
-    protected synchronized InputStream getInputStream() throws IOException {
-        return impl.getInputStream();
+    protected synchronized InputStrebm getInputStrebm() throws IOException {
+        return impl.getInputStrebm();
     }
 
-    void setInputStream(SocketInputStream in) {
-        impl.setInputStream(in);
+    void setInputStrebm(SocketInputStrebm in) {
+        impl.setInputStrebm(in);
     }
 
-    protected synchronized OutputStream getOutputStream() throws IOException {
-        return impl.getOutputStream();
+    protected synchronized OutputStrebm getOutputStrebm() throws IOException {
+        return impl.getOutputStrebm();
     }
 
     protected void close() throws IOException {
         try {
             impl.close();
-        } finally {
-            // set fd to delegate's fd to be compatible with older releases
+        } finblly {
+            // set fd to delegbte's fd to be compbtible with older relebses
             this.fd = null;
         }
     }
@@ -244,8 +244,8 @@ class PlainSocketImpl extends AbstractPlainSocketImpl
     void reset() throws IOException {
         try {
             impl.reset();
-        } finally {
-            // set fd to delegate's fd to be compatible with older releases
+        } finblly {
+            // set fd to delegbte's fd to be compbtible with older relebses
             this.fd = null;
         }
     }
@@ -258,23 +258,23 @@ class PlainSocketImpl extends AbstractPlainSocketImpl
         impl.shutdownOutput();
     }
 
-    protected void sendUrgentData(int data) throws IOException {
-        impl.sendUrgentData(data);
+    protected void sendUrgentDbtb(int dbtb) throws IOException {
+        impl.sendUrgentDbtb(dbtb);
     }
 
-    FileDescriptor acquireFD() {
-        return impl.acquireFD();
+    FileDescriptor bcquireFD() {
+        return impl.bcquireFD();
     }
 
-    void releaseFD() {
-        impl.releaseFD();
+    void relebseFD() {
+        impl.relebseFD();
     }
 
-    public boolean isConnectionReset() {
+    public boolebn isConnectionReset() {
         return impl.isConnectionReset();
     }
 
-    public boolean isConnectionResetPending() {
+    public boolebn isConnectionResetPending() {
         return impl.isConnectionResetPending();
     }
 
@@ -286,7 +286,7 @@ class PlainSocketImpl extends AbstractPlainSocketImpl
         impl.setConnectionResetPending();
     }
 
-    public boolean isClosedOrPending() {
+    public boolebn isClosedOrPending() {
         return impl.isClosedOrPending();
     }
 
@@ -294,20 +294,20 @@ class PlainSocketImpl extends AbstractPlainSocketImpl
         return impl.getTimeout();
     }
 
-    // Override methods in AbstractPlainSocketImpl that need to be implemented.
+    // Override methods in AbstrbctPlbinSocketImpl thbt need to be implemented.
 
-    void socketCreate(boolean isServer) throws IOException {
-        impl.socketCreate(isServer);
+    void socketCrebte(boolebn isServer) throws IOException {
+        impl.socketCrebte(isServer);
     }
 
-    void socketConnect(InetAddress address, int port, int timeout)
+    void socketConnect(InetAddress bddress, int port, int timeout)
         throws IOException {
-        impl.socketConnect(address, port, timeout);
+        impl.socketConnect(bddress, port, timeout);
     }
 
-    void socketBind(InetAddress address, int port)
+    void socketBind(InetAddress bddress, int port)
         throws IOException {
-        impl.socketBind(address, port);
+        impl.socketBind(bddress, port);
     }
 
     void socketListen(int count) throws IOException {
@@ -318,11 +318,11 @@ class PlainSocketImpl extends AbstractPlainSocketImpl
         impl.socketAccept(s);
     }
 
-    int socketAvailable() throws IOException {
-        return impl.socketAvailable();
+    int socketAvbilbble() throws IOException {
+        return impl.socketAvbilbble();
     }
 
-    void socketClose0(boolean useDeferredClose) throws IOException {
+    void socketClose0(boolebn useDeferredClose) throws IOException {
         impl.socketClose0(useDeferredClose);
     }
 
@@ -330,16 +330,16 @@ class PlainSocketImpl extends AbstractPlainSocketImpl
         impl.socketShutdown(howto);
     }
 
-    void socketSetOption(int cmd, boolean on, Object value)
+    void socketSetOption(int cmd, boolebn on, Object vblue)
         throws SocketException {
-        impl.socketSetOption(cmd, on, value);
+        impl.socketSetOption(cmd, on, vblue);
     }
 
-    int socketGetOption(int opt, Object iaContainerObj) throws SocketException {
-        return impl.socketGetOption(opt, iaContainerObj);
+    int socketGetOption(int opt, Object ibContbinerObj) throws SocketException {
+        return impl.socketGetOption(opt, ibContbinerObj);
     }
 
-    void socketSendUrgentData(int data) throws IOException {
-        impl.socketSendUrgentData(data);
+    void socketSendUrgentDbtb(int dbtb) throws IOException {
+        impl.socketSendUrgentDbtb(dbtb);
     }
 }

@@ -1,231 +1,231 @@
 /*
- * Copyright (c) 2004, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2010, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.jgss.krb5;
+pbckbge sun.security.jgss.krb5;
 
 import org.ietf.jgss.*;
 import sun.security.jgss.*;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.IOException;
-import java.io.ByteArrayOutputStream;
-import java.util.Arrays;
+import jbvb.io.InputStrebm;
+import jbvb.io.OutputStrebm;
+import jbvb.io.IOException;
+import jbvb.io.ByteArrbyOutputStrebm;
+import jbvb.util.Arrbys;
 import sun.security.krb5.Confounder;
 
 /**
- * This class represents the new format of GSS tokens, as specified in RFC
- * 4121, emitted by the GSSContext.wrap() call. It is a MessageToken except
- * that it also contains plaintext or encrypted data at the end. A WrapToken
- * has certain other rules that are peculiar to it and different from a
- * MICToken, which is another type of MessageToken. All data in a WrapToken is
- * prepended by a random confounder of 16 bytes. Thus, all application data
- * is replaced by (confounder || data || tokenHeader || checksum).
+ * This clbss represents the new formbt of GSS tokens, bs specified in RFC
+ * 4121, emitted by the GSSContext.wrbp() cbll. It is b MessbgeToken except
+ * thbt it blso contbins plbintext or encrypted dbtb bt the end. A WrbpToken
+ * hbs certbin other rules thbt bre peculibr to it bnd different from b
+ * MICToken, which is bnother type of MessbgeToken. All dbtb in b WrbpToken is
+ * prepended by b rbndom confounder of 16 bytes. Thus, bll bpplicbtion dbtb
+ * is replbced by (confounder || dbtb || tokenHebder || checksum).
  *
- * @author Seema Malkani
+ * @buthor Seemb Mblkbni
  */
-class WrapToken_v2 extends MessageToken_v2 {
+clbss WrbpToken_v2 extends MessbgeToken_v2 {
 
     // Accessed by CipherHelper
     byte[] confounder = null;
 
-    private final boolean privacy;
+    privbte finbl boolebn privbcy;
 
     /**
-     * Constructs a WrapToken from token bytes obtained from the
+     * Constructs b WrbpToken from token bytes obtbined from the
      * peer.
-     * @param context the mechanism context associated with this
+     * @pbrbm context the mechbnism context bssocibted with this
      * token
-     * @param tokenBytes the bytes of the token
-     * @param tokenOffset the offset of the token
-     * @param tokenLen the length of the token
-     * @param prop the MessageProp into which characteristics of the
-     * parsed token will be stored.
+     * @pbrbm tokenBytes the bytes of the token
+     * @pbrbm tokenOffset the offset of the token
+     * @pbrbm tokenLen the length of the token
+     * @pbrbm prop the MessbgeProp into which chbrbcteristics of the
+     * pbrsed token will be stored.
      * @throws GSSException if the token is defective
      */
-    public WrapToken_v2(Krb5Context context,
+    public WrbpToken_v2(Krb5Context context,
                      byte[] tokenBytes, int tokenOffset, int tokenLen,
-                     MessageProp prop)  throws GSSException {
+                     MessbgeProp prop)  throws GSSException {
 
         super(Krb5Token.WRAP_ID_v2, context,
               tokenBytes, tokenOffset, tokenLen, prop);
-        this.privacy = prop.getPrivacy();
+        this.privbcy = prop.getPrivbcy();
     }
 
     /**
-     * Constructs a WrapToken from token bytes read on the fly from
-     * an InputStream.
-     * @param context the mechanism context associated with this
+     * Constructs b WrbpToken from token bytes rebd on the fly from
+     * bn InputStrebm.
+     * @pbrbm context the mechbnism context bssocibted with this
      * token
-     * @param is the InputStream containing the token bytes
-     * @param prop the MessageProp into which characteristics of the
-     * parsed token will be stored.
+     * @pbrbm is the InputStrebm contbining the token bytes
+     * @pbrbm prop the MessbgeProp into which chbrbcteristics of the
+     * pbrsed token will be stored.
      * @throws GSSException if the token is defective or if there is
-     * a problem reading from the InputStream
+     * b problem rebding from the InputStrebm
      */
-    public WrapToken_v2(Krb5Context context,
-                     InputStream is, MessageProp prop)
+    public WrbpToken_v2(Krb5Context context,
+                     InputStrebm is, MessbgeProp prop)
         throws GSSException {
 
         super(Krb5Token.WRAP_ID_v2, context, is, prop);
-        this.privacy = prop.getPrivacy();
+        this.privbcy = prop.getPrivbcy();
     }
 
     /**
-     * Obtains the application data that was transmitted in this
-     * WrapToken.
-     * @return a byte array containing the application data
-     * @throws GSSException if an error occurs while decrypting any
-     * cipher text and checking for validity
+     * Obtbins the bpplicbtion dbtb thbt wbs trbnsmitted in this
+     * WrbpToken.
+     * @return b byte brrby contbining the bpplicbtion dbtb
+     * @throws GSSException if bn error occurs while decrypting bny
+     * cipher text bnd checking for vblidity
      */
-    public byte[] getData() throws GSSException {
+    public byte[] getDbtb() throws GSSException {
 
-        byte[] temp = new byte[tokenDataLen];
-        int len = getData(temp, 0);
-        return Arrays.copyOf(temp, len);
+        byte[] temp = new byte[tokenDbtbLen];
+        int len = getDbtb(temp, 0);
+        return Arrbys.copyOf(temp, len);
     }
 
     /**
-     * Obtains the application data that was transmitted in this
-     * WrapToken, writing it into an application provided output
-     * array.
-     * @param dataBuf the output buffer into which the data must be
+     * Obtbins the bpplicbtion dbtb thbt wbs trbnsmitted in this
+     * WrbpToken, writing it into bn bpplicbtion provided output
+     * brrby.
+     * @pbrbm dbtbBuf the output buffer into which the dbtb must be
      * written
-     * @param dataBufOffset the offset at which to write the data
-     * @return the size of the data written
-     * @throws GSSException if an error occurs while decrypting any
-     * cipher text and checking for validity
+     * @pbrbm dbtbBufOffset the offset bt which to write the dbtb
+     * @return the size of the dbtb written
+     * @throws GSSException if bn error occurs while decrypting bny
+     * cipher text bnd checking for vblidity
      */
-    public int getData(byte[] dataBuf, int dataBufOffset)
+    public int getDbtb(byte[] dbtbBuf, int dbtbBufOffset)
         throws GSSException {
 
-        // debug("WrapToken cons: data is token is [" +
+        // debug("WrbpToken cons: dbtb is token is [" +
         //      getHexBytes(tokenBytes, tokenOffset, tokenLen) + "]\n");
 
-        // Do decryption if this token was privacy protected.
-        if (privacy) {
+        // Do decryption if this token wbs privbcy protected.
+        if (privbcy) {
 
-            // decrypt data
-            cipherHelper.decryptData(this, tokenData, 0, tokenDataLen,
-                                dataBuf, dataBufOffset, getKeyUsage());
+            // decrypt dbtb
+            cipherHelper.decryptDbtb(this, tokenDbtb, 0, tokenDbtbLen,
+                                dbtbBuf, dbtbBufOffset, getKeyUsbge());
 
-            return tokenDataLen - CONFOUNDER_SIZE -
+            return tokenDbtbLen - CONFOUNDER_SIZE -
                 TOKEN_HEADER_SIZE - cipherHelper.getChecksumLength();
         } else {
 
-            // Token data is in cleartext
-            // debug("\t\tNo encryption was performed by peer.\n");
+            // Token dbtb is in clebrtext
+            // debug("\t\tNo encryption wbs performed by peer.\n");
 
-            // data
-            int data_length = tokenDataLen - cipherHelper.getChecksumLength();
-            System.arraycopy(tokenData, 0,
-                             dataBuf, dataBufOffset,
-                             data_length);
-            // debug("\t\tData is: " + getHexBytes(dataBuf, data_length));
+            // dbtb
+            int dbtb_length = tokenDbtbLen - cipherHelper.getChecksumLength();
+            System.brrbycopy(tokenDbtb, 0,
+                             dbtbBuf, dbtbBufOffset,
+                             dbtb_length);
+            // debug("\t\tDbtb is: " + getHexBytes(dbtbBuf, dbtb_length));
 
             /*
-             * Make sure checksum is not corrupt
+             * Mbke sure checksum is not corrupt
              */
-            if (!verifySign(dataBuf, dataBufOffset, data_length)) {
+            if (!verifySign(dbtbBuf, dbtbBufOffset, dbtb_length)) {
                 throw new GSSException(GSSException.BAD_MIC, -1,
-                         "Corrupt checksum in Wrap token");
+                         "Corrupt checksum in Wrbp token");
             }
-            return data_length;
+            return dbtb_length;
         }
     }
 
     /**
-     * Writes a WrapToken_v2 object
+     * Writes b WrbpToken_v2 object
      */
-    public WrapToken_v2(Krb5Context context, MessageProp prop,
-                     byte[] dataBytes, int dataOffset, int dataLen)
+    public WrbpToken_v2(Krb5Context context, MessbgeProp prop,
+                     byte[] dbtbBytes, int dbtbOffset, int dbtbLen)
             throws GSSException {
 
         super(Krb5Token.WRAP_ID_v2, context);
 
         confounder = Confounder.bytes(CONFOUNDER_SIZE);
 
-        // debug("\nWrapToken cons: data to wrap is [" +
+        // debug("\nWrbpToken cons: dbtb to wrbp is [" +
         // getHexBytes(confounder) + " " +
-        // getHexBytes(dataBytes, dataOffset, dataLen) + "]\n");
+        // getHexBytes(dbtbBytes, dbtbOffset, dbtbLen) + "]\n");
 
-        genSignAndSeqNumber(prop, dataBytes, dataOffset, dataLen);
+        genSignAndSeqNumber(prop, dbtbBytes, dbtbOffset, dbtbLen);
 
         /*
-         * If the application decides to ask for privacy when the context
-         * did not negotiate for it, do not provide it. The peer might not
-         * have support for it. The app will realize this with a call to
-         * pop.getPrivacy() after wrap().
+         * If the bpplicbtion decides to bsk for privbcy when the context
+         * did not negotibte for it, do not provide it. The peer might not
+         * hbve support for it. The bpp will reblize this with b cbll to
+         * pop.getPrivbcy() bfter wrbp().
          */
-        if (!context.getConfState())
-            prop.setPrivacy(false);
+        if (!context.getConfStbte())
+            prop.setPrivbcy(fblse);
 
-        privacy = prop.getPrivacy();
+        privbcy = prop.getPrivbcy();
 
-        if (!privacy) {
-            // Wrap Tokens (without confidentiality) =
-            // { 16 byte token_header | plaintext | 12-byte HMAC }
-            // where HMAC is on { plaintext | token_header }
+        if (!privbcy) {
+            // Wrbp Tokens (without confidentiblity) =
+            // { 16 byte token_hebder | plbintext | 12-byte HMAC }
+            // where HMAC is on { plbintext | token_hebder }
 
-            tokenData = new byte[dataLen + checksum.length];
-            System.arraycopy(dataBytes, dataOffset, tokenData, 0, dataLen);
-            System.arraycopy(checksum, 0, tokenData, dataLen, checksum.length);
+            tokenDbtb = new byte[dbtbLen + checksum.length];
+            System.brrbycopy(dbtbBytes, dbtbOffset, tokenDbtb, 0, dbtbLen);
+            System.brrbycopy(checksum, 0, tokenDbtb, dbtbLen, checksum.length);
         } else {
-            // Wrap Tokens (with confidentiality) =
-            // { 16 byte token_header |
-            // Encrypt(16-byte confounder | plaintext | token_header) |
+            // Wrbp Tokens (with confidentiblity) =
+            // { 16 byte token_hebder |
+            // Encrypt(16-byte confounder | plbintext | token_hebder) |
             // 12-byte HMAC }
 
-            tokenData = cipherHelper.encryptData(this, confounder, getTokenHeader(),
-                dataBytes, dataOffset, dataLen, getKeyUsage());
+            tokenDbtb = cipherHelper.encryptDbtb(this, confounder, getTokenHebder(),
+                dbtbBytes, dbtbOffset, dbtbLen, getKeyUsbge());
         }
     }
 
-    public void encode(OutputStream os) throws IOException {
-        encodeHeader(os);
-        os.write(tokenData);
+    public void encode(OutputStrebm os) throws IOException {
+        encodeHebder(os);
+        os.write(tokenDbtb);
     }
 
     public byte[] encode() throws IOException {
-        ByteArrayOutputStream bos = new ByteArrayOutputStream(
-                MessageToken_v2.TOKEN_HEADER_SIZE + tokenData.length);
+        ByteArrbyOutputStrebm bos = new ByteArrbyOutputStrebm(
+                MessbgeToken_v2.TOKEN_HEADER_SIZE + tokenDbtb.length);
         encode(bos);
-        return bos.toByteArray();
+        return bos.toByteArrby();
     }
 
     public int encode(byte[] outToken, int offset) throws IOException {
         byte[] token = encode();
-        System.arraycopy(token, 0, outToken, offset, token.length);
+        System.brrbycopy(token, 0, outToken, offset, token.length);
         return token.length;
     }
 
-    // This implementation is way to conservative. And it certainly
-    // doesn't return the maximum limit.
-    static int getSizeLimit(int qop, boolean confReq, int maxTokenSize,
+    // This implementbtion is wby to conservbtive. And it certbinly
+    // doesn't return the mbximum limit.
+    stbtic int getSizeLimit(int qop, boolebn confReq, int mbxTokenSize,
         CipherHelper ch) throws GSSException {
-        return (GSSHeader.getMaxMechTokenSize(OID, maxTokenSize) -
+        return (GSSHebder.getMbxMechTokenSize(OID, mbxTokenSize) -
                 (TOKEN_HEADER_SIZE + ch.getChecksumLength() + CONFOUNDER_SIZE)
-                - 8 /* safety */);
+                - 8 /* sbfety */);
     }
 }

@@ -1,101 +1,101 @@
 /*
- * Copyright (c) 2003, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-#include <stdarg.h>
+#include <stdbrg.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "Trace.h"
+#include "Trbce.h"
 
-static int j2dTraceLevel = J2D_TRACE_INVALID;
-static FILE *j2dTraceFile = NULL;
+stbtic int j2dTrbceLevel = J2D_TRACE_INVALID;
+stbtic FILE *j2dTrbceFile = NULL;
 
 JNIEXPORT void JNICALL
-J2dTraceImpl(int level, jboolean cr, const char *string, ...)
+J2dTrbceImpl(int level, jboolebn cr, const chbr *string, ...)
 {
-    va_list args;
-    if (j2dTraceLevel < J2D_TRACE_OFF) {
-        J2dTraceInit();
+    vb_list brgs;
+    if (j2dTrbceLevel < J2D_TRACE_OFF) {
+        J2dTrbceInit();
     }
-    if (level <= j2dTraceLevel) {
+    if (level <= j2dTrbceLevel) {
         if (cr) {
             switch (level) {
-            case J2D_TRACE_ERROR:
-                fprintf(j2dTraceFile, "[E] ");
-                break;
-            case J2D_TRACE_WARNING:
-                fprintf(j2dTraceFile, "[W] ");
-                break;
-            case J2D_TRACE_INFO:
-                fprintf(j2dTraceFile, "[I] ");
-                break;
-            case J2D_TRACE_VERBOSE:
-                fprintf(j2dTraceFile, "[V] ");
-                break;
-            case J2D_TRACE_VERBOSE2:
-                fprintf(j2dTraceFile, "[X] ");
-                break;
-            default:
-                break;
+            cbse J2D_TRACE_ERROR:
+                fprintf(j2dTrbceFile, "[E] ");
+                brebk;
+            cbse J2D_TRACE_WARNING:
+                fprintf(j2dTrbceFile, "[W] ");
+                brebk;
+            cbse J2D_TRACE_INFO:
+                fprintf(j2dTrbceFile, "[I] ");
+                brebk;
+            cbse J2D_TRACE_VERBOSE:
+                fprintf(j2dTrbceFile, "[V] ");
+                brebk;
+            cbse J2D_TRACE_VERBOSE2:
+                fprintf(j2dTrbceFile, "[X] ");
+                brebk;
+            defbult:
+                brebk;
             }
         }
 
-        va_start(args, string);
-        vfprintf(j2dTraceFile, string, args);
-        va_end(args);
+        vb_stbrt(brgs, string);
+        vfprintf(j2dTrbceFile, string, brgs);
+        vb_end(brgs);
 
         if (cr) {
-            fprintf(j2dTraceFile, "\n");
+            fprintf(j2dTrbceFile, "\n");
         }
-        fflush(j2dTraceFile);
+        fflush(j2dTrbceFile);
     }
 }
 
 JNIEXPORT void JNICALL
-J2dTraceInit()
+J2dTrbceInit()
 {
-    char *j2dTraceLevelString = getenv("J2D_TRACE_LEVEL");
-    char *j2dTraceFileName;
-    j2dTraceLevel = J2D_TRACE_OFF;
-    if (j2dTraceLevelString) {
-        int traceLevelTmp = -1;
-        int args = sscanf(j2dTraceLevelString, "%d", &traceLevelTmp);
-        if (args > 0 &&
-            traceLevelTmp > J2D_TRACE_INVALID &&
-            traceLevelTmp < J2D_TRACE_MAX)
+    chbr *j2dTrbceLevelString = getenv("J2D_TRACE_LEVEL");
+    chbr *j2dTrbceFileNbme;
+    j2dTrbceLevel = J2D_TRACE_OFF;
+    if (j2dTrbceLevelString) {
+        int trbceLevelTmp = -1;
+        int brgs = sscbnf(j2dTrbceLevelString, "%d", &trbceLevelTmp);
+        if (brgs > 0 &&
+            trbceLevelTmp > J2D_TRACE_INVALID &&
+            trbceLevelTmp < J2D_TRACE_MAX)
         {
-            j2dTraceLevel = traceLevelTmp;
+            j2dTrbceLevel = trbceLevelTmp;
         }
     }
-    j2dTraceFileName = getenv("J2D_TRACE_FILE");
-    if (j2dTraceFileName) {
-        j2dTraceFile = fopen(j2dTraceFileName, "w");
-        if (!j2dTraceFile) {
-            printf("[E]: Error opening trace file %s\n", j2dTraceFileName);
+    j2dTrbceFileNbme = getenv("J2D_TRACE_FILE");
+    if (j2dTrbceFileNbme) {
+        j2dTrbceFile = fopen(j2dTrbceFileNbme, "w");
+        if (!j2dTrbceFile) {
+            printf("[E]: Error opening trbce file %s\n", j2dTrbceFileNbme);
         }
     }
-    if (!j2dTraceFile) {
-        j2dTraceFile = stdout;
+    if (!j2dTrbceFile) {
+        j2dTrbceFile = stdout;
     }
 }

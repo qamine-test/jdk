@@ -1,97 +1,97 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.net;
+pbckbge jbvb.net;
 
 /**
- * Choose a network interface to be the default for
- * outgoing IPv6 traffic that does not specify a scope_id (and which needs one).
- * We choose the first interface that is up and is (in order of preference):
- * 1. neither loopback nor point to point
+ * Choose b network interfbce to be the defbult for
+ * outgoing IPv6 trbffic thbt does not specify b scope_id (bnd which needs one).
+ * We choose the first interfbce thbt is up bnd is (in order of preference):
+ * 1. neither loopbbck nor point to point
  * 2. point to point
- * 3. loopback
+ * 3. loopbbck
  * 4. none.
- * Platforms that do not require a default interface implement a dummy
- * that returns null.
+ * Plbtforms thbt do not require b defbult interfbce implement b dummy
+ * thbt returns null.
  */
 
-import java.util.Enumeration;
-import java.io.IOException;
+import jbvb.util.Enumerbtion;
+import jbvb.io.IOException;
 
-class DefaultInterface {
+clbss DefbultInterfbce {
 
-    private final static NetworkInterface defaultInterface =
-        chooseDefaultInterface();
+    privbte finbl stbtic NetworkInterfbce defbultInterfbce =
+        chooseDefbultInterfbce();
 
-    static NetworkInterface getDefault() {
-        return defaultInterface;
+    stbtic NetworkInterfbce getDefbult() {
+        return defbultInterfbce;
     }
 
     /**
-     * Choose a default interface. This method returns an interface that is
-     * both "up" and supports multicast. This method choses an interface in
+     * Choose b defbult interfbce. This method returns bn interfbce thbt is
+     * both "up" bnd supports multicbst. This method choses bn interfbce in
      * order of preference:
-     * 1. neither loopback nor point to point
+     * 1. neither loopbbck nor point to point
      * 2. point to point
-     * 3. loopback
+     * 3. loopbbck
      *
-     * @return  the chosen interface or {@code null} if there isn't a suitable
-     *          default
+     * @return  the chosen interfbce or {@code null} if there isn't b suitbble
+     *          defbult
      */
-    private static NetworkInterface chooseDefaultInterface() {
-        Enumeration<NetworkInterface> nifs;
+    privbte stbtic NetworkInterfbce chooseDefbultInterfbce() {
+        Enumerbtion<NetworkInterfbce> nifs;
 
         try {
-           nifs = NetworkInterface.getNetworkInterfaces();
-        } catch (IOException ignore) {
-            // unable to enumate network interfaces
+           nifs = NetworkInterfbce.getNetworkInterfbces();
+        } cbtch (IOException ignore) {
+            // unbble to enumbte network interfbces
             return null;
         }
 
-        NetworkInterface ppp = null;
-        NetworkInterface loopback = null;
+        NetworkInterfbce ppp = null;
+        NetworkInterfbce loopbbck = null;
 
-        while (nifs.hasMoreElements()) {
-            NetworkInterface ni = nifs.nextElement();
+        while (nifs.hbsMoreElements()) {
+            NetworkInterfbce ni = nifs.nextElement();
             try {
-                if (ni.isUp() && ni.supportsMulticast()) {
-                    boolean isLoopback = ni.isLoopback();
-                    boolean isPPP = ni.isPointToPoint();
-                    if (!isLoopback && !isPPP) {
-                        // found an interface that is not the loopback or a
-                        // point-to-point interface
+                if (ni.isUp() && ni.supportsMulticbst()) {
+                    boolebn isLoopbbck = ni.isLoopbbck();
+                    boolebn isPPP = ni.isPointToPoint();
+                    if (!isLoopbbck && !isPPP) {
+                        // found bn interfbce thbt is not the loopbbck or b
+                        // point-to-point interfbce
                         return ni;
                     }
                     if (ppp == null && isPPP)
                         ppp = ni;
-                    if (loopback == null && isLoopback)
-                        loopback = ni;
+                    if (loopbbck == null && isLoopbbck)
+                        loopbbck = ni;
                 }
-            } catch (IOException skip) { }
+            } cbtch (IOException skip) { }
         }
 
-        return (ppp != null) ? ppp : loopback;
+        return (ppp != null) ? ppp : loopbbck;
     }
 }

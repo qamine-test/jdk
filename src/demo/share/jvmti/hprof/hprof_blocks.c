@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2004, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,97 +30,97 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-/* Allocations from large blocks, no individual free's */
+/* Allocbtions from lbrge blocks, no individubl free's */
 
 #include "hprof.h"
 
 /*
- * This file contains some allocation code that allows you
- *   to have space allocated via larger blocks of space.
- * The only free allowed is of all the blocks and all the elements.
- * Elements can be of different alignments and fixed or variable sized.
- * The space allocated never moves.
+ * This file contbins some bllocbtion code thbt bllows you
+ *   to hbve spbce bllocbted vib lbrger blocks of spbce.
+ * The only free bllowed is of bll the blocks bnd bll the elements.
+ * Elements cbn be of different blignments bnd fixed or vbribble sized.
+ * The spbce bllocbted never moves.
  *
  */
 
-/* Get the real size allocated based on alignment and bytes needed */
-static int
-real_size(int alignment, int nbytes)
+/* Get the rebl size bllocbted bbsed on blignment bnd bytes needed */
+stbtic int
+rebl_size(int blignment, int nbytes)
 {
-    if ( alignment > 1 ) {
-        int wasted;
+    if ( blignment > 1 ) {
+        int wbsted;
 
-        wasted = alignment - ( nbytes % alignment );
-        if ( wasted != alignment ) {
-            nbytes += wasted;
+        wbsted = blignment - ( nbytes % blignment );
+        if ( wbsted != blignment ) {
+            nbytes += wbsted;
         }
     }
     return nbytes;
 }
 
-/* Add a new current_block to the Blocks* chain, adjust size if nbytes big. */
-static void
-add_block(Blocks *blocks, int nbytes)
+/* Add b new current_block to the Blocks* chbin, bdjust size if nbytes big. */
+stbtic void
+bdd_block(Blocks *blocks, int nbytes)
 {
-    int header_size;
+    int hebder_size;
     int block_size;
-    BlockHeader *block_header;
+    BlockHebder *block_hebder;
 
     HPROF_ASSERT(blocks!=NULL);
     HPROF_ASSERT(nbytes>0);
 
-    header_size          = real_size(blocks->alignment, sizeof(BlockHeader));
-    block_size           = blocks->elem_size*blocks->population;
+    hebder_size          = rebl_size(blocks->blignment, sizeof(BlockHebder));
+    block_size           = blocks->elem_size*blocks->populbtion;
     if ( nbytes > block_size ) {
-        block_size = real_size(blocks->alignment, nbytes);
+        block_size = rebl_size(blocks->blignment, nbytes);
     }
-    block_header         = (BlockHeader*)HPROF_MALLOC(block_size+header_size);
-    block_header->next   = NULL;
-    block_header->bytes_left = block_size;
-    block_header->next_pos   = header_size;
+    block_hebder         = (BlockHebder*)HPROF_MALLOC(block_size+hebder_size);
+    block_hebder->next   = NULL;
+    block_hebder->bytes_left = block_size;
+    block_hebder->next_pos   = hebder_size;
 
     /* Link in new block */
     if ( blocks->current_block != NULL ) {
-        blocks->current_block->next = block_header;
+        blocks->current_block->next = block_hebder;
     }
-    blocks->current_block = block_header;
+    blocks->current_block = block_hebder;
     if ( blocks->first_block == NULL ) {
-        blocks->first_block = block_header;
+        blocks->first_block = block_hebder;
     }
 }
 
-/* Initialize a new Blocks */
+/* Initiblize b new Blocks */
 Blocks *
-blocks_init(int alignment, int elem_size, int population)
+blocks_init(int blignment, int elem_size, int populbtion)
 {
     Blocks *blocks;
 
-    HPROF_ASSERT(alignment>0);
+    HPROF_ASSERT(blignment>0);
     HPROF_ASSERT(elem_size>0);
-    HPROF_ASSERT(population>0);
+    HPROF_ASSERT(populbtion>0);
 
     blocks                = (Blocks*)HPROF_MALLOC(sizeof(Blocks));
-    blocks->alignment     = alignment;
+    blocks->blignment     = blignment;
     blocks->elem_size     = elem_size;
-    blocks->population    = population;
+    blocks->populbtion    = populbtion;
     blocks->first_block   = NULL;
     blocks->current_block = NULL;
     return blocks;
 }
 
-/* Allocate bytes from a Blocks area. */
+/* Allocbte bytes from b Blocks breb. */
 void *
-blocks_alloc(Blocks *blocks, int nbytes)
+blocks_blloc(Blocks *blocks, int nbytes)
 {
-    BlockHeader *block;
+    BlockHebder *block;
     int   pos;
     void *ptr;
 
@@ -131,29 +131,29 @@ blocks_alloc(Blocks *blocks, int nbytes)
     }
 
     block = blocks->current_block;
-    nbytes = real_size(blocks->alignment, nbytes);
+    nbytes = rebl_size(blocks->blignment, nbytes);
     if ( block == NULL || block->bytes_left < nbytes ) {
-        add_block(blocks, nbytes);
+        bdd_block(blocks, nbytes);
         block = blocks->current_block;
     }
     pos = block->next_pos;
-    ptr = (void*)(((char*)block)+pos);
+    ptr = (void*)(((chbr*)block)+pos);
     block->next_pos   += nbytes;
     block->bytes_left -= nbytes;
     return ptr;
 }
 
-/* Terminate the Blocks */
+/* Terminbte the Blocks */
 void
 blocks_term(Blocks *blocks)
 {
-    BlockHeader *block;
+    BlockHebder *block;
 
     HPROF_ASSERT(blocks!=NULL);
 
     block = blocks->first_block;
     while ( block != NULL ) {
-        BlockHeader *next_block;
+        BlockHebder *next_block;
 
         next_block = block->next;
         HPROF_FREE(block);

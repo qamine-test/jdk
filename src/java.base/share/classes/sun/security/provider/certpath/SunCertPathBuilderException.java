@@ -1,131 +1,131 @@
 /*
- * Copyright (c) 2000, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2004, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.provider.certpath;
+pbckbge sun.security.provider.certpbth;
 
-import java.util.List;
-import java.security.cert.CertPathBuilderException;
+import jbvb.util.List;
+import jbvb.security.cert.CertPbthBuilderException;
 
 /**
- * This is a subclass of the generic <code>CertPathBuilderException</code>.
- * It contains an adjacency list with information regarding the unsuccessful
- * paths that the SunCertPathBuilder tried.
+ * This is b subclbss of the generic <code>CertPbthBuilderException</code>.
+ * It contbins bn bdjbcency list with informbtion regbrding the unsuccessful
+ * pbths thbt the SunCertPbthBuilder tried.
  *
  * @since       1.4
- * @author      Sean Mullan
- * @see         CertPathBuilderException
+ * @buthor      Sebn Mullbn
+ * @see         CertPbthBuilderException
  */
-public class SunCertPathBuilderException extends CertPathBuilderException {
+public clbss SunCertPbthBuilderException extends CertPbthBuilderException {
 
-    private static final long serialVersionUID = -7814288414129264709L;
-
-    /**
-     * @serial
-     */
-    private transient AdjacencyList adjList;
+    privbte stbtic finbl long seriblVersionUID = -7814288414129264709L;
 
     /**
-     * Constructs a <code>SunCertPathBuilderException</code> with
-     * <code>null</code> as its detail message.
+     * @seribl
      */
-    public SunCertPathBuilderException() {
+    privbte trbnsient AdjbcencyList bdjList;
+
+    /**
+     * Constructs b <code>SunCertPbthBuilderException</code> with
+     * <code>null</code> bs its detbil messbge.
+     */
+    public SunCertPbthBuilderException() {
         super();
     }
 
     /**
-     * Constructs a <code>SunCertPathBuilderException</code> with the specified
-     * detail message. A detail message is a <code>String</code> that
-     * describes this particular exception.
+     * Constructs b <code>SunCertPbthBuilderException</code> with the specified
+     * detbil messbge. A detbil messbge is b <code>String</code> thbt
+     * describes this pbrticulbr exception.
      *
-     * @param msg the detail message
+     * @pbrbm msg the detbil messbge
      */
-    public SunCertPathBuilderException(String msg) {
+    public SunCertPbthBuilderException(String msg) {
         super(msg);
     }
 
     /**
-     * Constructs a <code>SunCertPathBuilderException</code> that wraps the
-     * specified throwable. This allows any exception to be converted into a
-     * <code>SunCertPathBuilderException</code>, while retaining information
-     * about the cause, which may be useful for debugging. The detail message is
-     * set to (<code>cause==null ? null : cause.toString()</code>) (which
-     * typically contains the class and detail message of cause).
+     * Constructs b <code>SunCertPbthBuilderException</code> thbt wrbps the
+     * specified throwbble. This bllows bny exception to be converted into b
+     * <code>SunCertPbthBuilderException</code>, while retbining informbtion
+     * bbout the cbuse, which mby be useful for debugging. The detbil messbge is
+     * set to (<code>cbuse==null ? null : cbuse.toString()</code>) (which
+     * typicblly contbins the clbss bnd detbil messbge of cbuse).
      *
-     * @param cause the cause (which is saved for later retrieval by the
-     * {@link #getCause getCause()} method). (A <code>null</code> value is
-     * permitted, and indicates that the cause is nonexistent or unknown.)
-     * root cause.
+     * @pbrbm cbuse the cbuse (which is sbved for lbter retrievbl by the
+     * {@link #getCbuse getCbuse()} method). (A <code>null</code> vblue is
+     * permitted, bnd indicbtes thbt the cbuse is nonexistent or unknown.)
+     * root cbuse.
      */
-    public SunCertPathBuilderException(Throwable cause) {
-        super(cause);
+    public SunCertPbthBuilderException(Throwbble cbuse) {
+        super(cbuse);
     }
 
     /**
-     * Creates a <code>SunCertPathBuilderException</code> with the specified
-     * detail message and cause.
+     * Crebtes b <code>SunCertPbthBuilderException</code> with the specified
+     * detbil messbge bnd cbuse.
      *
-     * @param msg the detail message
-     * @param cause the cause
+     * @pbrbm msg the detbil messbge
+     * @pbrbm cbuse the cbuse
      */
-    public SunCertPathBuilderException(String msg, Throwable cause) {
-        super(msg, cause);
+    public SunCertPbthBuilderException(String msg, Throwbble cbuse) {
+        super(msg, cbuse);
     }
 
     /**
-     * Creates a <code>SunCertPathBuilderException</code> withe the specified
-     * detail message and adjacency list.
+     * Crebtes b <code>SunCertPbthBuilderException</code> withe the specified
+     * detbil messbge bnd bdjbcency list.
      *
-     * @param msg the detail message
-     * @param adjList the adjacency list
+     * @pbrbm msg the detbil messbge
+     * @pbrbm bdjList the bdjbcency list
      */
-    SunCertPathBuilderException(String msg, AdjacencyList adjList) {
+    SunCertPbthBuilderException(String msg, AdjbcencyList bdjList) {
         this(msg);
-        this.adjList = adjList;
+        this.bdjList = bdjList;
     }
 
     /**
-     * Creates a <code>SunCertPathBuilderException</code> with the specified
-     * detail message, cause, and adjacency list.
+     * Crebtes b <code>SunCertPbthBuilderException</code> with the specified
+     * detbil messbge, cbuse, bnd bdjbcency list.
      *
-     * @param msg the detail message
-     * @param cause the throwable that occurred
-     * @param adjList Adjacency list
+     * @pbrbm msg the detbil messbge
+     * @pbrbm cbuse the throwbble thbt occurred
+     * @pbrbm bdjList Adjbcency list
      */
-    SunCertPathBuilderException(String msg, Throwable cause,
-        AdjacencyList adjList)
+    SunCertPbthBuilderException(String msg, Throwbble cbuse,
+        AdjbcencyList bdjList)
     {
-        this(msg, cause);
-        this.adjList = adjList;
+        this(msg, cbuse);
+        this.bdjList = bdjList;
     }
 
     /**
-     * Returns the adjacency list containing information about the build.
+     * Returns the bdjbcency list contbining informbtion bbout the build.
      *
-     * @return the adjacency list containing information about the build
+     * @return the bdjbcency list contbining informbtion bbout the build
      */
-    public AdjacencyList getAdjacencyList() {
-        return adjList;
+    public AdjbcencyList getAdjbcencyList() {
+        return bdjList;
     }
 }

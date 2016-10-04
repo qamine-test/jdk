@@ -1,89 +1,89 @@
 /*
- * Copyright (c) 1997, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.beans;
+pbckbge jbvb.bebns;
 
 /**
  * <p>
- * This interface is intended to be implemented by, or delegated from, instances
- * of java.beans.beancontext.BeanContext, in order to propagate to its nested hierarchy
- * of java.beans.beancontext.BeanContextChild instances, the current "designTime" property.
+ * This interfbce is intended to be implemented by, or delegbted from, instbnces
+ * of jbvb.bebns.bebncontext.BebnContext, in order to propbgbte to its nested hierbrchy
+ * of jbvb.bebns.bebncontext.BebnContextChild instbnces, the current "designTime" property.
  * <p>
- * The JavaBeans&trade; specification defines the notion of design time as is a
- * mode in which JavaBeans instances should function during their composition
- * and customization in a interactive design, composition or construction tool,
- * as opposed to runtime when the JavaBean is part of an applet, application,
- * or other live Java executable abstraction.
+ * The JbvbBebns&trbde; specificbtion defines the notion of design time bs is b
+ * mode in which JbvbBebns instbnces should function during their composition
+ * bnd customizbtion in b interbctive design, composition or construction tool,
+ * bs opposed to runtime when the JbvbBebn is pbrt of bn bpplet, bpplicbtion,
+ * or other live Jbvb executbble bbstrbction.
  *
- * @author Laurence P. G. Cable
+ * @buthor Lburence P. G. Cbble
  * @since 1.2
  *
- * @see java.beans.beancontext.BeanContext
- * @see java.beans.beancontext.BeanContextChild
- * @see java.beans.beancontext.BeanContextMembershipListener
- * @see java.beans.PropertyChangeEvent
+ * @see jbvb.bebns.bebncontext.BebnContext
+ * @see jbvb.bebns.bebncontext.BebnContextChild
+ * @see jbvb.bebns.bebncontext.BebnContextMembershipListener
+ * @see jbvb.bebns.PropertyChbngeEvent
  */
 
-public interface DesignMode {
+public interfbce DesignMode {
 
     /**
-     * The standard value of the propertyName as fired from a BeanContext or
-     * other source of PropertyChangeEvents.
+     * The stbndbrd vblue of the propertyNbme bs fired from b BebnContext or
+     * other source of PropertyChbngeEvents.
      */
 
-    static String PROPERTYNAME = "designTime";
+    stbtic String PROPERTYNAME = "designTime";
 
     /**
-     * Sets the "value" of the "designTime" property.
+     * Sets the "vblue" of the "designTime" property.
      * <p>
-     * If the implementing object is an instance of java.beans.beancontext.BeanContext,
-     * or a subinterface thereof, then that BeanContext should fire a
-     * PropertyChangeEvent, to its registered BeanContextMembershipListeners, with
-     * parameters:
+     * If the implementing object is bn instbnce of jbvb.bebns.bebncontext.BebnContext,
+     * or b subinterfbce thereof, then thbt BebnContext should fire b
+     * PropertyChbngeEvent, to its registered BebnContextMembershipListeners, with
+     * pbrbmeters:
      * <ul>
-     *    <li><code>propertyName</code> - <code>java.beans.DesignMode.PROPERTYNAME</code>
-     *    <li><code>oldValue</code> - previous value of "designTime"
-     *    <li><code>newValue</code> - current value of "designTime"
+     *    <li><code>propertyNbme</code> - <code>jbvb.bebns.DesignMode.PROPERTYNAME</code>
+     *    <li><code>oldVblue</code> - previous vblue of "designTime"
+     *    <li><code>newVblue</code> - current vblue of "designTime"
      * </ul>
-     * Note it is illegal for a BeanContextChild to invoke this method
-     * associated with a BeanContext that it is nested within.
+     * Note it is illegbl for b BebnContextChild to invoke this method
+     * bssocibted with b BebnContext thbt it is nested within.
      *
-     * @param designTime  the current "value" of the "designTime" property
-     * @see java.beans.beancontext.BeanContext
-     * @see java.beans.beancontext.BeanContextMembershipListener
-     * @see java.beans.PropertyChangeEvent
+     * @pbrbm designTime  the current "vblue" of the "designTime" property
+     * @see jbvb.bebns.bebncontext.BebnContext
+     * @see jbvb.bebns.bebncontext.BebnContextMembershipListener
+     * @see jbvb.bebns.PropertyChbngeEvent
      */
 
-    void setDesignTime(boolean designTime);
+    void setDesignTime(boolebn designTime);
 
     /**
-     * A value of true denotes that JavaBeans should behave in design time
-     * mode, a value of false denotes runtime behavior.
+     * A vblue of true denotes thbt JbvbBebns should behbve in design time
+     * mode, b vblue of fblse denotes runtime behbvior.
      *
-     * @return the current "value" of the "designTime" property.
+     * @return the current "vblue" of the "designTime" property.
      */
 
-    boolean isDesignTime();
+    boolebn isDesignTime();
 }

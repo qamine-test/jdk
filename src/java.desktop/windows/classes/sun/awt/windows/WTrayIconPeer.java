@@ -1,115 +1,115 @@
 /*
- * Copyright (c) 2005, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt.windows;
+pbckbge sun.bwt.windows;
 
-import java.awt.Graphics2D;
-import java.awt.AWTEvent;
-import java.awt.Frame;
-import java.awt.PopupMenu;
-import java.awt.Point;
-import java.awt.TrayIcon;
-import java.awt.Image;
-import java.awt.peer.TrayIconPeer;
-import java.awt.image.*;
-import sun.awt.SunToolkit;
-import sun.awt.image.IntegerComponentRaster;
+import jbvb.bwt.Grbphics2D;
+import jbvb.bwt.AWTEvent;
+import jbvb.bwt.Frbme;
+import jbvb.bwt.PopupMenu;
+import jbvb.bwt.Point;
+import jbvb.bwt.TrbyIcon;
+import jbvb.bwt.Imbge;
+import jbvb.bwt.peer.TrbyIconPeer;
+import jbvb.bwt.imbge.*;
+import sun.bwt.SunToolkit;
+import sun.bwt.imbge.IntegerComponentRbster;
 
-final class WTrayIconPeer extends WObjectPeer implements TrayIconPeer {
-    final static int TRAY_ICON_WIDTH = 16;
-    final static int TRAY_ICON_HEIGHT = 16;
-    final static int TRAY_ICON_MASK_SIZE = (TRAY_ICON_WIDTH * TRAY_ICON_HEIGHT) / 8;
+finbl clbss WTrbyIconPeer extends WObjectPeer implements TrbyIconPeer {
+    finbl stbtic int TRAY_ICON_WIDTH = 16;
+    finbl stbtic int TRAY_ICON_HEIGHT = 16;
+    finbl stbtic int TRAY_ICON_MASK_SIZE = (TRAY_ICON_WIDTH * TRAY_ICON_HEIGHT) / 8;
 
     IconObserver observer = new IconObserver();
-    boolean firstUpdate = true;
-    Frame popupParent = new Frame("PopupMessageWindow");
+    boolebn firstUpdbte = true;
+    Frbme popupPbrent = new Frbme("PopupMessbgeWindow");
     PopupMenu popup;
 
     @Override
     protected void disposeImpl() {
-        if (popupParent != null) {
-            popupParent.dispose();
+        if (popupPbrent != null) {
+            popupPbrent.dispose();
         }
-        popupParent.dispose();
+        popupPbrent.dispose();
         _dispose();
-        WToolkit.targetDisposedPeer(target, this);
+        WToolkit.tbrgetDisposedPeer(tbrget, this);
     }
 
-    WTrayIconPeer(TrayIcon target) {
-        this.target = target;
-        popupParent.addNotify();
-        create();
-        updateImage();
+    WTrbyIconPeer(TrbyIcon tbrget) {
+        this.tbrget = tbrget;
+        popupPbrent.bddNotify();
+        crebte();
+        updbteImbge();
     }
 
     @Override
-    public void updateImage() {
-        Image image = ((TrayIcon)target).getImage();
-        if (image != null) {
-            updateNativeImage(image);
+    public void updbteImbge() {
+        Imbge imbge = ((TrbyIcon)tbrget).getImbge();
+        if (imbge != null) {
+            updbteNbtiveImbge(imbge);
         }
     }
 
     @Override
-    public native void setToolTip(String tooltip);
+    public nbtive void setToolTip(String tooltip);
 
     @Override
-    public synchronized void showPopupMenu(final int x, final int y) {
+    public synchronized void showPopupMenu(finbl int x, finbl int y) {
         if (isDisposed())
             return;
 
-        SunToolkit.executeOnEventHandlerThread(target, new Runnable() {
+        SunToolkit.executeOnEventHbndlerThrebd(tbrget, new Runnbble() {
                 @Override
                 public void run() {
-                    PopupMenu newPopup = ((TrayIcon)target).getPopupMenu();
+                    PopupMenu newPopup = ((TrbyIcon)tbrget).getPopupMenu();
                     if (popup != newPopup) {
                         if (popup != null) {
-                            popupParent.remove(popup);
+                            popupPbrent.remove(popup);
                         }
                         if (newPopup != null) {
-                            popupParent.add(newPopup);
+                            popupPbrent.bdd(newPopup);
                         }
                         popup = newPopup;
                     }
                     if (popup != null) {
-                        ((WPopupMenuPeer)popup.getPeer()).show(popupParent, new Point(x, y));
+                        ((WPopupMenuPeer)popup.getPeer()).show(popupPbrent, new Point(x, y));
                     }
                 }
             });
     }
 
     @Override
-    public void displayMessage(String caption, String text, String messageType) {
-        // The situation when both caption and text are null is processed in the shared code.
-        if (caption == null) {
-            caption = "";
+    public void displbyMessbge(String cbption, String text, String messbgeType) {
+        // The situbtion when both cbption bnd text bre null is processed in the shbred code.
+        if (cbption == null) {
+            cbption = "";
         }
         if (text == null) {
             text = "";
         }
-        _displayMessage(caption, text, messageType);
+        _displbyMessbge(cbption, text, messbgeType);
     }
 
 
@@ -117,92 +117,92 @@ final class WTrayIconPeer extends WObjectPeer implements TrayIconPeer {
     // ***********************************************
 
 
-    synchronized void updateNativeImage(Image image) {
+    synchronized void updbteNbtiveImbge(Imbge imbge) {
         if (isDisposed())
             return;
 
-        boolean autosize = ((TrayIcon)target).isImageAutoSize();
+        boolebn butosize = ((TrbyIcon)tbrget).isImbgeAutoSize();
 
-        BufferedImage bufImage = new BufferedImage(TRAY_ICON_WIDTH, TRAY_ICON_HEIGHT,
-                                                   BufferedImage.TYPE_INT_ARGB);
-        Graphics2D gr = bufImage.createGraphics();
+        BufferedImbge bufImbge = new BufferedImbge(TRAY_ICON_WIDTH, TRAY_ICON_HEIGHT,
+                                                   BufferedImbge.TYPE_INT_ARGB);
+        Grbphics2D gr = bufImbge.crebteGrbphics();
         if (gr != null) {
             try {
-                gr.setPaintMode();
+                gr.setPbintMode();
 
-                gr.drawImage(image, 0, 0, (autosize ? TRAY_ICON_WIDTH : image.getWidth(observer)),
-                             (autosize ? TRAY_ICON_HEIGHT : image.getHeight(observer)), observer);
+                gr.drbwImbge(imbge, 0, 0, (butosize ? TRAY_ICON_WIDTH : imbge.getWidth(observer)),
+                             (butosize ? TRAY_ICON_HEIGHT : imbge.getHeight(observer)), observer);
 
-                createNativeImage(bufImage);
+                crebteNbtiveImbge(bufImbge);
 
-                updateNativeIcon(!firstUpdate);
-                if (firstUpdate) firstUpdate = false;
+                updbteNbtiveIcon(!firstUpdbte);
+                if (firstUpdbte) firstUpdbte = fblse;
 
-            } finally {
+            } finblly {
                 gr.dispose();
             }
         }
     }
 
-    void createNativeImage(BufferedImage bimage) {
-        Raster raster = bimage.getRaster();
-        byte[] andMask = new byte[TRAY_ICON_MASK_SIZE];
-        int  pixels[] = ((DataBufferInt)raster.getDataBuffer()).getData();
+    void crebteNbtiveImbge(BufferedImbge bimbge) {
+        Rbster rbster = bimbge.getRbster();
+        byte[] bndMbsk = new byte[TRAY_ICON_MASK_SIZE];
+        int  pixels[] = ((DbtbBufferInt)rbster.getDbtbBuffer()).getDbtb();
         int npixels = pixels.length;
-        int ficW = raster.getWidth();
+        int ficW = rbster.getWidth();
 
         for (int i = 0; i < npixels; i++) {
             int ibyte = i / 8;
-            int omask = 1 << (7 - (i % 8));
+            int ombsk = 1 << (7 - (i % 8));
 
             if ((pixels[i] & 0xff000000) == 0) {
-                // Transparent bit
-                if (ibyte < andMask.length) {
-                    andMask[ibyte] |= omask;
+                // Trbnspbrent bit
+                if (ibyte < bndMbsk.length) {
+                    bndMbsk[ibyte] |= ombsk;
                 }
             }
         }
 
-        if (raster instanceof IntegerComponentRaster) {
-            ficW = ((IntegerComponentRaster)raster).getScanlineStride();
+        if (rbster instbnceof IntegerComponentRbster) {
+            ficW = ((IntegerComponentRbster)rbster).getScbnlineStride();
         }
-        setNativeIcon(((DataBufferInt)bimage.getRaster().getDataBuffer()).getData(),
-                      andMask, ficW, raster.getWidth(), raster.getHeight());
+        setNbtiveIcon(((DbtbBufferInt)bimbge.getRbster().getDbtbBuffer()).getDbtb(),
+                      bndMbsk, ficW, rbster.getWidth(), rbster.getHeight());
     }
 
     void postEvent(AWTEvent event) {
-        WToolkit.postEvent(WToolkit.targetToAppContext(target), event);
+        WToolkit.postEvent(WToolkit.tbrgetToAppContext(tbrget), event);
     }
 
-    native void create();
-    synchronized native void _dispose();
+    nbtive void crebte();
+    synchronized nbtive void _dispose();
 
     /*
-     * Updates/adds the icon in/to the system tray.
-     * @param doUpdate if <code>true</code>, updates the icon,
-     * otherwise, adds the icon
+     * Updbtes/bdds the icon in/to the system trby.
+     * @pbrbm doUpdbte if <code>true</code>, updbtes the icon,
+     * otherwise, bdds the icon
      */
-    native void updateNativeIcon(boolean doUpdate);
+    nbtive void updbteNbtiveIcon(boolebn doUpdbte);
 
-    native void setNativeIcon(int[] rData, byte[] andMask, int nScanStride,
+    nbtive void setNbtiveIcon(int[] rDbtb, byte[] bndMbsk, int nScbnStride,
                               int width, int height);
 
-    native void _displayMessage(String caption, String text, String messageType);
+    nbtive void _displbyMessbge(String cbption, String text, String messbgeType);
 
-    class IconObserver implements ImageObserver {
+    clbss IconObserver implements ImbgeObserver {
         @Override
-        public boolean imageUpdate(Image image, int flags, int x, int y, int width, int height) {
-            if (image != ((TrayIcon)target).getImage() || // if the image has been changed
+        public boolebn imbgeUpdbte(Imbge imbge, int flbgs, int x, int y, int width, int height) {
+            if (imbge != ((TrbyIcon)tbrget).getImbge() || // if the imbge hbs been chbnged
                 isDisposed())
             {
-                return false;
+                return fblse;
             }
-            if ((flags & (ImageObserver.FRAMEBITS | ImageObserver.ALLBITS |
-                          ImageObserver.WIDTH | ImageObserver.HEIGHT)) != 0)
+            if ((flbgs & (ImbgeObserver.FRAMEBITS | ImbgeObserver.ALLBITS |
+                          ImbgeObserver.WIDTH | ImbgeObserver.HEIGHT)) != 0)
             {
-                updateNativeImage(image);
+                updbteNbtiveImbge(imbge);
             }
-            return (flags & ImageObserver.ALLBITS) == 0;
+            return (flbgs & ImbgeObserver.ALLBITS) == 0;
         }
     }
 }

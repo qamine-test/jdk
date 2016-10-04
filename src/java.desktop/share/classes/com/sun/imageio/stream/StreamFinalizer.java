@@ -1,72 +1,72 @@
 /*
- * Copyright (c) 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.imageio.stream;
+pbckbge com.sun.imbgeio.strebm;
 
-import java.io.IOException;
-import javax.imageio.stream.ImageInputStream;
+import jbvb.io.IOException;
+import jbvbx.imbgeio.strebm.ImbgeInputStrebm;
 
 /**
- * Small class to assist in properly closing an ImageInputStream instance
- * prior to garbage collection.  The ImageInputStreamImpl class defines a
- * finalize() method, but in a number of its public subclasses
- * (e.g. FileImageInputStream) we override the finalize() method to be
- * empty for performance reasons, and instead rely on the Disposer mechanism
- * for closing/disposing resources.  This is fine when one of these classes
- * is instantiated directly (e.g. new FileImageInputStream()) but in the
- * unlikely case where a user defines their own subclass of one of those
- * streams, we need some way to get back to the behavior of
- * ImageInputStreamImpl, which will call close() as part of finalization.
+ * Smbll clbss to bssist in properly closing bn ImbgeInputStrebm instbnce
+ * prior to gbrbbge collection.  The ImbgeInputStrebmImpl clbss defines b
+ * finblize() method, but in b number of its public subclbsses
+ * (e.g. FileImbgeInputStrebm) we override the finblize() method to be
+ * empty for performbnce rebsons, bnd instebd rely on the Disposer mechbnism
+ * for closing/disposing resources.  This is fine when one of these clbsses
+ * is instbntibted directly (e.g. new FileImbgeInputStrebm()) but in the
+ * unlikely cbse where b user defines their own subclbss of one of those
+ * strebms, we need some wby to get bbck to the behbvior of
+ * ImbgeInputStrebmImpl, which will cbll close() bs pbrt of finblizbtion.
  *
- * Typically an Image{Input,Output}Stream will construct an instance of
- * StreamFinalizer in its constructor if it detects that it has been
- * subclassed by the user.  The ImageInputStream instance will hold a
- * reference to the StreamFinalizer, and the StreamFinalizer will hold a
- * reference back to the ImageInputStream from which it was created.  When
- * both are no longer reachable, the StreamFinalizer.finalize() method will
- * be called, which will take care of closing down the ImageInputStream.
+ * Typicblly bn Imbge{Input,Output}Strebm will construct bn instbnce of
+ * StrebmFinblizer in its constructor if it detects thbt it hbs been
+ * subclbssed by the user.  The ImbgeInputStrebm instbnce will hold b
+ * reference to the StrebmFinblizer, bnd the StrebmFinblizer will hold b
+ * reference bbck to the ImbgeInputStrebm from which it wbs crebted.  When
+ * both bre no longer rebchbble, the StrebmFinblizer.finblize() method will
+ * be cblled, which will tbke cbre of closing down the ImbgeInputStrebm.
  *
- * Clearly this is a bit of a hack, but it will likely only be used in the
- * rarest of circumstances: when a user has subclassed one of the public
- * stream classes.  (It should be no worse than the old days when the public
- * stream classes had non-empty finalize() methods.)
+ * Clebrly this is b bit of b hbck, but it will likely only be used in the
+ * rbrest of circumstbnces: when b user hbs subclbssed one of the public
+ * strebm clbsses.  (It should be no worse thbn the old dbys when the public
+ * strebm clbsses hbd non-empty finblize() methods.)
  */
-public class StreamFinalizer {
-    private ImageInputStream stream;
+public clbss StrebmFinblizer {
+    privbte ImbgeInputStrebm strebm;
 
-    public StreamFinalizer(ImageInputStream stream) {
-        this.stream = stream;
+    public StrebmFinblizer(ImbgeInputStrebm strebm) {
+        this.strebm = strebm;
     }
 
-    protected void finalize() throws Throwable {
+    protected void finblize() throws Throwbble {
         try {
-            stream.close();
-        } catch (IOException e) {
-        } finally {
-            stream = null;
-            super.finalize();
+            strebm.close();
+        } cbtch (IOException e) {
+        } finblly {
+            strebm = null;
+            super.finblize();
         }
     }
 }

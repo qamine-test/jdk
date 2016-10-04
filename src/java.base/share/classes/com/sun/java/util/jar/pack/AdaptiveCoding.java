@@ -1,117 +1,117 @@
 /*
- * Copyright (c) 2003, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2010, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.java.util.jar.pack;
+pbckbge com.sun.jbvb.util.jbr.pbck;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import static com.sun.java.util.jar.pack.Constants.*;
+import jbvb.io.ByteArrbyOutputStrebm;
+import jbvb.io.IOException;
+import jbvb.io.InputStrebm;
+import jbvb.io.OutputStrebm;
+import stbtic com.sun.jbvb.util.jbr.pbck.Constbnts.*;
 
 /**
- * Adaptive coding.
- * See the section "Adaptive Encodings" in the Pack200 spec.
- * @author John Rose
+ * Adbptive coding.
+ * See the section "Adbptive Encodings" in the Pbck200 spec.
+ * @buthor John Rose
  */
-class AdaptiveCoding implements CodingMethod {
-    CodingMethod headCoding;
-    int          headLength;
-    CodingMethod tailCoding;
+clbss AdbptiveCoding implements CodingMethod {
+    CodingMethod hebdCoding;
+    int          hebdLength;
+    CodingMethod tbilCoding;
 
-    public AdaptiveCoding(int headLength, CodingMethod headCoding, CodingMethod tailCoding) {
-        assert(isCodableLength(headLength));
-        this.headLength = headLength;
-        this.headCoding = headCoding;
-        this.tailCoding = tailCoding;
-    }
-
-    public void setHeadCoding(CodingMethod headCoding) {
-        this.headCoding = headCoding;
-    }
-    public void setHeadLength(int headLength) {
-        assert(isCodableLength(headLength));
-        this.headLength = headLength;
-    }
-    public void setTailCoding(CodingMethod tailCoding) {
-        this.tailCoding = tailCoding;
+    public AdbptiveCoding(int hebdLength, CodingMethod hebdCoding, CodingMethod tbilCoding) {
+        bssert(isCodbbleLength(hebdLength));
+        this.hebdLength = hebdLength;
+        this.hebdCoding = hebdCoding;
+        this.tbilCoding = tbilCoding;
     }
 
-    public boolean isTrivial() {
-        return headCoding == tailCoding;
+    public void setHebdCoding(CodingMethod hebdCoding) {
+        this.hebdCoding = hebdCoding;
+    }
+    public void setHebdLength(int hebdLength) {
+        bssert(isCodbbleLength(hebdLength));
+        this.hebdLength = hebdLength;
+    }
+    public void setTbilCoding(CodingMethod tbilCoding) {
+        this.tbilCoding = tbilCoding;
+    }
+
+    public boolebn isTrivibl() {
+        return hebdCoding == tbilCoding;
     }
 
     // CodingMethod methods.
-    public void writeArrayTo(OutputStream out, int[] a, int start, int end) throws IOException {
-        writeArray(this, out, a, start, end);
+    public void writeArrbyTo(OutputStrebm out, int[] b, int stbrt, int end) throws IOException {
+        writeArrby(this, out, b, stbrt, end);
     }
-    // writeArrayTo must be coded iteratively, not recursively:
-    private static void writeArray(AdaptiveCoding run, OutputStream out, int[] a, int start, int end) throws IOException {
+    // writeArrbyTo must be coded iterbtively, not recursively:
+    privbte stbtic void writeArrby(AdbptiveCoding run, OutputStrebm out, int[] b, int stbrt, int end) throws IOException {
         for (;;) {
-            int mid = start+run.headLength;
-            assert(mid <= end);
-            run.headCoding.writeArrayTo(out, a, start, mid);
-            start = mid;
-            if (run.tailCoding instanceof AdaptiveCoding) {
-                run = (AdaptiveCoding) run.tailCoding;
+            int mid = stbrt+run.hebdLength;
+            bssert(mid <= end);
+            run.hebdCoding.writeArrbyTo(out, b, stbrt, mid);
+            stbrt = mid;
+            if (run.tbilCoding instbnceof AdbptiveCoding) {
+                run = (AdbptiveCoding) run.tbilCoding;
                 continue;
             }
-            break;
+            brebk;
         }
-        run.tailCoding.writeArrayTo(out, a, start, end);
+        run.tbilCoding.writeArrbyTo(out, b, stbrt, end);
     }
 
-    public void readArrayFrom(InputStream in, int[] a, int start, int end) throws IOException {
-        readArray(this, in, a, start, end);
+    public void rebdArrbyFrom(InputStrebm in, int[] b, int stbrt, int end) throws IOException {
+        rebdArrby(this, in, b, stbrt, end);
     }
-    private static void readArray(AdaptiveCoding run, InputStream in, int[] a, int start, int end) throws IOException {
+    privbte stbtic void rebdArrby(AdbptiveCoding run, InputStrebm in, int[] b, int stbrt, int end) throws IOException {
         for (;;) {
-            int mid = start+run.headLength;
-            assert(mid <= end);
-            run.headCoding.readArrayFrom(in, a, start, mid);
-            start = mid;
-            if (run.tailCoding instanceof AdaptiveCoding) {
-                run = (AdaptiveCoding) run.tailCoding;
+            int mid = stbrt+run.hebdLength;
+            bssert(mid <= end);
+            run.hebdCoding.rebdArrbyFrom(in, b, stbrt, mid);
+            stbrt = mid;
+            if (run.tbilCoding instbnceof AdbptiveCoding) {
+                run = (AdbptiveCoding) run.tbilCoding;
                 continue;
             }
-            break;
+            brebk;
         }
-        run.tailCoding.readArrayFrom(in, a, start, end);
+        run.tbilCoding.rebdArrbyFrom(in, b, stbrt, end);
     }
 
-    public static final int KX_MIN = 0;
-    public static final int KX_MAX = 3;
-    public static final int KX_LG2BASE = 4;
-    public static final int KX_BASE = 16;
+    public stbtic finbl int KX_MIN = 0;
+    public stbtic finbl int KX_MAX = 3;
+    public stbtic finbl int KX_LG2BASE = 4;
+    public stbtic finbl int KX_BASE = 16;
 
-    public static final int KB_MIN = 0x00;
-    public static final int KB_MAX = 0xFF;
-    public static final int KB_OFFSET = 1;
-    public static final int KB_DEFAULT = 3;
+    public stbtic finbl int KB_MIN = 0x00;
+    public stbtic finbl int KB_MAX = 0xFF;
+    public stbtic finbl int KB_OFFSET = 1;
+    public stbtic finbl int KB_DEFAULT = 3;
 
-    static int getKXOf(int K) {
+    stbtic int getKXOf(int K) {
         for (int KX = KX_MIN; KX <= KX_MAX; KX++) {
             if (((K - KB_OFFSET) & ~KB_MAX) == 0)
                 return KX;
@@ -120,157 +120,157 @@ class AdaptiveCoding implements CodingMethod {
         return -1;
     }
 
-    static int getKBOf(int K) {
+    stbtic int getKBOf(int K) {
         int KX = getKXOf(K);
         if (KX < 0)  return -1;
         K >>>= (KX * KX_LG2BASE);
         return K-1;
     }
 
-    static int decodeK(int KX, int KB) {
-        assert(KX_MIN <= KX && KX <= KX_MAX);
-        assert(KB_MIN <= KB && KB <= KB_MAX);
+    stbtic int decodeK(int KX, int KB) {
+        bssert(KX_MIN <= KX && KX <= KX_MAX);
+        bssert(KB_MIN <= KB && KB <= KB_MAX);
         return (KB+KB_OFFSET) << (KX * KX_LG2BASE);
     }
 
-    static int getNextK(int K) {
-        if (K <= 0)  return 1;  // 1st K value
+    stbtic int getNextK(int K) {
+        if (K <= 0)  return 1;  // 1st K vblue
         int KX = getKXOf(K);
         if (KX < 0)  return Integer.MAX_VALUE;
-        // This is the increment we expect to apply:
+        // This is the increment we expect to bpply:
         int unit = 1      << (KX * KX_LG2BASE);
-        int mask = KB_MAX << (KX * KX_LG2BASE);
+        int mbsk = KB_MAX << (KX * KX_LG2BASE);
         int K1 = K + unit;
-        K1 &= ~(unit-1);  // cut off stray low-order bits
-        if (((K1 - unit) & ~mask) == 0) {
-            assert(getKXOf(K1) == KX);
+        K1 &= ~(unit-1);  // cut off strby low-order bits
+        if (((K1 - unit) & ~mbsk) == 0) {
+            bssert(getKXOf(K1) == KX);
             return K1;
         }
         if (KX == KX_MAX)  return Integer.MAX_VALUE;
         KX += 1;
-        int mask2 = KB_MAX << (KX * KX_LG2BASE);
-        K1 |= (mask & ~mask2);
+        int mbsk2 = KB_MAX << (KX * KX_LG2BASE);
+        K1 |= (mbsk & ~mbsk2);
         K1 += unit;
-        assert(getKXOf(K1) == KX);
+        bssert(getKXOf(K1) == KX);
         return K1;
     }
 
     // Is K of the form ((KB:[0..255])+1) * 16^(KX:{0..3])?
-    public static boolean isCodableLength(int K) {
+    public stbtic boolebn isCodbbleLength(int K) {
         int KX = getKXOf(K);
-        if (KX < 0)  return false;
+        if (KX < 0)  return fblse;
         int unit = 1      << (KX * KX_LG2BASE);
-        int mask = KB_MAX << (KX * KX_LG2BASE);
-        return ((K - unit) & ~mask) == 0;
+        int mbsk = KB_MAX << (KX * KX_LG2BASE);
+        return ((K - unit) & ~mbsk) == 0;
     }
 
-    public byte[] getMetaCoding(Coding dflt) {
-        //assert(!isTrivial()); // can happen
-        // See the isCodableLength restriction in CodingChooser.
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream(10);
+    public byte[] getMetbCoding(Coding dflt) {
+        //bssert(!isTrivibl()); // cbn hbppen
+        // See the isCodbbleLength restriction in CodingChooser.
+        ByteArrbyOutputStrebm bytes = new ByteArrbyOutputStrebm(10);
         try {
-            makeMetaCoding(this, dflt, bytes);
-        } catch (IOException ee) {
+            mbkeMetbCoding(this, dflt, bytes);
+        } cbtch (IOException ee) {
             throw new RuntimeException(ee);
         }
-        return bytes.toByteArray();
+        return bytes.toByteArrby();
     }
-    private static void makeMetaCoding(AdaptiveCoding run, Coding dflt,
-                                       ByteArrayOutputStream bytes)
+    privbte stbtic void mbkeMetbCoding(AdbptiveCoding run, Coding dflt,
+                                       ByteArrbyOutputStrebm bytes)
                                       throws IOException {
         for (;;) {
-            CodingMethod headCoding = run.headCoding;
-            int          headLength = run.headLength;
-            CodingMethod tailCoding = run.tailCoding;
-            int K = headLength;
-            assert(isCodableLength(K));
-            int ADef   = (headCoding == dflt)?1:0;
-            int BDef   = (tailCoding == dflt)?1:0;
-            if (ADef+BDef > 1)  BDef = 0;  // arbitrary choice
+            CodingMethod hebdCoding = run.hebdCoding;
+            int          hebdLength = run.hebdLength;
+            CodingMethod tbilCoding = run.tbilCoding;
+            int K = hebdLength;
+            bssert(isCodbbleLength(K));
+            int ADef   = (hebdCoding == dflt)?1:0;
+            int BDef   = (tbilCoding == dflt)?1:0;
+            if (ADef+BDef > 1)  BDef = 0;  // brbitrbry choice
             int ABDef  = 1*ADef + 2*BDef;
-            assert(ABDef < 3);
+            bssert(ABDef < 3);
             int KX     = getKXOf(K);
             int KB     = getKBOf(K);
-            assert(decodeK(KX, KB) == K);
-            int KBFlag = (KB != KB_DEFAULT)?1:0;
-            bytes.write(_meta_run + KX + 4*KBFlag + 8*ABDef);
-            if (KBFlag != 0)    bytes.write(KB);
-            if (ADef == 0)  bytes.write(headCoding.getMetaCoding(dflt));
-            if (tailCoding instanceof AdaptiveCoding) {
-                run = (AdaptiveCoding) tailCoding;
-                continue; // tail call, to avoid deep stack recursion
+            bssert(decodeK(KX, KB) == K);
+            int KBFlbg = (KB != KB_DEFAULT)?1:0;
+            bytes.write(_metb_run + KX + 4*KBFlbg + 8*ABDef);
+            if (KBFlbg != 0)    bytes.write(KB);
+            if (ADef == 0)  bytes.write(hebdCoding.getMetbCoding(dflt));
+            if (tbilCoding instbnceof AdbptiveCoding) {
+                run = (AdbptiveCoding) tbilCoding;
+                continue; // tbil cbll, to bvoid deep stbck recursion
             }
-            if (BDef == 0)  bytes.write(tailCoding.getMetaCoding(dflt));
-            break;
+            if (BDef == 0)  bytes.write(tbilCoding.getMetbCoding(dflt));
+            brebk;
         }
     }
-    public static int parseMetaCoding(byte[] bytes, int pos, Coding dflt, CodingMethod res[]) {
+    public stbtic int pbrseMetbCoding(byte[] bytes, int pos, Coding dflt, CodingMethod res[]) {
         int op = bytes[pos++] & 0xFF;
-        if (op < _meta_run || op >= _meta_pop)  return pos-1; // backup
-        AdaptiveCoding prevc = null;
-        for (boolean keepGoing = true; keepGoing; ) {
-            keepGoing = false;
-            assert(op >= _meta_run);
-            op -= _meta_run;
+        if (op < _metb_run || op >= _metb_pop)  return pos-1; // bbckup
+        AdbptiveCoding prevc = null;
+        for (boolebn keepGoing = true; keepGoing; ) {
+            keepGoing = fblse;
+            bssert(op >= _metb_run);
+            op -= _metb_run;
             int KX = op % 4;
-            int KBFlag = (op / 4) % 2;
+            int KBFlbg = (op / 4) % 2;
             int ABDef = (op / 8);
-            assert(ABDef < 3);
+            bssert(ABDef < 3);
             int ADef = (ABDef & 1);
             int BDef = (ABDef & 2);
             CodingMethod[] ACode = {dflt}, BCode = {dflt};
             int KB = KB_DEFAULT;
-            if (KBFlag != 0)
+            if (KBFlbg != 0)
                 KB = bytes[pos++] & 0xFF;
             if (ADef == 0) {
-                pos = BandStructure.parseMetaCoding(bytes, pos, dflt, ACode);
+                pos = BbndStructure.pbrseMetbCoding(bytes, pos, dflt, ACode);
             }
             if (BDef == 0 &&
-                ((op = bytes[pos] & 0xFF) >= _meta_run) && op < _meta_pop) {
+                ((op = bytes[pos] & 0xFF) >= _metb_run) && op < _metb_pop) {
                 pos++;
                 keepGoing = true;
             } else if (BDef == 0) {
-                pos = BandStructure.parseMetaCoding(bytes, pos, dflt, BCode);
+                pos = BbndStructure.pbrseMetbCoding(bytes, pos, dflt, BCode);
             }
-            AdaptiveCoding newc = new AdaptiveCoding(decodeK(KX, KB),
+            AdbptiveCoding newc = new AdbptiveCoding(decodeK(KX, KB),
                                                      ACode[0], BCode[0]);
             if (prevc == null) {
                 res[0] = newc;
             } else {
-                prevc.tailCoding = newc;
+                prevc.tbilCoding = newc;
             }
             prevc = newc;
         }
         return pos;
     }
 
-    private String keyString(CodingMethod m) {
-        if (m instanceof Coding)
+    privbte String keyString(CodingMethod m) {
+        if (m instbnceof Coding)
             return ((Coding)m).keyString();
         return m.toString();
     }
     public String toString() {
         StringBuilder res = new StringBuilder(20);
-        AdaptiveCoding run = this;
-        res.append("run(");
+        AdbptiveCoding run = this;
+        res.bppend("run(");
         for (;;) {
-            res.append(run.headLength).append("*");
-            res.append(keyString(run.headCoding));
-            if (run.tailCoding instanceof AdaptiveCoding) {
-                run = (AdaptiveCoding) run.tailCoding;
-                res.append(" ");
+            res.bppend(run.hebdLength).bppend("*");
+            res.bppend(keyString(run.hebdCoding));
+            if (run.tbilCoding instbnceof AdbptiveCoding) {
+                run = (AdbptiveCoding) run.tbilCoding;
+                res.bppend(" ");
                 continue;
             }
-            break;
+            brebk;
         }
-        res.append(" **").append(keyString(run.tailCoding));
-        res.append(")");
+        res.bppend(" **").bppend(keyString(run.tbilCoding));
+        res.bppend(")");
         return res.toString();
     }
 
 /*
-    public static void main(String av[]) {
-        int[][] samples = {
+    public stbtic void mbin(String bv[]) {
+        int[][] sbmples = {
             {1,2,3,4,5},
             {254,255,256,256+1*16,256+2*16},
             {0xfd,0xfe,0xff,0x100,0x110,0x120,0x130},
@@ -278,18 +278,18 @@ class AdaptiveCoding implements CodingMethod {
             {0xfd00,0xfe00,0xff00,0x10000,0x11000,0x12000,0x13000},
             {0xfd000,0xfe000,0xff000,0x100000}
         };
-        for (int i = 0; i < samples.length; i++) {
-            for (int j = 0; j < samples[i].length; j++) {
-                int K = samples[i][j];
+        for (int i = 0; i < sbmples.length; i++) {
+            for (int j = 0; j < sbmples[i].length; j++) {
+                int K = sbmples[i][j];
                 int KX = getKXOf(K);
                 int KB = getKBOf(K);
                 System.out.println("K="+Integer.toHexString(K)+
                                    " KX="+KX+" KB="+KB);
-                assert(isCodableLength(K));
-                assert(K == decodeK(KX, KB));
+                bssert(isCodbbleLength(K));
+                bssert(K == decodeK(KX, KB));
                 if (j == 0)  continue;
-                int K1 = samples[i][j-1];
-                assert(K == getNextK(K1));
+                int K1 = sbmples[i][j-1];
+                bssert(K == getNextK(K1));
             }
         }
     }

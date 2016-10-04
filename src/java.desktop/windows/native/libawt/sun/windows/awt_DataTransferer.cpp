@@ -1,72 +1,72 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-#include "awt.h"
-#include "awt_DataTransferer.h"
-#include "awt_DnDDT.h"
-#include "awt_TextComponent.h"
+#include "bwt.h"
+#include "bwt_DbtbTrbnsferer.h"
+#include "bwt_DnDDT.h"
+#include "bwt_TextComponent.h"
 #include <shlobj.h>
-#include <shellapi.h>
-#include <sun_awt_windows_WDataTransferer.h>
+#include <shellbpi.h>
+#include <sun_bwt_windows_WDbtbTrbnsferer.h>
 
-#include "locale_str.h"
+#include "locble_str.h"
 
 #define GALLOCFLG (GMEM_DDESHARE | GMEM_MOVEABLE | GMEM_ZEROINIT)
 #define WIN_TO_JAVA_PIXEL(r, g, b) (0xFF000000 | (r) << 16 | (g) << 8  | (b) << 0)
 
-DECLARE_JAVA_CLASS(dataTransfererClazz, "sun/awt/datatransfer/DataTransferer");
+DECLARE_JAVA_CLASS(dbtbTrbnsfererClbzz, "sun/bwt/dbtbtrbnsfer/DbtbTrbnsferer");
 
 jobject
-AwtDataTransferer::GetDataTransferer(JNIEnv* env) {
-    DECLARE_STATIC_OBJECT_JAVA_METHOD(getInstanceMethodID, dataTransfererClazz,
-                                      "getInstance",
-                                      "()Lsun/awt/datatransfer/DataTransferer;");
-    return env->CallStaticObjectMethod(clazz, getInstanceMethodID);
+AwtDbtbTrbnsferer::GetDbtbTrbnsferer(JNIEnv* env) {
+    DECLARE_STATIC_OBJECT_JAVA_METHOD(getInstbnceMethodID, dbtbTrbnsfererClbzz,
+                                      "getInstbnce",
+                                      "()Lsun/bwt/dbtbtrbnsfer/DbtbTrbnsferer;");
+    return env->CbllStbticObjectMethod(clbzz, getInstbnceMethodID);
 }
 
-jbyteArray
-AwtDataTransferer::ConvertData(JNIEnv* env, jobject source, jobject contents,
-                               jlong format, jobject formatMap) {
-    jobject transferer = GetDataTransferer(env);
+jbyteArrby
+AwtDbtbTrbnsferer::ConvertDbtb(JNIEnv* env, jobject source, jobject contents,
+                               jlong formbt, jobject formbtMbp) {
+    jobject trbnsferer = GetDbtbTrbnsferer(env);
 
-    if (!JNU_IsNull(env, transferer)) {
-        jbyteArray ret = NULL;
-        DECLARE_OBJECT_JAVA_METHOD(convertDataMethodID, dataTransfererClazz,
-                                   "convertData",
-                                   "(Ljava/lang/Object;Ljava/awt/datatransfer/Transferable;JLjava/util/Map;Z)[B");
+    if (!JNU_IsNull(env, trbnsferer)) {
+        jbyteArrby ret = NULL;
+        DECLARE_OBJECT_JAVA_METHOD(convertDbtbMethodID, dbtbTrbnsfererClbzz,
+                                   "convertDbtb",
+                                   "(Ljbvb/lbng/Object;Ljbvb/bwt/dbtbtrbnsfer/Trbnsferbble;JLjbvb/util/Mbp;Z)[B");
 
-        ret = (jbyteArray)env->CallObjectMethod(transferer, convertDataMethodID,
-                                                source, contents, format,
-                                                formatMap, AwtToolkit::IsMainThread());
+        ret = (jbyteArrby)env->CbllObjectMethod(trbnsferer, convertDbtbMethodID,
+                                                source, contents, formbt,
+                                                formbtMbp, AwtToolkit::IsMbinThrebd());
 
-        if (!JNU_IsNull(env, safe_ExceptionOccurred(env))) {
+        if (!JNU_IsNull(env, sbfe_ExceptionOccurred(env))) {
             env->ExceptionDescribe();
-            env->ExceptionClear();
+            env->ExceptionClebr();
         }
 
-        env->DeleteLocalRef(transferer);
+        env->DeleteLocblRef(trbnsferer);
 
         return ret;
     } else {
@@ -75,23 +75,23 @@ AwtDataTransferer::ConvertData(JNIEnv* env, jobject source, jobject contents,
 }
 
 jobject
-AwtDataTransferer::ConcatData(JNIEnv* env, jobject obj1, jobject obj2) {
-    jobject transferer = GetDataTransferer(env);
+AwtDbtbTrbnsferer::ConcbtDbtb(JNIEnv* env, jobject obj1, jobject obj2) {
+    jobject trbnsferer = GetDbtbTrbnsferer(env);
 
-    if (!JNU_IsNull(env, transferer)) {
+    if (!JNU_IsNull(env, trbnsferer)) {
         jobject ret = NULL;
-        DECLARE_OBJECT_JAVA_METHOD(concatDataMethodID, dataTransfererClazz,
-                                   "concatData",
-                                   "(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;");
+        DECLARE_OBJECT_JAVA_METHOD(concbtDbtbMethodID, dbtbTrbnsfererClbzz,
+                                   "concbtDbtb",
+                                   "(Ljbvb/lbng/Object;Ljbvb/lbng/Object;)Ljbvb/lbng/Object;");
 
-        ret = env->CallObjectMethod(transferer, concatDataMethodID, obj1, obj2);
+        ret = env->CbllObjectMethod(trbnsferer, concbtDbtbMethodID, obj1, obj2);
 
-        if (!JNU_IsNull(env, safe_ExceptionOccurred(env))) {
+        if (!JNU_IsNull(env, sbfe_ExceptionOccurred(env))) {
             env->ExceptionDescribe();
-            env->ExceptionClear();
+            env->ExceptionClebr();
         }
 
-        env->DeleteLocalRef(transferer);
+        env->DeleteLocblRef(trbnsferer);
 
         return ret;
     } else {
@@ -100,29 +100,29 @@ AwtDataTransferer::ConcatData(JNIEnv* env, jobject obj1, jobject obj2) {
 }
 
 /**
- * This routine retrieves palette entries from enhanced metafile or
- * a logical color palette, builds appropriate LOGPALETTE structure,
- * writes it into a created Java byte array and returns a local
- * reference to the array.
- * This routine is used for image data transfer.
+ * This routine retrieves pblette entries from enhbnced metbfile or
+ * b logicbl color pblette, builds bppropribte LOGPALETTE structure,
+ * writes it into b crebted Jbvb byte brrby bnd returns b locbl
+ * reference to the brrby.
+ * This routine is used for imbge dbtb trbnsfer.
  *
- * @param hGdiObj - a handle to the GDI object to retrieve palette entries from,
- *        it can be a handle to either a logical color palette (OBJ_PAL type)
- *        or an enhanced metafile (OBJ_ENHMETAFILE). If it is neither of these
- *        types the routine fails(see bFailSafe).
- * @param dwGdiObjType - a type of the passed GDI object. It should be specified
- *        if the type of the passed GDI object is known to the caller. Otherwise
- *        pass 0.
- * @param bFailSafe - if FALSE, the routine will return NULL in case of failure,
- *        otherwise it will return an array with empty LOGPALETTE structure
- *        in case of failure.
- * @return a local reference to Java byte array which contains LOGPALETTE
- *        structure which defines a logical color palette or a palette of
- *        an enhanced metafile.
+ * @pbrbm hGdiObj - b hbndle to the GDI object to retrieve pblette entries from,
+ *        it cbn be b hbndle to either b logicbl color pblette (OBJ_PAL type)
+ *        or bn enhbnced metbfile (OBJ_ENHMETAFILE). If it is neither of these
+ *        types the routine fbils(see bFbilSbfe).
+ * @pbrbm dwGdiObjType - b type of the pbssed GDI object. It should be specified
+ *        if the type of the pbssed GDI object is known to the cbller. Otherwise
+ *        pbss 0.
+ * @pbrbm bFbilSbfe - if FALSE, the routine will return NULL in cbse of fbilure,
+ *        otherwise it will return bn brrby with empty LOGPALETTE structure
+ *        in cbse of fbilure.
+ * @return b locbl reference to Jbvb byte brrby which contbins LOGPALETTE
+ *        structure which defines b logicbl color pblette or b pblette of
+ *        bn enhbnced metbfile.
  */
-jbyteArray
-AwtDataTransferer::GetPaletteBytes(HGDIOBJ hGdiObj, DWORD dwGdiObjType,
-                                   BOOL bFailSafe) {
+jbyteArrby
+AwtDbtbTrbnsferer::GetPbletteBytes(HGDIOBJ hGdiObj, DWORD dwGdiObjType,
+                                   BOOL bFbilSbfe) {
 
     if (hGdiObj == NULL) {
         dwGdiObjType = 0;
@@ -132,185 +132,185 @@ AwtDataTransferer::GetPaletteBytes(HGDIOBJ hGdiObj, DWORD dwGdiObjType,
         DASSERT(::GetObjectType(hGdiObj) == dwGdiObjType);
     }
 
-    if (!bFailSafe && dwGdiObjType == 0) {
+    if (!bFbilSbfe && dwGdiObjType == 0) {
         return NULL;
     }
 
     UINT nEntries = 0;
 
     switch (dwGdiObjType) {
-    case OBJ_PAL:
+    cbse OBJ_PAL:
         nEntries =
-            ::GetPaletteEntries((HPALETTE)hGdiObj, 0, 0, NULL);
-        break;
-    case OBJ_ENHMETAFILE:
+            ::GetPbletteEntries((HPALETTE)hGdiObj, 0, 0, NULL);
+        brebk;
+    cbse OBJ_ENHMETAFILE:
         nEntries =
-            ::GetEnhMetaFilePaletteEntries((HENHMETAFILE)hGdiObj, 0, NULL);
-        break;
+            ::GetEnhMetbFilePbletteEntries((HENHMETAFILE)hGdiObj, 0, NULL);
+        brebk;
     }
 
-    if (!bFailSafe && (nEntries == 0 || nEntries == GDI_ERROR)) {
+    if (!bFbilSbfe && (nEntries == 0 || nEntries == GDI_ERROR)) {
         return NULL;
     }
 
     JNIEnv* env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
     jsize size = sizeof(LOGPALETTE) + nEntries * sizeof(PALETTEENTRY);
 
-    jbyteArray paletteBytes = env->NewByteArray(size);
-    if (JNU_IsNull(env, paletteBytes)) {
-        throw std::bad_alloc();
+    jbyteArrby pbletteBytes = env->NewByteArrby(size);
+    if (JNU_IsNull(env, pbletteBytes)) {
+        throw std::bbd_blloc();
     }
 
-    LOGPALETTE* pLogPalette =
-        (LOGPALETTE*)env->GetPrimitiveArrayCritical(paletteBytes, NULL);
-    PALETTEENTRY* pPalEntries = (PALETTEENTRY*)pLogPalette->palPalEntry;
+    LOGPALETTE* pLogPblette =
+        (LOGPALETTE*)env->GetPrimitiveArrbyCriticbl(pbletteBytes, NULL);
+    PALETTEENTRY* pPblEntries = (PALETTEENTRY*)pLogPblette->pblPblEntry;
 
-    pLogPalette->palVersion = 0x300;
-    pLogPalette->palNumEntries = nEntries;
+    pLogPblette->pblVersion = 0x300;
+    pLogPblette->pblNumEntries = nEntries;
 
     switch (dwGdiObjType) {
-    case OBJ_PAL:
-        VERIFY(::GetPaletteEntries((HPALETTE)hGdiObj, 0, nEntries,
-                                   pPalEntries) == nEntries);
-        break;
-    case OBJ_ENHMETAFILE:
-        VERIFY(::GetEnhMetaFilePaletteEntries((HENHMETAFILE)hGdiObj, nEntries,
-                                              pPalEntries) == nEntries);
-        break;
+    cbse OBJ_PAL:
+        VERIFY(::GetPbletteEntries((HPALETTE)hGdiObj, 0, nEntries,
+                                   pPblEntries) == nEntries);
+        brebk;
+    cbse OBJ_ENHMETAFILE:
+        VERIFY(::GetEnhMetbFilePbletteEntries((HENHMETAFILE)hGdiObj, nEntries,
+                                              pPblEntries) == nEntries);
+        brebk;
     }
 
-    env->ReleasePrimitiveArrayCritical(paletteBytes, pLogPalette, 0);
+    env->RelebsePrimitiveArrbyCriticbl(pbletteBytes, pLogPblette, 0);
 
-    return paletteBytes;
+    return pbletteBytes;
 }
 
-jbyteArray
-AwtDataTransferer::LCIDToTextEncoding(JNIEnv *env, LCID lcid) {
-    LANGID langID = LANGIDFROMLCID(lcid);
-    const char *encoding = getEncodingFromLangID(langID);
+jbyteArrby
+AwtDbtbTrbnsferer::LCIDToTextEncoding(JNIEnv *env, LCID lcid) {
+    LANGID lbngID = LANGIDFROMLCID(lcid);
+    const chbr *encoding = getEncodingFromLbngID(lbngID);
 
-    // Warning C4244.
-    // Cast SIZE_T (__int64 on 64-bit/unsigned int on 32-bit)
+    // Wbrning C4244.
+    // Cbst SIZE_T (__int64 on 64-bit/unsigned int on 32-bit)
     // to jsize (long).
-    // We assume that the encoding name length cannot exceed INT_MAX.
+    // We bssume thbt the encoding nbme length cbnnot exceed INT_MAX.
     jsize length = (jsize)strlen(encoding);
 
-    jbyteArray retval = env->NewByteArray(length);
-    if (retval == NULL) {
-        throw std::bad_alloc();
+    jbyteArrby retvbl = env->NewByteArrby(length);
+    if (retvbl == NULL) {
+        throw std::bbd_blloc();
     }
-    env->SetByteArrayRegion(retval, 0, length, (jbyte *)encoding);
+    env->SetByteArrbyRegion(retvbl, 0, length, (jbyte *)encoding);
     free((void *)encoding);
-    return retval;
+    return retvbl;
 }
 
-static VOID CALLBACK
+stbtic VOID CALLBACK
 IdleFunc() {
     /*
-     * Fix for 4485987 and 4669873.
-     * If IdleFunc is a noop, the secondary message pump occasionally occupies
-     * all processor time and causes drag freezes. GetQueueStatus is needed to
-     * mark all messages that are currently in the queue as old, otherwise
-     * WaitMessage will return immediatelly as we selectively get messages from
+     * Fix for 4485987 bnd 4669873.
+     * If IdleFunc is b noop, the secondbry messbge pump occbsionblly occupies
+     * bll processor time bnd cbuses drbg freezes. GetQueueStbtus is needed to
+     * mbrk bll messbges thbt bre currently in the queue bs old, otherwise
+     * WbitMessbge will return immedibtelly bs we selectively get messbges from
      * the queue.
      */
-    ::WaitMessage();
-    ::GetQueueStatus(QS_ALLINPUT);
+    ::WbitMessbge();
+    ::GetQueueStbtus(QS_ALLINPUT);
 }
 
-static BOOL CALLBACK
-PeekMessageFunc(MSG& msg) {
-    return ::PeekMessage(&msg, NULL, WM_QUIT, WM_QUIT, PM_REMOVE) ||
-           ::PeekMessage(&msg, NULL, WM_AWT_INVOKE_METHOD, WM_AWT_INVOKE_METHOD, PM_REMOVE) ||
-           ::PeekMessage(&msg, NULL, WM_PAINT, WM_PAINT, PM_REMOVE);
+stbtic BOOL CALLBACK
+PeekMessbgeFunc(MSG& msg) {
+    return ::PeekMessbge(&msg, NULL, WM_QUIT, WM_QUIT, PM_REMOVE) ||
+           ::PeekMessbge(&msg, NULL, WM_AWT_INVOKE_METHOD, WM_AWT_INVOKE_METHOD, PM_REMOVE) ||
+           ::PeekMessbge(&msg, NULL, WM_PAINT, WM_PAINT, PM_REMOVE);
 }
 
 void
-AwtDataTransferer::SecondaryMessageLoop() {
-    DASSERT(AwtToolkit::MainThread() == ::GetCurrentThreadId());
+AwtDbtbTrbnsferer::SecondbryMessbgeLoop() {
+    DASSERT(AwtToolkit::MbinThrebd() == ::GetCurrentThrebdId());
 
-    AwtToolkit::GetInstance().MessageLoop(IdleFunc,
-                                          PeekMessageFunc);
+    AwtToolkit::GetInstbnce().MessbgeLoop(IdleFunc,
+                                          PeekMessbgeFunc);
 }
 
 extern "C" {
 
 /*
- * Class:     sun_awt_datatransfer_DataTransferer
- * Method:    draqQueryFile
- * Signature: ([B)[Ljava/lang/String;
+ * Clbss:     sun_bwt_dbtbtrbnsfer_DbtbTrbnsferer
+ * Method:    drbqQueryFile
+ * Signbture: ([B)[Ljbvb/lbng/String;
  */
-JNIEXPORT jobjectArray JNICALL
-Java_sun_awt_windows_WDataTransferer_dragQueryFile
-    (JNIEnv *env, jobject obj, jbyteArray bytes)
+JNIEXPORT jobjectArrby JNICALL
+Jbvb_sun_bwt_windows_WDbtbTrbnsferer_drbgQueryFile
+    (JNIEnv *env, jobject obj, jbyteArrby bytes)
 {
     TRY;
 
     /*
-     * Fix for the BugTraq ID 4327064 - inter-jvm DnD crashes the droping jvm.
-     * On Win9X DragQueryFile() doesn't accept a pointer to the local help as the first
-     * argument, so we should dump the bits into global memory.
+     * Fix for the BugTrbq ID 4327064 - inter-jvm DnD crbshes the droping jvm.
+     * On Win9X DrbgQueryFile() doesn't bccept b pointer to the locbl help bs the first
+     * brgument, so we should dump the bits into globbl memory.
      */
-    UINT size = env->GetArrayLength(bytes);
-    HGLOBAL hglobal = NULL;
+    UINT size = env->GetArrbyLength(bytes);
+    HGLOBAL hglobbl = NULL;
     jbyte *bBytes = NULL;
     HDROP hdrop = NULL;
     LPTSTR buffer = NULL;
 
-    hglobal = ::GlobalAlloc(GALLOCFLG, size);
+    hglobbl = ::GlobblAlloc(GALLOCFLG, size);
 
-    if (hglobal == NULL) {
-        throw std::bad_alloc();
+    if (hglobbl == NULL) {
+        throw std::bbd_blloc();
     }
 
     try {
 
-        bBytes = (jbyte*)::GlobalLock(hglobal);
-        env->GetByteArrayRegion(bytes, 0, size, bBytes);
+        bBytes = (jbyte*)::GlobblLock(hglobbl);
+        env->GetByteArrbyRegion(bytes, 0, size, bBytes);
 
         hdrop = (HDROP)bBytes;
 
-        UINT nFilenames = ::DragQueryFile(hdrop, 0xFFFFFFFF, NULL, 0);
+        UINT nFilenbmes = ::DrbgQueryFile(hdrop, 0xFFFFFFFF, NULL, 0);
 
-        jclass str_clazz = env->FindClass("java/lang/String");
-        DASSERT(str_clazz != NULL);
-        if (str_clazz == NULL) {
-           throw std::bad_alloc();
+        jclbss str_clbzz = env->FindClbss("jbvb/lbng/String");
+        DASSERT(str_clbzz != NULL);
+        if (str_clbzz == NULL) {
+           throw std::bbd_blloc();
         }
-        jobjectArray filenames = env->NewObjectArray(nFilenames, str_clazz,
+        jobjectArrby filenbmes = env->NewObjectArrby(nFilenbmes, str_clbzz,
                                                      NULL);
-        if (filenames == NULL) {
-            throw std::bad_alloc();
+        if (filenbmes == NULL) {
+            throw std::bbd_blloc();
         }
 
-        UINT bufsize = 512; // in characters, not in bytes
-        buffer = (LPTSTR)SAFE_SIZE_ARRAY_ALLOC(safe_Malloc, bufsize, sizeof(TCHAR));
+        UINT bufsize = 512; // in chbrbcters, not in bytes
+        buffer = (LPTSTR)SAFE_SIZE_ARRAY_ALLOC(sbfe_Mblloc, bufsize, sizeof(TCHAR));
 
-        for (UINT i = 0; i < nFilenames; i++) {
-            UINT size = ::DragQueryFile(hdrop, i, NULL, 0);
+        for (UINT i = 0; i < nFilenbmes; i++) {
+            UINT size = ::DrbgQueryFile(hdrop, i, NULL, 0);
             if (size > bufsize) {
                 bufsize = size;
-                buffer = (LPTSTR)SAFE_SIZE_ARRAY_REALLOC(safe_Realloc, buffer, bufsize, sizeof(TCHAR));
+                buffer = (LPTSTR)SAFE_SIZE_ARRAY_REALLOC(sbfe_Reblloc, buffer, bufsize, sizeof(TCHAR));
             }
-            ::DragQueryFile(hdrop, i, buffer, bufsize);
+            ::DrbgQueryFile(hdrop, i, buffer, bufsize);
 
-            jstring name = JNU_NewStringPlatform(env, buffer);
-            if (name == NULL) {
-                throw std::bad_alloc();
+            jstring nbme = JNU_NewStringPlbtform(env, buffer);
+            if (nbme == NULL) {
+                throw std::bbd_blloc();
             }
 
-            env->SetObjectArrayElement(filenames, i, name);
+            env->SetObjectArrbyElement(filenbmes, i, nbme);
         }
 
         free(buffer);
-        ::GlobalUnlock(hglobal);
-        ::GlobalFree(hglobal);
-        return filenames;
+        ::GlobblUnlock(hglobbl);
+        ::GlobblFree(hglobbl);
+        return filenbmes;
 
-    } catch (std::bad_alloc&) {
+    } cbtch (std::bbd_blloc&) {
         free(buffer);
-        ::GlobalUnlock(hglobal);
-        ::GlobalFree(hglobal);
+        ::GlobblUnlock(hglobbl);
+        ::GlobblFree(hglobbl);
         throw;
     }
 
@@ -318,23 +318,23 @@ Java_sun_awt_windows_WDataTransferer_dragQueryFile
 }
 
 /*
- * Class:     sun_awt_windows_WDataTransferer
- * Method:    platformImageBytesToImageData
- * Signature: ([BI)[I
+ * Clbss:     sun_bwt_windows_WDbtbTrbnsferer
+ * Method:    plbtformImbgeBytesToImbgeDbtb
+ * Signbture: ([BI)[I
  */
-JNIEXPORT jintArray JNICALL
-Java_sun_awt_windows_WDataTransferer_platformImageBytesToImageData(
-    JNIEnv *env, jobject self, jbyteArray bytes, jlong format) {
+JNIEXPORT jintArrby JNICALL
+Jbvb_sun_bwt_windows_WDbtbTrbnsferer_plbtformImbgeBytesToImbgeDbtb(
+    JNIEnv *env, jobject self, jbyteArrby bytes, jlong formbt) {
 
     TRY;
 
     HDC hdc = NULL;
 
-    LOGPALETTE* pLogPalette = NULL;
-    WORD uPaletteEntries = 0;
+    LOGPALETTE* pLogPblette = NULL;
+    WORD uPbletteEntries = 0;
     SIZE_T uOffset = 0;
-    HPALETTE hPalette = NULL;
-    HPALETTE hOldPalette = NULL;
+    HPALETTE hPblette = NULL;
+    HPALETTE hOldPblette = NULL;
 
     BITMAPINFO* pSrcBmi = NULL;
     BITMAPINFOHEADER* pSrcBmih = NULL;
@@ -343,12 +343,12 @@ Java_sun_awt_windows_WDataTransferer_platformImageBytesToImageData(
     BITMAPINFOHEADER* pDstBmih = NULL;
     LPVOID pDstBits = NULL;
 
-    LPBYTE lpEnhMetaFileBits = NULL;
-    HENHMETAFILE hEnhMetaFile = NULL;
+    LPBYTE lpEnhMetbFileBits = NULL;
+    HENHMETAFILE hEnhMetbFile = NULL;
 
     HBITMAP hDibSection = NULL;
-    HBITMAP hOldBitmap = NULL;
-    jintArray buffer = NULL;
+    HBITMAP hOldBitmbp = NULL;
+    jintArrby buffer = NULL;
     LONG width = 0;
     LONG height = 0;
     int numPixels = 0;
@@ -357,68 +357,68 @@ Java_sun_awt_windows_WDataTransferer_platformImageBytesToImageData(
         return NULL;
     }
 
-    jsize size = env->GetArrayLength(bytes);
+    jsize size = env->GetArrbyLength(bytes);
     if (size == 0) {
         return NULL;
     }
 
-    jbyte* bBytes = (jbyte*)SAFE_SIZE_ARRAY_ALLOC(safe_Malloc, size, sizeof(jbyte));
+    jbyte* bBytes = (jbyte*)SAFE_SIZE_ARRAY_ALLOC(sbfe_Mblloc, size, sizeof(jbyte));
 
     try {
 
-        env->GetByteArrayRegion(bytes, 0, size, bBytes);
+        env->GetByteArrbyRegion(bytes, 0, size, bBytes);
 
-        pLogPalette = (LOGPALETTE*)bBytes;
-        uPaletteEntries = pLogPalette->palNumEntries;
-        uOffset = sizeof(LOGPALETTE) + uPaletteEntries * sizeof(PALETTEENTRY);
+        pLogPblette = (LOGPALETTE*)bBytes;
+        uPbletteEntries = pLogPblette->pblNumEntries;
+        uOffset = sizeof(LOGPALETTE) + uPbletteEntries * sizeof(PALETTEENTRY);
         DASSERT(uOffset < (SIZE_T)size);
 
-        if (uPaletteEntries == 0) {
-            pLogPalette = NULL;
+        if (uPbletteEntries == 0) {
+            pLogPblette = NULL;
         }
 
-        hdc = ::CreateCompatibleDC(NULL);
+        hdc = ::CrebteCompbtibleDC(NULL);
         if (hdc == NULL) {
             free(bBytes);
             return NULL;
         }
 
-        switch (format) {
-        case CF_DIB:
+        switch (formbt) {
+        cbse CF_DIB:
 
             pSrcBmi = (BITMAPINFO*)((LPSTR)bBytes + uOffset);
-            pSrcBmih = &pSrcBmi->bmiHeader;
+            pSrcBmih = &pSrcBmi->bmiHebder;
 
             width = pSrcBmih->biWidth;
-            height = abs(pSrcBmih->biHeight);
+            height = bbs(pSrcBmih->biHeight);
 
             {
                 DWORD nColorEntries = 0;
 
                 switch (pSrcBmih->biBitCount) {
-                case  0: nColorEntries = 0; break;
-                case  1: nColorEntries = 2; break;
-                case  4:
-                case  8:
+                cbse  0: nColorEntries = 0; brebk;
+                cbse  1: nColorEntries = 2; brebk;
+                cbse  4:
+                cbse  8:
                     nColorEntries = (pSrcBmih->biClrUsed != 0) ?
                         pSrcBmih->biClrUsed : (1 << pSrcBmih->biBitCount);
-                    break;
-                case 16:
-                case 24:
-                case 32:
+                    brebk;
+                cbse 16:
+                cbse 24:
+                cbse 32:
                     nColorEntries = pSrcBmih->biClrUsed;
-                    // If biBitCount is 16 or 32 and biCompression is
-                    // BI_BITFIELDS the color table will be prefixed with
-                    // three DWORD color masks.
+                    // If biBitCount is 16 or 32 bnd biCompression is
+                    // BI_BITFIELDS the color tbble will be prefixed with
+                    // three DWORD color mbsks.
                     if (pSrcBmih->biCompression == BI_BITFIELDS &&
                         (pSrcBmih->biBitCount == 16 ||
                          pSrcBmih->biBitCount == 32)) {
                         nColorEntries += 3;
                     }
-                    break;
-                default:
-                    // The header is probably corrupted.
-                    // Fail immediatelly to avoid memory access violation.
+                    brebk;
+                defbult:
+                    // The hebder is probbbly corrupted.
+                    // Fbil immedibtelly to bvoid memory bccess violbtion.
                     free(bBytes);
                     ::DeleteDC(hdc);
                     return NULL;
@@ -427,28 +427,28 @@ Java_sun_awt_windows_WDataTransferer_platformImageBytesToImageData(
                 pSrcBits = (LPSTR)pSrcBmi + pSrcBmih->biSize
                     + nColorEntries * sizeof(RGBQUAD);
             }
-            break;
-        case CF_ENHMETAFILE:
-        case CF_METAFILEPICT:
-            lpEnhMetaFileBits = (BYTE*)bBytes + uOffset;
-            // Warning C4244. size is jsize, uOffset is SIZE_T.
-            // We assert that size > uOffset, so it is safe to cast to jsize.
-            hEnhMetaFile = ::SetEnhMetaFileBits(size - (jsize)uOffset,
-                                                lpEnhMetaFileBits);
-            DASSERT(hEnhMetaFile != NULL);
+            brebk;
+        cbse CF_ENHMETAFILE:
+        cbse CF_METAFILEPICT:
+            lpEnhMetbFileBits = (BYTE*)bBytes + uOffset;
+            // Wbrning C4244. size is jsize, uOffset is SIZE_T.
+            // We bssert thbt size > uOffset, so it is sbfe to cbst to jsize.
+            hEnhMetbFile = ::SetEnhMetbFileBits(size - (jsize)uOffset,
+                                                lpEnhMetbFileBits);
+            DASSERT(hEnhMetbFile != NULL);
 
             {
-                UINT uHeaderSize =
-                    ::GetEnhMetaFileHeader(hEnhMetaFile, 0, NULL);
-                DASSERT(uHeaderSize != 0);
-                ENHMETAHEADER* lpemh = (ENHMETAHEADER*)safe_Malloc(uHeaderSize);
-                VERIFY(::GetEnhMetaFileHeader(hEnhMetaFile, uHeaderSize,
-                                              lpemh) == uHeaderSize);
-                LPRECTL lpFrame = &lpemh->rclFrame;
-                POINT p = { abs(lpFrame->right - lpFrame->left),
-                            abs(lpFrame->bottom - lpFrame->top) };
-                VERIFY(::SaveDC(hdc));
-                VERIFY(::SetMapMode(hdc, MM_HIMETRIC));
+                UINT uHebderSize =
+                    ::GetEnhMetbFileHebder(hEnhMetbFile, 0, NULL);
+                DASSERT(uHebderSize != 0);
+                ENHMETAHEADER* lpemh = (ENHMETAHEADER*)sbfe_Mblloc(uHebderSize);
+                VERIFY(::GetEnhMetbFileHebder(hEnhMetbFile, uHebderSize,
+                                              lpemh) == uHebderSize);
+                LPRECTL lpFrbme = &lpemh->rclFrbme;
+                POINT p = { bbs(lpFrbme->right - lpFrbme->left),
+                            bbs(lpFrbme->bottom - lpFrbme->top) };
+                VERIFY(::SbveDC(hdc));
+                VERIFY(::SetMbpMode(hdc, MM_HIMETRIC));
                 VERIFY(::LPtoDP(hdc, &p, 1));
                 VERIFY(::RestoreDC(hdc, -1));
                 width = p.x;
@@ -456,16 +456,16 @@ Java_sun_awt_windows_WDataTransferer_platformImageBytesToImageData(
 
                 free(lpemh);
             }
-            break;
-        default:
-            DASSERT(FALSE); // Other formats are not supported yet.
+            brebk;
+        defbult:
+            DASSERT(FALSE); // Other formbts bre not supported yet.
             free(bBytes);
             ::DeleteDC(hdc);
             return NULL;
         }
 
-        // JNI doesn't allow to store more than INT_MAX in a single array.
-        // We report conversion failure in this case.
+        // JNI doesn't bllow to store more thbn INT_MAX in b single brrby.
+        // We report conversion fbilure in this cbse.
         if (width * height > INT_MAX) {
             free(bBytes);
             ::DeleteDC(hdc);
@@ -474,114 +474,114 @@ Java_sun_awt_windows_WDataTransferer_platformImageBytesToImageData(
 
         numPixels = width * height;
 
-        if (pLogPalette != NULL) {
-            hPalette = ::CreatePalette(pLogPalette);
-            if (hPalette == NULL) {
+        if (pLogPblette != NULL) {
+            hPblette = ::CrebtePblette(pLogPblette);
+            if (hPblette == NULL) {
                 free(bBytes);
                 ::DeleteDC(hdc);
                 return NULL;
             }
-            hOldPalette = ::SelectPalette(hdc, hPalette, FALSE);
-            ::RealizePalette(hdc);
+            hOldPblette = ::SelectPblette(hdc, hPblette, FALSE);
+            ::ReblizePblette(hdc);
         }
 
-        // allocate memory for BITMAPINFO
-        pDstBmi = (BITMAPINFO *)safe_Calloc(1, sizeof(BITMAPINFO));
-        pDstBmih = &pDstBmi->bmiHeader;
+        // bllocbte memory for BITMAPINFO
+        pDstBmi = (BITMAPINFO *)sbfe_Cblloc(1, sizeof(BITMAPINFO));
+        pDstBmih = &pDstBmi->bmiHebder;
 
-        static const int BITS_PER_PIXEL = 32;
+        stbtic const int BITS_PER_PIXEL = 32;
 
-        // prepare BITMAPINFO for a 32-bit RGB bitmap
+        // prepbre BITMAPINFO for b 32-bit RGB bitmbp
         pDstBmih->biSize = sizeof(BITMAPINFOHEADER);
         pDstBmih->biWidth = width;
-        pDstBmih->biHeight = -height; // negative height means a top-down DIB
-        pDstBmih->biPlanes = 1;
+        pDstBmih->biHeight = -height; // negbtive height mebns b top-down DIB
+        pDstBmih->biPlbnes = 1;
         pDstBmih->biBitCount = BITS_PER_PIXEL;
         pDstBmih->biCompression = BI_RGB;
-        // NOTE: MSDN says that biSizeImage may be set to 0 for BI_RGB bitmaps,
-        // but this causes CreateDIBSection to allocate zero-size memory block
-        // for DIB data. It works okay when biSizeImage is explicitly specified.
-        pDstBmih->biSizeImage = width * height * (BITS_PER_PIXEL >> 3);
+        // NOTE: MSDN sbys thbt biSizeImbge mby be set to 0 for BI_RGB bitmbps,
+        // but this cbuses CrebteDIBSection to bllocbte zero-size memory block
+        // for DIB dbtb. It works okby when biSizeImbge is explicitly specified.
+        pDstBmih->biSizeImbge = width * height * (BITS_PER_PIXEL >> 3);
 
-        hDibSection = ::CreateDIBSection(hdc, (BITMAPINFO*)pDstBmi,
+        hDibSection = ::CrebteDIBSection(hdc, (BITMAPINFO*)pDstBmi,
                                          DIB_RGB_COLORS, &pDstBits,
                                          NULL, 0);
 
         if (hDibSection == NULL) {
             free(pDstBmi); pDstBmi = NULL;
-            if (hPalette != NULL) {
-                VERIFY(::SelectPalette(hdc, hOldPalette, FALSE) != NULL);
-                hOldPalette = NULL;
-                VERIFY(::DeleteObject(hPalette)); hPalette = NULL;
+            if (hPblette != NULL) {
+                VERIFY(::SelectPblette(hdc, hOldPblette, FALSE) != NULL);
+                hOldPblette = NULL;
+                VERIFY(::DeleteObject(hPblette)); hPblette = NULL;
             }
             VERIFY(::DeleteDC(hdc)); hdc = NULL;
             free(bBytes); bBytes = NULL;
 
-            JNU_ThrowIOException(env, "failed to get drop data");
+            JNU_ThrowIOException(env, "fbiled to get drop dbtb");
             return NULL;
         }
 
-        hOldBitmap = (HBITMAP)::SelectObject(hdc, hDibSection);
-        DASSERT(hOldBitmap != NULL);
+        hOldBitmbp = (HBITMAP)::SelectObject(hdc, hDibSection);
+        DASSERT(hOldBitmbp != NULL);
 
-        switch (format) {
-        case CF_DIB:
+        switch (formbt) {
+        cbse CF_DIB:
             VERIFY(::StretchDIBits(hdc,
                                    0, 0, width, height,
                                    0, 0, width, height,
                                    pSrcBits, pSrcBmi,
                                    DIB_RGB_COLORS, SRCCOPY) != GDI_ERROR);
-            break;
-        case CF_ENHMETAFILE:
-        case CF_METAFILEPICT: {
+            brebk;
+        cbse CF_ENHMETAFILE:
+        cbse CF_METAFILEPICT: {
             RECT rect = { 0, 0, width, height };
 
-            VERIFY(::PlayEnhMetaFile(hdc, hEnhMetaFile, &rect));
-            VERIFY(::DeleteEnhMetaFile(hEnhMetaFile)); hEnhMetaFile = NULL;
-            break;
+            VERIFY(::PlbyEnhMetbFile(hdc, hEnhMetbFile, &rect));
+            VERIFY(::DeleteEnhMetbFile(hEnhMetbFile)); hEnhMetbFile = NULL;
+            brebk;
         }
-        default:
-            // Other formats are not supported yet.
+        defbult:
+            // Other formbts bre not supported yet.
             DASSERT(FALSE);
-            break;
+            brebk;
         }
 
-        // convert Win32 pixel format (BGRX) to Java format (ARGB)
+        // convert Win32 pixel formbt (BGRX) to Jbvb formbt (ARGB)
         DASSERT(sizeof(jint) == sizeof(RGBQUAD));
         RGBQUAD* prgbq = (RGBQUAD*)pDstBits;
         for(int nPixel = 0; nPixel < numPixels; nPixel++, prgbq++) {
             jint jpixel = WIN_TO_JAVA_PIXEL(prgbq->rgbRed,
                                             prgbq->rgbGreen,
                                             prgbq->rgbBlue);
-            // stuff the 32-bit pixel back into the 32-bit RGBQUAD
+            // stuff the 32-bit pixel bbck into the 32-bit RGBQUAD
             *prgbq = *((RGBQUAD*)(&jpixel));
         }
 
-        buffer = env->NewIntArray(numPixels + 2);
+        buffer = env->NewIntArrby(numPixels + 2);
         if (buffer == NULL) {
-            throw std::bad_alloc();
+            throw std::bbd_blloc();
         }
 
-        // copy pixels into Java array
-        env->SetIntArrayRegion(buffer, 0, numPixels, (jint*)pDstBits);
+        // copy pixels into Jbvb brrby
+        env->SetIntArrbyRegion(buffer, 0, numPixels, (jint*)pDstBits);
 
-        // copy dimensions into Java array
-        env->SetIntArrayRegion(buffer, numPixels, 1, (jint*)&width);
-        env->SetIntArrayRegion(buffer, numPixels + 1, 1, (jint*)&height);
+        // copy dimensions into Jbvb brrby
+        env->SetIntArrbyRegion(buffer, numPixels, 1, (jint*)&width);
+        env->SetIntArrbyRegion(buffer, numPixels + 1, 1, (jint*)&height);
 
-        VERIFY(::SelectObject(hdc, hOldBitmap) != NULL); hOldBitmap = NULL;
+        VERIFY(::SelectObject(hdc, hOldBitmbp) != NULL); hOldBitmbp = NULL;
         VERIFY(::DeleteObject(hDibSection)); hDibSection = NULL;
         free(pDstBmi); pDstBmi = NULL;
-        if (hPalette != NULL) {
-            VERIFY(::SelectPalette(hdc, hOldPalette, FALSE) != NULL);
-            hOldPalette = NULL;
-            VERIFY(::DeleteObject(hPalette)); hPalette = NULL;
+        if (hPblette != NULL) {
+            VERIFY(::SelectPblette(hdc, hOldPblette, FALSE) != NULL);
+            hOldPblette = NULL;
+            VERIFY(::DeleteObject(hPblette)); hPblette = NULL;
         }
         VERIFY(::DeleteDC(hdc)); hdc = NULL;
         free(bBytes); bBytes = NULL;
-    } catch (...) {
-        if (hdc != NULL && hOldBitmap != NULL) {
-            VERIFY(::SelectObject(hdc, hOldBitmap) != NULL); hOldBitmap = NULL;
+    } cbtch (...) {
+        if (hdc != NULL && hOldBitmbp != NULL) {
+            VERIFY(::SelectObject(hdc, hOldBitmbp) != NULL); hOldBitmbp = NULL;
         }
         if (hDibSection != NULL) {
             VERIFY(::DeleteObject(hDibSection)); hDibSection = NULL;
@@ -589,18 +589,18 @@ Java_sun_awt_windows_WDataTransferer_platformImageBytesToImageData(
         if (pDstBmi != NULL) {
             free(pDstBmi); pDstBmi = NULL;
         }
-        if (hPalette != NULL) {
+        if (hPblette != NULL) {
             if (hdc != NULL) {
-                VERIFY(::SelectPalette(hdc, hOldPalette, FALSE) != NULL);
-                hOldPalette = NULL;
+                VERIFY(::SelectPblette(hdc, hOldPblette, FALSE) != NULL);
+                hOldPblette = NULL;
             }
-            VERIFY(::DeleteObject(hPalette)); hPalette = NULL;
+            VERIFY(::DeleteObject(hPblette)); hPblette = NULL;
         }
         if (hdc != NULL) {
             VERIFY(::DeleteDC(hdc)); hdc = NULL;
         }
-        if (hEnhMetaFile != NULL) {
-            VERIFY(::DeleteEnhMetaFile(hEnhMetaFile)); hEnhMetaFile = NULL;
+        if (hEnhMetbFile != NULL) {
+            VERIFY(::DeleteEnhMetbFile(hEnhMetbFile)); hEnhMetbFile = NULL;
         }
         if (bBytes != NULL) {
             free(bBytes); bBytes = NULL;
@@ -614,203 +614,203 @@ Java_sun_awt_windows_WDataTransferer_platformImageBytesToImageData(
 }
 
 /*
- * Class:     sun_awt_windows_WDataTransferer
- * Method:    imageDataToPlatformImageBytes
- * Signature: ([BIII)[B
+ * Clbss:     sun_bwt_windows_WDbtbTrbnsferer
+ * Method:    imbgeDbtbToPlbtformImbgeBytes
+ * Signbture: ([BIII)[B
  */
-JNIEXPORT jbyteArray JNICALL
-Java_sun_awt_windows_WDataTransferer_imageDataToPlatformImageBytes(JNIEnv *env,
-                                               jobject self, jbyteArray imageData,
+JNIEXPORT jbyteArrby JNICALL
+Jbvb_sun_bwt_windows_WDbtbTrbnsferer_imbgeDbtbToPlbtformImbgeBytes(JNIEnv *env,
+                                               jobject self, jbyteArrby imbgeDbtb,
                                                jint width, jint height,
-                                               jlong format) {
+                                               jlong formbt) {
 
     TRY;
 
-    if (JNU_IsNull(env, imageData)) {
+    if (JNU_IsNull(env, imbgeDbtb)) {
         return NULL;
     }
 
-    UINT size = env->GetArrayLength(imageData);
+    UINT size = env->GetArrbyLength(imbgeDbtb);
     if (size == 0) {
         return NULL;
     }
 
-    // In the passed imageData array all lines are padded with zeroes except for
-    // the last one, so we have to add one pad size here.
+    // In the pbssed imbgeDbtb brrby bll lines bre pbdded with zeroes except for
+    // the lbst one, so we hbve to bdd one pbd size here.
     int mod = (width * 3) % 4;
-    int pad = mod > 0 ? 4 - mod : 0;
-    int nBytes = sizeof(BITMAPINFO) + size + pad;
-    BITMAPINFO* pinfo = (BITMAPINFO*)safe_Calloc(1, nBytes);
+    int pbd = mod > 0 ? 4 - mod : 0;
+    int nBytes = sizeof(BITMAPINFO) + size + pbd;
+    BITMAPINFO* pinfo = (BITMAPINFO*)sbfe_Cblloc(1, nBytes);
 
-    static const int BITS_PER_PIXEL = 24;
+    stbtic const int BITS_PER_PIXEL = 24;
 
-    // prepare BITMAPINFO for a 24-bit BGR bitmap
-    pinfo->bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
-    pinfo->bmiHeader.biWidth = width;
-    pinfo->bmiHeader.biHeight = height; // positive height means a bottom-up DIB
-    pinfo->bmiHeader.biPlanes = 1;
-    pinfo->bmiHeader.biBitCount = BITS_PER_PIXEL;
-    pinfo->bmiHeader.biCompression = BI_RGB;
-    // NOTE: MSDN says that biSizeImage may be set to 0 for BI_RGB bitmaps,
-    // but some programs (e.g. Imaging for Windows NT by Wang Laboratories)
-    // don't handle such DIBs correctly, so we specify the size explicitly.
-    pinfo->bmiHeader.biSizeImage = size + pad;
+    // prepbre BITMAPINFO for b 24-bit BGR bitmbp
+    pinfo->bmiHebder.biSize = sizeof(BITMAPINFOHEADER);
+    pinfo->bmiHebder.biWidth = width;
+    pinfo->bmiHebder.biHeight = height; // positive height mebns b bottom-up DIB
+    pinfo->bmiHebder.biPlbnes = 1;
+    pinfo->bmiHebder.biBitCount = BITS_PER_PIXEL;
+    pinfo->bmiHebder.biCompression = BI_RGB;
+    // NOTE: MSDN sbys thbt biSizeImbge mby be set to 0 for BI_RGB bitmbps,
+    // but some progrbms (e.g. Imbging for Windows NT by Wbng Lbborbtories)
+    // don't hbndle such DIBs correctly, so we specify the size explicitly.
+    pinfo->bmiHebder.biSizeImbge = size + pbd;
 
-    jbyte *array = (jbyte*)((LPSTR)pinfo + sizeof(BITMAPINFOHEADER));
-    env->GetByteArrayRegion(imageData, 0, size, array);
+    jbyte *brrby = (jbyte*)((LPSTR)pinfo + sizeof(BITMAPINFOHEADER));
+    env->GetByteArrbyRegion(imbgeDbtb, 0, size, brrby);
     HRESULT hr = S_OK;
 
-    jbyteArray bytes = NULL;
-    switch (format) {
-    case CF_DIB:
-        bytes = env->NewByteArray(nBytes);
+    jbyteArrby bytes = NULL;
+    switch (formbt) {
+    cbse CF_DIB:
+        bytes = env->NewByteArrby(nBytes);
         if( NULL == bytes ) {
             hr = E_OUTOFMEMORY;
         } else {
-            env->SetByteArrayRegion(bytes, 0, nBytes, (jbyte*)pinfo);
+            env->SetByteArrbyRegion(bytes, 0, nBytes, (jbyte*)pinfo);
         }
-        break;
-    case CF_ENHMETAFILE:
+        brebk;
+    cbse CF_ENHMETAFILE:
     {
         HDC hdc = ::GetDC(NULL);
         if( NULL == hdc) {
-            hr = HRESULT_FROM_WIN32(::GetLastError());
+            hr = HRESULT_FROM_WIN32(::GetLbstError());
         } else {
             POINT p = { width, height };
-            //We are trying to support context-independent metafile.
-            //To implement it we have to select correct MM_HIMETRIC map mode.
-            VERIFY(::SetMapMode(hdc, MM_HIMETRIC));
+            //We bre trying to support context-independent metbfile.
+            //To implement it we hbve to select correct MM_HIMETRIC mbp mode.
+            VERIFY(::SetMbpMode(hdc, MM_HIMETRIC));
             VERIFY(::DPtoLP(hdc, &p, 1));
-            //In accordance with CreateEnhMetaFile documentation the rectangle have to
-            //be normal (left <= right, top <= bottom)
-            RECT r = { min(0, p.x), min(0, p.y), max(0, p.x), max(0, p.y) };
-            //Due to inversed row order in source bitmap the destination
-            //height have to be negative.
-            HDC hemfdc = ::CreateEnhMetaFile(NULL, NULL, &r, NULL);
+            //In bccordbnce with CrebteEnhMetbFile documentbtion the rectbngle hbve to
+            //be normbl (left <= right, top <= bottom)
+            RECT r = { min(0, p.x), min(0, p.y), mbx(0, p.x), mbx(0, p.y) };
+            //Due to inversed row order in source bitmbp the destinbtion
+            //height hbve to be negbtive.
+            HDC hemfdc = ::CrebteEnhMetbFile(NULL, NULL, &r, NULL);
             if( NULL == hemfdc) {
-                hr = HRESULT_FROM_WIN32(::GetLastError());
+                hr = HRESULT_FROM_WIN32(::GetLbstError());
             } else {
                 int iMFHeight = r.bottom - r.top;
                 int iMFWidth = r.right - r.left;
-                VERIFY(::SetMapMode(hemfdc, MM_HIMETRIC));
+                VERIFY(::SetMbpMode(hemfdc, MM_HIMETRIC));
                 if( GDI_ERROR == ::StretchDIBits(hemfdc,
                     0, iMFHeight, iMFWidth, -iMFHeight,
                     0, 0, width, height,
-                    (LPVOID)array, pinfo,
+                    (LPVOID)brrby, pinfo,
                     DIB_RGB_COLORS, SRCCOPY))
                 {
-                    hr = HRESULT_FROM_WIN32(::GetLastError());
+                    hr = HRESULT_FROM_WIN32(::GetLbstError());
                 }
-                HENHMETAFILE hemf = ::CloseEnhMetaFile(hemfdc);
+                HENHMETAFILE hemf = ::CloseEnhMetbFile(hemfdc);
                 if( NULL == hemf) {
-                    hr = HRESULT_FROM_WIN32(::GetLastError());
+                    hr = HRESULT_FROM_WIN32(::GetLbstError());
                 } else {
                     if(SUCCEEDED(hr)){
-                        UINT uEmfSize = ::GetEnhMetaFileBits(hemf, 0, NULL);
+                        UINT uEmfSize = ::GetEnhMetbFileBits(hemf, 0, NULL);
                         if( 0 == uEmfSize) {
-                            hr = HRESULT_FROM_WIN32(::GetLastError());
+                            hr = HRESULT_FROM_WIN32(::GetLbstError());
                         } else {
                             LPBYTE lpbEmfBuffer = NULL;
                             try {
-                                lpbEmfBuffer = (LPBYTE)safe_Malloc(uEmfSize);
-                                VERIFY(::GetEnhMetaFileBits(hemf, uEmfSize,
+                                lpbEmfBuffer = (LPBYTE)sbfe_Mblloc(uEmfSize);
+                                VERIFY(::GetEnhMetbFileBits(hemf, uEmfSize,
                                                             lpbEmfBuffer) == uEmfSize);
-                                bytes = env->NewByteArray(uEmfSize);
+                                bytes = env->NewByteArrby(uEmfSize);
                                 if(NULL == bytes) {
                                     hr = E_OUTOFMEMORY;
                                 } else {
-                                    env->SetByteArrayRegion(bytes, 0, uEmfSize, (jbyte*)lpbEmfBuffer);
+                                    env->SetByteArrbyRegion(bytes, 0, uEmfSize, (jbyte*)lpbEmfBuffer);
                                 }
-                            } catch (std::bad_alloc &) {
+                            } cbtch (std::bbd_blloc &) {
                                 hr = E_OUTOFMEMORY;
                             }
                             free(lpbEmfBuffer);
                         }
                     }
-                    VERIFY(::DeleteEnhMetaFile(hemf));
+                    VERIFY(::DeleteEnhMetbFile(hemf));
                 }
             }
-            VERIFY(::ReleaseDC(NULL, hdc));
+            VERIFY(::RelebseDC(NULL, hdc));
         }
-        break;
+        brebk;
     }
-    case CF_METAFILEPICT:
+    cbse CF_METAFILEPICT:
     {
         HDC hdc = ::GetDC(NULL);
         if( NULL == hdc) {
-            hr = HRESULT_FROM_WIN32(::GetLastError());
+            hr = HRESULT_FROM_WIN32(::GetLbstError());
         } else {
             POINT p = { width, height };
-            VERIFY(::SetMapMode(hdc, MM_HIMETRIC));
+            VERIFY(::SetMbpMode(hdc, MM_HIMETRIC));
             VERIFY(::DPtoLP(hdc, &p, 1));
-            RECT r = { min(0, p.x), min(0, p.y), max(0, p.x), max(0, p.y) };
-            HDC hmfdc = ::CreateMetaFile(NULL);
+            RECT r = { min(0, p.x), min(0, p.y), mbx(0, p.x), mbx(0, p.y) };
+            HDC hmfdc = ::CrebteMetbFile(NULL);
             if( NULL == hmfdc) {
-                hr = HRESULT_FROM_WIN32(::GetLastError());
+                hr = HRESULT_FROM_WIN32(::GetLbstError());
             } else {
-                VERIFY(::SetMapMode(hmfdc, MM_HIMETRIC));
+                VERIFY(::SetMbpMode(hmfdc, MM_HIMETRIC));
                 int iMFHeight = r.bottom - r.top;
                 int iMFWidth = r.right - r.left;
-                //The destination Y coordinate (3d parameter in StretchDIBits call) is different for
-                //CF_ENHMETAFILE and CF_METAFILEPICT formats due to applying MM_ANISOTROPIC map mode
-                //at very last moment. MM_ANISOTROPIC map mode changes the Y-axis direction and can be
-                //selected just for metafile header.
+                //The destinbtion Y coordinbte (3d pbrbmeter in StretchDIBits cbll) is different for
+                //CF_ENHMETAFILE bnd CF_METAFILEPICT formbts due to bpplying MM_ANISOTROPIC mbp mode
+                //bt very lbst moment. MM_ANISOTROPIC mbp mode chbnges the Y-bxis direction bnd cbn be
+                //selected just for metbfile hebder.
                 if( GDI_ERROR == ::StretchDIBits(hmfdc,
                     0, 0, iMFWidth, -iMFHeight,
                     0, 0, width, height,
-                    (LPVOID)array, pinfo,
+                    (LPVOID)brrby, pinfo,
                     DIB_RGB_COLORS, SRCCOPY))
                 {
-                    hr = HRESULT_FROM_WIN32(::GetLastError());
+                    hr = HRESULT_FROM_WIN32(::GetLbstError());
                 }
-                HMETAFILE hmf = ::CloseMetaFile(hmfdc);
+                HMETAFILE hmf = ::CloseMetbFile(hmfdc);
                 if( NULL == hmf) {
-                    hr = HRESULT_FROM_WIN32(::GetLastError());
+                    hr = HRESULT_FROM_WIN32(::GetLbstError());
                 } else {
                     if(SUCCEEDED(hr)){
-                        UINT uMfSize = ::GetMetaFileBitsEx(hmf, 0, NULL);
+                        UINT uMfSize = ::GetMetbFileBitsEx(hmf, 0, NULL);
                         if( 0 == uMfSize) {
-                            hr = HRESULT_FROM_WIN32(::GetLastError());
+                            hr = HRESULT_FROM_WIN32(::GetLbstError());
                         } else {
                             LPBYTE lpbMfBuffer = NULL;
                             try {
-                                lpbMfBuffer = (LPBYTE)SAFE_SIZE_STRUCT_ALLOC(safe_Malloc,
+                                lpbMfBuffer = (LPBYTE)SAFE_SIZE_STRUCT_ALLOC(sbfe_Mblloc,
                                         sizeof(METAFILEPICT), uMfSize, 1);
-                                const UINT uMfSizeWithHead = uMfSize + sizeof(METAFILEPICT);
-                                VERIFY(::GetMetaFileBitsEx(hmf, uMfSize,
+                                const UINT uMfSizeWithHebd = uMfSize + sizeof(METAFILEPICT);
+                                VERIFY(::GetMetbFileBitsEx(hmf, uMfSize,
                                                             lpbMfBuffer + sizeof(METAFILEPICT)) == uMfSize);
-                                bytes = env->NewByteArray(uMfSizeWithHead);
+                                bytes = env->NewByteArrby(uMfSizeWithHebd);
                                 if(NULL == bytes) {
                                     hr = E_OUTOFMEMORY;
                                 } else {
                                     LPMETAFILEPICT lpMfp = (LPMETAFILEPICT)lpbMfBuffer;
-                                    lpMfp->mm = MM_ANISOTROPIC; // should use MM_ANISOTROPIC exactly (MSDN)
+                                    lpMfp->mm = MM_ANISOTROPIC; // should use MM_ANISOTROPIC exbctly (MSDN)
                                     lpMfp->xExt = iMFWidth;
                                     lpMfp->yExt = iMFHeight;
-                                    env->SetByteArrayRegion(bytes, 0, uMfSizeWithHead, (jbyte*)lpbMfBuffer);
+                                    env->SetByteArrbyRegion(bytes, 0, uMfSizeWithHebd, (jbyte*)lpbMfBuffer);
                                 }
-                            } catch (std::bad_alloc &) {
+                            } cbtch (std::bbd_blloc &) {
                                 hr = E_OUTOFMEMORY;
                             }
                             free(lpbMfBuffer);
                         }
                     }
-                    VERIFY(::DeleteMetaFile(hmf));
+                    VERIFY(::DeleteMetbFile(hmf));
                 }
             }
-            VERIFY(::ReleaseDC(NULL, hdc));
+            VERIFY(::RelebseDC(NULL, hdc));
         }
-        break;
+        brebk;
     }
-    default:
-        DASSERT(FALSE); // Other formats are not supported yet.
+    defbult:
+        DASSERT(FALSE); // Other formbts bre not supported yet.
         hr = E_NOTIMPL;
-        break;
+        brebk;
     }
     free(pinfo);
     if(FAILED(hr)){
         if(E_OUTOFMEMORY == hr)
-            throw std::bad_alloc();
+            throw std::bbd_blloc();
         return NULL;
     }
     return bytes;
@@ -818,62 +818,62 @@ Java_sun_awt_windows_WDataTransferer_imageDataToPlatformImageBytes(JNIEnv *env,
 }
 
 /*
- * Class:     sun_awt_windows_WDataTransferer
- * Method:    registerClipboardFormat
- * Signature: (Ljava/lang/String;)J
+ * Clbss:     sun_bwt_windows_WDbtbTrbnsferer
+ * Method:    registerClipbobrdFormbt
+ * Signbture: (Ljbvb/lbng/String;)J
  */
 JNIEXPORT jlong JNICALL
-Java_sun_awt_windows_WDataTransferer_registerClipboardFormat(JNIEnv *env,
-                                                             jclass cls,
+Jbvb_sun_bwt_windows_WDbtbTrbnsferer_registerClipbobrdFormbt(JNIEnv *env,
+                                                             jclbss cls,
                                                              jstring str)
 {
     TRY;
 
-    LPCTSTR cStr = JNU_GetStringPlatformChars(env, str, NULL);
+    LPCTSTR cStr = JNU_GetStringPlbtformChbrs(env, str, NULL);
     CHECK_NULL_RETURN(cStr, 0);
-    jlong value = ::RegisterClipboardFormat(cStr);
-    JNU_ReleaseStringPlatformChars(env, str, cStr);
+    jlong vblue = ::RegisterClipbobrdFormbt(cStr);
+    JNU_RelebseStringPlbtformChbrs(env, str, cStr);
 
-    return value;
+    return vblue;
 
     CATCH_BAD_ALLOC_RET(0);
 }
 
 /*
- * Class:     sun_awt_windows_WDataTransferer
- * Method:    getClipboardFormatName
- * Signature: (J)Ljava/lang/String;
+ * Clbss:     sun_bwt_windows_WDbtbTrbnsferer
+ * Method:    getClipbobrdFormbtNbme
+ * Signbture: (J)Ljbvb/lbng/String;
  */
 JNIEXPORT jstring JNICALL
-Java_sun_awt_windows_WDataTransferer_getClipboardFormatName(JNIEnv *env,
-                                                            jclass cls,
-                                                            jlong format)
+Jbvb_sun_bwt_windows_WDbtbTrbnsferer_getClipbobrdFormbtNbme(JNIEnv *env,
+                                                            jclbss cls,
+                                                            jlong formbt)
 {
     TRY;
 
-    LPTSTR buf = new TCHAR[512]; // perhaps a bad idea to limit ourselves to 512
-    VERIFY(::GetClipboardFormatName((UINT)format, buf, 512));
-    jstring name = JNU_NewStringPlatform(env, buf);
+    LPTSTR buf = new TCHAR[512]; // perhbps b bbd ideb to limit ourselves to 512
+    VERIFY(::GetClipbobrdFormbtNbme((UINT)formbt, buf, 512));
+    jstring nbme = JNU_NewStringPlbtform(env, buf);
     delete [] buf;
-    if (name == NULL) {
-        throw std::bad_alloc();
+    if (nbme == NULL) {
+        throw std::bbd_blloc();
     }
-    return name;
+    return nbme;
 
     CATCH_BAD_ALLOC_RET(NULL);
 }
 
 /*
- * Class:     sun_awt_windows_WToolkitThreadBlockedHandler
- * Method:    startSecondaryEventLoop
- * Signature: ()V;
+ * Clbss:     sun_bwt_windows_WToolkitThrebdBlockedHbndler
+ * Method:    stbrtSecondbryEventLoop
+ * Signbture: ()V;
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WToolkitThreadBlockedHandler_startSecondaryEventLoop(JNIEnv *env, jclass)
+Jbvb_sun_bwt_windows_WToolkitThrebdBlockedHbndler_stbrtSecondbryEventLoop(JNIEnv *env, jclbss)
 {
     TRY;
 
-    AwtDataTransferer::SecondaryMessageLoop();
+    AwtDbtbTrbnsferer::SecondbryMessbgeLoop();
 
     CATCH_BAD_ALLOC;
 }

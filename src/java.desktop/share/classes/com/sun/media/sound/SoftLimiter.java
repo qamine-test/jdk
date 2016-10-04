@@ -1,50 +1,50 @@
 /*
- * Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package com.sun.media.sound;
+pbckbge com.sun.medib.sound;
 
 /**
- * A simple look-ahead volume limiter with very fast attack and fast release.
+ * A simple look-bhebd volume limiter with very fbst bttbck bnd fbst relebse.
  * This filter is used for preventing clipping.
  *
- * @author Karl Helgason
+ * @buthor Kbrl Helgbson
  */
-public final class SoftLimiter implements SoftAudioProcessor {
+public finbl clbss SoftLimiter implements SoftAudioProcessor {
 
-    float lastmax = 0;
-    float gain = 1;
-    float[] temp_bufferL;
-    float[] temp_bufferR;
-    boolean mix = false;
+    flobt lbstmbx = 0;
+    flobt gbin = 1;
+    flobt[] temp_bufferL;
+    flobt[] temp_bufferR;
+    boolebn mix = fblse;
     SoftAudioBuffer bufferL;
     SoftAudioBuffer bufferR;
     SoftAudioBuffer bufferLout;
     SoftAudioBuffer bufferRout;
-    float controlrate;
+    flobt controlrbte;
 
-    public void init(float samplerate, float controlrate) {
-        this.controlrate = controlrate;
+    public void init(flobt sbmplerbte, flobt controlrbte) {
+        this.controlrbte = controlrbte;
     }
 
     public void setInput(int pin, SoftAudioBuffer input) {
@@ -61,12 +61,12 @@ public final class SoftLimiter implements SoftAudioProcessor {
             bufferRout = output;
     }
 
-    public void setMixMode(boolean mix) {
+    public void setMixMode(boolebn mix) {
         this.mix = mix;
     }
 
-    public void globalParameterControlChange(int[] slothpath, long param,
-            long value) {
+    public void globblPbrbmeterControlChbnge(int[] slothpbth, long pbrbm,
+            long vblue) {
     }
 
     double silentcounter = 0;
@@ -74,116 +74,116 @@ public final class SoftLimiter implements SoftAudioProcessor {
     public void processAudio() {
         if (this.bufferL.isSilent()
                 && (this.bufferR == null || this.bufferR.isSilent())) {
-            silentcounter += 1 / controlrate;
+            silentcounter += 1 / controlrbte;
 
             if (silentcounter > 60) {
                 if (!mix) {
-                    bufferLout.clear();
-                    if (bufferRout != null) bufferRout.clear();
+                    bufferLout.clebr();
+                    if (bufferRout != null) bufferRout.clebr();
                 }
                 return;
             }
         } else
             silentcounter = 0;
 
-        float[] bufferL = this.bufferL.array();
-        float[] bufferR = this.bufferR == null ? null : this.bufferR.array();
-        float[] bufferLout = this.bufferLout.array();
-        float[] bufferRout = this.bufferRout == null
-                                ? null : this.bufferRout.array();
+        flobt[] bufferL = this.bufferL.brrby();
+        flobt[] bufferR = this.bufferR == null ? null : this.bufferR.brrby();
+        flobt[] bufferLout = this.bufferLout.brrby();
+        flobt[] bufferRout = this.bufferRout == null
+                                ? null : this.bufferRout.brrby();
 
         if (temp_bufferL == null || temp_bufferL.length < bufferL.length)
-            temp_bufferL = new float[bufferL.length];
+            temp_bufferL = new flobt[bufferL.length];
         if (bufferR != null)
             if (temp_bufferR == null || temp_bufferR.length < bufferR.length)
-                temp_bufferR = new float[bufferR.length];
+                temp_bufferR = new flobt[bufferR.length];
 
-        float max = 0;
+        flobt mbx = 0;
         int len = bufferL.length;
 
         if (bufferR == null) {
             for (int i = 0; i < len; i++) {
-                if (bufferL[i] > max)
-                    max = bufferL[i];
-                if (-bufferL[i] > max)
-                    max = -bufferL[i];
+                if (bufferL[i] > mbx)
+                    mbx = bufferL[i];
+                if (-bufferL[i] > mbx)
+                    mbx = -bufferL[i];
             }
         } else {
             for (int i = 0; i < len; i++) {
-                if (bufferL[i] > max)
-                    max = bufferL[i];
-                if (bufferR[i] > max)
-                    max = bufferR[i];
-                if (-bufferL[i] > max)
-                    max = -bufferL[i];
-                if (-bufferR[i] > max)
-                    max = -bufferR[i];
+                if (bufferL[i] > mbx)
+                    mbx = bufferL[i];
+                if (bufferR[i] > mbx)
+                    mbx = bufferR[i];
+                if (-bufferL[i] > mbx)
+                    mbx = -bufferL[i];
+                if (-bufferR[i] > mbx)
+                    mbx = -bufferR[i];
             }
         }
 
-        float lmax = lastmax;
-        lastmax = max;
-        if (lmax > max)
-            max = lmax;
+        flobt lmbx = lbstmbx;
+        lbstmbx = mbx;
+        if (lmbx > mbx)
+            mbx = lmbx;
 
-        float newgain = 1;
-        if (max > 0.99f)
-            newgain = 0.99f / max;
+        flobt newgbin = 1;
+        if (mbx > 0.99f)
+            newgbin = 0.99f / mbx;
         else
-            newgain = 1;
+            newgbin = 1;
 
-        if (newgain > gain)
-            newgain = (newgain + gain * 9) / 10f;
+        if (newgbin > gbin)
+            newgbin = (newgbin + gbin * 9) / 10f;
 
-        float gaindelta = (newgain - gain) / len;
+        flobt gbindeltb = (newgbin - gbin) / len;
         if (mix) {
             if (bufferR == null) {
                 for (int i = 0; i < len; i++) {
-                    gain += gaindelta;
-                    float bL = bufferL[i];
-                    float tL = temp_bufferL[i];
+                    gbin += gbindeltb;
+                    flobt bL = bufferL[i];
+                    flobt tL = temp_bufferL[i];
                     temp_bufferL[i] = bL;
-                    bufferLout[i] += tL * gain;
+                    bufferLout[i] += tL * gbin;
                 }
             } else {
                 for (int i = 0; i < len; i++) {
-                    gain += gaindelta;
-                    float bL = bufferL[i];
-                    float bR = bufferR[i];
-                    float tL = temp_bufferL[i];
-                    float tR = temp_bufferR[i];
+                    gbin += gbindeltb;
+                    flobt bL = bufferL[i];
+                    flobt bR = bufferR[i];
+                    flobt tL = temp_bufferL[i];
+                    flobt tR = temp_bufferR[i];
                     temp_bufferL[i] = bL;
                     temp_bufferR[i] = bR;
-                    bufferLout[i] += tL * gain;
-                    bufferRout[i] += tR * gain;
+                    bufferLout[i] += tL * gbin;
+                    bufferRout[i] += tR * gbin;
                 }
             }
 
         } else {
             if (bufferR == null) {
                 for (int i = 0; i < len; i++) {
-                    gain += gaindelta;
-                    float bL = bufferL[i];
-                    float tL = temp_bufferL[i];
+                    gbin += gbindeltb;
+                    flobt bL = bufferL[i];
+                    flobt tL = temp_bufferL[i];
                     temp_bufferL[i] = bL;
-                    bufferLout[i] = tL * gain;
+                    bufferLout[i] = tL * gbin;
                 }
             } else {
                 for (int i = 0; i < len; i++) {
-                    gain += gaindelta;
-                    float bL = bufferL[i];
-                    float bR = bufferR[i];
-                    float tL = temp_bufferL[i];
-                    float tR = temp_bufferR[i];
+                    gbin += gbindeltb;
+                    flobt bL = bufferL[i];
+                    flobt bR = bufferR[i];
+                    flobt tL = temp_bufferL[i];
+                    flobt tR = temp_bufferR[i];
                     temp_bufferL[i] = bL;
                     temp_bufferR[i] = bR;
-                    bufferLout[i] = tL * gain;
-                    bufferRout[i] = tR * gain;
+                    bufferLout[i] = tL * gbin;
+                    bufferRout[i] = tR * gbin;
                 }
             }
 
         }
-        gain = newgain;
+        gbin = newgbin;
     }
 
     public void processControlLogic() {

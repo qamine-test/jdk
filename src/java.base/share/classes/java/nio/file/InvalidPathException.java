@@ -1,81 +1,81 @@
 /*
- * Copyright (c) 2007, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2009, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.nio.file;
+pbckbge jbvb.nio.file;
 
 /**
- * Unchecked exception thrown when path string cannot be converted into a
- * {@link Path} because the path string contains invalid characters, or
- * the path string is invalid for other file system specific reasons.
+ * Unchecked exception thrown when pbth string cbnnot be converted into b
+ * {@link Pbth} becbuse the pbth string contbins invblid chbrbcters, or
+ * the pbth string is invblid for other file system specific rebsons.
  */
 
-public class InvalidPathException
-    extends IllegalArgumentException
+public clbss InvblidPbthException
+    extends IllegblArgumentException
 {
-    static final long serialVersionUID = 4355821422286746137L;
+    stbtic finbl long seriblVersionUID = 4355821422286746137L;
 
-    private String input;
-    private int index;
+    privbte String input;
+    privbte int index;
 
     /**
-     * Constructs an instance from the given input string, reason, and error
+     * Constructs bn instbnce from the given input string, rebson, bnd error
      * index.
      *
-     * @param  input   the input string
-     * @param  reason  a string explaining why the input was rejected
-     * @param  index   the index at which the error occurred,
+     * @pbrbm  input   the input string
+     * @pbrbm  rebson  b string explbining why the input wbs rejected
+     * @pbrbm  index   the index bt which the error occurred,
      *                 or <tt>-1</tt> if the index is not known
      *
      * @throws  NullPointerException
-     *          if either the input or reason strings are <tt>null</tt>
+     *          if either the input or rebson strings bre <tt>null</tt>
      *
-     * @throws  IllegalArgumentException
-     *          if the error index is less than <tt>-1</tt>
+     * @throws  IllegblArgumentException
+     *          if the error index is less thbn <tt>-1</tt>
      */
-    public InvalidPathException(String input, String reason, int index) {
-        super(reason);
-        if ((input == null) || (reason == null))
+    public InvblidPbthException(String input, String rebson, int index) {
+        super(rebson);
+        if ((input == null) || (rebson == null))
             throw new NullPointerException();
         if (index < -1)
-            throw new IllegalArgumentException();
+            throw new IllegblArgumentException();
         this.input = input;
         this.index = index;
     }
 
     /**
-     * Constructs an instance from the given input string and reason.  The
-     * resulting object will have an error index of <tt>-1</tt>.
+     * Constructs bn instbnce from the given input string bnd rebson.  The
+     * resulting object will hbve bn error index of <tt>-1</tt>.
      *
-     * @param  input   the input string
-     * @param  reason  a string explaining why the input was rejected
+     * @pbrbm  input   the input string
+     * @pbrbm  rebson  b string explbining why the input wbs rejected
      *
      * @throws  NullPointerException
-     *          if either the input or reason strings are <tt>null</tt>
+     *          if either the input or rebson strings bre <tt>null</tt>
      */
-    public InvalidPathException(String input, String reason) {
-        this(input, reason, -1);
+    public InvblidPbthException(String input, String rebson) {
+        this(input, rebson, -1);
     }
 
     /**
@@ -88,16 +88,16 @@ public class InvalidPathException
     }
 
     /**
-     * Returns a string explaining why the input string was rejected.
+     * Returns b string explbining why the input string wbs rejected.
      *
-     * @return  the reason string
+     * @return  the rebson string
      */
-    public String getReason() {
-        return super.getMessage();
+    public String getRebson() {
+        return super.getMessbge();
     }
 
     /**
-     * Returns an index into the input string of the position at which the
+     * Returns bn index into the input string of the position bt which the
      * error occurred, or <tt>-1</tt> if this position is not known.
      *
      * @return  the error index
@@ -107,24 +107,24 @@ public class InvalidPathException
     }
 
     /**
-     * Returns a string describing the error.  The resulting string
-     * consists of the reason string followed by a colon character
-     * (<tt>':'</tt>), a space, and the input string.  If the error index is
-     * defined then the string <tt>" at index "</tt> followed by the index, in
-     * decimal, is inserted after the reason string and before the colon
-     * character.
+     * Returns b string describing the error.  The resulting string
+     * consists of the rebson string followed by b colon chbrbcter
+     * (<tt>':'</tt>), b spbce, bnd the input string.  If the error index is
+     * defined then the string <tt>" bt index "</tt> followed by the index, in
+     * decimbl, is inserted bfter the rebson string bnd before the colon
+     * chbrbcter.
      *
-     * @return  a string describing the error
+     * @return  b string describing the error
      */
-    public String getMessage() {
+    public String getMessbge() {
         StringBuilder sb = new StringBuilder();
-        sb.append(getReason());
+        sb.bppend(getRebson());
         if (index > -1) {
-            sb.append(" at index ");
-            sb.append(index);
+            sb.bppend(" bt index ");
+            sb.bppend(index);
         }
-        sb.append(": ");
-        sb.append(input);
+        sb.bppend(": ");
+        sb.bppend(input);
         return sb.toString();
     }
 }

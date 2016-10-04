@@ -1,70 +1,70 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.jgss.krb5;
+pbckbge sun.security.jgss.krb5;
 
-import java.io.IOException;
+import jbvb.io.IOException;
 import org.ietf.jgss.*;
-import sun.security.jgss.GSSCaller;
+import sun.security.jgss.GSSCbller;
 import sun.security.jgss.spi.*;
 import sun.security.krb5.*;
-import java.security.PrivilegedActionException;
-import java.security.PrivilegedExceptionAction;
-import java.security.AccessController;
-import java.security.AccessControlContext;
-import javax.security.auth.DestroyFailedException;
+import jbvb.security.PrivilegedActionException;
+import jbvb.security.PrivilegedExceptionAction;
+import jbvb.security.AccessController;
+import jbvb.security.AccessControlContext;
+import jbvbx.security.buth.DestroyFbiledException;
 
 /**
- * Implements the krb5 acceptor credential element.
+ * Implements the krb5 bcceptor credentibl element.
  *
- * @author Mayank Upadhyay
+ * @buthor Mbybnk Upbdhyby
  * @since 1.4
  */
-public class Krb5AcceptCredential
+public clbss Krb5AcceptCredentibl
     implements Krb5CredElement {
 
-    private final Krb5NameElement name;
-    private final ServiceCreds screds;
+    privbte finbl Krb5NbmeElement nbme;
+    privbte finbl ServiceCreds screds;
 
-    private Krb5AcceptCredential(Krb5NameElement name, ServiceCreds creds) {
+    privbte Krb5AcceptCredentibl(Krb5NbmeElement nbme, ServiceCreds creds) {
         /*
-         * Initialize this instance with the data from the acquired
-         * KerberosKey. This class needs to be a KerberosKey too
-         * hence we can't just store a reference.
+         * Initiblize this instbnce with the dbtb from the bcquired
+         * KerberosKey. This clbss needs to be b KerberosKey too
+         * hence we cbn't just store b reference.
          */
 
-        this.name = name;
+        this.nbme = nbme;
         this.screds = creds;
     }
 
-    static Krb5AcceptCredential getInstance(final GSSCaller caller, Krb5NameElement name)
+    stbtic Krb5AcceptCredentibl getInstbnce(finbl GSSCbller cbller, Krb5NbmeElement nbme)
         throws GSSException {
 
-        final String serverPrinc = (name == null? null:
-            name.getKrb5PrincipalName().getName());
-        final AccessControlContext acc = AccessController.getContext();
+        finbl String serverPrinc = (nbme == null? null:
+            nbme.getKrb5PrincipblNbme().getNbme());
+        finbl AccessControlContext bcc = AccessController.getContext();
 
         ServiceCreds creds = null;
         try {
@@ -72,126 +72,126 @@ public class Krb5AcceptCredential
                         new PrivilegedExceptionAction<ServiceCreds>() {
                 public ServiceCreds run() throws Exception {
                     return Krb5Util.getServiceCreds(
-                        caller == GSSCaller.CALLER_UNKNOWN ? GSSCaller.CALLER_ACCEPT: caller,
-                        serverPrinc, acc);
+                        cbller == GSSCbller.CALLER_UNKNOWN ? GSSCbller.CALLER_ACCEPT: cbller,
+                        serverPrinc, bcc);
                 }});
-        } catch (PrivilegedActionException e) {
+        } cbtch (PrivilegedActionException e) {
             GSSException ge =
                 new GSSException(GSSException.NO_CRED, -1,
-                    "Attempt to obtain new ACCEPT credentials failed!");
-            ge.initCause(e.getException());
+                    "Attempt to obtbin new ACCEPT credentibls fbiled!");
+            ge.initCbuse(e.getException());
             throw ge;
         }
 
         if (creds == null)
             throw new GSSException(GSSException.NO_CRED, -1,
-                                   "Failed to find any Kerberos credentails");
+                                   "Fbiled to find bny Kerberos credentbils");
 
-        if (name == null) {
-            String fullName = creds.getName();
-            if (fullName != null) {
-                name = Krb5NameElement.getInstance(fullName,
-                                       Krb5MechFactory.NT_GSS_KRB5_PRINCIPAL);
+        if (nbme == null) {
+            String fullNbme = creds.getNbme();
+            if (fullNbme != null) {
+                nbme = Krb5NbmeElement.getInstbnce(fullNbme,
+                                       Krb5MechFbctory.NT_GSS_KRB5_PRINCIPAL);
             }
         }
 
-        return new Krb5AcceptCredential(name, creds);
+        return new Krb5AcceptCredentibl(nbme, creds);
     }
 
     /**
-     * Returns the principal name for this credential. The name
-     * is in mechanism specific format.
+     * Returns the principbl nbme for this credentibl. The nbme
+     * is in mechbnism specific formbt.
      *
-     * @return GSSNameSpi representing principal name of this credential
-     * @exception GSSException may be thrown
+     * @return GSSNbmeSpi representing principbl nbme of this credentibl
+     * @exception GSSException mby be thrown
      */
-    public final GSSNameSpi getName() throws GSSException {
-        return name;
+    public finbl GSSNbmeSpi getNbme() throws GSSException {
+        return nbme;
     }
 
     /**
-     * Returns the init lifetime remaining.
+     * Returns the init lifetime rembining.
      *
-     * @return the init lifetime remaining in seconds
-     * @exception GSSException may be thrown
+     * @return the init lifetime rembining in seconds
+     * @exception GSSException mby be thrown
      */
     public int getInitLifetime() throws GSSException {
         return 0;
     }
 
     /**
-     * Returns the accept lifetime remaining.
+     * Returns the bccept lifetime rembining.
      *
-     * @return the accept lifetime remaining in seconds
-     * @exception GSSException may be thrown
+     * @return the bccept lifetime rembining in seconds
+     * @exception GSSException mby be thrown
      */
     public int getAcceptLifetime() throws GSSException {
-        return GSSCredential.INDEFINITE_LIFETIME;
+        return GSSCredentibl.INDEFINITE_LIFETIME;
     }
 
-    public boolean isInitiatorCredential() throws GSSException {
-        return false;
+    public boolebn isInitibtorCredentibl() throws GSSException {
+        return fblse;
     }
 
-    public boolean isAcceptorCredential() throws GSSException {
+    public boolebn isAcceptorCredentibl() throws GSSException {
         return true;
     }
 
     /**
-     * Returns the oid representing the underlying credential
-     * mechanism oid.
+     * Returns the oid representing the underlying credentibl
+     * mechbnism oid.
      *
-     * @return the Oid for this credential mechanism
-     * @exception GSSException may be thrown
+     * @return the Oid for this credentibl mechbnism
+     * @exception GSSException mby be thrown
      */
-    public final Oid getMechanism() {
-        return Krb5MechFactory.GSS_KRB5_MECH_OID;
+    public finbl Oid getMechbnism() {
+        return Krb5MechFbctory.GSS_KRB5_MECH_OID;
     }
 
-    public final java.security.Provider getProvider() {
-        return Krb5MechFactory.PROVIDER;
+    public finbl jbvb.security.Provider getProvider() {
+        return Krb5MechFbctory.PROVIDER;
     }
 
-    public EncryptionKey[] getKrb5EncryptionKeys(PrincipalName princ) {
+    public EncryptionKey[] getKrb5EncryptionKeys(PrincipblNbme princ) {
         return screds.getEKeys(princ);
     }
 
     /**
-     * Called to invalidate this credential element.
+     * Cblled to invblidbte this credentibl element.
      */
     public void dispose() throws GSSException {
         try {
             destroy();
-        } catch (DestroyFailedException e) {
+        } cbtch (DestroyFbiledException e) {
             GSSException gssException =
                 new GSSException(GSSException.FAILURE, -1,
-                 "Could not destroy credentials - " + e.getMessage());
-            gssException.initCause(e);
+                 "Could not destroy credentibls - " + e.getMessbge());
+            gssException.initCbuse(e);
         }
     }
 
     /**
-     * Destroys the locally cached EncryptionKey value and then calls
-     * destroy in the base class.
+     * Destroys the locblly cbched EncryptionKey vblue bnd then cblls
+     * destroy in the bbse clbss.
      */
-    public void destroy() throws DestroyFailedException {
+    public void destroy() throws DestroyFbiledException {
         screds.destroy();
     }
 
     /**
-     * Impersonation is only available on the initiator side. The
-     * service must starts as an initiator to get an initial TGT to complete
+     * Impersonbtion is only bvbilbble on the initibtor side. The
+     * service must stbrts bs bn initibtor to get bn initibl TGT to complete
      * the S4U2self protocol.
      */
     @Override
-    public GSSCredentialSpi impersonate(GSSNameSpi name) throws GSSException {
-        Credentials cred = screds.getInitCred();
+    public GSSCredentiblSpi impersonbte(GSSNbmeSpi nbme) throws GSSException {
+        Credentibls cred = screds.getInitCred();
         if (cred != null) {
-            return Krb5InitCredential.getInstance(this.name, cred)
-                    .impersonate(name);
+            return Krb5InitCredentibl.getInstbnce(this.nbme, cred)
+                    .impersonbte(nbme);
         } else {
             throw new GSSException(GSSException.FAILURE, -1,
-                "Only an initiate credentials can impersonate");
+                "Only bn initibte credentibls cbn impersonbte");
         }
     }
 }

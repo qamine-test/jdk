@@ -1,122 +1,122 @@
 /*
- * Copyright (c) 2001, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 /*
  * eventFilter
  *
- * This module handles event filteration and the enabling/disabling
+ * This module hbndles event filterbtion bnd the enbbling/disbbling
  * of the corresponding events. Used for filters on JDI EventRequests
- * and also internal requests.  Our data is in a private hidden section
- * of the HandlerNode's data.  See comment for enclosing
- * module eventHandler.
+ * bnd blso internbl requests.  Our dbtb is in b privbte hidden section
+ * of the HbndlerNode's dbtb.  See comment for enclosing
+ * module eventHbndler.
  */
 
 #include "util.h"
 #include "eventFilter.h"
 #include "eventFilterRestricted.h"
-#include "eventHandlerRestricted.h"
+#include "eventHbndlerRestricted.h"
 #include "stepControl.h"
-#include "threadControl.h"
+#include "threbdControl.h"
 #include "SDE.h"
 #include "jvmti.h"
 
-typedef struct ClassFilter {
-    jclass clazz;
-} ClassFilter;
+typedef struct ClbssFilter {
+    jclbss clbzz;
+} ClbssFilter;
 
-typedef struct LocationFilter {
-    jclass clazz;
+typedef struct LocbtionFilter {
+    jclbss clbzz;
     jmethodID method;
-    jlocation location;
-} LocationFilter;
+    jlocbtion locbtion;
+} LocbtionFilter;
 
-typedef struct ThreadFilter {
-    jthread thread;
-} ThreadFilter;
+typedef struct ThrebdFilter {
+    jthrebd threbd;
+} ThrebdFilter;
 
 typedef struct CountFilter {
     jint count;
 } CountFilter;
 
-typedef struct ConditionalFilter {
+typedef struct ConditionblFilter {
     jint exprID;
-} ConditionalFilter;
+} ConditionblFilter;
 
 typedef struct FieldFilter {
-    jclass clazz;
+    jclbss clbzz;
     jfieldID field;
 } FieldFilter;
 
 typedef struct ExceptionFilter {
-    jclass exception;
-    jboolean caught;
-    jboolean uncaught;
+    jclbss exception;
+    jboolebn cbught;
+    jboolebn uncbught;
 } ExceptionFilter;
 
-typedef struct InstanceFilter {
-    jobject instance;
-} InstanceFilter;
+typedef struct InstbnceFilter {
+    jobject instbnce;
+} InstbnceFilter;
 
 typedef struct StepFilter {
     jint size;
     jint depth;
-    jthread thread;
+    jthrebd threbd;
 } StepFilter;
 
-typedef struct MatchFilter {
-    char *classPattern;
-} MatchFilter;
+typedef struct MbtchFilter {
+    chbr *clbssPbttern;
+} MbtchFilter;
 
-typedef struct SourceNameFilter {
-    char *sourceNamePattern;
-} SourceNameFilter;
+typedef struct SourceNbmeFilter {
+    chbr *sourceNbmePbttern;
+} SourceNbmeFilter;
 
 typedef struct Filter_ {
     jbyte modifier;
     union {
-        struct ClassFilter ClassOnly;
-        struct LocationFilter LocationOnly;
-        struct ThreadFilter ThreadOnly;
+        struct ClbssFilter ClbssOnly;
+        struct LocbtionFilter LocbtionOnly;
+        struct ThrebdFilter ThrebdOnly;
         struct CountFilter Count;
-        struct ConditionalFilter Conditional;
+        struct ConditionblFilter Conditionbl;
         struct FieldFilter FieldOnly;
         struct ExceptionFilter ExceptionOnly;
-        struct InstanceFilter InstanceOnly;
+        struct InstbnceFilter InstbnceOnly;
         struct StepFilter Step;
-        struct MatchFilter ClassMatch;
-        struct MatchFilter ClassExclude;
-        struct SourceNameFilter SourceNameOnly;
+        struct MbtchFilter ClbssMbtch;
+        struct MbtchFilter ClbssExclude;
+        struct SourceNbmeFilter SourceNbmeOnly;
     } u;
 } Filter;
 
-/* The filters array is allocated to the specified filterCount.
- * Theoretically, some compiler could do range checking on this
- * array - so, we define it to have a ludicrously large size so
- * that this range checking won't get upset.
+/* The filters brrby is bllocbted to the specified filterCount.
+ * Theoreticblly, some compiler could do rbnge checking on this
+ * brrby - so, we define it to hbve b ludicrously lbrge size so
+ * thbt this rbnge checking won't get upset.
  *
- * The actual allocated number of bytes is computed using the
- * offset of "filters" and so is not effected by this number.
+ * The bctubl bllocbted number of bytes is computed using the
+ * offset of "filters" bnd so is not effected by this number.
  */
 #define MAX_FILTERS 10000
 
@@ -125,16 +125,16 @@ typedef struct EventFilters_ {
     Filter filters[MAX_FILTERS];
 } EventFilters;
 
-typedef struct EventFilterPrivate_HandlerNode_ {
-    EventHandlerRestricted_HandlerNode   not_for_us;
+typedef struct EventFilterPrivbte_HbndlerNode_ {
+    EventHbndlerRestricted_HbndlerNode   not_for_us;
     EventFilters                         ef;
-} EventFilterPrivate_HandlerNode;
+} EventFilterPrivbte_HbndlerNode;
 
 /**
- * The following macros extract filter info (EventFilters) from private
- * data at the end of a HandlerNode
+ * The following mbcros extrbct filter info (EventFilters) from privbte
+ * dbtb bt the end of b HbndlerNode
  */
-#define EVENT_FILTERS(node) (&(((EventFilterPrivate_HandlerNode*)(void*)node)->ef))
+#define EVENT_FILTERS(node) (&(((EventFilterPrivbte_HbndlerNode*)(void*)node)->ef))
 #define FILTER_COUNT(node)  (EVENT_FILTERS(node)->filterCount)
 #define FILTERS_ARRAY(node) (EVENT_FILTERS(node)->filters)
 #define FILTER(node,index)  ((FILTERS_ARRAY(node))[index])
@@ -143,17 +143,17 @@ typedef struct EventFilterPrivate_HandlerNode_ {
 /***** filter set-up / destruction *****/
 
 /**
- * Allocate a HandlerNode.
- * We do it because eventHandler doesn't know how big to make it.
+ * Allocbte b HbndlerNode.
+ * We do it becbuse eventHbndler doesn't know how big to mbke it.
  */
-HandlerNode *
-eventFilterRestricted_alloc(jint filterCount)
+HbndlerNode *
+eventFilterRestricted_blloc(jint filterCount)
 {
     /*LINTED*/
-    size_t size = offsetof(EventFilterPrivate_HandlerNode, ef) +
+    size_t size = offsetof(EventFilterPrivbte_HbndlerNode, ef) +
                   offsetof(EventFilters, filters) +
                   (filterCount * (int)sizeof(Filter));
-    HandlerNode *node = jvmtiAllocate((jint)size);
+    HbndlerNode *node = jvmtiAllocbte((jint)size);
 
     if (node != NULL) {
         int i;
@@ -163,7 +163,7 @@ eventFilterRestricted_alloc(jint filterCount)
 
         FILTER_COUNT(node) = filterCount;
 
-        /* Initialize all modifiers
+        /* Initiblize bll modifiers
          */
         for (i = 0, filter = FILTERS_ARRAY(node);
                                     i < filterCount;
@@ -176,11 +176,11 @@ eventFilterRestricted_alloc(jint filterCount)
 }
 
 /**
- * Free up global refs held by the filter.
- * free things up at the JNI level if needed.
+ * Free up globbl refs held by the filter.
+ * free things up bt the JNI level if needed.
  */
-static jvmtiError
-clearFilters(HandlerNode *node)
+stbtic jvmtiError
+clebrFilters(HbndlerNode *node)
 {
     JNIEnv *env = getEnv();
     jint i;
@@ -189,48 +189,48 @@ clearFilters(HandlerNode *node)
 
     for (i = 0; i < FILTER_COUNT(node); ++i, ++filter) {
         switch (filter->modifier) {
-            case JDWP_REQUEST_MODIFIER(ThreadOnly):
-                if ( filter->u.ThreadOnly.thread != NULL ) {
-                    tossGlobalRef(env, &(filter->u.ThreadOnly.thread));
+            cbse JDWP_REQUEST_MODIFIER(ThrebdOnly):
+                if ( filter->u.ThrebdOnly.threbd != NULL ) {
+                    tossGlobblRef(env, &(filter->u.ThrebdOnly.threbd));
                 }
-                break;
-            case JDWP_REQUEST_MODIFIER(LocationOnly):
-                tossGlobalRef(env, &(filter->u.LocationOnly.clazz));
-                break;
-            case JDWP_REQUEST_MODIFIER(FieldOnly):
-                tossGlobalRef(env, &(filter->u.FieldOnly.clazz));
-                break;
-            case JDWP_REQUEST_MODIFIER(ExceptionOnly):
+                brebk;
+            cbse JDWP_REQUEST_MODIFIER(LocbtionOnly):
+                tossGlobblRef(env, &(filter->u.LocbtionOnly.clbzz));
+                brebk;
+            cbse JDWP_REQUEST_MODIFIER(FieldOnly):
+                tossGlobblRef(env, &(filter->u.FieldOnly.clbzz));
+                brebk;
+            cbse JDWP_REQUEST_MODIFIER(ExceptionOnly):
                 if ( filter->u.ExceptionOnly.exception != NULL ) {
-                    tossGlobalRef(env, &(filter->u.ExceptionOnly.exception));
+                    tossGlobblRef(env, &(filter->u.ExceptionOnly.exception));
                 }
-                break;
-            case JDWP_REQUEST_MODIFIER(InstanceOnly):
-                if ( filter->u.InstanceOnly.instance != NULL ) {
-                    tossGlobalRef(env, &(filter->u.InstanceOnly.instance));
+                brebk;
+            cbse JDWP_REQUEST_MODIFIER(InstbnceOnly):
+                if ( filter->u.InstbnceOnly.instbnce != NULL ) {
+                    tossGlobblRef(env, &(filter->u.InstbnceOnly.instbnce));
                 }
-                break;
-            case JDWP_REQUEST_MODIFIER(ClassOnly):
-                tossGlobalRef(env, &(filter->u.ClassOnly.clazz));
-                break;
-            case JDWP_REQUEST_MODIFIER(ClassMatch):
-                jvmtiDeallocate(filter->u.ClassMatch.classPattern);
-                break;
-            case JDWP_REQUEST_MODIFIER(ClassExclude):
-                jvmtiDeallocate(filter->u.ClassExclude.classPattern);
-                break;
-            case JDWP_REQUEST_MODIFIER(Step): {
-                jthread thread = filter->u.Step.thread;
-                error = stepControl_endStep(thread);
+                brebk;
+            cbse JDWP_REQUEST_MODIFIER(ClbssOnly):
+                tossGlobblRef(env, &(filter->u.ClbssOnly.clbzz));
+                brebk;
+            cbse JDWP_REQUEST_MODIFIER(ClbssMbtch):
+                jvmtiDebllocbte(filter->u.ClbssMbtch.clbssPbttern);
+                brebk;
+            cbse JDWP_REQUEST_MODIFIER(ClbssExclude):
+                jvmtiDebllocbte(filter->u.ClbssExclude.clbssPbttern);
+                brebk;
+            cbse JDWP_REQUEST_MODIFIER(Step): {
+                jthrebd threbd = filter->u.Step.threbd;
+                error = stepControl_endStep(threbd);
                 if (error == JVMTI_ERROR_NONE) {
-                    tossGlobalRef(env, &(filter->u.Step.thread));
+                    tossGlobblRef(env, &(filter->u.Step.threbd));
                 }
-                break;
+                brebk;
             }
         }
     }
     if (error == JVMTI_ERROR_NONE) {
-        FILTER_COUNT(node) = 0; /* blast so we don't clear again */
+        FILTER_COUNT(node) = 0; /* blbst so we don't clebr bgbin */
     }
 
     return error;
@@ -240,73 +240,73 @@ clearFilters(HandlerNode *node)
 /***** filtering *****/
 
 /*
- * Match a string against a wildcard
- * string pattern.
+ * Mbtch b string bgbinst b wildcbrd
+ * string pbttern.
  */
-static jboolean
-patternStringMatch(char *classname, const char *pattern)
+stbtic jboolebn
+pbtternStringMbtch(chbr *clbssnbme, const chbr *pbttern)
 {
-    int pattLen;
+    int pbttLen;
     int compLen;
-    char *start;
+    chbr *stbrt;
     int offset;
 
-    if ( pattern==NULL || classname==NULL ) {
+    if ( pbttern==NULL || clbssnbme==NULL ) {
         return JNI_FALSE;
     }
-    pattLen = (int)strlen(pattern);
+    pbttLen = (int)strlen(pbttern);
 
-    if ((pattern[0] != '*') && (pattern[pattLen-1] != '*')) {
-        /* An exact match is required when there is no *: bug 4331522 */
-        return strcmp(pattern, classname) == 0;
+    if ((pbttern[0] != '*') && (pbttern[pbttLen-1] != '*')) {
+        /* An exbct mbtch is required when there is no *: bug 4331522 */
+        return strcmp(pbttern, clbssnbme) == 0;
     } else {
-        compLen = pattLen - 1;
-        offset = (int)strlen(classname) - compLen;
+        compLen = pbttLen - 1;
+        offset = (int)strlen(clbssnbme) - compLen;
         if (offset < 0) {
             return JNI_FALSE;
         } else {
-            if (pattern[0] == '*') {
-                pattern++;
-                start = classname + offset;
+            if (pbttern[0] == '*') {
+                pbttern++;
+                stbrt = clbssnbme + offset;
             }  else {
-                start = classname;
+                stbrt = clbssnbme;
             }
-            return strncmp(pattern, start, compLen) == 0;
+            return strncmp(pbttern, stbrt, compLen) == 0;
         }
     }
 }
 
-static jboolean isVersionGte12x() {
+stbtic jboolebn isVersionGte12x() {
     jint version;
     jvmtiError err =
-        JVMTI_FUNC_PTR(gdata->jvmti,GetVersionNumber)(gdata->jvmti, &version);
+        JVMTI_FUNC_PTR(gdbtb->jvmti,GetVersionNumber)(gdbtb->jvmti, &version);
 
     if (err == JVMTI_ERROR_NONE) {
-        jint major, minor;
+        jint mbjor, minor;
 
-        major = (version & JVMTI_VERSION_MASK_MAJOR)
+        mbjor = (version & JVMTI_VERSION_MASK_MAJOR)
                     >> JVMTI_VERSION_SHIFT_MAJOR;
         minor = (version & JVMTI_VERSION_MASK_MINOR)
                     >> JVMTI_VERSION_SHIFT_MINOR;
-        return (major > 1 || (major == 1 && minor >= 2)) ? JNI_TRUE : JNI_FALSE;
+        return (mbjor > 1 || (mbjor == 1 && minor >= 2)) ? JNI_TRUE : JNI_FALSE;
     } else {
         return JNI_FALSE;
     }
 }
 
-/* Return the object instance in which the event occurred */
-/* Return NULL if static or if an error occurs */
-static jobject
-eventInstance(EventInfo *evinfo)
+/* Return the object instbnce in which the event occurred */
+/* Return NULL if stbtic or if bn error occurs */
+stbtic jobject
+eventInstbnce(EventInfo *evinfo)
 {
     jobject     object          = NULL;
-    jthread     thread          ;
+    jthrebd     threbd          ;
     jmethodID   method          ;
     jint        modifiers       = 0;
     jvmtiError  error;
 
-    static jboolean got_version = JNI_FALSE;
-    static jboolean is_version_gte_12x = JNI_FALSE;
+    stbtic jboolebn got_version = JNI_FALSE;
+    stbtic jboolebn is_version_gte_12x = JNI_FALSE;
 
     if (!got_version) {
         is_version_gte_12x = isVersionGte12x();
@@ -314,41 +314,41 @@ eventInstance(EventInfo *evinfo)
     }
 
     switch (evinfo->ei) {
-        case EI_SINGLE_STEP:
-        case EI_BREAKPOINT:
-        case EI_FRAME_POP:
-        case EI_METHOD_ENTRY:
-        case EI_METHOD_EXIT:
-        case EI_EXCEPTION:
-        case EI_EXCEPTION_CATCH:
-        case EI_MONITOR_CONTENDED_ENTER:
-        case EI_MONITOR_CONTENDED_ENTERED:
-        case EI_MONITOR_WAIT:
-        case EI_MONITOR_WAITED:
-            thread      = evinfo->thread;
+        cbse EI_SINGLE_STEP:
+        cbse EI_BREAKPOINT:
+        cbse EI_FRAME_POP:
+        cbse EI_METHOD_ENTRY:
+        cbse EI_METHOD_EXIT:
+        cbse EI_EXCEPTION:
+        cbse EI_EXCEPTION_CATCH:
+        cbse EI_MONITOR_CONTENDED_ENTER:
+        cbse EI_MONITOR_CONTENDED_ENTERED:
+        cbse EI_MONITOR_WAIT:
+        cbse EI_MONITOR_WAITED:
+            threbd      = evinfo->threbd;
             method      = evinfo->method;
-            break;
-        case EI_FIELD_ACCESS:
-        case EI_FIELD_MODIFICATION:
+            brebk;
+        cbse EI_FIELD_ACCESS:
+        cbse EI_FIELD_MODIFICATION:
             object = evinfo->object;
             return object;
-        default:
+        defbult:
             return object; /* NULL */
     }
 
     error = methodModifiers(method, &modifiers);
 
-    /* fail if error or static (0x8) */
-    if (error == JVMTI_ERROR_NONE && thread!=NULL && (modifiers & 0x8) == 0) {
-        FrameNumber fnum            = 0;
+    /* fbil if error or stbtic (0x8) */
+    if (error == JVMTI_ERROR_NONE && threbd!=NULL && (modifiers & 0x8) == 0) {
+        FrbmeNumber fnum            = 0;
         if (is_version_gte_12x) {
-            /* Use new 1.2.x function, GetLocalInstance */
-            error = JVMTI_FUNC_PTR(gdata->jvmti,GetLocalInstance)
-                        (gdata->jvmti, thread, fnum, &object);
+            /* Use new 1.2.x function, GetLocblInstbnce */
+            error = JVMTI_FUNC_PTR(gdbtb->jvmti,GetLocblInstbnce)
+                        (gdbtb->jvmti, threbd, fnum, &object);
         } else {
             /* get slot zero object "this" */
-            error = JVMTI_FUNC_PTR(gdata->jvmti,GetLocalObject)
-                        (gdata->jvmti, thread, fnum, 0, &object);
+            error = JVMTI_FUNC_PTR(gdbtb->jvmti,GetLocblObject)
+                        (gdbtb->jvmti, threbd, fnum, 0, &object);
         }
         if (error != JVMTI_ERROR_NONE) {
             object = NULL;
@@ -359,210 +359,210 @@ eventInstance(EventInfo *evinfo)
 }
 
 /*
- * Determine if this event is interesting to this handler.
- * Do so by checking each of the handler's filters.
- * Return false if any of the filters fail,
- * true if the handler wants this event.
+ * Determine if this event is interesting to this hbndler.
+ * Do so by checking ebch of the hbndler's filters.
+ * Return fblse if bny of the filters fbil,
+ * true if the hbndler wbnts this event.
  * Anyone modifying this function should check
- * eventFilterRestricted_passesUnloadFilter and
- * eventFilter_predictFiltering as well.
+ * eventFilterRestricted_pbssesUnlobdFilter bnd
+ * eventFilter_predictFiltering bs well.
  *
- * If shouldDelete is returned true, a count filter has expired
- * and the corresponding node should be deleted.
+ * If shouldDelete is returned true, b count filter hbs expired
+ * bnd the corresponding node should be deleted.
  */
-jboolean
-eventFilterRestricted_passesFilter(JNIEnv *env,
-                                   char *classname,
+jboolebn
+eventFilterRestricted_pbssesFilter(JNIEnv *env,
+                                   chbr *clbssnbme,
                                    EventInfo *evinfo,
-                                   HandlerNode *node,
-                                   jboolean *shouldDelete)
+                                   HbndlerNode *node,
+                                   jboolebn *shouldDelete)
 {
-    jthread thread;
-    jclass clazz;
+    jthrebd threbd;
+    jclbss clbzz;
     jmethodID method;
     Filter *filter = FILTERS_ARRAY(node);
     int i;
 
     *shouldDelete = JNI_FALSE;
-    thread = evinfo->thread;
-    clazz = evinfo->clazz;
+    threbd = evinfo->threbd;
+    clbzz = evinfo->clbzz;
     method = evinfo->method;
 
     /*
-     * Suppress most events if they happen in debug threads
+     * Suppress most events if they hbppen in debug threbds
      */
     if ((evinfo->ei != EI_CLASS_PREPARE) &&
         (evinfo->ei != EI_GC_FINISH) &&
         (evinfo->ei != EI_CLASS_LOAD) &&
-        threadControl_isDebugThread(thread)) {
+        threbdControl_isDebugThrebd(threbd)) {
         return JNI_FALSE;
     }
 
     for (i = 0; i < FILTER_COUNT(node); ++i, ++filter) {
         switch (filter->modifier) {
-            case JDWP_REQUEST_MODIFIER(ThreadOnly):
-                if (!isSameObject(env, thread, filter->u.ThreadOnly.thread)) {
+            cbse JDWP_REQUEST_MODIFIER(ThrebdOnly):
+                if (!isSbmeObject(env, threbd, filter->u.ThrebdOnly.threbd)) {
                     return JNI_FALSE;
                 }
-                break;
+                brebk;
 
-            case JDWP_REQUEST_MODIFIER(ClassOnly):
-                /* Class filters catch events in the specified
-                 * class and any subclass/subinterface.
+            cbse JDWP_REQUEST_MODIFIER(ClbssOnly):
+                /* Clbss filters cbtch events in the specified
+                 * clbss bnd bny subclbss/subinterfbce.
                  */
-                if (!JNI_FUNC_PTR(env,IsAssignableFrom)(env, clazz,
-                               filter->u.ClassOnly.clazz)) {
+                if (!JNI_FUNC_PTR(env,IsAssignbbleFrom)(env, clbzz,
+                               filter->u.ClbssOnly.clbzz)) {
                     return JNI_FALSE;
                 }
-                break;
+                brebk;
 
-            /* This is kinda cheating assumming the event
-             * fields will be in the same locations, but it is
+            /* This is kindb chebting bssumming the event
+             * fields will be in the sbme locbtions, but it is
              * true now.
              */
-            case JDWP_REQUEST_MODIFIER(LocationOnly):
+            cbse JDWP_REQUEST_MODIFIER(LocbtionOnly):
                 if  (evinfo->method !=
-                          filter->u.LocationOnly.method ||
-                     evinfo->location !=
-                          filter->u.LocationOnly.location ||
-                     !isSameObject(env, clazz, filter->u.LocationOnly.clazz)) {
+                          filter->u.LocbtionOnly.method ||
+                     evinfo->locbtion !=
+                          filter->u.LocbtionOnly.locbtion ||
+                     !isSbmeObject(env, clbzz, filter->u.LocbtionOnly.clbzz)) {
                     return JNI_FALSE;
                 }
-                break;
+                brebk;
 
-            case JDWP_REQUEST_MODIFIER(FieldOnly):
-                /* Field watchpoints can be triggered from the
-                 * declared class or any subclass/subinterface.
+            cbse JDWP_REQUEST_MODIFIER(FieldOnly):
+                /* Field wbtchpoints cbn be triggered from the
+                 * declbred clbss or bny subclbss/subinterfbce.
                  */
-                if ((evinfo->u.field_access.field !=
+                if ((evinfo->u.field_bccess.field !=
                      filter->u.FieldOnly.field) ||
-                    !isSameObject(env, evinfo->u.field_access.field_clazz,
-                               filter->u.FieldOnly.clazz)) {
+                    !isSbmeObject(env, evinfo->u.field_bccess.field_clbzz,
+                               filter->u.FieldOnly.clbzz)) {
                     return JNI_FALSE;
                 }
-                break;
+                brebk;
 
-            case JDWP_REQUEST_MODIFIER(ExceptionOnly):
-                /* do we want caught/uncaught exceptions */
-                if (!((evinfo->u.exception.catch_clazz == NULL)?
-                      filter->u.ExceptionOnly.uncaught :
-                      filter->u.ExceptionOnly.caught)) {
+            cbse JDWP_REQUEST_MODIFIER(ExceptionOnly):
+                /* do we wbnt cbught/uncbught exceptions */
+                if (!((evinfo->u.exception.cbtch_clbzz == NULL)?
+                      filter->u.ExceptionOnly.uncbught :
+                      filter->u.ExceptionOnly.cbught)) {
                     return JNI_FALSE;
                 }
 
-                /* do we care about exception class */
+                /* do we cbre bbout exception clbss */
                 if (filter->u.ExceptionOnly.exception != NULL) {
-                    jclass exception = evinfo->object;
+                    jclbss exception = evinfo->object;
 
-                    /* do we want this exception class */
-                    if (!JNI_FUNC_PTR(env,IsInstanceOf)(env, exception,
+                    /* do we wbnt this exception clbss */
+                    if (!JNI_FUNC_PTR(env,IsInstbnceOf)(env, exception,
                             filter->u.ExceptionOnly.exception)) {
                         return JNI_FALSE;
                     }
                 }
-                break;
+                brebk;
 
-            case JDWP_REQUEST_MODIFIER(InstanceOnly): {
-                jobject eventInst = eventInstance(evinfo);
-                jobject filterInst = filter->u.InstanceOnly.instance;
-                /* if no error and doesn't match, don't pass
+            cbse JDWP_REQUEST_MODIFIER(InstbnceOnly): {
+                jobject eventInst = eventInstbnce(evinfo);
+                jobject filterInst = filter->u.InstbnceOnly.instbnce;
+                /* if no error bnd doesn't mbtch, don't pbss
                  * filter
                  */
                 if (eventInst != NULL &&
-                      !isSameObject(env, eventInst, filterInst)) {
+                      !isSbmeObject(env, eventInst, filterInst)) {
                     return JNI_FALSE;
                 }
-                break;
+                brebk;
             }
-            case JDWP_REQUEST_MODIFIER(Count): {
+            cbse JDWP_REQUEST_MODIFIER(Count): {
                 JDI_ASSERT(filter->u.Count.count > 0);
                 if (--filter->u.Count.count > 0) {
                     return JNI_FALSE;
                 }
                 *shouldDelete = JNI_TRUE;
-                break;
+                brebk;
             }
 
-            case JDWP_REQUEST_MODIFIER(Conditional):
+            cbse JDWP_REQUEST_MODIFIER(Conditionbl):
 /***
-                if (...  filter->u.Conditional.exprID ...) {
+                if (...  filter->u.Conditionbl.exprID ...) {
                     return JNI_FALSE;
                 }
 ***/
-                break;
+                brebk;
 
-        case JDWP_REQUEST_MODIFIER(ClassMatch): {
-            if (!patternStringMatch(classname,
-                       filter->u.ClassMatch.classPattern)) {
+        cbse JDWP_REQUEST_MODIFIER(ClbssMbtch): {
+            if (!pbtternStringMbtch(clbssnbme,
+                       filter->u.ClbssMbtch.clbssPbttern)) {
                 return JNI_FALSE;
             }
-            break;
+            brebk;
         }
 
-        case JDWP_REQUEST_MODIFIER(ClassExclude): {
-            if (patternStringMatch(classname,
-                      filter->u.ClassExclude.classPattern)) {
+        cbse JDWP_REQUEST_MODIFIER(ClbssExclude): {
+            if (pbtternStringMbtch(clbssnbme,
+                      filter->u.ClbssExclude.clbssPbttern)) {
                 return JNI_FALSE;
             }
-            break;
+            brebk;
         }
 
-        case JDWP_REQUEST_MODIFIER(Step):
-                if (!isSameObject(env, thread, filter->u.Step.thread)) {
+        cbse JDWP_REQUEST_MODIFIER(Step):
+                if (!isSbmeObject(env, threbd, filter->u.Step.threbd)) {
                     return JNI_FALSE;
                 }
-                if (!stepControl_handleStep(env, thread, clazz, method)) {
+                if (!stepControl_hbndleStep(env, threbd, clbzz, method)) {
                     return JNI_FALSE;
                 }
-                break;
+                brebk;
 
-          case JDWP_REQUEST_MODIFIER(SourceNameMatch): {
-              char* desiredNamePattern = filter->u.SourceNameOnly.sourceNamePattern;
-              if (!searchAllSourceNames(env, clazz,
-                           desiredNamePattern) == 1) {
-                  /* The name isn't in the SDE; try the sourceName in the ref
+          cbse JDWP_REQUEST_MODIFIER(SourceNbmeMbtch): {
+              chbr* desiredNbmePbttern = filter->u.SourceNbmeOnly.sourceNbmePbttern;
+              if (!sebrchAllSourceNbmes(env, clbzz,
+                           desiredNbmePbttern) == 1) {
+                  /* The nbme isn't in the SDE; try the sourceNbme in the ref
                    * type
                    */
-                  char *sourceName = 0;
-                  jvmtiError error = JVMTI_FUNC_PTR(gdata->jvmti,GetSourceFileName)
-                                            (gdata->jvmti, clazz, &sourceName);
+                  chbr *sourceNbme = 0;
+                  jvmtiError error = JVMTI_FUNC_PTR(gdbtb->jvmti,GetSourceFileNbme)
+                                            (gdbtb->jvmti, clbzz, &sourceNbme);
                   if (error == JVMTI_ERROR_NONE &&
-                      sourceName != 0 &&
-                      patternStringMatch(sourceName, desiredNamePattern)) {
-                          // got a hit - report the event
-                          jvmtiDeallocate(sourceName);
-                          break;
+                      sourceNbme != 0 &&
+                      pbtternStringMbtch(sourceNbme, desiredNbmePbttern)) {
+                          // got b hit - report the event
+                          jvmtiDebllocbte(sourceNbme);
+                          brebk;
                   }
-                  // We have no match, we have no source file name,
-                  // or we got a JVM TI error. Don't report the event.
-                  jvmtiDeallocate(sourceName);
+                  // We hbve no mbtch, we hbve no source file nbme,
+                  // or we got b JVM TI error. Don't report the event.
+                  jvmtiDebllocbte(sourceNbme);
                   return JNI_FALSE;
               }
-              break;
+              brebk;
           }
 
-        default:
-            EXIT_ERROR(AGENT_ERROR_ILLEGAL_ARGUMENT,"Invalid filter modifier");
+        defbult:
+            EXIT_ERROR(AGENT_ERROR_ILLEGAL_ARGUMENT,"Invblid filter modifier");
             return JNI_FALSE;
         }
     }
     return JNI_TRUE;
 }
 
-/* Determine if this event is interesting to this handler.  Do so
- * by checking each of the handler's filters.  Return false if any
- * of the filters fail, true if the handler wants this event.
- * Special version of filter for unloads since they don't have an
- * event structure or a jclass.
+/* Determine if this event is interesting to this hbndler.  Do so
+ * by checking ebch of the hbndler's filters.  Return fblse if bny
+ * of the filters fbil, true if the hbndler wbnts this event.
+ * Specibl version of filter for unlobds since they don't hbve bn
+ * event structure or b jclbss.
  *
- * If shouldDelete is returned true, a count filter has expired
- * and the corresponding node should be deleted.
+ * If shouldDelete is returned true, b count filter hbs expired
+ * bnd the corresponding node should be deleted.
  */
-jboolean
-eventFilterRestricted_passesUnloadFilter(JNIEnv *env,
-                                         char *classname,
-                                         HandlerNode *node,
-                                         jboolean *shouldDelete)
+jboolebn
+eventFilterRestricted_pbssesUnlobdFilter(JNIEnv *env,
+                                         chbr *clbssnbme,
+                                         HbndlerNode *node,
+                                         jboolebn *shouldDelete)
 {
     Filter *filter = FILTERS_ARRAY(node);
     int i;
@@ -571,33 +571,33 @@ eventFilterRestricted_passesUnloadFilter(JNIEnv *env,
     for (i = 0; i < FILTER_COUNT(node); ++i, ++filter) {
         switch (filter->modifier) {
 
-            case JDWP_REQUEST_MODIFIER(Count): {
+            cbse JDWP_REQUEST_MODIFIER(Count): {
                 JDI_ASSERT(filter->u.Count.count > 0);
                 if (--filter->u.Count.count > 0) {
                     return JNI_FALSE;
                 }
                 *shouldDelete = JNI_TRUE;
-                break;
+                brebk;
             }
 
-            case JDWP_REQUEST_MODIFIER(ClassMatch): {
-                if (!patternStringMatch(classname,
-                        filter->u.ClassMatch.classPattern)) {
+            cbse JDWP_REQUEST_MODIFIER(ClbssMbtch): {
+                if (!pbtternStringMbtch(clbssnbme,
+                        filter->u.ClbssMbtch.clbssPbttern)) {
                     return JNI_FALSE;
                 }
-                break;
+                brebk;
             }
 
-            case JDWP_REQUEST_MODIFIER(ClassExclude): {
-                if (patternStringMatch(classname,
-                       filter->u.ClassExclude.classPattern)) {
+            cbse JDWP_REQUEST_MODIFIER(ClbssExclude): {
+                if (pbtternStringMbtch(clbssnbme,
+                       filter->u.ClbssExclude.clbssPbttern)) {
                     return JNI_FALSE;
                 }
-                break;
+                brebk;
             }
 
-            default:
-                EXIT_ERROR(AGENT_ERROR_ILLEGAL_ARGUMENT,"Invalid filter modifier");
+            defbult:
+                EXIT_ERROR(AGENT_ERROR_ILLEGAL_ARGUMENT,"Invblid filter modifier");
                 return JNI_FALSE;
         }
     }
@@ -605,21 +605,21 @@ eventFilterRestricted_passesUnloadFilter(JNIEnv *env,
 }
 
 /**
- * This function returns true only if it is certain that
- * all events for the given node in the given stack frame will
+ * This function returns true only if it is certbin thbt
+ * bll events for the given node in the given stbck frbme will
  * be filtered. It is used to optimize stepping. (If this
- * function returns true the stepping algorithm does not
- * have to step through every instruction in this stack frame;
- * instead, it can use more efficient method entry/exit
+ * function returns true the stepping blgorithm does not
+ * hbve to step through every instruction in this stbck frbme;
+ * instebd, it cbn use more efficient method entry/exit
  * events.
  */
-jboolean
-eventFilter_predictFiltering(HandlerNode *node, jclass clazz, char *classname)
+jboolebn
+eventFilter_predictFiltering(HbndlerNode *node, jclbss clbzz, chbr *clbssnbme)
 {
     JNIEnv     *env;
-    jboolean    willBeFiltered;
+    jboolebn    willBeFiltered;
     Filter     *filter;
-    jboolean    done;
+    jboolebn    done;
     int         count;
     int         i;
 
@@ -631,45 +631,45 @@ eventFilter_predictFiltering(HandlerNode *node, jclass clazz, char *classname)
 
     for (i = 0; (i < count) && (!done); ++i, ++filter) {
         switch (filter->modifier) {
-            case JDWP_REQUEST_MODIFIER(ClassOnly):
+            cbse JDWP_REQUEST_MODIFIER(ClbssOnly):
                 if ( env==NULL ) {
                     env = getEnv();
                 }
-                if (!JNI_FUNC_PTR(env,IsAssignableFrom)(env, clazz,
-                                 filter->u.ClassOnly.clazz)) {
+                if (!JNI_FUNC_PTR(env,IsAssignbbleFrom)(env, clbzz,
+                                 filter->u.ClbssOnly.clbzz)) {
                     willBeFiltered = JNI_TRUE;
                     done = JNI_TRUE;
                 }
-                break;
+                brebk;
 
-            case JDWP_REQUEST_MODIFIER(Count): {
+            cbse JDWP_REQUEST_MODIFIER(Count): {
                 /*
-                 * If preceding filters have determined that events will
-                 * be filtered out, that is fine and we won't get here.
+                 * If preceding filters hbve determined thbt events will
+                 * be filtered out, thbt is fine bnd we won't get here.
                  * However, the count must be decremented - even if
                  * subsequent filters will filter these events.  We
-                 * thus must end now unable to predict
+                 * thus must end now unbble to predict
                  */
                 done = JNI_TRUE;
-                break;
+                brebk;
             }
 
-            case JDWP_REQUEST_MODIFIER(ClassMatch): {
-                if (!patternStringMatch(classname,
-                        filter->u.ClassMatch.classPattern)) {
+            cbse JDWP_REQUEST_MODIFIER(ClbssMbtch): {
+                if (!pbtternStringMbtch(clbssnbme,
+                        filter->u.ClbssMbtch.clbssPbttern)) {
                     willBeFiltered = JNI_TRUE;
                     done = JNI_TRUE;
                 }
-                break;
+                brebk;
             }
 
-            case JDWP_REQUEST_MODIFIER(ClassExclude): {
-                if (patternStringMatch(classname,
-                       filter->u.ClassExclude.classPattern)) {
+            cbse JDWP_REQUEST_MODIFIER(ClbssExclude): {
+                if (pbtternStringMbtch(clbssnbme,
+                       filter->u.ClbssExclude.clbssPbttern)) {
                     willBeFiltered = JNI_TRUE;
                     done = JNI_TRUE;
                 }
-                break;
+                brebk;
             }
         }
     }
@@ -678,19 +678,19 @@ eventFilter_predictFiltering(HandlerNode *node, jclass clazz, char *classname)
 }
 
 /**
- * Determine if the given breakpoint node is in the specified class.
+ * Determine if the given brebkpoint node is in the specified clbss.
  */
-jboolean
-eventFilterRestricted_isBreakpointInClass(JNIEnv *env, jclass clazz,
-                                          HandlerNode *node)
+jboolebn
+eventFilterRestricted_isBrebkpointInClbss(JNIEnv *env, jclbss clbzz,
+                                          HbndlerNode *node)
 {
     Filter *filter = FILTERS_ARRAY(node);
     int i;
 
     for (i = 0; i < FILTER_COUNT(node); ++i, ++filter) {
         switch (filter->modifier) {
-            case JDWP_REQUEST_MODIFIER(LocationOnly):
-                return isSameObject(env, clazz, filter->u.LocationOnly.clazz);
+            cbse JDWP_REQUEST_MODIFIER(LocbtionOnly):
+                return isSbmeObject(env, clbzz, filter->u.LocbtionOnly.clbzz);
         }
     }
     return JNI_TRUE; /* should never come here */
@@ -699,20 +699,20 @@ eventFilterRestricted_isBreakpointInClass(JNIEnv *env, jclass clazz,
 /***** filter set-up *****/
 
 jvmtiError
-eventFilter_setConditionalFilter(HandlerNode *node, jint index,
+eventFilter_setConditionblFilter(HbndlerNode *node, jint index,
                                  jint exprID)
 {
-    ConditionalFilter *filter = &FILTER(node, index).u.Conditional;
+    ConditionblFilter *filter = &FILTER(node, index).u.Conditionbl;
     if (index >= FILTER_COUNT(node)) {
         return AGENT_ERROR_ILLEGAL_ARGUMENT;
     }
-    FILTER(node, index).modifier = JDWP_REQUEST_MODIFIER(Conditional);
+    FILTER(node, index).modifier = JDWP_REQUEST_MODIFIER(Conditionbl);
     filter->exprID = exprID;
     return JVMTI_ERROR_NONE;
 }
 
 jvmtiError
-eventFilter_setCountFilter(HandlerNode *node, jint index,
+eventFilter_setCountFilter(HbndlerNode *node, jint index,
                            jint count)
 {
     CountFilter *filter = &FILTER(node, index).u.Count;
@@ -729,11 +729,11 @@ eventFilter_setCountFilter(HandlerNode *node, jint index,
 }
 
 jvmtiError
-eventFilter_setThreadOnlyFilter(HandlerNode *node, jint index,
-                                jthread thread)
+eventFilter_setThrebdOnlyFilter(HbndlerNode *node, jint index,
+                                jthrebd threbd)
 {
     JNIEnv *env = getEnv();
-    ThreadFilter *filter = &FILTER(node, index).u.ThreadOnly;
+    ThrebdFilter *filter = &FILTER(node, index).u.ThrebdOnly;
     if (index >= FILTER_COUNT(node)) {
         return AGENT_ERROR_ILLEGAL_ARGUMENT;
     }
@@ -741,20 +741,20 @@ eventFilter_setThreadOnlyFilter(HandlerNode *node, jint index,
         return AGENT_ERROR_ILLEGAL_ARGUMENT;
     }
 
-    /* Create a thread ref that will live beyond */
-    /* the end of this call */
-    saveGlobalRef(env, thread, &(filter->thread));
-    FILTER(node, index).modifier = JDWP_REQUEST_MODIFIER(ThreadOnly);
+    /* Crebte b threbd ref thbt will live beyond */
+    /* the end of this cbll */
+    sbveGlobblRef(env, threbd, &(filter->threbd));
+    FILTER(node, index).modifier = JDWP_REQUEST_MODIFIER(ThrebdOnly);
     return JVMTI_ERROR_NONE;
 }
 
 jvmtiError
-eventFilter_setLocationOnlyFilter(HandlerNode *node, jint index,
-                                  jclass clazz, jmethodID method,
-                                  jlocation location)
+eventFilter_setLocbtionOnlyFilter(HbndlerNode *node, jint index,
+                                  jclbss clbzz, jmethodID method,
+                                  jlocbtion locbtion)
 {
     JNIEnv *env = getEnv();
-    LocationFilter *filter = &FILTER(node, index).u.LocationOnly;
+    LocbtionFilter *filter = &FILTER(node, index).u.LocbtionOnly;
     if (index >= FILTER_COUNT(node)) {
         return AGENT_ERROR_ILLEGAL_ARGUMENT;
     }
@@ -767,18 +767,18 @@ eventFilter_setLocationOnlyFilter(HandlerNode *node, jint index,
         return AGENT_ERROR_ILLEGAL_ARGUMENT;
     }
 
-    /* Create a class ref that will live beyond */
-    /* the end of this call */
-    saveGlobalRef(env, clazz, &(filter->clazz));
-    FILTER(node, index).modifier = JDWP_REQUEST_MODIFIER(LocationOnly);
+    /* Crebte b clbss ref thbt will live beyond */
+    /* the end of this cbll */
+    sbveGlobblRef(env, clbzz, &(filter->clbzz));
+    FILTER(node, index).modifier = JDWP_REQUEST_MODIFIER(LocbtionOnly);
     filter->method = method;
-    filter->location = location;
+    filter->locbtion = locbtion;
     return JVMTI_ERROR_NONE;
 }
 
 jvmtiError
-eventFilter_setFieldOnlyFilter(HandlerNode *node, jint index,
-                               jclass clazz, jfieldID field)
+eventFilter_setFieldOnlyFilter(HbndlerNode *node, jint index,
+                               jclbss clbzz, jfieldID field)
 {
     JNIEnv *env = getEnv();
     FieldFilter *filter = &FILTER(node, index).u.FieldOnly;
@@ -791,20 +791,20 @@ eventFilter_setFieldOnlyFilter(HandlerNode *node, jint index,
         return AGENT_ERROR_ILLEGAL_ARGUMENT;
     }
 
-    /* Create a class ref that will live beyond */
-    /* the end of this call */
-    saveGlobalRef(env, clazz, &(filter->clazz));
+    /* Crebte b clbss ref thbt will live beyond */
+    /* the end of this cbll */
+    sbveGlobblRef(env, clbzz, &(filter->clbzz));
     FILTER(node, index).modifier = JDWP_REQUEST_MODIFIER(FieldOnly);
     filter->field = field;
     return JVMTI_ERROR_NONE;
 }
 
 jvmtiError
-eventFilter_setClassOnlyFilter(HandlerNode *node, jint index,
-                               jclass clazz)
+eventFilter_setClbssOnlyFilter(HbndlerNode *node, jint index,
+                               jclbss clbzz)
 {
     JNIEnv *env = getEnv();
-    ClassFilter *filter = &FILTER(node, index).u.ClassOnly;
+    ClbssFilter *filter = &FILTER(node, index).u.ClbssOnly;
     if (index >= FILTER_COUNT(node)) {
         return AGENT_ERROR_ILLEGAL_ARGUMENT;
     }
@@ -816,18 +816,18 @@ eventFilter_setClassOnlyFilter(HandlerNode *node, jint index,
         return AGENT_ERROR_ILLEGAL_ARGUMENT;
     }
 
-    /* Create a class ref that will live beyond */
-    /* the end of this call */
-    saveGlobalRef(env, clazz, &(filter->clazz));
-    FILTER(node, index).modifier = JDWP_REQUEST_MODIFIER(ClassOnly);
+    /* Crebte b clbss ref thbt will live beyond */
+    /* the end of this cbll */
+    sbveGlobblRef(env, clbzz, &(filter->clbzz));
+    FILTER(node, index).modifier = JDWP_REQUEST_MODIFIER(ClbssOnly);
     return JVMTI_ERROR_NONE;
 }
 
 jvmtiError
-eventFilter_setExceptionOnlyFilter(HandlerNode *node, jint index,
-                                   jclass exceptionClass,
-                                   jboolean caught,
-                                   jboolean uncaught)
+eventFilter_setExceptionOnlyFilter(HbndlerNode *node, jint index,
+                                   jclbss exceptionClbss,
+                                   jboolebn cbught,
+                                   jboolebn uncbught)
 {
     JNIEnv *env = getEnv();
     ExceptionFilter *filter = &FILTER(node, index).u.ExceptionOnly;
@@ -839,45 +839,45 @@ eventFilter_setExceptionOnlyFilter(HandlerNode *node, jint index,
     }
 
     filter->exception = NULL;
-    if (exceptionClass != NULL) {
-        /* Create a class ref that will live beyond */
-        /* the end of this call */
-        saveGlobalRef(env, exceptionClass, &(filter->exception));
+    if (exceptionClbss != NULL) {
+        /* Crebte b clbss ref thbt will live beyond */
+        /* the end of this cbll */
+        sbveGlobblRef(env, exceptionClbss, &(filter->exception));
     }
     FILTER(node, index).modifier =
                        JDWP_REQUEST_MODIFIER(ExceptionOnly);
-    filter->caught = caught;
-    filter->uncaught = uncaught;
+    filter->cbught = cbught;
+    filter->uncbught = uncbught;
     return JVMTI_ERROR_NONE;
 }
 
 jvmtiError
-eventFilter_setInstanceOnlyFilter(HandlerNode *node, jint index,
-                                  jobject instance)
+eventFilter_setInstbnceOnlyFilter(HbndlerNode *node, jint index,
+                                  jobject instbnce)
 {
     JNIEnv *env = getEnv();
-    InstanceFilter *filter = &FILTER(node, index).u.InstanceOnly;
+    InstbnceFilter *filter = &FILTER(node, index).u.InstbnceOnly;
     if (index >= FILTER_COUNT(node)) {
         return AGENT_ERROR_ILLEGAL_ARGUMENT;
     }
 
-    filter->instance = NULL;
-    if (instance != NULL) {
-        /* Create an object ref that will live beyond
-         * the end of this call
+    filter->instbnce = NULL;
+    if (instbnce != NULL) {
+        /* Crebte bn object ref thbt will live beyond
+         * the end of this cbll
          */
-        saveGlobalRef(env, instance, &(filter->instance));
+        sbveGlobblRef(env, instbnce, &(filter->instbnce));
     }
     FILTER(node, index).modifier =
-                       JDWP_REQUEST_MODIFIER(InstanceOnly);
+                       JDWP_REQUEST_MODIFIER(InstbnceOnly);
     return JVMTI_ERROR_NONE;
 }
 
 jvmtiError
-eventFilter_setClassMatchFilter(HandlerNode *node, jint index,
-                                char *classPattern)
+eventFilter_setClbssMbtchFilter(HbndlerNode *node, jint index,
+                                chbr *clbssPbttern)
 {
-    MatchFilter *filter = &FILTER(node, index).u.ClassMatch;
+    MbtchFilter *filter = &FILTER(node, index).u.ClbssMbtch;
     if (index >= FILTER_COUNT(node)) {
         return AGENT_ERROR_ILLEGAL_ARGUMENT;
     }
@@ -889,16 +889,16 @@ eventFilter_setClassMatchFilter(HandlerNode *node, jint index,
     }
 
     FILTER(node, index).modifier =
-                       JDWP_REQUEST_MODIFIER(ClassMatch);
-    filter->classPattern = classPattern;
+                       JDWP_REQUEST_MODIFIER(ClbssMbtch);
+    filter->clbssPbttern = clbssPbttern;
     return JVMTI_ERROR_NONE;
 }
 
 jvmtiError
-eventFilter_setClassExcludeFilter(HandlerNode *node, jint index,
-                                  char *classPattern)
+eventFilter_setClbssExcludeFilter(HbndlerNode *node, jint index,
+                                  chbr *clbssPbttern)
 {
-    MatchFilter *filter = &FILTER(node, index).u.ClassExclude;
+    MbtchFilter *filter = &FILTER(node, index).u.ClbssExclude;
     if (index >= FILTER_COUNT(node)) {
         return AGENT_ERROR_ILLEGAL_ARGUMENT;
     }
@@ -910,14 +910,14 @@ eventFilter_setClassExcludeFilter(HandlerNode *node, jint index,
     }
 
     FILTER(node, index).modifier =
-                       JDWP_REQUEST_MODIFIER(ClassExclude);
-    filter->classPattern = classPattern;
+                       JDWP_REQUEST_MODIFIER(ClbssExclude);
+    filter->clbssPbttern = clbssPbttern;
     return JVMTI_ERROR_NONE;
 }
 
 jvmtiError
-eventFilter_setStepFilter(HandlerNode *node, jint index,
-                          jthread thread, jint size, jint depth)
+eventFilter_setStepFilter(HbndlerNode *node, jint index,
+                          jthrebd threbd, jint size, jint depth)
 {
     jvmtiError error;
     JNIEnv *env = getEnv();
@@ -929,12 +929,12 @@ eventFilter_setStepFilter(HandlerNode *node, jint index,
         return AGENT_ERROR_ILLEGAL_ARGUMENT;
     }
 
-    /* Create a thread ref that will live beyond */
-    /* the end of this call */
-    saveGlobalRef(env, thread, &(filter->thread));
-    error = stepControl_beginStep(env, filter->thread, size, depth, node);
+    /* Crebte b threbd ref thbt will live beyond */
+    /* the end of this cbll */
+    sbveGlobblRef(env, threbd, &(filter->threbd));
+    error = stepControl_beginStep(env, filter->threbd, size, depth, node);
     if (error != JVMTI_ERROR_NONE) {
-        tossGlobalRef(env, &(filter->thread));
+        tossGlobblRef(env, &(filter->threbd));
         return error;
     }
     FILTER(node, index).modifier = JDWP_REQUEST_MODIFIER(Step);
@@ -945,10 +945,10 @@ eventFilter_setStepFilter(HandlerNode *node, jint index,
 
 
 jvmtiError
-eventFilter_setSourceNameMatchFilter(HandlerNode *node,
+eventFilter_setSourceNbmeMbtchFilter(HbndlerNode *node,
                                     jint index,
-                                    char *sourceNamePattern) {
-    SourceNameFilter *filter = &FILTER(node, index).u.SourceNameOnly;
+                                    chbr *sourceNbmePbttern) {
+    SourceNbmeFilter *filter = &FILTER(node, index).u.SourceNbmeOnly;
     if (index >= FILTER_COUNT(node)) {
         return AGENT_ERROR_ILLEGAL_ARGUMENT;
     }
@@ -957,20 +957,20 @@ eventFilter_setSourceNameMatchFilter(HandlerNode *node,
     }
 
     FILTER(node, index).modifier =
-                       JDWP_REQUEST_MODIFIER(SourceNameMatch);
-    filter->sourceNamePattern = sourceNamePattern;
+                       JDWP_REQUEST_MODIFIER(SourceNbmeMbtch);
+    filter->sourceNbmePbttern = sourceNbmePbttern;
     return JVMTI_ERROR_NONE;
 
 }
 
-/***** JVMTI event enabling / disabling *****/
+/***** JVMTI event enbbling / disbbling *****/
 
 /**
- * Return the Filter that is of the specified type (modifier).
+ * Return the Filter thbt is of the specified type (modifier).
  * Return NULL if not found.
  */
-static Filter *
-findFilter(HandlerNode *node, jint modifier)
+stbtic Filter *
+findFilter(HbndlerNode *node, jint modifier)
 {
     int i;
     Filter *filter;
@@ -985,26 +985,26 @@ findFilter(HandlerNode *node, jint modifier)
 }
 
 /**
- * Determine if the specified breakpoint node is in the
- * same location as the LocationFilter passed in arg.
+ * Determine if the specified brebkpoint node is in the
+ * sbme locbtion bs the LocbtionFilter pbssed in brg.
  *
- * This is a match function called by a
- * eventHandlerRestricted_iterator invokation.
+ * This is b mbtch function cblled by b
+ * eventHbndlerRestricted_iterbtor invokbtion.
  */
-static jboolean
-matchBreakpoint(JNIEnv *env, HandlerNode *node, void *arg)
+stbtic jboolebn
+mbtchBrebkpoint(JNIEnv *env, HbndlerNode *node, void *brg)
 {
-    LocationFilter *goal = (LocationFilter *)arg;
+    LocbtionFilter *gobl = (LocbtionFilter *)brg;
     Filter *filter = FILTERS_ARRAY(node);
     int i;
 
     for (i = 0; i < FILTER_COUNT(node); ++i, ++filter) {
         switch (filter->modifier) {
-        case JDWP_REQUEST_MODIFIER(LocationOnly): {
-            LocationFilter *trial = &(filter->u.LocationOnly);
-            if (trial->method == goal->method &&
-                trial->location == goal->location &&
-                isSameObject(env, trial->clazz, goal->clazz)) {
+        cbse JDWP_REQUEST_MODIFIER(LocbtionOnly): {
+            LocbtionFilter *tribl = &(filter->u.LocbtionOnly);
+            if (tribl->method == gobl->method &&
+                tribl->locbtion == gobl->locbtion &&
+                isSbmeObject(env, tribl->clbzz, gobl->clbzz)) {
                 return JNI_TRUE;
             }
         }
@@ -1014,101 +1014,101 @@ matchBreakpoint(JNIEnv *env, HandlerNode *node, void *arg)
 }
 
 /**
- * Set a breakpoint if this is the first one at this location.
+ * Set b brebkpoint if this is the first one bt this locbtion.
  */
-static jvmtiError
-setBreakpoint(HandlerNode *node)
+stbtic jvmtiError
+setBrebkpoint(HbndlerNode *node)
 {
     jvmtiError error = JVMTI_ERROR_NONE;
     Filter *filter;
 
-    filter = findFilter(node, JDWP_REQUEST_MODIFIER(LocationOnly));
+    filter = findFilter(node, JDWP_REQUEST_MODIFIER(LocbtionOnly));
     if (filter == NULL) {
-        /* bp event with no location filter */
+        /* bp event with no locbtion filter */
         error = AGENT_ERROR_INTERNAL;
     } else {
-        LocationFilter *lf = &(filter->u.LocationOnly);
+        LocbtionFilter *lf = &(filter->u.LocbtionOnly);
 
-        /* if this is the first handler for this
-         * location, set bp at JVMTI level
+        /* if this is the first hbndler for this
+         * locbtion, set bp bt JVMTI level
          */
-        if (!eventHandlerRestricted_iterator(
-                EI_BREAKPOINT, matchBreakpoint, lf)) {
-            LOG_LOC(("SetBreakpoint at location: method=%p,location=%d",
-                        lf->method, (int)lf->location));
-            error = JVMTI_FUNC_PTR(gdata->jvmti,SetBreakpoint)
-                        (gdata->jvmti, lf->method, lf->location);
+        if (!eventHbndlerRestricted_iterbtor(
+                EI_BREAKPOINT, mbtchBrebkpoint, lf)) {
+            LOG_LOC(("SetBrebkpoint bt locbtion: method=%p,locbtion=%d",
+                        lf->method, (int)lf->locbtion));
+            error = JVMTI_FUNC_PTR(gdbtb->jvmti,SetBrebkpoint)
+                        (gdbtb->jvmti, lf->method, lf->locbtion);
         }
     }
     return error;
 }
 
 /**
- * Clear a breakpoint if this is the last one at this location.
+ * Clebr b brebkpoint if this is the lbst one bt this locbtion.
  */
-static jvmtiError
-clearBreakpoint(HandlerNode *node)
+stbtic jvmtiError
+clebrBrebkpoint(HbndlerNode *node)
 {
     jvmtiError error = JVMTI_ERROR_NONE;
     Filter *filter;
 
-    filter = findFilter(node, JDWP_REQUEST_MODIFIER(LocationOnly));
+    filter = findFilter(node, JDWP_REQUEST_MODIFIER(LocbtionOnly));
     if (filter == NULL) {
-        /* bp event with no location filter */
+        /* bp event with no locbtion filter */
         error = AGENT_ERROR_INTERNAL;
     } else {
-        LocationFilter *lf = &(filter->u.LocationOnly);
+        LocbtionFilter *lf = &(filter->u.LocbtionOnly);
 
-        /* if this is the last handler for this
-         * location, clear bp at JVMTI level
+        /* if this is the lbst hbndler for this
+         * locbtion, clebr bp bt JVMTI level
          */
-        if (!eventHandlerRestricted_iterator(
-                EI_BREAKPOINT, matchBreakpoint, lf)) {
-            LOG_LOC(("ClearBreakpoint at location: method=%p,location=%d",
-                        lf->method, (int)lf->location));
-            error = JVMTI_FUNC_PTR(gdata->jvmti,ClearBreakpoint)
-                        (gdata->jvmti, lf->method, lf->location);
+        if (!eventHbndlerRestricted_iterbtor(
+                EI_BREAKPOINT, mbtchBrebkpoint, lf)) {
+            LOG_LOC(("ClebrBrebkpoint bt locbtion: method=%p,locbtion=%d",
+                        lf->method, (int)lf->locbtion));
+            error = JVMTI_FUNC_PTR(gdbtb->jvmti,ClebrBrebkpoint)
+                        (gdbtb->jvmti, lf->method, lf->locbtion);
         }
     }
     return error;
 }
 
 /**
- * Return true if a breakpoint is set at the specified location.
+ * Return true if b brebkpoint is set bt the specified locbtion.
  */
-jboolean
-isBreakpointSet(jclass clazz, jmethodID method, jlocation location)
+jboolebn
+isBrebkpointSet(jclbss clbzz, jmethodID method, jlocbtion locbtion)
 {
-    LocationFilter lf;
+    LocbtionFilter lf;
 
-    lf.clazz    = clazz;
+    lf.clbzz    = clbzz;
     lf.method   = method;
-    lf.location = location;
+    lf.locbtion = locbtion;
 
-    return eventHandlerRestricted_iterator(EI_BREAKPOINT,
-                                           matchBreakpoint, &lf);
+    return eventHbndlerRestricted_iterbtor(EI_BREAKPOINT,
+                                           mbtchBrebkpoint, &lf);
 }
 
 /**
- * Determine if the specified watchpoint node has the
- * same field as the FieldFilter passed in arg.
+ * Determine if the specified wbtchpoint node hbs the
+ * sbme field bs the FieldFilter pbssed in brg.
  *
- * This is a match function called by a
- * eventHandlerRestricted_iterator invokation.
+ * This is b mbtch function cblled by b
+ * eventHbndlerRestricted_iterbtor invokbtion.
  */
-static jboolean
-matchWatchpoint(JNIEnv *env, HandlerNode *node, void *arg)
+stbtic jboolebn
+mbtchWbtchpoint(JNIEnv *env, HbndlerNode *node, void *brg)
 {
-    FieldFilter *goal = (FieldFilter *)arg;
+    FieldFilter *gobl = (FieldFilter *)brg;
     Filter *filter = FILTERS_ARRAY(node);
     int i;
 
     for (i = 0; i < FILTER_COUNT(node); ++i, ++filter) {
         switch (filter->modifier) {
-        case JDWP_REQUEST_MODIFIER(FieldOnly): {
-            FieldFilter *trial = &(filter->u.FieldOnly);
-            if (trial->field == goal->field &&
-                isSameObject(env, trial->clazz, goal->clazz)) {
+        cbse JDWP_REQUEST_MODIFIER(FieldOnly): {
+            FieldFilter *tribl = &(filter->u.FieldOnly);
+            if (tribl->field == gobl->field &&
+                isSbmeObject(env, tribl->clbzz, gobl->clbzz)) {
                 return JNI_TRUE;
             }
         }
@@ -1118,10 +1118,10 @@ matchWatchpoint(JNIEnv *env, HandlerNode *node, void *arg)
 }
 
 /**
- * Set a watchpoint if this is the first one on this field.
+ * Set b wbtchpoint if this is the first one on this field.
  */
-static jvmtiError
-setWatchpoint(HandlerNode *node)
+stbtic jvmtiError
+setWbtchpoint(HbndlerNode *node)
 {
     jvmtiError error = JVMTI_ERROR_NONE;
     Filter *filter;
@@ -1133,26 +1133,26 @@ setWatchpoint(HandlerNode *node)
     } else {
         FieldFilter *ff = &(filter->u.FieldOnly);
 
-        /* if this is the first handler for this
-         * field, set wp at JVMTI level
+        /* if this is the first hbndler for this
+         * field, set wp bt JVMTI level
          */
-        if (!eventHandlerRestricted_iterator(
-                NODE_EI(node), matchWatchpoint, ff)) {
+        if (!eventHbndlerRestricted_iterbtor(
+                NODE_EI(node), mbtchWbtchpoint, ff)) {
             error = (NODE_EI(node) == EI_FIELD_ACCESS) ?
-                JVMTI_FUNC_PTR(gdata->jvmti,SetFieldAccessWatch)
-                        (gdata->jvmti, ff->clazz, ff->field) :
-                JVMTI_FUNC_PTR(gdata->jvmti,SetFieldModificationWatch)
-                        (gdata->jvmti, ff->clazz, ff->field);
+                JVMTI_FUNC_PTR(gdbtb->jvmti,SetFieldAccessWbtch)
+                        (gdbtb->jvmti, ff->clbzz, ff->field) :
+                JVMTI_FUNC_PTR(gdbtb->jvmti,SetFieldModificbtionWbtch)
+                        (gdbtb->jvmti, ff->clbzz, ff->field);
         }
     }
     return error;
 }
 
 /**
- * Clear a watchpoint if this is the last one on this field.
+ * Clebr b wbtchpoint if this is the lbst one on this field.
  */
-static jvmtiError
-clearWatchpoint(HandlerNode *node)
+stbtic jvmtiError
+clebrWbtchpoint(HbndlerNode *node)
 {
     jvmtiError error = JVMTI_ERROR_NONE;
     Filter *filter;
@@ -1164,35 +1164,35 @@ clearWatchpoint(HandlerNode *node)
     } else {
         FieldFilter *ff = &(filter->u.FieldOnly);
 
-        /* if this is the last handler for this
-         * field, clear wp at JVMTI level
+        /* if this is the lbst hbndler for this
+         * field, clebr wp bt JVMTI level
          */
-        if (!eventHandlerRestricted_iterator(
-                NODE_EI(node), matchWatchpoint, ff)) {
+        if (!eventHbndlerRestricted_iterbtor(
+                NODE_EI(node), mbtchWbtchpoint, ff)) {
             error = (NODE_EI(node) == EI_FIELD_ACCESS) ?
-                JVMTI_FUNC_PTR(gdata->jvmti,ClearFieldAccessWatch)
-                        (gdata->jvmti, ff->clazz, ff->field) :
-                JVMTI_FUNC_PTR(gdata->jvmti,ClearFieldModificationWatch)
-                                (gdata->jvmti, ff->clazz, ff->field);
+                JVMTI_FUNC_PTR(gdbtb->jvmti,ClebrFieldAccessWbtch)
+                        (gdbtb->jvmti, ff->clbzz, ff->field) :
+                JVMTI_FUNC_PTR(gdbtb->jvmti,ClebrFieldModificbtionWbtch)
+                                (gdbtb->jvmti, ff->clbzz, ff->field);
         }
     }
     return error;
 }
 
 /**
- * Determine the thread this node is filtered on.
- * NULL if not thread filtered.
+ * Determine the threbd this node is filtered on.
+ * NULL if not threbd filtered.
  */
-static jthread
-requestThread(HandlerNode *node)
+stbtic jthrebd
+requestThrebd(HbndlerNode *node)
 {
     int i;
     Filter *filter = FILTERS_ARRAY(node);
 
     for (i = 0; i < FILTER_COUNT(node); ++i, ++filter) {
         switch (filter->modifier) {
-            case JDWP_REQUEST_MODIFIER(ThreadOnly):
-                return filter->u.ThreadOnly.thread;
+            cbse JDWP_REQUEST_MODIFIER(ThrebdOnly):
+                return filter->u.ThrebdOnly.threbd;
         }
     }
 
@@ -1200,162 +1200,162 @@ requestThread(HandlerNode *node)
 }
 
 /**
- * Determine if the specified node has a
- * thread filter with the thread passed in arg.
+ * Determine if the specified node hbs b
+ * threbd filter with the threbd pbssed in brg.
  *
- * This is a match function called by a
- * eventHandlerRestricted_iterator invokation.
+ * This is b mbtch function cblled by b
+ * eventHbndlerRestricted_iterbtor invokbtion.
  */
-static jboolean
-matchThread(JNIEnv *env, HandlerNode *node, void *arg)
+stbtic jboolebn
+mbtchThrebd(JNIEnv *env, HbndlerNode *node, void *brg)
 {
-    jthread goalThread = (jthread)arg;
-    jthread reqThread = requestThread(node);
+    jthrebd goblThrebd = (jthrebd)brg;
+    jthrebd reqThrebd = requestThrebd(node);
 
-    /* If the event's thread and the passed thread are the same
-     * (or both are NULL), we have a match.
+    /* If the event's threbd bnd the pbssed threbd bre the sbme
+     * (or both bre NULL), we hbve b mbtch.
      */
-    return isSameObject(env, reqThread, goalThread);
+    return isSbmeObject(env, reqThrebd, goblThrebd);
 }
 
 /**
- * Do any enabling of events (including setting breakpoints etc)
- * needed to get the events requested by this handler node.
+ * Do bny enbbling of events (including setting brebkpoints etc)
+ * needed to get the events requested by this hbndler node.
  */
-static jvmtiError
-enableEvents(HandlerNode *node)
+stbtic jvmtiError
+enbbleEvents(HbndlerNode *node)
 {
     jvmtiError error = JVMTI_ERROR_NONE;
 
     switch (NODE_EI(node)) {
-        /* The stepping code directly enables/disables stepping as
-         * necessary
+        /* The stepping code directly enbbles/disbbles stepping bs
+         * necessbry
          */
-        case EI_SINGLE_STEP:
-        /* Internal thread event handlers are always present
-         * (hardwired in the event hook), so we don't change the
-         * notification mode here.
+        cbse EI_SINGLE_STEP:
+        /* Internbl threbd event hbndlers bre blwbys present
+         * (hbrdwired in the event hook), so we don't chbnge the
+         * notificbtion mode here.
          */
-        case EI_THREAD_START:
-        case EI_THREAD_END:
-        case EI_VM_INIT:
-        case EI_VM_DEATH:
-        case EI_CLASS_PREPARE:
-        case EI_GC_FINISH:
+        cbse EI_THREAD_START:
+        cbse EI_THREAD_END:
+        cbse EI_VM_INIT:
+        cbse EI_VM_DEATH:
+        cbse EI_CLASS_PREPARE:
+        cbse EI_GC_FINISH:
             return error;
 
-        case EI_FIELD_ACCESS:
-        case EI_FIELD_MODIFICATION:
-            error = setWatchpoint(node);
-            break;
+        cbse EI_FIELD_ACCESS:
+        cbse EI_FIELD_MODIFICATION:
+            error = setWbtchpoint(node);
+            brebk;
 
-        case EI_BREAKPOINT:
-            error = setBreakpoint(node);
-            break;
+        cbse EI_BREAKPOINT:
+            error = setBrebkpoint(node);
+            brebk;
 
-        default:
-            break;
+        defbult:
+            brebk;
     }
 
-    /* Don't globally enable if the above failed */
+    /* Don't globblly enbble if the bbove fbiled */
     if (error == JVMTI_ERROR_NONE) {
-        jthread thread = requestThread(node);
+        jthrebd threbd = requestThrebd(node);
 
         /* If this is the first request of it's kind on this
-         * thread (or all threads (thread == NULL)) then enable
-         * these events on this thread.
+         * threbd (or bll threbds (threbd == NULL)) then enbble
+         * these events on this threbd.
          */
-        if (!eventHandlerRestricted_iterator(
-                NODE_EI(node), matchThread, thread)) {
-            error = threadControl_setEventMode(JVMTI_ENABLE,
-                                               NODE_EI(node), thread);
+        if (!eventHbndlerRestricted_iterbtor(
+                NODE_EI(node), mbtchThrebd, threbd)) {
+            error = threbdControl_setEventMode(JVMTI_ENABLE,
+                                               NODE_EI(node), threbd);
         }
     }
     return error;
 }
 
 /**
- * Do any disabling of events (including clearing breakpoints etc)
- * needed to no longer get the events requested by this handler node.
+ * Do bny disbbling of events (including clebring brebkpoints etc)
+ * needed to no longer get the events requested by this hbndler node.
  */
-static jvmtiError
-disableEvents(HandlerNode *node)
+stbtic jvmtiError
+disbbleEvents(HbndlerNode *node)
 {
     jvmtiError error = JVMTI_ERROR_NONE;
     jvmtiError error2 = JVMTI_ERROR_NONE;
-    jthread thread;
+    jthrebd threbd;
 
 
     switch (NODE_EI(node)) {
-        /* The stepping code directly enables/disables stepping as
-         * necessary
+        /* The stepping code directly enbbles/disbbles stepping bs
+         * necessbry
          */
-        case EI_SINGLE_STEP:
-        /* Internal thread event handlers are always present
-         * (hardwired in the event hook), so we don't change the
-         * notification mode here.
+        cbse EI_SINGLE_STEP:
+        /* Internbl threbd event hbndlers bre blwbys present
+         * (hbrdwired in the event hook), so we don't chbnge the
+         * notificbtion mode here.
          */
-        case EI_THREAD_START:
-        case EI_THREAD_END:
-        case EI_VM_INIT:
-        case EI_VM_DEATH:
-        case EI_CLASS_PREPARE:
-        case EI_GC_FINISH:
+        cbse EI_THREAD_START:
+        cbse EI_THREAD_END:
+        cbse EI_VM_INIT:
+        cbse EI_VM_DEATH:
+        cbse EI_CLASS_PREPARE:
+        cbse EI_GC_FINISH:
             return error;
 
-        case EI_FIELD_ACCESS:
-        case EI_FIELD_MODIFICATION:
-            error = clearWatchpoint(node);
-            break;
+        cbse EI_FIELD_ACCESS:
+        cbse EI_FIELD_MODIFICATION:
+            error = clebrWbtchpoint(node);
+            brebk;
 
-        case EI_BREAKPOINT:
-            error = clearBreakpoint(node);
-            break;
+        cbse EI_BREAKPOINT:
+            error = clebrBrebkpoint(node);
+            brebk;
 
-        default:
-            break;
+        defbult:
+            brebk;
     }
 
-    thread = requestThread(node);
+    threbd = requestThrebd(node);
 
-    /* If this is the last request of it's kind on this thread
-     * (or all threads (thread == NULL)) then disable these
-     * events on this thread.
+    /* If this is the lbst request of it's kind on this threbd
+     * (or bll threbds (threbd == NULL)) then disbble these
+     * events on this threbd.
      *
-     * Disable even if the above caused an error
+     * Disbble even if the bbove cbused bn error
      */
-    if (!eventHandlerRestricted_iterator(NODE_EI(node), matchThread, thread)) {
-        error2 = threadControl_setEventMode(JVMTI_DISABLE,
-                                            NODE_EI(node), thread);
+    if (!eventHbndlerRestricted_iterbtor(NODE_EI(node), mbtchThrebd, threbd)) {
+        error2 = threbdControl_setEventMode(JVMTI_DISABLE,
+                                            NODE_EI(node), threbd);
     }
     return error != JVMTI_ERROR_NONE? error : error2;
 }
 
 
-/***** filter (and event) installation and deinstallation *****/
+/***** filter (bnd event) instbllbtion bnd deinstbllbtion *****/
 
 /**
- * Make the set of event filters that correspond with this
- * node active (including enabling the corresponding events).
+ * Mbke the set of event filters thbt correspond with this
+ * node bctive (including enbbling the corresponding events).
  */
 jvmtiError
-eventFilterRestricted_install(HandlerNode *node)
+eventFilterRestricted_instbll(HbndlerNode *node)
 {
-    return enableEvents(node);
+    return enbbleEvents(node);
 }
 
 /**
- * Make the set of event filters that correspond with this
- * node inactive (including disabling the corresponding events
- * and freeing resources).
+ * Mbke the set of event filters thbt correspond with this
+ * node inbctive (including disbbling the corresponding events
+ * bnd freeing resources).
  */
 jvmtiError
-eventFilterRestricted_deinstall(HandlerNode *node)
+eventFilterRestricted_deinstbll(HbndlerNode *node)
 {
     jvmtiError error1, error2;
 
-    error1 = disableEvents(node);
-    error2 = clearFilters(node);
+    error1 = disbbleEvents(node);
+    error2 = clebrFilters(node);
 
     return error1 != JVMTI_ERROR_NONE? error1 : error2;
 }

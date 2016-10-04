@@ -1,109 +1,109 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.crypto.provider;
+pbckbge com.sun.crypto.provider;
 
-import java.security.SecureRandom;
-import java.security.InvalidParameterException;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.spec.AlgorithmParameterSpec;
-import javax.crypto.KeyGeneratorSpi;
-import javax.crypto.SecretKey;
-import javax.crypto.spec.SecretKeySpec;
+import jbvb.security.SecureRbndom;
+import jbvb.security.InvblidPbrbmeterException;
+import jbvb.security.InvblidAlgorithmPbrbmeterException;
+import jbvb.security.spec.AlgorithmPbrbmeterSpec;
+import jbvbx.crypto.KeyGenerbtorSpi;
+import jbvbx.crypto.SecretKey;
+import jbvbx.crypto.spec.SecretKeySpec;
 
 /**
- * This class generates a secret key for use with the HMAC-MD5 algorithm.
+ * This clbss generbtes b secret key for use with the HMAC-MD5 blgorithm.
  *
- * @author Jan Luehe
+ * @buthor Jbn Luehe
  *
  */
 
-public final class HmacMD5KeyGenerator extends KeyGeneratorSpi {
+public finbl clbss HmbcMD5KeyGenerbtor extends KeyGenerbtorSpi {
 
-    private SecureRandom random = null;
-    private int keysize = 64; // default keysize (in number of bytes)
+    privbte SecureRbndom rbndom = null;
+    privbte int keysize = 64; // defbult keysize (in number of bytes)
 
     /**
      * Empty constructor
      */
-    public HmacMD5KeyGenerator() {
+    public HmbcMD5KeyGenerbtor() {
     }
 
     /**
-     * Initializes this key generator.
+     * Initiblizes this key generbtor.
      *
-     * @param random the source of randomness for this generator
+     * @pbrbm rbndom the source of rbndomness for this generbtor
      */
-    protected void engineInit(SecureRandom random) {
-        this.random = random;
+    protected void engineInit(SecureRbndom rbndom) {
+        this.rbndom = rbndom;
     }
 
     /**
-     * Initializes this key generator with the specified parameter
-     * set and a user-provided source of randomness.
+     * Initiblizes this key generbtor with the specified pbrbmeter
+     * set bnd b user-provided source of rbndomness.
      *
-     * @param params the key generation parameters
-     * @param random the source of randomness for this key generator
+     * @pbrbm pbrbms the key generbtion pbrbmeters
+     * @pbrbm rbndom the source of rbndomness for this key generbtor
      *
-     * @exception InvalidAlgorithmParameterException if <code>params</code> is
-     * inappropriate for this key generator
+     * @exception InvblidAlgorithmPbrbmeterException if <code>pbrbms</code> is
+     * inbppropribte for this key generbtor
      */
-    protected void engineInit(AlgorithmParameterSpec params,
-                              SecureRandom random)
-        throws InvalidAlgorithmParameterException
+    protected void engineInit(AlgorithmPbrbmeterSpec pbrbms,
+                              SecureRbndom rbndom)
+        throws InvblidAlgorithmPbrbmeterException
     {
-        throw new InvalidAlgorithmParameterException
-            ("HMAC-MD5 key generation does not take any parameters");
+        throw new InvblidAlgorithmPbrbmeterException
+            ("HMAC-MD5 key generbtion does not tbke bny pbrbmeters");
     }
 
     /**
-     * Initializes this key generator for a certain keysize, using the given
-     * source of randomness.
+     * Initiblizes this key generbtor for b certbin keysize, using the given
+     * source of rbndomness.
      *
-     * @param keysize the keysize. This is an algorithm-specific
+     * @pbrbm keysize the keysize. This is bn blgorithm-specific
      * metric specified in number of bits.
-     * @param random the source of randomness for this key generator
+     * @pbrbm rbndom the source of rbndomness for this key generbtor
      */
-    protected void engineInit(int keysize, SecureRandom random) {
+    protected void engineInit(int keysize, SecureRbndom rbndom) {
         this.keysize = (keysize+7) / 8;
-        this.engineInit(random);
+        this.engineInit(rbndom);
     }
 
     /**
-     * Generates an HMAC-MD5 key.
+     * Generbtes bn HMAC-MD5 key.
      *
      * @return the new HMAC-MD5 key
      */
-    protected SecretKey engineGenerateKey() {
-        if (this.random == null) {
-            this.random = SunJCE.getRandom();
+    protected SecretKey engineGenerbteKey() {
+        if (this.rbndom == null) {
+            this.rbndom = SunJCE.getRbndom();
         }
 
         byte[] keyBytes = new byte[this.keysize];
-        this.random.nextBytes(keyBytes);
+        this.rbndom.nextBytes(keyBytes);
 
-        return new SecretKeySpec(keyBytes, "HmacMD5");
+        return new SecretKeySpec(keyBytes, "HmbcMD5");
     }
 }

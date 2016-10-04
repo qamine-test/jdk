@@ -1,65 +1,65 @@
 /*
- * Copyright (c) 1998, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt.geom;
+pbckbge sun.bwt.geom;
 
-import java.awt.geom.Rectangle2D;
-import java.awt.geom.QuadCurve2D;
-import java.awt.geom.CubicCurve2D;
-import java.awt.geom.PathIterator;
-import java.awt.geom.IllegalPathStateException;
-import java.util.Vector;
+import jbvb.bwt.geom.Rectbngle2D;
+import jbvb.bwt.geom.QubdCurve2D;
+import jbvb.bwt.geom.CubicCurve2D;
+import jbvb.bwt.geom.PbthIterbtor;
+import jbvb.bwt.geom.IllegblPbthStbteException;
+import jbvb.util.Vector;
 
-public abstract class Curve {
-    public static final int INCREASING = 1;
-    public static final int DECREASING = -1;
+public bbstrbct clbss Curve {
+    public stbtic finbl int INCREASING = 1;
+    public stbtic finbl int DECREASING = -1;
 
     protected int direction;
 
-    public static void insertMove(Vector<Curve> curves, double x, double y) {
-        curves.add(new Order0(x, y));
+    public stbtic void insertMove(Vector<Curve> curves, double x, double y) {
+        curves.bdd(new Order0(x, y));
     }
 
-    public static void insertLine(Vector<Curve> curves,
+    public stbtic void insertLine(Vector<Curve> curves,
                                   double x0, double y0,
                                   double x1, double y1)
     {
         if (y0 < y1) {
-            curves.add(new Order1(x0, y0,
+            curves.bdd(new Order1(x0, y0,
                                   x1, y1,
                                   INCREASING));
         } else if (y0 > y1) {
-            curves.add(new Order1(x1, y1,
+            curves.bdd(new Order1(x1, y1,
                                   x0, y0,
                                   DECREASING));
         } else {
-            // Do not add horizontal lines
+            // Do not bdd horizontbl lines
         }
     }
 
-    public static void insertQuad(Vector<Curve> curves,
+    public stbtic void insertQubd(Vector<Curve> curves,
                                   double x0, double y0,
                                   double coords[])
     {
@@ -71,7 +71,7 @@ public abstract class Curve {
                           x0, y0,
                           DECREASING);
         } else if (y0 == y1 && y0 == coords[1]) {
-            // Do not add horizontal lines
+            // Do not bdd horizontbl lines
             return;
         } else {
             Order2.insert(curves, coords,
@@ -82,7 +82,7 @@ public abstract class Curve {
         }
     }
 
-    public static void insertCubic(Vector<Curve> curves,
+    public stbtic void insertCubic(Vector<Curve> curves,
                                    double x0, double y0,
                                    double coords[])
     {
@@ -95,7 +95,7 @@ public abstract class Curve {
                           x0, y0,
                           DECREASING);
         } else if (y0 == y1 && y0 == coords[1] && y0 == coords[3]) {
-            // Do not add horizontal lines
+            // Do not bdd horizontbl lines
             return;
         } else {
             Order3.insert(curves, coords,
@@ -108,29 +108,29 @@ public abstract class Curve {
     }
 
     /**
-     * Calculates the number of times the given path
-     * crosses the ray extending to the right from (px,py).
-     * If the point lies on a part of the path,
-     * then no crossings are counted for that intersection.
-     * +1 is added for each crossing where the Y coordinate is increasing
-     * -1 is added for each crossing where the Y coordinate is decreasing
-     * The return value is the sum of all crossings for every segment in
-     * the path.
-     * The path must start with a SEG_MOVETO, otherwise an exception is
+     * Cblculbtes the number of times the given pbth
+     * crosses the rby extending to the right from (px,py).
+     * If the point lies on b pbrt of the pbth,
+     * then no crossings bre counted for thbt intersection.
+     * +1 is bdded for ebch crossing where the Y coordinbte is increbsing
+     * -1 is bdded for ebch crossing where the Y coordinbte is decrebsing
+     * The return vblue is the sum of bll crossings for every segment in
+     * the pbth.
+     * The pbth must stbrt with b SEG_MOVETO, otherwise bn exception is
      * thrown.
-     * The caller must check p[xy] for NaN values.
-     * The caller may also reject infinite p[xy] values as well.
+     * The cbller must check p[xy] for NbN vblues.
+     * The cbller mby blso reject infinite p[xy] vblues bs well.
      */
-    public static int pointCrossingsForPath(PathIterator pi,
+    public stbtic int pointCrossingsForPbth(PbthIterbtor pi,
                                             double px, double py)
     {
         if (pi.isDone()) {
             return 0;
         }
         double coords[] = new double[6];
-        if (pi.currentSegment(coords) != PathIterator.SEG_MOVETO) {
-            throw new IllegalPathStateException("missing initial moveto "+
-                                                "in path definition");
+        if (pi.currentSegment(coords) != PbthIterbtor.SEG_MOVETO) {
+            throw new IllegblPbthStbteException("missing initibl moveto "+
+                                                "in pbth definition");
         }
         pi.next();
         double movx = coords[0];
@@ -141,7 +141,7 @@ public abstract class Curve {
         int crossings = 0;
         while (!pi.isDone()) {
             switch (pi.currentSegment(coords)) {
-            case PathIterator.SEG_MOVETO:
+            cbse PbthIterbtor.SEG_MOVETO:
                 if (cury != movy) {
                     crossings += pointCrossingsForLine(px, py,
                                                        curx, cury,
@@ -149,8 +149,8 @@ public abstract class Curve {
                 }
                 movx = curx = coords[0];
                 movy = cury = coords[1];
-                break;
-            case PathIterator.SEG_LINETO:
+                brebk;
+            cbse PbthIterbtor.SEG_LINETO:
                 endx = coords[0];
                 endy = coords[1];
                 crossings += pointCrossingsForLine(px, py,
@@ -158,18 +158,18 @@ public abstract class Curve {
                                                    endx, endy);
                 curx = endx;
                 cury = endy;
-                break;
-            case PathIterator.SEG_QUADTO:
+                brebk;
+            cbse PbthIterbtor.SEG_QUADTO:
                 endx = coords[2];
                 endy = coords[3];
-                crossings += pointCrossingsForQuad(px, py,
+                crossings += pointCrossingsForQubd(px, py,
                                                    curx, cury,
                                                    coords[0], coords[1],
                                                    endx, endy, 0);
                 curx = endx;
                 cury = endy;
-                break;
-            case PathIterator.SEG_CUBICTO:
+                brebk;
+            cbse PbthIterbtor.SEG_CUBICTO:
                 endx = coords[4];
                 endy = coords[5];
                 crossings += pointCrossingsForCubic(px, py,
@@ -179,8 +179,8 @@ public abstract class Curve {
                                                     endx, endy, 0);
                 curx = endx;
                 cury = endy;
-                break;
-            case PathIterator.SEG_CLOSE:
+                brebk;
+            cbse PbthIterbtor.SEG_CLOSE:
                 if (cury != movy) {
                     crossings += pointCrossingsForLine(px, py,
                                                        curx, cury,
@@ -188,7 +188,7 @@ public abstract class Curve {
                 }
                 curx = movx;
                 cury = movy;
-                break;
+                brebk;
             }
             pi.next();
         }
@@ -201,19 +201,19 @@ public abstract class Curve {
     }
 
     /**
-     * Calculates the number of times the line from (x0,y0) to (x1,y1)
-     * crosses the ray extending to the right from (px,py).
-     * If the point lies on the line, then no crossings are recorded.
-     * +1 is returned for a crossing where the Y coordinate is increasing
-     * -1 is returned for a crossing where the Y coordinate is decreasing
+     * Cblculbtes the number of times the line from (x0,y0) to (x1,y1)
+     * crosses the rby extending to the right from (px,py).
+     * If the point lies on the line, then no crossings bre recorded.
+     * +1 is returned for b crossing where the Y coordinbte is increbsing
+     * -1 is returned for b crossing where the Y coordinbte is decrebsing
      */
-    public static int pointCrossingsForLine(double px, double py,
+    public stbtic int pointCrossingsForLine(double px, double py,
                                             double x0, double y0,
                                             double x1, double y1)
     {
         if (py <  y0 && py <  y1) return 0;
         if (py >= y0 && py >= y1) return 0;
-        // assert(y0 != y1);
+        // bssert(y0 != y1);
         if (px >= x0 && px >= x1) return 0;
         if (px <  x0 && px <  x1) return (y0 < y1) ? 1 : -1;
         double xintercept = x0 + (py - y0) * (x1 - x0) / (y1 - y0);
@@ -222,23 +222,23 @@ public abstract class Curve {
     }
 
     /**
-     * Calculates the number of times the quad from (x0,y0) to (x1,y1)
-     * crosses the ray extending to the right from (px,py).
-     * If the point lies on a part of the curve,
-     * then no crossings are counted for that intersection.
-     * the level parameter should be 0 at the top-level call and will count
-     * up for each recursion level to prevent infinite recursion
-     * +1 is added for each crossing where the Y coordinate is increasing
-     * -1 is added for each crossing where the Y coordinate is decreasing
+     * Cblculbtes the number of times the qubd from (x0,y0) to (x1,y1)
+     * crosses the rby extending to the right from (px,py).
+     * If the point lies on b pbrt of the curve,
+     * then no crossings bre counted for thbt intersection.
+     * the level pbrbmeter should be 0 bt the top-level cbll bnd will count
+     * up for ebch recursion level to prevent infinite recursion
+     * +1 is bdded for ebch crossing where the Y coordinbte is increbsing
+     * -1 is bdded for ebch crossing where the Y coordinbte is decrebsing
      */
-    public static int pointCrossingsForQuad(double px, double py,
+    public stbtic int pointCrossingsForQubd(double px, double py,
                                             double x0, double y0,
                                             double xc, double yc,
                                             double x1, double y1, int level)
     {
         if (py <  y0 && py <  yc && py <  y1) return 0;
         if (py >= y0 && py >= yc && py >= y1) return 0;
-        // Note y0 could equal y1...
+        // Note y0 could equbl y1...
         if (px >= x0 && px >= xc && px >= x1) return 0;
         if (px <  x0 && px <  xc && px <  x1) {
             if (py >= y0) {
@@ -247,10 +247,10 @@ public abstract class Curve {
                 // py < y0
                 if (py >= y1) return -1;
             }
-            // py outside of y01 range, and/or y0==y1
+            // py outside of y01 rbnge, bnd/or y0==y1
             return 0;
         }
-        // double precision only has 52 bits of mantissa
+        // double precision only hbs 52 bits of mbntissb
         if (level > 52) return pointCrossingsForLine(px, py, x0, y0, x1, y1);
         double x0c = (x0 + xc) / 2;
         double y0c = (y0 + yc) / 2;
@@ -258,31 +258,31 @@ public abstract class Curve {
         double yc1 = (yc + y1) / 2;
         xc = (x0c + xc1) / 2;
         yc = (y0c + yc1) / 2;
-        if (Double.isNaN(xc) || Double.isNaN(yc)) {
-            // [xy]c are NaN if any of [xy]0c or [xy]c1 are NaN
-            // [xy]0c or [xy]c1 are NaN if any of [xy][0c1] are NaN
-            // These values are also NaN if opposing infinities are added
+        if (Double.isNbN(xc) || Double.isNbN(yc)) {
+            // [xy]c bre NbN if bny of [xy]0c or [xy]c1 bre NbN
+            // [xy]0c or [xy]c1 bre NbN if bny of [xy][0c1] bre NbN
+            // These vblues bre blso NbN if opposing infinities bre bdded
             return 0;
         }
-        return (pointCrossingsForQuad(px, py,
+        return (pointCrossingsForQubd(px, py,
                                       x0, y0, x0c, y0c, xc, yc,
                                       level+1) +
-                pointCrossingsForQuad(px, py,
+                pointCrossingsForQubd(px, py,
                                       xc, yc, xc1, yc1, x1, y1,
                                       level+1));
     }
 
     /**
-     * Calculates the number of times the cubic from (x0,y0) to (x1,y1)
-     * crosses the ray extending to the right from (px,py).
-     * If the point lies on a part of the curve,
-     * then no crossings are counted for that intersection.
-     * the level parameter should be 0 at the top-level call and will count
-     * up for each recursion level to prevent infinite recursion
-     * +1 is added for each crossing where the Y coordinate is increasing
-     * -1 is added for each crossing where the Y coordinate is decreasing
+     * Cblculbtes the number of times the cubic from (x0,y0) to (x1,y1)
+     * crosses the rby extending to the right from (px,py).
+     * If the point lies on b pbrt of the curve,
+     * then no crossings bre counted for thbt intersection.
+     * the level pbrbmeter should be 0 bt the top-level cbll bnd will count
+     * up for ebch recursion level to prevent infinite recursion
+     * +1 is bdded for ebch crossing where the Y coordinbte is increbsing
+     * -1 is bdded for ebch crossing where the Y coordinbte is decrebsing
      */
-    public static int pointCrossingsForCubic(double px, double py,
+    public stbtic int pointCrossingsForCubic(double px, double py,
                                              double x0, double y0,
                                              double xc0, double yc0,
                                              double xc1, double yc1,
@@ -290,7 +290,7 @@ public abstract class Curve {
     {
         if (py <  y0 && py <  yc0 && py <  yc1 && py <  y1) return 0;
         if (py >= y0 && py >= yc0 && py >= yc1 && py >= y1) return 0;
-        // Note y0 could equal yc0...
+        // Note y0 could equbl yc0...
         if (px >= x0 && px >= xc0 && px >= xc1 && px >= x1) return 0;
         if (px <  x0 && px <  xc0 && px <  xc1 && px <  x1) {
             if (py >= y0) {
@@ -299,10 +299,10 @@ public abstract class Curve {
                 // py < y0
                 if (py >= y1) return -1;
             }
-            // py outside of y01 range, and/or y0==yc0
+            // py outside of y01 rbnge, bnd/or y0==yc0
             return 0;
         }
-        // double precision only has 52 bits of mantissa
+        // double precision only hbs 52 bits of mbntissb
         if (level > 52) return pointCrossingsForLine(px, py, x0, y0, x1, y1);
         double xmid = (xc0 + xc1) / 2;
         double ymid = (yc0 + yc1) / 2;
@@ -316,10 +316,10 @@ public abstract class Curve {
         double ymc1 = (ymid + yc1) / 2;
         xmid = (xc0m + xmc1) / 2;
         ymid = (yc0m + ymc1) / 2;
-        if (Double.isNaN(xmid) || Double.isNaN(ymid)) {
-            // [xy]mid are NaN if any of [xy]c0m or [xy]mc1 are NaN
-            // [xy]c0m or [xy]mc1 are NaN if any of [xy][c][01] are NaN
-            // These values are also NaN if opposing infinities are added
+        if (Double.isNbN(xmid) || Double.isNbN(ymid)) {
+            // [xy]mid bre NbN if bny of [xy]c0m or [xy]mc1 bre NbN
+            // [xy]c0m or [xy]mc1 bre NbN if bny of [xy][c][01] bre NbN
+            // These vblues bre blso NbN if opposing infinities bre bdded
             return 0;
         }
         return (pointCrossingsForCubic(px, py,
@@ -331,63 +331,63 @@ public abstract class Curve {
     }
 
     /**
-     * The rectangle intersection test counts the number of times
-     * that the path crosses through the shadow that the rectangle
-     * projects to the right towards (x => +INFINITY).
+     * The rectbngle intersection test counts the number of times
+     * thbt the pbth crosses through the shbdow thbt the rectbngle
+     * projects to the right towbrds (x => +INFINITY).
      *
-     * During processing of the path it actually counts every time
-     * the path crosses either or both of the top and bottom edges
-     * of that shadow.  If the path enters from the top, the count
-     * is incremented.  If it then exits back through the top, the
-     * same way it came in, the count is decremented and there is
-     * no impact on the winding count.  If, instead, the path exits
-     * out the bottom, then the count is incremented again and a
-     * full pass through the shadow is indicated by the winding count
-     * having been incremented by 2.
+     * During processing of the pbth it bctublly counts every time
+     * the pbth crosses either or both of the top bnd bottom edges
+     * of thbt shbdow.  If the pbth enters from the top, the count
+     * is incremented.  If it then exits bbck through the top, the
+     * sbme wby it cbme in, the count is decremented bnd there is
+     * no impbct on the winding count.  If, instebd, the pbth exits
+     * out the bottom, then the count is incremented bgbin bnd b
+     * full pbss through the shbdow is indicbted by the winding count
+     * hbving been incremented by 2.
      *
-     * Thus, the winding count that it accumulates is actually double
-     * the real winding count.  Since the path is continuous, the
-     * final answer should be a multiple of 2, otherwise there is a
+     * Thus, the winding count thbt it bccumulbtes is bctublly double
+     * the rebl winding count.  Since the pbth is continuous, the
+     * finbl bnswer should be b multiple of 2, otherwise there is b
      * logic error somewhere.
      *
-     * If the path ever has a direct hit on the rectangle, then a
-     * special value is returned.  This special value terminates
-     * all ongoing accumulation on up through the call chain and
-     * ends up getting returned to the calling function which can
-     * then produce an answer directly.  For intersection tests,
-     * the answer is always "true" if the path intersects the
-     * rectangle.  For containment tests, the answer is always
-     * "false" if the path intersects the rectangle.  Thus, no
-     * further processing is ever needed if an intersection occurs.
+     * If the pbth ever hbs b direct hit on the rectbngle, then b
+     * specibl vblue is returned.  This specibl vblue terminbtes
+     * bll ongoing bccumulbtion on up through the cbll chbin bnd
+     * ends up getting returned to the cblling function which cbn
+     * then produce bn bnswer directly.  For intersection tests,
+     * the bnswer is blwbys "true" if the pbth intersects the
+     * rectbngle.  For contbinment tests, the bnswer is blwbys
+     * "fblse" if the pbth intersects the rectbngle.  Thus, no
+     * further processing is ever needed if bn intersection occurs.
      */
-    public static final int RECT_INTERSECTS = 0x80000000;
+    public stbtic finbl int RECT_INTERSECTS = 0x80000000;
 
     /**
-     * Accumulate the number of times the path crosses the shadow
-     * extending to the right of the rectangle.  See the comment
-     * for the RECT_INTERSECTS constant for more complete details.
-     * The return value is the sum of all crossings for both the
-     * top and bottom of the shadow for every segment in the path,
-     * or the special value RECT_INTERSECTS if the path ever enters
-     * the interior of the rectangle.
-     * The path must start with a SEG_MOVETO, otherwise an exception is
+     * Accumulbte the number of times the pbth crosses the shbdow
+     * extending to the right of the rectbngle.  See the comment
+     * for the RECT_INTERSECTS constbnt for more complete detbils.
+     * The return vblue is the sum of bll crossings for both the
+     * top bnd bottom of the shbdow for every segment in the pbth,
+     * or the specibl vblue RECT_INTERSECTS if the pbth ever enters
+     * the interior of the rectbngle.
+     * The pbth must stbrt with b SEG_MOVETO, otherwise bn exception is
      * thrown.
-     * The caller must check r[xy]{min,max} for NaN values.
+     * The cbller must check r[xy]{min,mbx} for NbN vblues.
      */
-    public static int rectCrossingsForPath(PathIterator pi,
+    public stbtic int rectCrossingsForPbth(PbthIterbtor pi,
                                            double rxmin, double rymin,
-                                           double rxmax, double rymax)
+                                           double rxmbx, double rymbx)
     {
-        if (rxmax <= rxmin || rymax <= rymin) {
+        if (rxmbx <= rxmin || rymbx <= rymin) {
             return 0;
         }
         if (pi.isDone()) {
             return 0;
         }
         double coords[] = new double[6];
-        if (pi.currentSegment(coords) != PathIterator.SEG_MOVETO) {
-            throw new IllegalPathStateException("missing initial moveto "+
-                                                "in path definition");
+        if (pi.currentSegment(coords) != PbthIterbtor.SEG_MOVETO) {
+            throw new IllegblPbthStbteException("missing initibl moveto "+
+                                                "in pbth definition");
         }
         pi.next();
         double curx, cury, movx, movy, endx, endy;
@@ -396,151 +396,151 @@ public abstract class Curve {
         int crossings = 0;
         while (crossings != RECT_INTERSECTS && !pi.isDone()) {
             switch (pi.currentSegment(coords)) {
-            case PathIterator.SEG_MOVETO:
+            cbse PbthIterbtor.SEG_MOVETO:
                 if (curx != movx || cury != movy) {
                     crossings = rectCrossingsForLine(crossings,
                                                      rxmin, rymin,
-                                                     rxmax, rymax,
+                                                     rxmbx, rymbx,
                                                      curx, cury,
                                                      movx, movy);
                 }
-                // Count should always be a multiple of 2 here.
-                // assert((crossings & 1) != 0);
+                // Count should blwbys be b multiple of 2 here.
+                // bssert((crossings & 1) != 0);
                 movx = curx = coords[0];
                 movy = cury = coords[1];
-                break;
-            case PathIterator.SEG_LINETO:
+                brebk;
+            cbse PbthIterbtor.SEG_LINETO:
                 endx = coords[0];
                 endy = coords[1];
                 crossings = rectCrossingsForLine(crossings,
                                                  rxmin, rymin,
-                                                 rxmax, rymax,
+                                                 rxmbx, rymbx,
                                                  curx, cury,
                                                  endx, endy);
                 curx = endx;
                 cury = endy;
-                break;
-            case PathIterator.SEG_QUADTO:
+                brebk;
+            cbse PbthIterbtor.SEG_QUADTO:
                 endx = coords[2];
                 endy = coords[3];
-                crossings = rectCrossingsForQuad(crossings,
+                crossings = rectCrossingsForQubd(crossings,
                                                  rxmin, rymin,
-                                                 rxmax, rymax,
+                                                 rxmbx, rymbx,
                                                  curx, cury,
                                                  coords[0], coords[1],
                                                  endx, endy, 0);
                 curx = endx;
                 cury = endy;
-                break;
-            case PathIterator.SEG_CUBICTO:
+                brebk;
+            cbse PbthIterbtor.SEG_CUBICTO:
                 endx = coords[4];
                 endy = coords[5];
                 crossings = rectCrossingsForCubic(crossings,
                                                   rxmin, rymin,
-                                                  rxmax, rymax,
+                                                  rxmbx, rymbx,
                                                   curx, cury,
                                                   coords[0], coords[1],
                                                   coords[2], coords[3],
                                                   endx, endy, 0);
                 curx = endx;
                 cury = endy;
-                break;
-            case PathIterator.SEG_CLOSE:
+                brebk;
+            cbse PbthIterbtor.SEG_CLOSE:
                 if (curx != movx || cury != movy) {
                     crossings = rectCrossingsForLine(crossings,
                                                      rxmin, rymin,
-                                                     rxmax, rymax,
+                                                     rxmbx, rymbx,
                                                      curx, cury,
                                                      movx, movy);
                 }
                 curx = movx;
                 cury = movy;
-                // Count should always be a multiple of 2 here.
-                // assert((crossings & 1) != 0);
-                break;
+                // Count should blwbys be b multiple of 2 here.
+                // bssert((crossings & 1) != 0);
+                brebk;
             }
             pi.next();
         }
         if (crossings != RECT_INTERSECTS && (curx != movx || cury != movy)) {
             crossings = rectCrossingsForLine(crossings,
                                              rxmin, rymin,
-                                             rxmax, rymax,
+                                             rxmbx, rymbx,
                                              curx, cury,
                                              movx, movy);
         }
-        // Count should always be a multiple of 2 here.
-        // assert((crossings & 1) != 0);
+        // Count should blwbys be b multiple of 2 here.
+        // bssert((crossings & 1) != 0);
         return crossings;
     }
 
     /**
-     * Accumulate the number of times the line crosses the shadow
-     * extending to the right of the rectangle.  See the comment
-     * for the RECT_INTERSECTS constant for more complete details.
+     * Accumulbte the number of times the line crosses the shbdow
+     * extending to the right of the rectbngle.  See the comment
+     * for the RECT_INTERSECTS constbnt for more complete detbils.
      */
-    public static int rectCrossingsForLine(int crossings,
+    public stbtic int rectCrossingsForLine(int crossings,
                                            double rxmin, double rymin,
-                                           double rxmax, double rymax,
+                                           double rxmbx, double rymbx,
                                            double x0, double y0,
                                            double x1, double y1)
     {
-        if (y0 >= rymax && y1 >= rymax) return crossings;
+        if (y0 >= rymbx && y1 >= rymbx) return crossings;
         if (y0 <= rymin && y1 <= rymin) return crossings;
         if (x0 <= rxmin && x1 <= rxmin) return crossings;
-        if (x0 >= rxmax && x1 >= rxmax) {
+        if (x0 >= rxmbx && x1 >= rxmbx) {
             // Line is entirely to the right of the rect
-            // and the vertical ranges of the two overlap by a non-empty amount
-            // Thus, this line segment is partially in the "right-shadow"
-            // Path may have done a complete crossing
-            // Or path may have entered or exited the right-shadow
+            // bnd the verticbl rbnges of the two overlbp by b non-empty bmount
+            // Thus, this line segment is pbrtiblly in the "right-shbdow"
+            // Pbth mby hbve done b complete crossing
+            // Or pbth mby hbve entered or exited the right-shbdow
             if (y0 < y1) {
-                // y-increasing line segment...
-                // We know that y0 < rymax and y1 > rymin
+                // y-increbsing line segment...
+                // We know thbt y0 < rymbx bnd y1 > rymin
                 if (y0 <= rymin) crossings++;
-                if (y1 >= rymax) crossings++;
+                if (y1 >= rymbx) crossings++;
             } else if (y1 < y0) {
-                // y-decreasing line segment...
-                // We know that y1 < rymax and y0 > rymin
+                // y-decrebsing line segment...
+                // We know thbt y1 < rymbx bnd y0 > rymin
                 if (y1 <= rymin) crossings--;
-                if (y0 >= rymax) crossings--;
+                if (y0 >= rymbx) crossings--;
             }
             return crossings;
         }
-        // Remaining case:
-        // Both x and y ranges overlap by a non-empty amount
-        // First do trivial INTERSECTS rejection of the cases
-        // where one of the endpoints is inside the rectangle.
-        if ((x0 > rxmin && x0 < rxmax && y0 > rymin && y0 < rymax) ||
-            (x1 > rxmin && x1 < rxmax && y1 > rymin && y1 < rymax))
+        // Rembining cbse:
+        // Both x bnd y rbnges overlbp by b non-empty bmount
+        // First do trivibl INTERSECTS rejection of the cbses
+        // where one of the endpoints is inside the rectbngle.
+        if ((x0 > rxmin && x0 < rxmbx && y0 > rymin && y0 < rymbx) ||
+            (x1 > rxmin && x1 < rxmbx && y1 > rymin && y1 < rymbx))
         {
             return RECT_INTERSECTS;
         }
-        // Otherwise calculate the y intercepts and see where
-        // they fall with respect to the rectangle
+        // Otherwise cblculbte the y intercepts bnd see where
+        // they fbll with respect to the rectbngle
         double xi0 = x0;
         if (y0 < rymin) {
             xi0 += ((rymin - y0) * (x1 - x0) / (y1 - y0));
-        } else if (y0 > rymax) {
-            xi0 += ((rymax - y0) * (x1 - x0) / (y1 - y0));
+        } else if (y0 > rymbx) {
+            xi0 += ((rymbx - y0) * (x1 - x0) / (y1 - y0));
         }
         double xi1 = x1;
         if (y1 < rymin) {
             xi1 += ((rymin - y1) * (x0 - x1) / (y0 - y1));
-        } else if (y1 > rymax) {
-            xi1 += ((rymax - y1) * (x0 - x1) / (y0 - y1));
+        } else if (y1 > rymbx) {
+            xi1 += ((rymbx - y1) * (x0 - x1) / (y0 - y1));
         }
         if (xi0 <= rxmin && xi1 <= rxmin) return crossings;
-        if (xi0 >= rxmax && xi1 >= rxmax) {
+        if (xi0 >= rxmbx && xi1 >= rxmbx) {
             if (y0 < y1) {
-                // y-increasing line segment...
-                // We know that y0 < rymax and y1 > rymin
+                // y-increbsing line segment...
+                // We know thbt y0 < rymbx bnd y1 > rymin
                 if (y0 <= rymin) crossings++;
-                if (y1 >= rymax) crossings++;
+                if (y1 >= rymbx) crossings++;
             } else if (y1 < y0) {
-                // y-decreasing line segment...
-                // We know that y1 < rymax and y0 > rymin
+                // y-decrebsing line segment...
+                // We know thbt y1 < rymbx bnd y0 > rymin
                 if (y1 <= rymin) crossings--;
-                if (y0 >= rymax) crossings--;
+                if (y0 >= rymbx) crossings--;
             }
             return crossings;
         }
@@ -548,54 +548,54 @@ public abstract class Curve {
     }
 
     /**
-     * Accumulate the number of times the quad crosses the shadow
-     * extending to the right of the rectangle.  See the comment
-     * for the RECT_INTERSECTS constant for more complete details.
+     * Accumulbte the number of times the qubd crosses the shbdow
+     * extending to the right of the rectbngle.  See the comment
+     * for the RECT_INTERSECTS constbnt for more complete detbils.
      */
-    public static int rectCrossingsForQuad(int crossings,
+    public stbtic int rectCrossingsForQubd(int crossings,
                                            double rxmin, double rymin,
-                                           double rxmax, double rymax,
+                                           double rxmbx, double rymbx,
                                            double x0, double y0,
                                            double xc, double yc,
                                            double x1, double y1,
                                            int level)
     {
-        if (y0 >= rymax && yc >= rymax && y1 >= rymax) return crossings;
+        if (y0 >= rymbx && yc >= rymbx && y1 >= rymbx) return crossings;
         if (y0 <= rymin && yc <= rymin && y1 <= rymin) return crossings;
         if (x0 <= rxmin && xc <= rxmin && x1 <= rxmin) return crossings;
-        if (x0 >= rxmax && xc >= rxmax && x1 >= rxmax) {
-            // Quad is entirely to the right of the rect
-            // and the vertical range of the 3 Y coordinates of the quad
-            // overlaps the vertical range of the rect by a non-empty amount
-            // We now judge the crossings solely based on the line segment
-            // connecting the endpoints of the quad.
-            // Note that we may have 0, 1, or 2 crossings as the control
-            // point may be causing the Y range intersection while the
-            // two endpoints are entirely above or below.
+        if (x0 >= rxmbx && xc >= rxmbx && x1 >= rxmbx) {
+            // Qubd is entirely to the right of the rect
+            // bnd the verticbl rbnge of the 3 Y coordinbtes of the qubd
+            // overlbps the verticbl rbnge of the rect by b non-empty bmount
+            // We now judge the crossings solely bbsed on the line segment
+            // connecting the endpoints of the qubd.
+            // Note thbt we mby hbve 0, 1, or 2 crossings bs the control
+            // point mby be cbusing the Y rbnge intersection while the
+            // two endpoints bre entirely bbove or below.
             if (y0 < y1) {
-                // y-increasing line segment...
+                // y-increbsing line segment...
                 if (y0 <= rymin && y1 >  rymin) crossings++;
-                if (y0 <  rymax && y1 >= rymax) crossings++;
+                if (y0 <  rymbx && y1 >= rymbx) crossings++;
             } else if (y1 < y0) {
-                // y-decreasing line segment...
+                // y-decrebsing line segment...
                 if (y1 <= rymin && y0 >  rymin) crossings--;
-                if (y1 <  rymax && y0 >= rymax) crossings--;
+                if (y1 <  rymbx && y0 >= rymbx) crossings--;
             }
             return crossings;
         }
-        // The intersection of ranges is more complicated
-        // First do trivial INTERSECTS rejection of the cases
-        // where one of the endpoints is inside the rectangle.
-        if ((x0 < rxmax && x0 > rxmin && y0 < rymax && y0 > rymin) ||
-            (x1 < rxmax && x1 > rxmin && y1 < rymax && y1 > rymin))
+        // The intersection of rbnges is more complicbted
+        // First do trivibl INTERSECTS rejection of the cbses
+        // where one of the endpoints is inside the rectbngle.
+        if ((x0 < rxmbx && x0 > rxmin && y0 < rymbx && y0 > rymin) ||
+            (x1 < rxmbx && x1 > rxmin && y1 < rymbx && y1 > rymin))
         {
             return RECT_INTERSECTS;
         }
-        // Otherwise, subdivide and look for one of the cases above.
-        // double precision only has 52 bits of mantissa
+        // Otherwise, subdivide bnd look for one of the cbses bbove.
+        // double precision only hbs 52 bits of mbntissb
         if (level > 52) {
             return rectCrossingsForLine(crossings,
-                                        rxmin, rymin, rxmax, rymax,
+                                        rxmin, rymin, rxmbx, rymbx,
                                         x0, y0, x1, y1);
         }
         double x0c = (x0 + xc) / 2;
@@ -604,19 +604,19 @@ public abstract class Curve {
         double yc1 = (yc + y1) / 2;
         xc = (x0c + xc1) / 2;
         yc = (y0c + yc1) / 2;
-        if (Double.isNaN(xc) || Double.isNaN(yc)) {
-            // [xy]c are NaN if any of [xy]0c or [xy]c1 are NaN
-            // [xy]0c or [xy]c1 are NaN if any of [xy][0c1] are NaN
-            // These values are also NaN if opposing infinities are added
+        if (Double.isNbN(xc) || Double.isNbN(yc)) {
+            // [xy]c bre NbN if bny of [xy]0c or [xy]c1 bre NbN
+            // [xy]0c or [xy]c1 bre NbN if bny of [xy][0c1] bre NbN
+            // These vblues bre blso NbN if opposing infinities bre bdded
             return 0;
         }
-        crossings = rectCrossingsForQuad(crossings,
-                                         rxmin, rymin, rxmax, rymax,
+        crossings = rectCrossingsForQubd(crossings,
+                                         rxmin, rymin, rxmbx, rymbx,
                                          x0, y0, x0c, y0c, xc, yc,
                                          level+1);
         if (crossings != RECT_INTERSECTS) {
-            crossings = rectCrossingsForQuad(crossings,
-                                             rxmin, rymin, rxmax, rymax,
+            crossings = rectCrossingsForQubd(crossings,
+                                             rxmin, rymin, rxmbx, rymbx,
                                              xc, yc, xc1, yc1, x1, y1,
                                              level+1);
         }
@@ -624,20 +624,20 @@ public abstract class Curve {
     }
 
     /**
-     * Accumulate the number of times the cubic crosses the shadow
-     * extending to the right of the rectangle.  See the comment
-     * for the RECT_INTERSECTS constant for more complete details.
+     * Accumulbte the number of times the cubic crosses the shbdow
+     * extending to the right of the rectbngle.  See the comment
+     * for the RECT_INTERSECTS constbnt for more complete detbils.
      */
-    public static int rectCrossingsForCubic(int crossings,
+    public stbtic int rectCrossingsForCubic(int crossings,
                                             double rxmin, double rymin,
-                                            double rxmax, double rymax,
+                                            double rxmbx, double rymbx,
                                             double x0,  double y0,
                                             double xc0, double yc0,
                                             double xc1, double yc1,
                                             double x1,  double y1,
                                             int level)
     {
-        if (y0 >= rymax && yc0 >= rymax && yc1 >= rymax && y1 >= rymax) {
+        if (y0 >= rymbx && yc0 >= rymbx && yc1 >= rymbx && y1 >= rymbx) {
             return crossings;
         }
         if (y0 <= rymin && yc0 <= rymin && yc1 <= rymin && y1 <= rymin) {
@@ -646,39 +646,39 @@ public abstract class Curve {
         if (x0 <= rxmin && xc0 <= rxmin && xc1 <= rxmin && x1 <= rxmin) {
             return crossings;
         }
-        if (x0 >= rxmax && xc0 >= rxmax && xc1 >= rxmax && x1 >= rxmax) {
+        if (x0 >= rxmbx && xc0 >= rxmbx && xc1 >= rxmbx && x1 >= rxmbx) {
             // Cubic is entirely to the right of the rect
-            // and the vertical range of the 4 Y coordinates of the cubic
-            // overlaps the vertical range of the rect by a non-empty amount
-            // We now judge the crossings solely based on the line segment
+            // bnd the verticbl rbnge of the 4 Y coordinbtes of the cubic
+            // overlbps the verticbl rbnge of the rect by b non-empty bmount
+            // We now judge the crossings solely bbsed on the line segment
             // connecting the endpoints of the cubic.
-            // Note that we may have 0, 1, or 2 crossings as the control
-            // points may be causing the Y range intersection while the
-            // two endpoints are entirely above or below.
+            // Note thbt we mby hbve 0, 1, or 2 crossings bs the control
+            // points mby be cbusing the Y rbnge intersection while the
+            // two endpoints bre entirely bbove or below.
             if (y0 < y1) {
-                // y-increasing line segment...
+                // y-increbsing line segment...
                 if (y0 <= rymin && y1 >  rymin) crossings++;
-                if (y0 <  rymax && y1 >= rymax) crossings++;
+                if (y0 <  rymbx && y1 >= rymbx) crossings++;
             } else if (y1 < y0) {
-                // y-decreasing line segment...
+                // y-decrebsing line segment...
                 if (y1 <= rymin && y0 >  rymin) crossings--;
-                if (y1 <  rymax && y0 >= rymax) crossings--;
+                if (y1 <  rymbx && y0 >= rymbx) crossings--;
             }
             return crossings;
         }
-        // The intersection of ranges is more complicated
-        // First do trivial INTERSECTS rejection of the cases
-        // where one of the endpoints is inside the rectangle.
-        if ((x0 > rxmin && x0 < rxmax && y0 > rymin && y0 < rymax) ||
-            (x1 > rxmin && x1 < rxmax && y1 > rymin && y1 < rymax))
+        // The intersection of rbnges is more complicbted
+        // First do trivibl INTERSECTS rejection of the cbses
+        // where one of the endpoints is inside the rectbngle.
+        if ((x0 > rxmin && x0 < rxmbx && y0 > rymin && y0 < rymbx) ||
+            (x1 > rxmin && x1 < rxmbx && y1 > rymin && y1 < rymbx))
         {
             return RECT_INTERSECTS;
         }
-        // Otherwise, subdivide and look for one of the cases above.
-        // double precision only has 52 bits of mantissa
+        // Otherwise, subdivide bnd look for one of the cbses bbove.
+        // double precision only hbs 52 bits of mbntissb
         if (level > 52) {
             return rectCrossingsForLine(crossings,
-                                        rxmin, rymin, rxmax, rymax,
+                                        rxmin, rymin, rxmbx, rymbx,
                                         x0, y0, x1, y1);
         }
         double xmid = (xc0 + xc1) / 2;
@@ -693,19 +693,19 @@ public abstract class Curve {
         double ymc1 = (ymid + yc1) / 2;
         xmid = (xc0m + xmc1) / 2;
         ymid = (yc0m + ymc1) / 2;
-        if (Double.isNaN(xmid) || Double.isNaN(ymid)) {
-            // [xy]mid are NaN if any of [xy]c0m or [xy]mc1 are NaN
-            // [xy]c0m or [xy]mc1 are NaN if any of [xy][c][01] are NaN
-            // These values are also NaN if opposing infinities are added
+        if (Double.isNbN(xmid) || Double.isNbN(ymid)) {
+            // [xy]mid bre NbN if bny of [xy]c0m or [xy]mc1 bre NbN
+            // [xy]c0m or [xy]mc1 bre NbN if bny of [xy][c][01] bre NbN
+            // These vblues bre blso NbN if opposing infinities bre bdded
             return 0;
         }
         crossings = rectCrossingsForCubic(crossings,
-                                          rxmin, rymin, rxmax, rymax,
+                                          rxmin, rymin, rxmbx, rymbx,
                                           x0, y0, xc0, yc0,
                                           xc0m, yc0m, xmid, ymid, level+1);
         if (crossings != RECT_INTERSECTS) {
             crossings = rectCrossingsForCubic(crossings,
-                                              rxmin, rymin, rxmax, rymax,
+                                              rxmin, rymin, rxmbx, rymbx,
                                               xmid, ymid, xmc1, ymc1,
                                               xc1, yc1, x1, y1, level+1);
         }
@@ -716,20 +716,20 @@ public abstract class Curve {
         this.direction = direction;
     }
 
-    public final int getDirection() {
+    public finbl int getDirection() {
         return direction;
     }
 
-    public final Curve getWithDirection(int direction) {
+    public finbl Curve getWithDirection(int direction) {
         return (this.direction == direction ? this : getReversedCurve());
     }
 
-    public static double round(double v) {
-        //return Math.rint(v*10)/10;
+    public stbtic double round(double v) {
+        //return Mbth.rint(v*10)/10;
         return v;
     }
 
-    public static int orderof(double x1, double x2) {
+    public stbtic int orderof(double x1, double x2) {
         if (x1 < x2) {
             return -1;
         }
@@ -739,17 +739,17 @@ public abstract class Curve {
         return 0;
     }
 
-    public static long signeddiffbits(double y1, double y2) {
+    public stbtic long signeddiffbits(double y1, double y2) {
         return (Double.doubleToLongBits(y1) - Double.doubleToLongBits(y2));
     }
-    public static long diffbits(double y1, double y2) {
-        return Math.abs(Double.doubleToLongBits(y1) -
+    public stbtic long diffbits(double y1, double y2) {
+        return Mbth.bbs(Double.doubleToLongBits(y1) -
                         Double.doubleToLongBits(y2));
     }
-    public static double prev(double v) {
+    public stbtic double prev(double v) {
         return Double.longBitsToDouble(Double.doubleToLongBits(v)-1);
     }
-    public static double next(double v) {
+    public stbtic double next(double v) {
         return Double.longBitsToDouble(Double.doubleToLongBits(v)+1);
     }
 
@@ -767,62 +767,62 @@ public abstract class Curve {
         return "";
     }
 
-    public abstract int getOrder();
+    public bbstrbct int getOrder();
 
-    public abstract double getXTop();
-    public abstract double getYTop();
-    public abstract double getXBot();
-    public abstract double getYBot();
+    public bbstrbct double getXTop();
+    public bbstrbct double getYTop();
+    public bbstrbct double getXBot();
+    public bbstrbct double getYBot();
 
-    public abstract double getXMin();
-    public abstract double getXMax();
+    public bbstrbct double getXMin();
+    public bbstrbct double getXMbx();
 
-    public abstract double getX0();
-    public abstract double getY0();
-    public abstract double getX1();
-    public abstract double getY1();
+    public bbstrbct double getX0();
+    public bbstrbct double getY0();
+    public bbstrbct double getX1();
+    public bbstrbct double getY1();
 
-    public abstract double XforY(double y);
-    public abstract double TforY(double y);
-    public abstract double XforT(double t);
-    public abstract double YforT(double t);
-    public abstract double dXforT(double t, int deriv);
-    public abstract double dYforT(double t, int deriv);
+    public bbstrbct double XforY(double y);
+    public bbstrbct double TforY(double y);
+    public bbstrbct double XforT(double t);
+    public bbstrbct double YforT(double t);
+    public bbstrbct double dXforT(double t, int deriv);
+    public bbstrbct double dYforT(double t, int deriv);
 
-    public abstract double nextVertical(double t0, double t1);
+    public bbstrbct double nextVerticbl(double t0, double t1);
 
     public int crossingsFor(double x, double y) {
         if (y >= getYTop() && y < getYBot()) {
-            if (x < getXMax() && (x < getXMin() || x < XforY(y))) {
+            if (x < getXMbx() && (x < getXMin() || x < XforY(y))) {
                 return 1;
             }
         }
         return 0;
     }
 
-    public boolean accumulateCrossings(Crossings c) {
+    public boolebn bccumulbteCrossings(Crossings c) {
         double xhi = c.getXHi();
         if (getXMin() >= xhi) {
-            return false;
+            return fblse;
         }
         double xlo = c.getXLo();
         double ylo = c.getYLo();
         double yhi = c.getYHi();
         double y0 = getYTop();
         double y1 = getYBot();
-        double tstart, ystart, tend, yend;
+        double tstbrt, ystbrt, tend, yend;
         if (y0 < ylo) {
             if (y1 <= ylo) {
-                return false;
+                return fblse;
             }
-            ystart = ylo;
-            tstart = TforY(ylo);
+            ystbrt = ylo;
+            tstbrt = TforY(ylo);
         } else {
             if (y0 >= yhi) {
-                return false;
+                return fblse;
             }
-            ystart = y0;
-            tstart = 0;
+            ystbrt = y0;
+            tstbrt = 0;
         }
         if (y1 > yhi) {
             yend = yhi;
@@ -831,10 +831,10 @@ public abstract class Curve {
             yend = y1;
             tend = 1;
         }
-        boolean hitLo = false;
-        boolean hitHi = false;
+        boolebn hitLo = fblse;
+        boolebn hitHi = fblse;
         while (true) {
-            double x = XforT(tstart);
+            double x = XforT(tstbrt);
             if (x < xhi) {
                 if (hitHi || x > xlo) {
                     return true;
@@ -846,56 +846,56 @@ public abstract class Curve {
                 }
                 hitHi = true;
             }
-            if (tstart >= tend) {
-                break;
+            if (tstbrt >= tend) {
+                brebk;
             }
-            tstart = nextVertical(tstart, tend);
+            tstbrt = nextVerticbl(tstbrt, tend);
         }
         if (hitLo) {
-            c.record(ystart, yend, direction);
+            c.record(ystbrt, yend, direction);
         }
-        return false;
+        return fblse;
     }
 
-    public abstract void enlarge(Rectangle2D r);
+    public bbstrbct void enlbrge(Rectbngle2D r);
 
-    public Curve getSubCurve(double ystart, double yend) {
-        return getSubCurve(ystart, yend, direction);
+    public Curve getSubCurve(double ystbrt, double yend) {
+        return getSubCurve(ystbrt, yend, direction);
     }
 
-    public abstract Curve getReversedCurve();
-    public abstract Curve getSubCurve(double ystart, double yend, int dir);
+    public bbstrbct Curve getReversedCurve();
+    public bbstrbct Curve getSubCurve(double ystbrt, double yend, int dir);
 
-    public int compareTo(Curve that, double yrange[]) {
+    public int compbreTo(Curve thbt, double yrbnge[]) {
         /*
-        System.out.println(this+".compareTo("+that+")");
-        System.out.println("target range = "+yrange[0]+"=>"+yrange[1]);
+        System.out.println(this+".compbreTo("+thbt+")");
+        System.out.println("tbrget rbnge = "+yrbnge[0]+"=>"+yrbnge[1]);
         */
-        double y0 = yrange[0];
-        double y1 = yrange[1];
-        y1 = Math.min(Math.min(y1, this.getYBot()), that.getYBot());
-        if (y1 <= yrange[0]) {
+        double y0 = yrbnge[0];
+        double y1 = yrbnge[1];
+        y1 = Mbth.min(Mbth.min(y1, this.getYBot()), thbt.getYBot());
+        if (y1 <= yrbnge[0]) {
             System.err.println("this == "+this);
-            System.err.println("that == "+that);
-            System.out.println("target range = "+yrange[0]+"=>"+yrange[1]);
-            throw new InternalError("backstepping from "+yrange[0]+" to "+y1);
+            System.err.println("thbt == "+thbt);
+            System.out.println("tbrget rbnge = "+yrbnge[0]+"=>"+yrbnge[1]);
+            throw new InternblError("bbckstepping from "+yrbnge[0]+" to "+y1);
         }
-        yrange[1] = y1;
-        if (this.getXMax() <= that.getXMin()) {
-            if (this.getXMin() == that.getXMax()) {
+        yrbnge[1] = y1;
+        if (this.getXMbx() <= thbt.getXMin()) {
+            if (this.getXMin() == thbt.getXMbx()) {
                 return 0;
             }
             return -1;
         }
-        if (this.getXMin() >= that.getXMax()) {
+        if (this.getXMin() >= thbt.getXMbx()) {
             return 1;
         }
-        // Parameter s for thi(s) curve and t for tha(t) curve
-        // [st]0 = parameters for top of current section of interest
-        // [st]1 = parameters for bottom of valid range
-        // [st]h = parameters for hypothesis point
-        // [d][xy]s = valuations of thi(s) curve at sh
-        // [d][xy]t = valuations of tha(t) curve at th
+        // Pbrbmeter s for thi(s) curve bnd t for thb(t) curve
+        // [st]0 = pbrbmeters for top of current section of interest
+        // [st]1 = pbrbmeters for bottom of vblid rbnge
+        // [st]h = pbrbmeters for hypothesis point
+        // [d][xy]s = vblubtions of thi(s) curve bt sh
+        // [d][xy]t = vblubtions of thb(t) curve bt th
         double s0 = this.TforY(y0);
         double ys0 = this.YforT(s0);
         if (ys0 < y0) {
@@ -907,29 +907,29 @@ public abstract class Curve {
             s1 = refineTforY(s1, this.YforT(s1), y0);
             //System.out.println("s1 problem!");
         }
-        double t0 = that.TforY(y0);
-        double yt0 = that.YforT(t0);
+        double t0 = thbt.TforY(y0);
+        double yt0 = thbt.YforT(t0);
         if (yt0 < y0) {
-            t0 = that.refineTforY(t0, yt0, y0);
-            yt0 = that.YforT(t0);
+            t0 = thbt.refineTforY(t0, yt0, y0);
+            yt0 = thbt.YforT(t0);
         }
-        double t1 = that.TforY(y1);
-        if (that.YforT(t1) < y0) {
-            t1 = that.refineTforY(t1, that.YforT(t1), y0);
+        double t1 = thbt.TforY(y1);
+        if (thbt.YforT(t1) < y0) {
+            t1 = thbt.refineTforY(t1, thbt.YforT(t1), y0);
             //System.out.println("t1 problem!");
         }
         double xs0 = this.XforT(s0);
-        double xt0 = that.XforT(t0);
-        double scale = Math.max(Math.abs(y0), Math.abs(y1));
-        double ymin = Math.max(scale * 1E-14, 1E-300);
-        if (fairlyClose(xs0, xt0)) {
+        double xt0 = thbt.XforT(t0);
+        double scble = Mbth.mbx(Mbth.bbs(y0), Mbth.bbs(y1));
+        double ymin = Mbth.mbx(scble * 1E-14, 1E-300);
+        if (fbirlyClose(xs0, xt0)) {
             double bump = ymin;
-            double maxbump = Math.min(ymin * 1E13, (y1 - y0) * .1);
+            double mbxbump = Mbth.min(ymin * 1E13, (y1 - y0) * .1);
             double y = y0 + bump;
             while (y <= y1) {
-                if (fairlyClose(this.XforY(y), that.XforY(y))) {
-                    if ((bump *= 2) > maxbump) {
-                        bump = maxbump;
+                if (fbirlyClose(this.XforY(y), thbt.XforY(y))) {
+                    if ((bump *= 2) > mbxbump) {
+                        bump = mbxbump;
                     }
                 } else {
                     y -= bump;
@@ -937,19 +937,19 @@ public abstract class Curve {
                         bump /= 2;
                         double newy = y + bump;
                         if (newy <= y) {
-                            break;
+                            brebk;
                         }
-                        if (fairlyClose(this.XforY(newy), that.XforY(newy))) {
+                        if (fbirlyClose(this.XforY(newy), thbt.XforY(newy))) {
                             y = newy;
                         }
                     }
-                    break;
+                    brebk;
                 }
                 y += bump;
             }
             if (y > y0) {
                 if (y < y1) {
-                    yrange[1] = y;
+                    yrbnge[1] = y;
                 }
                 return 0;
             }
@@ -959,78 +959,78 @@ public abstract class Curve {
             System.out.println("ymin = "+ymin);
         }
         /*
-        System.out.println("s range = "+s0+" to "+s1);
-        System.out.println("t range = "+t0+" to "+t1);
+        System.out.println("s rbnge = "+s0+" to "+s1);
+        System.out.println("t rbnge = "+t0+" to "+t1);
         */
         while (s0 < s1 && t0 < t1) {
-            double sh = this.nextVertical(s0, s1);
+            double sh = this.nextVerticbl(s0, s1);
             double xsh = this.XforT(sh);
             double ysh = this.YforT(sh);
-            double th = that.nextVertical(t0, t1);
-            double xth = that.XforT(th);
-            double yth = that.YforT(th);
+            double th = thbt.nextVerticbl(t0, t1);
+            double xth = thbt.XforT(th);
+            double yth = thbt.YforT(th);
             /*
             System.out.println("sh = "+sh);
             System.out.println("th = "+th);
             */
         try {
-            if (findIntersect(that, yrange, ymin, 0, 0,
+            if (findIntersect(thbt, yrbnge, ymin, 0, 0,
                               s0, xs0, ys0, sh, xsh, ysh,
                               t0, xt0, yt0, th, xth, yth)) {
-                break;
+                brebk;
             }
-        } catch (Throwable t) {
+        } cbtch (Throwbble t) {
             System.err.println("Error: "+t);
-            System.err.println("y range was "+yrange[0]+"=>"+yrange[1]);
-            System.err.println("s y range is "+ys0+"=>"+ysh);
-            System.err.println("t y range is "+yt0+"=>"+yth);
+            System.err.println("y rbnge wbs "+yrbnge[0]+"=>"+yrbnge[1]);
+            System.err.println("s y rbnge is "+ys0+"=>"+ysh);
+            System.err.println("t y rbnge is "+yt0+"=>"+yth);
             System.err.println("ymin is "+ymin);
             return 0;
         }
             if (ysh < yth) {
-                if (ysh > yrange[0]) {
-                    if (ysh < yrange[1]) {
-                        yrange[1] = ysh;
+                if (ysh > yrbnge[0]) {
+                    if (ysh < yrbnge[1]) {
+                        yrbnge[1] = ysh;
                     }
-                    break;
+                    brebk;
                 }
                 s0 = sh;
                 xs0 = xsh;
                 ys0 = ysh;
             } else {
-                if (yth > yrange[0]) {
-                    if (yth < yrange[1]) {
-                        yrange[1] = yth;
+                if (yth > yrbnge[0]) {
+                    if (yth < yrbnge[1]) {
+                        yrbnge[1] = yth;
                     }
-                    break;
+                    brebk;
                 }
                 t0 = th;
                 xt0 = xth;
                 yt0 = yth;
             }
         }
-        double ymid = (yrange[0] + yrange[1]) / 2;
+        double ymid = (yrbnge[0] + yrbnge[1]) / 2;
         /*
-        System.out.println("final this["+s0+", "+sh+", "+s1+"]");
-        System.out.println("final    y["+ys0+", "+ysh+"]");
-        System.out.println("final that["+t0+", "+th+", "+t1+"]");
-        System.out.println("final    y["+yt0+", "+yth+"]");
-        System.out.println("final order = "+orderof(this.XforY(ymid),
-                                                    that.XforY(ymid)));
-        System.out.println("final range = "+yrange[0]+"=>"+yrange[1]);
+        System.out.println("finbl this["+s0+", "+sh+", "+s1+"]");
+        System.out.println("finbl    y["+ys0+", "+ysh+"]");
+        System.out.println("finbl thbt["+t0+", "+th+", "+t1+"]");
+        System.out.println("finbl    y["+yt0+", "+yth+"]");
+        System.out.println("finbl order = "+orderof(this.XforY(ymid),
+                                                    thbt.XforY(ymid)));
+        System.out.println("finbl rbnge = "+yrbnge[0]+"=>"+yrbnge[1]);
         */
         /*
-        System.out.println("final sx = "+this.XforY(ymid));
-        System.out.println("final tx = "+that.XforY(ymid));
-        System.out.println("final order = "+orderof(this.XforY(ymid),
-                                                    that.XforY(ymid)));
+        System.out.println("finbl sx = "+this.XforY(ymid));
+        System.out.println("finbl tx = "+thbt.XforY(ymid));
+        System.out.println("finbl order = "+orderof(this.XforY(ymid),
+                                                    thbt.XforY(ymid)));
         */
-        return orderof(this.XforY(ymid), that.XforY(ymid));
+        return orderof(this.XforY(ymid), thbt.XforY(ymid));
     }
 
-    public static final double TMIN = 1E-3;
+    public stbtic finbl double TMIN = 1E-3;
 
-    public boolean findIntersect(Curve that, double yrange[], double ymin,
+    public boolebn findIntersect(Curve thbt, double yrbnge[], double ymin,
                                  int slevel, int tlevel,
                                  double s0, double xs0, double ys0,
                                  double s1, double xs1, double ys1,
@@ -1038,30 +1038,30 @@ public abstract class Curve {
                                  double t1, double xt1, double yt1)
     {
         /*
-        String pad = "        ";
-        pad = pad+pad+pad+pad+pad;
-        pad = pad+pad;
+        String pbd = "        ";
+        pbd = pbd+pbd+pbd+pbd+pbd;
+        pbd = pbd+pbd;
         System.out.println("----------------------------------------------");
-        System.out.println(pad.substring(0, slevel)+ys0);
-        System.out.println(pad.substring(0, slevel)+ys1);
-        System.out.println(pad.substring(0, slevel)+(s1-s0));
+        System.out.println(pbd.substring(0, slevel)+ys0);
+        System.out.println(pbd.substring(0, slevel)+ys1);
+        System.out.println(pbd.substring(0, slevel)+(s1-s0));
         System.out.println("-------");
-        System.out.println(pad.substring(0, tlevel)+yt0);
-        System.out.println(pad.substring(0, tlevel)+yt1);
-        System.out.println(pad.substring(0, tlevel)+(t1-t0));
+        System.out.println(pbd.substring(0, tlevel)+yt0);
+        System.out.println(pbd.substring(0, tlevel)+yt1);
+        System.out.println(pbd.substring(0, tlevel)+(t1-t0));
         */
         if (ys0 > yt1 || yt0 > ys1) {
-            return false;
+            return fblse;
         }
-        if (Math.min(xs0, xs1) > Math.max(xt0, xt1) ||
-            Math.max(xs0, xs1) < Math.min(xt0, xt1))
+        if (Mbth.min(xs0, xs1) > Mbth.mbx(xt0, xt1) ||
+            Mbth.mbx(xs0, xs1) < Mbth.min(xt0, xt1))
         {
-            return false;
+            return fblse;
         }
-        // Bounding boxes intersect - back off the larger of
-        // the two subcurves by half until they stop intersecting
-        // (or until they get small enough to switch to a more
-        //  intensive algorithm).
+        // Bounding boxes intersect - bbck off the lbrger of
+        // the two subcurves by hblf until they stop intersecting
+        // (or until they get smbll enough to switch to b more
+        //  intensive blgorithm).
         if (s1 - s0 > TMIN) {
             double s = (s0 + s1) / 2;
             double xs = this.XforT(s);
@@ -1069,40 +1069,40 @@ public abstract class Curve {
             if (s == s0 || s == s1) {
                 System.out.println("s0 = "+s0);
                 System.out.println("s1 = "+s1);
-                throw new InternalError("no s progress!");
+                throw new InternblError("no s progress!");
             }
             if (t1 - t0 > TMIN) {
                 double t = (t0 + t1) / 2;
-                double xt = that.XforT(t);
-                double yt = that.YforT(t);
+                double xt = thbt.XforT(t);
+                double yt = thbt.YforT(t);
                 if (t == t0 || t == t1) {
                     System.out.println("t0 = "+t0);
                     System.out.println("t1 = "+t1);
-                    throw new InternalError("no t progress!");
+                    throw new InternblError("no t progress!");
                 }
                 if (ys >= yt0 && yt >= ys0) {
-                    if (findIntersect(that, yrange, ymin, slevel+1, tlevel+1,
+                    if (findIntersect(thbt, yrbnge, ymin, slevel+1, tlevel+1,
                                       s0, xs0, ys0, s, xs, ys,
                                       t0, xt0, yt0, t, xt, yt)) {
                         return true;
                     }
                 }
                 if (ys >= yt) {
-                    if (findIntersect(that, yrange, ymin, slevel+1, tlevel+1,
+                    if (findIntersect(thbt, yrbnge, ymin, slevel+1, tlevel+1,
                                       s0, xs0, ys0, s, xs, ys,
                                       t, xt, yt, t1, xt1, yt1)) {
                         return true;
                     }
                 }
                 if (yt >= ys) {
-                    if (findIntersect(that, yrange, ymin, slevel+1, tlevel+1,
+                    if (findIntersect(thbt, yrbnge, ymin, slevel+1, tlevel+1,
                                       s, xs, ys, s1, xs1, ys1,
                                       t0, xt0, yt0, t, xt, yt)) {
                         return true;
                     }
                 }
                 if (ys1 >= yt && yt1 >= ys) {
-                    if (findIntersect(that, yrange, ymin, slevel+1, tlevel+1,
+                    if (findIntersect(thbt, yrbnge, ymin, slevel+1, tlevel+1,
                                       s, xs, ys, s1, xs1, ys1,
                                       t, xt, yt, t1, xt1, yt1)) {
                         return true;
@@ -1110,14 +1110,14 @@ public abstract class Curve {
                 }
             } else {
                 if (ys >= yt0) {
-                    if (findIntersect(that, yrange, ymin, slevel+1, tlevel,
+                    if (findIntersect(thbt, yrbnge, ymin, slevel+1, tlevel,
                                       s0, xs0, ys0, s, xs, ys,
                                       t0, xt0, yt0, t1, xt1, yt1)) {
                         return true;
                     }
                 }
                 if (yt1 >= ys) {
-                    if (findIntersect(that, yrange, ymin, slevel+1, tlevel,
+                    if (findIntersect(thbt, yrbnge, ymin, slevel+1, tlevel,
                                       s, xs, ys, s1, xs1, ys1,
                                       t0, xt0, yt0, t1, xt1, yt1)) {
                         return true;
@@ -1126,22 +1126,22 @@ public abstract class Curve {
             }
         } else if (t1 - t0 > TMIN) {
             double t = (t0 + t1) / 2;
-            double xt = that.XforT(t);
-            double yt = that.YforT(t);
+            double xt = thbt.XforT(t);
+            double yt = thbt.YforT(t);
             if (t == t0 || t == t1) {
                 System.out.println("t0 = "+t0);
                 System.out.println("t1 = "+t1);
-                throw new InternalError("no t progress!");
+                throw new InternblError("no t progress!");
             }
             if (yt >= ys0) {
-                if (findIntersect(that, yrange, ymin, slevel, tlevel+1,
+                if (findIntersect(thbt, yrbnge, ymin, slevel, tlevel+1,
                                   s0, xs0, ys0, s1, xs1, ys1,
                                   t0, xt0, yt0, t, xt, yt)) {
                     return true;
                 }
             }
             if (ys1 >= yt) {
-                if (findIntersect(that, yrange, ymin, slevel, tlevel+1,
+                if (findIntersect(thbt, yrbnge, ymin, slevel, tlevel+1,
                                   s0, xs0, ys0, s1, xs1, ys1,
                                   t, xt, yt, t1, xt1, yt1)) {
                     return true;
@@ -1166,16 +1166,16 @@ public abstract class Curve {
                     if (s < 0 || s > 1 || t < 0 || t > 1) {
                         System.out.println("Uh oh!");
                     }
-                    double y = (this.YforT(s) + that.YforT(t)) / 2;
-                    if (y <= yrange[1] && y > yrange[0]) {
-                        yrange[1] = y;
+                    double y = (this.YforT(s) + thbt.YforT(t)) / 2;
+                    if (y <= yrbnge[1] && y > yrbnge[0]) {
+                        yrbnge[1] = y;
                         return true;
                     }
                 }
             }
             //System.out.println("Testing lines!");
         }
-        return false;
+        return fblse;
     }
 
     public double refineTforY(double t0, double yt0, double y0) {
@@ -1197,10 +1197,10 @@ public abstract class Curve {
         }
     }
 
-    public boolean fairlyClose(double v1, double v2) {
-        return (Math.abs(v1 - v2) <
-                Math.max(Math.abs(v1), Math.abs(v2)) * 1E-10);
+    public boolebn fbirlyClose(double v1, double v2) {
+        return (Mbth.bbs(v1 - v2) <
+                Mbth.mbx(Mbth.bbs(v1), Mbth.bbs(v2)) * 1E-10);
     }
 
-    public abstract int getSegment(double coords[]);
+    public bbstrbct int getSegment(double coords[]);
 }

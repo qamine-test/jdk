@@ -1,113 +1,113 @@
 /*
- * Copyright (c) 2005, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * Created on Apr 28, 2005
+ * Crebted on Apr 28, 2005
  */
-package javax.sql;
+pbckbge jbvbx.sql;
 
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.util.EventObject;
+import jbvb.sql.PrepbredStbtement;
+import jbvb.sql.SQLException;
+import jbvb.util.EventObject;
 
 /**
- * A <code>StatementEvent</code> is sent to all <code>StatementEventListener</code>s which were
- * registered with a <code>PooledConnection</code>. This occurs when the driver determines that a
- * <code>PreparedStatement</code> that is associated with the <code>PooledConnection</code> has been closed or the driver determines
- * is invalid.
+ * A <code>StbtementEvent</code> is sent to bll <code>StbtementEventListener</code>s which were
+ * registered with b <code>PooledConnection</code>. This occurs when the driver determines thbt b
+ * <code>PrepbredStbtement</code> thbt is bssocibted with the <code>PooledConnection</code> hbs been closed or the driver determines
+ * is invblid.
  *
  * @since 1.6
  */
-public class StatementEvent extends EventObject {
+public clbss StbtementEvent extends EventObject {
 
-        static final long serialVersionUID = -8089573731826608315L;
-        private SQLException            exception;
-        private PreparedStatement       statement;
+        stbtic finbl long seriblVersionUID = -8089573731826608315L;
+        privbte SQLException            exception;
+        privbte PrepbredStbtement       stbtement;
 
         /**
-         * Constructs a <code>StatementEvent</code> with the specified <code>PooledConnection</code> and
-         * <code>PreparedStatement</code>.  The <code>SQLException</code> contained in the event defaults to
+         * Constructs b <code>StbtementEvent</code> with the specified <code>PooledConnection</code> bnd
+         * <code>PrepbredStbtement</code>.  The <code>SQLException</code> contbined in the event defbults to
          * null.
          *
-         * @param con                   The <code>PooledConnection</code> that the closed or invalid
-         * <code>PreparedStatement</code>is associated with.
-         * @param statement             The <code>PreparedStatement</code> that is being closed or is invalid
+         * @pbrbm con                   The <code>PooledConnection</code> thbt the closed or invblid
+         * <code>PrepbredStbtement</code>is bssocibted with.
+         * @pbrbm stbtement             The <code>PrepbredStbtement</code> thbt is being closed or is invblid
          *
-         * @throws IllegalArgumentException if <code>con</code> is null.
+         * @throws IllegblArgumentException if <code>con</code> is null.
          *
          * @since 1.6
          */
-        public StatementEvent(PooledConnection con,
-                                                  PreparedStatement statement) {
+        public StbtementEvent(PooledConnection con,
+                                                  PrepbredStbtement stbtement) {
 
                 super(con);
 
-                this.statement = statement;
+                this.stbtement = stbtement;
                 this.exception = null;
         }
 
         /**
-         * Constructs a <code>StatementEvent</code> with the specified <code>PooledConnection</code>,
-         * <code>PreparedStatement</code> and <code>SQLException</code>
+         * Constructs b <code>StbtementEvent</code> with the specified <code>PooledConnection</code>,
+         * <code>PrepbredStbtement</code> bnd <code>SQLException</code>
          *
-         * @param con                   The <code>PooledConnection</code> that the closed or invalid <code>PreparedStatement</code>
-         * is associated with.
-         * @param statement             The <code>PreparedStatement</code> that is being closed or is invalid
-         * @param exception             The <code>SQLException </code>the driver is about to throw to
-         *                                              the application
+         * @pbrbm con                   The <code>PooledConnection</code> thbt the closed or invblid <code>PrepbredStbtement</code>
+         * is bssocibted with.
+         * @pbrbm stbtement             The <code>PrepbredStbtement</code> thbt is being closed or is invblid
+         * @pbrbm exception             The <code>SQLException </code>the driver is bbout to throw to
+         *                                              the bpplicbtion
          *
-         * @throws IllegalArgumentException if <code>con</code> is null.
+         * @throws IllegblArgumentException if <code>con</code> is null.
          *
          * @since 1.6
          */
-        public StatementEvent(PooledConnection con,
-                                                  PreparedStatement statement,
+        public StbtementEvent(PooledConnection con,
+                                                  PrepbredStbtement stbtement,
                                                   SQLException exception) {
 
                 super(con);
 
-                this.statement = statement;
+                this.stbtement = stbtement;
                 this.exception = exception;
         }
 
         /**
-         * Returns the <code>PreparedStatement</code> that is being closed or is invalid
+         * Returns the <code>PrepbredStbtement</code> thbt is being closed or is invblid
          *
-         * @return      The <code>PreparedStatement</code> that is being closed or is invalid
+         * @return      The <code>PrepbredStbtement</code> thbt is being closed or is invblid
          *
          * @since 1.6
          */
-        public PreparedStatement getStatement() {
+        public PrepbredStbtement getStbtement() {
 
-                return this.statement;
+                return this.stbtement;
         }
 
         /**
-         * Returns the <code>SQLException</code> the driver is about to throw
+         * Returns the <code>SQLException</code> the driver is bbout to throw
          *
-         * @return      The <code>SQLException</code> the driver is about to throw
+         * @return      The <code>SQLException</code> the driver is bbout to throw
          *
          * @since 1.6
          */

@@ -1,71 +1,71 @@
 /*
- * Copyright (c) 2005, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.tools.attach;
+pbckbge sun.tools.bttbch;
 
-import com.sun.tools.attach.AttachOperationFailedException;
-import com.sun.tools.attach.AgentLoadException;
-import com.sun.tools.attach.AttachNotSupportedException;
-import com.sun.tools.attach.spi.AttachProvider;
+import com.sun.tools.bttbch.AttbchOperbtionFbiledException;
+import com.sun.tools.bttbch.AgentLobdException;
+import com.sun.tools.bttbch.AttbchNotSupportedException;
+import com.sun.tools.bttbch.spi.AttbchProvider;
 
-import sun.tools.attach.HotSpotVirtualMachine;
+import sun.tools.bttbch.HotSpotVirtublMbchine;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Random;
+import jbvb.io.IOException;
+import jbvb.io.InputStrebm;
+import jbvb.util.Rbndom;
 
-public class WindowsVirtualMachine extends HotSpotVirtualMachine {
+public clbss WindowsVirtublMbchine extends HotSpotVirtublMbchine {
 
-    // the enqueue code stub (copied into each target VM)
-    private static byte[] stub;
+    // the enqueue code stub (copied into ebch tbrget VM)
+    privbte stbtic byte[] stub;
 
-    private volatile long hProcess;     // handle to the process
+    privbte volbtile long hProcess;     // hbndle to the process
 
-    WindowsVirtualMachine(AttachProvider provider, String id)
-        throws AttachNotSupportedException, IOException
+    WindowsVirtublMbchine(AttbchProvider provider, String id)
+        throws AttbchNotSupportedException, IOException
     {
         super(provider, id);
 
         int pid;
         try {
-            pid = Integer.parseInt(id);
-        } catch (NumberFormatException x) {
-            throw new AttachNotSupportedException("Invalid process identifier");
+            pid = Integer.pbrseInt(id);
+        } cbtch (NumberFormbtException x) {
+            throw new AttbchNotSupportedException("Invblid process identifier");
         }
         hProcess = openProcess(pid);
 
-        // The target VM might be a pre-6.0 VM so we enqueue a "null" command
-        // which minimally tests that the enqueue function exists in the target
+        // The tbrget VM might be b pre-6.0 VM so we enqueue b "null" commbnd
+        // which minimblly tests thbt the enqueue function exists in the tbrget
         // VM.
         try {
             enqueue(hProcess, stub, null, null);
-        } catch (IOException x) {
-            throw new AttachNotSupportedException(x.getMessage());
+        } cbtch (IOException x) {
+            throw new AttbchNotSupportedException(x.getMessbge());
         }
     }
 
-    public void detach() throws IOException {
+    public void detbch() throws IOException {
         synchronized (this) {
             if (hProcess != -1) {
                 closeProcess(hProcess);
@@ -74,72 +74,72 @@ public class WindowsVirtualMachine extends HotSpotVirtualMachine {
         }
     }
 
-    InputStream execute(String cmd, Object ... args)
-        throws AgentLoadException, IOException
+    InputStrebm execute(String cmd, Object ... brgs)
+        throws AgentLobdException, IOException
     {
-        assert args.length <= 3;        // includes null
+        bssert brgs.length <= 3;        // includes null
 
-        // create a pipe using a random name
-        int r = (new Random()).nextInt();
-        String pipename = "\\\\.\\pipe\\javatool" + r;
-        long hPipe = createPipe(pipename);
+        // crebte b pipe using b rbndom nbme
+        int r = (new Rbndom()).nextInt();
+        String pipenbme = "\\\\.\\pipe\\jbvbtool" + r;
+        long hPipe = crebtePipe(pipenbme);
 
-        // check if we are detached - in theory it's possible that detach is invoked
-        // after this check but before we enqueue the command.
+        // check if we bre detbched - in theory it's possible thbt detbch is invoked
+        // bfter this check but before we enqueue the commbnd.
         if (hProcess == -1) {
             closePipe(hPipe);
-            throw new IOException("Detached from target VM");
+            throw new IOException("Detbched from tbrget VM");
         }
 
         try {
-            // enqueue the command to the process
-            enqueue(hProcess, stub, cmd, pipename, args);
+            // enqueue the commbnd to the process
+            enqueue(hProcess, stub, cmd, pipenbme, brgs);
 
-            // wait for command to complete - process will connect with the
-            // completion status
+            // wbit for commbnd to complete - process will connect with the
+            // completion stbtus
             connectPipe(hPipe);
 
-            // create an input stream for the pipe
-            PipedInputStream is = new PipedInputStream(hPipe);
+            // crebte bn input strebm for the pipe
+            PipedInputStrebm is = new PipedInputStrebm(hPipe);
 
-            // read completion status
-            int status = readInt(is);
-            if (status != 0) {
-                // read from the stream and use that as the error message
-                String message = readErrorMessage(is);
-                // special case the load command so that the right exception is thrown
-                if (cmd.equals("load")) {
-                    throw new AgentLoadException("Failed to load agent library");
+            // rebd completion stbtus
+            int stbtus = rebdInt(is);
+            if (stbtus != 0) {
+                // rebd from the strebm bnd use thbt bs the error messbge
+                String messbge = rebdErrorMessbge(is);
+                // specibl cbse the lobd commbnd so thbt the right exception is thrown
+                if (cmd.equbls("lobd")) {
+                    throw new AgentLobdException("Fbiled to lobd bgent librbry");
                 } else {
-                    if (message == null) {
-                        throw new AttachOperationFailedException("Command failed in target VM");
+                    if (messbge == null) {
+                        throw new AttbchOperbtionFbiledException("Commbnd fbiled in tbrget VM");
                     } else {
-                        throw new AttachOperationFailedException(message);
+                        throw new AttbchOperbtionFbiledException(messbge);
                     }
                 }
             }
 
-            // return the input stream
+            // return the input strebm
             return is;
 
-        } catch (IOException ioe) {
+        } cbtch (IOException ioe) {
             closePipe(hPipe);
             throw ioe;
         }
     }
 
-    // An InputStream based on a pipe to the target VM
-    private class PipedInputStream extends InputStream {
+    // An InputStrebm bbsed on b pipe to the tbrget VM
+    privbte clbss PipedInputStrebm extends InputStrebm {
 
-        private long hPipe;
+        privbte long hPipe;
 
-        public PipedInputStream(long hPipe) {
+        public PipedInputStrebm(long hPipe) {
             this.hPipe = hPipe;
         }
 
-        public synchronized int read() throws IOException {
+        public synchronized int rebd() throws IOException {
             byte b[] = new byte[1];
-            int n = this.read(b, 0, 1);
+            int n = this.rebd(b, 0, 1);
             if (n == 1) {
                 return b[0] & 0xff;
             } else {
@@ -147,49 +147,49 @@ public class WindowsVirtualMachine extends HotSpotVirtualMachine {
             }
         }
 
-        public synchronized int read(byte[] bs, int off, int len) throws IOException {
+        public synchronized int rebd(byte[] bs, int off, int len) throws IOException {
             if ((off < 0) || (off > bs.length) || (len < 0) ||
                 ((off + len) > bs.length) || ((off + len) < 0)) {
                 throw new IndexOutOfBoundsException();
             } else if (len == 0)
                 return 0;
 
-            return WindowsVirtualMachine.readPipe(hPipe, bs, off, len);
+            return WindowsVirtublMbchine.rebdPipe(hPipe, bs, off, len);
         }
 
         public void close() throws IOException {
             if (hPipe != -1) {
-                WindowsVirtualMachine.closePipe(hPipe);
+                WindowsVirtublMbchine.closePipe(hPipe);
                 hPipe = -1;
            }
         }
     }
 
 
-    //-- native methods
+    //-- nbtive methods
 
-    static native void init();
+    stbtic nbtive void init();
 
-    static native byte[] generateStub();
+    stbtic nbtive byte[] generbteStub();
 
-    static native long openProcess(int pid) throws IOException;
+    stbtic nbtive long openProcess(int pid) throws IOException;
 
-    static native void closeProcess(long hProcess) throws IOException;
+    stbtic nbtive void closeProcess(long hProcess) throws IOException;
 
-    static native long createPipe(String name) throws IOException;
+    stbtic nbtive long crebtePipe(String nbme) throws IOException;
 
-    static native void closePipe(long hPipe) throws IOException;
+    stbtic nbtive void closePipe(long hPipe) throws IOException;
 
-    static native void connectPipe(long hPipe) throws IOException;
+    stbtic nbtive void connectPipe(long hPipe) throws IOException;
 
-    static native int readPipe(long hPipe, byte buf[], int off, int buflen) throws IOException;
+    stbtic nbtive int rebdPipe(long hPipe, byte buf[], int off, int buflen) throws IOException;
 
-    static native void enqueue(long hProcess, byte[] stub,
-        String cmd, String pipename, Object ... args) throws IOException;
+    stbtic nbtive void enqueue(long hProcess, byte[] stub,
+        String cmd, String pipenbme, Object ... brgs) throws IOException;
 
-    static {
-        System.loadLibrary("attach");
-        init();                                 // native initialization
-        stub = generateStub();                  // generate stub to copy into target process
+    stbtic {
+        System.lobdLibrbry("bttbch");
+        init();                                 // nbtive initiblizbtion
+        stub = generbteStub();                  // generbte stub to copy into tbrget process
     }
 }

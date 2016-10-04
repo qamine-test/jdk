@@ -1,56 +1,56 @@
 '\" t
-.\"  Copyright (c) 2001, 2013, Oracle and/or its affiliates. All rights reserved.
+.\"  Copyright (c) 2001, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
 .\"
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
-.\" This code is free software; you can redistribute it and/or modify it
-.\" under the terms of the GNU General Public License version 2 only, as
-.\" published by the Free Software Foundation.
+.\" This code is free softwbre; you cbn redistribute it bnd/or modify it
+.\" under the terms of the GNU Generbl Public License version 2 only, bs
+.\" published by the Free Softwbre Foundbtion.
 .\"
-.\" This code is distributed in the hope that it will be useful, but WITHOUT
-.\" ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
-.\" version 2 for more details (a copy is included in the LICENSE file that
-.\" accompanied this code).
+.\" This code is distributed in the hope thbt it will be useful, but WITHOUT
+.\" ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU Generbl Public License
+.\" version 2 for more detbils (b copy is included in the LICENSE file thbt
+.\" bccompbnied this code).
 .\"
-.\" You should have received a copy of the GNU General Public License version
-.\" 2 along with this work; if not, write to the Free Software Foundation,
-.\" Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\" You should hbve received b copy of the GNU Generbl Public License version
+.\" 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+.\" Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 .\"
-.\" Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-.\" or visit www.oracle.com if you need additional information or have any
+.\" Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+.\" or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
 .\" questions.
 .\"
 .\"     Arch: generic
-.\"     Software: JDK 8
-.\"     Date: 21 November 2013
-.\"     SectDesc: Java IDL and RMI-IIOP Tools
+.\"     Softwbre: JDK 8
+.\"     Dbte: 21 November 2013
+.\"     SectDesc: Jbvb IDL bnd RMI-IIOP Tools
 .\"     Title: orbd.1
 .\"
 .if n .pl 99999
-.TH orbd 1 "21 November 2013" "JDK 8" "Java IDL and RMI-IIOP Tools"
+.TH orbd 1 "21 November 2013" "JDK 8" "Jbvb IDL bnd RMI-IIOP Tools"
 .\" -----------------------------------------------------------------
-.\" * Define some portability stuff
+.\" * Define some portbbility stuff
 .\" -----------------------------------------------------------------
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.\" http://bugs.debian.org/507673
-.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" http://bugs.debibn.org/507673
+.\" http://lists.gnu.org/brchive/html/groff/2009-02/msg00013.html
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.ie \n(.g .ds Aq \(aq
+.ie \n(.g .ds Aq \(bq
 .el       .ds Aq '
 .\" -----------------------------------------------------------------
-.\" * set default formatting
+.\" * set defbult formbtting
 .\" -----------------------------------------------------------------
-.\" disable hyphenation
+.\" disbble hyphenbtion
 .nh
-.\" disable justification (adjust text to left margin only)
-.ad l
+.\" disbble justificbtion (bdjust text to left mbrgin only)
+.bd l
 .\" -----------------------------------------------------------------
 .\" * MAIN CONTENT STARTS HERE *
 .\" -----------------------------------------------------------------
 
 .SH NAME    
-orbd \- Enables clients to locate and call persistent objects on servers in the CORBA environment\&.
+orbd \- Enbbles clients to locbte bnd cbll persistent objects on servers in the CORBA environment\&.
 .SH SYNOPSIS    
 .sp     
 .nf     
@@ -60,154 +60,154 @@ orbd \- Enables clients to locate and call persistent objects on servers in the 
 .sp     
 .TP     
 \fIoptions\fR
-Command-line options\&. See Options\&.
+Commbnd-line options\&. See Options\&.
 .SH DESCRIPTION    
-The \f3orbd\fR command enables clients to transparently locate and call persistent objects on servers in the CORBA environment\&. The Server Manager included with the orbd tool is used to enable clients to transparently locate and call persistent objects on servers in the CORBA environment\&. The persistent servers, while publishing the persistent object references in the naming service, include the port number of the ORBD in the object reference instead of the port number of the server\&. The inclusion of an ORBD port number in the object reference for persistent object references has the following advantages:
+The \f3orbd\fR commbnd enbbles clients to trbnspbrently locbte bnd cbll persistent objects on servers in the CORBA environment\&. The Server Mbnbger included with the orbd tool is used to enbble clients to trbnspbrently locbte bnd cbll persistent objects on servers in the CORBA environment\&. The persistent servers, while publishing the persistent object references in the nbming service, include the port number of the ORBD in the object reference instebd of the port number of the server\&. The inclusion of bn ORBD port number in the object reference for persistent object references hbs the following bdvbntbges:
 .TP 0.2i    
 \(bu
-The object reference in the naming service remains independent of the server life cycle\&. For example, the object reference could be published by the server in the Naming Service when it is first installed, and then, independent of how many times the server is started or shut down, the ORBD returns the correct object reference to the calling client\&.
+The object reference in the nbming service rembins independent of the server life cycle\&. For exbmple, the object reference could be published by the server in the Nbming Service when it is first instblled, bnd then, independent of how mbny times the server is stbrted or shut down, the ORBD returns the correct object reference to the cblling client\&.
 .TP 0.2i    
 \(bu
-The client needs to look up the object reference in the naming service only once, and can keep reusing this reference independent of the changes introduced due to server life cycle\&.
+The client needs to look up the object reference in the nbming service only once, bnd cbn keep reusing this reference independent of the chbnges introduced due to server life cycle\&.
 .PP
-To access the ORBD Server Manager, the server must be started using \f3servertool\fR, which is a command-line interface for application programmers to register, unregister, start up, and shut down a persistent server\&. For more information on the Server Manager, see Server Manager\&.
+To bccess the ORBD Server Mbnbger, the server must be stbrted using \f3servertool\fR, which is b commbnd-line interfbce for bpplicbtion progrbmmers to register, unregister, stbrt up, bnd shut down b persistent server\&. For more informbtion on the Server Mbnbger, see Server Mbnbger\&.
 .PP
-When \f3orbd\fR starts, it also starts a naming service\&. For more information about the naming service\&. See Start and Stop the Naming Service\&.
+When \f3orbd\fR stbrts, it blso stbrts b nbming service\&. For more informbtion bbout the nbming service\&. See Stbrt bnd Stop the Nbming Service\&.
 .SH OPTIONS    
 .TP
--ORBInitialPort \fInameserverport\fR
+-ORBInitiblPort \fInbmeserverport\fR
 .br
-Required\&. Specifies the port on which the name server should be started\&. After it is started, \f3orbd\fR listens for incoming requests on this port\&. On Oracle Solaris software, you must become the root user to start a process on a port below 1024\&. For this reason, Oracle recommends that you use a port number above or equal to 1024\&.
+Required\&. Specifies the port on which the nbme server should be stbrted\&. After it is stbrted, \f3orbd\fR listens for incoming requests on this port\&. On Orbcle Solbris softwbre, you must become the root user to stbrt b process on b port below 1024\&. For this rebson, Orbcle recommends thbt you use b port number bbove or equbl to 1024\&.
 .SS NONREQUIRED\ OPTIONS    
 .TP
 -port \fIport\fR
 .br
-Specifies the activation port where ORBD should be started, and where ORBD will be accepting requests for persistent objects\&. The default value for this port is 1049\&. This port number is added to the port field of the persistent Interoperable Object References (IOR)\&.
+Specifies the bctivbtion port where ORBD should be stbrted, bnd where ORBD will be bccepting requests for persistent objects\&. The defbult vblue for this port is 1049\&. This port number is bdded to the port field of the persistent Interoperbble Object References (IOR)\&.
 .TP
--defaultdb \fIdirectory\fR
+-defbultdb \fIdirectory\fR
 .br
-Specifies the base where the ORBD persistent storage directory, \f3orb\&.db\fR, is created\&. If this option is not specified, then the default value is \f3\&./orb\&.db\fR\&.
+Specifies the bbse where the ORBD persistent storbge directory, \f3orb\&.db\fR, is crebted\&. If this option is not specified, then the defbult vblue is \f3\&./orb\&.db\fR\&.
 .TP
 -serverPollingTime \fImilliseconds\fR
 .br
-Specifies how often ORBD checks for the health of persistent servers registered through \f3servertool\fR\&. The default value is 1000 ms\&. The value specified for \f3milliseconds\fR must be a valid positive integer\&.
+Specifies how often ORBD checks for the heblth of persistent servers registered through \f3servertool\fR\&. The defbult vblue is 1000 ms\&. The vblue specified for \f3milliseconds\fR must be b vblid positive integer\&.
 .TP
--serverStartupDelay milliseconds
+-serverStbrtupDelby milliseconds
 .br
-Specifies how long ORBD waits before sending a location forward exception after a persistent server that is registered through \f3servertool\fR is restarted\&. The default value is 1000 ms\&. The value specified for \f3milliseconds\fR must be a valid positive integer\&.
+Specifies how long ORBD wbits before sending b locbtion forwbrd exception bfter b persistent server thbt is registered through \f3servertool\fR is restbrted\&. The defbult vblue is 1000 ms\&. The vblue specified for \f3milliseconds\fR must be b vblid positive integer\&.
 .TP
 -J\fIoption\fR
 .br
-Passes \f3option\fR to the Java Virtual Machine, where \f3option\fR is one of the options described on the reference page for the Java application launcher\&. For example, \f3-J-Xms48m\fR sets the startup memory to 48 MB\&. See java(1)\&.
+Pbsses \f3option\fR to the Jbvb Virtubl Mbchine, where \f3option\fR is one of the options described on the reference pbge for the Jbvb bpplicbtion lbuncher\&. For exbmple, \f3-J-Xms48m\fR sets the stbrtup memory to 48 MB\&. See jbvb(1)\&.
 .SS START\ AND\ STOP\ THE\ NAMING\ SERVICE    
-A naming service is a CORBA service that allows CORBA objects to be named by means of binding a name to an object reference\&. The name binding can be stored in the naming service, and a client can supply the name to obtain the desired object reference\&.
+A nbming service is b CORBA service thbt bllows CORBA objects to be nbmed by mebns of binding b nbme to bn object reference\&. The nbme binding cbn be stored in the nbming service, bnd b client cbn supply the nbme to obtbin the desired object reference\&.
 .PP
-Before running a client or a server, you will start ORBD\&. ORBD includes a persistent naming service and a transient naming service, both of which are an implementation of the COS Naming Service\&.
+Before running b client or b server, you will stbrt ORBD\&. ORBD includes b persistent nbming service bnd b trbnsient nbming service, both of which bre bn implementbtion of the COS Nbming Service\&.
 .PP
-The Persistent Naming Service provides persistence for naming contexts\&. This means that this information is persistent across service shutdowns and startups, and is recoverable in the event of a service failure\&. If ORBD is restarted, then the Persistent Naming Service restores the naming context graph, so that the binding of all clients\&' and servers\&' names remains intact (persistent)\&.
+The Persistent Nbming Service provides persistence for nbming contexts\&. This mebns thbt this informbtion is persistent bcross service shutdowns bnd stbrtups, bnd is recoverbble in the event of b service fbilure\&. If ORBD is restbrted, then the Persistent Nbming Service restores the nbming context grbph, so thbt the binding of bll clients\&' bnd servers\&' nbmes rembins intbct (persistent)\&.
 .PP
-For backward compatibility, \f3tnameserv\fR, a Transient Naming Service that shipped with earlier releases of the JDK, is also included in this release of Java SE\&. A transient naming service retains naming contexts as long as it is running\&. If there is a service interruption, then the naming context graph is lost\&.
+For bbckwbrd compbtibility, \f3tnbmeserv\fR, b Trbnsient Nbming Service thbt shipped with ebrlier relebses of the JDK, is blso included in this relebse of Jbvb SE\&. A trbnsient nbming service retbins nbming contexts bs long bs it is running\&. If there is b service interruption, then the nbming context grbph is lost\&.
 .PP
-The \f3-ORBInitialPort\fR argument is a required command-line argument for \f3orbd\fR, and is used to set the port number on which the naming service runs\&. The following instructions assume you can use port 1050 for the Java IDL Object Request Broker Daemon\&. When using Oracle Solaris software, you must become a root user to start a process on a port lower than 1024\&. For this reason, it is recommended that you use a port number above or equal to 1024\&. You can substitute a different port when necessary\&.
+The \f3-ORBInitiblPort\fR brgument is b required commbnd-line brgument for \f3orbd\fR, bnd is used to set the port number on which the nbming service runs\&. The following instructions bssume you cbn use port 1050 for the Jbvb IDL Object Request Broker Dbemon\&. When using Orbcle Solbris softwbre, you must become b root user to stbrt b process on b port lower thbn 1024\&. For this rebson, it is recommended thbt you use b port number bbove or equbl to 1024\&. You cbn substitute b different port when necessbry\&.
 .PP
-To start \f3orbd\fR from a UNIX command shell, enter:
+To stbrt \f3orbd\fR from b UNIX commbnd shell, enter:
 .sp     
 .nf     
-\f3orbd \-ORBInitialPort 1050&\fP
+\f3orbd \-ORBInitiblPort 1050&\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .sp     
-From an MS-DOS system prompt (Windows), enter:
+From bn MS-DOS system prompt (Windows), enter:
 .sp     
 .nf     
-\f3start orbd \-ORBInitialPort 1050\fP
+\f3stbrt orbd \-ORBInitiblPort 1050\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .sp     
-Now that ORBD is running, you can run your server and client applications\&. When running the client and server applications, they must be made aware of the port number (and machine name, when applicable) where the Naming Service is running\&. One way to do this is to add the following code to your application:
+Now thbt ORBD is running, you cbn run your server bnd client bpplicbtions\&. When running the client bnd server bpplicbtions, they must be mbde bwbre of the port number (bnd mbchine nbme, when bpplicbble) where the Nbming Service is running\&. One wby to do this is to bdd the following code to your bpplicbtion:
 .sp     
 .nf     
 \f3Properties props = new Properties();\fP
 .fi     
 .nf     
-\f3props\&.put("org\&.omg\&.CORBA\&.ORBInitialPort", "1050");\fP
+\f3props\&.put("org\&.omg\&.CORBA\&.ORBInitiblPort", "1050");\fP
 .fi     
 .nf     
-\f3props\&.put("org\&.omg\&.CORBA\&.ORBInitialHost", "MyHost");\fP
+\f3props\&.put("org\&.omg\&.CORBA\&.ORBInitiblHost", "MyHost");\fP
 .fi     
 .nf     
-\f3ORB orb = ORB\&.init(args, props);\fP
-.fi     
-.nf     
-\f3\fP
-.fi     
-.sp     
-In this example, the naming service is running on port 1050 on host \f3MyHost\fR\&. Another way is to specify the port number and/or machine name when running the server or client application from the command line\&. For example, you would start your \f3HelloApplication\fR with the following command line:
-.sp     
-.nf     
-\f3java HelloApplication \-ORBInitialPort 1050 \-ORBInitialHost MyHost\fP
+\f3ORB orb = ORB\&.init(brgs, props);\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .sp     
-To stop the naming service, use the relevant operating system command, such as \f3pkill\fR\f3orbd\fR on Oracle Solaris, or \fICtrl+C\fR in the DOS window in which \f3orbd\fR is running\&. Note that names registered with the naming service can disappear when the service is terminated because of a transient naming service\&. The Java IDL naming service will run until it is explicitly stopped\&.
+In this exbmple, the nbming service is running on port 1050 on host \f3MyHost\fR\&. Another wby is to specify the port number bnd/or mbchine nbme when running the server or client bpplicbtion from the commbnd line\&. For exbmple, you would stbrt your \f3HelloApplicbtion\fR with the following commbnd line:
+.sp     
+.nf     
+\f3jbvb HelloApplicbtion \-ORBInitiblPort 1050 \-ORBInitiblHost MyHost\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+To stop the nbming service, use the relevbnt operbting system commbnd, such bs \f3pkill\fR\f3orbd\fR on Orbcle Solbris, or \fICtrl+C\fR in the DOS window in which \f3orbd\fR is running\&. Note thbt nbmes registered with the nbming service cbn disbppebr when the service is terminbted becbuse of b trbnsient nbming service\&. The Jbvb IDL nbming service will run until it is explicitly stopped\&.
 .PP
-For more information about the naming service included with ORBD, see Naming Service at http://docs\&.oracle\&.com/javase/8/docs/technotes/guides/idl/jidlNaming\&.html
+For more informbtion bbout the nbming service included with ORBD, see Nbming Service bt http://docs\&.orbcle\&.com/jbvbse/8/docs/technotes/guides/idl/jidlNbming\&.html
 .SH SERVER\ MANAGER    
-To access the ORBD Server Manager and run a persistent server, the server must be started with \f3servertool\fR, which is a command-line interface for application programmers to register, unregister, start up, and shut down a persistent server\&. When a server is started using \f3servertool\fR, it must be started on the same host and port on which \f3orbd\fR is executing\&. If the server is run on a different port, then the information stored in the database for local contexts will be invalid and the service will not work properly\&.
+To bccess the ORBD Server Mbnbger bnd run b persistent server, the server must be stbrted with \f3servertool\fR, which is b commbnd-line interfbce for bpplicbtion progrbmmers to register, unregister, stbrt up, bnd shut down b persistent server\&. When b server is stbrted using \f3servertool\fR, it must be stbrted on the sbme host bnd port on which \f3orbd\fR is executing\&. If the server is run on b different port, then the informbtion stored in the dbtbbbse for locbl contexts will be invblid bnd the service will not work properly\&.
 .PP
-See Java IDL: The "Hello World" Example at http://docs\&.oracle\&.com/javase/8/docs/technotes/guides/idl/jidlExample\&.html
+See Jbvb IDL: The "Hello World" Exbmple bt http://docs\&.orbcle\&.com/jbvbse/8/docs/technotes/guides/idl/jidlExbmple\&.html
 .PP
-In this example, you run the \f3idlj\fR compiler and \f3javac\fR compiler as shown in the tutorial\&. To run the ORBD Server Manager, follow these steps for running the application:
+In this exbmple, you run the \f3idlj\fR compiler bnd \f3jbvbc\fR compiler bs shown in the tutoribl\&. To run the ORBD Server Mbnbger, follow these steps for running the bpplicbtion:
 .PP
-Start \f3orbd\fR\&.
+Stbrt \f3orbd\fR\&.
 .PP
-UNIX command shell, enter: \f3orbd -ORBInitialPort 1050\fR\&.
+UNIX commbnd shell, enter: \f3orbd -ORBInitiblPort 1050\fR\&.
 .PP
-MS-DOS system prompt (Windows), enter: \f3s\fR\f3tart orbd -ORBInitialPort 105\fR\f30\fR\&.
+MS-DOS system prompt (Windows), enter: \f3s\fR\f3tbrt orbd -ORBInitiblPort 105\fR\f30\fR\&.
 .PP
-Port 1050 is the port on which you want the name server to run\&. The \f3-ORBInitialPort\fR option is a required command-line argument\&. When using Oracle Solaris software, you must become a root user to start a process on a port below 1024\&. For this reason, it is recommended that you use a port number above or equal to 1024\&.
+Port 1050 is the port on which you wbnt the nbme server to run\&. The \f3-ORBInitiblPort\fR option is b required commbnd-line brgument\&. When using Orbcle Solbris softwbre, you must become b root user to stbrt b process on b port below 1024\&. For this rebson, it is recommended thbt you use b port number bbove or equbl to 1024\&.
 .PP
-Start the \f3servertool\fR: \f3servertool -ORBInitialPort 1050\fR\&.
+Stbrt the \f3servertool\fR: \f3servertool -ORBInitiblPort 1050\fR\&.
 .PP
-Make sure the name server (\f3orbd\fR) port is the same as in the previous step, for example, \f3-ORBInitialPort 1050\&.\fR The \f3servertool\fR must be started on the same port as the name server\&.
+Mbke sure the nbme server (\f3orbd\fR) port is the sbme bs in the previous step, for exbmple, \f3-ORBInitiblPort 1050\&.\fR The \f3servertool\fR must be stbrted on the sbme port bs the nbme server\&.
 .PP
-In the \f3servertool\fR command line interface, start the \f3Hello\fR server from the \f3servertool\fR prompt:
+In the \f3servertool\fR commbnd line interfbce, stbrt the \f3Hello\fR server from the \f3servertool\fR prompt:
 .sp     
 .nf     
-\f3servertool  > register \-server HelloServer \-classpath \&. \-applicationName\fP
+\f3servertool  > register \-server HelloServer \-clbsspbth \&. \-bpplicbtionNbme\fP
 .fi     
 .nf     
-\f3                HelloServerApName\fP
+\f3                HelloServerApNbme\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .sp     
-The \f3servertool\fR registers the server, assigns it the name \f3HelloServerApName\fR, and displays its server ID with a listing of all registered servers\&.Run the client application from another terminal window or prompt:
+The \f3servertool\fR registers the server, bssigns it the nbme \f3HelloServerApNbme\fR, bnd displbys its server ID with b listing of bll registered servers\&.Run the client bpplicbtion from bnother terminbl window or prompt:
 .sp     
 .nf     
-\f3java HelloClient \-ORBInitialPort 1050 \-ORBInitialHost localhost\fP
+\f3jbvb HelloClient \-ORBInitiblPort 1050 \-ORBInitiblHost locblhost\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .sp     
-For this example, you can omit \f3-ORBInitialHost localhost\fR because the name server is running on the same host as the \f3Hello\fR client\&. If the name server is running on a different host, then use the -\f3ORBInitialHost nameserverhost\fR option to specify the host on which the IDL name server is running\&.Specify the name server (\f3orbd\fR) port as done in the previous step, for example, \f3-ORBInitialPort 1050\fR\&. When you finish experimenting with the ORBD Server Manager, be sure to shut down or terminate the name server (\f3orbd\fR) and \f3servertool\fR\&. To shut down \f3orbd\fR from am MS-DOS prompt, select the window that is running the server and enter \fICtrl+C\fR to shut it down\&.
+For this exbmple, you cbn omit \f3-ORBInitiblHost locblhost\fR becbuse the nbme server is running on the sbme host bs the \f3Hello\fR client\&. If the nbme server is running on b different host, then use the -\f3ORBInitiblHost nbmeserverhost\fR option to specify the host on which the IDL nbme server is running\&.Specify the nbme server (\f3orbd\fR) port bs done in the previous step, for exbmple, \f3-ORBInitiblPort 1050\fR\&. When you finish experimenting with the ORBD Server Mbnbger, be sure to shut down or terminbte the nbme server (\f3orbd\fR) bnd \f3servertool\fR\&. To shut down \f3orbd\fR from bm MS-DOS prompt, select the window thbt is running the server bnd enter \fICtrl+C\fR to shut it down\&.
 .PP
-To shut down \f3orbd\fR from an Oracle Solaris shell, find the process, and terminate with the \f3kill\fR command\&. The server continues to wait for invocations until it is explicitly stopped\&. To shut down the \f3servertool\fR, type \fIquit\fR and press the \fIEnter\fR key\&.
+To shut down \f3orbd\fR from bn Orbcle Solbris shell, find the process, bnd terminbte with the \f3kill\fR commbnd\&. The server continues to wbit for invocbtions until it is explicitly stopped\&. To shut down the \f3servertool\fR, type \fIquit\fR bnd press the \fIEnter\fR key\&.
 .SH SEE\ ALSO    
 .TP 0.2i    
 \(bu
 servertool(1)
 .TP 0.2i    
 \(bu
-Naming Service at http://docs\&.oracle\&.com/javase/8/docs/technotes/guides/idl/jidlNaming\&.html
+Nbming Service bt http://docs\&.orbcle\&.com/jbvbse/8/docs/technotes/guides/idl/jidlNbming\&.html
 .RE
 .br
 'pl 8.5i

@@ -1,187 +1,187 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.apple.laf;
+pbckbge com.bpple.lbf;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.beans.*;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvb.bebns.*;
 
-import javax.swing.*;
-import javax.swing.border.*;
-import javax.swing.event.MouseInputAdapter;
-import javax.swing.plaf.*;
-import javax.swing.plaf.basic.BasicInternalFrameUI;
+import jbvbx.swing.*;
+import jbvbx.swing.border.*;
+import jbvbx.swing.event.MouseInputAdbpter;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.bbsic.BbsicInternblFrbmeUI;
 
-import apple.laf.*;
-import apple.laf.JRSUIConstants.*;
+import bpple.lbf.*;
+import bpple.lbf.JRSUIConstbnts.*;
 
-import com.apple.laf.AquaUtils.*;
-import com.apple.laf.AquaUtils.Painter;
+import com.bpple.lbf.AqubUtils.*;
+import com.bpple.lbf.AqubUtils.Pbinter;
 
-import sun.lwawt.macosx.CPlatformWindow;
+import sun.lwbwt.mbcosx.CPlbtformWindow;
 
 /**
- * From AquaInternalFrameUI
+ * From AqubInternblFrbmeUI
  *
- * InternalFrame implementation for Aqua LAF
+ * InternblFrbme implementbtion for Aqub LAF
  *
- * We want to inherit most of the inner classes, but not the base class,
- * so be very careful about subclassing so you know you get what you want
+ * We wbnt to inherit most of the inner clbsses, but not the bbse clbss,
+ * so be very cbreful bbout subclbssing so you know you get whbt you wbnt
  *
  */
-public class AquaInternalFrameUI extends BasicInternalFrameUI implements SwingConstants {
-    protected static final String IS_PALETTE_PROPERTY = "JInternalFrame.isPalette";
-    private static final String FRAME_TYPE = "JInternalFrame.frameType";
-    private static final String NORMAL_FRAME = "normal";
-    private static final String PALETTE_FRAME = "palette";
-    private static final String OPTION_DIALOG = "optionDialog";
+public clbss AqubInternblFrbmeUI extends BbsicInternblFrbmeUI implements SwingConstbnts {
+    protected stbtic finbl String IS_PALETTE_PROPERTY = "JInternblFrbme.isPblette";
+    privbte stbtic finbl String FRAME_TYPE = "JInternblFrbme.frbmeType";
+    privbte stbtic finbl String NORMAL_FRAME = "normbl";
+    privbte stbtic finbl String PALETTE_FRAME = "pblette";
+    privbte stbtic finbl String OPTION_DIALOG = "optionDiblog";
 
-    // Instance variables
-    PropertyChangeListener fPropertyListener;
+    // Instbnce vbribbles
+    PropertyChbngeListener fPropertyListener;
 
     protected Color fSelectedTextColor;
     protected Color fNotSelectedTextColor;
 
-    AquaInternalFrameBorder fAquaBorder;
+    AqubInternblFrbmeBorder fAqubBorder;
 
-    // for button tracking
-    boolean fMouseOverPressedButton;
+    // for button trbcking
+    boolebn fMouseOverPressedButton;
     int fWhichButtonPressed = -1;
-    boolean fRollover = false;
-    boolean fDocumentEdited = false; // to indicate whether we should use the dirty document red dot.
-    boolean fIsPallet;
+    boolebn fRollover = fblse;
+    boolebn fDocumentEdited = fblse; // to indicbte whether we should use the dirty document red dot.
+    boolebn fIsPbllet;
 
     public int getWhichButtonPressed() {
         return fWhichButtonPressed;
     }
 
-    public boolean getMouseOverPressedButton() {
+    public boolebn getMouseOverPressedButton() {
         return fMouseOverPressedButton;
     }
 
-    public boolean getRollover() {
+    public boolebn getRollover() {
         return fRollover;
     }
 
-    // ComponentUI Interface Implementation methods
-    public static ComponentUI createUI(final JComponent b) {
-        return new AquaInternalFrameUI((JInternalFrame)b);
+    // ComponentUI Interfbce Implementbtion methods
+    public stbtic ComponentUI crebteUI(finbl JComponent b) {
+        return new AqubInternblFrbmeUI((JInternblFrbme)b);
     }
 
-    public AquaInternalFrameUI(final JInternalFrame b) {
+    public AqubInternblFrbmeUI(finbl JInternblFrbme b) {
         super(b);
     }
 
-    /// Inherit  (but be careful to check everything they call):
-    public void installUI(final JComponent c) {
-//        super.installUI(c);  // Swing 1.1.1 has a bug in installUI - it doesn't check for null northPane
-        frame = (JInternalFrame)c;
-        frame.add(frame.getRootPane(), "Center");
+    /// Inherit  (but be cbreful to check everything they cbll):
+    public void instbllUI(finbl JComponent c) {
+//        super.instbllUI(c);  // Swing 1.1.1 hbs b bug in instbllUI - it doesn't check for null northPbne
+        frbme = (JInternblFrbme)c;
+        frbme.bdd(frbme.getRootPbne(), "Center");
 
-        installDefaults();
-        installListeners();
-        installComponents();
-        installKeyboardActions();
+        instbllDefbults();
+        instbllListeners();
+        instbllComponents();
+        instbllKeybobrdActions();
 
-        Object paletteProp = c.getClientProperty(IS_PALETTE_PROPERTY);
-        if (paletteProp != null) {
-            setPalette(((Boolean)paletteProp).booleanValue());
+        Object pbletteProp = c.getClientProperty(IS_PALETTE_PROPERTY);
+        if (pbletteProp != null) {
+            setPblette(((Boolebn)pbletteProp).boolebnVblue());
         } else {
-            paletteProp = c.getClientProperty(FRAME_TYPE);
-            if (paletteProp != null) {
-                setFrameType((String)paletteProp);
+            pbletteProp = c.getClientProperty(FRAME_TYPE);
+            if (pbletteProp != null) {
+                setFrbmeType((String)pbletteProp);
             } else {
-                setFrameType(NORMAL_FRAME);
+                setFrbmeType(NORMAL_FRAME);
             }
         }
 
-        // We only have a southPane, for grow box room, created in setFrameType
-        frame.setMinimumSize(new Dimension(fIsPallet ? 120 : 150, fIsPallet ? 39 : 65));
-        frame.setOpaque(false);
+        // We only hbve b southPbne, for grow box room, crebted in setFrbmeType
+        frbme.setMinimumSize(new Dimension(fIsPbllet ? 120 : 150, fIsPbllet ? 39 : 65));
+        frbme.setOpbque(fblse);
 
-        c.setBorder(new CompoundUIBorder(fIsPallet ? paletteWindowShadow.get() : documentWindowShadow.get(), c.getBorder()));
+        c.setBorder(new CompoundUIBorder(fIsPbllet ? pbletteWindowShbdow.get() : documentWindowShbdow.get(), c.getBorder()));
     }
 
-    protected void installDefaults() {
-        super.installDefaults();
-        fSelectedTextColor = UIManager.getColor("InternalFrame.activeTitleForeground");
-        fNotSelectedTextColor = UIManager.getColor("InternalFrame.inactiveTitleForeground");
+    protected void instbllDefbults() {
+        super.instbllDefbults();
+        fSelectedTextColor = UIMbnbger.getColor("InternblFrbme.bctiveTitleForeground");
+        fNotSelectedTextColor = UIMbnbger.getColor("InternblFrbme.inbctiveTitleForeground");
     }
 
-    public void setSouthPane(final JComponent c) {
-        if (southPane != null) {
-            frame.remove(southPane);
-            deinstallMouseHandlers(southPane);
+    public void setSouthPbne(finbl JComponent c) {
+        if (southPbne != null) {
+            frbme.remove(southPbne);
+            deinstbllMouseHbndlers(southPbne);
         }
         if (c != null) {
-            frame.add(c);
-            installMouseHandlers(c);
+            frbme.bdd(c);
+            instbllMouseHbndlers(c);
         }
-        southPane = c;
+        southPbne = c;
     }
 
-    static final RecyclableSingleton<Icon> closeIcon = new RecyclableSingleton<Icon>() {
-        protected Icon getInstance() {
-            return new AquaInternalFrameButtonIcon(Widget.TITLE_BAR_CLOSE_BOX);
+    stbtic finbl RecyclbbleSingleton<Icon> closeIcon = new RecyclbbleSingleton<Icon>() {
+        protected Icon getInstbnce() {
+            return new AqubInternblFrbmeButtonIcon(Widget.TITLE_BAR_CLOSE_BOX);
         }
     };
-    public static Icon exportCloseIcon() {
+    public stbtic Icon exportCloseIcon() {
         return closeIcon.get();
     }
 
-    static final RecyclableSingleton<Icon> minimizeIcon = new RecyclableSingleton<Icon>() {
-        protected Icon getInstance() {
-            return new AquaInternalFrameButtonIcon(Widget.TITLE_BAR_COLLAPSE_BOX);
+    stbtic finbl RecyclbbleSingleton<Icon> minimizeIcon = new RecyclbbleSingleton<Icon>() {
+        protected Icon getInstbnce() {
+            return new AqubInternblFrbmeButtonIcon(Widget.TITLE_BAR_COLLAPSE_BOX);
         }
     };
-    public static Icon exportMinimizeIcon() {
+    public stbtic Icon exportMinimizeIcon() {
         return minimizeIcon.get();
     }
 
-    static final RecyclableSingleton<Icon> zoomIcon = new RecyclableSingleton<Icon>() {
-        protected Icon getInstance() {
-            return new AquaInternalFrameButtonIcon(Widget.TITLE_BAR_ZOOM_BOX);
+    stbtic finbl RecyclbbleSingleton<Icon> zoomIcon = new RecyclbbleSingleton<Icon>() {
+        protected Icon getInstbnce() {
+            return new AqubInternblFrbmeButtonIcon(Widget.TITLE_BAR_ZOOM_BOX);
         }
     };
-    public static Icon exportZoomIcon() {
+    public stbtic Icon exportZoomIcon() {
         return zoomIcon.get();
     }
 
-    static class AquaInternalFrameButtonIcon extends AquaIcon.JRSUIIcon {
-        public AquaInternalFrameButtonIcon(final Widget widget) {
-            painter.state.set(widget);
+    stbtic clbss AqubInternblFrbmeButtonIcon extends AqubIcon.JRSUIIcon {
+        public AqubInternblFrbmeButtonIcon(finbl Widget widget) {
+            pbinter.stbte.set(widget);
         }
 
-        public void paintIcon(final Component c, final Graphics g, final int x, final int y) {
-            painter.state.set(getStateFor(c));
-            super.paintIcon(c, g, x, y);
+        public void pbintIcon(finbl Component c, finbl Grbphics g, finbl int x, finbl int y) {
+            pbinter.stbte.set(getStbteFor(c));
+            super.pbintIcon(c, g, x, y);
         }
 
-        State getStateFor(final Component c) {
-            return State.ROLLOVER;
+        Stbte getStbteFor(finbl Component c) {
+            return Stbte.ROLLOVER;
         }
 
         public int getIconWidth() {
@@ -193,72 +193,72 @@ public class AquaInternalFrameUI extends BasicInternalFrameUI implements SwingCo
         }
     }
 
-    protected void installKeyboardActions() {
-    } //$ Not Mac-ish - should we support?
+    protected void instbllKeybobrdActions() {
+    } //$ Not Mbc-ish - should we support?
 
     protected ResizeBox resizeBox;
-    protected void installComponents() {
-        final JLayeredPane layeredPane = frame.getLayeredPane();
+    protected void instbllComponents() {
+        finbl JLbyeredPbne lbyeredPbne = frbme.getLbyeredPbne();
         if (resizeBox != null) {
             resizeBox.removeListeners();
-            layeredPane.removeComponentListener(resizeBox);
-            layeredPane.remove(resizeBox);
+            lbyeredPbne.removeComponentListener(resizeBox);
+            lbyeredPbne.remove(resizeBox);
             resizeBox = null;
         }
 
-        resizeBox = new ResizeBox(layeredPane);
+        resizeBox = new ResizeBox(lbyeredPbne);
         resizeBox.repositionResizeBox();
 
-        layeredPane.add(resizeBox);
-        layeredPane.setLayer(resizeBox, JLayeredPane.DRAG_LAYER);
-        layeredPane.addComponentListener(resizeBox);
+        lbyeredPbne.bdd(resizeBox);
+        lbyeredPbne.setLbyer(resizeBox, JLbyeredPbne.DRAG_LAYER);
+        lbyeredPbne.bddComponentListener(resizeBox);
 
-        resizeBox.addListeners();
-        resizeBox.setVisible(frame.isResizable());
+        resizeBox.bddListeners();
+        resizeBox.setVisible(frbme.isResizbble());
     }
 
-    /// Inherit all the listeners - that's the main reason we subclass Basic!
-    protected void installListeners() {
+    /// Inherit bll the listeners - thbt's the mbin rebson we subclbss Bbsic!
+    protected void instbllListeners() {
         fPropertyListener = new PropertyListener();
-        frame.addPropertyChangeListener(fPropertyListener);
-        super.installListeners();
+        frbme.bddPropertyChbngeListener(fPropertyListener);
+        super.instbllListeners();
     }
 
-    // uninstallDefaults
-    // uninstallComponents
-    protected void uninstallListeners() {
-        super.uninstallListeners();
-        frame.removePropertyChangeListener(fPropertyListener);
+    // uninstbllDefbults
+    // uninstbllComponents
+    protected void uninstbllListeners() {
+        super.uninstbllListeners();
+        frbme.removePropertyChbngeListener(fPropertyListener);
     }
 
-    protected void uninstallKeyboardActions() {
+    protected void uninstbllKeybobrdActions() {
     }
 
-    // Called when a DesktopIcon replaces an InternalFrame & vice versa
-    //protected void replacePane(JComponent currentPane, JComponent newPane) {}
-    protected void installMouseHandlers(final JComponent c) {
-        c.addMouseListener(borderListener);
-        c.addMouseMotionListener(borderListener);
+    // Cblled when b DesktopIcon replbces bn InternblFrbme & vice versb
+    //protected void replbcePbne(JComponent currentPbne, JComponent newPbne) {}
+    protected void instbllMouseHbndlers(finbl JComponent c) {
+        c.bddMouseListener(borderListener);
+        c.bddMouseMotionListener(borderListener);
     }
 
-    protected void deinstallMouseHandlers(final JComponent c) {
+    protected void deinstbllMouseHbndlers(finbl JComponent c) {
         c.removeMouseListener(borderListener);
         c.removeMouseMotionListener(borderListener);
     }
 
-    ActionMap createActionMap() {
-        final ActionMap map = new ActionMapUIResource();
-        // add action for the system menu
-        // Set the ActionMap's parent to the Auditory Feedback Action Map
-        final AquaLookAndFeel lf = (AquaLookAndFeel)UIManager.getLookAndFeel();
-        final ActionMap audioMap = lf.getAudioActionMap();
-        map.setParent(audioMap);
-        return map;
+    ActionMbp crebteActionMbp() {
+        finbl ActionMbp mbp = new ActionMbpUIResource();
+        // bdd bction for the system menu
+        // Set the ActionMbp's pbrent to the Auditory Feedbbck Action Mbp
+        finbl AqubLookAndFeel lf = (AqubLookAndFeel)UIMbnbger.getLookAndFeel();
+        finbl ActionMbp budioMbp = lf.getAudioActionMbp();
+        mbp.setPbrent(budioMbp);
+        return mbp;
     }
 
     public Dimension getPreferredSize(JComponent x) {
         Dimension preferredSize = super.getPreferredSize(x);
-        Dimension minimumSize = frame.getMinimumSize();
+        Dimension minimumSize = frbme.getMinimumSize();
         if (preferredSize.width < minimumSize.width) {
             preferredSize.width = minimumSize.width;
         }
@@ -268,479 +268,479 @@ public class AquaInternalFrameUI extends BasicInternalFrameUI implements SwingCo
         return preferredSize;
     }
 
-    public void setNorthPane(final JComponent c) {
-        replacePane(northPane, c);
-        northPane = c;
+    public void setNorthPbne(finbl JComponent c) {
+        replbcePbne(northPbne, c);
+        northPbne = c;
     }
 
     /**
-     * Installs necessary mouse handlers on <code>newPane</code>
-     * and adds it to the frame.
-     * Reverse process for the <code>currentPane</code>.
+     * Instblls necessbry mouse hbndlers on <code>newPbne</code>
+     * bnd bdds it to the frbme.
+     * Reverse process for the <code>currentPbne</code>.
      */
-    protected void replacePane(final JComponent currentPane, final JComponent newPane) {
-        if (currentPane != null) {
-            deinstallMouseHandlers(currentPane);
-            frame.remove(currentPane);
+    protected void replbcePbne(finbl JComponent currentPbne, finbl JComponent newPbne) {
+        if (currentPbne != null) {
+            deinstbllMouseHbndlers(currentPbne);
+            frbme.remove(currentPbne);
         }
-        if (newPane != null) {
-            frame.add(newPane);
-            installMouseHandlers(newPane);
+        if (newPbne != null) {
+            frbme.bdd(newPbne);
+            instbllMouseHbndlers(newPbne);
         }
     }
 
-    // Our "Border" listener is shared by the AquaDesktopIcon
-    protected MouseInputAdapter createBorderListener(final JInternalFrame w) {
-        return new AquaBorderListener();
+    // Our "Border" listener is shbred by the AqubDesktopIcon
+    protected MouseInputAdbpter crebteBorderListener(finbl JInternblFrbme w) {
+        return new AqubBorderListener();
     }
 
     /**
-     * Mac-specific stuff begins here
+     * Mbc-specific stuff begins here
      */
-    void setFrameType(final String frameType) {
-        // Basic sets the background of the contentPane to null so it can inherit JInternalFrame.setBackground
-        // but if *that's* null, we get the JDesktop, which makes ours look invisible!
-        // So JInternalFrame has to have a background color
+    void setFrbmeType(finbl String frbmeType) {
+        // Bbsic sets the bbckground of the contentPbne to null so it cbn inherit JInternblFrbme.setBbckground
+        // but if *thbt's* null, we get the JDesktop, which mbkes ours look invisible!
+        // So JInternblFrbme hbs to hbve b bbckground color
         // See Sun bugs 4268949 & 4320889
-        final Color bg = frame.getBackground();
-        final boolean replaceColor = (bg == null || bg instanceof UIResource);
+        finbl Color bg = frbme.getBbckground();
+        finbl boolebn replbceColor = (bg == null || bg instbnceof UIResource);
 
-        final Font font = frame.getFont();
-        final boolean replaceFont = (font == null || font instanceof UIResource);
+        finbl Font font = frbme.getFont();
+        finbl boolebn replbceFont = (font == null || font instbnceof UIResource);
 
-        boolean isPalette = false;
-        if (frameType.equals(OPTION_DIALOG)) {
-            fAquaBorder = AquaInternalFrameBorder.dialog();
-            if (replaceColor) frame.setBackground(UIManager.getColor("InternalFrame.optionDialogBackground"));
-            if (replaceFont) frame.setFont(UIManager.getFont("InternalFrame.optionDialogTitleFont"));
-        } else if (frameType.equals(PALETTE_FRAME)) {
-            fAquaBorder = AquaInternalFrameBorder.utility();
-            if (replaceColor) frame.setBackground(UIManager.getColor("InternalFrame.paletteBackground"));
-            if (replaceFont) frame.setFont(UIManager.getFont("InternalFrame.paletteTitleFont"));
-            isPalette = true;
+        boolebn isPblette = fblse;
+        if (frbmeType.equbls(OPTION_DIALOG)) {
+            fAqubBorder = AqubInternblFrbmeBorder.diblog();
+            if (replbceColor) frbme.setBbckground(UIMbnbger.getColor("InternblFrbme.optionDiblogBbckground"));
+            if (replbceFont) frbme.setFont(UIMbnbger.getFont("InternblFrbme.optionDiblogTitleFont"));
+        } else if (frbmeType.equbls(PALETTE_FRAME)) {
+            fAqubBorder = AqubInternblFrbmeBorder.utility();
+            if (replbceColor) frbme.setBbckground(UIMbnbger.getColor("InternblFrbme.pbletteBbckground"));
+            if (replbceFont) frbme.setFont(UIMbnbger.getFont("InternblFrbme.pbletteTitleFont"));
+            isPblette = true;
         } else {
-            fAquaBorder = AquaInternalFrameBorder.window();
-            if (replaceColor) frame.setBackground(UIManager.getColor("InternalFrame.background"));
-            if (replaceFont) frame.setFont(UIManager.getFont("InternalFrame.titleFont"));
+            fAqubBorder = AqubInternblFrbmeBorder.window();
+            if (replbceColor) frbme.setBbckground(UIMbnbger.getColor("InternblFrbme.bbckground"));
+            if (replbceFont) frbme.setFont(UIMbnbger.getFont("InternblFrbme.titleFont"));
         }
-        // We don't get the borders from UIManager, in case someone changes them - this class will not work with
-        // different borders.  If they want different ones, they have to make their own InternalFrameUI class
+        // We don't get the borders from UIMbnbger, in cbse someone chbnges them - this clbss will not work with
+        // different borders.  If they wbnt different ones, they hbve to mbke their own InternblFrbmeUI clbss
 
-        fAquaBorder.setColors(fSelectedTextColor, fNotSelectedTextColor);
-        frame.setBorder(fAquaBorder);
+        fAqubBorder.setColors(fSelectedTextColor, fNotSelectedTextColor);
+        frbme.setBorder(fAqubBorder);
 
-        fIsPallet = isPalette;
+        fIsPbllet = isPblette;
     }
 
-    public void setPalette(final boolean isPalette) {
-        setFrameType(isPalette ? PALETTE_FRAME : NORMAL_FRAME);
+    public void setPblette(finbl boolebn isPblette) {
+        setFrbmeType(isPblette ? PALETTE_FRAME : NORMAL_FRAME);
     }
 
-    public boolean isDocumentEdited() {
+    public boolebn isDocumentEdited() {
         return fDocumentEdited;
     }
 
-    public void setDocumentEdited(final boolean flag) {
-        fDocumentEdited = flag;
+    public void setDocumentEdited(finbl boolebn flbg) {
+        fDocumentEdited = flbg;
     }
 
 /*
-    // helpful debug drawing, shows component and content bounds
-    public void paint(final Graphics g, final JComponent c) {
-        super.paint(g, c);
+    // helpful debug drbwing, shows component bnd content bounds
+    public void pbint(finbl Grbphics g, finbl JComponent c) {
+        super.pbint(g, c);
 
         g.setColor(Color.green);
-        g.drawRect(0, 0, frame.getWidth() - 1, frame.getHeight() - 1);
+        g.drbwRect(0, 0, frbme.getWidth() - 1, frbme.getHeight() - 1);
 
-        final Insets insets = frame.getInsets();
-        g.setColor(Color.orange);
-        g.drawRect(insets.left - 2, insets.top - 2, frame.getWidth() - insets.left - insets.right + 4, frame.getHeight() - insets.top - insets.bottom + 4);
+        finbl Insets insets = frbme.getInsets();
+        g.setColor(Color.orbnge);
+        g.drbwRect(insets.left - 2, insets.top - 2, frbme.getWidth() - insets.left - insets.right + 4, frbme.getHeight() - insets.top - insets.bottom + 4);
     }
 */
 
-    // Border Listener Class
+    // Border Listener Clbss
     /**
-     * Listens for border adjustments.
+     * Listens for border bdjustments.
      */
-    protected class AquaBorderListener extends MouseInputAdapter {
-        // _x & _y are the mousePressed location in absolute coordinate system
+    protected clbss AqubBorderListener extends MouseInputAdbpter {
+        // _x & _y bre the mousePressed locbtion in bbsolute coordinbte system
         int _x, _y;
-        // __x & __y are the mousePressed location in source view's coordinate system
+        // __x & __y bre the mousePressed locbtion in source view's coordinbte system
         int __x, __y;
-        Rectangle startingBounds;
-        boolean fDraggingFrame;
+        Rectbngle stbrtingBounds;
+        boolebn fDrbggingFrbme;
         int resizeDir;
 
-        protected final int RESIZE_NONE = 0;
-        private boolean discardRelease = false;
+        protected finbl int RESIZE_NONE = 0;
+        privbte boolebn discbrdRelebse = fblse;
 
-        public void mouseClicked(final MouseEvent e) {
-            if (didForwardEvent(e)) return;
+        public void mouseClicked(finbl MouseEvent e) {
+            if (didForwbrdEvent(e)) return;
 
-            if (e.getClickCount() <= 1 || e.getSource() != getNorthPane()) return;
+            if (e.getClickCount() <= 1 || e.getSource() != getNorthPbne()) return;
 
-            if (frame.isIconifiable() && frame.isIcon()) {
+            if (frbme.isIconifibble() && frbme.isIcon()) {
                 try {
-                    frame.setIcon(false);
-                } catch(final PropertyVetoException e2) {}
-            } else if (frame.isMaximizable()) {
-                if (!frame.isMaximum()) try {
-                    frame.setMaximum(true);
-                } catch(final PropertyVetoException e2) {}
+                    frbme.setIcon(fblse);
+                } cbtch(finbl PropertyVetoException e2) {}
+            } else if (frbme.isMbximizbble()) {
+                if (!frbme.isMbximum()) try {
+                    frbme.setMbximum(true);
+                } cbtch(finbl PropertyVetoException e2) {}
                 else try {
-                    frame.setMaximum(false);
-                } catch(final PropertyVetoException e3) {}
+                    frbme.setMbximum(fblse);
+                } cbtch(finbl PropertyVetoException e3) {}
             }
         }
 
-        public void updateRollover(final MouseEvent e) {
-            final boolean oldRollover = fRollover;
-            final Insets i = frame.getInsets();
-            fRollover = (isTitleBarDraggableArea(e) && fAquaBorder.getWithinRolloverArea(i, e.getX(), e.getY()));
+        public void updbteRollover(finbl MouseEvent e) {
+            finbl boolebn oldRollover = fRollover;
+            finbl Insets i = frbme.getInsets();
+            fRollover = (isTitleBbrDrbggbbleAreb(e) && fAqubBorder.getWithinRolloverAreb(i, e.getX(), e.getY()));
             if (fRollover != oldRollover) {
-                repaintButtons();
+                repbintButtons();
             }
         }
 
-        public void repaintButtons() {
-            fAquaBorder.repaintButtonArea(frame);
+        public void repbintButtons() {
+            fAqubBorder.repbintButtonAreb(frbme);
         }
 
-        public void mouseReleased(final MouseEvent e) {
-            if (didForwardEvent(e)) return;
+        public void mouseRelebsed(finbl MouseEvent e) {
+            if (didForwbrdEvent(e)) return;
 
-            fDraggingFrame = false;
+            fDrbggingFrbme = fblse;
 
             if (fWhichButtonPressed != -1) {
-                final int newButton = fAquaBorder.getWhichButtonHit(frame, e.getX(), e.getY());
+                finbl int newButton = fAqubBorder.getWhichButtonHit(frbme, e.getX(), e.getY());
 
-                final int buttonPresed = fWhichButtonPressed;
+                finbl int buttonPresed = fWhichButtonPressed;
                 fWhichButtonPressed = -1;
-                fMouseOverPressedButton = false;
+                fMouseOverPressedButton = fblse;
 
                 if (buttonPresed == newButton) {
-                    fMouseOverPressedButton = false;
-                    fRollover = false; // not sure if this is needed?
+                    fMouseOverPressedButton = fblse;
+                    fRollover = fblse; // not sure if this is needed?
 
-                    fAquaBorder.doButtonAction(frame, buttonPresed);
+                    fAqubBorder.doButtonAction(frbme, buttonPresed);
                 }
 
-                updateRollover(e);
-                repaintButtons();
+                updbteRollover(e);
+                repbintButtons();
                 return;
             }
 
-            if (discardRelease) {
-                discardRelease = false;
+            if (discbrdRelebse) {
+                discbrdRelebse = fblse;
                 return;
             }
-            if (resizeDir == RESIZE_NONE) getDesktopManager().endDraggingFrame(frame);
+            if (resizeDir == RESIZE_NONE) getDesktopMbnbger().endDrbggingFrbme(frbme);
             else {
-                final Container c = frame.getTopLevelAncestor();
-                if (c instanceof JFrame) {
-                    ((JFrame)frame.getTopLevelAncestor()).getGlassPane().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+                finbl Contbiner c = frbme.getTopLevelAncestor();
+                if (c instbnceof JFrbme) {
+                    ((JFrbme)frbme.getTopLevelAncestor()).getGlbssPbne().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 
-                    ((JFrame)frame.getTopLevelAncestor()).getGlassPane().setVisible(false);
-                } else if (c instanceof JApplet) {
-                    ((JApplet)c).getGlassPane().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-                    ((JApplet)c).getGlassPane().setVisible(false);
-                } else if (c instanceof JWindow) {
-                    ((JWindow)c).getGlassPane().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-                    ((JWindow)c).getGlassPane().setVisible(false);
-                } else if (c instanceof JDialog) {
-                    ((JDialog)c).getGlassPane().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-                    ((JDialog)c).getGlassPane().setVisible(false);
+                    ((JFrbme)frbme.getTopLevelAncestor()).getGlbssPbne().setVisible(fblse);
+                } else if (c instbnceof JApplet) {
+                    ((JApplet)c).getGlbssPbne().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+                    ((JApplet)c).getGlbssPbne().setVisible(fblse);
+                } else if (c instbnceof JWindow) {
+                    ((JWindow)c).getGlbssPbne().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+                    ((JWindow)c).getGlbssPbne().setVisible(fblse);
+                } else if (c instbnceof JDiblog) {
+                    ((JDiblog)c).getGlbssPbne().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+                    ((JDiblog)c).getGlbssPbne().setVisible(fblse);
                 }
-                getDesktopManager().endResizingFrame(frame);
+                getDesktopMbnbger().endResizingFrbme(frbme);
             }
             _x = 0;
             _y = 0;
             __x = 0;
             __y = 0;
-            startingBounds = null;
+            stbrtingBounds = null;
             resizeDir = RESIZE_NONE;
         }
 
-        public void mousePressed(final MouseEvent e) {
-            if (didForwardEvent(e)) return;
+        public void mousePressed(finbl MouseEvent e) {
+            if (didForwbrdEvent(e)) return;
 
-            final Point p = SwingUtilities.convertPoint((Component)e.getSource(), e.getX(), e.getY(), null);
+            finbl Point p = SwingUtilities.convertPoint((Component)e.getSource(), e.getX(), e.getY(), null);
             __x = e.getX();
             __y = e.getY();
             _x = p.x;
             _y = p.y;
-            startingBounds = frame.getBounds();
+            stbrtingBounds = frbme.getBounds();
             resizeDir = RESIZE_NONE;
 
-            if (updatePressed(e)) { return; }
+            if (updbtePressed(e)) { return; }
 
-            if (!frame.isSelected()) {
+            if (!frbme.isSelected()) {
                 try {
-                    frame.setSelected(true);
-                } catch(final PropertyVetoException e1) {}
+                    frbme.setSelected(true);
+                } cbtch(finbl PropertyVetoException e1) {}
             }
 
-            if (isTitleBarDraggableArea(e)) {
-                getDesktopManager().beginDraggingFrame(frame);
-                fDraggingFrame = true;
+            if (isTitleBbrDrbggbbleAreb(e)) {
+                getDesktopMbnbger().beginDrbggingFrbme(frbme);
+                fDrbggingFrbme = true;
                 return;
             }
 
-            if (e.getSource() == getNorthPane()) {
-                getDesktopManager().beginDraggingFrame(frame);
+            if (e.getSource() == getNorthPbne()) {
+                getDesktopMbnbger().beginDrbggingFrbme(frbme);
                 return;
             }
 
-            if (!frame.isResizable()) { return; }
+            if (!frbme.isResizbble()) { return; }
 
-            if (e.getSource() == frame) {
-                discardRelease = true;
+            if (e.getSource() == frbme) {
+                discbrdRelebse = true;
                 return;
             }
         }
 
-        // returns true if we have handled the pressed
-        public boolean updatePressed(final MouseEvent e) {
+        // returns true if we hbve hbndled the pressed
+        public boolebn updbtePressed(finbl MouseEvent e) {
             // get the component.
             fWhichButtonPressed = getButtonHit(e);
             fMouseOverPressedButton = true;
-            repaintButtons();
+            repbintButtons();
             return (fWhichButtonPressed >= 0);
             // e.getX(), e.getY()
         }
 
-        public int getButtonHit(final MouseEvent e) {
-            return fAquaBorder.getWhichButtonHit(frame, e.getX(), e.getY());
+        public int getButtonHit(finbl MouseEvent e) {
+            return fAqubBorder.getWhichButtonHit(frbme, e.getX(), e.getY());
         }
 
-        public boolean isTitleBarDraggableArea(final MouseEvent e) {
-            if (e.getSource() != frame) return false;
+        public boolebn isTitleBbrDrbggbbleAreb(finbl MouseEvent e) {
+            if (e.getSource() != frbme) return fblse;
 
-            final Point point = e.getPoint();
-            final Insets insets = frame.getInsets();
+            finbl Point point = e.getPoint();
+            finbl Insets insets = frbme.getInsets();
 
-            if (point.y < insets.top - fAquaBorder.getTitleHeight()) return false;
-            if (point.y > insets.top) return false;
-            if (point.x < insets.left) return false;
-            if (point.x > frame.getWidth() - insets.left - insets.right) return false;
+            if (point.y < insets.top - fAqubBorder.getTitleHeight()) return fblse;
+            if (point.y > insets.top) return fblse;
+            if (point.x < insets.left) return fblse;
+            if (point.x > frbme.getWidth() - insets.left - insets.right) return fblse;
 
             return true;
         }
 
-        public void mouseDragged(final MouseEvent e) {
-// do not forward drags
-//            if (didForwardEvent(e)) return;
+        public void mouseDrbgged(finbl MouseEvent e) {
+// do not forwbrd drbgs
+//            if (didForwbrdEvent(e)) return;
 
-            if (startingBounds == null) {
-                // (STEVE) Yucky work around for bug ID 4106552
+            if (stbrtingBounds == null) {
+                // (STEVE) Yucky work bround for bug ID 4106552
                 return;
             }
 
             if (fWhichButtonPressed != -1) {
-                // track the button we started on.
-                final int newButton = getButtonHit(e);
+                // trbck the button we stbrted on.
+                finbl int newButton = getButtonHit(e);
                 fMouseOverPressedButton = (fWhichButtonPressed == newButton);
-                repaintButtons();
+                repbintButtons();
                 return;
             }
 
-            final Point p = SwingUtilities.convertPoint((Component)e.getSource(), e.getX(), e.getY(), null);
-            final int deltaX = _x - p.x;
-            final int deltaY = _y - p.y;
+            finbl Point p = SwingUtilities.convertPoint((Component)e.getSource(), e.getX(), e.getY(), null);
+            finbl int deltbX = _x - p.x;
+            finbl int deltbY = _y - p.y;
             int newX, newY;
 
-            // Handle a MOVE
-            if (!fDraggingFrame && e.getSource() != getNorthPane()) return;
+            // Hbndle b MOVE
+            if (!fDrbggingFrbme && e.getSource() != getNorthPbne()) return;
 
-            if (frame.isMaximum() || ((e.getModifiers() & InputEvent.BUTTON1_MASK) != InputEvent.BUTTON1_MASK)) {
-                // don't allow moving of frames if maximixed or left mouse
-                // button was not used.
+            if (frbme.isMbximum() || ((e.getModifiers() & InputEvent.BUTTON1_MASK) != InputEvent.BUTTON1_MASK)) {
+                // don't bllow moving of frbmes if mbximixed or left mouse
+                // button wbs not used.
                 return;
             }
 
-            final Dimension s = frame.getParent().getSize();
-            final int pWidth = s.width;
-            final int pHeight = s.height;
+            finbl Dimension s = frbme.getPbrent().getSize();
+            finbl int pWidth = s.width;
+            finbl int pHeight = s.height;
 
-            final Insets i = frame.getInsets();
-            newX = startingBounds.x - deltaX;
-            newY = startingBounds.y - deltaY;
+            finbl Insets i = frbme.getInsets();
+            newX = stbrtingBounds.x - deltbX;
+            newY = stbrtingBounds.y - deltbY;
 
-            // Make sure we stay in-bounds
+            // Mbke sure we stby in-bounds
             if (newX + i.left <= -__x) newX = -__x - i.left;
             if (newY + i.top <= -__y) newY = -__y - i.top;
             if (newX + __x + i.right > pWidth) newX = pWidth - __x - i.right;
             if (newY + __y + i.bottom > pHeight) newY = pHeight - __y - i.bottom;
 
-            getDesktopManager().dragFrame(frame, newX, newY);
+            getDesktopMbnbger().drbgFrbme(frbme, newX, newY);
             return;
         }
 
-        public void mouseMoved(final MouseEvent e) {
-            if (didForwardEvent(e)) return;
-            updateRollover(e);
+        public void mouseMoved(finbl MouseEvent e) {
+            if (didForwbrdEvent(e)) return;
+            updbteRollover(e);
         }
 
-        // guards against accidental infinite recursion
-        boolean isTryingToForwardEvent = false;
-        boolean didForwardEvent(final MouseEvent e) {
-            if (isTryingToForwardEvent) return true; // we didn't actually...but we wound up back where we started.
+        // gubrds bgbinst bccidentbl infinite recursion
+        boolebn isTryingToForwbrdEvent = fblse;
+        boolebn didForwbrdEvent(finbl MouseEvent e) {
+            if (isTryingToForwbrdEvent) return true; // we didn't bctublly...but we wound up bbck where we stbrted.
 
-            isTryingToForwardEvent = true;
-            final boolean didForwardEvent = didForwardEventInternal(e);
-            isTryingToForwardEvent = false;
+            isTryingToForwbrdEvent = true;
+            finbl boolebn didForwbrdEvent = didForwbrdEventInternbl(e);
+            isTryingToForwbrdEvent = fblse;
 
-            return didForwardEvent;
+            return didForwbrdEvent;
         }
 
-        boolean didForwardEventInternal(final MouseEvent e) {
-            if (fDraggingFrame) return false;
+        boolebn didForwbrdEventInternbl(finbl MouseEvent e) {
+            if (fDrbggingFrbme) return fblse;
 
-            final Point originalPoint = e.getPoint();
-            if (!isEventInWindowShadow(originalPoint)) return false;
+            finbl Point originblPoint = e.getPoint();
+            if (!isEventInWindowShbdow(originblPoint)) return fblse;
 
-            final Container parent = frame.getParent();
-            if (!(parent instanceof JDesktopPane)) return false;
-            final JDesktopPane pane = (JDesktopPane)parent;
-            final Point parentPoint = SwingUtilities.convertPoint(frame, originalPoint, parent);
+            finbl Contbiner pbrent = frbme.getPbrent();
+            if (!(pbrent instbnceof JDesktopPbne)) return fblse;
+            finbl JDesktopPbne pbne = (JDesktopPbne)pbrent;
+            finbl Point pbrentPoint = SwingUtilities.convertPoint(frbme, originblPoint, pbrent);
 
-        /*     // debug drawing
-            Graphics g = parent.getGraphics();
+        /*     // debug drbwing
+            Grbphics g = pbrent.getGrbphics();
             g.setColor(Color.red);
-            g.drawLine(parentPoint.x, parentPoint.y, parentPoint.x, parentPoint.y);
+            g.drbwLine(pbrentPoint.x, pbrentPoint.y, pbrentPoint.x, pbrentPoint.y);
         */
 
-            final Component hitComponent = findComponentToHitBehindMe(pane, parentPoint);
-            if (hitComponent == null || hitComponent == frame) return false;
+            finbl Component hitComponent = findComponentToHitBehindMe(pbne, pbrentPoint);
+            if (hitComponent == null || hitComponent == frbme) return fblse;
 
-            final Point hitComponentPoint = SwingUtilities.convertPoint(pane, parentPoint, hitComponent);
-            hitComponent.dispatchEvent(new MouseEvent(hitComponent, e.getID(), e.getWhen(), e.getModifiers(), hitComponentPoint.x, hitComponentPoint.y, e.getClickCount(), e.isPopupTrigger(), e.getButton()));
+            finbl Point hitComponentPoint = SwingUtilities.convertPoint(pbne, pbrentPoint, hitComponent);
+            hitComponent.dispbtchEvent(new MouseEvent(hitComponent, e.getID(), e.getWhen(), e.getModifiers(), hitComponentPoint.x, hitComponentPoint.y, e.getClickCount(), e.isPopupTrigger(), e.getButton()));
             return true;
         }
 
-        Component findComponentToHitBehindMe(final JDesktopPane pane, final Point parentPoint) {
-            final JInternalFrame[] allFrames = pane.getAllFrames();
+        Component findComponentToHitBehindMe(finbl JDesktopPbne pbne, finbl Point pbrentPoint) {
+            finbl JInternblFrbme[] bllFrbmes = pbne.getAllFrbmes();
 
-            boolean foundSelf = false;
-            for (final JInternalFrame f : allFrames) {
-                if (f == frame) { foundSelf = true; continue; }
+            boolebn foundSelf = fblse;
+            for (finbl JInternblFrbme f : bllFrbmes) {
+                if (f == frbme) { foundSelf = true; continue; }
                 if (!foundSelf) continue;
 
-                final Rectangle bounds = f.getBounds();
-                if (bounds.contains(parentPoint)) return f;
+                finbl Rectbngle bounds = f.getBounds();
+                if (bounds.contbins(pbrentPoint)) return f;
             }
 
-            return pane;
+            return pbne;
         }
 
-        boolean isEventInWindowShadow(final Point point) {
-            final Rectangle bounds = frame.getBounds();
-            final Insets insets = frame.getInsets();
-            insets.top -= fAquaBorder.getTitleHeight();
+        boolebn isEventInWindowShbdow(finbl Point point) {
+            finbl Rectbngle bounds = frbme.getBounds();
+            finbl Insets insets = frbme.getInsets();
+            insets.top -= fAqubBorder.getTitleHeight();
 
             if (point.x < insets.left) return true;
             if (point.x > bounds.width - insets.right) return true;
             if (point.y < insets.top) return true;
             if (point.y > bounds.height - insets.bottom) return true;
 
-            return false;
+            return fblse;
         }
     }
 
-    static void updateComponentTreeUIActivation(final Component c, final Object active) {
-        if (c instanceof javax.swing.JComponent) {
-            ((javax.swing.JComponent)c).putClientProperty(AquaFocusHandler.FRAME_ACTIVE_PROPERTY, active);
+    stbtic void updbteComponentTreeUIActivbtion(finbl Component c, finbl Object bctive) {
+        if (c instbnceof jbvbx.swing.JComponent) {
+            ((jbvbx.swing.JComponent)c).putClientProperty(AqubFocusHbndler.FRAME_ACTIVE_PROPERTY, bctive);
         }
 
         Component[] children = null;
 
-        if (c instanceof javax.swing.JMenu) {
-            children = ((javax.swing.JMenu)c).getMenuComponents();
-        } else if (c instanceof Container) {
-            children = ((Container)c).getComponents();
+        if (c instbnceof jbvbx.swing.JMenu) {
+            children = ((jbvbx.swing.JMenu)c).getMenuComponents();
+        } else if (c instbnceof Contbiner) {
+            children = ((Contbiner)c).getComponents();
         }
 
         if (children != null) {
-            for (final Component element : children) {
-                updateComponentTreeUIActivation(element, active);
+            for (finbl Component element : children) {
+                updbteComponentTreeUIActivbtion(element, bctive);
             }
         }
     }
 
-    class PropertyListener implements PropertyChangeListener {
-        public void propertyChange(final PropertyChangeEvent e) {
-            final String name = e.getPropertyName();
-            if (FRAME_TYPE.equals(name)) {
-                if (e.getNewValue() instanceof String) {
-                    setFrameType((String)e.getNewValue());
+    clbss PropertyListener implements PropertyChbngeListener {
+        public void propertyChbnge(finbl PropertyChbngeEvent e) {
+            finbl String nbme = e.getPropertyNbme();
+            if (FRAME_TYPE.equbls(nbme)) {
+                if (e.getNewVblue() instbnceof String) {
+                    setFrbmeType((String)e.getNewVblue());
                 }
-            } else if (IS_PALETTE_PROPERTY.equals(name)) {
-                if (e.getNewValue() != null) {
-                    setPalette(((Boolean)e.getNewValue()).booleanValue());
+            } else if (IS_PALETTE_PROPERTY.equbls(nbme)) {
+                if (e.getNewVblue() != null) {
+                    setPblette(((Boolebn)e.getNewVblue()).boolebnVblue());
                 } else {
-                    setPalette(false);
+                    setPblette(fblse);
                 }
-                // TODO: CPlatformWindow?
-            } else if ("windowModified".equals(name) || CPlatformWindow.WINDOW_DOCUMENT_MODIFIED.equals(name)) {
-                // repaint title bar
-                setDocumentEdited(((Boolean)e.getNewValue()).booleanValue());
-                frame.repaint(0, 0, frame.getWidth(), frame.getBorder().getBorderInsets(frame).top);
-            } else if ("resizable".equals(name) || "state".equals(name) || "iconable".equals(name) || "maximizable".equals(name) || "closable".equals(name)) {
-                if ("resizable".equals(name)) {
-                    frame.revalidate();
+                // TODO: CPlbtformWindow?
+            } else if ("windowModified".equbls(nbme) || CPlbtformWindow.WINDOW_DOCUMENT_MODIFIED.equbls(nbme)) {
+                // repbint title bbr
+                setDocumentEdited(((Boolebn)e.getNewVblue()).boolebnVblue());
+                frbme.repbint(0, 0, frbme.getWidth(), frbme.getBorder().getBorderInsets(frbme).top);
+            } else if ("resizbble".equbls(nbme) || "stbte".equbls(nbme) || "iconbble".equbls(nbme) || "mbximizbble".equbls(nbme) || "closbble".equbls(nbme)) {
+                if ("resizbble".equbls(nbme)) {
+                    frbme.revblidbte();
                 }
-                frame.repaint();
-            } else if ("title".equals(name)) {
-                frame.repaint();
-            } else if ("componentOrientation".equals(name)) {
-                frame.revalidate();
-                frame.repaint();
-            } else if (JInternalFrame.IS_SELECTED_PROPERTY.equals(name)) {
-                final Component source = (Component)(e.getSource());
-                updateComponentTreeUIActivation(source, frame.isSelected() ? Boolean.TRUE : Boolean.FALSE);
+                frbme.repbint();
+            } else if ("title".equbls(nbme)) {
+                frbme.repbint();
+            } else if ("componentOrientbtion".equbls(nbme)) {
+                frbme.revblidbte();
+                frbme.repbint();
+            } else if (JInternblFrbme.IS_SELECTED_PROPERTY.equbls(nbme)) {
+                finbl Component source = (Component)(e.getSource());
+                updbteComponentTreeUIActivbtion(source, frbme.isSelected() ? Boolebn.TRUE : Boolebn.FALSE);
             }
 
         }
-    } // end class PaletteListener
+    } // end clbss PbletteListener
 
-    static final InternalFrameShadow documentWindowShadow = new InternalFrameShadow() {
-        Border getForegroundShadowBorder() {
-            return new AquaUtils.SlicedShadowBorder(new Painter() {
-                public void paint(final Graphics g, final int x, final int y, final int w, final int h) {
+    stbtic finbl InternblFrbmeShbdow documentWindowShbdow = new InternblFrbmeShbdow() {
+        Border getForegroundShbdowBorder() {
+            return new AqubUtils.SlicedShbdowBorder(new Pbinter() {
+                public void pbint(finbl Grbphics g, finbl int x, finbl int y, finbl int w, finbl int h) {
                     g.setColor(new Color(0, 0, 0, 196));
                     g.fillRoundRect(x, y, w, h, 16, 16);
                     g.fillRect(x, y + h - 16, w, 16);
                 }
-            }, new Painter() {
-                public void paint(final Graphics g, int x, int y, int w, int h) {
+            }, new Pbinter() {
+                public void pbint(finbl Grbphics g, int x, int y, int w, int h) {
                     g.setColor(new Color(0, 0, 0, 64));
-                    g.drawLine(x + 2, y - 8, x + w - 2, y - 8);
+                    g.drbwLine(x + 2, y - 8, x + w - 2, y - 8);
                 }
             },
             0, 7, 1.1f, 1.0f, 24, 51, 51, 25, 25, 25, 25);
         }
 
-        Border getBackgroundShadowBorder() {
-            return new AquaUtils.SlicedShadowBorder(new Painter() {
-                public void paint(final Graphics g, final int x, final int y, final int w, final int h) {
+        Border getBbckgroundShbdowBorder() {
+            return new AqubUtils.SlicedShbdowBorder(new Pbinter() {
+                public void pbint(finbl Grbphics g, finbl int x, finbl int y, finbl int w, finbl int h) {
                     g.setColor(new Color(0, 0, 0, 128));
                     g.fillRoundRect(x - 3, y - 8, w + 6, h, 16, 16);
                     g.fillRect(x - 3, y + h - 20, w + 6, 19);
                 }
-            }, new Painter() {
-                public void paint(final Graphics g, int x, int y, int w, int h) {
+            }, new Pbinter() {
+                public void pbint(finbl Grbphics g, int x, int y, int w, int h) {
                     g.setColor(new Color(0, 0, 0, 32));
-                    g.drawLine(x, y - 11, x + w - 1, y - 11);
+                    g.drbwLine(x, y - 11, x + w - 1, y - 11);
                 }
             },
             0, 0, 3.0f, 1.0f, 10, 51, 51, 25, 25, 25, 25);
         }
     };
 
-    static final InternalFrameShadow paletteWindowShadow = new InternalFrameShadow() {
-        Border getForegroundShadowBorder() {
-            return new AquaUtils.SlicedShadowBorder(new Painter() {
-                public void paint(final Graphics g, final int x, final int y, final int w, final int h) {
+    stbtic finbl InternblFrbmeShbdow pbletteWindowShbdow = new InternblFrbmeShbdow() {
+        Border getForegroundShbdowBorder() {
+            return new AqubUtils.SlicedShbdowBorder(new Pbinter() {
+                public void pbint(finbl Grbphics g, finbl int x, finbl int y, finbl int w, finbl int h) {
                     g.setColor(new Color(0, 0, 0, 128));
                     g.fillRect(x, y + 3, w, h - 3);
                 }
@@ -748,216 +748,216 @@ public class AquaInternalFrameUI extends BasicInternalFrameUI implements SwingCo
             0, 3, 1.0f, 1.0f, 10, 25, 25, 12, 12, 12, 12);
         }
 
-        Border getBackgroundShadowBorder() {
-            return getForegroundShadowBorder();
+        Border getBbckgroundShbdowBorder() {
+            return getForegroundShbdowBorder();
         }
     };
 
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    static class CompoundUIBorder extends CompoundBorder implements UIResource {
-        public CompoundUIBorder(final Border inside, final Border outside) { super(inside, outside); }
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    stbtic clbss CompoundUIBorder extends CompoundBorder implements UIResource {
+        public CompoundUIBorder(finbl Border inside, finbl Border outside) { super(inside, outside); }
     }
 
-    abstract static class InternalFrameShadow extends RecyclableSingleton<Border> {
-        abstract Border getForegroundShadowBorder();
-        abstract Border getBackgroundShadowBorder();
+    bbstrbct stbtic clbss InternblFrbmeShbdow extends RecyclbbleSingleton<Border> {
+        bbstrbct Border getForegroundShbdowBorder();
+        bbstrbct Border getBbckgroundShbdowBorder();
 
-        protected Border getInstance() {
-            final Border fgShadow = getForegroundShadowBorder();
-            final Border bgShadow = getBackgroundShadowBorder();
+        protected Border getInstbnce() {
+            finbl Border fgShbdow = getForegroundShbdowBorder();
+            finbl Border bgShbdow = getBbckgroundShbdowBorder();
 
             return new Border() {
-                public Insets getBorderInsets(final Component c) {
-                    return fgShadow.getBorderInsets(c);
+                public Insets getBorderInsets(finbl Component c) {
+                    return fgShbdow.getBorderInsets(c);
                 }
 
-                public boolean isBorderOpaque() {
-                    return false;
+                public boolebn isBorderOpbque() {
+                    return fblse;
                 }
 
-                public void paintBorder(final Component c, final Graphics g, final int x, final int y, final int w, final int h) {
-                    if (((JInternalFrame)c).isSelected()) {
-                        fgShadow.paintBorder(c, g, x, y, w, h);
+                public void pbintBorder(finbl Component c, finbl Grbphics g, finbl int x, finbl int y, finbl int w, finbl int h) {
+                    if (((JInternblFrbme)c).isSelected()) {
+                        fgShbdow.pbintBorder(c, g, x, y, w, h);
                     } else {
-                        bgShadow.paintBorder(c, g, x, y, w, h);
+                        bgShbdow.pbintBorder(c, g, x, y, w, h);
                     }
                 }
             };
         }
     }
 
-    static final RecyclableSingleton<Icon> RESIZE_ICON = new RecyclableSingleton<Icon>() {
+    stbtic finbl RecyclbbleSingleton<Icon> RESIZE_ICON = new RecyclbbleSingleton<Icon>() {
         @Override
-        protected Icon getInstance() {
-            return new AquaIcon.ScalingJRSUIIcon(11, 11) {
-                public void initIconPainter(final AquaPainter<JRSUIState> iconState) {
-                    iconState.state.set(Widget.GROW_BOX_TEXTURED);
-                    iconState.state.set(WindowType.UTILITY);
+        protected Icon getInstbnce() {
+            return new AqubIcon.ScblingJRSUIIcon(11, 11) {
+                public void initIconPbinter(finbl AqubPbinter<JRSUIStbte> iconStbte) {
+                    iconStbte.stbte.set(Widget.GROW_BOX_TEXTURED);
+                    iconStbte.stbte.set(WindowType.UTILITY);
                 }
             };
         }
     };
 
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    class ResizeBox extends JLabel implements MouseListener, MouseMotionListener, MouseWheelListener, ComponentListener, PropertyChangeListener, UIResource {
-        final JLayeredPane layeredPane;
-        Dimension originalSize;
-        Point originalLocation;
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    clbss ResizeBox extends JLbbel implements MouseListener, MouseMotionListener, MouseWheelListener, ComponentListener, PropertyChbngeListener, UIResource {
+        finbl JLbyeredPbne lbyeredPbne;
+        Dimension originblSize;
+        Point originblLocbtion;
 
-        public ResizeBox(final JLayeredPane layeredPane) {
+        public ResizeBox(finbl JLbyeredPbne lbyeredPbne) {
             super(RESIZE_ICON.get());
             setSize(11, 11);
-            this.layeredPane = layeredPane;
+            this.lbyeredPbne = lbyeredPbne;
 
-            addMouseListener(this);
-            addMouseMotionListener(this);
-            addMouseWheelListener(this);
+            bddMouseListener(this);
+            bddMouseMotionListener(this);
+            bddMouseWheelListener(this);
         }
 
-        void addListeners() {
-            frame.addPropertyChangeListener("resizable", this);
+        void bddListeners() {
+            frbme.bddPropertyChbngeListener("resizbble", this);
         }
 
         void removeListeners() {
-            frame.removePropertyChangeListener("resizable", this);
+            frbme.removePropertyChbngeListener("resizbble", this);
         }
 
         void repositionResizeBox() {
-            if (frame == null) { setSize(0, 0); } else { setSize(11, 11); }
-            setLocation(layeredPane.getWidth() - 12, layeredPane.getHeight() - 12);
+            if (frbme == null) { setSize(0, 0); } else { setSize(11, 11); }
+            setLocbtion(lbyeredPbne.getWidth() - 12, lbyeredPbne.getHeight() - 12);
         }
 
-        void resizeInternalFrame(final Point pt) {
-            if (originalLocation == null || frame == null) return;
+        void resizeInternblFrbme(finbl Point pt) {
+            if (originblLocbtion == null || frbme == null) return;
 
-            final Container parent = frame.getParent();
-            if (!(parent instanceof JDesktopPane)) return;
+            finbl Contbiner pbrent = frbme.getPbrent();
+            if (!(pbrent instbnceof JDesktopPbne)) return;
 
-            final Point newPoint = SwingUtilities.convertPoint(this, pt, frame);
-            int deltaX = originalLocation.x - newPoint.x;
-            int deltaY = originalLocation.y - newPoint.y;
-            final Dimension min = frame.getMinimumSize();
-            final Dimension max = frame.getMaximumSize();
+            finbl Point newPoint = SwingUtilities.convertPoint(this, pt, frbme);
+            int deltbX = originblLocbtion.x - newPoint.x;
+            int deltbY = originblLocbtion.y - newPoint.y;
+            finbl Dimension min = frbme.getMinimumSize();
+            finbl Dimension mbx = frbme.getMbximumSize();
 
-            final int newX = frame.getX();
-            final int newY = frame.getY();
-            int newW = frame.getWidth();
-            int newH = frame.getHeight();
+            finbl int newX = frbme.getX();
+            finbl int newY = frbme.getY();
+            int newW = frbme.getWidth();
+            int newH = frbme.getHeight();
 
-            final Rectangle parentBounds = parent.getBounds();
+            finbl Rectbngle pbrentBounds = pbrent.getBounds();
 
-            if (originalSize.width - deltaX < min.width) {
-                deltaX = originalSize.width - min.width;
-            }  else if (originalSize.width - deltaX > max.width) {
-                deltaX = -(max.width - originalSize.width);
+            if (originblSize.width - deltbX < min.width) {
+                deltbX = originblSize.width - min.width;
+            }  else if (originblSize.width - deltbX > mbx.width) {
+                deltbX = -(mbx.width - originblSize.width);
             }
 
-            if (newX + originalSize.width - deltaX > parentBounds.width) {
-                deltaX = newX + originalSize.width - parentBounds.width;
+            if (newX + originblSize.width - deltbX > pbrentBounds.width) {
+                deltbX = newX + originblSize.width - pbrentBounds.width;
             }
 
-            if (originalSize.height - deltaY < min.height) {
-                deltaY = originalSize.height - min.height;
-            }  else if (originalSize.height - deltaY > max.height) {
-                deltaY = -(max.height - originalSize.height);
+            if (originblSize.height - deltbY < min.height) {
+                deltbY = originblSize.height - min.height;
+            }  else if (originblSize.height - deltbY > mbx.height) {
+                deltbY = -(mbx.height - originblSize.height);
             }
 
-            if (newY + originalSize.height - deltaY > parentBounds.height) {
-                deltaY = newY + originalSize.height - parentBounds.height;
+            if (newY + originblSize.height - deltbY > pbrentBounds.height) {
+                deltbY = newY + originblSize.height - pbrentBounds.height;
             }
 
-            newW = originalSize.width - deltaX;
-            newH = originalSize.height - deltaY;
+            newW = originblSize.width - deltbX;
+            newH = originblSize.height - deltbY;
 
-            getDesktopManager().resizeFrame(frame, newX, newY, newW, newH);
+            getDesktopMbnbger().resizeFrbme(frbme, newX, newY, newW, newH);
         }
 
-        boolean testGrowboxPoint(final int x, final int y, final int w, final int h) {
+        boolebn testGrowboxPoint(finbl int x, finbl int y, finbl int w, finbl int h) {
             return (w - x) + (h - y) < 12;
         }
 
-        void forwardEventToFrame(final MouseEvent e) {
-            final Point pt = new Point();
-            final Component c = getComponentToForwardTo(e, pt);
+        void forwbrdEventToFrbme(finbl MouseEvent e) {
+            finbl Point pt = new Point();
+            finbl Component c = getComponentToForwbrdTo(e, pt);
             if (c == null) return;
-            c.dispatchEvent(new MouseEvent(c, e.getID(), e.getWhen(), e.getModifiers(), pt.x, pt.y, e.getClickCount(), e.isPopupTrigger(), e.getButton()));
+            c.dispbtchEvent(new MouseEvent(c, e.getID(), e.getWhen(), e.getModifiers(), pt.x, pt.y, e.getClickCount(), e.isPopupTrigger(), e.getButton()));
         }
 
-        Component getComponentToForwardTo(final MouseEvent e, final Point dst) {
-            if (frame == null) return null;
-            final Container contentPane = frame.getContentPane();
-            if (contentPane == null) return null;
-            Point pt = SwingUtilities.convertPoint(this, e.getPoint(), contentPane);
-            final Component c = SwingUtilities.getDeepestComponentAt(contentPane, pt.x, pt.y);
+        Component getComponentToForwbrdTo(finbl MouseEvent e, finbl Point dst) {
+            if (frbme == null) return null;
+            finbl Contbiner contentPbne = frbme.getContentPbne();
+            if (contentPbne == null) return null;
+            Point pt = SwingUtilities.convertPoint(this, e.getPoint(), contentPbne);
+            finbl Component c = SwingUtilities.getDeepestComponentAt(contentPbne, pt.x, pt.y);
             if (c == null) return null;
-            pt = SwingUtilities.convertPoint(contentPane, pt, c);
-            if (dst != null) dst.setLocation(pt);
+            pt = SwingUtilities.convertPoint(contentPbne, pt, c);
+            if (dst != null) dst.setLocbtion(pt);
             return c;
         }
 
-        public void mouseClicked(final MouseEvent e) {
-            forwardEventToFrame(e);
+        public void mouseClicked(finbl MouseEvent e) {
+            forwbrdEventToFrbme(e);
         }
 
-        public void mouseEntered(final MouseEvent e) { }
+        public void mouseEntered(finbl MouseEvent e) { }
 
-        public void mouseExited(final MouseEvent e) { }
+        public void mouseExited(finbl MouseEvent e) { }
 
-        public void mousePressed(final MouseEvent e) {
-            if (frame == null) return;
+        public void mousePressed(finbl MouseEvent e) {
+            if (frbme == null) return;
 
-            if (frame.isResizable() && !frame.isMaximum() && testGrowboxPoint(e.getX(), e.getY(), getWidth(), getHeight())) {
-                originalLocation = SwingUtilities.convertPoint(this, e.getPoint(), frame);
-                originalSize = frame.getSize();
-                getDesktopManager().beginResizingFrame(frame, SwingConstants.SOUTH_EAST);
+            if (frbme.isResizbble() && !frbme.isMbximum() && testGrowboxPoint(e.getX(), e.getY(), getWidth(), getHeight())) {
+                originblLocbtion = SwingUtilities.convertPoint(this, e.getPoint(), frbme);
+                originblSize = frbme.getSize();
+                getDesktopMbnbger().beginResizingFrbme(frbme, SwingConstbnts.SOUTH_EAST);
                 return;
             }
 
-            forwardEventToFrame(e);
+            forwbrdEventToFrbme(e);
         }
 
-        public void mouseReleased(final MouseEvent e) {
-            if (originalLocation != null) {
-                resizeInternalFrame(e.getPoint());
-                originalLocation = null;
-                getDesktopManager().endResizingFrame(frame);
+        public void mouseRelebsed(finbl MouseEvent e) {
+            if (originblLocbtion != null) {
+                resizeInternblFrbme(e.getPoint());
+                originblLocbtion = null;
+                getDesktopMbnbger().endResizingFrbme(frbme);
                 return;
             }
 
-            forwardEventToFrame(e);
+            forwbrdEventToFrbme(e);
         }
 
-        public void mouseDragged(final MouseEvent e) {
-            resizeInternalFrame(e.getPoint());
+        public void mouseDrbgged(finbl MouseEvent e) {
+            resizeInternblFrbme(e.getPoint());
             repositionResizeBox();
         }
 
-        public void mouseMoved(final MouseEvent e) { }
+        public void mouseMoved(finbl MouseEvent e) { }
 
-        public void mouseWheelMoved(final MouseWheelEvent e) {
-            final Point pt = new Point();
-            final Component c = getComponentToForwardTo(e, pt);
+        public void mouseWheelMoved(finbl MouseWheelEvent e) {
+            finbl Point pt = new Point();
+            finbl Component c = getComponentToForwbrdTo(e, pt);
             if (c == null) return;
-            c.dispatchEvent(new MouseWheelEvent(c, e.getID(), e.getWhen(), e.getModifiers(), pt.x, pt.y, e.getClickCount(), e.isPopupTrigger(), e.getScrollType(), e.getScrollAmount(), e.getWheelRotation()));
+            c.dispbtchEvent(new MouseWheelEvent(c, e.getID(), e.getWhen(), e.getModifiers(), pt.x, pt.y, e.getClickCount(), e.isPopupTrigger(), e.getScrollType(), e.getScrollAmount(), e.getWheelRotbtion()));
         }
 
-        public void componentResized(final ComponentEvent e) {
+        public void componentResized(finbl ComponentEvent e) {
             repositionResizeBox();
         }
 
-        public void componentShown(final ComponentEvent e) {
+        public void componentShown(finbl ComponentEvent e) {
             repositionResizeBox();
         }
 
-        public void componentMoved(final ComponentEvent e) {
+        public void componentMoved(finbl ComponentEvent e) {
             repositionResizeBox();
         }
 
-        public void componentHidden(final ComponentEvent e) { }
+        public void componentHidden(finbl ComponentEvent e) { }
 
-        public void propertyChange(final PropertyChangeEvent evt) {
-            if (!"resizable".equals(evt.getPropertyName())) return;
-            setVisible(Boolean.TRUE.equals(evt.getNewValue()));
+        public void propertyChbnge(finbl PropertyChbngeEvent evt) {
+            if (!"resizbble".equbls(evt.getPropertyNbme())) return;
+            setVisible(Boolebn.TRUE.equbls(evt.getNewVblue()));
         }
     }
 }

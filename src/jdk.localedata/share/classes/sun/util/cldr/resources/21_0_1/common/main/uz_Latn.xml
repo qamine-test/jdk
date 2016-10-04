@@ -3,85 +3,85 @@
 <ldml>
 	<identity>
 		<version number="$Revision: 5882 $"/>
-		<generation date="$Date: 2011-05-11 05:26:37 +0900 (Wed, 11 May 2011) $"/>
-		<language type="uz"/>
-		<script type="Latn"/>
+		<generbtion dbte="$Dbte: 2011-05-11 05:26:37 +0900 (Wed, 11 Mby 2011) $"/>
+		<lbngubge type="uz"/>
+		<script type="Lbtn"/>
 	</identity>
-	<localeDisplayNames>
-		<languages>
-			<language type="ar">arabcha</language>
-			<language type="de">olmoncha</language>
-			<language type="en">inglizcha</language>
-			<language type="es">ispancha</language>
-			<language type="fr">fransuzcha</language>
-			<language type="hi">hindcha</language>
-			<language type="it">italyancha</language>
-			<language type="ja">yaponcha</language>
-			<language type="pt">portugalcha</language>
-			<language type="ru">ruscha</language>
-			<language type="uz">oʼzbekcha</language>
-			<language type="zh">xitoycha</language>
-		</languages>
+	<locbleDisplbyNbmes>
+		<lbngubges>
+			<lbngubge type="br">brbbchb</lbngubge>
+			<lbngubge type="de">olmonchb</lbngubge>
+			<lbngubge type="en">inglizchb</lbngubge>
+			<lbngubge type="es">ispbnchb</lbngubge>
+			<lbngubge type="fr">frbnsuzchb</lbngubge>
+			<lbngubge type="hi">hindchb</lbngubge>
+			<lbngubge type="it">itblybnchb</lbngubge>
+			<lbngubge type="jb">ybponchb</lbngubge>
+			<lbngubge type="pt">portugblchb</lbngubge>
+			<lbngubge type="ru">ruschb</lbngubge>
+			<lbngubge type="uz">oʼzbekchb</lbngubge>
+			<lbngubge type="zh">xitoychb</lbngubge>
+		</lbngubges>
 		<scripts>
 			<script type="Cyrl">Kiril</script>
-			<script type="Latn">Lotin</script>
+			<script type="Lbtn">Lotin</script>
 		</scripts>
 		<territories>
 			<territory type="AF">Afgʼoniston</territory>
-			<territory type="BR">Braziliya</territory>
+			<territory type="BR">Brbziliyb</territory>
 			<territory type="CN">Xitoy</territory>
-			<territory type="DE">Olmoniya</territory>
-			<territory type="FR">Fransiya</territory>
-			<territory type="GB">Birlashgan Qirollik</territory>
+			<territory type="DE">Olmoniyb</territory>
+			<territory type="FR">Frbnsiyb</territory>
+			<territory type="GB">Birlbshgbn Qirollik</territory>
 			<territory type="IN">Hindiston</territory>
-			<territory type="IT">Italiya</territory>
-			<territory type="JP">Yaponiya</territory>
-			<territory type="RU">Rossiya</territory>
-			<territory type="US">Qoʼshma Shtatlar</territory>
+			<territory type="IT">Itbliyb</territory>
+			<territory type="JP">Ybponiyb</territory>
+			<territory type="RU">Rossiyb</territory>
+			<territory type="US">Qoʼshmb Shtbtlbr</territory>
 			<territory type="UZ">Oʼzbekiston</territory>
 		</territories>
-	</localeDisplayNames>
-	<characters>
-		<exemplarCharacters>[a {aʼ} b {ch} d e {eʼ} f g {gʼ} h i {iʼ} j k l m n o {oʼ} p q r s {sh} t u {uʼ} v x y z]</exemplarCharacters>
-		<exemplarCharacters type="auxiliary">[c w]</exemplarCharacters>
-		<exemplarCharacters type="index">[A B {CH} D E F G {Gʼ} H I J K L M N O {Oʼ} P Q R S {SH} T U V X Y Z]</exemplarCharacters>
-	</characters>
-	<dates>
-		<calendars>
-			<calendar type="gregorian">
+	</locbleDisplbyNbmes>
+	<chbrbcters>
+		<exemplbrChbrbcters>[b {bʼ} b {ch} d e {eʼ} f g {gʼ} h i {iʼ} j k l m n o {oʼ} p q r s {sh} t u {uʼ} v x y z]</exemplbrChbrbcters>
+		<exemplbrChbrbcters type="buxilibry">[c w]</exemplbrChbrbcters>
+		<exemplbrChbrbcters type="index">[A B {CH} D E F G {Gʼ} H I J K L M N O {Oʼ} P Q R S {SH} T U V X Y Z]</exemplbrChbrbcters>
+	</chbrbcters>
+	<dbtes>
+		<cblendbrs>
+			<cblendbr type="gregoribn">
 				<months>
-					<monthContext type="format">
-						<monthWidth type="abbreviated">
-							<month type="1">Yanv</month>
+					<monthContext type="formbt">
+						<monthWidth type="bbbrevibted">
+							<month type="1">Ybnv</month>
 							<month type="2">Fev</month>
-							<month type="3">Mar</month>
+							<month type="3">Mbr</month>
 							<month type="4">Apr</month>
-							<month type="5">May</month>
+							<month type="5">Mby</month>
 							<month type="6">Iyun</month>
 							<month type="7">Iyul</month>
 							<month type="8">Avg</month>
 							<month type="9">Sen</month>
 							<month type="10">Okt</month>
-							<month type="11">Noya</month>
+							<month type="11">Noyb</month>
 							<month type="12">Dek</month>
 						</monthWidth>
 						<monthWidth type="wide">
-							<month type="1">Yanvar</month>
-							<month type="2">Fevral</month>
-							<month type="3">Mart</month>
+							<month type="1">Ybnvbr</month>
+							<month type="2">Fevrbl</month>
+							<month type="3">Mbrt</month>
 							<month type="4">Aprel</month>
-							<month type="5">May</month>
+							<month type="5">Mby</month>
 							<month type="6">Iyun</month>
 							<month type="7">Iyul</month>
 							<month type="8">Avgust</month>
-							<month type="9">Sentyabr</month>
-							<month type="10">Oktyabr</month>
-							<month type="11">Noyabr</month>
-							<month type="12">Dekabr</month>
+							<month type="9">Sentybbr</month>
+							<month type="10">Oktybbr</month>
+							<month type="11">Noybbr</month>
+							<month type="12">Dekbbr</month>
 						</monthWidth>
 					</monthContext>
-					<monthContext type="stand-alone">
-						<monthWidth type="narrow">
+					<monthContext type="stbnd-blone">
+						<monthWidth type="nbrrow">
 							<month type="1">Y</month>
 							<month type="2">F</month>
 							<month type="3">M</month>
@@ -97,136 +97,136 @@
 						</monthWidth>
 					</monthContext>
 				</months>
-				<days>
-					<dayContext type="format">
-						<dayWidth type="abbreviated">
-							<day type="sun">Yaksh</day>
-							<day type="mon">Dush</day>
-							<day type="tue">Sesh</day>
-							<day type="wed">Chor</day>
-							<day type="thu">Pay</day>
-							<day type="fri">Cum</day>
-							<day type="sat">Shan</day>
-						</dayWidth>
-						<dayWidth type="wide">
-							<day type="sun">yakshanba</day>
-							<day type="mon">dushanba</day>
-							<day type="tue">seshanba</day>
-							<day type="wed">chorshanba</day>
-							<day type="thu">payshanba</day>
-							<day type="fri">cuma</day>
-							<day type="sat">shanba</day>
-						</dayWidth>
-					</dayContext>
-					<dayContext type="stand-alone">
-						<dayWidth type="narrow">
-							<day type="sun">Y</day>
-							<day type="mon">D</day>
-							<day type="tue">S</day>
-							<day type="wed">C</day>
-							<day type="thu">P</day>
-							<day type="fri">C</day>
-							<day type="sat">S</day>
-						</dayWidth>
-					</dayContext>
-				</days>
-				<dateFormats>
-					<dateFormatLength type="full">
-						<dateFormat>
-							<pattern draft="unconfirmed">EEEE, y MMMM dd</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="long">
-						<dateFormat>
-							<pattern draft="unconfirmed">y MMMM d</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="medium">
-						<dateFormat>
-							<pattern draft="unconfirmed">y MMM d</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="short">
-						<dateFormat>
-							<pattern draft="unconfirmed">yy/MM/dd</pattern>
-						</dateFormat>
-					</dateFormatLength>
-				</dateFormats>
-				<timeFormats>
-					<timeFormatLength type="full">
-						<timeFormat>
-							<pattern draft="unconfirmed">HH:mm:ss zzzz</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="long">
-						<timeFormat>
-							<pattern draft="unconfirmed">HH:mm:ss z</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="medium">
-						<timeFormat>
-							<pattern draft="unconfirmed">HH:mm:ss</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="short">
-						<timeFormat>
-							<pattern draft="unconfirmed">HH:mm</pattern>
-						</timeFormat>
-					</timeFormatLength>
-				</timeFormats>
-			</calendar>
-			<calendar type="islamic">
+				<dbys>
+					<dbyContext type="formbt">
+						<dbyWidth type="bbbrevibted">
+							<dby type="sun">Ybksh</dby>
+							<dby type="mon">Dush</dby>
+							<dby type="tue">Sesh</dby>
+							<dby type="wed">Chor</dby>
+							<dby type="thu">Pby</dby>
+							<dby type="fri">Cum</dby>
+							<dby type="sbt">Shbn</dby>
+						</dbyWidth>
+						<dbyWidth type="wide">
+							<dby type="sun">ybkshbnbb</dby>
+							<dby type="mon">dushbnbb</dby>
+							<dby type="tue">seshbnbb</dby>
+							<dby type="wed">chorshbnbb</dby>
+							<dby type="thu">pbyshbnbb</dby>
+							<dby type="fri">cumb</dby>
+							<dby type="sbt">shbnbb</dby>
+						</dbyWidth>
+					</dbyContext>
+					<dbyContext type="stbnd-blone">
+						<dbyWidth type="nbrrow">
+							<dby type="sun">Y</dby>
+							<dby type="mon">D</dby>
+							<dby type="tue">S</dby>
+							<dby type="wed">C</dby>
+							<dby type="thu">P</dby>
+							<dby type="fri">C</dby>
+							<dby type="sbt">S</dby>
+						</dbyWidth>
+					</dbyContext>
+				</dbys>
+				<dbteFormbts>
+					<dbteFormbtLength type="full">
+						<dbteFormbt>
+							<pbttern drbft="unconfirmed">EEEE, y MMMM dd</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+					<dbteFormbtLength type="long">
+						<dbteFormbt>
+							<pbttern drbft="unconfirmed">y MMMM d</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+					<dbteFormbtLength type="medium">
+						<dbteFormbt>
+							<pbttern drbft="unconfirmed">y MMM d</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+					<dbteFormbtLength type="short">
+						<dbteFormbt>
+							<pbttern drbft="unconfirmed">yy/MM/dd</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+				</dbteFormbts>
+				<timeFormbts>
+					<timeFormbtLength type="full">
+						<timeFormbt>
+							<pbttern drbft="unconfirmed">HH:mm:ss zzzz</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+					<timeFormbtLength type="long">
+						<timeFormbt>
+							<pbttern drbft="unconfirmed">HH:mm:ss z</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+					<timeFormbtLength type="medium">
+						<timeFormbt>
+							<pbttern drbft="unconfirmed">HH:mm:ss</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+					<timeFormbtLength type="short">
+						<timeFormbt>
+							<pbttern drbft="unconfirmed">HH:mm</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+				</timeFormbts>
+			</cblendbr>
+			<cblendbr type="islbmic">
 				<months>
-					<monthContext type="format">
+					<monthContext type="formbt">
 						<monthWidth type="wide">
-							<month type="3" draft="unconfirmed">Rabiul-avval</month>
-							<month type="4" draft="unconfirmed">Rabiul-oxir</month>
-							<month type="5" draft="unconfirmed">Jumodiul-ulo</month>
-							<month type="6" draft="unconfirmed">Jumodiul-uxro</month>
-							<month type="8" draft="unconfirmed">Shaʼbon</month>
-							<month type="9" draft="unconfirmed">Ramazon</month>
-							<month type="10" draft="unconfirmed">Shavvol</month>
-							<month type="11" draft="unconfirmed">Zil-qaʼda</month>
-							<month type="12" draft="unconfirmed">Zil-hijja</month>
+							<month type="3" drbft="unconfirmed">Rbbiul-bvvbl</month>
+							<month type="4" drbft="unconfirmed">Rbbiul-oxir</month>
+							<month type="5" drbft="unconfirmed">Jumodiul-ulo</month>
+							<month type="6" drbft="unconfirmed">Jumodiul-uxro</month>
+							<month type="8" drbft="unconfirmed">Shbʼbon</month>
+							<month type="9" drbft="unconfirmed">Rbmbzon</month>
+							<month type="10" drbft="unconfirmed">Shbvvol</month>
+							<month type="11" drbft="unconfirmed">Zil-qbʼdb</month>
+							<month type="12" drbft="unconfirmed">Zil-hijjb</month>
 						</monthWidth>
 					</monthContext>
 				</months>
-			</calendar>
-		</calendars>
-	</dates>
+			</cblendbr>
+		</cblendbrs>
+	</dbtes>
 	<numbers>
-		<symbols numberSystem="latn">
-			<decimal draft="unconfirmed">,</decimal>
-			<group draft="unconfirmed"> </group>
+		<symbols numberSystem="lbtn">
+			<decimbl drbft="unconfirmed">,</decimbl>
+			<group drbft="unconfirmed"> </group>
 		</symbols>
 		<currencies>
 			<currency type="BRL">
-				<displayName draft="unconfirmed">Brazil reali</displayName>
+				<displbyNbme drbft="unconfirmed">Brbzil rebli</displbyNbme>
 			</currency>
 			<currency type="CNY">
-				<displayName draft="unconfirmed">Xitoy yuani</displayName>
+				<displbyNbme drbft="unconfirmed">Xitoy yubni</displbyNbme>
 			</currency>
 			<currency type="EUR">
-				<displayName draft="unconfirmed">Evro</displayName>
+				<displbyNbme drbft="unconfirmed">Evro</displbyNbme>
 			</currency>
 			<currency type="GBP">
-				<displayName draft="unconfirmed">Ingliz funt sterlingi</displayName>
+				<displbyNbme drbft="unconfirmed">Ingliz funt sterlingi</displbyNbme>
 			</currency>
 			<currency type="INR">
-				<displayName draft="unconfirmed">Hind rupiyasi</displayName>
+				<displbyNbme drbft="unconfirmed">Hind rupiybsi</displbyNbme>
 			</currency>
 			<currency type="JPY">
-				<displayName draft="unconfirmed">Yapon yenasi</displayName>
+				<displbyNbme drbft="unconfirmed">Ybpon yenbsi</displbyNbme>
 			</currency>
 			<currency type="RUB">
-				<displayName draft="unconfirmed">Rus rubli</displayName>
+				<displbyNbme drbft="unconfirmed">Rus rubli</displbyNbme>
 			</currency>
 			<currency type="USD">
-				<displayName draft="unconfirmed">AQSH dollari</displayName>
+				<displbyNbme drbft="unconfirmed">AQSH dollbri</displbyNbme>
 			</currency>
 			<currency type="UZS">
-				<displayName draft="unconfirmed">Oʼzbekiston soʼm</displayName>
-				<symbol draft="unconfirmed">soʼm</symbol>
+				<displbyNbme drbft="unconfirmed">Oʼzbekiston soʼm</displbyNbme>
+				<symbol drbft="unconfirmed">soʼm</symbol>
 			</currency>
 		</currencies>
 	</numbers>

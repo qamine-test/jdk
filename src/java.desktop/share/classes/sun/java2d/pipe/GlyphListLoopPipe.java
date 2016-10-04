@@ -1,59 +1,59 @@
 /*
- * Copyright (c) 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.java2d.pipe;
+pbckbge sun.jbvb2d.pipe;
 
-import java.awt.font.GlyphVector;
-import sun.awt.SunHints;
-import sun.java2d.SunGraphics2D;
+import jbvb.bwt.font.GlyphVector;
+import sun.bwt.SunHints;
+import sun.jbvb2d.SunGrbphics2D;
 import sun.font.GlyphList;
 
 /**
- * A delegate pipe of SG2D which implements redispatching of
- * for the src mode loops in the drawGlyphVector case where
- * the installed loop may not match the glyphvector.
+ * A delegbte pipe of SG2D which implements redispbtching of
+ * for the src mode loops in the drbwGlyphVector cbse where
+ * the instblled loop mby not mbtch the glyphvector.
  */
 
-public abstract class GlyphListLoopPipe extends GlyphListPipe
-    implements LoopBasedPipe
+public bbstrbct clbss GlyphListLoopPipe extends GlyphListPipe
+    implements LoopBbsedPipe
 {
-    protected void drawGlyphList(SunGraphics2D sg2d, GlyphList gl,
-                                 int aaHint) {
-        switch (aaHint) {
-         case SunHints.INTVAL_TEXT_ANTIALIAS_OFF:
-             sg2d.loops.drawGlyphListLoop.
-                 DrawGlyphList(sg2d, sg2d.surfaceData, gl);
+    protected void drbwGlyphList(SunGrbphics2D sg2d, GlyphList gl,
+                                 int bbHint) {
+        switch (bbHint) {
+         cbse SunHints.INTVAL_TEXT_ANTIALIAS_OFF:
+             sg2d.loops.drbwGlyphListLoop.
+                 DrbwGlyphList(sg2d, sg2d.surfbceDbtb, gl);
              return;
-         case SunHints.INTVAL_TEXT_ANTIALIAS_ON:
-             sg2d.loops.drawGlyphListAALoop.
-                 DrawGlyphListAA(sg2d, sg2d.surfaceData, gl);
+         cbse SunHints.INTVAL_TEXT_ANTIALIAS_ON:
+             sg2d.loops.drbwGlyphListAALoop.
+                 DrbwGlyphListAA(sg2d, sg2d.surfbceDbtb, gl);
              return;
-        case SunHints.INTVAL_TEXT_ANTIALIAS_LCD_HRGB:
-        case SunHints.INTVAL_TEXT_ANTIALIAS_LCD_VRGB:
-            sg2d.loops.drawGlyphListLCDLoop.
-                DrawGlyphListLCD(sg2d,sg2d.surfaceData, gl);
+        cbse SunHints.INTVAL_TEXT_ANTIALIAS_LCD_HRGB:
+        cbse SunHints.INTVAL_TEXT_ANTIALIAS_LCD_VRGB:
+            sg2d.loops.drbwGlyphListLCDLoop.
+                DrbwGlyphListLCD(sg2d,sg2d.surfbceDbtb, gl);
             return;
         }
     }

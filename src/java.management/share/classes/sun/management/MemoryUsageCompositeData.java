@@ -1,131 +1,131 @@
 /*
- * Copyright (c) 2004, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.management;
+pbckbge sun.mbnbgement;
 
-import java.lang.management.MemoryUsage;
-import javax.management.openmbean.CompositeType;
-import javax.management.openmbean.CompositeData;
-import javax.management.openmbean.CompositeDataSupport;
-import javax.management.openmbean.OpenDataException;
+import jbvb.lbng.mbnbgement.MemoryUsbge;
+import jbvbx.mbnbgement.openmbebn.CompositeType;
+import jbvbx.mbnbgement.openmbebn.CompositeDbtb;
+import jbvbx.mbnbgement.openmbebn.CompositeDbtbSupport;
+import jbvbx.mbnbgement.openmbebn.OpenDbtbException;
 
 /**
- * A CompositeData for MemoryUsage for the local management support.
- * This class avoids the performance penalty paid to the
- * construction of a CompositeData use in the local case.
+ * A CompositeDbtb for MemoryUsbge for the locbl mbnbgement support.
+ * This clbss bvoids the performbnce penblty pbid to the
+ * construction of b CompositeDbtb use in the locbl cbse.
  */
-public class MemoryUsageCompositeData extends LazyCompositeData {
-    private final MemoryUsage usage;
+public clbss MemoryUsbgeCompositeDbtb extends LbzyCompositeDbtb {
+    privbte finbl MemoryUsbge usbge;
 
-    private MemoryUsageCompositeData(MemoryUsage u) {
-        this.usage = u;
+    privbte MemoryUsbgeCompositeDbtb(MemoryUsbge u) {
+        this.usbge = u;
     }
 
-    public MemoryUsage getMemoryUsage() {
-        return usage;
+    public MemoryUsbge getMemoryUsbge() {
+        return usbge;
     }
 
-    public static CompositeData toCompositeData(MemoryUsage u) {
-        MemoryUsageCompositeData mucd = new MemoryUsageCompositeData(u);
-        return mucd.getCompositeData();
+    public stbtic CompositeDbtb toCompositeDbtb(MemoryUsbge u) {
+        MemoryUsbgeCompositeDbtb mucd = new MemoryUsbgeCompositeDbtb(u);
+        return mucd.getCompositeDbtb();
     }
 
-    protected CompositeData getCompositeData() {
+    protected CompositeDbtb getCompositeDbtb() {
         // CONTENTS OF THIS ARRAY MUST BE SYNCHRONIZED WITH
-        // memoryUsageItemNames!
-        final Object[] memoryUsageItemValues = {
-            usage.getInit(),
-            usage.getUsed(),
-            usage.getCommitted(),
-            usage.getMax(),
+        // memoryUsbgeItemNbmes!
+        finbl Object[] memoryUsbgeItemVblues = {
+            usbge.getInit(),
+            usbge.getUsed(),
+            usbge.getCommitted(),
+            usbge.getMbx(),
         };
 
         try {
-            return new CompositeDataSupport(memoryUsageCompositeType,
-                                            memoryUsageItemNames,
-                                            memoryUsageItemValues);
-        } catch (OpenDataException e) {
-            // Should never reach here
+            return new CompositeDbtbSupport(memoryUsbgeCompositeType,
+                                            memoryUsbgeItemNbmes,
+                                            memoryUsbgeItemVblues);
+        } cbtch (OpenDbtbException e) {
+            // Should never rebch here
             throw new AssertionError(e);
         }
     }
 
-    private static final CompositeType memoryUsageCompositeType;
-    static {
+    privbte stbtic finbl CompositeType memoryUsbgeCompositeType;
+    stbtic {
         try {
-            memoryUsageCompositeType = (CompositeType)
-                MappedMXBeanType.toOpenType(MemoryUsage.class);
-        } catch (OpenDataException e) {
-            // Should never reach here
+            memoryUsbgeCompositeType = (CompositeType)
+                MbppedMXBebnType.toOpenType(MemoryUsbge.clbss);
+        } cbtch (OpenDbtbException e) {
+            // Should never rebch here
             throw new AssertionError(e);
         }
     }
 
-    static CompositeType getMemoryUsageCompositeType() {
-        return memoryUsageCompositeType;
+    stbtic CompositeType getMemoryUsbgeCompositeType() {
+        return memoryUsbgeCompositeType;
     }
 
-    private static final String INIT      = "init";
-    private static final String USED      = "used";
-    private static final String COMMITTED = "committed";
-    private static final String MAX       = "max";
+    privbte stbtic finbl String INIT      = "init";
+    privbte stbtic finbl String USED      = "used";
+    privbte stbtic finbl String COMMITTED = "committed";
+    privbte stbtic finbl String MAX       = "mbx";
 
-    private static final String[] memoryUsageItemNames = {
+    privbte stbtic finbl String[] memoryUsbgeItemNbmes = {
         INIT,
         USED,
         COMMITTED,
         MAX,
     };
 
-    public static long getInit(CompositeData cd) {
+    public stbtic long getInit(CompositeDbtb cd) {
         return getLong(cd, INIT);
     }
-    public static long getUsed(CompositeData cd) {
+    public stbtic long getUsed(CompositeDbtb cd) {
         return getLong(cd, USED);
     }
-    public static long getCommitted(CompositeData cd) {
+    public stbtic long getCommitted(CompositeDbtb cd) {
         return getLong(cd, COMMITTED);
     }
-    public static long getMax(CompositeData cd) {
+    public stbtic long getMbx(CompositeDbtb cd) {
         return getLong(cd, MAX);
     }
 
-    /** Validate if the input CompositeData has the expected
-     * CompositeType (i.e. contain all attributes with expected
-     * names and types).
+    /** Vblidbte if the input CompositeDbtb hbs the expected
+     * CompositeType (i.e. contbin bll bttributes with expected
+     * nbmes bnd types).
      */
-    public static void validateCompositeData(CompositeData cd) {
+    public stbtic void vblidbteCompositeDbtb(CompositeDbtb cd) {
         if (cd == null) {
-            throw new NullPointerException("Null CompositeData");
+            throw new NullPointerException("Null CompositeDbtb");
         }
 
-        if (!isTypeMatched(memoryUsageCompositeType, cd.getCompositeType())) {
-            throw new IllegalArgumentException(
-                "Unexpected composite type for MemoryUsage");
+        if (!isTypeMbtched(memoryUsbgeCompositeType, cd.getCompositeType())) {
+            throw new IllegblArgumentException(
+                "Unexpected composite type for MemoryUsbge");
         }
     }
 
-    private static final long serialVersionUID = -8504291541083874143L;
+    privbte stbtic finbl long seriblVersionUID = -8504291541083874143L;
 }

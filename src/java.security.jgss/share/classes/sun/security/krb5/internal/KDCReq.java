@@ -1,50 +1,50 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
  *
  *  (C) Copyright IBM Corp. 1999 All Rights Reserved.
- *  Copyright 1997 The Open Group Research Institute.  All rights reserved.
+ *  Copyright 1997 The Open Group Resebrch Institute.  All rights reserved.
  */
 
-package sun.security.krb5.internal;
+pbckbge sun.security.krb5.internbl;
 
 import sun.security.krb5.*;
-import java.util.Vector;
+import jbvb.util.Vector;
 import sun.security.util.*;
-import java.io.IOException;
-import java.math.BigInteger;
+import jbvb.io.IOException;
+import jbvb.mbth.BigInteger;
 
 /**
  * Implements the ASN.1 KRB_KDC_REQ type.
  *
  * <xmp>
  * KDC-REQ              ::= SEQUENCE {
- *      -- NOTE: first tag is [1], not [0]
+ *      -- NOTE: first tbg is [1], not [0]
  *      pvno            [1] INTEGER (5) ,
  *      msg-type        [2] INTEGER (10 -- AS -- | 12 -- TGS --),
- *      padata          [3] SEQUENCE OF PA-DATA OPTIONAL
+ *      pbdbtb          [3] SEQUENCE OF PA-DATA OPTIONAL
  *                            -- NOTE: not empty --,
  *      req-body        [4] KDC-REQ-BODY
  * }
@@ -52,28 +52,28 @@ import java.math.BigInteger;
  *
  * <p>
  * This definition reflects the Network Working Group RFC 4120
- * specification available at
- * <a href="http://www.ietf.org/rfc/rfc4120.txt">
- * http://www.ietf.org/rfc/rfc4120.txt</a>.
+ * specificbtion bvbilbble bt
+ * <b href="http://www.ietf.org/rfc/rfc4120.txt">
+ * http://www.ietf.org/rfc/rfc4120.txt</b>.
  */
-public class KDCReq {
+public clbss KDCReq {
 
     public KDCReqBody reqBody;
-    private int pvno;
-    private int msgType;
-    private PAData[] pAData = null; //optional
+    privbte int pvno;
+    privbte int msgType;
+    privbte PADbtb[] pADbtb = null; //optionbl
 
-    public KDCReq(PAData[] new_pAData, KDCReqBody new_reqBody,
+    public KDCReq(PADbtb[] new_pADbtb, KDCReqBody new_reqBody,
             int req_type) throws IOException {
         pvno = Krb5.PVNO;
         msgType = req_type;
-        if (new_pAData != null) {
-            pAData = new PAData[new_pAData.length];
-            for (int i = 0; i < new_pAData.length; i++) {
-                if (new_pAData[i] == null) {
-                    throw new IOException("Cannot create a KDCRep");
+        if (new_pADbtb != null) {
+            pADbtb = new PADbtb[new_pADbtb.length];
+            for (int i = 0; i < new_pADbtb.length; i++) {
+                if (new_pADbtb[i] == null) {
+                    throw new IOException("Cbnnot crebte b KDCRep");
                 } else {
-                    pAData[i] = (PAData) new_pAData[i].clone();
+                    pADbtb[i] = (PADbtb) new_pADbtb[i].clone();
                 }
             }
         }
@@ -83,87 +83,87 @@ public class KDCReq {
     public KDCReq() {
     }
 
-    public KDCReq(byte[] data, int req_type) throws Asn1Exception,
+    public KDCReq(byte[] dbtb, int req_type) throws Asn1Exception,
             IOException, KrbException {
-        init(new DerValue(data), req_type);
+        init(new DerVblue(dbtb), req_type);
     }
 
     /**
-     * Creates an KDCReq object from a DerValue object and asn1 type.
+     * Crebtes bn KDCReq object from b DerVblue object bnd bsn1 type.
      *
-     * @param der a DER value of an KDCReq object.
-     * @param req_type a encoded asn1 type value.
-     * @exception Asn1Exception if an error occurs while decoding an ASN1 encoded data.
-     * @exception IOException if an I/O error occurs while reading encoded data.
+     * @pbrbm der b DER vblue of bn KDCReq object.
+     * @pbrbm req_type b encoded bsn1 type vblue.
+     * @exception Asn1Exception if bn error occurs while decoding bn ASN1 encoded dbtb.
+     * @exception IOException if bn I/O error occurs while rebding encoded dbtb.
      * @exceptoin KrbErrException
      */
-    public KDCReq(DerValue der, int req_type) throws Asn1Exception,
+    public KDCReq(DerVblue der, int req_type) throws Asn1Exception,
             IOException, KrbException {
         init(der, req_type);
     }
 
     /**
-     * Initializes a KDCReq object from a DerValue.  The DER encoding
-     * must be in the format specified by the KRB_KDC_REQ ASN.1 notation.
+     * Initiblizes b KDCReq object from b DerVblue.  The DER encoding
+     * must be in the formbt specified by the KRB_KDC_REQ ASN.1 notbtion.
      *
-     * @param encoding a DER-encoded KDCReq object.
-     * @param req_type an int indicating whether it's KRB_AS_REQ or KRB_TGS_REQ type
-     * @exception Asn1Exception if an error occurs while decoding an ASN1 encoded data.
-     * @exception IOException if an I/O error occurs while reading encoded data.
-     * @exception KrbException if an error occurs while constructing a Realm object,
-     * or a Krb object from DER-encoded data.
+     * @pbrbm encoding b DER-encoded KDCReq object.
+     * @pbrbm req_type bn int indicbting whether it's KRB_AS_REQ or KRB_TGS_REQ type
+     * @exception Asn1Exception if bn error occurs while decoding bn ASN1 encoded dbtb.
+     * @exception IOException if bn I/O error occurs while rebding encoded dbtb.
+     * @exception KrbException if bn error occurs while constructing b Reblm object,
+     * or b Krb object from DER-encoded dbtb.
      */
-    protected void init(DerValue encoding, int req_type) throws Asn1Exception,
+    protected void init(DerVblue encoding, int req_type) throws Asn1Exception,
             IOException, KrbException {
-        DerValue der, subDer;
+        DerVblue der, subDer;
         BigInteger bint;
-        if ((encoding.getTag() & 0x1F) != req_type) {
+        if ((encoding.getTbg() & 0x1F) != req_type) {
             throw new Asn1Exception(Krb5.ASN1_BAD_ID);
         }
-        der = encoding.getData().getDerValue();
-        if (der.getTag() != DerValue.tag_Sequence) {
+        der = encoding.getDbtb().getDerVblue();
+        if (der.getTbg() != DerVblue.tbg_Sequence) {
             throw new Asn1Exception(Krb5.ASN1_BAD_ID);
         }
-        subDer = der.getData().getDerValue();
-        if ((subDer.getTag() & 0x01F) == 0x01) {
-            bint = subDer.getData().getBigInteger();
-            this.pvno = bint.intValue();
+        subDer = der.getDbtb().getDerVblue();
+        if ((subDer.getTbg() & 0x01F) == 0x01) {
+            bint = subDer.getDbtb().getBigInteger();
+            this.pvno = bint.intVblue();
             if (this.pvno != Krb5.PVNO) {
                 throw new KrbApErrException(Krb5.KRB_AP_ERR_BADVERSION);
             }
         } else {
             throw new Asn1Exception(Krb5.ASN1_BAD_ID);
         }
-        subDer = der.getData().getDerValue();
-        if ((subDer.getTag() & 0x01F) == 0x02) {
-            bint = subDer.getData().getBigInteger();
-            this.msgType = bint.intValue();
+        subDer = der.getDbtb().getDerVblue();
+        if ((subDer.getTbg() & 0x01F) == 0x02) {
+            bint = subDer.getDbtb().getBigInteger();
+            this.msgType = bint.intVblue();
             if (this.msgType != req_type) {
                 throw new KrbApErrException(Krb5.KRB_AP_ERR_MSG_TYPE);
             }
         } else {
             throw new Asn1Exception(Krb5.ASN1_BAD_ID);
         }
-        if ((der.getData().peekByte() & 0x1F) == 0x03) {
-            subDer = der.getData().getDerValue();
-            DerValue subsubDer = subDer.getData().getDerValue();
-            if (subsubDer.getTag() != DerValue.tag_SequenceOf) {
+        if ((der.getDbtb().peekByte() & 0x1F) == 0x03) {
+            subDer = der.getDbtb().getDerVblue();
+            DerVblue subsubDer = subDer.getDbtb().getDerVblue();
+            if (subsubDer.getTbg() != DerVblue.tbg_SequenceOf) {
                 throw new Asn1Exception(Krb5.ASN1_BAD_ID);
             }
-            Vector<PAData> v = new Vector<>();
-            while (subsubDer.getData().available() > 0) {
-                v.addElement(new PAData(subsubDer.getData().getDerValue()));
+            Vector<PADbtb> v = new Vector<>();
+            while (subsubDer.getDbtb().bvbilbble() > 0) {
+                v.bddElement(new PADbtb(subsubDer.getDbtb().getDerVblue()));
             }
             if (v.size() > 0) {
-                pAData = new PAData[v.size()];
-                v.copyInto(pAData);
+                pADbtb = new PADbtb[v.size()];
+                v.copyInto(pADbtb);
             }
         } else {
-            pAData = null;
+            pADbtb = null;
         }
-        subDer = der.getData().getDerValue();
-        if ((subDer.getTag() & 0x01F) == 0x04) {
-            DerValue subsubDer = subDer.getData().getDerValue();
+        subDer = der.getDbtb().getDerVblue();
+        if ((subDer.getTbg() & 0x01F) == 0x04) {
+            DerVblue subsubDer = subDer.getDbtb().getDerVblue();
             reqBody = new KDCReqBody(subsubDer, msgType);
         } else {
             throw new Asn1Exception(Krb5.ASN1_BAD_ID);
@@ -171,45 +171,45 @@ public class KDCReq {
     }
 
     /**
-     * Encodes this object to a byte array.
+     * Encodes this object to b byte brrby.
      *
-     * @return an byte array of encoded data.
-     * @exception Asn1Exception if an error occurs while decoding an ASN1 encoded data.
-     * @exception IOException if an I/O error occurs while reading encoded data.
+     * @return bn byte brrby of encoded dbtb.
+     * @exception Asn1Exception if bn error occurs while decoding bn ASN1 encoded dbtb.
+     * @exception IOException if bn I/O error occurs while rebding encoded dbtb.
      *
      */
-    public byte[] asn1Encode() throws Asn1Exception, IOException {
-        DerOutputStream temp, bytes, out;
-        temp = new DerOutputStream();
-        temp.putInteger(BigInteger.valueOf(pvno));
-        out = new DerOutputStream();
-        out.write(DerValue.createTag(DerValue.TAG_CONTEXT,
+    public byte[] bsn1Encode() throws Asn1Exception, IOException {
+        DerOutputStrebm temp, bytes, out;
+        temp = new DerOutputStrebm();
+        temp.putInteger(BigInteger.vblueOf(pvno));
+        out = new DerOutputStrebm();
+        out.write(DerVblue.crebteTbg(DerVblue.TAG_CONTEXT,
                 true, (byte) 0x01), temp);
-        temp = new DerOutputStream();
-        temp.putInteger(BigInteger.valueOf(msgType));
-        out.write(DerValue.createTag(DerValue.TAG_CONTEXT,
+        temp = new DerOutputStrebm();
+        temp.putInteger(BigInteger.vblueOf(msgType));
+        out.write(DerVblue.crebteTbg(DerVblue.TAG_CONTEXT,
                 true, (byte) 0x02), temp);
-        if (pAData != null && pAData.length > 0) {
-            temp = new DerOutputStream();
-            for (int i = 0; i < pAData.length; i++) {
-                temp.write(pAData[i].asn1Encode());
+        if (pADbtb != null && pADbtb.length > 0) {
+            temp = new DerOutputStrebm();
+            for (int i = 0; i < pADbtb.length; i++) {
+                temp.write(pADbtb[i].bsn1Encode());
             }
-            bytes = new DerOutputStream();
-            bytes.write(DerValue.tag_SequenceOf, temp);
-            out.write(DerValue.createTag(DerValue.TAG_CONTEXT,
+            bytes = new DerOutputStrebm();
+            bytes.write(DerVblue.tbg_SequenceOf, temp);
+            out.write(DerVblue.crebteTbg(DerVblue.TAG_CONTEXT,
                     true, (byte) 0x03), bytes);
         }
-        out.write(DerValue.createTag(DerValue.TAG_CONTEXT,
-                true, (byte) 0x04), reqBody.asn1Encode(msgType));
-        bytes = new DerOutputStream();
-        bytes.write(DerValue.tag_Sequence, out);
-        out = new DerOutputStream();
-        out.write(DerValue.createTag(DerValue.TAG_APPLICATION,
+        out.write(DerVblue.crebteTbg(DerVblue.TAG_CONTEXT,
+                true, (byte) 0x04), reqBody.bsn1Encode(msgType));
+        bytes = new DerOutputStrebm();
+        bytes.write(DerVblue.tbg_Sequence, out);
+        out = new DerOutputStrebm();
+        out.write(DerVblue.crebteTbg(DerVblue.TAG_APPLICATION,
                 true, (byte) msgType), bytes);
-        return out.toByteArray();
+        return out.toByteArrby();
     }
 
-    public byte[] asn1EncodeReqBody() throws Asn1Exception, IOException {
-        return reqBody.asn1Encode(msgType);
+    public byte[] bsn1EncodeReqBody() throws Asn1Exception, IOException {
+        return reqBody.bsn1Encode(msgType);
     }
 }

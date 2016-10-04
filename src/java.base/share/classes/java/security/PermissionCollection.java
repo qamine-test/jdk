@@ -1,195 +1,195 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.security;
+pbckbge jbvb.security;
 
-import java.util.*;
+import jbvb.util.*;
 
 /**
- * Abstract class representing a collection of Permission objects.
+ * Abstrbct clbss representing b collection of Permission objects.
  *
- * <p>With a PermissionCollection, you can:
+ * <p>With b PermissionCollection, you cbn:
  * <UL>
- * <LI> add a permission to the collection using the {@code add} method.
- * <LI> check to see if a particular permission is implied in the
+ * <LI> bdd b permission to the collection using the {@code bdd} method.
+ * <LI> check to see if b pbrticulbr permission is implied in the
  *      collection, using the {@code implies} method.
- * <LI> enumerate all the permissions, using the {@code elements} method.
+ * <LI> enumerbte bll the permissions, using the {@code elements} method.
  * </UL>
  *
- * <p>When it is desirable to group together a number of Permission objects
- * of the same type, the {@code newPermissionCollection} method on that
- * particular type of Permission object should first be called. The default
- * behavior (from the Permission class) is to simply return null.
- * Subclasses of class Permission override the method if they need to store
- * their permissions in a particular PermissionCollection object in order
- * to provide the correct semantics when the
- * {@code PermissionCollection.implies} method is called.
- * If a non-null value is returned, that PermissionCollection must be used.
- * If null is returned, then the caller of {@code newPermissionCollection}
+ * <p>When it is desirbble to group together b number of Permission objects
+ * of the sbme type, the {@code newPermissionCollection} method on thbt
+ * pbrticulbr type of Permission object should first be cblled. The defbult
+ * behbvior (from the Permission clbss) is to simply return null.
+ * Subclbsses of clbss Permission override the method if they need to store
+ * their permissions in b pbrticulbr PermissionCollection object in order
+ * to provide the correct sembntics when the
+ * {@code PermissionCollection.implies} method is cblled.
+ * If b non-null vblue is returned, thbt PermissionCollection must be used.
+ * If null is returned, then the cbller of {@code newPermissionCollection}
  * is free to store permissions of the
- * given type in any PermissionCollection they choose
- * (one that uses a Hashtable, one that uses a Vector, etc).
+ * given type in bny PermissionCollection they choose
+ * (one thbt uses b Hbshtbble, one thbt uses b Vector, etc).
  *
  * <p>The PermissionCollection returned by the
  * {@code Permission.newPermissionCollection}
- * method is a homogeneous collection, which stores only Permission objects
- * for a given Permission type.  A PermissionCollection may also be
- * heterogeneous.  For example, Permissions is a PermissionCollection
- * subclass that represents a collection of PermissionCollections.
- * That is, its members are each a homogeneous PermissionCollection.
- * For example, a Permissions object might have a FilePermissionCollection
- * for all the FilePermission objects, a SocketPermissionCollection for all the
- * SocketPermission objects, and so on. Its {@code add} method adds a
- * permission to the appropriate collection.
+ * method is b homogeneous collection, which stores only Permission objects
+ * for b given Permission type.  A PermissionCollection mby blso be
+ * heterogeneous.  For exbmple, Permissions is b PermissionCollection
+ * subclbss thbt represents b collection of PermissionCollections.
+ * Thbt is, its members bre ebch b homogeneous PermissionCollection.
+ * For exbmple, b Permissions object might hbve b FilePermissionCollection
+ * for bll the FilePermission objects, b SocketPermissionCollection for bll the
+ * SocketPermission objects, bnd so on. Its {@code bdd} method bdds b
+ * permission to the bppropribte collection.
  *
- * <p>Whenever a permission is added to a heterogeneous PermissionCollection
- * such as Permissions, and the PermissionCollection doesn't yet contain a
+ * <p>Whenever b permission is bdded to b heterogeneous PermissionCollection
+ * such bs Permissions, bnd the PermissionCollection doesn't yet contbin b
  * PermissionCollection of the specified permission's type, the
- * PermissionCollection should call
- * the {@code newPermissionCollection} method on the permission's class
- * to see if it requires a special PermissionCollection. If
+ * PermissionCollection should cbll
+ * the {@code newPermissionCollection} method on the permission's clbss
+ * to see if it requires b specibl PermissionCollection. If
  * {@code newPermissionCollection}
  * returns null, the PermissionCollection
- * is free to store the permission in any type of PermissionCollection it
- * desires (one using a Hashtable, one using a Vector, etc.). For example,
- * the Permissions object uses a default PermissionCollection implementation
- * that stores the permission objects in a Hashtable.
+ * is free to store the permission in bny type of PermissionCollection it
+ * desires (one using b Hbshtbble, one using b Vector, etc.). For exbmple,
+ * the Permissions object uses b defbult PermissionCollection implementbtion
+ * thbt stores the permission objects in b Hbshtbble.
  *
- * <p> Subclass implementations of PermissionCollection should assume
- * that they may be called simultaneously from multiple threads,
- * and therefore should be synchronized properly.  Furthermore,
- * Enumerations returned via the {@code elements} method are
- * not <em>fail-fast</em>.  Modifications to a collection should not be
- * performed while enumerating over that collection.
+ * <p> Subclbss implementbtions of PermissionCollection should bssume
+ * thbt they mby be cblled simultbneously from multiple threbds,
+ * bnd therefore should be synchronized properly.  Furthermore,
+ * Enumerbtions returned vib the {@code elements} method bre
+ * not <em>fbil-fbst</em>.  Modificbtions to b collection should not be
+ * performed while enumerbting over thbt collection.
  *
  * @see Permission
  * @see Permissions
  *
  *
- * @author Roland Schemers
+ * @buthor Rolbnd Schemers
  */
 
-public abstract class PermissionCollection implements java.io.Serializable {
+public bbstrbct clbss PermissionCollection implements jbvb.io.Seriblizbble {
 
-    private static final long serialVersionUID = -6727011328946861783L;
+    privbte stbtic finbl long seriblVersionUID = -6727011328946861783L;
 
-    // when set, add will throw an exception.
-    private volatile boolean readOnly;
+    // when set, bdd will throw bn exception.
+    privbte volbtile boolebn rebdOnly;
 
     /**
-     * Adds a permission object to the current collection of permission objects.
+     * Adds b permission object to the current collection of permission objects.
      *
-     * @param permission the Permission object to add.
+     * @pbrbm permission the Permission object to bdd.
      *
      * @exception SecurityException -  if this PermissionCollection object
-     *                                 has been marked readonly
-     * @exception IllegalArgumentException - if this PermissionCollection
-     *                object is a homogeneous collection and the permission
+     *                                 hbs been mbrked rebdonly
+     * @exception IllegblArgumentException - if this PermissionCollection
+     *                object is b homogeneous collection bnd the permission
      *                is not of the correct type.
      */
-    public abstract void add(Permission permission);
+    public bbstrbct void bdd(Permission permission);
 
     /**
      * Checks to see if the specified permission is implied by
      * the collection of Permission objects held in this PermissionCollection.
      *
-     * @param permission the Permission object to compare.
+     * @pbrbm permission the Permission object to compbre.
      *
      * @return true if "permission" is implied by the  permissions in
-     * the collection, false if not.
+     * the collection, fblse if not.
      */
-    public abstract boolean implies(Permission permission);
+    public bbstrbct boolebn implies(Permission permission);
 
     /**
-     * Returns an enumeration of all the Permission objects in the collection.
+     * Returns bn enumerbtion of bll the Permission objects in the collection.
      *
-     * @return an enumeration of all the Permissions.
+     * @return bn enumerbtion of bll the Permissions.
      */
-    public abstract Enumeration<Permission> elements();
+    public bbstrbct Enumerbtion<Permission> elements();
 
     /**
-     * Marks this PermissionCollection object as "readonly". After
-     * a PermissionCollection object
-     * is marked as readonly, no new Permission objects can be added to it
-     * using {@code add}.
+     * Mbrks this PermissionCollection object bs "rebdonly". After
+     * b PermissionCollection object
+     * is mbrked bs rebdonly, no new Permission objects cbn be bdded to it
+     * using {@code bdd}.
      */
-    public void setReadOnly() {
-        readOnly = true;
+    public void setRebdOnly() {
+        rebdOnly = true;
     }
 
     /**
-     * Returns true if this PermissionCollection object is marked as readonly.
-     * If it is readonly, no new Permission objects can be added to it
-     * using {@code add}.
+     * Returns true if this PermissionCollection object is mbrked bs rebdonly.
+     * If it is rebdonly, no new Permission objects cbn be bdded to it
+     * using {@code bdd}.
      *
-     * <p>By default, the object is <i>not</i> readonly. It can be set to
-     * readonly by a call to {@code setReadOnly}.
+     * <p>By defbult, the object is <i>not</i> rebdonly. It cbn be set to
+     * rebdonly by b cbll to {@code setRebdOnly}.
      *
-     * @return true if this PermissionCollection object is marked as readonly,
-     * false otherwise.
+     * @return true if this PermissionCollection object is mbrked bs rebdonly,
+     * fblse otherwise.
      */
-    public boolean isReadOnly() {
-        return readOnly;
+    public boolebn isRebdOnly() {
+        return rebdOnly;
     }
 
     /**
-     * Returns a string describing this PermissionCollection object,
-     * providing information about all the permissions it contains.
-     * The format is:
+     * Returns b string describing this PermissionCollection object,
+     * providing informbtion bbout bll the permissions it contbins.
+     * The formbt is:
      * <pre>
      * super.toString() (
-     *   // enumerate all the Permission
-     *   // objects and call toString() on them,
+     *   // enumerbte bll the Permission
+     *   // objects bnd cbll toString() on them,
      *   // one per line..
      * )</pre>
      *
-     * {@code super.toString} is a call to the {@code toString}
+     * {@code super.toString} is b cbll to the {@code toString}
      * method of this
-     * object's superclass, which is Object. The result is
-     * this PermissionCollection's type name followed by this object's
-     * hashcode, thus enabling clients to differentiate different
-     * PermissionCollections object, even if they contain the same permissions.
+     * object's superclbss, which is Object. The result is
+     * this PermissionCollection's type nbme followed by this object's
+     * hbshcode, thus enbbling clients to differentibte different
+     * PermissionCollections object, even if they contbin the sbme permissions.
      *
-     * @return information about this PermissionCollection object,
-     *         as described above.
+     * @return informbtion bbout this PermissionCollection object,
+     *         bs described bbove.
      *
      */
     public String toString() {
-        Enumeration<Permission> enum_ = elements();
+        Enumerbtion<Permission> enum_ = elements();
         StringBuilder sb = new StringBuilder();
-        sb.append(super.toString()+" (\n");
-        while (enum_.hasMoreElements()) {
+        sb.bppend(super.toString()+" (\n");
+        while (enum_.hbsMoreElements()) {
             try {
-                sb.append(" ");
-                sb.append(enum_.nextElement().toString());
-                sb.append("\n");
-            } catch (NoSuchElementException e){
+                sb.bppend(" ");
+                sb.bppend(enum_.nextElement().toString());
+                sb.bppend("\n");
+            } cbtch (NoSuchElementException e){
                 // ignore
             }
         }
-        sb.append(")\n");
+        sb.bppend(")\n");
         return sb.toString();
     }
 }

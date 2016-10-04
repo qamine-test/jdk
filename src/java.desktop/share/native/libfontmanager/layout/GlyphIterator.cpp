@@ -1,24 +1,24 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  *
  */
@@ -30,31 +30,31 @@
  */
 
 #include "LETypes.h"
-#include "OpenTypeTables.h"
-#include "GlyphDefinitionTables.h"
+#include "OpenTypeTbbles.h"
+#include "GlyphDefinitionTbbles.h"
 #include "GlyphPositionAdjustments.h"
-#include "GlyphIterator.h"
-#include "LEGlyphStorage.h"
+#include "GlyphIterbtor.h"
+#include "LEGlyphStorbge.h"
 #include "Lookups.h"
-#include "LESwaps.h"
+#include "LESwbps.h"
 
 U_NAMESPACE_BEGIN
 
-GlyphIterator::GlyphIterator(LEGlyphStorage &theGlyphStorage, GlyphPositionAdjustments *theGlyphPositionAdjustments, le_bool rightToLeft, le_uint16 theLookupFlags,
-                             FeatureMask theFeatureMask, const LEReferenceTo<GlyphDefinitionTableHeader> &theGlyphDefinitionTableHeader, LEErrorCode &success)
+GlyphIterbtor::GlyphIterbtor(LEGlyphStorbge &theGlyphStorbge, GlyphPositionAdjustments *theGlyphPositionAdjustments, le_bool rightToLeft, le_uint16 theLookupFlbgs,
+                             FebtureMbsk theFebtureMbsk, const LEReferenceTo<GlyphDefinitionTbbleHebder> &theGlyphDefinitionTbbleHebder, LEErrorCode &success)
   : direction(1), position(-1), nextLimit(-1), prevLimit(-1),
-    glyphStorage(theGlyphStorage), glyphPositionAdjustments(theGlyphPositionAdjustments),
-    srcIndex(-1), destIndex(-1), lookupFlags(theLookupFlags), featureMask(theFeatureMask), glyphGroup(0),
-    glyphClassDefinitionTable(), markAttachClassDefinitionTable()
+    glyphStorbge(theGlyphStorbge), glyphPositionAdjustments(theGlyphPositionAdjustments),
+    srcIndex(-1), destIndex(-1), lookupFlbgs(theLookupFlbgs), febtureMbsk(theFebtureMbsk), glyphGroup(0),
+    glyphClbssDefinitionTbble(), mbrkAttbchClbssDefinitionTbble()
 
 {
-    le_int32 glyphCount = glyphStorage.getGlyphCount();
+    le_int32 glyphCount = glyphStorbge.getGlyphCount();
 
-    if (theGlyphDefinitionTableHeader.isValid()) {
-      glyphClassDefinitionTable = theGlyphDefinitionTableHeader
-        -> getGlyphClassDefinitionTable(theGlyphDefinitionTableHeader, success);
-      markAttachClassDefinitionTable = theGlyphDefinitionTableHeader
-        ->getMarkAttachClassDefinitionTable(theGlyphDefinitionTableHeader, success);
+    if (theGlyphDefinitionTbbleHebder.isVblid()) {
+      glyphClbssDefinitionTbble = theGlyphDefinitionTbbleHebder
+        -> getGlyphClbssDefinitionTbble(theGlyphDefinitionTbbleHebder, success);
+      mbrkAttbchClbssDefinitionTbble = theGlyphDefinitionTbbleHebder
+        ->getMbrkAttbchClbssDefinitionTbble(theGlyphDefinitionTbbleHebder, success);
     }
 
     nextLimit = glyphCount;
@@ -65,88 +65,88 @@ GlyphIterator::GlyphIterator(LEGlyphStorage &theGlyphStorage, GlyphPositionAdjus
         nextLimit = -1;
         prevLimit = glyphCount;
     }
-    filterResetCache();
+    filterResetCbche();
 }
 
-GlyphIterator::GlyphIterator(GlyphIterator &that)
-  : glyphStorage(that.glyphStorage)
+GlyphIterbtor::GlyphIterbtor(GlyphIterbtor &thbt)
+  : glyphStorbge(thbt.glyphStorbge)
 {
-    direction    = that.direction;
-    position     = that.position;
-    nextLimit    = that.nextLimit;
-    prevLimit    = that.prevLimit;
+    direction    = thbt.direction;
+    position     = thbt.position;
+    nextLimit    = thbt.nextLimit;
+    prevLimit    = thbt.prevLimit;
 
-    glyphPositionAdjustments = that.glyphPositionAdjustments;
-    srcIndex = that.srcIndex;
-    destIndex = that.destIndex;
-    lookupFlags = that.lookupFlags;
-    featureMask = that.featureMask;
-    glyphGroup  = that.glyphGroup;
-    glyphClassDefinitionTable = that.glyphClassDefinitionTable;
-    markAttachClassDefinitionTable = that.markAttachClassDefinitionTable;
-    filterResetCache();
+    glyphPositionAdjustments = thbt.glyphPositionAdjustments;
+    srcIndex = thbt.srcIndex;
+    destIndex = thbt.destIndex;
+    lookupFlbgs = thbt.lookupFlbgs;
+    febtureMbsk = thbt.febtureMbsk;
+    glyphGroup  = thbt.glyphGroup;
+    glyphClbssDefinitionTbble = thbt.glyphClbssDefinitionTbble;
+    mbrkAttbchClbssDefinitionTbble = thbt.mbrkAttbchClbssDefinitionTbble;
+    filterResetCbche();
 }
 
-GlyphIterator::GlyphIterator(GlyphIterator &that, FeatureMask newFeatureMask)
-  : glyphStorage(that.glyphStorage)
+GlyphIterbtor::GlyphIterbtor(GlyphIterbtor &thbt, FebtureMbsk newFebtureMbsk)
+  : glyphStorbge(thbt.glyphStorbge)
 {
-    direction    = that.direction;
-    position     = that.position;
-    nextLimit    = that.nextLimit;
-    prevLimit    = that.prevLimit;
+    direction    = thbt.direction;
+    position     = thbt.position;
+    nextLimit    = thbt.nextLimit;
+    prevLimit    = thbt.prevLimit;
 
-    glyphPositionAdjustments = that.glyphPositionAdjustments;
-    srcIndex = that.srcIndex;
-    destIndex = that.destIndex;
-    lookupFlags = that.lookupFlags;
-    featureMask = newFeatureMask;
+    glyphPositionAdjustments = thbt.glyphPositionAdjustments;
+    srcIndex = thbt.srcIndex;
+    destIndex = thbt.destIndex;
+    lookupFlbgs = thbt.lookupFlbgs;
+    febtureMbsk = newFebtureMbsk;
     glyphGroup  = 0;
-    glyphClassDefinitionTable = that.glyphClassDefinitionTable;
-    markAttachClassDefinitionTable = that.markAttachClassDefinitionTable;
-    filterResetCache();
+    glyphClbssDefinitionTbble = thbt.glyphClbssDefinitionTbble;
+    mbrkAttbchClbssDefinitionTbble = thbt.mbrkAttbchClbssDefinitionTbble;
+    filterResetCbche();
 }
 
-GlyphIterator::GlyphIterator(GlyphIterator &that, le_uint16 newLookupFlags)
-  : glyphStorage(that.glyphStorage)
+GlyphIterbtor::GlyphIterbtor(GlyphIterbtor &thbt, le_uint16 newLookupFlbgs)
+  : glyphStorbge(thbt.glyphStorbge)
 {
-    direction    = that.direction;
-    position     = that.position;
-    nextLimit    = that.nextLimit;
-    prevLimit    = that.prevLimit;
+    direction    = thbt.direction;
+    position     = thbt.position;
+    nextLimit    = thbt.nextLimit;
+    prevLimit    = thbt.prevLimit;
 
-    glyphPositionAdjustments = that.glyphPositionAdjustments;
-    srcIndex = that.srcIndex;
-    destIndex = that.destIndex;
-    lookupFlags = newLookupFlags;
-    featureMask = that.featureMask;
-    glyphGroup  = that.glyphGroup;
-    glyphClassDefinitionTable = that.glyphClassDefinitionTable;
-    markAttachClassDefinitionTable = that.markAttachClassDefinitionTable;
-    filterResetCache();
+    glyphPositionAdjustments = thbt.glyphPositionAdjustments;
+    srcIndex = thbt.srcIndex;
+    destIndex = thbt.destIndex;
+    lookupFlbgs = newLookupFlbgs;
+    febtureMbsk = thbt.febtureMbsk;
+    glyphGroup  = thbt.glyphGroup;
+    glyphClbssDefinitionTbble = thbt.glyphClbssDefinitionTbble;
+    mbrkAttbchClbssDefinitionTbble = thbt.mbrkAttbchClbssDefinitionTbble;
+    filterResetCbche();
 }
 
-GlyphIterator::~GlyphIterator()
+GlyphIterbtor::~GlyphIterbtor()
 {
     // nothing to do, right?
 }
 
-void GlyphIterator::reset(le_uint16 newLookupFlags, FeatureMask newFeatureMask)
+void GlyphIterbtor::reset(le_uint16 newLookupFlbgs, FebtureMbsk newFebtureMbsk)
 {
     position     = prevLimit;
-    featureMask  = newFeatureMask;
+    febtureMbsk  = newFebtureMbsk;
     glyphGroup   = 0;
-    lookupFlags  = newLookupFlags;
-    filterResetCache();
+    lookupFlbgs  = newLookupFlbgs;
+    filterResetCbche();
 }
 
-LEGlyphID *GlyphIterator::insertGlyphs(le_int32 count, LEErrorCode& success)
+LEGlyphID *GlyphIterbtor::insertGlyphs(le_int32 count, LEErrorCode& success)
 {
-    return glyphStorage.insertGlyphs(position, count, success);
+    return glyphStorbge.insertGlyphs(position, count, success);
 }
 
-le_int32 GlyphIterator::applyInsertions()
+le_int32 GlyphIterbtor::bpplyInsertions()
 {
-    le_int32 newGlyphCount = glyphStorage.applyInsertions();
+    le_int32 newGlyphCount = glyphStorbge.bpplyInsertions();
 
     if (direction < 0) {
         prevLimit = newGlyphCount;
@@ -157,27 +157,27 @@ le_int32 GlyphIterator::applyInsertions()
     return newGlyphCount;
 }
 
-le_int32 GlyphIterator::getCurrStreamPosition() const
+le_int32 GlyphIterbtor::getCurrStrebmPosition() const
 {
     return position;
 }
 
-le_bool GlyphIterator::isRightToLeft() const
+le_bool GlyphIterbtor::isRightToLeft() const
 {
     return direction < 0;
 }
 
-le_bool GlyphIterator::ignoresMarks() const
+le_bool GlyphIterbtor::ignoresMbrks() const
 {
-    return (lookupFlags & lfIgnoreMarks) != 0;
+    return (lookupFlbgs & lfIgnoreMbrks) != 0;
 }
 
-le_bool GlyphIterator::baselineIsLogicalEnd() const
+le_bool GlyphIterbtor::bbselineIsLogicblEnd() const
 {
-    return (lookupFlags & lfBaselineIsLogicalEnd) != 0;
+    return (lookupFlbgs & lfBbselineIsLogicblEnd) != 0;
 }
 
-LEGlyphID GlyphIterator::getCurrGlyphID() const
+LEGlyphID GlyphIterbtor::getCurrGlyphID() const
 {
     if (direction < 0) {
         if (position <= nextLimit || position >= prevLimit) {
@@ -189,10 +189,10 @@ LEGlyphID GlyphIterator::getCurrGlyphID() const
         }
     }
 
-    return glyphStorage[position];
+    return glyphStorbge[position];
 }
 
-void GlyphIterator::getCursiveEntryPoint(LEPoint &entryPoint) const
+void GlyphIterbtor::getCursiveEntryPoint(LEPoint &entryPoint) const
 {
     if (direction < 0) {
         if (position <= nextLimit || position >= prevLimit) {
@@ -207,7 +207,7 @@ void GlyphIterator::getCursiveEntryPoint(LEPoint &entryPoint) const
     glyphPositionAdjustments->getEntryPoint(position, entryPoint);
 }
 
-void GlyphIterator::getCursiveExitPoint(LEPoint &exitPoint) const
+void GlyphIterbtor::getCursiveExitPoint(LEPoint &exitPoint) const
 {
     if (direction < 0) {
         if (position <= nextLimit || position >= prevLimit) {
@@ -222,14 +222,14 @@ void GlyphIterator::getCursiveExitPoint(LEPoint &exitPoint) const
     glyphPositionAdjustments->getExitPoint(position, exitPoint);
 }
 
-void GlyphIterator::setCurrGlyphID(TTGlyphID glyphID)
+void GlyphIterbtor::setCurrGlyphID(TTGlyphID glyphID)
 {
-    LEGlyphID glyph = glyphStorage[position];
+    LEGlyphID glyph = glyphStorbge[position];
 
-    glyphStorage[position] = LE_SET_GLYPH(glyph, glyphID);
+    glyphStorbge[position] = LE_SET_GLYPH(glyph, glyphID);
 }
 
-void GlyphIterator::setCurrStreamPosition(le_int32 newPosition)
+void GlyphIterbtor::setCurrStrebmPosition(le_int32 newPosition)
 {
     if (direction < 0) {
         if (newPosition >= prevLimit) {
@@ -257,7 +257,7 @@ void GlyphIterator::setCurrStreamPosition(le_int32 newPosition)
     next();
 }
 
-void GlyphIterator::setCurrGlyphBaseOffset(le_int32 baseOffset)
+void GlyphIterbtor::setCurrGlyphBbseOffset(le_int32 bbseOffset)
 {
     if (direction < 0) {
         if (position <= nextLimit || position >= prevLimit) {
@@ -269,11 +269,11 @@ void GlyphIterator::setCurrGlyphBaseOffset(le_int32 baseOffset)
         }
     }
 
-    glyphPositionAdjustments->setBaseOffset(position, baseOffset);
+    glyphPositionAdjustments->setBbseOffset(position, bbseOffset);
 }
 
-void GlyphIterator::adjustCurrGlyphPositionAdjustment(float xPlacementAdjust, float yPlacementAdjust,
-                                                      float xAdvanceAdjust, float yAdvanceAdjust)
+void GlyphIterbtor::bdjustCurrGlyphPositionAdjustment(flobt xPlbcementAdjust, flobt yPlbcementAdjust,
+                                                      flobt xAdvbnceAdjust, flobt yAdvbnceAdjust)
 {
     if (direction < 0) {
         if (position <= nextLimit || position >= prevLimit) {
@@ -285,14 +285,14 @@ void GlyphIterator::adjustCurrGlyphPositionAdjustment(float xPlacementAdjust, fl
         }
     }
 
-    glyphPositionAdjustments->adjustXPlacement(position, xPlacementAdjust);
-    glyphPositionAdjustments->adjustYPlacement(position, yPlacementAdjust);
-    glyphPositionAdjustments->adjustXAdvance(position, xAdvanceAdjust);
-    glyphPositionAdjustments->adjustYAdvance(position, yAdvanceAdjust);
+    glyphPositionAdjustments->bdjustXPlbcement(position, xPlbcementAdjust);
+    glyphPositionAdjustments->bdjustYPlbcement(position, yPlbcementAdjust);
+    glyphPositionAdjustments->bdjustXAdvbnce(position, xAdvbnceAdjust);
+    glyphPositionAdjustments->bdjustYAdvbnce(position, yAdvbnceAdjust);
 }
 
-void GlyphIterator::setCurrGlyphPositionAdjustment(float xPlacementAdjust, float yPlacementAdjust,
-                                                      float xAdvanceAdjust, float yAdvanceAdjust)
+void GlyphIterbtor::setCurrGlyphPositionAdjustment(flobt xPlbcementAdjust, flobt yPlbcementAdjust,
+                                                      flobt xAdvbnceAdjust, flobt yAdvbnceAdjust)
 {
     if (direction < 0) {
         if (position <= nextLimit || position >= prevLimit) {
@@ -304,13 +304,13 @@ void GlyphIterator::setCurrGlyphPositionAdjustment(float xPlacementAdjust, float
         }
     }
 
-    glyphPositionAdjustments->setXPlacement(position, xPlacementAdjust);
-    glyphPositionAdjustments->setYPlacement(position, yPlacementAdjust);
-    glyphPositionAdjustments->setXAdvance(position, xAdvanceAdjust);
-    glyphPositionAdjustments->setYAdvance(position, yAdvanceAdjust);
+    glyphPositionAdjustments->setXPlbcement(position, xPlbcementAdjust);
+    glyphPositionAdjustments->setYPlbcement(position, yPlbcementAdjust);
+    glyphPositionAdjustments->setXAdvbnce(position, xAdvbnceAdjust);
+    glyphPositionAdjustments->setYAdvbnce(position, yAdvbnceAdjust);
 }
 
-void GlyphIterator::clearCursiveEntryPoint()
+void GlyphIterbtor::clebrCursiveEntryPoint()
 {
     if (direction < 0) {
         if (position <= nextLimit || position >= prevLimit) {
@@ -322,10 +322,10 @@ void GlyphIterator::clearCursiveEntryPoint()
         }
     }
 
-    glyphPositionAdjustments->clearEntryPoint(position);
+    glyphPositionAdjustments->clebrEntryPoint(position);
 }
 
-void GlyphIterator::clearCursiveExitPoint()
+void GlyphIterbtor::clebrCursiveExitPoint()
 {
     if (direction < 0) {
         if (position <= nextLimit || position >= prevLimit) {
@@ -337,10 +337,10 @@ void GlyphIterator::clearCursiveExitPoint()
         }
     }
 
-    glyphPositionAdjustments->clearExitPoint(position);
+    glyphPositionAdjustments->clebrExitPoint(position);
 }
 
-void GlyphIterator::setCursiveEntryPoint(LEPoint &entryPoint)
+void GlyphIterbtor::setCursiveEntryPoint(LEPoint &entryPoint)
 {
     if (direction < 0) {
         if (position <= nextLimit || position >= prevLimit) {
@@ -352,10 +352,10 @@ void GlyphIterator::setCursiveEntryPoint(LEPoint &entryPoint)
         }
     }
 
-    glyphPositionAdjustments->setEntryPoint(position, entryPoint, baselineIsLogicalEnd());
+    glyphPositionAdjustments->setEntryPoint(position, entryPoint, bbselineIsLogicblEnd());
 }
 
-void GlyphIterator::setCursiveExitPoint(LEPoint &exitPoint)
+void GlyphIterbtor::setCursiveExitPoint(LEPoint &exitPoint)
 {
     if (direction < 0) {
         if (position <= nextLimit || position >= prevLimit) {
@@ -367,10 +367,10 @@ void GlyphIterator::setCursiveExitPoint(LEPoint &exitPoint)
         }
     }
 
-    glyphPositionAdjustments->setExitPoint(position, exitPoint, baselineIsLogicalEnd());
+    glyphPositionAdjustments->setExitPoint(position, exitPoint, bbselineIsLogicblEnd());
 }
 
-void GlyphIterator::setCursiveGlyph()
+void GlyphIterbtor::setCursiveGlyph()
 {
     if (direction < 0) {
         if (position <= nextLimit || position >= prevLimit) {
@@ -382,94 +382,94 @@ void GlyphIterator::setCursiveGlyph()
         }
     }
 
-    glyphPositionAdjustments->setCursiveGlyph(position, baselineIsLogicalEnd());
+    glyphPositionAdjustments->setCursiveGlyph(position, bbselineIsLogicblEnd());
 }
 
-void GlyphIterator::filterResetCache(void) {
-  filterCacheValid = FALSE;
+void GlyphIterbtor::filterResetCbche(void) {
+  filterCbcheVblid = FALSE;
 }
 
-le_bool GlyphIterator::filterGlyph(le_uint32 index)
+le_bool GlyphIterbtor::filterGlyph(le_uint32 index)
 {
-    LEGlyphID glyphID = glyphStorage[index];
+    LEGlyphID glyphID = glyphStorbge[index];
 
-    if (!filterCacheValid || filterCache.id != glyphID) {
-      filterCache.id = glyphID;
+    if (!filterCbcheVblid || filterCbche.id != glyphID) {
+      filterCbche.id = glyphID;
 
-      le_bool &filterResult = filterCache.result;  // NB: Making this a reference to accept the updated value, in case
-                                               // we want more fancy cacheing in the future.
+      le_bool &filterResult = filterCbche.result;  // NB: Mbking this b reference to bccept the updbted vblue, in cbse
+                                               // we wbnt more fbncy cbcheing in the future.
       if (LE_GET_GLYPH(glyphID) >= 0xFFFE) {
         filterResult = TRUE;
       } else {
         LEErrorCode success = LE_NO_ERROR;
-        le_int32 glyphClass = gcdNoGlyphClass;
-        if (glyphClassDefinitionTable.isValid()) {
-          glyphClass = glyphClassDefinitionTable->getGlyphClass(glyphClassDefinitionTable, glyphID, success);
+        le_int32 glyphClbss = gcdNoGlyphClbss;
+        if (glyphClbssDefinitionTbble.isVblid()) {
+          glyphClbss = glyphClbssDefinitionTbble->getGlyphClbss(glyphClbssDefinitionTbble, glyphID, success);
         }
-        switch (glyphClass) {
-        case gcdNoGlyphClass:
+        switch (glyphClbss) {
+        cbse gcdNoGlyphClbss:
           filterResult = FALSE;
-          break;
+          brebk;
 
-        case gcdSimpleGlyph:
-          filterResult = (lookupFlags & lfIgnoreBaseGlyphs) != 0;
-          break;
+        cbse gcdSimpleGlyph:
+          filterResult = (lookupFlbgs & lfIgnoreBbseGlyphs) != 0;
+          brebk;
 
-        case gcdLigatureGlyph:
-          filterResult = (lookupFlags & lfIgnoreLigatures) != 0;
-          break;
+        cbse gcdLigbtureGlyph:
+          filterResult = (lookupFlbgs & lfIgnoreLigbtures) != 0;
+          brebk;
 
-        case gcdMarkGlyph:
-          if ((lookupFlags & lfIgnoreMarks) != 0) {
+        cbse gcdMbrkGlyph:
+          if ((lookupFlbgs & lfIgnoreMbrks) != 0) {
             filterResult = TRUE;
           } else {
-            le_uint16 markAttachType = (lookupFlags & lfMarkAttachTypeMask) >> lfMarkAttachTypeShift;
+            le_uint16 mbrkAttbchType = (lookupFlbgs & lfMbrkAttbchTypeMbsk) >> lfMbrkAttbchTypeShift;
 
-            if ((markAttachType != 0) && (markAttachClassDefinitionTable.isValid())) {
-              filterResult = (markAttachClassDefinitionTable
-                          -> getGlyphClass(markAttachClassDefinitionTable, glyphID, success) != markAttachType);
+            if ((mbrkAttbchType != 0) && (mbrkAttbchClbssDefinitionTbble.isVblid())) {
+              filterResult = (mbrkAttbchClbssDefinitionTbble
+                          -> getGlyphClbss(mbrkAttbchClbssDefinitionTbble, glyphID, success) != mbrkAttbchType);
             } else {
               filterResult = FALSE;
             }
           }
-          break;
+          brebk;
 
-        case gcdComponentGlyph:
-          filterResult = ((lookupFlags & lfIgnoreBaseGlyphs) != 0);
-          break;
+        cbse gcdComponentGlyph:
+          filterResult = ((lookupFlbgs & lfIgnoreBbseGlyphs) != 0);
+          brebk;
 
-        default:
+        defbult:
           filterResult = FALSE;
-          break;
+          brebk;
         }
       }
-      filterCacheValid = TRUE;
+      filterCbcheVblid = TRUE;
     }
 
-    return filterCache.result;
+    return filterCbche.result;
 }
 
-le_bool GlyphIterator::hasFeatureTag(le_bool matchGroup) const
+le_bool GlyphIterbtor::hbsFebtureTbg(le_bool mbtchGroup) const
 {
-    if (featureMask == 0) {
+    if (febtureMbsk == 0) {
         return TRUE;
     }
 
     LEErrorCode success = LE_NO_ERROR;
-    FeatureMask fm = glyphStorage.getAuxData(position, success);
+    FebtureMbsk fm = glyphStorbge.getAuxDbtb(position, success);
 
-    return ((fm & featureMask) == featureMask) && (!matchGroup || (le_int32)(fm & LE_GLYPH_GROUP_MASK) == glyphGroup);
+    return ((fm & febtureMbsk) == febtureMbsk) && (!mbtchGroup || (le_int32)(fm & LE_GLYPH_GROUP_MASK) == glyphGroup);
 }
 
-le_bool GlyphIterator::findFeatureTag()
+le_bool GlyphIterbtor::findFebtureTbg()
 {
   //glyphGroup = 0;
 
-    while (nextInternal()) {
-        if (hasFeatureTag(FALSE)) {
+    while (nextInternbl()) {
+        if (hbsFebtureTbg(FALSE)) {
             LEErrorCode success = LE_NO_ERROR;
 
-            glyphGroup = (glyphStorage.getAuxData(position, success) & LE_GLYPH_GROUP_MASK);
+            glyphGroup = (glyphStorbge.getAuxDbtb(position, success) & LE_GLYPH_GROUP_MASK);
             return TRUE;
         }
     }
@@ -478,61 +478,61 @@ le_bool GlyphIterator::findFeatureTag()
 }
 
 
-le_bool GlyphIterator::nextInternal(le_uint32 delta)
+le_bool GlyphIterbtor::nextInternbl(le_uint32 deltb)
 {
     le_int32 newPosition = position;
 
-    while (newPosition != nextLimit && delta > 0) {
+    while (newPosition != nextLimit && deltb > 0) {
         do {
             newPosition += direction;
-            //fprintf(stderr,"%s:%d:%s: newPosition = %d, delta = %d\n", __FILE__, __LINE__, __FUNCTION__, newPosition, delta);
+            //fprintf(stderr,"%s:%d:%s: newPosition = %d, deltb = %d\n", __FILE__, __LINE__, __FUNCTION__, newPosition, deltb);
         } while (newPosition != nextLimit && filterGlyph(newPosition));
 
-        delta -= 1;
+        deltb -= 1;
     }
 
     position = newPosition;
 
-    //fprintf(stderr,"%s:%d:%s: exit position = %d, delta = %d\n", __FILE__, __LINE__, __FUNCTION__, position, delta);
+    //fprintf(stderr,"%s:%d:%s: exit position = %d, deltb = %d\n", __FILE__, __LINE__, __FUNCTION__, position, deltb);
     return position != nextLimit;
 }
 
-le_bool GlyphIterator::next(le_uint32 delta)
+le_bool GlyphIterbtor::next(le_uint32 deltb)
 {
-    return nextInternal(delta) && hasFeatureTag(TRUE);
+    return nextInternbl(deltb) && hbsFebtureTbg(TRUE);
 }
 
-le_bool GlyphIterator::prevInternal(le_uint32 delta)
+le_bool GlyphIterbtor::prevInternbl(le_uint32 deltb)
 {
     le_int32 newPosition = position;
 
-    while (newPosition != prevLimit && delta > 0) {
+    while (newPosition != prevLimit && deltb > 0) {
         do {
             newPosition -= direction;
-            //fprintf(stderr,"%s:%d:%s: newPosition = %d, delta = %d\n", __FILE__, __LINE__, __FUNCTION__, newPosition, delta);
+            //fprintf(stderr,"%s:%d:%s: newPosition = %d, deltb = %d\n", __FILE__, __LINE__, __FUNCTION__, newPosition, deltb);
         } while (newPosition != prevLimit && filterGlyph(newPosition));
 
-        delta -= 1;
+        deltb -= 1;
     }
 
     position = newPosition;
 
-    //fprintf(stderr,"%s:%d:%s: exit position = %d, delta = %d\n", __FILE__, __LINE__, __FUNCTION__, position, delta);
+    //fprintf(stderr,"%s:%d:%s: exit position = %d, deltb = %d\n", __FILE__, __LINE__, __FUNCTION__, position, deltb);
     return position != prevLimit;
 }
 
-le_bool GlyphIterator::prev(le_uint32 delta)
+le_bool GlyphIterbtor::prev(le_uint32 deltb)
 {
-    return prevInternal(delta) && hasFeatureTag(TRUE);
+    return prevInternbl(deltb) && hbsFebtureTbg(TRUE);
 }
 
-le_int32 GlyphIterator::getMarkComponent(le_int32 markPosition) const
+le_int32 GlyphIterbtor::getMbrkComponent(le_int32 mbrkPosition) const
 {
     le_int32 component = 0;
     le_int32 posn;
 
-    for (posn = position; posn != markPosition; posn += direction) {
-        if (glyphStorage[posn] == 0xFFFE) {
+    for (posn = position; posn != mbrkPosition; posn += direction) {
+        if (glyphStorbge[posn] == 0xFFFE) {
             component += 1;
         }
     }
@@ -540,16 +540,16 @@ le_int32 GlyphIterator::getMarkComponent(le_int32 markPosition) const
     return component;
 }
 
-// This is basically prevInternal except that it
-// doesn't take a delta argument, and it doesn't
+// This is bbsicblly prevInternbl except thbt it
+// doesn't tbke b deltb brgument, bnd it doesn't
 // filter out 0xFFFE glyphs.
-le_bool GlyphIterator::findMark2Glyph()
+le_bool GlyphIterbtor::findMbrk2Glyph()
 {
     le_int32 newPosition = position;
 
     do {
         newPosition -= direction;
-    } while (newPosition != prevLimit && glyphStorage[newPosition] != 0xFFFE && filterGlyph(newPosition));
+    } while (newPosition != prevLimit && glyphStorbge[newPosition] != 0xFFFE && filterGlyph(newPosition));
 
     position = newPosition;
 

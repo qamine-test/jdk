@@ -1,309 +1,309 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.util;
+pbckbge jbvb.util;
 
-import java.util.function.Consumer;
+import jbvb.util.function.Consumer;
 
 /**
- * An unbounded priority {@linkplain Queue queue} based on a priority heap.
- * The elements of the priority queue are ordered according to their
- * {@linkplain Comparable natural ordering}, or by a {@link Comparator}
- * provided at queue construction time, depending on which constructor is
+ * An unbounded priority {@linkplbin Queue queue} bbsed on b priority hebp.
+ * The elements of the priority queue bre ordered bccording to their
+ * {@linkplbin Compbrbble nbturbl ordering}, or by b {@link Compbrbtor}
+ * provided bt queue construction time, depending on which constructor is
  * used.  A priority queue does not permit {@code null} elements.
- * A priority queue relying on natural ordering also does not permit
- * insertion of non-comparable objects (doing so may result in
- * {@code ClassCastException}).
+ * A priority queue relying on nbturbl ordering blso does not permit
+ * insertion of non-compbrbble objects (doing so mby result in
+ * {@code ClbssCbstException}).
  *
- * <p>The <em>head</em> of this queue is the <em>least</em> element
- * with respect to the specified ordering.  If multiple elements are
- * tied for least value, the head is one of those elements -- ties are
- * broken arbitrarily.  The queue retrieval operations {@code poll},
- * {@code remove}, {@code peek}, and {@code element} access the
- * element at the head of the queue.
+ * <p>The <em>hebd</em> of this queue is the <em>lebst</em> element
+ * with respect to the specified ordering.  If multiple elements bre
+ * tied for lebst vblue, the hebd is one of those elements -- ties bre
+ * broken brbitrbrily.  The queue retrievbl operbtions {@code poll},
+ * {@code remove}, {@code peek}, bnd {@code element} bccess the
+ * element bt the hebd of the queue.
  *
- * <p>A priority queue is unbounded, but has an internal
- * <i>capacity</i> governing the size of an array used to store the
- * elements on the queue.  It is always at least as large as the queue
- * size.  As elements are added to a priority queue, its capacity
- * grows automatically.  The details of the growth policy are not
+ * <p>A priority queue is unbounded, but hbs bn internbl
+ * <i>cbpbcity</i> governing the size of bn brrby used to store the
+ * elements on the queue.  It is blwbys bt lebst bs lbrge bs the queue
+ * size.  As elements bre bdded to b priority queue, its cbpbcity
+ * grows butombticblly.  The detbils of the growth policy bre not
  * specified.
  *
- * <p>This class and its iterator implement all of the
- * <em>optional</em> methods of the {@link Collection} and {@link
- * Iterator} interfaces.  The Iterator provided in method {@link
- * #iterator()} is <em>not</em> guaranteed to traverse the elements of
- * the priority queue in any particular order. If you need ordered
- * traversal, consider using {@code Arrays.sort(pq.toArray())}.
+ * <p>This clbss bnd its iterbtor implement bll of the
+ * <em>optionbl</em> methods of the {@link Collection} bnd {@link
+ * Iterbtor} interfbces.  The Iterbtor provided in method {@link
+ * #iterbtor()} is <em>not</em> gubrbnteed to trbverse the elements of
+ * the priority queue in bny pbrticulbr order. If you need ordered
+ * trbversbl, consider using {@code Arrbys.sort(pq.toArrby())}.
  *
- * <p><strong>Note that this implementation is not synchronized.</strong>
- * Multiple threads should not access a {@code PriorityQueue}
- * instance concurrently if any of the threads modifies the queue.
- * Instead, use the thread-safe {@link
- * java.util.concurrent.PriorityBlockingQueue} class.
+ * <p><strong>Note thbt this implementbtion is not synchronized.</strong>
+ * Multiple threbds should not bccess b {@code PriorityQueue}
+ * instbnce concurrently if bny of the threbds modifies the queue.
+ * Instebd, use the threbd-sbfe {@link
+ * jbvb.util.concurrent.PriorityBlockingQueue} clbss.
  *
- * <p>Implementation note: this implementation provides
- * O(log(n)) time for the enqueuing and dequeuing methods
- * ({@code offer}, {@code poll}, {@code remove()} and {@code add});
- * linear time for the {@code remove(Object)} and {@code contains(Object)}
- * methods; and constant time for the retrieval methods
- * ({@code peek}, {@code element}, and {@code size}).
+ * <p>Implementbtion note: this implementbtion provides
+ * O(log(n)) time for the enqueuing bnd dequeuing methods
+ * ({@code offer}, {@code poll}, {@code remove()} bnd {@code bdd});
+ * linebr time for the {@code remove(Object)} bnd {@code contbins(Object)}
+ * methods; bnd constbnt time for the retrievbl methods
+ * ({@code peek}, {@code element}, bnd {@code size}).
  *
- * <p>This class is a member of the
- * <a href="{@docRoot}/../technotes/guides/collections/index.html">
- * Java Collections Framework</a>.
+ * <p>This clbss is b member of the
+ * <b href="{@docRoot}/../technotes/guides/collections/index.html">
+ * Jbvb Collections Frbmework</b>.
  *
  * @since 1.5
- * @author Josh Bloch, Doug Lea
- * @param <E> the type of elements held in this collection
+ * @buthor Josh Bloch, Doug Leb
+ * @pbrbm <E> the type of elements held in this collection
  */
-public class PriorityQueue<E> extends AbstractQueue<E>
-    implements java.io.Serializable {
+public clbss PriorityQueue<E> extends AbstrbctQueue<E>
+    implements jbvb.io.Seriblizbble {
 
-    private static final long serialVersionUID = -7720805057305804111L;
+    privbte stbtic finbl long seriblVersionUID = -7720805057305804111L;
 
-    private static final int DEFAULT_INITIAL_CAPACITY = 11;
+    privbte stbtic finbl int DEFAULT_INITIAL_CAPACITY = 11;
 
     /**
-     * Priority queue represented as a balanced binary heap: the two
-     * children of queue[n] are queue[2*n+1] and queue[2*(n+1)].  The
-     * priority queue is ordered by comparator, or by the elements'
-     * natural ordering, if comparator is null: For each node n in the
-     * heap and each descendant d of n, n <= d.  The element with the
-     * lowest value is in queue[0], assuming the queue is nonempty.
+     * Priority queue represented bs b bblbnced binbry hebp: the two
+     * children of queue[n] bre queue[2*n+1] bnd queue[2*(n+1)].  The
+     * priority queue is ordered by compbrbtor, or by the elements'
+     * nbturbl ordering, if compbrbtor is null: For ebch node n in the
+     * hebp bnd ebch descendbnt d of n, n <= d.  The element with the
+     * lowest vblue is in queue[0], bssuming the queue is nonempty.
      */
-    transient Object[] queue; // non-private to simplify nested class access
+    trbnsient Object[] queue; // non-privbte to simplify nested clbss bccess
 
     /**
      * The number of elements in the priority queue.
      */
-    private int size = 0;
+    privbte int size = 0;
 
     /**
-     * The comparator, or null if priority queue uses elements'
-     * natural ordering.
+     * The compbrbtor, or null if priority queue uses elements'
+     * nbturbl ordering.
      */
-    private final Comparator<? super E> comparator;
+    privbte finbl Compbrbtor<? super E> compbrbtor;
 
     /**
-     * The number of times this priority queue has been
-     * <i>structurally modified</i>.  See AbstractList for gory details.
+     * The number of times this priority queue hbs been
+     * <i>structurblly modified</i>.  See AbstrbctList for gory detbils.
      */
-    transient int modCount = 0; // non-private to simplify nested class access
+    trbnsient int modCount = 0; // non-privbte to simplify nested clbss bccess
 
     /**
-     * Creates a {@code PriorityQueue} with the default initial
-     * capacity (11) that orders its elements according to their
-     * {@linkplain Comparable natural ordering}.
+     * Crebtes b {@code PriorityQueue} with the defbult initibl
+     * cbpbcity (11) thbt orders its elements bccording to their
+     * {@linkplbin Compbrbble nbturbl ordering}.
      */
     public PriorityQueue() {
         this(DEFAULT_INITIAL_CAPACITY, null);
     }
 
     /**
-     * Creates a {@code PriorityQueue} with the specified initial
-     * capacity that orders its elements according to their
-     * {@linkplain Comparable natural ordering}.
+     * Crebtes b {@code PriorityQueue} with the specified initibl
+     * cbpbcity thbt orders its elements bccording to their
+     * {@linkplbin Compbrbble nbturbl ordering}.
      *
-     * @param initialCapacity the initial capacity for this priority queue
-     * @throws IllegalArgumentException if {@code initialCapacity} is less
-     *         than 1
+     * @pbrbm initiblCbpbcity the initibl cbpbcity for this priority queue
+     * @throws IllegblArgumentException if {@code initiblCbpbcity} is less
+     *         thbn 1
      */
-    public PriorityQueue(int initialCapacity) {
-        this(initialCapacity, null);
+    public PriorityQueue(int initiblCbpbcity) {
+        this(initiblCbpbcity, null);
     }
 
     /**
-     * Creates a {@code PriorityQueue} with the default initial capacity and
-     * whose elements are ordered according to the specified comparator.
+     * Crebtes b {@code PriorityQueue} with the defbult initibl cbpbcity bnd
+     * whose elements bre ordered bccording to the specified compbrbtor.
      *
-     * @param  comparator the comparator that will be used to order this
-     *         priority queue.  If {@code null}, the {@linkplain Comparable
-     *         natural ordering} of the elements will be used.
+     * @pbrbm  compbrbtor the compbrbtor thbt will be used to order this
+     *         priority queue.  If {@code null}, the {@linkplbin Compbrbble
+     *         nbturbl ordering} of the elements will be used.
      * @since 1.8
      */
-    public PriorityQueue(Comparator<? super E> comparator) {
-        this(DEFAULT_INITIAL_CAPACITY, comparator);
+    public PriorityQueue(Compbrbtor<? super E> compbrbtor) {
+        this(DEFAULT_INITIAL_CAPACITY, compbrbtor);
     }
 
     /**
-     * Creates a {@code PriorityQueue} with the specified initial capacity
-     * that orders its elements according to the specified comparator.
+     * Crebtes b {@code PriorityQueue} with the specified initibl cbpbcity
+     * thbt orders its elements bccording to the specified compbrbtor.
      *
-     * @param  initialCapacity the initial capacity for this priority queue
-     * @param  comparator the comparator that will be used to order this
-     *         priority queue.  If {@code null}, the {@linkplain Comparable
-     *         natural ordering} of the elements will be used.
-     * @throws IllegalArgumentException if {@code initialCapacity} is
-     *         less than 1
+     * @pbrbm  initiblCbpbcity the initibl cbpbcity for this priority queue
+     * @pbrbm  compbrbtor the compbrbtor thbt will be used to order this
+     *         priority queue.  If {@code null}, the {@linkplbin Compbrbble
+     *         nbturbl ordering} of the elements will be used.
+     * @throws IllegblArgumentException if {@code initiblCbpbcity} is
+     *         less thbn 1
      */
-    public PriorityQueue(int initialCapacity,
-                         Comparator<? super E> comparator) {
-        // Note: This restriction of at least one is not actually needed,
-        // but continues for 1.5 compatibility
-        if (initialCapacity < 1)
-            throw new IllegalArgumentException();
-        this.queue = new Object[initialCapacity];
-        this.comparator = comparator;
+    public PriorityQueue(int initiblCbpbcity,
+                         Compbrbtor<? super E> compbrbtor) {
+        // Note: This restriction of bt lebst one is not bctublly needed,
+        // but continues for 1.5 compbtibility
+        if (initiblCbpbcity < 1)
+            throw new IllegblArgumentException();
+        this.queue = new Object[initiblCbpbcity];
+        this.compbrbtor = compbrbtor;
     }
 
     /**
-     * Creates a {@code PriorityQueue} containing the elements in the
-     * specified collection.  If the specified collection is an instance of
-     * a {@link SortedSet} or is another {@code PriorityQueue}, this
-     * priority queue will be ordered according to the same ordering.
-     * Otherwise, this priority queue will be ordered according to the
-     * {@linkplain Comparable natural ordering} of its elements.
+     * Crebtes b {@code PriorityQueue} contbining the elements in the
+     * specified collection.  If the specified collection is bn instbnce of
+     * b {@link SortedSet} or is bnother {@code PriorityQueue}, this
+     * priority queue will be ordered bccording to the sbme ordering.
+     * Otherwise, this priority queue will be ordered bccording to the
+     * {@linkplbin Compbrbble nbturbl ordering} of its elements.
      *
-     * @param  c the collection whose elements are to be placed
+     * @pbrbm  c the collection whose elements bre to be plbced
      *         into this priority queue
-     * @throws ClassCastException if elements of the specified collection
-     *         cannot be compared to one another according to the priority
+     * @throws ClbssCbstException if elements of the specified collection
+     *         cbnnot be compbred to one bnother bccording to the priority
      *         queue's ordering
-     * @throws NullPointerException if the specified collection or any
-     *         of its elements are null
+     * @throws NullPointerException if the specified collection or bny
+     *         of its elements bre null
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWbrnings("unchecked")
     public PriorityQueue(Collection<? extends E> c) {
-        if (c instanceof SortedSet<?>) {
+        if (c instbnceof SortedSet<?>) {
             SortedSet<? extends E> ss = (SortedSet<? extends E>) c;
-            this.comparator = (Comparator<? super E>) ss.comparator();
+            this.compbrbtor = (Compbrbtor<? super E>) ss.compbrbtor();
             initElementsFromCollection(ss);
         }
-        else if (c instanceof PriorityQueue<?>) {
+        else if (c instbnceof PriorityQueue<?>) {
             PriorityQueue<? extends E> pq = (PriorityQueue<? extends E>) c;
-            this.comparator = (Comparator<? super E>) pq.comparator();
+            this.compbrbtor = (Compbrbtor<? super E>) pq.compbrbtor();
             initFromPriorityQueue(pq);
         }
         else {
-            this.comparator = null;
+            this.compbrbtor = null;
             initFromCollection(c);
         }
     }
 
     /**
-     * Creates a {@code PriorityQueue} containing the elements in the
+     * Crebtes b {@code PriorityQueue} contbining the elements in the
      * specified priority queue.  This priority queue will be
-     * ordered according to the same ordering as the given priority
+     * ordered bccording to the sbme ordering bs the given priority
      * queue.
      *
-     * @param  c the priority queue whose elements are to be placed
+     * @pbrbm  c the priority queue whose elements bre to be plbced
      *         into this priority queue
-     * @throws ClassCastException if elements of {@code c} cannot be
-     *         compared to one another according to {@code c}'s
+     * @throws ClbssCbstException if elements of {@code c} cbnnot be
+     *         compbred to one bnother bccording to {@code c}'s
      *         ordering
-     * @throws NullPointerException if the specified priority queue or any
-     *         of its elements are null
+     * @throws NullPointerException if the specified priority queue or bny
+     *         of its elements bre null
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWbrnings("unchecked")
     public PriorityQueue(PriorityQueue<? extends E> c) {
-        this.comparator = (Comparator<? super E>) c.comparator();
+        this.compbrbtor = (Compbrbtor<? super E>) c.compbrbtor();
         initFromPriorityQueue(c);
     }
 
     /**
-     * Creates a {@code PriorityQueue} containing the elements in the
+     * Crebtes b {@code PriorityQueue} contbining the elements in the
      * specified sorted set.   This priority queue will be ordered
-     * according to the same ordering as the given sorted set.
+     * bccording to the sbme ordering bs the given sorted set.
      *
-     * @param  c the sorted set whose elements are to be placed
+     * @pbrbm  c the sorted set whose elements bre to be plbced
      *         into this priority queue
-     * @throws ClassCastException if elements of the specified sorted
-     *         set cannot be compared to one another according to the
+     * @throws ClbssCbstException if elements of the specified sorted
+     *         set cbnnot be compbred to one bnother bccording to the
      *         sorted set's ordering
-     * @throws NullPointerException if the specified sorted set or any
-     *         of its elements are null
+     * @throws NullPointerException if the specified sorted set or bny
+     *         of its elements bre null
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWbrnings("unchecked")
     public PriorityQueue(SortedSet<? extends E> c) {
-        this.comparator = (Comparator<? super E>) c.comparator();
+        this.compbrbtor = (Compbrbtor<? super E>) c.compbrbtor();
         initElementsFromCollection(c);
     }
 
-    private void initFromPriorityQueue(PriorityQueue<? extends E> c) {
-        if (c.getClass() == PriorityQueue.class) {
-            this.queue = c.toArray();
+    privbte void initFromPriorityQueue(PriorityQueue<? extends E> c) {
+        if (c.getClbss() == PriorityQueue.clbss) {
+            this.queue = c.toArrby();
             this.size = c.size();
         } else {
             initFromCollection(c);
         }
     }
 
-    private void initElementsFromCollection(Collection<? extends E> c) {
-        Object[] a = c.toArray();
-        // If c.toArray incorrectly doesn't return Object[], copy it.
-        if (a.getClass() != Object[].class)
-            a = Arrays.copyOf(a, a.length, Object[].class);
-        int len = a.length;
-        if (len == 1 || this.comparator != null)
-            for (Object e : a)
+    privbte void initElementsFromCollection(Collection<? extends E> c) {
+        Object[] b = c.toArrby();
+        // If c.toArrby incorrectly doesn't return Object[], copy it.
+        if (b.getClbss() != Object[].clbss)
+            b = Arrbys.copyOf(b, b.length, Object[].clbss);
+        int len = b.length;
+        if (len == 1 || this.compbrbtor != null)
+            for (Object e : b)
                 if (e == null)
                     throw new NullPointerException();
-        this.queue = a;
-        this.size = a.length;
+        this.queue = b;
+        this.size = b.length;
     }
 
     /**
-     * Initializes queue array with elements from the given Collection.
+     * Initiblizes queue brrby with elements from the given Collection.
      *
-     * @param c the collection
+     * @pbrbm c the collection
      */
-    private void initFromCollection(Collection<? extends E> c) {
+    privbte void initFromCollection(Collection<? extends E> c) {
         initElementsFromCollection(c);
-        heapify();
+        hebpify();
     }
 
     /**
-     * The maximum size of array to allocate.
-     * Some VMs reserve some header words in an array.
-     * Attempts to allocate larger arrays may result in
-     * OutOfMemoryError: Requested array size exceeds VM limit
+     * The mbximum size of brrby to bllocbte.
+     * Some VMs reserve some hebder words in bn brrby.
+     * Attempts to bllocbte lbrger brrbys mby result in
+     * OutOfMemoryError: Requested brrby size exceeds VM limit
      */
-    private static final int MAX_ARRAY_SIZE = Integer.MAX_VALUE - 8;
+    privbte stbtic finbl int MAX_ARRAY_SIZE = Integer.MAX_VALUE - 8;
 
     /**
-     * Increases the capacity of the array.
+     * Increbses the cbpbcity of the brrby.
      *
-     * @param minCapacity the desired minimum capacity
+     * @pbrbm minCbpbcity the desired minimum cbpbcity
      */
-    private void grow(int minCapacity) {
-        int oldCapacity = queue.length;
-        // Double size if small; else grow by 50%
-        int newCapacity = oldCapacity + ((oldCapacity < 64) ?
-                                         (oldCapacity + 2) :
-                                         (oldCapacity >> 1));
+    privbte void grow(int minCbpbcity) {
+        int oldCbpbcity = queue.length;
+        // Double size if smbll; else grow by 50%
+        int newCbpbcity = oldCbpbcity + ((oldCbpbcity < 64) ?
+                                         (oldCbpbcity + 2) :
+                                         (oldCbpbcity >> 1));
         // overflow-conscious code
-        if (newCapacity - MAX_ARRAY_SIZE > 0)
-            newCapacity = hugeCapacity(minCapacity);
-        queue = Arrays.copyOf(queue, newCapacity);
+        if (newCbpbcity - MAX_ARRAY_SIZE > 0)
+            newCbpbcity = hugeCbpbcity(minCbpbcity);
+        queue = Arrbys.copyOf(queue, newCbpbcity);
     }
 
-    private static int hugeCapacity(int minCapacity) {
-        if (minCapacity < 0) // overflow
+    privbte stbtic int hugeCbpbcity(int minCbpbcity) {
+        if (minCbpbcity < 0) // overflow
             throw new OutOfMemoryError();
-        return (minCapacity > MAX_ARRAY_SIZE) ?
+        return (minCbpbcity > MAX_ARRAY_SIZE) ?
             Integer.MAX_VALUE :
             MAX_ARRAY_SIZE;
     }
@@ -311,26 +311,26 @@ public class PriorityQueue<E> extends AbstractQueue<E>
     /**
      * Inserts the specified element into this priority queue.
      *
-     * @return {@code true} (as specified by {@link Collection#add})
-     * @throws ClassCastException if the specified element cannot be
-     *         compared with elements currently in this priority queue
-     *         according to the priority queue's ordering
+     * @return {@code true} (bs specified by {@link Collection#bdd})
+     * @throws ClbssCbstException if the specified element cbnnot be
+     *         compbred with elements currently in this priority queue
+     *         bccording to the priority queue's ordering
      * @throws NullPointerException if the specified element is null
      */
-    public boolean add(E e) {
+    public boolebn bdd(E e) {
         return offer(e);
     }
 
     /**
      * Inserts the specified element into this priority queue.
      *
-     * @return {@code true} (as specified by {@link Queue#offer})
-     * @throws ClassCastException if the specified element cannot be
-     *         compared with elements currently in this priority queue
-     *         according to the priority queue's ordering
+     * @return {@code true} (bs specified by {@link Queue#offer})
+     * @throws ClbssCbstException if the specified element cbnnot be
+     *         compbred with elements currently in this priority queue
+     *         bccording to the priority queue's ordering
      * @throws NullPointerException if the specified element is null
      */
-    public boolean offer(E e) {
+    public boolebn offer(E e) {
         if (e == null)
             throw new NullPointerException();
         modCount++;
@@ -345,35 +345,35 @@ public class PriorityQueue<E> extends AbstractQueue<E>
         return true;
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWbrnings("unchecked")
     public E peek() {
         return (size == 0) ? null : (E) queue[0];
     }
 
-    private int indexOf(Object o) {
+    privbte int indexOf(Object o) {
         if (o != null) {
             for (int i = 0; i < size; i++)
-                if (o.equals(queue[i]))
+                if (o.equbls(queue[i]))
                     return i;
         }
         return -1;
     }
 
     /**
-     * Removes a single instance of the specified element from this queue,
-     * if it is present.  More formally, removes an element {@code e} such
-     * that {@code o.equals(e)}, if this queue contains one or more such
-     * elements.  Returns {@code true} if and only if this queue contained
-     * the specified element (or equivalently, if this queue changed as a
-     * result of the call).
+     * Removes b single instbnce of the specified element from this queue,
+     * if it is present.  More formblly, removes bn element {@code e} such
+     * thbt {@code o.equbls(e)}, if this queue contbins one or more such
+     * elements.  Returns {@code true} if bnd only if this queue contbined
+     * the specified element (or equivblently, if this queue chbnged bs b
+     * result of the cbll).
      *
-     * @param o element to be removed from this queue, if present
-     * @return {@code true} if this queue changed as a result of the call
+     * @pbrbm o element to be removed from this queue, if present
+     * @return {@code true} if this queue chbnged bs b result of the cbll
      */
-    public boolean remove(Object o) {
+    public boolebn remove(Object o) {
         int i = indexOf(o);
         if (i == -1)
-            return false;
+            return fblse;
         else {
             removeAt(i);
             return true;
@@ -381,187 +381,187 @@ public class PriorityQueue<E> extends AbstractQueue<E>
     }
 
     /**
-     * Version of remove using reference equality, not equals.
-     * Needed by iterator.remove.
+     * Version of remove using reference equblity, not equbls.
+     * Needed by iterbtor.remove.
      *
-     * @param o element to be removed from this queue, if present
+     * @pbrbm o element to be removed from this queue, if present
      * @return {@code true} if removed
      */
-    boolean removeEq(Object o) {
+    boolebn removeEq(Object o) {
         for (int i = 0; i < size; i++) {
             if (o == queue[i]) {
                 removeAt(i);
                 return true;
             }
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Returns {@code true} if this queue contains the specified element.
-     * More formally, returns {@code true} if and only if this queue contains
-     * at least one element {@code e} such that {@code o.equals(e)}.
+     * Returns {@code true} if this queue contbins the specified element.
+     * More formblly, returns {@code true} if bnd only if this queue contbins
+     * bt lebst one element {@code e} such thbt {@code o.equbls(e)}.
      *
-     * @param o object to be checked for containment in this queue
-     * @return {@code true} if this queue contains the specified element
+     * @pbrbm o object to be checked for contbinment in this queue
+     * @return {@code true} if this queue contbins the specified element
      */
-    public boolean contains(Object o) {
+    public boolebn contbins(Object o) {
         return indexOf(o) != -1;
     }
 
     /**
-     * Returns an array containing all of the elements in this queue.
-     * The elements are in no particular order.
+     * Returns bn brrby contbining bll of the elements in this queue.
+     * The elements bre in no pbrticulbr order.
      *
-     * <p>The returned array will be "safe" in that no references to it are
-     * maintained by this queue.  (In other words, this method must allocate
-     * a new array).  The caller is thus free to modify the returned array.
+     * <p>The returned brrby will be "sbfe" in thbt no references to it bre
+     * mbintbined by this queue.  (In other words, this method must bllocbte
+     * b new brrby).  The cbller is thus free to modify the returned brrby.
      *
-     * <p>This method acts as bridge between array-based and collection-based
+     * <p>This method bcts bs bridge between brrby-bbsed bnd collection-bbsed
      * APIs.
      *
-     * @return an array containing all of the elements in this queue
+     * @return bn brrby contbining bll of the elements in this queue
      */
-    public Object[] toArray() {
-        return Arrays.copyOf(queue, size);
+    public Object[] toArrby() {
+        return Arrbys.copyOf(queue, size);
     }
 
     /**
-     * Returns an array containing all of the elements in this queue; the
-     * runtime type of the returned array is that of the specified array.
-     * The returned array elements are in no particular order.
-     * If the queue fits in the specified array, it is returned therein.
-     * Otherwise, a new array is allocated with the runtime type of the
-     * specified array and the size of this queue.
+     * Returns bn brrby contbining bll of the elements in this queue; the
+     * runtime type of the returned brrby is thbt of the specified brrby.
+     * The returned brrby elements bre in no pbrticulbr order.
+     * If the queue fits in the specified brrby, it is returned therein.
+     * Otherwise, b new brrby is bllocbted with the runtime type of the
+     * specified brrby bnd the size of this queue.
      *
-     * <p>If the queue fits in the specified array with room to spare
-     * (i.e., the array has more elements than the queue), the element in
-     * the array immediately following the end of the collection is set to
+     * <p>If the queue fits in the specified brrby with room to spbre
+     * (i.e., the brrby hbs more elements thbn the queue), the element in
+     * the brrby immedibtely following the end of the collection is set to
      * {@code null}.
      *
-     * <p>Like the {@link #toArray()} method, this method acts as bridge between
-     * array-based and collection-based APIs.  Further, this method allows
-     * precise control over the runtime type of the output array, and may,
-     * under certain circumstances, be used to save allocation costs.
+     * <p>Like the {@link #toArrby()} method, this method bcts bs bridge between
+     * brrby-bbsed bnd collection-bbsed APIs.  Further, this method bllows
+     * precise control over the runtime type of the output brrby, bnd mby,
+     * under certbin circumstbnces, be used to sbve bllocbtion costs.
      *
-     * <p>Suppose {@code x} is a queue known to contain only strings.
-     * The following code can be used to dump the queue into a newly
-     * allocated array of {@code String}:
+     * <p>Suppose {@code x} is b queue known to contbin only strings.
+     * The following code cbn be used to dump the queue into b newly
+     * bllocbted brrby of {@code String}:
      *
-     *  <pre> {@code String[] y = x.toArray(new String[0]);}</pre>
+     *  <pre> {@code String[] y = x.toArrby(new String[0]);}</pre>
      *
-     * Note that {@code toArray(new Object[0])} is identical in function to
-     * {@code toArray()}.
+     * Note thbt {@code toArrby(new Object[0])} is identicbl in function to
+     * {@code toArrby()}.
      *
-     * @param a the array into which the elements of the queue are to
-     *          be stored, if it is big enough; otherwise, a new array of the
-     *          same runtime type is allocated for this purpose.
-     * @return an array containing all of the elements in this queue
-     * @throws ArrayStoreException if the runtime type of the specified array
-     *         is not a supertype of the runtime type of every element in
+     * @pbrbm b the brrby into which the elements of the queue bre to
+     *          be stored, if it is big enough; otherwise, b new brrby of the
+     *          sbme runtime type is bllocbted for this purpose.
+     * @return bn brrby contbining bll of the elements in this queue
+     * @throws ArrbyStoreException if the runtime type of the specified brrby
+     *         is not b supertype of the runtime type of every element in
      *         this queue
-     * @throws NullPointerException if the specified array is null
+     * @throws NullPointerException if the specified brrby is null
      */
-    @SuppressWarnings("unchecked")
-    public <T> T[] toArray(T[] a) {
-        final int size = this.size;
-        if (a.length < size)
-            // Make a new array of a's runtime type, but my contents:
-            return (T[]) Arrays.copyOf(queue, size, a.getClass());
-        System.arraycopy(queue, 0, a, 0, size);
-        if (a.length > size)
-            a[size] = null;
-        return a;
+    @SuppressWbrnings("unchecked")
+    public <T> T[] toArrby(T[] b) {
+        finbl int size = this.size;
+        if (b.length < size)
+            // Mbke b new brrby of b's runtime type, but my contents:
+            return (T[]) Arrbys.copyOf(queue, size, b.getClbss());
+        System.brrbycopy(queue, 0, b, 0, size);
+        if (b.length > size)
+            b[size] = null;
+        return b;
     }
 
     /**
-     * Returns an iterator over the elements in this queue. The iterator
-     * does not return the elements in any particular order.
+     * Returns bn iterbtor over the elements in this queue. The iterbtor
+     * does not return the elements in bny pbrticulbr order.
      *
-     * @return an iterator over the elements in this queue
+     * @return bn iterbtor over the elements in this queue
      */
-    public Iterator<E> iterator() {
+    public Iterbtor<E> iterbtor() {
         return new Itr();
     }
 
-    private final class Itr implements Iterator<E> {
+    privbte finbl clbss Itr implements Iterbtor<E> {
         /**
-         * Index (into queue array) of element to be returned by
-         * subsequent call to next.
+         * Index (into queue brrby) of element to be returned by
+         * subsequent cbll to next.
          */
-        private int cursor = 0;
+        privbte int cursor = 0;
 
         /**
-         * Index of element returned by most recent call to next,
-         * unless that element came from the forgetMeNot list.
-         * Set to -1 if element is deleted by a call to remove.
+         * Index of element returned by most recent cbll to next,
+         * unless thbt element cbme from the forgetMeNot list.
+         * Set to -1 if element is deleted by b cbll to remove.
          */
-        private int lastRet = -1;
+        privbte int lbstRet = -1;
 
         /**
-         * A queue of elements that were moved from the unvisited portion of
-         * the heap into the visited portion as a result of "unlucky" element
-         * removals during the iteration.  (Unlucky element removals are those
-         * that require a siftup instead of a siftdown.)  We must visit all of
-         * the elements in this list to complete the iteration.  We do this
-         * after we've completed the "normal" iteration.
+         * A queue of elements thbt were moved from the unvisited portion of
+         * the hebp into the visited portion bs b result of "unlucky" element
+         * removbls during the iterbtion.  (Unlucky element removbls bre those
+         * thbt require b siftup instebd of b siftdown.)  We must visit bll of
+         * the elements in this list to complete the iterbtion.  We do this
+         * bfter we've completed the "normbl" iterbtion.
          *
-         * We expect that most iterations, even those involving removals,
+         * We expect thbt most iterbtions, even those involving removbls,
          * will not need to store elements in this field.
          */
-        private ArrayDeque<E> forgetMeNot = null;
+        privbte ArrbyDeque<E> forgetMeNot = null;
 
         /**
-         * Element returned by the most recent call to next iff that
-         * element was drawn from the forgetMeNot list.
+         * Element returned by the most recent cbll to next iff thbt
+         * element wbs drbwn from the forgetMeNot list.
          */
-        private E lastRetElt = null;
+        privbte E lbstRetElt = null;
 
         /**
-         * The modCount value that the iterator believes that the backing
-         * Queue should have.  If this expectation is violated, the iterator
-         * has detected concurrent modification.
+         * The modCount vblue thbt the iterbtor believes thbt the bbcking
+         * Queue should hbve.  If this expectbtion is violbted, the iterbtor
+         * hbs detected concurrent modificbtion.
          */
-        private int expectedModCount = modCount;
+        privbte int expectedModCount = modCount;
 
-        public boolean hasNext() {
+        public boolebn hbsNext() {
             return cursor < size ||
                 (forgetMeNot != null && !forgetMeNot.isEmpty());
         }
 
-        @SuppressWarnings("unchecked")
+        @SuppressWbrnings("unchecked")
         public E next() {
             if (expectedModCount != modCount)
-                throw new ConcurrentModificationException();
+                throw new ConcurrentModificbtionException();
             if (cursor < size)
-                return (E) queue[lastRet = cursor++];
+                return (E) queue[lbstRet = cursor++];
             if (forgetMeNot != null) {
-                lastRet = -1;
-                lastRetElt = forgetMeNot.poll();
-                if (lastRetElt != null)
-                    return lastRetElt;
+                lbstRet = -1;
+                lbstRetElt = forgetMeNot.poll();
+                if (lbstRetElt != null)
+                    return lbstRetElt;
             }
             throw new NoSuchElementException();
         }
 
         public void remove() {
             if (expectedModCount != modCount)
-                throw new ConcurrentModificationException();
-            if (lastRet != -1) {
-                E moved = PriorityQueue.this.removeAt(lastRet);
-                lastRet = -1;
+                throw new ConcurrentModificbtionException();
+            if (lbstRet != -1) {
+                E moved = PriorityQueue.this.removeAt(lbstRet);
+                lbstRet = -1;
                 if (moved == null)
                     cursor--;
                 else {
                     if (forgetMeNot == null)
-                        forgetMeNot = new ArrayDeque<>();
-                    forgetMeNot.add(moved);
+                        forgetMeNot = new ArrbyDeque<>();
+                    forgetMeNot.bdd(moved);
                 }
-            } else if (lastRetElt != null) {
-                PriorityQueue.this.removeEq(lastRetElt);
-                lastRetElt = null;
+            } else if (lbstRetElt != null) {
+                PriorityQueue.this.removeEq(lbstRetElt);
+                lbstRetElt = null;
             } else {
-                throw new IllegalStateException();
+                throw new IllegblStbteException();
             }
             expectedModCount = modCount;
         }
@@ -572,17 +572,17 @@ public class PriorityQueue<E> extends AbstractQueue<E>
     }
 
     /**
-     * Removes all of the elements from this priority queue.
-     * The queue will be empty after this call returns.
+     * Removes bll of the elements from this priority queue.
+     * The queue will be empty bfter this cbll returns.
      */
-    public void clear() {
+    public void clebr() {
         modCount++;
         for (int i = 0; i < size; i++)
             queue[i] = null;
         size = 0;
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWbrnings("unchecked")
     public E poll() {
         if (size == 0)
             return null;
@@ -599,21 +599,21 @@ public class PriorityQueue<E> extends AbstractQueue<E>
     /**
      * Removes the ith element from queue.
      *
-     * Normally this method leaves the elements at up to i-1,
-     * inclusive, untouched.  Under these circumstances, it returns
-     * null.  Occasionally, in order to maintain the heap invariant,
-     * it must swap a later element of the list with one earlier than
-     * i.  Under these circumstances, this method returns the element
-     * that was previously at the end of the list and is now at some
-     * position before i. This fact is used by iterator.remove so as to
-     * avoid missing traversing elements.
+     * Normblly this method lebves the elements bt up to i-1,
+     * inclusive, untouched.  Under these circumstbnces, it returns
+     * null.  Occbsionblly, in order to mbintbin the hebp invbribnt,
+     * it must swbp b lbter element of the list with one ebrlier thbn
+     * i.  Under these circumstbnces, this method returns the element
+     * thbt wbs previously bt the end of the list bnd is now bt some
+     * position before i. This fbct is used by iterbtor.remove so bs to
+     * bvoid missing trbversing elements.
      */
-    @SuppressWarnings("unchecked")
-    private E removeAt(int i) {
-        // assert i >= 0 && i < size;
+    @SuppressWbrnings("unchecked")
+    privbte E removeAt(int i) {
+        // bssert i >= 0 && i < size;
         modCount++;
         int s = --size;
-        if (s == i) // removed last element
+        if (s == i) // removed lbst element
             queue[i] = null;
         else {
             E moved = (E) queue[s];
@@ -629,97 +629,97 @@ public class PriorityQueue<E> extends AbstractQueue<E>
     }
 
     /**
-     * Inserts item x at position k, maintaining heap invariant by
-     * promoting x up the tree until it is greater than or equal to
-     * its parent, or is the root.
+     * Inserts item x bt position k, mbintbining hebp invbribnt by
+     * promoting x up the tree until it is grebter thbn or equbl to
+     * its pbrent, or is the root.
      *
-     * To simplify and speed up coercions and comparisons. the
-     * Comparable and Comparator versions are separated into different
-     * methods that are otherwise identical. (Similarly for siftDown.)
+     * To simplify bnd speed up coercions bnd compbrisons. the
+     * Compbrbble bnd Compbrbtor versions bre sepbrbted into different
+     * methods thbt bre otherwise identicbl. (Similbrly for siftDown.)
      *
-     * @param k the position to fill
-     * @param x the item to insert
+     * @pbrbm k the position to fill
+     * @pbrbm x the item to insert
      */
-    private void siftUp(int k, E x) {
-        if (comparator != null)
-            siftUpUsingComparator(k, x);
+    privbte void siftUp(int k, E x) {
+        if (compbrbtor != null)
+            siftUpUsingCompbrbtor(k, x);
         else
-            siftUpComparable(k, x);
+            siftUpCompbrbble(k, x);
     }
 
-    @SuppressWarnings("unchecked")
-    private void siftUpComparable(int k, E x) {
-        Comparable<? super E> key = (Comparable<? super E>) x;
+    @SuppressWbrnings("unchecked")
+    privbte void siftUpCompbrbble(int k, E x) {
+        Compbrbble<? super E> key = (Compbrbble<? super E>) x;
         while (k > 0) {
-            int parent = (k - 1) >>> 1;
-            Object e = queue[parent];
-            if (key.compareTo((E) e) >= 0)
-                break;
+            int pbrent = (k - 1) >>> 1;
+            Object e = queue[pbrent];
+            if (key.compbreTo((E) e) >= 0)
+                brebk;
             queue[k] = e;
-            k = parent;
+            k = pbrent;
         }
         queue[k] = key;
     }
 
-    @SuppressWarnings("unchecked")
-    private void siftUpUsingComparator(int k, E x) {
+    @SuppressWbrnings("unchecked")
+    privbte void siftUpUsingCompbrbtor(int k, E x) {
         while (k > 0) {
-            int parent = (k - 1) >>> 1;
-            Object e = queue[parent];
-            if (comparator.compare(x, (E) e) >= 0)
-                break;
+            int pbrent = (k - 1) >>> 1;
+            Object e = queue[pbrent];
+            if (compbrbtor.compbre(x, (E) e) >= 0)
+                brebk;
             queue[k] = e;
-            k = parent;
+            k = pbrent;
         }
         queue[k] = x;
     }
 
     /**
-     * Inserts item x at position k, maintaining heap invariant by
-     * demoting x down the tree repeatedly until it is less than or
-     * equal to its children or is a leaf.
+     * Inserts item x bt position k, mbintbining hebp invbribnt by
+     * demoting x down the tree repebtedly until it is less thbn or
+     * equbl to its children or is b lebf.
      *
-     * @param k the position to fill
-     * @param x the item to insert
+     * @pbrbm k the position to fill
+     * @pbrbm x the item to insert
      */
-    private void siftDown(int k, E x) {
-        if (comparator != null)
-            siftDownUsingComparator(k, x);
+    privbte void siftDown(int k, E x) {
+        if (compbrbtor != null)
+            siftDownUsingCompbrbtor(k, x);
         else
-            siftDownComparable(k, x);
+            siftDownCompbrbble(k, x);
     }
 
-    @SuppressWarnings("unchecked")
-    private void siftDownComparable(int k, E x) {
-        Comparable<? super E> key = (Comparable<? super E>)x;
-        int half = size >>> 1;        // loop while a non-leaf
-        while (k < half) {
-            int child = (k << 1) + 1; // assume left child is least
+    @SuppressWbrnings("unchecked")
+    privbte void siftDownCompbrbble(int k, E x) {
+        Compbrbble<? super E> key = (Compbrbble<? super E>)x;
+        int hblf = size >>> 1;        // loop while b non-lebf
+        while (k < hblf) {
+            int child = (k << 1) + 1; // bssume left child is lebst
             Object c = queue[child];
             int right = child + 1;
             if (right < size &&
-                ((Comparable<? super E>) c).compareTo((E) queue[right]) > 0)
+                ((Compbrbble<? super E>) c).compbreTo((E) queue[right]) > 0)
                 c = queue[child = right];
-            if (key.compareTo((E) c) <= 0)
-                break;
+            if (key.compbreTo((E) c) <= 0)
+                brebk;
             queue[k] = c;
             k = child;
         }
         queue[k] = key;
     }
 
-    @SuppressWarnings("unchecked")
-    private void siftDownUsingComparator(int k, E x) {
-        int half = size >>> 1;
-        while (k < half) {
+    @SuppressWbrnings("unchecked")
+    privbte void siftDownUsingCompbrbtor(int k, E x) {
+        int hblf = size >>> 1;
+        while (k < hblf) {
             int child = (k << 1) + 1;
             Object c = queue[child];
             int right = child + 1;
             if (right < size &&
-                comparator.compare((E) c, (E) queue[right]) > 0)
+                compbrbtor.compbre((E) c, (E) queue[right]) > 0)
                 c = queue[child = right];
-            if (comparator.compare(x, (E) c) <= 0)
-                break;
+            if (compbrbtor.compbre(x, (E) c) <= 0)
+                brebk;
             queue[k] = c;
             k = child;
         }
@@ -727,103 +727,103 @@ public class PriorityQueue<E> extends AbstractQueue<E>
     }
 
     /**
-     * Establishes the heap invariant (described above) in the entire tree,
-     * assuming nothing about the order of the elements prior to the call.
+     * Estbblishes the hebp invbribnt (described bbove) in the entire tree,
+     * bssuming nothing bbout the order of the elements prior to the cbll.
      */
-    @SuppressWarnings("unchecked")
-    private void heapify() {
+    @SuppressWbrnings("unchecked")
+    privbte void hebpify() {
         for (int i = (size >>> 1) - 1; i >= 0; i--)
             siftDown(i, (E) queue[i]);
     }
 
     /**
-     * Returns the comparator used to order the elements in this
-     * queue, or {@code null} if this queue is sorted according to
-     * the {@linkplain Comparable natural ordering} of its elements.
+     * Returns the compbrbtor used to order the elements in this
+     * queue, or {@code null} if this queue is sorted bccording to
+     * the {@linkplbin Compbrbble nbturbl ordering} of its elements.
      *
-     * @return the comparator used to order this queue, or
-     *         {@code null} if this queue is sorted according to the
-     *         natural ordering of its elements
+     * @return the compbrbtor used to order this queue, or
+     *         {@code null} if this queue is sorted bccording to the
+     *         nbturbl ordering of its elements
      */
-    public Comparator<? super E> comparator() {
-        return comparator;
+    public Compbrbtor<? super E> compbrbtor() {
+        return compbrbtor;
     }
 
     /**
-     * Saves this queue to a stream (that is, serializes it).
+     * Sbves this queue to b strebm (thbt is, seriblizes it).
      *
-     * @serialData The length of the array backing the instance is
-     *             emitted (int), followed by all of its elements
-     *             (each an {@code Object}) in the proper order.
-     * @param s the stream
+     * @seriblDbtb The length of the brrby bbcking the instbnce is
+     *             emitted (int), followed by bll of its elements
+     *             (ebch bn {@code Object}) in the proper order.
+     * @pbrbm s the strebm
      */
-    private void writeObject(java.io.ObjectOutputStream s)
-        throws java.io.IOException {
-        // Write out element count, and any hidden stuff
-        s.defaultWriteObject();
+    privbte void writeObject(jbvb.io.ObjectOutputStrebm s)
+        throws jbvb.io.IOException {
+        // Write out element count, bnd bny hidden stuff
+        s.defbultWriteObject();
 
-        // Write out array length, for compatibility with 1.5 version
-        s.writeInt(Math.max(2, size + 1));
+        // Write out brrby length, for compbtibility with 1.5 version
+        s.writeInt(Mbth.mbx(2, size + 1));
 
-        // Write out all elements in the "proper order".
+        // Write out bll elements in the "proper order".
         for (int i = 0; i < size; i++)
             s.writeObject(queue[i]);
     }
 
     /**
-     * Reconstitutes the {@code PriorityQueue} instance from a stream
-     * (that is, deserializes it).
+     * Reconstitutes the {@code PriorityQueue} instbnce from b strebm
+     * (thbt is, deseriblizes it).
      *
-     * @param s the stream
+     * @pbrbm s the strebm
      */
-    private void readObject(java.io.ObjectInputStream s)
-        throws java.io.IOException, ClassNotFoundException {
-        // Read in size, and any hidden stuff
-        s.defaultReadObject();
+    privbte void rebdObject(jbvb.io.ObjectInputStrebm s)
+        throws jbvb.io.IOException, ClbssNotFoundException {
+        // Rebd in size, bnd bny hidden stuff
+        s.defbultRebdObject();
 
-        // Read in (and discard) array length
-        s.readInt();
+        // Rebd in (bnd discbrd) brrby length
+        s.rebdInt();
 
         queue = new Object[size];
 
-        // Read in all elements.
+        // Rebd in bll elements.
         for (int i = 0; i < size; i++)
-            queue[i] = s.readObject();
+            queue[i] = s.rebdObject();
 
-        // Elements are guaranteed to be in "proper order", but the
-        // spec has never explained what that might be.
-        heapify();
+        // Elements bre gubrbnteed to be in "proper order", but the
+        // spec hbs never explbined whbt thbt might be.
+        hebpify();
     }
 
     /**
-     * Creates a <em><a href="Spliterator.html#binding">late-binding</a></em>
-     * and <em>fail-fast</em> {@link Spliterator} over the elements in this
+     * Crebtes b <em><b href="Spliterbtor.html#binding">lbte-binding</b></em>
+     * bnd <em>fbil-fbst</em> {@link Spliterbtor} over the elements in this
      * queue.
      *
-     * <p>The {@code Spliterator} reports {@link Spliterator#SIZED},
-     * {@link Spliterator#SUBSIZED}, and {@link Spliterator#NONNULL}.
-     * Overriding implementations should document the reporting of additional
-     * characteristic values.
+     * <p>The {@code Spliterbtor} reports {@link Spliterbtor#SIZED},
+     * {@link Spliterbtor#SUBSIZED}, bnd {@link Spliterbtor#NONNULL}.
+     * Overriding implementbtions should document the reporting of bdditionbl
+     * chbrbcteristic vblues.
      *
-     * @return a {@code Spliterator} over the elements in this queue
+     * @return b {@code Spliterbtor} over the elements in this queue
      * @since 1.8
      */
-    public final Spliterator<E> spliterator() {
-        return new PriorityQueueSpliterator<>(this, 0, -1, 0);
+    public finbl Spliterbtor<E> spliterbtor() {
+        return new PriorityQueueSpliterbtor<>(this, 0, -1, 0);
     }
 
-    static final class PriorityQueueSpliterator<E> implements Spliterator<E> {
+    stbtic finbl clbss PriorityQueueSpliterbtor<E> implements Spliterbtor<E> {
         /*
-         * This is very similar to ArrayList Spliterator, except for
-         * extra null checks.
+         * This is very similbr to ArrbyList Spliterbtor, except for
+         * extrb null checks.
          */
-        private final PriorityQueue<E> pq;
-        private int index;            // current index, modified on advance/split
-        private int fence;            // -1 until first use
-        private int expectedModCount; // initialized when fence set
+        privbte finbl PriorityQueue<E> pq;
+        privbte int index;            // current index, modified on bdvbnce/split
+        privbte int fence;            // -1 until first use
+        privbte int expectedModCount; // initiblized when fence set
 
-        /** Creates new spliterator covering the given range */
-        PriorityQueueSpliterator(PriorityQueue<E> pq, int origin, int fence,
+        /** Crebtes new spliterbtor covering the given rbnge */
+        PriorityQueueSpliterbtor(PriorityQueue<E> pq, int origin, int fence,
                              int expectedModCount) {
             this.pq = pq;
             this.index = origin;
@@ -831,7 +831,7 @@ public class PriorityQueue<E> extends AbstractQueue<E>
             this.expectedModCount = expectedModCount;
         }
 
-        private int getFence() { // initialize fence to size on first use
+        privbte int getFence() { // initiblize fence to size on first use
             int hi;
             if ((hi = fence) < 0) {
                 expectedModCount = pq.modCount;
@@ -840,66 +840,66 @@ public class PriorityQueue<E> extends AbstractQueue<E>
             return hi;
         }
 
-        public PriorityQueueSpliterator<E> trySplit() {
+        public PriorityQueueSpliterbtor<E> trySplit() {
             int hi = getFence(), lo = index, mid = (lo + hi) >>> 1;
             return (lo >= mid) ? null :
-                new PriorityQueueSpliterator<>(pq, lo, index = mid,
+                new PriorityQueueSpliterbtor<>(pq, lo, index = mid,
                                                expectedModCount);
         }
 
-        @SuppressWarnings("unchecked")
-        public void forEachRemaining(Consumer<? super E> action) {
-            int i, hi, mc; // hoist accesses and checks from loop
-            PriorityQueue<E> q; Object[] a;
-            if (action == null)
+        @SuppressWbrnings("unchecked")
+        public void forEbchRembining(Consumer<? super E> bction) {
+            int i, hi, mc; // hoist bccesses bnd checks from loop
+            PriorityQueue<E> q; Object[] b;
+            if (bction == null)
                 throw new NullPointerException();
-            if ((q = pq) != null && (a = q.queue) != null) {
+            if ((q = pq) != null && (b = q.queue) != null) {
                 if ((hi = fence) < 0) {
                     mc = q.modCount;
                     hi = q.size;
                 }
                 else
                     mc = expectedModCount;
-                if ((i = index) >= 0 && (index = hi) <= a.length) {
+                if ((i = index) >= 0 && (index = hi) <= b.length) {
                     for (E e;; ++i) {
                         if (i < hi) {
-                            if ((e = (E) a[i]) == null) // must be CME
-                                break;
-                            action.accept(e);
+                            if ((e = (E) b[i]) == null) // must be CME
+                                brebk;
+                            bction.bccept(e);
                         }
                         else if (q.modCount != mc)
-                            break;
+                            brebk;
                         else
                             return;
                     }
                 }
             }
-            throw new ConcurrentModificationException();
+            throw new ConcurrentModificbtionException();
         }
 
-        public boolean tryAdvance(Consumer<? super E> action) {
-            if (action == null)
+        public boolebn tryAdvbnce(Consumer<? super E> bction) {
+            if (bction == null)
                 throw new NullPointerException();
             int hi = getFence(), lo = index;
             if (lo >= 0 && lo < hi) {
                 index = lo + 1;
-                @SuppressWarnings("unchecked") E e = (E)pq.queue[lo];
+                @SuppressWbrnings("unchecked") E e = (E)pq.queue[lo];
                 if (e == null)
-                    throw new ConcurrentModificationException();
-                action.accept(e);
+                    throw new ConcurrentModificbtionException();
+                bction.bccept(e);
                 if (pq.modCount != expectedModCount)
-                    throw new ConcurrentModificationException();
+                    throw new ConcurrentModificbtionException();
                 return true;
             }
-            return false;
+            return fblse;
         }
 
-        public long estimateSize() {
+        public long estimbteSize() {
             return (long) (getFence() - index);
         }
 
-        public int characteristics() {
-            return Spliterator.SIZED | Spliterator.SUBSIZED | Spliterator.NONNULL;
+        public int chbrbcteristics() {
+            return Spliterbtor.SIZED | Spliterbtor.SUBSIZED | Spliterbtor.NONNULL;
         }
     }
 }

@@ -1,101 +1,101 @@
 /*
- * Copyright (c) 1999, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jndi.ldap;
+pbckbge com.sun.jndi.ldbp;
 
-import sun.misc.SharedSecrets;
+import sun.misc.ShbredSecrets;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLClassLoader;
-import java.security.AccessControlContext;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
+import jbvb.net.MblformedURLException;
+import jbvb.net.URL;
+import jbvb.net.URLClbssLobder;
+import jbvb.security.AccessControlContext;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
 
-public final class VersionHelper {
+public finbl clbss VersionHelper {
 
-    private static final VersionHelper helper = new VersionHelper();
+    privbte stbtic finbl VersionHelper helper = new VersionHelper();
 
     /**
-     * Determines whether classes may be loaded from an arbitrary URL code base.
+     * Determines whether clbsses mby be lobded from bn brbitrbry URL code bbse.
      */
-    private static final boolean trustURLCodebase;
+    privbte stbtic finbl boolebn trustURLCodebbse;
 
-    static {
-        // System property to control whether classes may be loaded from an
-        // arbitrary URL code base
-        PrivilegedAction<String> act =
-                () -> System.getProperty("com.sun.jndi.ldap.object.trustURLCodebase", "false");
-        String trust = AccessController.doPrivileged(act);
-        trustURLCodebase = "true".equalsIgnoreCase(trust);
+    stbtic {
+        // System property to control whether clbsses mby be lobded from bn
+        // brbitrbry URL code bbse
+        PrivilegedAction<String> bct =
+                () -> System.getProperty("com.sun.jndi.ldbp.object.trustURLCodebbse", "fblse");
+        String trust = AccessController.doPrivileged(bct);
+        trustURLCodebbse = "true".equblsIgnoreCbse(trust);
     }
 
-    private VersionHelper() { }
+    privbte VersionHelper() { }
 
-    static VersionHelper getVersionHelper() {
+    stbtic VersionHelper getVersionHelper() {
         return helper;
     }
 
-    ClassLoader getURLClassLoader(String[] url) throws MalformedURLException {
-        ClassLoader parent = getContextClassLoader();
+    ClbssLobder getURLClbssLobder(String[] url) throws MblformedURLException {
+        ClbssLobder pbrent = getContextClbssLobder();
         /*
-         * Classes may only be loaded from an arbitrary URL code base when
-         * the system property com.sun.jndi.ldap.object.trustURLCodebase
-         * has been set to "true".
+         * Clbsses mby only be lobded from bn brbitrbry URL code bbse when
+         * the system property com.sun.jndi.ldbp.object.trustURLCodebbse
+         * hbs been set to "true".
          */
-        if (url != null && trustURLCodebase) {
-            return URLClassLoader.newInstance(getUrlArray(url), parent);
+        if (url != null && trustURLCodebbse) {
+            return URLClbssLobder.newInstbnce(getUrlArrby(url), pbrent);
         } else {
-            return parent;
+            return pbrent;
         }
     }
 
-    Class<?> loadClass(String className) throws ClassNotFoundException {
-        return Class.forName(className, true, getContextClassLoader());
+    Clbss<?> lobdClbss(String clbssNbme) throws ClbssNotFoundException {
+        return Clbss.forNbme(clbssNbme, true, getContextClbssLobder());
     }
 
-    Thread createThread(Runnable r) {
-        AccessControlContext acc = AccessController.getContext();
-        // 4290486: doPrivileged is needed to create a thread in
-        // an environment that restricts "modifyThreadGroup".
-        PrivilegedAction<Thread> act =
-                () -> SharedSecrets.getJavaLangAccess().newThreadWithAcc(r, acc);
-        return AccessController.doPrivileged(act);
+    Threbd crebteThrebd(Runnbble r) {
+        AccessControlContext bcc = AccessController.getContext();
+        // 4290486: doPrivileged is needed to crebte b threbd in
+        // bn environment thbt restricts "modifyThrebdGroup".
+        PrivilegedAction<Threbd> bct =
+                () -> ShbredSecrets.getJbvbLbngAccess().newThrebdWithAcc(r, bcc);
+        return AccessController.doPrivileged(bct);
     }
 
-    private ClassLoader getContextClassLoader() {
-        PrivilegedAction<ClassLoader> act =
-                Thread.currentThread()::getContextClassLoader;
-        return AccessController.doPrivileged(act);
+    privbte ClbssLobder getContextClbssLobder() {
+        PrivilegedAction<ClbssLobder> bct =
+                Threbd.currentThrebd()::getContextClbssLobder;
+        return AccessController.doPrivileged(bct);
     }
 
-    private static URL[] getUrlArray(String[] url) throws MalformedURLException {
-        URL[] urlArray = new URL[url.length];
-        for (int i = 0; i < urlArray.length; i++) {
-            urlArray[i] = new URL(url[i]);
+    privbte stbtic URL[] getUrlArrby(String[] url) throws MblformedURLException {
+        URL[] urlArrby = new URL[url.length];
+        for (int i = 0; i < urlArrby.length; i++) {
+            urlArrby[i] = new URL(url[i]);
         }
-        return urlArray;
+        return urlArrby;
     }
 }

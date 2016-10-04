@@ -1,205 +1,205 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.print;
+pbckbge sun.print;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Vector;
-import java.security.AccessController;
-import java.security.PrivilegedActionException;
-import java.security.PrivilegedExceptionAction;
-import javax.print.DocFlavor;
-import javax.print.MultiDocPrintService;
-import javax.print.PrintService;
-import javax.print.PrintServiceLookup;
-import javax.print.attribute.Attribute;
-import javax.print.attribute.AttributeSet;
-import javax.print.attribute.HashPrintRequestAttributeSet;
-import javax.print.attribute.HashPrintServiceAttributeSet;
-import javax.print.attribute.PrintRequestAttribute;
-import javax.print.attribute.PrintRequestAttributeSet;
-import javax.print.attribute.PrintServiceAttribute;
-import javax.print.attribute.PrintServiceAttributeSet;
-import javax.print.attribute.standard.PrinterName;
-import javax.print.attribute.standard.PrinterURI;
-import java.io.File;
-import java.io.FileReader;
-import java.net.URL;
-import java.nio.file.Files;
+import jbvb.io.BufferedRebder;
+import jbvb.io.FileInputStrebm;
+import jbvb.io.InputStrebm;
+import jbvb.io.InputStrebmRebder;
+import jbvb.io.IOException;
+import jbvb.util.ArrbyList;
+import jbvb.util.Vector;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedActionException;
+import jbvb.security.PrivilegedExceptionAction;
+import jbvbx.print.DocFlbvor;
+import jbvbx.print.MultiDocPrintService;
+import jbvbx.print.PrintService;
+import jbvbx.print.PrintServiceLookup;
+import jbvbx.print.bttribute.Attribute;
+import jbvbx.print.bttribute.AttributeSet;
+import jbvbx.print.bttribute.HbshPrintRequestAttributeSet;
+import jbvbx.print.bttribute.HbshPrintServiceAttributeSet;
+import jbvbx.print.bttribute.PrintRequestAttribute;
+import jbvbx.print.bttribute.PrintRequestAttributeSet;
+import jbvbx.print.bttribute.PrintServiceAttribute;
+import jbvbx.print.bttribute.PrintServiceAttributeSet;
+import jbvbx.print.bttribute.stbndbrd.PrinterNbme;
+import jbvbx.print.bttribute.stbndbrd.PrinterURI;
+import jbvb.io.File;
+import jbvb.io.FileRebder;
+import jbvb.net.URL;
+import jbvb.nio.file.Files;
 
 /*
- * Remind: This class uses solaris commands. We also need a linux
+ * Remind: This clbss uses solbris commbnds. We blso need b linux
  * version
  */
-public class UnixPrintServiceLookup extends PrintServiceLookup
-    implements BackgroundServiceLookup, Runnable {
+public clbss UnixPrintServiceLookup extends PrintServiceLookup
+    implements BbckgroundServiceLookup, Runnbble {
 
-    /* Remind: the current implementation is static, as its assumed
-     * its preferable to minimize creation of PrintService instances.
-     * Later we should add logic to add/remove services on the fly which
-     * will take a hit of needing to regather the list of services.
+    /* Remind: the current implementbtion is stbtic, bs its bssumed
+     * its preferbble to minimize crebtion of PrintService instbnces.
+     * Lbter we should bdd logic to bdd/remove services on the fly which
+     * will tbke b hit of needing to regbther the list of services.
      */
-    private String defaultPrinter;
-    private PrintService defaultPrintService;
-    private PrintService[] printServices; /* includes the default printer */
-    private Vector<BackgroundLookupListener> lookupListeners = null;
-    private static String debugPrefix = "UnixPrintServiceLookup>> ";
-    private static boolean pollServices = true;
-    private static final int DEFAULT_MINREFRESH = 120;  // 2 minutes
-    private static int minRefreshTime = DEFAULT_MINREFRESH;
+    privbte String defbultPrinter;
+    privbte PrintService defbultPrintService;
+    privbte PrintService[] printServices; /* includes the defbult printer */
+    privbte Vector<BbckgroundLookupListener> lookupListeners = null;
+    privbte stbtic String debugPrefix = "UnixPrintServiceLookup>> ";
+    privbte stbtic boolebn pollServices = true;
+    privbte stbtic finbl int DEFAULT_MINREFRESH = 120;  // 2 minutes
+    privbte stbtic int minRefreshTime = DEFAULT_MINREFRESH;
 
 
-    static String osname;
+    stbtic String osnbme;
 
-    // List of commands used to deal with the printer queues on AIX
-    String[] lpNameComAix = {
-      "/usr/bin/lsallq",
-      "/usr/bin/lpstat -W -p|/usr/bin/expand|/usr/bin/cut -f1 -d' '",
-      "/usr/bin/lpstat -W -d|/usr/bin/expand|/usr/bin/cut -f1 -d' '",
-      "/usr/bin/lpstat -W -v"
+    // List of commbnds used to debl with the printer queues on AIX
+    String[] lpNbmeComAix = {
+      "/usr/bin/lsbllq",
+      "/usr/bin/lpstbt -W -p|/usr/bin/expbnd|/usr/bin/cut -f1 -d' '",
+      "/usr/bin/lpstbt -W -d|/usr/bin/expbnd|/usr/bin/cut -f1 -d' '",
+      "/usr/bin/lpstbt -W -v"
     };
-    private static final int aix_lsallq = 0;
-    private static final int aix_lpstat_p = 1;
-    private static final int aix_lpstat_d = 2;
-    private static final int aix_lpstat_v = 3;
-    private static int aix_defaultPrinterEnumeration = aix_lsallq;
+    privbte stbtic finbl int bix_lsbllq = 0;
+    privbte stbtic finbl int bix_lpstbt_p = 1;
+    privbte stbtic finbl int bix_lpstbt_d = 2;
+    privbte stbtic finbl int bix_lpstbt_v = 3;
+    privbte stbtic int bix_defbultPrinterEnumerbtion = bix_lsbllq;
 
-    static {
-        /* The system property "sun.java2d.print.polling"
-         * can be used to force the printing code to poll or not poll
+    stbtic {
+        /* The system property "sun.jbvb2d.print.polling"
+         * cbn be used to force the printing code to poll or not poll
          * for PrintServices.
          */
-        String pollStr = java.security.AccessController.doPrivileged(
-            new sun.security.action.GetPropertyAction("sun.java2d.print.polling"));
+        String pollStr = jbvb.security.AccessController.doPrivileged(
+            new sun.security.bction.GetPropertyAction("sun.jbvb2d.print.polling"));
 
         if (pollStr != null) {
-            if (pollStr.equalsIgnoreCase("true")) {
+            if (pollStr.equblsIgnoreCbse("true")) {
                 pollServices = true;
-            } else if (pollStr.equalsIgnoreCase("false")) {
-                pollServices = false;
+            } else if (pollStr.equblsIgnoreCbse("fblse")) {
+                pollServices = fblse;
             }
         }
 
-        /* The system property "sun.java2d.print.minRefreshTime"
-         * can be used to specify minimum refresh time (in seconds)
-         * for polling PrintServices.  The default is 120.
+        /* The system property "sun.jbvb2d.print.minRefreshTime"
+         * cbn be used to specify minimum refresh time (in seconds)
+         * for polling PrintServices.  The defbult is 120.
          */
-        String refreshTimeStr = java.security.AccessController.doPrivileged(
-            new sun.security.action.GetPropertyAction(
-                "sun.java2d.print.minRefreshTime"));
+        String refreshTimeStr = jbvb.security.AccessController.doPrivileged(
+            new sun.security.bction.GetPropertyAction(
+                "sun.jbvb2d.print.minRefreshTime"));
 
         if (refreshTimeStr != null) {
             try {
-                minRefreshTime = (new Integer(refreshTimeStr)).intValue();
-            } catch (NumberFormatException e) {
+                minRefreshTime = (new Integer(refreshTimeStr)).intVblue();
+            } cbtch (NumberFormbtException e) {
             }
             if (minRefreshTime < DEFAULT_MINREFRESH) {
                 minRefreshTime = DEFAULT_MINREFRESH;
             }
         }
 
-        osname = java.security.AccessController.doPrivileged(
-            new sun.security.action.GetPropertyAction("os.name"));
+        osnbme = jbvb.security.AccessController.doPrivileged(
+            new sun.security.bction.GetPropertyAction("os.nbme"));
 
-        /* The system property "sun.java2d.print.aix.lpstat"
-         * can be used to force the usage of 'lpstat -p' to enumerate all
-         * printer queues. By default we use 'lsallq', because 'lpstat -p' can
-         * take lots of time if thousands of printers are attached to a server.
+        /* The system property "sun.jbvb2d.print.bix.lpstbt"
+         * cbn be used to force the usbge of 'lpstbt -p' to enumerbte bll
+         * printer queues. By defbult we use 'lsbllq', becbuse 'lpstbt -p' cbn
+         * tbke lots of time if thousbnds of printers bre bttbched to b server.
          */
         if (isAIX()) {
-            String aixPrinterEnumerator = java.security.AccessController.doPrivileged(
-                new sun.security.action.GetPropertyAction("sun.java2d.print.aix.lpstat"));
+            String bixPrinterEnumerbtor = jbvb.security.AccessController.doPrivileged(
+                new sun.security.bction.GetPropertyAction("sun.jbvb2d.print.bix.lpstbt"));
 
-            if (aixPrinterEnumerator != null) {
-                if (aixPrinterEnumerator.equalsIgnoreCase("lpstat")) {
-                    aix_defaultPrinterEnumeration = aix_lpstat_p;
-                } else if (aixPrinterEnumerator.equalsIgnoreCase("lsallq")) {
-                    aix_defaultPrinterEnumeration = aix_lsallq;
+            if (bixPrinterEnumerbtor != null) {
+                if (bixPrinterEnumerbtor.equblsIgnoreCbse("lpstbt")) {
+                    bix_defbultPrinterEnumerbtion = bix_lpstbt_p;
+                } else if (bixPrinterEnumerbtor.equblsIgnoreCbse("lsbllq")) {
+                    bix_defbultPrinterEnumerbtion = bix_lsbllq;
                 }
             }
         }
     }
 
-    static boolean isMac() {
-        return osname.startsWith("Mac");
+    stbtic boolebn isMbc() {
+        return osnbme.stbrtsWith("Mbc");
     }
 
-    static boolean isSysV() {
-        return osname.equals("SunOS");
+    stbtic boolebn isSysV() {
+        return osnbme.equbls("SunOS");
     }
 
-    static boolean isLinux() {
-        return (osname.equals("Linux"));
+    stbtic boolebn isLinux() {
+        return (osnbme.equbls("Linux"));
     }
 
-    static boolean isBSD() {
-        return (osname.equals("Linux") ||
-                osname.contains("OS X"));
+    stbtic boolebn isBSD() {
+        return (osnbme.equbls("Linux") ||
+                osnbme.contbins("OS X"));
     }
 
-    static boolean isAIX() {
-        return osname.equals("AIX");
+    stbtic boolebn isAIX() {
+        return osnbme.equbls("AIX");
     }
 
-    static final int UNINITIALIZED = -1;
-    static final int BSD_LPD = 0;
-    static final int BSD_LPD_NG = 1;
+    stbtic finbl int UNINITIALIZED = -1;
+    stbtic finbl int BSD_LPD = 0;
+    stbtic finbl int BSD_LPD_NG = 1;
 
-    static int cmdIndex = UNINITIALIZED;
+    stbtic int cmdIndex = UNINITIALIZED;
 
     String[] lpcFirstCom = {
-        "/usr/sbin/lpc status | grep : | sed -ne '1,1 s/://p'",
-        "/usr/sbin/lpc status | grep -E '^[ 0-9a-zA-Z_-]*@' | awk -F'@' '{print $1}'"
+        "/usr/sbin/lpc stbtus | grep : | sed -ne '1,1 s/://p'",
+        "/usr/sbin/lpc stbtus | grep -E '^[ 0-9b-zA-Z_-]*@' | bwk -F'@' '{print $1}'"
     };
 
     String[] lpcAllCom = {
-        "/usr/sbin/lpc status all | grep : | sed -e 's/://'",
-        "/usr/sbin/lpc status all | grep -E '^[ 0-9a-zA-Z_-]*@' | awk -F'@' '{print $1}' | sort"
+        "/usr/sbin/lpc stbtus bll | grep : | sed -e 's/://'",
+        "/usr/sbin/lpc stbtus bll | grep -E '^[ 0-9b-zA-Z_-]*@' | bwk -F'@' '{print $1}' | sort"
     };
 
-    String[] lpcNameCom = {
+    String[] lpcNbmeCom = {
         "| grep : | sed -ne 's/://p'",
-        "| grep -E '^[ 0-9a-zA-Z_-]*@' | awk -F'@' '{print $1}'"
+        "| grep -E '^[ 0-9b-zA-Z_-]*@' | bwk -F'@' '{print $1}'"
     };
 
 
-    static int getBSDCommandIndex() {
-        String command  = "/usr/sbin/lpc status all";
-        String[] names = execCmd(command);
+    stbtic int getBSDCommbndIndex() {
+        String commbnd  = "/usr/sbin/lpc stbtus bll";
+        String[] nbmes = execCmd(commbnd);
 
-        if ((names == null) || (names.length == 0)) {
+        if ((nbmes == null) || (nbmes.length == 0)) {
             return BSD_LPD_NG;
         }
 
-        for (int i=0; i<names.length; i++) {
-            if (names[i].indexOf('@') != -1) {
+        for (int i=0; i<nbmes.length; i++) {
+            if (nbmes[i].indexOf('@') != -1) {
                 return BSD_LPD_NG;
             }
         }
@@ -209,22 +209,22 @@ public class UnixPrintServiceLookup extends PrintServiceLookup
 
 
     public UnixPrintServiceLookup() {
-        // start the printer listener thread
+        // stbrt the printer listener threbd
         if (pollServices) {
-            PrinterChangeListener thr = new PrinterChangeListener();
-            thr.setDaemon(true);
-            thr.start();
+            PrinterChbngeListener thr = new PrinterChbngeListener();
+            thr.setDbemon(true);
+            thr.stbrt();
             IPPPrintService.debug_println(debugPrefix+"polling turned on");
         }
     }
 
-    /* Want the PrintService which is default print service to have
-     * equality of reference with the equivalent in list of print services
-     * This isn't required by the API and there's a risk doing this will
-     * lead people to assume its guaranteed.
+    /* Wbnt the PrintService which is defbult print service to hbve
+     * equblity of reference with the equivblent in list of print services
+     * This isn't required by the API bnd there's b risk doing this will
+     * lebd people to bssume its gubrbnteed.
      */
     public synchronized PrintService[] getPrintServices() {
-        SecurityManager security = System.getSecurityManager();
+        SecurityMbnbger security = System.getSecurityMbnbger();
         if (security != null) {
             security.checkPrintJobAccess();
         }
@@ -239,45 +239,45 @@ public class UnixPrintServiceLookup extends PrintServiceLookup
         }
     }
 
-    private int addPrintServiceToList(ArrayList<PrintService> printerList, PrintService ps) {
+    privbte int bddPrintServiceToList(ArrbyList<PrintService> printerList, PrintService ps) {
         int index = printerList.indexOf(ps);
-        // Check if PrintService with same name is already in the list.
+        // Check if PrintService with sbme nbme is blrebdy in the list.
         if (CUPSPrinter.isCupsRunning() && index != -1) {
-            // Bug in Linux: Duplicate entry of a remote printer
-            // and treats it as local printer but it is returning wrong
-            // information when queried using IPP. Workaround is to remove it.
-            // Even CUPS ignores these entries as shown in lpstat or using
-            // their web configuration.
-            PrinterURI uri = ps.getAttribute(PrinterURI.class);
-            if (uri.getURI().getHost().equals("localhost")) {
-                IPPPrintService.debug_println(debugPrefix+"duplicate PrintService, ignoring the new local printer: "+ps);
-                return index;  // Do not add this.
+            // Bug in Linux: Duplicbte entry of b remote printer
+            // bnd trebts it bs locbl printer but it is returning wrong
+            // informbtion when queried using IPP. Workbround is to remove it.
+            // Even CUPS ignores these entries bs shown in lpstbt or using
+            // their web configurbtion.
+            PrinterURI uri = ps.getAttribute(PrinterURI.clbss);
+            if (uri.getURI().getHost().equbls("locblhost")) {
+                IPPPrintService.debug_println(debugPrefix+"duplicbte PrintService, ignoring the new locbl printer: "+ps);
+                return index;  // Do not bdd this.
             }
             PrintService oldPS = printerList.get(index);
-            uri = oldPS.getAttribute(PrinterURI.class);
-            if (uri.getURI().getHost().equals("localhost")) {
-                IPPPrintService.debug_println(debugPrefix+"duplicate PrintService, removing existing local printer: "+oldPS);
+            uri = oldPS.getAttribute(PrinterURI.clbss);
+            if (uri.getURI().getHost().equbls("locblhost")) {
+                IPPPrintService.debug_println(debugPrefix+"duplicbte PrintService, removing existing locbl printer: "+oldPS);
                 printerList.remove(oldPS);
             } else {
                 return index;
             }
         }
-        printerList.add(ps);
+        printerList.bdd(ps);
         return (printerList.size() - 1);
     }
 
 
     // refreshes "printServices"
     public synchronized void refreshServices() {
-        /* excludes the default printer */
-        String[] printers = null; // array of printer names
-        String[] printerURIs = null; //array of printer URIs
+        /* excludes the defbult printer */
+        String[] printers = null; // brrby of printer nbmes
+        String[] printerURIs = null; //brrby of printer URIs
 
         try {
-            getDefaultPrintService();
-        } catch (Throwable t) {
+            getDefbultPrintService();
+        } cbtch (Throwbble t) {
             IPPPrintService.debug_println(debugPrefix+
-              "Exception getting default printer : " + t);
+              "Exception getting defbult printer : " + t);
         }
         if (CUPSPrinter.isCupsRunning()) {
             try {
@@ -288,74 +288,74 @@ public class UnixPrintServiceLookup extends PrintServiceLookup
                        IPPPrintService.debug_println("URI="+printerURIs[p]);
                     }
                 }
-            } catch (Throwable t) {
+            } cbtch (Throwbble t) {
             IPPPrintService.debug_println(debugPrefix+
-              "Exception getting all CUPS printers : " + t);
+              "Exception getting bll CUPS printers : " + t);
             }
             if ((printerURIs != null) && (printerURIs.length > 0)) {
                 printers = new String[printerURIs.length];
                 for (int i=0; i<printerURIs.length; i++) {
-                    int lastIndex = printerURIs[i].lastIndexOf("/");
-                    printers[i] = printerURIs[i].substring(lastIndex+1);
+                    int lbstIndex = printerURIs[i].lbstIndexOf("/");
+                    printers[i] = printerURIs[i].substring(lbstIndex+1);
                 }
             }
         } else {
-            if (isMac() || isSysV()) {
-                printers = getAllPrinterNamesSysV();
+            if (isMbc() || isSysV()) {
+                printers = getAllPrinterNbmesSysV();
             } else if (isAIX()) {
-                printers = getAllPrinterNamesAIX();
+                printers = getAllPrinterNbmesAIX();
             } else { //BSD
-                printers = getAllPrinterNamesBSD();
+                printers = getAllPrinterNbmesBSD();
             }
         }
 
         if (printers == null) {
-            if (defaultPrintService != null) {
+            if (defbultPrintService != null) {
                 printServices = new PrintService[1];
-                printServices[0] = defaultPrintService;
+                printServices[0] = defbultPrintService;
             } else {
                 printServices = null;
             }
             return;
         }
 
-        ArrayList<PrintService> printerList = new ArrayList<>();
-        int defaultIndex = -1;
+        ArrbyList<PrintService> printerList = new ArrbyList<>();
+        int defbultIndex = -1;
         for (int p=0; p<printers.length; p++) {
             if (printers[p] == null) {
                 continue;
             }
-            if ((defaultPrintService != null)
-                && printers[p].equals(getPrinterDestName(defaultPrintService))) {
-                defaultIndex = addPrintServiceToList(printerList, defaultPrintService);
+            if ((defbultPrintService != null)
+                && printers[p].equbls(getPrinterDestNbme(defbultPrintService))) {
+                defbultIndex = bddPrintServiceToList(printerList, defbultPrintService);
             } else {
                 if (printServices == null) {
                     IPPPrintService.debug_println(debugPrefix+
-                                                  "total# of printers = "+printers.length);
+                                                  "totbl# of printers = "+printers.length);
 
                     if (CUPSPrinter.isCupsRunning()) {
                         try {
-                            addPrintServiceToList(printerList,
+                            bddPrintServiceToList(printerList,
                                                   new IPPPrintService(printers[p],
                                                                    printerURIs[p],
                                                                    true));
-                        } catch (Exception e) {
+                        } cbtch (Exception e) {
                             IPPPrintService.debug_println(debugPrefix+
                                                           " getAllPrinters Exception "+
                                                           e);
 
                         }
                     } else {
-                        printerList.add(new UnixPrintService(printers[p]));
+                        printerList.bdd(new UnixPrintService(printers[p]));
                     }
                 } else {
                     int j;
                     for (j=0; j<printServices.length; j++) {
                         if (printServices[j] != null) {
-                            if (printers[p].equals(getPrinterDestName(printServices[j]))) {
-                                printerList.add(printServices[j]);
+                            if (printers[p].equbls(getPrinterDestNbme(printServices[j]))) {
+                                printerList.bdd(printServices[j]);
                                 printServices[j] = null;
-                                break;
+                                brebk;
                             }
                         }
                     }
@@ -363,164 +363,164 @@ public class UnixPrintServiceLookup extends PrintServiceLookup
                     if (j == printServices.length) {      // not found?
                         if (CUPSPrinter.isCupsRunning()) {
                             try {
-                                addPrintServiceToList(printerList,
+                                bddPrintServiceToList(printerList,
                                              new IPPPrintService(printers[p],
                                                                  printerURIs[p],
                                                                  true));
-                            } catch (Exception e) {
+                            } cbtch (Exception e) {
                                 IPPPrintService.debug_println(debugPrefix+
                                                               " getAllPrinters Exception "+
                                                               e);
 
                             }
                         } else {
-                            printerList.add(new UnixPrintService(printers[p]));
+                            printerList.bdd(new UnixPrintService(printers[p]));
                         }
                     }
                 }
             }
         }
 
-        // Look for deleted services and invalidate these
+        // Look for deleted services bnd invblidbte these
         if (printServices != null) {
             for (int j=0; j < printServices.length; j++) {
-                if ((printServices[j] instanceof UnixPrintService) &&
-                    (!printServices[j].equals(defaultPrintService))) {
-                    ((UnixPrintService)printServices[j]).invalidateService();
+                if ((printServices[j] instbnceof UnixPrintService) &&
+                    (!printServices[j].equbls(defbultPrintService))) {
+                    ((UnixPrintService)printServices[j]).invblidbteService();
                 }
             }
         }
 
-        //if defaultService is not found in printerList
-        if (defaultIndex == -1 && defaultPrintService != null) {
-            defaultIndex = addPrintServiceToList(printerList, defaultPrintService);
+        //if defbultService is not found in printerList
+        if (defbultIndex == -1 && defbultPrintService != null) {
+            defbultIndex = bddPrintServiceToList(printerList, defbultPrintService);
         }
 
-        printServices = printerList.toArray(new PrintService[] {});
+        printServices = printerList.toArrby(new PrintService[] {});
 
-        // swap default with the first in the list
-        if (defaultIndex > 0) {
-            PrintService saveService = printServices[0];
-            printServices[0] = printServices[defaultIndex];
-            printServices[defaultIndex] = saveService;
+        // swbp defbult with the first in the list
+        if (defbultIndex > 0) {
+            PrintService sbveService = printServices[0];
+            printServices[0] = printServices[defbultIndex];
+            printServices[defbultIndex] = sbveService;
         }
     }
 
-    private boolean matchesAttributes(PrintService service,
-                                      PrintServiceAttributeSet attributes) {
+    privbte boolebn mbtchesAttributes(PrintService service,
+                                      PrintServiceAttributeSet bttributes) {
 
-        Attribute [] attrs =  attributes.toArray();
-        for (int i=0; i<attrs.length; i++) {
-            @SuppressWarnings("unchecked")
+        Attribute [] bttrs =  bttributes.toArrby();
+        for (int i=0; i<bttrs.length; i++) {
+            @SuppressWbrnings("unchecked")
             Attribute serviceAttr
-                = service.getAttribute((Class<PrintServiceAttribute>)attrs[i].getCategory());
-            if (serviceAttr == null || !serviceAttr.equals(attrs[i])) {
-                return false;
+                = service.getAttribute((Clbss<PrintServiceAttribute>)bttrs[i].getCbtegory());
+            if (serviceAttr == null || !serviceAttr.equbls(bttrs[i])) {
+                return fblse;
             }
         }
         return true;
     }
 
-      /* This checks for validity of the printer name before passing as
-       * parameter to a shell command.
+      /* This checks for vblidity of the printer nbme before pbssing bs
+       * pbrbmeter to b shell commbnd.
        */
-      private boolean checkPrinterName(String s) {
-        char c;
+      privbte boolebn checkPrinterNbme(String s) {
+        chbr c;
 
         for (int i=0; i < s.length(); i++) {
-          c = s.charAt(i);
-          if (Character.isLetterOrDigit(c) ||
+          c = s.chbrAt(i);
+          if (Chbrbcter.isLetterOrDigit(c) ||
               c == '-' || c == '_' || c == '.' || c == '/') {
             continue;
           } else {
-            return false;
+            return fblse;
           }
         }
         return true;
       }
 
     /*
-     * Gets the printer name compatible with the list of printers returned by
-     * the system when we query default or all the available printers.
+     * Gets the printer nbme compbtible with the list of printers returned by
+     * the system when we query defbult or bll the bvbilbble printers.
      */
-    private String getPrinterDestName(PrintService ps) {
-        if (isMac()) {
+    privbte String getPrinterDestNbme(PrintService ps) {
+        if (isMbc()) {
             return ((IPPPrintService)ps).getDest();
         }
-        return ps.getName();
+        return ps.getNbme();
     }
 
-    /* On a network with many (hundreds) of network printers, it
-     * can save several seconds if you know all you want is a particular
-     * printer, to ask for that printer rather than retrieving all printers.
+    /* On b network with mbny (hundreds) of network printers, it
+     * cbn sbve severbl seconds if you know bll you wbnt is b pbrticulbr
+     * printer, to bsk for thbt printer rbther thbn retrieving bll printers.
      */
-    private PrintService getServiceByName(PrinterName nameAttr) {
-        String name = nameAttr.getValue();
-        if (name == null || name.equals("") || !checkPrinterName(name)) {
+    privbte PrintService getServiceByNbme(PrinterNbme nbmeAttr) {
+        String nbme = nbmeAttr.getVblue();
+        if (nbme == null || nbme.equbls("") || !checkPrinterNbme(nbme)) {
             return null;
         }
-        /* check if all printers are already available */
+        /* check if bll printers bre blrebdy bvbilbble */
         if (printServices != null) {
             for (PrintService printService : printServices) {
-                PrinterName printerName = printService.getAttribute(PrinterName.class);
-                if (printerName.getValue().equals(name)) {
+                PrinterNbme printerNbme = printService.getAttribute(PrinterNbme.clbss);
+                if (printerNbme.getVblue().equbls(nbme)) {
                     return printService;
                 }
             }
         }
-        /* take CUPS into account first */
+        /* tbke CUPS into bccount first */
         if (CUPSPrinter.isCupsRunning()) {
             try {
-                return new IPPPrintService(name,
+                return new IPPPrintService(nbme,
                                            new URL("http://"+
                                                    CUPSPrinter.getServer()+":"+
                                                    CUPSPrinter.getPort()+"/"+
-                                                   name));
-            } catch (Exception e) {
+                                                   nbme));
+            } cbtch (Exception e) {
                 IPPPrintService.debug_println(debugPrefix+
-                                              " getServiceByName Exception "+
+                                              " getServiceByNbme Exception "+
                                               e);
             }
         }
-        /* fallback if nothing not having a printer at this point */
+        /* fbllbbck if nothing not hbving b printer bt this point */
         PrintService printer = null;
-        if (isMac() || isSysV()) {
-            printer = getNamedPrinterNameSysV(name);
+        if (isMbc() || isSysV()) {
+            printer = getNbmedPrinterNbmeSysV(nbme);
         } else if (isAIX()) {
-            printer = getNamedPrinterNameAIX(name);
+            printer = getNbmedPrinterNbmeAIX(nbme);
         } else {
-            printer = getNamedPrinterNameBSD(name);
+            printer = getNbmedPrinterNbmeBSD(nbme);
         }
         return printer;
     }
 
-    private PrintService[]
+    privbte PrintService[]
         getPrintServices(PrintServiceAttributeSet serviceSet) {
 
         if (serviceSet == null || serviceSet.isEmpty()) {
             return getPrintServices();
         }
 
-        /* Typically expect that if a service attribute is specified that
-         * its a printer name and there ought to be only one match.
-         * Directly retrieve that service and confirm
-         * that it meets the other requirements.
-         * If printer name isn't mentioned then go a slow path checking
-         * all printers if they meet the reqiremements.
+        /* Typicblly expect thbt if b service bttribute is specified thbt
+         * its b printer nbme bnd there ought to be only one mbtch.
+         * Directly retrieve thbt service bnd confirm
+         * thbt it meets the other requirements.
+         * If printer nbme isn't mentioned then go b slow pbth checking
+         * bll printers if they meet the reqiremements.
          */
         PrintService[] services;
-        PrinterName name = (PrinterName)serviceSet.get(PrinterName.class);
+        PrinterNbme nbme = (PrinterNbme)serviceSet.get(PrinterNbme.clbss);
         PrintService defService;
-        if (name != null && (defService = getDefaultPrintService()) != null) {
-            /* To avoid execing a unix command  see if the client is asking
-             * for the default printer by name, since we already have that
-             * initialised.
+        if (nbme != null && (defService = getDefbultPrintService()) != null) {
+            /* To bvoid execing b unix commbnd  see if the client is bsking
+             * for the defbult printer by nbme, since we blrebdy hbve thbt
+             * initiblised.
              */
 
-            PrinterName defName = defService.getAttribute(PrinterName.class);
+            PrinterNbme defNbme = defService.getAttribute(PrinterNbme.clbss);
 
-            if (defName != null && name.equals(defName)) {
-                if (matchesAttributes(defService, serviceSet)) {
+            if (defNbme != null && nbme.equbls(defNbme)) {
+                if (mbtchesAttributes(defService, serviceSet)) {
                     services = new PrintService[1];
                     services[0] = defService;
                     return services;
@@ -528,10 +528,10 @@ public class UnixPrintServiceLookup extends PrintServiceLookup
                     return new PrintService[0];
                 }
             } else {
-                /* Its not the default service */
-                PrintService service = getServiceByName(name);
+                /* Its not the defbult service */
+                PrintService service = getServiceByNbme(nbme);
                 if (service != null &&
-                    matchesAttributes(service, serviceSet)) {
+                    mbtchesAttributes(service, serviceSet)) {
                     services = new PrintService[1];
                     services[0] = service;
                     return services;
@@ -540,46 +540,46 @@ public class UnixPrintServiceLookup extends PrintServiceLookup
                 }
             }
         } else {
-            /* specified service attributes don't include a name.*/
-            Vector<PrintService> matchedServices = new Vector<>();
+            /* specified service bttributes don't include b nbme.*/
+            Vector<PrintService> mbtchedServices = new Vector<>();
             services = getPrintServices();
             for (int i = 0; i< services.length; i++) {
-                if (matchesAttributes(services[i], serviceSet)) {
-                    matchedServices.add(services[i]);
+                if (mbtchesAttributes(services[i], serviceSet)) {
+                    mbtchedServices.bdd(services[i]);
                 }
             }
-            services = new PrintService[matchedServices.size()];
+            services = new PrintService[mbtchedServices.size()];
             for (int i = 0; i< services.length; i++) {
-                services[i] = matchedServices.elementAt(i);
+                services[i] = mbtchedServices.elementAt(i);
             }
             return services;
         }
     }
 
     /*
-     * If service attributes are specified then there must be additional
+     * If service bttributes bre specified then there must be bdditionbl
      * filtering.
      */
-    public PrintService[] getPrintServices(DocFlavor flavor,
-                                           AttributeSet attributes) {
-        SecurityManager security = System.getSecurityManager();
+    public PrintService[] getPrintServices(DocFlbvor flbvor,
+                                           AttributeSet bttributes) {
+        SecurityMbnbger security = System.getSecurityMbnbger();
         if (security != null) {
           security.checkPrintJobAccess();
         }
         PrintRequestAttributeSet requestSet = null;
         PrintServiceAttributeSet serviceSet = null;
 
-        if (attributes != null && !attributes.isEmpty()) {
+        if (bttributes != null && !bttributes.isEmpty()) {
 
-            requestSet = new HashPrintRequestAttributeSet();
-            serviceSet = new HashPrintServiceAttributeSet();
+            requestSet = new HbshPrintRequestAttributeSet();
+            serviceSet = new HbshPrintServiceAttributeSet();
 
-            Attribute[] attrs = attributes.toArray();
-            for (int i=0; i<attrs.length; i++) {
-                if (attrs[i] instanceof PrintRequestAttribute) {
-                    requestSet.add(attrs[i]);
-                } else if (attrs[i] instanceof PrintServiceAttribute) {
-                    serviceSet.add(attrs[i]);
+            Attribute[] bttrs = bttributes.toArrby();
+            for (int i=0; i<bttrs.length; i++) {
+                if (bttrs[i] instbnceof PrintRequestAttribute) {
+                    requestSet.bdd(bttrs[i]);
+                } else if (bttrs[i] instbnceof PrintServiceAttribute) {
+                    serviceSet.bdd(bttrs[i]);
                 }
             }
         }
@@ -590,27 +590,27 @@ public class UnixPrintServiceLookup extends PrintServiceLookup
         }
 
         if (CUPSPrinter.isCupsRunning()) {
-            ArrayList<PrintService> matchingServices = new ArrayList<>();
+            ArrbyList<PrintService> mbtchingServices = new ArrbyList<>();
             for (int i=0; i<services.length; i++) {
                 try {
                     if (services[i].
-                        getUnsupportedAttributes(flavor, requestSet) == null) {
-                        matchingServices.add(services[i]);
+                        getUnsupportedAttributes(flbvor, requestSet) == null) {
+                        mbtchingServices.bdd(services[i]);
                     }
-                } catch (IllegalArgumentException e) {
+                } cbtch (IllegblArgumentException e) {
                 }
             }
-            services = new PrintService[matchingServices.size()];
-            return matchingServices.toArray(services);
+            services = new PrintService[mbtchingServices.size()];
+            return mbtchingServices.toArrby(services);
 
         } else {
-            // We only need to compare 1 PrintService because all
-            // UnixPrintServices are the same anyway.  We will not use
-            // default PrintService because it might be null.
+            // We only need to compbre 1 PrintService becbuse bll
+            // UnixPrintServices bre the sbme bnywby.  We will not use
+            // defbult PrintService becbuse it might be null.
             PrintService service = services[0];
-            if ((flavor == null ||
-                 service.isDocFlavorSupported(flavor)) &&
-                 service.getUnsupportedAttributes(flavor, requestSet) == null)
+            if ((flbvor == null ||
+                 service.isDocFlbvorSupported(flbvor)) &&
+                 service.getUnsupportedAttributes(flbvor, requestSet) == null)
             {
                 return services;
             } else {
@@ -620,12 +620,12 @@ public class UnixPrintServiceLookup extends PrintServiceLookup
     }
 
     /*
-     * return empty array as don't support multi docs
+     * return empty brrby bs don't support multi docs
      */
     public MultiDocPrintService[]
-        getMultiDocPrintServices(DocFlavor[] flavors,
-                                 AttributeSet attributes) {
-        SecurityManager security = System.getSecurityManager();
+        getMultiDocPrintServices(DocFlbvor[] flbvors,
+                                 AttributeSet bttributes) {
+        SecurityMbnbger security = System.getSecurityMbnbger();
         if (security != null) {
           security.checkPrintJobAccess();
         }
@@ -633,96 +633,96 @@ public class UnixPrintServiceLookup extends PrintServiceLookup
     }
 
 
-    public synchronized PrintService getDefaultPrintService() {
-        SecurityManager security = System.getSecurityManager();
+    public synchronized PrintService getDefbultPrintService() {
+        SecurityMbnbger security = System.getSecurityMbnbger();
         if (security != null) {
           security.checkPrintJobAccess();
         }
 
-        // clear defaultPrintService
-        defaultPrintService = null;
+        // clebr defbultPrintService
+        defbultPrintService = null;
         String psuri = null;
 
         IPPPrintService.debug_println("isRunning ? "+
                                       (CUPSPrinter.isCupsRunning()));
         if (CUPSPrinter.isCupsRunning()) {
-            String[] printerInfo = CUPSPrinter.getDefaultPrinter();
+            String[] printerInfo = CUPSPrinter.getDefbultPrinter();
             if (printerInfo != null && printerInfo.length >= 2) {
-                defaultPrinter = printerInfo[0];
+                defbultPrinter = printerInfo[0];
                 psuri = printerInfo[1];
             }
         } else {
-            if (isMac() || isSysV()) {
-                defaultPrinter = getDefaultPrinterNameSysV();
+            if (isMbc() || isSysV()) {
+                defbultPrinter = getDefbultPrinterNbmeSysV();
             } else if (isAIX()) {
-                defaultPrinter = getDefaultPrinterNameAIX();
+                defbultPrinter = getDefbultPrinterNbmeAIX();
             } else {
-                defaultPrinter = getDefaultPrinterNameBSD();
+                defbultPrinter = getDefbultPrinterNbmeBSD();
             }
         }
-        if (defaultPrinter == null) {
+        if (defbultPrinter == null) {
             return null;
         }
-        defaultPrintService = null;
+        defbultPrintService = null;
         if (printServices != null) {
             for (int j=0; j<printServices.length; j++) {
-                if (defaultPrinter.equals(getPrinterDestName(printServices[j]))) {
-                    defaultPrintService = printServices[j];
-                    break;
+                if (defbultPrinter.equbls(getPrinterDestNbme(printServices[j]))) {
+                    defbultPrintService = printServices[j];
+                    brebk;
                 }
             }
         }
-        if (defaultPrintService == null) {
+        if (defbultPrintService == null) {
             if (CUPSPrinter.isCupsRunning()) {
                 try {
-                    PrintService defaultPS;
-                    if ((psuri != null) && !psuri.startsWith("file")) {
-                        defaultPS = new IPPPrintService(defaultPrinter,
+                    PrintService defbultPS;
+                    if ((psuri != null) && !psuri.stbrtsWith("file")) {
+                        defbultPS = new IPPPrintService(defbultPrinter,
                                                         psuri, true);
                     } else {
-                        defaultPS = new IPPPrintService(defaultPrinter,
+                        defbultPS = new IPPPrintService(defbultPrinter,
                                             new URL("http://"+
                                                     CUPSPrinter.getServer()+":"+
                                                     CUPSPrinter.getPort()+"/"+
-                                                    defaultPrinter));
+                                                    defbultPrinter));
                     }
-                    defaultPrintService = defaultPS;
-                } catch (Exception e) {
+                    defbultPrintService = defbultPS;
+                } cbtch (Exception e) {
                 }
             } else {
-                defaultPrintService = new UnixPrintService(defaultPrinter);
+                defbultPrintService = new UnixPrintService(defbultPrinter);
             }
         }
 
-        return defaultPrintService;
+        return defbultPrintService;
     }
 
     public synchronized void
-        getServicesInbackground(BackgroundLookupListener listener) {
+        getServicesInbbckground(BbckgroundLookupListener listener) {
         if (printServices != null) {
             listener.notifyServices(printServices);
         } else {
             if (lookupListeners == null) {
                 lookupListeners = new Vector<>();
-                lookupListeners.add(listener);
-                Thread lookupThread = new Thread(this);
-                lookupThread.start();
+                lookupListeners.bdd(listener);
+                Threbd lookupThrebd = new Threbd(this);
+                lookupThrebd.stbrt();
             } else {
-                lookupListeners.add(listener);
+                lookupListeners.bdd(listener);
             }
         }
     }
 
-    /* This method isn't used in most cases because we rely on code in
-     * javax.print.PrintServiceLookup. This is needed just for the cases
-     * where those interfaces are by-passed.
+    /* This method isn't used in most cbses becbuse we rely on code in
+     * jbvbx.print.PrintServiceLookup. This is needed just for the cbses
+     * where those interfbces bre by-pbssed.
      */
-    private PrintService[] copyOf(PrintService[] inArr) {
+    privbte PrintService[] copyOf(PrintService[] inArr) {
         if (inArr == null || inArr.length == 0) {
             return inArr;
         } else {
             PrintService []outArr = new PrintService[inArr.length];
-            System.arraycopy(inArr, 0, outArr, 0, inArr.length);
+            System.brrbycopy(inArr, 0, outArr, 0, inArr.length);
             return outArr;
         }
     }
@@ -730,7 +730,7 @@ public class UnixPrintServiceLookup extends PrintServiceLookup
     public void run() {
         PrintService[] services = getPrintServices();
         synchronized (this) {
-            BackgroundLookupListener listener;
+            BbckgroundLookupListener listener;
             for (int i=0; i<lookupListeners.size(); i++) {
                 listener = lookupListeners.elementAt(i);
                 listener.notifyServices(copyOf(services));
@@ -739,211 +739,211 @@ public class UnixPrintServiceLookup extends PrintServiceLookup
         }
     }
 
-    private String getDefaultPrinterNameBSD() {
+    privbte String getDefbultPrinterNbmeBSD() {
         if (cmdIndex == UNINITIALIZED) {
-            cmdIndex = getBSDCommandIndex();
+            cmdIndex = getBSDCommbndIndex();
         }
-        String[] names = execCmd(lpcFirstCom[cmdIndex]);
-        if (names == null || names.length == 0) {
+        String[] nbmes = execCmd(lpcFirstCom[cmdIndex]);
+        if (nbmes == null || nbmes.length == 0) {
             return null;
         }
 
         if ((cmdIndex==BSD_LPD_NG) &&
-            (names[0].startsWith("missingprinter"))) {
+            (nbmes[0].stbrtsWith("missingprinter"))) {
             return null;
         }
-        return names[0];
+        return nbmes[0];
     }
 
-    private PrintService getNamedPrinterNameBSD(String name) {
+    privbte PrintService getNbmedPrinterNbmeBSD(String nbme) {
       if (cmdIndex == UNINITIALIZED) {
-        cmdIndex = getBSDCommandIndex();
+        cmdIndex = getBSDCommbndIndex();
       }
-      String command = "/usr/sbin/lpc status " + name + lpcNameCom[cmdIndex];
-      String[] result = execCmd(command);
+      String commbnd = "/usr/sbin/lpc stbtus " + nbme + lpcNbmeCom[cmdIndex];
+      String[] result = execCmd(commbnd);
 
-      if (result == null || !(result[0].equals(name))) {
+      if (result == null || !(result[0].equbls(nbme))) {
           return null;
       }
-      return new UnixPrintService(name);
+      return new UnixPrintService(nbme);
     }
 
-    private String[] getAllPrinterNamesBSD() {
+    privbte String[] getAllPrinterNbmesBSD() {
         if (cmdIndex == UNINITIALIZED) {
-            cmdIndex = getBSDCommandIndex();
+            cmdIndex = getBSDCommbndIndex();
         }
-        String[] names = execCmd(lpcAllCom[cmdIndex]);
-        if (names == null || names.length == 0) {
+        String[] nbmes = execCmd(lpcAllCom[cmdIndex]);
+        if (nbmes == null || nbmes.length == 0) {
           return null;
         }
-        return names;
+        return nbmes;
     }
 
-    static String getDefaultPrinterNameSysV() {
-        String defaultPrinter = "lp";
-        String command = "/usr/bin/lpstat -d";
+    stbtic String getDefbultPrinterNbmeSysV() {
+        String defbultPrinter = "lp";
+        String commbnd = "/usr/bin/lpstbt -d";
 
-        String [] names = execCmd(command);
-        if (names == null || names.length == 0) {
-            return defaultPrinter;
+        String [] nbmes = execCmd(commbnd);
+        if (nbmes == null || nbmes.length == 0) {
+            return defbultPrinter;
         } else {
-            int index = names[0].indexOf(":");
-            if (index == -1  || (names[0].length() <= index+1)) {
+            int index = nbmes[0].indexOf(":");
+            if (index == -1  || (nbmes[0].length() <= index+1)) {
                 return null;
             } else {
-                String name = names[0].substring(index+1).trim();
-                if (name.length() == 0) {
+                String nbme = nbmes[0].substring(index+1).trim();
+                if (nbme.length() == 0) {
                     return null;
                 } else {
-                    return name;
+                    return nbme;
                 }
             }
         }
     }
 
-    private PrintService getNamedPrinterNameSysV(String name) {
+    privbte PrintService getNbmedPrinterNbmeSysV(String nbme) {
 
-        String command = "/usr/bin/lpstat -v " + name;
-        String []result = execCmd(command);
+        String commbnd = "/usr/bin/lpstbt -v " + nbme;
+        String []result = execCmd(commbnd);
 
         if (result == null || result[0].indexOf("unknown printer") > 0) {
             return null;
         } else {
-            return new UnixPrintService(name);
+            return new UnixPrintService(nbme);
         }
     }
 
-    private String[] getAllPrinterNamesSysV() {
-        String defaultPrinter = "lp";
-        String command = "/usr/bin/lpstat -v|/usr/bin/expand|/usr/bin/cut -f3 -d' ' |/usr/bin/cut -f1 -d':' | /usr/bin/sort";
+    privbte String[] getAllPrinterNbmesSysV() {
+        String defbultPrinter = "lp";
+        String commbnd = "/usr/bin/lpstbt -v|/usr/bin/expbnd|/usr/bin/cut -f3 -d' ' |/usr/bin/cut -f1 -d':' | /usr/bin/sort";
 
-        String [] names = execCmd(command);
-        ArrayList<String> printerNames = new ArrayList<>();
-        for (int i=0; i < names.length; i++) {
-            if (!names[i].equals("_default") &&
-                !names[i].equals(defaultPrinter) &&
-                !names[i].equals("")) {
-                printerNames.add(names[i]);
+        String [] nbmes = execCmd(commbnd);
+        ArrbyList<String> printerNbmes = new ArrbyList<>();
+        for (int i=0; i < nbmes.length; i++) {
+            if (!nbmes[i].equbls("_defbult") &&
+                !nbmes[i].equbls(defbultPrinter) &&
+                !nbmes[i].equbls("")) {
+                printerNbmes.bdd(nbmes[i]);
             }
         }
-        return printerNames.toArray(new String[printerNames.size()]);
+        return printerNbmes.toArrby(new String[printerNbmes.size()]);
     }
 
-    private String getDefaultPrinterNameAIX() {
-        String[] names = execCmd(lpNameComAix[aix_lpstat_d]);
-        // Remove headers and bogus entries added by remote printers.
-        names = UnixPrintService.filterPrinterNamesAIX(names);
-        if (names == null || names.length != 1) {
-            // No default printer found
+    privbte String getDefbultPrinterNbmeAIX() {
+        String[] nbmes = execCmd(lpNbmeComAix[bix_lpstbt_d]);
+        // Remove hebders bnd bogus entries bdded by remote printers.
+        nbmes = UnixPrintService.filterPrinterNbmesAIX(nbmes);
+        if (nbmes == null || nbmes.length != 1) {
+            // No defbult printer found
             return null;
         } else {
-            return names[0];
+            return nbmes[0];
         }
     }
 
-    private PrintService getNamedPrinterNameAIX(String name) {
-        // On AIX there should be no blank after '-v'.
-        String[] result = execCmd(lpNameComAix[aix_lpstat_v] + name);
-        // Remove headers and bogus entries added by remote printers.
-        result = UnixPrintService.filterPrinterNamesAIX(result);
+    privbte PrintService getNbmedPrinterNbmeAIX(String nbme) {
+        // On AIX there should be no blbnk bfter '-v'.
+        String[] result = execCmd(lpNbmeComAix[bix_lpstbt_v] + nbme);
+        // Remove hebders bnd bogus entries bdded by remote printers.
+        result = UnixPrintService.filterPrinterNbmesAIX(result);
         if (result == null || result.length != 1) {
             return null;
         } else {
-            return new UnixPrintService(name);
+            return new UnixPrintService(nbme);
         }
     }
 
-    private String[] getAllPrinterNamesAIX() {
-        // Determine all printers of the system.
-        String [] names = execCmd(lpNameComAix[aix_defaultPrinterEnumeration]);
+    privbte String[] getAllPrinterNbmesAIX() {
+        // Determine bll printers of the system.
+        String [] nbmes = execCmd(lpNbmeComAix[bix_defbultPrinterEnumerbtion]);
 
-        // Remove headers and bogus entries added by remote printers.
-        names = UnixPrintService.filterPrinterNamesAIX(names);
+        // Remove hebders bnd bogus entries bdded by remote printers.
+        nbmes = UnixPrintService.filterPrinterNbmesAIX(nbmes);
 
-        ArrayList<String> printerNames = new ArrayList<String>();
-        for ( int i=0; i < names.length; i++) {
-            printerNames.add(names[i]);
+        ArrbyList<String> printerNbmes = new ArrbyList<String>();
+        for ( int i=0; i < nbmes.length; i++) {
+            printerNbmes.bdd(nbmes[i]);
         }
-        return printerNames.toArray(new String[printerNames.size()]);
+        return printerNbmes.toArrby(new String[printerNbmes.size()]);
     }
 
-    static String[] execCmd(final String command) {
-        ArrayList<String> results = null;
+    stbtic String[] execCmd(finbl String commbnd) {
+        ArrbyList<String> results = null;
         try {
-            final String[] cmd = new String[3];
+            finbl String[] cmd = new String[3];
             if (isSysV() || isAIX()) {
                 cmd[0] = "/usr/bin/sh";
                 cmd[1] = "-c";
-                cmd[2] = "env LC_ALL=C " + command;
+                cmd[2] = "env LC_ALL=C " + commbnd;
             } else {
                 cmd[0] = "/bin/sh";
                 cmd[1] = "-c";
-                cmd[2] = "LC_ALL=C " + command;
+                cmd[2] = "LC_ALL=C " + commbnd;
             }
 
             results = AccessController.doPrivileged(
-                new PrivilegedExceptionAction<ArrayList<String>>() {
-                    public ArrayList<String> run() throws IOException {
+                new PrivilegedExceptionAction<ArrbyList<String>>() {
+                    public ArrbyList<String> run() throws IOException {
 
                         Process proc;
-                        BufferedReader bufferedReader = null;
-                        File f = Files.createTempFile("prn","xc").toFile();
-                        cmd[2] = cmd[2]+">"+f.getAbsolutePath();
+                        BufferedRebder bufferedRebder = null;
+                        File f = Files.crebteTempFile("prn","xc").toFile();
+                        cmd[2] = cmd[2]+">"+f.getAbsolutePbth();
 
                         proc = Runtime.getRuntime().exec(cmd);
                         try {
-                            boolean done = false; // in case of interrupt.
+                            boolebn done = fblse; // in cbse of interrupt.
                             while (!done) {
                                 try {
-                                    proc.waitFor();
+                                    proc.wbitFor();
                                     done = true;
-                                } catch (InterruptedException e) {
+                                } cbtch (InterruptedException e) {
                                 }
                             }
 
-                            if (proc.exitValue() == 0) {
-                                FileReader reader = new FileReader(f);
-                                bufferedReader = new BufferedReader(reader);
+                            if (proc.exitVblue() == 0) {
+                                FileRebder rebder = new FileRebder(f);
+                                bufferedRebder = new BufferedRebder(rebder);
                                 String line;
-                                ArrayList<String> results = new ArrayList<>();
-                                while ((line = bufferedReader.readLine())
+                                ArrbyList<String> results = new ArrbyList<>();
+                                while ((line = bufferedRebder.rebdLine())
                                        != null) {
-                                    results.add(line);
+                                    results.bdd(line);
                                 }
                                 return results;
                             }
-                        } finally {
+                        } finblly {
                             f.delete();
-                            // promptly close all streams.
-                            if (bufferedReader != null) {
-                                bufferedReader.close();
+                            // promptly close bll strebms.
+                            if (bufferedRebder != null) {
+                                bufferedRebder.close();
                             }
-                            proc.getInputStream().close();
-                            proc.getErrorStream().close();
-                            proc.getOutputStream().close();
+                            proc.getInputStrebm().close();
+                            proc.getErrorStrebm().close();
+                            proc.getOutputStrebm().close();
                         }
                         return null;
                     }
                 });
-        } catch (PrivilegedActionException e) {
+        } cbtch (PrivilegedActionException e) {
         }
         if (results == null) {
             return new String[0];
         } else {
-            return results.toArray(new String[results.size()]);
+            return results.toArrby(new String[results.size()]);
         }
     }
 
-    private class PrinterChangeListener extends Thread {
+    privbte clbss PrinterChbngeListener extends Threbd {
 
         public void run() {
             int refreshSecs;
             while (true) {
                 try {
                     refreshServices();
-                } catch (Exception se) {
-                    IPPPrintService.debug_println(debugPrefix+"Exception in refresh thread.");
-                    break;
+                } cbtch (Exception se) {
+                    IPPPrintService.debug_println(debugPrefix+"Exception in refresh threbd.");
+                    brebk;
                 }
 
                 if ((printServices != null) &&
@@ -955,8 +955,8 @@ public class UnixPrintServiceLookup extends PrintServiceLookup
                 }
                 try {
                     sleep(refreshSecs * 1000);
-                } catch (InterruptedException e) {
-                    break;
+                } cbtch (InterruptedException e) {
+                    brebk;
                 }
             }
         }

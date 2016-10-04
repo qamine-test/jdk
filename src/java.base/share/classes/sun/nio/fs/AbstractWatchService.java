@@ -1,160 +1,160 @@
 /*
- * Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.nio.fs;
+pbckbge sun.nio.fs;
 
-import java.nio.file.*;
-import java.util.concurrent.*;
-import java.io.IOException;
+import jbvb.nio.file.*;
+import jbvb.util.concurrent.*;
+import jbvb.io.IOException;
 
 /**
- * Base implementation class for watch services.
+ * Bbse implementbtion clbss for wbtch services.
  */
 
-abstract class AbstractWatchService implements WatchService {
+bbstrbct clbss AbstrbctWbtchService implements WbtchService {
 
-    // signaled keys waiting to be dequeued
-    private final LinkedBlockingDeque<WatchKey> pendingKeys =
-        new LinkedBlockingDeque<WatchKey>();
+    // signbled keys wbiting to be dequeued
+    privbte finbl LinkedBlockingDeque<WbtchKey> pendingKeys =
+        new LinkedBlockingDeque<WbtchKey>();
 
-    // special key to indicate that watch service is closed
-    private final WatchKey CLOSE_KEY =
-        new AbstractWatchKey(null, null) {
+    // specibl key to indicbte thbt wbtch service is closed
+    privbte finbl WbtchKey CLOSE_KEY =
+        new AbstrbctWbtchKey(null, null) {
             @Override
-            public boolean isValid() {
+            public boolebn isVblid() {
                 return true;
             }
 
             @Override
-            public void cancel() {
+            public void cbncel() {
             }
         };
 
-    // used when closing watch service
-    private volatile boolean closed;
-    private final Object closeLock = new Object();
+    // used when closing wbtch service
+    privbte volbtile boolebn closed;
+    privbte finbl Object closeLock = new Object();
 
-    protected AbstractWatchService() {
+    protected AbstrbctWbtchService() {
     }
 
     /**
-     * Register the given object with this watch service
+     * Register the given object with this wbtch service
      */
-    abstract WatchKey register(Path path,
-                               WatchEvent.Kind<?>[] events,
-                               WatchEvent.Modifier... modifers)
+    bbstrbct WbtchKey register(Pbth pbth,
+                               WbtchEvent.Kind<?>[] events,
+                               WbtchEvent.Modifier... modifers)
         throws IOException;
 
-    // used by AbstractWatchKey to enqueue key
-    final void enqueueKey(WatchKey key) {
+    // used by AbstrbctWbtchKey to enqueue key
+    finbl void enqueueKey(WbtchKey key) {
         pendingKeys.offer(key);
     }
 
     /**
-     * Throws ClosedWatchServiceException if watch service is closed
+     * Throws ClosedWbtchServiceException if wbtch service is closed
      */
-    private void checkOpen() {
+    privbte void checkOpen() {
         if (closed)
-            throw new ClosedWatchServiceException();
+            throw new ClosedWbtchServiceException();
     }
 
     /**
-     * Checks the key isn't the special CLOSE_KEY used to unblock threads when
-     * the watch service is closed.
+     * Checks the key isn't the specibl CLOSE_KEY used to unblock threbds when
+     * the wbtch service is closed.
      */
-    private void checkKey(WatchKey key) {
+    privbte void checkKey(WbtchKey key) {
         if (key == CLOSE_KEY) {
-            // re-queue in case there are other threads blocked in take/poll
+            // re-queue in cbse there bre other threbds blocked in tbke/poll
             enqueueKey(key);
         }
         checkOpen();
     }
 
     @Override
-    public final WatchKey poll() {
+    public finbl WbtchKey poll() {
         checkOpen();
-        WatchKey key = pendingKeys.poll();
+        WbtchKey key = pendingKeys.poll();
         checkKey(key);
         return key;
     }
 
     @Override
-    public final WatchKey poll(long timeout, TimeUnit unit)
+    public finbl WbtchKey poll(long timeout, TimeUnit unit)
         throws InterruptedException
     {
         checkOpen();
-        WatchKey key = pendingKeys.poll(timeout, unit);
+        WbtchKey key = pendingKeys.poll(timeout, unit);
         checkKey(key);
         return key;
     }
 
     @Override
-    public final WatchKey take()
+    public finbl WbtchKey tbke()
         throws InterruptedException
     {
         checkOpen();
-        WatchKey key = pendingKeys.take();
+        WbtchKey key = pendingKeys.tbke();
         checkKey(key);
         return key;
     }
 
     /**
-     * Tells whether or not this watch service is open.
+     * Tells whether or not this wbtch service is open.
      */
-    final boolean isOpen() {
+    finbl boolebn isOpen() {
         return !closed;
     }
 
     /**
      * Retrieves the object upon which the close method synchronizes.
      */
-    final Object closeLock() {
+    finbl Object closeLock() {
         return closeLock;
     }
 
     /**
-     * Closes this watch service. This method is invoked by the close
-     * method to perform the actual work of closing the watch service.
+     * Closes this wbtch service. This method is invoked by the close
+     * method to perform the bctubl work of closing the wbtch service.
      */
-    abstract void implClose() throws IOException;
+    bbstrbct void implClose() throws IOException;
 
     @Override
-    public final void close()
+    public finbl void close()
         throws IOException
     {
         synchronized (closeLock) {
-            // nothing to do if already closed
+            // nothing to do if blrebdy closed
             if (closed)
                 return;
             closed = true;
 
             implClose();
 
-            // clear pending keys and queue special key to ensure that any
-            // threads blocked in take/poll wakeup
-            pendingKeys.clear();
+            // clebr pending keys bnd queue specibl key to ensure thbt bny
+            // threbds blocked in tbke/poll wbkeup
+            pendingKeys.clebr();
             pendingKeys.offer(CLOSE_KEY);
         }
     }

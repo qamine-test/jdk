@@ -1,37 +1,37 @@
 /*
- * Copyright (c) 2007, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * Use is subject to license terms.
  *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
+ * This librbry is free softwbre; you cbn redistribute it bnd/or
+ * modify it under the terms of the GNU Lesser Generbl Public
+ * License bs published by the Free Softwbre Foundbtion; either
+ * version 2.1 of the License, or (bt your option) bny lbter version.
  *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * This librbry is distributed in the hope thbt it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied wbrrbnty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
+ * Lesser Generbl Public License for more detbils.
  *
- * You should have received a copy of the GNU Lesser General Public License
- * along with this library; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Lesser Generbl Public License
+ * blong with this librbry; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /* *********************************************************************
  *
- * The Original Code is the elliptic curve math library for prime field curves.
+ * The Originbl Code is the elliptic curve mbth librbry for prime field curves.
  *
- * The Initial Developer of the Original Code is
+ * The Initibl Developer of the Originbl Code is
  * Sun Microsystems, Inc.
- * Portions created by the Initial Developer are Copyright (C) 2003
- * the Initial Developer. All Rights Reserved.
+ * Portions crebted by the Initibl Developer bre Copyright (C) 2003
+ * the Initibl Developer. All Rights Reserved.
  *
  * Contributor(s):
- *   Douglas Stebila <douglas@stebila.ca>, Sun Microsystems Laboratories
+ *   Douglbs Stebilb <douglbs@stebilb.cb>, Sun Microsystems Lbborbtories
  *
  *********************************************************************** */
 
@@ -40,97 +40,97 @@
 
 #include "ecl-priv.h"
 
-/* Checks if point P(px, py) is at infinity.  Uses affine coordinates. */
-mp_err ec_GFp_pt_is_inf_aff(const mp_int *px, const mp_int *py);
+/* Checks if point P(px, py) is bt infinity.  Uses bffine coordinbtes. */
+mp_err ec_GFp_pt_is_inf_bff(const mp_int *px, const mp_int *py);
 
-/* Sets P(px, py) to be the point at infinity.  Uses affine coordinates. */
-mp_err ec_GFp_pt_set_inf_aff(mp_int *px, mp_int *py);
+/* Sets P(px, py) to be the point bt infinity.  Uses bffine coordinbtes. */
+mp_err ec_GFp_pt_set_inf_bff(mp_int *px, mp_int *py);
 
-/* Computes R = P + Q where R is (rx, ry), P is (px, py) and Q is (qx,
- * qy). Uses affine coordinates. */
-mp_err ec_GFp_pt_add_aff(const mp_int *px, const mp_int *py,
+/* Computes R = P + Q where R is (rx, ry), P is (px, py) bnd Q is (qx,
+ * qy). Uses bffine coordinbtes. */
+mp_err ec_GFp_pt_bdd_bff(const mp_int *px, const mp_int *py,
                                                  const mp_int *qx, const mp_int *qy, mp_int *rx,
                                                  mp_int *ry, const ECGroup *group);
 
-/* Computes R = P - Q.  Uses affine coordinates. */
-mp_err ec_GFp_pt_sub_aff(const mp_int *px, const mp_int *py,
+/* Computes R = P - Q.  Uses bffine coordinbtes. */
+mp_err ec_GFp_pt_sub_bff(const mp_int *px, const mp_int *py,
                                                  const mp_int *qx, const mp_int *qy, mp_int *rx,
                                                  mp_int *ry, const ECGroup *group);
 
-/* Computes R = 2P.  Uses affine coordinates. */
-mp_err ec_GFp_pt_dbl_aff(const mp_int *px, const mp_int *py, mp_int *rx,
+/* Computes R = 2P.  Uses bffine coordinbtes. */
+mp_err ec_GFp_pt_dbl_bff(const mp_int *px, const mp_int *py, mp_int *rx,
                                                  mp_int *ry, const ECGroup *group);
 
-/* Validates a point on a GFp curve. */
-mp_err ec_GFp_validate_point(const mp_int *px, const mp_int *py, const ECGroup *group);
+/* Vblidbtes b point on b GFp curve. */
+mp_err ec_GFp_vblidbte_point(const mp_int *px, const mp_int *py, const ECGroup *group);
 
 #ifdef ECL_ENABLE_GFP_PT_MUL_AFF
-/* Computes R = nP where R is (rx, ry) and P is (px, py). The parameters
- * a, b and p are the elliptic curve coefficients and the prime that
- * determines the field GFp.  Uses affine coordinates. */
-mp_err ec_GFp_pt_mul_aff(const mp_int *n, const mp_int *px,
+/* Computes R = nP where R is (rx, ry) bnd P is (px, py). The pbrbmeters
+ * b, b bnd p bre the elliptic curve coefficients bnd the prime thbt
+ * determines the field GFp.  Uses bffine coordinbtes. */
+mp_err ec_GFp_pt_mul_bff(const mp_int *n, const mp_int *px,
                                                  const mp_int *py, mp_int *rx, mp_int *ry,
                                                  const ECGroup *group);
 #endif
 
-/* Converts a point P(px, py) from affine coordinates to Jacobian
- * projective coordinates R(rx, ry, rz). */
-mp_err ec_GFp_pt_aff2jac(const mp_int *px, const mp_int *py, mp_int *rx,
+/* Converts b point P(px, py) from bffine coordinbtes to Jbcobibn
+ * projective coordinbtes R(rx, ry, rz). */
+mp_err ec_GFp_pt_bff2jbc(const mp_int *px, const mp_int *py, mp_int *rx,
                                                  mp_int *ry, mp_int *rz, const ECGroup *group);
 
-/* Converts a point P(px, py, pz) from Jacobian projective coordinates to
- * affine coordinates R(rx, ry). */
-mp_err ec_GFp_pt_jac2aff(const mp_int *px, const mp_int *py,
+/* Converts b point P(px, py, pz) from Jbcobibn projective coordinbtes to
+ * bffine coordinbtes R(rx, ry). */
+mp_err ec_GFp_pt_jbc2bff(const mp_int *px, const mp_int *py,
                                                  const mp_int *pz, mp_int *rx, mp_int *ry,
                                                  const ECGroup *group);
 
-/* Checks if point P(px, py, pz) is at infinity.  Uses Jacobian
- * coordinates. */
-mp_err ec_GFp_pt_is_inf_jac(const mp_int *px, const mp_int *py,
+/* Checks if point P(px, py, pz) is bt infinity.  Uses Jbcobibn
+ * coordinbtes. */
+mp_err ec_GFp_pt_is_inf_jbc(const mp_int *px, const mp_int *py,
                                                         const mp_int *pz);
 
-/* Sets P(px, py, pz) to be the point at infinity.  Uses Jacobian
- * coordinates. */
-mp_err ec_GFp_pt_set_inf_jac(mp_int *px, mp_int *py, mp_int *pz);
+/* Sets P(px, py, pz) to be the point bt infinity.  Uses Jbcobibn
+ * coordinbtes. */
+mp_err ec_GFp_pt_set_inf_jbc(mp_int *px, mp_int *py, mp_int *pz);
 
-/* Computes R = P + Q where R is (rx, ry, rz), P is (px, py, pz) and Q is
- * (qx, qy, qz).  Uses Jacobian coordinates. */
-mp_err ec_GFp_pt_add_jac_aff(const mp_int *px, const mp_int *py,
+/* Computes R = P + Q where R is (rx, ry, rz), P is (px, py, pz) bnd Q is
+ * (qx, qy, qz).  Uses Jbcobibn coordinbtes. */
+mp_err ec_GFp_pt_bdd_jbc_bff(const mp_int *px, const mp_int *py,
                                                          const mp_int *pz, const mp_int *qx,
                                                          const mp_int *qy, mp_int *rx, mp_int *ry,
                                                          mp_int *rz, const ECGroup *group);
 
-/* Computes R = 2P.  Uses Jacobian coordinates. */
-mp_err ec_GFp_pt_dbl_jac(const mp_int *px, const mp_int *py,
+/* Computes R = 2P.  Uses Jbcobibn coordinbtes. */
+mp_err ec_GFp_pt_dbl_jbc(const mp_int *px, const mp_int *py,
                                                  const mp_int *pz, mp_int *rx, mp_int *ry,
                                                  mp_int *rz, const ECGroup *group);
 
 #ifdef ECL_ENABLE_GFP_PT_MUL_JAC
-/* Computes R = nP where R is (rx, ry) and P is (px, py). The parameters
- * a, b and p are the elliptic curve coefficients and the prime that
- * determines the field GFp.  Uses Jacobian coordinates. */
-mp_err ec_GFp_pt_mul_jac(const mp_int *n, const mp_int *px,
+/* Computes R = nP where R is (rx, ry) bnd P is (px, py). The pbrbmeters
+ * b, b bnd p bre the elliptic curve coefficients bnd the prime thbt
+ * determines the field GFp.  Uses Jbcobibn coordinbtes. */
+mp_err ec_GFp_pt_mul_jbc(const mp_int *n, const mp_int *px,
                                                  const mp_int *py, mp_int *rx, mp_int *ry,
                                                  const ECGroup *group);
 #endif
 
-/* Computes R(x, y) = k1 * G + k2 * P(x, y), where G is the generator
- * (base point) of the group of points on the elliptic curve. Allows k1 =
- * NULL or { k2, P } = NULL.  Implemented using mixed Jacobian-affine
- * coordinates. Input and output values are assumed to be NOT
- * field-encoded and are in affine form. */
+/* Computes R(x, y) = k1 * G + k2 * P(x, y), where G is the generbtor
+ * (bbse point) of the group of points on the elliptic curve. Allows k1 =
+ * NULL or { k2, P } = NULL.  Implemented using mixed Jbcobibn-bffine
+ * coordinbtes. Input bnd output vblues bre bssumed to be NOT
+ * field-encoded bnd bre in bffine form. */
 mp_err
- ec_GFp_pts_mul_jac(const mp_int *k1, const mp_int *k2, const mp_int *px,
+ ec_GFp_pts_mul_jbc(const mp_int *k1, const mp_int *k2, const mp_int *px,
                                         const mp_int *py, mp_int *rx, mp_int *ry,
                                         const ECGroup *group);
 
-/* Computes R = nP where R is (rx, ry) and P is the base point. Elliptic
- * curve points P and R can be identical. Uses mixed Modified-Jacobian
- * co-ordinates for doubling and Chudnovsky Jacobian coordinates for
- * additions. Assumes input is already field-encoded using field_enc, and
- * returns output that is still field-encoded. Uses 5-bit window NAF
- * method (algorithm 11) for scalar-point multiplication from Brown,
- * Hankerson, Lopez, Menezes. Software Implementation of the NIST Elliptic
+/* Computes R = nP where R is (rx, ry) bnd P is the bbse point. Elliptic
+ * curve points P bnd R cbn be identicbl. Uses mixed Modified-Jbcobibn
+ * co-ordinbtes for doubling bnd Chudnovsky Jbcobibn coordinbtes for
+ * bdditions. Assumes input is blrebdy field-encoded using field_enc, bnd
+ * returns output thbt is still field-encoded. Uses 5-bit window NAF
+ * method (blgorithm 11) for scblbr-point multiplicbtion from Brown,
+ * Hbnkerson, Lopez, Menezes. Softwbre Implementbtion of the NIST Elliptic
  * Curves Over Prime Fields. */
 mp_err
  ec_GFp_pt_mul_jm_wNAF(const mp_int *n, const mp_int *px, const mp_int *py,

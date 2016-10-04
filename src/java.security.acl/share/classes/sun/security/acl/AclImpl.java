@@ -1,308 +1,308 @@
 /*
- * Copyright (c) 1996, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.acl;
+pbckbge sun.security.bcl;
 
-import java.io.*;
-import java.util.*;
-import java.security.Principal;
-import java.security.acl.*;
+import jbvb.io.*;
+import jbvb.util.*;
+import jbvb.security.Principbl;
+import jbvb.security.bcl.*;
 
 /**
- * An Access Control List (ACL) is encapsulated by this class.
- * @author      Satish Dharmaraj
+ * An Access Control List (ACL) is encbpsulbted by this clbss.
+ * @buthor      Sbtish Dhbrmbrbj
  */
-public class AclImpl extends OwnerImpl implements Acl {
+public clbss AclImpl extends OwnerImpl implements Acl {
     //
-    // Maintain four tables. one each for positive and negative
-    // ACLs. One each depending on whether the entity is a group
-    // or principal.
+    // Mbintbin four tbbles. one ebch for positive bnd negbtive
+    // ACLs. One ebch depending on whether the entity is b group
+    // or principbl.
     //
-    private Hashtable<Principal, AclEntry> allowedUsersTable =
-                                        new Hashtable<>(23);
-    private Hashtable<Principal, AclEntry> allowedGroupsTable =
-                                        new Hashtable<>(23);
-    private Hashtable<Principal, AclEntry> deniedUsersTable =
-                                        new Hashtable<>(23);
-    private Hashtable<Principal, AclEntry> deniedGroupsTable =
-                                        new Hashtable<>(23);
-    private String aclName = null;
-    private Vector<Permission> zeroSet = new Vector<>(1,1);
+    privbte Hbshtbble<Principbl, AclEntry> bllowedUsersTbble =
+                                        new Hbshtbble<>(23);
+    privbte Hbshtbble<Principbl, AclEntry> bllowedGroupsTbble =
+                                        new Hbshtbble<>(23);
+    privbte Hbshtbble<Principbl, AclEntry> deniedUsersTbble =
+                                        new Hbshtbble<>(23);
+    privbte Hbshtbble<Principbl, AclEntry> deniedGroupsTbble =
+                                        new Hbshtbble<>(23);
+    privbte String bclNbme = null;
+    privbte Vector<Permission> zeroSet = new Vector<>(1,1);
 
 
     /**
-     * Constructor for creating an empty ACL.
+     * Constructor for crebting bn empty ACL.
      */
-    public AclImpl(Principal owner, String name) {
+    public AclImpl(Principbl owner, String nbme) {
         super(owner);
         try {
-            setName(owner, name);
-        } catch (Exception e) {}
+            setNbme(owner, nbme);
+        } cbtch (Exception e) {}
     }
 
     /**
-     * Sets the name of the ACL.
-     * @param caller the principal who is invoking this method.
-     * @param name the name of the ACL.
-     * @exception NotOwnerException if the caller principal is
+     * Sets the nbme of the ACL.
+     * @pbrbm cbller the principbl who is invoking this method.
+     * @pbrbm nbme the nbme of the ACL.
+     * @exception NotOwnerException if the cbller principbl is
      * not on the owners list of the Acl.
      */
-    public void setName(Principal caller, String name)
+    public void setNbme(Principbl cbller, String nbme)
       throws NotOwnerException
     {
-        if (!isOwner(caller))
+        if (!isOwner(cbller))
             throw new NotOwnerException();
 
-        aclName = name;
+        bclNbme = nbme;
     }
 
     /**
-     * Returns the name of the ACL.
-     * @return the name of the ACL.
+     * Returns the nbme of the ACL.
+     * @return the nbme of the ACL.
      */
-    public String getName() {
-        return aclName;
+    public String getNbme() {
+        return bclNbme;
     }
 
     /**
-     * Adds an ACL entry to this ACL. An entry associates a
-     * group or a principal with a set of permissions. Each
-     * user or group can have one positive ACL entry and one
-     * negative ACL entry. If there is one of the type (negative
-     * or positive) already in the table, a false value is returned.
-     * The caller principal must be a part of the owners list of
+     * Adds bn ACL entry to this ACL. An entry bssocibtes b
+     * group or b principbl with b set of permissions. Ebch
+     * user or group cbn hbve one positive ACL entry bnd one
+     * negbtive ACL entry. If there is one of the type (negbtive
+     * or positive) blrebdy in the tbble, b fblse vblue is returned.
+     * The cbller principbl must be b pbrt of the owners list of
      * the ACL in order to invoke this method.
-     * @param caller the principal who is invoking this method.
-     * @param entry the ACL entry that must be added to the ACL.
-     * @return true on success, false if the entry is already present.
-     * @exception NotOwnerException if the caller principal
+     * @pbrbm cbller the principbl who is invoking this method.
+     * @pbrbm entry the ACL entry thbt must be bdded to the ACL.
+     * @return true on success, fblse if the entry is blrebdy present.
+     * @exception NotOwnerException if the cbller principbl
      * is not on the owners list of the Acl.
      */
-    public synchronized boolean addEntry(Principal caller, AclEntry entry)
+    public synchronized boolebn bddEntry(Principbl cbller, AclEntry entry)
       throws NotOwnerException
     {
-        if (!isOwner(caller))
+        if (!isOwner(cbller))
             throw new NotOwnerException();
 
-        Hashtable<Principal, AclEntry> aclTable = findTable(entry);
-        Principal key = entry.getPrincipal();
+        Hbshtbble<Principbl, AclEntry> bclTbble = findTbble(entry);
+        Principbl key = entry.getPrincipbl();
 
-        if (aclTable.get(key) != null)
-            return false;
+        if (bclTbble.get(key) != null)
+            return fblse;
 
-        aclTable.put(key, entry);
+        bclTbble.put(key, entry);
         return true;
     }
 
     /**
-     * Removes an ACL entry from this ACL.
-     * The caller principal must be a part of the owners list of the ACL
+     * Removes bn ACL entry from this ACL.
+     * The cbller principbl must be b pbrt of the owners list of the ACL
      * in order to invoke this method.
-     * @param caller the principal who is invoking this method.
-     * @param entry the ACL entry that must be removed from the ACL.
-     * @return true on success, false if the entry is not part of the ACL.
-     * @exception NotOwnerException if the caller principal is not
+     * @pbrbm cbller the principbl who is invoking this method.
+     * @pbrbm entry the ACL entry thbt must be removed from the ACL.
+     * @return true on success, fblse if the entry is not pbrt of the ACL.
+     * @exception NotOwnerException if the cbller principbl is not
      * the owners list of the Acl.
      */
-    public synchronized boolean removeEntry(Principal caller, AclEntry entry)
+    public synchronized boolebn removeEntry(Principbl cbller, AclEntry entry)
       throws NotOwnerException
     {
-        if (!isOwner(caller))
+        if (!isOwner(cbller))
             throw new NotOwnerException();
 
-        Hashtable<Principal, AclEntry> aclTable = findTable(entry);
-        Principal key = entry.getPrincipal();
+        Hbshtbble<Principbl, AclEntry> bclTbble = findTbble(entry);
+        Principbl key = entry.getPrincipbl();
 
-        AclEntry o = aclTable.remove(key);
+        AclEntry o = bclTbble.remove(key);
         return (o != null);
     }
 
     /**
-     * This method returns the set of allowed permissions for the
-     * specified principal. This set of allowed permissions is calculated
-     * as follows:
+     * This method returns the set of bllowed permissions for the
+     * specified principbl. This set of bllowed permissions is cblculbted
+     * bs follows:
      *
-     * If there is no entry for a group or a principal an empty permission
-     * set is assumed.
+     * If there is no entry for b group or b principbl bn empty permission
+     * set is bssumed.
      *
-     * The group positive permission set is the union of all
-     * the positive permissions of each group that the individual belongs to.
-     * The group negative permission set is the union of all
-     * the negative permissions of each group that the individual belongs to.
-     * If there is a specific permission that occurs in both
-     * the postive permission set and the negative permission set,
-     * it is removed from both. The group positive and negatoive permission
-     * sets are calculated.
+     * The group positive permission set is the union of bll
+     * the positive permissions of ebch group thbt the individubl belongs to.
+     * The group negbtive permission set is the union of bll
+     * the negbtive permissions of ebch group thbt the individubl belongs to.
+     * If there is b specific permission thbt occurs in both
+     * the postive permission set bnd the negbtive permission set,
+     * it is removed from both. The group positive bnd negbtoive permission
+     * sets bre cblculbted.
      *
-     * The individial positive permission set and the individual negative
-     * permission set is then calculated. Again abscence of an entry means
+     * The individibl positive permission set bnd the individubl negbtive
+     * permission set is then cblculbted. Agbin bbscence of bn entry mebns
      * the empty set.
      *
-     * The set of permissions granted to the principal is then calculated using
-     * the simple rule: Individual permissions always override the Group permissions.
-     * Specifically, individual negative permission set (specific
-     * denial of permissions) overrides the group positive permission set.
-     * And the individual positive permission set override the group negative
+     * The set of permissions grbnted to the principbl is then cblculbted using
+     * the simple rule: Individubl permissions blwbys override the Group permissions.
+     * Specificblly, individubl negbtive permission set (specific
+     * denibl of permissions) overrides the group positive permission set.
+     * And the individubl positive permission set override the group negbtive
      * permission set.
      *
-     * @param user the principal for which the ACL entry is returned.
-     * @return The resulting permission set that the principal is allowed.
+     * @pbrbm user the principbl for which the ACL entry is returned.
+     * @return The resulting permission set thbt the principbl is bllowed.
      */
-    public synchronized Enumeration<Permission> getPermissions(Principal user) {
+    public synchronized Enumerbtion<Permission> getPermissions(Principbl user) {
 
-        Enumeration<Permission> individualPositive;
-        Enumeration<Permission> individualNegative;
-        Enumeration<Permission> groupPositive;
-        Enumeration<Permission> groupNegative;
+        Enumerbtion<Permission> individublPositive;
+        Enumerbtion<Permission> individublNegbtive;
+        Enumerbtion<Permission> groupPositive;
+        Enumerbtion<Permission> groupNegbtive;
 
         //
-        // canonicalize the sets. That is remove common permissions from
-        // positive and negative sets.
+        // cbnonicblize the sets. Thbt is remove common permissions from
+        // positive bnd negbtive sets.
         //
         groupPositive =
-            subtract(getGroupPositive(user), getGroupNegative(user));
-        groupNegative  =
-            subtract(getGroupNegative(user), getGroupPositive(user));
-        individualPositive =
-            subtract(getIndividualPositive(user), getIndividualNegative(user));
-        individualNegative =
-            subtract(getIndividualNegative(user), getIndividualPositive(user));
+            subtrbct(getGroupPositive(user), getGroupNegbtive(user));
+        groupNegbtive  =
+            subtrbct(getGroupNegbtive(user), getGroupPositive(user));
+        individublPositive =
+            subtrbct(getIndividublPositive(user), getIndividublNegbtive(user));
+        individublNegbtive =
+            subtrbct(getIndividublNegbtive(user), getIndividublPositive(user));
 
         //
-        // net positive permissions is individual positive permissions
-        // plus (group positive - individual negative).
+        // net positive permissions is individubl positive permissions
+        // plus (group positive - individubl negbtive).
         //
-        Enumeration<Permission> temp1 =
-            subtract(groupPositive, individualNegative);
-        Enumeration<Permission> netPositive =
-            union(individualPositive, temp1);
+        Enumerbtion<Permission> temp1 =
+            subtrbct(groupPositive, individublNegbtive);
+        Enumerbtion<Permission> netPositive =
+            union(individublPositive, temp1);
 
-        // recalculate the enumeration since we lost it in performing the
-        // subtraction
+        // recblculbte the enumerbtion since we lost it in performing the
+        // subtrbction
         //
-        individualPositive =
-            subtract(getIndividualPositive(user), getIndividualNegative(user));
-        individualNegative =
-            subtract(getIndividualNegative(user), getIndividualPositive(user));
+        individublPositive =
+            subtrbct(getIndividublPositive(user), getIndividublNegbtive(user));
+        individublNegbtive =
+            subtrbct(getIndividublNegbtive(user), getIndividublPositive(user));
 
         //
-        // net negative permissions is individual negative permissions
-        // plus (group negative - individual positive).
+        // net negbtive permissions is individubl negbtive permissions
+        // plus (group negbtive - individubl positive).
         //
-        temp1 = subtract(groupNegative, individualPositive);
-        Enumeration<Permission> netNegative = union(individualNegative, temp1);
+        temp1 = subtrbct(groupNegbtive, individublPositive);
+        Enumerbtion<Permission> netNegbtive = union(individublNegbtive, temp1);
 
-        return subtract(netPositive, netNegative);
+        return subtrbct(netPositive, netNegbtive);
     }
 
     /**
-     * This method checks whether or not the specified principal
-     * has the required permission. If permission is denied
-     * permission false is returned, a true value is returned otherwise.
-     * This method does not authenticate the principal. It presumes that
-     * the principal is a valid authenticated principal.
-     * @param principal the name of the authenticated principal
-     * @param permission the permission that the principal must have.
-     * @return true of the principal has the permission desired, false
+     * This method checks whether or not the specified principbl
+     * hbs the required permission. If permission is denied
+     * permission fblse is returned, b true vblue is returned otherwise.
+     * This method does not buthenticbte the principbl. It presumes thbt
+     * the principbl is b vblid buthenticbted principbl.
+     * @pbrbm principbl the nbme of the buthenticbted principbl
+     * @pbrbm permission the permission thbt the principbl must hbve.
+     * @return true of the principbl hbs the permission desired, fblse
      * otherwise.
      */
-    public boolean checkPermission(Principal principal, Permission permission)
+    public boolebn checkPermission(Principbl principbl, Permission permission)
     {
-        Enumeration<Permission> permSet = getPermissions(principal);
-        while (permSet.hasMoreElements()) {
+        Enumerbtion<Permission> permSet = getPermissions(principbl);
+        while (permSet.hbsMoreElements()) {
             Permission p = permSet.nextElement();
-            if (p.equals(permission))
+            if (p.equbls(permission))
               return true;
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * returns an enumeration of the entries in this ACL.
+     * returns bn enumerbtion of the entries in this ACL.
      */
-    public synchronized Enumeration<AclEntry> entries() {
-        return new AclEnumerator(this,
-                                 allowedUsersTable, allowedGroupsTable,
-                                 deniedUsersTable, deniedGroupsTable);
+    public synchronized Enumerbtion<AclEntry> entries() {
+        return new AclEnumerbtor(this,
+                                 bllowedUsersTbble, bllowedGroupsTbble,
+                                 deniedUsersTbble, deniedGroupsTbble);
     }
 
     /**
-     * return a stringified version of the
+     * return b stringified version of the
      * ACL.
      */
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        Enumeration<AclEntry> entries = entries();
-        while (entries.hasMoreElements()) {
+        Enumerbtion<AclEntry> entries = entries();
+        while (entries.hbsMoreElements()) {
             AclEntry entry = entries.nextElement();
-            sb.append(entry.toString().trim());
-            sb.append("\n");
+            sb.bppend(entry.toString().trim());
+            sb.bppend("\n");
         }
 
         return sb.toString();
     }
 
     //
-    // Find the table that this entry belongs to. There are 4
-    // tables that are maintained. One each for postive and
-    // negative ACLs and one each for groups and users.
+    // Find the tbble thbt this entry belongs to. There bre 4
+    // tbbles thbt bre mbintbined. One ebch for postive bnd
+    // negbtive ACLs bnd one ebch for groups bnd users.
     // This method figures out which
-    // table is the one that this AclEntry belongs to.
+    // tbble is the one thbt this AclEntry belongs to.
     //
-    private Hashtable<Principal, AclEntry> findTable(AclEntry entry) {
-        Hashtable<Principal, AclEntry> aclTable = null;
+    privbte Hbshtbble<Principbl, AclEntry> findTbble(AclEntry entry) {
+        Hbshtbble<Principbl, AclEntry> bclTbble = null;
 
-        Principal p = entry.getPrincipal();
-        if (p instanceof Group) {
-            if (entry.isNegative())
-                aclTable = deniedGroupsTable;
+        Principbl p = entry.getPrincipbl();
+        if (p instbnceof Group) {
+            if (entry.isNegbtive())
+                bclTbble = deniedGroupsTbble;
             else
-                aclTable = allowedGroupsTable;
+                bclTbble = bllowedGroupsTbble;
         } else {
-            if (entry.isNegative())
-                aclTable = deniedUsersTable;
+            if (entry.isNegbtive())
+                bclTbble = deniedUsersTbble;
             else
-                aclTable = allowedUsersTable;
+                bclTbble = bllowedUsersTbble;
         }
-        return aclTable;
+        return bclTbble;
     }
 
     //
     // returns the set e1 U e2.
     //
-    private static Enumeration<Permission> union(Enumeration<Permission> e1,
-                Enumeration<Permission> e2) {
+    privbte stbtic Enumerbtion<Permission> union(Enumerbtion<Permission> e1,
+                Enumerbtion<Permission> e2) {
         Vector<Permission> v = new Vector<>(20, 20);
 
-        while (e1.hasMoreElements())
-            v.addElement(e1.nextElement());
+        while (e1.hbsMoreElements())
+            v.bddElement(e1.nextElement());
 
-        while (e2.hasMoreElements()) {
+        while (e2.hbsMoreElements()) {
             Permission o = e2.nextElement();
-            if (!v.contains(o))
-                v.addElement(o);
+            if (!v.contbins(o))
+                v.bddElement(o);
         }
 
         return v.elements();
@@ -311,98 +311,98 @@ public class AclImpl extends OwnerImpl implements Acl {
     //
     // returns the set e1 - e2.
     //
-    private Enumeration<Permission> subtract(Enumeration<Permission> e1,
-                Enumeration<Permission> e2) {
+    privbte Enumerbtion<Permission> subtrbct(Enumerbtion<Permission> e1,
+                Enumerbtion<Permission> e2) {
         Vector<Permission> v = new Vector<>(20, 20);
 
-        while (e1.hasMoreElements())
-            v.addElement(e1.nextElement());
+        while (e1.hbsMoreElements())
+            v.bddElement(e1.nextElement());
 
-        while (e2.hasMoreElements()) {
+        while (e2.hbsMoreElements()) {
             Permission o = e2.nextElement();
-            if (v.contains(o))
+            if (v.contbins(o))
                 v.removeElement(o);
         }
 
         return v.elements();
     }
 
-    private Enumeration<Permission> getGroupPositive(Principal user) {
-        Enumeration<Permission> groupPositive = zeroSet.elements();
-        Enumeration<Principal> e = allowedGroupsTable.keys();
-        while (e.hasMoreElements()) {
+    privbte Enumerbtion<Permission> getGroupPositive(Principbl user) {
+        Enumerbtion<Permission> groupPositive = zeroSet.elements();
+        Enumerbtion<Principbl> e = bllowedGroupsTbble.keys();
+        while (e.hbsMoreElements()) {
             Group g = (Group)e.nextElement();
             if (g.isMember(user)) {
-                AclEntry ae = allowedGroupsTable.get(g);
-                groupPositive = union(ae.permissions(), groupPositive);
+                AclEntry be = bllowedGroupsTbble.get(g);
+                groupPositive = union(be.permissions(), groupPositive);
             }
         }
         return groupPositive;
     }
 
-    private Enumeration<Permission> getGroupNegative(Principal user) {
-        Enumeration<Permission> groupNegative = zeroSet.elements();
-        Enumeration<Principal> e = deniedGroupsTable.keys();
-        while (e.hasMoreElements()) {
+    privbte Enumerbtion<Permission> getGroupNegbtive(Principbl user) {
+        Enumerbtion<Permission> groupNegbtive = zeroSet.elements();
+        Enumerbtion<Principbl> e = deniedGroupsTbble.keys();
+        while (e.hbsMoreElements()) {
             Group g = (Group)e.nextElement();
             if (g.isMember(user)) {
-                AclEntry ae = deniedGroupsTable.get(g);
-                groupNegative = union(ae.permissions(), groupNegative);
+                AclEntry be = deniedGroupsTbble.get(g);
+                groupNegbtive = union(be.permissions(), groupNegbtive);
             }
         }
-        return groupNegative;
+        return groupNegbtive;
     }
 
-    private Enumeration<Permission> getIndividualPositive(Principal user) {
-        Enumeration<Permission> individualPositive = zeroSet.elements();
-        AclEntry ae = allowedUsersTable.get(user);
-        if (ae != null)
-            individualPositive = ae.permissions();
-        return individualPositive;
+    privbte Enumerbtion<Permission> getIndividublPositive(Principbl user) {
+        Enumerbtion<Permission> individublPositive = zeroSet.elements();
+        AclEntry be = bllowedUsersTbble.get(user);
+        if (be != null)
+            individublPositive = be.permissions();
+        return individublPositive;
     }
 
-    private Enumeration<Permission> getIndividualNegative(Principal user) {
-        Enumeration<Permission> individualNegative = zeroSet.elements();
-        AclEntry ae  = deniedUsersTable.get(user);
-        if (ae != null)
-            individualNegative = ae.permissions();
-        return individualNegative;
+    privbte Enumerbtion<Permission> getIndividublNegbtive(Principbl user) {
+        Enumerbtion<Permission> individublNegbtive = zeroSet.elements();
+        AclEntry be  = deniedUsersTbble.get(user);
+        if (be != null)
+            individublNegbtive = be.permissions();
+        return individublNegbtive;
     }
 }
 
-final class AclEnumerator implements Enumeration<AclEntry> {
-    Acl acl;
-    Enumeration<AclEntry> u1, u2, g1, g2;
+finbl clbss AclEnumerbtor implements Enumerbtion<AclEntry> {
+    Acl bcl;
+    Enumerbtion<AclEntry> u1, u2, g1, g2;
 
-    AclEnumerator(Acl acl, Hashtable<?,AclEntry> u1, Hashtable<?,AclEntry> g1,
-                  Hashtable<?,AclEntry> u2, Hashtable<?,AclEntry> g2) {
-        this.acl = acl;
+    AclEnumerbtor(Acl bcl, Hbshtbble<?,AclEntry> u1, Hbshtbble<?,AclEntry> g1,
+                  Hbshtbble<?,AclEntry> u2, Hbshtbble<?,AclEntry> g2) {
+        this.bcl = bcl;
         this.u1 = u1.elements();
         this.u2 = u2.elements();
         this.g1 = g1.elements();
         this.g2 = g2.elements();
     }
 
-    public boolean hasMoreElements() {
-        return (u1.hasMoreElements() ||
-                u2.hasMoreElements() ||
-                g1.hasMoreElements() ||
-                g2.hasMoreElements());
+    public boolebn hbsMoreElements() {
+        return (u1.hbsMoreElements() ||
+                u2.hbsMoreElements() ||
+                g1.hbsMoreElements() ||
+                g2.hbsMoreElements());
     }
 
     public AclEntry nextElement()
     {
         AclEntry o;
-        synchronized (acl) {
-            if (u1.hasMoreElements())
+        synchronized (bcl) {
+            if (u1.hbsMoreElements())
                 return u1.nextElement();
-            if (u2.hasMoreElements())
+            if (u2.hbsMoreElements())
                 return u2.nextElement();
-            if (g1.hasMoreElements())
+            if (g1.hbsMoreElements())
                 return g1.nextElement();
-            if (g2.hasMoreElements())
+            if (g2.hbsMoreElements())
                 return g2.nextElement();
         }
-        throw new NoSuchElementException("Acl Enumerator");
+        throw new NoSuchElementException("Acl Enumerbtor");
     }
 }

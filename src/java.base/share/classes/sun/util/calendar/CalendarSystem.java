@@ -1,395 +1,395 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.util.calendar;
+pbckbge sun.util.cblendbr;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.security.AccessController;
-import java.security.PrivilegedActionException;
-import java.security.PrivilegedExceptionAction;
-import java.util.Properties;
-import java.util.TimeZone;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
+import jbvb.io.File;
+import jbvb.io.FileInputStrebm;
+import jbvb.io.IOException;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedActionException;
+import jbvb.security.PrivilegedExceptionAction;
+import jbvb.util.Properties;
+import jbvb.util.TimeZone;
+import jbvb.util.concurrent.ConcurrentHbshMbp;
+import jbvb.util.concurrent.ConcurrentMbp;
 
 /**
- * <code>CalendarSystem</code> is an abstract class that defines the
- * programming interface to deal with calendar date and time.
+ * <code>CblendbrSystem</code> is bn bbstrbct clbss thbt defines the
+ * progrbmming interfbce to debl with cblendbr dbte bnd time.
  *
- * <p><code>CalendarSystem</code> instances are singletons. For
- * example, there exists only one Gregorian calendar instance in the
- * Java runtime environment. A singleton instance can be obtained
- * calling one of the static factory methods.
+ * <p><code>CblendbrSystem</code> instbnces bre singletons. For
+ * exbmple, there exists only one Gregoribn cblendbr instbnce in the
+ * Jbvb runtime environment. A singleton instbnce cbn be obtbined
+ * cblling one of the stbtic fbctory methods.
  *
- * <h4>CalendarDate</h4>
+ * <h4>CblendbrDbte</h4>
  *
- * <p>For the methods in a <code>CalendarSystem</code> that manipulate
- * a <code>CalendarDate</code>, <code>CalendarDate</code>s that have
- * been created by the <code>CalendarSystem</code> must be
- * specified. Otherwise, the methods throw an exception. This is
- * because, for example, a Chinese calendar date can't be understood
- * by the Hebrew calendar system.
+ * <p>For the methods in b <code>CblendbrSystem</code> thbt mbnipulbte
+ * b <code>CblendbrDbte</code>, <code>CblendbrDbte</code>s thbt hbve
+ * been crebted by the <code>CblendbrSystem</code> must be
+ * specified. Otherwise, the methods throw bn exception. This is
+ * becbuse, for exbmple, b Chinese cblendbr dbte cbn't be understood
+ * by the Hebrew cblendbr system.
  *
- * <h4>Calendar names</h4>
+ * <h4>Cblendbr nbmes</h4>
  *
- * Each calendar system has a unique name to be identified. The Java
- * runtime in this release supports the following calendar systems.
+ * Ebch cblendbr system hbs b unique nbme to be identified. The Jbvb
+ * runtime in this relebse supports the following cblendbr systems.
  *
  * <pre>
- *  Name          Calendar System
+ *  Nbme          Cblendbr System
  *  ---------------------------------------
- *  gregorian     Gregorian Calendar
- *  julian        Julian Calendar
- *  japanese      Japanese Imperial Calendar
+ *  gregoribn     Gregoribn Cblendbr
+ *  julibn        Julibn Cblendbr
+ *  jbpbnese      Jbpbnese Imperibl Cblendbr
  * </pre>
  *
- * @see CalendarDate
- * @author Masayoshi Okutsu
+ * @see CblendbrDbte
+ * @buthor Mbsbyoshi Okutsu
  * @since 1.5
  */
 
-public abstract class CalendarSystem {
+public bbstrbct clbss CblendbrSystem {
 
-    /////////////////////// Calendar Factory Methods /////////////////////////
+    /////////////////////// Cblendbr Fbctory Methods /////////////////////////
 
-    private volatile static boolean initialized = false;
+    privbte volbtile stbtic boolebn initiblized = fblse;
 
-    // Map of calendar names and calendar class names
-    private static ConcurrentMap<String, String> names;
+    // Mbp of cblendbr nbmes bnd cblendbr clbss nbmes
+    privbte stbtic ConcurrentMbp<String, String> nbmes;
 
-    // Map of calendar names and CalendarSystem instances
-    private static ConcurrentMap<String,CalendarSystem> calendars;
+    // Mbp of cblendbr nbmes bnd CblendbrSystem instbnces
+    privbte stbtic ConcurrentMbp<String,CblendbrSystem> cblendbrs;
 
-    private static final String PACKAGE_NAME = "sun.util.calendar.";
+    privbte stbtic finbl String PACKAGE_NAME = "sun.util.cblendbr.";
 
-    private static final String[] namePairs = {
-        "gregorian", "Gregorian",
-        "japanese", "LocalGregorianCalendar",
-        "julian", "JulianCalendar",
+    privbte stbtic finbl String[] nbmePbirs = {
+        "gregoribn", "Gregoribn",
+        "jbpbnese", "LocblGregoribnCblendbr",
+        "julibn", "JulibnCblendbr",
         /*
-        "hebrew", "HebrewCalendar",
-        "iso8601", "ISOCalendar",
-        "taiwanese", "LocalGregorianCalendar",
-        "thaibuddhist", "LocalGregorianCalendar",
+        "hebrew", "HebrewCblendbr",
+        "iso8601", "ISOCblendbr",
+        "tbiwbnese", "LocblGregoribnCblendbr",
+        "thbibuddhist", "LocblGregoribnCblendbr",
         */
     };
 
-    private static void initNames() {
-        ConcurrentMap<String,String> nameMap = new ConcurrentHashMap<>();
+    privbte stbtic void initNbmes() {
+        ConcurrentMbp<String,String> nbmeMbp = new ConcurrentHbshMbp<>();
 
-        // Associate a calendar name with its class name and the
-        // calendar class name with its date class name.
-        StringBuilder clName = new StringBuilder();
-        for (int i = 0; i < namePairs.length; i += 2) {
-            clName.setLength(0);
-            String cl = clName.append(PACKAGE_NAME).append(namePairs[i+1]).toString();
-            nameMap.put(namePairs[i], cl);
+        // Associbte b cblendbr nbme with its clbss nbme bnd the
+        // cblendbr clbss nbme with its dbte clbss nbme.
+        StringBuilder clNbme = new StringBuilder();
+        for (int i = 0; i < nbmePbirs.length; i += 2) {
+            clNbme.setLength(0);
+            String cl = clNbme.bppend(PACKAGE_NAME).bppend(nbmePbirs[i+1]).toString();
+            nbmeMbp.put(nbmePbirs[i], cl);
         }
-        synchronized (CalendarSystem.class) {
-            if (!initialized) {
-                names = nameMap;
-                calendars = new ConcurrentHashMap<>();
-                initialized = true;
+        synchronized (CblendbrSystem.clbss) {
+            if (!initiblized) {
+                nbmes = nbmeMbp;
+                cblendbrs = new ConcurrentHbshMbp<>();
+                initiblized = true;
             }
         }
     }
 
-    private final static Gregorian GREGORIAN_INSTANCE = new Gregorian();
+    privbte finbl stbtic Gregoribn GREGORIAN_INSTANCE = new Gregoribn();
 
     /**
-     * Returns the singleton instance of the <code>Gregorian</code>
-     * calendar system.
+     * Returns the singleton instbnce of the <code>Gregoribn</code>
+     * cblendbr system.
      *
-     * @return the <code>Gregorian</code> instance
+     * @return the <code>Gregoribn</code> instbnce
      */
-    public static Gregorian getGregorianCalendar() {
+    public stbtic Gregoribn getGregoribnCblendbr() {
         return GREGORIAN_INSTANCE;
     }
 
     /**
-     * Returns a <code>CalendarSystem</code> specified by the calendar
-     * name. The calendar name has to be one of the supported calendar
-     * names.
+     * Returns b <code>CblendbrSystem</code> specified by the cblendbr
+     * nbme. The cblendbr nbme hbs to be one of the supported cblendbr
+     * nbmes.
      *
-     * @param calendarName the calendar name
-     * @return the <code>CalendarSystem</code> specified by
-     * <code>calendarName</code>, or null if there is no
-     * <code>CalendarSystem</code> associated with the given calendar name.
+     * @pbrbm cblendbrNbme the cblendbr nbme
+     * @return the <code>CblendbrSystem</code> specified by
+     * <code>cblendbrNbme</code>, or null if there is no
+     * <code>CblendbrSystem</code> bssocibted with the given cblendbr nbme.
      */
-    public static CalendarSystem forName(String calendarName) {
-        if ("gregorian".equals(calendarName)) {
+    public stbtic CblendbrSystem forNbme(String cblendbrNbme) {
+        if ("gregoribn".equbls(cblendbrNbme)) {
             return GREGORIAN_INSTANCE;
         }
 
-        if (!initialized) {
-            initNames();
+        if (!initiblized) {
+            initNbmes();
         }
 
-        CalendarSystem cal = calendars.get(calendarName);
-        if (cal != null) {
-            return cal;
+        CblendbrSystem cbl = cblendbrs.get(cblendbrNbme);
+        if (cbl != null) {
+            return cbl;
         }
 
-        String className = names.get(calendarName);
-        if (className == null) {
-            return null; // Unknown calendar name
+        String clbssNbme = nbmes.get(cblendbrNbme);
+        if (clbssNbme == null) {
+            return null; // Unknown cblendbr nbme
         }
 
-        if (className.endsWith("LocalGregorianCalendar")) {
-            // Create the specific kind of local Gregorian calendar system
-            cal = LocalGregorianCalendar.getLocalGregorianCalendar(calendarName);
+        if (clbssNbme.endsWith("LocblGregoribnCblendbr")) {
+            // Crebte the specific kind of locbl Gregoribn cblendbr system
+            cbl = LocblGregoribnCblendbr.getLocblGregoribnCblendbr(cblendbrNbme);
         } else {
             try {
-                Class<?> cl = Class.forName(className);
-                cal = (CalendarSystem) cl.newInstance();
-            } catch (Exception e) {
-                throw new InternalError(e);
+                Clbss<?> cl = Clbss.forNbme(clbssNbme);
+                cbl = (CblendbrSystem) cl.newInstbnce();
+            } cbtch (Exception e) {
+                throw new InternblError(e);
             }
         }
-        if (cal == null) {
+        if (cbl == null) {
             return null;
         }
-        CalendarSystem cs =  calendars.putIfAbsent(calendarName, cal);
-        return (cs == null) ? cal : cs;
+        CblendbrSystem cs =  cblendbrs.putIfAbsent(cblendbrNbme, cbl);
+        return (cs == null) ? cbl : cs;
     }
 
     /**
-     * Returns a {@link Properties} loaded from lib/calendars.properties.
+     * Returns b {@link Properties} lobded from lib/cblendbrs.properties.
      *
-     * @return a {@link Properties} loaded from lib/calendars.properties
-     * @throws IOException if an error occurred when reading from the input stream
-     * @throws IllegalArgumentException if the input stream contains any malformed
-     *                                  Unicode escape sequences
+     * @return b {@link Properties} lobded from lib/cblendbrs.properties
+     * @throws IOException if bn error occurred when rebding from the input strebm
+     * @throws IllegblArgumentException if the input strebm contbins bny mblformed
+     *                                  Unicode escbpe sequences
      */
-    public static Properties getCalendarProperties() throws IOException {
-        Properties calendarProps = null;
+    public stbtic Properties getCblendbrProperties() throws IOException {
+        Properties cblendbrProps = null;
         try {
             String homeDir = AccessController.doPrivileged(
-                new sun.security.action.GetPropertyAction("java.home"));
-            final String fname = homeDir + File.separator + "lib" + File.separator
-                                 + "calendars.properties";
-            calendarProps = AccessController.doPrivileged(new PrivilegedExceptionAction<Properties>() {
+                new sun.security.bction.GetPropertyAction("jbvb.home"));
+            finbl String fnbme = homeDir + File.sepbrbtor + "lib" + File.sepbrbtor
+                                 + "cblendbrs.properties";
+            cblendbrProps = AccessController.doPrivileged(new PrivilegedExceptionAction<Properties>() {
                 @Override
                 public Properties run() throws IOException {
                     Properties props = new Properties();
-                    try (FileInputStream fis = new FileInputStream(fname)) {
-                        props.load(fis);
+                    try (FileInputStrebm fis = new FileInputStrebm(fnbme)) {
+                        props.lobd(fis);
                     }
                     return props;
                 }
             });
-        } catch (PrivilegedActionException e) {
-            Throwable cause = e.getCause();
-            if (cause instanceof IOException) {
-                throw (IOException) cause;
-            } else if (cause instanceof IllegalArgumentException) {
-                throw (IllegalArgumentException) cause;
+        } cbtch (PrivilegedActionException e) {
+            Throwbble cbuse = e.getCbuse();
+            if (cbuse instbnceof IOException) {
+                throw (IOException) cbuse;
+            } else if (cbuse instbnceof IllegblArgumentException) {
+                throw (IllegblArgumentException) cbuse;
             }
-            // Should not happen
-            throw new InternalError(cause);
+            // Should not hbppen
+            throw new InternblError(cbuse);
         }
-        return calendarProps;
+        return cblendbrProps;
     }
 
-    //////////////////////////////// Calendar API //////////////////////////////////
+    //////////////////////////////// Cblendbr API //////////////////////////////////
 
     /**
-     * Returns the name of this calendar system.
+     * Returns the nbme of this cblendbr system.
      */
-    public abstract String getName();
+    public bbstrbct String getNbme();
 
-    public abstract CalendarDate getCalendarDate();
+    public bbstrbct CblendbrDbte getCblendbrDbte();
 
     /**
-     * Calculates calendar fields from the specified number of
-     * milliseconds since the Epoch, January 1, 1970 00:00:00 UTC
-     * (Gregorian). This method doesn't check overflow or underflow
-     * when adjusting the millisecond value (representing UTC) with
-     * the time zone offsets (i.e., the GMT offset and amount of
-     * daylight saving).
+     * Cblculbtes cblendbr fields from the specified number of
+     * milliseconds since the Epoch, Jbnubry 1, 1970 00:00:00 UTC
+     * (Gregoribn). This method doesn't check overflow or underflow
+     * when bdjusting the millisecond vblue (representing UTC) with
+     * the time zone offsets (i.e., the GMT offset bnd bmount of
+     * dbylight sbving).
      *
-     * @param millis the offset value in milliseconds from January 1,
-     * 1970 00:00:00 UTC (Gregorian).
-     * @return a <code>CalendarDate</code> instance that contains the
-     * calculated calendar field values.
+     * @pbrbm millis the offset vblue in milliseconds from Jbnubry 1,
+     * 1970 00:00:00 UTC (Gregoribn).
+     * @return b <code>CblendbrDbte</code> instbnce thbt contbins the
+     * cblculbted cblendbr field vblues.
      */
-    public abstract CalendarDate getCalendarDate(long millis);
+    public bbstrbct CblendbrDbte getCblendbrDbte(long millis);
 
-    public abstract CalendarDate getCalendarDate(long millis, CalendarDate date);
+    public bbstrbct CblendbrDbte getCblendbrDbte(long millis, CblendbrDbte dbte);
 
-    public abstract CalendarDate getCalendarDate(long millis, TimeZone zone);
+    public bbstrbct CblendbrDbte getCblendbrDbte(long millis, TimeZone zone);
 
     /**
-     * Constructs a <code>CalendarDate</code> that is specific to this
-     * calendar system. All calendar fields have their initial
-     * values. The {@link TimeZone#getDefault() default time zone} is
-     * set to the instance.
+     * Constructs b <code>CblendbrDbte</code> thbt is specific to this
+     * cblendbr system. All cblendbr fields hbve their initibl
+     * vblues. The {@link TimeZone#getDefbult() defbult time zone} is
+     * set to the instbnce.
      *
-     * @return a <code>CalendarDate</code> instance that contains the initial
-     * calendar field values.
+     * @return b <code>CblendbrDbte</code> instbnce thbt contbins the initibl
+     * cblendbr field vblues.
      */
-    public abstract CalendarDate newCalendarDate();
+    public bbstrbct CblendbrDbte newCblendbrDbte();
 
-    public abstract CalendarDate newCalendarDate(TimeZone zone);
+    public bbstrbct CblendbrDbte newCblendbrDbte(TimeZone zone);
 
     /**
-     * Returns the number of milliseconds since the Epoch, January 1,
-     * 1970 00:00:00 UTC (Gregorian), represented by the specified
-     * <code>CalendarDate</code>.
+     * Returns the number of milliseconds since the Epoch, Jbnubry 1,
+     * 1970 00:00:00 UTC (Gregoribn), represented by the specified
+     * <code>CblendbrDbte</code>.
      *
-     * @param date the <code>CalendarDate</code> from which the time
-     * value is calculated
+     * @pbrbm dbte the <code>CblendbrDbte</code> from which the time
+     * vblue is cblculbted
      * @return the number of milliseconds since the Epoch.
      */
-    public abstract long getTime(CalendarDate date);
+    public bbstrbct long getTime(CblendbrDbte dbte);
 
     /**
-     * Returns the length in days of the specified year by
-     * <code>date</code>. This method does not perform the
-     * normalization with the specified <code>CalendarDate</code>. The
-     * <code>CalendarDate</code> must be normalized to get a correct
-     * value.
+     * Returns the length in dbys of the specified yebr by
+     * <code>dbte</code>. This method does not perform the
+     * normblizbtion with the specified <code>CblendbrDbte</code>. The
+     * <code>CblendbrDbte</code> must be normblized to get b correct
+     * vblue.
      */
-    public abstract int getYearLength(CalendarDate date);
+    public bbstrbct int getYebrLength(CblendbrDbte dbte);
 
     /**
-     * Returns the number of months of the specified year. This method
-     * does not perform the normalization with the specified
-     * <code>CalendarDate</code>. The <code>CalendarDate</code> must
-     * be normalized to get a correct value.
+     * Returns the number of months of the specified yebr. This method
+     * does not perform the normblizbtion with the specified
+     * <code>CblendbrDbte</code>. The <code>CblendbrDbte</code> must
+     * be normblized to get b correct vblue.
      */
-    public abstract int getYearLengthInMonths(CalendarDate date);
+    public bbstrbct int getYebrLengthInMonths(CblendbrDbte dbte);
 
     /**
-     * Returns the length in days of the month specified by the calendar
-     * date. This method does not perform the normalization with the
-     * specified calendar date. The <code>CalendarDate</code> must
-     * be normalized to get a correct value.
+     * Returns the length in dbys of the month specified by the cblendbr
+     * dbte. This method does not perform the normblizbtion with the
+     * specified cblendbr dbte. The <code>CblendbrDbte</code> must
+     * be normblized to get b correct vblue.
      *
-     * @param date the date from which the month value is obtained
-     * @return the number of days in the month
-     * @exception IllegalArgumentException if the specified calendar date
-     * doesn't have a valid month value in this calendar system.
+     * @pbrbm dbte the dbte from which the month vblue is obtbined
+     * @return the number of dbys in the month
+     * @exception IllegblArgumentException if the specified cblendbr dbte
+     * doesn't hbve b vblid month vblue in this cblendbr system.
      */
-    public abstract int getMonthLength(CalendarDate date); // no setter
+    public bbstrbct int getMonthLength(CblendbrDbte dbte); // no setter
 
     /**
-     * Returns the length in days of a week in this calendar
-     * system. If this calendar system has multiple radix weeks, this
+     * Returns the length in dbys of b week in this cblendbr
+     * system. If this cblendbr system hbs multiple rbdix weeks, this
      * method returns only one of them.
      */
-    public abstract int getWeekLength();
+    public bbstrbct int getWeekLength();
 
     /**
-     * Returns the <code>Era</code> designated by the era name that
-     * has to be known to this calendar system. If no Era is
-     * applicable to this calendar system, null is returned.
+     * Returns the <code>Erb</code> designbted by the erb nbme thbt
+     * hbs to be known to this cblendbr system. If no Erb is
+     * bpplicbble to this cblendbr system, null is returned.
      *
-     * @param eraName the name of the era
-     * @return the <code>Era</code> designated by
-     * <code>eraName</code>, or <code>null</code> if no Era is
-     * applicable to this calendar system or the specified era name is
-     * not known to this calendar system.
+     * @pbrbm erbNbme the nbme of the erb
+     * @return the <code>Erb</code> designbted by
+     * <code>erbNbme</code>, or <code>null</code> if no Erb is
+     * bpplicbble to this cblendbr system or the specified erb nbme is
+     * not known to this cblendbr system.
      */
-    public abstract Era getEra(String eraName);
+    public bbstrbct Erb getErb(String erbNbme);
 
     /**
-     * Returns valid <code>Era</code>s of this calendar system. The
-     * return value is sorted in the descendant order. (i.e., the first
-     * element of the returned array is the oldest era.) If no era is
-     * applicable to this calendar system, <code>null</code> is returned.
+     * Returns vblid <code>Erb</code>s of this cblendbr system. The
+     * return vblue is sorted in the descendbnt order. (i.e., the first
+     * element of the returned brrby is the oldest erb.) If no erb is
+     * bpplicbble to this cblendbr system, <code>null</code> is returned.
      *
-     * @return an array of valid <code>Era</code>s, or
-     * <code>null</code> if no era is applicable to this calendar
+     * @return bn brrby of vblid <code>Erb</code>s, or
+     * <code>null</code> if no erb is bpplicbble to this cblendbr
      * system.
      */
-    public abstract Era[] getEras();
+    public bbstrbct Erb[] getErbs();
 
     /**
-     * @throws IllegalArgumentException if the specified era name is
-     * unknown to this calendar system.
-     * @see Era
+     * @throws IllegblArgumentException if the specified erb nbme is
+     * unknown to this cblendbr system.
+     * @see Erb
      */
-    public abstract void setEra(CalendarDate date, String eraName);
+    public bbstrbct void setErb(CblendbrDbte dbte, String erbNbme);
 
     /**
-     * Returns a <code>CalendarDate</code> of the n-th day of week
-     * which is on, after or before the specified date. For example, the
-     * first Sunday in April 2002 (Gregorian) can be obtained as
+     * Returns b <code>CblendbrDbte</code> of the n-th dby of week
+     * which is on, bfter or before the specified dbte. For exbmple, the
+     * first Sundby in April 2002 (Gregoribn) cbn be obtbined bs
      * below:
      *
      * <pre><code>
-     * Gregorian cal = CalendarSystem.getGregorianCalendar();
-     * CalendarDate date = cal.newCalendarDate();
-     * date.setDate(2004, cal.APRIL, 1);
-     * CalendarDate firstSun = cal.getNthDayOfWeek(1, cal.SUNDAY, date);
+     * Gregoribn cbl = CblendbrSystem.getGregoribnCblendbr();
+     * CblendbrDbte dbte = cbl.newCblendbrDbte();
+     * dbte.setDbte(2004, cbl.APRIL, 1);
+     * CblendbrDbte firstSun = cbl.getNthDbyOfWeek(1, cbl.SUNDAY, dbte);
      * // firstSun represents April 4, 2004.
      * </code></pre>
      *
-     * This method returns a new <code>CalendarDate</code> instance
-     * and doesn't modify the original date.
+     * This method returns b new <code>CblendbrDbte</code> instbnce
+     * bnd doesn't modify the originbl dbte.
      *
-     * @param nth specifies the n-th one. A positive number specifies
-     * <em>on or after</em> the <code>date</code>. A non-positive number
-     * specifies <em>on or before</em> the <code>date</code>.
-     * @param dayOfWeek the day of week
-     * @param date the date
-     * @return the date of the nth <code>dayOfWeek</code> after
-     * or before the specified <code>CalendarDate</code>
+     * @pbrbm nth specifies the n-th one. A positive number specifies
+     * <em>on or bfter</em> the <code>dbte</code>. A non-positive number
+     * specifies <em>on or before</em> the <code>dbte</code>.
+     * @pbrbm dbyOfWeek the dby of week
+     * @pbrbm dbte the dbte
+     * @return the dbte of the nth <code>dbyOfWeek</code> bfter
+     * or before the specified <code>CblendbrDbte</code>
      */
-    public abstract CalendarDate getNthDayOfWeek(int nth, int dayOfWeek,
-                                                 CalendarDate date);
+    public bbstrbct CblendbrDbte getNthDbyOfWeek(int nth, int dbyOfWeek,
+                                                 CblendbrDbte dbte);
 
-    public abstract CalendarDate setTimeOfDay(CalendarDate date, int timeOfDay);
-
-    /**
-     * Checks whether the calendar fields specified by <code>date</code>
-     * represents a valid date and time in this calendar system. If the
-     * given date is valid, <code>date</code> is marked as <em>normalized</em>.
-     *
-     * @param date the <code>CalendarDate</code> to be validated
-     * @return <code>true</code> if all the calendar fields are consistent,
-     * otherwise, <code>false</code> is returned.
-     * @exception NullPointerException if the specified
-     * <code>date</code> is <code>null</code>
-     */
-    public abstract boolean validate(CalendarDate date);
+    public bbstrbct CblendbrDbte setTimeOfDby(CblendbrDbte dbte, int timeOfDby);
 
     /**
-     * Normalizes calendar fields in the specified
-     * <code>date</code>. Also all {@link CalendarDate#FIELD_UNDEFINED
-     * undefined} fields are set to correct values. The actual
-     * normalization process is calendar system dependent.
+     * Checks whether the cblendbr fields specified by <code>dbte</code>
+     * represents b vblid dbte bnd time in this cblendbr system. If the
+     * given dbte is vblid, <code>dbte</code> is mbrked bs <em>normblized</em>.
      *
-     * @param date the calendar date to be validated
-     * @return <code>true</code> if all fields have been normalized;
-     * <code>false</code> otherwise.
+     * @pbrbm dbte the <code>CblendbrDbte</code> to be vblidbted
+     * @return <code>true</code> if bll the cblendbr fields bre consistent,
+     * otherwise, <code>fblse</code> is returned.
      * @exception NullPointerException if the specified
-     * <code>date</code> is <code>null</code>
+     * <code>dbte</code> is <code>null</code>
      */
-    public abstract boolean normalize(CalendarDate date);
+    public bbstrbct boolebn vblidbte(CblendbrDbte dbte);
+
+    /**
+     * Normblizes cblendbr fields in the specified
+     * <code>dbte</code>. Also bll {@link CblendbrDbte#FIELD_UNDEFINED
+     * undefined} fields bre set to correct vblues. The bctubl
+     * normblizbtion process is cblendbr system dependent.
+     *
+     * @pbrbm dbte the cblendbr dbte to be vblidbted
+     * @return <code>true</code> if bll fields hbve been normblized;
+     * <code>fblse</code> otherwise.
+     * @exception NullPointerException if the specified
+     * <code>dbte</code> is <code>null</code>
+     */
+    public bbstrbct boolebn normblize(CblendbrDbte dbte);
 }

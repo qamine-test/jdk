@@ -1,68 +1,68 @@
 /*
- * Copyright (c) 1994, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1994, 2009, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.net.ftp;
+pbckbge sun.net.ftp;
 
 /**
- * Thrown to indicate that the FTP server reported an error.
- * For instance that the requested file doesn't exist or
- * that a command isn't supported.
- * <p>The specific error code can be retreived with {@link #getReplyCode() }.</p>
- * @author      Jonathan Payne
+ * Thrown to indicbte thbt the FTP server reported bn error.
+ * For instbnce thbt the requested file doesn't exist or
+ * thbt b commbnd isn't supported.
+ * <p>The specific error code cbn be retreived with {@link #getReplyCode() }.</p>
+ * @buthor      Jonbthbn Pbyne
  */
-public class FtpProtocolException extends Exception {
-    private static final long serialVersionUID = 5978077070276545054L;
-    private final FtpReplyCode code;
+public clbss FtpProtocolException extends Exception {
+    privbte stbtic finbl long seriblVersionUID = 5978077070276545054L;
+    privbte finbl FtpReplyCode code;
 
     /**
-     * Constructs a new {@code FtpProtocolException} from the
-     * specified detail message. The reply code is set to unknow error.
+     * Constructs b new {@code FtpProtocolException} from the
+     * specified detbil messbge. The reply code is set to unknow error.
      *
-     * @param   detail   the detail message.
+     * @pbrbm   detbil   the detbil messbge.
      */
-    public FtpProtocolException(String detail) {
-            super(detail);
+    public FtpProtocolException(String detbil) {
+            super(detbil);
             code = FtpReplyCode.UNKNOWN_ERROR;
     }
 
     /**
-     * Constructs a new {@code FtpProtocolException} from the
-     * specified response code and exception detail message
+     * Constructs b new {@code FtpProtocolException} from the
+     * specified response code bnd exception detbil messbge
      *
-     * @param   detail   the detail message.
-     * @param   code The {@code FtpRelyCode} received from server.
+     * @pbrbm   detbil   the detbil messbge.
+     * @pbrbm   code The {@code FtpRelyCode} received from server.
      */
-      public FtpProtocolException(String detail, FtpReplyCode code) {
-        super(detail);
+      public FtpProtocolException(String detbil, FtpReplyCode code) {
+        super(detbil);
         this.code = code;
     }
 
     /**
-     * Gets the reply code sent by the server that led to this exception
+     * Gets the reply code sent by the server thbt led to this exception
      * being thrown.
      *
-     * @return The {@link FtpReplyCode} associated with that exception.
+     * @return The {@link FtpReplyCode} bssocibted with thbt exception.
      */
     public FtpReplyCode getReplyCode() {
         return code;

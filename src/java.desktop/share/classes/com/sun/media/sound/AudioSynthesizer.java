@@ -1,128 +1,128 @@
 /*
- * Copyright (c) 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package com.sun.media.sound;
+pbckbge com.sun.medib.sound;
 
-import java.util.Map;
-import javax.sound.midi.MidiUnavailableException;
-import javax.sound.midi.Synthesizer;
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.SourceDataLine;
+import jbvb.util.Mbp;
+import jbvbx.sound.midi.MidiUnbvbilbbleException;
+import jbvbx.sound.midi.Synthesizer;
+import jbvbx.sound.sbmpled.AudioFormbt;
+import jbvbx.sound.sbmpled.AudioInputStrebm;
+import jbvbx.sound.sbmpled.SourceDbtbLine;
 
 /**
- * <code>AudioSynthesizer</code> is a <code>Synthesizer</code>
- * which renders it's output audio into <code>SourceDataLine</code>
- * or <code>AudioInputStream</code>.
+ * <code>AudioSynthesizer</code> is b <code>Synthesizer</code>
+ * which renders it's output budio into <code>SourceDbtbLine</code>
+ * or <code>AudioInputStrebm</code>.
  *
  * @see MidiSystem#getSynthesizer
  * @see Synthesizer
  *
- * @author Karl Helgason
+ * @buthor Kbrl Helgbson
  */
-public interface AudioSynthesizer extends Synthesizer {
+public interfbce AudioSynthesizer extends Synthesizer {
 
     /**
-     * Obtains the current format (encoding, sample rate, number of channels,
-     * etc.) of the synthesizer audio data.
+     * Obtbins the current formbt (encoding, sbmple rbte, number of chbnnels,
+     * etc.) of the synthesizer budio dbtb.
      *
-     * <p>If the synthesizer is not open and has never been opened, it returns
-     * the default format.
+     * <p>If the synthesizer is not open bnd hbs never been opened, it returns
+     * the defbult formbt.
      *
-     * @return current audio data format
-     * @see AudioFormat
+     * @return current budio dbtb formbt
+     * @see AudioFormbt
      */
-    public AudioFormat getFormat();
+    public AudioFormbt getFormbt();
 
     /**
-     * Gets information about the possible properties for the synthesizer.
+     * Gets informbtion bbout the possible properties for the synthesizer.
      *
-     * @param info a proposed list of tag/value pairs that will be sent on open.
-     * @return an array of <code>AudioSynthesizerPropertyInfo</code> objects
-     * describing possible properties. This array may be an empty array if
-     * no properties are required.
+     * @pbrbm info b proposed list of tbg/vblue pbirs thbt will be sent on open.
+     * @return bn brrby of <code>AudioSynthesizerPropertyInfo</code> objects
+     * describing possible properties. This brrby mby be bn empty brrby if
+     * no properties bre required.
      */
     public AudioSynthesizerPropertyInfo[] getPropertyInfo(
-            Map<String, Object> info);
+            Mbp<String, Object> info);
 
     /**
-     * Opens the synthesizer and starts rendering audio into
-     * <code>SourceDataLine</code>.
+     * Opens the synthesizer bnd stbrts rendering budio into
+     * <code>SourceDbtbLine</code>.
      *
-     * <p>An application opening a synthesizer explicitly with this call
-     * has to close the synthesizer by calling {@link #close}. This is
-     * necessary to release system resources and allow applications to
-     * exit cleanly.
+     * <p>An bpplicbtion opening b synthesizer explicitly with this cbll
+     * hbs to close the synthesizer by cblling {@link #close}. This is
+     * necessbry to relebse system resources bnd bllow bpplicbtions to
+     * exit clebnly.
      *
-     * <p>Note that some synthesizers, once closed, cannot be reopened.
-     * Attempts to reopen such a synthesizer will always result in
-     * a <code>MidiUnavailableException</code>.
+     * <p>Note thbt some synthesizers, once closed, cbnnot be reopened.
+     * Attempts to reopen such b synthesizer will blwbys result in
+     * b <code>MidiUnbvbilbbleException</code>.
      *
-     * @param line which <code>AudioSynthesizer</code> writes output audio into.
-     * If <code>line</code> is null, then line from system default mixer is used.
-     * @param info a <code>Map<String,Object></code> object containing
-     * properties for additional configuration supported by synthesizer.
-     * If <code>info</code> is null then default settings are used.
+     * @pbrbm line which <code>AudioSynthesizer</code> writes output budio into.
+     * If <code>line</code> is null, then line from system defbult mixer is used.
+     * @pbrbm info b <code>Mbp<String,Object></code> object contbining
+     * properties for bdditionbl configurbtion supported by synthesizer.
+     * If <code>info</code> is null then defbult settings bre used.
      *
-     * @throws MidiUnavailableException thrown if the synthesizer cannot be
+     * @throws MidiUnbvbilbbleException thrown if the synthesizer cbnnot be
      * opened due to resource restrictions.
-     * @throws SecurityException thrown if the synthesizer cannot be
+     * @throws SecurityException thrown if the synthesizer cbnnot be
      * opened due to security restrictions.
      *
      * @see #close
      * @see #isOpen
      */
-    public void open(SourceDataLine line, Map<String, Object> info)
-            throws MidiUnavailableException;
+    public void open(SourceDbtbLine line, Mbp<String, Object> info)
+            throws MidiUnbvbilbbleException;
 
     /**
-     * Opens the synthesizer and renders audio into returned
-     * <code>AudioInputStream</code>.
+     * Opens the synthesizer bnd renders budio into returned
+     * <code>AudioInputStrebm</code>.
      *
-     * <p>An application opening a synthesizer explicitly with this call
-     * has to close the synthesizer by calling {@link #close}. This is
-     * necessary to release system resources and allow applications to
-     * exit cleanly.
+     * <p>An bpplicbtion opening b synthesizer explicitly with this cbll
+     * hbs to close the synthesizer by cblling {@link #close}. This is
+     * necessbry to relebse system resources bnd bllow bpplicbtions to
+     * exit clebnly.
      *
-     * <p>Note that some synthesizers, once closed, cannot be reopened.
-     * Attempts to reopen such a synthesizer will always result in
-     * a <code>MidiUnavailableException<code>.
+     * <p>Note thbt some synthesizers, once closed, cbnnot be reopened.
+     * Attempts to reopen such b synthesizer will blwbys result in
+     * b <code>MidiUnbvbilbbleException<code>.
      *
-     * @param targetFormat specifies the <code>AudioFormat</code>
-     * used in returned <code>AudioInputStream</code>.
-     * @param info a <code>Map<String,Object></code> object containing
-     * properties for additional configuration supported by synthesizer.
-     * If <code>info</code> is null then default settings are used.
+     * @pbrbm tbrgetFormbt specifies the <code>AudioFormbt</code>
+     * used in returned <code>AudioInputStrebm</code>.
+     * @pbrbm info b <code>Mbp<String,Object></code> object contbining
+     * properties for bdditionbl configurbtion supported by synthesizer.
+     * If <code>info</code> is null then defbult settings bre used.
      *
-     * @throws MidiUnavailableException thrown if the synthesizer cannot be
+     * @throws MidiUnbvbilbbleException thrown if the synthesizer cbnnot be
      * opened due to resource restrictions.
-     * @throws SecurityException thrown if the synthesizer cannot be
+     * @throws SecurityException thrown if the synthesizer cbnnot be
      * opened due to security restrictions.
      *
      * @see #close
      * @see #isOpen
      */
-    public AudioInputStream openStream(AudioFormat targetFormat,
-            Map<String, Object> info) throws MidiUnavailableException;
+    public AudioInputStrebm openStrebm(AudioFormbt tbrgetFormbt,
+            Mbp<String, Object> info) throws MidiUnbvbilbbleException;
 }

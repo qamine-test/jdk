@@ -1,100 +1,100 @@
 /*
- * Copyright (c) 2005, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.krb5.internal.crypto.dk;
+pbckbge sun.security.krb5.internbl.crypto.dk;
 
-import java.security.*;
-import javax.crypto.*;
-import javax.crypto.spec.*;
-import java.util.*;
-import sun.security.krb5.EncryptedData;
+import jbvb.security.*;
+import jbvbx.crypto.*;
+import jbvbx.crypto.spec.*;
+import jbvb.util.*;
+import sun.security.krb5.EncryptedDbtb;
 import sun.security.krb5.KrbCryptoException;
 import sun.security.krb5.Confounder;
-import sun.security.krb5.internal.crypto.KeyUsage;
+import sun.security.krb5.internbl.crypto.KeyUsbge;
 
 /**
  * Support for ArcFour in Kerberos
- * as defined in RFC 4757.
+ * bs defined in RFC 4757.
  * http://www.ietf.org/rfc/rfc4757.txt
  *
- * @author Seema Malkani
+ * @buthor Seemb Mblkbni
  */
 
-public class ArcFourCrypto extends DkCrypto {
+public clbss ArcFourCrypto extends DkCrypto {
 
-    private static final boolean debug = false;
+    privbte stbtic finbl boolebn debug = fblse;
 
-    private static final int confounderSize = 8;
-    private static final byte[] ZERO_IV = new byte[] {0, 0, 0, 0, 0, 0, 0, 0};
-    private static final int hashSize = 16;
-    private final int keyLength;
+    privbte stbtic finbl int confounderSize = 8;
+    privbte stbtic finbl byte[] ZERO_IV = new byte[] {0, 0, 0, 0, 0, 0, 0, 0};
+    privbte stbtic finbl int hbshSize = 16;
+    privbte finbl int keyLength;
 
     public ArcFourCrypto(int length) {
         keyLength = length;
     }
 
     protected int getKeySeedLength() {
-        return keyLength;   // bits; RC4 key material
+        return keyLength;   // bits; RC4 key mbteribl
     }
 
-    protected byte[] randomToKey(byte[] in) {
-        // simple identity operation
+    protected byte[] rbndomToKey(byte[] in) {
+        // simple identity operbtion
         return in;
     }
 
-    public byte[] stringToKey(char[] passwd)
-        throws GeneralSecurityException {
-        return stringToKey(passwd, null);
+    public byte[] stringToKey(chbr[] pbsswd)
+        throws GenerblSecurityException {
+        return stringToKey(pbsswd, null);
     }
 
     /*
-     * String2Key(Password)
-     * K = MD4(UNICODE(password))
+     * String2Key(Pbssword)
+     * K = MD4(UNICODE(pbssword))
      */
-    private byte[] stringToKey(char[] secret, byte[] opaque)
-        throws GeneralSecurityException {
+    privbte byte[] stringToKey(chbr[] secret, byte[] opbque)
+        throws GenerblSecurityException {
 
-        if (opaque != null && opaque.length > 0) {
-            throw new RuntimeException("Invalid parameter to stringToKey");
+        if (opbque != null && opbque.length > 0) {
+            throw new RuntimeException("Invblid pbrbmeter to stringToKey");
         }
 
-        byte[] passwd = null;
+        byte[] pbsswd = null;
         byte[] digest = null;
         try {
-            // convert ascii to unicode
-            passwd = charToUtf16(secret);
+            // convert bscii to unicode
+            pbsswd = chbrToUtf16(secret);
 
             // provider for MD4
-            MessageDigest md = sun.security.provider.MD4.getInstance();
-            md.update(passwd);
+            MessbgeDigest md = sun.security.provider.MD4.getInstbnce();
+            md.updbte(pbsswd);
             digest = md.digest();
-        } catch (Exception e) {
+        } cbtch (Exception e) {
             return null;
-        } finally {
-            if (passwd != null) {
-                Arrays.fill(passwd, (byte)0);
+        } finblly {
+            if (pbsswd != null) {
+                Arrbys.fill(pbsswd, (byte)0);
             }
         }
 
@@ -102,125 +102,125 @@ public class ArcFourCrypto extends DkCrypto {
     }
 
     protected Cipher getCipher(byte[] key, byte[] ivec, int mode)
-        throws GeneralSecurityException {
+        throws GenerblSecurityException {
 
         // IV
         if (ivec == null) {
            ivec = ZERO_IV;
         }
         SecretKeySpec secretKey = new SecretKeySpec(key, "ARCFOUR");
-        Cipher cipher = Cipher.getInstance("ARCFOUR");
-        IvParameterSpec encIv = new IvParameterSpec(ivec, 0, ivec.length);
+        Cipher cipher = Cipher.getInstbnce("ARCFOUR");
+        IvPbrbmeterSpec encIv = new IvPbrbmeterSpec(ivec, 0, ivec.length);
         cipher.init(mode, secretKey, encIv);
         return cipher;
     }
 
     public int getChecksumLength() {
-        return hashSize;  // bytes
+        return hbshSize;  // bytes
     }
 
     /**
      * Get the HMAC-MD5
      */
-    protected byte[] getHmac(byte[] key, byte[] msg)
-        throws GeneralSecurityException {
+    protected byte[] getHmbc(byte[] key, byte[] msg)
+        throws GenerblSecurityException {
 
-        SecretKey keyKi = new SecretKeySpec(key, "HmacMD5");
-        Mac m = Mac.getInstance("HmacMD5");
+        SecretKey keyKi = new SecretKeySpec(key, "HmbcMD5");
+        Mbc m = Mbc.getInstbnce("HmbcMD5");
         m.init(keyKi);
 
-        // generate hash
-        byte[] hash = m.doFinal(msg);
-        return hash;
+        // generbte hbsh
+        byte[] hbsh = m.doFinbl(msg);
+        return hbsh;
     }
 
     /**
-     * Calculate the checksum
+     * Cblculbte the checksum
      */
-    public byte[] calculateChecksum(byte[] baseKey, int usage, byte[] input,
-        int start, int len) throws GeneralSecurityException {
+    public byte[] cblculbteChecksum(byte[] bbseKey, int usbge, byte[] input,
+        int stbrt, int len) throws GenerblSecurityException {
 
         if (debug) {
-            System.out.println("ARCFOUR: calculateChecksum with usage = " +
-                                                usage);
+            System.out.println("ARCFOUR: cblculbteChecksum with usbge = " +
+                                                usbge);
         }
 
-        if (!KeyUsage.isValid(usage)) {
-            throw new GeneralSecurityException("Invalid key usage number: "
-                                                + usage);
+        if (!KeyUsbge.isVblid(usbge)) {
+            throw new GenerblSecurityException("Invblid key usbge number: "
+                                                + usbge);
         }
 
         byte[] Ksign = null;
         // Derive signing key from session key
         try {
-           byte[] ss = "signaturekey".getBytes();
-           // need to append end-of-string 00
+           byte[] ss = "signbturekey".getBytes();
+           // need to bppend end-of-string 00
            byte[] new_ss = new byte[ss.length+1];
-           System.arraycopy(ss, 0, new_ss, 0, ss.length);
-           Ksign = getHmac(baseKey, new_ss);
-        } catch (Exception e) {
-            GeneralSecurityException gse =
-                new GeneralSecurityException("Calculate Checkum Failed!");
-            gse.initCause(e);
+           System.brrbycopy(ss, 0, new_ss, 0, ss.length);
+           Ksign = getHmbc(bbseKey, new_ss);
+        } cbtch (Exception e) {
+            GenerblSecurityException gse =
+                new GenerblSecurityException("Cblculbte Checkum Fbiled!");
+            gse.initCbuse(e);
             throw gse;
         }
 
-        // get the salt using key usage
-        byte[] salt = getSalt(usage);
+        // get the sblt using key usbge
+        byte[] sblt = getSblt(usbge);
 
-        // Generate checksum of message
-        MessageDigest messageDigest = null;
+        // Generbte checksum of messbge
+        MessbgeDigest messbgeDigest = null;
         try {
-            messageDigest = MessageDigest.getInstance("MD5");
-        } catch (NoSuchAlgorithmException e) {
-            GeneralSecurityException gse =
-                new GeneralSecurityException("Calculate Checkum Failed!");
-            gse.initCause(e);
+            messbgeDigest = MessbgeDigest.getInstbnce("MD5");
+        } cbtch (NoSuchAlgorithmException e) {
+            GenerblSecurityException gse =
+                new GenerblSecurityException("Cblculbte Checkum Fbiled!");
+            gse.initCbuse(e);
             throw gse;
         }
-        messageDigest.update(salt);
-        messageDigest.update(input, start, len);
-        byte[] md5tmp = messageDigest.digest();
+        messbgeDigest.updbte(sblt);
+        messbgeDigest.updbte(input, stbrt, len);
+        byte[] md5tmp = messbgeDigest.digest();
 
-        // Generate checksum
-        byte[] hmac = getHmac(Ksign, md5tmp);
+        // Generbte checksum
+        byte[] hmbc = getHmbc(Ksign, md5tmp);
         if (debug) {
-            traceOutput("hmac", hmac, 0, hmac.length);
+            trbceOutput("hmbc", hmbc, 0, hmbc.length);
         }
-        if (hmac.length == getChecksumLength()) {
-            return hmac;
-        } else if (hmac.length > getChecksumLength()) {
+        if (hmbc.length == getChecksumLength()) {
+            return hmbc;
+        } else if (hmbc.length > getChecksumLength()) {
             byte[] buf = new byte[getChecksumLength()];
-            System.arraycopy(hmac, 0, buf, 0, buf.length);
+            System.brrbycopy(hmbc, 0, buf, 0, buf.length);
             return buf;
         } else {
-            throw new GeneralSecurityException("checksum size too short: " +
-                        hmac.length + "; expecting : " + getChecksumLength());
+            throw new GenerblSecurityException("checksum size too short: " +
+                        hmbc.length + "; expecting : " + getChecksumLength());
         }
     }
 
     /**
      * Performs encryption of Sequence Number using derived key.
      */
-    public byte[] encryptSeq(byte[] baseKey, int usage,
-        byte[] checksum, byte[] plaintext, int start, int len)
-        throws GeneralSecurityException, KrbCryptoException {
+    public byte[] encryptSeq(byte[] bbseKey, int usbge,
+        byte[] checksum, byte[] plbintext, int stbrt, int len)
+        throws GenerblSecurityException, KrbCryptoException {
 
-        if (!KeyUsage.isValid(usage)) {
-            throw new GeneralSecurityException("Invalid key usage number: "
-                                                + usage);
+        if (!KeyUsbge.isVblid(usbge)) {
+            throw new GenerblSecurityException("Invblid key usbge number: "
+                                                + usbge);
         }
         // derive encryption for sequence number
-        byte[] salt = new byte[4];
-        byte[] kSeq = getHmac(baseKey, salt);
+        byte[] sblt = new byte[4];
+        byte[] kSeq = getHmbc(bbseKey, sblt);
 
-        // derive new encryption key salted with sequence number
-        kSeq = getHmac(kSeq, checksum);
+        // derive new encryption key sblted with sequence number
+        kSeq = getHmbc(kSeq, checksum);
 
-        Cipher cipher = Cipher.getInstance("ARCFOUR");
+        Cipher cipher = Cipher.getInstbnce("ARCFOUR");
         SecretKeySpec secretKey = new SecretKeySpec(kSeq, "ARCFOUR");
         cipher.init(Cipher.ENCRYPT_MODE, secretKey);
-        byte[] output = cipher.doFinal(plaintext, start, len);
+        byte[] output = cipher.doFinbl(plbintext, stbrt, len);
 
         return output;
     }
@@ -228,254 +228,254 @@ public class ArcFourCrypto extends DkCrypto {
     /**
      * Performs decryption of Sequence Number using derived key.
      */
-    public byte[] decryptSeq(byte[] baseKey, int usage,
-        byte[] checksum, byte[] ciphertext, int start, int len)
-        throws GeneralSecurityException, KrbCryptoException {
+    public byte[] decryptSeq(byte[] bbseKey, int usbge,
+        byte[] checksum, byte[] ciphertext, int stbrt, int len)
+        throws GenerblSecurityException, KrbCryptoException {
 
-        if (!KeyUsage.isValid(usage)) {
-            throw new GeneralSecurityException("Invalid key usage number: "
-                                                + usage);
+        if (!KeyUsbge.isVblid(usbge)) {
+            throw new GenerblSecurityException("Invblid key usbge number: "
+                                                + usbge);
         }
 
         // derive decryption for sequence number
-        byte[] salt = new byte[4];
-        byte[] kSeq = getHmac(baseKey, salt);
+        byte[] sblt = new byte[4];
+        byte[] kSeq = getHmbc(bbseKey, sblt);
 
-        // derive new encryption key salted with sequence number
-        kSeq = getHmac(kSeq, checksum);
+        // derive new encryption key sblted with sequence number
+        kSeq = getHmbc(kSeq, checksum);
 
-        Cipher cipher = Cipher.getInstance("ARCFOUR");
+        Cipher cipher = Cipher.getInstbnce("ARCFOUR");
         SecretKeySpec secretKey = new SecretKeySpec(kSeq, "ARCFOUR");
         cipher.init(Cipher.DECRYPT_MODE, secretKey);
-        byte[] output = cipher.doFinal(ciphertext, start, len);
+        byte[] output = cipher.doFinbl(ciphertext, stbrt, len);
 
         return output;
     }
 
     /**
-     * Performs encryption using derived key; adds confounder.
+     * Performs encryption using derived key; bdds confounder.
      */
-    public byte[] encrypt(byte[] baseKey, int usage,
-        byte[] ivec, byte[] new_ivec, byte[] plaintext, int start, int len)
-        throws GeneralSecurityException, KrbCryptoException {
+    public byte[] encrypt(byte[] bbseKey, int usbge,
+        byte[] ivec, byte[] new_ivec, byte[] plbintext, int stbrt, int len)
+        throws GenerblSecurityException, KrbCryptoException {
 
-        if (!KeyUsage.isValid(usage)) {
-            throw new GeneralSecurityException("Invalid key usage number: "
-                                                 + usage);
+        if (!KeyUsbge.isVblid(usbge)) {
+            throw new GenerblSecurityException("Invblid key usbge number: "
+                                                 + usbge);
         }
 
         if (debug) {
-            System.out.println("ArcFour: ENCRYPT with key usage = " + usage);
+            System.out.println("ArcFour: ENCRYPT with key usbge = " + usbge);
         }
 
         // get the confounder
         byte[] confounder = Confounder.bytes(confounderSize);
 
-        // add confounder to the plaintext for encryption
-        int plainSize = roundup(confounder.length + len, 1);
-        byte[] toBeEncrypted = new byte[plainSize];
-        System.arraycopy(confounder, 0, toBeEncrypted, 0, confounder.length);
-        System.arraycopy(plaintext, start, toBeEncrypted,
+        // bdd confounder to the plbintext for encryption
+        int plbinSize = roundup(confounder.length + len, 1);
+        byte[] toBeEncrypted = new byte[plbinSize];
+        System.brrbycopy(confounder, 0, toBeEncrypted, 0, confounder.length);
+        System.brrbycopy(plbintext, stbrt, toBeEncrypted,
                                 confounder.length, len);
 
         /* begin the encryption, compute K1 */
-        byte[] k1 = new byte[baseKey.length];
-        System.arraycopy(baseKey, 0, k1, 0, baseKey.length);
+        byte[] k1 = new byte[bbseKey.length];
+        System.brrbycopy(bbseKey, 0, k1, 0, bbseKey.length);
 
-        // get the salt using key usage
-        byte[] salt = getSalt(usage);
+        // get the sblt using key usbge
+        byte[] sblt = getSblt(usbge);
 
         // compute K2 using K1
-        byte[] k2 = getHmac(k1, salt);
+        byte[] k2 = getHmbc(k1, sblt);
 
-        // generate checksum using K2
-        byte[] checksum = getHmac(k2, toBeEncrypted);
+        // generbte checksum using K2
+        byte[] checksum = getHmbc(k2, toBeEncrypted);
 
-        // compute K3 using K2 and checksum
-        byte[] k3 = getHmac(k2, checksum);
+        // compute K3 using K2 bnd checksum
+        byte[] k3 = getHmbc(k2, checksum);
 
-        Cipher cipher = Cipher.getInstance("ARCFOUR");
+        Cipher cipher = Cipher.getInstbnce("ARCFOUR");
         SecretKeySpec secretKey = new SecretKeySpec(k3, "ARCFOUR");
         cipher.init(Cipher.ENCRYPT_MODE, secretKey);
-        byte[] output = cipher.doFinal(toBeEncrypted, 0, toBeEncrypted.length);
+        byte[] output = cipher.doFinbl(toBeEncrypted, 0, toBeEncrypted.length);
 
-        // encryptedData + HMAC
-        byte[] result = new byte[hashSize + output.length];
-        System.arraycopy(checksum, 0, result, 0, hashSize);
-        System.arraycopy(output, 0, result, hashSize, output.length);
+        // encryptedDbtb + HMAC
+        byte[] result = new byte[hbshSize + output.length];
+        System.brrbycopy(checksum, 0, result, 0, hbshSize);
+        System.brrbycopy(output, 0, result, hbshSize, output.length);
 
         return result;
     }
 
     /**
-     * Performs encryption using derived key; does not add confounder.
+     * Performs encryption using derived key; does not bdd confounder.
      */
-    public byte[] encryptRaw(byte[] baseKey, int usage,
-        byte[] seqNum, byte[] plaintext, int start, int len)
-        throws GeneralSecurityException, KrbCryptoException {
+    public byte[] encryptRbw(byte[] bbseKey, int usbge,
+        byte[] seqNum, byte[] plbintext, int stbrt, int len)
+        throws GenerblSecurityException, KrbCryptoException {
 
-        if (!KeyUsage.isValid(usage)) {
-            throw new GeneralSecurityException("Invalid key usage number: "
-                                                + usage);
+        if (!KeyUsbge.isVblid(usbge)) {
+            throw new GenerblSecurityException("Invblid key usbge number: "
+                                                + usbge);
         }
 
         if (debug) {
-            System.out.println("\nARCFOUR: encryptRaw with usage = " + usage);
+            System.out.println("\nARCFOUR: encryptRbw with usbge = " + usbge);
         }
 
-        // Derive encryption key for data
-        //   Key derivation salt = 0
-        byte[] klocal = new byte[baseKey.length];
+        // Derive encryption key for dbtb
+        //   Key derivbtion sblt = 0
+        byte[] klocbl = new byte[bbseKey.length];
         for (int i = 0; i <= 15; i++) {
-            klocal[i] = (byte) (baseKey[i] ^ 0xF0);
+            klocbl[i] = (byte) (bbseKey[i] ^ 0xF0);
         }
-        byte[] salt = new byte[4];
-        byte[] kcrypt = getHmac(klocal, salt);
+        byte[] sblt = new byte[4];
+        byte[] kcrypt = getHmbc(klocbl, sblt);
 
-        // Note: When using this RC4 based encryption type, the sequence number
-        // is always sent in big-endian rather than little-endian order.
+        // Note: When using this RC4 bbsed encryption type, the sequence number
+        // is blwbys sent in big-endibn rbther thbn little-endibn order.
 
-        // new encryption key salted with sequence number
-        kcrypt = getHmac(kcrypt, seqNum);
+        // new encryption key sblted with sequence number
+        kcrypt = getHmbc(kcrypt, seqNum);
 
-        Cipher cipher = Cipher.getInstance("ARCFOUR");
+        Cipher cipher = Cipher.getInstbnce("ARCFOUR");
         SecretKeySpec secretKey = new SecretKeySpec(kcrypt, "ARCFOUR");
         cipher.init(Cipher.ENCRYPT_MODE, secretKey);
-        byte[] output = cipher.doFinal(plaintext, start, len);
+        byte[] output = cipher.doFinbl(plbintext, stbrt, len);
 
         return output;
     }
 
     /**
-     * @param baseKey key from which keys are to be derived using usage
-     * @param ciphertext  E(Ke, conf | plaintext | padding, ivec) | H1[1..h]
+     * @pbrbm bbseKey key from which keys bre to be derived using usbge
+     * @pbrbm ciphertext  E(Ke, conf | plbintext | pbdding, ivec) | H1[1..h]
      */
-    public byte[] decrypt(byte[] baseKey, int usage, byte[] ivec,
-        byte[] ciphertext, int start, int len)
-        throws GeneralSecurityException {
+    public byte[] decrypt(byte[] bbseKey, int usbge, byte[] ivec,
+        byte[] ciphertext, int stbrt, int len)
+        throws GenerblSecurityException {
 
-        if (!KeyUsage.isValid(usage)) {
-            throw new GeneralSecurityException("Invalid key usage number: "
-                                                + usage);
+        if (!KeyUsbge.isVblid(usbge)) {
+            throw new GenerblSecurityException("Invblid key usbge number: "
+                                                + usbge);
         }
         if (debug) {
-            System.out.println("\nARCFOUR: DECRYPT using key usage = " + usage);
+            System.out.println("\nARCFOUR: DECRYPT using key usbge = " + usbge);
         }
 
         // compute K1
-        byte[] k1 = new byte[baseKey.length];
-        System.arraycopy(baseKey, 0, k1, 0, baseKey.length);
+        byte[] k1 = new byte[bbseKey.length];
+        System.brrbycopy(bbseKey, 0, k1, 0, bbseKey.length);
 
-        // get the salt using key usage
-        byte[] salt = getSalt(usage);
+        // get the sblt using key usbge
+        byte[] sblt = getSblt(usbge);
 
         // compute K2 using K1
-        byte[] k2 = getHmac(k1, salt);
+        byte[] k2 = getHmbc(k1, sblt);
 
-        // compute K3 using K2 and checksum
-        byte[] checksum = new byte[hashSize];
-        System.arraycopy(ciphertext, start, checksum, 0, hashSize);
-        byte[] k3 = getHmac(k2, checksum);
+        // compute K3 using K2 bnd checksum
+        byte[] checksum = new byte[hbshSize];
+        System.brrbycopy(ciphertext, stbrt, checksum, 0, hbshSize);
+        byte[] k3 = getHmbc(k2, checksum);
 
-        // Decrypt [confounder | plaintext ] (without checksum)
-        Cipher cipher = Cipher.getInstance("ARCFOUR");
+        // Decrypt [confounder | plbintext ] (without checksum)
+        Cipher cipher = Cipher.getInstbnce("ARCFOUR");
         SecretKeySpec secretKey = new SecretKeySpec(k3, "ARCFOUR");
         cipher.init(Cipher.DECRYPT_MODE, secretKey);
-        byte[] plaintext = cipher.doFinal(ciphertext, start+hashSize,
-                                                len-hashSize);
+        byte[] plbintext = cipher.doFinbl(ciphertext, stbrt+hbshSize,
+                                                len-hbshSize);
 
         // Verify checksum
-        byte[] calculatedHmac = getHmac(k2, plaintext);
+        byte[] cblculbtedHmbc = getHmbc(k2, plbintext);
         if (debug) {
-            traceOutput("calculated Hmac", calculatedHmac, 0,
-                                calculatedHmac.length);
-            traceOutput("message Hmac", ciphertext, 0,
-                                hashSize);
+            trbceOutput("cblculbted Hmbc", cblculbtedHmbc, 0,
+                                cblculbtedHmbc.length);
+            trbceOutput("messbge Hmbc", ciphertext, 0,
+                                hbshSize);
         }
-        boolean cksumFailed = false;
-        if (calculatedHmac.length >= hashSize) {
-            for (int i = 0; i < hashSize; i++) {
-                if (calculatedHmac[i] != ciphertext[i]) {
-                    cksumFailed = true;
+        boolebn cksumFbiled = fblse;
+        if (cblculbtedHmbc.length >= hbshSize) {
+            for (int i = 0; i < hbshSize; i++) {
+                if (cblculbtedHmbc[i] != ciphertext[i]) {
+                    cksumFbiled = true;
                     if (debug) {
-                        System.err.println("Checksum failed !");
+                        System.err.println("Checksum fbiled !");
                     }
-                    break;
+                    brebk;
                 }
             }
         }
-        if (cksumFailed) {
-            throw new GeneralSecurityException("Checksum failed");
+        if (cksumFbiled) {
+            throw new GenerblSecurityException("Checksum fbiled");
         }
 
         // Get rid of confounder
-        // [ confounder | plaintext ]
-        byte[] output = new byte[plaintext.length - confounderSize];
-        System.arraycopy(plaintext, confounderSize, output, 0, output.length);
+        // [ confounder | plbintext ]
+        byte[] output = new byte[plbintext.length - confounderSize];
+        System.brrbycopy(plbintext, confounderSize, output, 0, output.length);
 
         return output;
     }
 
     /**
-     * Decrypts data using specified key and initial vector.
-     * @param baseKey encryption key to use
-     * @param ciphertext  encrypted data to be decrypted
-     * @param usage ignored
+     * Decrypts dbtb using specified key bnd initibl vector.
+     * @pbrbm bbseKey encryption key to use
+     * @pbrbm ciphertext  encrypted dbtb to be decrypted
+     * @pbrbm usbge ignored
      */
-    public byte[] decryptRaw(byte[] baseKey, int usage, byte[] ivec,
-        byte[] ciphertext, int start, int len, byte[] seqNum)
-        throws GeneralSecurityException {
+    public byte[] decryptRbw(byte[] bbseKey, int usbge, byte[] ivec,
+        byte[] ciphertext, int stbrt, int len, byte[] seqNum)
+        throws GenerblSecurityException {
 
-        if (!KeyUsage.isValid(usage)) {
-            throw new GeneralSecurityException("Invalid key usage number: "
-                                                + usage);
+        if (!KeyUsbge.isVblid(usbge)) {
+            throw new GenerblSecurityException("Invblid key usbge number: "
+                                                + usbge);
         }
         if (debug) {
-            System.out.println("\nARCFOUR: decryptRaw with usage = " + usage);
+            System.out.println("\nARCFOUR: decryptRbw with usbge = " + usbge);
         }
 
-        // Derive encryption key for data
-        //   Key derivation salt = 0
-        byte[] klocal = new byte[baseKey.length];
+        // Derive encryption key for dbtb
+        //   Key derivbtion sblt = 0
+        byte[] klocbl = new byte[bbseKey.length];
         for (int i = 0; i <= 15; i++) {
-            klocal[i] = (byte) (baseKey[i] ^ 0xF0);
+            klocbl[i] = (byte) (bbseKey[i] ^ 0xF0);
         }
-        byte[] salt = new byte[4];
-        byte[] kcrypt = getHmac(klocal, salt);
+        byte[] sblt = new byte[4];
+        byte[] kcrypt = getHmbc(klocbl, sblt);
 
         // need only first 4 bytes of sequence number
         byte[] sequenceNum = new byte[4];
-        System.arraycopy(seqNum, 0, sequenceNum, 0, sequenceNum.length);
+        System.brrbycopy(seqNum, 0, sequenceNum, 0, sequenceNum.length);
 
-        // new encryption key salted with sequence number
-        kcrypt = getHmac(kcrypt, sequenceNum);
+        // new encryption key sblted with sequence number
+        kcrypt = getHmbc(kcrypt, sequenceNum);
 
-        Cipher cipher = Cipher.getInstance("ARCFOUR");
+        Cipher cipher = Cipher.getInstbnce("ARCFOUR");
         SecretKeySpec secretKey = new SecretKeySpec(kcrypt, "ARCFOUR");
         cipher.init(Cipher.DECRYPT_MODE, secretKey);
-        byte[] output = cipher.doFinal(ciphertext, start, len);
+        byte[] output = cipher.doFinbl(ciphertext, stbrt, len);
 
         return output;
     }
 
-    // get the salt using key usage
-    private byte[] getSalt(int usage) {
-        int ms_usage = arcfour_translate_usage(usage);
-        byte[] salt = new byte[4];
-        salt[0] = (byte)(ms_usage & 0xff);
-        salt[1] = (byte)((ms_usage >> 8) & 0xff);
-        salt[2] = (byte)((ms_usage >> 16) & 0xff);
-        salt[3] = (byte)((ms_usage >> 24) & 0xff);
-        return salt;
+    // get the sblt using key usbge
+    privbte byte[] getSblt(int usbge) {
+        int ms_usbge = brcfour_trbnslbte_usbge(usbge);
+        byte[] sblt = new byte[4];
+        sblt[0] = (byte)(ms_usbge & 0xff);
+        sblt[1] = (byte)((ms_usbge >> 8) & 0xff);
+        sblt[2] = (byte)((ms_usbge >> 16) & 0xff);
+        sblt[3] = (byte)((ms_usbge >> 24) & 0xff);
+        return sblt;
     }
 
-    // Key usage translation for MS
-    private int arcfour_translate_usage(int usage) {
-        switch (usage) {
-            case 3: return 8;
-            case 9: return 8;
-            case 23: return 13;
-            default: return usage;
+    // Key usbge trbnslbtion for MS
+    privbte int brcfour_trbnslbte_usbge(int usbge) {
+        switch (usbge) {
+            cbse 3: return 8;
+            cbse 9: return 8;
+            cbse 23: return 13;
+            defbult: return usbge;
         }
     }
 

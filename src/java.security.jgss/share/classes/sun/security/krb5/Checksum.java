@@ -1,243 +1,243 @@
 /*
- * Copyright (c) 2000, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
  *  (C) Copyright IBM Corp. 1999 All Rights Reserved.
- *  Copyright 1997 The Open Group Research Institute.  All rights reserved.
+ *  Copyright 1997 The Open Group Resebrch Institute.  All rights reserved.
  */
 
-package sun.security.krb5;
+pbckbge sun.security.krb5;
 
-import java.util.Arrays;
+import jbvb.util.Arrbys;
 import sun.security.util.*;
-import sun.security.krb5.internal.*;
-import sun.security.krb5.internal.crypto.*;
-import java.io.IOException;
-import java.math.BigInteger;
+import sun.security.krb5.internbl.*;
+import sun.security.krb5.internbl.crypto.*;
+import jbvb.io.IOException;
+import jbvb.mbth.BigInteger;
 
 /**
- * This class encapsulates the concept of a Kerberos checksum.
+ * This clbss encbpsulbtes the concept of b Kerberos checksum.
  */
-public class Checksum {
+public clbss Checksum {
 
-    private int cksumType;
-    private byte[] checksum;
+    privbte int cksumType;
+    privbte byte[] checksum;
 
     // ----------------------------------------------+-------------+-----------
     //                      Checksum type            |sumtype      |checksum
-    //                                               |value        | size
+    //                                               |vblue        | size
     // ----------------------------------------------+-------------+-----------
-    public static final int CKSUMTYPE_NULL          = 0;               // 0
-    public static final int CKSUMTYPE_CRC32         = 1;               // 4
-    public static final int CKSUMTYPE_RSA_MD4       = 2;               // 16
-    public static final int CKSUMTYPE_RSA_MD4_DES   = 3;               // 24
-    public static final int CKSUMTYPE_DES_MAC       = 4;               // 16
-    public static final int CKSUMTYPE_DES_MAC_K     = 5;               // 8
-    public static final int CKSUMTYPE_RSA_MD4_DES_K = 6;               // 16
-    public static final int CKSUMTYPE_RSA_MD5       = 7;               // 16
-    public static final int CKSUMTYPE_RSA_MD5_DES   = 8;               // 24
+    public stbtic finbl int CKSUMTYPE_NULL          = 0;               // 0
+    public stbtic finbl int CKSUMTYPE_CRC32         = 1;               // 4
+    public stbtic finbl int CKSUMTYPE_RSA_MD4       = 2;               // 16
+    public stbtic finbl int CKSUMTYPE_RSA_MD4_DES   = 3;               // 24
+    public stbtic finbl int CKSUMTYPE_DES_MAC       = 4;               // 16
+    public stbtic finbl int CKSUMTYPE_DES_MAC_K     = 5;               // 8
+    public stbtic finbl int CKSUMTYPE_RSA_MD4_DES_K = 6;               // 16
+    public stbtic finbl int CKSUMTYPE_RSA_MD5       = 7;               // 16
+    public stbtic finbl int CKSUMTYPE_RSA_MD5_DES   = 8;               // 24
 
-     // draft-ietf-krb-wg-crypto-07.txt
-    public static final int CKSUMTYPE_HMAC_SHA1_DES3_KD = 12;          // 20
+     // drbft-ietf-krb-wg-crypto-07.txt
+    public stbtic finbl int CKSUMTYPE_HMAC_SHA1_DES3_KD = 12;          // 20
 
-    // draft-raeburn-krb-rijndael-krb-07.txt
-    public static final int CKSUMTYPE_HMAC_SHA1_96_AES128 = 15;        // 96
-    public static final int CKSUMTYPE_HMAC_SHA1_96_AES256 = 16;        // 96
+    // drbft-rbeburn-krb-rijndbel-krb-07.txt
+    public stbtic finbl int CKSUMTYPE_HMAC_SHA1_96_AES128 = 15;        // 96
+    public stbtic finbl int CKSUMTYPE_HMAC_SHA1_96_AES256 = 16;        // 96
 
-    // draft-brezak-win2k-krb-rc4-hmac-04.txt
-    public static final int CKSUMTYPE_HMAC_MD5_ARCFOUR = -138;
+    // drbft-brezbk-win2k-krb-rc4-hmbc-04.txt
+    public stbtic finbl int CKSUMTYPE_HMAC_MD5_ARCFOUR = -138;
 
-    static int CKSUMTYPE_DEFAULT;
-    static int SAFECKSUMTYPE_DEFAULT;
+    stbtic int CKSUMTYPE_DEFAULT;
+    stbtic int SAFECKSUMTYPE_DEFAULT;
 
-    private static boolean DEBUG = Krb5.DEBUG;
-    static {
-        initStatic();
+    privbte stbtic boolebn DEBUG = Krb5.DEBUG;
+    stbtic {
+        initStbtic();
     }
 
-    public static void initStatic() {
+    public stbtic void initStbtic() {
         String temp = null;
         Config cfg = null;
         try {
-            cfg = Config.getInstance();
-            temp = cfg.get("libdefaults", "default_checksum");
+            cfg = Config.getInstbnce();
+            temp = cfg.get("libdefbults", "defbult_checksum");
             if (temp != null)
                 {
                     CKSUMTYPE_DEFAULT = Config.getType(temp);
                 } else {
                     /*
-                     * If the default checksum is not
-                     * specified in the configuration we
-                     * set it to RSA_MD5. We follow the MIT and
-                     * SEAM implementation.
+                     * If the defbult checksum is not
+                     * specified in the configurbtion we
+                     * set it to RSA_MD5. We follow the MIT bnd
+                     * SEAM implementbtion.
                      */
                     CKSUMTYPE_DEFAULT = CKSUMTYPE_RSA_MD5;
                 }
-        } catch (Exception exc) {
+        } cbtch (Exception exc) {
             if (DEBUG) {
-                System.out.println("Exception in getting default checksum "+
-                                   "value from the configuration " +
-                                   "Setting default checksum to be RSA-MD5");
-                exc.printStackTrace();
+                System.out.println("Exception in getting defbult checksum "+
+                                   "vblue from the configurbtion " +
+                                   "Setting defbult checksum to be RSA-MD5");
+                exc.printStbckTrbce();
             }
             CKSUMTYPE_DEFAULT = CKSUMTYPE_RSA_MD5;
         }
 
 
         try {
-            temp = cfg.get("libdefaults", "safe_checksum_type");
+            temp = cfg.get("libdefbults", "sbfe_checksum_type");
             if (temp != null)
                 {
                     SAFECKSUMTYPE_DEFAULT = Config.getType(temp);
                 } else {
                     SAFECKSUMTYPE_DEFAULT = CKSUMTYPE_RSA_MD5_DES;
                 }
-        } catch (Exception exc) {
+        } cbtch (Exception exc) {
             if (DEBUG) {
-                System.out.println("Exception in getting safe default " +
-                                   "checksum value " +
-                                   "from the configuration Setting  " +
-                                   "safe default checksum to be RSA-MD5");
-                exc.printStackTrace();
+                System.out.println("Exception in getting sbfe defbult " +
+                                   "checksum vblue " +
+                                   "from the configurbtion Setting  " +
+                                   "sbfe defbult checksum to be RSA-MD5");
+                exc.printStbckTrbce();
             }
             SAFECKSUMTYPE_DEFAULT = CKSUMTYPE_RSA_MD5_DES;
         }
     }
 
     /**
-     * Constructs a new Checksum using the raw data and type.
-     * @data the byte array of checksum.
+     * Constructs b new Checksum using the rbw dbtb bnd type.
+     * @dbtb the byte brrby of checksum.
      * @new_cksumType the type of checksum.
      *
      */
-         // used in InitialToken
-    public Checksum(byte[] data, int new_cksumType) {
+         // used in InitiblToken
+    public Checksum(byte[] dbtb, int new_cksumType) {
         cksumType = new_cksumType;
-        checksum = data;
+        checksum = dbtb;
     }
 
     /**
-     * Constructs a new Checksum by calculating the checksum over the data
+     * Constructs b new Checksum by cblculbting the checksum over the dbtb
      * using specified checksum type.
      * @new_cksumType the type of checksum.
-     * @data the data that needs to be performed a checksum calculation on.
+     * @dbtb the dbtb thbt needs to be performed b checksum cblculbtion on.
      */
-    public Checksum(int new_cksumType, byte[] data)
+    public Checksum(int new_cksumType, byte[] dbtb)
         throws KdcErrException, KrbCryptoException {
 
         cksumType = new_cksumType;
-        CksumType cksumEngine = CksumType.getInstance(cksumType);
-        if (!cksumEngine.isSafe()) {
-            checksum = cksumEngine.calculateChecksum(data, data.length);
+        CksumType cksumEngine = CksumType.getInstbnce(cksumType);
+        if (!cksumEngine.isSbfe()) {
+            checksum = cksumEngine.cblculbteChecksum(dbtb, dbtb.length);
         } else {
             throw new KdcErrException(Krb5.KRB_AP_ERR_INAPP_CKSUM);
         }
     }
 
     /**
-     * Constructs a new Checksum by calculating the keyed checksum
-     * over the data using specified checksum type.
+     * Constructs b new Checksum by cblculbting the keyed checksum
+     * over the dbtb using specified checksum type.
      * @new_cksumType the type of checksum.
-     * @data the data that needs to be performed a checksum calculation on.
+     * @dbtb the dbtb thbt needs to be performed b checksum cblculbtion on.
      */
-         // KrbSafe, KrbTgsReq
-    public Checksum(int new_cksumType, byte[] data,
-                        EncryptionKey key, int usage)
+         // KrbSbfe, KrbTgsReq
+    public Checksum(int new_cksumType, byte[] dbtb,
+                        EncryptionKey key, int usbge)
         throws KdcErrException, KrbApErrException, KrbCryptoException {
         cksumType = new_cksumType;
-        CksumType cksumEngine = CksumType.getInstance(cksumType);
-        if (!cksumEngine.isSafe())
+        CksumType cksumEngine = CksumType.getInstbnce(cksumType);
+        if (!cksumEngine.isSbfe())
             throw new KrbApErrException(Krb5.KRB_AP_ERR_INAPP_CKSUM);
         checksum =
-            cksumEngine.calculateKeyedChecksum(data,
-                data.length,
+            cksumEngine.cblculbteKeyedChecksum(dbtb,
+                dbtb.length,
                 key.getBytes(),
-                usage);
+                usbge);
     }
 
     /**
-     * Verifies the keyed checksum over the data passed in.
+     * Verifies the keyed checksum over the dbtb pbssed in.
      */
-    public boolean verifyKeyedChecksum(byte[] data, EncryptionKey key,
-                                        int usage)
+    public boolebn verifyKeyedChecksum(byte[] dbtb, EncryptionKey key,
+                                        int usbge)
         throws KdcErrException, KrbApErrException, KrbCryptoException {
-        CksumType cksumEngine = CksumType.getInstance(cksumType);
-        if (!cksumEngine.isSafe())
+        CksumType cksumEngine = CksumType.getInstbnce(cksumType);
+        if (!cksumEngine.isSbfe())
             throw new KrbApErrException(Krb5.KRB_AP_ERR_INAPP_CKSUM);
-        return cksumEngine.verifyKeyedChecksum(data,
-                                               data.length,
+        return cksumEngine.verifyKeyedChecksum(dbtb,
+                                               dbtb.length,
                                                key.getBytes(),
                                                checksum,
-            usage);
+            usbge);
     }
 
     /*
-    public Checksum(byte[] data) throws KdcErrException, KrbCryptoException {
-        this(Checksum.CKSUMTYPE_DEFAULT, data);
+    public Checksum(byte[] dbtb) throws KdcErrException, KrbCryptoException {
+        this(Checksum.CKSUMTYPE_DEFAULT, dbtb);
     }
     */
 
-    boolean isEqual(Checksum cksum) throws KdcErrException {
+    boolebn isEqubl(Checksum cksum) throws KdcErrException {
         if (cksumType != cksum.cksumType)
-            return false;
-        CksumType cksumEngine = CksumType.getInstance(cksumType);
-        return CksumType.isChecksumEqual(checksum, cksum.checksum);
+            return fblse;
+        CksumType cksumEngine = CksumType.getInstbnce(cksumType);
+        return CksumType.isChecksumEqubl(checksum, cksum.checksum);
     }
 
     /**
-     * Constructs an instance of Checksum from an ASN.1 encoded representation.
-     * @param encoding a single DER-encoded value.
-     * @exception Asn1Exception if an error occurs while decoding an ASN1
-     * encoded data.
-     * @exception IOException if an I/O error occurs while reading encoded data.
+     * Constructs bn instbnce of Checksum from bn ASN.1 encoded representbtion.
+     * @pbrbm encoding b single DER-encoded vblue.
+     * @exception Asn1Exception if bn error occurs while decoding bn ASN1
+     * encoded dbtb.
+     * @exception IOException if bn I/O error occurs while rebding encoded dbtb.
      *
      */
-    private Checksum(DerValue encoding) throws Asn1Exception, IOException {
-        DerValue der;
-        if (encoding.getTag() != DerValue.tag_Sequence) {
+    privbte Checksum(DerVblue encoding) throws Asn1Exception, IOException {
+        DerVblue der;
+        if (encoding.getTbg() != DerVblue.tbg_Sequence) {
             throw new Asn1Exception(Krb5.ASN1_BAD_ID);
         }
-        der = encoding.getData().getDerValue();
-        if ((der.getTag() & (byte)0x1F) == (byte)0x00) {
-            cksumType = der.getData().getBigInteger().intValue();
-        }
-        else
-            throw new Asn1Exception(Krb5.ASN1_BAD_ID);
-        der = encoding.getData().getDerValue();
-        if ((der.getTag() & (byte)0x1F) == (byte)0x01) {
-            checksum = der.getData().getOctetString();
+        der = encoding.getDbtb().getDerVblue();
+        if ((der.getTbg() & (byte)0x1F) == (byte)0x00) {
+            cksumType = der.getDbtb().getBigInteger().intVblue();
         }
         else
             throw new Asn1Exception(Krb5.ASN1_BAD_ID);
-        if (encoding.getData().available() > 0) {
+        der = encoding.getDbtb().getDerVblue();
+        if ((der.getTbg() & (byte)0x1F) == (byte)0x01) {
+            checksum = der.getDbtb().getOctetString();
+        }
+        else
+            throw new Asn1Exception(Krb5.ASN1_BAD_ID);
+        if (encoding.getDbtb().bvbilbble() > 0) {
             throw new Asn1Exception(Krb5.ASN1_BAD_ID);
         }
     }
 
     /**
-     * Encodes a Checksum object.
+     * Encodes b Checksum object.
      * <xmp>
      * Checksum    ::= SEQUENCE {
      *         cksumtype   [0] Int32,
@@ -247,96 +247,96 @@ public class Checksum {
      *
      * <p>
      * This definition reflects the Network Working Group RFC 4120
-     * specification available at
-     * <a href="http://www.ietf.org/rfc/rfc4120.txt">
-     * http://www.ietf.org/rfc/rfc4120.txt</a>.
-     * @return byte array of enocded Checksum.
-     * @exception Asn1Exception if an error occurs while decoding an
-     * ASN1 encoded data.
-     * @exception IOException if an I/O error occurs while reading
-     * encoded data.
+     * specificbtion bvbilbble bt
+     * <b href="http://www.ietf.org/rfc/rfc4120.txt">
+     * http://www.ietf.org/rfc/rfc4120.txt</b>.
+     * @return byte brrby of enocded Checksum.
+     * @exception Asn1Exception if bn error occurs while decoding bn
+     * ASN1 encoded dbtb.
+     * @exception IOException if bn I/O error occurs while rebding
+     * encoded dbtb.
      *
      */
-    public byte[] asn1Encode() throws Asn1Exception, IOException {
-        DerOutputStream bytes = new DerOutputStream();
-        DerOutputStream temp = new DerOutputStream();
-        temp.putInteger(BigInteger.valueOf(cksumType));
-        bytes.write(DerValue.createTag(DerValue.TAG_CONTEXT,
+    public byte[] bsn1Encode() throws Asn1Exception, IOException {
+        DerOutputStrebm bytes = new DerOutputStrebm();
+        DerOutputStrebm temp = new DerOutputStrebm();
+        temp.putInteger(BigInteger.vblueOf(cksumType));
+        bytes.write(DerVblue.crebteTbg(DerVblue.TAG_CONTEXT,
                                        true, (byte)0x00), temp);
-        temp = new DerOutputStream();
+        temp = new DerOutputStrebm();
         temp.putOctetString(checksum);
-        bytes.write(DerValue.createTag(DerValue.TAG_CONTEXT,
+        bytes.write(DerVblue.crebteTbg(DerVblue.TAG_CONTEXT,
                                        true, (byte)0x01), temp);
-        temp = new DerOutputStream();
-        temp.write(DerValue.tag_Sequence, bytes);
-        return temp.toByteArray();
+        temp = new DerOutputStrebm();
+        temp.write(DerVblue.tbg_Sequence, bytes);
+        return temp.toByteArrby();
     }
 
 
     /**
-     * Parse (unmarshal) a checksum object from a DER input stream.  This form
-     * parsing might be used when expanding a value which is part of
-     * a constructed sequence and uses explicitly tagged type.
+     * Pbrse (unmbrshbl) b checksum object from b DER input strebm.  This form
+     * pbrsing might be used when expbnding b vblue which is pbrt of
+     * b constructed sequence bnd uses explicitly tbgged type.
      *
-     * @exception Asn1Exception if an error occurs while decoding an
-     * ASN1 encoded data.
-     * @exception IOException if an I/O error occurs while reading
-     * encoded data.
-     * @param data the Der input stream value, which contains one or more
-     * marshaled value.
-     * @param explicitTag tag number.
-     * @param optional indicates if this data field is optional
-     * @return an instance of Checksum.
+     * @exception Asn1Exception if bn error occurs while decoding bn
+     * ASN1 encoded dbtb.
+     * @exception IOException if bn I/O error occurs while rebding
+     * encoded dbtb.
+     * @pbrbm dbtb the Der input strebm vblue, which contbins one or more
+     * mbrshbled vblue.
+     * @pbrbm explicitTbg tbg number.
+     * @pbrbm optionbl indicbtes if this dbtb field is optionbl
+     * @return bn instbnce of Checksum.
      *
      */
-    public static Checksum parse(DerInputStream data,
-                                 byte explicitTag, boolean optional)
+    public stbtic Checksum pbrse(DerInputStrebm dbtb,
+                                 byte explicitTbg, boolebn optionbl)
         throws Asn1Exception, IOException {
 
-        if ((optional) &&
-            (((byte)data.peekByte() & (byte)0x1F) != explicitTag)) {
+        if ((optionbl) &&
+            (((byte)dbtb.peekByte() & (byte)0x1F) != explicitTbg)) {
             return null;
         }
-        DerValue der = data.getDerValue();
-        if (explicitTag != (der.getTag() & (byte)0x1F))  {
+        DerVblue der = dbtb.getDerVblue();
+        if (explicitTbg != (der.getTbg() & (byte)0x1F))  {
             throw new Asn1Exception(Krb5.ASN1_BAD_ID);
         } else {
-            DerValue subDer = der.getData().getDerValue();
+            DerVblue subDer = der.getDbtb().getDerVblue();
             return new Checksum(subDer);
         }
     }
 
     /**
-     * Returns the raw bytes of the checksum, not in ASN.1 encoded form.
+     * Returns the rbw bytes of the checksum, not in ASN.1 encoded form.
      */
-    public final byte[] getBytes() {
+    public finbl byte[] getBytes() {
         return checksum;
     }
 
-    public final int getType() {
+    public finbl int getType() {
         return cksumType;
     }
 
-    @Override public boolean equals(Object obj) {
+    @Override public boolebn equbls(Object obj) {
         if (this == obj) {
             return true;
         }
-        if (!(obj instanceof Checksum)) {
-            return false;
+        if (!(obj instbnceof Checksum)) {
+            return fblse;
         }
 
         try {
-            return isEqual((Checksum)obj);
-        } catch (KdcErrException kee) {
-            return false;
+            return isEqubl((Checksum)obj);
+        } cbtch (KdcErrException kee) {
+            return fblse;
         }
     }
 
-    @Override public int hashCode() {
+    @Override public int hbshCode() {
         int result = 17;
         result = 37 * result + cksumType;
         if (checksum != null) {
-            result = 37 * result + Arrays.hashCode(checksum);
+            result = 37 * result + Arrbys.hbshCode(checksum);
         }
         return result;
     }

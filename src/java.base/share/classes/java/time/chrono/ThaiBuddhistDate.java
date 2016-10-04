@@ -1,45 +1,45 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * Copyright (c) 2012, Stephen Colebourne & Michael Nascimento Santos
+ * Copyright (c) 2012, Stephen Colebourne & Michbel Nbscimento Sbntos
  *
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions bre met:
  *
- *  * Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ *  * Redistributions of source code must retbin the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer.
  *
- *  * Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ *  * Redistributions in binbry form must reproduce the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer in the documentbtion
+ *    bnd/or other mbteribls provided with the distribution.
  *
- *  * Neither the name of JSR-310 nor the names of its contributors
- *    may be used to endorse or promote products derived from this software
+ *  * Neither the nbme of JSR-310 nor the nbmes of its contributors
+ *    mby be used to endorse or promote products derived from this softwbre
  *    without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
@@ -54,466 +54,466 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package java.time.chrono;
+pbckbge jbvb.time.chrono;
 
-import static java.time.chrono.ThaiBuddhistChronology.YEARS_DIFFERENCE;
-import static java.time.temporal.ChronoField.DAY_OF_MONTH;
-import static java.time.temporal.ChronoField.MONTH_OF_YEAR;
-import static java.time.temporal.ChronoField.YEAR;
+import stbtic jbvb.time.chrono.ThbiBuddhistChronology.YEARS_DIFFERENCE;
+import stbtic jbvb.time.temporbl.ChronoField.DAY_OF_MONTH;
+import stbtic jbvb.time.temporbl.ChronoField.MONTH_OF_YEAR;
+import stbtic jbvb.time.temporbl.ChronoField.YEAR;
 
-import java.io.DataInput;
-import java.io.DataOutput;
-import java.io.IOException;
-import java.io.InvalidObjectException;
-import java.io.ObjectInputStream;
-import java.io.Serializable;
-import java.time.Clock;
-import java.time.DateTimeException;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.Period;
-import java.time.ZoneId;
-import java.time.temporal.ChronoField;
-import java.time.temporal.TemporalAccessor;
-import java.time.temporal.TemporalAdjuster;
-import java.time.temporal.TemporalAmount;
-import java.time.temporal.TemporalField;
-import java.time.temporal.TemporalQuery;
-import java.time.temporal.TemporalUnit;
-import java.time.temporal.UnsupportedTemporalTypeException;
-import java.time.temporal.ValueRange;
-import java.util.Objects;
+import jbvb.io.DbtbInput;
+import jbvb.io.DbtbOutput;
+import jbvb.io.IOException;
+import jbvb.io.InvblidObjectException;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.Seriblizbble;
+import jbvb.time.Clock;
+import jbvb.time.DbteTimeException;
+import jbvb.time.LocblDbte;
+import jbvb.time.LocblTime;
+import jbvb.time.Period;
+import jbvb.time.ZoneId;
+import jbvb.time.temporbl.ChronoField;
+import jbvb.time.temporbl.TemporblAccessor;
+import jbvb.time.temporbl.TemporblAdjuster;
+import jbvb.time.temporbl.TemporblAmount;
+import jbvb.time.temporbl.TemporblField;
+import jbvb.time.temporbl.TemporblQuery;
+import jbvb.time.temporbl.TemporblUnit;
+import jbvb.time.temporbl.UnsupportedTemporblTypeException;
+import jbvb.time.temporbl.VblueRbnge;
+import jbvb.util.Objects;
 
 /**
- * A date in the Thai Buddhist calendar system.
+ * A dbte in the Thbi Buddhist cblendbr system.
  * <p>
- * This date operates using the {@linkplain ThaiBuddhistChronology Thai Buddhist calendar}.
- * This calendar system is primarily used in Thailand.
- * Dates are aligned such that {@code 2484-01-01 (Buddhist)} is {@code 1941-01-01 (ISO)}.
+ * This dbte operbtes using the {@linkplbin ThbiBuddhistChronology Thbi Buddhist cblendbr}.
+ * This cblendbr system is primbrily used in Thbilbnd.
+ * Dbtes bre bligned such thbt {@code 2484-01-01 (Buddhist)} is {@code 1941-01-01 (ISO)}.
  *
  * <p>
- * This is a <a href="{@docRoot}/java/lang/doc-files/ValueBased.html">value-based</a>
- * class; use of identity-sensitive operations (including reference equality
- * ({@code ==}), identity hash code, or synchronization) on instances of
- * {@code ThaiBuddhistDate} may have unpredictable results and should be avoided.
- * The {@code equals} method should be used for comparisons.
+ * This is b <b href="{@docRoot}/jbvb/lbng/doc-files/VblueBbsed.html">vblue-bbsed</b>
+ * clbss; use of identity-sensitive operbtions (including reference equblity
+ * ({@code ==}), identity hbsh code, or synchronizbtion) on instbnces of
+ * {@code ThbiBuddhistDbte} mby hbve unpredictbble results bnd should be bvoided.
+ * The {@code equbls} method should be used for compbrisons.
  *
  * @implSpec
- * This class is immutable and thread-safe.
+ * This clbss is immutbble bnd threbd-sbfe.
  *
  * @since 1.8
  */
-public final class ThaiBuddhistDate
-        extends ChronoLocalDateImpl<ThaiBuddhistDate>
-        implements ChronoLocalDate, Serializable {
+public finbl clbss ThbiBuddhistDbte
+        extends ChronoLocblDbteImpl<ThbiBuddhistDbte>
+        implements ChronoLocblDbte, Seriblizbble {
 
     /**
-     * Serialization version.
+     * Seriblizbtion version.
      */
-    private static final long serialVersionUID = -8722293800195731463L;
+    privbte stbtic finbl long seriblVersionUID = -8722293800195731463L;
 
     /**
-     * The underlying date.
+     * The underlying dbte.
      */
-    private final transient LocalDate isoDate;
+    privbte finbl trbnsient LocblDbte isoDbte;
 
     //-----------------------------------------------------------------------
     /**
-     * Obtains the current {@code ThaiBuddhistDate} from the system clock in the default time-zone.
+     * Obtbins the current {@code ThbiBuddhistDbte} from the system clock in the defbult time-zone.
      * <p>
-     * This will query the {@link Clock#systemDefaultZone() system clock} in the default
-     * time-zone to obtain the current date.
+     * This will query the {@link Clock#systemDefbultZone() system clock} in the defbult
+     * time-zone to obtbin the current dbte.
      * <p>
-     * Using this method will prevent the ability to use an alternate clock for testing
-     * because the clock is hard-coded.
+     * Using this method will prevent the bbility to use bn blternbte clock for testing
+     * becbuse the clock is hbrd-coded.
      *
-     * @return the current date using the system clock and default time-zone, not null
+     * @return the current dbte using the system clock bnd defbult time-zone, not null
      */
-    public static ThaiBuddhistDate now() {
-        return now(Clock.systemDefaultZone());
+    public stbtic ThbiBuddhistDbte now() {
+        return now(Clock.systemDefbultZone());
     }
 
     /**
-     * Obtains the current {@code ThaiBuddhistDate} from the system clock in the specified time-zone.
+     * Obtbins the current {@code ThbiBuddhistDbte} from the system clock in the specified time-zone.
      * <p>
-     * This will query the {@link Clock#system(ZoneId) system clock} to obtain the current date.
-     * Specifying the time-zone avoids dependence on the default time-zone.
+     * This will query the {@link Clock#system(ZoneId) system clock} to obtbin the current dbte.
+     * Specifying the time-zone bvoids dependence on the defbult time-zone.
      * <p>
-     * Using this method will prevent the ability to use an alternate clock for testing
-     * because the clock is hard-coded.
+     * Using this method will prevent the bbility to use bn blternbte clock for testing
+     * becbuse the clock is hbrd-coded.
      *
-     * @param zone  the zone ID to use, not null
-     * @return the current date using the system clock, not null
+     * @pbrbm zone  the zone ID to use, not null
+     * @return the current dbte using the system clock, not null
      */
-    public static ThaiBuddhistDate now(ZoneId zone) {
+    public stbtic ThbiBuddhistDbte now(ZoneId zone) {
         return now(Clock.system(zone));
     }
 
     /**
-     * Obtains the current {@code ThaiBuddhistDate} from the specified clock.
+     * Obtbins the current {@code ThbiBuddhistDbte} from the specified clock.
      * <p>
-     * This will query the specified clock to obtain the current date - today.
-     * Using this method allows the use of an alternate clock for testing.
-     * The alternate clock may be introduced using {@linkplain Clock dependency injection}.
+     * This will query the specified clock to obtbin the current dbte - todby.
+     * Using this method bllows the use of bn blternbte clock for testing.
+     * The blternbte clock mby be introduced using {@linkplbin Clock dependency injection}.
      *
-     * @param clock  the clock to use, not null
-     * @return the current date, not null
-     * @throws DateTimeException if the current date cannot be obtained
+     * @pbrbm clock  the clock to use, not null
+     * @return the current dbte, not null
+     * @throws DbteTimeException if the current dbte cbnnot be obtbined
      */
-    public static ThaiBuddhistDate now(Clock clock) {
-        return new ThaiBuddhistDate(LocalDate.now(clock));
+    public stbtic ThbiBuddhistDbte now(Clock clock) {
+        return new ThbiBuddhistDbte(LocblDbte.now(clock));
     }
 
     /**
-     * Obtains a {@code ThaiBuddhistDate} representing a date in the Thai Buddhist calendar
-     * system from the proleptic-year, month-of-year and day-of-month fields.
+     * Obtbins b {@code ThbiBuddhistDbte} representing b dbte in the Thbi Buddhist cblendbr
+     * system from the proleptic-yebr, month-of-yebr bnd dby-of-month fields.
      * <p>
-     * This returns a {@code ThaiBuddhistDate} with the specified fields.
-     * The day must be valid for the year and month, otherwise an exception will be thrown.
+     * This returns b {@code ThbiBuddhistDbte} with the specified fields.
+     * The dby must be vblid for the yebr bnd month, otherwise bn exception will be thrown.
      *
-     * @param prolepticYear  the Thai Buddhist proleptic-year
-     * @param month  the Thai Buddhist month-of-year, from 1 to 12
-     * @param dayOfMonth  the Thai Buddhist day-of-month, from 1 to 31
-     * @return the date in Thai Buddhist calendar system, not null
-     * @throws DateTimeException if the value of any field is out of range,
-     *  or if the day-of-month is invalid for the month-year
+     * @pbrbm prolepticYebr  the Thbi Buddhist proleptic-yebr
+     * @pbrbm month  the Thbi Buddhist month-of-yebr, from 1 to 12
+     * @pbrbm dbyOfMonth  the Thbi Buddhist dby-of-month, from 1 to 31
+     * @return the dbte in Thbi Buddhist cblendbr system, not null
+     * @throws DbteTimeException if the vblue of bny field is out of rbnge,
+     *  or if the dby-of-month is invblid for the month-yebr
      */
-    public static ThaiBuddhistDate of(int prolepticYear, int month, int dayOfMonth) {
-        return new ThaiBuddhistDate(LocalDate.of(prolepticYear - YEARS_DIFFERENCE, month, dayOfMonth));
+    public stbtic ThbiBuddhistDbte of(int prolepticYebr, int month, int dbyOfMonth) {
+        return new ThbiBuddhistDbte(LocblDbte.of(prolepticYebr - YEARS_DIFFERENCE, month, dbyOfMonth));
     }
 
     /**
-     * Obtains a {@code ThaiBuddhistDate} from a temporal object.
+     * Obtbins b {@code ThbiBuddhistDbte} from b temporbl object.
      * <p>
-     * This obtains a date in the Thai Buddhist calendar system based on the specified temporal.
-     * A {@code TemporalAccessor} represents an arbitrary set of date and time information,
-     * which this factory converts to an instance of {@code ThaiBuddhistDate}.
+     * This obtbins b dbte in the Thbi Buddhist cblendbr system bbsed on the specified temporbl.
+     * A {@code TemporblAccessor} represents bn brbitrbry set of dbte bnd time informbtion,
+     * which this fbctory converts to bn instbnce of {@code ThbiBuddhistDbte}.
      * <p>
-     * The conversion typically uses the {@link ChronoField#EPOCH_DAY EPOCH_DAY}
-     * field, which is standardized across calendar systems.
+     * The conversion typicblly uses the {@link ChronoField#EPOCH_DAY EPOCH_DAY}
+     * field, which is stbndbrdized bcross cblendbr systems.
      * <p>
-     * This method matches the signature of the functional interface {@link TemporalQuery}
-     * allowing it to be used as a query via method reference, {@code ThaiBuddhistDate::from}.
+     * This method mbtches the signbture of the functionbl interfbce {@link TemporblQuery}
+     * bllowing it to be used bs b query vib method reference, {@code ThbiBuddhistDbte::from}.
      *
-     * @param temporal  the temporal object to convert, not null
-     * @return the date in Thai Buddhist calendar system, not null
-     * @throws DateTimeException if unable to convert to a {@code ThaiBuddhistDate}
+     * @pbrbm temporbl  the temporbl object to convert, not null
+     * @return the dbte in Thbi Buddhist cblendbr system, not null
+     * @throws DbteTimeException if unbble to convert to b {@code ThbiBuddhistDbte}
      */
-    public static ThaiBuddhistDate from(TemporalAccessor temporal) {
-        return ThaiBuddhistChronology.INSTANCE.date(temporal);
-    }
-
-    //-----------------------------------------------------------------------
-    /**
-     * Creates an instance from an ISO date.
-     *
-     * @param isoDate  the standard local date, validated not null
-     */
-    ThaiBuddhistDate(LocalDate isoDate) {
-        Objects.requireNonNull(isoDate, "isoDate");
-        this.isoDate = isoDate;
+    public stbtic ThbiBuddhistDbte from(TemporblAccessor temporbl) {
+        return ThbiBuddhistChronology.INSTANCE.dbte(temporbl);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Gets the chronology of this date, which is the Thai Buddhist calendar system.
-     * <p>
-     * The {@code Chronology} represents the calendar system in use.
-     * The era and other fields in {@link ChronoField} are defined by the chronology.
+     * Crebtes bn instbnce from bn ISO dbte.
      *
-     * @return the Thai Buddhist chronology, not null
+     * @pbrbm isoDbte  the stbndbrd locbl dbte, vblidbted not null
+     */
+    ThbiBuddhistDbte(LocblDbte isoDbte) {
+        Objects.requireNonNull(isoDbte, "isoDbte");
+        this.isoDbte = isoDbte;
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Gets the chronology of this dbte, which is the Thbi Buddhist cblendbr system.
+     * <p>
+     * The {@code Chronology} represents the cblendbr system in use.
+     * The erb bnd other fields in {@link ChronoField} bre defined by the chronology.
+     *
+     * @return the Thbi Buddhist chronology, not null
      */
     @Override
-    public ThaiBuddhistChronology getChronology() {
-        return ThaiBuddhistChronology.INSTANCE;
+    public ThbiBuddhistChronology getChronology() {
+        return ThbiBuddhistChronology.INSTANCE;
     }
 
     /**
-     * Gets the era applicable at this date.
+     * Gets the erb bpplicbble bt this dbte.
      * <p>
-     * The Thai Buddhist calendar system has two eras, 'BE' and 'BEFORE_BE',
-     * defined by {@link ThaiBuddhistEra}.
+     * The Thbi Buddhist cblendbr system hbs two erbs, 'BE' bnd 'BEFORE_BE',
+     * defined by {@link ThbiBuddhistErb}.
      *
-     * @return the era applicable at this date, not null
+     * @return the erb bpplicbble bt this dbte, not null
      */
     @Override
-    public ThaiBuddhistEra getEra() {
-        return (getProlepticYear() >= 1 ? ThaiBuddhistEra.BE : ThaiBuddhistEra.BEFORE_BE);
+    public ThbiBuddhistErb getErb() {
+        return (getProlepticYebr() >= 1 ? ThbiBuddhistErb.BE : ThbiBuddhistErb.BEFORE_BE);
     }
 
     /**
-     * Returns the length of the month represented by this date.
+     * Returns the length of the month represented by this dbte.
      * <p>
-     * This returns the length of the month in days.
-     * Month lengths match those of the ISO calendar system.
+     * This returns the length of the month in dbys.
+     * Month lengths mbtch those of the ISO cblendbr system.
      *
-     * @return the length of the month in days
+     * @return the length of the month in dbys
      */
     @Override
     public int lengthOfMonth() {
-        return isoDate.lengthOfMonth();
+        return isoDbte.lengthOfMonth();
     }
 
     //-----------------------------------------------------------------------
     @Override
-    public ValueRange range(TemporalField field) {
-        if (field instanceof ChronoField) {
+    public VblueRbnge rbnge(TemporblField field) {
+        if (field instbnceof ChronoField) {
             if (isSupported(field)) {
                 ChronoField f = (ChronoField) field;
                 switch (f) {
-                    case DAY_OF_MONTH:
-                    case DAY_OF_YEAR:
-                    case ALIGNED_WEEK_OF_MONTH:
-                        return isoDate.range(field);
-                    case YEAR_OF_ERA: {
-                        ValueRange range = YEAR.range();
-                        long max = (getProlepticYear() <= 0 ? -(range.getMinimum() + YEARS_DIFFERENCE) + 1 : range.getMaximum() + YEARS_DIFFERENCE);
-                        return ValueRange.of(1, max);
+                    cbse DAY_OF_MONTH:
+                    cbse DAY_OF_YEAR:
+                    cbse ALIGNED_WEEK_OF_MONTH:
+                        return isoDbte.rbnge(field);
+                    cbse YEAR_OF_ERA: {
+                        VblueRbnge rbnge = YEAR.rbnge();
+                        long mbx = (getProlepticYebr() <= 0 ? -(rbnge.getMinimum() + YEARS_DIFFERENCE) + 1 : rbnge.getMbximum() + YEARS_DIFFERENCE);
+                        return VblueRbnge.of(1, mbx);
                     }
                 }
-                return getChronology().range(f);
+                return getChronology().rbnge(f);
             }
-            throw new UnsupportedTemporalTypeException("Unsupported field: " + field);
+            throw new UnsupportedTemporblTypeException("Unsupported field: " + field);
         }
-        return field.rangeRefinedBy(this);
+        return field.rbngeRefinedBy(this);
     }
 
     @Override
-    public long getLong(TemporalField field) {
-        if (field instanceof ChronoField) {
+    public long getLong(TemporblField field) {
+        if (field instbnceof ChronoField) {
             switch ((ChronoField) field) {
-                case PROLEPTIC_MONTH:
+                cbse PROLEPTIC_MONTH:
                     return getProlepticMonth();
-                case YEAR_OF_ERA: {
-                    int prolepticYear = getProlepticYear();
-                    return (prolepticYear >= 1 ? prolepticYear : 1 - prolepticYear);
+                cbse YEAR_OF_ERA: {
+                    int prolepticYebr = getProlepticYebr();
+                    return (prolepticYebr >= 1 ? prolepticYebr : 1 - prolepticYebr);
                 }
-                case YEAR:
-                    return getProlepticYear();
-                case ERA:
-                    return (getProlepticYear() >= 1 ? 1 : 0);
+                cbse YEAR:
+                    return getProlepticYebr();
+                cbse ERA:
+                    return (getProlepticYebr() >= 1 ? 1 : 0);
             }
-            return isoDate.getLong(field);
+            return isoDbte.getLong(field);
         }
         return field.getFrom(this);
     }
 
-    private long getProlepticMonth() {
-        return getProlepticYear() * 12L + isoDate.getMonthValue() - 1;
+    privbte long getProlepticMonth() {
+        return getProlepticYebr() * 12L + isoDbte.getMonthVblue() - 1;
     }
 
-    private int getProlepticYear() {
-        return isoDate.getYear() + YEARS_DIFFERENCE;
+    privbte int getProlepticYebr() {
+        return isoDbte.getYebr() + YEARS_DIFFERENCE;
     }
 
     //-----------------------------------------------------------------------
     @Override
-    public ThaiBuddhistDate with(TemporalField field, long newValue) {
-        if (field instanceof ChronoField) {
+    public ThbiBuddhistDbte with(TemporblField field, long newVblue) {
+        if (field instbnceof ChronoField) {
             ChronoField f = (ChronoField) field;
-            if (getLong(f) == newValue) {
+            if (getLong(f) == newVblue) {
                 return this;
             }
             switch (f) {
-                case PROLEPTIC_MONTH:
-                    getChronology().range(f).checkValidValue(newValue, f);
-                    return plusMonths(newValue - getProlepticMonth());
-                case YEAR_OF_ERA:
-                case YEAR:
-                case ERA: {
-                    int nvalue = getChronology().range(f).checkValidIntValue(newValue, f);
+                cbse PROLEPTIC_MONTH:
+                    getChronology().rbnge(f).checkVblidVblue(newVblue, f);
+                    return plusMonths(newVblue - getProlepticMonth());
+                cbse YEAR_OF_ERA:
+                cbse YEAR:
+                cbse ERA: {
+                    int nvblue = getChronology().rbnge(f).checkVblidIntVblue(newVblue, f);
                     switch (f) {
-                        case YEAR_OF_ERA:
-                            return with(isoDate.withYear((getProlepticYear() >= 1 ? nvalue : 1 - nvalue)  - YEARS_DIFFERENCE));
-                        case YEAR:
-                            return with(isoDate.withYear(nvalue - YEARS_DIFFERENCE));
-                        case ERA:
-                            return with(isoDate.withYear((1 - getProlepticYear()) - YEARS_DIFFERENCE));
+                        cbse YEAR_OF_ERA:
+                            return with(isoDbte.withYebr((getProlepticYebr() >= 1 ? nvblue : 1 - nvblue)  - YEARS_DIFFERENCE));
+                        cbse YEAR:
+                            return with(isoDbte.withYebr(nvblue - YEARS_DIFFERENCE));
+                        cbse ERA:
+                            return with(isoDbte.withYebr((1 - getProlepticYebr()) - YEARS_DIFFERENCE));
                     }
                 }
             }
-            return with(isoDate.with(field, newValue));
+            return with(isoDbte.with(field, newVblue));
         }
-        return super.with(field, newValue);
+        return super.with(field, newVblue);
     }
 
     /**
      * {@inheritDoc}
-     * @throws DateTimeException {@inheritDoc}
+     * @throws DbteTimeException {@inheritDoc}
      * @throws ArithmeticException {@inheritDoc}
      */
     @Override
-    public  ThaiBuddhistDate with(TemporalAdjuster adjuster) {
-        return super.with(adjuster);
+    public  ThbiBuddhistDbte with(TemporblAdjuster bdjuster) {
+        return super.with(bdjuster);
     }
 
     /**
      * {@inheritDoc}
-     * @throws DateTimeException {@inheritDoc}
+     * @throws DbteTimeException {@inheritDoc}
      * @throws ArithmeticException {@inheritDoc}
      */
     @Override
-    public ThaiBuddhistDate plus(TemporalAmount amount) {
-        return super.plus(amount);
+    public ThbiBuddhistDbte plus(TemporblAmount bmount) {
+        return super.plus(bmount);
     }
 
     /**
      * {@inheritDoc}
-     * @throws DateTimeException {@inheritDoc}
+     * @throws DbteTimeException {@inheritDoc}
      * @throws ArithmeticException {@inheritDoc}
      */
     @Override
-    public ThaiBuddhistDate minus(TemporalAmount amount) {
-        return super.minus(amount);
+    public ThbiBuddhistDbte minus(TemporblAmount bmount) {
+        return super.minus(bmount);
     }
 
     //-----------------------------------------------------------------------
     @Override
-    ThaiBuddhistDate plusYears(long years) {
-        return with(isoDate.plusYears(years));
+    ThbiBuddhistDbte plusYebrs(long yebrs) {
+        return with(isoDbte.plusYebrs(yebrs));
     }
 
     @Override
-    ThaiBuddhistDate plusMonths(long months) {
-        return with(isoDate.plusMonths(months));
+    ThbiBuddhistDbte plusMonths(long months) {
+        return with(isoDbte.plusMonths(months));
     }
 
     @Override
-    ThaiBuddhistDate plusWeeks(long weeksToAdd) {
+    ThbiBuddhistDbte plusWeeks(long weeksToAdd) {
         return super.plusWeeks(weeksToAdd);
     }
 
     @Override
-    ThaiBuddhistDate plusDays(long days) {
-        return with(isoDate.plusDays(days));
+    ThbiBuddhistDbte plusDbys(long dbys) {
+        return with(isoDbte.plusDbys(dbys));
     }
 
     @Override
-    public ThaiBuddhistDate plus(long amountToAdd, TemporalUnit unit) {
-        return super.plus(amountToAdd, unit);
+    public ThbiBuddhistDbte plus(long bmountToAdd, TemporblUnit unit) {
+        return super.plus(bmountToAdd, unit);
     }
 
     @Override
-    public ThaiBuddhistDate minus(long amountToAdd, TemporalUnit unit) {
-        return super.minus(amountToAdd, unit);
+    public ThbiBuddhistDbte minus(long bmountToAdd, TemporblUnit unit) {
+        return super.minus(bmountToAdd, unit);
     }
 
     @Override
-    ThaiBuddhistDate minusYears(long yearsToSubtract) {
-        return super.minusYears(yearsToSubtract);
+    ThbiBuddhistDbte minusYebrs(long yebrsToSubtrbct) {
+        return super.minusYebrs(yebrsToSubtrbct);
     }
 
     @Override
-    ThaiBuddhistDate minusMonths(long monthsToSubtract) {
-        return super.minusMonths(monthsToSubtract);
+    ThbiBuddhistDbte minusMonths(long monthsToSubtrbct) {
+        return super.minusMonths(monthsToSubtrbct);
     }
 
     @Override
-    ThaiBuddhistDate minusWeeks(long weeksToSubtract) {
-        return super.minusWeeks(weeksToSubtract);
+    ThbiBuddhistDbte minusWeeks(long weeksToSubtrbct) {
+        return super.minusWeeks(weeksToSubtrbct);
     }
 
     @Override
-    ThaiBuddhistDate minusDays(long daysToSubtract) {
-        return super.minusDays(daysToSubtract);
+    ThbiBuddhistDbte minusDbys(long dbysToSubtrbct) {
+        return super.minusDbys(dbysToSubtrbct);
     }
 
-    private ThaiBuddhistDate with(LocalDate newDate) {
-        return (newDate.equals(isoDate) ? this : new ThaiBuddhistDate(newDate));
+    privbte ThbiBuddhistDbte with(LocblDbte newDbte) {
+        return (newDbte.equbls(isoDbte) ? this : new ThbiBuddhistDbte(newDbte));
     }
 
-    @Override        // for javadoc and covariant return type
-    @SuppressWarnings("unchecked")
-    public final ChronoLocalDateTime<ThaiBuddhistDate> atTime(LocalTime localTime) {
-        return (ChronoLocalDateTime<ThaiBuddhistDate>) super.atTime(localTime);
+    @Override        // for jbvbdoc bnd covbribnt return type
+    @SuppressWbrnings("unchecked")
+    public finbl ChronoLocblDbteTime<ThbiBuddhistDbte> btTime(LocblTime locblTime) {
+        return (ChronoLocblDbteTime<ThbiBuddhistDbte>) super.btTime(locblTime);
     }
 
     @Override
-    public ChronoPeriod until(ChronoLocalDate endDate) {
-        Period period = isoDate.until(endDate);
-        return getChronology().period(period.getYears(), period.getMonths(), period.getDays());
+    public ChronoPeriod until(ChronoLocblDbte endDbte) {
+        Period period = isoDbte.until(endDbte);
+        return getChronology().period(period.getYebrs(), period.getMonths(), period.getDbys());
     }
 
-    @Override  // override for performance
-    public long toEpochDay() {
-        return isoDate.toEpochDay();
+    @Override  // override for performbnce
+    public long toEpochDby() {
+        return isoDbte.toEpochDby();
     }
 
     //-------------------------------------------------------------------------
     /**
-     * Compares this date to another date, including the chronology.
+     * Compbres this dbte to bnother dbte, including the chronology.
      * <p>
-     * Compares this {@code ThaiBuddhistDate} with another ensuring that the date is the same.
+     * Compbres this {@code ThbiBuddhistDbte} with bnother ensuring thbt the dbte is the sbme.
      * <p>
-     * Only objects of type {@code ThaiBuddhistDate} are compared, other types return false.
-     * To compare the dates of two {@code TemporalAccessor} instances, including dates
-     * in two different chronologies, use {@link ChronoField#EPOCH_DAY} as a comparator.
+     * Only objects of type {@code ThbiBuddhistDbte} bre compbred, other types return fblse.
+     * To compbre the dbtes of two {@code TemporblAccessor} instbnces, including dbtes
+     * in two different chronologies, use {@link ChronoField#EPOCH_DAY} bs b compbrbtor.
      *
-     * @param obj  the object to check, null returns false
-     * @return true if this is equal to the other date
+     * @pbrbm obj  the object to check, null returns fblse
+     * @return true if this is equbl to the other dbte
      */
-    @Override  // override for performance
-    public boolean equals(Object obj) {
+    @Override  // override for performbnce
+    public boolebn equbls(Object obj) {
         if (this == obj) {
             return true;
         }
-        if (obj instanceof ThaiBuddhistDate) {
-            ThaiBuddhistDate otherDate = (ThaiBuddhistDate) obj;
-            return this.isoDate.equals(otherDate.isoDate);
+        if (obj instbnceof ThbiBuddhistDbte) {
+            ThbiBuddhistDbte otherDbte = (ThbiBuddhistDbte) obj;
+            return this.isoDbte.equbls(otherDbte.isoDbte);
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * A hash code for this date.
+     * A hbsh code for this dbte.
      *
-     * @return a suitable hash code based only on the Chronology and the date
+     * @return b suitbble hbsh code bbsed only on the Chronology bnd the dbte
      */
-    @Override  // override for performance
-    public int hashCode() {
-        return getChronology().getId().hashCode() ^ isoDate.hashCode();
+    @Override  // override for performbnce
+    public int hbshCode() {
+        return getChronology().getId().hbshCode() ^ isoDbte.hbshCode();
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Defend against malicious streams.
+     * Defend bgbinst mblicious strebms.
      *
-     * @param s the stream to read
-     * @throws InvalidObjectException always
+     * @pbrbm s the strebm to rebd
+     * @throws InvblidObjectException blwbys
      */
-    private void readObject(ObjectInputStream s) throws InvalidObjectException {
-        throw new InvalidObjectException("Deserialization via serialization delegate");
+    privbte void rebdObject(ObjectInputStrebm s) throws InvblidObjectException {
+        throw new InvblidObjectException("Deseriblizbtion vib seriblizbtion delegbte");
     }
 
     /**
-     * Writes the object using a
-     * <a href="../../../serialized-form.html#java.time.chrono.Ser">dedicated serialized form</a>.
-     * @serialData
+     * Writes the object using b
+     * <b href="../../../seriblized-form.html#jbvb.time.chrono.Ser">dedicbted seriblized form</b>.
+     * @seriblDbtb
      * <pre>
-     *  out.writeByte(10);                // identifies a ThaiBuddhistDate
+     *  out.writeByte(10);                // identifies b ThbiBuddhistDbte
      *  out.writeInt(get(YEAR));
      *  out.writeByte(get(MONTH_OF_YEAR));
      *  out.writeByte(get(DAY_OF_MONTH));
      * </pre>
      *
-     * @return the instance of {@code Ser}, not null
+     * @return the instbnce of {@code Ser}, not null
      */
-    private Object writeReplace() {
+    privbte Object writeReplbce() {
         return new Ser(Ser.THAIBUDDHIST_DATE_TYPE, this);
     }
 
-    void writeExternal(DataOutput out) throws IOException {
-        // ThaiBuddhistChronology is implicit in the THAIBUDDHIST_DATE_TYPE
+    void writeExternbl(DbtbOutput out) throws IOException {
+        // ThbiBuddhistChronology is implicit in the THAIBUDDHIST_DATE_TYPE
         out.writeInt(this.get(YEAR));
         out.writeByte(this.get(MONTH_OF_YEAR));
         out.writeByte(this.get(DAY_OF_MONTH));
     }
 
-    static ThaiBuddhistDate readExternal(DataInput in) throws IOException {
-        int year = in.readInt();
-        int month = in.readByte();
-        int dayOfMonth = in.readByte();
-        return ThaiBuddhistChronology.INSTANCE.date(year, month, dayOfMonth);
+    stbtic ThbiBuddhistDbte rebdExternbl(DbtbInput in) throws IOException {
+        int yebr = in.rebdInt();
+        int month = in.rebdByte();
+        int dbyOfMonth = in.rebdByte();
+        return ThbiBuddhistChronology.INSTANCE.dbte(yebr, month, dbyOfMonth);
     }
 
 }

@@ -1,92 +1,92 @@
 /*
- * Copyright (c) 2005, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 /*
- * $Id: SignatureProperties.java,v 1.4 2005/05/10 16:03:46 mullan Exp $
+ * $Id: SignbtureProperties.jbvb,v 1.4 2005/05/10 16:03:46 mullbn Exp $
  */
-package javax.xml.crypto.dsig;
+pbckbge jbvbx.xml.crypto.dsig;
 
-import javax.xml.crypto.XMLStructure;
-import java.util.List;
+import jbvbx.xml.crypto.XMLStructure;
+import jbvb.util.List;
 
 /**
- * A representation of the XML <code>SignatureProperties</code> element as
- * defined in the <a href="http://www.w3.org/TR/xmldsig-core/">
- * W3C Recommendation for XML-Signature Syntax and Processing</a>.
- * The XML Schema Definition is defined as:
+ * A representbtion of the XML <code>SignbtureProperties</code> element bs
+ * defined in the <b href="http://www.w3.org/TR/xmldsig-core/">
+ * W3C Recommendbtion for XML-Signbture Syntbx bnd Processing</b>.
+ * The XML Schemb Definition is defined bs:
  * <pre><code>
- *&lt;element name="SignatureProperties" type="ds:SignaturePropertiesType"/&gt;
- *   &lt;complexType name="SignaturePropertiesType"&gt;
+ *&lt;element nbme="SignbtureProperties" type="ds:SignbturePropertiesType"/&gt;
+ *   &lt;complexType nbme="SignbturePropertiesType"&gt;
  *     &lt;sequence&gt;
- *       &lt;element ref="ds:SignatureProperty" maxOccurs="unbounded"/&gt;
+ *       &lt;element ref="ds:SignbtureProperty" mbxOccurs="unbounded"/&gt;
  *     &lt;/sequence&gt;
- *     &lt;attribute name="Id" type="ID" use="optional"/&gt;
+ *     &lt;bttribute nbme="Id" type="ID" use="optionbl"/&gt;
  *   &lt;/complexType&gt;
  * </code></pre>
  *
- * A <code>SignatureProperties</code> instance may be created by invoking the
- * {@link XMLSignatureFactory#newSignatureProperties newSignatureProperties}
- * method of the {@link XMLSignatureFactory} class; for example:
+ * A <code>SignbtureProperties</code> instbnce mby be crebted by invoking the
+ * {@link XMLSignbtureFbctory#newSignbtureProperties newSignbtureProperties}
+ * method of the {@link XMLSignbtureFbctory} clbss; for exbmple:
  *
  * <pre>
- *   XMLSignatureFactory factory = XMLSignatureFactory.getInstance("DOM");
- *   SignatureProperties properties =
- *      factory.newSignatureProperties(props, "signature-properties-1");
+ *   XMLSignbtureFbctory fbctory = XMLSignbtureFbctory.getInstbnce("DOM");
+ *   SignbtureProperties properties =
+ *      fbctory.newSignbtureProperties(props, "signbture-properties-1");
  * </pre>
  *
- * @author Sean Mullan
- * @author JSR 105 Expert Group
+ * @buthor Sebn Mullbn
+ * @buthor JSR 105 Expert Group
  * @since 1.6
- * @see XMLSignatureFactory#newSignatureProperties(List, String)
- * @see SignatureProperty
+ * @see XMLSignbtureFbctory#newSignbtureProperties(List, String)
+ * @see SignbtureProperty
  */
-public interface SignatureProperties extends XMLStructure {
+public interfbce SignbtureProperties extends XMLStructure {
 
     /**
-     * URI that identifies the <code>SignatureProperties</code> element (this
-     * can be specified as the value of the <code>type</code> parameter of the
-     * {@link Reference} class to identify the referent's type).
+     * URI thbt identifies the <code>SignbtureProperties</code> element (this
+     * cbn be specified bs the vblue of the <code>type</code> pbrbmeter of the
+     * {@link Reference} clbss to identify the referent's type).
      */
-    final static String TYPE =
-        "http://www.w3.org/2000/09/xmldsig#SignatureProperties";
+    finbl stbtic String TYPE =
+        "http://www.w3.org/2000/09/xmldsig#SignbtureProperties";
 
     /**
-     * Returns the Id of this <code>SignatureProperties</code>.
+     * Returns the Id of this <code>SignbtureProperties</code>.
      *
-     * @return the Id of this <code>SignatureProperties</code> (or
+     * @return the Id of this <code>SignbtureProperties</code> (or
      *    <code>null</code> if not specified)
      */
     String getId();
 
     /**
-     * Returns an {@link java.util.Collections#unmodifiableList unmodifiable
-     * list} of one or more {@link SignatureProperty}s that are contained in
-     * this <code>SignatureProperties</code>.
+     * Returns bn {@link jbvb.util.Collections#unmodifibbleList unmodifibble
+     * list} of one or more {@link SignbtureProperty}s thbt bre contbined in
+     * this <code>SignbtureProperties</code>.
      *
-     * @return an unmodifiable list of one or more
-     *    <code>SignatureProperty</code>s
+     * @return bn unmodifibble list of one or more
+     *    <code>SignbtureProperty</code>s
      */
-    @SuppressWarnings("rawtypes")
+    @SuppressWbrnings("rbwtypes")
     List getProperties();
 }

@@ -1,471 +1,471 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.text.html;
+pbckbge jbvbx.swing.text.html;
 
-import java.awt.*;
-import java.util.*;
-import java.net.*;
-import java.io.*;
-import javax.swing.*;
-import javax.swing.text.*;
-import javax.swing.event.*;
+import jbvb.bwt.*;
+import jbvb.util.*;
+import jbvb.net.*;
+import jbvb.io.*;
+import jbvbx.swing.*;
+import jbvbx.swing.text.*;
+import jbvbx.swing.event.*;
 
-import sun.swing.text.html.FrameEditorPaneTag;
+import sun.swing.text.html.FrbmeEditorPbneTbg;
 
 /**
- * Implements a FrameView, intended to support the HTML
- * &lt;FRAME&gt; tag.  Supports the frameborder, scrolling,
- * marginwidth and marginheight attributes.
+ * Implements b FrbmeView, intended to support the HTML
+ * &lt;FRAME&gt; tbg.  Supports the frbmeborder, scrolling,
+ * mbrginwidth bnd mbrginheight bttributes.
  *
- * @author    Sunita Mani
+ * @buthor    Sunitb Mbni
  */
 
-class FrameView extends ComponentView implements HyperlinkListener {
+clbss FrbmeView extends ComponentView implements HyperlinkListener {
 
 
-    JEditorPane htmlPane;
-    JScrollPane scroller;
-    boolean editable;
-    float width;
-    float height;
+    JEditorPbne htmlPbne;
+    JScrollPbne scroller;
+    boolebn editbble;
+    flobt width;
+    flobt height;
     URL src;
-    /** Set to true when the component has been created. */
-    private boolean createdComponent;
+    /** Set to true when the component hbs been crebted. */
+    privbte boolebn crebtedComponent;
 
     /**
-     * Creates a new Frame.
+     * Crebtes b new Frbme.
      *
-     * @param elem the element to represent.
+     * @pbrbm elem the element to represent.
      */
-    public FrameView(Element elem) {
+    public FrbmeView(Element elem) {
         super(elem);
     }
 
-    protected Component createComponent() {
+    protected Component crebteComponent() {
 
         Element elem = getElement();
-        AttributeSet attributes = elem.getAttributes();
-        String srcAtt = (String)attributes.getAttribute(HTML.Attribute.SRC);
+        AttributeSet bttributes = elem.getAttributes();
+        String srcAtt = (String)bttributes.getAttribute(HTML.Attribute.SRC);
 
-        if ((srcAtt != null) && (!srcAtt.equals(""))) {
+        if ((srcAtt != null) && (!srcAtt.equbls(""))) {
             try {
-                URL base = ((HTMLDocument)elem.getDocument()).getBase();
-                src = new URL(base, srcAtt);
-                htmlPane = new FrameEditorPane();
-                htmlPane.addHyperlinkListener(this);
-                JEditorPane host = getHostPane();
-                boolean isAutoFormSubmission = true;
+                URL bbse = ((HTMLDocument)elem.getDocument()).getBbse();
+                src = new URL(bbse, srcAtt);
+                htmlPbne = new FrbmeEditorPbne();
+                htmlPbne.bddHyperlinkListener(this);
+                JEditorPbne host = getHostPbne();
+                boolebn isAutoFormSubmission = true;
                 if (host != null) {
-                    htmlPane.setEditable(host.isEditable());
-                    String charset = (String) host.getClientProperty("charset");
-                    if (charset != null) {
-                        htmlPane.putClientProperty("charset", charset);
+                    htmlPbne.setEditbble(host.isEditbble());
+                    String chbrset = (String) host.getClientProperty("chbrset");
+                    if (chbrset != null) {
+                        htmlPbne.putClientProperty("chbrset", chbrset);
                     }
                     HTMLEditorKit hostKit = (HTMLEditorKit)host.getEditorKit();
                     if (hostKit != null) {
                         isAutoFormSubmission = hostKit.isAutoFormSubmission();
                     }
                 }
-                htmlPane.setPage(src);
-                HTMLEditorKit kit = (HTMLEditorKit)htmlPane.getEditorKit();
+                htmlPbne.setPbge(src);
+                HTMLEditorKit kit = (HTMLEditorKit)htmlPbne.getEditorKit();
                 if (kit != null) {
                     kit.setAutoFormSubmission(isAutoFormSubmission);
                 }
 
-                Document doc = htmlPane.getDocument();
-                if (doc instanceof HTMLDocument) {
-                    ((HTMLDocument)doc).setFrameDocumentState(true);
+                Document doc = htmlPbne.getDocument();
+                if (doc instbnceof HTMLDocument) {
+                    ((HTMLDocument)doc).setFrbmeDocumentStbte(true);
                 }
-                setMargin();
-                createScrollPane();
+                setMbrgin();
+                crebteScrollPbne();
                 setBorder();
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e1) {
-                e1.printStackTrace();
+            } cbtch (MblformedURLException e) {
+                e.printStbckTrbce();
+            } cbtch (IOException e1) {
+                e1.printStbckTrbce();
             }
         }
-        createdComponent = true;
+        crebtedComponent = true;
         return scroller;
     }
 
-    JEditorPane getHostPane() {
-        Container c = getContainer();
-        while ((c != null) && ! (c instanceof JEditorPane)) {
-            c = c.getParent();
+    JEditorPbne getHostPbne() {
+        Contbiner c = getContbiner();
+        while ((c != null) && ! (c instbnceof JEditorPbne)) {
+            c = c.getPbrent();
         }
-        return (JEditorPane) c;
+        return (JEditorPbne) c;
     }
 
 
     /**
-     * Sets the parent view for the FrameView.
-     * Also determines if the FrameView should be editable
-     * or not based on whether the JTextComponent that
-     * contains it is editable.
+     * Sets the pbrent view for the FrbmeView.
+     * Also determines if the FrbmeView should be editbble
+     * or not bbsed on whether the JTextComponent thbt
+     * contbins it is editbble.
      *
-     * @param parent View
+     * @pbrbm pbrent View
      */
-    public void setParent(View parent) {
-        if (parent != null) {
-            JTextComponent t = (JTextComponent)parent.getContainer();
-            editable = t.isEditable();
+    public void setPbrent(View pbrent) {
+        if (pbrent != null) {
+            JTextComponent t = (JTextComponent)pbrent.getContbiner();
+            editbble = t.isEditbble();
         }
-        super.setParent(parent);
+        super.setPbrent(pbrent);
     }
 
 
     /**
-     * Also determines if the FrameView should be editable
-     * or not based on whether the JTextComponent that
-     * contains it is editable. And then proceeds to call
-     * the superclass to do the paint().
+     * Also determines if the FrbmeView should be editbble
+     * or not bbsed on whether the JTextComponent thbt
+     * contbins it is editbble. And then proceeds to cbll
+     * the superclbss to do the pbint().
      *
-     * @param parent View
-     * @see text.ComponentView#paint
+     * @pbrbm pbrent View
+     * @see text.ComponentView#pbint
      */
-    public void paint(Graphics g, Shape allocation) {
+    public void pbint(Grbphics g, Shbpe bllocbtion) {
 
-        Container host = getContainer();
-        if (host != null && htmlPane != null &&
-            htmlPane.isEditable() != ((JTextComponent)host).isEditable()) {
-            editable = ((JTextComponent)host).isEditable();
-            htmlPane.setEditable(editable);
+        Contbiner host = getContbiner();
+        if (host != null && htmlPbne != null &&
+            htmlPbne.isEditbble() != ((JTextComponent)host).isEditbble()) {
+            editbble = ((JTextComponent)host).isEditbble();
+            htmlPbne.setEditbble(editbble);
         }
-        super.paint(g, allocation);
+        super.pbint(g, bllocbtion);
     }
 
 
     /**
-     * If the marginwidth or marginheight attributes have been specified,
-     * then the JEditorPane's margin's are set to the new values.
+     * If the mbrginwidth or mbrginheight bttributes hbve been specified,
+     * then the JEditorPbne's mbrgin's bre set to the new vblues.
      */
-    private void setMargin() {
-        int margin = 0;
-        Insets in = htmlPane.getMargin();
+    privbte void setMbrgin() {
+        int mbrgin = 0;
+        Insets in = htmlPbne.getMbrgin();
         Insets newInsets;
-        boolean modified = false;
-        AttributeSet attributes = getElement().getAttributes();
-        String marginStr = (String)attributes.getAttribute(HTML.Attribute.MARGINWIDTH);
+        boolebn modified = fblse;
+        AttributeSet bttributes = getElement().getAttributes();
+        String mbrginStr = (String)bttributes.getAttribute(HTML.Attribute.MARGINWIDTH);
         if ( in != null) {
             newInsets = new Insets(in.top, in.left, in.right, in.bottom);
         } else {
             newInsets = new Insets(0,0,0,0);
         }
-        if (marginStr != null) {
-            margin = Integer.parseInt(marginStr);
-            if (margin > 0) {
-                newInsets.left = margin;
-                newInsets.right = margin;
+        if (mbrginStr != null) {
+            mbrgin = Integer.pbrseInt(mbrginStr);
+            if (mbrgin > 0) {
+                newInsets.left = mbrgin;
+                newInsets.right = mbrgin;
                 modified = true;
             }
         }
-        marginStr = (String)attributes.getAttribute(HTML.Attribute.MARGINHEIGHT);
-        if (marginStr != null) {
-            margin = Integer.parseInt(marginStr);
-            if (margin > 0) {
-                newInsets.top = margin;
-                newInsets.bottom = margin;
+        mbrginStr = (String)bttributes.getAttribute(HTML.Attribute.MARGINHEIGHT);
+        if (mbrginStr != null) {
+            mbrgin = Integer.pbrseInt(mbrginStr);
+            if (mbrgin > 0) {
+                newInsets.top = mbrgin;
+                newInsets.bottom = mbrgin;
                 modified = true;
             }
         }
         if (modified) {
-            htmlPane.setMargin(newInsets);
+            htmlPbne.setMbrgin(newInsets);
         }
     }
 
     /**
-     * If the frameborder attribute has been specified, either in the frame,
-     * or by the frames enclosing frameset, the JScrollPane's setBorder()
-     * method is invoked to achieve the desired look.
+     * If the frbmeborder bttribute hbs been specified, either in the frbme,
+     * or by the frbmes enclosing frbmeset, the JScrollPbne's setBorder()
+     * method is invoked to bchieve the desired look.
      */
-    private void setBorder() {
+    privbte void setBorder() {
 
-        AttributeSet attributes = getElement().getAttributes();
-        String frameBorder = (String)attributes.getAttribute(HTML.Attribute.FRAMEBORDER);
-        if ((frameBorder != null) &&
-            (frameBorder.equals("no") || frameBorder.equals("0"))) {
-            // make invisible borders.
+        AttributeSet bttributes = getElement().getAttributes();
+        String frbmeBorder = (String)bttributes.getAttribute(HTML.Attribute.FRAMEBORDER);
+        if ((frbmeBorder != null) &&
+            (frbmeBorder.equbls("no") || frbmeBorder.equbls("0"))) {
+            // mbke invisible borders.
             scroller.setBorder(null);
         }
     }
 
 
     /**
-     * This method creates the JScrollPane.  The scrollbar policy is determined by
-     * the scrolling attribute.  If not defined, the default is "auto" which
-     * maps to the scrollbar's being displayed as needed.
+     * This method crebtes the JScrollPbne.  The scrollbbr policy is determined by
+     * the scrolling bttribute.  If not defined, the defbult is "buto" which
+     * mbps to the scrollbbr's being displbyed bs needed.
      */
-    private void createScrollPane() {
-        AttributeSet attributes = getElement().getAttributes();
-        String scrolling = (String)attributes.getAttribute(HTML.Attribute.SCROLLING);
+    privbte void crebteScrollPbne() {
+        AttributeSet bttributes = getElement().getAttributes();
+        String scrolling = (String)bttributes.getAttribute(HTML.Attribute.SCROLLING);
         if (scrolling == null) {
-            scrolling = "auto";
+            scrolling = "buto";
         }
 
-        if (!scrolling.equals("no")) {
-            if (scrolling.equals("yes")) {
-                scroller = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-                                           JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        if (!scrolling.equbls("no")) {
+            if (scrolling.equbls("yes")) {
+                scroller = new JScrollPbne(JScrollPbne.VERTICAL_SCROLLBAR_ALWAYS,
+                                           JScrollPbne.HORIZONTAL_SCROLLBAR_ALWAYS);
             } else {
-                // scrollbars will be displayed if needed
+                // scrollbbrs will be displbyed if needed
                 //
-                scroller = new JScrollPane();
+                scroller = new JScrollPbne();
             }
         } else {
-            scroller = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_NEVER,
-                                       JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+            scroller = new JScrollPbne(JScrollPbne.VERTICAL_SCROLLBAR_NEVER,
+                                       JScrollPbne.HORIZONTAL_SCROLLBAR_NEVER);
         }
 
         JViewport vp = scroller.getViewport();
-        vp.add(htmlPane);
-        vp.setBackingStoreEnabled(true);
+        vp.bdd(htmlPbne);
+        vp.setBbckingStoreEnbbled(true);
         scroller.setMinimumSize(new Dimension(5,5));
-        scroller.setMaximumSize(new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE));
+        scroller.setMbximumSize(new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE));
     }
 
 
     /**
-     * Finds the outermost FrameSetView.  It then
-     * returns that FrameSetView's container.
+     * Finds the outermost FrbmeSetView.  It then
+     * returns thbt FrbmeSetView's contbiner.
      */
-    JEditorPane getOutermostJEditorPane() {
+    JEditorPbne getOutermostJEditorPbne() {
 
-        View parent = getParent();
-        FrameSetView frameSetView = null;
-        while (parent != null) {
-            if (parent instanceof FrameSetView) {
-                frameSetView = (FrameSetView)parent;
+        View pbrent = getPbrent();
+        FrbmeSetView frbmeSetView = null;
+        while (pbrent != null) {
+            if (pbrent instbnceof FrbmeSetView) {
+                frbmeSetView = (FrbmeSetView)pbrent;
             }
-            parent = parent.getParent();
+            pbrent = pbrent.getPbrent();
         }
-        if (frameSetView != null) {
-            return (JEditorPane)frameSetView.getContainer();
+        if (frbmeSetView != null) {
+            return (JEditorPbne)frbmeSetView.getContbiner();
         }
         return null;
     }
 
 
     /**
-     * Returns true if this frame is contained within
-     * a nested frameset.
+     * Returns true if this frbme is contbined within
+     * b nested frbmeset.
      */
-    private boolean inNestedFrameSet() {
-        FrameSetView parent = (FrameSetView)getParent();
-        return (parent.getParent() instanceof FrameSetView);
+    privbte boolebn inNestedFrbmeSet() {
+        FrbmeSetView pbrent = (FrbmeSetView)getPbrent();
+        return (pbrent.getPbrent() instbnceof FrbmeSetView);
     }
 
 
     /**
-     * Notification of a change relative to a
-     * hyperlink. This method searches for the outermost
-     * JEditorPane, and then fires an HTMLFrameHyperlinkEvent
-     * to that frame.  In addition, if the target is _parent,
-     * and there is not nested framesets then the target is
-     * reset to _top.  If the target is _top, in addition to
-     * firing the event to the outermost JEditorPane, this
-     * method also invokes the setPage() method and explicitly
-     * replaces the current document with the destination url.
+     * Notificbtion of b chbnge relbtive to b
+     * hyperlink. This method sebrches for the outermost
+     * JEditorPbne, bnd then fires bn HTMLFrbmeHyperlinkEvent
+     * to thbt frbme.  In bddition, if the tbrget is _pbrent,
+     * bnd there is not nested frbmesets then the tbrget is
+     * reset to _top.  If the tbrget is _top, in bddition to
+     * firing the event to the outermost JEditorPbne, this
+     * method blso invokes the setPbge() method bnd explicitly
+     * replbces the current document with the destinbtion url.
      *
-     * @param HyperlinkEvent
+     * @pbrbm HyperlinkEvent
      */
-    public void hyperlinkUpdate(HyperlinkEvent evt) {
+    public void hyperlinkUpdbte(HyperlinkEvent evt) {
 
-        JEditorPane c = getOutermostJEditorPane();
+        JEditorPbne c = getOutermostJEditorPbne();
         if (c == null) {
             return;
         }
 
-        if (!(evt instanceof HTMLFrameHyperlinkEvent)) {
-            c.fireHyperlinkUpdate(evt);
+        if (!(evt instbnceof HTMLFrbmeHyperlinkEvent)) {
+            c.fireHyperlinkUpdbte(evt);
             return;
         }
 
-        HTMLFrameHyperlinkEvent e = (HTMLFrameHyperlinkEvent)evt;
+        HTMLFrbmeHyperlinkEvent e = (HTMLFrbmeHyperlinkEvent)evt;
 
         if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
-            String target = e.getTarget();
-            String postTarget = target;
+            String tbrget = e.getTbrget();
+            String postTbrget = tbrget;
 
-            if (target.equals("_parent") && !inNestedFrameSet()){
-                target = "_top";
+            if (tbrget.equbls("_pbrent") && !inNestedFrbmeSet()){
+                tbrget = "_top";
             }
 
-            if (evt instanceof FormSubmitEvent) {
+            if (evt instbnceof FormSubmitEvent) {
                 HTMLEditorKit kit = (HTMLEditorKit)c.getEditorKit();
                 if (kit != null && kit.isAutoFormSubmission()) {
-                    if (target.equals("_top")) {
+                    if (tbrget.equbls("_top")) {
                         try {
-                            movePostData(c, postTarget);
-                            c.setPage(e.getURL());
-                        } catch (IOException ex) {
-                            // Need a way to handle exceptions
+                            movePostDbtb(c, postTbrget);
+                            c.setPbge(e.getURL());
+                        } cbtch (IOException ex) {
+                            // Need b wby to hbndle exceptions
                         }
                     } else {
                         HTMLDocument doc = (HTMLDocument)c.getDocument();
-                        doc.processHTMLFrameHyperlinkEvent(e);
+                        doc.processHTMLFrbmeHyperlinkEvent(e);
                     }
                 } else {
-                    c.fireHyperlinkUpdate(evt);
+                    c.fireHyperlinkUpdbte(evt);
                 }
                 return;
             }
 
-            if (target.equals("_top")) {
+            if (tbrget.equbls("_top")) {
                 try {
-                    c.setPage(e.getURL());
-                } catch (IOException ex) {
-                    // Need a way to handle exceptions
-                    // ex.printStackTrace();
+                    c.setPbge(e.getURL());
+                } cbtch (IOException ex) {
+                    // Need b wby to hbndle exceptions
+                    // ex.printStbckTrbce();
                 }
             }
-            if (!c.isEditable()) {
-                c.fireHyperlinkUpdate(new HTMLFrameHyperlinkEvent(c,
+            if (!c.isEditbble()) {
+                c.fireHyperlinkUpdbte(new HTMLFrbmeHyperlinkEvent(c,
                                                                   e.getEventType(),
                                                                   e.getURL(),
                                                                   e.getDescription(),
                                                                   getElement(),
                                                                   e.getInputEvent(),
-                                                                  target));
+                                                                  tbrget));
             }
         }
     }
 
     /**
-     * Gives notification from the document that attributes were changed
-     * in a location that this view is responsible for.  Currently this view
-     * handles changes to its SRC attribute.
+     * Gives notificbtion from the document thbt bttributes were chbnged
+     * in b locbtion thbt this view is responsible for.  Currently this view
+     * hbndles chbnges to its SRC bttribute.
      *
-     * @param e the change information from the associated document
-     * @param a the current allocation of the view
-     * @param f the factory to use to rebuild if the view has children
+     * @pbrbm e the chbnge informbtion from the bssocibted document
+     * @pbrbm b the current bllocbtion of the view
+     * @pbrbm f the fbctory to use to rebuild if the view hbs children
      *
      */
-    public void changedUpdate(DocumentEvent e, Shape a, ViewFactory f) {
+    public void chbngedUpdbte(DocumentEvent e, Shbpe b, ViewFbctory f) {
 
         Element elem = getElement();
-        AttributeSet attributes = elem.getAttributes();
+        AttributeSet bttributes = elem.getAttributes();
 
-        URL oldPage = src;
+        URL oldPbge = src;
 
-        String srcAtt = (String)attributes.getAttribute(HTML.Attribute.SRC);
-        URL base = ((HTMLDocument)elem.getDocument()).getBase();
+        String srcAtt = (String)bttributes.getAttribute(HTML.Attribute.SRC);
+        URL bbse = ((HTMLDocument)elem.getDocument()).getBbse();
         try {
-            if (!createdComponent) {
+            if (!crebtedComponent) {
                 return;
             }
 
-            Object postData = movePostData(htmlPane, null);
-            src = new URL(base, srcAtt);
-            if (oldPage.equals(src) && (src.getRef() == null) && (postData == null)) {
+            Object postDbtb = movePostDbtb(htmlPbne, null);
+            src = new URL(bbse, srcAtt);
+            if (oldPbge.equbls(src) && (src.getRef() == null) && (postDbtb == null)) {
                 return;
             }
 
-            htmlPane.setPage(src);
-            Document newDoc = htmlPane.getDocument();
-            if (newDoc instanceof HTMLDocument) {
-                ((HTMLDocument)newDoc).setFrameDocumentState(true);
+            htmlPbne.setPbge(src);
+            Document newDoc = htmlPbne.getDocument();
+            if (newDoc instbnceof HTMLDocument) {
+                ((HTMLDocument)newDoc).setFrbmeDocumentStbte(true);
             }
-        } catch (MalformedURLException e1) {
-            // Need a way to handle exceptions
-            //e1.printStackTrace();
-        } catch (IOException e2) {
-            // Need a way to handle exceptions
-            //e2.printStackTrace();
+        } cbtch (MblformedURLException e1) {
+            // Need b wby to hbndle exceptions
+            //e1.printStbckTrbce();
+        } cbtch (IOException e2) {
+            // Need b wby to hbndle exceptions
+            //e2.printStbckTrbce();
         }
     }
 
     /**
-     * Move POST data from temporary storage into the target document property.
+     * Move POST dbtb from temporbry storbge into the tbrget document property.
      *
-     * @return the POST data or null if no data found
+     * @return the POST dbtb or null if no dbtb found
      */
-    private Object movePostData(JEditorPane targetPane, String frameName) {
-        Object postData = null;
-        JEditorPane p = getOutermostJEditorPane();
+    privbte Object movePostDbtb(JEditorPbne tbrgetPbne, String frbmeNbme) {
+        Object postDbtb = null;
+        JEditorPbne p = getOutermostJEditorPbne();
         if (p != null) {
-            if (frameName == null) {
-                frameName = (String) getElement().getAttributes().getAttribute(
+            if (frbmeNbme == null) {
+                frbmeNbme = (String) getElement().getAttributes().getAttribute(
                         HTML.Attribute.NAME);
             }
-            if (frameName != null) {
-                String propName = FormView.PostDataProperty + "." + frameName;
+            if (frbmeNbme != null) {
+                String propNbme = FormView.PostDbtbProperty + "." + frbmeNbme;
                 Document d = p.getDocument();
-                postData = d.getProperty(propName);
-                if (postData != null) {
-                    targetPane.getDocument().putProperty(
-                            FormView.PostDataProperty, postData);
-                    d.putProperty(propName, null);
+                postDbtb = d.getProperty(propNbme);
+                if (postDbtb != null) {
+                    tbrgetPbne.getDocument().putProperty(
+                            FormView.PostDbtbProperty, postDbtb);
+                    d.putProperty(propNbme, null);
                 }
             }
         }
 
-        return postData;
+        return postDbtb;
     }
 
     /**
-     * Determines the minimum span for this view along an
-     * axis.
+     * Determines the minimum spbn for this view blong bn
+     * bxis.
      *
-     * @param axis may be either <code>View.X_AXIS</code> or
+     * @pbrbm bxis mby be either <code>View.X_AXIS</code> or
      *  <code>View.Y_AXIS</code>
-     * @return the preferred span; given that we do not
-     * support resizing of frames, the minimum span returned
-     * is the same as the preferred span
+     * @return the preferred spbn; given thbt we do not
+     * support resizing of frbmes, the minimum spbn returned
+     * is the sbme bs the preferred spbn
      *
      */
-    public float getMinimumSpan(int axis) {
+    public flobt getMinimumSpbn(int bxis) {
       return 5;
     }
 
     /**
-     * Determines the maximum span for this view along an
-     * axis.
+     * Determines the mbximum spbn for this view blong bn
+     * bxis.
      *
-     * @param axis may be either <code>View.X_AXIS</code> or
+     * @pbrbm bxis mby be either <code>View.X_AXIS</code> or
      *  <code>View.Y_AXIS</code>
-     * @return the preferred span; given that we do not
-     * support resizing of frames, the maximum span returned
-     * is the same as the preferred span
+     * @return the preferred spbn; given thbt we do not
+     * support resizing of frbmes, the mbximum spbn returned
+     * is the sbme bs the preferred spbn
      *
      */
-    public float getMaximumSpan(int axis) {
+    public flobt getMbximumSpbn(int bxis) {
         return Integer.MAX_VALUE;
     }
 
-    /** Editor pane rendering frame of HTML document
-     *  It uses the same editor kits classes as outermost JEditorPane
+    /** Editor pbne rendering frbme of HTML document
+     *  It uses the sbme editor kits clbsses bs outermost JEditorPbne
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    class FrameEditorPane extends JEditorPane implements FrameEditorPaneTag {
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    clbss FrbmeEditorPbne extends JEditorPbne implements FrbmeEditorPbneTbg {
         public EditorKit getEditorKitForContentType(String type) {
             EditorKit editorKit = super.getEditorKitForContentType(type);
-            JEditorPane outerMostJEditorPane = null;
-            if ((outerMostJEditorPane = getOutermostJEditorPane()) != null) {
-                EditorKit inheritedEditorKit = outerMostJEditorPane.getEditorKitForContentType(type);
-                if (! editorKit.getClass().equals(inheritedEditorKit.getClass())) {
+            JEditorPbne outerMostJEditorPbne = null;
+            if ((outerMostJEditorPbne = getOutermostJEditorPbne()) != null) {
+                EditorKit inheritedEditorKit = outerMostJEditorPbne.getEditorKitForContentType(type);
+                if (! editorKit.getClbss().equbls(inheritedEditorKit.getClbss())) {
                     editorKit = (EditorKit) inheritedEditorKit.clone();
                     setEditorKitForContentType(type, editorKit);
                 }
@@ -473,8 +473,8 @@ class FrameView extends ComponentView implements HyperlinkListener {
             return editorKit;
         }
 
-        FrameView getFrameView() {
-            return FrameView.this;
+        FrbmeView getFrbmeView() {
+            return FrbmeView.this;
         }
     }
 }

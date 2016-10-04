@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,52 +30,52 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
-package j2dbench.tests.cmm;
+pbckbge j2dbench.tests.cmm;
 
 import j2dbench.Group;
 import j2dbench.Option;
 import j2dbench.Result;
 import j2dbench.Test;
 import j2dbench.TestEnvironment;
-import java.awt.color.ColorSpace;
-import java.awt.color.ICC_ColorSpace;
-import java.awt.color.ICC_Profile;
-import java.io.IOException;
-import java.io.InputStream;
+import jbvb.bwt.color.ColorSpbce;
+import jbvb.bwt.color.ICC_ColorSpbce;
+import jbvb.bwt.color.ICC_Profile;
+import jbvb.io.IOException;
+import jbvb.io.InputStrebm;
 
-public class CMMTests extends Test {
+public clbss CMMTests extends Test {
 
-    protected static Group cmmRoot;
-    protected static Group cmmOptRoot;
-    protected static Option csList;
-    protected static Option usePlatfromProfiles;
+    protected stbtic Group cmmRoot;
+    protected stbtic Group cmmOptRoot;
+    protected stbtic Option csList;
+    protected stbtic Option usePlbtfromProfiles;
 
-    public static void init() {
-        cmmRoot = new Group("cmm", "Color Management Benchmarks");
-        cmmRoot.setTabbed();
+    public stbtic void init() {
+        cmmRoot = new Group("cmm", "Color Mbnbgement Benchmbrks");
+        cmmRoot.setTbbbed();
 
-        cmmOptRoot = new Group(cmmRoot, "opts", "General Options");
+        cmmOptRoot = new Group(cmmRoot, "opts", "Generbl Options");
 
         /*
-        usePlatfromProfiles =
-                new Option.Enable(cmmOptRoot, "csPlatfrom",
-                        "Use Platfrom Profiles", false);
+        usePlbtfromProfiles =
+                new Option.Enbble(cmmOptRoot, "csPlbtfrom",
+                        "Use Plbtfrom Profiles", fblse);
         */
-        int[] colorspaces = new int[] {
-            ColorSpace.CS_sRGB,
-            ColorSpace.CS_GRAY,
-            ColorSpace.CS_LINEAR_RGB,
-            ColorSpace.CS_CIEXYZ
+        int[] colorspbces = new int[] {
+            ColorSpbce.CS_sRGB,
+            ColorSpbce.CS_GRAY,
+            ColorSpbce.CS_LINEAR_RGB,
+            ColorSpbce.CS_CIEXYZ
         };
 
-        String[] csNames = new String[]{
+        String[] csNbmes = new String[]{
             "CS_sRGB",
             "CS_GRAY",
             "CS_LINEAR_RGB",
@@ -84,70 +84,70 @@ public class CMMTests extends Test {
 
         csList = new Option.IntList(cmmOptRoot,
                 "profiles", "Color Profiles",
-                colorspaces, csNames, csNames, 0x8);
+                colorspbces, csNbmes, csNbmes, 0x8);
 
         ColorConversionTests.init();
         ProfileTests.init();
     }
 
-    protected static ColorSpace getColorSpace(TestEnvironment env) {
-        ColorSpace cs;
-        Boolean usePlatfrom = true; //(Boolean)env.getModifier(usePlatfromProfiles);
+    protected stbtic ColorSpbce getColorSpbce(TestEnvironment env) {
+        ColorSpbce cs;
+        Boolebn usePlbtfrom = true; //(Boolebn)env.getModifier(usePlbtfromProfiles);
 
-        int cs_code = env.getIntValue(csList);
-        if (usePlatfrom) {
-            cs = ColorSpace.getInstance(cs_code);
+        int cs_code = env.getIntVblue(csList);
+        if (usePlbtfrom) {
+            cs = ColorSpbce.getInstbnce(cs_code);
         } else {
             String resource = "profiles/";
             switch (cs_code) {
-                case ColorSpace.CS_CIEXYZ:
+                cbse ColorSpbce.CS_CIEXYZ:
                     resource += "CIEXYZ.pf";
-                    break;
-                case ColorSpace.CS_GRAY:
+                    brebk;
+                cbse ColorSpbce.CS_GRAY:
                     resource += "GRAY.pf";
-                    break;
-                case ColorSpace.CS_LINEAR_RGB:
+                    brebk;
+                cbse ColorSpbce.CS_LINEAR_RGB:
                     resource += "LINEAR_RGB.pf";
-                    break;
-                case ColorSpace.CS_PYCC:
+                    brebk;
+                cbse ColorSpbce.CS_PYCC:
                     resource += "PYCC.pf";
-                    break;
-                case ColorSpace.CS_sRGB:
+                    brebk;
+                cbse ColorSpbce.CS_sRGB:
                     resource += "sRGB.pf";
-                    break;
-                default:
-                    throw new RuntimeException("Unknown color space: " + cs_code);
+                    brebk;
+                defbult:
+                    throw new RuntimeException("Unknown color spbce: " + cs_code);
             }
 
             try {
-                InputStream is = CMMTests.class.getResourceAsStream(resource);
-                ICC_Profile p = ICC_Profile.getInstance(is);
+                InputStrebm is = CMMTests.clbss.getResourceAsStrebm(resource);
+                ICC_Profile p = ICC_Profile.getInstbnce(is);
 
-                cs = new ICC_ColorSpace(p);
-            } catch (IOException e) {
-                throw new RuntimeException("Unable load profile from resource " + resource, e);
+                cs = new ICC_ColorSpbce(p);
+            } cbtch (IOException e) {
+                throw new RuntimeException("Unbble lobd profile from resource " + resource, e);
             }
         }
         return cs;
     }
 
-    protected CMMTests(Group parent, String nodeName, String description) {
-        super(parent, nodeName, description);
-        addDependencies(cmmOptRoot, true);
+    protected CMMTests(Group pbrent, String nodeNbme, String description) {
+        super(pbrent, nodeNbme, description);
+        bddDependencies(cmmOptRoot, true);
     }
 
     @Override
     public Object initTest(TestEnvironment te, Result result) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedOperbtionException("Not supported yet.");
     }
 
     @Override
     public void runTest(Object o, int i) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedOperbtionException("Not supported yet.");
     }
 
     @Override
-    public void cleanupTest(TestEnvironment te, Object o) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void clebnupTest(TestEnvironment te, Object o) {
+        throw new UnsupportedOperbtionException("Not supported yet.");
     }
 }

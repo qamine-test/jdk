@@ -1,654 +1,654 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-#warn This file is preprocessed before being compiled
+#wbrn This file is preprocessed before being compiled
 
-package java.nio;
+pbckbge jbvb.nio;
 
-#if[char]
-import java.io.IOException;
-#end[char]
-#if[streamableType]
-import java.util.Spliterator;
-import java.util.stream.StreamSupport;
-import java.util.stream.$Streamtype$Stream;
-#end[streamableType]
+#if[chbr]
+import jbvb.io.IOException;
+#end[chbr]
+#if[strebmbbleType]
+import jbvb.util.Spliterbtor;
+import jbvb.util.strebm.StrebmSupport;
+import jbvb.util.strebm.$Strebmtype$Strebm;
+#end[strebmbbleType]
 
 /**
  * $A$ $type$ buffer.
  *
- * <p> This class defines {#if[byte]?six:four} categories of operations upon
+ * <p> This clbss defines {#if[byte]?six:four} cbtegories of operbtions upon
  * $type$ buffers:
  *
  * <ul>
  *
- *   <li><p> Absolute and relative {@link #get() <i>get</i>} and
- *   {@link #put($type$) <i>put</i>} methods that read and write
+ *   <li><p> Absolute bnd relbtive {@link #get() <i>get</i>} bnd
+ *   {@link #put($type$) <i>put</i>} methods thbt rebd bnd write
  *   single $type$s; </p></li>
  *
- *   <li><p> Relative {@link #get($type$[]) <i>bulk get</i>}
- *   methods that transfer contiguous sequences of $type$s from this buffer
- *   into an array; {#if[!byte]?and}</p></li>
+ *   <li><p> Relbtive {@link #get($type$[]) <i>bulk get</i>}
+ *   methods thbt trbnsfer contiguous sequences of $type$s from this buffer
+ *   into bn brrby; {#if[!byte]?bnd}</p></li>
  *
- *   <li><p> Relative {@link #put($type$[]) <i>bulk put</i>}
- *   methods that transfer contiguous sequences of $type$s from $a$
- *   $type$ array{#if[char]?,&#32;a&#32;string,} or some other $type$
- *   buffer into this buffer;{#if[!byte]?&#32;and} </p></li>
+ *   <li><p> Relbtive {@link #put($type$[]) <i>bulk put</i>}
+ *   methods thbt trbnsfer contiguous sequences of $type$s from $b$
+ *   $type$ brrby{#if[chbr]?,&#32;b&#32;string,} or some other $type$
+ *   buffer into this buffer;{#if[!byte]?&#32;bnd} </p></li>
  *
 #if[byte]
  *
- *   <li><p> Absolute and relative {@link #getChar() <i>get</i>}
- *   and {@link #putChar(char) <i>put</i>} methods that read and
- *   write values of other primitive types, translating them to and from
- *   sequences of bytes in a particular byte order; </p></li>
+ *   <li><p> Absolute bnd relbtive {@link #getChbr() <i>get</i>}
+ *   bnd {@link #putChbr(chbr) <i>put</i>} methods thbt rebd bnd
+ *   write vblues of other primitive types, trbnslbting them to bnd from
+ *   sequences of bytes in b pbrticulbr byte order; </p></li>
  *
- *   <li><p> Methods for creating <i><a href="#views">view buffers</a></i>,
- *   which allow a byte buffer to be viewed as a buffer containing values of
- *   some other primitive type; and </p></li>
+ *   <li><p> Methods for crebting <i><b href="#views">view buffers</b></i>,
+ *   which bllow b byte buffer to be viewed bs b buffer contbining vblues of
+ *   some other primitive type; bnd </p></li>
  *
 #end[byte]
  *
- *   <li><p> Methods for {@link #compact compacting}, {@link
- *   #duplicate duplicating}, and {@link #slice slicing}
- *   $a$ $type$ buffer.  </p></li>
+ *   <li><p> Methods for {@link #compbct compbcting}, {@link
+ *   #duplicbte duplicbting}, bnd {@link #slice slicing}
+ *   $b$ $type$ buffer.  </p></li>
  *
  * </ul>
  *
- * <p> $Type$ buffers can be created either by {@link #allocate
- * <i>allocation</i>}, which allocates space for the buffer's
+ * <p> $Type$ buffers cbn be crebted either by {@link #bllocbte
+ * <i>bllocbtion</i>}, which bllocbtes spbce for the buffer's
  *
 #if[byte]
  *
- * content, or by {@link #wrap($type$[]) <i>wrapping</i>} an
- * existing $type$ array {#if[char]?or&#32;string} into a buffer.
+ * content, or by {@link #wrbp($type$[]) <i>wrbpping</i>} bn
+ * existing $type$ brrby {#if[chbr]?or&#32;string} into b buffer.
  *
 #else[byte]
  *
- * content, by {@link #wrap($type$[]) <i>wrapping</i>} an existing
- * $type$ array {#if[char]?or&#32;string} into a buffer, or by creating a
- * <a href="ByteBuffer.html#views"><i>view</i></a> of an existing byte buffer.
+ * content, by {@link #wrbp($type$[]) <i>wrbpping</i>} bn existing
+ * $type$ brrby {#if[chbr]?or&#32;string} into b buffer, or by crebting b
+ * <b href="ByteBuffer.html#views"><i>view</i></b> of bn existing byte buffer.
  *
 #end[byte]
  *
 #if[byte]
  *
- * <a name="direct"></a>
+ * <b nbme="direct"></b>
  * <h2> Direct <i>vs.</i> non-direct buffers </h2>
  *
- * <p> A byte buffer is either <i>direct</i> or <i>non-direct</i>.  Given a
- * direct byte buffer, the Java virtual machine will make a best effort to
- * perform native I/O operations directly upon it.  That is, it will attempt to
- * avoid copying the buffer's content to (or from) an intermediate buffer
- * before (or after) each invocation of one of the underlying operating
- * system's native I/O operations.
+ * <p> A byte buffer is either <i>direct</i> or <i>non-direct</i>.  Given b
+ * direct byte buffer, the Jbvb virtubl mbchine will mbke b best effort to
+ * perform nbtive I/O operbtions directly upon it.  Thbt is, it will bttempt to
+ * bvoid copying the buffer's content to (or from) bn intermedibte buffer
+ * before (or bfter) ebch invocbtion of one of the underlying operbting
+ * system's nbtive I/O operbtions.
  *
- * <p> A direct byte buffer may be created by invoking the {@link
- * #allocateDirect(int) allocateDirect} factory method of this class.  The
- * buffers returned by this method typically have somewhat higher allocation
- * and deallocation costs than non-direct buffers.  The contents of direct
- * buffers may reside outside of the normal garbage-collected heap, and so
- * their impact upon the memory footprint of an application might not be
- * obvious.  It is therefore recommended that direct buffers be allocated
- * primarily for large, long-lived buffers that are subject to the underlying
- * system's native I/O operations.  In general it is best to allocate direct
- * buffers only when they yield a measureable gain in program performance.
+ * <p> A direct byte buffer mby be crebted by invoking the {@link
+ * #bllocbteDirect(int) bllocbteDirect} fbctory method of this clbss.  The
+ * buffers returned by this method typicblly hbve somewhbt higher bllocbtion
+ * bnd debllocbtion costs thbn non-direct buffers.  The contents of direct
+ * buffers mby reside outside of the normbl gbrbbge-collected hebp, bnd so
+ * their impbct upon the memory footprint of bn bpplicbtion might not be
+ * obvious.  It is therefore recommended thbt direct buffers be bllocbted
+ * primbrily for lbrge, long-lived buffers thbt bre subject to the underlying
+ * system's nbtive I/O operbtions.  In generbl it is best to bllocbte direct
+ * buffers only when they yield b mebsurebble gbin in progrbm performbnce.
  *
- * <p> A direct byte buffer may also be created by {@link
- * java.nio.channels.FileChannel#map mapping} a region of a file
- * directly into memory.  An implementation of the Java platform may optionally
- * support the creation of direct byte buffers from native code via JNI.  If an
- * instance of one of these kinds of buffers refers to an inaccessible region
- * of memory then an attempt to access that region will not change the buffer's
- * content and will cause an unspecified exception to be thrown either at the
- * time of the access or at some later time.
+ * <p> A direct byte buffer mby blso be crebted by {@link
+ * jbvb.nio.chbnnels.FileChbnnel#mbp mbpping} b region of b file
+ * directly into memory.  An implementbtion of the Jbvb plbtform mby optionblly
+ * support the crebtion of direct byte buffers from nbtive code vib JNI.  If bn
+ * instbnce of one of these kinds of buffers refers to bn inbccessible region
+ * of memory then bn bttempt to bccess thbt region will not chbnge the buffer's
+ * content bnd will cbuse bn unspecified exception to be thrown either bt the
+ * time of the bccess or bt some lbter time.
  *
- * <p> Whether a byte buffer is direct or non-direct may be determined by
+ * <p> Whether b byte buffer is direct or non-direct mby be determined by
  * invoking its {@link #isDirect isDirect} method.  This method is provided so
- * that explicit buffer management can be done in performance-critical code.
+ * thbt explicit buffer mbnbgement cbn be done in performbnce-criticbl code.
  *
  *
- * <a name="bin"></a>
- * <h2> Access to binary data </h2>
+ * <b nbme="bin"></b>
+ * <h2> Access to binbry dbtb </h2>
  *
- * <p> This class defines methods for reading and writing values of all other
- * primitive types, except <tt>boolean</tt>.  Primitive values are translated
- * to (or from) sequences of bytes according to the buffer's current byte
- * order, which may be retrieved and modified via the {@link #order order}
- * methods.  Specific byte orders are represented by instances of the {@link
- * ByteOrder} class.  The initial order of a byte buffer is always {@link
+ * <p> This clbss defines methods for rebding bnd writing vblues of bll other
+ * primitive types, except <tt>boolebn</tt>.  Primitive vblues bre trbnslbted
+ * to (or from) sequences of bytes bccording to the buffer's current byte
+ * order, which mby be retrieved bnd modified vib the {@link #order order}
+ * methods.  Specific byte orders bre represented by instbnces of the {@link
+ * ByteOrder} clbss.  The initibl order of b byte buffer is blwbys {@link
  * ByteOrder#BIG_ENDIAN BIG_ENDIAN}.
  *
- * <p> For access to heterogeneous binary data, that is, sequences of values of
- * different types, this class defines a family of absolute and relative
- * <i>get</i> and <i>put</i> methods for each type.  For 32-bit floating-point
- * values, for example, this class defines:
+ * <p> For bccess to heterogeneous binbry dbtb, thbt is, sequences of vblues of
+ * different types, this clbss defines b fbmily of bbsolute bnd relbtive
+ * <i>get</i> bnd <i>put</i> methods for ebch type.  For 32-bit flobting-point
+ * vblues, for exbmple, this clbss defines:
  *
  * <blockquote><pre>
- * float  {@link #getFloat()}
- * float  {@link #getFloat(int) getFloat(int index)}
- *  void  {@link #putFloat(float) putFloat(float f)}
- *  void  {@link #putFloat(int,float) putFloat(int index, float f)}</pre></blockquote>
+ * flobt  {@link #getFlobt()}
+ * flobt  {@link #getFlobt(int) getFlobt(int index)}
+ *  void  {@link #putFlobt(flobt) putFlobt(flobt f)}
+ *  void  {@link #putFlobt(int,flobt) putFlobt(int index, flobt f)}</pre></blockquote>
  *
- * <p> Corresponding methods are defined for the types <tt>char</tt>,
- * <tt>short</tt>, <tt>int</tt>, <tt>long</tt>, and <tt>double</tt>.  The index
- * parameters of the absolute <i>get</i> and <i>put</i> methods are in terms of
- * bytes rather than of the type being read or written.
+ * <p> Corresponding methods bre defined for the types <tt>chbr</tt>,
+ * <tt>short</tt>, <tt>int</tt>, <tt>long</tt>, bnd <tt>double</tt>.  The index
+ * pbrbmeters of the bbsolute <i>get</i> bnd <i>put</i> methods bre in terms of
+ * bytes rbther thbn of the type being rebd or written.
  *
- * <a name="views"></a>
+ * <b nbme="views"></b>
  *
- * <p> For access to homogeneous binary data, that is, sequences of values of
- * the same type, this class defines methods that can create <i>views</i> of a
- * given byte buffer.  A <i>view buffer</i> is simply another buffer whose
- * content is backed by the byte buffer.  Changes to the byte buffer's content
- * will be visible in the view buffer, and vice versa; the two buffers'
- * position, limit, and mark values are independent.  The {@link
- * #asFloatBuffer() asFloatBuffer} method, for example, creates an instance of
- * the {@link FloatBuffer} class that is backed by the byte buffer upon which
- * the method is invoked.  Corresponding view-creation methods are defined for
- * the types <tt>char</tt>, <tt>short</tt>, <tt>int</tt>, <tt>long</tt>, and
+ * <p> For bccess to homogeneous binbry dbtb, thbt is, sequences of vblues of
+ * the sbme type, this clbss defines methods thbt cbn crebte <i>views</i> of b
+ * given byte buffer.  A <i>view buffer</i> is simply bnother buffer whose
+ * content is bbcked by the byte buffer.  Chbnges to the byte buffer's content
+ * will be visible in the view buffer, bnd vice versb; the two buffers'
+ * position, limit, bnd mbrk vblues bre independent.  The {@link
+ * #bsFlobtBuffer() bsFlobtBuffer} method, for exbmple, crebtes bn instbnce of
+ * the {@link FlobtBuffer} clbss thbt is bbcked by the byte buffer upon which
+ * the method is invoked.  Corresponding view-crebtion methods bre defined for
+ * the types <tt>chbr</tt>, <tt>short</tt>, <tt>int</tt>, <tt>long</tt>, bnd
  * <tt>double</tt>.
  *
- * <p> View buffers have three important advantages over the families of
- * type-specific <i>get</i> and <i>put</i> methods described above:
+ * <p> View buffers hbve three importbnt bdvbntbges over the fbmilies of
+ * type-specific <i>get</i> bnd <i>put</i> methods described bbove:
  *
  * <ul>
  *
- *   <li><p> A view buffer is indexed not in terms of bytes but rather in terms
- *   of the type-specific size of its values;  </p></li>
+ *   <li><p> A view buffer is indexed not in terms of bytes but rbther in terms
+ *   of the type-specific size of its vblues;  </p></li>
  *
- *   <li><p> A view buffer provides relative bulk <i>get</i> and <i>put</i>
- *   methods that can transfer contiguous sequences of values between a buffer
- *   and an array or some other buffer of the same type; and  </p></li>
+ *   <li><p> A view buffer provides relbtive bulk <i>get</i> bnd <i>put</i>
+ *   methods thbt cbn trbnsfer contiguous sequences of vblues between b buffer
+ *   bnd bn brrby or some other buffer of the sbme type; bnd  </p></li>
  *
- *   <li><p> A view buffer is potentially much more efficient because it will
- *   be direct if, and only if, its backing byte buffer is direct.  </p></li>
+ *   <li><p> A view buffer is potentiblly much more efficient becbuse it will
+ *   be direct if, bnd only if, its bbcking byte buffer is direct.  </p></li>
  *
  * </ul>
  *
- * <p> The byte order of a view buffer is fixed to be that of its byte buffer
- * at the time that the view is created.  </p>
+ * <p> The byte order of b view buffer is fixed to be thbt of its byte buffer
+ * bt the time thbt the view is crebted.  </p>
  *
 #end[byte]
 *
 #if[!byte]
  *
- * <p> Like a byte buffer, $a$ $type$ buffer is either <a
- * href="ByteBuffer.html#direct"><i>direct</i> or <i>non-direct</i></a>.  A
- * $type$ buffer created via the <tt>wrap</tt> methods of this class will
- * be non-direct.  $A$ $type$ buffer created as a view of a byte buffer will
- * be direct if, and only if, the byte buffer itself is direct.  Whether or not
- * $a$ $type$ buffer is direct may be determined by invoking the {@link
+ * <p> Like b byte buffer, $b$ $type$ buffer is either <b
+ * href="ByteBuffer.html#direct"><i>direct</i> or <i>non-direct</i></b>.  A
+ * $type$ buffer crebted vib the <tt>wrbp</tt> methods of this clbss will
+ * be non-direct.  $A$ $type$ buffer crebted bs b view of b byte buffer will
+ * be direct if, bnd only if, the byte buffer itself is direct.  Whether or not
+ * $b$ $type$ buffer is direct mby be determined by invoking the {@link
  * #isDirect isDirect} method.  </p>
  *
 #end[!byte]
 *
-#if[char]
+#if[chbr]
  *
- * <p> This class implements the {@link CharSequence} interface so that
- * character buffers may be used wherever character sequences are accepted, for
- * example in the regular-expression package <tt>{@link java.util.regex}</tt>.
+ * <p> This clbss implements the {@link ChbrSequence} interfbce so thbt
+ * chbrbcter buffers mby be used wherever chbrbcter sequences bre bccepted, for
+ * exbmple in the regulbr-expression pbckbge <tt>{@link jbvb.util.regex}</tt>.
  * </p>
  *
-#end[char]
+#end[chbr]
  *
 #if[byte]
- * <h2> Invocation chaining </h2>
+ * <h2> Invocbtion chbining </h2>
 #end[byte]
  *
- * <p> Methods in this class that do not otherwise have a value to return are
- * specified to return the buffer upon which they are invoked.  This allows
- * method invocations to be chained.
+ * <p> Methods in this clbss thbt do not otherwise hbve b vblue to return bre
+ * specified to return the buffer upon which they bre invoked.  This bllows
+ * method invocbtions to be chbined.
  *
 #if[byte]
  *
- * The sequence of statements
+ * The sequence of stbtements
  *
  * <blockquote><pre>
  * bb.putInt(0xCAFEBABE);
  * bb.putShort(3);
  * bb.putShort(45);</pre></blockquote>
  *
- * can, for example, be replaced by the single statement
+ * cbn, for exbmple, be replbced by the single stbtement
  *
  * <blockquote><pre>
  * bb.putInt(0xCAFEBABE).putShort(3).putShort(45);</pre></blockquote>
  *
 #end[byte]
-#if[char]
+#if[chbr]
  *
- * The sequence of statements
+ * The sequence of stbtements
  *
  * <blockquote><pre>
  * cb.put("text/");
  * cb.put(subtype);
- * cb.put("; charset=");
+ * cb.put("; chbrset=");
  * cb.put(enc);</pre></blockquote>
  *
- * can, for example, be replaced by the single statement
+ * cbn, for exbmple, be replbced by the single stbtement
  *
  * <blockquote><pre>
- * cb.put("text/").put(subtype).put("; charset=").put(enc);</pre></blockquote>
+ * cb.put("text/").put(subtype).put("; chbrset=").put(enc);</pre></blockquote>
  *
-#end[char]
+#end[chbr]
  *
  *
- * @author Mark Reinhold
- * @author JSR-51 Expert Group
+ * @buthor Mbrk Reinhold
+ * @buthor JSR-51 Expert Group
  * @since 1.4
  */
 
-public abstract class $Type$Buffer
+public bbstrbct clbss $Type$Buffer
     extends Buffer
-    implements Comparable<$Type$Buffer>{#if[char]?, Appendable, CharSequence, Readable}
+    implements Compbrbble<$Type$Buffer>{#if[chbr]?, Appendbble, ChbrSequence, Rebdbble}
 {
 
-    // These fields are declared here rather than in Heap-X-Buffer in order to
-    // reduce the number of virtual method invocations needed to access these
-    // values, which is especially costly when coding small buffers.
+    // These fields bre declbred here rbther thbn in Hebp-X-Buffer in order to
+    // reduce the number of virtubl method invocbtions needed to bccess these
+    // vblues, which is especiblly costly when coding smbll buffers.
     //
-    final $type$[] hb;                  // Non-null only for heap buffers
-    final int offset;
-    boolean isReadOnly;                 // Valid only for heap buffers
+    finbl $type$[] hb;                  // Non-null only for hebp buffers
+    finbl int offset;
+    boolebn isRebdOnly;                 // Vblid only for hebp buffers
 
-    // Creates a new buffer with the given mark, position, limit, capacity,
-    // backing array, and array offset
+    // Crebtes b new buffer with the given mbrk, position, limit, cbpbcity,
+    // bbcking brrby, bnd brrby offset
     //
-    $Type$Buffer(int mark, int pos, int lim, int cap,   // package-private
+    $Type$Buffer(int mbrk, int pos, int lim, int cbp,   // pbckbge-privbte
                  $type$[] hb, int offset)
     {
-        super(mark, pos, lim, cap);
+        super(mbrk, pos, lim, cbp);
         this.hb = hb;
         this.offset = offset;
     }
 
-    // Creates a new buffer with the given mark, position, limit, and capacity
+    // Crebtes b new buffer with the given mbrk, position, limit, bnd cbpbcity
     //
-    $Type$Buffer(int mark, int pos, int lim, int cap) { // package-private
-        this(mark, pos, lim, cap, null, 0);
+    $Type$Buffer(int mbrk, int pos, int lim, int cbp) { // pbckbge-privbte
+        this(mbrk, pos, lim, cbp, null, 0);
     }
 
 #if[byte]
 
     /**
-     * Allocates a new direct $type$ buffer.
+     * Allocbtes b new direct $type$ buffer.
      *
      * <p> The new buffer's position will be zero, its limit will be its
-     * capacity, its mark will be undefined, and each of its elements will be
-     * initialized to zero.  Whether or not it has a
-     * {@link #hasArray backing array} is unspecified.
+     * cbpbcity, its mbrk will be undefined, bnd ebch of its elements will be
+     * initiblized to zero.  Whether or not it hbs b
+     * {@link #hbsArrby bbcking brrby} is unspecified.
      *
-     * @param  capacity
-     *         The new buffer's capacity, in $type$s
+     * @pbrbm  cbpbcity
+     *         The new buffer's cbpbcity, in $type$s
      *
      * @return  The new $type$ buffer
      *
-     * @throws  IllegalArgumentException
-     *          If the <tt>capacity</tt> is a negative integer
+     * @throws  IllegblArgumentException
+     *          If the <tt>cbpbcity</tt> is b negbtive integer
      */
-    public static $Type$Buffer allocateDirect(int capacity) {
-        return new Direct$Type$Buffer(capacity);
+    public stbtic $Type$Buffer bllocbteDirect(int cbpbcity) {
+        return new Direct$Type$Buffer(cbpbcity);
     }
 
 #end[byte]
 
     /**
-     * Allocates a new $type$ buffer.
+     * Allocbtes b new $type$ buffer.
      *
      * <p> The new buffer's position will be zero, its limit will be its
-     * capacity, its mark will be undefined, and each of its elements will be
-     * initialized to zero.  It will have a {@link #array backing array},
-     * and its {@link #arrayOffset array offset} will be zero.
+     * cbpbcity, its mbrk will be undefined, bnd ebch of its elements will be
+     * initiblized to zero.  It will hbve b {@link #brrby bbcking brrby},
+     * bnd its {@link #brrbyOffset brrby offset} will be zero.
      *
-     * @param  capacity
-     *         The new buffer's capacity, in $type$s
+     * @pbrbm  cbpbcity
+     *         The new buffer's cbpbcity, in $type$s
      *
      * @return  The new $type$ buffer
      *
-     * @throws  IllegalArgumentException
-     *          If the <tt>capacity</tt> is a negative integer
+     * @throws  IllegblArgumentException
+     *          If the <tt>cbpbcity</tt> is b negbtive integer
      */
-    public static $Type$Buffer allocate(int capacity) {
-        if (capacity < 0)
-            throw new IllegalArgumentException();
-        return new Heap$Type$Buffer(capacity, capacity);
+    public stbtic $Type$Buffer bllocbte(int cbpbcity) {
+        if (cbpbcity < 0)
+            throw new IllegblArgumentException();
+        return new Hebp$Type$Buffer(cbpbcity, cbpbcity);
     }
 
     /**
-     * Wraps $a$ $type$ array into a buffer.
+     * Wrbps $b$ $type$ brrby into b buffer.
      *
-     * <p> The new buffer will be backed by the given $type$ array;
-     * that is, modifications to the buffer will cause the array to be modified
-     * and vice versa.  The new buffer's capacity will be
-     * <tt>array.length</tt>, its position will be <tt>offset</tt>, its limit
-     * will be <tt>offset + length</tt>, and its mark will be undefined.  Its
-     * {@link #array backing array} will be the given array, and
-     * its {@link #arrayOffset array offset} will be zero.  </p>
+     * <p> The new buffer will be bbcked by the given $type$ brrby;
+     * thbt is, modificbtions to the buffer will cbuse the brrby to be modified
+     * bnd vice versb.  The new buffer's cbpbcity will be
+     * <tt>brrby.length</tt>, its position will be <tt>offset</tt>, its limit
+     * will be <tt>offset + length</tt>, bnd its mbrk will be undefined.  Its
+     * {@link #brrby bbcking brrby} will be the given brrby, bnd
+     * its {@link #brrbyOffset brrby offset} will be zero.  </p>
      *
-     * @param  array
-     *         The array that will back the new buffer
+     * @pbrbm  brrby
+     *         The brrby thbt will bbck the new buffer
      *
-     * @param  offset
-     *         The offset of the subarray to be used; must be non-negative and
-     *         no larger than <tt>array.length</tt>.  The new buffer's position
-     *         will be set to this value.
+     * @pbrbm  offset
+     *         The offset of the subbrrby to be used; must be non-negbtive bnd
+     *         no lbrger thbn <tt>brrby.length</tt>.  The new buffer's position
+     *         will be set to this vblue.
      *
-     * @param  length
-     *         The length of the subarray to be used;
-     *         must be non-negative and no larger than
-     *         <tt>array.length - offset</tt>.
+     * @pbrbm  length
+     *         The length of the subbrrby to be used;
+     *         must be non-negbtive bnd no lbrger thbn
+     *         <tt>brrby.length - offset</tt>.
      *         The new buffer's limit will be set to <tt>offset + length</tt>.
      *
      * @return  The new $type$ buffer
      *
      * @throws  IndexOutOfBoundsException
-     *          If the preconditions on the <tt>offset</tt> and <tt>length</tt>
-     *          parameters do not hold
+     *          If the preconditions on the <tt>offset</tt> bnd <tt>length</tt>
+     *          pbrbmeters do not hold
      */
-    public static $Type$Buffer wrap($type$[] array,
+    public stbtic $Type$Buffer wrbp($type$[] brrby,
                                     int offset, int length)
     {
         try {
-            return new Heap$Type$Buffer(array, offset, length);
-        } catch (IllegalArgumentException x) {
+            return new Hebp$Type$Buffer(brrby, offset, length);
+        } cbtch (IllegblArgumentException x) {
             throw new IndexOutOfBoundsException();
         }
     }
 
     /**
-     * Wraps $a$ $type$ array into a buffer.
+     * Wrbps $b$ $type$ brrby into b buffer.
      *
-     * <p> The new buffer will be backed by the given $type$ array;
-     * that is, modifications to the buffer will cause the array to be modified
-     * and vice versa.  The new buffer's capacity and limit will be
-     * <tt>array.length</tt>, its position will be zero, and its mark will be
-     * undefined.  Its {@link #array backing array} will be the
-     * given array, and its {@link #arrayOffset array offset>} will
+     * <p> The new buffer will be bbcked by the given $type$ brrby;
+     * thbt is, modificbtions to the buffer will cbuse the brrby to be modified
+     * bnd vice versb.  The new buffer's cbpbcity bnd limit will be
+     * <tt>brrby.length</tt>, its position will be zero, bnd its mbrk will be
+     * undefined.  Its {@link #brrby bbcking brrby} will be the
+     * given brrby, bnd its {@link #brrbyOffset brrby offset>} will
      * be zero.  </p>
      *
-     * @param  array
-     *         The array that will back this buffer
+     * @pbrbm  brrby
+     *         The brrby thbt will bbck this buffer
      *
      * @return  The new $type$ buffer
      */
-    public static $Type$Buffer wrap($type$[] array) {
-        return wrap(array, 0, array.length);
+    public stbtic $Type$Buffer wrbp($type$[] brrby) {
+        return wrbp(brrby, 0, brrby.length);
     }
 
-#if[char]
+#if[chbr]
 
     /**
-     * Attempts to read characters into the specified character buffer.
-     * The buffer is used as a repository of characters as-is: the only
-     * changes made are the results of a put operation. No flipping or
+     * Attempts to rebd chbrbcters into the specified chbrbcter buffer.
+     * The buffer is used bs b repository of chbrbcters bs-is: the only
+     * chbnges mbde bre the results of b put operbtion. No flipping or
      * rewinding of the buffer is performed.
      *
-     * @param target the buffer to read characters into
-     * @return The number of characters added to the buffer, or
-     *         -1 if this source of characters is at its end
-     * @throws IOException if an I/O error occurs
-     * @throws NullPointerException if target is null
-     * @throws ReadOnlyBufferException if target is a read only buffer
+     * @pbrbm tbrget the buffer to rebd chbrbcters into
+     * @return The number of chbrbcters bdded to the buffer, or
+     *         -1 if this source of chbrbcters is bt its end
+     * @throws IOException if bn I/O error occurs
+     * @throws NullPointerException if tbrget is null
+     * @throws RebdOnlyBufferException if tbrget is b rebd only buffer
      * @since 1.5
      */
-    public int read(CharBuffer target) throws IOException {
-        // Determine the number of bytes n that can be transferred
-        int targetRemaining = target.remaining();
-        int remaining = remaining();
-        if (remaining == 0)
+    public int rebd(ChbrBuffer tbrget) throws IOException {
+        // Determine the number of bytes n thbt cbn be trbnsferred
+        int tbrgetRembining = tbrget.rembining();
+        int rembining = rembining();
+        if (rembining == 0)
             return -1;
-        int n = Math.min(remaining, targetRemaining);
+        int n = Mbth.min(rembining, tbrgetRembining);
         int limit = limit();
-        // Set source limit to prevent target overflow
-        if (targetRemaining < remaining)
+        // Set source limit to prevent tbrget overflow
+        if (tbrgetRembining < rembining)
             limit(position() + n);
         try {
             if (n > 0)
-                target.put(this);
-        } finally {
-            limit(limit); // restore real limit
+                tbrget.put(this);
+        } finblly {
+            limit(limit); // restore rebl limit
         }
         return n;
     }
 
     /**
-     * Wraps a character sequence into a buffer.
+     * Wrbps b chbrbcter sequence into b buffer.
      *
-     * <p> The content of the new, read-only buffer will be the content of the
-     * given character sequence.  The buffer's capacity will be
-     * <tt>csq.length()</tt>, its position will be <tt>start</tt>, its limit
-     * will be <tt>end</tt>, and its mark will be undefined.  </p>
+     * <p> The content of the new, rebd-only buffer will be the content of the
+     * given chbrbcter sequence.  The buffer's cbpbcity will be
+     * <tt>csq.length()</tt>, its position will be <tt>stbrt</tt>, its limit
+     * will be <tt>end</tt>, bnd its mbrk will be undefined.  </p>
      *
-     * @param  csq
-     *         The character sequence from which the new character buffer is to
-     *         be created
+     * @pbrbm  csq
+     *         The chbrbcter sequence from which the new chbrbcter buffer is to
+     *         be crebted
      *
-     * @param  start
-     *         The index of the first character to be used;
-     *         must be non-negative and no larger than <tt>csq.length()</tt>.
-     *         The new buffer's position will be set to this value.
+     * @pbrbm  stbrt
+     *         The index of the first chbrbcter to be used;
+     *         must be non-negbtive bnd no lbrger thbn <tt>csq.length()</tt>.
+     *         The new buffer's position will be set to this vblue.
      *
-     * @param  end
-     *         The index of the character following the last character to be
-     *         used; must be no smaller than <tt>start</tt> and no larger
-     *         than <tt>csq.length()</tt>.
-     *         The new buffer's limit will be set to this value.
+     * @pbrbm  end
+     *         The index of the chbrbcter following the lbst chbrbcter to be
+     *         used; must be no smbller thbn <tt>stbrt</tt> bnd no lbrger
+     *         thbn <tt>csq.length()</tt>.
+     *         The new buffer's limit will be set to this vblue.
      *
-     * @return  The new character buffer
+     * @return  The new chbrbcter buffer
      *
      * @throws  IndexOutOfBoundsException
-     *          If the preconditions on the <tt>start</tt> and <tt>end</tt>
-     *          parameters do not hold
+     *          If the preconditions on the <tt>stbrt</tt> bnd <tt>end</tt>
+     *          pbrbmeters do not hold
      */
-    public static CharBuffer wrap(CharSequence csq, int start, int end) {
+    public stbtic ChbrBuffer wrbp(ChbrSequence csq, int stbrt, int end) {
         try {
-            return new StringCharBuffer(csq, start, end);
-        } catch (IllegalArgumentException x) {
+            return new StringChbrBuffer(csq, stbrt, end);
+        } cbtch (IllegblArgumentException x) {
             throw new IndexOutOfBoundsException();
         }
     }
 
     /**
-     * Wraps a character sequence into a buffer.
+     * Wrbps b chbrbcter sequence into b buffer.
      *
-     * <p> The content of the new, read-only buffer will be the content of the
-     * given character sequence.  The new buffer's capacity and limit will be
-     * <tt>csq.length()</tt>, its position will be zero, and its mark will be
+     * <p> The content of the new, rebd-only buffer will be the content of the
+     * given chbrbcter sequence.  The new buffer's cbpbcity bnd limit will be
+     * <tt>csq.length()</tt>, its position will be zero, bnd its mbrk will be
      * undefined.  </p>
      *
-     * @param  csq
-     *         The character sequence from which the new character buffer is to
-     *         be created
+     * @pbrbm  csq
+     *         The chbrbcter sequence from which the new chbrbcter buffer is to
+     *         be crebted
      *
-     * @return  The new character buffer
+     * @return  The new chbrbcter buffer
      */
-    public static CharBuffer wrap(CharSequence csq) {
-        return wrap(csq, 0, csq.length());
+    public stbtic ChbrBuffer wrbp(ChbrSequence csq) {
+        return wrbp(csq, 0, csq.length());
     }
 
-#end[char]
+#end[chbr]
 
     /**
-     * Creates a new $type$ buffer whose content is a shared subsequence of
+     * Crebtes b new $type$ buffer whose content is b shbred subsequence of
      * this buffer's content.
      *
-     * <p> The content of the new buffer will start at this buffer's current
-     * position.  Changes to this buffer's content will be visible in the new
-     * buffer, and vice versa; the two buffers' position, limit, and mark
-     * values will be independent.
+     * <p> The content of the new buffer will stbrt bt this buffer's current
+     * position.  Chbnges to this buffer's content will be visible in the new
+     * buffer, bnd vice versb; the two buffers' position, limit, bnd mbrk
+     * vblues will be independent.
      *
-     * <p> The new buffer's position will be zero, its capacity and its limit
-     * will be the number of $type$s remaining in this buffer, and its mark
-     * will be undefined.  The new buffer will be direct if, and only if, this
-     * buffer is direct, and it will be read-only if, and only if, this buffer
-     * is read-only.  </p>
+     * <p> The new buffer's position will be zero, its cbpbcity bnd its limit
+     * will be the number of $type$s rembining in this buffer, bnd its mbrk
+     * will be undefined.  The new buffer will be direct if, bnd only if, this
+     * buffer is direct, bnd it will be rebd-only if, bnd only if, this buffer
+     * is rebd-only.  </p>
      *
      * @return  The new $type$ buffer
      */
-    public abstract $Type$Buffer slice();
+    public bbstrbct $Type$Buffer slice();
 
     /**
-     * Creates a new $type$ buffer that shares this buffer's content.
+     * Crebtes b new $type$ buffer thbt shbres this buffer's content.
      *
-     * <p> The content of the new buffer will be that of this buffer.  Changes
-     * to this buffer's content will be visible in the new buffer, and vice
-     * versa; the two buffers' position, limit, and mark values will be
+     * <p> The content of the new buffer will be thbt of this buffer.  Chbnges
+     * to this buffer's content will be visible in the new buffer, bnd vice
+     * versb; the two buffers' position, limit, bnd mbrk vblues will be
      * independent.
      *
-     * <p> The new buffer's capacity, limit, position, and mark values will be
-     * identical to those of this buffer.  The new buffer will be direct if,
-     * and only if, this buffer is direct, and it will be read-only if, and
-     * only if, this buffer is read-only.  </p>
+     * <p> The new buffer's cbpbcity, limit, position, bnd mbrk vblues will be
+     * identicbl to those of this buffer.  The new buffer will be direct if,
+     * bnd only if, this buffer is direct, bnd it will be rebd-only if, bnd
+     * only if, this buffer is rebd-only.  </p>
      *
      * @return  The new $type$ buffer
      */
-    public abstract $Type$Buffer duplicate();
+    public bbstrbct $Type$Buffer duplicbte();
 
     /**
-     * Creates a new, read-only $type$ buffer that shares this buffer's
+     * Crebtes b new, rebd-only $type$ buffer thbt shbres this buffer's
      * content.
      *
-     * <p> The content of the new buffer will be that of this buffer.  Changes
+     * <p> The content of the new buffer will be thbt of this buffer.  Chbnges
      * to this buffer's content will be visible in the new buffer; the new
-     * buffer itself, however, will be read-only and will not allow the shared
-     * content to be modified.  The two buffers' position, limit, and mark
-     * values will be independent.
+     * buffer itself, however, will be rebd-only bnd will not bllow the shbred
+     * content to be modified.  The two buffers' position, limit, bnd mbrk
+     * vblues will be independent.
      *
-     * <p> The new buffer's capacity, limit, position, and mark values will be
-     * identical to those of this buffer.
+     * <p> The new buffer's cbpbcity, limit, position, bnd mbrk vblues will be
+     * identicbl to those of this buffer.
      *
-     * <p> If this buffer is itself read-only then this method behaves in
-     * exactly the same way as the {@link #duplicate duplicate} method.  </p>
+     * <p> If this buffer is itself rebd-only then this method behbves in
+     * exbctly the sbme wby bs the {@link #duplicbte duplicbte} method.  </p>
      *
-     * @return  The new, read-only $type$ buffer
+     * @return  The new, rebd-only $type$ buffer
      */
-    public abstract $Type$Buffer asReadOnlyBuffer();
+    public bbstrbct $Type$Buffer bsRebdOnlyBuffer();
 
 
     // -- Singleton get/put methods --
 
     /**
-     * Relative <i>get</i> method.  Reads the $type$ at this buffer's
-     * current position, and then increments the position.
+     * Relbtive <i>get</i> method.  Rebds the $type$ bt this buffer's
+     * current position, bnd then increments the position.
      *
-     * @return  The $type$ at the buffer's current position
+     * @return  The $type$ bt the buffer's current position
      *
      * @throws  BufferUnderflowException
-     *          If the buffer's current position is not smaller than its limit
+     *          If the buffer's current position is not smbller thbn its limit
      */
-    public abstract $type$ get();
+    public bbstrbct $type$ get();
 
     /**
-     * Relative <i>put</i> method&nbsp;&nbsp;<i>(optional operation)</i>.
+     * Relbtive <i>put</i> method&nbsp;&nbsp;<i>(optionbl operbtion)</i>.
      *
-     * <p> Writes the given $type$ into this buffer at the current
-     * position, and then increments the position. </p>
+     * <p> Writes the given $type$ into this buffer bt the current
+     * position, bnd then increments the position. </p>
      *
-     * @param  $x$
+     * @pbrbm  $x$
      *         The $type$ to be written
      *
      * @return  This buffer
      *
      * @throws  BufferOverflowException
-     *          If this buffer's current position is not smaller than its limit
+     *          If this buffer's current position is not smbller thbn its limit
      *
-     * @throws  ReadOnlyBufferException
-     *          If this buffer is read-only
+     * @throws  RebdOnlyBufferException
+     *          If this buffer is rebd-only
      */
-    public abstract $Type$Buffer put($type$ $x$);
+    public bbstrbct $Type$Buffer put($type$ $x$);
 
     /**
-     * Absolute <i>get</i> method.  Reads the $type$ at the given
+     * Absolute <i>get</i> method.  Rebds the $type$ bt the given
      * index.
      *
-     * @param  index
-     *         The index from which the $type$ will be read
+     * @pbrbm  index
+     *         The index from which the $type$ will be rebd
      *
-     * @return  The $type$ at the given index
+     * @return  The $type$ bt the given index
      *
      * @throws  IndexOutOfBoundsException
-     *          If <tt>index</tt> is negative
-     *          or not smaller than the buffer's limit
+     *          If <tt>index</tt> is negbtive
+     *          or not smbller thbn the buffer's limit
      */
-    public abstract $type$ get(int index);
+    public bbstrbct $type$ get(int index);
 
-#if[streamableType]
+#if[strebmbbleType]
     /**
-     * Absolute <i>get</i> method.  Reads the $type$ at the given
-     * index without any validation of the index.
+     * Absolute <i>get</i> method.  Rebds the $type$ bt the given
+     * index without bny vblidbtion of the index.
      *
-     * @param  index
-     *         The index from which the $type$ will be read
+     * @pbrbm  index
+     *         The index from which the $type$ will be rebd
      *
-     * @return  The $type$ at the given index
+     * @return  The $type$ bt the given index
      */
-    abstract $type$ getUnchecked(int index);   // package-private
-#end[streamableType]
+    bbstrbct $type$ getUnchecked(int index);   // pbckbge-privbte
+#end[strebmbbleType]
 
     /**
-     * Absolute <i>put</i> method&nbsp;&nbsp;<i>(optional operation)</i>.
+     * Absolute <i>put</i> method&nbsp;&nbsp;<i>(optionbl operbtion)</i>.
      *
-     * <p> Writes the given $type$ into this buffer at the given
+     * <p> Writes the given $type$ into this buffer bt the given
      * index. </p>
      *
-     * @param  index
-     *         The index at which the $type$ will be written
+     * @pbrbm  index
+     *         The index bt which the $type$ will be written
      *
-     * @param  $x$
-     *         The $type$ value to be written
+     * @pbrbm  $x$
+     *         The $type$ vblue to be written
      *
      * @return  This buffer
      *
      * @throws  IndexOutOfBoundsException
-     *          If <tt>index</tt> is negative
-     *          or not smaller than the buffer's limit
+     *          If <tt>index</tt> is negbtive
+     *          or not smbller thbn the buffer's limit
      *
-     * @throws  ReadOnlyBufferException
-     *          If this buffer is read-only
+     * @throws  RebdOnlyBufferException
+     *          If this buffer is rebd-only
      */
-    public abstract $Type$Buffer put(int index, $type$ $x$);
+    public bbstrbct $Type$Buffer put(int index, $type$ $x$);
 
 
-    // -- Bulk get operations --
+    // -- Bulk get operbtions --
 
     /**
-     * Relative bulk <i>get</i> method.
+     * Relbtive bulk <i>get</i> method.
      *
-     * <p> This method transfers $type$s from this buffer into the given
-     * destination array.  If there are fewer $type$s remaining in the
-     * buffer than are required to satisfy the request, that is, if
-     * <tt>length</tt>&nbsp;<tt>&gt;</tt>&nbsp;<tt>remaining()</tt>, then no
-     * $type$s are transferred and a {@link BufferUnderflowException} is
+     * <p> This method trbnsfers $type$s from this buffer into the given
+     * destinbtion brrby.  If there bre fewer $type$s rembining in the
+     * buffer thbn bre required to sbtisfy the request, thbt is, if
+     * <tt>length</tt>&nbsp;<tt>&gt;</tt>&nbsp;<tt>rembining()</tt>, then no
+     * $type$s bre trbnsferred bnd b {@link BufferUnderflowException} is
      * thrown.
      *
      * <p> Otherwise, this method copies <tt>length</tt> $type$s from this
-     * buffer into the given array, starting at the current position of this
-     * buffer and at the given offset in the array.  The position of this
+     * buffer into the given brrby, stbrting bt the current position of this
+     * buffer bnd bt the given offset in the brrby.  The position of this
      * buffer is then incremented by <tt>length</tt>.
      *
-     * <p> In other words, an invocation of this method of the form
-     * <tt>src.get(dst,&nbsp;off,&nbsp;len)</tt> has exactly the same effect as
+     * <p> In other words, bn invocbtion of this method of the form
+     * <tt>src.get(dst,&nbsp;off,&nbsp;len)</tt> hbs exbctly the sbme effect bs
      * the loop
      *
      * <pre>{@code
@@ -656,35 +656,35 @@ public abstract class $Type$Buffer
      *         dst[i] = src.get():
      * }</pre>
      *
-     * except that it first checks that there are sufficient $type$s in
-     * this buffer and it is potentially much more efficient.
+     * except thbt it first checks thbt there bre sufficient $type$s in
+     * this buffer bnd it is potentiblly much more efficient.
      *
-     * @param  dst
-     *         The array into which $type$s are to be written
+     * @pbrbm  dst
+     *         The brrby into which $type$s bre to be written
      *
-     * @param  offset
-     *         The offset within the array of the first $type$ to be
-     *         written; must be non-negative and no larger than
+     * @pbrbm  offset
+     *         The offset within the brrby of the first $type$ to be
+     *         written; must be non-negbtive bnd no lbrger thbn
      *         <tt>dst.length</tt>
      *
-     * @param  length
-     *         The maximum number of $type$s to be written to the given
-     *         array; must be non-negative and no larger than
+     * @pbrbm  length
+     *         The mbximum number of $type$s to be written to the given
+     *         brrby; must be non-negbtive bnd no lbrger thbn
      *         <tt>dst.length - offset</tt>
      *
      * @return  This buffer
      *
      * @throws  BufferUnderflowException
-     *          If there are fewer than <tt>length</tt> $type$s
-     *          remaining in this buffer
+     *          If there bre fewer thbn <tt>length</tt> $type$s
+     *          rembining in this buffer
      *
      * @throws  IndexOutOfBoundsException
-     *          If the preconditions on the <tt>offset</tt> and <tt>length</tt>
-     *          parameters do not hold
+     *          If the preconditions on the <tt>offset</tt> bnd <tt>length</tt>
+     *          pbrbmeters do not hold
      */
     public $Type$Buffer get($type$[] dst, int offset, int length) {
         checkBounds(offset, length, dst.length);
-        if (length > remaining())
+        if (length > rembining())
             throw new BufferUnderflowException();
         int end = offset + length;
         for (int i = offset; i < end; i++)
@@ -693,79 +693,79 @@ public abstract class $Type$Buffer
     }
 
     /**
-     * Relative bulk <i>get</i> method.
+     * Relbtive bulk <i>get</i> method.
      *
-     * <p> This method transfers $type$s from this buffer into the given
-     * destination array.  An invocation of this method of the form
-     * <tt>src.get(a)</tt> behaves in exactly the same way as the invocation
+     * <p> This method trbnsfers $type$s from this buffer into the given
+     * destinbtion brrby.  An invocbtion of this method of the form
+     * <tt>src.get(b)</tt> behbves in exbctly the sbme wby bs the invocbtion
      *
      * <pre>
-     *     src.get(a, 0, a.length) </pre>
+     *     src.get(b, 0, b.length) </pre>
      *
-     * @param   dst
-     *          The destination array
+     * @pbrbm   dst
+     *          The destinbtion brrby
      *
      * @return  This buffer
      *
      * @throws  BufferUnderflowException
-     *          If there are fewer than <tt>length</tt> $type$s
-     *          remaining in this buffer
+     *          If there bre fewer thbn <tt>length</tt> $type$s
+     *          rembining in this buffer
      */
     public $Type$Buffer get($type$[] dst) {
         return get(dst, 0, dst.length);
     }
 
 
-    // -- Bulk put operations --
+    // -- Bulk put operbtions --
 
     /**
-     * Relative bulk <i>put</i> method&nbsp;&nbsp;<i>(optional operation)</i>.
+     * Relbtive bulk <i>put</i> method&nbsp;&nbsp;<i>(optionbl operbtion)</i>.
      *
-     * <p> This method transfers the $type$s remaining in the given source
-     * buffer into this buffer.  If there are more $type$s remaining in the
-     * source buffer than in this buffer, that is, if
-     * <tt>src.remaining()</tt>&nbsp;<tt>&gt;</tt>&nbsp;<tt>remaining()</tt>,
-     * then no $type$s are transferred and a {@link
+     * <p> This method trbnsfers the $type$s rembining in the given source
+     * buffer into this buffer.  If there bre more $type$s rembining in the
+     * source buffer thbn in this buffer, thbt is, if
+     * <tt>src.rembining()</tt>&nbsp;<tt>&gt;</tt>&nbsp;<tt>rembining()</tt>,
+     * then no $type$s bre trbnsferred bnd b {@link
      * BufferOverflowException} is thrown.
      *
      * <p> Otherwise, this method copies
-     * <i>n</i>&nbsp;=&nbsp;<tt>src.remaining()</tt> $type$s from the given
-     * buffer into this buffer, starting at each buffer's current position.
-     * The positions of both buffers are then incremented by <i>n</i>.
+     * <i>n</i>&nbsp;=&nbsp;<tt>src.rembining()</tt> $type$s from the given
+     * buffer into this buffer, stbrting bt ebch buffer's current position.
+     * The positions of both buffers bre then incremented by <i>n</i>.
      *
-     * <p> In other words, an invocation of this method of the form
-     * <tt>dst.put(src)</tt> has exactly the same effect as the loop
+     * <p> In other words, bn invocbtion of this method of the form
+     * <tt>dst.put(src)</tt> hbs exbctly the sbme effect bs the loop
      *
      * <pre>
-     *     while (src.hasRemaining())
+     *     while (src.hbsRembining())
      *         dst.put(src.get()); </pre>
      *
-     * except that it first checks that there is sufficient space in this
-     * buffer and it is potentially much more efficient.
+     * except thbt it first checks thbt there is sufficient spbce in this
+     * buffer bnd it is potentiblly much more efficient.
      *
-     * @param  src
-     *         The source buffer from which $type$s are to be read;
+     * @pbrbm  src
+     *         The source buffer from which $type$s bre to be rebd;
      *         must not be this buffer
      *
      * @return  This buffer
      *
      * @throws  BufferOverflowException
-     *          If there is insufficient space in this buffer
-     *          for the remaining $type$s in the source buffer
+     *          If there is insufficient spbce in this buffer
+     *          for the rembining $type$s in the source buffer
      *
-     * @throws  IllegalArgumentException
+     * @throws  IllegblArgumentException
      *          If the source buffer is this buffer
      *
-     * @throws  ReadOnlyBufferException
-     *          If this buffer is read-only
+     * @throws  RebdOnlyBufferException
+     *          If this buffer is rebd-only
      */
     public $Type$Buffer put($Type$Buffer src) {
         if (src == this)
-            throw new IllegalArgumentException();
-        if (isReadOnly())
-            throw new ReadOnlyBufferException();
-        int n = src.remaining();
-        if (n > remaining())
+            throw new IllegblArgumentException();
+        if (isRebdOnly())
+            throw new RebdOnlyBufferException();
+        int n = src.rembining();
+        if (n > rembining())
             throw new BufferOverflowException();
         for (int i = 0; i < n; i++)
             put(src.get());
@@ -773,59 +773,59 @@ public abstract class $Type$Buffer
     }
 
     /**
-     * Relative bulk <i>put</i> method&nbsp;&nbsp;<i>(optional operation)</i>.
+     * Relbtive bulk <i>put</i> method&nbsp;&nbsp;<i>(optionbl operbtion)</i>.
      *
-     * <p> This method transfers $type$s into this buffer from the given
-     * source array.  If there are more $type$s to be copied from the array
-     * than remain in this buffer, that is, if
-     * <tt>length</tt>&nbsp;<tt>&gt;</tt>&nbsp;<tt>remaining()</tt>, then no
-     * $type$s are transferred and a {@link BufferOverflowException} is
+     * <p> This method trbnsfers $type$s into this buffer from the given
+     * source brrby.  If there bre more $type$s to be copied from the brrby
+     * thbn rembin in this buffer, thbt is, if
+     * <tt>length</tt>&nbsp;<tt>&gt;</tt>&nbsp;<tt>rembining()</tt>, then no
+     * $type$s bre trbnsferred bnd b {@link BufferOverflowException} is
      * thrown.
      *
      * <p> Otherwise, this method copies <tt>length</tt> $type$s from the
-     * given array into this buffer, starting at the given offset in the array
-     * and at the current position of this buffer.  The position of this buffer
+     * given brrby into this buffer, stbrting bt the given offset in the brrby
+     * bnd bt the current position of this buffer.  The position of this buffer
      * is then incremented by <tt>length</tt>.
      *
-     * <p> In other words, an invocation of this method of the form
-     * <tt>dst.put(src,&nbsp;off,&nbsp;len)</tt> has exactly the same effect as
+     * <p> In other words, bn invocbtion of this method of the form
+     * <tt>dst.put(src,&nbsp;off,&nbsp;len)</tt> hbs exbctly the sbme effect bs
      * the loop
      *
      * <pre>{@code
      *     for (int i = off; i < off + len; i++)
-     *         dst.put(a[i]);
+     *         dst.put(b[i]);
      * }</pre>
      *
-     * except that it first checks that there is sufficient space in this
-     * buffer and it is potentially much more efficient.
+     * except thbt it first checks thbt there is sufficient spbce in this
+     * buffer bnd it is potentiblly much more efficient.
      *
-     * @param  src
-     *         The array from which $type$s are to be read
+     * @pbrbm  src
+     *         The brrby from which $type$s bre to be rebd
      *
-     * @param  offset
-     *         The offset within the array of the first $type$ to be read;
-     *         must be non-negative and no larger than <tt>array.length</tt>
+     * @pbrbm  offset
+     *         The offset within the brrby of the first $type$ to be rebd;
+     *         must be non-negbtive bnd no lbrger thbn <tt>brrby.length</tt>
      *
-     * @param  length
-     *         The number of $type$s to be read from the given array;
-     *         must be non-negative and no larger than
-     *         <tt>array.length - offset</tt>
+     * @pbrbm  length
+     *         The number of $type$s to be rebd from the given brrby;
+     *         must be non-negbtive bnd no lbrger thbn
+     *         <tt>brrby.length - offset</tt>
      *
      * @return  This buffer
      *
      * @throws  BufferOverflowException
-     *          If there is insufficient space in this buffer
+     *          If there is insufficient spbce in this buffer
      *
      * @throws  IndexOutOfBoundsException
-     *          If the preconditions on the <tt>offset</tt> and <tt>length</tt>
-     *          parameters do not hold
+     *          If the preconditions on the <tt>offset</tt> bnd <tt>length</tt>
+     *          pbrbmeters do not hold
      *
-     * @throws  ReadOnlyBufferException
-     *          If this buffer is read-only
+     * @throws  RebdOnlyBufferException
+     *          If this buffer is rebd-only
      */
     public $Type$Buffer put($type$[] src, int offset, int length) {
         checkBounds(offset, length, src.length);
-        if (length > remaining())
+        if (length > rembining())
             throw new BufferOverflowException();
         int end = offset + length;
         for (int i = offset; i < end; i++)
@@ -834,227 +834,227 @@ public abstract class $Type$Buffer
     }
 
     /**
-     * Relative bulk <i>put</i> method&nbsp;&nbsp;<i>(optional operation)</i>.
+     * Relbtive bulk <i>put</i> method&nbsp;&nbsp;<i>(optionbl operbtion)</i>.
      *
-     * <p> This method transfers the entire content of the given source
-     * $type$ array into this buffer.  An invocation of this method of the
-     * form <tt>dst.put(a)</tt> behaves in exactly the same way as the
-     * invocation
+     * <p> This method trbnsfers the entire content of the given source
+     * $type$ brrby into this buffer.  An invocbtion of this method of the
+     * form <tt>dst.put(b)</tt> behbves in exbctly the sbme wby bs the
+     * invocbtion
      *
      * <pre>
-     *     dst.put(a, 0, a.length) </pre>
+     *     dst.put(b, 0, b.length) </pre>
      *
-     * @param   src
-     *          The source array
+     * @pbrbm   src
+     *          The source brrby
      *
      * @return  This buffer
      *
      * @throws  BufferOverflowException
-     *          If there is insufficient space in this buffer
+     *          If there is insufficient spbce in this buffer
      *
-     * @throws  ReadOnlyBufferException
-     *          If this buffer is read-only
+     * @throws  RebdOnlyBufferException
+     *          If this buffer is rebd-only
      */
-    public final $Type$Buffer put($type$[] src) {
+    public finbl $Type$Buffer put($type$[] src) {
         return put(src, 0, src.length);
     }
 
-#if[char]
+#if[chbr]
 
     /**
-     * Relative bulk <i>put</i> method&nbsp;&nbsp;<i>(optional operation)</i>.
+     * Relbtive bulk <i>put</i> method&nbsp;&nbsp;<i>(optionbl operbtion)</i>.
      *
-     * <p> This method transfers $type$s from the given string into this
-     * buffer.  If there are more $type$s to be copied from the string than
-     * remain in this buffer, that is, if
-     * <tt>end&nbsp;-&nbsp;start</tt>&nbsp;<tt>&gt;</tt>&nbsp;<tt>remaining()</tt>,
-     * then no $type$s are transferred and a {@link
+     * <p> This method trbnsfers $type$s from the given string into this
+     * buffer.  If there bre more $type$s to be copied from the string thbn
+     * rembin in this buffer, thbt is, if
+     * <tt>end&nbsp;-&nbsp;stbrt</tt>&nbsp;<tt>&gt;</tt>&nbsp;<tt>rembining()</tt>,
+     * then no $type$s bre trbnsferred bnd b {@link
      * BufferOverflowException} is thrown.
      *
      * <p> Otherwise, this method copies
-     * <i>n</i>&nbsp;=&nbsp;<tt>end</tt>&nbsp;-&nbsp;<tt>start</tt> $type$s
-     * from the given string into this buffer, starting at the given
-     * <tt>start</tt> index and at the current position of this buffer.  The
+     * <i>n</i>&nbsp;=&nbsp;<tt>end</tt>&nbsp;-&nbsp;<tt>stbrt</tt> $type$s
+     * from the given string into this buffer, stbrting bt the given
+     * <tt>stbrt</tt> index bnd bt the current position of this buffer.  The
      * position of this buffer is then incremented by <i>n</i>.
      *
-     * <p> In other words, an invocation of this method of the form
-     * <tt>dst.put(src,&nbsp;start,&nbsp;end)</tt> has exactly the same effect
-     * as the loop
+     * <p> In other words, bn invocbtion of this method of the form
+     * <tt>dst.put(src,&nbsp;stbrt,&nbsp;end)</tt> hbs exbctly the sbme effect
+     * bs the loop
      *
      * <pre>{@code
-     *     for (int i = start; i < end; i++)
-     *         dst.put(src.charAt(i));
+     *     for (int i = stbrt; i < end; i++)
+     *         dst.put(src.chbrAt(i));
      * }</pre>
      *
-     * except that it first checks that there is sufficient space in this
-     * buffer and it is potentially much more efficient.
+     * except thbt it first checks thbt there is sufficient spbce in this
+     * buffer bnd it is potentiblly much more efficient.
      *
-     * @param  src
-     *         The string from which $type$s are to be read
+     * @pbrbm  src
+     *         The string from which $type$s bre to be rebd
      *
-     * @param  start
-     *         The offset within the string of the first $type$ to be read;
-     *         must be non-negative and no larger than
+     * @pbrbm  stbrt
+     *         The offset within the string of the first $type$ to be rebd;
+     *         must be non-negbtive bnd no lbrger thbn
      *         <tt>string.length()</tt>
      *
-     * @param  end
-     *         The offset within the string of the last $type$ to be read,
-     *         plus one; must be non-negative and no larger than
+     * @pbrbm  end
+     *         The offset within the string of the lbst $type$ to be rebd,
+     *         plus one; must be non-negbtive bnd no lbrger thbn
      *         <tt>string.length()</tt>
      *
      * @return  This buffer
      *
      * @throws  BufferOverflowException
-     *          If there is insufficient space in this buffer
+     *          If there is insufficient spbce in this buffer
      *
      * @throws  IndexOutOfBoundsException
-     *          If the preconditions on the <tt>start</tt> and <tt>end</tt>
-     *          parameters do not hold
+     *          If the preconditions on the <tt>stbrt</tt> bnd <tt>end</tt>
+     *          pbrbmeters do not hold
      *
-     * @throws  ReadOnlyBufferException
-     *          If this buffer is read-only
+     * @throws  RebdOnlyBufferException
+     *          If this buffer is rebd-only
      */
-    public $Type$Buffer put(String src, int start, int end) {
-        checkBounds(start, end - start, src.length());
-        if (isReadOnly())
-            throw new ReadOnlyBufferException();
-        if (end - start > remaining())
+    public $Type$Buffer put(String src, int stbrt, int end) {
+        checkBounds(stbrt, end - stbrt, src.length());
+        if (isRebdOnly())
+            throw new RebdOnlyBufferException();
+        if (end - stbrt > rembining())
             throw new BufferOverflowException();
-        for (int i = start; i < end; i++)
-            this.put(src.charAt(i));
+        for (int i = stbrt; i < end; i++)
+            this.put(src.chbrAt(i));
         return this;
     }
 
     /**
-     * Relative bulk <i>put</i> method&nbsp;&nbsp;<i>(optional operation)</i>.
+     * Relbtive bulk <i>put</i> method&nbsp;&nbsp;<i>(optionbl operbtion)</i>.
      *
-     * <p> This method transfers the entire content of the given source string
-     * into this buffer.  An invocation of this method of the form
-     * <tt>dst.put(s)</tt> behaves in exactly the same way as the invocation
+     * <p> This method trbnsfers the entire content of the given source string
+     * into this buffer.  An invocbtion of this method of the form
+     * <tt>dst.put(s)</tt> behbves in exbctly the sbme wby bs the invocbtion
      *
      * <pre>
      *     dst.put(s, 0, s.length()) </pre>
      *
-     * @param   src
+     * @pbrbm   src
      *          The source string
      *
      * @return  This buffer
      *
      * @throws  BufferOverflowException
-     *          If there is insufficient space in this buffer
+     *          If there is insufficient spbce in this buffer
      *
-     * @throws  ReadOnlyBufferException
-     *          If this buffer is read-only
+     * @throws  RebdOnlyBufferException
+     *          If this buffer is rebd-only
      */
-    public final $Type$Buffer put(String src) {
+    public finbl $Type$Buffer put(String src) {
         return put(src, 0, src.length());
     }
 
-#end[char]
+#end[chbr]
 
 
     // -- Other stuff --
 
     /**
-     * Tells whether or not this buffer is backed by an accessible $type$
-     * array.
+     * Tells whether or not this buffer is bbcked by bn bccessible $type$
+     * brrby.
      *
-     * <p> If this method returns <tt>true</tt> then the {@link #array() array}
-     * and {@link #arrayOffset() arrayOffset} methods may safely be invoked.
+     * <p> If this method returns <tt>true</tt> then the {@link #brrby() brrby}
+     * bnd {@link #brrbyOffset() brrbyOffset} methods mby sbfely be invoked.
      * </p>
      *
-     * @return  <tt>true</tt> if, and only if, this buffer
-     *          is backed by an array and is not read-only
+     * @return  <tt>true</tt> if, bnd only if, this buffer
+     *          is bbcked by bn brrby bnd is not rebd-only
      */
-    public final boolean hasArray() {
-        return (hb != null) && !isReadOnly;
+    public finbl boolebn hbsArrby() {
+        return (hb != null) && !isRebdOnly;
     }
 
     /**
-     * Returns the $type$ array that backs this
-     * buffer&nbsp;&nbsp;<i>(optional operation)</i>.
+     * Returns the $type$ brrby thbt bbcks this
+     * buffer&nbsp;&nbsp;<i>(optionbl operbtion)</i>.
      *
-     * <p> Modifications to this buffer's content will cause the returned
-     * array's content to be modified, and vice versa.
+     * <p> Modificbtions to this buffer's content will cbuse the returned
+     * brrby's content to be modified, bnd vice versb.
      *
-     * <p> Invoke the {@link #hasArray hasArray} method before invoking this
-     * method in order to ensure that this buffer has an accessible backing
-     * array.  </p>
+     * <p> Invoke the {@link #hbsArrby hbsArrby} method before invoking this
+     * method in order to ensure thbt this buffer hbs bn bccessible bbcking
+     * brrby.  </p>
      *
-     * @return  The array that backs this buffer
+     * @return  The brrby thbt bbcks this buffer
      *
-     * @throws  ReadOnlyBufferException
-     *          If this buffer is backed by an array but is read-only
+     * @throws  RebdOnlyBufferException
+     *          If this buffer is bbcked by bn brrby but is rebd-only
      *
-     * @throws  UnsupportedOperationException
-     *          If this buffer is not backed by an accessible array
+     * @throws  UnsupportedOperbtionException
+     *          If this buffer is not bbcked by bn bccessible brrby
      */
-    public final $type$[] array() {
+    public finbl $type$[] brrby() {
         if (hb == null)
-            throw new UnsupportedOperationException();
-        if (isReadOnly)
-            throw new ReadOnlyBufferException();
+            throw new UnsupportedOperbtionException();
+        if (isRebdOnly)
+            throw new RebdOnlyBufferException();
         return hb;
     }
 
     /**
-     * Returns the offset within this buffer's backing array of the first
-     * element of the buffer&nbsp;&nbsp;<i>(optional operation)</i>.
+     * Returns the offset within this buffer's bbcking brrby of the first
+     * element of the buffer&nbsp;&nbsp;<i>(optionbl operbtion)</i>.
      *
-     * <p> If this buffer is backed by an array then buffer position <i>p</i>
-     * corresponds to array index <i>p</i>&nbsp;+&nbsp;<tt>arrayOffset()</tt>.
+     * <p> If this buffer is bbcked by bn brrby then buffer position <i>p</i>
+     * corresponds to brrby index <i>p</i>&nbsp;+&nbsp;<tt>brrbyOffset()</tt>.
      *
-     * <p> Invoke the {@link #hasArray hasArray} method before invoking this
-     * method in order to ensure that this buffer has an accessible backing
-     * array.  </p>
+     * <p> Invoke the {@link #hbsArrby hbsArrby} method before invoking this
+     * method in order to ensure thbt this buffer hbs bn bccessible bbcking
+     * brrby.  </p>
      *
-     * @return  The offset within this buffer's array
+     * @return  The offset within this buffer's brrby
      *          of the first element of the buffer
      *
-     * @throws  ReadOnlyBufferException
-     *          If this buffer is backed by an array but is read-only
+     * @throws  RebdOnlyBufferException
+     *          If this buffer is bbcked by bn brrby but is rebd-only
      *
-     * @throws  UnsupportedOperationException
-     *          If this buffer is not backed by an accessible array
+     * @throws  UnsupportedOperbtionException
+     *          If this buffer is not bbcked by bn bccessible brrby
      */
-    public final int arrayOffset() {
+    public finbl int brrbyOffset() {
         if (hb == null)
-            throw new UnsupportedOperationException();
-        if (isReadOnly)
-            throw new ReadOnlyBufferException();
+            throw new UnsupportedOperbtionException();
+        if (isRebdOnly)
+            throw new RebdOnlyBufferException();
         return offset;
     }
 
     /**
-     * Compacts this buffer&nbsp;&nbsp;<i>(optional operation)</i>.
+     * Compbcts this buffer&nbsp;&nbsp;<i>(optionbl operbtion)</i>.
      *
-     * <p> The $type$s between the buffer's current position and its limit,
-     * if any, are copied to the beginning of the buffer.  That is, the
-     * $type$ at index <i>p</i>&nbsp;=&nbsp;<tt>position()</tt> is copied
-     * to index zero, the $type$ at index <i>p</i>&nbsp;+&nbsp;1 is copied
-     * to index one, and so forth until the $type$ at index
+     * <p> The $type$s between the buffer's current position bnd its limit,
+     * if bny, bre copied to the beginning of the buffer.  Thbt is, the
+     * $type$ bt index <i>p</i>&nbsp;=&nbsp;<tt>position()</tt> is copied
+     * to index zero, the $type$ bt index <i>p</i>&nbsp;+&nbsp;1 is copied
+     * to index one, bnd so forth until the $type$ bt index
      * <tt>limit()</tt>&nbsp;-&nbsp;1 is copied to index
      * <i>n</i>&nbsp;=&nbsp;<tt>limit()</tt>&nbsp;-&nbsp;<tt>1</tt>&nbsp;-&nbsp;<i>p</i>.
-     * The buffer's position is then set to <i>n+1</i> and its limit is set to
-     * its capacity.  The mark, if defined, is discarded.
+     * The buffer's position is then set to <i>n+1</i> bnd its limit is set to
+     * its cbpbcity.  The mbrk, if defined, is discbrded.
      *
      * <p> The buffer's position is set to the number of $type$s copied,
-     * rather than to zero, so that an invocation of this method can be
-     * followed immediately by an invocation of another relative <i>put</i>
+     * rbther thbn to zero, so thbt bn invocbtion of this method cbn be
+     * followed immedibtely by bn invocbtion of bnother relbtive <i>put</i>
      * method. </p>
      *
 #if[byte]
      *
-     * <p> Invoke this method after writing data from a buffer in case the
-     * write was incomplete.  The following loop, for example, copies bytes
-     * from one channel to another via the buffer <tt>buf</tt>:
+     * <p> Invoke this method bfter writing dbtb from b buffer in cbse the
+     * write wbs incomplete.  The following loop, for exbmple, copies bytes
+     * from one chbnnel to bnother vib the buffer <tt>buf</tt>:
      *
      * <blockquote><pre>{@code
-     *   buf.clear();          // Prepare buffer for use
-     *   while (in.read(buf) >= 0 || buf.position != 0) {
+     *   buf.clebr();          // Prepbre buffer for use
+     *   while (in.rebd(buf) >= 0 || buf.position != 0) {
      *       buf.flip();
      *       out.write(buf);
-     *       buf.compact();    // In case of partial write
+     *       buf.compbct();    // In cbse of pbrtibl write
      *   }
      * }</pre></blockquote>
      *
@@ -1062,57 +1062,57 @@ public abstract class $Type$Buffer
      *
      * @return  This buffer
      *
-     * @throws  ReadOnlyBufferException
-     *          If this buffer is read-only
+     * @throws  RebdOnlyBufferException
+     *          If this buffer is rebd-only
      */
-    public abstract $Type$Buffer compact();
+    public bbstrbct $Type$Buffer compbct();
 
     /**
      * Tells whether or not this $type$ buffer is direct.
      *
-     * @return  <tt>true</tt> if, and only if, this buffer is direct
+     * @return  <tt>true</tt> if, bnd only if, this buffer is direct
      */
-    public abstract boolean isDirect();
+    public bbstrbct boolebn isDirect();
 
-#if[!char]
+#if[!chbr]
 
     /**
-     * Returns a string summarizing the state of this buffer.
+     * Returns b string summbrizing the stbte of this buffer.
      *
-     * @return  A summary string
+     * @return  A summbry string
      */
     public String toString() {
         StringBuffer sb = new StringBuffer();
-        sb.append(getClass().getName());
-        sb.append("[pos=");
-        sb.append(position());
-        sb.append(" lim=");
-        sb.append(limit());
-        sb.append(" cap=");
-        sb.append(capacity());
-        sb.append("]");
+        sb.bppend(getClbss().getNbme());
+        sb.bppend("[pos=");
+        sb.bppend(position());
+        sb.bppend(" lim=");
+        sb.bppend(limit());
+        sb.bppend(" cbp=");
+        sb.bppend(cbpbcity());
+        sb.bppend("]");
         return sb.toString();
     }
 
-#end[!char]
+#end[!chbr]
 
 
-    // ## Should really use unchecked accessors here for speed
+    // ## Should reblly use unchecked bccessors here for speed
 
     /**
-     * Returns the current hash code of this buffer.
+     * Returns the current hbsh code of this buffer.
      *
-     * <p> The hash code of a $type$ buffer depends only upon its remaining
-     * elements; that is, upon the elements from <tt>position()</tt> up to, and
-     * including, the element at <tt>limit()</tt>&nbsp;-&nbsp;<tt>1</tt>.
+     * <p> The hbsh code of b $type$ buffer depends only upon its rembining
+     * elements; thbt is, upon the elements from <tt>position()</tt> up to, bnd
+     * including, the element bt <tt>limit()</tt>&nbsp;-&nbsp;<tt>1</tt>.
      *
-     * <p> Because buffer hash codes are content-dependent, it is inadvisable
-     * to use buffers as keys in hash maps or similar data structures unless it
-     * is known that their contents will not change.  </p>
+     * <p> Becbuse buffer hbsh codes bre content-dependent, it is inbdvisbble
+     * to use buffers bs keys in hbsh mbps or similbr dbtb structures unless it
+     * is known thbt their contents will not chbnge.  </p>
      *
-     * @return  The current hash code of this buffer
+     * @return  The current hbsh code of this buffer
      */
-    public int hashCode() {
+    public int hbshCode() {
         int h = 1;
         int p = position();
         for (int i = limit() - 1; i >= p; i--)
@@ -1125,115 +1125,115 @@ public abstract class $Type$Buffer
     }
 
     /**
-     * Tells whether or not this buffer is equal to another object.
+     * Tells whether or not this buffer is equbl to bnother object.
      *
-     * <p> Two $type$ buffers are equal if, and only if,
+     * <p> Two $type$ buffers bre equbl if, bnd only if,
      *
      * <ol>
      *
-     *   <li><p> They have the same element type,  </p></li>
+     *   <li><p> They hbve the sbme element type,  </p></li>
      *
-     *   <li><p> They have the same number of remaining elements, and
+     *   <li><p> They hbve the sbme number of rembining elements, bnd
      *   </p></li>
      *
-     *   <li><p> The two sequences of remaining elements, considered
-     *   independently of their starting positions, are pointwise equal.
-#if[floatingPointType]
-     *   This method considers two $type$ elements {@code a} and {@code b}
-     *   to be equal if
-     *   {@code (a == b) || ($Fulltype$.isNaN(a) && $Fulltype$.isNaN(b))}.
-     *   The values {@code -0.0} and {@code +0.0} are considered to be
-     *   equal, unlike {@link $Fulltype$#equals(Object)}.
-#end[floatingPointType]
+     *   <li><p> The two sequences of rembining elements, considered
+     *   independently of their stbrting positions, bre pointwise equbl.
+#if[flobtingPointType]
+     *   This method considers two $type$ elements {@code b} bnd {@code b}
+     *   to be equbl if
+     *   {@code (b == b) || ($Fulltype$.isNbN(b) && $Fulltype$.isNbN(b))}.
+     *   The vblues {@code -0.0} bnd {@code +0.0} bre considered to be
+     *   equbl, unlike {@link $Fulltype$#equbls(Object)}.
+#end[flobtingPointType]
      *   </p></li>
      *
      * </ol>
      *
-     * <p> A $type$ buffer is not equal to any other type of object.  </p>
+     * <p> A $type$ buffer is not equbl to bny other type of object.  </p>
      *
-     * @param  ob  The object to which this buffer is to be compared
+     * @pbrbm  ob  The object to which this buffer is to be compbred
      *
-     * @return  <tt>true</tt> if, and only if, this buffer is equal to the
+     * @return  <tt>true</tt> if, bnd only if, this buffer is equbl to the
      *           given object
      */
-    public boolean equals(Object ob) {
+    public boolebn equbls(Object ob) {
         if (this == ob)
             return true;
-        if (!(ob instanceof $Type$Buffer))
-            return false;
-        $Type$Buffer that = ($Type$Buffer)ob;
-        if (this.remaining() != that.remaining())
-            return false;
+        if (!(ob instbnceof $Type$Buffer))
+            return fblse;
+        $Type$Buffer thbt = ($Type$Buffer)ob;
+        if (this.rembining() != thbt.rembining())
+            return fblse;
         int p = this.position();
-        for (int i = this.limit() - 1, j = that.limit() - 1; i >= p; i--, j--)
-            if (!equals(this.get(i), that.get(j)))
-                return false;
+        for (int i = this.limit() - 1, j = thbt.limit() - 1; i >= p; i--, j--)
+            if (!equbls(this.get(i), thbt.get(j)))
+                return fblse;
         return true;
     }
 
-    private static boolean equals($type$ x, $type$ y) {
-#if[floatingPointType]
-        return (x == y) || ($Fulltype$.isNaN(x) && $Fulltype$.isNaN(y));
-#else[floatingPointType]
+    privbte stbtic boolebn equbls($type$ x, $type$ y) {
+#if[flobtingPointType]
+        return (x == y) || ($Fulltype$.isNbN(x) && $Fulltype$.isNbN(y));
+#else[flobtingPointType]
         return x == y;
-#end[floatingPointType]
+#end[flobtingPointType]
     }
 
     /**
-     * Compares this buffer to another.
+     * Compbres this buffer to bnother.
      *
-     * <p> Two $type$ buffers are compared by comparing their sequences of
-     * remaining elements lexicographically, without regard to the starting
-     * position of each sequence within its corresponding buffer.
-#if[floatingPointType]
-     * Pairs of {@code $type$} elements are compared as if by invoking
-     * {@link $Fulltype$#compare($type$,$type$)}, except that
-     * {@code -0.0} and {@code 0.0} are considered to be equal.
-     * {@code $Fulltype$.NaN} is considered by this method to be equal
-     * to itself and greater than all other {@code $type$} values
+     * <p> Two $type$ buffers bre compbred by compbring their sequences of
+     * rembining elements lexicogrbphicblly, without regbrd to the stbrting
+     * position of ebch sequence within its corresponding buffer.
+#if[flobtingPointType]
+     * Pbirs of {@code $type$} elements bre compbred bs if by invoking
+     * {@link $Fulltype$#compbre($type$,$type$)}, except thbt
+     * {@code -0.0} bnd {@code 0.0} bre considered to be equbl.
+     * {@code $Fulltype$.NbN} is considered by this method to be equbl
+     * to itself bnd grebter thbn bll other {@code $type$} vblues
      * (including {@code $Fulltype$.POSITIVE_INFINITY}).
-#else[floatingPointType]
-     * Pairs of {@code $type$} elements are compared as if by invoking
-     * {@link $Fulltype$#compare($type$,$type$)}.
-#end[floatingPointType]
+#else[flobtingPointType]
+     * Pbirs of {@code $type$} elements bre compbred bs if by invoking
+     * {@link $Fulltype$#compbre($type$,$type$)}.
+#end[flobtingPointType]
      *
-     * <p> A $type$ buffer is not comparable to any other type of object.
+     * <p> A $type$ buffer is not compbrbble to bny other type of object.
      *
-     * @return  A negative integer, zero, or a positive integer as this buffer
-     *          is less than, equal to, or greater than the given buffer
+     * @return  A negbtive integer, zero, or b positive integer bs this buffer
+     *          is less thbn, equbl to, or grebter thbn the given buffer
      */
-    public int compareTo($Type$Buffer that) {
-        int n = this.position() + Math.min(this.remaining(), that.remaining());
-        for (int i = this.position(), j = that.position(); i < n; i++, j++) {
-            int cmp = compare(this.get(i), that.get(j));
+    public int compbreTo($Type$Buffer thbt) {
+        int n = this.position() + Mbth.min(this.rembining(), thbt.rembining());
+        for (int i = this.position(), j = thbt.position(); i < n; i++, j++) {
+            int cmp = compbre(this.get(i), thbt.get(j));
             if (cmp != 0)
                 return cmp;
         }
-        return this.remaining() - that.remaining();
+        return this.rembining() - thbt.rembining();
     }
 
-    private static int compare($type$ x, $type$ y) {
-#if[floatingPointType]
+    privbte stbtic int compbre($type$ x, $type$ y) {
+#if[flobtingPointType]
         return ((x < y)  ? -1 :
                 (x > y)  ? +1 :
                 (x == y) ?  0 :
-                $Fulltype$.isNaN(x) ? ($Fulltype$.isNaN(y) ? 0 : +1) : -1);
-#else[floatingPointType]
-        return $Fulltype$.compare(x, y);
-#end[floatingPointType]
+                $Fulltype$.isNbN(x) ? ($Fulltype$.isNbN(y) ? 0 : +1) : -1);
+#else[flobtingPointType]
+        return $Fulltype$.compbre(x, y);
+#end[flobtingPointType]
     }
 
-    // -- Other char stuff --
+    // -- Other chbr stuff --
 
-#if[char]
+#if[chbr]
 
     /**
-     * Returns a string containing the characters in this buffer.
+     * Returns b string contbining the chbrbcters in this buffer.
      *
-     * <p> The first character of the resulting string will be the character at
-     * this buffer's position, while the last character will be the character
-     * at index <tt>limit()</tt>&nbsp;-&nbsp;1.  Invoking this method does not
-     * change the buffer's position. </p>
+     * <p> The first chbrbcter of the resulting string will be the chbrbcter bt
+     * this buffer's position, while the lbst chbrbcter will be the chbrbcter
+     * bt index <tt>limit()</tt>&nbsp;-&nbsp;1.  Invoking this method does not
+     * chbnge the buffer's position. </p>
      *
      * @return  The specified string
      */
@@ -1241,110 +1241,110 @@ public abstract class $Type$Buffer
         return toString(position(), limit());
     }
 
-    abstract String toString(int start, int end);       // package-private
+    bbstrbct String toString(int stbrt, int end);       // pbckbge-privbte
 
 
-    // --- Methods to support CharSequence ---
+    // --- Methods to support ChbrSequence ---
 
     /**
-     * Returns the length of this character buffer.
+     * Returns the length of this chbrbcter buffer.
      *
-     * <p> When viewed as a character sequence, the length of a character
-     * buffer is simply the number of characters between the position
-     * (inclusive) and the limit (exclusive); that is, it is equivalent to
-     * <tt>remaining()</tt>. </p>
+     * <p> When viewed bs b chbrbcter sequence, the length of b chbrbcter
+     * buffer is simply the number of chbrbcters between the position
+     * (inclusive) bnd the limit (exclusive); thbt is, it is equivblent to
+     * <tt>rembining()</tt>. </p>
      *
-     * @return  The length of this character buffer
+     * @return  The length of this chbrbcter buffer
      */
-    public final int length() {
-        return remaining();
+    public finbl int length() {
+        return rembining();
     }
 
     /**
-     * Reads the character at the given index relative to the current
+     * Rebds the chbrbcter bt the given index relbtive to the current
      * position.
      *
-     * @param  index
-     *         The index of the character to be read, relative to the position;
-     *         must be non-negative and smaller than <tt>remaining()</tt>
+     * @pbrbm  index
+     *         The index of the chbrbcter to be rebd, relbtive to the position;
+     *         must be non-negbtive bnd smbller thbn <tt>rembining()</tt>
      *
-     * @return  The character at index
+     * @return  The chbrbcter bt index
      *          <tt>position()&nbsp;+&nbsp;index</tt>
      *
      * @throws  IndexOutOfBoundsException
      *          If the preconditions on <tt>index</tt> do not hold
      */
-    public final char charAt(int index) {
+    public finbl chbr chbrAt(int index) {
         return get(position() + checkIndex(index, 1));
     }
 
     /**
-     * Creates a new character buffer that represents the specified subsequence
-     * of this buffer, relative to the current position.
+     * Crebtes b new chbrbcter buffer thbt represents the specified subsequence
+     * of this buffer, relbtive to the current position.
      *
-     * <p> The new buffer will share this buffer's content; that is, if the
-     * content of this buffer is mutable then modifications to one buffer will
-     * cause the other to be modified.  The new buffer's capacity will be that
+     * <p> The new buffer will shbre this buffer's content; thbt is, if the
+     * content of this buffer is mutbble then modificbtions to one buffer will
+     * cbuse the other to be modified.  The new buffer's cbpbcity will be thbt
      * of this buffer, its position will be
-     * <tt>position()</tt>&nbsp;+&nbsp;<tt>start</tt>, and its limit will be
+     * <tt>position()</tt>&nbsp;+&nbsp;<tt>stbrt</tt>, bnd its limit will be
      * <tt>position()</tt>&nbsp;+&nbsp;<tt>end</tt>.  The new buffer will be
-     * direct if, and only if, this buffer is direct, and it will be read-only
-     * if, and only if, this buffer is read-only.  </p>
+     * direct if, bnd only if, this buffer is direct, bnd it will be rebd-only
+     * if, bnd only if, this buffer is rebd-only.  </p>
      *
-     * @param  start
-     *         The index, relative to the current position, of the first
-     *         character in the subsequence; must be non-negative and no larger
-     *         than <tt>remaining()</tt>
+     * @pbrbm  stbrt
+     *         The index, relbtive to the current position, of the first
+     *         chbrbcter in the subsequence; must be non-negbtive bnd no lbrger
+     *         thbn <tt>rembining()</tt>
      *
-     * @param  end
-     *         The index, relative to the current position, of the character
-     *         following the last character in the subsequence; must be no
-     *         smaller than <tt>start</tt> and no larger than
-     *         <tt>remaining()</tt>
+     * @pbrbm  end
+     *         The index, relbtive to the current position, of the chbrbcter
+     *         following the lbst chbrbcter in the subsequence; must be no
+     *         smbller thbn <tt>stbrt</tt> bnd no lbrger thbn
+     *         <tt>rembining()</tt>
      *
-     * @return  The new character buffer
+     * @return  The new chbrbcter buffer
      *
      * @throws  IndexOutOfBoundsException
-     *          If the preconditions on <tt>start</tt> and <tt>end</tt>
+     *          If the preconditions on <tt>stbrt</tt> bnd <tt>end</tt>
      *          do not hold
      */
-    public abstract CharBuffer subSequence(int start, int end);
+    public bbstrbct ChbrBuffer subSequence(int stbrt, int end);
 
 
-    // --- Methods to support Appendable ---
+    // --- Methods to support Appendbble ---
 
     /**
-     * Appends the specified character sequence  to this
-     * buffer&nbsp;&nbsp;<i>(optional operation)</i>.
+     * Appends the specified chbrbcter sequence  to this
+     * buffer&nbsp;&nbsp;<i>(optionbl operbtion)</i>.
      *
-     * <p> An invocation of this method of the form <tt>dst.append(csq)</tt>
-     * behaves in exactly the same way as the invocation
+     * <p> An invocbtion of this method of the form <tt>dst.bppend(csq)</tt>
+     * behbves in exbctly the sbme wby bs the invocbtion
      *
      * <pre>
      *     dst.put(csq.toString()) </pre>
      *
-     * <p> Depending on the specification of <tt>toString</tt> for the
-     * character sequence <tt>csq</tt>, the entire sequence may not be
-     * appended.  For instance, invoking the {@link $Type$Buffer#toString()
-     * toString} method of a character buffer will return a subsequence whose
-     * content depends upon the buffer's position and limit.
+     * <p> Depending on the specificbtion of <tt>toString</tt> for the
+     * chbrbcter sequence <tt>csq</tt>, the entire sequence mby not be
+     * bppended.  For instbnce, invoking the {@link $Type$Buffer#toString()
+     * toString} method of b chbrbcter buffer will return b subsequence whose
+     * content depends upon the buffer's position bnd limit.
      *
-     * @param  csq
-     *         The character sequence to append.  If <tt>csq</tt> is
-     *         <tt>null</tt>, then the four characters <tt>"null"</tt> are
-     *         appended to this character buffer.
+     * @pbrbm  csq
+     *         The chbrbcter sequence to bppend.  If <tt>csq</tt> is
+     *         <tt>null</tt>, then the four chbrbcters <tt>"null"</tt> bre
+     *         bppended to this chbrbcter buffer.
      *
      * @return  This buffer
      *
      * @throws  BufferOverflowException
-     *          If there is insufficient space in this buffer
+     *          If there is insufficient spbce in this buffer
      *
-     * @throws  ReadOnlyBufferException
-     *          If this buffer is read-only
+     * @throws  RebdOnlyBufferException
+     *          If this buffer is rebd-only
      *
      * @since  1.5
      */
-    public $Type$Buffer append(CharSequence csq) {
+    public $Type$Buffer bppend(ChbrSequence csq) {
         if (csq == null)
             return put("null");
         else
@@ -1352,152 +1352,152 @@ public abstract class $Type$Buffer
     }
 
     /**
-     * Appends a subsequence of the  specified character sequence  to this
-     * buffer&nbsp;&nbsp;<i>(optional operation)</i>.
+     * Appends b subsequence of the  specified chbrbcter sequence  to this
+     * buffer&nbsp;&nbsp;<i>(optionbl operbtion)</i>.
      *
-     * <p> An invocation of this method of the form <tt>dst.append(csq, start,
-     * end)</tt> when <tt>csq</tt> is not <tt>null</tt>, behaves in exactly the
-     * same way as the invocation
+     * <p> An invocbtion of this method of the form <tt>dst.bppend(csq, stbrt,
+     * end)</tt> when <tt>csq</tt> is not <tt>null</tt>, behbves in exbctly the
+     * sbme wby bs the invocbtion
      *
      * <pre>
-     *     dst.put(csq.subSequence(start, end).toString()) </pre>
+     *     dst.put(csq.subSequence(stbrt, end).toString()) </pre>
      *
-     * @param  csq
-     *         The character sequence from which a subsequence will be
-     *         appended.  If <tt>csq</tt> is <tt>null</tt>, then characters
-     *         will be appended as if <tt>csq</tt> contained the four
-     *         characters <tt>"null"</tt>.
+     * @pbrbm  csq
+     *         The chbrbcter sequence from which b subsequence will be
+     *         bppended.  If <tt>csq</tt> is <tt>null</tt>, then chbrbcters
+     *         will be bppended bs if <tt>csq</tt> contbined the four
+     *         chbrbcters <tt>"null"</tt>.
      *
      * @return  This buffer
      *
      * @throws  BufferOverflowException
-     *          If there is insufficient space in this buffer
+     *          If there is insufficient spbce in this buffer
      *
      * @throws  IndexOutOfBoundsException
-     *          If <tt>start</tt> or <tt>end</tt> are negative, <tt>start</tt>
-     *          is greater than <tt>end</tt>, or <tt>end</tt> is greater than
+     *          If <tt>stbrt</tt> or <tt>end</tt> bre negbtive, <tt>stbrt</tt>
+     *          is grebter thbn <tt>end</tt>, or <tt>end</tt> is grebter thbn
      *          <tt>csq.length()</tt>
      *
-     * @throws  ReadOnlyBufferException
-     *          If this buffer is read-only
+     * @throws  RebdOnlyBufferException
+     *          If this buffer is rebd-only
      *
      * @since  1.5
      */
-    public $Type$Buffer append(CharSequence csq, int start, int end) {
-        CharSequence cs = (csq == null ? "null" : csq);
-        return put(cs.subSequence(start, end).toString());
+    public $Type$Buffer bppend(ChbrSequence csq, int stbrt, int end) {
+        ChbrSequence cs = (csq == null ? "null" : csq);
+        return put(cs.subSequence(stbrt, end).toString());
     }
 
     /**
      * Appends the specified $type$  to this
-     * buffer&nbsp;&nbsp;<i>(optional operation)</i>.
+     * buffer&nbsp;&nbsp;<i>(optionbl operbtion)</i>.
      *
-     * <p> An invocation of this method of the form <tt>dst.append($x$)</tt>
-     * behaves in exactly the same way as the invocation
+     * <p> An invocbtion of this method of the form <tt>dst.bppend($x$)</tt>
+     * behbves in exbctly the sbme wby bs the invocbtion
      *
      * <pre>
      *     dst.put($x$) </pre>
      *
-     * @param  $x$
-     *         The 16-bit $type$ to append
+     * @pbrbm  $x$
+     *         The 16-bit $type$ to bppend
      *
      * @return  This buffer
      *
      * @throws  BufferOverflowException
-     *          If there is insufficient space in this buffer
+     *          If there is insufficient spbce in this buffer
      *
-     * @throws  ReadOnlyBufferException
-     *          If this buffer is read-only
+     * @throws  RebdOnlyBufferException
+     *          If this buffer is rebd-only
      *
      * @since  1.5
      */
-    public $Type$Buffer append($type$ $x$) {
+    public $Type$Buffer bppend($type$ $x$) {
         return put($x$);
     }
 
-#end[char]
+#end[chbr]
 
 
-    // -- Other byte stuff: Access to binary data --
+    // -- Other byte stuff: Access to binbry dbtb --
 
 #if[!byte]
 
     /**
      * Retrieves this buffer's byte order.
      *
-     * <p> The byte order of $a$ $type$ buffer created by allocation or by
-     * wrapping an existing <tt>$type$</tt> array is the {@link
-     * ByteOrder#nativeOrder native order} of the underlying
-     * hardware.  The byte order of $a$ $type$ buffer created as a <a
-     * href="ByteBuffer.html#views">view</a> of a byte buffer is that of the
-     * byte buffer at the moment that the view is created.  </p>
+     * <p> The byte order of $b$ $type$ buffer crebted by bllocbtion or by
+     * wrbpping bn existing <tt>$type$</tt> brrby is the {@link
+     * ByteOrder#nbtiveOrder nbtive order} of the underlying
+     * hbrdwbre.  The byte order of $b$ $type$ buffer crebted bs b <b
+     * href="ByteBuffer.html#views">view</b> of b byte buffer is thbt of the
+     * byte buffer bt the moment thbt the view is crebted.  </p>
      *
      * @return  This buffer's byte order
      */
-    public abstract ByteOrder order();
+    public bbstrbct ByteOrder order();
 
 #end[!byte]
 
 #if[byte]
 
-    boolean bigEndian                                   // package-private
+    boolebn bigEndibn                                   // pbckbge-privbte
         = true;
-    boolean nativeByteOrder                             // package-private
+    boolebn nbtiveByteOrder                             // pbckbge-privbte
         = (Bits.byteOrder() == ByteOrder.BIG_ENDIAN);
 
     /**
      * Retrieves this buffer's byte order.
      *
-     * <p> The byte order is used when reading or writing multibyte values, and
-     * when creating buffers that are views of this byte buffer.  The order of
-     * a newly-created byte buffer is always {@link ByteOrder#BIG_ENDIAN
+     * <p> The byte order is used when rebding or writing multibyte vblues, bnd
+     * when crebting buffers thbt bre views of this byte buffer.  The order of
+     * b newly-crebted byte buffer is blwbys {@link ByteOrder#BIG_ENDIAN
      * BIG_ENDIAN}.  </p>
      *
      * @return  This buffer's byte order
      */
-    public final ByteOrder order() {
-        return bigEndian ? ByteOrder.BIG_ENDIAN : ByteOrder.LITTLE_ENDIAN;
+    public finbl ByteOrder order() {
+        return bigEndibn ? ByteOrder.BIG_ENDIAN : ByteOrder.LITTLE_ENDIAN;
     }
 
     /**
      * Modifies this buffer's byte order.
      *
-     * @param  bo
+     * @pbrbm  bo
      *         The new byte order,
      *         either {@link ByteOrder#BIG_ENDIAN BIG_ENDIAN}
      *         or {@link ByteOrder#LITTLE_ENDIAN LITTLE_ENDIAN}
      *
      * @return  This buffer
      */
-    public final $Type$Buffer order(ByteOrder bo) {
-        bigEndian = (bo == ByteOrder.BIG_ENDIAN);
-        nativeByteOrder =
-            (bigEndian == (Bits.byteOrder() == ByteOrder.BIG_ENDIAN));
+    public finbl $Type$Buffer order(ByteOrder bo) {
+        bigEndibn = (bo == ByteOrder.BIG_ENDIAN);
+        nbtiveByteOrder =
+            (bigEndibn == (Bits.byteOrder() == ByteOrder.BIG_ENDIAN));
         return this;
     }
 
-    // Unchecked accessors, for use by ByteBufferAs-X-Buffer classes
+    // Unchecked bccessors, for use by ByteBufferAs-X-Buffer clbsses
     //
-    abstract byte _get(int i);                          // package-private
-    abstract void _put(int i, byte b);                  // package-private
+    bbstrbct byte _get(int i);                          // pbckbge-privbte
+    bbstrbct void _put(int i, byte b);                  // pbckbge-privbte
 
     // #BIN
     //
-    // Binary-data access methods  for short, char, int, long, float,
-    // and double will be inserted here
+    // Binbry-dbtb bccess methods  for short, chbr, int, long, flobt,
+    // bnd double will be inserted here
 
 #end[byte]
 
-#if[streamableType]
+#if[strebmbbleType]
 
-#if[char]
+#if[chbr]
     @Override
-#end[char]
-    public $Streamtype$Stream $type$s() {
-        return StreamSupport.$streamtype$Stream(() -> new $Type$BufferSpliterator(this),
-            Buffer.SPLITERATOR_CHARACTERISTICS, false);
+#end[chbr]
+    public $Strebmtype$Strebm $type$s() {
+        return StrebmSupport.$strebmtype$Strebm(() -> new $Type$BufferSpliterbtor(this),
+            Buffer.SPLITERATOR_CHARACTERISTICS, fblse);
     }
 
-#end[streamableType]
+#end[strebmbbleType]
 
 }

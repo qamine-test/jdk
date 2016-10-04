@@ -1,85 +1,85 @@
 <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
 <html>
-  <head>
-    <title>Example JDI Applications</title>
-  </head>
+  <hebd>
+    <title>Exbmple JDI Applicbtions</title>
+  </hebd>
 <BODY BGCOLOR="#FFFFFF">
-    <h1>Example JDI Applications</h1>
-This example download contains the source code and
-documentation for three applications written using
-the Java<sup><font size=-2>TM</font></sup> Debug Interface (JDI)
-of the <A HREF="http://java.sun.com/products/jpda">Java Platform Debugger Architecture</A> (JPDA).
-They are provided as educational tools and as starting
+    <h1>Exbmple JDI Applicbtions</h1>
+This exbmple downlobd contbins the source code bnd
+documentbtion for three bpplicbtions written using
+the Jbvb<sup><font size=-2>TM</font></sup> Debug Interfbce (JDI)
+of the <A HREF="http://jbvb.sun.com/products/jpdb">Jbvb Plbtform Debugger Architecture</A> (JPDA).
+They bre provided bs educbtionbl tools bnd bs stbrting
 points for debugger development.
 <P>
-In increasing order of complexity:
+In increbsing order of complexity:
 <UL>
-<LI><A HREF="trace.html">Trace</A> displays traces
-of program execution.  It is very simple (less than 600 lines)
-yet uses most of the basic JDI functionality.  It is a
-good starting point.
-<LI><A HREF="jdb.html">Jdb</A> is the command line debugger
+<LI><A HREF="trbce.html">Trbce</A> displbys trbces
+of progrbm execution.  It is very simple (less thbn 600 lines)
+yet uses most of the bbsic JDI functionblity.  It is b
+good stbrting point.
+<LI><A HREF="jdb.html">Jdb</A> is the commbnd line debugger
 distributed with the J2SE SDK.
-<LI><A HREF="javadt.html">Javadt</A> is the beginnings of
-a GUI debugger.
+<LI><A HREF="jbvbdt.html">Jbvbdt</A> is the beginnings of
+b GUI debugger.
 </UL>
 <P>
-Trace is in the <code>trace</code> directory. 
-Jdb and Javadt share a package, and are under the 
+Trbce is in the <code>trbce</code> directory. 
+Jdb bnd Jbvbdt shbre b pbckbge, bnd bre under the 
 <code>debug</code> directory. 
 
 <A NAME="SETUP"><H2>Required Set-up</H2></A>
 
 <H4>Where is JPDA?</H4>
-New versions of the J2SE SDK have JPDA included.  For
-older versions JPDA must be separately downloaded.
+New versions of the J2SE SDK hbve JPDA included.  For
+older versions JPDA must be sepbrbtely downlobded.
 <DL>
   <DT>SDKs with JPDA included
-  <DD>J2SE SDK v1.3 and later and J2SE SDK for Linux v1.2.2
-  <DT>SDKs requiring JPDA download
-  <DD>J2SE SDK v1.2.1 and v1.2.2 for Solaris and Windows
+  <DD>J2SE SDK v1.3 bnd lbter bnd J2SE SDK for Linux v1.2.2
+  <DT>SDKs requiring JPDA downlobd
+  <DD>J2SE SDK v1.2.1 bnd v1.2.2 for Solbris bnd Windows
   <DT>Other SDKs
   <DD>Check with vendor
 </DL>
 <P>
 <H4>Set-up for J2SE SDKs with JPDA included</H4>
-Your classpath must include the JDI Library code, which is
-in <code>tools.jar</code> in the <code>lib</code> directory.
-This is needed for both compiling the example code and 
+Your clbsspbth must include the JDI Librbry code, which is
+in <code>tools.jbr</code> in the <code>lib</code> directory.
+This is needed for both compiling the exbmple code bnd 
 executing it.
 <p>
-<H4>Set-up for J2SE SDKs without JPDA - Solaris</H4>
-Download JPDA v1.0 from 
-<A HREF="http://java.sun.com/products/jpda">http://java.sun.com/products/jpda</A>.  Follow the 
-<A HREF="http://java.sun.com/products/jpda/installinst.html">Installation Instructions</A>
-found there.  Pay particular attention to setting the library
-path.
+<H4>Set-up for J2SE SDKs without JPDA - Solbris</H4>
+Downlobd JPDA v1.0 from 
+<A HREF="http://jbvb.sun.com/products/jpdb">http://jbvb.sun.com/products/jpdb</A>.  Follow the 
+<A HREF="http://jbvb.sun.com/products/jpdb/instbllinst.html">Instbllbtion Instructions</A>
+found there.  Pby pbrticulbr bttention to setting the librbry
+pbth.
 <P>
-Your classpath must include the JDI Library code, which is
-in <VAR>jpda_home</VAR>/<code>lib/tools.jar</code>.
-This is needed for both compiling the example code and 
+Your clbsspbth must include the JDI Librbry code, which is
+in <VAR>jpdb_home</VAR>/<code>lib/tools.jbr</code>.
+This is needed for both compiling the exbmple code bnd 
 executing it.
 <P>
 <H4>Set-up for J2SE SDKs without JPDA - Windows</H4>
-Download JPDA v1.0 from 
-<A HREF="http://java.sun.com/products/jpda">http://java.sun.com/products/jpda</A>.  Follow the 
-<A HREF="http://java.sun.com/products/jpda/installinst.html">Installation Instructions</A>
-found there.  Be sure to add:
+Downlobd JPDA v1.0 from 
+<A HREF="http://jbvb.sun.com/products/jpdb">http://jbvb.sun.com/products/jpdb</A>.  Follow the 
+<A HREF="http://jbvb.sun.com/products/jpdb/instbllinst.html">Instbllbtion Instructions</A>
+found there.  Be sure to bdd:
 <PRE>
-        <VAR>jpda_home</VAR>\bin
+        <VAR>jpdb_home</VAR>\bin
 </PRE>
-to your path.
+to your pbth.
 <P>
-Your classpath must include the JDI Library code, which is
-in <VAR>jpda_home</VAR>\<code>lib\tools.jar</code>.
-This is needed for both compiling the example code and 
+Your clbsspbth must include the JDI Librbry code, which is
+in <VAR>jpdb_home</VAR>\<code>lib\tools.jbr</code>.
+This is needed for both compiling the exbmple code bnd 
 executing it.
 <P>
     <hr>
-    <address><a href="mailto:java-debugger@java.sun.com">java-debugger@java.sun.com</a></address>
+    <bddress><b href="mbilto:jbvb-debugger@jbvb.sun.com">jbvb-debugger@jbvb.sun.com</b></bddress>
     </P>
 <P>
 </P>
-<!-- Created: Mon Feb  7 18:56:28 PST 2000 -->
+<!-- Crebted: Mon Feb  7 18:56:28 PST 2000 -->
 </body>
 </html>

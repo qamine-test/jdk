@@ -1,240 +1,240 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package com.sun.java.util.jar.pack;
+pbckbge com.sun.jbvb.util.jbr.pbck;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.ByteBuffer;
-import java.util.jar.JarOutputStream;
-import java.util.jar.Pack200;
-import java.util.zip.CRC32;
-import java.util.zip.Deflater;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
+import jbvb.io.BufferedInputStrebm;
+import jbvb.io.File;
+import jbvb.io.FileInputStrebm;
+import jbvb.io.IOException;
+import jbvb.io.InputStrebm;
+import jbvb.nio.ByteBuffer;
+import jbvb.util.jbr.JbrOutputStrebm;
+import jbvb.util.jbr.Pbck200;
+import jbvb.util.zip.CRC32;
+import jbvb.util.zip.Deflbter;
+import jbvb.util.zip.ZipEntry;
+import jbvb.util.zip.ZipOutputStrebm;
 
-class NativeUnpack {
-    // Pointer to the native unpacker obj
-    private long unpackerPtr;
+clbss NbtiveUnpbck {
+    // Pointer to the nbtive unpbcker obj
+    privbte long unpbckerPtr;
 
-    // Input stream.
-    private BufferedInputStream in;
+    // Input strebm.
+    privbte BufferedInputStrebm in;
 
-    private static synchronized native void initIDs();
+    privbte stbtic synchronized nbtive void initIDs();
 
-    // Starts processing at the indicated position in the buffer.
-    // If the buffer is null, the readInputFn callback is used to get bytes.
-    // Returns (s<<32|f), the number of following segments and files.
-    private synchronized native long start(ByteBuffer buf, long offset);
+    // Stbrts processing bt the indicbted position in the buffer.
+    // If the buffer is null, the rebdInputFn cbllbbck is used to get bytes.
+    // Returns (s<<32|f), the number of following segments bnd files.
+    privbte synchronized nbtive long stbrt(ByteBuffer buf, long offset);
 
-    // Returns true if there's another, and fills in the parts.
-    private synchronized native boolean getNextFile(Object[] parts);
+    // Returns true if there's bnother, bnd fills in the pbrts.
+    privbte synchronized nbtive boolebn getNextFile(Object[] pbrts);
 
-    private synchronized native ByteBuffer getUnusedInput();
+    privbte synchronized nbtive ByteBuffer getUnusedInput();
 
-    // Resets the engine and frees all resources.
-    // Returns total number of bytes consumed by the engine.
-    private synchronized native long finish();
+    // Resets the engine bnd frees bll resources.
+    // Returns totbl number of bytes consumed by the engine.
+    privbte synchronized nbtive long finish();
 
-    // Setting state in the unpacker.
-    protected  synchronized native boolean setOption(String opt, String value);
-    protected  synchronized native String getOption(String opt);
+    // Setting stbte in the unpbcker.
+    protected  synchronized nbtive boolebn setOption(String opt, String vblue);
+    protected  synchronized nbtive String getOption(String opt);
 
-    private  int _verbose;
+    privbte  int _verbose;
 
-    // State for progress bar:
-    private  long _byteCount;      // bytes read in current segment
-    private  int  _segCount;       // number of segs scanned
-    private  int  _fileCount;      // number of files written
-    private  long _estByteLimit;   // estimate of eventual total
-    private  int  _estSegLimit;    // ditto
-    private  int  _estFileLimit;   // ditto
-    private  int  _prevPercent = -1; // for monotonicity
+    // Stbte for progress bbr:
+    privbte  long _byteCount;      // bytes rebd in current segment
+    privbte  int  _segCount;       // number of segs scbnned
+    privbte  int  _fileCount;      // number of files written
+    privbte  long _estByteLimit;   // estimbte of eventubl totbl
+    privbte  int  _estSegLimit;    // ditto
+    privbte  int  _estFileLimit;   // ditto
+    privbte  int  _prevPercent = -1; // for monotonicity
 
-    private final CRC32   _crc32 = new CRC32();
-    private       byte[]  _buf   = new byte[1<<14];
+    privbte finbl CRC32   _crc32 = new CRC32();
+    privbte       byte[]  _buf   = new byte[1<<14];
 
-    private  UnpackerImpl _p200;
-    private  PropMap _props;
+    privbte  UnpbckerImpl _p200;
+    privbte  PropMbp _props;
 
-    static {
-        // If loading from stand alone build uncomment this.
-        // System.loadLibrary("unpack");
-        java.security.AccessController.doPrivileged(
-            new java.security.PrivilegedAction<Void>() {
+    stbtic {
+        // If lobding from stbnd blone build uncomment this.
+        // System.lobdLibrbry("unpbck");
+        jbvb.security.AccessController.doPrivileged(
+            new jbvb.security.PrivilegedAction<Void>() {
                 public Void run() {
-                    System.loadLibrary("unpack");
+                    System.lobdLibrbry("unpbck");
                     return null;
                 }
             });
         initIDs();
     }
 
-    NativeUnpack(UnpackerImpl p200) {
+    NbtiveUnpbck(UnpbckerImpl p200) {
         super();
         _p200  = p200;
         _props = p200.props;
         p200._nunp = this;
     }
 
-    // for JNI callbacks
-    static private Object currentInstance() {
-        UnpackerImpl p200 = (UnpackerImpl) Utils.getTLGlobals();
+    // for JNI cbllbbcks
+    stbtic privbte Object currentInstbnce() {
+        UnpbckerImpl p200 = (UnpbckerImpl) Utils.getTLGlobbls();
         return (p200 == null)? null: p200._nunp;
     }
 
-    private synchronized long getUnpackerPtr() {
-        return unpackerPtr;
+    privbte synchronized long getUnpbckerPtr() {
+        return unpbckerPtr;
     }
 
-    // Callback from the unpacker engine to get more data.
-    private long readInputFn(ByteBuffer pbuf, long minlen) throws IOException {
-        if (in == null)  return 0;  // nothing is readable
-        long maxlen = pbuf.capacity() - pbuf.position();
-        assert(minlen <= maxlen);  // don't talk nonsense
-        long numread = 0;
+    // Cbllbbck from the unpbcker engine to get more dbtb.
+    privbte long rebdInputFn(ByteBuffer pbuf, long minlen) throws IOException {
+        if (in == null)  return 0;  // nothing is rebdbble
+        long mbxlen = pbuf.cbpbcity() - pbuf.position();
+        bssert(minlen <= mbxlen);  // don't tblk nonsense
+        long numrebd = 0;
         int steps = 0;
-        while (numread < minlen) {
+        while (numrebd < minlen) {
             steps++;
-            // read available input, up to buf.length or maxlen
-            int readlen = _buf.length;
-            if (readlen > (maxlen - numread))
-                readlen = (int)(maxlen - numread);
-            int nr = in.read(_buf, 0, readlen);
-            if (nr <= 0)  break;
-            numread += nr;
-            assert(numread <= maxlen);
-            // %%% get rid of this extra copy by using nio?
+            // rebd bvbilbble input, up to buf.length or mbxlen
+            int rebdlen = _buf.length;
+            if (rebdlen > (mbxlen - numrebd))
+                rebdlen = (int)(mbxlen - numrebd);
+            int nr = in.rebd(_buf, 0, rebdlen);
+            if (nr <= 0)  brebk;
+            numrebd += nr;
+            bssert(numrebd <= mbxlen);
+            // %%% get rid of this extrb copy by using nio?
             pbuf.put(_buf, 0, nr);
         }
         if (_verbose > 1)
-            Utils.log.fine("readInputFn("+minlen+","+maxlen+") => "+numread+" steps="+steps);
-        if (maxlen > 100) {
-            _estByteLimit = _byteCount + maxlen;
+            Utils.log.fine("rebdInputFn("+minlen+","+mbxlen+") => "+numrebd+" steps="+steps);
+        if (mbxlen > 100) {
+            _estByteLimit = _byteCount + mbxlen;
         } else {
-            _estByteLimit = (_byteCount + numread) * 20;
+            _estByteLimit = (_byteCount + numrebd) * 20;
         }
-        _byteCount += numread;
-        updateProgress();
-        return numread;
+        _byteCount += numrebd;
+        updbteProgress();
+        return numrebd;
     }
 
-    private void updateProgress() {
-        // Progress is a combination of segment reading and file writing.
-        final double READ_WT  = 0.33;
-        final double WRITE_WT = 0.67;
-        double readProgress = _segCount;
+    privbte void updbteProgress() {
+        // Progress is b combinbtion of segment rebding bnd file writing.
+        finbl double READ_WT  = 0.33;
+        finbl double WRITE_WT = 0.67;
+        double rebdProgress = _segCount;
         if (_estByteLimit > 0 && _byteCount > 0)
-            readProgress += (double)_byteCount / _estByteLimit;
+            rebdProgress += (double)_byteCount / _estByteLimit;
         double writeProgress = _fileCount;
-        double scaledProgress
-            = READ_WT  * readProgress  / Math.max(_estSegLimit,1)
-            + WRITE_WT * writeProgress / Math.max(_estFileLimit,1);
-        int percent = (int) Math.round(100*scaledProgress);
+        double scbledProgress
+            = READ_WT  * rebdProgress  / Mbth.mbx(_estSegLimit,1)
+            + WRITE_WT * writeProgress / Mbth.mbx(_estFileLimit,1);
+        int percent = (int) Mbth.round(100*scbledProgress);
         if (percent > 100)  percent = 100;
         if (percent > _prevPercent) {
             _prevPercent = percent;
-            _props.setInteger(Pack200.Unpacker.PROGRESS, percent);
+            _props.setInteger(Pbck200.Unpbcker.PROGRESS, percent);
             if (_verbose > 0)
                 Utils.log.info("progress = "+percent);
         }
     }
 
-    private void copyInOption(String opt) {
-        String val = _props.getProperty(opt);
+    privbte void copyInOption(String opt) {
+        String vbl = _props.getProperty(opt);
         if (_verbose > 0)
-            Utils.log.info("set "+opt+"="+val);
-        if (val != null) {
-            boolean set = setOption(opt, val);
+            Utils.log.info("set "+opt+"="+vbl);
+        if (vbl != null) {
+            boolebn set = setOption(opt, vbl);
             if (!set)
-                Utils.log.warning("Invalid option "+opt+"="+val);
+                Utils.log.wbrning("Invblid option "+opt+"="+vbl);
         }
     }
 
-    void run(InputStream inRaw, JarOutputStream jstream,
+    void run(InputStrebm inRbw, JbrOutputStrebm jstrebm,
              ByteBuffer presetInput) throws IOException {
-        BufferedInputStream in0 = new BufferedInputStream(inRaw);
-        this.in = in0;    // for readInputFn to see
+        BufferedInputStrebm in0 = new BufferedInputStrebm(inRbw);
+        this.in = in0;    // for rebdInputFn to see
         _verbose = _props.getInteger(Utils.DEBUG_VERBOSE);
-        // Fix for BugId: 4902477, -unpack.modification.time = 1059010598000
-        // TODO eliminate and fix in unpack.cpp
+        // Fix for BugId: 4902477, -unpbck.modificbtion.time = 1059010598000
+        // TODO eliminbte bnd fix in unpbck.cpp
 
-        final int modtime = Pack200.Packer.KEEP.equals(_props.getProperty(Utils.UNPACK_MODIFICATION_TIME, "0")) ?
-                Constants.NO_MODTIME : _props.getTime(Utils.UNPACK_MODIFICATION_TIME);
+        finbl int modtime = Pbck200.Pbcker.KEEP.equbls(_props.getProperty(Utils.UNPACK_MODIFICATION_TIME, "0")) ?
+                Constbnts.NO_MODTIME : _props.getTime(Utils.UNPACK_MODIFICATION_TIME);
 
         copyInOption(Utils.DEBUG_VERBOSE);
-        copyInOption(Pack200.Unpacker.DEFLATE_HINT);
-        if (modtime == Constants.NO_MODTIME)  // Don't pass KEEP && NOW
+        copyInOption(Pbck200.Unpbcker.DEFLATE_HINT);
+        if (modtime == Constbnts.NO_MODTIME)  // Don't pbss KEEP && NOW
             copyInOption(Utils.UNPACK_MODIFICATION_TIME);
-        updateProgress();  // reset progress bar
+        updbteProgress();  // reset progress bbr
         for (;;) {
-            // Read the packed bits.
-            long counts = start(presetInput, 0);
-            _byteCount = _estByteLimit = 0;  // reset partial scan counts
-            ++_segCount;  // just finished scanning a whole segment...
+            // Rebd the pbcked bits.
+            long counts = stbrt(presetInput, 0);
+            _byteCount = _estByteLimit = 0;  // reset pbrtibl scbn counts
+            ++_segCount;  // just finished scbnning b whole segment...
             int nextSeg  = (int)( counts >>> 32 );
             int nextFile = (int)( counts >>>  0 );
 
-            // Estimate eventual total number of segments and files.
+            // Estimbte eventubl totbl number of segments bnd files.
             _estSegLimit = _segCount + nextSeg;
             double filesAfterThisSeg = _fileCount + nextFile;
             _estFileLimit = (int)( (filesAfterThisSeg *
                                     _estSegLimit) / _segCount );
 
             // Write the files.
-            int[] intParts = { 0,0, 0, 0 };
-            //    intParts = {size.hi/lo, mod, defl}
-            Object[] parts = { intParts, null, null, null };
-            //       parts = { {intParts}, name, data0/1 }
-            while (getNextFile(parts)) {
-                //BandStructure.printArrayTo(System.out, intParts, 0, parts.length);
-                String name = (String) parts[1];
-                long   size = ( (long)intParts[0] << 32)
-                            + (((long)intParts[1] << 32) >>> 32);
+            int[] intPbrts = { 0,0, 0, 0 };
+            //    intPbrts = {size.hi/lo, mod, defl}
+            Object[] pbrts = { intPbrts, null, null, null };
+            //       pbrts = { {intPbrts}, nbme, dbtb0/1 }
+            while (getNextFile(pbrts)) {
+                //BbndStructure.printArrbyTo(System.out, intPbrts, 0, pbrts.length);
+                String nbme = (String) pbrts[1];
+                long   size = ( (long)intPbrts[0] << 32)
+                            + (((long)intPbrts[1] << 32) >>> 32);
 
-                long   mtime = (modtime != Constants.NO_MODTIME ) ?
-                                modtime : intParts[2] ;
-                boolean deflateHint = (intParts[3] != 0);
-                ByteBuffer data0 = (ByteBuffer) parts[2];
-                ByteBuffer data1 = (ByteBuffer) parts[3];
-                writeEntry(jstream, name, mtime, size, deflateHint,
-                           data0, data1);
+                long   mtime = (modtime != Constbnts.NO_MODTIME ) ?
+                                modtime : intPbrts[2] ;
+                boolebn deflbteHint = (intPbrts[3] != 0);
+                ByteBuffer dbtb0 = (ByteBuffer) pbrts[2];
+                ByteBuffer dbtb1 = (ByteBuffer) pbrts[3];
+                writeEntry(jstrebm, nbme, mtime, size, deflbteHint,
+                           dbtb0, dbtb1);
                 ++_fileCount;
-                updateProgress();
+                updbteProgress();
             }
             presetInput = getUnusedInput();
             long consumed = finish();
             if (_verbose > 0)
                 Utils.log.info("bytes consumed = "+consumed);
             if (presetInput == null &&
-                !Utils.isPackMagic(Utils.readMagic(in0))) {
-                break;
+                !Utils.isPbckMbgic(Utils.rebdMbgic(in0))) {
+                brebk;
             }
             if (_verbose > 0 ) {
                 if (presetInput != null)
@@ -243,31 +243,31 @@ class NativeUnpack {
         }
     }
 
-    void run(InputStream in, JarOutputStream jstream) throws IOException {
-        run(in, jstream, null);
+    void run(InputStrebm in, JbrOutputStrebm jstrebm) throws IOException {
+        run(in, jstrebm, null);
     }
 
-    void run(File inFile, JarOutputStream jstream) throws IOException {
-        // %%% maybe memory-map the file, and pass it straight into unpacker
-        ByteBuffer mappedFile = null;
-        try (FileInputStream fis = new FileInputStream(inFile)) {
-            run(fis, jstream, mappedFile);
+    void run(File inFile, JbrOutputStrebm jstrebm) throws IOException {
+        // %%% mbybe memory-mbp the file, bnd pbss it strbight into unpbcker
+        ByteBuffer mbppedFile = null;
+        try (FileInputStrebm fis = new FileInputStrebm(inFile)) {
+            run(fis, jstrebm, mbppedFile);
         }
-        // Note:  caller is responsible to finish with jstream.
+        // Note:  cbller is responsible to finish with jstrebm.
     }
 
-    private void writeEntry(JarOutputStream j, String name,
-                            long mtime, long lsize, boolean deflateHint,
-                            ByteBuffer data0, ByteBuffer data1) throws IOException {
+    privbte void writeEntry(JbrOutputStrebm j, String nbme,
+                            long mtime, long lsize, boolebn deflbteHint,
+                            ByteBuffer dbtb0, ByteBuffer dbtb1) throws IOException {
         int size = (int)lsize;
         if (size != lsize)
-            throw new IOException("file too large: "+lsize);
+            throw new IOException("file too lbrge: "+lsize);
 
         CRC32 crc32 = _crc32;
 
         if (_verbose > 1)
-            Utils.log.fine("Writing entry: "+name+" size="+size
-                             +(deflateHint?" deflated":""));
+            Utils.log.fine("Writing entry: "+nbme+" size="+size
+                             +(deflbteHint?" deflbted":""));
 
         if (_buf.length < size) {
             int newSize = size;
@@ -275,48 +275,48 @@ class NativeUnpack {
                 newSize <<= 1;
                 if (newSize <= 0) {
                     newSize = size;
-                    break;
+                    brebk;
                 }
             }
             _buf = new byte[newSize];
         }
-        assert(_buf.length >= size);
+        bssert(_buf.length >= size);
 
         int fillp = 0;
-        if (data0 != null) {
-            int size0 = data0.capacity();
-            data0.get(_buf, fillp, size0);
+        if (dbtb0 != null) {
+            int size0 = dbtb0.cbpbcity();
+            dbtb0.get(_buf, fillp, size0);
             fillp += size0;
         }
-        if (data1 != null) {
-            int size1 = data1.capacity();
-            data1.get(_buf, fillp, size1);
+        if (dbtb1 != null) {
+            int size1 = dbtb1.cbpbcity();
+            dbtb1.get(_buf, fillp, size1);
             fillp += size1;
         }
         while (fillp < size) {
-            // Fill in rest of data from the stream itself.
-            int nr = in.read(_buf, fillp, size - fillp);
-            if (nr <= 0)  throw new IOException("EOF at end of archive");
+            // Fill in rest of dbtb from the strebm itself.
+            int nr = in.rebd(_buf, fillp, size - fillp);
+            if (nr <= 0)  throw new IOException("EOF bt end of brchive");
             fillp += nr;
         }
 
-        ZipEntry z = new ZipEntry(name);
+        ZipEntry z = new ZipEntry(nbme);
         z.setTime(mtime * 1000);
 
         if (size == 0) {
-            z.setMethod(ZipOutputStream.STORED);
+            z.setMethod(ZipOutputStrebm.STORED);
             z.setSize(0);
             z.setCrc(0);
             z.setCompressedSize(0);
-        } else if (!deflateHint) {
-            z.setMethod(ZipOutputStream.STORED);
+        } else if (!deflbteHint) {
+            z.setMethod(ZipOutputStrebm.STORED);
             z.setSize(size);
             z.setCompressedSize(size);
             crc32.reset();
-            crc32.update(_buf, 0, size);
-            z.setCrc(crc32.getValue());
+            crc32.updbte(_buf, 0, size);
+            z.setCrc(crc32.getVblue());
         } else {
-            z.setMethod(Deflater.DEFLATED);
+            z.setMethod(Deflbter.DEFLATED);
             z.setSize(size);
         }
 

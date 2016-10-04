@@ -1,92 +1,92 @@
 /*
- * Copyright (c) 2000, 2001, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2001, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package sun.awt.image;
+pbckbge sun.bwt.imbge;
 
-import java.awt.image.DataBuffer;
-import sun.java2d.SurfaceData;
-import java.awt.Rectangle;
+import jbvb.bwt.imbge.DbtbBuffer;
+import sun.jbvb2d.SurfbceDbtb;
+import jbvb.bwt.Rectbngle;
 
 /**
- * This class extends <CODE>DataBuffer</CODE> and allows access to
- * native data via the DataBuffer methods.  Note that, unlike other
- * DataBuffer classes, the data is not stored in this class but
- * has been created and stored elsewhere and this class is used
- * merely to access that data.  Note also that this class subclasses
- * from DataBuffer and not from any of the standard subclasses
- * (e.g., DataBufferInt); those subclasses allow the user to
- * get a pointer to the data and manipulate it directly.  That
- * operation may not be possible or wise with native data.
- * One important use of this DataBuffer class is in accessing the
- * data stored in an offscreen vram surface, such as that created
- * by the createVolatileImage() method.
+ * This clbss extends <CODE>DbtbBuffer</CODE> bnd bllows bccess to
+ * nbtive dbtb vib the DbtbBuffer methods.  Note thbt, unlike other
+ * DbtbBuffer clbsses, the dbtb is not stored in this clbss but
+ * hbs been crebted bnd stored elsewhere bnd this clbss is used
+ * merely to bccess thbt dbtb.  Note blso thbt this clbss subclbsses
+ * from DbtbBuffer bnd not from bny of the stbndbrd subclbsses
+ * (e.g., DbtbBufferInt); those subclbsses bllow the user to
+ * get b pointer to the dbtb bnd mbnipulbte it directly.  Thbt
+ * operbtion mby not be possible or wise with nbtive dbtb.
+ * One importbnt use of this DbtbBuffer clbss is in bccessing the
+ * dbtb stored in bn offscreen vrbm surfbce, such bs thbt crebted
+ * by the crebteVolbtileImbge() method.
  */
 
-public class DataBufferNative extends DataBuffer
+public clbss DbtbBufferNbtive extends DbtbBuffer
 {
-    protected SurfaceData surfaceData;
+    protected SurfbceDbtb surfbceDbtb;
     protected int width;
 
     /**
-     * Constructor.  The constructor of this object requires a
-     * SurfaceData object; that surfaceData object will be used
-     * to access the actual pixel data in native code.
+     * Constructor.  The constructor of this object requires b
+     * SurfbceDbtb object; thbt surfbceDbtb object will be used
+     * to bccess the bctubl pixel dbtb in nbtive code.
      */
-    public DataBufferNative(SurfaceData sData, int type, int width, int height) {
+    public DbtbBufferNbtive(SurfbceDbtb sDbtb, int type, int width, int height) {
         super(type, width*height);
         this.width = width;
-        this.surfaceData = sData;
+        this.surfbceDbtb = sDbtb;
     }
 
-    protected native int getElem(int x, int y, SurfaceData sData);
+    protected nbtive int getElem(int x, int y, SurfbceDbtb sDbtb);
 
     /**
-     * getElem returns the pixel value for a given index into the
-     * dataBuffer array.  The bank value is currently ignored (the
-     * type of data accessed through this class is not stored in
-     * separate banks).  The x and y coordinates of a pixel are calculated
-     * from the index value and the native getElem() method is
-     * called with the internal surfaceData object.
+     * getElem returns the pixel vblue for b given index into the
+     * dbtbBuffer brrby.  The bbnk vblue is currently ignored (the
+     * type of dbtb bccessed through this clbss is not stored in
+     * sepbrbte bbnks).  The x bnd y coordinbtes of b pixel bre cblculbted
+     * from the index vblue bnd the nbtive getElem() method is
+     * cblled with the internbl surfbceDbtb object.
      */
-    public int getElem(int bank, int i) {
-        return getElem(i % width, i / width, surfaceData);
+    public int getElem(int bbnk, int i) {
+        return getElem(i % width, i / width, surfbceDbtb);
     }
 
-    protected native void setElem(int x, int y, int val, SurfaceData sData);
+    protected nbtive void setElem(int x, int y, int vbl, SurfbceDbtb sDbtb);
 
     /**
-     * setElem sets the pixel value of a given index into the
-     * dataBuffer array.  The bank value is currently ignored (the
-     * type of data accessed through this class is not stored in
-     * separate banks).  The x and y coordinates of a pixel are calculated
-     * from the index value and the native setElem() method is
-     * called with the internal surfaceData object.
+     * setElem sets the pixel vblue of b given index into the
+     * dbtbBuffer brrby.  The bbnk vblue is currently ignored (the
+     * type of dbtb bccessed through this clbss is not stored in
+     * sepbrbte bbnks).  The x bnd y coordinbtes of b pixel bre cblculbted
+     * from the index vblue bnd the nbtive setElem() method is
+     * cblled with the internbl surfbceDbtb object.
      */
-    public void setElem(int bank, int i, int val) {
-        setElem(i % width, i / width, val, surfaceData);
+    public void setElem(int bbnk, int i, int vbl) {
+        setElem(i % width, i / width, vbl, surfbceDbtb);
     }
 
 }

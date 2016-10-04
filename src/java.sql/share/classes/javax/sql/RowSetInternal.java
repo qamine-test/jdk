@@ -1,103 +1,103 @@
 /*
- * Copyright (c) 2000, 2001, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2001, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.sql;
+pbckbge jbvbx.sql;
 
-import java.sql.*;
+import jbvb.sql.*;
 
 /**
- * The interface that a <code>RowSet</code> object implements in order to
- * present itself to a <code>RowSetReader</code> or <code>RowSetWriter</code>
- * object. The <code>RowSetInternal</code> interface contains
- * methods that let the reader or writer access and modify the internal
- * state of the rowset.
+ * The interfbce thbt b <code>RowSet</code> object implements in order to
+ * present itself to b <code>RowSetRebder</code> or <code>RowSetWriter</code>
+ * object. The <code>RowSetInternbl</code> interfbce contbins
+ * methods thbt let the rebder or writer bccess bnd modify the internbl
+ * stbte of the rowset.
  *
  * @since 1.4
  */
 
-public interface RowSetInternal {
+public interfbce RowSetInternbl {
 
   /**
-   * Retrieves the parameters that have been set for this
-   * <code>RowSet</code> object's command.
+   * Retrieves the pbrbmeters thbt hbve been set for this
+   * <code>RowSet</code> object's commbnd.
    *
-   * @return an array of the current parameter values for this <code>RowSet</code>
-   *         object's command
-   * @exception SQLException if a database access error occurs
+   * @return bn brrby of the current pbrbmeter vblues for this <code>RowSet</code>
+   *         object's commbnd
+   * @exception SQLException if b dbtbbbse bccess error occurs
    */
-  Object[] getParams() throws SQLException;
+  Object[] getPbrbms() throws SQLException;
 
   /**
-   * Retrieves the <code>Connection</code> object that was passed to this
+   * Retrieves the <code>Connection</code> object thbt wbs pbssed to this
    * <code>RowSet</code> object.
    *
-   * @return the <code>Connection</code> object passed to the rowset
-   *      or <code>null</code> if none was passed
-   * @exception SQLException if a database access error occurs
+   * @return the <code>Connection</code> object pbssed to the rowset
+   *      or <code>null</code> if none wbs pbssed
+   * @exception SQLException if b dbtbbbse bccess error occurs
    */
   Connection getConnection() throws SQLException;
 
   /**
-   * Sets the given <code>RowSetMetaData</code> object as the
-   * <code>RowSetMetaData</code> object for this <code>RowSet</code>
-   * object. The <code>RowSetReader</code> object associated with the rowset
-   * will use <code>RowSetMetaData</code> methods to set the values giving
-   * information about the rowset's columns.
+   * Sets the given <code>RowSetMetbDbtb</code> object bs the
+   * <code>RowSetMetbDbtb</code> object for this <code>RowSet</code>
+   * object. The <code>RowSetRebder</code> object bssocibted with the rowset
+   * will use <code>RowSetMetbDbtb</code> methods to set the vblues giving
+   * informbtion bbout the rowset's columns.
    *
-   * @param md the <code>RowSetMetaData</code> object that will be set with
-   *        information about the rowset's columns
+   * @pbrbm md the <code>RowSetMetbDbtb</code> object thbt will be set with
+   *        informbtion bbout the rowset's columns
    *
-   * @exception SQLException if a database access error occurs
+   * @exception SQLException if b dbtbbbse bccess error occurs
    */
-  void setMetaData(RowSetMetaData md) throws SQLException;
+  void setMetbDbtb(RowSetMetbDbtb md) throws SQLException;
 
   /**
-   * Retrieves a <code>ResultSet</code> object containing the original
-   * value of this <code>RowSet</code> object.
+   * Retrieves b <code>ResultSet</code> object contbining the originbl
+   * vblue of this <code>RowSet</code> object.
    * <P>
    * The cursor is positioned before the first row in the result set.
-   * Only rows contained in the result set returned by the method
-   * <code>getOriginal</code> are said to have an original value.
+   * Only rows contbined in the result set returned by the method
+   * <code>getOriginbl</code> bre sbid to hbve bn originbl vblue.
    *
-   * @return the original value of the rowset
-   * @exception SQLException if a database access error occurs
+   * @return the originbl vblue of the rowset
+   * @exception SQLException if b dbtbbbse bccess error occurs
    */
-  public ResultSet getOriginal() throws SQLException;
+  public ResultSet getOriginbl() throws SQLException;
 
   /**
-   * Retrieves a <code>ResultSet</code> object containing the original value
-   * of the current row only.  If the current row has no original value,
-   * an empty result set is returned. If there is no current row,
-   * an exception is thrown.
+   * Retrieves b <code>ResultSet</code> object contbining the originbl vblue
+   * of the current row only.  If the current row hbs no originbl vblue,
+   * bn empty result set is returned. If there is no current row,
+   * bn exception is thrown.
    *
-   * @return the original value of the current row as a <code>ResultSet</code>
+   * @return the originbl vblue of the current row bs b <code>ResultSet</code>
    *          object
-   * @exception SQLException if a database access error occurs or this method
-   *           is called while the cursor is on the insert row, before the
-   *           first row, or after the last row
+   * @exception SQLException if b dbtbbbse bccess error occurs or this method
+   *           is cblled while the cursor is on the insert row, before the
+   *           first row, or bfter the lbst row
    */
-  public ResultSet getOriginalRow() throws SQLException;
+  public ResultSet getOriginblRow() throws SQLException;
 
 }

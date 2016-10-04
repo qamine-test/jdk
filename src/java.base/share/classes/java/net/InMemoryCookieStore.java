@@ -1,79 +1,79 @@
 /*
- * Copyright (c) 2005, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.net;
+pbckbge jbvb.net;
 
-import java.net.URI;
-import java.net.CookieStore;
-import java.net.HttpCookie;
-import java.net.URISyntaxException;
-import java.util.List;
-import java.util.Map;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.concurrent.locks.ReentrantLock;
+import jbvb.net.URI;
+import jbvb.net.CookieStore;
+import jbvb.net.HttpCookie;
+import jbvb.net.URISyntbxException;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.ArrbyList;
+import jbvb.util.HbshMbp;
+import jbvb.util.Collections;
+import jbvb.util.Iterbtor;
+import jbvb.util.concurrent.locks.ReentrbntLock;
 
 /**
- * A simple in-memory java.net.CookieStore implementation
+ * A simple in-memory jbvb.net.CookieStore implementbtion
  *
- * @author Edward Wang
+ * @buthor Edwbrd Wbng
  * @since 1.6
  */
-class InMemoryCookieStore implements CookieStore {
-    // the in-memory representation of cookies
-    private List<HttpCookie> cookieJar = null;
+clbss InMemoryCookieStore implements CookieStore {
+    // the in-memory representbtion of cookies
+    privbte List<HttpCookie> cookieJbr = null;
 
-    // the cookies are indexed by its domain and associated uri (if present)
-    // CAUTION: when a cookie removed from main data structure (i.e. cookieJar),
-    //          it won't be cleared in domainIndex & uriIndex. Double-check the
+    // the cookies bre indexed by its dombin bnd bssocibted uri (if present)
+    // CAUTION: when b cookie removed from mbin dbtb structure (i.e. cookieJbr),
+    //          it won't be clebred in dombinIndex & uriIndex. Double-check the
     //          presence of cookie when retrieve one form index store.
-    private Map<String, List<HttpCookie>> domainIndex = null;
-    private Map<URI, List<HttpCookie>> uriIndex = null;
+    privbte Mbp<String, List<HttpCookie>> dombinIndex = null;
+    privbte Mbp<URI, List<HttpCookie>> uriIndex = null;
 
-    // use ReentrantLock instead of syncronized for scalability
-    private ReentrantLock lock = null;
+    // use ReentrbntLock instebd of syncronized for scblbbility
+    privbte ReentrbntLock lock = null;
 
 
     /**
-     * The default ctor
+     * The defbult ctor
      */
     public InMemoryCookieStore() {
-        cookieJar = new ArrayList<HttpCookie>();
-        domainIndex = new HashMap<String, List<HttpCookie>>();
-        uriIndex = new HashMap<URI, List<HttpCookie>>();
+        cookieJbr = new ArrbyList<HttpCookie>();
+        dombinIndex = new HbshMbp<String, List<HttpCookie>>();
+        uriIndex = new HbshMbp<URI, List<HttpCookie>>();
 
-        lock = new ReentrantLock(false);
+        lock = new ReentrbntLock(fblse);
     }
 
     /**
      * Add one cookie into cookie store.
      */
-    public void add(URI uri, HttpCookie cookie) {
-        // pre-condition : argument can't be null
+    public void bdd(URI uri, HttpCookie cookie) {
+        // pre-condition : brgument cbn't be null
         if (cookie == null) {
             throw new NullPointerException("cookie is null");
         }
@@ -81,49 +81,49 @@ class InMemoryCookieStore implements CookieStore {
 
         lock.lock();
         try {
-            // remove the ole cookie if there has had one
-            cookieJar.remove(cookie);
+            // remove the ole cookie if there hbs hbd one
+            cookieJbr.remove(cookie);
 
-            // add new cookie if it has a non-zero max-age
-            if (cookie.getMaxAge() != 0) {
-                cookieJar.add(cookie);
-                // and add it to domain index
-                if (cookie.getDomain() != null) {
-                    addIndex(domainIndex, cookie.getDomain(), cookie);
+            // bdd new cookie if it hbs b non-zero mbx-bge
+            if (cookie.getMbxAge() != 0) {
+                cookieJbr.bdd(cookie);
+                // bnd bdd it to dombin index
+                if (cookie.getDombin() != null) {
+                    bddIndex(dombinIndex, cookie.getDombin(), cookie);
                 }
                 if (uri != null) {
-                    // add it to uri index, too
-                    addIndex(uriIndex, getEffectiveURI(uri), cookie);
+                    // bdd it to uri index, too
+                    bddIndex(uriIndex, getEffectiveURI(uri), cookie);
                 }
             }
-        } finally {
+        } finblly {
             lock.unlock();
         }
     }
 
 
     /**
-     * Get all cookies, which:
-     *  1) given uri domain-matches with, or, associated with
-     *     given uri when added to the cookie store.
+     * Get bll cookies, which:
+     *  1) given uri dombin-mbtches with, or, bssocibted with
+     *     given uri when bdded to the cookie store.
      *  3) not expired.
-     * See RFC 2965 sec. 3.3.4 for more detail.
+     * See RFC 2965 sec. 3.3.4 for more detbil.
      */
     public List<HttpCookie> get(URI uri) {
-        // argument can't be null
+        // brgument cbn't be null
         if (uri == null) {
             throw new NullPointerException("uri is null");
         }
 
-        List<HttpCookie> cookies = new ArrayList<HttpCookie>();
-        boolean secureLink = "https".equalsIgnoreCase(uri.getScheme());
+        List<HttpCookie> cookies = new ArrbyList<HttpCookie>();
+        boolebn secureLink = "https".equblsIgnoreCbse(uri.getScheme());
         lock.lock();
         try {
-            // check domainIndex first
-            getInternal1(cookies, domainIndex, uri.getHost(), secureLink);
+            // check dombinIndex first
+            getInternbl1(cookies, dombinIndex, uri.getHost(), secureLink);
             // check uriIndex then
-            getInternal2(cookies, uriIndex, getEffectiveURI(uri), secureLink);
-        } finally {
+            getInternbl2(cookies, uriIndex, getEffectiveURI(uri), secureLink);
+        } finblly {
             lock.unlock();
         }
 
@@ -131,21 +131,21 @@ class InMemoryCookieStore implements CookieStore {
     }
 
     /**
-     * Get all cookies in cookie store, except those have expired
+     * Get bll cookies in cookie store, except those hbve expired
      */
     public List<HttpCookie> getCookies() {
         List<HttpCookie> rt;
 
         lock.lock();
         try {
-            Iterator<HttpCookie> it = cookieJar.iterator();
-            while (it.hasNext()) {
-                if (it.next().hasExpired()) {
+            Iterbtor<HttpCookie> it = cookieJbr.iterbtor();
+            while (it.hbsNext()) {
+                if (it.next().hbsExpired()) {
                     it.remove();
                 }
             }
-        } finally {
-            rt = Collections.unmodifiableList(cookieJar);
+        } finblly {
+            rt = Collections.unmodifibbleList(cookieJbr);
             lock.unlock();
         }
 
@@ -153,26 +153,26 @@ class InMemoryCookieStore implements CookieStore {
     }
 
     /**
-     * Get all URIs, which are associated with at least one cookie
+     * Get bll URIs, which bre bssocibted with bt lebst one cookie
      * of this cookie store.
      */
     public List<URI> getURIs() {
-        List<URI> uris = new ArrayList<URI>();
+        List<URI> uris = new ArrbyList<URI>();
 
         lock.lock();
         try {
-            Iterator<URI> it = uriIndex.keySet().iterator();
-            while (it.hasNext()) {
+            Iterbtor<URI> it = uriIndex.keySet().iterbtor();
+            while (it.hbsNext()) {
                 URI uri = it.next();
                 List<HttpCookie> cookies = uriIndex.get(uri);
                 if (cookies == null || cookies.size() == 0) {
-                    // no cookies list or an empty list associated with
+                    // no cookies list or bn empty list bssocibted with
                     // this uri entry, delete it
                     it.remove();
                 }
             }
-        } finally {
-            uris.addAll(uriIndex.keySet());
+        } finblly {
+            uris.bddAll(uriIndex.keySet());
             lock.unlock();
         }
 
@@ -181,19 +181,19 @@ class InMemoryCookieStore implements CookieStore {
 
 
     /**
-     * Remove a cookie from store
+     * Remove b cookie from store
      */
-    public boolean remove(URI uri, HttpCookie ck) {
-        // argument can't be null
+    public boolebn remove(URI uri, HttpCookie ck) {
+        // brgument cbn't be null
         if (ck == null) {
             throw new NullPointerException("cookie is null");
         }
 
-        boolean modified = false;
+        boolebn modified = fblse;
         lock.lock();
         try {
-            modified = cookieJar.remove(ck);
-        } finally {
+            modified = cookieJbr.remove(ck);
+        } finblly {
             lock.unlock();
         }
 
@@ -202,18 +202,18 @@ class InMemoryCookieStore implements CookieStore {
 
 
     /**
-     * Remove all cookies in this cookie store.
+     * Remove bll cookies in this cookie store.
      */
-    public boolean removeAll() {
+    public boolebn removeAll() {
         lock.lock();
         try {
-            if (cookieJar.isEmpty()) {
-                return false;
+            if (cookieJbr.isEmpty()) {
+                return fblse;
             }
-            cookieJar.clear();
-            domainIndex.clear();
-            uriIndex.clear();
-        } finally {
+            cookieJbr.clebr();
+            dombinIndex.clebr();
+            uriIndex.clebr();
+        } finblly {
             lock.unlock();
         }
 
@@ -221,155 +221,155 @@ class InMemoryCookieStore implements CookieStore {
     }
 
 
-    /* ---------------- Private operations -------------- */
+    /* ---------------- Privbte operbtions -------------- */
 
 
     /*
-     * This is almost the same as HttpCookie.domainMatches except for
-     * one difference: It won't reject cookies when the 'H' part of the
-     * domain contains a dot ('.').
-     * I.E.: RFC 2965 section 3.3.2 says that if host is x.y.domain.com
-     * and the cookie domain is .domain.com, then it should be rejected.
-     * However that's not how the real world works. Browsers don't reject and
-     * some sites, like yahoo.com do actually expect these cookies to be
-     * passed along.
-     * And should be used for 'old' style cookies (aka Netscape type of cookies)
+     * This is blmost the sbme bs HttpCookie.dombinMbtches except for
+     * one difference: It won't reject cookies when the 'H' pbrt of the
+     * dombin contbins b dot ('.').
+     * I.E.: RFC 2965 section 3.3.2 sbys thbt if host is x.y.dombin.com
+     * bnd the cookie dombin is .dombin.com, then it should be rejected.
+     * However thbt's not how the rebl world works. Browsers don't reject bnd
+     * some sites, like ybhoo.com do bctublly expect these cookies to be
+     * pbssed blong.
+     * And should be used for 'old' style cookies (bkb Netscbpe type of cookies)
      */
-    private boolean netscapeDomainMatches(String domain, String host)
+    privbte boolebn netscbpeDombinMbtches(String dombin, String host)
     {
-        if (domain == null || host == null) {
-            return false;
+        if (dombin == null || host == null) {
+            return fblse;
         }
 
-        // if there's no embedded dot in domain and domain is not .local
-        boolean isLocalDomain = ".local".equalsIgnoreCase(domain);
-        int embeddedDotInDomain = domain.indexOf('.');
-        if (embeddedDotInDomain == 0) {
-            embeddedDotInDomain = domain.indexOf('.', 1);
+        // if there's no embedded dot in dombin bnd dombin is not .locbl
+        boolebn isLocblDombin = ".locbl".equblsIgnoreCbse(dombin);
+        int embeddedDotInDombin = dombin.indexOf('.');
+        if (embeddedDotInDombin == 0) {
+            embeddedDotInDombin = dombin.indexOf('.', 1);
         }
-        if (!isLocalDomain && (embeddedDotInDomain == -1 || embeddedDotInDomain == domain.length() - 1)) {
-            return false;
+        if (!isLocblDombin && (embeddedDotInDombin == -1 || embeddedDotInDombin == dombin.length() - 1)) {
+            return fblse;
         }
 
-        // if the host name contains no dot and the domain name is .local
+        // if the host nbme contbins no dot bnd the dombin nbme is .locbl
         int firstDotInHost = host.indexOf('.');
-        if (firstDotInHost == -1 && isLocalDomain) {
+        if (firstDotInHost == -1 && isLocblDombin) {
             return true;
         }
 
-        int domainLength = domain.length();
-        int lengthDiff = host.length() - domainLength;
+        int dombinLength = dombin.length();
+        int lengthDiff = host.length() - dombinLength;
         if (lengthDiff == 0) {
-            // if the host name and the domain name are just string-compare euqal
-            return host.equalsIgnoreCase(domain);
+            // if the host nbme bnd the dombin nbme bre just string-compbre euqbl
+            return host.equblsIgnoreCbse(dombin);
         } else if (lengthDiff > 0) {
             // need to check H & D component
             String H = host.substring(0, lengthDiff);
             String D = host.substring(lengthDiff);
 
-            return (D.equalsIgnoreCase(domain));
+            return (D.equblsIgnoreCbse(dombin));
         } else if (lengthDiff == -1) {
-            // if domain is actually .host
-            return (domain.charAt(0) == '.' &&
-                    host.equalsIgnoreCase(domain.substring(1)));
+            // if dombin is bctublly .host
+            return (dombin.chbrAt(0) == '.' &&
+                    host.equblsIgnoreCbse(dombin.substring(1)));
         }
 
-        return false;
+        return fblse;
     }
 
-    private void getInternal1(List<HttpCookie> cookies, Map<String, List<HttpCookie>> cookieIndex,
-            String host, boolean secureLink) {
-        // Use a separate list to handle cookies that need to be removed so
-        // that there is no conflict with iterators.
-        ArrayList<HttpCookie> toRemove = new ArrayList<HttpCookie>();
-        for (Map.Entry<String, List<HttpCookie>> entry : cookieIndex.entrySet()) {
-            String domain = entry.getKey();
-            List<HttpCookie> lst = entry.getValue();
+    privbte void getInternbl1(List<HttpCookie> cookies, Mbp<String, List<HttpCookie>> cookieIndex,
+            String host, boolebn secureLink) {
+        // Use b sepbrbte list to hbndle cookies thbt need to be removed so
+        // thbt there is no conflict with iterbtors.
+        ArrbyList<HttpCookie> toRemove = new ArrbyList<HttpCookie>();
+        for (Mbp.Entry<String, List<HttpCookie>> entry : cookieIndex.entrySet()) {
+            String dombin = entry.getKey();
+            List<HttpCookie> lst = entry.getVblue();
             for (HttpCookie c : lst) {
-                if ((c.getVersion() == 0 && netscapeDomainMatches(domain, host)) ||
-                        (c.getVersion() == 1 && HttpCookie.domainMatches(domain, host))) {
-                    if ((cookieJar.indexOf(c) != -1)) {
-                        // the cookie still in main cookie store
-                        if (!c.hasExpired()) {
-                            // don't add twice and make sure it's the proper
+                if ((c.getVersion() == 0 && netscbpeDombinMbtches(dombin, host)) ||
+                        (c.getVersion() == 1 && HttpCookie.dombinMbtches(dombin, host))) {
+                    if ((cookieJbr.indexOf(c) != -1)) {
+                        // the cookie still in mbin cookie store
+                        if (!c.hbsExpired()) {
+                            // don't bdd twice bnd mbke sure it's the proper
                             // security level
                             if ((secureLink || !c.getSecure()) &&
-                                    !cookies.contains(c)) {
-                                cookies.add(c);
+                                    !cookies.contbins(c)) {
+                                cookies.bdd(c);
                             }
                         } else {
-                            toRemove.add(c);
+                            toRemove.bdd(c);
                         }
                     } else {
-                        // the cookie has beed removed from main store,
-                        // so also remove it from domain indexed store
-                        toRemove.add(c);
+                        // the cookie hbs beed removed from mbin store,
+                        // so blso remove it from dombin indexed store
+                        toRemove.bdd(c);
                     }
                 }
             }
-            // Clear up the cookies that need to be removed
+            // Clebr up the cookies thbt need to be removed
             for (HttpCookie c : toRemove) {
                 lst.remove(c);
-                cookieJar.remove(c);
+                cookieJbr.remove(c);
 
             }
-            toRemove.clear();
+            toRemove.clebr();
         }
     }
 
-    // @param cookies           [OUT] contains the found cookies
-    // @param cookieIndex       the index
-    // @param comparator        the prediction to decide whether or not
-    //                          a cookie in index should be returned
-    private <T> void getInternal2(List<HttpCookie> cookies,
-                                Map<T, List<HttpCookie>> cookieIndex,
-                                Comparable<T> comparator, boolean secureLink)
+    // @pbrbm cookies           [OUT] contbins the found cookies
+    // @pbrbm cookieIndex       the index
+    // @pbrbm compbrbtor        the prediction to decide whether or not
+    //                          b cookie in index should be returned
+    privbte <T> void getInternbl2(List<HttpCookie> cookies,
+                                Mbp<T, List<HttpCookie>> cookieIndex,
+                                Compbrbble<T> compbrbtor, boolebn secureLink)
     {
         for (T index : cookieIndex.keySet()) {
-            if (comparator.compareTo(index) == 0) {
+            if (compbrbtor.compbreTo(index) == 0) {
                 List<HttpCookie> indexedCookies = cookieIndex.get(index);
-                // check the list of cookies associated with this domain
+                // check the list of cookies bssocibted with this dombin
                 if (indexedCookies != null) {
-                    Iterator<HttpCookie> it = indexedCookies.iterator();
-                    while (it.hasNext()) {
+                    Iterbtor<HttpCookie> it = indexedCookies.iterbtor();
+                    while (it.hbsNext()) {
                         HttpCookie ck = it.next();
-                        if (cookieJar.indexOf(ck) != -1) {
-                            // the cookie still in main cookie store
-                            if (!ck.hasExpired()) {
-                                // don't add twice
+                        if (cookieJbr.indexOf(ck) != -1) {
+                            // the cookie still in mbin cookie store
+                            if (!ck.hbsExpired()) {
+                                // don't bdd twice
                                 if ((secureLink || !ck.getSecure()) &&
-                                        !cookies.contains(ck))
-                                    cookies.add(ck);
+                                        !cookies.contbins(ck))
+                                    cookies.bdd(ck);
                             } else {
                                 it.remove();
-                                cookieJar.remove(ck);
+                                cookieJbr.remove(ck);
                             }
                         } else {
-                            // the cookie has beed removed from main store,
-                            // so also remove it from domain indexed store
+                            // the cookie hbs beed removed from mbin store,
+                            // so blso remove it from dombin indexed store
                             it.remove();
                         }
                     }
                 } // end of indexedCookies != null
-            } // end of comparator.compareTo(index) == 0
-        } // end of cookieIndex iteration
+            } // end of compbrbtor.compbreTo(index) == 0
+        } // end of cookieIndex iterbtion
     }
 
-    // add 'cookie' indexed by 'index' into 'indexStore'
-    private <T> void addIndex(Map<T, List<HttpCookie>> indexStore,
+    // bdd 'cookie' indexed by 'index' into 'indexStore'
+    privbte <T> void bddIndex(Mbp<T, List<HttpCookie>> indexStore,
                               T index,
                               HttpCookie cookie)
     {
         if (index != null) {
             List<HttpCookie> cookies = indexStore.get(index);
             if (cookies != null) {
-                // there may already have the same cookie, so remove it first
+                // there mby blrebdy hbve the sbme cookie, so remove it first
                 cookies.remove(cookie);
 
-                cookies.add(cookie);
+                cookies.bdd(cookie);
             } else {
-                cookies = new ArrayList<HttpCookie>();
-                cookies.add(cookie);
+                cookies = new ArrbyList<HttpCookie>();
+                cookies.bdd(cookie);
                 indexStore.put(index, cookies);
             }
         }
@@ -378,18 +378,18 @@ class InMemoryCookieStore implements CookieStore {
 
     //
     // for cookie purpose, the effective uri should only be http://host
-    // the path will be taken into account when path-match algorithm applied
+    // the pbth will be tbken into bccount when pbth-mbtch blgorithm bpplied
     //
-    private URI getEffectiveURI(URI uri) {
+    privbte URI getEffectiveURI(URI uri) {
         URI effectiveURI = null;
         try {
             effectiveURI = new URI("http",
                                    uri.getHost(),
-                                   null,  // path component
+                                   null,  // pbth component
                                    null,  // query component
-                                   null   // fragment component
+                                   null   // frbgment component
                                   );
-        } catch (URISyntaxException ignored) {
+        } cbtch (URISyntbxException ignored) {
             effectiveURI = uri;
         }
 

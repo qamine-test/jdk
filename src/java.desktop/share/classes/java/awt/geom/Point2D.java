@@ -1,85 +1,85 @@
 /*
- * Copyright (c) 1997, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt.geom;
+pbckbge jbvb.bwt.geom;
 
-import java.io.Serializable;
+import jbvb.io.Seriblizbble;
 
 /**
- * The <code>Point2D</code> class defines a point representing a location
- * in {@code (x,y)} coordinate space.
+ * The <code>Point2D</code> clbss defines b point representing b locbtion
+ * in {@code (x,y)} coordinbte spbce.
  * <p>
- * This class is only the abstract superclass for all objects that
- * store a 2D coordinate.
- * The actual storage representation of the coordinates is left to
- * the subclass.
+ * This clbss is only the bbstrbct superclbss for bll objects thbt
+ * store b 2D coordinbte.
+ * The bctubl storbge representbtion of the coordinbtes is left to
+ * the subclbss.
  *
- * @author      Jim Graham
+ * @buthor      Jim Grbhbm
  * @since 1.2
  */
-public abstract class Point2D implements Cloneable {
+public bbstrbct clbss Point2D implements Clonebble {
 
     /**
-     * The <code>Float</code> class defines a point specified in float
+     * The <code>Flobt</code> clbss defines b point specified in flobt
      * precision.
      * @since 1.2
      */
-    public static class Float extends Point2D implements Serializable {
+    public stbtic clbss Flobt extends Point2D implements Seriblizbble {
         /**
-         * The X coordinate of this <code>Point2D</code>.
+         * The X coordinbte of this <code>Point2D</code>.
          * @since 1.2
-         * @serial
+         * @seribl
          */
-        public float x;
+        public flobt x;
 
         /**
-         * The Y coordinate of this <code>Point2D</code>.
+         * The Y coordinbte of this <code>Point2D</code>.
          * @since 1.2
-         * @serial
+         * @seribl
          */
-        public float y;
+        public flobt y;
 
         /**
-         * Constructs and initializes a <code>Point2D</code> with
-         * coordinates (0,&nbsp;0).
+         * Constructs bnd initiblizes b <code>Point2D</code> with
+         * coordinbtes (0,&nbsp;0).
          * @since 1.2
          */
-        public Float() {
+        public Flobt() {
         }
 
         /**
-         * Constructs and initializes a <code>Point2D</code> with
-         * the specified coordinates.
+         * Constructs bnd initiblizes b <code>Point2D</code> with
+         * the specified coordinbtes.
          *
-         * @param x the X coordinate of the newly
+         * @pbrbm x the X coordinbte of the newly
          *          constructed <code>Point2D</code>
-         * @param y the Y coordinate of the newly
+         * @pbrbm y the Y coordinbte of the newly
          *          constructed <code>Point2D</code>
          * @since 1.2
          */
-        public Float(float x, float y) {
+        public Flobt(flobt x, flobt y) {
             this.x = x;
             this.y = y;
         }
@@ -104,75 +104,75 @@ public abstract class Point2D implements Cloneable {
          * {@inheritDoc}
          * @since 1.2
          */
-        public void setLocation(double x, double y) {
-            this.x = (float) x;
-            this.y = (float) y;
+        public void setLocbtion(double x, double y) {
+            this.x = (flobt) x;
+            this.y = (flobt) y;
         }
 
         /**
-         * Sets the location of this <code>Point2D</code> to the
-         * specified <code>float</code> coordinates.
+         * Sets the locbtion of this <code>Point2D</code> to the
+         * specified <code>flobt</code> coordinbtes.
          *
-         * @param x the new X coordinate of this {@code Point2D}
-         * @param y the new Y coordinate of this {@code Point2D}
+         * @pbrbm x the new X coordinbte of this {@code Point2D}
+         * @pbrbm y the new Y coordinbte of this {@code Point2D}
          * @since 1.2
          */
-        public void setLocation(float x, float y) {
+        public void setLocbtion(flobt x, flobt y) {
             this.x = x;
             this.y = y;
         }
 
         /**
-         * Returns a <code>String</code> that represents the value
+         * Returns b <code>String</code> thbt represents the vblue
          * of this <code>Point2D</code>.
-         * @return a string representation of this <code>Point2D</code>.
+         * @return b string representbtion of this <code>Point2D</code>.
          * @since 1.2
          */
         public String toString() {
-            return "Point2D.Float["+x+", "+y+"]";
+            return "Point2D.Flobt["+x+", "+y+"]";
         }
 
         /*
-         * JDK 1.6 serialVersionUID
+         * JDK 1.6 seriblVersionUID
          */
-        private static final long serialVersionUID = -2870572449815403710L;
+        privbte stbtic finbl long seriblVersionUID = -2870572449815403710L;
     }
 
     /**
-     * The <code>Double</code> class defines a point specified in
+     * The <code>Double</code> clbss defines b point specified in
      * <code>double</code> precision.
      * @since 1.2
      */
-    public static class Double extends Point2D implements Serializable {
+    public stbtic clbss Double extends Point2D implements Seriblizbble {
         /**
-         * The X coordinate of this <code>Point2D</code>.
+         * The X coordinbte of this <code>Point2D</code>.
          * @since 1.2
-         * @serial
+         * @seribl
          */
         public double x;
 
         /**
-         * The Y coordinate of this <code>Point2D</code>.
+         * The Y coordinbte of this <code>Point2D</code>.
          * @since 1.2
-         * @serial
+         * @seribl
          */
         public double y;
 
         /**
-         * Constructs and initializes a <code>Point2D</code> with
-         * coordinates (0,&nbsp;0).
+         * Constructs bnd initiblizes b <code>Point2D</code> with
+         * coordinbtes (0,&nbsp;0).
          * @since 1.2
          */
         public Double() {
         }
 
         /**
-         * Constructs and initializes a <code>Point2D</code> with the
-         * specified coordinates.
+         * Constructs bnd initiblizes b <code>Point2D</code> with the
+         * specified coordinbtes.
          *
-         * @param x the X coordinate of the newly
+         * @pbrbm x the X coordinbte of the newly
          *          constructed <code>Point2D</code>
-         * @param y the Y coordinate of the newly
+         * @pbrbm y the Y coordinbte of the newly
          *          constructed <code>Point2D</code>
          * @since 1.2
          */
@@ -201,15 +201,15 @@ public abstract class Point2D implements Cloneable {
          * {@inheritDoc}
          * @since 1.2
          */
-        public void setLocation(double x, double y) {
+        public void setLocbtion(double x, double y) {
             this.x = x;
             this.y = y;
         }
 
         /**
-         * Returns a <code>String</code> that represents the value
+         * Returns b <code>String</code> thbt represents the vblue
          * of this <code>Point2D</code>.
-         * @return a string representation of this <code>Point2D</code>.
+         * @return b string representbtion of this <code>Point2D</code>.
          * @since 1.2
          */
         public String toString() {
@@ -217,75 +217,75 @@ public abstract class Point2D implements Cloneable {
         }
 
         /*
-         * JDK 1.6 serialVersionUID
+         * JDK 1.6 seriblVersionUID
          */
-        private static final long serialVersionUID = 6150783262733311327L;
+        privbte stbtic finbl long seriblVersionUID = 6150783262733311327L;
     }
 
     /**
-     * This is an abstract class that cannot be instantiated directly.
-     * Type-specific implementation subclasses are available for
-     * instantiation and provide a number of formats for storing
-     * the information necessary to satisfy the various accessor
+     * This is bn bbstrbct clbss thbt cbnnot be instbntibted directly.
+     * Type-specific implementbtion subclbsses bre bvbilbble for
+     * instbntibtion bnd provide b number of formbts for storing
+     * the informbtion necessbry to sbtisfy the vbrious bccessor
      * methods below.
      *
-     * @see java.awt.geom.Point2D.Float
-     * @see java.awt.geom.Point2D.Double
-     * @see java.awt.Point
+     * @see jbvb.bwt.geom.Point2D.Flobt
+     * @see jbvb.bwt.geom.Point2D.Double
+     * @see jbvb.bwt.Point
      * @since 1.2
      */
     protected Point2D() {
     }
 
     /**
-     * Returns the X coordinate of this <code>Point2D</code> in
+     * Returns the X coordinbte of this <code>Point2D</code> in
      * <code>double</code> precision.
-     * @return the X coordinate of this <code>Point2D</code>.
+     * @return the X coordinbte of this <code>Point2D</code>.
      * @since 1.2
      */
-    public abstract double getX();
+    public bbstrbct double getX();
 
     /**
-     * Returns the Y coordinate of this <code>Point2D</code> in
+     * Returns the Y coordinbte of this <code>Point2D</code> in
      * <code>double</code> precision.
-     * @return the Y coordinate of this <code>Point2D</code>.
+     * @return the Y coordinbte of this <code>Point2D</code>.
      * @since 1.2
      */
-    public abstract double getY();
+    public bbstrbct double getY();
 
     /**
-     * Sets the location of this <code>Point2D</code> to the
-     * specified <code>double</code> coordinates.
+     * Sets the locbtion of this <code>Point2D</code> to the
+     * specified <code>double</code> coordinbtes.
      *
-     * @param x the new X coordinate of this {@code Point2D}
-     * @param y the new Y coordinate of this {@code Point2D}
+     * @pbrbm x the new X coordinbte of this {@code Point2D}
+     * @pbrbm y the new Y coordinbte of this {@code Point2D}
      * @since 1.2
      */
-    public abstract void setLocation(double x, double y);
+    public bbstrbct void setLocbtion(double x, double y);
 
     /**
-     * Sets the location of this <code>Point2D</code> to the same
-     * coordinates as the specified <code>Point2D</code> object.
-     * @param p the specified <code>Point2D</code> to which to set
+     * Sets the locbtion of this <code>Point2D</code> to the sbme
+     * coordinbtes bs the specified <code>Point2D</code> object.
+     * @pbrbm p the specified <code>Point2D</code> to which to set
      * this <code>Point2D</code>
      * @since 1.2
      */
-    public void setLocation(Point2D p) {
-        setLocation(p.getX(), p.getY());
+    public void setLocbtion(Point2D p) {
+        setLocbtion(p.getX(), p.getY());
     }
 
     /**
-     * Returns the square of the distance between two points.
+     * Returns the squbre of the distbnce between two points.
      *
-     * @param x1 the X coordinate of the first specified point
-     * @param y1 the Y coordinate of the first specified point
-     * @param x2 the X coordinate of the second specified point
-     * @param y2 the Y coordinate of the second specified point
-     * @return the square of the distance between the two
-     * sets of specified coordinates.
+     * @pbrbm x1 the X coordinbte of the first specified point
+     * @pbrbm y1 the Y coordinbte of the first specified point
+     * @pbrbm x2 the X coordinbte of the second specified point
+     * @pbrbm y2 the Y coordinbte of the second specified point
+     * @return the squbre of the distbnce between the two
+     * sets of specified coordinbtes.
      * @since 1.2
      */
-    public static double distanceSq(double x1, double y1,
+    public stbtic double distbnceSq(double x1, double y1,
                                     double x2, double y2)
     {
         x1 -= x2;
@@ -294,135 +294,135 @@ public abstract class Point2D implements Cloneable {
     }
 
     /**
-     * Returns the distance between two points.
+     * Returns the distbnce between two points.
      *
-     * @param x1 the X coordinate of the first specified point
-     * @param y1 the Y coordinate of the first specified point
-     * @param x2 the X coordinate of the second specified point
-     * @param y2 the Y coordinate of the second specified point
-     * @return the distance between the two sets of specified
-     * coordinates.
+     * @pbrbm x1 the X coordinbte of the first specified point
+     * @pbrbm y1 the Y coordinbte of the first specified point
+     * @pbrbm x2 the X coordinbte of the second specified point
+     * @pbrbm y2 the Y coordinbte of the second specified point
+     * @return the distbnce between the two sets of specified
+     * coordinbtes.
      * @since 1.2
      */
-    public static double distance(double x1, double y1,
+    public stbtic double distbnce(double x1, double y1,
                                   double x2, double y2)
     {
         x1 -= x2;
         y1 -= y2;
-        return Math.sqrt(x1 * x1 + y1 * y1);
+        return Mbth.sqrt(x1 * x1 + y1 * y1);
     }
 
     /**
-     * Returns the square of the distance from this
-     * <code>Point2D</code> to a specified point.
+     * Returns the squbre of the distbnce from this
+     * <code>Point2D</code> to b specified point.
      *
-     * @param px the X coordinate of the specified point to be measured
-     *           against this <code>Point2D</code>
-     * @param py the Y coordinate of the specified point to be measured
-     *           against this <code>Point2D</code>
-     * @return the square of the distance between this
-     * <code>Point2D</code> and the specified point.
+     * @pbrbm px the X coordinbte of the specified point to be mebsured
+     *           bgbinst this <code>Point2D</code>
+     * @pbrbm py the Y coordinbte of the specified point to be mebsured
+     *           bgbinst this <code>Point2D</code>
+     * @return the squbre of the distbnce between this
+     * <code>Point2D</code> bnd the specified point.
      * @since 1.2
      */
-    public double distanceSq(double px, double py) {
+    public double distbnceSq(double px, double py) {
         px -= getX();
         py -= getY();
         return (px * px + py * py);
     }
 
     /**
-     * Returns the square of the distance from this
-     * <code>Point2D</code> to a specified <code>Point2D</code>.
+     * Returns the squbre of the distbnce from this
+     * <code>Point2D</code> to b specified <code>Point2D</code>.
      *
-     * @param pt the specified point to be measured
-     *           against this <code>Point2D</code>
-     * @return the square of the distance between this
-     * <code>Point2D</code> to a specified <code>Point2D</code>.
+     * @pbrbm pt the specified point to be mebsured
+     *           bgbinst this <code>Point2D</code>
+     * @return the squbre of the distbnce between this
+     * <code>Point2D</code> to b specified <code>Point2D</code>.
      * @since 1.2
      */
-    public double distanceSq(Point2D pt) {
+    public double distbnceSq(Point2D pt) {
         double px = pt.getX() - this.getX();
         double py = pt.getY() - this.getY();
         return (px * px + py * py);
     }
 
     /**
-     * Returns the distance from this <code>Point2D</code> to
-     * a specified point.
+     * Returns the distbnce from this <code>Point2D</code> to
+     * b specified point.
      *
-     * @param px the X coordinate of the specified point to be measured
-     *           against this <code>Point2D</code>
-     * @param py the Y coordinate of the specified point to be measured
-     *           against this <code>Point2D</code>
-     * @return the distance between this <code>Point2D</code>
-     * and a specified point.
+     * @pbrbm px the X coordinbte of the specified point to be mebsured
+     *           bgbinst this <code>Point2D</code>
+     * @pbrbm py the Y coordinbte of the specified point to be mebsured
+     *           bgbinst this <code>Point2D</code>
+     * @return the distbnce between this <code>Point2D</code>
+     * bnd b specified point.
      * @since 1.2
      */
-    public double distance(double px, double py) {
+    public double distbnce(double px, double py) {
         px -= getX();
         py -= getY();
-        return Math.sqrt(px * px + py * py);
+        return Mbth.sqrt(px * px + py * py);
     }
 
     /**
-     * Returns the distance from this <code>Point2D</code> to a
+     * Returns the distbnce from this <code>Point2D</code> to b
      * specified <code>Point2D</code>.
      *
-     * @param pt the specified point to be measured
-     *           against this <code>Point2D</code>
-     * @return the distance between this <code>Point2D</code> and
+     * @pbrbm pt the specified point to be mebsured
+     *           bgbinst this <code>Point2D</code>
+     * @return the distbnce between this <code>Point2D</code> bnd
      * the specified <code>Point2D</code>.
      * @since 1.2
      */
-    public double distance(Point2D pt) {
+    public double distbnce(Point2D pt) {
         double px = pt.getX() - this.getX();
         double py = pt.getY() - this.getY();
-        return Math.sqrt(px * px + py * py);
+        return Mbth.sqrt(px * px + py * py);
     }
 
     /**
-     * Creates a new object of the same class and with the
-     * same contents as this object.
-     * @return     a clone of this instance.
+     * Crebtes b new object of the sbme clbss bnd with the
+     * sbme contents bs this object.
+     * @return     b clone of this instbnce.
      * @exception  OutOfMemoryError            if there is not enough memory.
-     * @see        java.lang.Cloneable
+     * @see        jbvb.lbng.Clonebble
      * @since      1.2
      */
     public Object clone() {
         try {
             return super.clone();
-        } catch (CloneNotSupportedException e) {
-            // this shouldn't happen, since we are Cloneable
-            throw new InternalError(e);
+        } cbtch (CloneNotSupportedException e) {
+            // this shouldn't hbppen, since we bre Clonebble
+            throw new InternblError(e);
         }
     }
 
     /**
-     * Returns the hashcode for this <code>Point2D</code>.
-     * @return      a hash code for this <code>Point2D</code>.
+     * Returns the hbshcode for this <code>Point2D</code>.
+     * @return      b hbsh code for this <code>Point2D</code>.
      */
-    public int hashCode() {
-        long bits = java.lang.Double.doubleToLongBits(getX());
-        bits ^= java.lang.Double.doubleToLongBits(getY()) * 31;
+    public int hbshCode() {
+        long bits = jbvb.lbng.Double.doubleToLongBits(getX());
+        bits ^= jbvb.lbng.Double.doubleToLongBits(getY()) * 31;
         return (((int) bits) ^ ((int) (bits >> 32)));
     }
 
     /**
-     * Determines whether or not two points are equal. Two instances of
-     * <code>Point2D</code> are equal if the values of their
-     * <code>x</code> and <code>y</code> member fields, representing
-     * their position in the coordinate space, are the same.
-     * @param obj an object to be compared with this <code>Point2D</code>
-     * @return <code>true</code> if the object to be compared is
-     *         an instance of <code>Point2D</code> and has
-     *         the same values; <code>false</code> otherwise.
+     * Determines whether or not two points bre equbl. Two instbnces of
+     * <code>Point2D</code> bre equbl if the vblues of their
+     * <code>x</code> bnd <code>y</code> member fields, representing
+     * their position in the coordinbte spbce, bre the sbme.
+     * @pbrbm obj bn object to be compbred with this <code>Point2D</code>
+     * @return <code>true</code> if the object to be compbred is
+     *         bn instbnce of <code>Point2D</code> bnd hbs
+     *         the sbme vblues; <code>fblse</code> otherwise.
      * @since 1.2
      */
-    public boolean equals(Object obj) {
-        if (obj instanceof Point2D) {
+    public boolebn equbls(Object obj) {
+        if (obj instbnceof Point2D) {
             Point2D p2d = (Point2D) obj;
             return (getX() == p2d.getX()) && (getY() == p2d.getY());
         }
-        return super.equals(obj);
+        return super.equbls(obj);
     }
 }

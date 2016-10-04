@@ -1,274 +1,274 @@
 /*
- * Copyright (c) 1997, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2009, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.x509;
+pbckbge sun.security.x509;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.Enumeration;
+import jbvb.io.IOException;
+import jbvb.io.OutputStrebm;
+import jbvb.util.Enumerbtion;
 
 import sun.security.util.*;
 
 /**
- * This class represents the Basic Constraints Extension.
+ * This clbss represents the Bbsic Constrbints Extension.
  *
- * <p>The basic constraints extension identifies whether the subject of the
- * certificate is a CA and how deep a certification path may exist
- * through that CA.
+ * <p>The bbsic constrbints extension identifies whether the subject of the
+ * certificbte is b CA bnd how deep b certificbtion pbth mby exist
+ * through thbt CA.
  *
  * <pre>
- * The ASN.1 syntax for this extension is:
- * BasicConstraints ::= SEQUENCE {
+ * The ASN.1 syntbx for this extension is:
+ * BbsicConstrbints ::= SEQUENCE {
  *     cA                BOOLEAN DEFAULT FALSE,
- *     pathLenConstraint INTEGER (0..MAX) OPTIONAL
+ *     pbthLenConstrbint INTEGER (0..MAX) OPTIONAL
  * }
  * </pre>
- * @author Amit Kapoor
- * @author Hemma Prafullchandra
+ * @buthor Amit Kbpoor
+ * @buthor Hemmb Prbfullchbndrb
  * @see CertAttrSet
  * @see Extension
  */
-public class BasicConstraintsExtension extends Extension
+public clbss BbsicConstrbintsExtension extends Extension
 implements CertAttrSet<String> {
     /**
-     * Identifier for this attribute, to be used with the
-     * get, set, delete methods of Certificate, x509 type.
+     * Identifier for this bttribute, to be used with the
+     * get, set, delete methods of Certificbte, x509 type.
      */
-    public static final String IDENT = "x509.info.extensions.BasicConstraints";
+    public stbtic finbl String IDENT = "x509.info.extensions.BbsicConstrbints";
     /**
-     * Attribute names.
+     * Attribute nbmes.
      */
-    public static final String NAME = "BasicConstraints";
-    public static final String IS_CA = "is_ca";
-    public static final String PATH_LEN = "path_len";
+    public stbtic finbl String NAME = "BbsicConstrbints";
+    public stbtic finbl String IS_CA = "is_cb";
+    public stbtic finbl String PATH_LEN = "pbth_len";
 
-    // Private data members
-    private boolean     ca = false;
-    private int pathLen = -1;
+    // Privbte dbtb members
+    privbte boolebn     cb = fblse;
+    privbte int pbthLen = -1;
 
-    // Encode this extension value
-    private void encodeThis() throws IOException {
-        DerOutputStream out = new DerOutputStream();
-        DerOutputStream tmp = new DerOutputStream();
+    // Encode this extension vblue
+    privbte void encodeThis() throws IOException {
+        DerOutputStrebm out = new DerOutputStrebm();
+        DerOutputStrebm tmp = new DerOutputStrebm();
 
-        if (ca) {
-            tmp.putBoolean(ca);
-            // Only encode pathLen when ca == true
-            if (pathLen >= 0) {
-                tmp.putInteger(pathLen);
+        if (cb) {
+            tmp.putBoolebn(cb);
+            // Only encode pbthLen when cb == true
+            if (pbthLen >= 0) {
+                tmp.putInteger(pbthLen);
             }
         }
-        out.write(DerValue.tag_Sequence, tmp);
-        this.extensionValue = out.toByteArray();
+        out.write(DerVblue.tbg_Sequence, tmp);
+        this.extensionVblue = out.toByteArrby();
     }
 
     /**
-     * Default constructor for this object. The extension is marked
-     * critical if the ca flag is true, false otherwise.
+     * Defbult constructor for this object. The extension is mbrked
+     * criticbl if the cb flbg is true, fblse otherwise.
      *
-     * @param ca true, if the subject of the Certificate is a CA.
-     * @param len specifies the depth of the certification path.
+     * @pbrbm cb true, if the subject of the Certificbte is b CA.
+     * @pbrbm len specifies the depth of the certificbtion pbth.
      */
-    public BasicConstraintsExtension(boolean ca, int len) throws IOException {
-        this(Boolean.valueOf(ca), ca, len);
+    public BbsicConstrbintsExtension(boolebn cb, int len) throws IOException {
+        this(Boolebn.vblueOf(cb), cb, len);
     }
 
     /**
-     * Constructor for this object with specified criticality.
+     * Constructor for this object with specified criticblity.
      *
-     * @param critical true, if the extension should be marked critical
-     * @param ca true, if the subject of the Certificate is a CA.
-     * @param len specifies the depth of the certification path.
+     * @pbrbm criticbl true, if the extension should be mbrked criticbl
+     * @pbrbm cb true, if the subject of the Certificbte is b CA.
+     * @pbrbm len specifies the depth of the certificbtion pbth.
      */
-    public BasicConstraintsExtension(Boolean critical, boolean ca, int len)
+    public BbsicConstrbintsExtension(Boolebn criticbl, boolebn cb, int len)
     throws IOException {
-        this.ca = ca;
-        this.pathLen = len;
-        this.extensionId = PKIXExtensions.BasicConstraints_Id;
-        this.critical = critical.booleanValue();
+        this.cb = cb;
+        this.pbthLen = len;
+        this.extensionId = PKIXExtensions.BbsicConstrbints_Id;
+        this.criticbl = criticbl.boolebnVblue();
         encodeThis();
     }
 
     /**
-     * Create the extension from the passed DER encoded value of the same.
+     * Crebte the extension from the pbssed DER encoded vblue of the sbme.
      *
-     * @param critical flag indicating if extension is critical or not
-     * @param value an array containing the DER encoded bytes of the extension.
-     * @exception ClassCastException if value is not an array of bytes
+     * @pbrbm criticbl flbg indicbting if extension is criticbl or not
+     * @pbrbm vblue bn brrby contbining the DER encoded bytes of the extension.
+     * @exception ClbssCbstException if vblue is not bn brrby of bytes
      * @exception IOException on error.
      */
-     public BasicConstraintsExtension(Boolean critical, Object value)
+     public BbsicConstrbintsExtension(Boolebn criticbl, Object vblue)
          throws IOException
     {
-         this.extensionId = PKIXExtensions.BasicConstraints_Id;
-         this.critical = critical.booleanValue();
+         this.extensionId = PKIXExtensions.BbsicConstrbints_Id;
+         this.criticbl = criticbl.boolebnVblue();
 
-         this.extensionValue = (byte[]) value;
-         DerValue val = new DerValue(this.extensionValue);
-         if (val.tag != DerValue.tag_Sequence) {
-             throw new IOException("Invalid encoding of BasicConstraints");
+         this.extensionVblue = (byte[]) vblue;
+         DerVblue vbl = new DerVblue(this.extensionVblue);
+         if (vbl.tbg != DerVblue.tbg_Sequence) {
+             throw new IOException("Invblid encoding of BbsicConstrbints");
          }
 
-         if (val.data == null || val.data.available() == 0) {
-             // non-CA cert ("cA" field is FALSE by default), return -1
+         if (vbl.dbtb == null || vbl.dbtb.bvbilbble() == 0) {
+             // non-CA cert ("cA" field is FALSE by defbult), return -1
              return;
          }
-         DerValue opt = val.data.getDerValue();
-         if (opt.tag != DerValue.tag_Boolean) {
-             // non-CA cert ("cA" field is FALSE by default), return -1
+         DerVblue opt = vbl.dbtb.getDerVblue();
+         if (opt.tbg != DerVblue.tbg_Boolebn) {
+             // non-CA cert ("cA" field is FALSE by defbult), return -1
              return;
          }
 
-         this.ca = opt.getBoolean();
-         if (val.data.available() == 0) {
+         this.cb = opt.getBoolebn();
+         if (vbl.dbtb.bvbilbble() == 0) {
              // From PKIX profile:
-             // Where pathLenConstraint does not appear, there is no
-             // limit to the allowed length of the certification path.
-             this.pathLen = Integer.MAX_VALUE;
+             // Where pbthLenConstrbint does not bppebr, there is no
+             // limit to the bllowed length of the certificbtion pbth.
+             this.pbthLen = Integer.MAX_VALUE;
              return;
          }
 
-         opt = val.data.getDerValue();
-         if (opt.tag != DerValue.tag_Integer) {
-             throw new IOException("Invalid encoding of BasicConstraints");
+         opt = vbl.dbtb.getDerVblue();
+         if (opt.tbg != DerVblue.tbg_Integer) {
+             throw new IOException("Invblid encoding of BbsicConstrbints");
          }
-         this.pathLen = opt.getInteger();
+         this.pbthLen = opt.getInteger();
          /*
-          * Activate this check once again after PKIX profiling
-          * is a standard and this check no longer imposes an
-          * interoperability barrier.
-          * if (ca) {
-          *   if (!this.critical) {
-          *   throw new IOException("Criticality cannot be false for CA.");
+          * Activbte this check once bgbin bfter PKIX profiling
+          * is b stbndbrd bnd this check no longer imposes bn
+          * interoperbbility bbrrier.
+          * if (cb) {
+          *   if (!this.criticbl) {
+          *   throw new IOException("Criticblity cbnnot be fblse for CA.");
           *   }
           * }
           */
      }
 
      /**
-      * Return user readable form of extension.
+      * Return user rebdbble form of extension.
       */
      public String toString() {
-         String s = super.toString() + "BasicConstraints:[\n";
+         String s = super.toString() + "BbsicConstrbints:[\n";
 
-         s += ((ca) ? ("  CA:true") : ("  CA:false")) + "\n";
-         if (pathLen >= 0) {
-             s += "  PathLen:" + pathLen + "\n";
+         s += ((cb) ? ("  CA:true") : ("  CA:fblse")) + "\n";
+         if (pbthLen >= 0) {
+             s += "  PbthLen:" + pbthLen + "\n";
          } else {
-             s += "  PathLen: undefined\n";
+             s += "  PbthLen: undefined\n";
          }
          return (s + "]\n");
      }
 
      /**
-      * Encode this extension value to the output stream.
+      * Encode this extension vblue to the output strebm.
       *
-      * @param out the DerOutputStream to encode the extension to.
+      * @pbrbm out the DerOutputStrebm to encode the extension to.
       */
-     public void encode(OutputStream out) throws IOException {
-         DerOutputStream tmp = new DerOutputStream();
-         if (extensionValue == null) {
-             this.extensionId = PKIXExtensions.BasicConstraints_Id;
-             if (ca) {
-                 critical = true;
+     public void encode(OutputStrebm out) throws IOException {
+         DerOutputStrebm tmp = new DerOutputStrebm();
+         if (extensionVblue == null) {
+             this.extensionId = PKIXExtensions.BbsicConstrbints_Id;
+             if (cb) {
+                 criticbl = true;
              } else {
-                 critical = false;
+                 criticbl = fblse;
              }
              encodeThis();
          }
          super.encode(tmp);
 
-         out.write(tmp.toByteArray());
+         out.write(tmp.toByteArrby());
      }
 
     /**
-     * Set the attribute value.
+     * Set the bttribute vblue.
      */
-    public void set(String name, Object obj) throws IOException {
-        if (name.equalsIgnoreCase(IS_CA)) {
-            if (!(obj instanceof Boolean)) {
-              throw new IOException("Attribute value should be of type Boolean.");
+    public void set(String nbme, Object obj) throws IOException {
+        if (nbme.equblsIgnoreCbse(IS_CA)) {
+            if (!(obj instbnceof Boolebn)) {
+              throw new IOException("Attribute vblue should be of type Boolebn.");
             }
-            ca = ((Boolean)obj).booleanValue();
-        } else if (name.equalsIgnoreCase(PATH_LEN)) {
-            if (!(obj instanceof Integer)) {
-              throw new IOException("Attribute value should be of type Integer.");
+            cb = ((Boolebn)obj).boolebnVblue();
+        } else if (nbme.equblsIgnoreCbse(PATH_LEN)) {
+            if (!(obj instbnceof Integer)) {
+              throw new IOException("Attribute vblue should be of type Integer.");
             }
-            pathLen = ((Integer)obj).intValue();
+            pbthLen = ((Integer)obj).intVblue();
         } else {
-          throw new IOException("Attribute name not recognized by " +
-                                "CertAttrSet:BasicConstraints.");
+          throw new IOException("Attribute nbme not recognized by " +
+                                "CertAttrSet:BbsicConstrbints.");
         }
         encodeThis();
     }
 
     /**
-     * Get the attribute value.
+     * Get the bttribute vblue.
      */
-    public Object get(String name) throws IOException {
-        if (name.equalsIgnoreCase(IS_CA)) {
-            return (Boolean.valueOf(ca));
-        } else if (name.equalsIgnoreCase(PATH_LEN)) {
-            return (Integer.valueOf(pathLen));
+    public Object get(String nbme) throws IOException {
+        if (nbme.equblsIgnoreCbse(IS_CA)) {
+            return (Boolebn.vblueOf(cb));
+        } else if (nbme.equblsIgnoreCbse(PATH_LEN)) {
+            return (Integer.vblueOf(pbthLen));
         } else {
-          throw new IOException("Attribute name not recognized by " +
-                                "CertAttrSet:BasicConstraints.");
+          throw new IOException("Attribute nbme not recognized by " +
+                                "CertAttrSet:BbsicConstrbints.");
         }
     }
 
     /**
-     * Delete the attribute value.
+     * Delete the bttribute vblue.
      */
-    public void delete(String name) throws IOException {
-        if (name.equalsIgnoreCase(IS_CA)) {
-            ca = false;
-        } else if (name.equalsIgnoreCase(PATH_LEN)) {
-            pathLen = -1;
+    public void delete(String nbme) throws IOException {
+        if (nbme.equblsIgnoreCbse(IS_CA)) {
+            cb = fblse;
+        } else if (nbme.equblsIgnoreCbse(PATH_LEN)) {
+            pbthLen = -1;
         } else {
-          throw new IOException("Attribute name not recognized by " +
-                                "CertAttrSet:BasicConstraints.");
+          throw new IOException("Attribute nbme not recognized by " +
+                                "CertAttrSet:BbsicConstrbints.");
         }
         encodeThis();
     }
 
     /**
-     * Return an enumeration of names of attributes existing within this
-     * attribute.
+     * Return bn enumerbtion of nbmes of bttributes existing within this
+     * bttribute.
      */
-    public Enumeration<String> getElements() {
-        AttributeNameEnumeration elements = new AttributeNameEnumeration();
-        elements.addElement(IS_CA);
-        elements.addElement(PATH_LEN);
+    public Enumerbtion<String> getElements() {
+        AttributeNbmeEnumerbtion elements = new AttributeNbmeEnumerbtion();
+        elements.bddElement(IS_CA);
+        elements.bddElement(PATH_LEN);
 
         return (elements.elements());
     }
 
     /**
-     * Return the name of this attribute.
+     * Return the nbme of this bttribute.
      */
-    public String getName() {
+    public String getNbme() {
         return (NAME);
     }
 }

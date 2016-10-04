@@ -1,351 +1,351 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package apple.laf;
+pbckbge bpple.lbf;
 
-import java.nio.*;
-import java.util.*;
+import jbvb.nio.*;
+import jbvb.util.*;
 
-import apple.laf.JRSUIConstants.*;
+import bpple.lbf.JRSUIConstbnts.*;
 
-public final class JRSUIControl {
-    private static native int initNativeJRSUI();
+public finbl clbss JRSUIControl {
+    privbte stbtic nbtive int initNbtiveJRSUI();
 
-    private static native long getPtrOfBuffer(ByteBuffer byteBuffer);
-    private static native long getCFDictionary(boolean flipped);
-    private static native void disposeCFDictionary(long cfDictionaryPtr);
+    privbte stbtic nbtive long getPtrOfBuffer(ByteBuffer byteBuffer);
+    privbte stbtic nbtive long getCFDictionbry(boolebn flipped);
+    privbte stbtic nbtive void disposeCFDictionbry(long cfDictionbryPtr);
 
-    private static native int syncChanges(long cfDictionaryPtr, long byteBufferPtr);
+    privbte stbtic nbtive int syncChbnges(long cfDictionbryPtr, long byteBufferPtr);
 
-//    private static native int paint(long cfDictionaryPtr, long oldProperties, long newProperties, OSXSurfaceData osxsd, double x, double y, double w, double h);
-//    private static native int paintChanges(long cfDictionaryPtr, long byteBufferPtr, long oldProperties, long newProperties, OSXSurfaceData osxsd, double x, double y, double w, double h);
+//    privbte stbtic nbtive int pbint(long cfDictionbryPtr, long oldProperties, long newProperties, OSXSurfbceDbtb osxsd, double x, double y, double w, double h);
+//    privbte stbtic nbtive int pbintChbnges(long cfDictionbryPtr, long byteBufferPtr, long oldProperties, long newProperties, OSXSurfbceDbtb osxsd, double x, double y, double w, double h);
 
-    private static native int paintToCGContext                    (long cgContext,    long cfDictionaryPtr, long oldProperties, long newProperties, double x, double y, double w, double h);
-    private static native int paintChangesToCGContext            (long cgContext,    long cfDictionaryPtr, long oldProperties, long newProperties, double x, double y, double w, double h, long byteBufferPtr);
+    privbte stbtic nbtive int pbintToCGContext                    (long cgContext,    long cfDictionbryPtr, long oldProperties, long newProperties, double x, double y, double w, double h);
+    privbte stbtic nbtive int pbintChbngesToCGContext            (long cgContext,    long cfDictionbryPtr, long oldProperties, long newProperties, double x, double y, double w, double h, long byteBufferPtr);
 
-    private static native int paintImage        (int[] data, int imgW, int imgH,    long cfDictionaryPtr, long oldProperties, long newProperties, double x, double y, double w, double h);
-    private static native int paintChangesImage    (int[] data, int imgW, int imgH,    long cfDictionaryPtr, long oldProperties, long newProperties, double x, double y, double w, double h, long byteBufferPtr);
+    privbte stbtic nbtive int pbintImbge        (int[] dbtb, int imgW, int imgH,    long cfDictionbryPtr, long oldProperties, long newProperties, double x, double y, double w, double h);
+    privbte stbtic nbtive int pbintChbngesImbge    (int[] dbtb, int imgW, int imgH,    long cfDictionbryPtr, long oldProperties, long newProperties, double x, double y, double w, double h, long byteBufferPtr);
 
-    private static native int getNativeHitPart(                            long cfDictionaryPtr, long oldProperties, long newProperties, double x, double y, double w, double h, double hitX, double hitY);
-    private static native void getNativePartBounds(final double[] rect,    long cfDictionaryPtr, long oldProperties, long newProperties, double x, double y, double w, double h, int part);
-    private static native double getNativeScrollBarOffsetChange(        long cfDictionaryPtr, long oldProperties, long newProperties, double x, double y, double w, double h, int offset, int visibleAmount, int extent);
+    privbte stbtic nbtive int getNbtiveHitPbrt(                            long cfDictionbryPtr, long oldProperties, long newProperties, double x, double y, double w, double h, double hitX, double hitY);
+    privbte stbtic nbtive void getNbtivePbrtBounds(finbl double[] rect,    long cfDictionbryPtr, long oldProperties, long newProperties, double x, double y, double w, double h, int pbrt);
+    privbte stbtic nbtive double getNbtiveScrollBbrOffsetChbnge(        long cfDictionbryPtr, long oldProperties, long newProperties, double x, double y, double w, double h, int offset, int visibleAmount, int extent);
 
-    private static final int INCOHERENT = 2;
-    private static final int NOT_INIT = 1;
-    private static final int SUCCESS = 0;
-    private static final int NULL_PTR = -1;
-    private static final int NULL_CG_REF = -2;
+    privbte stbtic finbl int INCOHERENT = 2;
+    privbte stbtic finbl int NOT_INIT = 1;
+    privbte stbtic finbl int SUCCESS = 0;
+    privbte stbtic finbl int NULL_PTR = -1;
+    privbte stbtic finbl int NULL_CG_REF = -2;
 
-    private static int nativeJRSInitialized = NOT_INIT;
+    privbte stbtic int nbtiveJRSInitiblized = NOT_INIT;
 
 
-    public static void initJRSUI() {
-        if (nativeJRSInitialized == SUCCESS) return;
-        nativeJRSInitialized = initNativeJRSUI();
-        if (nativeJRSInitialized != SUCCESS) throw new RuntimeException("JRSUI could not be initialized (" + nativeJRSInitialized + ").");
+    public stbtic void initJRSUI() {
+        if (nbtiveJRSInitiblized == SUCCESS) return;
+        nbtiveJRSInitiblized = initNbtiveJRSUI();
+        if (nbtiveJRSInitiblized != SUCCESS) throw new RuntimeException("JRSUI could not be initiblized (" + nbtiveJRSInitiblized + ").");
     }
 
-    private static final int NIO_BUFFER_SIZE = 128;
-    private static class ThreadLocalByteBuffer {
-        final ByteBuffer buffer;
-        final long ptr;
+    privbte stbtic finbl int NIO_BUFFER_SIZE = 128;
+    privbte stbtic clbss ThrebdLocblByteBuffer {
+        finbl ByteBuffer buffer;
+        finbl long ptr;
 
-        public ThreadLocalByteBuffer() {
-            buffer = ByteBuffer.allocateDirect(NIO_BUFFER_SIZE);
-            buffer.order(ByteOrder.nativeOrder());
+        public ThrebdLocblByteBuffer() {
+            buffer = ByteBuffer.bllocbteDirect(NIO_BUFFER_SIZE);
+            buffer.order(ByteOrder.nbtiveOrder());
             ptr = getPtrOfBuffer(buffer);
         }
     }
 
-    private static final ThreadLocal<ThreadLocalByteBuffer> threadLocal = new ThreadLocal<ThreadLocalByteBuffer>();
-    private static ThreadLocalByteBuffer getThreadLocalBuffer() {
-        ThreadLocalByteBuffer byteBuffer = threadLocal.get();
+    privbte stbtic finbl ThrebdLocbl<ThrebdLocblByteBuffer> threbdLocbl = new ThrebdLocbl<ThrebdLocblByteBuffer>();
+    privbte stbtic ThrebdLocblByteBuffer getThrebdLocblBuffer() {
+        ThrebdLocblByteBuffer byteBuffer = threbdLocbl.get();
         if (byteBuffer != null) return byteBuffer;
 
-        byteBuffer = new ThreadLocalByteBuffer();
-        threadLocal.set(byteBuffer);
+        byteBuffer = new ThrebdLocblByteBuffer();
+        threbdLocbl.set(byteBuffer);
         return byteBuffer;
     }
 
-    private final HashMap<Key, DoubleValue> nativeMap;
-    private final HashMap<Key, DoubleValue> changes;
-    private long cfDictionaryPtr;
+    privbte finbl HbshMbp<Key, DoubleVblue> nbtiveMbp;
+    privbte finbl HbshMbp<Key, DoubleVblue> chbnges;
+    privbte long cfDictionbryPtr;
 
-    private long priorEncodedProperties;
-    private long currentEncodedProperties;
-    private final boolean flipped;
+    privbte long priorEncodedProperties;
+    privbte long currentEncodedProperties;
+    privbte finbl boolebn flipped;
 
-    public JRSUIControl(final boolean flipped){
+    public JRSUIControl(finbl boolebn flipped){
         this.flipped = flipped;
-        cfDictionaryPtr = getCFDictionary(flipped);
-        if (cfDictionaryPtr == 0) throw new RuntimeException("Unable to create native representation");
-        nativeMap = new HashMap<Key, DoubleValue>();
-        changes = new HashMap<Key, DoubleValue>();
+        cfDictionbryPtr = getCFDictionbry(flipped);
+        if (cfDictionbryPtr == 0) throw new RuntimeException("Unbble to crebte nbtive representbtion");
+        nbtiveMbp = new HbshMbp<Key, DoubleVblue>();
+        chbnges = new HbshMbp<Key, DoubleVblue>();
     }
 
-    JRSUIControl(final JRSUIControl other) {
+    JRSUIControl(finbl JRSUIControl other) {
         flipped = other.flipped;
-        cfDictionaryPtr = getCFDictionary(flipped);
-        if (cfDictionaryPtr == 0) throw new RuntimeException("Unable to create native representation");
-        nativeMap = new HashMap<Key, DoubleValue>();
-        changes = new HashMap<Key, DoubleValue>(other.nativeMap);
-        changes.putAll(other.changes);
+        cfDictionbryPtr = getCFDictionbry(flipped);
+        if (cfDictionbryPtr == 0) throw new RuntimeException("Unbble to crebte nbtive representbtion");
+        nbtiveMbp = new HbshMbp<Key, DoubleVblue>();
+        chbnges = new HbshMbp<Key, DoubleVblue>(other.nbtiveMbp);
+        chbnges.putAll(other.chbnges);
     }
 
-    protected synchronized final void finalize() throws Throwable {
-        if (cfDictionaryPtr == 0) return;
-        disposeCFDictionary(cfDictionaryPtr);
-        cfDictionaryPtr = 0;
+    protected synchronized finbl void finblize() throws Throwbble {
+        if (cfDictionbryPtr == 0) return;
+        disposeCFDictionbry(cfDictionbryPtr);
+        cfDictionbryPtr = 0;
     }
 
 
-    enum BufferState {
+    enum BufferStbte {
         NO_CHANGE,
         ALL_CHANGES_IN_BUFFER,
         SOME_CHANGES_IN_BUFFER,
         CHANGE_WONT_FIT_IN_BUFFER;
     }
 
-    private BufferState loadBufferWithChanges(final ThreadLocalByteBuffer localByteBuffer) {
-        final ByteBuffer buffer = localByteBuffer.buffer;
+    privbte BufferStbte lobdBufferWithChbnges(finbl ThrebdLocblByteBuffer locblByteBuffer) {
+        finbl ByteBuffer buffer = locblByteBuffer.buffer;
         buffer.rewind();
 
-        for (final JRSUIConstants.Key key : new HashSet<JRSUIConstants.Key>(changes.keySet())) {
-            final int changeIndex = buffer.position();
-            final JRSUIConstants.DoubleValue value = changes.get(key);
+        for (finbl JRSUIConstbnts.Key key : new HbshSet<JRSUIConstbnts.Key>(chbnges.keySet())) {
+            finbl int chbngeIndex = buffer.position();
+            finbl JRSUIConstbnts.DoubleVblue vblue = chbnges.get(key);
 
             try {
-                buffer.putLong(key.getConstantPtr());
-                buffer.put(value.getTypeCode());
-                value.putValueInBuffer(buffer);
-            } catch (final BufferOverflowException e) {
-                return handleBufferOverflow(buffer, changeIndex);
-            } catch (final RuntimeException e) {
+                buffer.putLong(key.getConstbntPtr());
+                buffer.put(vblue.getTypeCode());
+                vblue.putVblueInBuffer(buffer);
+            } cbtch (finbl BufferOverflowException e) {
+                return hbndleBufferOverflow(buffer, chbngeIndex);
+            } cbtch (finbl RuntimeException e) {
                 System.err.println(this);
                 throw e;
             }
 
             if (buffer.position() >= NIO_BUFFER_SIZE - 8) {
-                return handleBufferOverflow(buffer, changeIndex);
+                return hbndleBufferOverflow(buffer, chbngeIndex);
             }
 
-            changes.remove(key);
-            nativeMap.put(key, value);
+            chbnges.remove(key);
+            nbtiveMbp.put(key, vblue);
         }
 
         buffer.putLong(0);
-        return BufferState.ALL_CHANGES_IN_BUFFER;
+        return BufferStbte.ALL_CHANGES_IN_BUFFER;
     }
 
-    private BufferState handleBufferOverflow(final ByteBuffer buffer, final int changeIndex) {
-        if (changeIndex == 0) {
+    privbte BufferStbte hbndleBufferOverflow(finbl ByteBuffer buffer, finbl int chbngeIndex) {
+        if (chbngeIndex == 0) {
             buffer.putLong(0, 0);
-            return BufferState.CHANGE_WONT_FIT_IN_BUFFER;
+            return BufferStbte.CHANGE_WONT_FIT_IN_BUFFER;
         }
 
-        buffer.putLong(changeIndex, 0);
-        return BufferState.SOME_CHANGES_IN_BUFFER;
+        buffer.putLong(chbngeIndex, 0);
+        return BufferStbte.SOME_CHANGES_IN_BUFFER;
     }
 
-    private synchronized void set(final JRSUIConstants.Key key, final JRSUIConstants.DoubleValue value) {
-        final JRSUIConstants.DoubleValue existingValue = nativeMap.get(key);
+    privbte synchronized void set(finbl JRSUIConstbnts.Key key, finbl JRSUIConstbnts.DoubleVblue vblue) {
+        finbl JRSUIConstbnts.DoubleVblue existingVblue = nbtiveMbp.get(key);
 
-        if (existingValue != null && existingValue.equals(value)) {
-            changes.remove(key);
+        if (existingVblue != null && existingVblue.equbls(vblue)) {
+            chbnges.remove(key);
             return;
         }
 
-        changes.put(key, value);
+        chbnges.put(key, vblue);
     }
 
-    public void set(final JRSUIState state) {
-        state.apply(this);
+    public void set(finbl JRSUIStbte stbte) {
+        stbte.bpply(this);
     }
 
-    void setEncodedState(final long state) {
-        currentEncodedProperties = state;
+    void setEncodedStbte(finbl long stbte) {
+        currentEncodedProperties = stbte;
     }
 
-    void set(final JRSUIConstants.Key key, final double value) {
-        set(key, new JRSUIConstants.DoubleValue(value));
+    void set(finbl JRSUIConstbnts.Key key, finbl double vblue) {
+        set(key, new JRSUIConstbnts.DoubleVblue(vblue));
     }
 
-//    private static final Color blue = new Color(0x00, 0x00, 0xFF, 0x40);
-//    private static void paintDebug(Graphics2D g, double x, double y, double w, double h) {
-//        final Color prev = g.getColor();
+//    privbte stbtic finbl Color blue = new Color(0x00, 0x00, 0xFF, 0x40);
+//    privbte stbtic void pbintDebug(Grbphics2D g, double x, double y, double w, double h) {
+//        finbl Color prev = g.getColor();
 //        g.setColor(blue);
-//        g.drawRect((int)x, (int)y, (int)w, (int)h);
+//        g.drbwRect((int)x, (int)y, (int)w, (int)h);
 //        g.setColor(prev);
 //    }
 
-//    private static int paintsWithNoChange = 0;
-//    private static int paintsWithChangesThatFit = 0;
-//    private static int paintsWithChangesThatOverflowed = 0;
+//    privbte stbtic int pbintsWithNoChbnge = 0;
+//    privbte stbtic int pbintsWithChbngesThbtFit = 0;
+//    privbte stbtic int pbintsWithChbngesThbtOverflowed = 0;
 
-    public void paint(final int[] data, final int imgW, final int imgH, final double x, final double y, final double w, final double h) {
-        paintImage(data, imgW, imgH, x, y, w, h);
+    public void pbint(finbl int[] dbtb, finbl int imgW, finbl int imgH, finbl double x, finbl double y, finbl double w, finbl double h) {
+        pbintImbge(dbtb, imgW, imgH, x, y, w, h);
         priorEncodedProperties = currentEncodedProperties;
     }
 
-    private synchronized int paintImage(final int[] data, final int imgW, final int imgH, final double x, final double y, final double w, final double h) {
-        if (changes.isEmpty()) {
-//            paintsWithNoChange++;
-            return paintImage(data, imgW, imgH, cfDictionaryPtr, priorEncodedProperties, currentEncodedProperties, x, y, w, h);
+    privbte synchronized int pbintImbge(finbl int[] dbtb, finbl int imgW, finbl int imgH, finbl double x, finbl double y, finbl double w, finbl double h) {
+        if (chbnges.isEmpty()) {
+//            pbintsWithNoChbnge++;
+            return pbintImbge(dbtb, imgW, imgH, cfDictionbryPtr, priorEncodedProperties, currentEncodedProperties, x, y, w, h);
         }
 
-        final ThreadLocalByteBuffer localByteBuffer = getThreadLocalBuffer();
-        BufferState bufferState = loadBufferWithChanges(localByteBuffer);
+        finbl ThrebdLocblByteBuffer locblByteBuffer = getThrebdLocblBuffer();
+        BufferStbte bufferStbte = lobdBufferWithChbnges(locblByteBuffer);
 
-        // fast tracking this, since it's the likely scenario
-        if (bufferState == BufferState.ALL_CHANGES_IN_BUFFER) {
-//            paintsWithChangesThatFit++;
-            return paintChangesImage(data, imgW, imgH, cfDictionaryPtr, priorEncodedProperties, currentEncodedProperties, x, y, w, h, localByteBuffer.ptr);
+        // fbst trbcking this, since it's the likely scenbrio
+        if (bufferStbte == BufferStbte.ALL_CHANGES_IN_BUFFER) {
+//            pbintsWithChbngesThbtFit++;
+            return pbintChbngesImbge(dbtb, imgW, imgH, cfDictionbryPtr, priorEncodedProperties, currentEncodedProperties, x, y, w, h, locblByteBuffer.ptr);
         }
 
-        while (bufferState == BufferState.SOME_CHANGES_IN_BUFFER) {
-            final int status = syncChanges(cfDictionaryPtr, localByteBuffer.ptr);
-            if (status != SUCCESS) throw new RuntimeException("JRSUI failed to sync changes into the native buffer: " + this);
-            bufferState = loadBufferWithChanges(localByteBuffer);
+        while (bufferStbte == BufferStbte.SOME_CHANGES_IN_BUFFER) {
+            finbl int stbtus = syncChbnges(cfDictionbryPtr, locblByteBuffer.ptr);
+            if (stbtus != SUCCESS) throw new RuntimeException("JRSUI fbiled to sync chbnges into the nbtive buffer: " + this);
+            bufferStbte = lobdBufferWithChbnges(locblByteBuffer);
         }
 
-        if (bufferState == BufferState.CHANGE_WONT_FIT_IN_BUFFER) {
-            throw new RuntimeException("JRSUI failed to sync changes to the native buffer, because some change was too big: " + this);
+        if (bufferStbte == BufferStbte.CHANGE_WONT_FIT_IN_BUFFER) {
+            throw new RuntimeException("JRSUI fbiled to sync chbnges to the nbtive buffer, becbuse some chbnge wbs too big: " + this);
         }
 
-        // implicitly ALL_CHANGES_IN_BUFFER, now that we sync'd the buffer down to native a few times
-//        paintsWithChangesThatOverflowed++;
-        return paintChangesImage(data, imgW, imgH, cfDictionaryPtr, priorEncodedProperties, currentEncodedProperties, x, y, w, h, localByteBuffer.ptr);
+        // implicitly ALL_CHANGES_IN_BUFFER, now thbt we sync'd the buffer down to nbtive b few times
+//        pbintsWithChbngesThbtOverflowed++;
+        return pbintChbngesImbge(dbtb, imgW, imgH, cfDictionbryPtr, priorEncodedProperties, currentEncodedProperties, x, y, w, h, locblByteBuffer.ptr);
     }
 
-    public void paint(final long cgContext, final double x, final double y, final double w, final double h) {
-        paintToCGContext(cgContext, x, y, w, h);
+    public void pbint(finbl long cgContext, finbl double x, finbl double y, finbl double w, finbl double h) {
+        pbintToCGContext(cgContext, x, y, w, h);
         priorEncodedProperties = currentEncodedProperties;
     }
 
-    private synchronized int paintToCGContext(final long cgContext, final double x, final double y, final double w, final double h) {
-        if (changes.isEmpty()) {
-//            paintsWithNoChange++;
-            return paintToCGContext(cgContext, cfDictionaryPtr, priorEncodedProperties, currentEncodedProperties, x, y, w, h);
+    privbte synchronized int pbintToCGContext(finbl long cgContext, finbl double x, finbl double y, finbl double w, finbl double h) {
+        if (chbnges.isEmpty()) {
+//            pbintsWithNoChbnge++;
+            return pbintToCGContext(cgContext, cfDictionbryPtr, priorEncodedProperties, currentEncodedProperties, x, y, w, h);
         }
 
-        final ThreadLocalByteBuffer localByteBuffer = getThreadLocalBuffer();
-        BufferState bufferState = loadBufferWithChanges(localByteBuffer);
+        finbl ThrebdLocblByteBuffer locblByteBuffer = getThrebdLocblBuffer();
+        BufferStbte bufferStbte = lobdBufferWithChbnges(locblByteBuffer);
 
-        // fast tracking this, since it's the likely scenario
-        if (bufferState == BufferState.ALL_CHANGES_IN_BUFFER) {
-//            paintsWithChangesThatFit++;
-            return paintChangesToCGContext(cgContext, cfDictionaryPtr, priorEncodedProperties, currentEncodedProperties, x, y, w, h, localByteBuffer.ptr);
+        // fbst trbcking this, since it's the likely scenbrio
+        if (bufferStbte == BufferStbte.ALL_CHANGES_IN_BUFFER) {
+//            pbintsWithChbngesThbtFit++;
+            return pbintChbngesToCGContext(cgContext, cfDictionbryPtr, priorEncodedProperties, currentEncodedProperties, x, y, w, h, locblByteBuffer.ptr);
         }
 
-        while (bufferState == BufferState.SOME_CHANGES_IN_BUFFER) {
-            final int status = syncChanges(cfDictionaryPtr, localByteBuffer.ptr);
-            if (status != SUCCESS) throw new RuntimeException("JRSUI failed to sync changes into the native buffer: " + this);
-            bufferState = loadBufferWithChanges(localByteBuffer);
+        while (bufferStbte == BufferStbte.SOME_CHANGES_IN_BUFFER) {
+            finbl int stbtus = syncChbnges(cfDictionbryPtr, locblByteBuffer.ptr);
+            if (stbtus != SUCCESS) throw new RuntimeException("JRSUI fbiled to sync chbnges into the nbtive buffer: " + this);
+            bufferStbte = lobdBufferWithChbnges(locblByteBuffer);
         }
 
-        if (bufferState == BufferState.CHANGE_WONT_FIT_IN_BUFFER) {
-            throw new RuntimeException("JRSUI failed to sync changes to the native buffer, because some change was too big: " + this);
+        if (bufferStbte == BufferStbte.CHANGE_WONT_FIT_IN_BUFFER) {
+            throw new RuntimeException("JRSUI fbiled to sync chbnges to the nbtive buffer, becbuse some chbnge wbs too big: " + this);
         }
 
-        // implicitly ALL_CHANGES_IN_BUFFER, now that we sync'd the buffer down to native a few times
-//        paintsWithChangesThatOverflowed++;
-        return paintChangesToCGContext(cgContext, cfDictionaryPtr, priorEncodedProperties, currentEncodedProperties, x, y, w, h, localByteBuffer.ptr);
+        // implicitly ALL_CHANGES_IN_BUFFER, now thbt we sync'd the buffer down to nbtive b few times
+//        pbintsWithChbngesThbtOverflowed++;
+        return pbintChbngesToCGContext(cgContext, cfDictionbryPtr, priorEncodedProperties, currentEncodedProperties, x, y, w, h, locblByteBuffer.ptr);
     }
 
 
-    Hit getHitForPoint(final double x, final double y, final double w, final double h, final double hitX, final double hitY) {
+    Hit getHitForPoint(finbl double x, finbl double y, finbl double w, finbl double h, finbl double hitX, finbl double hitY) {
         sync();
-        // reflect hitY about the midline of the control before sending to native
-        final Hit hit = JRSUIConstants.getHit(getNativeHitPart(cfDictionaryPtr, priorEncodedProperties, currentEncodedProperties, x, y, w, h, hitX, 2 * y + h - hitY));
+        // reflect hitY bbout the midline of the control before sending to nbtive
+        finbl Hit hit = JRSUIConstbnts.getHit(getNbtiveHitPbrt(cfDictionbryPtr, priorEncodedProperties, currentEncodedProperties, x, y, w, h, hitX, 2 * y + h - hitY));
         priorEncodedProperties = currentEncodedProperties;
         return hit;
     }
 
-    void getPartBounds(final double[] rect, final double x, final double y, final double w, final double h, final int part) {
-        if (rect == null) throw new NullPointerException("Cannot load null rect");
-        if (rect.length != 4) throw new IllegalArgumentException("Rect must have four elements");
+    void getPbrtBounds(finbl double[] rect, finbl double x, finbl double y, finbl double w, finbl double h, finbl int pbrt) {
+        if (rect == null) throw new NullPointerException("Cbnnot lobd null rect");
+        if (rect.length != 4) throw new IllegblArgumentException("Rect must hbve four elements");
 
         sync();
-        getNativePartBounds(rect, cfDictionaryPtr, priorEncodedProperties, currentEncodedProperties, x, y, w, h, part);
+        getNbtivePbrtBounds(rect, cfDictionbryPtr, priorEncodedProperties, currentEncodedProperties, x, y, w, h, pbrt);
         priorEncodedProperties = currentEncodedProperties;
     }
 
-    double getScrollBarOffsetChange(final double x, final double y, final double w, final double h, final int offset, final int visibleAmount, final int extent) {
+    double getScrollBbrOffsetChbnge(finbl double x, finbl double y, finbl double w, finbl double h, finbl int offset, finbl int visibleAmount, finbl int extent) {
         sync();
-        final double offsetChange = getNativeScrollBarOffsetChange(cfDictionaryPtr, priorEncodedProperties, currentEncodedProperties, x, y, w, h, offset, visibleAmount, extent);
+        finbl double offsetChbnge = getNbtiveScrollBbrOffsetChbnge(cfDictionbryPtr, priorEncodedProperties, currentEncodedProperties, x, y, w, h, offset, visibleAmount, extent);
         priorEncodedProperties = currentEncodedProperties;
-        return offsetChange;
+        return offsetChbnge;
     }
 
-    private void sync() {
-        if (changes.isEmpty()) return;
+    privbte void sync() {
+        if (chbnges.isEmpty()) return;
 
-        final ThreadLocalByteBuffer localByteBuffer = getThreadLocalBuffer();
-        BufferState bufferState = loadBufferWithChanges(localByteBuffer);
-        if (bufferState == BufferState.ALL_CHANGES_IN_BUFFER) {
-            final int status = syncChanges(cfDictionaryPtr, localByteBuffer.ptr);
-            if (status != SUCCESS) throw new RuntimeException("JRSUI failed to sync changes into the native buffer: " + this);
+        finbl ThrebdLocblByteBuffer locblByteBuffer = getThrebdLocblBuffer();
+        BufferStbte bufferStbte = lobdBufferWithChbnges(locblByteBuffer);
+        if (bufferStbte == BufferStbte.ALL_CHANGES_IN_BUFFER) {
+            finbl int stbtus = syncChbnges(cfDictionbryPtr, locblByteBuffer.ptr);
+            if (stbtus != SUCCESS) throw new RuntimeException("JRSUI fbiled to sync chbnges into the nbtive buffer: " + this);
             return;
         }
 
-        while (bufferState == BufferState.SOME_CHANGES_IN_BUFFER) {
-            final int status = syncChanges(cfDictionaryPtr, localByteBuffer.ptr);
-            if (status != SUCCESS) throw new RuntimeException("JRSUI failed to sync changes into the native buffer: " + this);
-            bufferState = loadBufferWithChanges(localByteBuffer);
+        while (bufferStbte == BufferStbte.SOME_CHANGES_IN_BUFFER) {
+            finbl int stbtus = syncChbnges(cfDictionbryPtr, locblByteBuffer.ptr);
+            if (stbtus != SUCCESS) throw new RuntimeException("JRSUI fbiled to sync chbnges into the nbtive buffer: " + this);
+            bufferStbte = lobdBufferWithChbnges(locblByteBuffer);
         }
 
-        if (bufferState == BufferState.CHANGE_WONT_FIT_IN_BUFFER) {
-            throw new RuntimeException("JRSUI failed to sync changes to the native buffer, because some change was too big: " + this);
+        if (bufferStbte == BufferStbte.CHANGE_WONT_FIT_IN_BUFFER) {
+            throw new RuntimeException("JRSUI fbiled to sync chbnges to the nbtive buffer, becbuse some chbnge wbs too big: " + this);
         }
     }
 
     @Override
-    public int hashCode() {
+    public int hbshCode() {
         int bits = (int)(currentEncodedProperties ^ (currentEncodedProperties >>> 32));
-        bits ^= nativeMap.hashCode();
-        bits ^= changes.hashCode();
+        bits ^= nbtiveMbp.hbshCode();
+        bits ^= chbnges.hbshCode();
         return bits;
     }
 
     @Override
-    public boolean equals(final Object obj) {
-        if (!(obj instanceof JRSUIControl)) return false;
-        final JRSUIControl other = (JRSUIControl)obj;
-        if (currentEncodedProperties != other.currentEncodedProperties) return false;
-        if (!nativeMap.equals(other.nativeMap)) return false;
-        if (!changes.equals(other.changes)) return false;
+    public boolebn equbls(finbl Object obj) {
+        if (!(obj instbnceof JRSUIControl)) return fblse;
+        finbl JRSUIControl other = (JRSUIControl)obj;
+        if (currentEncodedProperties != other.currentEncodedProperties) return fblse;
+        if (!nbtiveMbp.equbls(other.nbtiveMbp)) return fblse;
+        if (!chbnges.equbls(other.chbnges)) return fblse;
         return true;
     }
 
     @Override
     public String toString() {
-        final StringBuilder builder = new StringBuilder("JRSUIControl[inNative:");
-        builder.append(Arrays.toString(nativeMap.entrySet().toArray()));
-        builder.append(", changes:");
-        builder.append(Arrays.toString(changes.entrySet().toArray()));
-        builder.append("]");
+        finbl StringBuilder builder = new StringBuilder("JRSUIControl[inNbtive:");
+        builder.bppend(Arrbys.toString(nbtiveMbp.entrySet().toArrby()));
+        builder.bppend(", chbnges:");
+        builder.bppend(Arrbys.toString(chbnges.entrySet().toArrby()));
+        builder.bppend("]");
         return builder.toString();
     }
 }

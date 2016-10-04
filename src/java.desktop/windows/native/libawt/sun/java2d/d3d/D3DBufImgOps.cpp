@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 2007, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -28,282 +28,282 @@
 #include "D3DBufImgOps.h"
 #include "D3DContext.h"
 #include "D3DRenderQueue.h"
-#include "D3DSurfaceData.h"
-#include "GraphicsPrimitiveMgr.h"
+#include "D3DSurfbceDbtb.h"
+#include "GrbphicsPrimitiveMgr.h"
 
 /**************************** ConvolveOp support ****************************/
 
 /**
- * The maximum kernel size supported by the ConvolveOp shader.
+ * The mbximum kernel size supported by the ConvolveOp shbder.
  */
 #define MAX_KERNEL_SIZE 25
 
 HRESULT
-D3DBufImgOps_EnableConvolveOp(D3DContext *d3dc, jlong pSrcOps,
-                              jboolean edgeZeroFill,
+D3DBufImgOps_EnbbleConvolveOp(D3DContext *d3dc, jlong pSrcOps,
+                              jboolebn edgeZeroFill,
                               jint kernelWidth, jint kernelHeight,
-                              unsigned char *kernel)
+                              unsigned chbr *kernel)
 {
     HRESULT res;
     IDirect3DDevice9 *pd3dDevice;
     D3DSDOps *srcOps = (D3DSDOps *)jlong_to_ptr(pSrcOps);
     jint kernelSize = kernelWidth * kernelHeight;
     jint texW, texH;
-    jfloat xoff, yoff;
-    jfloat edgeX, edgeY;
-    jfloat imgEdge[4];
-    jfloat kernelVals[MAX_KERNEL_SIZE*4];
+    jflobt xoff, yoff;
+    jflobt edgeX, edgeY;
+    jflobt imgEdge[4];
+    jflobt kernelVbls[MAX_KERNEL_SIZE*4];
     jint i, j, kIndex;
-    jint flags = 0;
+    jint flbgs = 0;
 
-    J2dTraceLn2(J2D_TRACE_INFO,
-                "D3DBufImgOps_EnableConvolveOp: kernelW=%d kernelH=%d",
+    J2dTrbceLn2(J2D_TRACE_INFO,
+                "D3DBufImgOps_EnbbleConvolveOp: kernelW=%d kernelH=%d",
                 kernelWidth, kernelHeight);
 
     RETURN_STATUS_IF_NULL(d3dc, E_FAIL);
     RETURN_STATUS_IF_NULL(srcOps, E_FAIL);
 
-    d3dc->UpdateState(STATE_CHANGE);
+    d3dc->UpdbteStbte(STATE_CHANGE);
 
-    // texcoords are specified in the range [0,1], so to achieve an
-    // x/y offset of approximately one pixel we have to normalize
-    // to that range here
+    // texcoords bre specified in the rbnge [0,1], so to bchieve bn
+    // x/y offset of bpproximbtely one pixel we hbve to normblize
+    // to thbt rbnge here
     texW = srcOps->pResource->GetDesc()->Width;
     texH = srcOps->pResource->GetDesc()->Height;
     xoff = 1.0f / texW;
     yoff = 1.0f / texH;
 
     if (edgeZeroFill) {
-        flags |= CONVOLVE_EDGE_ZERO_FILL;
+        flbgs |= CONVOLVE_EDGE_ZERO_FILL;
     }
     if (kernelWidth == 5 && kernelHeight == 5) {
-        flags |= CONVOLVE_5X5;
+        flbgs |= CONVOLVE_5X5;
     }
 
-    // locate/enable the shader program for the given flags
-    res = d3dc->EnableConvolveProgram(flags);
+    // locbte/enbble the shbder progrbm for the given flbgs
+    res = d3dc->EnbbleConvolveProgrbm(flbgs);
     RETURN_STATUS_IF_FAILED(res);
 
-    // update the "uniform" image min/max values
-    // (texcoords are in the range [0,1])
+    // updbte the "uniform" imbge min/mbx vblues
+    // (texcoords bre in the rbnge [0,1])
     //   imgEdge[0] = imgMin.x
     //   imgEdge[1] = imgMin.y
-    //   imgEdge[2] = imgMax.x
-    //   imgEdge[3] = imgMax.y
+    //   imgEdge[2] = imgMbx.x
+    //   imgEdge[3] = imgMbx.y
     edgeX = (kernelWidth/2) * xoff;
     edgeY = (kernelHeight/2) * yoff;
     imgEdge[0] = edgeX;
     imgEdge[1] = edgeY;
-    imgEdge[2] = (((jfloat)srcOps->width)  / texW) - edgeX;
-    imgEdge[3] = (((jfloat)srcOps->height) / texH) - edgeY;
+    imgEdge[2] = (((jflobt)srcOps->width)  / texW) - edgeX;
+    imgEdge[3] = (((jflobt)srcOps->height) / texH) - edgeY;
     pd3dDevice = d3dc->Get3DDevice();
-    pd3dDevice->SetPixelShaderConstantF(0, imgEdge, 1);
+    pd3dDevice->SetPixelShbderConstbntF(0, imgEdge, 1);
 
-    // update the "uniform" kernel offsets and values
+    // updbte the "uniform" kernel offsets bnd vblues
     kIndex = 0;
     for (i = -kernelHeight/2; i < kernelHeight/2+1; i++) {
         for (j = -kernelWidth/2; j < kernelWidth/2+1; j++) {
-            kernelVals[kIndex+0] = j*xoff;
-            kernelVals[kIndex+1] = i*yoff;
-            kernelVals[kIndex+2] = NEXT_FLOAT(kernel);
-            kernelVals[kIndex+3] = 0.0f; // unused
+            kernelVbls[kIndex+0] = j*xoff;
+            kernelVbls[kIndex+1] = i*yoff;
+            kernelVbls[kIndex+2] = NEXT_FLOAT(kernel);
+            kernelVbls[kIndex+3] = 0.0f; // unused
             kIndex += 4;
         }
     }
-    return pd3dDevice->SetPixelShaderConstantF(1, kernelVals, kernelSize);
+    return pd3dDevice->SetPixelShbderConstbntF(1, kernelVbls, kernelSize);
 }
 
 HRESULT
-D3DBufImgOps_DisableConvolveOp(D3DContext *d3dc)
+D3DBufImgOps_DisbbleConvolveOp(D3DContext *d3dc)
 {
     IDirect3DDevice9 *pd3dDevice;
 
-    J2dTraceLn(J2D_TRACE_INFO, "D3DBufImgOps_DisableConvolveOp");
+    J2dTrbceLn(J2D_TRACE_INFO, "D3DBufImgOps_DisbbleConvolveOp");
 
     RETURN_STATUS_IF_NULL(d3dc, E_FAIL);
-    d3dc->UpdateState(STATE_CHANGE);
+    d3dc->UpdbteStbte(STATE_CHANGE);
 
-    // disable the ConvolveOp shader
+    // disbble the ConvolveOp shbder
     pd3dDevice = d3dc->Get3DDevice();
-    return pd3dDevice->SetPixelShader(NULL);
+    return pd3dDevice->SetPixelShbder(NULL);
 }
 
-/**************************** RescaleOp support *****************************/
+/**************************** RescbleOp support *****************************/
 
 HRESULT
-D3DBufImgOps_EnableRescaleOp(D3DContext *d3dc,
-                             jboolean nonPremult,
-                             unsigned char *scaleFactors,
-                             unsigned char *offsets)
+D3DBufImgOps_EnbbleRescbleOp(D3DContext *d3dc,
+                             jboolebn nonPremult,
+                             unsigned chbr *scbleFbctors,
+                             unsigned chbr *offsets)
 {
     HRESULT res;
     IDirect3DDevice9 *pd3dDevice;
-    jint flags = 0;
+    jint flbgs = 0;
 
-    J2dTraceLn(J2D_TRACE_INFO, "D3DBufImgOps_EnableRescaleOp");
+    J2dTrbceLn(J2D_TRACE_INFO, "D3DBufImgOps_EnbbleRescbleOp");
 
     RETURN_STATUS_IF_NULL(d3dc, E_FAIL);
 
-    d3dc->UpdateState(STATE_CHANGE);
+    d3dc->UpdbteStbte(STATE_CHANGE);
 
-    // choose the appropriate shader, depending on the source image
+    // choose the bppropribte shbder, depending on the source imbge
     if (nonPremult) {
-        flags |= RESCALE_NON_PREMULT;
+        flbgs |= RESCALE_NON_PREMULT;
     }
 
-    // locate/enable the shader program for the given flags
-    res = d3dc->EnableRescaleProgram(flags);
+    // locbte/enbble the shbder progrbm for the given flbgs
+    res = d3dc->EnbbleRescbleProgrbm(flbgs);
     RETURN_STATUS_IF_FAILED(res);
 
-    // update the "uniform" scale factor values (note that the Java-level
-    // dispatching code always passes down 4 values here, regardless of
-    // the original source image type)
+    // updbte the "uniform" scble fbctor vblues (note thbt the Jbvb-level
+    // dispbtching code blwbys pbsses down 4 vblues here, regbrdless of
+    // the originbl source imbge type)
     pd3dDevice = d3dc->Get3DDevice();
-    pd3dDevice->SetPixelShaderConstantF(0, (float *)scaleFactors, 1);
+    pd3dDevice->SetPixelShbderConstbntF(0, (flobt *)scbleFbctors, 1);
 
-    // update the "uniform" offset values (note that the Java-level
-    // dispatching code always passes down 4 values here, and that the
-    // offsets will have already been normalized to the range [0,1])
-    return pd3dDevice->SetPixelShaderConstantF(1, (float *)offsets, 1);
+    // updbte the "uniform" offset vblues (note thbt the Jbvb-level
+    // dispbtching code blwbys pbsses down 4 vblues here, bnd thbt the
+    // offsets will hbve blrebdy been normblized to the rbnge [0,1])
+    return pd3dDevice->SetPixelShbderConstbntF(1, (flobt *)offsets, 1);
 }
 
 HRESULT
-D3DBufImgOps_DisableRescaleOp(D3DContext *d3dc)
+D3DBufImgOps_DisbbleRescbleOp(D3DContext *d3dc)
 {
     IDirect3DDevice9 *pd3dDevice;
 
-    J2dTraceLn(J2D_TRACE_INFO, "D3DBufImgOps_DisableRescaleOp");
+    J2dTrbceLn(J2D_TRACE_INFO, "D3DBufImgOps_DisbbleRescbleOp");
 
     RETURN_STATUS_IF_NULL(d3dc, E_FAIL);
 
-    d3dc->UpdateState(STATE_CHANGE);
+    d3dc->UpdbteStbte(STATE_CHANGE);
 
-    // disable the RescaleOp shader
+    // disbble the RescbleOp shbder
     pd3dDevice = d3dc->Get3DDevice();
-    return pd3dDevice->SetPixelShader(NULL);
+    return pd3dDevice->SetPixelShbder(NULL);
 }
 
 /**************************** LookupOp support ******************************/
 
 HRESULT
-D3DBufImgOps_EnableLookupOp(D3DContext *d3dc,
-                            jboolean nonPremult, jboolean shortData,
-                            jint numBands, jint bandLength, jint offset,
-                            void *tableValues)
+D3DBufImgOps_EnbbleLookupOp(D3DContext *d3dc,
+                            jboolebn nonPremult, jboolebn shortDbtb,
+                            jint numBbnds, jint bbndLength, jint offset,
+                            void *tbbleVblues)
 {
     HRESULT res;
     IDirect3DDevice9 *pd3dDevice;
     D3DResource *pLutTexRes;
     IDirect3DTexture9 *pLutTex;
-    int bytesPerElem = (shortData ? 2 : 1);
-    jfloat foffsets[4];
-    void *bands[4];
+    int bytesPerElem = (shortDbtb ? 2 : 1);
+    jflobt foffsets[4];
+    void *bbnds[4];
     int i;
-    jint flags = 0;
+    jint flbgs = 0;
 
     for (i = 0; i < 4; i++) {
-        bands[i] = NULL;
+        bbnds[i] = NULL;
     }
-    J2dTraceLn4(J2D_TRACE_INFO,
-                "D3DBufImgOps_EnableLookupOp: short=%d num=%d len=%d off=%d",
-                shortData, numBands, bandLength, offset);
+    J2dTrbceLn4(J2D_TRACE_INFO,
+                "D3DBufImgOps_EnbbleLookupOp: short=%d num=%d len=%d off=%d",
+                shortDbtb, numBbnds, bbndLength, offset);
 
     RETURN_STATUS_IF_NULL(d3dc, E_FAIL);
 
-    d3dc->UpdateState(STATE_CHANGE);
+    d3dc->UpdbteStbte(STATE_CHANGE);
 
-    // choose the appropriate shader, depending on the source image
-    // and the number of bands involved
-    if (numBands != 4) {
-        flags |= LOOKUP_USE_SRC_ALPHA;
+    // choose the bppropribte shbder, depending on the source imbge
+    // bnd the number of bbnds involved
+    if (numBbnds != 4) {
+        flbgs |= LOOKUP_USE_SRC_ALPHA;
     }
     if (nonPremult) {
-        flags |= LOOKUP_NON_PREMULT;
+        flbgs |= LOOKUP_NON_PREMULT;
     }
 
-    // locate/enable the shader program for the given flags
-    res = d3dc->EnableLookupProgram(flags);
+    // locbte/enbble the shbder progrbm for the given flbgs
+    res = d3dc->EnbbleLookupProgrbm(flbgs);
     RETURN_STATUS_IF_FAILED(res);
 
-    // update the "uniform" offset value
+    // updbte the "uniform" offset vblue
     for (i = 0; i < 4; i++) {
         foffsets[i] = offset / 255.0f;
     }
     pd3dDevice = d3dc->Get3DDevice();
-    pd3dDevice->SetPixelShaderConstantF(0, foffsets, 1);
+    pd3dDevice->SetPixelShbderConstbntF(0, foffsets, 1);
 
-    res = d3dc->GetResourceManager()->GetLookupOpLutTexture(&pLutTexRes);
+    res = d3dc->GetResourceMbnbger()->GetLookupOpLutTexture(&pLutTexRes);
     RETURN_STATUS_IF_FAILED(res);
     pLutTex = pLutTexRes->GetTexture();
 
-    // update the lookup table with the user-provided values
-    if (numBands == 1) {
-        // replicate the single band for R/G/B; alpha band is unused
+    // updbte the lookup tbble with the user-provided vblues
+    if (numBbnds == 1) {
+        // replicbte the single bbnd for R/G/B; blphb bbnd is unused
         for (i = 0; i < 3; i++) {
-            bands[i] = tableValues;
+            bbnds[i] = tbbleVblues;
         }
-        bands[3] = NULL;
-    } else if (numBands == 3) {
-        // user supplied band for each of R/G/B; alpha band is unused
+        bbnds[3] = NULL;
+    } else if (numBbnds == 3) {
+        // user supplied bbnd for ebch of R/G/B; blphb bbnd is unused
         for (i = 0; i < 3; i++) {
-            bands[i] = PtrAddBytes(tableValues, i*bandLength*bytesPerElem);
+            bbnds[i] = PtrAddBytes(tbbleVblues, i*bbndLength*bytesPerElem);
         }
-        bands[3] = NULL;
-    } else if (numBands == 4) {
-        // user supplied band for each of R/G/B/A
+        bbnds[3] = NULL;
+    } else if (numBbnds == 4) {
+        // user supplied bbnd for ebch of R/G/B/A
         for (i = 0; i < 4; i++) {
-            bands[i] = PtrAddBytes(tableValues, i*bandLength*bytesPerElem);
+            bbnds[i] = PtrAddBytes(tbbleVblues, i*bbndLength*bytesPerElem);
         }
     }
 
-    // upload the bands one row at a time into our lookup table texture
+    // uplobd the bbnds one row bt b time into our lookup tbble texture
     D3DLOCKED_RECT lockedRect;
     res = pLutTex->LockRect(0, &lockedRect, NULL, D3DLOCK_NOSYSLOCK);
     RETURN_STATUS_IF_FAILED(res);
 
-    jushort *pBase = (jushort*)lockedRect.pBits;
+    jushort *pBbse = (jushort*)lockedRect.pBits;
     for (i = 0; i < 4; i++) {
         jushort *pDst;
-        if (bands[i] == NULL) {
+        if (bbnds[i] == NULL) {
             continue;
         }
-        pDst = pBase + (i * 256);
-        if (shortData) {
-            memcpy(pDst, bands[i], bandLength*sizeof(jushort));
+        pDst = pBbse + (i * 256);
+        if (shortDbtb) {
+            memcpy(pDst, bbnds[i], bbndLength*sizeof(jushort));
         } else {
             int j;
-            jubyte *pSrc = (jubyte *)bands[i];
-            for (j = 0; j < bandLength; j++) {
+            jubyte *pSrc = (jubyte *)bbnds[i];
+            for (j = 0; j < bbndLength; j++) {
                 pDst[j] = (jushort)(pSrc[j] << 8);
             }
         }
     }
     pLutTex->UnlockRect(0);
 
-    // bind the lookup table to texture unit 1 and enable texturing
+    // bind the lookup tbble to texture unit 1 bnd enbble texturing
     res = d3dc->SetTexture(pLutTex, 1);
-    pd3dDevice->SetSamplerState(1, D3DSAMP_ADDRESSU, D3DTADDRESS_CLAMP);
-    pd3dDevice->SetSamplerState(1, D3DSAMP_ADDRESSV, D3DTADDRESS_CLAMP);
-    pd3dDevice->SetSamplerState(1, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
-    pd3dDevice->SetSamplerState(1, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
+    pd3dDevice->SetSbmplerStbte(1, D3DSAMP_ADDRESSU, D3DTADDRESS_CLAMP);
+    pd3dDevice->SetSbmplerStbte(1, D3DSAMP_ADDRESSV, D3DTADDRESS_CLAMP);
+    pd3dDevice->SetSbmplerStbte(1, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+    pd3dDevice->SetSbmplerStbte(1, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
     return res;
 }
 
 HRESULT
-D3DBufImgOps_DisableLookupOp(D3DContext *d3dc)
+D3DBufImgOps_DisbbleLookupOp(D3DContext *d3dc)
 {
     IDirect3DDevice9 *pd3dDevice;
 
-    J2dTraceLn(J2D_TRACE_INFO, "D3DBufImgOps_DisableLookupOp");
+    J2dTrbceLn(J2D_TRACE_INFO, "D3DBufImgOps_DisbbleLookupOp");
 
     RETURN_STATUS_IF_NULL(d3dc, E_FAIL);
 
-    d3dc->UpdateState(STATE_CHANGE);
+    d3dc->UpdbteStbte(STATE_CHANGE);
 
-    // disable the LookupOp shader
+    // disbble the LookupOp shbder
     pd3dDevice = d3dc->Get3DDevice();
-    pd3dDevice->SetPixelShader(NULL);
+    pd3dDevice->SetPixelShbder(NULL);
 
-    // disable the lookup table on texture unit 1
+    // disbble the lookup tbble on texture unit 1
     return d3dc->SetTexture(NULL, 1);
 }

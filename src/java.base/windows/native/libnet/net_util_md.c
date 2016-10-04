@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -37,144 +37,144 @@
 #endif
 
 /* true if SO_RCVTIMEO is supported */
-jboolean isRcvTimeoutSupported = JNI_TRUE;
+jboolebn isRcvTimeoutSupported = JNI_TRUE;
 
 /*
- * Table of Windows Sockets errors, the specific exception we
- * throw for the error, and the error text.
+ * Tbble of Windows Sockets errors, the specific exception we
+ * throw for the error, bnd the error text.
  *
- * Note that this table excludes OS dependent errors.
+ * Note thbt this tbble excludes OS dependent errors.
  *
- * Latest list of Windows Sockets errors can be found at :-
- * http://msdn.microsoft.com/library/psdk/winsock/errors_3wc2.htm
+ * Lbtest list of Windows Sockets errors cbn be found bt :-
+ * http://msdn.microsoft.com/librbry/psdk/winsock/errors_3wc2.htm
  */
-static struct {
+stbtic struct {
     int errCode;
-    const char *exc;
-    const char *errString;
+    const chbr *exc;
+    const chbr *errString;
 } const winsock_errors[] = {
     { WSAEACCES,                0,      "Permission denied" },
-    { WSAEADDRINUSE,            "BindException",        "Address already in use" },
-    { WSAEADDRNOTAVAIL,         "BindException",        "Cannot assign requested address" },
-    { WSAEAFNOSUPPORT,          0,      "Address family not supported by protocol family" },
-    { WSAEALREADY,              0,      "Operation already in progress" },
-    { WSAECONNABORTED,          0,      "Software caused connection abort" },
+    { WSAEADDRINUSE,            "BindException",        "Address blrebdy in use" },
+    { WSAEADDRNOTAVAIL,         "BindException",        "Cbnnot bssign requested bddress" },
+    { WSAEAFNOSUPPORT,          0,      "Address fbmily not supported by protocol fbmily" },
+    { WSAEALREADY,              0,      "Operbtion blrebdy in progress" },
+    { WSAECONNABORTED,          0,      "Softwbre cbused connection bbort" },
     { WSAECONNREFUSED,          "ConnectException",     "Connection refused" },
     { WSAECONNRESET,            0,      "Connection reset by peer" },
-    { WSAEDESTADDRREQ,          0,      "Destination address required" },
-    { WSAEFAULT,                0,      "Bad address" },
+    { WSAEDESTADDRREQ,          0,      "Destinbtion bddress required" },
+    { WSAEFAULT,                0,      "Bbd bddress" },
     { WSAEHOSTDOWN,             0,      "Host is down" },
     { WSAEHOSTUNREACH,          "NoRouteToHostException",       "No route to host" },
-    { WSAEINPROGRESS,           0,      "Operation now in progress" },
-    { WSAEINTR,                 0,      "Interrupted function call" },
-    { WSAEINVAL,                0,      "Invalid argument" },
-    { WSAEISCONN,               0,      "Socket is already connected" },
-    { WSAEMFILE,                0,      "Too many open files" },
-    { WSAEMSGSIZE,              0,      "The message is larger than the maximum supported by the underlying transport" },
+    { WSAEINPROGRESS,           0,      "Operbtion now in progress" },
+    { WSAEINTR,                 0,      "Interrupted function cbll" },
+    { WSAEINVAL,                0,      "Invblid brgument" },
+    { WSAEISCONN,               0,      "Socket is blrebdy connected" },
+    { WSAEMFILE,                0,      "Too mbny open files" },
+    { WSAEMSGSIZE,              0,      "The messbge is lbrger thbn the mbximum supported by the underlying trbnsport" },
     { WSAENETDOWN,              0,      "Network is down" },
     { WSAENETRESET,             0,      "Network dropped connection on reset" },
-    { WSAENETUNREACH,           0,      "Network is unreachable" },
-    { WSAENOBUFS,               0,      "No buffer space available (maximum connections reached?)" },
-    { WSAENOPROTOOPT,           0,      "Bad protocol option" },
+    { WSAENETUNREACH,           0,      "Network is unrebchbble" },
+    { WSAENOBUFS,               0,      "No buffer spbce bvbilbble (mbximum connections rebched?)" },
+    { WSAENOPROTOOPT,           0,      "Bbd protocol option" },
     { WSAENOTCONN,              0,      "Socket is not connected" },
-    { WSAENOTSOCK,              0,      "Socket operation on nonsocket" },
-    { WSAEOPNOTSUPP,            0,      "Operation not supported" },
-    { WSAEPFNOSUPPORT,          0,      "Protocol family not supported" },
-    { WSAEPROCLIM,              0,      "Too many processes" },
+    { WSAENOTSOCK,              0,      "Socket operbtion on nonsocket" },
+    { WSAEOPNOTSUPP,            0,      "Operbtion not supported" },
+    { WSAEPFNOSUPPORT,          0,      "Protocol fbmily not supported" },
+    { WSAEPROCLIM,              0,      "Too mbny processes" },
     { WSAEPROTONOSUPPORT,       0,      "Protocol not supported" },
     { WSAEPROTOTYPE,            0,      "Protocol wrong type for socket" },
-    { WSAESHUTDOWN,             0,      "Cannot send after socket shutdown" },
+    { WSAESHUTDOWN,             0,      "Cbnnot send bfter socket shutdown" },
     { WSAESOCKTNOSUPPORT,       0,      "Socket type not supported" },
     { WSAETIMEDOUT,             "ConnectException",     "Connection timed out" },
-    { WSATYPE_NOT_FOUND,        0,      "Class type not found" },
-    { WSAEWOULDBLOCK,           0,      "Resource temporarily unavailable" },
+    { WSATYPE_NOT_FOUND,        0,      "Clbss type not found" },
+    { WSAEWOULDBLOCK,           0,      "Resource temporbrily unbvbilbble" },
     { WSAHOST_NOT_FOUND,        0,      "Host not found" },
-    { WSA_NOT_ENOUGH_MEMORY,    0,      "Insufficient memory available" },
-    { WSANOTINITIALISED,        0,      "Successful WSAStartup not yet performed" },
-    { WSANO_DATA,               0,      "Valid name, no data record of requested type" },
-    { WSANO_RECOVERY,           0,      "This is a nonrecoverable error" },
-    { WSASYSNOTREADY,           0,      "Network subsystem is unavailable" },
-    { WSATRY_AGAIN,             0,      "Nonauthoritative host not found" },
-    { WSAVERNOTSUPPORTED,       0,      "Winsock.dll version out of range" },
-    { WSAEDISCON,               0,      "Graceful shutdown in progress" },
-    { WSA_OPERATION_ABORTED,    0,      "Overlapped operation aborted" },
+    { WSA_NOT_ENOUGH_MEMORY,    0,      "Insufficient memory bvbilbble" },
+    { WSANOTINITIALISED,        0,      "Successful WSAStbrtup not yet performed" },
+    { WSANO_DATA,               0,      "Vblid nbme, no dbtb record of requested type" },
+    { WSANO_RECOVERY,           0,      "This is b nonrecoverbble error" },
+    { WSASYSNOTREADY,           0,      "Network subsystem is unbvbilbble" },
+    { WSATRY_AGAIN,             0,      "Nonbuthoritbtive host not found" },
+    { WSAVERNOTSUPPORTED,       0,      "Winsock.dll version out of rbnge" },
+    { WSAEDISCON,               0,      "Grbceful shutdown in progress" },
+    { WSA_OPERATION_ABORTED,    0,      "Overlbpped operbtion bborted" },
 };
 
 /*
- * Initialize Windows Sockets API support
+ * Initiblize Windows Sockets API support
  */
 BOOL WINAPI
-DllMain(HINSTANCE hinst, DWORD reason, LPVOID reserved)
+DllMbin(HINSTANCE hinst, DWORD rebson, LPVOID reserved)
 {
-    WSADATA wsadata;
+    WSADATA wsbdbtb;
 
-    switch (reason) {
-        case DLL_PROCESS_ATTACH:
-            if (WSAStartup(MAKEWORD(2,2), &wsadata) != 0) {
+    switch (rebson) {
+        cbse DLL_PROCESS_ATTACH:
+            if (WSAStbrtup(MAKEWORD(2,2), &wsbdbtb) != 0) {
                 return FALSE;
             }
-            break;
+            brebk;
 
-        case DLL_PROCESS_DETACH:
-            WSACleanup();
-            break;
+        cbse DLL_PROCESS_DETACH:
+            WSAClebnup();
+            brebk;
 
-        default:
-            break;
+        defbult:
+            brebk;
     }
     return TRUE;
 }
 
-void platformInit() {}
-void parseExclusiveBindProperty(JNIEnv *env) {}
+void plbtformInit() {}
+void pbrseExclusiveBindProperty(JNIEnv *env) {}
 
 /*
- * Since winsock doesn't have the equivalent of strerror(errno)
- * use table to lookup error text for the error.
+ * Since winsock doesn't hbve the equivblent of strerror(errno)
+ * use tbble to lookup error text for the error.
  */
 JNIEXPORT void JNICALL
-NET_ThrowNew(JNIEnv *env, int errorNum, char *msg)
+NET_ThrowNew(JNIEnv *env, int errorNum, chbr *msg)
 {
     int i;
-    int table_size = sizeof(winsock_errors) /
+    int tbble_size = sizeof(winsock_errors) /
                      sizeof(winsock_errors[0]);
-    char exc[256];
-    char fullMsg[256];
-    char *excP = NULL;
+    chbr exc[256];
+    chbr fullMsg[256];
+    chbr *excP = NULL;
 
     /*
-     * If exception already throw then don't overwrite it.
+     * If exception blrebdy throw then don't overwrite it.
      */
     if ((*env)->ExceptionOccurred(env)) {
         return;
     }
 
     /*
-     * Default message text if not provided
+     * Defbult messbge text if not provided
      */
     if (!msg) {
-        msg = "no further information";
+        msg = "no further informbtion";
     }
 
     /*
-     * Check table for known winsock errors
+     * Check tbble for known winsock errors
      */
     i=0;
-    while (i < table_size) {
+    while (i < tbble_size) {
         if (errorNum == winsock_errors[i].errCode) {
-            break;
+            brebk;
         }
         i++;
     }
 
     /*
-     * If found get pick the specific exception and error
-     * message corresponding to this error.
+     * If found get pick the specific exception bnd error
+     * messbge corresponding to this error.
      */
-    if (i < table_size) {
-        excP = (char *)winsock_errors[i].exc;
+    if (i < tbble_size) {
+        excP = (chbr *)winsock_errors[i].exc;
         jio_snprintf(fullMsg, sizeof(fullMsg), "%s: %s",
-                     (char *)winsock_errors[i].errString, msg);
+                     (chbr *)winsock_errors[i].errString, msg);
     } else {
         jio_snprintf(fullMsg, sizeof(fullMsg),
                      "Unrecognized Windows Sockets error: %d: %s",
@@ -190,40 +190,40 @@ NET_ThrowNew(JNIEnv *env, int errorNum, char *msg)
         excP = "SocketException";
     }
     sprintf(exc, "%s%s", JNU_JAVANETPKG, excP);
-    JNU_ThrowByName(env, exc, fullMsg);
+    JNU_ThrowByNbme(env, exc, fullMsg);
 }
 
 void
-NET_ThrowCurrent(JNIEnv *env, char *msg)
+NET_ThrowCurrent(JNIEnv *env, chbr *msg)
 {
-    NET_ThrowNew(env, WSAGetLastError(), msg);
+    NET_ThrowNew(env, WSAGetLbstError(), msg);
 }
 
 void
-NET_ThrowSocketException(JNIEnv *env, char* msg)
+NET_ThrowSocketException(JNIEnv *env, chbr* msg)
 {
-    static jclass cls = NULL;
+    stbtic jclbss cls = NULL;
     if (cls == NULL) {
-        cls = (*env)->FindClass(env, "java/net/SocketException");
+        cls = (*env)->FindClbss(env, "jbvb/net/SocketException");
         CHECK_NULL(cls);
-        cls = (*env)->NewGlobalRef(env, cls);
+        cls = (*env)->NewGlobblRef(env, cls);
         CHECK_NULL(cls);
     }
     (*env)->ThrowNew(env, cls, msg);
 }
 
 void
-NET_ThrowByNameWithLastError(JNIEnv *env, const char *name,
-                   const char *defaultDetail) {
-    char errmsg[255];
-    sprintf(errmsg, "errno: %d, error: %s\n", WSAGetLastError(), defaultDetail);
-    JNU_ThrowByNameWithLastError(env, name, errmsg);
+NET_ThrowByNbmeWithLbstError(JNIEnv *env, const chbr *nbme,
+                   const chbr *defbultDetbil) {
+    chbr errmsg[255];
+    sprintf(errmsg, "errno: %d, error: %s\n", WSAGetLbstError(), defbultDetbil);
+    JNU_ThrowByNbmeWithLbstError(env, nbme, errmsg);
 }
 
 jfieldID
 NET_GetFileDescriptorID(JNIEnv *env)
 {
-    jclass cls = (*env)->FindClass(env, "java/io/FileDescriptor");
+    jclbss cls = (*env)->FindClbss(env, "jbvb/io/FileDescriptor");
     CHECK_NULL_RETURN(cls, NULL);
     return (*env)->GetFieldID(env, cls, "fd", "I");
 }
@@ -240,25 +240,25 @@ jint  IPv6_supported()
 }
 
 /*
- * Return the default TOS value
+ * Return the defbult TOS vblue
  */
-int NET_GetDefaultTOS() {
-    static int default_tos = -1;
+int NET_GetDefbultTOS() {
+    stbtic int defbult_tos = -1;
     OSVERSIONINFO ver;
     HKEY hKey;
     LONG ret;
 
     /*
-     * If default ToS already determined then return it
+     * If defbult ToS blrebdy determined then return it
      */
-    if (default_tos >= 0) {
-        return default_tos;
+    if (defbult_tos >= 0) {
+        return defbult_tos;
     }
 
     /*
-     * Assume default is "normal service"
+     * Assume defbult is "normbl service"
      */
-    default_tos = 0;
+    defbult_tos = 0;
 
     /*
      * Which OS is this?
@@ -267,90 +267,90 @@ int NET_GetDefaultTOS() {
     GetVersionEx(&ver);
 
     /*
-     * If 2000 or greater then no default ToS in registry
+     * If 2000 or grebter then no defbult ToS in registry
      */
-    if (ver.dwPlatformId == VER_PLATFORM_WIN32_NT) {
-        if (ver.dwMajorVersion >= 5) {
-            return default_tos;
+    if (ver.dwPlbtformId == VER_PLATFORM_WIN32_NT) {
+        if (ver.dwMbjorVersion >= 5) {
+            return defbult_tos;
         }
     }
 
     /*
-     * Query the registry to see if a Default ToS has been set.
+     * Query the registry to see if b Defbult ToS hbs been set.
      * Different registry entry for NT vs 95/98/ME.
      */
-    if (ver.dwPlatformId == VER_PLATFORM_WIN32_NT) {
+    if (ver.dwPlbtformId == VER_PLATFORM_WIN32_NT) {
         ret = RegOpenKeyEx(HKEY_LOCAL_MACHINE,
-                           "SYSTEM\\CurrentControlSet\\Services\\Tcp\\Parameters",
+                           "SYSTEM\\CurrentControlSet\\Services\\Tcp\\Pbrbmeters",
                            0, KEY_READ, (PHKEY)&hKey);
     } else {
         ret = RegOpenKeyEx(HKEY_LOCAL_MACHINE,
-                           "SYSTEM\\CurrentControlSet\\Services\\VxD\\MSTCP\\Parameters",
+                           "SYSTEM\\CurrentControlSet\\Services\\VxD\\MSTCP\\Pbrbmeters",
                            0, KEY_READ, (PHKEY)&hKey);
     }
     if (ret == ERROR_SUCCESS) {
         DWORD dwLen;
-        DWORD dwDefaultTOS;
+        DWORD dwDefbultTOS;
         ULONG ulType;
-        dwLen = sizeof(dwDefaultTOS);
+        dwLen = sizeof(dwDefbultTOS);
 
-        ret = RegQueryValueEx(hKey, "DefaultTOS",  NULL, &ulType,
-                             (LPBYTE)&dwDefaultTOS, &dwLen);
+        ret = RegQueryVblueEx(hKey, "DefbultTOS",  NULL, &ulType,
+                             (LPBYTE)&dwDefbultTOS, &dwLen);
         RegCloseKey(hKey);
         if (ret == ERROR_SUCCESS) {
-            default_tos = (int)dwDefaultTOS;
+            defbult_tos = (int)dwDefbultTOS;
         }
     }
-    return default_tos;
+    return defbult_tos;
 }
 
-/* call NET_MapSocketOptionV6 for the IPv6 fd only
- * and NET_MapSocketOption for the IPv4 fd
+/* cbll NET_MbpSocketOptionV6 for the IPv6 fd only
+ * bnd NET_MbpSocketOption for the IPv4 fd
  */
 JNIEXPORT int JNICALL
-NET_MapSocketOptionV6(jint cmd, int *level, int *optname) {
+NET_MbpSocketOptionV6(jint cmd, int *level, int *optnbme) {
 
     switch (cmd) {
-        case java_net_SocketOptions_IP_MULTICAST_IF:
-        case java_net_SocketOptions_IP_MULTICAST_IF2:
+        cbse jbvb_net_SocketOptions_IP_MULTICAST_IF:
+        cbse jbvb_net_SocketOptions_IP_MULTICAST_IF2:
             *level = IPPROTO_IPV6;
-            *optname = IPV6_MULTICAST_IF;
+            *optnbme = IPV6_MULTICAST_IF;
             return 0;
 
-        case java_net_SocketOptions_IP_MULTICAST_LOOP:
+        cbse jbvb_net_SocketOptions_IP_MULTICAST_LOOP:
             *level = IPPROTO_IPV6;
-            *optname = IPV6_MULTICAST_LOOP;
+            *optnbme = IPV6_MULTICAST_LOOP;
             return 0;
     }
-    return NET_MapSocketOption (cmd, level, optname);
+    return NET_MbpSocketOption (cmd, level, optnbme);
 }
 
 /*
- * Map the Java level socket option to the platform specific
- * level and option name.
+ * Mbp the Jbvb level socket option to the plbtform specific
+ * level bnd option nbme.
  */
 
 JNIEXPORT int JNICALL
-NET_MapSocketOption(jint cmd, int *level, int *optname) {
+NET_MbpSocketOption(jint cmd, int *level, int *optnbme) {
 
     typedef struct {
         jint cmd;
         int level;
-        int optname;
+        int optnbme;
     } sockopts;
 
-    static sockopts opts[] = {
-        { java_net_SocketOptions_TCP_NODELAY,   IPPROTO_TCP,    TCP_NODELAY },
-        { java_net_SocketOptions_SO_OOBINLINE,  SOL_SOCKET,     SO_OOBINLINE },
-        { java_net_SocketOptions_SO_LINGER,     SOL_SOCKET,     SO_LINGER },
-        { java_net_SocketOptions_SO_SNDBUF,     SOL_SOCKET,     SO_SNDBUF },
-        { java_net_SocketOptions_SO_RCVBUF,     SOL_SOCKET,     SO_RCVBUF },
-        { java_net_SocketOptions_SO_KEEPALIVE,  SOL_SOCKET,     SO_KEEPALIVE },
-        { java_net_SocketOptions_SO_REUSEADDR,  SOL_SOCKET,     SO_REUSEADDR },
-        { java_net_SocketOptions_SO_BROADCAST,  SOL_SOCKET,     SO_BROADCAST },
-        { java_net_SocketOptions_IP_MULTICAST_IF,   IPPROTO_IP, IP_MULTICAST_IF },
-        { java_net_SocketOptions_IP_MULTICAST_LOOP, IPPROTO_IP, IP_MULTICAST_LOOP },
-        { java_net_SocketOptions_IP_TOS,            IPPROTO_IP, IP_TOS },
+    stbtic sockopts opts[] = {
+        { jbvb_net_SocketOptions_TCP_NODELAY,   IPPROTO_TCP,    TCP_NODELAY },
+        { jbvb_net_SocketOptions_SO_OOBINLINE,  SOL_SOCKET,     SO_OOBINLINE },
+        { jbvb_net_SocketOptions_SO_LINGER,     SOL_SOCKET,     SO_LINGER },
+        { jbvb_net_SocketOptions_SO_SNDBUF,     SOL_SOCKET,     SO_SNDBUF },
+        { jbvb_net_SocketOptions_SO_RCVBUF,     SOL_SOCKET,     SO_RCVBUF },
+        { jbvb_net_SocketOptions_SO_KEEPALIVE,  SOL_SOCKET,     SO_KEEPALIVE },
+        { jbvb_net_SocketOptions_SO_REUSEADDR,  SOL_SOCKET,     SO_REUSEADDR },
+        { jbvb_net_SocketOptions_SO_BROADCAST,  SOL_SOCKET,     SO_BROADCAST },
+        { jbvb_net_SocketOptions_IP_MULTICAST_IF,   IPPROTO_IP, IP_MULTICAST_IF },
+        { jbvb_net_SocketOptions_IP_MULTICAST_LOOP, IPPROTO_IP, IP_MULTICAST_LOOP },
+        { jbvb_net_SocketOptions_IP_TOS,            IPPROTO_IP, IP_TOS },
 
     };
 
@@ -358,12 +358,12 @@ NET_MapSocketOption(jint cmd, int *level, int *optname) {
     int i;
 
     /*
-     * Map the Java level option to the native level
+     * Mbp the Jbvb level option to the nbtive level
      */
     for (i=0; i<(int)(sizeof(opts) / sizeof(opts[0])); i++) {
         if (cmd == opts[i].cmd) {
             *level = opts[i].level;
-            *optname = opts[i].optname;
+            *optnbme = opts[i].optnbme;
             return 0;
         }
     }
@@ -374,56 +374,56 @@ NET_MapSocketOption(jint cmd, int *level, int *optname) {
 
 
 /*
- * Wrapper for setsockopt dealing with Windows specific issues :-
+ * Wrbpper for setsockopt debling with Windows specific issues :-
  *
- * IP_TOS and IP_MULTICAST_LOOP can't be set on some Windows
+ * IP_TOS bnd IP_MULTICAST_LOOP cbn't be set on some Windows
  * editions.
  *
- * The value for the type-of-service (TOS) needs to be masked
- * to get consistent behaviour with other operating systems.
+ * The vblue for the type-of-service (TOS) needs to be mbsked
+ * to get consistent behbviour with other operbting systems.
  */
 JNIEXPORT int JNICALL
-NET_SetSockOpt(int s, int level, int optname, const void *optval,
+NET_SetSockOpt(int s, int level, int optnbme, const void *optvbl,
                int optlen)
 {
     int rv = 0;
-    int parg = 0;
-    int plen = sizeof(parg);
+    int pbrg = 0;
+    int plen = sizeof(pbrg);
 
-    if (level == IPPROTO_IP && optname == IP_TOS) {
-        int *tos = (int *)optval;
+    if (level == IPPROTO_IP && optnbme == IP_TOS) {
+        int *tos = (int *)optvbl;
         *tos &= (IPTOS_TOS_MASK | IPTOS_PREC_MASK);
     }
 
-    if (optname == SO_REUSEADDR) {
+    if (optnbme == SO_REUSEADDR) {
         /*
-         * Do not set SO_REUSEADDE if SO_EXCLUSIVEADDUSE is already set
+         * Do not set SO_REUSEADDE if SO_EXCLUSIVEADDUSE is blrebdy set
          */
-        rv = NET_GetSockOpt(s, SOL_SOCKET, SO_EXCLUSIVEADDRUSE, (char *)&parg, &plen);
-        if (rv == 0 && parg == 1) {
+        rv = NET_GetSockOpt(s, SOL_SOCKET, SO_EXCLUSIVEADDRUSE, (chbr *)&pbrg, &plen);
+        if (rv == 0 && pbrg == 1) {
             return rv;
         }
     }
 
-    rv = setsockopt(s, level, optname, optval, optlen);
+    rv = setsockopt(s, level, optnbme, optvbl, optlen);
 
     if (rv == SOCKET_ERROR) {
         /*
-         * IP_TOS & IP_MULTICAST_LOOP can't be set on some versions
+         * IP_TOS & IP_MULTICAST_LOOP cbn't be set on some versions
          * of Windows.
          */
-        if ((WSAGetLastError() == WSAENOPROTOOPT) &&
+        if ((WSAGetLbstError() == WSAENOPROTOOPT) &&
             (level == IPPROTO_IP) &&
-            (optname == IP_TOS || optname == IP_MULTICAST_LOOP)) {
+            (optnbme == IP_TOS || optnbme == IP_MULTICAST_LOOP)) {
             rv = 0;
         }
 
         /*
-         * IP_TOS can't be set on unbound UDP sockets.
+         * IP_TOS cbn't be set on unbound UDP sockets.
          */
-        if ((WSAGetLastError() == WSAEINVAL) &&
+        if ((WSAGetLbstError() == WSAEINVAL) &&
             (level == IPPROTO_IP) &&
-            (optname == IP_TOS)) {
+            (optnbme == IP_TOS)) {
             rv = 0;
         }
     }
@@ -432,40 +432,40 @@ NET_SetSockOpt(int s, int level, int optname, const void *optval,
 }
 
 /*
- * Wrapper for setsockopt dealing with Windows specific issues :-
+ * Wrbpper for setsockopt debling with Windows specific issues :-
  *
  * IP_TOS is not supported on some versions of Windows so
- * instead return the default value for the OS.
+ * instebd return the defbult vblue for the OS.
  */
 JNIEXPORT int JNICALL
-NET_GetSockOpt(int s, int level, int optname, void *optval,
+NET_GetSockOpt(int s, int level, int optnbme, void *optvbl,
                int *optlen)
 {
     int rv;
 
-    if (level == IPPROTO_IPV6 && optname == IPV6_TCLASS) {
-        int *intopt = (int *)optval;
+    if (level == IPPROTO_IPV6 && optnbme == IPV6_TCLASS) {
+        int *intopt = (int *)optvbl;
         *intopt = 0;
         *optlen = sizeof(*intopt);
         return 0;
     }
 
-    rv = getsockopt(s, level, optname, optval, optlen);
+    rv = getsockopt(s, level, optnbme, optvbl, optlen);
 
 
     /*
      * IPPROTO_IP/IP_TOS is not supported on some Windows
-     * editions so return the default type-of-service
-     * value.
+     * editions so return the defbult type-of-service
+     * vblue.
      */
     if (rv == SOCKET_ERROR) {
 
-        if (WSAGetLastError() == WSAENOPROTOOPT &&
-            level == IPPROTO_IP && optname == IP_TOS) {
+        if (WSAGetLbstError() == WSAENOPROTOOPT &&
+            level == IPPROTO_IP && optnbme == IP_TOS) {
 
             int *tos;
-            tos = (int *)optval;
-            *tos = NET_GetDefaultTOS();
+            tos = (int *)optvbl;
+            *tos = NET_GetDefbultTOS();
 
             rv = 0;
         }
@@ -475,40 +475,40 @@ NET_GetSockOpt(int s, int level, int optname, void *optval,
 }
 
 /*
- * Sets SO_ECLUSIVEADDRUSE if SO_REUSEADDR is not already set.
+ * Sets SO_ECLUSIVEADDRUSE if SO_REUSEADDR is not blrebdy set.
  */
 void setExclusiveBind(int fd) {
-    int parg = 0;
-    int plen = sizeof(parg);
+    int pbrg = 0;
+    int plen = sizeof(pbrg);
     int rv = 0;
-    rv = NET_GetSockOpt(fd, SOL_SOCKET, SO_REUSEADDR, (char *)&parg, &plen);
-    if (rv == 0 && parg == 0) {
-        parg = 1;
-        rv = NET_SetSockOpt(fd, SOL_SOCKET, SO_EXCLUSIVEADDRUSE, (char*)&parg, plen);
+    rv = NET_GetSockOpt(fd, SOL_SOCKET, SO_REUSEADDR, (chbr *)&pbrg, &plen);
+    if (rv == 0 && pbrg == 0) {
+        pbrg = 1;
+        rv = NET_SetSockOpt(fd, SOL_SOCKET, SO_EXCLUSIVEADDRUSE, (chbr*)&pbrg, plen);
     }
 }
 
 /*
- * Wrapper for bind winsock call - transparent converts an
- * error related to binding to a port that has exclusive access
- * into an error indicating the port is in use (facilitates
+ * Wrbpper for bind winsock cbll - trbnspbrent converts bn
+ * error relbted to binding to b port thbt hbs exclusive bccess
+ * into bn error indicbting the port is in use (fbcilitbtes
  * better error reporting).
  *
- * Should be only called by the wrapper method NET_WinBind
+ * Should be only cblled by the wrbpper method NET_WinBind
  */
 JNIEXPORT int JNICALL
-NET_Bind(int s, struct sockaddr *him, int len)
+NET_Bind(int s, struct sockbddr *him, int len)
 {
     int rv = 0;
     rv = bind(s, him, len);
 
     if (rv == SOCKET_ERROR) {
         /*
-         * If bind fails with WSAEACCES it means that a privileged
-         * process has done an exclusive bind (NT SP4/2000/XP only).
+         * If bind fbils with WSAEACCES it mebns thbt b privileged
+         * process hbs done bn exclusive bind (NT SP4/2000/XP only).
          */
-        if (WSAGetLastError() == WSAEACCES) {
-            WSASetLastError(WSAEADDRINUSE);
+        if (WSAGetLbstError() == WSAEACCES) {
+            WSASetLbstError(WSAEADDRINUSE);
         }
     }
 
@@ -516,11 +516,11 @@ NET_Bind(int s, struct sockaddr *him, int len)
 }
 
 /*
- * Wrapper for NET_Bind call. Sets SO_EXCLUSIVEADDRUSE
- * if required, and then calls NET_BIND
+ * Wrbpper for NET_Bind cbll. Sets SO_EXCLUSIVEADDRUSE
+ * if required, bnd then cblls NET_BIND
  */
 JNIEXPORT int JNICALL
-NET_WinBind(int s, struct sockaddr *him, int len, jboolean exclBind)
+NET_WinBind(int s, struct sockbddr *him, int len, jboolebn exclBind)
 {
     if (exclBind == JNI_TRUE)
         setExclusiveBind(s);
@@ -532,7 +532,7 @@ NET_SocketClose(int fd) {
     struct linger l = {0, 0};
     int ret = 0;
     int len = sizeof (l);
-    if (getsockopt(fd, SOL_SOCKET, SO_LINGER, (char *)&l, &len) == 0) {
+    if (getsockopt(fd, SOL_SOCKET, SO_LINGER, (chbr *)&l, &len) == 0) {
         if (l.l_onoff == 0) {
             WSASendDisconnect(fd, NULL);
         }
@@ -545,7 +545,7 @@ JNIEXPORT int JNICALL
 NET_Timeout(int fd, long timeout) {
     int ret;
     fd_set tbl;
-    struct timeval t;
+    struct timevbl t;
     t.tv_sec = timeout / 1000;
     t.tv_usec = (timeout % 1000) * 1000;
     FD_ZERO(&tbl);
@@ -556,21 +556,21 @@ NET_Timeout(int fd, long timeout) {
 
 
 /*
- * differs from NET_Timeout() as follows:
+ * differs from NET_Timeout() bs follows:
  *
  * If timeout = -1, it blocks forever.
  *
  * returns 1 or 2 depending if only one or both sockets
- * fire at same time.
+ * fire bt sbme time.
  *
- * *fdret is (one of) the active fds. If both sockets
- * fire at same time, *fdret = fd always.
+ * *fdret is (one of) the bctive fds. If both sockets
+ * fire bt sbme time, *fdret = fd blwbys.
  */
 JNIEXPORT int JNICALL
 NET_Timeout2(int fd, int fd1, long timeout, int *fdret) {
     int ret;
     fd_set tbl;
-    struct timeval t, *tP = &t;
+    struct timevbl t, *tP = &t;
     if (timeout == -1) {
         tP = 0;
     } else {
@@ -582,16 +582,16 @@ NET_Timeout2(int fd, int fd1, long timeout, int *fdret) {
     FD_SET(fd1, &tbl);
     ret = select (0, &tbl, 0, 0, tP);
     switch (ret) {
-    case 0:
+    cbse 0:
         return 0; /* timeout */
-    case 1:
+    cbse 1:
         if (FD_ISSET (fd, &tbl)) {
             *fdret= fd;
         } else {
             *fdret= fd1;
         }
         return 1;
-    case 2:
+    cbse 2:
         *fdret= fd;
         return 2;
     }
@@ -599,32 +599,32 @@ NET_Timeout2(int fd, int fd1, long timeout, int *fdret) {
 }
 
 
-void dumpAddr (char *str, void *addr) {
-    struct SOCKADDR_IN6 *a = (struct SOCKADDR_IN6 *)addr;
-    int family = a->sin6_family;
+void dumpAddr (chbr *str, void *bddr) {
+    struct SOCKADDR_IN6 *b = (struct SOCKADDR_IN6 *)bddr;
+    int fbmily = b->sin6_fbmily;
     printf ("%s\n", str);
-    if (family == AF_INET) {
-        struct sockaddr_in *him = (struct sockaddr_in *)addr;
+    if (fbmily == AF_INET) {
+        struct sockbddr_in *him = (struct sockbddr_in *)bddr;
         printf ("AF_INET: port %d: %x\n", ntohs(him->sin_port),
-                                          ntohl(him->sin_addr.s_addr));
+                                          ntohl(him->sin_bddr.s_bddr));
     } else {
         int i;
-        struct in6_addr *in = &a->sin6_addr;
+        struct in6_bddr *in = &b->sin6_bddr;
         printf ("AF_INET6 ");
-        printf ("port %d ", ntohs (a->sin6_port));
-        printf ("flow %d ", a->sin6_flowinfo);
-        printf ("addr ");
+        printf ("port %d ", ntohs (b->sin6_port));
+        printf ("flow %d ", b->sin6_flowinfo);
+        printf ("bddr ");
         for (i=0; i<7; i++) {
             printf ("%04x:", ntohs(in->s6_words[i]));
         }
         printf ("%04x", ntohs(in->s6_words[7]));
-        printf (" scope %d\n", a->sin6_scope_id);
+        printf (" scope %d\n", b->sin6_scope_id);
     }
 }
 
-/* Macro, which cleans-up the iv6bind structure,
+/* Mbcro, which clebns-up the iv6bind structure,
  * closes the two sockets (if open),
- * and returns SOCKET_ERROR. Used in NET_BindV6 only.
+ * bnd returns SOCKET_ERROR. Used in NET_BindV6 only.
  */
 
 #define CLOSE_SOCKETS_AND_RETURN {      \
@@ -649,45 +649,45 @@ void dumpAddr (char *str, void *addr) {
 }
 
 /*
- * if ipv6 is available, call NET_BindV6 to bind to the required address/port.
- * Because the same port number may need to be reserved in both v4 and v6 space,
- * this may require socket(s) to be re-opened. Therefore, all of this information
- * is passed in and returned through the ipv6bind structure.
+ * if ipv6 is bvbilbble, cbll NET_BindV6 to bind to the required bddress/port.
+ * Becbuse the sbme port number mby need to be reserved in both v4 bnd v6 spbce,
+ * this mby require socket(s) to be re-opened. Therefore, bll of this informbtion
+ * is pbssed in bnd returned through the ipv6bind structure.
  *
- * If the request is to bind to a specific address, then this (by definition) means
- * only bind in either v4 or v6, and this is just the same as normal. ie. a single
- * call to bind() will suffice. The other socket is closed in this case.
+ * If the request is to bind to b specific bddress, then this (by definition) mebns
+ * only bind in either v4 or v6, bnd this is just the sbme bs normbl. ie. b single
+ * cbll to bind() will suffice. The other socket is closed in this cbse.
  *
- * The more complicated case is when the requested address is ::0 or 0.0.0.0.
+ * The more complicbted cbse is when the requested bddress is ::0 or 0.0.0.0.
  *
- * Two further cases:
- * 2. If the reqeusted port is 0 (ie. any port) then we try to bind in v4 space
- *    first with a wild-card port argument. We then try to bind in v6 space
- *    using the returned port number. If this fails, we repeat the process
- *    until a free port common to both spaces becomes available.
+ * Two further cbses:
+ * 2. If the reqeusted port is 0 (ie. bny port) then we try to bind in v4 spbce
+ *    first with b wild-cbrd port brgument. We then try to bind in v6 spbce
+ *    using the returned port number. If this fbils, we repebt the process
+ *    until b free port common to both spbces becomes bvbilbble.
  *
- * 3. If the requested port is a specific port, then we just try to get that
- *    port in both spaces, and if it is not free in both, then the bind fails.
+ * 3. If the requested port is b specific port, then we just try to get thbt
+ *    port in both spbces, bnd if it is not free in both, then the bind fbils.
  *
- * On failure, sockets are closed and an error returned with CLOSE_SOCKETS_AND_RETURN
+ * On fbilure, sockets bre closed bnd bn error returned with CLOSE_SOCKETS_AND_RETURN
  */
 
 JNIEXPORT int JNICALL
-NET_BindV6(struct ipv6bind* b, jboolean exclBind) {
+NET_BindV6(struct ipv6bind* b, jboolebn exclBind) {
     int fd=-1, ofd=-1, rv, len;
-    /* need to defer close until new sockets created */
+    /* need to defer close until new sockets crebted */
     int close_fd=-1, close_ofd=-1;
-    SOCKETADDRESS oaddr; /* other address to bind */
-    int family = b->addr->him.sa_family;
-    int ofamily;
-    u_short port; /* requested port parameter */
+    SOCKETADDRESS obddr; /* other bddress to bind */
+    int fbmily = b->bddr->him.sb_fbmily;
+    int ofbmily;
+    u_short port; /* requested port pbrbmeter */
     u_short bound_port;
 
-    if (family == AF_INET && (b->addr->him4.sin_addr.s_addr != INADDR_ANY)) {
+    if (fbmily == AF_INET && (b->bddr->him4.sin_bddr.s_bddr != INADDR_ANY)) {
         /* bind to v4 only */
         int ret;
-        ret = NET_WinBind ((int)b->ipv4_fd, (struct sockaddr *)b->addr,
-                                sizeof (struct sockaddr_in), exclBind);
+        ret = NET_WinBind ((int)b->ipv4_fd, (struct sockbddr *)b->bddr,
+                                sizeof (struct sockbddr_in), exclBind);
         if (ret == SOCKET_ERROR) {
             CLOSE_SOCKETS_AND_RETURN;
         }
@@ -695,10 +695,10 @@ NET_BindV6(struct ipv6bind* b, jboolean exclBind) {
         b->ipv6_fd = -1;
         return 0;
     }
-    if (family == AF_INET6 && (!IN6_IS_ADDR_ANY(&b->addr->him6.sin6_addr))) {
+    if (fbmily == AF_INET6 && (!IN6_IS_ADDR_ANY(&b->bddr->him6.sin6_bddr))) {
         /* bind to v6 only */
         int ret;
-        ret = NET_WinBind ((int)b->ipv6_fd, (struct sockaddr *)b->addr,
+        ret = NET_WinBind ((int)b->ipv6_fd, (struct sockbddr *)b->bddr,
                                 sizeof (struct SOCKADDR_IN6), exclBind);
         if (ret == SOCKET_ERROR) {
             CLOSE_SOCKETS_AND_RETURN;
@@ -708,54 +708,54 @@ NET_BindV6(struct ipv6bind* b, jboolean exclBind) {
         return 0;
     }
 
-    /* We need to bind on both stacks, with the same port number */
+    /* We need to bind on both stbcks, with the sbme port number */
 
-    memset (&oaddr, 0, sizeof(oaddr));
-    if (family == AF_INET) {
-        ofamily = AF_INET6;
+    memset (&obddr, 0, sizeof(obddr));
+    if (fbmily == AF_INET) {
+        ofbmily = AF_INET6;
         fd = (int)b->ipv4_fd;
         ofd = (int)b->ipv6_fd;
-        port = (u_short)GET_PORT (b->addr);
-        IN6ADDR_SETANY (&oaddr.him6);
-        oaddr.him6.sin6_port = port;
+        port = (u_short)GET_PORT (b->bddr);
+        IN6ADDR_SETANY (&obddr.him6);
+        obddr.him6.sin6_port = port;
     } else {
-        ofamily = AF_INET;
+        ofbmily = AF_INET;
         ofd = (int)b->ipv4_fd;
         fd = (int)b->ipv6_fd;
-        port = (u_short)GET_PORT (b->addr);
-        oaddr.him4.sin_family = AF_INET;
-        oaddr.him4.sin_port = port;
-        oaddr.him4.sin_addr.s_addr = INADDR_ANY;
+        port = (u_short)GET_PORT (b->bddr);
+        obddr.him4.sin_fbmily = AF_INET;
+        obddr.him4.sin_port = port;
+        obddr.him4.sin_bddr.s_bddr = INADDR_ANY;
     }
 
-    rv = NET_WinBind(fd, (struct sockaddr *)b->addr, SOCKETADDRESS_LEN(b->addr), exclBind);
+    rv = NET_WinBind(fd, (struct sockbddr *)b->bddr, SOCKETADDRESS_LEN(b->bddr), exclBind);
     if (rv == SOCKET_ERROR) {
         CLOSE_SOCKETS_AND_RETURN;
     }
 
-    /* get the port and set it in the other address */
-    len = SOCKETADDRESS_LEN(b->addr);
-    if (getsockname(fd, (struct sockaddr *)b->addr, &len) == -1) {
+    /* get the port bnd set it in the other bddress */
+    len = SOCKETADDRESS_LEN(b->bddr);
+    if (getsocknbme(fd, (struct sockbddr *)b->bddr, &len) == -1) {
         CLOSE_SOCKETS_AND_RETURN;
     }
-    bound_port = GET_PORT (b->addr);
-    SET_PORT (&oaddr, bound_port);
-    if ((rv=NET_WinBind (ofd, (struct sockaddr *) &oaddr,
-                         SOCKETADDRESS_LEN (&oaddr), exclBind)) == SOCKET_ERROR) {
+    bound_port = GET_PORT (b->bddr);
+    SET_PORT (&obddr, bound_port);
+    if ((rv=NET_WinBind (ofd, (struct sockbddr *) &obddr,
+                         SOCKETADDRESS_LEN (&obddr), exclBind)) == SOCKET_ERROR) {
         int retries;
-        int sotype, arglen=sizeof(sotype);
+        int sotype, brglen=sizeof(sotype);
 
-        /* no retries unless, the request was for any free port */
+        /* no retries unless, the request wbs for bny free port */
 
         if (port != 0) {
             CLOSE_SOCKETS_AND_RETURN;
         }
 
-        getsockopt(fd, SOL_SOCKET, SO_TYPE, (void *)&sotype, &arglen);
+        getsockopt(fd, SOL_SOCKET, SO_TYPE, (void *)&sotype, &brglen);
 
 #define SOCK_RETRIES 50
-        /* 50 is an arbitrary limit, just to ensure that this
-         * cannot be an endless loop. Would expect socket creation to
+        /* 50 is bn brbitrbry limit, just to ensure thbt this
+         * cbnnot be bn endless loop. Would expect socket crebtion to
          * succeed sooner.
          */
         for (retries = 0; retries < SOCK_RETRIES; retries ++) {
@@ -765,40 +765,40 @@ NET_BindV6(struct ipv6bind* b, jboolean exclBind) {
             b->ipv4_fd = SOCKET_ERROR;
             b->ipv6_fd = SOCKET_ERROR;
 
-            /* create two new sockets */
-            fd = (int)socket (family, sotype, 0);
+            /* crebte two new sockets */
+            fd = (int)socket (fbmily, sotype, 0);
             if (fd == SOCKET_ERROR) {
                 CLOSE_SOCKETS_AND_RETURN;
             }
-            ofd = (int)socket (ofamily, sotype, 0);
+            ofd = (int)socket (ofbmily, sotype, 0);
             if (ofd == SOCKET_ERROR) {
                 CLOSE_SOCKETS_AND_RETURN;
             }
 
-            /* bind random port on first socket */
-            SET_PORT (&oaddr, 0);
-            rv = NET_WinBind (ofd, (struct sockaddr *)&oaddr, SOCKETADDRESS_LEN(&oaddr),
+            /* bind rbndom port on first socket */
+            SET_PORT (&obddr, 0);
+            rv = NET_WinBind (ofd, (struct sockbddr *)&obddr, SOCKETADDRESS_LEN(&obddr),
                               exclBind);
             if (rv == SOCKET_ERROR) {
                 CLOSE_SOCKETS_AND_RETURN;
             }
-            /* close the original pair of sockets before continuing */
+            /* close the originbl pbir of sockets before continuing */
             closesocket (close_fd);
             closesocket (close_ofd);
             close_fd = close_ofd = -1;
 
             /* bind new port on second socket */
-            len = SOCKETADDRESS_LEN(&oaddr);
-            if (getsockname(ofd, (struct sockaddr *)&oaddr, &len) == -1) {
+            len = SOCKETADDRESS_LEN(&obddr);
+            if (getsocknbme(ofd, (struct sockbddr *)&obddr, &len) == -1) {
                 CLOSE_SOCKETS_AND_RETURN;
             }
-            bound_port = GET_PORT (&oaddr);
-            SET_PORT (b->addr, bound_port);
-            rv = NET_WinBind (fd, (struct sockaddr *)b->addr, SOCKETADDRESS_LEN(b->addr),
+            bound_port = GET_PORT (&obddr);
+            SET_PORT (b->bddr, bound_port);
+            rv = NET_WinBind (fd, (struct sockbddr *)b->bddr, SOCKETADDRESS_LEN(b->bddr),
                               exclBind);
 
             if (rv != SOCKET_ERROR) {
-                if (family == AF_INET) {
+                if (fbmily == AF_INET) {
                     b->ipv4_fd = fd;
                     b->ipv6_fd = ofd;
                 } else {
@@ -814,25 +814,25 @@ NET_BindV6(struct ipv6bind* b, jboolean exclBind) {
 }
 
 /*
- * Determine the default interface for an IPv6 address.
+ * Determine the defbult interfbce for bn IPv6 bddress.
  *
  * Returns :-
  *      0 if error
- *      > 0 interface index to use
+ *      > 0 interfbce index to use
  */
-jint getDefaultIPv6Interface(JNIEnv *env, struct SOCKADDR_IN6 *target_addr)
+jint getDefbultIPv6Interfbce(JNIEnv *env, struct SOCKADDR_IN6 *tbrget_bddr)
 {
     int ret;
     DWORD b;
-    struct sockaddr_in6 route;
+    struct sockbddr_in6 route;
     SOCKET fd = socket(AF_INET6, SOCK_STREAM, 0);
     if (fd == INVALID_SOCKET) {
         return 0;
     }
 
     ret = WSAIoctl(fd, SIO_ROUTING_INTERFACE_QUERY,
-                    (void *)target_addr, sizeof(struct sockaddr_in6),
-                    (void *)&route, sizeof(struct sockaddr_in6),
+                    (void *)tbrget_bddr, sizeof(struct sockbddr_in6),
+                    (void *)&route, sizeof(struct sockbddr_in6),
                     &b, 0, 0);
     if (ret == SOCKET_ERROR) {
         // error
@@ -844,146 +844,146 @@ jint getDefaultIPv6Interface(JNIEnv *env, struct SOCKADDR_IN6 *target_addr)
     }
 }
 
-/* If address types is IPv6, then IPv6 must be available. Otherwise
- * no address can be generated. In the case of an IPv4 Inetaddress this
- * method will return an IPv4 mapped address where IPv6 is available and
- * v4MappedAddress is TRUE. Otherwise it will return a sockaddr_in
- * structure for an IPv4 InetAddress.
+/* If bddress types is IPv6, then IPv6 must be bvbilbble. Otherwise
+ * no bddress cbn be generbted. In the cbse of bn IPv4 Inetbddress this
+ * method will return bn IPv4 mbpped bddress where IPv6 is bvbilbble bnd
+ * v4MbppedAddress is TRUE. Otherwise it will return b sockbddr_in
+ * structure for bn IPv4 InetAddress.
 */
 JNIEXPORT int JNICALL
-NET_InetAddressToSockaddr(JNIEnv *env, jobject iaObj, int port, struct sockaddr *him,
-                          int *len, jboolean v4MappedAddress) {
-    jint family, iafam;
-    iafam = getInetAddress_family(env, iaObj);
-    family = (iafam == IPv4)? AF_INET : AF_INET6;
-    if (ipv6_available() && !(family == AF_INET && v4MappedAddress == JNI_FALSE)) {
+NET_InetAddressToSockbddr(JNIEnv *env, jobject ibObj, int port, struct sockbddr *him,
+                          int *len, jboolebn v4MbppedAddress) {
+    jint fbmily, ibfbm;
+    ibfbm = getInetAddress_fbmily(env, ibObj);
+    fbmily = (ibfbm == IPv4)? AF_INET : AF_INET6;
+    if (ipv6_bvbilbble() && !(fbmily == AF_INET && v4MbppedAddress == JNI_FALSE)) {
         struct SOCKADDR_IN6 *him6 = (struct SOCKADDR_IN6 *)him;
-        jbyte caddr[16];
-        jint address, scopeid = 0;
-        jint cached_scope_id = 0;
+        jbyte cbddr[16];
+        jint bddress, scopeid = 0;
+        jint cbched_scope_id = 0;
 
-        if (family == AF_INET) { /* will convert to IPv4-mapped address */
-            memset((char *) caddr, 0, 16);
-            address = getInetAddress_addr(env, iaObj);
-            if (address == INADDR_ANY) {
-                /* we would always prefer IPv6 wildcard address
-                caddr[10] = 0xff;
-                caddr[11] = 0xff; */
+        if (fbmily == AF_INET) { /* will convert to IPv4-mbpped bddress */
+            memset((chbr *) cbddr, 0, 16);
+            bddress = getInetAddress_bddr(env, ibObj);
+            if (bddress == INADDR_ANY) {
+                /* we would blwbys prefer IPv6 wildcbrd bddress
+                cbddr[10] = 0xff;
+                cbddr[11] = 0xff; */
             } else {
-                caddr[10] = 0xff;
-                caddr[11] = 0xff;
-                caddr[12] = ((address >> 24) & 0xff);
-                caddr[13] = ((address >> 16) & 0xff);
-                caddr[14] = ((address >> 8) & 0xff);
-                caddr[15] = (address & 0xff);
+                cbddr[10] = 0xff;
+                cbddr[11] = 0xff;
+                cbddr[12] = ((bddress >> 24) & 0xff);
+                cbddr[13] = ((bddress >> 16) & 0xff);
+                cbddr[14] = ((bddress >> 8) & 0xff);
+                cbddr[15] = (bddress & 0xff);
             }
         } else {
-            getInet6Address_ipaddress(env, iaObj, (char *)caddr);
-            scopeid = getInet6Address_scopeid(env, iaObj);
-            cached_scope_id = (jint)(*env)->GetIntField(env, iaObj, ia6_cachedscopeidID);
+            getInet6Address_ipbddress(env, ibObj, (chbr *)cbddr);
+            scopeid = getInet6Address_scopeid(env, ibObj);
+            cbched_scope_id = (jint)(*env)->GetIntField(env, ibObj, ib6_cbchedscopeidID);
         }
 
-        memset((char *)him6, 0, sizeof(struct SOCKADDR_IN6));
+        memset((chbr *)him6, 0, sizeof(struct SOCKADDR_IN6));
         him6->sin6_port = (u_short) htons((u_short)port);
-        memcpy((void *)&(him6->sin6_addr), caddr, sizeof(struct in6_addr) );
-        him6->sin6_family = AF_INET6;
-        if ((family == AF_INET6) && IN6_IS_ADDR_LINKLOCAL( &(him6->sin6_addr) )
-            && (!scopeid && !cached_scope_id)) {
-            cached_scope_id = getDefaultIPv6Interface(env, him6);
-            (*env)->SetIntField(env, iaObj, ia6_cachedscopeidID, cached_scope_id);
+        memcpy((void *)&(him6->sin6_bddr), cbddr, sizeof(struct in6_bddr) );
+        him6->sin6_fbmily = AF_INET6;
+        if ((fbmily == AF_INET6) && IN6_IS_ADDR_LINKLOCAL( &(him6->sin6_bddr) )
+            && (!scopeid && !cbched_scope_id)) {
+            cbched_scope_id = getDefbultIPv6Interfbce(env, him6);
+            (*env)->SetIntField(env, ibObj, ib6_cbchedscopeidID, cbched_scope_id);
         }
-        him6->sin6_scope_id = scopeid != 0 ? scopeid : cached_scope_id;
+        him6->sin6_scope_id = scopeid != 0 ? scopeid : cbched_scope_id;
         *len = sizeof(struct SOCKADDR_IN6) ;
     } else {
-        struct sockaddr_in *him4 = (struct sockaddr_in*)him;
-        jint address;
-        if (family != AF_INET) {
-          JNU_ThrowByName(env, JNU_JAVANETPKG "SocketException", "Protocol family unavailable");
+        struct sockbddr_in *him4 = (struct sockbddr_in*)him;
+        jint bddress;
+        if (fbmily != AF_INET) {
+          JNU_ThrowByNbme(env, JNU_JAVANETPKG "SocketException", "Protocol fbmily unbvbilbble");
           return -1;
         }
-        memset((char *) him4, 0, sizeof(struct sockaddr_in));
-        address = getInetAddress_addr(env, iaObj);
+        memset((chbr *) him4, 0, sizeof(struct sockbddr_in));
+        bddress = getInetAddress_bddr(env, ibObj);
         him4->sin_port = htons((short) port);
-        him4->sin_addr.s_addr = (u_long) htonl(address);
-        him4->sin_family = AF_INET;
-        *len = sizeof(struct sockaddr_in);
+        him4->sin_bddr.s_bddr = (u_long) htonl(bddress);
+        him4->sin_fbmily = AF_INET;
+        *len = sizeof(struct sockbddr_in);
     }
     return 0;
 }
 
 JNIEXPORT jint JNICALL
-NET_GetPortFromSockaddr(struct sockaddr *him) {
-    if (him->sa_family == AF_INET6) {
-        return ntohs(((struct sockaddr_in6*)him)->sin6_port);
+NET_GetPortFromSockbddr(struct sockbddr *him) {
+    if (him->sb_fbmily == AF_INET6) {
+        return ntohs(((struct sockbddr_in6*)him)->sin6_port);
     } else {
-        return ntohs(((struct sockaddr_in*)him)->sin_port);
+        return ntohs(((struct sockbddr_in*)him)->sin_port);
     }
 }
 
 int
-NET_IsIPv4Mapped(jbyte* caddr) {
+NET_IsIPv4Mbpped(jbyte* cbddr) {
     int i;
     for (i = 0; i < 10; i++) {
-        if (caddr[i] != 0x00) {
-            return 0; /* false */
+        if (cbddr[i] != 0x00) {
+            return 0; /* fblse */
         }
     }
 
-    if (((caddr[10] & 0xff) == 0xff) && ((caddr[11] & 0xff) == 0xff)) {
+    if (((cbddr[10] & 0xff) == 0xff) && ((cbddr[11] & 0xff) == 0xff)) {
         return 1; /* true */
     }
-    return 0; /* false */
+    return 0; /* fblse */
 }
 
 int
-NET_IPv4MappedToIPv4(jbyte* caddr) {
-    return ((caddr[12] & 0xff) << 24) | ((caddr[13] & 0xff) << 16) | ((caddr[14] & 0xff) << 8)
-        | (caddr[15] & 0xff);
+NET_IPv4MbppedToIPv4(jbyte* cbddr) {
+    return ((cbddr[12] & 0xff) << 24) | ((cbddr[13] & 0xff) << 16) | ((cbddr[14] & 0xff) << 8)
+        | (cbddr[15] & 0xff);
 }
 
 int
-NET_IsEqual(jbyte* caddr1, jbyte* caddr2) {
+NET_IsEqubl(jbyte* cbddr1, jbyte* cbddr2) {
     int i;
     for (i = 0; i < 16; i++) {
-        if (caddr1[i] != caddr2[i]) {
-            return 0; /* false */
+        if (cbddr1[i] != cbddr2[i]) {
+            return 0; /* fblse */
         }
     }
     return 1;
 }
 
-int getScopeID (struct sockaddr *him) {
+int getScopeID (struct sockbddr *him) {
     struct SOCKADDR_IN6 *him6 = (struct SOCKADDR_IN6 *)him;
     return him6->sin6_scope_id;
 }
 
-int cmpScopeID (unsigned int scope, struct sockaddr *him) {
+int cmpScopeID (unsigned int scope, struct sockbddr *him) {
     struct SOCKADDR_IN6 *him6 = (struct SOCKADDR_IN6 *)him;
     return him6->sin6_scope_id == scope;
 }
 
 /**
- * Wrapper for select/poll with timeout on a single file descriptor.
+ * Wrbpper for select/poll with timeout on b single file descriptor.
  *
- * flags (defined in net_util_md.h can be any combination of
+ * flbgs (defined in net_util_md.h cbn be bny combinbtion of
  * NET_WAIT_READ, NET_WAIT_WRITE & NET_WAIT_CONNECT.
  *
- * The function will return when either the socket is ready for one
- * of the specified operation or the timeout expired.
+ * The function will return when either the socket is rebdy for one
+ * of the specified operbtion or the timeout expired.
  *
  * It returns the time left from the timeout, or -1 if it expired.
  */
 
 jint
-NET_Wait(JNIEnv *env, jint fd, jint flags, jint timeout)
+NET_Wbit(JNIEnv *env, jint fd, jint flbgs, jint timeout)
 {
     jlong prevTime = JVM_CurrentTimeMillis(env, 0);
-    jint read_rv;
+    jint rebd_rv;
 
     while (1) {
         jlong newTime;
         fd_set rd, wr, ex;
-        struct timeval t;
+        struct timevbl t;
 
         t.tv_sec = timeout / 1000;
         t.tv_usec = (timeout % 1000) * 1000;
@@ -991,29 +991,29 @@ NET_Wait(JNIEnv *env, jint fd, jint flags, jint timeout)
         FD_ZERO(&rd);
         FD_ZERO(&wr);
         FD_ZERO(&ex);
-        if (flags & NET_WAIT_READ) {
+        if (flbgs & NET_WAIT_READ) {
           FD_SET(fd, &rd);
         }
-        if (flags & NET_WAIT_WRITE) {
+        if (flbgs & NET_WAIT_WRITE) {
           FD_SET(fd, &wr);
         }
-        if (flags & NET_WAIT_CONNECT) {
+        if (flbgs & NET_WAIT_CONNECT) {
           FD_SET(fd, &wr);
           FD_SET(fd, &ex);
         }
 
         errno = 0;
-        read_rv = select(fd+1, &rd, &wr, &ex, &t);
+        rebd_rv = select(fd+1, &rd, &wr, &ex, &t);
 
         newTime = JVM_CurrentTimeMillis(env, 0);
         timeout -= (jint)(newTime - prevTime);
         if (timeout <= 0) {
-          return read_rv > 0 ? 0 : -1;
+          return rebd_rv > 0 ? 0 : -1;
         }
         newTime = prevTime;
 
-        if (read_rv > 0) {
-          break;
+        if (rebd_rv > 0) {
+          brebk;
         }
 
 
@@ -1022,11 +1022,11 @@ NET_Wait(JNIEnv *env, jint fd, jint flags, jint timeout)
     return timeout;
 }
 
-int NET_Socket (int domain, int type, int protocol) {
+int NET_Socket (int dombin, int type, int protocol) {
     SOCKET sock;
-    sock = socket (domain, type, protocol);
+    sock = socket (dombin, type, protocol);
     if (sock != INVALID_SOCKET) {
-        SetHandleInformation((HANDLE)(uintptr_t)sock, HANDLE_FLAG_INHERIT, FALSE);
+        SetHbndleInformbtion((HANDLE)(uintptr_t)sock, HANDLE_FLAG_INHERIT, FALSE);
     }
     return (int)sock;
 }

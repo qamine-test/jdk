@@ -1,94 +1,94 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing;
+pbckbge jbvbx.swing;
 
-import java.awt.*;
-import java.awt.event.*;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
 
 /**
- * Any component that can be placed into a menu should implement this interface.
- * This interface is used by {@code MenuSelectionManager}
- * to handle selection and navigation in menu hierarchies.
+ * Any component thbt cbn be plbced into b menu should implement this interfbce.
+ * This interfbce is used by {@code MenuSelectionMbnbger}
+ * to hbndle selection bnd nbvigbtion in menu hierbrchies.
  *
- * @author Arnaud Weber
+ * @buthor Arnbud Weber
  * @since 1.2
  */
 
-public interface MenuElement {
+public interfbce MenuElement {
 
     /**
-     * Processes a mouse event. {@code event} is a {@code MouseEvent} with
-     * source being the receiving element's component. {@code path} is the
-     * path of the receiving element in the menu hierarchy including the
-     * receiving element itself. {@code manager} is the
-     * {@code MenuSelectionManager}for the menu hierarchy. This method should
-     * process the {@code MouseEvent} and change the menu selection if necessary
-     * by using {@code MenuSelectionManager}'s API Note: you do not have to
-     * forward the event to sub-components. This is done automatically by the
-     * {@code MenuSelectionManager}.
+     * Processes b mouse event. {@code event} is b {@code MouseEvent} with
+     * source being the receiving element's component. {@code pbth} is the
+     * pbth of the receiving element in the menu hierbrchy including the
+     * receiving element itself. {@code mbnbger} is the
+     * {@code MenuSelectionMbnbger}for the menu hierbrchy. This method should
+     * process the {@code MouseEvent} bnd chbnge the menu selection if necessbry
+     * by using {@code MenuSelectionMbnbger}'s API Note: you do not hbve to
+     * forwbrd the event to sub-components. This is done butombticblly by the
+     * {@code MenuSelectionMbnbger}.
      *
-     * @param event a {@code MouseEvent} to be processed
-     * @param path the path of the receiving element in the menu hierarchy
-     * @param manager the {@code MenuSelectionManager} for the menu hierarchy
+     * @pbrbm event b {@code MouseEvent} to be processed
+     * @pbrbm pbth the pbth of the receiving element in the menu hierbrchy
+     * @pbrbm mbnbger the {@code MenuSelectionMbnbger} for the menu hierbrchy
      */
-    public void processMouseEvent(MouseEvent event, MenuElement path[], MenuSelectionManager manager);
+    public void processMouseEvent(MouseEvent event, MenuElement pbth[], MenuSelectionMbnbger mbnbger);
 
 
     /**
-     *  Process a key event.
+     *  Process b key event.
      *
-     * @param event a {@code KeyEvent} to be processed
-     * @param path the path of the receiving element in the menu hierarchy
-     * @param manager the {@code MenuSelectionManager} for the menu hierarchy
+     * @pbrbm event b {@code KeyEvent} to be processed
+     * @pbrbm pbth the pbth of the receiving element in the menu hierbrchy
+     * @pbrbm mbnbger the {@code MenuSelectionMbnbger} for the menu hierbrchy
      */
-    public void processKeyEvent(KeyEvent event, MenuElement path[], MenuSelectionManager manager);
+    public void processKeyEvent(KeyEvent event, MenuElement pbth[], MenuSelectionMbnbger mbnbger);
 
     /**
-     * Call by the {@code MenuSelectionManager} when the {@code MenuElement} is
-     * added or removed from the menu selection.
+     * Cbll by the {@code MenuSelectionMbnbger} when the {@code MenuElement} is
+     * bdded or removed from the menu selection.
      *
-     * @param isIncluded can be used to indicate if this {@code MenuElement} is
-     *        active (if it is a menu) or is on the part of the menu path that
-     *        changed (if it is a menu item).
+     * @pbrbm isIncluded cbn be used to indicbte if this {@code MenuElement} is
+     *        bctive (if it is b menu) or is on the pbrt of the menu pbth thbt
+     *        chbnged (if it is b menu item).
      */
-    public void menuSelectionChanged(boolean isIncluded);
+    public void menuSelectionChbnged(boolebn isIncluded);
 
     /**
-     * This method should return an array containing the sub-elements for the
+     * This method should return bn brrby contbining the sub-elements for the
      * receiving menu element.
      *
-     * @return an array of {@code MenuElement}s
+     * @return bn brrby of {@code MenuElement}s
      */
     public MenuElement[] getSubElements();
 
     /**
-     * This method should return the {@code java.awt.Component} used to paint the
+     * This method should return the {@code jbvb.bwt.Component} used to pbint the
      * receiving element. The returned component will be used to convert events
-     * and detect if an event is inside a {@code MenuElement}'s component.
+     * bnd detect if bn event is inside b {@code MenuElement}'s component.
      *
-     * @return the {@code Component} value
+     * @return the {@code Component} vblue
      */
     public Component getComponent();
 }

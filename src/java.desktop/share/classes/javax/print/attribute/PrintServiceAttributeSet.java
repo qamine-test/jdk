@@ -1,113 +1,113 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package javax.print.attribute;
+pbckbge jbvbx.print.bttribute;
 
 /**
- * Interface PrintServiceAttributeSet specifies the interface for a set of
- * print job attributes, i.e. printing attributes that implement interface
+ * Interfbce PrintServiceAttributeSet specifies the interfbce for b set of
+ * print job bttributes, i.e. printing bttributes thbt implement interfbce
  * {@link
  * PrintServiceAttribute PrintServiceAttribute}. In the Print Service API,
- * the Print Service instance uses a PrintServiceAttributeSet to report the
- * status of the print service.
+ * the Print Service instbnce uses b PrintServiceAttributeSet to report the
+ * stbtus of the print service.
  * <P>
- * A PrintServiceAttributeSet is just an {@link AttributeSet AttributeSet}
- * whose constructors and mutating operations guarantee an additional
- * invariant,
- * namely that all attribute values in the PrintServiceAttributeSet must be
- * instances of interface {@link PrintServiceAttribute PrintServiceAttribute}.
- * The {@link #add(Attribute) add(Attribute)}, and
- * {@link #addAll(AttributeSet) addAll(AttributeSet)} operations
- * are respecified below to guarantee this additional invariant.
+ * A PrintServiceAttributeSet is just bn {@link AttributeSet AttributeSet}
+ * whose constructors bnd mutbting operbtions gubrbntee bn bdditionbl
+ * invbribnt,
+ * nbmely thbt bll bttribute vblues in the PrintServiceAttributeSet must be
+ * instbnces of interfbce {@link PrintServiceAttribute PrintServiceAttribute}.
+ * The {@link #bdd(Attribute) bdd(Attribute)}, bnd
+ * {@link #bddAll(AttributeSet) bddAll(AttributeSet)} operbtions
+ * bre respecified below to gubrbntee this bdditionbl invbribnt.
  *
- * @author  Alan Kaminsky
+ * @buthor  Albn Kbminsky
  */
-public interface PrintServiceAttributeSet extends AttributeSet {
+public interfbce PrintServiceAttributeSet extends AttributeSet {
 
 
 
     /**
-     * Adds the specified attribute value to this attribute set if it is not
-     * already present, first removing any existing value in the same
-     * attribute category as the specified attribute value (optional
-     * operation).
+     * Adds the specified bttribute vblue to this bttribute set if it is not
+     * blrebdy present, first removing bny existing vblue in the sbme
+     * bttribute cbtegory bs the specified bttribute vblue (optionbl
+     * operbtion).
      *
-     * @param  attribute  Attribute value to be added to this attribute set.
+     * @pbrbm  bttribute  Attribute vblue to be bdded to this bttribute set.
      *
-     * @return  <tt>true</tt> if this attribute set changed as a result of
-     *          the call, i.e., the given attribute value was not already a
-     *          member of this attribute set.
+     * @return  <tt>true</tt> if this bttribute set chbnged bs b result of
+     *          the cbll, i.e., the given bttribute vblue wbs not blrebdy b
+     *          member of this bttribute set.
      *
-     * @throws  UnmodifiableSetException
-     *     (unchecked exception) Thrown if this attribute set does not
-     *     support the <CODE>add()</CODE> operation.
-     * @throws  ClassCastException
-     *     (unchecked exception) Thrown if the <CODE>attribute</CODE> is
-     *     not an instance of interface
+     * @throws  UnmodifibbleSetException
+     *     (unchecked exception) Thrown if this bttribute set does not
+     *     support the <CODE>bdd()</CODE> operbtion.
+     * @throws  ClbssCbstException
+     *     (unchecked exception) Thrown if the <CODE>bttribute</CODE> is
+     *     not bn instbnce of interfbce
      *     {@link PrintServiceAttribute PrintServiceAttribute}.
      * @throws  NullPointerException
-     *    (unchecked exception) Thrown if the <CODE>attribute</CODE> is null.
+     *    (unchecked exception) Thrown if the <CODE>bttribute</CODE> is null.
      */
-    public boolean add(Attribute attribute);
+    public boolebn bdd(Attribute bttribute);
 
     /**
-     * Adds all of the elements in the specified set to this attribute.
-     * The outcome is  the same as if the
-     * {@link #add(Attribute) add(Attribute)}
-     * operation had been applied to this attribute set successively with
-     * each element from the specified set. If none of the categories in the
-     * specified set  are the same as any categories in this attribute set,
-     * the <tt>addAll()</tt> operation effectively modifies this attribute
-     * set so that its value is the <i>union</i> of the two sets.
+     * Adds bll of the elements in the specified set to this bttribute.
+     * The outcome is  the sbme bs if the
+     * {@link #bdd(Attribute) bdd(Attribute)}
+     * operbtion hbd been bpplied to this bttribute set successively with
+     * ebch element from the specified set. If none of the cbtegories in the
+     * specified set  bre the sbme bs bny cbtegories in this bttribute set,
+     * the <tt>bddAll()</tt> operbtion effectively modifies this bttribute
+     * set so thbt its vblue is the <i>union</i> of the two sets.
      * <P>
-     * The behavior of the <CODE>addAll()</CODE> operation is unspecified if
-     * the specified set is modified while the operation is in progress.
+     * The behbvior of the <CODE>bddAll()</CODE> operbtion is unspecified if
+     * the specified set is modified while the operbtion is in progress.
      * <P>
-     * If the <CODE>addAll()</CODE> operation throws an exception, the effect
-     * on this attribute set's state is implementation dependent; elements
-     * from the specified set before the point of the exception may or
-     * may not have been added to this attribute set.
+     * If the <CODE>bddAll()</CODE> operbtion throws bn exception, the effect
+     * on this bttribute set's stbte is implementbtion dependent; elements
+     * from the specified set before the point of the exception mby or
+     * mby not hbve been bdded to this bttribute set.
      *
-     * @param  attributes  whose elements are to be added to this attribute
+     * @pbrbm  bttributes  whose elements bre to be bdded to this bttribute
      *            set.
      *
-     * @return  <tt>true</tt> if this attribute set changed as a result of
-     *          the call.
+     * @return  <tt>true</tt> if this bttribute set chbnged bs b result of
+     *          the cbll.
      *
-     * @throws  UnmodifiableSetException
-     *     (Unchecked exception) Thrown if this attribute set does not
-     *     support the <tt>addAll()</tt> method.
-     * @throws  ClassCastException
+     * @throws  UnmodifibbleSetException
+     *     (Unchecked exception) Thrown if this bttribute set does not
+     *     support the <tt>bddAll()</tt> method.
+     * @throws  ClbssCbstException
      *     (Unchecked exception) Thrown if some element in the specified
-     *     set is not an instance of interface {@link PrintServiceAttribute
+     *     set is not bn instbnce of interfbce {@link PrintServiceAttribute
      *     PrintServiceAttribute}.
      * @throws  NullPointerException
      *     (Unchecked exception) Thrown if the specified  set is null.
      *
-     * @see #add(Attribute)
+     * @see #bdd(Attribute)
      */
-    public boolean addAll(AttributeSet attributes);
+    public boolebn bddAll(AttributeSet bttributes);
 }

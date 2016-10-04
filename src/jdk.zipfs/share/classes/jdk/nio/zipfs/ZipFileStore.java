@@ -1,56 +1,56 @@
 /*
- * Copyright (c) 2009, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2009, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package jdk.nio.zipfs;
+pbckbge jdk.nio.zipfs;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.FileStore;
-import java.nio.file.FileSystems;
-import java.nio.file.Path;
-import java.nio.file.attribute.BasicFileAttributes;
-import java.nio.file.attribute.FileAttributeView;
-import java.nio.file.attribute.FileStoreAttributeView;
-import java.nio.file.attribute.BasicFileAttributeView;
-import java.util.Formatter;
+import jbvb.io.IOException;
+import jbvb.nio.file.Files;
+import jbvb.nio.file.FileStore;
+import jbvb.nio.file.FileSystems;
+import jbvb.nio.file.Pbth;
+import jbvb.nio.file.bttribute.BbsicFileAttributes;
+import jbvb.nio.file.bttribute.FileAttributeView;
+import jbvb.nio.file.bttribute.FileStoreAttributeView;
+import jbvb.nio.file.bttribute.BbsicFileAttributeView;
+import jbvb.util.Formbtter;
 
 /*
  *
- * @author  Xueming Shen, Rajendra Gutupalli, Jaya Hangal
+ * @buthor  Xueming Shen, Rbjendrb Gutupblli, Jbyb Hbngbl
  */
 
-class ZipFileStore extends FileStore {
+clbss ZipFileStore extends FileStore {
 
-    private final ZipFileSystem zfs;
+    privbte finbl ZipFileSystem zfs;
 
-    ZipFileStore(ZipPath zpath) {
-        this.zfs = zpath.getFileSystem();
+    ZipFileStore(ZipPbth zpbth) {
+        this.zfs = zpbth.getFileSystem();
     }
 
     @Override
-    public String name() {
+    public String nbme() {
         return zfs.toString() + "/";
     }
 
@@ -60,80 +60,80 @@ class ZipFileStore extends FileStore {
     }
 
     @Override
-    public boolean isReadOnly() {
-        return zfs.isReadOnly();
+    public boolebn isRebdOnly() {
+        return zfs.isRebdOnly();
     }
 
     @Override
-    public boolean supportsFileAttributeView(Class<? extends FileAttributeView> type) {
-        return (type == BasicFileAttributeView.class ||
-                type == ZipFileAttributeView.class);
+    public boolebn supportsFileAttributeView(Clbss<? extends FileAttributeView> type) {
+        return (type == BbsicFileAttributeView.clbss ||
+                type == ZipFileAttributeView.clbss);
     }
 
     @Override
-    public boolean supportsFileAttributeView(String name) {
-        return name.equals("basic") || name.equals("zip");
+    public boolebn supportsFileAttributeView(String nbme) {
+        return nbme.equbls("bbsic") || nbme.equbls("zip");
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public <V extends FileStoreAttributeView> V getFileStoreAttributeView(Class<V> type) {
+    @SuppressWbrnings("unchecked")
+    public <V extends FileStoreAttributeView> V getFileStoreAttributeView(Clbss<V> type) {
         if (type == null)
             throw new NullPointerException();
         return (V)null;
     }
 
     @Override
-    public long getTotalSpace() throws IOException {
-         return new ZipFileStoreAttributes(this).totalSpace();
+    public long getTotblSpbce() throws IOException {
+         return new ZipFileStoreAttributes(this).totblSpbce();
     }
 
     @Override
-    public long getUsableSpace() throws IOException {
-         return new ZipFileStoreAttributes(this).usableSpace();
+    public long getUsbbleSpbce() throws IOException {
+         return new ZipFileStoreAttributes(this).usbbleSpbce();
     }
 
     @Override
-    public long getUnallocatedSpace() throws IOException {
-         return new ZipFileStoreAttributes(this).unallocatedSpace();
+    public long getUnbllocbtedSpbce() throws IOException {
+         return new ZipFileStoreAttributes(this).unbllocbtedSpbce();
     }
 
     @Override
-    public Object getAttribute(String attribute) throws IOException {
-         if (attribute.equals("totalSpace"))
-               return getTotalSpace();
-         if (attribute.equals("usableSpace"))
-               return getUsableSpace();
-         if (attribute.equals("unallocatedSpace"))
-               return getUnallocatedSpace();
-         throw new UnsupportedOperationException("does not support the given attribute");
+    public Object getAttribute(String bttribute) throws IOException {
+         if (bttribute.equbls("totblSpbce"))
+               return getTotblSpbce();
+         if (bttribute.equbls("usbbleSpbce"))
+               return getUsbbleSpbce();
+         if (bttribute.equbls("unbllocbtedSpbce"))
+               return getUnbllocbtedSpbce();
+         throw new UnsupportedOperbtionException("does not support the given bttribute");
     }
 
-    private static class ZipFileStoreAttributes {
-        final FileStore fstore;
-        final long size;
+    privbte stbtic clbss ZipFileStoreAttributes {
+        finbl FileStore fstore;
+        finbl long size;
 
         public ZipFileStoreAttributes(ZipFileStore fileStore)
             throws IOException
         {
-            Path path = FileSystems.getDefault().getPath(fileStore.name());
-            this.size = Files.size(path);
-            this.fstore = Files.getFileStore(path);
+            Pbth pbth = FileSystems.getDefbult().getPbth(fileStore.nbme());
+            this.size = Files.size(pbth);
+            this.fstore = Files.getFileStore(pbth);
         }
 
-        public long totalSpace() {
+        public long totblSpbce() {
             return size;
         }
 
-        public long usableSpace() throws IOException {
-            if (!fstore.isReadOnly())
-                return fstore.getUsableSpace();
+        public long usbbleSpbce() throws IOException {
+            if (!fstore.isRebdOnly())
+                return fstore.getUsbbleSpbce();
             return 0;
         }
 
-        public long unallocatedSpace()  throws IOException {
-            if (!fstore.isReadOnly())
-                return fstore.getUnallocatedSpace();
+        public long unbllocbtedSpbce()  throws IOException {
+            if (!fstore.isRebdOnly())
+                return fstore.getUnbllocbtedSpbce();
             return 0;
         }
     }

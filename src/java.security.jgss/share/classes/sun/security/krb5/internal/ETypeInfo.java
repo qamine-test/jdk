@@ -1,154 +1,154 @@
 /*
- * Copyright (c) 2005, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2009, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.krb5.internal;
+pbckbge sun.security.krb5.internbl;
 
 import sun.security.util.*;
 import sun.security.krb5.Asn1Exception;
-import java.io.IOException;
-import sun.security.krb5.internal.util.KerberosString;
+import jbvb.io.IOException;
+import sun.security.krb5.internbl.util.KerberosString;
 
 /**
  * Implements the ASN.1 ETYPE-INFO-ENTRY type.
  *
  * ETYPE-INFO-ENTRY     ::= SEQUENCE {
  *         etype        [0] Int32,
- *         salt         [1] OCTET STRING OPTIONAL
+ *         sblt         [1] OCTET STRING OPTIONAL
  *   }
  *
- * @author Seema Malkani
+ * @buthor Seemb Mblkbni
  */
 
-public class ETypeInfo {
+public clbss ETypeInfo {
 
-    private int etype;
-    private String salt = null;
+    privbte int etype;
+    privbte String sblt = null;
 
-    private static final byte TAG_TYPE = 0;
-    private static final byte TAG_VALUE = 1;
+    privbte stbtic finbl byte TAG_TYPE = 0;
+    privbte stbtic finbl byte TAG_VALUE = 1;
 
-    private ETypeInfo() {
+    privbte ETypeInfo() {
     }
 
-    public ETypeInfo(int etype, String salt) {
+    public ETypeInfo(int etype, String sblt) {
         this.etype = etype;
-        this.salt = salt;
+        this.sblt = sblt;
     }
 
     public Object clone() {
-        return new ETypeInfo(etype, salt);
+        return new ETypeInfo(etype, sblt);
     }
 
     /**
-     * Constructs a ETypeInfo object.
-     * @param encoding a DER-encoded data.
-     * @exception Asn1Exception if an error occurs while decoding an
-     *            ASN1 encoded data.
-     * @exception IOException if an I/O error occurs while reading encoded data.
+     * Constructs b ETypeInfo object.
+     * @pbrbm encoding b DER-encoded dbtb.
+     * @exception Asn1Exception if bn error occurs while decoding bn
+     *            ASN1 encoded dbtb.
+     * @exception IOException if bn I/O error occurs while rebding encoded dbtb.
      */
-    public ETypeInfo(DerValue encoding) throws Asn1Exception, IOException {
-        DerValue der = null;
+    public ETypeInfo(DerVblue encoding) throws Asn1Exception, IOException {
+        DerVblue der = null;
 
-        if (encoding.getTag() != DerValue.tag_Sequence) {
+        if (encoding.getTbg() != DerVblue.tbg_Sequence) {
             throw new Asn1Exception(Krb5.ASN1_BAD_ID);
         }
 
         // etype
-        der = encoding.getData().getDerValue();
-        if ((der.getTag() & 0x1F) == 0x00) {
-            this.etype = der.getData().getBigInteger().intValue();
+        der = encoding.getDbtb().getDerVblue();
+        if ((der.getTbg() & 0x1F) == 0x00) {
+            this.etype = der.getDbtb().getBigInteger().intVblue();
         }
         else
             throw new Asn1Exception(Krb5.ASN1_BAD_ID);
 
-        // salt
-        if (encoding.getData().available() > 0) {
-            der = encoding.getData().getDerValue();
-            if ((der.getTag() & 0x1F) == 0x01) {
-                byte[] saltBytes = der.getData().getOctetString();
+        // sblt
+        if (encoding.getDbtb().bvbilbble() > 0) {
+            der = encoding.getDbtb().getDerVblue();
+            if ((der.getTbg() & 0x1F) == 0x01) {
+                byte[] sbltBytes = der.getDbtb().getOctetString();
 
-                // Although salt is defined as an OCTET STRING, it's the
-                // encoding from of a string. As RFC 4120 says:
+                // Although sblt is defined bs bn OCTET STRING, it's the
+                // encoding from of b string. As RFC 4120 sbys:
                 //
-                // "The salt, ..., is also completely unspecified with respect
-                // to character set and is probably locale-specific".
+                // "The sblt, ..., is blso completely unspecified with respect
+                // to chbrbcter set bnd is probbbly locble-specific".
                 //
-                // It's known that this field is using the same encoding as
-                // KerberosString in most implementations.
+                // It's known thbt this field is using the sbme encoding bs
+                // KerberosString in most implementbtions.
 
                 if (KerberosString.MSNAME) {
-                    this.salt = new String(saltBytes, "UTF8");
+                    this.sblt = new String(sbltBytes, "UTF8");
                 } else {
-                    this.salt = new String(saltBytes);
+                    this.sblt = new String(sbltBytes);
                 }
             }
         }
 
-        if (encoding.getData().available() > 0)
+        if (encoding.getDbtb().bvbilbble() > 0)
             throw new Asn1Exception(Krb5.ASN1_BAD_ID);
     }
 
     /**
-     * Encodes this object to an OutputStream.
+     * Encodes this object to bn OutputStrebm.
      *
-     * @return byte array of the encoded data.
-     * @exception IOException if an I/O error occurs while reading encoded data.
+     * @return byte brrby of the encoded dbtb.
+     * @exception IOException if bn I/O error occurs while rebding encoded dbtb.
      * @exception Asn1Exception on encoding errors.
      */
-    public byte[] asn1Encode() throws Asn1Exception, IOException {
+    public byte[] bsn1Encode() throws Asn1Exception, IOException {
 
-        DerOutputStream bytes = new DerOutputStream();
-        DerOutputStream temp = new DerOutputStream();
+        DerOutputStrebm bytes = new DerOutputStrebm();
+        DerOutputStrebm temp = new DerOutputStrebm();
 
         temp.putInteger(etype);
-        bytes.write(DerValue.createTag(DerValue.TAG_CONTEXT, true,
+        bytes.write(DerVblue.crebteTbg(DerVblue.TAG_CONTEXT, true,
                                         TAG_TYPE), temp);
 
-        if (salt != null) {
-            temp = new DerOutputStream();
+        if (sblt != null) {
+            temp = new DerOutputStrebm();
             if (KerberosString.MSNAME) {
-                temp.putOctetString(salt.getBytes("UTF8"));
+                temp.putOctetString(sblt.getBytes("UTF8"));
             } else {
-                temp.putOctetString(salt.getBytes());
+                temp.putOctetString(sblt.getBytes());
             }
-            bytes.write(DerValue.createTag(DerValue.TAG_CONTEXT, true,
+            bytes.write(DerVblue.crebteTbg(DerVblue.TAG_CONTEXT, true,
                                         TAG_VALUE), temp);
         }
 
-        temp = new DerOutputStream();
-        temp.write(DerValue.tag_Sequence, bytes);
-        return temp.toByteArray();
+        temp = new DerOutputStrebm();
+        temp.write(DerVblue.tbg_Sequence, bytes);
+        return temp.toByteArrby();
     }
 
-    // accessor methods
+    // bccessor methods
     public int getEType() {
         return etype;
     }
 
-    public String getSalt() {
-        return salt;
+    public String getSblt() {
+        return sblt;
     }
 
 }

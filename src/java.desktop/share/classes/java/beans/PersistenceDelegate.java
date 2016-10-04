@@ -1,216 +1,216 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.beans;
+pbckbge jbvb.bebns;
 
 /**
- * The PersistenceDelegate class takes the responsibility
- * for expressing the state of an instance of a given class
- * in terms of the methods in the class's public API. Instead
- * of associating the responsibility of persistence with
- * the class itself as is done, for example, by the
- * <code>readObject</code> and <code>writeObject</code>
- * methods used by the <code>ObjectOutputStream</code>, streams like
+ * The PersistenceDelegbte clbss tbkes the responsibility
+ * for expressing the stbte of bn instbnce of b given clbss
+ * in terms of the methods in the clbss's public API. Instebd
+ * of bssocibting the responsibility of persistence with
+ * the clbss itself bs is done, for exbmple, by the
+ * <code>rebdObject</code> bnd <code>writeObject</code>
+ * methods used by the <code>ObjectOutputStrebm</code>, strebms like
  * the <code>XMLEncoder</code> which
- * use this delegation model can have their behavior controlled
- * independently of the classes themselves. Normally, the class
- * is the best place to put such information and conventions
- * can easily be expressed in this delegation scheme to do just that.
- * Sometimes however, it is the case that a minor problem
- * in a single class prevents an entire object graph from
- * being written and this can leave the application
- * developer with no recourse but to attempt to shadow
- * the problematic classes locally or use alternative
- * persistence techniques. In situations like these, the
- * delegation model gives a relatively clean mechanism for
- * the application developer to intervene in all parts of the
- * serialization process without requiring that modifications
- * be made to the implementation of classes which are not part
- * of the application itself.
+ * use this delegbtion model cbn hbve their behbvior controlled
+ * independently of the clbsses themselves. Normblly, the clbss
+ * is the best plbce to put such informbtion bnd conventions
+ * cbn ebsily be expressed in this delegbtion scheme to do just thbt.
+ * Sometimes however, it is the cbse thbt b minor problem
+ * in b single clbss prevents bn entire object grbph from
+ * being written bnd this cbn lebve the bpplicbtion
+ * developer with no recourse but to bttempt to shbdow
+ * the problembtic clbsses locblly or use blternbtive
+ * persistence techniques. In situbtions like these, the
+ * delegbtion model gives b relbtively clebn mechbnism for
+ * the bpplicbtion developer to intervene in bll pbrts of the
+ * seriblizbtion process without requiring thbt modificbtions
+ * be mbde to the implementbtion of clbsses which bre not pbrt
+ * of the bpplicbtion itself.
  * <p>
- * In addition to using a delegation model, this persistence
- * scheme differs from traditional serialization schemes
- * in requiring an analog of the <code>writeObject</code>
- * method without a corresponding <code>readObject</code>
- * method. The <code>writeObject</code> analog encodes each
- * instance in terms of its public API and there is no need to
- * define a <code>readObject</code> analog
- * since the procedure for reading the serialized form
- * is defined by the semantics of method invocation as laid
- * out in the Java Language Specification.
- * Breaking the dependency between <code>writeObject</code>
- * and <code>readObject</code> implementations, which may
- * change from version to version, is the key factor
- * in making the archives produced by this technique immune
- * to changes in the private implementations of the classes
+ * In bddition to using b delegbtion model, this persistence
+ * scheme differs from trbditionbl seriblizbtion schemes
+ * in requiring bn bnblog of the <code>writeObject</code>
+ * method without b corresponding <code>rebdObject</code>
+ * method. The <code>writeObject</code> bnblog encodes ebch
+ * instbnce in terms of its public API bnd there is no need to
+ * define b <code>rebdObject</code> bnblog
+ * since the procedure for rebding the seriblized form
+ * is defined by the sembntics of method invocbtion bs lbid
+ * out in the Jbvb Lbngubge Specificbtion.
+ * Brebking the dependency between <code>writeObject</code>
+ * bnd <code>rebdObject</code> implementbtions, which mby
+ * chbnge from version to version, is the key fbctor
+ * in mbking the brchives produced by this technique immune
+ * to chbnges in the privbte implementbtions of the clbsses
  * to which they refer.
  * <p>
- * A persistence delegate, may take control of all
- * aspects of the persistence of an object including:
+ * A persistence delegbte, mby tbke control of bll
+ * bspects of the persistence of bn object including:
  * <ul>
  * <li>
- * Deciding whether or not an instance can be mutated
- * into another instance of the same class.
+ * Deciding whether or not bn instbnce cbn be mutbted
+ * into bnother instbnce of the sbme clbss.
  * <li>
- * Instantiating the object, either by calling a
- * public constructor or a public factory method.
+ * Instbntibting the object, either by cblling b
+ * public constructor or b public fbctory method.
  * <li>
- * Performing the initialization of the object.
+ * Performing the initiblizbtion of the object.
  * </ul>
  * @see XMLEncoder
  *
  * @since 1.4
  *
- * @author Philip Milne
+ * @buthor Philip Milne
  */
 
-public abstract class PersistenceDelegate {
+public bbstrbct clbss PersistenceDelegbte {
 
     /**
-     * The <code>writeObject</code> is a single entry point to the persistence
-     * and is used by a <code>Encoder</code> in the traditional
-     * mode of delegation. Although this method is not final,
-     * it should not need to be subclassed under normal circumstances.
+     * The <code>writeObject</code> is b single entry point to the persistence
+     * bnd is used by b <code>Encoder</code> in the trbditionbl
+     * mode of delegbtion. Although this method is not finbl,
+     * it should not need to be subclbssed under normbl circumstbnces.
      * <p>
-     * This implementation first checks to see if the stream
-     * has already encountered this object. Next the
-     * <code>mutatesTo</code> method is called to see if
-     * that candidate returned from the stream can
-     * be mutated into an accurate copy of <code>oldInstance</code>.
-     * If it can, the <code>initialize</code> method is called to
-     * perform the initialization. If not, the candidate is removed
-     * from the stream, and the <code>instantiate</code> method
-     * is called to create a new candidate for this object.
+     * This implementbtion first checks to see if the strebm
+     * hbs blrebdy encountered this object. Next the
+     * <code>mutbtesTo</code> method is cblled to see if
+     * thbt cbndidbte returned from the strebm cbn
+     * be mutbted into bn bccurbte copy of <code>oldInstbnce</code>.
+     * If it cbn, the <code>initiblize</code> method is cblled to
+     * perform the initiblizbtion. If not, the cbndidbte is removed
+     * from the strebm, bnd the <code>instbntibte</code> method
+     * is cblled to crebte b new cbndidbte for this object.
      *
-     * @param oldInstance The instance that will be created by this expression.
-     * @param out The stream to which this expression will be written.
+     * @pbrbm oldInstbnce The instbnce thbt will be crebted by this expression.
+     * @pbrbm out The strebm to which this expression will be written.
      *
      * @throws NullPointerException if {@code out} is {@code null}
      */
-    public void writeObject(Object oldInstance, Encoder out) {
-        Object newInstance = out.get(oldInstance);
-        if (!mutatesTo(oldInstance, newInstance)) {
-            out.remove(oldInstance);
-            out.writeExpression(instantiate(oldInstance, out));
+    public void writeObject(Object oldInstbnce, Encoder out) {
+        Object newInstbnce = out.get(oldInstbnce);
+        if (!mutbtesTo(oldInstbnce, newInstbnce)) {
+            out.remove(oldInstbnce);
+            out.writeExpression(instbntibte(oldInstbnce, out));
         }
         else {
-            initialize(oldInstance.getClass(), oldInstance, newInstance, out);
+            initiblize(oldInstbnce.getClbss(), oldInstbnce, newInstbnce, out);
         }
     }
 
     /**
-     * Returns true if an <em>equivalent</em> copy of <code>oldInstance</code> may be
-     * created by applying a series of statements to <code>newInstance</code>.
-     * In the specification of this method, we mean by equivalent that the modified instance
-     * is indistinguishable from <code>oldInstance</code> in the behavior
-     * of the relevant methods in its public API. [Note: we use the
-     * phrase <em>relevant</em> methods rather than <em>all</em> methods
-     * here only because, to be strictly correct, methods like <code>hashCode</code>
-     * and <code>toString</code> prevent most classes from producing truly
-     * indistinguishable copies of their instances].
+     * Returns true if bn <em>equivblent</em> copy of <code>oldInstbnce</code> mby be
+     * crebted by bpplying b series of stbtements to <code>newInstbnce</code>.
+     * In the specificbtion of this method, we mebn by equivblent thbt the modified instbnce
+     * is indistinguishbble from <code>oldInstbnce</code> in the behbvior
+     * of the relevbnt methods in its public API. [Note: we use the
+     * phrbse <em>relevbnt</em> methods rbther thbn <em>bll</em> methods
+     * here only becbuse, to be strictly correct, methods like <code>hbshCode</code>
+     * bnd <code>toString</code> prevent most clbsses from producing truly
+     * indistinguishbble copies of their instbnces].
      * <p>
-     * The default behavior returns <code>true</code>
-     * if the classes of the two instances are the same.
+     * The defbult behbvior returns <code>true</code>
+     * if the clbsses of the two instbnces bre the sbme.
      *
-     * @param oldInstance The instance to be copied.
-     * @param newInstance The instance that is to be modified.
-     * @return True if an equivalent copy of <code>newInstance</code> may be
-     *         created by applying a series of mutations to <code>oldInstance</code>.
+     * @pbrbm oldInstbnce The instbnce to be copied.
+     * @pbrbm newInstbnce The instbnce thbt is to be modified.
+     * @return True if bn equivblent copy of <code>newInstbnce</code> mby be
+     *         crebted by bpplying b series of mutbtions to <code>oldInstbnce</code>.
      */
-    protected boolean mutatesTo(Object oldInstance, Object newInstance) {
-        return (newInstance != null && oldInstance != null &&
-                oldInstance.getClass() == newInstance.getClass());
+    protected boolebn mutbtesTo(Object oldInstbnce, Object newInstbnce) {
+        return (newInstbnce != null && oldInstbnce != null &&
+                oldInstbnce.getClbss() == newInstbnce.getClbss());
     }
 
     /**
-     * Returns an expression whose value is <code>oldInstance</code>.
-     * This method is used to characterize the constructor
-     * or factory method that should be used to create the given object.
-     * For example, the <code>instantiate</code> method of the persistence
-     * delegate for the <code>Field</code> class could be defined as follows:
+     * Returns bn expression whose vblue is <code>oldInstbnce</code>.
+     * This method is used to chbrbcterize the constructor
+     * or fbctory method thbt should be used to crebte the given object.
+     * For exbmple, the <code>instbntibte</code> method of the persistence
+     * delegbte for the <code>Field</code> clbss could be defined bs follows:
      * <pre>
-     * Field f = (Field)oldInstance;
-     * return new Expression(f, f.getDeclaringClass(), "getField", new Object[]{f.getName()});
+     * Field f = (Field)oldInstbnce;
+     * return new Expression(f, f.getDeclbringClbss(), "getField", new Object[]{f.getNbme()});
      * </pre>
-     * Note that we declare the value of the returned expression so that
-     * the value of the expression (as returned by <code>getValue</code>)
-     * will be identical to <code>oldInstance</code>.
+     * Note thbt we declbre the vblue of the returned expression so thbt
+     * the vblue of the expression (bs returned by <code>getVblue</code>)
+     * will be identicbl to <code>oldInstbnce</code>.
      *
-     * @param oldInstance The instance that will be created by this expression.
-     * @param out The stream to which this expression will be written.
-     * @return An expression whose value is <code>oldInstance</code>.
+     * @pbrbm oldInstbnce The instbnce thbt will be crebted by this expression.
+     * @pbrbm out The strebm to which this expression will be written.
+     * @return An expression whose vblue is <code>oldInstbnce</code>.
      *
      * @throws NullPointerException if {@code out} is {@code null}
-     *                              and this value is used in the method
+     *                              bnd this vblue is used in the method
      */
-    protected abstract Expression instantiate(Object oldInstance, Encoder out);
+    protected bbstrbct Expression instbntibte(Object oldInstbnce, Encoder out);
 
     /**
-     * Produce a series of statements with side effects on <code>newInstance</code>
-     * so that the new instance becomes <em>equivalent</em> to <code>oldInstance</code>.
-     * In the specification of this method, we mean by equivalent that, after the method
-     * returns, the modified instance is indistinguishable from
-     * <code>newInstance</code> in the behavior of all methods in its
+     * Produce b series of stbtements with side effects on <code>newInstbnce</code>
+     * so thbt the new instbnce becomes <em>equivblent</em> to <code>oldInstbnce</code>.
+     * In the specificbtion of this method, we mebn by equivblent thbt, bfter the method
+     * returns, the modified instbnce is indistinguishbble from
+     * <code>newInstbnce</code> in the behbvior of bll methods in its
      * public API.
      * <p>
-     * The implementation typically achieves this goal by producing a series of
-     * "what happened" statements involving the <code>oldInstance</code>
-     * and its publicly available state. These statements are sent
-     * to the output stream using its <code>writeExpression</code>
-     * method which returns an expression involving elements in
-     * a cloned environment simulating the state of an input stream during
-     * reading. Each statement returned will have had all instances
-     * the old environment replaced with objects which exist in the new
-     * one. In particular, references to the target of these statements,
-     * which start out as references to <code>oldInstance</code> are returned
-     * as references to the <code>newInstance</code> instead.
-     * Executing these statements effects an incremental
-     * alignment of the state of the two objects as a series of
-     * modifications to the objects in the new environment.
-     * By the time the initialize method returns it should be impossible
-     * to tell the two instances apart by using their public APIs.
-     * Most importantly, the sequence of steps that were used to make
-     * these objects appear equivalent will have been recorded
-     * by the output stream and will form the actual output when
-     * the stream is flushed.
+     * The implementbtion typicblly bchieves this gobl by producing b series of
+     * "whbt hbppened" stbtements involving the <code>oldInstbnce</code>
+     * bnd its publicly bvbilbble stbte. These stbtements bre sent
+     * to the output strebm using its <code>writeExpression</code>
+     * method which returns bn expression involving elements in
+     * b cloned environment simulbting the stbte of bn input strebm during
+     * rebding. Ebch stbtement returned will hbve hbd bll instbnces
+     * the old environment replbced with objects which exist in the new
+     * one. In pbrticulbr, references to the tbrget of these stbtements,
+     * which stbrt out bs references to <code>oldInstbnce</code> bre returned
+     * bs references to the <code>newInstbnce</code> instebd.
+     * Executing these stbtements effects bn incrementbl
+     * blignment of the stbte of the two objects bs b series of
+     * modificbtions to the objects in the new environment.
+     * By the time the initiblize method returns it should be impossible
+     * to tell the two instbnces bpbrt by using their public APIs.
+     * Most importbntly, the sequence of steps thbt were used to mbke
+     * these objects bppebr equivblent will hbve been recorded
+     * by the output strebm bnd will form the bctubl output when
+     * the strebm is flushed.
      * <p>
-     * The default implementation, calls the <code>initialize</code>
-     * method of the type's superclass.
+     * The defbult implementbtion, cblls the <code>initiblize</code>
+     * method of the type's superclbss.
      *
-     * @param type the type of the instances
-     * @param oldInstance The instance to be copied.
-     * @param newInstance The instance that is to be modified.
-     * @param out The stream to which any initialization statements should be written.
+     * @pbrbm type the type of the instbnces
+     * @pbrbm oldInstbnce The instbnce to be copied.
+     * @pbrbm newInstbnce The instbnce thbt is to be modified.
+     * @pbrbm out The strebm to which bny initiblizbtion stbtements should be written.
      *
      * @throws NullPointerException if {@code out} is {@code null}
      */
-    protected void initialize(Class<?> type,
-                              Object oldInstance, Object newInstance,
+    protected void initiblize(Clbss<?> type,
+                              Object oldInstbnce, Object newInstbnce,
                               Encoder out)
     {
-        Class<?> superType = type.getSuperclass();
-        PersistenceDelegate info = out.getPersistenceDelegate(superType);
-        info.initialize(superType, oldInstance, newInstance, out);
+        Clbss<?> superType = type.getSuperclbss();
+        PersistenceDelegbte info = out.getPersistenceDelegbte(superType);
+        info.initiblize(superType, oldInstbnce, newInstbnce, out);
     }
 }

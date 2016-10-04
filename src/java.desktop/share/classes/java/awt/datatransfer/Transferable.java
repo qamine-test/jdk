@@ -1,74 +1,74 @@
 /*
- * Copyright (c) 1996, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt.datatransfer;
+pbckbge jbvb.bwt.dbtbtrbnsfer;
 
-import java.io.IOException;
+import jbvb.io.IOException;
 
 /**
- * Defines the interface for classes that can be used to provide data
- * for a transfer operation.
+ * Defines the interfbce for clbsses thbt cbn be used to provide dbtb
+ * for b trbnsfer operbtion.
  * <p>
- * For information on using data transfer with Swing, see
- * <a href="http://docs.oracle.com/javase/tutorial/uiswing/dnd/index.html">
- * How to Use Drag and Drop and Data Transfer</a>,
- * a section in <em>The Java Tutorial</em>, for more information.
+ * For informbtion on using dbtb trbnsfer with Swing, see
+ * <b href="http://docs.orbcle.com/jbvbse/tutoribl/uiswing/dnd/index.html">
+ * How to Use Drbg bnd Drop bnd Dbtb Trbnsfer</b>,
+ * b section in <em>The Jbvb Tutoribl</em>, for more informbtion.
  *
- * @author      Amy Fowler
+ * @buthor      Amy Fowler
  */
 
-public interface Transferable {
+public interfbce Trbnsferbble {
 
     /**
-     * Returns an array of DataFlavor objects indicating the flavors the data
-     * can be provided in.  The array should be ordered according to preference
-     * for providing the data (from most richly descriptive to least descriptive).
-     * @return an array of data flavors in which this data can be transferred
+     * Returns bn brrby of DbtbFlbvor objects indicbting the flbvors the dbtb
+     * cbn be provided in.  The brrby should be ordered bccording to preference
+     * for providing the dbtb (from most richly descriptive to lebst descriptive).
+     * @return bn brrby of dbtb flbvors in which this dbtb cbn be trbnsferred
      */
-    public DataFlavor[] getTransferDataFlavors();
+    public DbtbFlbvor[] getTrbnsferDbtbFlbvors();
 
     /**
-     * Returns whether or not the specified data flavor is supported for
+     * Returns whether or not the specified dbtb flbvor is supported for
      * this object.
-     * @param flavor the requested flavor for the data
-     * @return boolean indicating whether or not the data flavor is supported
+     * @pbrbm flbvor the requested flbvor for the dbtb
+     * @return boolebn indicbting whether or not the dbtb flbvor is supported
      */
-    public boolean isDataFlavorSupported(DataFlavor flavor);
+    public boolebn isDbtbFlbvorSupported(DbtbFlbvor flbvor);
 
     /**
-     * Returns an object which represents the data to be transferred.  The class
-     * of the object returned is defined by the representation class of the flavor.
+     * Returns bn object which represents the dbtb to be trbnsferred.  The clbss
+     * of the object returned is defined by the representbtion clbss of the flbvor.
      *
-     * @param flavor the requested flavor for the data
-     * @return an object which represents the data to be transferred
-     * @see DataFlavor#getRepresentationClass
-     * @exception IOException                if the data is no longer available
-     *              in the requested flavor.
-     * @exception UnsupportedFlavorException if the requested data flavor is
+     * @pbrbm flbvor the requested flbvor for the dbtb
+     * @return bn object which represents the dbtb to be trbnsferred
+     * @see DbtbFlbvor#getRepresentbtionClbss
+     * @exception IOException                if the dbtb is no longer bvbilbble
+     *              in the requested flbvor.
+     * @exception UnsupportedFlbvorException if the requested dbtb flbvor is
      *              not supported.
      */
-    public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException, IOException;
+    public Object getTrbnsferDbtb(DbtbFlbvor flbvor) throws UnsupportedFlbvorException, IOException;
 
 }

@@ -1,96 +1,96 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.border;
+pbckbge jbvbx.swing.border;
 
-import java.awt.Graphics;
-import java.awt.Insets;
-import java.awt.Rectangle;
-import java.awt.Component;
+import jbvb.bwt.Grbphics;
+import jbvb.bwt.Insets;
+import jbvb.bwt.Rectbngle;
+import jbvb.bwt.Component;
 
 /**
- * Interface describing an object capable of rendering a border
- * around the edges of a swing component.
- * For examples of using borders see
- * <a href="http://docs.oracle.com/javase/tutorial/uiswing/components/border.htmll">How to Use Borders</a>,
- * a section in <em>The Java Tutorial.</em>
+ * Interfbce describing bn object cbpbble of rendering b border
+ * bround the edges of b swing component.
+ * For exbmples of using borders see
+ * <b href="http://docs.orbcle.com/jbvbse/tutoribl/uiswing/components/border.htmll">How to Use Borders</b>,
+ * b section in <em>The Jbvb Tutoribl.</em>
  * <p>
- * In the Swing component set, borders supercede Insets as the
- * mechanism for creating a (decorated or plain) area around the
- * edge of a component.
+ * In the Swing component set, borders supercede Insets bs the
+ * mechbnism for crebting b (decorbted or plbin) breb bround the
+ * edge of b component.
  * <p>
- * Usage Notes:
+ * Usbge Notes:
  * <ul>
- * <li>Use EmptyBorder to create a plain border (this mechanism
- *     replaces its predecessor, <code>setInsets</code>).
- * <li>Use CompoundBorder to nest multiple border objects, creating
- *     a single, combined border.
- * <li>Border instances are designed to be shared. Rather than creating
- *     a new border object using one of border classes, use the
- *     BorderFactory methods, which produces a shared instance of the
+ * <li>Use EmptyBorder to crebte b plbin border (this mechbnism
+ *     replbces its predecessor, <code>setInsets</code>).
+ * <li>Use CompoundBorder to nest multiple border objects, crebting
+ *     b single, combined border.
+ * <li>Border instbnces bre designed to be shbred. Rbther thbn crebting
+ *     b new border object using one of border clbsses, use the
+ *     BorderFbctory methods, which produces b shbred instbnce of the
  *     common border types.
- * <li>Additional border styles include BevelBorder, SoftBevelBorder,
- *     EtchedBorder, LineBorder, TitledBorder, and MatteBorder.
- * <li>To create a new border class, subclass AbstractBorder.
+ * <li>Additionbl border styles include BevelBorder, SoftBevelBorder,
+ *     EtchedBorder, LineBorder, TitledBorder, bnd MbtteBorder.
+ * <li>To crebte b new border clbss, subclbss AbstrbctBorder.
  * </ul>
  *
- * @author David Kloba
- * @author Amy Fowler
- * @see javax.swing.BorderFactory
+ * @buthor Dbvid Klobb
+ * @buthor Amy Fowler
+ * @see jbvbx.swing.BorderFbctory
  * @see EmptyBorder
  * @see CompoundBorder
  */
-public interface Border
+public interfbce Border
 {
     /**
-     * Paints the border for the specified component with the specified
-     * position and size.
+     * Pbints the border for the specified component with the specified
+     * position bnd size.
      *
-     * @param c the component for which this border is being painted
-     * @param g the paint graphics
-     * @param x the x position of the painted border
-     * @param y the y position of the painted border
-     * @param width the width of the painted border
-     * @param height the height of the painted border
+     * @pbrbm c the component for which this border is being pbinted
+     * @pbrbm g the pbint grbphics
+     * @pbrbm x the x position of the pbinted border
+     * @pbrbm y the y position of the pbinted border
+     * @pbrbm width the width of the pbinted border
+     * @pbrbm height the height of the pbinted border
      */
-    void paintBorder(Component c, Graphics g, int x, int y, int width, int height);
+    void pbintBorder(Component c, Grbphics g, int x, int y, int width, int height);
 
     /**
      * Returns the insets of the border.
      *
-     * @param c the component for which this border insets value applies
-     * @return an {@code Insets} object containing the insets from top, left,
-     *         bottom and right of this {@code Border}
+     * @pbrbm c the component for which this border insets vblue bpplies
+     * @return bn {@code Insets} object contbining the insets from top, left,
+     *         bottom bnd right of this {@code Border}
      */
     Insets getBorderInsets(Component c);
 
     /**
-     * Returns whether or not the border is opaque.  If the border
-     * is opaque, it is responsible for filling in it's own
-     * background when painting.
+     * Returns whether or not the border is opbque.  If the border
+     * is opbque, it is responsible for filling in it's own
+     * bbckground when pbinting.
      *
-     * @return true if this {@code Border} is opaque
+     * @return true if this {@code Border} is opbque
      */
-    boolean isBorderOpaque();
+    boolebn isBorderOpbque();
 }

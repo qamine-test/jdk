@@ -1,147 +1,147 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.apple.laf;
+pbckbge com.bpple.lbf;
 
-import java.awt.*;
+import jbvb.bwt.*;
 
-import javax.swing.*;
-import javax.swing.border.*;
-import javax.swing.plaf.*;
-import javax.swing.plaf.basic.BasicToolBarUI;
+import jbvbx.swing.*;
+import jbvbx.swing.border.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.bbsic.BbsicToolBbrUI;
 
-import com.apple.laf.AquaUtils.*;
+import com.bpple.lbf.AqubUtils.*;
 
-public class AquaToolBarUI extends BasicToolBarUI implements SwingConstants {
-    private static RecyclableSingleton<ToolBarBorder> toolBarBorder = new RecyclableSingletonFromDefaultConstructor<ToolBarBorder>(ToolBarBorder.class);
-    public static Border getToolBarBorder() {
-        return toolBarBorder.get();
+public clbss AqubToolBbrUI extends BbsicToolBbrUI implements SwingConstbnts {
+    privbte stbtic RecyclbbleSingleton<ToolBbrBorder> toolBbrBorder = new RecyclbbleSingletonFromDefbultConstructor<ToolBbrBorder>(ToolBbrBorder.clbss);
+    public stbtic Border getToolBbrBorder() {
+        return toolBbrBorder.get();
     }
 
-    public static ComponentUI createUI(final JComponent c) {
-        return new AquaToolBarUI();
+    public stbtic ComponentUI crebteUI(finbl JComponent c) {
+        return new AqubToolBbrUI();
     }
 
-    protected void setBorderToNonRollover(final Component c) { }
-    protected void setBorderToNormal(final Component c) { }
-    protected void setBorderToRollover(final Component c) { }
+    protected void setBorderToNonRollover(finbl Component c) { }
+    protected void setBorderToNormbl(finbl Component c) { }
+    protected void setBorderToRollover(finbl Component c) { }
 
-    protected RootPaneContainer createFloatingWindow(final JToolBar toolbar) {
-        final RootPaneContainer window = super.createFloatingWindow(toolbar);
-        window.getRootPane().putClientProperty("Window.style", "small");
+    protected RootPbneContbiner crebteFlobtingWindow(finbl JToolBbr toolbbr) {
+        finbl RootPbneContbiner window = super.crebteFlobtingWindow(toolbbr);
+        window.getRootPbne().putClientProperty("Window.style", "smbll");
         return window;
     }
 
-    /* ToolBarBorder and drag-off handle, based loosly on MetalBumps */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    static class ToolBarBorder extends AbstractBorder implements UIResource, javax.swing.SwingConstants {
-        protected void fillHandle(final Graphics g, final int x1, final int y1, final int x2, final int y2, final boolean horizontal) {
-            g.setColor(UIManager.getColor("ToolBar.borderHandleColor"));
-            if (horizontal) {
-                final int h = y2 - y1 - 2;
+    /* ToolBbrBorder bnd drbg-off hbndle, bbsed loosly on MetblBumps */
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    stbtic clbss ToolBbrBorder extends AbstrbctBorder implements UIResource, jbvbx.swing.SwingConstbnts {
+        protected void fillHbndle(finbl Grbphics g, finbl int x1, finbl int y1, finbl int x2, finbl int y2, finbl boolebn horizontbl) {
+            g.setColor(UIMbnbger.getColor("ToolBbr.borderHbndleColor"));
+            if (horizontbl) {
+                finbl int h = y2 - y1 - 2;
                 g.fillRect(x1 + 2, y1 + 1, 1, h);
                 g.fillRect(x1 + 5, y1 + 1, 1, h);
             } else {
-                final int w = x2 - x1 - 2;
+                finbl int w = x2 - x1 - 2;
                 g.fillRect(x1 + 1, y1 + 2, w, 1);
                 g.fillRect(x1 + 1, y1 + 5, w, 1);
             }
         }
 
-        public void paintBorder(final java.awt.Component c, final Graphics g, int x, int y, final int w, final int h) {
-            g.translate(x, y);
+        public void pbintBorder(finbl jbvb.bwt.Component c, finbl Grbphics g, int x, int y, finbl int w, finbl int h) {
+            g.trbnslbte(x, y);
 
-            if (c.isOpaque()) {
-                AquaUtils.fillRect(g, c, c.getBackground(), 0, 0, w - 1, h - 1);
+            if (c.isOpbque()) {
+                AqubUtils.fillRect(g, c, c.getBbckground(), 0, 0, w - 1, h - 1);
             }
 
-            final Color oldColor = g.getColor();
+            finbl Color oldColor = g.getColor();
 
-            final JToolBar jtb = (JToolBar)c;
-            final ComponentOrientation orient = jtb.getComponentOrientation();
-            final boolean horizontal = jtb.getOrientation() == SwingConstants.HORIZONTAL;
+            finbl JToolBbr jtb = (JToolBbr)c;
+            finbl ComponentOrientbtion orient = jtb.getComponentOrientbtion();
+            finbl boolebn horizontbl = jtb.getOrientbtion() == SwingConstbnts.HORIZONTAL;
 
-            if (jtb.isFloatable()) {
-                if (horizontal) {
+            if (jtb.isFlobtbble()) {
+                if (horizontbl) {
                     if (orient.isLeftToRight()) {
-                        fillHandle(g, 2, 2, 10, h - 2, true);
+                        fillHbndle(g, 2, 2, 10, h - 2, true);
                     } else {
-                        fillHandle(g, w - 10, 2, w - 2, h - 2, true);
+                        fillHbndle(g, w - 10, 2, w - 2, h - 2, true);
                     }
                 } else {
-                    fillHandle(g, 2, 2, w - 2, 10, false);
+                    fillHbndle(g, 2, 2, w - 2, 10, fblse);
                 }
             }
 
             g.setColor(oldColor);
 
-            g.translate(-x, -y);
+            g.trbnslbte(-x, -y);
         }
 
-        public Insets getBorderInsets(final java.awt.Component c) {
-            final Insets borderInsets = new Insets(5, 5, 5, 5);
+        public Insets getBorderInsets(finbl jbvb.bwt.Component c) {
+            finbl Insets borderInsets = new Insets(5, 5, 5, 5);
             return getBorderInsets(c, borderInsets);
         }
 
-        public Insets getBorderInsets(final java.awt.Component c, final Insets borderInsets) {
+        public Insets getBorderInsets(finbl jbvb.bwt.Component c, finbl Insets borderInsets) {
             borderInsets.left = 4;
             borderInsets.right = 4;
             borderInsets.top = 2;
             borderInsets.bottom = 2;
 
-            if (((JToolBar)c).isFloatable()) {
-                if (((JToolBar)c).getOrientation() == HORIZONTAL) {
+            if (((JToolBbr)c).isFlobtbble()) {
+                if (((JToolBbr)c).getOrientbtion() == HORIZONTAL) {
                     borderInsets.left = 12;
-                    // We don't have to adjust for right-to-left
-                } else { // vertical
+                    // We don't hbve to bdjust for right-to-left
+                } else { // verticbl
                     borderInsets.top = 12;
                 }
             }
 
-            final Insets margin = ((JToolBar)c).getMargin();
+            finbl Insets mbrgin = ((JToolBbr)c).getMbrgin();
 
-            if (margin != null) {
-                borderInsets.left += margin.left;
-                borderInsets.top += margin.top;
-                borderInsets.right += margin.right;
-                borderInsets.bottom += margin.bottom;
+            if (mbrgin != null) {
+                borderInsets.left += mbrgin.left;
+                borderInsets.top += mbrgin.top;
+                borderInsets.right += mbrgin.right;
+                borderInsets.bottom += mbrgin.bottom;
             }
 
             return borderInsets;
         }
 
-        public boolean isBorderOpaque() {
+        public boolebn isBorderOpbque() {
             return true;
         }
     }
 
     @Override
-    public final void update(final Graphics g, final JComponent c) {
-        if (c.isOpaque()) {
-            AquaUtils.fillRect(g, c);
+    public finbl void updbte(finbl Grbphics g, finbl JComponent c) {
+        if (c.isOpbque()) {
+            AqubUtils.fillRect(g, c);
         }
-        paint(g, c);
+        pbint(g, c);
     }
 }

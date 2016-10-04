@@ -1,98 +1,98 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt.X11;
+pbckbge sun.bwt.X11;
 
-import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseWheelEvent;
-import java.awt.event.AdjustmentEvent;
-import java.util.ArrayList;
-import java.util.Iterator;
-import sun.util.logging.PlatformLogger;
+import jbvb.bwt.*;
+import jbvb.bwt.event.MouseEvent;
+import jbvb.bwt.event.MouseWheelEvent;
+import jbvb.bwt.event.AdjustmentEvent;
+import jbvb.util.ArrbyList;
+import jbvb.util.Iterbtor;
+import sun.util.logging.PlbtformLogger;
 
 // FIXME: implement multi-select
 /*
- * Class to paint a list of items, possibly with scrollbars
- * This class paints all items with the same font
- * For now, this class manages the list of items and painting thereof, but not
+ * Clbss to pbint b list of items, possibly with scrollbbrs
+ * This clbss pbints bll items with the sbme font
+ * For now, this clbss mbnbges the list of items bnd pbinting thereof, but not
  * posting of Item or ActionEvents
  */
-public class ListHelper implements XScrollbarClient {
-    private static final PlatformLogger log = PlatformLogger.getLogger("sun.awt.X11.ListHelper");
+public clbss ListHelper implements XScrollbbrClient {
+    privbte stbtic finbl PlbtformLogger log = PlbtformLogger.getLogger("sun.bwt.X11.ListHelper");
 
-    private final int FOCUS_INSET = 1;
+    privbte finbl int FOCUS_INSET = 1;
 
-    private final int BORDER_WIDTH; // Width of border drawn around the list
+    privbte finbl int BORDER_WIDTH; // Width of border drbwn bround the list
                                     // of items
-    private final int ITEM_MARGIN;  // Margin between the border of the list
-                                    // of items and and item's bg, and between
+    privbte finbl int ITEM_MARGIN;  // Mbrgin between the border of the list
+                                    // of items bnd bnd item's bg, bnd between
                                     // items
-    private final int TEXT_SPACE;   // Space between the edge of an item and
+    privbte finbl int TEXT_SPACE;   // Spbce between the edge of bn item bnd
                                     // the text
 
-    private final int SCROLLBAR_WIDTH;  // Width of a scrollbar
+    privbte finbl int SCROLLBAR_WIDTH;  // Width of b scrollbbr
 
-    private java.util.List<String> items;        // List of items
+    privbte jbvb.util.List<String> items;        // List of items
 
-    // TODO: maybe this would be better as a simple int[]
-    private java.util.List<Integer> selected;     // List of selected items
-    private boolean multiSelect;         // Can multiple items be selected
-                                         // at once?
-    private int focusedIndex;
+    // TODO: mbybe this would be better bs b simple int[]
+    privbte jbvb.util.List<Integer> selected;     // List of selected items
+    privbte boolebn multiSelect;         // Cbn multiple items be selected
+                                         // bt once?
+    privbte int focusedIndex;
 
-    private int maxVisItems;             // # items visible without a vsb
-    private XVerticalScrollbar vsb;      // null if unsupported
-    private boolean vsbVis;
-    private XHorizontalScrollbar hsb;    // null if unsupported
-    private boolean hsbVis;
+    privbte int mbxVisItems;             // # items visible without b vsb
+    privbte XVerticblScrollbbr vsb;      // null if unsupported
+    privbte boolebn vsbVis;
+    privbte XHorizontblScrollbbr hsb;    // null if unsupported
+    privbte boolebn hsbVis;
 
-    private Font font;
-    private FontMetrics fm;
+    privbte Font font;
+    privbte FontMetrics fm;
 
-    private XWindow peer;   // So far, only needed for painting
-                            // on notifyValue()
-    private Color[] colors; // Passed in for painting on notifyValue()
+    privbte XWindow peer;   // So fbr, only needed for pbinting
+                            // on notifyVblue()
+    privbte Color[] colors; // Pbssed in for pbinting on notifyVblue()
 
-    // Holds the true if mouse is dragging outside of the area of the list
-    // The flag is used at the moment of the dragging and releasing mouse
-    // See 6243382 for more information
-    boolean mouseDraggedOutVertically = false;
-    private volatile boolean vsbVisibilityChanged = false;
+    // Holds the true if mouse is drbgging outside of the breb of the list
+    // The flbg is used bt the moment of the drbgging bnd relebsing mouse
+    // See 6243382 for more informbtion
+    boolebn mouseDrbggedOutVerticblly = fblse;
+    privbte volbtile boolebn vsbVisibilityChbnged = fblse;
 
     /*
      * Comment
      */
     public ListHelper(XWindow peer,
                       Color[] colors,
-                      int initialSize,
-                      boolean multiSelect,
-                      boolean scrollVert,
-                      boolean scrollHoriz,
+                      int initiblSize,
+                      boolebn multiSelect,
+                      boolebn scrollVert,
+                      boolebn scrollHoriz,
                       Font font,
-                      int maxVisItems,
+                      int mbxVisItems,
                       int SPACE,
                       int MARGIN,
                       int BORDER,
@@ -100,18 +100,18 @@ public class ListHelper implements XScrollbarClient {
         this.peer = peer;
         this.colors = colors;
         this.multiSelect = multiSelect;
-        items = new ArrayList<>(initialSize);
-        selected = new ArrayList<>(1);
-        selected.add(Integer.valueOf(-1));
+        items = new ArrbyList<>(initiblSize);
+        selected = new ArrbyList<>(1);
+        selected.bdd(Integer.vblueOf(-1));
 
-        this.maxVisItems = maxVisItems;
+        this.mbxVisItems = mbxVisItems;
         if (scrollVert) {
-            vsb = new XVerticalScrollbar(this);
-            vsb.setValues(0, 0, 0, 0, 1, maxVisItems - 1);
+            vsb = new XVerticblScrollbbr(this);
+            vsb.setVblues(0, 0, 0, 0, 1, mbxVisItems - 1);
         }
         if (scrollHoriz) {
-            hsb = new XHorizontalScrollbar(this);
-            hsb.setValues(0, 0, 0, 0, 1, 1);
+            hsb = new XHorizontblScrollbbr(this);
+            hsb.setVblues(0, 0, 0, 0, 1, 1);
         }
 
         setFont(font);
@@ -126,89 +126,89 @@ public class ListHelper implements XScrollbarClient {
     }
 
     /**********************************************************************/
-    /* List management methods                                            */
+    /* List mbnbgement methods                                            */
     /**********************************************************************/
 
-    public void add(String item) {
-        items.add(item);
-        updateScrollbars();
+    public void bdd(String item) {
+        items.bdd(item);
+        updbteScrollbbrs();
     }
 
-    public void add(String item, int index) {
-        items.add(index, item);
-        updateScrollbars();
+    public void bdd(String item, int index) {
+        items.bdd(index, item);
+        updbteScrollbbrs();
     }
 
     public void remove(String item) {
-        // FIXME: need to clean up select list, too?
+        // FIXME: need to clebn up select list, too?
         items.remove(item);
-        updateScrollbars();
+        updbteScrollbbrs();
         // Is vsb visible now?
     }
 
     public void remove(int index) {
-        // FIXME: need to clean up select list, too?
+        // FIXME: need to clebn up select list, too?
         items.remove(index);
-        updateScrollbars();
+        updbteScrollbbrs();
         // Is vsb visible now?
     }
 
     public void removeAll() {
         items.removeAll(items);
-        updateScrollbars();
+        updbteScrollbbrs();
     }
 
-    public void setMultiSelect(boolean ms) {
+    public void setMultiSelect(boolebn ms) {
         multiSelect = ms;
     }
 
     /*
      * docs.....definitely docs
-     * merely keeps internal track of which items are selected for painting
-     * dealing with target Components happens elsewhere
+     * merely keeps internbl trbck of which items bre selected for pbinting
+     * debling with tbrget Components hbppens elsewhere
      */
     public void select(int index) {
         if (index > getItemCount() - 1) {
             index = (isEmpty() ? -1 : 0);
         }
         if (multiSelect) {
-            assert false : "Implement ListHelper.select() for multiselect";
+            bssert fblse : "Implement ListHelper.select() for multiselect";
         }
         else if (getSelectedIndex() != index) {
             selected.remove(0);
-            selected.add(Integer.valueOf(index));
-            makeVisible(index);
+            selected.bdd(Integer.vblueOf(index));
+            mbkeVisible(index);
         }
     }
 
     /* docs */
     public void deselect(int index) {
-        assert(false);
+        bssert(fblse);
     }
 
     /* docs */
-    /* if called for multiselect, return -1 */
+    /* if cblled for multiselect, return -1 */
     public int getSelectedIndex() {
         if (!multiSelect) {
-            Integer val = selected.get(0);
-            return val.intValue();
+            Integer vbl = selected.get(0);
+            return vbl.intVblue();
         }
         return -1;
     }
 
-    int[] getSelectedIndexes() { assert(false); return null;}
+    int[] getSelectedIndexes() { bssert(fblse); return null;}
 
     /*
      * A getter method for XChoicePeer.
-     * Returns vsbVisiblityChanged value and sets it to false.
+     * Returns vsbVisiblityChbnged vblue bnd sets it to fblse.
      */
-    public boolean checkVsbVisibilityChangedAndReset(){
-        boolean returnVal = vsbVisibilityChanged;
-        vsbVisibilityChanged = false;
-        return returnVal;
+    public boolebn checkVsbVisibilityChbngedAndReset(){
+        boolebn returnVbl = vsbVisibilityChbnged;
+        vsbVisibilityChbnged = fblse;
+        return returnVbl;
     }
 
-    public boolean isEmpty() {
+    public boolebn isEmpty() {
         return items.isEmpty();
     }
 
@@ -221,97 +221,97 @@ public class ListHelper implements XScrollbarClient {
     }
 
     /**********************************************************************/
-    /* GUI-related methods                                                */
+    /* GUI-relbted methods                                                */
     /**********************************************************************/
 
     public void setFocusedIndex(int index) {
         focusedIndex = index;
     }
 
-    public boolean isFocusedIndex(int index) {
+    public boolebn isFocusedIndex(int index) {
         return index == focusedIndex;
     }
 
     public void setFont(Font newFont) {
         if (newFont != font) {
             font = newFont;
-            fm = Toolkit.getDefaultToolkit().getFontMetrics(font);
-            // Also cache stuff like fontHeight?
+            fm = Toolkit.getDefbultToolkit().getFontMetrics(font);
+            // Also cbche stuff like fontHeight?
         }
     }
 
     /*
      * Returns width of the text of the longest item
      */
-    public int getMaxItemWidth() {
+    public int getMbxItemWidth() {
         int m = 0;
         int end = getItemCount();
         for(int i = 0 ; i < end ; i++) {
             int l = fm.stringWidth(getItem(i));
-            m = Math.max(m, l);
+            m = Mbth.mbx(m, l);
         }
         return m;
     }
 
     /*
-     * Height of an item (this doesn't include ITEM_MARGIN)
+     * Height of bn item (this doesn't include ITEM_MARGIN)
      */
     int getItemHeight() {
         return fm.getHeight() + (2*TEXT_SPACE);
     }
 
     public int y2index(int y) {
-        if (log.isLoggable(PlatformLogger.Level.FINE)) {
-            log.fine("y=" + y +", firstIdx=" + firstDisplayedIndex() +", itemHeight=" + getItemHeight()
-                     + ",item_margin=" + ITEM_MARGIN);
+        if (log.isLoggbble(PlbtformLogger.Level.FINE)) {
+            log.fine("y=" + y +", firstIdx=" + firstDisplbyedIndex() +", itemHeight=" + getItemHeight()
+                     + ",item_mbrgin=" + ITEM_MARGIN);
         }
-        // See 6243382 for more information
-        int newIdx = firstDisplayedIndex() + ((y - 2*ITEM_MARGIN) / (getItemHeight() + 2*ITEM_MARGIN));
+        // See 6243382 for more informbtion
+        int newIdx = firstDisplbyedIndex() + ((y - 2*ITEM_MARGIN) / (getItemHeight() + 2*ITEM_MARGIN));
         return newIdx;
     }
 
     /* write these
     int index2y(int);
-    public int numItemsDisplayed() {}
+    public int numItemsDisplbyed() {}
     */
 
-    public int firstDisplayedIndex() {
+    public int firstDisplbyedIndex() {
         if (vsbVis) {
-            return vsb.getValue();
+            return vsb.getVblue();
         }
         return 0;
     }
 
-    public int lastDisplayedIndex() {
-        // FIXME: need to account for horiz scroll bar
+    public int lbstDisplbyedIndex() {
+        // FIXME: need to bccount for horiz scroll bbr
         if (hsbVis) {
-            assert false : "Implement for horiz scroll bar";
+            bssert fblse : "Implement for horiz scroll bbr";
         }
 
-        return vsbVis ? vsb.getValue() + maxVisItems - 1: getItemCount() - 1;
+        return vsbVis ? vsb.getVblue() + mbxVisItems - 1: getItemCount() - 1;
     }
 
     /*
-     * If the given index is not visible in the List, scroll so that it is.
+     * If the given index is not visible in the List, scroll so thbt it is.
      */
-    public void makeVisible(int index) {
+    public void mbkeVisible(int index) {
         if (vsbVis) {
-            if (index < firstDisplayedIndex()) {
-                vsb.setValue(index);
+            if (index < firstDisplbyedIndex()) {
+                vsb.setVblue(index);
             }
-            else if (index > lastDisplayedIndex()) {
-                vsb.setValue(index - maxVisItems + 1);
+            else if (index > lbstDisplbyedIndex()) {
+                vsb.setVblue(index - mbxVisItems + 1);
             }
         }
     }
 
-    // FIXME: multi-select needs separate focused index
+    // FIXME: multi-select needs sepbrbte focused index
     public void up() {
         int curIdx = getSelectedIndex();
         int numItems = getItemCount();
         int newIdx;
 
-        assert curIdx >= 0;
+        bssert curIdx >= 0;
 
         if (curIdx == 0) {
             newIdx = numItems - 1;
@@ -328,32 +328,32 @@ public class ListHelper implements XScrollbarClient {
         select(newIdx);
     }
 
-    public void pageUp() {
+    public void pbgeUp() {
         // FIXME: for multi-select, move the focused item, not the selected item
-        if (vsbVis && firstDisplayedIndex() > 0) {
+        if (vsbVis && firstDisplbyedIndex() > 0) {
             if (multiSelect) {
-                assert false : "Implement pageUp() for multiSelect";
+                bssert fblse : "Implement pbgeUp() for multiSelect";
             }
             else {
-                int selectionOffset = getSelectedIndex() - firstDisplayedIndex();
+                int selectionOffset = getSelectedIndex() - firstDisplbyedIndex();
                 // the vsb does bounds checking
-                int newIdx = firstDisplayedIndex() - vsb.getBlockIncrement();
-                vsb.setValue(newIdx);
-                select(firstDisplayedIndex() + selectionOffset);
+                int newIdx = firstDisplbyedIndex() - vsb.getBlockIncrement();
+                vsb.setVblue(newIdx);
+                select(firstDisplbyedIndex() + selectionOffset);
             }
         }
     }
-    public void pageDown() {
-        if (vsbVis && lastDisplayedIndex() < getItemCount() - 1) {
+    public void pbgeDown() {
+        if (vsbVis && lbstDisplbyedIndex() < getItemCount() - 1) {
             if (multiSelect) {
-                assert false : "Implement pageDown() for multiSelect";
+                bssert fblse : "Implement pbgeDown() for multiSelect";
             }
             else {
-                int selectionOffset = getSelectedIndex() - firstDisplayedIndex();
+                int selectionOffset = getSelectedIndex() - firstDisplbyedIndex();
                 // the vsb does bounds checking
-                int newIdx = lastDisplayedIndex();
-                vsb.setValue(newIdx);
-                select(firstDisplayedIndex() + selectionOffset);
+                int newIdx = lbstDisplbyedIndex();
+                vsb.setVblue(newIdx);
+                select(firstDisplbyedIndex() + selectionOffset);
             }
         }
     }
@@ -361,27 +361,27 @@ public class ListHelper implements XScrollbarClient {
     public void end() {}
 
 
-    public boolean isVSBVisible() { return vsbVis; }
-    public boolean isHSBVisible() { return hsbVis; }
+    public boolebn isVSBVisible() { return vsbVis; }
+    public boolebn isHSBVisible() { return hsbVis; }
 
-    public XVerticalScrollbar getVSB() { return vsb; }
-    public XHorizontalScrollbar getHSB() { return hsb; }
+    public XVerticblScrollbbr getVSB() { return vsb; }
+    public XHorizontblScrollbbr getHSB() { return hsb; }
 
-    public boolean isInVertSB(Rectangle bounds, int x, int y) {
+    public boolebn isInVertSB(Rectbngle bounds, int x, int y) {
         if (vsbVis) {
-            assert vsb != null : "Vert scrollbar is visible, yet is null?";
+            bssert vsb != null : "Vert scrollbbr is visible, yet is null?";
             int sbHeight = hsbVis ? bounds.height - SCROLLBAR_WIDTH : bounds.height;
             return (x <= bounds.width) &&
                    (x >= bounds.width - SCROLLBAR_WIDTH) &&
                    (y >= 0) &&
                    (y <= sbHeight);
         }
-        return false;
+        return fblse;
     }
 
-    public boolean isInHorizSB(Rectangle bounds, int x, int y) {
+    public boolebn isInHorizSB(Rectbngle bounds, int x, int y) {
         if (hsbVis) {
-            assert hsb != null : "Horiz scrollbar is visible, yet is null?";
+            bssert hsb != null : "Horiz scrollbbr is visible, yet is null?";
 
             int sbWidth = vsbVis ? bounds.width - SCROLLBAR_WIDTH : bounds.width;
             return (x <= sbWidth) &&
@@ -389,126 +389,126 @@ public class ListHelper implements XScrollbarClient {
                    (y >= bounds.height - SCROLLBAR_WIDTH) &&
                    (y <= bounds.height);
         }
-        return false;
+        return fblse;
     }
 
-    public void handleVSBEvent(MouseEvent e, Rectangle bounds, int x, int y) {
+    public void hbndleVSBEvent(MouseEvent e, Rectbngle bounds, int x, int y) {
         int sbHeight = hsbVis ? bounds.height - SCROLLBAR_WIDTH : bounds.height;
 
-        vsb.handleMouseEvent(e.getID(),
+        vsb.hbndleMouseEvent(e.getID(),
                              e.getModifiers(),
                              x - (bounds.width - SCROLLBAR_WIDTH),
                              y);
     }
 
     /*
-     * Called when items are added/removed.
-     * Update whether the scrollbar is visible or not, scrollbar values
+     * Cblled when items bre bdded/removed.
+     * Updbte whether the scrollbbr is visible or not, scrollbbr vblues
      */
-    void updateScrollbars() {
-        boolean oldVsbVis = vsbVis;
-        vsbVis = vsb != null && items.size() > maxVisItems;
+    void updbteScrollbbrs() {
+        boolebn oldVsbVis = vsbVis;
+        vsbVis = vsb != null && items.size() > mbxVisItems;
         if (vsbVis) {
-            vsb.setValues(vsb.getValue(), getNumItemsDisplayed(),
+            vsb.setVblues(vsb.getVblue(), getNumItemsDisplbyed(),
                           vsb.getMinimum(), items.size());
         }
 
-        // 6405689. If Vert Scrollbar gets disappeared from the dropdown menu we should repaint whole dropdown even if
-        // no actual resize gets invoked. This is needed because some painting artifacts remained between dropdown items
-        // but draw3DRect doesn't clear the area inside. Instead it just paints lines as borders.
-        vsbVisibilityChanged = (vsbVis != oldVsbVis);
-        // FIXME: check if added item makes a hsb necessary (if supported, that of course)
+        // 6405689. If Vert Scrollbbr gets disbppebred from the dropdown menu we should repbint whole dropdown even if
+        // no bctubl resize gets invoked. This is needed becbuse some pbinting brtifbcts rembined between dropdown items
+        // but drbw3DRect doesn't clebr the breb inside. Instebd it just pbints lines bs borders.
+        vsbVisibilityChbnged = (vsbVis != oldVsbVis);
+        // FIXME: check if bdded item mbkes b hsb necessbry (if supported, thbt of course)
     }
 
-    public int getNumItemsDisplayed() {
-        return items.size() > maxVisItems ? maxVisItems : items.size();
+    public int getNumItemsDisplbyed() {
+        return items.size() > mbxVisItems ? mbxVisItems : items.size();
     }
 
-    public void repaintScrollbarRequest(XScrollbar sb) {
-        Graphics g = peer.getGraphics();
-        Rectangle bounds = peer.getBounds();
+    public void repbintScrollbbrRequest(XScrollbbr sb) {
+        Grbphics g = peer.getGrbphics();
+        Rectbngle bounds = peer.getBounds();
         if ((sb == vsb) && vsbVis) {
-            paintVSB(g, XComponentPeer.getSystemColors(), bounds);
+            pbintVSB(g, XComponentPeer.getSystemColors(), bounds);
         }
         else if ((sb == hsb) && hsbVis) {
-            paintHSB(g, XComponentPeer.getSystemColors(), bounds);
+            pbintHSB(g, XComponentPeer.getSystemColors(), bounds);
         }
         g.dispose();
     }
 
-    public void notifyValue(XScrollbar obj, int type, int v, boolean isAdjusting) {
+    public void notifyVblue(XScrollbbr obj, int type, int v, boolebn isAdjusting) {
         if (obj == vsb) {
-            int oldScrollValue = vsb.getValue();
-            vsb.setValue(v);
-            boolean needRepaint = (oldScrollValue != vsb.getValue());
-            // See 6243382 for more information
-            if (mouseDraggedOutVertically){
-                int oldItemValue = getSelectedIndex();
-                int newItemValue = getSelectedIndex() + v - oldScrollValue;
-                select(newItemValue);
-                needRepaint = needRepaint || (getSelectedIndex() != oldItemValue);
+            int oldScrollVblue = vsb.getVblue();
+            vsb.setVblue(v);
+            boolebn needRepbint = (oldScrollVblue != vsb.getVblue());
+            // See 6243382 for more informbtion
+            if (mouseDrbggedOutVerticblly){
+                int oldItemVblue = getSelectedIndex();
+                int newItemVblue = getSelectedIndex() + v - oldScrollVblue;
+                select(newItemVblue);
+                needRepbint = needRepbint || (getSelectedIndex() != oldItemVblue);
             }
 
-            // FIXME: how are we going to paint!?
-            Graphics g = peer.getGraphics();
-            Rectangle bounds = peer.getBounds();
+            // FIXME: how bre we going to pbint!?
+            Grbphics g = peer.getGrbphics();
+            Rectbngle bounds = peer.getBounds();
             int first = v;
-            int last = Math.min(getItemCount() - 1,
-                                v + maxVisItems);
-            if (needRepaint) {
-                paintItems(g, colors, bounds, first, last);
+            int lbst = Mbth.min(getItemCount() - 1,
+                                v + mbxVisItems);
+            if (needRepbint) {
+                pbintItems(g, colors, bounds, first, lbst);
             }
             g.dispose();
 
         }
-        else if ((XHorizontalScrollbar)obj == hsb) {
-            hsb.setValue(v);
-            // FIXME: how are we going to paint!?
+        else if ((XHorizontblScrollbbr)obj == hsb) {
+            hsb.setVblue(v);
+            // FIXME: how bre we going to pbint!?
         }
     }
 
-    public void updateColors(Color[] newColors) {
+    public void updbteColors(Color[] newColors) {
         colors = newColors;
     }
 
     /*
-    public void paintItems(Graphics g,
+    public void pbintItems(Grbphics g,
                            Color[] colors,
-                           Rectangle bounds,
+                           Rectbngle bounds,
                            Font font,
                            int first,
-                           int last,
-                           XVerticalScrollbar vsb,
-                           XHorizontalScrollbar hsb) {
+                           int lbst,
+                           XVerticblScrollbbr vsb,
+                           XHorizontblScrollbbr hsb) {
     */
-    public void paintItems(Graphics g,
+    public void pbintItems(Grbphics g,
                            Color[] colors,
-                           Rectangle bounds) {
-        // paint border
-        // paint items
-        // paint scrollbars
-        // paint focus?
+                           Rectbngle bounds) {
+        // pbint border
+        // pbint items
+        // pbint scrollbbrs
+        // pbint focus?
 
     }
-    public void paintAllItems(Graphics g,
+    public void pbintAllItems(Grbphics g,
                            Color[] colors,
-                           Rectangle bounds) {
-        paintItems(g, colors, bounds,
-                   firstDisplayedIndex(), lastDisplayedIndex());
+                           Rectbngle bounds) {
+        pbintItems(g, colors, bounds,
+                   firstDisplbyedIndex(), lbstDisplbyedIndex());
     }
-    public void paintItems(Graphics g,
+    public void pbintItems(Grbphics g,
                            Color[] colors,
-                           Rectangle bounds,
+                           Rectbngle bounds,
                            int first,
-                           int last) {
+                           int lbst) {
         peer.flush();
         int x = BORDER_WIDTH + ITEM_MARGIN;
         int width = bounds.width - 2*ITEM_MARGIN - 2*BORDER_WIDTH - (vsbVis ? SCROLLBAR_WIDTH : 0);
         int height = getItemHeight();
         int y = BORDER_WIDTH + ITEM_MARGIN;
 
-        for (int i = first; i <= last ; i++) {
-            paintItem(g, colors, getItem(i),
+        for (int i = first; i <= lbst ; i++) {
+            pbintItem(g, colors, getItem(i),
                       x, y, width, height,
                       isItemSelected(i),
                       isFocusedIndex(i));
@@ -516,29 +516,29 @@ public class ListHelper implements XScrollbarClient {
         }
 
         if (vsbVis) {
-            paintVSB(g, XComponentPeer.getSystemColors(), bounds);
+            pbintVSB(g, XComponentPeer.getSystemColors(), bounds);
         }
         if (hsbVis) {
-            paintHSB(g, XComponentPeer.getSystemColors(), bounds);
+            pbintHSB(g, XComponentPeer.getSystemColors(), bounds);
         }
         peer.flush();
-        // FIXME: if none of the items were focused, paint focus around the
-        // entire list.  This is how java.awt.List should work.
+        // FIXME: if none of the items were focused, pbint focus bround the
+        // entire list.  This is how jbvb.bwt.List should work.
     }
 
     /*
-     * comment about what is painted (i.e. the focus rect
+     * comment bbout whbt is pbinted (i.e. the focus rect
      */
-    public void paintItem(Graphics g,
+    public void pbintItem(Grbphics g,
                           Color[] colors,
                           String string,
                           int x, int y, int width, int height,
-                          boolean selected,
-                          boolean focused) {
+                          boolebn selected,
+                          boolebn focused) {
         //System.out.println("LP.pI(): x="+x+" y="+y+" w="+width+" h="+height);
         //g.setColor(colors[BACKGROUND_COLOR]);
 
-        // FIXME: items shouldn't draw into the scrollbar
+        // FIXME: items shouldn't drbw into the scrollbbr
 
         if (selected) {
             g.setColor(colors[XComponentPeer.FOREGROUND_COLOR]);
@@ -551,7 +551,7 @@ public class ListHelper implements XScrollbarClient {
         if (focused) {
             //g.setColor(colors[XComponentPeer.FOREGROUND_COLOR]);
             g.setColor(Color.BLACK);
-            g.drawRect(x + FOCUS_INSET,
+            g.drbwRect(x + FOCUS_INSET,
                        y + FOCUS_INSET,
                        width - 2*FOCUS_INSET,
                        height - 2*FOCUS_INSET);
@@ -564,103 +564,103 @@ public class ListHelper implements XScrollbarClient {
             g.setColor(colors[XComponentPeer.FOREGROUND_COLOR]);
         }
         g.setFont(font);
-        //Rectangle clip = g.getClipBounds();
+        //Rectbngle clip = g.getClipBounds();
         //g.clipRect(x, y, width, height);
-        //g.drawString(string, x + TEXT_SPACE, y + TEXT_SPACE + ITEM_MARGIN);
+        //g.drbwString(string, x + TEXT_SPACE, y + TEXT_SPACE + ITEM_MARGIN);
 
         int fontAscent = fm.getAscent();
         int fontDescent = fm.getDescent();
 
-        g.drawString(string, x + TEXT_SPACE, y + (height + fm.getMaxAscent() - fm.getMaxDescent())/2);
+        g.drbwString(string, x + TEXT_SPACE, y + (height + fm.getMbxAscent() - fm.getMbxDescent())/2);
         //g.clipRect(clip.x, clip.y, clip.width, clip.height);
     }
 
-    boolean isItemSelected(int index) {
-        Iterator<Integer> itr = selected.iterator();
-        while (itr.hasNext()) {
-            Integer val = itr.next();
-            if (val.intValue() == index) {
+    boolebn isItemSelected(int index) {
+        Iterbtor<Integer> itr = selected.iterbtor();
+        while (itr.hbsNext()) {
+            Integer vbl = itr.next();
+            if (vbl.intVblue() == index) {
                 return true;
             }
         }
-        return false;
+        return fblse;
     }
 
-    public void paintVSB(Graphics g, Color colors[], Rectangle bounds) {
+    public void pbintVSB(Grbphics g, Color colors[], Rectbngle bounds) {
         int height = bounds.height - 2*BORDER_WIDTH - (hsbVis ? (SCROLLBAR_WIDTH-2) : 0);
-        Graphics ng = g.create();
+        Grbphics ng = g.crebte();
 
         g.setColor(colors[XComponentPeer.BACKGROUND_COLOR]);
         try {
-            ng.translate(bounds.width - BORDER_WIDTH - SCROLLBAR_WIDTH,
+            ng.trbnslbte(bounds.width - BORDER_WIDTH - SCROLLBAR_WIDTH,
                          BORDER_WIDTH);
-            // Update scrollbar's size
+            // Updbte scrollbbr's size
             vsb.setSize(SCROLLBAR_WIDTH, bounds.height);
-            vsb.paint(ng, colors, true);
-        } finally {
+            vsb.pbint(ng, colors, true);
+        } finblly {
             ng.dispose();
         }
     }
 
-    public void paintHSB(Graphics g, Color colors[], Rectangle bounds) {
+    public void pbintHSB(Grbphics g, Color colors[], Rectbngle bounds) {
 
     }
 
     /*
-     * Helper method for Components with integrated scrollbars.
-     * Pass in the vertical and horizontal scroll bar (or null for none/hidden)
-     * and the MouseWheelEvent, and the appropriate scrollbar will be scrolled
+     * Helper method for Components with integrbted scrollbbrs.
+     * Pbss in the verticbl bnd horizontbl scroll bbr (or null for none/hidden)
+     * bnd the MouseWheelEvent, bnd the bppropribte scrollbbr will be scrolled
      * correctly.
-     * Returns whether or not scrolling actually took place.  This will indicate
-     * whether or not repainting is required.
+     * Returns whether or not scrolling bctublly took plbce.  This will indicbte
+     * whether or not repbinting is required.
      */
-    static boolean doWheelScroll(XVerticalScrollbar vsb,
-                                     XHorizontalScrollbar hsb,
+    stbtic boolebn doWheelScroll(XVerticblScrollbbr vsb,
+                                     XHorizontblScrollbbr hsb,
                                      MouseWheelEvent e) {
-        XScrollbar scroll = null;
-        int wheelRotation;
+        XScrollbbr scroll = null;
+        int wheelRotbtion;
 
-        // Determine which, if any, sb to scroll
+        // Determine which, if bny, sb to scroll
         if (vsb != null) {
             scroll = vsb;
         }
         else if (hsb != null) {
             scroll = hsb;
         }
-        else { // Neither scrollbar is showing
-            return false;
+        else { // Neither scrollbbr is showing
+            return fblse;
         }
 
-        wheelRotation = e.getWheelRotation();
+        wheelRotbtion = e.getWheelRotbtion();
 
-        // Check if scroll is necessary
-        if ((wheelRotation < 0 && scroll.getValue() > scroll.getMinimum()) ||
-            (wheelRotation > 0 && scroll.getValue() < scroll.getMaximum()) ||
-            wheelRotation != 0) {
+        // Check if scroll is necessbry
+        if ((wheelRotbtion < 0 && scroll.getVblue() > scroll.getMinimum()) ||
+            (wheelRotbtion > 0 && scroll.getVblue() < scroll.getMbximum()) ||
+            wheelRotbtion != 0) {
 
             int type = e.getScrollType();
             int incr;
             if (type == MouseWheelEvent.WHEEL_BLOCK_SCROLL) {
-                incr = wheelRotation * scroll.getBlockIncrement();
+                incr = wheelRotbtion * scroll.getBlockIncrement();
             }
             else { // type is WHEEL_UNIT_SCROLL
                 incr = e.getUnitsToScroll() * scroll.getUnitIncrement();
             }
-            scroll.setValue(scroll.getValue() + incr);
+            scroll.setVblue(scroll.getVblue() + incr);
             return true;
         }
-        return false;
+        return fblse;
     }
 
     /*
-     * Helper method for XChoicePeer with integrated vertical scrollbar.
-     * Start or stop vertical scrolling when mouse dragged in / out the area of the list if it's required
-     * Restoring Motif behavior
-     * See 6243382 for more information
+     * Helper method for XChoicePeer with integrbted verticbl scrollbbr.
+     * Stbrt or stop verticbl scrolling when mouse drbgged in / out the breb of the list if it's required
+     * Restoring Motif behbvior
+     * See 6243382 for more informbtion
      */
-    void trackMouseDraggedScroll(int mouseX, int mouseY, int listWidth, int listHeight){
+    void trbckMouseDrbggedScroll(int mouseX, int mouseY, int listWidth, int listHeight){
 
-        if (!mouseDraggedOutVertically){
+        if (!mouseDrbggedOutVerticblly){
             if (vsb.beforeThumb(mouseX, mouseY)) {
                 vsb.setMode(AdjustmentEvent.UNIT_DECREMENT);
             } else {
@@ -668,28 +668,28 @@ public class ListHelper implements XScrollbarClient {
             }
         }
 
-        if(!mouseDraggedOutVertically && (mouseY < 0 || mouseY >= listHeight)){
-            mouseDraggedOutVertically = true;
-            vsb.startScrollingInstance();
+        if(!mouseDrbggedOutVerticblly && (mouseY < 0 || mouseY >= listHeight)){
+            mouseDrbggedOutVerticblly = true;
+            vsb.stbrtScrollingInstbnce();
         }
 
-        if (mouseDraggedOutVertically && mouseY >= 0 && mouseY < listHeight && mouseX >= 0 && mouseX < listWidth){
-            mouseDraggedOutVertically = false;
-            vsb.stopScrollingInstance();
+        if (mouseDrbggedOutVerticblly && mouseY >= 0 && mouseY < listHeight && mouseX >= 0 && mouseX < listWidth){
+            mouseDrbggedOutVerticblly = fblse;
+            vsb.stopScrollingInstbnce();
         }
     }
 
     /*
-     * Helper method for XChoicePeer with integrated vertical scrollbar.
-     * Stop vertical scrolling when mouse released in / out the area of the list if it's required
-     * Restoring Motif behavior
-     * see 6243382 for more information
+     * Helper method for XChoicePeer with integrbted verticbl scrollbbr.
+     * Stop verticbl scrolling when mouse relebsed in / out the breb of the list if it's required
+     * Restoring Motif behbvior
+     * see 6243382 for more informbtion
      */
-    void trackMouseReleasedScroll(){
+    void trbckMouseRelebsedScroll(){
 
-        if (mouseDraggedOutVertically){
-            mouseDraggedOutVertically = false;
-            vsb.stopScrollingInstance();
+        if (mouseDrbggedOutVerticblly){
+            mouseDrbggedOutVerticblly = fblse;
+            vsb.stopScrollingInstbnce();
         }
 
     }

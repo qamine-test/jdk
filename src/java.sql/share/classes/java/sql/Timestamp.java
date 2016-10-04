@@ -1,315 +1,315 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.sql;
+pbckbge jbvb.sql;
 
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.util.StringTokenizer;
+import jbvb.time.Instbnt;
+import jbvb.time.LocblDbteTime;
+import jbvb.util.StringTokenizer;
 
 /**
- * <P>A thin wrapper around <code>java.util.Date</code> that allows
- * the JDBC API to identify this as an SQL <code>TIMESTAMP</code> value.
- * It adds the ability
- * to hold the SQL <code>TIMESTAMP</code> fractional seconds value, by allowing
- * the specification of fractional seconds to a precision of nanoseconds.
- * A Timestamp also provides formatting and
- * parsing operations to support the JDBC escape syntax for timestamp values.
+ * <P>A thin wrbpper bround <code>jbvb.util.Dbte</code> thbt bllows
+ * the JDBC API to identify this bs bn SQL <code>TIMESTAMP</code> vblue.
+ * It bdds the bbility
+ * to hold the SQL <code>TIMESTAMP</code> frbctionbl seconds vblue, by bllowing
+ * the specificbtion of frbctionbl seconds to b precision of nbnoseconds.
+ * A Timestbmp blso provides formbtting bnd
+ * pbrsing operbtions to support the JDBC escbpe syntbx for timestbmp vblues.
  *
- * <p>The precision of a Timestamp object is calculated to be either:
+ * <p>The precision of b Timestbmp object is cblculbted to be either:
  * <ul>
- * <li><code>19 </code>, which is the number of characters in yyyy-mm-dd hh:mm:ss
+ * <li><code>19 </code>, which is the number of chbrbcters in yyyy-mm-dd hh:mm:ss
  * <li> <code> 20 + s </code>, which is the number
- * of characters in the yyyy-mm-dd hh:mm:ss.[fff...] and <code>s</code> represents  the scale of the given Timestamp,
- * its fractional seconds precision.
+ * of chbrbcters in the yyyy-mm-dd hh:mm:ss.[fff...] bnd <code>s</code> represents  the scble of the given Timestbmp,
+ * its frbctionbl seconds precision.
  *</ul>
  *
- * <P><B>Note:</B> This type is a composite of a <code>java.util.Date</code> and a
- * separate nanoseconds value. Only integral seconds are stored in the
- * <code>java.util.Date</code> component. The fractional seconds - the nanos - are
- * separate.  The <code>Timestamp.equals(Object)</code> method never returns
- * <code>true</code> when passed an object
- * that isn't an instance of <code>java.sql.Timestamp</code>,
- * because the nanos component of a date is unknown.
- * As a result, the <code>Timestamp.equals(Object)</code>
+ * <P><B>Note:</B> This type is b composite of b <code>jbvb.util.Dbte</code> bnd b
+ * sepbrbte nbnoseconds vblue. Only integrbl seconds bre stored in the
+ * <code>jbvb.util.Dbte</code> component. The frbctionbl seconds - the nbnos - bre
+ * sepbrbte.  The <code>Timestbmp.equbls(Object)</code> method never returns
+ * <code>true</code> when pbssed bn object
+ * thbt isn't bn instbnce of <code>jbvb.sql.Timestbmp</code>,
+ * becbuse the nbnos component of b dbte is unknown.
+ * As b result, the <code>Timestbmp.equbls(Object)</code>
  * method is not symmetric with respect to the
- * <code>java.util.Date.equals(Object)</code>
- * method.  Also, the <code>hashCode</code> method uses the underlying
- * <code>java.util.Date</code>
- * implementation and therefore does not include nanos in its computation.
+ * <code>jbvb.util.Dbte.equbls(Object)</code>
+ * method.  Also, the <code>hbshCode</code> method uses the underlying
+ * <code>jbvb.util.Dbte</code>
+ * implementbtion bnd therefore does not include nbnos in its computbtion.
  * <P>
- * Due to the differences between the <code>Timestamp</code> class
- * and the <code>java.util.Date</code>
- * class mentioned above, it is recommended that code not view
- * <code>Timestamp</code> values generically as an instance of
- * <code>java.util.Date</code>.  The
- * inheritance relationship between <code>Timestamp</code>
- * and <code>java.util.Date</code> really
- * denotes implementation inheritance, and not type inheritance.
+ * Due to the differences between the <code>Timestbmp</code> clbss
+ * bnd the <code>jbvb.util.Dbte</code>
+ * clbss mentioned bbove, it is recommended thbt code not view
+ * <code>Timestbmp</code> vblues genericblly bs bn instbnce of
+ * <code>jbvb.util.Dbte</code>.  The
+ * inheritbnce relbtionship between <code>Timestbmp</code>
+ * bnd <code>jbvb.util.Dbte</code> reblly
+ * denotes implementbtion inheritbnce, bnd not type inheritbnce.
  */
-public class Timestamp extends java.util.Date {
+public clbss Timestbmp extends jbvb.util.Dbte {
 
     /**
-     * Constructs a <code>Timestamp</code> object initialized
-     * with the given values.
+     * Constructs b <code>Timestbmp</code> object initiblized
+     * with the given vblues.
      *
-     * @param year the year minus 1900
-     * @param month 0 to 11
-     * @param date 1 to 31
-     * @param hour 0 to 23
-     * @param minute 0 to 59
-     * @param second 0 to 59
-     * @param nano 0 to 999,999,999
-     * @deprecated instead use the constructor <code>Timestamp(long millis)</code>
-     * @exception IllegalArgumentException if the nano argument is out of bounds
+     * @pbrbm yebr the yebr minus 1900
+     * @pbrbm month 0 to 11
+     * @pbrbm dbte 1 to 31
+     * @pbrbm hour 0 to 23
+     * @pbrbm minute 0 to 59
+     * @pbrbm second 0 to 59
+     * @pbrbm nbno 0 to 999,999,999
+     * @deprecbted instebd use the constructor <code>Timestbmp(long millis)</code>
+     * @exception IllegblArgumentException if the nbno brgument is out of bounds
      */
-    @Deprecated
-    public Timestamp(int year, int month, int date,
-                     int hour, int minute, int second, int nano) {
-        super(year, month, date, hour, minute, second);
-        if (nano > 999999999 || nano < 0) {
-            throw new IllegalArgumentException("nanos > 999999999 or < 0");
+    @Deprecbted
+    public Timestbmp(int yebr, int month, int dbte,
+                     int hour, int minute, int second, int nbno) {
+        super(yebr, month, dbte, hour, minute, second);
+        if (nbno > 999999999 || nbno < 0) {
+            throw new IllegblArgumentException("nbnos > 999999999 or < 0");
         }
-        nanos = nano;
+        nbnos = nbno;
     }
 
     /**
-     * Constructs a <code>Timestamp</code> object
-     * using a milliseconds time value. The
-     * integral seconds are stored in the underlying date value; the
-     * fractional seconds are stored in the <code>nanos</code> field of
-     * the <code>Timestamp</code> object.
+     * Constructs b <code>Timestbmp</code> object
+     * using b milliseconds time vblue. The
+     * integrbl seconds bre stored in the underlying dbte vblue; the
+     * frbctionbl seconds bre stored in the <code>nbnos</code> field of
+     * the <code>Timestbmp</code> object.
      *
-     * @param time milliseconds since January 1, 1970, 00:00:00 GMT.
-     *        A negative number is the number of milliseconds before
-     *         January 1, 1970, 00:00:00 GMT.
-     * @see java.util.Calendar
+     * @pbrbm time milliseconds since Jbnubry 1, 1970, 00:00:00 GMT.
+     *        A negbtive number is the number of milliseconds before
+     *         Jbnubry 1, 1970, 00:00:00 GMT.
+     * @see jbvb.util.Cblendbr
      */
-    public Timestamp(long time) {
+    public Timestbmp(long time) {
         super((time/1000)*1000);
-        nanos = (int)((time%1000) * 1000000);
-        if (nanos < 0) {
-            nanos = 1000000000 + nanos;
+        nbnos = (int)((time%1000) * 1000000);
+        if (nbnos < 0) {
+            nbnos = 1000000000 + nbnos;
             super.setTime(((time/1000)-1)*1000);
         }
     }
 
     /**
-     * Sets this <code>Timestamp</code> object to represent a point in time that is
-     * <tt>time</tt> milliseconds after January 1, 1970 00:00:00 GMT.
+     * Sets this <code>Timestbmp</code> object to represent b point in time thbt is
+     * <tt>time</tt> milliseconds bfter Jbnubry 1, 1970 00:00:00 GMT.
      *
-     * @param time   the number of milliseconds.
+     * @pbrbm time   the number of milliseconds.
      * @see #getTime
-     * @see #Timestamp(long time)
-     * @see java.util.Calendar
+     * @see #Timestbmp(long time)
+     * @see jbvb.util.Cblendbr
      */
     public void setTime(long time) {
         super.setTime((time/1000)*1000);
-        nanos = (int)((time%1000) * 1000000);
-        if (nanos < 0) {
-            nanos = 1000000000 + nanos;
+        nbnos = (int)((time%1000) * 1000000);
+        if (nbnos < 0) {
+            nbnos = 1000000000 + nbnos;
             super.setTime(((time/1000)-1)*1000);
         }
     }
 
     /**
-     * Returns the number of milliseconds since January 1, 1970, 00:00:00 GMT
-     * represented by this <code>Timestamp</code> object.
+     * Returns the number of milliseconds since Jbnubry 1, 1970, 00:00:00 GMT
+     * represented by this <code>Timestbmp</code> object.
      *
-     * @return  the number of milliseconds since January 1, 1970, 00:00:00 GMT
-     *          represented by this date.
+     * @return  the number of milliseconds since Jbnubry 1, 1970, 00:00:00 GMT
+     *          represented by this dbte.
      * @see #setTime
      */
     public long getTime() {
         long time = super.getTime();
-        return (time + (nanos / 1000000));
+        return (time + (nbnos / 1000000));
     }
 
 
     /**
-     * @serial
+     * @seribl
      */
-    private int nanos;
+    privbte int nbnos;
 
     /**
-     * Converts a <code>String</code> object in JDBC timestamp escape format to a
-     * <code>Timestamp</code> value.
+     * Converts b <code>String</code> object in JDBC timestbmp escbpe formbt to b
+     * <code>Timestbmp</code> vblue.
      *
-     * @param s timestamp in format <code>yyyy-[m]m-[d]d hh:mm:ss[.f...]</code>.  The
-     * fractional seconds may be omitted. The leading zero for <code>mm</code>
-     * and <code>dd</code> may also be omitted.
+     * @pbrbm s timestbmp in formbt <code>yyyy-[m]m-[d]d hh:mm:ss[.f...]</code>.  The
+     * frbctionbl seconds mby be omitted. The lebding zero for <code>mm</code>
+     * bnd <code>dd</code> mby blso be omitted.
      *
-     * @return corresponding <code>Timestamp</code> value
-     * @exception java.lang.IllegalArgumentException if the given argument
-     * does not have the format <code>yyyy-[m]m-[d]d hh:mm:ss[.f...]</code>
+     * @return corresponding <code>Timestbmp</code> vblue
+     * @exception jbvb.lbng.IllegblArgumentException if the given brgument
+     * does not hbve the formbt <code>yyyy-[m]m-[d]d hh:mm:ss[.f...]</code>
      */
-    public static Timestamp valueOf(String s) {
-        final int YEAR_LENGTH = 4;
-        final int MONTH_LENGTH = 2;
-        final int DAY_LENGTH = 2;
-        final int MAX_MONTH = 12;
-        final int MAX_DAY = 31;
-        String date_s;
+    public stbtic Timestbmp vblueOf(String s) {
+        finbl int YEAR_LENGTH = 4;
+        finbl int MONTH_LENGTH = 2;
+        finbl int DAY_LENGTH = 2;
+        finbl int MAX_MONTH = 12;
+        finbl int MAX_DAY = 31;
+        String dbte_s;
         String time_s;
-        String nanos_s;
-        int year = 0;
+        String nbnos_s;
+        int yebr = 0;
         int month = 0;
-        int day = 0;
+        int dby = 0;
         int hour;
         int minute;
         int second;
-        int a_nanos = 0;
-        int firstDash;
-        int secondDash;
-        int dividingSpace;
+        int b_nbnos = 0;
+        int firstDbsh;
+        int secondDbsh;
+        int dividingSpbce;
         int firstColon = 0;
         int secondColon = 0;
         int period = 0;
-        String formatError = "Timestamp format must be yyyy-mm-dd hh:mm:ss[.fffffffff]";
+        String formbtError = "Timestbmp formbt must be yyyy-mm-dd hh:mm:ss[.fffffffff]";
         String zeros = "000000000";
-        String delimiterDate = "-";
+        String delimiterDbte = "-";
         String delimiterTime = ":";
 
-        if (s == null) throw new java.lang.IllegalArgumentException("null string");
+        if (s == null) throw new jbvb.lbng.IllegblArgumentException("null string");
 
-        // Split the string into date and time components
+        // Split the string into dbte bnd time components
         s = s.trim();
-        dividingSpace = s.indexOf(' ');
-        if (dividingSpace > 0) {
-            date_s = s.substring(0,dividingSpace);
-            time_s = s.substring(dividingSpace+1);
+        dividingSpbce = s.indexOf(' ');
+        if (dividingSpbce > 0) {
+            dbte_s = s.substring(0,dividingSpbce);
+            time_s = s.substring(dividingSpbce+1);
         } else {
-            throw new java.lang.IllegalArgumentException(formatError);
+            throw new jbvb.lbng.IllegblArgumentException(formbtError);
         }
 
-        // Parse the date
-        firstDash = date_s.indexOf('-');
-        secondDash = date_s.indexOf('-', firstDash+1);
+        // Pbrse the dbte
+        firstDbsh = dbte_s.indexOf('-');
+        secondDbsh = dbte_s.indexOf('-', firstDbsh+1);
 
-        // Parse the time
+        // Pbrse the time
         if (time_s == null)
-            throw new java.lang.IllegalArgumentException(formatError);
+            throw new jbvb.lbng.IllegblArgumentException(formbtError);
         firstColon = time_s.indexOf(':');
         secondColon = time_s.indexOf(':', firstColon+1);
         period = time_s.indexOf('.', secondColon+1);
 
-        // Convert the date
-        boolean parsedDate = false;
-        if ((firstDash > 0) && (secondDash > 0) && (secondDash < date_s.length() - 1)) {
-            String yyyy = date_s.substring(0, firstDash);
-            String mm = date_s.substring(firstDash + 1, secondDash);
-            String dd = date_s.substring(secondDash + 1);
+        // Convert the dbte
+        boolebn pbrsedDbte = fblse;
+        if ((firstDbsh > 0) && (secondDbsh > 0) && (secondDbsh < dbte_s.length() - 1)) {
+            String yyyy = dbte_s.substring(0, firstDbsh);
+            String mm = dbte_s.substring(firstDbsh + 1, secondDbsh);
+            String dd = dbte_s.substring(secondDbsh + 1);
             if (yyyy.length() == YEAR_LENGTH &&
                     (mm.length() >= 1 && mm.length() <= MONTH_LENGTH) &&
                     (dd.length() >= 1 && dd.length() <= DAY_LENGTH)) {
-                 year = Integer.parseInt(yyyy);
-                 month = Integer.parseInt(mm);
-                 day = Integer.parseInt(dd);
+                 yebr = Integer.pbrseInt(yyyy);
+                 month = Integer.pbrseInt(mm);
+                 dby = Integer.pbrseInt(dd);
 
-                if ((month >= 1 && month <= MAX_MONTH) && (day >= 1 && day <= MAX_DAY)) {
-                    parsedDate = true;
+                if ((month >= 1 && month <= MAX_MONTH) && (dby >= 1 && dby <= MAX_DAY)) {
+                    pbrsedDbte = true;
                 }
             }
         }
-        if (! parsedDate) {
-            throw new java.lang.IllegalArgumentException(formatError);
+        if (! pbrsedDbte) {
+            throw new jbvb.lbng.IllegblArgumentException(formbtError);
         }
 
-        // Convert the time; default missing nanos
+        // Convert the time; defbult missing nbnos
         if ((firstColon > 0) & (secondColon > 0) &
             (secondColon < time_s.length()-1)) {
-            hour = Integer.parseInt(time_s.substring(0, firstColon));
+            hour = Integer.pbrseInt(time_s.substring(0, firstColon));
             minute =
-                Integer.parseInt(time_s.substring(firstColon+1, secondColon));
+                Integer.pbrseInt(time_s.substring(firstColon+1, secondColon));
             if ((period > 0) & (period < time_s.length()-1)) {
                 second =
-                    Integer.parseInt(time_s.substring(secondColon+1, period));
-                nanos_s = time_s.substring(period+1);
-                if (nanos_s.length() > 9)
-                    throw new java.lang.IllegalArgumentException(formatError);
-                if (!Character.isDigit(nanos_s.charAt(0)))
-                    throw new java.lang.IllegalArgumentException(formatError);
-                nanos_s = nanos_s + zeros.substring(0,9-nanos_s.length());
-                a_nanos = Integer.parseInt(nanos_s);
+                    Integer.pbrseInt(time_s.substring(secondColon+1, period));
+                nbnos_s = time_s.substring(period+1);
+                if (nbnos_s.length() > 9)
+                    throw new jbvb.lbng.IllegblArgumentException(formbtError);
+                if (!Chbrbcter.isDigit(nbnos_s.chbrAt(0)))
+                    throw new jbvb.lbng.IllegblArgumentException(formbtError);
+                nbnos_s = nbnos_s + zeros.substring(0,9-nbnos_s.length());
+                b_nbnos = Integer.pbrseInt(nbnos_s);
             } else if (period > 0) {
-                throw new java.lang.IllegalArgumentException(formatError);
+                throw new jbvb.lbng.IllegblArgumentException(formbtError);
             } else {
-                second = Integer.parseInt(time_s.substring(secondColon+1));
+                second = Integer.pbrseInt(time_s.substring(secondColon+1));
             }
         } else {
-            throw new java.lang.IllegalArgumentException(formatError);
+            throw new jbvb.lbng.IllegblArgumentException(formbtError);
         }
 
-        return new Timestamp(year - 1900, month - 1, day, hour, minute, second, a_nanos);
+        return new Timestbmp(yebr - 1900, month - 1, dby, hour, minute, second, b_nbnos);
     }
 
     /**
-     * Formats a timestamp in JDBC timestamp escape format.
+     * Formbts b timestbmp in JDBC timestbmp escbpe formbt.
      *         <code>yyyy-mm-dd hh:mm:ss.fffffffff</code>,
-     * where <code>ffffffffff</code> indicates nanoseconds.
+     * where <code>ffffffffff</code> indicbtes nbnoseconds.
      *
-     * @return a <code>String</code> object in
-     *           <code>yyyy-mm-dd hh:mm:ss.fffffffff</code> format
+     * @return b <code>String</code> object in
+     *           <code>yyyy-mm-dd hh:mm:ss.fffffffff</code> formbt
      */
-    @SuppressWarnings("deprecation")
+    @SuppressWbrnings("deprecbtion")
     public String toString () {
 
-        int year = super.getYear() + 1900;
+        int yebr = super.getYebr() + 1900;
         int month = super.getMonth() + 1;
-        int day = super.getDate();
+        int dby = super.getDbte();
         int hour = super.getHours();
         int minute = super.getMinutes();
         int second = super.getSeconds();
-        String yearString;
+        String yebrString;
         String monthString;
-        String dayString;
+        String dbyString;
         String hourString;
         String minuteString;
         String secondString;
-        String nanosString;
+        String nbnosString;
         String zeros = "000000000";
-        String yearZeros = "0000";
-        StringBuffer timestampBuf;
+        String yebrZeros = "0000";
+        StringBuffer timestbmpBuf;
 
-        if (year < 1000) {
-            // Add leading zeros
-            yearString = "" + year;
-            yearString = yearZeros.substring(0, (4-yearString.length())) +
-                yearString;
+        if (yebr < 1000) {
+            // Add lebding zeros
+            yebrString = "" + yebr;
+            yebrString = yebrZeros.substring(0, (4-yebrString.length())) +
+                yebrString;
         } else {
-            yearString = "" + year;
+            yebrString = "" + yebr;
         }
         if (month < 10) {
             monthString = "0" + month;
         } else {
             monthString = Integer.toString(month);
         }
-        if (day < 10) {
-            dayString = "0" + day;
+        if (dby < 10) {
+            dbyString = "0" + dby;
         } else {
-            dayString = Integer.toString(day);
+            dbyString = Integer.toString(dby);
         }
         if (hour < 10) {
             hourString = "0" + hour;
@@ -326,163 +326,163 @@ public class Timestamp extends java.util.Date {
         } else {
             secondString = Integer.toString(second);
         }
-        if (nanos == 0) {
-            nanosString = "0";
+        if (nbnos == 0) {
+            nbnosString = "0";
         } else {
-            nanosString = Integer.toString(nanos);
+            nbnosString = Integer.toString(nbnos);
 
-            // Add leading zeros
-            nanosString = zeros.substring(0, (9-nanosString.length())) +
-                nanosString;
+            // Add lebding zeros
+            nbnosString = zeros.substring(0, (9-nbnosString.length())) +
+                nbnosString;
 
-            // Truncate trailing zeros
-            char[] nanosChar = new char[nanosString.length()];
-            nanosString.getChars(0, nanosString.length(), nanosChar, 0);
+            // Truncbte trbiling zeros
+            chbr[] nbnosChbr = new chbr[nbnosString.length()];
+            nbnosString.getChbrs(0, nbnosString.length(), nbnosChbr, 0);
             int truncIndex = 8;
-            while (nanosChar[truncIndex] == '0') {
+            while (nbnosChbr[truncIndex] == '0') {
                 truncIndex--;
             }
 
-            nanosString = new String(nanosChar, 0, truncIndex + 1);
+            nbnosString = new String(nbnosChbr, 0, truncIndex + 1);
         }
 
-        // do a string buffer here instead.
-        timestampBuf = new StringBuffer(20+nanosString.length());
-        timestampBuf.append(yearString);
-        timestampBuf.append("-");
-        timestampBuf.append(monthString);
-        timestampBuf.append("-");
-        timestampBuf.append(dayString);
-        timestampBuf.append(" ");
-        timestampBuf.append(hourString);
-        timestampBuf.append(":");
-        timestampBuf.append(minuteString);
-        timestampBuf.append(":");
-        timestampBuf.append(secondString);
-        timestampBuf.append(".");
-        timestampBuf.append(nanosString);
+        // do b string buffer here instebd.
+        timestbmpBuf = new StringBuffer(20+nbnosString.length());
+        timestbmpBuf.bppend(yebrString);
+        timestbmpBuf.bppend("-");
+        timestbmpBuf.bppend(monthString);
+        timestbmpBuf.bppend("-");
+        timestbmpBuf.bppend(dbyString);
+        timestbmpBuf.bppend(" ");
+        timestbmpBuf.bppend(hourString);
+        timestbmpBuf.bppend(":");
+        timestbmpBuf.bppend(minuteString);
+        timestbmpBuf.bppend(":");
+        timestbmpBuf.bppend(secondString);
+        timestbmpBuf.bppend(".");
+        timestbmpBuf.bppend(nbnosString);
 
-        return (timestampBuf.toString());
+        return (timestbmpBuf.toString());
     }
 
     /**
-     * Gets this <code>Timestamp</code> object's <code>nanos</code> value.
+     * Gets this <code>Timestbmp</code> object's <code>nbnos</code> vblue.
      *
-     * @return this <code>Timestamp</code> object's fractional seconds component
-     * @see #setNanos
+     * @return this <code>Timestbmp</code> object's frbctionbl seconds component
+     * @see #setNbnos
      */
-    public int getNanos() {
-        return nanos;
+    public int getNbnos() {
+        return nbnos;
     }
 
     /**
-     * Sets this <code>Timestamp</code> object's <code>nanos</code> field
-     * to the given value.
+     * Sets this <code>Timestbmp</code> object's <code>nbnos</code> field
+     * to the given vblue.
      *
-     * @param n the new fractional seconds component
-     * @exception java.lang.IllegalArgumentException if the given argument
-     *            is greater than 999999999 or less than 0
-     * @see #getNanos
+     * @pbrbm n the new frbctionbl seconds component
+     * @exception jbvb.lbng.IllegblArgumentException if the given brgument
+     *            is grebter thbn 999999999 or less thbn 0
+     * @see #getNbnos
      */
-    public void setNanos(int n) {
+    public void setNbnos(int n) {
         if (n > 999999999 || n < 0) {
-            throw new IllegalArgumentException("nanos > 999999999 or < 0");
+            throw new IllegblArgumentException("nbnos > 999999999 or < 0");
         }
-        nanos = n;
+        nbnos = n;
     }
 
     /**
-     * Tests to see if this <code>Timestamp</code> object is
-     * equal to the given <code>Timestamp</code> object.
+     * Tests to see if this <code>Timestbmp</code> object is
+     * equbl to the given <code>Timestbmp</code> object.
      *
-     * @param ts the <code>Timestamp</code> value to compare with
-     * @return <code>true</code> if the given <code>Timestamp</code>
-     *         object is equal to this <code>Timestamp</code> object;
-     *         <code>false</code> otherwise
+     * @pbrbm ts the <code>Timestbmp</code> vblue to compbre with
+     * @return <code>true</code> if the given <code>Timestbmp</code>
+     *         object is equbl to this <code>Timestbmp</code> object;
+     *         <code>fblse</code> otherwise
      */
-    public boolean equals(Timestamp ts) {
-        if (super.equals(ts)) {
-            if  (nanos == ts.nanos) {
+    public boolebn equbls(Timestbmp ts) {
+        if (super.equbls(ts)) {
+            if  (nbnos == ts.nbnos) {
                 return true;
             } else {
-                return false;
+                return fblse;
             }
         } else {
-            return false;
+            return fblse;
         }
     }
 
     /**
-     * Tests to see if this <code>Timestamp</code> object is
-     * equal to the given object.
+     * Tests to see if this <code>Timestbmp</code> object is
+     * equbl to the given object.
      *
-     * This version of the method <code>equals</code> has been added
+     * This version of the method <code>equbls</code> hbs been bdded
      * to fix the incorrect
-     * signature of <code>Timestamp.equals(Timestamp)</code> and to preserve backward
-     * compatibility with existing class files.
+     * signbture of <code>Timestbmp.equbls(Timestbmp)</code> bnd to preserve bbckwbrd
+     * compbtibility with existing clbss files.
      *
      * Note: This method is not symmetric with respect to the
-     * <code>equals(Object)</code> method in the base class.
+     * <code>equbls(Object)</code> method in the bbse clbss.
      *
-     * @param ts the <code>Object</code> value to compare with
-     * @return <code>true</code> if the given <code>Object</code> is an instance
-     *         of a <code>Timestamp</code> that
-     *         is equal to this <code>Timestamp</code> object;
-     *         <code>false</code> otherwise
+     * @pbrbm ts the <code>Object</code> vblue to compbre with
+     * @return <code>true</code> if the given <code>Object</code> is bn instbnce
+     *         of b <code>Timestbmp</code> thbt
+     *         is equbl to this <code>Timestbmp</code> object;
+     *         <code>fblse</code> otherwise
      */
-    public boolean equals(java.lang.Object ts) {
-      if (ts instanceof Timestamp) {
-        return this.equals((Timestamp)ts);
+    public boolebn equbls(jbvb.lbng.Object ts) {
+      if (ts instbnceof Timestbmp) {
+        return this.equbls((Timestbmp)ts);
       } else {
-        return false;
+        return fblse;
       }
     }
 
     /**
-     * Indicates whether this <code>Timestamp</code> object is
-     * earlier than the given <code>Timestamp</code> object.
+     * Indicbtes whether this <code>Timestbmp</code> object is
+     * ebrlier thbn the given <code>Timestbmp</code> object.
      *
-     * @param ts the <code>Timestamp</code> value to compare with
-     * @return <code>true</code> if this <code>Timestamp</code> object is earlier;
-     *        <code>false</code> otherwise
+     * @pbrbm ts the <code>Timestbmp</code> vblue to compbre with
+     * @return <code>true</code> if this <code>Timestbmp</code> object is ebrlier;
+     *        <code>fblse</code> otherwise
      */
-    public boolean before(Timestamp ts) {
-        return compareTo(ts) < 0;
+    public boolebn before(Timestbmp ts) {
+        return compbreTo(ts) < 0;
     }
 
     /**
-     * Indicates whether this <code>Timestamp</code> object is
-     * later than the given <code>Timestamp</code> object.
+     * Indicbtes whether this <code>Timestbmp</code> object is
+     * lbter thbn the given <code>Timestbmp</code> object.
      *
-     * @param ts the <code>Timestamp</code> value to compare with
-     * @return <code>true</code> if this <code>Timestamp</code> object is later;
-     *        <code>false</code> otherwise
+     * @pbrbm ts the <code>Timestbmp</code> vblue to compbre with
+     * @return <code>true</code> if this <code>Timestbmp</code> object is lbter;
+     *        <code>fblse</code> otherwise
      */
-    public boolean after(Timestamp ts) {
-        return compareTo(ts) > 0;
+    public boolebn bfter(Timestbmp ts) {
+        return compbreTo(ts) > 0;
     }
 
     /**
-     * Compares this <code>Timestamp</code> object to the given
-     * <code>Timestamp</code> object.
+     * Compbres this <code>Timestbmp</code> object to the given
+     * <code>Timestbmp</code> object.
      *
-     * @param   ts   the <code>Timestamp</code> object to be compared to
-     *                this <code>Timestamp</code> object
-     * @return  the value <code>0</code> if the two <code>Timestamp</code>
-     *          objects are equal; a value less than <code>0</code> if this
-     *          <code>Timestamp</code> object is before the given argument;
-     *          and a value greater than <code>0</code> if this
-     *          <code>Timestamp</code> object is after the given argument.
+     * @pbrbm   ts   the <code>Timestbmp</code> object to be compbred to
+     *                this <code>Timestbmp</code> object
+     * @return  the vblue <code>0</code> if the two <code>Timestbmp</code>
+     *          objects bre equbl; b vblue less thbn <code>0</code> if this
+     *          <code>Timestbmp</code> object is before the given brgument;
+     *          bnd b vblue grebter thbn <code>0</code> if this
+     *          <code>Timestbmp</code> object is bfter the given brgument.
      * @since   1.4
      */
-    public int compareTo(Timestamp ts) {
+    public int compbreTo(Timestbmp ts) {
         long thisTime = this.getTime();
-        long anotherTime = ts.getTime();
-        int i = (thisTime<anotherTime ? -1 :(thisTime==anotherTime?0 :1));
+        long bnotherTime = ts.getTime();
+        int i = (thisTime<bnotherTime ? -1 :(thisTime==bnotherTime?0 :1));
         if (i == 0) {
-            if (nanos > ts.nanos) {
+            if (nbnos > ts.nbnos) {
                     return 1;
-            } else if (nanos < ts.nanos) {
+            } else if (nbnos < ts.nbnos) {
                 return -1;
             }
         }
@@ -490,130 +490,130 @@ public class Timestamp extends java.util.Date {
     }
 
     /**
-     * Compares this <code>Timestamp</code> object to the given
-     * <code>Date</code> object.
+     * Compbres this <code>Timestbmp</code> object to the given
+     * <code>Dbte</code> object.
      *
-     * @param o the <code>Date</code> to be compared to
-     *          this <code>Timestamp</code> object
-     * @return  the value <code>0</code> if this <code>Timestamp</code> object
-     *          and the given object are equal; a value less than <code>0</code>
-     *          if this  <code>Timestamp</code> object is before the given argument;
-     *          and a value greater than <code>0</code> if this
-     *          <code>Timestamp</code> object is after the given argument.
+     * @pbrbm o the <code>Dbte</code> to be compbred to
+     *          this <code>Timestbmp</code> object
+     * @return  the vblue <code>0</code> if this <code>Timestbmp</code> object
+     *          bnd the given object bre equbl; b vblue less thbn <code>0</code>
+     *          if this  <code>Timestbmp</code> object is before the given brgument;
+     *          bnd b vblue grebter thbn <code>0</code> if this
+     *          <code>Timestbmp</code> object is bfter the given brgument.
      *
      * @since   1.5
      */
-    public int compareTo(java.util.Date o) {
-       if(o instanceof Timestamp) {
-            // When Timestamp instance compare it with a Timestamp
-            // Hence it is basically calling this.compareTo((Timestamp))o);
-            // Note typecasting is safe because o is instance of Timestamp
-           return compareTo((Timestamp)o);
+    public int compbreTo(jbvb.util.Dbte o) {
+       if(o instbnceof Timestbmp) {
+            // When Timestbmp instbnce compbre it with b Timestbmp
+            // Hence it is bbsicblly cblling this.compbreTo((Timestbmp))o);
+            // Note typecbsting is sbfe becbuse o is instbnce of Timestbmp
+           return compbreTo((Timestbmp)o);
       } else {
-            // When Date doing a o.compareTo(this)
+            // When Dbte doing b o.compbreTo(this)
             // will give wrong results.
-          Timestamp ts = new Timestamp(o.getTime());
-          return this.compareTo(ts);
+          Timestbmp ts = new Timestbmp(o.getTime());
+          return this.compbreTo(ts);
       }
     }
 
     /**
      * {@inheritDoc}
      *
-     * The {@code hashCode} method uses the underlying {@code java.util.Date}
-     * implementation and therefore does not include nanos in its computation.
+     * The {@code hbshCode} method uses the underlying {@code jbvb.util.Dbte}
+     * implementbtion bnd therefore does not include nbnos in its computbtion.
      *
      */
     @Override
-    public int hashCode() {
-        return super.hashCode();
+    public int hbshCode() {
+        return super.hbshCode();
     }
 
-    static final long serialVersionUID = 2745179027874758501L;
+    stbtic finbl long seriblVersionUID = 2745179027874758501L;
 
-    private static final int MILLIS_PER_SECOND = 1000;
+    privbte stbtic finbl int MILLIS_PER_SECOND = 1000;
 
     /**
-     * Obtains an instance of {@code Timestamp} from a {@code LocalDateTime}
-     * object, with the same year, month, day of month, hours, minutes,
-     * seconds and nanos date-time value as the provided {@code LocalDateTime}.
+     * Obtbins bn instbnce of {@code Timestbmp} from b {@code LocblDbteTime}
+     * object, with the sbme yebr, month, dby of month, hours, minutes,
+     * seconds bnd nbnos dbte-time vblue bs the provided {@code LocblDbteTime}.
      * <p>
-     * The provided {@code LocalDateTime} is interpreted as the local
-     * date-time in the local time zone.
+     * The provided {@code LocblDbteTime} is interpreted bs the locbl
+     * dbte-time in the locbl time zone.
      *
-     * @param dateTime a {@code LocalDateTime} to convert
-     * @return a {@code Timestamp} object
-     * @exception NullPointerException if {@code dateTime} is null.
+     * @pbrbm dbteTime b {@code LocblDbteTime} to convert
+     * @return b {@code Timestbmp} object
+     * @exception NullPointerException if {@code dbteTime} is null.
      * @since 1.8
      */
-    @SuppressWarnings("deprecation")
-    public static Timestamp valueOf(LocalDateTime dateTime) {
-        return new Timestamp(dateTime.getYear() - 1900,
-                             dateTime.getMonthValue() - 1,
-                             dateTime.getDayOfMonth(),
-                             dateTime.getHour(),
-                             dateTime.getMinute(),
-                             dateTime.getSecond(),
-                             dateTime.getNano());
+    @SuppressWbrnings("deprecbtion")
+    public stbtic Timestbmp vblueOf(LocblDbteTime dbteTime) {
+        return new Timestbmp(dbteTime.getYebr() - 1900,
+                             dbteTime.getMonthVblue() - 1,
+                             dbteTime.getDbyOfMonth(),
+                             dbteTime.getHour(),
+                             dbteTime.getMinute(),
+                             dbteTime.getSecond(),
+                             dbteTime.getNbno());
     }
 
     /**
-     * Converts this {@code Timestamp} object to a {@code LocalDateTime}.
+     * Converts this {@code Timestbmp} object to b {@code LocblDbteTime}.
      * <p>
-     * The conversion creates a {@code LocalDateTime} that represents the
-     * same year, month, day of month, hours, minutes, seconds and nanos
-     * date-time value as this {@code Timestamp} in the local time zone.
+     * The conversion crebtes b {@code LocblDbteTime} thbt represents the
+     * sbme yebr, month, dby of month, hours, minutes, seconds bnd nbnos
+     * dbte-time vblue bs this {@code Timestbmp} in the locbl time zone.
      *
-     * @return a {@code LocalDateTime} object representing the same date-time value
+     * @return b {@code LocblDbteTime} object representing the sbme dbte-time vblue
      * @since 1.8
      */
-    @SuppressWarnings("deprecation")
-    public LocalDateTime toLocalDateTime() {
-        return LocalDateTime.of(getYear() + 1900,
+    @SuppressWbrnings("deprecbtion")
+    public LocblDbteTime toLocblDbteTime() {
+        return LocblDbteTime.of(getYebr() + 1900,
                                 getMonth() + 1,
-                                getDate(),
+                                getDbte(),
                                 getHours(),
                                 getMinutes(),
                                 getSeconds(),
-                                getNanos());
+                                getNbnos());
     }
 
     /**
-     * Obtains an instance of {@code Timestamp} from an {@link Instant} object.
+     * Obtbins bn instbnce of {@code Timestbmp} from bn {@link Instbnt} object.
      * <p>
-     * {@code Instant} can store points on the time-line further in the future
-     * and further in the past than {@code Date}. In this scenario, this method
-     * will throw an exception.
+     * {@code Instbnt} cbn store points on the time-line further in the future
+     * bnd further in the pbst thbn {@code Dbte}. In this scenbrio, this method
+     * will throw bn exception.
      *
-     * @param instant  the instant to convert
-     * @return an {@code Timestamp} representing the same point on the time-line as
-     *  the provided instant
-     * @exception NullPointerException if {@code instant} is null.
-     * @exception IllegalArgumentException if the instant is too large to
-     *  represent as a {@code Timesamp}
+     * @pbrbm instbnt  the instbnt to convert
+     * @return bn {@code Timestbmp} representing the sbme point on the time-line bs
+     *  the provided instbnt
+     * @exception NullPointerException if {@code instbnt} is null.
+     * @exception IllegblArgumentException if the instbnt is too lbrge to
+     *  represent bs b {@code Timesbmp}
      * @since 1.8
      */
-    public static Timestamp from(Instant instant) {
+    public stbtic Timestbmp from(Instbnt instbnt) {
         try {
-            Timestamp stamp = new Timestamp(instant.getEpochSecond() * MILLIS_PER_SECOND);
-            stamp.nanos = instant.getNano();
-            return stamp;
-        } catch (ArithmeticException ex) {
-            throw new IllegalArgumentException(ex);
+            Timestbmp stbmp = new Timestbmp(instbnt.getEpochSecond() * MILLIS_PER_SECOND);
+            stbmp.nbnos = instbnt.getNbno();
+            return stbmp;
+        } cbtch (ArithmeticException ex) {
+            throw new IllegblArgumentException(ex);
         }
     }
 
     /**
-     * Converts this {@code Timestamp} object to an {@code Instant}.
+     * Converts this {@code Timestbmp} object to bn {@code Instbnt}.
      * <p>
-     * The conversion creates an {@code Instant} that represents the same
-     * point on the time-line as this {@code Timestamp}.
+     * The conversion crebtes bn {@code Instbnt} thbt represents the sbme
+     * point on the time-line bs this {@code Timestbmp}.
      *
-     * @return an instant representing the same point on the time-line
+     * @return bn instbnt representing the sbme point on the time-line
      * @since 1.8
      */
     @Override
-    public Instant toInstant() {
-        return Instant.ofEpochSecond(super.getTime() / MILLIS_PER_SECOND, nanos);
+    public Instbnt toInstbnt() {
+        return Instbnt.ofEpochSecond(super.getTime() / MILLIS_PER_SECOND, nbnos);
     }
 }

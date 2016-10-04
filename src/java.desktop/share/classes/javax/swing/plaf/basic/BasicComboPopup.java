@@ -1,204 +1,204 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.plaf.basic;
+pbckbge jbvbx.swing.plbf.bbsic;
 
-import javax.accessibility.AccessibleContext;
-import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.border.LineBorder;
-import javax.swing.event.*;
-import java.awt.*;
-import java.awt.event.*;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeEvent;
-import java.io.Serializable;
+import jbvbx.bccessibility.AccessibleContext;
+import jbvbx.swing.*;
+import jbvbx.swing.border.Border;
+import jbvbx.swing.border.LineBorder;
+import jbvbx.swing.event.*;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvb.bebns.PropertyChbngeListener;
+import jbvb.bebns.PropertyChbngeEvent;
+import jbvb.io.Seriblizbble;
 
 
 /**
- * This is a basic implementation of the <code>ComboPopup</code> interface.
+ * This is b bbsic implementbtion of the <code>ComboPopup</code> interfbce.
  *
- * This class represents the ui for the popup portion of the combo box.
+ * This clbss represents the ui for the popup portion of the combo box.
  * <p>
- * All event handling is handled by listener classes created with the
- * <code>createxxxListener()</code> methods and internal classes.
- * You can change the behavior of this class by overriding the
- * <code>createxxxListener()</code> methods and supplying your own
- * event listeners or subclassing from the ones supplied in this class.
+ * All event hbndling is hbndled by listener clbsses crebted with the
+ * <code>crebtexxxListener()</code> methods bnd internbl clbsses.
+ * You cbn chbnge the behbvior of this clbss by overriding the
+ * <code>crebtexxxListener()</code> methods bnd supplying your own
+ * event listeners or subclbssing from the ones supplied in this clbss.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
- * @author Tom Santos
- * @author Mark Davidson
+ * @buthor Tom Sbntos
+ * @buthor Mbrk Dbvidson
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class BasicComboPopup extends JPopupMenu implements ComboPopup {
-    // An empty ListMode, this is used when the UI changes to allow
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public clbss BbsicComboPopup extends JPopupMenu implements ComboPopup {
+    // An empty ListMode, this is used when the UI chbnges to bllow
     // the JList to be gc'ed.
-    private static class EmptyListModelClass implements ListModel<Object>, Serializable {
+    privbte stbtic clbss EmptyListModelClbss implements ListModel<Object>, Seriblizbble {
         public int getSize() { return 0; }
         public Object getElementAt(int index) { return null; }
-        public void addListDataListener(ListDataListener l) {}
-        public void removeListDataListener(ListDataListener l) {}
+        public void bddListDbtbListener(ListDbtbListener l) {}
+        public void removeListDbtbListener(ListDbtbListener l) {}
     };
 
-    static final ListModel<Object> EmptyListModel = new EmptyListModelClass();
+    stbtic finbl ListModel<Object> EmptyListModel = new EmptyListModelClbss();
 
-    private static Border LIST_BORDER = new LineBorder(Color.BLACK, 1);
+    privbte stbtic Border LIST_BORDER = new LineBorder(Color.BLACK, 1);
 
     /**
-     * The instance of {@code JComboBox}.
+     * The instbnce of {@code JComboBox}.
      */
     protected JComboBox<Object>             comboBox;
     /**
-     * This protected field is implementation specific. Do not access directly
-     * or override. Use the accessor methods instead.
+     * This protected field is implementbtion specific. Do not bccess directly
+     * or override. Use the bccessor methods instebd.
      *
      * @see #getList
-     * @see #createList
+     * @see #crebteList
      */
     protected JList<Object>                 list;
     /**
-     * This protected field is implementation specific. Do not access directly
-     * or override. Use the create method instead
+     * This protected field is implementbtion specific. Do not bccess directly
+     * or override. Use the crebte method instebd
      *
-     * @see #createScroller
+     * @see #crebteScroller
      */
-    protected JScrollPane              scroller;
+    protected JScrollPbne              scroller;
 
     /**
-     * As of Java 2 platform v1.4 this previously undocumented field is no
+     * As of Jbvb 2 plbtform v1.4 this previously undocumented field is no
      * longer used.
      */
-    protected boolean                  valueIsAdjusting = false;
+    protected boolebn                  vblueIsAdjusting = fblse;
 
-    // Listeners that are required by the ComboPopup interface
+    // Listeners thbt bre required by the ComboPopup interfbce
 
     /**
-     * Implementation of all the listener classes.
+     * Implementbtion of bll the listener clbsses.
      */
-    private Handler handler;
+    privbte Hbndler hbndler;
 
     /**
-     * This protected field is implementation specific. Do not access directly
-     * or override. Use the accessor or create methods instead.
+     * This protected field is implementbtion specific. Do not bccess directly
+     * or override. Use the bccessor or crebte methods instebd.
      *
      * @see #getMouseMotionListener
-     * @see #createMouseMotionListener
+     * @see #crebteMouseMotionListener
      */
     protected MouseMotionListener      mouseMotionListener;
     /**
-     * This protected field is implementation specific. Do not access directly
-     * or override. Use the accessor or create methods instead.
+     * This protected field is implementbtion specific. Do not bccess directly
+     * or override. Use the bccessor or crebte methods instebd.
      *
      * @see #getMouseListener
-     * @see #createMouseListener
+     * @see #crebteMouseListener
      */
     protected MouseListener            mouseListener;
 
     /**
-     * This protected field is implementation specific. Do not access directly
-     * or override. Use the accessor or create methods instead.
+     * This protected field is implementbtion specific. Do not bccess directly
+     * or override. Use the bccessor or crebte methods instebd.
      *
      * @see #getKeyListener
-     * @see #createKeyListener
+     * @see #crebteKeyListener
      */
     protected KeyListener              keyListener;
 
     /**
-     * This protected field is implementation specific. Do not access directly
-     * or override. Use the create method instead.
+     * This protected field is implementbtion specific. Do not bccess directly
+     * or override. Use the crebte method instebd.
      *
-     * @see #createListSelectionListener
+     * @see #crebteListSelectionListener
      */
     protected ListSelectionListener    listSelectionListener;
 
-    // Listeners that are attached to the list
+    // Listeners thbt bre bttbched to the list
     /**
-     * This protected field is implementation specific. Do not access directly
-     * or override. Use the create method instead.
+     * This protected field is implementbtion specific. Do not bccess directly
+     * or override. Use the crebte method instebd.
      *
-     * @see #createListMouseListener
+     * @see #crebteListMouseListener
      */
     protected MouseListener            listMouseListener;
     /**
-     * This protected field is implementation specific. Do not access directly
-     * or override. Use the create method instead
+     * This protected field is implementbtion specific. Do not bccess directly
+     * or override. Use the crebte method instebd
      *
-     * @see #createListMouseMotionListener
+     * @see #crebteListMouseMotionListener
      */
     protected MouseMotionListener      listMouseMotionListener;
 
     // Added to the combo box for bound properties
     /**
-     * This protected field is implementation specific. Do not access directly
-     * or override. Use the create method instead
+     * This protected field is implementbtion specific. Do not bccess directly
+     * or override. Use the crebte method instebd
      *
-     * @see #createPropertyChangeListener
+     * @see #crebtePropertyChbngeListener
      */
-    protected PropertyChangeListener   propertyChangeListener;
+    protected PropertyChbngeListener   propertyChbngeListener;
 
     // Added to the combo box model
     /**
-     * This protected field is implementation specific. Do not access directly
-     * or override. Use the create method instead
+     * This protected field is implementbtion specific. Do not bccess directly
+     * or override. Use the crebte method instebd
      *
-     * @see #createListDataListener
+     * @see #crebteListDbtbListener
      */
-    protected ListDataListener         listDataListener;
+    protected ListDbtbListener         listDbtbListener;
 
     /**
-     * This protected field is implementation specific. Do not access directly
-     * or override. Use the create method instead
+     * This protected field is implementbtion specific. Do not bccess directly
+     * or override. Use the crebte method instebd
      *
-     * @see #createItemListener
+     * @see #crebteItemListener
      */
     protected ItemListener             itemListener;
 
     /**
-     * This protected field is implementation specific. Do not access directly
+     * This protected field is implementbtion specific. Do not bccess directly
      * or override.
      */
-    protected Timer                    autoscrollTimer;
+    protected Timer                    butoscrollTimer;
 
     /**
      * {@code true} if the mouse cursor is in the popup.
      */
-    protected boolean                  hasEntered = false;
+    protected boolebn                  hbsEntered = fblse;
 
     /**
-     * If {@code true} the auto-scrolling is enabled.
+     * If {@code true} the buto-scrolling is enbbled.
      */
-    protected boolean                  isAutoScrolling = false;
+    protected boolebn                  isAutoScrolling = fblse;
 
     /**
      * The direction of scrolling.
@@ -208,175 +208,175 @@ public class BasicComboPopup extends JPopupMenu implements ComboPopup {
     /**
      * The direction of scrolling up.
      */
-    protected static final int         SCROLL_UP = 0;
+    protected stbtic finbl int         SCROLL_UP = 0;
 
     /**
      * The direction of scrolling down.
      */
-    protected static final int         SCROLL_DOWN = 1;
+    protected stbtic finbl int         SCROLL_DOWN = 1;
 
 
     //========================================
-    // begin ComboPopup method implementations
+    // begin ComboPopup method implementbtions
     //
 
     /**
-     * Implementation of ComboPopup.show().
+     * Implementbtion of ComboPopup.show().
      */
     public void show() {
         comboBox.firePopupMenuWillBecomeVisible();
         setListSelection(comboBox.getSelectedIndex());
-        Point location = getPopupLocation();
-        show( comboBox, location.x, location.y );
+        Point locbtion = getPopupLocbtion();
+        show( comboBox, locbtion.x, locbtion.y );
     }
 
 
     /**
-     * Implementation of ComboPopup.hide().
+     * Implementbtion of ComboPopup.hide().
      */
     public void hide() {
-        MenuSelectionManager manager = MenuSelectionManager.defaultManager();
-        MenuElement [] selection = manager.getSelectedPath();
+        MenuSelectionMbnbger mbnbger = MenuSelectionMbnbger.defbultMbnbger();
+        MenuElement [] selection = mbnbger.getSelectedPbth();
         for ( int i = 0 ; i < selection.length ; i++ ) {
             if ( selection[i] == this ) {
-                manager.clearSelectedPath();
-                break;
+                mbnbger.clebrSelectedPbth();
+                brebk;
             }
         }
         if (selection.length > 0) {
-            comboBox.repaint();
+            comboBox.repbint();
         }
     }
 
     /**
-     * Implementation of ComboPopup.getList().
+     * Implementbtion of ComboPopup.getList().
      */
     public JList<Object> getList() {
         return list;
     }
 
     /**
-     * Implementation of ComboPopup.getMouseListener().
+     * Implementbtion of ComboPopup.getMouseListener().
      *
-     * @return a <code>MouseListener</code> or null
+     * @return b <code>MouseListener</code> or null
      * @see ComboPopup#getMouseListener
      */
     public MouseListener getMouseListener() {
         if (mouseListener == null) {
-            mouseListener = createMouseListener();
+            mouseListener = crebteMouseListener();
         }
         return mouseListener;
     }
 
     /**
-     * Implementation of ComboPopup.getMouseMotionListener().
+     * Implementbtion of ComboPopup.getMouseMotionListener().
      *
-     * @return a <code>MouseMotionListener</code> or null
+     * @return b <code>MouseMotionListener</code> or null
      * @see ComboPopup#getMouseMotionListener
      */
     public MouseMotionListener getMouseMotionListener() {
         if (mouseMotionListener == null) {
-            mouseMotionListener = createMouseMotionListener();
+            mouseMotionListener = crebteMouseMotionListener();
         }
         return mouseMotionListener;
     }
 
     /**
-     * Implementation of ComboPopup.getKeyListener().
+     * Implementbtion of ComboPopup.getKeyListener().
      *
-     * @return a <code>KeyListener</code> or null
+     * @return b <code>KeyListener</code> or null
      * @see ComboPopup#getKeyListener
      */
     public KeyListener getKeyListener() {
         if (keyListener == null) {
-            keyListener = createKeyListener();
+            keyListener = crebteKeyListener();
         }
         return keyListener;
     }
 
     /**
-     * Called when the UI is uninstalling.  Since this popup isn't in the component
-     * tree, it won't get it's uninstallUI() called.  It removes the listeners that
-     * were added in addComboBoxListeners().
+     * Cblled when the UI is uninstblling.  Since this popup isn't in the component
+     * tree, it won't get it's uninstbllUI() cblled.  It removes the listeners thbt
+     * were bdded in bddComboBoxListeners().
      */
-    public void uninstallingUI() {
-        if (propertyChangeListener != null) {
-            comboBox.removePropertyChangeListener( propertyChangeListener );
+    public void uninstbllingUI() {
+        if (propertyChbngeListener != null) {
+            comboBox.removePropertyChbngeListener( propertyChbngeListener );
         }
         if (itemListener != null) {
             comboBox.removeItemListener( itemListener );
         }
-        uninstallComboBoxModelListeners(comboBox.getModel());
-        uninstallKeyboardActions();
-        uninstallListListeners();
-        // We do this, otherwise the listener the ui installs on
-        // the model (the combobox model in this case) will keep a
-        // reference to the list, causing the list (and us) to never get gced.
+        uninstbllComboBoxModelListeners(comboBox.getModel());
+        uninstbllKeybobrdActions();
+        uninstbllListListeners();
+        // We do this, otherwise the listener the ui instblls on
+        // the model (the combobox model in this cbse) will keep b
+        // reference to the list, cbusing the list (bnd us) to never get gced.
         list.setModel(EmptyListModel);
     }
 
     //
-    // end ComboPopup method implementations
+    // end ComboPopup method implementbtions
     //======================================
 
     /**
      * Removes the listeners from the combo box model
      *
-     * @param model The combo box model to install listeners
-     * @see #installComboBoxModelListeners
+     * @pbrbm model The combo box model to instbll listeners
+     * @see #instbllComboBoxModelListeners
      */
-    protected void uninstallComboBoxModelListeners( ComboBoxModel<?> model ) {
-        if (model != null && listDataListener != null) {
-            model.removeListDataListener(listDataListener);
+    protected void uninstbllComboBoxModelListeners( ComboBoxModel<?> model ) {
+        if (model != null && listDbtbListener != null) {
+            model.removeListDbtbListener(listDbtbListener);
         }
     }
 
     /**
-     * Unregisters keyboard actions.
+     * Unregisters keybobrd bctions.
      */
-    protected void uninstallKeyboardActions() {
-        // XXX - shouldn't call this method
-//        comboBox.unregisterKeyboardAction( KeyStroke.getKeyStroke( KeyEvent.VK_ENTER, 0 ) );
+    protected void uninstbllKeybobrdActions() {
+        // XXX - shouldn't cbll this method
+//        comboBox.unregisterKeybobrdAction( KeyStroke.getKeyStroke( KeyEvent.VK_ENTER, 0 ) );
     }
 
 
 
     //===================================================================
-    // begin Initialization routines
+    // begin Initiblizbtion routines
     //
 
     /**
-     * Constructs a new instance of {@code BasicComboPopup}.
+     * Constructs b new instbnce of {@code BbsicComboPopup}.
      *
-     * @param combo an instance of {@code JComboBox}
+     * @pbrbm combo bn instbnce of {@code JComboBox}
      */
-    public BasicComboPopup( JComboBox<Object> combo ) {
+    public BbsicComboPopup( JComboBox<Object> combo ) {
         super();
-        setName("ComboPopup.popup");
+        setNbme("ComboPopup.popup");
         comboBox = combo;
 
-        setLightWeightPopupEnabled( comboBox.isLightWeightPopupEnabled() );
+        setLightWeightPopupEnbbled( comboBox.isLightWeightPopupEnbbled() );
 
         // UI construction of the popup.
-        list = createList();
-        list.setName("ComboBox.list");
+        list = crebteList();
+        list.setNbme("ComboBox.list");
         configureList();
-        scroller = createScroller();
-        scroller.setName("ComboBox.scrollPane");
+        scroller = crebteScroller();
+        scroller.setNbme("ComboBox.scrollPbne");
         configureScroller();
         configurePopup();
 
-        installComboBoxListeners();
-        installKeyboardActions();
+        instbllComboBoxListeners();
+        instbllKeybobrdActions();
     }
 
-    // Overriden PopupMenuListener notification methods to inform combo box
+    // Overriden PopupMenuListener notificbtion methods to inform combo box
     // PopupMenuListeners.
 
     protected void firePopupMenuWillBecomeVisible() {
         super.firePopupMenuWillBecomeVisible();
-        // comboBox.firePopupMenuWillBecomeVisible() is called from BasicComboPopup.show() method
-        // to let the user change the popup menu from the PopupMenuListener.popupMenuWillBecomeVisible()
+        // comboBox.firePopupMenuWillBecomeVisible() is cblled from BbsicComboPopup.show() method
+        // to let the user chbnge the popup menu from the PopupMenuListener.popupMenuWillBecomeVisible()
     }
 
     protected void firePopupMenuWillBecomeInvisible() {
@@ -384,143 +384,143 @@ public class BasicComboPopup extends JPopupMenu implements ComboPopup {
         comboBox.firePopupMenuWillBecomeInvisible();
     }
 
-    protected void firePopupMenuCanceled() {
-        super.firePopupMenuCanceled();
-        comboBox.firePopupMenuCanceled();
+    protected void firePopupMenuCbnceled() {
+        super.firePopupMenuCbnceled();
+        comboBox.firePopupMenuCbnceled();
     }
 
     /**
-     * Creates a listener
-     * that will watch for mouse-press and release events on the combo box.
+     * Crebtes b listener
+     * thbt will wbtch for mouse-press bnd relebse events on the combo box.
      *
-     * <strong>Warning:</strong>
-     * When overriding this method, make sure to maintain the existing
-     * behavior.
+     * <strong>Wbrning:</strong>
+     * When overriding this method, mbke sure to mbintbin the existing
+     * behbvior.
      *
-     * @return a <code>MouseListener</code> which will be added to
+     * @return b <code>MouseListener</code> which will be bdded to
      * the combo box or null
      */
-    protected MouseListener createMouseListener() {
-        return getHandler();
+    protected MouseListener crebteMouseListener() {
+        return getHbndler();
     }
 
     /**
-     * Creates the mouse motion listener which will be added to the combo
+     * Crebtes the mouse motion listener which will be bdded to the combo
      * box.
      *
-     * <strong>Warning:</strong>
-     * When overriding this method, make sure to maintain the existing
-     * behavior.
+     * <strong>Wbrning:</strong>
+     * When overriding this method, mbke sure to mbintbin the existing
+     * behbvior.
      *
-     * @return a <code>MouseMotionListener</code> which will be added to
+     * @return b <code>MouseMotionListener</code> which will be bdded to
      *         the combo box or null
      */
-    protected MouseMotionListener createMouseMotionListener() {
-        return getHandler();
+    protected MouseMotionListener crebteMouseMotionListener() {
+        return getHbndler();
     }
 
     /**
-     * Creates the key listener that will be added to the combo box. If
-     * this method returns null then it will not be added to the combo box.
+     * Crebtes the key listener thbt will be bdded to the combo box. If
+     * this method returns null then it will not be bdded to the combo box.
      *
-     * @return a <code>KeyListener</code> or null
+     * @return b <code>KeyListener</code> or null
      */
-    protected KeyListener createKeyListener() {
+    protected KeyListener crebteKeyListener() {
         return null;
     }
 
     /**
-     * Creates a list selection listener that watches for selection changes in
+     * Crebtes b list selection listener thbt wbtches for selection chbnges in
      * the popup's list.  If this method returns null then it will not
-     * be added to the popup list.
+     * be bdded to the popup list.
      *
-     * @return an instance of a <code>ListSelectionListener</code> or null
+     * @return bn instbnce of b <code>ListSelectionListener</code> or null
      */
-    protected ListSelectionListener createListSelectionListener() {
+    protected ListSelectionListener crebteListSelectionListener() {
         return null;
     }
 
     /**
-     * Creates a list data listener which will be added to the
+     * Crebtes b list dbtb listener which will be bdded to the
      * <code>ComboBoxModel</code>. If this method returns null then
-     * it will not be added to the combo box model.
+     * it will not be bdded to the combo box model.
      *
-     * @return an instance of a <code>ListDataListener</code> or null
+     * @return bn instbnce of b <code>ListDbtbListener</code> or null
      */
-    protected ListDataListener createListDataListener() {
+    protected ListDbtbListener crebteListDbtbListener() {
         return null;
     }
 
     /**
-     * Creates a mouse listener that watches for mouse events in
+     * Crebtes b mouse listener thbt wbtches for mouse events in
      * the popup's list. If this method returns null then it will
-     * not be added to the combo box.
+     * not be bdded to the combo box.
      *
-     * @return an instance of a <code>MouseListener</code> or null
+     * @return bn instbnce of b <code>MouseListener</code> or null
      */
-    protected MouseListener createListMouseListener() {
-        return getHandler();
+    protected MouseListener crebteListMouseListener() {
+        return getHbndler();
     }
 
     /**
-     * Creates a mouse motion listener that watches for mouse motion
+     * Crebtes b mouse motion listener thbt wbtches for mouse motion
      * events in the popup's list. If this method returns null then it will
-     * not be added to the combo box.
+     * not be bdded to the combo box.
      *
-     * @return an instance of a <code>MouseMotionListener</code> or null
+     * @return bn instbnce of b <code>MouseMotionListener</code> or null
      */
-    protected MouseMotionListener createListMouseMotionListener() {
-        return getHandler();
+    protected MouseMotionListener crebteListMouseMotionListener() {
+        return getHbndler();
     }
 
     /**
-     * Creates a <code>PropertyChangeListener</code> which will be added to
+     * Crebtes b <code>PropertyChbngeListener</code> which will be bdded to
      * the combo box. If this method returns null then it will not
-     * be added to the combo box.
+     * be bdded to the combo box.
      *
-     * @return an instance of a <code>PropertyChangeListener</code> or null
+     * @return bn instbnce of b <code>PropertyChbngeListener</code> or null
      */
-    protected PropertyChangeListener createPropertyChangeListener() {
-        return getHandler();
+    protected PropertyChbngeListener crebtePropertyChbngeListener() {
+        return getHbndler();
     }
 
     /**
-     * Creates an <code>ItemListener</code> which will be added to the
+     * Crebtes bn <code>ItemListener</code> which will be bdded to the
      * combo box. If this method returns null then it will not
-     * be added to the combo box.
+     * be bdded to the combo box.
      * <p>
-     * Subclasses may override this method to return instances of their own
-     * ItemEvent handlers.
+     * Subclbsses mby override this method to return instbnces of their own
+     * ItemEvent hbndlers.
      *
-     * @return an instance of an <code>ItemListener</code> or null
+     * @return bn instbnce of bn <code>ItemListener</code> or null
      */
-    protected ItemListener createItemListener() {
-        return getHandler();
+    protected ItemListener crebteItemListener() {
+        return getHbndler();
     }
 
-    private Handler getHandler() {
-        if (handler == null) {
-            handler = new Handler();
+    privbte Hbndler getHbndler() {
+        if (hbndler == null) {
+            hbndler = new Hbndler();
         }
-        return handler;
+        return hbndler;
     }
 
     /**
-     * Creates the JList used in the popup to display
-     * the items in the combo box model. This method is called when the UI class
-     * is created.
+     * Crebtes the JList used in the popup to displby
+     * the items in the combo box model. This method is cblled when the UI clbss
+     * is crebted.
      *
-     * @return a <code>JList</code> used to display the combo box items
+     * @return b <code>JList</code> used to displby the combo box items
      */
-    protected JList<Object> createList() {
+    protected JList<Object> crebteList() {
         return new JList<Object>( comboBox.getModel() ) {
             public void processMouseEvent(MouseEvent e)  {
-                if (BasicGraphicsUtils.isMenuShortcutKeyDown(e))  {
+                if (BbsicGrbphicsUtils.isMenuShortcutKeyDown(e))  {
                     // Fix for 4234053. Filter out the Control Key from the list.
-                    // ie., don't allow CTRL key deselection.
-                    Toolkit toolkit = Toolkit.getDefaultToolkit();
+                    // ie., don't bllow CTRL key deselection.
+                    Toolkit toolkit = Toolkit.getDefbultToolkit();
                     e = new MouseEvent((Component)e.getSource(), e.getID(), e.getWhen(),
-                                       e.getModifiers() ^ toolkit.getMenuShortcutKeyMask(),
+                                       e.getModifiers() ^ toolkit.getMenuShortcutKeyMbsk(),
                                        e.getX(), e.getY(),
                                        e.getXOnScreen(), e.getYOnScreen(),
                                        e.getClickCount(),
@@ -534,41 +534,41 @@ public class BasicComboPopup extends JPopupMenu implements ComboPopup {
 
     /**
      * Configures the list which is used to hold the combo box items in the
-     * popup. This method is called when the UI class
-     * is created.
+     * popup. This method is cblled when the UI clbss
+     * is crebted.
      *
-     * @see #createList
+     * @see #crebteList
      */
     protected void configureList() {
         list.setFont( comboBox.getFont() );
         list.setForeground( comboBox.getForeground() );
-        list.setBackground( comboBox.getBackground() );
-        list.setSelectionForeground( UIManager.getColor( "ComboBox.selectionForeground" ) );
-        list.setSelectionBackground( UIManager.getColor( "ComboBox.selectionBackground" ) );
+        list.setBbckground( comboBox.getBbckground() );
+        list.setSelectionForeground( UIMbnbger.getColor( "ComboBox.selectionForeground" ) );
+        list.setSelectionBbckground( UIMbnbger.getColor( "ComboBox.selectionBbckground" ) );
         list.setBorder( null );
         list.setCellRenderer( comboBox.getRenderer() );
-        list.setFocusable( false );
+        list.setFocusbble( fblse );
         list.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
         setListSelection( comboBox.getSelectedIndex() );
-        installListListeners();
+        instbllListListeners();
     }
 
     /**
      * Adds the listeners to the list control.
      */
-    protected void installListListeners() {
-        if ((listMouseListener = createListMouseListener()) != null) {
-            list.addMouseListener( listMouseListener );
+    protected void instbllListListeners() {
+        if ((listMouseListener = crebteListMouseListener()) != null) {
+            list.bddMouseListener( listMouseListener );
         }
-        if ((listMouseMotionListener = createListMouseMotionListener()) != null) {
-            list.addMouseMotionListener( listMouseMotionListener );
+        if ((listMouseMotionListener = crebteListMouseMotionListener()) != null) {
+            list.bddMouseMotionListener( listMouseMotionListener );
         }
-        if ((listSelectionListener = createListSelectionListener()) != null) {
-            list.addListSelectionListener( listSelectionListener );
+        if ((listSelectionListener = crebteListSelectionListener()) != null) {
+            list.bddListSelectionListener( listSelectionListener );
         }
     }
 
-    void uninstallListListeners() {
+    void uninstbllListListeners() {
         if (listMouseListener != null) {
             list.removeMouseListener(listMouseListener);
             listMouseListener = null;
@@ -581,93 +581,93 @@ public class BasicComboPopup extends JPopupMenu implements ComboPopup {
             list.removeListSelectionListener(listSelectionListener);
             listSelectionListener = null;
         }
-        handler = null;
+        hbndler = null;
     }
 
     /**
-     * Creates the scroll pane which houses the scrollable list.
+     * Crebtes the scroll pbne which houses the scrollbble list.
      *
-     * @return the scroll pane which houses the scrollable list
+     * @return the scroll pbne which houses the scrollbble list
      */
-    protected JScrollPane createScroller() {
-        JScrollPane sp = new JScrollPane( list,
-                                ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
-                                ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER );
-        sp.setHorizontalScrollBar(null);
+    protected JScrollPbne crebteScroller() {
+        JScrollPbne sp = new JScrollPbne( list,
+                                ScrollPbneConstbnts.VERTICAL_SCROLLBAR_AS_NEEDED,
+                                ScrollPbneConstbnts.HORIZONTAL_SCROLLBAR_NEVER );
+        sp.setHorizontblScrollBbr(null);
         return sp;
     }
 
     /**
-     * Configures the scrollable portion which holds the list within
-     * the combo box popup. This method is called when the UI class
-     * is created.
+     * Configures the scrollbble portion which holds the list within
+     * the combo box popup. This method is cblled when the UI clbss
+     * is crebted.
      */
     protected void configureScroller() {
-        scroller.setFocusable( false );
-        scroller.getVerticalScrollBar().setFocusable( false );
+        scroller.setFocusbble( fblse );
+        scroller.getVerticblScrollBbr().setFocusbble( fblse );
         scroller.setBorder( null );
     }
 
     /**
-     * Configures the popup portion of the combo box. This method is called
-     * when the UI class is created.
+     * Configures the popup portion of the combo box. This method is cblled
+     * when the UI clbss is crebted.
      */
     protected void configurePopup() {
-        setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
-        setBorderPainted( true );
+        setLbyout( new BoxLbyout( this, BoxLbyout.Y_AXIS ) );
+        setBorderPbinted( true );
         setBorder(LIST_BORDER);
-        setOpaque( false );
-        add( scroller );
+        setOpbque( fblse );
+        bdd( scroller );
         setDoubleBuffered( true );
-        setFocusable( false );
+        setFocusbble( fblse );
     }
 
     /**
-     * This method adds the necessary listeners to the JComboBox.
+     * This method bdds the necessbry listeners to the JComboBox.
      */
-    protected void installComboBoxListeners() {
-        if ((propertyChangeListener = createPropertyChangeListener()) != null) {
-            comboBox.addPropertyChangeListener(propertyChangeListener);
+    protected void instbllComboBoxListeners() {
+        if ((propertyChbngeListener = crebtePropertyChbngeListener()) != null) {
+            comboBox.bddPropertyChbngeListener(propertyChbngeListener);
         }
-        if ((itemListener = createItemListener()) != null) {
-            comboBox.addItemListener(itemListener);
+        if ((itemListener = crebteItemListener()) != null) {
+            comboBox.bddItemListener(itemListener);
         }
-        installComboBoxModelListeners(comboBox.getModel());
+        instbllComboBoxModelListeners(comboBox.getModel());
     }
 
     /**
-     * Installs the listeners on the combo box model. Any listeners installed
+     * Instblls the listeners on the combo box model. Any listeners instblled
      * on the combo box model should be removed in
-     * <code>uninstallComboBoxModelListeners</code>.
+     * <code>uninstbllComboBoxModelListeners</code>.
      *
-     * @param model The combo box model to install listeners
-     * @see #uninstallComboBoxModelListeners
+     * @pbrbm model The combo box model to instbll listeners
+     * @see #uninstbllComboBoxModelListeners
      */
-    protected void installComboBoxModelListeners( ComboBoxModel<?> model ) {
-        if (model != null && (listDataListener = createListDataListener()) != null) {
-            model.addListDataListener(listDataListener);
+    protected void instbllComboBoxModelListeners( ComboBoxModel<?> model ) {
+        if (model != null && (listDbtbListener = crebteListDbtbListener()) != null) {
+            model.bddListDbtbListener(listDbtbListener);
         }
     }
 
     /**
-     * Registers keyboard actions.
+     * Registers keybobrd bctions.
      */
-    protected void installKeyboardActions() {
+    protected void instbllKeybobrdActions() {
 
-        /* XXX - shouldn't call this method. take it out for testing.
-        ActionListener action = new ActionListener() {
-            public void actionPerformed(ActionEvent e){
+        /* XXX - shouldn't cbll this method. tbke it out for testing.
+        ActionListener bction = new ActionListener() {
+            public void bctionPerformed(ActionEvent e){
             }
         };
 
-        comboBox.registerKeyboardAction( action,
+        comboBox.registerKeybobrdAction( bction,
                                          KeyStroke.getKeyStroke( KeyEvent.VK_ENTER, 0 ),
                                          JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT ); */
 
     }
 
     //
-    // end Initialization routines
+    // end Initiblizbtion routines
     //=================================================================
 
 
@@ -678,166 +678,166 @@ public class BasicComboPopup extends JPopupMenu implements ComboPopup {
     /**
      * A listener to be registered upon the combo box
      * (<em>not</em> its popup menu)
-     * to handle mouse events
-     * that affect the state of the popup menu.
-     * The main purpose of this listener is to make the popup menu
-     * appear and disappear.
-     * This listener also helps
-     * with click-and-drag scenarios by setting the selection if the mouse was
-     * released over the list during a drag.
+     * to hbndle mouse events
+     * thbt bffect the stbte of the popup menu.
+     * The mbin purpose of this listener is to mbke the popup menu
+     * bppebr bnd disbppebr.
+     * This listener blso helps
+     * with click-bnd-drbg scenbrios by setting the selection if the mouse wbs
+     * relebsed over the list during b drbg.
      *
      * <p>
-     * <strong>Warning:</strong>
-     * We recommend that you <em>not</em>
-     * create subclasses of this class.
-     * If you absolutely must create a subclass,
-     * be sure to invoke the superclass
-     * version of each method.
+     * <strong>Wbrning:</strong>
+     * We recommend thbt you <em>not</em>
+     * crebte subclbsses of this clbss.
+     * If you bbsolutely must crebte b subclbss,
+     * be sure to invoke the superclbss
+     * version of ebch method.
      *
-     * @see BasicComboPopup#createMouseListener
+     * @see BbsicComboPopup#crebteMouseListener
      */
-    protected class InvocationMouseHandler extends MouseAdapter {
+    protected clbss InvocbtionMouseHbndler extends MouseAdbpter {
         /**
          * Responds to mouse-pressed events on the combo box.
          *
-         * @param e the mouse-press event to be handled
+         * @pbrbm e the mouse-press event to be hbndled
          */
         public void mousePressed( MouseEvent e ) {
-            getHandler().mousePressed(e);
+            getHbndler().mousePressed(e);
         }
 
         /**
-         * Responds to the user terminating
-         * a click or drag that began on the combo box.
+         * Responds to the user terminbting
+         * b click or drbg thbt begbn on the combo box.
          *
-         * @param e the mouse-release event to be handled
+         * @pbrbm e the mouse-relebse event to be hbndled
          */
-        public void mouseReleased( MouseEvent e ) {
-            getHandler().mouseReleased(e);
+        public void mouseRelebsed( MouseEvent e ) {
+            getHbndler().mouseRelebsed(e);
         }
     }
 
     /**
-     * This listener watches for dragging and updates the current selection in the
-     * list if it is dragging over the list.
+     * This listener wbtches for drbgging bnd updbtes the current selection in the
+     * list if it is drbgging over the list.
      */
-    protected class InvocationMouseMotionHandler extends MouseMotionAdapter {
-        public void mouseDragged( MouseEvent e ) {
-            getHandler().mouseDragged(e);
+    protected clbss InvocbtionMouseMotionHbndler extends MouseMotionAdbpter {
+        public void mouseDrbgged( MouseEvent e ) {
+            getHbndler().mouseDrbgged(e);
         }
     }
 
     /**
-     * As of Java 2 platform v 1.4, this class is now obsolete and is only included for
-     * backwards API compatibility. Do not instantiate or subclass.
+     * As of Jbvb 2 plbtform v 1.4, this clbss is now obsolete bnd is only included for
+     * bbckwbrds API compbtibility. Do not instbntibte or subclbss.
      * <p>
-     * All the functionality of this class has been included in
-     * BasicComboBoxUI ActionMap/InputMap methods.
+     * All the functionblity of this clbss hbs been included in
+     * BbsicComboBoxUI ActionMbp/InputMbp methods.
      */
-    public class InvocationKeyHandler extends KeyAdapter {
-        public void keyReleased( KeyEvent e ) {}
+    public clbss InvocbtionKeyHbndler extends KeyAdbpter {
+        public void keyRelebsed( KeyEvent e ) {}
     }
 
     /**
-     * As of Java 2 platform v 1.4, this class is now obsolete, doesn't do anything, and
-     * is only included for backwards API compatibility. Do not call or
+     * As of Jbvb 2 plbtform v 1.4, this clbss is now obsolete, doesn't do bnything, bnd
+     * is only included for bbckwbrds API compbtibility. Do not cbll or
      * override.
      */
-    protected class ListSelectionHandler implements ListSelectionListener {
-        public void valueChanged( ListSelectionEvent e ) {}
+    protected clbss ListSelectionHbndler implements ListSelectionListener {
+        public void vblueChbnged( ListSelectionEvent e ) {}
     }
 
     /**
-     * As of 1.4, this class is now obsolete, doesn't do anything, and
-     * is only included for backwards API compatibility. Do not call or
+     * As of 1.4, this clbss is now obsolete, doesn't do bnything, bnd
+     * is only included for bbckwbrds API compbtibility. Do not cbll or
      * override.
      * <p>
-     * The functionality has been migrated into <code>ItemHandler</code>.
+     * The functionblity hbs been migrbted into <code>ItemHbndler</code>.
      *
-     * @see #createItemListener
+     * @see #crebteItemListener
      */
-    public class ListDataHandler implements ListDataListener {
-        public void contentsChanged( ListDataEvent e ) {}
+    public clbss ListDbtbHbndler implements ListDbtbListener {
+        public void contentsChbnged( ListDbtbEvent e ) {}
 
-        public void intervalAdded( ListDataEvent e ) {
+        public void intervblAdded( ListDbtbEvent e ) {
         }
 
-        public void intervalRemoved( ListDataEvent e ) {
+        public void intervblRemoved( ListDbtbEvent e ) {
         }
     }
 
     /**
-     * This listener hides the popup when the mouse is released in the list.
+     * This listener hides the popup when the mouse is relebsed in the list.
      */
-    protected class ListMouseHandler extends MouseAdapter {
+    protected clbss ListMouseHbndler extends MouseAdbpter {
         public void mousePressed( MouseEvent e ) {
         }
-        public void mouseReleased(MouseEvent anEvent) {
-            getHandler().mouseReleased(anEvent);
+        public void mouseRelebsed(MouseEvent bnEvent) {
+            getHbndler().mouseRelebsed(bnEvent);
         }
     }
 
     /**
-     * This listener changes the selected item as you move the mouse over the list.
-     * The selection change is not committed to the model, this is for user feedback only.
+     * This listener chbnges the selected item bs you move the mouse over the list.
+     * The selection chbnge is not committed to the model, this is for user feedbbck only.
      */
-    protected class ListMouseMotionHandler extends MouseMotionAdapter {
-        public void mouseMoved( MouseEvent anEvent ) {
-            getHandler().mouseMoved(anEvent);
+    protected clbss ListMouseMotionHbndler extends MouseMotionAdbpter {
+        public void mouseMoved( MouseEvent bnEvent ) {
+            getHbndler().mouseMoved(bnEvent);
         }
     }
 
     /**
-     * This listener watches for changes to the selection in the
+     * This listener wbtches for chbnges to the selection in the
      * combo box.
      */
-    protected class ItemHandler implements ItemListener {
-        public void itemStateChanged( ItemEvent e ) {
-            getHandler().itemStateChanged(e);
+    protected clbss ItemHbndler implements ItemListener {
+        public void itemStbteChbnged( ItemEvent e ) {
+            getHbndler().itemStbteChbnged(e);
         }
     }
 
     /**
-     * This listener watches for bound properties that have changed in the
+     * This listener wbtches for bound properties thbt hbve chbnged in the
      * combo box.
      * <p>
-     * Subclasses which wish to listen to combo box property changes should
-     * call the superclass methods to ensure that the combo popup correctly
-     * handles property changes.
+     * Subclbsses which wish to listen to combo box property chbnges should
+     * cbll the superclbss methods to ensure thbt the combo popup correctly
+     * hbndles property chbnges.
      *
-     * @see #createPropertyChangeListener
+     * @see #crebtePropertyChbngeListener
      */
-    protected class PropertyChangeHandler implements PropertyChangeListener {
-        public void propertyChange( PropertyChangeEvent e ) {
-            getHandler().propertyChange(e);
+    protected clbss PropertyChbngeHbndler implements PropertyChbngeListener {
+        public void propertyChbnge( PropertyChbngeEvent e ) {
+            getHbndler().propertyChbnge(e);
         }
     }
 
 
-    private class AutoScrollActionHandler implements ActionListener {
-        private int direction;
+    privbte clbss AutoScrollActionHbndler implements ActionListener {
+        privbte int direction;
 
-        AutoScrollActionHandler(int direction) {
+        AutoScrollActionHbndler(int direction) {
             this.direction = direction;
         }
 
-        public void actionPerformed(ActionEvent e) {
+        public void bctionPerformed(ActionEvent e) {
             if (direction == SCROLL_UP) {
-                autoScrollUp();
+                butoScrollUp();
             }
             else {
-                autoScrollDown();
+                butoScrollDown();
             }
         }
     }
 
 
-    private class Handler implements ItemListener, MouseListener,
-                          MouseMotionListener, PropertyChangeListener,
-                          Serializable {
+    privbte clbss Hbndler implements ItemListener, MouseListener,
+                          MouseMotionListener, PropertyChbngeListener,
+                          Seriblizbble {
         //
         // MouseListener
-        // NOTE: this is added to both the JList and JComboBox
+        // NOTE: this is bdded to both the JList bnd JComboBox
         //
         public void mouseClicked(MouseEvent e) {
         }
@@ -846,33 +846,33 @@ public class BasicComboPopup extends JPopupMenu implements ComboPopup {
             if (e.getSource() == list) {
                 return;
             }
-            if (!SwingUtilities.isLeftMouseButton(e) || !comboBox.isEnabled())
+            if (!SwingUtilities.isLeftMouseButton(e) || !comboBox.isEnbbled())
                 return;
 
-            if ( comboBox.isEditable() ) {
+            if ( comboBox.isEditbble() ) {
                 Component comp = comboBox.getEditor().getEditorComponent();
-                if ((!(comp instanceof JComponent)) || ((JComponent)comp).isRequestFocusEnabled()) {
+                if ((!(comp instbnceof JComponent)) || ((JComponent)comp).isRequestFocusEnbbled()) {
                     comp.requestFocus();
                 }
             }
-            else if (comboBox.isRequestFocusEnabled()) {
+            else if (comboBox.isRequestFocusEnbbled()) {
                 comboBox.requestFocus();
             }
             togglePopup();
         }
 
-        public void mouseReleased(MouseEvent e) {
+        public void mouseRelebsed(MouseEvent e) {
             if (e.getSource() == list) {
                 if (list.getModel().getSize() > 0) {
                     // JList mouse listener
                     if (comboBox.getSelectedIndex() == list.getSelectedIndex()) {
-                        comboBox.getEditor().setItem(list.getSelectedValue());
+                        comboBox.getEditor().setItem(list.getSelectedVblue());
                     }
                     comboBox.setSelectedIndex(list.getSelectedIndex());
                 }
-                comboBox.setPopupVisible(false);
-                // workaround for cancelling an edited item (bug 4530953)
-                if (comboBox.isEditable() && comboBox.getEditor() != null) {
+                comboBox.setPopupVisible(fblse);
+                // workbround for cbncelling bn edited item (bug 4530953)
+                if (comboBox.isEditbble() && comboBox.getEditor() != null) {
                     comboBox.configureEditor(comboBox.getEditor(),
                                              comboBox.getSelectedItem());
                 }
@@ -881,21 +881,21 @@ public class BasicComboPopup extends JPopupMenu implements ComboPopup {
             // JComboBox mouse listener
             Component source = (Component)e.getSource();
             Dimension size = source.getSize();
-            Rectangle bounds = new Rectangle( 0, 0, size.width - 1, size.height - 1 );
-            if ( !bounds.contains( e.getPoint() ) ) {
+            Rectbngle bounds = new Rectbngle( 0, 0, size.width - 1, size.height - 1 );
+            if ( !bounds.contbins( e.getPoint() ) ) {
                 MouseEvent newEvent = convertMouseEvent( e );
-                Point location = newEvent.getPoint();
-                Rectangle r = new Rectangle();
+                Point locbtion = newEvent.getPoint();
+                Rectbngle r = new Rectbngle();
                 list.computeVisibleRect( r );
-                if ( r.contains( location ) ) {
+                if ( r.contbins( locbtion ) ) {
                     if (comboBox.getSelectedIndex() == list.getSelectedIndex()) {
-                        comboBox.getEditor().setItem(list.getSelectedValue());
+                        comboBox.getEditor().setItem(list.getSelectedVblue());
                     }
                     comboBox.setSelectedIndex(list.getSelectedIndex());
                 }
-                comboBox.setPopupVisible(false);
+                comboBox.setPopupVisible(fblse);
             }
-            hasEntered = false;
+            hbsEntered = fblse;
             stopAutoScrolling();
         }
 
@@ -907,53 +907,53 @@ public class BasicComboPopup extends JPopupMenu implements ComboPopup {
 
         //
         // MouseMotionListener:
-        // NOTE: this is added to both the List and ComboBox
+        // NOTE: this is bdded to both the List bnd ComboBox
         //
-        public void mouseMoved(MouseEvent anEvent) {
-            if (anEvent.getSource() == list) {
-                Point location = anEvent.getPoint();
-                Rectangle r = new Rectangle();
+        public void mouseMoved(MouseEvent bnEvent) {
+            if (bnEvent.getSource() == list) {
+                Point locbtion = bnEvent.getPoint();
+                Rectbngle r = new Rectbngle();
                 list.computeVisibleRect( r );
-                if ( r.contains( location ) ) {
-                    updateListBoxSelectionForEvent( anEvent, false );
+                if ( r.contbins( locbtion ) ) {
+                    updbteListBoxSelectionForEvent( bnEvent, fblse );
                 }
             }
         }
 
-        public void mouseDragged( MouseEvent e ) {
+        public void mouseDrbgged( MouseEvent e ) {
             if (e.getSource() == list) {
                 return;
             }
             if ( isVisible() ) {
                 MouseEvent newEvent = convertMouseEvent( e );
-                Rectangle r = new Rectangle();
+                Rectbngle r = new Rectbngle();
                 list.computeVisibleRect( r );
 
                 if ( newEvent.getPoint().y >= r.y && newEvent.getPoint().y <= r.y + r.height - 1 ) {
-                    hasEntered = true;
+                    hbsEntered = true;
                     if ( isAutoScrolling ) {
                         stopAutoScrolling();
                     }
-                    Point location = newEvent.getPoint();
-                    if ( r.contains( location ) ) {
-                        updateListBoxSelectionForEvent( newEvent, false );
+                    Point locbtion = newEvent.getPoint();
+                    if ( r.contbins( locbtion ) ) {
+                        updbteListBoxSelectionForEvent( newEvent, fblse );
                     }
                 }
                 else {
-                    if ( hasEntered ) {
+                    if ( hbsEntered ) {
                         int directionToScroll = newEvent.getPoint().y < r.y ? SCROLL_UP : SCROLL_DOWN;
                         if ( isAutoScrolling && scrollDirection != directionToScroll ) {
                             stopAutoScrolling();
-                            startAutoScrolling( directionToScroll );
+                            stbrtAutoScrolling( directionToScroll );
                         }
                         else if ( !isAutoScrolling ) {
-                            startAutoScrolling( directionToScroll );
+                            stbrtAutoScrolling( directionToScroll );
                         }
                     }
                     else {
                         if ( e.getPoint().y < 0 ) {
-                            hasEntered = true;
-                            startAutoScrolling( SCROLL_UP );
+                            hbsEntered = true;
+                            stbrtAutoScrolling( SCROLL_UP );
                         }
                     }
                 }
@@ -961,20 +961,20 @@ public class BasicComboPopup extends JPopupMenu implements ComboPopup {
         }
 
         //
-        // PropertyChangeListener
+        // PropertyChbngeListener
         //
-        public void propertyChange(PropertyChangeEvent e) {
-            @SuppressWarnings("unchecked")
+        public void propertyChbnge(PropertyChbngeEvent e) {
+            @SuppressWbrnings("unchecked")
             JComboBox<Object> comboBox = (JComboBox)e.getSource();
-            String propertyName = e.getPropertyName();
+            String propertyNbme = e.getPropertyNbme();
 
-            if ( propertyName == "model" ) {
-                @SuppressWarnings("unchecked")
-                ComboBoxModel<Object> oldModel = (ComboBoxModel)e.getOldValue();
-                @SuppressWarnings("unchecked")
-                ComboBoxModel<Object> newModel = (ComboBoxModel)e.getNewValue();
-                uninstallComboBoxModelListeners(oldModel);
-                installComboBoxModelListeners(newModel);
+            if ( propertyNbme == "model" ) {
+                @SuppressWbrnings("unchecked")
+                ComboBoxModel<Object> oldModel = (ComboBoxModel)e.getOldVblue();
+                @SuppressWbrnings("unchecked")
+                ComboBoxModel<Object> newModel = (ComboBoxModel)e.getNewVblue();
+                uninstbllComboBoxModelListeners(oldModel);
+                instbllComboBoxModelListeners(newModel);
 
                 list.setModel(newModel);
 
@@ -982,42 +982,42 @@ public class BasicComboPopup extends JPopupMenu implements ComboPopup {
                     hide();
                 }
             }
-            else if ( propertyName == "renderer" ) {
+            else if ( propertyNbme == "renderer" ) {
                 list.setCellRenderer( comboBox.getRenderer() );
                 if ( isVisible() ) {
                     hide();
                 }
             }
-            else if (propertyName == "componentOrientation") {
-                // Pass along the new component orientation
-                // to the list and the scroller
+            else if (propertyNbme == "componentOrientbtion") {
+                // Pbss blong the new component orientbtion
+                // to the list bnd the scroller
 
-                ComponentOrientation o =(ComponentOrientation)e.getNewValue();
+                ComponentOrientbtion o =(ComponentOrientbtion)e.getNewVblue();
 
                 JList<?> list = getList();
-                if (list!=null && list.getComponentOrientation()!=o) {
-                    list.setComponentOrientation(o);
+                if (list!=null && list.getComponentOrientbtion()!=o) {
+                    list.setComponentOrientbtion(o);
                 }
 
-                if (scroller!=null && scroller.getComponentOrientation()!=o) {
-                    scroller.setComponentOrientation(o);
+                if (scroller!=null && scroller.getComponentOrientbtion()!=o) {
+                    scroller.setComponentOrientbtion(o);
                 }
 
-                if (o!=getComponentOrientation()) {
-                    setComponentOrientation(o);
+                if (o!=getComponentOrientbtion()) {
+                    setComponentOrientbtion(o);
                 }
             }
-            else if (propertyName == "lightWeightPopupEnabled") {
-                setLightWeightPopupEnabled(comboBox.isLightWeightPopupEnabled());
+            else if (propertyNbme == "lightWeightPopupEnbbled") {
+                setLightWeightPopupEnbbled(comboBox.isLightWeightPopupEnbbled());
             }
         }
 
         //
         // ItemListener
         //
-        public void itemStateChanged( ItemEvent e ) {
-            if (e.getStateChange() == ItemEvent.SELECTED) {
-                @SuppressWarnings("unchecked")
+        public void itemStbteChbnged( ItemEvent e ) {
+            if (e.getStbteChbnge() == ItemEvent.SELECTED) {
+                @SuppressWbrnings("unchecked")
                 JComboBox<Object> comboBox = (JComboBox)e.getSource();
                 setListSelection(comboBox.getSelectedIndex());
             }
@@ -1030,10 +1030,10 @@ public class BasicComboPopup extends JPopupMenu implements ComboPopup {
 
 
     /**
-     * Overridden to unconditionally return false.
+     * Overridden to unconditionblly return fblse.
      */
-    public boolean isFocusTraversable() {
-        return false;
+    public boolebn isFocusTrbversbble() {
+        return fblse;
     }
 
     //===================================================================
@@ -1041,16 +1041,16 @@ public class BasicComboPopup extends JPopupMenu implements ComboPopup {
     //
 
     /**
-     * This protected method is implementation specific and should be private.
-     * do not call or override.
+     * This protected method is implementbtion specific bnd should be privbte.
+     * do not cbll or override.
      *
-     * @param direction the direction of scrolling
+     * @pbrbm direction the direction of scrolling
      */
-    protected void startAutoScrolling( int direction ) {
-        // XXX - should be a private method within InvocationMouseMotionHandler
+    protected void stbrtAutoScrolling( int direction ) {
+        // XXX - should be b privbte method within InvocbtionMouseMotionHbndler
         // if possible.
         if ( isAutoScrolling ) {
-            autoscrollTimer.stop();
+            butoscrollTimer.stop();
         }
 
         isAutoScrolling = true;
@@ -1058,10 +1058,10 @@ public class BasicComboPopup extends JPopupMenu implements ComboPopup {
         if ( direction == SCROLL_UP ) {
             scrollDirection = SCROLL_UP;
             Point convertedPoint = SwingUtilities.convertPoint( scroller, new Point( 1, 1 ), list );
-            int top = list.locationToIndex( convertedPoint );
+            int top = list.locbtionToIndex( convertedPoint );
             list.setSelectedIndex( top );
 
-            autoscrollTimer = new Timer( 100, new AutoScrollActionHandler(
+            butoscrollTimer = new Timer( 100, new AutoScrollActionHbndler(
                                              SCROLL_UP) );
         }
         else if ( direction == SCROLL_DOWN ) {
@@ -1070,33 +1070,33 @@ public class BasicComboPopup extends JPopupMenu implements ComboPopup {
             Point convertedPoint = SwingUtilities.convertPoint( scroller,
                                                                 new Point( 1, (size.height - 1) - 2 ),
                                                                 list );
-            int bottom = list.locationToIndex( convertedPoint );
+            int bottom = list.locbtionToIndex( convertedPoint );
             list.setSelectedIndex( bottom );
 
-            autoscrollTimer = new Timer(100, new AutoScrollActionHandler(
+            butoscrollTimer = new Timer(100, new AutoScrollActionHbndler(
                                             SCROLL_DOWN));
         }
-        autoscrollTimer.start();
+        butoscrollTimer.stbrt();
     }
 
     /**
-     * This protected method is implementation specific and should be private.
-     * do not call or override.
+     * This protected method is implementbtion specific bnd should be privbte.
+     * do not cbll or override.
      */
     protected void stopAutoScrolling() {
-        isAutoScrolling = false;
+        isAutoScrolling = fblse;
 
-        if ( autoscrollTimer != null ) {
-            autoscrollTimer.stop();
-            autoscrollTimer = null;
+        if ( butoscrollTimer != null ) {
+            butoscrollTimer.stop();
+            butoscrollTimer = null;
         }
     }
 
     /**
-     * This protected method is implementation specific and should be private.
-     * do not call or override.
+     * This protected method is implementbtion specific bnd should be privbte.
+     * do not cbll or override.
      */
-    protected void autoScrollUp() {
+    protected void butoScrollUp() {
         int index = list.getSelectedIndex();
         if ( index > 0 ) {
             list.setSelectedIndex( index - 1 );
@@ -1105,13 +1105,13 @@ public class BasicComboPopup extends JPopupMenu implements ComboPopup {
     }
 
     /**
-     * This protected method is implementation specific and should be private.
-     * do not call or override.
+     * This protected method is implementbtion specific bnd should be privbte.
+     * do not cbll or override.
      */
-    protected void autoScrollDown() {
+    protected void butoScrollDown() {
         int index = list.getSelectedIndex();
-        int lastItem = list.getModel().getSize() - 1;
-        if ( index < lastItem ) {
+        int lbstItem = list.getModel().getSize() - 1;
+        if ( index < lbstItem ) {
             list.setSelectedIndex( index + 1 );
             list.ensureIndexIsVisible( index + 1 );
         }
@@ -1127,41 +1127,41 @@ public class BasicComboPopup extends JPopupMenu implements ComboPopup {
     //
 
     /**
-     * Gets the AccessibleContext associated with this BasicComboPopup.
-     * The AccessibleContext will have its parent set to the ComboBox.
+     * Gets the AccessibleContext bssocibted with this BbsicComboPopup.
+     * The AccessibleContext will hbve its pbrent set to the ComboBox.
      *
-     * @return an AccessibleContext for the BasicComboPopup
+     * @return bn AccessibleContext for the BbsicComboPopup
      * @since 1.5
      */
     public AccessibleContext getAccessibleContext() {
         AccessibleContext context = super.getAccessibleContext();
-        context.setAccessibleParent(comboBox);
+        context.setAccessiblePbrent(comboBox);
         return context;
     }
 
 
     /**
-     * This is is a utility method that helps event handlers figure out where to
-     * send the focus when the popup is brought up.  The standard implementation
-     * delegates the focus to the editor (if the combo box is editable) or to
-     * the JComboBox if it is not editable.
+     * This is is b utility method thbt helps event hbndlers figure out where to
+     * send the focus when the popup is brought up.  The stbndbrd implementbtion
+     * delegbtes the focus to the editor (if the combo box is editbble) or to
+     * the JComboBox if it is not editbble.
      *
-     * @param e a mouse event
+     * @pbrbm e b mouse event
      */
-    protected void delegateFocus( MouseEvent e ) {
-        if ( comboBox.isEditable() ) {
+    protected void delegbteFocus( MouseEvent e ) {
+        if ( comboBox.isEditbble() ) {
             Component comp = comboBox.getEditor().getEditorComponent();
-            if ((!(comp instanceof JComponent)) || ((JComponent)comp).isRequestFocusEnabled()) {
+            if ((!(comp instbnceof JComponent)) || ((JComponent)comp).isRequestFocusEnbbled()) {
                 comp.requestFocus();
             }
         }
-        else if (comboBox.isRequestFocusEnabled()) {
+        else if (comboBox.isRequestFocusEnbbled()) {
             comboBox.requestFocus();
         }
     }
 
     /**
-     * Makes the popup visible if it is hidden and makes it hidden if it is
+     * Mbkes the popup visible if it is hidden bnd mbkes it hidden if it is
      * visible.
      */
     protected void togglePopup() {
@@ -1178,11 +1178,11 @@ public class BasicComboPopup extends JPopupMenu implements ComboPopup {
      * method is used to synchronize the list selection with the
      * combo box selection.
      *
-     * @param selectedIndex the index to set the list
+     * @pbrbm selectedIndex the index to set the list
      */
-    private void setListSelection(int selectedIndex) {
+    privbte void setListSelection(int selectedIndex) {
         if ( selectedIndex == -1 ) {
-            list.clearSelection();
+            list.clebrSelection();
         }
         else {
             list.setSelectedIndex( selectedIndex );
@@ -1193,7 +1193,7 @@ public class BasicComboPopup extends JPopupMenu implements ComboPopup {
     /**
      * Converts mouse event.
      *
-     * @param e a mouse event
+     * @pbrbm e b mouse event
      * @return converted mouse event
      */
     protected MouseEvent convertMouseEvent( MouseEvent e ) {
@@ -1215,22 +1215,22 @@ public class BasicComboPopup extends JPopupMenu implements ComboPopup {
 
 
     /**
-     * Retrieves the height of the popup based on the current
-     * ListCellRenderer and the maximum row count.
+     * Retrieves the height of the popup bbsed on the current
+     * ListCellRenderer bnd the mbximum row count.
      *
-     * @param maxRowCount the row count
+     * @pbrbm mbxRowCount the row count
      * @return the height of the popup
      */
-    protected int getPopupHeightForRowCount(int maxRowCount) {
-        // Set the cached value of the minimum row count
-        int minRowCount = Math.min( maxRowCount, comboBox.getItemCount() );
+    protected int getPopupHeightForRowCount(int mbxRowCount) {
+        // Set the cbched vblue of the minimum row count
+        int minRowCount = Mbth.min( mbxRowCount, comboBox.getItemCount() );
         int height = 0;
         ListCellRenderer<Object> renderer = list.getCellRenderer();
-        Object value = null;
+        Object vblue = null;
 
         for ( int i = 0; i < minRowCount; ++i ) {
-            value = list.getModel().getElementAt( i );
-            Component c = renderer.getListCellRendererComponent( list, value, i, false, false );
+            vblue = list.getModel().getElementAt( i );
+            Component c = renderer.getListCellRendererComponent( list, vblue, i, fblse, fblse );
             height += c.getPreferredSize().height;
         }
 
@@ -1254,23 +1254,23 @@ public class BasicComboPopup extends JPopupMenu implements ComboPopup {
     }
 
     /**
-     * Calculate the placement and size of the popup portion of the combo box based
-     * on the combo box location and the enclosing screen bounds. If
-     * no transformations are required, then the returned rectangle will
-     * have the same values as the parameters.
+     * Cblculbte the plbcement bnd size of the popup portion of the combo box bbsed
+     * on the combo box locbtion bnd the enclosing screen bounds. If
+     * no trbnsformbtions bre required, then the returned rectbngle will
+     * hbve the sbme vblues bs the pbrbmeters.
      *
-     * @param px starting x location
-     * @param py starting y location
-     * @param pw starting width
-     * @param ph starting height
-     * @return a rectangle which represents the placement and size of the popup
+     * @pbrbm px stbrting x locbtion
+     * @pbrbm py stbrting y locbtion
+     * @pbrbm pw stbrting width
+     * @pbrbm ph stbrting height
+     * @return b rectbngle which represents the plbcement bnd size of the popup
      */
-    protected Rectangle computePopupBounds(int px,int py,int pw,int ph) {
-        Toolkit toolkit = Toolkit.getDefaultToolkit();
-        Rectangle screenBounds;
+    protected Rectbngle computePopupBounds(int px,int py,int pw,int ph) {
+        Toolkit toolkit = Toolkit.getDefbultToolkit();
+        Rectbngle screenBounds;
 
-        // Calculate the desktop dimensions relative to the combo box.
-        GraphicsConfiguration gc = comboBox.getGraphicsConfiguration();
+        // Cblculbte the desktop dimensions relbtive to the combo box.
+        GrbphicsConfigurbtion gc = comboBox.getGrbphicsConfigurbtion();
         Point p = new Point();
         SwingUtilities.convertPointFromScreen(p, comboBox);
         if (gc != null) {
@@ -1282,10 +1282,10 @@ public class BasicComboPopup extends JPopupMenu implements ComboPopup {
             screenBounds.y += (p.y + screenInsets.top);
         }
         else {
-            screenBounds = new Rectangle(p, toolkit.getScreenSize());
+            screenBounds = new Rectbngle(p, toolkit.getScreenSize());
         }
 
-        Rectangle rect = new Rectangle(px,py,pw,ph);
+        Rectbngle rect = new Rectbngle(px,py,pw,ph);
         if (py+ph > screenBounds.y+screenBounds.height
             && ph < screenBounds.height) {
             rect.y = -rect.height;
@@ -1294,46 +1294,46 @@ public class BasicComboPopup extends JPopupMenu implements ComboPopup {
     }
 
     /**
-     * Calculates the upper left location of the Popup.
+     * Cblculbtes the upper left locbtion of the Popup.
      */
-    private Point getPopupLocation() {
+    privbte Point getPopupLocbtion() {
         Dimension popupSize = comboBox.getSize();
         Insets insets = getInsets();
 
-        // reduce the width of the scrollpane by the insets so that the popup
-        // is the same width as the combo box.
+        // reduce the width of the scrollpbne by the insets so thbt the popup
+        // is the sbme width bs the combo box.
         popupSize.setSize(popupSize.width - (insets.right + insets.left),
-                          getPopupHeightForRowCount( comboBox.getMaximumRowCount()));
-        Rectangle popupBounds = computePopupBounds( 0, comboBox.getBounds().height,
+                          getPopupHeightForRowCount( comboBox.getMbximumRowCount()));
+        Rectbngle popupBounds = computePopupBounds( 0, comboBox.getBounds().height,
                                                     popupSize.width, popupSize.height);
         Dimension scrollSize = popupBounds.getSize();
-        Point popupLocation = popupBounds.getLocation();
+        Point popupLocbtion = popupBounds.getLocbtion();
 
-        scroller.setMaximumSize( scrollSize );
+        scroller.setMbximumSize( scrollSize );
         scroller.setPreferredSize( scrollSize );
         scroller.setMinimumSize( scrollSize );
 
-        list.revalidate();
+        list.revblidbte();
 
-        return popupLocation;
+        return popupLocbtion;
     }
 
     /**
-     * A utility method used by the event listeners.  Given a mouse event, it changes
+     * A utility method used by the event listeners.  Given b mouse event, it chbnges
      * the list selection to the list item below the mouse.
      *
-     * @param anEvent a mouse event
-     * @param shouldScroll if {@code true} list should be scrolled.
+     * @pbrbm bnEvent b mouse event
+     * @pbrbm shouldScroll if {@code true} list should be scrolled.
      */
-    protected void updateListBoxSelectionForEvent(MouseEvent anEvent,boolean shouldScroll) {
-        // XXX - only seems to be called from this class. shouldScroll flag is
+    protected void updbteListBoxSelectionForEvent(MouseEvent bnEvent,boolebn shouldScroll) {
+        // XXX - only seems to be cblled from this clbss. shouldScroll flbg is
         // never true
-        Point location = anEvent.getPoint();
+        Point locbtion = bnEvent.getPoint();
         if ( list == null )
             return;
-        int index = list.locationToIndex(location);
+        int index = list.locbtionToIndex(locbtion);
         if ( index == -1 ) {
-            if ( location.y < 0 )
+            if ( locbtion.y < 0 )
                 index = 0;
             else
                 index = comboBox.getModel().getSize() - 1;

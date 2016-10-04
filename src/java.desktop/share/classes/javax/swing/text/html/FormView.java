@@ -1,52 +1,52 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.text.html;
+pbckbge jbvbx.swing.text.html;
 
-import java.net.*;
-import java.io.*;
-import java.awt.*;
-import java.awt.event.*;
-import java.util.*;
-import javax.swing.*;
-import javax.swing.event.*;
-import javax.swing.text.*;
+import jbvb.net.*;
+import jbvb.io.*;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvb.util.*;
+import jbvbx.swing.*;
+import jbvbx.swing.event.*;
+import jbvbx.swing.text.*;
 
 /**
- * Component decorator that implements the view interface
- * for form elements, &lt;input&gt;, &lt;textarea&gt;,
- * and &lt;select&gt;.  The model for the component is stored
- * as an attribute of the the element (using StyleConstants.ModelAttribute),
- * and is used to build the component of the view.  The type
- * of the model is assumed to of the type that would be set by
- * <code>HTMLDocument.HTMLReader.FormAction</code>.  If there are
- * multiple views mapped over the document, they will share the
+ * Component decorbtor thbt implements the view interfbce
+ * for form elements, &lt;input&gt;, &lt;textbreb&gt;,
+ * bnd &lt;select&gt;.  The model for the component is stored
+ * bs bn bttribute of the the element (using StyleConstbnts.ModelAttribute),
+ * bnd is used to build the component of the view.  The type
+ * of the model is bssumed to of the type thbt would be set by
+ * <code>HTMLDocument.HTMLRebder.FormAction</code>.  If there bre
+ * multiple views mbpped over the document, they will shbre the
  * embedded component models.
  * <p>
- * The following table shows what components get built
+ * The following tbble shows whbt components get built
  * by this view.
- * <table summary="shows what components get built by this view">
+ * <tbble summbry="shows whbt components get built by this view">
  * <tr>
  *   <th>Element Type</th>
  *   <th>Component built</th>
@@ -60,16 +60,16 @@ import javax.swing.text.*;
  *   <td>JCheckBox</td>
  * </tr>
  * <tr>
- *   <td>input, type image</td>
+ *   <td>input, type imbge</td>
  *   <td>JButton</td>
  * </tr>
  * <tr>
- *   <td>input, type password</td>
- *   <td>JPasswordField</td>
+ *   <td>input, type pbssword</td>
+ *   <td>JPbsswordField</td>
  * </tr>
  * <tr>
- *   <td>input, type radio</td>
- *   <td>JRadioButton</td>
+ *   <td>input, type rbdio</td>
+ *   <td>JRbdioButton</td>
  * </tr>
  * <tr>
  *   <td>input, type reset</td>
@@ -84,118 +84,118 @@ import javax.swing.text.*;
  *   <td>JTextField</td>
  * </tr>
  * <tr>
- *   <td>select, size &gt; 1 or multiple attribute defined</td>
- *   <td>JList in a JScrollPane</td>
+ *   <td>select, size &gt; 1 or multiple bttribute defined</td>
+ *   <td>JList in b JScrollPbne</td>
  * </tr>
  * <tr>
  *   <td>select, size unspecified or 1</td>
  *   <td>JComboBox</td>
  * </tr>
  * <tr>
- *   <td>textarea</td>
- *   <td>JTextArea in a JScrollPane</td>
+ *   <td>textbreb</td>
+ *   <td>JTextAreb in b JScrollPbne</td>
  * </tr>
  * <tr>
  *   <td>input, type file</td>
  *   <td>JTextField</td>
  * </tr>
- * </table>
+ * </tbble>
  *
- * @author Timothy Prinzing
- * @author Sunita Mani
+ * @buthor Timothy Prinzing
+ * @buthor Sunitb Mbni
  */
-public class FormView extends ComponentView implements ActionListener {
+public clbss FormView extends ComponentView implements ActionListener {
 
     /**
-     * If a value attribute is not specified for a FORM input element
-     * of type "submit", then this default string is used.
+     * If b vblue bttribute is not specified for b FORM input element
+     * of type "submit", then this defbult string is used.
      *
-     * @deprecated As of 1.3, value now comes from UIManager property
+     * @deprecbted As of 1.3, vblue now comes from UIMbnbger property
      *             FormView.submitButtonText
      */
-    @Deprecated
-    public static final String SUBMIT = new String("Submit Query");
+    @Deprecbted
+    public stbtic finbl String SUBMIT = new String("Submit Query");
     /**
-     * If a value attribute is not specified for a FORM input element
-     * of type "reset", then this default string is used.
+     * If b vblue bttribute is not specified for b FORM input element
+     * of type "reset", then this defbult string is used.
      *
-     * @deprecated As of 1.3, value comes from UIManager UIManager property
+     * @deprecbted As of 1.3, vblue comes from UIMbnbger UIMbnbger property
      *             FormView.resetButtonText
      */
-    @Deprecated
-    public static final String RESET = new String("Reset");
+    @Deprecbted
+    public stbtic finbl String RESET = new String("Reset");
 
     /**
-     * Document attribute name for storing POST data. JEditorPane.getPostData()
-     * uses the same name, should be kept in sync.
+     * Document bttribute nbme for storing POST dbtb. JEditorPbne.getPostDbtb()
+     * uses the sbme nbme, should be kept in sync.
      */
-    final static String PostDataProperty = "javax.swing.JEditorPane.postdata";
+    finbl stbtic String PostDbtbProperty = "jbvbx.swing.JEditorPbne.postdbtb";
 
     /**
-     * Used to indicate if the maximum span should be the same as the
-     * preferred span. This is used so that the Component's size doesn't
-     * change if there is extra room on a line. The first bit is used for
-     * the X direction, and the second for the y direction.
+     * Used to indicbte if the mbximum spbn should be the sbme bs the
+     * preferred spbn. This is used so thbt the Component's size doesn't
+     * chbnge if there is extrb room on b line. The first bit is used for
+     * the X direction, bnd the second for the y direction.
      */
-    private short maxIsPreferred;
+    privbte short mbxIsPreferred;
 
     /**
-     * Creates a new FormView object.
+     * Crebtes b new FormView object.
      *
-     * @param elem the element to decorate
+     * @pbrbm elem the element to decorbte
      */
     public FormView(Element elem) {
         super(elem);
     }
 
     /**
-     * Create the component.  This is basically a
-     * big switch statement based upon the tag type
-     * and html attributes of the associated element.
+     * Crebte the component.  This is bbsicblly b
+     * big switch stbtement bbsed upon the tbg type
+     * bnd html bttributes of the bssocibted element.
      */
-    protected Component createComponent() {
-        AttributeSet attr = getElement().getAttributes();
-        HTML.Tag t = (HTML.Tag)
-            attr.getAttribute(StyleConstants.NameAttribute);
+    protected Component crebteComponent() {
+        AttributeSet bttr = getElement().getAttributes();
+        HTML.Tbg t = (HTML.Tbg)
+            bttr.getAttribute(StyleConstbnts.NbmeAttribute);
         JComponent c = null;
-        Object model = attr.getAttribute(StyleConstants.ModelAttribute);
+        Object model = bttr.getAttribute(StyleConstbnts.ModelAttribute);
 
-        // Remove listeners previously registered in shared model
-        // when a new UI component is replaced.  See bug 7189299.
-        removeStaleListenerForModel(model);
-        if (t == HTML.Tag.INPUT) {
-            c = createInputComponent(attr, model);
-        } else if (t == HTML.Tag.SELECT) {
+        // Remove listeners previously registered in shbred model
+        // when b new UI component is replbced.  See bug 7189299.
+        removeStbleListenerForModel(model);
+        if (t == HTML.Tbg.INPUT) {
+            c = crebteInputComponent(bttr, model);
+        } else if (t == HTML.Tbg.SELECT) {
 
-            if (model instanceof OptionListModel) {
-                @SuppressWarnings("unchecked")
+            if (model instbnceof OptionListModel) {
+                @SuppressWbrnings("unchecked")
                 JList<?> list = new JList<>((ListModel) model);
-                int size = HTML.getIntegerAttributeValue(attr,
+                int size = HTML.getIntegerAttributeVblue(bttr,
                                                          HTML.Attribute.SIZE,
                                                          1);
                 list.setVisibleRowCount(size);
                 list.setSelectionModel((ListSelectionModel)model);
-                c = new JScrollPane(list);
+                c = new JScrollPbne(list);
             } else {
-                @SuppressWarnings("unchecked")
+                @SuppressWbrnings("unchecked")
                 JComboBox<?> tmp = new JComboBox<>((ComboBoxModel) model);
                 c = tmp;
-                maxIsPreferred = 3;
+                mbxIsPreferred = 3;
             }
-        } else if (t == HTML.Tag.TEXTAREA) {
-            JTextArea area = new JTextArea((Document) model);
-            int rows = HTML.getIntegerAttributeValue(attr,
+        } else if (t == HTML.Tbg.TEXTAREA) {
+            JTextAreb breb = new JTextAreb((Document) model);
+            int rows = HTML.getIntegerAttributeVblue(bttr,
                                                      HTML.Attribute.ROWS,
                                                      1);
-            area.setRows(rows);
-            int cols = HTML.getIntegerAttributeValue(attr,
+            breb.setRows(rows);
+            int cols = HTML.getIntegerAttributeVblue(bttr,
                                                      HTML.Attribute.COLS,
                                                      20);
-            maxIsPreferred = 3;
-            area.setColumns(cols);
-            c = new JScrollPane(area,
-                                JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-                                JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+            mbxIsPreferred = 3;
+            breb.setColumns(cols);
+            c = new JScrollPbne(breb,
+                                JScrollPbne.VERTICAL_SCROLLBAR_ALWAYS,
+                                JScrollPbne.HORIZONTAL_SCROLLBAR_ALWAYS);
         }
 
         if (c != null) {
@@ -206,65 +206,65 @@ public class FormView extends ComponentView implements ActionListener {
 
 
     /**
-     * Creates a component for an &lt;INPUT&gt; element based on the
-     * value of the "type" attribute.
+     * Crebtes b component for bn &lt;INPUT&gt; element bbsed on the
+     * vblue of the "type" bttribute.
      *
-     * @param set of attributes associated with the &lt;INPUT&gt; element.
-     * @param model the value of the StyleConstants.ModelAttribute
+     * @pbrbm set of bttributes bssocibted with the &lt;INPUT&gt; element.
+     * @pbrbm model the vblue of the StyleConstbnts.ModelAttribute
      * @return the component.
      */
-    private JComponent createInputComponent(AttributeSet attr, Object model) {
+    privbte JComponent crebteInputComponent(AttributeSet bttr, Object model) {
         JComponent c = null;
-        String type = (String) attr.getAttribute(HTML.Attribute.TYPE);
+        String type = (String) bttr.getAttribute(HTML.Attribute.TYPE);
 
-        if (type.equals("submit") || type.equals("reset")) {
-            String value = (String)
-                attr.getAttribute(HTML.Attribute.VALUE);
-            if (value == null) {
-                if (type.equals("submit")) {
-                    value = UIManager.getString("FormView.submitButtonText");
+        if (type.equbls("submit") || type.equbls("reset")) {
+            String vblue = (String)
+                bttr.getAttribute(HTML.Attribute.VALUE);
+            if (vblue == null) {
+                if (type.equbls("submit")) {
+                    vblue = UIMbnbger.getString("FormView.submitButtonText");
                 } else {
-                    value = UIManager.getString("FormView.resetButtonText");
+                    vblue = UIMbnbger.getString("FormView.resetButtonText");
                 }
             }
-            JButton button = new JButton(value);
+            JButton button = new JButton(vblue);
             if (model != null) {
                 button.setModel((ButtonModel)model);
-                button.addActionListener(this);
+                button.bddActionListener(this);
             }
             c = button;
-            maxIsPreferred = 3;
-        } else if (type.equals("image")) {
-            String srcAtt = (String) attr.getAttribute(HTML.Attribute.SRC);
+            mbxIsPreferred = 3;
+        } else if (type.equbls("imbge")) {
+            String srcAtt = (String) bttr.getAttribute(HTML.Attribute.SRC);
             JButton button;
             try {
-                URL base = ((HTMLDocument)getElement().getDocument()).getBase();
-                URL srcURL = new URL(base, srcAtt);
-                Icon icon = new ImageIcon(srcURL);
+                URL bbse = ((HTMLDocument)getElement().getDocument()).getBbse();
+                URL srcURL = new URL(bbse, srcAtt);
+                Icon icon = new ImbgeIcon(srcURL);
                 button  = new JButton(icon);
-            } catch (MalformedURLException e) {
+            } cbtch (MblformedURLException e) {
                 button = new JButton(srcAtt);
             }
             if (model != null) {
                 button.setModel((ButtonModel)model);
-                button.addMouseListener(new MouseEventListener());
+                button.bddMouseListener(new MouseEventListener());
             }
             c = button;
-            maxIsPreferred = 3;
-        } else if (type.equals("checkbox")) {
+            mbxIsPreferred = 3;
+        } else if (type.equbls("checkbox")) {
             c = new JCheckBox();
             if (model != null) {
                 ((JCheckBox)c).setModel((JToggleButton.ToggleButtonModel) model);
             }
-            maxIsPreferred = 3;
-        } else if (type.equals("radio")) {
-            c = new JRadioButton();
+            mbxIsPreferred = 3;
+        } else if (type.equbls("rbdio")) {
+            c = new JRbdioButton();
             if (model != null) {
-                ((JRadioButton)c).setModel((JToggleButton.ToggleButtonModel)model);
+                ((JRbdioButton)c).setModel((JToggleButton.ToggleButtonModel)model);
             }
-            maxIsPreferred = 3;
-        } else if (type.equals("text")) {
-            int size = HTML.getIntegerAttributeValue(attr,
+            mbxIsPreferred = 3;
+        } else if (type.equbls("text")) {
+            int size = HTML.getIntegerAttributeVblue(bttr,
                                                      HTML.Attribute.SIZE,
                                                      -1);
             JTextField field;
@@ -280,94 +280,94 @@ public class FormView extends ComponentView implements ActionListener {
             if (model != null) {
                 field.setDocument((Document) model);
             }
-            field.addActionListener(this);
-            maxIsPreferred = 3;
-        } else if (type.equals("password")) {
-            JPasswordField field = new JPasswordField();
+            field.bddActionListener(this);
+            mbxIsPreferred = 3;
+        } else if (type.equbls("pbssword")) {
+            JPbsswordField field = new JPbsswordField();
             c = field;
             if (model != null) {
                 field.setDocument((Document) model);
             }
-            int size = HTML.getIntegerAttributeValue(attr,
+            int size = HTML.getIntegerAttributeVblue(bttr,
                                                      HTML.Attribute.SIZE,
                                                      -1);
             field.setColumns((size > 0) ? size : 20);
-            field.addActionListener(this);
-            maxIsPreferred = 3;
-        } else if (type.equals("file")) {
+            field.bddActionListener(this);
+            mbxIsPreferred = 3;
+        } else if (type.equbls("file")) {
             JTextField field = new JTextField();
             if (model != null) {
                 field.setDocument((Document)model);
             }
-            int size = HTML.getIntegerAttributeValue(attr, HTML.Attribute.SIZE,
+            int size = HTML.getIntegerAttributeVblue(bttr, HTML.Attribute.SIZE,
                                                      -1);
             field.setColumns((size > 0) ? size : 20);
-            JButton browseButton = new JButton(UIManager.getString
+            JButton browseButton = new JButton(UIMbnbger.getString
                                            ("FormView.browseFileButtonText"));
-            Box box = Box.createHorizontalBox();
-            box.add(field);
-            box.add(Box.createHorizontalStrut(5));
-            box.add(browseButton);
-            browseButton.addActionListener(new BrowseFileAction(
-                                           attr, (Document)model));
+            Box box = Box.crebteHorizontblBox();
+            box.bdd(field);
+            box.bdd(Box.crebteHorizontblStrut(5));
+            box.bdd(browseButton);
+            browseButton.bddActionListener(new BrowseFileAction(
+                                           bttr, (Document)model));
             c = box;
-            maxIsPreferred = 3;
+            mbxIsPreferred = 3;
         }
         return c;
     }
 
-    private void removeStaleListenerForModel(Object model) {
-        if (model instanceof DefaultButtonModel) {
-            // case of JButton whose model is DefaultButtonModel
-            // Need to remove stale ActionListener, ChangeListener and
-            // ItemListener that are instance of AbstractButton$Handler.
-            DefaultButtonModel buttonModel = (DefaultButtonModel) model;
-            String listenerClass = "javax.swing.AbstractButton$Handler";
+    privbte void removeStbleListenerForModel(Object model) {
+        if (model instbnceof DefbultButtonModel) {
+            // cbse of JButton whose model is DefbultButtonModel
+            // Need to remove stble ActionListener, ChbngeListener bnd
+            // ItemListener thbt bre instbnce of AbstrbctButton$Hbndler.
+            DefbultButtonModel buttonModel = (DefbultButtonModel) model;
+            String listenerClbss = "jbvbx.swing.AbstrbctButton$Hbndler";
             for (ActionListener listener : buttonModel.getActionListeners()) {
-                if (listenerClass.equals(listener.getClass().getName())) {
+                if (listenerClbss.equbls(listener.getClbss().getNbme())) {
                     buttonModel.removeActionListener(listener);
                 }
             }
-            for (ChangeListener listener : buttonModel.getChangeListeners()) {
-                if (listenerClass.equals(listener.getClass().getName())) {
-                    buttonModel.removeChangeListener(listener);
+            for (ChbngeListener listener : buttonModel.getChbngeListeners()) {
+                if (listenerClbss.equbls(listener.getClbss().getNbme())) {
+                    buttonModel.removeChbngeListener(listener);
                 }
             }
             for (ItemListener listener : buttonModel.getItemListeners()) {
-                if (listenerClass.equals(listener.getClass().getName())) {
+                if (listenerClbss.equbls(listener.getClbss().getNbme())) {
                     buttonModel.removeItemListener(listener);
                 }
             }
-        } else if (model instanceof AbstractListModel) {
-            // case of JComboBox and JList
-            // For JList, the stale ListDataListener is instance
-            // BasicListUI$Handler.
-            // For JComboBox, there are 2 stale ListDataListeners, which are
-            // BasicListUI$Handler and BasicComboBoxUI$Handler.
-            @SuppressWarnings("unchecked")
-            AbstractListModel<?> listModel = (AbstractListModel) model;
-            String listenerClass1 =
-                    "javax.swing.plaf.basic.BasicListUI$Handler";
-            String listenerClass2 =
-                    "javax.swing.plaf.basic.BasicComboBoxUI$Handler";
-            for (ListDataListener listener : listModel.getListDataListeners()) {
-                if (listenerClass1.equals(listener.getClass().getName())
-                        || listenerClass2.equals(listener.getClass().getName()))
+        } else if (model instbnceof AbstrbctListModel) {
+            // cbse of JComboBox bnd JList
+            // For JList, the stble ListDbtbListener is instbnce
+            // BbsicListUI$Hbndler.
+            // For JComboBox, there bre 2 stble ListDbtbListeners, which bre
+            // BbsicListUI$Hbndler bnd BbsicComboBoxUI$Hbndler.
+            @SuppressWbrnings("unchecked")
+            AbstrbctListModel<?> listModel = (AbstrbctListModel) model;
+            String listenerClbss1 =
+                    "jbvbx.swing.plbf.bbsic.BbsicListUI$Hbndler";
+            String listenerClbss2 =
+                    "jbvbx.swing.plbf.bbsic.BbsicComboBoxUI$Hbndler";
+            for (ListDbtbListener listener : listModel.getListDbtbListeners()) {
+                if (listenerClbss1.equbls(listener.getClbss().getNbme())
+                        || listenerClbss2.equbls(listener.getClbss().getNbme()))
                 {
-                    listModel.removeListDataListener(listener);
+                    listModel.removeListDbtbListener(listener);
                 }
             }
-        } else if (model instanceof AbstractDocument) {
-            // case of JPasswordField, JTextField and JTextArea
-            // All have 2 stale DocumentListeners.
-            String listenerClass1 =
-                    "javax.swing.plaf.basic.BasicTextUI$UpdateHandler";
-            String listenerClass2 =
-                    "javax.swing.text.DefaultCaret$Handler";
-            AbstractDocument docModel = (AbstractDocument) model;
+        } else if (model instbnceof AbstrbctDocument) {
+            // cbse of JPbsswordField, JTextField bnd JTextAreb
+            // All hbve 2 stble DocumentListeners.
+            String listenerClbss1 =
+                    "jbvbx.swing.plbf.bbsic.BbsicTextUI$UpdbteHbndler";
+            String listenerClbss2 =
+                    "jbvbx.swing.text.DefbultCbret$Hbndler";
+            AbstrbctDocument docModel = (AbstrbctDocument) model;
             for (DocumentListener listener : docModel.getDocumentListeners()) {
-                if (listenerClass1.equals(listener.getClass().getName())
-                        || listenerClass2.equals(listener.getClass().getName()))
+                if (listenerClbss1.equbls(listener.getClbss().getNbme())
+                        || listenerClbss2.equbls(listener.getClbss().getNbme()))
                 {
                     docModel.removeDocumentListener(listener);
                 }
@@ -376,289 +376,289 @@ public class FormView extends ComponentView implements ActionListener {
     }
 
     /**
-     * Determines the maximum span for this view along an
-     * axis. For certain components, the maximum and preferred span are the
-     * same. For others this will return the value
-     * returned by Component.getMaximumSize along the
-     * axis of interest.
+     * Determines the mbximum spbn for this view blong bn
+     * bxis. For certbin components, the mbximum bnd preferred spbn bre the
+     * sbme. For others this will return the vblue
+     * returned by Component.getMbximumSize blong the
+     * bxis of interest.
      *
-     * @param axis may be either View.X_AXIS or View.Y_AXIS
-     * @return   the span the view would like to be rendered into &gt;= 0.
-     *           Typically the view is told to render into the span
-     *           that is returned, although there is no guarantee.
-     *           The parent may choose to resize or break the view.
-     * @exception IllegalArgumentException for an invalid axis
+     * @pbrbm bxis mby be either View.X_AXIS or View.Y_AXIS
+     * @return   the spbn the view would like to be rendered into &gt;= 0.
+     *           Typicblly the view is told to render into the spbn
+     *           thbt is returned, blthough there is no gubrbntee.
+     *           The pbrent mby choose to resize or brebk the view.
+     * @exception IllegblArgumentException for bn invblid bxis
      */
-    public float getMaximumSpan(int axis) {
-        switch (axis) {
-        case View.X_AXIS:
-            if ((maxIsPreferred & 1) == 1) {
-                super.getMaximumSpan(axis);
-                return getPreferredSpan(axis);
+    public flobt getMbximumSpbn(int bxis) {
+        switch (bxis) {
+        cbse View.X_AXIS:
+            if ((mbxIsPreferred & 1) == 1) {
+                super.getMbximumSpbn(bxis);
+                return getPreferredSpbn(bxis);
             }
-            return super.getMaximumSpan(axis);
-        case View.Y_AXIS:
-            if ((maxIsPreferred & 2) == 2) {
-                super.getMaximumSpan(axis);
-                return getPreferredSpan(axis);
+            return super.getMbximumSpbn(bxis);
+        cbse View.Y_AXIS:
+            if ((mbxIsPreferred & 2) == 2) {
+                super.getMbximumSpbn(bxis);
+                return getPreferredSpbn(bxis);
             }
-            return super.getMaximumSpan(axis);
-        default:
-            break;
+            return super.getMbximumSpbn(bxis);
+        defbult:
+            brebk;
         }
-        return super.getMaximumSpan(axis);
+        return super.getMbximumSpbn(bxis);
     }
 
 
     /**
      * Responsible for processing the ActionEvent.
-     * If the element associated with the FormView,
-     * has a type of "submit", "reset", "text" or "password"
-     * then the action is processed.  In the case of a "submit"
-     * the form is submitted.  In the case of a "reset"
-     * the form is reset to its original state.
-     * In the case of "text" or "password", if the
-     * element is the last one of type "text" or "password",
-     * the form is submitted.  Otherwise, focus is transferred
+     * If the element bssocibted with the FormView,
+     * hbs b type of "submit", "reset", "text" or "pbssword"
+     * then the bction is processed.  In the cbse of b "submit"
+     * the form is submitted.  In the cbse of b "reset"
+     * the form is reset to its originbl stbte.
+     * In the cbse of "text" or "pbssword", if the
+     * element is the lbst one of type "text" or "pbssword",
+     * the form is submitted.  Otherwise, focus is trbnsferred
      * to the next component in the form.
      *
-     * @param evt the ActionEvent.
+     * @pbrbm evt the ActionEvent.
      */
-    public void actionPerformed(ActionEvent evt) {
+    public void bctionPerformed(ActionEvent evt) {
         Element element = getElement();
-        StringBuilder dataBuffer = new StringBuilder();
+        StringBuilder dbtbBuffer = new StringBuilder();
         HTMLDocument doc = (HTMLDocument)getDocument();
-        AttributeSet attr = element.getAttributes();
+        AttributeSet bttr = element.getAttributes();
 
-        String type = (String) attr.getAttribute(HTML.Attribute.TYPE);
+        String type = (String) bttr.getAttribute(HTML.Attribute.TYPE);
 
-        if (type.equals("submit")) {
-            getFormData(dataBuffer);
-            submitData(dataBuffer.toString());
-        } else if (type.equals("reset")) {
+        if (type.equbls("submit")) {
+            getFormDbtb(dbtbBuffer);
+            submitDbtb(dbtbBuffer.toString());
+        } else if (type.equbls("reset")) {
             resetForm();
-        } else if (type.equals("text") || type.equals("password")) {
-            if (isLastTextOrPasswordField()) {
-                getFormData(dataBuffer);
-                submitData(dataBuffer.toString());
+        } else if (type.equbls("text") || type.equbls("pbssword")) {
+            if (isLbstTextOrPbsswordField()) {
+                getFormDbtb(dbtbBuffer);
+                submitDbtb(dbtbBuffer.toString());
             } else {
-                getComponent().transferFocus();
+                getComponent().trbnsferFocus();
             }
         }
     }
 
 
     /**
-     * This method is responsible for submitting the form data.
-     * A thread is forked to undertake the submission.
+     * This method is responsible for submitting the form dbtb.
+     * A threbd is forked to undertbke the submission.
      *
-     * @param data data to submit
+     * @pbrbm dbtb dbtb to submit
      */
-    protected void submitData(String data) {
+    protected void submitDbtb(String dbtb) {
         Element form = getFormElement();
-        AttributeSet attrs = form.getAttributes();
+        AttributeSet bttrs = form.getAttributes();
         HTMLDocument doc = (HTMLDocument) form.getDocument();
-        URL base = doc.getBase();
+        URL bbse = doc.getBbse();
 
-        String target = (String) attrs.getAttribute(HTML.Attribute.TARGET);
-        if (target == null) {
-            target = "_self";
+        String tbrget = (String) bttrs.getAttribute(HTML.Attribute.TARGET);
+        if (tbrget == null) {
+            tbrget = "_self";
         }
 
-        String method = (String) attrs.getAttribute(HTML.Attribute.METHOD);
+        String method = (String) bttrs.getAttribute(HTML.Attribute.METHOD);
         if (method == null) {
             method = "GET";
         }
-        method = method.toLowerCase();
-        boolean isPostMethod = method.equals("post");
+        method = method.toLowerCbse();
+        boolebn isPostMethod = method.equbls("post");
         if (isPostMethod) {
-            storePostData(doc, target, data);
+            storePostDbtb(doc, tbrget, dbtb);
         }
 
-        String action = (String) attrs.getAttribute(HTML.Attribute.ACTION);
-        URL actionURL;
+        String bction = (String) bttrs.getAttribute(HTML.Attribute.ACTION);
+        URL bctionURL;
         try {
-            actionURL = (action == null)
-                ? new URL(base.getProtocol(), base.getHost(),
-                                        base.getPort(), base.getFile())
-                : new URL(base, action);
+            bctionURL = (bction == null)
+                ? new URL(bbse.getProtocol(), bbse.getHost(),
+                                        bbse.getPort(), bbse.getFile())
+                : new URL(bbse, bction);
             if (!isPostMethod) {
-                String query = data.toString();
-                actionURL = new URL(actionURL + "?" + query);
+                String query = dbtb.toString();
+                bctionURL = new URL(bctionURL + "?" + query);
             }
-        } catch (MalformedURLException e) {
-            actionURL = null;
+        } cbtch (MblformedURLException e) {
+            bctionURL = null;
         }
-        final JEditorPane c = (JEditorPane) getContainer();
+        finbl JEditorPbne c = (JEditorPbne) getContbiner();
         HTMLEditorKit kit = (HTMLEditorKit) c.getEditorKit();
 
         FormSubmitEvent formEvent = null;
-        if (!kit.isAutoFormSubmission() || doc.isFrameDocument()) {
+        if (!kit.isAutoFormSubmission() || doc.isFrbmeDocument()) {
             FormSubmitEvent.MethodType methodType = isPostMethod
                     ? FormSubmitEvent.MethodType.POST
                     : FormSubmitEvent.MethodType.GET;
             formEvent = new FormSubmitEvent(
                     FormView.this, HyperlinkEvent.EventType.ACTIVATED,
-                    actionURL, form, target, methodType, data);
+                    bctionURL, form, tbrget, methodType, dbtb);
 
         }
-        // setPage() may take significant time so schedule it to run later.
-        final FormSubmitEvent fse = formEvent;
-        final URL url = actionURL;
-        SwingUtilities.invokeLater(new Runnable() {
+        // setPbge() mby tbke significbnt time so schedule it to run lbter.
+        finbl FormSubmitEvent fse = formEvent;
+        finbl URL url = bctionURL;
+        SwingUtilities.invokeLbter(new Runnbble() {
             public void run() {
                 if (fse != null) {
-                    c.fireHyperlinkUpdate(fse);
+                    c.fireHyperlinkUpdbte(fse);
                 } else {
                     try {
-                        c.setPage(url);
-                    } catch (IOException e) {
-                        UIManager.getLookAndFeel().provideErrorFeedback(c);
+                        c.setPbge(url);
+                    } cbtch (IOException e) {
+                        UIMbnbger.getLookAndFeel().provideErrorFeedbbck(c);
                     }
                 }
             }
         });
     }
 
-    private void storePostData(HTMLDocument doc, String target, String data) {
+    privbte void storePostDbtb(HTMLDocument doc, String tbrget, String dbtb) {
 
-        /* POST data is stored into the document property named by constant
-         * PostDataProperty from where it is later retrieved by method
-         * JEditorPane.getPostData().  If the current document is in a frame,
-         * the data is initially put into the toplevel (frameset) document
-         * property (named <PostDataProperty>.<Target frame name>).  It is the
-         * responsibility of FrameView which updates the target frame
-         * to move data from the frameset document property into the frame
+        /* POST dbtb is stored into the document property nbmed by constbnt
+         * PostDbtbProperty from where it is lbter retrieved by method
+         * JEditorPbne.getPostDbtb().  If the current document is in b frbme,
+         * the dbtb is initiblly put into the toplevel (frbmeset) document
+         * property (nbmed <PostDbtbProperty>.<Tbrget frbme nbme>).  It is the
+         * responsibility of FrbmeView which updbtes the tbrget frbme
+         * to move dbtb from the frbmeset document property into the frbme
          * document property.
          */
 
         Document propDoc = doc;
-        String propName = PostDataProperty;
+        String propNbme = PostDbtbProperty;
 
-        if (doc.isFrameDocument()) {
-            // find the top-most JEditorPane holding the frameset view.
-            FrameView.FrameEditorPane p =
-                    (FrameView.FrameEditorPane) getContainer();
-            FrameView v = p.getFrameView();
-            JEditorPane c = v.getOutermostJEditorPane();
+        if (doc.isFrbmeDocument()) {
+            // find the top-most JEditorPbne holding the frbmeset view.
+            FrbmeView.FrbmeEditorPbne p =
+                    (FrbmeView.FrbmeEditorPbne) getContbiner();
+            FrbmeView v = p.getFrbmeView();
+            JEditorPbne c = v.getOutermostJEditorPbne();
             if (c != null) {
                 propDoc = c.getDocument();
-                propName += ("." + target);
+                propNbme += ("." + tbrget);
             }
         }
 
-        propDoc.putProperty(propName, data);
+        propDoc.putProperty(propNbme, dbtb);
     }
 
     /**
-     * MouseEventListener class to handle form submissions when
-     * an input with type equal to image is clicked on.
-     * A MouseListener is necessary since along with the image
-     * data the coordinates associated with the mouse click
+     * MouseEventListener clbss to hbndle form submissions when
+     * bn input with type equbl to imbge is clicked on.
+     * A MouseListener is necessbry since blong with the imbge
+     * dbtb the coordinbtes bssocibted with the mouse click
      * need to be submitted.
      */
-    protected class MouseEventListener extends MouseAdapter {
+    protected clbss MouseEventListener extends MouseAdbpter {
 
-        public void mouseReleased(MouseEvent evt) {
-            String imageData = getImageData(evt.getPoint());
-            imageSubmit(imageData);
+        public void mouseRelebsed(MouseEvent evt) {
+            String imbgeDbtb = getImbgeDbtb(evt.getPoint());
+            imbgeSubmit(imbgeDbtb);
         }
     }
 
     /**
-     * This method is called to submit a form in response
-     * to a click on an image -- an &lt;INPUT&gt; form
-     * element of type "image".
+     * This method is cblled to submit b form in response
+     * to b click on bn imbge -- bn &lt;INPUT&gt; form
+     * element of type "imbge".
      *
-     * @param imageData the mouse click coordinates.
+     * @pbrbm imbgeDbtb the mouse click coordinbtes.
      */
-    protected void imageSubmit(String imageData) {
+    protected void imbgeSubmit(String imbgeDbtb) {
 
-        StringBuilder dataBuffer = new StringBuilder();
+        StringBuilder dbtbBuffer = new StringBuilder();
         Element elem = getElement();
         HTMLDocument hdoc = (HTMLDocument)elem.getDocument();
-        getFormData(dataBuffer);
-        if (dataBuffer.length() > 0) {
-            dataBuffer.append('&');
+        getFormDbtb(dbtbBuffer);
+        if (dbtbBuffer.length() > 0) {
+            dbtbBuffer.bppend('&');
         }
-        dataBuffer.append(imageData);
-        submitData(dataBuffer.toString());
+        dbtbBuffer.bppend(imbgeDbtb);
+        submitDbtb(dbtbBuffer.toString());
         return;
     }
 
     /**
-     * Extracts the value of the name attribute
-     * associated with the input element of type
-     * image.  If name is defined it is encoded using
-     * the URLEncoder.encode() method and the
-     * image data is returned in the following format:
-     *      name + ".x" +"="+ x +"&"+ name +".y"+"="+ y
+     * Extrbcts the vblue of the nbme bttribute
+     * bssocibted with the input element of type
+     * imbge.  If nbme is defined it is encoded using
+     * the URLEncoder.encode() method bnd the
+     * imbge dbtb is returned in the following formbt:
+     *      nbme + ".x" +"="+ x +"&"+ nbme +".y"+"="+ y
      * otherwise,
      *      "x="+ x +"&y="+ y
      *
-     * @param point associated with the mouse click.
-     * @return the image data.
+     * @pbrbm point bssocibted with the mouse click.
+     * @return the imbge dbtb.
      */
-    private String getImageData(Point point) {
+    privbte String getImbgeDbtb(Point point) {
 
         String mouseCoords = point.x + ":" + point.y;
         int sep = mouseCoords.indexOf(':');
         String x = mouseCoords.substring(0, sep);
         String y = mouseCoords.substring(++sep);
-        String name = (String) getElement().getAttributes().getAttribute(HTML.Attribute.NAME);
+        String nbme = (String) getElement().getAttributes().getAttribute(HTML.Attribute.NAME);
 
-        String data;
-        if (name == null || name.equals("")) {
-            data = "x="+ x +"&y="+ y;
+        String dbtb;
+        if (nbme == null || nbme.equbls("")) {
+            dbtb = "x="+ x +"&y="+ y;
         } else {
-            name = URLEncoder.encode(name);
-            data = name + ".x" +"="+ x +"&"+ name +".y"+"="+ y;
+            nbme = URLEncoder.encode(nbme);
+            dbtb = nbme + ".x" +"="+ x +"&"+ nbme +".y"+"="+ y;
         }
-        return data;
+        return dbtb;
     }
 
 
     /**
-     * The following methods provide functionality required to
-     * iterate over a the elements of the form and in the case
-     * of a form submission, extract the data from each model
-     * that is associated with each form element, and in the
-     * case of reset, reinitialize the each model to its
-     * initial state.
+     * The following methods provide functionblity required to
+     * iterbte over b the elements of the form bnd in the cbse
+     * of b form submission, extrbct the dbtb from ebch model
+     * thbt is bssocibted with ebch form element, bnd in the
+     * cbse of reset, reinitiblize the ebch model to its
+     * initibl stbte.
      */
 
 
     /**
      * Returns the Element representing the <code>FORM</code>.
      */
-    private Element getFormElement() {
+    privbte Element getFormElement() {
         Element elem = getElement();
         while (elem != null) {
             if (elem.getAttributes().getAttribute
-                (StyleConstants.NameAttribute) == HTML.Tag.FORM) {
+                (StyleConstbnts.NbmeAttribute) == HTML.Tbg.FORM) {
                 return elem;
             }
-            elem = elem.getParentElement();
+            elem = elem.getPbrentElement();
         }
         return null;
     }
 
     /**
-     * Iterates over the
-     * element hierarchy, extracting data from the
-     * models associated with the relevant form elements.
-     * "Relevant" means the form elements that are part
-     * of the same form whose element triggered the submit
-     * action.
+     * Iterbtes over the
+     * element hierbrchy, extrbcting dbtb from the
+     * models bssocibted with the relevbnt form elements.
+     * "Relevbnt" mebns the form elements thbt bre pbrt
+     * of the sbme form whose element triggered the submit
+     * bction.
      *
-     * @param buffer        the buffer that contains that data to submit
-     * @param targetElement the element that triggered the
+     * @pbrbm buffer        the buffer thbt contbins thbt dbtb to submit
+     * @pbrbm tbrgetElement the element thbt triggered the
      *                      form submission
      */
-    private void getFormData(StringBuilder buffer) {
+    privbte void getFormDbtb(StringBuilder buffer) {
         Element formE = getFormElement();
         if (formE != null) {
-            ElementIterator it = new ElementIterator(formE);
+            ElementIterbtor it = new ElementIterbtor(formE);
             Element next;
 
             while ((next = it.next()) != null) {
@@ -666,15 +666,15 @@ public class FormView extends ComponentView implements ActionListener {
                     String type = (String)next.getAttributes().getAttribute
                                        (HTML.Attribute.TYPE);
 
-                    if (type != null && type.equals("submit") &&
+                    if (type != null && type.equbls("submit") &&
                         next != getElement()) {
                         // do nothing - this submit is not the trigger
-                    } else if (type == null || !type.equals("image")) {
-                        // images only result in data if they triggered
-                        // the submit and they require that the mouse click
-                        // coords be appended to the data.  Hence its
-                        // processing is handled by the view.
-                        loadElementDataIntoBuffer(next, buffer);
+                    } else if (type == null || !type.equbls("imbge")) {
+                        // imbges only result in dbtb if they triggered
+                        // the submit bnd they require thbt the mouse click
+                        // coords be bppended to the dbtb.  Hence its
+                        // processing is hbndled by the view.
+                        lobdElementDbtbIntoBuffer(next, buffer);
                     }
                 }
             }
@@ -682,172 +682,172 @@ public class FormView extends ComponentView implements ActionListener {
     }
 
     /**
-     * Loads the data
-     * associated with the element into the buffer.
-     * The format in which data is appended depends
-     * on the type of the form element.  Essentially
-     * data is loaded in name/value pairs.
+     * Lobds the dbtb
+     * bssocibted with the element into the buffer.
+     * The formbt in which dbtb is bppended depends
+     * on the type of the form element.  Essentiblly
+     * dbtb is lobded in nbme/vblue pbirs.
      *
      */
-    private void loadElementDataIntoBuffer(Element elem, StringBuilder buffer) {
+    privbte void lobdElementDbtbIntoBuffer(Element elem, StringBuilder buffer) {
 
-        AttributeSet attr = elem.getAttributes();
-        String name = (String)attr.getAttribute(HTML.Attribute.NAME);
-        if (name == null) {
+        AttributeSet bttr = elem.getAttributes();
+        String nbme = (String)bttr.getAttribute(HTML.Attribute.NAME);
+        if (nbme == null) {
             return;
         }
-        String value = null;
-        HTML.Tag tag = (HTML.Tag)elem.getAttributes().getAttribute
-                                  (StyleConstants.NameAttribute);
+        String vblue = null;
+        HTML.Tbg tbg = (HTML.Tbg)elem.getAttributes().getAttribute
+                                  (StyleConstbnts.NbmeAttribute);
 
-        if (tag == HTML.Tag.INPUT) {
-            value = getInputElementData(attr);
-        } else if (tag ==  HTML.Tag.TEXTAREA) {
-            value = getTextAreaData(attr);
-        } else if (tag == HTML.Tag.SELECT) {
-            loadSelectData(attr, buffer);
+        if (tbg == HTML.Tbg.INPUT) {
+            vblue = getInputElementDbtb(bttr);
+        } else if (tbg ==  HTML.Tbg.TEXTAREA) {
+            vblue = getTextArebDbtb(bttr);
+        } else if (tbg == HTML.Tbg.SELECT) {
+            lobdSelectDbtb(bttr, buffer);
         }
 
-        if (name != null && value != null) {
-            appendBuffer(buffer, name, value);
+        if (nbme != null && vblue != null) {
+            bppendBuffer(buffer, nbme, vblue);
         }
     }
 
 
     /**
-     * Returns the data associated with an &lt;INPUT&gt; form
-     * element.  The value of "type" attributes is
-     * used to determine the type of the model associated
-     * with the element and then the relevant data is
-     * extracted.
+     * Returns the dbtb bssocibted with bn &lt;INPUT&gt; form
+     * element.  The vblue of "type" bttributes is
+     * used to determine the type of the model bssocibted
+     * with the element bnd then the relevbnt dbtb is
+     * extrbcted.
      */
-    private String getInputElementData(AttributeSet attr) {
+    privbte String getInputElementDbtb(AttributeSet bttr) {
 
-        Object model = attr.getAttribute(StyleConstants.ModelAttribute);
-        String type = (String) attr.getAttribute(HTML.Attribute.TYPE);
-        String value = null;
+        Object model = bttr.getAttribute(StyleConstbnts.ModelAttribute);
+        String type = (String) bttr.getAttribute(HTML.Attribute.TYPE);
+        String vblue = null;
 
-        if (type.equals("text") || type.equals("password")) {
+        if (type.equbls("text") || type.equbls("pbssword")) {
             Document doc = (Document)model;
             try {
-                value = doc.getText(0, doc.getLength());
-            } catch (BadLocationException e) {
-                value = null;
+                vblue = doc.getText(0, doc.getLength());
+            } cbtch (BbdLocbtionException e) {
+                vblue = null;
             }
-        } else if (type.equals("submit") || type.equals("hidden")) {
-            value = (String) attr.getAttribute(HTML.Attribute.VALUE);
-            if (value == null) {
-                value = "";
+        } else if (type.equbls("submit") || type.equbls("hidden")) {
+            vblue = (String) bttr.getAttribute(HTML.Attribute.VALUE);
+            if (vblue == null) {
+                vblue = "";
             }
-        } else if (type.equals("radio") || type.equals("checkbox")) {
+        } else if (type.equbls("rbdio") || type.equbls("checkbox")) {
             ButtonModel m = (ButtonModel)model;
             if (m.isSelected()) {
-                value = (String) attr.getAttribute(HTML.Attribute.VALUE);
-                if (value == null) {
-                    value = "on";
+                vblue = (String) bttr.getAttribute(HTML.Attribute.VALUE);
+                if (vblue == null) {
+                    vblue = "on";
                 }
             }
-        } else if (type.equals("file")) {
+        } else if (type.equbls("file")) {
             Document doc = (Document)model;
-            String path;
+            String pbth;
 
             try {
-                path = doc.getText(0, doc.getLength());
-            } catch (BadLocationException e) {
-                path = null;
+                pbth = doc.getText(0, doc.getLength());
+            } cbtch (BbdLocbtionException e) {
+                pbth = null;
             }
-            if (path != null && path.length() > 0) {
-                value = path;
+            if (pbth != null && pbth.length() > 0) {
+                vblue = pbth;
             }
         }
-        return value;
+        return vblue;
     }
 
     /**
-     * Returns the data associated with the &lt;TEXTAREA&gt; form
+     * Returns the dbtb bssocibted with the &lt;TEXTAREA&gt; form
      * element.  This is done by getting the text stored in the
      * Document model.
      */
-    private String getTextAreaData(AttributeSet attr) {
-        Document doc = (Document)attr.getAttribute(StyleConstants.ModelAttribute);
+    privbte String getTextArebDbtb(AttributeSet bttr) {
+        Document doc = (Document)bttr.getAttribute(StyleConstbnts.ModelAttribute);
         try {
             return doc.getText(0, doc.getLength());
-        } catch (BadLocationException e) {
+        } cbtch (BbdLocbtionException e) {
             return null;
         }
     }
 
 
     /**
-     * Loads the buffer with the data associated with the Select
-     * form element.  Basically, only items that are selected
-     * and have their name attribute set are added to the buffer.
+     * Lobds the buffer with the dbtb bssocibted with the Select
+     * form element.  Bbsicblly, only items thbt bre selected
+     * bnd hbve their nbme bttribute set bre bdded to the buffer.
      */
-    private void loadSelectData(AttributeSet attr, StringBuilder buffer) {
+    privbte void lobdSelectDbtb(AttributeSet bttr, StringBuilder buffer) {
 
-        String name = (String)attr.getAttribute(HTML.Attribute.NAME);
-        if (name == null) {
+        String nbme = (String)bttr.getAttribute(HTML.Attribute.NAME);
+        if (nbme == null) {
             return;
         }
-        Object m = attr.getAttribute(StyleConstants.ModelAttribute);
-        if (m instanceof OptionListModel) {
-            @SuppressWarnings("unchecked")
+        Object m = bttr.getAttribute(StyleConstbnts.ModelAttribute);
+        if (m instbnceof OptionListModel) {
+            @SuppressWbrnings("unchecked")
             OptionListModel<Option> model = (OptionListModel<Option>) m;
 
             for (int i = 0; i < model.getSize(); i++) {
                 if (model.isSelectedIndex(i)) {
                     Option option = model.getElementAt(i);
-                    appendBuffer(buffer, name, option.getValue());
+                    bppendBuffer(buffer, nbme, option.getVblue());
                 }
             }
-        } else if (m instanceof ComboBoxModel) {
-            @SuppressWarnings("unchecked")
+        } else if (m instbnceof ComboBoxModel) {
+            @SuppressWbrnings("unchecked")
             ComboBoxModel<?> model = (ComboBoxModel)m;
             Option option = (Option)model.getSelectedItem();
             if (option != null) {
-                appendBuffer(buffer, name, option.getValue());
+                bppendBuffer(buffer, nbme, option.getVblue());
             }
         }
     }
 
     /**
-     * Appends name / value pairs into the
-     * buffer.  Both names and values are encoded using the
-     * URLEncoder.encode() method before being added to the
+     * Appends nbme / vblue pbirs into the
+     * buffer.  Both nbmes bnd vblues bre encoded using the
+     * URLEncoder.encode() method before being bdded to the
      * buffer.
      */
-    private void appendBuffer(StringBuilder buffer, String name, String value) {
+    privbte void bppendBuffer(StringBuilder buffer, String nbme, String vblue) {
         if (buffer.length() > 0) {
-            buffer.append('&');
+            buffer.bppend('&');
         }
-        String encodedName = URLEncoder.encode(name);
-        buffer.append(encodedName);
-        buffer.append('=');
-        String encodedValue = URLEncoder.encode(value);
-        buffer.append(encodedValue);
+        String encodedNbme = URLEncoder.encode(nbme);
+        buffer.bppend(encodedNbme);
+        buffer.bppend('=');
+        String encodedVblue = URLEncoder.encode(vblue);
+        buffer.bppend(encodedVblue);
     }
 
     /**
-     * Returns true if the Element <code>elem</code> represents a control.
+     * Returns true if the Element <code>elem</code> represents b control.
      */
-    private boolean isControl(Element elem) {
-        return elem.isLeaf();
+    privbte boolebn isControl(Element elem) {
+        return elem.isLebf();
     }
 
     /**
-     * Iterates over the element hierarchy to determine if
-     * the element parameter, which is assumed to be an
-     * &lt;INPUT&gt; element of type password or text, is the last
+     * Iterbtes over the element hierbrchy to determine if
+     * the element pbrbmeter, which is bssumed to be bn
+     * &lt;INPUT&gt; element of type pbssword or text, is the lbst
      * one of either kind, in the form to which it belongs.
      */
-    boolean isLastTextOrPasswordField() {
-        Element parent = getFormElement();
+    boolebn isLbstTextOrPbsswordField() {
+        Element pbrent = getFormElement();
         Element elem = getElement();
 
-        if (parent != null) {
-            ElementIterator it = new ElementIterator(parent);
+        if (pbrent != null) {
+            ElementIterbtor it = new ElementIterbtor(pbrent);
             Element next;
-            boolean found = false;
+            boolebn found = fblse;
 
             while ((next = it.next()) != null) {
                 if (next == elem) {
@@ -856,13 +856,13 @@ public class FormView extends ComponentView implements ActionListener {
                 else if (found && isControl(next)) {
                     AttributeSet elemAttr = next.getAttributes();
 
-                    if (HTMLDocument.matchNameAttribute
-                                     (elemAttr, HTML.Tag.INPUT)) {
+                    if (HTMLDocument.mbtchNbmeAttribute
+                                     (elemAttr, HTML.Tbg.INPUT)) {
                         String type = (String)elemAttr.getAttribute
                                                   (HTML.Attribute.TYPE);
 
-                        if ("text".equals(type) || "password".equals(type)) {
-                            return false;
+                        if ("text".equbls(type) || "pbssword".equbls(type)) {
+                            return fblse;
                         }
                     }
                 }
@@ -873,63 +873,63 @@ public class FormView extends ComponentView implements ActionListener {
 
     /**
      * Resets the form
-     * to its initial state by reinitializing the models
-     * associated with each form element to their initial
-     * values.
+     * to its initibl stbte by reinitiblizing the models
+     * bssocibted with ebch form element to their initibl
+     * vblues.
      *
-     * param elem the element that triggered the reset
+     * pbrbm elem the element thbt triggered the reset
      */
     void resetForm() {
-        Element parent = getFormElement();
+        Element pbrent = getFormElement();
 
-        if (parent != null) {
-            ElementIterator it = new ElementIterator(parent);
+        if (pbrent != null) {
+            ElementIterbtor it = new ElementIterbtor(pbrent);
             Element next;
 
             while((next = it.next()) != null) {
                 if (isControl(next)) {
                     AttributeSet elemAttr = next.getAttributes();
-                    Object m = elemAttr.getAttribute(StyleConstants.
+                    Object m = elemAttr.getAttribute(StyleConstbnts.
                                                      ModelAttribute);
-                    if (m instanceof TextAreaDocument) {
-                        TextAreaDocument doc = (TextAreaDocument)m;
+                    if (m instbnceof TextArebDocument) {
+                        TextArebDocument doc = (TextArebDocument)m;
                         doc.reset();
-                    } else if (m instanceof PlainDocument) {
+                    } else if (m instbnceof PlbinDocument) {
                         try {
-                            PlainDocument doc =  (PlainDocument)m;
+                            PlbinDocument doc =  (PlbinDocument)m;
                             doc.remove(0, doc.getLength());
-                            if (HTMLDocument.matchNameAttribute
-                                             (elemAttr, HTML.Tag.INPUT)) {
-                                String value = (String)elemAttr.
+                            if (HTMLDocument.mbtchNbmeAttribute
+                                             (elemAttr, HTML.Tbg.INPUT)) {
+                                String vblue = (String)elemAttr.
                                            getAttribute(HTML.Attribute.VALUE);
-                                if (value != null) {
-                                    doc.insertString(0, value, null);
+                                if (vblue != null) {
+                                    doc.insertString(0, vblue, null);
                                 }
                             }
-                        } catch (BadLocationException e) {
+                        } cbtch (BbdLocbtionException e) {
                         }
-                    } else if (m instanceof OptionListModel) {
-                        @SuppressWarnings("unchecked")
+                    } else if (m instbnceof OptionListModel) {
+                        @SuppressWbrnings("unchecked")
                         OptionListModel<?> model = (OptionListModel) m;
                         int size = model.getSize();
                         for (int i = 0; i < size; i++) {
-                            model.removeIndexInterval(i, i);
+                            model.removeIndexIntervbl(i, i);
                         }
-                        BitSet selectionRange = model.getInitialSelection();
-                        for (int i = 0; i < selectionRange.size(); i++) {
-                            if (selectionRange.get(i)) {
-                                model.addSelectionInterval(i, i);
+                        BitSet selectionRbnge = model.getInitiblSelection();
+                        for (int i = 0; i < selectionRbnge.size(); i++) {
+                            if (selectionRbnge.get(i)) {
+                                model.bddSelectionIntervbl(i, i);
                             }
                         }
-                    } else if (m instanceof OptionComboBoxModel) {
-                        @SuppressWarnings("unchecked")
+                    } else if (m instbnceof OptionComboBoxModel) {
+                        @SuppressWbrnings("unchecked")
                         OptionComboBoxModel<?> model = (OptionComboBoxModel) m;
-                        Option option = model.getInitialSelection();
+                        Option option = model.getInitiblSelection();
                         if (option != null) {
                             model.setSelectedItem(option);
                         }
-                    } else if (m instanceof JToggleButton.ToggleButtonModel) {
-                        boolean checked = ((String)elemAttr.getAttribute
+                    } else if (m instbnceof JToggleButton.ToggleButtonModel) {
+                        boolebn checked = ((String)elemAttr.getAttribute
                                            (HTML.Attribute.CHECKED) != null);
                         JToggleButton.ToggleButtonModel model =
                                         (JToggleButton.ToggleButtonModel)m;
@@ -943,25 +943,25 @@ public class FormView extends ComponentView implements ActionListener {
 
     /**
      * BrowseFileAction is used for input type == file. When the user
-     * clicks the button a JFileChooser is brought up allowing the user
-     * to select a file in the file system. The resulting path to the selected
-     * file is set in the text field (actually an instance of Document).
+     * clicks the button b JFileChooser is brought up bllowing the user
+     * to select b file in the file system. The resulting pbth to the selected
+     * file is set in the text field (bctublly bn instbnce of Document).
      */
-    private class BrowseFileAction implements ActionListener {
-        private AttributeSet attrs;
-        private Document model;
+    privbte clbss BrowseFileAction implements ActionListener {
+        privbte AttributeSet bttrs;
+        privbte Document model;
 
-        BrowseFileAction(AttributeSet attrs, Document model) {
-            this.attrs = attrs;
+        BrowseFileAction(AttributeSet bttrs, Document model) {
+            this.bttrs = bttrs;
             this.model = model;
         }
 
-        public void actionPerformed(ActionEvent ae) {
-            // PENDING: When mime support is added to JFileChooser use the
-            // accept value of attrs.
+        public void bctionPerformed(ActionEvent be) {
+            // PENDING: When mime support is bdded to JFileChooser use the
+            // bccept vblue of bttrs.
             JFileChooser fc = new JFileChooser();
-            fc.setMultiSelectionEnabled(false);
-            if (fc.showOpenDialog(getContainer()) ==
+            fc.setMultiSelectionEnbbled(fblse);
+            if (fc.showOpenDiblog(getContbiner()) ==
                   JFileChooser.APPROVE_OPTION) {
                 File selected = fc.getSelectedFile();
 
@@ -970,8 +970,8 @@ public class FormView extends ComponentView implements ActionListener {
                         if (model.getLength() > 0) {
                             model.remove(0, model.getLength());
                         }
-                        model.insertString(0, selected.getPath(), null);
-                    } catch (BadLocationException ble) {}
+                        model.insertString(0, selected.getPbth(), null);
+                    } cbtch (BbdLocbtionException ble) {}
                 }
             }
         }

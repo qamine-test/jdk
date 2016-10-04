@@ -1,97 +1,97 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.crypto.spec;
+pbckbge jbvbx.crypto.spec;
 
-import java.security.spec.AlgorithmParameterSpec;
+import jbvb.security.spec.AlgorithmPbrbmeterSpec;
 
 /**
- * This class specifies an <i>initialization vector</i> (IV).
- * Examples which use IVs are ciphers in feedback mode,
- * e.g., DES in CBC mode and RSA ciphers with OAEP encoding
- * operation.
+ * This clbss specifies bn <i>initiblizbtion vector</i> (IV).
+ * Exbmples which use IVs bre ciphers in feedbbck mode,
+ * e.g., DES in CBC mode bnd RSA ciphers with OAEP encoding
+ * operbtion.
  *
- * @author Jan Luehe
+ * @buthor Jbn Luehe
  *
  * @since 1.4
  */
-public class IvParameterSpec implements AlgorithmParameterSpec {
+public clbss IvPbrbmeterSpec implements AlgorithmPbrbmeterSpec {
 
-    private byte[] iv;
+    privbte byte[] iv;
 
     /**
-     * Creates an IvParameterSpec object using the bytes in <code>iv</code>
-     * as the IV.
+     * Crebtes bn IvPbrbmeterSpec object using the bytes in <code>iv</code>
+     * bs the IV.
      *
-     * @param iv the buffer with the IV. The contents of the
-     * buffer are copied to protect against subsequent modification.
+     * @pbrbm iv the buffer with the IV. The contents of the
+     * buffer bre copied to protect bgbinst subsequent modificbtion.
      * @throws NullPointerException if <code>iv</code> is <code>null</code>
      */
-    public IvParameterSpec(byte[] iv) {
+    public IvPbrbmeterSpec(byte[] iv) {
         this(iv, 0, iv.length);
     }
 
     /**
-     * Creates an IvParameterSpec object using the first <code>len</code>
-     * bytes in <code>iv</code>, beginning at <code>offset</code>
-     * inclusive, as the IV.
+     * Crebtes bn IvPbrbmeterSpec object using the first <code>len</code>
+     * bytes in <code>iv</code>, beginning bt <code>offset</code>
+     * inclusive, bs the IV.
      *
-     * <p> The bytes that constitute the IV are those between
-     * <code>iv[offset]</code> and <code>iv[offset+len-1]</code> inclusive.
+     * <p> The bytes thbt constitute the IV bre those between
+     * <code>iv[offset]</code> bnd <code>iv[offset+len-1]</code> inclusive.
      *
-     * @param iv the buffer with the IV. The first <code>len</code>
-     * bytes of the buffer beginning at <code>offset</code> inclusive
-     * are copied to protect against subsequent modification.
-     * @param offset the offset in <code>iv</code> where the IV
-     * starts.
-     * @param len the number of IV bytes.
-     * @throws IllegalArgumentException if <code>iv</code> is <code>null</code>
+     * @pbrbm iv the buffer with the IV. The first <code>len</code>
+     * bytes of the buffer beginning bt <code>offset</code> inclusive
+     * bre copied to protect bgbinst subsequent modificbtion.
+     * @pbrbm offset the offset in <code>iv</code> where the IV
+     * stbrts.
+     * @pbrbm len the number of IV bytes.
+     * @throws IllegblArgumentException if <code>iv</code> is <code>null</code>
      * or {@code (iv.length - offset < len)}
-     * @throws ArrayIndexOutOfBoundsException is thrown if <code>offset</code>
+     * @throws ArrbyIndexOutOfBoundsException is thrown if <code>offset</code>
      * or <code>len</code> index bytes outside the <code>iv</code>.
      */
-    public IvParameterSpec(byte[] iv, int offset, int len) {
+    public IvPbrbmeterSpec(byte[] iv, int offset, int len) {
         if (iv == null) {
-            throw new IllegalArgumentException("IV missing");
+            throw new IllegblArgumentException("IV missing");
         }
         if (iv.length - offset < len) {
-            throw new IllegalArgumentException
-                ("IV buffer too short for given offset/length combination");
+            throw new IllegblArgumentException
+                ("IV buffer too short for given offset/length combinbtion");
         }
         if (len < 0) {
-            throw new ArrayIndexOutOfBoundsException("len is negative");
+            throw new ArrbyIndexOutOfBoundsException("len is negbtive");
         }
         this.iv = new byte[len];
-        System.arraycopy(iv, offset, this.iv, 0, len);
+        System.brrbycopy(iv, offset, this.iv, 0, len);
     }
 
     /**
-     * Returns the initialization vector (IV).
+     * Returns the initiblizbtion vector (IV).
      *
-     * @return the initialization vector (IV). Returns a new array
-     * each time this method is called.
+     * @return the initiblizbtion vector (IV). Returns b new brrby
+     * ebch time this method is cblled.
      */
     public byte[] getIV() {
         return this.iv.clone();

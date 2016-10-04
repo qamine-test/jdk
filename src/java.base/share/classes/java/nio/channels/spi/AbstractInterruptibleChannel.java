@@ -1,203 +1,203 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
  */
 
-package java.nio.channels.spi;
+pbckbge jbvb.nio.chbnnels.spi;
 
-import java.io.IOException;
-import java.lang.reflect.Method;
-import java.lang.reflect.InvocationTargetException;
-import java.nio.channels.*;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
+import jbvb.io.IOException;
+import jbvb.lbng.reflect.Method;
+import jbvb.lbng.reflect.InvocbtionTbrgetException;
+import jbvb.nio.chbnnels.*;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
 import sun.nio.ch.Interruptible;
 
 
 /**
- * Base implementation class for interruptible channels.
+ * Bbse implementbtion clbss for interruptible chbnnels.
  *
- * <p> This class encapsulates the low-level machinery required to implement
- * the asynchronous closing and interruption of channels.  A concrete channel
- * class must invoke the {@link #begin begin} and {@link #end end} methods
- * before and after, respectively, invoking an I/O operation that might block
- * indefinitely.  In order to ensure that the {@link #end end} method is always
- * invoked, these methods should be used within a
- * <tt>try</tt>&nbsp;...&nbsp;<tt>finally</tt> block:
+ * <p> This clbss encbpsulbtes the low-level mbchinery required to implement
+ * the bsynchronous closing bnd interruption of chbnnels.  A concrete chbnnel
+ * clbss must invoke the {@link #begin begin} bnd {@link #end end} methods
+ * before bnd bfter, respectively, invoking bn I/O operbtion thbt might block
+ * indefinitely.  In order to ensure thbt the {@link #end end} method is blwbys
+ * invoked, these methods should be used within b
+ * <tt>try</tt>&nbsp;...&nbsp;<tt>finblly</tt> block:
  *
  * <blockquote><pre>
- * boolean completed = false;
+ * boolebn completed = fblse;
  * try {
  *     begin();
- *     completed = ...;    // Perform blocking I/O operation
+ *     completed = ...;    // Perform blocking I/O operbtion
  *     return ...;         // Return result
- * } finally {
+ * } finblly {
  *     end(completed);
  * }</pre></blockquote>
  *
- * <p> The <tt>completed</tt> argument to the {@link #end end} method tells
- * whether or not the I/O operation actually completed, that is, whether it had
- * any effect that would be visible to the invoker.  In the case of an
- * operation that reads bytes, for example, this argument should be
- * <tt>true</tt> if, and only if, some bytes were actually transferred into the
- * invoker's target buffer.
+ * <p> The <tt>completed</tt> brgument to the {@link #end end} method tells
+ * whether or not the I/O operbtion bctublly completed, thbt is, whether it hbd
+ * bny effect thbt would be visible to the invoker.  In the cbse of bn
+ * operbtion thbt rebds bytes, for exbmple, this brgument should be
+ * <tt>true</tt> if, bnd only if, some bytes were bctublly trbnsferred into the
+ * invoker's tbrget buffer.
  *
- * <p> A concrete channel class must also implement the {@link
- * #implCloseChannel implCloseChannel} method in such a way that if it is
- * invoked while another thread is blocked in a native I/O operation upon the
- * channel then that operation will immediately return, either by throwing an
- * exception or by returning normally.  If a thread is interrupted or the
- * channel upon which it is blocked is asynchronously closed then the channel's
- * {@link #end end} method will throw the appropriate exception.
+ * <p> A concrete chbnnel clbss must blso implement the {@link
+ * #implCloseChbnnel implCloseChbnnel} method in such b wby thbt if it is
+ * invoked while bnother threbd is blocked in b nbtive I/O operbtion upon the
+ * chbnnel then thbt operbtion will immedibtely return, either by throwing bn
+ * exception or by returning normblly.  If b threbd is interrupted or the
+ * chbnnel upon which it is blocked is bsynchronously closed then the chbnnel's
+ * {@link #end end} method will throw the bppropribte exception.
  *
- * <p> This class performs the synchronization required to implement the {@link
- * java.nio.channels.Channel} specification.  Implementations of the {@link
- * #implCloseChannel implCloseChannel} method need not synchronize against
- * other threads that might be attempting to close the channel.  </p>
+ * <p> This clbss performs the synchronizbtion required to implement the {@link
+ * jbvb.nio.chbnnels.Chbnnel} specificbtion.  Implementbtions of the {@link
+ * #implCloseChbnnel implCloseChbnnel} method need not synchronize bgbinst
+ * other threbds thbt might be bttempting to close the chbnnel.  </p>
  *
  *
- * @author Mark Reinhold
- * @author JSR-51 Expert Group
+ * @buthor Mbrk Reinhold
+ * @buthor JSR-51 Expert Group
  * @since 1.4
  */
 
-public abstract class AbstractInterruptibleChannel
-    implements Channel, InterruptibleChannel
+public bbstrbct clbss AbstrbctInterruptibleChbnnel
+    implements Chbnnel, InterruptibleChbnnel
 {
 
-    private final Object closeLock = new Object();
-    private volatile boolean open = true;
+    privbte finbl Object closeLock = new Object();
+    privbte volbtile boolebn open = true;
 
     /**
-     * Initializes a new instance of this class.
+     * Initiblizes b new instbnce of this clbss.
      */
-    protected AbstractInterruptibleChannel() { }
+    protected AbstrbctInterruptibleChbnnel() { }
 
     /**
-     * Closes this channel.
+     * Closes this chbnnel.
      *
-     * <p> If the channel has already been closed then this method returns
-     * immediately.  Otherwise it marks the channel as closed and then invokes
-     * the {@link #implCloseChannel implCloseChannel} method in order to
-     * complete the close operation.  </p>
+     * <p> If the chbnnel hbs blrebdy been closed then this method returns
+     * immedibtely.  Otherwise it mbrks the chbnnel bs closed bnd then invokes
+     * the {@link #implCloseChbnnel implCloseChbnnel} method in order to
+     * complete the close operbtion.  </p>
      *
      * @throws  IOException
-     *          If an I/O error occurs
+     *          If bn I/O error occurs
      */
-    public final void close() throws IOException {
+    public finbl void close() throws IOException {
         synchronized (closeLock) {
             if (!open)
                 return;
-            open = false;
-            implCloseChannel();
+            open = fblse;
+            implCloseChbnnel();
         }
     }
 
     /**
-     * Closes this channel.
+     * Closes this chbnnel.
      *
      * <p> This method is invoked by the {@link #close close} method in order
-     * to perform the actual work of closing the channel.  This method is only
-     * invoked if the channel has not yet been closed, and it is never invoked
-     * more than once.
+     * to perform the bctubl work of closing the chbnnel.  This method is only
+     * invoked if the chbnnel hbs not yet been closed, bnd it is never invoked
+     * more thbn once.
      *
-     * <p> An implementation of this method must arrange for any other thread
-     * that is blocked in an I/O operation upon this channel to return
-     * immediately, either by throwing an exception or by returning normally.
+     * <p> An implementbtion of this method must brrbnge for bny other threbd
+     * thbt is blocked in bn I/O operbtion upon this chbnnel to return
+     * immedibtely, either by throwing bn exception or by returning normblly.
      * </p>
      *
      * @throws  IOException
-     *          If an I/O error occurs while closing the channel
+     *          If bn I/O error occurs while closing the chbnnel
      */
-    protected abstract void implCloseChannel() throws IOException;
+    protected bbstrbct void implCloseChbnnel() throws IOException;
 
-    public final boolean isOpen() {
+    public finbl boolebn isOpen() {
         return open;
     }
 
 
-    // -- Interruption machinery --
+    // -- Interruption mbchinery --
 
-    private Interruptible interruptor;
-    private volatile Thread interrupted;
+    privbte Interruptible interruptor;
+    privbte volbtile Threbd interrupted;
 
     /**
-     * Marks the beginning of an I/O operation that might block indefinitely.
+     * Mbrks the beginning of bn I/O operbtion thbt might block indefinitely.
      *
-     * <p> This method should be invoked in tandem with the {@link #end end}
-     * method, using a <tt>try</tt>&nbsp;...&nbsp;<tt>finally</tt> block as
-     * shown <a href="#be">above</a>, in order to implement asynchronous
-     * closing and interruption for this channel.  </p>
+     * <p> This method should be invoked in tbndem with the {@link #end end}
+     * method, using b <tt>try</tt>&nbsp;...&nbsp;<tt>finblly</tt> block bs
+     * shown <b href="#be">bbove</b>, in order to implement bsynchronous
+     * closing bnd interruption for this chbnnel.  </p>
      */
-    protected final void begin() {
+    protected finbl void begin() {
         if (interruptor == null) {
             interruptor = new Interruptible() {
-                    public void interrupt(Thread target) {
+                    public void interrupt(Threbd tbrget) {
                         synchronized (closeLock) {
                             if (!open)
                                 return;
-                            open = false;
-                            interrupted = target;
+                            open = fblse;
+                            interrupted = tbrget;
                             try {
-                                AbstractInterruptibleChannel.this.implCloseChannel();
-                            } catch (IOException x) { }
+                                AbstrbctInterruptibleChbnnel.this.implCloseChbnnel();
+                            } cbtch (IOException x) { }
                         }
                     }};
         }
         blockedOn(interruptor);
-        Thread me = Thread.currentThread();
+        Threbd me = Threbd.currentThrebd();
         if (me.isInterrupted())
             interruptor.interrupt(me);
     }
 
     /**
-     * Marks the end of an I/O operation that might block indefinitely.
+     * Mbrks the end of bn I/O operbtion thbt might block indefinitely.
      *
-     * <p> This method should be invoked in tandem with the {@link #begin
-     * begin} method, using a <tt>try</tt>&nbsp;...&nbsp;<tt>finally</tt> block
-     * as shown <a href="#be">above</a>, in order to implement asynchronous
-     * closing and interruption for this channel.  </p>
+     * <p> This method should be invoked in tbndem with the {@link #begin
+     * begin} method, using b <tt>try</tt>&nbsp;...&nbsp;<tt>finblly</tt> block
+     * bs shown <b href="#be">bbove</b>, in order to implement bsynchronous
+     * closing bnd interruption for this chbnnel.  </p>
      *
-     * @param  completed
-     *         <tt>true</tt> if, and only if, the I/O operation completed
-     *         successfully, that is, had some effect that would be visible to
-     *         the operation's invoker
+     * @pbrbm  completed
+     *         <tt>true</tt> if, bnd only if, the I/O operbtion completed
+     *         successfully, thbt is, hbd some effect thbt would be visible to
+     *         the operbtion's invoker
      *
      * @throws  AsynchronousCloseException
-     *          If the channel was asynchronously closed
+     *          If the chbnnel wbs bsynchronously closed
      *
      * @throws  ClosedByInterruptException
-     *          If the thread blocked in the I/O operation was interrupted
+     *          If the threbd blocked in the I/O operbtion wbs interrupted
      */
-    protected final void end(boolean completed)
+    protected finbl void end(boolebn completed)
         throws AsynchronousCloseException
     {
         blockedOn(null);
-        Thread interrupted = this.interrupted;
-        if (interrupted != null && interrupted == Thread.currentThread()) {
+        Threbd interrupted = this.interrupted;
+        if (interrupted != null && interrupted == Threbd.currentThrebd()) {
             interrupted = null;
             throw new ClosedByInterruptException();
         }
@@ -206,9 +206,9 @@ public abstract class AbstractInterruptibleChannel
     }
 
 
-    // -- sun.misc.SharedSecrets --
-    static void blockedOn(Interruptible intr) {         // package-private
-        sun.misc.SharedSecrets.getJavaLangAccess().blockedOn(Thread.currentThread(),
+    // -- sun.misc.ShbredSecrets --
+    stbtic void blockedOn(Interruptible intr) {         // pbckbge-privbte
+        sun.misc.ShbredSecrets.getJbvbLbngAccess().blockedOn(Threbd.currentThrebd(),
                                                              intr);
     }
 }

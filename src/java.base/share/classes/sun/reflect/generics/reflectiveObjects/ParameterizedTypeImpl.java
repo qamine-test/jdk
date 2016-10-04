@@ -1,147 +1,147 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.reflect.generics.reflectiveObjects;
+pbckbge sun.reflect.generics.reflectiveObjects;
 
-import sun.reflect.generics.tree.FieldTypeSignature;
+import sun.reflect.generics.tree.FieldTypeSignbture;
 
-import java.lang.reflect.MalformedParameterizedTypeException;
-import java.lang.reflect.Method;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-import java.lang.reflect.TypeVariable;
-import java.util.Arrays;
-import java.util.Objects;
+import jbvb.lbng.reflect.MblformedPbrbmeterizedTypeException;
+import jbvb.lbng.reflect.Method;
+import jbvb.lbng.reflect.PbrbmeterizedType;
+import jbvb.lbng.reflect.Type;
+import jbvb.lbng.reflect.TypeVbribble;
+import jbvb.util.Arrbys;
+import jbvb.util.Objects;
 
-/** Implementing class for ParameterizedType interface. */
+/** Implementing clbss for PbrbmeterizedType interfbce. */
 
-public class ParameterizedTypeImpl implements ParameterizedType {
-    private Type[] actualTypeArguments;
-    private Class<?>  rawType;
-    private Type   ownerType;
+public clbss PbrbmeterizedTypeImpl implements PbrbmeterizedType {
+    privbte Type[] bctublTypeArguments;
+    privbte Clbss<?>  rbwType;
+    privbte Type   ownerType;
 
-    private ParameterizedTypeImpl(Class<?> rawType,
-                                  Type[] actualTypeArguments,
+    privbte PbrbmeterizedTypeImpl(Clbss<?> rbwType,
+                                  Type[] bctublTypeArguments,
                                   Type ownerType) {
-        this.actualTypeArguments = actualTypeArguments;
-        this.rawType             = rawType;
-        this.ownerType = (ownerType != null) ? ownerType : rawType.getDeclaringClass();
-        validateConstructorArguments();
+        this.bctublTypeArguments = bctublTypeArguments;
+        this.rbwType             = rbwType;
+        this.ownerType = (ownerType != null) ? ownerType : rbwType.getDeclbringClbss();
+        vblidbteConstructorArguments();
     }
 
-    private void validateConstructorArguments() {
-        TypeVariable<?>[] formals = rawType.getTypeParameters();
-        // check correct arity of actual type args
-        if (formals.length != actualTypeArguments.length){
-            throw new MalformedParameterizedTypeException();
+    privbte void vblidbteConstructorArguments() {
+        TypeVbribble<?>[] formbls = rbwType.getTypePbrbmeters();
+        // check correct brity of bctubl type brgs
+        if (formbls.length != bctublTypeArguments.length){
+            throw new MblformedPbrbmeterizedTypeException();
         }
-        for (int i = 0; i < actualTypeArguments.length; i++) {
-            // check actuals against formals' bounds
+        for (int i = 0; i < bctublTypeArguments.length; i++) {
+            // check bctubls bgbinst formbls' bounds
         }
     }
 
     /**
-     * Static factory. Given a (generic) class, actual type arguments
-     * and an owner type, creates a parameterized type.
-     * This class can be instantiated with a a raw type that does not
-     * represent a generic type, provided the list of actual type
-     * arguments is empty.
-     * If the ownerType argument is null, the declaring class of the
-     * raw type is used as the owner type.
-     * <p> This method throws a MalformedParameterizedTypeException
-     * under the following circumstances:
-     * If the number of actual type arguments (i.e., the size of the
-     * array <tt>typeArgs</tt>) does not correspond to the number of
-     * formal type arguments.
-     * If any of the actual type arguments is not an instance of the
-     * bounds on the corresponding formal.
-     * @param rawType the Class representing the generic type declaration being
-     * instantiated
-     * @param actualTypeArguments - a (possibly empty) array of types
-     * representing the actual type arguments to the parameterized type
-     * @param ownerType - the enclosing type, if known.
-     * @return An instance of <tt>ParameterizedType</tt>
-     * @throws MalformedParameterizedTypeException - if the instantiation
-     * is invalid
+     * Stbtic fbctory. Given b (generic) clbss, bctubl type brguments
+     * bnd bn owner type, crebtes b pbrbmeterized type.
+     * This clbss cbn be instbntibted with b b rbw type thbt does not
+     * represent b generic type, provided the list of bctubl type
+     * brguments is empty.
+     * If the ownerType brgument is null, the declbring clbss of the
+     * rbw type is used bs the owner type.
+     * <p> This method throws b MblformedPbrbmeterizedTypeException
+     * under the following circumstbnces:
+     * If the number of bctubl type brguments (i.e., the size of the
+     * brrby <tt>typeArgs</tt>) does not correspond to the number of
+     * formbl type brguments.
+     * If bny of the bctubl type brguments is not bn instbnce of the
+     * bounds on the corresponding formbl.
+     * @pbrbm rbwType the Clbss representing the generic type declbrbtion being
+     * instbntibted
+     * @pbrbm bctublTypeArguments - b (possibly empty) brrby of types
+     * representing the bctubl type brguments to the pbrbmeterized type
+     * @pbrbm ownerType - the enclosing type, if known.
+     * @return An instbnce of <tt>PbrbmeterizedType</tt>
+     * @throws MblformedPbrbmeterizedTypeException - if the instbntibtion
+     * is invblid
      */
-    public static ParameterizedTypeImpl make(Class<?> rawType,
-                                             Type[] actualTypeArguments,
+    public stbtic PbrbmeterizedTypeImpl mbke(Clbss<?> rbwType,
+                                             Type[] bctublTypeArguments,
                                              Type ownerType) {
-        return new ParameterizedTypeImpl(rawType, actualTypeArguments,
+        return new PbrbmeterizedTypeImpl(rbwType, bctublTypeArguments,
                                          ownerType);
     }
 
 
     /**
-     * Returns an array of <tt>Type</tt> objects representing the actual type
-     * arguments to this type.
+     * Returns bn brrby of <tt>Type</tt> objects representing the bctubl type
+     * brguments to this type.
      *
-     * <p>Note that in some cases, the returned array be empty. This can occur
-     * if this type represents a non-parameterized type nested within
-     * a parameterized type.
+     * <p>Note thbt in some cbses, the returned brrby be empty. This cbn occur
+     * if this type represents b non-pbrbmeterized type nested within
+     * b pbrbmeterized type.
      *
-     * @return an array of <tt>Type</tt> objects representing the actual type
-     *     arguments to this type
-     * @throws <tt>TypeNotPresentException</tt> if any of the
-     *     actual type arguments refers to a non-existent type declaration
-     * @throws <tt>MalformedParameterizedTypeException</tt> if any of the
-     *     actual type parameters refer to a parameterized type that cannot
-     *     be instantiated for any reason
+     * @return bn brrby of <tt>Type</tt> objects representing the bctubl type
+     *     brguments to this type
+     * @throws <tt>TypeNotPresentException</tt> if bny of the
+     *     bctubl type brguments refers to b non-existent type declbrbtion
+     * @throws <tt>MblformedPbrbmeterizedTypeException</tt> if bny of the
+     *     bctubl type pbrbmeters refer to b pbrbmeterized type thbt cbnnot
+     *     be instbntibted for bny rebson
      * @since 1.5
      */
-    public Type[] getActualTypeArguments() {
-        return actualTypeArguments.clone();
+    public Type[] getActublTypeArguments() {
+        return bctublTypeArguments.clone();
     }
 
     /**
-     * Returns the <tt>Type</tt> object representing the class or interface
-     * that declared this type.
+     * Returns the <tt>Type</tt> object representing the clbss or interfbce
+     * thbt declbred this type.
      *
-     * @return the <tt>Type</tt> object representing the class or interface
-     *     that declared this type
+     * @return the <tt>Type</tt> object representing the clbss or interfbce
+     *     thbt declbred this type
      */
-    public Class<?> getRawType() {
-        return rawType;
+    public Clbss<?> getRbwType() {
+        return rbwType;
     }
 
 
     /**
-     * Returns a <tt>Type</tt> object representing the type that this type
-     * is a member of.  For example, if this type is <tt>O<T>.I<S></tt>,
-     * return a representation of <tt>O<T></tt>.
+     * Returns b <tt>Type</tt> object representing the type thbt this type
+     * is b member of.  For exbmple, if this type is <tt>O<T>.I<S></tt>,
+     * return b representbtion of <tt>O<T></tt>.
      *
-     * <p>If this type is a top-level type, <tt>null</tt> is returned.
+     * <p>If this type is b top-level type, <tt>null</tt> is returned.
      *
-     * @return a <tt>Type</tt> object representing the type that
-     *     this type is a member of. If this type is a top-level type,
+     * @return b <tt>Type</tt> object representing the type thbt
+     *     this type is b member of. If this type is b top-level type,
      *     <tt>null</tt> is returned
      * @throws <tt>TypeNotPresentException</tt> if the owner type
-     *     refers to a non-existent type declaration
-     * @throws <tt>MalformedParameterizedTypeException</tt> if the owner type
-     *     refers to a parameterized type that cannot be instantiated
-     *     for any reason
+     *     refers to b non-existent type declbrbtion
+     * @throws <tt>MblformedPbrbmeterizedTypeException</tt> if the owner type
+     *     refers to b pbrbmeterized type thbt cbnnot be instbntibted
+     *     for bny rebson
      *
      */
     public Type getOwnerType() {
@@ -149,92 +149,92 @@ public class ParameterizedTypeImpl implements ParameterizedType {
     }
 
     /*
-     * From the JavaDoc for java.lang.reflect.ParameterizedType
-     * "Instances of classes that implement this interface must
-     * implement an equals() method that equates any two instances
-     * that share the same generic type declaration and have equal
-     * type parameters."
+     * From the JbvbDoc for jbvb.lbng.reflect.PbrbmeterizedType
+     * "Instbnces of clbsses thbt implement this interfbce must
+     * implement bn equbls() method thbt equbtes bny two instbnces
+     * thbt shbre the sbme generic type declbrbtion bnd hbve equbl
+     * type pbrbmeters."
      */
     @Override
-    public boolean equals(Object o) {
-        if (o instanceof ParameterizedType) {
-            // Check that information is equivalent
-            ParameterizedType that = (ParameterizedType) o;
+    public boolebn equbls(Object o) {
+        if (o instbnceof PbrbmeterizedType) {
+            // Check thbt informbtion is equivblent
+            PbrbmeterizedType thbt = (PbrbmeterizedType) o;
 
-            if (this == that)
+            if (this == thbt)
                 return true;
 
-            Type thatOwner   = that.getOwnerType();
-            Type thatRawType = that.getRawType();
+            Type thbtOwner   = thbt.getOwnerType();
+            Type thbtRbwType = thbt.getRbwType();
 
-            if (false) { // Debugging
-                boolean ownerEquality = (ownerType == null ?
-                                         thatOwner == null :
-                                         ownerType.equals(thatOwner));
-                boolean rawEquality = (rawType == null ?
-                                       thatRawType == null :
-                                       rawType.equals(thatRawType));
+            if (fblse) { // Debugging
+                boolebn ownerEqublity = (ownerType == null ?
+                                         thbtOwner == null :
+                                         ownerType.equbls(thbtOwner));
+                boolebn rbwEqublity = (rbwType == null ?
+                                       thbtRbwType == null :
+                                       rbwType.equbls(thbtRbwType));
 
-                boolean typeArgEquality = Arrays.equals(actualTypeArguments, // avoid clone
-                                                        that.getActualTypeArguments());
-                for (Type t : actualTypeArguments) {
-                    System.out.printf("\t\t%s%s%n", t, t.getClass());
+                boolebn typeArgEqublity = Arrbys.equbls(bctublTypeArguments, // bvoid clone
+                                                        thbt.getActublTypeArguments());
+                for (Type t : bctublTypeArguments) {
+                    System.out.printf("\t\t%s%s%n", t, t.getClbss());
                 }
 
-                System.out.printf("\towner %s\traw %s\ttypeArg %s%n",
-                                  ownerEquality, rawEquality, typeArgEquality);
-                return ownerEquality && rawEquality && typeArgEquality;
+                System.out.printf("\towner %s\trbw %s\ttypeArg %s%n",
+                                  ownerEqublity, rbwEqublity, typeArgEqublity);
+                return ownerEqublity && rbwEqublity && typeArgEqublity;
             }
 
             return
-                Objects.equals(ownerType, thatOwner) &&
-                Objects.equals(rawType, thatRawType) &&
-                Arrays.equals(actualTypeArguments, // avoid clone
-                              that.getActualTypeArguments());
+                Objects.equbls(ownerType, thbtOwner) &&
+                Objects.equbls(rbwType, thbtRbwType) &&
+                Arrbys.equbls(bctublTypeArguments, // bvoid clone
+                              thbt.getActublTypeArguments());
         } else
-            return false;
+            return fblse;
     }
 
     @Override
-    public int hashCode() {
+    public int hbshCode() {
         return
-            Arrays.hashCode(actualTypeArguments) ^
-            Objects.hashCode(ownerType) ^
-            Objects.hashCode(rawType);
+            Arrbys.hbshCode(bctublTypeArguments) ^
+            Objects.hbshCode(ownerType) ^
+            Objects.hbshCode(rbwType);
     }
 
     public String toString() {
         StringBuilder sb = new StringBuilder();
 
         if (ownerType != null) {
-            if (ownerType instanceof Class)
-                sb.append(((Class)ownerType).getName());
+            if (ownerType instbnceof Clbss)
+                sb.bppend(((Clbss)ownerType).getNbme());
             else
-                sb.append(ownerType.toString());
+                sb.bppend(ownerType.toString());
 
-            sb.append(".");
+            sb.bppend(".");
 
-            if (ownerType instanceof ParameterizedTypeImpl) {
-                // Find simple name of nested type by removing the
-                // shared prefix with owner.
-                sb.append(rawType.getName().replace( ((ParameterizedTypeImpl)ownerType).rawType.getName() + "$",
+            if (ownerType instbnceof PbrbmeterizedTypeImpl) {
+                // Find simple nbme of nested type by removing the
+                // shbred prefix with owner.
+                sb.bppend(rbwType.getNbme().replbce( ((PbrbmeterizedTypeImpl)ownerType).rbwType.getNbme() + "$",
                                          ""));
             } else
-                sb.append(rawType.getName());
+                sb.bppend(rbwType.getNbme());
         } else
-            sb.append(rawType.getName());
+            sb.bppend(rbwType.getNbme());
 
-        if (actualTypeArguments != null &&
-            actualTypeArguments.length > 0) {
-            sb.append("<");
-            boolean first = true;
-            for(Type t: actualTypeArguments) {
+        if (bctublTypeArguments != null &&
+            bctublTypeArguments.length > 0) {
+            sb.bppend("<");
+            boolebn first = true;
+            for(Type t: bctublTypeArguments) {
                 if (!first)
-                    sb.append(", ");
-                sb.append(t.getTypeName());
-                first = false;
+                    sb.bppend(", ");
+                sb.bppend(t.getTypeNbme());
+                first = fblse;
             }
-            sb.append(">");
+            sb.bppend(">");
         }
 
         return sb.toString();

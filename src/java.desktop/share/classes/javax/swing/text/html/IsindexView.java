@@ -1,114 +1,114 @@
 /*
- * Copyright (c) 1998, 2000, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2000, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.text.html;
+pbckbge jbvbx.swing.text.html;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.net.URLEncoder;
-import java.net.MalformedURLException;
-import java.io.IOException;
-import java.net.URL;
-import javax.swing.text.*;
-import javax.swing.*;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvb.net.URLEncoder;
+import jbvb.net.MblformedURLException;
+import jbvb.io.IOException;
+import jbvb.net.URL;
+import jbvbx.swing.text.*;
+import jbvbx.swing.*;
 
 
 /**
- * A view that supports the &lt;ISINDEX&lt; tag.  This is implemented
- * as a JPanel that contains
+ * A view thbt supports the &lt;ISINDEX&lt; tbg.  This is implemented
+ * bs b JPbnel thbt contbins
  *
- * @author Sunita Mani
+ * @buthor Sunitb Mbni
  */
 
-class IsindexView extends ComponentView implements ActionListener {
+clbss IsindexView extends ComponentView implements ActionListener {
 
     JTextField textField;
 
     /**
-     * Creates an IsindexView
+     * Crebtes bn IsindexView
      */
     public IsindexView(Element elem) {
         super(elem);
     }
 
     /**
-     * Creates the components necessary to to implement
-     * this view.  The component returned is a <code>JPanel</code>,
-     * that contains the PROMPT to the left and <code>JTextField</code>
+     * Crebtes the components necessbry to to implement
+     * this view.  The component returned is b <code>JPbnel</code>,
+     * thbt contbins the PROMPT to the left bnd <code>JTextField</code>
      * to the right.
      */
-    public Component createComponent() {
-        AttributeSet attr = getElement().getAttributes();
+    public Component crebteComponent() {
+        AttributeSet bttr = getElement().getAttributes();
 
-        JPanel panel = new JPanel(new BorderLayout());
-        panel.setBackground(null);
+        JPbnel pbnel = new JPbnel(new BorderLbyout());
+        pbnel.setBbckground(null);
 
-        String prompt = (String)attr.getAttribute(HTML.Attribute.PROMPT);
+        String prompt = (String)bttr.getAttribute(HTML.Attribute.PROMPT);
         if (prompt == null) {
-            prompt = UIManager.getString("IsindexView.prompt");
+            prompt = UIMbnbger.getString("IsindexView.prompt");
         }
-        JLabel label = new JLabel(prompt);
+        JLbbel lbbel = new JLbbel(prompt);
 
         textField = new JTextField();
-        textField.addActionListener(this);
-        panel.add(label, BorderLayout.WEST);
-        panel.add(textField, BorderLayout.CENTER);
-        panel.setAlignmentY(1.0f);
-        panel.setOpaque(false);
-        return panel;
+        textField.bddActionListener(this);
+        pbnel.bdd(lbbel, BorderLbyout.WEST);
+        pbnel.bdd(textField, BorderLbyout.CENTER);
+        pbnel.setAlignmentY(1.0f);
+        pbnel.setOpbque(fblse);
+        return pbnel;
     }
 
     /**
      * Responsible for processing the ActionEvent.
-     * In this case this is hitting enter/return
+     * In this cbse this is hitting enter/return
      * in the text field.  This will construct the
-     * URL from the base URL of the document.
-     * To the URL is appended a '?' followed by the
-     * contents of the JTextField.  The search
-     * contents are URLEncoded.
+     * URL from the bbse URL of the document.
+     * To the URL is bppended b '?' followed by the
+     * contents of the JTextField.  The sebrch
+     * contents bre URLEncoded.
      */
-    public void actionPerformed(ActionEvent evt) {
+    public void bctionPerformed(ActionEvent evt) {
 
-        String data = textField.getText();
-        if (data != null) {
-            data = URLEncoder.encode(data);
+        String dbtb = textField.getText();
+        if (dbtb != null) {
+            dbtb = URLEncoder.encode(dbtb);
         }
 
 
-        AttributeSet attr = getElement().getAttributes();
+        AttributeSet bttr = getElement().getAttributes();
         HTMLDocument hdoc = (HTMLDocument)getElement().getDocument();
 
-        String action = (String) attr.getAttribute(HTML.Attribute.ACTION);
-        if (action == null) {
-            action = hdoc.getBase().toString();
+        String bction = (String) bttr.getAttribute(HTML.Attribute.ACTION);
+        if (bction == null) {
+            bction = hdoc.getBbse().toString();
         }
         try {
-            URL url = new URL(action+"?"+data);
-            JEditorPane pane = (JEditorPane)getContainer();
-            pane.setPage(url);
-        } catch (MalformedURLException e1) {
-        } catch (IOException e2) {
+            URL url = new URL(bction+"?"+dbtb);
+            JEditorPbne pbne = (JEditorPbne)getContbiner();
+            pbne.setPbge(url);
+        } cbtch (MblformedURLException e1) {
+        } cbtch (IOException e2) {
         }
     }
 }

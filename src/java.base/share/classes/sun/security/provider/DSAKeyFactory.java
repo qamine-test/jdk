@@ -1,108 +1,108 @@
 /*
- * Copyright (c) 1997, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.provider;
+pbckbge sun.security.provider;
 
-import java.security.Key;
-import java.security.PublicKey;
-import java.security.PrivateKey;
-import java.security.KeyFactorySpi;
-import java.security.InvalidKeyException;
-import java.security.AccessController;
-import java.security.interfaces.DSAParams;
-import java.security.spec.DSAPublicKeySpec;
-import java.security.spec.DSAPrivateKeySpec;
-import java.security.spec.KeySpec;
-import java.security.spec.InvalidKeySpecException;
-import java.security.spec.X509EncodedKeySpec;
-import java.security.spec.PKCS8EncodedKeySpec;
+import jbvb.security.Key;
+import jbvb.security.PublicKey;
+import jbvb.security.PrivbteKey;
+import jbvb.security.KeyFbctorySpi;
+import jbvb.security.InvblidKeyException;
+import jbvb.security.AccessController;
+import jbvb.security.interfbces.DSAPbrbms;
+import jbvb.security.spec.DSAPublicKeySpec;
+import jbvb.security.spec.DSAPrivbteKeySpec;
+import jbvb.security.spec.KeySpec;
+import jbvb.security.spec.InvblidKeySpecException;
+import jbvb.security.spec.X509EncodedKeySpec;
+import jbvb.security.spec.PKCS8EncodedKeySpec;
 
-import sun.security.action.GetPropertyAction;
+import sun.security.bction.GetPropertyAction;
 
 /**
- * This class implements the DSA key factory of the Sun provider.
+ * This clbss implements the DSA key fbctory of the Sun provider.
  *
- * @author Jan Luehe
+ * @buthor Jbn Luehe
  *
  *
  * @since 1.2
  */
 
-public class DSAKeyFactory extends KeyFactorySpi {
+public clbss DSAKeyFbctory extends KeyFbctorySpi {
 
-    // package private for DSAKeyPairGenerator
-    static final boolean SERIAL_INTEROP;
-    private static final String SERIAL_PROP = "sun.security.key.serial.interop";
+    // pbckbge privbte for DSAKeyPbirGenerbtor
+    stbtic finbl boolebn SERIAL_INTEROP;
+    privbte stbtic finbl String SERIAL_PROP = "sun.security.key.seribl.interop";
 
-    static {
+    stbtic {
 
         /**
-         * Check to see if we need to maintain interoperability for serialized
+         * Check to see if we need to mbintbin interoperbbility for seriblized
          * keys between JDK 5.0 -> JDK 1.4.  In other words, determine whether
-         * a key object serialized in JDK 5.0 must be deserializable in
+         * b key object seriblized in JDK 5.0 must be deseriblizbble in
          * JDK 1.4.
          *
-         * If true, then we generate sun.security.provider.DSAPublicKey.
-         * If false, then we generate sun.security.provider.DSAPublicKeyImpl.
+         * If true, then we generbte sun.security.provider.DSAPublicKey.
+         * If fblse, then we generbte sun.security.provider.DSAPublicKeyImpl.
          *
-         * By default this is false.
-         * This incompatibility was introduced by 4532506.
+         * By defbult this is fblse.
+         * This incompbtibility wbs introduced by 4532506.
          */
         String prop = AccessController.doPrivileged
                 (new GetPropertyAction(SERIAL_PROP, null));
-        SERIAL_INTEROP = "true".equalsIgnoreCase(prop);
+        SERIAL_INTEROP = "true".equblsIgnoreCbse(prop);
     }
 
     /**
-     * Generates a public key object from the provided key specification
-     * (key material).
+     * Generbtes b public key object from the provided key specificbtion
+     * (key mbteribl).
      *
-     * @param keySpec the specification (key material) of the public key
+     * @pbrbm keySpec the specificbtion (key mbteribl) of the public key
      *
      * @return the public key
      *
-     * @exception InvalidKeySpecException if the given key specification
-     * is inappropriate for this key factory to produce a public key.
+     * @exception InvblidKeySpecException if the given key specificbtion
+     * is inbppropribte for this key fbctory to produce b public key.
      */
-    protected PublicKey engineGeneratePublic(KeySpec keySpec)
-    throws InvalidKeySpecException {
+    protected PublicKey engineGenerbtePublic(KeySpec keySpec)
+    throws InvblidKeySpecException {
         try {
-            if (keySpec instanceof DSAPublicKeySpec) {
-                DSAPublicKeySpec dsaPubKeySpec = (DSAPublicKeySpec)keySpec;
+            if (keySpec instbnceof DSAPublicKeySpec) {
+                DSAPublicKeySpec dsbPubKeySpec = (DSAPublicKeySpec)keySpec;
                 if (SERIAL_INTEROP) {
-                    return new DSAPublicKey(dsaPubKeySpec.getY(),
-                                        dsaPubKeySpec.getP(),
-                                        dsaPubKeySpec.getQ(),
-                                        dsaPubKeySpec.getG());
+                    return new DSAPublicKey(dsbPubKeySpec.getY(),
+                                        dsbPubKeySpec.getP(),
+                                        dsbPubKeySpec.getQ(),
+                                        dsbPubKeySpec.getG());
                 } else {
-                    return new DSAPublicKeyImpl(dsaPubKeySpec.getY(),
-                                        dsaPubKeySpec.getP(),
-                                        dsaPubKeySpec.getQ(),
-                                        dsaPubKeySpec.getG());
+                    return new DSAPublicKeyImpl(dsbPubKeySpec.getY(),
+                                        dsbPubKeySpec.getP(),
+                                        dsbPubKeySpec.getQ(),
+                                        dsbPubKeySpec.getG());
                 }
-            } else if (keySpec instanceof X509EncodedKeySpec) {
+            } else if (keySpec instbnceof X509EncodedKeySpec) {
                 if (SERIAL_INTEROP) {
                     return new DSAPublicKey
                         (((X509EncodedKeySpec)keySpec).getEncoded());
@@ -111,178 +111,178 @@ public class DSAKeyFactory extends KeyFactorySpi {
                         (((X509EncodedKeySpec)keySpec).getEncoded());
                 }
             } else {
-                throw new InvalidKeySpecException
-                    ("Inappropriate key specification");
+                throw new InvblidKeySpecException
+                    ("Inbppropribte key specificbtion");
             }
-        } catch (InvalidKeyException e) {
-            throw new InvalidKeySpecException
-                ("Inappropriate key specification: " + e.getMessage());
+        } cbtch (InvblidKeyException e) {
+            throw new InvblidKeySpecException
+                ("Inbppropribte key specificbtion: " + e.getMessbge());
         }
     }
 
     /**
-     * Generates a private key object from the provided key specification
-     * (key material).
+     * Generbtes b privbte key object from the provided key specificbtion
+     * (key mbteribl).
      *
-     * @param keySpec the specification (key material) of the private key
+     * @pbrbm keySpec the specificbtion (key mbteribl) of the privbte key
      *
-     * @return the private key
+     * @return the privbte key
      *
-     * @exception InvalidKeySpecException if the given key specification
-     * is inappropriate for this key factory to produce a private key.
+     * @exception InvblidKeySpecException if the given key specificbtion
+     * is inbppropribte for this key fbctory to produce b privbte key.
      */
-    protected PrivateKey engineGeneratePrivate(KeySpec keySpec)
-    throws InvalidKeySpecException {
+    protected PrivbteKey engineGenerbtePrivbte(KeySpec keySpec)
+    throws InvblidKeySpecException {
         try {
-            if (keySpec instanceof DSAPrivateKeySpec) {
-                DSAPrivateKeySpec dsaPrivKeySpec = (DSAPrivateKeySpec)keySpec;
-                return new DSAPrivateKey(dsaPrivKeySpec.getX(),
-                                         dsaPrivKeySpec.getP(),
-                                         dsaPrivKeySpec.getQ(),
-                                         dsaPrivKeySpec.getG());
+            if (keySpec instbnceof DSAPrivbteKeySpec) {
+                DSAPrivbteKeySpec dsbPrivKeySpec = (DSAPrivbteKeySpec)keySpec;
+                return new DSAPrivbteKey(dsbPrivKeySpec.getX(),
+                                         dsbPrivKeySpec.getP(),
+                                         dsbPrivKeySpec.getQ(),
+                                         dsbPrivKeySpec.getG());
 
-            } else if (keySpec instanceof PKCS8EncodedKeySpec) {
-                return new DSAPrivateKey
+            } else if (keySpec instbnceof PKCS8EncodedKeySpec) {
+                return new DSAPrivbteKey
                     (((PKCS8EncodedKeySpec)keySpec).getEncoded());
 
             } else {
-                throw new InvalidKeySpecException
-                    ("Inappropriate key specification");
+                throw new InvblidKeySpecException
+                    ("Inbppropribte key specificbtion");
             }
-        } catch (InvalidKeyException e) {
-            throw new InvalidKeySpecException
-                ("Inappropriate key specification: " + e.getMessage());
+        } cbtch (InvblidKeyException e) {
+            throw new InvblidKeySpecException
+                ("Inbppropribte key specificbtion: " + e.getMessbge());
         }
     }
 
     /**
-     * Returns a specification (key material) of the given key object
-     * in the requested format.
+     * Returns b specificbtion (key mbteribl) of the given key object
+     * in the requested formbt.
      *
-     * @param key the key
+     * @pbrbm key the key
      *
-     * @param keySpec the requested format in which the key material shall be
+     * @pbrbm keySpec the requested formbt in which the key mbteribl shbll be
      * returned
      *
-     * @return the underlying key specification (key material) in the
-     * requested format
+     * @return the underlying key specificbtion (key mbteribl) in the
+     * requested formbt
      *
-     * @exception InvalidKeySpecException if the requested key specification is
-     * inappropriate for the given key, or the given key cannot be processed
-     * (e.g., the given key has an unrecognized algorithm or format).
+     * @exception InvblidKeySpecException if the requested key specificbtion is
+     * inbppropribte for the given key, or the given key cbnnot be processed
+     * (e.g., the given key hbs bn unrecognized blgorithm or formbt).
      */
     protected <T extends KeySpec>
-        T engineGetKeySpec(Key key, Class<T> keySpec)
-    throws InvalidKeySpecException {
+        T engineGetKeySpec(Key key, Clbss<T> keySpec)
+    throws InvblidKeySpecException {
 
-        DSAParams params;
+        DSAPbrbms pbrbms;
 
         try {
 
-            if (key instanceof java.security.interfaces.DSAPublicKey) {
+            if (key instbnceof jbvb.security.interfbces.DSAPublicKey) {
 
-                // Determine valid key specs
-                Class<?> dsaPubKeySpec = Class.forName
-                    ("java.security.spec.DSAPublicKeySpec");
-                Class<?> x509KeySpec = Class.forName
-                    ("java.security.spec.X509EncodedKeySpec");
+                // Determine vblid key specs
+                Clbss<?> dsbPubKeySpec = Clbss.forNbme
+                    ("jbvb.security.spec.DSAPublicKeySpec");
+                Clbss<?> x509KeySpec = Clbss.forNbme
+                    ("jbvb.security.spec.X509EncodedKeySpec");
 
-                if (dsaPubKeySpec.isAssignableFrom(keySpec)) {
-                    java.security.interfaces.DSAPublicKey dsaPubKey
-                        = (java.security.interfaces.DSAPublicKey)key;
-                    params = dsaPubKey.getParams();
-                    return keySpec.cast(new DSAPublicKeySpec(dsaPubKey.getY(),
-                                                             params.getP(),
-                                                             params.getQ(),
-                                                             params.getG()));
+                if (dsbPubKeySpec.isAssignbbleFrom(keySpec)) {
+                    jbvb.security.interfbces.DSAPublicKey dsbPubKey
+                        = (jbvb.security.interfbces.DSAPublicKey)key;
+                    pbrbms = dsbPubKey.getPbrbms();
+                    return keySpec.cbst(new DSAPublicKeySpec(dsbPubKey.getY(),
+                                                             pbrbms.getP(),
+                                                             pbrbms.getQ(),
+                                                             pbrbms.getG()));
 
-                } else if (x509KeySpec.isAssignableFrom(keySpec)) {
-                    return keySpec.cast(new X509EncodedKeySpec(key.getEncoded()));
+                } else if (x509KeySpec.isAssignbbleFrom(keySpec)) {
+                    return keySpec.cbst(new X509EncodedKeySpec(key.getEncoded()));
 
                 } else {
-                    throw new InvalidKeySpecException
-                        ("Inappropriate key specification");
+                    throw new InvblidKeySpecException
+                        ("Inbppropribte key specificbtion");
                 }
 
-            } else if (key instanceof java.security.interfaces.DSAPrivateKey) {
+            } else if (key instbnceof jbvb.security.interfbces.DSAPrivbteKey) {
 
-                // Determine valid key specs
-                Class<?> dsaPrivKeySpec = Class.forName
-                    ("java.security.spec.DSAPrivateKeySpec");
-                Class<?> pkcs8KeySpec = Class.forName
-                    ("java.security.spec.PKCS8EncodedKeySpec");
+                // Determine vblid key specs
+                Clbss<?> dsbPrivKeySpec = Clbss.forNbme
+                    ("jbvb.security.spec.DSAPrivbteKeySpec");
+                Clbss<?> pkcs8KeySpec = Clbss.forNbme
+                    ("jbvb.security.spec.PKCS8EncodedKeySpec");
 
-                if (dsaPrivKeySpec.isAssignableFrom(keySpec)) {
-                    java.security.interfaces.DSAPrivateKey dsaPrivKey
-                        = (java.security.interfaces.DSAPrivateKey)key;
-                    params = dsaPrivKey.getParams();
-                    return keySpec.cast(new DSAPrivateKeySpec(dsaPrivKey.getX(),
-                                                              params.getP(),
-                                                              params.getQ(),
-                                                              params.getG()));
+                if (dsbPrivKeySpec.isAssignbbleFrom(keySpec)) {
+                    jbvb.security.interfbces.DSAPrivbteKey dsbPrivKey
+                        = (jbvb.security.interfbces.DSAPrivbteKey)key;
+                    pbrbms = dsbPrivKey.getPbrbms();
+                    return keySpec.cbst(new DSAPrivbteKeySpec(dsbPrivKey.getX(),
+                                                              pbrbms.getP(),
+                                                              pbrbms.getQ(),
+                                                              pbrbms.getG()));
 
-                } else if (pkcs8KeySpec.isAssignableFrom(keySpec)) {
-                    return keySpec.cast(new PKCS8EncodedKeySpec(key.getEncoded()));
+                } else if (pkcs8KeySpec.isAssignbbleFrom(keySpec)) {
+                    return keySpec.cbst(new PKCS8EncodedKeySpec(key.getEncoded()));
 
                 } else {
-                    throw new InvalidKeySpecException
-                        ("Inappropriate key specification");
+                    throw new InvblidKeySpecException
+                        ("Inbppropribte key specificbtion");
                 }
 
             } else {
-                throw new InvalidKeySpecException("Inappropriate key type");
+                throw new InvblidKeySpecException("Inbppropribte key type");
             }
 
-        } catch (ClassNotFoundException e) {
-            throw new InvalidKeySpecException
-                ("Unsupported key specification: " + e.getMessage());
+        } cbtch (ClbssNotFoundException e) {
+            throw new InvblidKeySpecException
+                ("Unsupported key specificbtion: " + e.getMessbge());
         }
     }
 
     /**
-     * Translates a key object, whose provider may be unknown or potentially
-     * untrusted, into a corresponding key object of this key factory.
+     * Trbnslbtes b key object, whose provider mby be unknown or potentiblly
+     * untrusted, into b corresponding key object of this key fbctory.
      *
-     * @param key the key whose provider is unknown or untrusted
+     * @pbrbm key the key whose provider is unknown or untrusted
      *
-     * @return the translated key
+     * @return the trbnslbted key
      *
-     * @exception InvalidKeyException if the given key cannot be processed by
-     * this key factory.
+     * @exception InvblidKeyException if the given key cbnnot be processed by
+     * this key fbctory.
      */
-    protected Key engineTranslateKey(Key key) throws InvalidKeyException {
+    protected Key engineTrbnslbteKey(Key key) throws InvblidKeyException {
 
         try {
 
-            if (key instanceof java.security.interfaces.DSAPublicKey) {
-                // Check if key originates from this factory
-                if (key instanceof sun.security.provider.DSAPublicKey) {
+            if (key instbnceof jbvb.security.interfbces.DSAPublicKey) {
+                // Check if key originbtes from this fbctory
+                if (key instbnceof sun.security.provider.DSAPublicKey) {
                     return key;
                 }
                 // Convert key to spec
-                DSAPublicKeySpec dsaPubKeySpec
-                    = engineGetKeySpec(key, DSAPublicKeySpec.class);
-                // Create key from spec, and return it
-                return engineGeneratePublic(dsaPubKeySpec);
+                DSAPublicKeySpec dsbPubKeySpec
+                    = engineGetKeySpec(key, DSAPublicKeySpec.clbss);
+                // Crebte key from spec, bnd return it
+                return engineGenerbtePublic(dsbPubKeySpec);
 
-            } else if (key instanceof java.security.interfaces.DSAPrivateKey) {
-                // Check if key originates from this factory
-                if (key instanceof sun.security.provider.DSAPrivateKey) {
+            } else if (key instbnceof jbvb.security.interfbces.DSAPrivbteKey) {
+                // Check if key originbtes from this fbctory
+                if (key instbnceof sun.security.provider.DSAPrivbteKey) {
                     return key;
                 }
                 // Convert key to spec
-                DSAPrivateKeySpec dsaPrivKeySpec
-                    = engineGetKeySpec(key, DSAPrivateKeySpec.class);
-                // Create key from spec, and return it
-                return engineGeneratePrivate(dsaPrivKeySpec);
+                DSAPrivbteKeySpec dsbPrivKeySpec
+                    = engineGetKeySpec(key, DSAPrivbteKeySpec.clbss);
+                // Crebte key from spec, bnd return it
+                return engineGenerbtePrivbte(dsbPrivKeySpec);
 
             } else {
-                throw new InvalidKeyException("Wrong algorithm type");
+                throw new InvblidKeyException("Wrong blgorithm type");
             }
 
-        } catch (InvalidKeySpecException e) {
-            throw new InvalidKeyException("Cannot translate key: "
-                                          + e.getMessage());
+        } cbtch (InvblidKeySpecException e) {
+            throw new InvblidKeyException("Cbnnot trbnslbte key: "
+                                          + e.getMessbge());
         }
     }
 }

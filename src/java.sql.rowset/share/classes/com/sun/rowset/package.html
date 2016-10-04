@@ -1,85 +1,85 @@
 <!--
- Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 
- This code is free software; you can redistribute it and/or modify it
- under the terms of the GNU General Public License version 2 only, as
- published by the Free Software Foundation.  Oracle designates this
- particular file as subject to the "Classpath" exception as provided
- by Oracle in the LICENSE file that accompanied this code.
+ This code is free softwbre; you cbn redistribute it bnd/or modify it
+ under the terms of the GNU Generbl Public License version 2 only, bs
+ published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ by Orbcle in the LICENSE file thbt bccompbnied this code.
 
- This code is distributed in the hope that it will be useful, but WITHOUT
- ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- version 2 for more details (a copy is included in the LICENSE file that
- accompanied this code).
+ This code is distributed in the hope thbt it will be useful, but WITHOUT
+ ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ version 2 for more detbils (b copy is included in the LICENSE file thbt
+ bccompbnied this code).
 
- You should have received a copy of the GNU General Public License version
- 2 along with this work; if not, write to the Free Software Foundation,
- Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ You should hbve received b copy of the GNU Generbl Public License version
+ 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 
- Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- or visit www.oracle.com if you need additional information or have any
+ Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  questions.
 -->
 
-<!DOCTYPE doctype PUBLIC "-//w3c//dtd html 4.0 transitional//en">
+<!DOCTYPE doctype PUBLIC "-//w3c//dtd html 4.0 trbnsitionbl//en">
 <html>
-<head>
+<hebd>
                                     
-  <meta http-equiv="Content-Type"
- content="text/html; charset=iso-8859-1">
-  <title>com.sun.rowset Package</title>
-</head>
+  <metb http-equiv="Content-Type"
+ content="text/html; chbrset=iso-8859-1">
+  <title>com.sun.rowset Pbckbge</title>
+</hebd>
   <body bgcolor="#ffffff">
-Provides five standard implementations of the standard JDBC <tt>RowSet</tt> implementation 
-interface definitions. These reference implementations are included with the J2SE version 
-1.5 platform and represent the benchmark standard <tt>RowSet</tt> implementations as verified 
-by the Test Compatibility Kit (TCK) as mandated by the Java Community Process.
+Provides five stbndbrd implementbtions of the stbndbrd JDBC <tt>RowSet</tt> implementbtion 
+interfbce definitions. These reference implementbtions bre included with the J2SE version 
+1.5 plbtform bnd represent the benchmbrk stbndbrd <tt>RowSet</tt> implementbtions bs verified 
+by the Test Compbtibility Kit (TCK) bs mbndbted by the Jbvb Community Process.
  <br>
    
-<h3>1.0 Available JDBC RowSet Reference Implementations </h3>
-  The following implementations are provided:<br>
+<h3>1.0 Avbilbble JDBC RowSet Reference Implementbtions </h3>
+  The following implementbtions bre provided:<br>
            
-<blockquote><tt><b>JdbcRowSetImpl</b></tt> - The <tt>javax.sql.rowset.JdbcRowSet</tt>
-interface reference implementation. <br>
+<blockquote><tt><b>JdbcRowSetImpl</b></tt> - The <tt>jbvbx.sql.rowset.JdbcRowSet</tt>
+interfbce reference implementbtion. <br>
 <br>
-<tt><b>CachedRowSetImpl </b></tt>- The <tt>javax.sql.rowset.CachedRowSet</tt> interface
-reference implementation.<br>
+<tt><b>CbchedRowSetImpl </b></tt>- The <tt>jbvbx.sql.rowset.CbchedRowSet</tt> interfbce
+reference implementbtion.<br>
 <br>
-<tt><b>WebRowSetImpl</b></tt> - The <tt>javax.sql.rowset.WebRowSet</tt> interface
-reference implementation.<br>
+<tt><b>WebRowSetImpl</b></tt> - The <tt>jbvbx.sql.rowset.WebRowSet</tt> interfbce
+reference implementbtion.<br>
 <br>
-<tt><b>FilteredRowSetImpl</b></tt> - The <tt>javax.sql.rowset.FilteredRowSet</tt>
-interface reference implementation.<br>
+<tt><b>FilteredRowSetImpl</b></tt> - The <tt>jbvbx.sql.rowset.FilteredRowSet</tt>
+interfbce reference implementbtion.<br>
 <br>
-<tt><b>JoinRowSetImpl</b></tt> - The <tt>javax.sql.rowset.JoinRowSet</tt> interface
-reference implementation.<br>
+<tt><b>JoinRowSetImpl</b></tt> - The <tt>jbvbx.sql.rowset.JoinRowSet</tt> interfbce
+reference implementbtion.<br>
 </blockquote>
 
-All details on their expected behavior, including their interactions with the <tt>SyncProvider</tt>
-SPI and helper classes are provided in the interface definitions in the <tt>javax.sql.rowset</tt>
-package specification.<br>
+All detbils on their expected behbvior, including their interbctions with the <tt>SyncProvider</tt>
+SPI bnd helper clbsses bre provided in the interfbce definitions in the <tt>jbvbx.sql.rowset</tt>
+pbckbge specificbtion.<br>
    
-<h3>2.0 Usage</h3>
-The reference implementations represent robust implementations of the standard
-<code>RowSet</code> interfaces defined in the <code>javax.sql.rowset</code> package. 
-All disconnected <code>RowSet</code> implementations, such as the <tt>CachedRowSetImpl</tt>
-and <tt>WebRowSetImpl</tt>, are flexible enough to use the <tt>SyncFactory</tt> SPIs to 
-leverage non-reference implementation <tt>SyncProvider</tt> implementations to obtain
-differing synchronization semantics. Furthermore, developers and vendors alike are free 
-to use these implementations and integrate them into their products just as they
-can with to other components of the Java platform.<br>
+<h3>2.0 Usbge</h3>
+The reference implementbtions represent robust implementbtions of the stbndbrd
+<code>RowSet</code> interfbces defined in the <code>jbvbx.sql.rowset</code> pbckbge. 
+All disconnected <code>RowSet</code> implementbtions, such bs the <tt>CbchedRowSetImpl</tt>
+bnd <tt>WebRowSetImpl</tt>, bre flexible enough to use the <tt>SyncFbctory</tt> SPIs to 
+leverbge non-reference implementbtion <tt>SyncProvider</tt> implementbtions to obtbin
+differing synchronizbtion sembntics. Furthermore, developers bnd vendors blike bre free 
+to use these implementbtions bnd integrbte them into their products just bs they
+cbn with to other components of the Jbvb plbtform.<br>
    
-<h3>3.0 Extending the JDBC RowSet Implementations</h3>
+<h3>3.0 Extending the JDBC RowSet Implementbtions</h3>
 
-The JDBC <code>RowSet</code> reference implementations are provided as non-final
-classes so that any developer can extend them to provide additional features
-while maintaining the core required standard functionality and compatibility. It
-is anticipated that many vendors and developers will extend the standard feature
-set to their their particular needs. The website for JDBC Technology will
-provider a portal where implementations can be listed, similar to the way it
-provides a site for JDBC drivers.
+The JDBC <code>RowSet</code> reference implementbtions bre provided bs non-finbl
+clbsses so thbt bny developer cbn extend them to provide bdditionbl febtures
+while mbintbining the core required stbndbrd functionblity bnd compbtibility. It
+is bnticipbted thbt mbny vendors bnd developers will extend the stbndbrd febture
+set to their their pbrticulbr needs. The website for JDBC Technology will
+provider b portbl where implementbtions cbn be listed, similbr to the wby it
+provides b site for JDBC drivers.
 <br>
  <br>
 </body>

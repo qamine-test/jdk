@@ -3,23 +3,23 @@
 <ldml>
 	<identity>
 		<version number="$Revision: 6708 $"/>
-		<generation date="$Date: 2012-03-16 15:58:36 +0900 (Fri, 16 Mar 2012) $"/>
-		<language type="az"/>
+		<generbtion dbte="$Dbte: 2012-03-16 15:58:36 +0900 (Fri, 16 Mbr 2012) $"/>
+		<lbngubge type="bz"/>
 		<script type="Cyrl"/>
 	</identity>
-	<localeDisplayNames>
-		<languages>
-			<language type="az">Азәрбајҹан</language>
-			<language type="de">алманҹа</language>
-			<language type="en">инҝилисҹә</language>
-			<language type="es">испанҹа</language>
-			<language type="fr">франсызҹа</language>
-			<language type="it">италјанҹа</language>
-			<language type="ja">јапонҹа</language>
-			<language type="pt">португалҹа</language>
-			<language type="ru">русҹа</language>
-			<language type="zh">чинҹә</language>
-		</languages>
+	<locbleDisplbyNbmes>
+		<lbngubges>
+			<lbngubge type="bz">Азәрбајҹан</lbngubge>
+			<lbngubge type="de">алманҹа</lbngubge>
+			<lbngubge type="en">инҝилисҹә</lbngubge>
+			<lbngubge type="es">испанҹа</lbngubge>
+			<lbngubge type="fr">франсызҹа</lbngubge>
+			<lbngubge type="it">италјанҹа</lbngubge>
+			<lbngubge type="jb">јапонҹа</lbngubge>
+			<lbngubge type="pt">португалҹа</lbngubge>
+			<lbngubge type="ru">русҹа</lbngubge>
+			<lbngubge type="zh">чинҹә</lbngubge>
+		</lbngubges>
 		<territories>
 			<territory type="AZ">Азәрбајҹан</territory>
 			<territory type="BR">Бразилија</territory>
@@ -32,23 +32,23 @@
 			<territory type="RU">Русија</territory>
 			<territory type="US">Америка Бирләшмиш Штатлары</territory>
 		</territories>
-	</localeDisplayNames>
-	<characters>
-		<exemplarCharacters>[а ә б в г ғ д е ж з и й ј к ҝ л м н о ө п р с т у ү ф х һ ч ҹ ш ы]</exemplarCharacters>
-		<exemplarCharacters type="auxiliary">[ц щ ъ ь э ю я]</exemplarCharacters>
-		<exemplarCharacters type="index" draft="unconfirmed">[А Ә Б В Г Ғ Д Е Ж З И Й Ј К Ҝ Л М Н О Ө П Р С Т У Ү Ф Х Һ Ч Ҹ Ш Ы]</exemplarCharacters>
-	</characters>
+	</locbleDisplbyNbmes>
+	<chbrbcters>
+		<exemplbrChbrbcters>[а ә б в г ғ д е ж з и й ј к ҝ л м н о ө п р с т у ү ф х һ ч ҹ ш ы]</exemplbrChbrbcters>
+		<exemplbrChbrbcters type="buxilibry">[ц щ ъ ь э ю я]</exemplbrChbrbcters>
+		<exemplbrChbrbcters type="index" drbft="unconfirmed">[А Ә Б В Г Ғ Д Е Ж З И Й Ј К Ҝ Л М Н О Ө П Р С Т У Ү Ф Х Һ Ч Ҹ Ш Ы]</exemplbrChbrbcters>
+	</chbrbcters>
 	<delimiters>
-		<quotationStart>«</quotationStart>
-		<quotationEnd>»</quotationEnd>
-		<alternateQuotationStart>‹</alternateQuotationStart>
-		<alternateQuotationEnd>›</alternateQuotationEnd>
+		<quotbtionStbrt>«</quotbtionStbrt>
+		<quotbtionEnd>»</quotbtionEnd>
+		<blternbteQuotbtionStbrt>‹</blternbteQuotbtionStbrt>
+		<blternbteQuotbtionEnd>›</blternbteQuotbtionEnd>
 	</delimiters>
-	<dates>
-		<calendars>
-			<calendar type="gregorian">
+	<dbtes>
+		<cblendbrs>
+			<cblendbr type="gregoribn">
 				<months>
-					<monthContext type="format">
+					<monthContext type="formbt">
 						<monthWidth type="wide">
 							<month type="1">јанвар</month>
 							<month type="2">феврал</month>
@@ -65,110 +65,110 @@
 						</monthWidth>
 					</monthContext>
 				</months>
-				<days>
-					<dayContext type="format">
-						<dayWidth type="wide">
-							<day type="sun">базар</day>
-							<day type="mon">базар ертәси</day>
-							<day type="tue">чәршәнбә ахшамы</day>
-							<day type="wed">чәршәнбә</day>
-							<day type="thu">ҹүмә ахшамы</day>
-							<day type="fri">ҹүмә</day>
-							<day type="sat">шәнбә</day>
-						</dayWidth>
-					</dayContext>
-					<dayContext type="stand-alone">
-						<dayWidth type="narrow">
-							<day type="sun">7</day>
-							<day type="mon">1</day>
-							<day type="tue">2</day>
-							<day type="wed">3</day>
-							<day type="thu">4</day>
-							<day type="fri">5</day>
-							<day type="sat">6</day>
-						</dayWidth>
-					</dayContext>
-				</days>
-				<dateFormats>
-					<dateFormatLength type="full">
-						<dateFormat>
-							<pattern>EEEE, d, MMMM, y</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="long">
-						<dateFormat>
-							<pattern>d MMMM , y</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="medium">
-						<dateFormat>
-							<pattern>d MMM, y</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="short">
-						<dateFormat>
-							<pattern draft="unconfirmed">yy/MM/dd</pattern>
-						</dateFormat>
-					</dateFormatLength>
-				</dateFormats>
-				<timeFormats>
-					<timeFormatLength type="full">
-						<timeFormat>
-							<pattern>HH:mm:ss zzzz</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="long">
-						<timeFormat>
-							<pattern>HH:mm:ss z</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="medium">
-						<timeFormat>
-							<pattern>HH:mm:ss</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="short">
-						<timeFormat>
-							<pattern>HH:mm</pattern>
-						</timeFormat>
-					</timeFormatLength>
-				</timeFormats>
-				<dateTimeFormats>
-					<availableFormats>
-						<dateFormatItem id="MMM">LLL</dateFormatItem>
-						<dateFormatItem id="MMMd">d MMM</dateFormatItem>
-						<dateFormatItem id="MMMEd">E, d, MMM</dateFormatItem>
-						<dateFormatItem id="yMMM">MMM, y</dateFormatItem>
-						<dateFormatItem id="yMMMd">d MMM, y</dateFormatItem>
-						<dateFormatItem id="yMMMEd">E, d, MMM, y</dateFormatItem>
-					</availableFormats>
-				</dateTimeFormats>
-			</calendar>
-		</calendars>
-	</dates>
+				<dbys>
+					<dbyContext type="formbt">
+						<dbyWidth type="wide">
+							<dby type="sun">базар</dby>
+							<dby type="mon">базар ертәси</dby>
+							<dby type="tue">чәршәнбә ахшамы</dby>
+							<dby type="wed">чәршәнбә</dby>
+							<dby type="thu">ҹүмә ахшамы</dby>
+							<dby type="fri">ҹүмә</dby>
+							<dby type="sbt">шәнбә</dby>
+						</dbyWidth>
+					</dbyContext>
+					<dbyContext type="stbnd-blone">
+						<dbyWidth type="nbrrow">
+							<dby type="sun">7</dby>
+							<dby type="mon">1</dby>
+							<dby type="tue">2</dby>
+							<dby type="wed">3</dby>
+							<dby type="thu">4</dby>
+							<dby type="fri">5</dby>
+							<dby type="sbt">6</dby>
+						</dbyWidth>
+					</dbyContext>
+				</dbys>
+				<dbteFormbts>
+					<dbteFormbtLength type="full">
+						<dbteFormbt>
+							<pbttern>EEEE, d, MMMM, y</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+					<dbteFormbtLength type="long">
+						<dbteFormbt>
+							<pbttern>d MMMM , y</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+					<dbteFormbtLength type="medium">
+						<dbteFormbt>
+							<pbttern>d MMM, y</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+					<dbteFormbtLength type="short">
+						<dbteFormbt>
+							<pbttern drbft="unconfirmed">yy/MM/dd</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+				</dbteFormbts>
+				<timeFormbts>
+					<timeFormbtLength type="full">
+						<timeFormbt>
+							<pbttern>HH:mm:ss zzzz</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+					<timeFormbtLength type="long">
+						<timeFormbt>
+							<pbttern>HH:mm:ss z</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+					<timeFormbtLength type="medium">
+						<timeFormbt>
+							<pbttern>HH:mm:ss</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+					<timeFormbtLength type="short">
+						<timeFormbt>
+							<pbttern>HH:mm</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+				</timeFormbts>
+				<dbteTimeFormbts>
+					<bvbilbbleFormbts>
+						<dbteFormbtItem id="MMM">LLL</dbteFormbtItem>
+						<dbteFormbtItem id="MMMd">d MMM</dbteFormbtItem>
+						<dbteFormbtItem id="MMMEd">E, d, MMM</dbteFormbtItem>
+						<dbteFormbtItem id="yMMM">MMM, y</dbteFormbtItem>
+						<dbteFormbtItem id="yMMMd">d MMM, y</dbteFormbtItem>
+						<dbteFormbtItem id="yMMMEd">E, d, MMM, y</dbteFormbtItem>
+					</bvbilbbleFormbts>
+				</dbteTimeFormbts>
+			</cblendbr>
+		</cblendbrs>
+	</dbtes>
 	<numbers>
-		<symbols numberSystem="latn">
-			<decimal draft="contributed">,</decimal>
-			<group draft="contributed">.</group>
-			<list draft="contributed">;</list>
-			<percentSign draft="contributed">%</percentSign>
-			<plusSign draft="contributed">+</plusSign>
-			<minusSign draft="contributed">-</minusSign>
-			<exponential draft="contributed">E</exponential>
-			<perMille draft="contributed">‰</perMille>
-			<infinity draft="contributed">∞</infinity>
-			<nan draft="contributed">NaN</nan>
+		<symbols numberSystem="lbtn">
+			<decimbl drbft="contributed">,</decimbl>
+			<group drbft="contributed">.</group>
+			<list drbft="contributed">;</list>
+			<percentSign drbft="contributed">%</percentSign>
+			<plusSign drbft="contributed">+</plusSign>
+			<minusSign drbft="contributed">-</minusSign>
+			<exponentibl drbft="contributed">E</exponentibl>
+			<perMille drbft="contributed">‰</perMille>
+			<infinity drbft="contributed">∞</infinity>
+			<nbn drbft="contributed">NbN</nbn>
 		</symbols>
-		<currencyFormats numberSystem="latn">
-			<currencyFormatLength>
-				<currencyFormat>
-					<pattern draft="contributed">¤ #,##0.00</pattern>
-				</currencyFormat>
-			</currencyFormatLength>
-		</currencyFormats>
+		<currencyFormbts numberSystem="lbtn">
+			<currencyFormbtLength>
+				<currencyFormbt>
+					<pbttern drbft="contributed">¤ #,##0.00</pbttern>
+				</currencyFormbt>
+			</currencyFormbtLength>
+		</currencyFormbts>
 		<currencies>
 			<currency type="AZN">
-				<displayName draft="unconfirmed">манат</displayName>
+				<displbyNbme drbft="unconfirmed">манат</displbyNbme>
 				<symbol>ман.</symbol>
 			</currency>
 		</currencies>

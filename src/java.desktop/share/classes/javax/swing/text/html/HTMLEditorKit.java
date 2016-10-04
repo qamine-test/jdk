@@ -1,180 +1,180 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.text.html;
+pbckbge jbvbx.swing.text.html;
 
-import sun.awt.AppContext;
+import sun.bwt.AppContext;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.io.*;
-import java.net.MalformedURLException;
-import java.net.URL;
-import javax.swing.text.*;
-import javax.swing.*;
-import javax.swing.event.*;
-import javax.swing.plaf.TextUI;
-import java.util.*;
-import javax.accessibility.*;
-import java.lang.ref.*;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvb.io.*;
+import jbvb.net.MblformedURLException;
+import jbvb.net.URL;
+import jbvbx.swing.text.*;
+import jbvbx.swing.*;
+import jbvbx.swing.event.*;
+import jbvbx.swing.plbf.TextUI;
+import jbvb.util.*;
+import jbvbx.bccessibility.*;
+import jbvb.lbng.ref.*;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
 
 /**
- * The Swing JEditorPane text component supports different kinds
- * of content via a plug-in mechanism called an EditorKit.  Because
- * HTML is a very popular format of content, some support is provided
- * by default.  The default support is provided by this class, which
- * supports HTML version 3.2 (with some extensions), and is migrating
- * toward version 4.0.
- * The &lt;applet&gt; tag is not supported, but some support is provided
- * for the &lt;object&gt; tag.
+ * The Swing JEditorPbne text component supports different kinds
+ * of content vib b plug-in mechbnism cblled bn EditorKit.  Becbuse
+ * HTML is b very populbr formbt of content, some support is provided
+ * by defbult.  The defbult support is provided by this clbss, which
+ * supports HTML version 3.2 (with some extensions), bnd is migrbting
+ * towbrd version 4.0.
+ * The &lt;bpplet&gt; tbg is not supported, but some support is provided
+ * for the &lt;object&gt; tbg.
  * <p>
- * There are several goals of the HTML EditorKit provided, that have
- * an effect upon the way that HTML is modeled.  These
- * have influenced its design in a substantial way.
+ * There bre severbl gobls of the HTML EditorKit provided, thbt hbve
+ * bn effect upon the wby thbt HTML is modeled.  These
+ * hbve influenced its design in b substbntibl wby.
  * <dl>
  * <dt>
  * Support editing
  * <dd>
- * It might seem fairly obvious that a plug-in for JEditorPane
- * should provide editing support, but that fact has several
- * design considerations.  There are a substantial number of HTML
- * documents that don't properly conform to an HTML specification.
- * These must be normalized somewhat into a correct form if one
- * is to edit them.  Additionally, users don't like to be presented
- * with an excessive amount of structure editing, so using traditional
+ * It might seem fbirly obvious thbt b plug-in for JEditorPbne
+ * should provide editing support, but thbt fbct hbs severbl
+ * design considerbtions.  There bre b substbntibl number of HTML
+ * documents thbt don't properly conform to bn HTML specificbtion.
+ * These must be normblized somewhbt into b correct form if one
+ * is to edit them.  Additionblly, users don't like to be presented
+ * with bn excessive bmount of structure editing, so using trbditionbl
  * text editing gestures is preferred over using the HTML structure
- * exactly as defined in the HTML document.
+ * exbctly bs defined in the HTML document.
  * <p>
- * The modeling of HTML is provided by the class <code>HTMLDocument</code>.
- * Its documentation describes the details of how the HTML is modeled.
- * The editing support leverages heavily off of the text package.
+ * The modeling of HTML is provided by the clbss <code>HTMLDocument</code>.
+ * Its documentbtion describes the detbils of how the HTML is modeled.
+ * The editing support leverbges hebvily off of the text pbckbge.
  *
  * <dt>
- * Extendable/Scalable
+ * Extendbble/Scblbble
  * <dd>
- * To maximize the usefulness of this kit, a great deal of effort
- * has gone into making it extendable.  These are some of the
- * features.
+ * To mbximize the usefulness of this kit, b grebt debl of effort
+ * hbs gone into mbking it extendbble.  These bre some of the
+ * febtures.
  * <ol>
  *   <li>
- *   The parser is replaceable.  The default parser is the Hot Java
- *   parser which is DTD based.  A different DTD can be used, or an
- *   entirely different parser can be used.  To change the parser,
- *   reimplement the getParser method.  The default parser is
- *   dynamically loaded when first asked for, so the class files
- *   will never be loaded if an alternative parser is used.  The
- *   default parser is in a separate package called parser below
- *   this package.
+ *   The pbrser is replbcebble.  The defbult pbrser is the Hot Jbvb
+ *   pbrser which is DTD bbsed.  A different DTD cbn be used, or bn
+ *   entirely different pbrser cbn be used.  To chbnge the pbrser,
+ *   reimplement the getPbrser method.  The defbult pbrser is
+ *   dynbmicblly lobded when first bsked for, so the clbss files
+ *   will never be lobded if bn blternbtive pbrser is used.  The
+ *   defbult pbrser is in b sepbrbte pbckbge cblled pbrser below
+ *   this pbckbge.
  *   <li>
- *   The parser drives the ParserCallback, which is provided by
- *   HTMLDocument.  To change the callback, subclass HTMLDocument
- *   and reimplement the createDefaultDocument method to return
- *   document that produces a different reader.  The reader controls
+ *   The pbrser drives the PbrserCbllbbck, which is provided by
+ *   HTMLDocument.  To chbnge the cbllbbck, subclbss HTMLDocument
+ *   bnd reimplement the crebteDefbultDocument method to return
+ *   document thbt produces b different rebder.  The rebder controls
  *   how the document is structured.  Although the Document provides
- *   HTML support by default, there is nothing preventing support of
- *   non-HTML tags that result in alternative element structures.
+ *   HTML support by defbult, there is nothing preventing support of
+ *   non-HTML tbgs thbt result in blternbtive element structures.
  *   <li>
- *   The default view of the models are provided as a hierarchy of
- *   View implementations, so one can easily customize how a particular
- *   element is displayed or add capabilities for new kinds of elements
- *   by providing new View implementations.  The default set of views
- *   are provided by the <code>HTMLFactory</code> class.  This can
- *   be easily changed by subclassing or replacing the HTMLFactory
- *   and reimplementing the getViewFactory method to return the alternative
- *   factory.
+ *   The defbult view of the models bre provided bs b hierbrchy of
+ *   View implementbtions, so one cbn ebsily customize how b pbrticulbr
+ *   element is displbyed or bdd cbpbbilities for new kinds of elements
+ *   by providing new View implementbtions.  The defbult set of views
+ *   bre provided by the <code>HTMLFbctory</code> clbss.  This cbn
+ *   be ebsily chbnged by subclbssing or replbcing the HTMLFbctory
+ *   bnd reimplementing the getViewFbctory method to return the blternbtive
+ *   fbctory.
  *   <li>
- *   The View implementations work primarily off of CSS attributes,
- *   which are kept in the views.  This makes it possible to have
- *   multiple views mapped over the same model that appear substantially
- *   different.  This can be especially useful for printing.  For
- *   most HTML attributes, the HTML attributes are converted to CSS
- *   attributes for display.  This helps make the View implementations
- *   more general purpose
+ *   The View implementbtions work primbrily off of CSS bttributes,
+ *   which bre kept in the views.  This mbkes it possible to hbve
+ *   multiple views mbpped over the sbme model thbt bppebr substbntiblly
+ *   different.  This cbn be especiblly useful for printing.  For
+ *   most HTML bttributes, the HTML bttributes bre converted to CSS
+ *   bttributes for displby.  This helps mbke the View implementbtions
+ *   more generbl purpose
  * </ol>
  *
  * <dt>
- * Asynchronous Loading
+ * Asynchronous Lobding
  * <dd>
- * Larger documents involve a lot of parsing and take some time
- * to load.  By default, this kit produces documents that will be
- * loaded asynchronously if loaded using <code>JEditorPane.setPage</code>.
- * This is controlled by a property on the document.  The method
- * {@link #createDefaultDocument createDefaultDocument} can
- * be overriden to change this.  The batching of work is done
- * by the <code>HTMLDocument.HTMLReader</code> class.  The actual
- * work is done by the <code>DefaultStyledDocument</code> and
- * <code>AbstractDocument</code> classes in the text package.
+ * Lbrger documents involve b lot of pbrsing bnd tbke some time
+ * to lobd.  By defbult, this kit produces documents thbt will be
+ * lobded bsynchronously if lobded using <code>JEditorPbne.setPbge</code>.
+ * This is controlled by b property on the document.  The method
+ * {@link #crebteDefbultDocument crebteDefbultDocument} cbn
+ * be overriden to chbnge this.  The bbtching of work is done
+ * by the <code>HTMLDocument.HTMLRebder</code> clbss.  The bctubl
+ * work is done by the <code>DefbultStyledDocument</code> bnd
+ * <code>AbstrbctDocument</code> clbsses in the text pbckbge.
  *
  * <dt>
- * Customization from current LAF
+ * Customizbtion from current LAF
  * <dd>
- * HTML provides a well known set of features without exactly
- * specifying the display characteristics.  Swing has a theme
- * mechanism for its look-and-feel implementations.  It is desirable
- * for the look-and-feel to feed display characteristics into the
- * HTML views.  An user with poor vision for example would want
- * high contrast and larger than typical fonts.
+ * HTML provides b well known set of febtures without exbctly
+ * specifying the displby chbrbcteristics.  Swing hbs b theme
+ * mechbnism for its look-bnd-feel implementbtions.  It is desirbble
+ * for the look-bnd-feel to feed displby chbrbcteristics into the
+ * HTML views.  An user with poor vision for exbmple would wbnt
+ * high contrbst bnd lbrger thbn typicbl fonts.
  * <p>
  * The support for this is provided by the <code>StyleSheet</code>
- * class.  The presentation of the HTML can be heavily influenced
+ * clbss.  The presentbtion of the HTML cbn be hebvily influenced
  * by the setting of the StyleSheet property on the EditorKit.
  *
  * <dt>
  * Not lossy
  * <dd>
- * An EditorKit has the ability to be read and save documents.
- * It is generally the most pleasing to users if there is no loss
- * of data between the two operation.  The policy of the HTMLEditorKit
- * will be to store things not recognized or not necessarily visible
- * so they can be subsequently written out.  The model of the HTML document
- * should therefore contain all information discovered while reading the
- * document.  This is constrained in some ways by the need to support
- * editing (i.e. incorrect documents sometimes must be normalized).
- * The guiding principle is that information shouldn't be lost, but
- * some might be synthesized to produce a more correct model or it might
- * be rearranged.
+ * An EditorKit hbs the bbility to be rebd bnd sbve documents.
+ * It is generblly the most plebsing to users if there is no loss
+ * of dbtb between the two operbtion.  The policy of the HTMLEditorKit
+ * will be to store things not recognized or not necessbrily visible
+ * so they cbn be subsequently written out.  The model of the HTML document
+ * should therefore contbin bll informbtion discovered while rebding the
+ * document.  This is constrbined in some wbys by the need to support
+ * editing (i.e. incorrect documents sometimes must be normblized).
+ * The guiding principle is thbt informbtion shouldn't be lost, but
+ * some might be synthesized to produce b more correct model or it might
+ * be rebrrbnged.
  * </dl>
  *
- * @author  Timothy Prinzing
+ * @buthor  Timothy Prinzing
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class HTMLEditorKit extends StyledEditorKit implements Accessible {
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public clbss HTMLEditorKit extends StyledEditorKit implements Accessible {
 
-    private JEditorPane theEditor;
+    privbte JEditorPbne theEditor;
 
     /**
-     * Constructs an HTMLEditorKit, creates a StyleContext,
-     * and loads the style sheet.
+     * Constructs bn HTMLEditorKit, crebtes b StyleContext,
+     * bnd lobds the style sheet.
      */
     public HTMLEditorKit() {
 
     }
 
     /**
-     * Get the MIME type of the data that this
+     * Get the MIME type of the dbtb thbt this
      * kit represents support for.  This kit supports
      * the type <code>text/html</code>.
      *
@@ -185,144 +185,144 @@ public class HTMLEditorKit extends StyledEditorKit implements Accessible {
     }
 
     /**
-     * Fetch a factory that is suitable for producing
-     * views of any models that are produced by this
+     * Fetch b fbctory thbt is suitbble for producing
+     * views of bny models thbt bre produced by this
      * kit.
      *
-     * @return the factory
+     * @return the fbctory
      */
-    public ViewFactory getViewFactory() {
-        return defaultFactory;
+    public ViewFbctory getViewFbctory() {
+        return defbultFbctory;
     }
 
     /**
-     * Create an uninitialized text storage model
-     * that is appropriate for this type of editor.
+     * Crebte bn uninitiblized text storbge model
+     * thbt is bppropribte for this type of editor.
      *
      * @return the model
      */
-    public Document createDefaultDocument() {
+    public Document crebteDefbultDocument() {
         StyleSheet styles = getStyleSheet();
         StyleSheet ss = new StyleSheet();
 
-        ss.addStyleSheet(styles);
+        ss.bddStyleSheet(styles);
 
         HTMLDocument doc = new HTMLDocument(ss);
-        doc.setParser(getParser());
-        doc.setAsynchronousLoadPriority(4);
+        doc.setPbrser(getPbrser());
+        doc.setAsynchronousLobdPriority(4);
         doc.setTokenThreshold(100);
         return doc;
     }
 
     /**
-     * Try to get an HTML parser from the document.  If no parser is set for
-     * the document, return the editor kit's default parser.  It is an error
-     * if no parser could be obtained from the editor kit.
+     * Try to get bn HTML pbrser from the document.  If no pbrser is set for
+     * the document, return the editor kit's defbult pbrser.  It is bn error
+     * if no pbrser could be obtbined from the editor kit.
      */
-    private Parser ensureParser(HTMLDocument doc) throws IOException {
-        Parser p = doc.getParser();
+    privbte Pbrser ensurePbrser(HTMLDocument doc) throws IOException {
+        Pbrser p = doc.getPbrser();
         if (p == null) {
-            p = getParser();
+            p = getPbrser();
         }
         if (p == null) {
-            throw new IOException("Can't load parser");
+            throw new IOException("Cbn't lobd pbrser");
         }
         return p;
     }
 
     /**
-     * Inserts content from the given stream. If <code>doc</code> is
-     * an instance of HTMLDocument, this will read
-     * HTML 3.2 text. Inserting HTML into a non-empty document must be inside
-     * the body Element, if you do not insert into the body an exception will
-     * be thrown. When inserting into a non-empty document all tags outside
-     * of the body (head, title) will be dropped.
+     * Inserts content from the given strebm. If <code>doc</code> is
+     * bn instbnce of HTMLDocument, this will rebd
+     * HTML 3.2 text. Inserting HTML into b non-empty document must be inside
+     * the body Element, if you do not insert into the body bn exception will
+     * be thrown. When inserting into b non-empty document bll tbgs outside
+     * of the body (hebd, title) will be dropped.
      *
-     * @param in the stream to read from
-     * @param doc the destination for the insertion
-     * @param pos the location in the document to place the
+     * @pbrbm in the strebm to rebd from
+     * @pbrbm doc the destinbtion for the insertion
+     * @pbrbm pos the locbtion in the document to plbce the
      *   content
-     * @exception IOException on any I/O error
-     * @exception BadLocationException if pos represents an invalid
-     *   location within the document
-     * @exception RuntimeException (will eventually be a BadLocationException)
-     *            if pos is invalid
+     * @exception IOException on bny I/O error
+     * @exception BbdLocbtionException if pos represents bn invblid
+     *   locbtion within the document
+     * @exception RuntimeException (will eventublly be b BbdLocbtionException)
+     *            if pos is invblid
      */
-    public void read(Reader in, Document doc, int pos) throws IOException, BadLocationException {
+    public void rebd(Rebder in, Document doc, int pos) throws IOException, BbdLocbtionException {
 
-        if (doc instanceof HTMLDocument) {
+        if (doc instbnceof HTMLDocument) {
             HTMLDocument hdoc = (HTMLDocument) doc;
             if (pos > doc.getLength()) {
-                throw new BadLocationException("Invalid location", pos);
+                throw new BbdLocbtionException("Invblid locbtion", pos);
             }
 
-            Parser p = ensureParser(hdoc);
-            ParserCallback receiver = hdoc.getReader(pos);
-            Boolean ignoreCharset = (Boolean)doc.getProperty("IgnoreCharsetDirective");
-            p.parse(in, receiver, (ignoreCharset == null) ? false : ignoreCharset.booleanValue());
+            Pbrser p = ensurePbrser(hdoc);
+            PbrserCbllbbck receiver = hdoc.getRebder(pos);
+            Boolebn ignoreChbrset = (Boolebn)doc.getProperty("IgnoreChbrsetDirective");
+            p.pbrse(in, receiver, (ignoreChbrset == null) ? fblse : ignoreChbrset.boolebnVblue());
             receiver.flush();
         } else {
-            super.read(in, doc, pos);
+            super.rebd(in, doc, pos);
         }
     }
 
     /**
-     * Inserts HTML into an existing document.
+     * Inserts HTML into bn existing document.
      *
-     * @param doc the document to insert into
-     * @param offset the offset to insert HTML at
-     * @param popDepth the number of ElementSpec.EndTagTypes to generate
+     * @pbrbm doc the document to insert into
+     * @pbrbm offset the offset to insert HTML bt
+     * @pbrbm popDepth the number of ElementSpec.EndTbgTypes to generbte
      *                  before inserting
-     * @param html the HTML string
-     * @param pushDepth the number of ElementSpec.StartTagTypes with a direction
-     *                  of ElementSpec.JoinNextDirection that should be generated
-     *                  before inserting, but after the end tags have been generated
-     * @param insertTag the first tag to start inserting into document
+     * @pbrbm html the HTML string
+     * @pbrbm pushDepth the number of ElementSpec.StbrtTbgTypes with b direction
+     *                  of ElementSpec.JoinNextDirection thbt should be generbted
+     *                  before inserting, but bfter the end tbgs hbve been generbted
+     * @pbrbm insertTbg the first tbg to stbrt inserting into document
      *
-     * @throws BadLocationException if {@code offset} is invalid
+     * @throws BbdLocbtionException if {@code offset} is invblid
      * @throws IOException on I/O error
-     * @exception RuntimeException (will eventually be a BadLocationException)
-     *            if pos is invalid
+     * @exception RuntimeException (will eventublly be b BbdLocbtionException)
+     *            if pos is invblid
      */
     public void insertHTML(HTMLDocument doc, int offset, String html,
                            int popDepth, int pushDepth,
-                           HTML.Tag insertTag) throws
-                       BadLocationException, IOException {
+                           HTML.Tbg insertTbg) throws
+                       BbdLocbtionException, IOException {
         if (offset > doc.getLength()) {
-            throw new BadLocationException("Invalid location", offset);
+            throw new BbdLocbtionException("Invblid locbtion", offset);
         }
 
-        Parser p = ensureParser(doc);
-        ParserCallback receiver = doc.getReader(offset, popDepth, pushDepth,
-                                                insertTag);
-        Boolean ignoreCharset = (Boolean)doc.getProperty
-                                ("IgnoreCharsetDirective");
-        p.parse(new StringReader(html), receiver, (ignoreCharset == null) ?
-                false : ignoreCharset.booleanValue());
+        Pbrser p = ensurePbrser(doc);
+        PbrserCbllbbck receiver = doc.getRebder(offset, popDepth, pushDepth,
+                                                insertTbg);
+        Boolebn ignoreChbrset = (Boolebn)doc.getProperty
+                                ("IgnoreChbrsetDirective");
+        p.pbrse(new StringRebder(html), receiver, (ignoreChbrset == null) ?
+                fblse : ignoreChbrset.boolebnVblue());
         receiver.flush();
     }
 
     /**
-     * Write content from a document to the given stream
-     * in a format appropriate for this kind of content handler.
+     * Write content from b document to the given strebm
+     * in b formbt bppropribte for this kind of content hbndler.
      *
-     * @param out the stream to write to
-     * @param doc the source for the write
-     * @param pos the location in the document to fetch the
+     * @pbrbm out the strebm to write to
+     * @pbrbm doc the source for the write
+     * @pbrbm pos the locbtion in the document to fetch the
      *   content
-     * @param len the amount to write out
-     * @exception IOException on any I/O error
-     * @exception BadLocationException if {@code pos} represents an invalid
-     *   location within the document
+     * @pbrbm len the bmount to write out
+     * @exception IOException on bny I/O error
+     * @exception BbdLocbtionException if {@code pos} represents bn invblid
+     *   locbtion within the document
      */
     public void write(Writer out, Document doc, int pos, int len)
-        throws IOException, BadLocationException {
+        throws IOException, BbdLocbtionException {
 
-        if (doc instanceof HTMLDocument) {
+        if (doc instbnceof HTMLDocument) {
             HTMLWriter w = new HTMLWriter(out, (HTMLDocument)doc, pos, len);
             w.write();
-        } else if (doc instanceof StyledDocument) {
-            MinimalHTMLWriter w = new MinimalHTMLWriter(out, (StyledDocument)doc, pos, len);
+        } else if (doc instbnceof StyledDocument) {
+            MinimblHTMLWriter w = new MinimblHTMLWriter(out, (StyledDocument)doc, pos, len);
             w.write();
         } else {
             super.write(out, doc, pos, len);
@@ -330,51 +330,51 @@ public class HTMLEditorKit extends StyledEditorKit implements Accessible {
     }
 
     /**
-     * Called when the kit is being installed into the
-     * a JEditorPane.
+     * Cblled when the kit is being instblled into the
+     * b JEditorPbne.
      *
-     * @param c the JEditorPane
+     * @pbrbm c the JEditorPbne
      */
-    public void install(JEditorPane c) {
-        c.addMouseListener(linkHandler);
-        c.addMouseMotionListener(linkHandler);
-        c.addCaretListener(nextLinkAction);
-        super.install(c);
+    public void instbll(JEditorPbne c) {
+        c.bddMouseListener(linkHbndler);
+        c.bddMouseMotionListener(linkHbndler);
+        c.bddCbretListener(nextLinkAction);
+        super.instbll(c);
         theEditor = c;
     }
 
     /**
-     * Called when the kit is being removed from the
-     * JEditorPane.  This is used to unregister any
-     * listeners that were attached.
+     * Cblled when the kit is being removed from the
+     * JEditorPbne.  This is used to unregister bny
+     * listeners thbt were bttbched.
      *
-     * @param c the JEditorPane
+     * @pbrbm c the JEditorPbne
      */
-    public void deinstall(JEditorPane c) {
-        c.removeMouseListener(linkHandler);
-        c.removeMouseMotionListener(linkHandler);
-        c.removeCaretListener(nextLinkAction);
-        super.deinstall(c);
+    public void deinstbll(JEditorPbne c) {
+        c.removeMouseListener(linkHbndler);
+        c.removeMouseMotionListener(linkHbndler);
+        c.removeCbretListener(nextLinkAction);
+        super.deinstbll(c);
         theEditor = null;
     }
 
     /**
-     * Default Cascading Style Sheet file that sets
-     * up the tag views.
+     * Defbult Cbscbding Style Sheet file thbt sets
+     * up the tbg views.
      */
-    public static final String DEFAULT_CSS = "default.css";
+    public stbtic finbl String DEFAULT_CSS = "defbult.css";
 
     /**
-     * Set the set of styles to be used to render the various
-     * HTML elements.  These styles are specified in terms of
-     * CSS specifications.  Each document produced by the kit
-     * will have a copy of the sheet which it can add the
-     * document specific styles to.  By default, the StyleSheet
-     * specified is shared by all HTMLEditorKit instances.
-     * This should be reimplemented to provide a finer granularity
+     * Set the set of styles to be used to render the vbrious
+     * HTML elements.  These styles bre specified in terms of
+     * CSS specificbtions.  Ebch document produced by the kit
+     * will hbve b copy of the sheet which it cbn bdd the
+     * document specific styles to.  By defbult, the StyleSheet
+     * specified is shbred by bll HTMLEditorKit instbnces.
+     * This should be reimplemented to provide b finer grbnulbrity
      * if desired.
      *
-     * @param s a StyleSheet
+     * @pbrbm s b StyleSheet
      */
     public void setStyleSheet(StyleSheet s) {
         if (s == null) {
@@ -386,157 +386,157 @@ public class HTMLEditorKit extends StyledEditorKit implements Accessible {
 
     /**
      * Get the set of styles currently being used to render the
-     * HTML elements.  By default the resource specified by
-     * DEFAULT_CSS gets loaded, and is shared by all HTMLEditorKit
-     * instances.
+     * HTML elements.  By defbult the resource specified by
+     * DEFAULT_CSS gets lobded, bnd is shbred by bll HTMLEditorKit
+     * instbnces.
      *
      * @return the StyleSheet
      */
     public StyleSheet getStyleSheet() {
-        AppContext appContext = AppContext.getAppContext();
-        StyleSheet defaultStyles = (StyleSheet) appContext.get(DEFAULT_STYLES_KEY);
+        AppContext bppContext = AppContext.getAppContext();
+        StyleSheet defbultStyles = (StyleSheet) bppContext.get(DEFAULT_STYLES_KEY);
 
-        if (defaultStyles == null) {
-            defaultStyles = new StyleSheet();
-            appContext.put(DEFAULT_STYLES_KEY, defaultStyles);
+        if (defbultStyles == null) {
+            defbultStyles = new StyleSheet();
+            bppContext.put(DEFAULT_STYLES_KEY, defbultStyles);
             try {
-                InputStream is = HTMLEditorKit.getResourceAsStream(DEFAULT_CSS);
-                Reader r = new BufferedReader(
-                        new InputStreamReader(is, "ISO-8859-1"));
-                defaultStyles.loadRules(r, null);
+                InputStrebm is = HTMLEditorKit.getResourceAsStrebm(DEFAULT_CSS);
+                Rebder r = new BufferedRebder(
+                        new InputStrebmRebder(is, "ISO-8859-1"));
+                defbultStyles.lobdRules(r, null);
                 r.close();
-            } catch (Throwable e) {
-                // on error we simply have no styles... the html
+            } cbtch (Throwbble e) {
+                // on error we simply hbve no styles... the html
                 // will look mighty wrong but still function.
             }
         }
-        return defaultStyles;
+        return defbultStyles;
     }
 
     /**
-     * Fetch a resource relative to the HTMLEditorKit classfile.
-     * If this is called on 1.2 the loading will occur under the
-     * protection of a doPrivileged call to allow the HTMLEditorKit
-     * to function when used in an applet.
+     * Fetch b resource relbtive to the HTMLEditorKit clbssfile.
+     * If this is cblled on 1.2 the lobding will occur under the
+     * protection of b doPrivileged cbll to bllow the HTMLEditorKit
+     * to function when used in bn bpplet.
      *
-     * @param name the name of the resource, relative to the
-     *             HTMLEditorKit class
-     * @return a stream representing the resource
+     * @pbrbm nbme the nbme of the resource, relbtive to the
+     *             HTMLEditorKit clbss
+     * @return b strebm representing the resource
      */
-    static InputStream getResourceAsStream(final String name) {
+    stbtic InputStrebm getResourceAsStrebm(finbl String nbme) {
         return AccessController.doPrivileged(
-                new PrivilegedAction<InputStream>() {
-                    public InputStream run() {
-                        return HTMLEditorKit.class.getResourceAsStream(name);
+                new PrivilegedAction<InputStrebm>() {
+                    public InputStrebm run() {
+                        return HTMLEditorKit.clbss.getResourceAsStrebm(nbme);
                     }
                 });
     }
 
     /**
-     * Fetches the command list for the editor.  This is
-     * the list of commands supported by the superclass
-     * augmented by the collection of commands defined
-     * locally for style operations.
+     * Fetches the commbnd list for the editor.  This is
+     * the list of commbnds supported by the superclbss
+     * bugmented by the collection of commbnds defined
+     * locblly for style operbtions.
      *
-     * @return the command list
+     * @return the commbnd list
      */
     public Action[] getActions() {
-        return TextAction.augmentList(super.getActions(), defaultActions);
+        return TextAction.bugmentList(super.getActions(), defbultActions);
     }
 
     /**
-     * Copies the key/values in <code>element</code>s AttributeSet into
+     * Copies the key/vblues in <code>element</code>s AttributeSet into
      * <code>set</code>. This does not copy component, icon, or element
-     * names attributes. Subclasses may wish to refine what is and what
-     * isn't copied here. But be sure to first remove all the attributes that
-     * are in <code>set</code>.<p>
-     * This is called anytime the caret moves over a different location.
+     * nbmes bttributes. Subclbsses mby wish to refine whbt is bnd whbt
+     * isn't copied here. But be sure to first remove bll the bttributes thbt
+     * bre in <code>set</code>.<p>
+     * This is cblled bnytime the cbret moves over b different locbtion.
      *
      */
-    protected void createInputAttributes(Element element,
-                                         MutableAttributeSet set) {
+    protected void crebteInputAttributes(Element element,
+                                         MutbbleAttributeSet set) {
         set.removeAttributes(set);
-        set.addAttributes(element.getAttributes());
-        set.removeAttribute(StyleConstants.ComposedTextAttribute);
+        set.bddAttributes(element.getAttributes());
+        set.removeAttribute(StyleConstbnts.ComposedTextAttribute);
 
-        Object o = set.getAttribute(StyleConstants.NameAttribute);
-        if (o instanceof HTML.Tag) {
-            HTML.Tag tag = (HTML.Tag)o;
-            // PENDING: we need a better way to express what shouldn't be
+        Object o = set.getAttribute(StyleConstbnts.NbmeAttribute);
+        if (o instbnceof HTML.Tbg) {
+            HTML.Tbg tbg = (HTML.Tbg)o;
+            // PENDING: we need b better wby to express whbt shouldn't be
             // copied when editing...
-            if(tag == HTML.Tag.IMG) {
-                // Remove the related image attributes, src, width, height
+            if(tbg == HTML.Tbg.IMG) {
+                // Remove the relbted imbge bttributes, src, width, height
                 set.removeAttribute(HTML.Attribute.SRC);
                 set.removeAttribute(HTML.Attribute.HEIGHT);
                 set.removeAttribute(HTML.Attribute.WIDTH);
-                set.addAttribute(StyleConstants.NameAttribute,
-                                 HTML.Tag.CONTENT);
+                set.bddAttribute(StyleConstbnts.NbmeAttribute,
+                                 HTML.Tbg.CONTENT);
             }
-            else if (tag == HTML.Tag.HR || tag == HTML.Tag.BR) {
+            else if (tbg == HTML.Tbg.HR || tbg == HTML.Tbg.BR) {
                 // Don't copy HRs or BRs either.
-                set.addAttribute(StyleConstants.NameAttribute,
-                                 HTML.Tag.CONTENT);
+                set.bddAttribute(StyleConstbnts.NbmeAttribute,
+                                 HTML.Tbg.CONTENT);
             }
-            else if (tag == HTML.Tag.COMMENT) {
+            else if (tbg == HTML.Tbg.COMMENT) {
                 // Don't copy COMMENTs either
-                set.addAttribute(StyleConstants.NameAttribute,
-                                 HTML.Tag.CONTENT);
+                set.bddAttribute(StyleConstbnts.NbmeAttribute,
+                                 HTML.Tbg.CONTENT);
                 set.removeAttribute(HTML.Attribute.COMMENT);
             }
-            else if (tag == HTML.Tag.INPUT) {
+            else if (tbg == HTML.Tbg.INPUT) {
                 // or INPUT either
-                set.addAttribute(StyleConstants.NameAttribute,
-                                 HTML.Tag.CONTENT);
-                set.removeAttribute(HTML.Tag.INPUT);
+                set.bddAttribute(StyleConstbnts.NbmeAttribute,
+                                 HTML.Tbg.CONTENT);
+                set.removeAttribute(HTML.Tbg.INPUT);
             }
-            else if (tag instanceof HTML.UnknownTag) {
+            else if (tbg instbnceof HTML.UnknownTbg) {
                 // Don't copy unknowns either:(
-                set.addAttribute(StyleConstants.NameAttribute,
-                                 HTML.Tag.CONTENT);
+                set.bddAttribute(StyleConstbnts.NbmeAttribute,
+                                 HTML.Tbg.CONTENT);
                 set.removeAttribute(HTML.Attribute.ENDTAG);
             }
         }
     }
 
     /**
-     * Gets the input attributes used for the styled
-     * editing actions.
+     * Gets the input bttributes used for the styled
+     * editing bctions.
      *
-     * @return the attribute set
+     * @return the bttribute set
      */
-    public MutableAttributeSet getInputAttributes() {
+    public MutbbleAttributeSet getInputAttributes() {
         if (input == null) {
-            input = getStyleSheet().addStyle(null, null);
+            input = getStyleSheet().bddStyle(null, null);
         }
         return input;
     }
 
     /**
-     * Sets the default cursor.
+     * Sets the defbult cursor.
      *
-     * @param cursor a cursor
+     * @pbrbm cursor b cursor
      *
      * @since 1.3
      */
-    public void setDefaultCursor(Cursor cursor) {
-        defaultCursor = cursor;
+    public void setDefbultCursor(Cursor cursor) {
+        defbultCursor = cursor;
     }
 
     /**
-     * Returns the default cursor.
+     * Returns the defbult cursor.
      *
      * @return the cursor
      *
      * @since 1.3
      */
-    public Cursor getDefaultCursor() {
-        return defaultCursor;
+    public Cursor getDefbultCursor() {
+        return defbultCursor;
     }
 
     /**
      * Sets the cursor to use over links.
      *
-     * @param cursor a cursor
+     * @pbrbm cursor b cursor
      *
      * @since 1.3
      */
@@ -556,36 +556,36 @@ public class HTMLEditorKit extends StyledEditorKit implements Accessible {
     }
 
     /**
-     * Indicates whether an html form submission is processed automatically
+     * Indicbtes whether bn html form submission is processed butombticblly
      * or only <code>FormSubmitEvent</code> is fired.
      *
-     * @return true  if html form submission is processed automatically,
-     *         false otherwise.
+     * @return true  if html form submission is processed butombticblly,
+     *         fblse otherwise.
      *
      * @see #setAutoFormSubmission
      * @since 1.5
      */
-    public boolean isAutoFormSubmission() {
+    public boolebn isAutoFormSubmission() {
         return isAutoFormSubmission;
     }
 
     /**
-     * Specifies if an html form submission is processed
-     * automatically or only <code>FormSubmitEvent</code> is fired.
-     * By default it is set to true.
+     * Specifies if bn html form submission is processed
+     * butombticblly or only <code>FormSubmitEvent</code> is fired.
+     * By defbult it is set to true.
      *
-     * @param isAuto if {@code true}, html form submission is processed automatically.
+     * @pbrbm isAuto if {@code true}, html form submission is processed butombticblly.
      *
      * @see #isAutoFormSubmission()
      * @see FormSubmitEvent
      * @since 1.5
      */
-    public void setAutoFormSubmission(boolean isAuto) {
+    public void setAutoFormSubmission(boolebn isAuto) {
         isAutoFormSubmission = isAuto;
     }
 
     /**
-     * Creates a copy of the editor kit.
+     * Crebtes b copy of the editor kit.
      *
      * @return the copy
      */
@@ -593,216 +593,216 @@ public class HTMLEditorKit extends StyledEditorKit implements Accessible {
         HTMLEditorKit o = (HTMLEditorKit)super.clone();
         if (o != null) {
             o.input = null;
-            o.linkHandler = new LinkController();
+            o.linkHbndler = new LinkController();
         }
         return o;
     }
 
     /**
-     * Fetch the parser to use for reading HTML streams.
-     * This can be reimplemented to provide a different
-     * parser.  The default implementation is loaded dynamically
-     * to avoid the overhead of loading the default parser if
-     * it's not used.  The default parser is the HotJava parser
-     * using an HTML 3.2 DTD.
+     * Fetch the pbrser to use for rebding HTML strebms.
+     * This cbn be reimplemented to provide b different
+     * pbrser.  The defbult implementbtion is lobded dynbmicblly
+     * to bvoid the overhebd of lobding the defbult pbrser if
+     * it's not used.  The defbult pbrser is the HotJbvb pbrser
+     * using bn HTML 3.2 DTD.
      *
-     * @return the parser
+     * @return the pbrser
      */
-    protected Parser getParser() {
-        if (defaultParser == null) {
+    protected Pbrser getPbrser() {
+        if (defbultPbrser == null) {
             try {
-                Class<?> c = Class.forName("javax.swing.text.html.parser.ParserDelegator");
-                defaultParser = (Parser) c.newInstance();
-            } catch (Throwable e) {
+                Clbss<?> c = Clbss.forNbme("jbvbx.swing.text.html.pbrser.PbrserDelegbtor");
+                defbultPbrser = (Pbrser) c.newInstbnce();
+            } cbtch (Throwbble e) {
             }
         }
-        return defaultParser;
+        return defbultPbrser;
     }
 
     // ----- Accessibility support -----
-    private AccessibleContext accessibleContext;
+    privbte AccessibleContext bccessibleContext;
 
     /**
-     * returns the AccessibleContext associated with this editor kit
+     * returns the AccessibleContext bssocibted with this editor kit
      *
-     * @return the AccessibleContext associated with this editor kit
+     * @return the AccessibleContext bssocibted with this editor kit
      * @since 1.4
      */
     public AccessibleContext getAccessibleContext() {
         if (theEditor == null) {
             return null;
         }
-        if (accessibleContext == null) {
-            AccessibleHTML a = new AccessibleHTML(theEditor);
-            accessibleContext = a.getAccessibleContext();
+        if (bccessibleContext == null) {
+            AccessibleHTML b = new AccessibleHTML(theEditor);
+            bccessibleContext = b.getAccessibleContext();
         }
-        return accessibleContext;
+        return bccessibleContext;
     }
 
-    // --- variables ------------------------------------------
+    // --- vbribbles ------------------------------------------
 
-    private static final Cursor MoveCursor = Cursor.getPredefinedCursor
+    privbte stbtic finbl Cursor MoveCursor = Cursor.getPredefinedCursor
                                     (Cursor.HAND_CURSOR);
-    private static final Cursor DefaultCursor = Cursor.getPredefinedCursor
+    privbte stbtic finbl Cursor DefbultCursor = Cursor.getPredefinedCursor
                                     (Cursor.DEFAULT_CURSOR);
 
-    /** Shared factory for creating HTML Views. */
-    private static final ViewFactory defaultFactory = new HTMLFactory();
+    /** Shbred fbctory for crebting HTML Views. */
+    privbte stbtic finbl ViewFbctory defbultFbctory = new HTMLFbctory();
 
-    MutableAttributeSet input;
-    private static final Object DEFAULT_STYLES_KEY = new Object();
-    private LinkController linkHandler = new LinkController();
-    private static Parser defaultParser = null;
-    private Cursor defaultCursor = DefaultCursor;
-    private Cursor linkCursor = MoveCursor;
-    private boolean isAutoFormSubmission = true;
+    MutbbleAttributeSet input;
+    privbte stbtic finbl Object DEFAULT_STYLES_KEY = new Object();
+    privbte LinkController linkHbndler = new LinkController();
+    privbte stbtic Pbrser defbultPbrser = null;
+    privbte Cursor defbultCursor = DefbultCursor;
+    privbte Cursor linkCursor = MoveCursor;
+    privbte boolebn isAutoFormSubmission = true;
 
     /**
-     * Class to watch the associated component and fire
-     * hyperlink events on it when appropriate.
+     * Clbss to wbtch the bssocibted component bnd fire
+     * hyperlink events on it when bppropribte.
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    public static class LinkController extends MouseAdapter implements MouseMotionListener, Serializable {
-        private Element curElem = null;
+    @SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+    public stbtic clbss LinkController extends MouseAdbpter implements MouseMotionListener, Seriblizbble {
+        privbte Element curElem = null;
         /**
-         * If true, the current element (curElem) represents an image.
+         * If true, the current element (curElem) represents bn imbge.
          */
-        private boolean curElemImage = false;
-        private String href = null;
-        /** This is used by viewToModel to avoid allocing a new array each
+        privbte boolebn curElemImbge = fblse;
+        privbte String href = null;
+        /** This is used by viewToModel to bvoid bllocing b new brrby ebch
          * time. */
-        private transient Position.Bias[] bias = new Position.Bias[1];
+        privbte trbnsient Position.Bibs[] bibs = new Position.Bibs[1];
         /**
          * Current offset.
          */
-        private int curOffset;
+        privbte int curOffset;
 
         /**
-         * Called for a mouse click event.
-         * If the component is read-only (ie a browser) then
-         * the clicked event is used to drive an attempt to
-         * follow the reference specified by a link.
+         * Cblled for b mouse click event.
+         * If the component is rebd-only (ie b browser) then
+         * the clicked event is used to drive bn bttempt to
+         * follow the reference specified by b link.
          *
-         * @param e the mouse event
+         * @pbrbm e the mouse event
          * @see MouseListener#mouseClicked
          */
         public void mouseClicked(MouseEvent e) {
-            JEditorPane editor = (JEditorPane) e.getSource();
+            JEditorPbne editor = (JEditorPbne) e.getSource();
 
-            if (! editor.isEditable() && editor.isEnabled() &&
+            if (! editor.isEditbble() && editor.isEnbbled() &&
                     SwingUtilities.isLeftMouseButton(e)) {
                 Point pt = new Point(e.getX(), e.getY());
                 int pos = editor.viewToModel(pt);
                 if (pos >= 0) {
-                    activateLink(pos, editor, e);
+                    bctivbteLink(pos, editor, e);
                 }
             }
         }
 
-        // ignore the drags
-        public void mouseDragged(MouseEvent e) {
+        // ignore the drbgs
+        public void mouseDrbgged(MouseEvent e) {
         }
 
-        // track the moving of the mouse.
+        // trbck the moving of the mouse.
         public void mouseMoved(MouseEvent e) {
-            JEditorPane editor = (JEditorPane) e.getSource();
-            if (!editor.isEnabled()) {
+            JEditorPbne editor = (JEditorPbne) e.getSource();
+            if (!editor.isEnbbled()) {
                 return;
             }
 
             HTMLEditorKit kit = (HTMLEditorKit)editor.getEditorKit();
-            boolean adjustCursor = true;
-            Cursor newCursor = kit.getDefaultCursor();
-            if (!editor.isEditable()) {
+            boolebn bdjustCursor = true;
+            Cursor newCursor = kit.getDefbultCursor();
+            if (!editor.isEditbble()) {
                 Point pt = new Point(e.getX(), e.getY());
-                int pos = editor.getUI().viewToModel(editor, pt, bias);
-                if (bias[0] == Position.Bias.Backward && pos > 0) {
+                int pos = editor.getUI().viewToModel(editor, pt, bibs);
+                if (bibs[0] == Position.Bibs.Bbckwbrd && pos > 0) {
                     pos--;
                 }
-                if (pos >= 0 &&(editor.getDocument() instanceof HTMLDocument)){
+                if (pos >= 0 &&(editor.getDocument() instbnceof HTMLDocument)){
                     HTMLDocument hdoc = (HTMLDocument)editor.getDocument();
-                    Element elem = hdoc.getCharacterElement(pos);
-                    if (!doesElementContainLocation(editor, elem, pos,
+                    Element elem = hdoc.getChbrbcterElement(pos);
+                    if (!doesElementContbinLocbtion(editor, elem, pos,
                                                     e.getX(), e.getY())) {
                         elem = null;
                     }
-                    if (curElem != elem || curElemImage) {
-                        Element lastElem = curElem;
+                    if (curElem != elem || curElemImbge) {
+                        Element lbstElem = curElem;
                         curElem = elem;
                         String href = null;
-                        curElemImage = false;
+                        curElemImbge = fblse;
                         if (elem != null) {
-                            AttributeSet a = elem.getAttributes();
-                            AttributeSet anchor = (AttributeSet)a.
-                                                   getAttribute(HTML.Tag.A);
-                            if (anchor == null) {
-                                curElemImage = (a.getAttribute(StyleConstants.
-                                            NameAttribute) == HTML.Tag.IMG);
-                                if (curElemImage) {
-                                    href = getMapHREF(editor, hdoc, elem, a,
+                            AttributeSet b = elem.getAttributes();
+                            AttributeSet bnchor = (AttributeSet)b.
+                                                   getAttribute(HTML.Tbg.A);
+                            if (bnchor == null) {
+                                curElemImbge = (b.getAttribute(StyleConstbnts.
+                                            NbmeAttribute) == HTML.Tbg.IMG);
+                                if (curElemImbge) {
+                                    href = getMbpHREF(editor, hdoc, elem, b,
                                                       pos, e.getX(), e.getY());
                                 }
                             }
                             else {
-                                href = (String)anchor.getAttribute
+                                href = (String)bnchor.getAttribute
                                     (HTML.Attribute.HREF);
                             }
                         }
 
                         if (href != this.href) {
-                            // reference changed, fire event(s)
-                            fireEvents(editor, hdoc, href, lastElem, e);
+                            // reference chbnged, fire event(s)
+                            fireEvents(editor, hdoc, href, lbstElem, e);
                             this.href = href;
                             if (href != null) {
                                 newCursor = kit.getLinkCursor();
                             }
                         }
                         else {
-                            adjustCursor = false;
+                            bdjustCursor = fblse;
                         }
                     }
                     else {
-                        adjustCursor = false;
+                        bdjustCursor = fblse;
                     }
                     curOffset = pos;
                 }
             }
-            if (adjustCursor && editor.getCursor() != newCursor) {
+            if (bdjustCursor && editor.getCursor() != newCursor) {
                 editor.setCursor(newCursor);
             }
         }
 
         /**
-         * Returns a string anchor if the passed in element has a
-         * USEMAP that contains the passed in location.
+         * Returns b string bnchor if the pbssed in element hbs b
+         * USEMAP thbt contbins the pbssed in locbtion.
          */
-        private String getMapHREF(JEditorPane html, HTMLDocument hdoc,
-                                  Element elem, AttributeSet attr, int offset,
+        privbte String getMbpHREF(JEditorPbne html, HTMLDocument hdoc,
+                                  Element elem, AttributeSet bttr, int offset,
                                   int x, int y) {
-            Object useMap = attr.getAttribute(HTML.Attribute.USEMAP);
-            if (useMap != null && (useMap instanceof String)) {
-                Map m = hdoc.getMap((String)useMap);
+            Object useMbp = bttr.getAttribute(HTML.Attribute.USEMAP);
+            if (useMbp != null && (useMbp instbnceof String)) {
+                Mbp m = hdoc.getMbp((String)useMbp);
                 if (m != null && offset < hdoc.getLength()) {
-                    Rectangle bounds;
+                    Rectbngle bounds;
                     TextUI ui = html.getUI();
                     try {
-                        Shape lBounds = ui.modelToView(html, offset,
-                                                   Position.Bias.Forward);
-                        Shape rBounds = ui.modelToView(html, offset + 1,
-                                                   Position.Bias.Backward);
+                        Shbpe lBounds = ui.modelToView(html, offset,
+                                                   Position.Bibs.Forwbrd);
+                        Shbpe rBounds = ui.modelToView(html, offset + 1,
+                                                   Position.Bibs.Bbckwbrd);
                         bounds = lBounds.getBounds();
-                        bounds.add((rBounds instanceof Rectangle) ?
-                                    (Rectangle)rBounds : rBounds.getBounds());
-                    } catch (BadLocationException ble) {
+                        bounds.bdd((rBounds instbnceof Rectbngle) ?
+                                    (Rectbngle)rBounds : rBounds.getBounds());
+                    } cbtch (BbdLocbtionException ble) {
                         bounds = null;
                     }
                     if (bounds != null) {
-                        AttributeSet area = m.getArea(x - bounds.x,
+                        AttributeSet breb = m.getAreb(x - bounds.x,
                                                       y - bounds.y,
                                                       bounds.width,
                                                       bounds.height);
-                        if (area != null) {
-                            return (String)area.getAttribute(HTML.Attribute.
+                        if (breb != null) {
+                            return (String)breb.getAttribute(HTML.Attribute.
                                                              HREF);
                         }
                     }
@@ -812,67 +812,67 @@ public class HTMLEditorKit extends StyledEditorKit implements Accessible {
         }
 
         /**
-         * Returns true if the View representing <code>e</code> contains
-         * the location <code>x</code>, <code>y</code>. <code>offset</code>
+         * Returns true if the View representing <code>e</code> contbins
+         * the locbtion <code>x</code>, <code>y</code>. <code>offset</code>
          * gives the offset into the Document to check for.
          */
-        private boolean doesElementContainLocation(JEditorPane editor,
+        privbte boolebn doesElementContbinLocbtion(JEditorPbne editor,
                                                    Element e, int offset,
                                                    int x, int y) {
-            if (e != null && offset > 0 && e.getStartOffset() == offset) {
+            if (e != null && offset > 0 && e.getStbrtOffset() == offset) {
                 try {
                     TextUI ui = editor.getUI();
-                    Shape s1 = ui.modelToView(editor, offset,
-                                              Position.Bias.Forward);
+                    Shbpe s1 = ui.modelToView(editor, offset,
+                                              Position.Bibs.Forwbrd);
                     if (s1 == null) {
-                        return false;
+                        return fblse;
                     }
-                    Rectangle r1 = (s1 instanceof Rectangle) ? (Rectangle)s1 :
+                    Rectbngle r1 = (s1 instbnceof Rectbngle) ? (Rectbngle)s1 :
                                     s1.getBounds();
-                    Shape s2 = ui.modelToView(editor, e.getEndOffset(),
-                                              Position.Bias.Backward);
+                    Shbpe s2 = ui.modelToView(editor, e.getEndOffset(),
+                                              Position.Bibs.Bbckwbrd);
                     if (s2 != null) {
-                        Rectangle r2 = (s2 instanceof Rectangle) ? (Rectangle)s2 :
+                        Rectbngle r2 = (s2 instbnceof Rectbngle) ? (Rectbngle)s2 :
                                     s2.getBounds();
-                        r1.add(r2);
+                        r1.bdd(r2);
                     }
-                    return r1.contains(x, y);
-                } catch (BadLocationException ble) {
+                    return r1.contbins(x, y);
+                } cbtch (BbdLocbtionException ble) {
                 }
             }
             return true;
         }
 
         /**
-         * Calls linkActivated on the associated JEditorPane
-         * if the given position represents a link.<p>This is implemented
-         * to forward to the method with the same name, but with the following
-         * args both == -1.
+         * Cblls linkActivbted on the bssocibted JEditorPbne
+         * if the given position represents b link.<p>This is implemented
+         * to forwbrd to the method with the sbme nbme, but with the following
+         * brgs both == -1.
          *
-         * @param pos the position
-         * @param editor the editor pane
+         * @pbrbm pos the position
+         * @pbrbm editor the editor pbne
          */
-        protected void activateLink(int pos, JEditorPane editor) {
-            activateLink(pos, editor, null);
+        protected void bctivbteLink(int pos, JEditorPbne editor) {
+            bctivbteLink(pos, editor, null);
         }
 
         /**
-         * Calls linkActivated on the associated JEditorPane
-         * if the given position represents a link. If this was the result
-         * of a mouse click, <code>x</code> and
-         * <code>y</code> will give the location of the mouse, otherwise
-         * they will be {@literal <} 0.
+         * Cblls linkActivbted on the bssocibted JEditorPbne
+         * if the given position represents b link. If this wbs the result
+         * of b mouse click, <code>x</code> bnd
+         * <code>y</code> will give the locbtion of the mouse, otherwise
+         * they will be {@literbl <} 0.
          *
-         * @param pos the position
-         * @param html the editor pane
+         * @pbrbm pos the position
+         * @pbrbm html the editor pbne
          */
-        void activateLink(int pos, JEditorPane html, MouseEvent mouseEvent) {
+        void bctivbteLink(int pos, JEditorPbne html, MouseEvent mouseEvent) {
             Document doc = html.getDocument();
-            if (doc instanceof HTMLDocument) {
+            if (doc instbnceof HTMLDocument) {
                 HTMLDocument hdoc = (HTMLDocument) doc;
-                Element e = hdoc.getCharacterElement(pos);
-                AttributeSet a = e.getAttributes();
-                AttributeSet anchor = (AttributeSet)a.getAttribute(HTML.Tag.A);
+                Element e = hdoc.getChbrbcterElement(pos);
+                AttributeSet b = e.getAttributes();
+                AttributeSet bnchor = (AttributeSet)b.getAttribute(HTML.Tbg.A);
                 HyperlinkEvent linkEvent = null;
                 String description;
                 int x = -1;
@@ -883,547 +883,547 @@ public class HTMLEditorKit extends StyledEditorKit implements Accessible {
                     y = mouseEvent.getY();
                 }
 
-                if (anchor == null) {
-                    href = getMapHREF(html, hdoc, e, a, pos, x, y);
+                if (bnchor == null) {
+                    href = getMbpHREF(html, hdoc, e, b, pos, x, y);
                 }
                 else {
-                    href = (String)anchor.getAttribute(HTML.Attribute.HREF);
+                    href = (String)bnchor.getAttribute(HTML.Attribute.HREF);
                 }
 
                 if (href != null) {
-                    linkEvent = createHyperlinkEvent(html, hdoc, href, anchor,
+                    linkEvent = crebteHyperlinkEvent(html, hdoc, href, bnchor,
                                                      e, mouseEvent);
                 }
                 if (linkEvent != null) {
-                    html.fireHyperlinkUpdate(linkEvent);
+                    html.fireHyperlinkUpdbte(linkEvent);
                 }
             }
         }
 
         /**
-         * Creates and returns a new instance of HyperlinkEvent. If
-         * <code>hdoc</code> is a frame document a HTMLFrameHyperlinkEvent
-         * will be created.
+         * Crebtes bnd returns b new instbnce of HyperlinkEvent. If
+         * <code>hdoc</code> is b frbme document b HTMLFrbmeHyperlinkEvent
+         * will be crebted.
          */
-        HyperlinkEvent createHyperlinkEvent(JEditorPane html,
+        HyperlinkEvent crebteHyperlinkEvent(JEditorPbne html,
                                             HTMLDocument hdoc, String href,
-                                            AttributeSet anchor,
+                                            AttributeSet bnchor,
                                             Element element,
                                             MouseEvent mouseEvent) {
             URL u;
             try {
-                URL base = hdoc.getBase();
-                u = new URL(base, href);
-                // Following is a workaround for 1.2, in which
-                // new URL("file://...", "#...") causes the filename to
+                URL bbse = hdoc.getBbse();
+                u = new URL(bbse, href);
+                // Following is b workbround for 1.2, in which
+                // new URL("file://...", "#...") cbuses the filenbme to
                 // be lost.
-                if (href != null && "file".equals(u.getProtocol()) &&
-                    href.startsWith("#")) {
-                    String baseFile = base.getFile();
+                if (href != null && "file".equbls(u.getProtocol()) &&
+                    href.stbrtsWith("#")) {
+                    String bbseFile = bbse.getFile();
                     String newFile = u.getFile();
-                    if (baseFile != null && newFile != null &&
-                        !newFile.startsWith(baseFile)) {
-                        u = new URL(base, baseFile + href);
+                    if (bbseFile != null && newFile != null &&
+                        !newFile.stbrtsWith(bbseFile)) {
+                        u = new URL(bbse, bbseFile + href);
                     }
                 }
-            } catch (MalformedURLException m) {
+            } cbtch (MblformedURLException m) {
                 u = null;
             }
             HyperlinkEvent linkEvent;
 
-            if (!hdoc.isFrameDocument()) {
+            if (!hdoc.isFrbmeDocument()) {
                 linkEvent = new HyperlinkEvent(
                         html, HyperlinkEvent.EventType.ACTIVATED, u, href,
                         element, mouseEvent);
             } else {
-                String target = (anchor != null) ?
-                    (String)anchor.getAttribute(HTML.Attribute.TARGET) : null;
-                if ((target == null) || (target.equals(""))) {
-                    target = hdoc.getBaseTarget();
+                String tbrget = (bnchor != null) ?
+                    (String)bnchor.getAttribute(HTML.Attribute.TARGET) : null;
+                if ((tbrget == null) || (tbrget.equbls(""))) {
+                    tbrget = hdoc.getBbseTbrget();
                 }
-                if ((target == null) || (target.equals(""))) {
-                    target = "_self";
+                if ((tbrget == null) || (tbrget.equbls(""))) {
+                    tbrget = "_self";
                 }
-                    linkEvent = new HTMLFrameHyperlinkEvent(
+                    linkEvent = new HTMLFrbmeHyperlinkEvent(
                         html, HyperlinkEvent.EventType.ACTIVATED, u, href,
-                        element, mouseEvent, target);
+                        element, mouseEvent, tbrget);
             }
             return linkEvent;
         }
 
-        void fireEvents(JEditorPane editor, HTMLDocument doc, String href,
-                        Element lastElem, MouseEvent mouseEvent) {
+        void fireEvents(JEditorPbne editor, HTMLDocument doc, String href,
+                        Element lbstElem, MouseEvent mouseEvent) {
             if (this.href != null) {
-                // fire an exited event on the old link
+                // fire bn exited event on the old link
                 URL u;
                 try {
-                    u = new URL(doc.getBase(), this.href);
-                } catch (MalformedURLException m) {
+                    u = new URL(doc.getBbse(), this.href);
+                } cbtch (MblformedURLException m) {
                     u = null;
                 }
                 HyperlinkEvent exit = new HyperlinkEvent(editor,
                                  HyperlinkEvent.EventType.EXITED, u, this.href,
-                                 lastElem, mouseEvent);
-                editor.fireHyperlinkUpdate(exit);
+                                 lbstElem, mouseEvent);
+                editor.fireHyperlinkUpdbte(exit);
             }
             if (href != null) {
-                // fire an entered event on the new link
+                // fire bn entered event on the new link
                 URL u;
                 try {
-                    u = new URL(doc.getBase(), href);
-                } catch (MalformedURLException m) {
+                    u = new URL(doc.getBbse(), href);
+                } cbtch (MblformedURLException m) {
                     u = null;
                 }
                 HyperlinkEvent entered = new HyperlinkEvent(editor,
                                             HyperlinkEvent.EventType.ENTERED,
                                             u, href, curElem, mouseEvent);
-                editor.fireHyperlinkUpdate(entered);
+                editor.fireHyperlinkUpdbte(entered);
             }
         }
     }
 
     /**
-     * Interface to be supported by the parser.  This enables
-     * providing a different parser while reusing some of the
-     * implementation provided by this editor kit.
+     * Interfbce to be supported by the pbrser.  This enbbles
+     * providing b different pbrser while reusing some of the
+     * implementbtion provided by this editor kit.
      */
-    public static abstract class Parser {
+    public stbtic bbstrbct clbss Pbrser {
         /**
-         * Parse the given stream and drive the given callback
-         * with the results of the parse.  This method should
-         * be implemented to be thread-safe.
+         * Pbrse the given strebm bnd drive the given cbllbbck
+         * with the results of the pbrse.  This method should
+         * be implemented to be threbd-sbfe.
          *
-         * @param r a reader
-         * @param cb a parser callback
-         * @param ignoreCharSet if {@code true} charset is ignoring
-         * @throws IOException if an I/O exception occurs
+         * @pbrbm r b rebder
+         * @pbrbm cb b pbrser cbllbbck
+         * @pbrbm ignoreChbrSet if {@code true} chbrset is ignoring
+         * @throws IOException if bn I/O exception occurs
          */
-        public abstract void parse(Reader r, ParserCallback cb, boolean ignoreCharSet) throws IOException;
+        public bbstrbct void pbrse(Rebder r, PbrserCbllbbck cb, boolebn ignoreChbrSet) throws IOException;
 
     }
 
     /**
-     * The result of parsing drives these callback methods.
-     * The open and close actions should be balanced.  The
-     * <code>flush</code> method will be the last method
-     * called, to give the receiver a chance to flush any
-     * pending data into the document.
-     * <p>Refer to DocumentParser, the default parser used, for further
-     * information on the contents of the AttributeSets, the positions, and
+     * The result of pbrsing drives these cbllbbck methods.
+     * The open bnd close bctions should be bblbnced.  The
+     * <code>flush</code> method will be the lbst method
+     * cblled, to give the receiver b chbnce to flush bny
+     * pending dbtb into the document.
+     * <p>Refer to DocumentPbrser, the defbult pbrser used, for further
+     * informbtion on the contents of the AttributeSets, the positions, bnd
      * other info.
      *
-     * @see javax.swing.text.html.parser.DocumentParser
+     * @see jbvbx.swing.text.html.pbrser.DocumentPbrser
      */
-    public static class ParserCallback {
+    public stbtic clbss PbrserCbllbbck {
         /**
-         * This is passed as an attribute in the attributeset to indicate
+         * This is pbssed bs bn bttribute in the bttributeset to indicbte
          * the element is implied eg, the string '&lt;&gt;foo&lt;\t&gt;'
-         * contains an implied html element and an implied body element.
+         * contbins bn implied html element bnd bn implied body element.
          *
          * @since 1.3
          */
-        public static final Object IMPLIED = "_implied_";
+        public stbtic finbl Object IMPLIED = "_implied_";
 
         /**
-         * The last method called on the reader. It allows
-         * any pending changes to be flushed into the document.
-         * Since this is currently loading synchronously, the entire
-         * set of changes are pushed in at this point.
+         * The lbst method cblled on the rebder. It bllows
+         * bny pending chbnges to be flushed into the document.
+         * Since this is currently lobding synchronously, the entire
+         * set of chbnges bre pushed in bt this point.
          *
-         * @throws BadLocationException if the given position does not
-         *   represent a valid location in the associated document.
+         * @throws BbdLocbtionException if the given position does not
+         *   represent b vblid locbtion in the bssocibted document.
          */
-        public void flush() throws BadLocationException {
+        public void flush() throws BbdLocbtionException {
         }
 
         /**
-         * Called by the parser to indicate a block of text was
+         * Cblled by the pbrser to indicbte b block of text wbs
          * encountered.
          *
-         * @param data a data
-         * @param pos a position
+         * @pbrbm dbtb b dbtb
+         * @pbrbm pos b position
          */
-        public void handleText(char[] data, int pos) {
+        public void hbndleText(chbr[] dbtb, int pos) {
         }
 
         /**
-         * Called by the parser to indicate a block of comment was
+         * Cblled by the pbrser to indicbte b block of comment wbs
          * encountered.
          *
-         * @param data a data
-         * @param pos a position
+         * @pbrbm dbtb b dbtb
+         * @pbrbm pos b position
          */
-        public void handleComment(char[] data, int pos) {
+        public void hbndleComment(chbr[] dbtb, int pos) {
         }
 
         /**
-         * Callback from the parser. Route to the appropriate
-         * handler for the tag.
+         * Cbllbbck from the pbrser. Route to the bppropribte
+         * hbndler for the tbg.
          *
-         * @param t an HTML tag
-         * @param a a set of attributes
-         * @param pos a position
+         * @pbrbm t bn HTML tbg
+         * @pbrbm b b set of bttributes
+         * @pbrbm pos b position
          */
-        public void handleStartTag(HTML.Tag t, MutableAttributeSet a, int pos) {
+        public void hbndleStbrtTbg(HTML.Tbg t, MutbbleAttributeSet b, int pos) {
         }
 
         /**
-         * Callback from the parser. Route to the appropriate
-         * handler for the tag.
+         * Cbllbbck from the pbrser. Route to the bppropribte
+         * hbndler for the tbg.
          *
-         * @param t an HTML tag
-         * @param pos a position
+         * @pbrbm t bn HTML tbg
+         * @pbrbm pos b position
          */
-        public void handleEndTag(HTML.Tag t, int pos) {
+        public void hbndleEndTbg(HTML.Tbg t, int pos) {
         }
 
         /**
-         * Callback from the parser. Route to the appropriate
-         * handler for the tag.
+         * Cbllbbck from the pbrser. Route to the bppropribte
+         * hbndler for the tbg.
          *
-         * @param t an HTML tag
-         * @param a a set of attributes
-         * @param pos a position
+         * @pbrbm t bn HTML tbg
+         * @pbrbm b b set of bttributes
+         * @pbrbm pos b position
          */
-        public void handleSimpleTag(HTML.Tag t, MutableAttributeSet a, int pos) {
+        public void hbndleSimpleTbg(HTML.Tbg t, MutbbleAttributeSet b, int pos) {
         }
 
         /**
-         * Callback from the parser. Route to the appropriate
-         * handler for the error.
+         * Cbllbbck from the pbrser. Route to the bppropribte
+         * hbndler for the error.
          *
-         * @param errorMsg a error message
-         * @param pos a position
+         * @pbrbm errorMsg b error messbge
+         * @pbrbm pos b position
          */
-        public void handleError(String errorMsg, int pos) {
+        public void hbndleError(String errorMsg, int pos) {
         }
 
         /**
-         * This is invoked after the stream has been parsed, but before
+         * This is invoked bfter the strebm hbs been pbrsed, but before
          * <code>flush</code>. <code>eol</code> will be one of \n, \r
-         * or \r\n, which ever is encountered the most in parsing the
-         * stream.
+         * or \r\n, which ever is encountered the most in pbrsing the
+         * strebm.
          *
-         * @param eol value of eol
+         * @pbrbm eol vblue of eol
          *
          * @since 1.3
          */
-        public void handleEndOfLineString(String eol) {
+        public void hbndleEndOfLineString(String eol) {
         }
     }
 
     /**
-     * A factory to build views for HTML.  The following
-     * table describes what this factory will build by
-     * default.
+     * A fbctory to build views for HTML.  The following
+     * tbble describes whbt this fbctory will build by
+     * defbult.
      *
-     * <table summary="Describes the tag and view created by this factory by default">
+     * <tbble summbry="Describes the tbg bnd view crebted by this fbctory by defbult">
      * <tr>
-     * <th align=left>Tag<th align=left>View created
+     * <th blign=left>Tbg<th blign=left>View crebted
      * </tr><tr>
-     * <td>HTML.Tag.CONTENT<td>InlineView
+     * <td>HTML.Tbg.CONTENT<td>InlineView
      * </tr><tr>
-     * <td>HTML.Tag.IMPLIED<td>javax.swing.text.html.ParagraphView
+     * <td>HTML.Tbg.IMPLIED<td>jbvbx.swing.text.html.PbrbgrbphView
      * </tr><tr>
-     * <td>HTML.Tag.P<td>javax.swing.text.html.ParagraphView
+     * <td>HTML.Tbg.P<td>jbvbx.swing.text.html.PbrbgrbphView
      * </tr><tr>
-     * <td>HTML.Tag.H1<td>javax.swing.text.html.ParagraphView
+     * <td>HTML.Tbg.H1<td>jbvbx.swing.text.html.PbrbgrbphView
      * </tr><tr>
-     * <td>HTML.Tag.H2<td>javax.swing.text.html.ParagraphView
+     * <td>HTML.Tbg.H2<td>jbvbx.swing.text.html.PbrbgrbphView
      * </tr><tr>
-     * <td>HTML.Tag.H3<td>javax.swing.text.html.ParagraphView
+     * <td>HTML.Tbg.H3<td>jbvbx.swing.text.html.PbrbgrbphView
      * </tr><tr>
-     * <td>HTML.Tag.H4<td>javax.swing.text.html.ParagraphView
+     * <td>HTML.Tbg.H4<td>jbvbx.swing.text.html.PbrbgrbphView
      * </tr><tr>
-     * <td>HTML.Tag.H5<td>javax.swing.text.html.ParagraphView
+     * <td>HTML.Tbg.H5<td>jbvbx.swing.text.html.PbrbgrbphView
      * </tr><tr>
-     * <td>HTML.Tag.H6<td>javax.swing.text.html.ParagraphView
+     * <td>HTML.Tbg.H6<td>jbvbx.swing.text.html.PbrbgrbphView
      * </tr><tr>
-     * <td>HTML.Tag.DT<td>javax.swing.text.html.ParagraphView
+     * <td>HTML.Tbg.DT<td>jbvbx.swing.text.html.PbrbgrbphView
      * </tr><tr>
-     * <td>HTML.Tag.MENU<td>ListView
+     * <td>HTML.Tbg.MENU<td>ListView
      * </tr><tr>
-     * <td>HTML.Tag.DIR<td>ListView
+     * <td>HTML.Tbg.DIR<td>ListView
      * </tr><tr>
-     * <td>HTML.Tag.UL<td>ListView
+     * <td>HTML.Tbg.UL<td>ListView
      * </tr><tr>
-     * <td>HTML.Tag.OL<td>ListView
+     * <td>HTML.Tbg.OL<td>ListView
      * </tr><tr>
-     * <td>HTML.Tag.LI<td>BlockView
+     * <td>HTML.Tbg.LI<td>BlockView
      * </tr><tr>
-     * <td>HTML.Tag.DL<td>BlockView
+     * <td>HTML.Tbg.DL<td>BlockView
      * </tr><tr>
-     * <td>HTML.Tag.DD<td>BlockView
+     * <td>HTML.Tbg.DD<td>BlockView
      * </tr><tr>
-     * <td>HTML.Tag.BODY<td>BlockView
+     * <td>HTML.Tbg.BODY<td>BlockView
      * </tr><tr>
-     * <td>HTML.Tag.HTML<td>BlockView
+     * <td>HTML.Tbg.HTML<td>BlockView
      * </tr><tr>
-     * <td>HTML.Tag.CENTER<td>BlockView
+     * <td>HTML.Tbg.CENTER<td>BlockView
      * </tr><tr>
-     * <td>HTML.Tag.DIV<td>BlockView
+     * <td>HTML.Tbg.DIV<td>BlockView
      * </tr><tr>
-     * <td>HTML.Tag.BLOCKQUOTE<td>BlockView
+     * <td>HTML.Tbg.BLOCKQUOTE<td>BlockView
      * </tr><tr>
-     * <td>HTML.Tag.PRE<td>BlockView
+     * <td>HTML.Tbg.PRE<td>BlockView
      * </tr><tr>
-     * <td>HTML.Tag.BLOCKQUOTE<td>BlockView
+     * <td>HTML.Tbg.BLOCKQUOTE<td>BlockView
      * </tr><tr>
-     * <td>HTML.Tag.PRE<td>BlockView
+     * <td>HTML.Tbg.PRE<td>BlockView
      * </tr><tr>
-     * <td>HTML.Tag.IMG<td>ImageView
+     * <td>HTML.Tbg.IMG<td>ImbgeView
      * </tr><tr>
-     * <td>HTML.Tag.HR<td>HRuleView
+     * <td>HTML.Tbg.HR<td>HRuleView
      * </tr><tr>
-     * <td>HTML.Tag.BR<td>BRView
+     * <td>HTML.Tbg.BR<td>BRView
      * </tr><tr>
-     * <td>HTML.Tag.TABLE<td>javax.swing.text.html.TableView
+     * <td>HTML.Tbg.TABLE<td>jbvbx.swing.text.html.TbbleView
      * </tr><tr>
-     * <td>HTML.Tag.INPUT<td>FormView
+     * <td>HTML.Tbg.INPUT<td>FormView
      * </tr><tr>
-     * <td>HTML.Tag.SELECT<td>FormView
+     * <td>HTML.Tbg.SELECT<td>FormView
      * </tr><tr>
-     * <td>HTML.Tag.TEXTAREA<td>FormView
+     * <td>HTML.Tbg.TEXTAREA<td>FormView
      * </tr><tr>
-     * <td>HTML.Tag.OBJECT<td>ObjectView
+     * <td>HTML.Tbg.OBJECT<td>ObjectView
      * </tr><tr>
-     * <td>HTML.Tag.FRAMESET<td>FrameSetView
+     * <td>HTML.Tbg.FRAMESET<td>FrbmeSetView
      * </tr><tr>
-     * <td>HTML.Tag.FRAME<td>FrameView
+     * <td>HTML.Tbg.FRAME<td>FrbmeView
      * </tr>
-     * </table>
+     * </tbble>
      */
-    public static class HTMLFactory implements ViewFactory {
+    public stbtic clbss HTMLFbctory implements ViewFbctory {
 
         /**
-         * Creates a view from an element.
+         * Crebtes b view from bn element.
          *
-         * @param elem the element
+         * @pbrbm elem the element
          * @return the view
          */
-        public View create(Element elem) {
-            AttributeSet attrs = elem.getAttributes();
-            Object elementName =
-                attrs.getAttribute(AbstractDocument.ElementNameAttribute);
-            Object o = (elementName != null) ?
-                null : attrs.getAttribute(StyleConstants.NameAttribute);
-            if (o instanceof HTML.Tag) {
-                HTML.Tag kind = (HTML.Tag) o;
-                if (kind == HTML.Tag.CONTENT) {
+        public View crebte(Element elem) {
+            AttributeSet bttrs = elem.getAttributes();
+            Object elementNbme =
+                bttrs.getAttribute(AbstrbctDocument.ElementNbmeAttribute);
+            Object o = (elementNbme != null) ?
+                null : bttrs.getAttribute(StyleConstbnts.NbmeAttribute);
+            if (o instbnceof HTML.Tbg) {
+                HTML.Tbg kind = (HTML.Tbg) o;
+                if (kind == HTML.Tbg.CONTENT) {
                     return new InlineView(elem);
-                } else if (kind == HTML.Tag.IMPLIED) {
+                } else if (kind == HTML.Tbg.IMPLIED) {
                     String ws = (String) elem.getAttributes().getAttribute(
                         CSS.Attribute.WHITE_SPACE);
-                    if ((ws != null) && ws.equals("pre")) {
+                    if ((ws != null) && ws.equbls("pre")) {
                         return new LineView(elem);
                     }
-                    return new javax.swing.text.html.ParagraphView(elem);
-                } else if ((kind == HTML.Tag.P) ||
-                           (kind == HTML.Tag.H1) ||
-                           (kind == HTML.Tag.H2) ||
-                           (kind == HTML.Tag.H3) ||
-                           (kind == HTML.Tag.H4) ||
-                           (kind == HTML.Tag.H5) ||
-                           (kind == HTML.Tag.H6) ||
-                           (kind == HTML.Tag.DT)) {
-                    // paragraph
-                    return new javax.swing.text.html.ParagraphView(elem);
-                } else if ((kind == HTML.Tag.MENU) ||
-                           (kind == HTML.Tag.DIR) ||
-                           (kind == HTML.Tag.UL)   ||
-                           (kind == HTML.Tag.OL)) {
+                    return new jbvbx.swing.text.html.PbrbgrbphView(elem);
+                } else if ((kind == HTML.Tbg.P) ||
+                           (kind == HTML.Tbg.H1) ||
+                           (kind == HTML.Tbg.H2) ||
+                           (kind == HTML.Tbg.H3) ||
+                           (kind == HTML.Tbg.H4) ||
+                           (kind == HTML.Tbg.H5) ||
+                           (kind == HTML.Tbg.H6) ||
+                           (kind == HTML.Tbg.DT)) {
+                    // pbrbgrbph
+                    return new jbvbx.swing.text.html.PbrbgrbphView(elem);
+                } else if ((kind == HTML.Tbg.MENU) ||
+                           (kind == HTML.Tbg.DIR) ||
+                           (kind == HTML.Tbg.UL)   ||
+                           (kind == HTML.Tbg.OL)) {
                     return new ListView(elem);
-                } else if (kind == HTML.Tag.BODY) {
+                } else if (kind == HTML.Tbg.BODY) {
                     return new BodyBlockView(elem);
-                } else if (kind == HTML.Tag.HTML) {
+                } else if (kind == HTML.Tbg.HTML) {
                     return new BlockView(elem, View.Y_AXIS);
-                } else if ((kind == HTML.Tag.LI) ||
-                           (kind == HTML.Tag.CENTER) ||
-                           (kind == HTML.Tag.DL) ||
-                           (kind == HTML.Tag.DD) ||
-                           (kind == HTML.Tag.DIV) ||
-                           (kind == HTML.Tag.BLOCKQUOTE) ||
-                           (kind == HTML.Tag.PRE) ||
-                           (kind == HTML.Tag.FORM)) {
-                    // vertical box
+                } else if ((kind == HTML.Tbg.LI) ||
+                           (kind == HTML.Tbg.CENTER) ||
+                           (kind == HTML.Tbg.DL) ||
+                           (kind == HTML.Tbg.DD) ||
+                           (kind == HTML.Tbg.DIV) ||
+                           (kind == HTML.Tbg.BLOCKQUOTE) ||
+                           (kind == HTML.Tbg.PRE) ||
+                           (kind == HTML.Tbg.FORM)) {
+                    // verticbl box
                     return new BlockView(elem, View.Y_AXIS);
-                } else if (kind == HTML.Tag.NOFRAMES) {
-                    return new NoFramesView(elem, View.Y_AXIS);
-                } else if (kind==HTML.Tag.IMG) {
-                    return new ImageView(elem);
-                } else if (kind == HTML.Tag.ISINDEX) {
+                } else if (kind == HTML.Tbg.NOFRAMES) {
+                    return new NoFrbmesView(elem, View.Y_AXIS);
+                } else if (kind==HTML.Tbg.IMG) {
+                    return new ImbgeView(elem);
+                } else if (kind == HTML.Tbg.ISINDEX) {
                     return new IsindexView(elem);
-                } else if (kind == HTML.Tag.HR) {
+                } else if (kind == HTML.Tbg.HR) {
                     return new HRuleView(elem);
-                } else if (kind == HTML.Tag.BR) {
+                } else if (kind == HTML.Tbg.BR) {
                     return new BRView(elem);
-                } else if (kind == HTML.Tag.TABLE) {
-                    return new javax.swing.text.html.TableView(elem);
-                } else if ((kind == HTML.Tag.INPUT) ||
-                           (kind == HTML.Tag.SELECT) ||
-                           (kind == HTML.Tag.TEXTAREA)) {
+                } else if (kind == HTML.Tbg.TABLE) {
+                    return new jbvbx.swing.text.html.TbbleView(elem);
+                } else if ((kind == HTML.Tbg.INPUT) ||
+                           (kind == HTML.Tbg.SELECT) ||
+                           (kind == HTML.Tbg.TEXTAREA)) {
                     return new FormView(elem);
-                } else if (kind == HTML.Tag.OBJECT) {
+                } else if (kind == HTML.Tbg.OBJECT) {
                     return new ObjectView(elem);
-                } else if (kind == HTML.Tag.FRAMESET) {
+                } else if (kind == HTML.Tbg.FRAMESET) {
                      if (elem.getAttributes().isDefined(HTML.Attribute.ROWS)) {
-                         return new FrameSetView(elem, View.Y_AXIS);
+                         return new FrbmeSetView(elem, View.Y_AXIS);
                      } else if (elem.getAttributes().isDefined(HTML.Attribute.COLS)) {
-                         return new FrameSetView(elem, View.X_AXIS);
+                         return new FrbmeSetView(elem, View.X_AXIS);
                      }
-                     throw new RuntimeException("Can't build a"  + kind + ", " + elem + ":" +
+                     throw new RuntimeException("Cbn't build b"  + kind + ", " + elem + ":" +
                                      "no ROWS or COLS defined.");
-                } else if (kind == HTML.Tag.FRAME) {
-                    return new FrameView(elem);
-                } else if (kind instanceof HTML.UnknownTag) {
-                    return new HiddenTagView(elem);
-                } else if (kind == HTML.Tag.COMMENT) {
+                } else if (kind == HTML.Tbg.FRAME) {
+                    return new FrbmeView(elem);
+                } else if (kind instbnceof HTML.UnknownTbg) {
+                    return new HiddenTbgView(elem);
+                } else if (kind == HTML.Tbg.COMMENT) {
                     return new CommentView(elem);
-                } else if (kind == HTML.Tag.HEAD) {
-                    // Make the head never visible, and never load its
+                } else if (kind == HTML.Tbg.HEAD) {
+                    // Mbke the hebd never visible, bnd never lobd its
                     // children. For Cursor positioning,
-                    // getNextVisualPositionFrom is overriden to always return
+                    // getNextVisublPositionFrom is overriden to blwbys return
                     // the end offset of the element.
                     return new BlockView(elem, View.X_AXIS) {
-                        public float getPreferredSpan(int axis) {
+                        public flobt getPreferredSpbn(int bxis) {
                             return 0;
                         }
-                        public float getMinimumSpan(int axis) {
+                        public flobt getMinimumSpbn(int bxis) {
                             return 0;
                         }
-                        public float getMaximumSpan(int axis) {
+                        public flobt getMbximumSpbn(int bxis) {
                             return 0;
                         }
-                        protected void loadChildren(ViewFactory f) {
+                        protected void lobdChildren(ViewFbctory f) {
                         }
-                        public Shape modelToView(int pos, Shape a,
-                               Position.Bias b) throws BadLocationException {
-                            return a;
+                        public Shbpe modelToView(int pos, Shbpe b,
+                               Position.Bibs b) throws BbdLocbtionException {
+                            return b;
                         }
-                        public int getNextVisualPositionFrom(int pos,
-                                     Position.Bias b, Shape a,
-                                     int direction, Position.Bias[] biasRet) {
+                        public int getNextVisublPositionFrom(int pos,
+                                     Position.Bibs b, Shbpe b,
+                                     int direction, Position.Bibs[] bibsRet) {
                             return getElement().getEndOffset();
                         }
                     };
-                } else if ((kind == HTML.Tag.TITLE) ||
-                           (kind == HTML.Tag.META) ||
-                           (kind == HTML.Tag.LINK) ||
-                           (kind == HTML.Tag.STYLE) ||
-                           (kind == HTML.Tag.SCRIPT) ||
-                           (kind == HTML.Tag.AREA) ||
-                           (kind == HTML.Tag.MAP) ||
-                           (kind == HTML.Tag.PARAM) ||
-                           (kind == HTML.Tag.APPLET)) {
-                    return new HiddenTagView(elem);
+                } else if ((kind == HTML.Tbg.TITLE) ||
+                           (kind == HTML.Tbg.META) ||
+                           (kind == HTML.Tbg.LINK) ||
+                           (kind == HTML.Tbg.STYLE) ||
+                           (kind == HTML.Tbg.SCRIPT) ||
+                           (kind == HTML.Tbg.AREA) ||
+                           (kind == HTML.Tbg.MAP) ||
+                           (kind == HTML.Tbg.PARAM) ||
+                           (kind == HTML.Tbg.APPLET)) {
+                    return new HiddenTbgView(elem);
                 }
             }
-            // If we get here, it's either an element we don't know about
-            // or something from StyledDocument that doesn't have a mapping to HTML.
-            String nm = (elementName != null) ? (String)elementName :
-                                                elem.getName();
+            // If we get here, it's either bn element we don't know bbout
+            // or something from StyledDocument thbt doesn't hbve b mbpping to HTML.
+            String nm = (elementNbme != null) ? (String)elementNbme :
+                                                elem.getNbme();
             if (nm != null) {
-                if (nm.equals(AbstractDocument.ContentElementName)) {
-                    return new LabelView(elem);
-                } else if (nm.equals(AbstractDocument.ParagraphElementName)) {
-                    return new ParagraphView(elem);
-                } else if (nm.equals(AbstractDocument.SectionElementName)) {
+                if (nm.equbls(AbstrbctDocument.ContentElementNbme)) {
+                    return new LbbelView(elem);
+                } else if (nm.equbls(AbstrbctDocument.PbrbgrbphElementNbme)) {
+                    return new PbrbgrbphView(elem);
+                } else if (nm.equbls(AbstrbctDocument.SectionElementNbme)) {
                     return new BoxView(elem, View.Y_AXIS);
-                } else if (nm.equals(StyleConstants.ComponentElementName)) {
+                } else if (nm.equbls(StyleConstbnts.ComponentElementNbme)) {
                     return new ComponentView(elem);
-                } else if (nm.equals(StyleConstants.IconElementName)) {
+                } else if (nm.equbls(StyleConstbnts.IconElementNbme)) {
                     return new IconView(elem);
                 }
             }
 
-            // default to text display
-            return new LabelView(elem);
+            // defbult to text displby
+            return new LbbelView(elem);
         }
 
-        static class BodyBlockView extends BlockView implements ComponentListener {
+        stbtic clbss BodyBlockView extends BlockView implements ComponentListener {
             public BodyBlockView(Element elem) {
                 super(elem,View.Y_AXIS);
             }
-            // reimplement major axis requirements to indicate that the
-            // block is flexible for the body element... so that it can
-            // be stretched to fill the background properly.
-            protected SizeRequirements calculateMajorAxisRequirements(int axis, SizeRequirements r) {
-                r = super.calculateMajorAxisRequirements(axis, r);
-                r.maximum = Integer.MAX_VALUE;
+            // reimplement mbjor bxis requirements to indicbte thbt the
+            // block is flexible for the body element... so thbt it cbn
+            // be stretched to fill the bbckground properly.
+            protected SizeRequirements cblculbteMbjorAxisRequirements(int bxis, SizeRequirements r) {
+                r = super.cblculbteMbjorAxisRequirements(bxis, r);
+                r.mbximum = Integer.MAX_VALUE;
                 return r;
             }
 
-            protected void layoutMinorAxis(int targetSpan, int axis, int[] offsets, int[] spans) {
-                Container container = getContainer();
-                Container parentContainer;
-                if (container != null
-                    && (container instanceof javax.swing.JEditorPane)
-                    && (parentContainer = container.getParent()) != null
-                    && (parentContainer instanceof javax.swing.JViewport)) {
-                    JViewport viewPort = (JViewport)parentContainer;
-                    if (cachedViewPort != null) {
-                        JViewport cachedObject = cachedViewPort.get();
-                        if (cachedObject != null) {
-                            if (cachedObject != viewPort) {
-                                cachedObject.removeComponentListener(this);
+            protected void lbyoutMinorAxis(int tbrgetSpbn, int bxis, int[] offsets, int[] spbns) {
+                Contbiner contbiner = getContbiner();
+                Contbiner pbrentContbiner;
+                if (contbiner != null
+                    && (contbiner instbnceof jbvbx.swing.JEditorPbne)
+                    && (pbrentContbiner = contbiner.getPbrent()) != null
+                    && (pbrentContbiner instbnceof jbvbx.swing.JViewport)) {
+                    JViewport viewPort = (JViewport)pbrentContbiner;
+                    if (cbchedViewPort != null) {
+                        JViewport cbchedObject = cbchedViewPort.get();
+                        if (cbchedObject != null) {
+                            if (cbchedObject != viewPort) {
+                                cbchedObject.removeComponentListener(this);
                             }
                         } else {
-                            cachedViewPort = null;
+                            cbchedViewPort = null;
                         }
                     }
-                    if (cachedViewPort == null) {
-                        viewPort.addComponentListener(this);
-                        cachedViewPort = new WeakReference<JViewport>(viewPort);
+                    if (cbchedViewPort == null) {
+                        viewPort.bddComponentListener(this);
+                        cbchedViewPort = new WebkReference<JViewport>(viewPort);
                     }
 
                     componentVisibleWidth = viewPort.getExtentSize().width;
                     if (componentVisibleWidth > 0) {
-                    Insets insets = container.getInsets();
+                    Insets insets = contbiner.getInsets();
                     viewVisibleWidth = componentVisibleWidth - insets.left - getLeftInset();
-                    //try to use viewVisibleWidth if it is smaller than targetSpan
-                    targetSpan = Math.min(targetSpan, viewVisibleWidth);
+                    //try to use viewVisibleWidth if it is smbller thbn tbrgetSpbn
+                    tbrgetSpbn = Mbth.min(tbrgetSpbn, viewVisibleWidth);
                     }
                 } else {
-                    if (cachedViewPort != null) {
-                        JViewport cachedObject = cachedViewPort.get();
-                        if (cachedObject != null) {
-                            cachedObject.removeComponentListener(this);
+                    if (cbchedViewPort != null) {
+                        JViewport cbchedObject = cbchedViewPort.get();
+                        if (cbchedObject != null) {
+                            cbchedObject.removeComponentListener(this);
                         }
-                        cachedViewPort = null;
+                        cbchedViewPort = null;
                     }
                 }
-                super.layoutMinorAxis(targetSpan, axis, offsets, spans);
+                super.lbyoutMinorAxis(tbrgetSpbn, bxis, offsets, spbns);
             }
 
-            public void setParent(View parent) {
-                //if parent == null unregister component listener
-                if (parent == null) {
-                    if (cachedViewPort != null) {
-                        Object cachedObject;
-                        if ((cachedObject = cachedViewPort.get()) != null) {
-                            ((JComponent)cachedObject).removeComponentListener(this);
+            public void setPbrent(View pbrent) {
+                //if pbrent == null unregister component listener
+                if (pbrent == null) {
+                    if (cbchedViewPort != null) {
+                        Object cbchedObject;
+                        if ((cbchedObject = cbchedViewPort.get()) != null) {
+                            ((JComponent)cbchedObject).removeComponentListener(this);
                         }
-                        cachedViewPort = null;
+                        cbchedViewPort = null;
                     }
                 }
-                super.setParent(parent);
+                super.setPbrent(pbrent);
             }
 
             public void componentResized(ComponentEvent e) {
-                if ( !(e.getSource() instanceof JViewport) ) {
+                if ( !(e.getSource() instbnceof JViewport) ) {
                     return;
                 }
                 JViewport viewPort = (JViewport)e.getSource();
                 if (componentVisibleWidth != viewPort.getExtentSize().width) {
                     Document doc = getDocument();
-                    if (doc instanceof AbstractDocument) {
-                        AbstractDocument document = (AbstractDocument)getDocument();
-                        document.readLock();
+                    if (doc instbnceof AbstrbctDocument) {
+                        AbstrbctDocument document = (AbstrbctDocument)getDocument();
+                        document.rebdLock();
                         try {
-                            layoutChanged(X_AXIS);
-                            preferenceChanged(null, true, true);
-                        } finally {
-                            document.readUnlock();
+                            lbyoutChbnged(X_AXIS);
+                            preferenceChbnged(null, true, true);
+                        } finblly {
+                            document.rebdUnlock();
                         }
 
                     }
@@ -1436,216 +1436,216 @@ public class HTMLEditorKit extends StyledEditorKit implements Accessible {
             public void componentShown(ComponentEvent e) {
             }
             /*
-             * we keep weak reference to viewPort if and only if BodyBoxView is listening for ComponentEvents
-             * only in that case cachedViewPort is not equal to null.
+             * we keep webk reference to viewPort if bnd only if BodyBoxView is listening for ComponentEvents
+             * only in thbt cbse cbchedViewPort is not equbl to null.
              * we need to keep this reference in order to remove BodyBoxView from viewPort listeners.
              *
              */
-            private Reference<JViewport> cachedViewPort = null;
-            private boolean isListening = false;
-            private int viewVisibleWidth = Integer.MAX_VALUE;
-            private int componentVisibleWidth = Integer.MAX_VALUE;
+            privbte Reference<JViewport> cbchedViewPort = null;
+            privbte boolebn isListening = fblse;
+            privbte int viewVisibleWidth = Integer.MAX_VALUE;
+            privbte int componentVisibleWidth = Integer.MAX_VALUE;
         }
 
     }
 
-    // --- Action implementations ------------------------------
+    // --- Action implementbtions ------------------------------
 
-/** The bold action identifier
+/** The bold bction identifier
 */
-    public static final String  BOLD_ACTION = "html-bold-action";
-/** The italic action identifier
+    public stbtic finbl String  BOLD_ACTION = "html-bold-bction";
+/** The itblic bction identifier
 */
-    public static final String  ITALIC_ACTION = "html-italic-action";
-/** The paragraph left indent action identifier
+    public stbtic finbl String  ITALIC_ACTION = "html-itblic-bction";
+/** The pbrbgrbph left indent bction identifier
 */
-    public static final String  PARA_INDENT_LEFT = "html-para-indent-left";
-/** The paragraph right indent action identifier
+    public stbtic finbl String  PARA_INDENT_LEFT = "html-pbrb-indent-left";
+/** The pbrbgrbph right indent bction identifier
 */
-    public static final String  PARA_INDENT_RIGHT = "html-para-indent-right";
-/** The  font size increase to next value action identifier
+    public stbtic finbl String  PARA_INDENT_RIGHT = "html-pbrb-indent-right";
+/** The  font size increbse to next vblue bction identifier
 */
-    public static final String  FONT_CHANGE_BIGGER = "html-font-bigger";
-/** The font size decrease to next value action identifier
+    public stbtic finbl String  FONT_CHANGE_BIGGER = "html-font-bigger";
+/** The font size decrebse to next vblue bction identifier
 */
-    public static final String  FONT_CHANGE_SMALLER = "html-font-smaller";
-/** The Color choice action identifier
-     The color is passed as an argument
+    public stbtic finbl String  FONT_CHANGE_SMALLER = "html-font-smbller";
+/** The Color choice bction identifier
+     The color is pbssed bs bn brgument
 */
-    public static final String  COLOR_ACTION = "html-color-action";
-/** The logical style choice action identifier
-     The logical style is passed in as an argument
+    public stbtic finbl String  COLOR_ACTION = "html-color-bction";
+/** The logicbl style choice bction identifier
+     The logicbl style is pbssed in bs bn brgument
 */
-    public static final String  LOGICAL_STYLE_ACTION = "html-logical-style-action";
+    public stbtic finbl String  LOGICAL_STYLE_ACTION = "html-logicbl-style-bction";
     /**
-     * Align images at the top.
+     * Align imbges bt the top.
      */
-    public static final String  IMG_ALIGN_TOP = "html-image-align-top";
-
-    /**
-     * Align images in the middle.
-     */
-    public static final String  IMG_ALIGN_MIDDLE = "html-image-align-middle";
+    public stbtic finbl String  IMG_ALIGN_TOP = "html-imbge-blign-top";
 
     /**
-     * Align images at the bottom.
+     * Align imbges in the middle.
      */
-    public static final String  IMG_ALIGN_BOTTOM = "html-image-align-bottom";
+    public stbtic finbl String  IMG_ALIGN_MIDDLE = "html-imbge-blign-middle";
 
     /**
-     * Align images at the border.
+     * Align imbges bt the bottom.
      */
-    public static final String  IMG_BORDER = "html-image-border";
+    public stbtic finbl String  IMG_ALIGN_BOTTOM = "html-imbge-blign-bottom";
+
+    /**
+     * Align imbges bt the border.
+     */
+    public stbtic finbl String  IMG_BORDER = "html-imbge-border";
 
 
-    /** HTML used when inserting tables. */
-    private static final String INSERT_TABLE_HTML = "<table border=1><tr><td></td></tr></table>";
+    /** HTML used when inserting tbbles. */
+    privbte stbtic finbl String INSERT_TABLE_HTML = "<tbble border=1><tr><td></td></tr></tbble>";
 
     /** HTML used when inserting unordered lists. */
-    private static final String INSERT_UL_HTML = "<ul><li></li></ul>";
+    privbte stbtic finbl String INSERT_UL_HTML = "<ul><li></li></ul>";
 
     /** HTML used when inserting ordered lists. */
-    private static final String INSERT_OL_HTML = "<ol><li></li></ol>";
+    privbte stbtic finbl String INSERT_OL_HTML = "<ol><li></li></ol>";
 
     /** HTML used when inserting hr. */
-    private static final String INSERT_HR_HTML = "<hr>";
+    privbte stbtic finbl String INSERT_HR_HTML = "<hr>";
 
     /** HTML used when inserting pre. */
-    private static final String INSERT_PRE_HTML = "<pre></pre>";
+    privbte stbtic finbl String INSERT_PRE_HTML = "<pre></pre>";
 
-    private static final NavigateLinkAction nextLinkAction =
-        new NavigateLinkAction("next-link-action");
+    privbte stbtic finbl NbvigbteLinkAction nextLinkAction =
+        new NbvigbteLinkAction("next-link-bction");
 
-    private static final NavigateLinkAction previousLinkAction =
-        new NavigateLinkAction("previous-link-action");
+    privbte stbtic finbl NbvigbteLinkAction previousLinkAction =
+        new NbvigbteLinkAction("previous-link-bction");
 
-    private static final ActivateLinkAction activateLinkAction =
-        new ActivateLinkAction("activate-link-action");
+    privbte stbtic finbl ActivbteLinkAction bctivbteLinkAction =
+        new ActivbteLinkAction("bctivbte-link-bction");
 
-    private static final Action[] defaultActions = {
-        new InsertHTMLTextAction("InsertTable", INSERT_TABLE_HTML,
-                                 HTML.Tag.BODY, HTML.Tag.TABLE),
-        new InsertHTMLTextAction("InsertTableRow", INSERT_TABLE_HTML,
-                                 HTML.Tag.TABLE, HTML.Tag.TR,
-                                 HTML.Tag.BODY, HTML.Tag.TABLE),
-        new InsertHTMLTextAction("InsertTableDataCell", INSERT_TABLE_HTML,
-                                 HTML.Tag.TR, HTML.Tag.TD,
-                                 HTML.Tag.BODY, HTML.Tag.TABLE),
+    privbte stbtic finbl Action[] defbultActions = {
+        new InsertHTMLTextAction("InsertTbble", INSERT_TABLE_HTML,
+                                 HTML.Tbg.BODY, HTML.Tbg.TABLE),
+        new InsertHTMLTextAction("InsertTbbleRow", INSERT_TABLE_HTML,
+                                 HTML.Tbg.TABLE, HTML.Tbg.TR,
+                                 HTML.Tbg.BODY, HTML.Tbg.TABLE),
+        new InsertHTMLTextAction("InsertTbbleDbtbCell", INSERT_TABLE_HTML,
+                                 HTML.Tbg.TR, HTML.Tbg.TD,
+                                 HTML.Tbg.BODY, HTML.Tbg.TABLE),
         new InsertHTMLTextAction("InsertUnorderedList", INSERT_UL_HTML,
-                                 HTML.Tag.BODY, HTML.Tag.UL),
+                                 HTML.Tbg.BODY, HTML.Tbg.UL),
         new InsertHTMLTextAction("InsertUnorderedListItem", INSERT_UL_HTML,
-                                 HTML.Tag.UL, HTML.Tag.LI,
-                                 HTML.Tag.BODY, HTML.Tag.UL),
+                                 HTML.Tbg.UL, HTML.Tbg.LI,
+                                 HTML.Tbg.BODY, HTML.Tbg.UL),
         new InsertHTMLTextAction("InsertOrderedList", INSERT_OL_HTML,
-                                 HTML.Tag.BODY, HTML.Tag.OL),
+                                 HTML.Tbg.BODY, HTML.Tbg.OL),
         new InsertHTMLTextAction("InsertOrderedListItem", INSERT_OL_HTML,
-                                 HTML.Tag.OL, HTML.Tag.LI,
-                                 HTML.Tag.BODY, HTML.Tag.OL),
+                                 HTML.Tbg.OL, HTML.Tbg.LI,
+                                 HTML.Tbg.BODY, HTML.Tbg.OL),
         new InsertHRAction(),
         new InsertHTMLTextAction("InsertPre", INSERT_PRE_HTML,
-                                 HTML.Tag.BODY, HTML.Tag.PRE),
-        nextLinkAction, previousLinkAction, activateLinkAction,
+                                 HTML.Tbg.BODY, HTML.Tbg.PRE),
+        nextLinkAction, previousLinkAction, bctivbteLinkAction,
 
-        new BeginAction(beginAction, false),
+        new BeginAction(beginAction, fblse),
         new BeginAction(selectionBeginAction, true)
     };
 
-    // link navigation support
-    private boolean foundLink = false;
-    private int prevHypertextOffset = -1;
-    private Object linkNavigationTag;
+    // link nbvigbtion support
+    privbte boolebn foundLink = fblse;
+    privbte int prevHypertextOffset = -1;
+    privbte Object linkNbvigbtionTbg;
 
 
     /**
-     * An abstract Action providing some convenience methods that may
-     * be useful in inserting HTML into an existing document.
-     * <p>NOTE: None of the convenience methods obtain a lock on the
-     * document. If you have another thread modifying the text these
-     * methods may have inconsistent behavior, or return the wrong thing.
+     * An bbstrbct Action providing some convenience methods thbt mby
+     * be useful in inserting HTML into bn existing document.
+     * <p>NOTE: None of the convenience methods obtbin b lock on the
+     * document. If you hbve bnother threbd modifying the text these
+     * methods mby hbve inconsistent behbvior, or return the wrong thing.
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    public static abstract class HTMLTextAction extends StyledTextAction {
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    public stbtic bbstrbct clbss HTMLTextAction extends StyledTextAction {
 
         /**
-         * Creates a new HTMLTextAction from a string action name.
+         * Crebtes b new HTMLTextAction from b string bction nbme.
          *
-         * @param name the name of the action
+         * @pbrbm nbme the nbme of the bction
          */
-        public HTMLTextAction(String name) {
-            super(name);
+        public HTMLTextAction(String nbme) {
+            super(nbme);
         }
 
         /**
-         * @param e the JEditorPane
+         * @pbrbm e the JEditorPbne
          * @return HTMLDocument of <code>e</code>.
          */
-        protected HTMLDocument getHTMLDocument(JEditorPane e) {
+        protected HTMLDocument getHTMLDocument(JEditorPbne e) {
             Document d = e.getDocument();
-            if (d instanceof HTMLDocument) {
+            if (d instbnceof HTMLDocument) {
                 return (HTMLDocument) d;
             }
-            throw new IllegalArgumentException("document must be HTMLDocument");
+            throw new IllegblArgumentException("document must be HTMLDocument");
         }
 
         /**
-         * @param e the JEditorPane
+         * @pbrbm e the JEditorPbne
          * @return HTMLEditorKit for <code>e</code>.
          */
-        protected HTMLEditorKit getHTMLEditorKit(JEditorPane e) {
+        protected HTMLEditorKit getHTMLEditorKit(JEditorPbne e) {
             EditorKit k = e.getEditorKit();
-            if (k instanceof HTMLEditorKit) {
+            if (k instbnceof HTMLEditorKit) {
                 return (HTMLEditorKit) k;
             }
-            throw new IllegalArgumentException("EditorKit must be HTMLEditorKit");
+            throw new IllegblArgumentException("EditorKit must be HTMLEditorKit");
         }
 
         /**
-         * Returns an array of the Elements that contain <code>offset</code>.
+         * Returns bn brrby of the Elements thbt contbin <code>offset</code>.
          * The first elements corresponds to the root.
          *
-         * @param doc an instance of HTMLDocument
-         * @param offset value of offset
-         * @return an array of the Elements that contain <code>offset</code>
+         * @pbrbm doc bn instbnce of HTMLDocument
+         * @pbrbm offset vblue of offset
+         * @return bn brrby of the Elements thbt contbin <code>offset</code>
          */
         protected Element[] getElementsAt(HTMLDocument doc, int offset) {
-            return getElementsAt(doc.getDefaultRootElement(), offset, 0);
+            return getElementsAt(doc.getDefbultRootElement(), offset, 0);
         }
 
         /**
          * Recursive method used by getElementsAt.
          */
-        private Element[] getElementsAt(Element parent, int offset,
+        privbte Element[] getElementsAt(Element pbrent, int offset,
                                         int depth) {
-            if (parent.isLeaf()) {
-                Element[] retValue = new Element[depth + 1];
-                retValue[depth] = parent;
-                return retValue;
+            if (pbrent.isLebf()) {
+                Element[] retVblue = new Element[depth + 1];
+                retVblue[depth] = pbrent;
+                return retVblue;
             }
-            Element[] retValue = getElementsAt(parent.getElement
-                          (parent.getElementIndex(offset)), offset, depth + 1);
-            retValue[depth] = parent;
-            return retValue;
+            Element[] retVblue = getElementsAt(pbrent.getElement
+                          (pbrent.getElementIndex(offset)), offset, depth + 1);
+            retVblue[depth] = pbrent;
+            return retVblue;
         }
 
         /**
-         * Returns number of elements, starting at the deepest leaf, needed
-         * to get to an element representing <code>tag</code>. This will
-         * return -1 if no elements is found representing <code>tag</code>,
-         * or 0 if the parent of the leaf at <code>offset</code> represents
-         * <code>tag</code>.
+         * Returns number of elements, stbrting bt the deepest lebf, needed
+         * to get to bn element representing <code>tbg</code>. This will
+         * return -1 if no elements is found representing <code>tbg</code>,
+         * or 0 if the pbrent of the lebf bt <code>offset</code> represents
+         * <code>tbg</code>.
          *
-         * @param doc an instance of HTMLDocument
-         * @param offset an offset to start from
-         * @param tag tag to represent
+         * @pbrbm doc bn instbnce of HTMLDocument
+         * @pbrbm offset bn offset to stbrt from
+         * @pbrbm tbg tbg to represent
          * @return number of elements
          */
-        protected int elementCountToTag(HTMLDocument doc, int offset,
-                                        HTML.Tag tag) {
+        protected int elementCountToTbg(HTMLDocument doc, int offset,
+                                        HTML.Tbg tbg) {
             int depth = -1;
-            Element e = doc.getCharacterElement(offset);
+            Element e = doc.getChbrbcterElement(offset);
             while (e != null && e.getAttributes().getAttribute
-                   (StyleConstants.NameAttribute) != tag) {
-                e = e.getParentElement();
+                   (StyleConstbnts.NbmeAttribute) != tbg) {
+                e = e.getPbrentElement();
                 depth++;
             }
             if (e == null) {
@@ -1655,273 +1655,273 @@ public class HTMLEditorKit extends StyledEditorKit implements Accessible {
         }
 
         /**
-         * Returns the deepest element at <code>offset</code> matching
-         * <code>tag</code>.
+         * Returns the deepest element bt <code>offset</code> mbtching
+         * <code>tbg</code>.
          *
-         * @param doc an instance of HTMLDocument
-         * @param offset the specified offset &gt;= 0
-         * @param tag an instance of HTML.Tag
+         * @pbrbm doc bn instbnce of HTMLDocument
+         * @pbrbm offset the specified offset &gt;= 0
+         * @pbrbm tbg bn instbnce of HTML.Tbg
          *
          * @return the deepest element
          */
-        protected Element findElementMatchingTag(HTMLDocument doc, int offset,
-                                                 HTML.Tag tag) {
-            Element e = doc.getDefaultRootElement();
-            Element lastMatch = null;
+        protected Element findElementMbtchingTbg(HTMLDocument doc, int offset,
+                                                 HTML.Tbg tbg) {
+            Element e = doc.getDefbultRootElement();
+            Element lbstMbtch = null;
             while (e != null) {
                 if (e.getAttributes().getAttribute
-                   (StyleConstants.NameAttribute) == tag) {
-                    lastMatch = e;
+                   (StyleConstbnts.NbmeAttribute) == tbg) {
+                    lbstMbtch = e;
                 }
                 e = e.getElement(e.getElementIndex(offset));
             }
-            return lastMatch;
+            return lbstMbtch;
         }
     }
 
 
     /**
-     * InsertHTMLTextAction can be used to insert an arbitrary string of HTML
-     * into an existing HTML document. At least two HTML.Tags need to be
-     * supplied. The first Tag, parentTag, identifies the parent in
-     * the document to add the elements to. The second tag, addTag,
-     * identifies the first tag that should be added to the document as
-     * seen in the HTML string. One important thing to remember, is that
-     * the parser is going to generate all the appropriate tags, even if
-     * they aren't in the HTML string passed in.<p>
-     * For example, lets say you wanted to create an action to insert
-     * a table into the body. The parentTag would be HTML.Tag.BODY,
-     * addTag would be HTML.Tag.TABLE, and the string could be something
-     * like &lt;table&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;.
-     * <p>There is also an option to supply an alternate parentTag and
-     * addTag. These will be checked for if there is no parentTag at
+     * InsertHTMLTextAction cbn be used to insert bn brbitrbry string of HTML
+     * into bn existing HTML document. At lebst two HTML.Tbgs need to be
+     * supplied. The first Tbg, pbrentTbg, identifies the pbrent in
+     * the document to bdd the elements to. The second tbg, bddTbg,
+     * identifies the first tbg thbt should be bdded to the document bs
+     * seen in the HTML string. One importbnt thing to remember, is thbt
+     * the pbrser is going to generbte bll the bppropribte tbgs, even if
+     * they bren't in the HTML string pbssed in.<p>
+     * For exbmple, lets sby you wbnted to crebte bn bction to insert
+     * b tbble into the body. The pbrentTbg would be HTML.Tbg.BODY,
+     * bddTbg would be HTML.Tbg.TABLE, bnd the string could be something
+     * like &lt;tbble&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbble&gt;.
+     * <p>There is blso bn option to supply bn blternbte pbrentTbg bnd
+     * bddTbg. These will be checked for if there is no pbrentTbg bt
      * offset.
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    public static class InsertHTMLTextAction extends HTMLTextAction {
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    public stbtic clbss InsertHTMLTextAction extends HTMLTextAction {
 
         /**
-         * Creates a new InsertHTMLTextAction.
+         * Crebtes b new InsertHTMLTextAction.
          *
-         * @param name a name of the action
-         * @param html an HTML string
-         * @param parentTag a parent tag
-         * @param addTag the first tag to start inserting into document
+         * @pbrbm nbme b nbme of the bction
+         * @pbrbm html bn HTML string
+         * @pbrbm pbrentTbg b pbrent tbg
+         * @pbrbm bddTbg the first tbg to stbrt inserting into document
          */
-        public InsertHTMLTextAction(String name, String html,
-                                    HTML.Tag parentTag, HTML.Tag addTag) {
-            this(name, html, parentTag, addTag, null, null);
+        public InsertHTMLTextAction(String nbme, String html,
+                                    HTML.Tbg pbrentTbg, HTML.Tbg bddTbg) {
+            this(nbme, html, pbrentTbg, bddTbg, null, null);
         }
 
         /**
-         * Creates a new InsertHTMLTextAction.
+         * Crebtes b new InsertHTMLTextAction.
          *
-         * @param name a name of the action
-         * @param html an HTML string
-         * @param parentTag a parent tag
-         * @param addTag the first tag to start inserting into document
-         * @param alternateParentTag an alternative parent tag
-         * @param alternateAddTag an alternative tag
+         * @pbrbm nbme b nbme of the bction
+         * @pbrbm html bn HTML string
+         * @pbrbm pbrentTbg b pbrent tbg
+         * @pbrbm bddTbg the first tbg to stbrt inserting into document
+         * @pbrbm blternbtePbrentTbg bn blternbtive pbrent tbg
+         * @pbrbm blternbteAddTbg bn blternbtive tbg
          */
-        public InsertHTMLTextAction(String name, String html,
-                                    HTML.Tag parentTag,
-                                    HTML.Tag addTag,
-                                    HTML.Tag alternateParentTag,
-                                    HTML.Tag alternateAddTag) {
-            this(name, html, parentTag, addTag, alternateParentTag,
-                 alternateAddTag, true);
+        public InsertHTMLTextAction(String nbme, String html,
+                                    HTML.Tbg pbrentTbg,
+                                    HTML.Tbg bddTbg,
+                                    HTML.Tbg blternbtePbrentTbg,
+                                    HTML.Tbg blternbteAddTbg) {
+            this(nbme, html, pbrentTbg, bddTbg, blternbtePbrentTbg,
+                 blternbteAddTbg, true);
         }
 
         /* public */
-        InsertHTMLTextAction(String name, String html,
-                                    HTML.Tag parentTag,
-                                    HTML.Tag addTag,
-                                    HTML.Tag alternateParentTag,
-                                    HTML.Tag alternateAddTag,
-                                    boolean adjustSelection) {
-            super(name);
+        InsertHTMLTextAction(String nbme, String html,
+                                    HTML.Tbg pbrentTbg,
+                                    HTML.Tbg bddTbg,
+                                    HTML.Tbg blternbtePbrentTbg,
+                                    HTML.Tbg blternbteAddTbg,
+                                    boolebn bdjustSelection) {
+            super(nbme);
             this.html = html;
-            this.parentTag = parentTag;
-            this.addTag = addTag;
-            this.alternateParentTag = alternateParentTag;
-            this.alternateAddTag = alternateAddTag;
-            this.adjustSelection = adjustSelection;
+            this.pbrentTbg = pbrentTbg;
+            this.bddTbg = bddTbg;
+            this.blternbtePbrentTbg = blternbtePbrentTbg;
+            this.blternbteAddTbg = blternbteAddTbg;
+            this.bdjustSelection = bdjustSelection;
         }
 
         /**
-         * A cover for HTMLEditorKit.insertHTML. If an exception it
-         * thrown it is wrapped in a RuntimeException and thrown.
+         * A cover for HTMLEditorKit.insertHTML. If bn exception it
+         * thrown it is wrbpped in b RuntimeException bnd thrown.
          *
-         * @param editor an instance of JEditorPane
-         * @param doc the document to insert into
-         * @param offset the offset to insert HTML at
-         * @param html an HTML string
-         * @param popDepth the number of ElementSpec.EndTagTypes to generate
+         * @pbrbm editor bn instbnce of JEditorPbne
+         * @pbrbm doc the document to insert into
+         * @pbrbm offset the offset to insert HTML bt
+         * @pbrbm html bn HTML string
+         * @pbrbm popDepth the number of ElementSpec.EndTbgTypes to generbte
          *                  before inserting
-         * @param pushDepth the number of ElementSpec.StartTagTypes with a direction
-         *                  of ElementSpec.JoinNextDirection that should be generated
-         *                  before inserting, but after the end tags have been generated
-         * @param addTag the first tag to start inserting into document
+         * @pbrbm pushDepth the number of ElementSpec.StbrtTbgTypes with b direction
+         *                  of ElementSpec.JoinNextDirection thbt should be generbted
+         *                  before inserting, but bfter the end tbgs hbve been generbted
+         * @pbrbm bddTbg the first tbg to stbrt inserting into document
          */
-        protected void insertHTML(JEditorPane editor, HTMLDocument doc,
+        protected void insertHTML(JEditorPbne editor, HTMLDocument doc,
                                   int offset, String html, int popDepth,
-                                  int pushDepth, HTML.Tag addTag) {
+                                  int pushDepth, HTML.Tbg bddTbg) {
             try {
                 getHTMLEditorKit(editor).insertHTML(doc, offset, html,
                                                     popDepth, pushDepth,
-                                                    addTag);
-            } catch (IOException ioe) {
-                throw new RuntimeException("Unable to insert: " + ioe);
-            } catch (BadLocationException ble) {
-                throw new RuntimeException("Unable to insert: " + ble);
+                                                    bddTbg);
+            } cbtch (IOException ioe) {
+                throw new RuntimeException("Unbble to insert: " + ioe);
+            } cbtch (BbdLocbtionException ble) {
+                throw new RuntimeException("Unbble to insert: " + ble);
             }
         }
 
         /**
-         * This is invoked when inserting at a boundary. It determines
-         * the number of pops, and then the number of pushes that need
-         * to be performed, and then invokes insertHTML.
+         * This is invoked when inserting bt b boundbry. It determines
+         * the number of pops, bnd then the number of pushes thbt need
+         * to be performed, bnd then invokes insertHTML.
          *
-         * @param editor an instance of JEditorPane
-         * @param doc an instance of HTMLDocument
-         * @param offset an offset to start from
-         * @param insertElement an instance of Element
-         * @param html an HTML string
-         * @param parentTag a parent tag
-         * @param addTag the first tag to start inserting into document
+         * @pbrbm editor bn instbnce of JEditorPbne
+         * @pbrbm doc bn instbnce of HTMLDocument
+         * @pbrbm offset bn offset to stbrt from
+         * @pbrbm insertElement bn instbnce of Element
+         * @pbrbm html bn HTML string
+         * @pbrbm pbrentTbg b pbrent tbg
+         * @pbrbm bddTbg the first tbg to stbrt inserting into document
          *
          * @since 1.3
          *
          */
-        protected void insertAtBoundary(JEditorPane editor, HTMLDocument doc,
+        protected void insertAtBoundbry(JEditorPbne editor, HTMLDocument doc,
                                         int offset, Element insertElement,
-                                        String html, HTML.Tag parentTag,
-                                        HTML.Tag addTag) {
+                                        String html, HTML.Tbg pbrentTbg,
+                                        HTML.Tbg bddTbg) {
             insertAtBoundry(editor, doc, offset, insertElement, html,
-                            parentTag, addTag);
+                            pbrentTbg, bddTbg);
         }
 
         /**
-         * This is invoked when inserting at a boundary. It determines
-         * the number of pops, and then the number of pushes that need
-         * to be performed, and then invokes insertHTML.
-         * @deprecated As of Java 2 platform v1.3, use insertAtBoundary
+         * This is invoked when inserting bt b boundbry. It determines
+         * the number of pops, bnd then the number of pushes thbt need
+         * to be performed, bnd then invokes insertHTML.
+         * @deprecbted As of Jbvb 2 plbtform v1.3, use insertAtBoundbry
          *
-         * @param editor an instance of JEditorPane
-         * @param doc an instance of HTMLDocument
-         * @param offset an offset to start from
-         * @param insertElement an instance of Element
-         * @param html an HTML string
-         * @param parentTag a parent tag
-         * @param addTag the first tag to start inserting into document
+         * @pbrbm editor bn instbnce of JEditorPbne
+         * @pbrbm doc bn instbnce of HTMLDocument
+         * @pbrbm offset bn offset to stbrt from
+         * @pbrbm insertElement bn instbnce of Element
+         * @pbrbm html bn HTML string
+         * @pbrbm pbrentTbg b pbrent tbg
+         * @pbrbm bddTbg the first tbg to stbrt inserting into document
          */
-        @Deprecated
-        protected void insertAtBoundry(JEditorPane editor, HTMLDocument doc,
+        @Deprecbted
+        protected void insertAtBoundry(JEditorPbne editor, HTMLDocument doc,
                                        int offset, Element insertElement,
-                                       String html, HTML.Tag parentTag,
-                                       HTML.Tag addTag) {
-            // Find the common parent.
+                                       String html, HTML.Tbg pbrentTbg,
+                                       HTML.Tbg bddTbg) {
+            // Find the common pbrent.
             Element e;
-            Element commonParent;
-            boolean isFirst = (offset == 0);
+            Element commonPbrent;
+            boolebn isFirst = (offset == 0);
 
             if (offset > 0 || insertElement == null) {
-                e = doc.getDefaultRootElement();
-                while (e != null && e.getStartOffset() != offset &&
-                       !e.isLeaf()) {
+                e = doc.getDefbultRootElement();
+                while (e != null && e.getStbrtOffset() != offset &&
+                       !e.isLebf()) {
                     e = e.getElement(e.getElementIndex(offset));
                 }
-                commonParent = (e != null) ? e.getParentElement() : null;
+                commonPbrent = (e != null) ? e.getPbrentElement() : null;
             }
             else {
-                // If inserting at the origin, the common parent is the
+                // If inserting bt the origin, the common pbrent is the
                 // insertElement.
-                commonParent = insertElement;
+                commonPbrent = insertElement;
             }
-            if (commonParent != null) {
-                // Determine how many pops to do.
+            if (commonPbrent != null) {
+                // Determine how mbny pops to do.
                 int pops = 0;
                 int pushes = 0;
                 if (isFirst && insertElement != null) {
-                    e = commonParent;
-                    while (e != null && !e.isLeaf()) {
+                    e = commonPbrent;
+                    while (e != null && !e.isLebf()) {
                         e = e.getElement(e.getElementIndex(offset));
                         pops++;
                     }
                 }
                 else {
-                    e = commonParent;
+                    e = commonPbrent;
                     offset--;
-                    while (e != null && !e.isLeaf()) {
+                    while (e != null && !e.isLebf()) {
                         e = e.getElement(e.getElementIndex(offset));
                         pops++;
                     }
 
-                    // And how many pushes
-                    e = commonParent;
+                    // And how mbny pushes
+                    e = commonPbrent;
                     offset++;
                     while (e != null && e != insertElement) {
                         e = e.getElement(e.getElementIndex(offset));
                         pushes++;
                     }
                 }
-                pops = Math.max(0, pops - 1);
+                pops = Mbth.mbx(0, pops - 1);
 
                 // And insert!
-                insertHTML(editor, doc, offset, html, pops, pushes, addTag);
+                insertHTML(editor, doc, offset, html, pops, pushes, bddTbg);
             }
         }
 
         /**
-         * If there is an Element with name <code>tag</code> at
-         * <code>offset</code>, this will invoke either insertAtBoundary
+         * If there is bn Element with nbme <code>tbg</code> bt
+         * <code>offset</code>, this will invoke either insertAtBoundbry
          * or <code>insertHTML</code>. This returns true if there is
-         * a match, and one of the inserts is invoked.
+         * b mbtch, bnd one of the inserts is invoked.
          */
         /*protected*/
-        boolean insertIntoTag(JEditorPane editor, HTMLDocument doc,
-                              int offset, HTML.Tag tag, HTML.Tag addTag) {
-            Element e = findElementMatchingTag(doc, offset, tag);
-            if (e != null && e.getStartOffset() == offset) {
-                insertAtBoundary(editor, doc, offset, e, html,
-                                 tag, addTag);
+        boolebn insertIntoTbg(JEditorPbne editor, HTMLDocument doc,
+                              int offset, HTML.Tbg tbg, HTML.Tbg bddTbg) {
+            Element e = findElementMbtchingTbg(doc, offset, tbg);
+            if (e != null && e.getStbrtOffset() == offset) {
+                insertAtBoundbry(editor, doc, offset, e, html,
+                                 tbg, bddTbg);
                 return true;
             }
             else if (offset > 0) {
-                int depth = elementCountToTag(doc, offset - 1, tag);
+                int depth = elementCountToTbg(doc, offset - 1, tbg);
                 if (depth != -1) {
-                    insertHTML(editor, doc, offset, html, depth, 0, addTag);
+                    insertHTML(editor, doc, offset, html, depth, 0, bddTbg);
                     return true;
                 }
             }
-            return false;
+            return fblse;
         }
 
         /**
-         * Called after an insertion to adjust the selection.
+         * Cblled bfter bn insertion to bdjust the selection.
          */
         /* protected */
-        void adjustSelection(JEditorPane pane, HTMLDocument doc,
-                             int startOffset, int oldLength) {
+        void bdjustSelection(JEditorPbne pbne, HTMLDocument doc,
+                             int stbrtOffset, int oldLength) {
             int newLength = doc.getLength();
-            if (newLength != oldLength && startOffset < newLength) {
-                if (startOffset > 0) {
+            if (newLength != oldLength && stbrtOffset < newLength) {
+                if (stbrtOffset > 0) {
                     String text;
                     try {
-                        text = doc.getText(startOffset - 1, 1);
-                    } catch (BadLocationException ble) {
+                        text = doc.getText(stbrtOffset - 1, 1);
+                    } cbtch (BbdLocbtionException ble) {
                         text = null;
                     }
                     if (text != null && text.length() > 0 &&
-                        text.charAt(0) == '\n') {
-                        pane.select(startOffset, startOffset);
+                        text.chbrAt(0) == '\n') {
+                        pbne.select(stbrtOffset, stbrtOffset);
                     }
                     else {
-                        pane.select(startOffset + 1, startOffset + 1);
+                        pbne.select(stbrtOffset + 1, stbrtOffset + 1);
                     }
                 }
                 else {
-                    pane.select(1, 1);
+                    pbne.select(1, 1);
                 }
             }
         }
@@ -1929,77 +1929,77 @@ public class HTMLEditorKit extends StyledEditorKit implements Accessible {
         /**
          * Inserts the HTML into the document.
          *
-         * @param ae the event
+         * @pbrbm be the event
          */
-        public void actionPerformed(ActionEvent ae) {
-            JEditorPane editor = getEditor(ae);
+        public void bctionPerformed(ActionEvent be) {
+            JEditorPbne editor = getEditor(be);
             if (editor != null) {
                 HTMLDocument doc = getHTMLDocument(editor);
-                int offset = editor.getSelectionStart();
+                int offset = editor.getSelectionStbrt();
                 int length = doc.getLength();
-                boolean inserted;
+                boolebn inserted;
                 // Try first choice
-                if (!insertIntoTag(editor, doc, offset, parentTag, addTag) &&
-                    alternateParentTag != null) {
-                    // Then alternate.
-                    inserted = insertIntoTag(editor, doc, offset,
-                                             alternateParentTag,
-                                             alternateAddTag);
+                if (!insertIntoTbg(editor, doc, offset, pbrentTbg, bddTbg) &&
+                    blternbtePbrentTbg != null) {
+                    // Then blternbte.
+                    inserted = insertIntoTbg(editor, doc, offset,
+                                             blternbtePbrentTbg,
+                                             blternbteAddTbg);
                 }
                 else {
                     inserted = true;
                 }
-                if (adjustSelection && inserted) {
-                    adjustSelection(editor, doc, offset, length);
+                if (bdjustSelection && inserted) {
+                    bdjustSelection(editor, doc, offset, length);
                 }
             }
         }
 
         /** HTML to insert. */
         protected String html;
-        /** Tag to check for in the document. */
-        protected HTML.Tag parentTag;
-        /** Tag in HTML to start adding tags from. */
-        protected HTML.Tag addTag;
-        /** Alternate Tag to check for in the document if parentTag is
+        /** Tbg to check for in the document. */
+        protected HTML.Tbg pbrentTbg;
+        /** Tbg in HTML to stbrt bdding tbgs from. */
+        protected HTML.Tbg bddTbg;
+        /** Alternbte Tbg to check for in the document if pbrentTbg is
          * not found. */
-        protected HTML.Tag alternateParentTag;
-        /** Alternate tag in HTML to start adding tags from if parentTag
-         * is not found and alternateParentTag is found. */
-        protected HTML.Tag alternateAddTag;
-        /** True indicates the selection should be adjusted after an insert. */
-        boolean adjustSelection;
+        protected HTML.Tbg blternbtePbrentTbg;
+        /** Alternbte tbg in HTML to stbrt bdding tbgs from if pbrentTbg
+         * is not found bnd blternbtePbrentTbg is found. */
+        protected HTML.Tbg blternbteAddTbg;
+        /** True indicbtes the selection should be bdjusted bfter bn insert. */
+        boolebn bdjustSelection;
     }
 
 
     /**
-     * InsertHRAction is special, at actionPerformed time it will determine
-     * the parent HTML.Tag based on the paragraph element at the selection
-     * start.
+     * InsertHRAction is specibl, bt bctionPerformed time it will determine
+     * the pbrent HTML.Tbg bbsed on the pbrbgrbph element bt the selection
+     * stbrt.
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    static class InsertHRAction extends InsertHTMLTextAction {
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    stbtic clbss InsertHRAction extends InsertHTMLTextAction {
         InsertHRAction() {
-            super("InsertHR", "<hr>", null, HTML.Tag.IMPLIED, null, null,
-                  false);
+            super("InsertHR", "<hr>", null, HTML.Tbg.IMPLIED, null, null,
+                  fblse);
         }
 
         /**
          * Inserts the HTML into the document.
          *
-         * @param ae the event
+         * @pbrbm be the event
          */
-        public void actionPerformed(ActionEvent ae) {
-            JEditorPane editor = getEditor(ae);
+        public void bctionPerformed(ActionEvent be) {
+            JEditorPbne editor = getEditor(be);
             if (editor != null) {
                 HTMLDocument doc = getHTMLDocument(editor);
-                int offset = editor.getSelectionStart();
-                Element paragraph = doc.getParagraphElement(offset);
-                if (paragraph.getParentElement() != null) {
-                    parentTag = (HTML.Tag)paragraph.getParentElement().
+                int offset = editor.getSelectionStbrt();
+                Element pbrbgrbph = doc.getPbrbgrbphElement(offset);
+                if (pbrbgrbph.getPbrentElement() != null) {
+                    pbrentTbg = (HTML.Tbg)pbrbgrbph.getPbrentElement().
                                   getAttributes().getAttribute
-                                  (StyleConstants.NameAttribute);
-                    super.actionPerformed(ae);
+                                  (StyleConstbnts.NbmeAttribute);
+                    super.bctionPerformed(be);
                 }
             }
         }
@@ -2007,20 +2007,20 @@ public class HTMLEditorKit extends StyledEditorKit implements Accessible {
     }
 
     /*
-     * Returns the object in an AttributeSet matching a key
+     * Returns the object in bn AttributeSet mbtching b key
      */
-    static private Object getAttrValue(AttributeSet attr, HTML.Attribute key) {
-        Enumeration<?> names = attr.getAttributeNames();
-        while (names.hasMoreElements()) {
-            Object nextKey = names.nextElement();
-            Object nextVal = attr.getAttribute(nextKey);
-            if (nextVal instanceof AttributeSet) {
-                Object value = getAttrValue((AttributeSet)nextVal, key);
-                if (value != null) {
-                    return value;
+    stbtic privbte Object getAttrVblue(AttributeSet bttr, HTML.Attribute key) {
+        Enumerbtion<?> nbmes = bttr.getAttributeNbmes();
+        while (nbmes.hbsMoreElements()) {
+            Object nextKey = nbmes.nextElement();
+            Object nextVbl = bttr.getAttribute(nextKey);
+            if (nextVbl instbnceof AttributeSet) {
+                Object vblue = getAttrVblue((AttributeSet)nextVbl, key);
+                if (vblue != null) {
+                    return vblue;
                 }
             } else if (nextKey == key) {
-                return nextVal;
+                return nextVbl;
             }
         }
         return null;
@@ -2029,53 +2029,53 @@ public class HTMLEditorKit extends StyledEditorKit implements Accessible {
     /*
      * Action to move the focus on the next or previous hypertext link
      * or object. TODO: This method relies on support from the
-     * javax.accessibility package.  The text package should support
-     * keyboard navigation of text elements directly.
+     * jbvbx.bccessibility pbckbge.  The text pbckbge should support
+     * keybobrd nbvigbtion of text elements directly.
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    static class NavigateLinkAction extends TextAction implements CaretListener {
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    stbtic clbss NbvigbteLinkAction extends TextAction implements CbretListener {
 
-        private static final FocusHighlightPainter focusPainter =
-            new FocusHighlightPainter(null);
-        private final boolean focusBack;
+        privbte stbtic finbl FocusHighlightPbinter focusPbinter =
+            new FocusHighlightPbinter(null);
+        privbte finbl boolebn focusBbck;
 
         /*
-         * Create this action with the appropriate identifier.
+         * Crebte this bction with the bppropribte identifier.
          */
-        public NavigateLinkAction(String actionName) {
-            super(actionName);
-            focusBack = "previous-link-action".equals(actionName);
+        public NbvigbteLinkAction(String bctionNbme) {
+            super(bctionNbme);
+            focusBbck = "previous-link-bction".equbls(bctionNbme);
         }
 
         /**
-         * Called when the caret position is updated.
+         * Cblled when the cbret position is updbted.
          *
-         * @param e the caret event
+         * @pbrbm e the cbret event
          */
-        public void caretUpdate(CaretEvent e) {
+        public void cbretUpdbte(CbretEvent e) {
             Object src = e.getSource();
-            if (src instanceof JTextComponent) {
+            if (src instbnceof JTextComponent) {
                 JTextComponent comp = (JTextComponent) src;
                 HTMLEditorKit kit = getHTMLEditorKit(comp);
                 if (kit != null && kit.foundLink) {
-                    kit.foundLink = false;
+                    kit.foundLink = fblse;
                     // TODO: The AccessibleContext for the editor should register
-                    // as a listener for CaretEvents and forward the events to
-                    // assistive technologies listening for such events.
-                    comp.getAccessibleContext().firePropertyChange(
+                    // bs b listener for CbretEvents bnd forwbrd the events to
+                    // bssistive technologies listening for such events.
+                    comp.getAccessibleContext().firePropertyChbnge(
                         AccessibleContext.ACCESSIBLE_HYPERTEXT_OFFSET,
-                        Integer.valueOf(kit.prevHypertextOffset),
-                        Integer.valueOf(e.getDot()));
+                        Integer.vblueOf(kit.prevHypertextOffset),
+                        Integer.vblueOf(e.getDot()));
                 }
             }
         }
 
         /*
-         * The operation to perform when this action is triggered.
+         * The operbtion to perform when this bction is triggered.
          */
-        public void actionPerformed(ActionEvent e) {
+        public void bctionPerformed(ActionEvent e) {
             JTextComponent comp = getTextComponent(e);
-            if (comp == null || comp.isEditable()) {
+            if (comp == null || comp.isEditbble()) {
                 return;
             }
 
@@ -2085,83 +2085,83 @@ public class HTMLEditorKit extends StyledEditorKit implements Accessible {
                 return;
             }
 
-            // TODO: Should start successive iterations from the
-            // current caret position.
-            ElementIterator ei = new ElementIterator(doc);
-            int currentOffset = comp.getCaretPosition();
-            int prevStartOffset = -1;
+            // TODO: Should stbrt successive iterbtions from the
+            // current cbret position.
+            ElementIterbtor ei = new ElementIterbtor(doc);
+            int currentOffset = comp.getCbretPosition();
+            int prevStbrtOffset = -1;
             int prevEndOffset = -1;
 
-            // highlight the next link or object after the current caret position
+            // highlight the next link or object bfter the current cbret position
             Element nextElement;
             while ((nextElement = ei.next()) != null) {
-                String name = nextElement.getName();
-                AttributeSet attr = nextElement.getAttributes();
+                String nbme = nextElement.getNbme();
+                AttributeSet bttr = nextElement.getAttributes();
 
-                Object href = getAttrValue(attr, HTML.Attribute.HREF);
-                if (!(name.equals(HTML.Tag.OBJECT.toString())) && href == null) {
+                Object href = getAttrVblue(bttr, HTML.Attribute.HREF);
+                if (!(nbme.equbls(HTML.Tbg.OBJECT.toString())) && href == null) {
                     continue;
                 }
 
-                int elementOffset = nextElement.getStartOffset();
-                if (focusBack) {
+                int elementOffset = nextElement.getStbrtOffset();
+                if (focusBbck) {
                     if (elementOffset >= currentOffset &&
-                        prevStartOffset >= 0) {
+                        prevStbrtOffset >= 0) {
 
                         kit.foundLink = true;
-                        comp.setCaretPosition(prevStartOffset);
-                        moveCaretPosition(comp, kit, prevStartOffset,
+                        comp.setCbretPosition(prevStbrtOffset);
+                        moveCbretPosition(comp, kit, prevStbrtOffset,
                                           prevEndOffset);
-                        kit.prevHypertextOffset = prevStartOffset;
+                        kit.prevHypertextOffset = prevStbrtOffset;
                         return;
                     }
-                } else { // focus forward
+                } else { // focus forwbrd
                     if (elementOffset > currentOffset) {
 
                         kit.foundLink = true;
-                        comp.setCaretPosition(elementOffset);
-                        moveCaretPosition(comp, kit, elementOffset,
+                        comp.setCbretPosition(elementOffset);
+                        moveCbretPosition(comp, kit, elementOffset,
                                           nextElement.getEndOffset());
                         kit.prevHypertextOffset = elementOffset;
                         return;
                     }
                 }
-                prevStartOffset = nextElement.getStartOffset();
+                prevStbrtOffset = nextElement.getStbrtOffset();
                 prevEndOffset = nextElement.getEndOffset();
             }
-            if (focusBack && prevStartOffset >= 0) {
+            if (focusBbck && prevStbrtOffset >= 0) {
                 kit.foundLink = true;
-                comp.setCaretPosition(prevStartOffset);
-                moveCaretPosition(comp, kit, prevStartOffset, prevEndOffset);
-                kit.prevHypertextOffset = prevStartOffset;
+                comp.setCbretPosition(prevStbrtOffset);
+                moveCbretPosition(comp, kit, prevStbrtOffset, prevEndOffset);
+                kit.prevHypertextOffset = prevStbrtOffset;
             }
         }
 
         /*
-         * Moves the caret from mark to dot
+         * Moves the cbret from mbrk to dot
          */
-        private void moveCaretPosition(JTextComponent comp, HTMLEditorKit kit,
-                                       int mark, int dot) {
+        privbte void moveCbretPosition(JTextComponent comp, HTMLEditorKit kit,
+                                       int mbrk, int dot) {
             Highlighter h = comp.getHighlighter();
             if (h != null) {
-                int p0 = Math.min(dot, mark);
-                int p1 = Math.max(dot, mark);
+                int p0 = Mbth.min(dot, mbrk);
+                int p1 = Mbth.mbx(dot, mbrk);
                 try {
-                    if (kit.linkNavigationTag != null) {
-                        h.changeHighlight(kit.linkNavigationTag, p0, p1);
+                    if (kit.linkNbvigbtionTbg != null) {
+                        h.chbngeHighlight(kit.linkNbvigbtionTbg, p0, p1);
                     } else {
-                        kit.linkNavigationTag =
-                                h.addHighlight(p0, p1, focusPainter);
+                        kit.linkNbvigbtionTbg =
+                                h.bddHighlight(p0, p1, focusPbinter);
                     }
-                } catch (BadLocationException e) {
+                } cbtch (BbdLocbtionException e) {
                 }
             }
         }
 
-        private HTMLEditorKit getHTMLEditorKit(JTextComponent comp) {
-            if (comp instanceof JEditorPane) {
-                EditorKit kit = ((JEditorPane) comp).getEditorKit();
-                if (kit instanceof HTMLEditorKit) {
+        privbte HTMLEditorKit getHTMLEditorKit(JTextComponent comp) {
+            if (comp instbnceof JEditorPbne) {
+                EditorKit kit = ((JEditorPbne) comp).getEditorKit();
+                if (kit instbnceof HTMLEditorKit) {
                     return (HTMLEditorKit) kit;
                 }
             }
@@ -2169,30 +2169,30 @@ public class HTMLEditorKit extends StyledEditorKit implements Accessible {
         }
 
         /**
-         * A highlight painter that draws a one-pixel border around
-         * the highlighted area.
+         * A highlight pbinter thbt drbws b one-pixel border bround
+         * the highlighted breb.
          */
-        static class FocusHighlightPainter extends
-            DefaultHighlighter.DefaultHighlightPainter {
+        stbtic clbss FocusHighlightPbinter extends
+            DefbultHighlighter.DefbultHighlightPbinter {
 
-            FocusHighlightPainter(Color color) {
+            FocusHighlightPbinter(Color color) {
                 super(color);
             }
 
             /**
-             * Paints a portion of a highlight.
+             * Pbints b portion of b highlight.
              *
-             * @param g the graphics context
-             * @param offs0 the starting model offset &ge; 0
-             * @param offs1 the ending model offset &ge; offs1
-             * @param bounds the bounding box of the view, which is not
-             *               necessarily the region to paint.
-             * @param c the editor
-             * @param view View painting for
-             * @return region in which drawing occurred
+             * @pbrbm g the grbphics context
+             * @pbrbm offs0 the stbrting model offset &ge; 0
+             * @pbrbm offs1 the ending model offset &ge; offs1
+             * @pbrbm bounds the bounding box of the view, which is not
+             *               necessbrily the region to pbint.
+             * @pbrbm c the editor
+             * @pbrbm view View pbinting for
+             * @return region in which drbwing occurred
              */
-            public Shape paintLayer(Graphics g, int offs0, int offs1,
-                                    Shape bounds, JTextComponent c, View view) {
+            public Shbpe pbintLbyer(Grbphics g, int offs0, int offs1,
+                                    Shbpe bounds, JTextComponent c, View view) {
 
                 Color color = getColor();
 
@@ -2202,32 +2202,32 @@ public class HTMLEditorKit extends StyledEditorKit implements Accessible {
                 else {
                     g.setColor(color);
                 }
-                if (offs0 == view.getStartOffset() &&
+                if (offs0 == view.getStbrtOffset() &&
                     offs1 == view.getEndOffset()) {
-                    // Contained in view, can just use bounds.
-                    Rectangle alloc;
-                    if (bounds instanceof Rectangle) {
-                        alloc = (Rectangle)bounds;
+                    // Contbined in view, cbn just use bounds.
+                    Rectbngle blloc;
+                    if (bounds instbnceof Rectbngle) {
+                        blloc = (Rectbngle)bounds;
                     }
                     else {
-                        alloc = bounds.getBounds();
+                        blloc = bounds.getBounds();
                     }
-                    g.drawRect(alloc.x, alloc.y, alloc.width - 1, alloc.height);
-                    return alloc;
+                    g.drbwRect(blloc.x, blloc.y, blloc.width - 1, blloc.height);
+                    return blloc;
                 }
                 else {
-                    // Should only render part of View.
+                    // Should only render pbrt of View.
                     try {
-                        // --- determine locations ---
-                        Shape shape = view.modelToView(offs0, Position.Bias.Forward,
-                                                       offs1,Position.Bias.Backward,
+                        // --- determine locbtions ---
+                        Shbpe shbpe = view.modelToView(offs0, Position.Bibs.Forwbrd,
+                                                       offs1,Position.Bibs.Bbckwbrd,
                                                        bounds);
-                        Rectangle r = (shape instanceof Rectangle) ?
-                            (Rectangle)shape : shape.getBounds();
-                        g.drawRect(r.x, r.y, r.width - 1, r.height);
+                        Rectbngle r = (shbpe instbnceof Rectbngle) ?
+                            (Rectbngle)shbpe : shbpe.getBounds();
+                        g.drbwRect(r.x, r.y, r.width - 1, r.height);
                         return r;
-                    } catch (BadLocationException e) {
-                        // can't render
+                    } cbtch (BbdLocbtionException e) {
+                        // cbn't render
                     }
                 }
                 // Only if exception
@@ -2237,52 +2237,52 @@ public class HTMLEditorKit extends StyledEditorKit implements Accessible {
     }
 
     /*
-     * Action to activate the hypertext link that has focus.
+     * Action to bctivbte the hypertext link thbt hbs focus.
      * TODO: This method relies on support from the
-     * javax.accessibility package.  The text package should support
-     * keyboard navigation of text elements directly.
+     * jbvbx.bccessibility pbckbge.  The text pbckbge should support
+     * keybobrd nbvigbtion of text elements directly.
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    static class ActivateLinkAction extends TextAction {
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    stbtic clbss ActivbteLinkAction extends TextAction {
 
         /**
-         * Create this action with the appropriate identifier.
+         * Crebte this bction with the bppropribte identifier.
          */
-        public ActivateLinkAction(String actionName) {
-            super(actionName);
+        public ActivbteLinkAction(String bctionNbme) {
+            super(bctionNbme);
         }
 
         /*
-         * activates the hyperlink at offset
+         * bctivbtes the hyperlink bt offset
          */
-        private void activateLink(String href, HTMLDocument doc,
-                                  JEditorPane editor, int offset) {
+        privbte void bctivbteLink(String href, HTMLDocument doc,
+                                  JEditorPbne editor, int offset) {
             try {
-                URL page =
-                    (URL)doc.getProperty(Document.StreamDescriptionProperty);
-                URL url = new URL(page, href);
+                URL pbge =
+                    (URL)doc.getProperty(Document.StrebmDescriptionProperty);
+                URL url = new URL(pbge, href);
                 HyperlinkEvent linkEvent = new HyperlinkEvent
                     (editor, HyperlinkEvent.EventType.
-                     ACTIVATED, url, url.toExternalForm(),
-                     doc.getCharacterElement(offset));
-                editor.fireHyperlinkUpdate(linkEvent);
-            } catch (MalformedURLException m) {
+                     ACTIVATED, url, url.toExternblForm(),
+                     doc.getChbrbcterElement(offset));
+                editor.fireHyperlinkUpdbte(linkEvent);
+            } cbtch (MblformedURLException m) {
             }
         }
 
         /*
-         * Invokes default action on the object in an element
+         * Invokes defbult bction on the object in bn element
          */
-        private void doObjectAction(JEditorPane editor, Element elem) {
+        privbte void doObjectAction(JEditorPbne editor, Element elem) {
             View view = getView(editor, elem);
-            if (view != null && view instanceof ObjectView) {
+            if (view != null && view instbnceof ObjectView) {
                 Component comp = ((ObjectView)view).getComponent();
-                if (comp != null && comp instanceof Accessible) {
-                    AccessibleContext ac = comp.getAccessibleContext();
-                    if (ac != null) {
-                        AccessibleAction aa = ac.getAccessibleAction();
-                        if (aa != null) {
-                            aa.doAccessibleAction(0);
+                if (comp != null && comp instbnceof Accessible) {
+                    AccessibleContext bc = comp.getAccessibleContext();
+                    if (bc != null) {
+                        AccessibleAction bb = bc.getAccessibleAction();
+                        if (bb != null) {
+                            bb.doAccessibleAction(0);
                         }
                     }
                 }
@@ -2290,105 +2290,105 @@ public class HTMLEditorKit extends StyledEditorKit implements Accessible {
         }
 
         /*
-         * Returns the root view for a document
+         * Returns the root view for b document
          */
-        private View getRootView(JEditorPane editor) {
+        privbte View getRootView(JEditorPbne editor) {
             return editor.getUI().getRootView(editor);
         }
 
         /*
-         * Returns a view associated with an element
+         * Returns b view bssocibted with bn element
          */
-        private View getView(JEditorPane editor, Element elem) {
+        privbte View getView(JEditorPbne editor, Element elem) {
             Object lock = lock(editor);
             try {
                 View rootView = getRootView(editor);
-                int start = elem.getStartOffset();
+                int stbrt = elem.getStbrtOffset();
                 if (rootView != null) {
-                    return getView(rootView, elem, start);
+                    return getView(rootView, elem, stbrt);
                 }
                 return null;
-            } finally {
+            } finblly {
                 unlock(lock);
             }
         }
 
-        private View getView(View parent, Element elem, int start) {
-            if (parent.getElement() == elem) {
-                return parent;
+        privbte View getView(View pbrent, Element elem, int stbrt) {
+            if (pbrent.getElement() == elem) {
+                return pbrent;
             }
-            int index = parent.getViewIndex(start, Position.Bias.Forward);
+            int index = pbrent.getViewIndex(stbrt, Position.Bibs.Forwbrd);
 
-            if (index != -1 && index < parent.getViewCount()) {
-                return getView(parent.getView(index), elem, start);
+            if (index != -1 && index < pbrent.getViewCount()) {
+                return getView(pbrent.getView(index), elem, stbrt);
             }
             return null;
         }
 
         /*
-         * If possible acquires a lock on the Document.  If a lock has been
-         * obtained a key will be retured that should be passed to
+         * If possible bcquires b lock on the Document.  If b lock hbs been
+         * obtbined b key will be retured thbt should be pbssed to
          * <code>unlock</code>.
          */
-        private Object lock(JEditorPane editor) {
+        privbte Object lock(JEditorPbne editor) {
             Document document = editor.getDocument();
 
-            if (document instanceof AbstractDocument) {
-                ((AbstractDocument)document).readLock();
+            if (document instbnceof AbstrbctDocument) {
+                ((AbstrbctDocument)document).rebdLock();
                 return document;
             }
             return null;
         }
 
         /*
-         * Releases a lock previously obtained via <code>lock</code>.
+         * Relebses b lock previously obtbined vib <code>lock</code>.
          */
-        private void unlock(Object key) {
+        privbte void unlock(Object key) {
             if (key != null) {
-                ((AbstractDocument)key).readUnlock();
+                ((AbstrbctDocument)key).rebdUnlock();
             }
         }
 
         /*
-         * The operation to perform when this action is triggered.
+         * The operbtion to perform when this bction is triggered.
          */
-        public void actionPerformed(ActionEvent e) {
+        public void bctionPerformed(ActionEvent e) {
 
             JTextComponent c = getTextComponent(e);
-            if (c.isEditable() || !(c instanceof JEditorPane)) {
+            if (c.isEditbble() || !(c instbnceof JEditorPbne)) {
                 return;
             }
-            JEditorPane editor = (JEditorPane)c;
+            JEditorPbne editor = (JEditorPbne)c;
 
             Document d = editor.getDocument();
-            if (d == null || !(d instanceof HTMLDocument)) {
+            if (d == null || !(d instbnceof HTMLDocument)) {
                 return;
             }
             HTMLDocument doc = (HTMLDocument)d;
 
-            ElementIterator ei = new ElementIterator(doc);
-            int currentOffset = editor.getCaretPosition();
+            ElementIterbtor ei = new ElementIterbtor(doc);
+            int currentOffset = editor.getCbretPosition();
 
-            // invoke the next link or object action
+            // invoke the next link or object bction
             String urlString = null;
             String objString = null;
             Element currentElement;
             while ((currentElement = ei.next()) != null) {
-                String name = currentElement.getName();
-                AttributeSet attr = currentElement.getAttributes();
+                String nbme = currentElement.getNbme();
+                AttributeSet bttr = currentElement.getAttributes();
 
-                Object href = getAttrValue(attr, HTML.Attribute.HREF);
+                Object href = getAttrVblue(bttr, HTML.Attribute.HREF);
                 if (href != null) {
-                    if (currentOffset >= currentElement.getStartOffset() &&
+                    if (currentOffset >= currentElement.getStbrtOffset() &&
                         currentOffset <= currentElement.getEndOffset()) {
 
-                        activateLink((String)href, doc, editor, currentOffset);
+                        bctivbteLink((String)href, doc, editor, currentOffset);
                         return;
                     }
-                } else if (name.equals(HTML.Tag.OBJECT.toString())) {
-                    Object obj = getAttrValue(attr, HTML.Attribute.CLASSID);
+                } else if (nbme.equbls(HTML.Tbg.OBJECT.toString())) {
+                    Object obj = getAttrVblue(bttr, HTML.Attribute.CLASSID);
                     if (obj != null) {
-                        if (currentOffset >= currentElement.getStartOffset() &&
+                        if (currentOffset >= currentElement.getStbrtOffset() &&
                             currentOffset <= currentElement.getEndOffset()) {
 
                             doObjectAction(editor, currentElement);
@@ -2400,45 +2400,45 @@ public class HTMLEditorKit extends StyledEditorKit implements Accessible {
         }
     }
 
-    private static int getBodyElementStart(JTextComponent comp) {
+    privbte stbtic int getBodyElementStbrt(JTextComponent comp) {
         Element rootElement = comp.getDocument().getRootElements()[0];
         for (int i = 0; i < rootElement.getElementCount(); i++) {
             Element currElement = rootElement.getElement(i);
-            if("body".equals(currElement.getName())) {
-                return currElement.getStartOffset();
+            if("body".equbls(currElement.getNbme())) {
+                return currElement.getStbrtOffset();
             }
         }
         return 0;
     }
 
     /*
-     * Move the caret to the beginning of the document.
-     * @see DefaultEditorKit#beginAction
+     * Move the cbret to the beginning of the document.
+     * @see DefbultEditorKit#beginAction
      * @see HTMLEditorKit#getActions
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    static class BeginAction extends TextAction {
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    stbtic clbss BeginAction extends TextAction {
 
-        /* Create this object with the appropriate identifier. */
-        BeginAction(String nm, boolean select) {
+        /* Crebte this object with the bppropribte identifier. */
+        BeginAction(String nm, boolebn select) {
             super(nm);
             this.select = select;
         }
 
-        /** The operation to perform when this action is triggered. */
-        public void actionPerformed(ActionEvent e) {
-            JTextComponent target = getTextComponent(e);
-            int bodyStart = getBodyElementStart(target);
+        /** The operbtion to perform when this bction is triggered. */
+        public void bctionPerformed(ActionEvent e) {
+            JTextComponent tbrget = getTextComponent(e);
+            int bodyStbrt = getBodyElementStbrt(tbrget);
 
-            if (target != null) {
+            if (tbrget != null) {
                 if (select) {
-                    target.moveCaretPosition(bodyStart);
+                    tbrget.moveCbretPosition(bodyStbrt);
                 } else {
-                    target.setCaretPosition(bodyStart);
+                    tbrget.setCbretPosition(bodyStbrt);
                 }
             }
         }
 
-        private boolean select;
+        privbte boolebn select;
     }
 }

@@ -1,119 +1,119 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.lwawt.macosx;
+pbckbge sun.lwbwt.mbcosx;
 
-import java.awt.*;
-import java.awt.geom.Dimension2D;
-import java.awt.image.*;
+import jbvb.bwt.*;
+import jbvb.bwt.geom.Dimension2D;
+import jbvb.bwt.imbge.*;
 
-import java.util.Arrays;
-import java.util.List;
-import sun.awt.image.MultiResolutionImage;
-import sun.awt.image.MultiResolutionCachedImage;
+import jbvb.util.Arrbys;
+import jbvb.util.List;
+import sun.bwt.imbge.MultiResolutionImbge;
+import sun.bwt.imbge.MultiResolutionCbchedImbge;
 
-import sun.awt.image.SunWritableRaster;
+import sun.bwt.imbge.SunWritbbleRbster;
 
-public class CImage extends CFRetainedResource {
-    private static native long nativeCreateNSImageFromArray(int[] buffer, int w, int h);
-    private static native long nativeCreateNSImageFromBytes(byte[] buffer);
-    private static native long nativeCreateNSImageFromArrays(int[][] buffers, int w[], int h[]);
-    private static native long nativeCreateNSImageFromFileContents(String file);
-    private static native long nativeCreateNSImageOfFileFromLaunchServices(String file);
-    private static native long nativeCreateNSImageFromImageName(String name);
-    private static native long nativeCreateNSImageFromIconSelector(int selector);
-    private static native byte[] nativeGetPlatformImageBytes(int[] buffer, int w, int h);
-    private static native void nativeCopyNSImageIntoArray(long image, int[] buffer, int sw, int sh, int dw, int dh);
-    private static native Dimension2D nativeGetNSImageSize(long image);
-    private static native void nativeSetNSImageSize(long image, double w, double h);
-    private static native void nativeResizeNSImageRepresentations(long image, double w, double h);
-    private static native Dimension2D[] nativeGetNSImageRepresentationSizes(long image, double w, double h);
+public clbss CImbge extends CFRetbinedResource {
+    privbte stbtic nbtive long nbtiveCrebteNSImbgeFromArrby(int[] buffer, int w, int h);
+    privbte stbtic nbtive long nbtiveCrebteNSImbgeFromBytes(byte[] buffer);
+    privbte stbtic nbtive long nbtiveCrebteNSImbgeFromArrbys(int[][] buffers, int w[], int h[]);
+    privbte stbtic nbtive long nbtiveCrebteNSImbgeFromFileContents(String file);
+    privbte stbtic nbtive long nbtiveCrebteNSImbgeOfFileFromLbunchServices(String file);
+    privbte stbtic nbtive long nbtiveCrebteNSImbgeFromImbgeNbme(String nbme);
+    privbte stbtic nbtive long nbtiveCrebteNSImbgeFromIconSelector(int selector);
+    privbte stbtic nbtive byte[] nbtiveGetPlbtformImbgeBytes(int[] buffer, int w, int h);
+    privbte stbtic nbtive void nbtiveCopyNSImbgeIntoArrby(long imbge, int[] buffer, int sw, int sh, int dw, int dh);
+    privbte stbtic nbtive Dimension2D nbtiveGetNSImbgeSize(long imbge);
+    privbte stbtic nbtive void nbtiveSetNSImbgeSize(long imbge, double w, double h);
+    privbte stbtic nbtive void nbtiveResizeNSImbgeRepresentbtions(long imbge, double w, double h);
+    privbte stbtic nbtive Dimension2D[] nbtiveGetNSImbgeRepresentbtionSizes(long imbge, double w, double h);
 
-    static Creator creator = new Creator();
-    static Creator getCreator() {
-        return creator;
+    stbtic Crebtor crebtor = new Crebtor();
+    stbtic Crebtor getCrebtor() {
+        return crebtor;
     }
 
-    public static class Creator {
-        Creator() { }
+    public stbtic clbss Crebtor {
+        Crebtor() { }
 
-        // This is used to create a CImage with an NSImage pointer. It MUST be a CFRetained
-        // NSImage, and the CImage takes ownership of the non-GC retain. If callers need the
-        // NSImage themselves, they MUST call retain on the NSImage themselves.
-        public Image createImageUsingNativeSize(final long image) {
-            if (image == 0) return null;
-            final Dimension2D size = nativeGetNSImageSize(image);
-            return createImage(image, size.getWidth(), size.getHeight());
+        // This is used to crebte b CImbge with bn NSImbge pointer. It MUST be b CFRetbined
+        // NSImbge, bnd the CImbge tbkes ownership of the non-GC retbin. If cbllers need the
+        // NSImbge themselves, they MUST cbll retbin on the NSImbge themselves.
+        public Imbge crebteImbgeUsingNbtiveSize(finbl long imbge) {
+            if (imbge == 0) return null;
+            finbl Dimension2D size = nbtiveGetNSImbgeSize(imbge);
+            return crebteImbge(imbge, size.getWidth(), size.getHeight());
         }
 
-        // the width and height passed in as a parameter could differ than the width and the height of the NSImage (image), in that case, the image will be scaled
-        Image createImage(long image, double width, double height) {
-            if (image == 0) throw new Error("Unable to instantiate CImage with null native image reference.");
-            return createImageWithSize(image, width, height);
+        // the width bnd height pbssed in bs b pbrbmeter could differ thbn the width bnd the height of the NSImbge (imbge), in thbt cbse, the imbge will be scbled
+        Imbge crebteImbge(long imbge, double width, double height) {
+            if (imbge == 0) throw new Error("Unbble to instbntibte CImbge with null nbtive imbge reference.");
+            return crebteImbgeWithSize(imbge, width, height);
         }
 
-        public Image createImageWithSize(final long image, final double width, final double height) {
-            final CImage img = new CImage(image);
+        public Imbge crebteImbgeWithSize(finbl long imbge, finbl double width, finbl double height) {
+            finbl CImbge img = new CImbge(imbge);
             img.resize(width, height);
-            return img.toImage();
+            return img.toImbge();
         }
 
-        // This is used to create a CImage that represents the icon of the given file.
-        public Image createImageOfFile(final String file, final int width, final int height) {
-            return createImage(nativeCreateNSImageOfFileFromLaunchServices(file), width, height);
+        // This is used to crebte b CImbge thbt represents the icon of the given file.
+        public Imbge crebteImbgeOfFile(finbl String file, finbl int width, finbl int height) {
+            return crebteImbge(nbtiveCrebteNSImbgeOfFileFromLbunchServices(file), width, height);
         }
 
-        public Image createImageFromFile(final String file, final double width, final double height) {
-            final long image = nativeCreateNSImageFromFileContents(file);
-            nativeSetNSImageSize(image, width, height);
-            return createImage(image, width, height);
+        public Imbge crebteImbgeFromFile(finbl String file, finbl double width, finbl double height) {
+            finbl long imbge = nbtiveCrebteNSImbgeFromFileContents(file);
+            nbtiveSetNSImbgeSize(imbge, width, height);
+            return crebteImbge(imbge, width, height);
         }
 
-        public Image createSystemImageFromSelector(final String iconSelector, final int width, final int height) {
-            return createImage(nativeCreateNSImageFromIconSelector(getSelectorAsInt(iconSelector)), width, height);
+        public Imbge crebteSystemImbgeFromSelector(finbl String iconSelector, finbl int width, finbl int height) {
+            return crebteImbge(nbtiveCrebteNSImbgeFromIconSelector(getSelectorAsInt(iconSelector)), width, height);
         }
 
-        public Image createImageFromName(final String name, final int width, final int height) {
-            return createImage(nativeCreateNSImageFromImageName(name), width, height);
+        public Imbge crebteImbgeFromNbme(finbl String nbme, finbl int width, finbl int height) {
+            return crebteImbge(nbtiveCrebteNSImbgeFromImbgeNbme(nbme), width, height);
         }
 
-        public Image createImageFromName(final String name) {
-            return createImageUsingNativeSize(nativeCreateNSImageFromImageName(name));
+        public Imbge crebteImbgeFromNbme(finbl String nbme) {
+            return crebteImbgeUsingNbtiveSize(nbtiveCrebteNSImbgeFromImbgeNbme(nbme));
         }
 
-        private static int[] imageToArray(Image image, boolean prepareImage) {
-            if (image == null) return null;
+        privbte stbtic int[] imbgeToArrby(Imbge imbge, boolebn prepbreImbge) {
+            if (imbge == null) return null;
 
-            if (prepareImage && !(image instanceof BufferedImage)) {
-                final MediaTracker mt = new MediaTracker(new Label());
-                final int id = 0;
-                mt.addImage(image, id);
+            if (prepbreImbge && !(imbge instbnceof BufferedImbge)) {
+                finbl MedibTrbcker mt = new MedibTrbcker(new Lbbel());
+                finbl int id = 0;
+                mt.bddImbge(imbge, id);
 
                 try {
-                    mt.waitForID(id);
-                } catch (InterruptedException e) {
+                    mt.wbitForID(id);
+                } cbtch (InterruptedException e) {
                     return null;
                 }
 
@@ -122,71 +122,71 @@ public class CImage extends CFRetainedResource {
                 }
             }
 
-            int w = image.getWidth(null);
-            int h = image.getHeight(null);
+            int w = imbge.getWidth(null);
+            int h = imbge.getHeight(null);
 
             if (w < 0 || h < 0) {
                 return null;
             }
 
-            BufferedImage bimg = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB_PRE);
-            Graphics2D g2 = bimg.createGraphics();
-            g2.setComposite(AlphaComposite.Src);
-            g2.drawImage(image, 0, 0, null);
+            BufferedImbge bimg = new BufferedImbge(w, h, BufferedImbge.TYPE_INT_ARGB_PRE);
+            Grbphics2D g2 = bimg.crebteGrbphics();
+            g2.setComposite(AlphbComposite.Src);
+            g2.drbwImbge(imbge, 0, 0, null);
             g2.dispose();
 
-            return ((DataBufferInt)bimg.getRaster().getDataBuffer()).getData();
+            return ((DbtbBufferInt)bimg.getRbster().getDbtbBuffer()).getDbtb();
         }
 
-        public CImage createFromImageImmediately(final Image image) {
-            int[]  buffer = imageToArray(image, false);
+        public CImbge crebteFromImbgeImmedibtely(finbl Imbge imbge) {
+            int[]  buffer = imbgeToArrby(imbge, fblse);
 
             if (buffer == null) {
                 return null;
             }
 
-            return new CImage(nativeCreateNSImageFromArray(buffer, image.getWidth(null),
-                                                           image.getHeight(null)));
+            return new CImbge(nbtiveCrebteNSImbgeFromArrby(buffer, imbge.getWidth(null),
+                                                           imbge.getHeight(null)));
         }
 
-        public byte[] getPlatformImageBytes(final Image image) {
-            int[] buffer = imageToArray(image, false);
+        public byte[] getPlbtformImbgeBytes(finbl Imbge imbge) {
+            int[] buffer = imbgeToArrby(imbge, fblse);
 
             if (buffer == null) {
                 return null;
             }
 
-            return nativeGetPlatformImageBytes(buffer, image.getWidth(null), image.getHeight(null));
+            return nbtiveGetPlbtformImbgeBytes(buffer, imbge.getWidth(null), imbge.getHeight(null));
         }
 
         /**
-         * Translates a byte array which contains platform-specific image data in the given format into an Image.
+         * Trbnslbtes b byte brrby which contbins plbtform-specific imbge dbtb in the given formbt into bn Imbge.
          */
-        public Image createImageFromPlatformImageBytes(final byte[] buffer) {
-            return createImageUsingNativeSize(nativeCreateNSImageFromBytes(buffer));
+        public Imbge crebteImbgeFromPlbtformImbgeBytes(finbl byte[] buffer) {
+            return crebteImbgeUsingNbtiveSize(nbtiveCrebteNSImbgeFromBytes(buffer));
         }
 
-        // This is used to create a CImage from a Image
-        public CImage createFromImage(final Image image) {
-            if (image instanceof MultiResolutionImage) {
-                List<Image> resolutionVariants
-                        = ((MultiResolutionImage) image).getResolutionVariants();
-                return createFromImages(resolutionVariants);
+        // This is used to crebte b CImbge from b Imbge
+        public CImbge crebteFromImbge(finbl Imbge imbge) {
+            if (imbge instbnceof MultiResolutionImbge) {
+                List<Imbge> resolutionVbribnts
+                        = ((MultiResolutionImbge) imbge).getResolutionVbribnts();
+                return crebteFromImbges(resolutionVbribnts);
             }
 
-            int[] buffer = imageToArray(image, true);
+            int[] buffer = imbgeToArrby(imbge, true);
             if (buffer == null) {
                 return null;
             }
-            return new CImage(nativeCreateNSImageFromArray(buffer, image.getWidth(null), image.getHeight(null)));
+            return new CImbge(nbtiveCrebteNSImbgeFromArrby(buffer, imbge.getWidth(null), imbge.getHeight(null)));
         }
 
-        public CImage createFromImages(List<Image> images) {
-            if (images == null || images.isEmpty()) {
+        public CImbge crebteFromImbges(List<Imbge> imbges) {
+            if (imbges == null || imbges.isEmpty()) {
                 return null;
             }
 
-            int num = images.size();
+            int num = imbges.size();
 
             int[][] buffers = new int[num][];
             int[] w = new int[num];
@@ -194,10 +194,10 @@ public class CImage extends CFRetainedResource {
 
             num = 0;
 
-            for (Image img : images) {
-                buffers[num] = imageToArray(img, true);
+            for (Imbge img : imbges) {
+                buffers[num] = imbgeToArrby(img, true);
                 if (buffers[num] == null) {
-                    // Unable to process the image
+                    // Unbble to process the imbge
                     continue;
                 }
                 w[num] = img.getWidth(null);
@@ -209,15 +209,15 @@ public class CImage extends CFRetainedResource {
                 return null;
             }
 
-            return new CImage(nativeCreateNSImageFromArrays(
-                        Arrays.copyOf(buffers, num),
-                        Arrays.copyOf(w, num),
-                        Arrays.copyOf(h, num)));
+            return new CImbge(nbtiveCrebteNSImbgeFromArrbys(
+                        Arrbys.copyOf(buffers, num),
+                        Arrbys.copyOf(w, num),
+                        Arrbys.copyOf(h, num)));
         }
 
-        static int getSelectorAsInt(final String fromString) {
-            final byte[] b = fromString.getBytes();
-            final int len = Math.min(b.length, 4);
+        stbtic int getSelectorAsInt(finbl String fromString) {
+            finbl byte[] b = fromString.getBytes();
+            finbl int len = Mbth.min(b.length, 4);
             int result = 0;
             for (int i = 0; i < len; i++) {
                 if (i > 0) result <<= 8;
@@ -227,45 +227,45 @@ public class CImage extends CFRetainedResource {
         }
     }
 
-    CImage(long nsImagePtr) {
-        super(nsImagePtr, true);
+    CImbge(long nsImbgePtr) {
+        super(nsImbgePtr, true);
     }
 
-    /** @return A MultiResolution image created from nsImagePtr, or null. */
-    private Image toImage() {
+    /** @return A MultiResolution imbge crebted from nsImbgePtr, or null. */
+    privbte Imbge toImbge() {
         if (ptr == 0) return null;
 
-        final Dimension2D size = nativeGetNSImageSize(ptr);
-        final int w = (int)size.getWidth();
-        final int h = (int)size.getHeight();
+        finbl Dimension2D size = nbtiveGetNSImbgeSize(ptr);
+        finbl int w = (int)size.getWidth();
+        finbl int h = (int)size.getHeight();
 
         Dimension2D[] sizes
-                = nativeGetNSImageRepresentationSizes(ptr,
+                = nbtiveGetNSImbgeRepresentbtionSizes(ptr,
                         size.getWidth(), size.getHeight());
 
         return sizes == null || sizes.length < 2 ?
-                new MultiResolutionCachedImage(w, h, (width, height)
-                        -> toImage(w, h, width, height))
-                : new MultiResolutionCachedImage(w, h, sizes, (width, height)
-                        -> toImage(w, h, width, height));
+                new MultiResolutionCbchedImbge(w, h, (width, height)
+                        -> toImbge(w, h, width, height))
+                : new MultiResolutionCbchedImbge(w, h, sizes, (width, height)
+                        -> toImbge(w, h, width, height));
     }
 
-    private BufferedImage toImage(int srcWidth, int srcHeight, int dstWidth, int dstHeight) {
-        final BufferedImage bimg = new BufferedImage(dstWidth, dstHeight, BufferedImage.TYPE_INT_ARGB_PRE);
-        final DataBufferInt dbi = (DataBufferInt)bimg.getRaster().getDataBuffer();
-        final int[] buffer = SunWritableRaster.stealData(dbi, 0);
-        nativeCopyNSImageIntoArray(ptr, buffer, srcWidth, srcHeight, dstWidth, dstHeight);
-        SunWritableRaster.markDirty(dbi);
+    privbte BufferedImbge toImbge(int srcWidth, int srcHeight, int dstWidth, int dstHeight) {
+        finbl BufferedImbge bimg = new BufferedImbge(dstWidth, dstHeight, BufferedImbge.TYPE_INT_ARGB_PRE);
+        finbl DbtbBufferInt dbi = (DbtbBufferInt)bimg.getRbster().getDbtbBuffer();
+        finbl int[] buffer = SunWritbbleRbster.steblDbtb(dbi, 0);
+        nbtiveCopyNSImbgeIntoArrby(ptr, buffer, srcWidth, srcHeight, dstWidth, dstHeight);
+        SunWritbbleRbster.mbrkDirty(dbi);
         return bimg;
     }
 
-    /** If nsImagePtr != 0 then scale this NSImage. @return *this* */
-    CImage resize(final double w, final double h) {
-        if (ptr != 0) nativeSetNSImageSize(ptr, w, h);
+    /** If nsImbgePtr != 0 then scble this NSImbge. @return *this* */
+    CImbge resize(finbl double w, finbl double h) {
+        if (ptr != 0) nbtiveSetNSImbgeSize(ptr, w, h);
         return this;
     }
 
-    void resizeRepresentations(double w, double h) {
-        if (ptr != 0) nativeResizeNSImageRepresentations(ptr, w, h);
+    void resizeRepresentbtions(double w, double h) {
+        if (ptr != 0) nbtiveResizeNSImbgeRepresentbtions(ptr, w, h);
     }
 }

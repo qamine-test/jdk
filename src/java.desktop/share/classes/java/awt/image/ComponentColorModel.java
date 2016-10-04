@@ -1,386 +1,386 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt.image;
+pbckbge jbvb.bwt.imbge;
 
-import java.awt.color.ColorSpace;
-import java.awt.color.ICC_ColorSpace;
+import jbvb.bwt.color.ColorSpbce;
+import jbvb.bwt.color.ICC_ColorSpbce;
 
 /**
- * A <CODE>ColorModel</CODE> class that works with pixel values that
- * represent color and alpha information as separate samples and that
- * store each sample in a separate data element.  This class can be
- * used with an arbitrary <CODE>ColorSpace</CODE>.  The number of
- * color samples in the pixel values must be same as the number of
- * color components in the <CODE>ColorSpace</CODE>. There may be a
- * single alpha sample.
+ * A <CODE>ColorModel</CODE> clbss thbt works with pixel vblues thbt
+ * represent color bnd blphb informbtion bs sepbrbte sbmples bnd thbt
+ * store ebch sbmple in b sepbrbte dbtb element.  This clbss cbn be
+ * used with bn brbitrbry <CODE>ColorSpbce</CODE>.  The number of
+ * color sbmples in the pixel vblues must be sbme bs the number of
+ * color components in the <CODE>ColorSpbce</CODE>. There mby be b
+ * single blphb sbmple.
  * <p>
- * For those methods that use
- * a primitive array pixel representation of type <CODE>transferType</CODE>,
- * the array length is the same as the number of color and alpha samples.
- * Color samples are stored first in the array followed by the alpha
- * sample, if present.  The order of the color samples is specified
- * by the <CODE>ColorSpace</CODE>.  Typically, this order reflects the
- * name of the color space type. For example, for <CODE>TYPE_RGB</CODE>,
- * index 0 corresponds to red, index 1 to green, and index 2 to blue.
+ * For those methods thbt use
+ * b primitive brrby pixel representbtion of type <CODE>trbnsferType</CODE>,
+ * the brrby length is the sbme bs the number of color bnd blphb sbmples.
+ * Color sbmples bre stored first in the brrby followed by the blphb
+ * sbmple, if present.  The order of the color sbmples is specified
+ * by the <CODE>ColorSpbce</CODE>.  Typicblly, this order reflects the
+ * nbme of the color spbce type. For exbmple, for <CODE>TYPE_RGB</CODE>,
+ * index 0 corresponds to red, index 1 to green, bnd index 2 to blue.
  * <p>
- * The translation from pixel sample values to color/alpha components for
- * display or processing purposes is based on a one-to-one correspondence of
- * samples to components.
- * Depending on the transfer type used to create an instance of
- * <code>ComponentColorModel</code>, the pixel sample values
- * represented by that instance may be signed or unsigned and may
- * be of integral type or float or double (see below for details).
- * The translation from sample values to normalized color/alpha components
- * must follow certain rules.  For float and double samples, the translation
- * is an identity, i.e. normalized component values are equal to the
- * corresponding sample values.  For integral samples, the translation
- * should be only a simple scale and offset, where the scale and offset
- * constants may be different for each component.  The result of
- * applying the scale and offset constants is a set of color/alpha
- * component values, which are guaranteed to fall within a certain
- * range.  Typically, the range for a color component will be the range
- * defined by the <code>getMinValue</code> and <code>getMaxValue</code>
- * methods of the <code>ColorSpace</code> class.  The range for an
- * alpha component should be 0.0 to 1.0.
+ * The trbnslbtion from pixel sbmple vblues to color/blphb components for
+ * displby or processing purposes is bbsed on b one-to-one correspondence of
+ * sbmples to components.
+ * Depending on the trbnsfer type used to crebte bn instbnce of
+ * <code>ComponentColorModel</code>, the pixel sbmple vblues
+ * represented by thbt instbnce mby be signed or unsigned bnd mby
+ * be of integrbl type or flobt or double (see below for detbils).
+ * The trbnslbtion from sbmple vblues to normblized color/blphb components
+ * must follow certbin rules.  For flobt bnd double sbmples, the trbnslbtion
+ * is bn identity, i.e. normblized component vblues bre equbl to the
+ * corresponding sbmple vblues.  For integrbl sbmples, the trbnslbtion
+ * should be only b simple scble bnd offset, where the scble bnd offset
+ * constbnts mby be different for ebch component.  The result of
+ * bpplying the scble bnd offset constbnts is b set of color/blphb
+ * component vblues, which bre gubrbnteed to fbll within b certbin
+ * rbnge.  Typicblly, the rbnge for b color component will be the rbnge
+ * defined by the <code>getMinVblue</code> bnd <code>getMbxVblue</code>
+ * methods of the <code>ColorSpbce</code> clbss.  The rbnge for bn
+ * blphb component should be 0.0 to 1.0.
  * <p>
- * Instances of <code>ComponentColorModel</code> created with transfer types
- * <CODE>DataBuffer.TYPE_BYTE</CODE>, <CODE>DataBuffer.TYPE_USHORT</CODE>,
- * and <CODE>DataBuffer.TYPE_INT</CODE> have pixel sample values which
- * are treated as unsigned integral values.
- * The number of bits in a color or alpha sample of a pixel value might not
- * be the same as the number of bits for the corresponding color or alpha
- * sample passed to the
- * <code>ComponentColorModel(ColorSpace, int[], boolean, boolean, int, int)</code>
+ * Instbnces of <code>ComponentColorModel</code> crebted with trbnsfer types
+ * <CODE>DbtbBuffer.TYPE_BYTE</CODE>, <CODE>DbtbBuffer.TYPE_USHORT</CODE>,
+ * bnd <CODE>DbtbBuffer.TYPE_INT</CODE> hbve pixel sbmple vblues which
+ * bre trebted bs unsigned integrbl vblues.
+ * The number of bits in b color or blphb sbmple of b pixel vblue might not
+ * be the sbme bs the number of bits for the corresponding color or blphb
+ * sbmple pbssed to the
+ * <code>ComponentColorModel(ColorSpbce, int[], boolebn, boolebn, int, int)</code>
  * constructor.  In
- * that case, this class assumes that the least significant n bits of a sample
- * value hold the component value, where n is the number of significant bits
- * for the component passed to the constructor.  It also assumes that
- * any higher-order bits in a sample value are zero.  Thus, sample values
- * range from 0 to 2<sup>n</sup> - 1.  This class maps these sample values
- * to normalized color component values such that 0 maps to the value
- * obtained from the <code>ColorSpace's</code> <code>getMinValue</code>
- * method for each component and 2<sup>n</sup> - 1 maps to the value
- * obtained from <code>getMaxValue</code>.  To create a
- * <code>ComponentColorModel</code> with a different color sample mapping
- * requires subclassing this class and overriding the
- * <code>getNormalizedComponents(Object, float[], int)</code> method.
- * The mapping for an alpha sample always maps 0 to 0.0 and
+ * thbt cbse, this clbss bssumes thbt the lebst significbnt n bits of b sbmple
+ * vblue hold the component vblue, where n is the number of significbnt bits
+ * for the component pbssed to the constructor.  It blso bssumes thbt
+ * bny higher-order bits in b sbmple vblue bre zero.  Thus, sbmple vblues
+ * rbnge from 0 to 2<sup>n</sup> - 1.  This clbss mbps these sbmple vblues
+ * to normblized color component vblues such thbt 0 mbps to the vblue
+ * obtbined from the <code>ColorSpbce's</code> <code>getMinVblue</code>
+ * method for ebch component bnd 2<sup>n</sup> - 1 mbps to the vblue
+ * obtbined from <code>getMbxVblue</code>.  To crebte b
+ * <code>ComponentColorModel</code> with b different color sbmple mbpping
+ * requires subclbssing this clbss bnd overriding the
+ * <code>getNormblizedComponents(Object, flobt[], int)</code> method.
+ * The mbpping for bn blphb sbmple blwbys mbps 0 to 0.0 bnd
  * 2<sup>n</sup> - 1 to 1.0.
  * <p>
- * For instances with unsigned sample values,
- * the unnormalized color/alpha component representation is only
- * supported if two conditions hold.  First, sample value value 0 must
- * map to normalized component value 0.0 and sample value 2<sup>n</sup> - 1
- * to 1.0.  Second the min/max range of all color components of the
- * <code>ColorSpace</code> must be 0.0 to 1.0.  In this case, the
- * component representation is the n least
- * significant bits of the corresponding sample.  Thus each component is
- * an unsigned integral value between 0 and 2<sup>n</sup> - 1, where
- * n is the number of significant bits for a particular component.
- * If these conditions are not met, any method taking an unnormalized
- * component argument will throw an <code>IllegalArgumentException</code>.
+ * For instbnces with unsigned sbmple vblues,
+ * the unnormblized color/blphb component representbtion is only
+ * supported if two conditions hold.  First, sbmple vblue vblue 0 must
+ * mbp to normblized component vblue 0.0 bnd sbmple vblue 2<sup>n</sup> - 1
+ * to 1.0.  Second the min/mbx rbnge of bll color components of the
+ * <code>ColorSpbce</code> must be 0.0 to 1.0.  In this cbse, the
+ * component representbtion is the n lebst
+ * significbnt bits of the corresponding sbmple.  Thus ebch component is
+ * bn unsigned integrbl vblue between 0 bnd 2<sup>n</sup> - 1, where
+ * n is the number of significbnt bits for b pbrticulbr component.
+ * If these conditions bre not met, bny method tbking bn unnormblized
+ * component brgument will throw bn <code>IllegblArgumentException</code>.
  * <p>
- * Instances of <code>ComponentColorModel</code> created with transfer types
- * <CODE>DataBuffer.TYPE_SHORT</CODE>, <CODE>DataBuffer.TYPE_FLOAT</CODE>, and
- * <CODE>DataBuffer.TYPE_DOUBLE</CODE> have pixel sample values which
- * are treated as signed short, float, or double values.
- * Such instances do not support the unnormalized color/alpha component
- * representation, so any methods taking such a representation as an argument
- * will throw an <code>IllegalArgumentException</code> when called on one
- * of these instances.  The normalized component values of instances
- * of this class have a range which depends on the transfer
- * type as follows: for float samples, the full range of the float data
- * type; for double samples, the full range of the float data type
- * (resulting from casting double to float); for short samples,
- * from approximately -maxVal to +maxVal, where maxVal is the per
- * component maximum value for the <code>ColorSpace</code>
- * (-32767 maps to -maxVal, 0 maps to 0.0, and 32767 maps
- * to +maxVal).  A subclass may override the scaling for short sample
- * values to normalized component values by overriding the
- * <code>getNormalizedComponents(Object, float[], int)</code> method.
- * For float and double samples, the normalized component values are
- * taken to be equal to the corresponding sample values, and subclasses
- * should not attempt to add any non-identity scaling for these transfer
+ * Instbnces of <code>ComponentColorModel</code> crebted with trbnsfer types
+ * <CODE>DbtbBuffer.TYPE_SHORT</CODE>, <CODE>DbtbBuffer.TYPE_FLOAT</CODE>, bnd
+ * <CODE>DbtbBuffer.TYPE_DOUBLE</CODE> hbve pixel sbmple vblues which
+ * bre trebted bs signed short, flobt, or double vblues.
+ * Such instbnces do not support the unnormblized color/blphb component
+ * representbtion, so bny methods tbking such b representbtion bs bn brgument
+ * will throw bn <code>IllegblArgumentException</code> when cblled on one
+ * of these instbnces.  The normblized component vblues of instbnces
+ * of this clbss hbve b rbnge which depends on the trbnsfer
+ * type bs follows: for flobt sbmples, the full rbnge of the flobt dbtb
+ * type; for double sbmples, the full rbnge of the flobt dbtb type
+ * (resulting from cbsting double to flobt); for short sbmples,
+ * from bpproximbtely -mbxVbl to +mbxVbl, where mbxVbl is the per
+ * component mbximum vblue for the <code>ColorSpbce</code>
+ * (-32767 mbps to -mbxVbl, 0 mbps to 0.0, bnd 32767 mbps
+ * to +mbxVbl).  A subclbss mby override the scbling for short sbmple
+ * vblues to normblized component vblues by overriding the
+ * <code>getNormblizedComponents(Object, flobt[], int)</code> method.
+ * For flobt bnd double sbmples, the normblized component vblues bre
+ * tbken to be equbl to the corresponding sbmple vblues, bnd subclbsses
+ * should not bttempt to bdd bny non-identity scbling for these trbnsfer
  * types.
  * <p>
- * Instances of <code>ComponentColorModel</code> created with transfer types
- * <CODE>DataBuffer.TYPE_SHORT</CODE>, <CODE>DataBuffer.TYPE_FLOAT</CODE>, and
- * <CODE>DataBuffer.TYPE_DOUBLE</CODE>
- * use all the bits of all sample values.  Thus all color/alpha components
- * have 16 bits when using <CODE>DataBuffer.TYPE_SHORT</CODE>, 32 bits when
- * using <CODE>DataBuffer.TYPE_FLOAT</CODE>, and 64 bits when using
- * <CODE>DataBuffer.TYPE_DOUBLE</CODE>.  When the
- * <code>ComponentColorModel(ColorSpace, int[], boolean, boolean, int, int)</code>
- * form of constructor is used with one of these transfer types, the
- * bits array argument is ignored.
+ * Instbnces of <code>ComponentColorModel</code> crebted with trbnsfer types
+ * <CODE>DbtbBuffer.TYPE_SHORT</CODE>, <CODE>DbtbBuffer.TYPE_FLOAT</CODE>, bnd
+ * <CODE>DbtbBuffer.TYPE_DOUBLE</CODE>
+ * use bll the bits of bll sbmple vblues.  Thus bll color/blphb components
+ * hbve 16 bits when using <CODE>DbtbBuffer.TYPE_SHORT</CODE>, 32 bits when
+ * using <CODE>DbtbBuffer.TYPE_FLOAT</CODE>, bnd 64 bits when using
+ * <CODE>DbtbBuffer.TYPE_DOUBLE</CODE>.  When the
+ * <code>ComponentColorModel(ColorSpbce, int[], boolebn, boolebn, int, int)</code>
+ * form of constructor is used with one of these trbnsfer types, the
+ * bits brrby brgument is ignored.
  * <p>
- * It is possible to have color/alpha sample values
- * which cannot be reasonably interpreted as component values for rendering.
- * This can happen when <code>ComponentColorModel</code> is subclassed to
- * override the mapping of unsigned sample values to normalized color
- * component values or when signed sample values outside a certain range
- * are used.  (As an example, specifying an alpha component as a signed
- * short value outside the range 0 to 32767, normalized range 0.0 to 1.0, can
- * lead to unexpected results.) It is the
- * responsibility of applications to appropriately scale pixel data before
- * rendering such that color components fall within the normalized range
- * of the <code>ColorSpace</code> (obtained using the <code>getMinValue</code>
- * and <code>getMaxValue</code> methods of the <code>ColorSpace</code> class)
- * and the alpha component is between 0.0 and 1.0.  If color or alpha
- * component values fall outside these ranges, rendering results are
- * indeterminate.
+ * It is possible to hbve color/blphb sbmple vblues
+ * which cbnnot be rebsonbbly interpreted bs component vblues for rendering.
+ * This cbn hbppen when <code>ComponentColorModel</code> is subclbssed to
+ * override the mbpping of unsigned sbmple vblues to normblized color
+ * component vblues or when signed sbmple vblues outside b certbin rbnge
+ * bre used.  (As bn exbmple, specifying bn blphb component bs b signed
+ * short vblue outside the rbnge 0 to 32767, normblized rbnge 0.0 to 1.0, cbn
+ * lebd to unexpected results.) It is the
+ * responsibility of bpplicbtions to bppropribtely scble pixel dbtb before
+ * rendering such thbt color components fbll within the normblized rbnge
+ * of the <code>ColorSpbce</code> (obtbined using the <code>getMinVblue</code>
+ * bnd <code>getMbxVblue</code> methods of the <code>ColorSpbce</code> clbss)
+ * bnd the blphb component is between 0.0 bnd 1.0.  If color or blphb
+ * component vblues fbll outside these rbnges, rendering results bre
+ * indeterminbte.
  * <p>
- * Methods that use a single int pixel representation throw
- * an <CODE>IllegalArgumentException</CODE>, unless the number of components
- * for the <CODE>ComponentColorModel</CODE> is one and the component
- * value is unsigned -- in other words,  a single color component using
- * a transfer type of <CODE>DataBuffer.TYPE_BYTE</CODE>,
- * <CODE>DataBuffer.TYPE_USHORT</CODE>, or <CODE>DataBuffer.TYPE_INT</CODE>
- * and no alpha.
+ * Methods thbt use b single int pixel representbtion throw
+ * bn <CODE>IllegblArgumentException</CODE>, unless the number of components
+ * for the <CODE>ComponentColorModel</CODE> is one bnd the component
+ * vblue is unsigned -- in other words,  b single color component using
+ * b trbnsfer type of <CODE>DbtbBuffer.TYPE_BYTE</CODE>,
+ * <CODE>DbtbBuffer.TYPE_USHORT</CODE>, or <CODE>DbtbBuffer.TYPE_INT</CODE>
+ * bnd no blphb.
  * <p>
- * A <CODE>ComponentColorModel</CODE> can be used in conjunction with a
- * <CODE>ComponentSampleModel</CODE>, a <CODE>BandedSampleModel</CODE>,
- * or a <CODE>PixelInterleavedSampleModel</CODE> to construct a
- * <CODE>BufferedImage</CODE>.
+ * A <CODE>ComponentColorModel</CODE> cbn be used in conjunction with b
+ * <CODE>ComponentSbmpleModel</CODE>, b <CODE>BbndedSbmpleModel</CODE>,
+ * or b <CODE>PixelInterlebvedSbmpleModel</CODE> to construct b
+ * <CODE>BufferedImbge</CODE>.
  *
  * @see ColorModel
- * @see ColorSpace
- * @see ComponentSampleModel
- * @see BandedSampleModel
- * @see PixelInterleavedSampleModel
- * @see BufferedImage
+ * @see ColorSpbce
+ * @see ComponentSbmpleModel
+ * @see BbndedSbmpleModel
+ * @see PixelInterlebvedSbmpleModel
+ * @see BufferedImbge
  *
  */
-public class ComponentColorModel extends ColorModel {
+public clbss ComponentColorModel extends ColorModel {
 
     /**
      * <code>signed</code>  is <code>true</code> for <code>short</code>,
-     * <code>float</code>, and <code>double</code> transfer types; it
-     * is <code>false</code> for <code>byte</code>, <code>ushort</code>,
-     * and <code>int</code> transfer types.
+     * <code>flobt</code>, bnd <code>double</code> trbnsfer types; it
+     * is <code>fblse</code> for <code>byte</code>, <code>ushort</code>,
+     * bnd <code>int</code> trbnsfer types.
      */
-    private boolean signed; // true for transfer types short, float, double
-                            // false for byte, ushort, int
-    private boolean is_sRGB_stdScale;
-    private boolean is_LinearRGB_stdScale;
-    private boolean is_LinearGray_stdScale;
-    private boolean is_ICCGray_stdScale;
-    private byte[] tosRGB8LUT;
-    private byte[] fromsRGB8LUT8;
-    private short[] fromsRGB8LUT16;
-    private byte[] fromLinearGray16ToOtherGray8LUT;
-    private short[] fromLinearGray16ToOtherGray16LUT;
-    private boolean needScaleInit;
-    private boolean noUnnorm;
-    private boolean nonStdScale;
-    private float[] min;
-    private float[] diffMinMax;
-    private float[] compOffset;
-    private float[] compScale;
+    privbte boolebn signed; // true for trbnsfer types short, flobt, double
+                            // fblse for byte, ushort, int
+    privbte boolebn is_sRGB_stdScble;
+    privbte boolebn is_LinebrRGB_stdScble;
+    privbte boolebn is_LinebrGrby_stdScble;
+    privbte boolebn is_ICCGrby_stdScble;
+    privbte byte[] tosRGB8LUT;
+    privbte byte[] fromsRGB8LUT8;
+    privbte short[] fromsRGB8LUT16;
+    privbte byte[] fromLinebrGrby16ToOtherGrby8LUT;
+    privbte short[] fromLinebrGrby16ToOtherGrby16LUT;
+    privbte boolebn needScbleInit;
+    privbte boolebn noUnnorm;
+    privbte boolebn nonStdScble;
+    privbte flobt[] min;
+    privbte flobt[] diffMinMbx;
+    privbte flobt[] compOffset;
+    privbte flobt[] compScble;
 
     /**
-     * Constructs a <CODE>ComponentColorModel</CODE> from the specified
-     * parameters. Color components will be in the specified
-     * <CODE>ColorSpace</CODE>.  The supported transfer types are
-     * <CODE>DataBuffer.TYPE_BYTE</CODE>, <CODE>DataBuffer.TYPE_USHORT</CODE>,
-     * <CODE>DataBuffer.TYPE_INT</CODE>,
-     * <CODE>DataBuffer.TYPE_SHORT</CODE>, <CODE>DataBuffer.TYPE_FLOAT</CODE>,
-     * and <CODE>DataBuffer.TYPE_DOUBLE</CODE>.
-     * If not null, the <CODE>bits</CODE> array specifies the
-     * number of significant bits per color and alpha component and its
-     * length should be at least the number of components in the
-     * <CODE>ColorSpace</CODE> if there is no alpha
-     * information in the pixel values, or one more than this number if
-     * there is alpha information.  When the <CODE>transferType</CODE> is
-     * <CODE>DataBuffer.TYPE_SHORT</CODE>, <CODE>DataBuffer.TYPE_FLOAT</CODE>,
-     * or <CODE>DataBuffer.TYPE_DOUBLE</CODE> the <CODE>bits</CODE> array
-     * argument is ignored.  <CODE>hasAlpha</CODE> indicates whether alpha
-     * information is present.  If <CODE>hasAlpha</CODE> is true, then
-     * the boolean <CODE>isAlphaPremultiplied</CODE>
-     * specifies how to interpret color and alpha samples in pixel values.
-     * If the boolean is true, color samples are assumed to have been
-     * multiplied by the alpha sample. The <CODE>transparency</CODE>
-     * specifies what alpha values can be represented by this color model.
-     * The acceptable <code>transparency</code> values are
+     * Constructs b <CODE>ComponentColorModel</CODE> from the specified
+     * pbrbmeters. Color components will be in the specified
+     * <CODE>ColorSpbce</CODE>.  The supported trbnsfer types bre
+     * <CODE>DbtbBuffer.TYPE_BYTE</CODE>, <CODE>DbtbBuffer.TYPE_USHORT</CODE>,
+     * <CODE>DbtbBuffer.TYPE_INT</CODE>,
+     * <CODE>DbtbBuffer.TYPE_SHORT</CODE>, <CODE>DbtbBuffer.TYPE_FLOAT</CODE>,
+     * bnd <CODE>DbtbBuffer.TYPE_DOUBLE</CODE>.
+     * If not null, the <CODE>bits</CODE> brrby specifies the
+     * number of significbnt bits per color bnd blphb component bnd its
+     * length should be bt lebst the number of components in the
+     * <CODE>ColorSpbce</CODE> if there is no blphb
+     * informbtion in the pixel vblues, or one more thbn this number if
+     * there is blphb informbtion.  When the <CODE>trbnsferType</CODE> is
+     * <CODE>DbtbBuffer.TYPE_SHORT</CODE>, <CODE>DbtbBuffer.TYPE_FLOAT</CODE>,
+     * or <CODE>DbtbBuffer.TYPE_DOUBLE</CODE> the <CODE>bits</CODE> brrby
+     * brgument is ignored.  <CODE>hbsAlphb</CODE> indicbtes whether blphb
+     * informbtion is present.  If <CODE>hbsAlphb</CODE> is true, then
+     * the boolebn <CODE>isAlphbPremultiplied</CODE>
+     * specifies how to interpret color bnd blphb sbmples in pixel vblues.
+     * If the boolebn is true, color sbmples bre bssumed to hbve been
+     * multiplied by the blphb sbmple. The <CODE>trbnspbrency</CODE>
+     * specifies whbt blphb vblues cbn be represented by this color model.
+     * The bcceptbble <code>trbnspbrency</code> vblues bre
      * <CODE>OPAQUE</CODE>, <CODE>BITMASK</CODE> or <CODE>TRANSLUCENT</CODE>.
-     * The <CODE>transferType</CODE> is the type of primitive array used
-     * to represent pixel values.
+     * The <CODE>trbnsferType</CODE> is the type of primitive brrby used
+     * to represent pixel vblues.
      *
-     * @param colorSpace       The <CODE>ColorSpace</CODE> associated
+     * @pbrbm colorSpbce       The <CODE>ColorSpbce</CODE> bssocibted
      *                         with this color model.
-     * @param bits             The number of significant bits per component.
-     *                         May be null, in which case all bits of all
-     *                         component samples will be significant.
-     *                         Ignored if transferType is one of
-     *                         <CODE>DataBuffer.TYPE_SHORT</CODE>,
-     *                         <CODE>DataBuffer.TYPE_FLOAT</CODE>, or
-     *                         <CODE>DataBuffer.TYPE_DOUBLE</CODE>,
-     *                         in which case all bits of all component
-     *                         samples will be significant.
-     * @param hasAlpha         If true, this color model supports alpha.
-     * @param isAlphaPremultiplied If true, alpha is premultiplied.
-     * @param transparency     Specifies what alpha values can be represented
+     * @pbrbm bits             The number of significbnt bits per component.
+     *                         Mby be null, in which cbse bll bits of bll
+     *                         component sbmples will be significbnt.
+     *                         Ignored if trbnsferType is one of
+     *                         <CODE>DbtbBuffer.TYPE_SHORT</CODE>,
+     *                         <CODE>DbtbBuffer.TYPE_FLOAT</CODE>, or
+     *                         <CODE>DbtbBuffer.TYPE_DOUBLE</CODE>,
+     *                         in which cbse bll bits of bll component
+     *                         sbmples will be significbnt.
+     * @pbrbm hbsAlphb         If true, this color model supports blphb.
+     * @pbrbm isAlphbPremultiplied If true, blphb is premultiplied.
+     * @pbrbm trbnspbrency     Specifies whbt blphb vblues cbn be represented
      *                         by this color model.
-     * @param transferType     Specifies the type of primitive array used to
-     *                         represent pixel values.
+     * @pbrbm trbnsferType     Specifies the type of primitive brrby used to
+     *                         represent pixel vblues.
      *
-     * @throws IllegalArgumentException If the <CODE>bits</CODE> array
-     *         argument is not null, its length is less than the number of
-     *         color and alpha components, and transferType is one of
-     *         <CODE>DataBuffer.TYPE_BYTE</CODE>,
-     *         <CODE>DataBuffer.TYPE_USHORT</CODE>, or
-     *         <CODE>DataBuffer.TYPE_INT</CODE>.
-     * @throws IllegalArgumentException If transferType is not one of
-     *         <CODE>DataBuffer.TYPE_BYTE</CODE>,
-     *         <CODE>DataBuffer.TYPE_USHORT</CODE>,
-     *         <CODE>DataBuffer.TYPE_INT</CODE>,
-     *         <CODE>DataBuffer.TYPE_SHORT</CODE>,
-     *         <CODE>DataBuffer.TYPE_FLOAT</CODE>, or
-     *         <CODE>DataBuffer.TYPE_DOUBLE</CODE>.
+     * @throws IllegblArgumentException If the <CODE>bits</CODE> brrby
+     *         brgument is not null, its length is less thbn the number of
+     *         color bnd blphb components, bnd trbnsferType is one of
+     *         <CODE>DbtbBuffer.TYPE_BYTE</CODE>,
+     *         <CODE>DbtbBuffer.TYPE_USHORT</CODE>, or
+     *         <CODE>DbtbBuffer.TYPE_INT</CODE>.
+     * @throws IllegblArgumentException If trbnsferType is not one of
+     *         <CODE>DbtbBuffer.TYPE_BYTE</CODE>,
+     *         <CODE>DbtbBuffer.TYPE_USHORT</CODE>,
+     *         <CODE>DbtbBuffer.TYPE_INT</CODE>,
+     *         <CODE>DbtbBuffer.TYPE_SHORT</CODE>,
+     *         <CODE>DbtbBuffer.TYPE_FLOAT</CODE>, or
+     *         <CODE>DbtbBuffer.TYPE_DOUBLE</CODE>.
      *
-     * @see ColorSpace
-     * @see java.awt.Transparency
+     * @see ColorSpbce
+     * @see jbvb.bwt.Trbnspbrency
      */
-    public ComponentColorModel (ColorSpace colorSpace,
+    public ComponentColorModel (ColorSpbce colorSpbce,
                                 int[] bits,
-                                boolean hasAlpha,
-                                boolean isAlphaPremultiplied,
-                                int transparency,
-                                int transferType) {
-        super (bitsHelper(transferType, colorSpace, hasAlpha),
-               bitsArrayHelper(bits, transferType, colorSpace, hasAlpha),
-               colorSpace, hasAlpha, isAlphaPremultiplied, transparency,
-               transferType);
-        switch(transferType) {
-            case DataBuffer.TYPE_BYTE:
-            case DataBuffer.TYPE_USHORT:
-            case DataBuffer.TYPE_INT:
-                signed = false;
-                needScaleInit = true;
-                break;
-            case DataBuffer.TYPE_SHORT:
+                                boolebn hbsAlphb,
+                                boolebn isAlphbPremultiplied,
+                                int trbnspbrency,
+                                int trbnsferType) {
+        super (bitsHelper(trbnsferType, colorSpbce, hbsAlphb),
+               bitsArrbyHelper(bits, trbnsferType, colorSpbce, hbsAlphb),
+               colorSpbce, hbsAlphb, isAlphbPremultiplied, trbnspbrency,
+               trbnsferType);
+        switch(trbnsferType) {
+            cbse DbtbBuffer.TYPE_BYTE:
+            cbse DbtbBuffer.TYPE_USHORT:
+            cbse DbtbBuffer.TYPE_INT:
+                signed = fblse;
+                needScbleInit = true;
+                brebk;
+            cbse DbtbBuffer.TYPE_SHORT:
                 signed = true;
-                needScaleInit = true;
-                break;
-            case DataBuffer.TYPE_FLOAT:
-            case DataBuffer.TYPE_DOUBLE:
+                needScbleInit = true;
+                brebk;
+            cbse DbtbBuffer.TYPE_FLOAT:
+            cbse DbtbBuffer.TYPE_DOUBLE:
                 signed = true;
-                needScaleInit = false;
+                needScbleInit = fblse;
                 noUnnorm = true;
-                nonStdScale = false;
-                break;
-            default:
-                throw new IllegalArgumentException("This constructor is not "+
-                         "compatible with transferType " + transferType);
+                nonStdScble = fblse;
+                brebk;
+            defbult:
+                throw new IllegblArgumentException("This constructor is not "+
+                         "compbtible with trbnsferType " + trbnsferType);
         }
         setupLUTs();
     }
 
     /**
-     * Constructs a <CODE>ComponentColorModel</CODE> from the specified
-     * parameters. Color components will be in the specified
-     * <CODE>ColorSpace</CODE>.  The supported transfer types are
-     * <CODE>DataBuffer.TYPE_BYTE</CODE>, <CODE>DataBuffer.TYPE_USHORT</CODE>,
-     * <CODE>DataBuffer.TYPE_INT</CODE>,
-     * <CODE>DataBuffer.TYPE_SHORT</CODE>, <CODE>DataBuffer.TYPE_FLOAT</CODE>,
-     * and <CODE>DataBuffer.TYPE_DOUBLE</CODE>.  The number of significant
-     * bits per color and alpha component will be 8, 16, 32, 16, 32,  or 64,
+     * Constructs b <CODE>ComponentColorModel</CODE> from the specified
+     * pbrbmeters. Color components will be in the specified
+     * <CODE>ColorSpbce</CODE>.  The supported trbnsfer types bre
+     * <CODE>DbtbBuffer.TYPE_BYTE</CODE>, <CODE>DbtbBuffer.TYPE_USHORT</CODE>,
+     * <CODE>DbtbBuffer.TYPE_INT</CODE>,
+     * <CODE>DbtbBuffer.TYPE_SHORT</CODE>, <CODE>DbtbBuffer.TYPE_FLOAT</CODE>,
+     * bnd <CODE>DbtbBuffer.TYPE_DOUBLE</CODE>.  The number of significbnt
+     * bits per color bnd blphb component will be 8, 16, 32, 16, 32,  or 64,
      * respectively.  The number of color components will be the
-     * number of components in the <CODE>ColorSpace</CODE>.  There will be
-     * an alpha component if <CODE>hasAlpha</CODE> is <CODE>true</CODE>.
-     * If <CODE>hasAlpha</CODE> is true, then
-     * the boolean <CODE>isAlphaPremultiplied</CODE>
-     * specifies how to interpret color and alpha samples in pixel values.
-     * If the boolean is true, color samples are assumed to have been
-     * multiplied by the alpha sample. The <CODE>transparency</CODE>
-     * specifies what alpha values can be represented by this color model.
-     * The acceptable <code>transparency</code> values are
+     * number of components in the <CODE>ColorSpbce</CODE>.  There will be
+     * bn blphb component if <CODE>hbsAlphb</CODE> is <CODE>true</CODE>.
+     * If <CODE>hbsAlphb</CODE> is true, then
+     * the boolebn <CODE>isAlphbPremultiplied</CODE>
+     * specifies how to interpret color bnd blphb sbmples in pixel vblues.
+     * If the boolebn is true, color sbmples bre bssumed to hbve been
+     * multiplied by the blphb sbmple. The <CODE>trbnspbrency</CODE>
+     * specifies whbt blphb vblues cbn be represented by this color model.
+     * The bcceptbble <code>trbnspbrency</code> vblues bre
      * <CODE>OPAQUE</CODE>, <CODE>BITMASK</CODE> or <CODE>TRANSLUCENT</CODE>.
-     * The <CODE>transferType</CODE> is the type of primitive array used
-     * to represent pixel values.
+     * The <CODE>trbnsferType</CODE> is the type of primitive brrby used
+     * to represent pixel vblues.
      *
-     * @param colorSpace       The <CODE>ColorSpace</CODE> associated
+     * @pbrbm colorSpbce       The <CODE>ColorSpbce</CODE> bssocibted
      *                         with this color model.
-     * @param hasAlpha         If true, this color model supports alpha.
-     * @param isAlphaPremultiplied If true, alpha is premultiplied.
-     * @param transparency     Specifies what alpha values can be represented
+     * @pbrbm hbsAlphb         If true, this color model supports blphb.
+     * @pbrbm isAlphbPremultiplied If true, blphb is premultiplied.
+     * @pbrbm trbnspbrency     Specifies whbt blphb vblues cbn be represented
      *                         by this color model.
-     * @param transferType     Specifies the type of primitive array used to
-     *                         represent pixel values.
+     * @pbrbm trbnsferType     Specifies the type of primitive brrby used to
+     *                         represent pixel vblues.
      *
-     * @throws IllegalArgumentException If transferType is not one of
-     *         <CODE>DataBuffer.TYPE_BYTE</CODE>,
-     *         <CODE>DataBuffer.TYPE_USHORT</CODE>,
-     *         <CODE>DataBuffer.TYPE_INT</CODE>,
-     *         <CODE>DataBuffer.TYPE_SHORT</CODE>,
-     *         <CODE>DataBuffer.TYPE_FLOAT</CODE>, or
-     *         <CODE>DataBuffer.TYPE_DOUBLE</CODE>.
+     * @throws IllegblArgumentException If trbnsferType is not one of
+     *         <CODE>DbtbBuffer.TYPE_BYTE</CODE>,
+     *         <CODE>DbtbBuffer.TYPE_USHORT</CODE>,
+     *         <CODE>DbtbBuffer.TYPE_INT</CODE>,
+     *         <CODE>DbtbBuffer.TYPE_SHORT</CODE>,
+     *         <CODE>DbtbBuffer.TYPE_FLOAT</CODE>, or
+     *         <CODE>DbtbBuffer.TYPE_DOUBLE</CODE>.
      *
-     * @see ColorSpace
-     * @see java.awt.Transparency
+     * @see ColorSpbce
+     * @see jbvb.bwt.Trbnspbrency
      * @since 1.4
      */
-    public ComponentColorModel (ColorSpace colorSpace,
-                                boolean hasAlpha,
-                                boolean isAlphaPremultiplied,
-                                int transparency,
-                                int transferType) {
-        this(colorSpace, null, hasAlpha, isAlphaPremultiplied,
-             transparency, transferType);
+    public ComponentColorModel (ColorSpbce colorSpbce,
+                                boolebn hbsAlphb,
+                                boolebn isAlphbPremultiplied,
+                                int trbnspbrency,
+                                int trbnsferType) {
+        this(colorSpbce, null, hbsAlphb, isAlphbPremultiplied,
+             trbnspbrency, trbnsferType);
     }
 
-    private static int bitsHelper(int transferType,
-                                  ColorSpace colorSpace,
-                                  boolean hasAlpha) {
-        int numBits = DataBuffer.getDataTypeSize(transferType);
-        int numComponents = colorSpace.getNumComponents();
-        if (hasAlpha) {
+    privbte stbtic int bitsHelper(int trbnsferType,
+                                  ColorSpbce colorSpbce,
+                                  boolebn hbsAlphb) {
+        int numBits = DbtbBuffer.getDbtbTypeSize(trbnsferType);
+        int numComponents = colorSpbce.getNumComponents();
+        if (hbsAlphb) {
             ++numComponents;
         }
         return numBits * numComponents;
     }
 
-    private static int[] bitsArrayHelper(int[] origBits,
-                                         int transferType,
-                                         ColorSpace colorSpace,
-                                         boolean hasAlpha) {
-        switch(transferType) {
-            case DataBuffer.TYPE_BYTE:
-            case DataBuffer.TYPE_USHORT:
-            case DataBuffer.TYPE_INT:
+    privbte stbtic int[] bitsArrbyHelper(int[] origBits,
+                                         int trbnsferType,
+                                         ColorSpbce colorSpbce,
+                                         boolebn hbsAlphb) {
+        switch(trbnsferType) {
+            cbse DbtbBuffer.TYPE_BYTE:
+            cbse DbtbBuffer.TYPE_USHORT:
+            cbse DbtbBuffer.TYPE_INT:
                 if (origBits != null) {
                     return origBits;
                 }
-                break;
-            default:
-                break;
+                brebk;
+            defbult:
+                brebk;
         }
-        int numBits = DataBuffer.getDataTypeSize(transferType);
-        int numComponents = colorSpace.getNumComponents();
-        if (hasAlpha) {
+        int numBits = DbtbBuffer.getDbtbTypeSize(trbnsferType);
+        int numComponents = colorSpbce.getNumComponents();
+        if (hbsAlphb) {
             ++numComponents;
         }
         int[] bits = new int[numComponents];
@@ -390,280 +390,280 @@ public class ComponentColorModel extends ColorModel {
         return bits;
     }
 
-    private void setupLUTs() {
-        // REMIND: there is potential to accelerate sRGB, LinearRGB,
-        // LinearGray, ICCGray, and non-ICC Gray spaces with non-standard
-        // scaling, if that becomes important
+    privbte void setupLUTs() {
+        // REMIND: there is potentibl to bccelerbte sRGB, LinebrRGB,
+        // LinebrGrby, ICCGrby, bnd non-ICC Grby spbces with non-stbndbrd
+        // scbling, if thbt becomes importbnt
         //
-        // NOTE: The is_xxx_stdScale and nonStdScale booleans are provisionally
-        // set here when this method is called at construction time.  These
-        // variables may be set again when initScale is called later.
-        // When setupLUTs returns, nonStdScale is true if (the transferType
-        // is not float or double) AND (some minimum ColorSpace component
-        // value is not 0.0 OR some maximum ColorSpace component value
-        // is not 1.0).  This is correct for the calls to
-        // getNormalizedComponents(Object, float[], int) from initScale().
-        // initScale() may change the value nonStdScale based on the
-        // return value of getNormalizedComponents() - this will only
-        // happen if getNormalizedComponents() has been overridden by a
-        // subclass to make the mapping of min/max pixel sample values
-        // something different from min/max color component values.
+        // NOTE: The is_xxx_stdScble bnd nonStdScble boolebns bre provisionblly
+        // set here when this method is cblled bt construction time.  These
+        // vbribbles mby be set bgbin when initScble is cblled lbter.
+        // When setupLUTs returns, nonStdScble is true if (the trbnsferType
+        // is not flobt or double) AND (some minimum ColorSpbce component
+        // vblue is not 0.0 OR some mbximum ColorSpbce component vblue
+        // is not 1.0).  This is correct for the cblls to
+        // getNormblizedComponents(Object, flobt[], int) from initScble().
+        // initScble() mby chbnge the vblue nonStdScble bbsed on the
+        // return vblue of getNormblizedComponents() - this will only
+        // hbppen if getNormblizedComponents() hbs been overridden by b
+        // subclbss to mbke the mbpping of min/mbx pixel sbmple vblues
+        // something different from min/mbx color component vblues.
         if (is_sRGB) {
-            is_sRGB_stdScale = true;
-            nonStdScale = false;
-        } else if (ColorModel.isLinearRGBspace(colorSpace)) {
-            // Note that the built-in Linear RGB space has a normalized
-            // range of 0.0 - 1.0 for each coordinate.  Usage of these
-            // LUTs makes that assumption.
-            is_LinearRGB_stdScale = true;
-            nonStdScale = false;
-            if (transferType == DataBuffer.TYPE_BYTE) {
-                tosRGB8LUT = ColorModel.getLinearRGB8TosRGB8LUT();
-                fromsRGB8LUT8 = ColorModel.getsRGB8ToLinearRGB8LUT();
+            is_sRGB_stdScble = true;
+            nonStdScble = fblse;
+        } else if (ColorModel.isLinebrRGBspbce(colorSpbce)) {
+            // Note thbt the built-in Linebr RGB spbce hbs b normblized
+            // rbnge of 0.0 - 1.0 for ebch coordinbte.  Usbge of these
+            // LUTs mbkes thbt bssumption.
+            is_LinebrRGB_stdScble = true;
+            nonStdScble = fblse;
+            if (trbnsferType == DbtbBuffer.TYPE_BYTE) {
+                tosRGB8LUT = ColorModel.getLinebrRGB8TosRGB8LUT();
+                fromsRGB8LUT8 = ColorModel.getsRGB8ToLinebrRGB8LUT();
             } else {
-                tosRGB8LUT = ColorModel.getLinearRGB16TosRGB8LUT();
-                fromsRGB8LUT16 = ColorModel.getsRGB8ToLinearRGB16LUT();
+                tosRGB8LUT = ColorModel.getLinebrRGB16TosRGB8LUT();
+                fromsRGB8LUT16 = ColorModel.getsRGB8ToLinebrRGB16LUT();
             }
-        } else if ((colorSpaceType == ColorSpace.TYPE_GRAY) &&
-                   (colorSpace instanceof ICC_ColorSpace) &&
-                   (colorSpace.getMinValue(0) == 0.0f) &&
-                   (colorSpace.getMaxValue(0) == 1.0f)) {
-            // Note that a normalized range of 0.0 - 1.0 for the gray
-            // component is required, because usage of these LUTs makes
-            // that assumption.
-            ICC_ColorSpace ics = (ICC_ColorSpace) colorSpace;
-            is_ICCGray_stdScale = true;
-            nonStdScale = false;
-            fromsRGB8LUT16 = ColorModel.getsRGB8ToLinearRGB16LUT();
-            if (ColorModel.isLinearGRAYspace(ics)) {
-                is_LinearGray_stdScale = true;
-                if (transferType == DataBuffer.TYPE_BYTE) {
-                    tosRGB8LUT = ColorModel.getGray8TosRGB8LUT(ics);
+        } else if ((colorSpbceType == ColorSpbce.TYPE_GRAY) &&
+                   (colorSpbce instbnceof ICC_ColorSpbce) &&
+                   (colorSpbce.getMinVblue(0) == 0.0f) &&
+                   (colorSpbce.getMbxVblue(0) == 1.0f)) {
+            // Note thbt b normblized rbnge of 0.0 - 1.0 for the grby
+            // component is required, becbuse usbge of these LUTs mbkes
+            // thbt bssumption.
+            ICC_ColorSpbce ics = (ICC_ColorSpbce) colorSpbce;
+            is_ICCGrby_stdScble = true;
+            nonStdScble = fblse;
+            fromsRGB8LUT16 = ColorModel.getsRGB8ToLinebrRGB16LUT();
+            if (ColorModel.isLinebrGRAYspbce(ics)) {
+                is_LinebrGrby_stdScble = true;
+                if (trbnsferType == DbtbBuffer.TYPE_BYTE) {
+                    tosRGB8LUT = ColorModel.getGrby8TosRGB8LUT(ics);
                 } else {
-                    tosRGB8LUT = ColorModel.getGray16TosRGB8LUT(ics);
+                    tosRGB8LUT = ColorModel.getGrby16TosRGB8LUT(ics);
                 }
             } else {
-                if (transferType == DataBuffer.TYPE_BYTE) {
-                    tosRGB8LUT = ColorModel.getGray8TosRGB8LUT(ics);
-                    fromLinearGray16ToOtherGray8LUT =
-                        ColorModel.getLinearGray16ToOtherGray8LUT(ics);
+                if (trbnsferType == DbtbBuffer.TYPE_BYTE) {
+                    tosRGB8LUT = ColorModel.getGrby8TosRGB8LUT(ics);
+                    fromLinebrGrby16ToOtherGrby8LUT =
+                        ColorModel.getLinebrGrby16ToOtherGrby8LUT(ics);
                 } else {
-                    tosRGB8LUT = ColorModel.getGray16TosRGB8LUT(ics);
-                    fromLinearGray16ToOtherGray16LUT =
-                        ColorModel.getLinearGray16ToOtherGray16LUT(ics);
+                    tosRGB8LUT = ColorModel.getGrby16TosRGB8LUT(ics);
+                    fromLinebrGrby16ToOtherGrby16LUT =
+                        ColorModel.getLinebrGrby16ToOtherGrby16LUT(ics);
                 }
             }
-        } else if (needScaleInit) {
-            // if transferType is byte, ushort, int, or short and we
-            // don't already know the ColorSpace has minVlaue == 0.0f and
-            // maxValue == 1.0f for all components, we need to check that
-            // now and setup the min[] and diffMinMax[] arrays if necessary.
-            nonStdScale = false;
+        } else if (needScbleInit) {
+            // if trbnsferType is byte, ushort, int, or short bnd we
+            // don't blrebdy know the ColorSpbce hbs minVlbue == 0.0f bnd
+            // mbxVblue == 1.0f for bll components, we need to check thbt
+            // now bnd setup the min[] bnd diffMinMbx[] brrbys if necessbry.
+            nonStdScble = fblse;
             for (int i = 0; i < numColorComponents; i++) {
-                if ((colorSpace.getMinValue(i) != 0.0f) ||
-                    (colorSpace.getMaxValue(i) != 1.0f)) {
-                    nonStdScale = true;
-                    break;
+                if ((colorSpbce.getMinVblue(i) != 0.0f) ||
+                    (colorSpbce.getMbxVblue(i) != 1.0f)) {
+                    nonStdScble = true;
+                    brebk;
                 }
             }
-            if (nonStdScale) {
-                min = new float[numColorComponents];
-                diffMinMax = new float[numColorComponents];
+            if (nonStdScble) {
+                min = new flobt[numColorComponents];
+                diffMinMbx = new flobt[numColorComponents];
                 for (int i = 0; i < numColorComponents; i++) {
-                    min[i] = colorSpace.getMinValue(i);
-                    diffMinMax[i] = colorSpace.getMaxValue(i) - min[i];
+                    min[i] = colorSpbce.getMinVblue(i);
+                    diffMinMbx[i] = colorSpbce.getMbxVblue(i) - min[i];
                 }
             }
         }
     }
 
-    private void initScale() {
-        // This method is called the first time any method which uses
-        // pixel sample value to color component value scaling information
-        // is called if the transferType supports non-standard scaling
-        // as defined above (byte, ushort, int, and short), unless the
-        // method is getNormalizedComponents(Object, float[], int) (that
-        // method must be overridden to use non-standard scaling).  This
-        // method also sets up the noUnnorm boolean variable for these
-        // transferTypes.  After this method is called, the nonStdScale
-        // variable will be true if getNormalizedComponents() maps a
-        // sample value of 0 to anything other than 0.0f OR maps a
-        // sample value of 2^^n - 1 (2^^15 - 1 for short transferType)
-        // to anything other than 1.0f.  Note that this can be independent
-        // of the colorSpace min/max component values, if the
-        // getNormalizedComponents() method has been overridden for some
-        // reason, e.g. to provide greater dynamic range in the sample
-        // values than in the color component values.  Unfortunately,
-        // this method can't be called at construction time, since a
-        // subclass may still have uninitialized state that would cause
-        // getNormalizedComponents() to return an incorrect result.
-        needScaleInit = false; // only needs to called once
-        if (nonStdScale || signed) {
-            // The unnormalized form is only supported for unsigned
-            // transferTypes and when the ColorSpace min/max values
-            // are 0.0/1.0.  When this method is called nonStdScale is
-            // true if the latter condition does not hold.  In addition,
-            // the unnormalized form requires that the full range of
-            // the pixel sample values map to the full 0.0 - 1.0 range
-            // of color component values.  That condition is checked
-            // later in this method.
+    privbte void initScble() {
+        // This method is cblled the first time bny method which uses
+        // pixel sbmple vblue to color component vblue scbling informbtion
+        // is cblled if the trbnsferType supports non-stbndbrd scbling
+        // bs defined bbove (byte, ushort, int, bnd short), unless the
+        // method is getNormblizedComponents(Object, flobt[], int) (thbt
+        // method must be overridden to use non-stbndbrd scbling).  This
+        // method blso sets up the noUnnorm boolebn vbribble for these
+        // trbnsferTypes.  After this method is cblled, the nonStdScble
+        // vbribble will be true if getNormblizedComponents() mbps b
+        // sbmple vblue of 0 to bnything other thbn 0.0f OR mbps b
+        // sbmple vblue of 2^^n - 1 (2^^15 - 1 for short trbnsferType)
+        // to bnything other thbn 1.0f.  Note thbt this cbn be independent
+        // of the colorSpbce min/mbx component vblues, if the
+        // getNormblizedComponents() method hbs been overridden for some
+        // rebson, e.g. to provide grebter dynbmic rbnge in the sbmple
+        // vblues thbn in the color component vblues.  Unfortunbtely,
+        // this method cbn't be cblled bt construction time, since b
+        // subclbss mby still hbve uninitiblized stbte thbt would cbuse
+        // getNormblizedComponents() to return bn incorrect result.
+        needScbleInit = fblse; // only needs to cblled once
+        if (nonStdScble || signed) {
+            // The unnormblized form is only supported for unsigned
+            // trbnsferTypes bnd when the ColorSpbce min/mbx vblues
+            // bre 0.0/1.0.  When this method is cblled nonStdScble is
+            // true if the lbtter condition does not hold.  In bddition,
+            // the unnormblized form requires thbt the full rbnge of
+            // the pixel sbmple vblues mbp to the full 0.0 - 1.0 rbnge
+            // of color component vblues.  Thbt condition is checked
+            // lbter in this method.
             noUnnorm = true;
         } else {
-            noUnnorm = false;
+            noUnnorm = fblse;
         }
-        float[] lowVal, highVal;
-        switch (transferType) {
-        case DataBuffer.TYPE_BYTE:
+        flobt[] lowVbl, highVbl;
+        switch (trbnsferType) {
+        cbse DbtbBuffer.TYPE_BYTE:
             {
                 byte[] bpixel = new byte[numComponents];
                 for (int i = 0; i < numColorComponents; i++) {
                     bpixel[i] = 0;
                 }
-                if (supportsAlpha) {
+                if (supportsAlphb) {
                     bpixel[numColorComponents] =
                         (byte) ((1 << nBits[numColorComponents]) - 1);
                 }
-                lowVal = getNormalizedComponents(bpixel, null, 0);
+                lowVbl = getNormblizedComponents(bpixel, null, 0);
                 for (int i = 0; i < numColorComponents; i++) {
                     bpixel[i] = (byte) ((1 << nBits[i]) - 1);
                 }
-                highVal = getNormalizedComponents(bpixel, null, 0);
+                highVbl = getNormblizedComponents(bpixel, null, 0);
             }
-            break;
-        case DataBuffer.TYPE_USHORT:
+            brebk;
+        cbse DbtbBuffer.TYPE_USHORT:
             {
                 short[] uspixel = new short[numComponents];
                 for (int i = 0; i < numColorComponents; i++) {
                     uspixel[i] = 0;
                 }
-                if (supportsAlpha) {
+                if (supportsAlphb) {
                     uspixel[numColorComponents] =
                         (short) ((1 << nBits[numColorComponents]) - 1);
                 }
-                lowVal = getNormalizedComponents(uspixel, null, 0);
+                lowVbl = getNormblizedComponents(uspixel, null, 0);
                 for (int i = 0; i < numColorComponents; i++) {
                     uspixel[i] = (short) ((1 << nBits[i]) - 1);
                 }
-                highVal = getNormalizedComponents(uspixel, null, 0);
+                highVbl = getNormblizedComponents(uspixel, null, 0);
             }
-            break;
-        case DataBuffer.TYPE_INT:
+            brebk;
+        cbse DbtbBuffer.TYPE_INT:
             {
                 int[] ipixel = new int[numComponents];
                 for (int i = 0; i < numColorComponents; i++) {
                     ipixel[i] = 0;
                 }
-                if (supportsAlpha) {
+                if (supportsAlphb) {
                     ipixel[numColorComponents] =
                         ((1 << nBits[numColorComponents]) - 1);
                 }
-                lowVal = getNormalizedComponents(ipixel, null, 0);
+                lowVbl = getNormblizedComponents(ipixel, null, 0);
                 for (int i = 0; i < numColorComponents; i++) {
                     ipixel[i] = ((1 << nBits[i]) - 1);
                 }
-                highVal = getNormalizedComponents(ipixel, null, 0);
+                highVbl = getNormblizedComponents(ipixel, null, 0);
             }
-            break;
-        case DataBuffer.TYPE_SHORT:
+            brebk;
+        cbse DbtbBuffer.TYPE_SHORT:
             {
                 short[] spixel = new short[numComponents];
                 for (int i = 0; i < numColorComponents; i++) {
                     spixel[i] = 0;
                 }
-                if (supportsAlpha) {
+                if (supportsAlphb) {
                     spixel[numColorComponents] = 32767;
                 }
-                lowVal = getNormalizedComponents(spixel, null, 0);
+                lowVbl = getNormblizedComponents(spixel, null, 0);
                 for (int i = 0; i < numColorComponents; i++) {
                     spixel[i] = 32767;
                 }
-                highVal = getNormalizedComponents(spixel, null, 0);
+                highVbl = getNormblizedComponents(spixel, null, 0);
             }
-            break;
-        default:
-            lowVal = highVal = null;  // to keep the compiler from complaining
-            break;
+            brebk;
+        defbult:
+            lowVbl = highVbl = null;  // to keep the compiler from complbining
+            brebk;
         }
-        nonStdScale = false;
+        nonStdScble = fblse;
         for (int i = 0; i < numColorComponents; i++) {
-            if ((lowVal[i] != 0.0f) || (highVal[i] != 1.0f)) {
-                nonStdScale = true;
-                break;
+            if ((lowVbl[i] != 0.0f) || (highVbl[i] != 1.0f)) {
+                nonStdScble = true;
+                brebk;
             }
         }
-        if (nonStdScale) {
+        if (nonStdScble) {
             noUnnorm = true;
-            is_sRGB_stdScale = false;
-            is_LinearRGB_stdScale = false;
-            is_LinearGray_stdScale = false;
-            is_ICCGray_stdScale = false;
-            compOffset = new float[numColorComponents];
-            compScale = new float[numColorComponents];
+            is_sRGB_stdScble = fblse;
+            is_LinebrRGB_stdScble = fblse;
+            is_LinebrGrby_stdScble = fblse;
+            is_ICCGrby_stdScble = fblse;
+            compOffset = new flobt[numColorComponents];
+            compScble = new flobt[numColorComponents];
             for (int i = 0; i < numColorComponents; i++) {
-                compOffset[i] = lowVal[i];
-                compScale[i] = 1.0f / (highVal[i] - lowVal[i]);
+                compOffset[i] = lowVbl[i];
+                compScble[i] = 1.0f / (highVbl[i] - lowVbl[i]);
             }
         }
     }
 
-    private int getRGBComponent(int pixel, int idx) {
+    privbte int getRGBComponent(int pixel, int idx) {
         if (numComponents > 1) {
             throw new
-                IllegalArgumentException("More than one component per pixel");
+                IllegblArgumentException("More thbn one component per pixel");
         }
         if (signed) {
             throw new
-                IllegalArgumentException("Component value is signed");
+                IllegblArgumentException("Component vblue is signed");
         }
-        if (needScaleInit) {
-            initScale();
+        if (needScbleInit) {
+            initScble();
         }
-        // Since there is only 1 component, there is no alpha
+        // Since there is only 1 component, there is no blphb
 
-        // Normalize the pixel in order to convert it
+        // Normblize the pixel in order to convert it
         Object opixel = null;
-        switch (transferType) {
-        case DataBuffer.TYPE_BYTE:
+        switch (trbnsferType) {
+        cbse DbtbBuffer.TYPE_BYTE:
             {
                 byte[] bpixel = { (byte) pixel };
                 opixel = bpixel;
             }
-            break;
-        case DataBuffer.TYPE_USHORT:
+            brebk;
+        cbse DbtbBuffer.TYPE_USHORT:
             {
                 short[] spixel = { (short) pixel };
                 opixel = spixel;
             }
-            break;
-        case DataBuffer.TYPE_INT:
+            brebk;
+        cbse DbtbBuffer.TYPE_INT:
             {
                 int[] ipixel = { pixel };
                 opixel = ipixel;
             }
-            break;
+            brebk;
         }
-        float[] norm = getNormalizedComponents(opixel, null, 0);
-        float[] rgb = colorSpace.toRGB(norm);
+        flobt[] norm = getNormblizedComponents(opixel, null, 0);
+        flobt[] rgb = colorSpbce.toRGB(norm);
 
         return (int) (rgb[idx] * 255.0f + 0.5f);
     }
 
     /**
-     * Returns the red color component for the specified pixel, scaled
-     * from 0 to 255 in the default RGB ColorSpace, sRGB.  A color conversion
-     * is done if necessary.  The pixel value is specified as an int.
-     * The returned value will be a non pre-multiplied value.
-     * If the alpha is premultiplied, this method divides
-     * it out before returning the value (if the alpha value is 0,
-     * the red value will be 0).
+     * Returns the red color component for the specified pixel, scbled
+     * from 0 to 255 in the defbult RGB ColorSpbce, sRGB.  A color conversion
+     * is done if necessbry.  The pixel vblue is specified bs bn int.
+     * The returned vblue will be b non pre-multiplied vblue.
+     * If the blphb is premultiplied, this method divides
+     * it out before returning the vblue (if the blphb vblue is 0,
+     * the red vblue will be 0).
      *
-     * @param pixel The pixel from which you want to get the red color component.
+     * @pbrbm pixel The pixel from which you wbnt to get the red color component.
      *
-     * @return The red color component for the specified pixel, as an int.
+     * @return The red color component for the specified pixel, bs bn int.
      *
-     * @throws IllegalArgumentException If there is more than
+     * @throws IllegblArgumentException If there is more thbn
      * one component in this <CODE>ColorModel</CODE>.
-     * @throws IllegalArgumentException If the component value for this
+     * @throws IllegblArgumentException If the component vblue for this
      * <CODE>ColorModel</CODE> is signed
      */
     public int getRed(int pixel) {
@@ -671,21 +671,21 @@ public class ComponentColorModel extends ColorModel {
     }
 
     /**
-     * Returns the green color component for the specified pixel, scaled
-     * from 0 to 255 in the default RGB ColorSpace, sRGB.  A color conversion
-     * is done if necessary.  The pixel value is specified as an int.
-     * The returned value will be a non
-     * pre-multiplied value. If the alpha is premultiplied, this method
-     * divides it out before returning the value (if the alpha value is 0,
-     * the green value will be 0).
+     * Returns the green color component for the specified pixel, scbled
+     * from 0 to 255 in the defbult RGB ColorSpbce, sRGB.  A color conversion
+     * is done if necessbry.  The pixel vblue is specified bs bn int.
+     * The returned vblue will be b non
+     * pre-multiplied vblue. If the blphb is premultiplied, this method
+     * divides it out before returning the vblue (if the blphb vblue is 0,
+     * the green vblue will be 0).
      *
-     * @param pixel The pixel from which you want to get the green color component.
+     * @pbrbm pixel The pixel from which you wbnt to get the green color component.
      *
-     * @return The green color component for the specified pixel, as an int.
+     * @return The green color component for the specified pixel, bs bn int.
      *
-     * @throws IllegalArgumentException If there is more than
+     * @throws IllegblArgumentException If there is more thbn
      * one component in this <CODE>ColorModel</CODE>.
-     * @throws IllegalArgumentException If the component value for this
+     * @throws IllegblArgumentException If the component vblue for this
      * <CODE>ColorModel</CODE> is signed
      */
     public int getGreen(int pixel) {
@@ -693,21 +693,21 @@ public class ComponentColorModel extends ColorModel {
     }
 
     /**
-     * Returns the blue color component for the specified pixel, scaled
-     * from 0 to 255 in the default RGB ColorSpace, sRGB.  A color conversion
-     * is done if necessary.  The pixel value is specified as an int.
-     * The returned value will be a non
-     * pre-multiplied value. If the alpha is premultiplied, this method
-     * divides it out before returning the value (if the alpha value is 0,
-     * the blue value will be 0).
+     * Returns the blue color component for the specified pixel, scbled
+     * from 0 to 255 in the defbult RGB ColorSpbce, sRGB.  A color conversion
+     * is done if necessbry.  The pixel vblue is specified bs bn int.
+     * The returned vblue will be b non
+     * pre-multiplied vblue. If the blphb is premultiplied, this method
+     * divides it out before returning the vblue (if the blphb vblue is 0,
+     * the blue vblue will be 0).
      *
-     * @param pixel The pixel from which you want to get the blue color component.
+     * @pbrbm pixel The pixel from which you wbnt to get the blue color component.
      *
-     * @return The blue color component for the specified pixel, as an int.
+     * @return The blue color component for the specified pixel, bs bn int.
      *
-     * @throws IllegalArgumentException If there is more than
+     * @throws IllegblArgumentException If there is more thbn
      * one component in this <CODE>ColorModel</CODE>.
-     * @throws IllegalArgumentException If the component value for this
+     * @throws IllegblArgumentException If the component vblue for this
      * <CODE>ColorModel</CODE> is signed
      */
     public int getBlue(int pixel) {
@@ -715,564 +715,564 @@ public class ComponentColorModel extends ColorModel {
     }
 
     /**
-     * Returns the alpha component for the specified pixel, scaled
-     * from 0 to 255.   The pixel value is specified as an int.
+     * Returns the blphb component for the specified pixel, scbled
+     * from 0 to 255.   The pixel vblue is specified bs bn int.
      *
-     * @param pixel The pixel from which you want to get the alpha component.
+     * @pbrbm pixel The pixel from which you wbnt to get the blphb component.
      *
-     * @return The alpha component for the specified pixel, as an int.
+     * @return The blphb component for the specified pixel, bs bn int.
      *
-     * @throws IllegalArgumentException If there is more than
+     * @throws IllegblArgumentException If there is more thbn
      * one component in this <CODE>ColorModel</CODE>.
-     * @throws IllegalArgumentException If the component value for this
+     * @throws IllegblArgumentException If the component vblue for this
      * <CODE>ColorModel</CODE> is signed
      */
-    public int getAlpha(int pixel) {
-        if (supportsAlpha == false) {
+    public int getAlphb(int pixel) {
+        if (supportsAlphb == fblse) {
             return 255;
         }
         if (numComponents > 1) {
             throw new
-                IllegalArgumentException("More than one component per pixel");
+                IllegblArgumentException("More thbn one component per pixel");
         }
         if (signed) {
             throw new
-                IllegalArgumentException("Component value is signed");
+                IllegblArgumentException("Component vblue is signed");
         }
 
-        return (int) ((((float) pixel) / ((1<<nBits[0])-1)) * 255.0f + 0.5f);
+        return (int) ((((flobt) pixel) / ((1<<nBits[0])-1)) * 255.0f + 0.5f);
     }
 
     /**
-     * Returns the color/alpha components of the pixel in the default
-     * RGB color model format.  A color conversion is done if necessary.
-     * The returned value will be in a non pre-multiplied format. If
-     * the alpha is premultiplied, this method divides it out of the
-     * color components (if the alpha value is 0, the color values will be 0).
+     * Returns the color/blphb components of the pixel in the defbult
+     * RGB color model formbt.  A color conversion is done if necessbry.
+     * The returned vblue will be in b non pre-multiplied formbt. If
+     * the blphb is premultiplied, this method divides it out of the
+     * color components (if the blphb vblue is 0, the color vblues will be 0).
      *
-     * @param pixel The pixel from which you want to get the color/alpha components.
+     * @pbrbm pixel The pixel from which you wbnt to get the color/blphb components.
      *
-     * @return The color/alpha components for the specified pixel, as an int.
+     * @return The color/blphb components for the specified pixel, bs bn int.
      *
-     * @throws IllegalArgumentException If there is more than
+     * @throws IllegblArgumentException If there is more thbn
      * one component in this <CODE>ColorModel</CODE>.
-     * @throws IllegalArgumentException If the component value for this
+     * @throws IllegblArgumentException If the component vblue for this
      * <CODE>ColorModel</CODE> is signed
      */
     public int getRGB(int pixel) {
         if (numComponents > 1) {
             throw new
-                IllegalArgumentException("More than one component per pixel");
+                IllegblArgumentException("More thbn one component per pixel");
         }
         if (signed) {
             throw new
-                IllegalArgumentException("Component value is signed");
+                IllegblArgumentException("Component vblue is signed");
         }
 
-        return (getAlpha(pixel) << 24)
+        return (getAlphb(pixel) << 24)
             | (getRed(pixel) << 16)
             | (getGreen(pixel) << 8)
             | (getBlue(pixel) << 0);
     }
 
-    private int extractComponent(Object inData, int idx, int precision) {
-        // Extract component idx from inData.  The precision argument
+    privbte int extrbctComponent(Object inDbtb, int idx, int precision) {
+        // Extrbct component idx from inDbtb.  The precision brgument
         // should be either 8 or 16.  If it's 8, this method will return
-        // an 8-bit value.  If it's 16, this method will return a 16-bit
-        // value for transferTypes other than TYPE_BYTE.  For TYPE_BYTE,
-        // an 8-bit value will be returned.
+        // bn 8-bit vblue.  If it's 16, this method will return b 16-bit
+        // vblue for trbnsferTypes other thbn TYPE_BYTE.  For TYPE_BYTE,
+        // bn 8-bit vblue will be returned.
 
-        // This method maps the input value corresponding to a
-        // normalized ColorSpace component value of 0.0 to 0, and the
-        // input value corresponding to a normalized ColorSpace
-        // component value of 1.0 to 2^n - 1 (where n is 8 or 16), so
-        // it is appropriate only for ColorSpaces with min/max component
-        // values of 0.0/1.0.  This will be true for sRGB, the built-in
-        // Linear RGB and Linear Gray spaces, and any other ICC grayscale
-        // spaces for which we have precomputed LUTs.
+        // This method mbps the input vblue corresponding to b
+        // normblized ColorSpbce component vblue of 0.0 to 0, bnd the
+        // input vblue corresponding to b normblized ColorSpbce
+        // component vblue of 1.0 to 2^n - 1 (where n is 8 or 16), so
+        // it is bppropribte only for ColorSpbces with min/mbx component
+        // vblues of 0.0/1.0.  This will be true for sRGB, the built-in
+        // Linebr RGB bnd Linebr Grby spbces, bnd bny other ICC grbyscble
+        // spbces for which we hbve precomputed LUTs.
 
-        boolean needAlpha = (supportsAlpha && isAlphaPremultiplied);
-        int alp = 0;
+        boolebn needAlphb = (supportsAlphb && isAlphbPremultiplied);
+        int blp = 0;
         int comp;
-        int mask = (1 << nBits[idx]) - 1;
+        int mbsk = (1 << nBits[idx]) - 1;
 
-        switch (transferType) {
-            // Note: we do no clamping of the pixel data here - we
-            // assume that the data is scaled properly
-            case DataBuffer.TYPE_SHORT: {
-                short sdata[] = (short[]) inData;
-                float scalefactor = (float) ((1 << precision) - 1);
-                if (needAlpha) {
-                    short s = sdata[numColorComponents];
+        switch (trbnsferType) {
+            // Note: we do no clbmping of the pixel dbtb here - we
+            // bssume thbt the dbtb is scbled properly
+            cbse DbtbBuffer.TYPE_SHORT: {
+                short sdbtb[] = (short[]) inDbtb;
+                flobt scblefbctor = (flobt) ((1 << precision) - 1);
+                if (needAlphb) {
+                    short s = sdbtb[numColorComponents];
                     if (s != (short) 0) {
-                        return (int) ((((float) sdata[idx]) /
-                                       ((float) s)) * scalefactor + 0.5f);
+                        return (int) ((((flobt) sdbtb[idx]) /
+                                       ((flobt) s)) * scblefbctor + 0.5f);
                     } else {
                         return 0;
                     }
                 } else {
-                    return (int) ((sdata[idx] / 32767.0f) * scalefactor + 0.5f);
+                    return (int) ((sdbtb[idx] / 32767.0f) * scblefbctor + 0.5f);
                 }
             }
-            case DataBuffer.TYPE_FLOAT: {
-                float fdata[] = (float[]) inData;
-                float scalefactor = (float) ((1 << precision) - 1);
-                if (needAlpha) {
-                    float f = fdata[numColorComponents];
+            cbse DbtbBuffer.TYPE_FLOAT: {
+                flobt fdbtb[] = (flobt[]) inDbtb;
+                flobt scblefbctor = (flobt) ((1 << precision) - 1);
+                if (needAlphb) {
+                    flobt f = fdbtb[numColorComponents];
                     if (f != 0.0f) {
-                        return (int) (((fdata[idx] / f) * scalefactor) + 0.5f);
+                        return (int) (((fdbtb[idx] / f) * scblefbctor) + 0.5f);
                     } else {
                         return 0;
                     }
                 } else {
-                    return (int) (fdata[idx] * scalefactor + 0.5f);
+                    return (int) (fdbtb[idx] * scblefbctor + 0.5f);
                 }
             }
-            case DataBuffer.TYPE_DOUBLE: {
-                double ddata[] = (double[]) inData;
-                double scalefactor = (double) ((1 << precision) - 1);
-                if (needAlpha) {
-                    double d = ddata[numColorComponents];
+            cbse DbtbBuffer.TYPE_DOUBLE: {
+                double ddbtb[] = (double[]) inDbtb;
+                double scblefbctor = (double) ((1 << precision) - 1);
+                if (needAlphb) {
+                    double d = ddbtb[numColorComponents];
                     if (d != 0.0) {
-                        return (int) (((ddata[idx] / d) * scalefactor) + 0.5);
+                        return (int) (((ddbtb[idx] / d) * scblefbctor) + 0.5);
                     } else {
                         return 0;
                     }
                 } else {
-                    return (int) (ddata[idx] * scalefactor + 0.5);
+                    return (int) (ddbtb[idx] * scblefbctor + 0.5);
                 }
             }
-            case DataBuffer.TYPE_BYTE:
-               byte bdata[] = (byte[])inData;
-               comp = bdata[idx] & mask;
+            cbse DbtbBuffer.TYPE_BYTE:
+               byte bdbtb[] = (byte[])inDbtb;
+               comp = bdbtb[idx] & mbsk;
                precision = 8;
-               if (needAlpha) {
-                   alp = bdata[numColorComponents] & mask;
+               if (needAlphb) {
+                   blp = bdbtb[numColorComponents] & mbsk;
                }
-            break;
-            case DataBuffer.TYPE_USHORT:
-               short usdata[] = (short[])inData;
-               comp = usdata[idx] & mask;
-               if (needAlpha) {
-                   alp = usdata[numColorComponents] & mask;
+            brebk;
+            cbse DbtbBuffer.TYPE_USHORT:
+               short usdbtb[] = (short[])inDbtb;
+               comp = usdbtb[idx] & mbsk;
+               if (needAlphb) {
+                   blp = usdbtb[numColorComponents] & mbsk;
                }
-            break;
-            case DataBuffer.TYPE_INT:
-               int idata[] = (int[])inData;
-               comp = idata[idx];
-               if (needAlpha) {
-                   alp = idata[numColorComponents];
+            brebk;
+            cbse DbtbBuffer.TYPE_INT:
+               int idbtb[] = (int[])inDbtb;
+               comp = idbtb[idx];
+               if (needAlphb) {
+                   blp = idbtb[numColorComponents];
                }
-            break;
-            default:
+            brebk;
+            defbult:
                throw new
-                   UnsupportedOperationException("This method has not "+
-                   "been implemented for transferType " + transferType);
+                   UnsupportedOperbtionException("This method hbs not "+
+                   "been implemented for trbnsferType " + trbnsferType);
         }
-        if (needAlpha) {
-            if (alp != 0) {
-                float scalefactor = (float) ((1 << precision) - 1);
-                float fcomp = ((float) comp) / ((float)mask);
-                float invalp = ((float) ((1<<nBits[numColorComponents]) - 1)) /
-                               ((float) alp);
-                return (int) (fcomp * invalp * scalefactor + 0.5f);
+        if (needAlphb) {
+            if (blp != 0) {
+                flobt scblefbctor = (flobt) ((1 << precision) - 1);
+                flobt fcomp = ((flobt) comp) / ((flobt)mbsk);
+                flobt invblp = ((flobt) ((1<<nBits[numColorComponents]) - 1)) /
+                               ((flobt) blp);
+                return (int) (fcomp * invblp * scblefbctor + 0.5f);
             } else {
                 return 0;
             }
         } else {
             if (nBits[idx] != precision) {
-                float scalefactor = (float) ((1 << precision) - 1);
-                float fcomp = ((float) comp) / ((float)mask);
-                return (int) (fcomp * scalefactor + 0.5f);
+                flobt scblefbctor = (flobt) ((1 << precision) - 1);
+                flobt fcomp = ((flobt) comp) / ((flobt)mbsk);
+                return (int) (fcomp * scblefbctor + 0.5f);
             }
             return comp;
         }
     }
 
-    private int getRGBComponent(Object inData, int idx) {
-        if (needScaleInit) {
-            initScale();
+    privbte int getRGBComponent(Object inDbtb, int idx) {
+        if (needScbleInit) {
+            initScble();
         }
-        if (is_sRGB_stdScale) {
-            return extractComponent(inData, idx, 8);
-        } else if (is_LinearRGB_stdScale) {
-            int lutidx = extractComponent(inData, idx, 16);
+        if (is_sRGB_stdScble) {
+            return extrbctComponent(inDbtb, idx, 8);
+        } else if (is_LinebrRGB_stdScble) {
+            int lutidx = extrbctComponent(inDbtb, idx, 16);
             return tosRGB8LUT[lutidx] & 0xff;
-        } else if (is_ICCGray_stdScale) {
-            int lutidx = extractComponent(inData, 0, 16);
+        } else if (is_ICCGrby_stdScble) {
+            int lutidx = extrbctComponent(inDbtb, 0, 16);
             return tosRGB8LUT[lutidx] & 0xff;
         }
 
-        // Not CS_sRGB, CS_LINEAR_RGB, or any TYPE_GRAY ICC_ColorSpace
-        float[] norm = getNormalizedComponents(inData, null, 0);
-        // Note that getNormalizedComponents returns non-premultiplied values
-        float[] rgb = colorSpace.toRGB(norm);
+        // Not CS_sRGB, CS_LINEAR_RGB, or bny TYPE_GRAY ICC_ColorSpbce
+        flobt[] norm = getNormblizedComponents(inDbtb, null, 0);
+        // Note thbt getNormblizedComponents returns non-premultiplied vblues
+        flobt[] rgb = colorSpbce.toRGB(norm);
         return (int) (rgb[idx] * 255.0f + 0.5f);
     }
 
     /**
-     * Returns the red color component for the specified pixel, scaled
-     * from 0 to 255 in the default RGB ColorSpace, sRGB.  A color conversion
-     * is done if necessary.  The <CODE>pixel</CODE> value is specified by an array
-     * of data elements of type <CODE>transferType</CODE> passed in as an object
-     * reference. The returned value will be a non pre-multiplied value. If the
-     * alpha is premultiplied, this method divides it out before returning
-     * the value (if the alpha value is 0, the red value will be 0). Since
-     * <code>ComponentColorModel</code> can be subclassed, subclasses
-     * inherit the implementation of this method and if they don't override
-     * it then they throw an exception if they use an unsupported
-     * <code>transferType</code>.
+     * Returns the red color component for the specified pixel, scbled
+     * from 0 to 255 in the defbult RGB ColorSpbce, sRGB.  A color conversion
+     * is done if necessbry.  The <CODE>pixel</CODE> vblue is specified by bn brrby
+     * of dbtb elements of type <CODE>trbnsferType</CODE> pbssed in bs bn object
+     * reference. The returned vblue will be b non pre-multiplied vblue. If the
+     * blphb is premultiplied, this method divides it out before returning
+     * the vblue (if the blphb vblue is 0, the red vblue will be 0). Since
+     * <code>ComponentColorModel</code> cbn be subclbssed, subclbsses
+     * inherit the implementbtion of this method bnd if they don't override
+     * it then they throw bn exception if they use bn unsupported
+     * <code>trbnsferType</code>.
      *
-     * @param inData The pixel from which you want to get the red color component,
-     * specified by an array of data elements of type <CODE>transferType</CODE>.
+     * @pbrbm inDbtb The pixel from which you wbnt to get the red color component,
+     * specified by bn brrby of dbtb elements of type <CODE>trbnsferType</CODE>.
      *
-     * @return The red color component for the specified pixel, as an int.
+     * @return The red color component for the specified pixel, bs bn int.
      *
-     * @throws ClassCastException If <CODE>inData</CODE> is not a primitive array
-     * of type <CODE>transferType</CODE>.
-     * @throws ArrayIndexOutOfBoundsException if <CODE>inData</CODE> is not
-     * large enough to hold a pixel value for this
+     * @throws ClbssCbstException If <CODE>inDbtb</CODE> is not b primitive brrby
+     * of type <CODE>trbnsferType</CODE>.
+     * @throws ArrbyIndexOutOfBoundsException if <CODE>inDbtb</CODE> is not
+     * lbrge enough to hold b pixel vblue for this
      * <CODE>ColorModel</CODE>.
-     * @throws UnsupportedOperationException If the transfer type of
+     * @throws UnsupportedOperbtionException If the trbnsfer type of
      * this <CODE>ComponentColorModel</CODE>
-     * is not one of the supported transfer types:
-     * <CODE>DataBuffer.TYPE_BYTE</CODE>, <CODE>DataBuffer.TYPE_USHORT</CODE>,
-     * <CODE>DataBuffer.TYPE_INT</CODE>, <CODE>DataBuffer.TYPE_SHORT</CODE>,
-     * <CODE>DataBuffer.TYPE_FLOAT</CODE>, or <CODE>DataBuffer.TYPE_DOUBLE</CODE>.
+     * is not one of the supported trbnsfer types:
+     * <CODE>DbtbBuffer.TYPE_BYTE</CODE>, <CODE>DbtbBuffer.TYPE_USHORT</CODE>,
+     * <CODE>DbtbBuffer.TYPE_INT</CODE>, <CODE>DbtbBuffer.TYPE_SHORT</CODE>,
+     * <CODE>DbtbBuffer.TYPE_FLOAT</CODE>, or <CODE>DbtbBuffer.TYPE_DOUBLE</CODE>.
      */
-    public int getRed(Object inData) {
-        return getRGBComponent(inData, 0);
+    public int getRed(Object inDbtb) {
+        return getRGBComponent(inDbtb, 0);
     }
 
 
     /**
-     * Returns the green color component for the specified pixel, scaled
-     * from 0 to 255 in the default RGB <CODE>ColorSpace</CODE>, sRGB.
-     * A color conversion is done if necessary.  The <CODE>pixel</CODE> value
-     * is specified by an array of data elements of type <CODE>transferType</CODE>
-     * passed in as an object reference. The returned value is a non pre-multiplied
-     * value. If the alpha is premultiplied, this method divides it out before
-     * returning the value (if the alpha value is 0, the green value will be 0).
-     * Since <code>ComponentColorModel</code> can be subclassed,
-     * subclasses inherit the implementation of this method and if they
-     * don't override it then they throw an exception if they use an
-     * unsupported <code>transferType</code>.
+     * Returns the green color component for the specified pixel, scbled
+     * from 0 to 255 in the defbult RGB <CODE>ColorSpbce</CODE>, sRGB.
+     * A color conversion is done if necessbry.  The <CODE>pixel</CODE> vblue
+     * is specified by bn brrby of dbtb elements of type <CODE>trbnsferType</CODE>
+     * pbssed in bs bn object reference. The returned vblue is b non pre-multiplied
+     * vblue. If the blphb is premultiplied, this method divides it out before
+     * returning the vblue (if the blphb vblue is 0, the green vblue will be 0).
+     * Since <code>ComponentColorModel</code> cbn be subclbssed,
+     * subclbsses inherit the implementbtion of this method bnd if they
+     * don't override it then they throw bn exception if they use bn
+     * unsupported <code>trbnsferType</code>.
      *
-     * @param inData The pixel from which you want to get the green color component,
-     * specified by an array of data elements of type <CODE>transferType</CODE>.
+     * @pbrbm inDbtb The pixel from which you wbnt to get the green color component,
+     * specified by bn brrby of dbtb elements of type <CODE>trbnsferType</CODE>.
      *
-     * @return The green color component for the specified pixel, as an int.
+     * @return The green color component for the specified pixel, bs bn int.
      *
-     * @throws ClassCastException If <CODE>inData</CODE> is not a primitive array
-     * of type <CODE>transferType</CODE>.
-     * @throws ArrayIndexOutOfBoundsException if <CODE>inData</CODE> is not
-     * large enough to hold a pixel value for this
+     * @throws ClbssCbstException If <CODE>inDbtb</CODE> is not b primitive brrby
+     * of type <CODE>trbnsferType</CODE>.
+     * @throws ArrbyIndexOutOfBoundsException if <CODE>inDbtb</CODE> is not
+     * lbrge enough to hold b pixel vblue for this
      * <CODE>ColorModel</CODE>.
-     * @throws UnsupportedOperationException If the transfer type of
+     * @throws UnsupportedOperbtionException If the trbnsfer type of
      * this <CODE>ComponentColorModel</CODE>
-     * is not one of the supported transfer types:
-     * <CODE>DataBuffer.TYPE_BYTE</CODE>, <CODE>DataBuffer.TYPE_USHORT</CODE>,
-     * <CODE>DataBuffer.TYPE_INT</CODE>, <CODE>DataBuffer.TYPE_SHORT</CODE>,
-     * <CODE>DataBuffer.TYPE_FLOAT</CODE>, or <CODE>DataBuffer.TYPE_DOUBLE</CODE>.
+     * is not one of the supported trbnsfer types:
+     * <CODE>DbtbBuffer.TYPE_BYTE</CODE>, <CODE>DbtbBuffer.TYPE_USHORT</CODE>,
+     * <CODE>DbtbBuffer.TYPE_INT</CODE>, <CODE>DbtbBuffer.TYPE_SHORT</CODE>,
+     * <CODE>DbtbBuffer.TYPE_FLOAT</CODE>, or <CODE>DbtbBuffer.TYPE_DOUBLE</CODE>.
      */
-    public int getGreen(Object inData) {
-        return getRGBComponent(inData, 1);
+    public int getGreen(Object inDbtb) {
+        return getRGBComponent(inDbtb, 1);
     }
 
 
     /**
-     * Returns the blue color component for the specified pixel, scaled
-     * from 0 to 255 in the default RGB <CODE>ColorSpace</CODE>, sRGB.
-     * A color conversion is done if necessary.  The <CODE>pixel</CODE> value is
-     * specified by an array of data elements of type <CODE>transferType</CODE>
-     * passed in as an object reference. The returned value is a non pre-multiplied
-     * value. If the alpha is premultiplied, this method divides it out before
-     * returning the value (if the alpha value is 0, the blue value will be 0).
-     * Since <code>ComponentColorModel</code> can be subclassed,
-     * subclasses inherit the implementation of this method and if they
-     * don't override it then they throw an exception if they use an
-     * unsupported <code>transferType</code>.
+     * Returns the blue color component for the specified pixel, scbled
+     * from 0 to 255 in the defbult RGB <CODE>ColorSpbce</CODE>, sRGB.
+     * A color conversion is done if necessbry.  The <CODE>pixel</CODE> vblue is
+     * specified by bn brrby of dbtb elements of type <CODE>trbnsferType</CODE>
+     * pbssed in bs bn object reference. The returned vblue is b non pre-multiplied
+     * vblue. If the blphb is premultiplied, this method divides it out before
+     * returning the vblue (if the blphb vblue is 0, the blue vblue will be 0).
+     * Since <code>ComponentColorModel</code> cbn be subclbssed,
+     * subclbsses inherit the implementbtion of this method bnd if they
+     * don't override it then they throw bn exception if they use bn
+     * unsupported <code>trbnsferType</code>.
      *
-     * @param inData The pixel from which you want to get the blue color component,
-     * specified by an array of data elements of type <CODE>transferType</CODE>.
+     * @pbrbm inDbtb The pixel from which you wbnt to get the blue color component,
+     * specified by bn brrby of dbtb elements of type <CODE>trbnsferType</CODE>.
      *
-     * @return The blue color component for the specified pixel, as an int.
+     * @return The blue color component for the specified pixel, bs bn int.
      *
-     * @throws ClassCastException If <CODE>inData</CODE> is not a primitive array
-     * of type <CODE>transferType</CODE>.
-     * @throws ArrayIndexOutOfBoundsException if <CODE>inData</CODE> is not
-     * large enough to hold a pixel value for this
+     * @throws ClbssCbstException If <CODE>inDbtb</CODE> is not b primitive brrby
+     * of type <CODE>trbnsferType</CODE>.
+     * @throws ArrbyIndexOutOfBoundsException if <CODE>inDbtb</CODE> is not
+     * lbrge enough to hold b pixel vblue for this
      * <CODE>ColorModel</CODE>.
-     * @throws UnsupportedOperationException If the transfer type of
+     * @throws UnsupportedOperbtionException If the trbnsfer type of
      * this <CODE>ComponentColorModel</CODE>
-     * is not one of the supported transfer types:
-     * <CODE>DataBuffer.TYPE_BYTE</CODE>, <CODE>DataBuffer.TYPE_USHORT</CODE>,
-     * <CODE>DataBuffer.TYPE_INT</CODE>, <CODE>DataBuffer.TYPE_SHORT</CODE>,
-     * <CODE>DataBuffer.TYPE_FLOAT</CODE>, or <CODE>DataBuffer.TYPE_DOUBLE</CODE>.
+     * is not one of the supported trbnsfer types:
+     * <CODE>DbtbBuffer.TYPE_BYTE</CODE>, <CODE>DbtbBuffer.TYPE_USHORT</CODE>,
+     * <CODE>DbtbBuffer.TYPE_INT</CODE>, <CODE>DbtbBuffer.TYPE_SHORT</CODE>,
+     * <CODE>DbtbBuffer.TYPE_FLOAT</CODE>, or <CODE>DbtbBuffer.TYPE_DOUBLE</CODE>.
      */
-    public int getBlue(Object inData) {
-        return getRGBComponent(inData, 2);
+    public int getBlue(Object inDbtb) {
+        return getRGBComponent(inDbtb, 2);
     }
 
     /**
-     * Returns the alpha component for the specified pixel, scaled from
-     * 0 to 255.  The pixel value is specified by an array of data
-     * elements of type <CODE>transferType</CODE> passed in as an
-     * object reference.  Since <code>ComponentColorModel</code> can be
-     * subclassed, subclasses inherit the
-     * implementation of this method and if they don't override it then
-     * they throw an exception if they use an unsupported
-     * <code>transferType</code>.
+     * Returns the blphb component for the specified pixel, scbled from
+     * 0 to 255.  The pixel vblue is specified by bn brrby of dbtb
+     * elements of type <CODE>trbnsferType</CODE> pbssed in bs bn
+     * object reference.  Since <code>ComponentColorModel</code> cbn be
+     * subclbssed, subclbsses inherit the
+     * implementbtion of this method bnd if they don't override it then
+     * they throw bn exception if they use bn unsupported
+     * <code>trbnsferType</code>.
      *
-     * @param inData The pixel from which you want to get the alpha component,
-     * specified by an array of data elements of type <CODE>transferType</CODE>.
+     * @pbrbm inDbtb The pixel from which you wbnt to get the blphb component,
+     * specified by bn brrby of dbtb elements of type <CODE>trbnsferType</CODE>.
      *
-     * @return The alpha component for the specified pixel, as an int.
+     * @return The blphb component for the specified pixel, bs bn int.
      *
-     * @throws ClassCastException If <CODE>inData</CODE> is not a primitive array
-     * of type <CODE>transferType</CODE>.
-     * @throws ArrayIndexOutOfBoundsException if <CODE>inData</CODE> is not
-     * large enough to hold a pixel value for this
+     * @throws ClbssCbstException If <CODE>inDbtb</CODE> is not b primitive brrby
+     * of type <CODE>trbnsferType</CODE>.
+     * @throws ArrbyIndexOutOfBoundsException if <CODE>inDbtb</CODE> is not
+     * lbrge enough to hold b pixel vblue for this
      * <CODE>ColorModel</CODE>.
-     * @throws UnsupportedOperationException If the transfer type of
+     * @throws UnsupportedOperbtionException If the trbnsfer type of
      * this <CODE>ComponentColorModel</CODE>
-     * is not one of the supported transfer types:
-     * <CODE>DataBuffer.TYPE_BYTE</CODE>, <CODE>DataBuffer.TYPE_USHORT</CODE>,
-     * <CODE>DataBuffer.TYPE_INT</CODE>, <CODE>DataBuffer.TYPE_SHORT</CODE>,
-     * <CODE>DataBuffer.TYPE_FLOAT</CODE>, or <CODE>DataBuffer.TYPE_DOUBLE</CODE>.
+     * is not one of the supported trbnsfer types:
+     * <CODE>DbtbBuffer.TYPE_BYTE</CODE>, <CODE>DbtbBuffer.TYPE_USHORT</CODE>,
+     * <CODE>DbtbBuffer.TYPE_INT</CODE>, <CODE>DbtbBuffer.TYPE_SHORT</CODE>,
+     * <CODE>DbtbBuffer.TYPE_FLOAT</CODE>, or <CODE>DbtbBuffer.TYPE_DOUBLE</CODE>.
      */
-    public int getAlpha(Object inData) {
-        if (supportsAlpha == false) {
+    public int getAlphb(Object inDbtb) {
+        if (supportsAlphb == fblse) {
             return 255;
         }
 
-        int alpha = 0;
-        int aIdx = numColorComponents;
-        int mask = (1 << nBits[aIdx]) - 1;
+        int blphb = 0;
+        int bIdx = numColorComponents;
+        int mbsk = (1 << nBits[bIdx]) - 1;
 
-        switch (transferType) {
-            case DataBuffer.TYPE_SHORT:
-                short sdata[] = (short[])inData;
-                alpha = (int) ((sdata[aIdx] / 32767.0f) * 255.0f + 0.5f);
-                return alpha;
-            case DataBuffer.TYPE_FLOAT:
-                float fdata[] = (float[])inData;
-                alpha = (int) (fdata[aIdx] * 255.0f + 0.5f);
-                return alpha;
-            case DataBuffer.TYPE_DOUBLE:
-                double ddata[] = (double[])inData;
-                alpha = (int) (ddata[aIdx] * 255.0 + 0.5);
-                return alpha;
-            case DataBuffer.TYPE_BYTE:
-               byte bdata[] = (byte[])inData;
-               alpha = bdata[aIdx] & mask;
-            break;
-            case DataBuffer.TYPE_USHORT:
-               short usdata[] = (short[])inData;
-               alpha = usdata[aIdx] & mask;
-            break;
-            case DataBuffer.TYPE_INT:
-               int idata[] = (int[])inData;
-               alpha = idata[aIdx];
-            break;
-            default:
+        switch (trbnsferType) {
+            cbse DbtbBuffer.TYPE_SHORT:
+                short sdbtb[] = (short[])inDbtb;
+                blphb = (int) ((sdbtb[bIdx] / 32767.0f) * 255.0f + 0.5f);
+                return blphb;
+            cbse DbtbBuffer.TYPE_FLOAT:
+                flobt fdbtb[] = (flobt[])inDbtb;
+                blphb = (int) (fdbtb[bIdx] * 255.0f + 0.5f);
+                return blphb;
+            cbse DbtbBuffer.TYPE_DOUBLE:
+                double ddbtb[] = (double[])inDbtb;
+                blphb = (int) (ddbtb[bIdx] * 255.0 + 0.5);
+                return blphb;
+            cbse DbtbBuffer.TYPE_BYTE:
+               byte bdbtb[] = (byte[])inDbtb;
+               blphb = bdbtb[bIdx] & mbsk;
+            brebk;
+            cbse DbtbBuffer.TYPE_USHORT:
+               short usdbtb[] = (short[])inDbtb;
+               blphb = usdbtb[bIdx] & mbsk;
+            brebk;
+            cbse DbtbBuffer.TYPE_INT:
+               int idbtb[] = (int[])inDbtb;
+               blphb = idbtb[bIdx];
+            brebk;
+            defbult:
                throw new
-                   UnsupportedOperationException("This method has not "+
-                   "been implemented for transferType " + transferType);
+                   UnsupportedOperbtionException("This method hbs not "+
+                   "been implemented for trbnsferType " + trbnsferType);
         }
 
-        if (nBits[aIdx] == 8) {
-            return alpha;
+        if (nBits[bIdx] == 8) {
+            return blphb;
         } else {
             return (int)
-                ((((float) alpha) / ((float) ((1 << nBits[aIdx]) - 1))) *
+                ((((flobt) blphb) / ((flobt) ((1 << nBits[bIdx]) - 1))) *
                  255.0f + 0.5f);
         }
     }
 
     /**
-     * Returns the color/alpha components for the specified pixel in the
-     * default RGB color model format.  A color conversion is done if
-     * necessary.  The pixel value is specified by an
-     * array of data elements of type <CODE>transferType</CODE> passed
-     * in as an object reference.
-     * The returned value is in a non pre-multiplied format. If
-     * the alpha is premultiplied, this method divides it out of the
-     * color components (if the alpha value is 0, the color values will be 0).
-     * Since <code>ComponentColorModel</code> can be subclassed,
-     * subclasses inherit the implementation of this method and if they
-     * don't override it then they throw an exception if they use an
-     * unsupported <code>transferType</code>.
+     * Returns the color/blphb components for the specified pixel in the
+     * defbult RGB color model formbt.  A color conversion is done if
+     * necessbry.  The pixel vblue is specified by bn
+     * brrby of dbtb elements of type <CODE>trbnsferType</CODE> pbssed
+     * in bs bn object reference.
+     * The returned vblue is in b non pre-multiplied formbt. If
+     * the blphb is premultiplied, this method divides it out of the
+     * color components (if the blphb vblue is 0, the color vblues will be 0).
+     * Since <code>ComponentColorModel</code> cbn be subclbssed,
+     * subclbsses inherit the implementbtion of this method bnd if they
+     * don't override it then they throw bn exception if they use bn
+     * unsupported <code>trbnsferType</code>.
      *
-     * @param inData The pixel from which you want to get the color/alpha components,
-     * specified by an array of data elements of type <CODE>transferType</CODE>.
+     * @pbrbm inDbtb The pixel from which you wbnt to get the color/blphb components,
+     * specified by bn brrby of dbtb elements of type <CODE>trbnsferType</CODE>.
      *
-     * @return The color/alpha components for the specified pixel, as an int.
+     * @return The color/blphb components for the specified pixel, bs bn int.
      *
-     * @throws ClassCastException If <CODE>inData</CODE> is not a primitive array
-     * of type <CODE>transferType</CODE>.
-     * @throws ArrayIndexOutOfBoundsException if <CODE>inData</CODE> is not
-     * large enough to hold a pixel value for this
+     * @throws ClbssCbstException If <CODE>inDbtb</CODE> is not b primitive brrby
+     * of type <CODE>trbnsferType</CODE>.
+     * @throws ArrbyIndexOutOfBoundsException if <CODE>inDbtb</CODE> is not
+     * lbrge enough to hold b pixel vblue for this
      * <CODE>ColorModel</CODE>.
-     * @throws UnsupportedOperationException If the transfer type of
+     * @throws UnsupportedOperbtionException If the trbnsfer type of
      * this <CODE>ComponentColorModel</CODE>
-     * is not one of the supported transfer types:
-     * <CODE>DataBuffer.TYPE_BYTE</CODE>, <CODE>DataBuffer.TYPE_USHORT</CODE>,
-     * <CODE>DataBuffer.TYPE_INT</CODE>, <CODE>DataBuffer.TYPE_SHORT</CODE>,
-     * <CODE>DataBuffer.TYPE_FLOAT</CODE>, or <CODE>DataBuffer.TYPE_DOUBLE</CODE>.
-     * @see ColorModel#getRGBdefault
+     * is not one of the supported trbnsfer types:
+     * <CODE>DbtbBuffer.TYPE_BYTE</CODE>, <CODE>DbtbBuffer.TYPE_USHORT</CODE>,
+     * <CODE>DbtbBuffer.TYPE_INT</CODE>, <CODE>DbtbBuffer.TYPE_SHORT</CODE>,
+     * <CODE>DbtbBuffer.TYPE_FLOAT</CODE>, or <CODE>DbtbBuffer.TYPE_DOUBLE</CODE>.
+     * @see ColorModel#getRGBdefbult
      */
-    public int getRGB(Object inData) {
-        if (needScaleInit) {
-            initScale();
+    public int getRGB(Object inDbtb) {
+        if (needScbleInit) {
+            initScble();
         }
-        if (is_sRGB_stdScale || is_LinearRGB_stdScale) {
-            return (getAlpha(inData) << 24)
-                | (getRed(inData) << 16)
-                | (getGreen(inData) << 8)
-                | (getBlue(inData));
-        } else if (colorSpaceType == ColorSpace.TYPE_GRAY) {
-            int gray = getRed(inData); // Red sRGB component should equal
-                                       // green and blue components
-            return (getAlpha(inData) << 24)
-                | (gray << 16)
-                | (gray <<  8)
-                | gray;
+        if (is_sRGB_stdScble || is_LinebrRGB_stdScble) {
+            return (getAlphb(inDbtb) << 24)
+                | (getRed(inDbtb) << 16)
+                | (getGreen(inDbtb) << 8)
+                | (getBlue(inDbtb));
+        } else if (colorSpbceType == ColorSpbce.TYPE_GRAY) {
+            int grby = getRed(inDbtb); // Red sRGB component should equbl
+                                       // green bnd blue components
+            return (getAlphb(inDbtb) << 24)
+                | (grby << 16)
+                | (grby <<  8)
+                | grby;
         }
-        float[] norm = getNormalizedComponents(inData, null, 0);
-        // Note that getNormalizedComponents returns non-premult values
-        float[] rgb = colorSpace.toRGB(norm);
-        return (getAlpha(inData) << 24)
+        flobt[] norm = getNormblizedComponents(inDbtb, null, 0);
+        // Note thbt getNormblizedComponents returns non-premult vblues
+        flobt[] rgb = colorSpbce.toRGB(norm);
+        return (getAlphb(inDbtb) << 24)
             | (((int) (rgb[0] * 255.0f + 0.5f)) << 16)
             | (((int) (rgb[1] * 255.0f + 0.5f)) << 8)
             | (((int) (rgb[2] * 255.0f + 0.5f)) << 0);
     }
 
     /**
-     * Returns a data element array representation of a pixel in this
-     * <CODE>ColorModel</CODE>, given an integer pixel representation
-     * in the default RGB color model.
-     * This array can then be passed to the <CODE>setDataElements</CODE>
-     * method of a <CODE>WritableRaster</CODE> object.  If the
+     * Returns b dbtb element brrby representbtion of b pixel in this
+     * <CODE>ColorModel</CODE>, given bn integer pixel representbtion
+     * in the defbult RGB color model.
+     * This brrby cbn then be pbssed to the <CODE>setDbtbElements</CODE>
+     * method of b <CODE>WritbbleRbster</CODE> object.  If the
      * <CODE>pixel</CODE>
-     * parameter is null, a new array is allocated.  Since
-     * <code>ComponentColorModel</code> can be subclassed, subclasses
-     * inherit the implementation of this method and if they don't
+     * pbrbmeter is null, b new brrby is bllocbted.  Since
+     * <code>ComponentColorModel</code> cbn be subclbssed, subclbsses
+     * inherit the implementbtion of this method bnd if they don't
      * override it then
-     * they throw an exception if they use an unsupported
-     * <code>transferType</code>.
+     * they throw bn exception if they use bn unsupported
+     * <code>trbnsferType</code>.
      *
-     * @param rgb the integer representation of the pixel in the RGB
+     * @pbrbm rgb the integer representbtion of the pixel in the RGB
      *            color model
-     * @param pixel the specified pixel
-     * @return The data element array representation of a pixel
+     * @pbrbm pixel the specified pixel
+     * @return The dbtb element brrby representbtion of b pixel
      * in this <CODE>ColorModel</CODE>.
-     * @throws ClassCastException If <CODE>pixel</CODE> is not null and
-     * is not a primitive array of type <CODE>transferType</CODE>.
-     * @throws ArrayIndexOutOfBoundsException If <CODE>pixel</CODE> is
-     * not large enough to hold a pixel value for this
+     * @throws ClbssCbstException If <CODE>pixel</CODE> is not null bnd
+     * is not b primitive brrby of type <CODE>trbnsferType</CODE>.
+     * @throws ArrbyIndexOutOfBoundsException If <CODE>pixel</CODE> is
+     * not lbrge enough to hold b pixel vblue for this
      * <CODE>ColorModel</CODE>.
-     * @throws UnsupportedOperationException If the transfer type of
+     * @throws UnsupportedOperbtionException If the trbnsfer type of
      * this <CODE>ComponentColorModel</CODE>
-     * is not one of the supported transfer types:
-     * <CODE>DataBuffer.TYPE_BYTE</CODE>, <CODE>DataBuffer.TYPE_USHORT</CODE>,
-     * <CODE>DataBuffer.TYPE_INT</CODE>, <CODE>DataBuffer.TYPE_SHORT</CODE>,
-     * <CODE>DataBuffer.TYPE_FLOAT</CODE>, or <CODE>DataBuffer.TYPE_DOUBLE</CODE>.
+     * is not one of the supported trbnsfer types:
+     * <CODE>DbtbBuffer.TYPE_BYTE</CODE>, <CODE>DbtbBuffer.TYPE_USHORT</CODE>,
+     * <CODE>DbtbBuffer.TYPE_INT</CODE>, <CODE>DbtbBuffer.TYPE_SHORT</CODE>,
+     * <CODE>DbtbBuffer.TYPE_FLOAT</CODE>, or <CODE>DbtbBuffer.TYPE_DOUBLE</CODE>.
      *
-     * @see WritableRaster#setDataElements
-     * @see SampleModel#setDataElements
+     * @see WritbbleRbster#setDbtbElements
+     * @see SbmpleModel#setDbtbElements
      */
-    public Object getDataElements(int rgb, Object pixel) {
+    public Object getDbtbElements(int rgb, Object pixel) {
         // REMIND: Use rendering hints?
 
-        int red, grn, blu, alp;
+        int red, grn, blu, blp;
         red = (rgb>>16) & 0xff;
         grn = (rgb>>8) & 0xff;
         blu = rgb & 0xff;
 
-        if (needScaleInit) {
-            initScale();
+        if (needScbleInit) {
+            initScble();
         }
         if (signed) {
-            // Handle SHORT, FLOAT, & DOUBLE here
+            // Hbndle SHORT, FLOAT, & DOUBLE here
 
-            switch(transferType) {
-            case DataBuffer.TYPE_SHORT:
+            switch(trbnsferType) {
+            cbse DbtbBuffer.TYPE_SHORT:
                 {
-                    short sdata[];
+                    short sdbtb[];
                     if (pixel == null) {
-                        sdata = new short[numComponents];
+                        sdbtb = new short[numComponents];
                     } else {
-                        sdata = (short[])pixel;
+                        sdbtb = (short[])pixel;
                     }
-                    float factor;
-                    if (is_sRGB_stdScale || is_LinearRGB_stdScale) {
-                        factor = 32767.0f / 255.0f;
-                        if (is_LinearRGB_stdScale) {
+                    flobt fbctor;
+                    if (is_sRGB_stdScble || is_LinebrRGB_stdScble) {
+                        fbctor = 32767.0f / 255.0f;
+                        if (is_LinebrRGB_stdScble) {
                             red = fromsRGB8LUT16[red] & 0xffff;
                             grn = fromsRGB8LUT16[grn] & 0xffff;
                             blu = fromsRGB8LUT16[blu] & 0xffff;
-                            factor = 32767.0f / 65535.0f;
+                            fbctor = 32767.0f / 65535.0f;
                         }
-                        if (supportsAlpha) {
-                            alp = (rgb>>24) & 0xff;
-                            sdata[3] =
-                                (short) (alp * (32767.0f / 255.0f) + 0.5f);
-                            if (isAlphaPremultiplied) {
-                                factor = alp * factor * (1.0f / 255.0f);
+                        if (supportsAlphb) {
+                            blp = (rgb>>24) & 0xff;
+                            sdbtb[3] =
+                                (short) (blp * (32767.0f / 255.0f) + 0.5f);
+                            if (isAlphbPremultiplied) {
+                                fbctor = blp * fbctor * (1.0f / 255.0f);
                             }
                         }
-                        sdata[0] = (short) (red * factor + 0.5f);
-                        sdata[1] = (short) (grn * factor + 0.5f);
-                        sdata[2] = (short) (blu * factor + 0.5f);
-                    } else if (is_LinearGray_stdScale) {
+                        sdbtb[0] = (short) (red * fbctor + 0.5f);
+                        sdbtb[1] = (short) (grn * fbctor + 0.5f);
+                        sdbtb[2] = (short) (blu * fbctor + 0.5f);
+                    } else if (is_LinebrGrby_stdScble) {
                         red = fromsRGB8LUT16[red] & 0xffff;
                         grn = fromsRGB8LUT16[grn] & 0xffff;
                         blu = fromsRGB8LUT16[blu] & 0xffff;
-                        float gray = ((0.2125f * red) +
+                        flobt grby = ((0.2125f * red) +
                                       (0.7154f * grn) +
                                       (0.0721f * blu)) / 65535.0f;
-                        factor = 32767.0f;
-                        if (supportsAlpha) {
-                            alp = (rgb>>24) & 0xff;
-                            sdata[1] =
-                                (short) (alp * (32767.0f / 255.0f) + 0.5f);
-                            if (isAlphaPremultiplied) {
-                                factor = alp * factor * (1.0f / 255.0f);
+                        fbctor = 32767.0f;
+                        if (supportsAlphb) {
+                            blp = (rgb>>24) & 0xff;
+                            sdbtb[1] =
+                                (short) (blp * (32767.0f / 255.0f) + 0.5f);
+                            if (isAlphbPremultiplied) {
+                                fbctor = blp * fbctor * (1.0f / 255.0f);
                             }
                         }
-                        sdata[0] = (short) (gray * factor + 0.5f);
-                    } else if (is_ICCGray_stdScale) {
+                        sdbtb[0] = (short) (grby * fbctor + 0.5f);
+                    } else if (is_ICCGrby_stdScble) {
                         red = fromsRGB8LUT16[red] & 0xffff;
                         grn = fromsRGB8LUT16[grn] & 0xffff;
                         blu = fromsRGB8LUT16[blu] & 0xffff;
-                        int gray = (int) ((0.2125f * red) +
+                        int grby = (int) ((0.2125f * red) +
                                           (0.7154f * grn) +
                                           (0.0721f * blu) + 0.5f);
-                        gray = fromLinearGray16ToOtherGray16LUT[gray] & 0xffff;
-                        factor = 32767.0f / 65535.0f;
-                        if (supportsAlpha) {
-                            alp = (rgb>>24) & 0xff;
-                            sdata[1] =
-                                (short) (alp * (32767.0f / 255.0f) + 0.5f);
-                            if (isAlphaPremultiplied) {
-                                factor = alp * factor * (1.0f / 255.0f);
+                        grby = fromLinebrGrby16ToOtherGrby16LUT[grby] & 0xffff;
+                        fbctor = 32767.0f / 65535.0f;
+                        if (supportsAlphb) {
+                            blp = (rgb>>24) & 0xff;
+                            sdbtb[1] =
+                                (short) (blp * (32767.0f / 255.0f) + 0.5f);
+                            if (isAlphbPremultiplied) {
+                                fbctor = blp * fbctor * (1.0f / 255.0f);
                             }
                         }
-                        sdata[0] = (short) (gray * factor + 0.5f);
+                        sdbtb[0] = (short) (grby * fbctor + 0.5f);
                     } else {
-                        factor = 1.0f / 255.0f;
-                        float norm[] = new float[3];
-                        norm[0] = red * factor;
-                        norm[1] = grn * factor;
-                        norm[2] = blu * factor;
-                        norm = colorSpace.fromRGB(norm);
-                        if (nonStdScale) {
+                        fbctor = 1.0f / 255.0f;
+                        flobt norm[] = new flobt[3];
+                        norm[0] = red * fbctor;
+                        norm[1] = grn * fbctor;
+                        norm[2] = blu * fbctor;
+                        norm = colorSpbce.fromRGB(norm);
+                        if (nonStdScble) {
                             for (int i = 0; i < numColorComponents; i++) {
                                 norm[i] = (norm[i] - compOffset[i]) *
-                                          compScale[i];
-                                // REMIND: need to analyze whether this
-                                // clamping is necessary
+                                          compScble[i];
+                                // REMIND: need to bnblyze whether this
+                                // clbmping is necessbry
                                 if (norm[i] < 0.0f) {
                                     norm[i] = 0.0f;
                                 }
@@ -1281,306 +1281,306 @@ public class ComponentColorModel extends ColorModel {
                                 }
                             }
                         }
-                        factor = 32767.0f;
-                        if (supportsAlpha) {
-                            alp = (rgb>>24) & 0xff;
-                            sdata[numColorComponents] =
-                                (short) (alp * (32767.0f / 255.0f) + 0.5f);
-                            if (isAlphaPremultiplied) {
-                                factor *= alp * (1.0f / 255.0f);
+                        fbctor = 32767.0f;
+                        if (supportsAlphb) {
+                            blp = (rgb>>24) & 0xff;
+                            sdbtb[numColorComponents] =
+                                (short) (blp * (32767.0f / 255.0f) + 0.5f);
+                            if (isAlphbPremultiplied) {
+                                fbctor *= blp * (1.0f / 255.0f);
                             }
                         }
                         for (int i = 0; i < numColorComponents; i++) {
-                            sdata[i] = (short) (norm[i] * factor + 0.5f);
+                            sdbtb[i] = (short) (norm[i] * fbctor + 0.5f);
                         }
                     }
-                    return sdata;
+                    return sdbtb;
                 }
-            case DataBuffer.TYPE_FLOAT:
+            cbse DbtbBuffer.TYPE_FLOAT:
                 {
-                    float fdata[];
+                    flobt fdbtb[];
                     if (pixel == null) {
-                        fdata = new float[numComponents];
+                        fdbtb = new flobt[numComponents];
                     } else {
-                        fdata = (float[])pixel;
+                        fdbtb = (flobt[])pixel;
                     }
-                    float factor;
-                    if (is_sRGB_stdScale || is_LinearRGB_stdScale) {
-                        if (is_LinearRGB_stdScale) {
+                    flobt fbctor;
+                    if (is_sRGB_stdScble || is_LinebrRGB_stdScble) {
+                        if (is_LinebrRGB_stdScble) {
                             red = fromsRGB8LUT16[red] & 0xffff;
                             grn = fromsRGB8LUT16[grn] & 0xffff;
                             blu = fromsRGB8LUT16[blu] & 0xffff;
-                            factor = 1.0f / 65535.0f;
+                            fbctor = 1.0f / 65535.0f;
                         } else {
-                            factor = 1.0f / 255.0f;
+                            fbctor = 1.0f / 255.0f;
                         }
-                        if (supportsAlpha) {
-                            alp = (rgb>>24) & 0xff;
-                            fdata[3] = alp * (1.0f / 255.0f);
-                            if (isAlphaPremultiplied) {
-                                factor *= fdata[3];
+                        if (supportsAlphb) {
+                            blp = (rgb>>24) & 0xff;
+                            fdbtb[3] = blp * (1.0f / 255.0f);
+                            if (isAlphbPremultiplied) {
+                                fbctor *= fdbtb[3];
                             }
                         }
-                        fdata[0] = red * factor;
-                        fdata[1] = grn * factor;
-                        fdata[2] = blu * factor;
-                    } else if (is_LinearGray_stdScale) {
+                        fdbtb[0] = red * fbctor;
+                        fdbtb[1] = grn * fbctor;
+                        fdbtb[2] = blu * fbctor;
+                    } else if (is_LinebrGrby_stdScble) {
                         red = fromsRGB8LUT16[red] & 0xffff;
                         grn = fromsRGB8LUT16[grn] & 0xffff;
                         blu = fromsRGB8LUT16[blu] & 0xffff;
-                        fdata[0] = ((0.2125f * red) +
+                        fdbtb[0] = ((0.2125f * red) +
                                     (0.7154f * grn) +
                                     (0.0721f * blu)) / 65535.0f;
-                        if (supportsAlpha) {
-                            alp = (rgb>>24) & 0xff;
-                            fdata[1] = alp * (1.0f / 255.0f);
-                            if (isAlphaPremultiplied) {
-                                fdata[0] *= fdata[1];
+                        if (supportsAlphb) {
+                            blp = (rgb>>24) & 0xff;
+                            fdbtb[1] = blp * (1.0f / 255.0f);
+                            if (isAlphbPremultiplied) {
+                                fdbtb[0] *= fdbtb[1];
                             }
                         }
-                    } else if (is_ICCGray_stdScale) {
+                    } else if (is_ICCGrby_stdScble) {
                         red = fromsRGB8LUT16[red] & 0xffff;
                         grn = fromsRGB8LUT16[grn] & 0xffff;
                         blu = fromsRGB8LUT16[blu] & 0xffff;
-                        int gray = (int) ((0.2125f * red) +
+                        int grby = (int) ((0.2125f * red) +
                                           (0.7154f * grn) +
                                           (0.0721f * blu) + 0.5f);
-                        fdata[0] = (fromLinearGray16ToOtherGray16LUT[gray] &
+                        fdbtb[0] = (fromLinebrGrby16ToOtherGrby16LUT[grby] &
                                     0xffff) / 65535.0f;
-                        if (supportsAlpha) {
-                            alp = (rgb>>24) & 0xff;
-                            fdata[1] = alp * (1.0f / 255.0f);
-                            if (isAlphaPremultiplied) {
-                                fdata[0] *= fdata[1];
+                        if (supportsAlphb) {
+                            blp = (rgb>>24) & 0xff;
+                            fdbtb[1] = blp * (1.0f / 255.0f);
+                            if (isAlphbPremultiplied) {
+                                fdbtb[0] *= fdbtb[1];
                             }
                         }
                     } else {
-                        float norm[] = new float[3];
-                        factor = 1.0f / 255.0f;
-                        norm[0] = red * factor;
-                        norm[1] = grn * factor;
-                        norm[2] = blu * factor;
-                        norm = colorSpace.fromRGB(norm);
-                        if (supportsAlpha) {
-                            alp = (rgb>>24) & 0xff;
-                            fdata[numColorComponents] = alp * factor;
-                            if (isAlphaPremultiplied) {
-                                factor *= alp;
+                        flobt norm[] = new flobt[3];
+                        fbctor = 1.0f / 255.0f;
+                        norm[0] = red * fbctor;
+                        norm[1] = grn * fbctor;
+                        norm[2] = blu * fbctor;
+                        norm = colorSpbce.fromRGB(norm);
+                        if (supportsAlphb) {
+                            blp = (rgb>>24) & 0xff;
+                            fdbtb[numColorComponents] = blp * fbctor;
+                            if (isAlphbPremultiplied) {
+                                fbctor *= blp;
                                 for (int i = 0; i < numColorComponents; i++) {
-                                    norm[i] *= factor;
+                                    norm[i] *= fbctor;
                                 }
                             }
                         }
                         for (int i = 0; i < numColorComponents; i++) {
-                            fdata[i] = norm[i];
+                            fdbtb[i] = norm[i];
                         }
                     }
-                    return fdata;
+                    return fdbtb;
                 }
-            case DataBuffer.TYPE_DOUBLE:
+            cbse DbtbBuffer.TYPE_DOUBLE:
                 {
-                    double ddata[];
+                    double ddbtb[];
                     if (pixel == null) {
-                        ddata = new double[numComponents];
+                        ddbtb = new double[numComponents];
                     } else {
-                        ddata = (double[])pixel;
+                        ddbtb = (double[])pixel;
                     }
-                    if (is_sRGB_stdScale || is_LinearRGB_stdScale) {
-                        double factor;
-                        if (is_LinearRGB_stdScale) {
+                    if (is_sRGB_stdScble || is_LinebrRGB_stdScble) {
+                        double fbctor;
+                        if (is_LinebrRGB_stdScble) {
                             red = fromsRGB8LUT16[red] & 0xffff;
                             grn = fromsRGB8LUT16[grn] & 0xffff;
                             blu = fromsRGB8LUT16[blu] & 0xffff;
-                            factor = 1.0 / 65535.0;
+                            fbctor = 1.0 / 65535.0;
                         } else {
-                            factor = 1.0 / 255.0;
+                            fbctor = 1.0 / 255.0;
                         }
-                        if (supportsAlpha) {
-                            alp = (rgb>>24) & 0xff;
-                            ddata[3] = alp * (1.0 / 255.0);
-                            if (isAlphaPremultiplied) {
-                                factor *= ddata[3];
+                        if (supportsAlphb) {
+                            blp = (rgb>>24) & 0xff;
+                            ddbtb[3] = blp * (1.0 / 255.0);
+                            if (isAlphbPremultiplied) {
+                                fbctor *= ddbtb[3];
                             }
                         }
-                        ddata[0] = red * factor;
-                        ddata[1] = grn * factor;
-                        ddata[2] = blu * factor;
-                    } else if (is_LinearGray_stdScale) {
+                        ddbtb[0] = red * fbctor;
+                        ddbtb[1] = grn * fbctor;
+                        ddbtb[2] = blu * fbctor;
+                    } else if (is_LinebrGrby_stdScble) {
                         red = fromsRGB8LUT16[red] & 0xffff;
                         grn = fromsRGB8LUT16[grn] & 0xffff;
                         blu = fromsRGB8LUT16[blu] & 0xffff;
-                        ddata[0] = ((0.2125 * red) +
+                        ddbtb[0] = ((0.2125 * red) +
                                     (0.7154 * grn) +
                                     (0.0721 * blu)) / 65535.0;
-                        if (supportsAlpha) {
-                            alp = (rgb>>24) & 0xff;
-                            ddata[1] = alp * (1.0 / 255.0);
-                            if (isAlphaPremultiplied) {
-                                ddata[0] *= ddata[1];
+                        if (supportsAlphb) {
+                            blp = (rgb>>24) & 0xff;
+                            ddbtb[1] = blp * (1.0 / 255.0);
+                            if (isAlphbPremultiplied) {
+                                ddbtb[0] *= ddbtb[1];
                             }
                         }
-                    } else if (is_ICCGray_stdScale) {
+                    } else if (is_ICCGrby_stdScble) {
                         red = fromsRGB8LUT16[red] & 0xffff;
                         grn = fromsRGB8LUT16[grn] & 0xffff;
                         blu = fromsRGB8LUT16[blu] & 0xffff;
-                        int gray = (int) ((0.2125f * red) +
+                        int grby = (int) ((0.2125f * red) +
                                           (0.7154f * grn) +
                                           (0.0721f * blu) + 0.5f);
-                        ddata[0] = (fromLinearGray16ToOtherGray16LUT[gray] &
+                        ddbtb[0] = (fromLinebrGrby16ToOtherGrby16LUT[grby] &
                                     0xffff) / 65535.0;
-                        if (supportsAlpha) {
-                            alp = (rgb>>24) & 0xff;
-                            ddata[1] = alp * (1.0 / 255.0);
-                            if (isAlphaPremultiplied) {
-                                ddata[0] *= ddata[1];
+                        if (supportsAlphb) {
+                            blp = (rgb>>24) & 0xff;
+                            ddbtb[1] = blp * (1.0 / 255.0);
+                            if (isAlphbPremultiplied) {
+                                ddbtb[0] *= ddbtb[1];
                             }
                         }
                     } else {
-                        float factor = 1.0f / 255.0f;
-                        float norm[] = new float[3];
-                        norm[0] = red * factor;
-                        norm[1] = grn * factor;
-                        norm[2] = blu * factor;
-                        norm = colorSpace.fromRGB(norm);
-                        if (supportsAlpha) {
-                            alp = (rgb>>24) & 0xff;
-                            ddata[numColorComponents] = alp * (1.0 / 255.0);
-                            if (isAlphaPremultiplied) {
-                                factor *= alp;
+                        flobt fbctor = 1.0f / 255.0f;
+                        flobt norm[] = new flobt[3];
+                        norm[0] = red * fbctor;
+                        norm[1] = grn * fbctor;
+                        norm[2] = blu * fbctor;
+                        norm = colorSpbce.fromRGB(norm);
+                        if (supportsAlphb) {
+                            blp = (rgb>>24) & 0xff;
+                            ddbtb[numColorComponents] = blp * (1.0 / 255.0);
+                            if (isAlphbPremultiplied) {
+                                fbctor *= blp;
                                 for (int i = 0; i < numColorComponents; i++) {
-                                    norm[i] *= factor;
+                                    norm[i] *= fbctor;
                                 }
                             }
                         }
                         for (int i = 0; i < numColorComponents; i++) {
-                            ddata[i] = norm[i];
+                            ddbtb[i] = norm[i];
                         }
                     }
-                    return ddata;
+                    return ddbtb;
                 }
             }
         }
 
-        // Handle BYTE, USHORT, & INT here
-        //REMIND: maybe more efficient not to use int array for
-        //DataBuffer.TYPE_USHORT and DataBuffer.TYPE_INT
+        // Hbndle BYTE, USHORT, & INT here
+        //REMIND: mbybe more efficient not to use int brrby for
+        //DbtbBuffer.TYPE_USHORT bnd DbtbBuffer.TYPE_INT
         int intpixel[];
-        if (transferType == DataBuffer.TYPE_INT &&
+        if (trbnsferType == DbtbBuffer.TYPE_INT &&
             pixel != null) {
            intpixel = (int[])pixel;
         } else {
             intpixel = new int[numComponents];
         }
 
-        if (is_sRGB_stdScale || is_LinearRGB_stdScale) {
+        if (is_sRGB_stdScble || is_LinebrRGB_stdScble) {
             int precision;
-            float factor;
-            if (is_LinearRGB_stdScale) {
-                if (transferType == DataBuffer.TYPE_BYTE) {
+            flobt fbctor;
+            if (is_LinebrRGB_stdScble) {
+                if (trbnsferType == DbtbBuffer.TYPE_BYTE) {
                     red = fromsRGB8LUT8[red] & 0xff;
                     grn = fromsRGB8LUT8[grn] & 0xff;
                     blu = fromsRGB8LUT8[blu] & 0xff;
                     precision = 8;
-                    factor = 1.0f / 255.0f;
+                    fbctor = 1.0f / 255.0f;
                 } else {
                     red = fromsRGB8LUT16[red] & 0xffff;
                     grn = fromsRGB8LUT16[grn] & 0xffff;
                     blu = fromsRGB8LUT16[blu] & 0xffff;
                     precision = 16;
-                    factor = 1.0f / 65535.0f;
+                    fbctor = 1.0f / 65535.0f;
                 }
             } else {
                 precision = 8;
-                factor = 1.0f / 255.0f;
+                fbctor = 1.0f / 255.0f;
             }
-            if (supportsAlpha) {
-                alp = (rgb>>24)&0xff;
+            if (supportsAlphb) {
+                blp = (rgb>>24)&0xff;
                 if (nBits[3] == 8) {
-                    intpixel[3] = alp;
+                    intpixel[3] = blp;
                 }
                 else {
                     intpixel[3] = (int)
-                        (alp * (1.0f / 255.0f) * ((1<<nBits[3]) - 1) + 0.5f);
+                        (blp * (1.0f / 255.0f) * ((1<<nBits[3]) - 1) + 0.5f);
                 }
-                if (isAlphaPremultiplied) {
-                    factor *= (alp * (1.0f / 255.0f));
-                    precision = -1;  // force component calculations below
+                if (isAlphbPremultiplied) {
+                    fbctor *= (blp * (1.0f / 255.0f));
+                    precision = -1;  // force component cblculbtions below
                 }
             }
             if (nBits[0] == precision) {
                 intpixel[0] = red;
             }
             else {
-                intpixel[0] = (int) (red * factor * ((1<<nBits[0]) - 1) + 0.5f);
+                intpixel[0] = (int) (red * fbctor * ((1<<nBits[0]) - 1) + 0.5f);
             }
             if (nBits[1] == precision) {
                 intpixel[1] = grn;
             }
             else {
-                intpixel[1] = (int) (grn * factor * ((1<<nBits[1]) - 1) + 0.5f);
+                intpixel[1] = (int) (grn * fbctor * ((1<<nBits[1]) - 1) + 0.5f);
             }
             if (nBits[2] == precision) {
                 intpixel[2] = blu;
             }
             else {
-                intpixel[2] = (int) (blu * factor * ((1<<nBits[2]) - 1) + 0.5f);
+                intpixel[2] = (int) (blu * fbctor * ((1<<nBits[2]) - 1) + 0.5f);
             }
-        } else if (is_LinearGray_stdScale) {
+        } else if (is_LinebrGrby_stdScble) {
             red = fromsRGB8LUT16[red] & 0xffff;
             grn = fromsRGB8LUT16[grn] & 0xffff;
             blu = fromsRGB8LUT16[blu] & 0xffff;
-            float gray = ((0.2125f * red) +
+            flobt grby = ((0.2125f * red) +
                           (0.7154f * grn) +
                           (0.0721f * blu)) / 65535.0f;
-            if (supportsAlpha) {
-                alp = (rgb>>24) & 0xff;
+            if (supportsAlphb) {
+                blp = (rgb>>24) & 0xff;
                 if (nBits[1] == 8) {
-                    intpixel[1] = alp;
+                    intpixel[1] = blp;
                 } else {
-                    intpixel[1] = (int) (alp * (1.0f / 255.0f) *
+                    intpixel[1] = (int) (blp * (1.0f / 255.0f) *
                                          ((1 << nBits[1]) - 1) + 0.5f);
                 }
-                if (isAlphaPremultiplied) {
-                    gray *= (alp * (1.0f / 255.0f));
+                if (isAlphbPremultiplied) {
+                    grby *= (blp * (1.0f / 255.0f));
                 }
             }
-            intpixel[0] = (int) (gray * ((1 << nBits[0]) - 1) + 0.5f);
-        } else if (is_ICCGray_stdScale) {
+            intpixel[0] = (int) (grby * ((1 << nBits[0]) - 1) + 0.5f);
+        } else if (is_ICCGrby_stdScble) {
             red = fromsRGB8LUT16[red] & 0xffff;
             grn = fromsRGB8LUT16[grn] & 0xffff;
             blu = fromsRGB8LUT16[blu] & 0xffff;
-            int gray16 = (int) ((0.2125f * red) +
+            int grby16 = (int) ((0.2125f * red) +
                                 (0.7154f * grn) +
                                 (0.0721f * blu) + 0.5f);
-            float gray = (fromLinearGray16ToOtherGray16LUT[gray16] &
+            flobt grby = (fromLinebrGrby16ToOtherGrby16LUT[grby16] &
                           0xffff) / 65535.0f;
-            if (supportsAlpha) {
-                alp = (rgb>>24) & 0xff;
+            if (supportsAlphb) {
+                blp = (rgb>>24) & 0xff;
                 if (nBits[1] == 8) {
-                    intpixel[1] = alp;
+                    intpixel[1] = blp;
                 } else {
-                    intpixel[1] = (int) (alp * (1.0f / 255.0f) *
+                    intpixel[1] = (int) (blp * (1.0f / 255.0f) *
                                          ((1 << nBits[1]) - 1) + 0.5f);
                 }
-                if (isAlphaPremultiplied) {
-                    gray *= (alp * (1.0f / 255.0f));
+                if (isAlphbPremultiplied) {
+                    grby *= (blp * (1.0f / 255.0f));
                 }
             }
-            intpixel[0] = (int) (gray * ((1 << nBits[0]) - 1) + 0.5f);
+            intpixel[0] = (int) (grby * ((1 << nBits[0]) - 1) + 0.5f);
         } else {
             // Need to convert the color
-            float[] norm = new float[3];
-            float factor = 1.0f / 255.0f;
-            norm[0] = red * factor;
-            norm[1] = grn * factor;
-            norm[2] = blu * factor;
-            norm = colorSpace.fromRGB(norm);
-            if (nonStdScale) {
+            flobt[] norm = new flobt[3];
+            flobt fbctor = 1.0f / 255.0f;
+            norm[0] = red * fbctor;
+            norm[1] = grn * fbctor;
+            norm[2] = blu * fbctor;
+            norm = colorSpbce.fromRGB(norm);
+            if (nonStdScble) {
                 for (int i = 0; i < numColorComponents; i++) {
                     norm[i] = (norm[i] - compOffset[i]) *
-                              compScale[i];
-                    // REMIND: need to analyze whether this
-                    // clamping is necessary
+                              compScble[i];
+                    // REMIND: need to bnblyze whether this
+                    // clbmping is necessbry
                     if (norm[i] < 0.0f) {
                         norm[i] = 0.0f;
                     }
@@ -1589,20 +1589,20 @@ public class ComponentColorModel extends ColorModel {
                     }
                 }
             }
-            if (supportsAlpha) {
-                alp = (rgb>>24) & 0xff;
+            if (supportsAlphb) {
+                blp = (rgb>>24) & 0xff;
                 if (nBits[numColorComponents] == 8) {
-                    intpixel[numColorComponents] = alp;
+                    intpixel[numColorComponents] = blp;
                 }
                 else {
                     intpixel[numColorComponents] =
-                        (int) (alp * factor *
+                        (int) (blp * fbctor *
                                ((1<<nBits[numColorComponents]) - 1) + 0.5f);
                 }
-                if (isAlphaPremultiplied) {
-                    factor *= alp;
+                if (isAlphbPremultiplied) {
+                    fbctor *= blp;
                     for (int i = 0; i < numColorComponents; i++) {
-                        norm[i] *= factor;
+                        norm[i] *= fbctor;
                     }
                 }
             }
@@ -1611,37 +1611,37 @@ public class ComponentColorModel extends ColorModel {
             }
         }
 
-        switch (transferType) {
-            case DataBuffer.TYPE_BYTE: {
-               byte bdata[];
+        switch (trbnsferType) {
+            cbse DbtbBuffer.TYPE_BYTE: {
+               byte bdbtb[];
                if (pixel == null) {
-                   bdata = new byte[numComponents];
+                   bdbtb = new byte[numComponents];
                } else {
-                   bdata = (byte[])pixel;
+                   bdbtb = (byte[])pixel;
                }
                for (int i = 0; i < numComponents; i++) {
-                   bdata[i] = (byte)(0xff&intpixel[i]);
+                   bdbtb[i] = (byte)(0xff&intpixel[i]);
                }
-               return bdata;
+               return bdbtb;
             }
-            case DataBuffer.TYPE_USHORT:{
-               short sdata[];
+            cbse DbtbBuffer.TYPE_USHORT:{
+               short sdbtb[];
                if (pixel == null) {
-                   sdata = new short[numComponents];
+                   sdbtb = new short[numComponents];
                } else {
-                   sdata = (short[])pixel;
+                   sdbtb = (short[])pixel;
                }
                for (int i = 0; i < numComponents; i++) {
-                   sdata[i] = (short)(intpixel[i]&0xffff);
+                   sdbtb[i] = (short)(intpixel[i]&0xffff);
                }
-               return sdata;
+               return sdbtb;
             }
-            case DataBuffer.TYPE_INT:
-                if (maxBits > 23) {
+            cbse DbtbBuffer.TYPE_INT:
+                if (mbxBits > 23) {
                     // fix 4412670 - for components of 24 or more bits
-                    // some calculations done above with float precision
-                    // may lose enough precision that the integer result
-                    // overflows nBits, so we need to clamp.
+                    // some cblculbtions done bbove with flobt precision
+                    // mby lose enough precision thbt the integer result
+                    // overflows nBits, so we need to clbmp.
                     for (int i = 0; i < numComponents; i++) {
                         if (intpixel[i] > ((1<<nBits[i]) - 1)) {
                             intpixel[i] = (1<<nBits[i]) - 1;
@@ -1650,46 +1650,46 @@ public class ComponentColorModel extends ColorModel {
                 }
                 return intpixel;
         }
-        throw new IllegalArgumentException("This method has not been "+
-                 "implemented for transferType " + transferType);
+        throw new IllegblArgumentException("This method hbs not been "+
+                 "implemented for trbnsferType " + trbnsferType);
     }
 
-   /** Returns an array of unnormalized color/alpha components given a pixel
+   /** Returns bn brrby of unnormblized color/blphb components given b pixel
      * in this <CODE>ColorModel</CODE>.
-     * An IllegalArgumentException is thrown if the component value for this
-     * <CODE>ColorModel</CODE> is not conveniently representable in the
-     * unnormalized form.  Color/alpha components are stored
-     * in the <CODE>components</CODE> array starting at <CODE>offset</CODE>
-     * (even if the array is allocated by this method).
+     * An IllegblArgumentException is thrown if the component vblue for this
+     * <CODE>ColorModel</CODE> is not conveniently representbble in the
+     * unnormblized form.  Color/blphb components bre stored
+     * in the <CODE>components</CODE> brrby stbrting bt <CODE>offset</CODE>
+     * (even if the brrby is bllocbted by this method).
      *
-     * @param pixel The pixel value specified as an integer.
-     * @param components An integer array in which to store the unnormalized
-     * color/alpha components. If the <CODE>components</CODE> array is null,
-     * a new array is allocated.
-     * @param offset An offset into the <CODE>components</CODE> array.
+     * @pbrbm pixel The pixel vblue specified bs bn integer.
+     * @pbrbm components An integer brrby in which to store the unnormblized
+     * color/blphb components. If the <CODE>components</CODE> brrby is null,
+     * b new brrby is bllocbted.
+     * @pbrbm offset An offset into the <CODE>components</CODE> brrby.
      *
-     * @return The components array.
+     * @return The components brrby.
      *
-     * @throws IllegalArgumentException If there is more than one
+     * @throws IllegblArgumentException If there is more thbn one
      * component in this <CODE>ColorModel</CODE>.
-     * @throws IllegalArgumentException If this
-     * <CODE>ColorModel</CODE> does not support the unnormalized form
-     * @throws ArrayIndexOutOfBoundsException If the <CODE>components</CODE>
-     * array is not null and is not large enough to hold all the color and
-     * alpha components (starting at offset).
+     * @throws IllegblArgumentException If this
+     * <CODE>ColorModel</CODE> does not support the unnormblized form
+     * @throws ArrbyIndexOutOfBoundsException If the <CODE>components</CODE>
+     * brrby is not null bnd is not lbrge enough to hold bll the color bnd
+     * blphb components (stbrting bt offset).
      */
     public int[] getComponents(int pixel, int[] components, int offset) {
         if (numComponents > 1) {
             throw new
-                IllegalArgumentException("More than one component per pixel");
+                IllegblArgumentException("More thbn one component per pixel");
         }
-        if (needScaleInit) {
-            initScale();
+        if (needScbleInit) {
+            initScble();
         }
         if (noUnnorm) {
             throw new
-                IllegalArgumentException(
-                    "This ColorModel does not support the unnormalized form");
+                IllegblArgumentException(
+                    "This ColorModel does not support the unnormblized form");
         }
         if (components == null) {
             components = new int[offset+1];
@@ -1700,270 +1700,270 @@ public class ComponentColorModel extends ColorModel {
     }
 
     /**
-     * Returns an array of unnormalized color/alpha components given a pixel
-     * in this <CODE>ColorModel</CODE>.  The pixel value is specified by an
-     * array of data elements of type <CODE>transferType</CODE> passed in as
-     * an object reference.
-     * An IllegalArgumentException is thrown if the component values for this
-     * <CODE>ColorModel</CODE> are not conveniently representable in the
-     * unnormalized form.
-     * Color/alpha components are stored in the <CODE>components</CODE> array
-     * starting at  <CODE>offset</CODE> (even if the array is allocated by
-     * this method).  Since <code>ComponentColorModel</code> can be
-     * subclassed, subclasses inherit the
-     * implementation of this method and if they don't override it then
-     * this method might throw an exception if they use an unsupported
-     * <code>transferType</code>.
+     * Returns bn brrby of unnormblized color/blphb components given b pixel
+     * in this <CODE>ColorModel</CODE>.  The pixel vblue is specified by bn
+     * brrby of dbtb elements of type <CODE>trbnsferType</CODE> pbssed in bs
+     * bn object reference.
+     * An IllegblArgumentException is thrown if the component vblues for this
+     * <CODE>ColorModel</CODE> bre not conveniently representbble in the
+     * unnormblized form.
+     * Color/blphb components bre stored in the <CODE>components</CODE> brrby
+     * stbrting bt  <CODE>offset</CODE> (even if the brrby is bllocbted by
+     * this method).  Since <code>ComponentColorModel</code> cbn be
+     * subclbssed, subclbsses inherit the
+     * implementbtion of this method bnd if they don't override it then
+     * this method might throw bn exception if they use bn unsupported
+     * <code>trbnsferType</code>.
      *
-     * @param pixel A pixel value specified by an array of data elements of
-     * type <CODE>transferType</CODE>.
-     * @param components An integer array in which to store the unnormalized
-     * color/alpha components. If the <CODE>components</CODE> array is null,
-     * a new array is allocated.
-     * @param offset An offset into the <CODE>components</CODE> array.
+     * @pbrbm pixel A pixel vblue specified by bn brrby of dbtb elements of
+     * type <CODE>trbnsferType</CODE>.
+     * @pbrbm components An integer brrby in which to store the unnormblized
+     * color/blphb components. If the <CODE>components</CODE> brrby is null,
+     * b new brrby is bllocbted.
+     * @pbrbm offset An offset into the <CODE>components</CODE> brrby.
      *
-     * @return The <CODE>components</CODE> array.
+     * @return The <CODE>components</CODE> brrby.
      *
-     * @throws IllegalArgumentException If this
-     * <CODE>ComponentColorModel</CODE> does not support the unnormalized form
-     * @throws UnsupportedOperationException in some cases iff the
-     * transfer type of this <CODE>ComponentColorModel</CODE>
-     * is not one of the following transfer types:
-     * <CODE>DataBuffer.TYPE_BYTE</CODE>, <CODE>DataBuffer.TYPE_USHORT</CODE>,
-     * or <CODE>DataBuffer.TYPE_INT</CODE>.
-     * @throws ClassCastException If <CODE>pixel</CODE> is not a primitive
-     * array of type <CODE>transferType</CODE>.
-     * @throws IllegalArgumentException If the <CODE>components</CODE> array is
-     * not null and is not large enough to hold all the color and alpha
-     * components (starting at offset), or if <CODE>pixel</CODE> is not large
-     * enough to hold a pixel value for this ColorModel.
+     * @throws IllegblArgumentException If this
+     * <CODE>ComponentColorModel</CODE> does not support the unnormblized form
+     * @throws UnsupportedOperbtionException in some cbses iff the
+     * trbnsfer type of this <CODE>ComponentColorModel</CODE>
+     * is not one of the following trbnsfer types:
+     * <CODE>DbtbBuffer.TYPE_BYTE</CODE>, <CODE>DbtbBuffer.TYPE_USHORT</CODE>,
+     * or <CODE>DbtbBuffer.TYPE_INT</CODE>.
+     * @throws ClbssCbstException If <CODE>pixel</CODE> is not b primitive
+     * brrby of type <CODE>trbnsferType</CODE>.
+     * @throws IllegblArgumentException If the <CODE>components</CODE> brrby is
+     * not null bnd is not lbrge enough to hold bll the color bnd blphb
+     * components (stbrting bt offset), or if <CODE>pixel</CODE> is not lbrge
+     * enough to hold b pixel vblue for this ColorModel.
      */
     public int[] getComponents(Object pixel, int[] components, int offset) {
         int intpixel[];
-        if (needScaleInit) {
-            initScale();
+        if (needScbleInit) {
+            initScble();
         }
         if (noUnnorm) {
             throw new
-                IllegalArgumentException(
-                    "This ColorModel does not support the unnormalized form");
+                IllegblArgumentException(
+                    "This ColorModel does not support the unnormblized form");
         }
-        if (pixel instanceof int[]) {
+        if (pixel instbnceof int[]) {
             intpixel = (int[])pixel;
         } else {
-            intpixel = DataBuffer.toIntArray(pixel);
+            intpixel = DbtbBuffer.toIntArrby(pixel);
             if (intpixel == null) {
-               throw new UnsupportedOperationException("This method has not been "+
-                   "implemented for transferType " + transferType);
+               throw new UnsupportedOperbtionException("This method hbs not been "+
+                   "implemented for trbnsferType " + trbnsferType);
             }
         }
         if (intpixel.length < numComponents) {
-            throw new IllegalArgumentException
-                ("Length of pixel array < number of components in model");
+            throw new IllegblArgumentException
+                ("Length of pixel brrby < number of components in model");
         }
         if (components == null) {
             components = new int[offset+numComponents];
         }
         else if ((components.length-offset) < numComponents) {
-            throw new IllegalArgumentException
-                ("Length of components array < number of components in model");
+            throw new IllegblArgumentException
+                ("Length of components brrby < number of components in model");
         }
-        System.arraycopy(intpixel, 0, components, offset, numComponents);
+        System.brrbycopy(intpixel, 0, components, offset, numComponents);
 
         return components;
     }
 
     /**
-     * Returns an array of all of the color/alpha components in unnormalized
-     * form, given a normalized component array.  Unnormalized components
-     * are unsigned integral values between 0 and 2<sup>n</sup> - 1, where
-     * n is the number of bits for a particular component.  Normalized
-     * components are float values between a per component minimum and
-     * maximum specified by the <code>ColorSpace</code> object for this
-     * <code>ColorModel</code>.  An <code>IllegalArgumentException</code>
-     * will be thrown if color component values for this
-     * <code>ColorModel</code> are not conveniently representable in the
-     * unnormalized form.  If the
-     * <code>components</code> array is <code>null</code>, a new array
-     * will be allocated.  The <code>components</code> array will
-     * be returned.  Color/alpha components are stored in the
-     * <code>components</code> array starting at <code>offset</code> (even
-     * if the array is allocated by this method). An
-     * <code>ArrayIndexOutOfBoundsException</code> is thrown if the
-     * <code>components</code> array is not <code>null</code> and is not
-     * large enough to hold all the color and alpha
-     * components (starting at <code>offset</code>).  An
-     * <code>IllegalArgumentException</code> is thrown if the
-     * <code>normComponents</code> array is not large enough to hold
-     * all the color and alpha components starting at
+     * Returns bn brrby of bll of the color/blphb components in unnormblized
+     * form, given b normblized component brrby.  Unnormblized components
+     * bre unsigned integrbl vblues between 0 bnd 2<sup>n</sup> - 1, where
+     * n is the number of bits for b pbrticulbr component.  Normblized
+     * components bre flobt vblues between b per component minimum bnd
+     * mbximum specified by the <code>ColorSpbce</code> object for this
+     * <code>ColorModel</code>.  An <code>IllegblArgumentException</code>
+     * will be thrown if color component vblues for this
+     * <code>ColorModel</code> bre not conveniently representbble in the
+     * unnormblized form.  If the
+     * <code>components</code> brrby is <code>null</code>, b new brrby
+     * will be bllocbted.  The <code>components</code> brrby will
+     * be returned.  Color/blphb components bre stored in the
+     * <code>components</code> brrby stbrting bt <code>offset</code> (even
+     * if the brrby is bllocbted by this method). An
+     * <code>ArrbyIndexOutOfBoundsException</code> is thrown if the
+     * <code>components</code> brrby is not <code>null</code> bnd is not
+     * lbrge enough to hold bll the color bnd blphb
+     * components (stbrting bt <code>offset</code>).  An
+     * <code>IllegblArgumentException</code> is thrown if the
+     * <code>normComponents</code> brrby is not lbrge enough to hold
+     * bll the color bnd blphb components stbrting bt
      * <code>normOffset</code>.
-     * @param normComponents an array containing normalized components
-     * @param normOffset the offset into the <code>normComponents</code>
-     * array at which to start retrieving normalized components
-     * @param components an array that receives the components from
+     * @pbrbm normComponents bn brrby contbining normblized components
+     * @pbrbm normOffset the offset into the <code>normComponents</code>
+     * brrby bt which to stbrt retrieving normblized components
+     * @pbrbm components bn brrby thbt receives the components from
      * <code>normComponents</code>
-     * @param offset the index into <code>components</code> at which to
-     * begin storing normalized components from
+     * @pbrbm offset the index into <code>components</code> bt which to
+     * begin storing normblized components from
      * <code>normComponents</code>
-     * @return an array containing unnormalized color and alpha
+     * @return bn brrby contbining unnormblized color bnd blphb
      * components.
-     * @throws IllegalArgumentException If this
-     * <CODE>ComponentColorModel</CODE> does not support the unnormalized form
-     * @throws IllegalArgumentException if the length of
+     * @throws IllegblArgumentException If this
+     * <CODE>ComponentColorModel</CODE> does not support the unnormblized form
+     * @throws IllegblArgumentException if the length of
      *          <code>normComponents</code> minus <code>normOffset</code>
-     *          is less than <code>numComponents</code>
+     *          is less thbn <code>numComponents</code>
      */
-    public int[] getUnnormalizedComponents(float[] normComponents,
+    public int[] getUnnormblizedComponents(flobt[] normComponents,
                                            int normOffset,
                                            int[] components, int offset) {
-        if (needScaleInit) {
-            initScale();
+        if (needScbleInit) {
+            initScble();
         }
         if (noUnnorm) {
             throw new
-                IllegalArgumentException(
-                    "This ColorModel does not support the unnormalized form");
+                IllegblArgumentException(
+                    "This ColorModel does not support the unnormblized form");
         }
-        return super.getUnnormalizedComponents(normComponents, normOffset,
+        return super.getUnnormblizedComponents(normComponents, normOffset,
                                                components, offset);
     }
 
     /**
-     * Returns an array of all of the color/alpha components in normalized
-     * form, given an unnormalized component array.  Unnormalized components
-     * are unsigned integral values between 0 and 2<sup>n</sup> - 1, where
-     * n is the number of bits for a particular component.  Normalized
-     * components are float values between a per component minimum and
-     * maximum specified by the <code>ColorSpace</code> object for this
-     * <code>ColorModel</code>.  An <code>IllegalArgumentException</code>
-     * will be thrown if color component values for this
-     * <code>ColorModel</code> are not conveniently representable in the
-     * unnormalized form.  If the
-     * <code>normComponents</code> array is <code>null</code>, a new array
-     * will be allocated.  The <code>normComponents</code> array
-     * will be returned.  Color/alpha components are stored in the
-     * <code>normComponents</code> array starting at
-     * <code>normOffset</code> (even if the array is allocated by this
-     * method).  An <code>ArrayIndexOutOfBoundsException</code> is thrown
-     * if the <code>normComponents</code> array is not <code>null</code>
-     * and is not large enough to hold all the color and alpha components
-     * (starting at <code>normOffset</code>).  An
-     * <code>IllegalArgumentException</code> is thrown if the
-     * <code>components</code> array is not large enough to hold all the
-     * color and alpha components starting at <code>offset</code>.
-     * @param components an array containing unnormalized components
-     * @param offset the offset into the <code>components</code> array at
-     * which to start retrieving unnormalized components
-     * @param normComponents an array that receives the normalized components
-     * @param normOffset the index into <code>normComponents</code> at
-     * which to begin storing normalized components
-     * @return an array containing normalized color and alpha
+     * Returns bn brrby of bll of the color/blphb components in normblized
+     * form, given bn unnormblized component brrby.  Unnormblized components
+     * bre unsigned integrbl vblues between 0 bnd 2<sup>n</sup> - 1, where
+     * n is the number of bits for b pbrticulbr component.  Normblized
+     * components bre flobt vblues between b per component minimum bnd
+     * mbximum specified by the <code>ColorSpbce</code> object for this
+     * <code>ColorModel</code>.  An <code>IllegblArgumentException</code>
+     * will be thrown if color component vblues for this
+     * <code>ColorModel</code> bre not conveniently representbble in the
+     * unnormblized form.  If the
+     * <code>normComponents</code> brrby is <code>null</code>, b new brrby
+     * will be bllocbted.  The <code>normComponents</code> brrby
+     * will be returned.  Color/blphb components bre stored in the
+     * <code>normComponents</code> brrby stbrting bt
+     * <code>normOffset</code> (even if the brrby is bllocbted by this
+     * method).  An <code>ArrbyIndexOutOfBoundsException</code> is thrown
+     * if the <code>normComponents</code> brrby is not <code>null</code>
+     * bnd is not lbrge enough to hold bll the color bnd blphb components
+     * (stbrting bt <code>normOffset</code>).  An
+     * <code>IllegblArgumentException</code> is thrown if the
+     * <code>components</code> brrby is not lbrge enough to hold bll the
+     * color bnd blphb components stbrting bt <code>offset</code>.
+     * @pbrbm components bn brrby contbining unnormblized components
+     * @pbrbm offset the offset into the <code>components</code> brrby bt
+     * which to stbrt retrieving unnormblized components
+     * @pbrbm normComponents bn brrby thbt receives the normblized components
+     * @pbrbm normOffset the index into <code>normComponents</code> bt
+     * which to begin storing normblized components
+     * @return bn brrby contbining normblized color bnd blphb
      * components.
-     * @throws IllegalArgumentException If this
-     * <CODE>ComponentColorModel</CODE> does not support the unnormalized form
+     * @throws IllegblArgumentException If this
+     * <CODE>ComponentColorModel</CODE> does not support the unnormblized form
      */
-    public float[] getNormalizedComponents(int[] components, int offset,
-                                           float[] normComponents,
+    public flobt[] getNormblizedComponents(int[] components, int offset,
+                                           flobt[] normComponents,
                                            int normOffset) {
-        if (needScaleInit) {
-            initScale();
+        if (needScbleInit) {
+            initScble();
         }
         if (noUnnorm) {
             throw new
-                IllegalArgumentException(
-                    "This ColorModel does not support the unnormalized form");
+                IllegblArgumentException(
+                    "This ColorModel does not support the unnormblized form");
         }
-        return super.getNormalizedComponents(components, offset,
+        return super.getNormblizedComponents(components, offset,
                                              normComponents, normOffset);
     }
 
     /**
-     * Returns a pixel value represented as an int in this <CODE>ColorModel</CODE>,
-     * given an array of unnormalized color/alpha components.
+     * Returns b pixel vblue represented bs bn int in this <CODE>ColorModel</CODE>,
+     * given bn brrby of unnormblized color/blphb components.
      *
-     * @param components An array of unnormalized color/alpha components.
-     * @param offset An offset into the <CODE>components</CODE> array.
+     * @pbrbm components An brrby of unnormblized color/blphb components.
+     * @pbrbm offset An offset into the <CODE>components</CODE> brrby.
      *
-     * @return A pixel value represented as an int.
+     * @return A pixel vblue represented bs bn int.
      *
-     * @throws IllegalArgumentException If there is more than one component
+     * @throws IllegblArgumentException If there is more thbn one component
      * in this <CODE>ColorModel</CODE>.
-     * @throws IllegalArgumentException If this
-     * <CODE>ComponentColorModel</CODE> does not support the unnormalized form
+     * @throws IllegblArgumentException If this
+     * <CODE>ComponentColorModel</CODE> does not support the unnormblized form
      */
-    public int getDataElement(int[] components, int offset) {
-        if (needScaleInit) {
-            initScale();
+    public int getDbtbElement(int[] components, int offset) {
+        if (needScbleInit) {
+            initScble();
         }
         if (numComponents == 1) {
             if (noUnnorm) {
                 throw new
-                    IllegalArgumentException(
-                    "This ColorModel does not support the unnormalized form");
+                    IllegblArgumentException(
+                    "This ColorModel does not support the unnormblized form");
             }
             return components[offset+0];
         }
-        throw new IllegalArgumentException("This model returns "+
+        throw new IllegblArgumentException("This model returns "+
                                            numComponents+
-                                           " elements in the pixel array.");
+                                           " elements in the pixel brrby.");
     }
 
     /**
-     * Returns a data element array representation of a pixel in this
-     * <CODE>ColorModel</CODE>, given an array of unnormalized color/alpha
-     * components. This array can then be passed to the <CODE>setDataElements</CODE>
-     * method of a <CODE>WritableRaster</CODE> object.
+     * Returns b dbtb element brrby representbtion of b pixel in this
+     * <CODE>ColorModel</CODE>, given bn brrby of unnormblized color/blphb
+     * components. This brrby cbn then be pbssed to the <CODE>setDbtbElements</CODE>
+     * method of b <CODE>WritbbleRbster</CODE> object.
      *
-     * @param components An array of unnormalized color/alpha components.
-     * @param offset The integer offset into the <CODE>components</CODE> array.
-     * @param obj The object in which to store the data element array
-     * representation of the pixel. If <CODE>obj</CODE> variable is null,
-     * a new array is allocated.  If <CODE>obj</CODE> is not null, it must
-     * be a primitive array of type <CODE>transferType</CODE>. An
-     * <CODE>ArrayIndexOutOfBoundsException</CODE> is thrown if
-     * <CODE>obj</CODE> is not large enough to hold a pixel value
+     * @pbrbm components An brrby of unnormblized color/blphb components.
+     * @pbrbm offset The integer offset into the <CODE>components</CODE> brrby.
+     * @pbrbm obj The object in which to store the dbtb element brrby
+     * representbtion of the pixel. If <CODE>obj</CODE> vbribble is null,
+     * b new brrby is bllocbted.  If <CODE>obj</CODE> is not null, it must
+     * be b primitive brrby of type <CODE>trbnsferType</CODE>. An
+     * <CODE>ArrbyIndexOutOfBoundsException</CODE> is thrown if
+     * <CODE>obj</CODE> is not lbrge enough to hold b pixel vblue
      * for this <CODE>ColorModel</CODE>.  Since
-     * <code>ComponentColorModel</code> can be subclassed, subclasses
-     * inherit the implementation of this method and if they don't
-     * override it then they throw an exception if they use an
-     * unsupported <code>transferType</code>.
+     * <code>ComponentColorModel</code> cbn be subclbssed, subclbsses
+     * inherit the implementbtion of this method bnd if they don't
+     * override it then they throw bn exception if they use bn
+     * unsupported <code>trbnsferType</code>.
      *
-     * @return The data element array representation of a pixel
+     * @return The dbtb element brrby representbtion of b pixel
      * in this <CODE>ColorModel</CODE>.
      *
-     * @throws IllegalArgumentException If the components array
-     * is not large enough to hold all the color and alpha components
-     * (starting at offset).
-     * @throws ClassCastException If <CODE>obj</CODE> is not null and is not a
-     * primitive  array of type <CODE>transferType</CODE>.
-     * @throws ArrayIndexOutOfBoundsException If <CODE>obj</CODE> is not large
-     * enough to hold a pixel value for this <CODE>ColorModel</CODE>.
-     * @throws IllegalArgumentException If this
-     * <CODE>ComponentColorModel</CODE> does not support the unnormalized form
-     * @throws UnsupportedOperationException If the transfer type of
+     * @throws IllegblArgumentException If the components brrby
+     * is not lbrge enough to hold bll the color bnd blphb components
+     * (stbrting bt offset).
+     * @throws ClbssCbstException If <CODE>obj</CODE> is not null bnd is not b
+     * primitive  brrby of type <CODE>trbnsferType</CODE>.
+     * @throws ArrbyIndexOutOfBoundsException If <CODE>obj</CODE> is not lbrge
+     * enough to hold b pixel vblue for this <CODE>ColorModel</CODE>.
+     * @throws IllegblArgumentException If this
+     * <CODE>ComponentColorModel</CODE> does not support the unnormblized form
+     * @throws UnsupportedOperbtionException If the trbnsfer type of
      * this <CODE>ComponentColorModel</CODE>
-     * is not one of the following transfer types:
-     * <CODE>DataBuffer.TYPE_BYTE</CODE>, <CODE>DataBuffer.TYPE_USHORT</CODE>,
-     * or <CODE>DataBuffer.TYPE_INT</CODE>.
+     * is not one of the following trbnsfer types:
+     * <CODE>DbtbBuffer.TYPE_BYTE</CODE>, <CODE>DbtbBuffer.TYPE_USHORT</CODE>,
+     * or <CODE>DbtbBuffer.TYPE_INT</CODE>.
      *
-     * @see WritableRaster#setDataElements
-     * @see SampleModel#setDataElements
+     * @see WritbbleRbster#setDbtbElements
+     * @see SbmpleModel#setDbtbElements
      */
-    public Object getDataElements(int[] components, int offset, Object obj) {
-        if (needScaleInit) {
-            initScale();
+    public Object getDbtbElements(int[] components, int offset, Object obj) {
+        if (needScbleInit) {
+            initScble();
         }
         if (noUnnorm) {
             throw new
-                IllegalArgumentException(
-                    "This ColorModel does not support the unnormalized form");
+                IllegblArgumentException(
+                    "This ColorModel does not support the unnormblized form");
         }
         if ((components.length-offset) < numComponents) {
-            throw new IllegalArgumentException("Component array too small"+
+            throw new IllegblArgumentException("Component brrby too smbll"+
                                                " (should be "+numComponents);
         }
-        switch(transferType) {
-        case DataBuffer.TYPE_INT:
+        switch(trbnsferType) {
+        cbse DbtbBuffer.TYPE_INT:
             {
                 int[] pixel;
                 if (obj == null) {
@@ -1972,12 +1972,12 @@ public class ComponentColorModel extends ColorModel {
                 else {
                     pixel = (int[]) obj;
                 }
-                System.arraycopy(components, offset, pixel, 0,
+                System.brrbycopy(components, offset, pixel, 0,
                                  numComponents);
                 return pixel;
             }
 
-        case DataBuffer.TYPE_BYTE:
+        cbse DbtbBuffer.TYPE_BYTE:
             {
                 byte[] pixel;
                 if (obj == null) {
@@ -1992,7 +1992,7 @@ public class ComponentColorModel extends ColorModel {
                 return pixel;
             }
 
-        case DataBuffer.TYPE_USHORT:
+        cbse DbtbBuffer.TYPE_USHORT:
             {
                 short[] pixel;
                 if (obj == null) {
@@ -2007,122 +2007,122 @@ public class ComponentColorModel extends ColorModel {
                 return pixel;
             }
 
-        default:
-            throw new UnsupportedOperationException("This method has not been "+
-                                        "implemented for transferType " +
-                                        transferType);
+        defbult:
+            throw new UnsupportedOperbtionException("This method hbs not been "+
+                                        "implemented for trbnsferType " +
+                                        trbnsferType);
         }
     }
 
     /**
-     * Returns a pixel value represented as an <code>int</code> in this
-     * <code>ColorModel</code>, given an array of normalized color/alpha
-     * components.  This method will throw an
-     * <code>IllegalArgumentException</code> if pixel values for this
-     * <code>ColorModel</code> are not conveniently representable as a
+     * Returns b pixel vblue represented bs bn <code>int</code> in this
+     * <code>ColorModel</code>, given bn brrby of normblized color/blphb
+     * components.  This method will throw bn
+     * <code>IllegblArgumentException</code> if pixel vblues for this
+     * <code>ColorModel</code> bre not conveniently representbble bs b
      * single <code>int</code>.  An
-     * <code>ArrayIndexOutOfBoundsException</code> is thrown if  the
-     * <code>normComponents</code> array is not large enough to hold all the
-     * color and alpha components (starting at <code>normOffset</code>).
-     * @param normComponents an array of normalized color and alpha
+     * <code>ArrbyIndexOutOfBoundsException</code> is thrown if  the
+     * <code>normComponents</code> brrby is not lbrge enough to hold bll the
+     * color bnd blphb components (stbrting bt <code>normOffset</code>).
+     * @pbrbm normComponents bn brrby of normblized color bnd blphb
      * components
-     * @param normOffset the index into <code>normComponents</code> at which to
-     * begin retrieving the color and alpha components
-     * @return an <code>int</code> pixel value in this
+     * @pbrbm normOffset the index into <code>normComponents</code> bt which to
+     * begin retrieving the color bnd blphb components
+     * @return bn <code>int</code> pixel vblue in this
      * <code>ColorModel</code> corresponding to the specified components.
-     * @throws IllegalArgumentException if
-     *  pixel values for this <code>ColorModel</code> are not
-     *  conveniently representable as a single <code>int</code>
-     * @throws ArrayIndexOutOfBoundsException if
-     *  the <code>normComponents</code> array is not large enough to
-     *  hold all of the color and alpha components starting at
+     * @throws IllegblArgumentException if
+     *  pixel vblues for this <code>ColorModel</code> bre not
+     *  conveniently representbble bs b single <code>int</code>
+     * @throws ArrbyIndexOutOfBoundsException if
+     *  the <code>normComponents</code> brrby is not lbrge enough to
+     *  hold bll of the color bnd blphb components stbrting bt
      *  <code>normOffset</code>
      * @since 1.4
      */
-    public int getDataElement(float[] normComponents, int normOffset) {
+    public int getDbtbElement(flobt[] normComponents, int normOffset) {
         if (numComponents > 1) {
             throw new
-                IllegalArgumentException("More than one component per pixel");
+                IllegblArgumentException("More thbn one component per pixel");
         }
         if (signed) {
             throw new
-                IllegalArgumentException("Component value is signed");
+                IllegblArgumentException("Component vblue is signed");
         }
-        if (needScaleInit) {
-            initScale();
+        if (needScbleInit) {
+            initScble();
         }
-        Object pixel = getDataElements(normComponents, normOffset, null);
-        switch (transferType) {
-        case DataBuffer.TYPE_BYTE:
+        Object pixel = getDbtbElements(normComponents, normOffset, null);
+        switch (trbnsferType) {
+        cbse DbtbBuffer.TYPE_BYTE:
             {
                 byte bpixel[] = (byte[]) pixel;
                 return bpixel[0] & 0xff;
             }
-        case DataBuffer.TYPE_USHORT:
+        cbse DbtbBuffer.TYPE_USHORT:
             {
                 short[] uspixel = (short[]) pixel;
                 return uspixel[0] & 0xffff;
             }
-        case DataBuffer.TYPE_INT:
+        cbse DbtbBuffer.TYPE_INT:
             {
                 int[] ipixel = (int[]) pixel;
                 return ipixel[0];
             }
-        default:
-            throw new UnsupportedOperationException("This method has not been "
-                + "implemented for transferType " + transferType);
+        defbult:
+            throw new UnsupportedOperbtionException("This method hbs not been "
+                + "implemented for trbnsferType " + trbnsferType);
         }
     }
 
     /**
-     * Returns a data element array representation of a pixel in this
-     * <code>ColorModel</code>, given an array of normalized color/alpha
-     * components.  This array can then be passed to the
-     * <code>setDataElements</code> method of a <code>WritableRaster</code>
-     * object.  An <code>ArrayIndexOutOfBoundsException</code> is thrown
-     * if the <code>normComponents</code> array is not large enough to hold
-     * all the color and alpha components (starting at
-     * <code>normOffset</code>).  If the <code>obj</code> variable is
-     * <code>null</code>, a new array will be allocated.  If
-     * <code>obj</code> is not <code>null</code>, it must be a primitive
-     * array of type transferType; otherwise, a
-     * <code>ClassCastException</code> is thrown.  An
-     * <code>ArrayIndexOutOfBoundsException</code> is thrown if
-     * <code>obj</code> is not large enough to hold a pixel value for this
+     * Returns b dbtb element brrby representbtion of b pixel in this
+     * <code>ColorModel</code>, given bn brrby of normblized color/blphb
+     * components.  This brrby cbn then be pbssed to the
+     * <code>setDbtbElements</code> method of b <code>WritbbleRbster</code>
+     * object.  An <code>ArrbyIndexOutOfBoundsException</code> is thrown
+     * if the <code>normComponents</code> brrby is not lbrge enough to hold
+     * bll the color bnd blphb components (stbrting bt
+     * <code>normOffset</code>).  If the <code>obj</code> vbribble is
+     * <code>null</code>, b new brrby will be bllocbted.  If
+     * <code>obj</code> is not <code>null</code>, it must be b primitive
+     * brrby of type trbnsferType; otherwise, b
+     * <code>ClbssCbstException</code> is thrown.  An
+     * <code>ArrbyIndexOutOfBoundsException</code> is thrown if
+     * <code>obj</code> is not lbrge enough to hold b pixel vblue for this
      * <code>ColorModel</code>.
-     * @param normComponents an array of normalized color and alpha
+     * @pbrbm normComponents bn brrby of normblized color bnd blphb
      * components
-     * @param normOffset the index into <code>normComponents</code> at which to
-     * begin retrieving color and alpha components
-     * @param obj a primitive data array to hold the returned pixel
-     * @return an <code>Object</code> which is a primitive data array
-     * representation of a pixel
-     * @throws ClassCastException if <code>obj</code>
-     *  is not a primitive array of type <code>transferType</code>
-     * @throws ArrayIndexOutOfBoundsException if
-     *  <code>obj</code> is not large enough to hold a pixel value
+     * @pbrbm normOffset the index into <code>normComponents</code> bt which to
+     * begin retrieving color bnd blphb components
+     * @pbrbm obj b primitive dbtb brrby to hold the returned pixel
+     * @return bn <code>Object</code> which is b primitive dbtb brrby
+     * representbtion of b pixel
+     * @throws ClbssCbstException if <code>obj</code>
+     *  is not b primitive brrby of type <code>trbnsferType</code>
+     * @throws ArrbyIndexOutOfBoundsException if
+     *  <code>obj</code> is not lbrge enough to hold b pixel vblue
      *  for this <code>ColorModel</code> or the <code>normComponents</code>
-     *  array is not large enough to hold all of the color and alpha
-     *  components starting at <code>normOffset</code>
-     * @see WritableRaster#setDataElements
-     * @see SampleModel#setDataElements
+     *  brrby is not lbrge enough to hold bll of the color bnd blphb
+     *  components stbrting bt <code>normOffset</code>
+     * @see WritbbleRbster#setDbtbElements
+     * @see SbmpleModel#setDbtbElements
      * @since 1.4
      */
-    public Object getDataElements(float[] normComponents, int normOffset,
+    public Object getDbtbElements(flobt[] normComponents, int normOffset,
                                   Object obj) {
-        boolean needAlpha = supportsAlpha && isAlphaPremultiplied;
-        float[] stdNormComponents;
-        if (needScaleInit) {
-            initScale();
+        boolebn needAlphb = supportsAlphb && isAlphbPremultiplied;
+        flobt[] stdNormComponents;
+        if (needScbleInit) {
+            initScble();
         }
-        if (nonStdScale) {
-            stdNormComponents = new float[numComponents];
+        if (nonStdScble) {
+            stdNormComponents = new flobt[numComponents];
             for (int c = 0, nc = normOffset; c < numColorComponents;
                  c++, nc++) {
                 stdNormComponents[c] = (normComponents[nc] - compOffset[c]) *
-                                       compScale[c];
-                // REMIND: need to analyze whether this
-                // clamping is necessary
+                                       compScble[c];
+                // REMIND: need to bnblyze whether this
+                // clbmping is necessbry
                 if (stdNormComponents[c] < 0.0f) {
                     stdNormComponents[c] = 0.0f;
                 }
@@ -2130,7 +2130,7 @@ public class ComponentColorModel extends ColorModel {
                     stdNormComponents[c] = 1.0f;
                 }
             }
-            if (supportsAlpha) {
+            if (supportsAlphb) {
                 stdNormComponents[numColorComponents] =
                     normComponents[numColorComponents + normOffset];
             }
@@ -2138,106 +2138,106 @@ public class ComponentColorModel extends ColorModel {
         } else {
             stdNormComponents = normComponents;
         }
-        switch (transferType) {
-        case DataBuffer.TYPE_BYTE:
+        switch (trbnsferType) {
+        cbse DbtbBuffer.TYPE_BYTE:
             byte[] bpixel;
             if (obj == null) {
                 bpixel = new byte[numComponents];
             } else {
                 bpixel = (byte[]) obj;
             }
-            if (needAlpha) {
-                float alpha =
+            if (needAlphb) {
+                flobt blphb =
                     stdNormComponents[numColorComponents + normOffset];
                 for (int c = 0, nc = normOffset; c < numColorComponents;
                      c++, nc++) {
-                    bpixel[c] = (byte) ((stdNormComponents[nc] * alpha) *
-                                        ((float) ((1 << nBits[c]) - 1)) + 0.5f);
+                    bpixel[c] = (byte) ((stdNormComponents[nc] * blphb) *
+                                        ((flobt) ((1 << nBits[c]) - 1)) + 0.5f);
                 }
                 bpixel[numColorComponents] =
-                    (byte) (alpha *
-                            ((float) ((1 << nBits[numColorComponents]) - 1)) +
+                    (byte) (blphb *
+                            ((flobt) ((1 << nBits[numColorComponents]) - 1)) +
                             0.5f);
             } else {
                 for (int c = 0, nc = normOffset; c < numComponents;
                      c++, nc++) {
                     bpixel[c] = (byte) (stdNormComponents[nc] *
-                                        ((float) ((1 << nBits[c]) - 1)) + 0.5f);
+                                        ((flobt) ((1 << nBits[c]) - 1)) + 0.5f);
                 }
             }
             return bpixel;
-        case DataBuffer.TYPE_USHORT:
+        cbse DbtbBuffer.TYPE_USHORT:
             short[] uspixel;
             if (obj == null) {
                 uspixel = new short[numComponents];
             } else {
                 uspixel = (short[]) obj;
             }
-            if (needAlpha) {
-                float alpha =
+            if (needAlphb) {
+                flobt blphb =
                     stdNormComponents[numColorComponents + normOffset];
                 for (int c = 0, nc = normOffset; c < numColorComponents;
                      c++, nc++) {
-                    uspixel[c] = (short) ((stdNormComponents[nc] * alpha) *
-                                          ((float) ((1 << nBits[c]) - 1)) +
+                    uspixel[c] = (short) ((stdNormComponents[nc] * blphb) *
+                                          ((flobt) ((1 << nBits[c]) - 1)) +
                                           0.5f);
                 }
                 uspixel[numColorComponents] =
-                    (short) (alpha *
-                             ((float) ((1 << nBits[numColorComponents]) - 1)) +
+                    (short) (blphb *
+                             ((flobt) ((1 << nBits[numColorComponents]) - 1)) +
                              0.5f);
             } else {
                 for (int c = 0, nc = normOffset; c < numComponents;
                      c++, nc++) {
                     uspixel[c] = (short) (stdNormComponents[nc] *
-                                          ((float) ((1 << nBits[c]) - 1)) +
+                                          ((flobt) ((1 << nBits[c]) - 1)) +
                                           0.5f);
                 }
             }
             return uspixel;
-        case DataBuffer.TYPE_INT:
+        cbse DbtbBuffer.TYPE_INT:
             int[] ipixel;
             if (obj == null) {
                 ipixel = new int[numComponents];
             } else {
                 ipixel = (int[]) obj;
             }
-            if (needAlpha) {
-                float alpha =
+            if (needAlphb) {
+                flobt blphb =
                     stdNormComponents[numColorComponents + normOffset];
                 for (int c = 0, nc = normOffset; c < numColorComponents;
                      c++, nc++) {
-                    ipixel[c] = (int) ((stdNormComponents[nc] * alpha) *
-                                       ((float) ((1 << nBits[c]) - 1)) + 0.5f);
+                    ipixel[c] = (int) ((stdNormComponents[nc] * blphb) *
+                                       ((flobt) ((1 << nBits[c]) - 1)) + 0.5f);
                 }
                 ipixel[numColorComponents] =
-                    (int) (alpha *
-                           ((float) ((1 << nBits[numColorComponents]) - 1)) +
+                    (int) (blphb *
+                           ((flobt) ((1 << nBits[numColorComponents]) - 1)) +
                            0.5f);
             } else {
                 for (int c = 0, nc = normOffset; c < numComponents;
                      c++, nc++) {
                     ipixel[c] = (int) (stdNormComponents[nc] *
-                                       ((float) ((1 << nBits[c]) - 1)) + 0.5f);
+                                       ((flobt) ((1 << nBits[c]) - 1)) + 0.5f);
                 }
             }
             return ipixel;
-        case DataBuffer.TYPE_SHORT:
+        cbse DbtbBuffer.TYPE_SHORT:
             short[] spixel;
             if (obj == null) {
                 spixel = new short[numComponents];
             } else {
                 spixel = (short[]) obj;
             }
-            if (needAlpha) {
-                float alpha =
+            if (needAlphb) {
+                flobt blphb =
                     stdNormComponents[numColorComponents + normOffset];
                 for (int c = 0, nc = normOffset; c < numColorComponents;
                      c++, nc++) {
                     spixel[c] = (short)
-                        (stdNormComponents[nc] * alpha * 32767.0f + 0.5f);
+                        (stdNormComponents[nc] * blphb * 32767.0f + 0.5f);
                 }
-                spixel[numColorComponents] = (short) (alpha * 32767.0f + 0.5f);
+                spixel[numColorComponents] = (short) (blphb * 32767.0f + 0.5f);
             } else {
                 for (int c = 0, nc = normOffset; c < numComponents;
                      c++, nc++) {
@@ -2246,20 +2246,20 @@ public class ComponentColorModel extends ColorModel {
                 }
             }
             return spixel;
-        case DataBuffer.TYPE_FLOAT:
-            float[] fpixel;
+        cbse DbtbBuffer.TYPE_FLOAT:
+            flobt[] fpixel;
             if (obj == null) {
-                fpixel = new float[numComponents];
+                fpixel = new flobt[numComponents];
             } else {
-                fpixel = (float[]) obj;
+                fpixel = (flobt[]) obj;
             }
-            if (needAlpha) {
-                float alpha = normComponents[numColorComponents + normOffset];
+            if (needAlphb) {
+                flobt blphb = normComponents[numColorComponents + normOffset];
                 for (int c = 0, nc = normOffset; c < numColorComponents;
                      c++, nc++) {
-                    fpixel[c] = normComponents[nc] * alpha;
+                    fpixel[c] = normComponents[nc] * blphb;
                 }
-                fpixel[numColorComponents] = alpha;
+                fpixel[numColorComponents] = blphb;
             } else {
                 for (int c = 0, nc = normOffset; c < numComponents;
                      c++, nc++) {
@@ -2267,21 +2267,21 @@ public class ComponentColorModel extends ColorModel {
                 }
             }
             return fpixel;
-        case DataBuffer.TYPE_DOUBLE:
+        cbse DbtbBuffer.TYPE_DOUBLE:
             double[] dpixel;
             if (obj == null) {
                 dpixel = new double[numComponents];
             } else {
                 dpixel = (double[]) obj;
             }
-            if (needAlpha) {
-                double alpha =
+            if (needAlphb) {
+                double blphb =
                     (double) (normComponents[numColorComponents + normOffset]);
                 for (int c = 0, nc = normOffset; c < numColorComponents;
                      c++, nc++) {
-                    dpixel[c] = normComponents[nc] * alpha;
+                    dpixel[c] = normComponents[nc] * blphb;
                 }
-                dpixel[numColorComponents] = alpha;
+                dpixel[numColorComponents] = blphb;
             } else {
                 for (int c = 0, nc = normOffset; c < numComponents;
                      c++, nc++) {
@@ -2289,657 +2289,657 @@ public class ComponentColorModel extends ColorModel {
                 }
             }
             return dpixel;
-        default:
-            throw new UnsupportedOperationException("This method has not been "+
-                                        "implemented for transferType " +
-                                        transferType);
+        defbult:
+            throw new UnsupportedOperbtionException("This method hbs not been "+
+                                        "implemented for trbnsferType " +
+                                        trbnsferType);
         }
     }
 
     /**
-     * Returns an array of all of the color/alpha components in normalized
-     * form, given a pixel in this <code>ColorModel</code>.  The pixel
-     * value is specified by an array of data elements of type transferType
-     * passed in as an object reference.  If pixel is not a primitive array
-     * of type transferType, a <code>ClassCastException</code> is thrown.
-     * An <code>ArrayIndexOutOfBoundsException</code> is thrown if
-     * <code>pixel</code> is not large enough to hold a pixel value for this
+     * Returns bn brrby of bll of the color/blphb components in normblized
+     * form, given b pixel in this <code>ColorModel</code>.  The pixel
+     * vblue is specified by bn brrby of dbtb elements of type trbnsferType
+     * pbssed in bs bn object reference.  If pixel is not b primitive brrby
+     * of type trbnsferType, b <code>ClbssCbstException</code> is thrown.
+     * An <code>ArrbyIndexOutOfBoundsException</code> is thrown if
+     * <code>pixel</code> is not lbrge enough to hold b pixel vblue for this
      * <code>ColorModel</code>.
-     * Normalized components are float values between a per component minimum
-     * and maximum specified by the <code>ColorSpace</code> object for this
+     * Normblized components bre flobt vblues between b per component minimum
+     * bnd mbximum specified by the <code>ColorSpbce</code> object for this
      * <code>ColorModel</code>.  If the
-     * <code>normComponents</code> array is <code>null</code>, a new array
-     * will be allocated.  The <code>normComponents</code> array
-     * will be returned.  Color/alpha components are stored in the
-     * <code>normComponents</code> array starting at
-     * <code>normOffset</code> (even if the array is allocated by this
-     * method).  An <code>ArrayIndexOutOfBoundsException</code> is thrown
-     * if the <code>normComponents</code> array is not <code>null</code>
-     * and is not large enough to hold all the color and alpha components
-     * (starting at <code>normOffset</code>).
+     * <code>normComponents</code> brrby is <code>null</code>, b new brrby
+     * will be bllocbted.  The <code>normComponents</code> brrby
+     * will be returned.  Color/blphb components bre stored in the
+     * <code>normComponents</code> brrby stbrting bt
+     * <code>normOffset</code> (even if the brrby is bllocbted by this
+     * method).  An <code>ArrbyIndexOutOfBoundsException</code> is thrown
+     * if the <code>normComponents</code> brrby is not <code>null</code>
+     * bnd is not lbrge enough to hold bll the color bnd blphb components
+     * (stbrting bt <code>normOffset</code>).
      * <p>
-     * This method must be overridden by a subclass if that subclass
-     * is designed to translate pixel sample values to color component values
-     * in a non-default way.  The default translations implemented by this
-     * class is described in the class comments.  Any subclass implementing
-     * a non-default translation must follow the constraints on allowable
-     * translations defined there.
-     * @param pixel the specified pixel
-     * @param normComponents an array to receive the normalized components
-     * @param normOffset the offset into the <code>normComponents</code>
-     * array at which to start storing normalized components
-     * @return an array containing normalized color and alpha
+     * This method must be overridden by b subclbss if thbt subclbss
+     * is designed to trbnslbte pixel sbmple vblues to color component vblues
+     * in b non-defbult wby.  The defbult trbnslbtions implemented by this
+     * clbss is described in the clbss comments.  Any subclbss implementing
+     * b non-defbult trbnslbtion must follow the constrbints on bllowbble
+     * trbnslbtions defined there.
+     * @pbrbm pixel the specified pixel
+     * @pbrbm normComponents bn brrby to receive the normblized components
+     * @pbrbm normOffset the offset into the <code>normComponents</code>
+     * brrby bt which to stbrt storing normblized components
+     * @return bn brrby contbining normblized color bnd blphb
      * components.
-     * @throws ClassCastException if <code>pixel</code> is not a primitive
-     *          array of type transferType
-     * @throws ArrayIndexOutOfBoundsException if
-     *          <code>normComponents</code> is not large enough to hold all
-     *          color and alpha components starting at <code>normOffset</code>
-     * @throws ArrayIndexOutOfBoundsException if
-     *          <code>pixel</code> is not large enough to hold a pixel
-     *          value for this <code>ColorModel</code>.
+     * @throws ClbssCbstException if <code>pixel</code> is not b primitive
+     *          brrby of type trbnsferType
+     * @throws ArrbyIndexOutOfBoundsException if
+     *          <code>normComponents</code> is not lbrge enough to hold bll
+     *          color bnd blphb components stbrting bt <code>normOffset</code>
+     * @throws ArrbyIndexOutOfBoundsException if
+     *          <code>pixel</code> is not lbrge enough to hold b pixel
+     *          vblue for this <code>ColorModel</code>.
      * @since 1.4
      */
-    public float[] getNormalizedComponents(Object pixel,
-                                           float[] normComponents,
+    public flobt[] getNormblizedComponents(Object pixel,
+                                           flobt[] normComponents,
                                            int normOffset) {
         if (normComponents == null) {
-            normComponents = new float[numComponents+normOffset];
+            normComponents = new flobt[numComponents+normOffset];
         }
-        switch (transferType) {
-        case DataBuffer.TYPE_BYTE:
+        switch (trbnsferType) {
+        cbse DbtbBuffer.TYPE_BYTE:
             byte[] bpixel = (byte[]) pixel;
             for (int c = 0, nc = normOffset; c < numComponents; c++, nc++) {
-                normComponents[nc] = ((float) (bpixel[c] & 0xff)) /
-                                     ((float) ((1 << nBits[c]) - 1));
+                normComponents[nc] = ((flobt) (bpixel[c] & 0xff)) /
+                                     ((flobt) ((1 << nBits[c]) - 1));
             }
-            break;
-        case DataBuffer.TYPE_USHORT:
+            brebk;
+        cbse DbtbBuffer.TYPE_USHORT:
             short[] uspixel = (short[]) pixel;
             for (int c = 0, nc = normOffset; c < numComponents; c++, nc++) {
-                normComponents[nc] = ((float) (uspixel[c] & 0xffff)) /
-                                     ((float) ((1 << nBits[c]) - 1));
+                normComponents[nc] = ((flobt) (uspixel[c] & 0xffff)) /
+                                     ((flobt) ((1 << nBits[c]) - 1));
             }
-            break;
-        case DataBuffer.TYPE_INT:
+            brebk;
+        cbse DbtbBuffer.TYPE_INT:
             int[] ipixel = (int[]) pixel;
             for (int c = 0, nc = normOffset; c < numComponents; c++, nc++) {
-                normComponents[nc] = ((float) ipixel[c]) /
-                                     ((float) ((1 << nBits[c]) - 1));
+                normComponents[nc] = ((flobt) ipixel[c]) /
+                                     ((flobt) ((1 << nBits[c]) - 1));
             }
-            break;
-        case DataBuffer.TYPE_SHORT:
+            brebk;
+        cbse DbtbBuffer.TYPE_SHORT:
             short[] spixel = (short[]) pixel;
             for (int c = 0, nc = normOffset; c < numComponents; c++, nc++) {
-                normComponents[nc] = ((float) spixel[c]) / 32767.0f;
+                normComponents[nc] = ((flobt) spixel[c]) / 32767.0f;
             }
-            break;
-        case DataBuffer.TYPE_FLOAT:
-            float[] fpixel = (float[]) pixel;
+            brebk;
+        cbse DbtbBuffer.TYPE_FLOAT:
+            flobt[] fpixel = (flobt[]) pixel;
             for (int c = 0, nc = normOffset; c < numComponents; c++, nc++) {
                 normComponents[nc] = fpixel[c];
             }
-            break;
-        case DataBuffer.TYPE_DOUBLE:
+            brebk;
+        cbse DbtbBuffer.TYPE_DOUBLE:
             double[] dpixel = (double[]) pixel;
             for (int c = 0, nc = normOffset; c < numComponents; c++, nc++) {
-                normComponents[nc] = (float) dpixel[c];
+                normComponents[nc] = (flobt) dpixel[c];
             }
-            break;
-        default:
-            throw new UnsupportedOperationException("This method has not been "+
-                                        "implemented for transferType " +
-                                        transferType);
+            brebk;
+        defbult:
+            throw new UnsupportedOperbtionException("This method hbs not been "+
+                                        "implemented for trbnsferType " +
+                                        trbnsferType);
         }
 
-        if (supportsAlpha && isAlphaPremultiplied) {
-            float alpha = normComponents[numColorComponents + normOffset];
-            if (alpha != 0.0f) {
-                float invAlpha = 1.0f / alpha;
+        if (supportsAlphb && isAlphbPremultiplied) {
+            flobt blphb = normComponents[numColorComponents + normOffset];
+            if (blphb != 0.0f) {
+                flobt invAlphb = 1.0f / blphb;
                 for (int c = normOffset; c < numColorComponents + normOffset;
                      c++) {
-                    normComponents[c] *= invAlpha;
+                    normComponents[c] *= invAlphb;
                 }
             }
         }
         if (min != null) {
-            // Normally (i.e. when this class is not subclassed to override
-            // this method), the test (min != null) will be equivalent to
-            // the test (nonStdScale).  However, there is an unlikely, but
-            // possible case, in which this method is overridden, nonStdScale
-            // is set true by initScale(), the subclass method for some
-            // reason calls this superclass method, but the min and
-            // diffMinMax arrays were never initialized by setupLUTs().  In
-            // that case, the right thing to do is follow the intended
-            // semantics of this method, and rescale the color components
-            // only if the ColorSpace min/max were detected to be other
-            // than 0.0/1.0 by setupLUTs().  Note that this implies the
-            // transferType is byte, ushort, int, or short - i.e. components
-            // derived from float and double pixel data are never rescaled.
+            // Normblly (i.e. when this clbss is not subclbssed to override
+            // this method), the test (min != null) will be equivblent to
+            // the test (nonStdScble).  However, there is bn unlikely, but
+            // possible cbse, in which this method is overridden, nonStdScble
+            // is set true by initScble(), the subclbss method for some
+            // rebson cblls this superclbss method, but the min bnd
+            // diffMinMbx brrbys were never initiblized by setupLUTs().  In
+            // thbt cbse, the right thing to do is follow the intended
+            // sembntics of this method, bnd rescble the color components
+            // only if the ColorSpbce min/mbx were detected to be other
+            // thbn 0.0/1.0 by setupLUTs().  Note thbt this implies the
+            // trbnsferType is byte, ushort, int, or short - i.e. components
+            // derived from flobt bnd double pixel dbtb bre never rescbled.
             for (int c = 0; c < numColorComponents; c++) {
                 normComponents[c + normOffset] = min[c] +
-                    diffMinMax[c] * normComponents[c + normOffset];
+                    diffMinMbx[c] * normComponents[c + normOffset];
             }
         }
         return normComponents;
     }
 
     /**
-     * Forces the raster data to match the state specified in the
-     * <CODE>isAlphaPremultiplied</CODE> variable, assuming the data
+     * Forces the rbster dbtb to mbtch the stbte specified in the
+     * <CODE>isAlphbPremultiplied</CODE> vbribble, bssuming the dbtb
      * is currently correctly described by this <CODE>ColorModel</CODE>.
-     * It may multiply or divide the color raster data by alpha, or
-     * do nothing if the data is in the correct state.  If the data needs
-     * to be coerced, this method also returns an instance of
+     * It mby multiply or divide the color rbster dbtb by blphb, or
+     * do nothing if the dbtb is in the correct stbte.  If the dbtb needs
+     * to be coerced, this method blso returns bn instbnce of
      * this <CODE>ColorModel</CODE> with
-     * the <CODE>isAlphaPremultiplied</CODE> flag set appropriately.
-     * Since <code>ColorModel</code> can be subclassed, subclasses inherit
-     * the implementation of this method and if they don't override it
-     * then they throw an exception if they use an unsupported
-     * <code>transferType</code>.
+     * the <CODE>isAlphbPremultiplied</CODE> flbg set bppropribtely.
+     * Since <code>ColorModel</code> cbn be subclbssed, subclbsses inherit
+     * the implementbtion of this method bnd if they don't override it
+     * then they throw bn exception if they use bn unsupported
+     * <code>trbnsferType</code>.
      *
-     * @throws NullPointerException if <code>raster</code> is
-     * <code>null</code> and data coercion is required.
-     * @throws UnsupportedOperationException if the transfer type of
+     * @throws NullPointerException if <code>rbster</code> is
+     * <code>null</code> bnd dbtb coercion is required.
+     * @throws UnsupportedOperbtionException if the trbnsfer type of
      * this <CODE>ComponentColorModel</CODE>
-     * is not one of the supported transfer types:
-     * <CODE>DataBuffer.TYPE_BYTE</CODE>, <CODE>DataBuffer.TYPE_USHORT</CODE>,
-     * <CODE>DataBuffer.TYPE_INT</CODE>, <CODE>DataBuffer.TYPE_SHORT</CODE>,
-     * <CODE>DataBuffer.TYPE_FLOAT</CODE>, or <CODE>DataBuffer.TYPE_DOUBLE</CODE>.
+     * is not one of the supported trbnsfer types:
+     * <CODE>DbtbBuffer.TYPE_BYTE</CODE>, <CODE>DbtbBuffer.TYPE_USHORT</CODE>,
+     * <CODE>DbtbBuffer.TYPE_INT</CODE>, <CODE>DbtbBuffer.TYPE_SHORT</CODE>,
+     * <CODE>DbtbBuffer.TYPE_FLOAT</CODE>, or <CODE>DbtbBuffer.TYPE_DOUBLE</CODE>.
      */
-    public ColorModel coerceData (WritableRaster raster,
-                                  boolean isAlphaPremultiplied) {
-        if ((supportsAlpha == false) ||
-            (this.isAlphaPremultiplied == isAlphaPremultiplied))
+    public ColorModel coerceDbtb (WritbbleRbster rbster,
+                                  boolebn isAlphbPremultiplied) {
+        if ((supportsAlphb == fblse) ||
+            (this.isAlphbPremultiplied == isAlphbPremultiplied))
         {
             // Nothing to do
             return this;
         }
 
-        int w = raster.getWidth();
-        int h = raster.getHeight();
-        int aIdx = raster.getNumBands() - 1;
-        float normAlpha;
-        int rminX = raster.getMinX();
-        int rY = raster.getMinY();
+        int w = rbster.getWidth();
+        int h = rbster.getHeight();
+        int bIdx = rbster.getNumBbnds() - 1;
+        flobt normAlphb;
+        int rminX = rbster.getMinX();
+        int rY = rbster.getMinY();
         int rX;
-        if (isAlphaPremultiplied) {
-            switch (transferType) {
-                case DataBuffer.TYPE_BYTE: {
+        if (isAlphbPremultiplied) {
+            switch (trbnsferType) {
+                cbse DbtbBuffer.TYPE_BYTE: {
                     byte pixel[] = null;
                     byte zpixel[] = null;
-                    float alphaScale = 1.0f / ((float) ((1<<nBits[aIdx]) - 1));
+                    flobt blphbScble = 1.0f / ((flobt) ((1<<nBits[bIdx]) - 1));
                     for (int y = 0; y < h; y++, rY++) {
                         rX = rminX;
                         for (int x = 0; x < w; x++, rX++) {
-                            pixel = (byte[])raster.getDataElements(rX, rY,
+                            pixel = (byte[])rbster.getDbtbElements(rX, rY,
                                                                    pixel);
-                            normAlpha = (pixel[aIdx] & 0xff) * alphaScale;
-                            if (normAlpha != 0.0f) {
-                                for (int c=0; c < aIdx; c++) {
+                            normAlphb = (pixel[bIdx] & 0xff) * blphbScble;
+                            if (normAlphb != 0.0f) {
+                                for (int c=0; c < bIdx; c++) {
                                     pixel[c] = (byte)((pixel[c] & 0xff) *
-                                                      normAlpha + 0.5f);
+                                                      normAlphb + 0.5f);
                                 }
-                                raster.setDataElements(rX, rY, pixel);
+                                rbster.setDbtbElements(rX, rY, pixel);
                             } else {
                                 if (zpixel == null) {
                                     zpixel = new byte[numComponents];
-                                    java.util.Arrays.fill(zpixel, (byte) 0);
+                                    jbvb.util.Arrbys.fill(zpixel, (byte) 0);
                                 }
-                                raster.setDataElements(rX, rY, zpixel);
+                                rbster.setDbtbElements(rX, rY, zpixel);
                             }
                         }
                     }
                 }
-                break;
-                case DataBuffer.TYPE_USHORT: {
+                brebk;
+                cbse DbtbBuffer.TYPE_USHORT: {
                     short pixel[] = null;
                     short zpixel[] = null;
-                    float alphaScale = 1.0f / ((float) ((1<<nBits[aIdx]) - 1));
+                    flobt blphbScble = 1.0f / ((flobt) ((1<<nBits[bIdx]) - 1));
                     for (int y = 0; y < h; y++, rY++) {
                         rX = rminX;
                         for (int x = 0; x < w; x++, rX++) {
-                            pixel = (short[])raster.getDataElements(rX, rY,
+                            pixel = (short[])rbster.getDbtbElements(rX, rY,
                                                                     pixel);
-                            normAlpha = (pixel[aIdx] & 0xffff) * alphaScale;
-                            if (normAlpha != 0.0f) {
-                                for (int c=0; c < aIdx; c++) {
+                            normAlphb = (pixel[bIdx] & 0xffff) * blphbScble;
+                            if (normAlphb != 0.0f) {
+                                for (int c=0; c < bIdx; c++) {
                                     pixel[c] = (short)
-                                        ((pixel[c] & 0xffff) * normAlpha +
+                                        ((pixel[c] & 0xffff) * normAlphb +
                                          0.5f);
                                 }
-                                raster.setDataElements(rX, rY, pixel);
+                                rbster.setDbtbElements(rX, rY, pixel);
                             } else {
                                 if (zpixel == null) {
                                     zpixel = new short[numComponents];
-                                    java.util.Arrays.fill(zpixel, (short) 0);
+                                    jbvb.util.Arrbys.fill(zpixel, (short) 0);
                                 }
-                                raster.setDataElements(rX, rY, zpixel);
+                                rbster.setDbtbElements(rX, rY, zpixel);
                             }
                         }
                     }
                 }
-                break;
-                case DataBuffer.TYPE_INT: {
+                brebk;
+                cbse DbtbBuffer.TYPE_INT: {
                     int pixel[] = null;
                     int zpixel[] = null;
-                    float alphaScale = 1.0f / ((float) ((1<<nBits[aIdx]) - 1));
+                    flobt blphbScble = 1.0f / ((flobt) ((1<<nBits[bIdx]) - 1));
                     for (int y = 0; y < h; y++, rY++) {
                         rX = rminX;
                         for (int x = 0; x < w; x++, rX++) {
-                            pixel = (int[])raster.getDataElements(rX, rY,
+                            pixel = (int[])rbster.getDbtbElements(rX, rY,
                                                                   pixel);
-                            normAlpha = pixel[aIdx] * alphaScale;
-                            if (normAlpha != 0.0f) {
-                                for (int c=0; c < aIdx; c++) {
-                                    pixel[c] = (int) (pixel[c] * normAlpha +
+                            normAlphb = pixel[bIdx] * blphbScble;
+                            if (normAlphb != 0.0f) {
+                                for (int c=0; c < bIdx; c++) {
+                                    pixel[c] = (int) (pixel[c] * normAlphb +
                                                       0.5f);
                                 }
-                                raster.setDataElements(rX, rY, pixel);
+                                rbster.setDbtbElements(rX, rY, pixel);
                             } else {
                                 if (zpixel == null) {
                                     zpixel = new int[numComponents];
-                                    java.util.Arrays.fill(zpixel, 0);
+                                    jbvb.util.Arrbys.fill(zpixel, 0);
                                 }
-                                raster.setDataElements(rX, rY, zpixel);
+                                rbster.setDbtbElements(rX, rY, zpixel);
                             }
                         }
                     }
                 }
-                break;
-                case DataBuffer.TYPE_SHORT: {
+                brebk;
+                cbse DbtbBuffer.TYPE_SHORT: {
                     short pixel[] = null;
                     short zpixel[] = null;
-                    float alphaScale = 1.0f / 32767.0f;
+                    flobt blphbScble = 1.0f / 32767.0f;
                     for (int y = 0; y < h; y++, rY++) {
                         rX = rminX;
                         for (int x = 0; x < w; x++, rX++) {
-                            pixel = (short[]) raster.getDataElements(rX, rY,
+                            pixel = (short[]) rbster.getDbtbElements(rX, rY,
                                                                      pixel);
-                            normAlpha = pixel[aIdx] * alphaScale;
-                            if (normAlpha != 0.0f) {
-                                for (int c=0; c < aIdx; c++) {
-                                    pixel[c] = (short) (pixel[c] * normAlpha +
+                            normAlphb = pixel[bIdx] * blphbScble;
+                            if (normAlphb != 0.0f) {
+                                for (int c=0; c < bIdx; c++) {
+                                    pixel[c] = (short) (pixel[c] * normAlphb +
                                                         0.5f);
                                 }
-                                raster.setDataElements(rX, rY, pixel);
+                                rbster.setDbtbElements(rX, rY, pixel);
                             } else {
                                 if (zpixel == null) {
                                     zpixel = new short[numComponents];
-                                    java.util.Arrays.fill(zpixel, (short) 0);
+                                    jbvb.util.Arrbys.fill(zpixel, (short) 0);
                                 }
-                                raster.setDataElements(rX, rY, zpixel);
+                                rbster.setDbtbElements(rX, rY, zpixel);
                             }
                         }
                     }
                 }
-                break;
-                case DataBuffer.TYPE_FLOAT: {
-                    float pixel[] = null;
-                    float zpixel[] = null;
+                brebk;
+                cbse DbtbBuffer.TYPE_FLOAT: {
+                    flobt pixel[] = null;
+                    flobt zpixel[] = null;
                     for (int y = 0; y < h; y++, rY++) {
                         rX = rminX;
                         for (int x = 0; x < w; x++, rX++) {
-                            pixel = (float[]) raster.getDataElements(rX, rY,
+                            pixel = (flobt[]) rbster.getDbtbElements(rX, rY,
                                                                      pixel);
-                            normAlpha = pixel[aIdx];
-                            if (normAlpha != 0.0f) {
-                                for (int c=0; c < aIdx; c++) {
-                                    pixel[c] *= normAlpha;
+                            normAlphb = pixel[bIdx];
+                            if (normAlphb != 0.0f) {
+                                for (int c=0; c < bIdx; c++) {
+                                    pixel[c] *= normAlphb;
                                 }
-                                raster.setDataElements(rX, rY, pixel);
+                                rbster.setDbtbElements(rX, rY, pixel);
                             } else {
                                 if (zpixel == null) {
-                                    zpixel = new float[numComponents];
-                                    java.util.Arrays.fill(zpixel, 0.0f);
+                                    zpixel = new flobt[numComponents];
+                                    jbvb.util.Arrbys.fill(zpixel, 0.0f);
                                 }
-                                raster.setDataElements(rX, rY, zpixel);
+                                rbster.setDbtbElements(rX, rY, zpixel);
                             }
                         }
                     }
                 }
-                break;
-                case DataBuffer.TYPE_DOUBLE: {
+                brebk;
+                cbse DbtbBuffer.TYPE_DOUBLE: {
                     double pixel[] = null;
                     double zpixel[] = null;
                     for (int y = 0; y < h; y++, rY++) {
                         rX = rminX;
                         for (int x = 0; x < w; x++, rX++) {
-                            pixel = (double[]) raster.getDataElements(rX, rY,
+                            pixel = (double[]) rbster.getDbtbElements(rX, rY,
                                                                       pixel);
-                            double dnormAlpha = pixel[aIdx];
-                            if (dnormAlpha != 0.0) {
-                                for (int c=0; c < aIdx; c++) {
-                                    pixel[c] *= dnormAlpha;
+                            double dnormAlphb = pixel[bIdx];
+                            if (dnormAlphb != 0.0) {
+                                for (int c=0; c < bIdx; c++) {
+                                    pixel[c] *= dnormAlphb;
                                 }
-                                raster.setDataElements(rX, rY, pixel);
+                                rbster.setDbtbElements(rX, rY, pixel);
                             } else {
                                 if (zpixel == null) {
                                     zpixel = new double[numComponents];
-                                    java.util.Arrays.fill(zpixel, 0.0);
+                                    jbvb.util.Arrbys.fill(zpixel, 0.0);
                                 }
-                                raster.setDataElements(rX, rY, zpixel);
+                                rbster.setDbtbElements(rX, rY, zpixel);
                             }
                         }
                     }
                 }
-                break;
-                default:
-                    throw new UnsupportedOperationException("This method has not been "+
-                         "implemented for transferType " + transferType);
+                brebk;
+                defbult:
+                    throw new UnsupportedOperbtionException("This method hbs not been "+
+                         "implemented for trbnsferType " + trbnsferType);
             }
         }
         else {
-            // We are premultiplied and want to divide it out
-            switch (transferType) {
-                case DataBuffer.TYPE_BYTE: {
+            // We bre premultiplied bnd wbnt to divide it out
+            switch (trbnsferType) {
+                cbse DbtbBuffer.TYPE_BYTE: {
                     byte pixel[] = null;
-                    float alphaScale = 1.0f / ((float) ((1<<nBits[aIdx]) - 1));
+                    flobt blphbScble = 1.0f / ((flobt) ((1<<nBits[bIdx]) - 1));
                     for (int y = 0; y < h; y++, rY++) {
                         rX = rminX;
                         for (int x = 0; x < w; x++, rX++) {
-                            pixel = (byte[])raster.getDataElements(rX, rY,
+                            pixel = (byte[])rbster.getDbtbElements(rX, rY,
                                                                    pixel);
-                            normAlpha = (pixel[aIdx] & 0xff) * alphaScale;
-                            if (normAlpha != 0.0f) {
-                                float invAlpha = 1.0f / normAlpha;
-                                for (int c=0; c < aIdx; c++) {
+                            normAlphb = (pixel[bIdx] & 0xff) * blphbScble;
+                            if (normAlphb != 0.0f) {
+                                flobt invAlphb = 1.0f / normAlphb;
+                                for (int c=0; c < bIdx; c++) {
                                     pixel[c] = (byte)
-                                        ((pixel[c] & 0xff) * invAlpha + 0.5f);
+                                        ((pixel[c] & 0xff) * invAlphb + 0.5f);
                                 }
-                                raster.setDataElements(rX, rY, pixel);
+                                rbster.setDbtbElements(rX, rY, pixel);
                             }
                         }
                     }
                 }
-                break;
-                case DataBuffer.TYPE_USHORT: {
+                brebk;
+                cbse DbtbBuffer.TYPE_USHORT: {
                     short pixel[] = null;
-                    float alphaScale = 1.0f / ((float) ((1<<nBits[aIdx]) - 1));
+                    flobt blphbScble = 1.0f / ((flobt) ((1<<nBits[bIdx]) - 1));
                     for (int y = 0; y < h; y++, rY++) {
                         rX = rminX;
                         for (int x = 0; x < w; x++, rX++) {
-                            pixel = (short[])raster.getDataElements(rX, rY,
+                            pixel = (short[])rbster.getDbtbElements(rX, rY,
                                                                     pixel);
-                            normAlpha = (pixel[aIdx] & 0xffff) * alphaScale;
-                            if (normAlpha != 0.0f) {
-                                float invAlpha = 1.0f / normAlpha;
-                                for (int c=0; c < aIdx; c++) {
+                            normAlphb = (pixel[bIdx] & 0xffff) * blphbScble;
+                            if (normAlphb != 0.0f) {
+                                flobt invAlphb = 1.0f / normAlphb;
+                                for (int c=0; c < bIdx; c++) {
                                     pixel[c] = (short)
-                                        ((pixel[c] & 0xffff) * invAlpha + 0.5f);
+                                        ((pixel[c] & 0xffff) * invAlphb + 0.5f);
                                 }
-                                raster.setDataElements(rX, rY, pixel);
+                                rbster.setDbtbElements(rX, rY, pixel);
                             }
                         }
                     }
                 }
-                break;
-                case DataBuffer.TYPE_INT: {
+                brebk;
+                cbse DbtbBuffer.TYPE_INT: {
                     int pixel[] = null;
-                    float alphaScale = 1.0f / ((float) ((1<<nBits[aIdx]) - 1));
+                    flobt blphbScble = 1.0f / ((flobt) ((1<<nBits[bIdx]) - 1));
                     for (int y = 0; y < h; y++, rY++) {
                         rX = rminX;
                         for (int x = 0; x < w; x++, rX++) {
-                            pixel = (int[])raster.getDataElements(rX, rY,
+                            pixel = (int[])rbster.getDbtbElements(rX, rY,
                                                                   pixel);
-                            normAlpha = pixel[aIdx] * alphaScale;
-                            if (normAlpha != 0.0f) {
-                                float invAlpha = 1.0f / normAlpha;
-                                for (int c=0; c < aIdx; c++) {
+                            normAlphb = pixel[bIdx] * blphbScble;
+                            if (normAlphb != 0.0f) {
+                                flobt invAlphb = 1.0f / normAlphb;
+                                for (int c=0; c < bIdx; c++) {
                                     pixel[c] = (int)
-                                        (pixel[c] * invAlpha + 0.5f);
+                                        (pixel[c] * invAlphb + 0.5f);
                                 }
-                                raster.setDataElements(rX, rY, pixel);
+                                rbster.setDbtbElements(rX, rY, pixel);
                             }
                         }
                     }
                 }
-                break;
-                case DataBuffer.TYPE_SHORT: {
+                brebk;
+                cbse DbtbBuffer.TYPE_SHORT: {
                     short pixel[] = null;
-                    float alphaScale = 1.0f / 32767.0f;
+                    flobt blphbScble = 1.0f / 32767.0f;
                     for (int y = 0; y < h; y++, rY++) {
                         rX = rminX;
                         for (int x = 0; x < w; x++, rX++) {
-                            pixel = (short[])raster.getDataElements(rX, rY,
+                            pixel = (short[])rbster.getDbtbElements(rX, rY,
                                                                     pixel);
-                            normAlpha = pixel[aIdx] * alphaScale;
-                            if (normAlpha != 0.0f) {
-                                float invAlpha = 1.0f / normAlpha;
-                                for (int c=0; c < aIdx; c++) {
+                            normAlphb = pixel[bIdx] * blphbScble;
+                            if (normAlphb != 0.0f) {
+                                flobt invAlphb = 1.0f / normAlphb;
+                                for (int c=0; c < bIdx; c++) {
                                     pixel[c] = (short)
-                                        (pixel[c] * invAlpha + 0.5f);
+                                        (pixel[c] * invAlphb + 0.5f);
                                 }
-                                raster.setDataElements(rX, rY, pixel);
+                                rbster.setDbtbElements(rX, rY, pixel);
                             }
                         }
                     }
                 }
-                break;
-                case DataBuffer.TYPE_FLOAT: {
-                    float pixel[] = null;
+                brebk;
+                cbse DbtbBuffer.TYPE_FLOAT: {
+                    flobt pixel[] = null;
                     for (int y = 0; y < h; y++, rY++) {
                         rX = rminX;
                         for (int x = 0; x < w; x++, rX++) {
-                            pixel = (float[])raster.getDataElements(rX, rY,
+                            pixel = (flobt[])rbster.getDbtbElements(rX, rY,
                                                                     pixel);
-                            normAlpha = pixel[aIdx];
-                            if (normAlpha != 0.0f) {
-                                float invAlpha = 1.0f / normAlpha;
-                                for (int c=0; c < aIdx; c++) {
-                                    pixel[c] *= invAlpha;
+                            normAlphb = pixel[bIdx];
+                            if (normAlphb != 0.0f) {
+                                flobt invAlphb = 1.0f / normAlphb;
+                                for (int c=0; c < bIdx; c++) {
+                                    pixel[c] *= invAlphb;
                                 }
-                                raster.setDataElements(rX, rY, pixel);
+                                rbster.setDbtbElements(rX, rY, pixel);
                             }
                         }
                     }
                 }
-                break;
-                case DataBuffer.TYPE_DOUBLE: {
+                brebk;
+                cbse DbtbBuffer.TYPE_DOUBLE: {
                     double pixel[] = null;
                     for (int y = 0; y < h; y++, rY++) {
                         rX = rminX;
                         for (int x = 0; x < w; x++, rX++) {
-                            pixel = (double[])raster.getDataElements(rX, rY,
+                            pixel = (double[])rbster.getDbtbElements(rX, rY,
                                                                      pixel);
-                            double dnormAlpha = pixel[aIdx];
-                            if (dnormAlpha != 0.0) {
-                                double invAlpha = 1.0 / dnormAlpha;
-                                for (int c=0; c < aIdx; c++) {
-                                    pixel[c] *= invAlpha;
+                            double dnormAlphb = pixel[bIdx];
+                            if (dnormAlphb != 0.0) {
+                                double invAlphb = 1.0 / dnormAlphb;
+                                for (int c=0; c < bIdx; c++) {
+                                    pixel[c] *= invAlphb;
                                 }
-                                raster.setDataElements(rX, rY, pixel);
+                                rbster.setDbtbElements(rX, rY, pixel);
                             }
                         }
                     }
                 }
-                break;
-                default:
-                    throw new UnsupportedOperationException("This method has not been "+
-                         "implemented for transferType " + transferType);
+                brebk;
+                defbult:
+                    throw new UnsupportedOperbtionException("This method hbs not been "+
+                         "implemented for trbnsferType " + trbnsferType);
             }
         }
 
-        // Return a new color model
+        // Return b new color model
         if (!signed) {
-            return new ComponentColorModel(colorSpace, nBits, supportsAlpha,
-                                           isAlphaPremultiplied, transparency,
-                                           transferType);
+            return new ComponentColorModel(colorSpbce, nBits, supportsAlphb,
+                                           isAlphbPremultiplied, trbnspbrency,
+                                           trbnsferType);
         } else {
-            return new ComponentColorModel(colorSpace, supportsAlpha,
-                                           isAlphaPremultiplied, transparency,
-                                           transferType);
+            return new ComponentColorModel(colorSpbce, supportsAlphb,
+                                           isAlphbPremultiplied, trbnspbrency,
+                                           trbnsferType);
         }
 
     }
 
     /**
-      * Returns true if <CODE>raster</CODE> is compatible with this
-      * <CODE>ColorModel</CODE>; false if it is not.
+      * Returns true if <CODE>rbster</CODE> is compbtible with this
+      * <CODE>ColorModel</CODE>; fblse if it is not.
       *
-      * @param raster The <CODE>Raster</CODE> object to test for compatibility.
+      * @pbrbm rbster The <CODE>Rbster</CODE> object to test for compbtibility.
       *
-      * @return <CODE>true</CODE> if <CODE>raster</CODE> is compatible with this
-      * <CODE>ColorModel</CODE>, <CODE>false</CODE> if it is not.
+      * @return <CODE>true</CODE> if <CODE>rbster</CODE> is compbtible with this
+      * <CODE>ColorModel</CODE>, <CODE>fblse</CODE> if it is not.
       */
-    public boolean isCompatibleRaster(Raster raster) {
+    public boolebn isCompbtibleRbster(Rbster rbster) {
 
-        SampleModel sm = raster.getSampleModel();
+        SbmpleModel sm = rbster.getSbmpleModel();
 
-        if (sm instanceof ComponentSampleModel) {
-            if (sm.getNumBands() != getNumComponents()) {
-                return false;
+        if (sm instbnceof ComponentSbmpleModel) {
+            if (sm.getNumBbnds() != getNumComponents()) {
+                return fblse;
             }
             for (int i=0; i<nBits.length; i++) {
-                if (sm.getSampleSize(i) < nBits[i]) {
-                    return false;
+                if (sm.getSbmpleSize(i) < nBits[i]) {
+                    return fblse;
                 }
             }
-            return (raster.getTransferType() == transferType);
+            return (rbster.getTrbnsferType() == trbnsferType);
         }
         else {
-            return false;
+            return fblse;
         }
     }
 
     /**
-     * Creates a <CODE>WritableRaster</CODE> with the specified width and height,
-     * that  has a data layout (<CODE>SampleModel</CODE>) compatible with
+     * Crebtes b <CODE>WritbbleRbster</CODE> with the specified width bnd height,
+     * thbt  hbs b dbtb lbyout (<CODE>SbmpleModel</CODE>) compbtible with
      * this <CODE>ColorModel</CODE>.
      *
-     * @param w The width of the <CODE>WritableRaster</CODE> you want to create.
-     * @param h The height of the <CODE>WritableRaster</CODE> you want to create.
+     * @pbrbm w The width of the <CODE>WritbbleRbster</CODE> you wbnt to crebte.
+     * @pbrbm h The height of the <CODE>WritbbleRbster</CODE> you wbnt to crebte.
      *
-     * @return A <CODE>WritableRaster</CODE> that is compatible with
+     * @return A <CODE>WritbbleRbster</CODE> thbt is compbtible with
      * this <CODE>ColorModel</CODE>.
-     * @see WritableRaster
-     * @see SampleModel
+     * @see WritbbleRbster
+     * @see SbmpleModel
      */
-    public WritableRaster createCompatibleWritableRaster (int w, int h) {
-        int dataSize = w*h*numComponents;
-        WritableRaster raster = null;
+    public WritbbleRbster crebteCompbtibleWritbbleRbster (int w, int h) {
+        int dbtbSize = w*h*numComponents;
+        WritbbleRbster rbster = null;
 
-        switch (transferType) {
-        case DataBuffer.TYPE_BYTE:
-        case DataBuffer.TYPE_USHORT:
-            raster = Raster.createInterleavedRaster(transferType,
+        switch (trbnsferType) {
+        cbse DbtbBuffer.TYPE_BYTE:
+        cbse DbtbBuffer.TYPE_USHORT:
+            rbster = Rbster.crebteInterlebvedRbster(trbnsferType,
                                                     w, h,
                                                     numComponents, null);
-            break;
-        default:
-            SampleModel sm = createCompatibleSampleModel(w, h);
-            DataBuffer db = sm.createDataBuffer();
-            raster = Raster.createWritableRaster(sm, db, null);
+            brebk;
+        defbult:
+            SbmpleModel sm = crebteCompbtibleSbmpleModel(w, h);
+            DbtbBuffer db = sm.crebteDbtbBuffer();
+            rbster = Rbster.crebteWritbbleRbster(sm, db, null);
         }
 
-        return raster;
+        return rbster;
     }
 
     /**
-     * Creates a <CODE>SampleModel</CODE> with the specified width and height,
-     * that  has a data layout compatible with this <CODE>ColorModel</CODE>.
+     * Crebtes b <CODE>SbmpleModel</CODE> with the specified width bnd height,
+     * thbt  hbs b dbtb lbyout compbtible with this <CODE>ColorModel</CODE>.
      *
-     * @param w The width of the <CODE>SampleModel</CODE> you want to create.
-     * @param h The height of the <CODE>SampleModel</CODE> you want to create.
+     * @pbrbm w The width of the <CODE>SbmpleModel</CODE> you wbnt to crebte.
+     * @pbrbm h The height of the <CODE>SbmpleModel</CODE> you wbnt to crebte.
      *
-     * @return A <CODE>SampleModel</CODE> that is compatible with this
+     * @return A <CODE>SbmpleModel</CODE> thbt is compbtible with this
      * <CODE>ColorModel</CODE>.
      *
-     * @see SampleModel
+     * @see SbmpleModel
      */
-    public SampleModel createCompatibleSampleModel(int w, int h) {
-        int[] bandOffsets = new int[numComponents];
+    public SbmpleModel crebteCompbtibleSbmpleModel(int w, int h) {
+        int[] bbndOffsets = new int[numComponents];
         for (int i=0; i < numComponents; i++) {
-            bandOffsets[i] = i;
+            bbndOffsets[i] = i;
         }
-        switch (transferType) {
-        case DataBuffer.TYPE_BYTE:
-        case DataBuffer.TYPE_USHORT:
-            return new PixelInterleavedSampleModel(transferType, w, h,
+        switch (trbnsferType) {
+        cbse DbtbBuffer.TYPE_BYTE:
+        cbse DbtbBuffer.TYPE_USHORT:
+            return new PixelInterlebvedSbmpleModel(trbnsferType, w, h,
                                                    numComponents,
                                                    w*numComponents,
-                                                   bandOffsets);
-        default:
-            return new ComponentSampleModel(transferType, w, h,
+                                                   bbndOffsets);
+        defbult:
+            return new ComponentSbmpleModel(trbnsferType, w, h,
                                             numComponents,
                                             w*numComponents,
-                                            bandOffsets);
+                                            bbndOffsets);
         }
     }
 
     /**
-     * Checks whether or not the specified <CODE>SampleModel</CODE>
-     * is compatible with this <CODE>ColorModel</CODE>.
+     * Checks whether or not the specified <CODE>SbmpleModel</CODE>
+     * is compbtible with this <CODE>ColorModel</CODE>.
      *
-     * @param sm The <CODE>SampleModel</CODE> to test for compatibility.
+     * @pbrbm sm The <CODE>SbmpleModel</CODE> to test for compbtibility.
      *
-     * @return <CODE>true</CODE> if the <CODE>SampleModel</CODE> is
-     * compatible with this <CODE>ColorModel</CODE>, <CODE>false</CODE>
+     * @return <CODE>true</CODE> if the <CODE>SbmpleModel</CODE> is
+     * compbtible with this <CODE>ColorModel</CODE>, <CODE>fblse</CODE>
      * if it is not.
      *
-     * @see SampleModel
+     * @see SbmpleModel
      */
-    public boolean isCompatibleSampleModel(SampleModel sm) {
-        if (!(sm instanceof ComponentSampleModel)) {
-            return false;
+    public boolebn isCompbtibleSbmpleModel(SbmpleModel sm) {
+        if (!(sm instbnceof ComponentSbmpleModel)) {
+            return fblse;
         }
 
-        // Must have the same number of components
-        if (numComponents != sm.getNumBands()) {
-            return false;
+        // Must hbve the sbme number of components
+        if (numComponents != sm.getNumBbnds()) {
+            return fblse;
         }
 
-        if (sm.getTransferType() != transferType) {
-            return false;
+        if (sm.getTrbnsferType() != trbnsferType) {
+            return fblse;
         }
 
         return true;
     }
 
     /**
-     * Returns a <CODE>Raster</CODE> representing the alpha channel of an image,
-     * extracted from the input <CODE>Raster</CODE>.
-     * This method assumes that <CODE>Raster</CODE> objects associated with
-     * this <CODE>ColorModel</CODE> store the alpha band, if present, as
-     * the last band of image data. Returns null if there is no separate spatial
-     * alpha channel associated with this <CODE>ColorModel</CODE>.
-     * This method creates a new <CODE>Raster</CODE>, but will share the data
-     * array.
+     * Returns b <CODE>Rbster</CODE> representing the blphb chbnnel of bn imbge,
+     * extrbcted from the input <CODE>Rbster</CODE>.
+     * This method bssumes thbt <CODE>Rbster</CODE> objects bssocibted with
+     * this <CODE>ColorModel</CODE> store the blphb bbnd, if present, bs
+     * the lbst bbnd of imbge dbtb. Returns null if there is no sepbrbte spbtibl
+     * blphb chbnnel bssocibted with this <CODE>ColorModel</CODE>.
+     * This method crebtes b new <CODE>Rbster</CODE>, but will shbre the dbtb
+     * brrby.
      *
-     * @param raster The <CODE>WritableRaster</CODE> from which to extract the
-     * alpha  channel.
+     * @pbrbm rbster The <CODE>WritbbleRbster</CODE> from which to extrbct the
+     * blphb  chbnnel.
      *
-     * @return A <CODE>WritableRaster</CODE> containing the image's alpha channel.
+     * @return A <CODE>WritbbleRbster</CODE> contbining the imbge's blphb chbnnel.
      *
      */
-    public WritableRaster getAlphaRaster(WritableRaster raster) {
-        if (hasAlpha() == false) {
+    public WritbbleRbster getAlphbRbster(WritbbleRbster rbster) {
+        if (hbsAlphb() == fblse) {
             return null;
         }
 
-        int x = raster.getMinX();
-        int y = raster.getMinY();
-        int[] band = new int[1];
-        band[0] = raster.getNumBands() - 1;
-        return raster.createWritableChild(x, y, raster.getWidth(),
-                                          raster.getHeight(), x, y,
-                                          band);
+        int x = rbster.getMinX();
+        int y = rbster.getMinY();
+        int[] bbnd = new int[1];
+        bbnd[0] = rbster.getNumBbnds() - 1;
+        return rbster.crebteWritbbleChild(x, y, rbster.getWidth(),
+                                          rbster.getHeight(), x, y,
+                                          bbnd);
     }
 
     /**
-     * Compares this color model with another for equality.
+     * Compbres this color model with bnother for equblity.
      *
-     * @param obj The object to compare with this color model.
-     * @return <CODE>true</CODE> if the color model objects are equal,
-     * <CODE>false</CODE> if they are not.
+     * @pbrbm obj The object to compbre with this color model.
+     * @return <CODE>true</CODE> if the color model objects bre equbl,
+     * <CODE>fblse</CODE> if they bre not.
      */
-    public boolean equals(Object obj) {
-        if (!super.equals(obj)) {
-            return false;
+    public boolebn equbls(Object obj) {
+        if (!super.equbls(obj)) {
+            return fblse;
         }
 
-        if (obj.getClass() !=  getClass()) {
-            return false;
+        if (obj.getClbss() !=  getClbss()) {
+            return fblse;
         }
 
         return true;

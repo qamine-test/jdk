@@ -1,258 +1,258 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jndi.ldap.ext;
+pbckbge com.sun.jndi.ldbp.ext;
 
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.IOException;
+import jbvb.io.InputStrebm;
+import jbvb.io.OutputStrebm;
+import jbvb.io.IOException;
 
-import java.security.Principal;
-import java.security.cert.X509Certificate;
-import java.security.cert.CertificateException;
+import jbvb.security.Principbl;
+import jbvb.security.cert.X509Certificbte;
+import jbvb.security.cert.CertificbteException;
 
-import javax.net.ssl.SSLSession;
-import javax.net.ssl.SSLSocket;
-import javax.net.ssl.SSLSocketFactory;
-import javax.net.ssl.SSLPeerUnverifiedException;
-import javax.net.ssl.HostnameVerifier;
-import sun.security.util.HostnameChecker;
+import jbvbx.net.ssl.SSLSession;
+import jbvbx.net.ssl.SSLSocket;
+import jbvbx.net.ssl.SSLSocketFbctory;
+import jbvbx.net.ssl.SSLPeerUnverifiedException;
+import jbvbx.net.ssl.HostnbmeVerifier;
+import sun.security.util.HostnbmeChecker;
 
-import javax.naming.ldap.*;
-import com.sun.jndi.ldap.Connection;
+import jbvbx.nbming.ldbp.*;
+import com.sun.jndi.ldbp.Connection;
 
 /**
- * This class implements the LDAPv3 Extended Response for StartTLS as
+ * This clbss implements the LDAPv3 Extended Response for StbrtTLS bs
  * defined in
- * <a href="http://www.ietf.org/rfc/rfc2830.txt">Lightweight Directory
- * Access Protocol (v3): Extension for Transport Layer Security</a>
+ * <b href="http://www.ietf.org/rfc/rfc2830.txt">Lightweight Directory
+ * Access Protocol (v3): Extension for Trbnsport Lbyer Security</b>
  *
- * The object identifier for StartTLS is 1.3.6.1.4.1.1466.20037
- * and no extended response value is defined.
+ * The object identifier for StbrtTLS is 1.3.6.1.4.1.1466.20037
+ * bnd no extended response vblue is defined.
  *
  *<p>
- * The Start TLS extended request and response are used to establish
- * a TLS connection over the existing LDAP connection associated with
- * the JNDI context on which <tt>extendedOperation()</tt> is invoked.
+ * The Stbrt TLS extended request bnd response bre used to estbblish
+ * b TLS connection over the existing LDAP connection bssocibted with
+ * the JNDI context on which <tt>extendedOperbtion()</tt> is invoked.
  *
- * @see StartTlsRequest
- * @author Vincent Ryan
+ * @see StbrtTlsRequest
+ * @buthor Vincent Rybn
  */
-final public class StartTlsResponseImpl extends StartTlsResponse {
+finbl public clbss StbrtTlsResponseImpl extends StbrtTlsResponse {
 
-    private static final boolean debug = false;
-
-    /*
-     * The dNSName type in a subjectAltName extension of an X.509 certificate
-     */
-    private static final int DNSNAME_TYPE = 2;
+    privbte stbtic finbl boolebn debug = fblse;
 
     /*
-     * The server's hostname.
+     * The dNSNbme type in b subjectAltNbme extension of bn X.509 certificbte
      */
-    private transient String hostname = null;
+    privbte stbtic finbl int DNSNAME_TYPE = 2;
+
+    /*
+     * The server's hostnbme.
+     */
+    privbte trbnsient String hostnbme = null;
 
     /*
      * The LDAP socket.
      */
-    private transient Connection ldapConnection = null;
+    privbte trbnsient Connection ldbpConnection = null;
 
     /*
-     * The original input stream.
+     * The originbl input strebm.
      */
-    private transient InputStream originalInputStream = null;
+    privbte trbnsient InputStrebm originblInputStrebm = null;
 
     /*
-     * The original output stream.
+     * The originbl output strebm.
      */
-    private transient OutputStream originalOutputStream = null;
+    privbte trbnsient OutputStrebm originblOutputStrebm = null;
 
     /*
      * The SSL socket.
      */
-    private transient SSLSocket sslSocket = null;
+    privbte trbnsient SSLSocket sslSocket = null;
 
     /*
-     * The SSL socket factories.
+     * The SSL socket fbctories.
      */
-    private transient SSLSocketFactory defaultFactory = null;
-    private transient SSLSocketFactory currentFactory = null;
+    privbte trbnsient SSLSocketFbctory defbultFbctory = null;
+    privbte trbnsient SSLSocketFbctory currentFbctory = null;
 
     /*
-     * The list of cipher suites to be enabled.
+     * The list of cipher suites to be enbbled.
      */
-    private transient String[] suites = null;
+    privbte trbnsient String[] suites = null;
 
     /*
-     * The hostname verifier callback.
+     * The hostnbme verifier cbllbbck.
      */
-    private transient HostnameVerifier verifier = null;
+    privbte trbnsient HostnbmeVerifier verifier = null;
 
     /*
-     * The flag to indicate that the TLS connection is closed.
+     * The flbg to indicbte thbt the TLS connection is closed.
      */
-    private transient boolean isClosed = true;
+    privbte trbnsient boolebn isClosed = true;
 
-    private static final long serialVersionUID = -1126624615143411328L;
+    privbte stbtic finbl long seriblVersionUID = -1126624615143411328L;
 
-    // public no-arg constructor required by JDK's Service Provider API.
+    // public no-brg constructor required by JDK's Service Provider API.
 
-    public StartTlsResponseImpl() {}
+    public StbrtTlsResponseImpl() {}
 
     /**
-     * Overrides the default list of cipher suites enabled for use on the
-     * TLS connection. The cipher suites must have already been listed by
-     * <tt>SSLSocketFactory.getSupportedCipherSuites()</tt> as being supported.
-     * Even if a suite has been enabled, it still might not be used because
-     * the peer does not support it, or because the requisite certificates
-     * (and private keys) are not available.
+     * Overrides the defbult list of cipher suites enbbled for use on the
+     * TLS connection. The cipher suites must hbve blrebdy been listed by
+     * <tt>SSLSocketFbctory.getSupportedCipherSuites()</tt> bs being supported.
+     * Even if b suite hbs been enbbled, it still might not be used becbuse
+     * the peer does not support it, or becbuse the requisite certificbtes
+     * (bnd privbte keys) bre not bvbilbble.
      *
-     * @param suites The non-null list of names of all the cipher suites to
-     * enable.
-     * @see #negotiate
+     * @pbrbm suites The non-null list of nbmes of bll the cipher suites to
+     * enbble.
+     * @see #negotibte
      */
-    public void setEnabledCipherSuites(String[] suites) {
-        // The impl does accept null suites, although the spec requires
-        // a non-null list.
+    public void setEnbbledCipherSuites(String[] suites) {
+        // The impl does bccept null suites, blthough the spec requires
+        // b non-null list.
         this.suites = suites == null ? null : suites.clone();
     }
 
     /**
-     * Overrides the default hostname verifier used by <tt>negotiate()</tt>
-     * after the TLS handshake has completed. If
-     * <tt>setHostnameVerifier()</tt> has not been called before
-     * <tt>negotiate()</tt> is invoked, <tt>negotiate()</tt>
-     * will perform a simple case ignore match. If called after
-     * <tt>negotiate()</tt>, this method does not do anything.
+     * Overrides the defbult hostnbme verifier used by <tt>negotibte()</tt>
+     * bfter the TLS hbndshbke hbs completed. If
+     * <tt>setHostnbmeVerifier()</tt> hbs not been cblled before
+     * <tt>negotibte()</tt> is invoked, <tt>negotibte()</tt>
+     * will perform b simple cbse ignore mbtch. If cblled bfter
+     * <tt>negotibte()</tt>, this method does not do bnything.
      *
-     * @param verifier The non-null hostname verifier callback.
-     * @see #negotiate
+     * @pbrbm verifier The non-null hostnbme verifier cbllbbck.
+     * @see #negotibte
      */
-    public void setHostnameVerifier(HostnameVerifier verifier) {
+    public void setHostnbmeVerifier(HostnbmeVerifier verifier) {
         this.verifier = verifier;
     }
 
     /**
-     * Negotiates a TLS session using the default SSL socket factory.
+     * Negotibtes b TLS session using the defbult SSL socket fbctory.
      * <p>
-     * This method is equivalent to <tt>negotiate(null)</tt>.
+     * This method is equivblent to <tt>negotibte(null)</tt>.
      *
-     * @return The negotiated SSL session
-     * @throw IOException If an IO error was encountered while establishing
+     * @return The negotibted SSL session
+     * @throw IOException If bn IO error wbs encountered while estbblishing
      * the TLS session.
-     * @see #setEnabledCipherSuites
-     * @see #setHostnameVerifier
+     * @see #setEnbbledCipherSuites
+     * @see #setHostnbmeVerifier
      */
-    public SSLSession negotiate() throws IOException {
+    public SSLSession negotibte() throws IOException {
 
-        return negotiate(null);
+        return negotibte(null);
     }
 
     /**
-     * Negotiates a TLS session using an SSL socket factory.
+     * Negotibtes b TLS session using bn SSL socket fbctory.
      * <p>
-     * Creates an SSL socket using the supplied SSL socket factory and
-     * attaches it to the existing connection. Performs the TLS handshake
-     * and returns the negotiated session information.
+     * Crebtes bn SSL socket using the supplied SSL socket fbctory bnd
+     * bttbches it to the existing connection. Performs the TLS hbndshbke
+     * bnd returns the negotibted session informbtion.
      * <p>
-     * If cipher suites have been set via <tt>setEnabledCipherSuites</tt>
-     * then they are enabled before the TLS handshake begins.
+     * If cipher suites hbve been set vib <tt>setEnbbledCipherSuites</tt>
+     * then they bre enbbled before the TLS hbndshbke begins.
      * <p>
-     * Hostname verification is performed after the TLS handshake completes.
-     * The default check performs a case insensitive match of the server's
-     * hostname against that in the server's certificate. The server's
-     * hostname is extracted from the subjectAltName in the server's
-     * certificate (if present). Otherwise the value of the common name
-     * attribute of the subject name is used. If a callback has
-     * been set via <tt>setHostnameVerifier</tt> then that verifier is used if
-     * the default check fails.
+     * Hostnbme verificbtion is performed bfter the TLS hbndshbke completes.
+     * The defbult check performs b cbse insensitive mbtch of the server's
+     * hostnbme bgbinst thbt in the server's certificbte. The server's
+     * hostnbme is extrbcted from the subjectAltNbme in the server's
+     * certificbte (if present). Otherwise the vblue of the common nbme
+     * bttribute of the subject nbme is used. If b cbllbbck hbs
+     * been set vib <tt>setHostnbmeVerifier</tt> then thbt verifier is used if
+     * the defbult check fbils.
      * <p>
-     * If an error occurs then the SSL socket is closed and an IOException
-     * is thrown. The underlying connection remains intact.
+     * If bn error occurs then the SSL socket is closed bnd bn IOException
+     * is thrown. The underlying connection rembins intbct.
      *
-     * @param factory The possibly null SSL socket factory to use.
-     * If null, the default SSL socket factory is used.
-     * @return The negotiated SSL session
-     * @throw IOException If an IO error was encountered while establishing
+     * @pbrbm fbctory The possibly null SSL socket fbctory to use.
+     * If null, the defbult SSL socket fbctory is used.
+     * @return The negotibted SSL session
+     * @throw IOException If bn IO error wbs encountered while estbblishing
      * the TLS session.
-     * @see #setEnabledCipherSuites
-     * @see #setHostnameVerifier
+     * @see #setEnbbledCipherSuites
+     * @see #setHostnbmeVerifier
      */
-    public SSLSession negotiate(SSLSocketFactory factory) throws IOException {
+    public SSLSession negotibte(SSLSocketFbctory fbctory) throws IOException {
 
         if (isClosed && sslSocket != null) {
             throw new IOException("TLS connection is closed.");
         }
 
-        if (factory == null) {
-            factory = getDefaultFactory();
+        if (fbctory == null) {
+            fbctory = getDefbultFbctory();
         }
 
         if (debug) {
-            System.out.println("StartTLS: About to start handshake");
+            System.out.println("StbrtTLS: About to stbrt hbndshbke");
         }
 
-        SSLSession sslSession = startHandshake(factory).getSession();
+        SSLSession sslSession = stbrtHbndshbke(fbctory).getSession();
 
         if (debug) {
-            System.out.println("StartTLS: Completed handshake");
+            System.out.println("StbrtTLS: Completed hbndshbke");
         }
 
         SSLPeerUnverifiedException verifExcep = null;
         try {
-            if (verify(hostname, sslSession)) {
-                isClosed = false;
+            if (verify(hostnbme, sslSession)) {
+                isClosed = fblse;
                 return sslSession;
             }
-        } catch (SSLPeerUnverifiedException e) {
-            // Save to return the cause
+        } cbtch (SSLPeerUnverifiedException e) {
+            // Sbve to return the cbuse
             verifExcep = e;
         }
         if ((verifier != null) &&
-                verifier.verify(hostname, sslSession)) {
-            isClosed = false;
+                verifier.verify(hostnbme, sslSession)) {
+            isClosed = fblse;
             return sslSession;
         }
 
-        // Verification failed
+        // Verificbtion fbiled
         close();
-        sslSession.invalidate();
+        sslSession.invblidbte();
         if (verifExcep == null) {
             verifExcep = new SSLPeerUnverifiedException(
-                        "hostname of the server '" + hostname +
-                        "' does not match the hostname in the " +
-                        "server's certificate.");
+                        "hostnbme of the server '" + hostnbme +
+                        "' does not mbtch the hostnbme in the " +
+                        "server's certificbte.");
         }
         throw verifExcep;
     }
 
     /**
-     * Closes the TLS connection gracefully and reverts back to the underlying
+     * Closes the TLS connection grbcefully bnd reverts bbck to the underlying
      * connection.
      *
-     * @throw IOException If an IO error was encountered while closing the
+     * @throw IOException If bn IO error wbs encountered while closing the
      * TLS connection
      */
     public void close() throws IOException {
@@ -262,16 +262,16 @@ final public class StartTlsResponseImpl extends StartTlsResponse {
         }
 
         if (debug) {
-            System.out.println("StartTLS: replacing SSL " +
-                                "streams with originals");
+            System.out.println("StbrtTLS: replbcing SSL " +
+                                "strebms with originbls");
         }
 
-        // Replace SSL streams with the original streams
-        ldapConnection.replaceStreams(
-                        originalInputStream, originalOutputStream);
+        // Replbce SSL strebms with the originbl strebms
+        ldbpConnection.replbceStrebms(
+                        originblInputStrebm, originblOutputStrebm);
 
         if (debug) {
-            System.out.println("StartTLS: closing SSL Socket");
+            System.out.println("StbrtTLS: closing SSL Socket");
         }
         sslSocket.close();
 
@@ -279,192 +279,192 @@ final public class StartTlsResponseImpl extends StartTlsResponse {
     }
 
     /**
-     * Sets the connection for TLS to use. The TLS connection will be attached
+     * Sets the connection for TLS to use. The TLS connection will be bttbched
      * to this connection.
      *
-     * @param ldapConnection The non-null connection to use.
-     * @param hostname The server's hostname. If null, the hostname used to
-     * open the connection will be used instead.
+     * @pbrbm ldbpConnection The non-null connection to use.
+     * @pbrbm hostnbme The server's hostnbme. If null, the hostnbme used to
+     * open the connection will be used instebd.
      */
-    public void setConnection(Connection ldapConnection, String hostname) {
-        this.ldapConnection = ldapConnection;
-        this.hostname = (hostname != null) ? hostname : ldapConnection.host;
-        originalInputStream = ldapConnection.inStream;
-        originalOutputStream = ldapConnection.outStream;
+    public void setConnection(Connection ldbpConnection, String hostnbme) {
+        this.ldbpConnection = ldbpConnection;
+        this.hostnbme = (hostnbme != null) ? hostnbme : ldbpConnection.host;
+        originblInputStrebm = ldbpConnection.inStrebm;
+        originblOutputStrebm = ldbpConnection.outStrebm;
     }
 
     /*
-     * Returns the default SSL socket factory.
+     * Returns the defbult SSL socket fbctory.
      *
-     * @return The default SSL socket factory.
+     * @return The defbult SSL socket fbctory.
      * @throw IOException If TLS is not supported.
      */
-    private SSLSocketFactory getDefaultFactory() throws IOException {
+    privbte SSLSocketFbctory getDefbultFbctory() throws IOException {
 
-        if (defaultFactory != null) {
-            return defaultFactory;
+        if (defbultFbctory != null) {
+            return defbultFbctory;
         }
 
-        return (defaultFactory =
-            (SSLSocketFactory) SSLSocketFactory.getDefault());
+        return (defbultFbctory =
+            (SSLSocketFbctory) SSLSocketFbctory.getDefbult());
     }
 
     /*
-     * Start the TLS handshake and manipulate the input and output streams.
+     * Stbrt the TLS hbndshbke bnd mbnipulbte the input bnd output strebms.
      *
-     * @param factory The SSL socket factory to use.
+     * @pbrbm fbctory The SSL socket fbctory to use.
      * @return The SSL socket.
-     * @throw IOException If an exception occurred while performing the
-     * TLS handshake.
+     * @throw IOException If bn exception occurred while performing the
+     * TLS hbndshbke.
      */
-    private SSLSocket startHandshake(SSLSocketFactory factory)
+    privbte SSLSocket stbrtHbndshbke(SSLSocketFbctory fbctory)
         throws IOException {
 
-        if (ldapConnection == null) {
-            throw new IllegalStateException("LDAP connection has not been set."
-                + " TLS requires an existing LDAP connection.");
+        if (ldbpConnection == null) {
+            throw new IllegblStbteException("LDAP connection hbs not been set."
+                + " TLS requires bn existing LDAP connection.");
         }
 
-        if (factory != currentFactory) {
-            // Create SSL socket layered over the existing connection
-            sslSocket = (SSLSocket) factory.createSocket(ldapConnection.sock,
-                ldapConnection.host, ldapConnection.port, false);
-            currentFactory = factory;
+        if (fbctory != currentFbctory) {
+            // Crebte SSL socket lbyered over the existing connection
+            sslSocket = (SSLSocket) fbctory.crebteSocket(ldbpConnection.sock,
+                ldbpConnection.host, ldbpConnection.port, fblse);
+            currentFbctory = fbctory;
 
             if (debug) {
-                System.out.println("StartTLS: Created socket : " + sslSocket);
+                System.out.println("StbrtTLS: Crebted socket : " + sslSocket);
             }
         }
 
         if (suites != null) {
-            sslSocket.setEnabledCipherSuites(suites);
+            sslSocket.setEnbbledCipherSuites(suites);
             if (debug) {
-                System.out.println("StartTLS: Enabled cipher suites");
+                System.out.println("StbrtTLS: Enbbled cipher suites");
             }
         }
 
-        // Connection must be quite for handshake to proceed
+        // Connection must be quite for hbndshbke to proceed
 
         try {
             if (debug) {
                 System.out.println(
-                        "StartTLS: Calling sslSocket.startHandshake");
+                        "StbrtTLS: Cblling sslSocket.stbrtHbndshbke");
             }
-            sslSocket.startHandshake();
+            sslSocket.stbrtHbndshbke();
             if (debug) {
                 System.out.println(
-                        "StartTLS: + Finished sslSocket.startHandshake");
+                        "StbrtTLS: + Finished sslSocket.stbrtHbndshbke");
             }
 
-            // Replace original streams with the new SSL streams
-            ldapConnection.replaceStreams(sslSocket.getInputStream(),
-                sslSocket.getOutputStream());
+            // Replbce originbl strebms with the new SSL strebms
+            ldbpConnection.replbceStrebms(sslSocket.getInputStrebm(),
+                sslSocket.getOutputStrebm());
             if (debug) {
-                System.out.println("StartTLS: Replaced IO Streams");
+                System.out.println("StbrtTLS: Replbced IO Strebms");
             }
 
-        } catch (IOException e) {
+        } cbtch (IOException e) {
             if (debug) {
-                System.out.println("StartTLS: Got IO error during handshake");
-                e.printStackTrace();
+                System.out.println("StbrtTLS: Got IO error during hbndshbke");
+                e.printStbckTrbce();
             }
 
             sslSocket.close();
             isClosed = true;
-            throw e;   // pass up exception
+            throw e;   // pbss up exception
         }
 
         return sslSocket;
     }
 
     /*
-     * Verifies that the hostname in the server's certificate matches the
-     * hostname of the server.
-     * The server's first certificate is examined. If it has a subjectAltName
-     * that contains a dNSName then that is used as the server's hostname.
-     * The server's hostname may contain a wildcard for its left-most name part.
-     * Otherwise, if the certificate has no subjectAltName then the value of
-     * the common name attribute of the subject name is used.
+     * Verifies thbt the hostnbme in the server's certificbte mbtches the
+     * hostnbme of the server.
+     * The server's first certificbte is exbmined. If it hbs b subjectAltNbme
+     * thbt contbins b dNSNbme then thbt is used bs the server's hostnbme.
+     * The server's hostnbme mby contbin b wildcbrd for its left-most nbme pbrt.
+     * Otherwise, if the certificbte hbs no subjectAltNbme then the vblue of
+     * the common nbme bttribute of the subject nbme is used.
      *
-     * @param hostname The hostname of the server.
-     * @param session the SSLSession used on the connection to host.
-     * @return true if the hostname is verified, false otherwise.
+     * @pbrbm hostnbme The hostnbme of the server.
+     * @pbrbm session the SSLSession used on the connection to host.
+     * @return true if the hostnbme is verified, fblse otherwise.
      */
 
-    private boolean verify(String hostname, SSLSession session)
+    privbte boolebn verify(String hostnbme, SSLSession session)
         throws SSLPeerUnverifiedException {
 
-        java.security.cert.Certificate[] certs = null;
+        jbvb.security.cert.Certificbte[] certs = null;
 
         // if IPv6 strip off the "[]"
-        if (hostname != null && hostname.startsWith("[") &&
-                hostname.endsWith("]")) {
-            hostname = hostname.substring(1, hostname.length() - 1);
+        if (hostnbme != null && hostnbme.stbrtsWith("[") &&
+                hostnbme.endsWith("]")) {
+            hostnbme = hostnbme.substring(1, hostnbme.length() - 1);
         }
         try {
-            HostnameChecker checker = HostnameChecker.getInstance(
-                                                HostnameChecker.TYPE_LDAP);
-            // Use ciphersuite to determine whether Kerberos is active.
-            if (session.getCipherSuite().startsWith("TLS_KRB5")) {
-                Principal principal = getPeerPrincipal(session);
-                if (!HostnameChecker.match(hostname, principal)) {
+            HostnbmeChecker checker = HostnbmeChecker.getInstbnce(
+                                                HostnbmeChecker.TYPE_LDAP);
+            // Use ciphersuite to determine whether Kerberos is bctive.
+            if (session.getCipherSuite().stbrtsWith("TLS_KRB5")) {
+                Principbl principbl = getPeerPrincipbl(session);
+                if (!HostnbmeChecker.mbtch(hostnbme, principbl)) {
                     throw new SSLPeerUnverifiedException(
-                        "hostname of the kerberos principal:" + principal +
-                        " does not match the hostname:" + hostname);
+                        "hostnbme of the kerberos principbl:" + principbl +
+                        " does not mbtch the hostnbme:" + hostnbme);
                 }
             } else { // X.509
 
-                // get the subject's certificate
-                certs = session.getPeerCertificates();
-                X509Certificate peerCert;
-                if (certs[0] instanceof java.security.cert.X509Certificate) {
-                    peerCert = (java.security.cert.X509Certificate) certs[0];
+                // get the subject's certificbte
+                certs = session.getPeerCertificbtes();
+                X509Certificbte peerCert;
+                if (certs[0] instbnceof jbvb.security.cert.X509Certificbte) {
+                    peerCert = (jbvb.security.cert.X509Certificbte) certs[0];
                 } else {
                     throw new SSLPeerUnverifiedException(
-                            "Received a non X509Certificate from the server");
+                            "Received b non X509Certificbte from the server");
                 }
-                checker.match(hostname, peerCert);
+                checker.mbtch(hostnbme, peerCert);
             }
 
-            // no exception means verification passed
+            // no exception mebns verificbtion pbssed
             return true;
-        } catch (SSLPeerUnverifiedException e) {
+        } cbtch (SSLPeerUnverifiedException e) {
 
             /*
-             * The application may enable an anonymous SSL cipher suite, and
-             * hostname verification is not done for anonymous ciphers
+             * The bpplicbtion mby enbble bn bnonymous SSL cipher suite, bnd
+             * hostnbme verificbtion is not done for bnonymous ciphers
              */
             String cipher = session.getCipherSuite();
-            if (cipher != null && (cipher.indexOf("_anon_") != -1)) {
+            if (cipher != null && (cipher.indexOf("_bnon_") != -1)) {
                 return true;
             }
             throw e;
-        } catch (CertificateException e) {
+        } cbtch (CertificbteException e) {
 
             /*
-             * Pass up the cause of the failure
+             * Pbss up the cbuse of the fbilure
              */
             throw(SSLPeerUnverifiedException)
-                new SSLPeerUnverifiedException("hostname of the server '" +
-                                hostname +
-                                "' does not match the hostname in the " +
-                                "server's certificate.").initCause(e);
+                new SSLPeerUnverifiedException("hostnbme of the server '" +
+                                hostnbme +
+                                "' does not mbtch the hostnbme in the " +
+                                "server's certificbte.").initCbuse(e);
         }
     }
 
     /*
-     * Get the peer principal from the session
+     * Get the peer principbl from the session
      */
-    private static Principal getPeerPrincipal(SSLSession session)
+    privbte stbtic Principbl getPeerPrincipbl(SSLSession session)
             throws SSLPeerUnverifiedException {
-        Principal principal;
+        Principbl principbl;
         try {
-            principal = session.getPeerPrincipal();
-        } catch (AbstractMethodError e) {
+            principbl = session.getPeerPrincipbl();
+        } cbtch (AbstrbctMethodError e) {
             // if the JSSE provider does not support it, return null, since
             // we need it only for Kerberos.
-            principal = null;
+            principbl = null;
         }
-        return principal;
+        return principbl;
     }
 }

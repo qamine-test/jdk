@@ -1,510 +1,510 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt;
+pbckbge sun.bwt;
 
-import java.awt.*;
-import static java.awt.RenderingHints.*;
-import java.awt.dnd.*;
-import java.awt.dnd.peer.DragSourceContextPeer;
-import java.awt.peer.*;
-import java.awt.event.WindowEvent;
-import java.awt.event.KeyEvent;
-import java.awt.image.*;
-import java.awt.TrayIcon;
-import java.awt.SystemTray;
-import java.awt.event.InputEvent;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.security.PrivilegedAction;
-import java.util.*;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
+import jbvb.bwt.*;
+import stbtic jbvb.bwt.RenderingHints.*;
+import jbvb.bwt.dnd.*;
+import jbvb.bwt.dnd.peer.DrbgSourceContextPeer;
+import jbvb.bwt.peer.*;
+import jbvb.bwt.event.WindowEvent;
+import jbvb.bwt.event.KeyEvent;
+import jbvb.bwt.imbge.*;
+import jbvb.bwt.TrbyIcon;
+import jbvb.bwt.SystemTrby;
+import jbvb.bwt.event.InputEvent;
+import jbvb.io.File;
+import jbvb.io.IOException;
+import jbvb.io.InputStrebm;
+import jbvb.net.URL;
+import jbvb.security.PrivilegedAction;
+import jbvb.util.*;
+import jbvb.util.concurrent.TimeUnit;
+import jbvb.util.concurrent.locks.Condition;
+import jbvb.util.concurrent.locks.Lock;
+import jbvb.util.concurrent.locks.ReentrbntLock;
 
-import sun.awt.datatransfer.DataTransferer;
-import sun.util.logging.PlatformLogger;
-import sun.misc.SoftCache;
+import sun.bwt.dbtbtrbnsfer.DbtbTrbnsferer;
+import sun.util.logging.PlbtformLogger;
+import sun.misc.SoftCbche;
 import sun.font.FontDesignMetrics;
-import sun.awt.im.InputContext;
-import sun.awt.image.*;
-import sun.security.action.GetPropertyAction;
-import sun.security.action.GetBooleanAction;
-import java.lang.reflect.InvocationTargetException;
-import java.security.AccessController;
+import sun.bwt.im.InputContext;
+import sun.bwt.imbge.*;
+import sun.security.bction.GetPropertyAction;
+import sun.security.bction.GetBoolebnAction;
+import jbvb.lbng.reflect.InvocbtionTbrgetException;
+import jbvb.security.AccessController;
 
-public abstract class SunToolkit extends Toolkit
-    implements ComponentFactory, InputMethodSupport, KeyboardFocusManagerPeerProvider {
+public bbstrbct clbss SunToolkit extends Toolkit
+    implements ComponentFbctory, InputMethodSupport, KeybobrdFocusMbnbgerPeerProvider {
 
-    // 8014718: logging has been removed from SunToolkit
+    // 8014718: logging hbs been removed from SunToolkit
 
-    /* Load debug settings for native code */
-    static {
-        if (AccessController.doPrivileged(new GetBooleanAction("sun.awt.nativedebug"))) {
+    /* Lobd debug settings for nbtive code */
+    stbtic {
+        if (AccessController.doPrivileged(new GetBoolebnAction("sun.bwt.nbtivedebug"))) {
             DebugSettings.init();
         }
     };
 
     /**
-     * Special mask for the UngrabEvent events, in addition to the
-     * public masks defined in AWTEvent.  Should be used as the mask
-     * value for Toolkit.addAWTEventListener.
+     * Specibl mbsk for the UngrbbEvent events, in bddition to the
+     * public mbsks defined in AWTEvent.  Should be used bs the mbsk
+     * vblue for Toolkit.bddAWTEventListener.
      */
-    public static final int GRAB_EVENT_MASK = 0x80000000;
+    public stbtic finbl int GRAB_EVENT_MASK = 0x80000000;
 
     /* The key to put()/get() the PostEventQueue into/from the AppContext.
      */
-    private static final String POST_EVENT_QUEUE_KEY = "PostEventQueue";
+    privbte stbtic finbl String POST_EVENT_QUEUE_KEY = "PostEventQueue";
 
     /**
      * Number of buttons.
-     * By default it's taken from the system. If system value does not
-     * fit into int type range, use our own MAX_BUTTONS_SUPPORT value.
+     * By defbult it's tbken from the system. If system vblue does not
+     * fit into int type rbnge, use our own MAX_BUTTONS_SUPPORT vblue.
      */
-    protected static int numberOfButtons = 0;
+    protected stbtic int numberOfButtons = 0;
 
 
-    /* XFree standard mention 24 buttons as maximum:
+    /* XFree stbndbrd mention 24 buttons bs mbximum:
      * http://www.xfree86.org/current/mouse.4.html
-     * We workaround systems supporting more than 24 buttons.
-     * Otherwise, we have to use long type values as masks
-     * which leads to API change.
-     * InputEvent.BUTTON_DOWN_MASK may contain only 21 masks due to
+     * We workbround systems supporting more thbn 24 buttons.
+     * Otherwise, we hbve to use long type vblues bs mbsks
+     * which lebds to API chbnge.
+     * InputEvent.BUTTON_DOWN_MASK mby contbin only 21 mbsks due to
      * the 4-bytes limit for the int type. (CR 6799099)
      * One more bit is reserved for FIRST_HIGH_BIT.
      */
-    public final static int MAX_BUTTONS_SUPPORTED = 20;
+    public finbl stbtic int MAX_BUTTONS_SUPPORTED = 20;
 
     /**
-     * Creates and initializes EventQueue instance for the specified
+     * Crebtes bnd initiblizes EventQueue instbnce for the specified
      * AppContext.
-     * Note that event queue must be created from createNewAppContext()
-     * only in order to ensure that EventQueue constructor obtains
+     * Note thbt event queue must be crebted from crebteNewAppContext()
+     * only in order to ensure thbt EventQueue constructor obtbins
      * the correct AppContext.
-     * @param appContext AppContext to associate with the event queue
+     * @pbrbm bppContext AppContext to bssocibte with the event queue
      */
-    private static void initEQ(AppContext appContext) {
+    privbte stbtic void initEQ(AppContext bppContext) {
         EventQueue eventQueue;
 
-        String eqName = System.getProperty("AWT.EventQueueClass",
-                "java.awt.EventQueue");
+        String eqNbme = System.getProperty("AWT.EventQueueClbss",
+                "jbvb.bwt.EventQueue");
 
         try {
-            eventQueue = (EventQueue)Class.forName(eqName).newInstance();
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.err.println("Failed loading " + eqName + ": " + e);
+            eventQueue = (EventQueue)Clbss.forNbme(eqNbme).newInstbnce();
+        } cbtch (Exception e) {
+            e.printStbckTrbce();
+            System.err.println("Fbiled lobding " + eqNbme + ": " + e);
             eventQueue = new EventQueue();
         }
-        appContext.put(AppContext.EVENT_QUEUE_KEY, eventQueue);
+        bppContext.put(AppContext.EVENT_QUEUE_KEY, eventQueue);
 
         PostEventQueue postEventQueue = new PostEventQueue(eventQueue);
-        appContext.put(POST_EVENT_QUEUE_KEY, postEventQueue);
+        bppContext.put(POST_EVENT_QUEUE_KEY, postEventQueue);
     }
 
     public SunToolkit() {
     }
 
-    public boolean useBufferPerWindow() {
-        return false;
+    public boolebn useBufferPerWindow() {
+        return fblse;
     }
 
-    public abstract WindowPeer createWindow(Window target)
-        throws HeadlessException;
+    public bbstrbct WindowPeer crebteWindow(Window tbrget)
+        throws HebdlessException;
 
-    public abstract FramePeer createFrame(Frame target)
-        throws HeadlessException;
+    public bbstrbct FrbmePeer crebteFrbme(Frbme tbrget)
+        throws HebdlessException;
 
-    public abstract FramePeer createLightweightFrame(LightweightFrame target)
-        throws HeadlessException;
+    public bbstrbct FrbmePeer crebteLightweightFrbme(LightweightFrbme tbrget)
+        throws HebdlessException;
 
-    public abstract DialogPeer createDialog(Dialog target)
-        throws HeadlessException;
+    public bbstrbct DiblogPeer crebteDiblog(Diblog tbrget)
+        throws HebdlessException;
 
-    public abstract ButtonPeer createButton(Button target)
-        throws HeadlessException;
+    public bbstrbct ButtonPeer crebteButton(Button tbrget)
+        throws HebdlessException;
 
-    public abstract TextFieldPeer createTextField(TextField target)
-        throws HeadlessException;
+    public bbstrbct TextFieldPeer crebteTextField(TextField tbrget)
+        throws HebdlessException;
 
-    public abstract ChoicePeer createChoice(Choice target)
-        throws HeadlessException;
+    public bbstrbct ChoicePeer crebteChoice(Choice tbrget)
+        throws HebdlessException;
 
-    public abstract LabelPeer createLabel(Label target)
-        throws HeadlessException;
+    public bbstrbct LbbelPeer crebteLbbel(Lbbel tbrget)
+        throws HebdlessException;
 
-    public abstract ListPeer createList(java.awt.List target)
-        throws HeadlessException;
+    public bbstrbct ListPeer crebteList(jbvb.bwt.List tbrget)
+        throws HebdlessException;
 
-    public abstract CheckboxPeer createCheckbox(Checkbox target)
-        throws HeadlessException;
+    public bbstrbct CheckboxPeer crebteCheckbox(Checkbox tbrget)
+        throws HebdlessException;
 
-    public abstract ScrollbarPeer createScrollbar(Scrollbar target)
-        throws HeadlessException;
+    public bbstrbct ScrollbbrPeer crebteScrollbbr(Scrollbbr tbrget)
+        throws HebdlessException;
 
-    public abstract ScrollPanePeer createScrollPane(ScrollPane target)
-        throws HeadlessException;
+    public bbstrbct ScrollPbnePeer crebteScrollPbne(ScrollPbne tbrget)
+        throws HebdlessException;
 
-    public abstract TextAreaPeer createTextArea(TextArea target)
-        throws HeadlessException;
+    public bbstrbct TextArebPeer crebteTextAreb(TextAreb tbrget)
+        throws HebdlessException;
 
-    public abstract FileDialogPeer createFileDialog(FileDialog target)
-        throws HeadlessException;
+    public bbstrbct FileDiblogPeer crebteFileDiblog(FileDiblog tbrget)
+        throws HebdlessException;
 
-    public abstract MenuBarPeer createMenuBar(MenuBar target)
-        throws HeadlessException;
+    public bbstrbct MenuBbrPeer crebteMenuBbr(MenuBbr tbrget)
+        throws HebdlessException;
 
-    public abstract MenuPeer createMenu(Menu target)
-        throws HeadlessException;
+    public bbstrbct MenuPeer crebteMenu(Menu tbrget)
+        throws HebdlessException;
 
-    public abstract PopupMenuPeer createPopupMenu(PopupMenu target)
-        throws HeadlessException;
+    public bbstrbct PopupMenuPeer crebtePopupMenu(PopupMenu tbrget)
+        throws HebdlessException;
 
-    public abstract MenuItemPeer createMenuItem(MenuItem target)
-        throws HeadlessException;
+    public bbstrbct MenuItemPeer crebteMenuItem(MenuItem tbrget)
+        throws HebdlessException;
 
-    public abstract CheckboxMenuItemPeer createCheckboxMenuItem(
-        CheckboxMenuItem target)
-        throws HeadlessException;
+    public bbstrbct CheckboxMenuItemPeer crebteCheckboxMenuItem(
+        CheckboxMenuItem tbrget)
+        throws HebdlessException;
 
-    public abstract DragSourceContextPeer createDragSourceContextPeer(
-        DragGestureEvent dge)
-        throws InvalidDnDOperationException;
+    public bbstrbct DrbgSourceContextPeer crebteDrbgSourceContextPeer(
+        DrbgGestureEvent dge)
+        throws InvblidDnDOperbtionException;
 
-    public abstract TrayIconPeer createTrayIcon(TrayIcon target)
-        throws HeadlessException, AWTException;
+    public bbstrbct TrbyIconPeer crebteTrbyIcon(TrbyIcon tbrget)
+        throws HebdlessException, AWTException;
 
-    public abstract SystemTrayPeer createSystemTray(SystemTray target);
+    public bbstrbct SystemTrbyPeer crebteSystemTrby(SystemTrby tbrget);
 
-    public abstract boolean isTraySupported();
+    public bbstrbct boolebn isTrbySupported();
 
-    public abstract DataTransferer getDataTransferer();
+    public bbstrbct DbtbTrbnsferer getDbtbTrbnsferer();
 
-    @SuppressWarnings("deprecation")
-    public abstract FontPeer getFontPeer(String name, int style);
+    @SuppressWbrnings("deprecbtion")
+    public bbstrbct FontPeer getFontPeer(String nbme, int style);
 
-    public abstract RobotPeer createRobot(Robot target, GraphicsDevice screen)
+    public bbstrbct RobotPeer crebteRobot(Robot tbrget, GrbphicsDevice screen)
         throws AWTException;
 
-    public abstract KeyboardFocusManagerPeer getKeyboardFocusManagerPeer()
-        throws HeadlessException;
+    public bbstrbct KeybobrdFocusMbnbgerPeer getKeybobrdFocusMbnbgerPeer()
+        throws HebdlessException;
 
     /**
-     * The AWT lock is typically only used on Unix platforms to synchronize
-     * access to Xlib, OpenGL, etc.  However, these methods are implemented
-     * in SunToolkit so that they can be called from shared code (e.g.
-     * from the OGL pipeline) or from the X11 pipeline regardless of whether
-     * XToolkit or MToolkit is currently in use.  There are native macros
-     * (such as AWT_LOCK) defined in awt.h, so if the implementation of these
-     * methods is changed, make sure it is compatible with the native macros.
+     * The AWT lock is typicblly only used on Unix plbtforms to synchronize
+     * bccess to Xlib, OpenGL, etc.  However, these methods bre implemented
+     * in SunToolkit so thbt they cbn be cblled from shbred code (e.g.
+     * from the OGL pipeline) or from the X11 pipeline regbrdless of whether
+     * XToolkit or MToolkit is currently in use.  There bre nbtive mbcros
+     * (such bs AWT_LOCK) defined in bwt.h, so if the implementbtion of these
+     * methods is chbnged, mbke sure it is compbtible with the nbtive mbcros.
      *
-     * Note: The following methods (awtLock(), awtUnlock(), etc) should be
-     * used in place of:
+     * Note: The following methods (bwtLock(), bwtUnlock(), etc) should be
+     * used in plbce of:
      *     synchronized (getAWTLock()) {
      *         ...
      *     }
      *
-     * By factoring these methods out specially, we are able to change the
-     * implementation of these methods (e.g. use more advanced locking
-     * mechanisms) without impacting calling code.
+     * By fbctoring these methods out speciblly, we bre bble to chbnge the
+     * implementbtion of these methods (e.g. use more bdvbnced locking
+     * mechbnisms) without impbcting cblling code.
      *
-     * Sample usage:
-     *     private void doStuffWithXlib() {
-     *         assert !SunToolkit.isAWTLockHeldByCurrentThread();
-     *         SunToolkit.awtLock();
+     * Sbmple usbge:
+     *     privbte void doStuffWithXlib() {
+     *         bssert !SunToolkit.isAWTLockHeldByCurrentThrebd();
+     *         SunToolkit.bwtLock();
      *         try {
      *             ...
-     *             XlibWrapper.XDoStuff();
-     *         } finally {
-     *             SunToolkit.awtUnlock();
+     *             XlibWrbpper.XDoStuff();
+     *         } finblly {
+     *             SunToolkit.bwtUnlock();
      *         }
      *     }
      */
 
-    private static final ReentrantLock AWT_LOCK = new ReentrantLock();
-    private static final Condition AWT_LOCK_COND = AWT_LOCK.newCondition();
+    privbte stbtic finbl ReentrbntLock AWT_LOCK = new ReentrbntLock();
+    privbte stbtic finbl Condition AWT_LOCK_COND = AWT_LOCK.newCondition();
 
-    public static final void awtLock() {
+    public stbtic finbl void bwtLock() {
         AWT_LOCK.lock();
     }
 
-    public static final boolean awtTryLock() {
+    public stbtic finbl boolebn bwtTryLock() {
         return AWT_LOCK.tryLock();
     }
 
-    public static final void awtUnlock() {
+    public stbtic finbl void bwtUnlock() {
         AWT_LOCK.unlock();
     }
 
-    public static final void awtLockWait()
+    public stbtic finbl void bwtLockWbit()
         throws InterruptedException
     {
-        AWT_LOCK_COND.await();
+        AWT_LOCK_COND.bwbit();
     }
 
-    public static final void awtLockWait(long timeout)
+    public stbtic finbl void bwtLockWbit(long timeout)
         throws InterruptedException
     {
-        AWT_LOCK_COND.await(timeout, TimeUnit.MILLISECONDS);
+        AWT_LOCK_COND.bwbit(timeout, TimeUnit.MILLISECONDS);
     }
 
-    public static final void awtLockNotify() {
-        AWT_LOCK_COND.signal();
+    public stbtic finbl void bwtLockNotify() {
+        AWT_LOCK_COND.signbl();
     }
 
-    public static final void awtLockNotifyAll() {
-        AWT_LOCK_COND.signalAll();
+    public stbtic finbl void bwtLockNotifyAll() {
+        AWT_LOCK_COND.signblAll();
     }
 
-    public static final boolean isAWTLockHeldByCurrentThread() {
-        return AWT_LOCK.isHeldByCurrentThread();
+    public stbtic finbl boolebn isAWTLockHeldByCurrentThrebd() {
+        return AWT_LOCK.isHeldByCurrentThrebd();
     }
 
     /*
-     * Create a new AppContext, along with its EventQueue, for a
-     * new ThreadGroup.  Browser code, for example, would use this
-     * method to create an AppContext & EventQueue for an Applet.
+     * Crebte b new AppContext, blong with its EventQueue, for b
+     * new ThrebdGroup.  Browser code, for exbmple, would use this
+     * method to crebte bn AppContext & EventQueue for bn Applet.
      */
-    public static AppContext createNewAppContext() {
-        ThreadGroup threadGroup = Thread.currentThread().getThreadGroup();
-        return createNewAppContext(threadGroup);
+    public stbtic AppContext crebteNewAppContext() {
+        ThrebdGroup threbdGroup = Threbd.currentThrebd().getThrebdGroup();
+        return crebteNewAppContext(threbdGroup);
     }
 
-    static final AppContext createNewAppContext(ThreadGroup threadGroup) {
-        // Create appContext before initialization of EventQueue, so all
-        // the calls to AppContext.getAppContext() from EventQueue ctor
-        // return correct values
-        AppContext appContext = new AppContext(threadGroup);
-        initEQ(appContext);
+    stbtic finbl AppContext crebteNewAppContext(ThrebdGroup threbdGroup) {
+        // Crebte bppContext before initiblizbtion of EventQueue, so bll
+        // the cblls to AppContext.getAppContext() from EventQueue ctor
+        // return correct vblues
+        AppContext bppContext = new AppContext(threbdGroup);
+        initEQ(bppContext);
 
-        return appContext;
+        return bppContext;
     }
 
-    static void wakeupEventQueue(EventQueue q, boolean isShutdown){
-        AWTAccessor.getEventQueueAccessor().wakeup(q, isShutdown);
+    stbtic void wbkeupEventQueue(EventQueue q, boolebn isShutdown){
+        AWTAccessor.getEventQueueAccessor().wbkeup(q, isShutdown);
     }
 
     /*
-     * Fetch the peer associated with the given target (as specified
-     * in the peer creation method).  This can be used to determine
-     * things like what the parent peer is.  If the target is null
-     * or the target can't be found (either because the a peer was
-     * never created for it or the peer was disposed), a null will
+     * Fetch the peer bssocibted with the given tbrget (bs specified
+     * in the peer crebtion method).  This cbn be used to determine
+     * things like whbt the pbrent peer is.  If the tbrget is null
+     * or the tbrget cbn't be found (either becbuse the b peer wbs
+     * never crebted for it or the peer wbs disposed), b null will
      * be returned.
      */
-    protected static Object targetToPeer(Object target) {
-        if (target != null && !GraphicsEnvironment.isHeadless()) {
-            return AWTAutoShutdown.getInstance().getPeer(target);
+    protected stbtic Object tbrgetToPeer(Object tbrget) {
+        if (tbrget != null && !GrbphicsEnvironment.isHebdless()) {
+            return AWTAutoShutdown.getInstbnce().getPeer(tbrget);
         }
         return null;
     }
 
-    protected static void targetCreatedPeer(Object target, Object peer) {
-        if (target != null && peer != null &&
-            !GraphicsEnvironment.isHeadless())
+    protected stbtic void tbrgetCrebtedPeer(Object tbrget, Object peer) {
+        if (tbrget != null && peer != null &&
+            !GrbphicsEnvironment.isHebdless())
         {
-            AWTAutoShutdown.getInstance().registerPeer(target, peer);
+            AWTAutoShutdown.getInstbnce().registerPeer(tbrget, peer);
         }
     }
 
-    protected static void targetDisposedPeer(Object target, Object peer) {
-        if (target != null && peer != null &&
-            !GraphicsEnvironment.isHeadless())
+    protected stbtic void tbrgetDisposedPeer(Object tbrget, Object peer) {
+        if (tbrget != null && peer != null &&
+            !GrbphicsEnvironment.isHebdless())
         {
-            AWTAutoShutdown.getInstance().unregisterPeer(target, peer);
+            AWTAutoShutdown.getInstbnce().unregisterPeer(tbrget, peer);
         }
     }
 
-    // Maps from non-Component/MenuComponent to AppContext.
-    // WeakHashMap<Component,AppContext>
-    private static final Map<Object, AppContext> appContextMap =
-        Collections.synchronizedMap(new WeakHashMap<Object, AppContext>());
+    // Mbps from non-Component/MenuComponent to AppContext.
+    // WebkHbshMbp<Component,AppContext>
+    privbte stbtic finbl Mbp<Object, AppContext> bppContextMbp =
+        Collections.synchronizedMbp(new WebkHbshMbp<Object, AppContext>());
 
     /**
-     * Sets the appContext field of target. If target is not a Component or
-     * MenuComponent, this returns false.
+     * Sets the bppContext field of tbrget. If tbrget is not b Component or
+     * MenuComponent, this returns fblse.
      */
-    private static boolean setAppContext(Object target,
+    privbte stbtic boolebn setAppContext(Object tbrget,
                                          AppContext context) {
-        if (target instanceof Component) {
+        if (tbrget instbnceof Component) {
             AWTAccessor.getComponentAccessor().
-                setAppContext((Component)target, context);
-        } else if (target instanceof MenuComponent) {
+                setAppContext((Component)tbrget, context);
+        } else if (tbrget instbnceof MenuComponent) {
             AWTAccessor.getMenuComponentAccessor().
-                setAppContext((MenuComponent)target, context);
+                setAppContext((MenuComponent)tbrget, context);
         } else {
-            return false;
+            return fblse;
         }
         return true;
     }
 
     /**
-     * Returns the appContext field for target. If target is not a
+     * Returns the bppContext field for tbrget. If tbrget is not b
      * Component or MenuComponent this returns null.
      */
-    private static AppContext getAppContext(Object target) {
-        if (target instanceof Component) {
+    privbte stbtic AppContext getAppContext(Object tbrget) {
+        if (tbrget instbnceof Component) {
             return AWTAccessor.getComponentAccessor().
-                       getAppContext((Component)target);
-        } else if (target instanceof MenuComponent) {
+                       getAppContext((Component)tbrget);
+        } else if (tbrget instbnceof MenuComponent) {
             return AWTAccessor.getMenuComponentAccessor().
-                       getAppContext((MenuComponent)target);
+                       getAppContext((MenuComponent)tbrget);
         } else {
             return null;
         }
     }
 
     /*
-     * Fetch the AppContext associated with the given target.
-     * This can be used to determine things like which EventQueue
-     * to use for posting events to a Component.  If the target is
-     * null or the target can't be found, a null with be returned.
+     * Fetch the AppContext bssocibted with the given tbrget.
+     * This cbn be used to determine things like which EventQueue
+     * to use for posting events to b Component.  If the tbrget is
+     * null or the tbrget cbn't be found, b null with be returned.
      */
-    public static AppContext targetToAppContext(Object target) {
-        if (target == null || GraphicsEnvironment.isHeadless()) {
+    public stbtic AppContext tbrgetToAppContext(Object tbrget) {
+        if (tbrget == null || GrbphicsEnvironment.isHebdless()) {
             return null;
         }
-        AppContext context = getAppContext(target);
+        AppContext context = getAppContext(tbrget);
         if (context == null) {
-            // target is not a Component/MenuComponent, try the
-            // appContextMap.
-            context = appContextMap.get(target);
+            // tbrget is not b Component/MenuComponent, try the
+            // bppContextMbp.
+            context = bppContextMbp.get(tbrget);
         }
         return context;
     }
 
      /**
-      * Sets the synchronous status of focus requests on lightweight
-      * components in the specified window to the specified value.
-      * If the boolean parameter is <code>true</code> then the focus
+      * Sets the synchronous stbtus of focus requests on lightweight
+      * components in the specified window to the specified vblue.
+      * If the boolebn pbrbmeter is <code>true</code> then the focus
       * requests on lightweight components will be performed
-      * synchronously, if it is <code>false</code>, then asynchronously.
-      * By default, all windows have their lightweight request status
-      * set to asynchronous.
+      * synchronously, if it is <code>fblse</code>, then bsynchronously.
+      * By defbult, bll windows hbve their lightweight request stbtus
+      * set to bsynchronous.
       * <p>
-      * The application can only set the status of lightweight focus
-      * requests to synchronous for any of its windows if it doesn't
-      * perform focus transfers between different heavyweight containers.
-      * In this case the observable focus behaviour is the same as with
-      * asynchronous status.
+      * The bpplicbtion cbn only set the stbtus of lightweight focus
+      * requests to synchronous for bny of its windows if it doesn't
+      * perform focus trbnsfers between different hebvyweight contbiners.
+      * In this cbse the observbble focus behbviour is the sbme bs with
+      * bsynchronous stbtus.
       * <p>
-      * If the application performs focus transfer between different
-      * heavyweight containers and sets the lightweight focus request
-      * status to synchronous for any of its windows, then further focus
-      * behaviour is unspecified.
+      * If the bpplicbtion performs focus trbnsfer between different
+      * hebvyweight contbiners bnd sets the lightweight focus request
+      * stbtus to synchronous for bny of its windows, then further focus
+      * behbviour is unspecified.
       * <p>
-      * @param    w window for which the lightweight focus request status
+      * @pbrbm    w window for which the lightweight focus request stbtus
       *             should be set
-      * @param    status the value of lightweight focus request status
+      * @pbrbm    stbtus the vblue of lightweight focus request stbtus
       */
 
-    public static void setLWRequestStatus(Window changed,boolean status){
-        AWTAccessor.getWindowAccessor().setLWRequestStatus(changed, status);
+    public stbtic void setLWRequestStbtus(Window chbnged,boolebn stbtus){
+        AWTAccessor.getWindowAccessor().setLWRequestStbtus(chbnged, stbtus);
     };
 
-    public static void checkAndSetPolicy(Container cont) {
-        FocusTraversalPolicy defaultPolicy = KeyboardFocusManager.
-            getCurrentKeyboardFocusManager().
-                getDefaultFocusTraversalPolicy();
+    public stbtic void checkAndSetPolicy(Contbiner cont) {
+        FocusTrbversblPolicy defbultPolicy = KeybobrdFocusMbnbger.
+            getCurrentKeybobrdFocusMbnbger().
+                getDefbultFocusTrbversblPolicy();
 
-        cont.setFocusTraversalPolicy(defaultPolicy);
+        cont.setFocusTrbversblPolicy(defbultPolicy);
     }
 
-    private static FocusTraversalPolicy createLayoutPolicy() {
-        FocusTraversalPolicy policy = null;
+    privbte stbtic FocusTrbversblPolicy crebteLbyoutPolicy() {
+        FocusTrbversblPolicy policy = null;
         try {
-            Class<?> layoutPolicyClass =
-                Class.forName("javax.swing.LayoutFocusTraversalPolicy");
-            policy = (FocusTraversalPolicy)layoutPolicyClass.newInstance();
+            Clbss<?> lbyoutPolicyClbss =
+                Clbss.forNbme("jbvbx.swing.LbyoutFocusTrbversblPolicy");
+            policy = (FocusTrbversblPolicy)lbyoutPolicyClbss.newInstbnce();
         }
-        catch (ClassNotFoundException e) {
-            assert false;
+        cbtch (ClbssNotFoundException e) {
+            bssert fblse;
         }
-        catch (InstantiationException e) {
-            assert false;
+        cbtch (InstbntibtionException e) {
+            bssert fblse;
         }
-        catch (IllegalAccessException e) {
-            assert false;
+        cbtch (IllegblAccessException e) {
+            bssert fblse;
         }
 
         return policy;
     }
 
     /*
-     * Insert a mapping from target to AppContext, for later retrieval
-     * via targetToAppContext() above.
+     * Insert b mbpping from tbrget to AppContext, for lbter retrievbl
+     * vib tbrgetToAppContext() bbove.
      */
-    public static void insertTargetMapping(Object target, AppContext appContext) {
-        if (!GraphicsEnvironment.isHeadless()) {
-            if (!setAppContext(target, appContext)) {
-                // Target is not a Component/MenuComponent, use the private Map
-                // instead.
-                appContextMap.put(target, appContext);
+    public stbtic void insertTbrgetMbpping(Object tbrget, AppContext bppContext) {
+        if (!GrbphicsEnvironment.isHebdless()) {
+            if (!setAppContext(tbrget, bppContext)) {
+                // Tbrget is not b Component/MenuComponent, use the privbte Mbp
+                // instebd.
+                bppContextMbp.put(tbrget, bppContext);
             }
         }
     }
 
     /*
-     * Post an AWTEvent to the Java EventQueue, using the PostEventQueue
-     * to avoid possibly calling client code (EventQueueSubclass.postEvent())
-     * on the toolkit (AWT-Windows/AWT-Motif) thread.  This function should
-     * not be called under another lock since it locks the EventQueue.
+     * Post bn AWTEvent to the Jbvb EventQueue, using the PostEventQueue
+     * to bvoid possibly cblling client code (EventQueueSubclbss.postEvent())
+     * on the toolkit (AWT-Windows/AWT-Motif) threbd.  This function should
+     * not be cblled under bnother lock since it locks the EventQueue.
      * See bugids 4632918, 4526597.
      */
-    public static void postEvent(AppContext appContext, AWTEvent event) {
+    public stbtic void postEvent(AppContext bppContext, AWTEvent event) {
         if (event == null) {
             throw new NullPointerException();
         }
 
-        AWTAccessor.SequencedEventAccessor sea = AWTAccessor.getSequencedEventAccessor();
-        if (sea != null && sea.isSequencedEvent(event)) {
-            AWTEvent nested = sea.getNested(event);
+        AWTAccessor.SequencedEventAccessor seb = AWTAccessor.getSequencedEventAccessor();
+        if (seb != null && seb.isSequencedEvent(event)) {
+            AWTEvent nested = seb.getNested(event);
             if (nested.getID() == WindowEvent.WINDOW_LOST_FOCUS &&
-                nested instanceof TimedWindowEvent)
+                nested instbnceof TimedWindowEvent)
             {
                 TimedWindowEvent twe = (TimedWindowEvent)nested;
-                ((SunToolkit)Toolkit.getDefaultToolkit()).
-                    setWindowDeactivationTime((Window)twe.getSource(), twe.getWhen());
+                ((SunToolkit)Toolkit.getDefbultToolkit()).
+                    setWindowDebctivbtionTime((Window)twe.getSource(), twe.getWhen());
             }
         }
 
-        // All events posted via this method are system-generated.
-        // Placing the following call here reduces considerably the
-        // number of places throughout the toolkit that would
-        // otherwise have to be modified to precisely identify
-        // system-generated events.
-        setSystemGenerated(event);
-        AppContext eventContext = targetToAppContext(event.getSource());
-        if (eventContext != null && !eventContext.equals(appContext)) {
-            throw new RuntimeException("Event posted on wrong app context : " + event);
+        // All events posted vib this method bre system-generbted.
+        // Plbcing the following cbll here reduces considerbbly the
+        // number of plbces throughout the toolkit thbt would
+        // otherwise hbve to be modified to precisely identify
+        // system-generbted events.
+        setSystemGenerbted(event);
+        AppContext eventContext = tbrgetToAppContext(event.getSource());
+        if (eventContext != null && !eventContext.equbls(bppContext)) {
+            throw new RuntimeException("Event posted on wrong bpp context : " + event);
         }
         PostEventQueue postEventQueue =
-            (PostEventQueue)appContext.get(POST_EVENT_QUEUE_KEY);
+            (PostEventQueue)bppContext.get(POST_EVENT_QUEUE_KEY);
         if (postEventQueue != null) {
             postEventQueue.postEvent(event);
         }
@@ -513,58 +513,58 @@ public abstract class SunToolkit extends Toolkit
     /*
      * Post AWTEvent of high priority.
      */
-    public static void postPriorityEvent(final AWTEvent e) {
-        PeerEvent pe = new PeerEvent(Toolkit.getDefaultToolkit(), new Runnable() {
+    public stbtic void postPriorityEvent(finbl AWTEvent e) {
+        PeerEvent pe = new PeerEvent(Toolkit.getDefbultToolkit(), new Runnbble() {
                 public void run() {
                     AWTAccessor.getAWTEventAccessor().setPosted(e);
-                    ((Component)e.getSource()).dispatchEvent(e);
+                    ((Component)e.getSource()).dispbtchEvent(e);
                 }
             }, PeerEvent.ULTIMATE_PRIORITY_EVENT);
-        postEvent(targetToAppContext(e.getSource()), pe);
+        postEvent(tbrgetToAppContext(e.getSource()), pe);
     }
 
     /*
-     * Flush any pending events which haven't been posted to the AWT
+     * Flush bny pending events which hbven't been posted to the AWT
      * EventQueue yet.
      */
-    public static void flushPendingEvents()  {
-        AppContext appContext = AppContext.getAppContext();
-        flushPendingEvents(appContext);
+    public stbtic void flushPendingEvents()  {
+        AppContext bppContext = AppContext.getAppContext();
+        flushPendingEvents(bppContext);
     }
 
     /*
      * Flush the PostEventQueue for the right AppContext.
-     * The default flushPendingEvents only flushes the thread-local context,
-     * which is not always correct, c.f. 3746956
+     * The defbult flushPendingEvents only flushes the threbd-locbl context,
+     * which is not blwbys correct, c.f. 3746956
      */
-    public static void flushPendingEvents(AppContext appContext) {
+    public stbtic void flushPendingEvents(AppContext bppContext) {
         PostEventQueue postEventQueue =
-                (PostEventQueue)appContext.get(POST_EVENT_QUEUE_KEY);
+                (PostEventQueue)bppContext.get(POST_EVENT_QUEUE_KEY);
         if (postEventQueue != null) {
             postEventQueue.flush();
         }
     }
 
     /*
-     * Execute a chunk of code on the Java event handler thread for the
-     * given target.  Does not wait for the execution to occur before
-     * returning to the caller.
+     * Execute b chunk of code on the Jbvb event hbndler threbd for the
+     * given tbrget.  Does not wbit for the execution to occur before
+     * returning to the cbller.
      */
-    public static void executeOnEventHandlerThread(Object target,
-                                                   Runnable runnable) {
-        executeOnEventHandlerThread(new PeerEvent(target, runnable, PeerEvent.PRIORITY_EVENT));
+    public stbtic void executeOnEventHbndlerThrebd(Object tbrget,
+                                                   Runnbble runnbble) {
+        executeOnEventHbndlerThrebd(new PeerEvent(tbrget, runnbble, PeerEvent.PRIORITY_EVENT));
     }
 
     /*
-     * Fixed 5064013: the InvocationEvent time should be equals
+     * Fixed 5064013: the InvocbtionEvent time should be equbls
      * the time of the ActionEvent
      */
-    @SuppressWarnings("serial")
-    public static void executeOnEventHandlerThread(Object target,
-                                                   Runnable runnable,
-                                                   final long when) {
-        executeOnEventHandlerThread(
-            new PeerEvent(target, runnable, PeerEvent.PRIORITY_EVENT) {
+    @SuppressWbrnings("seribl")
+    public stbtic void executeOnEventHbndlerThrebd(Object tbrget,
+                                                   Runnbble runnbble,
+                                                   finbl long when) {
+        executeOnEventHbndlerThrebd(
+            new PeerEvent(tbrget, runnbble, PeerEvent.PRIORITY_EVENT) {
                 public long getWhen() {
                     return when;
                 }
@@ -572,366 +572,366 @@ public abstract class SunToolkit extends Toolkit
     }
 
     /*
-     * Execute a chunk of code on the Java event handler thread for the
-     * given target.  Does not wait for the execution to occur before
-     * returning to the caller.
+     * Execute b chunk of code on the Jbvb event hbndler threbd for the
+     * given tbrget.  Does not wbit for the execution to occur before
+     * returning to the cbller.
      */
-    public static void executeOnEventHandlerThread(PeerEvent peerEvent) {
-        postEvent(targetToAppContext(peerEvent.getSource()), peerEvent);
+    public stbtic void executeOnEventHbndlerThrebd(PeerEvent peerEvent) {
+        postEvent(tbrgetToAppContext(peerEvent.getSource()), peerEvent);
     }
 
     /*
-     * Execute a chunk of code on the Java event handler thread. The
-     * method takes into account provided AppContext and sets
-     * <code>SunToolkit.getDefaultToolkit()</code> as a target of the
-     * event. See 6451487 for detailes.
-     * Does not wait for the execution to occur before returning to
-     * the caller.
+     * Execute b chunk of code on the Jbvb event hbndler threbd. The
+     * method tbkes into bccount provided AppContext bnd sets
+     * <code>SunToolkit.getDefbultToolkit()</code> bs b tbrget of the
+     * event. See 6451487 for detbiles.
+     * Does not wbit for the execution to occur before returning to
+     * the cbller.
      */
-     public static void invokeLaterOnAppContext(
-        AppContext appContext, Runnable dispatcher)
+     public stbtic void invokeLbterOnAppContext(
+        AppContext bppContext, Runnbble dispbtcher)
      {
-        postEvent(appContext,
-            new PeerEvent(Toolkit.getDefaultToolkit(), dispatcher,
+        postEvent(bppContext,
+            new PeerEvent(Toolkit.getDefbultToolkit(), dispbtcher,
                 PeerEvent.PRIORITY_EVENT));
      }
 
     /*
-     * Execute a chunk of code on the Java event handler thread for the
-     * given target.  Waits for the execution to occur before returning
-     * to the caller.
+     * Execute b chunk of code on the Jbvb event hbndler threbd for the
+     * given tbrget.  Wbits for the execution to occur before returning
+     * to the cbller.
      */
-    public static void executeOnEDTAndWait(Object target, Runnable runnable)
-        throws InterruptedException, InvocationTargetException
+    public stbtic void executeOnEDTAndWbit(Object tbrget, Runnbble runnbble)
+        throws InterruptedException, InvocbtionTbrgetException
     {
-        if (EventQueue.isDispatchThread()) {
-            throw new Error("Cannot call executeOnEDTAndWait from any event dispatcher thread");
+        if (EventQueue.isDispbtchThrebd()) {
+            throw new Error("Cbnnot cbll executeOnEDTAndWbit from bny event dispbtcher threbd");
         }
 
-        class AWTInvocationLock {}
-        Object lock = new AWTInvocationLock();
+        clbss AWTInvocbtionLock {}
+        Object lock = new AWTInvocbtionLock();
 
-        PeerEvent event = new PeerEvent(target, runnable, lock, true, PeerEvent.PRIORITY_EVENT);
+        PeerEvent event = new PeerEvent(tbrget, runnbble, lock, true, PeerEvent.PRIORITY_EVENT);
 
         synchronized (lock) {
-            executeOnEventHandlerThread(event);
-            while(!event.isDispatched()) {
-                lock.wait();
+            executeOnEventHbndlerThrebd(event);
+            while(!event.isDispbtched()) {
+                lock.wbit();
             }
         }
 
-        Throwable eventThrowable = event.getThrowable();
-        if (eventThrowable != null) {
-            throw new InvocationTargetException(eventThrowable);
+        Throwbble eventThrowbble = event.getThrowbble();
+        if (eventThrowbble != null) {
+            throw new InvocbtionTbrgetException(eventThrowbble);
         }
     }
 
     /*
-     * Returns true if the calling thread is the event dispatch thread
-     * contained within AppContext which associated with the given target.
-     * Use this call to ensure that a given task is being executed
-     * (or not being) on the event dispatch thread for the given target.
+     * Returns true if the cblling threbd is the event dispbtch threbd
+     * contbined within AppContext which bssocibted with the given tbrget.
+     * Use this cbll to ensure thbt b given tbsk is being executed
+     * (or not being) on the event dispbtch threbd for the given tbrget.
      */
-    public static boolean isDispatchThreadForAppContext(Object target) {
-        AppContext appContext = targetToAppContext(target);
-        EventQueue eq = (EventQueue)appContext.get(AppContext.EVENT_QUEUE_KEY);
+    public stbtic boolebn isDispbtchThrebdForAppContext(Object tbrget) {
+        AppContext bppContext = tbrgetToAppContext(tbrget);
+        EventQueue eq = (EventQueue)bppContext.get(AppContext.EVENT_QUEUE_KEY);
 
-        AWTAccessor.EventQueueAccessor accessor = AWTAccessor.getEventQueueAccessor();
-        return accessor.isDispatchThreadImpl(eq);
+        AWTAccessor.EventQueueAccessor bccessor = AWTAccessor.getEventQueueAccessor();
+        return bccessor.isDispbtchThrebdImpl(eq);
     }
 
     public Dimension getScreenSize() {
         return new Dimension(getScreenWidth(), getScreenHeight());
     }
-    protected abstract int getScreenWidth();
-    protected abstract int getScreenHeight();
+    protected bbstrbct int getScreenWidth();
+    protected bbstrbct int getScreenHeight();
 
-    @SuppressWarnings("deprecation")
+    @SuppressWbrnings("deprecbtion")
     public FontMetrics getFontMetrics(Font font) {
         return FontDesignMetrics.getMetrics(font);
     }
 
-    @SuppressWarnings("deprecation")
+    @SuppressWbrnings("deprecbtion")
     public String[] getFontList() {
-        String[] hardwiredFontList = {
+        String[] hbrdwiredFontList = {
             Font.DIALOG, Font.SANS_SERIF, Font.SERIF, Font.MONOSPACED,
             Font.DIALOG_INPUT
 
-            // -- Obsolete font names from 1.0.2.  It was decided that
-            // -- getFontList should not return these old names:
-            //    "Helvetica", "TimesRoman", "Courier", "ZapfDingbats"
+            // -- Obsolete font nbmes from 1.0.2.  It wbs decided thbt
+            // -- getFontList should not return these old nbmes:
+            //    "Helveticb", "TimesRombn", "Courier", "ZbpfDingbbts"
         };
-        return hardwiredFontList;
+        return hbrdwiredFontList;
     }
 
-    public PanelPeer createPanel(Panel target) {
-        return (PanelPeer)createComponent(target);
+    public PbnelPeer crebtePbnel(Pbnel tbrget) {
+        return (PbnelPeer)crebteComponent(tbrget);
     }
 
-    public CanvasPeer createCanvas(Canvas target) {
-        return (CanvasPeer)createComponent(target);
+    public CbnvbsPeer crebteCbnvbs(Cbnvbs tbrget) {
+        return (CbnvbsPeer)crebteComponent(tbrget);
     }
 
     /**
-     * Disables erasing of background on the canvas before painting if
+     * Disbbles erbsing of bbckground on the cbnvbs before pbinting if
      * this is supported by the current toolkit. It is recommended to
-     * call this method early, before the Canvas becomes displayable,
-     * because some Toolkit implementations do not support changing
-     * this property once the Canvas becomes displayable.
+     * cbll this method ebrly, before the Cbnvbs becomes displbybble,
+     * becbuse some Toolkit implementbtions do not support chbnging
+     * this property once the Cbnvbs becomes displbybble.
      */
-    public void disableBackgroundErase(Canvas canvas) {
-        disableBackgroundEraseImpl(canvas);
+    public void disbbleBbckgroundErbse(Cbnvbs cbnvbs) {
+        disbbleBbckgroundErbseImpl(cbnvbs);
     }
 
     /**
-     * Disables the native erasing of the background on the given
-     * component before painting if this is supported by the current
-     * toolkit. This only has an effect for certain components such as
-     * Canvas, Panel and Window. It is recommended to call this method
-     * early, before the Component becomes displayable, because some
-     * Toolkit implementations do not support changing this property
-     * once the Component becomes displayable.
+     * Disbbles the nbtive erbsing of the bbckground on the given
+     * component before pbinting if this is supported by the current
+     * toolkit. This only hbs bn effect for certbin components such bs
+     * Cbnvbs, Pbnel bnd Window. It is recommended to cbll this method
+     * ebrly, before the Component becomes displbybble, becbuse some
+     * Toolkit implementbtions do not support chbnging this property
+     * once the Component becomes displbybble.
      */
-    public void disableBackgroundErase(Component component) {
-        disableBackgroundEraseImpl(component);
+    public void disbbleBbckgroundErbse(Component component) {
+        disbbleBbckgroundErbseImpl(component);
     }
 
-    private void disableBackgroundEraseImpl(Component component) {
-        AWTAccessor.getComponentAccessor().setBackgroundEraseDisabled(component, true);
+    privbte void disbbleBbckgroundErbseImpl(Component component) {
+        AWTAccessor.getComponentAccessor().setBbckgroundErbseDisbbled(component, true);
     }
 
     /**
-     * Returns the value of "sun.awt.noerasebackground" property. Default
-     * value is {@code false}.
+     * Returns the vblue of "sun.bwt.noerbsebbckground" property. Defbult
+     * vblue is {@code fblse}.
      */
-    public static boolean getSunAwtNoerasebackground() {
-        return AccessController.doPrivileged(new GetBooleanAction("sun.awt.noerasebackground"));
+    public stbtic boolebn getSunAwtNoerbsebbckground() {
+        return AccessController.doPrivileged(new GetBoolebnAction("sun.bwt.noerbsebbckground"));
     }
 
     /**
-     * Returns the value of "sun.awt.erasebackgroundonresize" property. Default
-     * value is {@code false}.
+     * Returns the vblue of "sun.bwt.erbsebbckgroundonresize" property. Defbult
+     * vblue is {@code fblse}.
      */
-    public static boolean getSunAwtErasebackgroundonresize() {
-        return AccessController.doPrivileged(new GetBooleanAction("sun.awt.erasebackgroundonresize"));
+    public stbtic boolebn getSunAwtErbsebbckgroundonresize() {
+        return AccessController.doPrivileged(new GetBoolebnAction("sun.bwt.erbsebbckgroundonresize"));
     }
 
 
-    static final SoftCache imgCache = new SoftCache();
+    stbtic finbl SoftCbche imgCbche = new SoftCbche();
 
-    static Image getImageFromHash(Toolkit tk, URL url) {
+    stbtic Imbge getImbgeFromHbsh(Toolkit tk, URL url) {
         checkPermissions(url);
-        synchronized (imgCache) {
-            Image img = (Image)imgCache.get(url);
+        synchronized (imgCbche) {
+            Imbge img = (Imbge)imgCbche.get(url);
             if (img == null) {
                 try {
-                    img = tk.createImage(new URLImageSource(url));
-                    imgCache.put(url, img);
-                } catch (Exception e) {
+                    img = tk.crebteImbge(new URLImbgeSource(url));
+                    imgCbche.put(url, img);
+                } cbtch (Exception e) {
                 }
             }
             return img;
         }
     }
 
-    static Image getImageFromHash(Toolkit tk,
-                                               String filename) {
-        checkPermissions(filename);
-        synchronized (imgCache) {
-            Image img = (Image)imgCache.get(filename);
+    stbtic Imbge getImbgeFromHbsh(Toolkit tk,
+                                               String filenbme) {
+        checkPermissions(filenbme);
+        synchronized (imgCbche) {
+            Imbge img = (Imbge)imgCbche.get(filenbme);
             if (img == null) {
                 try {
-                    img = tk.createImage(new FileImageSource(filename));
-                    imgCache.put(filename, img);
-                } catch (Exception e) {
+                    img = tk.crebteImbge(new FileImbgeSource(filenbme));
+                    imgCbche.put(filenbme, img);
+                } cbtch (Exception e) {
                 }
             }
             return img;
         }
     }
 
-    public Image getImage(String filename) {
-        return getImageFromHash(this, filename);
+    public Imbge getImbge(String filenbme) {
+        return getImbgeFromHbsh(this, filenbme);
     }
 
-    public Image getImage(URL url) {
-        return getImageFromHash(this, url);
+    public Imbge getImbge(URL url) {
+        return getImbgeFromHbsh(this, url);
     }
 
-    protected Image getImageWithResolutionVariant(String fileName,
-            String resolutionVariantName) {
-        synchronized (imgCache) {
-            Image image = getImageFromHash(this, fileName);
-            if (image instanceof MultiResolutionImage) {
-                return image;
+    protected Imbge getImbgeWithResolutionVbribnt(String fileNbme,
+            String resolutionVbribntNbme) {
+        synchronized (imgCbche) {
+            Imbge imbge = getImbgeFromHbsh(this, fileNbme);
+            if (imbge instbnceof MultiResolutionImbge) {
+                return imbge;
             }
-            Image resolutionVariant = getImageFromHash(this, resolutionVariantName);
-            image = createImageWithResolutionVariant(image, resolutionVariant);
-            imgCache.put(fileName, image);
-            return image;
+            Imbge resolutionVbribnt = getImbgeFromHbsh(this, resolutionVbribntNbme);
+            imbge = crebteImbgeWithResolutionVbribnt(imbge, resolutionVbribnt);
+            imgCbche.put(fileNbme, imbge);
+            return imbge;
         }
     }
 
-    protected Image getImageWithResolutionVariant(URL url,
-            URL resolutionVariantURL) {
-        synchronized (imgCache) {
-            Image image = getImageFromHash(this, url);
-            if (image instanceof MultiResolutionImage) {
-                return image;
+    protected Imbge getImbgeWithResolutionVbribnt(URL url,
+            URL resolutionVbribntURL) {
+        synchronized (imgCbche) {
+            Imbge imbge = getImbgeFromHbsh(this, url);
+            if (imbge instbnceof MultiResolutionImbge) {
+                return imbge;
             }
-            Image resolutionVariant = getImageFromHash(this, resolutionVariantURL);
-            image = createImageWithResolutionVariant(image, resolutionVariant);
-            imgCache.put(url, image);
-            return image;
+            Imbge resolutionVbribnt = getImbgeFromHbsh(this, resolutionVbribntURL);
+            imbge = crebteImbgeWithResolutionVbribnt(imbge, resolutionVbribnt);
+            imgCbche.put(url, imbge);
+            return imbge;
         }
     }
 
 
-    public Image createImage(String filename) {
-        checkPermissions(filename);
-        return createImage(new FileImageSource(filename));
+    public Imbge crebteImbge(String filenbme) {
+        checkPermissions(filenbme);
+        return crebteImbge(new FileImbgeSource(filenbme));
     }
 
-    public Image createImage(URL url) {
+    public Imbge crebteImbge(URL url) {
         checkPermissions(url);
-        return createImage(new URLImageSource(url));
+        return crebteImbge(new URLImbgeSource(url));
     }
 
-    public Image createImage(byte[] data, int offset, int length) {
-        return createImage(new ByteArrayImageSource(data, offset, length));
+    public Imbge crebteImbge(byte[] dbtb, int offset, int length) {
+        return crebteImbge(new ByteArrbyImbgeSource(dbtb, offset, length));
     }
 
-    public Image createImage(ImageProducer producer) {
-        return new ToolkitImage(producer);
+    public Imbge crebteImbge(ImbgeProducer producer) {
+        return new ToolkitImbge(producer);
     }
 
-    public static Image createImageWithResolutionVariant(Image image,
-            Image resolutionVariant) {
-        return new MultiResolutionToolkitImage(image, resolutionVariant);
+    public stbtic Imbge crebteImbgeWithResolutionVbribnt(Imbge imbge,
+            Imbge resolutionVbribnt) {
+        return new MultiResolutionToolkitImbge(imbge, resolutionVbribnt);
     }
 
-    public int checkImage(Image img, int w, int h, ImageObserver o) {
-        if (!(img instanceof ToolkitImage)) {
-            return ImageObserver.ALLBITS;
+    public int checkImbge(Imbge img, int w, int h, ImbgeObserver o) {
+        if (!(img instbnceof ToolkitImbge)) {
+            return ImbgeObserver.ALLBITS;
         }
 
-        ToolkitImage tkimg = (ToolkitImage)img;
+        ToolkitImbge tkimg = (ToolkitImbge)img;
         int repbits;
         if (w == 0 || h == 0) {
-            repbits = ImageObserver.ALLBITS;
+            repbits = ImbgeObserver.ALLBITS;
         } else {
-            repbits = tkimg.getImageRep().check(o);
+            repbits = tkimg.getImbgeRep().check(o);
         }
-        return (tkimg.check(o) | repbits) & checkResolutionVariant(img, w, h, o);
+        return (tkimg.check(o) | repbits) & checkResolutionVbribnt(img, w, h, o);
     }
 
-    public boolean prepareImage(Image img, int w, int h, ImageObserver o) {
+    public boolebn prepbreImbge(Imbge img, int w, int h, ImbgeObserver o) {
         if (w == 0 || h == 0) {
             return true;
         }
 
-        // Must be a ToolkitImage
-        if (!(img instanceof ToolkitImage)) {
+        // Must be b ToolkitImbge
+        if (!(img instbnceof ToolkitImbge)) {
             return true;
         }
 
-        ToolkitImage tkimg = (ToolkitImage)img;
-        if (tkimg.hasError()) {
+        ToolkitImbge tkimg = (ToolkitImbge)img;
+        if (tkimg.hbsError()) {
             if (o != null) {
-                o.imageUpdate(img, ImageObserver.ERROR|ImageObserver.ABORT,
+                o.imbgeUpdbte(img, ImbgeObserver.ERROR|ImbgeObserver.ABORT,
                               -1, -1, -1, -1);
             }
-            return false;
+            return fblse;
         }
-        ImageRepresentation ir = tkimg.getImageRep();
-        return ir.prepare(o) & prepareResolutionVariant(img, w, h, o);
+        ImbgeRepresentbtion ir = tkimg.getImbgeRep();
+        return ir.prepbre(o) & prepbreResolutionVbribnt(img, w, h, o);
     }
 
-    private int checkResolutionVariant(Image img, int w, int h, ImageObserver o) {
-        ToolkitImage rvImage = getResolutionVariant(img);
+    privbte int checkResolutionVbribnt(Imbge img, int w, int h, ImbgeObserver o) {
+        ToolkitImbge rvImbge = getResolutionVbribnt(img);
         int rvw = getRVSize(w);
         int rvh = getRVSize(h);
-        // Ignore the resolution variant in case of error
-        return (rvImage == null || rvImage.hasError()) ? 0xFFFF :
-                checkImage(rvImage, rvw, rvh, MultiResolutionToolkitImage.
-                                getResolutionVariantObserver(
+        // Ignore the resolution vbribnt in cbse of error
+        return (rvImbge == null || rvImbge.hbsError()) ? 0xFFFF :
+                checkImbge(rvImbge, rvw, rvh, MultiResolutionToolkitImbge.
+                                getResolutionVbribntObserver(
                                         img, o, w, h, rvw, rvh, true));
     }
 
-    private boolean prepareResolutionVariant(Image img, int w, int h,
-            ImageObserver o) {
+    privbte boolebn prepbreResolutionVbribnt(Imbge img, int w, int h,
+            ImbgeObserver o) {
 
-        ToolkitImage rvImage = getResolutionVariant(img);
+        ToolkitImbge rvImbge = getResolutionVbribnt(img);
         int rvw = getRVSize(w);
         int rvh = getRVSize(h);
-        // Ignore the resolution variant in case of error
-        return rvImage == null || rvImage.hasError() || prepareImage(
-                rvImage, rvw, rvh,
-                MultiResolutionToolkitImage.getResolutionVariantObserver(
+        // Ignore the resolution vbribnt in cbse of error
+        return rvImbge == null || rvImbge.hbsError() || prepbreImbge(
+                rvImbge, rvw, rvh,
+                MultiResolutionToolkitImbge.getResolutionVbribntObserver(
                         img, o, w, h, rvw, rvh, true));
     }
 
-    private static int getRVSize(int size){
+    privbte stbtic int getRVSize(int size){
         return size == -1 ? -1 : 2 * size;
     }
 
-    private static ToolkitImage getResolutionVariant(Image image) {
-        if (image instanceof MultiResolutionToolkitImage) {
-            Image resolutionVariant = ((MultiResolutionToolkitImage) image).
-                    getResolutionVariant();
-            if (resolutionVariant instanceof ToolkitImage) {
-                return (ToolkitImage) resolutionVariant;
+    privbte stbtic ToolkitImbge getResolutionVbribnt(Imbge imbge) {
+        if (imbge instbnceof MultiResolutionToolkitImbge) {
+            Imbge resolutionVbribnt = ((MultiResolutionToolkitImbge) imbge).
+                    getResolutionVbribnt();
+            if (resolutionVbribnt instbnceof ToolkitImbge) {
+                return (ToolkitImbge) resolutionVbribnt;
             }
         }
         return null;
     }
 
-    protected static boolean imageCached(Object key) {
-        return imgCache.containsKey(key);
+    protected stbtic boolebn imbgeCbched(Object key) {
+        return imgCbche.contbinsKey(key);
     }
 
-    protected static boolean imageExists(String filename) {
-        checkPermissions(filename);
-        return filename != null && new File(filename).exists();
+    protected stbtic boolebn imbgeExists(String filenbme) {
+        checkPermissions(filenbme);
+        return filenbme != null && new File(filenbme).exists();
     }
 
-    @SuppressWarnings("try")
-    protected static boolean imageExists(URL url) {
+    @SuppressWbrnings("try")
+    protected stbtic boolebn imbgeExists(URL url) {
         checkPermissions(url);
         if (url != null) {
-            try (InputStream is = url.openStream()) {
+            try (InputStrebm is = url.openStrebm()) {
                 return true;
-            }catch(IOException e){
-                return false;
+            }cbtch(IOException e){
+                return fblse;
             }
         }
-        return false;
+        return fblse;
     }
 
-    private static void checkPermissions(String filename) {
-        SecurityManager security = System.getSecurityManager();
+    privbte stbtic void checkPermissions(String filenbme) {
+        SecurityMbnbger security = System.getSecurityMbnbger();
         if (security != null) {
-            security.checkRead(filename);
+            security.checkRebd(filenbme);
         }
     }
 
-    private static void checkPermissions(URL url) {
-        SecurityManager sm = System.getSecurityManager();
+    privbte stbtic void checkPermissions(URL url) {
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null) {
             try {
-                java.security.Permission perm =
+                jbvb.security.Permission perm =
                     url.openConnection().getPermission();
                 if (perm != null) {
                     try {
                         sm.checkPermission(perm);
-                    } catch (SecurityException se) {
-                        // fallback to checkRead/checkConnect for pre 1.2
-                        // security managers
-                        if ((perm instanceof java.io.FilePermission) &&
-                            perm.getActions().indexOf("read") != -1) {
-                            sm.checkRead(perm.getName());
-                        } else if ((perm instanceof
-                            java.net.SocketPermission) &&
+                    } cbtch (SecurityException se) {
+                        // fbllbbck to checkRebd/checkConnect for pre 1.2
+                        // security mbnbgers
+                        if ((perm instbnceof jbvb.io.FilePermission) &&
+                            perm.getActions().indexOf("rebd") != -1) {
+                            sm.checkRebd(perm.getNbme());
+                        } else if ((perm instbnceof
+                            jbvb.net.SocketPermission) &&
                             perm.getActions().indexOf("connect") != -1) {
                             sm.checkConnect(url.getHost(), url.getPort());
                         } else {
@@ -939,614 +939,614 @@ public abstract class SunToolkit extends Toolkit
                         }
                     }
                 }
-            } catch (java.io.IOException ioe) {
+            } cbtch (jbvb.io.IOException ioe) {
                     sm.checkConnect(url.getHost(), url.getPort());
             }
         }
     }
 
     /**
-     * Scans {@code imageList} for best-looking image of specified dimensions.
-     * Image can be scaled and/or padded with transparency.
+     * Scbns {@code imbgeList} for best-looking imbge of specified dimensions.
+     * Imbge cbn be scbled bnd/or pbdded with trbnspbrency.
      */
-    public static BufferedImage getScaledIconImage(java.util.List<Image> imageList, int width, int height) {
+    public stbtic BufferedImbge getScbledIconImbge(jbvb.util.List<Imbge> imbgeList, int width, int height) {
         if (width == 0 || height == 0) {
             return null;
         }
-        Image bestImage = null;
+        Imbge bestImbge = null;
         int bestWidth = 0;
         int bestHeight = 0;
-        double bestSimilarity = 3; //Impossibly high value
-        double bestScaleFactor = 0;
-        for (Iterator<Image> i = imageList.iterator();i.hasNext();) {
-            //Iterate imageList looking for best matching image.
-            //'Similarity' measure is defined as good scale factor and small insets.
-            //best possible similarity is 0 (no scale, no insets).
-            //It's found while the experiments that good-looking result is achieved
-            //with scale factors x1, x3/4, x2/3, xN, x1/N.
-            Image im = i.next();
+        double bestSimilbrity = 3; //Impossibly high vblue
+        double bestScbleFbctor = 0;
+        for (Iterbtor<Imbge> i = imbgeList.iterbtor();i.hbsNext();) {
+            //Iterbte imbgeList looking for best mbtching imbge.
+            //'Similbrity' mebsure is defined bs good scble fbctor bnd smbll insets.
+            //best possible similbrity is 0 (no scble, no insets).
+            //It's found while the experiments thbt good-looking result is bchieved
+            //with scble fbctors x1, x3/4, x2/3, xN, x1/N.
+            Imbge im = i.next();
             if (im == null) {
                 continue;
             }
-            if (im instanceof ToolkitImage) {
-                ImageRepresentation ir = ((ToolkitImage)im).getImageRep();
-                ir.reconstruct(ImageObserver.ALLBITS);
+            if (im instbnceof ToolkitImbge) {
+                ImbgeRepresentbtion ir = ((ToolkitImbge)im).getImbgeRep();
+                ir.reconstruct(ImbgeObserver.ALLBITS);
             }
             int iw;
             int ih;
             try {
                 iw = im.getWidth(null);
                 ih = im.getHeight(null);
-            } catch (Exception e){
+            } cbtch (Exception e){
                 continue;
             }
             if (iw > 0 && ih > 0) {
-                //Calc scale factor
-                double scaleFactor = Math.min((double)width / (double)iw,
+                //Cblc scble fbctor
+                double scbleFbctor = Mbth.min((double)width / (double)iw,
                                               (double)height / (double)ih);
-                //Calculate scaled image dimensions
-                //adjusting scale factor to nearest "good" value
-                int adjw = 0;
-                int adjh = 0;
-                double scaleMeasure = 1; //0 - best (no) scale, 1 - impossibly bad
-                if (scaleFactor >= 2) {
-                    //Need to enlarge image more than twice
-                    //Round down scale factor to multiply by integer value
-                    scaleFactor = Math.floor(scaleFactor);
-                    adjw = iw * (int)scaleFactor;
-                    adjh = ih * (int)scaleFactor;
-                    scaleMeasure = 1.0 - 0.5 / scaleFactor;
-                } else if (scaleFactor >= 1) {
-                    //Don't scale
-                    scaleFactor = 1.0;
-                    adjw = iw;
-                    adjh = ih;
-                    scaleMeasure = 0;
-                } else if (scaleFactor >= 0.75) {
+                //Cblculbte scbled imbge dimensions
+                //bdjusting scble fbctor to nebrest "good" vblue
+                int bdjw = 0;
+                int bdjh = 0;
+                double scbleMebsure = 1; //0 - best (no) scble, 1 - impossibly bbd
+                if (scbleFbctor >= 2) {
+                    //Need to enlbrge imbge more thbn twice
+                    //Round down scble fbctor to multiply by integer vblue
+                    scbleFbctor = Mbth.floor(scbleFbctor);
+                    bdjw = iw * (int)scbleFbctor;
+                    bdjh = ih * (int)scbleFbctor;
+                    scbleMebsure = 1.0 - 0.5 / scbleFbctor;
+                } else if (scbleFbctor >= 1) {
+                    //Don't scble
+                    scbleFbctor = 1.0;
+                    bdjw = iw;
+                    bdjh = ih;
+                    scbleMebsure = 0;
+                } else if (scbleFbctor >= 0.75) {
                     //Multiply by 3/4
-                    scaleFactor = 0.75;
-                    adjw = iw * 3 / 4;
-                    adjh = ih * 3 / 4;
-                    scaleMeasure = 0.3;
-                } else if (scaleFactor >= 0.6666) {
+                    scbleFbctor = 0.75;
+                    bdjw = iw * 3 / 4;
+                    bdjh = ih * 3 / 4;
+                    scbleMebsure = 0.3;
+                } else if (scbleFbctor >= 0.6666) {
                     //Multiply by 2/3
-                    scaleFactor = 0.6666;
-                    adjw = iw * 2 / 3;
-                    adjh = ih * 2 / 3;
-                    scaleMeasure = 0.33;
+                    scbleFbctor = 0.6666;
+                    bdjw = iw * 2 / 3;
+                    bdjh = ih * 2 / 3;
+                    scbleMebsure = 0.33;
                 } else {
-                    //Multiply size by 1/scaleDivider
-                    //where scaleDivider is minimum possible integer
-                    //larger than 1/scaleFactor
-                    double scaleDivider = Math.ceil(1.0 / scaleFactor);
-                    scaleFactor = 1.0 / scaleDivider;
-                    adjw = (int)Math.round((double)iw / scaleDivider);
-                    adjh = (int)Math.round((double)ih / scaleDivider);
-                    scaleMeasure = 1.0 - 1.0 / scaleDivider;
+                    //Multiply size by 1/scbleDivider
+                    //where scbleDivider is minimum possible integer
+                    //lbrger thbn 1/scbleFbctor
+                    double scbleDivider = Mbth.ceil(1.0 / scbleFbctor);
+                    scbleFbctor = 1.0 / scbleDivider;
+                    bdjw = (int)Mbth.round((double)iw / scbleDivider);
+                    bdjh = (int)Mbth.round((double)ih / scbleDivider);
+                    scbleMebsure = 1.0 - 1.0 / scbleDivider;
                 }
-                double similarity = ((double)width - (double)adjw) / (double)width +
-                    ((double)height - (double)adjh) / (double)height + //Large padding is bad
-                    scaleMeasure; //Large rescale is bad
-                if (similarity < bestSimilarity) {
-                    bestSimilarity = similarity;
-                    bestScaleFactor = scaleFactor;
-                    bestImage = im;
-                    bestWidth = adjw;
-                    bestHeight = adjh;
+                double similbrity = ((double)width - (double)bdjw) / (double)width +
+                    ((double)height - (double)bdjh) / (double)height + //Lbrge pbdding is bbd
+                    scbleMebsure; //Lbrge rescble is bbd
+                if (similbrity < bestSimilbrity) {
+                    bestSimilbrity = similbrity;
+                    bestScbleFbctor = scbleFbctor;
+                    bestImbge = im;
+                    bestWidth = bdjw;
+                    bestHeight = bdjh;
                 }
-                if (similarity == 0) break;
+                if (similbrity == 0) brebk;
             }
         }
-        if (bestImage == null) {
-            //No images were found, possibly all are broken
+        if (bestImbge == null) {
+            //No imbges were found, possibly bll bre broken
             return null;
         }
-        BufferedImage bimage =
-            new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-        Graphics2D g = bimage.createGraphics();
+        BufferedImbge bimbge =
+            new BufferedImbge(width, height, BufferedImbge.TYPE_INT_ARGB);
+        Grbphics2D g = bimbge.crebteGrbphics();
         g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
                            RenderingHints.VALUE_INTERPOLATION_BILINEAR);
         try {
             int x = (width - bestWidth) / 2;
             int y = (height - bestHeight) / 2;
-            g.drawImage(bestImage, x, y, bestWidth, bestHeight, null);
-        } finally {
+            g.drbwImbge(bestImbge, x, y, bestWidth, bestHeight, null);
+        } finblly {
             g.dispose();
         }
-        return bimage;
+        return bimbge;
     }
 
-    public static DataBufferInt getScaledIconData(java.util.List<Image> imageList, int width, int height) {
-        BufferedImage bimage = getScaledIconImage(imageList, width, height);
-        if (bimage == null) {
+    public stbtic DbtbBufferInt getScbledIconDbtb(jbvb.util.List<Imbge> imbgeList, int width, int height) {
+        BufferedImbge bimbge = getScbledIconImbge(imbgeList, width, height);
+        if (bimbge == null) {
             return null;
         }
-        Raster raster = bimage.getRaster();
-        DataBuffer buffer = raster.getDataBuffer();
-        return (DataBufferInt)buffer;
+        Rbster rbster = bimbge.getRbster();
+        DbtbBuffer buffer = rbster.getDbtbBuffer();
+        return (DbtbBufferInt)buffer;
     }
 
     protected EventQueue getSystemEventQueueImpl() {
         return getSystemEventQueueImplPP();
     }
 
-    // Package private implementation
-    static EventQueue getSystemEventQueueImplPP() {
+    // Pbckbge privbte implementbtion
+    stbtic EventQueue getSystemEventQueueImplPP() {
         return getSystemEventQueueImplPP(AppContext.getAppContext());
     }
 
-    public static EventQueue getSystemEventQueueImplPP(AppContext appContext) {
+    public stbtic EventQueue getSystemEventQueueImplPP(AppContext bppContext) {
         EventQueue theEventQueue =
-            (EventQueue)appContext.get(AppContext.EVENT_QUEUE_KEY);
+            (EventQueue)bppContext.get(AppContext.EVENT_QUEUE_KEY);
         return theEventQueue;
     }
 
     /**
-     * Give native peers the ability to query the native container
-     * given a native component (eg the direct parent may be lightweight).
+     * Give nbtive peers the bbility to query the nbtive contbiner
+     * given b nbtive component (eg the direct pbrent mby be lightweight).
      */
-    public static Container getNativeContainer(Component c) {
-        return Toolkit.getNativeContainer(c);
+    public stbtic Contbiner getNbtiveContbiner(Component c) {
+        return Toolkit.getNbtiveContbiner(c);
     }
 
     /**
-     * Gives native peers the ability to query the closest HW component.
-     * If the given component is heavyweight, then it returns this. Otherwise,
-     * it goes one level up in the hierarchy and tests next component.
+     * Gives nbtive peers the bbility to query the closest HW component.
+     * If the given component is hebvyweight, then it returns this. Otherwise,
+     * it goes one level up in the hierbrchy bnd tests next component.
      */
-    public static Component getHeavyweightComponent(Component c) {
+    public stbtic Component getHebvyweightComponent(Component c) {
         while (c != null && AWTAccessor.getComponentAccessor().isLightweight(c)) {
-            c = AWTAccessor.getComponentAccessor().getParent(c);
+            c = AWTAccessor.getComponentAccessor().getPbrent(c);
         }
         return c;
     }
 
     /**
-     * Returns key modifiers used by Swing to set up a focus accelerator key stroke.
+     * Returns key modifiers used by Swing to set up b focus bccelerbtor key stroke.
      */
-    public int getFocusAcceleratorKeyMask() {
+    public int getFocusAccelerbtorKeyMbsk() {
         return InputEvent.ALT_MASK;
     }
 
     /**
-     * Tests whether specified key modifiers mask can be used to enter a printable
-     * character. This is a default implementation of this method, which reflects
-     * the way things work on Windows: here, pressing ctrl + alt allows user to enter
-     * characters from the extended character set (like euro sign or math symbols)
+     * Tests whether specified key modifiers mbsk cbn be used to enter b printbble
+     * chbrbcter. This is b defbult implementbtion of this method, which reflects
+     * the wby things work on Windows: here, pressing ctrl + blt bllows user to enter
+     * chbrbcters from the extended chbrbcter set (like euro sign or mbth symbols)
      */
-    public boolean isPrintableCharacterModifiersMask(int mods) {
+    public boolebn isPrintbbleChbrbcterModifiersMbsk(int mods) {
         return ((mods & InputEvent.ALT_MASK) == (mods & InputEvent.CTRL_MASK));
     }
 
     /**
-     * Returns whether popup is allowed to be shown above the task bar.
-     * This is a default implementation of this method, which checks
+     * Returns whether popup is bllowed to be shown bbove the tbsk bbr.
+     * This is b defbult implementbtion of this method, which checks
      * corresponding security permission.
      */
-    public boolean canPopupOverlapTaskBar() {
-        boolean result = true;
+    public boolebn cbnPopupOverlbpTbskBbr() {
+        boolebn result = true;
         try {
-            SecurityManager sm = System.getSecurityManager();
+            SecurityMbnbger sm = System.getSecurityMbnbger();
             if (sm != null) {
                 sm.checkPermission(AWTPermissions.SET_WINDOW_ALWAYS_ON_TOP_PERMISSION);
             }
-        } catch (SecurityException se) {
-            // There is no permission to show popups over the task bar
-            result = false;
+        } cbtch (SecurityException se) {
+            // There is no permission to show popups over the tbsk bbr
+            result = fblse;
         }
         return result;
     }
 
     /**
-     * Returns a new input method window, with behavior as specified in
-     * {@link java.awt.im.spi.InputMethodContext#createInputMethodWindow}.
+     * Returns b new input method window, with behbvior bs specified in
+     * {@link jbvb.bwt.im.spi.InputMethodContext#crebteInputMethodWindow}.
      * If the inputContext is not null, the window should return it from its
      * getInputContext() method. The window needs to implement
-     * sun.awt.im.InputMethodWindow.
+     * sun.bwt.im.InputMethodWindow.
      * <p>
-     * SunToolkit subclasses can override this method to return better input
+     * SunToolkit subclbsses cbn override this method to return better input
      * method windows.
      */
-    public Window createInputMethodWindow(String title, InputContext context) {
-        return new sun.awt.im.SimpleInputMethodWindow(title, context);
+    public Window crebteInputMethodWindow(String title, InputContext context) {
+        return new sun.bwt.im.SimpleInputMethodWindow(title, context);
     }
 
     /**
-     * Returns whether enableInputMethods should be set to true for peered
-     * TextComponent instances on this platform. False by default.
+     * Returns whether enbbleInputMethods should be set to true for peered
+     * TextComponent instbnces on this plbtform. Fblse by defbult.
      */
-    public boolean enableInputMethodsForTextComponent() {
-        return false;
+    public boolebn enbbleInputMethodsForTextComponent() {
+        return fblse;
     }
 
-    private static Locale startupLocale = null;
+    privbte stbtic Locble stbrtupLocble = null;
 
     /**
-     * Returns the locale in which the runtime was started.
+     * Returns the locble in which the runtime wbs stbrted.
      */
-    public static Locale getStartupLocale() {
-        if (startupLocale == null) {
-            String language, region, country, variant;
-            language = AccessController.doPrivileged(
-                            new GetPropertyAction("user.language", "en"));
-            // for compatibility, check for old user.region property
+    public stbtic Locble getStbrtupLocble() {
+        if (stbrtupLocble == null) {
+            String lbngubge, region, country, vbribnt;
+            lbngubge = AccessController.doPrivileged(
+                            new GetPropertyAction("user.lbngubge", "en"));
+            // for compbtibility, check for old user.region property
             region = AccessController.doPrivileged(
                             new GetPropertyAction("user.region"));
             if (region != null) {
-                // region can be of form country, country_variant, or _variant
+                // region cbn be of form country, country_vbribnt, or _vbribnt
                 int i = region.indexOf('_');
                 if (i >= 0) {
                     country = region.substring(0, i);
-                    variant = region.substring(i + 1);
+                    vbribnt = region.substring(i + 1);
                 } else {
                     country = region;
-                    variant = "";
+                    vbribnt = "";
                 }
             } else {
                 country = AccessController.doPrivileged(
                                 new GetPropertyAction("user.country", ""));
-                variant = AccessController.doPrivileged(
-                                new GetPropertyAction("user.variant", ""));
+                vbribnt = AccessController.doPrivileged(
+                                new GetPropertyAction("user.vbribnt", ""));
             }
-            startupLocale = new Locale(language, country, variant);
+            stbrtupLocble = new Locble(lbngubge, country, vbribnt);
         }
-        return startupLocale;
+        return stbrtupLocble;
     }
 
     /**
-     * Returns the default keyboard locale of the underlying operating system
+     * Returns the defbult keybobrd locble of the underlying operbting system
      */
-    public Locale getDefaultKeyboardLocale() {
-        return getStartupLocale();
+    public Locble getDefbultKeybobrdLocble() {
+        return getStbrtupLocble();
     }
 
-    private static DefaultMouseInfoPeer mPeer = null;
+    privbte stbtic DefbultMouseInfoPeer mPeer = null;
 
     protected synchronized MouseInfoPeer getMouseInfoPeer() {
         if (mPeer == null) {
-            mPeer = new DefaultMouseInfoPeer();
+            mPeer = new DefbultMouseInfoPeer();
         }
         return mPeer;
     }
 
 
     /**
-     * Returns whether default toolkit needs the support of the xembed
-     * from embedding host(if any).
-     * @return <code>true</code>, if XEmbed is needed, <code>false</code> otherwise
+     * Returns whether defbult toolkit needs the support of the xembed
+     * from embedding host(if bny).
+     * @return <code>true</code>, if XEmbed is needed, <code>fblse</code> otherwise
      */
-    public static boolean needsXEmbed() {
+    public stbtic boolebn needsXEmbed() {
         String noxembed = AccessController.
-            doPrivileged(new GetPropertyAction("sun.awt.noxembed", "false"));
-        if ("true".equals(noxembed)) {
-            return false;
+            doPrivileged(new GetPropertyAction("sun.bwt.noxembed", "fblse"));
+        if ("true".equbls(noxembed)) {
+            return fblse;
         }
 
-        Toolkit tk = Toolkit.getDefaultToolkit();
-        if (tk instanceof SunToolkit) {
-            // SunToolkit descendants should override this method to specify
-            // concrete behavior
+        Toolkit tk = Toolkit.getDefbultToolkit();
+        if (tk instbnceof SunToolkit) {
+            // SunToolkit descendbnts should override this method to specify
+            // concrete behbvior
             return ((SunToolkit)tk).needsXEmbedImpl();
         } else {
             // Non-SunToolkit doubtly might support XEmbed
-            return false;
+            return fblse;
         }
     }
 
     /**
      * Returns whether this toolkit needs the support of the xembed
-     * from embedding host(if any).
-     * @return <code>true</code>, if XEmbed is needed, <code>false</code> otherwise
+     * from embedding host(if bny).
+     * @return <code>true</code>, if XEmbed is needed, <code>fblse</code> otherwise
      */
-    protected boolean needsXEmbedImpl() {
-        return false;
+    protected boolebn needsXEmbedImpl() {
+        return fblse;
     }
 
-    private static Dialog.ModalExclusionType DEFAULT_MODAL_EXCLUSION_TYPE = null;
+    privbte stbtic Diblog.ModblExclusionType DEFAULT_MODAL_EXCLUSION_TYPE = null;
 
     /**
-     * Returns whether the XEmbed server feature is requested by
-     * developer.  If true, Toolkit should return an
-     * XEmbed-server-enabled CanvasPeer instead of the ordinary CanvasPeer.
+     * Returns whether the XEmbed server febture is requested by
+     * developer.  If true, Toolkit should return bn
+     * XEmbed-server-enbbled CbnvbsPeer instebd of the ordinbry CbnvbsPeer.
      */
-    protected final boolean isXEmbedServerRequested() {
-        return AccessController.doPrivileged(new GetBooleanAction("sun.awt.xembedserver"));
+    protected finbl boolebn isXEmbedServerRequested() {
+        return AccessController.doPrivileged(new GetBoolebnAction("sun.bwt.xembedserver"));
     }
 
     /**
-     * Returns whether the modal exclusion API is supported by the current toolkit.
-     * When it isn't supported, calling <code>setModalExcluded</code> has no
-     * effect, and <code>isModalExcluded</code> returns false for all windows.
+     * Returns whether the modbl exclusion API is supported by the current toolkit.
+     * When it isn't supported, cblling <code>setModblExcluded</code> hbs no
+     * effect, bnd <code>isModblExcluded</code> returns fblse for bll windows.
      *
-     * @return true if modal exclusion is supported by the toolkit, false otherwise
+     * @return true if modbl exclusion is supported by the toolkit, fblse otherwise
      *
-     * @see sun.awt.SunToolkit#setModalExcluded(java.awt.Window)
-     * @see sun.awt.SunToolkit#isModalExcluded(java.awt.Window)
+     * @see sun.bwt.SunToolkit#setModblExcluded(jbvb.bwt.Window)
+     * @see sun.bwt.SunToolkit#isModblExcluded(jbvb.bwt.Window)
      *
      * @since 1.5
      */
-    public static boolean isModalExcludedSupported()
+    public stbtic boolebn isModblExcludedSupported()
     {
-        Toolkit tk = Toolkit.getDefaultToolkit();
-        return tk.isModalExclusionTypeSupported(DEFAULT_MODAL_EXCLUSION_TYPE);
+        Toolkit tk = Toolkit.getDefbultToolkit();
+        return tk.isModblExclusionTypeSupported(DEFAULT_MODAL_EXCLUSION_TYPE);
     }
     /*
-     * Default implementation for isModalExcludedSupportedImpl(), returns false.
+     * Defbult implementbtion for isModblExcludedSupportedImpl(), returns fblse.
      *
-     * @see sun.awt.windows.WToolkit#isModalExcludeSupportedImpl
-     * @see sun.awt.X11.XToolkit#isModalExcludeSupportedImpl
+     * @see sun.bwt.windows.WToolkit#isModblExcludeSupportedImpl
+     * @see sun.bwt.X11.XToolkit#isModblExcludeSupportedImpl
      *
      * @since 1.5
      */
-    protected boolean isModalExcludedSupportedImpl()
+    protected boolebn isModblExcludedSupportedImpl()
     {
-        return false;
+        return fblse;
     }
 
     /*
-     * Sets this window to be excluded from being modally blocked. When the
-     * toolkit supports modal exclusion and this method is called, input
-     * events, focus transfer and z-order will continue to work for the
-     * window, it's owned windows and child components, even in the
-     * presence of a modal dialog.
-     * For details on which <code>Window</code>s are normally blocked
-     * by modal dialog, see {@link java.awt.Dialog}.
-     * Invoking this method when the modal exclusion API is not supported by
-     * the current toolkit has no effect.
-     * @param window Window to be marked as not modally blocked
-     * @see java.awt.Dialog
-     * @see java.awt.Dialog#setModal(boolean)
-     * @see sun.awt.SunToolkit#isModalExcludedSupported
-     * @see sun.awt.SunToolkit#isModalExcluded(java.awt.Window)
+     * Sets this window to be excluded from being modblly blocked. When the
+     * toolkit supports modbl exclusion bnd this method is cblled, input
+     * events, focus trbnsfer bnd z-order will continue to work for the
+     * window, it's owned windows bnd child components, even in the
+     * presence of b modbl diblog.
+     * For detbils on which <code>Window</code>s bre normblly blocked
+     * by modbl diblog, see {@link jbvb.bwt.Diblog}.
+     * Invoking this method when the modbl exclusion API is not supported by
+     * the current toolkit hbs no effect.
+     * @pbrbm window Window to be mbrked bs not modblly blocked
+     * @see jbvb.bwt.Diblog
+     * @see jbvb.bwt.Diblog#setModbl(boolebn)
+     * @see sun.bwt.SunToolkit#isModblExcludedSupported
+     * @see sun.bwt.SunToolkit#isModblExcluded(jbvb.bwt.Window)
      */
-    public static void setModalExcluded(Window window)
+    public stbtic void setModblExcluded(Window window)
     {
         if (DEFAULT_MODAL_EXCLUSION_TYPE == null) {
-            DEFAULT_MODAL_EXCLUSION_TYPE = Dialog.ModalExclusionType.APPLICATION_EXCLUDE;
+            DEFAULT_MODAL_EXCLUSION_TYPE = Diblog.ModblExclusionType.APPLICATION_EXCLUDE;
         }
-        window.setModalExclusionType(DEFAULT_MODAL_EXCLUSION_TYPE);
+        window.setModblExclusionType(DEFAULT_MODAL_EXCLUSION_TYPE);
     }
 
     /*
-     * Returns whether the specified window is blocked by modal dialogs.
-     * If the modal exclusion API isn't supported by the current toolkit,
-     * it returns false for all windows.
+     * Returns whether the specified window is blocked by modbl diblogs.
+     * If the modbl exclusion API isn't supported by the current toolkit,
+     * it returns fblse for bll windows.
      *
-     * @param window Window to test for modal exclusion
+     * @pbrbm window Window to test for modbl exclusion
      *
-     * @return true if the window is modal excluded, false otherwise. If
-     * the modal exclusion isn't supported by the current Toolkit, false
+     * @return true if the window is modbl excluded, fblse otherwise. If
+     * the modbl exclusion isn't supported by the current Toolkit, fblse
      * is returned
      *
-     * @see sun.awt.SunToolkit#isModalExcludedSupported
-     * @see sun.awt.SunToolkit#setModalExcluded(java.awt.Window)
+     * @see sun.bwt.SunToolkit#isModblExcludedSupported
+     * @see sun.bwt.SunToolkit#setModblExcluded(jbvb.bwt.Window)
      *
      * @since 1.5
      */
-    public static boolean isModalExcluded(Window window)
+    public stbtic boolebn isModblExcluded(Window window)
     {
         if (DEFAULT_MODAL_EXCLUSION_TYPE == null) {
-            DEFAULT_MODAL_EXCLUSION_TYPE = Dialog.ModalExclusionType.APPLICATION_EXCLUDE;
+            DEFAULT_MODAL_EXCLUSION_TYPE = Diblog.ModblExclusionType.APPLICATION_EXCLUDE;
         }
-        return window.getModalExclusionType().compareTo(DEFAULT_MODAL_EXCLUSION_TYPE) >= 0;
+        return window.getModblExclusionType().compbreTo(DEFAULT_MODAL_EXCLUSION_TYPE) >= 0;
     }
 
     /**
-     * Overridden in XToolkit and WToolkit
+     * Overridden in XToolkit bnd WToolkit
      */
-    public boolean isModalityTypeSupported(Dialog.ModalityType modalityType) {
-        return (modalityType == Dialog.ModalityType.MODELESS) ||
-               (modalityType == Dialog.ModalityType.APPLICATION_MODAL);
+    public boolebn isModblityTypeSupported(Diblog.ModblityType modblityType) {
+        return (modblityType == Diblog.ModblityType.MODELESS) ||
+               (modblityType == Diblog.ModblityType.APPLICATION_MODAL);
     }
 
     /**
-     * Overridden in XToolkit and WToolkit
+     * Overridden in XToolkit bnd WToolkit
      */
-    public boolean isModalExclusionTypeSupported(Dialog.ModalExclusionType exclusionType) {
-        return (exclusionType == Dialog.ModalExclusionType.NO_EXCLUDE);
+    public boolebn isModblExclusionTypeSupported(Diblog.ModblExclusionType exclusionType) {
+        return (exclusionType == Diblog.ModblExclusionType.NO_EXCLUDE);
     }
 
     ///////////////////////////////////////////////////////////////////////////
     //
-    // The following is used by the Java Plug-in to coordinate dialog modality
-    // between containing applications (browsers, ActiveX containers etc) and
+    // The following is used by the Jbvb Plug-in to coordinbte diblog modblity
+    // between contbining bpplicbtions (browsers, ActiveX contbiners etc) bnd
     // the AWT.
     //
     ///////////////////////////////////////////////////////////////////////////
 
-    private ModalityListenerList modalityListeners = new ModalityListenerList();
+    privbte ModblityListenerList modblityListeners = new ModblityListenerList();
 
-    public void addModalityListener(ModalityListener listener) {
-        modalityListeners.add(listener);
+    public void bddModblityListener(ModblityListener listener) {
+        modblityListeners.bdd(listener);
     }
 
-    public void removeModalityListener(ModalityListener listener) {
-        modalityListeners.remove(listener);
+    public void removeModblityListener(ModblityListener listener) {
+        modblityListeners.remove(listener);
     }
 
-    public void notifyModalityPushed(Dialog dialog) {
-        notifyModalityChange(ModalityEvent.MODALITY_PUSHED, dialog);
+    public void notifyModblityPushed(Diblog diblog) {
+        notifyModblityChbnge(ModblityEvent.MODALITY_PUSHED, diblog);
     }
 
-    public void notifyModalityPopped(Dialog dialog) {
-        notifyModalityChange(ModalityEvent.MODALITY_POPPED, dialog);
+    public void notifyModblityPopped(Diblog diblog) {
+        notifyModblityChbnge(ModblityEvent.MODALITY_POPPED, diblog);
     }
 
-    final void notifyModalityChange(int id, Dialog source) {
-        ModalityEvent ev = new ModalityEvent(source, modalityListeners, id);
-        ev.dispatch();
+    finbl void notifyModblityChbnge(int id, Diblog source) {
+        ModblityEvent ev = new ModblityEvent(source, modblityListeners, id);
+        ev.dispbtch();
     }
 
-    static class ModalityListenerList implements ModalityListener {
+    stbtic clbss ModblityListenerList implements ModblityListener {
 
-        Vector<ModalityListener> listeners = new Vector<ModalityListener>();
+        Vector<ModblityListener> listeners = new Vector<ModblityListener>();
 
-        void add(ModalityListener listener) {
-            listeners.addElement(listener);
+        void bdd(ModblityListener listener) {
+            listeners.bddElement(listener);
         }
 
-        void remove(ModalityListener listener) {
+        void remove(ModblityListener listener) {
             listeners.removeElement(listener);
         }
 
-        public void modalityPushed(ModalityEvent ev) {
-            Iterator<ModalityListener> it = listeners.iterator();
-            while (it.hasNext()) {
-                it.next().modalityPushed(ev);
+        public void modblityPushed(ModblityEvent ev) {
+            Iterbtor<ModblityListener> it = listeners.iterbtor();
+            while (it.hbsNext()) {
+                it.next().modblityPushed(ev);
             }
         }
 
-        public void modalityPopped(ModalityEvent ev) {
-            Iterator<ModalityListener> it = listeners.iterator();
-            while (it.hasNext()) {
-                it.next().modalityPopped(ev);
+        public void modblityPopped(ModblityEvent ev) {
+            Iterbtor<ModblityListener> it = listeners.iterbtor();
+            while (it.hbsNext()) {
+                it.next().modblityPopped(ev);
             }
         }
-    } // end of class ModalityListenerList
+    } // end of clbss ModblityListenerList
 
     ///////////////////////////////////////////////////////////////////////////
     // End Plug-in code
     ///////////////////////////////////////////////////////////////////////////
 
-    public static boolean isLightweightOrUnknown(Component comp) {
+    public stbtic boolebn isLightweightOrUnknown(Component comp) {
         if (comp.isLightweight()
-            || !(getDefaultToolkit() instanceof SunToolkit))
+            || !(getDefbultToolkit() instbnceof SunToolkit))
         {
             return true;
         }
-        return !(comp instanceof Button
-            || comp instanceof Canvas
-            || comp instanceof Checkbox
-            || comp instanceof Choice
-            || comp instanceof Label
-            || comp instanceof java.awt.List
-            || comp instanceof Panel
-            || comp instanceof Scrollbar
-            || comp instanceof ScrollPane
-            || comp instanceof TextArea
-            || comp instanceof TextField
-            || comp instanceof Window);
+        return !(comp instbnceof Button
+            || comp instbnceof Cbnvbs
+            || comp instbnceof Checkbox
+            || comp instbnceof Choice
+            || comp instbnceof Lbbel
+            || comp instbnceof jbvb.bwt.List
+            || comp instbnceof Pbnel
+            || comp instbnceof Scrollbbr
+            || comp instbnceof ScrollPbne
+            || comp instbnceof TextAreb
+            || comp instbnceof TextField
+            || comp instbnceof Window);
     }
 
-    @SuppressWarnings("serial")
-    public static class OperationTimedOut extends RuntimeException {
-        public OperationTimedOut(String msg) {
+    @SuppressWbrnings("seribl")
+    public stbtic clbss OperbtionTimedOut extends RuntimeException {
+        public OperbtionTimedOut(String msg) {
             super(msg);
         }
-        public OperationTimedOut() {
+        public OperbtionTimedOut() {
         }
     }
 
-    @SuppressWarnings("serial")
-    public static class InfiniteLoop extends RuntimeException {
+    @SuppressWbrnings("seribl")
+    public stbtic clbss InfiniteLoop extends RuntimeException {
     }
 
-    @SuppressWarnings("serial")
-    public static class IllegalThreadException extends RuntimeException {
-        public IllegalThreadException(String msg) {
+    @SuppressWbrnings("seribl")
+    public stbtic clbss IllegblThrebdException extends RuntimeException {
+        public IllegblThrebdException(String msg) {
             super(msg);
         }
-        public IllegalThreadException() {
+        public IllegblThrebdException() {
         }
     }
 
-    public static final int DEFAULT_WAIT_TIME = 10000;
-    private static final int MAX_ITERS = 20;
-    private static final int MIN_ITERS = 0;
-    private static final int MINIMAL_EDELAY = 0;
+    public stbtic finbl int DEFAULT_WAIT_TIME = 10000;
+    privbte stbtic finbl int MAX_ITERS = 20;
+    privbte stbtic finbl int MIN_ITERS = 0;
+    privbte stbtic finbl int MINIMAL_EDELAY = 0;
 
     /**
-     * Parameterless version of realsync which uses default timout (see DEFAUL_WAIT_TIME).
+     * Pbrbmeterless version of reblsync which uses defbult timout (see DEFAUL_WAIT_TIME).
      */
-    public void realSync() throws OperationTimedOut, InfiniteLoop {
-        realSync(DEFAULT_WAIT_TIME);
+    public void reblSync() throws OperbtionTimedOut, InfiniteLoop {
+        reblSync(DEFAULT_WAIT_TIME);
     }
 
     /**
-     * Forces toolkit to synchronize with the native windowing
-     * sub-system, flushing all pending work and waiting for all the
-     * events to be processed.  This method guarantees that after
-     * return no additional Java events will be generated, unless
-     * cause by user. Obviously, the method cannot be used on the
-     * event dispatch thread (EDT). In case it nevertheless gets
-     * invoked on this thread, the method throws the
-     * IllegalThreadException runtime exception.
+     * Forces toolkit to synchronize with the nbtive windowing
+     * sub-system, flushing bll pending work bnd wbiting for bll the
+     * events to be processed.  This method gubrbntees thbt bfter
+     * return no bdditionbl Jbvb events will be generbted, unless
+     * cbuse by user. Obviously, the method cbnnot be used on the
+     * event dispbtch threbd (EDT). In cbse it nevertheless gets
+     * invoked on this threbd, the method throws the
+     * IllegblThrebdException runtime exception.
      *
-     * <p> This method allows to write tests without explicit timeouts
-     * or wait for some event.  Example:
+     * <p> This method bllows to write tests without explicit timeouts
+     * or wbit for some event.  Exbmple:
      * <code>
-     * Frame f = ...;
+     * Frbme f = ...;
      * f.setVisible(true);
-     * ((SunToolkit)Toolkit.getDefaultToolkit()).realSync();
+     * ((SunToolkit)Toolkit.getDefbultToolkit()).reblSync();
      * </code>
      *
-     * <p> After realSync, <code>f</code> will be completely visible
-     * on the screen, its getLocationOnScreen will be returning the
-     * right result and it will be the focus owner.
+     * <p> After reblSync, <code>f</code> will be completely visible
+     * on the screen, its getLocbtionOnScreen will be returning the
+     * right result bnd it will be the focus owner.
      *
-     * <p> Another example:
+     * <p> Another exbmple:
      * <code>
      * b.requestFocus();
-     * ((SunToolkit)Toolkit.getDefaultToolkit()).realSync();
+     * ((SunToolkit)Toolkit.getDefbultToolkit()).reblSync();
      * </code>
      *
-     * <p> After realSync, <code>b</code> will be focus owner.
+     * <p> After reblSync, <code>b</code> will be focus owner.
      *
-     * <p> Notice that realSync isn't guaranteed to work if recurring
-     * actions occur, such as if during processing of some event
-     * another request which may generate some events occurs.  By
-     * default, sync tries to perform as much as {@value MAX_ITERS}
-     * cycles of event processing, allowing for roughly {@value
-     * MAX_ITERS} additional requests.
+     * <p> Notice thbt reblSync isn't gubrbnteed to work if recurring
+     * bctions occur, such bs if during processing of some event
+     * bnother request which mby generbte some events occurs.  By
+     * defbult, sync tries to perform bs much bs {@vblue MAX_ITERS}
+     * cycles of event processing, bllowing for roughly {@vblue
+     * MAX_ITERS} bdditionbl requests.
      *
-     * <p> For example, requestFocus() generates native request, which
-     * generates one or two Java focus events, which then generate a
-     * serie of paint events, a serie of Java focus events, which then
-     * generate a serie of paint events which then are processed -
+     * <p> For exbmple, requestFocus() generbtes nbtive request, which
+     * generbtes one or two Jbvb focus events, which then generbte b
+     * serie of pbint events, b serie of Jbvb focus events, which then
+     * generbte b serie of pbint events which then bre processed -
      * three cycles, minimum.
      *
-     * @param timeout the maximum time to wait in milliseconds, negative means "forever".
+     * @pbrbm timeout the mbximum time to wbit in milliseconds, negbtive mebns "forever".
      */
-    public void realSync(final long timeout) throws OperationTimedOut, InfiniteLoop
+    public void reblSync(finbl long timeout) throws OperbtionTimedOut, InfiniteLoop
     {
-        if (EventQueue.isDispatchThread()) {
-            throw new IllegalThreadException("The SunToolkit.realSync() method cannot be used on the event dispatch thread (EDT).");
+        if (EventQueue.isDispbtchThrebd()) {
+            throw new IllegblThrebdException("The SunToolkit.reblSync() method cbnnot be used on the event dispbtch threbd (EDT).");
         }
         int bigLoop = 0;
         do {
             // Let's do sync first
             sync();
 
-            // During the wait process, when we were processing incoming
-            // events, we could have made some new request, which can
-            // generate new events.  Example: MapNotify/XSetInputFocus.
-            // Therefore, we dispatch them as long as there is something
-            // to dispatch.
+            // During the wbit process, when we were processing incoming
+            // events, we could hbve mbde some new request, which cbn
+            // generbte new events.  Exbmple: MbpNotify/XSetInputFocus.
+            // Therefore, we dispbtch them bs long bs there is something
+            // to dispbtch.
             int iters = 0;
             while (iters < MIN_ITERS) {
-                syncNativeQueue(timeout);
+                syncNbtiveQueue(timeout);
                 iters++;
             }
-            while (syncNativeQueue(timeout) && iters < MAX_ITERS) {
+            while (syncNbtiveQueue(timeout) && iters < MAX_ITERS) {
                 iters++;
             }
             if (iters >= MAX_ITERS) {
                 throw new InfiniteLoop();
             }
 
-            // native requests were dispatched by X/Window Manager or Windows
-            // Moreover, we processed them all on Toolkit thread
-            // Now wait while EDT processes them.
+            // nbtive requests were dispbtched by X/Window Mbnbger or Windows
+            // Moreover, we processed them bll on Toolkit threbd
+            // Now wbit while EDT processes them.
             //
-            // During processing of some events (focus, for example),
-            // some other events could have been generated.  So, after
-            // waitForIdle, we may end up with full EventQueue
+            // During processing of some events (focus, for exbmple),
+            // some other events could hbve been generbted.  So, bfter
+            // wbitForIdle, we mby end up with full EventQueue
             iters = 0;
             while (iters < MIN_ITERS) {
-                waitForIdle(timeout);
+                wbitForIdle(timeout);
                 iters++;
             }
-            while (waitForIdle(timeout) && iters < MAX_ITERS) {
+            while (wbitForIdle(timeout) && iters < MAX_ITERS) {
                 iters++;
             }
             if (iters >= MAX_ITERS) {
@@ -1554,270 +1554,270 @@ public abstract class SunToolkit extends Toolkit
             }
 
             bigLoop++;
-            // Again, for Java events, it was simple to check for new Java
-            // events by checking event queue, but what if Java events
-            // resulted in native requests?  Therefor, check native events again.
-        } while ((syncNativeQueue(timeout) || waitForIdle(timeout)) && bigLoop < MAX_ITERS);
+            // Agbin, for Jbvb events, it wbs simple to check for new Jbvb
+            // events by checking event queue, but whbt if Jbvb events
+            // resulted in nbtive requests?  Therefor, check nbtive events bgbin.
+        } while ((syncNbtiveQueue(timeout) || wbitForIdle(timeout)) && bigLoop < MAX_ITERS);
     }
 
     /**
-     * Platform toolkits need to implement this method to perform the
-     * sync of the native queue.  The method should wait until native
-     * requests are processed, all native events are processed and
-     * corresponding Java events are generated.  Should return
+     * Plbtform toolkits need to implement this method to perform the
+     * sync of the nbtive queue.  The method should wbit until nbtive
+     * requests bre processed, bll nbtive events bre processed bnd
+     * corresponding Jbvb events bre generbted.  Should return
      * <code>true</code> if some events were processed,
-     * <code>false</code> otherwise.
+     * <code>fblse</code> otherwise.
      */
-    protected abstract boolean syncNativeQueue(final long timeout);
+    protected bbstrbct boolebn syncNbtiveQueue(finbl long timeout);
 
-    private boolean eventDispatched = false;
-    private boolean queueEmpty = false;
-    private final Object waitLock = "Wait Lock";
+    privbte boolebn eventDispbtched = fblse;
+    privbte boolebn queueEmpty = fblse;
+    privbte finbl Object wbitLock = "Wbit Lock";
 
-    private boolean isEQEmpty() {
+    privbte boolebn isEQEmpty() {
         EventQueue queue = getSystemEventQueueImpl();
         return AWTAccessor.getEventQueueAccessor().noEvents(queue);
     }
 
     /**
-     * Waits for the Java event queue to empty.  Ensures that all
-     * events are processed (including paint events), and that if
-     * recursive events were generated, they are also processed.
+     * Wbits for the Jbvb event queue to empty.  Ensures thbt bll
+     * events bre processed (including pbint events), bnd thbt if
+     * recursive events were generbted, they bre blso processed.
      * Should return <code>true</code> if more processing is
-     * necessary, <code>false</code> otherwise.
+     * necessbry, <code>fblse</code> otherwise.
      */
-    @SuppressWarnings("serial")
-    protected final boolean waitForIdle(final long timeout) {
+    @SuppressWbrnings("seribl")
+    protected finbl boolebn wbitForIdle(finbl long timeout) {
         flushPendingEvents();
-        boolean queueWasEmpty = isEQEmpty();
-        queueEmpty = false;
-        eventDispatched = false;
-        synchronized(waitLock) {
+        boolebn queueWbsEmpty = isEQEmpty();
+        queueEmpty = fblse;
+        eventDispbtched = fblse;
+        synchronized(wbitLock) {
             postEvent(AppContext.getAppContext(),
                       new PeerEvent(getSystemEventQueueImpl(), null, PeerEvent.LOW_PRIORITY_EVENT) {
-                          public void dispatch() {
-                              // Here we block EDT.  It could have some
-                              // events, it should have dispatched them by
-                              // now.  So native requests could have been
-                              // generated.  First, dispatch them.  Then,
-                              // flush Java events again.
+                          public void dispbtch() {
+                              // Here we block EDT.  It could hbve some
+                              // events, it should hbve dispbtched them by
+                              // now.  So nbtive requests could hbve been
+                              // generbted.  First, dispbtch them.  Then,
+                              // flush Jbvb events bgbin.
                               int iters = 0;
                               while (iters < MIN_ITERS) {
-                                  syncNativeQueue(timeout);
+                                  syncNbtiveQueue(timeout);
                                   iters++;
                               }
-                              while (syncNativeQueue(timeout) && iters < MAX_ITERS) {
+                              while (syncNbtiveQueue(timeout) && iters < MAX_ITERS) {
                                   iters++;
                               }
                               flushPendingEvents();
 
-                              synchronized(waitLock) {
+                              synchronized(wbitLock) {
                                   queueEmpty = isEQEmpty();
-                                  eventDispatched = true;
-                                  waitLock.notifyAll();
+                                  eventDispbtched = true;
+                                  wbitLock.notifyAll();
                               }
                           }
                       });
             try {
-                while (!eventDispatched) {
-                    waitLock.wait();
+                while (!eventDispbtched) {
+                    wbitLock.wbit();
                 }
-            } catch (InterruptedException ie) {
-                return false;
+            } cbtch (InterruptedException ie) {
+                return fblse;
             }
         }
 
         try {
-            Thread.sleep(MINIMAL_EDELAY);
-        } catch (InterruptedException ie) {
+            Threbd.sleep(MINIMAL_EDELAY);
+        } cbtch (InterruptedException ie) {
             throw new RuntimeException("Interrupted");
         }
 
         flushPendingEvents();
 
-        // Lock to force write-cache flush for queueEmpty.
-        synchronized (waitLock) {
-            return !(queueEmpty && isEQEmpty() && queueWasEmpty);
+        // Lock to force write-cbche flush for queueEmpty.
+        synchronized (wbitLock) {
+            return !(queueEmpty && isEQEmpty() && queueWbsEmpty);
         }
     }
 
     /**
-     * Grabs the mouse input for the given window.  The window must be
-     * visible.  The window or its children do not receive any
-     * additional mouse events besides those targeted to them.  All
-     * other events will be dispatched as before - to the respective
-     * targets.  This Window will receive UngrabEvent when automatic
-     * ungrab is about to happen.  The event can be listened to by
-     * installing AWTEventListener with WINDOW_EVENT_MASK.  See
-     * UngrabEvent class for the list of conditions when ungrab is
-     * about to happen.
-     * @see UngrabEvent
+     * Grbbs the mouse input for the given window.  The window must be
+     * visible.  The window or its children do not receive bny
+     * bdditionbl mouse events besides those tbrgeted to them.  All
+     * other events will be dispbtched bs before - to the respective
+     * tbrgets.  This Window will receive UngrbbEvent when butombtic
+     * ungrbb is bbout to hbppen.  The event cbn be listened to by
+     * instblling AWTEventListener with WINDOW_EVENT_MASK.  See
+     * UngrbbEvent clbss for the list of conditions when ungrbb is
+     * bbout to hbppen.
+     * @see UngrbbEvent
      */
-    public abstract void grab(Window w);
+    public bbstrbct void grbb(Window w);
 
     /**
-     * Forces ungrab.  No event will be sent.
+     * Forces ungrbb.  No event will be sent.
      */
-    public abstract void ungrab(Window w);
+    public bbstrbct void ungrbb(Window w);
 
 
     /**
-     * Locates the splash screen library in a platform dependent way and closes
-     * the splash screen. Should be invoked on first top-level frame display.
-     * @see java.awt.SplashScreen
+     * Locbtes the splbsh screen librbry in b plbtform dependent wby bnd closes
+     * the splbsh screen. Should be invoked on first top-level frbme displby.
+     * @see jbvb.bwt.SplbshScreen
      * @since 1.6
      */
-    public static native void closeSplashScreen();
+    public stbtic nbtive void closeSplbshScreen();
 
-    /* The following methods and variables are to support retrieving
-     * desktop text anti-aliasing settings
+    /* The following methods bnd vbribbles bre to support retrieving
+     * desktop text bnti-blibsing settings
      */
 
-    /* Need an instance method because setDesktopProperty(..) is protected. */
-    private void fireDesktopFontPropertyChanges() {
+    /* Need bn instbnce method becbuse setDesktopProperty(..) is protected. */
+    privbte void fireDesktopFontPropertyChbnges() {
         setDesktopProperty(SunToolkit.DESKTOPFONTHINTS,
                            SunToolkit.getDesktopFontHints());
     }
 
-    private static boolean checkedSystemAAFontSettings;
-    private static boolean useSystemAAFontSettings;
-    private static boolean lastExtraCondition = true;
-    private static RenderingHints desktopFontHints;
+    privbte stbtic boolebn checkedSystemAAFontSettings;
+    privbte stbtic boolebn useSystemAAFontSettings;
+    privbte stbtic boolebn lbstExtrbCondition = true;
+    privbte stbtic RenderingHints desktopFontHints;
 
-    /* Since Swing is the reason for this "extra condition" logic its
-     * worth documenting it in some detail.
-     * First, a goal is for Swing and applications to both retrieve and
-     * use the same desktop property value so that there is complete
-     * consistency between the settings used by JDK's Swing implementation
-     * and 3rd party custom Swing components, custom L&Fs and any general
-     * text rendering that wants to be consistent with these.
-     * But by default on Solaris & Linux Swing will not use AA text over
-     * remote X11 display (unless Xrender can be used which is TBD and may not
-     * always be available anyway) as that is a noticeable performance hit.
-     * So there needs to be a way to express that extra condition so that
-     * it is seen by all clients of the desktop property API.
-     * If this were the only condition it could be handled here as it would
-     * be the same for any L&F and could reasonably be considered to be
-     * a static behaviour of those systems.
-     * But GTK currently has an additional test based on locale which is
-     * not applied by Metal. So mixing GTK in a few locales with Metal
-     * would mean the last one wins.
-     * This could be stored per-app context which would work
-     * for different applets, but wouldn't help for a single application
-     * using GTK and some other L&F concurrently.
-     * But it is expected this will be addressed within GTK and the font
-     * system so is a temporary and somewhat unlikely harmless corner case.
+    /* Since Swing is the rebson for this "extrb condition" logic its
+     * worth documenting it in some detbil.
+     * First, b gobl is for Swing bnd bpplicbtions to both retrieve bnd
+     * use the sbme desktop property vblue so thbt there is complete
+     * consistency between the settings used by JDK's Swing implementbtion
+     * bnd 3rd pbrty custom Swing components, custom L&Fs bnd bny generbl
+     * text rendering thbt wbnts to be consistent with these.
+     * But by defbult on Solbris & Linux Swing will not use AA text over
+     * remote X11 displby (unless Xrender cbn be used which is TBD bnd mby not
+     * blwbys be bvbilbble bnywby) bs thbt is b noticebble performbnce hit.
+     * So there needs to be b wby to express thbt extrb condition so thbt
+     * it is seen by bll clients of the desktop property API.
+     * If this were the only condition it could be hbndled here bs it would
+     * be the sbme for bny L&F bnd could rebsonbbly be considered to be
+     * b stbtic behbviour of those systems.
+     * But GTK currently hbs bn bdditionbl test bbsed on locble which is
+     * not bpplied by Metbl. So mixing GTK in b few locbles with Metbl
+     * would mebn the lbst one wins.
+     * This could be stored per-bpp context which would work
+     * for different bpplets, but wouldn't help for b single bpplicbtion
+     * using GTK bnd some other L&F concurrently.
+     * But it is expected this will be bddressed within GTK bnd the font
+     * system so is b temporbry bnd somewhbt unlikely hbrmless corner cbse.
      */
-    public static void setAAFontSettingsCondition(boolean extraCondition) {
-        if (extraCondition != lastExtraCondition) {
-            lastExtraCondition = extraCondition;
+    public stbtic void setAAFontSettingsCondition(boolebn extrbCondition) {
+        if (extrbCondition != lbstExtrbCondition) {
+            lbstExtrbCondition = extrbCondition;
             if (checkedSystemAAFontSettings) {
-                /* Someone already asked for this info, under a different
+                /* Someone blrebdy bsked for this info, under b different
                  * condition.
-                 * We'll force re-evaluation instead of replicating the
-                 * logic, then notify any listeners of any change.
+                 * We'll force re-evblubtion instebd of replicbting the
+                 * logic, then notify bny listeners of bny chbnge.
                  */
-                checkedSystemAAFontSettings = false;
-                Toolkit tk = Toolkit.getDefaultToolkit();
-                if (tk instanceof SunToolkit) {
-                     ((SunToolkit)tk).fireDesktopFontPropertyChanges();
+                checkedSystemAAFontSettings = fblse;
+                Toolkit tk = Toolkit.getDefbultToolkit();
+                if (tk instbnceof SunToolkit) {
+                     ((SunToolkit)tk).fireDesktopFontPropertyChbnges();
                 }
             }
         }
     }
 
-    /* "false", "off", ""default" aren't explicitly tested, they
-     * just fall through to produce a null return which all are equated to
-     * "false".
+    /* "fblse", "off", ""defbult" bren't explicitly tested, they
+     * just fbll through to produce b null return which bll bre equbted to
+     * "fblse".
      */
-    private static RenderingHints getDesktopAAHintsByName(String hintname) {
-        Object aaHint = null;
-        hintname = hintname.toLowerCase(Locale.ENGLISH);
-        if (hintname.equals("on")) {
-            aaHint = VALUE_TEXT_ANTIALIAS_ON;
-        } else if (hintname.equals("gasp")) {
-            aaHint = VALUE_TEXT_ANTIALIAS_GASP;
-        } else if (hintname.equals("lcd") || hintname.equals("lcd_hrgb")) {
-            aaHint = VALUE_TEXT_ANTIALIAS_LCD_HRGB;
-        } else if (hintname.equals("lcd_hbgr")) {
-            aaHint = VALUE_TEXT_ANTIALIAS_LCD_HBGR;
-        } else if (hintname.equals("lcd_vrgb")) {
-            aaHint = VALUE_TEXT_ANTIALIAS_LCD_VRGB;
-        } else if (hintname.equals("lcd_vbgr")) {
-            aaHint = VALUE_TEXT_ANTIALIAS_LCD_VBGR;
+    privbte stbtic RenderingHints getDesktopAAHintsByNbme(String hintnbme) {
+        Object bbHint = null;
+        hintnbme = hintnbme.toLowerCbse(Locble.ENGLISH);
+        if (hintnbme.equbls("on")) {
+            bbHint = VALUE_TEXT_ANTIALIAS_ON;
+        } else if (hintnbme.equbls("gbsp")) {
+            bbHint = VALUE_TEXT_ANTIALIAS_GASP;
+        } else if (hintnbme.equbls("lcd") || hintnbme.equbls("lcd_hrgb")) {
+            bbHint = VALUE_TEXT_ANTIALIAS_LCD_HRGB;
+        } else if (hintnbme.equbls("lcd_hbgr")) {
+            bbHint = VALUE_TEXT_ANTIALIAS_LCD_HBGR;
+        } else if (hintnbme.equbls("lcd_vrgb")) {
+            bbHint = VALUE_TEXT_ANTIALIAS_LCD_VRGB;
+        } else if (hintnbme.equbls("lcd_vbgr")) {
+            bbHint = VALUE_TEXT_ANTIALIAS_LCD_VBGR;
         }
-        if (aaHint != null) {
-            RenderingHints map = new RenderingHints(null);
-            map.put(KEY_TEXT_ANTIALIASING, aaHint);
-            return map;
+        if (bbHint != null) {
+            RenderingHints mbp = new RenderingHints(null);
+            mbp.put(KEY_TEXT_ANTIALIASING, bbHint);
+            return mbp;
         } else {
             return null;
         }
     }
 
     /* This method determines whether to use the system font settings,
-     * or ignore them if a L&F has specified they should be ignored, or
-     * to override both of these with a system property specified value.
-     * If the toolkit isn't a SunToolkit, (eg may be headless) then that
-     * system property isn't applied as desktop properties are considered
-     * to be inapplicable in that case. In that headless case although
-     * this method will return "true" the toolkit will return a null map.
+     * or ignore them if b L&F hbs specified they should be ignored, or
+     * to override both of these with b system property specified vblue.
+     * If the toolkit isn't b SunToolkit, (eg mby be hebdless) then thbt
+     * system property isn't bpplied bs desktop properties bre considered
+     * to be inbpplicbble in thbt cbse. In thbt hebdless cbse blthough
+     * this method will return "true" the toolkit will return b null mbp.
      */
-    private static boolean useSystemAAFontSettings() {
+    privbte stbtic boolebn useSystemAAFontSettings() {
         if (!checkedSystemAAFontSettings) {
-            useSystemAAFontSettings = true; /* initially set this true */
+            useSystemAAFontSettings = true; /* initiblly set this true */
             String systemAAFonts = null;
-            Toolkit tk = Toolkit.getDefaultToolkit();
-            if (tk instanceof SunToolkit) {
+            Toolkit tk = Toolkit.getDefbultToolkit();
+            if (tk instbnceof SunToolkit) {
                 systemAAFonts =
                     AccessController.doPrivileged(
-                         new GetPropertyAction("awt.useSystemAAFontSettings"));
+                         new GetPropertyAction("bwt.useSystemAAFontSettings"));
             }
             if (systemAAFonts != null) {
                 useSystemAAFontSettings =
-                    Boolean.valueOf(systemAAFonts).booleanValue();
-                /* If it is anything other than "true", then it may be
-                 * a hint name , or it may be "off, "default", etc.
+                    Boolebn.vblueOf(systemAAFonts).boolebnVblue();
+                /* If it is bnything other thbn "true", then it mby be
+                 * b hint nbme , or it mby be "off, "defbult", etc.
                  */
                 if (!useSystemAAFontSettings) {
-                    desktopFontHints = getDesktopAAHintsByName(systemAAFonts);
+                    desktopFontHints = getDesktopAAHintsByNbme(systemAAFonts);
                 }
             }
-            /* If its still true, apply the extra condition */
+            /* If its still true, bpply the extrb condition */
             if (useSystemAAFontSettings) {
-                 useSystemAAFontSettings = lastExtraCondition;
+                 useSystemAAFontSettings = lbstExtrbCondition;
             }
             checkedSystemAAFontSettings = true;
         }
         return useSystemAAFontSettings;
     }
 
-    /* A variable defined for the convenience of JDK code */
-    public static final String DESKTOPFONTHINTS = "awt.font.desktophints";
+    /* A vbribble defined for the convenience of JDK code */
+    public stbtic finbl String DESKTOPFONTHINTS = "bwt.font.desktophints";
 
-    /* Overridden by subclasses to return platform/desktop specific values */
+    /* Overridden by subclbsses to return plbtform/desktop specific vblues */
     protected RenderingHints getDesktopAAHints() {
         return null;
     }
 
-    /* Subclass desktop property loading methods call this which
-     * in turn calls the appropriate subclass implementation of
-     * getDesktopAAHints() when system settings are being used.
-     * Its public rather than protected because subclasses may delegate
-     * to a helper class.
+    /* Subclbss desktop property lobding methods cbll this which
+     * in turn cblls the bppropribte subclbss implementbtion of
+     * getDesktopAAHints() when system settings bre being used.
+     * Its public rbther thbn protected becbuse subclbsses mby delegbte
+     * to b helper clbss.
      */
-    public static RenderingHints getDesktopFontHints() {
+    public stbtic RenderingHints getDesktopFontHints() {
         if (useSystemAAFontSettings()) {
-             Toolkit tk = Toolkit.getDefaultToolkit();
-             if (tk instanceof SunToolkit) {
-                 Object map = ((SunToolkit)tk).getDesktopAAHints();
-                 return (RenderingHints)map;
-             } else { /* Headless Toolkit */
+             Toolkit tk = Toolkit.getDefbultToolkit();
+             if (tk instbnceof SunToolkit) {
+                 Object mbp = ((SunToolkit)tk).getDesktopAAHints();
+                 return (RenderingHints)mbp;
+             } else { /* Hebdless Toolkit */
                  return null;
              }
         } else if (desktopFontHints != null) {
-            /* cloning not necessary as the return value is cloned later, but
-             * its harmless.
+            /* cloning not necessbry bs the return vblue is cloned lbter, but
+             * its hbrmless.
              */
             return (RenderingHints)(desktopFontHints.clone());
         } else {
@@ -1826,272 +1826,272 @@ public abstract class SunToolkit extends Toolkit
     }
 
 
-    public abstract boolean isDesktopSupported();
+    public bbstrbct boolebn isDesktopSupported();
 
     /*
      * consumeNextKeyTyped() method is not currently used,
      * however Swing could use it in the future.
      */
-    public static synchronized void consumeNextKeyTyped(KeyEvent keyEvent) {
+    public stbtic synchronized void consumeNextKeyTyped(KeyEvent keyEvent) {
         try {
-            AWTAccessor.getDefaultKeyboardFocusManagerAccessor().consumeNextKeyTyped(
-                (DefaultKeyboardFocusManager)KeyboardFocusManager.
-                    getCurrentKeyboardFocusManager(),
+            AWTAccessor.getDefbultKeybobrdFocusMbnbgerAccessor().consumeNextKeyTyped(
+                (DefbultKeybobrdFocusMbnbger)KeybobrdFocusMbnbger.
+                    getCurrentKeybobrdFocusMbnbger(),
                 keyEvent);
-        } catch (ClassCastException cce) {
-             cce.printStackTrace();
+        } cbtch (ClbssCbstException cce) {
+             cce.printStbckTrbce();
         }
     }
 
-    protected static void dumpPeers(final PlatformLogger aLog) {
-        AWTAutoShutdown.getInstance().dumpPeers(aLog);
+    protected stbtic void dumpPeers(finbl PlbtformLogger bLog) {
+        AWTAutoShutdown.getInstbnce().dumpPeers(bLog);
     }
 
     /**
-     * Returns the <code>Window</code> ancestor of the component <code>comp</code>.
-     * @return Window ancestor of the component or component by itself if it is Window;
-     *         null, if component is not a part of window hierarchy
+     * Returns the <code>Window</code> bncestor of the component <code>comp</code>.
+     * @return Window bncestor of the component or component by itself if it is Window;
+     *         null, if component is not b pbrt of window hierbrchy
      */
-    public static Window getContainingWindow(Component comp) {
-        while (comp != null && !(comp instanceof Window)) {
-            comp = comp.getParent();
+    public stbtic Window getContbiningWindow(Component comp) {
+        while (comp != null && !(comp instbnceof Window)) {
+            comp = comp.getPbrent();
         }
         return (Window)comp;
     }
 
-    private static Boolean sunAwtDisableMixing = null;
+    privbte stbtic Boolebn sunAwtDisbbleMixing = null;
 
     /**
-     * Returns the value of "sun.awt.disableMixing" property. Default
-     * value is {@code false}.
+     * Returns the vblue of "sun.bwt.disbbleMixing" property. Defbult
+     * vblue is {@code fblse}.
      */
-    public synchronized static boolean getSunAwtDisableMixing() {
-        if (sunAwtDisableMixing == null) {
-            sunAwtDisableMixing = AccessController.doPrivileged(
-                                      new GetBooleanAction("sun.awt.disableMixing"));
+    public synchronized stbtic boolebn getSunAwtDisbbleMixing() {
+        if (sunAwtDisbbleMixing == null) {
+            sunAwtDisbbleMixing = AccessController.doPrivileged(
+                                      new GetBoolebnAction("sun.bwt.disbbleMixing"));
         }
-        return sunAwtDisableMixing.booleanValue();
+        return sunAwtDisbbleMixing.boolebnVblue();
     }
 
     /**
-     * Returns true if the native GTK libraries are available.  The
-     * default implementation returns false, but UNIXToolkit overrides this
-     * method to provide a more specific answer.
+     * Returns true if the nbtive GTK librbries bre bvbilbble.  The
+     * defbult implementbtion returns fblse, but UNIXToolkit overrides this
+     * method to provide b more specific bnswer.
      */
-    public boolean isNativeGTKAvailable() {
-        return false;
+    public boolebn isNbtiveGTKAvbilbble() {
+        return fblse;
     }
 
-    private static final Object DEACTIVATION_TIMES_MAP_KEY = new Object();
+    privbte stbtic finbl Object DEACTIVATION_TIMES_MAP_KEY = new Object();
 
-    public synchronized void setWindowDeactivationTime(Window w, long time) {
+    public synchronized void setWindowDebctivbtionTime(Window w, long time) {
         AppContext ctx = getAppContext(w);
-        @SuppressWarnings("unchecked")
-        WeakHashMap<Window, Long> map = (WeakHashMap<Window, Long>)ctx.get(DEACTIVATION_TIMES_MAP_KEY);
-        if (map == null) {
-            map = new WeakHashMap<Window, Long>();
-            ctx.put(DEACTIVATION_TIMES_MAP_KEY, map);
+        @SuppressWbrnings("unchecked")
+        WebkHbshMbp<Window, Long> mbp = (WebkHbshMbp<Window, Long>)ctx.get(DEACTIVATION_TIMES_MAP_KEY);
+        if (mbp == null) {
+            mbp = new WebkHbshMbp<Window, Long>();
+            ctx.put(DEACTIVATION_TIMES_MAP_KEY, mbp);
         }
-        map.put(w, time);
+        mbp.put(w, time);
     }
 
-    public synchronized long getWindowDeactivationTime(Window w) {
+    public synchronized long getWindowDebctivbtionTime(Window w) {
         AppContext ctx = getAppContext(w);
-        @SuppressWarnings("unchecked")
-        WeakHashMap<Window, Long> map = (WeakHashMap<Window, Long>)ctx.get(DEACTIVATION_TIMES_MAP_KEY);
-        if (map == null) {
+        @SuppressWbrnings("unchecked")
+        WebkHbshMbp<Window, Long> mbp = (WebkHbshMbp<Window, Long>)ctx.get(DEACTIVATION_TIMES_MAP_KEY);
+        if (mbp == null) {
             return -1;
         }
-        Long time = map.get(w);
+        Long time = mbp.get(w);
         return time == null ? -1 : time;
     }
 
-    // Cosntant alpha
-    public boolean isWindowOpacitySupported() {
-        return false;
+    // Cosntbnt blphb
+    public boolebn isWindowOpbcitySupported() {
+        return fblse;
     }
 
-    // Shaping
-    public boolean isWindowShapingSupported() {
-        return false;
+    // Shbping
+    public boolebn isWindowShbpingSupported() {
+        return fblse;
     }
 
-    // Per-pixel alpha
-    public boolean isWindowTranslucencySupported() {
-        return false;
+    // Per-pixel blphb
+    public boolebn isWindowTrbnslucencySupported() {
+        return fblse;
     }
 
-    public boolean isTranslucencyCapable(GraphicsConfiguration gc) {
-        return false;
+    public boolebn isTrbnslucencyCbpbble(GrbphicsConfigurbtion gc) {
+        return fblse;
     }
 
     /**
-     * Returns true if swing backbuffer should be translucent.
+     * Returns true if swing bbckbuffer should be trbnslucent.
      */
-    public boolean isSwingBackbufferTranslucencySupported() {
-        return false;
+    public boolebn isSwingBbckbufferTrbnslucencySupported() {
+        return fblse;
     }
 
     /**
-     * Returns whether or not a containing top level window for the passed
+     * Returns whether or not b contbining top level window for the pbssed
      * component is
-     * {@link GraphicsDevice.WindowTranslucency#PERPIXEL_TRANSLUCENT PERPIXEL_TRANSLUCENT}.
+     * {@link GrbphicsDevice.WindowTrbnslucency#PERPIXEL_TRANSLUCENT PERPIXEL_TRANSLUCENT}.
      *
-     * @param c a Component which toplevel's to check
-     * @return {@code true}  if the passed component is not null and has a
-     * containing toplevel window which is opaque (so per-pixel translucency
-     * is not enabled), {@code false} otherwise
-     * @see GraphicsDevice.WindowTranslucency#PERPIXEL_TRANSLUCENT
+     * @pbrbm c b Component which toplevel's to check
+     * @return {@code true}  if the pbssed component is not null bnd hbs b
+     * contbining toplevel window which is opbque (so per-pixel trbnslucency
+     * is not enbbled), {@code fblse} otherwise
+     * @see GrbphicsDevice.WindowTrbnslucency#PERPIXEL_TRANSLUCENT
      */
-    public static boolean isContainingTopLevelOpaque(Component c) {
-        Window w = getContainingWindow(c);
-        return w != null && w.isOpaque();
+    public stbtic boolebn isContbiningTopLevelOpbque(Component c) {
+        Window w = getContbiningWindow(c);
+        return w != null && w.isOpbque();
     }
 
     /**
-     * Returns whether or not a containing top level window for the passed
+     * Returns whether or not b contbining top level window for the pbssed
      * component is
-     * {@link GraphicsDevice.WindowTranslucency#TRANSLUCENT TRANSLUCENT}.
+     * {@link GrbphicsDevice.WindowTrbnslucency#TRANSLUCENT TRANSLUCENT}.
      *
-     * @param c a Component which toplevel's to check
-     * @return {@code true} if the passed component is not null and has a
-     * containing toplevel window which has opacity less than
-     * 1.0f (which means that it is translucent), {@code false} otherwise
-     * @see GraphicsDevice.WindowTranslucency#TRANSLUCENT
+     * @pbrbm c b Component which toplevel's to check
+     * @return {@code true} if the pbssed component is not null bnd hbs b
+     * contbining toplevel window which hbs opbcity less thbn
+     * 1.0f (which mebns thbt it is trbnslucent), {@code fblse} otherwise
+     * @see GrbphicsDevice.WindowTrbnslucency#TRANSLUCENT
      */
-    public static boolean isContainingTopLevelTranslucent(Component c) {
-        Window w = getContainingWindow(c);
-        return w != null && w.getOpacity() < 1.0f;
+    public stbtic boolebn isContbiningTopLevelTrbnslucent(Component c) {
+        Window w = getContbiningWindow(c);
+        return w != null && w.getOpbcity() < 1.0f;
     }
 
     /**
-     * Returns whether the native system requires using the peer.updateWindow()
-     * method to update the contents of a non-opaque window, or if usual
-     * painting procedures are sufficient. The default return value covers
+     * Returns whether the nbtive system requires using the peer.updbteWindow()
+     * method to updbte the contents of b non-opbque window, or if usubl
+     * pbinting procedures bre sufficient. The defbult return vblue covers
      * the X11 systems. On MS Windows this method is overriden in WToolkit
      * to return true.
      */
-    public boolean needUpdateWindow() {
-        return false;
+    public boolebn needUpdbteWindow() {
+        return fblse;
     }
 
     /**
-     * Descendants of the SunToolkit should override and put their own logic here.
+     * Descendbnts of the SunToolkit should override bnd put their own logic here.
      */
     public int getNumberOfButtons(){
         return 3;
     }
 
     /**
-     * Checks that the given object implements/extends the given
-     * interface/class.
+     * Checks thbt the given object implements/extends the given
+     * interfbce/clbss.
      *
-     * Note that using the instanceof operator causes a class to be loaded.
-     * Using this method doesn't load a class and it can be used instead of
-     * the instanceof operator for performance reasons.
+     * Note thbt using the instbnceof operbtor cbuses b clbss to be lobded.
+     * Using this method doesn't lobd b clbss bnd it cbn be used instebd of
+     * the instbnceof operbtor for performbnce rebsons.
      *
-     * @param obj Object to be checked
-     * @param type The name of the interface/class. Must be
-     * fully-qualified interface/class name.
+     * @pbrbm obj Object to be checked
+     * @pbrbm type The nbme of the interfbce/clbss. Must be
+     * fully-qublified interfbce/clbss nbme.
      * @return true, if this object implements/extends the given
-     *         interface/class, false, otherwise, or if obj or type is null
+     *         interfbce/clbss, fblse, otherwise, or if obj or type is null
      */
-    public static boolean isInstanceOf(Object obj, String type) {
-        if (obj == null) return false;
-        if (type == null) return false;
+    public stbtic boolebn isInstbnceOf(Object obj, String type) {
+        if (obj == null) return fblse;
+        if (type == null) return fblse;
 
-        return isInstanceOf(obj.getClass(), type);
+        return isInstbnceOf(obj.getClbss(), type);
     }
 
-    private static boolean isInstanceOf(Class<?> cls, String type) {
-        if (cls == null) return false;
+    privbte stbtic boolebn isInstbnceOf(Clbss<?> cls, String type) {
+        if (cls == null) return fblse;
 
-        if (cls.getName().equals(type)) {
+        if (cls.getNbme().equbls(type)) {
             return true;
         }
 
-        for (Class<?> c : cls.getInterfaces()) {
-            if (c.getName().equals(type)) {
+        for (Clbss<?> c : cls.getInterfbces()) {
+            if (c.getNbme().equbls(type)) {
                 return true;
             }
         }
-        return isInstanceOf(cls.getSuperclass(), type);
+        return isInstbnceOf(cls.getSuperclbss(), type);
     }
 
     ///////////////////////////////////////////////////////////////////////////
     //
-    // The following methods help set and identify whether a particular
-    // AWTEvent object was produced by the system or by user code. As of this
-    // writing the only consumer is the Java Plug-In, although this information
-    // could be useful to more clients and probably should be formalized in
+    // The following methods help set bnd identify whether b pbrticulbr
+    // AWTEvent object wbs produced by the system or by user code. As of this
+    // writing the only consumer is the Jbvb Plug-In, blthough this informbtion
+    // could be useful to more clients bnd probbbly should be formblized in
     // the public API.
     //
     ///////////////////////////////////////////////////////////////////////////
 
-    public static void setSystemGenerated(AWTEvent e) {
-        AWTAccessor.getAWTEventAccessor().setSystemGenerated(e);
+    public stbtic void setSystemGenerbted(AWTEvent e) {
+        AWTAccessor.getAWTEventAccessor().setSystemGenerbted(e);
     }
 
-    public static boolean isSystemGenerated(AWTEvent e) {
-        return AWTAccessor.getAWTEventAccessor().isSystemGenerated(e);
+    public stbtic boolebn isSystemGenerbted(AWTEvent e) {
+        return AWTAccessor.getAWTEventAccessor().isSystemGenerbted(e);
     }
 
-} // class SunToolkit
+} // clbss SunToolkit
 
 
 /*
- * PostEventQueue is a Thread that runs in the same AppContext as the
- * Java EventQueue.  It is a queue of AWTEvents to be posted to the
- * Java EventQueue.  The toolkit Thread (AWT-Windows/AWT-Motif) posts
- * events to this queue, which then calls EventQueue.postEvent().
+ * PostEventQueue is b Threbd thbt runs in the sbme AppContext bs the
+ * Jbvb EventQueue.  It is b queue of AWTEvents to be posted to the
+ * Jbvb EventQueue.  The toolkit Threbd (AWT-Windows/AWT-Motif) posts
+ * events to this queue, which then cblls EventQueue.postEvent().
  *
- * We do this because EventQueue.postEvent() may be overridden by client
- * code, and we mustn't ever call client code from the toolkit thread.
+ * We do this becbuse EventQueue.postEvent() mby be overridden by client
+ * code, bnd we mustn't ever cbll client code from the toolkit threbd.
  */
-class PostEventQueue {
-    private EventQueueItem queueHead = null;
-    private EventQueueItem queueTail = null;
-    private final EventQueue eventQueue;
+clbss PostEventQueue {
+    privbte EventQueueItem queueHebd = null;
+    privbte EventQueueItem queueTbil = null;
+    privbte finbl EventQueue eventQueue;
 
-    private Thread flushThread = null;
+    privbte Threbd flushThrebd = null;
 
     PostEventQueue(EventQueue eq) {
         eventQueue = eq;
     }
 
     /*
-     * Continually post pending AWTEvents to the Java EventQueue. The method
-     * is synchronized to ensure the flush is completed before a new event
-     * can be posted to this queue.
+     * Continublly post pending AWTEvents to the Jbvb EventQueue. The method
+     * is synchronized to ensure the flush is completed before b new event
+     * cbn be posted to this queue.
      *
-     * 7177040: The method couldn't be wholly synchronized because of calls
-     * of EventQueue.postEvent() that uses pushPopLock, otherwise it could
-     * potentially lead to deadlock
+     * 7177040: The method couldn't be wholly synchronized becbuse of cblls
+     * of EventQueue.postEvent() thbt uses pushPopLock, otherwise it could
+     * potentiblly lebd to debdlock
      */
     public void flush() {
 
-        Thread newThread = Thread.currentThread();
+        Threbd newThrebd = Threbd.currentThrebd();
 
         try {
             EventQueueItem tempQueue;
             synchronized (this) {
                 // Avoid method recursion
-                if (newThread == flushThread) {
+                if (newThrebd == flushThrebd) {
                     return;
                 }
-                // Wait for other threads' flushing
-                while (flushThread != null) {
-                    wait();
+                // Wbit for other threbds' flushing
+                while (flushThrebd != null) {
+                    wbit();
                 }
                 // Skip everything if queue is empty
-                if (queueHead == null) {
+                if (queueHebd == null) {
                     return;
                 }
-                // Remember flushing thread
-                flushThread = newThread;
+                // Remember flushing threbd
+                flushThrebd = newThrebd;
 
-                tempQueue = queueHead;
-                queueHead = queueTail = null;
+                tempQueue = queueHebd;
+                queueHebd = queueTbil = null;
             }
             try {
                 while (tempQueue != null) {
@@ -2099,35 +2099,35 @@ class PostEventQueue {
                     tempQueue = tempQueue.next;
                 }
             }
-            finally {
-                // Only the flushing thread can get here
+            finblly {
+                // Only the flushing threbd cbn get here
                 synchronized (this) {
-                    // Forget flushing thread, inform other pending threads
-                    flushThread = null;
+                    // Forget flushing threbd, inform other pending threbds
+                    flushThrebd = null;
                     notifyAll();
                 }
             }
         }
-        catch (InterruptedException e) {
-            // Couldn't allow exception go up, so at least recover the flag
-            newThread.interrupt();
+        cbtch (InterruptedException e) {
+            // Couldn't bllow exception go up, so bt lebst recover the flbg
+            newThrebd.interrupt();
         }
     }
 
     /*
-     * Enqueue an AWTEvent to be posted to the Java EventQueue.
+     * Enqueue bn AWTEvent to be posted to the Jbvb EventQueue.
      */
     void postEvent(AWTEvent event) {
         EventQueueItem item = new EventQueueItem(event);
 
         synchronized (this) {
-            if (queueHead == null) {
-                queueHead = queueTail = item;
+            if (queueHebd == null) {
+                queueHebd = queueTbil = item;
             } else {
-                queueTail.next = item;
-                queueTail = item;
+                queueTbil.next = item;
+                queueTbil = item;
             }
         }
-        SunToolkit.wakeupEventQueue(eventQueue, event.getSource() == AWTAutoShutdown.getInstance());
+        SunToolkit.wbkeupEventQueue(eventQueue, event.getSource() == AWTAutoShutdown.getInstbnce());
     }
-} // class PostEventQueue
+} // clbss PostEventQueue

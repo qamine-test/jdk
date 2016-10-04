@@ -1,222 +1,222 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.pkcs11;
+pbckbge sun.security.pkcs11;
 
-import java.util.*;
+import jbvb.util.*;
 
-import java.security.ProviderException;
+import jbvb.security.ProviderException;
 
 import sun.security.util.Debug;
 
-import sun.security.pkcs11.wrapper.*;
-import static sun.security.pkcs11.wrapper.PKCS11Constants.*;
+import sun.security.pkcs11.wrbpper.*;
+import stbtic sun.security.pkcs11.wrbpper.PKCS11Constbnts.*;
 
-import java.util.concurrent.ConcurrentLinkedDeque;
-import java.util.concurrent.atomic.AtomicInteger;
+import jbvb.util.concurrent.ConcurrentLinkedDeque;
+import jbvb.util.concurrent.btomic.AtomicInteger;
 
 /**
- * Session manager. There is one session manager object per PKCS#11
- * provider. It allows code to checkout a session, release it
- * back to the pool, or force it to be closed.
+ * Session mbnbger. There is one session mbnbger object per PKCS#11
+ * provider. It bllows code to checkout b session, relebse it
+ * bbck to the pool, or force it to be closed.
  *
- * The session manager pools sessions to minimize the number of
- * C_OpenSession() and C_CloseSession() that have to be made. It
- * maintains two pools: one for "object" sessions and one for
- * "operation" sessions.
+ * The session mbnbger pools sessions to minimize the number of
+ * C_OpenSession() bnd C_CloseSession() thbt hbve to be mbde. It
+ * mbintbins two pools: one for "object" sessions bnd one for
+ * "operbtion" sessions.
  *
- * The reason for this separation is how PKCS#11 deals with session objects.
- * It defines that when a session is closed, all objects created within
- * that session are destroyed. In other words, we may never close a session
- * while a Key created it in is still in use. We would like to keep the
- * number of such sessions low. Note that we occasionally want to explicitly
- * close a session, see P11Signature.
+ * The rebson for this sepbrbtion is how PKCS#11 debls with session objects.
+ * It defines thbt when b session is closed, bll objects crebted within
+ * thbt session bre destroyed. In other words, we mby never close b session
+ * while b Key crebted it in is still in use. We would like to keep the
+ * number of such sessions low. Note thbt we occbsionblly wbnt to explicitly
+ * close b session, see P11Signbture.
  *
- * NOTE that sessions obtained from this class SHOULD be returned using
- * either releaseSession() or closeSession() using a finally block when
- * not needed anymore. Otherwise, they will be left for cleanup via the
- * PhantomReference mechanism when GC kicks in, but it's best not to rely
- * on that since GC may not run timely enough since the native PKCS11 library
- * is also consuming memory.
+ * NOTE thbt sessions obtbined from this clbss SHOULD be returned using
+ * either relebseSession() or closeSession() using b finblly block when
+ * not needed bnymore. Otherwise, they will be left for clebnup vib the
+ * PhbntomReference mechbnism when GC kicks in, but it's best not to rely
+ * on thbt since GC mby not run timely enough since the nbtive PKCS11 librbry
+ * is blso consuming memory.
  *
- * Note that sessions are automatically closed when they are not used for a
+ * Note thbt sessions bre butombticblly closed when they bre not used for b
  * period of time, see Session.
  *
- * @author  Andreas Sterbenz
+ * @buthor  Andrebs Sterbenz
  * @since   1.5
  */
-final class SessionManager {
+finbl clbss SessionMbnbger {
 
-    private final static int DEFAULT_MAX_SESSIONS = 32;
+    privbte finbl stbtic int DEFAULT_MAX_SESSIONS = 32;
 
-    private final static Debug debug = Debug.getInstance("pkcs11");
+    privbte finbl stbtic Debug debug = Debug.getInstbnce("pkcs11");
 
-    // token instance
-    private final Token token;
+    // token instbnce
+    privbte finbl Token token;
 
-    // maximum number of sessions to open with this token
-    private final int maxSessions;
+    // mbximum number of sessions to open with this token
+    privbte finbl int mbxSessions;
 
-    // total number of active sessions
-    private AtomicInteger activeSessions = new AtomicInteger();
+    // totbl number of bctive sessions
+    privbte AtomicInteger bctiveSessions = new AtomicInteger();
 
-    // pool of available object sessions
-    private final Pool objSessions;
+    // pool of bvbilbble object sessions
+    privbte finbl Pool objSessions;
 
-    // pool of available operation sessions
-    private final Pool opSessions;
+    // pool of bvbilbble operbtion sessions
+    privbte finbl Pool opSessions;
 
-    // maximum number of active sessions during this invocation, for debugging
-    private int maxActiveSessions;
+    // mbximum number of bctive sessions during this invocbtion, for debugging
+    privbte int mbxActiveSessions;
 
-    // flags to use in the C_OpenSession() call
-    private final long openSessionFlags;
+    // flbgs to use in the C_OpenSession() cbll
+    privbte finbl long openSessionFlbgs;
 
-    SessionManager(Token token) {
+    SessionMbnbger(Token token) {
         long n;
         if (token.isWriteProtected()) {
-            openSessionFlags = CKF_SERIAL_SESSION;
-            n = token.tokenInfo.ulMaxSessionCount;
+            openSessionFlbgs = CKF_SERIAL_SESSION;
+            n = token.tokenInfo.ulMbxSessionCount;
         } else {
-            openSessionFlags = CKF_SERIAL_SESSION | CKF_RW_SESSION;
-            n = token.tokenInfo.ulMaxRwSessionCount;
+            openSessionFlbgs = CKF_SERIAL_SESSION | CKF_RW_SESSION;
+            n = token.tokenInfo.ulMbxRwSessionCount;
         }
         if (n == CK_EFFECTIVELY_INFINITE) {
             n = Integer.MAX_VALUE;
         } else if ((n == CK_UNAVAILABLE_INFORMATION) || (n < 0)) {
-            // choose an arbitrary concrete value
+            // choose bn brbitrbry concrete vblue
             n = DEFAULT_MAX_SESSIONS;
         }
-        maxSessions = (int)Math.min(n, Integer.MAX_VALUE);
+        mbxSessions = (int)Mbth.min(n, Integer.MAX_VALUE);
         this.token = token;
         this.objSessions = new Pool(this);
         this.opSessions = new Pool(this);
     }
 
-    // returns whether only a fairly low number of sessions are
+    // returns whether only b fbirly low number of sessions bre
     // supported by this token.
-    boolean lowMaxSessions() {
-        return (maxSessions <= DEFAULT_MAX_SESSIONS);
+    boolebn lowMbxSessions() {
+        return (mbxSessions <= DEFAULT_MAX_SESSIONS);
     }
 
     Session getObjSession() throws PKCS11Exception {
         Session session = objSessions.poll();
         if (session != null) {
-            return ensureValid(session);
+            return ensureVblid(session);
         }
         session = opSessions.poll();
         if (session != null) {
-            return ensureValid(session);
+            return ensureVblid(session);
         }
         session = openSession();
-        return ensureValid(session);
+        return ensureVblid(session);
     }
 
     Session getOpSession() throws PKCS11Exception {
         Session session = opSessions.poll();
         if (session != null) {
-            return ensureValid(session);
+            return ensureVblid(session);
         }
-        // create a new session rather than re-using an obj session
-        // that avoids potential expensive cancels() for Signatures & RSACipher
-        if (maxSessions == Integer.MAX_VALUE ||
-                activeSessions.get() < maxSessions) {
+        // crebte b new session rbther thbn re-using bn obj session
+        // thbt bvoids potentibl expensive cbncels() for Signbtures & RSACipher
+        if (mbxSessions == Integer.MAX_VALUE ||
+                bctiveSessions.get() < mbxSessions) {
             session = openSession();
-            return ensureValid(session);
+            return ensureVblid(session);
         }
         session = objSessions.poll();
         if (session != null) {
-            return ensureValid(session);
+            return ensureVblid(session);
         }
-        throw new ProviderException("Could not obtain session");
+        throw new ProviderException("Could not obtbin session");
     }
 
-    private Session ensureValid(Session session) {
+    privbte Session ensureVblid(Session session) {
         session.id();
         return session;
     }
 
     Session killSession(Session session) {
-        if ((session == null) || (token.isValid() == false)) {
+        if ((session == null) || (token.isVblid() == fblse)) {
             return null;
         }
         if (debug != null) {
-            String location = new Exception().getStackTrace()[2].toString();
-            System.out.println("Killing session (" + location + ") active: "
-                + activeSessions.get());
+            String locbtion = new Exception().getStbckTrbce()[2].toString();
+            System.out.println("Killing session (" + locbtion + ") bctive: "
+                + bctiveSessions.get());
         }
         closeSession(session);
         return null;
     }
 
-    Session releaseSession(Session session) {
-        if ((session == null) || (token.isValid() == false)) {
+    Session relebseSession(Session session) {
+        if ((session == null) || (token.isVblid() == fblse)) {
             return null;
         }
 
-        if (session.hasObjects()) {
-            objSessions.release(session);
+        if (session.hbsObjects()) {
+            objSessions.relebse(session);
         } else {
-            opSessions.release(session);
+            opSessions.relebse(session);
         }
         return null;
     }
 
     void demoteObjSession(Session session) {
-        if (token.isValid() == false) {
+        if (token.isVblid() == fblse) {
             return;
         }
         if (debug != null) {
-            System.out.println("Demoting session, active: " +
-                activeSessions.get());
+            System.out.println("Demoting session, bctive: " +
+                bctiveSessions.get());
         }
-        boolean present = objSessions.remove(session);
-        if (present == false) {
+        boolebn present = objSessions.remove(session);
+        if (present == fblse) {
             // session is currently in use
-            // will be added to correct pool on release, nothing to do now
+            // will be bdded to correct pool on relebse, nothing to do now
             return;
         }
-        opSessions.release(session);
+        opSessions.relebse(session);
     }
 
-    private Session openSession() throws PKCS11Exception {
-        if ((maxSessions != Integer.MAX_VALUE) &&
-                (activeSessions.get() >= maxSessions)) {
-            throw new ProviderException("No more sessions available");
+    privbte Session openSession() throws PKCS11Exception {
+        if ((mbxSessions != Integer.MAX_VALUE) &&
+                (bctiveSessions.get() >= mbxSessions)) {
+            throw new ProviderException("No more sessions bvbilbble");
         }
 
         long id = token.p11.C_OpenSession
-                    (token.provider.slotID, openSessionFlags, null, null);
+                    (token.provider.slotID, openSessionFlbgs, null, null);
         Session session = new Session(token, id);
-        activeSessions.incrementAndGet();
+        bctiveSessions.incrementAndGet();
         if (debug != null) {
             synchronized(this) {
-                if (activeSessions.get() > maxActiveSessions) {
-                    maxActiveSessions = activeSessions.get();
-                    if (maxActiveSessions % 10 == 0) {
-                        System.out.println("Open sessions: " + maxActiveSessions);
+                if (bctiveSessions.get() > mbxActiveSessions) {
+                    mbxActiveSessions = bctiveSessions.get();
+                    if (mbxActiveSessions % 10 == 0) {
+                        System.out.println("Open sessions: " + mbxActiveSessions);
                     }
                 }
             }
@@ -224,33 +224,33 @@ final class SessionManager {
         return session;
     }
 
-    private void closeSession(Session session) {
+    privbte void closeSession(Session session) {
         session.close();
-        activeSessions.decrementAndGet();
+        bctiveSessions.decrementAndGet();
     }
 
-    public static final class Pool {
+    public stbtic finbl clbss Pool {
 
-        private final SessionManager mgr;
+        privbte finbl SessionMbnbger mgr;
 
-        private final ConcurrentLinkedDeque<Session> pool;
+        privbte finbl ConcurrentLinkedDeque<Session> pool;
 
-        Pool(SessionManager mgr) {
+        Pool(SessionMbnbger mgr) {
            this.mgr = mgr;
            pool = new ConcurrentLinkedDeque<Session>();
         }
 
-        boolean remove(Session session) {
+        boolebn remove(Session session) {
             return pool.remove(session);
         }
 
         Session poll() {
-            return pool.pollLast();
+            return pool.pollLbst();
         }
 
-        void release(Session session) {
+        void relebse(Session session) {
             pool.offer(session);
-            if (session.hasObjects()) {
+            if (session.hbsObjects()) {
                 return;
             }
 
@@ -262,13 +262,13 @@ final class SessionManager {
             Session oldestSession;
             long time = System.currentTimeMillis();
             int i = 0;
-            // Check if the session head is too old and continue through queue
+            // Check if the session hebd is too old bnd continue through queue
             // until only one is left.
             do {
                 oldestSession = pool.peek();
                 if (oldestSession == null || oldestSession.isLive(time) ||
                         !pool.remove(oldestSession)) {
-                    break;
+                    brebk;
                 }
 
                 i++;
@@ -276,8 +276,8 @@ final class SessionManager {
             } while ((n - i) > 1);
 
             if (debug != null) {
-                System.out.println("Closing " + i + " idle sessions, active: "
-                        + mgr.activeSessions);
+                System.out.println("Closing " + i + " idle sessions, bctive: "
+                        + mgr.bctiveSessions);
             }
         }
 

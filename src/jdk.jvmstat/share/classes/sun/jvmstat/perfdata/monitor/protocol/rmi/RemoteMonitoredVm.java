@@ -1,129 +1,129 @@
 /*
- * Copyright (c) 2004, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.jvmstat.perfdata.monitor.protocol.rmi;
+pbckbge sun.jvmstbt.perfdbtb.monitor.protocol.rmi;
 
-import sun.jvmstat.monitor.*;
-import sun.jvmstat.monitor.event.*;
-import sun.jvmstat.monitor.remote.*;
-import sun.jvmstat.perfdata.monitor.*;
-import java.lang.reflect.*;
-import java.util.*;
-import java.io.*;
-import java.nio.ByteBuffer;
-import java.rmi.*;
+import sun.jvmstbt.monitor.*;
+import sun.jvmstbt.monitor.event.*;
+import sun.jvmstbt.monitor.remote.*;
+import sun.jvmstbt.perfdbtb.monitor.*;
+import jbvb.lbng.reflect.*;
+import jbvb.util.*;
+import jbvb.io.*;
+import jbvb.nio.ByteBuffer;
+import jbvb.rmi.*;
 
 /**
- * Concrete implementation of the AbstractMonitoredVm class for the
- * <em>rmi:</em> protocol for the HotSpot PerfData monitoring implementation.
+ * Concrete implementbtion of the AbstrbctMonitoredVm clbss for the
+ * <em>rmi:</em> protocol for the HotSpot PerfDbtb monitoring implementbtion.
  * <p>
- * This class provides the ability to acquire to the instrumentation buffer
- * of a live, remote target Java Virtual Machine through an RMI server.
+ * This clbss provides the bbility to bcquire to the instrumentbtion buffer
+ * of b live, remote tbrget Jbvb Virtubl Mbchine through bn RMI server.
  *
- * @author Brian Doherty
+ * @buthor Bribn Doherty
  * @since 1.5
  */
-public class RemoteMonitoredVm extends AbstractMonitoredVm {
+public clbss RemoteMonitoredVm extends AbstrbctMonitoredVm {
 
-    private ArrayList<VmListener> listeners;
-    private NotifierTask notifierTask;
-    private SamplerTask samplerTask;
-    private Timer timer;
+    privbte ArrbyList<VmListener> listeners;
+    privbte NotifierTbsk notifierTbsk;
+    privbte SbmplerTbsk sbmplerTbsk;
+    privbte Timer timer;
 
-    private RemoteVm rvm;
-    private ByteBuffer updateBuffer;
+    privbte RemoteVm rvm;
+    privbte ByteBuffer updbteBuffer;
 
     /**
-     * Create a RemoteMonitoredVm instance.
+     * Crebte b RemoteMonitoredVm instbnce.
      *
-     * @param rvm the proxy to the remote MonitoredVm instance.
-     * @param vmid the vm identifier specifying the remot target JVM
-     * @param timer the timer used to run polling tasks
-     * @param interval the sampling interval
+     * @pbrbm rvm the proxy to the remote MonitoredVm instbnce.
+     * @pbrbm vmid the vm identifier specifying the remot tbrget JVM
+     * @pbrbm timer the timer used to run polling tbsks
+     * @pbrbm intervbl the sbmpling intervbl
      */
     public RemoteMonitoredVm(RemoteVm rvm, VmIdentifier vmid,
-                             Timer timer, int interval)
+                             Timer timer, int intervbl)
            throws MonitorException {
-        super(vmid, interval);
+        super(vmid, intervbl);
         this.rvm = rvm;
-        pdb = new PerfDataBuffer(rvm, vmid.getLocalVmId());
-        this.listeners = new ArrayList<VmListener>();
+        pdb = new PerfDbtbBuffer(rvm, vmid.getLocblVmId());
+        this.listeners = new ArrbyList<VmListener>();
         this.timer = timer;
     }
 
     /**
-     * Method to attach to the remote MonitoredVm.
+     * Method to bttbch to the remote MonitoredVm.
      */
-    public void attach() throws MonitorException {
-        updateBuffer = pdb.getByteBuffer().duplicate();
+    public void bttbch() throws MonitorException {
+        updbteBuffer = pdb.getByteBuffer().duplicbte();
 
-        // if continuous sampling is requested, register with the sampler thread
-        if (interval > 0) {
-            samplerTask = new SamplerTask();
-            timer.schedule(samplerTask, 0, interval);
+        // if continuous sbmpling is requested, register with the sbmpler threbd
+        if (intervbl > 0) {
+            sbmplerTbsk = new SbmplerTbsk();
+            timer.schedule(sbmplerTbsk, 0, intervbl);
         }
     }
 
     /**
      * {@inheritDoc}
      */
-    public void detach() {
+    public void detbch() {
         try {
-            if (interval > 0) {
-                if (samplerTask != null) {
-                    samplerTask.cancel();
-                    samplerTask = null;
+            if (intervbl > 0) {
+                if (sbmplerTbsk != null) {
+                    sbmplerTbsk.cbncel();
+                    sbmplerTbsk = null;
                 }
-                if (notifierTask != null) {
-                    notifierTask.cancel();
-                    notifierTask = null;
+                if (notifierTbsk != null) {
+                    notifierTbsk.cbncel();
+                    notifierTbsk = null;
                 }
-                sample();
+                sbmple();
             }
-        } catch (RemoteException e) {
-            // XXX: - use logging api? throw an exception instead?
-            System.err.println("Could not read data for remote JVM " + vmid);
-            e.printStackTrace();
+        } cbtch (RemoteException e) {
+            // XXX: - use logging bpi? throw bn exception instebd?
+            System.err.println("Could not rebd dbtb for remote JVM " + vmid);
+            e.printStbckTrbce();
 
-        } finally {
-            super.detach();
+        } finblly {
+            super.detbch();
         }
     }
 
     /**
-     * Get a copy of the remote instrumentation buffer.
+     * Get b copy of the remote instrumentbtion buffer.
      *<p>
-     * The data in the remote instrumentation buffer is copied into
-     * a local byte buffer.
+     * The dbtb in the remote instrumentbtion buffer is copied into
+     * b locbl byte buffer.
      *
-     * @throws RemoteException Thrown on any communications errors with
+     * @throws RemoteException Thrown on bny communicbtions errors with
      *                         the remote system.
      */
-    public void sample() throws RemoteException {
-        assert updateBuffer != null;
-        ((PerfDataBuffer)pdb).sample(updateBuffer);
+    public void sbmple() throws RemoteException {
+        bssert updbteBuffer != null;
+        ((PerfDbtbBuffer)pdb).sbmple(updbteBuffer);
     }
 
     /**
@@ -138,12 +138,12 @@ public class RemoteMonitoredVm extends AbstractMonitoredVm {
     /**
      * {@inheritDoc}
      */
-    public void addVmListener(VmListener l) {
+    public void bddVmListener(VmListener l) {
         synchronized(listeners) {
-            listeners.add(l);
-            if (notifierTask == null) {
-                notifierTask = new NotifierTask();
-                timer.schedule(notifierTask, 0, interval);
+            listeners.bdd(l);
+            if (notifierTbsk == null) {
+                notifierTbsk = new NotifierTbsk();
+                timer.schedule(notifierTbsk, 0, intervbl);
             }
         }
     }
@@ -154,9 +154,9 @@ public class RemoteMonitoredVm extends AbstractMonitoredVm {
     public void removeVmListener(VmListener l) {
         synchronized(listeners) {
             listeners.remove(l);
-            if (listeners.isEmpty() && (notifierTask != null)) {
-                notifierTask.cancel();
-                notifierTask = null;
+            if (listeners.isEmpty() && (notifierTbsk != null)) {
+                notifierTbsk.cbncel();
+                notifierTbsk = null;
             }
         }
     }
@@ -164,136 +164,136 @@ public class RemoteMonitoredVm extends AbstractMonitoredVm {
     /**
      * {@inheritDoc}
      */
-    public void setInterval(int newInterval) {
+    public void setIntervbl(int newIntervbl) {
         synchronized(listeners) {
-            if (newInterval == interval) {
+            if (newIntervbl == intervbl) {
                 return;
             }
 
-            int oldInterval = interval;
-            super.setInterval(newInterval);
+            int oldIntervbl = intervbl;
+            super.setIntervbl(newIntervbl);
 
-            if (samplerTask != null) {
-                samplerTask.cancel();
-                SamplerTask oldSamplerTask = samplerTask;
-                samplerTask = new SamplerTask();
-                CountedTimerTaskUtils.reschedule(timer, oldSamplerTask,
-                                                 samplerTask, oldInterval,
-                                                 newInterval);
+            if (sbmplerTbsk != null) {
+                sbmplerTbsk.cbncel();
+                SbmplerTbsk oldSbmplerTbsk = sbmplerTbsk;
+                sbmplerTbsk = new SbmplerTbsk();
+                CountedTimerTbskUtils.reschedule(timer, oldSbmplerTbsk,
+                                                 sbmplerTbsk, oldIntervbl,
+                                                 newIntervbl);
             }
-            if (notifierTask != null) {
-                notifierTask.cancel();
-                NotifierTask oldNotifierTask = notifierTask;
-                notifierTask = new NotifierTask();
-                CountedTimerTaskUtils.reschedule(timer, oldNotifierTask,
-                                                 notifierTask, oldInterval,
-                                                 newInterval);
+            if (notifierTbsk != null) {
+                notifierTbsk.cbncel();
+                NotifierTbsk oldNotifierTbsk = notifierTbsk;
+                notifierTbsk = new NotifierTbsk();
+                CountedTimerTbskUtils.reschedule(timer, oldNotifierTbsk,
+                                                 notifierTbsk, oldIntervbl,
+                                                 newIntervbl);
             }
         }
     }
 
     /**
-     * Fire MonitoredVmStructureChanged events.
+     * Fire MonitoredVmStructureChbnged events.
      *
-     * @param inserted List of Monitor objects inserted.
-     * @param removed List of Monitor objects removed.
+     * @pbrbm inserted List of Monitor objects inserted.
+     * @pbrbm removed List of Monitor objects removed.
      */
-    @SuppressWarnings("unchecked") // Cast of result of clone
-    void fireMonitorStatusChangedEvents(List<Monitor> inserted, List<Monitor> removed) {
-        ArrayList<VmListener> registered = null;
-        MonitorStatusChangeEvent ev = null;
+    @SuppressWbrnings("unchecked") // Cbst of result of clone
+    void fireMonitorStbtusChbngedEvents(List<Monitor> inserted, List<Monitor> removed) {
+        ArrbyList<VmListener> registered = null;
+        MonitorStbtusChbngeEvent ev = null;
 
         synchronized(listeners) {
-            registered = (ArrayList)listeners.clone();
+            registered = (ArrbyList)listeners.clone();
         }
 
-        for (Iterator<VmListener> i = registered.iterator(); i.hasNext(); /* empty */) {
+        for (Iterbtor<VmListener> i = registered.iterbtor(); i.hbsNext(); /* empty */) {
             VmListener l = i.next();
             if (ev == null) {
-                ev = new MonitorStatusChangeEvent(this, inserted, removed);
+                ev = new MonitorStbtusChbngeEvent(this, inserted, removed);
             }
-            l.monitorStatusChanged(ev);
+            l.monitorStbtusChbnged(ev);
         }
     }
 
     /**
-     * Fire MonitoredVmStructureChanged events.
+     * Fire MonitoredVmStructureChbnged events.
      */
-    @SuppressWarnings("unchecked") // Cast of result of clone
-    void fireMonitorsUpdatedEvents() {
-        ArrayList<VmListener> registered = null;
+    @SuppressWbrnings("unchecked") // Cbst of result of clone
+    void fireMonitorsUpdbtedEvents() {
+        ArrbyList<VmListener> registered = null;
         VmEvent ev = null;
 
         synchronized(listeners) {
-            registered = (ArrayList)listeners.clone();
+            registered = (ArrbyList)listeners.clone();
         }
 
-        for (Iterator<VmListener> i = registered.iterator(); i.hasNext(); /* empty */) {
+        for (Iterbtor<VmListener> i = registered.iterbtor(); i.hbsNext(); /* empty */) {
             VmListener l = i.next();
             if (ev == null) {
                 ev = new VmEvent(this);
             }
-            l.monitorsUpdated(ev);
+            l.monitorsUpdbted(ev);
         }
     }
 
     /*
-     * Timer Tasks. There are two separate timer tasks here. The SamplerTask
-     * is active whenever we are attached to the remote JVM with a periodic
-     * sampling interval > 0. The NotifierTask is only active if a VmListener
-     * has registered with this RemoteMonitoredVm instance. Also, in the future
-     * we may want to run these tasks at different intervals. Currently,
-     * they run at the same interval and some significant work may
-     * need to be done to complete the separation of these two intervals.
+     * Timer Tbsks. There bre two sepbrbte timer tbsks here. The SbmplerTbsk
+     * is bctive whenever we bre bttbched to the remote JVM with b periodic
+     * sbmpling intervbl > 0. The NotifierTbsk is only bctive if b VmListener
+     * hbs registered with this RemoteMonitoredVm instbnce. Also, in the future
+     * we mby wbnt to run these tbsks bt different intervbls. Currently,
+     * they run bt the sbme intervbl bnd some significbnt work mby
+     * need to be done to complete the sepbrbtion of these two intervbls.
      */
 
     /**
-     * Class to periodically check the state of the defined monitors
-     * for the remote MonitoredVm instance and to notify listeners of
-     * any detected changes.
+     * Clbss to periodicblly check the stbte of the defined monitors
+     * for the remote MonitoredVm instbnce bnd to notify listeners of
+     * bny detected chbnges.
      */
-    private class NotifierTask extends CountedTimerTask {
+    privbte clbss NotifierTbsk extends CountedTimerTbsk {
         public void run() {
             super.run();
             try {
-                MonitorStatus status = getMonitorStatus();
+                MonitorStbtus stbtus = getMonitorStbtus();
 
-                List<Monitor> inserted = status.getInserted();
-                List<Monitor> removed = status.getRemoved();
+                List<Monitor> inserted = stbtus.getInserted();
+                List<Monitor> removed = stbtus.getRemoved();
 
                 if (!inserted.isEmpty() || !removed.isEmpty()) {
-                    fireMonitorStatusChangedEvents(inserted, removed);
+                    fireMonitorStbtusChbngedEvents(inserted, removed);
                 }
-            } catch (MonitorException e) {
-                // XXX: use logging api? fire disconnect events? mark errored?
+            } cbtch (MonitorException e) {
+                // XXX: use logging bpi? fire disconnect events? mbrk errored?
                 // fireDisconnectedEvents();
-                System.err.println("Exception updating monitors for "
+                System.err.println("Exception updbting monitors for "
                                    + getVmIdentifier());
-                e.printStackTrace();
-                // XXX: should we cancle the notifierTask here?
-                // this.cancel();
+                e.printStbckTrbce();
+                // XXX: should we cbncle the notifierTbsk here?
+                // this.cbncel();
             }
         }
     }
 
     /**
-     * Class to periodically sample the remote instrumentation byte buffer
-     * and refresh the local copy. Registered listeners are notified of
-     * the completion of a sampling event.
+     * Clbss to periodicblly sbmple the remote instrumentbtion byte buffer
+     * bnd refresh the locbl copy. Registered listeners bre notified of
+     * the completion of b sbmpling event.
      */
-    private class SamplerTask extends CountedTimerTask {
+    privbte clbss SbmplerTbsk extends CountedTimerTbsk {
         public void run() {
             super.run();
             try {
-                sample();
-                fireMonitorsUpdatedEvents();
+                sbmple();
+                fireMonitorsUpdbtedEvents();
 
-            } catch (RemoteException e) {
-                // XXX: use logging api, mark vm as errored.
-                System.err.println("Exception taking sample for "
+            } cbtch (RemoteException e) {
+                // XXX: use logging bpi, mbrk vm bs errored.
+                System.err.println("Exception tbking sbmple for "
                                    + getVmIdentifier());
-                e.printStackTrace();
-                this.cancel();
+                e.printStbckTrbce();
+                this.cbncel();
             }
         }
     }

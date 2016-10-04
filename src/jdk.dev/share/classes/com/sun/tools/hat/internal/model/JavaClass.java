@@ -1,217 +1,217 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
 /*
- * The Original Code is HAT. The Initial Developer of the
- * Original Code is Bill Foote, with contributions from others
- * at JavaSoft/Sun.
+ * The Originbl Code is HAT. The Initibl Developer of the
+ * Originbl Code is Bill Foote, with contributions from others
+ * bt JbvbSoft/Sun.
  */
 
-package com.sun.tools.hat.internal.model;
+pbckbge com.sun.tools.hbt.internbl.model;
 
-import java.util.Vector;
-import java.util.Enumeration;
-import com.sun.tools.hat.internal.util.CompositeEnumeration;
-import com.sun.tools.hat.internal.parser.ReadBuffer;
+import jbvb.util.Vector;
+import jbvb.util.Enumerbtion;
+import com.sun.tools.hbt.internbl.util.CompositeEnumerbtion;
+import com.sun.tools.hbt.internbl.pbrser.RebdBuffer;
 
 /**
  *
- * @author      Bill Foote
+ * @buthor      Bill Foote
  */
 
 
-public class JavaClass extends JavaHeapObject {
+public clbss JbvbClbss extends JbvbHebpObject {
     // my id
-    private long id;
-    // my name
-    private String name;
+    privbte long id;
+    // my nbme
+    privbte String nbme;
 
-    // These are JavaObjectRef before resolve
-    private JavaThing superclass;
-    private JavaThing loader;
-    private JavaThing signers;
-    private JavaThing protectionDomain;
+    // These bre JbvbObjectRef before resolve
+    privbte JbvbThing superclbss;
+    privbte JbvbThing lobder;
+    privbte JbvbThing signers;
+    privbte JbvbThing protectionDombin;
 
-    // non-static fields
-    private JavaField[] fields;
-    // static fields
-    private JavaStatic[] statics;
+    // non-stbtic fields
+    privbte JbvbField[] fields;
+    // stbtic fields
+    privbte JbvbStbtic[] stbtics;
 
-    private static final JavaClass[] EMPTY_CLASS_ARRAY = new JavaClass[0];
-    // my subclasses
-    private JavaClass[] subclasses = EMPTY_CLASS_ARRAY;
+    privbte stbtic finbl JbvbClbss[] EMPTY_CLASS_ARRAY = new JbvbClbss[0];
+    // my subclbsses
+    privbte JbvbClbss[] subclbsses = EMPTY_CLASS_ARRAY;
 
-    // my instances
-    private Vector<JavaHeapObject> instances = new Vector<JavaHeapObject>();
+    // my instbnces
+    privbte Vector<JbvbHebpObject> instbnces = new Vector<JbvbHebpObject>();
 
     // Who I belong to.  Set on resolve.
-    private Snapshot mySnapshot;
+    privbte Snbpshot mySnbpshot;
 
-    // Size of an instance, including VM overhead
-    private int instanceSize;
-    // Total number of fields including inherited ones
-    private int totalNumFields;
+    // Size of bn instbnce, including VM overhebd
+    privbte int instbnceSize;
+    // Totbl number of fields including inherited ones
+    privbte int totblNumFields;
 
 
-    public JavaClass(long id, String name, long superclassId, long loaderId,
-                     long signersId, long protDomainId,
-                     JavaField[] fields, JavaStatic[] statics,
-                     int instanceSize) {
+    public JbvbClbss(long id, String nbme, long superclbssId, long lobderId,
+                     long signersId, long protDombinId,
+                     JbvbField[] fields, JbvbStbtic[] stbtics,
+                     int instbnceSize) {
         this.id = id;
-        this.name = name;
-        this.superclass = new JavaObjectRef(superclassId);
-        this.loader = new JavaObjectRef(loaderId);
-        this.signers = new JavaObjectRef(signersId);
-        this.protectionDomain = new JavaObjectRef(protDomainId);
+        this.nbme = nbme;
+        this.superclbss = new JbvbObjectRef(superclbssId);
+        this.lobder = new JbvbObjectRef(lobderId);
+        this.signers = new JbvbObjectRef(signersId);
+        this.protectionDombin = new JbvbObjectRef(protDombinId);
         this.fields = fields;
-        this.statics = statics;
-        this.instanceSize = instanceSize;
+        this.stbtics = stbtics;
+        this.instbnceSize = instbnceSize;
     }
 
-    public JavaClass(String name, long superclassId, long loaderId,
-                     long signersId, long protDomainId,
-                     JavaField[] fields, JavaStatic[] statics,
-                     int instanceSize) {
-        this(-1L, name, superclassId, loaderId, signersId,
-             protDomainId, fields, statics, instanceSize);
+    public JbvbClbss(String nbme, long superclbssId, long lobderId,
+                     long signersId, long protDombinId,
+                     JbvbField[] fields, JbvbStbtic[] stbtics,
+                     int instbnceSize) {
+        this(-1L, nbme, superclbssId, lobderId, signersId,
+             protDombinId, fields, stbtics, instbnceSize);
     }
 
-    public final JavaClass getClazz() {
-        return mySnapshot.getJavaLangClass();
+    public finbl JbvbClbss getClbzz() {
+        return mySnbpshot.getJbvbLbngClbss();
     }
 
-    public final int getIdentifierSize() {
-        return mySnapshot.getIdentifierSize();
+    public finbl int getIdentifierSize() {
+        return mySnbpshot.getIdentifierSize();
     }
 
-    public final int getMinimumObjectSize() {
-        return mySnapshot.getMinimumObjectSize();
+    public finbl int getMinimumObjectSize() {
+        return mySnbpshot.getMinimumObjectSize();
     }
 
-    public void resolve(Snapshot snapshot) {
-        if (mySnapshot != null) {
+    public void resolve(Snbpshot snbpshot) {
+        if (mySnbpshot != null) {
             return;
         }
-        mySnapshot = snapshot;
-        resolveSuperclass(snapshot);
-        if (superclass != null) {
-            ((JavaClass) superclass).addSubclass(this);
+        mySnbpshot = snbpshot;
+        resolveSuperclbss(snbpshot);
+        if (superclbss != null) {
+            ((JbvbClbss) superclbss).bddSubclbss(this);
         }
 
-        loader  = loader.dereference(snapshot, null);
-        signers  = signers.dereference(snapshot, null);
-        protectionDomain  = protectionDomain.dereference(snapshot, null);
+        lobder  = lobder.dereference(snbpshot, null);
+        signers  = signers.dereference(snbpshot, null);
+        protectionDombin  = protectionDombin.dereference(snbpshot, null);
 
-        for (int i = 0; i < statics.length; i++) {
-            statics[i].resolve(this, snapshot);
+        for (int i = 0; i < stbtics.length; i++) {
+            stbtics[i].resolve(this, snbpshot);
         }
-        snapshot.getJavaLangClass().addInstance(this);
-        super.resolve(snapshot);
+        snbpshot.getJbvbLbngClbss().bddInstbnce(this);
+        super.resolve(snbpshot);
         return;
     }
 
     /**
-     * Resolve our superclass.  This might be called well before
-     * all instances are available (like when reading deferred
-     * instances in a 1.2 dump file :-)  Calling this is sufficient
-     * to be able to explore this class' fields.
+     * Resolve our superclbss.  This might be cblled well before
+     * bll instbnces bre bvbilbble (like when rebding deferred
+     * instbnces in b 1.2 dump file :-)  Cblling this is sufficient
+     * to be bble to explore this clbss' fields.
      */
-    public void resolveSuperclass(Snapshot snapshot) {
-        if (superclass == null) {
-            // We must be java.lang.Object, so we have no superclass.
+    public void resolveSuperclbss(Snbpshot snbpshot) {
+        if (superclbss == null) {
+            // We must be jbvb.lbng.Object, so we hbve no superclbss.
         } else {
-            totalNumFields = fields.length;
-            superclass = superclass.dereference(snapshot, null);
-            if (superclass == snapshot.getNullThing()) {
-                superclass = null;
+            totblNumFields = fields.length;
+            superclbss = superclbss.dereference(snbpshot, null);
+            if (superclbss == snbpshot.getNullThing()) {
+                superclbss = null;
             } else {
                 try {
-                    JavaClass sc = (JavaClass) superclass;
-                    sc.resolveSuperclass(snapshot);
-                    totalNumFields += sc.totalNumFields;
-                } catch (ClassCastException ex) {
-                    System.out.println("Warning!  Superclass of " + name + " is " + superclass);
-                    superclass = null;
+                    JbvbClbss sc = (JbvbClbss) superclbss;
+                    sc.resolveSuperclbss(snbpshot);
+                    totblNumFields += sc.totblNumFields;
+                } cbtch (ClbssCbstException ex) {
+                    System.out.println("Wbrning!  Superclbss of " + nbme + " is " + superclbss);
+                    superclbss = null;
                 }
             }
         }
     }
 
-    public boolean isString() {
-        return mySnapshot.getJavaLangString() == this;
+    public boolebn isString() {
+        return mySnbpshot.getJbvbLbngString() == this;
     }
 
-    public boolean isClassLoader() {
-        return mySnapshot.getJavaLangClassLoader().isAssignableFrom(this);
+    public boolebn isClbssLobder() {
+        return mySnbpshot.getJbvbLbngClbssLobder().isAssignbbleFrom(this);
     }
 
     /**
-     * Get a numbered field from this class
+     * Get b numbered field from this clbss
      */
-    public JavaField getField(int i) {
+    public JbvbField getField(int i) {
         if (i < 0 || i >= fields.length) {
-            throw new Error("No field " + i + " for " + name);
+            throw new Error("No field " + i + " for " + nbme);
         }
         return fields[i];
     }
 
     /**
-     * Get the total number of fields that are part of an instance of
-     * this class.  That is, include superclasses.
+     * Get the totbl number of fields thbt bre pbrt of bn instbnce of
+     * this clbss.  Thbt is, include superclbsses.
      */
-    public int getNumFieldsForInstance() {
-        return totalNumFields;
+    public int getNumFieldsForInstbnce() {
+        return totblNumFields;
     }
 
     /**
-     * Get a numbered field from all the fields that are part of instance
-     * of this class.  That is, include superclasses.
+     * Get b numbered field from bll the fields thbt bre pbrt of instbnce
+     * of this clbss.  Thbt is, include superclbsses.
      */
-    public JavaField getFieldForInstance(int i) {
-        if (superclass != null) {
-            JavaClass sc = (JavaClass) superclass;
-            if (i < sc.totalNumFields) {
-                return sc.getFieldForInstance(i);
+    public JbvbField getFieldForInstbnce(int i) {
+        if (superclbss != null) {
+            JbvbClbss sc = (JbvbClbss) superclbss;
+            if (i < sc.totblNumFields) {
+                return sc.getFieldForInstbnce(i);
             }
-            i -= sc.totalNumFields;
+            i -= sc.totblNumFields;
         }
         return getField(i);
     }
 
     /**
-     * Get the class responsible for field i, where i is a field number that
-     * could be passed into getFieldForInstance.
+     * Get the clbss responsible for field i, where i is b field number thbt
+     * could be pbssed into getFieldForInstbnce.
      *
-     * @see JavaClass.getFieldForInstance()
+     * @see JbvbClbss.getFieldForInstbnce()
      */
-    public JavaClass getClassForField(int i) {
-        if (superclass != null) {
-            JavaClass sc = (JavaClass) superclass;
-            if (i < sc.totalNumFields) {
-                return sc.getClassForField(i);
+    public JbvbClbss getClbssForField(int i) {
+        if (superclbss != null) {
+            JbvbClbss sc = (JbvbClbss) superclbss;
+            if (i < sc.totblNumFields) {
+                return sc.getClbssForField(i);
             }
         }
         return this;
@@ -221,90 +221,90 @@ public class JavaClass extends JavaHeapObject {
         return id;
     }
 
-    public String getName() {
-        return name;
+    public String getNbme() {
+        return nbme;
     }
 
-    public boolean isArray() {
-        return name.indexOf('[') != -1;
+    public boolebn isArrby() {
+        return nbme.indexOf('[') != -1;
     }
 
-    public Enumeration<JavaHeapObject> getInstances(boolean includeSubclasses) {
-        if (includeSubclasses) {
-            Enumeration<JavaHeapObject> res = instances.elements();
-            for (int i = 0; i < subclasses.length; i++) {
-                res = new CompositeEnumeration(res,
-                              subclasses[i].getInstances(true));
+    public Enumerbtion<JbvbHebpObject> getInstbnces(boolebn includeSubclbsses) {
+        if (includeSubclbsses) {
+            Enumerbtion<JbvbHebpObject> res = instbnces.elements();
+            for (int i = 0; i < subclbsses.length; i++) {
+                res = new CompositeEnumerbtion(res,
+                              subclbsses[i].getInstbnces(true));
             }
             return res;
         } else {
-            return instances.elements();
+            return instbnces.elements();
         }
     }
 
     /**
-     * @return a count of the instances of this class
+     * @return b count of the instbnces of this clbss
      */
-    public int getInstancesCount(boolean includeSubclasses) {
-        int result = instances.size();
-        if (includeSubclasses) {
-            for (int i = 0; i < subclasses.length; i++) {
-                result += subclasses[i].getInstancesCount(includeSubclasses);
+    public int getInstbncesCount(boolebn includeSubclbsses) {
+        int result = instbnces.size();
+        if (includeSubclbsses) {
+            for (int i = 0; i < subclbsses.length; i++) {
+                result += subclbsses[i].getInstbncesCount(includeSubclbsses);
             }
         }
         return result;
     }
 
-    public JavaClass[] getSubclasses() {
-        return subclasses;
+    public JbvbClbss[] getSubclbsses() {
+        return subclbsses;
     }
 
     /**
-     * This can only safely be called after resolve()
+     * This cbn only sbfely be cblled bfter resolve()
      */
-    public JavaClass getSuperclass() {
-        return (JavaClass) superclass;
+    public JbvbClbss getSuperclbss() {
+        return (JbvbClbss) superclbss;
     }
 
     /**
-     * This can only safely be called after resolve()
+     * This cbn only sbfely be cblled bfter resolve()
      */
-    public JavaThing getLoader() {
-        return loader;
+    public JbvbThing getLobder() {
+        return lobder;
     }
 
     /**
-     * This can only safely be called after resolve()
+     * This cbn only sbfely be cblled bfter resolve()
      */
-    public boolean isBootstrap() {
-        return loader == mySnapshot.getNullThing();
+    public boolebn isBootstrbp() {
+        return lobder == mySnbpshot.getNullThing();
     }
 
     /**
-     * This can only safely be called after resolve()
+     * This cbn only sbfely be cblled bfter resolve()
      */
-    public JavaThing getSigners() {
+    public JbvbThing getSigners() {
         return signers;
     }
 
     /**
-     * This can only safely be called after resolve()
+     * This cbn only sbfely be cblled bfter resolve()
      */
-    public JavaThing getProtectionDomain() {
-        return protectionDomain;
+    public JbvbThing getProtectionDombin() {
+        return protectionDombin;
     }
 
-    public JavaField[] getFields() {
+    public JbvbField[] getFields() {
         return fields;
     }
 
     /**
-     * Includes superclass fields
+     * Includes superclbss fields
      */
-    public JavaField[] getFieldsForInstance() {
-        Vector<JavaField> v = new Vector<JavaField>();
-        addFields(v);
-        JavaField[] result = new JavaField[v.size()];
+    public JbvbField[] getFieldsForInstbnce() {
+        Vector<JbvbField> v = new Vector<JbvbField>();
+        bddFields(v);
+        JbvbField[] result = new JbvbField[v.size()];
         for (int i = 0; i < v.size(); i++) {
             result[i] =  v.elementAt(i);
         }
@@ -312,89 +312,89 @@ public class JavaClass extends JavaHeapObject {
     }
 
 
-    public JavaStatic[] getStatics() {
-        return statics;
+    public JbvbStbtic[] getStbtics() {
+        return stbtics;
     }
 
-    // returns value of static field of given name
-    public JavaThing getStaticField(String name) {
-        for (int i = 0; i < statics.length; i++) {
-            JavaStatic s = statics[i];
-            if (s.getField().getName().equals(name)) {
-                return s.getValue();
+    // returns vblue of stbtic field of given nbme
+    public JbvbThing getStbticField(String nbme) {
+        for (int i = 0; i < stbtics.length; i++) {
+            JbvbStbtic s = stbtics[i];
+            if (s.getField().getNbme().equbls(nbme)) {
+                return s.getVblue();
             }
         }
         return null;
     }
 
     public String toString() {
-        return "class " + name;
+        return "clbss " + nbme;
     }
 
-    public int compareTo(JavaThing other) {
-        if (other instanceof JavaClass) {
-            return name.compareTo(((JavaClass) other).name);
+    public int compbreTo(JbvbThing other) {
+        if (other instbnceof JbvbClbss) {
+            return nbme.compbreTo(((JbvbClbss) other).nbme);
         }
-        return super.compareTo(other);
+        return super.compbreTo(other);
     }
 
 
     /**
-     * @return true iff a variable of type this is assignable from an instance
+     * @return true iff b vbribble of type this is bssignbble from bn instbnce
      *          of other
      */
-    public boolean isAssignableFrom(JavaClass other) {
+    public boolebn isAssignbbleFrom(JbvbClbss other) {
         if (this == other) {
             return true;
         } else if (other == null) {
-            return false;
+            return fblse;
         } else {
-            return isAssignableFrom((JavaClass) other.superclass);
-            // Trivial tail recursion:  I have faith in javac.
+            return isAssignbbleFrom((JbvbClbss) other.superclbss);
+            // Trivibl tbil recursion:  I hbve fbith in jbvbc.
         }
     }
 
     /**
-     * Describe the reference that this thing has to target.  This will only
-     * be called if target is in the array returned by getChildrenForRootset.
+     * Describe the reference thbt this thing hbs to tbrget.  This will only
+     * be cblled if tbrget is in the brrby returned by getChildrenForRootset.
      */
-     public String describeReferenceTo(JavaThing target, Snapshot ss) {
-        for (int i = 0; i < statics.length; i++) {
-            JavaField f = statics[i].getField();
-            if (f.hasId()) {
-                JavaThing other = statics[i].getValue();
-                if (other == target) {
-                    return "static field " + f.getName();
+     public String describeReferenceTo(JbvbThing tbrget, Snbpshot ss) {
+        for (int i = 0; i < stbtics.length; i++) {
+            JbvbField f = stbtics[i].getField();
+            if (f.hbsId()) {
+                JbvbThing other = stbtics[i].getVblue();
+                if (other == tbrget) {
+                    return "stbtic field " + f.getNbme();
                 }
             }
         }
-        return super.describeReferenceTo(target, ss);
+        return super.describeReferenceTo(tbrget, ss);
     }
 
     /**
-     * @return the size of an instance of this class.  Gives 0 for an array
+     * @return the size of bn instbnce of this clbss.  Gives 0 for bn brrby
      *          type.
      */
-    public int getInstanceSize() {
-        return instanceSize + mySnapshot.getMinimumObjectSize();
+    public int getInstbnceSize() {
+        return instbnceSize + mySnbpshot.getMinimumObjectSize();
     }
 
 
     /**
-     * @return The size of all instances of this class.  Correctly handles
-     *          arrays.
+     * @return The size of bll instbnces of this clbss.  Correctly hbndles
+     *          brrbys.
      */
-    public long getTotalInstanceSize() {
-        int count = instances.size();
-        if (count == 0 || !isArray()) {
-            return count * instanceSize;
+    public long getTotblInstbnceSize() {
+        int count = instbnces.size();
+        if (count == 0 || !isArrby()) {
+            return count * instbnceSize;
         }
 
-        // array class and non-zero count, we have to
-        // get the size of each instance and sum it
+        // brrby clbss bnd non-zero count, we hbve to
+        // get the size of ebch instbnce bnd sum it
         long result = 0;
         for (int i = 0; i < count; i++) {
-            JavaThing t = (JavaThing) instances.elementAt(i);
+            JbvbThing t = (JbvbThing) instbnces.elementAt(i);
             result += t.getSize();
         }
         return result;
@@ -404,100 +404,100 @@ public class JavaClass extends JavaHeapObject {
      * @return the size of this object
      */
     public int getSize() {
-        JavaClass cl = mySnapshot.getJavaLangClass();
+        JbvbClbss cl = mySnbpshot.getJbvbLbngClbss();
         if (cl == null) {
             return 0;
         } else {
-            return cl.getInstanceSize();
+            return cl.getInstbnceSize();
         }
     }
 
-    public void visitReferencedObjects(JavaHeapObjectVisitor v) {
+    public void visitReferencedObjects(JbvbHebpObjectVisitor v) {
         super.visitReferencedObjects(v);
-        JavaHeapObject sc = getSuperclass();
-        if (sc != null) v.visit(getSuperclass());
+        JbvbHebpObject sc = getSuperclbss();
+        if (sc != null) v.visit(getSuperclbss());
 
-        JavaThing other;
-        other = getLoader();
-        if (other instanceof JavaHeapObject) {
-            v.visit((JavaHeapObject)other);
+        JbvbThing other;
+        other = getLobder();
+        if (other instbnceof JbvbHebpObject) {
+            v.visit((JbvbHebpObject)other);
         }
         other = getSigners();
-        if (other instanceof JavaHeapObject) {
-            v.visit((JavaHeapObject)other);
+        if (other instbnceof JbvbHebpObject) {
+            v.visit((JbvbHebpObject)other);
         }
-        other = getProtectionDomain();
-        if (other instanceof JavaHeapObject) {
-            v.visit((JavaHeapObject)other);
+        other = getProtectionDombin();
+        if (other instbnceof JbvbHebpObject) {
+            v.visit((JbvbHebpObject)other);
         }
 
-        for (int i = 0; i < statics.length; i++) {
-            JavaField f = statics[i].getField();
-            if (!v.exclude(this, f) && f.hasId()) {
-                other = statics[i].getValue();
-                if (other instanceof JavaHeapObject) {
-                    v.visit((JavaHeapObject) other);
+        for (int i = 0; i < stbtics.length; i++) {
+            JbvbField f = stbtics[i].getField();
+            if (!v.exclude(this, f) && f.hbsId()) {
+                other = stbtics[i].getVblue();
+                if (other instbnceof JbvbHebpObject) {
+                    v.visit((JbvbHebpObject) other);
                 }
             }
         }
     }
 
-    // package-privates below this point
-    final ReadBuffer getReadBuffer() {
-        return mySnapshot.getReadBuffer();
+    // pbckbge-privbtes below this point
+    finbl RebdBuffer getRebdBuffer() {
+        return mySnbpshot.getRebdBuffer();
     }
 
-    final void setNew(JavaHeapObject obj, boolean flag) {
-        mySnapshot.setNew(obj, flag);
+    finbl void setNew(JbvbHebpObject obj, boolebn flbg) {
+        mySnbpshot.setNew(obj, flbg);
     }
 
-    final boolean isNew(JavaHeapObject obj) {
-        return mySnapshot.isNew(obj);
+    finbl boolebn isNew(JbvbHebpObject obj) {
+        return mySnbpshot.isNew(obj);
     }
 
-    final StackTrace getSiteTrace(JavaHeapObject obj) {
-        return mySnapshot.getSiteTrace(obj);
+    finbl StbckTrbce getSiteTrbce(JbvbHebpObject obj) {
+        return mySnbpshot.getSiteTrbce(obj);
     }
 
-    final void addReferenceFromRoot(Root root, JavaHeapObject obj) {
-        mySnapshot.addReferenceFromRoot(root, obj);
+    finbl void bddReferenceFromRoot(Root root, JbvbHebpObject obj) {
+        mySnbpshot.bddReferenceFromRoot(root, obj);
     }
 
-    final Root getRoot(JavaHeapObject obj) {
-        return mySnapshot.getRoot(obj);
+    finbl Root getRoot(JbvbHebpObject obj) {
+        return mySnbpshot.getRoot(obj);
     }
 
-    final Snapshot getSnapshot() {
-        return mySnapshot;
+    finbl Snbpshot getSnbpshot() {
+        return mySnbpshot;
     }
 
-    void addInstance(JavaHeapObject inst) {
-        instances.addElement(inst);
+    void bddInstbnce(JbvbHebpObject inst) {
+        instbnces.bddElement(inst);
     }
 
-    // Internals only below this point
-    private void addFields(Vector<JavaField> v) {
-        if (superclass != null) {
-            ((JavaClass) superclass).addFields(v);
+    // Internbls only below this point
+    privbte void bddFields(Vector<JbvbField> v) {
+        if (superclbss != null) {
+            ((JbvbClbss) superclbss).bddFields(v);
         }
         for (int i = 0; i < fields.length; i++) {
-            v.addElement(fields[i]);
+            v.bddElement(fields[i]);
         }
     }
 
-    private void addSubclassInstances(Vector<JavaHeapObject> v) {
-        for (int i = 0; i < subclasses.length; i++) {
-            subclasses[i].addSubclassInstances(v);
+    privbte void bddSubclbssInstbnces(Vector<JbvbHebpObject> v) {
+        for (int i = 0; i < subclbsses.length; i++) {
+            subclbsses[i].bddSubclbssInstbnces(v);
         }
-        for (int i = 0; i < instances.size(); i++) {
-            v.addElement(instances.elementAt(i));
+        for (int i = 0; i < instbnces.size(); i++) {
+            v.bddElement(instbnces.elementAt(i));
         }
     }
 
-    private void addSubclass(JavaClass sub) {
-        JavaClass newValue[] = new JavaClass[subclasses.length + 1];
-        System.arraycopy(subclasses, 0, newValue, 0, subclasses.length);
-        newValue[subclasses.length] = sub;
-        subclasses = newValue;
+    privbte void bddSubclbss(JbvbClbss sub) {
+        JbvbClbss newVblue[] = new JbvbClbss[subclbsses.length + 1];
+        System.brrbycopy(subclbsses, 0, newVblue, 0, subclbsses.length);
+        newVblue[subclbsses.length] = sub;
+        subclbsses = newVblue;
     }
 }

@@ -1,236 +1,236 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  *
  */
 
 /*
  *
- * (C) Copyright IBM Corp.  and others 1998-2013 - All Rights Reserved
+ * (C) Copyright IBM Corp.  bnd others 1998-2013 - All Rights Reserved
  *
  */
 
 #include "LETypes.h"
-#include "MorphTables.h"
-#include "StateTables.h"
-#include "MorphStateTables.h"
-#include "SubtableProcessor2.h"
-#include "StateTableProcessor2.h"
-#include "LEGlyphStorage.h"
-#include "LESwaps.h"
-#include "LookupTables.h"
+#include "MorphTbbles.h"
+#include "StbteTbbles.h"
+#include "MorphStbteTbbles.h"
+#include "SubtbbleProcessor2.h"
+#include "StbteTbbleProcessor2.h"
+#include "LEGlyphStorbge.h"
+#include "LESwbps.h"
+#include "LookupTbbles.h"
 
 U_NAMESPACE_BEGIN
 
-StateTableProcessor2::StateTableProcessor2()
+StbteTbbleProcessor2::StbteTbbleProcessor2()
 {
 }
 
-StateTableProcessor2::StateTableProcessor2(const LEReferenceTo<MorphSubtableHeader2> &morphSubtableHeader, LEErrorCode &success)
-  : SubtableProcessor2(morphSubtableHeader, success), stateTableHeader(morphSubtableHeader, success),
-    stHeader(stateTableHeader, success, (const StateTableHeader2*)&stateTableHeader->stHeader),
-    nClasses(0), classTableOffset(0), stateArrayOffset(0), entryTableOffset(0), classTable(), format(0),
-    stateArray()
+StbteTbbleProcessor2::StbteTbbleProcessor2(const LEReferenceTo<MorphSubtbbleHebder2> &morphSubtbbleHebder, LEErrorCode &success)
+  : SubtbbleProcessor2(morphSubtbbleHebder, success), stbteTbbleHebder(morphSubtbbleHebder, success),
+    stHebder(stbteTbbleHebder, success, (const StbteTbbleHebder2*)&stbteTbbleHebder->stHebder),
+    nClbsses(0), clbssTbbleOffset(0), stbteArrbyOffset(0), entryTbbleOffset(0), clbssTbble(), formbt(0),
+    stbteArrby()
 {
   if (LE_FAILURE(success)) {
     return;
   }
-  nClasses = SWAPL(stHeader->nClasses);
-  classTableOffset = SWAPL(stHeader->classTableOffset);
-  stateArrayOffset = SWAPL(stHeader->stateArrayOffset);
-  entryTableOffset = SWAPL(stHeader->entryTableOffset);
+  nClbsses = SWAPL(stHebder->nClbsses);
+  clbssTbbleOffset = SWAPL(stHebder->clbssTbbleOffset);
+  stbteArrbyOffset = SWAPL(stHebder->stbteArrbyOffset);
+  entryTbbleOffset = SWAPL(stHebder->entryTbbleOffset);
 
-  classTable = LEReferenceTo<LookupTable>(stHeader, success, classTableOffset);
-  format = SWAPW(classTable->format);
+  clbssTbble = LEReferenceTo<LookupTbble>(stHebder, success, clbssTbbleOffset);
+  formbt = SWAPW(clbssTbble->formbt);
 
-  stateArray = LEReferenceToArrayOf<EntryTableIndex2>(stHeader, success, stateArrayOffset, LE_UNBOUNDED_ARRAY);
+  stbteArrby = LEReferenceToArrbyOf<EntryTbbleIndex2>(stHebder, success, stbteArrbyOffset, LE_UNBOUNDED_ARRAY);
 }
 
-StateTableProcessor2::~StateTableProcessor2()
+StbteTbbleProcessor2::~StbteTbbleProcessor2()
 {
 }
 
-void StateTableProcessor2::process(LEGlyphStorage &glyphStorage, LEErrorCode &success)
+void StbteTbbleProcessor2::process(LEGlyphStorbge &glyphStorbge, LEErrorCode &success)
 {
     if (LE_FAILURE(success)) return;
-    // Start at state 0
-    // XXX: How do we know when to start at state 1?
-    le_uint16 currentState = 0;
-    le_int32 glyphCount = glyphStorage.getGlyphCount();
+    // Stbrt bt stbte 0
+    // XXX: How do we know when to stbrt bt stbte 1?
+    le_uint16 currentStbte = 0;
+    le_int32 glyphCount = glyphStorbge.getGlyphCount();
 
     LE_STATE_PATIENCE_INIT();
 
     le_int32 currGlyph = 0;
-    if ((coverage & scfReverse2) != 0) {  // process glyphs in descending order
+    if ((coverbge & scfReverse2) != 0) {  // process glyphs in descending order
         currGlyph = glyphCount - 1;
         dir = -1;
     } else {
         dir = 1;
     }
 
-    beginStateTable();
-    switch (format) {
-        case ltfSimpleArray: {
+    beginStbteTbble();
+    switch (formbt) {
+        cbse ltfSimpleArrby: {
 #ifdef TEST_FORMAT
-          LEReferenceTo<SimpleArrayLookupTable> lookupTable0(classTable, success);
-          if(LE_FAILURE(success)) break;
+          LEReferenceTo<SimpleArrbyLookupTbble> lookupTbble0(clbssTbble, success);
+          if(LE_FAILURE(success)) brebk;
             while ((dir == 1 && currGlyph <= glyphCount) || (dir == -1 && currGlyph >= -1)) {
-                if (LE_FAILURE(success)) break;
+                if (LE_FAILURE(success)) brebk;
                 if (LE_STATE_PATIENCE_DECR()) {
-                  LE_DEBUG_BAD_FONT("patience exceeded - state table not moving")
-                  break; // patience exceeded.
+                  LE_DEBUG_BAD_FONT("pbtience exceeded - stbte tbble not moving")
+                  brebk; // pbtience exceeded.
                 }
-                LookupValue classCode = classCodeOOB;
+                LookupVblue clbssCode = clbssCodeOOB;
                 if (currGlyph == glyphCount || currGlyph == -1) {
-                    // XXX: How do we handle EOT vs. EOL?
-                    classCode = classCodeEOT;
+                    // XXX: How do we hbndle EOT vs. EOL?
+                    clbssCode = clbssCodeEOT;
                 } else {
-                    LEGlyphID gid = glyphStorage[currGlyph];
+                    LEGlyphID gid = glyphStorbge[currGlyph];
                     TTGlyphID glyphCode = (TTGlyphID) LE_GET_GLYPH(gid);
 
                     if (glyphCode == 0xFFFF) {
-                        classCode = classCodeDEL;
+                        clbssCode = clbssCodeDEL;
                     } else {
-                        classCode = SWAPW(lookupTable0->valueArray[gid]);
+                        clbssCode = SWAPW(lookupTbble0->vblueArrby[gid]);
                     }
                 }
-                EntryTableIndex2 entryTableIndex = SWAPW(stateArray(classCode + currentState * nClasses, success));
+                EntryTbbleIndex2 entryTbbleIndex = SWAPW(stbteArrby(clbssCode + currentStbte * nClbsses, success));
                 LE_STATE_PATIENCE_CURR(le_int32, currGlyph);
-                currentState = processStateEntry(glyphStorage, currGlyph, entryTableIndex); // return a zero-based index instead of a byte offset
+                currentStbte = processStbteEntry(glyphStorbge, currGlyph, entryTbbleIndex); // return b zero-bbsed index instebd of b byte offset
                 LE_STATE_PATIENCE_INCR(currGlyph);
             }
 #endif
-            break;
+            brebk;
         }
-        case ltfSegmentSingle: {
-          LEReferenceTo<SegmentSingleLookupTable> lookupTable2(classTable, success);
-          if(LE_FAILURE(success)) break;
+        cbse ltfSegmentSingle: {
+          LEReferenceTo<SegmentSingleLookupTbble> lookupTbble2(clbssTbble, success);
+          if(LE_FAILURE(success)) brebk;
             while ((dir == 1 && currGlyph <= glyphCount) || (dir == -1 && currGlyph >= -1)) {
-                if (LE_FAILURE(success)) break;
+                if (LE_FAILURE(success)) brebk;
                 if (LE_STATE_PATIENCE_DECR()) {
-                  LE_DEBUG_BAD_FONT("patience exceeded  - state table not moving")
-                  break; // patience exceeded.
+                  LE_DEBUG_BAD_FONT("pbtience exceeded  - stbte tbble not moving")
+                  brebk; // pbtience exceeded.
                 }
-                LookupValue classCode = classCodeOOB;
+                LookupVblue clbssCode = clbssCodeOOB;
                 if (currGlyph == glyphCount || currGlyph == -1) {
-                    // XXX: How do we handle EOT vs. EOL?
-                    classCode = classCodeEOT;
+                    // XXX: How do we hbndle EOT vs. EOL?
+                    clbssCode = clbssCodeEOT;
                 } else {
-                    LEGlyphID gid = glyphStorage[currGlyph];
+                    LEGlyphID gid = glyphStorbge[currGlyph];
                     TTGlyphID glyphCode = (TTGlyphID) LE_GET_GLYPH(gid);
 
                     if (glyphCode == 0xFFFF) {
-                        classCode = classCodeDEL;
+                        clbssCode = clbssCodeDEL;
                     } else {
                       const LookupSegment *segment =
-                        lookupTable2->lookupSegment(lookupTable2, lookupTable2->segments, gid, success);
+                        lookupTbble2->lookupSegment(lookupTbble2, lookupTbble2->segments, gid, success);
                         if (segment != NULL && LE_SUCCESS(success)) {
-                            classCode = SWAPW(segment->value);
+                            clbssCode = SWAPW(segment->vblue);
                         }
                     }
                 }
-                EntryTableIndex2 entryTableIndex = SWAPW(stateArray(classCode + currentState * nClasses,success));
+                EntryTbbleIndex2 entryTbbleIndex = SWAPW(stbteArrby(clbssCode + currentStbte * nClbsses,success));
                 LE_STATE_PATIENCE_CURR(le_int32, currGlyph);
-                currentState = processStateEntry(glyphStorage, currGlyph, entryTableIndex, success);
+                currentStbte = processStbteEntry(glyphStorbge, currGlyph, entryTbbleIndex, success);
                 LE_STATE_PATIENCE_INCR(currGlyph);
             }
-            break;
+            brebk;
         }
-        case ltfSegmentArray: {
-          //printf("Lookup Table Format4: specific interpretation needed!\n");
-            break;
+        cbse ltfSegmentArrby: {
+          //printf("Lookup Tbble Formbt4: specific interpretbtion needed!\n");
+            brebk;
         }
-        case ltfSingleTable: {
-            LEReferenceTo<SingleTableLookupTable> lookupTable6(classTable, success);
+        cbse ltfSingleTbble: {
+            LEReferenceTo<SingleTbbleLookupTbble> lookupTbble6(clbssTbble, success);
             while ((dir == 1 && currGlyph <= glyphCount) || (dir == -1 && currGlyph >= -1)) {
-                if (LE_FAILURE(success)) break;
+                if (LE_FAILURE(success)) brebk;
                 if (LE_STATE_PATIENCE_DECR()) {
-                  LE_DEBUG_BAD_FONT("patience exceeded - state table not moving")
-                  break; // patience exceeded.
+                  LE_DEBUG_BAD_FONT("pbtience exceeded - stbte tbble not moving")
+                  brebk; // pbtience exceeded.
                 }
-                LookupValue classCode = classCodeOOB;
+                LookupVblue clbssCode = clbssCodeOOB;
                 if (currGlyph == glyphCount || currGlyph == -1) {
-                    // XXX: How do we handle EOT vs. EOL?
-                    classCode = classCodeEOT;
+                    // XXX: How do we hbndle EOT vs. EOL?
+                    clbssCode = clbssCodeEOT;
                 } else if(currGlyph > glyphCount) {
-                  // note if > glyphCount, we've run off the end (bad font)
+                  // note if > glyphCount, we've run off the end (bbd font)
                   currGlyph = glyphCount;
-                  classCode = classCodeEOT;
+                  clbssCode = clbssCodeEOT;
                 } else {
-                    LEGlyphID gid = glyphStorage[currGlyph];
+                    LEGlyphID gid = glyphStorbge[currGlyph];
                     TTGlyphID glyphCode = (TTGlyphID) LE_GET_GLYPH(gid);
 
                     if (glyphCode == 0xFFFF) {
-                        classCode = classCodeDEL;
+                        clbssCode = clbssCodeDEL;
                     } else {
-                      const LookupSingle *segment = lookupTable6->lookupSingle(lookupTable6, lookupTable6->entries, gid, success);
+                      const LookupSingle *segment = lookupTbble6->lookupSingle(lookupTbble6, lookupTbble6->entries, gid, success);
                         if (segment != NULL) {
-                            classCode = SWAPW(segment->value);
+                            clbssCode = SWAPW(segment->vblue);
                         }
                     }
                 }
-                EntryTableIndex2 entryTableIndex = SWAPW(stateArray(classCode + currentState * nClasses, success));
+                EntryTbbleIndex2 entryTbbleIndex = SWAPW(stbteArrby(clbssCode + currentStbte * nClbsses, success));
                 LE_STATE_PATIENCE_CURR(le_int32, currGlyph);
-                currentState = processStateEntry(glyphStorage, currGlyph, entryTableIndex, success);
+                currentStbte = processStbteEntry(glyphStorbge, currGlyph, entryTbbleIndex, success);
                 LE_STATE_PATIENCE_INCR(currGlyph);
             }
-            break;
+            brebk;
         }
-        case ltfTrimmedArray: {
-            LEReferenceTo<TrimmedArrayLookupTable> lookupTable8(classTable, success);
-            if (LE_FAILURE(success)) break;
-            TTGlyphID firstGlyph = SWAPW(lookupTable8->firstGlyph);
-            TTGlyphID lastGlyph  = firstGlyph + SWAPW(lookupTable8->glyphCount);
+        cbse ltfTrimmedArrby: {
+            LEReferenceTo<TrimmedArrbyLookupTbble> lookupTbble8(clbssTbble, success);
+            if (LE_FAILURE(success)) brebk;
+            TTGlyphID firstGlyph = SWAPW(lookupTbble8->firstGlyph);
+            TTGlyphID lbstGlyph  = firstGlyph + SWAPW(lookupTbble8->glyphCount);
 
             while ((dir == 1 && currGlyph <= glyphCount) || (dir == -1 && currGlyph >= -1)) {
                 if(LE_STATE_PATIENCE_DECR()) {
-                  LE_DEBUG_BAD_FONT("patience exceeded - state table not moving")
-                  break; // patience exceeded.
+                  LE_DEBUG_BAD_FONT("pbtience exceeded - stbte tbble not moving")
+                  brebk; // pbtience exceeded.
                 }
 
-                LookupValue classCode = classCodeOOB;
+                LookupVblue clbssCode = clbssCodeOOB;
                 if (currGlyph == glyphCount || currGlyph == -1) {
-                    // XXX: How do we handle EOT vs. EOL?
-                    classCode = classCodeEOT;
+                    // XXX: How do we hbndle EOT vs. EOL?
+                    clbssCode = clbssCodeEOT;
                 } else {
-                    TTGlyphID glyphCode = (TTGlyphID) LE_GET_GLYPH(glyphStorage[currGlyph]);
+                    TTGlyphID glyphCode = (TTGlyphID) LE_GET_GLYPH(glyphStorbge[currGlyph]);
                     if (glyphCode == 0xFFFF) {
-                        classCode = classCodeDEL;
-                    } else if ((glyphCode >= firstGlyph) && (glyphCode < lastGlyph)) {
-                        classCode = SWAPW(lookupTable8->valueArray[glyphCode - firstGlyph]);
+                        clbssCode = clbssCodeDEL;
+                    } else if ((glyphCode >= firstGlyph) && (glyphCode < lbstGlyph)) {
+                        clbssCode = SWAPW(lookupTbble8->vblueArrby[glyphCode - firstGlyph]);
                     }
                 }
-                EntryTableIndex2 entryTableIndex = SWAPW(stateArray(classCode + currentState * nClasses, success));
+                EntryTbbleIndex2 entryTbbleIndex = SWAPW(stbteArrby(clbssCode + currentStbte * nClbsses, success));
                 LE_STATE_PATIENCE_CURR(le_int32, currGlyph);
-                currentState = processStateEntry(glyphStorage, currGlyph, entryTableIndex, success);
+                currentStbte = processStbteEntry(glyphStorbge, currGlyph, entryTbbleIndex, success);
                 LE_STATE_PATIENCE_INCR(currGlyph);
             }
-            break;
+            brebk;
         }
-        default:
-            break;
+        defbult:
+            brebk;
     }
 
-    endStateTable();
+    endStbteTbble();
 }
 
 U_NAMESPACE_END

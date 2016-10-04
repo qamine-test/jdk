@@ -1,141 +1,141 @@
 /*
- * Copyright (c) 2005, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.security.jgss.wrapper;
+pbckbge sun.security.jgss.wrbpper;
 
 import org.ietf.jgss.*;
-import java.security.Provider;
+import jbvb.security.Provider;
 import sun.security.jgss.GSSUtil;
-import sun.security.jgss.spi.GSSCredentialSpi;
-import sun.security.jgss.spi.GSSNameSpi;
+import sun.security.jgss.spi.GSSCredentiblSpi;
+import sun.security.jgss.spi.GSSNbmeSpi;
 
 /**
- * This class is essentially a wrapper class for the gss_cred_id_t
- * structure of the native GSS library.
- * @author Valerie Peng
+ * This clbss is essentiblly b wrbpper clbss for the gss_cred_id_t
+ * structure of the nbtive GSS librbry.
+ * @buthor Vblerie Peng
  * @since 1.6
  */
-public class GSSCredElement implements GSSCredentialSpi {
+public clbss GSSCredElement implements GSSCredentiblSpi {
 
-    private int usage;
+    privbte int usbge;
     long pCred; // Pointer to the gss_cred_id_t structure
-    private GSSNameElement name = null;
-    private GSSLibStub cStub;
+    privbte GSSNbmeElement nbme = null;
+    privbte GSSLibStub cStub;
 
-    // Perform the necessary ServicePermission check on this cred
+    // Perform the necessbry ServicePermission check on this cred
     void doServicePermCheck() throws GSSException {
         if (GSSUtil.isKerberosMech(cStub.getMech())) {
-            if (System.getSecurityManager() != null) {
-                if (isInitiatorCredential()) {
-                    String tgsName = Krb5Util.getTGSName(name);
-                    Krb5Util.checkServicePermission(tgsName, "initiate");
+            if (System.getSecurityMbnbger() != null) {
+                if (isInitibtorCredentibl()) {
+                    String tgsNbme = Krb5Util.getTGSNbme(nbme);
+                    Krb5Util.checkServicePermission(tgsNbme, "initibte");
                 }
-                if (isAcceptorCredential() &&
-                    name != GSSNameElement.DEF_ACCEPTOR) {
-                    String krbName = name.getKrbName();
-                    Krb5Util.checkServicePermission(krbName, "accept");
+                if (isAcceptorCredentibl() &&
+                    nbme != GSSNbmeElement.DEF_ACCEPTOR) {
+                    String krbNbme = nbme.getKrbNbme();
+                    Krb5Util.checkServicePermission(krbNbme, "bccept");
                 }
             }
         }
     }
 
-    // Construct delegation cred using the actual context mech and srcName
-    GSSCredElement(long pCredentials, GSSNameElement srcName, Oid mech)
+    // Construct delegbtion cred using the bctubl context mech bnd srcNbme
+    GSSCredElement(long pCredentibls, GSSNbmeElement srcNbme, Oid mech)
         throws GSSException {
-        pCred = pCredentials;
-        cStub = GSSLibStub.getInstance(mech);
-        usage = GSSCredential.INITIATE_ONLY;
-        name = srcName;
+        pCred = pCredentibls;
+        cStub = GSSLibStub.getInstbnce(mech);
+        usbge = GSSCredentibl.INITIATE_ONLY;
+        nbme = srcNbme;
     }
 
-    GSSCredElement(GSSNameElement name, int lifetime, int usage,
+    GSSCredElement(GSSNbmeElement nbme, int lifetime, int usbge,
                    GSSLibStub stub) throws GSSException {
         cStub = stub;
-        this.usage = usage;
+        this.usbge = usbge;
 
-        if (name != null) { // Could be GSSNameElement.DEF_ACCEPTOR
-            this.name = name;
+        if (nbme != null) { // Could be GSSNbmeElement.DEF_ACCEPTOR
+            this.nbme = nbme;
             doServicePermCheck();
-            pCred = cStub.acquireCred(this.name.pName, lifetime, usage);
+            pCred = cStub.bcquireCred(this.nbme.pNbme, lifetime, usbge);
         } else {
-            pCred = cStub.acquireCred(0, lifetime, usage);
-            this.name = new GSSNameElement(cStub.getCredName(pCred), cStub);
+            pCred = cStub.bcquireCred(0, lifetime, usbge);
+            this.nbme = new GSSNbmeElement(cStub.getCredNbme(pCred), cStub);
             doServicePermCheck();
         }
     }
 
     public Provider getProvider() {
-        return SunNativeProvider.INSTANCE;
+        return SunNbtiveProvider.INSTANCE;
     }
 
     public void dispose() throws GSSException {
-        name = null;
+        nbme = null;
         if (pCred != 0) {
-            pCred = cStub.releaseCred(pCred);
+            pCred = cStub.relebseCred(pCred);
         }
     }
 
-    public GSSNameElement getName() throws GSSException {
-        return (name == GSSNameElement.DEF_ACCEPTOR ?
-            null : name);
+    public GSSNbmeElement getNbme() throws GSSException {
+        return (nbme == GSSNbmeElement.DEF_ACCEPTOR ?
+            null : nbme);
     }
 
     public int getInitLifetime() throws GSSException {
-        if (isInitiatorCredential()) {
+        if (isInitibtorCredentibl()) {
             return cStub.getCredTime(pCred);
         } else return 0;
     }
 
     public int getAcceptLifetime() throws GSSException {
-        if (isAcceptorCredential()) {
+        if (isAcceptorCredentibl()) {
             return cStub.getCredTime(pCred);
         } else return 0;
     }
 
-    public boolean isInitiatorCredential() {
-        return (usage != GSSCredential.ACCEPT_ONLY);
+    public boolebn isInitibtorCredentibl() {
+        return (usbge != GSSCredentibl.ACCEPT_ONLY);
     }
 
-    public boolean isAcceptorCredential() {
-        return (usage != GSSCredential.INITIATE_ONLY);
+    public boolebn isAcceptorCredentibl() {
+        return (usbge != GSSCredentibl.INITIATE_ONLY);
     }
 
-    public Oid getMechanism() {
+    public Oid getMechbnism() {
         return cStub.getMech();
     }
 
     public String toString() {
-        // No hex bytes available for native impl
+        // No hex bytes bvbilbble for nbtive impl
         return "N/A";
     }
 
-    protected void finalize() throws Throwable {
+    protected void finblize() throws Throwbble {
         dispose();
     }
 
     @Override
-    public GSSCredentialSpi impersonate(GSSNameSpi name) throws GSSException {
+    public GSSCredentiblSpi impersonbte(GSSNbmeSpi nbme) throws GSSException {
         throw new GSSException(GSSException.FAILURE, -1,
                 "Not supported yet");
     }

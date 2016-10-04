@@ -1,513 +1,513 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.security.auth.login;
+pbckbge jbvbx.security.buth.login;
 
-import javax.security.auth.AuthPermission;
+import jbvbx.security.buth.AuthPermission;
 
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.security.PrivilegedExceptionAction;
-import java.security.PrivilegedActionException;
-import java.security.NoSuchAlgorithmException;
-import java.security.NoSuchProviderException;
-import java.security.Provider;
-import java.security.Security;
-import java.util.Objects;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import jbvb.security.PrivilegedExceptionAction;
+import jbvb.security.PrivilegedActionException;
+import jbvb.security.NoSuchAlgorithmException;
+import jbvb.security.NoSuchProviderException;
+import jbvb.security.Provider;
+import jbvb.security.Security;
+import jbvb.util.Objects;
 
-import sun.security.jca.GetInstance;
+import sun.security.jcb.GetInstbnce;
 
 /**
- * A Configuration object is responsible for specifying which LoginModules
- * should be used for a particular application, and in what order the
+ * A Configurbtion object is responsible for specifying which LoginModules
+ * should be used for b pbrticulbr bpplicbtion, bnd in whbt order the
  * LoginModules should be invoked.
  *
- * <p> A login configuration contains the following information.
- * Note that this example only represents the default syntax for the
- * {@code Configuration}.  Subclass implementations of this class
- * may implement alternative syntaxes and may retrieve the
- * {@code Configuration} from any source such as files, databases,
+ * <p> A login configurbtion contbins the following informbtion.
+ * Note thbt this exbmple only represents the defbult syntbx for the
+ * {@code Configurbtion}.  Subclbss implementbtions of this clbss
+ * mby implement blternbtive syntbxes bnd mby retrieve the
+ * {@code Configurbtion} from bny source such bs files, dbtbbbses,
  * or servers.
  *
  * <pre>
- *      Name {
- *            ModuleClass  Flag    ModuleOptions;
- *            ModuleClass  Flag    ModuleOptions;
- *            ModuleClass  Flag    ModuleOptions;
+ *      Nbme {
+ *            ModuleClbss  Flbg    ModuleOptions;
+ *            ModuleClbss  Flbg    ModuleOptions;
+ *            ModuleClbss  Flbg    ModuleOptions;
  *      };
- *      Name {
- *            ModuleClass  Flag    ModuleOptions;
- *            ModuleClass  Flag    ModuleOptions;
+ *      Nbme {
+ *            ModuleClbss  Flbg    ModuleOptions;
+ *            ModuleClbss  Flbg    ModuleOptions;
  *      };
  *      other {
- *            ModuleClass  Flag    ModuleOptions;
- *            ModuleClass  Flag    ModuleOptions;
+ *            ModuleClbss  Flbg    ModuleOptions;
+ *            ModuleClbss  Flbg    ModuleOptions;
  *      };
  * </pre>
  *
- * <p> Each entry in the {@code Configuration} is indexed via an
- * application name, <i>Name</i>, and contains a list of
- * LoginModules configured for that application.  Each {@code LoginModule}
- * is specified via its fully qualified class name.
- * Authentication proceeds down the module list in the exact order specified.
- * If an application does not have a specific entry,
- * it defaults to the specific entry for "<i>other</i>".
+ * <p> Ebch entry in the {@code Configurbtion} is indexed vib bn
+ * bpplicbtion nbme, <i>Nbme</i>, bnd contbins b list of
+ * LoginModules configured for thbt bpplicbtion.  Ebch {@code LoginModule}
+ * is specified vib its fully qublified clbss nbme.
+ * Authenticbtion proceeds down the module list in the exbct order specified.
+ * If bn bpplicbtion does not hbve b specific entry,
+ * it defbults to the specific entry for "<i>other</i>".
  *
- * <p> The <i>Flag</i> value controls the overall behavior as authentication
- * proceeds down the stack.  The following represents a description of the
- * valid values for <i>Flag</i> and their respective semantics:
+ * <p> The <i>Flbg</i> vblue controls the overbll behbvior bs buthenticbtion
+ * proceeds down the stbck.  The following represents b description of the
+ * vblid vblues for <i>Flbg</i> bnd their respective sembntics:
  *
  * <pre>
  *      1) Required     - The {@code LoginModule} is required to succeed.
- *                      If it succeeds or fails, authentication still continues
+ *                      If it succeeds or fbils, buthenticbtion still continues
  *                      to proceed down the {@code LoginModule} list.
  *
  *      2) Requisite    - The {@code LoginModule} is required to succeed.
- *                      If it succeeds, authentication continues down the
- *                      {@code LoginModule} list.  If it fails,
- *                      control immediately returns to the application
- *                      (authentication does not proceed down the
+ *                      If it succeeds, buthenticbtion continues down the
+ *                      {@code LoginModule} list.  If it fbils,
+ *                      control immedibtely returns to the bpplicbtion
+ *                      (buthenticbtion does not proceed down the
  *                      {@code LoginModule} list).
  *
  *      3) Sufficient   - The {@code LoginModule} is not required to
- *                      succeed.  If it does succeed, control immediately
- *                      returns to the application (authentication does not
+ *                      succeed.  If it does succeed, control immedibtely
+ *                      returns to the bpplicbtion (buthenticbtion does not
  *                      proceed down the {@code LoginModule} list).
- *                      If it fails, authentication continues down the
+ *                      If it fbils, buthenticbtion continues down the
  *                      {@code LoginModule} list.
  *
- *      4) Optional     - The {@code LoginModule} is not required to
- *                      succeed.  If it succeeds or fails,
- *                      authentication still continues to proceed down the
+ *      4) Optionbl     - The {@code LoginModule} is not required to
+ *                      succeed.  If it succeeds or fbils,
+ *                      buthenticbtion still continues to proceed down the
  *                      {@code LoginModule} list.
  * </pre>
  *
- * <p> The overall authentication succeeds only if all <i>Required</i> and
- * <i>Requisite</i> LoginModules succeed.  If a <i>Sufficient</i>
- * {@code LoginModule} is configured and succeeds,
- * then only the <i>Required</i> and <i>Requisite</i> LoginModules prior to
- * that <i>Sufficient</i> {@code LoginModule} need to have succeeded for
- * the overall authentication to succeed. If no <i>Required</i> or
- * <i>Requisite</i> LoginModules are configured for an application,
- * then at least one <i>Sufficient</i> or <i>Optional</i>
+ * <p> The overbll buthenticbtion succeeds only if bll <i>Required</i> bnd
+ * <i>Requisite</i> LoginModules succeed.  If b <i>Sufficient</i>
+ * {@code LoginModule} is configured bnd succeeds,
+ * then only the <i>Required</i> bnd <i>Requisite</i> LoginModules prior to
+ * thbt <i>Sufficient</i> {@code LoginModule} need to hbve succeeded for
+ * the overbll buthenticbtion to succeed. If no <i>Required</i> or
+ * <i>Requisite</i> LoginModules bre configured for bn bpplicbtion,
+ * then bt lebst one <i>Sufficient</i> or <i>Optionbl</i>
  * {@code LoginModule} must succeed.
  *
- * <p> <i>ModuleOptions</i> is a space separated list of
- * {@code LoginModule}-specific values which are passed directly to
- * the underlying LoginModules.  Options are defined by the
- * {@code LoginModule} itself, and control the behavior within it.
- * For example, a {@code LoginModule} may define options to support
- * debugging/testing capabilities.  The correct way to specify options in the
- * {@code Configuration} is by using the following key-value pairing:
- * <i>debug="true"</i>.  The key and value should be separated by an
- * 'equals' symbol, and the value should be surrounded by double quotes.
- * If a String in the form, ${system.property}, occurs in the value,
- * it will be expanded to the value of the system property.
- * Note that there is no limit to the number of
- * options a {@code LoginModule} may define.
+ * <p> <i>ModuleOptions</i> is b spbce sepbrbted list of
+ * {@code LoginModule}-specific vblues which bre pbssed directly to
+ * the underlying LoginModules.  Options bre defined by the
+ * {@code LoginModule} itself, bnd control the behbvior within it.
+ * For exbmple, b {@code LoginModule} mby define options to support
+ * debugging/testing cbpbbilities.  The correct wby to specify options in the
+ * {@code Configurbtion} is by using the following key-vblue pbiring:
+ * <i>debug="true"</i>.  The key bnd vblue should be sepbrbted by bn
+ * 'equbls' symbol, bnd the vblue should be surrounded by double quotes.
+ * If b String in the form, ${system.property}, occurs in the vblue,
+ * it will be expbnded to the vblue of the system property.
+ * Note thbt there is no limit to the number of
+ * options b {@code LoginModule} mby define.
  *
- * <p> The following represents an example {@code Configuration} entry
- * based on the syntax above:
+ * <p> The following represents bn exbmple {@code Configurbtion} entry
+ * bbsed on the syntbx bbove:
  *
  * <pre>
  * Login {
- *   com.sun.security.auth.module.UnixLoginModule required;
- *   com.sun.security.auth.module.Krb5LoginModule optional
- *                   useTicketCache="true"
- *                   ticketCache="${user.home}${/}tickets";
+ *   com.sun.security.buth.module.UnixLoginModule required;
+ *   com.sun.security.buth.module.Krb5LoginModule optionbl
+ *                   useTicketCbche="true"
+ *                   ticketCbche="${user.home}${/}tickets";
  * };
  * </pre>
  *
- * <p> This {@code Configuration} specifies that an application named,
- * "Login", requires users to first authenticate to the
- * <i>com.sun.security.auth.module.UnixLoginModule</i>, which is
+ * <p> This {@code Configurbtion} specifies thbt bn bpplicbtion nbmed,
+ * "Login", requires users to first buthenticbte to the
+ * <i>com.sun.security.buth.module.UnixLoginModule</i>, which is
  * required to succeed.  Even if the <i>UnixLoginModule</i>
- * authentication fails, the
- * <i>com.sun.security.auth.module.Krb5LoginModule</i>
- * still gets invoked.  This helps hide the source of failure.
- * Since the <i>Krb5LoginModule</i> is <i>Optional</i>, the overall
- * authentication succeeds only if the <i>UnixLoginModule</i>
+ * buthenticbtion fbils, the
+ * <i>com.sun.security.buth.module.Krb5LoginModule</i>
+ * still gets invoked.  This helps hide the source of fbilure.
+ * Since the <i>Krb5LoginModule</i> is <i>Optionbl</i>, the overbll
+ * buthenticbtion succeeds only if the <i>UnixLoginModule</i>
  * (<i>Required</i>) succeeds.
  *
- * <p> Also note that the LoginModule-specific options,
- * <i>useTicketCache="true"</i> and
- * <i>ticketCache=${user.home}${/}tickets"</i>,
- * are passed to the <i>Krb5LoginModule</i>.
+ * <p> Also note thbt the LoginModule-specific options,
+ * <i>useTicketCbche="true"</i> bnd
+ * <i>ticketCbche=${user.home}${/}tickets"</i>,
+ * bre pbssed to the <i>Krb5LoginModule</i>.
  * These options instruct the <i>Krb5LoginModule</i> to
- * use the ticket cache at the specified location.
- * The system properties, <i>user.home</i> and <i>/</i>
- * (file.separator), are expanded to their respective values.
+ * use the ticket cbche bt the specified locbtion.
+ * The system properties, <i>user.home</i> bnd <i>/</i>
+ * (file.sepbrbtor), bre expbnded to their respective vblues.
  *
- * <p> There is only one Configuration object installed in the runtime at any
- * given time.  A Configuration object can be installed by calling the
- * {@code setConfiguration} method.  The installed Configuration object
- * can be obtained by calling the {@code getConfiguration} method.
+ * <p> There is only one Configurbtion object instblled in the runtime bt bny
+ * given time.  A Configurbtion object cbn be instblled by cblling the
+ * {@code setConfigurbtion} method.  The instblled Configurbtion object
+ * cbn be obtbined by cblling the {@code getConfigurbtion} method.
  *
- * <p> If no Configuration object has been installed in the runtime, a call to
- * {@code getConfiguration} installs an instance of the default
- * Configuration implementation (a default subclass implementation of this
- * abstract class).
- * The default Configuration implementation can be changed by setting the value
- * of the {@code login.configuration.provider} security property to the fully
- * qualified name of the desired Configuration subclass implementation.
+ * <p> If no Configurbtion object hbs been instblled in the runtime, b cbll to
+ * {@code getConfigurbtion} instblls bn instbnce of the defbult
+ * Configurbtion implementbtion (b defbult subclbss implementbtion of this
+ * bbstrbct clbss).
+ * The defbult Configurbtion implementbtion cbn be chbnged by setting the vblue
+ * of the {@code login.configurbtion.provider} security property to the fully
+ * qublified nbme of the desired Configurbtion subclbss implementbtion.
  *
- * <p> Application code can directly subclass Configuration to provide a custom
- * implementation.  In addition, an instance of a Configuration object can be
- * constructed by invoking one of the {@code getInstance} factory methods
- * with a standard type.  The default policy type is "JavaLoginConfig".
- * See the Configuration section in the <a href=
- * "{@docRoot}/../technotes/guides/security/StandardNames.html#Configuration">
- * Java Cryptography Architecture Standard Algorithm Name Documentation</a>
- * for a list of standard Configuration types.
+ * <p> Applicbtion code cbn directly subclbss Configurbtion to provide b custom
+ * implementbtion.  In bddition, bn instbnce of b Configurbtion object cbn be
+ * constructed by invoking one of the {@code getInstbnce} fbctory methods
+ * with b stbndbrd type.  The defbult policy type is "JbvbLoginConfig".
+ * See the Configurbtion section in the <b href=
+ * "{@docRoot}/../technotes/guides/security/StbndbrdNbmes.html#Configurbtion">
+ * Jbvb Cryptogrbphy Architecture Stbndbrd Algorithm Nbme Documentbtion</b>
+ * for b list of stbndbrd Configurbtion types.
  *
- * @see javax.security.auth.login.LoginContext
- * @see java.security.Security security properties
+ * @see jbvbx.security.buth.login.LoginContext
+ * @see jbvb.security.Security security properties
  */
-public abstract class Configuration {
+public bbstrbct clbss Configurbtion {
 
-    private static Configuration configuration;
+    privbte stbtic Configurbtion configurbtion;
 
-    private final java.security.AccessControlContext acc =
-            java.security.AccessController.getContext();
+    privbte finbl jbvb.security.AccessControlContext bcc =
+            jbvb.security.AccessController.getContext();
 
-    private static void checkPermission(String type) {
-        SecurityManager sm = System.getSecurityManager();
+    privbte stbtic void checkPermission(String type) {
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null) {
             sm.checkPermission(new AuthPermission
-                                ("createLoginConfiguration." + type));
+                                ("crebteLoginConfigurbtion." + type));
         }
     }
 
     /**
-     * Sole constructor.  (For invocation by subclass constructors, typically
+     * Sole constructor.  (For invocbtion by subclbss constructors, typicblly
      * implicit.)
      */
-    protected Configuration() { }
+    protected Configurbtion() { }
 
     /**
-     * Get the installed login Configuration.
+     * Get the instblled login Configurbtion.
      *
      * <p>
      *
-     * @return the login Configuration.  If a Configuration object was set
-     *          via the {@code Configuration.setConfiguration} method,
-     *          then that object is returned.  Otherwise, a default
-     *          Configuration object is returned.
+     * @return the login Configurbtion.  If b Configurbtion object wbs set
+     *          vib the {@code Configurbtion.setConfigurbtion} method,
+     *          then thbt object is returned.  Otherwise, b defbult
+     *          Configurbtion object is returned.
      *
-     * @exception SecurityException if the caller does not have permission
-     *                          to retrieve the Configuration.
+     * @exception SecurityException if the cbller does not hbve permission
+     *                          to retrieve the Configurbtion.
      *
-     * @see #setConfiguration
+     * @see #setConfigurbtion
      */
-    public static Configuration getConfiguration() {
+    public stbtic Configurbtion getConfigurbtion() {
 
-        SecurityManager sm = System.getSecurityManager();
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null)
-            sm.checkPermission(new AuthPermission("getLoginConfiguration"));
+            sm.checkPermission(new AuthPermission("getLoginConfigurbtion"));
 
-        synchronized (Configuration.class) {
-            if (configuration == null) {
-                String config_class = null;
-                config_class = AccessController.doPrivileged
+        synchronized (Configurbtion.clbss) {
+            if (configurbtion == null) {
+                String config_clbss = null;
+                config_clbss = AccessController.doPrivileged
                     (new PrivilegedAction<String>() {
                     public String run() {
-                        return java.security.Security.getProperty
-                                    ("login.configuration.provider");
+                        return jbvb.security.Security.getProperty
+                                    ("login.configurbtion.provider");
                     }
                 });
-                if (config_class == null) {
-                    config_class = "sun.security.provider.ConfigFile";
+                if (config_clbss == null) {
+                    config_clbss = "sun.security.provider.ConfigFile";
                 }
 
                 try {
-                    final String finalClass = config_class;
-                    Configuration untrustedImpl = AccessController.doPrivileged(
-                            new PrivilegedExceptionAction<Configuration>() {
-                                public Configuration run() throws ClassNotFoundException,
-                                        InstantiationException,
-                                        IllegalAccessException {
-                                    Class<? extends Configuration> implClass = Class.forName(
-                                            finalClass, false,
-                                            Thread.currentThread().getContextClassLoader()
-                                    ).asSubclass(Configuration.class);
-                                    return implClass.newInstance();
+                    finbl String finblClbss = config_clbss;
+                    Configurbtion untrustedImpl = AccessController.doPrivileged(
+                            new PrivilegedExceptionAction<Configurbtion>() {
+                                public Configurbtion run() throws ClbssNotFoundException,
+                                        InstbntibtionException,
+                                        IllegblAccessException {
+                                    Clbss<? extends Configurbtion> implClbss = Clbss.forNbme(
+                                            finblClbss, fblse,
+                                            Threbd.currentThrebd().getContextClbssLobder()
+                                    ).bsSubclbss(Configurbtion.clbss);
+                                    return implClbss.newInstbnce();
                                 }
                             });
                     AccessController.doPrivileged(
                             new PrivilegedExceptionAction<Void>() {
                                 public Void run() {
-                                    setConfiguration(untrustedImpl);
+                                    setConfigurbtion(untrustedImpl);
                                     return null;
                                 }
-                            }, Objects.requireNonNull(untrustedImpl.acc)
+                            }, Objects.requireNonNull(untrustedImpl.bcc)
                     );
-                } catch (PrivilegedActionException e) {
+                } cbtch (PrivilegedActionException e) {
                     Exception ee = e.getException();
-                    if (ee instanceof InstantiationException) {
+                    if (ee instbnceof InstbntibtionException) {
                         throw (SecurityException) new
                             SecurityException
-                                    ("Configuration error:" +
-                                     ee.getCause().getMessage() +
-                                     "\n").initCause(ee.getCause());
+                                    ("Configurbtion error:" +
+                                     ee.getCbuse().getMessbge() +
+                                     "\n").initCbuse(ee.getCbuse());
                     } else {
                         throw (SecurityException) new
                             SecurityException
-                                    ("Configuration error: " +
+                                    ("Configurbtion error: " +
                                      ee.toString() +
-                                     "\n").initCause(ee);
+                                     "\n").initCbuse(ee);
                     }
                 }
             }
-            return configuration;
+            return configurbtion;
         }
     }
 
     /**
-     * Set the login {@code Configuration}.
+     * Set the login {@code Configurbtion}.
      *
      * <p>
      *
-     * @param configuration the new {@code Configuration}
+     * @pbrbm configurbtion the new {@code Configurbtion}
      *
-     * @exception SecurityException if the current thread does not have
-     *                  Permission to set the {@code Configuration}.
+     * @exception SecurityException if the current threbd does not hbve
+     *                  Permission to set the {@code Configurbtion}.
      *
-     * @see #getConfiguration
+     * @see #getConfigurbtion
      */
-    public static void setConfiguration(Configuration configuration) {
-        SecurityManager sm = System.getSecurityManager();
+    public stbtic void setConfigurbtion(Configurbtion configurbtion) {
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null)
-            sm.checkPermission(new AuthPermission("setLoginConfiguration"));
-        Configuration.configuration = configuration;
+            sm.checkPermission(new AuthPermission("setLoginConfigurbtion"));
+        Configurbtion.configurbtion = configurbtion;
     }
 
     /**
-     * Returns a Configuration object of the specified type.
+     * Returns b Configurbtion object of the specified type.
      *
-     * <p> This method traverses the list of registered security providers,
-     * starting with the most preferred Provider.
-     * A new Configuration object encapsulating the
-     * ConfigurationSpi implementation from the first
-     * Provider that supports the specified type is returned.
+     * <p> This method trbverses the list of registered security providers,
+     * stbrting with the most preferred Provider.
+     * A new Configurbtion object encbpsulbting the
+     * ConfigurbtionSpi implementbtion from the first
+     * Provider thbt supports the specified type is returned.
      *
-     * <p> Note that the list of registered providers may be retrieved via
+     * <p> Note thbt the list of registered providers mby be retrieved vib
      * the {@link Security#getProviders() Security.getProviders()} method.
      *
-     * @param type the specified Configuration type.  See the Configuration
-     *    section in the <a href=
-     *    "{@docRoot}/../technotes/guides/security/StandardNames.html#Configuration">
-     *    Java Cryptography Architecture Standard Algorithm Name
-     *    Documentation</a> for a list of standard Configuration types.
+     * @pbrbm type the specified Configurbtion type.  See the Configurbtion
+     *    section in the <b href=
+     *    "{@docRoot}/../technotes/guides/security/StbndbrdNbmes.html#Configurbtion">
+     *    Jbvb Cryptogrbphy Architecture Stbndbrd Algorithm Nbme
+     *    Documentbtion</b> for b list of stbndbrd Configurbtion types.
      *
-     * @param params parameters for the Configuration, which may be null.
+     * @pbrbm pbrbms pbrbmeters for the Configurbtion, which mby be null.
      *
-     * @return the new Configuration object.
+     * @return the new Configurbtion object.
      *
-     * @exception SecurityException if the caller does not have permission
-     *          to get a Configuration instance for the specified type.
+     * @exception SecurityException if the cbller does not hbve permission
+     *          to get b Configurbtion instbnce for the specified type.
      *
      * @exception NullPointerException if the specified type is null.
      *
-     * @exception IllegalArgumentException if the specified parameters
-     *          are not understood by the ConfigurationSpi implementation
+     * @exception IllegblArgumentException if the specified pbrbmeters
+     *          bre not understood by the ConfigurbtionSpi implementbtion
      *          from the selected Provider.
      *
-     * @exception NoSuchAlgorithmException if no Provider supports a
-     *          ConfigurationSpi implementation for the specified type.
+     * @exception NoSuchAlgorithmException if no Provider supports b
+     *          ConfigurbtionSpi implementbtion for the specified type.
      *
      * @see Provider
      * @since 1.6
      */
-    public static Configuration getInstance(String type,
-                                Configuration.Parameters params)
+    public stbtic Configurbtion getInstbnce(String type,
+                                Configurbtion.Pbrbmeters pbrbms)
                 throws NoSuchAlgorithmException {
 
         checkPermission(type);
         try {
-            GetInstance.Instance instance = GetInstance.getInstance
-                                                        ("Configuration",
-                                                        ConfigurationSpi.class,
+            GetInstbnce.Instbnce instbnce = GetInstbnce.getInstbnce
+                                                        ("Configurbtion",
+                                                        ConfigurbtionSpi.clbss,
                                                         type,
-                                                        params);
-            return new ConfigDelegate((ConfigurationSpi)instance.impl,
-                                                        instance.provider,
+                                                        pbrbms);
+            return new ConfigDelegbte((ConfigurbtionSpi)instbnce.impl,
+                                                        instbnce.provider,
                                                         type,
-                                                        params);
-        } catch (NoSuchAlgorithmException nsae) {
-            return handleException (nsae);
+                                                        pbrbms);
+        } cbtch (NoSuchAlgorithmException nsbe) {
+            return hbndleException (nsbe);
         }
     }
 
     /**
-     * Returns a Configuration object of the specified type.
+     * Returns b Configurbtion object of the specified type.
      *
-     * <p> A new Configuration object encapsulating the
-     * ConfigurationSpi implementation from the specified provider
+     * <p> A new Configurbtion object encbpsulbting the
+     * ConfigurbtionSpi implementbtion from the specified provider
      * is returned.   The specified provider must be registered
      * in the provider list.
      *
-     * <p> Note that the list of registered providers may be retrieved via
+     * <p> Note thbt the list of registered providers mby be retrieved vib
      * the {@link Security#getProviders() Security.getProviders()} method.
      *
-     * @param type the specified Configuration type.  See the Configuration
-     *    section in the <a href=
-     *    "{@docRoot}/../technotes/guides/security/StandardNames.html#Configuration">
-     *    Java Cryptography Architecture Standard Algorithm Name
-     *    Documentation</a> for a list of standard Configuration types.
+     * @pbrbm type the specified Configurbtion type.  See the Configurbtion
+     *    section in the <b href=
+     *    "{@docRoot}/../technotes/guides/security/StbndbrdNbmes.html#Configurbtion">
+     *    Jbvb Cryptogrbphy Architecture Stbndbrd Algorithm Nbme
+     *    Documentbtion</b> for b list of stbndbrd Configurbtion types.
      *
-     * @param params parameters for the Configuration, which may be null.
+     * @pbrbm pbrbms pbrbmeters for the Configurbtion, which mby be null.
      *
-     * @param provider the provider.
+     * @pbrbm provider the provider.
      *
-     * @return the new Configuration object.
+     * @return the new Configurbtion object.
      *
-     * @exception SecurityException if the caller does not have permission
-     *          to get a Configuration instance for the specified type.
+     * @exception SecurityException if the cbller does not hbve permission
+     *          to get b Configurbtion instbnce for the specified type.
      *
      * @exception NullPointerException if the specified type is null.
      *
-     * @exception IllegalArgumentException if the specified provider
+     * @exception IllegblArgumentException if the specified provider
      *          is null or empty,
-     *          or if the specified parameters are not understood by
-     *          the ConfigurationSpi implementation from the specified provider.
+     *          or if the specified pbrbmeters bre not understood by
+     *          the ConfigurbtionSpi implementbtion from the specified provider.
      *
      * @exception NoSuchProviderException if the specified provider is not
      *          registered in the security provider list.
      *
      * @exception NoSuchAlgorithmException if the specified provider does not
-     *          support a ConfigurationSpi implementation for the specified
+     *          support b ConfigurbtionSpi implementbtion for the specified
      *          type.
      *
      * @see Provider
      * @since 1.6
      */
-    public static Configuration getInstance(String type,
-                                Configuration.Parameters params,
+    public stbtic Configurbtion getInstbnce(String type,
+                                Configurbtion.Pbrbmeters pbrbms,
                                 String provider)
                 throws NoSuchProviderException, NoSuchAlgorithmException {
 
         if (provider == null || provider.length() == 0) {
-            throw new IllegalArgumentException("missing provider");
+            throw new IllegblArgumentException("missing provider");
         }
 
         checkPermission(type);
         try {
-            GetInstance.Instance instance = GetInstance.getInstance
-                                                        ("Configuration",
-                                                        ConfigurationSpi.class,
+            GetInstbnce.Instbnce instbnce = GetInstbnce.getInstbnce
+                                                        ("Configurbtion",
+                                                        ConfigurbtionSpi.clbss,
                                                         type,
-                                                        params,
+                                                        pbrbms,
                                                         provider);
-            return new ConfigDelegate((ConfigurationSpi)instance.impl,
-                                                        instance.provider,
+            return new ConfigDelegbte((ConfigurbtionSpi)instbnce.impl,
+                                                        instbnce.provider,
                                                         type,
-                                                        params);
-        } catch (NoSuchAlgorithmException nsae) {
-            return handleException (nsae);
+                                                        pbrbms);
+        } cbtch (NoSuchAlgorithmException nsbe) {
+            return hbndleException (nsbe);
         }
     }
 
     /**
-     * Returns a Configuration object of the specified type.
+     * Returns b Configurbtion object of the specified type.
      *
-     * <p> A new Configuration object encapsulating the
-     * ConfigurationSpi implementation from the specified Provider
-     * object is returned.  Note that the specified Provider object
-     * does not have to be registered in the provider list.
+     * <p> A new Configurbtion object encbpsulbting the
+     * ConfigurbtionSpi implementbtion from the specified Provider
+     * object is returned.  Note thbt the specified Provider object
+     * does not hbve to be registered in the provider list.
      *
-     * @param type the specified Configuration type.  See the Configuration
-     *    section in the <a href=
-     *    "{@docRoot}/../technotes/guides/security/StandardNames.html#Configuration">
-     *    Java Cryptography Architecture Standard Algorithm Name
-     *    Documentation</a> for a list of standard Configuration types.
+     * @pbrbm type the specified Configurbtion type.  See the Configurbtion
+     *    section in the <b href=
+     *    "{@docRoot}/../technotes/guides/security/StbndbrdNbmes.html#Configurbtion">
+     *    Jbvb Cryptogrbphy Architecture Stbndbrd Algorithm Nbme
+     *    Documentbtion</b> for b list of stbndbrd Configurbtion types.
      *
-     * @param params parameters for the Configuration, which may be null.
+     * @pbrbm pbrbms pbrbmeters for the Configurbtion, which mby be null.
      *
-     * @param provider the Provider.
+     * @pbrbm provider the Provider.
      *
-     * @return the new Configuration object.
+     * @return the new Configurbtion object.
      *
-     * @exception SecurityException if the caller does not have permission
-     *          to get a Configuration instance for the specified type.
+     * @exception SecurityException if the cbller does not hbve permission
+     *          to get b Configurbtion instbnce for the specified type.
      *
      * @exception NullPointerException if the specified type is null.
      *
-     * @exception IllegalArgumentException if the specified Provider is null,
-     *          or if the specified parameters are not understood by
-     *          the ConfigurationSpi implementation from the specified Provider.
+     * @exception IllegblArgumentException if the specified Provider is null,
+     *          or if the specified pbrbmeters bre not understood by
+     *          the ConfigurbtionSpi implementbtion from the specified Provider.
      *
      * @exception NoSuchAlgorithmException if the specified Provider does not
-     *          support a ConfigurationSpi implementation for the specified
+     *          support b ConfigurbtionSpi implementbtion for the specified
      *          type.
      *
      * @see Provider
      * @since 1.6
      */
-    public static Configuration getInstance(String type,
-                                Configuration.Parameters params,
+    public stbtic Configurbtion getInstbnce(String type,
+                                Configurbtion.Pbrbmeters pbrbms,
                                 Provider provider)
                 throws NoSuchAlgorithmException {
 
         if (provider == null) {
-            throw new IllegalArgumentException("missing provider");
+            throw new IllegblArgumentException("missing provider");
         }
 
         checkPermission(type);
         try {
-            GetInstance.Instance instance = GetInstance.getInstance
-                                                        ("Configuration",
-                                                        ConfigurationSpi.class,
+            GetInstbnce.Instbnce instbnce = GetInstbnce.getInstbnce
+                                                        ("Configurbtion",
+                                                        ConfigurbtionSpi.clbss,
                                                         type,
-                                                        params,
+                                                        pbrbms,
                                                         provider);
-            return new ConfigDelegate((ConfigurationSpi)instance.impl,
-                                                        instance.provider,
+            return new ConfigDelegbte((ConfigurbtionSpi)instbnce.impl,
+                                                        instbnce.provider,
                                                         type,
-                                                        params);
-        } catch (NoSuchAlgorithmException nsae) {
-            return handleException (nsae);
+                                                        pbrbms);
+        } cbtch (NoSuchAlgorithmException nsbe) {
+            return hbndleException (nsbe);
         }
     }
 
-    private static Configuration handleException(NoSuchAlgorithmException nsae)
+    privbte stbtic Configurbtion hbndleException(NoSuchAlgorithmException nsbe)
                 throws NoSuchAlgorithmException {
-        Throwable cause = nsae.getCause();
-        if (cause instanceof IllegalArgumentException) {
-            throw (IllegalArgumentException)cause;
+        Throwbble cbuse = nsbe.getCbuse();
+        if (cbuse instbnceof IllegblArgumentException) {
+            throw (IllegblArgumentException)cbuse;
         }
-        throw nsae;
+        throw nsbe;
     }
 
     /**
-     * Return the Provider of this Configuration.
+     * Return the Provider of this Configurbtion.
      *
-     * <p> This Configuration instance will only have a Provider if it
-     * was obtained via a call to {@code Configuration.getInstance}.
+     * <p> This Configurbtion instbnce will only hbve b Provider if it
+     * wbs obtbined vib b cbll to {@code Configurbtion.getInstbnce}.
      * Otherwise this method returns null.
      *
-     * @return the Provider of this Configuration, or null.
+     * @return the Provider of this Configurbtion, or null.
      *
      * @since 1.6
      */
@@ -516,13 +516,13 @@ public abstract class Configuration {
     }
 
     /**
-     * Return the type of this Configuration.
+     * Return the type of this Configurbtion.
      *
-     * <p> This Configuration instance will only have a type if it
-     * was obtained via a call to {@code Configuration.getInstance}.
+     * <p> This Configurbtion instbnce will only hbve b type if it
+     * wbs obtbined vib b cbll to {@code Configurbtion.getInstbnce}.
      * Otherwise this method returns null.
      *
-     * @return the type of this Configuration, or null.
+     * @return the type of this Configurbtion, or null.
      *
      * @since 1.6
      */
@@ -531,79 +531,79 @@ public abstract class Configuration {
     }
 
     /**
-     * Return Configuration parameters.
+     * Return Configurbtion pbrbmeters.
      *
-     * <p> This Configuration instance will only have parameters if it
-     * was obtained via a call to {@code Configuration.getInstance}.
+     * <p> This Configurbtion instbnce will only hbve pbrbmeters if it
+     * wbs obtbined vib b cbll to {@code Configurbtion.getInstbnce}.
      * Otherwise this method returns null.
      *
-     * @return Configuration parameters, or null.
+     * @return Configurbtion pbrbmeters, or null.
      *
      * @since 1.6
      */
-    public Configuration.Parameters getParameters() {
+    public Configurbtion.Pbrbmeters getPbrbmeters() {
         return null;
     }
 
     /**
-     * Retrieve the AppConfigurationEntries for the specified <i>name</i>
-     * from this Configuration.
+     * Retrieve the AppConfigurbtionEntries for the specified <i>nbme</i>
+     * from this Configurbtion.
      *
      * <p>
      *
-     * @param name the name used to index the Configuration.
+     * @pbrbm nbme the nbme used to index the Configurbtion.
      *
-     * @return an array of AppConfigurationEntries for the specified <i>name</i>
-     *          from this Configuration, or null if there are no entries
-     *          for the specified <i>name</i>
+     * @return bn brrby of AppConfigurbtionEntries for the specified <i>nbme</i>
+     *          from this Configurbtion, or null if there bre no entries
+     *          for the specified <i>nbme</i>
      */
-    public abstract AppConfigurationEntry[] getAppConfigurationEntry
-                                                        (String name);
+    public bbstrbct AppConfigurbtionEntry[] getAppConfigurbtionEntry
+                                                        (String nbme);
 
     /**
-     * Refresh and reload the Configuration.
+     * Refresh bnd relobd the Configurbtion.
      *
-     * <p> This method causes this Configuration object to refresh/reload its
-     * contents in an implementation-dependent manner.
-     * For example, if this Configuration object stores its entries in a file,
-     * calling {@code refresh} may cause the file to be re-read.
+     * <p> This method cbuses this Configurbtion object to refresh/relobd its
+     * contents in bn implementbtion-dependent mbnner.
+     * For exbmple, if this Configurbtion object stores its entries in b file,
+     * cblling {@code refresh} mby cbuse the file to be re-rebd.
      *
-     * <p> The default implementation of this method does nothing.
-     * This method should be overridden if a refresh operation is supported
-     * by the implementation.
+     * <p> The defbult implementbtion of this method does nothing.
+     * This method should be overridden if b refresh operbtion is supported
+     * by the implementbtion.
      *
-     * @exception SecurityException if the caller does not have permission
-     *                          to refresh its Configuration.
+     * @exception SecurityException if the cbller does not hbve permission
+     *                          to refresh its Configurbtion.
      */
     public void refresh() { }
 
     /**
-     * This subclass is returned by the getInstance calls.  All Configuration
-     * calls are delegated to the underlying ConfigurationSpi.
+     * This subclbss is returned by the getInstbnce cblls.  All Configurbtion
+     * cblls bre delegbted to the underlying ConfigurbtionSpi.
      */
-    private static class ConfigDelegate extends Configuration {
+    privbte stbtic clbss ConfigDelegbte extends Configurbtion {
 
-        private ConfigurationSpi spi;
-        private Provider p;
-        private String type;
-        private Configuration.Parameters params;
+        privbte ConfigurbtionSpi spi;
+        privbte Provider p;
+        privbte String type;
+        privbte Configurbtion.Pbrbmeters pbrbms;
 
-        private ConfigDelegate(ConfigurationSpi spi, Provider p,
-                        String type, Configuration.Parameters params) {
+        privbte ConfigDelegbte(ConfigurbtionSpi spi, Provider p,
+                        String type, Configurbtion.Pbrbmeters pbrbms) {
             this.spi = spi;
             this.p = p;
             this.type = type;
-            this.params = params;
+            this.pbrbms = pbrbms;
         }
 
         public String getType() { return type; }
 
-        public Configuration.Parameters getParameters() { return params; }
+        public Configurbtion.Pbrbmeters getPbrbmeters() { return pbrbms; }
 
         public Provider getProvider() { return p; }
 
-        public AppConfigurationEntry[] getAppConfigurationEntry(String name) {
-            return spi.engineGetAppConfigurationEntry(name);
+        public AppConfigurbtionEntry[] getAppConfigurbtionEntry(String nbme) {
+            return spi.engineGetAppConfigurbtionEntry(nbme);
         }
 
         public void refresh() {
@@ -612,9 +612,9 @@ public abstract class Configuration {
     }
 
     /**
-     * This represents a marker interface for Configuration parameters.
+     * This represents b mbrker interfbce for Configurbtion pbrbmeters.
      *
      * @since 1.6
      */
-    public static interface Parameters { }
+    public stbtic interfbce Pbrbmeters { }
 }

@@ -1,294 +1,294 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.nio.fs;
+pbckbge sun.nio.fs;
 
-import java.nio.file.*;
-import java.nio.ByteBuffer;
-import java.nio.channels.FileChannel;
-import java.io.IOException;
-import java.util.*;
+import jbvb.nio.file.*;
+import jbvb.nio.ByteBuffer;
+import jbvb.nio.chbnnels.FileChbnnel;
+import jbvb.io.IOException;
+import jbvb.util.*;
 
-import static sun.nio.fs.UnixNativeDispatcher.*;
-import static sun.nio.fs.UnixConstants.*;
-import static sun.nio.fs.SolarisConstants.*;
+import stbtic sun.nio.fs.UnixNbtiveDispbtcher.*;
+import stbtic sun.nio.fs.UnixConstbnts.*;
+import stbtic sun.nio.fs.SolbrisConstbnts.*;
 
 /**
- * Solaris emulation of NamedAttributeView using extended attributes.
+ * Solbris emulbtion of NbmedAttributeView using extended bttributes.
  */
 
-class SolarisUserDefinedFileAttributeView
-    extends AbstractUserDefinedFileAttributeView
+clbss SolbrisUserDefinedFileAttributeView
+    extends AbstrbctUserDefinedFileAttributeView
 {
-    private static final byte[] HERE = { '.' };
+    privbte stbtic finbl byte[] HERE = { '.' };
 
-    private byte[] nameAsBytes(UnixPath file, String name) throws IOException {
-        byte[] bytes = Util.toBytes(name);
-        // "", "." and ".." not allowed
+    privbte byte[] nbmeAsBytes(UnixPbth file, String nbme) throws IOException {
+        byte[] bytes = Util.toBytes(nbme);
+        // "", "." bnd ".." not bllowed
         if (bytes.length == 0 || bytes[0] == '.') {
             if (bytes.length <= 1 ||
                 (bytes.length == 2 && bytes[1] == '.'))
             {
-                throw new FileSystemException(file.getPathForExceptionMessage(),
-                    null, "'" + name + "' is not a valid name");
+                throw new FileSystemException(file.getPbthForExceptionMessbge(),
+                    null, "'" + nbme + "' is not b vblid nbme");
             }
         }
         return bytes;
     }
 
-    private final UnixPath file;
-    private final boolean followLinks;
+    privbte finbl UnixPbth file;
+    privbte finbl boolebn followLinks;
 
-    SolarisUserDefinedFileAttributeView(UnixPath file, boolean followLinks) {
+    SolbrisUserDefinedFileAttributeView(UnixPbth file, boolebn followLinks) {
         this.file = file;
         this.followLinks = followLinks;
     }
 
     @Override
     public List<String> list() throws IOException  {
-        if (System.getSecurityManager() != null)
-            checkAccess(file.getPathForPermissionCheck(), true, false);
+        if (System.getSecurityMbnbger() != null)
+            checkAccess(file.getPbthForPermissionCheck(), true, fblse);
 
         int fd = file.openForAttributeAccess(followLinks);
         try {
             try {
-                // open extended attribute directory
-                int dfd = openat(fd, HERE, (O_RDONLY|O_XATTR), 0);
+                // open extended bttribute directory
+                int dfd = openbt(fd, HERE, (O_RDONLY|O_XATTR), 0);
                 long dp;
                 try {
                     dp = fdopendir(dfd);
-                } catch (UnixException x) {
+                } cbtch (UnixException x) {
                     close(dfd);
                     throw x;
                 }
 
-                // read list of extended attributes
-                List<String> list = new ArrayList<>();
+                // rebd list of extended bttributes
+                List<String> list = new ArrbyList<>();
                 try {
-                    byte[] name;
-                    while ((name = readdir(dp)) != null) {
-                        String s = Util.toString(name);
-                        if (!s.equals(".") && !s.equals(".."))
-                            list.add(s);
+                    byte[] nbme;
+                    while ((nbme = rebddir(dp)) != null) {
+                        String s = Util.toString(nbme);
+                        if (!s.equbls(".") && !s.equbls(".."))
+                            list.bdd(s);
                     }
-                } finally {
+                } finblly {
                     closedir(dp);
                 }
-                return Collections.unmodifiableList(list);
-            } catch (UnixException x) {
-                throw new FileSystemException(file.getPathForExceptionMessage(),
-                    null, "Unable to get list of extended attributes: " +
-                    x.getMessage());
+                return Collections.unmodifibbleList(list);
+            } cbtch (UnixException x) {
+                throw new FileSystemException(file.getPbthForExceptionMessbge(),
+                    null, "Unbble to get list of extended bttributes: " +
+                    x.getMessbge());
             }
-        } finally {
+        } finblly {
             close(fd);
         }
     }
 
     @Override
-    public int size(String name) throws IOException  {
-        if (System.getSecurityManager() != null)
-            checkAccess(file.getPathForPermissionCheck(), true, false);
+    public int size(String nbme) throws IOException  {
+        if (System.getSecurityMbnbger() != null)
+            checkAccess(file.getPbthForPermissionCheck(), true, fblse);
 
         int fd = file.openForAttributeAccess(followLinks);
         try {
             try {
-                // open attribute file
-                int afd = openat(fd, nameAsBytes(file,name), (O_RDONLY|O_XATTR), 0);
+                // open bttribute file
+                int bfd = openbt(fd, nbmeAsBytes(file,nbme), (O_RDONLY|O_XATTR), 0);
                 try {
-                    // read attribute's attributes
-                    UnixFileAttributes attrs = UnixFileAttributes.get(afd);
-                    long size = attrs.size();
+                    // rebd bttribute's bttributes
+                    UnixFileAttributes bttrs = UnixFileAttributes.get(bfd);
+                    long size = bttrs.size();
                     if (size > Integer.MAX_VALUE)
-                        throw new ArithmeticException("Extended attribute value too large");
+                        throw new ArithmeticException("Extended bttribute vblue too lbrge");
                     return (int)size;
-                } finally {
-                    close(afd);
+                } finblly {
+                    close(bfd);
                 }
-            } catch (UnixException x) {
-                throw new FileSystemException(file.getPathForExceptionMessage(),
-                    null, "Unable to get size of extended attribute '" + name +
-                    "': " + x.getMessage());
+            } cbtch (UnixException x) {
+                throw new FileSystemException(file.getPbthForExceptionMessbge(),
+                    null, "Unbble to get size of extended bttribute '" + nbme +
+                    "': " + x.getMessbge());
             }
-        } finally {
+        } finblly {
             close(fd);
         }
     }
 
     @Override
-    public int read(String name, ByteBuffer dst) throws IOException {
-        if (System.getSecurityManager() != null)
-            checkAccess(file.getPathForPermissionCheck(), true, false);
+    public int rebd(String nbme, ByteBuffer dst) throws IOException {
+        if (System.getSecurityMbnbger() != null)
+            checkAccess(file.getPbthForPermissionCheck(), true, fblse);
 
         int fd = file.openForAttributeAccess(followLinks);
         try {
             try {
-                // open attribute file
-                int afd = openat(fd, nameAsBytes(file,name), (O_RDONLY|O_XATTR), 0);
+                // open bttribute file
+                int bfd = openbt(fd, nbmeAsBytes(file,nbme), (O_RDONLY|O_XATTR), 0);
 
-                // wrap with channel
-                FileChannel fc = UnixChannelFactory.newFileChannel(afd, file.toString(), true, false);
+                // wrbp with chbnnel
+                FileChbnnel fc = UnixChbnnelFbctory.newFileChbnnel(bfd, file.toString(), true, fblse);
 
-                // read to EOF (nothing we can do if I/O error occurs)
+                // rebd to EOF (nothing we cbn do if I/O error occurs)
                 try {
-                    if (fc.size() > dst.remaining())
-                        throw new IOException("Extended attribute file too large");
-                    int total = 0;
-                    while (dst.hasRemaining()) {
-                        int n = fc.read(dst);
+                    if (fc.size() > dst.rembining())
+                        throw new IOException("Extended bttribute file too lbrge");
+                    int totbl = 0;
+                    while (dst.hbsRembining()) {
+                        int n = fc.rebd(dst);
                         if (n < 0)
-                            break;
-                        total += n;
+                            brebk;
+                        totbl += n;
                     }
-                    return total;
-                } finally {
+                    return totbl;
+                } finblly {
                     fc.close();
                 }
-            } catch (UnixException x) {
-                throw new FileSystemException(file.getPathForExceptionMessage(),
-                    null, "Unable to read extended attribute '" + name +
-                    "': " + x.getMessage());
+            } cbtch (UnixException x) {
+                throw new FileSystemException(file.getPbthForExceptionMessbge(),
+                    null, "Unbble to rebd extended bttribute '" + nbme +
+                    "': " + x.getMessbge());
             }
-        } finally {
+        } finblly {
             close(fd);
         }
     }
 
     @Override
-    public int write(String name, ByteBuffer src) throws IOException {
-        if (System.getSecurityManager() != null)
-            checkAccess(file.getPathForPermissionCheck(), false, true);
+    public int write(String nbme, ByteBuffer src) throws IOException {
+        if (System.getSecurityMbnbger() != null)
+            checkAccess(file.getPbthForPermissionCheck(), fblse, true);
 
         int fd = file.openForAttributeAccess(followLinks);
         try {
             try {
-                // open/create attribute file
-                int afd = openat(fd, nameAsBytes(file,name),
+                // open/crebte bttribute file
+                int bfd = openbt(fd, nbmeAsBytes(file,nbme),
                                  (O_CREAT|O_WRONLY|O_TRUNC|O_XATTR),
                                  UnixFileModeAttribute.ALL_PERMISSIONS);
 
-                // wrap with channel
-                FileChannel fc = UnixChannelFactory.newFileChannel(afd, file.toString(), false, true);
+                // wrbp with chbnnel
+                FileChbnnel fc = UnixChbnnelFbctory.newFileChbnnel(bfd, file.toString(), fblse, true);
 
-                // write value (nothing we can do if I/O error occurs)
+                // write vblue (nothing we cbn do if I/O error occurs)
                 try {
-                    int rem = src.remaining();
-                    while (src.hasRemaining()) {
+                    int rem = src.rembining();
+                    while (src.hbsRembining()) {
                         fc.write(src);
                     }
                     return rem;
-                } finally {
+                } finblly {
                     fc.close();
                 }
-            } catch (UnixException x) {
-                throw new FileSystemException(file.getPathForExceptionMessage(),
-                    null, "Unable to write extended attribute '" + name +
-                    "': " + x.getMessage());
+            } cbtch (UnixException x) {
+                throw new FileSystemException(file.getPbthForExceptionMessbge(),
+                    null, "Unbble to write extended bttribute '" + nbme +
+                    "': " + x.getMessbge());
             }
-        } finally {
+        } finblly {
             close(fd);
         }
     }
 
     @Override
-    public void delete(String name) throws IOException {
-        if (System.getSecurityManager() != null)
-            checkAccess(file.getPathForPermissionCheck(), false, true);
+    public void delete(String nbme) throws IOException {
+        if (System.getSecurityMbnbger() != null)
+            checkAccess(file.getPbthForPermissionCheck(), fblse, true);
 
         int fd = file.openForAttributeAccess(followLinks);
         try {
-            int dfd = openat(fd, HERE, (O_RDONLY|O_XATTR), 0);
+            int dfd = openbt(fd, HERE, (O_RDONLY|O_XATTR), 0);
             try {
-                unlinkat(dfd, nameAsBytes(file,name), 0);
-            } finally {
+                unlinkbt(dfd, nbmeAsBytes(file,nbme), 0);
+            } finblly {
                 close(dfd);
             }
-        } catch (UnixException x) {
-            throw new FileSystemException(file.getPathForExceptionMessage(),
-                null, "Unable to delete extended attribute '" + name +
-                "': " + x.getMessage());
-        } finally {
+        } cbtch (UnixException x) {
+            throw new FileSystemException(file.getPbthForExceptionMessbge(),
+                null, "Unbble to delete extended bttribute '" + nbme +
+                "': " + x.getMessbge());
+        } finblly {
             close(fd);
         }
     }
 
     /**
-     * Used by copyTo/moveTo to copy extended attributes from source to target.
+     * Used by copyTo/moveTo to copy extended bttributes from source to tbrget.
      *
-     * @param   ofd
+     * @pbrbm   ofd
      *          file descriptor for source file
-     * @param   nfd
-     *          file descriptor for target file
+     * @pbrbm   nfd
+     *          file descriptor for tbrget file
      */
-    static void copyExtendedAttributes(int ofd, int nfd) {
+    stbtic void copyExtendedAttributes(int ofd, int nfd) {
         try {
-            // open extended attribute directory
-            int dfd = openat(ofd, HERE, (O_RDONLY|O_XATTR), 0);
+            // open extended bttribute directory
+            int dfd = openbt(ofd, HERE, (O_RDONLY|O_XATTR), 0);
             long dp = 0L;
             try {
                 dp = fdopendir(dfd);
-            } catch (UnixException x) {
+            } cbtch (UnixException x) {
                 close(dfd);
                 throw x;
             }
 
-            // copy each extended attribute
+            // copy ebch extended bttribute
             try {
-                byte[] name;
-                while ((name = readdir(dp)) != null) {
-                    // ignore "." and ".."
-                    if (name[0] == '.') {
-                        if (name.length == 1)
+                byte[] nbme;
+                while ((nbme = rebddir(dp)) != null) {
+                    // ignore "." bnd ".."
+                    if (nbme[0] == '.') {
+                        if (nbme.length == 1)
                             continue;
-                        if (name.length == 2 && name[1] == '.')
+                        if (nbme.length == 2 && nbme[1] == '.')
                             continue;
                     }
-                    copyExtendedAttribute(ofd, name, nfd);
+                    copyExtendedAttribute(ofd, nbme, nfd);
                 }
-            } finally {
+            } finblly {
                 closedir(dp);
             }
-        } catch (UnixException ignore) {
+        } cbtch (UnixException ignore) {
         }
     }
 
-    private static void copyExtendedAttribute(int ofd, byte[] name, int nfd)
+    privbte stbtic void copyExtendedAttribute(int ofd, byte[] nbme, int nfd)
         throws UnixException
     {
-        // open source attribute file
-        int src = openat(ofd, name, (O_RDONLY|O_XATTR), 0);
+        // open source bttribute file
+        int src = openbt(ofd, nbme, (O_RDONLY|O_XATTR), 0);
         try {
-            // create target attribute file
-            int dst = openat(nfd, name, (O_CREAT|O_WRONLY|O_TRUNC|O_XATTR),
+            // crebte tbrget bttribute file
+            int dst = openbt(nfd, nbme, (O_CREAT|O_WRONLY|O_TRUNC|O_XATTR),
                 UnixFileModeAttribute.ALL_PERMISSIONS);
             try {
-                UnixCopyFile.transfer(dst, src, 0L);
-            } finally {
+                UnixCopyFile.trbnsfer(dst, src, 0L);
+            } finblly {
                 close(dst);
             }
-        } finally {
+        } finblly {
             close(src);
         }
     }

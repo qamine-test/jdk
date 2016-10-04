@@ -1,90 +1,90 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.filechooser;
+pbckbge jbvbx.swing.filechooser;
 
-import java.io.File;
-import javax.swing.*;
+import jbvb.io.File;
+import jbvbx.swing.*;
 
 /**
- * <code>FileView</code> defines an abstract class that can be implemented
- * to provide the filechooser with UI information for a <code>File</code>.
- * Each L&amp;F <code>JFileChooserUI</code> object implements this
- * class to pass back the correct icons and type descriptions specific to
- * that L&amp;F. For example, the Microsoft Windows L&amp;F returns the
- * generic Windows icons for directories and generic files.
- * Additionally, you may want to provide your own <code>FileView</code> to
- * <code>JFileChooser</code> to return different icons or additional
- * information using {@link javax.swing.JFileChooser#setFileView}.
+ * <code>FileView</code> defines bn bbstrbct clbss thbt cbn be implemented
+ * to provide the filechooser with UI informbtion for b <code>File</code>.
+ * Ebch L&bmp;F <code>JFileChooserUI</code> object implements this
+ * clbss to pbss bbck the correct icons bnd type descriptions specific to
+ * thbt L&bmp;F. For exbmple, the Microsoft Windows L&bmp;F returns the
+ * generic Windows icons for directories bnd generic files.
+ * Additionblly, you mby wbnt to provide your own <code>FileView</code> to
+ * <code>JFileChooser</code> to return different icons or bdditionbl
+ * informbtion using {@link jbvbx.swing.JFileChooser#setFileView}.
  *
  * <p>
  *
- * <code>JFileChooser</code> first looks to see if there is a user defined
- * <code>FileView</code>, if there is, it gets type information from
+ * <code>JFileChooser</code> first looks to see if there is b user defined
+ * <code>FileView</code>, if there is, it gets type informbtion from
  * there first. If <code>FileView</code> returns <code>null</code> for
- * any method, <code>JFileChooser</code> then uses the L&amp;F specific
- * view to get the information.
- * So, for example, if you provide a <code>FileView</code> class that
- * returns an <code>Icon</code> for JPG files, and returns <code>null</code>
- * icons for all other files, the UI's <code>FileView</code> will provide
- * default icons for all other files.
+ * bny method, <code>JFileChooser</code> then uses the L&bmp;F specific
+ * view to get the informbtion.
+ * So, for exbmple, if you provide b <code>FileView</code> clbss thbt
+ * returns bn <code>Icon</code> for JPG files, bnd returns <code>null</code>
+ * icons for bll other files, the UI's <code>FileView</code> will provide
+ * defbult icons for bll other files.
  *
  * <p>
  *
- * For an example implementation of a simple file view, see
- * <code><i>yourJDK</i>/demo/jfc/FileChooserDemo/ExampleFileView.java</code>.
- * For more information and examples see
- * <a
- href="http://docs.oracle.com/javase/tutorial/uiswing/components/filechooser.html">How to Use File Choosers</a>,
- * a section in <em>The Java Tutorial</em>.
+ * For bn exbmple implementbtion of b simple file view, see
+ * <code><i>yourJDK</i>/demo/jfc/FileChooserDemo/ExbmpleFileView.jbvb</code>.
+ * For more informbtion bnd exbmples see
+ * <b
+ href="http://docs.orbcle.com/jbvbse/tutoribl/uiswing/components/filechooser.html">How to Use File Choosers</b>,
+ * b section in <em>The Jbvb Tutoribl</em>.
  *
- * @see javax.swing.JFileChooser
+ * @see jbvbx.swing.JFileChooser
  *
- * @author Jeff Dinkins
+ * @buthor Jeff Dinkins
  *
  */
-public abstract class FileView {
+public bbstrbct clbss FileView {
     /**
-     * The name of the file. Normally this would be simply
-     * <code>f.getName()</code>.
+     * The nbme of the file. Normblly this would be simply
+     * <code>f.getNbme()</code>.
      *
-     * @param f a {@code File} object
-     * @return a {@code String} representing the name of the file
+     * @pbrbm f b {@code File} object
+     * @return b {@code String} representing the nbme of the file
      */
-    public String getName(File f) {
+    public String getNbme(File f) {
         return null;
     };
 
     /**
-     * A human readable description of the file. For example,
-     * a file named <i>jag.jpg</i> might have a description that read:
-     * "A JPEG image file of James Gosling's face".
+     * A humbn rebdbble description of the file. For exbmple,
+     * b file nbmed <i>jbg.jpg</i> might hbve b description thbt rebd:
+     * "A JPEG imbge file of Jbmes Gosling's fbce".
      *
-     * @param f a {@code File} object
-     * @return a {@code String} containing a description of the file or
-     *         {@code null} if it is not available.
+     * @pbrbm f b {@code File} object
+     * @return b {@code String} contbining b description of the file or
+     *         {@code null} if it is not bvbilbble.
      *
      */
     public String getDescription(File f) {
@@ -92,41 +92,41 @@ public abstract class FileView {
     }
 
     /**
-     * A human readable description of the type of the file. For
-     * example, a <code>jpg</code> file might have a type description of:
-     * "A JPEG Compressed Image File"
+     * A humbn rebdbble description of the type of the file. For
+     * exbmple, b <code>jpg</code> file might hbve b type description of:
+     * "A JPEG Compressed Imbge File"
      *
-     * @param f a {@code File} object
-     * @return a {@code String} containing a description of the type of the file
-     *         or {@code null} if it is not available   .
+     * @pbrbm f b {@code File} object
+     * @return b {@code String} contbining b description of the type of the file
+     *         or {@code null} if it is not bvbilbble   .
      */
     public String getTypeDescription(File f) {
         return null;
     }
 
     /**
-     * The icon that represents this file in the <code>JFileChooser</code>.
+     * The icon thbt represents this file in the <code>JFileChooser</code>.
      *
-     * @param f a {@code File} object
-     * @return an {@code Icon} which represents the specified {@code File} or
-     *         {@code null} if it is not available.
+     * @pbrbm f b {@code File} object
+     * @return bn {@code Icon} which represents the specified {@code File} or
+     *         {@code null} if it is not bvbilbble.
      */
     public Icon getIcon(File f) {
         return null;
     }
 
     /**
-     * Whether the directory is traversable or not. This might be
-     * useful, for example, if you want a directory to represent
-     * a compound document and don't want the user to descend into it.
+     * Whether the directory is trbversbble or not. This might be
+     * useful, for exbmple, if you wbnt b directory to represent
+     * b compound document bnd don't wbnt the user to descend into it.
      *
-     * @param f a {@code File} object representing a directory
-     * @return {@code true} if the directory is traversable,
-     *         {@code false} if it is not, and {@code null} if the
+     * @pbrbm f b {@code File} object representing b directory
+     * @return {@code true} if the directory is trbversbble,
+     *         {@code fblse} if it is not, bnd {@code null} if the
      *         file system should be checked.
-     * @see FileSystemView#isTraversable
+     * @see FileSystemView#isTrbversbble
      */
-    public Boolean isTraversable(File f) {
+    public Boolebn isTrbversbble(File f) {
         return null;
     }
 

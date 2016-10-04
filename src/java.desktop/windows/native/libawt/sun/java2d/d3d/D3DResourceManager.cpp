@@ -1,87 +1,87 @@
 /*
- * Copyright (c) 2007, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-#include "D3DResourceManager.h"
-#include "awt.h"
-#include "D3DPaints.h"
+#include "D3DResourceMbnbger.h"
+#include "bwt.h"
+#include "D3DPbints.h"
 #include "D3DTextRenderer.h"
 
 void
-D3DResource::Init(IDirect3DResource9 *pRes, IDirect3DSwapChain9 *pSC)
+D3DResource::Init(IDirect3DResource9 *pRes, IDirect3DSwbpChbin9 *pSC)
 {
-    J2dTraceLn(J2D_TRACE_INFO, "D3DResource::Init");
+    J2dTrbceLn(J2D_TRACE_INFO, "D3DResource::Init");
 
     pResource  = NULL;
-    pSwapChain = pSC;
-    pSurface   = NULL;
+    pSwbpChbin = pSC;
+    pSurfbce   = NULL;
     pTexture   = NULL;
     pOps       = NULL;
     ZeroMemory(&desc, sizeof(desc));
-    desc.Format = D3DFMT_UNKNOWN;
+    desc.Formbt = D3DFMT_UNKNOWN;
 
     if (pRes != NULL) {
         pResource = pRes;
 
         D3DRESOURCETYPE type = pResource->GetType();
         switch (type) {
-        case D3DRTYPE_TEXTURE:
-            // addRef is needed because both pResource and pTexture will be
-            // Release()d, and they point to the same object
+        cbse D3DRTYPE_TEXTURE:
+            // bddRef is needed becbuse both pResource bnd pTexture will be
+            // Relebse()d, bnd they point to the sbme object
             pResource->AddRef();
             pTexture = (IDirect3DTexture9*)pResource;
-            pTexture->GetSurfaceLevel(0, &pSurface);
-            break;
-        case D3DRTYPE_SURFACE:
+            pTexture->GetSurfbceLevel(0, &pSurfbce);
+            brebk;
+        cbse D3DRTYPE_SURFACE:
             pResource->AddRef();
-            pSurface = (IDirect3DSurface9*)pResource;
-            break;
-        case D3DRTYPE_CUBETEXTURE:
+            pSurfbce = (IDirect3DSurfbce9*)pResource;
+            brebk;
+        cbse D3DRTYPE_CUBETEXTURE:
             ((IDirect3DCubeTexture9*)pResource)->GetLevelDesc(0, &desc);
-            break;
-        default:
-            J2dTraceLn1(J2D_TRACE_VERBOSE, "  resource type=%d", type);
+            brebk;
+        defbult:
+            J2dTrbceLn1(J2D_TRACE_VERBOSE, "  resource type=%d", type);
         }
-    } else if (pSwapChain != NULL) {
-        pSwapChain->GetBackBuffer(0, D3DBACKBUFFER_TYPE_MONO, &pSurface);
+    } else if (pSwbpChbin != NULL) {
+        pSwbpChbin->GetBbckBuffer(0, D3DBACKBUFFER_TYPE_MONO, &pSurfbce);
     } else {
-        J2dTraceLn(J2D_TRACE_VERBOSE, "  pResource == pSwapChain == NULL");
+        J2dTrbceLn(J2D_TRACE_VERBOSE, "  pResource == pSwbpChbin == NULL");
     }
 
-    if (pSurface != NULL) {
-        pSurface->GetDesc(&desc);
+    if (pSurfbce != NULL) {
+        pSurfbce->GetDesc(&desc);
     }
 
     SAFE_PRINTLN(pResource);
-    SAFE_PRINTLN(pSurface);
+    SAFE_PRINTLN(pSurfbce);
     SAFE_PRINTLN(pTexture);
-    SAFE_PRINTLN(pSwapChain);
+    SAFE_PRINTLN(pSwbpChbin);
 }
 
 D3DResource::~D3DResource()
 {
-    Release();
+    Relebse();
 }
 
 void
@@ -89,8 +89,8 @@ D3DResource::SetSDOps(D3DSDOps *pOps)
 {
     if (pOps != NULL && this->pOps != NULL) {
         // something's wrong, we're overwriting
-        // a non-null field (setting it to null is allowed)
-        J2dTraceLn2(J2D_TRACE_WARNING,
+        // b non-null field (setting it to null is bllowed)
+        J2dTrbceLn2(J2D_TRACE_WARNING,
                     "D3DResource::SetSDOps: overwriting "\
                     "this->pOps=0x%x with pOps=0x%x", this->pOps, pOps);
     }
@@ -98,47 +98,47 @@ D3DResource::SetSDOps(D3DSDOps *pOps)
 }
 
 BOOL
-D3DResource::IsDefaultPool()
+D3DResource::IsDefbultPool()
 {
-    if (desc.Format != D3DFMT_UNKNOWN) {
+    if (desc.Formbt != D3DFMT_UNKNOWN) {
         return (desc.Pool == D3DPOOL_DEFAULT);
     }
     return TRUE;
 }
 
 void
-D3DResource::Release()
+D3DResource::Relebse()
 {
-    J2dTraceLn(J2D_TRACE_INFO, "D3DResource::Release");
+    J2dTrbceLn(J2D_TRACE_INFO, "D3DResource::Relebse");
 
     SAFE_PRINTLN(pResource);
-    SAFE_PRINTLN(pSurface);
+    SAFE_PRINTLN(pSurfbce);
     SAFE_PRINTLN(pTexture);
-    SAFE_PRINTLN(pSwapChain);
+    SAFE_PRINTLN(pSwbpChbin);
 
-    SAFE_RELEASE(pSurface);
+    SAFE_RELEASE(pSurfbce);
     SAFE_RELEASE(pTexture);
     SAFE_RELEASE(pResource);
-    SAFE_RELEASE(pSwapChain);
+    SAFE_RELEASE(pSwbpChbin);
 
     if (pOps != NULL) {
-        // if sdOps is not NULL it means that the release was initiated
-        // from the native level, and is caused by a surface loss
-        D3DSD_MarkLost(pOps);
+        // if sdOps is not NULL it mebns thbt the relebse wbs initibted
+        // from the nbtive level, bnd is cbused by b surfbce loss
+        D3DSD_MbrkLost(pOps);
         pOps->pResource = NULL;
         pOps = NULL;
     }
 }
 
 HRESULT
-D3DResourceManager::CreateInstance(D3DContext *pCtx,
-                                   D3DResourceManager** ppResourceMgr)
+D3DResourceMbnbger::CrebteInstbnce(D3DContext *pCtx,
+                                   D3DResourceMbnbger** ppResourceMgr)
 {
     HRESULT res;
 
-    J2dTraceLn(J2D_TRACE_INFO, "D3DRM::CreateInstance");
+    J2dTrbceLn(J2D_TRACE_INFO, "D3DRM::CrebteInstbnce");
 
-    *ppResourceMgr = new D3DResourceManager();
+    *ppResourceMgr = new D3DResourceMbnbger();
     if (FAILED(res = (*ppResourceMgr)->Init(pCtx))) {
         delete *ppResourceMgr;
         *ppResourceMgr = NULL;
@@ -146,79 +146,79 @@ D3DResourceManager::CreateInstance(D3DContext *pCtx,
     return res;
 }
 
-D3DResourceManager::D3DResourceManager()
+D3DResourceMbnbger::D3DResourceMbnbger()
 {
-    J2dTraceLn(J2D_TRACE_INFO, "D3DRM::D3DRM");
+    J2dTrbceLn(J2D_TRACE_INFO, "D3DRM::D3DRM");
 
     this->pCtx = NULL;
-    this->pHead = NULL;
+    this->pHebd = NULL;
 }
 
 HRESULT
-D3DResourceManager::Init(D3DContext *pCtx)
+D3DResourceMbnbger::Init(D3DContext *pCtx)
 {
-    J2dTraceLn1(J2D_TRACE_INFO, "D3DRM::Init pCtx=%x", pCtx);
+    J2dTrbceLn1(J2D_TRACE_INFO, "D3DRM::Init pCtx=%x", pCtx);
     if (this->pCtx != pCtx ||
         (this->pCtx != NULL &&
          this->pCtx->Get3DDevice() != pCtx->Get3DDevice()))
     {
-        ReleaseAll();
+        RelebseAll();
     }
     this->pCtx = pCtx;
     return S_OK;
 }
 
-D3DResourceManager::~D3DResourceManager()
+D3DResourceMbnbger::~D3DResourceMbnbger()
 {
-    J2dTraceLn(J2D_TRACE_INFO, "D3DRM::~D3DRM");
-    ReleaseAll();
+    J2dTrbceLn(J2D_TRACE_INFO, "D3DRM::~D3DRM");
+    RelebseAll();
     pCtx = NULL;
-    pHead = NULL;
+    pHebd = NULL;
 }
 
 void
-D3DResourceManager::ReleaseAll()
+D3DResourceMbnbger::RelebseAll()
 {
-    J2dTraceLn(J2D_TRACE_INFO, "D3DRM::ReleaseAll");
-    IManagedResource* pCurrent;
-    while (pHead != NULL) {
-        pCurrent = pHead;
-        pHead = pHead->pNext;
+    J2dTrbceLn(J2D_TRACE_INFO, "D3DRM::RelebseAll");
+    IMbnbgedResource* pCurrent;
+    while (pHebd != NULL) {
+        pCurrent = pHebd;
+        pHebd = pHebd->pNext;
         delete pCurrent;
     }
-    pCachedDestTexture    = NULL;
+    pCbchedDestTexture    = NULL;
     pBlitTexture          = NULL;
     pBlitRTTexture        = NULL;
-    pBlitOSPSurface       = NULL;
-    pGradientTexture      = NULL;
+    pBlitOSPSurfbce       = NULL;
+    pGrbdientTexture      = NULL;
     pLookupOpLutTexture   = NULL;
-    pMaskTexture          = NULL;
-    pMultiGradientTexture = NULL;
-    pLockableRTSurface    = NULL;
+    pMbskTexture          = NULL;
+    pMultiGrbdientTexture = NULL;
+    pLockbbleRTSurfbce    = NULL;
 }
 
 void
-D3DResourceManager::ReleaseDefPoolResources()
+D3DResourceMbnbger::RelebseDefPoolResources()
 {
-    J2dTraceLn(J2D_TRACE_INFO, "D3DRM::ReleaseDefPoolResources");
-    // REMIND: for now, release all resources
-    ReleaseAll();
+    J2dTrbceLn(J2D_TRACE_INFO, "D3DRM::RelebseDefPoolResources");
+    // REMIND: for now, relebse bll resources
+    RelebseAll();
 }
 
 HRESULT
-D3DResourceManager::ReleaseResource(IManagedResource* pResource)
+D3DResourceMbnbger::RelebseResource(IMbnbgedResource* pResource)
 {
-    J2dTraceLn(J2D_TRACE_INFO, "D3DRM::ReleaseResource");
+    J2dTrbceLn(J2D_TRACE_INFO, "D3DRM::RelebseResource");
 
     if (pResource != NULL) {
-        J2dTraceLn1(J2D_TRACE_VERBOSE, "  releasing pResource=%x", pResource);
+        J2dTrbceLn1(J2D_TRACE_VERBOSE, "  relebsing pResource=%x", pResource);
         if (pResource->pPrev != NULL) {
             pResource->pPrev->pNext = pResource->pNext;
         } else {
-            // it's the head
-            pHead = pResource->pNext;
-            if (pHead != NULL) {
-                pHead->pPrev = NULL;
+            // it's the hebd
+            pHebd = pResource->pNext;
+            if (pHebd != NULL) {
+                pHebd->pPrev = NULL;
             }
         }
         if (pResource->pNext != NULL) {
@@ -230,70 +230,70 @@ D3DResourceManager::ReleaseResource(IManagedResource* pResource)
 }
 
 HRESULT
-D3DResourceManager::AddResource(IManagedResource* pResource)
+D3DResourceMbnbger::AddResource(IMbnbgedResource* pResource)
 {
     HRESULT res = S_OK;
 
-    J2dTraceLn(J2D_TRACE_INFO, "D3DRM::AddResource");
+    J2dTrbceLn(J2D_TRACE_INFO, "D3DRM::AddResource");
 
     if (pResource != NULL) {
-        J2dTraceLn1(J2D_TRACE_VERBOSE, "  pResource=%x", pResource);
+        J2dTrbceLn1(J2D_TRACE_VERBOSE, "  pResource=%x", pResource);
         pResource->pPrev = NULL;
-        pResource->pNext = pHead;
-        if (pHead != NULL) {
-            pHead->pPrev = pResource;
+        pResource->pNext = pHebd;
+        if (pHebd != NULL) {
+            pHebd->pPrev = pResource;
         }
-        pHead = pResource;
+        pHebd = pResource;
     }
 
     return S_OK;
 }
 
 HRESULT
-D3DResourceManager::CreateTexture(UINT width, UINT height,
-                                  BOOL isRTT, BOOL isOpaque,
-                                  D3DFORMAT *pFormat, DWORD dwUsage,
+D3DResourceMbnbger::CrebteTexture(UINT width, UINT height,
+                                  BOOL isRTT, BOOL isOpbque,
+                                  D3DFORMAT *pFormbt, DWORD dwUsbge,
                                   D3DResource **ppTextureResource)
 {
     D3DPOOL pool;
-    D3DFORMAT format;
+    D3DFORMAT formbt;
     HRESULT res;
     IDirect3DDevice9 *pd3dDevice;
 
-    J2dTraceLn(J2D_TRACE_INFO, "D3DRM::CreateTexture");
-    J2dTraceLn4(J2D_TRACE_VERBOSE, "  w=%d h=%d isRTT=%d isOpaque=%d",
-                width, height, isRTT, isOpaque);
+    J2dTrbceLn(J2D_TRACE_INFO, "D3DRM::CrebteTexture");
+    J2dTrbceLn4(J2D_TRACE_VERBOSE, "  w=%d h=%d isRTT=%d isOpbque=%d",
+                width, height, isRTT, isOpbque);
 
     if (ppTextureResource == NULL || pCtx == NULL ||
         (pd3dDevice = pCtx->Get3DDevice()) == NULL)
     {
         return E_FAIL;
     }
-    if (FAILED(res = pd3dDevice->TestCooperativeLevel())) {
+    if (FAILED(res = pd3dDevice->TestCooperbtiveLevel())) {
         return res;
     }
 
-    if (pFormat != NULL && *pFormat != D3DFMT_UNKNOWN) {
-        format = *pFormat;
+    if (pFormbt != NULL && *pFormbt != D3DFMT_UNKNOWN) {
+        formbt = *pFormbt;
     } else {
-        if (isOpaque) {
-            format = D3DFMT_X8R8G8B8;
+        if (isOpbque) {
+            formbt = D3DFMT_X8R8G8B8;
         } else {
-            format = D3DFMT_A8R8G8B8;
+            formbt = D3DFMT_A8R8G8B8;
         }
     }
 
     if (isRTT) {
-        dwUsage = D3DUSAGE_RENDERTARGET;
+        dwUsbge = D3DUSAGE_RENDERTARGET;
         pool = D3DPOOL_DEFAULT;
     } else {
-        if (dwUsage == D3DUSAGE_DYNAMIC && !pCtx->IsDynamicTextureSupported()) {
-            dwUsage = 0;
+        if (dwUsbge == D3DUSAGE_DYNAMIC && !pCtx->IsDynbmicTextureSupported()) {
+            dwUsbge = 0;
         }
-        if (dwUsage == D3DUSAGE_DYNAMIC) {
+        if (dwUsbge == D3DUSAGE_DYNAMIC) {
             pool = D3DPOOL_DEFAULT;
         } else {
-            pool = pCtx->IsHWRasterizer() ?
+            pool = pCtx->IsHWRbsterizer() ?
                 D3DPOOL_MANAGED : D3DPOOL_SYSTEMMEM;
         }
     }
@@ -305,7 +305,7 @@ D3DResourceManager::CreateTexture(UINT width, UINT height,
           width = w;
           height = h;
     }
-    if (pCtx->IsSquareTexturesOnly()) {
+    if (pCtx->IsSqubreTexturesOnly()) {
         if (width > height) {
             height = width;
         } else {
@@ -314,213 +314,213 @@ D3DResourceManager::CreateTexture(UINT width, UINT height,
     }
 
     IDirect3DTexture9 *pTexture = NULL;
-    res = pd3dDevice->CreateTexture(width, height, 1/*levels*/, dwUsage,
-                                    format, pool, &pTexture, 0);
+    res = pd3dDevice->CrebteTexture(width, height, 1/*levels*/, dwUsbge,
+                                    formbt, pool, &pTexture, 0);
     if (SUCCEEDED(res)) {
-        J2dTraceLn1(J2D_TRACE_VERBOSE, "  created texture: 0x%x", pTexture);
+        J2dTrbceLn1(J2D_TRACE_VERBOSE, "  crebted texture: 0x%x", pTexture);
         *ppTextureResource = new D3DResource((IDirect3DResource9*)pTexture);
         res = AddResource(*ppTextureResource);
     } else {
-        DebugPrintD3DError(res, "D3DRM::CreateTexture failed");
+        DebugPrintD3DError(res, "D3DRM::CrebteTexture fbiled");
         *ppTextureResource = NULL;
-        format = D3DFMT_UNKNOWN;
+        formbt = D3DFMT_UNKNOWN;
     }
 
-    if (pFormat != NULL) {
-        *pFormat = format;
+    if (pFormbt != NULL) {
+        *pFormbt = formbt;
     }
 
     return res;
 }
 
-HRESULT D3DResourceManager::CreateRTSurface(UINT width, UINT height,
-                                         BOOL isOpaque, BOOL isLockable,
-                                         D3DFORMAT *pFormat/*out*/,
-                                         D3DResource** ppSurfaceResource/*out*/)
+HRESULT D3DResourceMbnbger::CrebteRTSurfbce(UINT width, UINT height,
+                                         BOOL isOpbque, BOOL isLockbble,
+                                         D3DFORMAT *pFormbt/*out*/,
+                                         D3DResource** ppSurfbceResource/*out*/)
 {
     HRESULT res;
     IDirect3DDevice9 *pd3dDevice;
 
-    J2dTraceLn(J2D_TRACE_INFO, "D3DRM::CreateRTSurface");
-    J2dTraceLn3(J2D_TRACE_VERBOSE, "  w=%d h=%d isOpaque=%d",
-                width, height, isOpaque);
+    J2dTrbceLn(J2D_TRACE_INFO, "D3DRM::CrebteRTSurfbce");
+    J2dTrbceLn3(J2D_TRACE_VERBOSE, "  w=%d h=%d isOpbque=%d",
+                width, height, isOpbque);
 
-    if (pCtx == NULL || ppSurfaceResource == NULL ||
+    if (pCtx == NULL || ppSurfbceResource == NULL ||
         (pd3dDevice = pCtx->Get3DDevice()) == NULL)
     {
         return E_FAIL;
     }
-    if (FAILED(res = pd3dDevice->TestCooperativeLevel())) {
+    if (FAILED(res = pd3dDevice->TestCooperbtiveLevel())) {
         return res;
     }
 
-    D3DPRESENT_PARAMETERS *curParams = pCtx->GetPresentationParams();
-    D3DFORMAT format = isOpaque ? curParams->BackBufferFormat : D3DFMT_A8R8G8B8;
-    IDirect3DSurface9 *pSurface = NULL;
+    D3DPRESENT_PARAMETERS *curPbrbms = pCtx->GetPresentbtionPbrbms();
+    D3DFORMAT formbt = isOpbque ? curPbrbms->BbckBufferFormbt : D3DFMT_A8R8G8B8;
+    IDirect3DSurfbce9 *pSurfbce = NULL;
 
-    res = pd3dDevice->CreateRenderTarget(width, height, format,
+    res = pd3dDevice->CrebteRenderTbrget(width, height, formbt,
                                          D3DMULTISAMPLE_NONE, 0,
-                                         isLockable,
-                                         &pSurface, NULL);
+                                         isLockbble,
+                                         &pSurfbce, NULL);
     if (SUCCEEDED(res)) {
-        J2dTraceLn1(J2D_TRACE_VERBOSE, "  created RT Surface: 0x%x ", pSurface);
-        if (pFormat != NULL) {
-            *pFormat = format;
+        J2dTrbceLn1(J2D_TRACE_VERBOSE, "  crebted RT Surfbce: 0x%x ", pSurfbce);
+        if (pFormbt != NULL) {
+            *pFormbt = formbt;
         }
-        *ppSurfaceResource = new D3DResource((IDirect3DResource9*)pSurface);
-        res = AddResource(*ppSurfaceResource);
+        *ppSurfbceResource = new D3DResource((IDirect3DResource9*)pSurfbce);
+        res = AddResource(*ppSurfbceResource);
     } else {
-        DebugPrintD3DError(res, "D3DRM::CreateRTSurface failed");
-        ppSurfaceResource = NULL;
+        DebugPrintD3DError(res, "D3DRM::CrebteRTSurfbce fbiled");
+        ppSurfbceResource = NULL;
     }
     return res;
 }
 
-// REMIND: this method is currently unused; consider removing it later...
-HRESULT D3DResourceManager::CreateOSPSurface(UINT width, UINT height,
+// REMIND: this method is currently unused; consider removing it lbter...
+HRESULT D3DResourceMbnbger::CrebteOSPSurfbce(UINT width, UINT height,
                                          D3DFORMAT fmt,
-                                         D3DResource** ppSurfaceResource/*out*/)
+                                         D3DResource** ppSurfbceResource/*out*/)
 {
     HRESULT res;
     IDirect3DDevice9 *pd3dDevice;
 
-    J2dTraceLn(J2D_TRACE_INFO, "D3DRM::CreateOSPSurface");
-    J2dTraceLn2(J2D_TRACE_VERBOSE, "  w=%d h=%d", width, height);
+    J2dTrbceLn(J2D_TRACE_INFO, "D3DRM::CrebteOSPSurfbce");
+    J2dTrbceLn2(J2D_TRACE_VERBOSE, "  w=%d h=%d", width, height);
 
-    if (pCtx == NULL || ppSurfaceResource == NULL ||
+    if (pCtx == NULL || ppSurfbceResource == NULL ||
         (pd3dDevice = pCtx->Get3DDevice()) == NULL)
     {
         return E_FAIL;
     }
-    if (FAILED(res = pd3dDevice->TestCooperativeLevel())) {
+    if (FAILED(res = pd3dDevice->TestCooperbtiveLevel())) {
         return res;
     }
 
-    // since the off-screen plain surface is intended to be used with
-    // the UpdateSurface() method, it is essential that it be created
-    // in the same format as the destination and allocated in the
-    // SYSTEMMEM pool (otherwise UpdateSurface() will fail)
-    D3DFORMAT format;
+    // since the off-screen plbin surfbce is intended to be used with
+    // the UpdbteSurfbce() method, it is essentibl thbt it be crebted
+    // in the sbme formbt bs the destinbtion bnd bllocbted in the
+    // SYSTEMMEM pool (otherwise UpdbteSurfbce() will fbil)
+    D3DFORMAT formbt;
     if (fmt == D3DFMT_UNKNOWN) {
-        format = pCtx->GetPresentationParams()->BackBufferFormat;
+        formbt = pCtx->GetPresentbtionPbrbms()->BbckBufferFormbt;
     } else {
-        format = fmt;
+        formbt = fmt;
     }
     D3DPOOL pool = D3DPOOL_SYSTEMMEM;
-    IDirect3DSurface9 *pSurface = NULL;
+    IDirect3DSurfbce9 *pSurfbce = NULL;
 
-    res = pd3dDevice->CreateOffscreenPlainSurface(width, height,
-                                                  format, pool,
-                                                  &pSurface, NULL);
+    res = pd3dDevice->CrebteOffscreenPlbinSurfbce(width, height,
+                                                  formbt, pool,
+                                                  &pSurfbce, NULL);
     if (SUCCEEDED(res)) {
-        J2dTraceLn1(J2D_TRACE_VERBOSE, "  created OSP Surface: 0x%x ",pSurface);
-        *ppSurfaceResource = new D3DResource((IDirect3DResource9*)pSurface);
-        res = AddResource(*ppSurfaceResource);
+        J2dTrbceLn1(J2D_TRACE_VERBOSE, "  crebted OSP Surfbce: 0x%x ",pSurfbce);
+        *ppSurfbceResource = new D3DResource((IDirect3DResource9*)pSurfbce);
+        res = AddResource(*ppSurfbceResource);
     } else {
-        DebugPrintD3DError(res, "D3DRM::CreateOSPSurface failed");
-        ppSurfaceResource = NULL;
+        DebugPrintD3DError(res, "D3DRM::CrebteOSPSurfbce fbiled");
+        ppSurfbceResource = NULL;
     }
     return res;
 }
 
 HRESULT
-D3DResourceManager::CreateSwapChain(HWND hWnd, UINT numBuffers,
+D3DResourceMbnbger::CrebteSwbpChbin(HWND hWnd, UINT numBuffers,
                                     UINT width, UINT height,
-                                    D3DSWAPEFFECT swapEffect,
-                                    UINT presentationInterval,
-                                    D3DResource ** ppSwapChainResource)
+                                    D3DSWAPEFFECT swbpEffect,
+                                    UINT presentbtionIntervbl,
+                                    D3DResource ** ppSwbpChbinResource)
 {
     HRESULT res;
     IDirect3DDevice9 *pd3dDevice;
-    IDirect3DSwapChain9 *pSwapChain = NULL;
-    D3DPRESENT_PARAMETERS newParams, *curParams;
+    IDirect3DSwbpChbin9 *pSwbpChbin = NULL;
+    D3DPRESENT_PARAMETERS newPbrbms, *curPbrbms;
 
-    J2dTraceLn(J2D_TRACE_INFO, "D3DRM::CreateSwapChain");
-    J2dTraceLn4(J2D_TRACE_VERBOSE, "  w=%d h=%d hwnd=%x numBuffers=%d",
+    J2dTrbceLn(J2D_TRACE_INFO, "D3DRM::CrebteSwbpChbin");
+    J2dTrbceLn4(J2D_TRACE_VERBOSE, "  w=%d h=%d hwnd=%x numBuffers=%d",
                 width, height, hWnd, numBuffers);
 
-    if (pCtx == NULL || ppSwapChainResource == NULL ||
+    if (pCtx == NULL || ppSwbpChbinResource == NULL ||
         (pd3dDevice = pCtx->Get3DDevice()) == NULL)
     {
         return E_FAIL;
     }
-    RETURN_STATUS_IF_FAILED(res = pd3dDevice->TestCooperativeLevel());
+    RETURN_STATUS_IF_FAILED(res = pd3dDevice->TestCooperbtiveLevel());
 
-    curParams = pCtx->GetPresentationParams();
+    curPbrbms = pCtx->GetPresentbtionPbrbms();
 
-    if (curParams->Windowed == FALSE) {
-        // there's a single swap chain in full-screen mode, use it if
-        // it fits our parameters, reset the device otherwise
-        if (curParams->BackBufferCount != numBuffers ||
-            curParams->SwapEffect != swapEffect ||
-            curParams->PresentationInterval != presentationInterval)
+    if (curPbrbms->Windowed == FALSE) {
+        // there's b single swbp chbin in full-screen mode, use it if
+        // it fits our pbrbmeters, reset the device otherwise
+        if (curPbrbms->BbckBufferCount != numBuffers ||
+            curPbrbms->SwbpEffect != swbpEffect ||
+            curPbrbms->PresentbtionIntervbl != presentbtionIntervbl)
         {
-            newParams = *curParams;
-            newParams.BackBufferCount = numBuffers;
-            newParams.SwapEffect = swapEffect;
-            newParams.PresentationInterval = presentationInterval;
+            newPbrbms = *curPbrbms;
+            newPbrbms.BbckBufferCount = numBuffers;
+            newPbrbms.SwbpEffect = swbpEffect;
+            newPbrbms.PresentbtionIntervbl = presentbtionIntervbl;
 
-            res = pCtx->ConfigureContext(&newParams);
+            res = pCtx->ConfigureContext(&newPbrbms);
             RETURN_STATUS_IF_FAILED(res);
-            // this reset will not have released the device, so our pd3dDevice
-            // is still valid, but to be on a safe side, reset it
+            // this reset will not hbve relebsed the device, so our pd3dDevice
+            // is still vblid, but to be on b sbfe side, reset it
             pd3dDevice = pCtx->Get3DDevice();
         }
-        res = pd3dDevice->GetSwapChain(0, &pSwapChain);
+        res = pd3dDevice->GetSwbpChbin(0, &pSwbpChbin);
     } else {
-        ZeroMemory(&newParams, sizeof(D3DPRESENT_PARAMETERS));
-        newParams.BackBufferWidth = width;
-        newParams.BackBufferHeight = height;
-        newParams.hDeviceWindow = hWnd;
-        newParams.Windowed = TRUE;
-        newParams.BackBufferCount = numBuffers;
-        newParams.SwapEffect = swapEffect;
-        newParams.PresentationInterval = presentationInterval;
+        ZeroMemory(&newPbrbms, sizeof(D3DPRESENT_PARAMETERS));
+        newPbrbms.BbckBufferWidth = width;
+        newPbrbms.BbckBufferHeight = height;
+        newPbrbms.hDeviceWindow = hWnd;
+        newPbrbms.Windowed = TRUE;
+        newPbrbms.BbckBufferCount = numBuffers;
+        newPbrbms.SwbpEffect = swbpEffect;
+        newPbrbms.PresentbtionIntervbl = presentbtionIntervbl;
 
-        res = pd3dDevice->CreateAdditionalSwapChain(&newParams, &pSwapChain);
+        res = pd3dDevice->CrebteAdditionblSwbpChbin(&newPbrbms, &pSwbpChbin);
     }
 
     if (SUCCEEDED(res)) {
-        J2dTraceLn1(J2D_TRACE_VERBOSE,"  created swap chain: 0x%x ",pSwapChain);
-        *ppSwapChainResource = new D3DResource(pSwapChain);
-        res = AddResource(*ppSwapChainResource);
+        J2dTrbceLn1(J2D_TRACE_VERBOSE,"  crebted swbp chbin: 0x%x ",pSwbpChbin);
+        *ppSwbpChbinResource = new D3DResource(pSwbpChbin);
+        res = AddResource(*ppSwbpChbinResource);
     } else {
-        DebugPrintD3DError(res, "D3DRM::CreateSwapChain failed");
-        *ppSwapChainResource = NULL;
+        DebugPrintD3DError(res, "D3DRM::CrebteSwbpChbin fbiled");
+        *ppSwbpChbinResource = NULL;
     }
     return res;
 }
 
 HRESULT
-D3DResourceManager::GetMaskTexture(D3DResource **ppTextureResource)
+D3DResourceMbnbger::GetMbskTexture(D3DResource **ppTextureResource)
 {
-    J2dTraceLn(J2D_TRACE_INFO, "D3DRM::GetMaskTexture");
+    J2dTrbceLn(J2D_TRACE_INFO, "D3DRM::GetMbskTexture");
 
     RETURN_STATUS_IF_NULL(pCtx, E_FAIL);
     RETURN_STATUS_IF_NULL(ppTextureResource, E_FAIL);
 
-    D3DFORMAT format = pCtx->IsTextureFormatSupported(D3DFMT_A8) ?
+    D3DFORMAT formbt = pCtx->IsTextureFormbtSupported(D3DFMT_A8) ?
         D3DFMT_A8 : D3DFMT_A8R8G8B8;
 
-    jboolean needsInit = (pMaskTexture == NULL);
+    jboolebn needsInit = (pMbskTexture == NULL);
     HRESULT res;
     if (FAILED(res =
         GetStockTextureResource(D3D_MASK_CACHE_WIDTH_IN_TEXELS,
                                 D3D_MASK_CACHE_HEIGHT_IN_TEXELS,
-                                FALSE/*isRTT*/, FALSE/*isOpaque*/, &format, 0,
-                                &pMaskTexture)))
+                                FALSE/*isRTT*/, FALSE/*isOpbque*/, &formbt, 0,
+                                &pMbskTexture)))
     {
         return res;
     }
 
     if (needsInit) {
-        // init special fully opaque tile in the upper-right corner of
-        // the mask cache texture
-        jubyte allOnes[D3D_MASK_CACHE_TILE_SIZE];
-        memset(allOnes, 0xff, D3D_MASK_CACHE_TILE_SIZE);
-        if (FAILED(res = pCtx->UploadTileToTexture(
-                                         pMaskTexture,
-                                         allOnes,
+        // init specibl fully opbque tile in the upper-right corner of
+        // the mbsk cbche texture
+        jubyte bllOnes[D3D_MASK_CACHE_TILE_SIZE];
+        memset(bllOnes, 0xff, D3D_MASK_CACHE_TILE_SIZE);
+        if (FAILED(res = pCtx->UplobdTileToTexture(
+                                         pMbskTexture,
+                                         bllOnes,
                                          D3D_MASK_CACHE_SPECIAL_TILE_X,
                                          D3D_MASK_CACHE_SPECIAL_TILE_Y,
                                          0, 0,
@@ -533,22 +533,22 @@ D3DResourceManager::GetMaskTexture(D3DResource **ppTextureResource)
         }
     }
 
-    *ppTextureResource = pMaskTexture;
+    *ppTextureResource = pMbskTexture;
 
     return res;
 }
 
 HRESULT
-D3DResourceManager::GetBlitTexture(D3DResource **ppTextureResource)
+D3DResourceMbnbger::GetBlitTexture(D3DResource **ppTextureResource)
 {
-    J2dTraceLn(J2D_TRACE_INFO, "D3DRM::GetBlitTexture");
+    J2dTrbceLn(J2D_TRACE_INFO, "D3DRM::GetBlitTexture");
 
     RETURN_STATUS_IF_NULL(pCtx, E_FAIL);
     RETURN_STATUS_IF_NULL(ppTextureResource, E_FAIL);
 
     HRESULT res =
         GetStockTextureResource(D3DC_BLIT_TILE_SIZE, D3DC_BLIT_TILE_SIZE,
-                                FALSE/*isRTT*/, FALSE/*isOpaque*/, NULL,
+                                FALSE/*isRTT*/, FALSE/*isOpbque*/, NULL,
                                 D3DUSAGE_DYNAMIC,
                                 &pBlitTexture);
     *ppTextureResource = pBlitTexture;
@@ -557,51 +557,51 @@ D3DResourceManager::GetBlitTexture(D3DResource **ppTextureResource)
 }
 
 HRESULT
-D3DResourceManager::GetGradientTexture(D3DResource **ppTextureResource)
+D3DResourceMbnbger::GetGrbdientTexture(D3DResource **ppTextureResource)
 {
-    J2dTraceLn(J2D_TRACE_INFO, "D3DRM::GetGradientTexture");
+    J2dTrbceLn(J2D_TRACE_INFO, "D3DRM::GetGrbdientTexture");
 
     RETURN_STATUS_IF_NULL(pCtx, E_FAIL);
     RETURN_STATUS_IF_NULL(ppTextureResource, E_FAIL);
 
     HRESULT res =
         GetStockTextureResource(2, 1,
-                                FALSE/*isRTT*/, FALSE/*isOpaque*/, NULL, 0,
-                                &pGradientTexture);
-    *ppTextureResource = pGradientTexture;
+                                FALSE/*isRTT*/, FALSE/*isOpbque*/, NULL, 0,
+                                &pGrbdientTexture);
+    *ppTextureResource = pGrbdientTexture;
 
     return res;
 }
 
 HRESULT
-D3DResourceManager::GetMultiGradientTexture(D3DResource **ppTextureResource)
+D3DResourceMbnbger::GetMultiGrbdientTexture(D3DResource **ppTextureResource)
 {
-    J2dTraceLn(J2D_TRACE_INFO, "D3DRM::GetMultiGradientTexture");
+    J2dTrbceLn(J2D_TRACE_INFO, "D3DRM::GetMultiGrbdientTexture");
 
     RETURN_STATUS_IF_NULL(pCtx, E_FAIL);
     RETURN_STATUS_IF_NULL(ppTextureResource, E_FAIL);
 
     HRESULT res =
         GetStockTextureResource(MAX_MULTI_GRADIENT_COLORS, 1,
-                                FALSE/*isRTT*/, FALSE/*isOpaque*/, NULL, 0,
-                                &pMultiGradientTexture);
-    *ppTextureResource = pMultiGradientTexture;
+                                FALSE/*isRTT*/, FALSE/*isOpbque*/, NULL, 0,
+                                &pMultiGrbdientTexture);
+    *ppTextureResource = pMultiGrbdientTexture;
 
     return res;
 }
 
 HRESULT
-D3DResourceManager::GetLookupOpLutTexture(D3DResource **ppTextureResource)
+D3DResourceMbnbger::GetLookupOpLutTexture(D3DResource **ppTextureResource)
 {
-    J2dTraceLn(J2D_TRACE_INFO, "D3DRM::GetLookupOpTexture");
+    J2dTrbceLn(J2D_TRACE_INFO, "D3DRM::GetLookupOpTexture");
 
     RETURN_STATUS_IF_NULL(pCtx, E_FAIL);
     RETURN_STATUS_IF_NULL(ppTextureResource, E_FAIL);
 
-    D3DFORMAT format = D3DFMT_L16;
+    D3DFORMAT formbt = D3DFMT_L16;
     HRESULT res =
         GetStockTextureResource(256, 4,
-                                FALSE/*isRTT*/, FALSE/*isOpaque*/, &format, 0,
+                                FALSE/*isRTT*/, FALSE/*isOpbque*/, &formbt, 0,
                                 &pLookupOpLutTexture);
     *ppTextureResource = pLookupOpLutTexture;
 
@@ -609,110 +609,110 @@ D3DResourceManager::GetLookupOpLutTexture(D3DResource **ppTextureResource)
 }
 
 HRESULT
-D3DResourceManager::GetBlitRTTexture(UINT width, UINT height, D3DFORMAT format,
+D3DResourceMbnbger::GetBlitRTTexture(UINT width, UINT height, D3DFORMAT formbt,
                                      D3DResource **ppTextureResource)
 {
-    J2dTraceLn(J2D_TRACE_INFO, "D3DRM::GetBlitRTTexture");
+    J2dTrbceLn(J2D_TRACE_INFO, "D3DRM::GetBlitRTTexture");
     RETURN_STATUS_IF_NULL(pCtx, E_FAIL);
     RETURN_STATUS_IF_NULL(ppTextureResource, E_FAIL);
 
     HRESULT res = GetStockTextureResource(width, height,
-                                          TRUE/*isRTT*/, FALSE/*isOpaque*/,
-                                          &format, 0,
+                                          TRUE/*isRTT*/, FALSE/*isOpbque*/,
+                                          &formbt, 0,
                                           &pBlitRTTexture);
     if (SUCCEEDED(res)) {
         D3DSURFACE_DESC *pDesc = pBlitRTTexture->GetDesc();
-        D3DCAPS9 *pDevCaps = pCtx->GetDeviceCaps();
+        D3DCAPS9 *pDevCbps = pCtx->GetDeviceCbps();
         if ((width <= pDesc->Width && height <= pDesc->Height) &&
-            (format == pDesc->Format ||
-             SUCCEEDED(pCtx->Get3DObject()->CheckDeviceFormatConversion(
-                       pDevCaps->AdapterOrdinal,
-                       pDevCaps->DeviceType, format, pDesc->Format))))
+            (formbt == pDesc->Formbt ||
+             SUCCEEDED(pCtx->Get3DObject()->CheckDeviceFormbtConversion(
+                       pDevCbps->AdbpterOrdinbl,
+                       pDevCbps->DeviceType, formbt, pDesc->Formbt))))
         {
             *ppTextureResource = pBlitRTTexture;
             return res;
         }
-        // current texture doesn't fit, release and allocate a new one
-        ReleaseResource(pBlitRTTexture);
+        // current texture doesn't fit, relebse bnd bllocbte b new one
+        RelebseResource(pBlitRTTexture);
         pBlitRTTexture = NULL;
     }
     if (width  < D3DC_BLIT_TILE_SIZE) width  = D3DC_BLIT_TILE_SIZE;
     if (height < D3DC_BLIT_TILE_SIZE) height = D3DC_BLIT_TILE_SIZE;
 
-    res = CreateTexture(width, height, TRUE, FALSE, &format, 0,&pBlitRTTexture);
+    res = CrebteTexture(width, height, TRUE, FALSE, &formbt, 0,&pBlitRTTexture);
     *ppTextureResource = pBlitRTTexture;
 
     return res;
 }
 
 HRESULT
-D3DResourceManager::GetBlitOSPSurface(UINT width, UINT height, D3DFORMAT fmt,
-                                      D3DResource **ppSurfaceResource)
+D3DResourceMbnbger::GetBlitOSPSurfbce(UINT width, UINT height, D3DFORMAT fmt,
+                                      D3DResource **ppSurfbceResource)
 {
     HRESULT res = S_OK;
 
-    J2dTraceLn(J2D_TRACE_INFO, "D3DRM::GetBlitOSPSurface");
+    J2dTrbceLn(J2D_TRACE_INFO, "D3DRM::GetBlitOSPSurfbce");
     RETURN_STATUS_IF_NULL(pCtx, E_FAIL);
-    RETURN_STATUS_IF_NULL(ppSurfaceResource, E_FAIL);
+    RETURN_STATUS_IF_NULL(ppSurfbceResource, E_FAIL);
 
-    if (pBlitOSPSurface != NULL) {
-        D3DSURFACE_DESC *pDesc = pBlitOSPSurface->GetDesc();
+    if (pBlitOSPSurfbce != NULL) {
+        D3DSURFACE_DESC *pDesc = pBlitOSPSurfbce->GetDesc();
         if (width == pDesc->Width && height == pDesc->Height &&
-            (fmt == pDesc->Format || fmt == D3DFMT_UNKNOWN))
+            (fmt == pDesc->Formbt || fmt == D3DFMT_UNKNOWN))
         {
-            *ppSurfaceResource = pBlitOSPSurface;
+            *ppSurfbceResource = pBlitOSPSurfbce;
             return res;
         }
-        // current surface doesn't fit, release and allocate a new one
-        ReleaseResource(pBlitOSPSurface);
-        pBlitOSPSurface = NULL;
+        // current surfbce doesn't fit, relebse bnd bllocbte b new one
+        RelebseResource(pBlitOSPSurfbce);
+        pBlitOSPSurfbce = NULL;
     }
 
-    res = CreateOSPSurface(width, height, fmt, &pBlitOSPSurface);
-    *ppSurfaceResource = pBlitOSPSurface;
+    res = CrebteOSPSurfbce(width, height, fmt, &pBlitOSPSurfbce);
+    *ppSurfbceResource = pBlitOSPSurfbce;
 
     return res;
 }
 
 HRESULT
-D3DResourceManager::GetLockableRTSurface(UINT width, UINT height,
-                                         D3DFORMAT format,
-                                         D3DResource **ppSurfaceResource)
+D3DResourceMbnbger::GetLockbbleRTSurfbce(UINT width, UINT height,
+                                         D3DFORMAT formbt,
+                                         D3DResource **ppSurfbceResource)
 {
     HRESULT res = S_OK;
 
-    J2dTraceLn(J2D_TRACE_INFO, "D3DRM::GetLockableRTSurface");
+    J2dTrbceLn(J2D_TRACE_INFO, "D3DRM::GetLockbbleRTSurfbce");
     RETURN_STATUS_IF_NULL(pCtx, E_FAIL);
-    RETURN_STATUS_IF_NULL(ppSurfaceResource, E_FAIL);
+    RETURN_STATUS_IF_NULL(ppSurfbceResource, E_FAIL);
 
-    if (pLockableRTSurface != NULL) {
-        D3DSURFACE_DESC *pDesc = pLockableRTSurface->GetDesc();
+    if (pLockbbleRTSurfbce != NULL) {
+        D3DSURFACE_DESC *pDesc = pLockbbleRTSurfbce->GetDesc();
         if (width <= pDesc->Width && height <= pDesc->Height &&
-            format == pDesc->Format)
+            formbt == pDesc->Formbt)
         {
-            *ppSurfaceResource = pLockableRTSurface;
+            *ppSurfbceResource = pLockbbleRTSurfbce;
             return res;
         }
-        // current surface doesn't fit, release and allocate a new one
-        ReleaseResource(pLockableRTSurface);
-        pLockableRTSurface = NULL;
+        // current surfbce doesn't fit, relebse bnd bllocbte b new one
+        RelebseResource(pLockbbleRTSurfbce);
+        pLockbbleRTSurfbce = NULL;
     }
     if (width  < D3DC_BLIT_TILE_SIZE) width  = D3DC_BLIT_TILE_SIZE;
     if (height < D3DC_BLIT_TILE_SIZE) height = D3DC_BLIT_TILE_SIZE;
 
-    res = CreateRTSurface(width,height,
-                          (format != D3DFMT_A8R8G8B8), TRUE /*lockable*/,
-                          &format, &pLockableRTSurface);
-    *ppSurfaceResource = pLockableRTSurface;
+    res = CrebteRTSurfbce(width,height,
+                          (formbt != D3DFMT_A8R8G8B8), TRUE /*lockbble*/,
+                          &formbt, &pLockbbleRTSurfbce);
+    *ppSurfbceResource = pLockbbleRTSurfbce;
 
     return res;
 }
 
 HRESULT
-D3DResourceManager::GetCachedDestTexture(D3DFORMAT format,
+D3DResourceMbnbger::GetCbchedDestTexture(D3DFORMAT formbt,
                                          D3DResource **ppTextureResource)
 {
-    J2dTraceLn(J2D_TRACE_INFO, "D3DRM::GetCachedDestTexture");
+    J2dTrbceLn(J2D_TRACE_INFO, "D3DRM::GetCbchedDestTexture");
 
     RETURN_STATUS_IF_NULL(pCtx, E_FAIL);
     RETURN_STATUS_IF_NULL(ppTextureResource, E_FAIL);
@@ -720,35 +720,35 @@ D3DResourceManager::GetCachedDestTexture(D3DFORMAT format,
     HRESULT res =
         GetStockTextureResource(D3DTR_CACHED_DEST_WIDTH,
                                 D3DTR_CACHED_DEST_HEIGHT,
-                                TRUE/*isRTT*/, FALSE/*isOpaque*/,
-                                &format, 0, &pCachedDestTexture);
+                                TRUE/*isRTT*/, FALSE/*isOpbque*/,
+                                &formbt, 0, &pCbchedDestTexture);
     if (SUCCEEDED(res)) {
-        D3DSURFACE_DESC *pDesc = pCachedDestTexture->GetDesc();
-        D3DCAPS9 *pDevCaps = pCtx->GetDeviceCaps();
-        if ((format == pDesc->Format ||
-             SUCCEEDED(pCtx->Get3DObject()->CheckDeviceFormatConversion(
-                           pDevCaps->AdapterOrdinal,
-                           pDevCaps->DeviceType, format, pDesc->Format))))
+        D3DSURFACE_DESC *pDesc = pCbchedDestTexture->GetDesc();
+        D3DCAPS9 *pDevCbps = pCtx->GetDeviceCbps();
+        if ((formbt == pDesc->Formbt ||
+             SUCCEEDED(pCtx->Get3DObject()->CheckDeviceFormbtConversion(
+                           pDevCbps->AdbpterOrdinbl,
+                           pDevCbps->DeviceType, formbt, pDesc->Formbt))))
         {
-            *ppTextureResource = pCachedDestTexture;
+            *ppTextureResource = pCbchedDestTexture;
             return res;
         }
-        // current texture doesn't fit, release and allocate a new one
-        ReleaseResource(pCachedDestTexture);
-        pCachedDestTexture = NULL;
+        // current texture doesn't fit, relebse bnd bllocbte b new one
+        RelebseResource(pCbchedDestTexture);
+        pCbchedDestTexture = NULL;
     }
-    res = CreateTexture(D3DTR_CACHED_DEST_WIDTH, D3DTR_CACHED_DEST_HEIGHT,
-                        TRUE, FALSE, &format, 0,
-                        &pCachedDestTexture);
-    *ppTextureResource = pCachedDestTexture;
+    res = CrebteTexture(D3DTR_CACHED_DEST_WIDTH, D3DTR_CACHED_DEST_HEIGHT,
+                        TRUE, FALSE, &formbt, 0,
+                        &pCbchedDestTexture);
+    *ppTextureResource = pCbchedDestTexture;
     return res;
 }
 
 HRESULT
-D3DResourceManager::GetStockTextureResource(UINT width, UINT height,
-                                            BOOL isRTT, BOOL isOpaque,
-                                            D3DFORMAT *pFormat/*in/out*/,
-                                            DWORD dwUsage,
+D3DResourceMbnbger::GetStockTextureResource(UINT width, UINT height,
+                                            BOOL isRTT, BOOL isOpbque,
+                                            D3DFORMAT *pFormbt/*in/out*/,
+                                            DWORD dwUsbge,
                                             D3DResource **ppTextureResource)
 {
     D3DResource *pResource = *ppTextureResource;
@@ -756,10 +756,10 @@ D3DResourceManager::GetStockTextureResource(UINT width, UINT height,
         if (pResource->GetTexture() != NULL) {
             return S_OK;
         }
-        ReleaseResource(pResource);
+        RelebseResource(pResource);
         *ppTextureResource = NULL;
     }
 
-    return CreateTexture(width, height, isRTT, isOpaque, pFormat, dwUsage,
+    return CrebteTexture(width, height, isRTT, isOpbque, pFormbt, dwUsbge,
                          ppTextureResource);
 }

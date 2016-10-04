@@ -1,335 +1,335 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * Written by Doug Lea with assistance from members of JCP JSR-166
- * Expert Group and released to the public domain, as explained at
- * http://creativecommons.org/publicdomain/zero/1.0/
+ * Written by Doug Leb with bssistbnce from members of JCP JSR-166
+ * Expert Group bnd relebsed to the public dombin, bs explbined bt
+ * http://crebtivecommons.org/publicdombin/zero/1.0/
  */
 
-package java.util.concurrent.atomic;
-import java.util.function.IntUnaryOperator;
-import java.util.function.IntBinaryOperator;
-import sun.misc.Unsafe;
+pbckbge jbvb.util.concurrent.btomic;
+import jbvb.util.function.IntUnbryOperbtor;
+import jbvb.util.function.IntBinbryOperbtor;
+import sun.misc.Unsbfe;
 
 /**
- * An {@code int} value that may be updated atomically.  See the
- * {@link java.util.concurrent.atomic} package specification for
- * description of the properties of atomic variables. An
- * {@code AtomicInteger} is used in applications such as atomically
- * incremented counters, and cannot be used as a replacement for an
- * {@link java.lang.Integer}. However, this class does extend
- * {@code Number} to allow uniform access by tools and utilities that
- * deal with numerically-based classes.
+ * An {@code int} vblue thbt mby be updbted btomicblly.  See the
+ * {@link jbvb.util.concurrent.btomic} pbckbge specificbtion for
+ * description of the properties of btomic vbribbles. An
+ * {@code AtomicInteger} is used in bpplicbtions such bs btomicblly
+ * incremented counters, bnd cbnnot be used bs b replbcement for bn
+ * {@link jbvb.lbng.Integer}. However, this clbss does extend
+ * {@code Number} to bllow uniform bccess by tools bnd utilities thbt
+ * debl with numericblly-bbsed clbsses.
  *
  * @since 1.5
- * @author Doug Lea
+ * @buthor Doug Leb
 */
-public class AtomicInteger extends Number implements java.io.Serializable {
-    private static final long serialVersionUID = 6214790243416807050L;
+public clbss AtomicInteger extends Number implements jbvb.io.Seriblizbble {
+    privbte stbtic finbl long seriblVersionUID = 6214790243416807050L;
 
-    // setup to use Unsafe.compareAndSwapInt for updates
-    private static final Unsafe unsafe = Unsafe.getUnsafe();
-    private static final long valueOffset;
+    // setup to use Unsbfe.compbreAndSwbpInt for updbtes
+    privbte stbtic finbl Unsbfe unsbfe = Unsbfe.getUnsbfe();
+    privbte stbtic finbl long vblueOffset;
 
-    static {
+    stbtic {
         try {
-            valueOffset = unsafe.objectFieldOffset
-                (AtomicInteger.class.getDeclaredField("value"));
-        } catch (Exception ex) { throw new Error(ex); }
+            vblueOffset = unsbfe.objectFieldOffset
+                (AtomicInteger.clbss.getDeclbredField("vblue"));
+        } cbtch (Exception ex) { throw new Error(ex); }
     }
 
-    private volatile int value;
+    privbte volbtile int vblue;
 
     /**
-     * Creates a new AtomicInteger with the given initial value.
+     * Crebtes b new AtomicInteger with the given initibl vblue.
      *
-     * @param initialValue the initial value
+     * @pbrbm initiblVblue the initibl vblue
      */
-    public AtomicInteger(int initialValue) {
-        value = initialValue;
+    public AtomicInteger(int initiblVblue) {
+        vblue = initiblVblue;
     }
 
     /**
-     * Creates a new AtomicInteger with initial value {@code 0}.
+     * Crebtes b new AtomicInteger with initibl vblue {@code 0}.
      */
     public AtomicInteger() {
     }
 
     /**
-     * Gets the current value.
+     * Gets the current vblue.
      *
-     * @return the current value
+     * @return the current vblue
      */
-    public final int get() {
-        return value;
+    public finbl int get() {
+        return vblue;
     }
 
     /**
-     * Sets to the given value.
+     * Sets to the given vblue.
      *
-     * @param newValue the new value
+     * @pbrbm newVblue the new vblue
      */
-    public final void set(int newValue) {
-        value = newValue;
+    public finbl void set(int newVblue) {
+        vblue = newVblue;
     }
 
     /**
-     * Eventually sets to the given value.
+     * Eventublly sets to the given vblue.
      *
-     * @param newValue the new value
+     * @pbrbm newVblue the new vblue
      * @since 1.6
      */
-    public final void lazySet(int newValue) {
-        unsafe.putOrderedInt(this, valueOffset, newValue);
+    public finbl void lbzySet(int newVblue) {
+        unsbfe.putOrderedInt(this, vblueOffset, newVblue);
     }
 
     /**
-     * Atomically sets to the given value and returns the old value.
+     * Atomicblly sets to the given vblue bnd returns the old vblue.
      *
-     * @param newValue the new value
-     * @return the previous value
+     * @pbrbm newVblue the new vblue
+     * @return the previous vblue
      */
-    public final int getAndSet(int newValue) {
-        return unsafe.getAndSetInt(this, valueOffset, newValue);
+    public finbl int getAndSet(int newVblue) {
+        return unsbfe.getAndSetInt(this, vblueOffset, newVblue);
     }
 
     /**
-     * Atomically sets the value to the given updated value
-     * if the current value {@code ==} the expected value.
+     * Atomicblly sets the vblue to the given updbted vblue
+     * if the current vblue {@code ==} the expected vblue.
      *
-     * @param expect the expected value
-     * @param update the new value
-     * @return {@code true} if successful. False return indicates that
-     * the actual value was not equal to the expected value.
+     * @pbrbm expect the expected vblue
+     * @pbrbm updbte the new vblue
+     * @return {@code true} if successful. Fblse return indicbtes thbt
+     * the bctubl vblue wbs not equbl to the expected vblue.
      */
-    public final boolean compareAndSet(int expect, int update) {
-        return unsafe.compareAndSwapInt(this, valueOffset, expect, update);
+    public finbl boolebn compbreAndSet(int expect, int updbte) {
+        return unsbfe.compbreAndSwbpInt(this, vblueOffset, expect, updbte);
     }
 
     /**
-     * Atomically sets the value to the given updated value
-     * if the current value {@code ==} the expected value.
+     * Atomicblly sets the vblue to the given updbted vblue
+     * if the current vblue {@code ==} the expected vblue.
      *
-     * <p><a href="package-summary.html#weakCompareAndSet">May fail
-     * spuriously and does not provide ordering guarantees</a>, so is
-     * only rarely an appropriate alternative to {@code compareAndSet}.
+     * <p><b href="pbckbge-summbry.html#webkCompbreAndSet">Mby fbil
+     * spuriously bnd does not provide ordering gubrbntees</b>, so is
+     * only rbrely bn bppropribte blternbtive to {@code compbreAndSet}.
      *
-     * @param expect the expected value
-     * @param update the new value
+     * @pbrbm expect the expected vblue
+     * @pbrbm updbte the new vblue
      * @return {@code true} if successful
      */
-    public final boolean weakCompareAndSet(int expect, int update) {
-        return unsafe.compareAndSwapInt(this, valueOffset, expect, update);
+    public finbl boolebn webkCompbreAndSet(int expect, int updbte) {
+        return unsbfe.compbreAndSwbpInt(this, vblueOffset, expect, updbte);
     }
 
     /**
-     * Atomically increments by one the current value.
+     * Atomicblly increments by one the current vblue.
      *
-     * @return the previous value
+     * @return the previous vblue
      */
-    public final int getAndIncrement() {
-        return unsafe.getAndAddInt(this, valueOffset, 1);
+    public finbl int getAndIncrement() {
+        return unsbfe.getAndAddInt(this, vblueOffset, 1);
     }
 
     /**
-     * Atomically decrements by one the current value.
+     * Atomicblly decrements by one the current vblue.
      *
-     * @return the previous value
+     * @return the previous vblue
      */
-    public final int getAndDecrement() {
-        return unsafe.getAndAddInt(this, valueOffset, -1);
+    public finbl int getAndDecrement() {
+        return unsbfe.getAndAddInt(this, vblueOffset, -1);
     }
 
     /**
-     * Atomically adds the given value to the current value.
+     * Atomicblly bdds the given vblue to the current vblue.
      *
-     * @param delta the value to add
-     * @return the previous value
+     * @pbrbm deltb the vblue to bdd
+     * @return the previous vblue
      */
-    public final int getAndAdd(int delta) {
-        return unsafe.getAndAddInt(this, valueOffset, delta);
+    public finbl int getAndAdd(int deltb) {
+        return unsbfe.getAndAddInt(this, vblueOffset, deltb);
     }
 
     /**
-     * Atomically increments by one the current value.
+     * Atomicblly increments by one the current vblue.
      *
-     * @return the updated value
+     * @return the updbted vblue
      */
-    public final int incrementAndGet() {
-        return unsafe.getAndAddInt(this, valueOffset, 1) + 1;
+    public finbl int incrementAndGet() {
+        return unsbfe.getAndAddInt(this, vblueOffset, 1) + 1;
     }
 
     /**
-     * Atomically decrements by one the current value.
+     * Atomicblly decrements by one the current vblue.
      *
-     * @return the updated value
+     * @return the updbted vblue
      */
-    public final int decrementAndGet() {
-        return unsafe.getAndAddInt(this, valueOffset, -1) - 1;
+    public finbl int decrementAndGet() {
+        return unsbfe.getAndAddInt(this, vblueOffset, -1) - 1;
     }
 
     /**
-     * Atomically adds the given value to the current value.
+     * Atomicblly bdds the given vblue to the current vblue.
      *
-     * @param delta the value to add
-     * @return the updated value
+     * @pbrbm deltb the vblue to bdd
+     * @return the updbted vblue
      */
-    public final int addAndGet(int delta) {
-        return unsafe.getAndAddInt(this, valueOffset, delta) + delta;
+    public finbl int bddAndGet(int deltb) {
+        return unsbfe.getAndAddInt(this, vblueOffset, deltb) + deltb;
     }
 
     /**
-     * Atomically updates the current value with the results of
-     * applying the given function, returning the previous value. The
-     * function should be side-effect-free, since it may be re-applied
-     * when attempted updates fail due to contention among threads.
+     * Atomicblly updbtes the current vblue with the results of
+     * bpplying the given function, returning the previous vblue. The
+     * function should be side-effect-free, since it mby be re-bpplied
+     * when bttempted updbtes fbil due to contention bmong threbds.
      *
-     * @param updateFunction a side-effect-free function
-     * @return the previous value
+     * @pbrbm updbteFunction b side-effect-free function
+     * @return the previous vblue
      * @since 1.8
      */
-    public final int getAndUpdate(IntUnaryOperator updateFunction) {
+    public finbl int getAndUpdbte(IntUnbryOperbtor updbteFunction) {
         int prev, next;
         do {
             prev = get();
-            next = updateFunction.applyAsInt(prev);
-        } while (!compareAndSet(prev, next));
+            next = updbteFunction.bpplyAsInt(prev);
+        } while (!compbreAndSet(prev, next));
         return prev;
     }
 
     /**
-     * Atomically updates the current value with the results of
-     * applying the given function, returning the updated value. The
-     * function should be side-effect-free, since it may be re-applied
-     * when attempted updates fail due to contention among threads.
+     * Atomicblly updbtes the current vblue with the results of
+     * bpplying the given function, returning the updbted vblue. The
+     * function should be side-effect-free, since it mby be re-bpplied
+     * when bttempted updbtes fbil due to contention bmong threbds.
      *
-     * @param updateFunction a side-effect-free function
-     * @return the updated value
+     * @pbrbm updbteFunction b side-effect-free function
+     * @return the updbted vblue
      * @since 1.8
      */
-    public final int updateAndGet(IntUnaryOperator updateFunction) {
+    public finbl int updbteAndGet(IntUnbryOperbtor updbteFunction) {
         int prev, next;
         do {
             prev = get();
-            next = updateFunction.applyAsInt(prev);
-        } while (!compareAndSet(prev, next));
+            next = updbteFunction.bpplyAsInt(prev);
+        } while (!compbreAndSet(prev, next));
         return next;
     }
 
     /**
-     * Atomically updates the current value with the results of
-     * applying the given function to the current and given values,
-     * returning the previous value. The function should be
-     * side-effect-free, since it may be re-applied when attempted
-     * updates fail due to contention among threads.  The function
-     * is applied with the current value as its first argument,
-     * and the given update as the second argument.
+     * Atomicblly updbtes the current vblue with the results of
+     * bpplying the given function to the current bnd given vblues,
+     * returning the previous vblue. The function should be
+     * side-effect-free, since it mby be re-bpplied when bttempted
+     * updbtes fbil due to contention bmong threbds.  The function
+     * is bpplied with the current vblue bs its first brgument,
+     * bnd the given updbte bs the second brgument.
      *
-     * @param x the update value
-     * @param accumulatorFunction a side-effect-free function of two arguments
-     * @return the previous value
+     * @pbrbm x the updbte vblue
+     * @pbrbm bccumulbtorFunction b side-effect-free function of two brguments
+     * @return the previous vblue
      * @since 1.8
      */
-    public final int getAndAccumulate(int x,
-                                      IntBinaryOperator accumulatorFunction) {
+    public finbl int getAndAccumulbte(int x,
+                                      IntBinbryOperbtor bccumulbtorFunction) {
         int prev, next;
         do {
             prev = get();
-            next = accumulatorFunction.applyAsInt(prev, x);
-        } while (!compareAndSet(prev, next));
+            next = bccumulbtorFunction.bpplyAsInt(prev, x);
+        } while (!compbreAndSet(prev, next));
         return prev;
     }
 
     /**
-     * Atomically updates the current value with the results of
-     * applying the given function to the current and given values,
-     * returning the updated value. The function should be
-     * side-effect-free, since it may be re-applied when attempted
-     * updates fail due to contention among threads.  The function
-     * is applied with the current value as its first argument,
-     * and the given update as the second argument.
+     * Atomicblly updbtes the current vblue with the results of
+     * bpplying the given function to the current bnd given vblues,
+     * returning the updbted vblue. The function should be
+     * side-effect-free, since it mby be re-bpplied when bttempted
+     * updbtes fbil due to contention bmong threbds.  The function
+     * is bpplied with the current vblue bs its first brgument,
+     * bnd the given updbte bs the second brgument.
      *
-     * @param x the update value
-     * @param accumulatorFunction a side-effect-free function of two arguments
-     * @return the updated value
+     * @pbrbm x the updbte vblue
+     * @pbrbm bccumulbtorFunction b side-effect-free function of two brguments
+     * @return the updbted vblue
      * @since 1.8
      */
-    public final int accumulateAndGet(int x,
-                                      IntBinaryOperator accumulatorFunction) {
+    public finbl int bccumulbteAndGet(int x,
+                                      IntBinbryOperbtor bccumulbtorFunction) {
         int prev, next;
         do {
             prev = get();
-            next = accumulatorFunction.applyAsInt(prev, x);
-        } while (!compareAndSet(prev, next));
+            next = bccumulbtorFunction.bpplyAsInt(prev, x);
+        } while (!compbreAndSet(prev, next));
         return next;
     }
 
     /**
-     * Returns the String representation of the current value.
-     * @return the String representation of the current value
+     * Returns the String representbtion of the current vblue.
+     * @return the String representbtion of the current vblue
      */
     public String toString() {
         return Integer.toString(get());
     }
 
     /**
-     * Returns the value of this {@code AtomicInteger} as an {@code int}.
+     * Returns the vblue of this {@code AtomicInteger} bs bn {@code int}.
      */
-    public int intValue() {
+    public int intVblue() {
         return get();
     }
 
     /**
-     * Returns the value of this {@code AtomicInteger} as a {@code long}
-     * after a widening primitive conversion.
+     * Returns the vblue of this {@code AtomicInteger} bs b {@code long}
+     * bfter b widening primitive conversion.
      * @jls 5.1.2 Widening Primitive Conversions
      */
-    public long longValue() {
+    public long longVblue() {
         return (long)get();
     }
 
     /**
-     * Returns the value of this {@code AtomicInteger} as a {@code float}
-     * after a widening primitive conversion.
+     * Returns the vblue of this {@code AtomicInteger} bs b {@code flobt}
+     * bfter b widening primitive conversion.
      * @jls 5.1.2 Widening Primitive Conversions
      */
-    public float floatValue() {
-        return (float)get();
+    public flobt flobtVblue() {
+        return (flobt)get();
     }
 
     /**
-     * Returns the value of this {@code AtomicInteger} as a {@code double}
-     * after a widening primitive conversion.
+     * Returns the vblue of this {@code AtomicInteger} bs b {@code double}
+     * bfter b widening primitive conversion.
      * @jls 5.1.2 Widening Primitive Conversions
      */
-    public double doubleValue() {
+    public double doubleVblue() {
         return (double)get();
     }
 

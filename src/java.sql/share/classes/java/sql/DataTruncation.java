@@ -1,186 +1,186 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.sql;
+pbckbge jbvb.sql;
 
 /**
- * An exception  thrown as a <code>DataTruncation</code> exception
- * (on writes) or reported as a
- * <code>DataTruncation</code> warning (on reads)
- *  when a data values is unexpectedly truncated for reasons other than its having
- *  exceeded <code>MaxFieldSize</code>.
+ * An exception  thrown bs b <code>DbtbTruncbtion</code> exception
+ * (on writes) or reported bs b
+ * <code>DbtbTruncbtion</code> wbrning (on rebds)
+ *  when b dbtb vblues is unexpectedly truncbted for rebsons other thbn its hbving
+ *  exceeded <code>MbxFieldSize</code>.
  *
- * <P>The SQLstate for a <code>DataTruncation</code> during read is <code>01004</code>.
- * <P>The SQLstate for a <code>DataTruncation</code> during write is <code>22001</code>.
+ * <P>The SQLstbte for b <code>DbtbTruncbtion</code> during rebd is <code>01004</code>.
+ * <P>The SQLstbte for b <code>DbtbTruncbtion</code> during write is <code>22001</code>.
  */
 
-public class DataTruncation extends SQLWarning {
+public clbss DbtbTruncbtion extends SQLWbrning {
 
     /**
-     * Creates a <code>DataTruncation</code> object
-     * with the SQLState initialized
-     * to 01004 when <code>read</code> is set to <code>true</code> and 22001
-     * when <code>read</code> is set to <code>false</code>,
-     * the reason set to "Data truncation", the
-     * vendor code set to 0, and
-     * the other fields set to the given values.
-     * The <code>cause</code> is not initialized, and may subsequently be
-     * initialized by a call to the
-     * {@link Throwable#initCause(java.lang.Throwable)} method.
+     * Crebtes b <code>DbtbTruncbtion</code> object
+     * with the SQLStbte initiblized
+     * to 01004 when <code>rebd</code> is set to <code>true</code> bnd 22001
+     * when <code>rebd</code> is set to <code>fblse</code>,
+     * the rebson set to "Dbtb truncbtion", the
+     * vendor code set to 0, bnd
+     * the other fields set to the given vblues.
+     * The <code>cbuse</code> is not initiblized, bnd mby subsequently be
+     * initiblized by b cbll to the
+     * {@link Throwbble#initCbuse(jbvb.lbng.Throwbble)} method.
      *
-     * @param index The index of the parameter or column value
-     * @param parameter true if a parameter value was truncated
-     * @param read true if a read was truncated
-     * @param dataSize the original size of the data
-     * @param transferSize the size after truncation
+     * @pbrbm index The index of the pbrbmeter or column vblue
+     * @pbrbm pbrbmeter true if b pbrbmeter vblue wbs truncbted
+     * @pbrbm rebd true if b rebd wbs truncbted
+     * @pbrbm dbtbSize the originbl size of the dbtb
+     * @pbrbm trbnsferSize the size bfter truncbtion
      */
-    public DataTruncation(int index, boolean parameter,
-                          boolean read, int dataSize,
-                          int transferSize) {
-        super("Data truncation", read == true?"01004":"22001");
+    public DbtbTruncbtion(int index, boolebn pbrbmeter,
+                          boolebn rebd, int dbtbSize,
+                          int trbnsferSize) {
+        super("Dbtb truncbtion", rebd == true?"01004":"22001");
         this.index = index;
-        this.parameter = parameter;
-        this.read = read;
-        this.dataSize = dataSize;
-        this.transferSize = transferSize;
+        this.pbrbmeter = pbrbmeter;
+        this.rebd = rebd;
+        this.dbtbSize = dbtbSize;
+        this.trbnsferSize = trbnsferSize;
 
     }
 
     /**
-     * Creates a <code>DataTruncation</code> object
-     * with the SQLState initialized
-     * to 01004 when <code>read</code> is set to <code>true</code> and 22001
-     * when <code>read</code> is set to <code>false</code>,
-     * the reason set to "Data truncation", the
-     * vendor code set to 0, and
-     * the other fields set to the given values.
+     * Crebtes b <code>DbtbTruncbtion</code> object
+     * with the SQLStbte initiblized
+     * to 01004 when <code>rebd</code> is set to <code>true</code> bnd 22001
+     * when <code>rebd</code> is set to <code>fblse</code>,
+     * the rebson set to "Dbtb truncbtion", the
+     * vendor code set to 0, bnd
+     * the other fields set to the given vblues.
      *
-     * @param index The index of the parameter or column value
-     * @param parameter true if a parameter value was truncated
-     * @param read true if a read was truncated
-     * @param dataSize the original size of the data
-     * @param transferSize the size after truncation
-     * @param cause the underlying reason for this <code>DataTruncation</code>
-     * (which is saved for later retrieval by the <code>getCause()</code> method);
-     * may be null indicating the cause is non-existent or unknown.
+     * @pbrbm index The index of the pbrbmeter or column vblue
+     * @pbrbm pbrbmeter true if b pbrbmeter vblue wbs truncbted
+     * @pbrbm rebd true if b rebd wbs truncbted
+     * @pbrbm dbtbSize the originbl size of the dbtb
+     * @pbrbm trbnsferSize the size bfter truncbtion
+     * @pbrbm cbuse the underlying rebson for this <code>DbtbTruncbtion</code>
+     * (which is sbved for lbter retrievbl by the <code>getCbuse()</code> method);
+     * mby be null indicbting the cbuse is non-existent or unknown.
      *
      * @since 1.6
      */
-    public DataTruncation(int index, boolean parameter,
-                          boolean read, int dataSize,
-                          int transferSize, Throwable cause) {
-        super("Data truncation", read == true?"01004":"22001",cause);
+    public DbtbTruncbtion(int index, boolebn pbrbmeter,
+                          boolebn rebd, int dbtbSize,
+                          int trbnsferSize, Throwbble cbuse) {
+        super("Dbtb truncbtion", rebd == true?"01004":"22001",cbuse);
         this.index = index;
-        this.parameter = parameter;
-        this.read = read;
-        this.dataSize = dataSize;
-        this.transferSize = transferSize;
+        this.pbrbmeter = pbrbmeter;
+        this.rebd = rebd;
+        this.dbtbSize = dbtbSize;
+        this.trbnsferSize = trbnsferSize;
     }
 
     /**
-     * Retrieves the index of the column or parameter that was truncated.
+     * Retrieves the index of the column or pbrbmeter thbt wbs truncbted.
      *
-     * <P>This may be -1 if the column or parameter index is unknown, in
-     * which case the <code>parameter</code> and <code>read</code> fields should be ignored.
+     * <P>This mby be -1 if the column or pbrbmeter index is unknown, in
+     * which cbse the <code>pbrbmeter</code> bnd <code>rebd</code> fields should be ignored.
      *
-     * @return the index of the truncated parameter or column value
+     * @return the index of the truncbted pbrbmeter or column vblue
      */
     public int getIndex() {
         return index;
     }
 
     /**
-     * Indicates whether the value truncated was a parameter value or
-         * a column value.
+     * Indicbtes whether the vblue truncbted wbs b pbrbmeter vblue or
+         * b column vblue.
      *
-     * @return <code>true</code> if the value truncated was a parameter;
-         *         <code>false</code> if it was a column value
+     * @return <code>true</code> if the vblue truncbted wbs b pbrbmeter;
+         *         <code>fblse</code> if it wbs b column vblue
      */
-    public boolean getParameter() {
-        return parameter;
+    public boolebn getPbrbmeter() {
+        return pbrbmeter;
     }
 
     /**
-     * Indicates whether or not the value was truncated on a read.
+     * Indicbtes whether or not the vblue wbs truncbted on b rebd.
      *
-     * @return <code>true</code> if the value was truncated when read from
-         *         the database; <code>false</code> if the data was truncated on a write
+     * @return <code>true</code> if the vblue wbs truncbted when rebd from
+         *         the dbtbbbse; <code>fblse</code> if the dbtb wbs truncbted on b write
      */
-    public boolean getRead() {
-        return read;
+    public boolebn getRebd() {
+        return rebd;
     }
 
     /**
-     * Gets the number of bytes of data that should have been transferred.
-     * This number may be approximate if data conversions were being
-     * performed.  The value may be <code>-1</code> if the size is unknown.
+     * Gets the number of bytes of dbtb thbt should hbve been trbnsferred.
+     * This number mby be bpproximbte if dbtb conversions were being
+     * performed.  The vblue mby be <code>-1</code> if the size is unknown.
      *
-     * @return the number of bytes of data that should have been transferred
+     * @return the number of bytes of dbtb thbt should hbve been trbnsferred
      */
-    public int getDataSize() {
-        return dataSize;
+    public int getDbtbSize() {
+        return dbtbSize;
     }
 
     /**
-     * Gets the number of bytes of data actually transferred.
-     * The value may be <code>-1</code> if the size is unknown.
+     * Gets the number of bytes of dbtb bctublly trbnsferred.
+     * The vblue mby be <code>-1</code> if the size is unknown.
      *
-     * @return the number of bytes of data actually transferred
+     * @return the number of bytes of dbtb bctublly trbnsferred
      */
-    public int getTransferSize() {
-        return transferSize;
+    public int getTrbnsferSize() {
+        return trbnsferSize;
     }
 
         /**
-        * @serial
+        * @seribl
         */
-    private int index;
+    privbte int index;
 
         /**
-        * @serial
+        * @seribl
         */
-    private boolean parameter;
+    privbte boolebn pbrbmeter;
 
         /**
-        * @serial
+        * @seribl
         */
-    private boolean read;
+    privbte boolebn rebd;
 
         /**
-        * @serial
+        * @seribl
         */
-    private int dataSize;
+    privbte int dbtbSize;
 
         /**
-        * @serial
+        * @seribl
         */
-    private int transferSize;
+    privbte int trbnsferSize;
 
     /**
-     * @serial
+     * @seribl
      */
-    private static final long serialVersionUID = 6464298989504059473L;
+    privbte stbtic finbl long seriblVersionUID = 6464298989504059473L;
 
 }

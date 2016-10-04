@@ -1,198 +1,198 @@
 /*
- * Copyright (c) 1997, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
 /*
- * The Original Code is HAT. The Initial Developer of the
- * Original Code is Bill Foote, with contributions from others
- * at JavaSoft/Sun.
+ * The Originbl Code is HAT. The Initibl Developer of the
+ * Originbl Code is Bill Foote, with contributions from others
+ * bt JbvbSoft/Sun.
  */
 
-package com.sun.tools.hat.internal.model;
+pbckbge com.sun.tools.hbt.internbl.model;
 
-import java.io.IOException;
-import com.sun.tools.hat.internal.parser.ReadBuffer;
+import jbvb.io.IOException;
+import com.sun.tools.hbt.internbl.pbrser.RebdBuffer;
 
 /**
- * Represents Java instance
+ * Represents Jbvb instbnce
  *
- * @author      Bill Foote
+ * @buthor      Bill Foote
  */
-public class JavaObject extends JavaLazyReadObject {
+public clbss JbvbObject extends JbvbLbzyRebdObject {
 
-    private Object clazz;       // Number before resolve
-                                // JavaClass after resolve
+    privbte Object clbzz;       // Number before resolve
+                                // JbvbClbss bfter resolve
     /**
-     * Construct a new JavaObject.
+     * Construct b new JbvbObject.
      *
-     * @param classID id of the class object
-     * @param offset The offset of field data
+     * @pbrbm clbssID id of the clbss object
+     * @pbrbm offset The offset of field dbtb
      */
-    public JavaObject(long classID, long offset) {
+    public JbvbObject(long clbssID, long offset) {
         super(offset);
-        this.clazz = makeId(classID);
+        this.clbzz = mbkeId(clbssID);
     }
 
-    public void resolve(Snapshot snapshot) {
-        if (clazz instanceof JavaClass) {
+    public void resolve(Snbpshot snbpshot) {
+        if (clbzz instbnceof JbvbClbss) {
             return;
         }
-        if (clazz instanceof Number) {
-            long classID = getIdValue((Number)clazz);
-            clazz = snapshot.findThing(classID);
-            if (! (clazz instanceof JavaClass)) {
-                warn("Class " + Long.toHexString(classID) + " not found, " +
-                     "adding fake class!");
+        if (clbzz instbnceof Number) {
+            long clbssID = getIdVblue((Number)clbzz);
+            clbzz = snbpshot.findThing(clbssID);
+            if (! (clbzz instbnceof JbvbClbss)) {
+                wbrn("Clbss " + Long.toHexString(clbssID) + " not found, " +
+                     "bdding fbke clbss!");
                 int length;
-                ReadBuffer buf = snapshot.getReadBuffer();
-                int idSize = snapshot.getIdentifierSize();
+                RebdBuffer buf = snbpshot.getRebdBuffer();
+                int idSize = snbpshot.getIdentifierSize();
                 long lenOffset = getOffset() + 2*idSize + 4;
                 try {
                     length = buf.getInt(lenOffset);
-                } catch (IOException exp) {
+                } cbtch (IOException exp) {
                     throw new RuntimeException(exp);
                 }
-                clazz = snapshot.addFakeInstanceClass(classID, length);
+                clbzz = snbpshot.bddFbkeInstbnceClbss(clbssID, length);
             }
         } else {
-            throw new InternalError("should not reach here");
+            throw new InternblError("should not rebch here");
         }
 
-        JavaClass cl = (JavaClass) clazz;
-        cl.resolve(snapshot);
+        JbvbClbss cl = (JbvbClbss) clbzz;
+        cl.resolve(snbpshot);
 
-        // while resolving, parse fields in verbose mode.
-        // but, getFields calls parseFields in non-verbose mode
-        // to avoid printing warnings repeatedly.
-        parseFields(getValue(), true);
+        // while resolving, pbrse fields in verbose mode.
+        // but, getFields cblls pbrseFields in non-verbose mode
+        // to bvoid printing wbrnings repebtedly.
+        pbrseFields(getVblue(), true);
 
-        cl.addInstance(this);
-        super.resolve(snapshot);
+        cl.bddInstbnce(this);
+        super.resolve(snbpshot);
     }
 
     /**
-     * Are we the same type as other?  We are iff our clazz is the
-     * same type as other's.
+     * Are we the sbme type bs other?  We bre iff our clbzz is the
+     * sbme type bs other's.
      */
-    public boolean isSameTypeAs(JavaThing other) {
-        if (!(other instanceof JavaObject)) {
-            return false;
+    public boolebn isSbmeTypeAs(JbvbThing other) {
+        if (!(other instbnceof JbvbObject)) {
+            return fblse;
         }
-        JavaObject oo = (JavaObject) other;
-        return getClazz().equals(oo.getClazz());
+        JbvbObject oo = (JbvbObject) other;
+        return getClbzz().equbls(oo.getClbzz());
     }
 
     /**
-     * Return our JavaClass object.  This may only be called after resolve.
+     * Return our JbvbClbss object.  This mby only be cblled bfter resolve.
      */
-    public JavaClass getClazz() {
-        return (JavaClass) clazz;
+    public JbvbClbss getClbzz() {
+        return (JbvbClbss) clbzz;
     }
 
-    public JavaThing[] getFields() {
-        // pass false to verbose mode so that dereference
-        // warnings are not printed.
-        return parseFields(getValue(), false);
+    public JbvbThing[] getFields() {
+        // pbss fblse to verbose mode so thbt dereference
+        // wbrnings bre not printed.
+        return pbrseFields(getVblue(), fblse);
     }
 
-    // returns the value of field of given name
-    public JavaThing getField(String name) {
-        JavaThing[] flds = getFields();
-        JavaField[] instFields = getClazz().getFieldsForInstance();
+    // returns the vblue of field of given nbme
+    public JbvbThing getField(String nbme) {
+        JbvbThing[] flds = getFields();
+        JbvbField[] instFields = getClbzz().getFieldsForInstbnce();
         for (int i = 0; i < instFields.length; i++) {
-            if (instFields[i].getName().equals(name)) {
+            if (instFields[i].getNbme().equbls(nbme)) {
                 return flds[i];
             }
         }
         return null;
     }
 
-    public int compareTo(JavaThing other) {
-        if (other instanceof JavaObject) {
-            JavaObject oo = (JavaObject) other;
-            return getClazz().getName().compareTo(oo.getClazz().getName());
+    public int compbreTo(JbvbThing other) {
+        if (other instbnceof JbvbObject) {
+            JbvbObject oo = (JbvbObject) other;
+            return getClbzz().getNbme().compbreTo(oo.getClbzz().getNbme());
         }
-        return super.compareTo(other);
+        return super.compbreTo(other);
     }
 
-    public void visitReferencedObjects(JavaHeapObjectVisitor v) {
+    public void visitReferencedObjects(JbvbHebpObjectVisitor v) {
         super.visitReferencedObjects(v);
-        JavaThing[] flds = getFields();
+        JbvbThing[] flds = getFields();
         for (int i = 0; i < flds.length; i++) {
             if (flds[i] != null) {
                 if (v.mightExclude()
-                    && v.exclude(getClazz().getClassForField(i),
-                                 getClazz().getFieldForInstance(i)))
+                    && v.exclude(getClbzz().getClbssForField(i),
+                                 getClbzz().getFieldForInstbnce(i)))
                 {
                     // skip it
-                } else if (flds[i] instanceof JavaHeapObject) {
-                    v.visit((JavaHeapObject) flds[i]);
+                } else if (flds[i] instbnceof JbvbHebpObject) {
+                    v.visit((JbvbHebpObject) flds[i]);
                 }
             }
         }
     }
 
-    public boolean refersOnlyWeaklyTo(Snapshot ss, JavaThing other) {
-        if (ss.getWeakReferenceClass() != null) {
-            final int referentFieldIndex = ss.getReferentFieldIndex();
-            if (ss.getWeakReferenceClass().isAssignableFrom(getClazz())) {
+    public boolebn refersOnlyWebklyTo(Snbpshot ss, JbvbThing other) {
+        if (ss.getWebkReferenceClbss() != null) {
+            finbl int referentFieldIndex = ss.getReferentFieldIndex();
+            if (ss.getWebkReferenceClbss().isAssignbbleFrom(getClbzz())) {
                 //
-                // REMIND:  This introduces a dependency on the JDK
-                //      implementation that is undesirable.
-                JavaThing[] flds = getFields();
+                // REMIND:  This introduces b dependency on the JDK
+                //      implementbtion thbt is undesirbble.
+                JbvbThing[] flds = getFields();
                 for (int i = 0; i < flds.length; i++) {
                     if (i != referentFieldIndex && flds[i] == other) {
-                        return false;
+                        return fblse;
                     }
                 }
                 return true;
             }
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Describe the reference that this thing has to target.  This will only
-     * be called if target is in the array returned by getChildrenForRootset.
+     * Describe the reference thbt this thing hbs to tbrget.  This will only
+     * be cblled if tbrget is in the brrby returned by getChildrenForRootset.
      */
-    public String describeReferenceTo(JavaThing target, Snapshot ss) {
-        JavaThing[] flds = getFields();
+    public String describeReferenceTo(JbvbThing tbrget, Snbpshot ss) {
+        JbvbThing[] flds = getFields();
         for (int i = 0; i < flds.length; i++) {
-            if (flds[i] == target) {
-                JavaField f = getClazz().getFieldForInstance(i);
-                return "field " + f.getName();
+            if (flds[i] == tbrget) {
+                JbvbField f = getClbzz().getFieldForInstbnce(i);
+                return "field " + f.getNbme();
             }
         }
-        return super.describeReferenceTo(target, ss);
+        return super.describeReferenceTo(tbrget, ss);
     }
 
     public String toString() {
-        if (getClazz().isString()) {
-            JavaThing value = getField("value");
-            if (value instanceof JavaValueArray) {
-                return ((JavaValueArray)value).valueString();
+        if (getClbzz().isString()) {
+            JbvbThing vblue = getField("vblue");
+            if (vblue instbnceof JbvbVblueArrby) {
+                return ((JbvbVblueArrby)vblue).vblueString();
             } else {
                 return "null";
             }
@@ -201,32 +201,32 @@ public class JavaObject extends JavaLazyReadObject {
         }
     }
 
-    // Internals only below this point
+    // Internbls only below this point
 
     /*
-     * Java instance record (HPROF_GC_INSTANCE_DUMP) looks as below:
+     * Jbvb instbnce record (HPROF_GC_INSTANCE_DUMP) looks bs below:
      *
      *     object ID
-     *     stack trace serial number (int)
-     *     class ID
-     *     data length (int)
+     *     stbck trbce seribl number (int)
+     *     clbss ID
+     *     dbtb length (int)
      *     byte[length]
      */
-    protected final int readValueLength() throws IOException {
-        JavaClass cl = getClazz();
+    protected finbl int rebdVblueLength() throws IOException {
+        JbvbClbss cl = getClbzz();
         int idSize = cl.getIdentifierSize();
         long lengthOffset = getOffset() + 2*idSize + 4;
-        return cl.getReadBuffer().getInt(lengthOffset);
+        return cl.getRebdBuffer().getInt(lengthOffset);
     }
 
-    protected final byte[] readValue() throws IOException {
-        JavaClass cl = getClazz();
+    protected finbl byte[] rebdVblue() throws IOException {
+        JbvbClbss cl = getClbzz();
         int idSize = cl.getIdentifierSize();
-        ReadBuffer buf = cl.getReadBuffer();
+        RebdBuffer buf = cl.getRebdBuffer();
         long offset = getOffset() + 2*idSize + 4;
         int length = buf.getInt(offset);
         if (length == 0) {
-            return Snapshot.EMPTY_BYTE_ARRAY;
+            return Snbpshot.EMPTY_BYTE_ARRAY;
         } else {
             byte[] res = new byte[length];
             buf.get(offset + 4, res);
@@ -234,101 +234,101 @@ public class JavaObject extends JavaLazyReadObject {
         }
     }
 
-    private JavaThing[] parseFields(byte[] data, boolean verbose) {
-        JavaClass cl = getClazz();
-        int target = cl.getNumFieldsForInstance();
-        JavaField[] fields = cl.getFields();
-        JavaThing[] fieldValues = new JavaThing[target];
-        Snapshot snapshot = cl.getSnapshot();
-        int idSize = snapshot.getIdentifierSize();
+    privbte JbvbThing[] pbrseFields(byte[] dbtb, boolebn verbose) {
+        JbvbClbss cl = getClbzz();
+        int tbrget = cl.getNumFieldsForInstbnce();
+        JbvbField[] fields = cl.getFields();
+        JbvbThing[] fieldVblues = new JbvbThing[tbrget];
+        Snbpshot snbpshot = cl.getSnbpshot();
+        int idSize = snbpshot.getIdentifierSize();
         int fieldNo = 0;
-        // In the dump file, the fields are stored in this order:
-        // fields of most derived class (immediate class) are stored
-        // first and then the super class and so on. In this object,
-        // fields are stored in the reverse ("natural") order. i.e.,
-        // fields of most super class are stored first.
+        // In the dump file, the fields bre stored in this order:
+        // fields of most derived clbss (immedibte clbss) bre stored
+        // first bnd then the super clbss bnd so on. In this object,
+        // fields bre stored in the reverse ("nbturbl") order. i.e.,
+        // fields of most super clbss bre stored first.
 
-        // target variable is used to compensate for the fact that
-        // the dump file starts field values from the leaf working
-        // upwards in the inheritance hierarchy, whereas JavaObject
-        // starts with the top of the inheritance hierarchy and works down.
-        target -= fields.length;
-        JavaClass currClass = cl;
+        // tbrget vbribble is used to compensbte for the fbct thbt
+        // the dump file stbrts field vblues from the lebf working
+        // upwbrds in the inheritbnce hierbrchy, wherebs JbvbObject
+        // stbrts with the top of the inheritbnce hierbrchy bnd works down.
+        tbrget -= fields.length;
+        JbvbClbss currClbss = cl;
         int index = 0;
-        for (int i = 0; i < fieldValues.length; i++, fieldNo++) {
+        for (int i = 0; i < fieldVblues.length; i++, fieldNo++) {
             while (fieldNo >= fields.length) {
-                currClass = currClass.getSuperclass();
-                fields = currClass.getFields();
+                currClbss = currClbss.getSuperclbss();
+                fields = currClbss.getFields();
                 fieldNo = 0;
-                target -= fields.length;
+                tbrget -= fields.length;
             }
-            JavaField f = fields[fieldNo];
-            char sig = f.getSignature().charAt(0);
+            JbvbField f = fields[fieldNo];
+            chbr sig = f.getSignbture().chbrAt(0);
             switch (sig) {
-                case 'L':
-                case '[': {
-                    long id = objectIdAt(index, data);
+                cbse 'L':
+                cbse '[': {
+                    long id = objectIdAt(index, dbtb);
                     index += idSize;
-                    JavaObjectRef ref = new JavaObjectRef(id);
-                    fieldValues[target+fieldNo] = ref.dereference(snapshot, f, verbose);
-                    break;
+                    JbvbObjectRef ref = new JbvbObjectRef(id);
+                    fieldVblues[tbrget+fieldNo] = ref.dereference(snbpshot, f, verbose);
+                    brebk;
                 }
-                case 'Z': {
-                    byte value = byteAt(index, data);
+                cbse 'Z': {
+                    byte vblue = byteAt(index, dbtb);
                     index++;
-                    fieldValues[target+fieldNo] = new JavaBoolean(value != 0);
-                    break;
+                    fieldVblues[tbrget+fieldNo] = new JbvbBoolebn(vblue != 0);
+                    brebk;
                 }
-                case 'B': {
-                    byte value = byteAt(index, data);
+                cbse 'B': {
+                    byte vblue = byteAt(index, dbtb);
                     index++;
-                    fieldValues[target+fieldNo] = new JavaByte(value);
-                    break;
+                    fieldVblues[tbrget+fieldNo] = new JbvbByte(vblue);
+                    brebk;
                 }
-                case 'S': {
-                    short value = shortAt(index, data);
+                cbse 'S': {
+                    short vblue = shortAt(index, dbtb);
                     index += 2;
-                    fieldValues[target+fieldNo] = new JavaShort(value);
-                    break;
+                    fieldVblues[tbrget+fieldNo] = new JbvbShort(vblue);
+                    brebk;
                 }
-                case 'C': {
-                    char value = charAt(index, data);
+                cbse 'C': {
+                    chbr vblue = chbrAt(index, dbtb);
                     index += 2;
-                    fieldValues[target+fieldNo] = new JavaChar(value);
-                    break;
+                    fieldVblues[tbrget+fieldNo] = new JbvbChbr(vblue);
+                    brebk;
                 }
-                case 'I': {
-                    int value = intAt(index, data);
+                cbse 'I': {
+                    int vblue = intAt(index, dbtb);
                     index += 4;
-                    fieldValues[target+fieldNo] = new JavaInt(value);
-                    break;
+                    fieldVblues[tbrget+fieldNo] = new JbvbInt(vblue);
+                    brebk;
                 }
-                case 'J': {
-                    long value = longAt(index, data);
+                cbse 'J': {
+                    long vblue = longAt(index, dbtb);
                     index += 8;
-                    fieldValues[target+fieldNo] = new JavaLong(value);
-                    break;
+                    fieldVblues[tbrget+fieldNo] = new JbvbLong(vblue);
+                    brebk;
                 }
-                case 'F': {
-                    float value = floatAt(index, data);
+                cbse 'F': {
+                    flobt vblue = flobtAt(index, dbtb);
                     index += 4;
-                    fieldValues[target+fieldNo] = new JavaFloat(value);
-                    break;
+                    fieldVblues[tbrget+fieldNo] = new JbvbFlobt(vblue);
+                    brebk;
                 }
-                case 'D': {
-                    double value = doubleAt(index, data);
+                cbse 'D': {
+                    double vblue = doubleAt(index, dbtb);
                     index += 8;
-                    fieldValues[target+fieldNo] = new JavaDouble(value);
-                    break;
+                    fieldVblues[tbrget+fieldNo] = new JbvbDouble(vblue);
+                    brebk;
                 }
-                default:
-                    throw new RuntimeException("invalid signature: " + sig);
+                defbult:
+                    throw new RuntimeException("invblid signbture: " + sig);
             }
         }
-        return fieldValues;
+        return fieldVblues;
     }
 
-    private void warn(String msg) {
+    privbte void wbrn(String msg) {
         System.out.println("WARNING: " + msg);
     }
 }

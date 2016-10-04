@@ -1,56 +1,56 @@
 /*
- * Copyright (c) 2002, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.plaf.synth;
+pbckbge jbvbx.swing.plbf.synth;
 
-import javax.swing.*;
-import java.awt.*;
-import java.beans.*;
-import javax.swing.plaf.*;
-import javax.swing.plaf.basic.BasicButtonUI;
-import javax.swing.plaf.basic.BasicHTML;
-import javax.swing.text.View;
+import jbvbx.swing.*;
+import jbvb.bwt.*;
+import jbvb.bebns.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.bbsic.BbsicButtonUI;
+import jbvbx.swing.plbf.bbsic.BbsicHTML;
+import jbvbx.swing.text.View;
 
 /**
- * Provides the Synth L&amp;F UI delegate for
- * {@link javax.swing.JButton}.
+ * Provides the Synth L&bmp;F UI delegbte for
+ * {@link jbvbx.swing.JButton}.
  *
- * @author Scott Violet
+ * @buthor Scott Violet
  * @since 1.7
  */
-public class SynthButtonUI extends BasicButtonUI implements
-                                 PropertyChangeListener, SynthUI {
-    private SynthStyle style;
+public clbss SynthButtonUI extends BbsicButtonUI implements
+                                 PropertyChbngeListener, SynthUI {
+    privbte SynthStyle style;
 
     /**
-     * Creates a new UI object for the given component.
+     * Crebtes b new UI object for the given component.
      *
-     * @param c component to create UI object for
+     * @pbrbm c component to crebte UI object for
      * @return the UI object
      */
-    public static ComponentUI createUI(JComponent c) {
+    public stbtic ComponentUI crebteUI(JComponent c) {
         return new SynthButtonUI();
     }
 
@@ -58,50 +58,50 @@ public class SynthButtonUI extends BasicButtonUI implements
      * {@inheritDoc}
      */
     @Override
-    protected void installDefaults(AbstractButton b) {
-        updateStyle(b);
+    protected void instbllDefbults(AbstrbctButton b) {
+        updbteStyle(b);
 
-        LookAndFeel.installProperty(b, "rolloverEnabled", Boolean.TRUE);
+        LookAndFeel.instbllProperty(b, "rolloverEnbbled", Boolebn.TRUE);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    protected void installListeners(AbstractButton b) {
-        super.installListeners(b);
-        b.addPropertyChangeListener(this);
+    protected void instbllListeners(AbstrbctButton b) {
+        super.instbllListeners(b);
+        b.bddPropertyChbngeListener(this);
     }
 
-    void updateStyle(AbstractButton b) {
-        SynthContext context = getContext(b, SynthConstants.ENABLED);
+    void updbteStyle(AbstrbctButton b) {
+        SynthContext context = getContext(b, SynthConstbnts.ENABLED);
         SynthStyle oldStyle = style;
-        style = SynthLookAndFeel.updateStyle(context, this);
+        style = SynthLookAndFeel.updbteStyle(context, this);
         if (style != oldStyle) {
-            if (b.getMargin() == null ||
-                                (b.getMargin() instanceof UIResource)) {
-                Insets margin = (Insets)style.get(context,getPropertyPrefix() +
-                                                  "margin");
+            if (b.getMbrgin() == null ||
+                                (b.getMbrgin() instbnceof UIResource)) {
+                Insets mbrgin = (Insets)style.get(context,getPropertyPrefix() +
+                                                  "mbrgin");
 
-                if (margin == null) {
-                    // Some places assume margins are non-null.
-                    margin = SynthLookAndFeel.EMPTY_UIRESOURCE_INSETS;
+                if (mbrgin == null) {
+                    // Some plbces bssume mbrgins bre non-null.
+                    mbrgin = SynthLookAndFeel.EMPTY_UIRESOURCE_INSETS;
                 }
-                b.setMargin(margin);
+                b.setMbrgin(mbrgin);
             }
 
-            Object value = style.get(context, getPropertyPrefix() + "iconTextGap");
-            if (value != null) {
-                        LookAndFeel.installProperty(b, "iconTextGap", value);
+            Object vblue = style.get(context, getPropertyPrefix() + "iconTextGbp");
+            if (vblue != null) {
+                        LookAndFeel.instbllProperty(b, "iconTextGbp", vblue);
             }
 
-            value = style.get(context, getPropertyPrefix() + "contentAreaFilled");
-            LookAndFeel.installProperty(b, "contentAreaFilled",
-                                        value != null? value : Boolean.TRUE);
+            vblue = style.get(context, getPropertyPrefix() + "contentArebFilled");
+            LookAndFeel.instbllProperty(b, "contentArebFilled",
+                                        vblue != null? vblue : Boolebn.TRUE);
 
             if (oldStyle != null) {
-                uninstallKeyboardActions(b);
-                installKeyboardActions(b);
+                uninstbllKeybobrdActions(b);
+                instbllKeybobrdActions(b);
             }
 
         }
@@ -112,19 +112,19 @@ public class SynthButtonUI extends BasicButtonUI implements
      * {@inheritDoc}
      */
     @Override
-    protected void uninstallListeners(AbstractButton b) {
-        super.uninstallListeners(b);
-        b.removePropertyChangeListener(this);
+    protected void uninstbllListeners(AbstrbctButton b) {
+        super.uninstbllListeners(b);
+        b.removePropertyChbngeListener(this);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    protected void uninstallDefaults(AbstractButton b) {
+    protected void uninstbllDefbults(AbstrbctButton b) {
         SynthContext context = getContext(b, ENABLED);
 
-        style.uninstallDefaults(context);
+        style.uninstbllDefbults(context);
         context.dispose();
         style = null;
     }
@@ -134,169 +134,169 @@ public class SynthButtonUI extends BasicButtonUI implements
      */
     @Override
     public SynthContext getContext(JComponent c) {
-        return getContext(c, getComponentState(c));
+        return getContext(c, getComponentStbte(c));
     }
 
-    SynthContext getContext(JComponent c, int state) {
-        return SynthContext.getContext(c, style, state);
+    SynthContext getContext(JComponent c, int stbte) {
+        return SynthContext.getContext(c, style, stbte);
     }
 
     /**
-     * Returns the current state of the passed in <code>AbstractButton</code>.
+     * Returns the current stbte of the pbssed in <code>AbstrbctButton</code>.
      */
-    private int getComponentState(JComponent c) {
-        int state = ENABLED;
+    privbte int getComponentStbte(JComponent c) {
+        int stbte = ENABLED;
 
-        if (!c.isEnabled()) {
-            state = DISABLED;
+        if (!c.isEnbbled()) {
+            stbte = DISABLED;
         }
         if (SynthLookAndFeel.getSelectedUI() == this) {
-            return SynthLookAndFeel.getSelectedUIState() | SynthConstants.ENABLED;
+            return SynthLookAndFeel.getSelectedUIStbte() | SynthConstbnts.ENABLED;
         }
-        AbstractButton button = (AbstractButton) c;
+        AbstrbctButton button = (AbstrbctButton) c;
         ButtonModel model = button.getModel();
 
         if (model.isPressed()) {
             if (model.isArmed()) {
-                state = PRESSED;
+                stbte = PRESSED;
             }
             else {
-                state = MOUSE_OVER;
+                stbte = MOUSE_OVER;
             }
         }
         if (model.isRollover()) {
-            state |= MOUSE_OVER;
+            stbte |= MOUSE_OVER;
         }
         if (model.isSelected()) {
-            state |= SELECTED;
+            stbte |= SELECTED;
         }
-        if (c.isFocusOwner() && button.isFocusPainted()) {
-            state |= FOCUSED;
+        if (c.isFocusOwner() && button.isFocusPbinted()) {
+            stbte |= FOCUSED;
         }
-        if ((c instanceof JButton) && ((JButton)c).isDefaultButton()) {
-            state |= DEFAULT;
+        if ((c instbnceof JButton) && ((JButton)c).isDefbultButton()) {
+            stbte |= DEFAULT;
         }
-        return state;
+        return stbte;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public int getBaseline(JComponent c, int width, int height) {
+    public int getBbseline(JComponent c, int width, int height) {
         if (c == null) {
             throw new NullPointerException("Component must be non-null");
         }
         if (width < 0 || height < 0) {
-            throw new IllegalArgumentException(
-                    "Width and height must be >= 0");
+            throw new IllegblArgumentException(
+                    "Width bnd height must be >= 0");
         }
-        AbstractButton b = (AbstractButton)c;
+        AbstrbctButton b = (AbstrbctButton)c;
         String text = b.getText();
-        if (text == null || "".equals(text)) {
+        if (text == null || "".equbls(text)) {
             return -1;
         }
         Insets i = b.getInsets();
-        Rectangle viewRect = new Rectangle();
-        Rectangle textRect = new Rectangle();
-        Rectangle iconRect = new Rectangle();
+        Rectbngle viewRect = new Rectbngle();
+        Rectbngle textRect = new Rectbngle();
+        Rectbngle iconRect = new Rectbngle();
         viewRect.x = i.left;
         viewRect.y = i.top;
         viewRect.width = width - (i.right + viewRect.x);
         viewRect.height = height - (i.bottom + viewRect.y);
 
-        // layout the text and icon
+        // lbyout the text bnd icon
         SynthContext context = getContext(b);
         FontMetrics fm = context.getComponent().getFontMetrics(
             context.getStyle().getFont(context));
-        context.getStyle().getGraphicsUtils(context).layoutText(
+        context.getStyle().getGrbphicsUtils(context).lbyoutText(
             context, fm, b.getText(), b.getIcon(),
-            b.getHorizontalAlignment(), b.getVerticalAlignment(),
-            b.getHorizontalTextPosition(), b.getVerticalTextPosition(),
-            viewRect, iconRect, textRect, b.getIconTextGap());
-        View view = (View)b.getClientProperty(BasicHTML.propertyKey);
-        int baseline;
+            b.getHorizontblAlignment(), b.getVerticblAlignment(),
+            b.getHorizontblTextPosition(), b.getVerticblTextPosition(),
+            viewRect, iconRect, textRect, b.getIconTextGbp());
+        View view = (View)b.getClientProperty(BbsicHTML.propertyKey);
+        int bbseline;
         if (view != null) {
-            baseline = BasicHTML.getHTMLBaseline(view, textRect.width,
+            bbseline = BbsicHTML.getHTMLBbseline(view, textRect.width,
                                                  textRect.height);
-            if (baseline >= 0) {
-                baseline += textRect.y;
+            if (bbseline >= 0) {
+                bbseline += textRect.y;
             }
         }
         else {
-            baseline = textRect.y + fm.getAscent();
+            bbseline = textRect.y + fm.getAscent();
         }
         context.dispose();
-        return baseline;
+        return bbseline;
     }
 
     // ********************************
-    //          Paint Methods
+    //          Pbint Methods
     // ********************************
 
     /**
-     * Notifies this UI delegate to repaint the specified component.
-     * This method paints the component background, then calls
-     * the {@link #paint(SynthContext,Graphics)} method.
+     * Notifies this UI delegbte to repbint the specified component.
+     * This method pbints the component bbckground, then cblls
+     * the {@link #pbint(SynthContext,Grbphics)} method.
      *
-     * <p>In general, this method does not need to be overridden by subclasses.
-     * All Look and Feel rendering code should reside in the {@code paint} method.
+     * <p>In generbl, this method does not need to be overridden by subclbsses.
+     * All Look bnd Feel rendering code should reside in the {@code pbint} method.
      *
-     * @param g the {@code Graphics} object used for painting
-     * @param c the component being painted
-     * @see #paint(SynthContext,Graphics)
+     * @pbrbm g the {@code Grbphics} object used for pbinting
+     * @pbrbm c the component being pbinted
+     * @see #pbint(SynthContext,Grbphics)
      */
     @Override
-    public void update(Graphics g, JComponent c) {
+    public void updbte(Grbphics g, JComponent c) {
         SynthContext context = getContext(c);
 
-        SynthLookAndFeel.update(context, g);
-        paintBackground(context, g, c);
-        paint(context, g);
+        SynthLookAndFeel.updbte(context, g);
+        pbintBbckground(context, g, c);
+        pbint(context, g);
         context.dispose();
     }
 
     /**
-     * Paints the specified component according to the Look and Feel.
-     * <p>This method is not used by Synth Look and Feel.
-     * Painting is handled by the {@link #paint(SynthContext,Graphics)} method.
+     * Pbints the specified component bccording to the Look bnd Feel.
+     * <p>This method is not used by Synth Look bnd Feel.
+     * Pbinting is hbndled by the {@link #pbint(SynthContext,Grbphics)} method.
      *
-     * @param g the {@code Graphics} object used for painting
-     * @param c the component being painted
-     * @see #paint(SynthContext,Graphics)
+     * @pbrbm g the {@code Grbphics} object used for pbinting
+     * @pbrbm c the component being pbinted
+     * @see #pbint(SynthContext,Grbphics)
      */
     @Override
-    public void paint(Graphics g, JComponent c) {
+    public void pbint(Grbphics g, JComponent c) {
         SynthContext context = getContext(c);
 
-        paint(context, g);
+        pbint(context, g);
         context.dispose();
     }
 
     /**
-     * Paints the specified component.
+     * Pbints the specified component.
      *
-     * @param context context for the component being painted
-     * @param g the {@code Graphics} object used for painting
-     * @see #update(Graphics,JComponent)
+     * @pbrbm context context for the component being pbinted
+     * @pbrbm g the {@code Grbphics} object used for pbinting
+     * @see #updbte(Grbphics,JComponent)
      */
-    protected void paint(SynthContext context, Graphics g) {
-        AbstractButton b = (AbstractButton)context.getComponent();
+    protected void pbint(SynthContext context, Grbphics g) {
+        AbstrbctButton b = (AbstrbctButton)context.getComponent();
 
         g.setColor(context.getStyle().getColor(context,
                                                ColorType.TEXT_FOREGROUND));
         g.setFont(style.getFont(context));
-        context.getStyle().getGraphicsUtils(context).paintText(
+        context.getStyle().getGrbphicsUtils(context).pbintText(
             context, g, b.getText(), getIcon(b),
-            b.getHorizontalAlignment(), b.getVerticalAlignment(),
-            b.getHorizontalTextPosition(), b.getVerticalTextPosition(),
-            b.getIconTextGap(), b.getDisplayedMnemonicIndex(),
+            b.getHorizontblAlignment(), b.getVerticblAlignment(),
+            b.getHorizontblTextPosition(), b.getVerticblTextPosition(),
+            b.getIconTextGbp(), b.getDisplbyedMnemonicIndex(),
             getTextShiftOffset(context));
     }
 
-    void paintBackground(SynthContext context, Graphics g, JComponent c) {
-        if (((AbstractButton) c).isContentAreaFilled()) {
-            context.getPainter().paintButtonBackground(context, g, 0, 0,
+    void pbintBbckground(SynthContext context, Grbphics g, JComponent c) {
+        if (((AbstrbctButton) c).isContentArebFilled()) {
+            context.getPbinter().pbintButtonBbckground(context, g, 0, 0,
                                                        c.getWidth(),
                                                        c.getHeight());
         }
@@ -306,19 +306,19 @@ public class SynthButtonUI extends BasicButtonUI implements
      * {@inheritDoc}
      */
     @Override
-    public void paintBorder(SynthContext context, Graphics g, int x,
+    public void pbintBorder(SynthContext context, Grbphics g, int x,
                             int y, int w, int h) {
-        context.getPainter().paintButtonBorder(context, g, x, y, w, h);
+        context.getPbinter().pbintButtonBorder(context, g, x, y, w, h);
     }
 
     /**
-     * Returns the default icon. This should not callback
+     * Returns the defbult icon. This should not cbllbbck
      * to the JComponent.
      *
-     * @param b button the icon is associated with
-     * @return default icon
+     * @pbrbm b button the icon is bssocibted with
+     * @return defbult icon
      */
-    protected Icon getDefaultIcon(AbstractButton b) {
+    protected Icon getDefbultIcon(AbstrbctButton b) {
         SynthContext context = getContext(b);
         Icon icon = context.getStyle().getIcon(context, getPropertyPrefix() + "icon");
         context.dispose();
@@ -326,124 +326,124 @@ public class SynthButtonUI extends BasicButtonUI implements
     }
 
     /**
-     * Returns the Icon to use for painting the button. The icon is chosen with
-     * respect to the current state of the button.
+     * Returns the Icon to use for pbinting the button. The icon is chosen with
+     * respect to the current stbte of the button.
      *
-     * @param b button the icon is associated with
-     * @return an icon
+     * @pbrbm b button the icon is bssocibted with
+     * @return bn icon
      */
-    protected Icon getIcon(AbstractButton b) {
+    protected Icon getIcon(AbstrbctButton b) {
         Icon icon = b.getIcon();
         ButtonModel model = b.getModel();
 
-        if (!model.isEnabled()) {
-            icon = getSynthDisabledIcon(b, icon);
+        if (!model.isEnbbled()) {
+            icon = getSynthDisbbledIcon(b, icon);
         } else if (model.isPressed() && model.isArmed()) {
             icon = getPressedIcon(b, getSelectedIcon(b, icon));
-        } else if (b.isRolloverEnabled() && model.isRollover()) {
+        } else if (b.isRolloverEnbbled() && model.isRollover()) {
             icon = getRolloverIcon(b, getSelectedIcon(b, icon));
         } else if (model.isSelected()) {
             icon = getSelectedIcon(b, icon);
         } else {
-            icon = getEnabledIcon(b, icon);
+            icon = getEnbbledIcon(b, icon);
         }
         if(icon == null) {
-            return getDefaultIcon(b);
+            return getDefbultIcon(b);
         }
         return icon;
     }
 
     /**
-     * This method will return the icon that should be used for a button.  We
-     * only want to use the synth icon defined by the style if the specific
-     * icon has not been defined for the button state and the backup icon is a
+     * This method will return the icon thbt should be used for b button.  We
+     * only wbnt to use the synth icon defined by the style if the specific
+     * icon hbs not been defined for the button stbte bnd the bbckup icon is b
      * UIResource (we set it, not the developer).
      *
-     * @param b button
-     * @param specificIcon icon returned from the button for the specific state
-     * @param defaultIcon fallback icon
-     * @param state the synth state of the button
+     * @pbrbm b button
+     * @pbrbm specificIcon icon returned from the button for the specific stbte
+     * @pbrbm defbultIcon fbllbbck icon
+     * @pbrbm stbte the synth stbte of the button
      */
-    private Icon getIcon(AbstractButton b, Icon specificIcon, Icon defaultIcon,
-            int state) {
+    privbte Icon getIcon(AbstrbctButton b, Icon specificIcon, Icon defbultIcon,
+            int stbte) {
         Icon icon = specificIcon;
         if (icon == null) {
-            if (defaultIcon instanceof UIResource) {
-                icon = getSynthIcon(b, state);
+            if (defbultIcon instbnceof UIResource) {
+                icon = getSynthIcon(b, stbte);
                 if (icon == null) {
-                    icon = defaultIcon;
+                    icon = defbultIcon;
                 }
             } else {
-                icon = defaultIcon;
+                icon = defbultIcon;
             }
         }
         return icon;
     }
 
-    private Icon getSynthIcon(AbstractButton b, int synthConstant) {
-        return style.getIcon(getContext(b, synthConstant), getPropertyPrefix() + "icon");
+    privbte Icon getSynthIcon(AbstrbctButton b, int synthConstbnt) {
+        return style.getIcon(getContext(b, synthConstbnt), getPropertyPrefix() + "icon");
     }
 
-    private Icon getEnabledIcon(AbstractButton b, Icon defaultIcon) {
-        if (defaultIcon == null) {
-            defaultIcon = getSynthIcon(b, SynthConstants.ENABLED);
+    privbte Icon getEnbbledIcon(AbstrbctButton b, Icon defbultIcon) {
+        if (defbultIcon == null) {
+            defbultIcon = getSynthIcon(b, SynthConstbnts.ENABLED);
         }
-        return defaultIcon;
+        return defbultIcon;
     }
 
-    private Icon getSelectedIcon(AbstractButton b, Icon defaultIcon) {
-        return getIcon(b, b.getSelectedIcon(), defaultIcon,
-                SynthConstants.SELECTED);
+    privbte Icon getSelectedIcon(AbstrbctButton b, Icon defbultIcon) {
+        return getIcon(b, b.getSelectedIcon(), defbultIcon,
+                SynthConstbnts.SELECTED);
     }
 
-    private Icon getRolloverIcon(AbstractButton b, Icon defaultIcon) {
+    privbte Icon getRolloverIcon(AbstrbctButton b, Icon defbultIcon) {
         ButtonModel model = b.getModel();
         Icon icon;
         if (model.isSelected()) {
-            icon = getIcon(b, b.getRolloverSelectedIcon(), defaultIcon,
-                    SynthConstants.MOUSE_OVER | SynthConstants.SELECTED);
+            icon = getIcon(b, b.getRolloverSelectedIcon(), defbultIcon,
+                    SynthConstbnts.MOUSE_OVER | SynthConstbnts.SELECTED);
         } else {
-            icon = getIcon(b, b.getRolloverIcon(), defaultIcon,
-                    SynthConstants.MOUSE_OVER);
+            icon = getIcon(b, b.getRolloverIcon(), defbultIcon,
+                    SynthConstbnts.MOUSE_OVER);
         }
         return icon;
     }
 
-    private Icon getPressedIcon(AbstractButton b, Icon defaultIcon) {
-        return getIcon(b, b.getPressedIcon(), defaultIcon,
-                SynthConstants.PRESSED);
+    privbte Icon getPressedIcon(AbstrbctButton b, Icon defbultIcon) {
+        return getIcon(b, b.getPressedIcon(), defbultIcon,
+                SynthConstbnts.PRESSED);
     }
 
-    private Icon getSynthDisabledIcon(AbstractButton b, Icon defaultIcon) {
+    privbte Icon getSynthDisbbledIcon(AbstrbctButton b, Icon defbultIcon) {
         ButtonModel model = b.getModel();
         Icon icon;
         if (model.isSelected()) {
-            icon = getIcon(b, b.getDisabledSelectedIcon(), defaultIcon,
-                    SynthConstants.DISABLED | SynthConstants.SELECTED);
+            icon = getIcon(b, b.getDisbbledSelectedIcon(), defbultIcon,
+                    SynthConstbnts.DISABLED | SynthConstbnts.SELECTED);
         } else {
-            icon = getIcon(b, b.getDisabledIcon(), defaultIcon,
-                    SynthConstants.DISABLED);
+            icon = getIcon(b, b.getDisbbledIcon(), defbultIcon,
+                    SynthConstbnts.DISABLED);
         }
         return icon;
     }
 
     /**
-     * Returns the amount to shift the text/icon when painting.
+     * Returns the bmount to shift the text/icon when pbinting.
      */
-    private int getTextShiftOffset(SynthContext state) {
-        AbstractButton button = (AbstractButton)state.getComponent();
+    privbte int getTextShiftOffset(SynthContext stbte) {
+        AbstrbctButton button = (AbstrbctButton)stbte.getComponent();
         ButtonModel model = button.getModel();
 
         if (model.isArmed() && model.isPressed() &&
                                button.getPressedIcon() == null) {
-            return state.getStyle().getInt(state, getPropertyPrefix() +
+            return stbte.getStyle().getInt(stbte, getPropertyPrefix() +
                                            "textShiftOffset", 0);
         }
         return 0;
     }
 
     // ********************************
-    //          Layout Methods
+    //          Lbyout Methods
     // ********************************
 
     /**
@@ -451,17 +451,17 @@ public class SynthButtonUI extends BasicButtonUI implements
      */
     @Override
     public Dimension getMinimumSize(JComponent c) {
-        if (c.getComponentCount() > 0 && c.getLayout() != null) {
+        if (c.getComponentCount() > 0 && c.getLbyout() != null) {
             return null;
         }
-        AbstractButton b = (AbstractButton)c;
+        AbstrbctButton b = (AbstrbctButton)c;
         SynthContext ss = getContext(c);
-        Dimension size = ss.getStyle().getGraphicsUtils(ss).getMinimumSize(
+        Dimension size = ss.getStyle().getGrbphicsUtils(ss).getMinimumSize(
                ss, ss.getStyle().getFont(ss), b.getText(), getSizingIcon(b),
-               b.getHorizontalAlignment(), b.getVerticalAlignment(),
-               b.getHorizontalTextPosition(),
-               b.getVerticalTextPosition(), b.getIconTextGap(),
-               b.getDisplayedMnemonicIndex());
+               b.getHorizontblAlignment(), b.getVerticblAlignment(),
+               b.getHorizontblTextPosition(),
+               b.getVerticblTextPosition(), b.getIconTextGbp(),
+               b.getDisplbyedMnemonicIndex());
 
         ss.dispose();
         return size;
@@ -472,17 +472,17 @@ public class SynthButtonUI extends BasicButtonUI implements
      */
     @Override
     public Dimension getPreferredSize(JComponent c) {
-        if (c.getComponentCount() > 0 && c.getLayout() != null) {
+        if (c.getComponentCount() > 0 && c.getLbyout() != null) {
             return null;
         }
-        AbstractButton b = (AbstractButton)c;
+        AbstrbctButton b = (AbstrbctButton)c;
         SynthContext ss = getContext(c);
-        Dimension size = ss.getStyle().getGraphicsUtils(ss).getPreferredSize(
+        Dimension size = ss.getStyle().getGrbphicsUtils(ss).getPreferredSize(
                ss, ss.getStyle().getFont(ss), b.getText(), getSizingIcon(b),
-               b.getHorizontalAlignment(), b.getVerticalAlignment(),
-               b.getHorizontalTextPosition(),
-               b.getVerticalTextPosition(), b.getIconTextGap(),
-               b.getDisplayedMnemonicIndex());
+               b.getHorizontblAlignment(), b.getVerticblAlignment(),
+               b.getHorizontblTextPosition(),
+               b.getVerticblTextPosition(), b.getIconTextGbp(),
+               b.getDisplbyedMnemonicIndex());
 
         ss.dispose();
         return size;
@@ -492,39 +492,39 @@ public class SynthButtonUI extends BasicButtonUI implements
      * {@inheritDoc}
      */
     @Override
-    public Dimension getMaximumSize(JComponent c) {
-        if (c.getComponentCount() > 0 && c.getLayout() != null) {
+    public Dimension getMbximumSize(JComponent c) {
+        if (c.getComponentCount() > 0 && c.getLbyout() != null) {
             return null;
         }
 
-        AbstractButton b = (AbstractButton)c;
+        AbstrbctButton b = (AbstrbctButton)c;
         SynthContext ss = getContext(c);
-        Dimension size = ss.getStyle().getGraphicsUtils(ss).getMaximumSize(
+        Dimension size = ss.getStyle().getGrbphicsUtils(ss).getMbximumSize(
                ss, ss.getStyle().getFont(ss), b.getText(), getSizingIcon(b),
-               b.getHorizontalAlignment(), b.getVerticalAlignment(),
-               b.getHorizontalTextPosition(),
-               b.getVerticalTextPosition(), b.getIconTextGap(),
-               b.getDisplayedMnemonicIndex());
+               b.getHorizontblAlignment(), b.getVerticblAlignment(),
+               b.getHorizontblTextPosition(),
+               b.getVerticblTextPosition(), b.getIconTextGbp(),
+               b.getDisplbyedMnemonicIndex());
 
         ss.dispose();
         return size;
     }
 
     /**
-     * Returns the Icon used in calculating the
-     * preferred/minimum/maximum size.
+     * Returns the Icon used in cblculbting the
+     * preferred/minimum/mbximum size.
      *
-     * @param b specifies the {@code AbstractButton}
-     * used when calculating the preferred/minimum/maximum
+     * @pbrbm b specifies the {@code AbstrbctButton}
+     * used when cblculbting the preferred/minimum/mbximum
      * size.
      *
-     * @return the Icon used in calculating the
-     * preferred/minimum/maximum size.
+     * @return the Icon used in cblculbting the
+     * preferred/minimum/mbximum size.
      */
-    protected Icon getSizingIcon(AbstractButton b) {
-        Icon icon = getEnabledIcon(b, b.getIcon());
+    protected Icon getSizingIcon(AbstrbctButton b) {
+        Icon icon = getEnbbledIcon(b, b.getIcon());
         if (icon == null) {
-            icon = getDefaultIcon(b);
+            icon = getDefbultIcon(b);
         }
         return icon;
     }
@@ -533,9 +533,9 @@ public class SynthButtonUI extends BasicButtonUI implements
      * {@inheritDoc}
      */
     @Override
-    public void propertyChange(PropertyChangeEvent e) {
-        if (SynthLookAndFeel.shouldUpdateStyle(e)) {
-            updateStyle((AbstractButton)e.getSource());
+    public void propertyChbnge(PropertyChbngeEvent e) {
+        if (SynthLookAndFeel.shouldUpdbteStyle(e)) {
+            updbteStyle((AbstrbctButton)e.getSource());
         }
     }
 }

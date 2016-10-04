@@ -1,30 +1,30 @@
 /*
- * Copyright (c) 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * Java Debug Wire Protocol Transport Service Provider Interface.
+ * Jbvb Debug Wire Protocol Trbnsport Service Provider Interfbce.
  */
 
 #ifndef JDWPTRANSPORT_H
@@ -40,19 +40,19 @@ enum {
 extern "C" {
 #endif
 
-struct jdwpTransportNativeInterface_;
+struct jdwpTrbnsportNbtiveInterfbce_;
 
-struct _jdwpTransportEnv;
+struct _jdwpTrbnsportEnv;
 
 #ifdef __cplusplus
-typedef _jdwpTransportEnv jdwpTransportEnv;
+typedef _jdwpTrbnsportEnv jdwpTrbnsportEnv;
 #else
-typedef const struct jdwpTransportNativeInterface_ *jdwpTransportEnv;
+typedef const struct jdwpTrbnsportNbtiveInterfbce_ *jdwpTrbnsportEnv;
 #endif /* __cplusplus */
 
 /*
- * Errors. Universal errors with JVMTI/JVMDI equivalents keep the
- * values the same.
+ * Errors. Universbl errors with JVMTI/JVMDI equivblents keep the
+ * vblues the sbme.
  */
 typedef enum {
     JDWPTRANSPORT_ERROR_NONE = 0,
@@ -63,16 +63,16 @@ typedef enum {
     JDWPTRANSPORT_ERROR_IO_ERROR = 202,
     JDWPTRANSPORT_ERROR_TIMEOUT = 203,
     JDWPTRANSPORT_ERROR_MSG_NOT_AVAILABLE = 204
-} jdwpTransportError;
+} jdwpTrbnsportError;
 
 
 /*
- * Structure to define capabilities
+ * Structure to define cbpbbilities
  */
 typedef struct {
-    unsigned int can_timeout_attach     :1;
-    unsigned int can_timeout_accept     :1;
-    unsigned int can_timeout_handshake  :1;
+    unsigned int cbn_timeout_bttbch     :1;
+    unsigned int cbn_timeout_bccept     :1;
+    unsigned int cbn_timeout_hbndshbke  :1;
     unsigned int reserved3              :1;
     unsigned int reserved4              :1;
     unsigned int reserved5              :1;
@@ -86,13 +86,13 @@ typedef struct {
     unsigned int reserved13             :1;
     unsigned int reserved14             :1;
     unsigned int reserved15             :1;
-} JDWPTransportCapabilities;
+} JDWPTrbnsportCbpbbilities;
 
 
 /*
- * Structures to define packet layout.
+ * Structures to define pbcket lbyout.
  *
- * See: http://java.sun.com/j2se/1.5/docs/guide/jpda/jdwp-spec.html
+ * See: http://jbvb.sun.com/j2se/1.5/docs/guide/jpdb/jdwp-spec.html
  */
 
 enum {
@@ -103,144 +103,144 @@ enum {
 typedef struct {
     jint len;
     jint id;
-    jbyte flags;
+    jbyte flbgs;
     jbyte cmdSet;
     jbyte cmd;
-    jbyte *data;
-} jdwpCmdPacket;
+    jbyte *dbtb;
+} jdwpCmdPbcket;
 
 typedef struct {
     jint len;
     jint id;
-    jbyte flags;
+    jbyte flbgs;
     jshort errorCode;
-    jbyte *data;
-} jdwpReplyPacket;
+    jbyte *dbtb;
+} jdwpReplyPbcket;
 
 typedef struct {
     union {
-        jdwpCmdPacket cmd;
-        jdwpReplyPacket reply;
+        jdwpCmdPbcket cmd;
+        jdwpReplyPbcket reply;
     } type;
-} jdwpPacket;
+} jdwpPbcket;
 
 /*
- * JDWP functions called by the transport.
+ * JDWP functions cblled by the trbnsport.
  */
-typedef struct jdwpTransportCallback {
-    void *(*alloc)(jint numBytes);   /* Call this for all allocations */
-    void (*free)(void *buffer);      /* Call this for all deallocations */
-} jdwpTransportCallback;
+typedef struct jdwpTrbnsportCbllbbck {
+    void *(*blloc)(jint numBytes);   /* Cbll this for bll bllocbtions */
+    void (*free)(void *buffer);      /* Cbll this for bll debllocbtions */
+} jdwpTrbnsportCbllbbck;
 
-typedef jint (JNICALL *jdwpTransport_OnLoad_t)(JavaVM *jvm,
-                                               jdwpTransportCallback *callback,
+typedef jint (JNICALL *jdwpTrbnsport_OnLobd_t)(JbvbVM *jvm,
+                                               jdwpTrbnsportCbllbbck *cbllbbck,
                                                jint version,
-                                               jdwpTransportEnv** env);
+                                               jdwpTrbnsportEnv** env);
 
 
 
-/* Function Interface */
+/* Function Interfbce */
 
-struct jdwpTransportNativeInterface_ {
+struct jdwpTrbnsportNbtiveInterfbce_ {
     /*  1 :  RESERVED */
     void *reserved1;
 
-    /*  2 : Get Capabilities */
-    jdwpTransportError (JNICALL *GetCapabilities)(jdwpTransportEnv* env,
-         JDWPTransportCapabilities *capabilities_ptr);
+    /*  2 : Get Cbpbbilities */
+    jdwpTrbnsportError (JNICALL *GetCbpbbilities)(jdwpTrbnsportEnv* env,
+         JDWPTrbnsportCbpbbilities *cbpbbilities_ptr);
 
-    /*  3 : Attach */
-    jdwpTransportError (JNICALL *Attach)(jdwpTransportEnv* env,
-        const char* address,
-        jlong attach_timeout,
-        jlong handshake_timeout);
+    /*  3 : Attbch */
+    jdwpTrbnsportError (JNICALL *Attbch)(jdwpTrbnsportEnv* env,
+        const chbr* bddress,
+        jlong bttbch_timeout,
+        jlong hbndshbke_timeout);
 
-    /*  4: StartListening */
-    jdwpTransportError (JNICALL *StartListening)(jdwpTransportEnv* env,
-        const char* address,
-        char** actual_address);
+    /*  4: StbrtListening */
+    jdwpTrbnsportError (JNICALL *StbrtListening)(jdwpTrbnsportEnv* env,
+        const chbr* bddress,
+        chbr** bctubl_bddress);
 
     /*  5: StopListening */
-    jdwpTransportError (JNICALL *StopListening)(jdwpTransportEnv* env);
+    jdwpTrbnsportError (JNICALL *StopListening)(jdwpTrbnsportEnv* env);
 
     /*  6: Accept */
-    jdwpTransportError (JNICALL *Accept)(jdwpTransportEnv* env,
-        jlong accept_timeout,
-        jlong handshake_timeout);
+    jdwpTrbnsportError (JNICALL *Accept)(jdwpTrbnsportEnv* env,
+        jlong bccept_timeout,
+        jlong hbndshbke_timeout);
 
     /*  7: IsOpen */
-    jboolean (JNICALL *IsOpen)(jdwpTransportEnv* env);
+    jboolebn (JNICALL *IsOpen)(jdwpTrbnsportEnv* env);
 
     /*  8: Close */
-    jdwpTransportError (JNICALL *Close)(jdwpTransportEnv* env);
+    jdwpTrbnsportError (JNICALL *Close)(jdwpTrbnsportEnv* env);
 
-    /*  9: ReadPacket */
-    jdwpTransportError (JNICALL *ReadPacket)(jdwpTransportEnv* env,
-        jdwpPacket *pkt);
+    /*  9: RebdPbcket */
+    jdwpTrbnsportError (JNICALL *RebdPbcket)(jdwpTrbnsportEnv* env,
+        jdwpPbcket *pkt);
 
-    /*  10: Write Packet */
-    jdwpTransportError (JNICALL *WritePacket)(jdwpTransportEnv* env,
-        const jdwpPacket* pkt);
+    /*  10: Write Pbcket */
+    jdwpTrbnsportError (JNICALL *WritePbcket)(jdwpTrbnsportEnv* env,
+        const jdwpPbcket* pkt);
 
-    /*  11:  GetLastError */
-    jdwpTransportError (JNICALL *GetLastError)(jdwpTransportEnv* env,
-        char** error);
+    /*  11:  GetLbstError */
+    jdwpTrbnsportError (JNICALL *GetLbstError)(jdwpTrbnsportEnv* env,
+        chbr** error);
 
 };
 
 
 /*
- * Use inlined functions so that C++ code can use syntax such as
- *      env->Attach("mymachine:5000", 10*1000, 0);
+ * Use inlined functions so thbt C++ code cbn use syntbx such bs
+ *      env->Attbch("mymbchine:5000", 10*1000, 0);
  *
- * rather than using C's :-
+ * rbther thbn using C's :-
  *
- *      (*env)->Attach(env, "mymachine:5000", 10*1000, 0);
+ *      (*env)->Attbch(env, "mymbchine:5000", 10*1000, 0);
  */
-struct _jdwpTransportEnv {
-    const struct jdwpTransportNativeInterface_ *functions;
+struct _jdwpTrbnsportEnv {
+    const struct jdwpTrbnsportNbtiveInterfbce_ *functions;
 #ifdef __cplusplus
 
-    jdwpTransportError GetCapabilities(JDWPTransportCapabilities *capabilities_ptr) {
-        return functions->GetCapabilities(this, capabilities_ptr);
+    jdwpTrbnsportError GetCbpbbilities(JDWPTrbnsportCbpbbilities *cbpbbilities_ptr) {
+        return functions->GetCbpbbilities(this, cbpbbilities_ptr);
     }
 
-    jdwpTransportError Attach(const char* address, jlong attach_timeout,
-                jlong handshake_timeout) {
-        return functions->Attach(this, address, attach_timeout, handshake_timeout);
+    jdwpTrbnsportError Attbch(const chbr* bddress, jlong bttbch_timeout,
+                jlong hbndshbke_timeout) {
+        return functions->Attbch(this, bddress, bttbch_timeout, hbndshbke_timeout);
     }
 
-    jdwpTransportError StartListening(const char* address,
-                char** actual_address) {
-        return functions->StartListening(this, address, actual_address);
+    jdwpTrbnsportError StbrtListening(const chbr* bddress,
+                chbr** bctubl_bddress) {
+        return functions->StbrtListening(this, bddress, bctubl_bddress);
     }
 
-    jdwpTransportError StopListening(void) {
+    jdwpTrbnsportError StopListening(void) {
         return functions->StopListening(this);
     }
 
-    jdwpTransportError Accept(jlong accept_timeout, jlong handshake_timeout) {
-        return functions->Accept(this, accept_timeout, handshake_timeout);
+    jdwpTrbnsportError Accept(jlong bccept_timeout, jlong hbndshbke_timeout) {
+        return functions->Accept(this, bccept_timeout, hbndshbke_timeout);
     }
 
-    jboolean IsOpen(void) {
+    jboolebn IsOpen(void) {
         return functions->IsOpen(this);
     }
 
-    jdwpTransportError Close(void) {
+    jdwpTrbnsportError Close(void) {
         return functions->Close(this);
     }
 
-    jdwpTransportError ReadPacket(jdwpPacket *pkt) {
-        return functions->ReadPacket(this, pkt);
+    jdwpTrbnsportError RebdPbcket(jdwpPbcket *pkt) {
+        return functions->RebdPbcket(this, pkt);
     }
 
-    jdwpTransportError WritePacket(const jdwpPacket* pkt) {
-        return functions->WritePacket(this, pkt);
+    jdwpTrbnsportError WritePbcket(const jdwpPbcket* pkt) {
+        return functions->WritePbcket(this, pkt);
     }
 
-    jdwpTransportError GetLastError(char** error) {
-        return functions->GetLastError(this, error);
+    jdwpTrbnsportError GetLbstError(chbr** error) {
+        return functions->GetLbstError(this, error);
     }
 
 

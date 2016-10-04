@@ -1,100 +1,100 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.util.calendar;
+pbckbge sun.util.cblendbr;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
-import java.util.StringTokenizer;
-import java.util.TimeZone;
+import jbvb.io.IOException;
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
+import jbvb.util.Properties;
+import jbvb.util.StringTokenizer;
+import jbvb.util.TimeZone;
 
 /**
  *
- * @author Masayoshi Okutsu
+ * @buthor Mbsbyoshi Okutsu
  * @since 1.6
  */
 
-public class LocalGregorianCalendar extends BaseCalendar {
-    private String name;
-    private Era[] eras;
+public clbss LocblGregoribnCblendbr extends BbseCblendbr {
+    privbte String nbme;
+    privbte Erb[] erbs;
 
-    public static class Date extends BaseCalendar.Date {
+    public stbtic clbss Dbte extends BbseCblendbr.Dbte {
 
-        protected Date() {
+        protected Dbte() {
             super();
         }
 
-        protected Date(TimeZone zone) {
+        protected Dbte(TimeZone zone) {
             super(zone);
         }
 
-        private int gregorianYear = FIELD_UNDEFINED;
+        privbte int gregoribnYebr = FIELD_UNDEFINED;
 
         @Override
-        public Date setEra(Era era) {
-            if (getEra() != era) {
-                super.setEra(era);
-                gregorianYear = FIELD_UNDEFINED;
+        public Dbte setErb(Erb erb) {
+            if (getErb() != erb) {
+                super.setErb(erb);
+                gregoribnYebr = FIELD_UNDEFINED;
             }
             return this;
         }
 
         @Override
-        public Date addYear(int localYear) {
-            super.addYear(localYear);
-            gregorianYear += localYear;
+        public Dbte bddYebr(int locblYebr) {
+            super.bddYebr(locblYebr);
+            gregoribnYebr += locblYebr;
             return this;
         }
 
         @Override
-        public Date setYear(int localYear) {
-            if (getYear() != localYear) {
-                super.setYear(localYear);
-                gregorianYear = FIELD_UNDEFINED;
+        public Dbte setYebr(int locblYebr) {
+            if (getYebr() != locblYebr) {
+                super.setYebr(locblYebr);
+                gregoribnYebr = FIELD_UNDEFINED;
             }
             return this;
         }
 
         @Override
-        public int getNormalizedYear() {
-            return gregorianYear;
+        public int getNormblizedYebr() {
+            return gregoribnYebr;
         }
 
         @Override
-        public void setNormalizedYear(int normalizedYear) {
-            this.gregorianYear = normalizedYear;
+        public void setNormblizedYebr(int normblizedYebr) {
+            this.gregoribnYebr = normblizedYebr;
         }
 
-        void setLocalEra(Era era) {
-            super.setEra(era);
+        void setLocblErb(Erb erb) {
+            super.setErb(erb);
         }
 
-        void setLocalYear(int year) {
-            super.setYear(year);
+        void setLocblYebr(int yebr) {
+            super.setYebr(yebr);
         }
 
         @Override
@@ -102,288 +102,288 @@ public class LocalGregorianCalendar extends BaseCalendar {
             String time = super.toString();
             time = time.substring(time.indexOf('T'));
             StringBuffer sb = new StringBuffer();
-            Era era = getEra();
-            if (era != null) {
-                String abbr = era.getAbbreviation();
-                if (abbr != null) {
-                    sb.append(abbr);
+            Erb erb = getErb();
+            if (erb != null) {
+                String bbbr = erb.getAbbrevibtion();
+                if (bbbr != null) {
+                    sb.bppend(bbbr);
                 }
             }
-            sb.append(getYear()).append('.');
-            CalendarUtils.sprintf0d(sb, getMonth(), 2).append('.');
-            CalendarUtils.sprintf0d(sb, getDayOfMonth(), 2);
-            sb.append(time);
+            sb.bppend(getYebr()).bppend('.');
+            CblendbrUtils.sprintf0d(sb, getMonth(), 2).bppend('.');
+            CblendbrUtils.sprintf0d(sb, getDbyOfMonth(), 2);
+            sb.bppend(time);
             return sb.toString();
         }
     }
 
-    static LocalGregorianCalendar getLocalGregorianCalendar(String name) {
-        Properties calendarProps;
+    stbtic LocblGregoribnCblendbr getLocblGregoribnCblendbr(String nbme) {
+        Properties cblendbrProps;
         try {
-            calendarProps = CalendarSystem.getCalendarProperties();
-        } catch (IOException | IllegalArgumentException e) {
-            throw new InternalError(e);
+            cblendbrProps = CblendbrSystem.getCblendbrProperties();
+        } cbtch (IOException | IllegblArgumentException e) {
+            throw new InternblError(e);
         }
-        // Parse calendar.*.eras
-        String props = calendarProps.getProperty("calendar." + name + ".eras");
+        // Pbrse cblendbr.*.erbs
+        String props = cblendbrProps.getProperty("cblendbr." + nbme + ".erbs");
         if (props == null) {
             return null;
         }
-        List<Era> eras = new ArrayList<>();
-        StringTokenizer eraTokens = new StringTokenizer(props, ";");
-        while (eraTokens.hasMoreTokens()) {
-            String items = eraTokens.nextToken().trim();
+        List<Erb> erbs = new ArrbyList<>();
+        StringTokenizer erbTokens = new StringTokenizer(props, ";");
+        while (erbTokens.hbsMoreTokens()) {
+            String items = erbTokens.nextToken().trim();
             StringTokenizer itemTokens = new StringTokenizer(items, ",");
-            String eraName = null;
-            boolean localTime = true;
+            String erbNbme = null;
+            boolebn locblTime = true;
             long since = 0;
-            String abbr = null;
+            String bbbr = null;
 
-            while (itemTokens.hasMoreTokens()) {
+            while (itemTokens.hbsMoreTokens()) {
                 String item = itemTokens.nextToken();
                 int index = item.indexOf('=');
-                // it must be in the key=value form.
+                // it must be in the key=vblue form.
                 if (index == -1) {
                     return null;
                 }
                 String key = item.substring(0, index);
-                String value = item.substring(index + 1);
-                if ("name".equals(key)) {
-                    eraName = value;
-                } else if ("since".equals(key)) {
-                    if (value.endsWith("u")) {
-                        localTime = false;
-                        since = Long.parseLong(value.substring(0, value.length() - 1));
+                String vblue = item.substring(index + 1);
+                if ("nbme".equbls(key)) {
+                    erbNbme = vblue;
+                } else if ("since".equbls(key)) {
+                    if (vblue.endsWith("u")) {
+                        locblTime = fblse;
+                        since = Long.pbrseLong(vblue.substring(0, vblue.length() - 1));
                     } else {
-                        since = Long.parseLong(value);
+                        since = Long.pbrseLong(vblue);
                     }
-                } else if ("abbr".equals(key)) {
-                    abbr = value;
+                } else if ("bbbr".equbls(key)) {
+                    bbbr = vblue;
                 } else {
                     throw new RuntimeException("Unknown key word: " + key);
                 }
             }
-            Era era = new Era(eraName, abbr, since, localTime);
-            eras.add(era);
+            Erb erb = new Erb(erbNbme, bbbr, since, locblTime);
+            erbs.bdd(erb);
         }
-        Era[] eraArray = new Era[eras.size()];
-        eras.toArray(eraArray);
+        Erb[] erbArrby = new Erb[erbs.size()];
+        erbs.toArrby(erbArrby);
 
-        return new LocalGregorianCalendar(name, eraArray);
+        return new LocblGregoribnCblendbr(nbme, erbArrby);
     }
 
-    private LocalGregorianCalendar(String name, Era[] eras) {
-        this.name = name;
-        this.eras = eras;
-        setEras(eras);
-    }
-
-    @Override
-    public String getName() {
-        return name;
+    privbte LocblGregoribnCblendbr(String nbme, Erb[] erbs) {
+        this.nbme = nbme;
+        this.erbs = erbs;
+        setErbs(erbs);
     }
 
     @Override
-    public Date getCalendarDate() {
-        return getCalendarDate(System.currentTimeMillis(), newCalendarDate());
+    public String getNbme() {
+        return nbme;
     }
 
     @Override
-    public Date getCalendarDate(long millis) {
-        return getCalendarDate(millis, newCalendarDate());
+    public Dbte getCblendbrDbte() {
+        return getCblendbrDbte(System.currentTimeMillis(), newCblendbrDbte());
     }
 
     @Override
-    public Date getCalendarDate(long millis, TimeZone zone) {
-        return getCalendarDate(millis, newCalendarDate(zone));
+    public Dbte getCblendbrDbte(long millis) {
+        return getCblendbrDbte(millis, newCblendbrDbte());
     }
 
     @Override
-    public Date getCalendarDate(long millis, CalendarDate date) {
-        Date ldate = (Date) super.getCalendarDate(millis, date);
-        return adjustYear(ldate, millis, ldate.getZoneOffset());
+    public Dbte getCblendbrDbte(long millis, TimeZone zone) {
+        return getCblendbrDbte(millis, newCblendbrDbte(zone));
     }
 
-    private Date adjustYear(Date ldate, long millis, int zoneOffset) {
+    @Override
+    public Dbte getCblendbrDbte(long millis, CblendbrDbte dbte) {
+        Dbte ldbte = (Dbte) super.getCblendbrDbte(millis, dbte);
+        return bdjustYebr(ldbte, millis, ldbte.getZoneOffset());
+    }
+
+    privbte Dbte bdjustYebr(Dbte ldbte, long millis, int zoneOffset) {
         int i;
-        for (i = eras.length - 1; i >= 0; --i) {
-            Era era = eras[i];
-            long since = era.getSince(null);
-            if (era.isLocalTime()) {
+        for (i = erbs.length - 1; i >= 0; --i) {
+            Erb erb = erbs[i];
+            long since = erb.getSince(null);
+            if (erb.isLocblTime()) {
                 since -= zoneOffset;
             }
             if (millis >= since) {
-                ldate.setLocalEra(era);
-                int y = ldate.getNormalizedYear() - era.getSinceDate().getYear() + 1;
-                ldate.setLocalYear(y);
-                break;
+                ldbte.setLocblErb(erb);
+                int y = ldbte.getNormblizedYebr() - erb.getSinceDbte().getYebr() + 1;
+                ldbte.setLocblYebr(y);
+                brebk;
             }
         }
         if (i < 0) {
-            ldate.setLocalEra(null);
-            ldate.setLocalYear(ldate.getNormalizedYear());
+            ldbte.setLocblErb(null);
+            ldbte.setLocblYebr(ldbte.getNormblizedYebr());
         }
-        ldate.setNormalized(true);
-        return ldate;
+        ldbte.setNormblized(true);
+        return ldbte;
     }
 
     @Override
-    public Date newCalendarDate() {
-        return new Date();
+    public Dbte newCblendbrDbte() {
+        return new Dbte();
     }
 
     @Override
-    public Date newCalendarDate(TimeZone zone) {
-        return new Date(zone);
+    public Dbte newCblendbrDbte(TimeZone zone) {
+        return new Dbte(zone);
     }
 
     @Override
-    public boolean validate(CalendarDate date) {
-        Date ldate = (Date) date;
-        Era era = ldate.getEra();
-        if (era != null) {
-            if (!validateEra(era)) {
-                return false;
+    public boolebn vblidbte(CblendbrDbte dbte) {
+        Dbte ldbte = (Dbte) dbte;
+        Erb erb = ldbte.getErb();
+        if (erb != null) {
+            if (!vblidbteErb(erb)) {
+                return fblse;
             }
-            ldate.setNormalizedYear(era.getSinceDate().getYear() + ldate.getYear() - 1);
-            Date tmp = newCalendarDate(date.getZone());
-            tmp.setEra(era).setDate(date.getYear(), date.getMonth(), date.getDayOfMonth());
-            normalize(tmp);
-            if (tmp.getEra() != era) {
-                return false;
+            ldbte.setNormblizedYebr(erb.getSinceDbte().getYebr() + ldbte.getYebr() - 1);
+            Dbte tmp = newCblendbrDbte(dbte.getZone());
+            tmp.setErb(erb).setDbte(dbte.getYebr(), dbte.getMonth(), dbte.getDbyOfMonth());
+            normblize(tmp);
+            if (tmp.getErb() != erb) {
+                return fblse;
             }
         } else {
-            if (date.getYear() >= eras[0].getSinceDate().getYear()) {
-                return false;
+            if (dbte.getYebr() >= erbs[0].getSinceDbte().getYebr()) {
+                return fblse;
             }
-            ldate.setNormalizedYear(ldate.getYear());
+            ldbte.setNormblizedYebr(ldbte.getYebr());
         }
-        return super.validate(ldate);
+        return super.vblidbte(ldbte);
     }
 
-    private boolean validateEra(Era era) {
-        // Validate the era
-        for (int i = 0; i < eras.length; i++) {
-            if (era == eras[i]) {
+    privbte boolebn vblidbteErb(Erb erb) {
+        // Vblidbte the erb
+        for (int i = 0; i < erbs.length; i++) {
+            if (erb == erbs[i]) {
                 return true;
             }
         }
-        return false;
+        return fblse;
     }
 
     @Override
-    public boolean normalize(CalendarDate date) {
-        if (date.isNormalized()) {
+    public boolebn normblize(CblendbrDbte dbte) {
+        if (dbte.isNormblized()) {
             return true;
         }
 
-        normalizeYear(date);
-        Date ldate = (Date) date;
+        normblizeYebr(dbte);
+        Dbte ldbte = (Dbte) dbte;
 
-        // Normalize it as a Gregorian date and get its millisecond value
-        super.normalize(ldate);
+        // Normblize it bs b Gregoribn dbte bnd get its millisecond vblue
+        super.normblize(ldbte);
 
-        boolean hasMillis = false;
+        boolebn hbsMillis = fblse;
         long millis = 0;
-        int year = ldate.getNormalizedYear();
+        int yebr = ldbte.getNormblizedYebr();
         int i;
-        Era era = null;
-        for (i = eras.length - 1; i >= 0; --i) {
-            era = eras[i];
-            if (era.isLocalTime()) {
-                CalendarDate sinceDate = era.getSinceDate();
-                int sinceYear = sinceDate.getYear();
-                if (year > sinceYear) {
-                    break;
+        Erb erb = null;
+        for (i = erbs.length - 1; i >= 0; --i) {
+            erb = erbs[i];
+            if (erb.isLocblTime()) {
+                CblendbrDbte sinceDbte = erb.getSinceDbte();
+                int sinceYebr = sinceDbte.getYebr();
+                if (yebr > sinceYebr) {
+                    brebk;
                 }
-                if (year == sinceYear) {
-                    int month = ldate.getMonth();
-                    int sinceMonth = sinceDate.getMonth();
+                if (yebr == sinceYebr) {
+                    int month = ldbte.getMonth();
+                    int sinceMonth = sinceDbte.getMonth();
                     if (month > sinceMonth) {
-                        break;
+                        brebk;
                     }
                     if (month == sinceMonth) {
-                        int day = ldate.getDayOfMonth();
-                        int sinceDay = sinceDate.getDayOfMonth();
-                        if (day > sinceDay) {
-                            break;
+                        int dby = ldbte.getDbyOfMonth();
+                        int sinceDby = sinceDbte.getDbyOfMonth();
+                        if (dby > sinceDby) {
+                            brebk;
                         }
-                        if (day == sinceDay) {
-                            long timeOfDay = ldate.getTimeOfDay();
-                            long sinceTimeOfDay = sinceDate.getTimeOfDay();
-                            if (timeOfDay >= sinceTimeOfDay) {
-                                break;
+                        if (dby == sinceDby) {
+                            long timeOfDby = ldbte.getTimeOfDby();
+                            long sinceTimeOfDby = sinceDbte.getTimeOfDby();
+                            if (timeOfDby >= sinceTimeOfDby) {
+                                brebk;
                             }
                             --i;
-                            break;
+                            brebk;
                         }
                     }
                 }
             } else {
-                if (!hasMillis) {
-                    millis  = super.getTime(date);
-                    hasMillis = true;
+                if (!hbsMillis) {
+                    millis  = super.getTime(dbte);
+                    hbsMillis = true;
                 }
 
-                long since = era.getSince(date.getZone());
+                long since = erb.getSince(dbte.getZone());
                 if (millis >= since) {
-                    break;
+                    brebk;
                 }
             }
         }
         if (i >= 0) {
-            ldate.setLocalEra(era);
-            int y = ldate.getNormalizedYear() - era.getSinceDate().getYear() + 1;
-            ldate.setLocalYear(y);
+            ldbte.setLocblErb(erb);
+            int y = ldbte.getNormblizedYebr() - erb.getSinceDbte().getYebr() + 1;
+            ldbte.setLocblYebr(y);
         } else {
-            // Set Gregorian year with no era
-            ldate.setEra(null);
-            ldate.setLocalYear(year);
-            ldate.setNormalizedYear(year);
+            // Set Gregoribn yebr with no erb
+            ldbte.setErb(null);
+            ldbte.setLocblYebr(yebr);
+            ldbte.setNormblizedYebr(yebr);
         }
-        ldate.setNormalized(true);
+        ldbte.setNormblized(true);
         return true;
     }
 
     @Override
-    void normalizeMonth(CalendarDate date) {
-        normalizeYear(date);
-        super.normalizeMonth(date);
+    void normblizeMonth(CblendbrDbte dbte) {
+        normblizeYebr(dbte);
+        super.normblizeMonth(dbte);
     }
 
-    void normalizeYear(CalendarDate date) {
-        Date ldate = (Date) date;
-        // Set the supposed-to-be-correct Gregorian year first
-        // e.g., Showa 90 becomes 2015 (1926 + 90 - 1).
-        Era era = ldate.getEra();
-        if (era == null || !validateEra(era)) {
-            ldate.setNormalizedYear(ldate.getYear());
+    void normblizeYebr(CblendbrDbte dbte) {
+        Dbte ldbte = (Dbte) dbte;
+        // Set the supposed-to-be-correct Gregoribn yebr first
+        // e.g., Showb 90 becomes 2015 (1926 + 90 - 1).
+        Erb erb = ldbte.getErb();
+        if (erb == null || !vblidbteErb(erb)) {
+            ldbte.setNormblizedYebr(ldbte.getYebr());
         } else {
-            ldate.setNormalizedYear(era.getSinceDate().getYear() + ldate.getYear() - 1);
+            ldbte.setNormblizedYebr(erb.getSinceDbte().getYebr() + ldbte.getYebr() - 1);
         }
     }
 
     /**
-     * Returns whether the specified Gregorian year is a leap year.
-     * @see #isLeapYear(Era, int)
+     * Returns whether the specified Gregoribn yebr is b lebp yebr.
+     * @see #isLebpYebr(Erb, int)
      */
     @Override
-    public boolean isLeapYear(int gregorianYear) {
-        return CalendarUtils.isGregorianLeapYear(gregorianYear);
+    public boolebn isLebpYebr(int gregoribnYebr) {
+        return CblendbrUtils.isGregoribnLebpYebr(gregoribnYebr);
     }
 
-    public boolean isLeapYear(Era era, int year) {
-        if (era == null) {
-            return isLeapYear(year);
+    public boolebn isLebpYebr(Erb erb, int yebr) {
+        if (erb == null) {
+            return isLebpYebr(yebr);
         }
-        int gyear = era.getSinceDate().getYear() + year - 1;
-        return isLeapYear(gyear);
+        int gyebr = erb.getSinceDbte().getYebr() + yebr - 1;
+        return isLebpYebr(gyebr);
     }
 
     @Override
-    public void getCalendarDateFromFixedDate(CalendarDate date, long fixedDate) {
-        Date ldate = (Date) date;
-        super.getCalendarDateFromFixedDate(ldate, fixedDate);
-        adjustYear(ldate, (fixedDate - EPOCH_OFFSET) * DAY_IN_MILLIS, 0);
+    public void getCblendbrDbteFromFixedDbte(CblendbrDbte dbte, long fixedDbte) {
+        Dbte ldbte = (Dbte) dbte;
+        super.getCblendbrDbteFromFixedDbte(ldbte, fixedDbte);
+        bdjustYebr(ldbte, (fixedDbte - EPOCH_OFFSET) * DAY_IN_MILLIS, 0);
     }
 }

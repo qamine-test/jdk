@@ -1,178 +1,178 @@
 /*
- * Copyright (c) 2005, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing;
+pbckbge jbvbx.swing;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.image.*;
-import java.lang.ref.WeakReference;
-import java.util.*;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvb.bwt.imbge.*;
+import jbvb.lbng.ref.WebkReference;
+import jbvb.util.*;
 
-import com.sun.java.swing.SwingUtilities3;
-import sun.awt.AWTAccessor;
+import com.sun.jbvb.swing.SwingUtilities3;
+import sun.bwt.AWTAccessor;
 
-import sun.awt.SubRegionShowable;
-import sun.java2d.SunGraphics2D;
-import sun.java2d.pipe.hw.ExtendedBufferCapabilities;
-import sun.awt.SunToolkit;
-import sun.util.logging.PlatformLogger;
+import sun.bwt.SubRegionShowbble;
+import sun.jbvb2d.SunGrbphics2D;
+import sun.jbvb2d.pipe.hw.ExtendedBufferCbpbbilities;
+import sun.bwt.SunToolkit;
+import sun.util.logging.PlbtformLogger;
 
 /**
- * A PaintManager implementation that uses a BufferStrategy for
+ * A PbintMbnbger implementbtion thbt uses b BufferStrbtegy for
  * rendering.
  *
- * @author Scott Violet
+ * @buthor Scott Violet
  */
-class BufferStrategyPaintManager extends RepaintManager.PaintManager {
+clbss BufferStrbtegyPbintMbnbger extends RepbintMbnbger.PbintMbnbger {
     //
-    // All drawing is done to a BufferStrategy.  At the end of painting
-    // (endPaint) the region that was painted is flushed to the screen
-    // (using BufferStrategy.show).
+    // All drbwing is done to b BufferStrbtegy.  At the end of pbinting
+    // (endPbint) the region thbt wbs pbinted is flushed to the screen
+    // (using BufferStrbtegy.show).
     //
-    // PaintManager.show is overriden to show directly from the
-    // BufferStrategy (when using blit), if successful true is
-    // returned and a paint event will not be generated.  To avoid
-    // showing from the buffer while painting a locking scheme is
-    // implemented.  When beginPaint is invoked the field painting is
-    // set to true.  If painting is true and show is invoked we
-    // immediately return false.  This is done to avoid blocking the
-    // toolkit thread while painting happens.  In a similar way when
-    // show is invoked the field showing is set to true, beginPaint
+    // PbintMbnbger.show is overriden to show directly from the
+    // BufferStrbtegy (when using blit), if successful true is
+    // returned bnd b pbint event will not be generbted.  To bvoid
+    // showing from the buffer while pbinting b locking scheme is
+    // implemented.  When beginPbint is invoked the field pbinting is
+    // set to true.  If pbinting is true bnd show is invoked we
+    // immedibtely return fblse.  This is done to bvoid blocking the
+    // toolkit threbd while pbinting hbppens.  In b similbr wby when
+    // show is invoked the field showing is set to true, beginPbint
     // will then block until showing is true.  This scheme ensures we
-    // only ever have one thread using the BufferStrategy and it also
-    // ensures the toolkit thread remains as responsive as possible.
+    // only ever hbve one threbd using the BufferStrbtegy bnd it blso
+    // ensures the toolkit threbd rembins bs responsive bs possible.
     //
-    // If we're using a flip strategy the contents of the backbuffer may
-    // have changed and so show only attempts to show from the backbuffer
-    // if we get a blit strategy.
+    // If we're using b flip strbtegy the contents of the bbckbuffer mby
+    // hbve chbnged bnd so show only bttempts to show from the bbckbuffer
+    // if we get b blit strbtegy.
     //
 
-    private static final PlatformLogger LOGGER = PlatformLogger.getLogger(
-                           "javax.swing.BufferStrategyPaintManager");
+    privbte stbtic finbl PlbtformLogger LOGGER = PlbtformLogger.getLogger(
+                           "jbvbx.swing.BufferStrbtegyPbintMbnbger");
 
     /**
-     * List of BufferInfos.  We don't use a Map primarily because
-     * there are typically only a handful of top level components making
-     * a Map overkill.
+     * List of BufferInfos.  We don't use b Mbp primbrily becbuse
+     * there bre typicblly only b hbndful of top level components mbking
+     * b Mbp overkill.
      */
-    private ArrayList<BufferInfo> bufferInfos;
+    privbte ArrbyList<BufferInfo> bufferInfos;
 
     /**
-     * Indicates <code>beginPaint</code> has been invoked.  This is
-     * set to true for the life of beginPaint/endPaint pair.
+     * Indicbtes <code>beginPbint</code> hbs been invoked.  This is
+     * set to true for the life of beginPbint/endPbint pbir.
      */
-    private boolean painting;
+    privbte boolebn pbinting;
     /**
-     * Indicates we're in the process of showing.  All painting, on the EDT,
+     * Indicbtes we're in the process of showing.  All pbinting, on the EDT,
      * is blocked while this is true.
      */
-    private boolean showing;
+    privbte boolebn showing;
 
     //
-    // Region that we need to flush.  When beginPaint is called these are
-    // reset and any subsequent calls to paint/copyArea then update these
-    // fields accordingly.  When endPaint is called we then try and show
-    // the accumulated region.
-    // These fields are in the coordinate system of the root.
+    // Region thbt we need to flush.  When beginPbint is cblled these bre
+    // reset bnd bny subsequent cblls to pbint/copyAreb then updbte these
+    // fields bccordingly.  When endPbint is cblled we then try bnd show
+    // the bccumulbted region.
+    // These fields bre in the coordinbte system of the root.
     //
-    private int accumulatedX;
-    private int accumulatedY;
-    private int accumulatedMaxX;
-    private int accumulatedMaxY;
+    privbte int bccumulbtedX;
+    privbte int bccumulbtedY;
+    privbte int bccumulbtedMbxX;
+    privbte int bccumulbtedMbxY;
 
     //
-    // The following fields are set by prepare
+    // The following fields bre set by prepbre
     //
 
     /**
-     * Farthest JComponent ancestor for the current paint/copyArea.
+     * Fbrthest JComponent bncestor for the current pbint/copyAreb.
      */
-    private JComponent rootJ;
+    privbte JComponent rootJ;
     /**
-     * Location of component being painted relative to root.
+     * Locbtion of component being pbinted relbtive to root.
      */
-    private int xOffset;
+    privbte int xOffset;
     /**
-     * Location of component being painted relative to root.
+     * Locbtion of component being pbinted relbtive to root.
      */
-    private int yOffset;
+    privbte int yOffset;
     /**
-     * Graphics from the BufferStrategy.
+     * Grbphics from the BufferStrbtegy.
      */
-    private Graphics bsg;
+    privbte Grbphics bsg;
     /**
-     * BufferStrategy currently being used.
+     * BufferStrbtegy currently being used.
      */
-    private BufferStrategy bufferStrategy;
+    privbte BufferStrbtegy bufferStrbtegy;
     /**
      * BufferInfo corresponding to root.
      */
-    private BufferInfo bufferInfo;
+    privbte BufferInfo bufferInfo;
 
     /**
      * Set to true if the bufferInfo needs to be disposed when current
-     * paint loop is done.
+     * pbint loop is done.
      */
-    private boolean disposeBufferOnEnd;
+    privbte boolebn disposeBufferOnEnd;
 
-    BufferStrategyPaintManager() {
-        bufferInfos = new ArrayList<BufferInfo>(1);
+    BufferStrbtegyPbintMbnbger() {
+        bufferInfos = new ArrbyList<BufferInfo>(1);
     }
 
     //
-    // PaintManager methods
+    // PbintMbnbger methods
     //
 
     /**
-     * Cleans up any created BufferStrategies.
+     * Clebns up bny crebted BufferStrbtegies.
      */
     protected void dispose() {
-        // dipose can be invoked at any random time. To avoid
-        // threading dependancies we do the actual diposing via an
-        // invokeLater.
-        SwingUtilities.invokeLater(new Runnable() {
+        // dipose cbn be invoked bt bny rbndom time. To bvoid
+        // threbding dependbncies we do the bctubl diposing vib bn
+        // invokeLbter.
+        SwingUtilities.invokeLbter(new Runnbble() {
             public void run() {
-                java.util.List<BufferInfo> bufferInfos;
-                synchronized(BufferStrategyPaintManager.this) {
+                jbvb.util.List<BufferInfo> bufferInfos;
+                synchronized(BufferStrbtegyPbintMbnbger.this) {
                     while (showing) {
                         try {
-                            BufferStrategyPaintManager.this.wait();
-                        } catch (InterruptedException ie) {
+                            BufferStrbtegyPbintMbnbger.this.wbit();
+                        } cbtch (InterruptedException ie) {
                         }
                     }
-                    bufferInfos = BufferStrategyPaintManager.this.bufferInfos;
-                    BufferStrategyPaintManager.this.bufferInfos = null;
+                    bufferInfos = BufferStrbtegyPbintMbnbger.this.bufferInfos;
+                    BufferStrbtegyPbintMbnbger.this.bufferInfos = null;
                 }
                 dispose(bufferInfos);
             }
         });
     }
 
-    private void dispose(java.util.List<BufferInfo> bufferInfos) {
-        if (LOGGER.isLoggable(PlatformLogger.Level.FINER)) {
-            LOGGER.finer("BufferStrategyPaintManager disposed",
+    privbte void dispose(jbvb.util.List<BufferInfo> bufferInfos) {
+        if (LOGGER.isLoggbble(PlbtformLogger.Level.FINER)) {
+            LOGGER.finer("BufferStrbtegyPbintMbnbger disposed",
                          new RuntimeException());
         }
         if (bufferInfos != null) {
@@ -183,171 +183,171 @@ class BufferStrategyPaintManager extends RepaintManager.PaintManager {
     }
 
     /**
-     * Shows the specified region of the back buffer.  This will return
-     * true if successful, false otherwise.  This is invoked on the
-     * toolkit thread in response to an expose event.
+     * Shows the specified region of the bbck buffer.  This will return
+     * true if successful, fblse otherwise.  This is invoked on the
+     * toolkit threbd in response to bn expose event.
      */
-    public boolean show(Container c, int x, int y, int w, int h) {
+    public boolebn show(Contbiner c, int x, int y, int w, int h) {
         synchronized(this) {
-            if (painting) {
-                // Don't show from backbuffer while in the process of
-                // painting.
-                return false;
+            if (pbinting) {
+                // Don't show from bbckbuffer while in the process of
+                // pbinting.
+                return fblse;
             }
             showing = true;
         }
         try {
             BufferInfo info = getBufferInfo(c);
-            BufferStrategy bufferStrategy;
+            BufferStrbtegy bufferStrbtegy;
             if (info != null && info.isInSync() &&
-                (bufferStrategy = info.getBufferStrategy(false)) != null) {
-                SubRegionShowable bsSubRegion =
-                        (SubRegionShowable)bufferStrategy;
-                boolean paintAllOnExpose = info.getPaintAllOnExpose();
-                info.setPaintAllOnExpose(false);
+                (bufferStrbtegy = info.getBufferStrbtegy(fblse)) != null) {
+                SubRegionShowbble bsSubRegion =
+                        (SubRegionShowbble)bufferStrbtegy;
+                boolebn pbintAllOnExpose = info.getPbintAllOnExpose();
+                info.setPbintAllOnExpose(fblse);
                 if (bsSubRegion.showIfNotLost(x, y, (x + w), (y + h))) {
-                    return !paintAllOnExpose;
+                    return !pbintAllOnExpose;
                 }
-                // Mark the buffer as needing to be repainted.  We don't
-                // immediately do a repaint as this method will return false
-                // indicating a PaintEvent should be generated which will
-                // trigger a complete repaint.
+                // Mbrk the buffer bs needing to be repbinted.  We don't
+                // immedibtely do b repbint bs this method will return fblse
+                // indicbting b PbintEvent should be generbted which will
+                // trigger b complete repbint.
                 bufferInfo.setContentsLostDuringExpose(true);
             }
         }
-        finally {
+        finblly {
             synchronized(this) {
-                showing = false;
+                showing = fblse;
                 notifyAll();
             }
         }
-        return false;
+        return fblse;
     }
 
-    public boolean paint(JComponent paintingComponent,
-                         JComponent bufferComponent, Graphics g,
+    public boolebn pbint(JComponent pbintingComponent,
+                         JComponent bufferComponent, Grbphics g,
                          int x, int y, int w, int h) {
-        Container root = fetchRoot(paintingComponent);
+        Contbiner root = fetchRoot(pbintingComponent);
 
-        if (prepare(paintingComponent, root, true, x, y, w, h)) {
-            if ((g instanceof SunGraphics2D) &&
-                    ((SunGraphics2D)g).getDestination() == root) {
-                // BufferStrategy may have already constrained the Graphics. To
-                // account for that we revert the constrain, then apply a
-                // constrain for Swing on top of that.
-                int cx = ((SunGraphics2D)bsg).constrainX;
-                int cy = ((SunGraphics2D)bsg).constrainY;
+        if (prepbre(pbintingComponent, root, true, x, y, w, h)) {
+            if ((g instbnceof SunGrbphics2D) &&
+                    ((SunGrbphics2D)g).getDestinbtion() == root) {
+                // BufferStrbtegy mby hbve blrebdy constrbined the Grbphics. To
+                // bccount for thbt we revert the constrbin, then bpply b
+                // constrbin for Swing on top of thbt.
+                int cx = ((SunGrbphics2D)bsg).constrbinX;
+                int cy = ((SunGrbphics2D)bsg).constrbinY;
                 if (cx != 0 || cy != 0) {
-                    bsg.translate(-cx, -cy);
+                    bsg.trbnslbte(-cx, -cy);
                 }
-                ((SunGraphics2D)bsg).constrain(xOffset + cx, yOffset + cy,
+                ((SunGrbphics2D)bsg).constrbin(xOffset + cx, yOffset + cy,
                                                x + w, y + h);
                 bsg.setClip(x, y, w, h);
-                paintingComponent.paintToOffscreen(bsg, x, y, w, h,
+                pbintingComponent.pbintToOffscreen(bsg, x, y, w, h,
                                                    x + w, y + h);
-                accumulate(xOffset + x, yOffset + y, w, h);
+                bccumulbte(xOffset + x, yOffset + y, w, h);
                 return true;
             } else {
-                // Assume they are going to eventually render to the screen.
-                // This disables showing from backbuffer until a complete
-                // repaint occurs.
-                bufferInfo.setInSync(false);
-                // Fall through to old rendering.
+                // Assume they bre going to eventublly render to the screen.
+                // This disbbles showing from bbckbuffer until b complete
+                // repbint occurs.
+                bufferInfo.setInSync(fblse);
+                // Fbll through to old rendering.
             }
         }
-        // Invalid root, do what Swing has always done.
-        if (LOGGER.isLoggable(PlatformLogger.Level.FINER)) {
-            LOGGER.finer("prepare failed");
+        // Invblid root, do whbt Swing hbs blwbys done.
+        if (LOGGER.isLoggbble(PlbtformLogger.Level.FINER)) {
+            LOGGER.finer("prepbre fbiled");
         }
-        return super.paint(paintingComponent, bufferComponent, g, x, y, w, h);
+        return super.pbint(pbintingComponent, bufferComponent, g, x, y, w, h);
     }
 
-    public void copyArea(JComponent c, Graphics g, int x, int y, int w, int h,
-                         int deltaX, int deltaY, boolean clip) {
-        // Note: this method is only called internally and we know that
-        // g is from a heavyweight Component, so no check is necessary as
-        // it is in paint() above.
+    public void copyAreb(JComponent c, Grbphics g, int x, int y, int w, int h,
+                         int deltbX, int deltbY, boolebn clip) {
+        // Note: this method is only cblled internblly bnd we know thbt
+        // g is from b hebvyweight Component, so no check is necessbry bs
+        // it is in pbint() bbove.
         //
-        // If the buffer isn't in sync there is no point in doing a copyArea,
-        // it has garbage.
-        Container root = fetchRoot(c);
+        // If the buffer isn't in sync there is no point in doing b copyAreb,
+        // it hbs gbrbbge.
+        Contbiner root = fetchRoot(c);
 
-        if (prepare(c, root, false, 0, 0, 0, 0) && bufferInfo.isInSync()) {
+        if (prepbre(c, root, fblse, 0, 0, 0, 0) && bufferInfo.isInSync()) {
             if (clip) {
-                Rectangle cBounds = c.getVisibleRect();
+                Rectbngle cBounds = c.getVisibleRect();
                 int relX = xOffset + x;
                 int relY = yOffset + y;
                 bsg.clipRect(xOffset + cBounds.x,
                              yOffset + cBounds.y,
                              cBounds.width, cBounds.height);
-                bsg.copyArea(relX, relY, w, h, deltaX, deltaY);
+                bsg.copyAreb(relX, relY, w, h, deltbX, deltbY);
             }
             else {
-                bsg.copyArea(xOffset + x, yOffset + y, w, h, deltaX,
-                             deltaY);
+                bsg.copyAreb(xOffset + x, yOffset + y, w, h, deltbX,
+                             deltbY);
             }
-            accumulate(x + xOffset + deltaX, y + yOffset + deltaY, w, h);
+            bccumulbte(x + xOffset + deltbX, y + yOffset + deltbY, w, h);
         } else {
-            if (LOGGER.isLoggable(PlatformLogger.Level.FINER)) {
-                LOGGER.finer("copyArea: prepare failed or not in sync");
+            if (LOGGER.isLoggbble(PlbtformLogger.Level.FINER)) {
+                LOGGER.finer("copyAreb: prepbre fbiled or not in sync");
             }
-            // Prepare failed, or not in sync. By calling super.copyArea
-            // we'll copy on screen. We need to flush any pending paint to
-            // the screen otherwise we'll do a copyArea on the wrong thing.
-            if (!flushAccumulatedRegion()) {
-                // Flush failed, copyArea will be copying garbage,
-                // force repaint of all.
-                rootJ.repaint();
+            // Prepbre fbiled, or not in sync. By cblling super.copyAreb
+            // we'll copy on screen. We need to flush bny pending pbint to
+            // the screen otherwise we'll do b copyAreb on the wrong thing.
+            if (!flushAccumulbtedRegion()) {
+                // Flush fbiled, copyAreb will be copying gbrbbge,
+                // force repbint of bll.
+                rootJ.repbint();
             } else {
-                super.copyArea(c, g, x, y, w, h, deltaX, deltaY, clip);
+                super.copyAreb(c, g, x, y, w, h, deltbX, deltbY, clip);
             }
         }
     }
 
-    public void beginPaint() {
+    public void beginPbint() {
         synchronized(this) {
-            painting = true;
-            // Make sure another thread isn't attempting to show from
-            // the back buffer.
+            pbinting = true;
+            // Mbke sure bnother threbd isn't bttempting to show from
+            // the bbck buffer.
             while(showing) {
                 try {
-                    wait();
-                } catch (InterruptedException ie) {
+                    wbit();
+                } cbtch (InterruptedException ie) {
                 }
             }
         }
-        if (LOGGER.isLoggable(PlatformLogger.Level.FINEST)) {
-            LOGGER.finest("beginPaint");
+        if (LOGGER.isLoggbble(PlbtformLogger.Level.FINEST)) {
+            LOGGER.finest("beginPbint");
         }
-        // Reset the area that needs to be painted.
-        resetAccumulated();
+        // Reset the breb thbt needs to be pbinted.
+        resetAccumulbted();
     }
 
-    public void endPaint() {
-        if (LOGGER.isLoggable(PlatformLogger.Level.FINEST)) {
-            LOGGER.finest("endPaint: region " + accumulatedX + " " +
-                       accumulatedY + " " +  accumulatedMaxX + " " +
-                       accumulatedMaxY);
+    public void endPbint() {
+        if (LOGGER.isLoggbble(PlbtformLogger.Level.FINEST)) {
+            LOGGER.finest("endPbint: region " + bccumulbtedX + " " +
+                       bccumulbtedY + " " +  bccumulbtedMbxX + " " +
+                       bccumulbtedMbxY);
         }
-        if (painting) {
-            if (!flushAccumulatedRegion()) {
-                if (!isRepaintingRoot()) {
-                    repaintRoot(rootJ);
+        if (pbinting) {
+            if (!flushAccumulbtedRegion()) {
+                if (!isRepbintingRoot()) {
+                    repbintRoot(rootJ);
                 }
                 else {
-                    // Contents lost twice in a row, punt.
+                    // Contents lost twice in b row, punt.
                     resetDoubleBufferPerWindow();
-                    // In case we've left junk on the screen, force a repaint.
-                    rootJ.repaint();
+                    // In cbse we've left junk on the screen, force b repbint.
+                    rootJ.repbint();
                 }
             }
         }
 
         BufferInfo toDispose = null;
         synchronized(this) {
-            painting = false;
+            pbinting = fblse;
             if (disposeBufferOnEnd) {
-                disposeBufferOnEnd = false;
+                disposeBufferOnEnd = fblse;
                 toDispose = bufferInfo;
                 bufferInfos.remove(toDispose);
             }
@@ -358,85 +358,85 @@ class BufferStrategyPaintManager extends RepaintManager.PaintManager {
     }
 
     /**
-     * Renders the BufferStrategy to the screen.
+     * Renders the BufferStrbtegy to the screen.
      *
-     * @return true if successful, false otherwise.
+     * @return true if successful, fblse otherwise.
      */
-    private boolean flushAccumulatedRegion() {
-        boolean success = true;
-        if (accumulatedX != Integer.MAX_VALUE) {
-            SubRegionShowable bsSubRegion = (SubRegionShowable)bufferStrategy;
-            boolean contentsLost = bufferStrategy.contentsLost();
+    privbte boolebn flushAccumulbtedRegion() {
+        boolebn success = true;
+        if (bccumulbtedX != Integer.MAX_VALUE) {
+            SubRegionShowbble bsSubRegion = (SubRegionShowbble)bufferStrbtegy;
+            boolebn contentsLost = bufferStrbtegy.contentsLost();
             if (!contentsLost) {
-                bsSubRegion.show(accumulatedX, accumulatedY,
-                                 accumulatedMaxX, accumulatedMaxY);
-                contentsLost = bufferStrategy.contentsLost();
+                bsSubRegion.show(bccumulbtedX, bccumulbtedY,
+                                 bccumulbtedMbxX, bccumulbtedMbxY);
+                contentsLost = bufferStrbtegy.contentsLost();
             }
             if (contentsLost) {
-                if (LOGGER.isLoggable(PlatformLogger.Level.FINER)) {
-                    LOGGER.finer("endPaint: contents lost");
+                if (LOGGER.isLoggbble(PlbtformLogger.Level.FINER)) {
+                    LOGGER.finer("endPbint: contents lost");
                 }
-                // Shown region was bogus, mark buffer as out of sync.
-                bufferInfo.setInSync(false);
-                success = false;
+                // Shown region wbs bogus, mbrk buffer bs out of sync.
+                bufferInfo.setInSync(fblse);
+                success = fblse;
             }
         }
-        resetAccumulated();
+        resetAccumulbted();
         return success;
     }
 
-    private void resetAccumulated() {
-        accumulatedX = Integer.MAX_VALUE;
-        accumulatedY = Integer.MAX_VALUE;
-        accumulatedMaxX = 0;
-        accumulatedMaxY = 0;
+    privbte void resetAccumulbted() {
+        bccumulbtedX = Integer.MAX_VALUE;
+        bccumulbtedY = Integer.MAX_VALUE;
+        bccumulbtedMbxX = 0;
+        bccumulbtedMbxY = 0;
     }
 
     /**
      * Invoked when the double buffering or useTrueDoubleBuffering
-     * changes for a JRootPane.  If the rootpane is not double
-     * buffered, or true double buffering changes we throw out any
-     * cache we may have.
+     * chbnges for b JRootPbne.  If the rootpbne is not double
+     * buffered, or true double buffering chbnges we throw out bny
+     * cbche we mby hbve.
      */
-    public void doubleBufferingChanged(final JRootPane rootPane) {
-        if ((!rootPane.isDoubleBuffered() ||
-                !rootPane.getUseTrueDoubleBuffering()) &&
-                rootPane.getParent() != null) {
-            if (!SwingUtilities.isEventDispatchThread()) {
-                Runnable updater = new Runnable() {
+    public void doubleBufferingChbnged(finbl JRootPbne rootPbne) {
+        if ((!rootPbne.isDoubleBuffered() ||
+                !rootPbne.getUseTrueDoubleBuffering()) &&
+                rootPbne.getPbrent() != null) {
+            if (!SwingUtilities.isEventDispbtchThrebd()) {
+                Runnbble updbter = new Runnbble() {
                     public void run() {
-                        doubleBufferingChanged0(rootPane);
+                        doubleBufferingChbnged0(rootPbne);
                     }
                 };
-                SwingUtilities.invokeLater(updater);
+                SwingUtilities.invokeLbter(updbter);
             }
             else {
-                doubleBufferingChanged0(rootPane);
+                doubleBufferingChbnged0(rootPbne);
             }
         }
     }
 
     /**
-     * Does the work for doubleBufferingChanged.
+     * Does the work for doubleBufferingChbnged.
      */
-    private void doubleBufferingChanged0(JRootPane rootPane) {
-        // This will only happen on the EDT.
+    privbte void doubleBufferingChbnged0(JRootPbne rootPbne) {
+        // This will only hbppen on the EDT.
         BufferInfo info;
         synchronized(this) {
-            // Make sure another thread isn't attempting to show from
-            // the back buffer.
+            // Mbke sure bnother threbd isn't bttempting to show from
+            // the bbck buffer.
             while(showing) {
                 try {
-                    wait();
-                } catch (InterruptedException ie) {
+                    wbit();
+                } cbtch (InterruptedException ie) {
                 }
             }
-            info = getBufferInfo(rootPane.getParent());
-            if (painting && bufferInfo == info) {
-                // We're in the process of painting and the user grabbed
-                // the Graphics. If we dispose now, endPaint will attempt
-                // to show a bogus BufferStrategy. Set a flag so that
-                // endPaint knows it needs to dispose this buffer.
+            info = getBufferInfo(rootPbne.getPbrent());
+            if (pbinting && bufferInfo == info) {
+                // We're in the process of pbinting bnd the user grbbbed
+                // the Grbphics. If we dispose now, endPbint will bttempt
+                // to show b bogus BufferStrbtegy. Set b flbg so thbt
+                // endPbint knows it needs to dispose this buffer.
                 disposeBufferOnEnd = true;
                 info = null;
             } else if (info != null) {
@@ -449,89 +449,89 @@ class BufferStrategyPaintManager extends RepaintManager.PaintManager {
     }
 
     /**
-     * Calculates information common to paint/copyArea.
+     * Cblculbtes informbtion common to pbint/copyAreb.
      *
-     * @return true if should use buffering per window in painting.
+     * @return true if should use buffering per window in pbinting.
      */
-    private boolean prepare(JComponent c, Container root, boolean isPaint, int x, int y,
+    privbte boolebn prepbre(JComponent c, Contbiner root, boolebn isPbint, int x, int y,
                             int w, int h) {
         if (bsg != null) {
             bsg.dispose();
             bsg = null;
         }
-        bufferStrategy = null;
+        bufferStrbtegy = null;
         if (root != null) {
-            boolean contentsLost = false;
+            boolebn contentsLost = fblse;
             BufferInfo bufferInfo = getBufferInfo(root);
             if (bufferInfo == null) {
                 contentsLost = true;
                 bufferInfo = new BufferInfo(root);
-                bufferInfos.add(bufferInfo);
-                if (LOGGER.isLoggable(PlatformLogger.Level.FINER)) {
-                    LOGGER.finer("prepare: new BufferInfo: " + root);
+                bufferInfos.bdd(bufferInfo);
+                if (LOGGER.isLoggbble(PlbtformLogger.Level.FINER)) {
+                    LOGGER.finer("prepbre: new BufferInfo: " + root);
                 }
             }
             this.bufferInfo = bufferInfo;
-            if (!bufferInfo.hasBufferStrategyChanged()) {
-                bufferStrategy = bufferInfo.getBufferStrategy(true);
-                if (bufferStrategy != null) {
-                    bsg = bufferStrategy.getDrawGraphics();
-                    if (bufferStrategy.contentsRestored()) {
+            if (!bufferInfo.hbsBufferStrbtegyChbnged()) {
+                bufferStrbtegy = bufferInfo.getBufferStrbtegy(true);
+                if (bufferStrbtegy != null) {
+                    bsg = bufferStrbtegy.getDrbwGrbphics();
+                    if (bufferStrbtegy.contentsRestored()) {
                         contentsLost = true;
-                        if (LOGGER.isLoggable(PlatformLogger.Level.FINER)) {
-                            LOGGER.finer("prepare: contents restored in prepare");
+                        if (LOGGER.isLoggbble(PlbtformLogger.Level.FINER)) {
+                            LOGGER.finer("prepbre: contents restored in prepbre");
                         }
                     }
                 }
                 else {
-                    // Couldn't create BufferStrategy, fallback to normal
-                    // painting.
-                    return false;
+                    // Couldn't crebte BufferStrbtegy, fbllbbck to normbl
+                    // pbinting.
+                    return fblse;
                 }
                 if (bufferInfo.getContentsLostDuringExpose()) {
                     contentsLost = true;
-                    bufferInfo.setContentsLostDuringExpose(false);
-                    if (LOGGER.isLoggable(PlatformLogger.Level.FINER)) {
-                        LOGGER.finer("prepare: contents lost on expose");
+                    bufferInfo.setContentsLostDuringExpose(fblse);
+                    if (LOGGER.isLoggbble(PlbtformLogger.Level.FINER)) {
+                        LOGGER.finer("prepbre: contents lost on expose");
                     }
                 }
-                if (isPaint && c == rootJ && x == 0 && y == 0 &&
+                if (isPbint && c == rootJ && x == 0 && y == 0 &&
                       c.getWidth() == w && c.getHeight() == h) {
                     bufferInfo.setInSync(true);
                 }
                 else if (contentsLost) {
-                    // We either recreated the BufferStrategy, or the contents
-                    // of the buffer strategy were restored.  We need to
-                    // repaint the root pane so that the back buffer is in sync
-                    // again.
-                    bufferInfo.setInSync(false);
-                    if (!isRepaintingRoot()) {
-                        repaintRoot(rootJ);
+                    // We either recrebted the BufferStrbtegy, or the contents
+                    // of the buffer strbtegy were restored.  We need to
+                    // repbint the root pbne so thbt the bbck buffer is in sync
+                    // bgbin.
+                    bufferInfo.setInSync(fblse);
+                    if (!isRepbintingRoot()) {
+                        repbintRoot(rootJ);
                     }
                     else {
-                        // Contents lost twice in a row, punt
+                        // Contents lost twice in b row, punt
                         resetDoubleBufferPerWindow();
                     }
                 }
                 return (bufferInfos != null);
             }
         }
-        return false;
+        return fblse;
     }
 
-    private Container fetchRoot(JComponent c) {
-        boolean encounteredHW = false;
+    privbte Contbiner fetchRoot(JComponent c) {
+        boolebn encounteredHW = fblse;
         rootJ = c;
-        Container root = c;
+        Contbiner root = c;
         xOffset = yOffset = 0;
         while (root != null &&
-               (!(root instanceof Window) &&
-                !SunToolkit.isInstanceOf(root, "java.applet.Applet"))) {
+               (!(root instbnceof Window) &&
+                !SunToolkit.isInstbnceOf(root, "jbvb.bpplet.Applet"))) {
             xOffset += root.getX();
             yOffset += root.getY();
-            root = root.getParent();
+            root = root.getPbrent();
             if (root != null) {
-                if (root instanceof JComponent) {
+                if (root instbnceof JComponent) {
                     rootJ = (JComponent)root;
                 }
                 else if (!root.isLightweight()) {
@@ -539,31 +539,31 @@ class BufferStrategyPaintManager extends RepaintManager.PaintManager {
                         encounteredHW = true;
                     }
                     else {
-                        // We've encountered two hws now and may have
-                        // a containment hierarchy with lightweights containing
-                        // heavyweights containing other lightweights.
-                        // Heavyweights poke holes in lightweight
-                        // rendering so that if we call show on the BS
-                        // (which is associated with the Window) you will
-                        // not see the contents over any child
-                        // heavyweights.  If we didn't do this when we
-                        // went to show the descendants of the nested hw
-                        // you would see nothing, so, we bail out here.
+                        // We've encountered two hws now bnd mby hbve
+                        // b contbinment hierbrchy with lightweights contbining
+                        // hebvyweights contbining other lightweights.
+                        // Hebvyweights poke holes in lightweight
+                        // rendering so thbt if we cbll show on the BS
+                        // (which is bssocibted with the Window) you will
+                        // not see the contents over bny child
+                        // hebvyweights.  If we didn't do this when we
+                        // went to show the descendbnts of the nested hw
+                        // you would see nothing, so, we bbil out here.
                         return null;
                     }
                 }
             }
         }
-        if ((root instanceof RootPaneContainer) &&
-            (rootJ instanceof JRootPane)) {
-            // We're in a Swing heavyeight (JFrame/JWindow...), use double
-            // buffering if double buffering enabled on the JRootPane and
-            // the JRootPane wants true double buffering.
+        if ((root instbnceof RootPbneContbiner) &&
+            (rootJ instbnceof JRootPbne)) {
+            // We're in b Swing hebvyeight (JFrbme/JWindow...), use double
+            // buffering if double buffering enbbled on the JRootPbne bnd
+            // the JRootPbne wbnts true double buffering.
             if (rootJ.isDoubleBuffered() &&
-                    ((JRootPane)rootJ).getUseTrueDoubleBuffering()) {
-                // Whether or not a component is double buffered is a
-                // bit tricky with Swing. This gives a good approximation
-                // of the various ways to turn on double buffering for
+                    ((JRootPbne)rootJ).getUseTrueDoubleBuffering()) {
+                // Whether or not b component is double buffered is b
+                // bit tricky with Swing. This gives b good bpproximbtion
+                // of the vbrious wbys to turn on double buffering for
                 // components.
                 return root;
             }
@@ -575,26 +575,26 @@ class BufferStrategyPaintManager extends RepaintManager.PaintManager {
     /**
      * Turns off double buffering per window.
      */
-    private void resetDoubleBufferPerWindow() {
+    privbte void resetDoubleBufferPerWindow() {
         if (bufferInfos != null) {
             dispose(bufferInfos);
             bufferInfos = null;
-            repaintManager.setPaintManager(null);
+            repbintMbnbger.setPbintMbnbger(null);
         }
     }
 
     /**
      * Returns the BufferInfo for the specified root or null if one
-     * hasn't been created yet.
+     * hbsn't been crebted yet.
      */
-    private BufferInfo getBufferInfo(Container root) {
+    privbte BufferInfo getBufferInfo(Contbiner root) {
         for (int counter = bufferInfos.size() - 1; counter >= 0; counter--) {
             BufferInfo bufferInfo = bufferInfos.get(counter);
-            Container biRoot = bufferInfo.getRoot();
+            Contbiner biRoot = bufferInfo.getRoot();
             if (biRoot == null) {
                 // Window gc'ed
                 bufferInfos.remove(counter);
-                if (LOGGER.isLoggable(PlatformLogger.Level.FINER)) {
+                if (LOGGER.isLoggbble(PlbtformLogger.Level.FINER)) {
                     LOGGER.finer("BufferInfo pruned, root null");
                 }
             }
@@ -605,207 +605,207 @@ class BufferStrategyPaintManager extends RepaintManager.PaintManager {
         return null;
     }
 
-    private void accumulate(int x, int y, int w, int h) {
-        accumulatedX = Math.min(x, accumulatedX);
-        accumulatedY = Math.min(y, accumulatedY);
-        accumulatedMaxX = Math.max(accumulatedMaxX, x + w);
-        accumulatedMaxY = Math.max(accumulatedMaxY, y + h);
+    privbte void bccumulbte(int x, int y, int w, int h) {
+        bccumulbtedX = Mbth.min(x, bccumulbtedX);
+        bccumulbtedY = Mbth.min(y, bccumulbtedY);
+        bccumulbtedMbxX = Mbth.mbx(bccumulbtedMbxX, x + w);
+        bccumulbtedMbxY = Mbth.mbx(bccumulbtedMbxY, y + h);
     }
 
 
 
     /**
-     * BufferInfo is used to track the BufferStrategy being used for
-     * a particular Component.  In addition to tracking the BufferStrategy
-     * it will install a WindowListener and ComponentListener.  When the
-     * component is hidden/iconified the buffer is marked as needing to be
-     * completely repainted.
+     * BufferInfo is used to trbck the BufferStrbtegy being used for
+     * b pbrticulbr Component.  In bddition to trbcking the BufferStrbtegy
+     * it will instbll b WindowListener bnd ComponentListener.  When the
+     * component is hidden/iconified the buffer is mbrked bs needing to be
+     * completely repbinted.
      */
-    private class BufferInfo extends ComponentAdapter implements
+    privbte clbss BufferInfo extends ComponentAdbpter implements
                                WindowListener {
-        // NOTE: This class does NOT hold a direct reference to the root, if it
-        // did there would be a cycle between the BufferPerWindowPaintManager
-        // and the Window so that it could never be GC'ed
+        // NOTE: This clbss does NOT hold b direct reference to the root, if it
+        // did there would be b cycle between the BufferPerWindowPbintMbnbger
+        // bnd the Window so thbt it could never be GC'ed
         //
-        // Reference to BufferStrategy is referenced via WeakReference for
-        // same reason.
-        private WeakReference<BufferStrategy> weakBS;
-        private WeakReference<Container> root;
-        // Indicates whether or not the backbuffer and display are in sync.
-        // This is set to true when a full repaint on the rootpane is done.
-        private boolean inSync;
-        // Indicates the contents were lost during and expose event.
-        private boolean contentsLostDuringExpose;
-        // Indicates we need to generate a paint event on expose.
-        private boolean paintAllOnExpose;
+        // Reference to BufferStrbtegy is referenced vib WebkReference for
+        // sbme rebson.
+        privbte WebkReference<BufferStrbtegy> webkBS;
+        privbte WebkReference<Contbiner> root;
+        // Indicbtes whether or not the bbckbuffer bnd displby bre in sync.
+        // This is set to true when b full repbint on the rootpbne is done.
+        privbte boolebn inSync;
+        // Indicbtes the contents were lost during bnd expose event.
+        privbte boolebn contentsLostDuringExpose;
+        // Indicbtes we need to generbte b pbint event on expose.
+        privbte boolebn pbintAllOnExpose;
 
 
-        public BufferInfo(Container root) {
-            this.root = new WeakReference<Container>(root);
-            root.addComponentListener(this);
-            if (root instanceof Window) {
-                ((Window)root).addWindowListener(this);
+        public BufferInfo(Contbiner root) {
+            this.root = new WebkReference<Contbiner>(root);
+            root.bddComponentListener(this);
+            if (root instbnceof Window) {
+                ((Window)root).bddWindowListener(this);
             }
         }
 
-        public void setPaintAllOnExpose(boolean paintAllOnExpose) {
-            this.paintAllOnExpose = paintAllOnExpose;
+        public void setPbintAllOnExpose(boolebn pbintAllOnExpose) {
+            this.pbintAllOnExpose = pbintAllOnExpose;
         }
 
-        public boolean getPaintAllOnExpose() {
-            return paintAllOnExpose;
+        public boolebn getPbintAllOnExpose() {
+            return pbintAllOnExpose;
         }
 
-        public void setContentsLostDuringExpose(boolean value) {
-            contentsLostDuringExpose = value;
+        public void setContentsLostDuringExpose(boolebn vblue) {
+            contentsLostDuringExpose = vblue;
         }
 
-        public boolean getContentsLostDuringExpose() {
+        public boolebn getContentsLostDuringExpose() {
             return contentsLostDuringExpose;
         }
 
-        public void setInSync(boolean inSync) {
+        public void setInSync(boolebn inSync) {
             this.inSync = inSync;
         }
 
         /**
-         * Whether or not the contents of the buffer strategy
+         * Whether or not the contents of the buffer strbtegy
          * is in sync with the window.  This is set to true when the root
-         * pane paints all, and false when contents are lost/restored.
+         * pbne pbints bll, bnd fblse when contents bre lost/restored.
          */
-        public boolean isInSync() {
+        public boolebn isInSync() {
             return inSync;
         }
 
         /**
-         * Returns the Root (Window or Applet) that this BufferInfo references.
+         * Returns the Root (Window or Applet) thbt this BufferInfo references.
          */
-        public Container getRoot() {
+        public Contbiner getRoot() {
             return (root == null) ? null : root.get();
         }
 
         /**
-         * Returns the BufferStartegy.  This will return null if
-         * the BufferStartegy hasn't been created and <code>create</code> is
-         * false, or if there is a problem in creating the
-         * <code>BufferStartegy</code>.
+         * Returns the BufferStbrtegy.  This will return null if
+         * the BufferStbrtegy hbsn't been crebted bnd <code>crebte</code> is
+         * fblse, or if there is b problem in crebting the
+         * <code>BufferStbrtegy</code>.
          *
-         * @param create If true, and the BufferStartegy is currently null,
-         *               one will be created.
+         * @pbrbm crebte If true, bnd the BufferStbrtegy is currently null,
+         *               one will be crebted.
          */
-        public BufferStrategy getBufferStrategy(boolean create) {
-            BufferStrategy bs = (weakBS == null) ? null : weakBS.get();
-            if (bs == null && create) {
-                bs = createBufferStrategy();
+        public BufferStrbtegy getBufferStrbtegy(boolebn crebte) {
+            BufferStrbtegy bs = (webkBS == null) ? null : webkBS.get();
+            if (bs == null && crebte) {
+                bs = crebteBufferStrbtegy();
                 if (bs != null) {
-                    weakBS = new WeakReference<BufferStrategy>(bs);
+                    webkBS = new WebkReference<BufferStrbtegy>(bs);
                 }
-                if (LOGGER.isLoggable(PlatformLogger.Level.FINER)) {
-                    LOGGER.finer("getBufferStrategy: created bs: " + bs);
+                if (LOGGER.isLoggbble(PlbtformLogger.Level.FINER)) {
+                    LOGGER.finer("getBufferStrbtegy: crebted bs: " + bs);
                 }
             }
             return bs;
         }
 
         /**
-         * Returns true if the buffer strategy of the component differs
-         * from current buffer strategy.
+         * Returns true if the buffer strbtegy of the component differs
+         * from current buffer strbtegy.
          */
-        public boolean hasBufferStrategyChanged() {
-            Container root = getRoot();
+        public boolebn hbsBufferStrbtegyChbnged() {
+            Contbiner root = getRoot();
             if (root != null) {
-                BufferStrategy ourBS = null;
-                BufferStrategy componentBS = null;
+                BufferStrbtegy ourBS = null;
+                BufferStrbtegy componentBS = null;
 
-                ourBS = getBufferStrategy(false);
-                if (root instanceof Window) {
-                    componentBS = ((Window)root).getBufferStrategy();
+                ourBS = getBufferStrbtegy(fblse);
+                if (root instbnceof Window) {
+                    componentBS = ((Window)root).getBufferStrbtegy();
                 }
                 else {
-                    componentBS = AWTAccessor.getComponentAccessor().getBufferStrategy(root);
+                    componentBS = AWTAccessor.getComponentAccessor().getBufferStrbtegy(root);
                 }
                 if (componentBS != ourBS) {
-                    // Component has a different BS, dispose ours.
+                    // Component hbs b different BS, dispose ours.
                     if (ourBS != null) {
                         ourBS.dispose();
                     }
-                    weakBS = null;
+                    webkBS = null;
                     return true;
                 }
             }
-            return false;
+            return fblse;
         }
 
         /**
-         * Creates the BufferStrategy.  If the appropriate system property
-         * has been set we'll try for flip first and then we'll try for
+         * Crebtes the BufferStrbtegy.  If the bppropribte system property
+         * hbs been set we'll try for flip first bnd then we'll try for
          * blit.
          */
-        private BufferStrategy createBufferStrategy() {
-            Container root = getRoot();
+        privbte BufferStrbtegy crebteBufferStrbtegy() {
+            Contbiner root = getRoot();
             if (root == null) {
                 return null;
             }
-            BufferStrategy bs = null;
+            BufferStrbtegy bs = null;
             if (SwingUtilities3.isVsyncRequested(root)) {
-                bs = createBufferStrategy(root, true);
-                if (LOGGER.isLoggable(PlatformLogger.Level.FINER)) {
-                    LOGGER.finer("createBufferStrategy: using vsynced strategy");
+                bs = crebteBufferStrbtegy(root, true);
+                if (LOGGER.isLoggbble(PlbtformLogger.Level.FINER)) {
+                    LOGGER.finer("crebteBufferStrbtegy: using vsynced strbtegy");
                 }
             }
             if (bs == null) {
-                bs = createBufferStrategy(root, false);
+                bs = crebteBufferStrbtegy(root, fblse);
             }
-            if (!(bs instanceof SubRegionShowable)) {
-                // We do this for two reasons:
-                // 1. So that we know we can cast to SubRegionShowable and
-                //    invoke show with the minimal region to update
-                // 2. To avoid the possibility of invoking client code
-                //    on the toolkit thread.
+            if (!(bs instbnceof SubRegionShowbble)) {
+                // We do this for two rebsons:
+                // 1. So thbt we know we cbn cbst to SubRegionShowbble bnd
+                //    invoke show with the minimbl region to updbte
+                // 2. To bvoid the possibility of invoking client code
+                //    on the toolkit threbd.
                 bs = null;
             }
             return bs;
         }
 
-        // Creates and returns a buffer strategy.  If
-        // there is a problem creating the buffer strategy this will
-        // eat the exception and return null.
-        private BufferStrategy createBufferStrategy(Container root,
-                boolean isVsynced) {
-            BufferCapabilities caps;
+        // Crebtes bnd returns b buffer strbtegy.  If
+        // there is b problem crebting the buffer strbtegy this will
+        // ebt the exception bnd return null.
+        privbte BufferStrbtegy crebteBufferStrbtegy(Contbiner root,
+                boolebn isVsynced) {
+            BufferCbpbbilities cbps;
             if (isVsynced) {
-                caps = new ExtendedBufferCapabilities(
-                    new ImageCapabilities(true), new ImageCapabilities(true),
-                    BufferCapabilities.FlipContents.COPIED,
-                    ExtendedBufferCapabilities.VSyncType.VSYNC_ON);
+                cbps = new ExtendedBufferCbpbbilities(
+                    new ImbgeCbpbbilities(true), new ImbgeCbpbbilities(true),
+                    BufferCbpbbilities.FlipContents.COPIED,
+                    ExtendedBufferCbpbbilities.VSyncType.VSYNC_ON);
             } else {
-                caps = new BufferCapabilities(
-                    new ImageCapabilities(true), new ImageCapabilities(true),
+                cbps = new BufferCbpbbilities(
+                    new ImbgeCbpbbilities(true), new ImbgeCbpbbilities(true),
                     null);
             }
-            BufferStrategy bs = null;
-            if (SunToolkit.isInstanceOf(root, "java.applet.Applet")) {
+            BufferStrbtegy bs = null;
+            if (SunToolkit.isInstbnceOf(root, "jbvb.bpplet.Applet")) {
                 try {
                     AWTAccessor.ComponentAccessor componentAccessor
                             = AWTAccessor.getComponentAccessor();
-                    componentAccessor.createBufferStrategy(root, 2, caps);
-                    bs = componentAccessor.getBufferStrategy(root);
-                } catch (AWTException e) {
+                    componentAccessor.crebteBufferStrbtegy(root, 2, cbps);
+                    bs = componentAccessor.getBufferStrbtegy(root);
+                } cbtch (AWTException e) {
                     // Type is not supported
-                    if (LOGGER.isLoggable(PlatformLogger.Level.FINER)) {
-                        LOGGER.finer("createBufferStratety failed",
+                    if (LOGGER.isLoggbble(PlbtformLogger.Level.FINER)) {
+                        LOGGER.finer("crebteBufferStrbtety fbiled",
                                      e);
                     }
                 }
             }
             else {
                 try {
-                    ((Window)root).createBufferStrategy(2, caps);
-                    bs = ((Window)root).getBufferStrategy();
-                } catch (AWTException e) {
+                    ((Window)root).crebteBufferStrbtegy(2, cbps);
+                    bs = ((Window)root).getBufferStrbtegy();
+                } cbtch (AWTException e) {
                     // Type not supported
-                    if (LOGGER.isLoggable(PlatformLogger.Level.FINER)) {
-                        LOGGER.finer("createBufferStratety failed",
+                    if (LOGGER.isLoggbble(PlbtformLogger.Level.FINER)) {
+                        LOGGER.finer("crebteBufferStrbtety fbiled",
                                      e);
                     }
                 }
@@ -814,63 +814,63 @@ class BufferStrategyPaintManager extends RepaintManager.PaintManager {
         }
 
         /**
-         * Cleans up and removes any references.
+         * Clebns up bnd removes bny references.
          */
         public void dispose() {
-            Container root = getRoot();
-            if (LOGGER.isLoggable(PlatformLogger.Level.FINER)) {
+            Contbiner root = getRoot();
+            if (LOGGER.isLoggbble(PlbtformLogger.Level.FINER)) {
                 LOGGER.finer("disposed BufferInfo for: " + root);
             }
             if (root != null) {
                 root.removeComponentListener(this);
-                if (root instanceof Window) {
+                if (root instbnceof Window) {
                     ((Window)root).removeWindowListener(this);
                 }
-                BufferStrategy bs = getBufferStrategy(false);
+                BufferStrbtegy bs = getBufferStrbtegy(fblse);
                 if (bs != null) {
                     bs.dispose();
                 }
             }
             this.root = null;
-            weakBS = null;
+            webkBS = null;
         }
 
-        // We mark the buffer as needing to be painted on a hide/iconify
-        // because the developer may have conditionalized painting based on
+        // We mbrk the buffer bs needing to be pbinted on b hide/iconify
+        // becbuse the developer mby hbve conditionblized pbinting bbsed on
         // visibility.
-        // Ideally we would also move to having the BufferStrategy being
-        // a SoftReference in Component here, but that requires changes to
-        // Component and the like.
+        // Ideblly we would blso move to hbving the BufferStrbtegy being
+        // b SoftReference in Component here, but thbt requires chbnges to
+        // Component bnd the like.
         public void componentHidden(ComponentEvent e) {
-            Container root = getRoot();
+            Contbiner root = getRoot();
             if (root != null && root.isVisible()) {
-                // This case will only happen if a developer calls
-                // hide immediately followed by show.  In this case
-                // the event is delivered after show and the window
-                // will still be visible.  If a developer altered the
+                // This cbse will only hbppen if b developer cblls
+                // hide immedibtely followed by show.  In this cbse
+                // the event is delivered bfter show bnd the window
+                // will still be visible.  If b developer bltered the
                 // contents of the window between the hide/show
-                // invocations we won't recognize we need to paint and
-                // the contents would be bogus.  Calling repaint here
+                // invocbtions we won't recognize we need to pbint bnd
+                // the contents would be bogus.  Cblling repbint here
                 // fixs everything up.
-                root.repaint();
+                root.repbint();
             }
             else {
-                setPaintAllOnExpose(true);
+                setPbintAllOnExpose(true);
             }
         }
 
         public void windowIconified(WindowEvent e) {
-            setPaintAllOnExpose(true);
+            setPbintAllOnExpose(true);
         }
 
-        // On a dispose we chuck everything.
+        // On b dispose we chuck everything.
         public void windowClosed(WindowEvent e) {
-            // Make sure we're not showing.
-            synchronized(BufferStrategyPaintManager.this) {
+            // Mbke sure we're not showing.
+            synchronized(BufferStrbtegyPbintMbnbger.this) {
                 while (showing) {
                     try {
-                        BufferStrategyPaintManager.this.wait();
-                    } catch (InterruptedException ie) {
+                        BufferStrbtegyPbintMbnbger.this.wbit();
+                    } cbtch (InterruptedException ie) {
                     }
                 }
                 bufferInfos.remove(this);
@@ -887,10 +887,10 @@ class BufferStrategyPaintManager extends RepaintManager.PaintManager {
         public void windowDeiconified(WindowEvent e) {
         }
 
-        public void windowActivated(WindowEvent e) {
+        public void windowActivbted(WindowEvent e) {
         }
 
-        public void windowDeactivated(WindowEvent e) {
+        public void windowDebctivbted(WindowEvent e) {
         }
     }
 }

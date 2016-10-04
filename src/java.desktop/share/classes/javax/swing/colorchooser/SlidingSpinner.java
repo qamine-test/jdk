@@ -1,61 +1,61 @@
 /*
- * Copyright (c) 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.colorchooser;
+pbckbge jbvbx.swing.colorchooser;
 
-import javax.swing.JComponent;
-import javax.swing.JSlider;
-import javax.swing.JSpinner;
-import javax.swing.JSpinner.DefaultEditor;
-import javax.swing.SpinnerNumberModel;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
+import jbvbx.swing.JComponent;
+import jbvbx.swing.JSlider;
+import jbvbx.swing.JSpinner;
+import jbvbx.swing.JSpinner.DefbultEditor;
+import jbvbx.swing.SpinnerNumberModel;
+import jbvbx.swing.event.ChbngeEvent;
+import jbvbx.swing.event.ChbngeListener;
 
-final class SlidingSpinner implements ChangeListener {
+finbl clbss SlidingSpinner implements ChbngeListener {
 
-    private final ColorPanel panel;
-    private final JComponent label;
-    private final SpinnerNumberModel model = new SpinnerNumberModel();
-    private final JSlider slider = new JSlider();
-    private final JSpinner spinner = new JSpinner(this.model);
-    private float value;
-    private boolean internal;
+    privbte finbl ColorPbnel pbnel;
+    privbte finbl JComponent lbbel;
+    privbte finbl SpinnerNumberModel model = new SpinnerNumberModel();
+    privbte finbl JSlider slider = new JSlider();
+    privbte finbl JSpinner spinner = new JSpinner(this.model);
+    privbte flobt vblue;
+    privbte boolebn internbl;
 
-    SlidingSpinner(ColorPanel panel, JComponent label) {
-        this.panel = panel;
-        this.label = label;
-        this.slider.addChangeListener(this);
-        this.spinner.addChangeListener(this);
-        DefaultEditor editor = (DefaultEditor) this.spinner.getEditor();
-        ValueFormatter.init(3, false, editor.getTextField());
-        editor.setFocusable(false);
-        this.spinner.setFocusable(false);
+    SlidingSpinner(ColorPbnel pbnel, JComponent lbbel) {
+        this.pbnel = pbnel;
+        this.lbbel = lbbel;
+        this.slider.bddChbngeListener(this);
+        this.spinner.bddChbngeListener(this);
+        DefbultEditor editor = (DefbultEditor) this.spinner.getEditor();
+        VblueFormbtter.init(3, fblse, editor.getTextField());
+        editor.setFocusbble(fblse);
+        this.spinner.setFocusbble(fblse);
     }
 
-    JComponent getLabel() {
-        return this.label;
+    JComponent getLbbel() {
+        return this.lbbel;
     }
 
     JSlider getSlider() {
@@ -66,53 +66,53 @@ final class SlidingSpinner implements ChangeListener {
         return this.spinner;
     }
 
-    float getValue() {
-        return this.value;
+    flobt getVblue() {
+        return this.vblue;
     }
 
-    void setValue(float value) {
+    void setVblue(flobt vblue) {
         int min = this.slider.getMinimum();
-        int max = this.slider.getMaximum();
-        this.internal = true;
-        this.slider.setValue(min + (int) (value * (float) (max - min)));
-        this.spinner.setValue(Integer.valueOf(this.slider.getValue()));
-        this.internal = false;
-        this.value = value;
+        int mbx = this.slider.getMbximum();
+        this.internbl = true;
+        this.slider.setVblue(min + (int) (vblue * (flobt) (mbx - min)));
+        this.spinner.setVblue(Integer.vblueOf(this.slider.getVblue()));
+        this.internbl = fblse;
+        this.vblue = vblue;
     }
 
-    void setRange(int min, int max) {
-        this.internal = true;
+    void setRbnge(int min, int mbx) {
+        this.internbl = true;
         this.slider.setMinimum(min);
-        this.slider.setMaximum(max);
-        this.model.setMinimum(Integer.valueOf(min));
-        this.model.setMaximum(Integer.valueOf(max));
-        this.internal = false;
+        this.slider.setMbximum(mbx);
+        this.model.setMinimum(Integer.vblueOf(min));
+        this.model.setMbximum(Integer.vblueOf(mbx));
+        this.internbl = fblse;
     }
 
-    void setVisible(boolean visible) {
-        this.label.setVisible(visible);
+    void setVisible(boolebn visible) {
+        this.lbbel.setVisible(visible);
         this.slider.setVisible(visible);
         this.spinner.setVisible(visible);
     }
 
-    public void stateChanged(ChangeEvent event) {
-        if (!this.internal) {
+    public void stbteChbnged(ChbngeEvent event) {
+        if (!this.internbl) {
             if (this.spinner == event.getSource()) {
-                Object value = this.spinner.getValue();
-                if (value instanceof Integer) {
-                    this.internal = true;
-                    this.slider.setValue((Integer) value);
-                    this.internal = false;
+                Object vblue = this.spinner.getVblue();
+                if (vblue instbnceof Integer) {
+                    this.internbl = true;
+                    this.slider.setVblue((Integer) vblue);
+                    this.internbl = fblse;
                 }
             }
-            int value = this.slider.getValue();
-            this.internal = true;
-            this.spinner.setValue(Integer.valueOf(value));
-            this.internal = false;
+            int vblue = this.slider.getVblue();
+            this.internbl = true;
+            this.spinner.setVblue(Integer.vblueOf(vblue));
+            this.internbl = fblse;
             int min = this.slider.getMinimum();
-            int max = this.slider.getMaximum();
-            this.value = (float) (value - min) / (float) (max - min);
-            this.panel.colorChanged();
+            int mbx = this.slider.getMbximum();
+            this.vblue = (flobt) (vblue - min) / (flobt) (mbx - min);
+            this.pbnel.colorChbnged();
         }
     }
 }

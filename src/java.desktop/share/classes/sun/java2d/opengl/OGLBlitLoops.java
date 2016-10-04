@@ -1,208 +1,208 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.java2d.opengl;
+pbckbge sun.jbvb2d.opengl;
 
-import java.awt.AlphaComposite;
-import java.awt.Composite;
-import java.awt.Transparency;
-import java.awt.geom.AffineTransform;
-import java.awt.image.AffineTransformOp;
-import java.awt.image.BufferedImage;
-import java.awt.image.BufferedImageOp;
-import java.lang.ref.WeakReference;
-import sun.java2d.SurfaceData;
-import sun.java2d.loops.Blit;
-import sun.java2d.loops.CompositeType;
-import sun.java2d.loops.GraphicsPrimitive;
-import sun.java2d.loops.GraphicsPrimitiveMgr;
-import sun.java2d.loops.ScaledBlit;
-import sun.java2d.loops.SurfaceType;
-import sun.java2d.loops.TransformBlit;
-import sun.java2d.pipe.Region;
-import sun.java2d.pipe.RenderBuffer;
-import sun.java2d.pipe.RenderQueue;
-import static sun.java2d.pipe.BufferedOpCodes.*;
-import java.lang.annotation.Native;
+import jbvb.bwt.AlphbComposite;
+import jbvb.bwt.Composite;
+import jbvb.bwt.Trbnspbrency;
+import jbvb.bwt.geom.AffineTrbnsform;
+import jbvb.bwt.imbge.AffineTrbnsformOp;
+import jbvb.bwt.imbge.BufferedImbge;
+import jbvb.bwt.imbge.BufferedImbgeOp;
+import jbvb.lbng.ref.WebkReference;
+import sun.jbvb2d.SurfbceDbtb;
+import sun.jbvb2d.loops.Blit;
+import sun.jbvb2d.loops.CompositeType;
+import sun.jbvb2d.loops.GrbphicsPrimitive;
+import sun.jbvb2d.loops.GrbphicsPrimitiveMgr;
+import sun.jbvb2d.loops.ScbledBlit;
+import sun.jbvb2d.loops.SurfbceType;
+import sun.jbvb2d.loops.TrbnsformBlit;
+import sun.jbvb2d.pipe.Region;
+import sun.jbvb2d.pipe.RenderBuffer;
+import sun.jbvb2d.pipe.RenderQueue;
+import stbtic sun.jbvb2d.pipe.BufferedOpCodes.*;
+import jbvb.lbng.bnnotbtion.Nbtive;
 
-class OGLBlitLoops {
+clbss OGLBlitLoops {
 
-    static void register() {
-        Blit blitIntArgbPreToSurface =
-            new OGLSwToSurfaceBlit(SurfaceType.IntArgbPre,
-                                   OGLSurfaceData.PF_INT_ARGB_PRE);
+    stbtic void register() {
+        Blit blitIntArgbPreToSurfbce =
+            new OGLSwToSurfbceBlit(SurfbceType.IntArgbPre,
+                                   OGLSurfbceDbtb.PF_INT_ARGB_PRE);
         Blit blitIntArgbPreToTexture =
-            new OGLSwToTextureBlit(SurfaceType.IntArgbPre,
-                                   OGLSurfaceData.PF_INT_ARGB_PRE);
+            new OGLSwToTextureBlit(SurfbceType.IntArgbPre,
+                                   OGLSurfbceDbtb.PF_INT_ARGB_PRE);
 
-        GraphicsPrimitive[] primitives = {
-            // surface->surface ops
-            new OGLSurfaceToSurfaceBlit(),
-            new OGLSurfaceToSurfaceScale(),
-            new OGLSurfaceToSurfaceTransform(),
+        GrbphicsPrimitive[] primitives = {
+            // surfbce->surfbce ops
+            new OGLSurfbceToSurfbceBlit(),
+            new OGLSurfbceToSurfbceScble(),
+            new OGLSurfbceToSurfbceTrbnsform(),
 
-            // render-to-texture surface->surface ops
-            new OGLRTTSurfaceToSurfaceBlit(),
-            new OGLRTTSurfaceToSurfaceScale(),
-            new OGLRTTSurfaceToSurfaceTransform(),
+            // render-to-texture surfbce->surfbce ops
+            new OGLRTTSurfbceToSurfbceBlit(),
+            new OGLRTTSurfbceToSurfbceScble(),
+            new OGLRTTSurfbceToSurfbceTrbnsform(),
 
-            // surface->sw ops
-            new OGLSurfaceToSwBlit(SurfaceType.IntArgb,
-                                   OGLSurfaceData.PF_INT_ARGB),
-            new OGLSurfaceToSwBlit(SurfaceType.IntArgbPre,
-                                   OGLSurfaceData.PF_INT_ARGB_PRE),
+            // surfbce->sw ops
+            new OGLSurfbceToSwBlit(SurfbceType.IntArgb,
+                                   OGLSurfbceDbtb.PF_INT_ARGB),
+            new OGLSurfbceToSwBlit(SurfbceType.IntArgbPre,
+                                   OGLSurfbceDbtb.PF_INT_ARGB_PRE),
 
-            // sw->surface ops
-            blitIntArgbPreToSurface,
-            new OGLSwToSurfaceBlit(SurfaceType.IntRgb,
-                                   OGLSurfaceData.PF_INT_RGB),
-            new OGLSwToSurfaceBlit(SurfaceType.IntRgbx,
-                                   OGLSurfaceData.PF_INT_RGBX),
-            new OGLSwToSurfaceBlit(SurfaceType.IntBgr,
-                                   OGLSurfaceData.PF_INT_BGR),
-            new OGLSwToSurfaceBlit(SurfaceType.IntBgrx,
-                                   OGLSurfaceData.PF_INT_BGRX),
-            new OGLSwToSurfaceBlit(SurfaceType.ThreeByteBgr,
-                                   OGLSurfaceData.PF_3BYTE_BGR),
-            new OGLSwToSurfaceBlit(SurfaceType.Ushort565Rgb,
-                                   OGLSurfaceData.PF_USHORT_565_RGB),
-            new OGLSwToSurfaceBlit(SurfaceType.Ushort555Rgb,
-                                   OGLSurfaceData.PF_USHORT_555_RGB),
-            new OGLSwToSurfaceBlit(SurfaceType.Ushort555Rgbx,
-                                   OGLSurfaceData.PF_USHORT_555_RGBX),
-            new OGLSwToSurfaceBlit(SurfaceType.ByteGray,
-                                   OGLSurfaceData.PF_BYTE_GRAY),
-            new OGLSwToSurfaceBlit(SurfaceType.UshortGray,
-                                   OGLSurfaceData.PF_USHORT_GRAY),
-            new OGLGeneralBlit(OGLSurfaceData.OpenGLSurface,
-                               CompositeType.AnyAlpha,
-                               blitIntArgbPreToSurface),
+            // sw->surfbce ops
+            blitIntArgbPreToSurfbce,
+            new OGLSwToSurfbceBlit(SurfbceType.IntRgb,
+                                   OGLSurfbceDbtb.PF_INT_RGB),
+            new OGLSwToSurfbceBlit(SurfbceType.IntRgbx,
+                                   OGLSurfbceDbtb.PF_INT_RGBX),
+            new OGLSwToSurfbceBlit(SurfbceType.IntBgr,
+                                   OGLSurfbceDbtb.PF_INT_BGR),
+            new OGLSwToSurfbceBlit(SurfbceType.IntBgrx,
+                                   OGLSurfbceDbtb.PF_INT_BGRX),
+            new OGLSwToSurfbceBlit(SurfbceType.ThreeByteBgr,
+                                   OGLSurfbceDbtb.PF_3BYTE_BGR),
+            new OGLSwToSurfbceBlit(SurfbceType.Ushort565Rgb,
+                                   OGLSurfbceDbtb.PF_USHORT_565_RGB),
+            new OGLSwToSurfbceBlit(SurfbceType.Ushort555Rgb,
+                                   OGLSurfbceDbtb.PF_USHORT_555_RGB),
+            new OGLSwToSurfbceBlit(SurfbceType.Ushort555Rgbx,
+                                   OGLSurfbceDbtb.PF_USHORT_555_RGBX),
+            new OGLSwToSurfbceBlit(SurfbceType.ByteGrby,
+                                   OGLSurfbceDbtb.PF_BYTE_GRAY),
+            new OGLSwToSurfbceBlit(SurfbceType.UshortGrby,
+                                   OGLSurfbceDbtb.PF_USHORT_GRAY),
+            new OGLGenerblBlit(OGLSurfbceDbtb.OpenGLSurfbce,
+                               CompositeType.AnyAlphb,
+                               blitIntArgbPreToSurfbce),
 
-            new OGLAnyCompositeBlit(OGLSurfaceData.OpenGLSurface),
+            new OGLAnyCompositeBlit(OGLSurfbceDbtb.OpenGLSurfbce),
 
-            new OGLSwToSurfaceScale(SurfaceType.IntRgb,
-                                    OGLSurfaceData.PF_INT_RGB),
-            new OGLSwToSurfaceScale(SurfaceType.IntRgbx,
-                                    OGLSurfaceData.PF_INT_RGBX),
-            new OGLSwToSurfaceScale(SurfaceType.IntBgr,
-                                    OGLSurfaceData.PF_INT_BGR),
-            new OGLSwToSurfaceScale(SurfaceType.IntBgrx,
-                                    OGLSurfaceData.PF_INT_BGRX),
-            new OGLSwToSurfaceScale(SurfaceType.ThreeByteBgr,
-                                    OGLSurfaceData.PF_3BYTE_BGR),
-            new OGLSwToSurfaceScale(SurfaceType.Ushort565Rgb,
-                                    OGLSurfaceData.PF_USHORT_565_RGB),
-            new OGLSwToSurfaceScale(SurfaceType.Ushort555Rgb,
-                                    OGLSurfaceData.PF_USHORT_555_RGB),
-            new OGLSwToSurfaceScale(SurfaceType.Ushort555Rgbx,
-                                    OGLSurfaceData.PF_USHORT_555_RGBX),
-            new OGLSwToSurfaceScale(SurfaceType.ByteGray,
-                                    OGLSurfaceData.PF_BYTE_GRAY),
-            new OGLSwToSurfaceScale(SurfaceType.UshortGray,
-                                    OGLSurfaceData.PF_USHORT_GRAY),
-            new OGLSwToSurfaceScale(SurfaceType.IntArgbPre,
-                                    OGLSurfaceData.PF_INT_ARGB_PRE),
+            new OGLSwToSurfbceScble(SurfbceType.IntRgb,
+                                    OGLSurfbceDbtb.PF_INT_RGB),
+            new OGLSwToSurfbceScble(SurfbceType.IntRgbx,
+                                    OGLSurfbceDbtb.PF_INT_RGBX),
+            new OGLSwToSurfbceScble(SurfbceType.IntBgr,
+                                    OGLSurfbceDbtb.PF_INT_BGR),
+            new OGLSwToSurfbceScble(SurfbceType.IntBgrx,
+                                    OGLSurfbceDbtb.PF_INT_BGRX),
+            new OGLSwToSurfbceScble(SurfbceType.ThreeByteBgr,
+                                    OGLSurfbceDbtb.PF_3BYTE_BGR),
+            new OGLSwToSurfbceScble(SurfbceType.Ushort565Rgb,
+                                    OGLSurfbceDbtb.PF_USHORT_565_RGB),
+            new OGLSwToSurfbceScble(SurfbceType.Ushort555Rgb,
+                                    OGLSurfbceDbtb.PF_USHORT_555_RGB),
+            new OGLSwToSurfbceScble(SurfbceType.Ushort555Rgbx,
+                                    OGLSurfbceDbtb.PF_USHORT_555_RGBX),
+            new OGLSwToSurfbceScble(SurfbceType.ByteGrby,
+                                    OGLSurfbceDbtb.PF_BYTE_GRAY),
+            new OGLSwToSurfbceScble(SurfbceType.UshortGrby,
+                                    OGLSurfbceDbtb.PF_USHORT_GRAY),
+            new OGLSwToSurfbceScble(SurfbceType.IntArgbPre,
+                                    OGLSurfbceDbtb.PF_INT_ARGB_PRE),
 
-            new OGLSwToSurfaceTransform(SurfaceType.IntRgb,
-                                        OGLSurfaceData.PF_INT_RGB),
-            new OGLSwToSurfaceTransform(SurfaceType.IntRgbx,
-                                        OGLSurfaceData.PF_INT_RGBX),
-            new OGLSwToSurfaceTransform(SurfaceType.IntBgr,
-                                        OGLSurfaceData.PF_INT_BGR),
-            new OGLSwToSurfaceTransform(SurfaceType.IntBgrx,
-                                        OGLSurfaceData.PF_INT_BGRX),
-            new OGLSwToSurfaceTransform(SurfaceType.ThreeByteBgr,
-                                        OGLSurfaceData.PF_3BYTE_BGR),
-            new OGLSwToSurfaceTransform(SurfaceType.Ushort565Rgb,
-                                        OGLSurfaceData.PF_USHORT_565_RGB),
-            new OGLSwToSurfaceTransform(SurfaceType.Ushort555Rgb,
-                                        OGLSurfaceData.PF_USHORT_555_RGB),
-            new OGLSwToSurfaceTransform(SurfaceType.Ushort555Rgbx,
-                                        OGLSurfaceData.PF_USHORT_555_RGBX),
-            new OGLSwToSurfaceTransform(SurfaceType.ByteGray,
-                                        OGLSurfaceData.PF_BYTE_GRAY),
-            new OGLSwToSurfaceTransform(SurfaceType.UshortGray,
-                                        OGLSurfaceData.PF_USHORT_GRAY),
-            new OGLSwToSurfaceTransform(SurfaceType.IntArgbPre,
-                                        OGLSurfaceData.PF_INT_ARGB_PRE),
+            new OGLSwToSurfbceTrbnsform(SurfbceType.IntRgb,
+                                        OGLSurfbceDbtb.PF_INT_RGB),
+            new OGLSwToSurfbceTrbnsform(SurfbceType.IntRgbx,
+                                        OGLSurfbceDbtb.PF_INT_RGBX),
+            new OGLSwToSurfbceTrbnsform(SurfbceType.IntBgr,
+                                        OGLSurfbceDbtb.PF_INT_BGR),
+            new OGLSwToSurfbceTrbnsform(SurfbceType.IntBgrx,
+                                        OGLSurfbceDbtb.PF_INT_BGRX),
+            new OGLSwToSurfbceTrbnsform(SurfbceType.ThreeByteBgr,
+                                        OGLSurfbceDbtb.PF_3BYTE_BGR),
+            new OGLSwToSurfbceTrbnsform(SurfbceType.Ushort565Rgb,
+                                        OGLSurfbceDbtb.PF_USHORT_565_RGB),
+            new OGLSwToSurfbceTrbnsform(SurfbceType.Ushort555Rgb,
+                                        OGLSurfbceDbtb.PF_USHORT_555_RGB),
+            new OGLSwToSurfbceTrbnsform(SurfbceType.Ushort555Rgbx,
+                                        OGLSurfbceDbtb.PF_USHORT_555_RGBX),
+            new OGLSwToSurfbceTrbnsform(SurfbceType.ByteGrby,
+                                        OGLSurfbceDbtb.PF_BYTE_GRAY),
+            new OGLSwToSurfbceTrbnsform(SurfbceType.UshortGrby,
+                                        OGLSurfbceDbtb.PF_USHORT_GRAY),
+            new OGLSwToSurfbceTrbnsform(SurfbceType.IntArgbPre,
+                                        OGLSurfbceDbtb.PF_INT_ARGB_PRE),
 
-            // texture->surface ops
-            new OGLTextureToSurfaceBlit(),
-            new OGLTextureToSurfaceScale(),
-            new OGLTextureToSurfaceTransform(),
+            // texture->surfbce ops
+            new OGLTextureToSurfbceBlit(),
+            new OGLTextureToSurfbceScble(),
+            new OGLTextureToSurfbceTrbnsform(),
 
             // sw->texture ops
             blitIntArgbPreToTexture,
-            new OGLSwToTextureBlit(SurfaceType.IntRgb,
-                                   OGLSurfaceData.PF_INT_RGB),
-            new OGLSwToTextureBlit(SurfaceType.IntRgbx,
-                                   OGLSurfaceData.PF_INT_RGBX),
-            new OGLSwToTextureBlit(SurfaceType.IntBgr,
-                                   OGLSurfaceData.PF_INT_BGR),
-            new OGLSwToTextureBlit(SurfaceType.IntBgrx,
-                                   OGLSurfaceData.PF_INT_BGRX),
-            new OGLSwToTextureBlit(SurfaceType.ThreeByteBgr,
-                                   OGLSurfaceData.PF_3BYTE_BGR),
-            new OGLSwToTextureBlit(SurfaceType.Ushort565Rgb,
-                                   OGLSurfaceData.PF_USHORT_565_RGB),
-            new OGLSwToTextureBlit(SurfaceType.Ushort555Rgb,
-                                   OGLSurfaceData.PF_USHORT_555_RGB),
-            new OGLSwToTextureBlit(SurfaceType.Ushort555Rgbx,
-                                   OGLSurfaceData.PF_USHORT_555_RGBX),
-            new OGLSwToTextureBlit(SurfaceType.ByteGray,
-                                   OGLSurfaceData.PF_BYTE_GRAY),
-            new OGLSwToTextureBlit(SurfaceType.UshortGray,
-                                   OGLSurfaceData.PF_USHORT_GRAY),
-            new OGLGeneralBlit(OGLSurfaceData.OpenGLTexture,
-                               CompositeType.SrcNoEa,
+            new OGLSwToTextureBlit(SurfbceType.IntRgb,
+                                   OGLSurfbceDbtb.PF_INT_RGB),
+            new OGLSwToTextureBlit(SurfbceType.IntRgbx,
+                                   OGLSurfbceDbtb.PF_INT_RGBX),
+            new OGLSwToTextureBlit(SurfbceType.IntBgr,
+                                   OGLSurfbceDbtb.PF_INT_BGR),
+            new OGLSwToTextureBlit(SurfbceType.IntBgrx,
+                                   OGLSurfbceDbtb.PF_INT_BGRX),
+            new OGLSwToTextureBlit(SurfbceType.ThreeByteBgr,
+                                   OGLSurfbceDbtb.PF_3BYTE_BGR),
+            new OGLSwToTextureBlit(SurfbceType.Ushort565Rgb,
+                                   OGLSurfbceDbtb.PF_USHORT_565_RGB),
+            new OGLSwToTextureBlit(SurfbceType.Ushort555Rgb,
+                                   OGLSurfbceDbtb.PF_USHORT_555_RGB),
+            new OGLSwToTextureBlit(SurfbceType.Ushort555Rgbx,
+                                   OGLSurfbceDbtb.PF_USHORT_555_RGBX),
+            new OGLSwToTextureBlit(SurfbceType.ByteGrby,
+                                   OGLSurfbceDbtb.PF_BYTE_GRAY),
+            new OGLSwToTextureBlit(SurfbceType.UshortGrby,
+                                   OGLSurfbceDbtb.PF_USHORT_GRAY),
+            new OGLGenerblBlit(OGLSurfbceDbtb.OpenGLTexture,
+                               CompositeType.SrcNoEb,
                                blitIntArgbPreToTexture),
 
-            new OGLAnyCompositeBlit(OGLSurfaceData.OpenGLTexture),
+            new OGLAnyCompositeBlit(OGLSurfbceDbtb.OpenGLTexture),
 
         };
-        GraphicsPrimitiveMgr.register(primitives);
+        GrbphicsPrimitiveMgr.register(primitives);
     }
 
     /**
-     * The following offsets are used to pack the parameters in
-     * createPackedParams().  (They are also used at the native level when
-     * unpacking the params.)
+     * The following offsets bre used to pbck the pbrbmeters in
+     * crebtePbckedPbrbms().  (They bre blso used bt the nbtive level when
+     * unpbcking the pbrbms.)
      */
-    @Native private static final int OFFSET_SRCTYPE = 16;
-    @Native private static final int OFFSET_HINT    =  8;
-    @Native private static final int OFFSET_TEXTURE =  3;
-    @Native private static final int OFFSET_RTT     =  2;
-    @Native private static final int OFFSET_XFORM   =  1;
-    @Native private static final int OFFSET_ISOBLIT =  0;
+    @Nbtive privbte stbtic finbl int OFFSET_SRCTYPE = 16;
+    @Nbtive privbte stbtic finbl int OFFSET_HINT    =  8;
+    @Nbtive privbte stbtic finbl int OFFSET_TEXTURE =  3;
+    @Nbtive privbte stbtic finbl int OFFSET_RTT     =  2;
+    @Nbtive privbte stbtic finbl int OFFSET_XFORM   =  1;
+    @Nbtive privbte stbtic finbl int OFFSET_ISOBLIT =  0;
 
     /**
-     * Packs the given parameters into a single int value in order to save
-     * space on the rendering queue.
+     * Pbcks the given pbrbmeters into b single int vblue in order to sbve
+     * spbce on the rendering queue.
      */
-    private static int createPackedParams(boolean isoblit, boolean texture,
-                                          boolean rtt, boolean xform,
+    privbte stbtic int crebtePbckedPbrbms(boolebn isoblit, boolebn texture,
+                                          boolebn rtt, boolebn xform,
                                           int hint, int srctype)
     {
         return
@@ -215,190 +215,190 @@ class OGLBlitLoops {
     }
 
     /**
-     * Enqueues a BLIT operation with the given parameters.  Note that the
-     * RenderQueue lock must be held before calling this method.
+     * Enqueues b BLIT operbtion with the given pbrbmeters.  Note thbt the
+     * RenderQueue lock must be held before cblling this method.
      */
-    private static void enqueueBlit(RenderQueue rq,
-                                    SurfaceData src, SurfaceData dst,
-                                    int packedParams,
+    privbte stbtic void enqueueBlit(RenderQueue rq,
+                                    SurfbceDbtb src, SurfbceDbtb dst,
+                                    int pbckedPbrbms,
                                     int sx1, int sy1,
                                     int sx2, int sy2,
                                     double dx1, double dy1,
                                     double dx2, double dy2)
     {
-        // assert rq.lock.isHeldByCurrentThread();
+        // bssert rq.lock.isHeldByCurrentThrebd();
         RenderBuffer buf = rq.getBuffer();
-        rq.ensureCapacityAndAlignment(72, 24);
+        rq.ensureCbpbcityAndAlignment(72, 24);
         buf.putInt(BLIT);
-        buf.putInt(packedParams);
+        buf.putInt(pbckedPbrbms);
         buf.putInt(sx1).putInt(sy1);
         buf.putInt(sx2).putInt(sy2);
         buf.putDouble(dx1).putDouble(dy1);
         buf.putDouble(dx2).putDouble(dy2);
-        buf.putLong(src.getNativeOps());
-        buf.putLong(dst.getNativeOps());
+        buf.putLong(src.getNbtiveOps());
+        buf.putLong(dst.getNbtiveOps());
     }
 
-    static void Blit(SurfaceData srcData, SurfaceData dstData,
+    stbtic void Blit(SurfbceDbtb srcDbtb, SurfbceDbtb dstDbtb,
                      Composite comp, Region clip,
-                     AffineTransform xform, int hint,
+                     AffineTrbnsform xform, int hint,
                      int sx1, int sy1,
                      int sx2, int sy2,
                      double dx1, double dy1,
                      double dx2, double dy2,
-                     int srctype, boolean texture)
+                     int srctype, boolebn texture)
     {
-        int ctxflags = 0;
-        if (srcData.getTransparency() == Transparency.OPAQUE) {
-            ctxflags |= OGLContext.SRC_IS_OPAQUE;
+        int ctxflbgs = 0;
+        if (srcDbtb.getTrbnspbrency() == Trbnspbrency.OPAQUE) {
+            ctxflbgs |= OGLContext.SRC_IS_OPAQUE;
         }
 
-        OGLRenderQueue rq = OGLRenderQueue.getInstance();
+        OGLRenderQueue rq = OGLRenderQueue.getInstbnce();
         rq.lock();
         try {
-            // make sure the RenderQueue keeps a hard reference to the
-            // source (sysmem) SurfaceData to prevent it from being
-            // disposed while the operation is processed on the QFT
-            rq.addReference(srcData);
+            // mbke sure the RenderQueue keeps b hbrd reference to the
+            // source (sysmem) SurfbceDbtb to prevent it from being
+            // disposed while the operbtion is processed on the QFT
+            rq.bddReference(srcDbtb);
 
-            OGLSurfaceData oglDst = (OGLSurfaceData)dstData;
+            OGLSurfbceDbtb oglDst = (OGLSurfbceDbtb)dstDbtb;
             if (texture) {
-                // make sure we have a current context before uploading
-                // the sysmem data to the texture object
-                OGLGraphicsConfig gc = oglDst.getOGLGraphicsConfig();
-                OGLContext.setScratchSurface(gc);
+                // mbke sure we hbve b current context before uplobding
+                // the sysmem dbtb to the texture object
+                OGLGrbphicsConfig gc = oglDst.getOGLGrbphicsConfig();
+                OGLContext.setScrbtchSurfbce(gc);
             } else {
-                OGLContext.validateContext(oglDst, oglDst,
+                OGLContext.vblidbteContext(oglDst, oglDst,
                                            clip, comp, xform, null, null,
-                                           ctxflags);
+                                           ctxflbgs);
             }
 
-            int packedParams = createPackedParams(false, texture,
-                                                  false, xform != null,
+            int pbckedPbrbms = crebtePbckedPbrbms(fblse, texture,
+                                                  fblse, xform != null,
                                                   hint, srctype);
-            enqueueBlit(rq, srcData, dstData,
-                        packedParams,
+            enqueueBlit(rq, srcDbtb, dstDbtb,
+                        pbckedPbrbms,
                         sx1, sy1, sx2, sy2,
                         dx1, dy1, dx2, dy2);
 
-            // always flush immediately, since we (currently) have no means
-            // of tracking changes to the system memory surface
+            // blwbys flush immedibtely, since we (currently) hbve no mebns
+            // of trbcking chbnges to the system memory surfbce
             rq.flushNow();
-        } finally {
+        } finblly {
             rq.unlock();
         }
     }
 
     /**
-     * Note: The srcImg and biop parameters are only used when invoked
-     * from the OGLBufImgOps.renderImageWithOp() method; in all other cases,
-     * this method can be called with null values for those two parameters,
-     * and they will be effectively ignored.
+     * Note: The srcImg bnd biop pbrbmeters bre only used when invoked
+     * from the OGLBufImgOps.renderImbgeWithOp() method; in bll other cbses,
+     * this method cbn be cblled with null vblues for those two pbrbmeters,
+     * bnd they will be effectively ignored.
      */
-    static void IsoBlit(SurfaceData srcData, SurfaceData dstData,
-                        BufferedImage srcImg, BufferedImageOp biop,
+    stbtic void IsoBlit(SurfbceDbtb srcDbtb, SurfbceDbtb dstDbtb,
+                        BufferedImbge srcImg, BufferedImbgeOp biop,
                         Composite comp, Region clip,
-                        AffineTransform xform, int hint,
+                        AffineTrbnsform xform, int hint,
                         int sx1, int sy1,
                         int sx2, int sy2,
                         double dx1, double dy1,
                         double dx2, double dy2,
-                        boolean texture)
+                        boolebn texture)
     {
-        int ctxflags = 0;
-        if (srcData.getTransparency() == Transparency.OPAQUE) {
-            ctxflags |= OGLContext.SRC_IS_OPAQUE;
+        int ctxflbgs = 0;
+        if (srcDbtb.getTrbnspbrency() == Trbnspbrency.OPAQUE) {
+            ctxflbgs |= OGLContext.SRC_IS_OPAQUE;
         }
 
-        OGLRenderQueue rq = OGLRenderQueue.getInstance();
+        OGLRenderQueue rq = OGLRenderQueue.getInstbnce();
         rq.lock();
         try {
-            OGLSurfaceData oglSrc = (OGLSurfaceData)srcData;
-            OGLSurfaceData oglDst = (OGLSurfaceData)dstData;
+            OGLSurfbceDbtb oglSrc = (OGLSurfbceDbtb)srcDbtb;
+            OGLSurfbceDbtb oglDst = (OGLSurfbceDbtb)dstDbtb;
             int srctype = oglSrc.getType();
-            boolean rtt;
-            OGLSurfaceData srcCtxData;
-            if (srctype == OGLSurfaceData.TEXTURE) {
-                // the source is a regular texture object; we substitute
-                // the destination surface for the purposes of making a
+            boolebn rtt;
+            OGLSurfbceDbtb srcCtxDbtb;
+            if (srctype == OGLSurfbceDbtb.TEXTURE) {
+                // the source is b regulbr texture object; we substitute
+                // the destinbtion surfbce for the purposes of mbking b
                 // context current
-                rtt = false;
-                srcCtxData = oglDst;
+                rtt = fblse;
+                srcCtxDbtb = oglDst;
             } else {
-                // the source is a pbuffer, backbuffer, or render-to-texture
-                // surface; we set rtt to true to differentiate this kind
-                // of surface from a regular texture object
+                // the source is b pbuffer, bbckbuffer, or render-to-texture
+                // surfbce; we set rtt to true to differentibte this kind
+                // of surfbce from b regulbr texture object
                 rtt = true;
-                if (srctype == OGLSurfaceData.FBOBJECT) {
-                    srcCtxData = oglDst;
+                if (srctype == OGLSurfbceDbtb.FBOBJECT) {
+                    srcCtxDbtb = oglDst;
                 } else {
-                    srcCtxData = oglSrc;
+                    srcCtxDbtb = oglSrc;
                 }
             }
 
-            OGLContext.validateContext(srcCtxData, oglDst,
+            OGLContext.vblidbteContext(srcCtxDbtb, oglDst,
                                        clip, comp, xform, null, null,
-                                       ctxflags);
+                                       ctxflbgs);
 
             if (biop != null) {
-                OGLBufImgOps.enableBufImgOp(rq, oglSrc, srcImg, biop);
+                OGLBufImgOps.enbbleBufImgOp(rq, oglSrc, srcImg, biop);
             }
 
-            int packedParams = createPackedParams(true, texture,
+            int pbckedPbrbms = crebtePbckedPbrbms(true, texture,
                                                   rtt, xform != null,
                                                   hint, 0 /*unused*/);
-            enqueueBlit(rq, srcData, dstData,
-                        packedParams,
+            enqueueBlit(rq, srcDbtb, dstDbtb,
+                        pbckedPbrbms,
                         sx1, sy1, sx2, sy2,
                         dx1, dy1, dx2, dy2);
 
             if (biop != null) {
-                OGLBufImgOps.disableBufImgOp(rq, biop);
+                OGLBufImgOps.disbbleBufImgOp(rq, biop);
             }
 
             if (rtt && oglDst.isOnScreen()) {
-                // we only have to flush immediately when copying from a
-                // (non-texture) surface to the screen; otherwise Swing apps
-                // might appear unresponsive until the auto-flush completes
+                // we only hbve to flush immedibtely when copying from b
+                // (non-texture) surfbce to the screen; otherwise Swing bpps
+                // might bppebr unresponsive until the buto-flush completes
                 rq.flushNow();
             }
-        } finally {
+        } finblly {
             rq.unlock();
         }
     }
 }
 
-class OGLSurfaceToSurfaceBlit extends Blit {
+clbss OGLSurfbceToSurfbceBlit extends Blit {
 
-    OGLSurfaceToSurfaceBlit() {
-        super(OGLSurfaceData.OpenGLSurface,
-              CompositeType.AnyAlpha,
-              OGLSurfaceData.OpenGLSurface);
+    OGLSurfbceToSurfbceBlit() {
+        super(OGLSurfbceDbtb.OpenGLSurfbce,
+              CompositeType.AnyAlphb,
+              OGLSurfbceDbtb.OpenGLSurfbce);
     }
 
-    public void Blit(SurfaceData src, SurfaceData dst,
+    public void Blit(SurfbceDbtb src, SurfbceDbtb dst,
                      Composite comp, Region clip,
                      int sx, int sy, int dx, int dy, int w, int h)
     {
         OGLBlitLoops.IsoBlit(src, dst,
                              null, null,
                              comp, clip, null,
-                             AffineTransformOp.TYPE_NEAREST_NEIGHBOR,
+                             AffineTrbnsformOp.TYPE_NEAREST_NEIGHBOR,
                              sx, sy, sx+w, sy+h,
                              dx, dy, dx+w, dy+h,
-                             false);
+                             fblse);
     }
 }
 
-class OGLSurfaceToSurfaceScale extends ScaledBlit {
+clbss OGLSurfbceToSurfbceScble extends ScbledBlit {
 
-    OGLSurfaceToSurfaceScale() {
-        super(OGLSurfaceData.OpenGLSurface,
-              CompositeType.AnyAlpha,
-              OGLSurfaceData.OpenGLSurface);
+    OGLSurfbceToSurfbceScble() {
+        super(OGLSurfbceDbtb.OpenGLSurfbce,
+              CompositeType.AnyAlphb,
+              OGLSurfbceDbtb.OpenGLSurfbce);
     }
 
-    public void Scale(SurfaceData src, SurfaceData dst,
+    public void Scble(SurfbceDbtb src, SurfbceDbtb dst,
                       Composite comp, Region clip,
                       int sx1, int sy1,
                       int sx2, int sy2,
@@ -408,67 +408,67 @@ class OGLSurfaceToSurfaceScale extends ScaledBlit {
         OGLBlitLoops.IsoBlit(src, dst,
                              null, null,
                              comp, clip, null,
-                             AffineTransformOp.TYPE_NEAREST_NEIGHBOR,
+                             AffineTrbnsformOp.TYPE_NEAREST_NEIGHBOR,
                              sx1, sy1, sx2, sy2,
                              dx1, dy1, dx2, dy2,
-                             false);
+                             fblse);
     }
 }
 
-class OGLSurfaceToSurfaceTransform extends TransformBlit {
+clbss OGLSurfbceToSurfbceTrbnsform extends TrbnsformBlit {
 
-    OGLSurfaceToSurfaceTransform() {
-        super(OGLSurfaceData.OpenGLSurface,
-              CompositeType.AnyAlpha,
-              OGLSurfaceData.OpenGLSurface);
+    OGLSurfbceToSurfbceTrbnsform() {
+        super(OGLSurfbceDbtb.OpenGLSurfbce,
+              CompositeType.AnyAlphb,
+              OGLSurfbceDbtb.OpenGLSurfbce);
     }
 
-    public void Transform(SurfaceData src, SurfaceData dst,
+    public void Trbnsform(SurfbceDbtb src, SurfbceDbtb dst,
                           Composite comp, Region clip,
-                          AffineTransform at, int hint,
+                          AffineTrbnsform bt, int hint,
                           int sx, int sy, int dx, int dy,
                           int w, int h)
     {
         OGLBlitLoops.IsoBlit(src, dst,
                              null, null,
-                             comp, clip, at, hint,
+                             comp, clip, bt, hint,
                              sx, sy, sx+w, sy+h,
                              dx, dy, dx+w, dy+h,
-                             false);
+                             fblse);
     }
 }
 
-class OGLRTTSurfaceToSurfaceBlit extends Blit {
+clbss OGLRTTSurfbceToSurfbceBlit extends Blit {
 
-    OGLRTTSurfaceToSurfaceBlit() {
-        super(OGLSurfaceData.OpenGLSurfaceRTT,
-              CompositeType.AnyAlpha,
-              OGLSurfaceData.OpenGLSurface);
+    OGLRTTSurfbceToSurfbceBlit() {
+        super(OGLSurfbceDbtb.OpenGLSurfbceRTT,
+              CompositeType.AnyAlphb,
+              OGLSurfbceDbtb.OpenGLSurfbce);
     }
 
-    public void Blit(SurfaceData src, SurfaceData dst,
+    public void Blit(SurfbceDbtb src, SurfbceDbtb dst,
                      Composite comp, Region clip,
                      int sx, int sy, int dx, int dy, int w, int h)
     {
         OGLBlitLoops.IsoBlit(src, dst,
                              null, null,
                              comp, clip, null,
-                             AffineTransformOp.TYPE_NEAREST_NEIGHBOR,
+                             AffineTrbnsformOp.TYPE_NEAREST_NEIGHBOR,
                              sx, sy, sx+w, sy+h,
                              dx, dy, dx+w, dy+h,
                              true);
     }
 }
 
-class OGLRTTSurfaceToSurfaceScale extends ScaledBlit {
+clbss OGLRTTSurfbceToSurfbceScble extends ScbledBlit {
 
-    OGLRTTSurfaceToSurfaceScale() {
-        super(OGLSurfaceData.OpenGLSurfaceRTT,
-              CompositeType.AnyAlpha,
-              OGLSurfaceData.OpenGLSurface);
+    OGLRTTSurfbceToSurfbceScble() {
+        super(OGLSurfbceDbtb.OpenGLSurfbceRTT,
+              CompositeType.AnyAlphb,
+              OGLSurfbceDbtb.OpenGLSurfbce);
     }
 
-    public void Scale(SurfaceData src, SurfaceData dst,
+    public void Scble(SurfbceDbtb src, SurfbceDbtb dst,
                       Composite comp, Region clip,
                       int sx1, int sy1,
                       int sx2, int sy2,
@@ -478,84 +478,84 @@ class OGLRTTSurfaceToSurfaceScale extends ScaledBlit {
         OGLBlitLoops.IsoBlit(src, dst,
                              null, null,
                              comp, clip, null,
-                             AffineTransformOp.TYPE_NEAREST_NEIGHBOR,
+                             AffineTrbnsformOp.TYPE_NEAREST_NEIGHBOR,
                              sx1, sy1, sx2, sy2,
                              dx1, dy1, dx2, dy2,
                              true);
     }
 }
 
-class OGLRTTSurfaceToSurfaceTransform extends TransformBlit {
+clbss OGLRTTSurfbceToSurfbceTrbnsform extends TrbnsformBlit {
 
-    OGLRTTSurfaceToSurfaceTransform() {
-        super(OGLSurfaceData.OpenGLSurfaceRTT,
-              CompositeType.AnyAlpha,
-              OGLSurfaceData.OpenGLSurface);
+    OGLRTTSurfbceToSurfbceTrbnsform() {
+        super(OGLSurfbceDbtb.OpenGLSurfbceRTT,
+              CompositeType.AnyAlphb,
+              OGLSurfbceDbtb.OpenGLSurfbce);
     }
 
-    public void Transform(SurfaceData src, SurfaceData dst,
+    public void Trbnsform(SurfbceDbtb src, SurfbceDbtb dst,
                           Composite comp, Region clip,
-                          AffineTransform at, int hint,
+                          AffineTrbnsform bt, int hint,
                           int sx, int sy, int dx, int dy, int w, int h)
     {
         OGLBlitLoops.IsoBlit(src, dst,
                              null, null,
-                             comp, clip, at, hint,
+                             comp, clip, bt, hint,
                              sx, sy, sx+w, sy+h,
                              dx, dy, dx+w, dy+h,
                              true);
     }
 }
 
-final class OGLSurfaceToSwBlit extends Blit {
+finbl clbss OGLSurfbceToSwBlit extends Blit {
 
-    private final int typeval;
-    private WeakReference<SurfaceData> srcTmp;
+    privbte finbl int typevbl;
+    privbte WebkReference<SurfbceDbtb> srcTmp;
 
-    // destination will actually be ArgbPre or Argb
-    OGLSurfaceToSwBlit(final SurfaceType dstType,final int typeval) {
-        super(OGLSurfaceData.OpenGLSurface,
-              CompositeType.SrcNoEa,
+    // destinbtion will bctublly be ArgbPre or Argb
+    OGLSurfbceToSwBlit(finbl SurfbceType dstType,finbl int typevbl) {
+        super(OGLSurfbceDbtb.OpenGLSurfbce,
+              CompositeType.SrcNoEb,
               dstType);
-        this.typeval = typeval;
+        this.typevbl = typevbl;
     }
 
-    private synchronized void complexClipBlit(SurfaceData src, SurfaceData dst,
+    privbte synchronized void complexClipBlit(SurfbceDbtb src, SurfbceDbtb dst,
                                               Composite comp, Region clip,
                                               int sx, int sy, int dx, int dy,
                                               int w, int h) {
-        SurfaceData cachedSrc = null;
+        SurfbceDbtb cbchedSrc = null;
         if (srcTmp != null) {
-            // use cached intermediate surface, if available
-            cachedSrc = srcTmp.get();
+            // use cbched intermedibte surfbce, if bvbilbble
+            cbchedSrc = srcTmp.get();
         }
 
-        // We can convert argb_pre data from OpenGL surface in two places:
-        // - During OpenGL surface -> SW blit
+        // We cbn convert brgb_pre dbtb from OpenGL surfbce in two plbces:
+        // - During OpenGL surfbce -> SW blit
         // - During SW -> SW blit
-        // The first one is faster when we use opaque OGL surface, because in
-        // this case we simply skip conversion and use color components as is.
-        // Because of this we align intermediate buffer type with type of
-        // destination not source.
-        final int type = typeval == OGLSurfaceData.PF_INT_ARGB_PRE ?
-                         BufferedImage.TYPE_INT_ARGB_PRE :
-                         BufferedImage.TYPE_INT_ARGB;
+        // The first one is fbster when we use opbque OGL surfbce, becbuse in
+        // this cbse we simply skip conversion bnd use color components bs is.
+        // Becbuse of this we blign intermedibte buffer type with type of
+        // destinbtion not source.
+        finbl int type = typevbl == OGLSurfbceDbtb.PF_INT_ARGB_PRE ?
+                         BufferedImbge.TYPE_INT_ARGB_PRE :
+                         BufferedImbge.TYPE_INT_ARGB;
 
-        src = convertFrom(this, src, sx, sy, w, h, cachedSrc, type);
+        src = convertFrom(this, src, sx, sy, w, h, cbchedSrc, type);
 
-        // copy intermediate SW to destination SW using complex clip
-        final Blit performop = Blit.getFromCache(src.getSurfaceType(),
-                                                 CompositeType.SrcNoEa,
-                                                 dst.getSurfaceType());
+        // copy intermedibte SW to destinbtion SW using complex clip
+        finbl Blit performop = Blit.getFromCbche(src.getSurfbceType(),
+                                                 CompositeType.SrcNoEb,
+                                                 dst.getSurfbceType());
         performop.Blit(src, dst, comp, clip, 0, 0, dx, dy, w, h);
 
-        if (src != cachedSrc) {
-            // cache the intermediate surface
-            srcTmp = new WeakReference<>(src);
+        if (src != cbchedSrc) {
+            // cbche the intermedibte surfbce
+            srcTmp = new WebkReference<>(src);
         }
     }
 
-    public void Blit(SurfaceData src, SurfaceData dst,
+    public void Blit(SurfbceDbtb src, SurfbceDbtb dst,
                      Composite comp, Region clip,
                      int sx, int sy, int dx, int dy,
                      int w, int h)
@@ -563,7 +563,7 @@ final class OGLSurfaceToSwBlit extends Blit {
         if (clip != null) {
             clip = clip.getIntersectionXYWH(dx, dy, w, h);
             // At the end this method will flush the RenderQueue, we should exit
-            // from it as soon as possible.
+            // from it bs soon bs possible.
             if (clip.isEmpty()) {
                 return;
             }
@@ -574,76 +574,76 @@ final class OGLSurfaceToSwBlit extends Blit {
             w = clip.getWidth();
             h = clip.getHeight();
 
-            if (!clip.isRectangular()) {
+            if (!clip.isRectbngulbr()) {
                 complexClipBlit(src, dst, comp, clip, sx, sy, dx, dy, w, h);
                 return;
             }
         }
 
-        OGLRenderQueue rq = OGLRenderQueue.getInstance();
+        OGLRenderQueue rq = OGLRenderQueue.getInstbnce();
         rq.lock();
         try {
-            // make sure the RenderQueue keeps a hard reference to the
-            // destination (sysmem) SurfaceData to prevent it from being
-            // disposed while the operation is processed on the QFT
-            rq.addReference(dst);
+            // mbke sure the RenderQueue keeps b hbrd reference to the
+            // destinbtion (sysmem) SurfbceDbtb to prevent it from being
+            // disposed while the operbtion is processed on the QFT
+            rq.bddReference(dst);
 
             RenderBuffer buf = rq.getBuffer();
-            OGLContext.validateContext((OGLSurfaceData)src);
+            OGLContext.vblidbteContext((OGLSurfbceDbtb)src);
 
-            rq.ensureCapacityAndAlignment(48, 32);
+            rq.ensureCbpbcityAndAlignment(48, 32);
             buf.putInt(SURFACE_TO_SW_BLIT);
             buf.putInt(sx).putInt(sy);
             buf.putInt(dx).putInt(dy);
             buf.putInt(w).putInt(h);
-            buf.putInt(typeval);
-            buf.putLong(src.getNativeOps());
-            buf.putLong(dst.getNativeOps());
+            buf.putInt(typevbl);
+            buf.putLong(src.getNbtiveOps());
+            buf.putLong(dst.getNbtiveOps());
 
-            // always flush immediately
+            // blwbys flush immedibtely
             rq.flushNow();
-        } finally {
+        } finblly {
             rq.unlock();
         }
     }
 }
 
-class OGLSwToSurfaceBlit extends Blit {
+clbss OGLSwToSurfbceBlit extends Blit {
 
-    private int typeval;
+    privbte int typevbl;
 
-    OGLSwToSurfaceBlit(SurfaceType srcType, int typeval) {
+    OGLSwToSurfbceBlit(SurfbceType srcType, int typevbl) {
         super(srcType,
-              CompositeType.AnyAlpha,
-              OGLSurfaceData.OpenGLSurface);
-        this.typeval = typeval;
+              CompositeType.AnyAlphb,
+              OGLSurfbceDbtb.OpenGLSurfbce);
+        this.typevbl = typevbl;
     }
 
-    public void Blit(SurfaceData src, SurfaceData dst,
+    public void Blit(SurfbceDbtb src, SurfbceDbtb dst,
                      Composite comp, Region clip,
                      int sx, int sy, int dx, int dy, int w, int h)
     {
         OGLBlitLoops.Blit(src, dst,
                           comp, clip, null,
-                          AffineTransformOp.TYPE_NEAREST_NEIGHBOR,
+                          AffineTrbnsformOp.TYPE_NEAREST_NEIGHBOR,
                           sx, sy, sx+w, sy+h,
                           dx, dy, dx+w, dy+h,
-                          typeval, false);
+                          typevbl, fblse);
     }
 }
 
-class OGLSwToSurfaceScale extends ScaledBlit {
+clbss OGLSwToSurfbceScble extends ScbledBlit {
 
-    private int typeval;
+    privbte int typevbl;
 
-    OGLSwToSurfaceScale(SurfaceType srcType, int typeval) {
+    OGLSwToSurfbceScble(SurfbceType srcType, int typevbl) {
         super(srcType,
-              CompositeType.AnyAlpha,
-              OGLSurfaceData.OpenGLSurface);
-        this.typeval = typeval;
+              CompositeType.AnyAlphb,
+              OGLSurfbceDbtb.OpenGLSurfbce);
+        this.typevbl = typevbl;
     }
 
-    public void Scale(SurfaceData src, SurfaceData dst,
+    public void Scble(SurfbceDbtb src, SurfbceDbtb dst,
                       Composite comp, Region clip,
                       int sx1, int sy1,
                       int sx2, int sy2,
@@ -652,92 +652,92 @@ class OGLSwToSurfaceScale extends ScaledBlit {
     {
         OGLBlitLoops.Blit(src, dst,
                           comp, clip, null,
-                          AffineTransformOp.TYPE_NEAREST_NEIGHBOR,
+                          AffineTrbnsformOp.TYPE_NEAREST_NEIGHBOR,
                           sx1, sy1, sx2, sy2,
                           dx1, dy1, dx2, dy2,
-                          typeval, false);
+                          typevbl, fblse);
     }
 }
 
-class OGLSwToSurfaceTransform extends TransformBlit {
+clbss OGLSwToSurfbceTrbnsform extends TrbnsformBlit {
 
-    private int typeval;
+    privbte int typevbl;
 
-    OGLSwToSurfaceTransform(SurfaceType srcType, int typeval) {
+    OGLSwToSurfbceTrbnsform(SurfbceType srcType, int typevbl) {
         super(srcType,
-              CompositeType.AnyAlpha,
-              OGLSurfaceData.OpenGLSurface);
-        this.typeval = typeval;
+              CompositeType.AnyAlphb,
+              OGLSurfbceDbtb.OpenGLSurfbce);
+        this.typevbl = typevbl;
     }
 
-    public void Transform(SurfaceData src, SurfaceData dst,
+    public void Trbnsform(SurfbceDbtb src, SurfbceDbtb dst,
                           Composite comp, Region clip,
-                          AffineTransform at, int hint,
+                          AffineTrbnsform bt, int hint,
                           int sx, int sy, int dx, int dy, int w, int h)
     {
         OGLBlitLoops.Blit(src, dst,
-                          comp, clip, at, hint,
+                          comp, clip, bt, hint,
                           sx, sy, sx+w, sy+h,
                           dx, dy, dx+w, dy+h,
-                          typeval, false);
+                          typevbl, fblse);
     }
 }
 
-class OGLSwToTextureBlit extends Blit {
+clbss OGLSwToTextureBlit extends Blit {
 
-    private int typeval;
+    privbte int typevbl;
 
-    OGLSwToTextureBlit(SurfaceType srcType, int typeval) {
+    OGLSwToTextureBlit(SurfbceType srcType, int typevbl) {
         super(srcType,
-              CompositeType.SrcNoEa,
-              OGLSurfaceData.OpenGLTexture);
-        this.typeval = typeval;
+              CompositeType.SrcNoEb,
+              OGLSurfbceDbtb.OpenGLTexture);
+        this.typevbl = typevbl;
     }
 
-    public void Blit(SurfaceData src, SurfaceData dst,
+    public void Blit(SurfbceDbtb src, SurfbceDbtb dst,
                      Composite comp, Region clip,
                      int sx, int sy, int dx, int dy, int w, int h)
     {
         OGLBlitLoops.Blit(src, dst,
                           comp, clip, null,
-                          AffineTransformOp.TYPE_NEAREST_NEIGHBOR,
+                          AffineTrbnsformOp.TYPE_NEAREST_NEIGHBOR,
                           sx, sy, sx+w, sy+h,
                           dx, dy, dx+w, dy+h,
-                          typeval, true);
+                          typevbl, true);
     }
 }
 
-class OGLTextureToSurfaceBlit extends Blit {
+clbss OGLTextureToSurfbceBlit extends Blit {
 
-    OGLTextureToSurfaceBlit() {
-        super(OGLSurfaceData.OpenGLTexture,
-              CompositeType.AnyAlpha,
-              OGLSurfaceData.OpenGLSurface);
+    OGLTextureToSurfbceBlit() {
+        super(OGLSurfbceDbtb.OpenGLTexture,
+              CompositeType.AnyAlphb,
+              OGLSurfbceDbtb.OpenGLSurfbce);
     }
 
-    public void Blit(SurfaceData src, SurfaceData dst,
+    public void Blit(SurfbceDbtb src, SurfbceDbtb dst,
                      Composite comp, Region clip,
                      int sx, int sy, int dx, int dy, int w, int h)
     {
         OGLBlitLoops.IsoBlit(src, dst,
                              null, null,
                              comp, clip, null,
-                             AffineTransformOp.TYPE_NEAREST_NEIGHBOR,
+                             AffineTrbnsformOp.TYPE_NEAREST_NEIGHBOR,
                              sx, sy, sx+w, sy+h,
                              dx, dy, dx+w, dy+h,
                              true);
     }
 }
 
-class OGLTextureToSurfaceScale extends ScaledBlit {
+clbss OGLTextureToSurfbceScble extends ScbledBlit {
 
-    OGLTextureToSurfaceScale() {
-        super(OGLSurfaceData.OpenGLTexture,
-              CompositeType.AnyAlpha,
-              OGLSurfaceData.OpenGLSurface);
+    OGLTextureToSurfbceScble() {
+        super(OGLSurfbceDbtb.OpenGLTexture,
+              CompositeType.AnyAlphb,
+              OGLSurfbceDbtb.OpenGLSurfbce);
     }
 
-    public void Scale(SurfaceData src, SurfaceData dst,
+    public void Scble(SurfbceDbtb src, SurfbceDbtb dst,
                       Composite comp, Region clip,
                       int sx1, int sy1,
                       int sx2, int sy2,
@@ -747,30 +747,30 @@ class OGLTextureToSurfaceScale extends ScaledBlit {
         OGLBlitLoops.IsoBlit(src, dst,
                              null, null,
                              comp, clip, null,
-                             AffineTransformOp.TYPE_NEAREST_NEIGHBOR,
+                             AffineTrbnsformOp.TYPE_NEAREST_NEIGHBOR,
                              sx1, sy1, sx2, sy2,
                              dx1, dy1, dx2, dy2,
                              true);
     }
 }
 
-class OGLTextureToSurfaceTransform extends TransformBlit {
+clbss OGLTextureToSurfbceTrbnsform extends TrbnsformBlit {
 
-    OGLTextureToSurfaceTransform() {
-        super(OGLSurfaceData.OpenGLTexture,
-              CompositeType.AnyAlpha,
-              OGLSurfaceData.OpenGLSurface);
+    OGLTextureToSurfbceTrbnsform() {
+        super(OGLSurfbceDbtb.OpenGLTexture,
+              CompositeType.AnyAlphb,
+              OGLSurfbceDbtb.OpenGLSurfbce);
     }
 
-    public void Transform(SurfaceData src, SurfaceData dst,
+    public void Trbnsform(SurfbceDbtb src, SurfbceDbtb dst,
                           Composite comp, Region clip,
-                          AffineTransform at, int hint,
+                          AffineTrbnsform bt, int hint,
                           int sx, int sy, int dx, int dy,
                           int w, int h)
     {
         OGLBlitLoops.IsoBlit(src, dst,
                              null, null,
-                             comp, clip, at, hint,
+                             comp, clip, bt, hint,
                              sx, sy, sx+w, sy+h,
                              dx, dy, dx+w, dy+h,
                              true);
@@ -778,96 +778,96 @@ class OGLTextureToSurfaceTransform extends TransformBlit {
 }
 
 /**
- * This general Blit implementation converts any source surface to an
- * intermediate IntArgbPre surface, and then uses the more specific
- * IntArgbPre->OpenGLSurface/Texture loop to get the intermediate
- * (premultiplied) surface down to OpenGL.
+ * This generbl Blit implementbtion converts bny source surfbce to bn
+ * intermedibte IntArgbPre surfbce, bnd then uses the more specific
+ * IntArgbPre->OpenGLSurfbce/Texture loop to get the intermedibte
+ * (premultiplied) surfbce down to OpenGL.
  */
-class OGLGeneralBlit extends Blit {
+clbss OGLGenerblBlit extends Blit {
 
-    private Blit performop;
-    private WeakReference<SurfaceData> srcTmp;
+    privbte Blit performop;
+    privbte WebkReference<SurfbceDbtb> srcTmp;
 
-    OGLGeneralBlit(SurfaceType dstType,
+    OGLGenerblBlit(SurfbceType dstType,
                    CompositeType compType,
                    Blit performop)
     {
-        super(SurfaceType.Any, compType, dstType);
+        super(SurfbceType.Any, compType, dstType);
         this.performop = performop;
     }
 
-    public synchronized void Blit(SurfaceData src, SurfaceData dst,
+    public synchronized void Blit(SurfbceDbtb src, SurfbceDbtb dst,
                                   Composite comp, Region clip,
                                   int sx, int sy, int dx, int dy,
                                   int w, int h)
     {
-        Blit convertsrc = Blit.getFromCache(src.getSurfaceType(),
-                                            CompositeType.SrcNoEa,
-                                            SurfaceType.IntArgbPre);
+        Blit convertsrc = Blit.getFromCbche(src.getSurfbceType(),
+                                            CompositeType.SrcNoEb,
+                                            SurfbceType.IntArgbPre);
 
-        SurfaceData cachedSrc = null;
+        SurfbceDbtb cbchedSrc = null;
         if (srcTmp != null) {
-            // use cached intermediate surface, if available
-            cachedSrc = srcTmp.get();
+            // use cbched intermedibte surfbce, if bvbilbble
+            cbchedSrc = srcTmp.get();
         }
 
         // convert source to IntArgbPre
         src = convertFrom(convertsrc, src, sx, sy, w, h,
-                          cachedSrc, BufferedImage.TYPE_INT_ARGB_PRE);
+                          cbchedSrc, BufferedImbge.TYPE_INT_ARGB_PRE);
 
-        // copy IntArgbPre intermediate surface to OpenGL surface
+        // copy IntArgbPre intermedibte surfbce to OpenGL surfbce
         performop.Blit(src, dst, comp, clip,
                        0, 0, dx, dy, w, h);
 
-        if (src != cachedSrc) {
-            // cache the intermediate surface
-            srcTmp = new WeakReference<>(src);
+        if (src != cbchedSrc) {
+            // cbche the intermedibte surfbce
+            srcTmp = new WebkReference<>(src);
         }
     }
 }
 
-class OGLAnyCompositeBlit extends Blit {
-    private WeakReference<SurfaceData> dstTmp;
+clbss OGLAnyCompositeBlit extends Blit {
+    privbte WebkReference<SurfbceDbtb> dstTmp;
 
-    public OGLAnyCompositeBlit(SurfaceType dstType) {
-        super(SurfaceType.Any, CompositeType.Any, dstType);
+    public OGLAnyCompositeBlit(SurfbceType dstType) {
+        super(SurfbceType.Any, CompositeType.Any, dstType);
     }
-    public synchronized void Blit(SurfaceData src, SurfaceData dst,
+    public synchronized void Blit(SurfbceDbtb src, SurfbceDbtb dst,
                                   Composite comp, Region clip,
                                   int sx, int sy, int dx, int dy,
                                   int w, int h)
     {
-        Blit convertdst = Blit.getFromCache(dst.getSurfaceType(),
-                                            CompositeType.SrcNoEa,
-                                            SurfaceType.IntArgbPre);
+        Blit convertdst = Blit.getFromCbche(dst.getSurfbceType(),
+                                            CompositeType.SrcNoEb,
+                                            SurfbceType.IntArgbPre);
 
-        SurfaceData cachedDst = null;
+        SurfbceDbtb cbchedDst = null;
 
         if (dstTmp != null) {
-            // use cached intermediate surface, if available
-            cachedDst = dstTmp.get();
+            // use cbched intermedibte surfbce, if bvbilbble
+            cbchedDst = dstTmp.get();
         }
 
         // convert source to IntArgbPre
-        SurfaceData dstBuffer = convertFrom(convertdst, dst, dx, dy, w, h,
-                          cachedDst, BufferedImage.TYPE_INT_ARGB_PRE);
+        SurfbceDbtb dstBuffer = convertFrom(convertdst, dst, dx, dy, w, h,
+                          cbchedDst, BufferedImbge.TYPE_INT_ARGB_PRE);
 
-        Blit performop = Blit.getFromCache(src.getSurfaceType(),
-                CompositeType.Any, dstBuffer.getSurfaceType());
+        Blit performop = Blit.getFromCbche(src.getSurfbceType(),
+                CompositeType.Any, dstBuffer.getSurfbceType());
 
         performop.Blit(src, dstBuffer, comp, clip,
                        sx, sy, 0, 0, w, h);
 
-        if (dstBuffer != cachedDst) {
-            // cache the intermediate surface
-            dstTmp = new WeakReference<>(dstBuffer);
+        if (dstBuffer != cbchedDst) {
+            // cbche the intermedibte surfbce
+            dstTmp = new WebkReference<>(dstBuffer);
         }
 
-        // now blit the buffer back to the destination
-        convertdst = Blit.getFromCache(dstBuffer.getSurfaceType(),
-                                            CompositeType.SrcNoEa,
-                                            dst.getSurfaceType());
-        convertdst.Blit(dstBuffer, dst, AlphaComposite.Src,
+        // now blit the buffer bbck to the destinbtion
+        convertdst = Blit.getFromCbche(dstBuffer.getSurfbceType(),
+                                            CompositeType.SrcNoEb,
+                                            dst.getSurfbceType());
+        convertdst.Blit(dstBuffer, dst, AlphbComposite.Src,
                  clip, 0, 0, dx, dy, w, h);
     }
 }

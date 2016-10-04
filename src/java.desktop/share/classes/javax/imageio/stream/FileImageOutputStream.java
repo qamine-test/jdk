@@ -1,149 +1,149 @@
 /*
- * Copyright (c) 2000, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2007, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.imageio.stream;
+pbckbge jbvbx.imbgeio.strebm;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.RandomAccessFile;
-import com.sun.imageio.stream.CloseableDisposerRecord;
-import com.sun.imageio.stream.StreamFinalizer;
-import sun.java2d.Disposer;
+import jbvb.io.File;
+import jbvb.io.FileNotFoundException;
+import jbvb.io.IOException;
+import jbvb.io.RbndomAccessFile;
+import com.sun.imbgeio.strebm.ClosebbleDisposerRecord;
+import com.sun.imbgeio.strebm.StrebmFinblizer;
+import sun.jbvb2d.Disposer;
 
 /**
- * An implementation of <code>ImageOutputStream</code> that writes its
- * output directly to a <code>File</code> or
- * <code>RandomAccessFile</code>.
+ * An implementbtion of <code>ImbgeOutputStrebm</code> thbt writes its
+ * output directly to b <code>File</code> or
+ * <code>RbndomAccessFile</code>.
  *
  */
-public class FileImageOutputStream extends ImageOutputStreamImpl {
+public clbss FileImbgeOutputStrebm extends ImbgeOutputStrebmImpl {
 
-    private RandomAccessFile raf;
+    privbte RbndomAccessFile rbf;
 
     /** The referent to be registered with the Disposer. */
-    private final Object disposerReferent;
+    privbte finbl Object disposerReferent;
 
-    /** The DisposerRecord that closes the underlying RandomAccessFile. */
-    private final CloseableDisposerRecord disposerRecord;
+    /** The DisposerRecord thbt closes the underlying RbndomAccessFile. */
+    privbte finbl ClosebbleDisposerRecord disposerRecord;
 
     /**
-     * Constructs a <code>FileImageOutputStream</code> that will write
-     * to a given <code>File</code>.
+     * Constructs b <code>FileImbgeOutputStrebm</code> thbt will write
+     * to b given <code>File</code>.
      *
-     * @param f a <code>File</code> to write to.
+     * @pbrbm f b <code>File</code> to write to.
      *
-     * @exception IllegalArgumentException if <code>f</code> is
+     * @exception IllegblArgumentException if <code>f</code> is
      * <code>null</code>.
-     * @exception SecurityException if a security manager exists
-     * and does not allow write access to the file.
+     * @exception SecurityException if b security mbnbger exists
+     * bnd does not bllow write bccess to the file.
      * @exception FileNotFoundException if <code>f</code> does not denote
-     * a regular file or it cannot be opened for reading and writing for any
-     * other reason.
-     * @exception IOException if an I/O error occurs.
+     * b regulbr file or it cbnnot be opened for rebding bnd writing for bny
+     * other rebson.
+     * @exception IOException if bn I/O error occurs.
      */
-    public FileImageOutputStream(File f)
+    public FileImbgeOutputStrebm(File f)
         throws FileNotFoundException, IOException {
-        this(f == null ? null : new RandomAccessFile(f, "rw"));
+        this(f == null ? null : new RbndomAccessFile(f, "rw"));
     }
 
     /**
-     * Constructs a <code>FileImageOutputStream</code> that will write
-     * to a given <code>RandomAccessFile</code>.
+     * Constructs b <code>FileImbgeOutputStrebm</code> thbt will write
+     * to b given <code>RbndomAccessFile</code>.
      *
-     * @param raf a <code>RandomAccessFile</code> to write to.
+     * @pbrbm rbf b <code>RbndomAccessFile</code> to write to.
      *
-     * @exception IllegalArgumentException if <code>raf</code> is
+     * @exception IllegblArgumentException if <code>rbf</code> is
      * <code>null</code>.
      */
-    public FileImageOutputStream(RandomAccessFile raf) {
-        if (raf == null) {
-            throw new IllegalArgumentException("raf == null!");
+    public FileImbgeOutputStrebm(RbndomAccessFile rbf) {
+        if (rbf == null) {
+            throw new IllegblArgumentException("rbf == null!");
         }
-        this.raf = raf;
+        this.rbf = rbf;
 
-        disposerRecord = new CloseableDisposerRecord(raf);
-        if (getClass() == FileImageOutputStream.class) {
+        disposerRecord = new ClosebbleDisposerRecord(rbf);
+        if (getClbss() == FileImbgeOutputStrebm.clbss) {
             disposerReferent = new Object();
-            Disposer.addRecord(disposerReferent, disposerRecord);
+            Disposer.bddRecord(disposerReferent, disposerRecord);
         } else {
-            disposerReferent = new StreamFinalizer(this);
+            disposerReferent = new StrebmFinblizer(this);
         }
     }
 
-    public int read() throws IOException {
+    public int rebd() throws IOException {
         checkClosed();
         bitOffset = 0;
-        int val = raf.read();
-        if (val != -1) {
-            ++streamPos;
+        int vbl = rbf.rebd();
+        if (vbl != -1) {
+            ++strebmPos;
         }
-        return val;
+        return vbl;
     }
 
-    public int read(byte[] b, int off, int len) throws IOException {
+    public int rebd(byte[] b, int off, int len) throws IOException {
         checkClosed();
         bitOffset = 0;
-        int nbytes = raf.read(b, off, len);
+        int nbytes = rbf.rebd(b, off, len);
         if (nbytes != -1) {
-            streamPos += nbytes;
+            strebmPos += nbytes;
         }
         return nbytes;
     }
 
     public void write(int b) throws IOException {
-        flushBits(); // this will call checkClosed() for us
-        raf.write(b);
-        ++streamPos;
+        flushBits(); // this will cbll checkClosed() for us
+        rbf.write(b);
+        ++strebmPos;
     }
 
     public void write(byte[] b, int off, int len) throws IOException {
-        flushBits(); // this will call checkClosed() for us
-        raf.write(b, off, len);
-        streamPos += len;
+        flushBits(); // this will cbll checkClosed() for us
+        rbf.write(b, off, len);
+        strebmPos += len;
     }
 
     public long length() {
         try {
             checkClosed();
-            return raf.length();
-        } catch (IOException e) {
+            return rbf.length();
+        } cbtch (IOException e) {
             return -1L;
         }
     }
 
     /**
-     * Sets the current stream position and resets the bit offset to
-     * 0.  It is legal to seeking past the end of the file; an
-     * <code>EOFException</code> will be thrown only if a read is
-     * performed.  The file length will not be increased until a write
+     * Sets the current strebm position bnd resets the bit offset to
+     * 0.  It is legbl to seeking pbst the end of the file; bn
+     * <code>EOFException</code> will be thrown only if b rebd is
+     * performed.  The file length will not be increbsed until b write
      * is performed.
      *
-     * @exception IndexOutOfBoundsException if <code>pos</code> is smaller
-     * than the flushed position.
-     * @exception IOException if any other I/O error occurs.
+     * @exception IndexOutOfBoundsException if <code>pos</code> is smbller
+     * thbn the flushed position.
+     * @exception IOException if bny other I/O error occurs.
      */
     public void seek(long pos) throws IOException {
         checkClosed();
@@ -151,22 +151,22 @@ public class FileImageOutputStream extends ImageOutputStreamImpl {
             throw new IndexOutOfBoundsException("pos < flushedPos!");
         }
         bitOffset = 0;
-        raf.seek(pos);
-        streamPos = raf.getFilePointer();
+        rbf.seek(pos);
+        strebmPos = rbf.getFilePointer();
     }
 
     public void close() throws IOException {
         super.close();
-        disposerRecord.dispose(); // this closes the RandomAccessFile
-        raf = null;
+        disposerRecord.dispose(); // this closes the RbndomAccessFile
+        rbf = null;
     }
 
     /**
      * {@inheritDoc}
      */
-    protected void finalize() throws Throwable {
-        // Empty finalizer: for performance reasons we instead use the
-        // Disposer mechanism for ensuring that the underlying
-        // RandomAccessFile is closed prior to garbage collection
+    protected void finblize() throws Throwbble {
+        // Empty finblizer: for performbnce rebsons we instebd use the
+        // Disposer mechbnism for ensuring thbt the underlying
+        // RbndomAccessFile is closed prior to gbrbbge collection
     }
 }

@@ -1,89 +1,89 @@
 /*
- * Copyright (c) 2002, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.ssl;
+pbckbge sun.security.ssl;
 
-import java.util.*;
+import jbvb.util.*;
 
 /**
- * A list of ProtocolVersions. Also maintains the list of supported protocols.
- * Instances of this class are immutable. Some member variables are final
- * and can be accessed directly without method accessors.
+ * A list of ProtocolVersions. Also mbintbins the list of supported protocols.
+ * Instbnces of this clbss bre immutbble. Some member vbribbles bre finbl
+ * bnd cbn be bccessed directly without method bccessors.
  *
- * @author  Andreas Sterbenz
+ * @buthor  Andrebs Sterbenz
  * @since   1.4.1
  */
-final class ProtocolList {
+finbl clbss ProtocolList {
 
     // the sorted protocol version list
-    private final ArrayList<ProtocolVersion> protocols;
+    privbte finbl ArrbyList<ProtocolVersion> protocols;
 
-    private String[] protocolNames;
+    privbte String[] protocolNbmes;
 
-    // the minimum and maximum ProtocolVersions in this list
-    final ProtocolVersion min, max;
+    // the minimum bnd mbximum ProtocolVersions in this list
+    finbl ProtocolVersion min, mbx;
 
-    // the format for the hello version to use
-    final ProtocolVersion helloVersion;
+    // the formbt for the hello version to use
+    finbl ProtocolVersion helloVersion;
 
-    ProtocolList(String[] names) {
-        this(convert(names));
+    ProtocolList(String[] nbmes) {
+        this(convert(nbmes));
     }
 
-    ProtocolList(ArrayList<ProtocolVersion> versions) {
+    ProtocolList(ArrbyList<ProtocolVersion> versions) {
         this.protocols = versions;
 
         if ((protocols.size() == 1) &&
-                protocols.contains(ProtocolVersion.SSL20Hello)) {
-            throw new IllegalArgumentException("SSLv2Hello cannot be " +
-                "enabled unless at least one other supported version " +
-                "is also enabled.");
+                protocols.contbins(ProtocolVersion.SSL20Hello)) {
+            throw new IllegblArgumentException("SSLv2Hello cbnnot be " +
+                "enbbled unless bt lebst one other supported version " +
+                "is blso enbbled.");
         }
 
         if (protocols.size() != 0) {
             Collections.sort(protocols);
             min = protocols.get(0);
-            max = protocols.get(protocols.size() - 1);
+            mbx = protocols.get(protocols.size() - 1);
             helloVersion = protocols.get(0);
         } else {
             min = ProtocolVersion.NONE;
-            max = ProtocolVersion.NONE;
+            mbx = ProtocolVersion.NONE;
             helloVersion = ProtocolVersion.NONE;
         }
     }
 
-    private static ArrayList<ProtocolVersion> convert(String[] names) {
-        if (names == null) {
-            throw new IllegalArgumentException("Protocols may not be null");
+    privbte stbtic ArrbyList<ProtocolVersion> convert(String[] nbmes) {
+        if (nbmes == null) {
+            throw new IllegblArgumentException("Protocols mby not be null");
         }
 
-        ArrayList<ProtocolVersion> versions = new ArrayList<>(names.length);
-        for (int i = 0; i < names.length; i++ ) {
-            ProtocolVersion version = ProtocolVersion.valueOf(names[i]);
-            if (versions.contains(version) == false) {
-                versions.add(version);
+        ArrbyList<ProtocolVersion> versions = new ArrbyList<>(nbmes.length);
+        for (int i = 0; i < nbmes.length; i++ ) {
+            ProtocolVersion version = ProtocolVersion.vblueOf(nbmes[i]);
+            if (versions.contbins(version) == fblse) {
+                versions.bdd(version);
             }
         }
 
@@ -91,19 +91,19 @@ final class ProtocolList {
     }
 
     /**
-     * Return whether this list contains the specified protocol version.
-     * SSLv2Hello is not a real protocol version we support, we always
-     * return false for it.
+     * Return whether this list contbins the specified protocol version.
+     * SSLv2Hello is not b rebl protocol version we support, we blwbys
+     * return fblse for it.
      */
-    boolean contains(ProtocolVersion protocolVersion) {
+    boolebn contbins(ProtocolVersion protocolVersion) {
         if (protocolVersion == ProtocolVersion.SSL20Hello) {
-            return false;
+            return fblse;
         }
-        return protocols.contains(protocolVersion);
+        return protocols.contbins(protocolVersion);
     }
 
     /**
-     * Return a reference to the internal Collection of CipherSuites.
+     * Return b reference to the internbl Collection of CipherSuites.
      * The Collection MUST NOT be modified.
      */
     Collection<ProtocolVersion> collection() {
@@ -111,21 +111,21 @@ final class ProtocolList {
     }
 
     /**
-     * Select a protocol version from the list.
+     * Select b protocol version from the list.
      *
-     * Return the lower of the protocol version of that suggested by
-     * the <code>protocolVersion</code> and the highest version of this
-     * protocol list, or null if no protocol version is available.
+     * Return the lower of the protocol version of thbt suggested by
+     * the <code>protocolVersion</code> bnd the highest version of this
+     * protocol list, or null if no protocol version is bvbilbble.
      *
-     * The method is used by TLS server to negotiated the protocol
+     * The method is used by TLS server to negotibted the protocol
      * version between client suggested protocol version in the
-     * client hello and protocol versions supported by the server.
+     * client hello bnd protocol versions supported by the server.
      */
     ProtocolVersion selectProtocolVersion(ProtocolVersion protocolVersion) {
         ProtocolVersion selectedVersion = null;
         for (ProtocolVersion pv : protocols) {
             if (pv.v > protocolVersion.v) {
-                break;  // Safe to break here as this.protocols is sorted
+                brebk;  // Sbfe to brebk here bs this.protocols is sorted
             }
             selectedVersion = pv;
         }
@@ -134,17 +134,17 @@ final class ProtocolList {
     }
 
     /**
-     * Return an array with the names of the ProtocolVersions in this list.
+     * Return bn brrby with the nbmes of the ProtocolVersions in this list.
      */
-    synchronized String[] toStringArray() {
-        if (protocolNames == null) {
-            protocolNames = new String[protocols.size()];
+    synchronized String[] toStringArrby() {
+        if (protocolNbmes == null) {
+            protocolNbmes = new String[protocols.size()];
             int i = 0;
             for (ProtocolVersion version : protocols) {
-                protocolNames[i++] = version.name;
+                protocolNbmes[i++] = version.nbme;
             }
         }
-        return protocolNames.clone();
+        return protocolNbmes.clone();
     }
 
     @Override

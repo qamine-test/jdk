@@ -1,122 +1,122 @@
 /*
- * Copyright (c) 1995, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.awt;
+pbckbge jbvb.bwt;
 
-import java.awt.peer.FramePeer;
-import java.awt.event.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Vector;
-import java.io.Serializable;
-import java.io.ObjectOutputStream;
-import java.io.ObjectInputStream;
-import java.io.IOException;
-import sun.awt.AppContext;
-import sun.awt.SunToolkit;
-import sun.awt.AWTAccessor;
-import java.lang.ref.WeakReference;
-import javax.accessibility.*;
+import jbvb.bwt.peer.FrbmePeer;
+import jbvb.bwt.event.*;
+import jbvb.util.ArrbyList;
+import jbvb.util.Arrbys;
+import jbvb.util.List;
+import jbvb.util.Vector;
+import jbvb.io.Seriblizbble;
+import jbvb.io.ObjectOutputStrebm;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.IOException;
+import sun.bwt.AppContext;
+import sun.bwt.SunToolkit;
+import sun.bwt.AWTAccessor;
+import jbvb.lbng.ref.WebkReference;
+import jbvbx.bccessibility.*;
 
 /**
- * A <code>Frame</code> is a top-level window with a title and a border.
+ * A <code>Frbme</code> is b top-level window with b title bnd b border.
  * <p>
- * The size of the frame includes any area designated for the
- * border.  The dimensions of the border area may be obtained
+ * The size of the frbme includes bny breb designbted for the
+ * border.  The dimensions of the border breb mby be obtbined
  * using the <code>getInsets</code> method, however, since
- * these dimensions are platform-dependent, a valid insets
- * value cannot be obtained until the frame is made displayable
- * by either calling <code>pack</code> or <code>show</code>.
- * Since the border area is included in the overall size of the
- * frame, the border effectively obscures a portion of the frame,
- * constraining the area available for rendering and/or displaying
- * subcomponents to the rectangle which has an upper-left corner
- * location of <code>(insets.left, insets.top)</code>, and has a size of
+ * these dimensions bre plbtform-dependent, b vblid insets
+ * vblue cbnnot be obtbined until the frbme is mbde displbybble
+ * by either cblling <code>pbck</code> or <code>show</code>.
+ * Since the border breb is included in the overbll size of the
+ * frbme, the border effectively obscures b portion of the frbme,
+ * constrbining the breb bvbilbble for rendering bnd/or displbying
+ * subcomponents to the rectbngle which hbs bn upper-left corner
+ * locbtion of <code>(insets.left, insets.top)</code>, bnd hbs b size of
  * <code>width - (insets.left + insets.right)</code> by
  * <code>height - (insets.top + insets.bottom)</code>.
  * <p>
- * The default layout for a frame is <code>BorderLayout</code>.
+ * The defbult lbyout for b frbme is <code>BorderLbyout</code>.
  * <p>
- * A frame may have its native decorations (i.e. <code>Frame</code>
- * and <code>Titlebar</code>) turned off
- * with <code>setUndecorated</code>. This can only be done while the frame
- * is not {@link Component#isDisplayable() displayable}.
+ * A frbme mby hbve its nbtive decorbtions (i.e. <code>Frbme</code>
+ * bnd <code>Titlebbr</code>) turned off
+ * with <code>setUndecorbted</code>. This cbn only be done while the frbme
+ * is not {@link Component#isDisplbybble() displbybble}.
  * <p>
- * In a multi-screen environment, you can create a <code>Frame</code>
- * on a different screen device by constructing the <code>Frame</code>
- * with {@link #Frame(GraphicsConfiguration)} or
- * {@link #Frame(String title, GraphicsConfiguration)}.  The
- * <code>GraphicsConfiguration</code> object is one of the
- * <code>GraphicsConfiguration</code> objects of the target screen
+ * In b multi-screen environment, you cbn crebte b <code>Frbme</code>
+ * on b different screen device by constructing the <code>Frbme</code>
+ * with {@link #Frbme(GrbphicsConfigurbtion)} or
+ * {@link #Frbme(String title, GrbphicsConfigurbtion)}.  The
+ * <code>GrbphicsConfigurbtion</code> object is one of the
+ * <code>GrbphicsConfigurbtion</code> objects of the tbrget screen
  * device.
  * <p>
- * In a virtual device multi-screen environment in which the desktop
- * area could span multiple physical screen devices, the bounds of all
- * configurations are relative to the virtual-coordinate system.  The
- * origin of the virtual-coordinate system is at the upper left-hand
- * corner of the primary physical screen.  Depending on the location
- * of the primary screen in the virtual device, negative coordinates
- * are possible, as shown in the following figure.
+ * In b virtubl device multi-screen environment in which the desktop
+ * breb could spbn multiple physicbl screen devices, the bounds of bll
+ * configurbtions bre relbtive to the virtubl-coordinbte system.  The
+ * origin of the virtubl-coordinbte system is bt the upper left-hbnd
+ * corner of the primbry physicbl screen.  Depending on the locbtion
+ * of the primbry screen in the virtubl device, negbtive coordinbtes
+ * bre possible, bs shown in the following figure.
  * <p>
  * <img src="doc-files/MultiScreen.gif"
- * alt="Diagram of virtual device encompassing three physical screens and one primary physical screen. The primary physical screen
- * shows (0,0) coords while a different physical screen shows (-80,-100) coords."
- * style="float:center; margin: 7px 10px;">
+ * blt="Dibgrbm of virtubl device encompbssing three physicbl screens bnd one primbry physicbl screen. The primbry physicbl screen
+ * shows (0,0) coords while b different physicbl screen shows (-80,-100) coords."
+ * style="flobt:center; mbrgin: 7px 10px;">
  * <p>
- * In such an environment, when calling <code>setLocation</code>,
- * you must pass a virtual coordinate to this method.  Similarly,
- * calling <code>getLocationOnScreen</code> on a <code>Frame</code>
- * returns virtual device coordinates.  Call the <code>getBounds</code>
- * method of a <code>GraphicsConfiguration</code> to find its origin in
- * the virtual coordinate system.
+ * In such bn environment, when cblling <code>setLocbtion</code>,
+ * you must pbss b virtubl coordinbte to this method.  Similbrly,
+ * cblling <code>getLocbtionOnScreen</code> on b <code>Frbme</code>
+ * returns virtubl device coordinbtes.  Cbll the <code>getBounds</code>
+ * method of b <code>GrbphicsConfigurbtion</code> to find its origin in
+ * the virtubl coordinbte system.
  * <p>
  * The following code sets the
- * location of the <code>Frame</code> at (10, 10) relative
- * to the origin of the physical screen of the corresponding
- * <code>GraphicsConfiguration</code>.  If the bounds of the
- * <code>GraphicsConfiguration</code> is not taken into account, the
- * <code>Frame</code> location would be set at (10, 10) relative to the
- * virtual-coordinate system and would appear on the primary physical
- * screen, which might be different from the physical screen of the
- * specified <code>GraphicsConfiguration</code>.
+ * locbtion of the <code>Frbme</code> bt (10, 10) relbtive
+ * to the origin of the physicbl screen of the corresponding
+ * <code>GrbphicsConfigurbtion</code>.  If the bounds of the
+ * <code>GrbphicsConfigurbtion</code> is not tbken into bccount, the
+ * <code>Frbme</code> locbtion would be set bt (10, 10) relbtive to the
+ * virtubl-coordinbte system bnd would bppebr on the primbry physicbl
+ * screen, which might be different from the physicbl screen of the
+ * specified <code>GrbphicsConfigurbtion</code>.
  *
  * <pre>
- *      Frame f = new Frame(GraphicsConfiguration gc);
- *      Rectangle bounds = gc.getBounds();
- *      f.setLocation(10 + bounds.x, 10 + bounds.y);
+ *      Frbme f = new Frbme(GrbphicsConfigurbtion gc);
+ *      Rectbngle bounds = gc.getBounds();
+ *      f.setLocbtion(10 + bounds.x, 10 + bounds.y);
  * </pre>
  *
  * <p>
- * Frames are capable of generating the following types of
+ * Frbmes bre cbpbble of generbting the following types of
  * <code>WindowEvent</code>s:
  * <ul>
  * <li><code>WINDOW_OPENED</code>
  * <li><code>WINDOW_CLOSING</code>:
- *     <br>If the program doesn't
+ *     <br>If the progrbm doesn't
  *     explicitly hide or dispose the window while processing
- *     this event, the window close operation is canceled.
+ *     this event, the window close operbtion is cbnceled.
  * <li><code>WINDOW_CLOSED</code>
  * <li><code>WINDOW_ICONIFIED</code>
  * <li><code>WINDOW_DEICONIFIED</code>
@@ -127,372 +127,372 @@ import javax.accessibility.*;
  * <li><code>WINDOW_STATE_CHANGED</code>
  * </ul>
  *
- * @author      Sami Shaio
+ * @buthor      Sbmi Shbio
  * @see WindowEvent
- * @see Window#addWindowListener
+ * @see Window#bddWindowListener
  * @since       1.0
  */
-public class Frame extends Window implements MenuContainer {
+public clbss Frbme extends Window implements MenuContbiner {
 
-    /* Note: These are being obsoleted;  programs should use the Cursor class
-     * variables going forward. See Cursor and Component.setCursor.
+    /* Note: These bre being obsoleted;  progrbms should use the Cursor clbss
+     * vbribbles going forwbrd. See Cursor bnd Component.setCursor.
      */
 
    /**
-    * @deprecated   replaced by <code>Cursor.DEFAULT_CURSOR</code>.
+    * @deprecbted   replbced by <code>Cursor.DEFAULT_CURSOR</code>.
     */
-    @Deprecated
-    public static final int     DEFAULT_CURSOR                  = Cursor.DEFAULT_CURSOR;
+    @Deprecbted
+    public stbtic finbl int     DEFAULT_CURSOR                  = Cursor.DEFAULT_CURSOR;
 
 
    /**
-    * @deprecated   replaced by <code>Cursor.CROSSHAIR_CURSOR</code>.
+    * @deprecbted   replbced by <code>Cursor.CROSSHAIR_CURSOR</code>.
     */
-    @Deprecated
-    public static final int     CROSSHAIR_CURSOR                = Cursor.CROSSHAIR_CURSOR;
+    @Deprecbted
+    public stbtic finbl int     CROSSHAIR_CURSOR                = Cursor.CROSSHAIR_CURSOR;
 
    /**
-    * @deprecated   replaced by <code>Cursor.TEXT_CURSOR</code>.
+    * @deprecbted   replbced by <code>Cursor.TEXT_CURSOR</code>.
     */
-    @Deprecated
-    public static final int     TEXT_CURSOR                     = Cursor.TEXT_CURSOR;
+    @Deprecbted
+    public stbtic finbl int     TEXT_CURSOR                     = Cursor.TEXT_CURSOR;
 
    /**
-    * @deprecated   replaced by <code>Cursor.WAIT_CURSOR</code>.
+    * @deprecbted   replbced by <code>Cursor.WAIT_CURSOR</code>.
     */
-    @Deprecated
-    public static final int     WAIT_CURSOR                     = Cursor.WAIT_CURSOR;
+    @Deprecbted
+    public stbtic finbl int     WAIT_CURSOR                     = Cursor.WAIT_CURSOR;
 
    /**
-    * @deprecated   replaced by <code>Cursor.SW_RESIZE_CURSOR</code>.
+    * @deprecbted   replbced by <code>Cursor.SW_RESIZE_CURSOR</code>.
     */
-    @Deprecated
-    public static final int     SW_RESIZE_CURSOR                = Cursor.SW_RESIZE_CURSOR;
+    @Deprecbted
+    public stbtic finbl int     SW_RESIZE_CURSOR                = Cursor.SW_RESIZE_CURSOR;
 
    /**
-    * @deprecated   replaced by <code>Cursor.SE_RESIZE_CURSOR</code>.
+    * @deprecbted   replbced by <code>Cursor.SE_RESIZE_CURSOR</code>.
     */
-    @Deprecated
-    public static final int     SE_RESIZE_CURSOR                = Cursor.SE_RESIZE_CURSOR;
+    @Deprecbted
+    public stbtic finbl int     SE_RESIZE_CURSOR                = Cursor.SE_RESIZE_CURSOR;
 
    /**
-    * @deprecated   replaced by <code>Cursor.NW_RESIZE_CURSOR</code>.
+    * @deprecbted   replbced by <code>Cursor.NW_RESIZE_CURSOR</code>.
     */
-    @Deprecated
-    public static final int     NW_RESIZE_CURSOR                = Cursor.NW_RESIZE_CURSOR;
+    @Deprecbted
+    public stbtic finbl int     NW_RESIZE_CURSOR                = Cursor.NW_RESIZE_CURSOR;
 
    /**
-    * @deprecated   replaced by <code>Cursor.NE_RESIZE_CURSOR</code>.
+    * @deprecbted   replbced by <code>Cursor.NE_RESIZE_CURSOR</code>.
     */
-    @Deprecated
-    public static final int     NE_RESIZE_CURSOR                = Cursor.NE_RESIZE_CURSOR;
+    @Deprecbted
+    public stbtic finbl int     NE_RESIZE_CURSOR                = Cursor.NE_RESIZE_CURSOR;
 
    /**
-    * @deprecated   replaced by <code>Cursor.N_RESIZE_CURSOR</code>.
+    * @deprecbted   replbced by <code>Cursor.N_RESIZE_CURSOR</code>.
     */
-    @Deprecated
-    public static final int     N_RESIZE_CURSOR                 = Cursor.N_RESIZE_CURSOR;
+    @Deprecbted
+    public stbtic finbl int     N_RESIZE_CURSOR                 = Cursor.N_RESIZE_CURSOR;
 
    /**
-    * @deprecated   replaced by <code>Cursor.S_RESIZE_CURSOR</code>.
+    * @deprecbted   replbced by <code>Cursor.S_RESIZE_CURSOR</code>.
     */
-    @Deprecated
-    public static final int     S_RESIZE_CURSOR                 = Cursor.S_RESIZE_CURSOR;
+    @Deprecbted
+    public stbtic finbl int     S_RESIZE_CURSOR                 = Cursor.S_RESIZE_CURSOR;
 
    /**
-    * @deprecated   replaced by <code>Cursor.W_RESIZE_CURSOR</code>.
+    * @deprecbted   replbced by <code>Cursor.W_RESIZE_CURSOR</code>.
     */
-    @Deprecated
-    public static final int     W_RESIZE_CURSOR                 = Cursor.W_RESIZE_CURSOR;
+    @Deprecbted
+    public stbtic finbl int     W_RESIZE_CURSOR                 = Cursor.W_RESIZE_CURSOR;
 
    /**
-    * @deprecated   replaced by <code>Cursor.E_RESIZE_CURSOR</code>.
+    * @deprecbted   replbced by <code>Cursor.E_RESIZE_CURSOR</code>.
     */
-    @Deprecated
-    public static final int     E_RESIZE_CURSOR                 = Cursor.E_RESIZE_CURSOR;
+    @Deprecbted
+    public stbtic finbl int     E_RESIZE_CURSOR                 = Cursor.E_RESIZE_CURSOR;
 
    /**
-    * @deprecated   replaced by <code>Cursor.HAND_CURSOR</code>.
+    * @deprecbted   replbced by <code>Cursor.HAND_CURSOR</code>.
     */
-    @Deprecated
-    public static final int     HAND_CURSOR                     = Cursor.HAND_CURSOR;
+    @Deprecbted
+    public stbtic finbl int     HAND_CURSOR                     = Cursor.HAND_CURSOR;
 
    /**
-    * @deprecated   replaced by <code>Cursor.MOVE_CURSOR</code>.
+    * @deprecbted   replbced by <code>Cursor.MOVE_CURSOR</code>.
     */
-    @Deprecated
-    public static final int     MOVE_CURSOR                     = Cursor.MOVE_CURSOR;
+    @Deprecbted
+    public stbtic finbl int     MOVE_CURSOR                     = Cursor.MOVE_CURSOR;
 
 
     /**
-     * Frame is in the "normal" state.  This symbolic constant names a
-     * frame state with all state bits cleared.
-     * @see #setExtendedState(int)
-     * @see #getExtendedState
+     * Frbme is in the "normbl" stbte.  This symbolic constbnt nbmes b
+     * frbme stbte with bll stbte bits clebred.
+     * @see #setExtendedStbte(int)
+     * @see #getExtendedStbte
      */
-    public static final int NORMAL = 0;
+    public stbtic finbl int NORMAL = 0;
 
     /**
-     * This state bit indicates that frame is iconified.
-     * @see #setExtendedState(int)
-     * @see #getExtendedState
+     * This stbte bit indicbtes thbt frbme is iconified.
+     * @see #setExtendedStbte(int)
+     * @see #getExtendedStbte
      */
-    public static final int ICONIFIED = 1;
+    public stbtic finbl int ICONIFIED = 1;
 
     /**
-     * This state bit indicates that frame is maximized in the
-     * horizontal direction.
-     * @see #setExtendedState(int)
-     * @see #getExtendedState
+     * This stbte bit indicbtes thbt frbme is mbximized in the
+     * horizontbl direction.
+     * @see #setExtendedStbte(int)
+     * @see #getExtendedStbte
      * @since 1.4
      */
-    public static final int MAXIMIZED_HORIZ = 2;
+    public stbtic finbl int MAXIMIZED_HORIZ = 2;
 
     /**
-     * This state bit indicates that frame is maximized in the
-     * vertical direction.
-     * @see #setExtendedState(int)
-     * @see #getExtendedState
+     * This stbte bit indicbtes thbt frbme is mbximized in the
+     * verticbl direction.
+     * @see #setExtendedStbte(int)
+     * @see #getExtendedStbte
      * @since 1.4
      */
-    public static final int MAXIMIZED_VERT = 4;
+    public stbtic finbl int MAXIMIZED_VERT = 4;
 
     /**
-     * This state bit mask indicates that frame is fully maximized
-     * (that is both horizontally and vertically).  It is just a
-     * convenience alias for
+     * This stbte bit mbsk indicbtes thbt frbme is fully mbximized
+     * (thbt is both horizontblly bnd verticblly).  It is just b
+     * convenience blibs for
      * <code>MAXIMIZED_VERT&nbsp;|&nbsp;MAXIMIZED_HORIZ</code>.
      *
-     * <p>Note that the correct test for frame being fully maximized is
+     * <p>Note thbt the correct test for frbme being fully mbximized is
      * <pre>
-     *     (state &amp; Frame.MAXIMIZED_BOTH) == Frame.MAXIMIZED_BOTH
+     *     (stbte &bmp; Frbme.MAXIMIZED_BOTH) == Frbme.MAXIMIZED_BOTH
      * </pre>
      *
-     * <p>To test is frame is maximized in <em>some</em> direction use
+     * <p>To test is frbme is mbximized in <em>some</em> direction use
      * <pre>
-     *     (state &amp; Frame.MAXIMIZED_BOTH) != 0
+     *     (stbte &bmp; Frbme.MAXIMIZED_BOTH) != 0
      * </pre>
      *
-     * @see #setExtendedState(int)
-     * @see #getExtendedState
+     * @see #setExtendedStbte(int)
+     * @see #getExtendedStbte
      * @since 1.4
      */
-    public static final int MAXIMIZED_BOTH = MAXIMIZED_VERT | MAXIMIZED_HORIZ;
+    public stbtic finbl int MAXIMIZED_BOTH = MAXIMIZED_VERT | MAXIMIZED_HORIZ;
 
     /**
-     * Maximized bounds for this frame.
-     * @see     #setMaximizedBounds(Rectangle)
-     * @see     #getMaximizedBounds
-     * @serial
+     * Mbximized bounds for this frbme.
+     * @see     #setMbximizedBounds(Rectbngle)
+     * @see     #getMbximizedBounds
+     * @seribl
      * @since 1.4
      */
-    Rectangle maximizedBounds;
+    Rectbngle mbximizedBounds;
 
 
     /**
-     * This is the title of the frame.  It can be changed
-     * at any time.  <code>title</code> can be null and if
-     * this is the case the <code>title</code> = "".
+     * This is the title of the frbme.  It cbn be chbnged
+     * bt bny time.  <code>title</code> cbn be null bnd if
+     * this is the cbse the <code>title</code> = "".
      *
-     * @serial
+     * @seribl
      * @see #getTitle
      * @see #setTitle(String)
      */
     String      title = "Untitled";
 
     /**
-     * The frames menubar.  If <code>menuBar</code> = null
-     * the frame will not have a menubar.
+     * The frbmes menubbr.  If <code>menuBbr</code> = null
+     * the frbme will not hbve b menubbr.
      *
-     * @serial
-     * @see #getMenuBar
-     * @see #setMenuBar(MenuBar)
+     * @seribl
+     * @see #getMenuBbr
+     * @see #setMenuBbr(MenuBbr)
      */
-    MenuBar     menuBar;
+    MenuBbr     menuBbr;
 
     /**
-     * This field indicates whether the frame is resizable.
-     * This property can be changed at any time.
-     * <code>resizable</code> will be true if the frame is
-     * resizable, otherwise it will be false.
+     * This field indicbtes whether the frbme is resizbble.
+     * This property cbn be chbnged bt bny time.
+     * <code>resizbble</code> will be true if the frbme is
+     * resizbble, otherwise it will be fblse.
      *
-     * @serial
-     * @see #isResizable()
+     * @seribl
+     * @see #isResizbble()
      */
-    boolean     resizable = true;
+    boolebn     resizbble = true;
 
     /**
-     * This field indicates whether the frame is undecorated.
-     * This property can only be changed while the frame is not displayable.
-     * <code>undecorated</code> will be true if the frame is
-     * undecorated, otherwise it will be false.
+     * This field indicbtes whether the frbme is undecorbted.
+     * This property cbn only be chbnged while the frbme is not displbybble.
+     * <code>undecorbted</code> will be true if the frbme is
+     * undecorbted, otherwise it will be fblse.
      *
-     * @serial
-     * @see #setUndecorated(boolean)
-     * @see #isUndecorated()
-     * @see Component#isDisplayable()
+     * @seribl
+     * @see #setUndecorbted(boolebn)
+     * @see #isUndecorbted()
+     * @see Component#isDisplbybble()
      * @since 1.4
      */
-    boolean undecorated = false;
+    boolebn undecorbted = fblse;
 
     /**
-     * <code>mbManagement</code> is only used by the Motif implementation.
+     * <code>mbMbnbgement</code> is only used by the Motif implementbtion.
      *
-     * @serial
+     * @seribl
      */
-    boolean     mbManagement = false;   /* used only by the Motif impl. */
+    boolebn     mbMbnbgement = fblse;   /* used only by the Motif impl. */
 
-    // XXX: uwe: abuse old field for now
-    // will need to take care of serialization
-    private int state = NORMAL;
+    // XXX: uwe: bbuse old field for now
+    // will need to tbke cbre of seriblizbtion
+    privbte int stbte = NORMAL;
 
     /*
-     * The Windows owned by the Frame.
-     * Note: in 1.2 this has been superceded by Window.ownedWindowList
+     * The Windows owned by the Frbme.
+     * Note: in 1.2 this hbs been superceded by Window.ownedWindowList
      *
-     * @serial
-     * @see java.awt.Window#ownedWindowList
+     * @seribl
+     * @see jbvb.bwt.Window#ownedWindowList
      */
     Vector<Window> ownedWindows;
 
-    private static final String base = "frame";
-    private static int nameCounter = 0;
+    privbte stbtic finbl String bbse = "frbme";
+    privbte stbtic int nbmeCounter = 0;
 
     /*
-     * JDK 1.1 serialVersionUID
+     * JDK 1.1 seriblVersionUID
      */
-     private static final long serialVersionUID = 2673458971256075116L;
+     privbte stbtic finbl long seriblVersionUID = 2673458971256075116L;
 
-    static {
-        /* ensure that the necessary native libraries are loaded */
-        Toolkit.loadLibraries();
-        if (!GraphicsEnvironment.isHeadless()) {
+    stbtic {
+        /* ensure thbt the necessbry nbtive librbries bre lobded */
+        Toolkit.lobdLibrbries();
+        if (!GrbphicsEnvironment.isHebdless()) {
             initIDs();
         }
     }
 
     /**
-     * Constructs a new instance of <code>Frame</code> that is
-     * initially invisible.  The title of the <code>Frame</code>
+     * Constructs b new instbnce of <code>Frbme</code> thbt is
+     * initiblly invisible.  The title of the <code>Frbme</code>
      * is empty.
-     * @exception HeadlessException when
-     *     <code>GraphicsEnvironment.isHeadless()</code> returns <code>true</code>
-     * @see java.awt.GraphicsEnvironment#isHeadless()
+     * @exception HebdlessException when
+     *     <code>GrbphicsEnvironment.isHebdless()</code> returns <code>true</code>
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless()
      * @see Component#setSize
-     * @see Component#setVisible(boolean)
+     * @see Component#setVisible(boolebn)
      */
-    public Frame() throws HeadlessException {
+    public Frbme() throws HebdlessException {
         this("");
     }
 
     /**
-     * Constructs a new, initially invisible {@code Frame} with the
-     * specified {@code GraphicsConfiguration}.
+     * Constructs b new, initiblly invisible {@code Frbme} with the
+     * specified {@code GrbphicsConfigurbtion}.
      *
-     * @param gc the <code>GraphicsConfiguration</code>
-     * of the target screen device. If <code>gc</code>
-     * is <code>null</code>, the system default
-     * <code>GraphicsConfiguration</code> is assumed.
-     * @exception IllegalArgumentException if
-     * <code>gc</code> is not from a screen device.
-     * @exception HeadlessException when
-     *     <code>GraphicsEnvironment.isHeadless()</code> returns <code>true</code>
-     * @see java.awt.GraphicsEnvironment#isHeadless()
+     * @pbrbm gc the <code>GrbphicsConfigurbtion</code>
+     * of the tbrget screen device. If <code>gc</code>
+     * is <code>null</code>, the system defbult
+     * <code>GrbphicsConfigurbtion</code> is bssumed.
+     * @exception IllegblArgumentException if
+     * <code>gc</code> is not from b screen device.
+     * @exception HebdlessException when
+     *     <code>GrbphicsEnvironment.isHebdless()</code> returns <code>true</code>
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless()
      * @since     1.3
      */
-    public Frame(GraphicsConfiguration gc) {
+    public Frbme(GrbphicsConfigurbtion gc) {
         this("", gc);
     }
 
     /**
-     * Constructs a new, initially invisible <code>Frame</code> object
+     * Constructs b new, initiblly invisible <code>Frbme</code> object
      * with the specified title.
-     * @param title the title to be displayed in the frame's border.
-     *              A <code>null</code> value
-     *              is treated as an empty string, "".
-     * @exception HeadlessException when
-     *     <code>GraphicsEnvironment.isHeadless()</code> returns <code>true</code>
-     * @see java.awt.GraphicsEnvironment#isHeadless()
-     * @see java.awt.Component#setSize
-     * @see java.awt.Component#setVisible(boolean)
-     * @see java.awt.GraphicsConfiguration#getBounds
+     * @pbrbm title the title to be displbyed in the frbme's border.
+     *              A <code>null</code> vblue
+     *              is trebted bs bn empty string, "".
+     * @exception HebdlessException when
+     *     <code>GrbphicsEnvironment.isHebdless()</code> returns <code>true</code>
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless()
+     * @see jbvb.bwt.Component#setSize
+     * @see jbvb.bwt.Component#setVisible(boolebn)
+     * @see jbvb.bwt.GrbphicsConfigurbtion#getBounds
      */
-    public Frame(String title) throws HeadlessException {
+    public Frbme(String title) throws HebdlessException {
         init(title, null);
     }
 
     /**
-     * Constructs a new, initially invisible <code>Frame</code> object
-     * with the specified title and a
-     * <code>GraphicsConfiguration</code>.
-     * @param title the title to be displayed in the frame's border.
-     *              A <code>null</code> value
-     *              is treated as an empty string, "".
-     * @param gc the <code>GraphicsConfiguration</code>
-     * of the target screen device.  If <code>gc</code> is
-     * <code>null</code>, the system default
-     * <code>GraphicsConfiguration</code> is assumed.
-     * @exception IllegalArgumentException if <code>gc</code>
-     * is not from a screen device.
-     * @exception HeadlessException when
-     *     <code>GraphicsEnvironment.isHeadless()</code> returns <code>true</code>
-     * @see java.awt.GraphicsEnvironment#isHeadless()
-     * @see java.awt.Component#setSize
-     * @see java.awt.Component#setVisible(boolean)
-     * @see java.awt.GraphicsConfiguration#getBounds
+     * Constructs b new, initiblly invisible <code>Frbme</code> object
+     * with the specified title bnd b
+     * <code>GrbphicsConfigurbtion</code>.
+     * @pbrbm title the title to be displbyed in the frbme's border.
+     *              A <code>null</code> vblue
+     *              is trebted bs bn empty string, "".
+     * @pbrbm gc the <code>GrbphicsConfigurbtion</code>
+     * of the tbrget screen device.  If <code>gc</code> is
+     * <code>null</code>, the system defbult
+     * <code>GrbphicsConfigurbtion</code> is bssumed.
+     * @exception IllegblArgumentException if <code>gc</code>
+     * is not from b screen device.
+     * @exception HebdlessException when
+     *     <code>GrbphicsEnvironment.isHebdless()</code> returns <code>true</code>
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless()
+     * @see jbvb.bwt.Component#setSize
+     * @see jbvb.bwt.Component#setVisible(boolebn)
+     * @see jbvb.bwt.GrbphicsConfigurbtion#getBounds
      * @since 1.3
      */
-    public Frame(String title, GraphicsConfiguration gc) {
+    public Frbme(String title, GrbphicsConfigurbtion gc) {
         super(gc);
         init(title, gc);
     }
 
-    private void init(String title, GraphicsConfiguration gc) {
+    privbte void init(String title, GrbphicsConfigurbtion gc) {
         this.title = title;
         SunToolkit.checkAndSetPolicy(this);
     }
 
     /**
-     * Construct a name for this component.  Called by getName() when the
-     * name is null.
+     * Construct b nbme for this component.  Cblled by getNbme() when the
+     * nbme is null.
      */
-    String constructComponentName() {
-        synchronized (Frame.class) {
-            return base + nameCounter++;
+    String constructComponentNbme() {
+        synchronized (Frbme.clbss) {
+            return bbse + nbmeCounter++;
         }
     }
 
     /**
-     * Makes this Frame displayable by connecting it to
-     * a native screen resource.  Making a frame displayable will
-     * cause any of its children to be made displayable.
-     * This method is called internally by the toolkit and should
-     * not be called directly by programs.
-     * @see Component#isDisplayable
+     * Mbkes this Frbme displbybble by connecting it to
+     * b nbtive screen resource.  Mbking b frbme displbybble will
+     * cbuse bny of its children to be mbde displbybble.
+     * This method is cblled internblly by the toolkit bnd should
+     * not be cblled directly by progrbms.
+     * @see Component#isDisplbybble
      * @see #removeNotify
      */
-    public void addNotify() {
+    public void bddNotify() {
         synchronized (getTreeLock()) {
             if (peer == null) {
-                peer = getToolkit().createFrame(this);
+                peer = getToolkit().crebteFrbme(this);
             }
-            FramePeer p = (FramePeer)peer;
-            MenuBar menuBar = this.menuBar;
-            if (menuBar != null) {
-                mbManagement = true;
-                menuBar.addNotify();
-                p.setMenuBar(menuBar);
+            FrbmePeer p = (FrbmePeer)peer;
+            MenuBbr menuBbr = this.menuBbr;
+            if (menuBbr != null) {
+                mbMbnbgement = true;
+                menuBbr.bddNotify();
+                p.setMenuBbr(menuBbr);
             }
-            p.setMaximizedBounds(maximizedBounds);
-            super.addNotify();
+            p.setMbximizedBounds(mbximizedBounds);
+            super.bddNotify();
         }
     }
 
     /**
-     * Gets the title of the frame.  The title is displayed in the
-     * frame's border.
-     * @return    the title of this frame, or an empty string ("")
-     *                if this frame doesn't have a title.
+     * Gets the title of the frbme.  The title is displbyed in the
+     * frbme's border.
+     * @return    the title of this frbme, or bn empty string ("")
+     *                if this frbme doesn't hbve b title.
      * @see       #setTitle(String)
      */
     public String getTitle() {
@@ -500,10 +500,10 @@ public class Frame extends Window implements MenuContainer {
     }
 
     /**
-     * Sets the title for this frame to the specified string.
-     * @param title the title to be displayed in the frame's border.
-     *              A <code>null</code> value
-     *              is treated as an empty string, "".
+     * Sets the title for this frbme to the specified string.
+     * @pbrbm title the title to be displbyed in the frbme's border.
+     *              A <code>null</code> vblue
+     *              is trebted bs bn empty string, "".
      * @see      #getTitle
      */
     public void setTitle(String title) {
@@ -515,31 +515,31 @@ public class Frame extends Window implements MenuContainer {
 
         synchronized(this) {
             this.title = title;
-            FramePeer peer = (FramePeer)this.peer;
+            FrbmePeer peer = (FrbmePeer)this.peer;
             if (peer != null) {
                 peer.setTitle(title);
             }
         }
-        firePropertyChange("title", oldTitle, title);
+        firePropertyChbnge("title", oldTitle, title);
     }
 
     /**
-     * Returns the image to be displayed as the icon for this frame.
+     * Returns the imbge to be displbyed bs the icon for this frbme.
      * <p>
-     * This method is obsolete and kept for backward compatibility
-     * only. Use {@link Window#getIconImages Window.getIconImages()} instead.
+     * This method is obsolete bnd kept for bbckwbrd compbtibility
+     * only. Use {@link Window#getIconImbges Window.getIconImbges()} instebd.
      * <p>
-     * If a list of several images was specified as a Window's icon,
+     * If b list of severbl imbges wbs specified bs b Window's icon,
      * this method will return the first item of the list.
      *
-     * @return    the icon image for this frame, or <code>null</code>
-     *                    if this frame doesn't have an icon image.
-     * @see       #setIconImage(Image)
-     * @see       Window#getIconImages()
-     * @see       Window#setIconImages
+     * @return    the icon imbge for this frbme, or <code>null</code>
+     *                    if this frbme doesn't hbve bn icon imbge.
+     * @see       #setIconImbge(Imbge)
+     * @see       Window#getIconImbges()
+     * @see       Window#setIconImbges
      */
-    public Image getIconImage() {
-        java.util.List<Image> icons = this.icons;
+    public Imbge getIconImbge() {
+        jbvb.util.List<Imbge> icons = this.icons;
         if (icons != null) {
             if (icons.size() > 0) {
                 return icons.get(0);
@@ -551,286 +551,286 @@ public class Frame extends Window implements MenuContainer {
     /**
      * {@inheritDoc}
      */
-    public void setIconImage(Image image) {
-        super.setIconImage(image);
+    public void setIconImbge(Imbge imbge) {
+        super.setIconImbge(imbge);
     }
 
     /**
-     * Gets the menu bar for this frame.
-     * @return    the menu bar for this frame, or <code>null</code>
-     *                   if this frame doesn't have a menu bar.
-     * @see       #setMenuBar(MenuBar)
+     * Gets the menu bbr for this frbme.
+     * @return    the menu bbr for this frbme, or <code>null</code>
+     *                   if this frbme doesn't hbve b menu bbr.
+     * @see       #setMenuBbr(MenuBbr)
      */
-    public MenuBar getMenuBar() {
-        return menuBar;
+    public MenuBbr getMenuBbr() {
+        return menuBbr;
     }
 
     /**
-     * Sets the menu bar for this frame to the specified menu bar.
-     * @param     mb the menu bar being set.
-     *            If this parameter is <code>null</code> then any
-     *            existing menu bar on this frame is removed.
-     * @see       #getMenuBar
+     * Sets the menu bbr for this frbme to the specified menu bbr.
+     * @pbrbm     mb the menu bbr being set.
+     *            If this pbrbmeter is <code>null</code> then bny
+     *            existing menu bbr on this frbme is removed.
+     * @see       #getMenuBbr
      */
-    public void setMenuBar(MenuBar mb) {
+    public void setMenuBbr(MenuBbr mb) {
         synchronized (getTreeLock()) {
-            if (menuBar == mb) {
+            if (menuBbr == mb) {
                 return;
             }
-            if ((mb != null) && (mb.parent != null)) {
-                mb.parent.remove(mb);
+            if ((mb != null) && (mb.pbrent != null)) {
+                mb.pbrent.remove(mb);
             }
-            if (menuBar != null) {
-                remove(menuBar);
+            if (menuBbr != null) {
+                remove(menuBbr);
             }
-            menuBar = mb;
-            if (menuBar != null) {
-                menuBar.parent = this;
+            menuBbr = mb;
+            if (menuBbr != null) {
+                menuBbr.pbrent = this;
 
-                FramePeer peer = (FramePeer)this.peer;
+                FrbmePeer peer = (FrbmePeer)this.peer;
                 if (peer != null) {
-                    mbManagement = true;
-                    menuBar.addNotify();
-                    invalidateIfValid();
-                    peer.setMenuBar(menuBar);
+                    mbMbnbgement = true;
+                    menuBbr.bddNotify();
+                    invblidbteIfVblid();
+                    peer.setMenuBbr(menuBbr);
                 }
             }
         }
     }
 
     /**
-     * Indicates whether this frame is resizable by the user.
-     * By default, all frames are initially resizable.
-     * @return    <code>true</code> if the user can resize this frame;
-     *                        <code>false</code> otherwise.
-     * @see       java.awt.Frame#setResizable(boolean)
+     * Indicbtes whether this frbme is resizbble by the user.
+     * By defbult, bll frbmes bre initiblly resizbble.
+     * @return    <code>true</code> if the user cbn resize this frbme;
+     *                        <code>fblse</code> otherwise.
+     * @see       jbvb.bwt.Frbme#setResizbble(boolebn)
      */
-    public boolean isResizable() {
-        return resizable;
+    public boolebn isResizbble() {
+        return resizbble;
     }
 
     /**
-     * Sets whether this frame is resizable by the user.
-     * @param    resizable   <code>true</code> if this frame is resizable;
-     *                       <code>false</code> otherwise.
-     * @see      java.awt.Frame#isResizable
+     * Sets whether this frbme is resizbble by the user.
+     * @pbrbm    resizbble   <code>true</code> if this frbme is resizbble;
+     *                       <code>fblse</code> otherwise.
+     * @see      jbvb.bwt.Frbme#isResizbble
      */
-    public void setResizable(boolean resizable) {
-        boolean oldResizable = this.resizable;
-        boolean testvalid = false;
+    public void setResizbble(boolebn resizbble) {
+        boolebn oldResizbble = this.resizbble;
+        boolebn testvblid = fblse;
 
         synchronized (this) {
-            this.resizable = resizable;
-            FramePeer peer = (FramePeer)this.peer;
+            this.resizbble = resizbble;
+            FrbmePeer peer = (FrbmePeer)this.peer;
             if (peer != null) {
-                peer.setResizable(resizable);
-                testvalid = true;
+                peer.setResizbble(resizbble);
+                testvblid = true;
             }
         }
 
-        // On some platforms, changing the resizable state affects
-        // the insets of the Frame. If we could, we'd call invalidate()
-        // from the peer, but we need to guarantee that we're not holding
-        // the Frame lock when we call invalidate().
-        if (testvalid) {
-            invalidateIfValid();
+        // On some plbtforms, chbnging the resizbble stbte bffects
+        // the insets of the Frbme. If we could, we'd cbll invblidbte()
+        // from the peer, but we need to gubrbntee thbt we're not holding
+        // the Frbme lock when we cbll invblidbte().
+        if (testvblid) {
+            invblidbteIfVblid();
         }
-        firePropertyChange("resizable", oldResizable, resizable);
+        firePropertyChbnge("resizbble", oldResizbble, resizbble);
     }
 
 
     /**
-     * Sets the state of this frame (obsolete).
+     * Sets the stbte of this frbme (obsolete).
      * <p>
-     * In older versions of JDK a frame state could only be NORMAL or
-     * ICONIFIED.  Since JDK 1.4 set of supported frame states is
-     * expanded and frame state is represented as a bitwise mask.
+     * In older versions of JDK b frbme stbte could only be NORMAL or
+     * ICONIFIED.  Since JDK 1.4 set of supported frbme stbtes is
+     * expbnded bnd frbme stbte is represented bs b bitwise mbsk.
      * <p>
-     * For compatibility with applications developed
-     * earlier this method still accepts
-     * {@code Frame.NORMAL} and
-     * {@code Frame.ICONIFIED} only.  The iconic
-     * state of the frame is only changed, other aspects
-     * of frame state are not affected by this method. If
-     * the state passed to this method is neither {@code
-     * Frame.NORMAL} nor {@code Frame.ICONIFIED} the
-     * method performs no actions at all.
-     * <p>Note that if the state is not supported on a
-     * given platform, neither the state nor the return
-     * value of the {@link #getState} method will be
-     * changed. The application may determine whether a
-     * specific state is supported via the {@link
-     * java.awt.Toolkit#isFrameStateSupported} method.
-     * <p><b>If the frame is currently visible on the
+     * For compbtibility with bpplicbtions developed
+     * ebrlier this method still bccepts
+     * {@code Frbme.NORMAL} bnd
+     * {@code Frbme.ICONIFIED} only.  The iconic
+     * stbte of the frbme is only chbnged, other bspects
+     * of frbme stbte bre not bffected by this method. If
+     * the stbte pbssed to this method is neither {@code
+     * Frbme.NORMAL} nor {@code Frbme.ICONIFIED} the
+     * method performs no bctions bt bll.
+     * <p>Note thbt if the stbte is not supported on b
+     * given plbtform, neither the stbte nor the return
+     * vblue of the {@link #getStbte} method will be
+     * chbnged. The bpplicbtion mby determine whether b
+     * specific stbte is supported vib the {@link
+     * jbvb.bwt.Toolkit#isFrbmeStbteSupported} method.
+     * <p><b>If the frbme is currently visible on the
      * screen</b> (the {@link #isShowing} method returns
-     * {@code true}), the developer should examine the
-     * return value of the  {@link
-     * java.awt.event.WindowEvent#getNewState} method of
+     * {@code true}), the developer should exbmine the
+     * return vblue of the  {@link
+     * jbvb.bwt.event.WindowEvent#getNewStbte} method of
      * the {@code WindowEvent} received through the
-     * {@link java.awt.event.WindowStateListener} to
-     * determine that the state has actually been
-     * changed.
-     * <p><b>If the frame is not visible on the
-     * screen</b>, the events may or may not be
-     * generated.  In this case the developer may assume
-     * that the state changes immediately after this
-     * method returns.  Later, when the {@code
-     * setVisible(true)} method is invoked, the frame
-     * will attempt to apply this state. Receiving any
+     * {@link jbvb.bwt.event.WindowStbteListener} to
+     * determine thbt the stbte hbs bctublly been
+     * chbnged.
+     * <p><b>If the frbme is not visible on the
+     * screen</b>, the events mby or mby not be
+     * generbted.  In this cbse the developer mby bssume
+     * thbt the stbte chbnges immedibtely bfter this
+     * method returns.  Lbter, when the {@code
+     * setVisible(true)} method is invoked, the frbme
+     * will bttempt to bpply this stbte. Receiving bny
      * {@link
-     * java.awt.event.WindowEvent#WINDOW_STATE_CHANGED}
-     * events is not guaranteed in this case also.
+     * jbvb.bwt.event.WindowEvent#WINDOW_STATE_CHANGED}
+     * events is not gubrbnteed in this cbse blso.
      *
-     * @param state either <code>Frame.NORMAL</code> or
-     *     <code>Frame.ICONIFIED</code>.
-     * @see #setExtendedState(int)
-     * @see java.awt.Window#addWindowStateListener
+     * @pbrbm stbte either <code>Frbme.NORMAL</code> or
+     *     <code>Frbme.ICONIFIED</code>.
+     * @see #setExtendedStbte(int)
+     * @see jbvb.bwt.Window#bddWindowStbteListener
      */
-    public synchronized void setState(int state) {
-        int current = getExtendedState();
-        if (state == ICONIFIED && (current & ICONIFIED) == 0) {
-            setExtendedState(current | ICONIFIED);
+    public synchronized void setStbte(int stbte) {
+        int current = getExtendedStbte();
+        if (stbte == ICONIFIED && (current & ICONIFIED) == 0) {
+            setExtendedStbte(current | ICONIFIED);
         }
-        else if (state == NORMAL && (current & ICONIFIED) != 0) {
-            setExtendedState(current & ~ICONIFIED);
+        else if (stbte == NORMAL && (current & ICONIFIED) != 0) {
+            setExtendedStbte(current & ~ICONIFIED);
         }
     }
 
     /**
-     * Sets the state of this frame. The state is
-     * represented as a bitwise mask.
+     * Sets the stbte of this frbme. The stbte is
+     * represented bs b bitwise mbsk.
      * <ul>
      * <li><code>NORMAL</code>
-     * <br>Indicates that no state bits are set.
+     * <br>Indicbtes thbt no stbte bits bre set.
      * <li><code>ICONIFIED</code>
      * <li><code>MAXIMIZED_HORIZ</code>
      * <li><code>MAXIMIZED_VERT</code>
      * <li><code>MAXIMIZED_BOTH</code>
-     * <br>Concatenates <code>MAXIMIZED_HORIZ</code>
-     * and <code>MAXIMIZED_VERT</code>.
+     * <br>Concbtenbtes <code>MAXIMIZED_HORIZ</code>
+     * bnd <code>MAXIMIZED_VERT</code>.
      * </ul>
-     * <p>Note that if the state is not supported on a
-     * given platform, neither the state nor the return
-     * value of the {@link #getExtendedState} method will
-     * be changed. The application may determine whether
-     * a specific state is supported via the {@link
-     * java.awt.Toolkit#isFrameStateSupported} method.
-     * <p><b>If the frame is currently visible on the
+     * <p>Note thbt if the stbte is not supported on b
+     * given plbtform, neither the stbte nor the return
+     * vblue of the {@link #getExtendedStbte} method will
+     * be chbnged. The bpplicbtion mby determine whether
+     * b specific stbte is supported vib the {@link
+     * jbvb.bwt.Toolkit#isFrbmeStbteSupported} method.
+     * <p><b>If the frbme is currently visible on the
      * screen</b> (the {@link #isShowing} method returns
-     * {@code true}), the developer should examine the
-     * return value of the {@link
-     * java.awt.event.WindowEvent#getNewState} method of
+     * {@code true}), the developer should exbmine the
+     * return vblue of the {@link
+     * jbvb.bwt.event.WindowEvent#getNewStbte} method of
      * the {@code WindowEvent} received through the
-     * {@link java.awt.event.WindowStateListener} to
-     * determine that the state has actually been
-     * changed.
-     * <p><b>If the frame is not visible on the
-     * screen</b>, the events may or may not be
-     * generated.  In this case the developer may assume
-     * that the state changes immediately after this
-     * method returns.  Later, when the {@code
-     * setVisible(true)} method is invoked, the frame
-     * will attempt to apply this state. Receiving any
+     * {@link jbvb.bwt.event.WindowStbteListener} to
+     * determine thbt the stbte hbs bctublly been
+     * chbnged.
+     * <p><b>If the frbme is not visible on the
+     * screen</b>, the events mby or mby not be
+     * generbted.  In this cbse the developer mby bssume
+     * thbt the stbte chbnges immedibtely bfter this
+     * method returns.  Lbter, when the {@code
+     * setVisible(true)} method is invoked, the frbme
+     * will bttempt to bpply this stbte. Receiving bny
      * {@link
-     * java.awt.event.WindowEvent#WINDOW_STATE_CHANGED}
-     * events is not guaranteed in this case also.
+     * jbvb.bwt.event.WindowEvent#WINDOW_STATE_CHANGED}
+     * events is not gubrbnteed in this cbse blso.
      *
-     * @param state a bitwise mask of frame state constants
+     * @pbrbm stbte b bitwise mbsk of frbme stbte constbnts
      * @since   1.4
-     * @see java.awt.Window#addWindowStateListener
+     * @see jbvb.bwt.Window#bddWindowStbteListener
      */
-    public void setExtendedState(int state) {
-        if ( !isFrameStateSupported( state ) ) {
+    public void setExtendedStbte(int stbte) {
+        if ( !isFrbmeStbteSupported( stbte ) ) {
             return;
         }
         synchronized (getObjectLock()) {
-            this.state = state;
+            this.stbte = stbte;
         }
-        // peer.setState must be called outside of object lock
-        // synchronization block to avoid possible deadlock
-        FramePeer peer = (FramePeer)this.peer;
+        // peer.setStbte must be cblled outside of object lock
+        // synchronizbtion block to bvoid possible debdlock
+        FrbmePeer peer = (FrbmePeer)this.peer;
         if (peer != null) {
-            peer.setState(state);
+            peer.setStbte(stbte);
         }
     }
-    private boolean isFrameStateSupported(int state) {
-        if( !getToolkit().isFrameStateSupported( state ) ) {
-            // * Toolkit.isFrameStateSupported returns always false
-            // on compound state even if all parts are supported;
-            // * if part of state is not supported, state is not supported;
-            // * MAXIMIZED_BOTH is not a compound state.
-            if( ((state & ICONIFIED) != 0) &&
-                !getToolkit().isFrameStateSupported( ICONIFIED )) {
-                return false;
+    privbte boolebn isFrbmeStbteSupported(int stbte) {
+        if( !getToolkit().isFrbmeStbteSupported( stbte ) ) {
+            // * Toolkit.isFrbmeStbteSupported returns blwbys fblse
+            // on compound stbte even if bll pbrts bre supported;
+            // * if pbrt of stbte is not supported, stbte is not supported;
+            // * MAXIMIZED_BOTH is not b compound stbte.
+            if( ((stbte & ICONIFIED) != 0) &&
+                !getToolkit().isFrbmeStbteSupported( ICONIFIED )) {
+                return fblse;
             }else {
-                state &= ~ICONIFIED;
+                stbte &= ~ICONIFIED;
             }
-            return getToolkit().isFrameStateSupported( state );
+            return getToolkit().isFrbmeStbteSupported( stbte );
         }
         return true;
     }
 
     /**
-     * Gets the state of this frame (obsolete).
+     * Gets the stbte of this frbme (obsolete).
      * <p>
-     * In older versions of JDK a frame state could only be NORMAL or
-     * ICONIFIED.  Since JDK 1.4 set of supported frame states is
-     * expanded and frame state is represented as a bitwise mask.
+     * In older versions of JDK b frbme stbte could only be NORMAL or
+     * ICONIFIED.  Since JDK 1.4 set of supported frbme stbtes is
+     * expbnded bnd frbme stbte is represented bs b bitwise mbsk.
      * <p>
-     * For compatibility with old programs this method still returns
-     * <code>Frame.NORMAL</code> and <code>Frame.ICONIFIED</code> but
-     * it only reports the iconic state of the frame, other aspects of
-     * frame state are not reported by this method.
+     * For compbtibility with old progrbms this method still returns
+     * <code>Frbme.NORMAL</code> bnd <code>Frbme.ICONIFIED</code> but
+     * it only reports the iconic stbte of the frbme, other bspects of
+     * frbme stbte bre not reported by this method.
      *
-     * @return  <code>Frame.NORMAL</code> or <code>Frame.ICONIFIED</code>.
-     * @see     #setState(int)
-     * @see     #getExtendedState
+     * @return  <code>Frbme.NORMAL</code> or <code>Frbme.ICONIFIED</code>.
+     * @see     #setStbte(int)
+     * @see     #getExtendedStbte
      */
-    public synchronized int getState() {
-        return (getExtendedState() & ICONIFIED) != 0 ? ICONIFIED : NORMAL;
+    public synchronized int getStbte() {
+        return (getExtendedStbte() & ICONIFIED) != 0 ? ICONIFIED : NORMAL;
     }
 
 
     /**
-     * Gets the state of this frame. The state is
-     * represented as a bitwise mask.
+     * Gets the stbte of this frbme. The stbte is
+     * represented bs b bitwise mbsk.
      * <ul>
      * <li><code>NORMAL</code>
-     * <br>Indicates that no state bits are set.
+     * <br>Indicbtes thbt no stbte bits bre set.
      * <li><code>ICONIFIED</code>
      * <li><code>MAXIMIZED_HORIZ</code>
      * <li><code>MAXIMIZED_VERT</code>
      * <li><code>MAXIMIZED_BOTH</code>
-     * <br>Concatenates <code>MAXIMIZED_HORIZ</code>
-     * and <code>MAXIMIZED_VERT</code>.
+     * <br>Concbtenbtes <code>MAXIMIZED_HORIZ</code>
+     * bnd <code>MAXIMIZED_VERT</code>.
      * </ul>
      *
-     * @return  a bitwise mask of frame state constants
-     * @see     #setExtendedState(int)
+     * @return  b bitwise mbsk of frbme stbte constbnts
+     * @see     #setExtendedStbte(int)
      * @since 1.4
      */
-    public int getExtendedState() {
+    public int getExtendedStbte() {
         synchronized (getObjectLock()) {
-            return state;
+            return stbte;
         }
     }
 
-    static {
-        AWTAccessor.setFrameAccessor(
-            new AWTAccessor.FrameAccessor() {
-                public void setExtendedState(Frame frame, int state) {
-                    synchronized(frame.getObjectLock()) {
-                        frame.state = state;
+    stbtic {
+        AWTAccessor.setFrbmeAccessor(
+            new AWTAccessor.FrbmeAccessor() {
+                public void setExtendedStbte(Frbme frbme, int stbte) {
+                    synchronized(frbme.getObjectLock()) {
+                        frbme.stbte = stbte;
                     }
                 }
-                public int getExtendedState(Frame frame) {
-                    synchronized(frame.getObjectLock()) {
-                        return frame.state;
+                public int getExtendedStbte(Frbme frbme) {
+                    synchronized(frbme.getObjectLock()) {
+                        return frbme.stbte;
                     }
                 }
-                public Rectangle getMaximizedBounds(Frame frame) {
-                    synchronized(frame.getObjectLock()) {
-                        return frame.maximizedBounds;
+                public Rectbngle getMbximizedBounds(Frbme frbme) {
+                    synchronized(frbme.getObjectLock()) {
+                        return frbme.mbximizedBounds;
                     }
                 }
             }
@@ -838,128 +838,128 @@ public class Frame extends Window implements MenuContainer {
     }
 
     /**
-     * Sets the maximized bounds for this frame.
+     * Sets the mbximized bounds for this frbme.
      * <p>
-     * When a frame is in maximized state the system supplies some
-     * defaults bounds.  This method allows some or all of those
-     * system supplied values to be overridden.
+     * When b frbme is in mbximized stbte the system supplies some
+     * defbults bounds.  This method bllows some or bll of those
+     * system supplied vblues to be overridden.
      * <p>
-     * If <code>bounds</code> is <code>null</code>, accept bounds
-     * supplied by the system.  If non-<code>null</code> you can
-     * override some of the system supplied values while accepting
-     * others by setting those fields you want to accept from system
+     * If <code>bounds</code> is <code>null</code>, bccept bounds
+     * supplied by the system.  If non-<code>null</code> you cbn
+     * override some of the system supplied vblues while bccepting
+     * others by setting those fields you wbnt to bccept from system
      * to <code>Integer.MAX_VALUE</code>.
      * <p>
-     * Note, the given maximized bounds are used as a hint for the native
-     * system, because the underlying platform may not support setting the
-     * location and/or size of the maximized windows.  If that is the case, the
-     * provided values do not affect the appearance of the frame in the
-     * maximized state.
+     * Note, the given mbximized bounds bre used bs b hint for the nbtive
+     * system, becbuse the underlying plbtform mby not support setting the
+     * locbtion bnd/or size of the mbximized windows.  If thbt is the cbse, the
+     * provided vblues do not bffect the bppebrbnce of the frbme in the
+     * mbximized stbte.
      *
-     * @param bounds  bounds for the maximized state
-     * @see #getMaximizedBounds()
+     * @pbrbm bounds  bounds for the mbximized stbte
+     * @see #getMbximizedBounds()
      * @since 1.4
      */
-    public void setMaximizedBounds(Rectangle bounds) {
+    public void setMbximizedBounds(Rectbngle bounds) {
         synchronized(getObjectLock()) {
-            this.maximizedBounds = bounds;
+            this.mbximizedBounds = bounds;
         }
-        FramePeer peer = (FramePeer)this.peer;
+        FrbmePeer peer = (FrbmePeer)this.peer;
         if (peer != null) {
-            peer.setMaximizedBounds(bounds);
+            peer.setMbximizedBounds(bounds);
         }
     }
 
     /**
-     * Gets maximized bounds for this frame.
-     * Some fields may contain <code>Integer.MAX_VALUE</code> to indicate
-     * that system supplied values for this field must be used.
+     * Gets mbximized bounds for this frbme.
+     * Some fields mby contbin <code>Integer.MAX_VALUE</code> to indicbte
+     * thbt system supplied vblues for this field must be used.
      *
-     * @return  maximized bounds for this frame;  may be <code>null</code>
-     * @see     #setMaximizedBounds(Rectangle)
+     * @return  mbximized bounds for this frbme;  mby be <code>null</code>
+     * @see     #setMbximizedBounds(Rectbngle)
      * @since   1.4
      */
-    public Rectangle getMaximizedBounds() {
+    public Rectbngle getMbximizedBounds() {
         synchronized(getObjectLock()) {
-            return maximizedBounds;
+            return mbximizedBounds;
         }
     }
 
 
     /**
-     * Disables or enables decorations for this frame.
+     * Disbbles or enbbles decorbtions for this frbme.
      * <p>
-     * This method can only be called while the frame is not displayable. To
-     * make this frame decorated, it must be opaque and have the default shape,
-     * otherwise the {@code IllegalComponentStateException} will be thrown.
-     * Refer to {@link Window#setShape}, {@link Window#setOpacity} and {@link
-     * Window#setBackground} for details
+     * This method cbn only be cblled while the frbme is not displbybble. To
+     * mbke this frbme decorbted, it must be opbque bnd hbve the defbult shbpe,
+     * otherwise the {@code IllegblComponentStbteException} will be thrown.
+     * Refer to {@link Window#setShbpe}, {@link Window#setOpbcity} bnd {@link
+     * Window#setBbckground} for detbils
      *
-     * @param  undecorated {@code true} if no frame decorations are to be
-     *         enabled; {@code false} if frame decorations are to be enabled
+     * @pbrbm  undecorbted {@code true} if no frbme decorbtions bre to be
+     *         enbbled; {@code fblse} if frbme decorbtions bre to be enbbled
      *
-     * @throws IllegalComponentStateException if the frame is displayable
-     * @throws IllegalComponentStateException if {@code undecorated} is
-     *      {@code false}, and this frame does not have the default shape
-     * @throws IllegalComponentStateException if {@code undecorated} is
-     *      {@code false}, and this frame opacity is less than {@code 1.0f}
-     * @throws IllegalComponentStateException if {@code undecorated} is
-     *      {@code false}, and the alpha value of this frame background
-     *      color is less than {@code 1.0f}
+     * @throws IllegblComponentStbteException if the frbme is displbybble
+     * @throws IllegblComponentStbteException if {@code undecorbted} is
+     *      {@code fblse}, bnd this frbme does not hbve the defbult shbpe
+     * @throws IllegblComponentStbteException if {@code undecorbted} is
+     *      {@code fblse}, bnd this frbme opbcity is less thbn {@code 1.0f}
+     * @throws IllegblComponentStbteException if {@code undecorbted} is
+     *      {@code fblse}, bnd the blphb vblue of this frbme bbckground
+     *      color is less thbn {@code 1.0f}
      *
-     * @see    #isUndecorated
-     * @see    Component#isDisplayable
-     * @see    Window#getShape
-     * @see    Window#getOpacity
-     * @see    Window#getBackground
-     * @see    javax.swing.JFrame#setDefaultLookAndFeelDecorated(boolean)
+     * @see    #isUndecorbted
+     * @see    Component#isDisplbybble
+     * @see    Window#getShbpe
+     * @see    Window#getOpbcity
+     * @see    Window#getBbckground
+     * @see    jbvbx.swing.JFrbme#setDefbultLookAndFeelDecorbted(boolebn)
      *
      * @since 1.4
      */
-    public void setUndecorated(boolean undecorated) {
-        /* Make sure we don't run in the middle of peer creation.*/
+    public void setUndecorbted(boolebn undecorbted) {
+        /* Mbke sure we don't run in the middle of peer crebtion.*/
         synchronized (getTreeLock()) {
-            if (isDisplayable()) {
-                throw new IllegalComponentStateException("The frame is displayable.");
+            if (isDisplbybble()) {
+                throw new IllegblComponentStbteException("The frbme is displbybble.");
             }
-            if (!undecorated) {
-                if (getOpacity() < 1.0f) {
-                    throw new IllegalComponentStateException("The frame is not opaque");
+            if (!undecorbted) {
+                if (getOpbcity() < 1.0f) {
+                    throw new IllegblComponentStbteException("The frbme is not opbque");
                 }
-                if (getShape() != null) {
-                    throw new IllegalComponentStateException("The frame does not have a default shape");
+                if (getShbpe() != null) {
+                    throw new IllegblComponentStbteException("The frbme does not hbve b defbult shbpe");
                 }
-                Color bg = getBackground();
-                if ((bg != null) && (bg.getAlpha() < 255)) {
-                    throw new IllegalComponentStateException("The frame background color is not opaque");
+                Color bg = getBbckground();
+                if ((bg != null) && (bg.getAlphb() < 255)) {
+                    throw new IllegblComponentStbteException("The frbme bbckground color is not opbque");
                 }
             }
-            this.undecorated = undecorated;
+            this.undecorbted = undecorbted;
         }
     }
 
     /**
-     * Indicates whether this frame is undecorated.
-     * By default, all frames are initially decorated.
-     * @return    <code>true</code> if frame is undecorated;
-     *                        <code>false</code> otherwise.
-     * @see       java.awt.Frame#setUndecorated(boolean)
+     * Indicbtes whether this frbme is undecorbted.
+     * By defbult, bll frbmes bre initiblly decorbted.
+     * @return    <code>true</code> if frbme is undecorbted;
+     *                        <code>fblse</code> otherwise.
+     * @see       jbvb.bwt.Frbme#setUndecorbted(boolebn)
      * @since 1.4
      */
-    public boolean isUndecorated() {
-        return undecorated;
+    public boolebn isUndecorbted() {
+        return undecorbted;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void setOpacity(float opacity) {
+    public void setOpbcity(flobt opbcity) {
         synchronized (getTreeLock()) {
-            if ((opacity < 1.0f) && !isUndecorated()) {
-                throw new IllegalComponentStateException("The frame is decorated");
+            if ((opbcity < 1.0f) && !isUndecorbted()) {
+                throw new IllegblComponentStbteException("The frbme is decorbted");
             }
-            super.setOpacity(opacity);
+            super.setOpbcity(opbcity);
         }
     }
 
@@ -967,12 +967,12 @@ public class Frame extends Window implements MenuContainer {
      * {@inheritDoc}
      */
     @Override
-    public void setShape(Shape shape) {
+    public void setShbpe(Shbpe shbpe) {
         synchronized (getTreeLock()) {
-            if ((shape != null) && !isUndecorated()) {
-                throw new IllegalComponentStateException("The frame is decorated");
+            if ((shbpe != null) && !isUndecorbted()) {
+                throw new IllegblComponentStbteException("The frbme is decorbted");
             }
-            super.setShape(shape);
+            super.setShbpe(shbpe);
         }
     }
 
@@ -980,36 +980,36 @@ public class Frame extends Window implements MenuContainer {
      * {@inheritDoc}
      */
     @Override
-    public void setBackground(Color bgColor) {
+    public void setBbckground(Color bgColor) {
         synchronized (getTreeLock()) {
-            if ((bgColor != null) && (bgColor.getAlpha() < 255) && !isUndecorated()) {
-                throw new IllegalComponentStateException("The frame is decorated");
+            if ((bgColor != null) && (bgColor.getAlphb() < 255) && !isUndecorbted()) {
+                throw new IllegblComponentStbteException("The frbme is decorbted");
             }
-            super.setBackground(bgColor);
+            super.setBbckground(bgColor);
         }
     }
 
     /**
-     * Removes the specified menu bar from this frame.
-     * @param    m   the menu component to remove.
+     * Removes the specified menu bbr from this frbme.
+     * @pbrbm    m   the menu component to remove.
      *           If <code>m</code> is <code>null</code>, then
-     *           no action is taken
+     *           no bction is tbken
      */
     public void remove(MenuComponent m) {
         if (m == null) {
             return;
         }
         synchronized (getTreeLock()) {
-            if (m == menuBar) {
-                menuBar = null;
-                FramePeer peer = (FramePeer)this.peer;
+            if (m == menuBbr) {
+                menuBbr = null;
+                FrbmePeer peer = (FrbmePeer)this.peer;
                 if (peer != null) {
-                    mbManagement = true;
-                    invalidateIfValid();
-                    peer.setMenuBar(null);
+                    mbMbnbgement = true;
+                    invblidbteIfVblid();
+                    peer.setMenuBbr(null);
                     m.removeNotify();
                 }
-                m.parent = null;
+                m.pbrent = null;
             } else {
                 super.remove(m);
             }
@@ -1017,25 +1017,25 @@ public class Frame extends Window implements MenuContainer {
     }
 
     /**
-     * Makes this Frame undisplayable by removing its connection
-     * to its native screen resource. Making a Frame undisplayable
-     * will cause any of its children to be made undisplayable.
-     * This method is called by the toolkit internally and should
-     * not be called directly by programs.
-     * @see Component#isDisplayable
-     * @see #addNotify
+     * Mbkes this Frbme undisplbybble by removing its connection
+     * to its nbtive screen resource. Mbking b Frbme undisplbybble
+     * will cbuse bny of its children to be mbde undisplbybble.
+     * This method is cblled by the toolkit internblly bnd should
+     * not be cblled directly by progrbms.
+     * @see Component#isDisplbybble
+     * @see #bddNotify
      */
     public void removeNotify() {
         synchronized (getTreeLock()) {
-            FramePeer peer = (FramePeer)this.peer;
+            FrbmePeer peer = (FrbmePeer)this.peer;
             if (peer != null) {
-                // get the latest Frame state before disposing
-                getState();
+                // get the lbtest Frbme stbte before disposing
+                getStbte();
 
-                if (menuBar != null) {
-                    mbManagement = true;
-                    peer.setMenuBar(null);
-                    menuBar.removeNotify();
+                if (menuBbr != null) {
+                    mbMbnbgement = true;
+                    peer.setMenuBbr(null);
+                    menuBbr.removeNotify();
                 }
             }
             super.removeNotify();
@@ -1043,7 +1043,7 @@ public class Frame extends Window implements MenuContainer {
     }
 
     void postProcessKeyEvent(KeyEvent e) {
-        if (menuBar != null && menuBar.handleShortcut(e)) {
+        if (menuBbr != null && menuBbr.hbndleShortcut(e)) {
             e.consume();
             return;
         }
@@ -1051,142 +1051,142 @@ public class Frame extends Window implements MenuContainer {
     }
 
     /**
-     * Returns a string representing the state of this <code>Frame</code>.
-     * This method is intended to be used only for debugging purposes, and the
-     * content and format of the returned string may vary between
-     * implementations. The returned string may be empty but may not be
+     * Returns b string representing the stbte of this <code>Frbme</code>.
+     * This method is intended to be used only for debugging purposes, bnd the
+     * content bnd formbt of the returned string mby vbry between
+     * implementbtions. The returned string mby be empty but mby not be
      * <code>null</code>.
      *
-     * @return the parameter string of this frame
+     * @return the pbrbmeter string of this frbme
      */
-    protected String paramString() {
-        String str = super.paramString();
+    protected String pbrbmString() {
+        String str = super.pbrbmString();
         if (title != null) {
             str += ",title=" + title;
         }
-        if (resizable) {
-            str += ",resizable";
+        if (resizbble) {
+            str += ",resizbble";
         }
-        int state = getExtendedState();
-        if (state == NORMAL) {
-            str += ",normal";
+        int stbte = getExtendedStbte();
+        if (stbte == NORMAL) {
+            str += ",normbl";
         }
         else {
-            if ((state & ICONIFIED) != 0) {
+            if ((stbte & ICONIFIED) != 0) {
                 str += ",iconified";
             }
-            if ((state & MAXIMIZED_BOTH) == MAXIMIZED_BOTH) {
-                str += ",maximized";
+            if ((stbte & MAXIMIZED_BOTH) == MAXIMIZED_BOTH) {
+                str += ",mbximized";
             }
-            else if ((state & MAXIMIZED_HORIZ) != 0) {
-                str += ",maximized_horiz";
+            else if ((stbte & MAXIMIZED_HORIZ) != 0) {
+                str += ",mbximized_horiz";
             }
-            else if ((state & MAXIMIZED_VERT) != 0) {
-                str += ",maximized_vert";
+            else if ((stbte & MAXIMIZED_VERT) != 0) {
+                str += ",mbximized_vert";
             }
         }
         return str;
     }
 
     /**
-     * Sets the cursor for this frame to the specified type.
+     * Sets the cursor for this frbme to the specified type.
      *
-     * @param  cursorType the cursor type
-     * @deprecated As of JDK version 1.1,
-     * replaced by <code>Component.setCursor(Cursor)</code>.
+     * @pbrbm  cursorType the cursor type
+     * @deprecbted As of JDK version 1.1,
+     * replbced by <code>Component.setCursor(Cursor)</code>.
      */
-    @Deprecated
+    @Deprecbted
     public void setCursor(int cursorType) {
         if (cursorType < DEFAULT_CURSOR || cursorType > MOVE_CURSOR) {
-            throw new IllegalArgumentException("illegal cursor type");
+            throw new IllegblArgumentException("illegbl cursor type");
         }
         setCursor(Cursor.getPredefinedCursor(cursorType));
     }
 
     /**
-     * @deprecated As of JDK version 1.1,
-     * replaced by <code>Component.getCursor()</code>.
-     * @return the cursor type for this frame
+     * @deprecbted As of JDK version 1.1,
+     * replbced by <code>Component.getCursor()</code>.
+     * @return the cursor type for this frbme
      */
-    @Deprecated
+    @Deprecbted
     public int getCursorType() {
         return (getCursor().getType());
     }
 
     /**
-     * Returns an array of all {@code Frame}s created by this application.
-     * If called from an applet, the array includes only the {@code Frame}s
-     * accessible by that applet.
+     * Returns bn brrby of bll {@code Frbme}s crebted by this bpplicbtion.
+     * If cblled from bn bpplet, the brrby includes only the {@code Frbme}s
+     * bccessible by thbt bpplet.
      * <p>
-     * <b>Warning:</b> this method may return system created frames, such
-     * as a shared, hidden frame which is used by Swing. Applications
-     * should not assume the existence of these frames, nor should an
-     * application assume anything about these frames such as component
-     * positions, <code>LayoutManager</code>s or serialization.
+     * <b>Wbrning:</b> this method mby return system crebted frbmes, such
+     * bs b shbred, hidden frbme which is used by Swing. Applicbtions
+     * should not bssume the existence of these frbmes, nor should bn
+     * bpplicbtion bssume bnything bbout these frbmes such bs component
+     * positions, <code>LbyoutMbnbger</code>s or seriblizbtion.
      * <p>
-     * <b>Note</b>: To obtain a list of all ownerless windows, including
-     * ownerless {@code Dialog}s (introduced in release 1.6), use {@link
+     * <b>Note</b>: To obtbin b list of bll ownerless windows, including
+     * ownerless {@code Diblog}s (introduced in relebse 1.6), use {@link
      * Window#getOwnerlessWindows Window.getOwnerlessWindows}.
      *
-     * @return the array of all {@code Frame}s created by this application
+     * @return the brrby of bll {@code Frbme}s crebted by this bpplicbtion
      *
      * @see Window#getWindows()
      * @see Window#getOwnerlessWindows
      *
      * @since 1.2
      */
-    public static Frame[] getFrames() {
-        Window[] allWindows = Window.getWindows();
+    public stbtic Frbme[] getFrbmes() {
+        Window[] bllWindows = Window.getWindows();
 
-        int frameCount = 0;
-        for (Window w : allWindows) {
-            if (w instanceof Frame) {
-                frameCount++;
+        int frbmeCount = 0;
+        for (Window w : bllWindows) {
+            if (w instbnceof Frbme) {
+                frbmeCount++;
             }
         }
 
-        Frame[] frames = new Frame[frameCount];
+        Frbme[] frbmes = new Frbme[frbmeCount];
         int c = 0;
-        for (Window w : allWindows) {
-            if (w instanceof Frame) {
-                frames[c++] = (Frame)w;
+        for (Window w : bllWindows) {
+            if (w instbnceof Frbme) {
+                frbmes[c++] = (Frbme)w;
             }
         }
 
-        return frames;
+        return frbmes;
     }
 
-    /* Serialization support.  If there's a MenuBar we restore
-     * its (transient) parent field here.  Likewise for top level
-     * windows that are "owned" by this frame.
+    /* Seriblizbtion support.  If there's b MenuBbr we restore
+     * its (trbnsient) pbrent field here.  Likewise for top level
+     * windows thbt bre "owned" by this frbme.
      */
 
     /**
-     * <code>Frame</code>'s Serialized Data Version.
+     * <code>Frbme</code>'s Seriblized Dbtb Version.
      *
-     * @serial
+     * @seribl
      */
-    private int frameSerializedDataVersion = 1;
+    privbte int frbmeSeriblizedDbtbVersion = 1;
 
     /**
-     * Writes default serializable fields to stream.  Writes
-     * an optional serializable icon <code>Image</code>, which is
-     * available as of 1.4.
+     * Writes defbult seriblizbble fields to strebm.  Writes
+     * bn optionbl seriblizbble icon <code>Imbge</code>, which is
+     * bvbilbble bs of 1.4.
      *
-     * @param s the <code>ObjectOutputStream</code> to write
-     * @serialData an optional icon <code>Image</code>
-     * @see java.awt.Image
-     * @see #getIconImage
-     * @see #setIconImage(Image)
-     * @see #readObject(ObjectInputStream)
+     * @pbrbm s the <code>ObjectOutputStrebm</code> to write
+     * @seriblDbtb bn optionbl icon <code>Imbge</code>
+     * @see jbvb.bwt.Imbge
+     * @see #getIconImbge
+     * @see #setIconImbge(Imbge)
+     * @see #rebdObject(ObjectInputStrebm)
      */
-    private void writeObject(ObjectOutputStream s)
+    privbte void writeObject(ObjectOutputStrebm s)
       throws IOException
     {
-        s.defaultWriteObject();
+        s.defbultWriteObject();
         if (icons != null && icons.size() > 0) {
-            Image icon1 = icons.get(0);
-            if (icon1 instanceof Serializable) {
+            Imbge icon1 = icons.get(0);
+            if (icon1 instbnceof Seriblizbble) {
                 s.writeObject(icon1);
                 return;
             }
@@ -1195,55 +1195,55 @@ public class Frame extends Window implements MenuContainer {
     }
 
     /**
-     * Reads the <code>ObjectInputStream</code>.  Tries
-     * to read an icon <code>Image</code>, which is optional
-     * data available as of 1.4.  If an icon <code>Image</code>
-     * is not available, but anything other than an EOF
-     * is detected, an <code>OptionalDataException</code>
+     * Rebds the <code>ObjectInputStrebm</code>.  Tries
+     * to rebd bn icon <code>Imbge</code>, which is optionbl
+     * dbtb bvbilbble bs of 1.4.  If bn icon <code>Imbge</code>
+     * is not bvbilbble, but bnything other thbn bn EOF
+     * is detected, bn <code>OptionblDbtbException</code>
      * will be thrown.
-     * Unrecognized keys or values will be ignored.
+     * Unrecognized keys or vblues will be ignored.
      *
-     * @param s the <code>ObjectInputStream</code> to read
-     * @exception java.io.OptionalDataException if an icon <code>Image</code>
-     *   is not available, but anything other than an EOF
+     * @pbrbm s the <code>ObjectInputStrebm</code> to rebd
+     * @exception jbvb.io.OptionblDbtbException if bn icon <code>Imbge</code>
+     *   is not bvbilbble, but bnything other thbn bn EOF
      *   is detected
-     * @exception HeadlessException if
-     *   <code>GraphicsEnvironment.isHeadless</code> returns
+     * @exception HebdlessException if
+     *   <code>GrbphicsEnvironment.isHebdless</code> returns
      *   <code>true</code>
-     * @see java.awt.GraphicsEnvironment#isHeadless()
-     * @see java.awt.Image
-     * @see #getIconImage
-     * @see #setIconImage(Image)
-     * @see #writeObject(ObjectOutputStream)
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless()
+     * @see jbvb.bwt.Imbge
+     * @see #getIconImbge
+     * @see #setIconImbge(Imbge)
+     * @see #writeObject(ObjectOutputStrebm)
      */
-    private void readObject(ObjectInputStream s)
-      throws ClassNotFoundException, IOException, HeadlessException
+    privbte void rebdObject(ObjectInputStrebm s)
+      throws ClbssNotFoundException, IOException, HebdlessException
     {
-      // HeadlessException is thrown by Window's readObject
-      s.defaultReadObject();
+      // HebdlessException is thrown by Window's rebdObject
+      s.defbultRebdObject();
       try {
-          Image icon = (Image) s.readObject();
+          Imbge icon = (Imbge) s.rebdObject();
           if (icons == null) {
-              icons = new ArrayList<Image>();
-              icons.add(icon);
+              icons = new ArrbyList<Imbge>();
+              icons.bdd(icon);
           }
-      } catch (java.io.OptionalDataException e) {
-          // pre-1.4 instances will not have this optional data.
-          // 1.6 and later instances serialize icons in the Window class
-          // e.eof will be true to indicate that there is no more
-          // data available for this object.
+      } cbtch (jbvb.io.OptionblDbtbException e) {
+          // pre-1.4 instbnces will not hbve this optionbl dbtb.
+          // 1.6 bnd lbter instbnces seriblize icons in the Window clbss
+          // e.eof will be true to indicbte thbt there is no more
+          // dbtb bvbilbble for this object.
 
-          // If e.eof is not true, throw the exception as it
-          // might have been caused by unrelated reasons.
+          // If e.eof is not true, throw the exception bs it
+          // might hbve been cbused by unrelbted rebsons.
           if (!e.eof) {
               throw (e);
           }
       }
 
-      if (menuBar != null)
-        menuBar.parent = this;
+      if (menuBbr != null)
+        menuBbr.pbrent = this;
 
-      // Ensure 1.1 serialized Frames can read & hook-up
+      // Ensure 1.1 seriblized Frbmes cbn rebd & hook-up
       // owned windows properly
       //
       if (ownedWindows != null) {
@@ -1255,9 +1255,9 @@ public class Frame extends Window implements MenuContainer {
     }
 
     /**
-     * Initialize JNI field and method IDs
+     * Initiblize JNI field bnd method IDs
      */
-    private static native void initIDs();
+    privbte stbtic nbtive void initIDs();
 
     /*
      * --- Accessibility Support ---
@@ -1265,39 +1265,39 @@ public class Frame extends Window implements MenuContainer {
      */
 
     /**
-     * Gets the AccessibleContext associated with this Frame.
-     * For frames, the AccessibleContext takes the form of an
-     * AccessibleAWTFrame.
-     * A new AccessibleAWTFrame instance is created if necessary.
+     * Gets the AccessibleContext bssocibted with this Frbme.
+     * For frbmes, the AccessibleContext tbkes the form of bn
+     * AccessibleAWTFrbme.
+     * A new AccessibleAWTFrbme instbnce is crebted if necessbry.
      *
-     * @return an AccessibleAWTFrame that serves as the
-     *         AccessibleContext of this Frame
+     * @return bn AccessibleAWTFrbme thbt serves bs the
+     *         AccessibleContext of this Frbme
      * @since 1.3
      */
     public AccessibleContext getAccessibleContext() {
-        if (accessibleContext == null) {
-            accessibleContext = new AccessibleAWTFrame();
+        if (bccessibleContext == null) {
+            bccessibleContext = new AccessibleAWTFrbme();
         }
-        return accessibleContext;
+        return bccessibleContext;
     }
 
     /**
-     * This class implements accessibility support for the
-     * <code>Frame</code> class.  It provides an implementation of the
-     * Java Accessibility API appropriate to frame user-interface elements.
+     * This clbss implements bccessibility support for the
+     * <code>Frbme</code> clbss.  It provides bn implementbtion of the
+     * Jbvb Accessibility API bppropribte to frbme user-interfbce elements.
      * @since 1.3
      */
-    protected class AccessibleAWTFrame extends AccessibleAWTWindow
+    protected clbss AccessibleAWTFrbme extends AccessibleAWTWindow
     {
         /*
-         * JDK 1.3 serialVersionUID
+         * JDK 1.3 seriblVersionUID
          */
-        private static final long serialVersionUID = -6172960752956030250L;
+        privbte stbtic finbl long seriblVersionUID = -6172960752956030250L;
 
         /**
          * Get the role of this object.
          *
-         * @return an instance of AccessibleRole describing the role of the
+         * @return bn instbnce of AccessibleRole describing the role of the
          * object
          * @see AccessibleRole
          */
@@ -1306,24 +1306,24 @@ public class Frame extends Window implements MenuContainer {
         }
 
         /**
-         * Get the state of this object.
+         * Get the stbte of this object.
          *
-         * @return an instance of AccessibleStateSet containing the current
-         * state set of the object
-         * @see AccessibleState
+         * @return bn instbnce of AccessibleStbteSet contbining the current
+         * stbte set of the object
+         * @see AccessibleStbte
          */
-        public AccessibleStateSet getAccessibleStateSet() {
-            AccessibleStateSet states = super.getAccessibleStateSet();
+        public AccessibleStbteSet getAccessibleStbteSet() {
+            AccessibleStbteSet stbtes = super.getAccessibleStbteSet();
             if (getFocusOwner() != null) {
-                states.add(AccessibleState.ACTIVE);
+                stbtes.bdd(AccessibleStbte.ACTIVE);
             }
-            if (isResizable()) {
-                states.add(AccessibleState.RESIZABLE);
+            if (isResizbble()) {
+                stbtes.bdd(AccessibleStbte.RESIZABLE);
             }
-            return states;
+            return stbtes;
         }
 
 
-    } // inner class AccessibleAWTFrame
+    } // inner clbss AccessibleAWTFrbme
 
 }

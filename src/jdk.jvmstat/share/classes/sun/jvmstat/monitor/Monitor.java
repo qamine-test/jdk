@@ -1,93 +1,93 @@
 /*
- * Copyright (c) 2004, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2010, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.jvmstat.monitor;
+pbckbge sun.jvmstbt.monitor;
 
 /**
- * Interface provided by Instrumentation Monitoring Objects.
+ * Interfbce provided by Instrumentbtion Monitoring Objects.
  *
- * @author Brian Doherty
+ * @buthor Bribn Doherty
  * @since 1.5
  */
-public interface Monitor  {
+public interfbce Monitor  {
 
     /**
-     * Returns the name of this instrumentation object.
+     * Returns the nbme of this instrumentbtion object.
      *
-     * @return String - the name assigned to this instrumentation monitoring
+     * @return String - the nbme bssigned to this instrumentbtion monitoring
      *                  object
      */
-    String getName();
+    String getNbme();
 
     /**
-     * Returns the base name of this instrumentation object.
-     * The base name is the component of the name following the last
-     * "." character in the name.
+     * Returns the bbse nbme of this instrumentbtion object.
+     * The bbse nbme is the component of the nbme following the lbst
+     * "." chbrbcter in the nbme.
      *
-     * @return String - the base name of the name assigned to this
-     *                  instrumentation monitoring object.
+     * @return String - the bbse nbme of the nbme bssigned to this
+     *                  instrumentbtion monitoring object.
      */
-    String getBaseName();
+    String getBbseNbme();
 
     /**
-     * Returns the Units for this instrumentation monitoring object.
+     * Returns the Units for this instrumentbtion monitoring object.
      *
-     * @return Units - the units of measure attribute
+     * @return Units - the units of mebsure bttribute
      */
     Units getUnits();
 
     /**
-     * Returns the Variability for this instrumentation object.
+     * Returns the Vbribbility for this instrumentbtion object.
      *
-     *@return Variability - the variability attribute
+     *@return Vbribbility - the vbribbility bttribute
      */
-    Variability getVariability();
+    Vbribbility getVbribbility();
 
     /**
-     * Test if the instrumentation object is a vector type.
+     * Test if the instrumentbtion object is b vector type.
      *
-     * @return boolean - true if this instrumentation object is a vector type,
-     *                   false otherwise.
+     * @return boolebn - true if this instrumentbtion object is b vector type,
+     *                   fblse otherwise.
      */
-    boolean isVector();
+    boolebn isVector();
 
     /**
      * Return the length of the vector.
-     * @return int - the length of the vector or zero if this instrumentation
-     *               object is a scalar type.
+     * @return int - the length of the vector or zero if this instrumentbtion
+     *               object is b scblbr type.
      */
     int getVectorLength();
 
     /**
-     * Test if the instrumentation object is supported.
+     * Test if the instrumentbtion object is supported.
      */
-    boolean isSupported();
+    boolebn isSupported();
 
     /**
-     * Return an Object that encapsulates this instrumentation object's
-     * current data value.
+     * Return bn Object thbt encbpsulbtes this instrumentbtion object's
+     * current dbtb vblue.
      */
-    Object getValue();
+    Object getVblue();
 }

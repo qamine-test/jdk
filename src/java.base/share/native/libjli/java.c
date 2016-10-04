@@ -1,131 +1,131 @@
 /*
- * Copyright (c) 1995, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * Shared source for 'java' command line tool.
+ * Shbred source for 'jbvb' commbnd line tool.
  *
- * If JAVA_ARGS is defined, then acts as a launcher for applications. For
- * instance, the JDK command line tools such as javac and javadoc (see
- * makefiles for more details) are built with this program.  Any arguments
- * prefixed with '-J' will be passed directly to the 'java' command.
+ * If JAVA_ARGS is defined, then bcts bs b lbuncher for bpplicbtions. For
+ * instbnce, the JDK commbnd line tools such bs jbvbc bnd jbvbdoc (see
+ * mbkefiles for more detbils) bre built with this progrbm.  Any brguments
+ * prefixed with '-J' will be pbssed directly to the 'jbvb' commbnd.
  */
 
 /*
- * One job of the launcher is to remove command line options which the
- * vm does not understand and will not process.  These options include
- * options which select which style of vm is run (e.g. -client and
- * -server) as well as options which select the data model to use.
- * Additionally, for tools which invoke an underlying vm "-J-foo"
- * options are turned into "-foo" options to the vm.  This option
- * filtering is handled in a number of places in the launcher, some of
- * it in machine-dependent code.  In this file, the function
- * CheckJvmType removes vm style options and TranslateApplicationArgs
- * removes "-J" prefixes.  The CreateExecutionEnvironment function processes
- * and removes -d<n> options. On unix, there is a possibility that the running
- * data model may not match to the desired data model, in this case an exec is
- * required to start the desired model. If the data models match, then
- * ParseArguments will remove the -d<n> flags. If the data models do not match
- * the CreateExecutionEnviroment will remove the -d<n> flags.
+ * One job of the lbuncher is to remove commbnd line options which the
+ * vm does not understbnd bnd will not process.  These options include
+ * options which select which style of vm is run (e.g. -client bnd
+ * -server) bs well bs options which select the dbtb model to use.
+ * Additionblly, for tools which invoke bn underlying vm "-J-foo"
+ * options bre turned into "-foo" options to the vm.  This option
+ * filtering is hbndled in b number of plbces in the lbuncher, some of
+ * it in mbchine-dependent code.  In this file, the function
+ * CheckJvmType removes vm style options bnd TrbnslbteApplicbtionArgs
+ * removes "-J" prefixes.  The CrebteExecutionEnvironment function processes
+ * bnd removes -d<n> options. On unix, there is b possibility thbt the running
+ * dbtb model mby not mbtch to the desired dbtb model, in this cbse bn exec is
+ * required to stbrt the desired model. If the dbtb models mbtch, then
+ * PbrseArguments will remove the -d<n> flbgs. If the dbtb models do not mbtch
+ * the CrebteExecutionEnviroment will remove the -d<n> flbgs.
  */
 
 
-#include "java.h"
+#include "jbvb.h"
 
 /*
- * A NOTE TO DEVELOPERS: For performance reasons it is important that
- * the program image remain relatively small until after SelectVersion
- * CreateExecutionEnvironment have finished their possibly recursive
- * processing. Watch everything, but resist all temptations to use Java
- * interfaces.
+ * A NOTE TO DEVELOPERS: For performbnce rebsons it is importbnt thbt
+ * the progrbm imbge rembin relbtively smbll until bfter SelectVersion
+ * CrebteExecutionEnvironment hbve finished their possibly recursive
+ * processing. Wbtch everything, but resist bll temptbtions to use Jbvb
+ * interfbces.
  */
 
-/* we always print to stderr */
+/* we blwbys print to stderr */
 #define USE_STDERR JNI_TRUE
 
-static jboolean printVersion = JNI_FALSE; /* print and exit */
-static jboolean showVersion = JNI_FALSE;  /* print but continue */
-static jboolean printUsage = JNI_FALSE;   /* print and exit*/
-static jboolean printXUsage = JNI_FALSE;  /* print and exit*/
-static char     *showSettings = NULL;      /* print but continue */
+stbtic jboolebn printVersion = JNI_FALSE; /* print bnd exit */
+stbtic jboolebn showVersion = JNI_FALSE;  /* print but continue */
+stbtic jboolebn printUsbge = JNI_FALSE;   /* print bnd exit*/
+stbtic jboolebn printXUsbge = JNI_FALSE;  /* print bnd exit*/
+stbtic chbr     *showSettings = NULL;      /* print but continue */
 
-static const char *_program_name;
-static const char *_launcher_name;
-static jboolean _is_java_args = JNI_FALSE;
-static const char *_fVersion;
-static const char *_dVersion;
-static jboolean _wc_enabled = JNI_FALSE;
-static jint _ergo_policy = DEFAULT_POLICY;
+stbtic const chbr *_progrbm_nbme;
+stbtic const chbr *_lbuncher_nbme;
+stbtic jboolebn _is_jbvb_brgs = JNI_FALSE;
+stbtic const chbr *_fVersion;
+stbtic const chbr *_dVersion;
+stbtic jboolebn _wc_enbbled = JNI_FALSE;
+stbtic jint _ergo_policy = DEFAULT_POLICY;
 
 /*
- * Entries for splash screen environment variables.
+ * Entries for splbsh screen environment vbribbles.
  * putenv is performed in SelectVersion. We need
- * them in memory until UnsetEnv, so they are made static
- * global instead of auto local.
+ * them in memory until UnsetEnv, so they bre mbde stbtic
+ * globbl instebd of buto locbl.
  */
-static char* splash_file_entry = NULL;
-static char* splash_jar_entry = NULL;
+stbtic chbr* splbsh_file_entry = NULL;
+stbtic chbr* splbsh_jbr_entry = NULL;
 
 /*
- * List of VM options to be specified when the VM is created.
+ * List of VM options to be specified when the VM is crebted.
  */
-static JavaVMOption *options;
-static int numOptions, maxOptions;
+stbtic JbvbVMOption *options;
+stbtic int numOptions, mbxOptions;
 
 /*
- * Prototypes for functions internal to launcher.
+ * Prototypes for functions internbl to lbuncher.
  */
-static void SetClassPath(const char *s);
-static void SelectVersion(int argc, char **argv, char **main_class);
-static void SetJvmEnvironment(int argc, char **argv);
-static jboolean ParseArguments(int *pargc, char ***pargv,
-                               int *pmode, char **pwhat,
-                               int *pret, const char *jrepath);
-static jboolean InitializeJVM(JavaVM **pvm, JNIEnv **penv,
-                              InvocationFunctions *ifn);
-static jstring NewPlatformString(JNIEnv *env, char *s);
-static jclass LoadMainClass(JNIEnv *env, int mode, char *name);
-static jclass GetApplicationClass(JNIEnv *env);
+stbtic void SetClbssPbth(const chbr *s);
+stbtic void SelectVersion(int brgc, chbr **brgv, chbr **mbin_clbss);
+stbtic void SetJvmEnvironment(int brgc, chbr **brgv);
+stbtic jboolebn PbrseArguments(int *pbrgc, chbr ***pbrgv,
+                               int *pmode, chbr **pwhbt,
+                               int *pret, const chbr *jrepbth);
+stbtic jboolebn InitiblizeJVM(JbvbVM **pvm, JNIEnv **penv,
+                              InvocbtionFunctions *ifn);
+stbtic jstring NewPlbtformString(JNIEnv *env, chbr *s);
+stbtic jclbss LobdMbinClbss(JNIEnv *env, int mode, chbr *nbme);
+stbtic jclbss GetApplicbtionClbss(JNIEnv *env);
 
-static void TranslateApplicationArgs(int jargc, const char **jargv, int *pargc, char ***pargv);
-static jboolean AddApplicationOptions(int cpathc, const char **cpathv);
-static void SetApplicationClassPath(const char**);
+stbtic void TrbnslbteApplicbtionArgs(int jbrgc, const chbr **jbrgv, int *pbrgc, chbr ***pbrgv);
+stbtic jboolebn AddApplicbtionOptions(int cpbthc, const chbr **cpbthv);
+stbtic void SetApplicbtionClbssPbth(const chbr**);
 
-static void PrintJavaVersion(JNIEnv *env, jboolean extraLF);
-static void PrintUsage(JNIEnv* env, jboolean doXUsage);
-static void ShowSettings(JNIEnv* env, char *optString);
+stbtic void PrintJbvbVersion(JNIEnv *env, jboolebn extrbLF);
+stbtic void PrintUsbge(JNIEnv* env, jboolebn doXUsbge);
+stbtic void ShowSettings(JNIEnv* env, chbr *optString);
 
-static void SetPaths(int argc, char **argv);
+stbtic void SetPbths(int brgc, chbr **brgv);
 
-static void DumpState();
-static jboolean RemovableOption(char *option);
+stbtic void DumpStbte();
+stbtic jboolebn RemovbbleOption(chbr *option);
 
-/* Maximum supported entries from jvm.cfg. */
+/* Mbximum supported entries from jvm.cfg. */
 #define INIT_MAX_KNOWN_VMS      10
 
-/* Values for vmdesc.flag */
-enum vmdesc_flag {
+/* Vblues for vmdesc.flbg */
+enum vmdesc_flbg {
     VM_UNKNOWN = -1,
     VM_KNOWN,
     VM_ALIASED_TO,
@@ -136,195 +136,195 @@ enum vmdesc_flag {
 };
 
 struct vmdesc {
-    char *name;
-    int flag;
-    char *alias;
-    char *server_class;
+    chbr *nbme;
+    int flbg;
+    chbr *blibs;
+    chbr *server_clbss;
 };
-static struct vmdesc *knownVMs = NULL;
-static int knownVMsCount = 0;
-static int knownVMsLimit = 0;
+stbtic struct vmdesc *knownVMs = NULL;
+stbtic int knownVMsCount = 0;
+stbtic int knownVMsLimit = 0;
 
-static void GrowKnownVMs();
-static int  KnownVMIndex(const char* name);
-static void FreeKnownVMs();
-static jboolean IsWildCardEnabled();
+stbtic void GrowKnownVMs();
+stbtic int  KnownVMIndex(const chbr* nbme);
+stbtic void FreeKnownVMs();
+stbtic jboolebn IsWildCbrdEnbbled();
 
-#define ARG_CHECK(AC_arg_count, AC_failure_message, AC_questionable_arg) \
+#define ARG_CHECK(AC_brg_count, AC_fbilure_messbge, AC_questionbble_brg) \
     do { \
-        if (AC_arg_count < 1) { \
-            JLI_ReportErrorMessage(AC_failure_message, AC_questionable_arg); \
-            printUsage = JNI_TRUE; \
+        if (AC_brg_count < 1) { \
+            JLI_ReportErrorMessbge(AC_fbilure_messbge, AC_questionbble_brg); \
+            printUsbge = JNI_TRUE; \
             *pret = 1; \
             return JNI_TRUE; \
         } \
     } while (JNI_FALSE)
 
 /*
- * Running Java code in primordial thread caused many problems. We will
- * create a new thread to invoke JVM. See 6316197 for more information.
+ * Running Jbvb code in primordibl threbd cbused mbny problems. We will
+ * crebte b new threbd to invoke JVM. See 6316197 for more informbtion.
  */
-static jlong threadStackSize    = 0;  /* stack size of the new thread */
-static jlong maxHeapSize        = 0;  /* max heap size */
-static jlong initialHeapSize    = 0;  /* inital heap size */
+stbtic jlong threbdStbckSize    = 0;  /* stbck size of the new threbd */
+stbtic jlong mbxHebpSize        = 0;  /* mbx hebp size */
+stbtic jlong initiblHebpSize    = 0;  /* initbl hebp size */
 
 /*
  * Entry point.
  */
 int
-JLI_Launch(int argc, char ** argv,              /* main argc, argc */
-        int jargc, const char** jargv,          /* java args */
-        int appclassc, const char** appclassv,  /* app classpath */
-        const char* fullversion,                /* full version defined */
-        const char* dotversion,                 /* dot version defined */
-        const char* pname,                      /* program name */
-        const char* lname,                      /* launcher name */
-        jboolean javaargs,                      /* JAVA_ARGS */
-        jboolean cpwildcard,                    /* classpath wildcard*/
-        jboolean javaw,                         /* windows-only javaw */
-        jint ergo                               /* ergonomics class policy */
+JLI_Lbunch(int brgc, chbr ** brgv,              /* mbin brgc, brgc */
+        int jbrgc, const chbr** jbrgv,          /* jbvb brgs */
+        int bppclbssc, const chbr** bppclbssv,  /* bpp clbsspbth */
+        const chbr* fullversion,                /* full version defined */
+        const chbr* dotversion,                 /* dot version defined */
+        const chbr* pnbme,                      /* progrbm nbme */
+        const chbr* lnbme,                      /* lbuncher nbme */
+        jboolebn jbvbbrgs,                      /* JAVA_ARGS */
+        jboolebn cpwildcbrd,                    /* clbsspbth wildcbrd*/
+        jboolebn jbvbw,                         /* windows-only jbvbw */
+        jint ergo                               /* ergonomics clbss policy */
 )
 {
     int mode = LM_UNKNOWN;
-    char *what = NULL;
-    char *cpath = 0;
-    char *main_class = NULL;
+    chbr *whbt = NULL;
+    chbr *cpbth = 0;
+    chbr *mbin_clbss = NULL;
     int ret;
-    InvocationFunctions ifn;
-    jlong start, end;
-    char jvmpath[MAXPATHLEN];
-    char jrepath[MAXPATHLEN];
-    char jvmcfg[MAXPATHLEN];
+    InvocbtionFunctions ifn;
+    jlong stbrt, end;
+    chbr jvmpbth[MAXPATHLEN];
+    chbr jrepbth[MAXPATHLEN];
+    chbr jvmcfg[MAXPATHLEN];
 
     _fVersion = fullversion;
     _dVersion = dotversion;
-    _launcher_name = lname;
-    _program_name = pname;
-    _is_java_args = javaargs;
-    _wc_enabled = cpwildcard;
+    _lbuncher_nbme = lnbme;
+    _progrbm_nbme = pnbme;
+    _is_jbvb_brgs = jbvbbrgs;
+    _wc_enbbled = cpwildcbrd;
     _ergo_policy = ergo;
 
-    InitLauncher(javaw);
-    DumpState();
-    if (JLI_IsTraceLauncher()) {
+    InitLbuncher(jbvbw);
+    DumpStbte();
+    if (JLI_IsTrbceLbuncher()) {
         int i;
-        printf("Command line args:\n");
-        for (i = 0; i < argc ; i++) {
-            printf("argv[%d] = %s\n", i, argv[i]);
+        printf("Commbnd line brgs:\n");
+        for (i = 0; i < brgc ; i++) {
+            printf("brgv[%d] = %s\n", i, brgv[i]);
         }
-        AddOption("-Dsun.java.launcher.diag=true", NULL);
+        AddOption("-Dsun.jbvb.lbuncher.dibg=true", NULL);
     }
 
     /*
-     * Make sure the specified version of the JRE is running.
+     * Mbke sure the specified version of the JRE is running.
      *
-     * There are three things to note about the SelectVersion() routine:
+     * There bre three things to note bbout the SelectVersion() routine:
      *  1) If the version running isn't correct, this routine doesn't
-     *     return (either the correct version has been exec'd or an error
-     *     was issued).
-     *  2) Argc and Argv in this scope are *not* altered by this routine.
+     *     return (either the correct version hbs been exec'd or bn error
+     *     wbs issued).
+     *  2) Argc bnd Argv in this scope bre *not* bltered by this routine.
      *     It is the responsibility of subsequent code to ignore the
-     *     arguments handled by this routine.
-     *  3) As a side-effect, the variable "main_class" is guaranteed to
-     *     be set (if it should ever be set).  This isn't exactly the
-     *     poster child for structured programming, but it is a small
-     *     price to pay for not processing a jar file operand twice.
-     *     (Note: This side effect has been disabled.  See comment on
+     *     brguments hbndled by this routine.
+     *  3) As b side-effect, the vbribble "mbin_clbss" is gubrbnteed to
+     *     be set (if it should ever be set).  This isn't exbctly the
+     *     poster child for structured progrbmming, but it is b smbll
+     *     price to pby for not processing b jbr file operbnd twice.
+     *     (Note: This side effect hbs been disbbled.  See comment on
      *     bugid 5030265 below.)
      */
-    SelectVersion(argc, argv, &main_class);
+    SelectVersion(brgc, brgv, &mbin_clbss);
 
-    CreateExecutionEnvironment(&argc, &argv,
-                               jrepath, sizeof(jrepath),
-                               jvmpath, sizeof(jvmpath),
+    CrebteExecutionEnvironment(&brgc, &brgv,
+                               jrepbth, sizeof(jrepbth),
+                               jvmpbth, sizeof(jvmpbth),
                                jvmcfg,  sizeof(jvmcfg));
 
-    if (!IsJavaArgs()) {
-        SetJvmEnvironment(argc,argv);
+    if (!IsJbvbArgs()) {
+        SetJvmEnvironment(brgc,brgv);
     }
 
-    ifn.CreateJavaVM = 0;
-    ifn.GetDefaultJavaVMInitArgs = 0;
+    ifn.CrebteJbvbVM = 0;
+    ifn.GetDefbultJbvbVMInitArgs = 0;
 
-    if (JLI_IsTraceLauncher()) {
-        start = CounterGet();
+    if (JLI_IsTrbceLbuncher()) {
+        stbrt = CounterGet();
     }
 
-    if (!LoadJavaVM(jvmpath, &ifn)) {
+    if (!LobdJbvbVM(jvmpbth, &ifn)) {
         return(6);
     }
 
-    if (JLI_IsTraceLauncher()) {
+    if (JLI_IsTrbceLbuncher()) {
         end   = CounterGet();
     }
 
-    JLI_TraceLauncher("%ld micro seconds to LoadJavaVM\n",
-             (long)(jint)Counter2Micros(end-start));
+    JLI_TrbceLbuncher("%ld micro seconds to LobdJbvbVM\n",
+             (long)(jint)Counter2Micros(end-stbrt));
 
-    ++argv;
-    --argc;
+    ++brgv;
+    --brgc;
 
-    if (IsJavaArgs()) {
-        /* Preprocess wrapper arguments */
-        TranslateApplicationArgs(jargc, jargv, &argc, &argv);
-        if (!AddApplicationOptions(appclassc, appclassv)) {
+    if (IsJbvbArgs()) {
+        /* Preprocess wrbpper brguments */
+        TrbnslbteApplicbtionArgs(jbrgc, jbrgv, &brgc, &brgv);
+        if (!AddApplicbtionOptions(bppclbssc, bppclbssv)) {
             return(1);
         }
     } else {
-        /* Set default CLASSPATH */
-        cpath = getenv("CLASSPATH");
-        if (cpath == NULL) {
-            cpath = ".";
+        /* Set defbult CLASSPATH */
+        cpbth = getenv("CLASSPATH");
+        if (cpbth == NULL) {
+            cpbth = ".";
         }
-        SetClassPath(cpath);
+        SetClbssPbth(cpbth);
     }
 
-    /* Parse command line options; if the return value of
-     * ParseArguments is false, the program should exit.
+    /* Pbrse commbnd line options; if the return vblue of
+     * PbrseArguments is fblse, the progrbm should exit.
      */
-    if (!ParseArguments(&argc, &argv, &mode, &what, &ret, jrepath))
+    if (!PbrseArguments(&brgc, &brgv, &mode, &whbt, &ret, jrepbth))
     {
         return(ret);
     }
 
-    /* Override class path if -jar flag was specified */
+    /* Override clbss pbth if -jbr flbg wbs specified */
     if (mode == LM_JAR) {
-        SetClassPath(what);     /* Override class path */
+        SetClbssPbth(whbt);     /* Override clbss pbth */
     }
 
-    /* set the -Dsun.java.command pseudo property */
-    SetJavaCommandLineProp(what, argc, argv);
+    /* set the -Dsun.jbvb.commbnd pseudo property */
+    SetJbvbCommbndLineProp(whbt, brgc, brgv);
 
-    /* Set the -Dsun.java.launcher pseudo property */
-    SetJavaLauncherProp();
+    /* Set the -Dsun.jbvb.lbuncher pseudo property */
+    SetJbvbLbuncherProp();
 
-    /* set the -Dsun.java.launcher.* platform properties */
-    SetJavaLauncherPlatformProps();
+    /* set the -Dsun.jbvb.lbuncher.* plbtform properties */
+    SetJbvbLbuncherPlbtformProps();
 
-    return JVMInit(&ifn, threadStackSize, argc, argv, mode, what, ret);
+    return JVMInit(&ifn, threbdStbckSize, brgc, brgv, mode, whbt, ret);
 }
 /*
- * Always detach the main thread so that it appears to have ended when
- * the application's main method exits.  This will invoke the
- * uncaught exception handler machinery if main threw an
- * exception.  An uncaught exception handler cannot change the
- * launcher's return code except by calling System.exit.
+ * Alwbys detbch the mbin threbd so thbt it bppebrs to hbve ended when
+ * the bpplicbtion's mbin method exits.  This will invoke the
+ * uncbught exception hbndler mbchinery if mbin threw bn
+ * exception.  An uncbught exception hbndler cbnnot chbnge the
+ * lbuncher's return code except by cblling System.exit.
  *
- * Wait for all non-daemon threads to end, then destroy the VM.
- * This will actually create a trivial new Java waiter thread
- * named "DestroyJavaVM", but this will be seen as a different
- * thread from the one that executed main, even though they are
- * the same C thread.  This allows mainThread.join() and
- * mainThread.isAlive() to work as expected.
+ * Wbit for bll non-dbemon threbds to end, then destroy the VM.
+ * This will bctublly crebte b trivibl new Jbvb wbiter threbd
+ * nbmed "DestroyJbvbVM", but this will be seen bs b different
+ * threbd from the one thbt executed mbin, even though they bre
+ * the sbme C threbd.  This bllows mbinThrebd.join() bnd
+ * mbinThrebd.isAlive() to work bs expected.
  */
 #define LEAVE() \
     do { \
-        if ((*vm)->DetachCurrentThread(vm) != JNI_OK) { \
-            JLI_ReportErrorMessage(JVM_ERROR2); \
+        if ((*vm)->DetbchCurrentThrebd(vm) != JNI_OK) { \
+            JLI_ReportErrorMessbge(JVM_ERROR2); \
             ret = 1; \
         } \
         if (JNI_TRUE) { \
-            (*vm)->DestroyJavaVM(vm); \
+            (*vm)->DestroyJbvbVM(vm); \
             return ret; \
         } \
     } while (JNI_FALSE)
@@ -336,16 +336,16 @@ JLI_Launch(int argc, char ** argv,              /* main argc, argc */
             LEAVE(); \
         } \
         if ((CENL_exception) == NULL) { \
-            JLI_ReportErrorMessage(JNI_ERROR); \
+            JLI_ReportErrorMessbge(JNI_ERROR); \
             LEAVE(); \
         } \
     } while (JNI_FALSE)
 
-#define CHECK_EXCEPTION_LEAVE(CEL_return_value) \
+#define CHECK_EXCEPTION_LEAVE(CEL_return_vblue) \
     do { \
         if ((*env)->ExceptionOccurred(env)) { \
             JLI_ReportExceptionDescription(env); \
-            ret = (CEL_return_value); \
+            ret = (CEL_return_vblue); \
             LEAVE(); \
         } \
     } while (JNI_FALSE)
@@ -358,30 +358,30 @@ JLI_Launch(int argc, char ** argv,              /* main argc, argc */
     } while (JNI_FALSE)
 
 int JNICALL
-JavaMain(void * _args)
+JbvbMbin(void * _brgs)
 {
-    JavaMainArgs *args = (JavaMainArgs *)_args;
-    int argc = args->argc;
-    char **argv = args->argv;
-    int mode = args->mode;
-    char *what = args->what;
-    InvocationFunctions ifn = args->ifn;
+    JbvbMbinArgs *brgs = (JbvbMbinArgs *)_brgs;
+    int brgc = brgs->brgc;
+    chbr **brgv = brgs->brgv;
+    int mode = brgs->mode;
+    chbr *whbt = brgs->whbt;
+    InvocbtionFunctions ifn = brgs->ifn;
 
-    JavaVM *vm = 0;
+    JbvbVM *vm = 0;
     JNIEnv *env = 0;
-    jclass mainClass = NULL;
-    jclass appClass = NULL; // actual application class being launched
-    jmethodID mainID;
-    jobjectArray mainArgs;
+    jclbss mbinClbss = NULL;
+    jclbss bppClbss = NULL; // bctubl bpplicbtion clbss being lbunched
+    jmethodID mbinID;
+    jobjectArrby mbinArgs;
     int ret = 0;
-    jlong start, end;
+    jlong stbrt, end;
 
-    RegisterThread();
+    RegisterThrebd();
 
-    /* Initialize the virtual machine */
-    start = CounterGet();
-    if (!InitializeJVM(&vm, &env, &ifn)) {
-        JLI_ReportErrorMessage(JVM_ERROR1);
+    /* Initiblize the virtubl mbchine */
+    stbrt = CounterGet();
+    if (!InitiblizeJVM(&vm, &env, &ifn)) {
+        JLI_ReportErrorMessbge(JVM_ERROR1);
         exit(1);
     }
 
@@ -391,251 +391,251 @@ JavaMain(void * _args)
     }
 
     if (printVersion || showVersion) {
-        PrintJavaVersion(env, showVersion);
+        PrintJbvbVersion(env, showVersion);
         CHECK_EXCEPTION_LEAVE(0);
         if (printVersion) {
             LEAVE();
         }
     }
 
-    /* If the user specified neither a class name nor a JAR file */
-    if (printXUsage || printUsage || what == 0 || mode == LM_UNKNOWN) {
-        PrintUsage(env, printXUsage);
+    /* If the user specified neither b clbss nbme nor b JAR file */
+    if (printXUsbge || printUsbge || whbt == 0 || mode == LM_UNKNOWN) {
+        PrintUsbge(env, printXUsbge);
         CHECK_EXCEPTION_LEAVE(1);
         LEAVE();
     }
 
-    FreeKnownVMs();  /* after last possible PrintUsage() */
+    FreeKnownVMs();  /* bfter lbst possible PrintUsbge() */
 
-    if (JLI_IsTraceLauncher()) {
+    if (JLI_IsTrbceLbuncher()) {
         end = CounterGet();
-        JLI_TraceLauncher("%ld micro seconds to InitializeJVM\n",
-               (long)(jint)Counter2Micros(end-start));
+        JLI_TrbceLbuncher("%ld micro seconds to InitiblizeJVM\n",
+               (long)(jint)Counter2Micros(end-stbrt));
     }
 
-    /* At this stage, argc/argv have the application's arguments */
-    if (JLI_IsTraceLauncher()){
+    /* At this stbge, brgc/brgv hbve the bpplicbtion's brguments */
+    if (JLI_IsTrbceLbuncher()){
         int i;
-        printf("%s is '%s'\n", launchModeNames[mode], what);
-        printf("App's argc is %d\n", argc);
-        for (i=0; i < argc; i++) {
-            printf("    argv[%2d] = '%s'\n", i, argv[i]);
+        printf("%s is '%s'\n", lbunchModeNbmes[mode], whbt);
+        printf("App's brgc is %d\n", brgc);
+        for (i=0; i < brgc; i++) {
+            printf("    brgv[%2d] = '%s'\n", i, brgv[i]);
         }
     }
 
     ret = 1;
 
     /*
-     * Get the application's main class.
+     * Get the bpplicbtion's mbin clbss.
      *
-     * See bugid 5030265.  The Main-Class name has already been parsed
-     * from the manifest, but not parsed properly for UTF-8 support.
-     * Hence the code here ignores the value previously extracted and
-     * uses the pre-existing code to reextract the value.  This is
-     * possibly an end of release cycle expedient.  However, it has
-     * also been discovered that passing some character sets through
-     * the environment has "strange" behavior on some variants of
-     * Windows.  Hence, maybe the manifest parsing code local to the
-     * launcher should never be enhanced.
+     * See bugid 5030265.  The Mbin-Clbss nbme hbs blrebdy been pbrsed
+     * from the mbnifest, but not pbrsed properly for UTF-8 support.
+     * Hence the code here ignores the vblue previously extrbcted bnd
+     * uses the pre-existing code to reextrbct the vblue.  This is
+     * possibly bn end of relebse cycle expedient.  However, it hbs
+     * blso been discovered thbt pbssing some chbrbcter sets through
+     * the environment hbs "strbnge" behbvior on some vbribnts of
+     * Windows.  Hence, mbybe the mbnifest pbrsing code locbl to the
+     * lbuncher should never be enhbnced.
      *
      * Hence, future work should either:
-     *     1)   Correct the local parsing code and verify that the
-     *          Main-Class attribute gets properly passed through
-     *          all environments,
-     *     2)   Remove the vestages of maintaining main_class through
-     *          the environment (and remove these comments).
+     *     1)   Correct the locbl pbrsing code bnd verify thbt the
+     *          Mbin-Clbss bttribute gets properly pbssed through
+     *          bll environments,
+     *     2)   Remove the vestbges of mbintbining mbin_clbss through
+     *          the environment (bnd remove these comments).
      *
-     * This method also correctly handles launching existing JavaFX
-     * applications that may or may not have a Main-Class manifest entry.
+     * This method blso correctly hbndles lbunching existing JbvbFX
+     * bpplicbtions thbt mby or mby not hbve b Mbin-Clbss mbnifest entry.
      */
-    mainClass = LoadMainClass(env, mode, what);
-    CHECK_EXCEPTION_NULL_LEAVE(mainClass);
+    mbinClbss = LobdMbinClbss(env, mode, whbt);
+    CHECK_EXCEPTION_NULL_LEAVE(mbinClbss);
     /*
-     * In some cases when launching an application that needs a helper, e.g., a
-     * JavaFX application with no main method, the mainClass will not be the
-     * applications own main class but rather a helper class. To keep things
-     * consistent in the UI we need to track and report the application main class.
+     * In some cbses when lbunching bn bpplicbtion thbt needs b helper, e.g., b
+     * JbvbFX bpplicbtion with no mbin method, the mbinClbss will not be the
+     * bpplicbtions own mbin clbss but rbther b helper clbss. To keep things
+     * consistent in the UI we need to trbck bnd report the bpplicbtion mbin clbss.
      */
-    appClass = GetApplicationClass(env);
-    NULL_CHECK_RETURN_VALUE(appClass, -1);
+    bppClbss = GetApplicbtionClbss(env);
+    NULL_CHECK_RETURN_VALUE(bppClbss, -1);
     /*
-     * PostJVMInit uses the class name as the application name for GUI purposes,
-     * for example, on OSX this sets the application name in the menu bar for
-     * both SWT and JavaFX. So we'll pass the actual application class here
-     * instead of mainClass as that may be a launcher or helper class instead
-     * of the application class.
+     * PostJVMInit uses the clbss nbme bs the bpplicbtion nbme for GUI purposes,
+     * for exbmple, on OSX this sets the bpplicbtion nbme in the menu bbr for
+     * both SWT bnd JbvbFX. So we'll pbss the bctubl bpplicbtion clbss here
+     * instebd of mbinClbss bs thbt mby be b lbuncher or helper clbss instebd
+     * of the bpplicbtion clbss.
      */
-    PostJVMInit(env, appClass, vm);
+    PostJVMInit(env, bppClbss, vm);
     /*
-     * The LoadMainClass not only loads the main class, it will also ensure
-     * that the main method's signature is correct, therefore further checking
-     * is not required. The main method is invoked here so that extraneous java
-     * stacks are not in the application stack trace.
+     * The LobdMbinClbss not only lobds the mbin clbss, it will blso ensure
+     * thbt the mbin method's signbture is correct, therefore further checking
+     * is not required. The mbin method is invoked here so thbt extrbneous jbvb
+     * stbcks bre not in the bpplicbtion stbck trbce.
      */
-    mainID = (*env)->GetStaticMethodID(env, mainClass, "main",
-                                       "([Ljava/lang/String;)V");
-    CHECK_EXCEPTION_NULL_LEAVE(mainID);
+    mbinID = (*env)->GetStbticMethodID(env, mbinClbss, "mbin",
+                                       "([Ljbvb/lbng/String;)V");
+    CHECK_EXCEPTION_NULL_LEAVE(mbinID);
 
-    /* Build platform specific argument array */
-    mainArgs = CreateApplicationArgs(env, argv, argc);
-    CHECK_EXCEPTION_NULL_LEAVE(mainArgs);
+    /* Build plbtform specific brgument brrby */
+    mbinArgs = CrebteApplicbtionArgs(env, brgv, brgc);
+    CHECK_EXCEPTION_NULL_LEAVE(mbinArgs);
 
-    /* Invoke main method. */
-    (*env)->CallStaticVoidMethod(env, mainClass, mainID, mainArgs);
+    /* Invoke mbin method. */
+    (*env)->CbllStbticVoidMethod(env, mbinClbss, mbinID, mbinArgs);
 
     /*
-     * The launcher's exit code (in the absence of calls to
-     * System.exit) will be non-zero if main threw an exception.
+     * The lbuncher's exit code (in the bbsence of cblls to
+     * System.exit) will be non-zero if mbin threw bn exception.
      */
     ret = (*env)->ExceptionOccurred(env) == NULL ? 0 : 1;
     LEAVE();
 }
 
 /*
- * Checks the command line options to find which JVM type was
- * specified.  If no command line option was given for the JVM type,
- * the default type is used.  The environment variable
- * JDK_ALTERNATE_VM and the command line option -XXaltjvm= are also
- * checked as ways of specifying which JVM type to invoke.
+ * Checks the commbnd line options to find which JVM type wbs
+ * specified.  If no commbnd line option wbs given for the JVM type,
+ * the defbult type is used.  The environment vbribble
+ * JDK_ALTERNATE_VM bnd the commbnd line option -XXbltjvm= bre blso
+ * checked bs wbys of specifying which JVM type to invoke.
  */
-char *
-CheckJvmType(int *pargc, char ***argv, jboolean speculative) {
-    int i, argi;
-    int argc;
-    char **newArgv;
+chbr *
+CheckJvmType(int *pbrgc, chbr ***brgv, jboolebn speculbtive) {
+    int i, brgi;
+    int brgc;
+    chbr **newArgv;
     int newArgvIdx = 0;
     int isVMType;
     int jvmidx = -1;
-    char *jvmtype = getenv("JDK_ALTERNATE_VM");
+    chbr *jvmtype = getenv("JDK_ALTERNATE_VM");
 
-    argc = *pargc;
+    brgc = *pbrgc;
 
-    /* To make things simpler we always copy the argv array */
-    newArgv = JLI_MemAlloc((argc + 1) * sizeof(char *));
+    /* To mbke things simpler we blwbys copy the brgv brrby */
+    newArgv = JLI_MemAlloc((brgc + 1) * sizeof(chbr *));
 
-    /* The program name is always present */
-    newArgv[newArgvIdx++] = (*argv)[0];
+    /* The progrbm nbme is blwbys present */
+    newArgv[newArgvIdx++] = (*brgv)[0];
 
-    for (argi = 1; argi < argc; argi++) {
-        char *arg = (*argv)[argi];
+    for (brgi = 1; brgi < brgc; brgi++) {
+        chbr *brg = (*brgv)[brgi];
         isVMType = 0;
 
-        if (IsJavaArgs()) {
-            if (arg[0] != '-') {
-                newArgv[newArgvIdx++] = arg;
+        if (IsJbvbArgs()) {
+            if (brg[0] != '-') {
+                newArgv[newArgvIdx++] = brg;
                 continue;
             }
         } else {
-            if (JLI_StrCmp(arg, "-classpath") == 0 ||
-                JLI_StrCmp(arg, "-cp") == 0) {
-                newArgv[newArgvIdx++] = arg;
-                argi++;
-                if (argi < argc) {
-                    newArgv[newArgvIdx++] = (*argv)[argi];
+            if (JLI_StrCmp(brg, "-clbsspbth") == 0 ||
+                JLI_StrCmp(brg, "-cp") == 0) {
+                newArgv[newArgvIdx++] = brg;
+                brgi++;
+                if (brgi < brgc) {
+                    newArgv[newArgvIdx++] = (*brgv)[brgi];
                 }
                 continue;
             }
-            if (arg[0] != '-') break;
+            if (brg[0] != '-') brebk;
         }
 
-        /* Did the user pass an explicit VM type? */
-        i = KnownVMIndex(arg);
+        /* Did the user pbss bn explicit VM type? */
+        i = KnownVMIndex(brg);
         if (i >= 0) {
-            jvmtype = knownVMs[jvmidx = i].name + 1; /* skip the - */
+            jvmtype = knownVMs[jvmidx = i].nbme + 1; /* skip the - */
             isVMType = 1;
-            *pargc = *pargc - 1;
+            *pbrgc = *pbrgc - 1;
         }
 
-        /* Did the user specify an "alternate" VM? */
-        else if (JLI_StrCCmp(arg, "-XXaltjvm=") == 0 || JLI_StrCCmp(arg, "-J-XXaltjvm=") == 0) {
+        /* Did the user specify bn "blternbte" VM? */
+        else if (JLI_StrCCmp(brg, "-XXbltjvm=") == 0 || JLI_StrCCmp(brg, "-J-XXbltjvm=") == 0) {
             isVMType = 1;
-            jvmtype = arg+((arg[1]=='X')? 10 : 12);
+            jvmtype = brg+((brg[1]=='X')? 10 : 12);
             jvmidx = -1;
         }
 
         if (!isVMType) {
-            newArgv[newArgvIdx++] = arg;
+            newArgv[newArgvIdx++] = brg;
         }
     }
 
     /*
-     * Finish copying the arguments if we aborted the above loop.
-     * NOTE that if we aborted via "break" then we did NOT copy the
-     * last argument above, and in addition argi will be less than
-     * argc.
+     * Finish copying the brguments if we bborted the bbove loop.
+     * NOTE thbt if we bborted vib "brebk" then we did NOT copy the
+     * lbst brgument bbove, bnd in bddition brgi will be less thbn
+     * brgc.
      */
-    while (argi < argc) {
-        newArgv[newArgvIdx++] = (*argv)[argi];
-        argi++;
+    while (brgi < brgc) {
+        newArgv[newArgvIdx++] = (*brgv)[brgi];
+        brgi++;
     }
 
-    /* argv is null-terminated */
+    /* brgv is null-terminbted */
     newArgv[newArgvIdx] = 0;
 
-    /* Copy back argv */
-    *argv = newArgv;
-    *pargc = newArgvIdx;
+    /* Copy bbck brgv */
+    *brgv = newArgv;
+    *pbrgc = newArgvIdx;
 
-    /* use the default VM type if not specified (no alias processing) */
+    /* use the defbult VM type if not specified (no blibs processing) */
     if (jvmtype == NULL) {
-      char* result = knownVMs[0].name+1;
-      /* Use a different VM type if we are on a server class machine? */
-      if ((knownVMs[0].flag == VM_IF_SERVER_CLASS) &&
-          (ServerClassMachine() == JNI_TRUE)) {
-        result = knownVMs[0].server_class+1;
+      chbr* result = knownVMs[0].nbme+1;
+      /* Use b different VM type if we bre on b server clbss mbchine? */
+      if ((knownVMs[0].flbg == VM_IF_SERVER_CLASS) &&
+          (ServerClbssMbchine() == JNI_TRUE)) {
+        result = knownVMs[0].server_clbss+1;
       }
-      JLI_TraceLauncher("Default VM: %s\n", result);
+      JLI_TrbceLbuncher("Defbult VM: %s\n", result);
       return result;
     }
 
-    /* if using an alternate VM, no alias processing */
+    /* if using bn blternbte VM, no blibs processing */
     if (jvmidx < 0)
       return jvmtype;
 
-    /* Resolve aliases first */
+    /* Resolve blibses first */
     {
       int loopCount = 0;
-      while (knownVMs[jvmidx].flag == VM_ALIASED_TO) {
-        int nextIdx = KnownVMIndex(knownVMs[jvmidx].alias);
+      while (knownVMs[jvmidx].flbg == VM_ALIASED_TO) {
+        int nextIdx = KnownVMIndex(knownVMs[jvmidx].blibs);
 
         if (loopCount > knownVMsCount) {
-          if (!speculative) {
-            JLI_ReportErrorMessage(CFG_ERROR1);
+          if (!speculbtive) {
+            JLI_ReportErrorMessbge(CFG_ERROR1);
             exit(1);
           } else {
             return "ERROR";
-            /* break; */
+            /* brebk; */
           }
         }
 
         if (nextIdx < 0) {
-          if (!speculative) {
-            JLI_ReportErrorMessage(CFG_ERROR2, knownVMs[jvmidx].alias);
+          if (!speculbtive) {
+            JLI_ReportErrorMessbge(CFG_ERROR2, knownVMs[jvmidx].blibs);
             exit(1);
           } else {
             return "ERROR";
           }
         }
         jvmidx = nextIdx;
-        jvmtype = knownVMs[jvmidx].name+1;
+        jvmtype = knownVMs[jvmidx].nbme+1;
         loopCount++;
       }
     }
 
-    switch (knownVMs[jvmidx].flag) {
-    case VM_WARN:
-        if (!speculative) {
-            JLI_ReportErrorMessage(CFG_WARN1, jvmtype, knownVMs[0].name + 1);
+    switch (knownVMs[jvmidx].flbg) {
+    cbse VM_WARN:
+        if (!speculbtive) {
+            JLI_ReportErrorMessbge(CFG_WARN1, jvmtype, knownVMs[0].nbme + 1);
         }
-        /* fall through */
-    case VM_IGNORE:
-        jvmtype = knownVMs[jvmidx=0].name + 1;
-        /* fall through */
-    case VM_KNOWN:
-        break;
-    case VM_ERROR:
-        if (!speculative) {
-            JLI_ReportErrorMessage(CFG_ERROR3, jvmtype);
+        /* fbll through */
+    cbse VM_IGNORE:
+        jvmtype = knownVMs[jvmidx=0].nbme + 1;
+        /* fbll through */
+    cbse VM_KNOWN:
+        brebk;
+    cbse VM_ERROR:
+        if (!speculbtive) {
+            JLI_ReportErrorMessbge(CFG_ERROR3, jvmtype);
             exit(1);
         } else {
             return "ERROR";
@@ -646,57 +646,57 @@ CheckJvmType(int *pargc, char ***argv, jboolean speculative) {
 }
 
 /*
- * static void SetJvmEnvironment(int argc, char **argv);
- *   Is called just before the JVM is loaded.  We can set env variables
- *   that are consumed by the JVM.  This function is non-destructive,
- *   leaving the arg list intact.  The first use is for the JVM flag
- *   -XX:NativeMemoryTracking=value.
+ * stbtic void SetJvmEnvironment(int brgc, chbr **brgv);
+ *   Is cblled just before the JVM is lobded.  We cbn set env vbribbles
+ *   thbt bre consumed by the JVM.  This function is non-destructive,
+ *   lebving the brg list intbct.  The first use is for the JVM flbg
+ *   -XX:NbtiveMemoryTrbcking=vblue.
  */
-static void
-SetJvmEnvironment(int argc, char **argv) {
+stbtic void
+SetJvmEnvironment(int brgc, chbr **brgv) {
 
-    static const char*  NMT_Env_Name    = "NMT_LEVEL_";
+    stbtic const chbr*  NMT_Env_Nbme    = "NMT_LEVEL_";
 
     int i;
-    for (i = 0; i < argc; i++) {
+    for (i = 0; i < brgc; i++) {
         /*
-         * The following case checks for "-XX:NativeMemoryTracking=value".
-         * If value is non null, an environmental variable set to this value
-         * will be created to be used by the JVM.
-         * The argument is passed to the JVM, which will check validity.
-         * The JVM is responsible for removing the env variable.
+         * The following cbse checks for "-XX:NbtiveMemoryTrbcking=vblue".
+         * If vblue is non null, bn environmentbl vbribble set to this vblue
+         * will be crebted to be used by the JVM.
+         * The brgument is pbssed to the JVM, which will check vblidity.
+         * The JVM is responsible for removing the env vbribble.
          */
-        char *arg = argv[i];
-        if (JLI_StrCCmp(arg, "-XX:NativeMemoryTracking=") == 0) {
-            int retval;
-            // get what follows this parameter, include "="
-            size_t pnlen = JLI_StrLen("-XX:NativeMemoryTracking=");
-            if (JLI_StrLen(arg) > pnlen) {
-                char* value = arg + pnlen;
-                size_t pbuflen = pnlen + JLI_StrLen(value) + 10; // 10 max pid digits
+        chbr *brg = brgv[i];
+        if (JLI_StrCCmp(brg, "-XX:NbtiveMemoryTrbcking=") == 0) {
+            int retvbl;
+            // get whbt follows this pbrbmeter, include "="
+            size_t pnlen = JLI_StrLen("-XX:NbtiveMemoryTrbcking=");
+            if (JLI_StrLen(brg) > pnlen) {
+                chbr* vblue = brg + pnlen;
+                size_t pbuflen = pnlen + JLI_StrLen(vblue) + 10; // 10 mbx pid digits
 
                 /*
-                 * ensures that malloc successful
-                 * DONT JLI_MemFree() pbuf.  JLI_PutEnv() uses system call
-                 *   that could store the address.
+                 * ensures thbt mblloc successful
+                 * DONT JLI_MemFree() pbuf.  JLI_PutEnv() uses system cbll
+                 *   thbt could store the bddress.
                  */
-                char * pbuf = (char*)JLI_MemAlloc(pbuflen);
+                chbr * pbuf = (chbr*)JLI_MemAlloc(pbuflen);
 
-                JLI_Snprintf(pbuf, pbuflen, "%s%d=%s", NMT_Env_Name, JLI_GetPid(), value);
-                retval = JLI_PutEnv(pbuf);
-                if (JLI_IsTraceLauncher()) {
-                    char* envName;
-                    char* envBuf;
+                JLI_Snprintf(pbuf, pbuflen, "%s%d=%s", NMT_Env_Nbme, JLI_GetPid(), vblue);
+                retvbl = JLI_PutEnv(pbuf);
+                if (JLI_IsTrbceLbuncher()) {
+                    chbr* envNbme;
+                    chbr* envBuf;
 
-                    // ensures that malloc successful
-                    envName = (char*)JLI_MemAlloc(pbuflen);
-                    JLI_Snprintf(envName, pbuflen, "%s%d", NMT_Env_Name, JLI_GetPid());
+                    // ensures thbt mblloc successful
+                    envNbme = (chbr*)JLI_MemAlloc(pbuflen);
+                    JLI_Snprintf(envNbme, pbuflen, "%s%d", NMT_Env_Nbme, JLI_GetPid());
 
-                    printf("TRACER_MARKER: NativeMemoryTracking: env var is %s\n",envName);
-                    printf("TRACER_MARKER: NativeMemoryTracking: putenv arg %s\n",pbuf);
-                    envBuf = getenv(envName);
-                    printf("TRACER_MARKER: NativeMemoryTracking: got value %s\n",envBuf);
-                    free(envName);
+                    printf("TRACER_MARKER: NbtiveMemoryTrbcking: env vbr is %s\n",envNbme);
+                    printf("TRACER_MARKER: NbtiveMemoryTrbcking: putenv brg %s\n",pbuf);
+                    envBuf = getenv(envNbme);
+                    printf("TRACER_MARKER: NbtiveMemoryTrbcking: got vblue %s\n",envBuf);
+                    free(envNbme);
                 }
 
             }
@@ -706,483 +706,483 @@ SetJvmEnvironment(int argc, char **argv) {
     }
 }
 
-/* copied from HotSpot function "atomll()" */
-static int
-parse_size(const char *s, jlong *result) {
+/* copied from HotSpot function "btomll()" */
+stbtic int
+pbrse_size(const chbr *s, jlong *result) {
   jlong n = 0;
-  int args_read = sscanf(s, jlong_format_specifier(), &n);
-  if (args_read != 1) {
+  int brgs_rebd = sscbnf(s, jlong_formbt_specifier(), &n);
+  if (brgs_rebd != 1) {
     return 0;
   }
   while (*s != '\0' && *s >= '0' && *s <= '9') {
     s++;
   }
-  // 4705540: illegal if more characters are found after the first non-digit
+  // 4705540: illegbl if more chbrbcters bre found bfter the first non-digit
   if (JLI_StrLen(s) > 1) {
     return 0;
   }
   switch (*s) {
-    case 'T': case 't':
+    cbse 'T': cbse 't':
       *result = n * GB * KB;
       return 1;
-    case 'G': case 'g':
+    cbse 'G': cbse 'g':
       *result = n * GB;
       return 1;
-    case 'M': case 'm':
+    cbse 'M': cbse 'm':
       *result = n * MB;
       return 1;
-    case 'K': case 'k':
+    cbse 'K': cbse 'k':
       *result = n * KB;
       return 1;
-    case '\0':
+    cbse '\0':
       *result = n;
       return 1;
-    default:
-      /* Create JVM with default stack and let VM handle malformed -Xss string*/
+    defbult:
+      /* Crebte JVM with defbult stbck bnd let VM hbndle mblformed -Xss string*/
       return 0;
   }
 }
 
 /*
- * Adds a new VM option with the given given name and value.
+ * Adds b new VM option with the given given nbme bnd vblue.
  */
 void
-AddOption(char *str, void *info)
+AddOption(chbr *str, void *info)
 {
     /*
-     * Expand options array if needed to accommodate at least one more
+     * Expbnd options brrby if needed to bccommodbte bt lebst one more
      * VM option.
      */
-    if (numOptions >= maxOptions) {
+    if (numOptions >= mbxOptions) {
         if (options == 0) {
-            maxOptions = 4;
-            options = JLI_MemAlloc(maxOptions * sizeof(JavaVMOption));
+            mbxOptions = 4;
+            options = JLI_MemAlloc(mbxOptions * sizeof(JbvbVMOption));
         } else {
-            JavaVMOption *tmp;
-            maxOptions *= 2;
-            tmp = JLI_MemAlloc(maxOptions * sizeof(JavaVMOption));
-            memcpy(tmp, options, numOptions * sizeof(JavaVMOption));
+            JbvbVMOption *tmp;
+            mbxOptions *= 2;
+            tmp = JLI_MemAlloc(mbxOptions * sizeof(JbvbVMOption));
+            memcpy(tmp, options, numOptions * sizeof(JbvbVMOption));
             JLI_MemFree(options);
             options = tmp;
         }
     }
     options[numOptions].optionString = str;
-    options[numOptions++].extraInfo = info;
+    options[numOptions++].extrbInfo = info;
 
     if (JLI_StrCCmp(str, "-Xss") == 0) {
         jlong tmp;
-        if (parse_size(str + 4, &tmp)) {
-            threadStackSize = tmp;
+        if (pbrse_size(str + 4, &tmp)) {
+            threbdStbckSize = tmp;
         }
     }
 
     if (JLI_StrCCmp(str, "-Xmx") == 0) {
         jlong tmp;
-        if (parse_size(str + 4, &tmp)) {
-            maxHeapSize = tmp;
+        if (pbrse_size(str + 4, &tmp)) {
+            mbxHebpSize = tmp;
         }
     }
 
     if (JLI_StrCCmp(str, "-Xms") == 0) {
         jlong tmp;
-        if (parse_size(str + 4, &tmp)) {
-           initialHeapSize = tmp;
+        if (pbrse_size(str + 4, &tmp)) {
+           initiblHebpSize = tmp;
         }
     }
 }
 
-static void
-SetClassPath(const char *s)
+stbtic void
+SetClbssPbth(const chbr *s)
 {
-    char *def;
-    const char *orig = s;
-    static const char format[] = "-Djava.class.path=%s";
+    chbr *def;
+    const chbr *orig = s;
+    stbtic const chbr formbt[] = "-Djbvb.clbss.pbth=%s";
     /*
-     * usually we should not get a null pointer, but there are cases where
-     * we might just get one, in which case we simply ignore it, and let the
-     * caller deal with it
+     * usublly we should not get b null pointer, but there bre cbses where
+     * we might just get one, in which cbse we simply ignore it, bnd let the
+     * cbller debl with it
      */
     if (s == NULL)
         return;
-    s = JLI_WildcardExpandClasspath(s);
-    if (sizeof(format) - 2 + JLI_StrLen(s) < JLI_StrLen(s))
-        // s is became corrupted after expanding wildcards
+    s = JLI_WildcbrdExpbndClbsspbth(s);
+    if (sizeof(formbt) - 2 + JLI_StrLen(s) < JLI_StrLen(s))
+        // s is becbme corrupted bfter expbnding wildcbrds
         return;
-    def = JLI_MemAlloc(sizeof(format)
+    def = JLI_MemAlloc(sizeof(formbt)
                        - 2 /* strlen("%s") */
                        + JLI_StrLen(s));
-    sprintf(def, format, s);
+    sprintf(def, formbt, s);
     AddOption(def, NULL);
     if (s != orig)
-        JLI_MemFree((char *) s);
+        JLI_MemFree((chbr *) s);
 }
 
 /*
- * The SelectVersion() routine ensures that an appropriate version of
- * the JRE is running.  The specification for the appropriate version
- * is obtained from either the manifest of a jar file (preferred) or
- * from command line options.
- * The routine also parses splash screen command line options and
- * passes on their values in private environment variables.
+ * The SelectVersion() routine ensures thbt bn bppropribte version of
+ * the JRE is running.  The specificbtion for the bppropribte version
+ * is obtbined from either the mbnifest of b jbr file (preferred) or
+ * from commbnd line options.
+ * The routine blso pbrses splbsh screen commbnd line options bnd
+ * pbsses on their vblues in privbte environment vbribbles.
  */
-static void
-SelectVersion(int argc, char **argv, char **main_class)
+stbtic void
+SelectVersion(int brgc, chbr **brgv, chbr **mbin_clbss)
 {
-    char    *arg;
-    char    **new_argv;
-    char    **new_argp;
-    char    *operand;
-    char    *version = NULL;
-    char    *jre = NULL;
-    int     jarflag = 0;
-    int     headlessflag = 0;
-    int     restrict_search = -1;               /* -1 implies not known */
-    manifest_info info;
-    char    env_entry[MAXNAMELEN + 24] = ENV_ENTRY "=";
-    char    *splash_file_name = NULL;
-    char    *splash_jar_name = NULL;
-    char    *env_in;
+    chbr    *brg;
+    chbr    **new_brgv;
+    chbr    **new_brgp;
+    chbr    *operbnd;
+    chbr    *version = NULL;
+    chbr    *jre = NULL;
+    int     jbrflbg = 0;
+    int     hebdlessflbg = 0;
+    int     restrict_sebrch = -1;               /* -1 implies not known */
+    mbnifest_info info;
+    chbr    env_entry[MAXNAMELEN + 24] = ENV_ENTRY "=";
+    chbr    *splbsh_file_nbme = NULL;
+    chbr    *splbsh_jbr_nbme = NULL;
+    chbr    *env_in;
     int     res;
 
     /*
-     * If the version has already been selected, set *main_class
-     * with the value passed through the environment (if any) and
+     * If the version hbs blrebdy been selected, set *mbin_clbss
+     * with the vblue pbssed through the environment (if bny) bnd
      * simply return.
      */
     if ((env_in = getenv(ENV_ENTRY)) != NULL) {
         if (*env_in != '\0')
-            *main_class = JLI_StringDup(env_in);
+            *mbin_clbss = JLI_StringDup(env_in);
         return;
     }
 
     /*
-     * Scan through the arguments for options relevant to multiple JRE
-     * support.  For reference, the command line syntax is defined as:
+     * Scbn through the brguments for options relevbnt to multiple JRE
+     * support.  For reference, the commbnd line syntbx is defined bs:
      *
      * SYNOPSIS
-     *      java [options] class [argument...]
+     *      jbvb [options] clbss [brgument...]
      *
-     *      java [options] -jar file.jar [argument...]
+     *      jbvb [options] -jbr file.jbr [brgument...]
      *
-     * As the scan is performed, make a copy of the argument list with
-     * the version specification options (new to 1.5) removed, so that
-     * a version less than 1.5 can be exec'd.
+     * As the scbn is performed, mbke b copy of the brgument list with
+     * the version specificbtion options (new to 1.5) removed, so thbt
+     * b version less thbn 1.5 cbn be exec'd.
      *
-     * Note that due to the syntax of the native Windows interface
-     * CreateProcess(), processing similar to the following exists in
-     * the Windows platform specific routine ExecJRE (in java_md.c).
-     * Changes here should be reproduced there.
+     * Note thbt due to the syntbx of the nbtive Windows interfbce
+     * CrebteProcess(), processing similbr to the following exists in
+     * the Windows plbtform specific routine ExecJRE (in jbvb_md.c).
+     * Chbnges here should be reproduced there.
      */
-    new_argv = JLI_MemAlloc((argc + 1) * sizeof(char*));
-    new_argv[0] = argv[0];
-    new_argp = &new_argv[1];
-    argc--;
-    argv++;
-    while ((arg = *argv) != 0 && *arg == '-') {
-        if (JLI_StrCCmp(arg, "-version:") == 0) {
-            version = arg + 9;
-        } else if (JLI_StrCmp(arg, "-jre-restrict-search") == 0) {
-            restrict_search = 1;
-        } else if (JLI_StrCmp(arg, "-no-jre-restrict-search") == 0) {
-            restrict_search = 0;
+    new_brgv = JLI_MemAlloc((brgc + 1) * sizeof(chbr*));
+    new_brgv[0] = brgv[0];
+    new_brgp = &new_brgv[1];
+    brgc--;
+    brgv++;
+    while ((brg = *brgv) != 0 && *brg == '-') {
+        if (JLI_StrCCmp(brg, "-version:") == 0) {
+            version = brg + 9;
+        } else if (JLI_StrCmp(brg, "-jre-restrict-sebrch") == 0) {
+            restrict_sebrch = 1;
+        } else if (JLI_StrCmp(brg, "-no-jre-restrict-sebrch") == 0) {
+            restrict_sebrch = 0;
         } else {
-            if (JLI_StrCmp(arg, "-jar") == 0)
-                jarflag = 1;
-            /* deal with "unfortunate" classpath syntax */
-            if ((JLI_StrCmp(arg, "-classpath") == 0 || JLI_StrCmp(arg, "-cp") == 0) &&
-              (argc >= 2)) {
-                *new_argp++ = arg;
-                argc--;
-                argv++;
-                arg = *argv;
+            if (JLI_StrCmp(brg, "-jbr") == 0)
+                jbrflbg = 1;
+            /* debl with "unfortunbte" clbsspbth syntbx */
+            if ((JLI_StrCmp(brg, "-clbsspbth") == 0 || JLI_StrCmp(brg, "-cp") == 0) &&
+              (brgc >= 2)) {
+                *new_brgp++ = brg;
+                brgc--;
+                brgv++;
+                brg = *brgv;
             }
 
             /*
-             * Checking for headless toolkit option in the some way as AWT does:
-             * "true" means true and any other value means false
+             * Checking for hebdless toolkit option in the some wby bs AWT does:
+             * "true" mebns true bnd bny other vblue mebns fblse
              */
-            if (JLI_StrCmp(arg, "-Djava.awt.headless=true") == 0) {
-                headlessflag = 1;
-            } else if (JLI_StrCCmp(arg, "-Djava.awt.headless=") == 0) {
-                headlessflag = 0;
-            } else if (JLI_StrCCmp(arg, "-splash:") == 0) {
-                splash_file_name = arg+8;
+            if (JLI_StrCmp(brg, "-Djbvb.bwt.hebdless=true") == 0) {
+                hebdlessflbg = 1;
+            } else if (JLI_StrCCmp(brg, "-Djbvb.bwt.hebdless=") == 0) {
+                hebdlessflbg = 0;
+            } else if (JLI_StrCCmp(brg, "-splbsh:") == 0) {
+                splbsh_file_nbme = brg+8;
             }
-            *new_argp++ = arg;
+            *new_brgp++ = brg;
         }
-        argc--;
-        argv++;
+        brgc--;
+        brgv++;
     }
-    if (argc <= 0) {    /* No operand? Possibly legit with -[full]version */
-        operand = NULL;
+    if (brgc <= 0) {    /* No operbnd? Possibly legit with -[full]version */
+        operbnd = NULL;
     } else {
-        argc--;
-        *new_argp++ = operand = *argv++;
+        brgc--;
+        *new_brgp++ = operbnd = *brgv++;
     }
-    while (argc-- > 0)  /* Copy over [argument...] */
-        *new_argp++ = *argv++;
-    *new_argp = NULL;
+    while (brgc-- > 0)  /* Copy over [brgument...] */
+        *new_brgp++ = *brgv++;
+    *new_brgp = NULL;
 
     /*
-     * If there is a jar file, read the manifest. If the jarfile can't be
-     * read, the manifest can't be read from the jar file, or the manifest
-     * is corrupt, issue the appropriate error messages and exit.
+     * If there is b jbr file, rebd the mbnifest. If the jbrfile cbn't be
+     * rebd, the mbnifest cbn't be rebd from the jbr file, or the mbnifest
+     * is corrupt, issue the bppropribte error messbges bnd exit.
      *
-     * Even if there isn't a jar file, construct a manifest_info structure
-     * containing the command line information.  It's a convenient way to carry
-     * this data around.
+     * Even if there isn't b jbr file, construct b mbnifest_info structure
+     * contbining the commbnd line informbtion.  It's b convenient wby to cbrry
+     * this dbtb bround.
      */
-    if (jarflag && operand) {
-        if ((res = JLI_ParseManifest(operand, &info)) != 0) {
+    if (jbrflbg && operbnd) {
+        if ((res = JLI_PbrseMbnifest(operbnd, &info)) != 0) {
             if (res == -1)
-                JLI_ReportErrorMessage(JAR_ERROR2, operand);
+                JLI_ReportErrorMessbge(JAR_ERROR2, operbnd);
             else
-                JLI_ReportErrorMessage(JAR_ERROR3, operand);
+                JLI_ReportErrorMessbge(JAR_ERROR3, operbnd);
             exit(1);
         }
 
         /*
-         * Command line splash screen option should have precedence
-         * over the manifest, so the manifest data is used only if
-         * splash_file_name has not been initialized above during command
-         * line parsing
+         * Commbnd line splbsh screen option should hbve precedence
+         * over the mbnifest, so the mbnifest dbtb is used only if
+         * splbsh_file_nbme hbs not been initiblized bbove during commbnd
+         * line pbrsing
          */
-        if (!headlessflag && !splash_file_name && info.splashscreen_image_file_name) {
-            splash_file_name = info.splashscreen_image_file_name;
-            splash_jar_name = operand;
+        if (!hebdlessflbg && !splbsh_file_nbme && info.splbshscreen_imbge_file_nbme) {
+            splbsh_file_nbme = info.splbshscreen_imbge_file_nbme;
+            splbsh_jbr_nbme = operbnd;
         }
     } else {
-        info.manifest_version = NULL;
-        info.main_class = NULL;
+        info.mbnifest_version = NULL;
+        info.mbin_clbss = NULL;
         info.jre_version = NULL;
-        info.jre_restrict_search = 0;
+        info.jre_restrict_sebrch = 0;
     }
 
     /*
-     * Passing on splash screen info in environment variables
+     * Pbssing on splbsh screen info in environment vbribbles
      */
-    if (splash_file_name && !headlessflag) {
-        char* splash_file_entry = JLI_MemAlloc(JLI_StrLen(SPLASH_FILE_ENV_ENTRY "=")+JLI_StrLen(splash_file_name)+1);
-        JLI_StrCpy(splash_file_entry, SPLASH_FILE_ENV_ENTRY "=");
-        JLI_StrCat(splash_file_entry, splash_file_name);
-        putenv(splash_file_entry);
+    if (splbsh_file_nbme && !hebdlessflbg) {
+        chbr* splbsh_file_entry = JLI_MemAlloc(JLI_StrLen(SPLASH_FILE_ENV_ENTRY "=")+JLI_StrLen(splbsh_file_nbme)+1);
+        JLI_StrCpy(splbsh_file_entry, SPLASH_FILE_ENV_ENTRY "=");
+        JLI_StrCbt(splbsh_file_entry, splbsh_file_nbme);
+        putenv(splbsh_file_entry);
     }
-    if (splash_jar_name && !headlessflag) {
-        char* splash_jar_entry = JLI_MemAlloc(JLI_StrLen(SPLASH_JAR_ENV_ENTRY "=")+JLI_StrLen(splash_jar_name)+1);
-        JLI_StrCpy(splash_jar_entry, SPLASH_JAR_ENV_ENTRY "=");
-        JLI_StrCat(splash_jar_entry, splash_jar_name);
-        putenv(splash_jar_entry);
+    if (splbsh_jbr_nbme && !hebdlessflbg) {
+        chbr* splbsh_jbr_entry = JLI_MemAlloc(JLI_StrLen(SPLASH_JAR_ENV_ENTRY "=")+JLI_StrLen(splbsh_jbr_nbme)+1);
+        JLI_StrCpy(splbsh_jbr_entry, SPLASH_JAR_ENV_ENTRY "=");
+        JLI_StrCbt(splbsh_jbr_entry, splbsh_jbr_nbme);
+        putenv(splbsh_jbr_entry);
     }
 
     /*
-     * The JRE-Version and JRE-Restrict-Search values (if any) from the
-     * manifest are overwritten by any specified on the command line.
+     * The JRE-Version bnd JRE-Restrict-Sebrch vblues (if bny) from the
+     * mbnifest bre overwritten by bny specified on the commbnd line.
      */
     if (version != NULL)
         info.jre_version = version;
-    if (restrict_search != -1)
-        info.jre_restrict_search = restrict_search;
+    if (restrict_sebrch != -1)
+        info.jre_restrict_sebrch = restrict_sebrch;
 
     /*
-     * "Valid" returns (other than unrecoverable errors) follow.  Set
-     * main_class as a side-effect of this routine.
+     * "Vblid" returns (other thbn unrecoverbble errors) follow.  Set
+     * mbin_clbss bs b side-effect of this routine.
      */
-    if (info.main_class != NULL)
-        *main_class = JLI_StringDup(info.main_class);
+    if (info.mbin_clbss != NULL)
+        *mbin_clbss = JLI_StringDup(info.mbin_clbss);
 
     /*
-     * If no version selection information is found either on the command
-     * line or in the manifest, simply return.
+     * If no version selection informbtion is found either on the commbnd
+     * line or in the mbnifest, simply return.
      */
     if (info.jre_version == NULL) {
-        JLI_FreeManifest();
-        JLI_MemFree(new_argv);
+        JLI_FreeMbnifest();
+        JLI_MemFree(new_brgv);
         return;
     }
 
     /*
-     * Check for correct syntax of the version specification (JSR 56).
+     * Check for correct syntbx of the version specificbtion (JSR 56).
      */
-    if (!JLI_ValidVersionString(info.jre_version)) {
-        JLI_ReportErrorMessage(SPC_ERROR1, info.jre_version);
+    if (!JLI_VblidVersionString(info.jre_version)) {
+        JLI_ReportErrorMessbge(SPC_ERROR1, info.jre_version);
         exit(1);
     }
 
     /*
-     * Find the appropriate JVM on the system. Just to be as forgiving as
-     * possible, if the standard algorithms don't locate an appropriate
-     * jre, check to see if the one running will satisfy the requirements.
-     * This can happen on systems which haven't been set-up for multiple
+     * Find the bppropribte JVM on the system. Just to be bs forgiving bs
+     * possible, if the stbndbrd blgorithms don't locbte bn bppropribte
+     * jre, check to see if the one running will sbtisfy the requirements.
+     * This cbn hbppen on systems which hbven't been set-up for multiple
      * JRE support.
      */
-    jre = LocateJRE(&info);
-    JLI_TraceLauncher("JRE-Version = %s, JRE-Restrict-Search = %s Selected = %s\n",
+    jre = LocbteJRE(&info);
+    JLI_TrbceLbuncher("JRE-Version = %s, JRE-Restrict-Sebrch = %s Selected = %s\n",
         (info.jre_version?info.jre_version:"null"),
-        (info.jre_restrict_search?"true":"false"), (jre?jre:"null"));
+        (info.jre_restrict_sebrch?"true":"fblse"), (jre?jre:"null"));
 
     if (jre == NULL) {
-        if (JLI_AcceptableRelease(GetFullVersion(), info.jre_version)) {
-            JLI_FreeManifest();
-            JLI_MemFree(new_argv);
+        if (JLI_AcceptbbleRelebse(GetFullVersion(), info.jre_version)) {
+            JLI_FreeMbnifest();
+            JLI_MemFree(new_brgv);
             return;
         } else {
-            JLI_ReportErrorMessage(CFG_ERROR4, info.jre_version);
+            JLI_ReportErrorMessbge(CFG_ERROR4, info.jre_version);
             exit(1);
         }
     }
 
     /*
      * If I'm not the chosen one, exec the chosen one.  Returning from
-     * ExecJRE indicates that I am indeed the chosen one.
+     * ExecJRE indicbtes thbt I bm indeed the chosen one.
      *
-     * The private environment variable _JAVA_VERSION_SET is used to
-     * prevent the chosen one from re-reading the manifest file and
-     * using the values found within to override the (potential) command
-     * line flags stripped from argv (because the target may not
-     * understand them).  Passing the MainClass value is an optimization
-     * to avoid locating, expanding and parsing the manifest extra
+     * The privbte environment vbribble _JAVA_VERSION_SET is used to
+     * prevent the chosen one from re-rebding the mbnifest file bnd
+     * using the vblues found within to override the (potentibl) commbnd
+     * line flbgs stripped from brgv (becbuse the tbrget mby not
+     * understbnd them).  Pbssing the MbinClbss vblue is bn optimizbtion
+     * to bvoid locbting, expbnding bnd pbrsing the mbnifest extrb
      * times.
      */
-    if (info.main_class != NULL) {
-        if (JLI_StrLen(info.main_class) <= MAXNAMELEN) {
-            (void)JLI_StrCat(env_entry, info.main_class);
+    if (info.mbin_clbss != NULL) {
+        if (JLI_StrLen(info.mbin_clbss) <= MAXNAMELEN) {
+            (void)JLI_StrCbt(env_entry, info.mbin_clbss);
         } else {
-            JLI_ReportErrorMessage(CLS_ERROR5, MAXNAMELEN);
+            JLI_ReportErrorMessbge(CLS_ERROR5, MAXNAMELEN);
             exit(1);
         }
     }
     (void)putenv(env_entry);
-    ExecJRE(jre, new_argv);
-    JLI_FreeManifest();
-    JLI_MemFree(new_argv);
+    ExecJRE(jre, new_brgv);
+    JLI_FreeMbnifest();
+    JLI_MemFree(new_brgv);
     return;
 }
 
 /*
- * Parses command line arguments.  Returns JNI_FALSE if launcher
- * should exit without starting vm, returns JNI_TRUE if vm needs
- * to be started to process given options.  *pret (the launcher
- * process return value) is set to 0 for a normal exit.
+ * Pbrses commbnd line brguments.  Returns JNI_FALSE if lbuncher
+ * should exit without stbrting vm, returns JNI_TRUE if vm needs
+ * to be stbrted to process given options.  *pret (the lbuncher
+ * process return vblue) is set to 0 for b normbl exit.
  */
-static jboolean
-ParseArguments(int *pargc, char ***pargv,
-               int *pmode, char **pwhat,
-               int *pret, const char *jrepath)
+stbtic jboolebn
+PbrseArguments(int *pbrgc, chbr ***pbrgv,
+               int *pmode, chbr **pwhbt,
+               int *pret, const chbr *jrepbth)
 {
-    int argc = *pargc;
-    char **argv = *pargv;
+    int brgc = *pbrgc;
+    chbr **brgv = *pbrgv;
     int mode = LM_UNKNOWN;
-    char *arg;
+    chbr *brg;
 
     *pret = 0;
 
-    while ((arg = *argv) != 0 && *arg == '-') {
-        argv++; --argc;
-        if (JLI_StrCmp(arg, "-classpath") == 0 || JLI_StrCmp(arg, "-cp") == 0) {
-            ARG_CHECK (argc, ARG_ERROR1, arg);
-            SetClassPath(*argv);
+    while ((brg = *brgv) != 0 && *brg == '-') {
+        brgv++; --brgc;
+        if (JLI_StrCmp(brg, "-clbsspbth") == 0 || JLI_StrCmp(brg, "-cp") == 0) {
+            ARG_CHECK (brgc, ARG_ERROR1, brg);
+            SetClbssPbth(*brgv);
             mode = LM_CLASS;
-            argv++; --argc;
-        } else if (JLI_StrCmp(arg, "-jar") == 0) {
-            ARG_CHECK (argc, ARG_ERROR2, arg);
+            brgv++; --brgc;
+        } else if (JLI_StrCmp(brg, "-jbr") == 0) {
+            ARG_CHECK (brgc, ARG_ERROR2, brg);
             mode = LM_JAR;
-        } else if (JLI_StrCmp(arg, "-help") == 0 ||
-                   JLI_StrCmp(arg, "-h") == 0 ||
-                   JLI_StrCmp(arg, "-?") == 0) {
-            printUsage = JNI_TRUE;
+        } else if (JLI_StrCmp(brg, "-help") == 0 ||
+                   JLI_StrCmp(brg, "-h") == 0 ||
+                   JLI_StrCmp(brg, "-?") == 0) {
+            printUsbge = JNI_TRUE;
             return JNI_TRUE;
-        } else if (JLI_StrCmp(arg, "-version") == 0) {
+        } else if (JLI_StrCmp(brg, "-version") == 0) {
             printVersion = JNI_TRUE;
             return JNI_TRUE;
-        } else if (JLI_StrCmp(arg, "-showversion") == 0) {
+        } else if (JLI_StrCmp(brg, "-showversion") == 0) {
             showVersion = JNI_TRUE;
-        } else if (JLI_StrCmp(arg, "-X") == 0) {
-            printXUsage = JNI_TRUE;
+        } else if (JLI_StrCmp(brg, "-X") == 0) {
+            printXUsbge = JNI_TRUE;
             return JNI_TRUE;
 /*
- * The following case checks for -XshowSettings OR -XshowSetting:SUBOPT.
- * In the latter case, any SUBOPT value not recognized will default to "all"
+ * The following cbse checks for -XshowSettings OR -XshowSetting:SUBOPT.
+ * In the lbtter cbse, bny SUBOPT vblue not recognized will defbult to "bll"
  */
-        } else if (JLI_StrCmp(arg, "-XshowSettings") == 0 ||
-                JLI_StrCCmp(arg, "-XshowSettings:") == 0) {
-            showSettings = arg;
-        } else if (JLI_StrCmp(arg, "-Xdiag") == 0) {
-            AddOption("-Dsun.java.launcher.diag=true", NULL);
+        } else if (JLI_StrCmp(brg, "-XshowSettings") == 0 ||
+                JLI_StrCCmp(brg, "-XshowSettings:") == 0) {
+            showSettings = brg;
+        } else if (JLI_StrCmp(brg, "-Xdibg") == 0) {
+            AddOption("-Dsun.jbvb.lbuncher.dibg=true", NULL);
 /*
- * The following case provide backward compatibility with old-style
- * command line options.
+ * The following cbse provide bbckwbrd compbtibility with old-style
+ * commbnd line options.
  */
-        } else if (JLI_StrCmp(arg, "-fullversion") == 0) {
-            JLI_ReportMessage("%s full version \"%s\"", _launcher_name, GetFullVersion());
+        } else if (JLI_StrCmp(brg, "-fullversion") == 0) {
+            JLI_ReportMessbge("%s full version \"%s\"", _lbuncher_nbme, GetFullVersion());
             return JNI_FALSE;
-        } else if (JLI_StrCmp(arg, "-verbosegc") == 0) {
+        } else if (JLI_StrCmp(brg, "-verbosegc") == 0) {
             AddOption("-verbose:gc", NULL);
-        } else if (JLI_StrCmp(arg, "-t") == 0) {
+        } else if (JLI_StrCmp(brg, "-t") == 0) {
             AddOption("-Xt", NULL);
-        } else if (JLI_StrCmp(arg, "-tm") == 0) {
+        } else if (JLI_StrCmp(brg, "-tm") == 0) {
             AddOption("-Xtm", NULL);
-        } else if (JLI_StrCmp(arg, "-debug") == 0) {
+        } else if (JLI_StrCmp(brg, "-debug") == 0) {
             AddOption("-Xdebug", NULL);
-        } else if (JLI_StrCmp(arg, "-noclassgc") == 0) {
-            AddOption("-Xnoclassgc", NULL);
-        } else if (JLI_StrCmp(arg, "-Xfuture") == 0) {
-            AddOption("-Xverify:all", NULL);
-        } else if (JLI_StrCmp(arg, "-verify") == 0) {
-            AddOption("-Xverify:all", NULL);
-        } else if (JLI_StrCmp(arg, "-verifyremote") == 0) {
+        } else if (JLI_StrCmp(brg, "-noclbssgc") == 0) {
+            AddOption("-Xnoclbssgc", NULL);
+        } else if (JLI_StrCmp(brg, "-Xfuture") == 0) {
+            AddOption("-Xverify:bll", NULL);
+        } else if (JLI_StrCmp(brg, "-verify") == 0) {
+            AddOption("-Xverify:bll", NULL);
+        } else if (JLI_StrCmp(brg, "-verifyremote") == 0) {
             AddOption("-Xverify:remote", NULL);
-        } else if (JLI_StrCmp(arg, "-noverify") == 0) {
+        } else if (JLI_StrCmp(brg, "-noverify") == 0) {
             AddOption("-Xverify:none", NULL);
-        } else if (JLI_StrCCmp(arg, "-prof") == 0) {
-            char *p = arg + 5;
-            char *tmp = JLI_MemAlloc(JLI_StrLen(arg) + 50);
+        } else if (JLI_StrCCmp(brg, "-prof") == 0) {
+            chbr *p = brg + 5;
+            chbr *tmp = JLI_MemAlloc(JLI_StrLen(brg) + 50);
             if (*p) {
                 sprintf(tmp, "-Xrunhprof:cpu=old,file=%s", p + 1);
             } else {
-                sprintf(tmp, "-Xrunhprof:cpu=old,file=java.prof");
+                sprintf(tmp, "-Xrunhprof:cpu=old,file=jbvb.prof");
             }
             AddOption(tmp, NULL);
-        } else if (JLI_StrCCmp(arg, "-ss") == 0 ||
-                   JLI_StrCCmp(arg, "-oss") == 0 ||
-                   JLI_StrCCmp(arg, "-ms") == 0 ||
-                   JLI_StrCCmp(arg, "-mx") == 0) {
-            char *tmp = JLI_MemAlloc(JLI_StrLen(arg) + 6);
-            sprintf(tmp, "-X%s", arg + 1); /* skip '-' */
+        } else if (JLI_StrCCmp(brg, "-ss") == 0 ||
+                   JLI_StrCCmp(brg, "-oss") == 0 ||
+                   JLI_StrCCmp(brg, "-ms") == 0 ||
+                   JLI_StrCCmp(brg, "-mx") == 0) {
+            chbr *tmp = JLI_MemAlloc(JLI_StrLen(brg) + 6);
+            sprintf(tmp, "-X%s", brg + 1); /* skip '-' */
             AddOption(tmp, NULL);
-        } else if (JLI_StrCmp(arg, "-checksource") == 0 ||
-                   JLI_StrCmp(arg, "-cs") == 0 ||
-                   JLI_StrCmp(arg, "-noasyncgc") == 0) {
+        } else if (JLI_StrCmp(brg, "-checksource") == 0 ||
+                   JLI_StrCmp(brg, "-cs") == 0 ||
+                   JLI_StrCmp(brg, "-nobsyncgc") == 0) {
             /* No longer supported */
-            JLI_ReportErrorMessage(ARG_WARN, arg);
-        } else if (JLI_StrCCmp(arg, "-version:") == 0 ||
-                   JLI_StrCmp(arg, "-no-jre-restrict-search") == 0 ||
-                   JLI_StrCmp(arg, "-jre-restrict-search") == 0 ||
-                   JLI_StrCCmp(arg, "-splash:") == 0) {
-            ; /* Ignore machine independent options already handled */
-        } else if (ProcessPlatformOption(arg)) {
-            ; /* Processing of platform dependent options */
-        } else if (RemovableOption(arg)) {
-            ; /* Do not pass option to vm. */
+            JLI_ReportErrorMessbge(ARG_WARN, brg);
+        } else if (JLI_StrCCmp(brg, "-version:") == 0 ||
+                   JLI_StrCmp(brg, "-no-jre-restrict-sebrch") == 0 ||
+                   JLI_StrCmp(brg, "-jre-restrict-sebrch") == 0 ||
+                   JLI_StrCCmp(brg, "-splbsh:") == 0) {
+            ; /* Ignore mbchine independent options blrebdy hbndled */
+        } else if (ProcessPlbtformOption(brg)) {
+            ; /* Processing of plbtform dependent options */
+        } else if (RemovbbleOption(brg)) {
+            ; /* Do not pbss option to vm. */
         } else {
-            AddOption(arg, NULL);
+            AddOption(brg, NULL);
         }
     }
 
-    if (--argc >= 0) {
-        *pwhat = *argv++;
+    if (--brgc >= 0) {
+        *pwhbt = *brgv++;
     }
 
-    if (*pwhat == NULL) {
+    if (*pwhbt == NULL) {
         *pret = 1;
     } else if (mode == LM_UNKNOWN) {
-        /* default to LM_CLASS if -jar and -cp option are
+        /* defbult to LM_CLASS if -jbr bnd -cp option bre
          * not specified */
         mode = LM_CLASS;
     }
 
-    if (argc >= 0) {
-        *pargc = argc;
-        *pargv = argv;
+    if (brgc >= 0) {
+        *pbrgc = brgc;
+        *pbrgv = brgv;
     }
 
     *pmode = mode;
@@ -1191,76 +1191,76 @@ ParseArguments(int *pargc, char ***pargv,
 }
 
 /*
- * Initializes the Java Virtual Machine. Also frees options array when
+ * Initiblizes the Jbvb Virtubl Mbchine. Also frees options brrby when
  * finished.
  */
-static jboolean
-InitializeJVM(JavaVM **pvm, JNIEnv **penv, InvocationFunctions *ifn)
+stbtic jboolebn
+InitiblizeJVM(JbvbVM **pvm, JNIEnv **penv, InvocbtionFunctions *ifn)
 {
-    JavaVMInitArgs args;
+    JbvbVMInitArgs brgs;
     jint r;
 
-    memset(&args, 0, sizeof(args));
-    args.version  = JNI_VERSION_1_2;
-    args.nOptions = numOptions;
-    args.options  = options;
-    args.ignoreUnrecognized = JNI_FALSE;
+    memset(&brgs, 0, sizeof(brgs));
+    brgs.version  = JNI_VERSION_1_2;
+    brgs.nOptions = numOptions;
+    brgs.options  = options;
+    brgs.ignoreUnrecognized = JNI_FALSE;
 
-    if (JLI_IsTraceLauncher()) {
+    if (JLI_IsTrbceLbuncher()) {
         int i = 0;
-        printf("JavaVM args:\n    ");
-        printf("version 0x%08lx, ", (long)args.version);
+        printf("JbvbVM brgs:\n    ");
+        printf("version 0x%08lx, ", (long)brgs.version);
         printf("ignoreUnrecognized is %s, ",
-               args.ignoreUnrecognized ? "JNI_TRUE" : "JNI_FALSE");
-        printf("nOptions is %ld\n", (long)args.nOptions);
+               brgs.ignoreUnrecognized ? "JNI_TRUE" : "JNI_FALSE");
+        printf("nOptions is %ld\n", (long)brgs.nOptions);
         for (i = 0; i < numOptions; i++)
             printf("    option[%2d] = '%s'\n",
-                   i, args.options[i].optionString);
+                   i, brgs.options[i].optionString);
     }
 
-    r = ifn->CreateJavaVM(pvm, (void **)penv, &args);
+    r = ifn->CrebteJbvbVM(pvm, (void **)penv, &brgs);
     JLI_MemFree(options);
     return r == JNI_OK;
 }
 
-static jclass helperClass = NULL;
+stbtic jclbss helperClbss = NULL;
 
-jclass
-GetLauncherHelperClass(JNIEnv *env)
+jclbss
+GetLbuncherHelperClbss(JNIEnv *env)
 {
-    if (helperClass == NULL) {
-        NULL_CHECK0(helperClass = FindBootStrapClass(env,
-                "sun/launcher/LauncherHelper"));
+    if (helperClbss == NULL) {
+        NULL_CHECK0(helperClbss = FindBootStrbpClbss(env,
+                "sun/lbuncher/LbuncherHelper"));
     }
-    return helperClass;
+    return helperClbss;
 }
 
-static jmethodID makePlatformStringMID = NULL;
+stbtic jmethodID mbkePlbtformStringMID = NULL;
 /*
- * Returns a new Java string object for the specified platform string.
+ * Returns b new Jbvb string object for the specified plbtform string.
  */
-static jstring
-NewPlatformString(JNIEnv *env, char *s)
+stbtic jstring
+NewPlbtformString(JNIEnv *env, chbr *s)
 {
     int len = (int)JLI_StrLen(s);
-    jbyteArray ary;
-    jclass cls = GetLauncherHelperClass(env);
+    jbyteArrby bry;
+    jclbss cls = GetLbuncherHelperClbss(env);
     NULL_CHECK0(cls);
     if (s == NULL)
         return 0;
 
-    ary = (*env)->NewByteArray(env, len);
-    if (ary != 0) {
+    bry = (*env)->NewByteArrby(env, len);
+    if (bry != 0) {
         jstring str = 0;
-        (*env)->SetByteArrayRegion(env, ary, 0, len, (jbyte *)s);
+        (*env)->SetByteArrbyRegion(env, bry, 0, len, (jbyte *)s);
         if (!(*env)->ExceptionOccurred(env)) {
-            if (makePlatformStringMID == NULL) {
-                NULL_CHECK0(makePlatformStringMID = (*env)->GetStaticMethodID(env,
-                        cls, "makePlatformString", "(Z[B)Ljava/lang/String;"));
+            if (mbkePlbtformStringMID == NULL) {
+                NULL_CHECK0(mbkePlbtformStringMID = (*env)->GetStbticMethodID(env,
+                        cls, "mbkePlbtformString", "(Z[B)Ljbvb/lbng/String;"));
             }
-            str = (*env)->CallStaticObjectMethod(env, cls,
-                    makePlatformStringMID, USE_STDERR, ary);
-            (*env)->DeleteLocalRef(env, ary);
+            str = (*env)->CbllStbticObjectMethod(env, cls,
+                    mbkePlbtformStringMID, USE_STDERR, bry);
+            (*env)->DeleteLocblRef(env, bry);
             return str;
         }
     }
@@ -1268,461 +1268,461 @@ NewPlatformString(JNIEnv *env, char *s)
 }
 
 /*
- * Returns a new array of Java string objects for the specified
- * array of platform strings.
+ * Returns b new brrby of Jbvb string objects for the specified
+ * brrby of plbtform strings.
  */
-jobjectArray
-NewPlatformStringArray(JNIEnv *env, char **strv, int strc)
+jobjectArrby
+NewPlbtformStringArrby(JNIEnv *env, chbr **strv, int strc)
 {
-    jarray cls;
-    jarray ary;
+    jbrrby cls;
+    jbrrby bry;
     int i;
 
-    NULL_CHECK0(cls = FindBootStrapClass(env, "java/lang/String"));
-    NULL_CHECK0(ary = (*env)->NewObjectArray(env, strc, cls, 0));
+    NULL_CHECK0(cls = FindBootStrbpClbss(env, "jbvb/lbng/String"));
+    NULL_CHECK0(bry = (*env)->NewObjectArrby(env, strc, cls, 0));
     for (i = 0; i < strc; i++) {
-        jstring str = NewPlatformString(env, *strv++);
+        jstring str = NewPlbtformString(env, *strv++);
         NULL_CHECK0(str);
-        (*env)->SetObjectArrayElement(env, ary, i, str);
-        (*env)->DeleteLocalRef(env, str);
+        (*env)->SetObjectArrbyElement(env, bry, i, str);
+        (*env)->DeleteLocblRef(env, str);
     }
-    return ary;
+    return bry;
 }
 
 /*
- * Loads a class and verifies that the main class is present and it is ok to
- * call it for more details refer to the java implementation.
+ * Lobds b clbss bnd verifies thbt the mbin clbss is present bnd it is ok to
+ * cbll it for more detbils refer to the jbvb implementbtion.
  */
-static jclass
-LoadMainClass(JNIEnv *env, int mode, char *name)
+stbtic jclbss
+LobdMbinClbss(JNIEnv *env, int mode, chbr *nbme)
 {
     jmethodID mid;
     jstring str;
     jobject result;
-    jlong start, end;
-    jclass cls = GetLauncherHelperClass(env);
+    jlong stbrt, end;
+    jclbss cls = GetLbuncherHelperClbss(env);
     NULL_CHECK0(cls);
-    if (JLI_IsTraceLauncher()) {
-        start = CounterGet();
+    if (JLI_IsTrbceLbuncher()) {
+        stbrt = CounterGet();
     }
-    NULL_CHECK0(mid = (*env)->GetStaticMethodID(env, cls,
-                "checkAndLoadMain",
-                "(ZILjava/lang/String;)Ljava/lang/Class;"));
+    NULL_CHECK0(mid = (*env)->GetStbticMethodID(env, cls,
+                "checkAndLobdMbin",
+                "(ZILjbvb/lbng/String;)Ljbvb/lbng/Clbss;"));
 
-    NULL_CHECK0(str = NewPlatformString(env, name));
-    NULL_CHECK0(result = (*env)->CallStaticObjectMethod(env, cls, mid,
+    NULL_CHECK0(str = NewPlbtformString(env, nbme));
+    NULL_CHECK0(result = (*env)->CbllStbticObjectMethod(env, cls, mid,
                                                         USE_STDERR, mode, str));
 
-    if (JLI_IsTraceLauncher()) {
+    if (JLI_IsTrbceLbuncher()) {
         end   = CounterGet();
-        printf("%ld micro seconds to load main class\n",
-               (long)(jint)Counter2Micros(end-start));
+        printf("%ld micro seconds to lobd mbin clbss\n",
+               (long)(jint)Counter2Micros(end-stbrt));
         printf("----%s----\n", JLDEBUG_ENV_ENTRY);
     }
 
-    return (jclass)result;
+    return (jclbss)result;
 }
 
-static jclass
-GetApplicationClass(JNIEnv *env)
+stbtic jclbss
+GetApplicbtionClbss(JNIEnv *env)
 {
     jmethodID mid;
-    jclass cls = GetLauncherHelperClass(env);
+    jclbss cls = GetLbuncherHelperClbss(env);
     NULL_CHECK0(cls);
-    NULL_CHECK0(mid = (*env)->GetStaticMethodID(env, cls,
-                "getApplicationClass",
-                "()Ljava/lang/Class;"));
+    NULL_CHECK0(mid = (*env)->GetStbticMethodID(env, cls,
+                "getApplicbtionClbss",
+                "()Ljbvb/lbng/Clbss;"));
 
-    return (*env)->CallStaticObjectMethod(env, cls, mid);
+    return (*env)->CbllStbticObjectMethod(env, cls, mid);
 }
 
 /*
- * For tools, convert command line args thus:
- *   javac -cp foo:foo/"*" -J-ms32m ...
- *   java -ms32m -cp JLI_WildcardExpandClasspath(foo:foo/"*") ...
+ * For tools, convert commbnd line brgs thus:
+ *   jbvbc -cp foo:foo/"*" -J-ms32m ...
+ *   jbvb -ms32m -cp JLI_WildcbrdExpbndClbsspbth(foo:foo/"*") ...
  *
- * Takes 4 parameters, and returns the populated arguments
+ * Tbkes 4 pbrbmeters, bnd returns the populbted brguments
  */
-static void
-TranslateApplicationArgs(int jargc, const char **jargv, int *pargc, char ***pargv)
+stbtic void
+TrbnslbteApplicbtionArgs(int jbrgc, const chbr **jbrgv, int *pbrgc, chbr ***pbrgv)
 {
-    int argc = *pargc;
-    char **argv = *pargv;
-    int nargc = argc + jargc;
-    char **nargv = JLI_MemAlloc((nargc + 1) * sizeof(char *));
+    int brgc = *pbrgc;
+    chbr **brgv = *pbrgv;
+    int nbrgc = brgc + jbrgc;
+    chbr **nbrgv = JLI_MemAlloc((nbrgc + 1) * sizeof(chbr *));
     int i;
 
-    *pargc = nargc;
-    *pargv = nargv;
+    *pbrgc = nbrgc;
+    *pbrgv = nbrgv;
 
-    /* Copy the VM arguments (i.e. prefixed with -J) */
-    for (i = 0; i < jargc; i++) {
-        const char *arg = jargv[i];
-        if (arg[0] == '-' && arg[1] == 'J') {
-            *nargv++ = ((arg + 2) == NULL) ? NULL : JLI_StringDup(arg + 2);
+    /* Copy the VM brguments (i.e. prefixed with -J) */
+    for (i = 0; i < jbrgc; i++) {
+        const chbr *brg = jbrgv[i];
+        if (brg[0] == '-' && brg[1] == 'J') {
+            *nbrgv++ = ((brg + 2) == NULL) ? NULL : JLI_StringDup(brg + 2);
         }
     }
 
-    for (i = 0; i < argc; i++) {
-        char *arg = argv[i];
-        if (arg[0] == '-' && arg[1] == 'J') {
-            if (arg[2] == '\0') {
-                JLI_ReportErrorMessage(ARG_ERROR3);
+    for (i = 0; i < brgc; i++) {
+        chbr *brg = brgv[i];
+        if (brg[0] == '-' && brg[1] == 'J') {
+            if (brg[2] == '\0') {
+                JLI_ReportErrorMessbge(ARG_ERROR3);
                 exit(1);
             }
-            *nargv++ = arg + 2;
+            *nbrgv++ = brg + 2;
         }
     }
 
-    /* Copy the rest of the arguments */
-    for (i = 0; i < jargc ; i++) {
-        const char *arg = jargv[i];
-        if (arg[0] != '-' || arg[1] != 'J') {
-            *nargv++ = (arg == NULL) ? NULL : JLI_StringDup(arg);
+    /* Copy the rest of the brguments */
+    for (i = 0; i < jbrgc ; i++) {
+        const chbr *brg = jbrgv[i];
+        if (brg[0] != '-' || brg[1] != 'J') {
+            *nbrgv++ = (brg == NULL) ? NULL : JLI_StringDup(brg);
         }
     }
-    for (i = 0; i < argc; i++) {
-        char *arg = argv[i];
-        if (arg[0] == '-') {
-            if (arg[1] == 'J')
+    for (i = 0; i < brgc; i++) {
+        chbr *brg = brgv[i];
+        if (brg[0] == '-') {
+            if (brg[1] == 'J')
                 continue;
-            if (IsWildCardEnabled() && arg[1] == 'c'
-                && (JLI_StrCmp(arg, "-cp") == 0 ||
-                    JLI_StrCmp(arg, "-classpath") == 0)
-                && i < argc - 1) {
-                *nargv++ = arg;
-                *nargv++ = (char *) JLI_WildcardExpandClasspath(argv[i+1]);
+            if (IsWildCbrdEnbbled() && brg[1] == 'c'
+                && (JLI_StrCmp(brg, "-cp") == 0 ||
+                    JLI_StrCmp(brg, "-clbsspbth") == 0)
+                && i < brgc - 1) {
+                *nbrgv++ = brg;
+                *nbrgv++ = (chbr *) JLI_WildcbrdExpbndClbsspbth(brgv[i+1]);
                 i++;
                 continue;
             }
         }
-        *nargv++ = arg;
+        *nbrgv++ = brg;
     }
-    *nargv = 0;
+    *nbrgv = 0;
 }
 
 /*
- * For our tools, we try to add 3 VM options:
- *      -Denv.class.path=<envcp>
- *      -Dapplication.home=<apphome>
- *      -Djava.class.path=<appcp>
- * <envcp>   is the user's setting of CLASSPATH -- for instance the user
- *           tells javac where to find binary classes through this environment
- *           variable.  Notice that users will be able to compile against our
- *           tools classes (sun.tools.javac.Main) only if they explicitly add
- *           tools.jar to CLASSPATH.
- * <apphome> is the directory where the application is installed.
- * <appcp>   is the classpath to where our apps' classfiles are.
+ * For our tools, we try to bdd 3 VM options:
+ *      -Denv.clbss.pbth=<envcp>
+ *      -Dbpplicbtion.home=<bpphome>
+ *      -Djbvb.clbss.pbth=<bppcp>
+ * <envcp>   is the user's setting of CLASSPATH -- for instbnce the user
+ *           tells jbvbc where to find binbry clbsses through this environment
+ *           vbribble.  Notice thbt users will be bble to compile bgbinst our
+ *           tools clbsses (sun.tools.jbvbc.Mbin) only if they explicitly bdd
+ *           tools.jbr to CLASSPATH.
+ * <bpphome> is the directory where the bpplicbtion is instblled.
+ * <bppcp>   is the clbsspbth to where our bpps' clbssfiles bre.
  */
-static jboolean
-AddApplicationOptions(int cpathc, const char **cpathv)
+stbtic jboolebn
+AddApplicbtionOptions(int cpbthc, const chbr **cpbthv)
 {
-    char *envcp, *appcp, *apphome;
-    char home[MAXPATHLEN]; /* application home */
-    char separator[] = { PATH_SEPARATOR, '\0' };
+    chbr *envcp, *bppcp, *bpphome;
+    chbr home[MAXPATHLEN]; /* bpplicbtion home */
+    chbr sepbrbtor[] = { PATH_SEPARATOR, '\0' };
     int size, i;
 
     {
-        const char *s = getenv("CLASSPATH");
+        const chbr *s = getenv("CLASSPATH");
         if (s) {
-            s = (char *) JLI_WildcardExpandClasspath(s);
-            /* 40 for -Denv.class.path= */
-            if (JLI_StrLen(s) + 40 > JLI_StrLen(s)) { // Safeguard from overflow
-                envcp = (char *)JLI_MemAlloc(JLI_StrLen(s) + 40);
-                sprintf(envcp, "-Denv.class.path=%s", s);
+            s = (chbr *) JLI_WildcbrdExpbndClbsspbth(s);
+            /* 40 for -Denv.clbss.pbth= */
+            if (JLI_StrLen(s) + 40 > JLI_StrLen(s)) { // Sbfegubrd from overflow
+                envcp = (chbr *)JLI_MemAlloc(JLI_StrLen(s) + 40);
+                sprintf(envcp, "-Denv.clbss.pbth=%s", s);
                 AddOption(envcp, NULL);
             }
         }
     }
 
-    if (!GetApplicationHome(home, sizeof(home))) {
-        JLI_ReportErrorMessage(CFG_ERROR5);
+    if (!GetApplicbtionHome(home, sizeof(home))) {
+        JLI_ReportErrorMessbge(CFG_ERROR5);
         return JNI_FALSE;
     }
 
-    /* 40 for '-Dapplication.home=' */
-    apphome = (char *)JLI_MemAlloc(JLI_StrLen(home) + 40);
-    sprintf(apphome, "-Dapplication.home=%s", home);
-    AddOption(apphome, NULL);
+    /* 40 for '-Dbpplicbtion.home=' */
+    bpphome = (chbr *)JLI_MemAlloc(JLI_StrLen(home) + 40);
+    sprintf(bpphome, "-Dbpplicbtion.home=%s", home);
+    AddOption(bpphome, NULL);
 
-    /* How big is the application's classpath? */
-    size = 40;                                 /* 40: "-Djava.class.path=" */
-    for (i = 0; i < cpathc; i++) {
-        size += (int)JLI_StrLen(home) + (int)JLI_StrLen(cpathv[i]) + 1; /* 1: separator */
+    /* How big is the bpplicbtion's clbsspbth? */
+    size = 40;                                 /* 40: "-Djbvb.clbss.pbth=" */
+    for (i = 0; i < cpbthc; i++) {
+        size += (int)JLI_StrLen(home) + (int)JLI_StrLen(cpbthv[i]) + 1; /* 1: sepbrbtor */
     }
-    appcp = (char *)JLI_MemAlloc(size + 1);
-    JLI_StrCpy(appcp, "-Djava.class.path=");
-    for (i = 0; i < cpathc; i++) {
-        JLI_StrCat(appcp, home);                        /* c:\program files\myapp */
-        JLI_StrCat(appcp, cpathv[i]);           /* \lib\myapp.jar         */
-        JLI_StrCat(appcp, separator);           /* ;                      */
+    bppcp = (chbr *)JLI_MemAlloc(size + 1);
+    JLI_StrCpy(bppcp, "-Djbvb.clbss.pbth=");
+    for (i = 0; i < cpbthc; i++) {
+        JLI_StrCbt(bppcp, home);                        /* c:\progrbm files\mybpp */
+        JLI_StrCbt(bppcp, cpbthv[i]);           /* \lib\mybpp.jbr         */
+        JLI_StrCbt(bppcp, sepbrbtor);           /* ;                      */
     }
-    appcp[JLI_StrLen(appcp)-1] = '\0';  /* remove trailing path separator */
-    AddOption(appcp, NULL);
+    bppcp[JLI_StrLen(bppcp)-1] = '\0';  /* remove trbiling pbth sepbrbtor */
+    AddOption(bppcp, NULL);
     return JNI_TRUE;
 }
 
 /*
- * inject the -Dsun.java.command pseudo property into the args structure
+ * inject the -Dsun.jbvb.commbnd pseudo property into the brgs structure
  * this pseudo property is used in the HotSpot VM to expose the
- * Java class name and arguments to the main method to the VM. The
- * HotSpot VM uses this pseudo property to store the Java class name
- * (or jar file name) and the arguments to the class's main method
- * to the instrumentation memory region. The sun.java.command pseudo
- * property is not exported by HotSpot to the Java layer.
+ * Jbvb clbss nbme bnd brguments to the mbin method to the VM. The
+ * HotSpot VM uses this pseudo property to store the Jbvb clbss nbme
+ * (or jbr file nbme) bnd the brguments to the clbss's mbin method
+ * to the instrumentbtion memory region. The sun.jbvb.commbnd pseudo
+ * property is not exported by HotSpot to the Jbvb lbyer.
  */
 void
-SetJavaCommandLineProp(char *what, int argc, char **argv)
+SetJbvbCommbndLineProp(chbr *whbt, int brgc, chbr **brgv)
 {
 
     int i = 0;
     size_t len = 0;
-    char* javaCommand = NULL;
-    char* dashDstr = "-Dsun.java.command=";
+    chbr* jbvbCommbnd = NULL;
+    chbr* dbshDstr = "-Dsun.jbvb.commbnd=";
 
-    if (what == NULL) {
+    if (whbt == NULL) {
         /* unexpected, one of these should be set. just return without
          * setting the property
          */
         return;
     }
 
-    /* determine the amount of memory to allocate assuming
-     * the individual components will be space separated
+    /* determine the bmount of memory to bllocbte bssuming
+     * the individubl components will be spbce sepbrbted
      */
-    len = JLI_StrLen(what);
-    for (i = 0; i < argc; i++) {
-        len += JLI_StrLen(argv[i]) + 1;
+    len = JLI_StrLen(whbt);
+    for (i = 0; i < brgc; i++) {
+        len += JLI_StrLen(brgv[i]) + 1;
     }
 
-    /* allocate the memory */
-    javaCommand = (char*) JLI_MemAlloc(len + JLI_StrLen(dashDstr) + 1);
+    /* bllocbte the memory */
+    jbvbCommbnd = (chbr*) JLI_MemAlloc(len + JLI_StrLen(dbshDstr) + 1);
 
     /* build the -D string */
-    *javaCommand = '\0';
-    JLI_StrCat(javaCommand, dashDstr);
-    JLI_StrCat(javaCommand, what);
+    *jbvbCommbnd = '\0';
+    JLI_StrCbt(jbvbCommbnd, dbshDstr);
+    JLI_StrCbt(jbvbCommbnd, whbt);
 
-    for (i = 0; i < argc; i++) {
-        /* the components of the string are space separated. In
-         * the case of embedded white space, the relationship of
-         * the white space separated components to their true
-         * positional arguments will be ambiguous. This issue may
-         * be addressed in a future release.
+    for (i = 0; i < brgc; i++) {
+        /* the components of the string bre spbce sepbrbted. In
+         * the cbse of embedded white spbce, the relbtionship of
+         * the white spbce sepbrbted components to their true
+         * positionbl brguments will be bmbiguous. This issue mby
+         * be bddressed in b future relebse.
          */
-        JLI_StrCat(javaCommand, " ");
-        JLI_StrCat(javaCommand, argv[i]);
+        JLI_StrCbt(jbvbCommbnd, " ");
+        JLI_StrCbt(jbvbCommbnd, brgv[i]);
     }
 
-    AddOption(javaCommand, NULL);
+    AddOption(jbvbCommbnd, NULL);
 }
 
 /*
- * JVM would like to know if it's created by a standard Sun launcher, or by
- * user native application, the following property indicates the former.
+ * JVM would like to know if it's crebted by b stbndbrd Sun lbuncher, or by
+ * user nbtive bpplicbtion, the following property indicbtes the former.
  */
 void
-SetJavaLauncherProp() {
-  AddOption("-Dsun.java.launcher=SUN_STANDARD", NULL);
+SetJbvbLbuncherProp() {
+  AddOption("-Dsun.jbvb.lbuncher=SUN_STANDARD", NULL);
 }
 
 /*
- * Prints the version information from the java.version and other properties.
+ * Prints the version informbtion from the jbvb.version bnd other properties.
  */
-static void
-PrintJavaVersion(JNIEnv *env, jboolean extraLF)
+stbtic void
+PrintJbvbVersion(JNIEnv *env, jboolebn extrbLF)
 {
-    jclass ver;
+    jclbss ver;
     jmethodID print;
 
-    NULL_CHECK(ver = FindBootStrapClass(env, "sun/misc/Version"));
-    NULL_CHECK(print = (*env)->GetStaticMethodID(env,
+    NULL_CHECK(ver = FindBootStrbpClbss(env, "sun/misc/Version"));
+    NULL_CHECK(print = (*env)->GetStbticMethodID(env,
                                                  ver,
-                                                 (extraLF == JNI_TRUE) ? "println" : "print",
+                                                 (extrbLF == JNI_TRUE) ? "println" : "print",
                                                  "()V"
                                                  )
               );
 
-    (*env)->CallStaticVoidMethod(env, ver, print);
+    (*env)->CbllStbticVoidMethod(env, ver, print);
 }
 
 /*
- * Prints all the Java settings, see the java implementation for more details.
+ * Prints bll the Jbvb settings, see the jbvb implementbtion for more detbils.
  */
-static void
-ShowSettings(JNIEnv *env, char *optString)
+stbtic void
+ShowSettings(JNIEnv *env, chbr *optString)
 {
     jmethodID showSettingsID;
     jstring joptString;
-    jclass cls = GetLauncherHelperClass(env);
+    jclbss cls = GetLbuncherHelperClbss(env);
     NULL_CHECK(cls);
-    NULL_CHECK(showSettingsID = (*env)->GetStaticMethodID(env, cls,
-            "showSettings", "(ZLjava/lang/String;JJJZ)V"));
+    NULL_CHECK(showSettingsID = (*env)->GetStbticMethodID(env, cls,
+            "showSettings", "(ZLjbvb/lbng/String;JJJZ)V"));
     NULL_CHECK(joptString = (*env)->NewStringUTF(env, optString));
-    (*env)->CallStaticVoidMethod(env, cls, showSettingsID,
+    (*env)->CbllStbticVoidMethod(env, cls, showSettingsID,
                                  USE_STDERR,
                                  joptString,
-                                 (jlong)initialHeapSize,
-                                 (jlong)maxHeapSize,
-                                 (jlong)threadStackSize,
-                                 ServerClassMachine());
+                                 (jlong)initiblHebpSize,
+                                 (jlong)mbxHebpSize,
+                                 (jlong)threbdStbckSize,
+                                 ServerClbssMbchine());
 }
 
 /*
- * Prints default usage or the Xusage message, see sun.launcher.LauncherHelper.java
+ * Prints defbult usbge or the Xusbge messbge, see sun.lbuncher.LbuncherHelper.jbvb
  */
-static void
-PrintUsage(JNIEnv* env, jboolean doXUsage)
+stbtic void
+PrintUsbge(JNIEnv* env, jboolebn doXUsbge)
 {
-  jmethodID initHelp, vmSelect, vmSynonym, vmErgo, printHelp, printXUsageMessage;
-  jstring jprogname, vm1, vm2;
+  jmethodID initHelp, vmSelect, vmSynonym, vmErgo, printHelp, printXUsbgeMessbge;
+  jstring jprognbme, vm1, vm2;
   int i;
-  jclass cls = GetLauncherHelperClass(env);
+  jclbss cls = GetLbuncherHelperClbss(env);
   NULL_CHECK(cls);
-  if (doXUsage) {
-    NULL_CHECK(printXUsageMessage = (*env)->GetStaticMethodID(env, cls,
-                                        "printXUsageMessage", "(Z)V"));
-    (*env)->CallStaticVoidMethod(env, cls, printXUsageMessage, USE_STDERR);
+  if (doXUsbge) {
+    NULL_CHECK(printXUsbgeMessbge = (*env)->GetStbticMethodID(env, cls,
+                                        "printXUsbgeMessbge", "(Z)V"));
+    (*env)->CbllStbticVoidMethod(env, cls, printXUsbgeMessbge, USE_STDERR);
   } else {
-    NULL_CHECK(initHelp = (*env)->GetStaticMethodID(env, cls,
-                                        "initHelpMessage", "(Ljava/lang/String;)V"));
+    NULL_CHECK(initHelp = (*env)->GetStbticMethodID(env, cls,
+                                        "initHelpMessbge", "(Ljbvb/lbng/String;)V"));
 
-    NULL_CHECK(vmSelect = (*env)->GetStaticMethodID(env, cls, "appendVmSelectMessage",
-                                        "(Ljava/lang/String;Ljava/lang/String;)V"));
+    NULL_CHECK(vmSelect = (*env)->GetStbticMethodID(env, cls, "bppendVmSelectMessbge",
+                                        "(Ljbvb/lbng/String;Ljbvb/lbng/String;)V"));
 
-    NULL_CHECK(vmSynonym = (*env)->GetStaticMethodID(env, cls,
-                                        "appendVmSynonymMessage",
-                                        "(Ljava/lang/String;Ljava/lang/String;)V"));
-    NULL_CHECK(vmErgo = (*env)->GetStaticMethodID(env, cls,
-                                        "appendVmErgoMessage", "(ZLjava/lang/String;)V"));
+    NULL_CHECK(vmSynonym = (*env)->GetStbticMethodID(env, cls,
+                                        "bppendVmSynonymMessbge",
+                                        "(Ljbvb/lbng/String;Ljbvb/lbng/String;)V"));
+    NULL_CHECK(vmErgo = (*env)->GetStbticMethodID(env, cls,
+                                        "bppendVmErgoMessbge", "(ZLjbvb/lbng/String;)V"));
 
-    NULL_CHECK(printHelp = (*env)->GetStaticMethodID(env, cls,
-                                        "printHelpMessage", "(Z)V"));
+    NULL_CHECK(printHelp = (*env)->GetStbticMethodID(env, cls,
+                                        "printHelpMessbge", "(Z)V"));
 
-    NULL_CHECK(jprogname = (*env)->NewStringUTF(env, _program_name));
+    NULL_CHECK(jprognbme = (*env)->NewStringUTF(env, _progrbm_nbme));
 
-    /* Initialize the usage message with the usual preamble */
-    (*env)->CallStaticVoidMethod(env, cls, initHelp, jprogname);
+    /* Initiblize the usbge messbge with the usubl prebmble */
+    (*env)->CbllStbticVoidMethod(env, cls, initHelp, jprognbme);
     CHECK_EXCEPTION_RETURN();
 
 
-    /* Assemble the other variant part of the usage */
-    if ((knownVMs[0].flag == VM_KNOWN) ||
-        (knownVMs[0].flag == VM_IF_SERVER_CLASS)) {
-      NULL_CHECK(vm1 = (*env)->NewStringUTF(env, knownVMs[0].name));
-      NULL_CHECK(vm2 =  (*env)->NewStringUTF(env, knownVMs[0].name+1));
-      (*env)->CallStaticVoidMethod(env, cls, vmSelect, vm1, vm2);
+    /* Assemble the other vbribnt pbrt of the usbge */
+    if ((knownVMs[0].flbg == VM_KNOWN) ||
+        (knownVMs[0].flbg == VM_IF_SERVER_CLASS)) {
+      NULL_CHECK(vm1 = (*env)->NewStringUTF(env, knownVMs[0].nbme));
+      NULL_CHECK(vm2 =  (*env)->NewStringUTF(env, knownVMs[0].nbme+1));
+      (*env)->CbllStbticVoidMethod(env, cls, vmSelect, vm1, vm2);
       CHECK_EXCEPTION_RETURN();
     }
     for (i=1; i<knownVMsCount; i++) {
-      if (knownVMs[i].flag == VM_KNOWN) {
-        NULL_CHECK(vm1 =  (*env)->NewStringUTF(env, knownVMs[i].name));
-        NULL_CHECK(vm2 =  (*env)->NewStringUTF(env, knownVMs[i].name+1));
-        (*env)->CallStaticVoidMethod(env, cls, vmSelect, vm1, vm2);
+      if (knownVMs[i].flbg == VM_KNOWN) {
+        NULL_CHECK(vm1 =  (*env)->NewStringUTF(env, knownVMs[i].nbme));
+        NULL_CHECK(vm2 =  (*env)->NewStringUTF(env, knownVMs[i].nbme+1));
+        (*env)->CbllStbticVoidMethod(env, cls, vmSelect, vm1, vm2);
         CHECK_EXCEPTION_RETURN();
       }
     }
     for (i=1; i<knownVMsCount; i++) {
-      if (knownVMs[i].flag == VM_ALIASED_TO) {
-        NULL_CHECK(vm1 =  (*env)->NewStringUTF(env, knownVMs[i].name));
-        NULL_CHECK(vm2 =  (*env)->NewStringUTF(env, knownVMs[i].alias+1));
-        (*env)->CallStaticVoidMethod(env, cls, vmSynonym, vm1, vm2);
+      if (knownVMs[i].flbg == VM_ALIASED_TO) {
+        NULL_CHECK(vm1 =  (*env)->NewStringUTF(env, knownVMs[i].nbme));
+        NULL_CHECK(vm2 =  (*env)->NewStringUTF(env, knownVMs[i].blibs+1));
+        (*env)->CbllStbticVoidMethod(env, cls, vmSynonym, vm1, vm2);
         CHECK_EXCEPTION_RETURN();
       }
     }
 
-    /* The first known VM is the default */
+    /* The first known VM is the defbult */
     {
-      jboolean isServerClassMachine = ServerClassMachine();
+      jboolebn isServerClbssMbchine = ServerClbssMbchine();
 
-      const char* defaultVM  =  knownVMs[0].name+1;
-      if ((knownVMs[0].flag == VM_IF_SERVER_CLASS) && isServerClassMachine) {
-        defaultVM = knownVMs[0].server_class+1;
+      const chbr* defbultVM  =  knownVMs[0].nbme+1;
+      if ((knownVMs[0].flbg == VM_IF_SERVER_CLASS) && isServerClbssMbchine) {
+        defbultVM = knownVMs[0].server_clbss+1;
       }
 
-      NULL_CHECK(vm1 =  (*env)->NewStringUTF(env, defaultVM));
-      (*env)->CallStaticVoidMethod(env, cls, vmErgo, isServerClassMachine,  vm1);
+      NULL_CHECK(vm1 =  (*env)->NewStringUTF(env, defbultVM));
+      (*env)->CbllStbticVoidMethod(env, cls, vmErgo, isServerClbssMbchine,  vm1);
       CHECK_EXCEPTION_RETURN();
     }
 
-    /* Complete the usage message and print to stderr*/
-    (*env)->CallStaticVoidMethod(env, cls, printHelp, USE_STDERR);
+    /* Complete the usbge messbge bnd print to stderr*/
+    (*env)->CbllStbticVoidMethod(env, cls, printHelp, USE_STDERR);
   }
   return;
 }
 
 /*
- * Read the jvm.cfg file and fill the knownJVMs[] array.
+ * Rebd the jvm.cfg file bnd fill the knownJVMs[] brrby.
  *
- * The functionality of the jvm.cfg file is subject to change without
- * notice and the mechanism will be removed in the future.
+ * The functionblity of the jvm.cfg file is subject to chbnge without
+ * notice bnd the mechbnism will be removed in the future.
  *
- * The lexical structure of the jvm.cfg file is as follows:
+ * The lexicbl structure of the jvm.cfg file is bs follows:
  *
  *     jvmcfg         :=  { vmLine }
  *     vmLine         :=  knownLine
- *                    |   aliasLine
- *                    |   warnLine
+ *                    |   blibsLine
+ *                    |   wbrnLine
  *                    |   ignoreLine
  *                    |   errorLine
- *                    |   predicateLine
+ *                    |   predicbteLine
  *                    |   commentLine
- *     knownLine      :=  flag  "KNOWN"                  EOL
- *     warnLine       :=  flag  "WARN"                   EOL
- *     ignoreLine     :=  flag  "IGNORE"                 EOL
- *     errorLine      :=  flag  "ERROR"                  EOL
- *     aliasLine      :=  flag  "ALIASED_TO"       flag  EOL
- *     predicateLine  :=  flag  "IF_SERVER_CLASS"  flag  EOL
+ *     knownLine      :=  flbg  "KNOWN"                  EOL
+ *     wbrnLine       :=  flbg  "WARN"                   EOL
+ *     ignoreLine     :=  flbg  "IGNORE"                 EOL
+ *     errorLine      :=  flbg  "ERROR"                  EOL
+ *     blibsLine      :=  flbg  "ALIASED_TO"       flbg  EOL
+ *     predicbteLine  :=  flbg  "IF_SERVER_CLASS"  flbg  EOL
  *     commentLine    :=  "#" text                       EOL
- *     flag           :=  "-" identifier
+ *     flbg           :=  "-" identifier
  *
- * The semantics are that when someone specifies a flag on the command line:
- * - if the flag appears on a knownLine, then the identifier is used as
- *   the name of the directory holding the JVM library (the name of the JVM).
- * - if the flag appears as the first flag on an aliasLine, the identifier
- *   of the second flag is used as the name of the JVM.
- * - if the flag appears on a warnLine, the identifier is used as the
- *   name of the JVM, but a warning is generated.
- * - if the flag appears on an ignoreLine, the identifier is recognized as the
- *   name of a JVM, but the identifier is ignored and the default vm used
- * - if the flag appears on an errorLine, an error is generated.
- * - if the flag appears as the first flag on a predicateLine, and
- *   the machine on which you are running passes the predicate indicated,
- *   then the identifier of the second flag is used as the name of the JVM,
- *   otherwise the identifier of the first flag is used as the name of the JVM.
- * If no flag is given on the command line, the first vmLine of the jvm.cfg
- * file determines the name of the JVM.
- * PredicateLines are only interpreted on first vmLine of a jvm.cfg file,
- * since they only make sense if someone hasn't specified the name of the
- * JVM on the command line.
+ * The sembntics bre thbt when someone specifies b flbg on the commbnd line:
+ * - if the flbg bppebrs on b knownLine, then the identifier is used bs
+ *   the nbme of the directory holding the JVM librbry (the nbme of the JVM).
+ * - if the flbg bppebrs bs the first flbg on bn blibsLine, the identifier
+ *   of the second flbg is used bs the nbme of the JVM.
+ * - if the flbg bppebrs on b wbrnLine, the identifier is used bs the
+ *   nbme of the JVM, but b wbrning is generbted.
+ * - if the flbg bppebrs on bn ignoreLine, the identifier is recognized bs the
+ *   nbme of b JVM, but the identifier is ignored bnd the defbult vm used
+ * - if the flbg bppebrs on bn errorLine, bn error is generbted.
+ * - if the flbg bppebrs bs the first flbg on b predicbteLine, bnd
+ *   the mbchine on which you bre running pbsses the predicbte indicbted,
+ *   then the identifier of the second flbg is used bs the nbme of the JVM,
+ *   otherwise the identifier of the first flbg is used bs the nbme of the JVM.
+ * If no flbg is given on the commbnd line, the first vmLine of the jvm.cfg
+ * file determines the nbme of the JVM.
+ * PredicbteLines bre only interpreted on first vmLine of b jvm.cfg file,
+ * since they only mbke sense if someone hbsn't specified the nbme of the
+ * JVM on the commbnd line.
  *
- * The intent of the jvm.cfg file is to allow several JVM libraries to
- * be installed in different subdirectories of a single JRE installation,
- * for space-savings and convenience in testing.
- * The intent is explicitly not to provide a full aliasing or predicate
- * mechanism.
+ * The intent of the jvm.cfg file is to bllow severbl JVM librbries to
+ * be instblled in different subdirectories of b single JRE instbllbtion,
+ * for spbce-sbvings bnd convenience in testing.
+ * The intent is explicitly not to provide b full blibsing or predicbte
+ * mechbnism.
  */
 jint
-ReadKnownVMs(const char *jvmCfgName, jboolean speculative)
+RebdKnownVMs(const chbr *jvmCfgNbme, jboolebn speculbtive)
 {
     FILE *jvmCfg;
-    char line[MAXPATHLEN+20];
+    chbr line[MAXPATHLEN+20];
     int cnt = 0;
     int lineno = 0;
-    jlong start, end;
+    jlong stbrt, end;
     int vmType;
-    char *tmpPtr;
-    char *altVMName = NULL;
-    char *serverClassVMName = NULL;
-    static char *whiteSpace = " \t";
-    if (JLI_IsTraceLauncher()) {
-        start = CounterGet();
+    chbr *tmpPtr;
+    chbr *bltVMNbme = NULL;
+    chbr *serverClbssVMNbme = NULL;
+    stbtic chbr *whiteSpbce = " \t";
+    if (JLI_IsTrbceLbuncher()) {
+        stbrt = CounterGet();
     }
 
-    jvmCfg = fopen(jvmCfgName, "r");
+    jvmCfg = fopen(jvmCfgNbme, "r");
     if (jvmCfg == NULL) {
-      if (!speculative) {
-        JLI_ReportErrorMessage(CFG_ERROR6, jvmCfgName);
+      if (!speculbtive) {
+        JLI_ReportErrorMessbge(CFG_ERROR6, jvmCfgNbme);
         exit(1);
       } else {
         return -1;
@@ -1734,35 +1734,35 @@ ReadKnownVMs(const char *jvmCfgName, jboolean speculative)
         if (line[0] == '#')
             continue;
         if (line[0] != '-') {
-            JLI_ReportErrorMessage(CFG_WARN2, lineno, jvmCfgName);
+            JLI_ReportErrorMessbge(CFG_WARN2, lineno, jvmCfgNbme);
         }
         if (cnt >= knownVMsLimit) {
             GrowKnownVMs(cnt);
         }
-        line[JLI_StrLen(line)-1] = '\0'; /* remove trailing newline */
-        tmpPtr = line + JLI_StrCSpn(line, whiteSpace);
+        line[JLI_StrLen(line)-1] = '\0'; /* remove trbiling newline */
+        tmpPtr = line + JLI_StrCSpn(line, whiteSpbce);
         if (*tmpPtr == 0) {
-            JLI_ReportErrorMessage(CFG_WARN3, lineno, jvmCfgName);
+            JLI_ReportErrorMessbge(CFG_WARN3, lineno, jvmCfgNbme);
         } else {
-            /* Null-terminate this string for JLI_StringDup below */
+            /* Null-terminbte this string for JLI_StringDup below */
             *tmpPtr++ = 0;
-            tmpPtr += JLI_StrSpn(tmpPtr, whiteSpace);
+            tmpPtr += JLI_StrSpn(tmpPtr, whiteSpbce);
             if (*tmpPtr == 0) {
-                JLI_ReportErrorMessage(CFG_WARN3, lineno, jvmCfgName);
+                JLI_ReportErrorMessbge(CFG_WARN3, lineno, jvmCfgNbme);
             } else {
                 if (!JLI_StrCCmp(tmpPtr, "KNOWN")) {
                     vmType = VM_KNOWN;
                 } else if (!JLI_StrCCmp(tmpPtr, "ALIASED_TO")) {
-                    tmpPtr += JLI_StrCSpn(tmpPtr, whiteSpace);
+                    tmpPtr += JLI_StrCSpn(tmpPtr, whiteSpbce);
                     if (*tmpPtr != 0) {
-                        tmpPtr += JLI_StrSpn(tmpPtr, whiteSpace);
+                        tmpPtr += JLI_StrSpn(tmpPtr, whiteSpbce);
                     }
                     if (*tmpPtr == 0) {
-                        JLI_ReportErrorMessage(CFG_WARN3, lineno, jvmCfgName);
+                        JLI_ReportErrorMessbge(CFG_WARN3, lineno, jvmCfgNbme);
                     } else {
-                        /* Null terminate altVMName */
-                        altVMName = tmpPtr;
-                        tmpPtr += JLI_StrCSpn(tmpPtr, whiteSpace);
+                        /* Null terminbte bltVMNbme */
+                        bltVMNbme = tmpPtr;
+                        tmpPtr += JLI_StrCSpn(tmpPtr, whiteSpbce);
                         *tmpPtr = 0;
                         vmType = VM_ALIASED_TO;
                     }
@@ -1773,43 +1773,43 @@ ReadKnownVMs(const char *jvmCfgName, jboolean speculative)
                 } else if (!JLI_StrCCmp(tmpPtr, "ERROR")) {
                     vmType = VM_ERROR;
                 } else if (!JLI_StrCCmp(tmpPtr, "IF_SERVER_CLASS")) {
-                    tmpPtr += JLI_StrCSpn(tmpPtr, whiteSpace);
+                    tmpPtr += JLI_StrCSpn(tmpPtr, whiteSpbce);
                     if (*tmpPtr != 0) {
-                        tmpPtr += JLI_StrSpn(tmpPtr, whiteSpace);
+                        tmpPtr += JLI_StrSpn(tmpPtr, whiteSpbce);
                     }
                     if (*tmpPtr == 0) {
-                        JLI_ReportErrorMessage(CFG_WARN4, lineno, jvmCfgName);
+                        JLI_ReportErrorMessbge(CFG_WARN4, lineno, jvmCfgNbme);
                     } else {
-                        /* Null terminate server class VM name */
-                        serverClassVMName = tmpPtr;
-                        tmpPtr += JLI_StrCSpn(tmpPtr, whiteSpace);
+                        /* Null terminbte server clbss VM nbme */
+                        serverClbssVMNbme = tmpPtr;
+                        tmpPtr += JLI_StrCSpn(tmpPtr, whiteSpbce);
                         *tmpPtr = 0;
                         vmType = VM_IF_SERVER_CLASS;
                     }
                 } else {
-                    JLI_ReportErrorMessage(CFG_WARN5, lineno, &jvmCfgName[0]);
+                    JLI_ReportErrorMessbge(CFG_WARN5, lineno, &jvmCfgNbme[0]);
                     vmType = VM_KNOWN;
                 }
             }
         }
 
-        JLI_TraceLauncher("jvm.cfg[%d] = ->%s<-\n", cnt, line);
+        JLI_TrbceLbuncher("jvm.cfg[%d] = ->%s<-\n", cnt, line);
         if (vmType != VM_UNKNOWN) {
-            knownVMs[cnt].name = JLI_StringDup(line);
-            knownVMs[cnt].flag = vmType;
+            knownVMs[cnt].nbme = JLI_StringDup(line);
+            knownVMs[cnt].flbg = vmType;
             switch (vmType) {
-            default:
-                break;
-            case VM_ALIASED_TO:
-                knownVMs[cnt].alias = JLI_StringDup(altVMName);
-                JLI_TraceLauncher("    name: %s  vmType: %s  alias: %s\n",
-                   knownVMs[cnt].name, "VM_ALIASED_TO", knownVMs[cnt].alias);
-                break;
-            case VM_IF_SERVER_CLASS:
-                knownVMs[cnt].server_class = JLI_StringDup(serverClassVMName);
-                JLI_TraceLauncher("    name: %s  vmType: %s  server_class: %s\n",
-                    knownVMs[cnt].name, "VM_IF_SERVER_CLASS", knownVMs[cnt].server_class);
-                break;
+            defbult:
+                brebk;
+            cbse VM_ALIASED_TO:
+                knownVMs[cnt].blibs = JLI_StringDup(bltVMNbme);
+                JLI_TrbceLbuncher("    nbme: %s  vmType: %s  blibs: %s\n",
+                   knownVMs[cnt].nbme, "VM_ALIASED_TO", knownVMs[cnt].blibs);
+                brebk;
+            cbse VM_IF_SERVER_CLASS:
+                knownVMs[cnt].server_clbss = JLI_StringDup(serverClbssVMNbme);
+                JLI_TrbceLbuncher("    nbme: %s  vmType: %s  server_clbss: %s\n",
+                    knownVMs[cnt].nbme, "VM_IF_SERVER_CLASS", knownVMs[cnt].server_clbss);
+                brebk;
             }
             cnt++;
         }
@@ -1817,150 +1817,150 @@ ReadKnownVMs(const char *jvmCfgName, jboolean speculative)
     fclose(jvmCfg);
     knownVMsCount = cnt;
 
-    if (JLI_IsTraceLauncher()) {
+    if (JLI_IsTrbceLbuncher()) {
         end   = CounterGet();
-        printf("%ld micro seconds to parse jvm.cfg\n",
-               (long)(jint)Counter2Micros(end-start));
+        printf("%ld micro seconds to pbrse jvm.cfg\n",
+               (long)(jint)Counter2Micros(end-stbrt));
     }
 
     return cnt;
 }
 
 
-static void
+stbtic void
 GrowKnownVMs(int minimum)
 {
     struct vmdesc* newKnownVMs;
-    int newMax;
+    int newMbx;
 
-    newMax = (knownVMsLimit == 0 ? INIT_MAX_KNOWN_VMS : (2 * knownVMsLimit));
-    if (newMax <= minimum) {
-        newMax = minimum;
+    newMbx = (knownVMsLimit == 0 ? INIT_MAX_KNOWN_VMS : (2 * knownVMsLimit));
+    if (newMbx <= minimum) {
+        newMbx = minimum;
     }
-    newKnownVMs = (struct vmdesc*) JLI_MemAlloc(newMax * sizeof(struct vmdesc));
+    newKnownVMs = (struct vmdesc*) JLI_MemAlloc(newMbx * sizeof(struct vmdesc));
     if (knownVMs != NULL) {
         memcpy(newKnownVMs, knownVMs, knownVMsLimit * sizeof(struct vmdesc));
     }
     JLI_MemFree(knownVMs);
     knownVMs = newKnownVMs;
-    knownVMsLimit = newMax;
+    knownVMsLimit = newMbx;
 }
 
 
 /* Returns index of VM or -1 if not found */
-static int
-KnownVMIndex(const char* name)
+stbtic int
+KnownVMIndex(const chbr* nbme)
 {
     int i;
-    if (JLI_StrCCmp(name, "-J") == 0) name += 2;
+    if (JLI_StrCCmp(nbme, "-J") == 0) nbme += 2;
     for (i = 0; i < knownVMsCount; i++) {
-        if (!JLI_StrCmp(name, knownVMs[i].name)) {
+        if (!JLI_StrCmp(nbme, knownVMs[i].nbme)) {
             return i;
         }
     }
     return -1;
 }
 
-static void
+stbtic void
 FreeKnownVMs()
 {
     int i;
     for (i = 0; i < knownVMsCount; i++) {
-        JLI_MemFree(knownVMs[i].name);
-        knownVMs[i].name = NULL;
+        JLI_MemFree(knownVMs[i].nbme);
+        knownVMs[i].nbme = NULL;
     }
     JLI_MemFree(knownVMs);
 }
 
 /*
- * Displays the splash screen according to the jar file name
- * and image file names stored in environment variables
+ * Displbys the splbsh screen bccording to the jbr file nbme
+ * bnd imbge file nbmes stored in environment vbribbles
  */
 void
-ShowSplashScreen()
+ShowSplbshScreen()
 {
-    const char *jar_name = getenv(SPLASH_JAR_ENV_ENTRY);
-    const char *file_name = getenv(SPLASH_FILE_ENV_ENTRY);
-    int data_size;
-    void *image_data = NULL;
-    float scale_factor = 1;
-    char *scaled_splash_name = NULL;
+    const chbr *jbr_nbme = getenv(SPLASH_JAR_ENV_ENTRY);
+    const chbr *file_nbme = getenv(SPLASH_FILE_ENV_ENTRY);
+    int dbtb_size;
+    void *imbge_dbtb = NULL;
+    flobt scble_fbctor = 1;
+    chbr *scbled_splbsh_nbme = NULL;
 
-    if (file_name == NULL){
+    if (file_nbme == NULL){
         return;
     }
 
-    scaled_splash_name = DoSplashGetScaledImageName(
-                        jar_name, file_name, &scale_factor);
-    if (jar_name) {
+    scbled_splbsh_nbme = DoSplbshGetScbledImbgeNbme(
+                        jbr_nbme, file_nbme, &scble_fbctor);
+    if (jbr_nbme) {
 
-        if (scaled_splash_name) {
-            image_data = JLI_JarUnpackFile(
-                    jar_name, scaled_splash_name, &data_size);
+        if (scbled_splbsh_nbme) {
+            imbge_dbtb = JLI_JbrUnpbckFile(
+                    jbr_nbme, scbled_splbsh_nbme, &dbtb_size);
         }
 
-        if (!image_data) {
-            scale_factor = 1;
-            image_data = JLI_JarUnpackFile(
-                            jar_name, file_name, &data_size);
+        if (!imbge_dbtb) {
+            scble_fbctor = 1;
+            imbge_dbtb = JLI_JbrUnpbckFile(
+                            jbr_nbme, file_nbme, &dbtb_size);
         }
-        if (image_data) {
-            DoSplashInit();
-            DoSplashSetScaleFactor(scale_factor);
-            DoSplashLoadMemory(image_data, data_size);
-            JLI_MemFree(image_data);
+        if (imbge_dbtb) {
+            DoSplbshInit();
+            DoSplbshSetScbleFbctor(scble_fbctor);
+            DoSplbshLobdMemory(imbge_dbtb, dbtb_size);
+            JLI_MemFree(imbge_dbtb);
         }
     } else {
-        DoSplashInit();
-        if (scaled_splash_name) {
-            DoSplashSetScaleFactor(scale_factor);
-            DoSplashLoadFile(scaled_splash_name);
+        DoSplbshInit();
+        if (scbled_splbsh_nbme) {
+            DoSplbshSetScbleFbctor(scble_fbctor);
+            DoSplbshLobdFile(scbled_splbsh_nbme);
         } else {
-            DoSplashLoadFile(file_name);
+            DoSplbshLobdFile(file_nbme);
         }
     }
 
-    if (scaled_splash_name) {
-        JLI_MemFree(scaled_splash_name);
+    if (scbled_splbsh_nbme) {
+        JLI_MemFree(scbled_splbsh_nbme);
     }
 
-    DoSplashSetFileJarName(file_name, jar_name);
+    DoSplbshSetFileJbrNbme(file_nbme, jbr_nbme);
 
     /*
-     * Done with all command line processing and potential re-execs so
-     * clean up the environment.
+     * Done with bll commbnd line processing bnd potentibl re-execs so
+     * clebn up the environment.
      */
     (void)UnsetEnv(ENV_ENTRY);
     (void)UnsetEnv(SPLASH_FILE_ENV_ENTRY);
     (void)UnsetEnv(SPLASH_JAR_ENV_ENTRY);
 
-    JLI_MemFree(splash_jar_entry);
-    JLI_MemFree(splash_file_entry);
+    JLI_MemFree(splbsh_jbr_entry);
+    JLI_MemFree(splbsh_file_entry);
 
 }
 
-const char*
+const chbr*
 GetDotVersion()
 {
     return _dVersion;
 }
 
-const char*
+const chbr*
 GetFullVersion()
 {
     return _fVersion;
 }
 
-const char*
-GetProgramName()
+const chbr*
+GetProgrbmNbme()
 {
-    return _program_name;
+    return _progrbm_nbme;
 }
 
-const char*
-GetLauncherName()
+const chbr*
+GetLbuncherNbme()
 {
-    return _launcher_name;
+    return _lbuncher_nbme;
 }
 
 jint
@@ -1969,102 +1969,102 @@ GetErgoPolicy()
     return _ergo_policy;
 }
 
-jboolean
-IsJavaArgs()
+jboolebn
+IsJbvbArgs()
 {
-    return _is_java_args;
+    return _is_jbvb_brgs;
 }
 
-static jboolean
-IsWildCardEnabled()
+stbtic jboolebn
+IsWildCbrdEnbbled()
 {
-    return _wc_enabled;
+    return _wc_enbbled;
 }
 
 int
-ContinueInNewThread(InvocationFunctions* ifn, jlong threadStackSize,
-                    int argc, char **argv,
-                    int mode, char *what, int ret)
+ContinueInNewThrebd(InvocbtionFunctions* ifn, jlong threbdStbckSize,
+                    int brgc, chbr **brgv,
+                    int mode, chbr *whbt, int ret)
 {
 
     /*
-     * If user doesn't specify stack size, check if VM has a preference.
-     * Note that HotSpot no longer supports JNI_VERSION_1_1 but it will
-     * return its default stack size through the init args structure.
+     * If user doesn't specify stbck size, check if VM hbs b preference.
+     * Note thbt HotSpot no longer supports JNI_VERSION_1_1 but it will
+     * return its defbult stbck size through the init brgs structure.
      */
-    if (threadStackSize == 0) {
-      struct JDK1_1InitArgs args1_1;
-      memset((void*)&args1_1, 0, sizeof(args1_1));
-      args1_1.version = JNI_VERSION_1_1;
-      ifn->GetDefaultJavaVMInitArgs(&args1_1);  /* ignore return value */
-      if (args1_1.javaStackSize > 0) {
-         threadStackSize = args1_1.javaStackSize;
+    if (threbdStbckSize == 0) {
+      struct JDK1_1InitArgs brgs1_1;
+      memset((void*)&brgs1_1, 0, sizeof(brgs1_1));
+      brgs1_1.version = JNI_VERSION_1_1;
+      ifn->GetDefbultJbvbVMInitArgs(&brgs1_1);  /* ignore return vblue */
+      if (brgs1_1.jbvbStbckSize > 0) {
+         threbdStbckSize = brgs1_1.jbvbStbckSize;
       }
     }
 
-    { /* Create a new thread to create JVM and invoke main method */
-      JavaMainArgs args;
+    { /* Crebte b new threbd to crebte JVM bnd invoke mbin method */
+      JbvbMbinArgs brgs;
       int rslt;
 
-      args.argc = argc;
-      args.argv = argv;
-      args.mode = mode;
-      args.what = what;
-      args.ifn = *ifn;
+      brgs.brgc = brgc;
+      brgs.brgv = brgv;
+      brgs.mode = mode;
+      brgs.whbt = whbt;
+      brgs.ifn = *ifn;
 
-      rslt = ContinueInNewThread0(JavaMain, threadStackSize, (void*)&args);
-      /* If the caller has deemed there is an error we
-       * simply return that, otherwise we return the value of
-       * the callee
+      rslt = ContinueInNewThrebd0(JbvbMbin, threbdStbckSize, (void*)&brgs);
+      /* If the cbller hbs deemed there is bn error we
+       * simply return thbt, otherwise we return the vblue of
+       * the cbllee
        */
       return (ret != 0) ? ret : rslt;
     }
 }
 
-static void
-DumpState()
+stbtic void
+DumpStbte()
 {
-    if (!JLI_IsTraceLauncher()) return ;
-    printf("Launcher state:\n");
-    printf("\tdebug:%s\n", (JLI_IsTraceLauncher() == JNI_TRUE) ? "on" : "off");
-    printf("\tjavargs:%s\n", (_is_java_args == JNI_TRUE) ? "on" : "off");
-    printf("\tprogram name:%s\n", GetProgramName());
-    printf("\tlauncher name:%s\n", GetLauncherName());
-    printf("\tjavaw:%s\n", (IsJavaw() == JNI_TRUE) ? "on" : "off");
+    if (!JLI_IsTrbceLbuncher()) return ;
+    printf("Lbuncher stbte:\n");
+    printf("\tdebug:%s\n", (JLI_IsTrbceLbuncher() == JNI_TRUE) ? "on" : "off");
+    printf("\tjbvbrgs:%s\n", (_is_jbvb_brgs == JNI_TRUE) ? "on" : "off");
+    printf("\tprogrbm nbme:%s\n", GetProgrbmNbme());
+    printf("\tlbuncher nbme:%s\n", GetLbuncherNbme());
+    printf("\tjbvbw:%s\n", (IsJbvbw() == JNI_TRUE) ? "on" : "off");
     printf("\tfullversion:%s\n", GetFullVersion());
     printf("\tdotversion:%s\n", GetDotVersion());
     printf("\tergo_policy:");
     switch(GetErgoPolicy()) {
-        case NEVER_SERVER_CLASS:
+        cbse NEVER_SERVER_CLASS:
             printf("NEVER_ACT_AS_A_SERVER_CLASS_MACHINE\n");
-            break;
-        case ALWAYS_SERVER_CLASS:
+            brebk;
+        cbse ALWAYS_SERVER_CLASS:
             printf("ALWAYS_ACT_AS_A_SERVER_CLASS_MACHINE\n");
-            break;
-        default:
+            brebk;
+        defbult:
             printf("DEFAULT_ERGONOMICS_POLICY\n");
     }
 }
 
 /*
- * Return JNI_TRUE for an option string that has no effect but should
- * _not_ be passed on to the vm; return JNI_FALSE otherwise.  On
- * Solaris SPARC, this screening needs to be done if:
- *    -d32 or -d64 is passed to a binary with an unmatched data model
- *    (the exec in CreateExecutionEnvironment removes -d<n> options and points the
- *    exec to the proper binary).  In the case of when the data model and the
- *    requested version is matched, an exec would not occur, and these options
- *    were erroneously passed to the vm.
+ * Return JNI_TRUE for bn option string thbt hbs no effect but should
+ * _not_ be pbssed on to the vm; return JNI_FALSE otherwise.  On
+ * Solbris SPARC, this screening needs to be done if:
+ *    -d32 or -d64 is pbssed to b binbry with bn unmbtched dbtb model
+ *    (the exec in CrebteExecutionEnvironment removes -d<n> options bnd points the
+ *    exec to the proper binbry).  In the cbse of when the dbtb model bnd the
+ *    requested version is mbtched, bn exec would not occur, bnd these options
+ *    were erroneously pbssed to the vm.
  */
-jboolean
-RemovableOption(char * option)
+jboolebn
+RemovbbleOption(chbr * option)
 {
   /*
-   * Unconditionally remove both -d32 and -d64 options since only
-   * the last such options has an effect; e.g.
-   * java -d32 -d64 -d32 -version
-   * is equivalent to
-   * java -d32 -version
+   * Unconditionblly remove both -d32 bnd -d64 options since only
+   * the lbst such options hbs bn effect; e.g.
+   * jbvb -d32 -d64 -d32 -version
+   * is equivblent to
+   * jbvb -d32 -version
    */
 
   if( (JLI_StrCCmp(option, "-d32")  == 0 ) ||
@@ -2075,14 +2075,14 @@ RemovableOption(char * option)
 }
 
 /*
- * A utility procedure to always print to stderr
+ * A utility procedure to blwbys print to stderr
  */
 void
-JLI_ReportMessage(const char* fmt, ...)
+JLI_ReportMessbge(const chbr* fmt, ...)
 {
-    va_list vl;
-    va_start(vl, fmt);
+    vb_list vl;
+    vb_stbrt(vl, fmt);
     vfprintf(stderr, fmt, vl);
     fprintf(stderr, "\n");
-    va_end(vl);
+    vb_end(vl);
 }

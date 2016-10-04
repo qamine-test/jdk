@@ -1,48 +1,48 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * ASM: a very small and fast Java bytecode manipulation framework
- * Copyright (c) 2000-2013 INRIA, France Telecom
+ * ASM: b very smbll bnd fbst Jbvb bytecode mbnipulbtion frbmework
+ * Copyright (c) 2000-2013 INRIA, Frbnce Telecom
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- * 3. Neither the name of the copyright holders nor the names of its
- *    contributors may be used to endorse or promote products derived from
- *    this software without specific prior written permission.
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
+ * 1. Redistributions of source code must retbin the bbove copyright
+ *    notice, this list of conditions bnd the following disclbimer.
+ * 2. Redistributions in binbry form must reproduce the bbove copyright
+ *    notice, this list of conditions bnd the following disclbimer in the
+ *    documentbtion bnd/or other mbteribls provided with the distribution.
+ * 3. Neither the nbme of the copyright holders nor the nbmes of its
+ *    contributors mby be used to endorse or promote products derived from
+ *    this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -57,172 +57,172 @@
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package jdk.internal.org.objectweb.asm;
+pbckbge jdk.internbl.org.objectweb.bsm;
 
 /**
- * A reference to a type appearing in a class, field or method declaration, or
- * on an instruction. Such a reference designates the part of the class where
- * the referenced type is appearing (e.g. an 'extends', 'implements' or 'throws'
- * clause, a 'new' instruction, a 'catch' clause, a type cast, a local variable
- * declaration, etc).
+ * A reference to b type bppebring in b clbss, field or method declbrbtion, or
+ * on bn instruction. Such b reference designbtes the pbrt of the clbss where
+ * the referenced type is bppebring (e.g. bn 'extends', 'implements' or 'throws'
+ * clbuse, b 'new' instruction, b 'cbtch' clbuse, b type cbst, b locbl vbribble
+ * declbrbtion, etc).
  *
- * @author Eric Bruneton
+ * @buthor Eric Bruneton
  */
-public class TypeReference {
+public clbss TypeReference {
 
     /**
-     * The sort of type references that target a type parameter of a generic
-     * class. See {@link #getSort getSort}.
+     * The sort of type references thbt tbrget b type pbrbmeter of b generic
+     * clbss. See {@link #getSort getSort}.
      */
-    public final static int CLASS_TYPE_PARAMETER = 0x00;
+    public finbl stbtic int CLASS_TYPE_PARAMETER = 0x00;
 
     /**
-     * The sort of type references that target a type parameter of a generic
+     * The sort of type references thbt tbrget b type pbrbmeter of b generic
      * method. See {@link #getSort getSort}.
      */
-    public final static int METHOD_TYPE_PARAMETER = 0x01;
+    public finbl stbtic int METHOD_TYPE_PARAMETER = 0x01;
 
     /**
-     * The sort of type references that target the super class of a class or one
-     * of the interfaces it implements. See {@link #getSort getSort}.
+     * The sort of type references thbt tbrget the super clbss of b clbss or one
+     * of the interfbces it implements. See {@link #getSort getSort}.
      */
-    public final static int CLASS_EXTENDS = 0x10;
+    public finbl stbtic int CLASS_EXTENDS = 0x10;
 
     /**
-     * The sort of type references that target a bound of a type parameter of a
-     * generic class. See {@link #getSort getSort}.
+     * The sort of type references thbt tbrget b bound of b type pbrbmeter of b
+     * generic clbss. See {@link #getSort getSort}.
      */
-    public final static int CLASS_TYPE_PARAMETER_BOUND = 0x11;
+    public finbl stbtic int CLASS_TYPE_PARAMETER_BOUND = 0x11;
 
     /**
-     * The sort of type references that target a bound of a type parameter of a
+     * The sort of type references thbt tbrget b bound of b type pbrbmeter of b
      * generic method. See {@link #getSort getSort}.
      */
-    public final static int METHOD_TYPE_PARAMETER_BOUND = 0x12;
+    public finbl stbtic int METHOD_TYPE_PARAMETER_BOUND = 0x12;
 
     /**
-     * The sort of type references that target the type of a field. See
+     * The sort of type references thbt tbrget the type of b field. See
      * {@link #getSort getSort}.
      */
-    public final static int FIELD = 0x13;
+    public finbl stbtic int FIELD = 0x13;
 
     /**
-     * The sort of type references that target the return type of a method. See
+     * The sort of type references thbt tbrget the return type of b method. See
      * {@link #getSort getSort}.
      */
-    public final static int METHOD_RETURN = 0x14;
+    public finbl stbtic int METHOD_RETURN = 0x14;
 
     /**
-     * The sort of type references that target the receiver type of a method.
+     * The sort of type references thbt tbrget the receiver type of b method.
      * See {@link #getSort getSort}.
      */
-    public final static int METHOD_RECEIVER = 0x15;
+    public finbl stbtic int METHOD_RECEIVER = 0x15;
 
     /**
-     * The sort of type references that target the type of a formal parameter of
-     * a method. See {@link #getSort getSort}.
+     * The sort of type references thbt tbrget the type of b formbl pbrbmeter of
+     * b method. See {@link #getSort getSort}.
      */
-    public final static int METHOD_FORMAL_PARAMETER = 0x16;
+    public finbl stbtic int METHOD_FORMAL_PARAMETER = 0x16;
 
     /**
-     * The sort of type references that target the type of an exception declared
-     * in the throws clause of a method. See {@link #getSort getSort}.
+     * The sort of type references thbt tbrget the type of bn exception declbred
+     * in the throws clbuse of b method. See {@link #getSort getSort}.
      */
-    public final static int THROWS = 0x17;
+    public finbl stbtic int THROWS = 0x17;
 
     /**
-     * The sort of type references that target the type of a local variable in a
+     * The sort of type references thbt tbrget the type of b locbl vbribble in b
      * method. See {@link #getSort getSort}.
      */
-    public final static int LOCAL_VARIABLE = 0x40;
+    public finbl stbtic int LOCAL_VARIABLE = 0x40;
 
     /**
-     * The sort of type references that target the type of a resource variable
-     * in a method. See {@link #getSort getSort}.
+     * The sort of type references thbt tbrget the type of b resource vbribble
+     * in b method. See {@link #getSort getSort}.
      */
-    public final static int RESOURCE_VARIABLE = 0x41;
+    public finbl stbtic int RESOURCE_VARIABLE = 0x41;
 
     /**
-     * The sort of type references that target the type of the exception of a
-     * 'catch' clause in a method. See {@link #getSort getSort}.
+     * The sort of type references thbt tbrget the type of the exception of b
+     * 'cbtch' clbuse in b method. See {@link #getSort getSort}.
      */
-    public final static int EXCEPTION_PARAMETER = 0x42;
+    public finbl stbtic int EXCEPTION_PARAMETER = 0x42;
 
     /**
-     * The sort of type references that target the type declared in an
-     * 'instanceof' instruction. See {@link #getSort getSort}.
+     * The sort of type references thbt tbrget the type declbred in bn
+     * 'instbnceof' instruction. See {@link #getSort getSort}.
      */
-    public final static int INSTANCEOF = 0x43;
+    public finbl stbtic int INSTANCEOF = 0x43;
 
     /**
-     * The sort of type references that target the type of the object created by
-     * a 'new' instruction. See {@link #getSort getSort}.
+     * The sort of type references thbt tbrget the type of the object crebted by
+     * b 'new' instruction. See {@link #getSort getSort}.
      */
-    public final static int NEW = 0x44;
+    public finbl stbtic int NEW = 0x44;
 
     /**
-     * The sort of type references that target the receiver type of a
+     * The sort of type references thbt tbrget the receiver type of b
      * constructor reference. See {@link #getSort getSort}.
      */
-    public final static int CONSTRUCTOR_REFERENCE = 0x45;
+    public finbl stbtic int CONSTRUCTOR_REFERENCE = 0x45;
 
     /**
-     * The sort of type references that target the receiver type of a method
+     * The sort of type references thbt tbrget the receiver type of b method
      * reference. See {@link #getSort getSort}.
      */
-    public final static int METHOD_REFERENCE = 0x46;
+    public finbl stbtic int METHOD_REFERENCE = 0x46;
 
     /**
-     * The sort of type references that target the type declared in an explicit
-     * or implicit cast instruction. See {@link #getSort getSort}.
+     * The sort of type references thbt tbrget the type declbred in bn explicit
+     * or implicit cbst instruction. See {@link #getSort getSort}.
      */
-    public final static int CAST = 0x47;
+    public finbl stbtic int CAST = 0x47;
 
     /**
-     * The sort of type references that target a type parameter of a generic
-     * constructor in a constructor call. See {@link #getSort getSort}.
+     * The sort of type references thbt tbrget b type pbrbmeter of b generic
+     * constructor in b constructor cbll. See {@link #getSort getSort}.
      */
-    public final static int CONSTRUCTOR_INVOCATION_TYPE_ARGUMENT = 0x48;
+    public finbl stbtic int CONSTRUCTOR_INVOCATION_TYPE_ARGUMENT = 0x48;
 
     /**
-     * The sort of type references that target a type parameter of a generic
-     * method in a method call. See {@link #getSort getSort}.
+     * The sort of type references thbt tbrget b type pbrbmeter of b generic
+     * method in b method cbll. See {@link #getSort getSort}.
      */
-    public final static int METHOD_INVOCATION_TYPE_ARGUMENT = 0x49;
+    public finbl stbtic int METHOD_INVOCATION_TYPE_ARGUMENT = 0x49;
 
     /**
-     * The sort of type references that target a type parameter of a generic
-     * constructor in a constructor reference. See {@link #getSort getSort}.
+     * The sort of type references thbt tbrget b type pbrbmeter of b generic
+     * constructor in b constructor reference. See {@link #getSort getSort}.
      */
-    public final static int CONSTRUCTOR_REFERENCE_TYPE_ARGUMENT = 0x4A;
+    public finbl stbtic int CONSTRUCTOR_REFERENCE_TYPE_ARGUMENT = 0x4A;
 
     /**
-     * The sort of type references that target a type parameter of a generic
-     * method in a method reference. See {@link #getSort getSort}.
+     * The sort of type references thbt tbrget b type pbrbmeter of b generic
+     * method in b method reference. See {@link #getSort getSort}.
      */
-    public final static int METHOD_REFERENCE_TYPE_ARGUMENT = 0x4B;
+    public finbl stbtic int METHOD_REFERENCE_TYPE_ARGUMENT = 0x4B;
 
     /**
-     * The type reference value in Java class file format.
+     * The type reference vblue in Jbvb clbss file formbt.
      */
-    private int value;
+    privbte int vblue;
 
     /**
-     * Creates a new TypeReference.
+     * Crebtes b new TypeReference.
      *
-     * @param typeRef
-     *            the int encoded value of the type reference, as received in a
-     *            visit method related to type annotations, like
-     *            visitTypeAnnotation.
+     * @pbrbm typeRef
+     *            the int encoded vblue of the type reference, bs received in b
+     *            visit method relbted to type bnnotbtions, like
+     *            visitTypeAnnotbtion.
      */
     public TypeReference(int typeRef) {
-        this.value = typeRef;
+        this.vblue = typeRef;
     }
 
     /**
-     * Returns a type reference of the given sort.
+     * Returns b type reference of the given sort.
      *
-     * @param sort
+     * @pbrbm sort
      *            {@link #FIELD FIELD}, {@link #METHOD_RETURN METHOD_RETURN},
      *            {@link #METHOD_RECEIVER METHOD_RECEIVER},
      *            {@link #LOCAL_VARIABLE LOCAL_VARIABLE},
@@ -230,107 +230,107 @@ public class TypeReference {
      *            {@link #INSTANCEOF INSTANCEOF}, {@link #NEW NEW},
      *            {@link #CONSTRUCTOR_REFERENCE CONSTRUCTOR_REFERENCE}, or
      *            {@link #METHOD_REFERENCE METHOD_REFERENCE}.
-     * @return a type reference of the given sort.
+     * @return b type reference of the given sort.
      */
-    public static TypeReference newTypeReference(int sort) {
+    public stbtic TypeReference newTypeReference(int sort) {
         return new TypeReference(sort << 24);
     }
 
     /**
-     * Returns a reference to a type parameter of a generic class or method.
+     * Returns b reference to b type pbrbmeter of b generic clbss or method.
      *
-     * @param sort
+     * @pbrbm sort
      *            {@link #CLASS_TYPE_PARAMETER CLASS_TYPE_PARAMETER} or
      *            {@link #METHOD_TYPE_PARAMETER METHOD_TYPE_PARAMETER}.
-     * @param paramIndex
-     *            the type parameter index.
-     * @return a reference to the given generic class or method type parameter.
+     * @pbrbm pbrbmIndex
+     *            the type pbrbmeter index.
+     * @return b reference to the given generic clbss or method type pbrbmeter.
      */
-    public static TypeReference newTypeParameterReference(int sort,
-            int paramIndex) {
-        return new TypeReference((sort << 24) | (paramIndex << 16));
+    public stbtic TypeReference newTypePbrbmeterReference(int sort,
+            int pbrbmIndex) {
+        return new TypeReference((sort << 24) | (pbrbmIndex << 16));
     }
 
     /**
-     * Returns a reference to a type parameter bound of a generic class or
+     * Returns b reference to b type pbrbmeter bound of b generic clbss or
      * method.
      *
-     * @param sort
+     * @pbrbm sort
      *            {@link #CLASS_TYPE_PARAMETER CLASS_TYPE_PARAMETER} or
      *            {@link #METHOD_TYPE_PARAMETER METHOD_TYPE_PARAMETER}.
-     * @param paramIndex
-     *            the type parameter index.
-     * @param boundIndex
-     *            the type bound index within the above type parameters.
-     * @return a reference to the given generic class or method type parameter
+     * @pbrbm pbrbmIndex
+     *            the type pbrbmeter index.
+     * @pbrbm boundIndex
+     *            the type bound index within the bbove type pbrbmeters.
+     * @return b reference to the given generic clbss or method type pbrbmeter
      *         bound.
      */
-    public static TypeReference newTypeParameterBoundReference(int sort,
-            int paramIndex, int boundIndex) {
-        return new TypeReference((sort << 24) | (paramIndex << 16)
+    public stbtic TypeReference newTypePbrbmeterBoundReference(int sort,
+            int pbrbmIndex, int boundIndex) {
+        return new TypeReference((sort << 24) | (pbrbmIndex << 16)
                 | (boundIndex << 8));
     }
 
     /**
-     * Returns a reference to the super class or to an interface of the
-     * 'implements' clause of a class.
+     * Returns b reference to the super clbss or to bn interfbce of the
+     * 'implements' clbuse of b clbss.
      *
-     * @param itfIndex
-     *            the index of an interface in the 'implements' clause of a
-     *            class, or -1 to reference the super class of the class.
-     * @return a reference to the given super type of a class.
+     * @pbrbm itfIndex
+     *            the index of bn interfbce in the 'implements' clbuse of b
+     *            clbss, or -1 to reference the super clbss of the clbss.
+     * @return b reference to the given super type of b clbss.
      */
-    public static TypeReference newSuperTypeReference(int itfIndex) {
+    public stbtic TypeReference newSuperTypeReference(int itfIndex) {
         itfIndex &= 0xFFFF;
         return new TypeReference((CLASS_EXTENDS << 24) | (itfIndex << 8));
     }
 
     /**
-     * Returns a reference to the type of a formal parameter of a method.
+     * Returns b reference to the type of b formbl pbrbmeter of b method.
      *
-     * @param paramIndex
-     *            the formal parameter index.
+     * @pbrbm pbrbmIndex
+     *            the formbl pbrbmeter index.
      *
-     * @return a reference to the type of the given method formal parameter.
+     * @return b reference to the type of the given method formbl pbrbmeter.
      */
-    public static TypeReference newFormalParameterReference(int paramIndex) {
+    public stbtic TypeReference newFormblPbrbmeterReference(int pbrbmIndex) {
         return new TypeReference((METHOD_FORMAL_PARAMETER << 24)
-                | (paramIndex << 16));
+                | (pbrbmIndex << 16));
     }
 
     /**
-     * Returns a reference to the type of an exception, in a 'throws' clause of
-     * a method.
+     * Returns b reference to the type of bn exception, in b 'throws' clbuse of
+     * b method.
      *
-     * @param exceptionIndex
-     *            the index of an exception in a 'throws' clause of a method.
+     * @pbrbm exceptionIndex
+     *            the index of bn exception in b 'throws' clbuse of b method.
      *
-     * @return a reference to the type of the given exception.
+     * @return b reference to the type of the given exception.
      */
-    public static TypeReference newExceptionReference(int exceptionIndex) {
+    public stbtic TypeReference newExceptionReference(int exceptionIndex) {
         return new TypeReference((THROWS << 24) | (exceptionIndex << 8));
     }
 
     /**
-     * Returns a reference to the type of the exception declared in a 'catch'
-     * clause of a method.
+     * Returns b reference to the type of the exception declbred in b 'cbtch'
+     * clbuse of b method.
      *
-     * @param tryCatchBlockIndex
-     *            the index of a try catch block (using the order in which they
-     *            are visited with visitTryCatchBlock).
+     * @pbrbm tryCbtchBlockIndex
+     *            the index of b try cbtch block (using the order in which they
+     *            bre visited with visitTryCbtchBlock).
      *
-     * @return a reference to the type of the given exception.
+     * @return b reference to the type of the given exception.
      */
-    public static TypeReference newTryCatchReference(int tryCatchBlockIndex) {
+    public stbtic TypeReference newTryCbtchReference(int tryCbtchBlockIndex) {
         return new TypeReference((EXCEPTION_PARAMETER << 24)
-                | (tryCatchBlockIndex << 8));
+                | (tryCbtchBlockIndex << 8));
     }
 
     /**
-     * Returns a reference to the type of a type argument in a constructor or
-     * method call or reference.
+     * Returns b reference to the type of b type brgument in b constructor or
+     * method cbll or reference.
      *
-     * @param sort
+     * @pbrbm sort
      *            {@link #CAST CAST},
      *            {@link #CONSTRUCTOR_INVOCATION_TYPE_ARGUMENT
      *            CONSTRUCTOR_INVOCATION_TYPE_ARGUMENT},
@@ -340,13 +340,13 @@ public class TypeReference {
      *            CONSTRUCTOR_REFERENCE_TYPE_ARGUMENT}, or
      *            {@link #METHOD_REFERENCE_TYPE_ARGUMENT
      *            METHOD_REFERENCE_TYPE_ARGUMENT}.
-     * @param argIndex
-     *            the type argument index.
+     * @pbrbm brgIndex
+     *            the type brgument index.
      *
-     * @return a reference to the type of the given type argument.
+     * @return b reference to the type of the given type brgument.
      */
-    public static TypeReference newTypeArgumentReference(int sort, int argIndex) {
-        return new TypeReference((sort << 24) | argIndex);
+    public stbtic TypeReference newTypeArgumentReference(int sort, int brgIndex) {
+        return new TypeReference((sort << 24) | brgIndex);
     }
 
     /**
@@ -376,85 +376,85 @@ public class TypeReference {
      *         METHOD_REFERENCE_TYPE_ARGUMENT}.
      */
     public int getSort() {
-        return value >>> 24;
+        return vblue >>> 24;
     }
 
     /**
-     * Returns the index of the type parameter referenced by this type
+     * Returns the index of the type pbrbmeter referenced by this type
      * reference. This method must only be used for type references whose sort
      * is {@link #CLASS_TYPE_PARAMETER CLASS_TYPE_PARAMETER},
      * {@link #METHOD_TYPE_PARAMETER METHOD_TYPE_PARAMETER},
      * {@link #CLASS_TYPE_PARAMETER_BOUND CLASS_TYPE_PARAMETER_BOUND} or
      * {@link #METHOD_TYPE_PARAMETER_BOUND METHOD_TYPE_PARAMETER_BOUND}.
      *
-     * @return a type parameter index.
+     * @return b type pbrbmeter index.
      */
-    public int getTypeParameterIndex() {
-        return (value & 0x00FF0000) >> 16;
+    public int getTypePbrbmeterIndex() {
+        return (vblue & 0x00FF0000) >> 16;
     }
 
     /**
-     * Returns the index of the type parameter bound, within the type parameter
-     * {@link #getTypeParameterIndex}, referenced by this type reference. This
+     * Returns the index of the type pbrbmeter bound, within the type pbrbmeter
+     * {@link #getTypePbrbmeterIndex}, referenced by this type reference. This
      * method must only be used for type references whose sort is
      * {@link #CLASS_TYPE_PARAMETER_BOUND CLASS_TYPE_PARAMETER_BOUND} or
      * {@link #METHOD_TYPE_PARAMETER_BOUND METHOD_TYPE_PARAMETER_BOUND}.
      *
-     * @return a type parameter bound index.
+     * @return b type pbrbmeter bound index.
      */
-    public int getTypeParameterBoundIndex() {
-        return (value & 0x0000FF00) >> 8;
+    public int getTypePbrbmeterBoundIndex() {
+        return (vblue & 0x0000FF00) >> 8;
     }
 
     /**
-     * Returns the index of the "super type" of a class that is referenced by
+     * Returns the index of the "super type" of b clbss thbt is referenced by
      * this type reference. This method must only be used for type references
      * whose sort is {@link #CLASS_EXTENDS CLASS_EXTENDS}.
      *
-     * @return the index of an interface in the 'implements' clause of a class,
+     * @return the index of bn interfbce in the 'implements' clbuse of b clbss,
      *         or -1 if this type reference references the type of the super
-     *         class.
+     *         clbss.
      */
     public int getSuperTypeIndex() {
-        return (short) ((value & 0x00FFFF00) >> 8);
+        return (short) ((vblue & 0x00FFFF00) >> 8);
     }
 
     /**
-     * Returns the index of the formal parameter whose type is referenced by
+     * Returns the index of the formbl pbrbmeter whose type is referenced by
      * this type reference. This method must only be used for type references
      * whose sort is {@link #METHOD_FORMAL_PARAMETER METHOD_FORMAL_PARAMETER}.
      *
-     * @return a formal parameter index.
+     * @return b formbl pbrbmeter index.
      */
-    public int getFormalParameterIndex() {
-        return (value & 0x00FF0000) >> 16;
+    public int getFormblPbrbmeterIndex() {
+        return (vblue & 0x00FF0000) >> 16;
     }
 
     /**
-     * Returns the index of the exception, in a 'throws' clause of a method,
+     * Returns the index of the exception, in b 'throws' clbuse of b method,
      * whose type is referenced by this type reference. This method must only be
      * used for type references whose sort is {@link #THROWS THROWS}.
      *
-     * @return the index of an exception in the 'throws' clause of a method.
+     * @return the index of bn exception in the 'throws' clbuse of b method.
      */
     public int getExceptionIndex() {
-        return (value & 0x00FFFF00) >> 8;
+        return (vblue & 0x00FFFF00) >> 8;
     }
 
     /**
-     * Returns the index of the try catch block (using the order in which they
-     * are visited with visitTryCatchBlock), whose 'catch' type is referenced by
+     * Returns the index of the try cbtch block (using the order in which they
+     * bre visited with visitTryCbtchBlock), whose 'cbtch' type is referenced by
      * this type reference. This method must only be used for type references
      * whose sort is {@link #EXCEPTION_PARAMETER EXCEPTION_PARAMETER} .
      *
-     * @return the index of an exception in the 'throws' clause of a method.
+     * @return the index of bn exception in the 'throws' clbuse of b method.
      */
-    public int getTryCatchBlockIndex() {
-        return (value & 0x00FFFF00) >> 8;
+    public int getTryCbtchBlockIndex() {
+        return (vblue & 0x00FFFF00) >> 8;
     }
 
     /**
-     * Returns the index of the type argument referenced by this type reference.
+     * Returns the index of the type brgument referenced by this type reference.
      * This method must only be used for type references whose sort is
      * {@link #CAST CAST}, {@link #CONSTRUCTOR_INVOCATION_TYPE_ARGUMENT
      * CONSTRUCTOR_INVOCATION_TYPE_ARGUMENT},
@@ -463,19 +463,19 @@ public class TypeReference {
      * CONSTRUCTOR_REFERENCE_TYPE_ARGUMENT}, or
      * {@link #METHOD_REFERENCE_TYPE_ARGUMENT METHOD_REFERENCE_TYPE_ARGUMENT}.
      *
-     * @return a type parameter index.
+     * @return b type pbrbmeter index.
      */
     public int getTypeArgumentIndex() {
-        return value & 0xFF;
+        return vblue & 0xFF;
     }
 
     /**
-     * Returns the int encoded value of this type reference, suitable for use in
-     * visit methods related to type annotations, like visitTypeAnnotation.
+     * Returns the int encoded vblue of this type reference, suitbble for use in
+     * visit methods relbted to type bnnotbtions, like visitTypeAnnotbtion.
      *
-     * @return the int encoded value of this type reference.
+     * @return the int encoded vblue of this type reference.
      */
-    public int getValue() {
-        return value;
+    public int getVblue() {
+        return vblue;
     }
 }

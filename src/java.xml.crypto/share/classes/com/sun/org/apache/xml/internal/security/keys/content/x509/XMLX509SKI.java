@@ -3,91 +3,91 @@
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Licensed to the Apbche Softwbre Foundbtion (ASF) under one
+ * or more contributor license bgreements. See the NOTICE file
+ * distributed with this work for bdditionbl informbtion
+ * regbrding copyright ownership. The ASF licenses this file
+ * to you under the Apbche License, Version 2.0 (the
+ * "License"); you mby not use this file except in complibnce
+ * with the License. You mby obtbin b copy of the License bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.bpbche.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unless required by bpplicbble lbw or bgreed to in writing,
+ * softwbre distributed under the License is distributed on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
+ * specific lbngubge governing permissions bnd limitbtions
  * under the License.
  */
-package com.sun.org.apache.xml.internal.security.keys.content.x509;
+pbckbge com.sun.org.bpbche.xml.internbl.security.keys.content.x509;
 
-import java.security.cert.X509Certificate;
-import java.util.Arrays;
+import jbvb.security.cert.X509Certificbte;
+import jbvb.util.Arrbys;
 
-import com.sun.org.apache.xml.internal.security.exceptions.XMLSecurityException;
-import com.sun.org.apache.xml.internal.security.utils.Base64;
-import com.sun.org.apache.xml.internal.security.utils.Constants;
-import com.sun.org.apache.xml.internal.security.utils.SignatureElementProxy;
+import com.sun.org.bpbche.xml.internbl.security.exceptions.XMLSecurityException;
+import com.sun.org.bpbche.xml.internbl.security.utils.Bbse64;
+import com.sun.org.bpbche.xml.internbl.security.utils.Constbnts;
+import com.sun.org.bpbche.xml.internbl.security.utils.SignbtureElementProxy;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 /**
- * Handles SubjectKeyIdentifier (SKI) for X.509v3.
+ * Hbndles SubjectKeyIdentifier (SKI) for X.509v3.
  *
- * @see <A HREF="http://docs.oracle.com/javase/1.5.0/docs/api/java/security/cert/X509Extension.html">
- * Interface X509Extension</A>
+ * @see <A HREF="http://docs.orbcle.com/jbvbse/1.5.0/docs/bpi/jbvb/security/cert/X509Extension.html">
+ * Interfbce X509Extension</A>
  */
-public class XMLX509SKI extends SignatureElementProxy implements XMLX509DataContent {
+public clbss XMLX509SKI extends SignbtureElementProxy implements XMLX509DbtbContent {
 
-    /** {@link org.apache.commons.logging} logging facility */
-    private static java.util.logging.Logger log =
-        java.util.logging.Logger.getLogger(XMLX509SKI.class.getName());
+    /** {@link org.bpbche.commons.logging} logging fbcility */
+    privbte stbtic jbvb.util.logging.Logger log =
+        jbvb.util.logging.Logger.getLogger(XMLX509SKI.clbss.getNbme());
 
     /**
      * <CODE>SubjectKeyIdentifier (id-ce-subjectKeyIdentifier) (2.5.29.14)</CODE>:
-     * This extension identifies the public key being certified. It enables
-     * distinct keys used by the same subject to be differentiated
-     * (e.g., as key updating occurs).
+     * This extension identifies the public key being certified. It enbbles
+     * distinct keys used by the sbme subject to be differentibted
+     * (e.g., bs key updbting occurs).
      * <BR />
-     * A key identifier shall be unique with respect to all key identifiers
-     * for the subject with which it is used. This extension is always non-critical.
+     * A key identifier shbll be unique with respect to bll key identifiers
+     * for the subject with which it is used. This extension is blwbys non-criticbl.
      */
-    public static final String SKI_OID = "2.5.29.14";
+    public stbtic finbl String SKI_OID = "2.5.29.14";
 
     /**
      * Constructor X509SKI
      *
-     * @param doc
-     * @param skiBytes
+     * @pbrbm doc
+     * @pbrbm skiBytes
      */
     public XMLX509SKI(Document doc, byte[] skiBytes) {
         super(doc);
-        this.addBase64Text(skiBytes);
+        this.bddBbse64Text(skiBytes);
     }
 
     /**
      * Constructor XMLX509SKI
      *
-     * @param doc
-     * @param x509certificate
+     * @pbrbm doc
+     * @pbrbm x509certificbte
      * @throws XMLSecurityException
      */
-    public XMLX509SKI(Document doc, X509Certificate x509certificate)
+    public XMLX509SKI(Document doc, X509Certificbte x509certificbte)
         throws XMLSecurityException {
         super(doc);
-        this.addBase64Text(XMLX509SKI.getSKIBytesFromCert(x509certificate));
+        this.bddBbse64Text(XMLX509SKI.getSKIBytesFromCert(x509certificbte));
     }
 
     /**
      * Constructor XMLX509SKI
      *
-     * @param element
-     * @param BaseURI
+     * @pbrbm element
+     * @pbrbm BbseURI
      * @throws XMLSecurityException
      */
-    public XMLX509SKI(Element element, String BaseURI) throws XMLSecurityException {
-        super(element, BaseURI);
+    public XMLX509SKI(Element element, String BbseURI) throws XMLSecurityException {
+        super(element, BbseURI);
     }
 
     /**
@@ -103,73 +103,73 @@ public class XMLX509SKI extends SignatureElementProxy implements XMLX509DataCont
     /**
      * Method getSKIBytesFromCert
      *
-     * @param cert
-     * @return ski bytes from the given certificate
+     * @pbrbm cert
+     * @return ski bytes from the given certificbte
      *
      * @throws XMLSecurityException
-     * @see java.security.cert.X509Extension#getExtensionValue(java.lang.String)
+     * @see jbvb.security.cert.X509Extension#getExtensionVblue(jbvb.lbng.String)
      */
-    public static byte[] getSKIBytesFromCert(X509Certificate cert)
+    public stbtic byte[] getSKIBytesFromCert(X509Certificbte cert)
         throws XMLSecurityException {
 
         if (cert.getVersion() < 3) {
-            Object exArgs[] = { Integer.valueOf(cert.getVersion()) };
-            throw new XMLSecurityException("certificate.noSki.lowVersion", exArgs);
+            Object exArgs[] = { Integer.vblueOf(cert.getVersion()) };
+            throw new XMLSecurityException("certificbte.noSki.lowVersion", exArgs);
         }
 
         /*
-         * Gets the DER-encoded OCTET string for the extension value
-         * (extnValue) identified by the passed-in oid String. The oid
-         * string is represented by a set of positive whole numbers
-         * separated by periods.
+         * Gets the DER-encoded OCTET string for the extension vblue
+         * (extnVblue) identified by the pbssed-in oid String. The oid
+         * string is represented by b set of positive whole numbers
+         * sepbrbted by periods.
          */
-        byte[] extensionValue = cert.getExtensionValue(XMLX509SKI.SKI_OID);
-        if (extensionValue == null) {
-            throw new XMLSecurityException("certificate.noSki.null");
+        byte[] extensionVblue = cert.getExtensionVblue(XMLX509SKI.SKI_OID);
+        if (extensionVblue == null) {
+            throw new XMLSecurityException("certificbte.noSki.null");
         }
 
         /**
-         * Strip away first four bytes from the extensionValue
-         * The first two bytes are the tag and length of the extensionValue
-         * OCTET STRING, and the next two bytes are the tag and length of
+         * Strip bwby first four bytes from the extensionVblue
+         * The first two bytes bre the tbg bnd length of the extensionVblue
+         * OCTET STRING, bnd the next two bytes bre the tbg bnd length of
          * the ski OCTET STRING.
          */
-        byte skidValue[] = new byte[extensionValue.length - 4];
+        byte skidVblue[] = new byte[extensionVblue.length - 4];
 
-        System.arraycopy(extensionValue, 4, skidValue, 0, skidValue.length);
+        System.brrbycopy(extensionVblue, 4, skidVblue, 0, skidVblue.length);
 
-        if (log.isLoggable(java.util.logging.Level.FINE)) {
-            log.log(java.util.logging.Level.FINE, "Base64 of SKI is " + Base64.encode(skidValue));
+        if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+            log.log(jbvb.util.logging.Level.FINE, "Bbse64 of SKI is " + Bbse64.encode(skidVblue));
         }
 
-        return skidValue;
+        return skidVblue;
     }
 
     /** @inheritDoc */
-    public boolean equals(Object obj) {
-        if (!(obj instanceof XMLX509SKI)) {
-            return false;
+    public boolebn equbls(Object obj) {
+        if (!(obj instbnceof XMLX509SKI)) {
+            return fblse;
         }
 
         XMLX509SKI other = (XMLX509SKI) obj;
 
         try {
-            return Arrays.equals(other.getSKIBytes(), this.getSKIBytes());
-        } catch (XMLSecurityException ex) {
-            return false;
+            return Arrbys.equbls(other.getSKIBytes(), this.getSKIBytes());
+        } cbtch (XMLSecurityException ex) {
+            return fblse;
         }
     }
 
-    public int hashCode() {
+    public int hbshCode() {
         int result = 17;
         try {
             byte[] bytes = getSKIBytes();
             for (int i = 0; i < bytes.length; i++) {
                 result = 31 * result + bytes[i];
             }
-        } catch (XMLSecurityException e) {
-            if (log.isLoggable(java.util.logging.Level.FINE)) {
-                log.log(java.util.logging.Level.FINE, e.getMessage(), e);
+        } cbtch (XMLSecurityException e) {
+            if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+                log.log(jbvb.util.logging.Level.FINE, e.getMessbge(), e);
             }
         }
         return result;
@@ -177,7 +177,7 @@ public class XMLX509SKI extends SignatureElementProxy implements XMLX509DataCont
     }
 
     /** @inheritDoc */
-    public String getBaseLocalName() {
-        return Constants._TAG_X509SKI;
+    public String getBbseLocblNbme() {
+        return Constbnts._TAG_X509SKI;
     }
 }

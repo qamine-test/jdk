@@ -1,52 +1,52 @@
 /*
- * Copyright (c) 1996, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-#include "awt.h"
+#include "bwt.h"
 
-#include "awt_Object.h"    /* wop_pDataID */
-#include "awt_Toolkit.h"
-#include "awt_Button.h"
-#include "awt_Canvas.h"
-#include "awt_Window.h"
+#include "bwt_Object.h"    /* wop_pDbtbID */
+#include "bwt_Toolkit.h"
+#include "bwt_Button.h"
+#include "bwt_Cbnvbs.h"
+#include "bwt_Window.h"
 
-/* IMPORTANT! Read the README.JNI file for notes on JNI converted AWT code.
+/* IMPORTANT! Rebd the README.JNI file for notes on JNI converted AWT code.
  */
 
 /***********************************************************************/
-// Struct for _SetLabel() method
-struct SetLabelStruct {
+// Struct for _SetLbbel() method
+struct SetLbbelStruct {
   jobject button;
-  jstring label;
+  jstring lbbel;
 };
 
 /************************************************************************
  * AwtButton fields
  */
 
-/* java.awt.Button fields */
-jfieldID AwtButton::labelID;
+/* jbvb.bwt.Button fields */
+jfieldID AwtButton::lbbelID;
 
 
 /************************************************************************
@@ -57,116 +57,116 @@ AwtButton::AwtButton() {
     leftButtonDown = FALSE;
 }
 
-/* System provided button class */
-LPCTSTR AwtButton::GetClassName() {
+/* System provided button clbss */
+LPCTSTR AwtButton::GetClbssNbme() {
     return TEXT("BUTTON");
 }
 
-/* Create a new AwtButton object and window. */
-AwtButton* AwtButton::Create(jobject self, jobject parent)
+/* Crebte b new AwtButton object bnd window. */
+AwtButton* AwtButton::Crebte(jobject self, jobject pbrent)
 {
     JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
 
     /* the result */
     AwtButton *c = NULL;
 
-    jobject target = NULL;
-    jstring label = NULL;
+    jobject tbrget = NULL;
+    jstring lbbel = NULL;
 
     try {
-        LPCWSTR labelStr;
+        LPCWSTR lbbelStr;
         DWORD style;
         DWORD exStyle = 0;
         jint x, y, height, width;
 
-        if (env->EnsureLocalCapacity(2) < 0) {
+        if (env->EnsureLocblCbpbcity(2) < 0) {
             return NULL;
         }
 
-        PDATA pData;
-        AwtCanvas* awtParent;
+        PDATA pDbtb;
+        AwtCbnvbs* bwtPbrent;
 
-        JNI_CHECK_PEER_GOTO(parent, done);
-        awtParent = (AwtCanvas*)pData;
-        JNI_CHECK_NULL_GOTO(awtParent, "awtParent", done);
+        JNI_CHECK_PEER_GOTO(pbrent, done);
+        bwtPbrent = (AwtCbnvbs*)pDbtb;
+        JNI_CHECK_NULL_GOTO(bwtPbrent, "bwtPbrent", done);
 
-        target = env->GetObjectField(self, AwtObject::targetID);
-        JNI_CHECK_NULL_GOTO(target, "target", done);
+        tbrget = env->GetObjectField(self, AwtObject::tbrgetID);
+        JNI_CHECK_NULL_GOTO(tbrget, "tbrget", done);
 
         c = new AwtButton();
 
-        label = (jstring)env->GetObjectField(target, AwtButton::labelID);
+        lbbel = (jstring)env->GetObjectField(tbrget, AwtButton::lbbelID);
 
-        x = env->GetIntField(target, AwtComponent::xID);
-        y = env->GetIntField(target, AwtComponent::yID);
-        width = env->GetIntField(target, AwtComponent::widthID);
-        height = env->GetIntField(target, AwtComponent::heightID);
+        x = env->GetIntField(tbrget, AwtComponent::xID);
+        y = env->GetIntField(tbrget, AwtComponent::yID);
+        width = env->GetIntField(tbrget, AwtComponent::widthID);
+        height = env->GetIntField(tbrget, AwtComponent::heightID);
 
-        if (label == NULL) {
-            labelStr = L"";
+        if (lbbel == NULL) {
+            lbbelStr = L"";
         } else {
-            labelStr = JNU_GetStringPlatformChars(env, label, JNI_FALSE);
+            lbbelStr = JNU_GetStringPlbtformChbrs(env, lbbel, JNI_FALSE);
         }
         style = 0;
 
-        if (labelStr == NULL) {
-            throw std::bad_alloc();
+        if (lbbelStr == NULL) {
+            throw std::bbd_blloc();
         }
 
         style = WS_CHILD | WS_CLIPSIBLINGS | BS_PUSHBUTTON | BS_OWNERDRAW;
-        if (GetRTLReadingOrder())
+        if (GetRTLRebdingOrder())
             exStyle |= WS_EX_RTLREADING;
 
-        c->CreateHWnd(env, labelStr, style, exStyle, x, y, width, height,
-                      awtParent->GetHWnd(),
-                      reinterpret_cast<HMENU>(static_cast<INT_PTR>(
-                  awtParent->CreateControlID())),
+        c->CrebteHWnd(env, lbbelStr, style, exStyle, x, y, width, height,
+                      bwtPbrent->GetHWnd(),
+                      reinterpret_cbst<HMENU>(stbtic_cbst<INT_PTR>(
+                  bwtPbrent->CrebteControlID())),
                       ::GetSysColor(COLOR_BTNTEXT),
                       ::GetSysColor(COLOR_BTNFACE),
                       self);
-        c->m_backgroundColorSet = TRUE;  // suppress inheriting parent's color
-        c->UpdateBackground(env, target);
-        if (label != NULL)
-            JNU_ReleaseStringPlatformChars(env, label, labelStr);
-    } catch (...) {
-        env->DeleteLocalRef(target);
-        if (label != NULL)
-            env->DeleteLocalRef(label);
+        c->m_bbckgroundColorSet = TRUE;  // suppress inheriting pbrent's color
+        c->UpdbteBbckground(env, tbrget);
+        if (lbbel != NULL)
+            JNU_RelebseStringPlbtformChbrs(env, lbbel, lbbelStr);
+    } cbtch (...) {
+        env->DeleteLocblRef(tbrget);
+        if (lbbel != NULL)
+            env->DeleteLocblRef(lbbel);
         throw;
     }
 
 done:
-    env->DeleteLocalRef(target);
-    if (label != NULL)
-        env->DeleteLocalRef(label);
+    env->DeleteLocblRef(tbrget);
+    if (lbbel != NULL)
+        env->DeleteLocblRef(lbbel);
     return c;
 }
 
 MsgRouting
-AwtButton::WmMouseDown(UINT flags, int x, int y, int button)
+AwtButton::WmMouseDown(UINT flbgs, int x, int y, int button)
 {
-    // 4530087: keep track of the when the left mouse button is pressed
+    // 4530087: keep trbck of the when the left mouse button is pressed
     if (button == LEFT_BUTTON) {
         leftButtonDown = TRUE;
     }
-    return AwtComponent::WmMouseDown(flags, x, y, button);
+    return AwtComponent::WmMouseDown(flbgs, x, y, button);
 }
 
 MsgRouting
-AwtButton::WmMouseUp(UINT flags, int x, int y, int button)
+AwtButton::WmMouseUp(UINT flbgs, int x, int y, int button)
 {
-    MsgRouting mrResult = AwtComponent::WmMouseUp(flags, x, y, button);
+    MsgRouting mrResult = AwtComponent::WmMouseUp(flbgs, x, y, button);
 
-    if (::IsWindow(AwtWindow::GetModalBlocker(AwtComponent::GetTopLevelParentForWindow(GetHWnd()))))
+    if (::IsWindow(AwtWindow::GetModblBlocker(AwtComponent::GetTopLevelPbrentForWindow(GetHWnd()))))
     {
         return mrConsume;
     }
 
-    // 4530087: It is possible that a left mouse press happened on a Window
-    // obscuring this AwtButton, and during event handling the Window was
-    // removed.  This causes a WmMouseUp call to this AwtButton, even though
-    // there was no accompanying WmMouseDown.  ActionEvents should ONLY be
-    // notified (via NotifyListeners()) if the left button press happened on
+    // 4530087: It is possible thbt b left mouse press hbppened on b Window
+    // obscuring this AwtButton, bnd during event hbndling the Window wbs
+    // removed.  This cbuses b WmMouseUp cbll to this AwtButton, even though
+    // there wbs no bccompbnying WmMouseDown.  ActionEvents should ONLY be
+    // notified (vib NotifyListeners()) if the left button press hbppened on
     // this AwtButton.  --bchristi
     if (button == LEFT_BUTTON && leftButtonDown) {
         leftButtonDown = FALSE;
@@ -186,223 +186,223 @@ AwtButton::WmMouseUp(UINT flags, int x, int y, int button)
 void
 AwtButton::NotifyListeners()
 {
-    DoCallback("handleAction", "(JI)V", TimeHelper::getMessageTimeUTC(),
-               (jint)AwtComponent::GetJavaModifiers());
+    DoCbllbbck("hbndleAction", "(JI)V", TimeHelper::getMessbgeTimeUTC(),
+               (jint)AwtComponent::GetJbvbModifiers());
 }
 
 MsgRouting
-AwtButton::OwnerDrawItem(UINT /*ctrlId*/, DRAWITEMSTRUCT& drawInfo)
+AwtButton::OwnerDrbwItem(UINT /*ctrlId*/, DRAWITEMSTRUCT& drbwInfo)
 {
     JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
 
-    if (env->EnsureLocalCapacity(3) < 0) {
+    if (env->EnsureLocblCbpbcity(3) < 0) {
         /* is this OK? */
         return mrConsume;
     }
 
     jobject self = GetPeer(env);
-    jobject target = env->GetObjectField(self, AwtObject::targetID);
+    jobject tbrget = env->GetObjectField(self, AwtObject::tbrgetID);
 
-    HDC hDC = drawInfo.hDC;
-    RECT rect = drawInfo.rcItem;
-    UINT nState;
+    HDC hDC = drbwInfo.hDC;
+    RECT rect = drbwInfo.rcItem;
+    UINT nStbte;
     SIZE size;
 
-    /* Draw Button */
-    nState = DFCS_BUTTONPUSH;
-    if (drawInfo.itemState & ODS_SELECTED)
-        nState |= DFCS_PUSHED;
+    /* Drbw Button */
+    nStbte = DFCS_BUTTONPUSH;
+    if (drbwInfo.itemStbte & ODS_SELECTED)
+        nStbte |= DFCS_PUSHED;
 
-    ::FillRect(hDC, &rect, GetBackgroundBrush());
-    UINT edgeType = (nState & DFCS_PUSHED) ? EDGE_SUNKEN : EDGE_RAISED;
-    ::DrawEdge(hDC, &rect, edgeType, BF_RECT | BF_SOFT);
+    ::FillRect(hDC, &rect, GetBbckgroundBrush());
+    UINT edgeType = (nStbte & DFCS_PUSHED) ? EDGE_SUNKEN : EDGE_RAISED;
+    ::DrbwEdge(hDC, &rect, edgeType, BF_RECT | BF_SOFT);
 
-    /* Draw WindowText */
-    jobject font = GET_FONT(target, self);
-    jstring str = (jstring)env->GetObjectField(target, AwtButton::labelID);
+    /* Drbw WindowText */
+    jobject font = GET_FONT(tbrget, self);
+    jstring str = (jstring)env->GetObjectField(tbrget, AwtButton::lbbelID);
 
     size = AwtFont::getMFStringSize(hDC, font, str);
 
-    /* Check whether the button is disabled. */
-    BOOL bEnabled = isEnabled();
+    /* Check whether the button is disbbled. */
+    BOOL bEnbbled = isEnbbled();
 
-    int adjust = (nState & DFCS_PUSHED) ? 1 : 0;
-    int x = (rect.left + rect.right-size.cx) / 2 + adjust;
-    int y = (rect.top + rect.bottom-size.cy) / 2 + adjust;
+    int bdjust = (nStbte & DFCS_PUSHED) ? 1 : 0;
+    int x = (rect.left + rect.right-size.cx) / 2 + bdjust;
+    int y = (rect.top + rect.bottom-size.cy) / 2 + bdjust;
 
-    if (bEnabled) {
-        AwtComponent::DrawWindowText(hDC, font, str, x, y);
+    if (bEnbbled) {
+        AwtComponent::DrbwWindowText(hDC, font, str, x, y);
     } else {
-        AwtComponent::DrawGrayText(hDC, font, str, x, y);
+        AwtComponent::DrbwGrbyText(hDC, font, str, x, y);
     }
 
-    /* Draw focus rect */
-    if (drawInfo.itemState & ODS_FOCUS){
+    /* Drbw focus rect */
+    if (drbwInfo.itemStbte & ODS_FOCUS){
         const int inf = 3; /* heuristic decision */
         RECT focusRect;
         VERIFY(::CopyRect(&focusRect, &rect));
-        VERIFY(::InflateRect(&focusRect,-inf,-inf));
-        VERIFY(::DrawFocusRect(hDC, &focusRect));
+        VERIFY(::InflbteRect(&focusRect,-inf,-inf));
+        VERIFY(::DrbwFocusRect(hDC, &focusRect));
     }
 
-    /* Notify any subclasses */
-    DoCallback("handlePaint", "(IIII)V", rect.left, rect.top,
+    /* Notify bny subclbsses */
+    DoCbllbbck("hbndlePbint", "(IIII)V", rect.left, rect.top,
                rect.right-rect.left, rect.bottom-rect.top);
 
-    env->DeleteLocalRef(target);
-    env->DeleteLocalRef(font);
-    env->DeleteLocalRef(str);
+    env->DeleteLocblRef(tbrget);
+    env->DeleteLocblRef(font);
+    env->DeleteLocblRef(str);
 
     return mrConsume;
 }
 
-MsgRouting AwtButton::WmPaint(HDC)
+MsgRouting AwtButton::WmPbint(HDC)
 {
-    /* Suppress peer notification, because it's handled in WmDrawItem. */
-    return mrDoDefault;
+    /* Suppress peer notificbtion, becbuse it's hbndled in WmDrbwItem. */
+    return mrDoDefbult;
 }
 
-BOOL AwtButton::IsFocusingMouseMessage(MSG *pMsg) {
-    return pMsg->message == WM_LBUTTONDOWN || pMsg->message == WM_LBUTTONUP;
+BOOL AwtButton::IsFocusingMouseMessbge(MSG *pMsg) {
+    return pMsg->messbge == WM_LBUTTONDOWN || pMsg->messbge == WM_LBUTTONUP;
 }
 
-BOOL AwtButton::IsFocusingKeyMessage(MSG *pMsg) {
-    return (pMsg->message == WM_KEYDOWN || pMsg->message == WM_KEYUP) &&
-            pMsg->wParam == VK_SPACE;
+BOOL AwtButton::IsFocusingKeyMessbge(MSG *pMsg) {
+    return (pMsg->messbge == WM_KEYDOWN || pMsg->messbge == WM_KEYUP) &&
+            pMsg->wPbrbm == VK_SPACE;
 }
 
-MsgRouting AwtButton::HandleEvent(MSG *msg, BOOL synthetic)
+MsgRouting AwtButton::HbndleEvent(MSG *msg, BOOL synthetic)
 {
-    if (IsFocusingMouseMessage(msg)) {
-        SendMessage(BM_SETSTATE, msg->message == WM_LBUTTONDOWN ? TRUE : FALSE, 0);
+    if (IsFocusingMouseMessbge(msg)) {
+        SendMessbge(BM_SETSTATE, msg->messbge == WM_LBUTTONDOWN ? TRUE : FALSE, 0);
         delete msg;
         return mrConsume;
     }
-    if (IsFocusingKeyMessage(msg)) {
-        SendMessage(BM_SETSTATE, msg->message == WM_KEYDOWN ? TRUE : FALSE, 0);
+    if (IsFocusingKeyMessbge(msg)) {
+        SendMessbge(BM_SETSTATE, msg->messbge == WM_KEYDOWN ? TRUE : FALSE, 0);
         delete msg;
         return mrConsume;
     }
-    return AwtComponent::HandleEvent(msg, synthetic);
+    return AwtComponent::HbndleEvent(msg, synthetic);
 }
 
-void AwtButton::_SetLabel(void *param)
+void AwtButton::_SetLbbel(void *pbrbm)
 {
     JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
 
-    SetLabelStruct *sls = (SetLabelStruct *)param;
+    SetLbbelStruct *sls = (SetLbbelStruct *)pbrbm;
 
     jobject button = sls->button;
-    jstring label = sls->label;
+    jstring lbbel = sls->lbbel;
 
-    int badAlloc = 0;
+    int bbdAlloc = 0;
     AwtComponent *c = NULL;
 
-    PDATA pData;
+    PDATA pDbtb;
     JNI_CHECK_PEER_GOTO(button, done);
 
-    c = (AwtComponent*)pData;
+    c = (AwtComponent*)pDbtb;
     if (::IsWindow(c->GetHWnd()))
     {
-        LPCTSTR labelStr = NULL;
+        LPCTSTR lbbelStr = NULL;
 
-        // By convension null label means empty string
-        if (label == NULL) {
-            labelStr = TEXT("");
+        // By convension null lbbel mebns empty string
+        if (lbbel == NULL) {
+            lbbelStr = TEXT("");
         } else {
-            labelStr = JNU_GetStringPlatformChars(env, label, JNI_FALSE);
+            lbbelStr = JNU_GetStringPlbtformChbrs(env, lbbel, JNI_FALSE);
         }
 
-        if (labelStr == NULL) {
-            badAlloc = 1;
+        if (lbbelStr == NULL) {
+            bbdAlloc = 1;
         } else {
-            c->SetText(labelStr);
-            if (label != NULL) {
-                JNU_ReleaseStringPlatformChars(env, label, labelStr);
+            c->SetText(lbbelStr);
+            if (lbbel != NULL) {
+                JNU_RelebseStringPlbtformChbrs(env, lbbel, lbbelStr);
             }
         }
     }
 
 done:
-    env->DeleteGlobalRef(button);
-    if (label != NULL)
+    env->DeleteGlobblRef(button);
+    if (lbbel != NULL)
     {
-        env->DeleteGlobalRef(label);
+        env->DeleteGlobblRef(lbbel);
     }
 
     delete sls;
 
-    if (badAlloc) {
-        throw std::bad_alloc();
+    if (bbdAlloc) {
+        throw std::bbd_blloc();
     }
 }
 
 /************************************************************************
- * WButtonPeer native methods
+ * WButtonPeer nbtive methods
  */
 
 extern "C" {
 
 /*
- * Class:     sun_awt_windows_WButtonPeer
+ * Clbss:     sun_bwt_windows_WButtonPeer
  * Method:    initIDs
- * Signature: ()V
+ * Signbture: ()V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WButtonPeer_initIDs(JNIEnv *env, jclass cls)
+Jbvb_sun_bwt_windows_WButtonPeer_initIDs(JNIEnv *env, jclbss cls)
 {
     TRY;
 
-    cls = env->FindClass("java/awt/Button");
+    cls = env->FindClbss("jbvb/bwt/Button");
     if (cls == NULL) {
         return;
     }
-    AwtButton::labelID = env->GetFieldID(cls, "label", "Ljava/lang/String;");
-    DASSERT(AwtButton::labelID != NULL);
+    AwtButton::lbbelID = env->GetFieldID(cls, "lbbel", "Ljbvb/lbng/String;");
+    DASSERT(AwtButton::lbbelID != NULL);
 
     CATCH_BAD_ALLOC;
 }
 
 /*
- * Class:     sun_awt_windows_WButtonPeer
- * Method:    setLabel
- * Signature: (Ljava/lang/String;)V
+ * Clbss:     sun_bwt_windows_WButtonPeer
+ * Method:    setLbbel
+ * Signbture: (Ljbvb/lbng/String;)V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WButtonPeer_setLabel(JNIEnv *env, jobject self,
-                                          jstring label)
+Jbvb_sun_bwt_windows_WButtonPeer_setLbbel(JNIEnv *env, jobject self,
+                                          jstring lbbel)
 {
     TRY;
 
-    PDATA pData;
+    PDATA pDbtb;
     JNI_CHECK_PEER_RETURN(self);
 
-    SetLabelStruct *sls = new SetLabelStruct;
-    sls->button = env->NewGlobalRef(self);
-    sls->label = (label != NULL) ? (jstring)env->NewGlobalRef(label) : NULL;
+    SetLbbelStruct *sls = new SetLbbelStruct;
+    sls->button = env->NewGlobblRef(self);
+    sls->lbbel = (lbbel != NULL) ? (jstring)env->NewGlobblRef(lbbel) : NULL;
 
-    AwtToolkit::GetInstance().SyncCall(AwtButton::_SetLabel, sls);
-    // global refs and sls are deleted in _SetLabel()
+    AwtToolkit::GetInstbnce().SyncCbll(AwtButton::_SetLbbel, sls);
+    // globbl refs bnd sls bre deleted in _SetLbbel()
 
     CATCH_BAD_ALLOC;
 }
 
 /*
- * Class:     sun_awt_windows_WButtonPeer
- * Method:    create
- * Signature: (Lsun/awt/windows/WComponentPeer;)V
+ * Clbss:     sun_bwt_windows_WButtonPeer
+ * Method:    crebte
+ * Signbture: (Lsun/bwt/windows/WComponentPeer;)V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WButtonPeer_create(JNIEnv *env, jobject self,
-                                        jobject parent)
+Jbvb_sun_bwt_windows_WButtonPeer_crebte(JNIEnv *env, jobject self,
+                                        jobject pbrent)
 {
     TRY;
 
-    PDATA pData;
-    JNI_CHECK_PEER_RETURN(parent);
+    PDATA pDbtb;
+    JNI_CHECK_PEER_RETURN(pbrent);
 
-    AwtToolkit::CreateComponent(
-        self, parent, (AwtToolkit::ComponentFactory)AwtButton::Create);
+    AwtToolkit::CrebteComponent(
+        self, pbrent, (AwtToolkit::ComponentFbctory)AwtButton::Crebte);
 
     JNI_CHECK_PEER_CREATION_RETURN(self);
 

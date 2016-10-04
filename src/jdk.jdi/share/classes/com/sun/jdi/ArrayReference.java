@@ -1,210 +1,210 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jdi;
+pbckbge com.sun.jdi;
 
-import java.util.List;
+import jbvb.util.List;
 
 /**
- * Provides access to an array object and its components in the target VM.
- * Each array component is mirrored by a {@link Value} object.
- * The array components, in aggregate, are placed in {@link java.util.List}
- * objects instead of arrays for consistency with the rest of the API and
- * for interoperability with other APIs.
+ * Provides bccess to bn brrby object bnd its components in the tbrget VM.
+ * Ebch brrby component is mirrored by b {@link Vblue} object.
+ * The brrby components, in bggregbte, bre plbced in {@link jbvb.util.List}
+ * objects instebd of brrbys for consistency with the rest of the API bnd
+ * for interoperbbility with other APIs.
  *
- * @author Robert Field
- * @author Gordon Hirsch
- * @author James McIlree
+ * @buthor Robert Field
+ * @buthor Gordon Hirsch
+ * @buthor Jbmes McIlree
  * @since  1.3
  */
 @jdk.Exported
-public interface ArrayReference extends ObjectReference {
+public interfbce ArrbyReference extends ObjectReference {
 
     /**
-     * Returns the number of components in this array.
+     * Returns the number of components in this brrby.
      *
-     * @return the integer count of components in this array.
+     * @return the integer count of components in this brrby.
      */
     int length();
 
     /**
-     * Returns an array component value.
+     * Returns bn brrby component vblue.
      *
-     * @param index the index of the component to retrieve
-     * @return the {@link Value} at the given index.
-     * @throws java.lang.IndexOutOfBoundsException if
-     * <CODE><I>index</I></CODE> is outside the range of this array,
-     * that is, if either of the following are true:
+     * @pbrbm index the index of the component to retrieve
+     * @return the {@link Vblue} bt the given index.
+     * @throws jbvb.lbng.IndexOutOfBoundsException if
+     * <CODE><I>index</I></CODE> is outside the rbnge of this brrby,
+     * thbt is, if either of the following bre true:
      * <PRE>
      *    <I>index</I> &lt; 0
      *    <I>index</I> &gt;= {@link #length() length()} </PRE>
      */
-    Value getValue(int index);
+    Vblue getVblue(int index);
 
     /**
-     * Returns all of the components in this array.
+     * Returns bll of the components in this brrby.
      *
-     * @return a list of {@link Value} objects, one for each array
-     * component ordered by array index.  For zero length arrays,
-     * an empty list is returned.
+     * @return b list of {@link Vblue} objects, one for ebch brrby
+     * component ordered by brrby index.  For zero length brrbys,
+     * bn empty list is returned.
      */
-    List<Value> getValues();
+    List<Vblue> getVblues();
 
     /**
-     * Returns a range of array components.
+     * Returns b rbnge of brrby components.
      *
-     * @param index the index of the first component to retrieve
-     * @param length the number of components to retrieve, or -1 to
-     * retrieve all components to the end of this array.
-     * @return a list of {@link Value} objects, one for each requested
-     * array component ordered by array index.  When there are
-     * no elements in the specified range (e.g.
-     * <CODE><I>length</I></CODE> is zero) an empty list is returned
+     * @pbrbm index the index of the first component to retrieve
+     * @pbrbm length the number of components to retrieve, or -1 to
+     * retrieve bll components to the end of this brrby.
+     * @return b list of {@link Vblue} objects, one for ebch requested
+     * brrby component ordered by brrby index.  When there bre
+     * no elements in the specified rbnge (e.g.
+     * <CODE><I>length</I></CODE> is zero) bn empty list is returned
      *
-     * @throws java.lang.IndexOutOfBoundsException if the range
-     * specified with <CODE><I>index</I></CODE> and
-     * <CODE><I>length</I></CODE> is not within the range of the array,
-     * that is, if either of the following are true:
+     * @throws jbvb.lbng.IndexOutOfBoundsException if the rbnge
+     * specified with <CODE><I>index</I></CODE> bnd
+     * <CODE><I>length</I></CODE> is not within the rbnge of the brrby,
+     * thbt is, if either of the following bre true:
      * <PRE>
      *    <I>index</I> &lt; 0
      *    <I>index</I> &gt; {@link #length() length()} </PRE>
-     * or if <CODE><I>length</I> != -1</CODE> and
-     * either of the following are true:
+     * or if <CODE><I>length</I> != -1</CODE> bnd
+     * either of the following bre true:
      * <PRE>
      *    <I>length</I> &lt; 0
      *    <I>index</I> + <I>length</I> &gt;  {@link #length() length()}</PRE>
      */
-    List<Value> getValues(int index, int length);
+    List<Vblue> getVblues(int index, int length);
 
     /**
-     * Replaces an array component with another value.
+     * Replbces bn brrby component with bnother vblue.
      * <p>
-     * Object values must be assignment compatible with the component type
-     * (This implies that the component type must be loaded through the
-     * declaring class's class loader). Primitive values must be
-     * either assignment compatible with the component type or must be
-     * convertible to the component type without loss of information.
-     * See JLS section 5.2 for more information on assignment
-     * compatibility.
+     * Object vblues must be bssignment compbtible with the component type
+     * (This implies thbt the component type must be lobded through the
+     * declbring clbss's clbss lobder). Primitive vblues must be
+     * either bssignment compbtible with the component type or must be
+     * convertible to the component type without loss of informbtion.
+     * See JLS section 5.2 for more informbtion on bssignment
+     * compbtibility.
      *
-     * @param value the new value
-     * @param index the index of the component to set
-     * @throws java.lang.IndexOutOfBoundsException if
-     * <CODE><I>index</I></CODE> is outside the range of this array,
-     * that is, if either of the following are true:
+     * @pbrbm vblue the new vblue
+     * @pbrbm index the index of the component to set
+     * @throws jbvb.lbng.IndexOutOfBoundsException if
+     * <CODE><I>index</I></CODE> is outside the rbnge of this brrby,
+     * thbt is, if either of the following bre true:
      * <PRE>
      *    <I>index</I> &lt; 0
      *    <I>index</I> &gt;= {@link #length() length()} </PRE>
-     * @throws InvalidTypeException if the type of <CODE><I>value</I></CODE>
-     * is not compatible with the declared type of array components.
-     * @throws ClassNotLoadedException if the array component type
-     * has not yet been loaded
-     * through the appropriate class loader.
-     * @throws VMCannotBeModifiedException if the VirtualMachine is read-only - see {@link VirtualMachine#canBeModified()}.
+     * @throws InvblidTypeException if the type of <CODE><I>vblue</I></CODE>
+     * is not compbtible with the declbred type of brrby components.
+     * @throws ClbssNotLobdedException if the brrby component type
+     * hbs not yet been lobded
+     * through the bppropribte clbss lobder.
+     * @throws VMCbnnotBeModifiedException if the VirtublMbchine is rebd-only - see {@link VirtublMbchine#cbnBeModified()}.
      *
-     * @see ArrayType#componentType()
+     * @see ArrbyType#componentType()
      */
-    void setValue(int index, Value value)
-            throws InvalidTypeException,
-                   ClassNotLoadedException;
+    void setVblue(int index, Vblue vblue)
+            throws InvblidTypeException,
+                   ClbssNotLobdedException;
 
     /**
-     * Replaces all array components with other values. If the given
-     * list is larger in size than the array, the values at the
-     * end of the list are ignored.
+     * Replbces bll brrby components with other vblues. If the given
+     * list is lbrger in size thbn the brrby, the vblues bt the
+     * end of the list bre ignored.
      * <p>
-     * Object values must be assignment compatible with the element type
-     * (This implies that the component type must be loaded through the
-     * enclosing class's class loader). Primitive values must be
-     * either assignment compatible with the component type or must be
-     * convertible to the component type without loss of information.
-     * See JLS section 5.2 for more information on assignment
-     * compatibility.
+     * Object vblues must be bssignment compbtible with the element type
+     * (This implies thbt the component type must be lobded through the
+     * enclosing clbss's clbss lobder). Primitive vblues must be
+     * either bssignment compbtible with the component type or must be
+     * convertible to the component type without loss of informbtion.
+     * See JLS section 5.2 for more informbtion on bssignment
+     * compbtibility.
      *
-     * @param values a list of {@link Value} objects to be placed
-     * in this array.  If <CODE><I>values</I>.size()</CODE> is
-     * less that the length of the array, the first
-     * <CODE><I>values</I>.size()</CODE> elements are set.
-     * @throws InvalidTypeException if any of the
-     * new <CODE><I>values</I></CODE>
-     * is not compatible with the declared type of array components.
-     * @throws ClassNotLoadedException if the array component
-     * type has not yet been loaded
-     * through the appropriate class loader.
-     * @throws VMCannotBeModifiedException if the VirtualMachine is read-only - see {@link VirtualMachine#canBeModified()}.
+     * @pbrbm vblues b list of {@link Vblue} objects to be plbced
+     * in this brrby.  If <CODE><I>vblues</I>.size()</CODE> is
+     * less thbt the length of the brrby, the first
+     * <CODE><I>vblues</I>.size()</CODE> elements bre set.
+     * @throws InvblidTypeException if bny of the
+     * new <CODE><I>vblues</I></CODE>
+     * is not compbtible with the declbred type of brrby components.
+     * @throws ClbssNotLobdedException if the brrby component
+     * type hbs not yet been lobded
+     * through the bppropribte clbss lobder.
+     * @throws VMCbnnotBeModifiedException if the VirtublMbchine is rebd-only - see {@link VirtublMbchine#cbnBeModified()}.
      *
-     * @see ArrayType#componentType()
+     * @see ArrbyType#componentType()
      */
-    void setValues(List<? extends Value> values)
-            throws InvalidTypeException,
-                   ClassNotLoadedException;
+    void setVblues(List<? extends Vblue> vblues)
+            throws InvblidTypeException,
+                   ClbssNotLobdedException;
 
     /**
-     * Replaces a range of array components with other values.
+     * Replbces b rbnge of brrby components with other vblues.
      * <p>
-     * Object values must be assignment compatible with the component type
-     * (This implies that the component type must be loaded through the
-     * enclosing class's class loader). Primitive values must be
-     * either assignment compatible with the component type or must be
-     * convertible to the component type without loss of information.
-     * See JLS section 5.2 for more information on assignment
-     * compatibility.
+     * Object vblues must be bssignment compbtible with the component type
+     * (This implies thbt the component type must be lobded through the
+     * enclosing clbss's clbss lobder). Primitive vblues must be
+     * either bssignment compbtible with the component type or must be
+     * convertible to the component type without loss of informbtion.
+     * See JLS section 5.2 for more informbtion on bssignment
+     * compbtibility.
      *
-     * @param index the index of the first component to set.
-     * @param values a list of {@link Value} objects to be placed
-     * in this array.
-     * @param srcIndex the index of the first source value to use.
-     * @param length the number of components to set, or -1 to set
-     * all components to the end of this array or the end of
-     * <CODE><I>values</I></CODE> (whichever comes first).
-     * @throws InvalidTypeException if any element of
-     * <CODE><I>values</I></CODE>
-     * is not compatible with the declared type of array components.
-     * @throws java.lang.IndexOutOfBoundsException if the
-     * array range specified with
-     * <CODE><I>index</I></CODE> and  <CODE><I>length</I></CODE>
-     * is not within the range of the array,
-     * or if the source range specified with
-     * <CODE><I>srcIndex</I></CODE> and <CODE><I>length</I></CODE>
-     * is not within <CODE><I>values</I></CODE>,
-     * that is, if any of the following are true:
+     * @pbrbm index the index of the first component to set.
+     * @pbrbm vblues b list of {@link Vblue} objects to be plbced
+     * in this brrby.
+     * @pbrbm srcIndex the index of the first source vblue to use.
+     * @pbrbm length the number of components to set, or -1 to set
+     * bll components to the end of this brrby or the end of
+     * <CODE><I>vblues</I></CODE> (whichever comes first).
+     * @throws InvblidTypeException if bny element of
+     * <CODE><I>vblues</I></CODE>
+     * is not compbtible with the declbred type of brrby components.
+     * @throws jbvb.lbng.IndexOutOfBoundsException if the
+     * brrby rbnge specified with
+     * <CODE><I>index</I></CODE> bnd  <CODE><I>length</I></CODE>
+     * is not within the rbnge of the brrby,
+     * or if the source rbnge specified with
+     * <CODE><I>srcIndex</I></CODE> bnd <CODE><I>length</I></CODE>
+     * is not within <CODE><I>vblues</I></CODE>,
+     * thbt is, if bny of the following bre true:
      * <PRE>
      *    <I>index</I> &lt; 0
      *    <I>index</I> &gt; {@link #length() length()}
      *    <I>srcIndex</I> &lt; 0
-     *    <I>srcIndex</I> &gt; <I>values</I>.size() </PRE>
-     * or if <CODE><I>length</I> != -1</CODE> and any of the
-     * following are true:
+     *    <I>srcIndex</I> &gt; <I>vblues</I>.size() </PRE>
+     * or if <CODE><I>length</I> != -1</CODE> bnd bny of the
+     * following bre true:
      * <PRE>
      *    <I>length</I> &lt; 0
      *    <I>index</I> + <I>length</I> &gt; {@link #length() length()}
-     *    <I>srcIndex</I> + <I>length</I> &gt; <I>values</I>.size() </PRE>
-     * @throws VMCannotBeModifiedException if the VirtualMachine is read-only - see {@link VirtualMachine#canBeModified()}.
-     * @see ArrayType#componentType()
+     *    <I>srcIndex</I> + <I>length</I> &gt; <I>vblues</I>.size() </PRE>
+     * @throws VMCbnnotBeModifiedException if the VirtublMbchine is rebd-only - see {@link VirtublMbchine#cbnBeModified()}.
+     * @see ArrbyType#componentType()
      */
-    void setValues(int index, List<? extends Value> values, int srcIndex, int length)
-            throws InvalidTypeException,
-                   ClassNotLoadedException;
+    void setVblues(int index, List<? extends Vblue> vblues, int srcIndex, int length)
+            throws InvblidTypeException,
+                   ClbssNotLobdedException;
 }

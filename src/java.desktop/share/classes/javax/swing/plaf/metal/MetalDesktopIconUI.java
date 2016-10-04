@@ -1,152 +1,152 @@
 /*
- * Copyright (c) 1998, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.plaf.metal;
+pbckbge jbvbx.swing.plbf.metbl;
 
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-import javax.swing.border.*;
-import javax.swing.plaf.*;
-import java.beans.*;
-import java.util.EventListener;
-import java.io.Serializable;
-import javax.swing.plaf.basic.BasicDesktopIconUI;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvbx.swing.*;
+import jbvbx.swing.border.*;
+import jbvbx.swing.plbf.*;
+import jbvb.bebns.*;
+import jbvb.util.EventListener;
+import jbvb.io.Seriblizbble;
+import jbvbx.swing.plbf.bbsic.BbsicDesktopIconUI;
 
 /**
- * Metal desktop icon.
+ * Metbl desktop icon.
  *
- * @author Steve Wilson
+ * @buthor Steve Wilson
  */
-public class MetalDesktopIconUI extends BasicDesktopIconUI
+public clbss MetblDesktopIconUI extends BbsicDesktopIconUI
 {
 
     JButton button;
-    JLabel label;
+    JLbbel lbbel;
     TitleListener titleListener;
-    private int width;
+    privbte int width;
 
     /**
-     * Constructs a new instance of {@code MetalDesktopIconUI}.
+     * Constructs b new instbnce of {@code MetblDesktopIconUI}.
      *
-     * @param c a component
-     * @return a new instance of {@code MetalDesktopIconUI}
+     * @pbrbm c b component
+     * @return b new instbnce of {@code MetblDesktopIconUI}
      */
-    public static ComponentUI createUI(JComponent c)    {
-        return new MetalDesktopIconUI();
+    public stbtic ComponentUI crebteUI(JComponent c)    {
+        return new MetblDesktopIconUI();
     }
 
     /**
-     * Constructs a new instance of {@code MetalDesktopIconUI}.
+     * Constructs b new instbnce of {@code MetblDesktopIconUI}.
      */
-    public MetalDesktopIconUI() {
+    public MetblDesktopIconUI() {
     }
 
-    protected void installDefaults() {
-        super.installDefaults();
-        LookAndFeel.installColorsAndFont(desktopIcon, "DesktopIcon.background", "DesktopIcon.foreground", "DesktopIcon.font");
-        width = UIManager.getInt("DesktopIcon.width");
+    protected void instbllDefbults() {
+        super.instbllDefbults();
+        LookAndFeel.instbllColorsAndFont(desktopIcon, "DesktopIcon.bbckground", "DesktopIcon.foreground", "DesktopIcon.font");
+        width = UIMbnbger.getInt("DesktopIcon.width");
     }
 
-    protected void installComponents() {
-        frame = desktopIcon.getInternalFrame();
-        Icon icon = frame.getFrameIcon();
-        String title = frame.getTitle();
+    protected void instbllComponents() {
+        frbme = desktopIcon.getInternblFrbme();
+        Icon icon = frbme.getFrbmeIcon();
+        String title = frbme.getTitle();
 
         button = new JButton (title, icon);
-        button.addActionListener( new ActionListener() {
-                                  public void actionPerformed(ActionEvent e) {
+        button.bddActionListener( new ActionListener() {
+                                  public void bctionPerformed(ActionEvent e) {
              deiconize(); }} );
         button.setFont(desktopIcon.getFont());
-        button.setBackground(desktopIcon.getBackground());
+        button.setBbckground(desktopIcon.getBbckground());
         button.setForeground(desktopIcon.getForeground());
 
         int buttonH = button.getPreferredSize().height;
 
-        Icon drag = new MetalBumps((buttonH/3), buttonH,
-                                   MetalLookAndFeel.getControlHighlight(),
-                                   MetalLookAndFeel.getControlDarkShadow(),
-                                   MetalLookAndFeel.getControl());
-        label = new JLabel(drag);
+        Icon drbg = new MetblBumps((buttonH/3), buttonH,
+                                   MetblLookAndFeel.getControlHighlight(),
+                                   MetblLookAndFeel.getControlDbrkShbdow(),
+                                   MetblLookAndFeel.getControl());
+        lbbel = new JLbbel(drbg);
 
-        label.setBorder( new MatteBorder( 0, 2, 0, 1, desktopIcon.getBackground()) );
-        desktopIcon.setLayout(new BorderLayout(2, 0));
-        desktopIcon.add(button, BorderLayout.CENTER);
-        desktopIcon.add(label, BorderLayout.WEST);
+        lbbel.setBorder( new MbtteBorder( 0, 2, 0, 1, desktopIcon.getBbckground()) );
+        desktopIcon.setLbyout(new BorderLbyout(2, 0));
+        desktopIcon.bdd(button, BorderLbyout.CENTER);
+        desktopIcon.bdd(lbbel, BorderLbyout.WEST);
     }
 
-    protected void uninstallComponents() {
-        desktopIcon.setLayout(null);
-        desktopIcon.remove(label);
+    protected void uninstbllComponents() {
+        desktopIcon.setLbyout(null);
+        desktopIcon.remove(lbbel);
         desktopIcon.remove(button);
         button = null;
-        frame = null;
+        frbme = null;
     }
 
-    protected void installListeners() {
-        super.installListeners();
-        desktopIcon.getInternalFrame().addPropertyChangeListener(
+    protected void instbllListeners() {
+        super.instbllListeners();
+        desktopIcon.getInternblFrbme().bddPropertyChbngeListener(
                 titleListener = new TitleListener());
     }
 
-    protected void uninstallListeners() {
-        desktopIcon.getInternalFrame().removePropertyChangeListener(
+    protected void uninstbllListeners() {
+        desktopIcon.getInternblFrbme().removePropertyChbngeListener(
                 titleListener);
         titleListener = null;
-        super.uninstallListeners();
+        super.uninstbllListeners();
     }
 
 
     public Dimension getPreferredSize(JComponent c) {
-        // Metal desktop icons can not be resized.  Their dimensions should
-        // always be the minimum size.  See getMinimumSize(JComponent c).
+        // Metbl desktop icons cbn not be resized.  Their dimensions should
+        // blwbys be the minimum size.  See getMinimumSize(JComponent c).
         return getMinimumSize(c);
     }
 
     public Dimension getMinimumSize(JComponent c) {
-        // For the metal desktop icon we will use the layout maanger to
-        // determine the correct height of the component, but we want to keep
-        // the width consistent according to the jlf spec.
+        // For the metbl desktop icon we will use the lbyout mbbnger to
+        // determine the correct height of the component, but we wbnt to keep
+        // the width consistent bccording to the jlf spec.
         return new Dimension(width,
-                desktopIcon.getLayout().minimumLayoutSize(desktopIcon).height);
+                desktopIcon.getLbyout().minimumLbyoutSize(desktopIcon).height);
     }
 
-    public Dimension getMaximumSize(JComponent c) {
-        // Metal desktop icons can not be resized.  Their dimensions should
-        // always be the minimum size.  See getMinimumSize(JComponent c).
+    public Dimension getMbximumSize(JComponent c) {
+        // Metbl desktop icons cbn not be resized.  Their dimensions should
+        // blwbys be the minimum size.  See getMinimumSize(JComponent c).
         return getMinimumSize(c);
     }
 
-    class TitleListener implements PropertyChangeListener {
-        public void propertyChange (PropertyChangeEvent e) {
-          if (e.getPropertyName().equals("title")) {
-            button.setText((String)e.getNewValue());
+    clbss TitleListener implements PropertyChbngeListener {
+        public void propertyChbnge (PropertyChbngeEvent e) {
+          if (e.getPropertyNbme().equbls("title")) {
+            button.setText((String)e.getNewVblue());
           }
 
-          if (e.getPropertyName().equals("frameIcon")) {
-            button.setIcon((Icon)e.getNewValue());
+          if (e.getPropertyNbme().equbls("frbmeIcon")) {
+            button.setIcon((Icon)e.getNewVblue());
           }
         }
     }

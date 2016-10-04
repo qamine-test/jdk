@@ -1,238 +1,238 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-#import <sys/stat.h>
-#import <Cocoa/Cocoa.h>
-#import <JavaNativeFoundation/JavaNativeFoundation.h>
+#import <sys/stbt.h>
+#import <Cocob/Cocob.h>
+#import <JbvbNbtiveFoundbtion/JbvbNbtiveFoundbtion.h>
 
-#import "CFileDialog.h"
-#import "ThreadUtilities.h"
+#import "CFileDiblog.h"
+#import "ThrebdUtilities.h"
 
-#import "java_awt_FileDialog.h"
-#import "sun_lwawt_macosx_CFileDialog.h"
+#import "jbvb_bwt_FileDiblog.h"
+#import "sun_lwbwt_mbcosx_CFileDiblog.h"
 
-@implementation CFileDialog
+@implementbtion CFileDiblog
 
-- (id)initWithFilter:(jboolean)inHasFilter
-          fileDialog:(jobject)inDialog
+- (id)initWithFilter:(jboolebn)inHbsFilter
+          fileDiblog:(jobject)inDiblog
                title:(NSString *)inTitle
-           directory:(NSString *)inPath
+           directory:(NSString *)inPbth
                 file:(NSString *)inFile
                 mode:(jint)inMode
         multipleMode:(BOOL)inMultipleMode
-      shouldNavigate:(BOOL)inNavigateApps
-canChooseDirectories:(BOOL)inChooseDirectories
+      shouldNbvigbte:(BOOL)inNbvigbteApps
+cbnChooseDirectories:(BOOL)inChooseDirectories
              withEnv:(JNIEnv*)env;
 {
     if (self == [super init]) {
-        fHasFileFilter = inHasFilter;
-        fFileDialog = JNFNewGlobalRef(env, inDialog);
-        fDirectory = inPath;
-        [fDirectory retain];
+        fHbsFileFilter = inHbsFilter;
+        fFileDiblog = JNFNewGlobblRef(env, inDiblog);
+        fDirectory = inPbth;
+        [fDirectory retbin];
         fFile = inFile;
-        [fFile retain];
+        [fFile retbin];
         fTitle = inTitle;
-        [fTitle retain];
+        [fTitle retbin];
         fMode = inMode;
         fMultipleMode = inMultipleMode;
-        fNavigateApps = inNavigateApps;
+        fNbvigbteApps = inNbvigbteApps;
         fChooseDirectories = inChooseDirectories;
-        fPanelResult = NSCancelButton;
+        fPbnelResult = NSCbncelButton;
     }
 
     return self;
 }
 
 -(void) disposer {
-    if (fFileDialog != NULL) {
-        JNIEnv *env = [ThreadUtilities getJNIEnvUncached];
-        JNFDeleteGlobalRef(env, fFileDialog);
-        fFileDialog = NULL;
+    if (fFileDiblog != NULL) {
+        JNIEnv *env = [ThrebdUtilities getJNIEnvUncbched];
+        JNFDeleteGlobblRef(env, fFileDiblog);
+        fFileDiblog = NULL;
     }
 }
 
--(void) dealloc {
-    [fDirectory release];
+-(void) deblloc {
+    [fDirectory relebse];
     fDirectory = nil;
 
-    [fFile release];
+    [fFile relebse];
     fFile = nil;
 
-    [fTitle release];
+    [fTitle relebse];
     fTitle = nil;
 
-    [fURLs release];
+    [fURLs relebse];
     fURLs = nil;
 
-    [super dealloc];
+    [super deblloc];
 }
 
-- (void)safeSaveOrLoad {
-    NSSavePanel *thePanel = nil;
+- (void)sbfeSbveOrLobd {
+    NSSbvePbnel *thePbnel = nil;
 
     /* 
-     * 8013553: turns off extension hiding for the native file dialog.
-     * This way is used because setExtensionHidden(NO) doesn't work
-     * as expected.
+     * 8013553: turns off extension hiding for the nbtive file diblog.
+     * This wby is used becbuse setExtensionHidden(NO) doesn't work
+     * bs expected.
      */
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setBool:NO forKey:@"NSNavLastUserSetHideExtensionButtonState"];
+    NSUserDefbults *defbults = [NSUserDefbults stbndbrdUserDefbults];
+    [defbults setBool:NO forKey:@"NSNbvLbstUserSetHideExtensionButtonStbte"];
 
-    if (fMode == java_awt_FileDialog_SAVE) {
-        thePanel = [NSSavePanel savePanel];
-        [thePanel setAllowsOtherFileTypes:YES];
+    if (fMode == jbvb_bwt_FileDiblog_SAVE) {
+        thePbnel = [NSSbvePbnel sbvePbnel];
+        [thePbnel setAllowsOtherFileTypes:YES];
     } else {
-        thePanel = [NSOpenPanel openPanel];
+        thePbnel = [NSOpenPbnel openPbnel];
     }
 
-    if (thePanel != nil) {
-        [thePanel setTitle:fTitle];
+    if (thePbnel != nil) {
+        [thePbnel setTitle:fTitle];
 
-        if (fNavigateApps) {
-            [thePanel setTreatsFilePackagesAsDirectories:YES];
+        if (fNbvigbteApps) {
+            [thePbnel setTrebtsFilePbckbgesAsDirectories:YES];
         }
 
-        if (fMode == java_awt_FileDialog_LOAD) {
-            NSOpenPanel *openPanel = (NSOpenPanel *)thePanel;
-            [openPanel setAllowsMultipleSelection:fMultipleMode];
-            [openPanel setCanChooseFiles:!fChooseDirectories];
-            [openPanel setCanChooseDirectories:fChooseDirectories];
-            [openPanel setCanCreateDirectories:YES];
+        if (fMode == jbvb_bwt_FileDiblog_LOAD) {
+            NSOpenPbnel *openPbnel = (NSOpenPbnel *)thePbnel;
+            [openPbnel setAllowsMultipleSelection:fMultipleMode];
+            [openPbnel setCbnChooseFiles:!fChooseDirectories];
+            [openPbnel setCbnChooseDirectories:fChooseDirectories];
+            [openPbnel setCbnCrebteDirectories:YES];
         }
 
-        [thePanel setDelegate:self];
-        fPanelResult = [thePanel runModalForDirectory:fDirectory file:fFile];
-        [thePanel setDelegate:nil];
+        [thePbnel setDelegbte:self];
+        fPbnelResult = [thePbnel runModblForDirectory:fDirectory file:fFile];
+        [thePbnel setDelegbte:nil];
 
         if ([self userClickedOK]) {
-            if (fMode == java_awt_FileDialog_LOAD) {
-                NSOpenPanel *openPanel = (NSOpenPanel *)thePanel;
-                fURLs = [openPanel URLs];
+            if (fMode == jbvb_bwt_FileDiblog_LOAD) {
+                NSOpenPbnel *openPbnel = (NSOpenPbnel *)thePbnel;
+                fURLs = [openPbnel URLs];
             } else {
-                fURLs = [NSArray arrayWithObject:[thePanel URL]];
+                fURLs = [NSArrby brrbyWithObject:[thePbnel URL]];
             }
-            [fURLs retain];
+            [fURLs retbin];
         }
     }
 
     [self disposer];
 }
 
-- (BOOL) askFilenameFilter:(NSString *)filename {
-    JNIEnv *env = [ThreadUtilities getJNIEnv];
-    jstring jString = JNFNormalizedJavaStringForPath(env, filename);
+- (BOOL) bskFilenbmeFilter:(NSString *)filenbme {
+    JNIEnv *env = [ThrebdUtilities getJNIEnv];
+    jstring jString = JNFNormblizedJbvbStringForPbth(env, filenbme);
 
-    static JNF_CLASS_CACHE(jc_CFileDialog, "sun/lwawt/macosx/CFileDialog");
-    static JNF_MEMBER_CACHE(jm_queryFF, jc_CFileDialog, "queryFilenameFilter", "(Ljava/lang/String;)Z");
-    BOOL returnValue = JNFCallBooleanMethod(env, fFileDialog, jm_queryFF, jString); // AWT_THREADING Safe (AWTRunLoopMode)
-    (*env)->DeleteLocalRef(env, jString);
+    stbtic JNF_CLASS_CACHE(jc_CFileDiblog, "sun/lwbwt/mbcosx/CFileDiblog");
+    stbtic JNF_MEMBER_CACHE(jm_queryFF, jc_CFileDiblog, "queryFilenbmeFilter", "(Ljbvb/lbng/String;)Z");
+    BOOL returnVblue = JNFCbllBoolebnMethod(env, fFileDiblog, jm_queryFF, jString); // AWT_THREADING Sbfe (AWTRunLoopMode)
+    (*env)->DeleteLocblRef(env, jString);
 
-    return returnValue;
+    return returnVblue;
 }
 
-- (BOOL)panel:(id)sender shouldEnableURL:(NSURL *)url {
-    if (!fHasFileFilter) return YES; // no filter, no problem!
+- (BOOL)pbnel:(id)sender shouldEnbbleURL:(NSURL *)url {
+    if (!fHbsFileFilter) return YES; // no filter, no problem!
 
-    // check if it's not a normal file
+    // check if it's not b normbl file
     NSNumber *isFile = nil;
-    if ([url getResourceValue:&isFile forKey:NSURLIsRegularFileKey error:nil]) {
-        if (![isFile boolValue]) return YES; // always show directories and non-file entities (browsing servers/mounts, etc)
+    if ([url getResourceVblue:&isFile forKey:NSURLIsRegulbrFileKey error:nil]) {
+        if (![isFile boolVblue]) return YES; // blwbys show directories bnd non-file entities (browsing servers/mounts, etc)
     }
 
     // if in directory-browsing mode, don't offer files
-    if ((fMode != java_awt_FileDialog_LOAD) && (fMode != java_awt_FileDialog_SAVE)) {
+    if ((fMode != jbvb_bwt_FileDiblog_LOAD) && (fMode != jbvb_bwt_FileDiblog_SAVE)) {
         return NO;
     }
 
-    // ask the file filter up in Java
-    NSString* filePath = (NSString*)CFURLCopyFileSystemPath((CFURLRef)url, kCFURLPOSIXPathStyle);
-    BOOL shouldEnableFile = [self askFilenameFilter:filePath];
-    [filePath release];
-    return shouldEnableFile;
+    // bsk the file filter up in Jbvb
+    NSString* filePbth = (NSString*)CFURLCopyFileSystemPbth((CFURLRef)url, kCFURLPOSIXPbthStyle);
+    BOOL shouldEnbbleFile = [self bskFilenbmeFilter:filePbth];
+    [filePbth relebse];
+    return shouldEnbbleFile;
 }
 
 - (BOOL) userClickedOK {
-    return fPanelResult == NSOKButton;
+    return fPbnelResult == NSOKButton;
 }
 
-- (NSArray *)URLs {
-    return [[fURLs retain] autorelease];
+- (NSArrby *)URLs {
+    return [[fURLs retbin] butorelebse];
 }
 @end
 
 /*
- * Class:     sun_lwawt_macosx_CFileDialog
- * Method:    nativeRunFileDialog
- * Signature: (Ljava/lang/String;ILjava/io/FilenameFilter;
- *             Ljava/lang/String;Ljava/lang/String;)[Ljava/lang/String;
+ * Clbss:     sun_lwbwt_mbcosx_CFileDiblog
+ * Method:    nbtiveRunFileDiblog
+ * Signbture: (Ljbvb/lbng/String;ILjbvb/io/FilenbmeFilter;
+ *             Ljbvb/lbng/String;Ljbvb/lbng/String;)[Ljbvb/lbng/String;
  */
-JNIEXPORT jobjectArray JNICALL
-Java_sun_lwawt_macosx_CFileDialog_nativeRunFileDialog
-(JNIEnv *env, jobject peer, jstring title, jint mode, jboolean multipleMode,
- jboolean navigateApps, jboolean chooseDirectories, jboolean hasFilter,
+JNIEXPORT jobjectArrby JNICALL
+Jbvb_sun_lwbwt_mbcosx_CFileDiblog_nbtiveRunFileDiblog
+(JNIEnv *env, jobject peer, jstring title, jint mode, jboolebn multipleMode,
+ jboolebn nbvigbteApps, jboolebn chooseDirectories, jboolebn hbsFilter,
  jstring directory, jstring file)
 {
-    jobjectArray returnValue = NULL;
+    jobjectArrby returnVblue = NULL;
 
 JNF_COCOA_ENTER(env);
-    NSString *dialogTitle = JNFJavaToNSString(env, title);
-    if ([dialogTitle length] == 0) {
-        dialogTitle = @" ";
+    NSString *diblogTitle = JNFJbvbToNSString(env, title);
+    if ([diblogTitle length] == 0) {
+        diblogTitle = @" ";
     }
 
-    CFileDialog *dialogDelegate = [[CFileDialog alloc] initWithFilter:hasFilter
-                                                           fileDialog:peer
-                                                                title:dialogTitle
-                                                            directory:JNFJavaToNSString(env, directory)
-                                                                 file:JNFJavaToNSString(env, file)
+    CFileDiblog *diblogDelegbte = [[CFileDiblog blloc] initWithFilter:hbsFilter
+                                                           fileDiblog:peer
+                                                                title:diblogTitle
+                                                            directory:JNFJbvbToNSString(env, directory)
+                                                                 file:JNFJbvbToNSString(env, file)
                                                                  mode:mode
                                                          multipleMode:multipleMode
-                                                       shouldNavigate:navigateApps
-                                                 canChooseDirectories:chooseDirectories
+                                                       shouldNbvigbte:nbvigbteApps
+                                                 cbnChooseDirectories:chooseDirectories
                                                               withEnv:env];
 
-    [JNFRunLoop performOnMainThread:@selector(safeSaveOrLoad)
-                                 on:dialogDelegate
+    [JNFRunLoop performOnMbinThrebd:@selector(sbfeSbveOrLobd)
+                                 on:diblogDelegbte
                          withObject:nil
-                      waitUntilDone:YES];
+                      wbitUntilDone:YES];
 
-    if ([dialogDelegate userClickedOK]) {
-        NSArray *urls = [dialogDelegate URLs];
+    if ([diblogDelegbte userClickedOK]) {
+        NSArrby *urls = [diblogDelegbte URLs];
         jsize count = [urls count];
 
-        static JNF_CLASS_CACHE(jc_String, "java/lang/String");
-        returnValue = JNFNewObjectArray(env, &jc_String, count);
+        stbtic JNF_CLASS_CACHE(jc_String, "jbvb/lbng/String");
+        returnVblue = JNFNewObjectArrby(env, &jc_String, count);
 
-        [urls enumerateObjectsUsingBlock:^(id url, NSUInteger index, BOOL *stop) {
-            jstring filename = JNFNormalizedJavaStringForPath(env, [url path]);
-            (*env)->SetObjectArrayElement(env, returnValue, index, filename);
-            (*env)->DeleteLocalRef(env, filename);
+        [urls enumerbteObjectsUsingBlock:^(id url, NSUInteger index, BOOL *stop) {
+            jstring filenbme = JNFNormblizedJbvbStringForPbth(env, [url pbth]);
+            (*env)->SetObjectArrbyElement(env, returnVblue, index, filenbme);
+            (*env)->DeleteLocblRef(env, filenbme);
         }];
     }
 
-    [dialogDelegate release];
+    [diblogDelegbte relebse];
 JNF_COCOA_EXIT(env);
-    return returnValue;
+    return returnVblue;
 }

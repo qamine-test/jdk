@@ -1,178 +1,178 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.rmi.transport.tcp;
+pbckbge sun.rmi.trbnsport.tcp;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.lang.ref.Reference;
-import java.lang.ref.SoftReference;
-import java.net.Socket;
-import java.rmi.ConnectIOException;
-import java.rmi.RemoteException;
-import java.security.AccessControlContext;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.WeakHashMap;
-import java.util.concurrent.Future;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
+import jbvb.io.DbtbInputStrebm;
+import jbvb.io.DbtbOutputStrebm;
+import jbvb.io.IOException;
+import jbvb.lbng.ref.Reference;
+import jbvb.lbng.ref.SoftReference;
+import jbvb.net.Socket;
+import jbvb.rmi.ConnectIOException;
+import jbvb.rmi.RemoteException;
+import jbvb.security.AccessControlContext;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
+import jbvb.util.ListIterbtor;
+import jbvb.util.WebkHbshMbp;
+import jbvb.util.concurrent.Future;
+import jbvb.util.concurrent.ScheduledExecutorService;
+import jbvb.util.concurrent.TimeUnit;
 import sun.rmi.runtime.Log;
-import sun.rmi.runtime.NewThreadAction;
+import sun.rmi.runtime.NewThrebdAction;
 import sun.rmi.runtime.RuntimeUtil;
-import sun.rmi.transport.Channel;
-import sun.rmi.transport.Connection;
-import sun.rmi.transport.Endpoint;
-import sun.rmi.transport.TransportConstants;
+import sun.rmi.trbnsport.Chbnnel;
+import sun.rmi.trbnsport.Connection;
+import sun.rmi.trbnsport.Endpoint;
+import sun.rmi.trbnsport.TrbnsportConstbnts;
 
 /**
- * TCPChannel is the socket-based implementation of the RMI Channel
- * abstraction.
+ * TCPChbnnel is the socket-bbsed implementbtion of the RMI Chbnnel
+ * bbstrbction.
  *
- * @author Ann Wollrath
+ * @buthor Ann Wollrbth
  */
-public class TCPChannel implements Channel {
-    /** endpoint for this channel */
-    private final TCPEndpoint ep;
-    /** transport for this channel */
-    private final TCPTransport tr;
-    /** list of cached connections */
-    private final List<TCPConnection> freeList =
-        new ArrayList<>();
-    /** frees cached connections that have expired (guarded by freeList) */
-    private Future<?> reaper = null;
+public clbss TCPChbnnel implements Chbnnel {
+    /** endpoint for this chbnnel */
+    privbte finbl TCPEndpoint ep;
+    /** trbnsport for this chbnnel */
+    privbte finbl TCPTrbnsport tr;
+    /** list of cbched connections */
+    privbte finbl List<TCPConnection> freeList =
+        new ArrbyList<>();
+    /** frees cbched connections thbt hbve expired (gubrded by freeList) */
+    privbte Future<?> rebper = null;
 
-    /** using multiplexer (for bi-directional applet communication */
-    private boolean usingMultiplexer = false;
+    /** using multiplexer (for bi-directionbl bpplet communicbtion */
+    privbte boolebn usingMultiplexer = fblse;
     /** connection multiplexer, if used */
-    private ConnectionMultiplexer multiplexer = null;
-    /** connection acceptor (should be in TCPTransport) */
-    private ConnectionAcceptor acceptor;
+    privbte ConnectionMultiplexer multiplexer = null;
+    /** connection bcceptor (should be in TCPTrbnsport) */
+    privbte ConnectionAcceptor bcceptor;
 
-    /** most recently authorized AccessControlContext */
-    private AccessControlContext okContext;
+    /** most recently buthorized AccessControlContext */
+    privbte AccessControlContext okContext;
 
-    /** cache of authorized AccessControlContexts */
-    private WeakHashMap<AccessControlContext,
-                        Reference<AccessControlContext>> authcache;
+    /** cbche of buthorized AccessControlContexts */
+    privbte WebkHbshMbp<AccessControlContext,
+                        Reference<AccessControlContext>> buthcbche;
 
-    /** the SecurityManager which authorized okContext and authcache */
-    private SecurityManager cacheSecurityManager = null;
+    /** the SecurityMbnbger which buthorized okContext bnd buthcbche */
+    privbte SecurityMbnbger cbcheSecurityMbnbger = null;
 
-    /** client-side connection idle usage timeout */
-    private static final long idleTimeout =             // default 15 seconds
+    /** client-side connection idle usbge timeout */
+    privbte stbtic finbl long idleTimeout =             // defbult 15 seconds
         AccessController.doPrivileged((PrivilegedAction<Long>) () ->
-            Long.getLong("sun.rmi.transport.connectionTimeout", 15000));
+            Long.getLong("sun.rmi.trbnsport.connectionTimeout", 15000));
 
-    /** client-side connection handshake read timeout */
-    private static final int handshakeTimeout =         // default 1 minute
+    /** client-side connection hbndshbke rebd timeout */
+    privbte stbtic finbl int hbndshbkeTimeout =         // defbult 1 minute
         AccessController.doPrivileged((PrivilegedAction<Integer>) () ->
-            Integer.getInteger("sun.rmi.transport.tcp.handshakeTimeout", 60000));
+            Integer.getInteger("sun.rmi.trbnsport.tcp.hbndshbkeTimeout", 60000));
 
-    /** client-side connection response read timeout (after handshake) */
-    private static final int responseTimeout =          // default infinity
+    /** client-side connection response rebd timeout (bfter hbndshbke) */
+    privbte stbtic finbl int responseTimeout =          // defbult infinity
         AccessController.doPrivileged((PrivilegedAction<Integer>) () ->
-            Integer.getInteger("sun.rmi.transport.tcp.responseTimeout", 0));
+            Integer.getInteger("sun.rmi.trbnsport.tcp.responseTimeout", 0));
 
-    /** thread pool for scheduling delayed tasks */
-    private static final ScheduledExecutorService scheduler =
+    /** threbd pool for scheduling delbyed tbsks */
+    privbte stbtic finbl ScheduledExecutorService scheduler =
         AccessController.doPrivileged(
-            new RuntimeUtil.GetInstanceAction()).getScheduler();
+            new RuntimeUtil.GetInstbnceAction()).getScheduler();
 
     /**
-     * Create channel for endpoint.
+     * Crebte chbnnel for endpoint.
      */
-    TCPChannel(TCPTransport tr, TCPEndpoint ep) {
+    TCPChbnnel(TCPTrbnsport tr, TCPEndpoint ep) {
         this.tr = tr;
         this.ep = ep;
     }
 
     /**
-     * Return the endpoint for this channel.
+     * Return the endpoint for this chbnnel.
      */
     public Endpoint getEndpoint() {
         return ep;
     }
 
     /**
-     * Checks if the current caller has sufficient privilege to make
-     * a connection to the remote endpoint.
-     * @exception SecurityException if caller is not allowed to use this
-     * Channel.
+     * Checks if the current cbller hbs sufficient privilege to mbke
+     * b connection to the remote endpoint.
+     * @exception SecurityException if cbller is not bllowed to use this
+     * Chbnnel.
      */
-    private void checkConnectPermission() throws SecurityException {
-        SecurityManager security = System.getSecurityManager();
+    privbte void checkConnectPermission() throws SecurityException {
+        SecurityMbnbger security = System.getSecurityMbnbger();
         if (security == null)
             return;
 
-        if (security != cacheSecurityManager) {
-            // The security manager changed: flush the cache
+        if (security != cbcheSecurityMbnbger) {
+            // The security mbnbger chbnged: flush the cbche
             okContext = null;
-            authcache = new WeakHashMap<AccessControlContext,
+            buthcbche = new WebkHbshMbp<AccessControlContext,
                                         Reference<AccessControlContext>>();
-            cacheSecurityManager = security;
+            cbcheSecurityMbnbger = security;
         }
 
         AccessControlContext ctx = AccessController.getContext();
 
-        // If ctx is the same context as last time, or if it
-        // appears in the cache, bypass the checkConnect.
+        // If ctx is the sbme context bs lbst time, or if it
+        // bppebrs in the cbche, bypbss the checkConnect.
         if (okContext == null ||
-            !(okContext.equals(ctx) || authcache.containsKey(ctx)))
+            !(okContext.equbls(ctx) || buthcbche.contbinsKey(ctx)))
         {
             security.checkConnect(ep.getHost(), ep.getPort());
-            authcache.put(ctx, new SoftReference<AccessControlContext>(ctx));
-            // A WeakHashMap is transformed into a SoftHashSet by making
-            // each value softly refer to its own key (Peter's idea).
+            buthcbche.put(ctx, new SoftReference<AccessControlContext>(ctx));
+            // A WebkHbshMbp is trbnsformed into b SoftHbshSet by mbking
+            // ebch vblue softly refer to its own key (Peter's ideb).
         }
         okContext = ctx;
     }
 
     /**
-     * Supplies a connection to the endpoint of the address space
-     * for which this is a channel.  The returned connection may
-     * be one retrieved from a cache of idle connections.
+     * Supplies b connection to the endpoint of the bddress spbce
+     * for which this is b chbnnel.  The returned connection mby
+     * be one retrieved from b cbche of idle connections.
      */
     public Connection newConnection() throws RemoteException {
         TCPConnection conn;
 
-        // loop until we find a free live connection (in which case
-        // we return) or until we run out of freelist (in which case
+        // loop until we find b free live connection (in which cbse
+        // we return) or until we run out of freelist (in which cbse
         // the loop exits)
         do {
             conn = null;
-            // try to get a free connection
+            // try to get b free connection
             synchronized (freeList) {
                 int elementPos = freeList.size()-1;
 
                 if (elementPos >= 0) {
-                    // If there is a security manager, make sure
-                    // the caller is allowed to connect to the
+                    // If there is b security mbnbger, mbke sure
+                    // the cbller is bllowed to connect to the
                     // requested endpoint.
                     checkConnectPermission();
                     conn = freeList.get(elementPos);
@@ -180,138 +180,138 @@ public class TCPChannel implements Channel {
                 }
             }
 
-            // at this point, conn is null iff the freelist is empty,
-            // and nonnull if a free connection of uncertain vitality
-            // has been found.
+            // bt this point, conn is null iff the freelist is empty,
+            // bnd nonnull if b free connection of uncertbin vitblity
+            // hbs been found.
 
             if (conn != null) {
-                // check to see if the connection has closed since last use
-                if (!conn.isDead()) {
-                    TCPTransport.tcpLog.log(Log.BRIEF, "reuse connection");
+                // check to see if the connection hbs closed since lbst use
+                if (!conn.isDebd()) {
+                    TCPTrbnsport.tcpLog.log(Log.BRIEF, "reuse connection");
                     return conn;
                 }
 
-                // conn is dead, and cannot be reused (reuse => false)
-                this.free(conn, false);
+                // conn is debd, bnd cbnnot be reused (reuse => fblse)
+                this.free(conn, fblse);
             }
         } while (conn != null);
 
-        // none free, so create a new connection
-        return (createConnection());
+        // none free, so crebte b new connection
+        return (crebteConnection());
     }
 
     /**
-     * Create a new connection to the remote endpoint of this channel.
-     * The returned connection is new.  The caller must already have
-     * passed a security checkConnect or equivalent.
+     * Crebte b new connection to the remote endpoint of this chbnnel.
+     * The returned connection is new.  The cbller must blrebdy hbve
+     * pbssed b security checkConnect or equivblent.
      */
-    private Connection createConnection() throws RemoteException {
+    privbte Connection crebteConnection() throws RemoteException {
         Connection conn;
 
-        TCPTransport.tcpLog.log(Log.BRIEF, "create connection");
+        TCPTrbnsport.tcpLog.log(Log.BRIEF, "crebte connection");
 
         if (!usingMultiplexer) {
             Socket sock = ep.newSocket();
             conn = new TCPConnection(this, sock);
 
             try {
-                DataOutputStream out =
-                    new DataOutputStream(conn.getOutputStream());
-                writeTransportHeader(out);
+                DbtbOutputStrebm out =
+                    new DbtbOutputStrebm(conn.getOutputStrebm());
+                writeTrbnsportHebder(out);
 
-                // choose protocol (single op if not reusable socket)
-                if (!conn.isReusable()) {
-                    out.writeByte(TransportConstants.SingleOpProtocol);
+                // choose protocol (single op if not reusbble socket)
+                if (!conn.isReusbble()) {
+                    out.writeByte(TrbnsportConstbnts.SingleOpProtocol);
                 } else {
-                    out.writeByte(TransportConstants.StreamProtocol);
+                    out.writeByte(TrbnsportConstbnts.StrebmProtocol);
                     out.flush();
 
                     /*
-                     * Set socket read timeout to configured value for JRMP
-                     * connection handshake; this also serves to guard against
-                     * non-JRMP servers that do not respond (see 4322806).
+                     * Set socket rebd timeout to configured vblue for JRMP
+                     * connection hbndshbke; this blso serves to gubrd bgbinst
+                     * non-JRMP servers thbt do not respond (see 4322806).
                      */
-                    int originalSoTimeout = 0;
+                    int originblSoTimeout = 0;
                     try {
-                        originalSoTimeout = sock.getSoTimeout();
-                        sock.setSoTimeout(handshakeTimeout);
-                    } catch (Exception e) {
-                        // if we fail to set this, ignore and proceed anyway
+                        originblSoTimeout = sock.getSoTimeout();
+                        sock.setSoTimeout(hbndshbkeTimeout);
+                    } cbtch (Exception e) {
+                        // if we fbil to set this, ignore bnd proceed bnywby
                     }
 
-                    DataInputStream in =
-                        new DataInputStream(conn.getInputStream());
-                    byte ack = in.readByte();
-                    if (ack != TransportConstants.ProtocolAck) {
+                    DbtbInputStrebm in =
+                        new DbtbInputStrebm(conn.getInputStrebm());
+                    byte bck = in.rebdByte();
+                    if (bck != TrbnsportConstbnts.ProtocolAck) {
                         throw new ConnectIOException(
-                            ack == TransportConstants.ProtocolNack ?
-                            "JRMP StreamProtocol not supported by server" :
-                            "non-JRMP server at remote endpoint");
+                            bck == TrbnsportConstbnts.ProtocolNbck ?
+                            "JRMP StrebmProtocol not supported by server" :
+                            "non-JRMP server bt remote endpoint");
                     }
 
-                    String suggestedHost = in.readUTF();
-                    int    suggestedPort = in.readInt();
-                    if (TCPTransport.tcpLog.isLoggable(Log.VERBOSE)) {
-                        TCPTransport.tcpLog.log(Log.VERBOSE,
+                    String suggestedHost = in.rebdUTF();
+                    int    suggestedPort = in.rebdInt();
+                    if (TCPTrbnsport.tcpLog.isLoggbble(Log.VERBOSE)) {
+                        TCPTrbnsport.tcpLog.log(Log.VERBOSE,
                             "server suggested " + suggestedHost + ":" +
                             suggestedPort);
                     }
 
-                    // set local host name, if unknown
-                    TCPEndpoint.setLocalHost(suggestedHost);
-                    // do NOT set the default port, because we don't
-                    // know if we can't listen YET...
+                    // set locbl host nbme, if unknown
+                    TCPEndpoint.setLocblHost(suggestedHost);
+                    // do NOT set the defbult port, becbuse we don't
+                    // know if we cbn't listen YET...
 
-                    // write out default endpoint to match protocol
+                    // write out defbult endpoint to mbtch protocol
                     // (but it serves no purpose)
-                    TCPEndpoint localEp =
-                        TCPEndpoint.getLocalEndpoint(0, null, null);
-                    out.writeUTF(localEp.getHost());
-                    out.writeInt(localEp.getPort());
-                    if (TCPTransport.tcpLog.isLoggable(Log.VERBOSE)) {
-                        TCPTransport.tcpLog.log(Log.VERBOSE, "using " +
-                            localEp.getHost() + ":" + localEp.getPort());
+                    TCPEndpoint locblEp =
+                        TCPEndpoint.getLocblEndpoint(0, null, null);
+                    out.writeUTF(locblEp.getHost());
+                    out.writeInt(locblEp.getPort());
+                    if (TCPTrbnsport.tcpLog.isLoggbble(Log.VERBOSE)) {
+                        TCPTrbnsport.tcpLog.log(Log.VERBOSE, "using " +
+                            locblEp.getHost() + ":" + locblEp.getPort());
                     }
 
                     /*
-                     * After JRMP handshake, set socket read timeout to value
+                     * After JRMP hbndshbke, set socket rebd timeout to vblue
                      * configured for the rest of the lifetime of the
-                     * connection.  NOTE: this timeout, if configured to a
-                     * finite duration, places an upper bound on the time
-                     * that a remote method call is permitted to execute.
+                     * connection.  NOTE: this timeout, if configured to b
+                     * finite durbtion, plbces bn upper bound on the time
+                     * thbt b remote method cbll is permitted to execute.
                      */
                     try {
                         /*
-                         * If socket factory had set a non-zero timeout on its
-                         * own, then restore it instead of using the property-
-                         * configured value.
+                         * If socket fbctory hbd set b non-zero timeout on its
+                         * own, then restore it instebd of using the property-
+                         * configured vblue.
                          */
-                        sock.setSoTimeout((originalSoTimeout != 0 ?
-                                           originalSoTimeout :
+                        sock.setSoTimeout((originblSoTimeout != 0 ?
+                                           originblSoTimeout :
                                            responseTimeout));
-                    } catch (Exception e) {
-                        // if we fail to set this, ignore and proceed anyway
+                    } cbtch (Exception e) {
+                        // if we fbil to set this, ignore bnd proceed bnywby
                     }
 
                     out.flush();
                 }
-            } catch (IOException e) {
-                if (e instanceof RemoteException)
+            } cbtch (IOException e) {
+                if (e instbnceof RemoteException)
                     throw (RemoteException) e;
                 else
                     throw new ConnectIOException(
-                        "error during JRMP connection establishment", e);
+                        "error during JRMP connection estbblishment", e);
             }
         } else {
             try {
                 conn = multiplexer.openConnection();
-            } catch (IOException e) {
+            } cbtch (IOException e) {
                 synchronized (this) {
-                    usingMultiplexer = false;
+                    usingMultiplexer = fblse;
                     multiplexer = null;
                 }
                 throw new ConnectIOException(
-                    "error opening virtual connection " +
+                    "error opening virtubl connection " +
                     "over multiplexed connection", e);
             }
         }
@@ -319,137 +319,137 @@ public class TCPChannel implements Channel {
     }
 
     /**
-     * Free the connection generated by this channel.
-     * @param conn The connection
-     * @param reuse If true, the connection is in a state in which it
-     *        can be reused for another method call.
+     * Free the connection generbted by this chbnnel.
+     * @pbrbm conn The connection
+     * @pbrbm reuse If true, the connection is in b stbte in which it
+     *        cbn be reused for bnother method cbll.
      */
-    public void free(Connection conn, boolean reuse) {
+    public void free(Connection conn, boolebn reuse) {
         if (conn == null) return;
 
-        if (reuse && conn.isReusable()) {
-            long lastuse = System.currentTimeMillis();
+        if (reuse && conn.isReusbble()) {
+            long lbstuse = System.currentTimeMillis();
             TCPConnection tcpConnection = (TCPConnection) conn;
 
-            TCPTransport.tcpLog.log(Log.BRIEF, "reuse connection");
+            TCPTrbnsport.tcpLog.log(Log.BRIEF, "reuse connection");
 
             /*
-             * Cache connection; if reaper task for expired
+             * Cbche connection; if rebper tbsk for expired
              * connections isn't scheduled, then schedule it.
              */
             synchronized (freeList) {
-                freeList.add(tcpConnection);
-                if (reaper == null) {
-                    TCPTransport.tcpLog.log(Log.BRIEF, "create reaper");
+                freeList.bdd(tcpConnection);
+                if (rebper == null) {
+                    TCPTrbnsport.tcpLog.log(Log.BRIEF, "crebte rebper");
 
-                    reaper = scheduler.scheduleWithFixedDelay(
-                        new Runnable() {
+                    rebper = scheduler.scheduleWithFixedDelby(
+                        new Runnbble() {
                             public void run() {
-                                TCPTransport.tcpLog.log(Log.VERBOSE,
-                                                        "wake up");
-                                freeCachedConnections();
+                                TCPTrbnsport.tcpLog.log(Log.VERBOSE,
+                                                        "wbke up");
+                                freeCbchedConnections();
                             }
                         }, idleTimeout, idleTimeout, TimeUnit.MILLISECONDS);
                 }
             }
 
-            tcpConnection.setLastUseTime(lastuse);
-            tcpConnection.setExpiration(lastuse + idleTimeout);
+            tcpConnection.setLbstUseTime(lbstuse);
+            tcpConnection.setExpirbtion(lbstuse + idleTimeout);
         } else {
-            TCPTransport.tcpLog.log(Log.BRIEF, "close connection");
+            TCPTrbnsport.tcpLog.log(Log.BRIEF, "close connection");
 
             try {
                 conn.close();
-            } catch (IOException ignored) {
+            } cbtch (IOException ignored) {
             }
         }
     }
 
     /**
-     * Send transport header over stream.
+     * Send trbnsport hebder over strebm.
      */
-    private void writeTransportHeader(DataOutputStream out)
+    privbte void writeTrbnsportHebder(DbtbOutputStrebm out)
         throws RemoteException
     {
         try {
-            // write out transport header
-            DataOutputStream dataOut =
-                new DataOutputStream(out);
-            dataOut.writeInt(TransportConstants.Magic);
-            dataOut.writeShort(TransportConstants.Version);
-        } catch (IOException e) {
+            // write out trbnsport hebder
+            DbtbOutputStrebm dbtbOut =
+                new DbtbOutputStrebm(out);
+            dbtbOut.writeInt(TrbnsportConstbnts.Mbgic);
+            dbtbOut.writeShort(TrbnsportConstbnts.Version);
+        } cbtch (IOException e) {
             throw new ConnectIOException(
-                "error writing JRMP transport header", e);
+                "error writing JRMP trbnsport hebder", e);
         }
     }
 
     /**
-     * Use given connection multiplexer object to obtain new connections
-     * through this channel.
+     * Use given connection multiplexer object to obtbin new connections
+     * through this chbnnel.
      */
     synchronized void useMultiplexer(ConnectionMultiplexer newMultiplexer) {
-        // for now, always just use the last one given
+        // for now, blwbys just use the lbst one given
         multiplexer = newMultiplexer;
 
         usingMultiplexer = true;
     }
 
     /**
-     * Accept a connection provided over a multiplexed channel.
+     * Accept b connection provided over b multiplexed chbnnel.
      */
-    void acceptMultiplexConnection(Connection conn) {
-        if (acceptor == null) {
-            acceptor = new ConnectionAcceptor(tr);
-            acceptor.startNewAcceptor();
+    void bcceptMultiplexConnection(Connection conn) {
+        if (bcceptor == null) {
+            bcceptor = new ConnectionAcceptor(tr);
+            bcceptor.stbrtNewAcceptor();
         }
-        acceptor.accept(conn);
+        bcceptor.bccept(conn);
     }
 
     /**
-     * Closes all the connections in the cache, whether timed out or not.
+     * Closes bll the connections in the cbche, whether timed out or not.
      */
-    public void shedCache() {
-        // Build a list of connections, to avoid holding the freeList
-        // lock during (potentially long-running) close() calls.
+    public void shedCbche() {
+        // Build b list of connections, to bvoid holding the freeList
+        // lock during (potentiblly long-running) close() cblls.
         Connection[] conn;
         synchronized (freeList) {
-            conn = freeList.toArray(new Connection[freeList.size()]);
-            freeList.clear();
+            conn = freeList.toArrby(new Connection[freeList.size()]);
+            freeList.clebr();
         }
 
-        // Close all the connections that were free
+        // Close bll the connections thbt were free
         for (int i = conn.length; --i >= 0; ) {
             Connection c = conn[i];
             conn[i] = null; // help gc
             try {
                 c.close();
-            } catch (java.io.IOException e) {
-                // eat exception
+            } cbtch (jbvb.io.IOException e) {
+                // ebt exception
             }
         }
     }
 
-    private void freeCachedConnections() {
+    privbte void freeCbchedConnections() {
         /*
-         * Remove each connection whose time out has expired.
+         * Remove ebch connection whose time out hbs expired.
          */
         synchronized (freeList) {
             int size = freeList.size();
 
             if (size > 0) {
                 long time = System.currentTimeMillis();
-                ListIterator<TCPConnection> iter = freeList.listIterator(size);
+                ListIterbtor<TCPConnection> iter = freeList.listIterbtor(size);
 
-                while (iter.hasPrevious()) {
+                while (iter.hbsPrevious()) {
                     TCPConnection conn = iter.previous();
                     if (conn.expired(time)) {
-                        TCPTransport.tcpLog.log(Log.VERBOSE,
+                        TCPTrbnsport.tcpLog.log(Log.VERBOSE,
                             "connection timeout expired");
 
                         try {
                             conn.close();
-                        } catch (java.io.IOException e) {
-                            // eat exception
+                        } cbtch (jbvb.io.IOException e) {
+                            // ebt exception
                         }
                         iter.remove();
                     }
@@ -457,63 +457,63 @@ public class TCPChannel implements Channel {
             }
 
             if (freeList.isEmpty()) {
-                reaper.cancel(false);
-                reaper = null;
+                rebper.cbncel(fblse);
+                rebper = null;
             }
         }
     }
 }
 
 /**
- * ConnectionAcceptor manages accepting new connections and giving them
- * to TCPTransport's message handler on new threads.
+ * ConnectionAcceptor mbnbges bccepting new connections bnd giving them
+ * to TCPTrbnsport's messbge hbndler on new threbds.
  *
- * Since this object only needs to know which transport to give new
- * connections to, it doesn't need to be per-channel as currently
+ * Since this object only needs to know which trbnsport to give new
+ * connections to, it doesn't need to be per-chbnnel bs currently
  * implemented.
  */
-class ConnectionAcceptor implements Runnable {
+clbss ConnectionAcceptor implements Runnbble {
 
-    /** transport that will handle message on accepted connections */
-    private TCPTransport transport;
+    /** trbnsport thbt will hbndle messbge on bccepted connections */
+    privbte TCPTrbnsport trbnsport;
 
-    /** queue of connections to be accepted */
-    private List<Connection> queue = new ArrayList<>();
+    /** queue of connections to be bccepted */
+    privbte List<Connection> queue = new ArrbyList<>();
 
-    /** thread ID counter */
-    private static int threadNum = 0;
+    /** threbd ID counter */
+    privbte stbtic int threbdNum = 0;
 
     /**
-     * Create a new ConnectionAcceptor that will give connections
-     * to the specified transport on a new thread.
+     * Crebte b new ConnectionAcceptor thbt will give connections
+     * to the specified trbnsport on b new threbd.
      */
-    public ConnectionAcceptor(TCPTransport transport) {
-        this.transport = transport;
+    public ConnectionAcceptor(TCPTrbnsport trbnsport) {
+        this.trbnsport = trbnsport;
     }
 
     /**
-     * Start a new thread to accept connections.
+     * Stbrt b new threbd to bccept connections.
      */
-    public void startNewAcceptor() {
-        Thread t = AccessController.doPrivileged(
-            new NewThreadAction(ConnectionAcceptor.this,
-                                "Multiplex Accept-" + ++ threadNum,
+    public void stbrtNewAcceptor() {
+        Threbd t = AccessController.doPrivileged(
+            new NewThrebdAction(ConnectionAcceptor.this,
+                                "Multiplex Accept-" + ++ threbdNum,
                                 true));
-        t.start();
+        t.stbrt();
     }
 
     /**
-     * Add connection to queue of connections to be accepted.
+     * Add connection to queue of connections to be bccepted.
      */
-    public void accept(Connection conn) {
+    public void bccept(Connection conn) {
         synchronized (queue) {
-            queue.add(conn);
+            queue.bdd(conn);
             queue.notify();
         }
     }
 
     /**
-     * Give transport next accepted connection, when available.
+     * Give trbnsport next bccepted connection, when bvbilbble.
      */
     public void run() {
         Connection conn;
@@ -521,14 +521,14 @@ class ConnectionAcceptor implements Runnable {
         synchronized (queue) {
             while (queue.size() == 0) {
                 try {
-                    queue.wait();
-                } catch (InterruptedException e) {
+                    queue.wbit();
+                } cbtch (InterruptedException e) {
                 }
             }
-            startNewAcceptor();
+            stbrtNewAcceptor();
             conn = queue.remove(0);
         }
 
-        transport.handleMessages(conn, true);
+        trbnsport.hbndleMessbges(conn, true);
     }
 }

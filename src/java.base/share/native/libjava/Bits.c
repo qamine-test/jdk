@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 2002, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2010, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -34,7 +34,7 @@
 /*
  * WARNING:
  *
- * Do not replace instances of:
+ * Do not replbce instbnces of:
  *
  *   if (length > MBYTE)
  *     size = MBYTE;
@@ -45,23 +45,23 @@
  *
  *   size = (length > MBYTE ? MBYTE : length);
  *
- * This expression causes a c compiler assertion failure when compiling on
- * 32-bit sparc.
+ * This expression cbuses b c compiler bssertion fbilure when compiling on
+ * 32-bit spbrc.
  */
 
 #define MBYTE 1048576
 
 #define GETCRITICAL_OR_RETURN(bytes, env, obj) { \
-    bytes = (*env)->GetPrimitiveArrayCritical(env, obj, NULL); \
+    bytes = (*env)->GetPrimitiveArrbyCriticbl(env, obj, NULL); \
     if (bytes == NULL)  { \
         if ((*env)->ExceptionOccurred(env) == NULL) \
-            JNU_ThrowInternalError(env, "Unable to get array"); \
+            JNU_ThrowInternblError(env, "Unbble to get brrby"); \
         return; \
     } \
 }
 
 #define RELEASECRITICAL(bytes, env, obj, mode) { \
-    (*env)->ReleasePrimitiveArrayCritical(env, obj, bytes, mode); \
+    (*env)->RelebsePrimitiveArrbyCriticbl(env, obj, bytes, mode); \
 }
 
 #define SWAPSHORT(x) ((jshort)(((x) << 8) | (((x) >> 8) & 0xff)))
@@ -71,7 +71,7 @@
                               ((jlong)SWAPINT((jint)((x) >> 32)) & 0xffffffff)))
 
 JNIEXPORT void JNICALL
-Java_java_nio_Bits_copyFromShortArray(JNIEnv *env, jobject this, jobject src,
+Jbvb_jbvb_nio_Bits_copyFromShortArrby(JNIEnv *env, jobject this, jobject src,
                                       jlong srcPos, jlong dstAddr, jlong length)
 {
     jbyte *bytes;
@@ -82,7 +82,7 @@ Java_java_nio_Bits_copyFromShortArray(JNIEnv *env, jobject this, jobject src,
     dstShort = (jshort *)jlong_to_ptr(dstAddr);
 
     while (length > 0) {
-        /* do not change this if-else statement, see WARNING above */
+        /* do not chbnge this if-else stbtement, see WARNING bbove */
         if (length > MBYTE)
             size = MBYTE;
         else
@@ -106,7 +106,7 @@ Java_java_nio_Bits_copyFromShortArray(JNIEnv *env, jobject this, jobject src,
 }
 
 JNIEXPORT void JNICALL
-Java_java_nio_Bits_copyToShortArray(JNIEnv *env, jobject this, jlong srcAddr,
+Jbvb_jbvb_nio_Bits_copyToShortArrby(JNIEnv *env, jobject this, jlong srcAddr,
                                     jobject dst, jlong dstPos, jlong length)
 {
     jbyte *bytes;
@@ -117,7 +117,7 @@ Java_java_nio_Bits_copyToShortArray(JNIEnv *env, jobject this, jlong srcAddr,
     srcShort = (jshort *)jlong_to_ptr(srcAddr);
 
     while (length > 0) {
-        /* do not change this if-else statement, see WARNING above */
+        /* do not chbnge this if-else stbtement, see WARNING bbove */
         if (length > MBYTE)
             size = MBYTE;
         else
@@ -141,7 +141,7 @@ Java_java_nio_Bits_copyToShortArray(JNIEnv *env, jobject this, jlong srcAddr,
 }
 
 JNIEXPORT void JNICALL
-Java_java_nio_Bits_copyFromIntArray(JNIEnv *env, jobject this, jobject src,
+Jbvb_jbvb_nio_Bits_copyFromIntArrby(JNIEnv *env, jobject this, jobject src,
                                     jlong srcPos, jlong dstAddr, jlong length)
 {
     jbyte *bytes;
@@ -152,7 +152,7 @@ Java_java_nio_Bits_copyFromIntArray(JNIEnv *env, jobject this, jobject src,
     dstInt = (jint *)jlong_to_ptr(dstAddr);
 
     while (length > 0) {
-        /* do not change this code, see WARNING above */
+        /* do not chbnge this code, see WARNING bbove */
         if (length > MBYTE)
             size = MBYTE;
         else
@@ -176,7 +176,7 @@ Java_java_nio_Bits_copyFromIntArray(JNIEnv *env, jobject this, jobject src,
 }
 
 JNIEXPORT void JNICALL
-Java_java_nio_Bits_copyToIntArray(JNIEnv *env, jobject this, jlong srcAddr,
+Jbvb_jbvb_nio_Bits_copyToIntArrby(JNIEnv *env, jobject this, jlong srcAddr,
                                   jobject dst, jlong dstPos, jlong length)
 {
     jbyte *bytes;
@@ -187,7 +187,7 @@ Java_java_nio_Bits_copyToIntArray(JNIEnv *env, jobject this, jlong srcAddr,
     srcInt = (jint *)jlong_to_ptr(srcAddr);
 
     while (length > 0) {
-        /* do not change this code, see WARNING above */
+        /* do not chbnge this code, see WARNING bbove */
         if (length > MBYTE)
             size = MBYTE;
         else
@@ -211,7 +211,7 @@ Java_java_nio_Bits_copyToIntArray(JNIEnv *env, jobject this, jlong srcAddr,
 }
 
 JNIEXPORT void JNICALL
-Java_java_nio_Bits_copyFromLongArray(JNIEnv *env, jobject this, jobject src,
+Jbvb_jbvb_nio_Bits_copyFromLongArrby(JNIEnv *env, jobject this, jobject src,
                                      jlong srcPos, jlong dstAddr, jlong length)
 {
     jbyte *bytes;
@@ -222,7 +222,7 @@ Java_java_nio_Bits_copyFromLongArray(JNIEnv *env, jobject this, jobject src,
     dstLong = (jlong *)jlong_to_ptr(dstAddr);
 
     while (length > 0) {
-        /* do not change this code, see WARNING above */
+        /* do not chbnge this code, see WARNING bbove */
         if (length > MBYTE)
             size = MBYTE;
         else
@@ -246,7 +246,7 @@ Java_java_nio_Bits_copyFromLongArray(JNIEnv *env, jobject this, jobject src,
 }
 
 JNIEXPORT void JNICALL
-Java_java_nio_Bits_copyToLongArray(JNIEnv *env, jobject this, jlong srcAddr,
+Jbvb_jbvb_nio_Bits_copyToLongArrby(JNIEnv *env, jobject this, jlong srcAddr,
                                    jobject dst, jlong dstPos, jlong length)
 {
     jbyte *bytes;
@@ -257,7 +257,7 @@ Java_java_nio_Bits_copyToLongArray(JNIEnv *env, jobject this, jlong srcAddr,
     srcLong = (jlong *)jlong_to_ptr(srcAddr);
 
     while (length > 0) {
-        /* do not change this code, see WARNING above */
+        /* do not chbnge this code, see WARNING bbove */
         if (length > MBYTE)
             size = MBYTE;
         else

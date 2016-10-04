@@ -1,187 +1,187 @@
 /*
- * Copyright (c) 1996, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.beans;
+pbckbge jbvb.bebns;
 
-import com.sun.beans.TypeResolver;
+import com.sun.bebns.TypeResolver;
 
-import java.lang.ref.Reference;
-import java.lang.ref.WeakReference;
-import java.lang.ref.SoftReference;
+import jbvb.lbng.ref.Reference;
+import jbvb.lbng.ref.WebkReference;
+import jbvb.lbng.ref.SoftReference;
 
-import java.lang.reflect.Method;
+import jbvb.lbng.reflect.Method;
 
-import java.util.Enumeration;
-import java.util.Hashtable;
-import java.util.Map.Entry;
+import jbvb.util.Enumerbtion;
+import jbvb.util.Hbshtbble;
+import jbvb.util.Mbp.Entry;
 
 /**
- * The FeatureDescriptor class is the common baseclass for PropertyDescriptor,
- * EventSetDescriptor, and MethodDescriptor, etc.
+ * The FebtureDescriptor clbss is the common bbseclbss for PropertyDescriptor,
+ * EventSetDescriptor, bnd MethodDescriptor, etc.
  * <p>
- * It supports some common information that can be set and retrieved for
- * any of the introspection descriptors.
+ * It supports some common informbtion thbt cbn be set bnd retrieved for
+ * bny of the introspection descriptors.
  * <p>
- * In addition it provides an extension mechanism so that arbitrary
- * attribute/value pairs can be associated with a design feature.
+ * In bddition it provides bn extension mechbnism so thbt brbitrbry
+ * bttribute/vblue pbirs cbn be bssocibted with b design febture.
  *
  * @since 1.1
  */
 
-public class FeatureDescriptor {
-    private static final String TRANSIENT = "transient";
+public clbss FebtureDescriptor {
+    privbte stbtic finbl String TRANSIENT = "trbnsient";
 
-    private Reference<? extends Class<?>> classRef;
+    privbte Reference<? extends Clbss<?>> clbssRef;
 
     /**
-     * Constructs a <code>FeatureDescriptor</code>.
+     * Constructs b <code>FebtureDescriptor</code>.
      */
-    public FeatureDescriptor() {
+    public FebtureDescriptor() {
     }
 
     /**
-     * Gets the programmatic name of this feature.
+     * Gets the progrbmmbtic nbme of this febture.
      *
-     * @return The programmatic name of the property/method/event
+     * @return The progrbmmbtic nbme of the property/method/event
      */
-    public String getName() {
-        return name;
+    public String getNbme() {
+        return nbme;
     }
 
     /**
-     * Sets the programmatic name of this feature.
+     * Sets the progrbmmbtic nbme of this febture.
      *
-     * @param name  The programmatic name of the property/method/event
+     * @pbrbm nbme  The progrbmmbtic nbme of the property/method/event
      */
-    public void setName(String name) {
-        this.name = name;
+    public void setNbme(String nbme) {
+        this.nbme = nbme;
     }
 
     /**
-     * Gets the localized display name of this feature.
+     * Gets the locblized displby nbme of this febture.
      *
-     * @return The localized display name for the property/method/event.
-     *  This defaults to the same as its programmatic name from getName.
+     * @return The locblized displby nbme for the property/method/event.
+     *  This defbults to the sbme bs its progrbmmbtic nbme from getNbme.
      */
-    public String getDisplayName() {
-        if (displayName == null) {
-            return getName();
+    public String getDisplbyNbme() {
+        if (displbyNbme == null) {
+            return getNbme();
         }
-        return displayName;
+        return displbyNbme;
     }
 
     /**
-     * Sets the localized display name of this feature.
+     * Sets the locblized displby nbme of this febture.
      *
-     * @param displayName  The localized display name for the
+     * @pbrbm displbyNbme  The locblized displby nbme for the
      *          property/method/event.
      */
-    public void setDisplayName(String displayName) {
-        this.displayName = displayName;
+    public void setDisplbyNbme(String displbyNbme) {
+        this.displbyNbme = displbyNbme;
     }
 
     /**
-     * The "expert" flag is used to distinguish between those features that are
-     * intended for expert users from those that are intended for normal users.
+     * The "expert" flbg is used to distinguish between those febtures thbt bre
+     * intended for expert users from those thbt bre intended for normbl users.
      *
-     * @return True if this feature is intended for use by experts only.
+     * @return True if this febture is intended for use by experts only.
      */
-    public boolean isExpert() {
+    public boolebn isExpert() {
         return expert;
     }
 
     /**
-     * The "expert" flag is used to distinguish between features that are
-     * intended for expert users from those that are intended for normal users.
+     * The "expert" flbg is used to distinguish between febtures thbt bre
+     * intended for expert users from those thbt bre intended for normbl users.
      *
-     * @param expert True if this feature is intended for use by experts only.
+     * @pbrbm expert True if this febture is intended for use by experts only.
      */
-    public void setExpert(boolean expert) {
+    public void setExpert(boolebn expert) {
         this.expert = expert;
     }
 
     /**
-     * The "hidden" flag is used to identify features that are intended only
-     * for tool use, and which should not be exposed to humans.
+     * The "hidden" flbg is used to identify febtures thbt bre intended only
+     * for tool use, bnd which should not be exposed to humbns.
      *
-     * @return True if this feature should be hidden from human users.
+     * @return True if this febture should be hidden from humbn users.
      */
-    public boolean isHidden() {
+    public boolebn isHidden() {
         return hidden;
     }
 
     /**
-     * The "hidden" flag is used to identify features that are intended only
-     * for tool use, and which should not be exposed to humans.
+     * The "hidden" flbg is used to identify febtures thbt bre intended only
+     * for tool use, bnd which should not be exposed to humbns.
      *
-     * @param hidden  True if this feature should be hidden from human users.
+     * @pbrbm hidden  True if this febture should be hidden from humbn users.
      */
-    public void setHidden(boolean hidden) {
+    public void setHidden(boolebn hidden) {
         this.hidden = hidden;
     }
 
     /**
-     * The "preferred" flag is used to identify features that are particularly
-     * important for presenting to humans.
+     * The "preferred" flbg is used to identify febtures thbt bre pbrticulbrly
+     * importbnt for presenting to humbns.
      *
-     * @return True if this feature should be preferentially shown to human users.
+     * @return True if this febture should be preferentiblly shown to humbn users.
      * @since 1.2
      */
-    public boolean isPreferred() {
+    public boolebn isPreferred() {
         return preferred;
     }
 
     /**
-     * The "preferred" flag is used to identify features that are particularly
-     * important for presenting to humans.
+     * The "preferred" flbg is used to identify febtures thbt bre pbrticulbrly
+     * importbnt for presenting to humbns.
      *
-     * @param preferred  True if this feature should be preferentially shown
-     *                   to human users.
+     * @pbrbm preferred  True if this febture should be preferentiblly shown
+     *                   to humbn users.
      * @since 1.2
      */
-    public void setPreferred(boolean preferred) {
+    public void setPreferred(boolebn preferred) {
         this.preferred = preferred;
     }
 
     /**
-     * Gets the short description of this feature.
+     * Gets the short description of this febture.
      *
-     * @return  A localized short description associated with this
-     *   property/method/event.  This defaults to be the display name.
+     * @return  A locblized short description bssocibted with this
+     *   property/method/event.  This defbults to be the displby nbme.
      */
     public String getShortDescription() {
         if (shortDescription == null) {
-            return getDisplayName();
+            return getDisplbyNbme();
         }
         return shortDescription;
     }
 
     /**
-     * You can associate a short descriptive string with a feature.  Normally
-     * these descriptive strings should be less than about 40 characters.
-     * @param text  A (localized) short description to be associated with
+     * You cbn bssocibte b short descriptive string with b febture.  Normblly
+     * these descriptive strings should be less thbn bbout 40 chbrbcters.
+     * @pbrbm text  A (locblized) short description to be bssocibted with
      * this property/method/event.
      */
     public void setShortDescription(String text) {
@@ -189,261 +189,261 @@ public class FeatureDescriptor {
     }
 
     /**
-     * Associate a named attribute with this feature.
+     * Associbte b nbmed bttribute with this febture.
      *
-     * @param attributeName  The locale-independent name of the attribute
-     * @param value  The value.
+     * @pbrbm bttributeNbme  The locble-independent nbme of the bttribute
+     * @pbrbm vblue  The vblue.
      */
-    public void setValue(String attributeName, Object value) {
-        getTable().put(attributeName, value);
+    public void setVblue(String bttributeNbme, Object vblue) {
+        getTbble().put(bttributeNbme, vblue);
     }
 
     /**
-     * Retrieve a named attribute with this feature.
+     * Retrieve b nbmed bttribute with this febture.
      *
-     * @param attributeName  The locale-independent name of the attribute
-     * @return  The value of the attribute.  May be null if
-     *     the attribute is unknown.
+     * @pbrbm bttributeNbme  The locble-independent nbme of the bttribute
+     * @return  The vblue of the bttribute.  Mby be null if
+     *     the bttribute is unknown.
      */
-    public Object getValue(String attributeName) {
-        return (this.table != null)
-                ? this.table.get(attributeName)
+    public Object getVblue(String bttributeNbme) {
+        return (this.tbble != null)
+                ? this.tbble.get(bttributeNbme)
                 : null;
     }
 
     /**
-     * Gets an enumeration of the locale-independent names of this
-     * feature.
+     * Gets bn enumerbtion of the locble-independent nbmes of this
+     * febture.
      *
-     * @return  An enumeration of the locale-independent names of any
-     *    attributes that have been registered with setValue.
+     * @return  An enumerbtion of the locble-independent nbmes of bny
+     *    bttributes thbt hbve been registered with setVblue.
      */
-    public Enumeration<String> attributeNames() {
-        return getTable().keys();
+    public Enumerbtion<String> bttributeNbmes() {
+        return getTbble().keys();
     }
 
     /**
-     * Package-private constructor,
-     * Merge information from two FeatureDescriptors.
-     * The merged hidden and expert flags are formed by or-ing the values.
-     * In the event of other conflicts, the second argument (y) is
-     * given priority over the first argument (x).
+     * Pbckbge-privbte constructor,
+     * Merge informbtion from two FebtureDescriptors.
+     * The merged hidden bnd expert flbgs bre formed by or-ing the vblues.
+     * In the event of other conflicts, the second brgument (y) is
+     * given priority over the first brgument (x).
      *
-     * @param x  The first (lower priority) MethodDescriptor
-     * @param y  The second (higher priority) MethodDescriptor
+     * @pbrbm x  The first (lower priority) MethodDescriptor
+     * @pbrbm y  The second (higher priority) MethodDescriptor
      */
-    FeatureDescriptor(FeatureDescriptor x, FeatureDescriptor y) {
+    FebtureDescriptor(FebtureDescriptor x, FebtureDescriptor y) {
         expert = x.expert | y.expert;
         hidden = x.hidden | y.hidden;
         preferred = x.preferred | y.preferred;
-        name = y.name;
+        nbme = y.nbme;
         shortDescription = x.shortDescription;
         if (y.shortDescription != null) {
             shortDescription = y.shortDescription;
         }
-        displayName = x.displayName;
-        if (y.displayName != null) {
-            displayName = y.displayName;
+        displbyNbme = x.displbyNbme;
+        if (y.displbyNbme != null) {
+            displbyNbme = y.displbyNbme;
         }
-        classRef = x.classRef;
-        if (y.classRef != null) {
-            classRef = y.classRef;
+        clbssRef = x.clbssRef;
+        if (y.clbssRef != null) {
+            clbssRef = y.clbssRef;
         }
-        addTable(x.table);
-        addTable(y.table);
+        bddTbble(x.tbble);
+        bddTbble(y.tbble);
     }
 
     /*
-     * Package-private dup constructor
-     * This must isolate the new object from any changes to the old object.
+     * Pbckbge-privbte dup constructor
+     * This must isolbte the new object from bny chbnges to the old object.
      */
-    FeatureDescriptor(FeatureDescriptor old) {
+    FebtureDescriptor(FebtureDescriptor old) {
         expert = old.expert;
         hidden = old.hidden;
         preferred = old.preferred;
-        name = old.name;
+        nbme = old.nbme;
         shortDescription = old.shortDescription;
-        displayName = old.displayName;
-        classRef = old.classRef;
+        displbyNbme = old.displbyNbme;
+        clbssRef = old.clbssRef;
 
-        addTable(old.table);
+        bddTbble(old.tbble);
     }
 
     /**
-     * Copies all values from the specified attribute table.
-     * If some attribute is exist its value should be overridden.
+     * Copies bll vblues from the specified bttribute tbble.
+     * If some bttribute is exist its vblue should be overridden.
      *
-     * @param table  the attribute table with new values
+     * @pbrbm tbble  the bttribute tbble with new vblues
      */
-    private void addTable(Hashtable<String, Object> table) {
-        if ((table != null) && !table.isEmpty()) {
-            getTable().putAll(table);
+    privbte void bddTbble(Hbshtbble<String, Object> tbble) {
+        if ((tbble != null) && !tbble.isEmpty()) {
+            getTbble().putAll(tbble);
         }
     }
 
     /**
-     * Returns the initialized attribute table.
+     * Returns the initiblized bttribute tbble.
      *
-     * @return the initialized attribute table
+     * @return the initiblized bttribute tbble
      */
-    private Hashtable<String, Object> getTable() {
-        if (this.table == null) {
-            this.table = new Hashtable<>();
+    privbte Hbshtbble<String, Object> getTbble() {
+        if (this.tbble == null) {
+            this.tbble = new Hbshtbble<>();
         }
-        return this.table;
+        return this.tbble;
     }
 
     /**
-     * Sets the "transient" attribute according to the annotation.
-     * If the "transient" attribute is already set
-     * it should not be changed.
+     * Sets the "trbnsient" bttribute bccording to the bnnotbtion.
+     * If the "trbnsient" bttribute is blrebdy set
+     * it should not be chbnged.
      *
-     * @param annotation  the annotation of the element of the feature
+     * @pbrbm bnnotbtion  the bnnotbtion of the element of the febture
      */
-    void setTransient(Transient annotation) {
-        if ((annotation != null) && (null == getValue(TRANSIENT))) {
-            setValue(TRANSIENT, annotation.value());
+    void setTrbnsient(Trbnsient bnnotbtion) {
+        if ((bnnotbtion != null) && (null == getVblue(TRANSIENT))) {
+            setVblue(TRANSIENT, bnnotbtion.vblue());
         }
     }
 
     /**
-     * Indicates whether the feature is transient.
+     * Indicbtes whether the febture is trbnsient.
      *
-     * @return {@code true} if the feature is transient,
-     *         {@code false} otherwise
+     * @return {@code true} if the febture is trbnsient,
+     *         {@code fblse} otherwise
      */
-    boolean isTransient() {
-        Object value = getValue(TRANSIENT);
-        return (value instanceof Boolean)
-                ? (Boolean) value
-                : false;
+    boolebn isTrbnsient() {
+        Object vblue = getVblue(TRANSIENT);
+        return (vblue instbnceof Boolebn)
+                ? (Boolebn) vblue
+                : fblse;
     }
 
-    // Package private methods for recreating the weak/soft referent
+    // Pbckbge privbte methods for recrebting the webk/soft referent
 
-    void setClass0(Class<?> cls) {
-        this.classRef = getWeakReference(cls);
+    void setClbss0(Clbss<?> cls) {
+        this.clbssRef = getWebkReference(cls);
     }
 
-    Class<?> getClass0() {
-        return (this.classRef != null)
-                ? this.classRef.get()
+    Clbss<?> getClbss0() {
+        return (this.clbssRef != null)
+                ? this.clbssRef.get()
                 : null;
     }
 
     /**
-     * Creates a new soft reference that refers to the given object.
+     * Crebtes b new soft reference thbt refers to the given object.
      *
-     * @return a new soft reference or <code>null</code> if object is <code>null</code>
+     * @return b new soft reference or <code>null</code> if object is <code>null</code>
      *
      * @see SoftReference
      */
-    static <T> Reference<T> getSoftReference(T object) {
+    stbtic <T> Reference<T> getSoftReference(T object) {
         return (object != null)
                 ? new SoftReference<>(object)
                 : null;
     }
 
     /**
-     * Creates a new weak reference that refers to the given object.
+     * Crebtes b new webk reference thbt refers to the given object.
      *
-     * @return a new weak reference or <code>null</code> if object is <code>null</code>
+     * @return b new webk reference or <code>null</code> if object is <code>null</code>
      *
-     * @see WeakReference
+     * @see WebkReference
      */
-    static <T> Reference<T> getWeakReference(T object) {
+    stbtic <T> Reference<T> getWebkReference(T object) {
         return (object != null)
-                ? new WeakReference<>(object)
+                ? new WebkReference<>(object)
                 : null;
     }
 
     /**
      * Resolves the return type of the method.
      *
-     * @param base    the class that contains the method in the hierarchy
-     * @param method  the object that represents the method
-     * @return a class identifying the return type of the method
+     * @pbrbm bbse    the clbss thbt contbins the method in the hierbrchy
+     * @pbrbm method  the object thbt represents the method
+     * @return b clbss identifying the return type of the method
      *
      * @see Method#getGenericReturnType
      * @see Method#getReturnType
      */
-    static Class<?> getReturnType(Class<?> base, Method method) {
-        if (base == null) {
-            base = method.getDeclaringClass();
+    stbtic Clbss<?> getReturnType(Clbss<?> bbse, Method method) {
+        if (bbse == null) {
+            bbse = method.getDeclbringClbss();
         }
-        return TypeResolver.erase(TypeResolver.resolveInClass(base, method.getGenericReturnType()));
+        return TypeResolver.erbse(TypeResolver.resolveInClbss(bbse, method.getGenericReturnType()));
     }
 
     /**
-     * Resolves the parameter types of the method.
+     * Resolves the pbrbmeter types of the method.
      *
-     * @param base    the class that contains the method in the hierarchy
-     * @param method  the object that represents the method
-     * @return an array of classes identifying the parameter types of the method
+     * @pbrbm bbse    the clbss thbt contbins the method in the hierbrchy
+     * @pbrbm method  the object thbt represents the method
+     * @return bn brrby of clbsses identifying the pbrbmeter types of the method
      *
-     * @see Method#getGenericParameterTypes
-     * @see Method#getParameterTypes
+     * @see Method#getGenericPbrbmeterTypes
+     * @see Method#getPbrbmeterTypes
      */
-    static Class<?>[] getParameterTypes(Class<?> base, Method method) {
-        if (base == null) {
-            base = method.getDeclaringClass();
+    stbtic Clbss<?>[] getPbrbmeterTypes(Clbss<?> bbse, Method method) {
+        if (bbse == null) {
+            bbse = method.getDeclbringClbss();
         }
-        return TypeResolver.erase(TypeResolver.resolveInClass(base, method.getGenericParameterTypes()));
+        return TypeResolver.erbse(TypeResolver.resolveInClbss(bbse, method.getGenericPbrbmeterTypes()));
     }
 
-    private boolean expert;
-    private boolean hidden;
-    private boolean preferred;
-    private String shortDescription;
-    private String name;
-    private String displayName;
-    private Hashtable<String, Object> table;
+    privbte boolebn expert;
+    privbte boolebn hidden;
+    privbte boolebn preferred;
+    privbte String shortDescription;
+    privbte String nbme;
+    privbte String displbyNbme;
+    privbte Hbshtbble<String, Object> tbble;
 
     /**
-     * Returns a string representation of the object.
+     * Returns b string representbtion of the object.
      *
-     * @return a string representation of the object
+     * @return b string representbtion of the object
      *
      * @since 1.7
      */
     public String toString() {
-        StringBuilder sb = new StringBuilder(getClass().getName());
-        sb.append("[name=").append(this.name);
-        appendTo(sb, "displayName", this.displayName);
-        appendTo(sb, "shortDescription", this.shortDescription);
-        appendTo(sb, "preferred", this.preferred);
-        appendTo(sb, "hidden", this.hidden);
-        appendTo(sb, "expert", this.expert);
-        if ((this.table != null) && !this.table.isEmpty()) {
-            sb.append("; values={");
-            for (Entry<String, Object> entry : this.table.entrySet()) {
-                sb.append(entry.getKey()).append("=").append(entry.getValue()).append("; ");
+        StringBuilder sb = new StringBuilder(getClbss().getNbme());
+        sb.bppend("[nbme=").bppend(this.nbme);
+        bppendTo(sb, "displbyNbme", this.displbyNbme);
+        bppendTo(sb, "shortDescription", this.shortDescription);
+        bppendTo(sb, "preferred", this.preferred);
+        bppendTo(sb, "hidden", this.hidden);
+        bppendTo(sb, "expert", this.expert);
+        if ((this.tbble != null) && !this.tbble.isEmpty()) {
+            sb.bppend("; vblues={");
+            for (Entry<String, Object> entry : this.tbble.entrySet()) {
+                sb.bppend(entry.getKey()).bppend("=").bppend(entry.getVblue()).bppend("; ");
             }
             sb.setLength(sb.length() - 2);
-            sb.append("}");
+            sb.bppend("}");
         }
-        appendTo(sb);
-        return sb.append("]").toString();
+        bppendTo(sb);
+        return sb.bppend("]").toString();
     }
 
-    void appendTo(StringBuilder sb) {
+    void bppendTo(StringBuilder sb) {
     }
 
-    static void appendTo(StringBuilder sb, String name, Reference<?> reference) {
+    stbtic void bppendTo(StringBuilder sb, String nbme, Reference<?> reference) {
         if (reference != null) {
-            appendTo(sb, name, reference.get());
+            bppendTo(sb, nbme, reference.get());
         }
     }
 
-    static void appendTo(StringBuilder sb, String name, Object value) {
-        if (value != null) {
-            sb.append("; ").append(name).append("=").append(value);
+    stbtic void bppendTo(StringBuilder sb, String nbme, Object vblue) {
+        if (vblue != null) {
+            sb.bppend("; ").bppend(nbme).bppend("=").bppend(vblue);
         }
     }
 
-    static void appendTo(StringBuilder sb, String name, boolean value) {
-        if (value) {
-            sb.append("; ").append(name);
+    stbtic void bppendTo(StringBuilder sb, String nbme, boolebn vblue) {
+        if (vblue) {
+            sb.bppend("; ").bppend(nbme);
         }
     }
 }

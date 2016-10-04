@@ -1,99 +1,99 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package jdk.internal.util.xml.impl;
+pbckbge jdk.internbl.util.xml.impl;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.io.UnsupportedEncodingException;
-import java.util.HashMap;
-import java.util.Map;
-import jdk.internal.org.xml.sax.InputSource;
-import jdk.internal.org.xml.sax.SAXException;
+import jbvb.io.IOException;
+import jbvb.io.InputStrebm;
+import jbvb.io.InputStrebmRebder;
+import jbvb.io.Rebder;
+import jbvb.io.UnsupportedEncodingException;
+import jbvb.util.HbshMbp;
+import jbvb.util.Mbp;
+import jdk.internbl.org.xml.sbx.InputSource;
+import jdk.internbl.org.xml.sbx.SAXException;
 
 /**
- * XML non-validating parser engine.
+ * XML non-vblidbting pbrser engine.
  */
-public abstract class Parser {
+public bbstrbct clbss Pbrser {
 
-    public final static String FAULT = "";
-    protected final static int BUFFSIZE_READER = 512;
-    protected final static int BUFFSIZE_PARSER = 128;
+    public finbl stbtic String FAULT = "";
+    protected finbl stbtic int BUFFSIZE_READER = 512;
+    protected finbl stbtic int BUFFSIZE_PARSER = 128;
     /**
-     * The end of stream character.
+     * The end of strebm chbrbcter.
      */
-    public final static char EOS = 0xffff;
-    private Pair mNoNS; // there is no namespace
-    private Pair mXml;  // the xml namespace
-    private Map<String, Input> mEnt;  // the entities look up table
-    private Map<String, Input> mPEnt; // the parmeter entities look up table
-    protected boolean mIsSAlone;     // xml decl standalone flag
-    protected boolean mIsSAloneSet;  // standalone is explicitely set
-    protected boolean mIsNSAware;    // if true - namespace aware mode
-    protected int mPh;  // current phase of document processing
-    protected final static int PH_BEFORE_DOC = -1;  // before parsing
-    protected final static int PH_DOC_START = 0;   // document start
-    protected final static int PH_MISC_DTD = 1;   // misc before DTD
-    protected final static int PH_DTD = 2;   // DTD
-    protected final static int PH_DTD_MISC = 3;   // misc after DTD
-    protected final static int PH_DOCELM = 4;   // document's element
-    protected final static int PH_DOCELM_MISC = 5;   // misc after element
-    protected final static int PH_AFTER_DOC = 6;   // after parsing
+    public finbl stbtic chbr EOS = 0xffff;
+    privbte Pbir mNoNS; // there is no nbmespbce
+    privbte Pbir mXml;  // the xml nbmespbce
+    privbte Mbp<String, Input> mEnt;  // the entities look up tbble
+    privbte Mbp<String, Input> mPEnt; // the pbrmeter entities look up tbble
+    protected boolebn mIsSAlone;     // xml decl stbndblone flbg
+    protected boolebn mIsSAloneSet;  // stbndblone is explicitely set
+    protected boolebn mIsNSAwbre;    // if true - nbmespbce bwbre mode
+    protected int mPh;  // current phbse of document processing
+    protected finbl stbtic int PH_BEFORE_DOC = -1;  // before pbrsing
+    protected finbl stbtic int PH_DOC_START = 0;   // document stbrt
+    protected finbl stbtic int PH_MISC_DTD = 1;   // misc before DTD
+    protected finbl stbtic int PH_DTD = 2;   // DTD
+    protected finbl stbtic int PH_DTD_MISC = 3;   // misc bfter DTD
+    protected finbl stbtic int PH_DOCELM = 4;   // document's element
+    protected finbl stbtic int PH_DOCELM_MISC = 5;   // misc bfter element
+    protected finbl stbtic int PH_AFTER_DOC = 6;   // bfter pbrsing
     protected int mEvt;  // current event type
-    protected final static int EV_NULL = 0;   // unknown
-    protected final static int EV_ELM = 1;   // empty element
-    protected final static int EV_ELMS = 2;   // start element
-    protected final static int EV_ELME = 3;   // end element
-    protected final static int EV_TEXT = 4;   // textual content
-    protected final static int EV_WSPC = 5;   // white space content
-    protected final static int EV_PI = 6;   // processing instruction
-    protected final static int EV_CDAT = 7;   // character data
-    protected final static int EV_COMM = 8;   // comment
-    protected final static int EV_DTD = 9;   // document type definition
-    protected final static int EV_ENT = 10;  // skipped entity
-    private char mESt; // built-in entity recognizer state
-    // mESt values:
-    //   0x100   : the initial state
-    //   > 0x100 : unrecognized name
-    //   < 0x100 : replacement character
-    protected char[] mBuff;       // parser buffer
-    protected int mBuffIdx;    // index of the last char
-    protected Pair mPref;       // stack of prefixes
-    protected Pair mElm;        // stack of elements
-    // mAttL.chars - element qname
+    protected finbl stbtic int EV_NULL = 0;   // unknown
+    protected finbl stbtic int EV_ELM = 1;   // empty element
+    protected finbl stbtic int EV_ELMS = 2;   // stbrt element
+    protected finbl stbtic int EV_ELME = 3;   // end element
+    protected finbl stbtic int EV_TEXT = 4;   // textubl content
+    protected finbl stbtic int EV_WSPC = 5;   // white spbce content
+    protected finbl stbtic int EV_PI = 6;   // processing instruction
+    protected finbl stbtic int EV_CDAT = 7;   // chbrbcter dbtb
+    protected finbl stbtic int EV_COMM = 8;   // comment
+    protected finbl stbtic int EV_DTD = 9;   // document type definition
+    protected finbl stbtic int EV_ENT = 10;  // skipped entity
+    privbte chbr mESt; // built-in entity recognizer stbte
+    // mESt vblues:
+    //   0x100   : the initibl stbte
+    //   > 0x100 : unrecognized nbme
+    //   < 0x100 : replbcement chbrbcter
+    protected chbr[] mBuff;       // pbrser buffer
+    protected int mBuffIdx;    // index of the lbst chbr
+    protected Pbir mPref;       // stbck of prefixes
+    protected Pbir mElm;        // stbck of elements
+    // mAttL.chbrs - element qnbme
     // mAttL.next  - next element
-    // mAttL.list  - list of attributes defined on this element
-    // mAttL.list.chars - attribute qname
-    // mAttL.list.id    - a char representing attribute's type see below
-    // mAttL.list.next  - next attribute defined on the element
-    // mAttL.list.list  - devault value structure or null
-    // mAttL.list.list.chars - "name='value' " chars array for Input
+    // mAttL.list  - list of bttributes defined on this element
+    // mAttL.list.chbrs - bttribute qnbme
+    // mAttL.list.id    - b chbr representing bttribute's type see below
+    // mAttL.list.next  - next bttribute defined on the element
+    // mAttL.list.list  - devbult vblue structure or null
+    // mAttL.list.list.chbrs - "nbme='vblue' " chbrs brrby for Input
     //
-    // Attribute type character values:
+    // Attribute type chbrbcter vblues:
     // 'i' - "ID"
     // 'r' - "IDREF"
     // 'R' - "IDREFS"
@@ -101,41 +101,41 @@ public abstract class Parser {
     // 'N' - "ENTITIES"
     // 't' - "NMTOKEN"
     // 'T' - "NMTOKENS"
-    // 'u' - enumeration type
+    // 'u' - enumerbtion type
     // 'o' - "NOTATION"
     // 'c' - "CDATA"
-    // see also: bkeyword() and atype()
+    // see blso: bkeyword() bnd btype()
     //
-    protected Pair mAttL;       // list of defined attrs by element name
+    protected Pbir mAttL;       // list of defined bttrs by element nbme
     protected Input mDoc;        // document entity
-    protected Input mInp;        // stack of entities
-    private char[] mChars;      // reading buffer
-    private int mChLen;      // current capacity
-    private int mChIdx;      // index to the next char
-    protected Attrs mAttrs;      // attributes of the curr. element
-    private String[] mItems;      // attributes array of the curr. element
-    private char mAttrIdx;    // attributes counter/index
-    private String mUnent;  // unresolved entity name
-    private Pair mDltd;   // deleted objects for reuse
+    protected Input mInp;        // stbck of entities
+    privbte chbr[] mChbrs;      // rebding buffer
+    privbte int mChLen;      // current cbpbcity
+    privbte int mChIdx;      // index to the next chbr
+    protected Attrs mAttrs;      // bttributes of the curr. element
+    privbte String[] mItems;      // bttributes brrby of the curr. element
+    privbte chbr mAttrIdx;    // bttributes counter/index
+    privbte String mUnent;  // unresolved entity nbme
+    privbte Pbir mDltd;   // deleted objects for reuse
     /**
-     * Default prefixes
+     * Defbult prefixes
      */
-    private final static char NONS[];
-    private final static char XML[];
-    private final static char XMLNS[];
+    privbte finbl stbtic chbr NONS[];
+    privbte finbl stbtic chbr XML[];
+    privbte finbl stbtic chbr XMLNS[];
 
-    static {
-        NONS = new char[1];
-        NONS[0] = (char) 0;
+    stbtic {
+        NONS = new chbr[1];
+        NONS[0] = (chbr) 0;
 
-        XML = new char[4];
-        XML[0] = (char) 4;
+        XML = new chbr[4];
+        XML[0] = (chbr) 4;
         XML[1] = 'x';
         XML[2] = 'm';
         XML[3] = 'l';
 
-        XMLNS = new char[6];
-        XMLNS[0] = (char) 6;
+        XMLNS = new chbr[6];
+        XMLNS[0] = (chbr) 6;
         XMLNS[1] = 'x';
         XMLNS[2] = 'm';
         XMLNS[3] = 'l';
@@ -143,67 +143,67 @@ public abstract class Parser {
         XMLNS[5] = 's';
     }
     /**
-     * ASCII character type array.
+     * ASCII chbrbcter type brrby.
      *
-     * This array maps an ASCII (7 bit) character to the character type.<br />
-     * Possible character type values are:<br /> - ' ' for any kind of white
-     * space character;<br /> - 'a' for any lower case alphabetical character
-     * value;<br /> - 'A' for any upper case alphabetical character value;<br />
-     * - 'd' for any decimal digit character value;<br /> - 'z' for any
-     * character less then ' ' except '\t', '\n', '\r';<br /> An ASCII (7 bit)
-     * character which does not fall in any category listed above is mapped to
+     * This brrby mbps bn ASCII (7 bit) chbrbcter to the chbrbcter type.<br />
+     * Possible chbrbcter type vblues bre:<br /> - ' ' for bny kind of white
+     * spbce chbrbcter;<br /> - 'b' for bny lower cbse blphbbeticbl chbrbcter
+     * vblue;<br /> - 'A' for bny upper cbse blphbbeticbl chbrbcter vblue;<br />
+     * - 'd' for bny decimbl digit chbrbcter vblue;<br /> - 'z' for bny
+     * chbrbcter less then ' ' except '\t', '\n', '\r';<br /> An ASCII (7 bit)
+     * chbrbcter which does not fbll in bny cbtegory listed bbove is mbpped to
      * it self.
      */
-    private static final byte asctyp[];
+    privbte stbtic finbl byte bsctyp[];
     /**
-     * NMTOKEN character type array.
+     * NMTOKEN chbrbcter type brrby.
      *
-     * This array maps an ASCII (7 bit) character to the character type.<br />
-     * Possible character type values are:<br /> - 0 for underscore ('_') or any
-     * lower and upper case alphabetical character value;<br /> - 1 for colon
-     * (':') character;<br /> - 2 for dash ('-') and dot ('.') or any decimal
-     * digit character value;<br /> - 3 for any kind of white space character<br
-     * /> An ASCII (7 bit) character which does not fall in any category listed
-     * above is mapped to 0xff.
+     * This brrby mbps bn ASCII (7 bit) chbrbcter to the chbrbcter type.<br />
+     * Possible chbrbcter type vblues bre:<br /> - 0 for underscore ('_') or bny
+     * lower bnd upper cbse blphbbeticbl chbrbcter vblue;<br /> - 1 for colon
+     * (':') chbrbcter;<br /> - 2 for dbsh ('-') bnd dot ('.') or bny decimbl
+     * digit chbrbcter vblue;<br /> - 3 for bny kind of white spbce chbrbcter<br
+     * /> An ASCII (7 bit) chbrbcter which does not fbll in bny cbtegory listed
+     * bbove is mbpped to 0xff.
      */
-    private static final byte nmttyp[];
+    privbte stbtic finbl byte nmttyp[];
 
     /**
-     * Static constructor.
+     * Stbtic constructor.
      *
-     * Sets up the ASCII character type array which is used by
-     * {@link #asctyp asctyp} method and NMTOKEN character type array.
+     * Sets up the ASCII chbrbcter type brrby which is used by
+     * {@link #bsctyp bsctyp} method bnd NMTOKEN chbrbcter type brrby.
      */
-    static {
+    stbtic {
         short i = 0;
 
-        asctyp = new byte[0x80];
+        bsctyp = new byte[0x80];
         while (i < ' ') {
-            asctyp[i++] = (byte) 'z';
+            bsctyp[i++] = (byte) 'z';
         }
-        asctyp['\t'] = (byte) ' ';
-        asctyp['\r'] = (byte) ' ';
-        asctyp['\n'] = (byte) ' ';
+        bsctyp['\t'] = (byte) ' ';
+        bsctyp['\r'] = (byte) ' ';
+        bsctyp['\n'] = (byte) ' ';
         while (i < '0') {
-            asctyp[i] = (byte) i++;
+            bsctyp[i] = (byte) i++;
         }
         while (i <= '9') {
-            asctyp[i++] = (byte) 'd';
+            bsctyp[i++] = (byte) 'd';
         }
         while (i < 'A') {
-            asctyp[i] = (byte) i++;
+            bsctyp[i] = (byte) i++;
         }
         while (i <= 'Z') {
-            asctyp[i++] = (byte) 'A';
+            bsctyp[i++] = (byte) 'A';
         }
-        while (i < 'a') {
-            asctyp[i] = (byte) i++;
+        while (i < 'b') {
+            bsctyp[i] = (byte) i++;
         }
         while (i <= 'z') {
-            asctyp[i++] = (byte) 'a';
+            bsctyp[i++] = (byte) 'b';
         }
         while (i < 0x80) {
-            asctyp[i] = (byte) i++;
+            bsctyp[i] = (byte) i++;
         }
 
         nmttyp = new byte[0x80];
@@ -216,11 +216,11 @@ public abstract class Parser {
         while (i < 'A') {
             nmttyp[i++] = (byte) 0xff;
         }
-        // skiped upper case alphabetical character are already 0
-        for (i = '['; i < 'a'; i++) {
+        // skiped upper cbse blphbbeticbl chbrbcter bre blrebdy 0
+        for (i = '['; i < 'b'; i++) {
             nmttyp[i] = (byte) 0xff;
         }
-        // skiped lower case alphabetical character are already 0
+        // skiped lower cbse blphbbeticbl chbrbcter bre blrebdy 0
         for (i = '{'; i < 0x80; i++) {
             nmttyp[i] = (byte) 0xff;
         }
@@ -237,48 +237,48 @@ public abstract class Parser {
     /**
      * Constructor.
      */
-    protected Parser() {
-        mPh = PH_BEFORE_DOC;  // before parsing
+    protected Pbrser() {
+        mPh = PH_BEFORE_DOC;  // before pbrsing
 
-        //              Initialize the parser
-        mBuff = new char[BUFFSIZE_PARSER];
+        //              Initiblize the pbrser
+        mBuff = new chbr[BUFFSIZE_PARSER];
         mAttrs = new Attrs();
 
-        //              Default namespace
-        mPref = pair(mPref);
-        mPref.name = "";
-        mPref.value = "";
-        mPref.chars = NONS;
-        mNoNS = mPref;  // no namespace
-        //              XML namespace
-        mPref = pair(mPref);
-        mPref.name = "xml";
-        mPref.value = "http://www.w3.org/XML/1998/namespace";
-        mPref.chars = XML;
-        mXml = mPref;  // XML namespace
+        //              Defbult nbmespbce
+        mPref = pbir(mPref);
+        mPref.nbme = "";
+        mPref.vblue = "";
+        mPref.chbrs = NONS;
+        mNoNS = mPref;  // no nbmespbce
+        //              XML nbmespbce
+        mPref = pbir(mPref);
+        mPref.nbme = "xml";
+        mPref.vblue = "http://www.w3.org/XML/1998/nbmespbce";
+        mPref.chbrs = XML;
+        mXml = mPref;  // XML nbmespbce
     }
 
     /**
-     * Initializes parser's internals. Note, current input has to be set before
-     * this method is called.
+     * Initiblizes pbrser's internbls. Note, current input hbs to be set before
+     * this method is cblled.
      */
     protected void init() {
         mUnent = null;
         mElm = null;
         mPref = mXml;
         mAttL = null;
-        mPEnt = new HashMap<>();
-        mEnt = new HashMap<>();
+        mPEnt = new HbshMbp<>();
+        mEnt = new HbshMbp<>();
         mDoc = mInp;          // current input is document entity
-        mChars = mInp.chars;    // use document entity buffer
+        mChbrs = mInp.chbrs;    // use document entity buffer
         mPh = PH_DOC_START;  // the begining of the document
     }
 
     /**
-     * Cleans up parser internal resources.
+     * Clebns up pbrser internbl resources.
      */
-    protected void cleanup() {
-        //              Default attributes
+    protected void clebnup() {
+        //              Defbult bttributes
         while (mAttL != null) {
             while (mAttL.list != null) {
                 if (mAttL.list.list != null) {
@@ -288,11 +288,11 @@ public abstract class Parser {
             }
             mAttL = del(mAttL);
         }
-        //              Element stack
+        //              Element stbck
         while (mElm != null) {
             mElm = del(mElm);
         }
-        //              Namespace prefixes
+        //              Nbmespbce prefixes
         while (mPref != mXml) {
             mPref = del(mPref);
         }
@@ -300,11 +300,11 @@ public abstract class Parser {
         while (mInp != null) {
             pop();
         }
-        //              Document reader
+        //              Document rebder
         if ((mDoc != null) && (mDoc.src != null)) {
             try {
                 mDoc.src.close();
-            } catch (IOException ioe) {
+            } cbtch (IOException ioe) {
             }
         }
         mPEnt = null;
@@ -314,193 +314,193 @@ public abstract class Parser {
     }
 
     /**
-     * Processes a portion of document. This method returns one of EV_*
-     * constants as an identifier of the portion of document have been read.
+     * Processes b portion of document. This method returns one of EV_*
+     * constbnts bs bn identifier of the portion of document hbve been rebd.
      *
      * @return Identifier of processed document portion.
-     * @exception Exception is parser specific exception form panic method.
+     * @exception Exception is pbrser specific exception form pbnic method.
      * @exception IOException
      */
-    @SuppressWarnings("fallthrough")
+    @SuppressWbrnings("fbllthrough")
     protected int step() throws Exception {
         mEvt = EV_NULL;
         int st = 0;
         while (mEvt == EV_NULL) {
-            char ch = (mChIdx < mChLen) ? mChars[mChIdx++] : getch();
+            chbr ch = (mChIdx < mChLen) ? mChbrs[mChIdx++] : getch();
             switch (st) {
-                case 0:     // all sorts of markup (dispetcher)
+                cbse 0:     // bll sorts of mbrkup (dispetcher)
                     if (ch != '<') {
                         bkch();
-                        mBuffIdx = -1;  // clean parser buffer
+                        mBuffIdx = -1;  // clebn pbrser buffer
                         st = 1;
-                        break;
+                        brebk;
                     }
                     switch (getch()) {
-                        case '/':  // the end of the element content
+                        cbse '/':  // the end of the element content
                             mEvt = EV_ELME;
                             if (mElm == null) {
-                                panic(FAULT);
+                                pbnic(FAULT);
                             }
-                            //          Check element's open/close tags balance
-                            mBuffIdx = -1;  // clean parser buffer
-                            bname(mIsNSAware);
-                            char[] chars = mElm.chars;
-                            if (chars.length == (mBuffIdx + 1)) {
-                                for (char i = 1; i <= mBuffIdx; i += 1) {
-                                    if (chars[i] != mBuff[i]) {
-                                        panic(FAULT);
+                            //          Check element's open/close tbgs bblbnce
+                            mBuffIdx = -1;  // clebn pbrser buffer
+                            bnbme(mIsNSAwbre);
+                            chbr[] chbrs = mElm.chbrs;
+                            if (chbrs.length == (mBuffIdx + 1)) {
+                                for (chbr i = 1; i <= mBuffIdx; i += 1) {
+                                    if (chbrs[i] != mBuff[i]) {
+                                        pbnic(FAULT);
                                     }
                                 }
                             } else {
-                                panic(FAULT);
+                                pbnic(FAULT);
                             }
-                            //          Skip white spaces before '>'
+                            //          Skip white spbces before '>'
                             if (wsskip() != '>') {
-                                panic(FAULT);
+                                pbnic(FAULT);
                             }
-                            getch();  // read '>'
-                            break;
+                            getch();  // rebd '>'
+                            brebk;
 
-                        case '!':  // a comment or a CDATA
+                        cbse '!':  // b comment or b CDATA
                             ch = getch();
                             bkch();
                             switch (ch) {
-                                case '-':  // must be a comment
+                                cbse '-':  // must be b comment
                                     mEvt = EV_COMM;
                                     comm();
-                                    break;
+                                    brebk;
 
-                                case '[':  // must be a CDATA section
+                                cbse '[':  // must be b CDATA section
                                     mEvt = EV_CDAT;
-                                    cdat();
-                                    break;
+                                    cdbt();
+                                    brebk;
 
-                                default:   // must be 'DOCTYPE'
+                                defbult:   // must be 'DOCTYPE'
                                     mEvt = EV_DTD;
                                     dtd();
-                                    break;
+                                    brebk;
                             }
-                            break;
+                            brebk;
 
-                        case '?':  // processing instruction
+                        cbse '?':  // processing instruction
                             mEvt = EV_PI;
                             pi();
-                            break;
+                            brebk;
 
-                        default:  // must be the first char of an xml name
+                        defbult:  // must be the first chbr of bn xml nbme
                             bkch();
-                            //          Read an element name and put it on top of the
-                            //          element stack
-                            mElm = pair(mElm);  // add new element to the stack
-                            mElm.chars = qname(mIsNSAware);
-                            mElm.name = mElm.local();
-                            mElm.id = (mElm.next != null) ? mElm.next.id : 0;  // flags
-                            mElm.num = 0;     // namespace counter
-                            //          Find the list of defined attributs of the current
+                            //          Rebd bn element nbme bnd put it on top of the
+                            //          element stbck
+                            mElm = pbir(mElm);  // bdd new element to the stbck
+                            mElm.chbrs = qnbme(mIsNSAwbre);
+                            mElm.nbme = mElm.locbl();
+                            mElm.id = (mElm.next != null) ? mElm.next.id : 0;  // flbgs
+                            mElm.num = 0;     // nbmespbce counter
+                            //          Find the list of defined bttributs of the current
                             //          element
-                            Pair elm = find(mAttL, mElm.chars);
+                            Pbir elm = find(mAttL, mElm.chbrs);
                             mElm.list = (elm != null) ? elm.list : null;
-                            //          Read attributes till the end of the element tag
+                            //          Rebd bttributes till the end of the element tbg
                             mAttrIdx = 0;
-                            Pair att = pair(null);
-                            att.num = 0;  // clear attribute's flags
-                            attr(att);     // get all attributes inc. defaults
-                            del(att);
-                            mElm.value = (mIsNSAware) ? rslv(mElm.chars) : null;
-                            //          Skip white spaces before '>'
+                            Pbir btt = pbir(null);
+                            btt.num = 0;  // clebr bttribute's flbgs
+                            bttr(btt);     // get bll bttributes inc. defbults
+                            del(btt);
+                            mElm.vblue = (mIsNSAwbre) ? rslv(mElm.chbrs) : null;
+                            //          Skip white spbces before '>'
                             switch (wsskip()) {
-                                case '>':
-                                    getch();  // read '>'
+                                cbse '>':
+                                    getch();  // rebd '>'
                                     mEvt = EV_ELMS;
-                                    break;
+                                    brebk;
 
-                                case '/':
-                                    getch();  // read '/'
-                                    if (getch() != '>') // read '>'
+                                cbse '/':
+                                    getch();  // rebd '/'
+                                    if (getch() != '>') // rebd '>'
                                     {
-                                        panic(FAULT);
+                                        pbnic(FAULT);
                                     }
                                     mEvt = EV_ELM;
-                                    break;
+                                    brebk;
 
-                                default:
-                                    panic(FAULT);
+                                defbult:
+                                    pbnic(FAULT);
                             }
-                            break;
+                            brebk;
                     }
-                    break;
+                    brebk;
 
-                case 1:     // read white space
+                cbse 1:     // rebd white spbce
                     switch (ch) {
-                        case ' ':
-                        case '\t':
-                        case '\n':
-                            bappend(ch);
-                            break;
+                        cbse ' ':
+                        cbse '\t':
+                        cbse '\n':
+                            bbppend(ch);
+                            brebk;
 
-                        case '\r':              // EOL processing [#2.11]
+                        cbse '\r':              // EOL processing [#2.11]
                             if (getch() != '\n') {
                                 bkch();
                             }
-                            bappend('\n');
-                            break;
+                            bbppend('\n');
+                            brebk;
 
-                        case '<':
+                        cbse '<':
                             mEvt = EV_WSPC;
                             bkch();
-                            bflash_ws();
-                            break;
+                            bflbsh_ws();
+                            brebk;
 
-                        default:
+                        defbult:
                             bkch();
                             st = 2;
-                            break;
+                            brebk;
                     }
-                    break;
+                    brebk;
 
-                case 2:     // read the text content of the element
+                cbse 2:     // rebd the text content of the element
                     switch (ch) {
-                        case '&':
+                        cbse '&':
                             if (mUnent == null) {
-                                //              There was no unresolved entity on previous step.
+                                //              There wbs no unresolved entity on previous step.
                                 if ((mUnent = ent('x')) != null) {
                                     mEvt = EV_TEXT;
-                                    bkch();      // move back to ';' after entity name
-                                    setch('&');  // parser must be back on next step
-                                    bflash();
+                                    bkch();      // move bbck to ';' bfter entity nbme
+                                    setch('&');  // pbrser must be bbck on next step
+                                    bflbsh();
                                 }
                             } else {
-                                //              There was unresolved entity on previous step.
+                                //              There wbs unresolved entity on previous step.
                                 mEvt = EV_ENT;
                                 skippedEnt(mUnent);
                                 mUnent = null;
                             }
-                            break;
+                            brebk;
 
-                        case '<':
+                        cbse '<':
                             mEvt = EV_TEXT;
                             bkch();
-                            bflash();
-                            break;
+                            bflbsh();
+                            brebk;
 
-                        case '\r':  // EOL processing [#2.11]
+                        cbse '\r':  // EOL processing [#2.11]
                             if (getch() != '\n') {
                                 bkch();
                             }
-                            bappend('\n');
-                            break;
+                            bbppend('\n');
+                            brebk;
 
-                        case EOS:
-                            panic(FAULT);
+                        cbse EOS:
+                            pbnic(FAULT);
 
-                        default:
-                            bappend(ch);
-                            break;
+                        defbult:
+                            bbppend(ch);
+                            brebk;
                     }
-                    break;
+                    brebk;
 
-                default:
-                    panic(FAULT);
+                defbult:
+                    pbnic(FAULT);
             }
         }
 
@@ -508,356 +508,356 @@ public abstract class Parser {
     }
 
     /**
-     * Parses the document type declaration.
+     * Pbrses the document type declbrbtion.
      *
-     * @exception Exception is parser specific exception form panic method.
+     * @exception Exception is pbrser specific exception form pbnic method.
      * @exception IOException
      */
-    private void dtd() throws Exception {
-        char ch;
+    privbte void dtd() throws Exception {
+        chbr ch;
         String str = null;
-        String name = null;
-        Pair psid = null;
-        // read 'DOCTYPE'
-        if ("DOCTYPE".equals(name(false)) != true) {
-            panic(FAULT);
+        String nbme = null;
+        Pbir psid = null;
+        // rebd 'DOCTYPE'
+        if ("DOCTYPE".equbls(nbme(fblse)) != true) {
+            pbnic(FAULT);
         }
         mPh = PH_DTD;  // DTD
         for (short st = 0; st >= 0;) {
             ch = getch();
             switch (st) {
-                case 0:     // read the document type name
+                cbse 0:     // rebd the document type nbme
                     if (chtyp(ch) != ' ') {
                         bkch();
-                        name = name(mIsNSAware);
+                        nbme = nbme(mIsNSAwbre);
                         wsskip();
-                        st = 1;  // read 'PUPLIC' or 'SYSTEM'
+                        st = 1;  // rebd 'PUPLIC' or 'SYSTEM'
                     }
-                    break;
+                    brebk;
 
-                case 1:     // read 'PUPLIC' or 'SYSTEM'
+                cbse 1:     // rebd 'PUPLIC' or 'SYSTEM'
                     switch (chtyp(ch)) {
-                        case 'A':
+                        cbse 'A':
                             bkch();
                             psid = pubsys(' ');
-                            st = 2;  // skip spaces before internal subset
-                            docType(name, psid.name, psid.value);
-                            break;
+                            st = 2;  // skip spbces before internbl subset
+                            docType(nbme, psid.nbme, psid.vblue);
+                            brebk;
 
-                        case '[':
+                        cbse '[':
                             bkch();
-                            st = 2;    // skip spaces before internal subset
-                            docType(name, null, null);
-                            break;
+                            st = 2;    // skip spbces before internbl subset
+                            docType(nbme, null, null);
+                            brebk;
 
-                        case '>':
+                        cbse '>':
                             bkch();
-                            st = 3;    // skip spaces after internal subset
-                            docType(name, null, null);
-                            break;
+                            st = 3;    // skip spbces bfter internbl subset
+                            docType(nbme, null, null);
+                            brebk;
 
-                        default:
-                            panic(FAULT);
+                        defbult:
+                            pbnic(FAULT);
                     }
-                    break;
+                    brebk;
 
-                case 2:     // skip spaces before internal subset
+                cbse 2:     // skip spbces before internbl subset
                     switch (chtyp(ch)) {
-                        case '[':
-                            //          Process internal subset
+                        cbse '[':
+                            //          Process internbl subset
                             dtdsub();
-                            st = 3;  // skip spaces after internal subset
-                            break;
+                            st = 3;  // skip spbces bfter internbl subset
+                            brebk;
 
-                        case '>':
-                            //          There is no internal subset
+                        cbse '>':
+                            //          There is no internbl subset
                             bkch();
-                            st = 3;  // skip spaces after internal subset
-                            break;
+                            st = 3;  // skip spbces bfter internbl subset
+                            brebk;
 
-                        case ' ':
-                            // skip white spaces
-                            break;
+                        cbse ' ':
+                            // skip white spbces
+                            brebk;
 
-                        default:
-                            panic(FAULT);
+                        defbult:
+                            pbnic(FAULT);
                     }
-                    break;
+                    brebk;
 
-                case 3:     // skip spaces after internal subset
+                cbse 3:     // skip spbces bfter internbl subset
                     switch (chtyp(ch)) {
-                        case '>':
+                        cbse '>':
                             if (psid != null) {
-                                //              Report the DTD external subset
-                                InputSource is = resolveEnt(name, psid.name, psid.value);
+                                //              Report the DTD externbl subset
+                                InputSource is = resolveEnt(nbme, psid.nbme, psid.vblue);
                                 if (is != null) {
-                                    if (mIsSAlone == false) {
-                                        //              Set the end of DTD external subset char
+                                    if (mIsSAlone == fblse) {
+                                        //              Set the end of DTD externbl subset chbr
                                         bkch();
                                         setch(']');
-                                        //              Set the DTD external subset InputSource
+                                        //              Set the DTD externbl subset InputSource
                                         push(new Input(BUFFSIZE_READER));
                                         setinp(is);
-                                        mInp.pubid = psid.name;
-                                        mInp.sysid = psid.value;
-                                        //              Parse the DTD external subset
+                                        mInp.pubid = psid.nbme;
+                                        mInp.sysid = psid.vblue;
+                                        //              Pbrse the DTD externbl subset
                                         dtdsub();
                                     } else {
-                                        //              Unresolved DTD external subset
+                                        //              Unresolved DTD externbl subset
                                         skippedEnt("[dtd]");
-                                        //              Release reader and stream
-                                        if (is.getCharacterStream() != null) {
+                                        //              Relebse rebder bnd strebm
+                                        if (is.getChbrbcterStrebm() != null) {
                                             try {
-                                                is.getCharacterStream().close();
-                                            } catch (IOException ioe) {
+                                                is.getChbrbcterStrebm().close();
+                                            } cbtch (IOException ioe) {
                                             }
                                         }
-                                        if (is.getByteStream() != null) {
+                                        if (is.getByteStrebm() != null) {
                                             try {
-                                                is.getByteStream().close();
-                                            } catch (IOException ioe) {
+                                                is.getByteStrebm().close();
+                                            } cbtch (IOException ioe) {
                                             }
                                         }
                                     }
                                 } else {
-                                    //          Unresolved DTD external subset
+                                    //          Unresolved DTD externbl subset
                                     skippedEnt("[dtd]");
                                 }
                                 del(psid);
                             }
                             st = -1;  // end of DTD
-                            break;
+                            brebk;
 
-                        case ' ':
-                            // skip white spaces
-                            break;
+                        cbse ' ':
+                            // skip white spbces
+                            brebk;
 
-                        default:
-                            panic(FAULT);
+                        defbult:
+                            pbnic(FAULT);
                     }
-                    break;
+                    brebk;
 
-                default:
-                    panic(FAULT);
+                defbult:
+                    pbnic(FAULT);
             }
         }
     }
 
     /**
-     * Parses the document type declaration subset.
+     * Pbrses the document type declbrbtion subset.
      *
-     * @exception Exception is parser specific exception form panic method.
+     * @exception Exception is pbrser specific exception form pbnic method.
      * @exception IOException
      */
-    private void dtdsub() throws Exception {
-        char ch;
+    privbte void dtdsub() throws Exception {
+        chbr ch;
         for (short st = 0; st >= 0;) {
             ch = getch();
             switch (st) {
-                case 0:     // skip white spaces before a declaration
+                cbse 0:     // skip white spbces before b declbrbtion
                     switch (chtyp(ch)) {
-                        case '<':
+                        cbse '<':
                             ch = getch();
                             switch (ch) {
-                                case '?':
+                                cbse '?':
                                     pi();
-                                    break;
+                                    brebk;
 
-                                case '!':
+                                cbse '!':
                                     ch = getch();
                                     bkch();
                                     if (ch == '-') {
                                         comm();
-                                        break;
+                                        brebk;
                                     }
-                                    //          A markup or an entity declaration
+                                    //          A mbrkup or bn entity declbrbtion
                                     bntok();
                                     switch (bkeyword()) {
-                                        case 'n':
+                                        cbse 'n':
                                             dtdent();
-                                            break;
+                                            brebk;
 
-                                        case 'a':
-                                            dtdattl();    // parse attributes declaration
-                                            break;
+                                        cbse 'b':
+                                            dtdbttl();    // pbrse bttributes declbrbtion
+                                            brebk;
 
-                                        case 'e':
-                                            dtdelm();     // parse element declaration
-                                            break;
+                                        cbse 'e':
+                                            dtdelm();     // pbrse element declbrbtion
+                                            brebk;
 
-                                        case 'o':
-                                            dtdnot();     // parse notation declaration
-                                            break;
+                                        cbse 'o':
+                                            dtdnot();     // pbrse notbtion declbrbtion
+                                            brebk;
 
-                                        default:
-                                            panic(FAULT); // unsupported markup declaration
-                                            break;
+                                        defbult:
+                                            pbnic(FAULT); // unsupported mbrkup declbrbtion
+                                            brebk;
                                     }
-                                    st = 1;  // read the end of declaration
-                                    break;
+                                    st = 1;  // rebd the end of declbrbtion
+                                    brebk;
 
-                                default:
-                                    panic(FAULT);
-                                    break;
+                                defbult:
+                                    pbnic(FAULT);
+                                    brebk;
                             }
-                            break;
+                            brebk;
 
-                        case '%':
-                            //          A parameter entity reference
+                        cbse '%':
+                            //          A pbrbmeter entity reference
                             pent(' ');
-                            break;
+                            brebk;
 
-                        case ']':
+                        cbse ']':
                             //          End of DTD subset
                             st = -1;
-                            break;
+                            brebk;
 
-                        case ' ':
-                            //          Skip white spaces
-                            break;
+                        cbse ' ':
+                            //          Skip white spbces
+                            brebk;
 
-                        case 'Z':
-                            //          End of stream
+                        cbse 'Z':
+                            //          End of strebm
                             if (getch() != ']') {
-                                panic(FAULT);
+                                pbnic(FAULT);
                             }
                             st = -1;
-                            break;
+                            brebk;
 
-                        default:
-                            panic(FAULT);
+                        defbult:
+                            pbnic(FAULT);
                     }
-                    break;
+                    brebk;
 
-                case 1:     // read the end of declaration
+                cbse 1:     // rebd the end of declbrbtion
                     switch (ch) {
-                        case '>':   // there is no notation
-                            st = 0; // skip white spaces before a declaration
-                            break;
+                        cbse '>':   // there is no notbtion
+                            st = 0; // skip white spbces before b declbrbtion
+                            brebk;
 
-                        case ' ':
-                        case '\n':
-                        case '\r':
-                        case '\t':
-                            //          Skip white spaces
-                            break;
+                        cbse ' ':
+                        cbse '\n':
+                        cbse '\r':
+                        cbse '\t':
+                            //          Skip white spbces
+                            brebk;
 
-                        default:
-                            panic(FAULT);
-                            break;
+                        defbult:
+                            pbnic(FAULT);
+                            brebk;
                     }
-                    break;
+                    brebk;
 
-                default:
-                    panic(FAULT);
+                defbult:
+                    pbnic(FAULT);
             }
         }
     }
 
     /**
-     * Parses an entity declaration. This method fills the general (
-     * <code>mEnt</code>) and parameter
+     * Pbrses bn entity declbrbtion. This method fills the generbl (
+     * <code>mEnt</code>) bnd pbrbmeter
      * (
-     * <code>mPEnt</code>) entity look up table.
+     * <code>mPEnt</code>) entity look up tbble.
      *
-     * @exception Exception is parser specific exception form panic method.
+     * @exception Exception is pbrser specific exception form pbnic method.
      * @exception IOException
      */
-    @SuppressWarnings("fallthrough")
-    private void dtdent() throws Exception {
+    @SuppressWbrnings("fbllthrough")
+    privbte void dtdent() throws Exception {
         String str = null;
-        char[] val = null;
+        chbr[] vbl = null;
         Input inp = null;
-        Pair ids = null;
-        char ch;
+        Pbir ids = null;
+        chbr ch;
         for (short st = 0; st >= 0;) {
             ch = getch();
             switch (st) {
-                case 0:     // skip white spaces before entity name
+                cbse 0:     // skip white spbces before entity nbme
                     switch (chtyp(ch)) {
-                        case ' ':
-                            //          Skip white spaces
-                            break;
+                        cbse ' ':
+                            //          Skip white spbces
+                            brebk;
 
-                        case '%':
-                            //          Parameter entity or parameter entity declaration.
+                        cbse '%':
+                            //          Pbrbmeter entity or pbrbmeter entity declbrbtion.
                             ch = getch();
                             bkch();
                             if (chtyp(ch) == ' ') {
-                                //              Parameter entity declaration.
+                                //              Pbrbmeter entity declbrbtion.
                                 wsskip();
-                                str = name(false);
+                                str = nbme(fblse);
                                 switch (chtyp(wsskip())) {
-                                    case 'A':
-                                        //              Read the external identifier
+                                    cbse 'A':
+                                        //              Rebd the externbl identifier
                                         ids = pubsys(' ');
                                         if (wsskip() == '>') {
-                                            //          External parsed entity
-                                            if (mPEnt.containsKey(str) == false) {      // [#4.2]
+                                            //          Externbl pbrsed entity
+                                            if (mPEnt.contbinsKey(str) == fblse) {      // [#4.2]
                                                 inp = new Input();
-                                                inp.pubid = ids.name;
-                                                inp.sysid = ids.value;
+                                                inp.pubid = ids.nbme;
+                                                inp.sysid = ids.vblue;
                                                 mPEnt.put(str, inp);
                                             }
                                         } else {
-                                            panic(FAULT);
+                                            pbnic(FAULT);
                                         }
                                         del(ids);
-                                        st = -1;  // the end of declaration
-                                        break;
+                                        st = -1;  // the end of declbrbtion
+                                        brebk;
 
-                                    case '\"':
-                                    case '\'':
-                                        //              Read the parameter entity value
+                                    cbse '\"':
+                                    cbse '\'':
+                                        //              Rebd the pbrbmeter entity vblue
                                         bqstr('d');
-                                        //              Create the parameter entity value
-                                        val = new char[mBuffIdx + 1];
-                                        System.arraycopy(mBuff, 1, val, 1, val.length - 1);
-                                        //              Add surrounding spaces [#4.4.8]
-                                        val[0] = ' ';
-                                        //              Add the entity to the entity look up table
-                                        if (mPEnt.containsKey(str) == false) {  // [#4.2]
-                                            inp = new Input(val);
+                                        //              Crebte the pbrbmeter entity vblue
+                                        vbl = new chbr[mBuffIdx + 1];
+                                        System.brrbycopy(mBuff, 1, vbl, 1, vbl.length - 1);
+                                        //              Add surrounding spbces [#4.4.8]
+                                        vbl[0] = ' ';
+                                        //              Add the entity to the entity look up tbble
+                                        if (mPEnt.contbinsKey(str) == fblse) {  // [#4.2]
+                                            inp = new Input(vbl);
                                             inp.pubid = mInp.pubid;
                                             inp.sysid = mInp.sysid;
                                             inp.xmlenc = mInp.xmlenc;
                                             inp.xmlver = mInp.xmlver;
                                             mPEnt.put(str, inp);
                                         }
-                                        st = -1;  // the end of declaration
-                                        break;
+                                        st = -1;  // the end of declbrbtion
+                                        brebk;
 
-                                    default:
-                                        panic(FAULT);
-                                        break;
+                                    defbult:
+                                        pbnic(FAULT);
+                                        brebk;
                                 }
                             } else {
-                                //              Parameter entity reference.
+                                //              Pbrbmeter entity reference.
                                 pent(' ');
                             }
-                            break;
+                            brebk;
 
-                        default:
+                        defbult:
                             bkch();
-                            str = name(false);
-                            st = 1;  // read entity declaration value
-                            break;
+                            str = nbme(fblse);
+                            st = 1;  // rebd entity declbrbtion vblue
+                            brebk;
                     }
-                    break;
+                    brebk;
 
-                case 1:     // read entity declaration value
+                cbse 1:     // rebd entity declbrbtion vblue
                     switch (chtyp(ch)) {
-                        case '\"':  // internal entity
-                        case '\'':
+                        cbse '\"':  // internbl entity
+                        cbse '\'':
                             bkch();
-                            bqstr('d');  // read a string into the buffer
+                            bqstr('d');  // rebd b string into the buffer
                             if (mEnt.get(str) == null) {
-                                //              Create general entity value
-                                val = new char[mBuffIdx];
-                                System.arraycopy(mBuff, 1, val, 0, val.length);
-                                //              Add the entity to the entity look up table
-                                if (mEnt.containsKey(str) == false) {   // [#4.2]
-                                    inp = new Input(val);
+                                //              Crebte generbl entity vblue
+                                vbl = new chbr[mBuffIdx];
+                                System.brrbycopy(mBuff, 1, vbl, 0, vbl.length);
+                                //              Add the entity to the entity look up tbble
+                                if (mEnt.contbinsKey(str) == fblse) {   // [#4.2]
+                                    inp = new Input(vbl);
                                     inp.pubid = mInp.pubid;
                                     inp.sysid = mInp.sysid;
                                     inp.xmlenc = mInp.xmlenc;
@@ -865,1080 +865,1080 @@ public abstract class Parser {
                                     mEnt.put(str, inp);
                                 }
                             }
-                            st = -1;  // the end of declaration
-                            break;
+                            st = -1;  // the end of declbrbtion
+                            brebk;
 
-                        case 'A':  // external entity
+                        cbse 'A':  // externbl entity
                             bkch();
                             ids = pubsys(' ');
                             switch (wsskip()) {
-                                case '>':  // external parsed entity
-                                    if (mEnt.containsKey(str) == false) {  // [#4.2]
+                                cbse '>':  // externbl pbrsed entity
+                                    if (mEnt.contbinsKey(str) == fblse) {  // [#4.2]
                                         inp = new Input();
-                                        inp.pubid = ids.name;
-                                        inp.sysid = ids.value;
+                                        inp.pubid = ids.nbme;
+                                        inp.sysid = ids.vblue;
                                         mEnt.put(str, inp);
                                     }
-                                    break;
+                                    brebk;
 
-                                case 'N':  // external general unparsed entity
-                                    if ("NDATA".equals(name(false)) == true) {
+                                cbse 'N':  // externbl generbl unpbrsed entity
+                                    if ("NDATA".equbls(nbme(fblse)) == true) {
                                         wsskip();
-                                        unparsedEntDecl(str, ids.name, ids.value, name(false));
-                                        break;
+                                        unpbrsedEntDecl(str, ids.nbme, ids.vblue, nbme(fblse));
+                                        brebk;
                                     }
-                                default:
-                                    panic(FAULT);
-                                    break;
+                                defbult:
+                                    pbnic(FAULT);
+                                    brebk;
                             }
                             del(ids);
-                            st = -1;  // the end of declaration
-                            break;
+                            st = -1;  // the end of declbrbtion
+                            brebk;
 
-                        case ' ':
-                            //          Skip white spaces
-                            break;
+                        cbse ' ':
+                            //          Skip white spbces
+                            brebk;
 
-                        default:
-                            panic(FAULT);
-                            break;
+                        defbult:
+                            pbnic(FAULT);
+                            brebk;
                     }
-                    break;
+                    brebk;
 
-                default:
-                    panic(FAULT);
+                defbult:
+                    pbnic(FAULT);
             }
         }
     }
 
     /**
-     * Parses an element declaration.
+     * Pbrses bn element declbrbtion.
      *
-     * This method parses the declaration up to the closing angle bracket.
+     * This method pbrses the declbrbtion up to the closing bngle brbcket.
      *
-     * @exception Exception is parser specific exception form panic method.
+     * @exception Exception is pbrser specific exception form pbnic method.
      * @exception IOException
      */
-    @SuppressWarnings("fallthrough")
-    private void dtdelm() throws Exception {
-        //              This is stub implementation which skips an element
-        //              declaration.
+    @SuppressWbrnings("fbllthrough")
+    privbte void dtdelm() throws Exception {
+        //              This is stub implementbtion which skips bn element
+        //              declbrbtion.
         wsskip();
-        name(mIsNSAware);
+        nbme(mIsNSAwbre);
 
-        char ch;
+        chbr ch;
         while (true) {
             ch = getch();
             switch (ch) {
-                case '>':
+                cbse '>':
                     bkch();
                     return;
 
-                case EOS:
-                    panic(FAULT);
+                cbse EOS:
+                    pbnic(FAULT);
 
-                default:
-                    break;
+                defbult:
+                    brebk;
             }
         }
     }
 
     /**
-     * Parses an attribute list declaration.
+     * Pbrses bn bttribute list declbrbtion.
      *
-     * This method parses the declaration up to the closing angle bracket.
+     * This method pbrses the declbrbtion up to the closing bngle brbcket.
      *
-     * @exception Exception is parser specific exception form panic method.
+     * @exception Exception is pbrser specific exception form pbnic method.
      * @exception IOException
      */
-    private void dtdattl() throws Exception {
-        char elmqn[] = null;
-        Pair elm = null;
-        char ch;
+    privbte void dtdbttl() throws Exception {
+        chbr elmqn[] = null;
+        Pbir elm = null;
+        chbr ch;
         for (short st = 0; st >= 0;) {
             ch = getch();
             switch (st) {
-                case 0:     // read the element name
+                cbse 0:     // rebd the element nbme
                     switch (chtyp(ch)) {
-                        case 'a':
-                        case 'A':
-                        case '_':
-                        case 'X':
-                        case ':':
+                        cbse 'b':
+                        cbse 'A':
+                        cbse '_':
+                        cbse 'X':
+                        cbse ':':
                             bkch();
-                            //          Get the element from the list or add a new one.
-                            elmqn = qname(mIsNSAware);
+                            //          Get the element from the list or bdd b new one.
+                            elmqn = qnbme(mIsNSAwbre);
                             elm = find(mAttL, elmqn);
                             if (elm == null) {
-                                elm = pair(mAttL);
-                                elm.chars = elmqn;
+                                elm = pbir(mAttL);
+                                elm.chbrs = elmqn;
                                 mAttL = elm;
                             }
-                            st = 1;  // read an attribute declaration
-                            break;
+                            st = 1;  // rebd bn bttribute declbrbtion
+                            brebk;
 
-                        case ' ':
-                            break;
+                        cbse ' ':
+                            brebk;
 
-                        case '%':
+                        cbse '%':
                             pent(' ');
-                            break;
+                            brebk;
 
-                        default:
-                            panic(FAULT);
-                            break;
+                        defbult:
+                            pbnic(FAULT);
+                            brebk;
                     }
-                    break;
+                    brebk;
 
-                case 1:     // read an attribute declaration
+                cbse 1:     // rebd bn bttribute declbrbtion
                     switch (chtyp(ch)) {
-                        case 'a':
-                        case 'A':
-                        case '_':
-                        case 'X':
-                        case ':':
+                        cbse 'b':
+                        cbse 'A':
+                        cbse '_':
+                        cbse 'X':
+                        cbse ':':
                             bkch();
-                            dtdatt(elm);
+                            dtdbtt(elm);
                             if (wsskip() == '>') {
                                 return;
                             }
-                            break;
+                            brebk;
 
-                        case ' ':
-                            break;
+                        cbse ' ':
+                            brebk;
 
-                        case '%':
+                        cbse '%':
                             pent(' ');
-                            break;
+                            brebk;
 
-                        default:
-                            panic(FAULT);
-                            break;
+                        defbult:
+                            pbnic(FAULT);
+                            brebk;
                     }
-                    break;
+                    brebk;
 
-                default:
-                    panic(FAULT);
-                    break;
+                defbult:
+                    pbnic(FAULT);
+                    brebk;
             }
         }
     }
 
     /**
-     * Parses an attribute declaration.
+     * Pbrses bn bttribute declbrbtion.
      *
-     * The attribute uses the following fields of Pair object: chars - characters
-     * of qualified name id - the type identifier of the attribute list - a pair
-     * which holds the default value (chars field)
+     * The bttribute uses the following fields of Pbir object: chbrs - chbrbcters
+     * of qublified nbme id - the type identifier of the bttribute list - b pbir
+     * which holds the defbult vblue (chbrs field)
      *
-     * @param elm An object which represents all defined attributes on an
+     * @pbrbm elm An object which represents bll defined bttributes on bn
      * element.
-     * @exception Exception is parser specific exception form panic method.
+     * @exception Exception is pbrser specific exception form pbnic method.
      * @exception IOException
      */
-    @SuppressWarnings("fallthrough")
-    private void dtdatt(Pair elm) throws Exception {
-        char attqn[] = null;
-        Pair att = null;
-        char ch;
+    @SuppressWbrnings("fbllthrough")
+    privbte void dtdbtt(Pbir elm) throws Exception {
+        chbr bttqn[] = null;
+        Pbir btt = null;
+        chbr ch;
         for (short st = 0; st >= 0;) {
             ch = getch();
             switch (st) {
-                case 0:     // the attribute name
+                cbse 0:     // the bttribute nbme
                     switch (chtyp(ch)) {
-                        case 'a':
-                        case 'A':
-                        case '_':
-                        case 'X':
-                        case ':':
+                        cbse 'b':
+                        cbse 'A':
+                        cbse '_':
+                        cbse 'X':
+                        cbse ':':
                             bkch();
-                            //          Get the attribute from the list or add a new one.
-                            attqn = qname(mIsNSAware);
-                            att = find(elm.list, attqn);
-                            if (att == null) {
-                                //              New attribute declaration
-                                att = pair(elm.list);
-                                att.chars = attqn;
-                                elm.list = att;
+                            //          Get the bttribute from the list or bdd b new one.
+                            bttqn = qnbme(mIsNSAwbre);
+                            btt = find(elm.list, bttqn);
+                            if (btt == null) {
+                                //              New bttribute declbrbtion
+                                btt = pbir(elm.list);
+                                btt.chbrs = bttqn;
+                                elm.list = btt;
                             } else {
-                                //              Do not override the attribute declaration [#3.3]
-                                att = pair(null);
-                                att.chars = attqn;
-                                att.id = 'c';
+                                //              Do not override the bttribute declbrbtion [#3.3]
+                                btt = pbir(null);
+                                btt.chbrs = bttqn;
+                                btt.id = 'c';
                             }
                             wsskip();
                             st = 1;
-                            break;
+                            brebk;
 
-                        case '%':
+                        cbse '%':
                             pent(' ');
-                            break;
+                            brebk;
 
-                        case ' ':
-                            break;
+                        cbse ' ':
+                            brebk;
 
-                        default:
-                            panic(FAULT);
-                            break;
+                        defbult:
+                            pbnic(FAULT);
+                            brebk;
                     }
-                    break;
+                    brebk;
 
-                case 1:     // the attribute type
+                cbse 1:     // the bttribute type
                     switch (chtyp(ch)) {
-                        case '(':
-                            att.id = 'u';  // enumeration type
-                            st = 2;        // read the first element of the list
-                            break;
+                        cbse '(':
+                            btt.id = 'u';  // enumerbtion type
+                            st = 2;        // rebd the first element of the list
+                            brebk;
 
-                        case '%':
+                        cbse '%':
                             pent(' ');
-                            break;
+                            brebk;
 
-                        case ' ':
-                            break;
+                        cbse ' ':
+                            brebk;
 
-                        default:
+                        defbult:
                             bkch();
-                            bntok();  // read type id
-                            att.id = bkeyword();
-                            switch (att.id) {
-                                case 'o':   // NOTATION
+                            bntok();  // rebd type id
+                            btt.id = bkeyword();
+                            switch (btt.id) {
+                                cbse 'o':   // NOTATION
                                     if (wsskip() != '(') {
-                                        panic(FAULT);
+                                        pbnic(FAULT);
                                     }
                                     ch = getch();
-                                    st = 2;  // read the first element of the list
-                                    break;
+                                    st = 2;  // rebd the first element of the list
+                                    brebk;
 
-                                case 'i':     // ID
-                                case 'r':     // IDREF
-                                case 'R':     // IDREFS
-                                case 'n':     // ENTITY
-                                case 'N':     // ENTITIES
-                                case 't':     // NMTOKEN
-                                case 'T':     // NMTOKENS
-                                case 'c':     // CDATA
+                                cbse 'i':     // ID
+                                cbse 'r':     // IDREF
+                                cbse 'R':     // IDREFS
+                                cbse 'n':     // ENTITY
+                                cbse 'N':     // ENTITIES
+                                cbse 't':     // NMTOKEN
+                                cbse 'T':     // NMTOKENS
+                                cbse 'c':     // CDATA
                                     wsskip();
-                                    st = 4;  // read default declaration
-                                    break;
+                                    st = 4;  // rebd defbult declbrbtion
+                                    brebk;
 
-                                default:
-                                    panic(FAULT);
-                                    break;
+                                defbult:
+                                    pbnic(FAULT);
+                                    brebk;
                             }
-                            break;
+                            brebk;
                     }
-                    break;
+                    brebk;
 
-                case 2:     // read the first element of the list
+                cbse 2:     // rebd the first element of the list
                     switch (chtyp(ch)) {
-                        case 'a':
-                        case 'A':
-                        case 'd':
-                        case '.':
-                        case ':':
-                        case '-':
-                        case '_':
-                        case 'X':
+                        cbse 'b':
+                        cbse 'A':
+                        cbse 'd':
+                        cbse '.':
+                        cbse ':':
+                        cbse '-':
+                        cbse '_':
+                        cbse 'X':
                             bkch();
-                            switch (att.id) {
-                                case 'u':  // enumeration type
+                            switch (btt.id) {
+                                cbse 'u':  // enumerbtion type
                                     bntok();
-                                    break;
+                                    brebk;
 
-                                case 'o':  // NOTATION
+                                cbse 'o':  // NOTATION
                                     mBuffIdx = -1;
-                                    bname(false);
-                                    break;
+                                    bnbme(fblse);
+                                    brebk;
 
-                                default:
-                                    panic(FAULT);
-                                    break;
+                                defbult:
+                                    pbnic(FAULT);
+                                    brebk;
                             }
                             wsskip();
-                            st = 3;  // read next element of the list
-                            break;
+                            st = 3;  // rebd next element of the list
+                            brebk;
 
-                        case '%':
+                        cbse '%':
                             pent(' ');
-                            break;
+                            brebk;
 
-                        case ' ':
-                            break;
+                        cbse ' ':
+                            brebk;
 
-                        default:
-                            panic(FAULT);
-                            break;
+                        defbult:
+                            pbnic(FAULT);
+                            brebk;
                     }
-                    break;
+                    brebk;
 
-                case 3:     // read next element of the list
+                cbse 3:     // rebd next element of the list
                     switch (ch) {
-                        case ')':
+                        cbse ')':
                             wsskip();
-                            st = 4;  // read default declaration
-                            break;
+                            st = 4;  // rebd defbult declbrbtion
+                            brebk;
 
-                        case '|':
+                        cbse '|':
                             wsskip();
-                            switch (att.id) {
-                                case 'u':  // enumeration type
+                            switch (btt.id) {
+                                cbse 'u':  // enumerbtion type
                                     bntok();
-                                    break;
+                                    brebk;
 
-                                case 'o':  // NOTATION
+                                cbse 'o':  // NOTATION
                                     mBuffIdx = -1;
-                                    bname(false);
-                                    break;
+                                    bnbme(fblse);
+                                    brebk;
 
-                                default:
-                                    panic(FAULT);
-                                    break;
+                                defbult:
+                                    pbnic(FAULT);
+                                    brebk;
                             }
                             wsskip();
-                            break;
+                            brebk;
 
-                        case '%':
+                        cbse '%':
                             pent(' ');
-                            break;
+                            brebk;
 
-                        default:
-                            panic(FAULT);
-                            break;
+                        defbult:
+                            pbnic(FAULT);
+                            brebk;
                     }
-                    break;
+                    brebk;
 
-                case 4:     // read default declaration
+                cbse 4:     // rebd defbult declbrbtion
                     switch (ch) {
-                        case '#':
+                        cbse '#':
                             bntok();
                             switch (bkeyword()) {
-                                case 'F':  // FIXED
+                                cbse 'F':  // FIXED
                                     switch (wsskip()) {
-                                        case '\"':
-                                        case '\'':
-                                            st = 5;  // read the default value
-                                            break;
+                                        cbse '\"':
+                                        cbse '\'':
+                                            st = 5;  // rebd the defbult vblue
+                                            brebk;
 
-                                        case EOS:
-                                            panic(FAULT);
+                                        cbse EOS:
+                                            pbnic(FAULT);
 
-                                        default:
+                                        defbult:
                                             st = -1;
-                                            break;
+                                            brebk;
                                     }
-                                    break;
+                                    brebk;
 
-                                case 'Q':  // REQUIRED
-                                case 'I':  // IMPLIED
+                                cbse 'Q':  // REQUIRED
+                                cbse 'I':  // IMPLIED
                                     st = -1;
-                                    break;
+                                    brebk;
 
-                                default:
-                                    panic(FAULT);
-                                    break;
+                                defbult:
+                                    pbnic(FAULT);
+                                    brebk;
                             }
-                            break;
+                            brebk;
 
-                        case '\"':
-                        case '\'':
+                        cbse '\"':
+                        cbse '\'':
                             bkch();
-                            st = 5;  // read the default value
-                            break;
+                            st = 5;  // rebd the defbult vblue
+                            brebk;
 
-                        case ' ':
-                        case '\n':
-                        case '\r':
-                        case '\t':
-                            break;
+                        cbse ' ':
+                        cbse '\n':
+                        cbse '\r':
+                        cbse '\t':
+                            brebk;
 
-                        case '%':
+                        cbse '%':
                             pent(' ');
-                            break;
+                            brebk;
 
-                        default:
+                        defbult:
                             bkch();
                             st = -1;
-                            break;
+                            brebk;
                     }
-                    break;
+                    brebk;
 
-                case 5:     // read the default value
+                cbse 5:     // rebd the defbult vblue
                     switch (ch) {
-                        case '\"':
-                        case '\'':
+                        cbse '\"':
+                        cbse '\'':
                             bkch();
-                            bqstr('d');  // the value in the mBuff now
-                            att.list = pair(null);
-                            //          Create a string like "attqname='value' "
-                            att.list.chars = new char[att.chars.length + mBuffIdx + 3];
-                            System.arraycopy(
-                                    att.chars, 1, att.list.chars, 0, att.chars.length - 1);
-                            att.list.chars[att.chars.length - 1] = '=';
-                            att.list.chars[att.chars.length] = ch;
-                            System.arraycopy(
-                                    mBuff, 1, att.list.chars, att.chars.length + 1, mBuffIdx);
-                            att.list.chars[att.chars.length + mBuffIdx + 1] = ch;
-                            att.list.chars[att.chars.length + mBuffIdx + 2] = ' ';
+                            bqstr('d');  // the vblue in the mBuff now
+                            btt.list = pbir(null);
+                            //          Crebte b string like "bttqnbme='vblue' "
+                            btt.list.chbrs = new chbr[btt.chbrs.length + mBuffIdx + 3];
+                            System.brrbycopy(
+                                    btt.chbrs, 1, btt.list.chbrs, 0, btt.chbrs.length - 1);
+                            btt.list.chbrs[btt.chbrs.length - 1] = '=';
+                            btt.list.chbrs[btt.chbrs.length] = ch;
+                            System.brrbycopy(
+                                    mBuff, 1, btt.list.chbrs, btt.chbrs.length + 1, mBuffIdx);
+                            btt.list.chbrs[btt.chbrs.length + mBuffIdx + 1] = ch;
+                            btt.list.chbrs[btt.chbrs.length + mBuffIdx + 2] = ' ';
                             st = -1;
-                            break;
+                            brebk;
 
-                        default:
-                            panic(FAULT);
-                            break;
+                        defbult:
+                            pbnic(FAULT);
+                            brebk;
                     }
-                    break;
+                    brebk;
 
-                default:
-                    panic(FAULT);
-                    break;
+                defbult:
+                    pbnic(FAULT);
+                    brebk;
             }
         }
     }
 
     /**
-     * Parses a notation declaration.
+     * Pbrses b notbtion declbrbtion.
      *
-     * This method parses the declaration up to the closing angle bracket.
+     * This method pbrses the declbrbtion up to the closing bngle brbcket.
      *
-     * @exception Exception is parser specific exception form panic method.
+     * @exception Exception is pbrser specific exception form pbnic method.
      * @exception IOException
      */
-    private void dtdnot() throws Exception {
+    privbte void dtdnot() throws Exception {
         wsskip();
-        String name = name(false);
+        String nbme = nbme(fblse);
         wsskip();
-        Pair ids = pubsys('N');
-        notDecl(name, ids.name, ids.value);
+        Pbir ids = pubsys('N');
+        notDecl(nbme, ids.nbme, ids.vblue);
         del(ids);
     }
 
     /**
-     * Parses an attribute.
+     * Pbrses bn bttribute.
      *
-     * This recursive method is responsible for prefix addition
+     * This recursive method is responsible for prefix bddition
      * (
-     * <code>mPref</code>) on the way down. The element's start tag end triggers
-     * the return process. The method then on it's way back resolves prefixes
-     * and accumulates attributes.
+     * <code>mPref</code>) on the wby down. The element's stbrt tbg end triggers
+     * the return process. The method then on it's wby bbck resolves prefixes
+     * bnd bccumulbtes bttributes.
      *
-     * <p><code>att.num</code> carries attribute flags where: 0x1 - attribute is
-     * declared in DTD (attribute decalration had been read); 0x2 - attribute's
-     * default value is used.</p>
+     * <p><code>btt.num</code> cbrries bttribute flbgs where: 0x1 - bttribute is
+     * declbred in DTD (bttribute decblrbtion hbd been rebd); 0x2 - bttribute's
+     * defbult vblue is used.</p>
      *
-     * @param att An object which reprecents current attribute.
-     * @exception Exception is parser specific exception form panic method.
+     * @pbrbm btt An object which reprecents current bttribute.
+     * @exception Exception is pbrser specific exception form pbnic method.
      * @exception IOException
      */
-    @SuppressWarnings("fallthrough")
-    private void attr(Pair att) throws Exception {
+    @SuppressWbrnings("fbllthrough")
+    privbte void bttr(Pbir btt) throws Exception {
         switch (wsskip()) {
-            case '/':
-            case '>':
-                if ((att.num & 0x2) == 0) {  // all attributes have been read
-                    att.num |= 0x2;  // set default attribute flag
+            cbse '/':
+            cbse '>':
+                if ((btt.num & 0x2) == 0) {  // bll bttributes hbve been rebd
+                    btt.num |= 0x2;  // set defbult bttribute flbg
                     Input inp = mInp;
-                    //          Go through all attributes defined on current element.
-                    for (Pair def = mElm.list; def != null; def = def.next) {
-                        if (def.list == null) // no default value
+                    //          Go through bll bttributes defined on current element.
+                    for (Pbir def = mElm.list; def != null; def = def.next) {
+                        if (def.list == null) // no defbult vblue
                         {
                             continue;
                         }
-                        //              Go through all attributes defined on current
-                        //              element and add defaults.
-                        Pair act = find(att.next, def.chars);
-                        if (act == null) {
-                            push(new Input(def.list.chars));
+                        //              Go through bll bttributes defined on current
+                        //              element bnd bdd defbults.
+                        Pbir bct = find(btt.next, def.chbrs);
+                        if (bct == null) {
+                            push(new Input(def.list.chbrs));
                         }
                     }
-                    if (mInp != inp) {  // defaults have been added
-                        attr(att);
+                    if (mInp != inp) {  // defbults hbve been bdded
+                        bttr(btt);
                         return;
                     }
                 }
-                //              Ensure the attribute string array capacity
+                //              Ensure the bttribute string brrby cbpbcity
                 mAttrs.setLength(mAttrIdx);
                 mItems = mAttrs.mItems;
                 return;
 
-            case EOS:
-                panic(FAULT);
+            cbse EOS:
+                pbnic(FAULT);
 
-            default:
-                //              Read the attribute name and value
-                att.chars = qname(mIsNSAware);
-                att.name = att.local();
-                String type = atype(att);  // sets attribute's type on att.id
+            defbult:
+                //              Rebd the bttribute nbme bnd vblue
+                btt.chbrs = qnbme(mIsNSAwbre);
+                btt.nbme = btt.locbl();
+                String type = btype(btt);  // sets bttribute's type on btt.id
                 wsskip();
                 if (getch() != '=') {
-                    panic(FAULT);
+                    pbnic(FAULT);
                 }
-                bqstr((char) att.id);   // read the value with normalization.
-                String val = new String(mBuff, 1, mBuffIdx);
-                Pair next = pair(att);
-                next.num = (att.num & ~0x1);  // inherit attribute flags
-                //              Put a namespace declaration on top of the prefix stack
-                if ((mIsNSAware == false) || (isdecl(att, val) == false)) {
-                    //          An ordinary attribute
+                bqstr((chbr) btt.id);   // rebd the vblue with normblizbtion.
+                String vbl = new String(mBuff, 1, mBuffIdx);
+                Pbir next = pbir(btt);
+                next.num = (btt.num & ~0x1);  // inherit bttribute flbgs
+                //              Put b nbmespbce declbrbtion on top of the prefix stbck
+                if ((mIsNSAwbre == fblse) || (isdecl(btt, vbl) == fblse)) {
+                    //          An ordinbry bttribute
                     mAttrIdx++;
-                    attr(next);     // recursive call to parse the next attribute
+                    bttr(next);     // recursive cbll to pbrse the next bttribute
                     mAttrIdx--;
-                    //          Add the attribute to the attributes string array
-                    char idx = (char) (mAttrIdx << 3);
-                    mItems[idx + 1] = att.qname();  // attr qname
-                    mItems[idx + 2] = (mIsNSAware) ? att.name : ""; // attr local name
-                    mItems[idx + 3] = val;          // attr value
-                    mItems[idx + 4] = type;         // attr type
-                    switch (att.num & 0x3) {
-                        case 0x0:
+                    //          Add the bttribute to the bttributes string brrby
+                    chbr idx = (chbr) (mAttrIdx << 3);
+                    mItems[idx + 1] = btt.qnbme();  // bttr qnbme
+                    mItems[idx + 2] = (mIsNSAwbre) ? btt.nbme : ""; // bttr locbl nbme
+                    mItems[idx + 3] = vbl;          // bttr vblue
+                    mItems[idx + 4] = type;         // bttr type
+                    switch (btt.num & 0x3) {
+                        cbse 0x0:
                             mItems[idx + 5] = null;
-                            break;
+                            brebk;
 
-                        case 0x1:  // declared attribute
+                        cbse 0x1:  // declbred bttribute
                             mItems[idx + 5] = "d";
-                            break;
+                            brebk;
 
-                        default:  // 0x2, 0x3 - default attribute always declared
+                        defbult:  // 0x2, 0x3 - defbult bttribute blwbys declbred
                             mItems[idx + 5] = "D";
-                            break;
+                            brebk;
                     }
-                    //          Resolve the prefix if any and report the attribute
-                    //          NOTE: The attribute does not accept the default namespace.
-                    mItems[idx + 0] = (att.chars[0] != 0) ? rslv(att.chars) : "";
+                    //          Resolve the prefix if bny bnd report the bttribute
+                    //          NOTE: The bttribute does not bccept the defbult nbmespbce.
+                    mItems[idx + 0] = (btt.chbrs[0] != 0) ? rslv(btt.chbrs) : "";
                 } else {
-                    //          A namespace declaration. mPref.name contains prefix and
-                    //          mPref.value contains namespace URI set by isdecl method.
-                    //          Report a start of the new mapping
+                    //          A nbmespbce declbrbtion. mPref.nbme contbins prefix bnd
+                    //          mPref.vblue contbins nbmespbce URI set by isdecl method.
+                    //          Report b stbrt of the new mbpping
                     newPrefix();
-                    //          Recursive call to parse the next attribute
-                    attr(next);
-                    //          NOTE: The namespace declaration is not reported.
+                    //          Recursive cbll to pbrse the next bttribute
+                    bttr(next);
+                    //          NOTE: The nbmespbce declbrbtion is not reported.
                 }
                 del(next);
-                break;
+                brebk;
         }
     }
 
     /**
-     * Retrieves attribute type.
+     * Retrieves bttribute type.
      *
-     * This method sets the type of normalization in the attribute
-     * <code>id</code> field and returns the name of attribute type.
+     * This method sets the type of normblizbtion in the bttribute
+     * <code>id</code> field bnd returns the nbme of bttribute type.
      *
-     * @param att An object which represents current attribute.
-     * @return The name of the attribute type.
-     * @exception Exception is parser specific exception form panic method.
+     * @pbrbm btt An object which represents current bttribute.
+     * @return The nbme of the bttribute type.
+     * @exception Exception is pbrser specific exception form pbnic method.
      */
-    private String atype(Pair att)
+    privbte String btype(Pbir btt)
             throws Exception {
-        Pair attr;
+        Pbir bttr;
 
-        // CDATA-type normalization by default [#3.3.3]
-        att.id = 'c';
-        if (mElm.list == null || (attr = find(mElm.list, att.chars)) == null) {
+        // CDATA-type normblizbtion by defbult [#3.3.3]
+        btt.id = 'c';
+        if (mElm.list == null || (bttr = find(mElm.list, btt.chbrs)) == null) {
             return "CDATA";
         }
 
-        att.num |= 0x1;  // attribute is declared
+        btt.num |= 0x1;  // bttribute is declbred
 
-        // Non-CDATA normalization except when the attribute type is CDATA.
-        att.id = 'i';
-        switch (attr.id) {
-            case 'i':
+        // Non-CDATA normblizbtion except when the bttribute type is CDATA.
+        btt.id = 'i';
+        switch (bttr.id) {
+            cbse 'i':
                 return "ID";
 
-            case 'r':
+            cbse 'r':
                 return "IDREF";
 
-            case 'R':
+            cbse 'R':
                 return "IDREFS";
 
-            case 'n':
+            cbse 'n':
                 return "ENTITY";
 
-            case 'N':
+            cbse 'N':
                 return "ENTITIES";
 
-            case 't':
+            cbse 't':
                 return "NMTOKEN";
 
-            case 'T':
+            cbse 'T':
                 return "NMTOKENS";
 
-            case 'u':
+            cbse 'u':
                 return "NMTOKEN";
 
-            case 'o':
+            cbse 'o':
                 return "NOTATION";
 
-            case 'c':
-                att.id = 'c';
+            cbse 'c':
+                btt.id = 'c';
                 return "CDATA";
 
-            default:
-                panic(FAULT);
+            defbult:
+                pbnic(FAULT);
         }
         return null;
     }
 
     /**
-     * Parses a comment.
+     * Pbrses b comment.
      *
-     * The &apos;&lt;!&apos; part is read in dispatcher so the method starts
-     * with first &apos;-&apos; after &apos;&lt;!&apos;.
+     * The &bpos;&lt;!&bpos; pbrt is rebd in dispbtcher so the method stbrts
+     * with first &bpos;-&bpos; bfter &bpos;&lt;!&bpos;.
      *
-     * @exception Exception is parser specific exception form panic method.
+     * @exception Exception is pbrser specific exception form pbnic method.
      */
-    @SuppressWarnings("fallthrough")
-    private void comm() throws Exception {
+    @SuppressWbrnings("fbllthrough")
+    privbte void comm() throws Exception {
         if (mPh == PH_DOC_START) {
             mPh = PH_MISC_DTD;  // misc before DTD
-        }               // '<!' has been already read by dispetcher.
-        char ch;
+        }               // '<!' hbs been blrebdy rebd by dispetcher.
+        chbr ch;
         mBuffIdx = -1;
         for (short st = 0; st >= 0;) {
-            ch = (mChIdx < mChLen) ? mChars[mChIdx++] : getch();
+            ch = (mChIdx < mChLen) ? mChbrs[mChIdx++] : getch();
             if (ch == EOS) {
-                panic(FAULT);
+                pbnic(FAULT);
             }
             switch (st) {
-                case 0:     // first '-' of the comment open
+                cbse 0:     // first '-' of the comment open
                     if (ch == '-') {
                         st = 1;
                     } else {
-                        panic(FAULT);
+                        pbnic(FAULT);
                     }
-                    break;
+                    brebk;
 
-                case 1:     // secind '-' of the comment open
+                cbse 1:     // secind '-' of the comment open
                     if (ch == '-') {
                         st = 2;
                     } else {
-                        panic(FAULT);
+                        pbnic(FAULT);
                     }
-                    break;
+                    brebk;
 
-                case 2:     // skip the comment body
+                cbse 2:     // skip the comment body
                     switch (ch) {
-                        case '-':
+                        cbse '-':
                             st = 3;
-                            break;
+                            brebk;
 
-                        default:
-                            bappend(ch);
-                            break;
+                        defbult:
+                            bbppend(ch);
+                            brebk;
                     }
-                    break;
+                    brebk;
 
-                case 3:     // second '-' of the comment close
+                cbse 3:     // second '-' of the comment close
                     switch (ch) {
-                        case '-':
+                        cbse '-':
                             st = 4;
-                            break;
+                            brebk;
 
-                        default:
-                            bappend('-');
-                            bappend(ch);
+                        defbult:
+                            bbppend('-');
+                            bbppend(ch);
                             st = 2;
-                            break;
+                            brebk;
                     }
-                    break;
+                    brebk;
 
-                case 4:     // '>' of the comment close
+                cbse 4:     // '>' of the comment close
                     if (ch == '>') {
                         comm(mBuff, mBuffIdx + 1);
                         st = -1;
-                        break;
+                        brebk;
                     }
-                // else - panic [#2.5 compatibility note]
+                // else - pbnic [#2.5 compbtibility note]
 
-                default:
-                    panic(FAULT);
+                defbult:
+                    pbnic(FAULT);
             }
         }
     }
 
     /**
-     * Parses a processing instruction.
+     * Pbrses b processing instruction.
      *
-     * The &apos;&lt;?&apos; is read in dispatcher so the method starts with
-     * first character of PI target name after &apos;&lt;?&apos;.
+     * The &bpos;&lt;?&bpos; is rebd in dispbtcher so the method stbrts with
+     * first chbrbcter of PI tbrget nbme bfter &bpos;&lt;?&bpos;.
      *
-     * @exception Exception is parser specific exception form panic method.
+     * @exception Exception is pbrser specific exception form pbnic method.
      * @exception IOException
      */
-    private void pi() throws Exception {
-        // '<?' has been already read by dispetcher.
-        char ch;
+    privbte void pi() throws Exception {
+        // '<?' hbs been blrebdy rebd by dispetcher.
+        chbr ch;
         String str = null;
         mBuffIdx = -1;
         for (short st = 0; st >= 0;) {
             ch = getch();
             if (ch == EOS) {
-                panic(FAULT);
+                pbnic(FAULT);
             }
             switch (st) {
-                case 0:     // read the PI target name
+                cbse 0:     // rebd the PI tbrget nbme
                     switch (chtyp(ch)) {
-                        case 'a':
-                        case 'A':
-                        case '_':
-                        case ':':
-                        case 'X':
+                        cbse 'b':
+                        cbse 'A':
+                        cbse '_':
+                        cbse ':':
+                        cbse 'X':
                             bkch();
-                            str = name(false);
-                            //          PI target name may not be empty string [#2.6]
-                            //          PI target name 'XML' is reserved [#2.6]
+                            str = nbme(fblse);
+                            //          PI tbrget nbme mby not be empty string [#2.6]
+                            //          PI tbrget nbme 'XML' is reserved [#2.6]
                             if ((str.length() == 0)
-                                    || (mXml.name.equals(str.toLowerCase()) == true)) {
-                                panic(FAULT);
+                                    || (mXml.nbme.equbls(str.toLowerCbse()) == true)) {
+                                pbnic(FAULT);
                             }
                             //          This is processing instruction
                             if (mPh == PH_DOC_START) // the begining of the document
                             {
                                 mPh = PH_MISC_DTD;    // misc before DTD
                             }
-                            wsskip();  // skip spaces after the PI target name
-                            st = 1;    // accumulate the PI body
+                            wsskip();  // skip spbces bfter the PI tbrget nbme
+                            st = 1;    // bccumulbte the PI body
                             mBuffIdx = -1;
-                            break;
+                            brebk;
 
-                        default:
-                            panic(FAULT);
+                        defbult:
+                            pbnic(FAULT);
                     }
-                    break;
+                    brebk;
 
-                case 1:     // accumulate the PI body
+                cbse 1:     // bccumulbte the PI body
                     switch (ch) {
-                        case '?':
+                        cbse '?':
                             st = 2;  // end of the PI body
-                            break;
+                            brebk;
 
-                        default:
-                            bappend(ch);
-                            break;
+                        defbult:
+                            bbppend(ch);
+                            brebk;
                     }
-                    break;
+                    brebk;
 
-                case 2:     // end of the PI body
+                cbse 2:     // end of the PI body
                     switch (ch) {
-                        case '>':
-                            //          PI has been read.
+                        cbse '>':
+                            //          PI hbs been rebd.
                             pi(str, new String(mBuff, 0, mBuffIdx + 1));
                             st = -1;
-                            break;
+                            brebk;
 
-                        case '?':
-                            bappend('?');
-                            break;
+                        cbse '?':
+                            bbppend('?');
+                            brebk;
 
-                        default:
-                            bappend('?');
-                            bappend(ch);
-                            st = 1;  // accumulate the PI body
-                            break;
+                        defbult:
+                            bbppend('?');
+                            bbppend(ch);
+                            st = 1;  // bccumulbte the PI body
+                            brebk;
                     }
-                    break;
+                    brebk;
 
-                default:
-                    panic(FAULT);
+                defbult:
+                    pbnic(FAULT);
             }
         }
     }
 
     /**
-     * Parses a character data.
+     * Pbrses b chbrbcter dbtb.
      *
-     * The &apos;&lt;!&apos; part is read in dispatcher so the method starts
-     * with first &apos;[&apos; after &apos;&lt;!&apos;.
+     * The &bpos;&lt;!&bpos; pbrt is rebd in dispbtcher so the method stbrts
+     * with first &bpos;[&bpos; bfter &bpos;&lt;!&bpos;.
      *
-     * @exception Exception is parser specific exception form panic method.
+     * @exception Exception is pbrser specific exception form pbnic method.
      * @exception IOException
      */
-    private void cdat()
+    privbte void cdbt()
             throws Exception {
-        // '<!' has been already read by dispetcher.
-        char ch;
+        // '<!' hbs been blrebdy rebd by dispetcher.
+        chbr ch;
         mBuffIdx = -1;
         for (short st = 0; st >= 0;) {
             ch = getch();
             switch (st) {
-                case 0:     // the first '[' of the CDATA open
+                cbse 0:     // the first '[' of the CDATA open
                     if (ch == '[') {
                         st = 1;
                     } else {
-                        panic(FAULT);
+                        pbnic(FAULT);
                     }
-                    break;
+                    brebk;
 
-                case 1:     // read "CDATA"
+                cbse 1:     // rebd "CDATA"
                     if (chtyp(ch) == 'A') {
-                        bappend(ch);
+                        bbppend(ch);
                     } else {
-                        if ("CDATA".equals(
+                        if ("CDATA".equbls(
                                 new String(mBuff, 0, mBuffIdx + 1)) != true) {
-                            panic(FAULT);
+                            pbnic(FAULT);
                         }
                         bkch();
                         st = 2;
                     }
-                    break;
+                    brebk;
 
-                case 2:     // the second '[' of the CDATA open
+                cbse 2:     // the second '[' of the CDATA open
                     if (ch != '[') {
-                        panic(FAULT);
+                        pbnic(FAULT);
                     }
                     mBuffIdx = -1;
                     st = 3;
-                    break;
+                    brebk;
 
-                case 3:     // read data before the first ']'
+                cbse 3:     // rebd dbtb before the first ']'
                     if (ch != ']') {
-                        bappend(ch);
+                        bbppend(ch);
                     } else {
                         st = 4;
                     }
-                    break;
+                    brebk;
 
-                case 4:     // read the second ']' or continue to read the data
+                cbse 4:     // rebd the second ']' or continue to rebd the dbtb
                     if (ch != ']') {
-                        bappend(']');
-                        bappend(ch);
+                        bbppend(']');
+                        bbppend(ch);
                         st = 3;
                     } else {
                         st = 5;
                     }
-                    break;
+                    brebk;
 
-                case 5:     // read '>' or continue to read the data
+                cbse 5:     // rebd '>' or continue to rebd the dbtb
                     switch (ch) {
-                        case ']':
-                            bappend(']');
-                            break;
+                        cbse ']':
+                            bbppend(']');
+                            brebk;
 
-                        case '>':
-                            bflash();
+                        cbse '>':
+                            bflbsh();
                             st = -1;
-                            break;
+                            brebk;
 
-                        default:
-                            bappend(']');
-                            bappend(']');
-                            bappend(ch);
+                        defbult:
+                            bbppend(']');
+                            bbppend(']');
+                            bbppend(ch);
                             st = 3;
-                            break;
+                            brebk;
                     }
-                    break;
+                    brebk;
 
-                default:
-                    panic(FAULT);
+                defbult:
+                    pbnic(FAULT);
             }
         }
     }
 
     /**
-     * Reads a xml name.
+     * Rebds b xml nbme.
      *
-     * The xml name must conform "Namespaces in XML" specification. Therefore
-     * the ':' character is not allowed in the name. This method should be used
-     * for PI and entity names which may not have a namespace according to the
-     * specification mentioned above.
+     * The xml nbme must conform "Nbmespbces in XML" specificbtion. Therefore
+     * the ':' chbrbcter is not bllowed in the nbme. This method should be used
+     * for PI bnd entity nbmes which mby not hbve b nbmespbce bccording to the
+     * specificbtion mentioned bbove.
      *
-     * @param ns The true value turns namespace conformance on.
-     * @return The name has been read.
-     * @exception Exception When incorrect character appear in the name.
+     * @pbrbm ns The true vblue turns nbmespbce conformbnce on.
+     * @return The nbme hbs been rebd.
+     * @exception Exception When incorrect chbrbcter bppebr in the nbme.
      * @exception IOException
      */
-    protected String name(boolean ns)
+    protected String nbme(boolebn ns)
             throws Exception {
         mBuffIdx = -1;
-        bname(ns);
+        bnbme(ns);
         return new String(mBuff, 1, mBuffIdx);
     }
 
     /**
-     * Reads a qualified xml name.
+     * Rebds b qublified xml nbme.
      *
-     * The characters of a qualified name is an array of characters. The first
-     * (chars[0]) character is the index of the colon character which separates
-     * the prefix from the local name. If the index is zero, the name does not
-     * contain separator or the parser works in the namespace unaware mode. The
-     * length of qualified name is the length of the array minus one.
+     * The chbrbcters of b qublified nbme is bn brrby of chbrbcters. The first
+     * (chbrs[0]) chbrbcter is the index of the colon chbrbcter which sepbrbtes
+     * the prefix from the locbl nbme. If the index is zero, the nbme does not
+     * contbin sepbrbtor or the pbrser works in the nbmespbce unbwbre mode. The
+     * length of qublified nbme is the length of the brrby minus one.
      *
-     * @param ns The true value turns namespace conformance on.
-     * @return The characters of a qualified name.
-     * @exception Exception When incorrect character appear in the name.
+     * @pbrbm ns The true vblue turns nbmespbce conformbnce on.
+     * @return The chbrbcters of b qublified nbme.
+     * @exception Exception When incorrect chbrbcter bppebr in the nbme.
      * @exception IOException
      */
-    protected char[] qname(boolean ns)
+    protected chbr[] qnbme(boolebn ns)
             throws Exception {
         mBuffIdx = -1;
-        bname(ns);
-        char chars[] = new char[mBuffIdx + 1];
-        System.arraycopy(mBuff, 0, chars, 0, mBuffIdx + 1);
-        return chars;
+        bnbme(ns);
+        chbr chbrs[] = new chbr[mBuffIdx + 1];
+        System.brrbycopy(mBuff, 0, chbrs, 0, mBuffIdx + 1);
+        return chbrs;
     }
 
     /**
-     * Reads the public or/and system identifiers.
+     * Rebds the public or/bnd system identifiers.
      *
-     * @param inp The input object.
-     * @exception Exception is parser specific exception form panic method.
+     * @pbrbm inp The input object.
+     * @exception Exception is pbrser specific exception form pbnic method.
      * @exception IOException
      */
-    private void pubsys(Input inp)
+    privbte void pubsys(Input inp)
             throws Exception {
-        Pair pair = pubsys(' ');
-        inp.pubid = pair.name;
-        inp.sysid = pair.value;
-        del(pair);
+        Pbir pbir = pubsys(' ');
+        inp.pubid = pbir.nbme;
+        inp.sysid = pbir.vblue;
+        del(pbir);
     }
 
     /**
-     * Reads the public or/and system identifiers.
+     * Rebds the public or/bnd system identifiers.
      *
-     * @param flag The 'N' allows public id be without system id.
-     * @return The public or/and system identifiers pair.
-     * @exception Exception is parser specific exception form panic method.
+     * @pbrbm flbg The 'N' bllows public id be without system id.
+     * @return The public or/bnd system identifiers pbir.
+     * @exception Exception is pbrser specific exception form pbnic method.
      * @exception IOException
      */
-    @SuppressWarnings("fallthrough")
-    private Pair pubsys(char flag) throws Exception {
-        Pair ids = pair(null);
-        String str = name(false);
-        if ("PUBLIC".equals(str) == true) {
-            bqstr('i');  // non-CDATA normalization [#4.2.2]
-            ids.name = new String(mBuff, 1, mBuffIdx);
+    @SuppressWbrnings("fbllthrough")
+    privbte Pbir pubsys(chbr flbg) throws Exception {
+        Pbir ids = pbir(null);
+        String str = nbme(fblse);
+        if ("PUBLIC".equbls(str) == true) {
+            bqstr('i');  // non-CDATA normblizbtion [#4.2.2]
+            ids.nbme = new String(mBuff, 1, mBuffIdx);
             switch (wsskip()) {
-                case '\"':
-                case '\'':
+                cbse '\"':
+                cbse '\'':
                     bqstr(' ');
-                    ids.value = new String(mBuff, 1, mBuffIdx);
-                    break;
+                    ids.vblue = new String(mBuff, 1, mBuffIdx);
+                    brebk;
 
-                case EOS:
-                    panic(FAULT);
+                cbse EOS:
+                    pbnic(FAULT);
 
-                default:
-                    if (flag != 'N') // [#4.7]
+                defbult:
+                    if (flbg != 'N') // [#4.7]
                     {
-                        panic(FAULT);
+                        pbnic(FAULT);
                     }
-                    ids.value = null;
-                    break;
+                    ids.vblue = null;
+                    brebk;
             }
             return ids;
-        } else if ("SYSTEM".equals(str) == true) {
-            ids.name = null;
+        } else if ("SYSTEM".equbls(str) == true) {
+            ids.nbme = null;
             bqstr(' ');
-            ids.value = new String(mBuff, 1, mBuffIdx);
+            ids.vblue = new String(mBuff, 1, mBuffIdx);
             return ids;
         }
-        panic(FAULT);
+        pbnic(FAULT);
         return null;
     }
 
     /**
-     * Reads an attribute value.
+     * Rebds bn bttribute vblue.
      *
-     * The grammar which this method can read is:<br />
+     * The grbmmbr which this method cbn rebd is:<br />
      * <code>eqstr := S &quot;=&quot; qstr</code><br />
      * <code>qstr  := S (&quot;'&quot; string &quot;'&quot;) |
      *  ('&quot;' string '&quot;')</code><br /> This method resolves entities
-     * inside a string unless the parser parses DTD.
+     * inside b string unless the pbrser pbrses DTD.
      *
-     * @param flag The '=' character forces the method to accept the '='
-     * character before quoted string and read the following string as not an
-     * attribute ('-'), 'c' - CDATA, 'i' - non CDATA, ' ' - no normalization;
-     * '-' - not an attribute value; 'd' - in DTD context.
-     * @return The content of the quoted strign as a string.
-     * @exception Exception is parser specific exception form panic method.
+     * @pbrbm flbg The '=' chbrbcter forces the method to bccept the '='
+     * chbrbcter before quoted string bnd rebd the following string bs not bn
+     * bttribute ('-'), 'c' - CDATA, 'i' - non CDATA, ' ' - no normblizbtion;
+     * '-' - not bn bttribute vblue; 'd' - in DTD context.
+     * @return The content of the quoted strign bs b string.
+     * @exception Exception is pbrser specific exception form pbnic method.
      * @exception IOException
      */
-    protected String eqstr(char flag) throws Exception {
-        if (flag == '=') {
+    protected String eqstr(chbr flbg) throws Exception {
+        if (flbg == '=') {
             wsskip();
             if (getch() != '=') {
-                panic(FAULT);
+                pbnic(FAULT);
             }
         }
-        bqstr((flag == '=') ? '-' : flag);
+        bqstr((flbg == '=') ? '-' : flbg);
         return new String(mBuff, 1, mBuffIdx);
     }
 
     /**
-     * Resoves an entity.
+     * Resoves bn entity.
      *
-     * This method resolves built-in and character entity references. It is also
-     * reports external entities to the application.
+     * This method resolves built-in bnd chbrbcter entity references. It is blso
+     * reports externbl entities to the bpplicbtion.
      *
-     * @param flag The 'x' character forces the method to report a skipped
-     * entity; 'i' character - indicates non-CDATA normalization.
-     * @return Name of unresolved entity or <code>null</code> if entity had been
+     * @pbrbm flbg The 'x' chbrbcter forces the method to report b skipped
+     * entity; 'i' chbrbcter - indicbtes non-CDATA normblizbtion.
+     * @return Nbme of unresolved entity or <code>null</code> if entity hbd been
      * resolved successfully.
-     * @exception Exception is parser specific exception form panic method.
+     * @exception Exception is pbrser specific exception form pbnic method.
      * @exception IOException
      */
-    @SuppressWarnings("fallthrough")
-    private String ent(char flag) throws Exception {
-        char ch;
+    @SuppressWbrnings("fbllthrough")
+    privbte String ent(chbr flbg) throws Exception {
+        chbr ch;
         int idx = mBuffIdx + 1;
         Input inp = null;
         String str = null;
         mESt = 0x100;  // reset the built-in entity recognizer
-        bappend('&');
+        bbppend('&');
         for (short st = 0; st >= 0;) {
-            ch = (mChIdx < mChLen) ? mChars[mChIdx++] : getch();
+            ch = (mChIdx < mChLen) ? mChbrs[mChIdx++] : getch();
             switch (st) {
-                case 0:     // the first character of the entity name
-                case 1:     // read built-in entity name
+                cbse 0:     // the first chbrbcter of the entity nbme
+                cbse 1:     // rebd built-in entity nbme
                     switch (chtyp(ch)) {
-                        case 'd':
-                        case '.':
-                        case '-':
+                        cbse 'd':
+                        cbse '.':
+                        cbse '-':
                             if (st != 1) {
-                                panic(FAULT);
+                                pbnic(FAULT);
                             }
-                        case 'a':
-                        case 'A':
-                        case '_':
-                        case 'X':
-                            bappend(ch);
-                            eappend(ch);
+                        cbse 'b':
+                        cbse 'A':
+                        cbse '_':
+                        cbse 'X':
+                            bbppend(ch);
+                            ebppend(ch);
                             st = 1;
-                            break;
+                            brebk;
 
-                        case ':':
-                            if (mIsNSAware != false) {
-                                panic(FAULT);
+                        cbse ':':
+                            if (mIsNSAwbre != fblse) {
+                                pbnic(FAULT);
                             }
-                            bappend(ch);
-                            eappend(ch);
+                            bbppend(ch);
+                            ebppend(ch);
                             st = 1;
-                            break;
+                            brebk;
 
-                        case ';':
+                        cbse ';':
                             if (mESt < 0x100) {
-                                //              The entity is a built-in entity
+                                //              The entity is b built-in entity
                                 mBuffIdx = idx - 1;
-                                bappend(mESt);
+                                bbppend(mESt);
                                 st = -1;
-                                break;
+                                brebk;
                             } else if (mPh == PH_DTD) {
-                                //              In DTD entity declaration has to resolve character
-                                //              entities and include "as is" others. [#4.4.7]
-                                bappend(';');
+                                //              In DTD entity declbrbtion hbs to resolve chbrbcter
+                                //              entities bnd include "bs is" others. [#4.4.7]
+                                bbppend(';');
                                 st = -1;
-                                break;
+                                brebk;
                             }
-                            //          Convert an entity name to a string
+                            //          Convert bn entity nbme to b string
                             str = new String(mBuff, idx + 1, mBuffIdx - idx);
                             inp = mEnt.get(str);
                             //          Restore the buffer offset
                             mBuffIdx = idx - 1;
                             if (inp != null) {
-                                if (inp.chars == null) {
-                                    //          External entity
+                                if (inp.chbrs == null) {
+                                    //          Externbl entity
                                     InputSource is = resolveEnt(str, inp.pubid, inp.sysid);
                                     if (is != null) {
                                         push(new Input(BUFFSIZE_READER));
@@ -1947,113 +1947,113 @@ public abstract class Parser {
                                         mInp.sysid = inp.sysid;
                                         str = null;  // the entity is resolved
                                     } else {
-                                        //              Unresolved external entity
-                                        if (flag != 'x') {
-                                            panic(FAULT);  // unknown entity within marckup
-                                        }                                                               //              str is name of unresolved entity
+                                        //              Unresolved externbl entity
+                                        if (flbg != 'x') {
+                                            pbnic(FAULT);  // unknown entity within mbrckup
+                                        }                                                               //              str is nbme of unresolved entity
                                     }
                                 } else {
-                                    //          Internal entity
+                                    //          Internbl entity
                                     push(inp);
                                     str = null;  // the entity is resolved
                                 }
                             } else {
-                                //              Unknown or general unparsed entity
-                                if (flag != 'x') {
-                                    panic(FAULT);  // unknown entity within marckup
-                                }                                               //              str is name of unresolved entity
+                                //              Unknown or generbl unpbrsed entity
+                                if (flbg != 'x') {
+                                    pbnic(FAULT);  // unknown entity within mbrckup
+                                }                                               //              str is nbme of unresolved entity
                             }
                             st = -1;
-                            break;
+                            brebk;
 
-                        case '#':
+                        cbse '#':
                             if (st != 0) {
-                                panic(FAULT);
+                                pbnic(FAULT);
                             }
                             st = 2;
-                            break;
+                            brebk;
 
-                        default:
-                            panic(FAULT);
+                        defbult:
+                            pbnic(FAULT);
                     }
-                    break;
+                    brebk;
 
-                case 2:     // read character entity
+                cbse 2:     // rebd chbrbcter entity
                     switch (chtyp(ch)) {
-                        case 'd':
-                            bappend(ch);
-                            break;
+                        cbse 'd':
+                            bbppend(ch);
+                            brebk;
 
-                        case ';':
-                            //          Convert the character entity to a character
+                        cbse ';':
+                            //          Convert the chbrbcter entity to b chbrbcter
                             try {
-                                int i = Integer.parseInt(
+                                int i = Integer.pbrseInt(
                                         new String(mBuff, idx + 1, mBuffIdx - idx), 10);
                                 if (i >= 0xffff) {
-                                    panic(FAULT);
+                                    pbnic(FAULT);
                                 }
-                                ch = (char) i;
-                            } catch (NumberFormatException nfe) {
-                                panic(FAULT);
+                                ch = (chbr) i;
+                            } cbtch (NumberFormbtException nfe) {
+                                pbnic(FAULT);
                             }
                             //          Restore the buffer offset
                             mBuffIdx = idx - 1;
                             if (ch == ' ' || mInp.next != null) {
-                                bappend(ch, flag);
+                                bbppend(ch, flbg);
                             } else {
-                                bappend(ch);
+                                bbppend(ch);
                             }
                             st = -1;
-                            break;
+                            brebk;
 
-                        case 'a':
-                            //          If the entity buffer is empty and ch == 'x'
+                        cbse 'b':
+                            //          If the entity buffer is empty bnd ch == 'x'
                             if ((mBuffIdx == idx) && (ch == 'x')) {
                                 st = 3;
-                                break;
+                                brebk;
                             }
-                        default:
-                            panic(FAULT);
+                        defbult:
+                            pbnic(FAULT);
                     }
-                    break;
+                    brebk;
 
-                case 3:     // read hex character entity
+                cbse 3:     // rebd hex chbrbcter entity
                     switch (chtyp(ch)) {
-                        case 'A':
-                        case 'a':
-                        case 'd':
-                            bappend(ch);
-                            break;
+                        cbse 'A':
+                        cbse 'b':
+                        cbse 'd':
+                            bbppend(ch);
+                            brebk;
 
-                        case ';':
-                            //          Convert the character entity to a character
+                        cbse ';':
+                            //          Convert the chbrbcter entity to b chbrbcter
                             try {
-                                int i = Integer.parseInt(
+                                int i = Integer.pbrseInt(
                                         new String(mBuff, idx + 1, mBuffIdx - idx), 16);
                                 if (i >= 0xffff) {
-                                    panic(FAULT);
+                                    pbnic(FAULT);
                                 }
-                                ch = (char) i;
-                            } catch (NumberFormatException nfe) {
-                                panic(FAULT);
+                                ch = (chbr) i;
+                            } cbtch (NumberFormbtException nfe) {
+                                pbnic(FAULT);
                             }
                             //          Restore the buffer offset
                             mBuffIdx = idx - 1;
                             if (ch == ' ' || mInp.next != null) {
-                                bappend(ch, flag);
+                                bbppend(ch, flbg);
                             } else {
-                                bappend(ch);
+                                bbppend(ch);
                             }
                             st = -1;
-                            break;
+                            brebk;
 
-                        default:
-                            panic(FAULT);
+                        defbult:
+                            pbnic(FAULT);
                     }
-                    break;
+                    brebk;
 
-                default:
-                    panic(FAULT);
+                defbult:
+                    pbnic(FAULT);
             }
         }
 
@@ -2061,157 +2061,157 @@ public abstract class Parser {
     }
 
     /**
-     * Resoves a parameter entity.
+     * Resoves b pbrbmeter entity.
      *
-     * This method resolves a parameter entity references. It is also reports
-     * external entities to the application.
+     * This method resolves b pbrbmeter entity references. It is blso reports
+     * externbl entities to the bpplicbtion.
      *
-     * @param flag The '-' instruct the method to do not set up surrounding
-     * spaces [#4.4.8].
-     * @exception Exception is parser specific exception form panic method.
+     * @pbrbm flbg The '-' instruct the method to do not set up surrounding
+     * spbces [#4.4.8].
+     * @exception Exception is pbrser specific exception form pbnic method.
      * @exception IOException
      */
-    @SuppressWarnings("fallthrough")
-    private void pent(char flag) throws Exception {
-        char ch;
+    @SuppressWbrnings("fbllthrough")
+    privbte void pent(chbr flbg) throws Exception {
+        chbr ch;
         int idx = mBuffIdx + 1;
         Input inp = null;
         String str = null;
-        bappend('%');
-        if (mPh != PH_DTD) // the DTD internal subset
+        bbppend('%');
+        if (mPh != PH_DTD) // the DTD internbl subset
         {
             return;         // Not Recognized [#4.4.1]
-        }               //              Read entity name
-        bname(false);
+        }               //              Rebd entity nbme
+        bnbme(fblse);
         str = new String(mBuff, idx + 2, mBuffIdx - idx - 1);
         if (getch() != ';') {
-            panic(FAULT);
+            pbnic(FAULT);
         }
         inp = mPEnt.get(str);
         //              Restore the buffer offset
         mBuffIdx = idx - 1;
         if (inp != null) {
-            if (inp.chars == null) {
-                //              External parameter entity
+            if (inp.chbrs == null) {
+                //              Externbl pbrbmeter entity
                 InputSource is = resolveEnt(str, inp.pubid, inp.sysid);
                 if (is != null) {
-                    if (flag != '-') {
-                        bappend(' ');  // tail space
+                    if (flbg != '-') {
+                        bbppend(' ');  // tbil spbce
                     }
                     push(new Input(BUFFSIZE_READER));
-                    // BUG: there is no leading space! [#4.4.8]
+                    // BUG: there is no lebding spbce! [#4.4.8]
                     setinp(is);
                     mInp.pubid = inp.pubid;
                     mInp.sysid = inp.sysid;
                 } else {
-                    //          Unresolved external parameter entity
+                    //          Unresolved externbl pbrbmeter entity
                     skippedEnt("%" + str);
                 }
             } else {
-                //              Internal parameter entity
-                if (flag == '-') {
-                    //          No surrounding spaces
+                //              Internbl pbrbmeter entity
+                if (flbg == '-') {
+                    //          No surrounding spbces
                     inp.chIdx = 1;
                 } else {
-                    //          Insert surrounding spaces
-                    bappend(' ');  // tail space
+                    //          Insert surrounding spbces
+                    bbppend(' ');  // tbil spbce
                     inp.chIdx = 0;
                 }
                 push(inp);
             }
         } else {
-            //          Unknown parameter entity
+            //          Unknown pbrbmeter entity
             skippedEnt("%" + str);
         }
     }
 
     /**
-     * Recognizes and handles a namespace declaration.
+     * Recognizes bnd hbndles b nbmespbce declbrbtion.
      *
-     * This method identifies a type of namespace declaration if any and puts
-     * new mapping on top of prefix stack.
+     * This method identifies b type of nbmespbce declbrbtion if bny bnd puts
+     * new mbpping on top of prefix stbck.
      *
-     * @param name The attribute qualified name (<code>name.value</code> is a
-     * <code>String</code> object which represents the attribute prefix).
-     * @param value The attribute value.
-     * @return <code>true</code> if a namespace declaration is recognized.
+     * @pbrbm nbme The bttribute qublified nbme (<code>nbme.vblue</code> is b
+     * <code>String</code> object which represents the bttribute prefix).
+     * @pbrbm vblue The bttribute vblue.
+     * @return <code>true</code> if b nbmespbce declbrbtion is recognized.
      */
-    private boolean isdecl(Pair name, String value) {
-        if (name.chars[0] == 0) {
-            if ("xmlns".equals(name.name) == true) {
-                //              New default namespace declaration
-                mPref = pair(mPref);
+    privbte boolebn isdecl(Pbir nbme, String vblue) {
+        if (nbme.chbrs[0] == 0) {
+            if ("xmlns".equbls(nbme.nbme) == true) {
+                //              New defbult nbmespbce declbrbtion
+                mPref = pbir(mPref);
                 mPref.list = mElm;  // prefix owner element
-                mPref.value = value;
-                mPref.name = "";
-                mPref.chars = NONS;
-                mElm.num++;  // namespace counter
+                mPref.vblue = vblue;
+                mPref.nbme = "";
+                mPref.chbrs = NONS;
+                mElm.num++;  // nbmespbce counter
                 return true;
             }
         } else {
-            if (name.eqpref(XMLNS) == true) {
-                //              New prefix declaration
-                int len = name.name.length();
-                mPref = pair(mPref);
+            if (nbme.eqpref(XMLNS) == true) {
+                //              New prefix declbrbtion
+                int len = nbme.nbme.length();
+                mPref = pbir(mPref);
                 mPref.list = mElm;  // prefix owner element
-                mPref.value = value;
-                mPref.name = name.name;
-                mPref.chars = new char[len + 1];
-                mPref.chars[0] = (char) (len + 1);
-                name.name.getChars(0, len, mPref.chars, 1);
-                mElm.num++;  // namespace counter
+                mPref.vblue = vblue;
+                mPref.nbme = nbme.nbme;
+                mPref.chbrs = new chbr[len + 1];
+                mPref.chbrs[0] = (chbr) (len + 1);
+                nbme.nbme.getChbrs(0, len, mPref.chbrs, 1);
+                mElm.num++;  // nbmespbce counter
                 return true;
             }
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Resolves a prefix.
+     * Resolves b prefix.
      *
-     * @return The namespace assigned to the prefix.
-     * @exception Exception When mapping for specified prefix is not found.
+     * @return The nbmespbce bssigned to the prefix.
+     * @exception Exception When mbpping for specified prefix is not found.
      */
-    private String rslv(char[] qname)
+    privbte String rslv(chbr[] qnbme)
             throws Exception {
-        for (Pair pref = mPref; pref != null; pref = pref.next) {
-            if (pref.eqpref(qname) == true) {
-                return pref.value;
+        for (Pbir pref = mPref; pref != null; pref = pref.next) {
+            if (pref.eqpref(qnbme) == true) {
+                return pref.vblue;
             }
         }
-        if (qname[0] == 1) {  // QNames like ':local'
-            for (Pair pref = mPref; pref != null; pref = pref.next) {
-                if (pref.chars[0] == 0) {
-                    return pref.value;
+        if (qnbme[0] == 1) {  // QNbmes like ':locbl'
+            for (Pbir pref = mPref; pref != null; pref = pref.next) {
+                if (pref.chbrs[0] == 0) {
+                    return pref.vblue;
                 }
             }
         }
-        panic(FAULT);
+        pbnic(FAULT);
         return null;
     }
 
     /**
-     * Skips xml white space characters.
+     * Skips xml white spbce chbrbcters.
      *
-     * This method skips white space characters (' ', '\t', '\n', '\r') and
-     * looks ahead not white space character.
+     * This method skips white spbce chbrbcters (' ', '\t', '\n', '\r') bnd
+     * looks bhebd not white spbce chbrbcter.
      *
-     * @return The first not white space look ahead character.
+     * @return The first not white spbce look bhebd chbrbcter.
      * @exception IOException
      */
-    protected char wsskip()
+    protected chbr wsskip()
             throws IOException {
-        char ch;
+        chbr ch;
         while (true) {
-            //          Read next character
-            ch = (mChIdx < mChLen) ? mChars[mChIdx++] : getch();
+            //          Rebd next chbrbcter
+            ch = (mChIdx < mChLen) ? mChbrs[mChIdx++] : getch();
             if (ch < 0x80) {
                 if (nmttyp[ch] != 3) // [ \t\n\r]
                 {
-                    break;
+                    brebk;
                 }
             } else {
-                break;
+                brebk;
             }
         }
         mChIdx--;  // bkch();
@@ -2221,217 +2221,217 @@ public abstract class Parser {
     /**
      * Reports document type.
      *
-     * @param name The name of the entity.
-     * @param pubid The public identifier of the entity or <code>null</code>.
-     * @param sysid The system identifier of the entity or <code>null</code>.
+     * @pbrbm nbme The nbme of the entity.
+     * @pbrbm pubid The public identifier of the entity or <code>null</code>.
+     * @pbrbm sysid The system identifier of the entity or <code>null</code>.
      */
-    protected abstract void docType(String name, String pubid, String sysid)
+    protected bbstrbct void docType(String nbme, String pubid, String sysid)
             throws SAXException;
 
     /**
-     * Reports a comment.
+     * Reports b comment.
      *
-     * @param text The comment text starting from first charcater.
-     * @param length The number of characters in comment.
+     * @pbrbm text The comment text stbrting from first chbrcbter.
+     * @pbrbm length The number of chbrbcters in comment.
      */
-    protected abstract void comm(char[] text, int length);
+    protected bbstrbct void comm(chbr[] text, int length);
 
     /**
-     * Reports a processing instruction.
+     * Reports b processing instruction.
      *
-     * @param target The processing instruction target name.
-     * @param body The processing instruction body text.
+     * @pbrbm tbrget The processing instruction tbrget nbme.
+     * @pbrbm body The processing instruction body text.
      */
-    protected abstract void pi(String target, String body)
+    protected bbstrbct void pi(String tbrget, String body)
             throws Exception;
 
     /**
-     * Reports new namespace prefix. The Namespace prefix (
-     * <code>mPref.name</code>) being declared and the Namespace URI (
-     * <code>mPref.value</code>) the prefix is mapped to. An empty string is
-     * used for the default element namespace, which has no prefix.
+     * Reports new nbmespbce prefix. The Nbmespbce prefix (
+     * <code>mPref.nbme</code>) being declbred bnd the Nbmespbce URI (
+     * <code>mPref.vblue</code>) the prefix is mbpped to. An empty string is
+     * used for the defbult element nbmespbce, which hbs no prefix.
      */
-    protected abstract void newPrefix()
+    protected bbstrbct void newPrefix()
             throws Exception;
 
     /**
-     * Reports skipped entity name.
+     * Reports skipped entity nbme.
      *
-     * @param name The entity name.
+     * @pbrbm nbme The entity nbme.
      */
-    protected abstract void skippedEnt(String name)
+    protected bbstrbct void skippedEnt(String nbme)
             throws Exception;
 
     /**
-     * Returns an
+     * Returns bn
      * <code>InputSource</code> for specified entity or
      * <code>null</code>.
      *
-     * @param name The name of the entity.
-     * @param pubid The public identifier of the entity.
-     * @param sysid The system identifier of the entity.
+     * @pbrbm nbme The nbme of the entity.
+     * @pbrbm pubid The public identifier of the entity.
+     * @pbrbm sysid The system identifier of the entity.
      */
-    protected abstract InputSource resolveEnt(
-            String name, String pubid, String sysid)
+    protected bbstrbct InputSource resolveEnt(
+            String nbme, String pubid, String sysid)
             throws Exception;
 
     /**
-     * Reports notation declaration.
+     * Reports notbtion declbrbtion.
      *
-     * @param name The notation's name.
-     * @param pubid The notation's public identifier, or null if none was given.
-     * @param sysid The notation's system identifier, or null if none was given.
+     * @pbrbm nbme The notbtion's nbme.
+     * @pbrbm pubid The notbtion's public identifier, or null if none wbs given.
+     * @pbrbm sysid The notbtion's system identifier, or null if none wbs given.
      */
-    protected abstract void notDecl(String name, String pubid, String sysid)
+    protected bbstrbct void notDecl(String nbme, String pubid, String sysid)
             throws Exception;
 
     /**
-     * Reports unparsed entity name.
+     * Reports unpbrsed entity nbme.
      *
-     * @param name The unparsed entity's name.
-     * @param pubid The entity's public identifier, or null if none was given.
-     * @param sysid The entity's system identifier.
-     * @param notation The name of the associated notation.
+     * @pbrbm nbme The unpbrsed entity's nbme.
+     * @pbrbm pubid The entity's public identifier, or null if none wbs given.
+     * @pbrbm sysid The entity's system identifier.
+     * @pbrbm notbtion The nbme of the bssocibted notbtion.
      */
-    protected abstract void unparsedEntDecl(
-            String name, String pubid, String sysid, String notation)
+    protected bbstrbct void unpbrsedEntDecl(
+            String nbme, String pubid, String sysid, String notbtion)
             throws Exception;
 
     /**
-     * Notifies the handler about fatal parsing error.
+     * Notifies the hbndler bbout fbtbl pbrsing error.
      *
-     * @param msg The problem description message.
+     * @pbrbm msg The problem description messbge.
      */
-    protected abstract void panic(String msg)
+    protected bbstrbct void pbnic(String msg)
             throws Exception;
 
     /**
-     * Reads a qualified xml name.
+     * Rebds b qublified xml nbme.
      *
-     * This is low level routine which leaves a qName in the buffer. The
-     * characters of a qualified name is an array of characters. The first
-     * (chars[0]) character is the index of the colon character which separates
-     * the prefix from the local name. If the index is zero, the name does not
-     * contain separator or the parser works in the namespace unaware mode. The
-     * length of qualified name is the length of the array minus one.
+     * This is low level routine which lebves b qNbme in the buffer. The
+     * chbrbcters of b qublified nbme is bn brrby of chbrbcters. The first
+     * (chbrs[0]) chbrbcter is the index of the colon chbrbcter which sepbrbtes
+     * the prefix from the locbl nbme. If the index is zero, the nbme does not
+     * contbin sepbrbtor or the pbrser works in the nbmespbce unbwbre mode. The
+     * length of qublified nbme is the length of the brrby minus one.
      *
-     * @param ns The true value turns namespace conformance on.
-     * @exception Exception is parser specific exception form panic method.
+     * @pbrbm ns The true vblue turns nbmespbce conformbnce on.
+     * @exception Exception is pbrser specific exception form pbnic method.
      * @exception IOException
      */
-    private void bname(boolean ns)
+    privbte void bnbme(boolebn ns)
             throws Exception {
-        char ch;
-        char type;
-        mBuffIdx++;  // allocate a char for colon offset
-        int bqname = mBuffIdx;
-        int bcolon = bqname;
-        int bchidx = bqname + 1;
-        int bstart = bchidx;
-        int cstart = mChIdx;
+        chbr ch;
+        chbr type;
+        mBuffIdx++;  // bllocbte b chbr for colon offset
+        int bqnbme = mBuffIdx;
+        int bcolon = bqnbme;
+        int bchidx = bqnbme + 1;
+        int bstbrt = bchidx;
+        int cstbrt = mChIdx;
         short st = (short) ((ns == true) ? 0 : 2);
         while (true) {
-            //          Read next character
+            //          Rebd next chbrbcter
             if (mChIdx >= mChLen) {
-                bcopy(cstart, bstart);
+                bcopy(cstbrt, bstbrt);
                 getch();
                 mChIdx--;  // bkch();
-                cstart = mChIdx;
-                bstart = bchidx;
+                cstbrt = mChIdx;
+                bstbrt = bchidx;
             }
-            ch = mChars[mChIdx++];
-            type = (char) 0;  // [X]
+            ch = mChbrs[mChIdx++];
+            type = (chbr) 0;  // [X]
             if (ch < 0x80) {
-                type = (char) nmttyp[ch];
+                type = (chbr) nmttyp[ch];
             } else if (ch == EOS) {
-                panic(FAULT);
+                pbnic(FAULT);
             }
-            //          Parse QName
+            //          Pbrse QNbme
             switch (st) {
-                case 0:     // read the first char of the prefix
-                case 2:     // read the first char of the suffix
+                cbse 0:     // rebd the first chbr of the prefix
+                cbse 2:     // rebd the first chbr of the suffix
                     switch (type) {
-                        case 0:  // [aA_X]
-                            bchidx++;  // append char to the buffer
+                        cbse 0:  // [bA_X]
+                            bchidx++;  // bppend chbr to the buffer
                             st++;      // (st == 0)? 1: 3;
-                            break;
+                            brebk;
 
-                        case 1:  // [:]
+                        cbse 1:  // [:]
                             mChIdx--;  // bkch();
                             st++;      // (st == 0)? 1: 3;
-                            break;
+                            brebk;
 
-                        default:
-                            panic(FAULT);
+                        defbult:
+                            pbnic(FAULT);
                     }
-                    break;
+                    brebk;
 
-                case 1:     // read the prefix
-                case 3:     // read the suffix
+                cbse 1:     // rebd the prefix
+                cbse 3:     // rebd the suffix
                     switch (type) {
-                        case 0:  // [aA_X]
-                        case 2:  // [.-d]
-                            bchidx++;  // append char to the buffer
-                            break;
+                        cbse 0:  // [bA_X]
+                        cbse 2:  // [.-d]
+                            bchidx++;  // bppend chbr to the buffer
+                            brebk;
 
-                        case 1:  // [:]
-                            bchidx++;  // append char to the buffer
+                        cbse 1:  // [:]
+                            bchidx++;  // bppend chbr to the buffer
                             if (ns == true) {
-                                if (bcolon != bqname) {
-                                    panic(FAULT);  // it must be only one colon
+                                if (bcolon != bqnbme) {
+                                    pbnic(FAULT);  // it must be only one colon
                                 }
                                 bcolon = bchidx - 1;
                                 if (st == 1) {
                                     st = 2;
                                 }
                             }
-                            break;
+                            brebk;
 
-                        default:
+                        defbult:
                             mChIdx--;  // bkch();
-                            bcopy(cstart, bstart);
-                            mBuff[bqname] = (char) (bcolon - bqname);
+                            bcopy(cstbrt, bstbrt);
+                            mBuff[bqnbme] = (chbr) (bcolon - bqnbme);
                             return;
                     }
-                    break;
+                    brebk;
 
-                default:
-                    panic(FAULT);
+                defbult:
+                    pbnic(FAULT);
             }
         }
     }
 
     /**
-     * Reads a nmtoken.
+     * Rebds b nmtoken.
      *
-     * This is low level routine which leaves a nmtoken in the buffer.
+     * This is low level routine which lebves b nmtoken in the buffer.
      *
-     * @exception Exception is parser specific exception form panic method.
+     * @exception Exception is pbrser specific exception form pbnic method.
      * @exception IOException
      */
-    @SuppressWarnings("fallthrough")
-    private void bntok() throws Exception {
-        char ch;
+    @SuppressWbrnings("fbllthrough")
+    privbte void bntok() throws Exception {
+        chbr ch;
         mBuffIdx = -1;
-        bappend((char) 0);  // default offset to the colon char
+        bbppend((chbr) 0);  // defbult offset to the colon chbr
         while (true) {
             ch = getch();
             switch (chtyp(ch)) {
-                case 'a':
-                case 'A':
-                case 'd':
-                case '.':
-                case ':':
-                case '-':
-                case '_':
-                case 'X':
-                    bappend(ch);
-                    break;
+                cbse 'b':
+                cbse 'A':
+                cbse 'd':
+                cbse '.':
+                cbse ':':
+                cbse '-':
+                cbse '_':
+                cbse 'X':
+                    bbppend(ch);
+                    brebk;
 
-                case 'Z':
-                    panic(FAULT);
+                cbse 'Z':
+                    pbnic(FAULT);
 
-                default:
+                defbult:
                     bkch();
                     return;
             }
@@ -2439,456 +2439,456 @@ public abstract class Parser {
     }
 
     /**
-     * Recognizes a keyword.
+     * Recognizes b keyword.
      *
      * This is low level routine which recognizes one of keywords in the buffer.
      * Keyword Id ID - i IDREF - r IDREFS - R ENTITY - n ENTITIES - N NMTOKEN -
-     * t NMTOKENS - T ELEMENT - e ATTLIST - a NOTATION - o CDATA - c REQUIRED -
+     * t NMTOKENS - T ELEMENT - e ATTLIST - b NOTATION - o CDATA - c REQUIRED -
      * Q IMPLIED - I FIXED - F
      *
-     * @return an id of a keyword or '?'.
-     * @exception Exception is parser specific exception form panic method.
+     * @return bn id of b keyword or '?'.
+     * @exception Exception is pbrser specific exception form pbnic method.
      * @exception IOException
      */
-    private char bkeyword()
+    privbte chbr bkeyword()
             throws Exception {
         String str = new String(mBuff, 1, mBuffIdx);
         switch (str.length()) {
-            case 2:  // ID
-                return ("ID".equals(str) == true) ? 'i' : '?';
+            cbse 2:  // ID
+                return ("ID".equbls(str) == true) ? 'i' : '?';
 
-            case 5:  // IDREF, CDATA, FIXED
+            cbse 5:  // IDREF, CDATA, FIXED
                 switch (mBuff[1]) {
-                    case 'I':
-                        return ("IDREF".equals(str) == true) ? 'r' : '?';
-                    case 'C':
-                        return ("CDATA".equals(str) == true) ? 'c' : '?';
-                    case 'F':
-                        return ("FIXED".equals(str) == true) ? 'F' : '?';
-                    default:
-                        break;
+                    cbse 'I':
+                        return ("IDREF".equbls(str) == true) ? 'r' : '?';
+                    cbse 'C':
+                        return ("CDATA".equbls(str) == true) ? 'c' : '?';
+                    cbse 'F':
+                        return ("FIXED".equbls(str) == true) ? 'F' : '?';
+                    defbult:
+                        brebk;
                 }
-                break;
+                brebk;
 
-            case 6:  // IDREFS, ENTITY
+            cbse 6:  // IDREFS, ENTITY
                 switch (mBuff[1]) {
-                    case 'I':
-                        return ("IDREFS".equals(str) == true) ? 'R' : '?';
-                    case 'E':
-                        return ("ENTITY".equals(str) == true) ? 'n' : '?';
-                    default:
-                        break;
+                    cbse 'I':
+                        return ("IDREFS".equbls(str) == true) ? 'R' : '?';
+                    cbse 'E':
+                        return ("ENTITY".equbls(str) == true) ? 'n' : '?';
+                    defbult:
+                        brebk;
                 }
-                break;
+                brebk;
 
-            case 7:  // NMTOKEN, IMPLIED, ATTLIST, ELEMENT
+            cbse 7:  // NMTOKEN, IMPLIED, ATTLIST, ELEMENT
                 switch (mBuff[1]) {
-                    case 'I':
-                        return ("IMPLIED".equals(str) == true) ? 'I' : '?';
-                    case 'N':
-                        return ("NMTOKEN".equals(str) == true) ? 't' : '?';
-                    case 'A':
-                        return ("ATTLIST".equals(str) == true) ? 'a' : '?';
-                    case 'E':
-                        return ("ELEMENT".equals(str) == true) ? 'e' : '?';
-                    default:
-                        break;
+                    cbse 'I':
+                        return ("IMPLIED".equbls(str) == true) ? 'I' : '?';
+                    cbse 'N':
+                        return ("NMTOKEN".equbls(str) == true) ? 't' : '?';
+                    cbse 'A':
+                        return ("ATTLIST".equbls(str) == true) ? 'b' : '?';
+                    cbse 'E':
+                        return ("ELEMENT".equbls(str) == true) ? 'e' : '?';
+                    defbult:
+                        brebk;
                 }
-                break;
+                brebk;
 
-            case 8:  // ENTITIES, NMTOKENS, NOTATION, REQUIRED
+            cbse 8:  // ENTITIES, NMTOKENS, NOTATION, REQUIRED
                 switch (mBuff[2]) {
-                    case 'N':
-                        return ("ENTITIES".equals(str) == true) ? 'N' : '?';
-                    case 'M':
-                        return ("NMTOKENS".equals(str) == true) ? 'T' : '?';
-                    case 'O':
-                        return ("NOTATION".equals(str) == true) ? 'o' : '?';
-                    case 'E':
-                        return ("REQUIRED".equals(str) == true) ? 'Q' : '?';
-                    default:
-                        break;
+                    cbse 'N':
+                        return ("ENTITIES".equbls(str) == true) ? 'N' : '?';
+                    cbse 'M':
+                        return ("NMTOKENS".equbls(str) == true) ? 'T' : '?';
+                    cbse 'O':
+                        return ("NOTATION".equbls(str) == true) ? 'o' : '?';
+                    cbse 'E':
+                        return ("REQUIRED".equbls(str) == true) ? 'Q' : '?';
+                    defbult:
+                        brebk;
                 }
-                break;
+                brebk;
 
-            default:
-                break;
+            defbult:
+                brebk;
         }
         return '?';
     }
 
     /**
-     * Reads a single or double quotted string in to the buffer.
+     * Rebds b single or double quotted string in to the buffer.
      *
-     * This method resolves entities inside a string unless the parser parses
+     * This method resolves entities inside b string unless the pbrser pbrses
      * DTD.
      *
-     * @param flag 'c' - CDATA, 'i' - non CDATA, ' ' - no normalization; '-' -
-     * not an attribute value; 'd' - in DTD context.
-     * @exception Exception is parser specific exception form panic method.
+     * @pbrbm flbg 'c' - CDATA, 'i' - non CDATA, ' ' - no normblizbtion; '-' -
+     * not bn bttribute vblue; 'd' - in DTD context.
+     * @exception Exception is pbrser specific exception form pbnic method.
      * @exception IOException
      */
-    @SuppressWarnings("fallthrough")
-    private void bqstr(char flag) throws Exception {
-        Input inp = mInp;  // remember the original input
+    @SuppressWbrnings("fbllthrough")
+    privbte void bqstr(chbr flbg) throws Exception {
+        Input inp = mInp;  // remember the originbl input
         mBuffIdx = -1;
-        bappend((char) 0);  // default offset to the colon char
-        char ch;
+        bbppend((chbr) 0);  // defbult offset to the colon chbr
+        chbr ch;
         for (short st = 0; st >= 0;) {
-            ch = (mChIdx < mChLen) ? mChars[mChIdx++] : getch();
+            ch = (mChIdx < mChLen) ? mChbrs[mChIdx++] : getch();
             switch (st) {
-                case 0:     // read a single or double quote
+                cbse 0:     // rebd b single or double quote
                     switch (ch) {
-                        case ' ':
-                        case '\n':
-                        case '\r':
-                        case '\t':
-                            break;
+                        cbse ' ':
+                        cbse '\n':
+                        cbse '\r':
+                        cbse '\t':
+                            brebk;
 
-                        case '\'':
-                            st = 2;  // read a single quoted string
-                            break;
+                        cbse '\'':
+                            st = 2;  // rebd b single quoted string
+                            brebk;
 
-                        case '\"':
-                            st = 3;  // read a double quoted string
-                            break;
+                        cbse '\"':
+                            st = 3;  // rebd b double quoted string
+                            brebk;
 
-                        default:
-                            panic(FAULT);
-                            break;
+                        defbult:
+                            pbnic(FAULT);
+                            brebk;
                     }
-                    break;
+                    brebk;
 
-                case 2:     // read a single quoted string
-                case 3:     // read a double quoted string
+                cbse 2:     // rebd b single quoted string
+                cbse 3:     // rebd b double quoted string
                     switch (ch) {
-                        case '\'':
+                        cbse '\'':
                             if ((st == 2) && (mInp == inp)) {
                                 st = -1;
                             } else {
-                                bappend(ch);
+                                bbppend(ch);
                             }
-                            break;
+                            brebk;
 
-                        case '\"':
+                        cbse '\"':
                             if ((st == 3) && (mInp == inp)) {
                                 st = -1;
                             } else {
-                                bappend(ch);
+                                bbppend(ch);
                             }
-                            break;
+                            brebk;
 
-                        case '&':
-                            if (flag != 'd') {
-                                ent(flag);
+                        cbse '&':
+                            if (flbg != 'd') {
+                                ent(flbg);
                             } else {
-                                bappend(ch);
+                                bbppend(ch);
                             }
-                            break;
+                            brebk;
 
-                        case '%':
-                            if (flag == 'd') {
+                        cbse '%':
+                            if (flbg == 'd') {
                                 pent('-');
                             } else {
-                                bappend(ch);
+                                bbppend(ch);
                             }
-                            break;
+                            brebk;
 
-                        case '<':
-                            if ((flag == '-') || (flag == 'd')) {
-                                bappend(ch);
+                        cbse '<':
+                            if ((flbg == '-') || (flbg == 'd')) {
+                                bbppend(ch);
                             } else {
-                                panic(FAULT);
+                                pbnic(FAULT);
                             }
-                            break;
+                            brebk;
 
-                        case EOS:               // EOS before single/double quote
-                            panic(FAULT);
+                        cbse EOS:               // EOS before single/double quote
+                            pbnic(FAULT);
 
-                        case '\r':     // EOL processing [#2.11 & #3.3.3]
-                            if (flag != ' ' && mInp.next == null) {
+                        cbse '\r':     // EOL processing [#2.11 & #3.3.3]
+                            if (flbg != ' ' && mInp.next == null) {
                                 if (getch() != '\n') {
                                     bkch();
                                 }
                                 ch = '\n';
                             }
-                        default:
-                            bappend(ch, flag);
-                            break;
+                        defbult:
+                            bbppend(ch, flbg);
+                            brebk;
                     }
-                    break;
+                    brebk;
 
-                default:
-                    panic(FAULT);
+                defbult:
+                    pbnic(FAULT);
             }
         }
-        //              There is maximum one space at the end of the string in
-        //              i-mode (non CDATA normalization) and it has to be removed.
-        if ((flag == 'i') && (mBuff[mBuffIdx] == ' ')) {
+        //              There is mbximum one spbce bt the end of the string in
+        //              i-mode (non CDATA normblizbtion) bnd it hbs to be removed.
+        if ((flbg == 'i') && (mBuff[mBuffIdx] == ' ')) {
             mBuffIdx -= 1;
         }
     }
 
     /**
-     * Reports characters and empties the parser's buffer. This method is called
-     * only if parser is going to return control to the main loop. This means
-     * that this method may use parser buffer to report white space without
-     * copeing characters to temporary buffer.
+     * Reports chbrbcters bnd empties the pbrser's buffer. This method is cblled
+     * only if pbrser is going to return control to the mbin loop. This mebns
+     * thbt this method mby use pbrser buffer to report white spbce without
+     * copeing chbrbcters to temporbry buffer.
      */
-    protected abstract void bflash()
+    protected bbstrbct void bflbsh()
             throws Exception;
 
     /**
-     * Reports white space characters and empties the parser's buffer. This
-     * method is called only if parser is going to return control to the main
-     * loop. This means that this method may use parser buffer to report white
-     * space without copeing characters to temporary buffer.
+     * Reports white spbce chbrbcters bnd empties the pbrser's buffer. This
+     * method is cblled only if pbrser is going to return control to the mbin
+     * loop. This mebns thbt this method mby use pbrser buffer to report white
+     * spbce without copeing chbrbcters to temporbry buffer.
      */
-    protected abstract void bflash_ws()
+    protected bbstrbct void bflbsh_ws()
             throws Exception;
 
     /**
-     * Appends a character to parser's buffer with normalization.
+     * Appends b chbrbcter to pbrser's buffer with normblizbtion.
      *
-     * @param ch The character to append to the buffer.
-     * @param mode The normalization mode.
+     * @pbrbm ch The chbrbcter to bppend to the buffer.
+     * @pbrbm mode The normblizbtion mode.
      */
-    private void bappend(char ch, char mode) {
-        //              This implements attribute value normalization as
-        //              described in the XML specification [#3.3.3].
+    privbte void bbppend(chbr ch, chbr mode) {
+        //              This implements bttribute vblue normblizbtion bs
+        //              described in the XML specificbtion [#3.3.3].
         switch (mode) {
-            case 'i':  // non CDATA normalization
+            cbse 'i':  // non CDATA normblizbtion
                 switch (ch) {
-                    case ' ':
-                    case '\n':
-                    case '\r':
-                    case '\t':
+                    cbse ' ':
+                    cbse '\n':
+                    cbse '\r':
+                    cbse '\t':
                         if ((mBuffIdx > 0) && (mBuff[mBuffIdx] != ' ')) {
-                            bappend(' ');
+                            bbppend(' ');
                         }
                         return;
 
-                    default:
-                        break;
+                    defbult:
+                        brebk;
                 }
-                break;
+                brebk;
 
-            case 'c':  // CDATA normalization
+            cbse 'c':  // CDATA normblizbtion
                 switch (ch) {
-                    case '\n':
-                    case '\r':
-                    case '\t':
+                    cbse '\n':
+                    cbse '\r':
+                    cbse '\t':
                         ch = ' ';
-                        break;
+                        brebk;
 
-                    default:
-                        break;
+                    defbult:
+                        brebk;
                 }
-                break;
+                brebk;
 
-            default:  // no normalization
-                break;
+            defbult:  // no normblizbtion
+                brebk;
         }
         mBuffIdx++;
         if (mBuffIdx < mBuff.length) {
             mBuff[mBuffIdx] = ch;
         } else {
             mBuffIdx--;
-            bappend(ch);
+            bbppend(ch);
         }
     }
 
     /**
-     * Appends a character to parser's buffer.
+     * Appends b chbrbcter to pbrser's buffer.
      *
-     * @param ch The character to append to the buffer.
+     * @pbrbm ch The chbrbcter to bppend to the buffer.
      */
-    private void bappend(char ch) {
+    privbte void bbppend(chbr ch) {
         try {
             mBuff[++mBuffIdx] = ch;
-        } catch (Exception exp) {
+        } cbtch (Exception exp) {
             //          Double the buffer size
-            char buff[] = new char[mBuff.length << 1];
-            System.arraycopy(mBuff, 0, buff, 0, mBuff.length);
+            chbr buff[] = new chbr[mBuff.length << 1];
+            System.brrbycopy(mBuff, 0, buff, 0, mBuff.length);
             mBuff = buff;
             mBuff[mBuffIdx] = ch;
         }
     }
 
     /**
-     * Appends (mChIdx - cidx) characters from character buffer (mChars) to
-     * parser's buffer (mBuff).
+     * Appends (mChIdx - cidx) chbrbcters from chbrbcter buffer (mChbrs) to
+     * pbrser's buffer (mBuff).
      *
-     * @param cidx The character buffer (mChars) start index.
-     * @param bidx The parser buffer (mBuff) start index.
+     * @pbrbm cidx The chbrbcter buffer (mChbrs) stbrt index.
+     * @pbrbm bidx The pbrser buffer (mBuff) stbrt index.
      */
-    private void bcopy(int cidx, int bidx) {
+    privbte void bcopy(int cidx, int bidx) {
         int length = mChIdx - cidx;
         if ((bidx + length + 1) >= mBuff.length) {
-            //          Expand the buffer
-            char buff[] = new char[mBuff.length + length];
-            System.arraycopy(mBuff, 0, buff, 0, mBuff.length);
+            //          Expbnd the buffer
+            chbr buff[] = new chbr[mBuff.length + length];
+            System.brrbycopy(mBuff, 0, buff, 0, mBuff.length);
             mBuff = buff;
         }
-        System.arraycopy(mChars, cidx, mBuff, bidx, length);
+        System.brrbycopy(mChbrs, cidx, mBuff, bidx, length);
         mBuffIdx += length;
     }
 
     /**
-     * Recognizes the built-in entities <i>lt</i>, <i>gt</i>, <i>amp</i>,
-     * <i>apos</i>, <i>quot</i>. The initial state is 0x100. Any state belowe
-     * 0x100 is a built-in entity replacement character.
+     * Recognizes the built-in entities <i>lt</i>, <i>gt</i>, <i>bmp</i>,
+     * <i>bpos</i>, <i>quot</i>. The initibl stbte is 0x100. Any stbte belowe
+     * 0x100 is b built-in entity replbcement chbrbcter.
      *
-     * @param ch the next character of an entity name.
+     * @pbrbm ch the next chbrbcter of bn entity nbme.
      */
-    @SuppressWarnings("fallthrough")
-    private void eappend(char ch) {
+    @SuppressWbrnings("fbllthrough")
+    privbte void ebppend(chbr ch) {
         switch (mESt) {
-            case 0x100:  // "l" or "g" or "a" or "q"
+            cbse 0x100:  // "l" or "g" or "b" or "q"
                 switch (ch) {
-                    case 'l':
+                    cbse 'l':
                         mESt = 0x101;
-                        break;
-                    case 'g':
+                        brebk;
+                    cbse 'g':
                         mESt = 0x102;
-                        break;
-                    case 'a':
+                        brebk;
+                    cbse 'b':
                         mESt = 0x103;
-                        break;
-                    case 'q':
+                        brebk;
+                    cbse 'q':
                         mESt = 0x107;
-                        break;
-                    default:
+                        brebk;
+                    defbult:
                         mESt = 0x200;
-                        break;
+                        brebk;
                 }
-                break;
+                brebk;
 
-            case 0x101:  // "lt"
-                mESt = (ch == 't') ? '<' : (char) 0x200;
-                break;
+            cbse 0x101:  // "lt"
+                mESt = (ch == 't') ? '<' : (chbr) 0x200;
+                brebk;
 
-            case 0x102:  // "gt"
-                mESt = (ch == 't') ? '>' : (char) 0x200;
-                break;
+            cbse 0x102:  // "gt"
+                mESt = (ch == 't') ? '>' : (chbr) 0x200;
+                brebk;
 
-            case 0x103:  // "am" or "ap"
+            cbse 0x103:  // "bm" or "bp"
                 switch (ch) {
-                    case 'm':
+                    cbse 'm':
                         mESt = 0x104;
-                        break;
-                    case 'p':
+                        brebk;
+                    cbse 'p':
                         mESt = 0x105;
-                        break;
-                    default:
+                        brebk;
+                    defbult:
                         mESt = 0x200;
-                        break;
+                        brebk;
                 }
-                break;
+                brebk;
 
-            case 0x104:  // "amp"
-                mESt = (ch == 'p') ? '&' : (char) 0x200;
-                break;
+            cbse 0x104:  // "bmp"
+                mESt = (ch == 'p') ? '&' : (chbr) 0x200;
+                brebk;
 
-            case 0x105:  // "apo"
-                mESt = (ch == 'o') ? (char) 0x106 : (char) 0x200;
-                break;
+            cbse 0x105:  // "bpo"
+                mESt = (ch == 'o') ? (chbr) 0x106 : (chbr) 0x200;
+                brebk;
 
-            case 0x106:  // "apos"
-                mESt = (ch == 's') ? '\'' : (char) 0x200;
-                break;
+            cbse 0x106:  // "bpos"
+                mESt = (ch == 's') ? '\'' : (chbr) 0x200;
+                brebk;
 
-            case 0x107:  // "qu"
-                mESt = (ch == 'u') ? (char) 0x108 : (char) 0x200;
-                break;
+            cbse 0x107:  // "qu"
+                mESt = (ch == 'u') ? (chbr) 0x108 : (chbr) 0x200;
+                brebk;
 
-            case 0x108:  // "quo"
-                mESt = (ch == 'o') ? (char) 0x109 : (char) 0x200;
-                break;
+            cbse 0x108:  // "quo"
+                mESt = (ch == 'o') ? (chbr) 0x109 : (chbr) 0x200;
+                brebk;
 
-            case 0x109:  // "quot"
-                mESt = (ch == 't') ? '\"' : (char) 0x200;
-                break;
+            cbse 0x109:  // "quot"
+                mESt = (ch == 't') ? '\"' : (chbr) 0x200;
+                brebk;
 
-            case '<':   // "lt"
-            case '>':   // "gt"
-            case '&':   // "amp"
-            case '\'':  // "apos"
-            case '\"':  // "quot"
+            cbse '<':   // "lt"
+            cbse '>':   // "gt"
+            cbse '&':   // "bmp"
+            cbse '\'':  // "bpos"
+            cbse '\"':  // "quot"
                 mESt = 0x200;
-            default:
-                break;
+            defbult:
+                brebk;
         }
     }
 
     /**
-     * Sets up a new input source on the top of the input stack. Note, the first
-     * byte returned by the entity's byte stream has to be the first byte in the
-     * entity. However, the parser does not expect the byte order mask in both
-     * cases when encoding is provided by the input source.
+     * Sets up b new input source on the top of the input stbck. Note, the first
+     * byte returned by the entity's byte strebm hbs to be the first byte in the
+     * entity. However, the pbrser does not expect the byte order mbsk in both
+     * cbses when encoding is provided by the input source.
      *
-     * @param is A new input source to set up.
-     * @exception IOException If any IO errors occur.
-     * @exception Exception is parser specific exception form panic method.
+     * @pbrbm is A new input source to set up.
+     * @exception IOException If bny IO errors occur.
+     * @exception Exception is pbrser specific exception form pbnic method.
      */
     protected void setinp(InputSource is)
             throws Exception {
-        Reader reader = null;
+        Rebder rebder = null;
         mChIdx = 0;
         mChLen = 0;
-        mChars = mInp.chars;
+        mChbrs = mInp.chbrs;
         mInp.src = null;
         if (mPh < PH_DOC_START) {
-            mIsSAlone = false;  // default [#2.9]
+            mIsSAlone = fblse;  // defbult [#2.9]
         }
-        mIsSAloneSet = false;
-        if (is.getCharacterStream() != null) {
+        mIsSAloneSet = fblse;
+        if (is.getChbrbcterStrebm() != null) {
             //          Ignore encoding in the xml text decl.
-            reader = is.getCharacterStream();
-            xml(reader);
-        } else if (is.getByteStream() != null) {
+            rebder = is.getChbrbcterStrebm();
+            xml(rebder);
+        } else if (is.getByteStrebm() != null) {
             String expenc;
             if (is.getEncoding() != null) {
                 //              Ignore encoding in the xml text decl.
-                expenc = is.getEncoding().toUpperCase();
-                if (expenc.equals("UTF-16")) {
-                    reader = bom(is.getByteStream(), 'U');  // UTF-16 [#4.3.3]
+                expenc = is.getEncoding().toUpperCbse();
+                if (expenc.equbls("UTF-16")) {
+                    rebder = bom(is.getByteStrebm(), 'U');  // UTF-16 [#4.3.3]
                 } else {
-                    reader = enc(expenc, is.getByteStream());
+                    rebder = enc(expenc, is.getByteStrebm());
                 }
-                xml(reader);
+                xml(rebder);
             } else {
                 //              Get encoding from BOM or the xml text decl.
-                reader = bom(is.getByteStream(), ' ');
+                rebder = bom(is.getByteStrebm(), ' ');
                 /**
                  * [#4.3.3] requires BOM for UTF-16, however, it's not uncommon
-                 * that it may be missing. A mature technique exists in Xerces
+                 * thbt it mby be missing. A mbture technique exists in Xerces
                  * to further check for possible UTF-16 encoding
                  */
-                if (reader == null) {
-                    reader = utf16(is.getByteStream());
+                if (rebder == null) {
+                    rebder = utf16(is.getByteStrebm());
                 }
 
-                if (reader == null) {
+                if (rebder == null) {
                     //          Encoding is defined by the xml text decl.
-                    reader = enc("UTF-8", is.getByteStream());
-                    expenc = xml(reader);
-                    if (!expenc.equals("UTF-8")) {
-                        if (expenc.startsWith("UTF-16")) {
-                            panic(FAULT);  // UTF-16 must have BOM [#4.3.3]
+                    rebder = enc("UTF-8", is.getByteStrebm());
+                    expenc = xml(rebder);
+                    if (!expenc.equbls("UTF-8")) {
+                        if (expenc.stbrtsWith("UTF-16")) {
+                            pbnic(FAULT);  // UTF-16 must hbve BOM [#4.3.3]
                         }
-                        reader = enc(expenc, is.getByteStream());
+                        rebder = enc(expenc, is.getByteStrebm());
                     }
                 } else {
                     //          Encoding is defined by the BOM.
-                    xml(reader);
+                    xml(rebder);
                 }
             }
         } else {
             //          There is no support for public/system identifiers.
-            panic(FAULT);
+            pbnic(FAULT);
         }
-        mInp.src = reader;
+        mInp.src = rebder;
         mInp.pubid = is.getPublicId();
         mInp.sysid = is.getSystemId();
     }
@@ -2896,72 +2896,72 @@ public abstract class Parser {
     /**
      * Determines the entity encoding.
      *
-     * This method gets encoding from Byte Order Mask [#4.3.3] if any. Note, the
-     * first byte returned by the entity's byte stream has to be the first byte
+     * This method gets encoding from Byte Order Mbsk [#4.3.3] if bny. Note, the
+     * first byte returned by the entity's byte strebm hbs to be the first byte
      * in the entity. Also, there is no support for UCS-4.
      *
-     * @param is A byte stream of the entity.
-     * @param hint An encoding hint, character U means UTF-16.
-     * @return a reader constructed from the BOM or UTF-8 by default.
-     * @exception Exception is parser specific exception form panic method.
+     * @pbrbm is A byte strebm of the entity.
+     * @pbrbm hint An encoding hint, chbrbcter U mebns UTF-16.
+     * @return b rebder constructed from the BOM or UTF-8 by defbult.
+     * @exception Exception is pbrser specific exception form pbnic method.
      * @exception IOException
      */
-    private Reader bom(InputStream is, char hint)
+    privbte Rebder bom(InputStrebm is, chbr hint)
             throws Exception {
-        int val = is.read();
-        switch (val) {
-            case 0xef:     // UTF-8
+        int vbl = is.rebd();
+        switch (vbl) {
+            cbse 0xef:     // UTF-8
                 if (hint == 'U') // must be UTF-16
                 {
-                    panic(FAULT);
+                    pbnic(FAULT);
                 }
-                if (is.read() != 0xbb) {
-                    panic(FAULT);
+                if (is.rebd() != 0xbb) {
+                    pbnic(FAULT);
                 }
-                if (is.read() != 0xbf) {
-                    panic(FAULT);
+                if (is.rebd() != 0xbf) {
+                    pbnic(FAULT);
                 }
-                return new ReaderUTF8(is);
+                return new RebderUTF8(is);
 
-            case 0xfe:     // UTF-16, big-endian
-                if (is.read() != 0xff) {
-                    panic(FAULT);
+            cbse 0xfe:     // UTF-16, big-endibn
+                if (is.rebd() != 0xff) {
+                    pbnic(FAULT);
                 }
-                return new ReaderUTF16(is, 'b');
+                return new RebderUTF16(is, 'b');
 
-            case 0xff:     // UTF-16, little-endian
-                if (is.read() != 0xfe) {
-                    panic(FAULT);
+            cbse 0xff:     // UTF-16, little-endibn
+                if (is.rebd() != 0xfe) {
+                    pbnic(FAULT);
                 }
-                return new ReaderUTF16(is, 'l');
+                return new RebderUTF16(is, 'l');
 
-            case -1:
-                mChars[mChIdx++] = EOS;
-                return new ReaderUTF8(is);
+            cbse -1:
+                mChbrs[mChIdx++] = EOS;
+                return new RebderUTF8(is);
 
-            default:
+            defbult:
                 if (hint == 'U') // must be UTF-16
                 {
-                    panic(FAULT);
+                    pbnic(FAULT);
                 }
-                //              Read the rest of UTF-8 character
-                switch (val & 0xf0) {
-                    case 0xc0:
-                    case 0xd0:
-                        mChars[mChIdx++] = (char) (((val & 0x1f) << 6) | (is.read() & 0x3f));
-                        break;
+                //              Rebd the rest of UTF-8 chbrbcter
+                switch (vbl & 0xf0) {
+                    cbse 0xc0:
+                    cbse 0xd0:
+                        mChbrs[mChIdx++] = (chbr) (((vbl & 0x1f) << 6) | (is.rebd() & 0x3f));
+                        brebk;
 
-                    case 0xe0:
-                        mChars[mChIdx++] = (char) (((val & 0x0f) << 12)
-                                | ((is.read() & 0x3f) << 6) | (is.read() & 0x3f));
-                        break;
+                    cbse 0xe0:
+                        mChbrs[mChIdx++] = (chbr) (((vbl & 0x0f) << 12)
+                                | ((is.rebd() & 0x3f) << 6) | (is.rebd() & 0x3f));
+                        brebk;
 
-                    case 0xf0:  // UCS-4 character
+                    cbse 0xf0:  // UCS-4 chbrbcter
                         throw new UnsupportedEncodingException();
 
-                    default:
-                        mChars[mChIdx++] = (char) val;
-                        break;
+                    defbult:
+                        mChbrs[mChIdx++] = (chbr) vbl;
+                        brebk;
                 }
                 return null;
         }
@@ -2969,41 +2969,41 @@ public abstract class Parser {
 
 
     /**
-     * Using a mature technique from Xerces, this method checks further after
-     * the bom method above to see if the encoding is UTF-16
+     * Using b mbture technique from Xerces, this method checks further bfter
+     * the bom method bbove to see if the encoding is UTF-16
      *
-     * @param is A byte stream of the entity.
-     * @return a reader, may be null
-     * @exception Exception is parser specific exception form panic method.
+     * @pbrbm is A byte strebm of the entity.
+     * @return b rebder, mby be null
+     * @exception Exception is pbrser specific exception form pbnic method.
      * @exception IOException
      */
-    private Reader utf16(InputStream is)
+    privbte Rebder utf16(InputStrebm is)
             throws Exception {
         if (mChIdx != 0) {
-            //The bom method has read ONE byte into the buffer.
-            byte b0 = (byte)mChars[0];
+            //The bom method hbs rebd ONE byte into the buffer.
+            byte b0 = (byte)mChbrs[0];
             if (b0 == 0x00 || b0 == 0x3C) {
-                int b1 = is.read();
-                int b2 = is.read();
-                int b3 = is.read();
+                int b1 = is.rebd();
+                int b2 = is.rebd();
+                int b3 = is.rebd();
                 if (b0 == 0x00 && b1 == 0x3C && b2 == 0x00 && b3 == 0x3F) {
-                    // UTF-16, big-endian, no BOM
-                    mChars[0] = (char)(b1);
-                    mChars[mChIdx++] = (char)(b3);
-                    return new ReaderUTF16(is, 'b');
+                    // UTF-16, big-endibn, no BOM
+                    mChbrs[0] = (chbr)(b1);
+                    mChbrs[mChIdx++] = (chbr)(b3);
+                    return new RebderUTF16(is, 'b');
                 } else if (b0 == 0x3C && b1 == 0x00 && b2 == 0x3F && b3 == 0x00) {
-                    // UTF-16, little-endian, no BOM
-                    mChars[0] = (char)(b0);
-                    mChars[mChIdx++] = (char)(b2);
-                    return new ReaderUTF16(is, 'l');
+                    // UTF-16, little-endibn, no BOM
+                    mChbrs[0] = (chbr)(b0);
+                    mChbrs[mChIdx++] = (chbr)(b2);
+                    return new RebderUTF16(is, 'l');
                 } else {
-                    /**not every InputStream supports reset, so we have to remember
-                     * the state for further parsing
+                    /**not every InputStrebm supports reset, so we hbve to remember
+                     * the stbte for further pbrsing
                     **/
-                    mChars[0] = (char)(b0);
-                    mChars[mChIdx++] = (char)(b1);
-                    mChars[mChIdx++] = (char)(b2);
-                    mChars[mChIdx++] = (char)(b3);
+                    mChbrs[0] = (chbr)(b0);
+                    mChbrs[mChIdx++] = (chbr)(b1);
+                    mChbrs[mChIdx++] = (chbr)(b2);
+                    mChbrs[mChIdx++] = (chbr)(b3);
                 }
 
             }
@@ -3011,326 +3011,326 @@ public abstract class Parser {
         return null;
     }
     /**
-     * Parses the xml text declaration.
+     * Pbrses the xml text declbrbtion.
      *
-     * This method gets encoding from the xml text declaration [#4.3.1] if any.
-     * The method assumes the buffer (mChars) is big enough to accommodate whole
-     * xml text declaration.
+     * This method gets encoding from the xml text declbrbtion [#4.3.1] if bny.
+     * The method bssumes the buffer (mChbrs) is big enough to bccommodbte whole
+     * xml text declbrbtion.
      *
-     * @param reader is entity reader.
-     * @return The xml text declaration encoding or default UTF-8 encoding.
-     * @exception Exception is parser specific exception form panic method.
+     * @pbrbm rebder is entity rebder.
+     * @return The xml text declbrbtion encoding or defbult UTF-8 encoding.
+     * @exception Exception is pbrser specific exception form pbnic method.
      * @exception IOException
      */
-    private String xml(Reader reader)
+    privbte String xml(Rebder rebder)
             throws Exception {
         String str = null;
         String enc = "UTF-8";
-        char ch;
-        int val;
+        chbr ch;
+        int vbl;
         short st = 0;
-        int byteRead =  mChIdx; //number of bytes read prior to entering this method
+        int byteRebd =  mChIdx; //number of bytes rebd prior to entering this method
 
-        while (st >= 0 && mChIdx < mChars.length) {
-            if (st < byteRead) {
-                ch = mChars[st];
+        while (st >= 0 && mChIdx < mChbrs.length) {
+            if (st < byteRebd) {
+                ch = mChbrs[st];
             } else {
-                ch = ((val = reader.read()) >= 0) ? (char) val : EOS;
-                mChars[mChIdx++] = ch;
+                ch = ((vbl = rebder.rebd()) >= 0) ? (chbr) vbl : EOS;
+                mChbrs[mChIdx++] = ch;
             }
 
             switch (st) {
-                case 0:     // read '<' of xml declaration
+                cbse 0:     // rebd '<' of xml declbrbtion
                     switch (ch) {
-                        case '<':
+                        cbse '<':
                             st = 1;
-                            break;
+                            brebk;
 
-                        case 0xfeff:    // the byte order mask
-                            ch = ((val = reader.read()) >= 0) ? (char) val : EOS;
-                            mChars[mChIdx - 1] = ch;
+                        cbse 0xfeff:    // the byte order mbsk
+                            ch = ((vbl = rebder.rebd()) >= 0) ? (chbr) vbl : EOS;
+                            mChbrs[mChIdx - 1] = ch;
                             st = (short) ((ch == '<') ? 1 : -1);
-                            break;
+                            brebk;
 
-                        default:
+                        defbult:
                             st = -1;
-                            break;
+                            brebk;
                     }
-                    break;
+                    brebk;
 
-                case 1:     // read '?' of xml declaration [#4.3.1]
+                cbse 1:     // rebd '?' of xml declbrbtion [#4.3.1]
                     st = (short) ((ch == '?') ? 2 : -1);
-                    break;
+                    brebk;
 
-                case 2:     // read 'x' of xml declaration [#4.3.1]
+                cbse 2:     // rebd 'x' of xml declbrbtion [#4.3.1]
                     st = (short) ((ch == 'x') ? 3 : -1);
-                    break;
+                    brebk;
 
-                case 3:     // read 'm' of xml declaration [#4.3.1]
+                cbse 3:     // rebd 'm' of xml declbrbtion [#4.3.1]
                     st = (short) ((ch == 'm') ? 4 : -1);
-                    break;
+                    brebk;
 
-                case 4:     // read 'l' of xml declaration [#4.3.1]
+                cbse 4:     // rebd 'l' of xml declbrbtion [#4.3.1]
                     st = (short) ((ch == 'l') ? 5 : -1);
-                    break;
+                    brebk;
 
-                case 5:     // read white space after 'xml'
+                cbse 5:     // rebd white spbce bfter 'xml'
                     switch (ch) {
-                        case ' ':
-                        case '\t':
-                        case '\r':
-                        case '\n':
+                        cbse ' ':
+                        cbse '\t':
+                        cbse '\r':
+                        cbse '\n':
                             st = 6;
-                            break;
+                            brebk;
 
-                        default:
+                        defbult:
                             st = -1;
-                            break;
+                            brebk;
                     }
-                    break;
+                    brebk;
 
-                case 6:     // read content of xml declaration
+                cbse 6:     // rebd content of xml declbrbtion
                     switch (ch) {
-                        case '?':
+                        cbse '?':
                             st = 7;
-                            break;
+                            brebk;
 
-                        case EOS:
+                        cbse EOS:
                             st = -2;
-                            break;
+                            brebk;
 
-                        default:
-                            break;
+                        defbult:
+                            brebk;
                     }
-                    break;
+                    brebk;
 
-                case 7:     // read '>' after '?' of xml declaration
+                cbse 7:     // rebd '>' bfter '?' of xml declbrbtion
                     switch (ch) {
-                        case '>':
-                        case EOS:
+                        cbse '>':
+                        cbse EOS:
                             st = -2;
-                            break;
+                            brebk;
 
-                        default:
+                        defbult:
                             st = 6;
-                            break;
+                            brebk;
                     }
-                    break;
+                    brebk;
 
-                default:
-                    panic(FAULT);
-                    break;
+                defbult:
+                    pbnic(FAULT);
+                    brebk;
             }
         }
         mChLen = mChIdx;
         mChIdx = 0;
-        //              If there is no xml text declaration, the encoding is default.
+        //              If there is no xml text declbrbtion, the encoding is defbult.
         if (st == -1) {
             return enc;
         }
-        mChIdx = 5;  // the first white space after "<?xml"
-        //              Parse the xml text declaration
+        mChIdx = 5;  // the first white spbce bfter "<?xml"
+        //              Pbrse the xml text declbrbtion
         for (st = 0; st >= 0;) {
             ch = getch();
             switch (st) {
-                case 0:     // skip spaces after the xml declaration name
+                cbse 0:     // skip spbces bfter the xml declbrbtion nbme
                     if (chtyp(ch) != ' ') {
                         bkch();
                         st = 1;
                     }
-                    break;
+                    brebk;
 
-                case 1:     // read xml declaration version
-                case 2:     // read xml declaration encoding or standalone
-                case 3:     // read xml declaration standalone
+                cbse 1:     // rebd xml declbrbtion version
+                cbse 2:     // rebd xml declbrbtion encoding or stbndblone
+                cbse 3:     // rebd xml declbrbtion stbndblone
                     switch (chtyp(ch)) {
-                        case 'a':
-                        case 'A':
-                        case '_':
+                        cbse 'b':
+                        cbse 'A':
+                        cbse '_':
                             bkch();
-                            str = name(false).toLowerCase();
-                            if ("version".equals(str) == true) {
+                            str = nbme(fblse).toLowerCbse();
+                            if ("version".equbls(str) == true) {
                                 if (st != 1) {
-                                    panic(FAULT);
+                                    pbnic(FAULT);
                                 }
-                                if ("1.0".equals(eqstr('=')) != true) {
-                                    panic(FAULT);
+                                if ("1.0".equbls(eqstr('=')) != true) {
+                                    pbnic(FAULT);
                                 }
                                 mInp.xmlver = 0x0100;
                                 st = 2;
-                            } else if ("encoding".equals(str) == true) {
+                            } else if ("encoding".equbls(str) == true) {
                                 if (st != 2) {
-                                    panic(FAULT);
+                                    pbnic(FAULT);
                                 }
-                                mInp.xmlenc = eqstr('=').toUpperCase();
+                                mInp.xmlenc = eqstr('=').toUpperCbse();
                                 enc = mInp.xmlenc;
                                 st = 3;
-                            } else if ("standalone".equals(str) == true) {
+                            } else if ("stbndblone".equbls(str) == true) {
                                 if ((st == 1) || (mPh >= PH_DOC_START)) // [#4.3.1]
                                 {
-                                    panic(FAULT);
+                                    pbnic(FAULT);
                                 }
-                                str = eqstr('=').toLowerCase();
-                                //              Check the 'standalone' value and use it [#5.1]
-                                if (str.equals("yes") == true) {
+                                str = eqstr('=').toLowerCbse();
+                                //              Check the 'stbndblone' vblue bnd use it [#5.1]
+                                if (str.equbls("yes") == true) {
                                     mIsSAlone = true;
-                                } else if (str.equals("no") == true) {
-                                    mIsSAlone = false;
+                                } else if (str.equbls("no") == true) {
+                                    mIsSAlone = fblse;
                                 } else {
-                                    panic(FAULT);
+                                    pbnic(FAULT);
                                 }
                                 mIsSAloneSet = true;
                                 st = 4;
                             } else {
-                                panic(FAULT);
+                                pbnic(FAULT);
                             }
-                            break;
+                            brebk;
 
-                        case ' ':
-                            break;
+                        cbse ' ':
+                            brebk;
 
-                        case '?':
+                        cbse '?':
                             if (st == 1) {
-                                panic(FAULT);
+                                pbnic(FAULT);
                             }
                             bkch();
                             st = 4;
-                            break;
+                            brebk;
 
-                        default:
-                            panic(FAULT);
+                        defbult:
+                            pbnic(FAULT);
                     }
-                    break;
+                    brebk;
 
-                case 4:     // end of xml declaration
+                cbse 4:     // end of xml declbrbtion
                     switch (chtyp(ch)) {
-                        case '?':
+                        cbse '?':
                             if (getch() != '>') {
-                                panic(FAULT);
+                                pbnic(FAULT);
                             }
                             if (mPh <= PH_DOC_START) {
                                 mPh = PH_MISC_DTD;  // misc before DTD
                             }
                             st = -1;
-                            break;
+                            brebk;
 
-                        case ' ':
-                            break;
+                        cbse ' ':
+                            brebk;
 
-                        default:
-                            panic(FAULT);
+                        defbult:
+                            pbnic(FAULT);
                     }
-                    break;
+                    brebk;
 
-                default:
-                    panic(FAULT);
+                defbult:
+                    pbnic(FAULT);
             }
         }
         return enc;
     }
 
     /**
-     * Sets up the document reader.
+     * Sets up the document rebder.
      *
-     * @param name an encoding name.
-     * @param is the document byte input stream.
-     * @return a reader constructed from encoding name and input stream.
+     * @pbrbm nbme bn encoding nbme.
+     * @pbrbm is the document byte input strebm.
+     * @return b rebder constructed from encoding nbme bnd input strebm.
      * @exception UnsupportedEncodingException
      */
-    private Reader enc(String name, InputStream is)
+    privbte Rebder enc(String nbme, InputStrebm is)
             throws UnsupportedEncodingException {
-        //              DO NOT CLOSE current reader if any!
-        if (name.equals("UTF-8")) {
-            return new ReaderUTF8(is);
-        } else if (name.equals("UTF-16LE")) {
-            return new ReaderUTF16(is, 'l');
-        } else if (name.equals("UTF-16BE")) {
-            return new ReaderUTF16(is, 'b');
+        //              DO NOT CLOSE current rebder if bny!
+        if (nbme.equbls("UTF-8")) {
+            return new RebderUTF8(is);
+        } else if (nbme.equbls("UTF-16LE")) {
+            return new RebderUTF16(is, 'l');
+        } else if (nbme.equbls("UTF-16BE")) {
+            return new RebderUTF16(is, 'b');
         } else {
-            return new InputStreamReader(is, name);
+            return new InputStrebmRebder(is, nbme);
         }
     }
 
     /**
-     * Sets up current input on the top of the input stack.
+     * Sets up current input on the top of the input stbck.
      *
-     * @param inp A new input to set up.
+     * @pbrbm inp A new input to set up.
      */
     protected void push(Input inp) {
         mInp.chLen = mChLen;
         mInp.chIdx = mChIdx;
         inp.next = mInp;
         mInp = inp;
-        mChars = inp.chars;
+        mChbrs = inp.chbrs;
         mChLen = inp.chLen;
         mChIdx = inp.chIdx;
     }
 
     /**
-     * Restores previous input on the top of the input stack.
+     * Restores previous input on the top of the input stbck.
      */
     protected void pop() {
         if (mInp.src != null) {
             try {
                 mInp.src.close();
-            } catch (IOException ioe) {
+            } cbtch (IOException ioe) {
             }
             mInp.src = null;
         }
         mInp = mInp.next;
         if (mInp != null) {
-            mChars = mInp.chars;
+            mChbrs = mInp.chbrs;
             mChLen = mInp.chLen;
             mChIdx = mInp.chIdx;
         } else {
-            mChars = null;
+            mChbrs = null;
             mChLen = 0;
             mChIdx = 0;
         }
     }
 
     /**
-     * Maps a character to it's type.
+     * Mbps b chbrbcter to it's type.
      *
-     * Possible character type values are:<br /> - ' ' for any kind of white
-     * space character;<br /> - 'a' for any lower case alphabetical character
-     * value;<br /> - 'A' for any upper case alphabetical character value;<br />
-     * - 'd' for any decimal digit character value;<br /> - 'z' for any
-     * character less then ' ' except '\t', '\n', '\r';<br /> - 'X' for any not
-     * ASCII character;<br /> - 'Z' for EOS character.<br /> An ASCII (7 bit)
-     * character which does not fall in any category listed above is mapped to
+     * Possible chbrbcter type vblues bre:<br /> - ' ' for bny kind of white
+     * spbce chbrbcter;<br /> - 'b' for bny lower cbse blphbbeticbl chbrbcter
+     * vblue;<br /> - 'A' for bny upper cbse blphbbeticbl chbrbcter vblue;<br />
+     * - 'd' for bny decimbl digit chbrbcter vblue;<br /> - 'z' for bny
+     * chbrbcter less then ' ' except '\t', '\n', '\r';<br /> - 'X' for bny not
+     * ASCII chbrbcter;<br /> - 'Z' for EOS chbrbcter.<br /> An ASCII (7 bit)
+     * chbrbcter which does not fbll in bny cbtegory listed bbove is mbpped to
      * it self.
      *
-     * @param ch The character to map.
-     * @return The type of character.
+     * @pbrbm ch The chbrbcter to mbp.
+     * @return The type of chbrbcter.
      */
-    protected char chtyp(char ch) {
+    protected chbr chtyp(chbr ch) {
         if (ch < 0x80) {
-            return (char) asctyp[ch];
+            return (chbr) bsctyp[ch];
         }
         return (ch != EOS) ? 'X' : 'Z';
     }
 
     /**
-     * Retrives the next character in the document.
+     * Retrives the next chbrbcter in the document.
      *
-     * @return The next character in the document.
+     * @return The next chbrbcter in the document.
      */
-    protected char getch()
+    protected chbr getch()
             throws IOException {
         if (mChIdx >= mChLen) {
             if (mInp.src == null) {
-                pop();  // remove internal entity
+                pop();  // remove internbl entity
                 return getch();
             }
-            //          Read new portion of the document characters
-            int Num = mInp.src.read(mChars, 0, mChars.length);
+            //          Rebd new portion of the document chbrbcters
+            int Num = mInp.src.rebd(mChbrs, 0, mChbrs.length);
             if (Num < 0) {
                 if (mInp != mDoc) {
                     pop();  // restore the previous input
                     return getch();
                 } else {
-                    mChars[0] = EOS;
+                    mChbrs[0] = EOS;
                     mChLen = 1;
                 }
             } else {
@@ -3338,83 +3338,83 @@ public abstract class Parser {
             }
             mChIdx = 0;
         }
-        return mChars[mChIdx++];
+        return mChbrs[mChIdx++];
     }
 
     /**
-     * Puts back the last read character.
+     * Puts bbck the lbst rebd chbrbcter.
      *
-     * This method <strong>MUST NOT</strong> be called more then once after each
-     * call of {@link #getch getch} method.
+     * This method <strong>MUST NOT</strong> be cblled more then once bfter ebch
+     * cbll of {@link #getch getch} method.
      */
     protected void bkch()
             throws Exception {
         if (mChIdx <= 0) {
-            panic(FAULT);
+            pbnic(FAULT);
         }
         mChIdx--;
     }
 
     /**
-     * Sets the current character.
+     * Sets the current chbrbcter.
      *
-     * @param ch The character to set.
+     * @pbrbm ch The chbrbcter to set.
      */
-    protected void setch(char ch) {
-        mChars[mChIdx] = ch;
+    protected void setch(chbr ch) {
+        mChbrs[mChIdx] = ch;
     }
 
     /**
-     * Finds a pair in the pair chain by a qualified name.
+     * Finds b pbir in the pbir chbin by b qublified nbme.
      *
-     * @param chain The first element of the chain of pairs.
-     * @param qname The qualified name.
-     * @return A pair with the specified qualified name or null.
+     * @pbrbm chbin The first element of the chbin of pbirs.
+     * @pbrbm qnbme The qublified nbme.
+     * @return A pbir with the specified qublified nbme or null.
      */
-    protected Pair find(Pair chain, char[] qname) {
-        for (Pair pair = chain; pair != null; pair = pair.next) {
-            if (pair.eqname(qname) == true) {
-                return pair;
+    protected Pbir find(Pbir chbin, chbr[] qnbme) {
+        for (Pbir pbir = chbin; pbir != null; pbir = pbir.next) {
+            if (pbir.eqnbme(qnbme) == true) {
+                return pbir;
             }
         }
         return null;
     }
 
     /**
-     * Provedes an instance of a pair.
+     * Provedes bn instbnce of b pbir.
      *
-     * @param next The reference to a next pair.
-     * @return An instance of a pair.
+     * @pbrbm next The reference to b next pbir.
+     * @return An instbnce of b pbir.
      */
-    protected Pair pair(Pair next) {
-        Pair pair;
+    protected Pbir pbir(Pbir next) {
+        Pbir pbir;
 
         if (mDltd != null) {
-            pair = mDltd;
-            mDltd = pair.next;
+            pbir = mDltd;
+            mDltd = pbir.next;
         } else {
-            pair = new Pair();
+            pbir = new Pbir();
         }
-        pair.next = next;
+        pbir.next = next;
 
-        return pair;
+        return pbir;
     }
 
     /**
-     * Deletes an instance of a pair.
+     * Deletes bn instbnce of b pbir.
      *
-     * @param pair The pair to delete.
-     * @return A reference to the next pair in a chain.
+     * @pbrbm pbir The pbir to delete.
+     * @return A reference to the next pbir in b chbin.
      */
-    protected Pair del(Pair pair) {
-        Pair next = pair.next;
+    protected Pbir del(Pbir pbir) {
+        Pbir next = pbir.next;
 
-        pair.name = null;
-        pair.value = null;
-        pair.chars = null;
-        pair.list = null;
-        pair.next = mDltd;
-        mDltd = pair;
+        pbir.nbme = null;
+        pbir.vblue = null;
+        pbir.chbrs = null;
+        pbir.list = null;
+        pbir.next = mDltd;
+        mDltd = pbir;
 
         return next;
     }

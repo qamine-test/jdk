@@ -1,119 +1,119 @@
 /*
- * Copyright (c) 2002, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
 
-package sun.misc;
+pbckbge sun.misc;
 
-import java.util.Vector;
-import java.io.FileWriter;
-import java.io.File;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
+import jbvb.util.Vector;
+import jbvb.io.FileWriter;
+import jbvb.io.File;
+import jbvb.io.OutputStrebmWriter;
+import jbvb.io.Writer;
 
 /**
- * This class is intended to be a central place for the jdk to
+ * This clbss is intended to be b centrbl plbce for the jdk to
  * log timing events of interest.  There is pre-defined event
- * of startTime, as well as a general
- * mechanism of setting arbitrary times in an array.
- * All unreserved times in the array can be used by callers
- * in application-defined situations.  The caller is responsible
- * for setting and getting all times and for doing whatever
- * analysis is interesting; this class is merely a central container
- * for those timing values.
- * Note that, due to the variables in this class being static,
- * use of particular time values by multiple applets will cause
- * confusing results.  For example, if plugin runs two applets
- * simultaneously, the initTime for those applets will collide
- * and the results may be undefined.
+ * of stbrtTime, bs well bs b generbl
+ * mechbnism of setting brbitrbry times in bn brrby.
+ * All unreserved times in the brrby cbn be used by cbllers
+ * in bpplicbtion-defined situbtions.  The cbller is responsible
+ * for setting bnd getting bll times bnd for doing whbtever
+ * bnblysis is interesting; this clbss is merely b centrbl contbiner
+ * for those timing vblues.
+ * Note thbt, due to the vbribbles in this clbss being stbtic,
+ * use of pbrticulbr time vblues by multiple bpplets will cbuse
+ * confusing results.  For exbmple, if plugin runs two bpplets
+ * simultbneously, the initTime for those bpplets will collide
+ * bnd the results mby be undefined.
  * <P>
- * To automatically track startup performance in an app or applet,
- * use the command-line parameter sun.perflog as follows:<BR>
- *     -Dsun.perflog[=file:<filename>]
+ * To butombticblly trbck stbrtup performbnce in bn bpp or bpplet,
+ * use the commbnd-line pbrbmeter sun.perflog bs follows:<BR>
+ *     -Dsun.perflog[=file:<filenbme>]
  * <BR>
- * where simply using the parameter with no value will enable output
- * to the console and a value of "file:<filename>" will cause
- * that given filename to be created and used for all output.
+ * where simply using the pbrbmeter with no vblue will enbble output
+ * to the console bnd b vblue of "file:<filenbme>" will cbuse
+ * thbt given filenbme to be crebted bnd used for bll output.
  * <P>
- * By default, times are measured using System.currentTimeMillis().  To use
- * System.nanoTime() instead, add the command-line parameter:<BR>
-       -Dsun.perflog.nano=true
+ * By defbult, times bre mebsured using System.currentTimeMillis().  To use
+ * System.nbnoTime() instebd, bdd the commbnd-line pbrbmeter:<BR>
+       -Dsun.perflog.nbno=true
  * <BR>
  * <P>
- * <B>Warning: Use at your own risk!</B>
- * This class is intended for internal testing
- * purposes only and may be removed at any time.  More
- * permanent monitoring and profiling APIs are expected to be
- * developed for future releases and this class will cease to
- * exist once those APIs are in place.
- * @author Chet Haase
+ * <B>Wbrning: Use bt your own risk!</B>
+ * This clbss is intended for internbl testing
+ * purposes only bnd mby be removed bt bny time.  More
+ * permbnent monitoring bnd profiling APIs bre expected to be
+ * developed for future relebses bnd this clbss will cebse to
+ * exist once those APIs bre in plbce.
+ * @buthor Chet Hbbse
  */
-public class PerformanceLogger {
+public clbss PerformbnceLogger {
 
-    // Timing values of global interest
-    private static final int START_INDEX    = 0;    // VM start
-    private static final int LAST_RESERVED  = START_INDEX;
+    // Timing vblues of globbl interest
+    privbte stbtic finbl int START_INDEX    = 0;    // VM stbrt
+    privbte stbtic finbl int LAST_RESERVED  = START_INDEX;
 
-    private static boolean perfLoggingOn = false;
-    private static boolean useNanoTime = false;
-    private static Vector<TimeData> times;
-    private static String logFileName = null;
-    private static Writer logWriter = null;
-    private static long baseTime;
+    privbte stbtic boolebn perfLoggingOn = fblse;
+    privbte stbtic boolebn useNbnoTime = fblse;
+    privbte stbtic Vector<TimeDbtb> times;
+    privbte stbtic String logFileNbme = null;
+    privbte stbtic Writer logWriter = null;
+    privbte stbtic long bbseTime;
 
-    static {
+    stbtic {
         String perfLoggingProp =
-            java.security.AccessController.doPrivileged(
-            new sun.security.action.GetPropertyAction("sun.perflog"));
+            jbvb.security.AccessController.doPrivileged(
+            new sun.security.bction.GetPropertyAction("sun.perflog"));
         if (perfLoggingProp != null) {
             perfLoggingOn = true;
 
-            // Check if we should use nanoTime
-            String perfNanoProp =
-                java.security.AccessController.doPrivileged(
-                new sun.security.action.GetPropertyAction("sun.perflog.nano"));
-            if (perfNanoProp != null) {
-                useNanoTime = true;
+            // Check if we should use nbnoTime
+            String perfNbnoProp =
+                jbvb.security.AccessController.doPrivileged(
+                new sun.security.bction.GetPropertyAction("sun.perflog.nbno"));
+            if (perfNbnoProp != null) {
+                useNbnoTime = true;
             }
 
-            // Now, figure out what the user wants to do with the data
-            if (perfLoggingProp.regionMatches(true, 0, "file:", 0, 5)) {
-                logFileName = perfLoggingProp.substring(5);
+            // Now, figure out whbt the user wbnts to do with the dbtb
+            if (perfLoggingProp.regionMbtches(true, 0, "file:", 0, 5)) {
+                logFileNbme = perfLoggingProp.substring(5);
             }
-            if (logFileName != null) {
+            if (logFileNbme != null) {
                 if (logWriter == null) {
-                    java.security.AccessController.doPrivileged(
-                    new java.security.PrivilegedAction<Void>() {
+                    jbvb.security.AccessController.doPrivileged(
+                    new jbvb.security.PrivilegedAction<Void>() {
                         public Void run() {
                             try {
-                                File logFile = new File(logFileName);
-                                logFile.createNewFile();
+                                File logFile = new File(logFileNbme);
+                                logFile.crebteNewFile();
                                 logWriter = new FileWriter(logFile);
-                            } catch (Exception e) {
-                                System.out.println(e + ": Creating logfile " +
-                                                   logFileName +
+                            } cbtch (Exception e) {
+                                System.out.println(e + ": Crebting logfile " +
+                                                   logFileNbme +
                                                    ".  Log to console");
                             }
                             return null;
@@ -122,41 +122,41 @@ public class PerformanceLogger {
                 }
             }
             if (logWriter == null) {
-                logWriter = new OutputStreamWriter(System.out);
+                logWriter = new OutputStrebmWriter(System.out);
             }
         }
-        times = new Vector<TimeData>(10);
+        times = new Vector<TimeDbtb>(10);
         // Reserve predefined slots
         for (int i = 0; i <= LAST_RESERVED; ++i) {
-            times.add(new TimeData("Time " + i + " not set", 0));
+            times.bdd(new TimeDbtb("Time " + i + " not set", 0));
         }
     }
 
     /**
-     * Returns status of whether logging is enabled or not.  This is
-     * provided as a convenience method so that users do not have to
-     * perform the same GetPropertyAction check as above to determine whether
-     * to enable performance logging.
+     * Returns stbtus of whether logging is enbbled or not.  This is
+     * provided bs b convenience method so thbt users do not hbve to
+     * perform the sbme GetPropertyAction check bs bbove to determine whether
+     * to enbble performbnce logging.
      */
-    public static boolean loggingEnabled() {
+    public stbtic boolebn loggingEnbbled() {
         return perfLoggingOn;
     }
 
 
     /**
-     * Internal class used to store time/message data together.
+     * Internbl clbss used to store time/messbge dbtb together.
      */
-    static class TimeData {
-        String message;
+    stbtic clbss TimeDbtb {
+        String messbge;
         long time;
 
-        TimeData(String message, long time) {
-            this.message = message;
+        TimeDbtb(String messbge, long time) {
+            this.messbge = messbge;
             this.time = time;
         }
 
-        String getMessage() {
-            return message;
+        String getMessbge() {
+            return messbge;
         }
 
         long getTime() {
@@ -165,59 +165,59 @@ public class PerformanceLogger {
     }
 
     /**
-     * Return the current time, in millis or nanos as appropriate
+     * Return the current time, in millis or nbnos bs bppropribte
      */
-    private static long getCurrentTime() {
-        if (useNanoTime) {
-            return System.nanoTime();
+    privbte stbtic long getCurrentTime() {
+        if (useNbnoTime) {
+            return System.nbnoTime();
         } else {
             return System.currentTimeMillis();
         }
     }
 
     /**
-     * Sets the start time.  Ideally, this is the earliest time available
-     * during the startup of a Java applet or application.  This time is
-     * later used to analyze the difference between the initial startup
-     * time and other events in the system (such as an applet's init time).
+     * Sets the stbrt time.  Ideblly, this is the ebrliest time bvbilbble
+     * during the stbrtup of b Jbvb bpplet or bpplicbtion.  This time is
+     * lbter used to bnblyze the difference between the initibl stbrtup
+     * time bnd other events in the system (such bs bn bpplet's init time).
      */
-    public static void setStartTime(String message) {
-        if (loggingEnabled()) {
+    public stbtic void setStbrtTime(String messbge) {
+        if (loggingEnbbled()) {
             long nowTime = getCurrentTime();
-            setStartTime(message, nowTime);
+            setStbrtTime(messbge, nowTime);
         }
     }
 
     /**
-     * Sets the base time, output can then
-     * be displayed as offsets from the base time;.
+     * Sets the bbse time, output cbn then
+     * be displbyed bs offsets from the bbse time;.
      */
-    public static void setBaseTime(long time) {
-        if (loggingEnabled()) {
-            baseTime = time;
+    public stbtic void setBbseTime(long time) {
+        if (loggingEnbbled()) {
+            bbseTime = time;
         }
     }
 
     /**
-     * Sets the start time.
+     * Sets the stbrt time.
      * This version of the method is
-     * given the time to log, instead of expecting this method to
-     * get the time itself.  This is done in case the time was
-     * recorded much earlier than this method was called.
+     * given the time to log, instebd of expecting this method to
+     * get the time itself.  This is done in cbse the time wbs
+     * recorded much ebrlier thbn this method wbs cblled.
      */
-    public static void setStartTime(String message, long time) {
-        if (loggingEnabled()) {
-            times.set(START_INDEX, new TimeData(message, time));
+    public stbtic void setStbrtTime(String messbge, long time) {
+        if (loggingEnbbled()) {
+            times.set(START_INDEX, new TimeDbtb(messbge, time));
         }
     }
 
     /**
-     * Gets the start time, which should be the time when
-     * the java process started, prior to the VM actually being
-     * loaded.
+     * Gets the stbrt time, which should be the time when
+     * the jbvb process stbrted, prior to the VM bctublly being
+     * lobded.
      */
-    public static long getStartTime() {
-        if (loggingEnabled()) {
+    public stbtic long getStbrtTime() {
+        if (loggingEnbbled()) {
             return times.get(START_INDEX).getTime();
         } else {
             return 0;
@@ -225,33 +225,33 @@ public class PerformanceLogger {
     }
 
     /**
-     * Sets the value of a given time and returns the index of the
-     * slot that that time was stored in.
+     * Sets the vblue of b given time bnd returns the index of the
+     * slot thbt thbt time wbs stored in.
      */
-    public static int setTime(String message) {
-        if (loggingEnabled()) {
+    public stbtic int setTime(String messbge) {
+        if (loggingEnbbled()) {
             long nowTime = getCurrentTime();
-            return setTime(message, nowTime);
+            return setTime(messbge, nowTime);
         } else {
             return 0;
         }
     }
 
     /**
-     * Sets the value of a given time and returns the index of the
-     * slot that that time was stored in.
+     * Sets the vblue of b given time bnd returns the index of the
+     * slot thbt thbt time wbs stored in.
      * This version of the method is
-     * given the time to log, instead of expecting this method to
-     * get the time itself.  This is done in case the time was
-     * recorded much earlier than this method was called.
+     * given the time to log, instebd of expecting this method to
+     * get the time itself.  This is done in cbse the time wbs
+     * recorded much ebrlier thbn this method wbs cblled.
      */
-    public static int setTime(String message, long time) {
-        if (loggingEnabled()) {
-            // times is already synchronized, but we need to ensure that
-            // the size used in times.set() is the same used when returning
-            // the index of that operation.
+    public stbtic int setTime(String messbge, long time) {
+        if (loggingEnbbled()) {
+            // times is blrebdy synchronized, but we need to ensure thbt
+            // the size used in times.set() is the sbme used when returning
+            // the index of thbt operbtion.
             synchronized (times) {
-                times.add(new TimeData(message, time));
+                times.bdd(new TimeDbtb(messbge, time));
                 return (times.size() - 1);
             }
         } else {
@@ -260,10 +260,10 @@ public class PerformanceLogger {
     }
 
     /**
-     * Returns time at given index.
+     * Returns time bt given index.
      */
-    public static long getTimeAtIndex(int index) {
-        if (loggingEnabled()) {
+    public stbtic long getTimeAtIndex(int index) {
+        if (loggingEnbbled()) {
             return times.get(index).getTime();
         } else {
             return 0;
@@ -271,45 +271,45 @@ public class PerformanceLogger {
     }
 
     /**
-     * Returns message at given index.
+     * Returns messbge bt given index.
      */
-    public static String getMessageAtIndex(int index) {
-        if (loggingEnabled()) {
-            return times.get(index).getMessage();
+    public stbtic String getMessbgeAtIndex(int index) {
+        if (loggingEnbbled()) {
+            return times.get(index).getMessbge();
         } else {
             return null;
         }
     }
 
     /**
-     * Outputs all data to parameter-specified Writer object
+     * Outputs bll dbtb to pbrbmeter-specified Writer object
      */
-    public static void outputLog(Writer writer) {
-        if (loggingEnabled()) {
+    public stbtic void outputLog(Writer writer) {
+        if (loggingEnbbled()) {
             try {
                 synchronized(times) {
                     for (int i = 0; i < times.size(); ++i) {
-                        TimeData td = times.get(i);
+                        TimeDbtb td = times.get(i);
                         if (td != null) {
-                            writer.write(i + " " + td.getMessage() + ": " +
-                                         (td.getTime() - baseTime) + "\n");
+                            writer.write(i + " " + td.getMessbge() + ": " +
+                                         (td.getTime() - bbseTime) + "\n");
 
                         }
                     }
                 }
                 writer.flush();
-            } catch (Exception e) {
-                System.out.println(e + ": Writing performance log to " +
+            } cbtch (Exception e) {
+                System.out.println(e + ": Writing performbnce log to " +
                                    writer);
             }
         }
     }
 
     /**
-     * Outputs all data to whatever location the user specified
-     * via sun.perflog command-line parameter.
+     * Outputs bll dbtb to whbtever locbtion the user specified
+     * vib sun.perflog commbnd-line pbrbmeter.
      */
-    public static void outputLog() {
+    public stbtic void outputLog() {
         outputLog(logWriter);
     }
 }

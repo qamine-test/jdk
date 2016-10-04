@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -29,19 +29,19 @@
  * Copyright (C) 1991-2007 Unicode, Inc. All rights reserved.
  * Distributed under the Terms of Use in http://www.unicode.org/copyright.html.
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of the Unicode data files and any associated documentation (the "Data
- * Files") or Unicode software and any associated documentation (the
- * "Software") to deal in the Data Files or Software without restriction,
- * including without limitation the rights to use, copy, modify, merge,
- * publish, distribute, and/or sell copies of the Data Files or Software, and
- * to permit persons to whom the Data Files or Software are furnished to do
- * so, provided that (a) the above copyright notice(s) and this permission
- * notice appear with all copies of the Data Files or Software, (b) both the
- * above copyright notice(s) and this permission notice appear in associated
- * documentation, and (c) there is clear notice in each modified Data File or
- * in the Software as well as in the documentation associated with the Data
- * File(s) or Software that the data or software has been modified.
+ * Permission is hereby grbnted, free of chbrge, to bny person obtbining b copy
+ * of the Unicode dbtb files bnd bny bssocibted documentbtion (the "Dbtb
+ * Files") or Unicode softwbre bnd bny bssocibted documentbtion (the
+ * "Softwbre") to debl in the Dbtb Files or Softwbre without restriction,
+ * including without limitbtion the rights to use, copy, modify, merge,
+ * publish, distribute, bnd/or sell copies of the Dbtb Files or Softwbre, bnd
+ * to permit persons to whom the Dbtb Files or Softwbre bre furnished to do
+ * so, provided thbt (b) the bbove copyright notice(s) bnd this permission
+ * notice bppebr with bll copies of the Dbtb Files or Softwbre, (b) both the
+ * bbove copyright notice(s) bnd this permission notice bppebr in bssocibted
+ * documentbtion, bnd (c) there is clebr notice in ebch modified Dbtb File or
+ * in the Softwbre bs well bs in the documentbtion bssocibted with the Dbtb
+ * File(s) or Softwbre thbt the dbtb or softwbre hbs been modified.
  *
  * THE DATA FILES AND SOFTWARE ARE PROVIDED "AS IS", WITHOUT WARRANTY OF ANY
  * KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
@@ -53,54 +53,54 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THE DATA FILES OR SOFTWARE.
  *
- * Except as contained in this notice, the name of a copyright holder shall not
- * be used in advertising or otherwise to promote the sale, use or other
- * dealings in these Data Files or Software without prior written
- * authorization of the copyright holder.
+ * Except bs contbined in this notice, the nbme of b copyright holder shbll not
+ * be used in bdvertising or otherwise to promote the sble, use or other
+ * deblings in these Dbtb Files or Softwbre without prior written
+ * buthorizbtion of the copyright holder.
  */
 
-package sun.text.resources.ga;
+pbckbge sun.text.resources.gb;
 
-import sun.util.resources.ParallelListResourceBundle;
+import sun.util.resources.PbrbllelListResourceBundle;
 
-public class FormatData_ga extends ParallelListResourceBundle {
-    protected final Object[][] getContents() {
+public clbss FormbtDbtb_gb extends PbrbllelListResourceBundle {
+    protected finbl Object[][] getContents() {
         return new Object[][] {
-            { "MonthNames",
+            { "MonthNbmes",
                 new String[] {
-                    "Ean\u00e1ir",
-                    "Feabhra",
-                    "M\u00e1rta",
+                    "Ebn\u00e1ir",
+                    "Febbhrb",
+                    "M\u00e1rtb",
                     "Aibre\u00e1n",
-                    "Bealtaine",
-                    "Meitheamh",
-                    "I\u00fail",
-                    "L\u00fanasa",
-                    "Me\u00e1n F\u00f3mhair",
-                    "Deireadh F\u00f3mhair",
-                    "Samhain",
-                    "Nollaig",
+                    "Bebltbine",
+                    "Meithebmh",
+                    "I\u00fbil",
+                    "L\u00fbnbsb",
+                    "Me\u00e1n F\u00f3mhbir",
+                    "Deirebdh F\u00f3mhbir",
+                    "Sbmhbin",
+                    "Nollbig",
                     "",
                 }
             },
-            { "MonthAbbreviations",
+            { "MonthAbbrevibtions",
                 new String[] {
-                    "Ean",
-                    "Feabh",
-                    "M\u00e1rta",
+                    "Ebn",
+                    "Febbh",
+                    "M\u00e1rtb",
                     "Aib",
-                    "Beal",
+                    "Bebl",
                     "Meith",
-                    "I\u00fail",
-                    "L\u00fan",
+                    "I\u00fbil",
+                    "L\u00fbn",
                     "MF\u00f3mh",
                     "DF\u00f3mh",
-                    "Samh",
+                    "Sbmh",
                     "Noll",
                     "",
                 }
             },
-            { "MonthNarrows",
+            { "MonthNbrrows",
                 new String[] {
                     "E",
                     "F",
@@ -117,50 +117,50 @@ public class FormatData_ga extends ParallelListResourceBundle {
                     "",
                 }
             },
-            { "DayNames",
+            { "DbyNbmes",
                 new String[] {
-                    "D\u00e9 Domhnaigh",
-                    "D\u00e9 Luain",
+                    "D\u00e9 Domhnbigh",
+                    "D\u00e9 Lubin",
                     "D\u00e9 M\u00e1irt",
-                    "D\u00e9 C\u00e9adaoin",
-                    "D\u00e9ardaoin",
+                    "D\u00e9 C\u00e9bdboin",
+                    "D\u00e9brdboin",
                     "D\u00e9 hAoine",
-                    "D\u00e9 Sathairn",
+                    "D\u00e9 Sbthbirn",
                 }
             },
-            { "DayAbbreviations",
+            { "DbyAbbrevibtions",
                 new String[] {
                     "Domh",
-                    "Luan",
+                    "Lubn",
                     "M\u00e1irt",
-                    "C\u00e9ad",
-                    "D\u00e9ar",
+                    "C\u00e9bd",
+                    "D\u00e9br",
                     "Aoine",
-                    "Sath",
+                    "Sbth",
                 }
             },
-            { "AmPmMarkers",
+            { "AmPmMbrkers",
                 new String[] {
-                    "a.m.",
+                    "b.m.",
                     "p.m.",
                 }
             },
-            { "Eras",
+            { "Erbs",
                 new String[] {
                     "RC",
                     "AD",
                 }
             },
-            { "short.Eras",
+            { "short.Erbs",
                 new String[] {
                     "RC",
                     "AD",
                 }
             },
-            { "NumberPatterns",
+            { "NumberPbtterns",
                 new String[] {
                     "#,##0.###",
-                    "\u00a4 #,##0.00",
+                    "\u00b4 #,##0.00",
                     "#,##0%",
                 }
             },
@@ -176,10 +176,10 @@ public class FormatData_ga extends ParallelListResourceBundle {
                     "E",
                     "\u2030",
                     "\u221e",
-                    "NaN",
+                    "NbN",
                 }
             },
-            { "TimePatterns",
+            { "TimePbtterns",
                 new String[] {
                     "HH:mm:ss z",
                     "HH:mm:ss z",
@@ -187,7 +187,7 @@ public class FormatData_ga extends ParallelListResourceBundle {
                     "HH:mm",
                 }
             },
-            { "DatePatterns",
+            { "DbtePbtterns",
                 new String[] {
                     "EEEE, yyyy MMMM dd",
                     "yyyy MMMM d",
@@ -195,12 +195,12 @@ public class FormatData_ga extends ParallelListResourceBundle {
                     "yy/MM/dd",
                 }
             },
-            { "DateTimePatterns",
+            { "DbteTimePbtterns",
                 new String[] {
                     "{1} {0}",
                 }
             },
-            { "DateTimePatternChars", "RbMLkUnsSElFtTauKcZ" },
+            { "DbteTimePbtternChbrs", "RbMLkUnsSElFtTbuKcZ" },
         };
     }
 }

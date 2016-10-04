@@ -1,187 +1,187 @@
 /*
- * Copyright (c) 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.java2d.x11;
+pbckbge sun.jbvb2d.x11;
 
-import java.awt.Color;
-import java.awt.AlphaComposite;
-import java.awt.GraphicsConfiguration;
-import java.awt.Transparency;
-import java.awt.image.ColorModel;
-import java.awt.image.IndexColorModel;
-import java.awt.image.DirectColorModel;
+import jbvb.bwt.Color;
+import jbvb.bwt.AlphbComposite;
+import jbvb.bwt.GrbphicsConfigurbtion;
+import jbvb.bwt.Trbnspbrency;
+import jbvb.bwt.imbge.ColorModel;
+import jbvb.bwt.imbge.IndexColorModel;
+import jbvb.bwt.imbge.DirectColorModel;
 
-import sun.awt.X11GraphicsConfig;
-import sun.java2d.SurfaceData;
-import sun.java2d.SurfaceDataProxy;
-import sun.java2d.SunGraphics2D;
-import sun.java2d.loops.SurfaceType;
-import sun.java2d.loops.CompositeType;
+import sun.bwt.X11GrbphicsConfig;
+import sun.jbvb2d.SurfbceDbtb;
+import sun.jbvb2d.SurfbceDbtbProxy;
+import sun.jbvb2d.SunGrbphics2D;
+import sun.jbvb2d.loops.SurfbceType;
+import sun.jbvb2d.loops.CompositeType;
 
 /**
- * The proxy class contains the logic for when to replace a
- * SurfaceData with a cached X11 Pixmap and the code to create
- * the accelerated surfaces.
+ * The proxy clbss contbins the logic for when to replbce b
+ * SurfbceDbtb with b cbched X11 Pixmbp bnd the code to crebte
+ * the bccelerbted surfbces.
  */
-public abstract class X11SurfaceDataProxy extends SurfaceDataProxy
-    implements Transparency
+public bbstrbct clbss X11SurfbceDbtbProxy extends SurfbceDbtbProxy
+    implements Trbnspbrency
 {
-    public static SurfaceDataProxy createProxy(SurfaceData srcData,
-                                               X11GraphicsConfig dstConfig)
+    public stbtic SurfbceDbtbProxy crebteProxy(SurfbceDbtb srcDbtb,
+                                               X11GrbphicsConfig dstConfig)
     {
-        if (srcData instanceof X11SurfaceData) {
-            // srcData must be a VolatileImage which either matches
-            // our visual or not - either way we do not cache it...
+        if (srcDbtb instbnceof X11SurfbceDbtb) {
+            // srcDbtb must be b VolbtileImbge which either mbtches
+            // our visubl or not - either wby we do not cbche it...
             return UNCACHED;
         }
 
-        ColorModel cm = srcData.getColorModel();
-        int transparency = cm.getTransparency();
+        ColorModel cm = srcDbtb.getColorModel();
+        int trbnspbrency = cm.getTrbnspbrency();
 
-        if (transparency == Transparency.OPAQUE) {
-            return new Opaque(dstConfig);
-        } else if (transparency == Transparency.BITMASK) {
-            // 4673490: updateBitmask() only handles ICMs with 8-bit indices
-            if ((cm instanceof IndexColorModel) && cm.getPixelSize() == 8) {
-                return new Bitmask(dstConfig);
+        if (trbnspbrency == Trbnspbrency.OPAQUE) {
+            return new Opbque(dstConfig);
+        } else if (trbnspbrency == Trbnspbrency.BITMASK) {
+            // 4673490: updbteBitmbsk() only hbndles ICMs with 8-bit indices
+            if ((cm instbnceof IndexColorModel) && cm.getPixelSize() == 8) {
+                return new Bitmbsk(dstConfig);
             }
-            // The only other ColorModel handled by updateBitmask() is
-            // a DCM where the alpha bit, and only the alpha bit, is in
+            // The only other ColorModel hbndled by updbteBitmbsk() is
+            // b DCM where the blphb bit, bnd only the blphb bit, is in
             // the top 8 bits
-            if (cm instanceof DirectColorModel) {
+            if (cm instbnceof DirectColorModel) {
                 DirectColorModel dcm = (DirectColorModel) cm;
-                int colormask = (dcm.getRedMask() |
-                                 dcm.getGreenMask() |
-                                 dcm.getBlueMask());
-                int alphamask = dcm.getAlphaMask();
+                int colormbsk = (dcm.getRedMbsk() |
+                                 dcm.getGreenMbsk() |
+                                 dcm.getBlueMbsk());
+                int blphbmbsk = dcm.getAlphbMbsk();
 
-                if ((colormask & 0xff000000) == 0 &&
-                    (alphamask & 0xff000000) != 0)
+                if ((colormbsk & 0xff000000) == 0 &&
+                    (blphbmbsk & 0xff000000) != 0)
                 {
-                    return new Bitmask(dstConfig);
+                    return new Bitmbsk(dstConfig);
                 }
             }
         }
 
-        // For whatever reason, this image is not a good candidate for
-        // caching in a pixmap so we return the non-caching (non-)proxy.
+        // For whbtever rebson, this imbge is not b good cbndidbte for
+        // cbching in b pixmbp so we return the non-cbching (non-)proxy.
         return UNCACHED;
     }
 
-    X11GraphicsConfig x11gc;
+    X11GrbphicsConfig x11gc;
 
-    public X11SurfaceDataProxy(X11GraphicsConfig x11gc) {
+    public X11SurfbceDbtbProxy(X11GrbphicsConfig x11gc) {
         this.x11gc = x11gc;
     }
 
     @Override
-    public SurfaceData validateSurfaceData(SurfaceData srcData,
-                                           SurfaceData cachedData,
+    public SurfbceDbtb vblidbteSurfbceDbtb(SurfbceDbtb srcDbtb,
+                                           SurfbceDbtb cbchedDbtb,
                                            int w, int h)
     {
-        if (cachedData == null) {
-            // Bitmask will be created lazily during the blit phase
-            cachedData = X11SurfaceData.createData(x11gc, w, h,
+        if (cbchedDbtb == null) {
+            // Bitmbsk will be crebted lbzily during the blit phbse
+            cbchedDbtb = X11SurfbceDbtb.crebteDbtb(x11gc, w, h,
                                                    x11gc.getColorModel(),
-                                                   null, 0, getTransparency());
+                                                   null, 0, getTrbnspbrency());
         }
-        return cachedData;
+        return cbchedDbtb;
     }
 
     /**
-     * Proxy for opaque source images.
-     * This proxy can accelerate unscaled Src copies.
+     * Proxy for opbque source imbges.
+     * This proxy cbn bccelerbte unscbled Src copies.
      */
-    public static class Opaque extends X11SurfaceDataProxy {
-        public Opaque(X11GraphicsConfig x11gc) {
+    public stbtic clbss Opbque extends X11SurfbceDbtbProxy {
+        public Opbque(X11GrbphicsConfig x11gc) {
             super(x11gc);
         }
 
-        public int getTransparency() {
-            return Transparency.OPAQUE;
+        public int getTrbnspbrency() {
+            return Trbnspbrency.OPAQUE;
         }
 
         @Override
-        public boolean isSupportedOperation(SurfaceData srcData,
+        public boolebn isSupportedOperbtion(SurfbceDbtb srcDbtb,
                                             int txtype,
                                             CompositeType comp,
                                             Color bgColor)
         {
-            return (txtype < SunGraphics2D.TRANSFORM_TRANSLATESCALE &&
-                    (CompositeType.SrcOverNoEa.equals(comp) ||
-                     CompositeType.SrcNoEa.equals(comp)));
+            return (txtype < SunGrbphics2D.TRANSFORM_TRANSLATESCALE &&
+                    (CompositeType.SrcOverNoEb.equbls(comp) ||
+                     CompositeType.SrcNoEb.equbls(comp)));
         }
     }
 
     /**
-     * Proxy for bitmask transparent source images.
-     * This proxy can accelerate unscaled Src copies or
-     * unscaled SrcOver copies that use an opaque bgColor.
+     * Proxy for bitmbsk trbnspbrent source imbges.
+     * This proxy cbn bccelerbte unscbled Src copies or
+     * unscbled SrcOver copies thbt use bn opbque bgColor.
      */
-    public static class Bitmask extends X11SurfaceDataProxy {
-        public Bitmask(X11GraphicsConfig x11gc) {
+    public stbtic clbss Bitmbsk extends X11SurfbceDbtbProxy {
+        public Bitmbsk(X11GrbphicsConfig x11gc) {
             super(x11gc);
         }
 
-        public int getTransparency() {
-            return Transparency.BITMASK;
+        public int getTrbnspbrency() {
+            return Trbnspbrency.BITMASK;
         }
 
         @Override
-        public boolean isSupportedOperation(SurfaceData srcData,
+        public boolebn isSupportedOperbtion(SurfbceDbtb srcDbtb,
                                             int txtype,
                                             CompositeType comp,
                                             Color bgColor)
         {
-            // These could probably be combined into a single
-            // nested if, but the logic is easier to follow this way.
+            // These could probbbly be combined into b single
+            // nested if, but the logic is ebsier to follow this wby.
 
-            // we don't have X11 scale loops, so always use
-            // software surface in case of scaling
-            if (txtype >= SunGraphics2D.TRANSFORM_TRANSLATESCALE) {
-                return false;
+            // we don't hbve X11 scble loops, so blwbys use
+            // softwbre surfbce in cbse of scbling
+            if (txtype >= SunGrbphics2D.TRANSFORM_TRANSLATESCALE) {
+                return fblse;
             }
 
             if (bgColor != null &&
-                bgColor.getTransparency() != Transparency.OPAQUE)
+                bgColor.getTrbnspbrency() != Trbnspbrency.OPAQUE)
             {
-                return false;
+                return fblse;
             }
 
-            // for transparent images SrcNoEa+bgColor has the
-            // same effect as SrcOverNoEa+bgColor, so we allow
-            // copying from pixmap SD using accelerated blitbg loops:
-            // SrcOver will be changed to SrcNoEa in DrawImage.blitSD
-            if (CompositeType.SrcOverNoEa.equals(comp) ||
-                (CompositeType.SrcNoEa.equals(comp) &&
+            // for trbnspbrent imbges SrcNoEb+bgColor hbs the
+            // sbme effect bs SrcOverNoEb+bgColor, so we bllow
+            // copying from pixmbp SD using bccelerbted blitbg loops:
+            // SrcOver will be chbnged to SrcNoEb in DrbwImbge.blitSD
+            if (CompositeType.SrcOverNoEb.equbls(comp) ||
+                (CompositeType.SrcNoEb.equbls(comp) &&
                  bgColor != null))
             {
                 return true;
             }
 
-            return false;
+            return fblse;
         }
     }
 }

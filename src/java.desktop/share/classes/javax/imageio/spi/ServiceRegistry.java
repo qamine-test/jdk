@@ -1,392 +1,392 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.imageio.spi;
+pbckbge jbvbx.imbgeio.spi;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.NoSuchElementException;
-import java.util.Set;
-import java.util.ServiceLoader;
+import jbvb.io.File;
+import jbvb.util.ArrbyList;
+import jbvb.util.HbshMbp;
+import jbvb.util.Iterbtor;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.NoSuchElementException;
+import jbvb.util.Set;
+import jbvb.util.ServiceLobder;
 
 /**
- * A registry for service provider instances.
+ * A registry for service provider instbnces.
  *
- * <p> A <i>service</i> is a well-known set of interfaces and (usually
- * abstract) classes.  A <i>service provider</i> is a specific
- * implementation of a service.  The classes in a provider typically
- * implement the interface or subclass the class defined by the
+ * <p> A <i>service</i> is b well-known set of interfbces bnd (usublly
+ * bbstrbct) clbsses.  A <i>service provider</i> is b specific
+ * implementbtion of b service.  The clbsses in b provider typicblly
+ * implement the interfbce or subclbss the clbss defined by the
  * service itself.
  *
- * <p> Service providers are stored in one or more <i>categories</i>,
- * each of which is defined by a class of interface (described by a
- * <code>Class</code> object) that all of its members must implement.
- * The set of categories may be changed dynamically.
+ * <p> Service providers bre stored in one or more <i>cbtegories</i>,
+ * ebch of which is defined by b clbss of interfbce (described by b
+ * <code>Clbss</code> object) thbt bll of its members must implement.
+ * The set of cbtegories mby be chbnged dynbmicblly.
  *
- * <p> Only a single instance of a given leaf class (that is, the
- * actual class returned by <code>getClass()</code>, as opposed to any
- * inherited classes or interfaces) may be registered.  That is,
- * suppose that the
- * <code>com.mycompany.mypkg.GreenServiceProvider</code> class
- * implements the <code>com.mycompany.mypkg.MyService</code>
- * interface.  If a <code>GreenServiceProvider</code> instance is
- * registered, it will be stored in the category defined by the
- * <code>MyService</code> class.  If a new instance of
- * <code>GreenServiceProvider</code> is registered, it will replace
- * the previous instance.  In practice, service provider objects are
- * usually singletons so this behavior is appropriate.
+ * <p> Only b single instbnce of b given lebf clbss (thbt is, the
+ * bctubl clbss returned by <code>getClbss()</code>, bs opposed to bny
+ * inherited clbsses or interfbces) mby be registered.  Thbt is,
+ * suppose thbt the
+ * <code>com.mycompbny.mypkg.GreenServiceProvider</code> clbss
+ * implements the <code>com.mycompbny.mypkg.MyService</code>
+ * interfbce.  If b <code>GreenServiceProvider</code> instbnce is
+ * registered, it will be stored in the cbtegory defined by the
+ * <code>MyService</code> clbss.  If b new instbnce of
+ * <code>GreenServiceProvider</code> is registered, it will replbce
+ * the previous instbnce.  In prbctice, service provider objects bre
+ * usublly singletons so this behbvior is bppropribte.
  *
- * <p> To declare a service provider, a <code>services</code>
- * subdirectory is placed within the <code>META-INF</code> directory
- * that is present in every JAR file.  This directory contains a file
- * for each service provider interface that has one or more
- * implementation classes present in the JAR file.  For example, if
- * the JAR file contained a class named
- * <code>com.mycompany.mypkg.MyServiceImpl</code> which implements the
- * <code>javax.someapi.SomeService</code> interface, the JAR file
- * would contain a file named: <pre>
- * META-INF/services/javax.someapi.SomeService </pre>
+ * <p> To declbre b service provider, b <code>services</code>
+ * subdirectory is plbced within the <code>META-INF</code> directory
+ * thbt is present in every JAR file.  This directory contbins b file
+ * for ebch service provider interfbce thbt hbs one or more
+ * implementbtion clbsses present in the JAR file.  For exbmple, if
+ * the JAR file contbined b clbss nbmed
+ * <code>com.mycompbny.mypkg.MyServiceImpl</code> which implements the
+ * <code>jbvbx.somebpi.SomeService</code> interfbce, the JAR file
+ * would contbin b file nbmed: <pre>
+ * META-INF/services/jbvbx.somebpi.SomeService </pre>
  *
- * containing the line:
+ * contbining the line:
  *
  * <pre>
- * com.mycompany.mypkg.MyService
+ * com.mycompbny.mypkg.MyService
  * </pre>
  *
- * <p> The service provider classes should be to be lightweight and
- * quick to load.  Implementations of these interfaces should avoid
- * complex dependencies on other classes and on native code. The usual
- * pattern for more complex services is to register a lightweight
- * proxy for the heavyweight service.
+ * <p> The service provider clbsses should be to be lightweight bnd
+ * quick to lobd.  Implementbtions of these interfbces should bvoid
+ * complex dependencies on other clbsses bnd on nbtive code. The usubl
+ * pbttern for more complex services is to register b lightweight
+ * proxy for the hebvyweight service.
  *
- * <p> An application may customize the contents of a registry as it
- * sees fit, so long as it has the appropriate runtime permission.
+ * <p> An bpplicbtion mby customize the contents of b registry bs it
+ * sees fit, so long bs it hbs the bppropribte runtime permission.
  *
- * <p> For more details on declaring service providers, and the JAR
- * format in general, see the <a
- * href="../../../../technotes/guides/jar/jar.html">
- * JAR File Specification</a>.
+ * <p> For more detbils on declbring service providers, bnd the JAR
+ * formbt in generbl, see the <b
+ * href="../../../../technotes/guides/jbr/jbr.html">
+ * JAR File Specificbtion</b>.
  *
- * @see RegisterableService
+ * @see RegisterbbleService
  *
  */
-public class ServiceRegistry {
+public clbss ServiceRegistry {
 
-    // Class -> Registry
-    private Map<Class<?>, SubRegistry> categoryMap = new HashMap<>();
+    // Clbss -> Registry
+    privbte Mbp<Clbss<?>, SubRegistry> cbtegoryMbp = new HbshMbp<>();
 
     /**
-     * Constructs a <code>ServiceRegistry</code> instance with a
-     * set of categories taken from the <code>categories</code>
-     * argument.
+     * Constructs b <code>ServiceRegistry</code> instbnce with b
+     * set of cbtegories tbken from the <code>cbtegories</code>
+     * brgument.
      *
-     * @param categories an <code>Iterator</code> containing
-     * <code>Class</code> objects to be used to define categories.
+     * @pbrbm cbtegories bn <code>Iterbtor</code> contbining
+     * <code>Clbss</code> objects to be used to define cbtegories.
      *
-     * @exception IllegalArgumentException if
-     * <code>categories</code> is <code>null</code>.
+     * @exception IllegblArgumentException if
+     * <code>cbtegories</code> is <code>null</code>.
      */
-    public ServiceRegistry(Iterator<Class<?>> categories) {
-        if (categories == null) {
-            throw new IllegalArgumentException("categories == null!");
+    public ServiceRegistry(Iterbtor<Clbss<?>> cbtegories) {
+        if (cbtegories == null) {
+            throw new IllegblArgumentException("cbtegories == null!");
         }
-        while (categories.hasNext()) {
-            Class<?> category = categories.next();
-            SubRegistry reg = new SubRegistry(this, category);
-            categoryMap.put(category, reg);
+        while (cbtegories.hbsNext()) {
+            Clbss<?> cbtegory = cbtegories.next();
+            SubRegistry reg = new SubRegistry(this, cbtegory);
+            cbtegoryMbp.put(cbtegory, reg);
         }
     }
 
     /**
-     * Searches for implementations of a particular service class
-     * using the given class loader.
+     * Sebrches for implementbtions of b pbrticulbr service clbss
+     * using the given clbss lobder.
      *
-     * <p> This method transforms the name of the given service class
-     * into a provider-configuration filename as described in the
-     * class comment and then uses the <code>getResources</code>
-     * method of the given class loader to find all available files
-     * with that name.  These files are then read and parsed to
-     * produce a list of provider-class names.  The iterator that is
-     * returned uses the given class loader to look up and then
-     * instantiate each element of the list.
+     * <p> This method trbnsforms the nbme of the given service clbss
+     * into b provider-configurbtion filenbme bs described in the
+     * clbss comment bnd then uses the <code>getResources</code>
+     * method of the given clbss lobder to find bll bvbilbble files
+     * with thbt nbme.  These files bre then rebd bnd pbrsed to
+     * produce b list of provider-clbss nbmes.  The iterbtor thbt is
+     * returned uses the given clbss lobder to look up bnd then
+     * instbntibte ebch element of the list.
      *
-     * <p> Because it is possible for extensions to be installed into
-     * a running Java virtual machine, this method may return
-     * different results each time it is invoked.
+     * <p> Becbuse it is possible for extensions to be instblled into
+     * b running Jbvb virtubl mbchine, this method mby return
+     * different results ebch time it is invoked.
      *
-     * @param providerClass a <code>Class</code>object indicating the
-     * class or interface of the service providers being detected.
+     * @pbrbm providerClbss b <code>Clbss</code>object indicbting the
+     * clbss or interfbce of the service providers being detected.
      *
-     * @param loader the class loader to be used to load
-     * provider-configuration files and instantiate provider classes,
-     * or <code>null</code> if the system class loader (or, failing that
-     * the bootstrap class loader) is to be used.
+     * @pbrbm lobder the clbss lobder to be used to lobd
+     * provider-configurbtion files bnd instbntibte provider clbsses,
+     * or <code>null</code> if the system clbss lobder (or, fbiling thbt
+     * the bootstrbp clbss lobder) is to be used.
      *
-     * @param <T> the type of the providerClass.
+     * @pbrbm <T> the type of the providerClbss.
      *
-     * @return An <code>Iterator</code> that yields provider objects
-     * for the given service, in some arbitrary order.  The iterator
-     * will throw an <code>Error</code> if a provider-configuration
-     * file violates the specified format or if a provider class
-     * cannot be found and instantiated.
+     * @return An <code>Iterbtor</code> thbt yields provider objects
+     * for the given service, in some brbitrbry order.  The iterbtor
+     * will throw bn <code>Error</code> if b provider-configurbtion
+     * file violbtes the specified formbt or if b provider clbss
+     * cbnnot be found bnd instbntibted.
      *
-     * @exception IllegalArgumentException if
-     * <code>providerClass</code> is <code>null</code>.
+     * @exception IllegblArgumentException if
+     * <code>providerClbss</code> is <code>null</code>.
      */
-    public static <T> Iterator<T> lookupProviders(Class<T> providerClass,
-                                                  ClassLoader loader)
+    public stbtic <T> Iterbtor<T> lookupProviders(Clbss<T> providerClbss,
+                                                  ClbssLobder lobder)
     {
-        if (providerClass == null) {
-            throw new IllegalArgumentException("providerClass == null!");
+        if (providerClbss == null) {
+            throw new IllegblArgumentException("providerClbss == null!");
         }
-        return ServiceLoader.load(providerClass, loader).iterator();
+        return ServiceLobder.lobd(providerClbss, lobder).iterbtor();
     }
 
     /**
-     * Locates and incrementally instantiates the available providers
-     * of a given service using the context class loader.  This
-     * convenience method is equivalent to:
+     * Locbtes bnd incrementblly instbntibtes the bvbilbble providers
+     * of b given service using the context clbss lobder.  This
+     * convenience method is equivblent to:
      *
      * <pre>
-     *   ClassLoader cl = Thread.currentThread().getContextClassLoader();
+     *   ClbssLobder cl = Threbd.currentThrebd().getContextClbssLobder();
      *   return Service.providers(service, cl);
      * </pre>
      *
-     * @param providerClass a <code>Class</code>object indicating the
-     * class or interface of the service providers being detected.
+     * @pbrbm providerClbss b <code>Clbss</code>object indicbting the
+     * clbss or interfbce of the service providers being detected.
      *
-     * @param <T> the type of the providerClass.
+     * @pbrbm <T> the type of the providerClbss.
      *
-     * @return An <code>Iterator</code> that yields provider objects
-     * for the given service, in some arbitrary order.  The iterator
-     * will throw an <code>Error</code> if a provider-configuration
-     * file violates the specified format or if a provider class
-     * cannot be found and instantiated.
+     * @return An <code>Iterbtor</code> thbt yields provider objects
+     * for the given service, in some brbitrbry order.  The iterbtor
+     * will throw bn <code>Error</code> if b provider-configurbtion
+     * file violbtes the specified formbt or if b provider clbss
+     * cbnnot be found bnd instbntibted.
      *
-     * @exception IllegalArgumentException if
-     * <code>providerClass</code> is <code>null</code>.
+     * @exception IllegblArgumentException if
+     * <code>providerClbss</code> is <code>null</code>.
      */
-    public static <T> Iterator<T> lookupProviders(Class<T> providerClass) {
-        if (providerClass == null) {
-            throw new IllegalArgumentException("providerClass == null!");
+    public stbtic <T> Iterbtor<T> lookupProviders(Clbss<T> providerClbss) {
+        if (providerClbss == null) {
+            throw new IllegblArgumentException("providerClbss == null!");
         }
-        return ServiceLoader.load(providerClass).iterator();
+        return ServiceLobder.lobd(providerClbss).iterbtor();
     }
 
     /**
-     * Returns an <code>Iterator</code> of <code>Class</code> objects
-     * indicating the current set of categories.  The iterator will be
-     * empty if no categories exist.
+     * Returns bn <code>Iterbtor</code> of <code>Clbss</code> objects
+     * indicbting the current set of cbtegories.  The iterbtor will be
+     * empty if no cbtegories exist.
      *
-     * @return an <code>Iterator</code> containing
-     * <code>Class</code>objects.
+     * @return bn <code>Iterbtor</code> contbining
+     * <code>Clbss</code>objects.
      */
-    public Iterator<Class<?>> getCategories() {
-        Set<Class<?>> keySet = categoryMap.keySet();
-        return keySet.iterator();
+    public Iterbtor<Clbss<?>> getCbtegories() {
+        Set<Clbss<?>> keySet = cbtegoryMbp.keySet();
+        return keySet.iterbtor();
     }
 
     /**
-     * Returns an Iterator containing the subregistries to which the
+     * Returns bn Iterbtor contbining the subregistries to which the
      * provider belongs.
      */
-    private Iterator<SubRegistry> getSubRegistries(Object provider) {
-        List<SubRegistry> l = new ArrayList<>();
-        Iterator<Class<?>> iter = categoryMap.keySet().iterator();
-        while (iter.hasNext()) {
-            Class<?> c = iter.next();
-            if (c.isAssignableFrom(provider.getClass())) {
-                l.add(categoryMap.get(c));
+    privbte Iterbtor<SubRegistry> getSubRegistries(Object provider) {
+        List<SubRegistry> l = new ArrbyList<>();
+        Iterbtor<Clbss<?>> iter = cbtegoryMbp.keySet().iterbtor();
+        while (iter.hbsNext()) {
+            Clbss<?> c = iter.next();
+            if (c.isAssignbbleFrom(provider.getClbss())) {
+                l.bdd(cbtegoryMbp.get(c));
             }
         }
-        return l.iterator();
+        return l.iterbtor();
     }
 
     /**
-     * Adds a service provider object to the registry.  The provider
-     * is associated with the given category.
+     * Adds b service provider object to the registry.  The provider
+     * is bssocibted with the given cbtegory.
      *
      * <p> If <code>provider</code> implements the
-     * <code>RegisterableService</code> interface, its
-     * <code>onRegistration</code> method will be called.  Its
-     * <code>onDeregistration</code> method will be called each time
-     * it is deregistered from a category, for example if a
-     * category is removed or the registry is garbage collected.
+     * <code>RegisterbbleService</code> interfbce, its
+     * <code>onRegistrbtion</code> method will be cblled.  Its
+     * <code>onDeregistrbtion</code> method will be cblled ebch time
+     * it is deregistered from b cbtegory, for exbmple if b
+     * cbtegory is removed or the registry is gbrbbge collected.
      *
-     * @param provider the service provide object to be registered.
-     * @param category the category under which to register the
+     * @pbrbm provider the service provide object to be registered.
+     * @pbrbm cbtegory the cbtegory under which to register the
      * provider.
-     * @param <T> the type of the provider.
+     * @pbrbm <T> the type of the provider.
      *
-     * @return true if no provider of the same class was previously
-     * registered in the same category category.
+     * @return true if no provider of the sbme clbss wbs previously
+     * registered in the sbme cbtegory cbtegory.
      *
-     * @exception IllegalArgumentException if <code>provider</code> is
+     * @exception IllegblArgumentException if <code>provider</code> is
      * <code>null</code>.
-     * @exception IllegalArgumentException if there is no category
-     * corresponding to <code>category</code>.
-     * @exception ClassCastException if provider does not implement
-     * the <code>Class</code> defined by <code>category</code>.
+     * @exception IllegblArgumentException if there is no cbtegory
+     * corresponding to <code>cbtegory</code>.
+     * @exception ClbssCbstException if provider does not implement
+     * the <code>Clbss</code> defined by <code>cbtegory</code>.
      */
-    public <T> boolean registerServiceProvider(T provider,
-                                               Class<T> category) {
+    public <T> boolebn registerServiceProvider(T provider,
+                                               Clbss<T> cbtegory) {
         if (provider == null) {
-            throw new IllegalArgumentException("provider == null!");
+            throw new IllegblArgumentException("provider == null!");
         }
-        SubRegistry reg = categoryMap.get(category);
+        SubRegistry reg = cbtegoryMbp.get(cbtegory);
         if (reg == null) {
-            throw new IllegalArgumentException("category unknown!");
+            throw new IllegblArgumentException("cbtegory unknown!");
         }
-        if (!category.isAssignableFrom(provider.getClass())) {
-            throw new ClassCastException();
+        if (!cbtegory.isAssignbbleFrom(provider.getClbss())) {
+            throw new ClbssCbstException();
         }
 
         return reg.registerServiceProvider(provider);
     }
 
     /**
-     * Adds a service provider object to the registry.  The provider
-     * is associated within each category present in the registry
-     * whose <code>Class</code> it implements.
+     * Adds b service provider object to the registry.  The provider
+     * is bssocibted within ebch cbtegory present in the registry
+     * whose <code>Clbss</code> it implements.
      *
      * <p> If <code>provider</code> implements the
-     * <code>RegisterableService</code> interface, its
-     * <code>onRegistration</code> method will be called once for each
-     * category it is registered under.  Its
-     * <code>onDeregistration</code> method will be called each time
-     * it is deregistered from a category or when the registry is
-     * finalized.
+     * <code>RegisterbbleService</code> interfbce, its
+     * <code>onRegistrbtion</code> method will be cblled once for ebch
+     * cbtegory it is registered under.  Its
+     * <code>onDeregistrbtion</code> method will be cblled ebch time
+     * it is deregistered from b cbtegory or when the registry is
+     * finblized.
      *
-     * @param provider the service provider object to be registered.
+     * @pbrbm provider the service provider object to be registered.
      *
-     * @exception IllegalArgumentException if
+     * @exception IllegblArgumentException if
      * <code>provider</code> is <code>null</code>.
      */
     public void registerServiceProvider(Object provider) {
         if (provider == null) {
-            throw new IllegalArgumentException("provider == null!");
+            throw new IllegblArgumentException("provider == null!");
         }
-        Iterator<SubRegistry> regs = getSubRegistries(provider);
-        while (regs.hasNext()) {
+        Iterbtor<SubRegistry> regs = getSubRegistries(provider);
+        while (regs.hbsNext()) {
             SubRegistry reg = regs.next();
             reg.registerServiceProvider(provider);
         }
     }
 
     /**
-     * Adds a set of service provider objects, taken from an
-     * <code>Iterator</code> to the registry.  Each provider is
-     * associated within each category present in the registry whose
-     * <code>Class</code> it implements.
+     * Adds b set of service provider objects, tbken from bn
+     * <code>Iterbtor</code> to the registry.  Ebch provider is
+     * bssocibted within ebch cbtegory present in the registry whose
+     * <code>Clbss</code> it implements.
      *
-     * <p> For each entry of <code>providers</code> that implements
-     * the <code>RegisterableService</code> interface, its
-     * <code>onRegistration</code> method will be called once for each
-     * category it is registered under.  Its
-     * <code>onDeregistration</code> method will be called each time
-     * it is deregistered from a category or when the registry is
-     * finalized.
+     * <p> For ebch entry of <code>providers</code> thbt implements
+     * the <code>RegisterbbleService</code> interfbce, its
+     * <code>onRegistrbtion</code> method will be cblled once for ebch
+     * cbtegory it is registered under.  Its
+     * <code>onDeregistrbtion</code> method will be cblled ebch time
+     * it is deregistered from b cbtegory or when the registry is
+     * finblized.
      *
-     * @param providers an Iterator containing service provider
+     * @pbrbm providers bn Iterbtor contbining service provider
      * objects to be registered.
      *
-     * @exception IllegalArgumentException if <code>providers</code>
-     * is <code>null</code> or contains a <code>null</code> entry.
+     * @exception IllegblArgumentException if <code>providers</code>
+     * is <code>null</code> or contbins b <code>null</code> entry.
      */
-    public void registerServiceProviders(Iterator<?> providers) {
+    public void registerServiceProviders(Iterbtor<?> providers) {
         if (providers == null) {
-            throw new IllegalArgumentException("provider == null!");
+            throw new IllegblArgumentException("provider == null!");
         }
-        while (providers.hasNext()) {
+        while (providers.hbsNext()) {
             registerServiceProvider(providers.next());
         }
     }
 
     /**
-     * Removes a service provider object from the given category.  If
-     * the provider was not previously registered, nothing happens and
-     * <code>false</code> is returned.  Otherwise, <code>true</code>
-     * is returned.  If an object of the same class as
-     * <code>provider</code> but not equal (using <code>==</code>) to
+     * Removes b service provider object from the given cbtegory.  If
+     * the provider wbs not previously registered, nothing hbppens bnd
+     * <code>fblse</code> is returned.  Otherwise, <code>true</code>
+     * is returned.  If bn object of the sbme clbss bs
+     * <code>provider</code> but not equbl (using <code>==</code>) to
      * <code>provider</code> is registered, it will not be
      * deregistered.
      *
      * <p> If <code>provider</code> implements the
-     * <code>RegisterableService</code> interface, its
-     * <code>onDeregistration</code> method will be called.
+     * <code>RegisterbbleService</code> interfbce, its
+     * <code>onDeregistrbtion</code> method will be cblled.
      *
-     * @param provider the service provider object to be deregistered.
-     * @param category the category from which to deregister the
+     * @pbrbm provider the service provider object to be deregistered.
+     * @pbrbm cbtegory the cbtegory from which to deregister the
      * provider.
-     * @param <T> the type of the provider.
+     * @pbrbm <T> the type of the provider.
      *
-     * @return <code>true</code> if the provider was previously
-     * registered in the same category category,
-     * <code>false</code> otherwise.
+     * @return <code>true</code> if the provider wbs previously
+     * registered in the sbme cbtegory cbtegory,
+     * <code>fblse</code> otherwise.
      *
-     * @exception IllegalArgumentException if <code>provider</code> is
+     * @exception IllegblArgumentException if <code>provider</code> is
      * <code>null</code>.
-     * @exception IllegalArgumentException if there is no category
-     * corresponding to <code>category</code>.
-     * @exception ClassCastException if provider does not implement
-     * the class defined by <code>category</code>.
+     * @exception IllegblArgumentException if there is no cbtegory
+     * corresponding to <code>cbtegory</code>.
+     * @exception ClbssCbstException if provider does not implement
+     * the clbss defined by <code>cbtegory</code>.
      */
-    public <T> boolean deregisterServiceProvider(T provider,
-                                                 Class<T> category) {
+    public <T> boolebn deregisterServiceProvider(T provider,
+                                                 Clbss<T> cbtegory) {
         if (provider == null) {
-            throw new IllegalArgumentException("provider == null!");
+            throw new IllegblArgumentException("provider == null!");
         }
-        SubRegistry reg = categoryMap.get(category);
+        SubRegistry reg = cbtegoryMbp.get(cbtegory);
         if (reg == null) {
-            throw new IllegalArgumentException("category unknown!");
+            throw new IllegblArgumentException("cbtegory unknown!");
         }
-        if (!category.isAssignableFrom(provider.getClass())) {
-            throw new ClassCastException();
+        if (!cbtegory.isAssignbbleFrom(provider.getClbss())) {
+            throw new ClbssCbstException();
         }
         return reg.deregisterServiceProvider(provider);
     }
 
     /**
-     * Removes a service provider object from all categories that
-     * contain it.
+     * Removes b service provider object from bll cbtegories thbt
+     * contbin it.
      *
-     * @param provider the service provider object to be deregistered.
+     * @pbrbm provider the service provider object to be deregistered.
      *
-     * @exception IllegalArgumentException if <code>provider</code> is
+     * @exception IllegblArgumentException if <code>provider</code> is
      * <code>null</code>.
      */
     public void deregisterServiceProvider(Object provider) {
         if (provider == null) {
-            throw new IllegalArgumentException("provider == null!");
+            throw new IllegblArgumentException("provider == null!");
         }
-        Iterator<SubRegistry> regs = getSubRegistries(provider);
-        while (regs.hasNext()) {
+        Iterbtor<SubRegistry> regs = getSubRegistries(provider);
+        while (regs.hbsNext()) {
             SubRegistry reg = regs.next();
             reg.deregisterServiceProvider(provider);
         }
@@ -396,147 +396,147 @@ public class ServiceRegistry {
      * Returns <code>true</code> if <code>provider</code> is currently
      * registered.
      *
-     * @param provider the service provider object to be queried.
+     * @pbrbm provider the service provider object to be queried.
      *
-     * @return <code>true</code> if the given provider has been
+     * @return <code>true</code> if the given provider hbs been
      * registered.
      *
-     * @exception IllegalArgumentException if <code>provider</code> is
+     * @exception IllegblArgumentException if <code>provider</code> is
      * <code>null</code>.
      */
-    public boolean contains(Object provider) {
+    public boolebn contbins(Object provider) {
         if (provider == null) {
-            throw new IllegalArgumentException("provider == null!");
+            throw new IllegblArgumentException("provider == null!");
         }
-        Iterator<SubRegistry> regs = getSubRegistries(provider);
-        while (regs.hasNext()) {
+        Iterbtor<SubRegistry> regs = getSubRegistries(provider);
+        while (regs.hbsNext()) {
             SubRegistry reg = regs.next();
-            if (reg.contains(provider)) {
+            if (reg.contbins(provider)) {
                 return true;
             }
         }
 
-        return false;
+        return fblse;
     }
 
     /**
-     * Returns an <code>Iterator</code> containing all registered
-     * service providers in the given category.  If
-     * <code>useOrdering</code> is <code>false</code>, the iterator
-     * will return all of the server provider objects in an arbitrary
-     * order.  Otherwise, the ordering will respect any pairwise
-     * orderings that have been set.  If the graph of pairwise
-     * orderings contains cycles, any providers that belong to a cycle
+     * Returns bn <code>Iterbtor</code> contbining bll registered
+     * service providers in the given cbtegory.  If
+     * <code>useOrdering</code> is <code>fblse</code>, the iterbtor
+     * will return bll of the server provider objects in bn brbitrbry
+     * order.  Otherwise, the ordering will respect bny pbirwise
+     * orderings thbt hbve been set.  If the grbph of pbirwise
+     * orderings contbins cycles, bny providers thbt belong to b cycle
      * will not be returned.
      *
-     * @param category the category to be retrieved from.
-     * @param useOrdering <code>true</code> if pairwise orderings
-     * should be taken account in ordering the returned objects.
-     * @param <T> the type of the category.
+     * @pbrbm cbtegory the cbtegory to be retrieved from.
+     * @pbrbm useOrdering <code>true</code> if pbirwise orderings
+     * should be tbken bccount in ordering the returned objects.
+     * @pbrbm <T> the type of the cbtegory.
      *
-     * @return an <code>Iterator</code> containing service provider
-     * objects from the given category, possibly in order.
+     * @return bn <code>Iterbtor</code> contbining service provider
+     * objects from the given cbtegory, possibly in order.
      *
-     * @exception IllegalArgumentException if there is no category
-     * corresponding to <code>category</code>.
+     * @exception IllegblArgumentException if there is no cbtegory
+     * corresponding to <code>cbtegory</code>.
      */
-    public <T> Iterator<T> getServiceProviders(Class<T> category,
-                                               boolean useOrdering) {
-        SubRegistry reg = categoryMap.get(category);
+    public <T> Iterbtor<T> getServiceProviders(Clbss<T> cbtegory,
+                                               boolebn useOrdering) {
+        SubRegistry reg = cbtegoryMbp.get(cbtegory);
         if (reg == null) {
-            throw new IllegalArgumentException("category unknown!");
+            throw new IllegblArgumentException("cbtegory unknown!");
         }
-        @SuppressWarnings("unchecked")
-        Iterator<T> it = (Iterator<T>)reg.getServiceProviders(useOrdering);
+        @SuppressWbrnings("unchecked")
+        Iterbtor<T> it = (Iterbtor<T>)reg.getServiceProviders(useOrdering);
         return it;
     }
 
     /**
-     * A simple filter interface used by
+     * A simple filter interfbce used by
      * <code>ServiceRegistry.getServiceProviders</code> to select
-     * providers matching an arbitrary criterion.  Classes that
-     * implement this interface should be defined in order to make use
+     * providers mbtching bn brbitrbry criterion.  Clbsses thbt
+     * implement this interfbce should be defined in order to mbke use
      * of the <code>getServiceProviders</code> method of
-     * <code>ServiceRegistry</code> that takes a <code>Filter</code>.
+     * <code>ServiceRegistry</code> thbt tbkes b <code>Filter</code>.
      *
-     * @see ServiceRegistry#getServiceProviders(Class, ServiceRegistry.Filter, boolean)
+     * @see ServiceRegistry#getServiceProviders(Clbss, ServiceRegistry.Filter, boolebn)
      */
-    public interface Filter {
+    public interfbce Filter {
 
         /**
          * Returns <code>true</code> if the given
-         * <code>provider</code> object matches the criterion defined
+         * <code>provider</code> object mbtches the criterion defined
          * by this <code>Filter</code>.
          *
-         * @param provider a service provider <code>Object</code>.
+         * @pbrbm provider b service provider <code>Object</code>.
          *
-         * @return true if the provider matches the criterion.
+         * @return true if the provider mbtches the criterion.
          */
-        boolean filter(Object provider);
+        boolebn filter(Object provider);
     }
 
     /**
-     * Returns an <code>Iterator</code> containing service provider
-     * objects within a given category that satisfy a criterion
+     * Returns bn <code>Iterbtor</code> contbining service provider
+     * objects within b given cbtegory thbt sbtisfy b criterion
      * imposed by the supplied <code>ServiceRegistry.Filter</code>
      * object's <code>filter</code> method.
      *
-     * <p> The <code>useOrdering</code> argument controls the
-     * ordering of the results using the same rules as
-     * <code>getServiceProviders(Class, boolean)</code>.
+     * <p> The <code>useOrdering</code> brgument controls the
+     * ordering of the results using the sbme rules bs
+     * <code>getServiceProviders(Clbss, boolebn)</code>.
      *
-     * @param category the category to be retrieved from.
-     * @param filter an instance of <code>ServiceRegistry.Filter</code>
+     * @pbrbm cbtegory the cbtegory to be retrieved from.
+     * @pbrbm filter bn instbnce of <code>ServiceRegistry.Filter</code>
      * whose <code>filter</code> method will be invoked.
-     * @param useOrdering <code>true</code> if pairwise orderings
-     * should be taken account in ordering the returned objects.
-     * @param <T> the type of the category.
+     * @pbrbm useOrdering <code>true</code> if pbirwise orderings
+     * should be tbken bccount in ordering the returned objects.
+     * @pbrbm <T> the type of the cbtegory.
      *
-     * @return an <code>Iterator</code> containing service provider
-     * objects from the given category, possibly in order.
+     * @return bn <code>Iterbtor</code> contbining service provider
+     * objects from the given cbtegory, possibly in order.
      *
-     * @exception IllegalArgumentException if there is no category
-     * corresponding to <code>category</code>.
+     * @exception IllegblArgumentException if there is no cbtegory
+     * corresponding to <code>cbtegory</code>.
      */
-    public <T> Iterator<T> getServiceProviders(Class<T> category,
+    public <T> Iterbtor<T> getServiceProviders(Clbss<T> cbtegory,
                                                Filter filter,
-                                               boolean useOrdering) {
-        SubRegistry reg = categoryMap.get(category);
+                                               boolebn useOrdering) {
+        SubRegistry reg = cbtegoryMbp.get(cbtegory);
         if (reg == null) {
-            throw new IllegalArgumentException("category unknown!");
+            throw new IllegblArgumentException("cbtegory unknown!");
         }
-        Iterator<T> iter = getServiceProviders(category, useOrdering);
-        return new FilterIterator<>(iter, filter);
+        Iterbtor<T> iter = getServiceProviders(cbtegory, useOrdering);
+        return new FilterIterbtor<>(iter, filter);
     }
 
     /**
-     * Returns the currently registered service provider object that
-     * is of the given class type.  At most one object of a given
-     * class is allowed to be registered at any given time.  If no
-     * registered object has the desired class type, <code>null</code>
+     * Returns the currently registered service provider object thbt
+     * is of the given clbss type.  At most one object of b given
+     * clbss is bllowed to be registered bt bny given time.  If no
+     * registered object hbs the desired clbss type, <code>null</code>
      * is returned.
      *
-     * @param providerClass the <code>Class</code> of the desired
+     * @pbrbm providerClbss the <code>Clbss</code> of the desired
      * service provider object.
-     * @param <T> the type of the provider.
+     * @pbrbm <T> the type of the provider.
      *
-     * @return a currently registered service provider object with the
-     * desired <code>Class</code>type, or <code>null</code> is none is
+     * @return b currently registered service provider object with the
+     * desired <code>Clbss</code>type, or <code>null</code> is none is
      * present.
      *
-     * @exception IllegalArgumentException if <code>providerClass</code> is
+     * @exception IllegblArgumentException if <code>providerClbss</code> is
      * <code>null</code>.
      */
-    public <T> T getServiceProviderByClass(Class<T> providerClass) {
-        if (providerClass == null) {
-            throw new IllegalArgumentException("providerClass == null!");
+    public <T> T getServiceProviderByClbss(Clbss<T> providerClbss) {
+        if (providerClbss == null) {
+            throw new IllegblArgumentException("providerClbss == null!");
         }
-        Iterator<Class<?>> iter = categoryMap.keySet().iterator();
-        while (iter.hasNext()) {
-            Class<?> c = iter.next();
-            if (c.isAssignableFrom(providerClass)) {
-                SubRegistry reg = categoryMap.get(c);
-                T provider = reg.getServiceProviderByClass(providerClass);
+        Iterbtor<Clbss<?>> iter = cbtegoryMbp.keySet().iterbtor();
+        while (iter.hbsNext()) {
+            Clbss<?> c = iter.next();
+            if (c.isAssignbbleFrom(providerClbss)) {
+                SubRegistry reg = cbtegoryMbp.get(c);
+                T provider = reg.getServiceProviderByClbss(providerClbss);
                 if (provider != null) {
                     return provider;
                 }
@@ -546,273 +546,273 @@ public class ServiceRegistry {
     }
 
     /**
-     * Sets a pairwise ordering between two service provider objects
-     * within a given category.  If one or both objects are not
-     * currently registered within the given category, or if the
-     * desired ordering is already set, nothing happens and
-     * <code>false</code> is returned.  If the providers previously
-     * were ordered in the reverse direction, that ordering is
+     * Sets b pbirwise ordering between two service provider objects
+     * within b given cbtegory.  If one or both objects bre not
+     * currently registered within the given cbtegory, or if the
+     * desired ordering is blrebdy set, nothing hbppens bnd
+     * <code>fblse</code> is returned.  If the providers previously
+     * were ordered in the reverse direction, thbt ordering is
      * removed.
      *
      * <p> The ordering will be used by the
      * <code>getServiceProviders</code> methods when their
-     * <code>useOrdering</code> argument is <code>true</code>.
+     * <code>useOrdering</code> brgument is <code>true</code>.
      *
-     * @param category a <code>Class</code> object indicating the
-     * category under which the preference is to be established.
-     * @param firstProvider the preferred provider.
-     * @param secondProvider the provider to which
+     * @pbrbm cbtegory b <code>Clbss</code> object indicbting the
+     * cbtegory under which the preference is to be estbblished.
+     * @pbrbm firstProvider the preferred provider.
+     * @pbrbm secondProvider the provider to which
      * <code>firstProvider</code> is preferred.
-     * @param <T> the type of the category.
+     * @pbrbm <T> the type of the cbtegory.
      *
-     * @return <code>true</code> if a previously unset ordering
-     * was established.
+     * @return <code>true</code> if b previously unset ordering
+     * wbs estbblished.
      *
-     * @exception IllegalArgumentException if either provider is
-     * <code>null</code> or they are the same object.
-     * @exception IllegalArgumentException if there is no category
-     * corresponding to <code>category</code>.
+     * @exception IllegblArgumentException if either provider is
+     * <code>null</code> or they bre the sbme object.
+     * @exception IllegblArgumentException if there is no cbtegory
+     * corresponding to <code>cbtegory</code>.
      */
-    public <T> boolean setOrdering(Class<T> category,
+    public <T> boolebn setOrdering(Clbss<T> cbtegory,
                                    T firstProvider,
                                    T secondProvider) {
         if (firstProvider == null || secondProvider == null) {
-            throw new IllegalArgumentException("provider is null!");
+            throw new IllegblArgumentException("provider is null!");
         }
         if (firstProvider == secondProvider) {
-            throw new IllegalArgumentException("providers are the same!");
+            throw new IllegblArgumentException("providers bre the sbme!");
         }
-        SubRegistry reg = categoryMap.get(category);
+        SubRegistry reg = cbtegoryMbp.get(cbtegory);
         if (reg == null) {
-            throw new IllegalArgumentException("category unknown!");
+            throw new IllegblArgumentException("cbtegory unknown!");
         }
-        if (reg.contains(firstProvider) &&
-            reg.contains(secondProvider)) {
+        if (reg.contbins(firstProvider) &&
+            reg.contbins(secondProvider)) {
             return reg.setOrdering(firstProvider, secondProvider);
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Sets a pairwise ordering between two service provider objects
-     * within a given category.  If one or both objects are not
-     * currently registered within the given category, or if no
-     * ordering is currently set between them, nothing happens
-     * and <code>false</code> is returned.
+     * Sets b pbirwise ordering between two service provider objects
+     * within b given cbtegory.  If one or both objects bre not
+     * currently registered within the given cbtegory, or if no
+     * ordering is currently set between them, nothing hbppens
+     * bnd <code>fblse</code> is returned.
      *
      * <p> The ordering will be used by the
      * <code>getServiceProviders</code> methods when their
-     * <code>useOrdering</code> argument is <code>true</code>.
+     * <code>useOrdering</code> brgument is <code>true</code>.
      *
-     * @param category a <code>Class</code> object indicating the
-     * category under which the preference is to be disestablished.
-     * @param firstProvider the formerly preferred provider.
-     * @param secondProvider the provider to which
-     * <code>firstProvider</code> was formerly preferred.
-     * @param <T> the type of the category.
+     * @pbrbm cbtegory b <code>Clbss</code> object indicbting the
+     * cbtegory under which the preference is to be disestbblished.
+     * @pbrbm firstProvider the formerly preferred provider.
+     * @pbrbm secondProvider the provider to which
+     * <code>firstProvider</code> wbs formerly preferred.
+     * @pbrbm <T> the type of the cbtegory.
      *
-     * @return <code>true</code> if a previously set ordering was
-     * disestablished.
+     * @return <code>true</code> if b previously set ordering wbs
+     * disestbblished.
      *
-     * @exception IllegalArgumentException if either provider is
-     * <code>null</code> or they are the same object.
-     * @exception IllegalArgumentException if there is no category
-     * corresponding to <code>category</code>.
+     * @exception IllegblArgumentException if either provider is
+     * <code>null</code> or they bre the sbme object.
+     * @exception IllegblArgumentException if there is no cbtegory
+     * corresponding to <code>cbtegory</code>.
      */
-    public <T> boolean unsetOrdering(Class<T> category,
+    public <T> boolebn unsetOrdering(Clbss<T> cbtegory,
                                      T firstProvider,
                                      T secondProvider) {
         if (firstProvider == null || secondProvider == null) {
-            throw new IllegalArgumentException("provider is null!");
+            throw new IllegblArgumentException("provider is null!");
         }
         if (firstProvider == secondProvider) {
-            throw new IllegalArgumentException("providers are the same!");
+            throw new IllegblArgumentException("providers bre the sbme!");
         }
-        SubRegistry reg = categoryMap.get(category);
+        SubRegistry reg = cbtegoryMbp.get(cbtegory);
         if (reg == null) {
-            throw new IllegalArgumentException("category unknown!");
+            throw new IllegblArgumentException("cbtegory unknown!");
         }
-        if (reg.contains(firstProvider) &&
-            reg.contains(secondProvider)) {
+        if (reg.contbins(firstProvider) &&
+            reg.contbins(secondProvider)) {
             return reg.unsetOrdering(firstProvider, secondProvider);
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Deregisters all service provider object currently registered
-     * under the given category.
+     * Deregisters bll service provider object currently registered
+     * under the given cbtegory.
      *
-     * @param category the category to be emptied.
+     * @pbrbm cbtegory the cbtegory to be emptied.
      *
-     * @exception IllegalArgumentException if there is no category
-     * corresponding to <code>category</code>.
+     * @exception IllegblArgumentException if there is no cbtegory
+     * corresponding to <code>cbtegory</code>.
      */
-    public void deregisterAll(Class<?> category) {
-        SubRegistry reg = categoryMap.get(category);
+    public void deregisterAll(Clbss<?> cbtegory) {
+        SubRegistry reg = cbtegoryMbp.get(cbtegory);
         if (reg == null) {
-            throw new IllegalArgumentException("category unknown!");
+            throw new IllegblArgumentException("cbtegory unknown!");
         }
-        reg.clear();
+        reg.clebr();
     }
 
     /**
-     * Deregisters all currently registered service providers from all
-     * categories.
+     * Deregisters bll currently registered service providers from bll
+     * cbtegories.
      */
     public void deregisterAll() {
-        Iterator<SubRegistry> iter = categoryMap.values().iterator();
-        while (iter.hasNext()) {
+        Iterbtor<SubRegistry> iter = cbtegoryMbp.vblues().iterbtor();
+        while (iter.hbsNext()) {
             SubRegistry reg = iter.next();
-            reg.clear();
+            reg.clebr();
         }
     }
 
     /**
-     * Finalizes this object prior to garbage collection.  The
-     * <code>deregisterAll</code> method is called to deregister all
+     * Finblizes this object prior to gbrbbge collection.  The
+     * <code>deregisterAll</code> method is cblled to deregister bll
      * currently registered service providers.  This method should not
-     * be called from application code.
+     * be cblled from bpplicbtion code.
      *
-     * @exception Throwable if an error occurs during superclass
-     * finalization.
+     * @exception Throwbble if bn error occurs during superclbss
+     * finblizbtion.
      */
-    public void finalize() throws Throwable {
+    public void finblize() throws Throwbble {
         deregisterAll();
-        super.finalize();
+        super.finblize();
     }
 }
 
 
 /**
- * A portion of a registry dealing with a single superclass or
- * interface.
+ * A portion of b registry debling with b single superclbss or
+ * interfbce.
  */
-class SubRegistry {
+clbss SubRegistry {
 
     ServiceRegistry registry;
 
-    Class<?> category;
+    Clbss<?> cbtegory;
 
-    // Provider Objects organized by partial oridering
-    PartiallyOrderedSet<Object> poset = new PartiallyOrderedSet<>();
+    // Provider Objects orgbnized by pbrtibl oridering
+    PbrtibllyOrderedSet<Object> poset = new PbrtibllyOrderedSet<>();
 
-    // Class -> Provider Object of that class
-    // No way to express heterogeneous map, we want
-    // Map<Class<T>, T>, where T is ?
-    Map<Class<?>, Object> map = new HashMap<>();
+    // Clbss -> Provider Object of thbt clbss
+    // No wby to express heterogeneous mbp, we wbnt
+    // Mbp<Clbss<T>, T>, where T is ?
+    Mbp<Clbss<?>, Object> mbp = new HbshMbp<>();
 
-    public SubRegistry(ServiceRegistry registry, Class<?> category) {
+    public SubRegistry(ServiceRegistry registry, Clbss<?> cbtegory) {
         this.registry = registry;
-        this.category = category;
+        this.cbtegory = cbtegory;
     }
 
-    public boolean registerServiceProvider(Object provider) {
-        Object oprovider = map.get(provider.getClass());
-        boolean present =  oprovider != null;
+    public boolebn registerServiceProvider(Object provider) {
+        Object oprovider = mbp.get(provider.getClbss());
+        boolebn present =  oprovider != null;
 
         if (present) {
             deregisterServiceProvider(oprovider);
         }
-        map.put(provider.getClass(), provider);
-        poset.add(provider);
-        if (provider instanceof RegisterableService) {
-            RegisterableService rs = (RegisterableService)provider;
-            rs.onRegistration(registry, category);
+        mbp.put(provider.getClbss(), provider);
+        poset.bdd(provider);
+        if (provider instbnceof RegisterbbleService) {
+            RegisterbbleService rs = (RegisterbbleService)provider;
+            rs.onRegistrbtion(registry, cbtegory);
         }
 
         return !present;
     }
 
     /**
-     * If the provider was not previously registered, do nothing.
+     * If the provider wbs not previously registered, do nothing.
      *
-     * @return true if the provider was previously registered.
+     * @return true if the provider wbs previously registered.
      */
-    public boolean deregisterServiceProvider(Object provider) {
-        Object oprovider = map.get(provider.getClass());
+    public boolebn deregisterServiceProvider(Object provider) {
+        Object oprovider = mbp.get(provider.getClbss());
 
         if (provider == oprovider) {
-            map.remove(provider.getClass());
+            mbp.remove(provider.getClbss());
             poset.remove(provider);
-            if (provider instanceof RegisterableService) {
-                RegisterableService rs = (RegisterableService)provider;
-                rs.onDeregistration(registry, category);
+            if (provider instbnceof RegisterbbleService) {
+                RegisterbbleService rs = (RegisterbbleService)provider;
+                rs.onDeregistrbtion(registry, cbtegory);
             }
 
             return true;
         }
-        return false;
+        return fblse;
     }
 
-    public boolean contains(Object provider) {
-        Object oprovider = map.get(provider.getClass());
+    public boolebn contbins(Object provider) {
+        Object oprovider = mbp.get(provider.getClbss());
         return oprovider == provider;
     }
 
-    public boolean setOrdering(Object firstProvider,
+    public boolebn setOrdering(Object firstProvider,
                                Object secondProvider) {
         return poset.setOrdering(firstProvider, secondProvider);
     }
 
-    public boolean unsetOrdering(Object firstProvider,
+    public boolebn unsetOrdering(Object firstProvider,
                                  Object secondProvider) {
         return poset.unsetOrdering(firstProvider, secondProvider);
     }
 
-    public Iterator<Object> getServiceProviders(boolean useOrdering) {
+    public Iterbtor<Object> getServiceProviders(boolebn useOrdering) {
         if (useOrdering) {
-            return poset.iterator();
+            return poset.iterbtor();
         } else {
-            return map.values().iterator();
+            return mbp.vblues().iterbtor();
         }
     }
 
-    @SuppressWarnings("unchecked")
-    public <T> T getServiceProviderByClass(Class<T> providerClass) {
-        return (T)map.get(providerClass);
+    @SuppressWbrnings("unchecked")
+    public <T> T getServiceProviderByClbss(Clbss<T> providerClbss) {
+        return (T)mbp.get(providerClbss);
     }
 
-    public void clear() {
-        Iterator<Object> iter = map.values().iterator();
-        while (iter.hasNext()) {
+    public void clebr() {
+        Iterbtor<Object> iter = mbp.vblues().iterbtor();
+        while (iter.hbsNext()) {
             Object provider = iter.next();
             iter.remove();
 
-            if (provider instanceof RegisterableService) {
-                RegisterableService rs = (RegisterableService)provider;
-                rs.onDeregistration(registry, category);
+            if (provider instbnceof RegisterbbleService) {
+                RegisterbbleService rs = (RegisterbbleService)provider;
+                rs.onDeregistrbtion(registry, cbtegory);
             }
         }
-        poset.clear();
+        poset.clebr();
     }
 
-    public void finalize() {
-        clear();
+    public void finblize() {
+        clebr();
     }
 }
 
 
 /**
- * A class for wrapping <code>Iterators</code> with a filter function.
- * This provides an iterator for a subset without duplication.
+ * A clbss for wrbpping <code>Iterbtors</code> with b filter function.
+ * This provides bn iterbtor for b subset without duplicbtion.
  */
-class FilterIterator<T> implements Iterator<T> {
+clbss FilterIterbtor<T> implements Iterbtor<T> {
 
-    private Iterator<? extends T> iter;
-    private ServiceRegistry.Filter filter;
+    privbte Iterbtor<? extends T> iter;
+    privbte ServiceRegistry.Filter filter;
 
-    private T next = null;
+    privbte T next = null;
 
-    public FilterIterator(Iterator<? extends T> iter,
+    public FilterIterbtor(Iterbtor<? extends T> iter,
                           ServiceRegistry.Filter filter) {
         this.iter = iter;
         this.filter = filter;
-        advance();
+        bdvbnce();
     }
 
-    private void advance() {
-        while (iter.hasNext()) {
+    privbte void bdvbnce() {
+        while (iter.hbsNext()) {
             T elt = iter.next();
             if (filter.filter(elt)) {
                 next = elt;
@@ -823,7 +823,7 @@ class FilterIterator<T> implements Iterator<T> {
         next = null;
     }
 
-    public boolean hasNext() {
+    public boolebn hbsNext() {
         return next != null;
     }
 
@@ -832,11 +832,11 @@ class FilterIterator<T> implements Iterator<T> {
             throw new NoSuchElementException();
         }
         T o = next;
-        advance();
+        bdvbnce();
         return o;
     }
 
     public void remove() {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperbtionException();
     }
 }

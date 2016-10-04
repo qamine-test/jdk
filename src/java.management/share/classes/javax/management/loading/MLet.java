@@ -1,177 +1,177 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.management.loading;
+pbckbge jbvbx.mbnbgement.lobding;
 
-// Java import
-import com.sun.jmx.defaults.JmxProperties;
+// Jbvb import
+import com.sun.jmx.defbults.JmxProperties;
 
-import com.sun.jmx.defaults.ServiceName;
+import com.sun.jmx.defbults.ServiceNbme;
 
 import com.sun.jmx.remote.util.EnvHelp;
 
-import java.io.Externalizable;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInput;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutput;
-import java.lang.reflect.Constructor;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLStreamHandlerFactory;
-import java.nio.file.Files;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.Map;
-import java.util.Set;
-import java.util.StringTokenizer;
+import jbvb.io.Externblizbble;
+import jbvb.io.File;
+import jbvb.io.FileOutputStrebm;
+import jbvb.io.IOException;
+import jbvb.io.InputStrebm;
+import jbvb.io.ObjectInput;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.ObjectOutput;
+import jbvb.lbng.reflect.Constructor;
+import jbvb.net.MblformedURLException;
+import jbvb.net.URL;
+import jbvb.net.URLStrebmHbndlerFbctory;
+import jbvb.nio.file.Files;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import jbvb.util.ArrbyList;
+import jbvb.util.Arrbys;
+import jbvb.util.HbshMbp;
+import jbvb.util.HbshSet;
+import jbvb.util.List;
+import jbvb.util.logging.Level;
+import jbvb.util.Mbp;
+import jbvb.util.Set;
+import jbvb.util.StringTokenizer;
 
-import javax.management.InstanceAlreadyExistsException;
-import javax.management.InstanceNotFoundException;
-import javax.management.MBeanException;
-import javax.management.MBeanRegistration;
-import javax.management.MBeanRegistrationException;
-import javax.management.MBeanServer;
-import javax.management.NotCompliantMBeanException;
-import javax.management.ObjectInstance;
-import javax.management.ObjectName;
-import javax.management.ReflectionException;
+import jbvbx.mbnbgement.InstbnceAlrebdyExistsException;
+import jbvbx.mbnbgement.InstbnceNotFoundException;
+import jbvbx.mbnbgement.MBebnException;
+import jbvbx.mbnbgement.MBebnRegistrbtion;
+import jbvbx.mbnbgement.MBebnRegistrbtionException;
+import jbvbx.mbnbgement.MBebnServer;
+import jbvbx.mbnbgement.NotComplibntMBebnException;
+import jbvbx.mbnbgement.ObjectInstbnce;
+import jbvbx.mbnbgement.ObjectNbme;
+import jbvbx.mbnbgement.ReflectionException;
 
-import static com.sun.jmx.defaults.JmxProperties.MLET_LIB_DIR;
-import static com.sun.jmx.defaults.JmxProperties.MLET_LOGGER;
-import com.sun.jmx.defaults.ServiceName;
-import javax.management.ServiceNotFoundException;
+import stbtic com.sun.jmx.defbults.JmxProperties.MLET_LIB_DIR;
+import stbtic com.sun.jmx.defbults.JmxProperties.MLET_LOGGER;
+import com.sun.jmx.defbults.ServiceNbme;
+import jbvbx.mbnbgement.ServiceNotFoundException;
 
 /**
- * Allows you to instantiate and register one or several MBeans in the MBean server
- * coming from a remote URL. M-let is a shortcut for management applet. The m-let service does this
- * by loading an m-let text file, which specifies information on the MBeans to be obtained.
- * The information on each MBean is specified in a single instance of a tag, called the MLET tag.
- * The location of the m-let text file is specified by a URL.
+ * Allows you to instbntibte bnd register one or severbl MBebns in the MBebn server
+ * coming from b remote URL. M-let is b shortcut for mbnbgement bpplet. The m-let service does this
+ * by lobding bn m-let text file, which specifies informbtion on the MBebns to be obtbined.
+ * The informbtion on ebch MBebn is specified in b single instbnce of b tbg, cblled the MLET tbg.
+ * The locbtion of the m-let text file is specified by b URL.
  * <p>
- * The <CODE>MLET</CODE> tag has the following syntax:
+ * The <CODE>MLET</CODE> tbg hbs the following syntbx:
  * <p>
  * &lt;<CODE>MLET</CODE><BR>
- *      <CODE>CODE = </CODE><VAR>class</VAR><CODE> | OBJECT = </CODE><VAR>serfile</VAR><BR>
- *      <CODE>ARCHIVE = &quot;</CODE><VAR>archiveList</VAR><CODE>&quot;</CODE><BR>
- *      <CODE>[CODEBASE = </CODE><VAR>codebaseURL</VAR><CODE>]</CODE><BR>
- *      <CODE>[NAME = </CODE><VAR>mbeanname</VAR><CODE>]</CODE><BR>
+ *      <CODE>CODE = </CODE><VAR>clbss</VAR><CODE> | OBJECT = </CODE><VAR>serfile</VAR><BR>
+ *      <CODE>ARCHIVE = &quot;</CODE><VAR>brchiveList</VAR><CODE>&quot;</CODE><BR>
+ *      <CODE>[CODEBASE = </CODE><VAR>codebbseURL</VAR><CODE>]</CODE><BR>
+ *      <CODE>[NAME = </CODE><VAR>mbebnnbme</VAR><CODE>]</CODE><BR>
  *      <CODE>[VERSION = </CODE><VAR>version</VAR><CODE>]</CODE><BR>
  * &gt;<BR>
- *      <CODE>[</CODE><VAR>arglist</VAR><CODE>]</CODE><BR>
+ *      <CODE>[</CODE><VAR>brglist</VAR><CODE>]</CODE><BR>
  * &lt;<CODE>/MLET</CODE>&gt;
  * <p>
  * where:
  * <DL>
- * <DT><CODE>CODE = </CODE><VAR>class</VAR></DT>
+ * <DT><CODE>CODE = </CODE><VAR>clbss</VAR></DT>
  * <DD>
- * This attribute specifies the full Java class name, including package name, of the MBean to be obtained.
- * The compiled <CODE>.class</CODE> file of the MBean must be contained in one of the <CODE>.jar</CODE> files specified by the <CODE>ARCHIVE</CODE>
- * attribute. Either <CODE>CODE</CODE> or <CODE>OBJECT</CODE> must be present.
+ * This bttribute specifies the full Jbvb clbss nbme, including pbckbge nbme, of the MBebn to be obtbined.
+ * The compiled <CODE>.clbss</CODE> file of the MBebn must be contbined in one of the <CODE>.jbr</CODE> files specified by the <CODE>ARCHIVE</CODE>
+ * bttribute. Either <CODE>CODE</CODE> or <CODE>OBJECT</CODE> must be present.
  * </DD>
  * <DT><CODE>OBJECT = </CODE><VAR>serfile</VAR></DT>
  * <DD>
- * This attribute specifies the <CODE>.ser</CODE> file that contains a serialized representation of the MBean to be obtained.
- * This file must be contained in one of the <CODE>.jar</CODE> files specified by the <CODE>ARCHIVE</CODE> attribute. If the <CODE>.jar</CODE> file contains a directory hierarchy, specify the path of the file within this hierarchy. Otherwise  a match will not be found. Either <CODE>CODE</CODE> or <CODE>OBJECT</CODE> must be present.
+ * This bttribute specifies the <CODE>.ser</CODE> file thbt contbins b seriblized representbtion of the MBebn to be obtbined.
+ * This file must be contbined in one of the <CODE>.jbr</CODE> files specified by the <CODE>ARCHIVE</CODE> bttribute. If the <CODE>.jbr</CODE> file contbins b directory hierbrchy, specify the pbth of the file within this hierbrchy. Otherwise  b mbtch will not be found. Either <CODE>CODE</CODE> or <CODE>OBJECT</CODE> must be present.
  * </DD>
- * <DT><CODE>ARCHIVE = &quot;</CODE><VAR>archiveList</VAR><CODE>&quot;</CODE></DT>
+ * <DT><CODE>ARCHIVE = &quot;</CODE><VAR>brchiveList</VAR><CODE>&quot;</CODE></DT>
  * <DD>
- * This mandatory attribute specifies one or more <CODE>.jar</CODE> files
- * containing MBeans or other resources used by
- * the MBean to be obtained. One of the <CODE>.jar</CODE> files must contain the file specified by the <CODE>CODE</CODE> or <CODE>OBJECT</CODE> attribute.
- * If archivelist contains more than one file:
+ * This mbndbtory bttribute specifies one or more <CODE>.jbr</CODE> files
+ * contbining MBebns or other resources used by
+ * the MBebn to be obtbined. One of the <CODE>.jbr</CODE> files must contbin the file specified by the <CODE>CODE</CODE> or <CODE>OBJECT</CODE> bttribute.
+ * If brchivelist contbins more thbn one file:
  * <UL>
- * <LI>Each file must be separated from the one that follows it by a comma (,).
- * <LI><VAR>archivelist</VAR> must be enclosed in double quote marks.
+ * <LI>Ebch file must be sepbrbted from the one thbt follows it by b commb (,).
+ * <LI><VAR>brchivelist</VAR> must be enclosed in double quote mbrks.
  * </UL>
- * All <CODE>.jar</CODE> files in <VAR>archivelist</VAR> must be stored in the directory specified by the code base URL.
+ * All <CODE>.jbr</CODE> files in <VAR>brchivelist</VAR> must be stored in the directory specified by the code bbse URL.
  * </DD>
- * <DT><CODE>CODEBASE = </CODE><VAR>codebaseURL</VAR></DT>
+ * <DT><CODE>CODEBASE = </CODE><VAR>codebbseURL</VAR></DT>
  * <DD>
- * This optional attribute specifies the code base URL of the MBean to be obtained. It identifies the directory that contains
- * the <CODE>.jar</CODE> files specified by the <CODE>ARCHIVE</CODE> attribute. Specify this attribute only if the <CODE>.jar</CODE> files are not in the same
- * directory as the m-let text file. If this attribute is not specified, the base URL of the m-let text file is used.
+ * This optionbl bttribute specifies the code bbse URL of the MBebn to be obtbined. It identifies the directory thbt contbins
+ * the <CODE>.jbr</CODE> files specified by the <CODE>ARCHIVE</CODE> bttribute. Specify this bttribute only if the <CODE>.jbr</CODE> files bre not in the sbme
+ * directory bs the m-let text file. If this bttribute is not specified, the bbse URL of the m-let text file is used.
  * </DD>
- * <DT><CODE>NAME = </CODE><VAR>mbeanname</VAR></DT>
+ * <DT><CODE>NAME = </CODE><VAR>mbebnnbme</VAR></DT>
  * <DD>
- * This optional attribute specifies the object name to be assigned to the
- * MBean instance when the m-let service registers it. If
- * <VAR>mbeanname</VAR> starts with the colon character (:), the domain
- * part of the object name is the default domain of the MBean server,
- * as returned by {@link javax.management.MBeanServer#getDefaultDomain()}.
+ * This optionbl bttribute specifies the object nbme to be bssigned to the
+ * MBebn instbnce when the m-let service registers it. If
+ * <VAR>mbebnnbme</VAR> stbrts with the colon chbrbcter (:), the dombin
+ * pbrt of the object nbme is the defbult dombin of the MBebn server,
+ * bs returned by {@link jbvbx.mbnbgement.MBebnServer#getDefbultDombin()}.
  * </DD>
  * <DT><CODE>VERSION = </CODE><VAR>version</VAR></DT>
  * <DD>
- * This optional attribute specifies the version number of the MBean and
- * associated <CODE>.jar</CODE> files to be obtained. This version number can
- * be used to specify that the <CODE>.jar</CODE> files are loaded from the
- * server to update those stored locally in the cache the next time the m-let
- * text file is loaded. <VAR>version</VAR> must be a series of non-negative
- * decimal integers each separated by a period from the one that precedes it.
+ * This optionbl bttribute specifies the version number of the MBebn bnd
+ * bssocibted <CODE>.jbr</CODE> files to be obtbined. This version number cbn
+ * be used to specify thbt the <CODE>.jbr</CODE> files bre lobded from the
+ * server to updbte those stored locblly in the cbche the next time the m-let
+ * text file is lobded. <VAR>version</VAR> must be b series of non-negbtive
+ * decimbl integers ebch sepbrbted by b period from the one thbt precedes it.
  * </DD>
- * <DT><VAR>arglist</VAR></DT>
+ * <DT><VAR>brglist</VAR></DT>
  * <DD>
- * This optional attribute specifies a list of one or more parameters for the
- * MBean to be instantiated. This list describes the parameters to be passed the MBean's constructor.
- * Use the following syntax to specify each item in
- * <VAR>arglist</VAR>:
+ * This optionbl bttribute specifies b list of one or more pbrbmeters for the
+ * MBebn to be instbntibted. This list describes the pbrbmeters to be pbssed the MBebn's constructor.
+ * Use the following syntbx to specify ebch item in
+ * <VAR>brglist</VAR>:
  * <DL>
- * <DT>&lt;<CODE>ARG TYPE=</CODE><VAR>argumentType</VAR> <CODE>VALUE=</CODE><VAR>value</VAR>&gt;</DT>
+ * <DT>&lt;<CODE>ARG TYPE=</CODE><VAR>brgumentType</VAR> <CODE>VALUE=</CODE><VAR>vblue</VAR>&gt;</DT>
  * <DD>where:
  * <UL>
- * <LI><VAR>argumentType</VAR> is the type of the argument that will be passed as parameter to the MBean's constructor.</UL>
+ * <LI><VAR>brgumentType</VAR> is the type of the brgument thbt will be pbssed bs pbrbmeter to the MBebn's constructor.</UL>
  * </DD>
  * </DL>
- * <P>The arguments' type in the argument list should be a Java primitive type or a Java basic type
- * (<CODE>java.lang.Boolean, java.lang.Byte, java.lang.Short, java.lang.Long, java.lang.Integer, java.lang.Float, java.lang.Double, java.lang.String</CODE>).
+ * <P>The brguments' type in the brgument list should be b Jbvb primitive type or b Jbvb bbsic type
+ * (<CODE>jbvb.lbng.Boolebn, jbvb.lbng.Byte, jbvb.lbng.Short, jbvb.lbng.Long, jbvb.lbng.Integer, jbvb.lbng.Flobt, jbvb.lbng.Double, jbvb.lbng.String</CODE>).
  * </DD>
  * </DL>
  *
- * When an m-let text file is loaded, an
- * instance of each MBean specified in the file is created and registered.
+ * When bn m-let text file is lobded, bn
+ * instbnce of ebch MBebn specified in the file is crebted bnd registered.
  * <P>
- * The m-let service extends the <CODE>java.net.URLClassLoader</CODE> and can be used to load remote classes
- * and jar files in the VM of the agent.
- * <p><STRONG>Note - </STRONG> The <CODE>MLet</CODE> class loader uses the {@link javax.management.MBeanServerFactory#getClassLoaderRepository(javax.management.MBeanServer)}
- * to load classes that could not be found in the loaded jar files.
+ * The m-let service extends the <CODE>jbvb.net.URLClbssLobder</CODE> bnd cbn be used to lobd remote clbsses
+ * bnd jbr files in the VM of the bgent.
+ * <p><STRONG>Note - </STRONG> The <CODE>MLet</CODE> clbss lobder uses the {@link jbvbx.mbnbgement.MBebnServerFbctory#getClbssLobderRepository(jbvbx.mbnbgement.MBebnServer)}
+ * to lobd clbsses thbt could not be found in the lobded jbr files.
  *
  * @since 1.5
  */
-public class MLet extends java.net.URLClassLoader
-     implements MLetMBean, MBeanRegistration, Externalizable {
+public clbss MLet extends jbvb.net.URLClbssLobder
+     implements MLetMBebn, MBebnRegistrbtion, Externblizbble {
 
-     private static final long serialVersionUID = 3636148327800330130L;
+     privbte stbtic finbl long seriblVersionUID = 3636148327800330130L;
 
      /*
      * ------------------------------------------
@@ -180,64 +180,64 @@ public class MLet extends java.net.URLClassLoader
      */
 
      /**
-      * The reference to the MBean server.
-      * @serial
+      * The reference to the MBebn server.
+      * @seribl
       */
-     private MBeanServer server = null;
+     privbte MBebnServer server = null;
 
 
      /**
-      * The list of instances of the <CODE>MLetContent</CODE>
-      * class found at the specified URL.
-      * @serial
+      * The list of instbnces of the <CODE>MLetContent</CODE>
+      * clbss found bt the specified URL.
+      * @seribl
       */
-     private List<MLetContent> mletList = new ArrayList<MLetContent>();
+     privbte List<MLetContent> mletList = new ArrbyList<MLetContent>();
 
 
      /**
-      * The directory used for storing libraries locally before they are loaded.
+      * The directory used for storing librbries locblly before they bre lobded.
       */
-     private String libraryDirectory;
+     privbte String librbryDirectory;
 
 
      /**
-      * The object name of the MLet Service.
-      * @serial
+      * The object nbme of the MLet Service.
+      * @seribl
       */
-     private ObjectName mletObjectName = null;
+     privbte ObjectNbme mletObjectNbme = null;
 
      /**
       * The URLs of the MLet Service.
-      * @serial
+      * @seribl
       */
-     private URL[] myUrls = null;
+     privbte URL[] myUrls = null;
 
      /**
-      * What ClassLoaderRepository, if any, to use if this MLet
-      * doesn't find an asked-for class.
+      * Whbt ClbssLobderRepository, if bny, to use if this MLet
+      * doesn't find bn bsked-for clbss.
       */
-     private transient ClassLoaderRepository currentClr;
+     privbte trbnsient ClbssLobderRepository currentClr;
 
      /**
-      * True if we should consult the {@link ClassLoaderRepository}
-      * when we do not find a class ourselves.
+      * True if we should consult the {@link ClbssLobderRepository}
+      * when we do not find b clbss ourselves.
       */
-     private transient boolean delegateToCLR;
+     privbte trbnsient boolebn delegbteToCLR;
 
      /**
-      * objects maps from primitive classes to primitive object classes.
+      * objects mbps from primitive clbsses to primitive object clbsses.
       */
-     private Map<String,Class<?>> primitiveClasses =
-         new HashMap<String,Class<?>>(8) ;
+     privbte Mbp<String,Clbss<?>> primitiveClbsses =
+         new HbshMbp<String,Clbss<?>>(8) ;
      {
-         primitiveClasses.put(Boolean.TYPE.toString(), Boolean.class);
-         primitiveClasses.put(Character.TYPE.toString(), Character.class);
-         primitiveClasses.put(Byte.TYPE.toString(), Byte.class);
-         primitiveClasses.put(Short.TYPE.toString(), Short.class);
-         primitiveClasses.put(Integer.TYPE.toString(), Integer.class);
-         primitiveClasses.put(Long.TYPE.toString(), Long.class);
-         primitiveClasses.put(Float.TYPE.toString(), Float.class);
-         primitiveClasses.put(Double.TYPE.toString(), Double.class);
+         primitiveClbsses.put(Boolebn.TYPE.toString(), Boolebn.clbss);
+         primitiveClbsses.put(Chbrbcter.TYPE.toString(), Chbrbcter.clbss);
+         primitiveClbsses.put(Byte.TYPE.toString(), Byte.clbss);
+         primitiveClbsses.put(Short.TYPE.toString(), Short.clbss);
+         primitiveClbsses.put(Integer.TYPE.toString(), Integer.clbss);
+         primitiveClbsses.put(Long.TYPE.toString(), Long.clbss);
+         primitiveClbsses.put(Flobt.TYPE.toString(), Flobt.clbss);
+         primitiveClbsses.put(Double.TYPE.toString(), Double.clbss);
 
      }
 
@@ -249,28 +249,28 @@ public class MLet extends java.net.URLClassLoader
       */
 
      /*
-      * The constructor stuff would be considerably simplified if our
-      * parent, URLClassLoader, specified that its one- and
-      * two-argument constructors were equivalent to its
-      * three-argument constructor with trailing null arguments.  But
-      * it doesn't, which prevents us from having all the constructors
-      * but one call this(...args...).
+      * The constructor stuff would be considerbbly simplified if our
+      * pbrent, URLClbssLobder, specified thbt its one- bnd
+      * two-brgument constructors were equivblent to its
+      * three-brgument constructor with trbiling null brguments.  But
+      * it doesn't, which prevents us from hbving bll the constructors
+      * but one cbll this(...brgs...).
       */
 
      /**
-      * Constructs a new MLet using the default delegation parent ClassLoader.
+      * Constructs b new MLet using the defbult delegbtion pbrent ClbssLobder.
       */
      public MLet() {
          this(new URL[0]);
      }
 
      /**
-      * Constructs a new MLet for the specified URLs using the default
-      * delegation parent ClassLoader.  The URLs will be searched in
-      * the order specified for classes and resources after first
-      * searching in the parent class loader.
+      * Constructs b new MLet for the specified URLs using the defbult
+      * delegbtion pbrent ClbssLobder.  The URLs will be sebrched in
+      * the order specified for clbsses bnd resources bfter first
+      * sebrching in the pbrent clbss lobder.
       *
-      * @param  urls  The URLs from which to load classes and resources.
+      * @pbrbm  urls  The URLs from which to lobd clbsses bnd resources.
       *
       */
      public MLet(URL[] urls) {
@@ -278,108 +278,108 @@ public class MLet extends java.net.URLClassLoader
      }
 
      /**
-      * Constructs a new MLet for the given URLs. The URLs will be
-      * searched in the order specified for classes and resources
-      * after first searching in the specified parent class loader.
-      * The parent argument will be used as the parent class loader
-      * for delegation.
+      * Constructs b new MLet for the given URLs. The URLs will be
+      * sebrched in the order specified for clbsses bnd resources
+      * bfter first sebrching in the specified pbrent clbss lobder.
+      * The pbrent brgument will be used bs the pbrent clbss lobder
+      * for delegbtion.
       *
-      * @param  urls  The URLs from which to load classes and resources.
-      * @param  parent The parent class loader for delegation.
+      * @pbrbm  urls  The URLs from which to lobd clbsses bnd resources.
+      * @pbrbm  pbrent The pbrent clbss lobder for delegbtion.
       *
       */
-     public MLet(URL[] urls, ClassLoader parent) {
-         this(urls, parent, true);
+     public MLet(URL[] urls, ClbssLobder pbrent) {
+         this(urls, pbrent, true);
      }
 
      /**
-      * Constructs a new MLet for the specified URLs, parent class
-      * loader, and URLStreamHandlerFactory. The parent argument will
-      * be used as the parent class loader for delegation. The factory
-      * argument will be used as the stream handler factory to obtain
-      * protocol handlers when creating new URLs.
+      * Constructs b new MLet for the specified URLs, pbrent clbss
+      * lobder, bnd URLStrebmHbndlerFbctory. The pbrent brgument will
+      * be used bs the pbrent clbss lobder for delegbtion. The fbctory
+      * brgument will be used bs the strebm hbndler fbctory to obtbin
+      * protocol hbndlers when crebting new URLs.
       *
-      * @param  urls  The URLs from which to load classes and resources.
-      * @param  parent The parent class loader for delegation.
-      * @param  factory  The URLStreamHandlerFactory to use when creating URLs.
+      * @pbrbm  urls  The URLs from which to lobd clbsses bnd resources.
+      * @pbrbm  pbrent The pbrent clbss lobder for delegbtion.
+      * @pbrbm  fbctory  The URLStrebmHbndlerFbctory to use when crebting URLs.
       *
       */
      public MLet(URL[] urls,
-                 ClassLoader parent,
-                 URLStreamHandlerFactory factory) {
-         this(urls, parent, factory, true);
+                 ClbssLobder pbrent,
+                 URLStrebmHbndlerFbctory fbctory) {
+         this(urls, pbrent, fbctory, true);
      }
 
      /**
-      * Constructs a new MLet for the specified URLs using the default
-      * delegation parent ClassLoader.  The URLs will be searched in
-      * the order specified for classes and resources after first
-      * searching in the parent class loader.
+      * Constructs b new MLet for the specified URLs using the defbult
+      * delegbtion pbrent ClbssLobder.  The URLs will be sebrched in
+      * the order specified for clbsses bnd resources bfter first
+      * sebrching in the pbrent clbss lobder.
       *
-      * @param  urls  The URLs from which to load classes and resources.
-      * @param  delegateToCLR  True if, when a class is not found in
-      * either the parent ClassLoader or the URLs, the MLet should delegate
-      * to its containing MBeanServer's {@link ClassLoaderRepository}.
+      * @pbrbm  urls  The URLs from which to lobd clbsses bnd resources.
+      * @pbrbm  delegbteToCLR  True if, when b clbss is not found in
+      * either the pbrent ClbssLobder or the URLs, the MLet should delegbte
+      * to its contbining MBebnServer's {@link ClbssLobderRepository}.
       *
       */
-     public MLet(URL[] urls, boolean delegateToCLR) {
+     public MLet(URL[] urls, boolebn delegbteToCLR) {
          super(urls);
-         init(delegateToCLR);
+         init(delegbteToCLR);
      }
 
      /**
-      * Constructs a new MLet for the given URLs. The URLs will be
-      * searched in the order specified for classes and resources
-      * after first searching in the specified parent class loader.
-      * The parent argument will be used as the parent class loader
-      * for delegation.
+      * Constructs b new MLet for the given URLs. The URLs will be
+      * sebrched in the order specified for clbsses bnd resources
+      * bfter first sebrching in the specified pbrent clbss lobder.
+      * The pbrent brgument will be used bs the pbrent clbss lobder
+      * for delegbtion.
       *
-      * @param  urls  The URLs from which to load classes and resources.
-      * @param  parent The parent class loader for delegation.
-      * @param  delegateToCLR  True if, when a class is not found in
-      * either the parent ClassLoader or the URLs, the MLet should delegate
-      * to its containing MBeanServer's {@link ClassLoaderRepository}.
+      * @pbrbm  urls  The URLs from which to lobd clbsses bnd resources.
+      * @pbrbm  pbrent The pbrent clbss lobder for delegbtion.
+      * @pbrbm  delegbteToCLR  True if, when b clbss is not found in
+      * either the pbrent ClbssLobder or the URLs, the MLet should delegbte
+      * to its contbining MBebnServer's {@link ClbssLobderRepository}.
       *
       */
-     public MLet(URL[] urls, ClassLoader parent, boolean delegateToCLR) {
-         super(urls, parent);
-         init(delegateToCLR);
+     public MLet(URL[] urls, ClbssLobder pbrent, boolebn delegbteToCLR) {
+         super(urls, pbrent);
+         init(delegbteToCLR);
      }
 
      /**
-      * Constructs a new MLet for the specified URLs, parent class
-      * loader, and URLStreamHandlerFactory. The parent argument will
-      * be used as the parent class loader for delegation. The factory
-      * argument will be used as the stream handler factory to obtain
-      * protocol handlers when creating new URLs.
+      * Constructs b new MLet for the specified URLs, pbrent clbss
+      * lobder, bnd URLStrebmHbndlerFbctory. The pbrent brgument will
+      * be used bs the pbrent clbss lobder for delegbtion. The fbctory
+      * brgument will be used bs the strebm hbndler fbctory to obtbin
+      * protocol hbndlers when crebting new URLs.
       *
-      * @param  urls  The URLs from which to load classes and resources.
-      * @param  parent The parent class loader for delegation.
-      * @param  factory  The URLStreamHandlerFactory to use when creating URLs.
-      * @param  delegateToCLR  True if, when a class is not found in
-      * either the parent ClassLoader or the URLs, the MLet should delegate
-      * to its containing MBeanServer's {@link ClassLoaderRepository}.
+      * @pbrbm  urls  The URLs from which to lobd clbsses bnd resources.
+      * @pbrbm  pbrent The pbrent clbss lobder for delegbtion.
+      * @pbrbm  fbctory  The URLStrebmHbndlerFbctory to use when crebting URLs.
+      * @pbrbm  delegbteToCLR  True if, when b clbss is not found in
+      * either the pbrent ClbssLobder or the URLs, the MLet should delegbte
+      * to its contbining MBebnServer's {@link ClbssLobderRepository}.
       *
       */
      public MLet(URL[] urls,
-                 ClassLoader parent,
-                 URLStreamHandlerFactory factory,
-                 boolean delegateToCLR) {
-         super(urls, parent, factory);
-         init(delegateToCLR);
+                 ClbssLobder pbrent,
+                 URLStrebmHbndlerFbctory fbctory,
+                 boolebn delegbteToCLR) {
+         super(urls, pbrent, fbctory);
+         init(delegbteToCLR);
      }
 
-     private void init(boolean delegateToCLR) {
-         this.delegateToCLR = delegateToCLR;
+     privbte void init(boolebn delegbteToCLR) {
+         this.delegbteToCLR = delegbteToCLR;
 
          try {
-             libraryDirectory = System.getProperty(MLET_LIB_DIR);
-             if (libraryDirectory == null)
-                 libraryDirectory = getTmpDir();
-         } catch (SecurityException e) {
+             librbryDirectory = System.getProperty(MLET_LIB_DIR);
+             if (librbryDirectory == null)
+                 librbryDirectory = getTmpDir();
+         } cbtch (SecurityException e) {
              // OK : We don't do AccessController.doPrivileged, but we don't
-             //      stop the user from creating an MLet just because they
-             //      can't read the MLET_LIB_DIR or java.io.tmpdir properties
+             //      stop the user from crebting bn MLet just becbuse they
+             //      cbn't rebd the MLET_LIB_DIR or jbvb.io.tmpdir properties
              //      either.
          }
      }
@@ -393,473 +393,473 @@ public class MLet extends java.net.URLClassLoader
 
 
      /**
-      * Appends the specified URL to the list of URLs to search for classes and
+      * Appends the specified URL to the list of URLs to sebrch for clbsses bnd
       * resources.
       */
-     public void addURL(URL url) {
-         if (!Arrays.asList(getURLs()).contains(url))
-             super.addURL(url);
+     public void bddURL(URL url) {
+         if (!Arrbys.bsList(getURLs()).contbins(url))
+             super.bddURL(url);
      }
 
      /**
-      * Appends the specified URL to the list of URLs to search for classes and
+      * Appends the specified URL to the list of URLs to sebrch for clbsses bnd
       * resources.
-      * @exception ServiceNotFoundException The specified URL is malformed.
+      * @exception ServiceNotFoundException The specified URL is mblformed.
       */
-     public void addURL(String url) throws ServiceNotFoundException {
+     public void bddURL(String url) throws ServiceNotFoundException {
          try {
              URL ur = new URL(url);
-             if (!Arrays.asList(getURLs()).contains(ur))
-                 super.addURL(ur);
-         } catch (MalformedURLException e) {
-             if (MLET_LOGGER.isLoggable(Level.FINEST)) {
-                 MLET_LOGGER.logp(Level.FINEST, MLet.class.getName(),
-                         "addUrl", "Malformed URL: " + url, e);
+             if (!Arrbys.bsList(getURLs()).contbins(ur))
+                 super.bddURL(ur);
+         } cbtch (MblformedURLException e) {
+             if (MLET_LOGGER.isLoggbble(Level.FINEST)) {
+                 MLET_LOGGER.logp(Level.FINEST, MLet.clbss.getNbme(),
+                         "bddUrl", "Mblformed URL: " + url, e);
              }
              throw new
-                 ServiceNotFoundException("The specified URL is malformed");
+                 ServiceNotFoundException("The specified URL is mblformed");
          }
      }
 
-     /** Returns the search path of URLs for loading classes and resources.
-      * This includes the original list of URLs specified to the constructor,
-      * along with any URLs subsequently appended by the addURL() method.
+     /** Returns the sebrch pbth of URLs for lobding clbsses bnd resources.
+      * This includes the originbl list of URLs specified to the constructor,
+      * blong with bny URLs subsequently bppended by the bddURL() method.
       */
      public URL[] getURLs() {
          return super.getURLs();
      }
 
      /**
-      * Loads a text file containing MLET tags that define the MBeans to
-      * be added to the MBean server. The location of the text file is specified by
-      * a URL. The MBeans specified in the MLET file will be instantiated and
-      * registered in the MBean server.
+      * Lobds b text file contbining MLET tbgs thbt define the MBebns to
+      * be bdded to the MBebn server. The locbtion of the text file is specified by
+      * b URL. The MBebns specified in the MLET file will be instbntibted bnd
+      * registered in the MBebn server.
       *
-      * @param url The URL of the text file to be loaded as URL object.
+      * @pbrbm url The URL of the text file to be lobded bs URL object.
       *
-      * @return  A set containing one entry per MLET tag in the m-let text file loaded.
-      * Each entry specifies either the ObjectInstance for the created MBean, or a throwable object
-      * (that is, an error or an exception) if the MBean could not be created.
+      * @return  A set contbining one entry per MLET tbg in the m-let text file lobded.
+      * Ebch entry specifies either the ObjectInstbnce for the crebted MBebn, or b throwbble object
+      * (thbt is, bn error or bn exception) if the MBebn could not be crebted.
       *
-      * @exception ServiceNotFoundException One of the following errors has occurred: The m-let text file does
-      * not contain an MLET tag, the m-let text file is not found, a mandatory
-      * attribute of the MLET tag is not specified, the value of url is
+      * @exception ServiceNotFoundException One of the following errors hbs occurred: The m-let text file does
+      * not contbin bn MLET tbg, the m-let text file is not found, b mbndbtory
+      * bttribute of the MLET tbg is not specified, the vblue of url is
       * null.
-      * @exception IllegalStateException MLet MBean is not registered with an MBeanServer.
+      * @exception IllegblStbteException MLet MBebn is not registered with bn MBebnServer.
       */
-     public Set<Object> getMBeansFromURL(URL url)
+     public Set<Object> getMBebnsFromURL(URL url)
              throws ServiceNotFoundException  {
          if (url == null) {
              throw new ServiceNotFoundException("The specified URL is null");
          }
-         return getMBeansFromURL(url.toString());
+         return getMBebnsFromURL(url.toString());
      }
 
      /**
-      * Loads a text file containing MLET tags that define the MBeans to
-      * be added to the MBean server. The location of the text file is specified by
-      * a URL. The MBeans specified in the MLET file will be instantiated and
-      * registered in the MBean server.
+      * Lobds b text file contbining MLET tbgs thbt define the MBebns to
+      * be bdded to the MBebn server. The locbtion of the text file is specified by
+      * b URL. The MBebns specified in the MLET file will be instbntibted bnd
+      * registered in the MBebn server.
       *
-      * @param url The URL of the text file to be loaded as String object.
+      * @pbrbm url The URL of the text file to be lobded bs String object.
       *
-      * @return A set containing one entry per MLET tag in the m-let
-      * text file loaded.  Each entry specifies either the
-      * ObjectInstance for the created MBean, or a throwable object
-      * (that is, an error or an exception) if the MBean could not be
-      * created.
+      * @return A set contbining one entry per MLET tbg in the m-let
+      * text file lobded.  Ebch entry specifies either the
+      * ObjectInstbnce for the crebted MBebn, or b throwbble object
+      * (thbt is, bn error or bn exception) if the MBebn could not be
+      * crebted.
       *
       * @exception ServiceNotFoundException One of the following
-      * errors has occurred: The m-let text file does not contain an
-      * MLET tag, the m-let text file is not found, a mandatory
-      * attribute of the MLET tag is not specified, the url is
-      * malformed.
-      * @exception IllegalStateException MLet MBean is not registered
-      * with an MBeanServer.
+      * errors hbs occurred: The m-let text file does not contbin bn
+      * MLET tbg, the m-let text file is not found, b mbndbtory
+      * bttribute of the MLET tbg is not specified, the url is
+      * mblformed.
+      * @exception IllegblStbteException MLet MBebn is not registered
+      * with bn MBebnServer.
       *
       */
-     public Set<Object> getMBeansFromURL(String url)
+     public Set<Object> getMBebnsFromURL(String url)
              throws ServiceNotFoundException  {
 
-         String mth = "getMBeansFromURL";
+         String mth = "getMBebnsFromURL";
 
          if (server == null) {
-             throw new IllegalStateException("This MLet MBean is not " +
-                                             "registered with an MBeanServer.");
+             throw new IllegblStbteException("This MLet MBebn is not " +
+                                             "registered with bn MBebnServer.");
          }
-         // Parse arguments
+         // Pbrse brguments
          if (url == null) {
-             MLET_LOGGER.logp(Level.FINER, MLet.class.getName(),
+             MLET_LOGGER.logp(Level.FINER, MLet.clbss.getNbme(),
                      mth, "URL is null");
              throw new ServiceNotFoundException("The specified URL is null");
          } else {
-             url = url.replace(File.separatorChar,'/');
+             url = url.replbce(File.sepbrbtorChbr,'/');
          }
-         if (MLET_LOGGER.isLoggable(Level.FINER)) {
-             MLET_LOGGER.logp(Level.FINER, MLet.class.getName(),
+         if (MLET_LOGGER.isLoggbble(Level.FINER)) {
+             MLET_LOGGER.logp(Level.FINER, MLet.clbss.getNbme(),
                      mth, "<URL = " + url + ">");
          }
 
-         // Parse URL
+         // Pbrse URL
          try {
-             MLetParser parser = new MLetParser();
-             mletList = parser.parseURL(url);
-         } catch (Exception e) {
-             final String msg =
-                 "Problems while parsing URL [" + url +
+             MLetPbrser pbrser = new MLetPbrser();
+             mletList = pbrser.pbrseURL(url);
+         } cbtch (Exception e) {
+             finbl String msg =
+                 "Problems while pbrsing URL [" + url +
                  "], got exception [" + e.toString() + "]";
-             MLET_LOGGER.logp(Level.FINER, MLet.class.getName(), mth, msg);
-             throw EnvHelp.initCause(new ServiceNotFoundException(msg), e);
+             MLET_LOGGER.logp(Level.FINER, MLet.clbss.getNbme(), mth, msg);
+             throw EnvHelp.initCbuse(new ServiceNotFoundException(msg), e);
          }
 
-         // Check that the list of MLets is not empty
+         // Check thbt the list of MLets is not empty
          if (mletList.size() == 0) {
-             final String msg =
-                 "File " + url + " not found or MLET tag not defined in file";
-             MLET_LOGGER.logp(Level.FINER, MLet.class.getName(), mth, msg);
+             finbl String msg =
+                 "File " + url + " not found or MLET tbg not defined in file";
+             MLET_LOGGER.logp(Level.FINER, MLet.clbss.getNbme(), mth, msg);
              throw new ServiceNotFoundException(msg);
          }
 
-         // Walk through the list of MLets
-         Set<Object> mbeans = new HashSet<Object>();
+         // Wblk through the list of MLets
+         Set<Object> mbebns = new HbshSet<Object>();
          for (MLetContent elmt : mletList) {
-             // Initialize local variables
+             // Initiblize locbl vbribbles
              String code = elmt.getCode();
              if (code != null) {
-                 if (code.endsWith(".class")) {
+                 if (code.endsWith(".clbss")) {
                      code = code.substring(0, code.length() - 6);
                  }
              }
-             String name = elmt.getName();
-             URL codebase = elmt.getCodeBase();
+             String nbme = elmt.getNbme();
+             URL codebbse = elmt.getCodeBbse();
              String version = elmt.getVersion();
-             String serName = elmt.getSerializedObject();
-             String jarFiles = elmt.getJarFiles();
-             URL documentBase = elmt.getDocumentBase();
+             String serNbme = elmt.getSeriblizedObject();
+             String jbrFiles = elmt.getJbrFiles();
+             URL documentBbse = elmt.getDocumentBbse();
 
-             // Display debug information
-             if (MLET_LOGGER.isLoggable(Level.FINER)) {
-                 final StringBuilder strb = new StringBuilder()
-                 .append("\n\tMLET TAG     = ").append(elmt.getAttributes())
-                 .append("\n\tCODEBASE     = ").append(codebase)
-                 .append("\n\tARCHIVE      = ").append(jarFiles)
-                 .append("\n\tCODE         = ").append(code)
-                 .append("\n\tOBJECT       = ").append(serName)
-                 .append("\n\tNAME         = ").append(name)
-                 .append("\n\tVERSION      = ").append(version)
-                 .append("\n\tDOCUMENT URL = ").append(documentBase);
-                 MLET_LOGGER.logp(Level.FINER, MLet.class.getName(),
+             // Displby debug informbtion
+             if (MLET_LOGGER.isLoggbble(Level.FINER)) {
+                 finbl StringBuilder strb = new StringBuilder()
+                 .bppend("\n\tMLET TAG     = ").bppend(elmt.getAttributes())
+                 .bppend("\n\tCODEBASE     = ").bppend(codebbse)
+                 .bppend("\n\tARCHIVE      = ").bppend(jbrFiles)
+                 .bppend("\n\tCODE         = ").bppend(code)
+                 .bppend("\n\tOBJECT       = ").bppend(serNbme)
+                 .bppend("\n\tNAME         = ").bppend(nbme)
+                 .bppend("\n\tVERSION      = ").bppend(version)
+                 .bppend("\n\tDOCUMENT URL = ").bppend(documentBbse);
+                 MLET_LOGGER.logp(Level.FINER, MLet.clbss.getNbme(),
                          mth, strb.toString());
              }
 
-             // Load classes from JAR files
-             StringTokenizer st = new StringTokenizer(jarFiles, ",", false);
-             while (st.hasMoreTokens()) {
+             // Lobd clbsses from JAR files
+             StringTokenizer st = new StringTokenizer(jbrFiles, ",", fblse);
+             while (st.hbsMoreTokens()) {
                  String tok = st.nextToken().trim();
-                 if (MLET_LOGGER.isLoggable(Level.FINER)) {
-                     MLET_LOGGER.logp(Level.FINER, MLet.class.getName(), mth,
-                             "Load archive for codebase <" + codebase +
+                 if (MLET_LOGGER.isLoggbble(Level.FINER)) {
+                     MLET_LOGGER.logp(Level.FINER, MLet.clbss.getNbme(), mth,
+                             "Lobd brchive for codebbse <" + codebbse +
                              ">, file <" + tok + ">");
                  }
-                 // Check which is the codebase to be used for loading the jar file.
-                 // If we are using the base MLet implementation then it will be
-                 // always the remote server but if the service has been extended in
-                 // order to support caching and versioning then this method will
-                 // return the appropriate one.
+                 // Check which is the codebbse to be used for lobding the jbr file.
+                 // If we bre using the bbse MLet implementbtion then it will be
+                 // blwbys the remote server but if the service hbs been extended in
+                 // order to support cbching bnd versioning then this method will
+                 // return the bppropribte one.
                  //
                  try {
-                     codebase = check(version, codebase, tok, elmt);
-                 } catch (Exception ex) {
-                     MLET_LOGGER.logp(Level.FINEST, MLet.class.getName(),
+                     codebbse = check(version, codebbse, tok, elmt);
+                 } cbtch (Exception ex) {
+                     MLET_LOGGER.logp(Level.FINEST, MLet.clbss.getNbme(),
                              mth, "Got unexpected exception", ex);
-                     mbeans.add(ex);
+                     mbebns.bdd(ex);
                      continue;
                  }
 
                  // Appends the specified JAR file URL to the list of
-                 // URLs to search for classes and resources.
+                 // URLs to sebrch for clbsses bnd resources.
                  try {
-                     if (!Arrays.asList(getURLs())
-                         .contains(new URL(codebase.toString() + tok))) {
-                         addURL(codebase + tok);
+                     if (!Arrbys.bsList(getURLs())
+                         .contbins(new URL(codebbse.toString() + tok))) {
+                         bddURL(codebbse + tok);
                      }
-                 } catch (MalformedURLException me) {
-                     // OK : Ignore jar file if its name provokes the
-                     // URL to be an invalid one.
+                 } cbtch (MblformedURLException me) {
+                     // OK : Ignore jbr file if its nbme provokes the
+                     // URL to be bn invblid one.
                  }
 
              }
-             // Instantiate the class specified in the
-             // CODE or OBJECT section of the MLet tag
+             // Instbntibte the clbss specified in the
+             // CODE or OBJECT section of the MLet tbg
              //
              Object o;
-             ObjectInstance objInst;
+             ObjectInstbnce objInst;
 
-             if (code != null && serName != null) {
-                 final String msg =
-                     "CODE and OBJECT parameters cannot be specified at the " +
-                     "same time in tag MLET";
-                 MLET_LOGGER.logp(Level.FINER, MLet.class.getName(), mth, msg);
-                 mbeans.add(new Error(msg));
+             if (code != null && serNbme != null) {
+                 finbl String msg =
+                     "CODE bnd OBJECT pbrbmeters cbnnot be specified bt the " +
+                     "sbme time in tbg MLET";
+                 MLET_LOGGER.logp(Level.FINER, MLet.clbss.getNbme(), mth, msg);
+                 mbebns.bdd(new Error(msg));
                  continue;
              }
-             if (code == null && serName == null) {
-                 final String msg =
-                     "Either CODE or OBJECT parameter must be specified in " +
-                     "tag MLET";
-                 MLET_LOGGER.logp(Level.FINER, MLet.class.getName(), mth, msg);
-                 mbeans.add(new Error(msg));
+             if (code == null && serNbme == null) {
+                 finbl String msg =
+                     "Either CODE or OBJECT pbrbmeter must be specified in " +
+                     "tbg MLET";
+                 MLET_LOGGER.logp(Level.FINER, MLet.clbss.getNbme(), mth, msg);
+                 mbebns.bdd(new Error(msg));
                  continue;
              }
              try {
                  if (code != null) {
 
-                     List<String> signat = elmt.getParameterTypes();
-                     List<String> stringPars = elmt.getParameterValues();
-                     List<Object> objectPars = new ArrayList<Object>();
+                     List<String> signbt = elmt.getPbrbmeterTypes();
+                     List<String> stringPbrs = elmt.getPbrbmeterVblues();
+                     List<Object> objectPbrs = new ArrbyList<Object>();
 
-                     for (int i = 0; i < signat.size(); i++) {
-                         objectPars.add(constructParameter(stringPars.get(i),
-                                                           signat.get(i)));
+                     for (int i = 0; i < signbt.size(); i++) {
+                         objectPbrs.bdd(constructPbrbmeter(stringPbrs.get(i),
+                                                           signbt.get(i)));
                      }
-                     if (signat.isEmpty()) {
-                         if (name == null) {
-                             objInst = server.createMBean(code, null,
-                                                          mletObjectName);
+                     if (signbt.isEmpty()) {
+                         if (nbme == null) {
+                             objInst = server.crebteMBebn(code, null,
+                                                          mletObjectNbme);
                          } else {
-                             objInst = server.createMBean(code,
-                                                          new ObjectName(name),
-                                                          mletObjectName);
+                             objInst = server.crebteMBebn(code,
+                                                          new ObjectNbme(nbme),
+                                                          mletObjectNbme);
                          }
                      } else {
-                         Object[] parms = objectPars.toArray();
-                         String[] signature = new String[signat.size()];
-                         signat.toArray(signature);
-                         if (MLET_LOGGER.isLoggable(Level.FINEST)) {
-                             final StringBuilder strb = new StringBuilder();
-                             for (int i = 0; i < signature.length; i++) {
-                                 strb.append("\n\tSignature     = ")
-                                 .append(signature[i])
-                                 .append("\t\nParams        = ")
-                                 .append(parms[i]);
+                         Object[] pbrms = objectPbrs.toArrby();
+                         String[] signbture = new String[signbt.size()];
+                         signbt.toArrby(signbture);
+                         if (MLET_LOGGER.isLoggbble(Level.FINEST)) {
+                             finbl StringBuilder strb = new StringBuilder();
+                             for (int i = 0; i < signbture.length; i++) {
+                                 strb.bppend("\n\tSignbture     = ")
+                                 .bppend(signbture[i])
+                                 .bppend("\t\nPbrbms        = ")
+                                 .bppend(pbrms[i]);
                              }
                              MLET_LOGGER.logp(Level.FINEST,
-                                     MLet.class.getName(),
+                                     MLet.clbss.getNbme(),
                                      mth, strb.toString());
                          }
-                         if (name == null) {
+                         if (nbme == null) {
                              objInst =
-                                 server.createMBean(code, null, mletObjectName,
-                                                    parms, signature);
+                                 server.crebteMBebn(code, null, mletObjectNbme,
+                                                    pbrms, signbture);
                          } else {
                              objInst =
-                                 server.createMBean(code, new ObjectName(name),
-                                                    mletObjectName, parms,
-                                                    signature);
+                                 server.crebteMBebn(code, new ObjectNbme(nbme),
+                                                    mletObjectNbme, pbrms,
+                                                    signbture);
                          }
                      }
                  } else {
-                     o = loadSerializedObject(codebase,serName);
-                     if (name == null) {
-                         server.registerMBean(o, null);
+                     o = lobdSeriblizedObject(codebbse,serNbme);
+                     if (nbme == null) {
+                         server.registerMBebn(o, null);
                      } else {
-                         server.registerMBean(o,  new ObjectName(name));
+                         server.registerMBebn(o,  new ObjectNbme(nbme));
                      }
-                     objInst = new ObjectInstance(name, o.getClass().getName());
+                     objInst = new ObjectInstbnce(nbme, o.getClbss().getNbme());
                  }
-             } catch (ReflectionException  ex) {
-                 MLET_LOGGER.logp(Level.FINER, MLet.class.getName(), mth,
+             } cbtch (ReflectionException  ex) {
+                 MLET_LOGGER.logp(Level.FINER, MLet.clbss.getNbme(), mth,
                          "ReflectionException", ex);
-                 mbeans.add(ex);
+                 mbebns.bdd(ex);
                  continue;
-             } catch (InstanceAlreadyExistsException  ex) {
-                 MLET_LOGGER.logp(Level.FINER, MLet.class.getName(), mth,
-                         "InstanceAlreadyExistsException", ex);
-                 mbeans.add(ex);
+             } cbtch (InstbnceAlrebdyExistsException  ex) {
+                 MLET_LOGGER.logp(Level.FINER, MLet.clbss.getNbme(), mth,
+                         "InstbnceAlrebdyExistsException", ex);
+                 mbebns.bdd(ex);
                  continue;
-             } catch (MBeanRegistrationException ex) {
-                 MLET_LOGGER.logp(Level.FINER, MLet.class.getName(), mth,
-                         "MBeanRegistrationException", ex);
-                 mbeans.add(ex);
+             } cbtch (MBebnRegistrbtionException ex) {
+                 MLET_LOGGER.logp(Level.FINER, MLet.clbss.getNbme(), mth,
+                         "MBebnRegistrbtionException", ex);
+                 mbebns.bdd(ex);
                  continue;
-             } catch (MBeanException  ex) {
-                 MLET_LOGGER.logp(Level.FINER, MLet.class.getName(), mth,
-                         "MBeanException", ex);
-                 mbeans.add(ex);
+             } cbtch (MBebnException  ex) {
+                 MLET_LOGGER.logp(Level.FINER, MLet.clbss.getNbme(), mth,
+                         "MBebnException", ex);
+                 mbebns.bdd(ex);
                  continue;
-             } catch (NotCompliantMBeanException  ex) {
-                 MLET_LOGGER.logp(Level.FINER, MLet.class.getName(), mth,
-                         "NotCompliantMBeanException", ex);
-                 mbeans.add(ex);
+             } cbtch (NotComplibntMBebnException  ex) {
+                 MLET_LOGGER.logp(Level.FINER, MLet.clbss.getNbme(), mth,
+                         "NotComplibntMBebnException", ex);
+                 mbebns.bdd(ex);
                  continue;
-             } catch (InstanceNotFoundException   ex) {
-                 MLET_LOGGER.logp(Level.FINER, MLet.class.getName(), mth,
-                         "InstanceNotFoundException", ex);
-                 mbeans.add(ex);
+             } cbtch (InstbnceNotFoundException   ex) {
+                 MLET_LOGGER.logp(Level.FINER, MLet.clbss.getNbme(), mth,
+                         "InstbnceNotFoundException", ex);
+                 mbebns.bdd(ex);
                  continue;
-             } catch (IOException ex) {
-                 MLET_LOGGER.logp(Level.FINER, MLet.class.getName(), mth,
+             } cbtch (IOException ex) {
+                 MLET_LOGGER.logp(Level.FINER, MLet.clbss.getNbme(), mth,
                          "IOException", ex);
-                 mbeans.add(ex);
+                 mbebns.bdd(ex);
                  continue;
-             } catch (SecurityException ex) {
-                 MLET_LOGGER.logp(Level.FINER, MLet.class.getName(), mth,
+             } cbtch (SecurityException ex) {
+                 MLET_LOGGER.logp(Level.FINER, MLet.clbss.getNbme(), mth,
                          "SecurityException", ex);
-                 mbeans.add(ex);
+                 mbebns.bdd(ex);
                  continue;
-             } catch (Exception ex) {
-                 MLET_LOGGER.logp(Level.FINER, MLet.class.getName(), mth,
+             } cbtch (Exception ex) {
+                 MLET_LOGGER.logp(Level.FINER, MLet.clbss.getNbme(), mth,
                          "Exception", ex);
-                 mbeans.add(ex);
+                 mbebns.bdd(ex);
                  continue;
-             } catch (Error ex) {
-                 MLET_LOGGER.logp(Level.FINER, MLet.class.getName(), mth,
+             } cbtch (Error ex) {
+                 MLET_LOGGER.logp(Level.FINER, MLet.clbss.getNbme(), mth,
                          "Error", ex);
-                 mbeans.add(ex);
+                 mbebns.bdd(ex);
                  continue;
              }
-             mbeans.add(objInst);
+             mbebns.bdd(objInst);
          }
-         return mbeans;
+         return mbebns;
      }
 
      /**
-      * Gets the current directory used by the library loader for
-      * storing native libraries before they are loaded into memory.
+      * Gets the current directory used by the librbry lobder for
+      * storing nbtive librbries before they bre lobded into memory.
       *
-      * @return The current directory used by the library loader.
+      * @return The current directory used by the librbry lobder.
       *
-      * @see #setLibraryDirectory
+      * @see #setLibrbryDirectory
       *
-      * @throws UnsupportedOperationException if this implementation
-      * does not support storing native libraries in this way.
+      * @throws UnsupportedOperbtionException if this implementbtion
+      * does not support storing nbtive librbries in this wby.
       */
-     public synchronized String getLibraryDirectory() {
-         return libraryDirectory;
+     public synchronized String getLibrbryDirectory() {
+         return librbryDirectory;
      }
 
      /**
-      * Sets the directory used by the library loader for storing
-      * native libraries before they are loaded into memory.
+      * Sets the directory used by the librbry lobder for storing
+      * nbtive librbries before they bre lobded into memory.
       *
-      * @param libdir The directory used by the library loader.
+      * @pbrbm libdir The directory used by the librbry lobder.
       *
-      * @see #getLibraryDirectory
+      * @see #getLibrbryDirectory
       *
-      * @throws UnsupportedOperationException if this implementation
-      * does not support storing native libraries in this way.
+      * @throws UnsupportedOperbtionException if this implementbtion
+      * does not support storing nbtive librbries in this wby.
       */
-     public synchronized void setLibraryDirectory(String libdir) {
-         libraryDirectory = libdir;
+     public synchronized void setLibrbryDirectory(String libdir) {
+         librbryDirectory = libdir;
      }
 
      /**
-      * Allows the m-let to perform any operations it needs before
-      * being registered in the MBean server. If the ObjectName is
-      * null, the m-let provides a default name for its registration
-      * &lt;defaultDomain&gt;:type=MLet
+      * Allows the m-let to perform bny operbtions it needs before
+      * being registered in the MBebn server. If the ObjectNbme is
+      * null, the m-let provides b defbult nbme for its registrbtion
+      * &lt;defbultDombin&gt;:type=MLet
       *
-      * @param server The MBean server in which the m-let will be registered.
-      * @param name The object name of the m-let.
+      * @pbrbm server The MBebn server in which the m-let will be registered.
+      * @pbrbm nbme The object nbme of the m-let.
       *
-      * @return  The name of the m-let registered.
+      * @return  The nbme of the m-let registered.
       *
-      * @exception java.lang.Exception This exception should be caught by the MBean server and re-thrown
-      *as an MBeanRegistrationException.
+      * @exception jbvb.lbng.Exception This exception should be cbught by the MBebn server bnd re-thrown
+      *bs bn MBebnRegistrbtionException.
       */
-     public ObjectName preRegister(MBeanServer server, ObjectName name)
+     public ObjectNbme preRegister(MBebnServer server, ObjectNbme nbme)
              throws Exception {
 
-         // Initialize local pointer to the MBean server
-         setMBeanServer(server);
+         // Initiblize locbl pointer to the MBebn server
+         setMBebnServer(server);
 
-         // If no name is specified return a default name for the MLet
-         if (name == null) {
-             name = new ObjectName(server.getDefaultDomain() + ":" + ServiceName.MLET);
+         // If no nbme is specified return b defbult nbme for the MLet
+         if (nbme == null) {
+             nbme = new ObjectNbme(server.getDefbultDombin() + ":" + ServiceNbme.MLET);
          }
 
-        this.mletObjectName = name;
-        return this.mletObjectName;
+        this.mletObjectNbme = nbme;
+        return this.mletObjectNbme;
      }
 
      /**
-      * Allows the m-let to perform any operations needed after having been
-      * registered in the MBean server or after the registration has failed.
+      * Allows the m-let to perform bny operbtions needed bfter hbving been
+      * registered in the MBebn server or bfter the registrbtion hbs fbiled.
       *
-      * @param registrationDone Indicates whether or not the m-let has
-      * been successfully registered in the MBean server. The value
-      * false means that either the registration phase has failed.
+      * @pbrbm registrbtionDone Indicbtes whether or not the m-let hbs
+      * been successfully registered in the MBebn server. The vblue
+      * fblse mebns thbt either the registrbtion phbse hbs fbiled.
       *
       */
-     public void postRegister (Boolean registrationDone) {
+     public void postRegister (Boolebn registrbtionDone) {
      }
 
      /**
-      * Allows the m-let to perform any operations it needs before being unregistered
-      * by the MBean server.
+      * Allows the m-let to perform bny operbtions it needs before being unregistered
+      * by the MBebn server.
       *
-      * @exception java.lang.Exception This exception should be caught
-      * by the MBean server and re-thrown as an
-      * MBeanRegistrationException.
+      * @exception jbvb.lbng.Exception This exception should be cbught
+      * by the MBebn server bnd re-thrown bs bn
+      * MBebnRegistrbtionException.
       */
-     public void preDeregister() throws java.lang.Exception {
+     public void preDeregister() throws jbvb.lbng.Exception {
      }
 
 
      /**
-      * Allows the m-let to perform any operations needed after having been
-      * unregistered in the MBean server.
+      * Allows the m-let to perform bny operbtions needed bfter hbving been
+      * unregistered in the MBebn server.
       */
      public void postDeregister() {
      }
 
      /**
-      * <p>Save this MLet's contents to the given {@link ObjectOutput}.
-      * Not all implementations support this method.  Those that do not
-      * throw {@link UnsupportedOperationException}.  A subclass may
-      * override this method to support it or to change the format of
-      * the written data.</p>
+      * <p>Sbve this MLet's contents to the given {@link ObjectOutput}.
+      * Not bll implementbtions support this method.  Those thbt do not
+      * throw {@link UnsupportedOperbtionException}.  A subclbss mby
+      * override this method to support it or to chbnge the formbt of
+      * the written dbtb.</p>
       *
-      * <p>The format of the written data is not specified, but if
-      * an implementation supports {@link #writeExternal} it must
-      * also support {@link #readExternal} in such a way that what is
-      * written by the former can be read by the latter.</p>
+      * <p>The formbt of the written dbtb is not specified, but if
+      * bn implementbtion supports {@link #writeExternbl} it must
+      * blso support {@link #rebdExternbl} in such b wby thbt whbt is
+      * written by the former cbn be rebd by the lbtter.</p>
       *
-      * @param out The object output stream to write to.
+      * @pbrbm out The object output strebm to write to.
       *
-      * @exception IOException If a problem occurred while writing.
-      * @exception UnsupportedOperationException If this
-      * implementation does not support this operation.
+      * @exception IOException If b problem occurred while writing.
+      * @exception UnsupportedOperbtionException If this
+      * implementbtion does not support this operbtion.
       */
-     public void writeExternal(ObjectOutput out)
-             throws IOException, UnsupportedOperationException {
-         throw new UnsupportedOperationException("MLet.writeExternal");
+     public void writeExternbl(ObjectOutput out)
+             throws IOException, UnsupportedOperbtionException {
+         throw new UnsupportedOperbtionException("MLet.writeExternbl");
      }
 
      /**
       * <p>Restore this MLet's contents from the given {@link ObjectInput}.
-      * Not all implementations support this method.  Those that do not
-      * throw {@link UnsupportedOperationException}.  A subclass may
-      * override this method to support it or to change the format of
-      * the read data.</p>
+      * Not bll implementbtions support this method.  Those thbt do not
+      * throw {@link UnsupportedOperbtionException}.  A subclbss mby
+      * override this method to support it or to chbnge the formbt of
+      * the rebd dbtb.</p>
       *
-      * <p>The format of the read data is not specified, but if an
-      * implementation supports {@link #readExternal} it must also
-      * support {@link #writeExternal} in such a way that what is
-      * written by the latter can be read by the former.</p>
+      * <p>The formbt of the rebd dbtb is not specified, but if bn
+      * implementbtion supports {@link #rebdExternbl} it must blso
+      * support {@link #writeExternbl} in such b wby thbt whbt is
+      * written by the lbtter cbn be rebd by the former.</p>
       *
-      * @param in The object input stream to read from.
+      * @pbrbm in The object input strebm to rebd from.
       *
-      * @exception IOException if a problem occurred while reading.
-      * @exception ClassNotFoundException if the class for the object
-      * being restored cannot be found.
-      * @exception UnsupportedOperationException if this
-      * implementation does not support this operation.
+      * @exception IOException if b problem occurred while rebding.
+      * @exception ClbssNotFoundException if the clbss for the object
+      * being restored cbnnot be found.
+      * @exception UnsupportedOperbtionException if this
+      * implementbtion does not support this operbtion.
       */
-     public void readExternal(ObjectInput in)
-             throws IOException, ClassNotFoundException,
-                    UnsupportedOperationException {
-         throw new UnsupportedOperationException("MLet.readExternal");
+     public void rebdExternbl(ObjectInput in)
+             throws IOException, ClbssNotFoundException,
+                    UnsupportedOperbtionException {
+         throw new UnsupportedOperbtionException("MLet.rebdExternbl");
      }
 
      /*
@@ -869,30 +869,30 @@ public class MLet extends java.net.URLClassLoader
       */
 
      /**
-      * <p>Load a class, using the given {@link ClassLoaderRepository} if
-      * the class is not found in this MLet's URLs.  The given
-      * ClassLoaderRepository can be null, in which case a {@link
-      * ClassNotFoundException} occurs immediately if the class is not
+      * <p>Lobd b clbss, using the given {@link ClbssLobderRepository} if
+      * the clbss is not found in this MLet's URLs.  The given
+      * ClbssLobderRepository cbn be null, in which cbse b {@link
+      * ClbssNotFoundException} occurs immedibtely if the clbss is not
       * found in this MLet's URLs.</p>
       *
-      * @param name The name of the class we want to load.
-      * @param clr  The ClassLoaderRepository that will be used to search
-      *             for the given class, if it is not found in this
-      *             ClassLoader.  May be null.
-      * @return The resulting Class object.
-      * @exception ClassNotFoundException The specified class could not be
-      *            found in this ClassLoader nor in the given
-      *            ClassLoaderRepository.
+      * @pbrbm nbme The nbme of the clbss we wbnt to lobd.
+      * @pbrbm clr  The ClbssLobderRepository thbt will be used to sebrch
+      *             for the given clbss, if it is not found in this
+      *             ClbssLobder.  Mby be null.
+      * @return The resulting Clbss object.
+      * @exception ClbssNotFoundException The specified clbss could not be
+      *            found in this ClbssLobder nor in the given
+      *            ClbssLobderRepository.
       *
       */
-     public synchronized Class<?> loadClass(String name,
-                                            ClassLoaderRepository clr)
-              throws ClassNotFoundException {
-         final ClassLoaderRepository before=currentClr;
+     public synchronized Clbss<?> lobdClbss(String nbme,
+                                            ClbssLobderRepository clr)
+              throws ClbssNotFoundException {
+         finbl ClbssLobderRepository before=currentClr;
          try {
              currentClr = clr;
-             return loadClass(name);
-         } finally {
+             return lobdClbss(nbme);
+         } finblly {
              currentClr = before;
          }
      }
@@ -904,203 +904,203 @@ public class MLet extends java.net.URLClassLoader
       */
 
      /**
-      * This is the main method for class loaders that is being redefined.
+      * This is the mbin method for clbss lobders thbt is being redefined.
       *
-      * @param name The name of the class.
+      * @pbrbm nbme The nbme of the clbss.
       *
-      * @return The resulting Class object.
+      * @return The resulting Clbss object.
       *
-      * @exception ClassNotFoundException The specified class could not be
+      * @exception ClbssNotFoundException The specified clbss could not be
       *            found.
       */
-     protected Class<?> findClass(String name) throws ClassNotFoundException {
-         /* currentClr is context sensitive - used to avoid recursion
-            in the class loader repository.  (This is no longer
-            necessary with the new CLR semantics but is kept for
-            compatibility with code that might have called the
-            two-parameter loadClass explicitly.)  */
-         return findClass(name, currentClr);
+     protected Clbss<?> findClbss(String nbme) throws ClbssNotFoundException {
+         /* currentClr is context sensitive - used to bvoid recursion
+            in the clbss lobder repository.  (This is no longer
+            necessbry with the new CLR sembntics but is kept for
+            compbtibility with code thbt might hbve cblled the
+            two-pbrbmeter lobdClbss explicitly.)  */
+         return findClbss(nbme, currentClr);
      }
 
      /**
-      * Called by {@link MLet#findClass(java.lang.String)}.
+      * Cblled by {@link MLet#findClbss(jbvb.lbng.String)}.
       *
-      * @param name The name of the class that we want to load/find.
-      * @param clr The ClassLoaderRepository that can be used to search
-      *            for the given class. This parameter is
-      *            <code>null</code> when called from within the
-      *            {@link javax.management.MBeanServerFactory#getClassLoaderRepository(javax.management.MBeanServer) Class Loader Repository}.
-      * @exception ClassNotFoundException The specified class could not be
+      * @pbrbm nbme The nbme of the clbss thbt we wbnt to lobd/find.
+      * @pbrbm clr The ClbssLobderRepository thbt cbn be used to sebrch
+      *            for the given clbss. This pbrbmeter is
+      *            <code>null</code> when cblled from within the
+      *            {@link jbvbx.mbnbgement.MBebnServerFbctory#getClbssLobderRepository(jbvbx.mbnbgement.MBebnServer) Clbss Lobder Repository}.
+      * @exception ClbssNotFoundException The specified clbss could not be
       *            found.
       *
       **/
-     Class<?> findClass(String name, ClassLoaderRepository clr)
-         throws ClassNotFoundException {
-         Class<?> c = null;
-         MLET_LOGGER.logp(Level.FINER, MLet.class.getName(), "findClass", name);
+     Clbss<?> findClbss(String nbme, ClbssLobderRepository clr)
+         throws ClbssNotFoundException {
+         Clbss<?> c = null;
+         MLET_LOGGER.logp(Level.FINER, MLet.clbss.getNbme(), "findClbss", nbme);
          // Try looking in the JAR:
          try {
-             c = super.findClass(name);
-             if (MLET_LOGGER.isLoggable(Level.FINER)) {
-                 MLET_LOGGER.logp(Level.FINER, MLet.class.getName(),
-                         "findClass",
-                         "Class " + name + " loaded through MLet classloader");
+             c = super.findClbss(nbme);
+             if (MLET_LOGGER.isLoggbble(Level.FINER)) {
+                 MLET_LOGGER.logp(Level.FINER, MLet.clbss.getNbme(),
+                         "findClbss",
+                         "Clbss " + nbme + " lobded through MLet clbsslobder");
              }
-         } catch (ClassNotFoundException e) {
+         } cbtch (ClbssNotFoundException e) {
              // Drop through
-             if (MLET_LOGGER.isLoggable(Level.FINEST)) {
-                 MLET_LOGGER.logp(Level.FINEST, MLet.class.getName(),
-                         "findClass",
-                         "Class " + name + " not found locally");
+             if (MLET_LOGGER.isLoggbble(Level.FINEST)) {
+                 MLET_LOGGER.logp(Level.FINEST, MLet.clbss.getNbme(),
+                         "findClbss",
+                         "Clbss " + nbme + " not found locblly");
              }
          }
-         // if we are not called from the ClassLoaderRepository
-         if (c == null && delegateToCLR && clr != null) {
-             // Try the classloader repository:
+         // if we bre not cblled from the ClbssLobderRepository
+         if (c == null && delegbteToCLR && clr != null) {
+             // Try the clbsslobder repository:
              //
              try {
-                 if (MLET_LOGGER.isLoggable(Level.FINEST)) {
-                     MLET_LOGGER.logp(Level.FINEST, MLet.class.getName(),
-                             "findClass",
-                             "Class " + name + " : looking in CLR");
+                 if (MLET_LOGGER.isLoggbble(Level.FINEST)) {
+                     MLET_LOGGER.logp(Level.FINEST, MLet.clbss.getNbme(),
+                             "findClbss",
+                             "Clbss " + nbme + " : looking in CLR");
                  }
-                 c = clr.loadClassBefore(this, name);
-                 // The loadClassBefore method never returns null.
-                 // If the class is not found we get an exception.
-                 if (MLET_LOGGER.isLoggable(Level.FINER)) {
-                     MLET_LOGGER.logp(Level.FINER, MLet.class.getName(),
-                             "findClass",
-                             "Class " + name + " loaded through " +
-                             "the default classloader repository");
+                 c = clr.lobdClbssBefore(this, nbme);
+                 // The lobdClbssBefore method never returns null.
+                 // If the clbss is not found we get bn exception.
+                 if (MLET_LOGGER.isLoggbble(Level.FINER)) {
+                     MLET_LOGGER.logp(Level.FINER, MLet.clbss.getNbme(),
+                             "findClbss",
+                             "Clbss " + nbme + " lobded through " +
+                             "the defbult clbsslobder repository");
                  }
-             } catch (ClassNotFoundException e) {
+             } cbtch (ClbssNotFoundException e) {
                  // Drop through
-                 if (MLET_LOGGER.isLoggable(Level.FINEST)) {
-                     MLET_LOGGER.logp(Level.FINEST, MLet.class.getName(),
-                             "findClass",
-                             "Class " + name + " not found in CLR");
+                 if (MLET_LOGGER.isLoggbble(Level.FINEST)) {
+                     MLET_LOGGER.logp(Level.FINEST, MLet.clbss.getNbme(),
+                             "findClbss",
+                             "Clbss " + nbme + " not found in CLR");
                  }
              }
          }
          if (c == null) {
-             MLET_LOGGER.logp(Level.FINEST, MLet.class.getName(),
-                     "findClass", "Failed to load class " + name);
-             throw new ClassNotFoundException(name);
+             MLET_LOGGER.logp(Level.FINEST, MLet.clbss.getNbme(),
+                     "findClbss", "Fbiled to lobd clbss " + nbme);
+             throw new ClbssNotFoundException(nbme);
          }
          return c;
      }
 
      /**
-      * Returns the absolute path name of a native library. The VM
-      * invokes this method to locate the native libraries that belong
-      * to classes loaded with this class loader. Libraries are
-      * searched in the JAR files using first just the native library
-      * name and if not found the native library name together with
-      * the architecture-specific path name
-      * (<code>OSName/OSArch/OSVersion/lib/nativelibname</code>), i.e.
+      * Returns the bbsolute pbth nbme of b nbtive librbry. The VM
+      * invokes this method to locbte the nbtive librbries thbt belong
+      * to clbsses lobded with this clbss lobder. Librbries bre
+      * sebrched in the JAR files using first just the nbtive librbry
+      * nbme bnd if not found the nbtive librbry nbme together with
+      * the brchitecture-specific pbth nbme
+      * (<code>OSNbme/OSArch/OSVersion/lib/nbtivelibnbme</code>), i.e.
       * <p>
-      * the library stat on Solaris SPARC 5.7 will be searched in the JAR file as:
+      * the librbry stbt on Solbris SPARC 5.7 will be sebrched in the JAR file bs:
       * <OL>
-      * <LI>libstat.so
-      * <LI>SunOS/sparc/5.7/lib/libstat.so
+      * <LI>libstbt.so
+      * <LI>SunOS/spbrc/5.7/lib/libstbt.so
       * </OL>
-      * the library stat on Windows NT 4.0 will be searched in the JAR file as:
+      * the librbry stbt on Windows NT 4.0 will be sebrched in the JAR file bs:
       * <OL>
-      * <LI>stat.dll
-      * <LI>WindowsNT/x86/4.0/lib/stat.dll
+      * <LI>stbt.dll
+      * <LI>WindowsNT/x86/4.0/lib/stbt.dll
       * </OL>
       *
-      * <p>More specifically, let <em>{@code nativelibname}</em> be the result of
-      * {@link System#mapLibraryName(java.lang.String)
-      * System.mapLibraryName}{@code (libname)}.  Then the following names are
-      * searched in the JAR files, in order:<br>
-      * <em>{@code nativelibname}</em><br>
-      * {@code <os.name>/<os.arch>/<os.version>/lib/}<em>{@code nativelibname}</em><br>
-      * where {@code <X>} means {@code System.getProperty(X)} with any
-      * spaces in the result removed, and {@code /} stands for the
-      * file separator character ({@link File#separator}).
+      * <p>More specificblly, let <em>{@code nbtivelibnbme}</em> be the result of
+      * {@link System#mbpLibrbryNbme(jbvb.lbng.String)
+      * System.mbpLibrbryNbme}{@code (libnbme)}.  Then the following nbmes bre
+      * sebrched in the JAR files, in order:<br>
+      * <em>{@code nbtivelibnbme}</em><br>
+      * {@code <os.nbme>/<os.brch>/<os.version>/lib/}<em>{@code nbtivelibnbme}</em><br>
+      * where {@code <X>} mebns {@code System.getProperty(X)} with bny
+      * spbces in the result removed, bnd {@code /} stbnds for the
+      * file sepbrbtor chbrbcter ({@link File#sepbrbtor}).
       * <p>
-      * If this method returns <code>null</code>, i.e. the libraries
-      * were not found in any of the JAR files loaded with this class
-      * loader, the VM searches the library along the path specified
-      * as the <code>java.library.path</code> property.
+      * If this method returns <code>null</code>, i.e. the librbries
+      * were not found in bny of the JAR files lobded with this clbss
+      * lobder, the VM sebrches the librbry blong the pbth specified
+      * bs the <code>jbvb.librbry.pbth</code> property.
       *
-      * @param libname The library name.
+      * @pbrbm libnbme The librbry nbme.
       *
-      * @return The absolute path of the native library.
+      * @return The bbsolute pbth of the nbtive librbry.
       */
-     protected String findLibrary(String libname) {
+     protected String findLibrbry(String libnbme) {
 
-         String abs_path;
-         String mth = "findLibrary";
+         String bbs_pbth;
+         String mth = "findLibrbry";
 
-         // Get the platform-specific string representing a native library.
+         // Get the plbtform-specific string representing b nbtive librbry.
          //
-         String nativelibname = System.mapLibraryName(libname);
+         String nbtivelibnbme = System.mbpLibrbryNbme(libnbme);
 
          //
-         // See if the native library is accessible as a resource through the JAR file.
+         // See if the nbtive librbry is bccessible bs b resource through the JAR file.
          //
-         if (MLET_LOGGER.isLoggable(Level.FINER)) {
-             MLET_LOGGER.logp(Level.FINER, MLet.class.getName(), mth,
-                     "Search " + libname + " in all JAR files");
+         if (MLET_LOGGER.isLoggbble(Level.FINER)) {
+             MLET_LOGGER.logp(Level.FINER, MLet.clbss.getNbme(), mth,
+                     "Sebrch " + libnbme + " in bll JAR files");
          }
 
-         // First try to locate the library in the JAR file using only
-         // the native library name.  e.g. if user requested a load
-         // for "foo" on Solaris SPARC 5.7 we try to load "libfoo.so"
+         // First try to locbte the librbry in the JAR file using only
+         // the nbtive librbry nbme.  e.g. if user requested b lobd
+         // for "foo" on Solbris SPARC 5.7 we try to lobd "libfoo.so"
          // from the JAR file.
          //
-         if (MLET_LOGGER.isLoggable(Level.FINER)) {
-             MLET_LOGGER.logp(Level.FINER, MLet.class.getName(), mth,
-                     "loadLibraryAsResource(" + nativelibname + ")");
+         if (MLET_LOGGER.isLoggbble(Level.FINER)) {
+             MLET_LOGGER.logp(Level.FINER, MLet.clbss.getNbme(), mth,
+                     "lobdLibrbryAsResource(" + nbtivelibnbme + ")");
          }
-         abs_path = loadLibraryAsResource(nativelibname);
-         if (abs_path != null) {
-             if (MLET_LOGGER.isLoggable(Level.FINER)) {
-                 MLET_LOGGER.logp(Level.FINER, MLet.class.getName(), mth,
-                         nativelibname + " loaded, absolute path = " + abs_path);
+         bbs_pbth = lobdLibrbryAsResource(nbtivelibnbme);
+         if (bbs_pbth != null) {
+             if (MLET_LOGGER.isLoggbble(Level.FINER)) {
+                 MLET_LOGGER.logp(Level.FINER, MLet.clbss.getNbme(), mth,
+                         nbtivelibnbme + " lobded, bbsolute pbth = " + bbs_pbth);
              }
-             return abs_path;
+             return bbs_pbth;
          }
 
-         // Next try to locate it using the native library name and
-         // the architecture-specific path name.  e.g. if user
-         // requested a load for "foo" on Solaris SPARC 5.7 we try to
-         // load "SunOS/sparc/5.7/lib/libfoo.so" from the JAR file.
+         // Next try to locbte it using the nbtive librbry nbme bnd
+         // the brchitecture-specific pbth nbme.  e.g. if user
+         // requested b lobd for "foo" on Solbris SPARC 5.7 we try to
+         // lobd "SunOS/spbrc/5.7/lib/libfoo.so" from the JAR file.
          //
-         nativelibname = removeSpace(System.getProperty("os.name")) + File.separator +
-             removeSpace(System.getProperty("os.arch")) + File.separator +
-             removeSpace(System.getProperty("os.version")) + File.separator +
-             "lib" + File.separator + nativelibname;
-         if (MLET_LOGGER.isLoggable(Level.FINER)) {
-             MLET_LOGGER.logp(Level.FINER, MLet.class.getName(), mth,
-                     "loadLibraryAsResource(" + nativelibname + ")");
+         nbtivelibnbme = removeSpbce(System.getProperty("os.nbme")) + File.sepbrbtor +
+             removeSpbce(System.getProperty("os.brch")) + File.sepbrbtor +
+             removeSpbce(System.getProperty("os.version")) + File.sepbrbtor +
+             "lib" + File.sepbrbtor + nbtivelibnbme;
+         if (MLET_LOGGER.isLoggbble(Level.FINER)) {
+             MLET_LOGGER.logp(Level.FINER, MLet.clbss.getNbme(), mth,
+                     "lobdLibrbryAsResource(" + nbtivelibnbme + ")");
          }
 
-         abs_path = loadLibraryAsResource(nativelibname);
-         if (abs_path != null) {
-             if (MLET_LOGGER.isLoggable(Level.FINER)) {
-                 MLET_LOGGER.logp(Level.FINER, MLet.class.getName(), mth,
-                         nativelibname + " loaded, absolute path = " + abs_path);
+         bbs_pbth = lobdLibrbryAsResource(nbtivelibnbme);
+         if (bbs_pbth != null) {
+             if (MLET_LOGGER.isLoggbble(Level.FINER)) {
+                 MLET_LOGGER.logp(Level.FINER, MLet.clbss.getNbme(), mth,
+                         nbtivelibnbme + " lobded, bbsolute pbth = " + bbs_pbth);
              }
-             return abs_path;
+             return bbs_pbth;
          }
 
          //
-         // All paths exhausted, library not found in JAR file.
+         // All pbths exhbusted, librbry not found in JAR file.
          //
 
-         if (MLET_LOGGER.isLoggable(Level.FINER)) {
-             MLET_LOGGER.logp(Level.FINER, MLet.class.getName(), mth,
-                     libname + " not found in any JAR file");
-             MLET_LOGGER.logp(Level.FINER, MLet.class.getName(), mth,
-                     "Search " + libname + " along the path " +
-                     "specified as the java.library.path property");
+         if (MLET_LOGGER.isLoggbble(Level.FINER)) {
+             MLET_LOGGER.logp(Level.FINER, MLet.clbss.getNbme(), mth,
+                     libnbme + " not found in bny JAR file");
+             MLET_LOGGER.logp(Level.FINER, MLet.clbss.getNbme(), mth,
+                     "Sebrch " + libnbme + " blong the pbth " +
+                     "specified bs the jbvb.librbry.pbth property");
          }
 
-         // Let the VM search the library along the path
-         // specified as the java.library.path property.
+         // Let the VM sebrch the librbry blong the pbth
+         // specified bs the jbvb.librbry.pbth property.
          //
          return null;
      }
@@ -1112,227 +1112,227 @@ public class MLet extends java.net.URLClassLoader
       * ------------------------------------------
       */
 
-     private String getTmpDir() {
+     privbte String getTmpDir() {
          // JDK 1.4
-         String tmpDir = System.getProperty("java.io.tmpdir");
+         String tmpDir = System.getProperty("jbvb.io.tmpdir");
          if (tmpDir != null) return tmpDir;
 
          // JDK < 1.4
          File tmpFile = null;
          try {
-             // Try to guess the system temporary dir...
-             tmpFile = File.createTempFile("tmp","jmx");
+             // Try to guess the system temporbry dir...
+             tmpFile = File.crebteTempFile("tmp","jmx");
              if (tmpFile == null) return null;
-             final File tmpDirFile = tmpFile.getParentFile();
+             finbl File tmpDirFile = tmpFile.getPbrentFile();
              if (tmpDirFile == null) return null;
-             return tmpDirFile.getAbsolutePath();
-         } catch (Exception x) {
-             MLET_LOGGER.logp(Level.FINEST, MLet.class.getName(),
-                     "getTmpDir", "Failed to determine system temporary dir");
+             return tmpDirFile.getAbsolutePbth();
+         } cbtch (Exception x) {
+             MLET_LOGGER.logp(Level.FINEST, MLet.clbss.getNbme(),
+                     "getTmpDir", "Fbiled to determine system temporbry dir");
              return null;
-         } finally {
-             // Cleanup ...
+         } finblly {
+             // Clebnup ...
              if (tmpFile!=null) {
                  try {
-                     boolean deleted = tmpFile.delete();
+                     boolebn deleted = tmpFile.delete();
                      if (!deleted) {
-                         MLET_LOGGER.logp(Level.FINEST, MLet.class.getName(),
-                                 "getTmpDir", "Failed to delete temp file");
+                         MLET_LOGGER.logp(Level.FINEST, MLet.clbss.getNbme(),
+                                 "getTmpDir", "Fbiled to delete temp file");
                      }
-                 } catch (Exception x) {
-                     MLET_LOGGER.logp(Level.FINEST, MLet.class.getName(),
-                             "getTmpDir", "Failed to delete temporary file", x);
+                 } cbtch (Exception x) {
+                     MLET_LOGGER.logp(Level.FINEST, MLet.clbss.getNbme(),
+                             "getTmpDir", "Fbiled to delete temporbry file", x);
                  }
              }
         }
      }
 
      /**
-      * Search the specified native library in any of the JAR files
-      * loaded by this classloader.  If the library is found copy it
-      * into the library directory and return the absolute path.  If
-      * the library is not found then return null.
+      * Sebrch the specified nbtive librbry in bny of the JAR files
+      * lobded by this clbsslobder.  If the librbry is found copy it
+      * into the librbry directory bnd return the bbsolute pbth.  If
+      * the librbry is not found then return null.
       */
-     private synchronized String loadLibraryAsResource(String libname) {
+     privbte synchronized String lobdLibrbryAsResource(String libnbme) {
          try {
-             InputStream is = getResourceAsStream(
-                     libname.replace(File.separatorChar,'/'));
+             InputStrebm is = getResourceAsStrebm(
+                     libnbme.replbce(File.sepbrbtorChbr,'/'));
              if (is != null) {
                  try {
-                     File directory = new File(libraryDirectory);
+                     File directory = new File(librbryDirectory);
                      directory.mkdirs();
-                     File file = Files.createTempFile(directory.toPath(),
-                                                      libname + ".", null)
+                     File file = Files.crebteTempFile(directory.toPbth(),
+                                                      libnbme + ".", null)
                                       .toFile();
                      file.deleteOnExit();
-                     FileOutputStream fileOutput = new FileOutputStream(file);
+                     FileOutputStrebm fileOutput = new FileOutputStrebm(file);
                      try {
                          byte[] buf = new byte[4096];
                          int n;
-                         while ((n = is.read(buf)) >= 0) {
+                         while ((n = is.rebd(buf)) >= 0) {
                             fileOutput.write(buf, 0, n);
                          }
-                     } finally {
+                     } finblly {
                          fileOutput.close();
                      }
                      if (file.exists()) {
-                         return file.getAbsolutePath();
+                         return file.getAbsolutePbth();
                      }
-                 } finally {
+                 } finblly {
                      is.close();
                  }
              }
-         } catch (Exception e) {
-             MLET_LOGGER.logp(Level.FINEST, MLet.class.getName(),
-                     "loadLibraryAsResource",
-                     "Failed to load library : " + libname, e);
+         } cbtch (Exception e) {
+             MLET_LOGGER.logp(Level.FINEST, MLet.clbss.getNbme(),
+                     "lobdLibrbryAsResource",
+                     "Fbiled to lobd librbry : " + libnbme, e);
              return null;
          }
          return null;
      }
 
    /**
-    * Removes any white space from a string. This is used to
-    * convert strings such as "Windows NT" to "WindowsNT".
+    * Removes bny white spbce from b string. This is used to
+    * convert strings such bs "Windows NT" to "WindowsNT".
     */
-     private static String removeSpace(String s) {
-         return s.trim().replace(" ", "");
+     privbte stbtic String removeSpbce(String s) {
+         return s.trim().replbce(" ", "");
      }
 
      /**
       * <p>This method is to be overridden when extending this service to
-      * support caching and versioning.  It is called from {@link
-      * #getMBeansFromURL getMBeansFromURL} when the version,
-      * codebase, and jarfile have been extracted from the MLet file,
-      * and can be used to verify that it is all right to load the
-      * given MBean, or to replace the given URL with a different one.</p>
+      * support cbching bnd versioning.  It is cblled from {@link
+      * #getMBebnsFromURL getMBebnsFromURL} when the version,
+      * codebbse, bnd jbrfile hbve been extrbcted from the MLet file,
+      * bnd cbn be used to verify thbt it is bll right to lobd the
+      * given MBebn, or to replbce the given URL with b different one.</p>
       *
-      * <p>The default implementation of this method returns
-      * <code>codebase</code> unchanged.</p>
+      * <p>The defbult implementbtion of this method returns
+      * <code>codebbse</code> unchbnged.</p>
       *
-      * @param version The version number of the <CODE>.jar</CODE>
-      * file stored locally.
-      * @param codebase The base URL of the remote <CODE>.jar</CODE> file.
-      * @param jarfile The name of the <CODE>.jar</CODE> file to be loaded.
-      * @param mlet The <CODE>MLetContent</CODE> instance that
-      * represents the <CODE>MLET</CODE> tag.
+      * @pbrbm version The version number of the <CODE>.jbr</CODE>
+      * file stored locblly.
+      * @pbrbm codebbse The bbse URL of the remote <CODE>.jbr</CODE> file.
+      * @pbrbm jbrfile The nbme of the <CODE>.jbr</CODE> file to be lobded.
+      * @pbrbm mlet The <CODE>MLetContent</CODE> instbnce thbt
+      * represents the <CODE>MLET</CODE> tbg.
       *
-      * @return the codebase to use for the loaded MBean.  The returned
-      * value should not be null.
+      * @return the codebbse to use for the lobded MBebn.  The returned
+      * vblue should not be null.
       *
-      * @exception Exception if the MBean is not to be loaded for some
-      * reason.  The exception will be added to the set returned by
-      * {@link #getMBeansFromURL getMBeansFromURL}.
+      * @exception Exception if the MBebn is not to be lobded for some
+      * rebson.  The exception will be bdded to the set returned by
+      * {@link #getMBebnsFromURL getMBebnsFromURL}.
       *
       */
-     protected URL check(String version, URL codebase, String jarfile,
+     protected URL check(String version, URL codebbse, String jbrfile,
                          MLetContent mlet)
              throws Exception {
-         return codebase;
+         return codebbse;
      }
 
     /**
-     * Loads the serialized object specified by the <CODE>OBJECT</CODE>
-     * attribute of the <CODE>MLET</CODE> tag.
+     * Lobds the seriblized object specified by the <CODE>OBJECT</CODE>
+     * bttribute of the <CODE>MLET</CODE> tbg.
      *
-     * @param codebase The <CODE>codebase</CODE>.
-     * @param filename The name of the file containing the serialized object.
-     * @return The serialized object.
-     * @exception ClassNotFoundException The specified serialized
+     * @pbrbm codebbse The <CODE>codebbse</CODE>.
+     * @pbrbm filenbme The nbme of the file contbining the seriblized object.
+     * @return The seriblized object.
+     * @exception ClbssNotFoundException The specified seriblized
      * object could not be found.
-     * @exception IOException An I/O error occurred while loading
-     * serialized object.
+     * @exception IOException An I/O error occurred while lobding
+     * seriblized object.
      */
-     private Object loadSerializedObject(URL codebase, String filename)
-             throws IOException, ClassNotFoundException {
-        if (filename != null) {
-            filename = filename.replace(File.separatorChar,'/');
+     privbte Object lobdSeriblizedObject(URL codebbse, String filenbme)
+             throws IOException, ClbssNotFoundException {
+        if (filenbme != null) {
+            filenbme = filenbme.replbce(File.sepbrbtorChbr,'/');
         }
-        if (MLET_LOGGER.isLoggable(Level.FINER)) {
-            MLET_LOGGER.logp(Level.FINER, MLet.class.getName(),
-                    "loadSerializedObject", codebase.toString() + filename);
+        if (MLET_LOGGER.isLoggbble(Level.FINER)) {
+            MLET_LOGGER.logp(Level.FINER, MLet.clbss.getNbme(),
+                    "lobdSeriblizedObject", codebbse.toString() + filenbme);
         }
-        InputStream is = getResourceAsStream(filename);
+        InputStrebm is = getResourceAsStrebm(filenbme);
         if (is != null) {
             try {
-                ObjectInputStream ois = new MLetObjectInputStream(is, this);
-                Object serObject = ois.readObject();
+                ObjectInputStrebm ois = new MLetObjectInputStrebm(is, this);
+                Object serObject = ois.rebdObject();
                 ois.close();
                 return serObject;
-            } catch (IOException e) {
-                if (MLET_LOGGER.isLoggable(Level.FINEST)) {
-                    MLET_LOGGER.logp(Level.FINEST, MLet.class.getName(),
-                            "loadSerializedObject",
-                            "Exception while deserializing " + filename, e);
+            } cbtch (IOException e) {
+                if (MLET_LOGGER.isLoggbble(Level.FINEST)) {
+                    MLET_LOGGER.logp(Level.FINEST, MLet.clbss.getNbme(),
+                            "lobdSeriblizedObject",
+                            "Exception while deseriblizing " + filenbme, e);
                 }
                 throw e;
-            } catch (ClassNotFoundException e) {
-                if (MLET_LOGGER.isLoggable(Level.FINEST)) {
-                    MLET_LOGGER.logp(Level.FINEST, MLet.class.getName(),
-                            "loadSerializedObject",
-                            "Exception while deserializing " + filename, e);
+            } cbtch (ClbssNotFoundException e) {
+                if (MLET_LOGGER.isLoggbble(Level.FINEST)) {
+                    MLET_LOGGER.logp(Level.FINEST, MLet.clbss.getNbme(),
+                            "lobdSeriblizedObject",
+                            "Exception while deseriblizing " + filenbme, e);
                 }
                 throw e;
             }
         } else {
-            if (MLET_LOGGER.isLoggable(Level.FINEST)) {
-                MLET_LOGGER.logp(Level.FINEST, MLet.class.getName(),
-                        "loadSerializedObject", "Error: File " + filename +
-                        " containing serialized object not found");
+            if (MLET_LOGGER.isLoggbble(Level.FINEST)) {
+                MLET_LOGGER.logp(Level.FINEST, MLet.clbss.getNbme(),
+                        "lobdSeriblizedObject", "Error: File " + filenbme +
+                        " contbining seriblized object not found");
             }
-            throw new Error("File " + filename + " containing serialized object not found");
+            throw new Error("File " + filenbme + " contbining seriblized object not found");
         }
      }
 
      /**
-      * Converts the String value of the constructor's parameter to
-      * a basic Java object with the type of the parameter.
+      * Converts the String vblue of the constructor's pbrbmeter to
+      * b bbsic Jbvb object with the type of the pbrbmeter.
       */
-     private  Object constructParameter(String param, String type) {
-         // check if it is a primitive type
-         Class<?> c = primitiveClasses.get(type);
+     privbte  Object constructPbrbmeter(String pbrbm, String type) {
+         // check if it is b primitive type
+         Clbss<?> c = primitiveClbsses.get(type);
          if (c != null) {
             try {
                 Constructor<?> cons =
-                    c.getConstructor(String.class);
+                    c.getConstructor(String.clbss);
                 Object[] oo = new Object[1];
-                oo[0]=param;
-                return(cons.newInstance(oo));
+                oo[0]=pbrbm;
+                return(cons.newInstbnce(oo));
 
-            } catch (Exception  e) {
-                MLET_LOGGER.logp(Level.FINEST, MLet.class.getName(),
-                        "constructParameter", "Got unexpected exception", e);
+            } cbtch (Exception  e) {
+                MLET_LOGGER.logp(Level.FINEST, MLet.clbss.getNbme(),
+                        "constructPbrbmeter", "Got unexpected exception", e);
             }
         }
-        if (type.compareTo("java.lang.Boolean") == 0)
-             return Boolean.valueOf(param);
-        if (type.compareTo("java.lang.Byte") == 0)
-             return Byte.valueOf(param);
-        if (type.compareTo("java.lang.Short") == 0)
-             return Short.valueOf(param);
-        if (type.compareTo("java.lang.Long") == 0)
-             return Long.valueOf(param);
-        if (type.compareTo("java.lang.Integer") == 0)
-             return param;
-        if (type.compareTo("java.lang.Float") == 0)
-             return new Float(param);
-        if (type.compareTo("java.lang.Double") == 0)
-             return new Double(param);
-        if (type.compareTo("java.lang.String") == 0)
-             return param;
+        if (type.compbreTo("jbvb.lbng.Boolebn") == 0)
+             return Boolebn.vblueOf(pbrbm);
+        if (type.compbreTo("jbvb.lbng.Byte") == 0)
+             return Byte.vblueOf(pbrbm);
+        if (type.compbreTo("jbvb.lbng.Short") == 0)
+             return Short.vblueOf(pbrbm);
+        if (type.compbreTo("jbvb.lbng.Long") == 0)
+             return Long.vblueOf(pbrbm);
+        if (type.compbreTo("jbvb.lbng.Integer") == 0)
+             return pbrbm;
+        if (type.compbreTo("jbvb.lbng.Flobt") == 0)
+             return new Flobt(pbrbm);
+        if (type.compbreTo("jbvb.lbng.Double") == 0)
+             return new Double(pbrbm);
+        if (type.compbreTo("jbvb.lbng.String") == 0)
+             return pbrbm;
 
-        return param;
+        return pbrbm;
      }
 
-    private synchronized void setMBeanServer(final MBeanServer server) {
+    privbte synchronized void setMBebnServer(finbl MBebnServer server) {
         this.server = server;
-        PrivilegedAction<ClassLoaderRepository> act =
-            new PrivilegedAction<ClassLoaderRepository>() {
-                public ClassLoaderRepository run() {
-                    return server.getClassLoaderRepository();
+        PrivilegedAction<ClbssLobderRepository> bct =
+            new PrivilegedAction<ClbssLobderRepository>() {
+                public ClbssLobderRepository run() {
+                    return server.getClbssLobderRepository();
                 }
             };
-        currentClr = AccessController.doPrivileged(act);
+        currentClr = AccessController.doPrivileged(bct);
     }
 
 }

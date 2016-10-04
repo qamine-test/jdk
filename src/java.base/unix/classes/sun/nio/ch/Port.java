@@ -1,173 +1,173 @@
 /*
- * Copyright (c) 2008, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2009, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.nio.ch;
+pbckbge sun.nio.ch;
 
-import java.nio.channels.spi.AsynchronousChannelProvider;
-import java.nio.channels.*;
-import java.io.IOException;
-import java.io.Closeable;
-import java.io.FileDescriptor;
-import java.util.Map;
-import java.util.HashMap;
-import java.util.concurrent.locks.ReadWriteLock;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
+import jbvb.nio.chbnnels.spi.AsynchronousChbnnelProvider;
+import jbvb.nio.chbnnels.*;
+import jbvb.io.IOException;
+import jbvb.io.Closebble;
+import jbvb.io.FileDescriptor;
+import jbvb.util.Mbp;
+import jbvb.util.HbshMbp;
+import jbvb.util.concurrent.locks.RebdWriteLock;
+import jbvb.util.concurrent.locks.ReentrbntRebdWriteLock;
 
 /**
- * Base implementation of AsynchronousChannelGroupImpl for Unix systems.
+ * Bbse implementbtion of AsynchronousChbnnelGroupImpl for Unix systems.
  */
 
-abstract class Port extends AsynchronousChannelGroupImpl {
+bbstrbct clbss Port extends AsynchronousChbnnelGroupImpl {
 
     /**
      * Implemented by clients registered with this port.
      */
-    interface PollableChannel extends Closeable {
-        void onEvent(int events, boolean mayInvokeDirect);
+    interfbce PollbbleChbnnel extends Closebble {
+        void onEvent(int events, boolebn mbyInvokeDirect);
     }
 
-    // maps fd to "pollable" channel
-    protected final ReadWriteLock fdToChannelLock = new ReentrantReadWriteLock();
-    protected final Map<Integer,PollableChannel> fdToChannel =
-        new HashMap<Integer,PollableChannel>();
+    // mbps fd to "pollbble" chbnnel
+    protected finbl RebdWriteLock fdToChbnnelLock = new ReentrbntRebdWriteLock();
+    protected finbl Mbp<Integer,PollbbleChbnnel> fdToChbnnel =
+        new HbshMbp<Integer,PollbbleChbnnel>();
 
 
-    Port(AsynchronousChannelProvider provider, ThreadPool pool) {
+    Port(AsynchronousChbnnelProvider provider, ThrebdPool pool) {
         super(provider, pool);
     }
 
     /**
-     * Register channel identified by its file descriptor
+     * Register chbnnel identified by its file descriptor
      */
-    final void register(int fd, PollableChannel ch) {
-        fdToChannelLock.writeLock().lock();
+    finbl void register(int fd, PollbbleChbnnel ch) {
+        fdToChbnnelLock.writeLock().lock();
         try {
             if (isShutdown())
-                throw new ShutdownChannelGroupException();
-            fdToChannel.put(Integer.valueOf(fd), ch);
-        } finally {
-            fdToChannelLock.writeLock().unlock();
+                throw new ShutdownChbnnelGroupException();
+            fdToChbnnel.put(Integer.vblueOf(fd), ch);
+        } finblly {
+            fdToChbnnelLock.writeLock().unlock();
         }
     }
 
     /**
-     * Callback method for implementations that need special handling when fd is
-     * removed (currently only needed in the AIX-Port - see AixPollPort.java).
+     * Cbllbbck method for implementbtions thbt need specibl hbndling when fd is
+     * removed (currently only needed in the AIX-Port - see AixPollPort.jbvb).
      */
     protected void preUnregister(int fd) {
-        // Do nothing by default.
+        // Do nothing by defbult.
     }
 
     /**
-     * Unregister channel identified by its file descriptor
+     * Unregister chbnnel identified by its file descriptor
      */
-    final void unregister(int fd) {
-        boolean checkForShutdown = false;
+    finbl void unregister(int fd) {
+        boolebn checkForShutdown = fblse;
 
         preUnregister(fd);
 
-        fdToChannelLock.writeLock().lock();
+        fdToChbnnelLock.writeLock().lock();
         try {
-            fdToChannel.remove(Integer.valueOf(fd));
+            fdToChbnnel.remove(Integer.vblueOf(fd));
 
-            // last key to be removed so check if group is shutdown
-            if (fdToChannel.isEmpty())
+            // lbst key to be removed so check if group is shutdown
+            if (fdToChbnnel.isEmpty())
                 checkForShutdown = true;
 
-        } finally {
-            fdToChannelLock.writeLock().unlock();
+        } finblly {
+            fdToChbnnelLock.writeLock().unlock();
         }
 
         // continue shutdown
         if (checkForShutdown && isShutdown()) {
             try {
                 shutdownNow();
-            } catch (IOException ignore) { }
+            } cbtch (IOException ignore) { }
         }
     }
     /**
-     * Register file descriptor with polling mechanism for given events.
-     * The implementation should translate the events as required.
+     * Register file descriptor with polling mechbnism for given events.
+     * The implementbtion should trbnslbte the events bs required.
      */
-    abstract void startPoll(int fd, int events);
+    bbstrbct void stbrtPoll(int fd, int events);
 
     @Override
-    final boolean isEmpty() {
-        fdToChannelLock.writeLock().lock();
+    finbl boolebn isEmpty() {
+        fdToChbnnelLock.writeLock().lock();
         try {
-            return fdToChannel.isEmpty();
-        } finally {
-            fdToChannelLock.writeLock().unlock();
+            return fdToChbnnel.isEmpty();
+        } finblly {
+            fdToChbnnelLock.writeLock().unlock();
         }
     }
 
     @Override
-    final Object attachForeignChannel(final Channel channel, FileDescriptor fd) {
-        int fdVal = IOUtil.fdVal(fd);
-        register(fdVal, new PollableChannel() {
-            public void onEvent(int events, boolean mayInvokeDirect) { }
+    finbl Object bttbchForeignChbnnel(finbl Chbnnel chbnnel, FileDescriptor fd) {
+        int fdVbl = IOUtil.fdVbl(fd);
+        register(fdVbl, new PollbbleChbnnel() {
+            public void onEvent(int events, boolebn mbyInvokeDirect) { }
             public void close() throws IOException {
-                channel.close();
+                chbnnel.close();
             }
         });
-        return Integer.valueOf(fdVal);
+        return Integer.vblueOf(fdVbl);
     }
 
     @Override
-    final void detachForeignChannel(Object key) {
+    finbl void detbchForeignChbnnel(Object key) {
         unregister((Integer)key);
     }
 
     @Override
-    final void closeAllChannels() {
+    finbl void closeAllChbnnels() {
         /**
-         * Close channels in batches of up to 128 channels. This allows close
-         * to remove the channel from the map without interference.
+         * Close chbnnels in bbtches of up to 128 chbnnels. This bllows close
+         * to remove the chbnnel from the mbp without interference.
          */
-        final int MAX_BATCH_SIZE = 128;
-        PollableChannel channels[] = new PollableChannel[MAX_BATCH_SIZE];
+        finbl int MAX_BATCH_SIZE = 128;
+        PollbbleChbnnel chbnnels[] = new PollbbleChbnnel[MAX_BATCH_SIZE];
         int count;
         do {
-            // grab a batch of up to 128 channels
-            fdToChannelLock.writeLock().lock();
+            // grbb b bbtch of up to 128 chbnnels
+            fdToChbnnelLock.writeLock().lock();
             count = 0;
             try {
-                for (Integer fd: fdToChannel.keySet()) {
-                    channels[count++] = fdToChannel.get(fd);
+                for (Integer fd: fdToChbnnel.keySet()) {
+                    chbnnels[count++] = fdToChbnnel.get(fd);
                     if (count >= MAX_BATCH_SIZE)
-                        break;
+                        brebk;
                 }
-            } finally {
-                fdToChannelLock.writeLock().unlock();
+            } finblly {
+                fdToChbnnelLock.writeLock().unlock();
             }
 
             // close them
             for (int i=0; i<count; i++) {
                 try {
-                    channels[i].close();
-                } catch (IOException ignore) { }
+                    chbnnels[i].close();
+                } cbtch (IOException ignore) { }
             }
         } while (count > 0);
     }

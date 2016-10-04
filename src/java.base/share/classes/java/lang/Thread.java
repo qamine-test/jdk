@@ -1,239 +1,239 @@
 /*
- * Copyright (c) 1994, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1994, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.lang;
+pbckbge jbvb.lbng;
 
-import java.lang.ref.Reference;
-import java.lang.ref.ReferenceQueue;
-import java.lang.ref.WeakReference;
-import java.security.AccessController;
-import java.security.AccessControlContext;
-import java.security.PrivilegedAction;
-import java.util.Map;
-import java.util.HashMap;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
-import java.util.concurrent.locks.LockSupport;
+import jbvb.lbng.ref.Reference;
+import jbvb.lbng.ref.ReferenceQueue;
+import jbvb.lbng.ref.WebkReference;
+import jbvb.security.AccessController;
+import jbvb.security.AccessControlContext;
+import jbvb.security.PrivilegedAction;
+import jbvb.util.Mbp;
+import jbvb.util.HbshMbp;
+import jbvb.util.concurrent.ConcurrentHbshMbp;
+import jbvb.util.concurrent.ConcurrentMbp;
+import jbvb.util.concurrent.locks.LockSupport;
 import sun.nio.ch.Interruptible;
-import sun.reflect.CallerSensitive;
+import sun.reflect.CbllerSensitive;
 import sun.reflect.Reflection;
-import sun.security.util.SecurityConstants;
+import sun.security.util.SecurityConstbnts;
 
 
 /**
- * A <i>thread</i> is a thread of execution in a program. The Java
- * Virtual Machine allows an application to have multiple threads of
+ * A <i>threbd</i> is b threbd of execution in b progrbm. The Jbvb
+ * Virtubl Mbchine bllows bn bpplicbtion to hbve multiple threbds of
  * execution running concurrently.
  * <p>
- * Every thread has a priority. Threads with higher priority are
- * executed in preference to threads with lower priority. Each thread
- * may or may not also be marked as a daemon. When code running in
- * some thread creates a new <code>Thread</code> object, the new
- * thread has its priority initially set equal to the priority of the
- * creating thread, and is a daemon thread if and only if the
- * creating thread is a daemon.
+ * Every threbd hbs b priority. Threbds with higher priority bre
+ * executed in preference to threbds with lower priority. Ebch threbd
+ * mby or mby not blso be mbrked bs b dbemon. When code running in
+ * some threbd crebtes b new <code>Threbd</code> object, the new
+ * threbd hbs its priority initiblly set equbl to the priority of the
+ * crebting threbd, bnd is b dbemon threbd if bnd only if the
+ * crebting threbd is b dbemon.
  * <p>
- * When a Java Virtual Machine starts up, there is usually a single
- * non-daemon thread (which typically calls the method named
- * <code>main</code> of some designated class). The Java Virtual
- * Machine continues to execute threads until either of the following
+ * When b Jbvb Virtubl Mbchine stbrts up, there is usublly b single
+ * non-dbemon threbd (which typicblly cblls the method nbmed
+ * <code>mbin</code> of some designbted clbss). The Jbvb Virtubl
+ * Mbchine continues to execute threbds until either of the following
  * occurs:
  * <ul>
- * <li>The <code>exit</code> method of class <code>Runtime</code> has been
- *     called and the security manager has permitted the exit operation
- *     to take place.
- * <li>All threads that are not daemon threads have died, either by
- *     returning from the call to the <code>run</code> method or by
- *     throwing an exception that propagates beyond the <code>run</code>
+ * <li>The <code>exit</code> method of clbss <code>Runtime</code> hbs been
+ *     cblled bnd the security mbnbger hbs permitted the exit operbtion
+ *     to tbke plbce.
+ * <li>All threbds thbt bre not dbemon threbds hbve died, either by
+ *     returning from the cbll to the <code>run</code> method or by
+ *     throwing bn exception thbt propbgbtes beyond the <code>run</code>
  *     method.
  * </ul>
  * <p>
- * There are two ways to create a new thread of execution. One is to
- * declare a class to be a subclass of <code>Thread</code>. This
- * subclass should override the <code>run</code> method of class
- * <code>Thread</code>. An instance of the subclass can then be
- * allocated and started. For example, a thread that computes primes
- * larger than a stated value could be written as follows:
+ * There bre two wbys to crebte b new threbd of execution. One is to
+ * declbre b clbss to be b subclbss of <code>Threbd</code>. This
+ * subclbss should override the <code>run</code> method of clbss
+ * <code>Threbd</code>. An instbnce of the subclbss cbn then be
+ * bllocbted bnd stbrted. For exbmple, b threbd thbt computes primes
+ * lbrger thbn b stbted vblue could be written bs follows:
  * <hr><blockquote><pre>
- *     class PrimeThread extends Thread {
+ *     clbss PrimeThrebd extends Threbd {
  *         long minPrime;
- *         PrimeThread(long minPrime) {
+ *         PrimeThrebd(long minPrime) {
  *             this.minPrime = minPrime;
  *         }
  *
  *         public void run() {
- *             // compute primes larger than minPrime
+ *             // compute primes lbrger thbn minPrime
  *             &nbsp;.&nbsp;.&nbsp;.
  *         }
  *     }
  * </pre></blockquote><hr>
  * <p>
- * The following code would then create a thread and start it running:
+ * The following code would then crebte b threbd bnd stbrt it running:
  * <blockquote><pre>
- *     PrimeThread p = new PrimeThread(143);
- *     p.start();
+ *     PrimeThrebd p = new PrimeThrebd(143);
+ *     p.stbrt();
  * </pre></blockquote>
  * <p>
- * The other way to create a thread is to declare a class that
- * implements the <code>Runnable</code> interface. That class then
- * implements the <code>run</code> method. An instance of the class can
- * then be allocated, passed as an argument when creating
- * <code>Thread</code>, and started. The same example in this other
+ * The other wby to crebte b threbd is to declbre b clbss thbt
+ * implements the <code>Runnbble</code> interfbce. Thbt clbss then
+ * implements the <code>run</code> method. An instbnce of the clbss cbn
+ * then be bllocbted, pbssed bs bn brgument when crebting
+ * <code>Threbd</code>, bnd stbrted. The sbme exbmple in this other
  * style looks like the following:
  * <hr><blockquote><pre>
- *     class PrimeRun implements Runnable {
+ *     clbss PrimeRun implements Runnbble {
  *         long minPrime;
  *         PrimeRun(long minPrime) {
  *             this.minPrime = minPrime;
  *         }
  *
  *         public void run() {
- *             // compute primes larger than minPrime
+ *             // compute primes lbrger thbn minPrime
  *             &nbsp;.&nbsp;.&nbsp;.
  *         }
  *     }
  * </pre></blockquote><hr>
  * <p>
- * The following code would then create a thread and start it running:
+ * The following code would then crebte b threbd bnd stbrt it running:
  * <blockquote><pre>
  *     PrimeRun p = new PrimeRun(143);
- *     new Thread(p).start();
+ *     new Threbd(p).stbrt();
  * </pre></blockquote>
  * <p>
- * Every thread has a name for identification purposes. More than
- * one thread may have the same name. If a name is not specified when
- * a thread is created, a new name is generated for it.
+ * Every threbd hbs b nbme for identificbtion purposes. More thbn
+ * one threbd mby hbve the sbme nbme. If b nbme is not specified when
+ * b threbd is crebted, b new nbme is generbted for it.
  * <p>
- * Unless otherwise noted, passing a {@code null} argument to a constructor
- * or method in this class will cause a {@link NullPointerException} to be
+ * Unless otherwise noted, pbssing b {@code null} brgument to b constructor
+ * or method in this clbss will cbuse b {@link NullPointerException} to be
  * thrown.
  *
- * @author  unascribed
- * @see     Runnable
+ * @buthor  unbscribed
+ * @see     Runnbble
  * @see     Runtime#exit(int)
  * @see     #run()
  * @see     #stop()
  * @since   1.0
  */
 public
-class Thread implements Runnable {
-    /* Make sure registerNatives is the first thing <clinit> does. */
-    private static native void registerNatives();
-    static {
-        registerNatives();
+clbss Threbd implements Runnbble {
+    /* Mbke sure registerNbtives is the first thing <clinit> does. */
+    privbte stbtic nbtive void registerNbtives();
+    stbtic {
+        registerNbtives();
     }
 
-    private volatile char  name[];
-    private int            priority;
-    private Thread         threadQ;
-    private long           eetop;
+    privbte volbtile chbr  nbme[];
+    privbte int            priority;
+    privbte Threbd         threbdQ;
+    privbte long           eetop;
 
-    /* Whether or not to single_step this thread. */
-    private boolean     single_step;
+    /* Whether or not to single_step this threbd. */
+    privbte boolebn     single_step;
 
-    /* Whether or not the thread is a daemon thread. */
-    private boolean     daemon = false;
+    /* Whether or not the threbd is b dbemon threbd. */
+    privbte boolebn     dbemon = fblse;
 
-    /* JVM state */
-    private boolean     stillborn = false;
+    /* JVM stbte */
+    privbte boolebn     stillborn = fblse;
 
-    /* What will be run. */
-    private Runnable target;
+    /* Whbt will be run. */
+    privbte Runnbble tbrget;
 
-    /* The group of this thread */
-    private ThreadGroup group;
+    /* The group of this threbd */
+    privbte ThrebdGroup group;
 
-    /* The context ClassLoader for this thread */
-    private ClassLoader contextClassLoader;
+    /* The context ClbssLobder for this threbd */
+    privbte ClbssLobder contextClbssLobder;
 
-    /* The inherited AccessControlContext of this thread */
-    private AccessControlContext inheritedAccessControlContext;
+    /* The inherited AccessControlContext of this threbd */
+    privbte AccessControlContext inheritedAccessControlContext;
 
-    /* For autonumbering anonymous threads. */
-    private static int threadInitNumber;
-    private static synchronized int nextThreadNum() {
-        return threadInitNumber++;
+    /* For butonumbering bnonymous threbds. */
+    privbte stbtic int threbdInitNumber;
+    privbte stbtic synchronized int nextThrebdNum() {
+        return threbdInitNumber++;
     }
 
-    /* ThreadLocal values pertaining to this thread. This map is maintained
-     * by the ThreadLocal class. */
-    ThreadLocal.ThreadLocalMap threadLocals = null;
+    /* ThrebdLocbl vblues pertbining to this threbd. This mbp is mbintbined
+     * by the ThrebdLocbl clbss. */
+    ThrebdLocbl.ThrebdLocblMbp threbdLocbls = null;
 
     /*
-     * InheritableThreadLocal values pertaining to this thread. This map is
-     * maintained by the InheritableThreadLocal class.
+     * InheritbbleThrebdLocbl vblues pertbining to this threbd. This mbp is
+     * mbintbined by the InheritbbleThrebdLocbl clbss.
      */
-    ThreadLocal.ThreadLocalMap inheritableThreadLocals = null;
+    ThrebdLocbl.ThrebdLocblMbp inheritbbleThrebdLocbls = null;
 
     /*
-     * The requested stack size for this thread, or 0 if the creator did
-     * not specify a stack size.  It is up to the VM to do whatever it
+     * The requested stbck size for this threbd, or 0 if the crebtor did
+     * not specify b stbck size.  It is up to the VM to do whbtever it
      * likes with this number; some VMs will ignore it.
      */
-    private long stackSize;
+    privbte long stbckSize;
 
     /*
-     * JVM-private state that persists after native thread termination.
+     * JVM-privbte stbte thbt persists bfter nbtive threbd terminbtion.
      */
-    private long nativeParkEventPointer;
+    privbte long nbtivePbrkEventPointer;
 
     /*
-     * Thread ID
+     * Threbd ID
      */
-    private long tid;
+    privbte long tid;
 
-    /* For generating thread ID */
-    private static long threadSeqNumber;
+    /* For generbting threbd ID */
+    privbte stbtic long threbdSeqNumber;
 
-    /* Java thread status for tools,
-     * initialized to indicate thread 'not yet started'
+    /* Jbvb threbd stbtus for tools,
+     * initiblized to indicbte threbd 'not yet stbrted'
      */
 
-    private volatile int threadStatus = 0;
+    privbte volbtile int threbdStbtus = 0;
 
 
-    private static synchronized long nextThreadID() {
-        return ++threadSeqNumber;
+    privbte stbtic synchronized long nextThrebdID() {
+        return ++threbdSeqNumber;
     }
 
     /**
-     * The argument supplied to the current call to
-     * java.util.concurrent.locks.LockSupport.park.
-     * Set by (private) java.util.concurrent.locks.LockSupport.setBlocker
-     * Accessed using java.util.concurrent.locks.LockSupport.getBlocker
+     * The brgument supplied to the current cbll to
+     * jbvb.util.concurrent.locks.LockSupport.pbrk.
+     * Set by (privbte) jbvb.util.concurrent.locks.LockSupport.setBlocker
+     * Accessed using jbvb.util.concurrent.locks.LockSupport.getBlocker
      */
-    volatile Object parkBlocker;
+    volbtile Object pbrkBlocker;
 
-    /* The object in which this thread is blocked in an interruptible I/O
-     * operation, if any.  The blocker's interrupt method should be invoked
-     * after setting this thread's interrupt status.
+    /* The object in which this threbd is blocked in bn interruptible I/O
+     * operbtion, if bny.  The blocker's interrupt method should be invoked
+     * bfter setting this threbd's interrupt stbtus.
      */
-    private volatile Interruptible blocker;
-    private final Object blockerLock = new Object();
+    privbte volbtile Interruptible blocker;
+    privbte finbl Object blockerLock = new Object();
 
-    /* Set the blocker field; invoked via sun.misc.SharedSecrets from java.nio code
+    /* Set the blocker field; invoked vib sun.misc.ShbredSecrets from jbvb.nio code
      */
     void blockedOn(Interruptible b) {
         synchronized (blockerLock) {
@@ -242,98 +242,98 @@ class Thread implements Runnable {
     }
 
     /**
-     * The minimum priority that a thread can have.
+     * The minimum priority thbt b threbd cbn hbve.
      */
-    public final static int MIN_PRIORITY = 1;
+    public finbl stbtic int MIN_PRIORITY = 1;
 
    /**
-     * The default priority that is assigned to a thread.
+     * The defbult priority thbt is bssigned to b threbd.
      */
-    public final static int NORM_PRIORITY = 5;
+    public finbl stbtic int NORM_PRIORITY = 5;
 
     /**
-     * The maximum priority that a thread can have.
+     * The mbximum priority thbt b threbd cbn hbve.
      */
-    public final static int MAX_PRIORITY = 10;
+    public finbl stbtic int MAX_PRIORITY = 10;
 
     /**
-     * Returns a reference to the currently executing thread object.
+     * Returns b reference to the currently executing threbd object.
      *
-     * @return  the currently executing thread.
+     * @return  the currently executing threbd.
      */
-    public static native Thread currentThread();
+    public stbtic nbtive Threbd currentThrebd();
 
     /**
-     * A hint to the scheduler that the current thread is willing to yield
-     * its current use of a processor. The scheduler is free to ignore this
+     * A hint to the scheduler thbt the current threbd is willing to yield
+     * its current use of b processor. The scheduler is free to ignore this
      * hint.
      *
-     * <p> Yield is a heuristic attempt to improve relative progression
-     * between threads that would otherwise over-utilise a CPU. Its use
-     * should be combined with detailed profiling and benchmarking to
-     * ensure that it actually has the desired effect.
+     * <p> Yield is b heuristic bttempt to improve relbtive progression
+     * between threbds thbt would otherwise over-utilise b CPU. Its use
+     * should be combined with detbiled profiling bnd benchmbrking to
+     * ensure thbt it bctublly hbs the desired effect.
      *
-     * <p> It is rarely appropriate to use this method. It may be useful
-     * for debugging or testing purposes, where it may help to reproduce
-     * bugs due to race conditions. It may also be useful when designing
-     * concurrency control constructs such as the ones in the
-     * {@link java.util.concurrent.locks} package.
+     * <p> It is rbrely bppropribte to use this method. It mby be useful
+     * for debugging or testing purposes, where it mby help to reproduce
+     * bugs due to rbce conditions. It mby blso be useful when designing
+     * concurrency control constructs such bs the ones in the
+     * {@link jbvb.util.concurrent.locks} pbckbge.
      */
-    public static native void yield();
+    public stbtic nbtive void yield();
 
     /**
-     * Causes the currently executing thread to sleep (temporarily cease
+     * Cbuses the currently executing threbd to sleep (temporbrily cebse
      * execution) for the specified number of milliseconds, subject to
-     * the precision and accuracy of system timers and schedulers. The thread
-     * does not lose ownership of any monitors.
+     * the precision bnd bccurbcy of system timers bnd schedulers. The threbd
+     * does not lose ownership of bny monitors.
      *
-     * @param  millis
+     * @pbrbm  millis
      *         the length of time to sleep in milliseconds
      *
-     * @throws  IllegalArgumentException
-     *          if the value of {@code millis} is negative
+     * @throws  IllegblArgumentException
+     *          if the vblue of {@code millis} is negbtive
      *
      * @throws  InterruptedException
-     *          if any thread has interrupted the current thread. The
-     *          <i>interrupted status</i> of the current thread is
-     *          cleared when this exception is thrown.
+     *          if bny threbd hbs interrupted the current threbd. The
+     *          <i>interrupted stbtus</i> of the current threbd is
+     *          clebred when this exception is thrown.
      */
-    public static native void sleep(long millis) throws InterruptedException;
+    public stbtic nbtive void sleep(long millis) throws InterruptedException;
 
     /**
-     * Causes the currently executing thread to sleep (temporarily cease
+     * Cbuses the currently executing threbd to sleep (temporbrily cebse
      * execution) for the specified number of milliseconds plus the specified
-     * number of nanoseconds, subject to the precision and accuracy of system
-     * timers and schedulers. The thread does not lose ownership of any
+     * number of nbnoseconds, subject to the precision bnd bccurbcy of system
+     * timers bnd schedulers. The threbd does not lose ownership of bny
      * monitors.
      *
-     * @param  millis
+     * @pbrbm  millis
      *         the length of time to sleep in milliseconds
      *
-     * @param  nanos
-     *         {@code 0-999999} additional nanoseconds to sleep
+     * @pbrbm  nbnos
+     *         {@code 0-999999} bdditionbl nbnoseconds to sleep
      *
-     * @throws  IllegalArgumentException
-     *          if the value of {@code millis} is negative, or the value of
-     *          {@code nanos} is not in the range {@code 0-999999}
+     * @throws  IllegblArgumentException
+     *          if the vblue of {@code millis} is negbtive, or the vblue of
+     *          {@code nbnos} is not in the rbnge {@code 0-999999}
      *
      * @throws  InterruptedException
-     *          if any thread has interrupted the current thread. The
-     *          <i>interrupted status</i> of the current thread is
-     *          cleared when this exception is thrown.
+     *          if bny threbd hbs interrupted the current threbd. The
+     *          <i>interrupted stbtus</i> of the current threbd is
+     *          clebred when this exception is thrown.
      */
-    public static void sleep(long millis, int nanos)
+    public stbtic void sleep(long millis, int nbnos)
     throws InterruptedException {
         if (millis < 0) {
-            throw new IllegalArgumentException("timeout value is negative");
+            throw new IllegblArgumentException("timeout vblue is negbtive");
         }
 
-        if (nanos < 0 || nanos > 999999) {
-            throw new IllegalArgumentException(
-                                "nanosecond timeout value out of range");
+        if (nbnos < 0 || nbnos > 999999) {
+            throw new IllegblArgumentException(
+                                "nbnosecond timeout vblue out of rbnge");
         }
 
-        if (nanos >= 500000 || (nanos != 0 && millis == 0)) {
+        if (nbnos >= 500000 || (nbnos != 0 && millis == 0)) {
             millis++;
         }
 
@@ -341,93 +341,93 @@ class Thread implements Runnable {
     }
 
     /**
-     * Initializes a Thread with the current AccessControlContext.
-     * @see #init(ThreadGroup,Runnable,String,long,AccessControlContext)
+     * Initiblizes b Threbd with the current AccessControlContext.
+     * @see #init(ThrebdGroup,Runnbble,String,long,AccessControlContext)
      */
-    private void init(ThreadGroup g, Runnable target, String name,
-                      long stackSize) {
-        init(g, target, name, stackSize, null);
+    privbte void init(ThrebdGroup g, Runnbble tbrget, String nbme,
+                      long stbckSize) {
+        init(g, tbrget, nbme, stbckSize, null);
     }
 
     /**
-     * Initializes a Thread.
+     * Initiblizes b Threbd.
      *
-     * @param g the Thread group
-     * @param target the object whose run() method gets called
-     * @param name the name of the new Thread
-     * @param stackSize the desired stack size for the new thread, or
-     *        zero to indicate that this parameter is to be ignored.
-     * @param acc the AccessControlContext to inherit, or
+     * @pbrbm g the Threbd group
+     * @pbrbm tbrget the object whose run() method gets cblled
+     * @pbrbm nbme the nbme of the new Threbd
+     * @pbrbm stbckSize the desired stbck size for the new threbd, or
+     *        zero to indicbte thbt this pbrbmeter is to be ignored.
+     * @pbrbm bcc the AccessControlContext to inherit, or
      *            AccessController.getContext() if null
      */
-    private void init(ThreadGroup g, Runnable target, String name,
-                      long stackSize, AccessControlContext acc) {
-        if (name == null) {
-            throw new NullPointerException("name cannot be null");
+    privbte void init(ThrebdGroup g, Runnbble tbrget, String nbme,
+                      long stbckSize, AccessControlContext bcc) {
+        if (nbme == null) {
+            throw new NullPointerException("nbme cbnnot be null");
         }
 
-        this.name = name.toCharArray();
+        this.nbme = nbme.toChbrArrby();
 
-        Thread parent = currentThread();
-        SecurityManager security = System.getSecurityManager();
+        Threbd pbrent = currentThrebd();
+        SecurityMbnbger security = System.getSecurityMbnbger();
         if (g == null) {
-            /* Determine if it's an applet or not */
+            /* Determine if it's bn bpplet or not */
 
-            /* If there is a security manager, ask the security manager
-               what to do. */
+            /* If there is b security mbnbger, bsk the security mbnbger
+               whbt to do. */
             if (security != null) {
-                g = security.getThreadGroup();
+                g = security.getThrebdGroup();
             }
 
-            /* If the security doesn't have a strong opinion of the matter
-               use the parent thread group. */
+            /* If the security doesn't hbve b strong opinion of the mbtter
+               use the pbrent threbd group. */
             if (g == null) {
-                g = parent.getThreadGroup();
+                g = pbrent.getThrebdGroup();
             }
         }
 
-        /* checkAccess regardless of whether or not threadgroup is
-           explicitly passed in. */
+        /* checkAccess regbrdless of whether or not threbdgroup is
+           explicitly pbssed in. */
         g.checkAccess();
 
         /*
-         * Do we have the required permissions?
+         * Do we hbve the required permissions?
          */
         if (security != null) {
-            if (isCCLOverridden(getClass())) {
+            if (isCCLOverridden(getClbss())) {
                 security.checkPermission(SUBCLASS_IMPLEMENTATION_PERMISSION);
             }
         }
 
-        g.addUnstarted();
+        g.bddUnstbrted();
 
         this.group = g;
-        this.daemon = parent.isDaemon();
-        this.priority = parent.getPriority();
-        if (security == null || isCCLOverridden(parent.getClass()))
-            this.contextClassLoader = parent.getContextClassLoader();
+        this.dbemon = pbrent.isDbemon();
+        this.priority = pbrent.getPriority();
+        if (security == null || isCCLOverridden(pbrent.getClbss()))
+            this.contextClbssLobder = pbrent.getContextClbssLobder();
         else
-            this.contextClassLoader = parent.contextClassLoader;
+            this.contextClbssLobder = pbrent.contextClbssLobder;
         this.inheritedAccessControlContext =
-                acc != null ? acc : AccessController.getContext();
-        this.target = target;
+                bcc != null ? bcc : AccessController.getContext();
+        this.tbrget = tbrget;
         setPriority(priority);
-        if (parent.inheritableThreadLocals != null)
-            this.inheritableThreadLocals =
-                ThreadLocal.createInheritedMap(parent.inheritableThreadLocals);
-        /* Stash the specified stack size in case the VM cares */
-        this.stackSize = stackSize;
+        if (pbrent.inheritbbleThrebdLocbls != null)
+            this.inheritbbleThrebdLocbls =
+                ThrebdLocbl.crebteInheritedMbp(pbrent.inheritbbleThrebdLocbls);
+        /* Stbsh the specified stbck size in cbse the VM cbres */
+        this.stbckSize = stbckSize;
 
-        /* Set thread ID */
-        tid = nextThreadID();
+        /* Set threbd ID */
+        tid = nextThrebdID();
     }
 
     /**
-     * Throws CloneNotSupportedException as a Thread can not be meaningfully
-     * cloned. Construct a new Thread instead.
+     * Throws CloneNotSupportedException bs b Threbd cbn not be mebningfully
+     * cloned. Construct b new Threbd instebd.
      *
      * @throws  CloneNotSupportedException
-     *          always
+     *          blwbys
      */
     @Override
     protected Object clone() throws CloneNotSupportedException {
@@ -435,487 +435,487 @@ class Thread implements Runnable {
     }
 
     /**
-     * Allocates a new {@code Thread} object. This constructor has the same
-     * effect as {@linkplain #Thread(ThreadGroup,Runnable,String) Thread}
-     * {@code (null, null, gname)}, where {@code gname} is a newly generated
-     * name. Automatically generated names are of the form
-     * {@code "Thread-"+}<i>n</i>, where <i>n</i> is an integer.
+     * Allocbtes b new {@code Threbd} object. This constructor hbs the sbme
+     * effect bs {@linkplbin #Threbd(ThrebdGroup,Runnbble,String) Threbd}
+     * {@code (null, null, gnbme)}, where {@code gnbme} is b newly generbted
+     * nbme. Autombticblly generbted nbmes bre of the form
+     * {@code "Threbd-"+}<i>n</i>, where <i>n</i> is bn integer.
      */
-    public Thread() {
-        init(null, null, "Thread-" + nextThreadNum(), 0);
+    public Threbd() {
+        init(null, null, "Threbd-" + nextThrebdNum(), 0);
     }
 
     /**
-     * Allocates a new {@code Thread} object. This constructor has the same
-     * effect as {@linkplain #Thread(ThreadGroup,Runnable,String) Thread}
-     * {@code (null, target, gname)}, where {@code gname} is a newly generated
-     * name. Automatically generated names are of the form
-     * {@code "Thread-"+}<i>n</i>, where <i>n</i> is an integer.
+     * Allocbtes b new {@code Threbd} object. This constructor hbs the sbme
+     * effect bs {@linkplbin #Threbd(ThrebdGroup,Runnbble,String) Threbd}
+     * {@code (null, tbrget, gnbme)}, where {@code gnbme} is b newly generbted
+     * nbme. Autombticblly generbted nbmes bre of the form
+     * {@code "Threbd-"+}<i>n</i>, where <i>n</i> is bn integer.
      *
-     * @param  target
-     *         the object whose {@code run} method is invoked when this thread
-     *         is started. If {@code null}, this classes {@code run} method does
+     * @pbrbm  tbrget
+     *         the object whose {@code run} method is invoked when this threbd
+     *         is stbrted. If {@code null}, this clbsses {@code run} method does
      *         nothing.
      */
-    public Thread(Runnable target) {
-        init(null, target, "Thread-" + nextThreadNum(), 0);
+    public Threbd(Runnbble tbrget) {
+        init(null, tbrget, "Threbd-" + nextThrebdNum(), 0);
     }
 
     /**
-     * Creates a new Thread that inherits the given AccessControlContext.
-     * This is not a public constructor.
+     * Crebtes b new Threbd thbt inherits the given AccessControlContext.
+     * This is not b public constructor.
      */
-    Thread(Runnable target, AccessControlContext acc) {
-        init(null, target, "Thread-" + nextThreadNum(), 0, acc);
+    Threbd(Runnbble tbrget, AccessControlContext bcc) {
+        init(null, tbrget, "Threbd-" + nextThrebdNum(), 0, bcc);
     }
 
     /**
-     * Allocates a new {@code Thread} object. This constructor has the same
-     * effect as {@linkplain #Thread(ThreadGroup,Runnable,String) Thread}
-     * {@code (group, target, gname)} ,where {@code gname} is a newly generated
-     * name. Automatically generated names are of the form
-     * {@code "Thread-"+}<i>n</i>, where <i>n</i> is an integer.
+     * Allocbtes b new {@code Threbd} object. This constructor hbs the sbme
+     * effect bs {@linkplbin #Threbd(ThrebdGroup,Runnbble,String) Threbd}
+     * {@code (group, tbrget, gnbme)} ,where {@code gnbme} is b newly generbted
+     * nbme. Autombticblly generbted nbmes bre of the form
+     * {@code "Threbd-"+}<i>n</i>, where <i>n</i> is bn integer.
      *
-     * @param  group
-     *         the thread group. If {@code null} and there is a security
-     *         manager, the group is determined by {@linkplain
-     *         SecurityManager#getThreadGroup SecurityManager.getThreadGroup()}.
-     *         If there is not a security manager or {@code
-     *         SecurityManager.getThreadGroup()} returns {@code null}, the group
-     *         is set to the current thread's thread group.
+     * @pbrbm  group
+     *         the threbd group. If {@code null} bnd there is b security
+     *         mbnbger, the group is determined by {@linkplbin
+     *         SecurityMbnbger#getThrebdGroup SecurityMbnbger.getThrebdGroup()}.
+     *         If there is not b security mbnbger or {@code
+     *         SecurityMbnbger.getThrebdGroup()} returns {@code null}, the group
+     *         is set to the current threbd's threbd group.
      *
-     * @param  target
-     *         the object whose {@code run} method is invoked when this thread
-     *         is started. If {@code null}, this thread's run method is invoked.
+     * @pbrbm  tbrget
+     *         the object whose {@code run} method is invoked when this threbd
+     *         is stbrted. If {@code null}, this threbd's run method is invoked.
      *
      * @throws  SecurityException
-     *          if the current thread cannot create a thread in the specified
-     *          thread group
+     *          if the current threbd cbnnot crebte b threbd in the specified
+     *          threbd group
      */
-    public Thread(ThreadGroup group, Runnable target) {
-        init(group, target, "Thread-" + nextThreadNum(), 0);
+    public Threbd(ThrebdGroup group, Runnbble tbrget) {
+        init(group, tbrget, "Threbd-" + nextThrebdNum(), 0);
     }
 
     /**
-     * Allocates a new {@code Thread} object. This constructor has the same
-     * effect as {@linkplain #Thread(ThreadGroup,Runnable,String) Thread}
-     * {@code (null, null, name)}.
+     * Allocbtes b new {@code Threbd} object. This constructor hbs the sbme
+     * effect bs {@linkplbin #Threbd(ThrebdGroup,Runnbble,String) Threbd}
+     * {@code (null, null, nbme)}.
      *
-     * @param   name
-     *          the name of the new thread
+     * @pbrbm   nbme
+     *          the nbme of the new threbd
      */
-    public Thread(String name) {
-        init(null, null, name, 0);
+    public Threbd(String nbme) {
+        init(null, null, nbme, 0);
     }
 
     /**
-     * Allocates a new {@code Thread} object. This constructor has the same
-     * effect as {@linkplain #Thread(ThreadGroup,Runnable,String) Thread}
-     * {@code (group, null, name)}.
+     * Allocbtes b new {@code Threbd} object. This constructor hbs the sbme
+     * effect bs {@linkplbin #Threbd(ThrebdGroup,Runnbble,String) Threbd}
+     * {@code (group, null, nbme)}.
      *
-     * @param  group
-     *         the thread group. If {@code null} and there is a security
-     *         manager, the group is determined by {@linkplain
-     *         SecurityManager#getThreadGroup SecurityManager.getThreadGroup()}.
-     *         If there is not a security manager or {@code
-     *         SecurityManager.getThreadGroup()} returns {@code null}, the group
-     *         is set to the current thread's thread group.
+     * @pbrbm  group
+     *         the threbd group. If {@code null} bnd there is b security
+     *         mbnbger, the group is determined by {@linkplbin
+     *         SecurityMbnbger#getThrebdGroup SecurityMbnbger.getThrebdGroup()}.
+     *         If there is not b security mbnbger or {@code
+     *         SecurityMbnbger.getThrebdGroup()} returns {@code null}, the group
+     *         is set to the current threbd's threbd group.
      *
-     * @param  name
-     *         the name of the new thread
+     * @pbrbm  nbme
+     *         the nbme of the new threbd
      *
      * @throws  SecurityException
-     *          if the current thread cannot create a thread in the specified
-     *          thread group
+     *          if the current threbd cbnnot crebte b threbd in the specified
+     *          threbd group
      */
-    public Thread(ThreadGroup group, String name) {
-        init(group, null, name, 0);
+    public Threbd(ThrebdGroup group, String nbme) {
+        init(group, null, nbme, 0);
     }
 
     /**
-     * Allocates a new {@code Thread} object. This constructor has the same
-     * effect as {@linkplain #Thread(ThreadGroup,Runnable,String) Thread}
-     * {@code (null, target, name)}.
+     * Allocbtes b new {@code Threbd} object. This constructor hbs the sbme
+     * effect bs {@linkplbin #Threbd(ThrebdGroup,Runnbble,String) Threbd}
+     * {@code (null, tbrget, nbme)}.
      *
-     * @param  target
-     *         the object whose {@code run} method is invoked when this thread
-     *         is started. If {@code null}, this thread's run method is invoked.
+     * @pbrbm  tbrget
+     *         the object whose {@code run} method is invoked when this threbd
+     *         is stbrted. If {@code null}, this threbd's run method is invoked.
      *
-     * @param  name
-     *         the name of the new thread
+     * @pbrbm  nbme
+     *         the nbme of the new threbd
      */
-    public Thread(Runnable target, String name) {
-        init(null, target, name, 0);
+    public Threbd(Runnbble tbrget, String nbme) {
+        init(null, tbrget, nbme, 0);
     }
 
     /**
-     * Allocates a new {@code Thread} object so that it has {@code target}
-     * as its run object, has the specified {@code name} as its name,
-     * and belongs to the thread group referred to by {@code group}.
+     * Allocbtes b new {@code Threbd} object so thbt it hbs {@code tbrget}
+     * bs its run object, hbs the specified {@code nbme} bs its nbme,
+     * bnd belongs to the threbd group referred to by {@code group}.
      *
-     * <p>If there is a security manager, its
-     * {@link SecurityManager#checkAccess(ThreadGroup) checkAccess}
-     * method is invoked with the ThreadGroup as its argument.
+     * <p>If there is b security mbnbger, its
+     * {@link SecurityMbnbger#checkAccess(ThrebdGroup) checkAccess}
+     * method is invoked with the ThrebdGroup bs its brgument.
      *
-     * <p>In addition, its {@code checkPermission} method is invoked with
-     * the {@code RuntimePermission("enableContextClassLoaderOverride")}
+     * <p>In bddition, its {@code checkPermission} method is invoked with
+     * the {@code RuntimePermission("enbbleContextClbssLobderOverride")}
      * permission when invoked directly or indirectly by the constructor
-     * of a subclass which overrides the {@code getContextClassLoader}
-     * or {@code setContextClassLoader} methods.
+     * of b subclbss which overrides the {@code getContextClbssLobder}
+     * or {@code setContextClbssLobder} methods.
      *
-     * <p>The priority of the newly created thread is set equal to the
-     * priority of the thread creating it, that is, the currently running
-     * thread. The method {@linkplain #setPriority setPriority} may be
-     * used to change the priority to a new value.
+     * <p>The priority of the newly crebted threbd is set equbl to the
+     * priority of the threbd crebting it, thbt is, the currently running
+     * threbd. The method {@linkplbin #setPriority setPriority} mby be
+     * used to chbnge the priority to b new vblue.
      *
-     * <p>The newly created thread is initially marked as being a daemon
-     * thread if and only if the thread creating it is currently marked
-     * as a daemon thread. The method {@linkplain #setDaemon setDaemon}
-     * may be used to change whether or not a thread is a daemon.
+     * <p>The newly crebted threbd is initiblly mbrked bs being b dbemon
+     * threbd if bnd only if the threbd crebting it is currently mbrked
+     * bs b dbemon threbd. The method {@linkplbin #setDbemon setDbemon}
+     * mby be used to chbnge whether or not b threbd is b dbemon.
      *
-     * @param  group
-     *         the thread group. If {@code null} and there is a security
-     *         manager, the group is determined by {@linkplain
-     *         SecurityManager#getThreadGroup SecurityManager.getThreadGroup()}.
-     *         If there is not a security manager or {@code
-     *         SecurityManager.getThreadGroup()} returns {@code null}, the group
-     *         is set to the current thread's thread group.
+     * @pbrbm  group
+     *         the threbd group. If {@code null} bnd there is b security
+     *         mbnbger, the group is determined by {@linkplbin
+     *         SecurityMbnbger#getThrebdGroup SecurityMbnbger.getThrebdGroup()}.
+     *         If there is not b security mbnbger or {@code
+     *         SecurityMbnbger.getThrebdGroup()} returns {@code null}, the group
+     *         is set to the current threbd's threbd group.
      *
-     * @param  target
-     *         the object whose {@code run} method is invoked when this thread
-     *         is started. If {@code null}, this thread's run method is invoked.
+     * @pbrbm  tbrget
+     *         the object whose {@code run} method is invoked when this threbd
+     *         is stbrted. If {@code null}, this threbd's run method is invoked.
      *
-     * @param  name
-     *         the name of the new thread
+     * @pbrbm  nbme
+     *         the nbme of the new threbd
      *
      * @throws  SecurityException
-     *          if the current thread cannot create a thread in the specified
-     *          thread group or cannot override the context class loader methods.
+     *          if the current threbd cbnnot crebte b threbd in the specified
+     *          threbd group or cbnnot override the context clbss lobder methods.
      */
-    public Thread(ThreadGroup group, Runnable target, String name) {
-        init(group, target, name, 0);
+    public Threbd(ThrebdGroup group, Runnbble tbrget, String nbme) {
+        init(group, tbrget, nbme, 0);
     }
 
     /**
-     * Allocates a new {@code Thread} object so that it has {@code target}
-     * as its run object, has the specified {@code name} as its name,
-     * and belongs to the thread group referred to by {@code group}, and has
-     * the specified <i>stack size</i>.
+     * Allocbtes b new {@code Threbd} object so thbt it hbs {@code tbrget}
+     * bs its run object, hbs the specified {@code nbme} bs its nbme,
+     * bnd belongs to the threbd group referred to by {@code group}, bnd hbs
+     * the specified <i>stbck size</i>.
      *
-     * <p>This constructor is identical to {@link
-     * #Thread(ThreadGroup,Runnable,String)} with the exception of the fact
-     * that it allows the thread stack size to be specified.  The stack size
-     * is the approximate number of bytes of address space that the virtual
-     * machine is to allocate for this thread's stack.  <b>The effect of the
-     * {@code stackSize} parameter, if any, is highly platform dependent.</b>
+     * <p>This constructor is identicbl to {@link
+     * #Threbd(ThrebdGroup,Runnbble,String)} with the exception of the fbct
+     * thbt it bllows the threbd stbck size to be specified.  The stbck size
+     * is the bpproximbte number of bytes of bddress spbce thbt the virtubl
+     * mbchine is to bllocbte for this threbd's stbck.  <b>The effect of the
+     * {@code stbckSize} pbrbmeter, if bny, is highly plbtform dependent.</b>
      *
-     * <p>On some platforms, specifying a higher value for the
-     * {@code stackSize} parameter may allow a thread to achieve greater
-     * recursion depth before throwing a {@link StackOverflowError}.
-     * Similarly, specifying a lower value may allow a greater number of
-     * threads to exist concurrently without throwing an {@link
-     * OutOfMemoryError} (or other internal error).  The details of
-     * the relationship between the value of the <tt>stackSize</tt> parameter
-     * and the maximum recursion depth and concurrency level are
-     * platform-dependent.  <b>On some platforms, the value of the
-     * {@code stackSize} parameter may have no effect whatsoever.</b>
+     * <p>On some plbtforms, specifying b higher vblue for the
+     * {@code stbckSize} pbrbmeter mby bllow b threbd to bchieve grebter
+     * recursion depth before throwing b {@link StbckOverflowError}.
+     * Similbrly, specifying b lower vblue mby bllow b grebter number of
+     * threbds to exist concurrently without throwing bn {@link
+     * OutOfMemoryError} (or other internbl error).  The detbils of
+     * the relbtionship between the vblue of the <tt>stbckSize</tt> pbrbmeter
+     * bnd the mbximum recursion depth bnd concurrency level bre
+     * plbtform-dependent.  <b>On some plbtforms, the vblue of the
+     * {@code stbckSize} pbrbmeter mby hbve no effect whbtsoever.</b>
      *
-     * <p>The virtual machine is free to treat the {@code stackSize}
-     * parameter as a suggestion.  If the specified value is unreasonably low
-     * for the platform, the virtual machine may instead use some
-     * platform-specific minimum value; if the specified value is unreasonably
-     * high, the virtual machine may instead use some platform-specific
-     * maximum.  Likewise, the virtual machine is free to round the specified
-     * value up or down as it sees fit (or to ignore it completely).
+     * <p>The virtubl mbchine is free to trebt the {@code stbckSize}
+     * pbrbmeter bs b suggestion.  If the specified vblue is unrebsonbbly low
+     * for the plbtform, the virtubl mbchine mby instebd use some
+     * plbtform-specific minimum vblue; if the specified vblue is unrebsonbbly
+     * high, the virtubl mbchine mby instebd use some plbtform-specific
+     * mbximum.  Likewise, the virtubl mbchine is free to round the specified
+     * vblue up or down bs it sees fit (or to ignore it completely).
      *
-     * <p>Specifying a value of zero for the {@code stackSize} parameter will
-     * cause this constructor to behave exactly like the
-     * {@code Thread(ThreadGroup, Runnable, String)} constructor.
+     * <p>Specifying b vblue of zero for the {@code stbckSize} pbrbmeter will
+     * cbuse this constructor to behbve exbctly like the
+     * {@code Threbd(ThrebdGroup, Runnbble, String)} constructor.
      *
-     * <p><i>Due to the platform-dependent nature of the behavior of this
-     * constructor, extreme care should be exercised in its use.
-     * The thread stack size necessary to perform a given computation will
-     * likely vary from one JRE implementation to another.  In light of this
-     * variation, careful tuning of the stack size parameter may be required,
-     * and the tuning may need to be repeated for each JRE implementation on
-     * which an application is to run.</i>
+     * <p><i>Due to the plbtform-dependent nbture of the behbvior of this
+     * constructor, extreme cbre should be exercised in its use.
+     * The threbd stbck size necessbry to perform b given computbtion will
+     * likely vbry from one JRE implementbtion to bnother.  In light of this
+     * vbribtion, cbreful tuning of the stbck size pbrbmeter mby be required,
+     * bnd the tuning mby need to be repebted for ebch JRE implementbtion on
+     * which bn bpplicbtion is to run.</i>
      *
-     * <p>Implementation note: Java platform implementers are encouraged to
-     * document their implementation's behavior with respect to the
-     * {@code stackSize} parameter.
+     * <p>Implementbtion note: Jbvb plbtform implementers bre encourbged to
+     * document their implementbtion's behbvior with respect to the
+     * {@code stbckSize} pbrbmeter.
      *
      *
-     * @param  group
-     *         the thread group. If {@code null} and there is a security
-     *         manager, the group is determined by {@linkplain
-     *         SecurityManager#getThreadGroup SecurityManager.getThreadGroup()}.
-     *         If there is not a security manager or {@code
-     *         SecurityManager.getThreadGroup()} returns {@code null}, the group
-     *         is set to the current thread's thread group.
+     * @pbrbm  group
+     *         the threbd group. If {@code null} bnd there is b security
+     *         mbnbger, the group is determined by {@linkplbin
+     *         SecurityMbnbger#getThrebdGroup SecurityMbnbger.getThrebdGroup()}.
+     *         If there is not b security mbnbger or {@code
+     *         SecurityMbnbger.getThrebdGroup()} returns {@code null}, the group
+     *         is set to the current threbd's threbd group.
      *
-     * @param  target
-     *         the object whose {@code run} method is invoked when this thread
-     *         is started. If {@code null}, this thread's run method is invoked.
+     * @pbrbm  tbrget
+     *         the object whose {@code run} method is invoked when this threbd
+     *         is stbrted. If {@code null}, this threbd's run method is invoked.
      *
-     * @param  name
-     *         the name of the new thread
+     * @pbrbm  nbme
+     *         the nbme of the new threbd
      *
-     * @param  stackSize
-     *         the desired stack size for the new thread, or zero to indicate
-     *         that this parameter is to be ignored.
+     * @pbrbm  stbckSize
+     *         the desired stbck size for the new threbd, or zero to indicbte
+     *         thbt this pbrbmeter is to be ignored.
      *
      * @throws  SecurityException
-     *          if the current thread cannot create a thread in the specified
-     *          thread group
+     *          if the current threbd cbnnot crebte b threbd in the specified
+     *          threbd group
      *
      * @since 1.4
      */
-    public Thread(ThreadGroup group, Runnable target, String name,
-                  long stackSize) {
-        init(group, target, name, stackSize);
+    public Threbd(ThrebdGroup group, Runnbble tbrget, String nbme,
+                  long stbckSize) {
+        init(group, tbrget, nbme, stbckSize);
     }
 
     /**
-     * Causes this thread to begin execution; the Java Virtual Machine
-     * calls the <code>run</code> method of this thread.
+     * Cbuses this threbd to begin execution; the Jbvb Virtubl Mbchine
+     * cblls the <code>run</code> method of this threbd.
      * <p>
-     * The result is that two threads are running concurrently: the
-     * current thread (which returns from the call to the
-     * <code>start</code> method) and the other thread (which executes its
+     * The result is thbt two threbds bre running concurrently: the
+     * current threbd (which returns from the cbll to the
+     * <code>stbrt</code> method) bnd the other threbd (which executes its
      * <code>run</code> method).
      * <p>
-     * It is never legal to start a thread more than once.
-     * In particular, a thread may not be restarted once it has completed
+     * It is never legbl to stbrt b threbd more thbn once.
+     * In pbrticulbr, b threbd mby not be restbrted once it hbs completed
      * execution.
      *
-     * @exception  IllegalThreadStateException  if the thread was already
-     *               started.
+     * @exception  IllegblThrebdStbteException  if the threbd wbs blrebdy
+     *               stbrted.
      * @see        #run()
      * @see        #stop()
      */
-    public synchronized void start() {
+    public synchronized void stbrt() {
         /**
-         * This method is not invoked for the main method thread or "system"
-         * group threads created/set up by the VM. Any new functionality added
-         * to this method in the future may have to also be added to the VM.
+         * This method is not invoked for the mbin method threbd or "system"
+         * group threbds crebted/set up by the VM. Any new functionblity bdded
+         * to this method in the future mby hbve to blso be bdded to the VM.
          *
-         * A zero status value corresponds to state "NEW".
+         * A zero stbtus vblue corresponds to stbte "NEW".
          */
-        if (threadStatus != 0)
-            throw new IllegalThreadStateException();
+        if (threbdStbtus != 0)
+            throw new IllegblThrebdStbteException();
 
-        /* Notify the group that this thread is about to be started
-         * so that it can be added to the group's list of threads
-         * and the group's unstarted count can be decremented. */
-        group.add(this);
+        /* Notify the group thbt this threbd is bbout to be stbrted
+         * so thbt it cbn be bdded to the group's list of threbds
+         * bnd the group's unstbrted count cbn be decremented. */
+        group.bdd(this);
 
-        boolean started = false;
+        boolebn stbrted = fblse;
         try {
-            start0();
-            started = true;
-        } finally {
+            stbrt0();
+            stbrted = true;
+        } finblly {
             try {
-                if (!started) {
-                    group.threadStartFailed(this);
+                if (!stbrted) {
+                    group.threbdStbrtFbiled(this);
                 }
-            } catch (Throwable ignore) {
-                /* do nothing. If start0 threw a Throwable then
-                  it will be passed up the call stack */
+            } cbtch (Throwbble ignore) {
+                /* do nothing. If stbrt0 threw b Throwbble then
+                  it will be pbssed up the cbll stbck */
             }
         }
     }
 
-    private native void start0();
+    privbte nbtive void stbrt0();
 
     /**
-     * If this thread was constructed using a separate
-     * <code>Runnable</code> run object, then that
-     * <code>Runnable</code> object's <code>run</code> method is called;
-     * otherwise, this method does nothing and returns.
+     * If this threbd wbs constructed using b sepbrbte
+     * <code>Runnbble</code> run object, then thbt
+     * <code>Runnbble</code> object's <code>run</code> method is cblled;
+     * otherwise, this method does nothing bnd returns.
      * <p>
-     * Subclasses of <code>Thread</code> should override this method.
+     * Subclbsses of <code>Threbd</code> should override this method.
      *
-     * @see     #start()
+     * @see     #stbrt()
      * @see     #stop()
-     * @see     #Thread(ThreadGroup, Runnable, String)
+     * @see     #Threbd(ThrebdGroup, Runnbble, String)
      */
     @Override
     public void run() {
-        if (target != null) {
-            target.run();
+        if (tbrget != null) {
+            tbrget.run();
         }
     }
 
     /**
-     * This method is called by the system to give a Thread
-     * a chance to clean up before it actually exits.
+     * This method is cblled by the system to give b Threbd
+     * b chbnce to clebn up before it bctublly exits.
      */
-    private void exit() {
+    privbte void exit() {
         if (group != null) {
-            group.threadTerminated(this);
+            group.threbdTerminbted(this);
             group = null;
         }
-        /* Aggressively null out all reference fields: see bug 4006245 */
-        target = null;
-        /* Speed the release of some of these resources */
-        threadLocals = null;
-        inheritableThreadLocals = null;
+        /* Aggressively null out bll reference fields: see bug 4006245 */
+        tbrget = null;
+        /* Speed the relebse of some of these resources */
+        threbdLocbls = null;
+        inheritbbleThrebdLocbls = null;
         inheritedAccessControlContext = null;
         blocker = null;
-        uncaughtExceptionHandler = null;
+        uncbughtExceptionHbndler = null;
     }
 
     /**
-     * Forces the thread to stop executing.
+     * Forces the threbd to stop executing.
      * <p>
-     * If there is a security manager installed, its <code>checkAccess</code>
-     * method is called with <code>this</code>
-     * as its argument. This may result in a
-     * <code>SecurityException</code> being raised (in the current thread).
+     * If there is b security mbnbger instblled, its <code>checkAccess</code>
+     * method is cblled with <code>this</code>
+     * bs its brgument. This mby result in b
+     * <code>SecurityException</code> being rbised (in the current threbd).
      * <p>
-     * If this thread is different from the current thread (that is, the current
-     * thread is trying to stop a thread other than itself), the
-     * security manager's <code>checkPermission</code> method (with a
-     * <code>RuntimePermission("stopThread")</code> argument) is called in
-     * addition.
-     * Again, this may result in throwing a
-     * <code>SecurityException</code> (in the current thread).
+     * If this threbd is different from the current threbd (thbt is, the current
+     * threbd is trying to stop b threbd other thbn itself), the
+     * security mbnbger's <code>checkPermission</code> method (with b
+     * <code>RuntimePermission("stopThrebd")</code> brgument) is cblled in
+     * bddition.
+     * Agbin, this mby result in throwing b
+     * <code>SecurityException</code> (in the current threbd).
      * <p>
-     * The thread represented by this thread is forced to stop whatever
-     * it is doing abnormally and to throw a newly created
-     * <code>ThreadDeath</code> object as an exception.
+     * The threbd represented by this threbd is forced to stop whbtever
+     * it is doing bbnormblly bnd to throw b newly crebted
+     * <code>ThrebdDebth</code> object bs bn exception.
      * <p>
-     * It is permitted to stop a thread that has not yet been started.
-     * If the thread is eventually started, it immediately terminates.
+     * It is permitted to stop b threbd thbt hbs not yet been stbrted.
+     * If the threbd is eventublly stbrted, it immedibtely terminbtes.
      * <p>
-     * An application should not normally try to catch
-     * <code>ThreadDeath</code> unless it must do some extraordinary
-     * cleanup operation (note that the throwing of
-     * <code>ThreadDeath</code> causes <code>finally</code> clauses of
-     * <code>try</code> statements to be executed before the thread
-     * officially dies).  If a <code>catch</code> clause catches a
-     * <code>ThreadDeath</code> object, it is important to rethrow the
-     * object so that the thread actually dies.
+     * An bpplicbtion should not normblly try to cbtch
+     * <code>ThrebdDebth</code> unless it must do some extrbordinbry
+     * clebnup operbtion (note thbt the throwing of
+     * <code>ThrebdDebth</code> cbuses <code>finblly</code> clbuses of
+     * <code>try</code> stbtements to be executed before the threbd
+     * officiblly dies).  If b <code>cbtch</code> clbuse cbtches b
+     * <code>ThrebdDebth</code> object, it is importbnt to rethrow the
+     * object so thbt the threbd bctublly dies.
      * <p>
-     * The top-level error handler that reacts to otherwise uncaught
-     * exceptions does not print out a message or otherwise notify the
-     * application if the uncaught exception is an instance of
-     * <code>ThreadDeath</code>.
+     * The top-level error hbndler thbt rebcts to otherwise uncbught
+     * exceptions does not print out b messbge or otherwise notify the
+     * bpplicbtion if the uncbught exception is bn instbnce of
+     * <code>ThrebdDebth</code>.
      *
-     * @exception  SecurityException  if the current thread cannot
-     *               modify this thread.
+     * @exception  SecurityException  if the current threbd cbnnot
+     *               modify this threbd.
      * @see        #interrupt()
      * @see        #checkAccess()
      * @see        #run()
-     * @see        #start()
-     * @see        ThreadDeath
-     * @see        ThreadGroup#uncaughtException(Thread,Throwable)
-     * @see        SecurityManager#checkAccess(Thread)
-     * @see        SecurityManager#checkPermission
-     * @deprecated This method is inherently unsafe.  Stopping a thread with
-     *       Thread.stop causes it to unlock all of the monitors that it
-     *       has locked (as a natural consequence of the unchecked
-     *       <code>ThreadDeath</code> exception propagating up the stack).  If
-     *       any of the objects previously protected by these monitors were in
-     *       an inconsistent state, the damaged objects become visible to
-     *       other threads, potentially resulting in arbitrary behavior.  Many
-     *       uses of <code>stop</code> should be replaced by code that simply
-     *       modifies some variable to indicate that the target thread should
-     *       stop running.  The target thread should check this variable
-     *       regularly, and return from its run method in an orderly fashion
-     *       if the variable indicates that it is to stop running.  If the
-     *       target thread waits for long periods (on a condition variable,
-     *       for example), the <code>interrupt</code> method should be used to
-     *       interrupt the wait.
-     *       For more information, see
-     *       <a href="{@docRoot}/../technotes/guides/concurrency/threadPrimitiveDeprecation.html">Why
-     *       are Thread.stop, Thread.suspend and Thread.resume Deprecated?</a>.
+     * @see        #stbrt()
+     * @see        ThrebdDebth
+     * @see        ThrebdGroup#uncbughtException(Threbd,Throwbble)
+     * @see        SecurityMbnbger#checkAccess(Threbd)
+     * @see        SecurityMbnbger#checkPermission
+     * @deprecbted This method is inherently unsbfe.  Stopping b threbd with
+     *       Threbd.stop cbuses it to unlock bll of the monitors thbt it
+     *       hbs locked (bs b nbturbl consequence of the unchecked
+     *       <code>ThrebdDebth</code> exception propbgbting up the stbck).  If
+     *       bny of the objects previously protected by these monitors were in
+     *       bn inconsistent stbte, the dbmbged objects become visible to
+     *       other threbds, potentiblly resulting in brbitrbry behbvior.  Mbny
+     *       uses of <code>stop</code> should be replbced by code thbt simply
+     *       modifies some vbribble to indicbte thbt the tbrget threbd should
+     *       stop running.  The tbrget threbd should check this vbribble
+     *       regulbrly, bnd return from its run method in bn orderly fbshion
+     *       if the vbribble indicbtes thbt it is to stop running.  If the
+     *       tbrget threbd wbits for long periods (on b condition vbribble,
+     *       for exbmple), the <code>interrupt</code> method should be used to
+     *       interrupt the wbit.
+     *       For more informbtion, see
+     *       <b href="{@docRoot}/../technotes/guides/concurrency/threbdPrimitiveDeprecbtion.html">Why
+     *       bre Threbd.stop, Threbd.suspend bnd Threbd.resume Deprecbted?</b>.
      */
-    @Deprecated
-    public final void stop() {
-        SecurityManager security = System.getSecurityManager();
+    @Deprecbted
+    public finbl void stop() {
+        SecurityMbnbger security = System.getSecurityMbnbger();
         if (security != null) {
             checkAccess();
-            if (this != Thread.currentThread()) {
-                security.checkPermission(SecurityConstants.STOP_THREAD_PERMISSION);
+            if (this != Threbd.currentThrebd()) {
+                security.checkPermission(SecurityConstbnts.STOP_THREAD_PERMISSION);
             }
         }
-        // A zero status value corresponds to "NEW", it can't change to
-        // not-NEW because we hold the lock.
-        if (threadStatus != 0) {
-            resume(); // Wake up thread if it was suspended; no-op otherwise
+        // A zero stbtus vblue corresponds to "NEW", it cbn't chbnge to
+        // not-NEW becbuse we hold the lock.
+        if (threbdStbtus != 0) {
+            resume(); // Wbke up threbd if it wbs suspended; no-op otherwise
         }
 
-        // The VM can handle all thread states
-        stop0(new ThreadDeath());
+        // The VM cbn hbndle bll threbd stbtes
+        stop0(new ThrebdDebth());
     }
 
     /**
-     * Throws {@code UnsupportedOperationException}.
+     * Throws {@code UnsupportedOperbtionException}.
      *
-     * @param obj ignored
+     * @pbrbm obj ignored
      *
-     * @deprecated This method was originally designed to force a thread to stop
-     *        and throw a given {@code Throwable} as an exception. It was
-     *        inherently unsafe (see {@link #stop()} for details), and furthermore
-     *        could be used to generate exceptions that the target thread was
-     *        not prepared to handle.
-     *        For more information, see
-     *        <a href="{@docRoot}/../technotes/guides/concurrency/threadPrimitiveDeprecation.html">Why
-     *        are Thread.stop, Thread.suspend and Thread.resume Deprecated?</a>.
+     * @deprecbted This method wbs originblly designed to force b threbd to stop
+     *        bnd throw b given {@code Throwbble} bs bn exception. It wbs
+     *        inherently unsbfe (see {@link #stop()} for detbils), bnd furthermore
+     *        could be used to generbte exceptions thbt the tbrget threbd wbs
+     *        not prepbred to hbndle.
+     *        For more informbtion, see
+     *        <b href="{@docRoot}/../technotes/guides/concurrency/threbdPrimitiveDeprecbtion.html">Why
+     *        bre Threbd.stop, Threbd.suspend bnd Threbd.resume Deprecbted?</b>.
      */
-    @Deprecated
-    public final synchronized void stop(Throwable obj) {
-        throw new UnsupportedOperationException();
+    @Deprecbted
+    public finbl synchronized void stop(Throwbble obj) {
+        throw new UnsupportedOperbtionException();
     }
 
     /**
-     * Interrupts this thread.
+     * Interrupts this threbd.
      *
-     * <p> Unless the current thread is interrupting itself, which is
-     * always permitted, the {@link #checkAccess() checkAccess} method
-     * of this thread is invoked, which may cause a {@link
+     * <p> Unless the current threbd is interrupting itself, which is
+     * blwbys permitted, the {@link #checkAccess() checkAccess} method
+     * of this threbd is invoked, which mby cbuse b {@link
      * SecurityException} to be thrown.
      *
-     * <p> If this thread is blocked in an invocation of the {@link
-     * Object#wait() wait()}, {@link Object#wait(long) wait(long)}, or {@link
-     * Object#wait(long, int) wait(long, int)} methods of the {@link Object}
-     * class, or of the {@link #join()}, {@link #join(long)}, {@link
+     * <p> If this threbd is blocked in bn invocbtion of the {@link
+     * Object#wbit() wbit()}, {@link Object#wbit(long) wbit(long)}, or {@link
+     * Object#wbit(long, int) wbit(long, int)} methods of the {@link Object}
+     * clbss, or of the {@link #join()}, {@link #join(long)}, {@link
      * #join(long, int)}, {@link #sleep(long)}, or {@link #sleep(long, int)},
-     * methods of this class, then its interrupt status will be cleared and it
-     * will receive an {@link InterruptedException}.
+     * methods of this clbss, then its interrupt stbtus will be clebred bnd it
+     * will receive bn {@link InterruptedException}.
      *
-     * <p> If this thread is blocked in an I/O operation upon an {@link
-     * java.nio.channels.InterruptibleChannel InterruptibleChannel}
-     * then the channel will be closed, the thread's interrupt
-     * status will be set, and the thread will receive a {@link
-     * java.nio.channels.ClosedByInterruptException}.
+     * <p> If this threbd is blocked in bn I/O operbtion upon bn {@link
+     * jbvb.nio.chbnnels.InterruptibleChbnnel InterruptibleChbnnel}
+     * then the chbnnel will be closed, the threbd's interrupt
+     * stbtus will be set, bnd the threbd will receive b {@link
+     * jbvb.nio.chbnnels.ClosedByInterruptException}.
      *
-     * <p> If this thread is blocked in a {@link java.nio.channels.Selector}
-     * then the thread's interrupt status will be set and it will return
-     * immediately from the selection operation, possibly with a non-zero
-     * value, just as if the selector's {@link
-     * java.nio.channels.Selector#wakeup wakeup} method were invoked.
+     * <p> If this threbd is blocked in b {@link jbvb.nio.chbnnels.Selector}
+     * then the threbd's interrupt stbtus will be set bnd it will return
+     * immedibtely from the selection operbtion, possibly with b non-zero
+     * vblue, just bs if the selector's {@link
+     * jbvb.nio.chbnnels.Selector#wbkeup wbkeup} method were invoked.
      *
-     * <p> If none of the previous conditions hold then this thread's interrupt
-     * status will be set. </p>
+     * <p> If none of the previous conditions hold then this threbd's interrupt
+     * stbtus will be set. </p>
      *
-     * <p> Interrupting a thread that is not alive need not have any effect.
+     * <p> Interrupting b threbd thbt is not blive need not hbve bny effect.
      *
      * @throws  SecurityException
-     *          if the current thread cannot modify this thread
+     *          if the current threbd cbnnot modify this threbd
      *
      * @revised 6.0
      * @spec JSR-51
      */
     public void interrupt() {
-        if (this != Thread.currentThread())
+        if (this != Threbd.currentThrebd())
             checkAccess();
 
         synchronized (blockerLock) {
             Interruptible b = blocker;
             if (b != null) {
-                interrupt0();           // Just to set the interrupt flag
+                interrupt0();           // Just to set the interrupt flbg
                 b.interrupt(this);
                 return;
             }
@@ -924,376 +924,376 @@ class Thread implements Runnable {
     }
 
     /**
-     * Tests whether the current thread has been interrupted.  The
-     * <i>interrupted status</i> of the thread is cleared by this method.  In
-     * other words, if this method were to be called twice in succession, the
-     * second call would return false (unless the current thread were
-     * interrupted again, after the first call had cleared its interrupted
-     * status and before the second call had examined it).
+     * Tests whether the current threbd hbs been interrupted.  The
+     * <i>interrupted stbtus</i> of the threbd is clebred by this method.  In
+     * other words, if this method were to be cblled twice in succession, the
+     * second cbll would return fblse (unless the current threbd were
+     * interrupted bgbin, bfter the first cbll hbd clebred its interrupted
+     * stbtus bnd before the second cbll hbd exbmined it).
      *
-     * <p>A thread interruption ignored because a thread was not alive
-     * at the time of the interrupt will be reflected by this method
-     * returning false.
+     * <p>A threbd interruption ignored becbuse b threbd wbs not blive
+     * bt the time of the interrupt will be reflected by this method
+     * returning fblse.
      *
-     * @return  <code>true</code> if the current thread has been interrupted;
-     *          <code>false</code> otherwise.
+     * @return  <code>true</code> if the current threbd hbs been interrupted;
+     *          <code>fblse</code> otherwise.
      * @see #isInterrupted()
      * @revised 6.0
      */
-    public static boolean interrupted() {
-        return currentThread().isInterrupted(true);
+    public stbtic boolebn interrupted() {
+        return currentThrebd().isInterrupted(true);
     }
 
     /**
-     * Tests whether this thread has been interrupted.  The <i>interrupted
-     * status</i> of the thread is unaffected by this method.
+     * Tests whether this threbd hbs been interrupted.  The <i>interrupted
+     * stbtus</i> of the threbd is unbffected by this method.
      *
-     * <p>A thread interruption ignored because a thread was not alive
-     * at the time of the interrupt will be reflected by this method
-     * returning false.
+     * <p>A threbd interruption ignored becbuse b threbd wbs not blive
+     * bt the time of the interrupt will be reflected by this method
+     * returning fblse.
      *
-     * @return  <code>true</code> if this thread has been interrupted;
-     *          <code>false</code> otherwise.
+     * @return  <code>true</code> if this threbd hbs been interrupted;
+     *          <code>fblse</code> otherwise.
      * @see     #interrupted()
      * @revised 6.0
      */
-    public boolean isInterrupted() {
-        return isInterrupted(false);
+    public boolebn isInterrupted() {
+        return isInterrupted(fblse);
     }
 
     /**
-     * Tests if some Thread has been interrupted.  The interrupted state
-     * is reset or not based on the value of ClearInterrupted that is
-     * passed.
+     * Tests if some Threbd hbs been interrupted.  The interrupted stbte
+     * is reset or not bbsed on the vblue of ClebrInterrupted thbt is
+     * pbssed.
      */
-    private native boolean isInterrupted(boolean ClearInterrupted);
+    privbte nbtive boolebn isInterrupted(boolebn ClebrInterrupted);
 
     /**
      * Throws {@link NoSuchMethodError}.
      *
-     * @deprecated This method was originally designed to destroy this
-     *     thread without any cleanup. Any monitors it held would have
-     *     remained locked. However, the method was never implemented.
-     *     If it were to be implemented, it would be deadlock-prone in
-     *     much the manner of {@link #suspend}. If the target thread held
-     *     a lock protecting a critical system resource when it was
-     *     destroyed, no thread could ever access this resource again.
-     *     If another thread ever attempted to lock this resource, deadlock
-     *     would result. Such deadlocks typically manifest themselves as
-     *     "frozen" processes. For more information, see
-     *     <a href="{@docRoot}/../technotes/guides/concurrency/threadPrimitiveDeprecation.html">
-     *     Why are Thread.stop, Thread.suspend and Thread.resume Deprecated?</a>.
-     * @throws NoSuchMethodError always
+     * @deprecbted This method wbs originblly designed to destroy this
+     *     threbd without bny clebnup. Any monitors it held would hbve
+     *     rembined locked. However, the method wbs never implemented.
+     *     If it were to be implemented, it would be debdlock-prone in
+     *     much the mbnner of {@link #suspend}. If the tbrget threbd held
+     *     b lock protecting b criticbl system resource when it wbs
+     *     destroyed, no threbd could ever bccess this resource bgbin.
+     *     If bnother threbd ever bttempted to lock this resource, debdlock
+     *     would result. Such debdlocks typicblly mbnifest themselves bs
+     *     "frozen" processes. For more informbtion, see
+     *     <b href="{@docRoot}/../technotes/guides/concurrency/threbdPrimitiveDeprecbtion.html">
+     *     Why bre Threbd.stop, Threbd.suspend bnd Threbd.resume Deprecbted?</b>.
+     * @throws NoSuchMethodError blwbys
      */
-    @Deprecated
+    @Deprecbted
     public void destroy() {
         throw new NoSuchMethodError();
     }
 
     /**
-     * Tests if this thread is alive. A thread is alive if it has
-     * been started and has not yet died.
+     * Tests if this threbd is blive. A threbd is blive if it hbs
+     * been stbrted bnd hbs not yet died.
      *
-     * @return  <code>true</code> if this thread is alive;
-     *          <code>false</code> otherwise.
+     * @return  <code>true</code> if this threbd is blive;
+     *          <code>fblse</code> otherwise.
      */
-    public final native boolean isAlive();
+    public finbl nbtive boolebn isAlive();
 
     /**
-     * Suspends this thread.
+     * Suspends this threbd.
      * <p>
-     * First, the <code>checkAccess</code> method of this thread is called
-     * with no arguments. This may result in throwing a
-     * <code>SecurityException </code>(in the current thread).
+     * First, the <code>checkAccess</code> method of this threbd is cblled
+     * with no brguments. This mby result in throwing b
+     * <code>SecurityException </code>(in the current threbd).
      * <p>
-     * If the thread is alive, it is suspended and makes no further
-     * progress unless and until it is resumed.
+     * If the threbd is blive, it is suspended bnd mbkes no further
+     * progress unless bnd until it is resumed.
      *
-     * @exception  SecurityException  if the current thread cannot modify
-     *               this thread.
+     * @exception  SecurityException  if the current threbd cbnnot modify
+     *               this threbd.
      * @see #checkAccess
-     * @deprecated   This method has been deprecated, as it is
-     *   inherently deadlock-prone.  If the target thread holds a lock on the
-     *   monitor protecting a critical system resource when it is suspended, no
-     *   thread can access this resource until the target thread is resumed. If
-     *   the thread that would resume the target thread attempts to lock this
-     *   monitor prior to calling <code>resume</code>, deadlock results.  Such
-     *   deadlocks typically manifest themselves as "frozen" processes.
-     *   For more information, see
-     *   <a href="{@docRoot}/../technotes/guides/concurrency/threadPrimitiveDeprecation.html">Why
-     *   are Thread.stop, Thread.suspend and Thread.resume Deprecated?</a>.
+     * @deprecbted   This method hbs been deprecbted, bs it is
+     *   inherently debdlock-prone.  If the tbrget threbd holds b lock on the
+     *   monitor protecting b criticbl system resource when it is suspended, no
+     *   threbd cbn bccess this resource until the tbrget threbd is resumed. If
+     *   the threbd thbt would resume the tbrget threbd bttempts to lock this
+     *   monitor prior to cblling <code>resume</code>, debdlock results.  Such
+     *   debdlocks typicblly mbnifest themselves bs "frozen" processes.
+     *   For more informbtion, see
+     *   <b href="{@docRoot}/../technotes/guides/concurrency/threbdPrimitiveDeprecbtion.html">Why
+     *   bre Threbd.stop, Threbd.suspend bnd Threbd.resume Deprecbted?</b>.
      */
-    @Deprecated
-    public final void suspend() {
+    @Deprecbted
+    public finbl void suspend() {
         checkAccess();
         suspend0();
     }
 
     /**
-     * Resumes a suspended thread.
+     * Resumes b suspended threbd.
      * <p>
-     * First, the <code>checkAccess</code> method of this thread is called
-     * with no arguments. This may result in throwing a
-     * <code>SecurityException</code> (in the current thread).
+     * First, the <code>checkAccess</code> method of this threbd is cblled
+     * with no brguments. This mby result in throwing b
+     * <code>SecurityException</code> (in the current threbd).
      * <p>
-     * If the thread is alive but suspended, it is resumed and is
-     * permitted to make progress in its execution.
+     * If the threbd is blive but suspended, it is resumed bnd is
+     * permitted to mbke progress in its execution.
      *
-     * @exception  SecurityException  if the current thread cannot modify this
-     *               thread.
+     * @exception  SecurityException  if the current threbd cbnnot modify this
+     *               threbd.
      * @see        #checkAccess
      * @see        #suspend()
-     * @deprecated This method exists solely for use with {@link #suspend},
-     *     which has been deprecated because it is deadlock-prone.
-     *     For more information, see
-     *     <a href="{@docRoot}/../technotes/guides/concurrency/threadPrimitiveDeprecation.html">Why
-     *     are Thread.stop, Thread.suspend and Thread.resume Deprecated?</a>.
+     * @deprecbted This method exists solely for use with {@link #suspend},
+     *     which hbs been deprecbted becbuse it is debdlock-prone.
+     *     For more informbtion, see
+     *     <b href="{@docRoot}/../technotes/guides/concurrency/threbdPrimitiveDeprecbtion.html">Why
+     *     bre Threbd.stop, Threbd.suspend bnd Threbd.resume Deprecbted?</b>.
      */
-    @Deprecated
-    public final void resume() {
+    @Deprecbted
+    public finbl void resume() {
         checkAccess();
         resume0();
     }
 
     /**
-     * Changes the priority of this thread.
+     * Chbnges the priority of this threbd.
      * <p>
-     * First the <code>checkAccess</code> method of this thread is called
-     * with no arguments. This may result in throwing a
+     * First the <code>checkAccess</code> method of this threbd is cblled
+     * with no brguments. This mby result in throwing b
      * <code>SecurityException</code>.
      * <p>
-     * Otherwise, the priority of this thread is set to the smaller of
-     * the specified <code>newPriority</code> and the maximum permitted
-     * priority of the thread's thread group.
+     * Otherwise, the priority of this threbd is set to the smbller of
+     * the specified <code>newPriority</code> bnd the mbximum permitted
+     * priority of the threbd's threbd group.
      *
-     * @param newPriority priority to set this thread to
-     * @exception  IllegalArgumentException  If the priority is not in the
-     *               range <code>MIN_PRIORITY</code> to
+     * @pbrbm newPriority priority to set this threbd to
+     * @exception  IllegblArgumentException  If the priority is not in the
+     *               rbnge <code>MIN_PRIORITY</code> to
      *               <code>MAX_PRIORITY</code>.
-     * @exception  SecurityException  if the current thread cannot modify
-     *               this thread.
+     * @exception  SecurityException  if the current threbd cbnnot modify
+     *               this threbd.
      * @see        #getPriority
      * @see        #checkAccess()
-     * @see        #getThreadGroup()
+     * @see        #getThrebdGroup()
      * @see        #MAX_PRIORITY
      * @see        #MIN_PRIORITY
-     * @see        ThreadGroup#getMaxPriority()
+     * @see        ThrebdGroup#getMbxPriority()
      */
-    public final void setPriority(int newPriority) {
-        ThreadGroup g;
+    public finbl void setPriority(int newPriority) {
+        ThrebdGroup g;
         checkAccess();
         if (newPriority > MAX_PRIORITY || newPriority < MIN_PRIORITY) {
-            throw new IllegalArgumentException();
+            throw new IllegblArgumentException();
         }
-        if((g = getThreadGroup()) != null) {
-            if (newPriority > g.getMaxPriority()) {
-                newPriority = g.getMaxPriority();
+        if((g = getThrebdGroup()) != null) {
+            if (newPriority > g.getMbxPriority()) {
+                newPriority = g.getMbxPriority();
             }
             setPriority0(priority = newPriority);
         }
     }
 
     /**
-     * Returns this thread's priority.
+     * Returns this threbd's priority.
      *
-     * @return  this thread's priority.
+     * @return  this threbd's priority.
      * @see     #setPriority
      */
-    public final int getPriority() {
+    public finbl int getPriority() {
         return priority;
     }
 
     /**
-     * Changes the name of this thread to be equal to the argument
-     * <code>name</code>.
+     * Chbnges the nbme of this threbd to be equbl to the brgument
+     * <code>nbme</code>.
      * <p>
-     * First the <code>checkAccess</code> method of this thread is called
-     * with no arguments. This may result in throwing a
+     * First the <code>checkAccess</code> method of this threbd is cblled
+     * with no brguments. This mby result in throwing b
      * <code>SecurityException</code>.
      *
-     * @param      name   the new name for this thread.
-     * @exception  SecurityException  if the current thread cannot modify this
-     *               thread.
-     * @see        #getName
+     * @pbrbm      nbme   the new nbme for this threbd.
+     * @exception  SecurityException  if the current threbd cbnnot modify this
+     *               threbd.
+     * @see        #getNbme
      * @see        #checkAccess()
      */
-    public final synchronized void setName(String name) {
+    public finbl synchronized void setNbme(String nbme) {
         checkAccess();
-        this.name = name.toCharArray();
-        if (threadStatus != 0) {
-            setNativeName(name);
+        this.nbme = nbme.toChbrArrby();
+        if (threbdStbtus != 0) {
+            setNbtiveNbme(nbme);
         }
     }
 
     /**
-     * Returns this thread's name.
+     * Returns this threbd's nbme.
      *
-     * @return  this thread's name.
-     * @see     #setName(String)
+     * @return  this threbd's nbme.
+     * @see     #setNbme(String)
      */
-    public final String getName() {
-        return new String(name, true);
+    public finbl String getNbme() {
+        return new String(nbme, true);
     }
 
     /**
-     * Returns the thread group to which this thread belongs.
-     * This method returns null if this thread has died
+     * Returns the threbd group to which this threbd belongs.
+     * This method returns null if this threbd hbs died
      * (been stopped).
      *
-     * @return  this thread's thread group.
+     * @return  this threbd's threbd group.
      */
-    public final ThreadGroup getThreadGroup() {
+    public finbl ThrebdGroup getThrebdGroup() {
         return group;
     }
 
     /**
-     * Returns an estimate of the number of active threads in the current
-     * thread's {@linkplain java.lang.ThreadGroup thread group} and its
-     * subgroups. Recursively iterates over all subgroups in the current
-     * thread's thread group.
+     * Returns bn estimbte of the number of bctive threbds in the current
+     * threbd's {@linkplbin jbvb.lbng.ThrebdGroup threbd group} bnd its
+     * subgroups. Recursively iterbtes over bll subgroups in the current
+     * threbd's threbd group.
      *
-     * <p> The value returned is only an estimate because the number of
-     * threads may change dynamically while this method traverses internal
-     * data structures, and might be affected by the presence of certain
-     * system threads. This method is intended primarily for debugging
-     * and monitoring purposes.
+     * <p> The vblue returned is only bn estimbte becbuse the number of
+     * threbds mby chbnge dynbmicblly while this method trbverses internbl
+     * dbtb structures, bnd might be bffected by the presence of certbin
+     * system threbds. This method is intended primbrily for debugging
+     * bnd monitoring purposes.
      *
-     * @return  an estimate of the number of active threads in the current
-     *          thread's thread group and in any other thread group that
-     *          has the current thread's thread group as an ancestor
+     * @return  bn estimbte of the number of bctive threbds in the current
+     *          threbd's threbd group bnd in bny other threbd group thbt
+     *          hbs the current threbd's threbd group bs bn bncestor
      */
-    public static int activeCount() {
-        return currentThread().getThreadGroup().activeCount();
+    public stbtic int bctiveCount() {
+        return currentThrebd().getThrebdGroup().bctiveCount();
     }
 
     /**
-     * Copies into the specified array every active thread in the current
-     * thread's thread group and its subgroups. This method simply
-     * invokes the {@link java.lang.ThreadGroup#enumerate(Thread[])}
-     * method of the current thread's thread group.
+     * Copies into the specified brrby every bctive threbd in the current
+     * threbd's threbd group bnd its subgroups. This method simply
+     * invokes the {@link jbvb.lbng.ThrebdGroup#enumerbte(Threbd[])}
+     * method of the current threbd's threbd group.
      *
-     * <p> An application might use the {@linkplain #activeCount activeCount}
-     * method to get an estimate of how big the array should be, however
-     * <i>if the array is too short to hold all the threads, the extra threads
-     * are silently ignored.</i>  If it is critical to obtain every active
-     * thread in the current thread's thread group and its subgroups, the
-     * invoker should verify that the returned int value is strictly less
-     * than the length of {@code tarray}.
+     * <p> An bpplicbtion might use the {@linkplbin #bctiveCount bctiveCount}
+     * method to get bn estimbte of how big the brrby should be, however
+     * <i>if the brrby is too short to hold bll the threbds, the extrb threbds
+     * bre silently ignored.</i>  If it is criticbl to obtbin every bctive
+     * threbd in the current threbd's threbd group bnd its subgroups, the
+     * invoker should verify thbt the returned int vblue is strictly less
+     * thbn the length of {@code tbrrby}.
      *
-     * <p> Due to the inherent race condition in this method, it is recommended
-     * that the method only be used for debugging and monitoring purposes.
+     * <p> Due to the inherent rbce condition in this method, it is recommended
+     * thbt the method only be used for debugging bnd monitoring purposes.
      *
-     * @param  tarray
-     *         an array into which to put the list of threads
+     * @pbrbm  tbrrby
+     *         bn brrby into which to put the list of threbds
      *
-     * @return  the number of threads put into the array
+     * @return  the number of threbds put into the brrby
      *
      * @throws  SecurityException
-     *          if {@link java.lang.ThreadGroup#checkAccess} determines that
-     *          the current thread cannot access its thread group
+     *          if {@link jbvb.lbng.ThrebdGroup#checkAccess} determines thbt
+     *          the current threbd cbnnot bccess its threbd group
      */
-    public static int enumerate(Thread tarray[]) {
-        return currentThread().getThreadGroup().enumerate(tarray);
+    public stbtic int enumerbte(Threbd tbrrby[]) {
+        return currentThrebd().getThrebdGroup().enumerbte(tbrrby);
     }
 
     /**
-     * Counts the number of stack frames in this thread. The thread must
+     * Counts the number of stbck frbmes in this threbd. The threbd must
      * be suspended.
      *
-     * @return     the number of stack frames in this thread.
-     * @exception  IllegalThreadStateException  if this thread is not
+     * @return     the number of stbck frbmes in this threbd.
+     * @exception  IllegblThrebdStbteException  if this threbd is not
      *             suspended.
-     * @deprecated The definition of this call depends on {@link #suspend},
-     *             which is deprecated.  Further, the results of this call
+     * @deprecbted The definition of this cbll depends on {@link #suspend},
+     *             which is deprecbted.  Further, the results of this cbll
      *             were never well-defined.
      */
-    @Deprecated
-    public native int countStackFrames();
+    @Deprecbted
+    public nbtive int countStbckFrbmes();
 
     /**
-     * Waits at most {@code millis} milliseconds for this thread to
-     * die. A timeout of {@code 0} means to wait forever.
+     * Wbits bt most {@code millis} milliseconds for this threbd to
+     * die. A timeout of {@code 0} mebns to wbit forever.
      *
-     * <p> This implementation uses a loop of {@code this.wait} calls
-     * conditioned on {@code this.isAlive}. As a thread terminates the
-     * {@code this.notifyAll} method is invoked. It is recommended that
-     * applications not use {@code wait}, {@code notify}, or
-     * {@code notifyAll} on {@code Thread} instances.
+     * <p> This implementbtion uses b loop of {@code this.wbit} cblls
+     * conditioned on {@code this.isAlive}. As b threbd terminbtes the
+     * {@code this.notifyAll} method is invoked. It is recommended thbt
+     * bpplicbtions not use {@code wbit}, {@code notify}, or
+     * {@code notifyAll} on {@code Threbd} instbnces.
      *
-     * @param  millis
-     *         the time to wait in milliseconds
+     * @pbrbm  millis
+     *         the time to wbit in milliseconds
      *
-     * @throws  IllegalArgumentException
-     *          if the value of {@code millis} is negative
+     * @throws  IllegblArgumentException
+     *          if the vblue of {@code millis} is negbtive
      *
      * @throws  InterruptedException
-     *          if any thread has interrupted the current thread. The
-     *          <i>interrupted status</i> of the current thread is
-     *          cleared when this exception is thrown.
+     *          if bny threbd hbs interrupted the current threbd. The
+     *          <i>interrupted stbtus</i> of the current threbd is
+     *          clebred when this exception is thrown.
      */
-    public final synchronized void join(long millis)
+    public finbl synchronized void join(long millis)
     throws InterruptedException {
-        long base = System.currentTimeMillis();
+        long bbse = System.currentTimeMillis();
         long now = 0;
 
         if (millis < 0) {
-            throw new IllegalArgumentException("timeout value is negative");
+            throw new IllegblArgumentException("timeout vblue is negbtive");
         }
 
         if (millis == 0) {
             while (isAlive()) {
-                wait(0);
+                wbit(0);
             }
         } else {
             while (isAlive()) {
-                long delay = millis - now;
-                if (delay <= 0) {
-                    break;
+                long delby = millis - now;
+                if (delby <= 0) {
+                    brebk;
                 }
-                wait(delay);
-                now = System.currentTimeMillis() - base;
+                wbit(delby);
+                now = System.currentTimeMillis() - bbse;
             }
         }
     }
 
     /**
-     * Waits at most {@code millis} milliseconds plus
-     * {@code nanos} nanoseconds for this thread to die.
+     * Wbits bt most {@code millis} milliseconds plus
+     * {@code nbnos} nbnoseconds for this threbd to die.
      *
-     * <p> This implementation uses a loop of {@code this.wait} calls
-     * conditioned on {@code this.isAlive}. As a thread terminates the
-     * {@code this.notifyAll} method is invoked. It is recommended that
-     * applications not use {@code wait}, {@code notify}, or
-     * {@code notifyAll} on {@code Thread} instances.
+     * <p> This implementbtion uses b loop of {@code this.wbit} cblls
+     * conditioned on {@code this.isAlive}. As b threbd terminbtes the
+     * {@code this.notifyAll} method is invoked. It is recommended thbt
+     * bpplicbtions not use {@code wbit}, {@code notify}, or
+     * {@code notifyAll} on {@code Threbd} instbnces.
      *
-     * @param  millis
-     *         the time to wait in milliseconds
+     * @pbrbm  millis
+     *         the time to wbit in milliseconds
      *
-     * @param  nanos
-     *         {@code 0-999999} additional nanoseconds to wait
+     * @pbrbm  nbnos
+     *         {@code 0-999999} bdditionbl nbnoseconds to wbit
      *
-     * @throws  IllegalArgumentException
-     *          if the value of {@code millis} is negative, or the value
-     *          of {@code nanos} is not in the range {@code 0-999999}
+     * @throws  IllegblArgumentException
+     *          if the vblue of {@code millis} is negbtive, or the vblue
+     *          of {@code nbnos} is not in the rbnge {@code 0-999999}
      *
      * @throws  InterruptedException
-     *          if any thread has interrupted the current thread. The
-     *          <i>interrupted status</i> of the current thread is
-     *          cleared when this exception is thrown.
+     *          if bny threbd hbs interrupted the current threbd. The
+     *          <i>interrupted stbtus</i> of the current threbd is
+     *          clebred when this exception is thrown.
      */
-    public final synchronized void join(long millis, int nanos)
+    public finbl synchronized void join(long millis, int nbnos)
     throws InterruptedException {
 
         if (millis < 0) {
-            throw new IllegalArgumentException("timeout value is negative");
+            throw new IllegblArgumentException("timeout vblue is negbtive");
         }
 
-        if (nanos < 0 || nanos > 999999) {
-            throw new IllegalArgumentException(
-                                "nanosecond timeout value out of range");
+        if (nbnos < 0 || nbnos > 999999) {
+            throw new IllegblArgumentException(
+                                "nbnosecond timeout vblue out of rbnge");
         }
 
-        if (nanos >= 500000 || (nanos != 0 && millis == 0)) {
+        if (nbnos >= 500000 || (nbnos != 0 && millis == 0)) {
             millis++;
         }
 
@@ -1301,397 +1301,397 @@ class Thread implements Runnable {
     }
 
     /**
-     * Waits for this thread to die.
+     * Wbits for this threbd to die.
      *
-     * <p> An invocation of this method behaves in exactly the same
-     * way as the invocation
+     * <p> An invocbtion of this method behbves in exbctly the sbme
+     * wby bs the invocbtion
      *
      * <blockquote>
-     * {@linkplain #join(long) join}{@code (0)}
+     * {@linkplbin #join(long) join}{@code (0)}
      * </blockquote>
      *
      * @throws  InterruptedException
-     *          if any thread has interrupted the current thread. The
-     *          <i>interrupted status</i> of the current thread is
-     *          cleared when this exception is thrown.
+     *          if bny threbd hbs interrupted the current threbd. The
+     *          <i>interrupted stbtus</i> of the current threbd is
+     *          clebred when this exception is thrown.
      */
-    public final void join() throws InterruptedException {
+    public finbl void join() throws InterruptedException {
         join(0);
     }
 
     /**
-     * Prints a stack trace of the current thread to the standard error stream.
+     * Prints b stbck trbce of the current threbd to the stbndbrd error strebm.
      * This method is used only for debugging.
      *
-     * @see     Throwable#printStackTrace()
+     * @see     Throwbble#printStbckTrbce()
      */
-    public static void dumpStack() {
-        new Exception("Stack trace").printStackTrace();
+    public stbtic void dumpStbck() {
+        new Exception("Stbck trbce").printStbckTrbce();
     }
 
     /**
-     * Marks this thread as either a {@linkplain #isDaemon daemon} thread
-     * or a user thread. The Java Virtual Machine exits when the only
-     * threads running are all daemon threads.
+     * Mbrks this threbd bs either b {@linkplbin #isDbemon dbemon} threbd
+     * or b user threbd. The Jbvb Virtubl Mbchine exits when the only
+     * threbds running bre bll dbemon threbds.
      *
-     * <p> This method must be invoked before the thread is started.
+     * <p> This method must be invoked before the threbd is stbrted.
      *
-     * @param  on
-     *         if {@code true}, marks this thread as a daemon thread
+     * @pbrbm  on
+     *         if {@code true}, mbrks this threbd bs b dbemon threbd
      *
-     * @throws  IllegalThreadStateException
-     *          if this thread is {@linkplain #isAlive alive}
+     * @throws  IllegblThrebdStbteException
+     *          if this threbd is {@linkplbin #isAlive blive}
      *
      * @throws  SecurityException
-     *          if {@link #checkAccess} determines that the current
-     *          thread cannot modify this thread
+     *          if {@link #checkAccess} determines thbt the current
+     *          threbd cbnnot modify this threbd
      */
-    public final void setDaemon(boolean on) {
+    public finbl void setDbemon(boolebn on) {
         checkAccess();
         if (isAlive()) {
-            throw new IllegalThreadStateException();
+            throw new IllegblThrebdStbteException();
         }
-        daemon = on;
+        dbemon = on;
     }
 
     /**
-     * Tests if this thread is a daemon thread.
+     * Tests if this threbd is b dbemon threbd.
      *
-     * @return  <code>true</code> if this thread is a daemon thread;
-     *          <code>false</code> otherwise.
-     * @see     #setDaemon(boolean)
+     * @return  <code>true</code> if this threbd is b dbemon threbd;
+     *          <code>fblse</code> otherwise.
+     * @see     #setDbemon(boolebn)
      */
-    public final boolean isDaemon() {
-        return daemon;
+    public finbl boolebn isDbemon() {
+        return dbemon;
     }
 
     /**
-     * Determines if the currently running thread has permission to
-     * modify this thread.
+     * Determines if the currently running threbd hbs permission to
+     * modify this threbd.
      * <p>
-     * If there is a security manager, its <code>checkAccess</code> method
-     * is called with this thread as its argument. This may result in
-     * throwing a <code>SecurityException</code>.
+     * If there is b security mbnbger, its <code>checkAccess</code> method
+     * is cblled with this threbd bs its brgument. This mby result in
+     * throwing b <code>SecurityException</code>.
      *
-     * @exception  SecurityException  if the current thread is not allowed to
-     *               access this thread.
-     * @see        SecurityManager#checkAccess(Thread)
+     * @exception  SecurityException  if the current threbd is not bllowed to
+     *               bccess this threbd.
+     * @see        SecurityMbnbger#checkAccess(Threbd)
      */
-    public final void checkAccess() {
-        SecurityManager security = System.getSecurityManager();
+    public finbl void checkAccess() {
+        SecurityMbnbger security = System.getSecurityMbnbger();
         if (security != null) {
             security.checkAccess(this);
         }
     }
 
     /**
-     * Returns a string representation of this thread, including the
-     * thread's name, priority, and thread group.
+     * Returns b string representbtion of this threbd, including the
+     * threbd's nbme, priority, bnd threbd group.
      *
-     * @return  a string representation of this thread.
+     * @return  b string representbtion of this threbd.
      */
     public String toString() {
-        ThreadGroup group = getThreadGroup();
+        ThrebdGroup group = getThrebdGroup();
         if (group != null) {
-            return "Thread[" + getName() + "," + getPriority() + "," +
-                           group.getName() + "]";
+            return "Threbd[" + getNbme() + "," + getPriority() + "," +
+                           group.getNbme() + "]";
         } else {
-            return "Thread[" + getName() + "," + getPriority() + "," +
+            return "Threbd[" + getNbme() + "," + getPriority() + "," +
                             "" + "]";
         }
     }
 
     /**
-     * Returns the context ClassLoader for this Thread. The context
-     * ClassLoader is provided by the creator of the thread for use
-     * by code running in this thread when loading classes and resources.
-     * If not {@linkplain #setContextClassLoader set}, the default is the
-     * ClassLoader context of the parent Thread. The context ClassLoader of the
-     * primordial thread is typically set to the class loader used to load the
-     * application.
+     * Returns the context ClbssLobder for this Threbd. The context
+     * ClbssLobder is provided by the crebtor of the threbd for use
+     * by code running in this threbd when lobding clbsses bnd resources.
+     * If not {@linkplbin #setContextClbssLobder set}, the defbult is the
+     * ClbssLobder context of the pbrent Threbd. The context ClbssLobder of the
+     * primordibl threbd is typicblly set to the clbss lobder used to lobd the
+     * bpplicbtion.
      *
-     * <p>If a security manager is present, and the invoker's class loader is not
-     * {@code null} and is not the same as or an ancestor of the context class
-     * loader, then this method invokes the security manager's {@link
-     * SecurityManager#checkPermission(java.security.Permission) checkPermission}
-     * method with a {@link RuntimePermission RuntimePermission}{@code
-     * ("getClassLoader")} permission to verify that retrieval of the context
-     * class loader is permitted.
+     * <p>If b security mbnbger is present, bnd the invoker's clbss lobder is not
+     * {@code null} bnd is not the sbme bs or bn bncestor of the context clbss
+     * lobder, then this method invokes the security mbnbger's {@link
+     * SecurityMbnbger#checkPermission(jbvb.security.Permission) checkPermission}
+     * method with b {@link RuntimePermission RuntimePermission}{@code
+     * ("getClbssLobder")} permission to verify thbt retrievbl of the context
+     * clbss lobder is permitted.
      *
-     * @return  the context ClassLoader for this Thread, or {@code null}
-     *          indicating the system class loader (or, failing that, the
-     *          bootstrap class loader)
+     * @return  the context ClbssLobder for this Threbd, or {@code null}
+     *          indicbting the system clbss lobder (or, fbiling thbt, the
+     *          bootstrbp clbss lobder)
      *
      * @throws  SecurityException
-     *          if the current thread cannot get the context ClassLoader
+     *          if the current threbd cbnnot get the context ClbssLobder
      *
      * @since 1.2
      */
-    @CallerSensitive
-    public ClassLoader getContextClassLoader() {
-        if (contextClassLoader == null)
+    @CbllerSensitive
+    public ClbssLobder getContextClbssLobder() {
+        if (contextClbssLobder == null)
             return null;
-        SecurityManager sm = System.getSecurityManager();
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null) {
-            ClassLoader.checkClassLoaderPermission(contextClassLoader,
-                                                   Reflection.getCallerClass());
+            ClbssLobder.checkClbssLobderPermission(contextClbssLobder,
+                                                   Reflection.getCbllerClbss());
         }
-        return contextClassLoader;
+        return contextClbssLobder;
     }
 
     /**
-     * Sets the context ClassLoader for this Thread. The context
-     * ClassLoader can be set when a thread is created, and allows
-     * the creator of the thread to provide the appropriate class loader,
-     * through {@code getContextClassLoader}, to code running in the thread
-     * when loading classes and resources.
+     * Sets the context ClbssLobder for this Threbd. The context
+     * ClbssLobder cbn be set when b threbd is crebted, bnd bllows
+     * the crebtor of the threbd to provide the bppropribte clbss lobder,
+     * through {@code getContextClbssLobder}, to code running in the threbd
+     * when lobding clbsses bnd resources.
      *
-     * <p>If a security manager is present, its {@link
-     * SecurityManager#checkPermission(java.security.Permission) checkPermission}
-     * method is invoked with a {@link RuntimePermission RuntimePermission}{@code
-     * ("setContextClassLoader")} permission to see if setting the context
-     * ClassLoader is permitted.
+     * <p>If b security mbnbger is present, its {@link
+     * SecurityMbnbger#checkPermission(jbvb.security.Permission) checkPermission}
+     * method is invoked with b {@link RuntimePermission RuntimePermission}{@code
+     * ("setContextClbssLobder")} permission to see if setting the context
+     * ClbssLobder is permitted.
      *
-     * @param  cl
-     *         the context ClassLoader for this Thread, or null  indicating the
-     *         system class loader (or, failing that, the bootstrap class loader)
+     * @pbrbm  cl
+     *         the context ClbssLobder for this Threbd, or null  indicbting the
+     *         system clbss lobder (or, fbiling thbt, the bootstrbp clbss lobder)
      *
      * @throws  SecurityException
-     *          if the current thread cannot set the context ClassLoader
+     *          if the current threbd cbnnot set the context ClbssLobder
      *
      * @since 1.2
      */
-    public void setContextClassLoader(ClassLoader cl) {
-        SecurityManager sm = System.getSecurityManager();
+    public void setContextClbssLobder(ClbssLobder cl) {
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null) {
-            sm.checkPermission(new RuntimePermission("setContextClassLoader"));
+            sm.checkPermission(new RuntimePermission("setContextClbssLobder"));
         }
-        contextClassLoader = cl;
+        contextClbssLobder = cl;
     }
 
     /**
-     * Returns <tt>true</tt> if and only if the current thread holds the
+     * Returns <tt>true</tt> if bnd only if the current threbd holds the
      * monitor lock on the specified object.
      *
-     * <p>This method is designed to allow a program to assert that
-     * the current thread already holds a specified lock:
+     * <p>This method is designed to bllow b progrbm to bssert thbt
+     * the current threbd blrebdy holds b specified lock:
      * <pre>
-     *     assert Thread.holdsLock(obj);
+     *     bssert Threbd.holdsLock(obj);
      * </pre>
      *
-     * @param  obj the object on which to test lock ownership
+     * @pbrbm  obj the object on which to test lock ownership
      * @throws NullPointerException if obj is <tt>null</tt>
-     * @return <tt>true</tt> if the current thread holds the monitor lock on
+     * @return <tt>true</tt> if the current threbd holds the monitor lock on
      *         the specified object.
      * @since 1.4
      */
-    public static native boolean holdsLock(Object obj);
+    public stbtic nbtive boolebn holdsLock(Object obj);
 
-    private static final StackTraceElement[] EMPTY_STACK_TRACE
-        = new StackTraceElement[0];
+    privbte stbtic finbl StbckTrbceElement[] EMPTY_STACK_TRACE
+        = new StbckTrbceElement[0];
 
     /**
-     * Returns an array of stack trace elements representing the stack dump
-     * of this thread.  This method will return a zero-length array if
-     * this thread has not started, has started but has not yet been
-     * scheduled to run by the system, or has terminated.
-     * If the returned array is of non-zero length then the first element of
-     * the array represents the top of the stack, which is the most recent
-     * method invocation in the sequence.  The last element of the array
-     * represents the bottom of the stack, which is the least recent method
-     * invocation in the sequence.
+     * Returns bn brrby of stbck trbce elements representing the stbck dump
+     * of this threbd.  This method will return b zero-length brrby if
+     * this threbd hbs not stbrted, hbs stbrted but hbs not yet been
+     * scheduled to run by the system, or hbs terminbted.
+     * If the returned brrby is of non-zero length then the first element of
+     * the brrby represents the top of the stbck, which is the most recent
+     * method invocbtion in the sequence.  The lbst element of the brrby
+     * represents the bottom of the stbck, which is the lebst recent method
+     * invocbtion in the sequence.
      *
-     * <p>If there is a security manager, and this thread is not
-     * the current thread, then the security manager's
-     * <tt>checkPermission</tt> method is called with a
-     * <tt>RuntimePermission("getStackTrace")</tt> permission
-     * to see if it's ok to get the stack trace.
+     * <p>If there is b security mbnbger, bnd this threbd is not
+     * the current threbd, then the security mbnbger's
+     * <tt>checkPermission</tt> method is cblled with b
+     * <tt>RuntimePermission("getStbckTrbce")</tt> permission
+     * to see if it's ok to get the stbck trbce.
      *
-     * <p>Some virtual machines may, under some circumstances, omit one
-     * or more stack frames from the stack trace.  In the extreme case,
-     * a virtual machine that has no stack trace information concerning
-     * this thread is permitted to return a zero-length array from this
+     * <p>Some virtubl mbchines mby, under some circumstbnces, omit one
+     * or more stbck frbmes from the stbck trbce.  In the extreme cbse,
+     * b virtubl mbchine thbt hbs no stbck trbce informbtion concerning
+     * this threbd is permitted to return b zero-length brrby from this
      * method.
      *
-     * @return an array of <tt>StackTraceElement</tt>,
-     * each represents one stack frame.
+     * @return bn brrby of <tt>StbckTrbceElement</tt>,
+     * ebch represents one stbck frbme.
      *
      * @throws SecurityException
-     *        if a security manager exists and its
-     *        <tt>checkPermission</tt> method doesn't allow
-     *        getting the stack trace of thread.
-     * @see SecurityManager#checkPermission
+     *        if b security mbnbger exists bnd its
+     *        <tt>checkPermission</tt> method doesn't bllow
+     *        getting the stbck trbce of threbd.
+     * @see SecurityMbnbger#checkPermission
      * @see RuntimePermission
-     * @see Throwable#getStackTrace
+     * @see Throwbble#getStbckTrbce
      *
      * @since 1.5
      */
-    public StackTraceElement[] getStackTrace() {
-        if (this != Thread.currentThread()) {
-            // check for getStackTrace permission
-            SecurityManager security = System.getSecurityManager();
+    public StbckTrbceElement[] getStbckTrbce() {
+        if (this != Threbd.currentThrebd()) {
+            // check for getStbckTrbce permission
+            SecurityMbnbger security = System.getSecurityMbnbger();
             if (security != null) {
                 security.checkPermission(
-                    SecurityConstants.GET_STACK_TRACE_PERMISSION);
+                    SecurityConstbnts.GET_STACK_TRACE_PERMISSION);
             }
-            // optimization so we do not call into the vm for threads that
-            // have not yet started or have terminated
+            // optimizbtion so we do not cbll into the vm for threbds thbt
+            // hbve not yet stbrted or hbve terminbted
             if (!isAlive()) {
                 return EMPTY_STACK_TRACE;
             }
-            StackTraceElement[][] stackTraceArray = dumpThreads(new Thread[] {this});
-            StackTraceElement[] stackTrace = stackTraceArray[0];
-            // a thread that was alive during the previous isAlive call may have
-            // since terminated, therefore not having a stacktrace.
-            if (stackTrace == null) {
-                stackTrace = EMPTY_STACK_TRACE;
+            StbckTrbceElement[][] stbckTrbceArrby = dumpThrebds(new Threbd[] {this});
+            StbckTrbceElement[] stbckTrbce = stbckTrbceArrby[0];
+            // b threbd thbt wbs blive during the previous isAlive cbll mby hbve
+            // since terminbted, therefore not hbving b stbcktrbce.
+            if (stbckTrbce == null) {
+                stbckTrbce = EMPTY_STACK_TRACE;
             }
-            return stackTrace;
+            return stbckTrbce;
         } else {
-            // Don't need JVM help for current thread
-            return (new Exception()).getStackTrace();
+            // Don't need JVM help for current threbd
+            return (new Exception()).getStbckTrbce();
         }
     }
 
     /**
-     * Returns a map of stack traces for all live threads.
-     * The map keys are threads and each map value is an array of
-     * <tt>StackTraceElement</tt> that represents the stack dump
-     * of the corresponding <tt>Thread</tt>.
-     * The returned stack traces are in the format specified for
-     * the {@link #getStackTrace getStackTrace} method.
+     * Returns b mbp of stbck trbces for bll live threbds.
+     * The mbp keys bre threbds bnd ebch mbp vblue is bn brrby of
+     * <tt>StbckTrbceElement</tt> thbt represents the stbck dump
+     * of the corresponding <tt>Threbd</tt>.
+     * The returned stbck trbces bre in the formbt specified for
+     * the {@link #getStbckTrbce getStbckTrbce} method.
      *
-     * <p>The threads may be executing while this method is called.
-     * The stack trace of each thread only represents a snapshot and
-     * each stack trace may be obtained at different time.  A zero-length
-     * array will be returned in the map value if the virtual machine has
-     * no stack trace information about a thread.
+     * <p>The threbds mby be executing while this method is cblled.
+     * The stbck trbce of ebch threbd only represents b snbpshot bnd
+     * ebch stbck trbce mby be obtbined bt different time.  A zero-length
+     * brrby will be returned in the mbp vblue if the virtubl mbchine hbs
+     * no stbck trbce informbtion bbout b threbd.
      *
-     * <p>If there is a security manager, then the security manager's
-     * <tt>checkPermission</tt> method is called with a
-     * <tt>RuntimePermission("getStackTrace")</tt> permission as well as
-     * <tt>RuntimePermission("modifyThreadGroup")</tt> permission
-     * to see if it is ok to get the stack trace of all threads.
+     * <p>If there is b security mbnbger, then the security mbnbger's
+     * <tt>checkPermission</tt> method is cblled with b
+     * <tt>RuntimePermission("getStbckTrbce")</tt> permission bs well bs
+     * <tt>RuntimePermission("modifyThrebdGroup")</tt> permission
+     * to see if it is ok to get the stbck trbce of bll threbds.
      *
-     * @return a <tt>Map</tt> from <tt>Thread</tt> to an array of
-     * <tt>StackTraceElement</tt> that represents the stack trace of
-     * the corresponding thread.
+     * @return b <tt>Mbp</tt> from <tt>Threbd</tt> to bn brrby of
+     * <tt>StbckTrbceElement</tt> thbt represents the stbck trbce of
+     * the corresponding threbd.
      *
      * @throws SecurityException
-     *        if a security manager exists and its
-     *        <tt>checkPermission</tt> method doesn't allow
-     *        getting the stack trace of thread.
-     * @see #getStackTrace
-     * @see SecurityManager#checkPermission
+     *        if b security mbnbger exists bnd its
+     *        <tt>checkPermission</tt> method doesn't bllow
+     *        getting the stbck trbce of threbd.
+     * @see #getStbckTrbce
+     * @see SecurityMbnbger#checkPermission
      * @see RuntimePermission
-     * @see Throwable#getStackTrace
+     * @see Throwbble#getStbckTrbce
      *
      * @since 1.5
      */
-    public static Map<Thread, StackTraceElement[]> getAllStackTraces() {
-        // check for getStackTrace permission
-        SecurityManager security = System.getSecurityManager();
+    public stbtic Mbp<Threbd, StbckTrbceElement[]> getAllStbckTrbces() {
+        // check for getStbckTrbce permission
+        SecurityMbnbger security = System.getSecurityMbnbger();
         if (security != null) {
             security.checkPermission(
-                SecurityConstants.GET_STACK_TRACE_PERMISSION);
+                SecurityConstbnts.GET_STACK_TRACE_PERMISSION);
             security.checkPermission(
-                SecurityConstants.MODIFY_THREADGROUP_PERMISSION);
+                SecurityConstbnts.MODIFY_THREADGROUP_PERMISSION);
         }
 
-        // Get a snapshot of the list of all threads
-        Thread[] threads = getThreads();
-        StackTraceElement[][] traces = dumpThreads(threads);
-        Map<Thread, StackTraceElement[]> m = new HashMap<>(threads.length);
-        for (int i = 0; i < threads.length; i++) {
-            StackTraceElement[] stackTrace = traces[i];
-            if (stackTrace != null) {
-                m.put(threads[i], stackTrace);
+        // Get b snbpshot of the list of bll threbds
+        Threbd[] threbds = getThrebds();
+        StbckTrbceElement[][] trbces = dumpThrebds(threbds);
+        Mbp<Threbd, StbckTrbceElement[]> m = new HbshMbp<>(threbds.length);
+        for (int i = 0; i < threbds.length; i++) {
+            StbckTrbceElement[] stbckTrbce = trbces[i];
+            if (stbckTrbce != null) {
+                m.put(threbds[i], stbckTrbce);
             }
-            // else terminated so we don't put it in the map
+            // else terminbted so we don't put it in the mbp
         }
         return m;
     }
 
 
-    private static final RuntimePermission SUBCLASS_IMPLEMENTATION_PERMISSION =
-                    new RuntimePermission("enableContextClassLoaderOverride");
+    privbte stbtic finbl RuntimePermission SUBCLASS_IMPLEMENTATION_PERMISSION =
+                    new RuntimePermission("enbbleContextClbssLobderOverride");
 
-    /** cache of subclass security audit results */
-    /* Replace with ConcurrentReferenceHashMap when/if it appears in a future
-     * release */
-    private static class Caches {
-        /** cache of subclass security audit results */
-        static final ConcurrentMap<WeakClassKey,Boolean> subclassAudits =
-            new ConcurrentHashMap<>();
+    /** cbche of subclbss security budit results */
+    /* Replbce with ConcurrentReferenceHbshMbp when/if it bppebrs in b future
+     * relebse */
+    privbte stbtic clbss Cbches {
+        /** cbche of subclbss security budit results */
+        stbtic finbl ConcurrentMbp<WebkClbssKey,Boolebn> subclbssAudits =
+            new ConcurrentHbshMbp<>();
 
-        /** queue for WeakReferences to audited subclasses */
-        static final ReferenceQueue<Class<?>> subclassAuditsQueue =
+        /** queue for WebkReferences to budited subclbsses */
+        stbtic finbl ReferenceQueue<Clbss<?>> subclbssAuditsQueue =
             new ReferenceQueue<>();
     }
 
     /**
-     * Verifies that this (possibly subclass) instance can be constructed
-     * without violating security constraints: the subclass must not override
-     * security-sensitive non-final methods, or else the
-     * "enableContextClassLoaderOverride" RuntimePermission is checked.
+     * Verifies thbt this (possibly subclbss) instbnce cbn be constructed
+     * without violbting security constrbints: the subclbss must not override
+     * security-sensitive non-finbl methods, or else the
+     * "enbbleContextClbssLobderOverride" RuntimePermission is checked.
      */
-    private static boolean isCCLOverridden(Class<?> cl) {
-        if (cl == Thread.class)
-            return false;
+    privbte stbtic boolebn isCCLOverridden(Clbss<?> cl) {
+        if (cl == Threbd.clbss)
+            return fblse;
 
-        processQueue(Caches.subclassAuditsQueue, Caches.subclassAudits);
-        WeakClassKey key = new WeakClassKey(cl, Caches.subclassAuditsQueue);
-        Boolean result = Caches.subclassAudits.get(key);
+        processQueue(Cbches.subclbssAuditsQueue, Cbches.subclbssAudits);
+        WebkClbssKey key = new WebkClbssKey(cl, Cbches.subclbssAuditsQueue);
+        Boolebn result = Cbches.subclbssAudits.get(key);
         if (result == null) {
-            result = Boolean.valueOf(auditSubclass(cl));
-            Caches.subclassAudits.putIfAbsent(key, result);
+            result = Boolebn.vblueOf(buditSubclbss(cl));
+            Cbches.subclbssAudits.putIfAbsent(key, result);
         }
 
-        return result.booleanValue();
+        return result.boolebnVblue();
     }
 
     /**
-     * Performs reflective checks on given subclass to verify that it doesn't
-     * override security-sensitive non-final methods.  Returns true if the
-     * subclass overrides any of the methods, false otherwise.
+     * Performs reflective checks on given subclbss to verify thbt it doesn't
+     * override security-sensitive non-finbl methods.  Returns true if the
+     * subclbss overrides bny of the methods, fblse otherwise.
      */
-    private static boolean auditSubclass(final Class<?> subcl) {
-        Boolean result = AccessController.doPrivileged(
-            new PrivilegedAction<Boolean>() {
-                public Boolean run() {
-                    for (Class<?> cl = subcl;
-                         cl != Thread.class;
-                         cl = cl.getSuperclass())
+    privbte stbtic boolebn buditSubclbss(finbl Clbss<?> subcl) {
+        Boolebn result = AccessController.doPrivileged(
+            new PrivilegedAction<Boolebn>() {
+                public Boolebn run() {
+                    for (Clbss<?> cl = subcl;
+                         cl != Threbd.clbss;
+                         cl = cl.getSuperclbss())
                     {
                         try {
-                            cl.getDeclaredMethod("getContextClassLoader", new Class<?>[0]);
-                            return Boolean.TRUE;
-                        } catch (NoSuchMethodException ex) {
+                            cl.getDeclbredMethod("getContextClbssLobder", new Clbss<?>[0]);
+                            return Boolebn.TRUE;
+                        } cbtch (NoSuchMethodException ex) {
                         }
                         try {
-                            Class<?>[] params = {ClassLoader.class};
-                            cl.getDeclaredMethod("setContextClassLoader", params);
-                            return Boolean.TRUE;
-                        } catch (NoSuchMethodException ex) {
+                            Clbss<?>[] pbrbms = {ClbssLobder.clbss};
+                            cl.getDeclbredMethod("setContextClbssLobder", pbrbms);
+                            return Boolebn.TRUE;
+                        } cbtch (NoSuchMethodException ex) {
                         }
                     }
-                    return Boolean.FALSE;
+                    return Boolebn.FALSE;
                 }
             }
         );
-        return result.booleanValue();
+        return result.boolebnVblue();
     }
 
-    private native static StackTraceElement[][] dumpThreads(Thread[] threads);
-    private native static Thread[] getThreads();
+    privbte nbtive stbtic StbckTrbceElement[][] dumpThrebds(Threbd[] threbds);
+    privbte nbtive stbtic Threbd[] getThrebds();
 
     /**
-     * Returns the identifier of this Thread.  The thread ID is a positive
-     * <tt>long</tt> number generated when this thread was created.
-     * The thread ID is unique and remains unchanged during its lifetime.
-     * When a thread is terminated, this thread ID may be reused.
+     * Returns the identifier of this Threbd.  The threbd ID is b positive
+     * <tt>long</tt> number generbted when this threbd wbs crebted.
+     * The threbd ID is unique bnd rembins unchbnged during its lifetime.
+     * When b threbd is terminbted, this threbd ID mby be reused.
      *
-     * @return this thread's ID.
+     * @return this threbd's ID.
      * @since 1.5
      */
     public long getId() {
@@ -1699,345 +1699,345 @@ class Thread implements Runnable {
     }
 
     /**
-     * A thread state.  A thread can be in one of the following states:
+     * A threbd stbte.  A threbd cbn be in one of the following stbtes:
      * <ul>
      * <li>{@link #NEW}<br>
-     *     A thread that has not yet started is in this state.
+     *     A threbd thbt hbs not yet stbrted is in this stbte.
      *     </li>
      * <li>{@link #RUNNABLE}<br>
-     *     A thread executing in the Java virtual machine is in this state.
+     *     A threbd executing in the Jbvb virtubl mbchine is in this stbte.
      *     </li>
      * <li>{@link #BLOCKED}<br>
-     *     A thread that is blocked waiting for a monitor lock
-     *     is in this state.
+     *     A threbd thbt is blocked wbiting for b monitor lock
+     *     is in this stbte.
      *     </li>
      * <li>{@link #WAITING}<br>
-     *     A thread that is waiting indefinitely for another thread to
-     *     perform a particular action is in this state.
+     *     A threbd thbt is wbiting indefinitely for bnother threbd to
+     *     perform b pbrticulbr bction is in this stbte.
      *     </li>
      * <li>{@link #TIMED_WAITING}<br>
-     *     A thread that is waiting for another thread to perform an action
-     *     for up to a specified waiting time is in this state.
+     *     A threbd thbt is wbiting for bnother threbd to perform bn bction
+     *     for up to b specified wbiting time is in this stbte.
      *     </li>
      * <li>{@link #TERMINATED}<br>
-     *     A thread that has exited is in this state.
+     *     A threbd thbt hbs exited is in this stbte.
      *     </li>
      * </ul>
      *
      * <p>
-     * A thread can be in only one state at a given point in time.
-     * These states are virtual machine states which do not reflect
-     * any operating system thread states.
+     * A threbd cbn be in only one stbte bt b given point in time.
+     * These stbtes bre virtubl mbchine stbtes which do not reflect
+     * bny operbting system threbd stbtes.
      *
      * @since   1.5
-     * @see #getState
+     * @see #getStbte
      */
-    public enum State {
+    public enum Stbte {
         /**
-         * Thread state for a thread which has not yet started.
+         * Threbd stbte for b threbd which hbs not yet stbrted.
          */
         NEW,
 
         /**
-         * Thread state for a runnable thread.  A thread in the runnable
-         * state is executing in the Java virtual machine but it may
-         * be waiting for other resources from the operating system
-         * such as processor.
+         * Threbd stbte for b runnbble threbd.  A threbd in the runnbble
+         * stbte is executing in the Jbvb virtubl mbchine but it mby
+         * be wbiting for other resources from the operbting system
+         * such bs processor.
          */
         RUNNABLE,
 
         /**
-         * Thread state for a thread blocked waiting for a monitor lock.
-         * A thread in the blocked state is waiting for a monitor lock
-         * to enter a synchronized block/method or
-         * reenter a synchronized block/method after calling
-         * {@link Object#wait() Object.wait}.
+         * Threbd stbte for b threbd blocked wbiting for b monitor lock.
+         * A threbd in the blocked stbte is wbiting for b monitor lock
+         * to enter b synchronized block/method or
+         * reenter b synchronized block/method bfter cblling
+         * {@link Object#wbit() Object.wbit}.
          */
         BLOCKED,
 
         /**
-         * Thread state for a waiting thread.
-         * A thread is in the waiting state due to calling one of the
+         * Threbd stbte for b wbiting threbd.
+         * A threbd is in the wbiting stbte due to cblling one of the
          * following methods:
          * <ul>
-         *   <li>{@link Object#wait() Object.wait} with no timeout</li>
-         *   <li>{@link #join() Thread.join} with no timeout</li>
-         *   <li>{@link LockSupport#park() LockSupport.park}</li>
+         *   <li>{@link Object#wbit() Object.wbit} with no timeout</li>
+         *   <li>{@link #join() Threbd.join} with no timeout</li>
+         *   <li>{@link LockSupport#pbrk() LockSupport.pbrk}</li>
          * </ul>
          *
-         * <p>A thread in the waiting state is waiting for another thread to
-         * perform a particular action.
+         * <p>A threbd in the wbiting stbte is wbiting for bnother threbd to
+         * perform b pbrticulbr bction.
          *
-         * For example, a thread that has called <tt>Object.wait()</tt>
-         * on an object is waiting for another thread to call
+         * For exbmple, b threbd thbt hbs cblled <tt>Object.wbit()</tt>
+         * on bn object is wbiting for bnother threbd to cbll
          * <tt>Object.notify()</tt> or <tt>Object.notifyAll()</tt> on
-         * that object. A thread that has called <tt>Thread.join()</tt>
-         * is waiting for a specified thread to terminate.
+         * thbt object. A threbd thbt hbs cblled <tt>Threbd.join()</tt>
+         * is wbiting for b specified threbd to terminbte.
          */
         WAITING,
 
         /**
-         * Thread state for a waiting thread with a specified waiting time.
-         * A thread is in the timed waiting state due to calling one of
-         * the following methods with a specified positive waiting time:
+         * Threbd stbte for b wbiting threbd with b specified wbiting time.
+         * A threbd is in the timed wbiting stbte due to cblling one of
+         * the following methods with b specified positive wbiting time:
          * <ul>
-         *   <li>{@link #sleep Thread.sleep}</li>
-         *   <li>{@link Object#wait(long) Object.wait} with timeout</li>
-         *   <li>{@link #join(long) Thread.join} with timeout</li>
-         *   <li>{@link LockSupport#parkNanos LockSupport.parkNanos}</li>
-         *   <li>{@link LockSupport#parkUntil LockSupport.parkUntil}</li>
+         *   <li>{@link #sleep Threbd.sleep}</li>
+         *   <li>{@link Object#wbit(long) Object.wbit} with timeout</li>
+         *   <li>{@link #join(long) Threbd.join} with timeout</li>
+         *   <li>{@link LockSupport#pbrkNbnos LockSupport.pbrkNbnos}</li>
+         *   <li>{@link LockSupport#pbrkUntil LockSupport.pbrkUntil}</li>
          * </ul>
          */
         TIMED_WAITING,
 
         /**
-         * Thread state for a terminated thread.
-         * The thread has completed execution.
+         * Threbd stbte for b terminbted threbd.
+         * The threbd hbs completed execution.
          */
         TERMINATED;
     }
 
     /**
-     * Returns the state of this thread.
-     * This method is designed for use in monitoring of the system state,
-     * not for synchronization control.
+     * Returns the stbte of this threbd.
+     * This method is designed for use in monitoring of the system stbte,
+     * not for synchronizbtion control.
      *
-     * @return this thread's state.
+     * @return this threbd's stbte.
      * @since 1.5
      */
-    public State getState() {
-        // get current thread state
-        return sun.misc.VM.toThreadState(threadStatus);
+    public Stbte getStbte() {
+        // get current threbd stbte
+        return sun.misc.VM.toThrebdStbte(threbdStbtus);
     }
 
     // Added in JSR-166
 
     /**
-     * Interface for handlers invoked when a <tt>Thread</tt> abruptly
-     * terminates due to an uncaught exception.
-     * <p>When a thread is about to terminate due to an uncaught exception
-     * the Java Virtual Machine will query the thread for its
-     * <tt>UncaughtExceptionHandler</tt> using
-     * {@link #getUncaughtExceptionHandler} and will invoke the handler's
-     * <tt>uncaughtException</tt> method, passing the thread and the
-     * exception as arguments.
-     * If a thread has not had its <tt>UncaughtExceptionHandler</tt>
-     * explicitly set, then its <tt>ThreadGroup</tt> object acts as its
-     * <tt>UncaughtExceptionHandler</tt>. If the <tt>ThreadGroup</tt> object
-     * has no
-     * special requirements for dealing with the exception, it can forward
-     * the invocation to the {@linkplain #getDefaultUncaughtExceptionHandler
-     * default uncaught exception handler}.
+     * Interfbce for hbndlers invoked when b <tt>Threbd</tt> bbruptly
+     * terminbtes due to bn uncbught exception.
+     * <p>When b threbd is bbout to terminbte due to bn uncbught exception
+     * the Jbvb Virtubl Mbchine will query the threbd for its
+     * <tt>UncbughtExceptionHbndler</tt> using
+     * {@link #getUncbughtExceptionHbndler} bnd will invoke the hbndler's
+     * <tt>uncbughtException</tt> method, pbssing the threbd bnd the
+     * exception bs brguments.
+     * If b threbd hbs not hbd its <tt>UncbughtExceptionHbndler</tt>
+     * explicitly set, then its <tt>ThrebdGroup</tt> object bcts bs its
+     * <tt>UncbughtExceptionHbndler</tt>. If the <tt>ThrebdGroup</tt> object
+     * hbs no
+     * specibl requirements for debling with the exception, it cbn forwbrd
+     * the invocbtion to the {@linkplbin #getDefbultUncbughtExceptionHbndler
+     * defbult uncbught exception hbndler}.
      *
-     * @see #setDefaultUncaughtExceptionHandler
-     * @see #setUncaughtExceptionHandler
-     * @see ThreadGroup#uncaughtException
+     * @see #setDefbultUncbughtExceptionHbndler
+     * @see #setUncbughtExceptionHbndler
+     * @see ThrebdGroup#uncbughtException
      * @since 1.5
      */
-    @FunctionalInterface
-    public interface UncaughtExceptionHandler {
+    @FunctionblInterfbce
+    public interfbce UncbughtExceptionHbndler {
         /**
-         * Method invoked when the given thread terminates due to the
-         * given uncaught exception.
+         * Method invoked when the given threbd terminbtes due to the
+         * given uncbught exception.
          * <p>Any exception thrown by this method will be ignored by the
-         * Java Virtual Machine.
-         * @param t the thread
-         * @param e the exception
+         * Jbvb Virtubl Mbchine.
+         * @pbrbm t the threbd
+         * @pbrbm e the exception
          */
-        void uncaughtException(Thread t, Throwable e);
+        void uncbughtException(Threbd t, Throwbble e);
     }
 
     // null unless explicitly set
-    private volatile UncaughtExceptionHandler uncaughtExceptionHandler;
+    privbte volbtile UncbughtExceptionHbndler uncbughtExceptionHbndler;
 
     // null unless explicitly set
-    private static volatile UncaughtExceptionHandler defaultUncaughtExceptionHandler;
+    privbte stbtic volbtile UncbughtExceptionHbndler defbultUncbughtExceptionHbndler;
 
     /**
-     * Set the default handler invoked when a thread abruptly terminates
-     * due to an uncaught exception, and no other handler has been defined
-     * for that thread.
+     * Set the defbult hbndler invoked when b threbd bbruptly terminbtes
+     * due to bn uncbught exception, bnd no other hbndler hbs been defined
+     * for thbt threbd.
      *
-     * <p>Uncaught exception handling is controlled first by the thread, then
-     * by the thread's {@link ThreadGroup} object and finally by the default
-     * uncaught exception handler. If the thread does not have an explicit
-     * uncaught exception handler set, and the thread's thread group
-     * (including parent thread groups)  does not specialize its
-     * <tt>uncaughtException</tt> method, then the default handler's
-     * <tt>uncaughtException</tt> method will be invoked.
-     * <p>By setting the default uncaught exception handler, an application
-     * can change the way in which uncaught exceptions are handled (such as
-     * logging to a specific device, or file) for those threads that would
-     * already accept whatever &quot;default&quot; behavior the system
+     * <p>Uncbught exception hbndling is controlled first by the threbd, then
+     * by the threbd's {@link ThrebdGroup} object bnd finblly by the defbult
+     * uncbught exception hbndler. If the threbd does not hbve bn explicit
+     * uncbught exception hbndler set, bnd the threbd's threbd group
+     * (including pbrent threbd groups)  does not speciblize its
+     * <tt>uncbughtException</tt> method, then the defbult hbndler's
+     * <tt>uncbughtException</tt> method will be invoked.
+     * <p>By setting the defbult uncbught exception hbndler, bn bpplicbtion
+     * cbn chbnge the wby in which uncbught exceptions bre hbndled (such bs
+     * logging to b specific device, or file) for those threbds thbt would
+     * blrebdy bccept whbtever &quot;defbult&quot; behbvior the system
      * provided.
      *
-     * <p>Note that the default uncaught exception handler should not usually
-     * defer to the thread's <tt>ThreadGroup</tt> object, as that could cause
+     * <p>Note thbt the defbult uncbught exception hbndler should not usublly
+     * defer to the threbd's <tt>ThrebdGroup</tt> object, bs thbt could cbuse
      * infinite recursion.
      *
-     * @param eh the object to use as the default uncaught exception handler.
-     * If <tt>null</tt> then there is no default handler.
+     * @pbrbm eh the object to use bs the defbult uncbught exception hbndler.
+     * If <tt>null</tt> then there is no defbult hbndler.
      *
-     * @throws SecurityException if a security manager is present and it
+     * @throws SecurityException if b security mbnbger is present bnd it
      *         denies <tt>{@link RuntimePermission}
-     *         (&quot;setDefaultUncaughtExceptionHandler&quot;)</tt>
+     *         (&quot;setDefbultUncbughtExceptionHbndler&quot;)</tt>
      *
-     * @see #setUncaughtExceptionHandler
-     * @see #getUncaughtExceptionHandler
-     * @see ThreadGroup#uncaughtException
+     * @see #setUncbughtExceptionHbndler
+     * @see #getUncbughtExceptionHbndler
+     * @see ThrebdGroup#uncbughtException
      * @since 1.5
      */
-    public static void setDefaultUncaughtExceptionHandler(UncaughtExceptionHandler eh) {
-        SecurityManager sm = System.getSecurityManager();
+    public stbtic void setDefbultUncbughtExceptionHbndler(UncbughtExceptionHbndler eh) {
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null) {
             sm.checkPermission(
-                new RuntimePermission("setDefaultUncaughtExceptionHandler")
+                new RuntimePermission("setDefbultUncbughtExceptionHbndler")
                     );
         }
 
-         defaultUncaughtExceptionHandler = eh;
+         defbultUncbughtExceptionHbndler = eh;
      }
 
     /**
-     * Returns the default handler invoked when a thread abruptly terminates
-     * due to an uncaught exception. If the returned value is <tt>null</tt>,
-     * there is no default.
+     * Returns the defbult hbndler invoked when b threbd bbruptly terminbtes
+     * due to bn uncbught exception. If the returned vblue is <tt>null</tt>,
+     * there is no defbult.
      * @since 1.5
-     * @see #setDefaultUncaughtExceptionHandler
-     * @return the default uncaught exception handler for all threads
+     * @see #setDefbultUncbughtExceptionHbndler
+     * @return the defbult uncbught exception hbndler for bll threbds
      */
-    public static UncaughtExceptionHandler getDefaultUncaughtExceptionHandler(){
-        return defaultUncaughtExceptionHandler;
+    public stbtic UncbughtExceptionHbndler getDefbultUncbughtExceptionHbndler(){
+        return defbultUncbughtExceptionHbndler;
     }
 
     /**
-     * Returns the handler invoked when this thread abruptly terminates
-     * due to an uncaught exception. If this thread has not had an
-     * uncaught exception handler explicitly set then this thread's
-     * <tt>ThreadGroup</tt> object is returned, unless this thread
-     * has terminated, in which case <tt>null</tt> is returned.
+     * Returns the hbndler invoked when this threbd bbruptly terminbtes
+     * due to bn uncbught exception. If this threbd hbs not hbd bn
+     * uncbught exception hbndler explicitly set then this threbd's
+     * <tt>ThrebdGroup</tt> object is returned, unless this threbd
+     * hbs terminbted, in which cbse <tt>null</tt> is returned.
      * @since 1.5
-     * @return the uncaught exception handler for this thread
+     * @return the uncbught exception hbndler for this threbd
      */
-    public UncaughtExceptionHandler getUncaughtExceptionHandler() {
-        return uncaughtExceptionHandler != null ?
-            uncaughtExceptionHandler : group;
+    public UncbughtExceptionHbndler getUncbughtExceptionHbndler() {
+        return uncbughtExceptionHbndler != null ?
+            uncbughtExceptionHbndler : group;
     }
 
     /**
-     * Set the handler invoked when this thread abruptly terminates
-     * due to an uncaught exception.
-     * <p>A thread can take full control of how it responds to uncaught
-     * exceptions by having its uncaught exception handler explicitly set.
-     * If no such handler is set then the thread's <tt>ThreadGroup</tt>
-     * object acts as its handler.
-     * @param eh the object to use as this thread's uncaught exception
-     * handler. If <tt>null</tt> then this thread has no explicit handler.
-     * @throws  SecurityException  if the current thread is not allowed to
-     *          modify this thread.
-     * @see #setDefaultUncaughtExceptionHandler
-     * @see ThreadGroup#uncaughtException
+     * Set the hbndler invoked when this threbd bbruptly terminbtes
+     * due to bn uncbught exception.
+     * <p>A threbd cbn tbke full control of how it responds to uncbught
+     * exceptions by hbving its uncbught exception hbndler explicitly set.
+     * If no such hbndler is set then the threbd's <tt>ThrebdGroup</tt>
+     * object bcts bs its hbndler.
+     * @pbrbm eh the object to use bs this threbd's uncbught exception
+     * hbndler. If <tt>null</tt> then this threbd hbs no explicit hbndler.
+     * @throws  SecurityException  if the current threbd is not bllowed to
+     *          modify this threbd.
+     * @see #setDefbultUncbughtExceptionHbndler
+     * @see ThrebdGroup#uncbughtException
      * @since 1.5
      */
-    public void setUncaughtExceptionHandler(UncaughtExceptionHandler eh) {
+    public void setUncbughtExceptionHbndler(UncbughtExceptionHbndler eh) {
         checkAccess();
-        uncaughtExceptionHandler = eh;
+        uncbughtExceptionHbndler = eh;
     }
 
     /**
-     * Dispatch an uncaught exception to the handler. This method is
-     * intended to be called only by the JVM.
+     * Dispbtch bn uncbught exception to the hbndler. This method is
+     * intended to be cblled only by the JVM.
      */
-    private void dispatchUncaughtException(Throwable e) {
-        getUncaughtExceptionHandler().uncaughtException(this, e);
+    privbte void dispbtchUncbughtException(Throwbble e) {
+        getUncbughtExceptionHbndler().uncbughtException(this, e);
     }
 
     /**
-     * Removes from the specified map any keys that have been enqueued
+     * Removes from the specified mbp bny keys thbt hbve been enqueued
      * on the specified reference queue.
      */
-    static void processQueue(ReferenceQueue<Class<?>> queue,
-                             ConcurrentMap<? extends
-                             WeakReference<Class<?>>, ?> map)
+    stbtic void processQueue(ReferenceQueue<Clbss<?>> queue,
+                             ConcurrentMbp<? extends
+                             WebkReference<Clbss<?>>, ?> mbp)
     {
-        Reference<? extends Class<?>> ref;
+        Reference<? extends Clbss<?>> ref;
         while((ref = queue.poll()) != null) {
-            map.remove(ref);
+            mbp.remove(ref);
         }
     }
 
     /**
-     *  Weak key for Class objects.
+     *  Webk key for Clbss objects.
      **/
-    static class WeakClassKey extends WeakReference<Class<?>> {
+    stbtic clbss WebkClbssKey extends WebkReference<Clbss<?>> {
         /**
-         * saved value of the referent's identity hash code, to maintain
-         * a consistent hash code after the referent has been cleared
+         * sbved vblue of the referent's identity hbsh code, to mbintbin
+         * b consistent hbsh code bfter the referent hbs been clebred
          */
-        private final int hash;
+        privbte finbl int hbsh;
 
         /**
-         * Create a new WeakClassKey to the given object, registered
-         * with a queue.
+         * Crebte b new WebkClbssKey to the given object, registered
+         * with b queue.
          */
-        WeakClassKey(Class<?> cl, ReferenceQueue<Class<?>> refQueue) {
+        WebkClbssKey(Clbss<?> cl, ReferenceQueue<Clbss<?>> refQueue) {
             super(cl, refQueue);
-            hash = System.identityHashCode(cl);
+            hbsh = System.identityHbshCode(cl);
         }
 
         /**
-         * Returns the identity hash code of the original referent.
+         * Returns the identity hbsh code of the originbl referent.
          */
         @Override
-        public int hashCode() {
-            return hash;
+        public int hbshCode() {
+            return hbsh;
         }
 
         /**
-         * Returns true if the given object is this identical
-         * WeakClassKey instance, or, if this object's referent has not
-         * been cleared, if the given object is another WeakClassKey
-         * instance with the identical non-null referent as this one.
+         * Returns true if the given object is this identicbl
+         * WebkClbssKey instbnce, or, if this object's referent hbs not
+         * been clebred, if the given object is bnother WebkClbssKey
+         * instbnce with the identicbl non-null referent bs this one.
          */
         @Override
-        public boolean equals(Object obj) {
+        public boolebn equbls(Object obj) {
             if (obj == this)
                 return true;
 
-            if (obj instanceof WeakClassKey) {
+            if (obj instbnceof WebkClbssKey) {
                 Object referent = get();
                 return (referent != null) &&
-                       (referent == ((WeakClassKey) obj).get());
+                       (referent == ((WebkClbssKey) obj).get());
             } else {
-                return false;
+                return fblse;
             }
         }
     }
 
 
-    // The following three initially uninitialized fields are exclusively
-    // managed by class java.util.concurrent.ThreadLocalRandom. These
-    // fields are used to build the high-performance PRNGs in the
-    // concurrent code, and we can not risk accidental false sharing.
-    // Hence, the fields are isolated with @Contended.
+    // The following three initiblly uninitiblized fields bre exclusively
+    // mbnbged by clbss jbvb.util.concurrent.ThrebdLocblRbndom. These
+    // fields bre used to build the high-performbnce PRNGs in the
+    // concurrent code, bnd we cbn not risk bccidentbl fblse shbring.
+    // Hence, the fields bre isolbted with @Contended.
 
-    /** The current seed for a ThreadLocalRandom */
+    /** The current seed for b ThrebdLocblRbndom */
     @sun.misc.Contended("tlr")
-    long threadLocalRandomSeed;
+    long threbdLocblRbndomSeed;
 
-    /** Probe hash value; nonzero if threadLocalRandomSeed initialized */
+    /** Probe hbsh vblue; nonzero if threbdLocblRbndomSeed initiblized */
     @sun.misc.Contended("tlr")
-    int threadLocalRandomProbe;
+    int threbdLocblRbndomProbe;
 
-    /** Secondary seed isolated from public ThreadLocalRandom sequence */
+    /** Secondbry seed isolbted from public ThrebdLocblRbndom sequence */
     @sun.misc.Contended("tlr")
-    int threadLocalRandomSecondarySeed;
+    int threbdLocblRbndomSecondbrySeed;
 
-    /* Some private helper methods */
-    private native void setPriority0(int newPriority);
-    private native void stop0(Object o);
-    private native void suspend0();
-    private native void resume0();
-    private native void interrupt0();
-    private native void setNativeName(String name);
+    /* Some privbte helper methods */
+    privbte nbtive void setPriority0(int newPriority);
+    privbte nbtive void stop0(Object o);
+    privbte nbtive void suspend0();
+    privbte nbtive void resume0();
+    privbte nbtive void interrupt0();
+    privbte nbtive void setNbtiveNbme(String nbme);
 }

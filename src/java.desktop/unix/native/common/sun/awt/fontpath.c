@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -30,347 +30,347 @@
 #include <stdlib.h>
 #include <strings.h>
 #include <sys/types.h>
-#include <sys/stat.h>
-#include <sys/mman.h>
+#include <sys/stbt.h>
+#include <sys/mmbn.h>
 #include <fcntl.h>
 #include <unistd.h>
-#ifdef __solaris__
+#ifdef __solbris__
 #include <sys/systeminfo.h>
 #endif
 
 #include <jni.h>
 #include <jni_util.h>
 #include <jvm_md.h>
-#include <sizecalc.h>
+#include <sizecblc.h>
 #ifndef HEADLESS
 #include <X11/Xlib.h>
-#include <awt.h>
+#include <bwt.h>
 #else
-/* locks ought to be included from awt.h */
+/* locks ought to be included from bwt.h */
 #define AWT_LOCK()
 #define AWT_UNLOCK()
 #endif /* !HEADLESS */
 
 #if defined(__linux__) && !defined(MAP_FAILED)
-#define MAP_FAILED ((caddr_t)-1)
+#define MAP_FAILED ((cbddr_t)-1)
 #endif
 
 #ifndef HEADLESS
-extern Display *awt_display;
+extern Displby *bwt_displby;
 #endif /* !HEADLESS */
 
 #define FONTCONFIG_DLL_VERSIONED VERSIONED_JNI_LIB_NAME("fontconfig", "1")
 #define FONTCONFIG_DLL JNI_LIB_NAME("fontconfig")
 
-#define MAXFDIRS 512    /* Max number of directories that contain fonts */
+#define MAXFDIRS 512    /* Mbx number of directories thbt contbin fonts */
 
-#if defined(__solaris__)
+#if defined(__solbris__)
 /*
- * This can be set in the makefile to "/usr/X11" if so desired.
+ * This cbn be set in the mbkefile to "/usr/X11" if so desired.
  */
 #ifndef OPENWINHOMELIB
 #define OPENWINHOMELIB "/usr/openwin/lib/"
 #endif
 
-/* This is all known Solaris X11 directories on Solaris 8, 9 and 10.
+/* This is bll known Solbris X11 directories on Solbris 8, 9 bnd 10.
  * It is ordered to give precedence to TrueType directories.
- * It is needed if fontconfig is not installed or configured properly.
+ * It is needed if fontconfig is not instblled or configured properly.
  */
-static char *fullSolarisFontPath[] = {
+stbtic chbr *fullSolbrisFontPbth[] = {
     OPENWINHOMELIB "X11/fonts/TrueType",
-    OPENWINHOMELIB "locale/euro_fonts/X11/fonts/TrueType",
-    OPENWINHOMELIB "locale/iso_8859_2/X11/fonts/TrueType",
-    OPENWINHOMELIB "locale/iso_8859_5/X11/fonts/TrueType",
-    OPENWINHOMELIB "locale/iso_8859_7/X11/fonts/TrueType",
-    OPENWINHOMELIB "locale/iso_8859_8/X11/fonts/TrueType",
-    OPENWINHOMELIB "locale/iso_8859_9/X11/fonts/TrueType",
-    OPENWINHOMELIB "locale/iso_8859_13/X11/fonts/TrueType",
-    OPENWINHOMELIB "locale/iso_8859_15/X11/fonts/TrueType",
-    OPENWINHOMELIB "locale/ar/X11/fonts/TrueType",
-    OPENWINHOMELIB "locale/hi_IN.UTF-8/X11/fonts/TrueType",
-    OPENWINHOMELIB "locale/ja/X11/fonts/TT",
-    OPENWINHOMELIB "locale/ko/X11/fonts/TrueType",
-    OPENWINHOMELIB "locale/ko.UTF-8/X11/fonts/TrueType",
-    OPENWINHOMELIB "locale/KOI8-R/X11/fonts/TrueType",
-    OPENWINHOMELIB "locale/ru.ansi-1251/X11/fonts/TrueType",
-    OPENWINHOMELIB "locale/th_TH/X11/fonts/TrueType",
-    OPENWINHOMELIB "locale/zh_TW/X11/fonts/TrueType",
-    OPENWINHOMELIB "locale/zh_TW.BIG5/X11/fonts/TT",
-    OPENWINHOMELIB "locale/zh_HK.BIG5HK/X11/fonts/TT",
-    OPENWINHOMELIB "locale/zh_CN.GB18030/X11/fonts/TrueType",
-    OPENWINHOMELIB "locale/zh/X11/fonts/TrueType",
-    OPENWINHOMELIB "locale/zh.GBK/X11/fonts/TrueType",
+    OPENWINHOMELIB "locble/euro_fonts/X11/fonts/TrueType",
+    OPENWINHOMELIB "locble/iso_8859_2/X11/fonts/TrueType",
+    OPENWINHOMELIB "locble/iso_8859_5/X11/fonts/TrueType",
+    OPENWINHOMELIB "locble/iso_8859_7/X11/fonts/TrueType",
+    OPENWINHOMELIB "locble/iso_8859_8/X11/fonts/TrueType",
+    OPENWINHOMELIB "locble/iso_8859_9/X11/fonts/TrueType",
+    OPENWINHOMELIB "locble/iso_8859_13/X11/fonts/TrueType",
+    OPENWINHOMELIB "locble/iso_8859_15/X11/fonts/TrueType",
+    OPENWINHOMELIB "locble/br/X11/fonts/TrueType",
+    OPENWINHOMELIB "locble/hi_IN.UTF-8/X11/fonts/TrueType",
+    OPENWINHOMELIB "locble/jb/X11/fonts/TT",
+    OPENWINHOMELIB "locble/ko/X11/fonts/TrueType",
+    OPENWINHOMELIB "locble/ko.UTF-8/X11/fonts/TrueType",
+    OPENWINHOMELIB "locble/KOI8-R/X11/fonts/TrueType",
+    OPENWINHOMELIB "locble/ru.bnsi-1251/X11/fonts/TrueType",
+    OPENWINHOMELIB "locble/th_TH/X11/fonts/TrueType",
+    OPENWINHOMELIB "locble/zh_TW/X11/fonts/TrueType",
+    OPENWINHOMELIB "locble/zh_TW.BIG5/X11/fonts/TT",
+    OPENWINHOMELIB "locble/zh_HK.BIG5HK/X11/fonts/TT",
+    OPENWINHOMELIB "locble/zh_CN.GB18030/X11/fonts/TrueType",
+    OPENWINHOMELIB "locble/zh/X11/fonts/TrueType",
+    OPENWINHOMELIB "locble/zh.GBK/X11/fonts/TrueType",
     OPENWINHOMELIB "X11/fonts/Type1",
     OPENWINHOMELIB "X11/fonts/Type1/sun",
     OPENWINHOMELIB "X11/fonts/Type1/sun/outline",
-    OPENWINHOMELIB "locale/iso_8859_2/X11/fonts/Type1",
-    OPENWINHOMELIB "locale/iso_8859_4/X11/fonts/Type1",
-    OPENWINHOMELIB "locale/iso_8859_5/X11/fonts/Type1",
-    OPENWINHOMELIB "locale/iso_8859_7/X11/fonts/Type1",
-    OPENWINHOMELIB "locale/iso_8859_8/X11/fonts/Type1",
-    OPENWINHOMELIB "locale/iso_8859_9/X11/fonts/Type1",
-    OPENWINHOMELIB "locale/iso_8859_13/X11/fonts/Type1",
-    OPENWINHOMELIB "locale/ar/X11/fonts/Type1",
-    NULL, /* terminates the list */
+    OPENWINHOMELIB "locble/iso_8859_2/X11/fonts/Type1",
+    OPENWINHOMELIB "locble/iso_8859_4/X11/fonts/Type1",
+    OPENWINHOMELIB "locble/iso_8859_5/X11/fonts/Type1",
+    OPENWINHOMELIB "locble/iso_8859_7/X11/fonts/Type1",
+    OPENWINHOMELIB "locble/iso_8859_8/X11/fonts/Type1",
+    OPENWINHOMELIB "locble/iso_8859_9/X11/fonts/Type1",
+    OPENWINHOMELIB "locble/iso_8859_13/X11/fonts/Type1",
+    OPENWINHOMELIB "locble/br/X11/fonts/Type1",
+    NULL, /* terminbtes the list */
 };
 
 #elif defined( __linux__)
-/* All the known interesting locations we have discovered on
- * various flavors of Linux
+/* All the known interesting locbtions we hbve discovered on
+ * vbrious flbvors of Linux
  */
-static char *fullLinuxFontPath[] = {
+stbtic chbr *fullLinuxFontPbth[] = {
     "/usr/X11R6/lib/X11/fonts/TrueType",  /* RH 7.1+ */
     "/usr/X11R6/lib/X11/fonts/truetype",  /* SuSE */
     "/usr/X11R6/lib/X11/fonts/tt",
     "/usr/X11R6/lib/X11/fonts/TTF",
     "/usr/X11R6/lib/X11/fonts/OTF",       /* RH 9.0 (but empty!) */
-    "/usr/share/fonts/ja/TrueType",       /* RH 7.2+ */
-    "/usr/share/fonts/truetype",
-    "/usr/share/fonts/ko/TrueType",       /* RH 9.0 */
-    "/usr/share/fonts/zh_CN/TrueType",    /* RH 9.0 */
-    "/usr/share/fonts/zh_TW/TrueType",    /* RH 9.0 */
-    "/var/lib/defoma/x-ttcidfont-conf.d/dirs/TrueType", /* Debian */
+    "/usr/shbre/fonts/jb/TrueType",       /* RH 7.2+ */
+    "/usr/shbre/fonts/truetype",
+    "/usr/shbre/fonts/ko/TrueType",       /* RH 9.0 */
+    "/usr/shbre/fonts/zh_CN/TrueType",    /* RH 9.0 */
+    "/usr/shbre/fonts/zh_TW/TrueType",    /* RH 9.0 */
+    "/vbr/lib/defomb/x-ttcidfont-conf.d/dirs/TrueType", /* Debibn */
     "/usr/X11R6/lib/X11/fonts/Type1",
-    "/usr/share/fonts/default/Type1",     /* RH 9.0 */
-    NULL, /* terminates the list */
+    "/usr/shbre/fonts/defbult/Type1",     /* RH 9.0 */
+    NULL, /* terminbtes the list */
 };
 #elif defined(_AIX)
-static char *fullAixFontPath[] = {
+stbtic chbr *fullAixFontPbth[] = {
     "/usr/lpp/X11/lib/X11/fonts/Type1",    /* from X11.fnt.iso_T1  */
     "/usr/lpp/X11/lib/X11/fonts/TrueType", /* from X11.fnt.ucs.ttf */
-    NULL, /* terminates the list */
+    NULL, /* terminbtes the list */
 };
 #endif
 
-static char **getFontConfigLocations();
+stbtic chbr **getFontConfigLocbtions();
 
 typedef struct {
-    const char *name[MAXFDIRS];
+    const chbr *nbme[MAXFDIRS];
     int  num;
 } fDirRecord, *fDirRecordPtr;
 
 #ifndef HEADLESS
 
 /*
- * Returns True if display is local, False of it's remote.
+ * Returns True if displby is locbl, Fblse of it's remote.
  */
-jboolean isDisplayLocal(JNIEnv *env) {
-    static jboolean isLocal = False;
-    static jboolean isLocalSet = False;
-    jboolean ret;
+jboolebn isDisplbyLocbl(JNIEnv *env) {
+    stbtic jboolebn isLocbl = Fblse;
+    stbtic jboolebn isLocblSet = Fblse;
+    jboolebn ret;
 
-    if (! isLocalSet) {
-      jclass geCls = (*env)->FindClass(env, "java/awt/GraphicsEnvironment");
+    if (! isLocblSet) {
+      jclbss geCls = (*env)->FindClbss(env, "jbvb/bwt/GrbphicsEnvironment");
       CHECK_NULL_RETURN(geCls, JNI_FALSE);
-      jmethodID getLocalGE = (*env)->GetStaticMethodID(env, geCls,
-                                                 "getLocalGraphicsEnvironment",
-                                           "()Ljava/awt/GraphicsEnvironment;");
-      CHECK_NULL_RETURN(getLocalGE, JNI_FALSE);
-      jobject ge = (*env)->CallStaticObjectMethod(env, geCls, getLocalGE);
+      jmethodID getLocblGE = (*env)->GetStbticMethodID(env, geCls,
+                                                 "getLocblGrbphicsEnvironment",
+                                           "()Ljbvb/bwt/GrbphicsEnvironment;");
+      CHECK_NULL_RETURN(getLocblGE, JNI_FALSE);
+      jobject ge = (*env)->CbllStbticObjectMethod(env, geCls, getLocblGE);
       JNU_CHECK_EXCEPTION_RETURN(env, JNI_FALSE);
 
-      jclass sgeCls = (*env)->FindClass(env,
-                                        "sun/java2d/SunGraphicsEnvironment");
+      jclbss sgeCls = (*env)->FindClbss(env,
+                                        "sun/jbvb2d/SunGrbphicsEnvironment");
       CHECK_NULL_RETURN(sgeCls, JNI_FALSE);
-      if ((*env)->IsInstanceOf(env, ge, sgeCls)) {
-        jmethodID isDisplayLocal = (*env)->GetMethodID(env, sgeCls,
-                                                       "isDisplayLocal",
+      if ((*env)->IsInstbnceOf(env, ge, sgeCls)) {
+        jmethodID isDisplbyLocbl = (*env)->GetMethodID(env, sgeCls,
+                                                       "isDisplbyLocbl",
                                                        "()Z");
         JNU_CHECK_EXCEPTION_RETURN(env, JNI_FALSE);
-        isLocal = (*env)->CallBooleanMethod(env, ge, isDisplayLocal);
+        isLocbl = (*env)->CbllBoolebnMethod(env, ge, isDisplbyLocbl);
       } else {
-        isLocal = True;
+        isLocbl = True;
       }
-      isLocalSet = True;
+      isLocblSet = True;
     }
 
-    return isLocal;
+    return isLocbl;
 }
 
-static void AddFontsToX11FontPath ( fDirRecord *fDirP )
+stbtic void AddFontsToX11FontPbth ( fDirRecord *fDirP )
 {
-    char *onePath;
-    int index, nPaths;
-    int origNumPaths, length;
+    chbr *onePbth;
+    int index, nPbths;
+    int origNumPbths, length;
     int origIndex;
-    int totalDirCount;
-    char  **origFontPath;
-    char  **tempFontPath;
+    int totblDirCount;
+    chbr  **origFontPbth;
+    chbr  **tempFontPbth;
     int doNotAppend;
-    int *appendDirList;
-    char **newFontPath;
-    int err, compareLength;
-    char fontDirPath[512];
+    int *bppendDirList;
+    chbr **newFontPbth;
+    int err, compbreLength;
+    chbr fontDirPbth[512];
     int dirFile;
 
     doNotAppend = 0;
 
     if ( fDirP->num == 0 ) return;
 
-    appendDirList = SAFE_SIZE_ARRAY_ALLOC(malloc, fDirP->num, sizeof ( int ));
-    if ( appendDirList == NULL ) {
-      return;  /* if it fails we cannot do much */
+    bppendDirList = SAFE_SIZE_ARRAY_ALLOC(mblloc, fDirP->num, sizeof ( int ));
+    if ( bppendDirList == NULL ) {
+      return;  /* if it fbils we cbnnot do much */
     }
 
-    origFontPath = XGetFontPath ( awt_display, &nPaths );
+    origFontPbth = XGetFontPbth ( bwt_displby, &nPbths );
 
-    totalDirCount = nPaths;
-    origNumPaths = nPaths;
-    tempFontPath = origFontPath;
+    totblDirCount = nPbths;
+    origNumPbths = nPbths;
+    tempFontPbth = origFontPbth;
 
 
     for (index = 0; index < fDirP->num; index++ ) {
 
         doNotAppend = 0;
 
-        tempFontPath = origFontPath;
-        for ( origIndex = 0; origIndex < nPaths; origIndex++ ) {
+        tempFontPbth = origFontPbth;
+        for ( origIndex = 0; origIndex < nPbths; origIndex++ ) {
 
-            onePath = *tempFontPath;
+            onePbth = *tempFontPbth;
 
-            compareLength = strlen ( onePath );
-            if ( onePath[compareLength -1] == '/' )
-              compareLength--;
+            compbreLength = strlen ( onePbth );
+            if ( onePbth[compbreLength -1] == '/' )
+              compbreLength--;
 
-            /* there is a slash at the end of every solaris X11 font path name */
-            if ( strncmp ( onePath, fDirP->name[index], compareLength ) == 0 ) {
+            /* there is b slbsh bt the end of every solbris X11 font pbth nbme */
+            if ( strncmp ( onePbth, fDirP->nbme[index], compbreLength ) == 0 ) {
               doNotAppend = 1;
-              break;
+              brebk;
             }
-            tempFontPath++;
+            tempFontPbth++;
         }
 
-        appendDirList[index] = 0;
+        bppendDirList[index] = 0;
         if ( doNotAppend == 0 ) {
-            strcpy ( fontDirPath, fDirP->name[index] );
-            strcat ( fontDirPath, "/fonts.dir" );
-            dirFile = open ( fontDirPath, O_RDONLY, 0 );
+            strcpy ( fontDirPbth, fDirP->nbme[index] );
+            strcbt ( fontDirPbth, "/fonts.dir" );
+            dirFile = open ( fontDirPbth, O_RDONLY, 0 );
             if ( dirFile == -1 ) {
                 doNotAppend = 1;
             } else {
                close ( dirFile );
-               totalDirCount++;
-               appendDirList[index] = 1;
+               totblDirCount++;
+               bppendDirList[index] = 1;
             }
         }
 
     }
 
-    /* if no changes are required do not bother to do a setfontpath */
-    if ( totalDirCount == nPaths ) {
-      free ( ( void *) appendDirList );
-      XFreeFontPath ( origFontPath );
+    /* if no chbnges bre required do not bother to do b setfontpbth */
+    if ( totblDirCount == nPbths ) {
+      free ( ( void *) bppendDirList );
+      XFreeFontPbth ( origFontPbth );
       return;
     }
 
 
-    newFontPath = SAFE_SIZE_ARRAY_ALLOC(malloc, totalDirCount, sizeof ( char **) );
-    /* if it fails free things and get out */
-    if ( newFontPath == NULL ) {
-      free ( ( void *) appendDirList );
-      XFreeFontPath ( origFontPath );
+    newFontPbth = SAFE_SIZE_ARRAY_ALLOC(mblloc, totblDirCount, sizeof ( chbr **) );
+    /* if it fbils free things bnd get out */
+    if ( newFontPbth == NULL ) {
+      free ( ( void *) bppendDirList );
+      XFreeFontPbth ( origFontPbth );
       return;
     }
 
-    for ( origIndex = 0; origIndex < nPaths; origIndex++ ) {
-      onePath = origFontPath[origIndex];
-      newFontPath[origIndex] = onePath;
+    for ( origIndex = 0; origIndex < nPbths; origIndex++ ) {
+      onePbth = origFontPbth[origIndex];
+      newFontPbth[origIndex] = onePbth;
     }
 
-    /* now add the other font paths */
+    /* now bdd the other font pbths */
 
     for (index = 0; index < fDirP->num; index++ ) {
 
-      if ( appendDirList[index] == 1 ) {
+      if ( bppendDirList[index] == 1 ) {
 
-        /* printf ( "Appending %s\n", fDirP->name[index] ); */
+        /* printf ( "Appending %s\n", fDirP->nbme[index] ); */
 
-        onePath = SAFE_SIZE_ARRAY_ALLOC(malloc, strlen (fDirP->name[index]) + 2, sizeof( char ) );
-        if (onePath == NULL) {
-            free ( ( void *) appendDirList );
-            XFreeFontPath ( origFontPath );
+        onePbth = SAFE_SIZE_ARRAY_ALLOC(mblloc, strlen (fDirP->nbme[index]) + 2, sizeof( chbr ) );
+        if (onePbth == NULL) {
+            free ( ( void *) bppendDirList );
+            XFreeFontPbth ( origFontPbth );
             return;
         }
-        strcpy ( onePath, fDirP->name[index] );
-        strcat ( onePath, "/" );
-        newFontPath[nPaths++] = onePath;
-        /* printf ( "The path to be appended is %s\n", onePath ); */
+        strcpy ( onePbth, fDirP->nbme[index] );
+        strcbt ( onePbth, "/" );
+        newFontPbth[nPbths++] = onePbth;
+        /* printf ( "The pbth to be bppended is %s\n", onePbth ); */
       }
     }
 
-    /*   printf ( "The dir count = %d\n", totalDirCount ); */
-    free ( ( void *) appendDirList );
+    /*   printf ( "The dir count = %d\n", totblDirCount ); */
+    free ( ( void *) bppendDirList );
 
-    XSetFontPath ( awt_display, newFontPath, totalDirCount );
+    XSetFontPbth ( bwt_displby, newFontPbth, totblDirCount );
 
-        for ( index = origNumPaths; index < totalDirCount; index++ ) {
-                free( newFontPath[index] );
+        for ( index = origNumPbths; index < totblDirCount; index++ ) {
+                free( newFontPbth[index] );
     }
 
-        free ( (void *) newFontPath );
-    XFreeFontPath ( origFontPath );
+        free ( (void *) newFontPbth );
+    XFreeFontPbth ( origFontPbth );
     return;
 }
 #endif /* !HEADLESS */
 
 
 #ifndef HEADLESS
-static char **getX11FontPath ()
+stbtic chbr **getX11FontPbth ()
 {
-    char **x11Path, **fontdirs;
-    int i, pos, slen, nPaths, numDirs;
+    chbr **x11Pbth, **fontdirs;
+    int i, pos, slen, nPbths, numDirs;
 
-    x11Path = XGetFontPath (awt_display, &nPaths);
+    x11Pbth = XGetFontPbth (bwt_displby, &nPbths);
 
-    /* This isn't ever going to be perfect: the font path may contain
-     * much we aren't interested in, but the cost should be moderate
-     * Exclude all directories that contain the strings "Speedo","/F3/",
-     * "75dpi", "100dpi", "misc" or "bitmap", or don't begin with a "/",
-     * the last of which should exclude font servers.
+    /* This isn't ever going to be perfect: the font pbth mby contbin
+     * much we bren't interested in, but the cost should be moderbte
+     * Exclude bll directories thbt contbin the strings "Speedo","/F3/",
+     * "75dpi", "100dpi", "misc" or "bitmbp", or don't begin with b "/",
+     * the lbst of which should exclude font servers.
      * Also exclude the user specific ".gnome*" directories which
-     * aren't going to contain the system fonts we need.
-     * Hopefully we are left only with Type1 and TrueType directories.
-     * It doesn't matter much if there are extraneous directories, it'll just
-     * cost us a little wasted effort upstream.
+     * bren't going to contbin the system fonts we need.
+     * Hopefully we bre left only with Type1 bnd TrueType directories.
+     * It doesn't mbtter much if there bre extrbneous directories, it'll just
+     * cost us b little wbsted effort upstrebm.
      */
-    fontdirs = (char**)calloc(nPaths+1, sizeof(char*));
+    fontdirs = (chbr**)cblloc(nPbths+1, sizeof(chbr*));
     pos = 0;
-    for (i=0; i < nPaths; i++) {
-        if (x11Path[i][0] != '/') {
+    for (i=0; i < nPbths; i++) {
+        if (x11Pbth[i][0] != '/') {
             continue;
         }
-        if (strstr(x11Path[i], "/75dpi") != NULL) {
+        if (strstr(x11Pbth[i], "/75dpi") != NULL) {
             continue;
         }
-        if (strstr(x11Path[i], "/100dpi") != NULL) {
+        if (strstr(x11Pbth[i], "/100dpi") != NULL) {
             continue;
         }
-        if (strstr(x11Path[i], "/misc") != NULL) {
+        if (strstr(x11Pbth[i], "/misc") != NULL) {
             continue;
         }
-        if (strstr(x11Path[i], "/Speedo") != NULL) {
+        if (strstr(x11Pbth[i], "/Speedo") != NULL) {
             continue;
         }
-        if (strstr(x11Path[i], ".gnome") != NULL) {
+        if (strstr(x11Pbth[i], ".gnome") != NULL) {
             continue;
         }
-#ifdef __solaris__
-        if (strstr(x11Path[i], "/F3/") != NULL) {
+#ifdef __solbris__
+        if (strstr(x11Pbth[i], "/F3/") != NULL) {
             continue;
         }
-        if (strstr(x11Path[i], "bitmap") != NULL) {
+        if (strstr(x11Pbth[i], "bitmbp") != NULL) {
             continue;
         }
 #endif
-        fontdirs[pos] = strdup(x11Path[i]);
+        fontdirs[pos] = strdup(x11Pbth[i]);
         slen = strlen(fontdirs[pos]);
         if (slen > 0 && fontdirs[pos][slen-1] == '/') {
-            fontdirs[pos][slen-1] = '\0'; /* null out trailing "/"  */
+            fontdirs[pos][slen-1] = '\0'; /* null out trbiling "/"  */
         }
         pos++;
     }
 
-    XFreeFontPath(x11Path);
+    XFreeFontPbth(x11Pbth);
     if (pos == 0) {
         free(fontdirs);
         fontdirs = NULL;
@@ -382,21 +382,21 @@ static char **getX11FontPath ()
 #endif /* !HEADLESS */
 
 #if defined(__linux__)
-/* from awt_LoadLibrary.c */
-JNIEXPORT jboolean JNICALL AWTIsHeadless();
+/* from bwt_LobdLibrbry.c */
+JNIEXPORT jboolebn JNICALL AWTIsHebdless();
 #endif
 
-/* This eliminates duplicates, at a non-linear but acceptable cost
- * since the lists are expected to be reasonably short, and then
- * deletes references to non-existent directories, and returns
- * a single path consisting of unique font directories.
+/* This eliminbtes duplicbtes, bt b non-linebr but bcceptbble cost
+ * since the lists bre expected to be rebsonbbly short, bnd then
+ * deletes references to non-existent directories, bnd returns
+ * b single pbth consisting of unique font directories.
  */
-static char* mergePaths(char **p1, char **p2, char **p3, jboolean noType1) {
+stbtic chbr* mergePbths(chbr **p1, chbr **p2, chbr **p3, jboolebn noType1) {
 
-    int len1=0, len2=0, len3=0, totalLen=0, numDirs=0,
-        currLen, i, j, found, pathLen=0;
-    char **ptr, **fontdirs;
-    char *fontPath = NULL;
+    int len1=0, len2=0, len3=0, totblLen=0, numDirs=0,
+        currLen, i, j, found, pbthLen=0;
+    chbr **ptr, **fontdirs;
+    chbr *fontPbth = NULL;
 
     if (p1 != NULL) {
         ptr = p1;
@@ -411,8 +411,8 @@ static char* mergePaths(char **p1, char **p2, char **p3, jboolean noType1) {
         ptr = p3;
         while (*ptr++ != NULL) len3++;
     }
-    totalLen = len1+len2+len3;
-    fontdirs = (char**)calloc(totalLen, sizeof(char*));
+    totblLen = len1+len2+len3;
+    fontdirs = (chbr**)cblloc(totblLen, sizeof(chbr*));
 
     for (i=0; i < len1; i++) {
         if (noType1 && strstr(p1[i], "Type1") != NULL) {
@@ -421,7 +421,7 @@ static char* mergePaths(char **p1, char **p2, char **p3, jboolean noType1) {
         fontdirs[numDirs++] = p1[i];
     }
 
-    currLen = numDirs; /* only compare against previous path dirs */
+    currLen = numDirs; /* only compbre bgbinst previous pbth dirs */
     for (i=0; i < len2; i++) {
         if (noType1 && strstr(p2[i], "Type1") != NULL) {
             continue;
@@ -430,7 +430,7 @@ static char* mergePaths(char **p1, char **p2, char **p3, jboolean noType1) {
         for (j=0; j < currLen; j++) {
             if (strcmp(fontdirs[j], p2[i]) == 0) {
                 found = 1;
-                break;
+                brebk;
             }
         }
         if (!found) {
@@ -438,7 +438,7 @@ static char* mergePaths(char **p1, char **p2, char **p3, jboolean noType1) {
         }
     }
 
-    currLen = numDirs; /* only compare against previous path dirs */
+    currLen = numDirs; /* only compbre bgbinst previous pbth dirs */
     for (i=0; i < len3; i++) {
         if (noType1 && strstr(p3[i], "Type1") != NULL) {
             continue;
@@ -447,7 +447,7 @@ static char* mergePaths(char **p1, char **p2, char **p3, jboolean noType1) {
         for (j=0; j < currLen; j++) {
             if (strcmp(fontdirs[j], p3[i]) == 0) {
                 found = 1;
-                break;
+                brebk;
             }
         }
         if (!found) {
@@ -455,113 +455,113 @@ static char* mergePaths(char **p1, char **p2, char **p3, jboolean noType1) {
         }
     }
 
-    /* Now fontdirs contains unique dirs and numDirs records how many.
-     * What we don't know is if they all exist. On reflection I think
-     * this isn't an issue, so for now I will return all these locations,
+    /* Now fontdirs contbins unique dirs bnd numDirs records how mbny.
+     * Whbt we don't know is if they bll exist. On reflection I think
+     * this isn't bn issue, so for now I will return bll these locbtions,
      * converted to one string */
     for (i=0; i<numDirs; i++) {
-        pathLen += (strlen(fontdirs[i]) + 1);
+        pbthLen += (strlen(fontdirs[i]) + 1);
     }
-    if (pathLen > 0 && (fontPath = malloc(pathLen))) {
-        *fontPath = '\0';
+    if (pbthLen > 0 && (fontPbth = mblloc(pbthLen))) {
+        *fontPbth = '\0';
         for (i = 0; i<numDirs; i++) {
             if (i != 0) {
-                strcat(fontPath, ":");
+                strcbt(fontPbth, ":");
             }
-            strcat(fontPath, fontdirs[i]);
+            strcbt(fontPbth, fontdirs[i]);
         }
     }
     free (fontdirs);
 
-    return fontPath;
+    return fontPbth;
 }
 
 /*
- * The goal of this function is to find all "system" fonts which
- * are needed by the JRE to display text in supported locales etc, and
- * to support APIs which allow users to enumerate all system fonts and use
- * them from their Java applications.
- * The preferred mechanism is now using the new "fontconfig" library
- * This exists on newer versions of Linux and Solaris (S10 and above)
- * The library is dynamically located. The results are merged with
- * a set of "known" locations and with the X11 font path, if running in
- * a local X11 environment.
- * The hardwired paths are built into the JDK binary so as new font locations
- * are created on a host plaform for them to be located by the JRE they will
- * need to be added ito the host's font configuration database, typically
- * /etc/fonts/local.conf, and to ensure that directory contains a fonts.dir
- * NB: Fontconfig also depends heavily for performance on the host O/S
- * maintaining up to date caches.
+ * The gobl of this function is to find bll "system" fonts which
+ * bre needed by the JRE to displby text in supported locbles etc, bnd
+ * to support APIs which bllow users to enumerbte bll system fonts bnd use
+ * them from their Jbvb bpplicbtions.
+ * The preferred mechbnism is now using the new "fontconfig" librbry
+ * This exists on newer versions of Linux bnd Solbris (S10 bnd bbove)
+ * The librbry is dynbmicblly locbted. The results bre merged with
+ * b set of "known" locbtions bnd with the X11 font pbth, if running in
+ * b locbl X11 environment.
+ * The hbrdwired pbths bre built into the JDK binbry so bs new font locbtions
+ * bre crebted on b host plbform for them to be locbted by the JRE they will
+ * need to be bdded ito the host's font configurbtion dbtbbbse, typicblly
+ * /etc/fonts/locbl.conf, bnd to ensure thbt directory contbins b fonts.dir
+ * NB: Fontconfig blso depends hebvily for performbnce on the host O/S
+ * mbintbining up to dbte cbches.
  * This is consistent with the requirements of the desktop environments
  * on these OSes.
- * This also frees us from X11 APIs as JRE is required to function in
- * a "headless" mode where there is no Xserver.
+ * This blso frees us from X11 APIs bs JRE is required to function in
+ * b "hebdless" mode where there is no Xserver.
  */
-static char *getPlatformFontPathChars(JNIEnv *env, jboolean noType1) {
+stbtic chbr *getPlbtformFontPbthChbrs(JNIEnv *env, jboolebn noType1) {
 
-    char **fcdirs = NULL, **x11dirs = NULL, **knowndirs = NULL, *path = NULL;
+    chbr **fcdirs = NULL, **x11dirs = NULL, **knowndirs = NULL, *pbth = NULL;
 
-    /* As of 1.5 we try to use fontconfig on both Solaris and Linux.
-     * If its not available NULL is returned.
+    /* As of 1.5 we try to use fontconfig on both Solbris bnd Linux.
+     * If its not bvbilbble NULL is returned.
      */
-    fcdirs = getFontConfigLocations();
+    fcdirs = getFontConfigLocbtions();
 
 #if defined(__linux__)
-    knowndirs = fullLinuxFontPath;
-#elif defined(__solaris__)
-    knowndirs = fullSolarisFontPath;
+    knowndirs = fullLinuxFontPbth;
+#elif defined(__solbris__)
+    knowndirs = fullSolbrisFontPbth;
 #elif defined(_AIX)
-    knowndirs = fullAixFontPath;
+    knowndirs = fullAixFontPbth;
 #endif
-    /* REMIND: this code requires to be executed when the GraphicsEnvironment
-     * is already initialised. That is always true, but if it were not so,
-     * this code could throw an exception and the fontpath would fail to
-     * be initialised.
+    /* REMIND: this code requires to be executed when the GrbphicsEnvironment
+     * is blrebdy initiblised. Thbt is blwbys true, but if it were not so,
+     * this code could throw bn exception bnd the fontpbth would fbil to
+     * be initiblised.
      */
 #ifndef HEADLESS
 #if defined(__linux__)
-    /* There's no headless build on linux ... */
-    if (!AWTIsHeadless()) { /* .. so need to call a function to check */
+    /* There's no hebdless build on linux ... */
+    if (!AWTIsHebdless()) { /* .. so need to cbll b function to check */
 #endif
-      /* Using the X11 font path to locate font files is now a fallback
-       * useful only if fontconfig failed, or is incomplete. So we could
-       * remove this code completely and the consequences should be rare
-       * and non-fatal. If this happens, then the calling Java code can
-       * be modified to no longer require that the AWT lock (the X11GE)
-       * be initialised prior to calling this code.
+      /* Using the X11 font pbth to locbte font files is now b fbllbbck
+       * useful only if fontconfig fbiled, or is incomplete. So we could
+       * remove this code completely bnd the consequences should be rbre
+       * bnd non-fbtbl. If this hbppens, then the cblling Jbvb code cbn
+       * be modified to no longer require thbt the AWT lock (the X11GE)
+       * be initiblised prior to cblling this code.
        */
     AWT_LOCK();
-    if (isDisplayLocal(env)) {
-        x11dirs = getX11FontPath();
+    if (isDisplbyLocbl(env)) {
+        x11dirs = getX11FontPbth();
     }
     AWT_UNLOCK();
 #if defined(__linux__)
     }
 #endif
 #endif /* !HEADLESS */
-    path = mergePaths(fcdirs, x11dirs, knowndirs, noType1);
+    pbth = mergePbths(fcdirs, x11dirs, knowndirs, noType1);
     if (fcdirs != NULL) {
-        char **p = fcdirs;
+        chbr **p = fcdirs;
         while (*p != NULL)  free(*p++);
         free(fcdirs);
     }
 
     if (x11dirs != NULL) {
-        char **p = x11dirs;
+        chbr **p = x11dirs;
         while (*p != NULL) free(*p++);
         free(x11dirs);
     }
 
-    return path;
+    return pbth;
 }
 
-JNIEXPORT jstring JNICALL Java_sun_awt_X11FontManager_getFontPathNative
-(JNIEnv *env, jobject thiz, jboolean noType1) {
+JNIEXPORT jstring JNICALL Jbvb_sun_bwt_X11FontMbnbger_getFontPbthNbtive
+(JNIEnv *env, jobject thiz, jboolebn noType1) {
     jstring ret;
-    static char *ptr = NULL; /* retain result across calls */
+    stbtic chbr *ptr = NULL; /* retbin result bcross cblls */
 
     if (ptr == NULL) {
-        ptr = getPlatformFontPathChars(env, noType1);
+        ptr = getPlbtformFontPbthChbrs(env, noType1);
     }
     ret = (*env)->NewStringUTF(env, ptr);
     return ret;
@@ -572,29 +572,29 @@ JNIEXPORT jstring JNICALL Java_sun_awt_X11FontManager_getFontPathNative
 #include "fontconfig.h"
 
 
-static void* openFontConfig() {
+stbtic void* openFontConfig() {
 
-    char *homeEnv;
-    static char *homeEnvStr = "HOME="; /* must be static */
+    chbr *homeEnv;
+    stbtic chbr *homeEnvStr = "HOME="; /* must be stbtic */
     void* libfontconfig = NULL;
-#ifdef __solaris__
+#ifdef __solbris__
 #define SYSINFOBUFSZ 8
-    char sysinfobuf[SYSINFOBUFSZ];
+    chbr sysinfobuf[SYSINFOBUFSZ];
 #endif
 
-    /* Private workaround to not use fontconfig library.
-     * May be useful during testing/debugging
+    /* Privbte workbround to not use fontconfig librbry.
+     * Mby be useful during testing/debugging
      */
-    char *useFC = getenv("USE_J2D_FONTCONFIG");
+    chbr *useFC = getenv("USE_J2D_FONTCONFIG");
     if (useFC != NULL && !strcmp(useFC, "no")) {
         return NULL;
     }
 
-#ifdef __solaris__
+#ifdef __solbris__
     /* fontconfig is likely not properly configured on S8/S9 - skip it,
-     * although allow user to override this behaviour with an env. variable
+     * blthough bllow user to override this behbviour with bn env. vbribble
      * ie if USE_J2D_FONTCONFIG=yes then we skip this test.
-     * NB "4" is the length of a string which matches our patterns.
+     * NB "4" is the length of b string which mbtches our pbtterns.
      */
     if (useFC == NULL || strcmp(useFC, "yes")) {
         if (sysinfo(SI_RELEASE, sysinfobuf, SYSINFOBUFSZ) == 4) {
@@ -606,29 +606,29 @@ static void* openFontConfig() {
 #endif
 
 #if defined(_AIX)
-    /* On AIX, fontconfig is not a standard package supported by IBM.
-     * instead it has to be installed from the "AIX Toolbox for Linux Applications"
-     * site http://www-03.ibm.com/systems/power/software/aix/linux/toolbox/alpha.html
-     * and will be installed under /opt/freeware/lib/libfontconfig.a.
-     * Notice that the archive contains the real 32- and 64-bit shared libraries.
-     * We first try to load 'libfontconfig.so' from the default library path in the
-     * case the user has installed a private version of the library and if that
-     * doesn't succeed, we try the version from /opt/freeware/lib/libfontconfig.a
+    /* On AIX, fontconfig is not b stbndbrd pbckbge supported by IBM.
+     * instebd it hbs to be instblled from the "AIX Toolbox for Linux Applicbtions"
+     * site http://www-03.ibm.com/systems/power/softwbre/bix/linux/toolbox/blphb.html
+     * bnd will be instblled under /opt/freewbre/lib/libfontconfig.b.
+     * Notice thbt the brchive contbins the rebl 32- bnd 64-bit shbred librbries.
+     * We first try to lobd 'libfontconfig.so' from the defbult librbry pbth in the
+     * cbse the user hbs instblled b privbte version of the librbry bnd if thbt
+     * doesn't succeed, we try the version from /opt/freewbre/lib/libfontconfig.b
      */
     libfontconfig = dlopen("libfontconfig.so", RTLD_LOCAL|RTLD_LAZY);
     if (libfontconfig == NULL) {
-        libfontconfig = dlopen("/opt/freeware/lib/libfontconfig.a(libfontconfig.so.1)", RTLD_MEMBER|RTLD_LOCAL|RTLD_LAZY);
+        libfontconfig = dlopen("/opt/freewbre/lib/libfontconfig.b(libfontconfig.so.1)", RTLD_MEMBER|RTLD_LOCAL|RTLD_LAZY);
         if (libfontconfig == NULL) {
             return NULL;
         }
     }
 #else
-    /* 64 bit sparc should pick up the right version from the lib path.
-     * New features may be added to libfontconfig, this is expected to
-     * be compatible with old features, but we may need to start
-     * distinguishing the library version, to know whether to expect
-     * certain symbols - and functionality - to be available.
-     * Also add explicit search for .so.1 in case .so symlink doesn't exist.
+    /* 64 bit spbrc should pick up the right version from the lib pbth.
+     * New febtures mby be bdded to libfontconfig, this is expected to
+     * be compbtible with old febtures, but we mby need to stbrt
+     * distinguishing the librbry version, to know whether to expect
+     * certbin symbols - bnd functionblity - to be bvbilbble.
+     * Also bdd explicit sebrch for .so.1 in cbse .so symlink doesn't exist.
      */
     libfontconfig = dlopen(FONTCONFIG_DLL_VERSIONED, RTLD_LOCAL|RTLD_LAZY);
     if (libfontconfig == NULL) {
@@ -639,12 +639,12 @@ static void* openFontConfig() {
     }
 #endif
 
-    /* Version 1.0 of libfontconfig crashes if HOME isn't defined in
-     * the environment. This should generally never happen, but we can't
-     * control it, and can't control the version of fontconfig, so iff
-     * its not defined we set it to an empty value which is sufficient
-     * to prevent a crash. I considered unsetting it before exit, but
-     * it doesn't appear to work on Solaris, so I will leave it set.
+    /* Version 1.0 of libfontconfig crbshes if HOME isn't defined in
+     * the environment. This should generblly never hbppen, but we cbn't
+     * control it, bnd cbn't control the version of fontconfig, so iff
+     * its not defined we set it to bn empty vblue which is sufficient
+     * to prevent b crbsh. I considered unsetting it before exit, but
+     * it doesn't bppebr to work on Solbris, so I will lebve it set.
      */
     homeEnv = getenv("HOME");
     if (homeEnv == NULL) {
@@ -656,17 +656,17 @@ static void* openFontConfig() {
 
 typedef void* (FcFiniFuncType)();
 
-static void closeFontConfig(void* libfontconfig, jboolean fcFini) {
+stbtic void closeFontConfig(void* libfontconfig, jboolebn fcFini) {
 
-  /* NB FcFini is not in (eg) the Solaris 10 version of fontconfig. Its not
-   * clear if this means we are really leaking resources in those cases
-   * but it seems we should call this function when its available.
-   * But since the Swing GTK code may be still accessing the lib, its probably
-   * safest for now to just let this "leak" rather than potentially
-   * concurrently free global data still in use by other code.
+  /* NB FcFini is not in (eg) the Solbris 10 version of fontconfig. Its not
+   * clebr if this mebns we bre reblly lebking resources in those cbses
+   * but it seems we should cbll this function when its bvbilbble.
+   * But since the Swing GTK code mby be still bccessing the lib, its probbbly
+   * sbfest for now to just let this "lebk" rbther thbn potentiblly
+   * concurrently free globbl dbtb still in use by other code.
    */
 #if 0
-    if (fcFini) { /* release resources */
+    if (fcFini) { /* relebse resources */
         FcFiniFuncType FcFini = (FcFiniFuncType)dlsym(libfontconfig, "FcFini");
 
         if (FcFini != NULL) {
@@ -677,82 +677,82 @@ static void closeFontConfig(void* libfontconfig, jboolean fcFini) {
     dlclose(libfontconfig);
 }
 
-typedef FcConfig* (*FcInitLoadConfigFuncType)();
-typedef FcPattern* (*FcPatternBuildFuncType)(FcPattern *orig, ...);
-typedef FcObjectSet* (*FcObjectSetFuncType)(const char *first, ...);
+typedef FcConfig* (*FcInitLobdConfigFuncType)();
+typedef FcPbttern* (*FcPbtternBuildFuncType)(FcPbttern *orig, ...);
+typedef FcObjectSet* (*FcObjectSetFuncType)(const chbr *first, ...);
 typedef FcFontSet* (*FcFontListFuncType)(FcConfig *config,
-                                         FcPattern *p,
+                                         FcPbttern *p,
                                          FcObjectSet *os);
-typedef FcResult (*FcPatternGetBoolFuncType)(const FcPattern *p,
-                                               const char *object,
+typedef FcResult (*FcPbtternGetBoolFuncType)(const FcPbttern *p,
+                                               const chbr *object,
                                                int n,
                                                FcBool *b);
-typedef FcResult (*FcPatternGetIntegerFuncType)(const FcPattern *p,
-                                                const char *object,
+typedef FcResult (*FcPbtternGetIntegerFuncType)(const FcPbttern *p,
+                                                const chbr *object,
                                                 int n,
                                                 int *i);
-typedef FcResult (*FcPatternGetStringFuncType)(const FcPattern *p,
-                                               const char *object,
+typedef FcResult (*FcPbtternGetStringFuncType)(const FcPbttern *p,
+                                               const chbr *object,
                                                int n,
-                                               FcChar8 ** s);
-typedef FcChar8* (*FcStrDirnameFuncType)(const FcChar8 *file);
-typedef void (*FcPatternDestroyFuncType)(FcPattern *p);
+                                               FcChbr8 ** s);
+typedef FcChbr8* (*FcStrDirnbmeFuncType)(const FcChbr8 *file);
+typedef void (*FcPbtternDestroyFuncType)(FcPbttern *p);
 typedef void (*FcFontSetDestroyFuncType)(FcFontSet *s);
-typedef FcPattern* (*FcNameParseFuncType)(const FcChar8 *name);
-typedef FcBool (*FcPatternAddStringFuncType)(FcPattern *p,
-                                             const char *object,
-                                             const FcChar8 *s);
-typedef void (*FcDefaultSubstituteFuncType)(FcPattern *p);
+typedef FcPbttern* (*FcNbmePbrseFuncType)(const FcChbr8 *nbme);
+typedef FcBool (*FcPbtternAddStringFuncType)(FcPbttern *p,
+                                             const chbr *object,
+                                             const FcChbr8 *s);
+typedef void (*FcDefbultSubstituteFuncType)(FcPbttern *p);
 typedef FcBool (*FcConfigSubstituteFuncType)(FcConfig *config,
-                                             FcPattern *p,
-                                             FcMatchKind kind);
-typedef FcPattern* (*FcFontMatchFuncType)(FcConfig *config,
-                                          FcPattern *p,
+                                             FcPbttern *p,
+                                             FcMbtchKind kind);
+typedef FcPbttern* (*FcFontMbtchFuncType)(FcConfig *config,
+                                          FcPbttern *p,
                                           FcResult *result);
-typedef FcFontSet* (*FcFontSetCreateFuncType)();
-typedef FcBool (*FcFontSetAddFuncType)(FcFontSet *s, FcPattern *font);
+typedef FcFontSet* (*FcFontSetCrebteFuncType)();
+typedef FcBool (*FcFontSetAddFuncType)(FcFontSet *s, FcPbttern *font);
 
-typedef FcResult (*FcPatternGetCharSetFuncType)(FcPattern *p,
-                                                const char *object,
+typedef FcResult (*FcPbtternGetChbrSetFuncType)(FcPbttern *p,
+                                                const chbr *object,
                                                 int n,
-                                                FcCharSet **c);
+                                                FcChbrSet **c);
 typedef FcFontSet* (*FcFontSortFuncType)(FcConfig *config,
-                                         FcPattern *p,
+                                         FcPbttern *p,
                                          FcBool trim,
-                                         FcCharSet **csp,
+                                         FcChbrSet **csp,
                                          FcResult *result);
-typedef FcCharSet* (*FcCharSetUnionFuncType)(const FcCharSet *a,
-                                             const FcCharSet *b);
-typedef FcChar32 (*FcCharSetSubtractCountFuncType)(const FcCharSet *a,
-                                                   const FcCharSet *b);
+typedef FcChbrSet* (*FcChbrSetUnionFuncType)(const FcChbrSet *b,
+                                             const FcChbrSet *b);
+typedef FcChbr32 (*FcChbrSetSubtrbctCountFuncType)(const FcChbrSet *b,
+                                                   const FcChbrSet *b);
 
 typedef int (*FcGetVersionFuncType)();
 
-typedef FcStrList* (*FcConfigGetCacheDirsFuncType)(FcConfig *config);
-typedef FcChar8* (*FcStrListNextFuncType)(FcStrList *list);
-typedef FcChar8* (*FcStrListDoneFuncType)(FcStrList *list);
+typedef FcStrList* (*FcConfigGetCbcheDirsFuncType)(FcConfig *config);
+typedef FcChbr8* (*FcStrListNextFuncType)(FcStrList *list);
+typedef FcChbr8* (*FcStrListDoneFuncType)(FcStrList *list);
 
-static char **getFontConfigLocations() {
+stbtic chbr **getFontConfigLocbtions() {
 
-    char **fontdirs;
+    chbr **fontdirs;
     int numdirs = 0;
-    FcInitLoadConfigFuncType FcInitLoadConfig;
-    FcPatternBuildFuncType FcPatternBuild;
+    FcInitLobdConfigFuncType FcInitLobdConfig;
+    FcPbtternBuildFuncType FcPbtternBuild;
     FcObjectSetFuncType FcObjectSetBuild;
     FcFontListFuncType FcFontList;
-    FcPatternGetStringFuncType FcPatternGetString;
-    FcStrDirnameFuncType FcStrDirname;
-    FcPatternDestroyFuncType FcPatternDestroy;
+    FcPbtternGetStringFuncType FcPbtternGetString;
+    FcStrDirnbmeFuncType FcStrDirnbme;
+    FcPbtternDestroyFuncType FcPbtternDestroy;
     FcFontSetDestroyFuncType FcFontSetDestroy;
 
     FcConfig *fontconfig;
-    FcPattern *pattern;
+    FcPbttern *pbttern;
     FcObjectSet *objset;
     FcFontSet *fontSet;
     FcStrList *strList;
-    FcChar8 *str;
+    FcChbr8 *str;
     int i, f, found, len=0;
-    char **fontPath;
+    chbr **fontPbth;
 
     void* libfontconfig = openFontConfig();
 
@@ -760,79 +760,79 @@ static char **getFontConfigLocations() {
         return NULL;
     }
 
-    FcPatternBuild     =
-        (FcPatternBuildFuncType)dlsym(libfontconfig, "FcPatternBuild");
+    FcPbtternBuild     =
+        (FcPbtternBuildFuncType)dlsym(libfontconfig, "FcPbtternBuild");
     FcObjectSetBuild   =
         (FcObjectSetFuncType)dlsym(libfontconfig, "FcObjectSetBuild");
     FcFontList         =
         (FcFontListFuncType)dlsym(libfontconfig, "FcFontList");
-    FcPatternGetString =
-        (FcPatternGetStringFuncType)dlsym(libfontconfig, "FcPatternGetString");
-    FcStrDirname       =
-        (FcStrDirnameFuncType)dlsym(libfontconfig, "FcStrDirname");
-    FcPatternDestroy   =
-        (FcPatternDestroyFuncType)dlsym(libfontconfig, "FcPatternDestroy");
+    FcPbtternGetString =
+        (FcPbtternGetStringFuncType)dlsym(libfontconfig, "FcPbtternGetString");
+    FcStrDirnbme       =
+        (FcStrDirnbmeFuncType)dlsym(libfontconfig, "FcStrDirnbme");
+    FcPbtternDestroy   =
+        (FcPbtternDestroyFuncType)dlsym(libfontconfig, "FcPbtternDestroy");
     FcFontSetDestroy   =
         (FcFontSetDestroyFuncType)dlsym(libfontconfig, "FcFontSetDestroy");
 
-    if (FcPatternBuild     == NULL ||
+    if (FcPbtternBuild     == NULL ||
         FcObjectSetBuild   == NULL ||
-        FcPatternGetString == NULL ||
+        FcPbtternGetString == NULL ||
         FcFontList         == NULL ||
-        FcStrDirname       == NULL ||
-        FcPatternDestroy   == NULL ||
-        FcFontSetDestroy   == NULL) { /* problem with the library: return. */
+        FcStrDirnbme       == NULL ||
+        FcPbtternDestroy   == NULL ||
+        FcFontSetDestroy   == NULL) { /* problem with the librbry: return. */
         closeFontConfig(libfontconfig, JNI_FALSE);
         return NULL;
     }
 
-    /* Make calls into the fontconfig library to build a search for
-     * outline fonts, and to get the set of full file paths from the matches.
-     * This set is returned from the call to FcFontList(..)
-     * We allocate an array of char* pointers sufficient to hold all
-     * the matches + 1 extra which ensures there will be a NULL after all
-     * valid entries.
-     * We call FcStrDirname strip the file name from the path, and
-     * check if we have yet seen this directory. If not we add a pointer to
-     * it into our array of char*. Note that FcStrDirname returns newly
-     * allocated storage so we can use this in the return char** value.
-     * Finally we clean up, freeing allocated resources, and return the
-     * array of unique directories.
+    /* Mbke cblls into the fontconfig librbry to build b sebrch for
+     * outline fonts, bnd to get the set of full file pbths from the mbtches.
+     * This set is returned from the cbll to FcFontList(..)
+     * We bllocbte bn brrby of chbr* pointers sufficient to hold bll
+     * the mbtches + 1 extrb which ensures there will be b NULL bfter bll
+     * vblid entries.
+     * We cbll FcStrDirnbme strip the file nbme from the pbth, bnd
+     * check if we hbve yet seen this directory. If not we bdd b pointer to
+     * it into our brrby of chbr*. Note thbt FcStrDirnbme returns newly
+     * bllocbted storbge so we cbn use this in the return chbr** vblue.
+     * Finblly we clebn up, freeing bllocbted resources, bnd return the
+     * brrby of unique directories.
      */
-    pattern = (*FcPatternBuild)(NULL, FC_OUTLINE, FcTypeBool, FcTrue, NULL);
+    pbttern = (*FcPbtternBuild)(NULL, FC_OUTLINE, FcTypeBool, FcTrue, NULL);
     objset = (*FcObjectSetBuild)(FC_FILE, NULL);
-    fontSet = (*FcFontList)(NULL, pattern, objset);
-    fontdirs = (char**)calloc(fontSet->nfont+1, sizeof(char*));
+    fontSet = (*FcFontList)(NULL, pbttern, objset);
+    fontdirs = (chbr**)cblloc(fontSet->nfont+1, sizeof(chbr*));
     for (f=0; f < fontSet->nfont; f++) {
-        FcChar8 *file;
-        FcChar8 *dir;
-        if ((*FcPatternGetString)(fontSet->fonts[f], FC_FILE, 0, &file) ==
-                                  FcResultMatch) {
-            dir = (*FcStrDirname)(file);
+        FcChbr8 *file;
+        FcChbr8 *dir;
+        if ((*FcPbtternGetString)(fontSet->fonts[f], FC_FILE, 0, &file) ==
+                                  FcResultMbtch) {
+            dir = (*FcStrDirnbme)(file);
             found = 0;
             for (i=0;i<numdirs; i++) {
-                if (strcmp(fontdirs[i], (char*)dir) == 0) {
+                if (strcmp(fontdirs[i], (chbr*)dir) == 0) {
                     found = 1;
-                    break;
+                    brebk;
                 }
             }
             if (!found) {
-                fontdirs[numdirs++] = (char*)dir;
+                fontdirs[numdirs++] = (chbr*)dir;
             } else {
-                free((char*)dir);
+                free((chbr*)dir);
             }
         }
     }
 
-    /* Free memory and close the ".so" */
+    /* Free memory bnd close the ".so" */
     (*FcFontSetDestroy)(fontSet);
-    (*FcPatternDestroy)(pattern);
+    (*FcPbtternDestroy)(pbttern);
     closeFontConfig(libfontconfig, JNI_TRUE);
     return fontdirs;
 }
 
-/* These are copied from sun.awt.SunHints.
- * Consider initialising them as ints using JNI for more robustness.
+/* These bre copied from sun.bwt.SunHints.
+ * Consider initiblising them bs ints using JNI for more robustness.
  */
 #define TEXT_AA_OFF 1
 #define TEXT_AA_ON  2
@@ -842,118 +842,118 @@ static char **getFontConfigLocations() {
 #define TEXT_AA_LCD_VBGR 7
 
 JNIEXPORT jint JNICALL
-Java_sun_font_FontConfigManager_getFontConfigAASettings
-(JNIEnv *env, jclass obj, jstring localeStr, jstring fcNameStr) {
+Jbvb_sun_font_FontConfigMbnbger_getFontConfigAASettings
+(JNIEnv *env, jclbss obj, jstring locbleStr, jstring fcNbmeStr) {
 
-    FcNameParseFuncType FcNameParse;
-    FcPatternAddStringFuncType FcPatternAddString;
+    FcNbmePbrseFuncType FcNbmePbrse;
+    FcPbtternAddStringFuncType FcPbtternAddString;
     FcConfigSubstituteFuncType FcConfigSubstitute;
-    FcDefaultSubstituteFuncType  FcDefaultSubstitute;
-    FcFontMatchFuncType FcFontMatch;
-    FcPatternGetBoolFuncType FcPatternGetBool;
-    FcPatternGetIntegerFuncType FcPatternGetInteger;
-    FcPatternDestroyFuncType FcPatternDestroy;
+    FcDefbultSubstituteFuncType  FcDefbultSubstitute;
+    FcFontMbtchFuncType FcFontMbtch;
+    FcPbtternGetBoolFuncType FcPbtternGetBool;
+    FcPbtternGetIntegerFuncType FcPbtternGetInteger;
+    FcPbtternDestroyFuncType FcPbtternDestroy;
 
-    FcPattern *pattern, *matchPattern;
+    FcPbttern *pbttern, *mbtchPbttern;
     FcResult result;
-    FcBool antialias = FcFalse;
-    int rgba = 0;
-    const char *locale=NULL, *fcName=NULL;
+    FcBool bntiblibs = FcFblse;
+    int rgbb = 0;
+    const chbr *locble=NULL, *fcNbme=NULL;
     void* libfontconfig;
 
-    if (fcNameStr == NULL || localeStr == NULL) {
+    if (fcNbmeStr == NULL || locbleStr == NULL) {
         return -1;
     }
 
-    fcName = (*env)->GetStringUTFChars(env, fcNameStr, 0);
-    if (fcName == NULL) {
+    fcNbme = (*env)->GetStringUTFChbrs(env, fcNbmeStr, 0);
+    if (fcNbme == NULL) {
         return -1;
     }
-    locale = (*env)->GetStringUTFChars(env, localeStr, 0);
+    locble = (*env)->GetStringUTFChbrs(env, locbleStr, 0);
 
     if ((libfontconfig = openFontConfig()) == NULL) {
-        (*env)->ReleaseStringUTFChars (env, fcNameStr, (const char*)fcName);
-        if (locale) {
-            (*env)->ReleaseStringUTFChars (env, localeStr,(const char*)locale);
+        (*env)->RelebseStringUTFChbrs (env, fcNbmeStr, (const chbr*)fcNbme);
+        if (locble) {
+            (*env)->RelebseStringUTFChbrs (env, locbleStr,(const chbr*)locble);
         }
         return -1;
     }
 
-    FcNameParse = (FcNameParseFuncType)dlsym(libfontconfig, "FcNameParse");
-    FcPatternAddString =
-        (FcPatternAddStringFuncType)dlsym(libfontconfig, "FcPatternAddString");
+    FcNbmePbrse = (FcNbmePbrseFuncType)dlsym(libfontconfig, "FcNbmePbrse");
+    FcPbtternAddString =
+        (FcPbtternAddStringFuncType)dlsym(libfontconfig, "FcPbtternAddString");
     FcConfigSubstitute =
         (FcConfigSubstituteFuncType)dlsym(libfontconfig, "FcConfigSubstitute");
-    FcDefaultSubstitute = (FcDefaultSubstituteFuncType)
-        dlsym(libfontconfig, "FcDefaultSubstitute");
-    FcFontMatch = (FcFontMatchFuncType)dlsym(libfontconfig, "FcFontMatch");
-    FcPatternGetBool = (FcPatternGetBoolFuncType)
-        dlsym(libfontconfig, "FcPatternGetBool");
-    FcPatternGetInteger = (FcPatternGetIntegerFuncType)
-        dlsym(libfontconfig, "FcPatternGetInteger");
-    FcPatternDestroy =
-        (FcPatternDestroyFuncType)dlsym(libfontconfig, "FcPatternDestroy");
+    FcDefbultSubstitute = (FcDefbultSubstituteFuncType)
+        dlsym(libfontconfig, "FcDefbultSubstitute");
+    FcFontMbtch = (FcFontMbtchFuncType)dlsym(libfontconfig, "FcFontMbtch");
+    FcPbtternGetBool = (FcPbtternGetBoolFuncType)
+        dlsym(libfontconfig, "FcPbtternGetBool");
+    FcPbtternGetInteger = (FcPbtternGetIntegerFuncType)
+        dlsym(libfontconfig, "FcPbtternGetInteger");
+    FcPbtternDestroy =
+        (FcPbtternDestroyFuncType)dlsym(libfontconfig, "FcPbtternDestroy");
 
-    if (FcNameParse          == NULL ||
-        FcPatternAddString   == NULL ||
+    if (FcNbmePbrse          == NULL ||
+        FcPbtternAddString   == NULL ||
         FcConfigSubstitute   == NULL ||
-        FcDefaultSubstitute  == NULL ||
-        FcFontMatch          == NULL ||
-        FcPatternGetBool     == NULL ||
-        FcPatternGetInteger  == NULL ||
-        FcPatternDestroy     == NULL) { /* problem with the library: return. */
+        FcDefbultSubstitute  == NULL ||
+        FcFontMbtch          == NULL ||
+        FcPbtternGetBool     == NULL ||
+        FcPbtternGetInteger  == NULL ||
+        FcPbtternDestroy     == NULL) { /* problem with the librbry: return. */
 
-        (*env)->ReleaseStringUTFChars (env, fcNameStr, (const char*)fcName);
-        if (locale) {
-            (*env)->ReleaseStringUTFChars (env, localeStr,(const char*)locale);
+        (*env)->RelebseStringUTFChbrs (env, fcNbmeStr, (const chbr*)fcNbme);
+        if (locble) {
+            (*env)->RelebseStringUTFChbrs (env, locbleStr,(const chbr*)locble);
         }
         closeFontConfig(libfontconfig, JNI_FALSE);
         return -1;
     }
 
 
-    pattern = (*FcNameParse)((FcChar8 *)fcName);
-    if (locale != NULL) {
-        (*FcPatternAddString)(pattern, FC_LANG, (unsigned char*)locale);
+    pbttern = (*FcNbmePbrse)((FcChbr8 *)fcNbme);
+    if (locble != NULL) {
+        (*FcPbtternAddString)(pbttern, FC_LANG, (unsigned chbr*)locble);
     }
-    (*FcConfigSubstitute)(NULL, pattern, FcMatchPattern);
-    (*FcDefaultSubstitute)(pattern);
-    matchPattern = (*FcFontMatch)(NULL, pattern, &result);
-    /* Perhaps should call FcFontRenderPrepare() here as some pattern
-     * elements might change as a result of that call, but I'm not seeing
-     * any difference in testing.
+    (*FcConfigSubstitute)(NULL, pbttern, FcMbtchPbttern);
+    (*FcDefbultSubstitute)(pbttern);
+    mbtchPbttern = (*FcFontMbtch)(NULL, pbttern, &result);
+    /* Perhbps should cbll FcFontRenderPrepbre() here bs some pbttern
+     * elements might chbnge bs b result of thbt cbll, but I'm not seeing
+     * bny difference in testing.
      */
-    if (matchPattern) {
-        (*FcPatternGetBool)(matchPattern, FC_ANTIALIAS, 0, &antialias);
-        (*FcPatternGetInteger)(matchPattern, FC_RGBA, 0, &rgba);
-        (*FcPatternDestroy)(matchPattern);
+    if (mbtchPbttern) {
+        (*FcPbtternGetBool)(mbtchPbttern, FC_ANTIALIAS, 0, &bntiblibs);
+        (*FcPbtternGetInteger)(mbtchPbttern, FC_RGBA, 0, &rgbb);
+        (*FcPbtternDestroy)(mbtchPbttern);
     }
-    (*FcPatternDestroy)(pattern);
+    (*FcPbtternDestroy)(pbttern);
 
-    (*env)->ReleaseStringUTFChars (env, fcNameStr, (const char*)fcName);
-    if (locale) {
-        (*env)->ReleaseStringUTFChars (env, localeStr, (const char*)locale);
+    (*env)->RelebseStringUTFChbrs (env, fcNbmeStr, (const chbr*)fcNbme);
+    if (locble) {
+        (*env)->RelebseStringUTFChbrs (env, locbleStr, (const chbr*)locble);
     }
     closeFontConfig(libfontconfig, JNI_TRUE);
 
-    if (antialias == FcFalse) {
+    if (bntiblibs == FcFblse) {
         return TEXT_AA_OFF;
-    } else if (rgba <= FC_RGBA_UNKNOWN || rgba >= FC_RGBA_NONE) {
+    } else if (rgbb <= FC_RGBA_UNKNOWN || rgbb >= FC_RGBA_NONE) {
         return TEXT_AA_ON;
     } else {
-        switch (rgba) {
-        case FC_RGBA_RGB : return TEXT_AA_LCD_HRGB;
-        case FC_RGBA_BGR : return TEXT_AA_LCD_HBGR;
-        case FC_RGBA_VRGB : return TEXT_AA_LCD_VRGB;
-        case FC_RGBA_VBGR : return TEXT_AA_LCD_VBGR;
-        default : return TEXT_AA_LCD_HRGB; // should not get here.
+        switch (rgbb) {
+        cbse FC_RGBA_RGB : return TEXT_AA_LCD_HRGB;
+        cbse FC_RGBA_BGR : return TEXT_AA_LCD_HBGR;
+        cbse FC_RGBA_VRGB : return TEXT_AA_LCD_VRGB;
+        cbse FC_RGBA_VBGR : return TEXT_AA_LCD_VBGR;
+        defbult : return TEXT_AA_LCD_HRGB; // should not get here.
         }
     }
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_font_FontConfigManager_getFontConfigVersion
-    (JNIEnv *env, jclass obj) {
+Jbvb_sun_font_FontConfigMbnbger_getFontConfigVersion
+    (JNIEnv *env, jclbss obj) {
 
     void* libfontconfig;
     FcGetVersionFuncType FcGetVersion;
@@ -977,366 +977,366 @@ Java_sun_font_FontConfigManager_getFontConfigVersion
 
 
 JNIEXPORT void JNICALL
-Java_sun_font_FontConfigManager_getFontConfig
-(JNIEnv *env, jclass obj, jstring localeStr, jobject fcInfoObj,
- jobjectArray fcCompFontArray,  jboolean includeFallbacks) {
+Jbvb_sun_font_FontConfigMbnbger_getFontConfig
+(JNIEnv *env, jclbss obj, jstring locbleStr, jobject fcInfoObj,
+ jobjectArrby fcCompFontArrby,  jboolebn includeFbllbbcks) {
 
-    FcNameParseFuncType FcNameParse;
-    FcPatternAddStringFuncType FcPatternAddString;
+    FcNbmePbrseFuncType FcNbmePbrse;
+    FcPbtternAddStringFuncType FcPbtternAddString;
     FcConfigSubstituteFuncType FcConfigSubstitute;
-    FcDefaultSubstituteFuncType  FcDefaultSubstitute;
-    FcFontMatchFuncType FcFontMatch;
-    FcPatternGetStringFuncType FcPatternGetString;
-    FcPatternDestroyFuncType FcPatternDestroy;
-    FcPatternGetCharSetFuncType FcPatternGetCharSet;
+    FcDefbultSubstituteFuncType  FcDefbultSubstitute;
+    FcFontMbtchFuncType FcFontMbtch;
+    FcPbtternGetStringFuncType FcPbtternGetString;
+    FcPbtternDestroyFuncType FcPbtternDestroy;
+    FcPbtternGetChbrSetFuncType FcPbtternGetChbrSet;
     FcFontSortFuncType FcFontSort;
     FcFontSetDestroyFuncType FcFontSetDestroy;
-    FcCharSetUnionFuncType FcCharSetUnion;
-    FcCharSetSubtractCountFuncType FcCharSetSubtractCount;
+    FcChbrSetUnionFuncType FcChbrSetUnion;
+    FcChbrSetSubtrbctCountFuncType FcChbrSetSubtrbctCount;
     FcGetVersionFuncType FcGetVersion;
-    FcConfigGetCacheDirsFuncType FcConfigGetCacheDirs;
+    FcConfigGetCbcheDirsFuncType FcConfigGetCbcheDirs;
     FcStrListNextFuncType FcStrListNext;
     FcStrListDoneFuncType FcStrListDone;
 
-    int i, arrlen;
+    int i, brrlen;
     jobject fcCompFontObj;
-    jstring fcNameStr, jstr;
-    const char *locale, *fcName;
-    FcPattern *pattern;
+    jstring fcNbmeStr, jstr;
+    const chbr *locble, *fcNbme;
+    FcPbttern *pbttern;
     FcResult result;
     void* libfontconfig;
-    jfieldID fcNameID, fcFirstFontID, fcAllFontsID, fcVersionID, fcCacheDirsID;
-    jfieldID familyNameID, styleNameID, fullNameID, fontFileID;
+    jfieldID fcNbmeID, fcFirstFontID, fcAllFontsID, fcVersionID, fcCbcheDirsID;
+    jfieldID fbmilyNbmeID, styleNbmeID, fullNbmeID, fontFileID;
     jmethodID fcFontCons;
-    char* debugMinGlyphsStr = getenv("J2D_DEBUG_MIN_GLYPHS");
+    chbr* debugMinGlyphsStr = getenv("J2D_DEBUG_MIN_GLYPHS");
 
     CHECK_NULL(fcInfoObj);
-    CHECK_NULL(fcCompFontArray);
+    CHECK_NULL(fcCompFontArrby);
 
-    jclass fcInfoClass =
-        (*env)->FindClass(env, "sun/font/FontConfigManager$FontConfigInfo");
-    CHECK_NULL(fcInfoClass);
-    jclass fcCompFontClass =
-        (*env)->FindClass(env, "sun/font/FontConfigManager$FcCompFont");
-    CHECK_NULL(fcCompFontClass);
-    jclass fcFontClass =
-         (*env)->FindClass(env, "sun/font/FontConfigManager$FontConfigFont");
-    CHECK_NULL(fcFontClass);
+    jclbss fcInfoClbss =
+        (*env)->FindClbss(env, "sun/font/FontConfigMbnbger$FontConfigInfo");
+    CHECK_NULL(fcInfoClbss);
+    jclbss fcCompFontClbss =
+        (*env)->FindClbss(env, "sun/font/FontConfigMbnbger$FcCompFont");
+    CHECK_NULL(fcCompFontClbss);
+    jclbss fcFontClbss =
+         (*env)->FindClbss(env, "sun/font/FontConfigMbnbger$FontConfigFont");
+    CHECK_NULL(fcFontClbss);
 
 
-    CHECK_NULL(fcVersionID = (*env)->GetFieldID(env, fcInfoClass, "fcVersion", "I"));
-    CHECK_NULL(fcCacheDirsID = (*env)->GetFieldID(env, fcInfoClass, "cacheDirs",
-                                                  "[Ljava/lang/String;"));
-    CHECK_NULL(fcNameID = (*env)->GetFieldID(env, fcCompFontClass,
-                                             "fcName", "Ljava/lang/String;"));
-    CHECK_NULL(fcFirstFontID = (*env)->GetFieldID(env, fcCompFontClass, "firstFont",
-                                        "Lsun/font/FontConfigManager$FontConfigFont;"));
-    CHECK_NULL(fcAllFontsID = (*env)->GetFieldID(env, fcCompFontClass, "allFonts",
-                                        "[Lsun/font/FontConfigManager$FontConfigFont;"));
-    CHECK_NULL(fcFontCons = (*env)->GetMethodID(env, fcFontClass, "<init>", "()V"));
-    CHECK_NULL(familyNameID = (*env)->GetFieldID(env, fcFontClass,
-                                      "familyName", "Ljava/lang/String;"));
-    CHECK_NULL(styleNameID = (*env)->GetFieldID(env, fcFontClass,
-                                    "styleStr", "Ljava/lang/String;"));
-    CHECK_NULL(fullNameID = (*env)->GetFieldID(env, fcFontClass,
-                                    "fullName", "Ljava/lang/String;"));
-    CHECK_NULL(fontFileID = (*env)->GetFieldID(env, fcFontClass,
-                                    "fontFile", "Ljava/lang/String;"));
+    CHECK_NULL(fcVersionID = (*env)->GetFieldID(env, fcInfoClbss, "fcVersion", "I"));
+    CHECK_NULL(fcCbcheDirsID = (*env)->GetFieldID(env, fcInfoClbss, "cbcheDirs",
+                                                  "[Ljbvb/lbng/String;"));
+    CHECK_NULL(fcNbmeID = (*env)->GetFieldID(env, fcCompFontClbss,
+                                             "fcNbme", "Ljbvb/lbng/String;"));
+    CHECK_NULL(fcFirstFontID = (*env)->GetFieldID(env, fcCompFontClbss, "firstFont",
+                                        "Lsun/font/FontConfigMbnbger$FontConfigFont;"));
+    CHECK_NULL(fcAllFontsID = (*env)->GetFieldID(env, fcCompFontClbss, "bllFonts",
+                                        "[Lsun/font/FontConfigMbnbger$FontConfigFont;"));
+    CHECK_NULL(fcFontCons = (*env)->GetMethodID(env, fcFontClbss, "<init>", "()V"));
+    CHECK_NULL(fbmilyNbmeID = (*env)->GetFieldID(env, fcFontClbss,
+                                      "fbmilyNbme", "Ljbvb/lbng/String;"));
+    CHECK_NULL(styleNbmeID = (*env)->GetFieldID(env, fcFontClbss,
+                                    "styleStr", "Ljbvb/lbng/String;"));
+    CHECK_NULL(fullNbmeID = (*env)->GetFieldID(env, fcFontClbss,
+                                    "fullNbme", "Ljbvb/lbng/String;"));
+    CHECK_NULL(fontFileID = (*env)->GetFieldID(env, fcFontClbss,
+                                    "fontFile", "Ljbvb/lbng/String;"));
 
     if ((libfontconfig = openFontConfig()) == NULL) {
         return;
     }
 
-    FcNameParse = (FcNameParseFuncType)dlsym(libfontconfig, "FcNameParse");
-    FcPatternAddString =
-        (FcPatternAddStringFuncType)dlsym(libfontconfig, "FcPatternAddString");
+    FcNbmePbrse = (FcNbmePbrseFuncType)dlsym(libfontconfig, "FcNbmePbrse");
+    FcPbtternAddString =
+        (FcPbtternAddStringFuncType)dlsym(libfontconfig, "FcPbtternAddString");
     FcConfigSubstitute =
         (FcConfigSubstituteFuncType)dlsym(libfontconfig, "FcConfigSubstitute");
-    FcDefaultSubstitute = (FcDefaultSubstituteFuncType)
-        dlsym(libfontconfig, "FcDefaultSubstitute");
-    FcFontMatch = (FcFontMatchFuncType)dlsym(libfontconfig, "FcFontMatch");
-    FcPatternGetString =
-        (FcPatternGetStringFuncType)dlsym(libfontconfig, "FcPatternGetString");
-    FcPatternDestroy =
-        (FcPatternDestroyFuncType)dlsym(libfontconfig, "FcPatternDestroy");
-    FcPatternGetCharSet =
-        (FcPatternGetCharSetFuncType)dlsym(libfontconfig,
-                                           "FcPatternGetCharSet");
+    FcDefbultSubstitute = (FcDefbultSubstituteFuncType)
+        dlsym(libfontconfig, "FcDefbultSubstitute");
+    FcFontMbtch = (FcFontMbtchFuncType)dlsym(libfontconfig, "FcFontMbtch");
+    FcPbtternGetString =
+        (FcPbtternGetStringFuncType)dlsym(libfontconfig, "FcPbtternGetString");
+    FcPbtternDestroy =
+        (FcPbtternDestroyFuncType)dlsym(libfontconfig, "FcPbtternDestroy");
+    FcPbtternGetChbrSet =
+        (FcPbtternGetChbrSetFuncType)dlsym(libfontconfig,
+                                           "FcPbtternGetChbrSet");
     FcFontSort =
         (FcFontSortFuncType)dlsym(libfontconfig, "FcFontSort");
     FcFontSetDestroy =
         (FcFontSetDestroyFuncType)dlsym(libfontconfig, "FcFontSetDestroy");
-    FcCharSetUnion =
-        (FcCharSetUnionFuncType)dlsym(libfontconfig, "FcCharSetUnion");
-    FcCharSetSubtractCount =
-        (FcCharSetSubtractCountFuncType)dlsym(libfontconfig,
-                                              "FcCharSetSubtractCount");
+    FcChbrSetUnion =
+        (FcChbrSetUnionFuncType)dlsym(libfontconfig, "FcChbrSetUnion");
+    FcChbrSetSubtrbctCount =
+        (FcChbrSetSubtrbctCountFuncType)dlsym(libfontconfig,
+                                              "FcChbrSetSubtrbctCount");
     FcGetVersion = (FcGetVersionFuncType)dlsym(libfontconfig, "FcGetVersion");
 
-    if (FcNameParse          == NULL ||
-        FcPatternAddString   == NULL ||
+    if (FcNbmePbrse          == NULL ||
+        FcPbtternAddString   == NULL ||
         FcConfigSubstitute   == NULL ||
-        FcDefaultSubstitute  == NULL ||
-        FcFontMatch          == NULL ||
-        FcPatternGetString   == NULL ||
-        FcPatternDestroy     == NULL ||
-        FcPatternGetCharSet  == NULL ||
+        FcDefbultSubstitute  == NULL ||
+        FcFontMbtch          == NULL ||
+        FcPbtternGetString   == NULL ||
+        FcPbtternDestroy     == NULL ||
+        FcPbtternGetChbrSet  == NULL ||
         FcFontSetDestroy     == NULL ||
-        FcCharSetUnion       == NULL ||
+        FcChbrSetUnion       == NULL ||
         FcGetVersion         == NULL ||
-        FcCharSetSubtractCount == NULL) {/* problem with the library: return.*/
+        FcChbrSetSubtrbctCount == NULL) {/* problem with the librbry: return.*/
         closeFontConfig(libfontconfig, JNI_FALSE);
         return;
     }
 
     (*env)->SetIntField(env, fcInfoObj, fcVersionID, (*FcGetVersion)());
 
-    /* Optionally get the cache dir locations. This isn't
-     * available until v 2.4.x, but this is OK since on those later versions
-     * we can check the time stamps on the cache dirs to see if we
-     * are out of date. There are a couple of assumptions here. First
-     * that the time stamp on the directory changes when the contents are
-     * updated. Secondly that the locations don't change. The latter is
-     * most likely if a new version of fontconfig is installed, but we also
-     * invalidate the cache if we detect that. Arguably even that is "rare",
-     * and most likely is tied to an OS upgrade which gets a new file anyway.
+    /* Optionblly get the cbche dir locbtions. This isn't
+     * bvbilbble until v 2.4.x, but this is OK since on those lbter versions
+     * we cbn check the time stbmps on the cbche dirs to see if we
+     * bre out of dbte. There bre b couple of bssumptions here. First
+     * thbt the time stbmp on the directory chbnges when the contents bre
+     * updbted. Secondly thbt the locbtions don't chbnge. The lbtter is
+     * most likely if b new version of fontconfig is instblled, but we blso
+     * invblidbte the cbche if we detect thbt. Argubbly even thbt is "rbre",
+     * bnd most likely is tied to bn OS upgrbde which gets b new file bnywby.
      */
-    FcConfigGetCacheDirs =
-        (FcConfigGetCacheDirsFuncType)dlsym(libfontconfig,
-                                            "FcConfigGetCacheDirs");
+    FcConfigGetCbcheDirs =
+        (FcConfigGetCbcheDirsFuncType)dlsym(libfontconfig,
+                                            "FcConfigGetCbcheDirs");
     FcStrListNext =
         (FcStrListNextFuncType)dlsym(libfontconfig, "FcStrListNext");
     FcStrListDone =
         (FcStrListDoneFuncType)dlsym(libfontconfig, "FcStrListDone");
     if (FcStrListNext != NULL && FcStrListDone != NULL &&
-        FcConfigGetCacheDirs != NULL) {
+        FcConfigGetCbcheDirs != NULL) {
 
-        FcStrList* cacheDirs;
-        FcChar8* cacheDir;
+        FcStrList* cbcheDirs;
+        FcChbr8* cbcheDir;
         int cnt = 0;
-        jobject cacheDirArray =
-            (*env)->GetObjectField(env, fcInfoObj, fcCacheDirsID);
-        int max = (*env)->GetArrayLength(env, cacheDirArray);
+        jobject cbcheDirArrby =
+            (*env)->GetObjectField(env, fcInfoObj, fcCbcheDirsID);
+        int mbx = (*env)->GetArrbyLength(env, cbcheDirArrby);
 
-        cacheDirs = (*FcConfigGetCacheDirs)(NULL);
-        if (cacheDirs != NULL) {
-            while ((cnt < max) && (cacheDir = (*FcStrListNext)(cacheDirs))) {
-                jstr = (*env)->NewStringUTF(env, (const char*)cacheDir);
+        cbcheDirs = (*FcConfigGetCbcheDirs)(NULL);
+        if (cbcheDirs != NULL) {
+            while ((cnt < mbx) && (cbcheDir = (*FcStrListNext)(cbcheDirs))) {
+                jstr = (*env)->NewStringUTF(env, (const chbr*)cbcheDir);
                 JNU_CHECK_EXCEPTION(env);
 
-                (*env)->SetObjectArrayElement(env, cacheDirArray, cnt++, jstr);
+                (*env)->SetObjectArrbyElement(env, cbcheDirArrby, cnt++, jstr);
             }
-            (*FcStrListDone)(cacheDirs);
+            (*FcStrListDone)(cbcheDirs);
         }
     }
 
-    locale = (*env)->GetStringUTFChars(env, localeStr, 0);
-    if (locale == NULL) {
-        (*env)->ExceptionClear(env);
-        JNU_ThrowOutOfMemoryError(env, "Could not create locale");
+    locble = (*env)->GetStringUTFChbrs(env, locbleStr, 0);
+    if (locble == NULL) {
+        (*env)->ExceptionClebr(env);
+        JNU_ThrowOutOfMemoryError(env, "Could not crebte locble");
         return;
     }
 
-    arrlen = (*env)->GetArrayLength(env, fcCompFontArray);
-    for (i=0; i<arrlen; i++) {
+    brrlen = (*env)->GetArrbyLength(env, fcCompFontArrby);
+    for (i=0; i<brrlen; i++) {
         FcFontSet* fontset;
         int fn, j, fontCount, nfonts;
         unsigned int minGlyphs;
-        FcChar8 **family, **styleStr, **fullname, **file;
-        jarray fcFontArr;
+        FcChbr8 **fbmily, **styleStr, **fullnbme, **file;
+        jbrrby fcFontArr;
 
-        fcCompFontObj = (*env)->GetObjectArrayElement(env, fcCompFontArray, i);
-        fcNameStr =
-            (jstring)((*env)->GetObjectField(env, fcCompFontObj, fcNameID));
-        fcName = (*env)->GetStringUTFChars(env, fcNameStr, 0);
-        if (fcName == NULL) {
+        fcCompFontObj = (*env)->GetObjectArrbyElement(env, fcCompFontArrby, i);
+        fcNbmeStr =
+            (jstring)((*env)->GetObjectField(env, fcCompFontObj, fcNbmeID));
+        fcNbme = (*env)->GetStringUTFChbrs(env, fcNbmeStr, 0);
+        if (fcNbme == NULL) {
             continue;
         }
-        pattern = (*FcNameParse)((FcChar8 *)fcName);
-        if (pattern == NULL) {
-            (*env)->ReleaseStringUTFChars(env, fcNameStr, (const char*)fcName);
+        pbttern = (*FcNbmePbrse)((FcChbr8 *)fcNbme);
+        if (pbttern == NULL) {
+            (*env)->RelebseStringUTFChbrs(env, fcNbmeStr, (const chbr*)fcNbme);
             closeFontConfig(libfontconfig, JNI_FALSE);
             return;
         }
 
-        /* locale may not usually be necessary as fontconfig appears to apply
-         * this anyway based on the user's environment. However we want
-         * to use the value of the JDK startup locale so this should take
-         * care of it.
+        /* locble mby not usublly be necessbry bs fontconfig bppebrs to bpply
+         * this bnywby bbsed on the user's environment. However we wbnt
+         * to use the vblue of the JDK stbrtup locble so this should tbke
+         * cbre of it.
          */
-        if (locale != NULL) {
-            (*FcPatternAddString)(pattern, FC_LANG, (unsigned char*)locale);
+        if (locble != NULL) {
+            (*FcPbtternAddString)(pbttern, FC_LANG, (unsigned chbr*)locble);
         }
-        (*FcConfigSubstitute)(NULL, pattern, FcMatchPattern);
-        (*FcDefaultSubstitute)(pattern);
-        fontset = (*FcFontSort)(NULL, pattern, FcTrue, NULL, &result);
+        (*FcConfigSubstitute)(NULL, pbttern, FcMbtchPbttern);
+        (*FcDefbultSubstitute)(pbttern);
+        fontset = (*FcFontSort)(NULL, pbttern, FcTrue, NULL, &result);
         if (fontset == NULL) {
-            (*FcPatternDestroy)(pattern);
-            (*env)->ReleaseStringUTFChars(env, fcNameStr, (const char*)fcName);
+            (*FcPbtternDestroy)(pbttern);
+            (*env)->RelebseStringUTFChbrs(env, fcNbmeStr, (const chbr*)fcNbme);
             closeFontConfig(libfontconfig, JNI_FALSE);
             return;
         }
 
-        /* fontconfig returned us "nfonts". If we are just getting the
+        /* fontconfig returned us "nfonts". If we bre just getting the
          * first font, we set nfont to zero. Otherwise we use "nfonts".
-         * Next create separate C arrrays of length nfonts for family file etc.
-         * Inspect the returned fonts and the ones we like (adds enough glyphs)
-         * are added to the arrays and we increment 'fontCount'.
+         * Next crebte sepbrbte C brrrbys of length nfonts for fbmily file etc.
+         * Inspect the returned fonts bnd the ones we like (bdds enough glyphs)
+         * bre bdded to the brrbys bnd we increment 'fontCount'.
          */
         nfonts = fontset->nfont;
-        family   = (FcChar8**)calloc(nfonts, sizeof(FcChar8*));
-        styleStr = (FcChar8**)calloc(nfonts, sizeof(FcChar8*));
-        fullname = (FcChar8**)calloc(nfonts, sizeof(FcChar8*));
-        file     = (FcChar8**)calloc(nfonts, sizeof(FcChar8*));
-        if (family == NULL || styleStr == NULL ||
-            fullname == NULL || file == NULL) {
-            if (family != NULL) {
-                free(family);
+        fbmily   = (FcChbr8**)cblloc(nfonts, sizeof(FcChbr8*));
+        styleStr = (FcChbr8**)cblloc(nfonts, sizeof(FcChbr8*));
+        fullnbme = (FcChbr8**)cblloc(nfonts, sizeof(FcChbr8*));
+        file     = (FcChbr8**)cblloc(nfonts, sizeof(FcChbr8*));
+        if (fbmily == NULL || styleStr == NULL ||
+            fullnbme == NULL || file == NULL) {
+            if (fbmily != NULL) {
+                free(fbmily);
             }
             if (styleStr != NULL) {
                 free(styleStr);
             }
-            if (fullname != NULL) {
-                free(fullname);
+            if (fullnbme != NULL) {
+                free(fullnbme);
             }
             if (file != NULL) {
                 free(file);
             }
-            (*FcPatternDestroy)(pattern);
+            (*FcPbtternDestroy)(pbttern);
             (*FcFontSetDestroy)(fontset);
-            (*env)->ReleaseStringUTFChars(env, fcNameStr, (const char*)fcName);
+            (*env)->RelebseStringUTFChbrs(env, fcNbmeStr, (const chbr*)fcNbme);
             closeFontConfig(libfontconfig, JNI_FALSE);
             return;
         }
         fontCount = 0;
         minGlyphs = 20;
         if (debugMinGlyphsStr != NULL) {
-            int val = minGlyphs;
-            sscanf(debugMinGlyphsStr, "%5d", &val);
-            if (val >= 0 && val <= 65536) {
-                minGlyphs = val;
+            int vbl = minGlyphs;
+            sscbnf(debugMinGlyphsStr, "%5d", &vbl);
+            if (vbl >= 0 && vbl <= 65536) {
+                minGlyphs = vbl;
             }
         }
         for (j=0; j<nfonts; j++) {
-            FcPattern *fontPattern = fontset->fonts[j];
-            FcChar8 *fontformat;
-            FcCharSet *unionCharset = NULL, *charset;
+            FcPbttern *fontPbttern = fontset->fonts[j];
+            FcChbr8 *fontformbt;
+            FcChbrSet *unionChbrset = NULL, *chbrset;
 
-            fontformat = NULL;
-            (*FcPatternGetString)(fontPattern, FC_FONTFORMAT, 0, &fontformat);
-            /* We only want TrueType fonts but some Linuxes still depend
-             * on Type 1 fonts for some Locale support, so we'll allow
+            fontformbt = NULL;
+            (*FcPbtternGetString)(fontPbttern, FC_FONTFORMAT, 0, &fontformbt);
+            /* We only wbnt TrueType fonts but some Linuxes still depend
+             * on Type 1 fonts for some Locble support, so we'll bllow
              * them there.
              */
-            if (fontformat != NULL
-                && (strcmp((char*)fontformat, "TrueType") != 0)
+            if (fontformbt != NULL
+                && (strcmp((chbr*)fontformbt, "TrueType") != 0)
 #if defined(__linux__) || defined(_AIX)
-                && (strcmp((char*)fontformat, "Type 1") != 0)
+                && (strcmp((chbr*)fontformbt, "Type 1") != 0)
 #endif
              ) {
                 continue;
             }
-            result = (*FcPatternGetCharSet)(fontPattern,
-                                            FC_CHARSET, 0, &charset);
-            if (result != FcResultMatch) {
-                free(family);
-                free(fullname);
+            result = (*FcPbtternGetChbrSet)(fontPbttern,
+                                            FC_CHARSET, 0, &chbrset);
+            if (result != FcResultMbtch) {
+                free(fbmily);
+                free(fullnbme);
                 free(styleStr);
                 free(file);
-                (*FcPatternDestroy)(pattern);
+                (*FcPbtternDestroy)(pbttern);
                 (*FcFontSetDestroy)(fontset);
-                (*env)->ReleaseStringUTFChars(env,
-                                              fcNameStr, (const char*)fcName);
+                (*env)->RelebseStringUTFChbrs(env,
+                                              fcNbmeStr, (const chbr*)fcNbme);
                 closeFontConfig(libfontconfig, JNI_FALSE);
                 return;
             }
 
-            /* We don't want 20 or 30 fonts, so once we hit 10 fonts,
-             * then require that they really be adding value. Too many
-             * adversely affects load time for minimal value-add.
-             * This is still likely far more than we've had in the past.
+            /* We don't wbnt 20 or 30 fonts, so once we hit 10 fonts,
+             * then require thbt they reblly be bdding vblue. Too mbny
+             * bdversely bffects lobd time for minimbl vblue-bdd.
+             * This is still likely fbr more thbn we've hbd in the pbst.
              */
             if (j==10) {
                 minGlyphs = 50;
             }
-            if (unionCharset == NULL) {
-                unionCharset = charset;
+            if (unionChbrset == NULL) {
+                unionChbrset = chbrset;
             } else {
-                if ((*FcCharSetSubtractCount)(charset, unionCharset)
+                if ((*FcChbrSetSubtrbctCount)(chbrset, unionChbrset)
                     > minGlyphs) {
-                    unionCharset = (* FcCharSetUnion)(unionCharset, charset);
+                    unionChbrset = (* FcChbrSetUnion)(unionChbrset, chbrset);
                 } else {
                     continue;
                 }
             }
 
-            fontCount++; // found a font we will use.
-            (*FcPatternGetString)(fontPattern, FC_FILE, 0, &file[j]);
-            (*FcPatternGetString)(fontPattern, FC_FAMILY, 0, &family[j]);
-            (*FcPatternGetString)(fontPattern, FC_STYLE, 0, &styleStr[j]);
-            (*FcPatternGetString)(fontPattern, FC_FULLNAME, 0, &fullname[j]);
-            if (!includeFallbacks) {
-                break;
+            fontCount++; // found b font we will use.
+            (*FcPbtternGetString)(fontPbttern, FC_FILE, 0, &file[j]);
+            (*FcPbtternGetString)(fontPbttern, FC_FAMILY, 0, &fbmily[j]);
+            (*FcPbtternGetString)(fontPbttern, FC_STYLE, 0, &styleStr[j]);
+            (*FcPbtternGetString)(fontPbttern, FC_FULLNAME, 0, &fullnbme[j]);
+            if (!includeFbllbbcks) {
+                brebk;
             }
         }
 
         /* Once we get here 'fontCount' is the number of returned fonts
-         * we actually want to use, so we create 'fcFontArr' of that length.
-         * The non-null entries of "family[]" etc are those fonts.
-         * Then loop again over all nfonts adding just those non-null ones
-         * to 'fcFontArr'. If its null (we didn't want the font)
-         * then we don't enter the main body.
-         * So we should never get more than 'fontCount' entries.
+         * we bctublly wbnt to use, so we crebte 'fcFontArr' of thbt length.
+         * The non-null entries of "fbmily[]" etc bre those fonts.
+         * Then loop bgbin over bll nfonts bdding just those non-null ones
+         * to 'fcFontArr'. If its null (we didn't wbnt the font)
+         * then we don't enter the mbin body.
+         * So we should never get more thbn 'fontCount' entries.
          */
-        if (includeFallbacks) {
+        if (includeFbllbbcks) {
             fcFontArr =
-                (*env)->NewObjectArray(env, fontCount, fcFontClass, NULL);
+                (*env)->NewObjectArrby(env, fontCount, fcFontClbss, NULL);
             (*env)->SetObjectField(env,fcCompFontObj, fcAllFontsID, fcFontArr);
         }
         fn=0;
 
         for (j=0;j<nfonts;j++) {
-            if (family[j] != NULL) {
+            if (fbmily[j] != NULL) {
                 jobject fcFont =
-                    (*env)->NewObject(env, fcFontClass, fcFontCons);
-                jstr = (*env)->NewStringUTF(env, (const char*)family[j]);
-                (*env)->SetObjectField(env, fcFont, familyNameID, jstr);
+                    (*env)->NewObject(env, fcFontClbss, fcFontCons);
+                jstr = (*env)->NewStringUTF(env, (const chbr*)fbmily[j]);
+                (*env)->SetObjectField(env, fcFont, fbmilyNbmeID, jstr);
                 if (file[j] != NULL) {
-                    jstr = (*env)->NewStringUTF(env, (const char*)file[j]);
+                    jstr = (*env)->NewStringUTF(env, (const chbr*)file[j]);
                     (*env)->SetObjectField(env, fcFont, fontFileID, jstr);
                 }
                 if (styleStr[j] != NULL) {
-                    jstr = (*env)->NewStringUTF(env, (const char*)styleStr[j]);
-                    (*env)->SetObjectField(env, fcFont, styleNameID, jstr);
+                    jstr = (*env)->NewStringUTF(env, (const chbr*)styleStr[j]);
+                    (*env)->SetObjectField(env, fcFont, styleNbmeID, jstr);
                 }
-                if (fullname[j] != NULL) {
-                    jstr = (*env)->NewStringUTF(env, (const char*)fullname[j]);
-                    (*env)->SetObjectField(env, fcFont, fullNameID, jstr);
+                if (fullnbme[j] != NULL) {
+                    jstr = (*env)->NewStringUTF(env, (const chbr*)fullnbme[j]);
+                    (*env)->SetObjectField(env, fcFont, fullNbmeID, jstr);
                 }
                 if (fn==0) {
                     (*env)->SetObjectField(env, fcCompFontObj,
                                            fcFirstFontID, fcFont);
                 }
-                if (includeFallbacks) {
-                    (*env)->SetObjectArrayElement(env, fcFontArr, fn++,fcFont);
+                if (includeFbllbbcks) {
+                    (*env)->SetObjectArrbyElement(env, fcFontArr, fn++,fcFont);
                 } else {
-                    break;
+                    brebk;
                 }
             }
         }
-        (*env)->ReleaseStringUTFChars (env, fcNameStr, (const char*)fcName);
+        (*env)->RelebseStringUTFChbrs (env, fcNbmeStr, (const chbr*)fcNbme);
         (*FcFontSetDestroy)(fontset);
-        (*FcPatternDestroy)(pattern);
-        free(family);
+        (*FcPbtternDestroy)(pbttern);
+        free(fbmily);
         free(styleStr);
-        free(fullname);
+        free(fullnbme);
         free(file);
     }
 
-    /* release resources and close the ".so" */
+    /* relebse resources bnd close the ".so" */
 
-    if (locale) {
-        (*env)->ReleaseStringUTFChars (env, localeStr, (const char*)locale);
+    if (locble) {
+        (*env)->RelebseStringUTFChbrs (env, locbleStr, (const chbr*)locble);
     }
     closeFontConfig(libfontconfig, JNI_TRUE);
 }

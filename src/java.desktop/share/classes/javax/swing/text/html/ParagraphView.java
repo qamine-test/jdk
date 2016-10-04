@@ -1,129 +1,129 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.text.html;
+pbckbge jbvbx.swing.text.html;
 
-import java.awt.*;
-import javax.swing.SizeRequirements;
-import javax.swing.event.DocumentEvent;
-import javax.swing.text.Document;
-import javax.swing.text.Element;
-import javax.swing.text.AttributeSet;
-import javax.swing.text.StyleConstants;
-import javax.swing.text.View;
-import javax.swing.text.ViewFactory;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.JTextComponent;
+import jbvb.bwt.*;
+import jbvbx.swing.SizeRequirements;
+import jbvbx.swing.event.DocumentEvent;
+import jbvbx.swing.text.Document;
+import jbvbx.swing.text.Element;
+import jbvbx.swing.text.AttributeSet;
+import jbvbx.swing.text.StyleConstbnts;
+import jbvbx.swing.text.View;
+import jbvbx.swing.text.ViewFbctory;
+import jbvbx.swing.text.BbdLocbtionException;
+import jbvbx.swing.text.JTextComponent;
 
 /**
- * Displays the a paragraph, and uses css attributes for its
- * configuration.
+ * Displbys the b pbrbgrbph, bnd uses css bttributes for its
+ * configurbtion.
  *
- * @author  Timothy Prinzing
+ * @buthor  Timothy Prinzing
  */
 
-public class ParagraphView extends javax.swing.text.ParagraphView {
+public clbss PbrbgrbphView extends jbvbx.swing.text.PbrbgrbphView {
 
     /**
-     * Constructs a ParagraphView for the given element.
+     * Constructs b PbrbgrbphView for the given element.
      *
-     * @param elem the element that this view is responsible for
+     * @pbrbm elem the element thbt this view is responsible for
      */
-    public ParagraphView(Element elem) {
+    public PbrbgrbphView(Element elem) {
         super(elem);
     }
 
     /**
-     * Establishes the parent view for this view.  This is
-     * guaranteed to be called before any other methods if the
-     * parent view is functioning properly.
+     * Estbblishes the pbrent view for this view.  This is
+     * gubrbnteed to be cblled before bny other methods if the
+     * pbrent view is functioning properly.
      * <p>
      * This is implemented
-     * to forward to the superclass as well as call the
+     * to forwbrd to the superclbss bs well bs cbll the
      * {@link #setPropertiesFromAttributes setPropertiesFromAttributes}
-     * method to set the paragraph properties from the css
-     * attributes.  The call is made at this time to ensure
-     * the ability to resolve upward through the parents
-     * view attributes.
+     * method to set the pbrbgrbph properties from the css
+     * bttributes.  The cbll is mbde bt this time to ensure
+     * the bbility to resolve upwbrd through the pbrents
+     * view bttributes.
      *
-     * @param parent the new parent, or null if the view is
-     *  being removed from a parent it was previously added
+     * @pbrbm pbrent the new pbrent, or null if the view is
+     *  being removed from b pbrent it wbs previously bdded
      *  to
      */
-    public void setParent(View parent) {
-        super.setParent(parent);
-        if (parent != null) {
+    public void setPbrent(View pbrent) {
+        super.setPbrent(pbrent);
+        if (pbrent != null) {
             setPropertiesFromAttributes();
         }
     }
 
     /**
-     * Fetches the attributes to use when rendering.  This is
-     * implemented to multiplex the attributes specified in the
-     * model with a StyleSheet.
+     * Fetches the bttributes to use when rendering.  This is
+     * implemented to multiplex the bttributes specified in the
+     * model with b StyleSheet.
      */
     public AttributeSet getAttributes() {
-        if (attr == null) {
+        if (bttr == null) {
             StyleSheet sheet = getStyleSheet();
-            attr = sheet.getViewAttributes(this);
+            bttr = sheet.getViewAttributes(this);
         }
-        return attr;
+        return bttr;
     }
 
     /**
-     * Sets up the paragraph from css attributes instead of
-     * the values found in StyleConstants (i.e. which are used
-     * by the superclass).  Since
+     * Sets up the pbrbgrbph from css bttributes instebd of
+     * the vblues found in StyleConstbnts (i.e. which bre used
+     * by the superclbss).  Since
      */
     protected void setPropertiesFromAttributes() {
         StyleSheet sheet = getStyleSheet();
-        attr = sheet.getViewAttributes(this);
-        painter = sheet.getBoxPainter(attr);
-        if (attr != null) {
+        bttr = sheet.getViewAttributes(this);
+        pbinter = sheet.getBoxPbinter(bttr);
+        if (bttr != null) {
             super.setPropertiesFromAttributes();
-            setInsets((short) painter.getInset(TOP, this),
-                      (short) painter.getInset(LEFT, this),
-                      (short) painter.getInset(BOTTOM, this),
-                      (short) painter.getInset(RIGHT, this));
-            Object o = attr.getAttribute(CSS.Attribute.TEXT_ALIGN);
+            setInsets((short) pbinter.getInset(TOP, this),
+                      (short) pbinter.getInset(LEFT, this),
+                      (short) pbinter.getInset(BOTTOM, this),
+                      (short) pbinter.getInset(RIGHT, this));
+            Object o = bttr.getAttribute(CSS.Attribute.TEXT_ALIGN);
             if (o != null) {
-                // set horizontal alignment
-                String ta = o.toString();
-                if (ta.equals("left")) {
-                    setJustification(StyleConstants.ALIGN_LEFT);
-                } else if (ta.equals("center")) {
-                    setJustification(StyleConstants.ALIGN_CENTER);
-                } else if (ta.equals("right")) {
-                    setJustification(StyleConstants.ALIGN_RIGHT);
-                } else if (ta.equals("justify")) {
-                    setJustification(StyleConstants.ALIGN_JUSTIFIED);
+                // set horizontbl blignment
+                String tb = o.toString();
+                if (tb.equbls("left")) {
+                    setJustificbtion(StyleConstbnts.ALIGN_LEFT);
+                } else if (tb.equbls("center")) {
+                    setJustificbtion(StyleConstbnts.ALIGN_CENTER);
+                } else if (tb.equbls("right")) {
+                    setJustificbtion(StyleConstbnts.ALIGN_RIGHT);
+                } else if (tb.equbls("justify")) {
+                    setJustificbtion(StyleConstbnts.ALIGN_JUSTIFIED);
                 }
             }
             // Get the width/height
-            cssWidth = (CSS.LengthValue)attr.getAttribute(
+            cssWidth = (CSS.LengthVblue)bttr.getAttribute(
                                         CSS.Attribute.WIDTH);
-            cssHeight = (CSS.LengthValue)attr.getAttribute(
+            cssHeight = (CSS.LengthVblue)bttr.getAttribute(
                                          CSS.Attribute.HEIGHT);
         }
     }
@@ -140,160 +140,160 @@ public class ParagraphView extends javax.swing.text.ParagraphView {
 
 
     /**
-     * Calculate the needs for the paragraph along the minor axis.
+     * Cblculbte the needs for the pbrbgrbph blong the minor bxis.
      *
-     * <p>If size requirements are explicitly specified for the paragraph,
-     * use that requirements.  Otherwise, use the requirements of the
-     * superclass {@link javax.swing.text.ParagraphView}.</p>
+     * <p>If size requirements bre explicitly specified for the pbrbgrbph,
+     * use thbt requirements.  Otherwise, use the requirements of the
+     * superclbss {@link jbvbx.swing.text.PbrbgrbphView}.</p>
      *
-     * <p>If the {@code axis} parameter is neither {@code View.X_AXIS} nor
-     * {@code View.Y_AXIS}, {@link IllegalArgumentException} is thrown.  If the
-     * {@code r} parameter is {@code null,} a new {@code SizeRequirements}
-     * object is created, otherwise the supplied {@code SizeRequirements}
+     * <p>If the {@code bxis} pbrbmeter is neither {@code View.X_AXIS} nor
+     * {@code View.Y_AXIS}, {@link IllegblArgumentException} is thrown.  If the
+     * {@code r} pbrbmeter is {@code null,} b new {@code SizeRequirements}
+     * object is crebted, otherwise the supplied {@code SizeRequirements}
      * object is returned.</p>
      *
-     * @param axis  the minor axis
-     * @param r     the input {@code SizeRequirements} object
-     * @return      the new or adjusted {@code SizeRequirements} object
-     * @throws IllegalArgumentException  if the {@code axis} parameter is invalid
+     * @pbrbm bxis  the minor bxis
+     * @pbrbm r     the input {@code SizeRequirements} object
+     * @return      the new or bdjusted {@code SizeRequirements} object
+     * @throws IllegblArgumentException  if the {@code bxis} pbrbmeter is invblid
      */
-    protected SizeRequirements calculateMinorAxisRequirements(
-                                                int axis, SizeRequirements r) {
-        r = super.calculateMinorAxisRequirements(axis, r);
+    protected SizeRequirements cblculbteMinorAxisRequirements(
+                                                int bxis, SizeRequirements r) {
+        r = super.cblculbteMinorAxisRequirements(bxis, r);
 
-        if (BlockView.spanSetFromAttributes(axis, r, cssWidth, cssHeight)) {
-            // Offset by the margins so that pref/min/max return the
-            // right value.
-            int margin = (axis == X_AXIS) ? getLeftInset() + getRightInset() :
+        if (BlockView.spbnSetFromAttributes(bxis, r, cssWidth, cssHeight)) {
+            // Offset by the mbrgins so thbt pref/min/mbx return the
+            // right vblue.
+            int mbrgin = (bxis == X_AXIS) ? getLeftInset() + getRightInset() :
                                             getTopInset() + getBottomInset();
-            r.minimum -= margin;
-            r.preferred -= margin;
-            r.maximum -= margin;
+            r.minimum -= mbrgin;
+            r.preferred -= mbrgin;
+            r.mbximum -= mbrgin;
         }
         return r;
     }
 
 
     /**
-     * Indicates whether or not this view should be
-     * displayed.  If none of the children wish to be
-     * displayed and the only visible child is the
-     * break that ends the paragraph, the paragraph
+     * Indicbtes whether or not this view should be
+     * displbyed.  If none of the children wish to be
+     * displbyed bnd the only visible child is the
+     * brebk thbt ends the pbrbgrbph, the pbrbgrbph
      * will not be considered visible.  Otherwise,
-     * it will be considered visible and return true.
+     * it will be considered visible bnd return true.
      *
-     * @return true if the paragraph should be displayed
+     * @return true if the pbrbgrbph should be displbyed
      */
-    public boolean isVisible() {
+    public boolebn isVisible() {
 
-        int n = getLayoutViewCount() - 1;
+        int n = getLbyoutViewCount() - 1;
         for (int i = 0; i < n; i++) {
-            View v = getLayoutView(i);
+            View v = getLbyoutView(i);
             if (v.isVisible()) {
                 return true;
             }
         }
         if (n > 0) {
-            View v = getLayoutView(n);
-            if ((v.getEndOffset() - v.getStartOffset()) == 1) {
-                return false;
+            View v = getLbyoutView(n);
+            if ((v.getEndOffset() - v.getStbrtOffset()) == 1) {
+                return fblse;
             }
         }
-        // If it's the last paragraph and not editable, it shouldn't
+        // If it's the lbst pbrbgrbph bnd not editbble, it shouldn't
         // be visible.
-        if (getStartOffset() == getDocument().getLength()) {
-            boolean editable = false;
-            Component c = getContainer();
-            if (c instanceof JTextComponent) {
-                editable = ((JTextComponent)c).isEditable();
+        if (getStbrtOffset() == getDocument().getLength()) {
+            boolebn editbble = fblse;
+            Component c = getContbiner();
+            if (c instbnceof JTextComponent) {
+                editbble = ((JTextComponent)c).isEditbble();
             }
-            if (!editable) {
-                return false;
+            if (!editbble) {
+                return fblse;
             }
         }
         return true;
     }
 
     /**
-     * Renders using the given rendering surface and area on that
-     * surface.  This is implemented to delegate to the superclass
-     * after stashing the base coordinate for tab calculations.
+     * Renders using the given rendering surfbce bnd breb on thbt
+     * surfbce.  This is implemented to delegbte to the superclbss
+     * bfter stbshing the bbse coordinbte for tbb cblculbtions.
      *
-     * @param g the rendering surface to use
-     * @param a the allocated region to render into
-     * @see View#paint
+     * @pbrbm g the rendering surfbce to use
+     * @pbrbm b the bllocbted region to render into
+     * @see View#pbint
      */
-    public void paint(Graphics g, Shape a) {
-        if (a == null) {
+    public void pbint(Grbphics g, Shbpe b) {
+        if (b == null) {
             return;
         }
 
-        Rectangle r;
-        if (a instanceof Rectangle) {
-            r = (Rectangle) a;
+        Rectbngle r;
+        if (b instbnceof Rectbngle) {
+            r = (Rectbngle) b;
         } else {
-            r = a.getBounds();
+            r = b.getBounds();
         }
-        painter.paint(g, r.x, r.y, r.width, r.height, this);
-        super.paint(g, a);
+        pbinter.pbint(g, r.x, r.y, r.width, r.height, this);
+        super.pbint(g, b);
     }
 
     /**
-     * Determines the preferred span for this view.  Returns
-     * 0 if the view is not visible, otherwise it calls the
-     * superclass method to get the preferred span.
-     * axis.
+     * Determines the preferred spbn for this view.  Returns
+     * 0 if the view is not visible, otherwise it cblls the
+     * superclbss method to get the preferred spbn.
+     * bxis.
      *
-     * @param axis may be either View.X_AXIS or View.Y_AXIS
-     * @return   the span the view would like to be rendered into;
-     *           typically the view is told to render into the span
-     *           that is returned, although there is no guarantee;
-     *           the parent may choose to resize or break the view
-     * @see javax.swing.text.ParagraphView#getPreferredSpan
+     * @pbrbm bxis mby be either View.X_AXIS or View.Y_AXIS
+     * @return   the spbn the view would like to be rendered into;
+     *           typicblly the view is told to render into the spbn
+     *           thbt is returned, blthough there is no gubrbntee;
+     *           the pbrent mby choose to resize or brebk the view
+     * @see jbvbx.swing.text.PbrbgrbphView#getPreferredSpbn
      */
-    public float getPreferredSpan(int axis) {
+    public flobt getPreferredSpbn(int bxis) {
         if (!isVisible()) {
             return 0;
         }
-        return super.getPreferredSpan(axis);
+        return super.getPreferredSpbn(bxis);
     }
 
     /**
-     * Determines the minimum span for this view along an
-     * axis.  Returns 0 if the view is not visible, otherwise
-     * it calls the superclass method to get the minimum span.
+     * Determines the minimum spbn for this view blong bn
+     * bxis.  Returns 0 if the view is not visible, otherwise
+     * it cblls the superclbss method to get the minimum spbn.
      *
-     * @param axis may be either <code>View.X_AXIS</code> or
+     * @pbrbm bxis mby be either <code>View.X_AXIS</code> or
      *  <code>View.Y_AXIS</code>
-     * @return  the minimum span the view can be rendered into
-     * @see javax.swing.text.ParagraphView#getMinimumSpan
+     * @return  the minimum spbn the view cbn be rendered into
+     * @see jbvbx.swing.text.PbrbgrbphView#getMinimumSpbn
      */
-    public float getMinimumSpan(int axis) {
+    public flobt getMinimumSpbn(int bxis) {
         if (!isVisible()) {
             return 0;
         }
-        return super.getMinimumSpan(axis);
+        return super.getMinimumSpbn(bxis);
     }
 
     /**
-     * Determines the maximum span for this view along an
-     * axis.  Returns 0 if the view is not visible, otherwise
-     * it calls the superclass method ot get the maximum span.
+     * Determines the mbximum spbn for this view blong bn
+     * bxis.  Returns 0 if the view is not visible, otherwise
+     * it cblls the superclbss method ot get the mbximum spbn.
      *
-     * @param axis may be either <code>View.X_AXIS</code> or
+     * @pbrbm bxis mby be either <code>View.X_AXIS</code> or
      *  <code>View.Y_AXIS</code>
-     * @return  the maximum span the view can be rendered into
-     * @see javax.swing.text.ParagraphView#getMaximumSpan
+     * @return  the mbximum spbn the view cbn be rendered into
+     * @see jbvbx.swing.text.PbrbgrbphView#getMbximumSpbn
      */
-    public float getMaximumSpan(int axis) {
+    public flobt getMbximumSpbn(int bxis) {
         if (!isVisible()) {
             return 0;
         }
-        return super.getMaximumSpan(axis);
+        return super.getMbximumSpbn(bxis);
     }
 
-    private AttributeSet attr;
-    private StyleSheet.BoxPainter painter;
-    private CSS.LengthValue cssWidth;
-    private CSS.LengthValue cssHeight;
+    privbte AttributeSet bttr;
+    privbte StyleSheet.BoxPbinter pbinter;
+    privbte CSS.LengthVblue cssWidth;
+    privbte CSS.LengthVblue cssHeight;
 }

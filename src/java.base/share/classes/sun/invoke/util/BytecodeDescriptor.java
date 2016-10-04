@@ -1,136 +1,136 @@
 /*
- * Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.invoke.util;
+pbckbge sun.invoke.util;
 
-import java.lang.invoke.MethodType;
-import java.util.ArrayList;
-import java.util.List;
+import jbvb.lbng.invoke.MethodType;
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
 
 /**
- * Utility routines for dealing with bytecode-level signatures.
- * @author jrose
+ * Utility routines for debling with bytecode-level signbtures.
+ * @buthor jrose
  */
-public class BytecodeDescriptor {
+public clbss BytecodeDescriptor {
 
-    private BytecodeDescriptor() { }  // cannot instantiate
+    privbte BytecodeDescriptor() { }  // cbnnot instbntibte
 
-    public static List<Class<?>> parseMethod(String bytecodeSignature, ClassLoader loader) {
-        return parseMethod(bytecodeSignature, 0, bytecodeSignature.length(), loader);
+    public stbtic List<Clbss<?>> pbrseMethod(String bytecodeSignbture, ClbssLobder lobder) {
+        return pbrseMethod(bytecodeSignbture, 0, bytecodeSignbture.length(), lobder);
     }
 
-    static List<Class<?>> parseMethod(String bytecodeSignature,
-            int start, int end, ClassLoader loader) {
-        if (loader == null)
-            loader = ClassLoader.getSystemClassLoader();
-        String str = bytecodeSignature;
-        int[] i = {start};
-        ArrayList<Class<?>> ptypes = new ArrayList<Class<?>>();
-        if (i[0] < end && str.charAt(i[0]) == '(') {
+    stbtic List<Clbss<?>> pbrseMethod(String bytecodeSignbture,
+            int stbrt, int end, ClbssLobder lobder) {
+        if (lobder == null)
+            lobder = ClbssLobder.getSystemClbssLobder();
+        String str = bytecodeSignbture;
+        int[] i = {stbrt};
+        ArrbyList<Clbss<?>> ptypes = new ArrbyList<Clbss<?>>();
+        if (i[0] < end && str.chbrAt(i[0]) == '(') {
             ++i[0];  // skip '('
-            while (i[0] < end && str.charAt(i[0]) != ')') {
-                Class<?> pt = parseSig(str, i, end, loader);
-                if (pt == null || pt == void.class)
-                    parseError(str, "bad argument type");
-                ptypes.add(pt);
+            while (i[0] < end && str.chbrAt(i[0]) != ')') {
+                Clbss<?> pt = pbrseSig(str, i, end, lobder);
+                if (pt == null || pt == void.clbss)
+                    pbrseError(str, "bbd brgument type");
+                ptypes.bdd(pt);
             }
             ++i[0];  // skip ')'
         } else {
-            parseError(str, "not a method type");
+            pbrseError(str, "not b method type");
         }
-        Class<?> rtype = parseSig(str, i, end, loader);
+        Clbss<?> rtype = pbrseSig(str, i, end, lobder);
         if (rtype == null || i[0] != end)
-            parseError(str, "bad return type");
-        ptypes.add(rtype);
+            pbrseError(str, "bbd return type");
+        ptypes.bdd(rtype);
         return ptypes;
     }
 
-    static private void parseError(String str, String msg) {
-        throw new IllegalArgumentException("bad signature: "+str+": "+msg);
+    stbtic privbte void pbrseError(String str, String msg) {
+        throw new IllegblArgumentException("bbd signbture: "+str+": "+msg);
     }
 
-    static private Class<?> parseSig(String str, int[] i, int end, ClassLoader loader) {
+    stbtic privbte Clbss<?> pbrseSig(String str, int[] i, int end, ClbssLobder lobder) {
         if (i[0] == end)  return null;
-        char c = str.charAt(i[0]++);
+        chbr c = str.chbrAt(i[0]++);
         if (c == 'L') {
             int begc = i[0], endc = str.indexOf(';', begc);
             if (endc < 0)  return null;
             i[0] = endc+1;
-            String name = str.substring(begc, endc).replace('/', '.');
+            String nbme = str.substring(begc, endc).replbce('/', '.');
             try {
-                return loader.loadClass(name);
-            } catch (ClassNotFoundException ex) {
-                throw new TypeNotPresentException(name, ex);
+                return lobder.lobdClbss(nbme);
+            } cbtch (ClbssNotFoundException ex) {
+                throw new TypeNotPresentException(nbme, ex);
             }
         } else if (c == '[') {
-            Class<?> t = parseSig(str, i, end, loader);
+            Clbss<?> t = pbrseSig(str, i, end, lobder);
             if (t != null)
-                t = java.lang.reflect.Array.newInstance(t, 0).getClass();
+                t = jbvb.lbng.reflect.Arrby.newInstbnce(t, 0).getClbss();
             return t;
         } else {
-            return Wrapper.forBasicType(c).primitiveType();
+            return Wrbpper.forBbsicType(c).primitiveType();
         }
     }
 
-    public static String unparse(Class<?> type) {
+    public stbtic String unpbrse(Clbss<?> type) {
         StringBuilder sb = new StringBuilder();
-        unparseSig(type, sb);
+        unpbrseSig(type, sb);
         return sb.toString();
     }
 
-    public static String unparse(MethodType type) {
-        return unparseMethod(type.returnType(), type.parameterList());
+    public stbtic String unpbrse(MethodType type) {
+        return unpbrseMethod(type.returnType(), type.pbrbmeterList());
     }
 
-    public static String unparse(Object type) {
-        if (type instanceof Class<?>)
-            return unparse((Class<?>) type);
-        if (type instanceof MethodType)
-            return unparse((MethodType) type);
+    public stbtic String unpbrse(Object type) {
+        if (type instbnceof Clbss<?>)
+            return unpbrse((Clbss<?>) type);
+        if (type instbnceof MethodType)
+            return unpbrse((MethodType) type);
         return (String) type;
     }
 
-    public static String unparseMethod(Class<?> rtype, List<Class<?>> ptypes) {
+    public stbtic String unpbrseMethod(Clbss<?> rtype, List<Clbss<?>> ptypes) {
         StringBuilder sb = new StringBuilder();
-        sb.append('(');
-        for (Class<?> pt : ptypes)
-            unparseSig(pt, sb);
-        sb.append(')');
-        unparseSig(rtype, sb);
+        sb.bppend('(');
+        for (Clbss<?> pt : ptypes)
+            unpbrseSig(pt, sb);
+        sb.bppend(')');
+        unpbrseSig(rtype, sb);
         return sb.toString();
     }
 
-    static private void unparseSig(Class<?> t, StringBuilder sb) {
-        char c = Wrapper.forBasicType(t).basicTypeChar();
+    stbtic privbte void unpbrseSig(Clbss<?> t, StringBuilder sb) {
+        chbr c = Wrbpper.forBbsicType(t).bbsicTypeChbr();
         if (c != 'L') {
-            sb.append(c);
+            sb.bppend(c);
         } else {
-            boolean lsemi = (!t.isArray());
-            if (lsemi)  sb.append('L');
-            sb.append(t.getName().replace('.', '/'));
-            if (lsemi)  sb.append(';');
+            boolebn lsemi = (!t.isArrby());
+            if (lsemi)  sb.bppend('L');
+            sb.bppend(t.getNbme().replbce('.', '/'));
+            if (lsemi)  sb.bppend(';');
         }
     }
 

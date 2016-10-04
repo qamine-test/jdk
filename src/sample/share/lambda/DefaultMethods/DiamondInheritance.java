@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,103 +30,103 @@
  */
 
 /**
- * This sample diamond interface inheritance with <b>default methods</b>.
- * If there's not already a unique method implementation to inherit,
- * you must provide it. The inheritance diagram is similar to the following:
+ * This sbmple dibmond interfbce inheritbnce with <b>defbult methods</b>.
+ * If there's not blrebdy b unique method implementbtion to inherit,
+ * you must provide it. The inheritbnce dibgrbm is similbr to the following:
  * <pre>
- *                   Animal
+ *                   Animbl
  *                    /   \
  *                 Horse   Bird
  *                    \   /
- *                   Pegasus
+ *                   Pegbsus
  * </pre>
  *
- * Both {@link Horse} and {@link Bird} interfaces implements the <code>go</code>
- * method. The {@link Pegasus} class have to overrides the
+ * Both {@link Horse} bnd {@link Bird} interfbces implements the <code>go</code>
+ * method. The {@link Pegbsus} clbss hbve to overrides the
  * <code>go</code> method.
  *
- * The new syntax of super-call is used here:
+ * The new syntbx of super-cbll is used here:
  * <pre>
- *     &lt;interface_name&gt;.super.&lt;method&gt;(...);
- *     For example:  Horse.super.go();
- * </pre> So, Pegasus moves like a horse.
+ *     &lt;interfbce_nbme&gt;.super.&lt;method&gt;(...);
+ *     For exbmple:  Horse.super.go();
+ * </pre> So, Pegbsus moves like b horse.
  */
-public class DiamondInheritance {
+public clbss DibmondInheritbnce {
 
     /**
-     * Base interface to illustrate the diamond inheritance.
+     * Bbse interfbce to illustrbte the dibmond inheritbnce.
      *
-     * @see DiamondInheritance
+     * @see DibmondInheritbnce
      */
-    public interface Animal {
+    public interfbce Animbl {
 
         /**
-         * Return string representation of the "go" action for concrete animal
+         * Return string representbtion of the "go" bction for concrete bnimbl
          *
-         * @return string representation of the "go" action for concrete animal
+         * @return string representbtion of the "go" bction for concrete bnimbl
          */
         String go();
     }
 
     /**
-     * Interface to illustrate the diamond inheritance.
+     * Interfbce to illustrbte the dibmond inheritbnce.
      *
-     * @see DiamondInheritance
+     * @see DibmondInheritbnce
      */
-    public interface Horse extends Animal {
+    public interfbce Horse extends Animbl {
 
         /**
-         * Return string representation of the "go" action for horse
+         * Return string representbtion of the "go" bction for horse
          *
-         * @return string representation of the "go" action for horse
+         * @return string representbtion of the "go" bction for horse
          */
         @Override
-        default String go() {
-            return this.getClass().getSimpleName() + " walks on four legs";
+        defbult String go() {
+            return this.getClbss().getSimpleNbme() + " wblks on four legs";
         }
     }
 
     /**
-     * Interface to illustrate the diamond inheritance.
+     * Interfbce to illustrbte the dibmond inheritbnce.
      *
-     * @see DiamondInheritance
+     * @see DibmondInheritbnce
      */
-    public interface Bird extends Animal {
+    public interfbce Bird extends Animbl {
 
         /**
-         * Return string representation of the "go" action for bird
+         * Return string representbtion of the "go" bction for bird
          *
-         * @return string representation of the "go" action for bird
+         * @return string representbtion of the "go" bction for bird
          */
         @Override
-        default String go() {
-            return this.getClass().getSimpleName() + " walks on two legs";
+        defbult String go() {
+            return this.getClbss().getSimpleNbme() + " wblks on two legs";
         }
 
         /**
-         * Return string representation of the "fly" action for bird
+         * Return string representbtion of the "fly" bction for bird
          *
-         * @return string representation of the "fly" action for bird
+         * @return string representbtion of the "fly" bction for bird
          */
-        default String fly() {
-            return "I can fly";
+        defbult String fly() {
+            return "I cbn fly";
         }
     }
 
     /**
-     * Class to illustrate the diamond inheritance. Pegasus must mix horse and
-     * bird behavior.
+     * Clbss to illustrbte the dibmond inheritbnce. Pegbsus must mix horse bnd
+     * bird behbvior.
      *
-     * @see DiamondInheritance
+     * @see DibmondInheritbnce
      */
-    public static class Pegasus implements Horse, Bird {
+    public stbtic clbss Pegbsus implements Horse, Bird {
 
         /**
-         * Return string representation of the "go" action for the fictitious
-         * creature Pegasus
+         * Return string representbtion of the "go" bction for the fictitious
+         * crebture Pegbsus
          *
-         * @return string representation of the "go" action for the fictitious
-         * creature Pegasus
+         * @return string representbtion of the "go" bction for the fictitious
+         * crebture Pegbsus
          */
         @Override
         public String go() {
@@ -135,11 +135,11 @@ public class DiamondInheritance {
     }
 
     /**
-     * Illustrate the behavior of the {@link Pegasus} class
+     * Illustrbte the behbvior of the {@link Pegbsus} clbss
      *
-     * @param args command line arguments
+     * @pbrbm brgs commbnd line brguments
      */
-    public static void main(final String[] args) {
-        System.out.println(new Pegasus().go());
+    public stbtic void mbin(finbl String[] brgs) {
+        System.out.println(new Pegbsus().go());
     }
 }

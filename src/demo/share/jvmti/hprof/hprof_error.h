@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2003, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,56 +30,56 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
 #ifndef HPROF_ERROR_H
 #define HPROF_ERROR_H
 
-/* Use THIS_FILE when it is available. */
+/* Use THIS_FILE when it is bvbilbble. */
 #ifndef THIS_FILE
     #define THIS_FILE __FILE__
 #endif
 
-/* Macros over assert and error functions so we can capture the source loc. */
+/* Mbcros over bssert bnd error functions so we cbn cbpture the source loc. */
 
-#define HPROF_BOOL(x) ((jboolean)((x)==0?JNI_FALSE:JNI_TRUE))
+#define HPROF_BOOL(x) ((jboolebn)((x)==0?JNI_FALSE:JNI_TRUE))
 
-#define HPROF_ERROR(fatal,msg) \
-    error_handler(HPROF_BOOL(fatal), JVMTI_ERROR_NONE, msg, THIS_FILE, __LINE__)
+#define HPROF_ERROR(fbtbl,msg) \
+    error_hbndler(HPROF_BOOL(fbtbl), JVMTI_ERROR_NONE, msg, THIS_FILE, __LINE__)
 
 #define HPROF_JVMTI_ERROR(error,msg) \
-    error_handler(HPROF_BOOL(error!=JVMTI_ERROR_NONE), \
+    error_hbndler(HPROF_BOOL(error!=JVMTI_ERROR_NONE), \
             error, msg, THIS_FILE, __LINE__)
 
 #if defined(DEBUG) || !defined(NDEBUG)
     #define HPROF_ASSERT(cond) \
-        (((int)(cond))?(void)0:error_assert(#cond, THIS_FILE, __LINE__))
+        (((int)(cond))?(void)0:error_bssert(#cond, THIS_FILE, __LINE__))
 #else
     #define HPROF_ASSERT(cond)
 #endif
 
 #define LOG_DUMP_MISC           0x1 /* Misc. logging info */
-#define LOG_DUMP_LISTS          0x2 /* Dump tables at vm init and death */
-#define LOG_CHECK_BINARY        0x4 /* If format=b, verify binary format */
+#define LOG_DUMP_LISTS          0x2 /* Dump tbbles bt vm init bnd debth */
+#define LOG_CHECK_BINARY        0x4 /* If formbt=b, verify binbry formbt */
 
 #ifdef HPROF_LOGGING
-    #define LOG_STDERR(args) \
+    #define LOG_STDERR(brgs) \
         { \
-            if ( gdata != NULL && (gdata->logflags & LOG_DUMP_MISC) ) { \
-                (void)fprintf args ; \
+            if ( gdbtb != NULL && (gdbtb->logflbgs & LOG_DUMP_MISC) ) { \
+                (void)fprintf brgs ; \
             } \
         }
 #else
-    #define LOG_STDERR(args)
+    #define LOG_STDERR(brgs)
 #endif
 
-#define LOG_FORMAT(format)      "HPROF LOG: " format " [%s:%d]\n"
+#define LOG_FORMAT(formbt)      "HPROF LOG: " formbt " [%s:%d]\n"
 
 #define LOG1(str1)              LOG_STDERR((stderr, LOG_FORMAT("%s"), \
                                     str1, THIS_FILE, __LINE__ ))
@@ -90,13 +90,13 @@
 
 #define LOG(str) LOG1(str)
 
-void       error_handler(jboolean fatal, jvmtiError error,
-                const char *message, const char *file, int line);
-void       error_assert(const char *condition, const char *file, int line);
+void       error_hbndler(jboolebn fbtbl, jvmtiError error,
+                const chbr *messbge, const chbr *file, int line);
+void       error_bssert(const chbr *condition, const chbr *file, int line);
 void       error_exit_process(int exit_code);
-void       error_do_pause(void);
+void       error_do_pbuse(void);
 void       error_setup(void);
-void       debug_message(const char * format, ...);
-void       verbose_message(const char * format, ...);
+void       debug_messbge(const chbr * formbt, ...);
+void       verbose_messbge(const chbr * formbt, ...);
 
 #endif

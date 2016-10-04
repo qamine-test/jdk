@@ -1,286 +1,286 @@
 /*
- * Copyright (c) 1999, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2004, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.naming;
+pbckbge jbvbx.nbming;
 
-import java.util.Hashtable;
+import jbvb.util.Hbshtbble;
 
 /**
-  * This exception is thrown to indicate that the operation reached
-  * a point in the name where the operation cannot proceed any further.
-  * When performing an operation on a composite name, a naming service
-  * provider may reach a part of the name that does not belong to its
-  * namespace.  At that point, it can construct a
-  * CannotProceedException and then invoke methods provided by
-  * javax.naming.spi.NamingManager (such as getContinuationContext())
-  * to locate another provider to continue the operation.  If this is
-  * not possible, this exception is raised to the caller of the
-  * context operation.
+  * This exception is thrown to indicbte thbt the operbtion rebched
+  * b point in the nbme where the operbtion cbnnot proceed bny further.
+  * When performing bn operbtion on b composite nbme, b nbming service
+  * provider mby rebch b pbrt of the nbme thbt does not belong to its
+  * nbmespbce.  At thbt point, it cbn construct b
+  * CbnnotProceedException bnd then invoke methods provided by
+  * jbvbx.nbming.spi.NbmingMbnbger (such bs getContinubtionContext())
+  * to locbte bnother provider to continue the operbtion.  If this is
+  * not possible, this exception is rbised to the cbller of the
+  * context operbtion.
   *<p>
-  * If the program wants to handle this exception in particular, it
-  * should catch CannotProceedException explicitly before attempting to
-  * catch NamingException.
+  * If the progrbm wbnts to hbndle this exception in pbrticulbr, it
+  * should cbtch CbnnotProceedException explicitly before bttempting to
+  * cbtch NbmingException.
   *<p>
-  * A CannotProceedException instance is not synchronized against concurrent
-  * multithreaded access. Multiple threads trying to access and modify
-  * CannotProceedException should lock the object.
+  * A CbnnotProceedException instbnce is not synchronized bgbinst concurrent
+  * multithrebded bccess. Multiple threbds trying to bccess bnd modify
+  * CbnnotProceedException should lock the object.
   *
-  * @author Rosanna Lee
-  * @author Scott Seligman
+  * @buthor Rosbnnb Lee
+  * @buthor Scott Seligmbn
   * @since 1.3
   */
 
 /*
-  * The serialized form of a CannotProceedException object consists of
-  * the serialized fields of its NamingException superclass, the remaining new
-  * name (a Name object), the environment (a Hashtable), the altName field
-  * (a Name object), and the serialized form of the altNameCtx field.
+  * The seriblized form of b CbnnotProceedException object consists of
+  * the seriblized fields of its NbmingException superclbss, the rembining new
+  * nbme (b Nbme object), the environment (b Hbshtbble), the bltNbme field
+  * (b Nbme object), bnd the seriblized form of the bltNbmeCtx field.
   */
 
 
-public class CannotProceedException extends NamingException {
+public clbss CbnnotProceedException extends NbmingException {
     /**
-     * Contains the remaining unresolved part of the second
-     * "name" argument to Context.rename().
-     * This information is necessary for
-     * continuing the Context.rename() operation.
+     * Contbins the rembining unresolved pbrt of the second
+     * "nbme" brgument to Context.renbme().
+     * This informbtion is necessbry for
+     * continuing the Context.renbme() operbtion.
      * <p>
-     * This field is initialized to null.
-     * It should not be manipulated directly:  it should
-     * be accessed and updated using getRemainingName() and setRemainingName().
-     * @serial
+     * This field is initiblized to null.
+     * It should not be mbnipulbted directly:  it should
+     * be bccessed bnd updbted using getRembiningNbme() bnd setRembiningNbme().
+     * @seribl
      *
-     * @see #getRemainingNewName
-     * @see #setRemainingNewName
+     * @see #getRembiningNewNbme
+     * @see #setRembiningNewNbme
      */
-    protected Name remainingNewName = null;
+    protected Nbme rembiningNewNbme = null;
 
     /**
-     * Contains the environment
-     * relevant for the Context or DirContext method that cannot proceed.
+     * Contbins the environment
+     * relevbnt for the Context or DirContext method thbt cbnnot proceed.
      * <p>
-     * This field is initialized to null.
-     * It should not be manipulated directly:  it should be accessed
-     * and updated using getEnvironment() and setEnvironment().
-     * @serial
+     * This field is initiblized to null.
+     * It should not be mbnipulbted directly:  it should be bccessed
+     * bnd updbted using getEnvironment() bnd setEnvironment().
+     * @seribl
      *
      * @see #getEnvironment
      * @see #setEnvironment
      */
-    protected Hashtable<?,?> environment = null;
+    protected Hbshtbble<?,?> environment = null;
 
     /**
-     * Contains the name of the resolved object, relative
-     * to the context <code>altNameCtx</code>.  It is a composite name.
-     * If null, then no name is specified.
-     * See the <code>javax.naming.spi.ObjectFactory.getObjectInstance</code>
-     * method for details on how this is used.
+     * Contbins the nbme of the resolved object, relbtive
+     * to the context <code>bltNbmeCtx</code>.  It is b composite nbme.
+     * If null, then no nbme is specified.
+     * See the <code>jbvbx.nbming.spi.ObjectFbctory.getObjectInstbnce</code>
+     * method for detbils on how this is used.
      * <p>
-     * This field is initialized to null.
-     * It should not be manipulated directly:  it should
-     * be accessed and updated using getAltName() and setAltName().
-     * @serial
+     * This field is initiblized to null.
+     * It should not be mbnipulbted directly:  it should
+     * be bccessed bnd updbted using getAltNbme() bnd setAltNbme().
+     * @seribl
      *
-     * @see #getAltName
-     * @see #setAltName
-     * @see #altNameCtx
-     * @see javax.naming.spi.ObjectFactory#getObjectInstance
+     * @see #getAltNbme
+     * @see #setAltNbme
+     * @see #bltNbmeCtx
+     * @see jbvbx.nbming.spi.ObjectFbctory#getObjectInstbnce
      */
-    protected Name altName = null;
+    protected Nbme bltNbme = null;
 
     /**
-     * Contains the context relative to which
-     * <code>altName</code> is specified.  If null, then the default initial
+     * Contbins the context relbtive to which
+     * <code>bltNbme</code> is specified.  If null, then the defbult initibl
      * context is implied.
-     * See the <code>javax.naming.spi.ObjectFactory.getObjectInstance</code>
-     * method for details on how this is used.
+     * See the <code>jbvbx.nbming.spi.ObjectFbctory.getObjectInstbnce</code>
+     * method for detbils on how this is used.
      * <p>
-     * This field is initialized to null.
-     * It should not be manipulated directly:  it should
-     * be accessed and updated using getAltNameCtx() and setAltNameCtx().
-     * @serial
+     * This field is initiblized to null.
+     * It should not be mbnipulbted directly:  it should
+     * be bccessed bnd updbted using getAltNbmeCtx() bnd setAltNbmeCtx().
+     * @seribl
      *
-     * @see #getAltNameCtx
-     * @see #setAltNameCtx
-     * @see #altName
-     * @see javax.naming.spi.ObjectFactory#getObjectInstance
+     * @see #getAltNbmeCtx
+     * @see #setAltNbmeCtx
+     * @see #bltNbme
+     * @see jbvbx.nbming.spi.ObjectFbctory#getObjectInstbnce
      */
-    protected Context altNameCtx = null;
+    protected Context bltNbmeCtx = null;
 
     /**
-     * Constructs a new instance of CannotProceedException using an
-     * explanation. All unspecified fields default to null.
+     * Constructs b new instbnce of CbnnotProceedException using bn
+     * explbnbtion. All unspecified fields defbult to null.
      *
-     * @param   explanation     A possibly null string containing additional
-     *                          detail about this exception.
-     *   If null, this exception has no detail message.
-     * @see java.lang.Throwable#getMessage
+     * @pbrbm   explbnbtion     A possibly null string contbining bdditionbl
+     *                          detbil bbout this exception.
+     *   If null, this exception hbs no detbil messbge.
+     * @see jbvb.lbng.Throwbble#getMessbge
      */
-    public CannotProceedException(String explanation) {
-        super(explanation);
+    public CbnnotProceedException(String explbnbtion) {
+        super(explbnbtion);
     }
 
     /**
-      * Constructs a new instance of CannotProceedException.
-      * All fields default to null.
+      * Constructs b new instbnce of CbnnotProceedException.
+      * All fields defbult to null.
       */
-    public CannotProceedException() {
+    public CbnnotProceedException() {
         super();
     }
 
     /**
-     * Retrieves the environment that was in effect when this exception
-     * was created.
+     * Retrieves the environment thbt wbs in effect when this exception
+     * wbs crebted.
      * @return Possibly null environment property set.
-     *          null means no environment was recorded for this exception.
+     *          null mebns no environment wbs recorded for this exception.
      * @see #setEnvironment
      */
-    public Hashtable<?,?> getEnvironment() {
+    public Hbshtbble<?,?> getEnvironment() {
         return environment;
     }
 
     /**
-     * Sets the environment that will be returned when getEnvironment()
-     * is called.
-     * @param environment A possibly null environment property set.
-     *          null means no environment is being recorded for
+     * Sets the environment thbt will be returned when getEnvironment()
+     * is cblled.
+     * @pbrbm environment A possibly null environment property set.
+     *          null mebns no environment is being recorded for
      *          this exception.
      * @see #getEnvironment
      */
-    public void setEnvironment(Hashtable<?,?> environment) {
+    public void setEnvironment(Hbshtbble<?,?> environment) {
         this.environment = environment; // %%% clone it??
     }
 
     /**
-     * Retrieves the "remaining new name" field of this exception, which is
-     * used when this exception is thrown during a rename() operation.
+     * Retrieves the "rembining new nbme" field of this exception, which is
+     * used when this exception is thrown during b renbme() operbtion.
      *
-     * @return The possibly null part of the new name that has not been resolved.
-     *          It is a composite name. It can be null, which means
-     *          the remaining new name field has not been set.
+     * @return The possibly null pbrt of the new nbme thbt hbs not been resolved.
+     *          It is b composite nbme. It cbn be null, which mebns
+     *          the rembining new nbme field hbs not been set.
      *
-     * @see #setRemainingNewName
+     * @see #setRembiningNewNbme
      */
-    public Name getRemainingNewName() {
-        return remainingNewName;
+    public Nbme getRembiningNewNbme() {
+        return rembiningNewNbme;
     }
 
     /**
-     * Sets the "remaining new name" field of this exception.
-     * This is the value returned by <code>getRemainingNewName()</code>.
+     * Sets the "rembining new nbme" field of this exception.
+     * This is the vblue returned by <code>getRembiningNewNbme()</code>.
      *<p>
-     * <tt>newName</tt> is a composite name. If the intent is to set
-     * this field using a compound name or string, you must
-     * "stringify" the compound name, and create a composite
-     * name with a single component using the string. You can then
-     * invoke this method using the resulting composite name.
+     * <tt>newNbme</tt> is b composite nbme. If the intent is to set
+     * this field using b compound nbme or string, you must
+     * "stringify" the compound nbme, bnd crebte b composite
+     * nbme with b single component using the string. You cbn then
+     * invoke this method using the resulting composite nbme.
      *<p>
-     * A copy of <code>newName</code> is made and stored.
-     * Subsequent changes to <code>name</code> does not
-     * affect the copy in this NamingException and vice versa.
+     * A copy of <code>newNbme</code> is mbde bnd stored.
+     * Subsequent chbnges to <code>nbme</code> does not
+     * bffect the copy in this NbmingException bnd vice versb.
      *
-     * @param newName The possibly null name to set the "remaining new name" to.
-     *          If null, it sets the remaining name field to null.
+     * @pbrbm newNbme The possibly null nbme to set the "rembining new nbme" to.
+     *          If null, it sets the rembining nbme field to null.
      *
-     * @see #getRemainingNewName
+     * @see #getRembiningNewNbme
      */
-    public void setRemainingNewName(Name newName) {
-        if (newName != null)
-            this.remainingNewName = (Name)(newName.clone());
+    public void setRembiningNewNbme(Nbme newNbme) {
+        if (newNbme != null)
+            this.rembiningNewNbme = (Nbme)(newNbme.clone());
         else
-            this.remainingNewName = null;
+            this.rembiningNewNbme = null;
     }
 
     /**
-     * Retrieves the <code>altName</code> field of this exception.
-     * This is the name of the resolved object, relative to the context
-     * <code>altNameCtx</code>. It will be used during a subsequent call to the
-     * <code>javax.naming.spi.ObjectFactory.getObjectInstance</code> method.
+     * Retrieves the <code>bltNbme</code> field of this exception.
+     * This is the nbme of the resolved object, relbtive to the context
+     * <code>bltNbmeCtx</code>. It will be used during b subsequent cbll to the
+     * <code>jbvbx.nbming.spi.ObjectFbctory.getObjectInstbnce</code> method.
      *
-     * @return The name of the resolved object, relative to
-     *          <code>altNameCtx</code>.
-     *          It is a composite name.  If null, then no name is specified.
+     * @return The nbme of the resolved object, relbtive to
+     *          <code>bltNbmeCtx</code>.
+     *          It is b composite nbme.  If null, then no nbme is specified.
      *
-     * @see #setAltName
-     * @see #getAltNameCtx
-     * @see javax.naming.spi.ObjectFactory#getObjectInstance
+     * @see #setAltNbme
+     * @see #getAltNbmeCtx
+     * @see jbvbx.nbming.spi.ObjectFbctory#getObjectInstbnce
      */
-    public Name getAltName() {
-        return altName;
+    public Nbme getAltNbme() {
+        return bltNbme;
     }
 
     /**
-     * Sets the <code>altName</code> field of this exception.
+     * Sets the <code>bltNbme</code> field of this exception.
      *
-     * @param altName   The name of the resolved object, relative to
-     *                  <code>altNameCtx</code>.
-     *                  It is a composite name.
-     *                  If null, then no name is specified.
+     * @pbrbm bltNbme   The nbme of the resolved object, relbtive to
+     *                  <code>bltNbmeCtx</code>.
+     *                  It is b composite nbme.
+     *                  If null, then no nbme is specified.
      *
-     * @see #getAltName
-     * @see #setAltNameCtx
+     * @see #getAltNbme
+     * @see #setAltNbmeCtx
      */
-    public void setAltName(Name altName) {
-        this.altName = altName;
+    public void setAltNbme(Nbme bltNbme) {
+        this.bltNbme = bltNbme;
     }
 
     /**
-     * Retrieves the <code>altNameCtx</code> field of this exception.
-     * This is the context relative to which <code>altName</code> is named.
-     * It will be used during a subsequent call to the
-     * <code>javax.naming.spi.ObjectFactory.getObjectInstance</code> method.
+     * Retrieves the <code>bltNbmeCtx</code> field of this exception.
+     * This is the context relbtive to which <code>bltNbme</code> is nbmed.
+     * It will be used during b subsequent cbll to the
+     * <code>jbvbx.nbming.spi.ObjectFbctory.getObjectInstbnce</code> method.
      *
-     * @return  The context relative to which <code>altName</code> is named.
-     *          If null, then the default initial context is implied.
+     * @return  The context relbtive to which <code>bltNbme</code> is nbmed.
+     *          If null, then the defbult initibl context is implied.
      *
-     * @see #setAltNameCtx
-     * @see #getAltName
-     * @see javax.naming.spi.ObjectFactory#getObjectInstance
+     * @see #setAltNbmeCtx
+     * @see #getAltNbme
+     * @see jbvbx.nbming.spi.ObjectFbctory#getObjectInstbnce
      */
-    public Context getAltNameCtx() {
-        return altNameCtx;
+    public Context getAltNbmeCtx() {
+        return bltNbmeCtx;
     }
 
     /**
-     * Sets the <code>altNameCtx</code> field of this exception.
+     * Sets the <code>bltNbmeCtx</code> field of this exception.
      *
-     * @param altNameCtx
-     *                  The context relative to which <code>altName</code>
-     *                  is named.  If null, then the default initial context
+     * @pbrbm bltNbmeCtx
+     *                  The context relbtive to which <code>bltNbme</code>
+     *                  is nbmed.  If null, then the defbult initibl context
      *                  is implied.
      *
-     * @see #getAltNameCtx
-     * @see #setAltName
+     * @see #getAltNbmeCtx
+     * @see #setAltNbme
      */
-    public void setAltNameCtx(Context altNameCtx) {
-        this.altNameCtx = altNameCtx;
+    public void setAltNbmeCtx(Context bltNbmeCtx) {
+        this.bltNbmeCtx = bltNbmeCtx;
     }
 
 
     /**
-     * Use serialVersionUID from JNDI 1.1.1 for interoperability
+     * Use seriblVersionUID from JNDI 1.1.1 for interoperbbility
      */
-    private static final long serialVersionUID = 1219724816191576813L;
+    privbte stbtic finbl long seriblVersionUID = 1219724816191576813L;
 }

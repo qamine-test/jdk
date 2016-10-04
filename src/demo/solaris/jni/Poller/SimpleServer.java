@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,129 +30,129 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-import java.io.*;
-import java.net.*;
-import java.lang.Byte;
+import jbvb.io.*;
+import jbvb.net.*;
+import jbvb.lbng.Byte;
 
 /**
- * Simple Java "server" using a single thread to handle each connection.
+ * Simple Jbvb "server" using b single threbd to hbndle ebch connection.
  */
 
-public class SimpleServer
+public clbss SimpleServer
 {
-  private final static int BYTESPEROP= PollingServer.BYTESPEROP;
-  private final static int PORTNUM   = PollingServer.PORTNUM;
-  private final static int MAXCONN   = PollingServer.MAXCONN;
+  privbte finbl stbtic int BYTESPEROP= PollingServer.BYTESPEROP;
+  privbte finbl stbtic int PORTNUM   = PollingServer.PORTNUM;
+  privbte finbl stbtic int MAXCONN   = PollingServer.MAXCONN;
 
   /*
-   * This synchronization object protects access to certain
-   * data (bytesRead,eventsToProcess) by concurrent Consumer threads.
+   * This synchronizbtion object protects bccess to certbin
+   * dbtb (bytesRebd,eventsToProcess) by concurrent Consumer threbds.
    */
-  private final static Object eventSync = new Object();
+  privbte finbl stbtic Object eventSync = new Object();
 
-  private static InputStream[] instr = new InputStream[MAXCONN];
-  private static int bytesRead;
-  private static int bytesToRead;
+  privbte stbtic InputStrebm[] instr = new InputStrebm[MAXCONN];
+  privbte stbtic int bytesRebd;
+  privbte stbtic int bytesToRebd;
 
   public SimpleServer() {
     Socket[] sockArr = new Socket[MAXCONN];
-    long timestart, timestop;
+    long timestbrt, timestop;
     int bytes;
-    int totalConn=0;
+    int totblConn=0;
 
 
-    System.out.println ("Serv: Initializing port " + PORTNUM);
+    System.out.println ("Serv: Initiblizing port " + PORTNUM);
     try {
 
-      ServerSocket skMain = new ServerSocket (PORTNUM);
+      ServerSocket skMbin = new ServerSocket (PORTNUM);
 
-      bytesRead = 0;
-      Socket ctrlSock = skMain.accept();
+      bytesRebd = 0;
+      Socket ctrlSock = skMbin.bccept();
 
-      BufferedReader ctrlReader =
-        new BufferedReader(new InputStreamReader(ctrlSock.getInputStream()));
-      String ctrlString = ctrlReader.readLine();
-      bytesToRead = Integer.valueOf(ctrlString).intValue();
-      ctrlString = ctrlReader.readLine();
-      totalConn = Integer.valueOf(ctrlString).intValue();
+      BufferedRebder ctrlRebder =
+        new BufferedRebder(new InputStrebmRebder(ctrlSock.getInputStrebm()));
+      String ctrlString = ctrlRebder.rebdLine();
+      bytesToRebd = Integer.vblueOf(ctrlString).intVblue();
+      ctrlString = ctrlRebder.rebdLine();
+      totblConn = Integer.vblueOf(ctrlString).intVblue();
 
-      System.out.println("Receiving " + bytesToRead + " bytes from " +
-                         totalConn + " client connections");
+      System.out.println("Receiving " + bytesToRebd + " bytes from " +
+                         totblConn + " client connections");
 
-      timestart = System.currentTimeMillis();
+      timestbrt = System.currentTimeMillis();
 
       /*
-       * Take connections, spawn off connection handling threads
+       * Tbke connections, spbwn off connection hbndling threbds
        */
-      ConnHandler[] connHA = new ConnHandler[MAXCONN];
+      ConnHbndler[] connHA = new ConnHbndler[MAXCONN];
       int conn = 0;
-      while ( conn < totalConn ) {
-          Socket sock = skMain.accept();
-          connHA[conn] = new ConnHandler(sock.getInputStream());
-          connHA[conn].start();
+      while ( conn < totblConn ) {
+          Socket sock = skMbin.bccept();
+          connHA[conn] = new ConnHbndler(sock.getInputStrebm());
+          connHA[conn].stbrt();
           conn++;
       }
 
-      while ( bytesRead < bytesToRead ) {
-          java.lang.Thread.sleep(500);
+      while ( bytesRebd < bytesToRebd ) {
+          jbvb.lbng.Threbd.sleep(500);
       }
       timestop = System.currentTimeMillis();
-      System.out.println("Time for all reads (" + totalConn +
-                         " sockets) : " + (timestop-timestart));
-      // Tell the client it can now go away
+      System.out.println("Time for bll rebds (" + totblConn +
+                         " sockets) : " + (timestop-timestbrt));
+      // Tell the client it cbn now go bwby
       byte[] buff = new byte[BYTESPEROP];
-      ctrlSock.getOutputStream().write(buff,0,BYTESPEROP);
-    } catch (Exception exc) { exc.printStackTrace(); }
+      ctrlSock.getOutputStrebm().write(buff,0,BYTESPEROP);
+    } cbtch (Exception exc) { exc.printStbckTrbce(); }
   }
 
   /*
-   * main ... just create invoke the SimpleServer constructor.
+   * mbin ... just crebte invoke the SimpleServer constructor.
    */
-  public static void main (String args[])
+  public stbtic void mbin (String brgs[])
   {
     SimpleServer server = new SimpleServer();
   }
 
   /*
-   * Connection Handler inner class...one of these per client connection.
+   * Connection Hbndler inner clbss...one of these per client connection.
    */
-  class ConnHandler extends Thread {
-    private InputStream instr;
-    public ConnHandler(InputStream inputStr) { instr = inputStr; }
+  clbss ConnHbndler extends Threbd {
+    privbte InputStrebm instr;
+    public ConnHbndler(InputStrebm inputStr) { instr = inputStr; }
 
     public void run() {
       try {
         int bytes;
         byte[] buff = new byte[BYTESPEROP];
 
-        while ( bytesRead < bytesToRead ) {
-          bytes = instr.read (buff, 0, BYTESPEROP);
+        while ( bytesRebd < bytesToRebd ) {
+          bytes = instr.rebd (buff, 0, BYTESPEROP);
           if (bytes > 0 ) {
             synchronized(eventSync) {
-              bytesRead += bytes;
+              bytesRebd += bytes;
             }
             /*
-             * Any real server would do some synchronized and some
-             * unsynchronized work on behalf of the client, and
-             * most likely send some data back...but this is a
-             * gross oversimplification.
+             * Any rebl server would do some synchronized bnd some
+             * unsynchronized work on behblf of the client, bnd
+             * most likely send some dbtb bbck...but this is b
+             * gross oversimplificbtion.
              */
           }
           else {
-            if (bytesRead < bytesToRead)
-              System.out.println("instr.read returned : " + bytes);
+            if (bytesRebd < bytesToRebd)
+              System.out.println("instr.rebd returned : " + bytes);
           }
         }
       }
-      catch (Exception e) {e.printStackTrace();}
+      cbtch (Exception e) {e.printStbckTrbce();}
     }
   }
 }

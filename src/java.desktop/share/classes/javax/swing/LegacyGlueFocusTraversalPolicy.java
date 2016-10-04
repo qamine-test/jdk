@@ -1,201 +1,201 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing;
+pbckbge jbvbx.swing;
 
-import java.awt.FocusTraversalPolicy;
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Window;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.io.*;
+import jbvb.bwt.FocusTrbversblPolicy;
+import jbvb.bwt.Component;
+import jbvb.bwt.Contbiner;
+import jbvb.bwt.Window;
+import jbvb.util.HbshMbp;
+import jbvb.util.HbshSet;
+import jbvb.io.*;
 
 
 /**
- * A FocusTraversalPolicy which provides support for legacy applications which
- * handle focus traversal via JComponent.setNextFocusableComponent or by
- * installing a custom DefaultFocusManager. If a specific traversal has not
- * been hard coded, then that traversal is provided either by the custom
- * DefaultFocusManager, or by a wrapped FocusTraversalPolicy instance.
+ * A FocusTrbversblPolicy which provides support for legbcy bpplicbtions which
+ * hbndle focus trbversbl vib JComponent.setNextFocusbbleComponent or by
+ * instblling b custom DefbultFocusMbnbger. If b specific trbversbl hbs not
+ * been hbrd coded, then thbt trbversbl is provided either by the custom
+ * DefbultFocusMbnbger, or by b wrbpped FocusTrbversblPolicy instbnce.
  *
- * @author David Mendenhall
+ * @buthor Dbvid Mendenhbll
  */
-@SuppressWarnings("serial") // JDK-implementation class
-final class LegacyGlueFocusTraversalPolicy extends FocusTraversalPolicy
-    implements Serializable
+@SuppressWbrnings("seribl") // JDK-implementbtion clbss
+finbl clbss LegbcyGlueFocusTrbversblPolicy extends FocusTrbversblPolicy
+    implements Seriblizbble
 {
-    private transient FocusTraversalPolicy delegatePolicy;
-    private transient DefaultFocusManager delegateManager;
+    privbte trbnsient FocusTrbversblPolicy delegbtePolicy;
+    privbte trbnsient DefbultFocusMbnbger delegbteMbnbger;
 
-    private HashMap<Component, Component> forwardMap = new HashMap<Component, Component>(),
-        backwardMap = new HashMap<Component, Component>();
+    privbte HbshMbp<Component, Component> forwbrdMbp = new HbshMbp<Component, Component>(),
+        bbckwbrdMbp = new HbshMbp<Component, Component>();
 
-    LegacyGlueFocusTraversalPolicy(FocusTraversalPolicy delegatePolicy) {
-        this.delegatePolicy = delegatePolicy;
+    LegbcyGlueFocusTrbversblPolicy(FocusTrbversblPolicy delegbtePolicy) {
+        this.delegbtePolicy = delegbtePolicy;
     }
-    LegacyGlueFocusTraversalPolicy(DefaultFocusManager delegateManager) {
-        this.delegateManager = delegateManager;
-    }
-
-    void setNextFocusableComponent(Component left, Component right) {
-        forwardMap.put(left, right);
-        backwardMap.put(right, left);
-    }
-    void unsetNextFocusableComponent(Component left, Component right) {
-        forwardMap.remove(left);
-        backwardMap.remove(right);
+    LegbcyGlueFocusTrbversblPolicy(DefbultFocusMbnbger delegbteMbnbger) {
+        this.delegbteMbnbger = delegbteMbnbger;
     }
 
-    public Component getComponentAfter(Container focusCycleRoot,
-                                       Component aComponent) {
-        Component hardCoded = aComponent, prevHardCoded;
-        HashSet<Component> sanity = new HashSet<Component>();
+    void setNextFocusbbleComponent(Component left, Component right) {
+        forwbrdMbp.put(left, right);
+        bbckwbrdMbp.put(right, left);
+    }
+    void unsetNextFocusbbleComponent(Component left, Component right) {
+        forwbrdMbp.remove(left);
+        bbckwbrdMbp.remove(right);
+    }
+
+    public Component getComponentAfter(Contbiner focusCycleRoot,
+                                       Component bComponent) {
+        Component hbrdCoded = bComponent, prevHbrdCoded;
+        HbshSet<Component> sbnity = new HbshSet<Component>();
 
         do {
-            prevHardCoded = hardCoded;
-            hardCoded = forwardMap.get(hardCoded);
-            if (hardCoded == null) {
-                if (delegatePolicy != null &&
-                    prevHardCoded.isFocusCycleRoot(focusCycleRoot)) {
-                    return delegatePolicy.getComponentAfter(focusCycleRoot,
-                                                            prevHardCoded);
-                } else if (delegateManager != null) {
-                    return delegateManager.
-                        getComponentAfter(focusCycleRoot, aComponent);
+            prevHbrdCoded = hbrdCoded;
+            hbrdCoded = forwbrdMbp.get(hbrdCoded);
+            if (hbrdCoded == null) {
+                if (delegbtePolicy != null &&
+                    prevHbrdCoded.isFocusCycleRoot(focusCycleRoot)) {
+                    return delegbtePolicy.getComponentAfter(focusCycleRoot,
+                                                            prevHbrdCoded);
+                } else if (delegbteMbnbger != null) {
+                    return delegbteMbnbger.
+                        getComponentAfter(focusCycleRoot, bComponent);
                 } else {
                     return null;
                 }
             }
-            if (sanity.contains(hardCoded)) {
-                // cycle detected; bail
+            if (sbnity.contbins(hbrdCoded)) {
+                // cycle detected; bbil
                 return null;
             }
-            sanity.add(hardCoded);
-        } while (!accept(hardCoded));
+            sbnity.bdd(hbrdCoded);
+        } while (!bccept(hbrdCoded));
 
-        return hardCoded;
+        return hbrdCoded;
     }
-    public Component getComponentBefore(Container focusCycleRoot,
-                                        Component aComponent) {
-        Component hardCoded = aComponent, prevHardCoded;
-        HashSet<Component> sanity = new HashSet<Component>();
+    public Component getComponentBefore(Contbiner focusCycleRoot,
+                                        Component bComponent) {
+        Component hbrdCoded = bComponent, prevHbrdCoded;
+        HbshSet<Component> sbnity = new HbshSet<Component>();
 
         do {
-            prevHardCoded = hardCoded;
-            hardCoded = backwardMap.get(hardCoded);
-            if (hardCoded == null) {
-                if (delegatePolicy != null &&
-                    prevHardCoded.isFocusCycleRoot(focusCycleRoot)) {
-                    return delegatePolicy.getComponentBefore(focusCycleRoot,
-                                                       prevHardCoded);
-                } else if (delegateManager != null) {
-                    return delegateManager.
-                        getComponentBefore(focusCycleRoot, aComponent);
+            prevHbrdCoded = hbrdCoded;
+            hbrdCoded = bbckwbrdMbp.get(hbrdCoded);
+            if (hbrdCoded == null) {
+                if (delegbtePolicy != null &&
+                    prevHbrdCoded.isFocusCycleRoot(focusCycleRoot)) {
+                    return delegbtePolicy.getComponentBefore(focusCycleRoot,
+                                                       prevHbrdCoded);
+                } else if (delegbteMbnbger != null) {
+                    return delegbteMbnbger.
+                        getComponentBefore(focusCycleRoot, bComponent);
                 } else {
                     return null;
                 }
             }
-            if (sanity.contains(hardCoded)) {
-                // cycle detected; bail
+            if (sbnity.contbins(hbrdCoded)) {
+                // cycle detected; bbil
                 return null;
             }
-            sanity.add(hardCoded);
-        } while (!accept(hardCoded));
+            sbnity.bdd(hbrdCoded);
+        } while (!bccept(hbrdCoded));
 
-        return hardCoded;
+        return hbrdCoded;
     }
-    public Component getFirstComponent(Container focusCycleRoot) {
-        if (delegatePolicy != null) {
-            return delegatePolicy.getFirstComponent(focusCycleRoot);
-        } else if (delegateManager != null) {
-            return delegateManager.getFirstComponent(focusCycleRoot);
+    public Component getFirstComponent(Contbiner focusCycleRoot) {
+        if (delegbtePolicy != null) {
+            return delegbtePolicy.getFirstComponent(focusCycleRoot);
+        } else if (delegbteMbnbger != null) {
+            return delegbteMbnbger.getFirstComponent(focusCycleRoot);
         } else {
             return null;
         }
     }
-    public Component getLastComponent(Container focusCycleRoot) {
-        if (delegatePolicy != null) {
-            return delegatePolicy.getLastComponent(focusCycleRoot);
-        } else if (delegateManager != null) {
-            return delegateManager.getLastComponent(focusCycleRoot);
+    public Component getLbstComponent(Contbiner focusCycleRoot) {
+        if (delegbtePolicy != null) {
+            return delegbtePolicy.getLbstComponent(focusCycleRoot);
+        } else if (delegbteMbnbger != null) {
+            return delegbteMbnbger.getLbstComponent(focusCycleRoot);
         } else {
             return null;
         }
     }
-    public Component getDefaultComponent(Container focusCycleRoot) {
-        if (delegatePolicy != null) {
-            return delegatePolicy.getDefaultComponent(focusCycleRoot);
+    public Component getDefbultComponent(Contbiner focusCycleRoot) {
+        if (delegbtePolicy != null) {
+            return delegbtePolicy.getDefbultComponent(focusCycleRoot);
         } else {
             return getFirstComponent(focusCycleRoot);
         }
     }
-    private boolean accept(Component aComponent) {
-        if (!(aComponent.isVisible() && aComponent.isDisplayable() &&
-              aComponent.isFocusable() && aComponent.isEnabled())) {
-            return false;
+    privbte boolebn bccept(Component bComponent) {
+        if (!(bComponent.isVisible() && bComponent.isDisplbybble() &&
+              bComponent.isFocusbble() && bComponent.isEnbbled())) {
+            return fblse;
         }
 
-        // Verify that the Component is recursively enabled. Disabling a
-        // heavyweight Container disables its children, whereas disabling
-        // a lightweight Container does not.
-        if (!(aComponent instanceof Window)) {
-            for (Container enableTest = aComponent.getParent();
-                 enableTest != null;
-                 enableTest = enableTest.getParent())
+        // Verify thbt the Component is recursively enbbled. Disbbling b
+        // hebvyweight Contbiner disbbles its children, wherebs disbbling
+        // b lightweight Contbiner does not.
+        if (!(bComponent instbnceof Window)) {
+            for (Contbiner enbbleTest = bComponent.getPbrent();
+                 enbbleTest != null;
+                 enbbleTest = enbbleTest.getPbrent())
             {
-                if (!(enableTest.isEnabled() || enableTest.isLightweight())) {
-                    return false;
+                if (!(enbbleTest.isEnbbled() || enbbleTest.isLightweight())) {
+                    return fblse;
                 }
-                if (enableTest instanceof Window) {
-                    break;
+                if (enbbleTest instbnceof Window) {
+                    brebk;
                 }
             }
         }
 
         return true;
     }
-    private void writeObject(ObjectOutputStream out) throws IOException {
-        out.defaultWriteObject();
+    privbte void writeObject(ObjectOutputStrebm out) throws IOException {
+        out.defbultWriteObject();
 
-        if (delegatePolicy instanceof Serializable) {
-            out.writeObject(delegatePolicy);
+        if (delegbtePolicy instbnceof Seriblizbble) {
+            out.writeObject(delegbtePolicy);
         } else {
             out.writeObject(null);
         }
 
-        if (delegateManager instanceof Serializable) {
-            out.writeObject(delegateManager);
+        if (delegbteMbnbger instbnceof Seriblizbble) {
+            out.writeObject(delegbteMbnbger);
         } else {
             out.writeObject(null);
         }
     }
-    private void readObject(ObjectInputStream in)
-        throws IOException, ClassNotFoundException
+    privbte void rebdObject(ObjectInputStrebm in)
+        throws IOException, ClbssNotFoundException
     {
-        in.defaultReadObject();
-        delegatePolicy = (FocusTraversalPolicy)in.readObject();
-        delegateManager = (DefaultFocusManager)in.readObject();
+        in.defbultRebdObject();
+        delegbtePolicy = (FocusTrbversblPolicy)in.rebdObject();
+        delegbteMbnbger = (DefbultFocusMbnbger)in.rebdObject();
     }
 }

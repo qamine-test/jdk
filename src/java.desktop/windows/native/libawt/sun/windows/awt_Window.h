@@ -1,386 +1,386 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 #ifndef AWT_WINDOW_H
 #define AWT_WINDOW_H
 
-#include "awt_Canvas.h"
+#include "bwt_Cbnvbs.h"
 
-#include "java_awt_Window.h"
-#include "sun_awt_windows_WWindowPeer.h"
+#include "jbvb_bwt_Window.h"
+#include "sun_bwt_windows_WWindowPeer.h"
 
-// property name tagging windows disabled by modality
-static LPCTSTR ModalBlockerProp = TEXT("SunAwtModalBlockerProp");
-static LPCTSTR ModalDialogPeerProp = TEXT("SunAwtModalDialogPeerProp");
-static LPCTSTR NativeDialogWndProcProp = TEXT("SunAwtNativeDialogWndProcProp");
+// property nbme tbgging windows disbbled by modblity
+stbtic LPCTSTR ModblBlockerProp = TEXT("SunAwtModblBlockerProp");
+stbtic LPCTSTR ModblDiblogPeerProp = TEXT("SunAwtModblDiblogPeerProp");
+stbtic LPCTSTR NbtiveDiblogWndProcProp = TEXT("SunAwtNbtiveDiblogWndProcProp");
 
 #ifndef WH_MOUSE_LL
 #define WH_MOUSE_LL 14
 #endif
 
-class AwtFrame;
+clbss AwtFrbme;
 
 /************************************************************************
- * AwtWindow class
+ * AwtWindow clbss
  */
 
-class AwtWindow : public AwtCanvas {
+clbss AwtWindow : public AwtCbnvbs {
 public:
 
-    /* java.awt.Window field ids */
-    static jfieldID warningStringID;
-    static jfieldID locationByPlatformID;
-    static jfieldID screenID; /* screen number passed over from WindowPeer */
-    static jfieldID autoRequestFocusID;
-    static jfieldID securityWarningWidthID;
-    static jfieldID securityWarningHeightID;
+    /* jbvb.bwt.Window field ids */
+    stbtic jfieldID wbrningStringID;
+    stbtic jfieldID locbtionByPlbtformID;
+    stbtic jfieldID screenID; /* screen number pbssed over from WindowPeer */
+    stbtic jfieldID butoRequestFocusID;
+    stbtic jfieldID securityWbrningWidthID;
+    stbtic jfieldID securityWbrningHeightID;
 
-    // The coordinates at the peer.
-    static jfieldID sysXID;
-    static jfieldID sysYID;
-    static jfieldID sysWID;
-    static jfieldID sysHID;
+    // The coordinbtes bt the peer.
+    stbtic jfieldID sysXID;
+    stbtic jfieldID sysYID;
+    stbtic jfieldID sysWID;
+    stbtic jfieldID sysHID;
 
-    static jfieldID windowTypeID;
+    stbtic jfieldID windowTypeID;
 
-    static jmethodID getWarningStringMID;
-    static jmethodID calculateSecurityWarningPositionMID;
-    static jmethodID windowTypeNameMID;
+    stbtic jmethodID getWbrningStringMID;
+    stbtic jmethodID cblculbteSecurityWbrningPositionMID;
+    stbtic jmethodID windowTypeNbmeMID;
 
     AwtWindow();
-    virtual ~AwtWindow();
+    virtubl ~AwtWindow();
 
-    virtual void Dispose();
+    virtubl void Dispose();
 
-    virtual LPCTSTR GetClassName();
-    virtual void FillClassInfo(WNDCLASSEX *lpwc);
+    virtubl LPCTSTR GetClbssNbme();
+    virtubl void FillClbssInfo(WNDCLASSEX *lpwc);
 
-    static AwtWindow* Create(jobject self, jobject parent);
+    stbtic AwtWindow* Crebte(jobject self, jobject pbrent);
 
-    // Returns TRUE if this Window is equal to or one of owners of wnd
+    // Returns TRUE if this Window is equbl to or one of owners of wnd
     BOOL IsOneOfOwnersOf(AwtWindow * wnd);
 
-    /* Update the insets for this Window (container), its peer &
-     * optional other
+    /* Updbte the insets for this Window (contbiner), its peer &
+     * optionbl other
      */
-    BOOL UpdateInsets(jobject insets = 0);
-    BOOL HasValidRect();
+    BOOL UpdbteInsets(jobject insets = 0);
+    BOOL HbsVblidRect();
 
-    static BOOL CALLBACK UpdateOwnedIconCallback(HWND hwnd, LPARAM param);
+    stbtic BOOL CALLBACK UpdbteOwnedIconCbllbbck(HWND hwnd, LPARAM pbrbm);
 
-    INLINE AwtFrame * GetOwningFrameOrDialog() { return m_owningFrameDialog; }
+    INLINE AwtFrbme * GetOwningFrbmeOrDiblog() { return m_owningFrbmeDiblog; }
 
     HWND GetTopLevelHWnd();
 
-    /* Subtract inset values from a window origin. */
-    INLINE void SubtractInsetPoint(int& x, int& y) {
+    /* Subtrbct inset vblues from b window origin. */
+    INLINE void SubtrbctInsetPoint(int& x, int& y) {
         x -= m_insets.left;
         y -= m_insets.top;
     }
 
-    virtual void GetInsets(RECT* rect) {
+    virtubl void GetInsets(RECT* rect) {
         VERIFY(::CopyRect(rect, &m_insets));
     }
 
-    /* to make embedded frames easier */
-    virtual BOOL IsEmbeddedFrame() { return FALSE;}
+    /* to mbke embedded frbmes ebsier */
+    virtubl BOOL IsEmbeddedFrbme() { return FALSE;}
 
-    /* We can hold children */
-    virtual BOOL IsContainer() { return TRUE;}
+    /* We cbn hold children */
+    virtubl BOOL IsContbiner() { return TRUE;}
 
-    virtual BOOL IsUndecorated() { return TRUE; }
+    virtubl BOOL IsUndecorbted() { return TRUE; }
 
-    INLINE virtual BOOL IsSimpleWindow() { return TRUE; }
+    INLINE virtubl BOOL IsSimpleWindow() { return TRUE; }
 
-    INLINE BOOL IsRetainingHierarchyZOrder() { return m_isRetainingHierarchyZOrder; }
+    INLINE BOOL IsRetbiningHierbrchyZOrder() { return m_isRetbiningHierbrchyZOrder; }
 
-    /* WARNING: don't invoke on Toolkit thread! */
+    /* WARNING: don't invoke on Toolkit threbd! */
     INLINE BOOL IsAutoRequestFocus() {
         JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
-        return env->GetBooleanField(GetTarget(env), AwtWindow::autoRequestFocusID);
+        return env->GetBoolebnField(GetTbrget(env), AwtWindow::butoRequestFocusID);
     }
 
-    INLINE virtual BOOL IsFocusedWindowModalBlocker() {
+    INLINE virtubl BOOL IsFocusedWindowModblBlocker() {
         return FALSE;
     }
 
-    virtual void Invalidate(RECT* r);
-    virtual void Show();
-    virtual void SetResizable(BOOL isResizable);
-    BOOL IsResizable();
-    virtual void RecalcNonClient();
-    virtual void RedrawNonClient();
-    virtual int  GetScreenImOn();
-    virtual void CheckIfOnNewScreen();
-    virtual void Grab();
-    virtual void Ungrab();
-    virtual void Ungrab(BOOL doPost);
-    virtual void SetIconData(JNIEnv* env, jintArray iconData, jint w, jint h,
-                             jintArray smallIconData, jint smw, jint smh);
-    virtual void DoUpdateIcon();
+    virtubl void Invblidbte(RECT* r);
+    virtubl void Show();
+    virtubl void SetResizbble(BOOL isResizbble);
+    BOOL IsResizbble();
+    virtubl void RecblcNonClient();
+    virtubl void RedrbwNonClient();
+    virtubl int  GetScreenImOn();
+    virtubl void CheckIfOnNewScreen();
+    virtubl void Grbb();
+    virtubl void Ungrbb();
+    virtubl void Ungrbb(BOOL doPost);
+    virtubl void SetIconDbtb(JNIEnv* env, jintArrby iconDbtb, jint w, jint h,
+                             jintArrby smbllIconDbtb, jint smw, jint smh);
+    virtubl void DoUpdbteIcon();
     INLINE HICON GetHIcon() {return m_hIcon;};
     INLINE HICON GetHIconSm() {return m_hIconSm;};
     INLINE BOOL IsIconInherited() {return m_iconInherited;};
-    INLINE virtual BOOL IsLightweightFrame() {return FALSE;}
+    INLINE virtubl BOOL IsLightweightFrbme() {return FALSE;}
 
     /* Post events to the EventQueue */
     void SendComponentEvent(jint eventId);
     void SendWindowEvent(jint id, HWND opposite = NULL,
-                         jint oldState = 0, jint newState = 0);
+                         jint oldStbte = 0, jint newStbte = 0);
 
-    BOOL IsFocusableWindow();
+    BOOL IsFocusbbleWindow();
 
-    /* some helper methods about blocking windows by modal dialogs */
-    INLINE static HWND GetModalBlocker(HWND window) {
-        return reinterpret_cast<HWND>(::GetProp(window, ModalBlockerProp));
+    /* some helper methods bbout blocking windows by modbl diblogs */
+    INLINE stbtic HWND GetModblBlocker(HWND window) {
+        return reinterpret_cbst<HWND>(::GetProp(window, ModblBlockerProp));
     }
-    static void SetModalBlocker(HWND window, HWND blocker);
-    static void SetAndActivateModalBlocker(HWND window, HWND blocker);
+    stbtic void SetModblBlocker(HWND window, HWND blocker);
+    stbtic void SetAndActivbteModblBlocker(HWND window, HWND blocker);
 
-    static HWND GetTopmostModalBlocker(HWND window);
+    stbtic HWND GetTopmostModblBlocker(HWND window);
 
     /*
-     * Windows message handler functions
+     * Windows messbge hbndler functions
      */
-    virtual MsgRouting WmActivate(UINT nState, BOOL fMinimized, HWND opposite);
-    virtual MsgRouting WmCreate();
-    virtual MsgRouting WmClose();
-    virtual MsgRouting WmDestroy();
-    virtual MsgRouting WmShowWindow(BOOL show, UINT status);
-    virtual MsgRouting WmGetMinMaxInfo(LPMINMAXINFO lpmmi);
-    virtual MsgRouting WmMove(int x, int y);
-    virtual MsgRouting WmSize(UINT type, int w, int h);
-    virtual MsgRouting WmSizing();
-    virtual MsgRouting WmPaint(HDC hDC);
-    virtual MsgRouting WmSettingChange(UINT wFlag, LPCTSTR pszSection);
-    virtual MsgRouting WmNcCalcSize(BOOL fCalcValidRects,
-                                    LPNCCALCSIZE_PARAMS lpncsp, LRESULT& retVal);
-    virtual MsgRouting WmNcHitTest(UINT x, UINT y, LRESULT& retVal);
-    virtual MsgRouting WmNcMouseDown(WPARAM hitTest, int x, int y, int button);
-    virtual MsgRouting WmGetIcon(WPARAM iconType, LRESULT& retVal);
-    virtual LRESULT WindowProc(UINT message, WPARAM wParam, LPARAM lParam);
-    virtual MsgRouting WmWindowPosChanging(LPARAM windowPos);
-    virtual MsgRouting WmWindowPosChanged(LPARAM windowPos);
-    virtual MsgRouting WmTimer(UINT_PTR timerID);
+    virtubl MsgRouting WmActivbte(UINT nStbte, BOOL fMinimized, HWND opposite);
+    virtubl MsgRouting WmCrebte();
+    virtubl MsgRouting WmClose();
+    virtubl MsgRouting WmDestroy();
+    virtubl MsgRouting WmShowWindow(BOOL show, UINT stbtus);
+    virtubl MsgRouting WmGetMinMbxInfo(LPMINMAXINFO lpmmi);
+    virtubl MsgRouting WmMove(int x, int y);
+    virtubl MsgRouting WmSize(UINT type, int w, int h);
+    virtubl MsgRouting WmSizing();
+    virtubl MsgRouting WmPbint(HDC hDC);
+    virtubl MsgRouting WmSettingChbnge(UINT wFlbg, LPCTSTR pszSection);
+    virtubl MsgRouting WmNcCblcSize(BOOL fCblcVblidRects,
+                                    LPNCCALCSIZE_PARAMS lpncsp, LRESULT& retVbl);
+    virtubl MsgRouting WmNcHitTest(UINT x, UINT y, LRESULT& retVbl);
+    virtubl MsgRouting WmNcMouseDown(WPARAM hitTest, int x, int y, int button);
+    virtubl MsgRouting WmGetIcon(WPARAM iconType, LRESULT& retVbl);
+    virtubl LRESULT WindowProc(UINT messbge, WPARAM wPbrbm, LPARAM lPbrbm);
+    virtubl MsgRouting WmWindowPosChbnging(LPARAM windowPos);
+    virtubl MsgRouting WmWindowPosChbnged(LPARAM windowPos);
+    virtubl MsgRouting WmTimer(UINT_PTR timerID);
 
-    virtual MsgRouting HandleEvent(MSG *msg, BOOL synthetic);
-    virtual void WindowResized();
+    virtubl MsgRouting HbndleEvent(MSG *msg, BOOL synthetic);
+    virtubl void WindowResized();
 
-    static jboolean _RequestWindowFocus(void *param);
+    stbtic jboolebn _RequestWindowFocus(void *pbrbm);
 
-    virtual BOOL AwtSetActiveWindow(BOOL isMouseEventCause = FALSE, UINT hittest = HTCLIENT);
+    virtubl BOOL AwtSetActiveWindow(BOOL isMouseEventCbuse = FALSE, UINT hittest = HTCLIENT);
 
     // Execute on Toolkit only.
-    INLINE static LRESULT SynthesizeWmActivate(BOOL doActivate, HWND targetHWnd, HWND oppositeHWnd) {
-        AwtWindow *win = static_cast<AwtWindow*>(AwtComponent::GetComponent(targetHWnd));
-        if (doActivate &&
-            (!::IsWindowVisible(targetHWnd) || ::IsIconic(::GetAncestor(targetHWnd, GA_ROOT))) &&
-            (win == NULL || !win->IsLightweightFrame()))
+    INLINE stbtic LRESULT SynthesizeWmActivbte(BOOL doActivbte, HWND tbrgetHWnd, HWND oppositeHWnd) {
+        AwtWindow *win = stbtic_cbst<AwtWindow*>(AwtComponent::GetComponent(tbrgetHWnd));
+        if (doActivbte &&
+            (!::IsWindowVisible(tbrgetHWnd) || ::IsIconic(::GetAncestor(tbrgetHWnd, GA_ROOT))) &&
+            (win == NULL || !win->IsLightweightFrbme()))
         {
-            // The activation is rejected if either:
+            // The bctivbtion is rejected if either:
             // - The toplevel is not visible
             // - The toplevel (or its embedder) is minimised
             return 1;
         }
-        return ::SendMessage(targetHWnd, WM_ACTIVATE,
-                             MAKEWPARAM(doActivate ? WA_ACTIVE : WA_INACTIVE, FALSE),
+        return ::SendMessbge(tbrgetHWnd, WM_ACTIVATE,
+                             MAKEWPARAM(doActivbte ? WA_ACTIVE : WA_INACTIVE, FALSE),
                              (LPARAM) oppositeHWnd);
     }
 
-    void moveToDefaultLocation(); /* moves Window to X,Y specified by Window Manger */
+    void moveToDefbultLocbtion(); /* moves Window to X,Y specified by Window Mbnger */
 
-    void UpdateWindow(JNIEnv* env, jintArray data, int width, int height,
-                      HBITMAP hNewBitmap = NULL);
+    void UpdbteWindow(JNIEnv* env, jintArrby dbtb, int width, int height,
+                      HBITMAP hNewBitmbp = NULL);
 
-    INLINE virtual BOOL IsTopLevel() { return TRUE; }
-    static AwtWindow * GetGrabbedWindow() { return m_grabbedWindow; }
+    INLINE virtubl BOOL IsTopLevel() { return TRUE; }
+    stbtic AwtWindow * GetGrbbbedWindow() { return m_grbbbedWindow; }
 
-    static void FlashWindowEx(HWND hWnd, UINT count, DWORD timeout, DWORD flags);
+    stbtic void FlbshWindowEx(HWND hWnd, UINT count, DWORD timeout, DWORD flbgs);
 
-    // some methods invoked on Toolkit thread
-    static void _ToFront(void *param);
-    static void _ToBack(void *param);
-    static void _Grab(void *param);
-    static void _Ungrab(void *param);
-    static void _SetAlwaysOnTop(void *param);
-    static void _SetTitle(void *param);
-    static void _SetResizable(void *param);
-    static void _UpdateInsets(void *param);
-    static void _ReshapeFrame(void *param);
-    static void _SetIconImagesData(void * param);
-    static void _SetMinSize(void* param);
-    static jint _GetScreenImOn(void *param);
-    static void _SetFocusableWindow(void *param);
-    static void _SetModalExcludedNativeProp(void *param);
-    static void _ModalDisable(void *param);
-    static void _ModalEnable(void *param);
-    static void _SetOpacity(void* param);
-    static void _SetOpaque(void* param);
-    static void _UpdateWindow(void* param);
-    static void _RepositionSecurityWarning(void* param);
-    static void _SetFullScreenExclusiveModeState(void* param);
+    // some methods invoked on Toolkit threbd
+    stbtic void _ToFront(void *pbrbm);
+    stbtic void _ToBbck(void *pbrbm);
+    stbtic void _Grbb(void *pbrbm);
+    stbtic void _Ungrbb(void *pbrbm);
+    stbtic void _SetAlwbysOnTop(void *pbrbm);
+    stbtic void _SetTitle(void *pbrbm);
+    stbtic void _SetResizbble(void *pbrbm);
+    stbtic void _UpdbteInsets(void *pbrbm);
+    stbtic void _ReshbpeFrbme(void *pbrbm);
+    stbtic void _SetIconImbgesDbtb(void * pbrbm);
+    stbtic void _SetMinSize(void* pbrbm);
+    stbtic jint _GetScreenImOn(void *pbrbm);
+    stbtic void _SetFocusbbleWindow(void *pbrbm);
+    stbtic void _SetModblExcludedNbtiveProp(void *pbrbm);
+    stbtic void _ModblDisbble(void *pbrbm);
+    stbtic void _ModblEnbble(void *pbrbm);
+    stbtic void _SetOpbcity(void* pbrbm);
+    stbtic void _SetOpbque(void* pbrbm);
+    stbtic void _UpdbteWindow(void* pbrbm);
+    stbtic void _RepositionSecurityWbrning(void* pbrbm);
+    stbtic void _SetFullScreenExclusiveModeStbte(void* pbrbm);
 
-    inline static BOOL IsResizing() {
+    inline stbtic BOOL IsResizing() {
         return sm_resizing;
     }
 
-    virtual void CreateHWnd(JNIEnv *env, LPCWSTR title,
+    virtubl void CrebteHWnd(JNIEnv *env, LPCWSTR title,
             DWORD windowStyle, DWORD windowExStyle,
             int x, int y, int w, int h,
-            HWND hWndParent, HMENU hMenu,
-            COLORREF colorForeground, COLORREF colorBackground,
+            HWND hWndPbrent, HMENU hMenu,
+            COLORREF colorForeground, COLORREF colorBbckground,
             jobject peer);
-    virtual void DestroyHWnd();
+    virtubl void DestroyHWnd();
 
-    static void FocusedWindowChanged(HWND from, HWND to);
+    stbtic void FocusedWindowChbnged(HWND from, HWND to);
 
-private:
-    static int ms_instanceCounter;
-    static HHOOK ms_hCBTFilter;
-    static LRESULT CALLBACK CBTFilter(int nCode, WPARAM wParam, LPARAM lParam);
-    static BOOL sm_resizing;        /* in the middle of a resizing operation */
+privbte:
+    stbtic int ms_instbnceCounter;
+    stbtic HHOOK ms_hCBTFilter;
+    stbtic LRESULT CALLBACK CBTFilter(int nCode, WPARAM wPbrbm, LPARAM lPbrbm);
+    stbtic BOOL sm_resizing;        /* in the middle of b resizing operbtion */
 
-    RECT m_insets;          /* a cache of the insets being used */
-    RECT m_old_insets;      /* help determine if insets change */
-    POINT m_sizePt;         /* the last value of WM_SIZE */
-    RECT m_warningRect;     /* The window's warning banner area, if any. */
-    AwtFrame *m_owningFrameDialog; /* The nearest Frame/Dialog which owns us */
-    BOOL m_isFocusableWindow; /* a cache of Window.isFocusableWindow() return value */
-    POINT m_minSize;          /* Minimum size of the window for WM_GETMINMAXINFO message */
-    BOOL m_grabbed; // Whether the current window is grabbed
-    BOOL m_isRetainingHierarchyZOrder; // Is this a window that shouldn't change z-order of any window
-                                       // from its hierarchy when shown. Currently applied to instances of
-                                       // javax/swing/Popup$HeavyWeightWindow class.
+    RECT m_insets;          /* b cbche of the insets being used */
+    RECT m_old_insets;      /* help determine if insets chbnge */
+    POINT m_sizePt;         /* the lbst vblue of WM_SIZE */
+    RECT m_wbrningRect;     /* The window's wbrning bbnner breb, if bny. */
+    AwtFrbme *m_owningFrbmeDiblog; /* The nebrest Frbme/Diblog which owns us */
+    BOOL m_isFocusbbleWindow; /* b cbche of Window.isFocusbbleWindow() return vblue */
+    POINT m_minSize;          /* Minimum size of the window for WM_GETMINMAXINFO messbge */
+    BOOL m_grbbbed; // Whether the current window is grbbbed
+    BOOL m_isRetbiningHierbrchyZOrder; // Is this b window thbt shouldn't chbnge z-order of bny window
+                                       // from its hierbrchy when shown. Currently bpplied to instbnces of
+                                       // jbvbx/swing/Popup$HebvyWeightWindow clbss.
 
-    // SetTranslucency() is the setter for the following two fields
-    BYTE m_opacity;         // The opacity level. == 0xff by default (when opacity mode is disabled)
-    BOOL m_opaque;          // Whether the window uses the perpixel translucency (false), or not (true).
+    // SetTrbnslucency() is the setter for the following two fields
+    BYTE m_opbcity;         // The opbcity level. == 0xff by defbult (when opbcity mode is disbbled)
+    BOOL m_opbque;          // Whether the window uses the perpixel trbnslucency (fblse), or not (true).
 
-    inline BYTE getOpacity() {
-        return m_opacity;
+    inline BYTE getOpbcity() {
+        return m_opbcity;
     }
 
-    inline BOOL isOpaque() {
-        return m_opaque;
+    inline BOOL isOpbque() {
+        return m_opbque;
     }
 
-    CRITICAL_SECTION contentBitmapCS;
-    HBITMAP hContentBitmap;
+    CRITICAL_SECTION contentBitmbpCS;
+    HBITMAP hContentBitmbp;
     UINT contentWidth;
     UINT contentHeight;
 
-    void SetTranslucency(BYTE opacity, BOOL opaque, BOOL setValues = TRUE,
-            BOOL useDefaultForOldValues = FALSE);
-    void UpdateWindow(int width, int height, HBITMAP hBitmap);
-    void UpdateWindowImpl(int width, int height, HBITMAP hBitmap);
-    void RedrawWindow();
-    void DeleteContentBitmap();
+    void SetTrbnslucency(BYTE opbcity, BOOL opbque, BOOL setVblues = TRUE,
+            BOOL useDefbultForOldVblues = FALSE);
+    void UpdbteWindow(int width, int height, HBITMAP hBitmbp);
+    void UpdbteWindowImpl(int width, int height, HBITMAP hBitmbp);
+    void RedrbwWindow();
+    void DeleteContentBitmbp();
 
-    static UINT untrustedWindowsCounter;
+    stbtic UINT untrustedWindowsCounter;
 
-    WCHAR * warningString;
+    WCHAR * wbrningString;
 
-    // The warning icon
-    HWND warningWindow;
-    // The tooltip that appears when hovering the icon
+    // The wbrning icon
+    HWND wbrningWindow;
+    // The tooltip thbt bppebrs when hovering the icon
     HWND securityTooltipWindow;
 
-    UINT warningWindowWidth;
-    UINT warningWindowHeight;
-    void InitSecurityWarningSize(JNIEnv *env);
-    HICON GetSecurityWarningIcon();
+    UINT wbrningWindowWidth;
+    UINT wbrningWindowHeight;
+    void InitSecurityWbrningSize(JNIEnv *env);
+    HICON GetSecurityWbrningIcon();
 
-    void CreateWarningWindow(JNIEnv *env);
-    void DestroyWarningWindow();
-    static LPCTSTR GetWarningWindowClassName();
-    void FillWarningWindowClassInfo(WNDCLASS *lpwc);
-    void RegisterWarningWindowClass();
-    void UnregisterWarningWindowClass();
-    static LRESULT CALLBACK WarningWindowProc(
-            HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+    void CrebteWbrningWindow(JNIEnv *env);
+    void DestroyWbrningWindow();
+    stbtic LPCTSTR GetWbrningWindowClbssNbme();
+    void FillWbrningWindowClbssInfo(WNDCLASS *lpwc);
+    void RegisterWbrningWindowClbss();
+    void UnregisterWbrningWindowClbss();
+    stbtic LRESULT CALLBACK WbrningWindowProc(
+            HWND hwnd, UINT uMsg, WPARAM wPbrbm, LPARAM lPbrbm);
 
-    static void PaintWarningWindow(HWND warningWindow);
-    static void PaintWarningWindow(HWND warningWindow, HDC hdc);
-    void RepaintWarningWindow();
-    void CalculateWarningWindowBounds(JNIEnv *env, LPRECT rect);
+    stbtic void PbintWbrningWindow(HWND wbrningWindow);
+    stbtic void PbintWbrningWindow(HWND wbrningWindow, HDC hdc);
+    void RepbintWbrningWindow();
+    void CblculbteWbrningWindowBounds(JNIEnv *env, LPRECT rect);
 
-    void AnimateSecurityWarning(bool enable);
-    UINT securityWarningAnimationStage;
+    void AnimbteSecurityWbrning(bool enbble);
+    UINT securityWbrningAnimbtionStbge;
 
-    enum AnimationKind {
-        akNone, akShow, akPreHide, akHide
+    enum AnimbtionKind {
+        bkNone, bkShow, bkPreHide, bkHide
     };
 
-    AnimationKind securityAnimationKind;
+    AnimbtionKind securityAnimbtionKind;
 
-    void StartSecurityAnimation(AnimationKind kind);
-    void StopSecurityAnimation();
+    void StbrtSecurityAnimbtion(AnimbtionKind kind);
+    void StopSecurityAnimbtion();
 
-    void RepositionSecurityWarning(JNIEnv *env);
+    void RepositionSecurityWbrning(JNIEnv *env);
 
-    static void SetLayered(HWND window, bool layered);
-    static bool IsLayered(HWND window);
+    stbtic void SetLbyered(HWND window, bool lbyered);
+    stbtic bool IsLbyered(HWND window);
 
-    BOOL fullScreenExclusiveModeState;
-    inline void setFullScreenExclusiveModeState(BOOL isEntered) {
-        fullScreenExclusiveModeState = isEntered;
-        UpdateSecurityWarningVisibility();
+    BOOL fullScreenExclusiveModeStbte;
+    inline void setFullScreenExclusiveModeStbte(BOOL isEntered) {
+        fullScreenExclusiveModeStbte = isEntered;
+        UpdbteSecurityWbrningVisibility();
     }
     inline BOOL isFullScreenExclusiveMode() {
-        return fullScreenExclusiveModeState;
+        return fullScreenExclusiveModeStbte;
     }
 
 
 public:
-    void UpdateSecurityWarningVisibility();
-    static bool IsWarningWindow(HWND hWnd);
+    void UpdbteSecurityWbrningVisibility();
+    stbtic bool IsWbrningWindow(HWND hWnd);
 
 protected:
-    BOOL m_isResizable;
-    static AwtWindow* m_grabbedWindow; // Current grabbing window
-    HICON m_hIcon;            /* Icon for this window. It can be set explicitely or inherited from the owner */
-    HICON m_hIconSm;          /* Small icon for this window. It can be set explicitely or inherited from the owner */
+    BOOL m_isResizbble;
+    stbtic AwtWindow* m_grbbbedWindow; // Current grbbbing window
+    HICON m_hIcon;            /* Icon for this window. It cbn be set explicitely or inherited from the owner */
+    HICON m_hIconSm;          /* Smbll icon for this window. It cbn be set explicitely or inherited from the owner */
     BOOL m_iconInherited;     /* TRUE if icon is inherited from the owner */
-    BOOL m_filterFocusAndActivation; /* Used in the WH_CBT hook */
+    BOOL m_filterFocusAndActivbtion; /* Used in the WH_CBT hook */
 
     inline BOOL IsUntrusted() {
-        return warningString != NULL;
+        return wbrningString != NULL;
     }
 
-    UINT currentWmSizeState;
+    UINT currentWmSizeStbte;
 
-    void EnableTranslucency(BOOL enable);
+    void EnbbleTrbnslucency(BOOL enbble);
 
-    // Native representation of the java.awt.Window.Type enum
+    // Nbtive representbtion of the jbvb.bwt.Window.Type enum
     enum Type {
         NORMAL, UTILITY, POPUP
     };
 
     inline Type GetType() { return m_windowType; }
 
-private:
+privbte:
     int m_screenNum;
 
     void InitOwner(AwtWindow *owner);
@@ -388,13 +388,13 @@ private:
     Type m_windowType;
     void InitType(JNIEnv *env, jobject peer);
 
-    // Tweak the style according to the type of the window
-    void TweakStyle(DWORD & style, DWORD & exStyle);
+    // Twebk the style bccording to the type of the window
+    void TwebkStyle(DWORD & style, DWORD & exStyle);
 
-    // Set in _SetAlwaysOnTop()
-    bool m_alwaysOnTop;
+    // Set in _SetAlwbysOnTop()
+    bool m_blwbysOnTop;
 public:
-    inline bool IsAlwaysOnTop() { return m_alwaysOnTop; }
+    inline bool IsAlwbysOnTop() { return m_blwbysOnTop; }
 };
 
 #endif /* AWT_WINDOW_H */

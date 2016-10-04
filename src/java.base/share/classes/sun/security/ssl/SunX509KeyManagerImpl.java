@@ -1,158 +1,158 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.ssl;
+pbckbge sun.security.ssl;
 
-import javax.net.ssl.*;
-import java.security.*;
-import java.security.cert.*;
-import java.security.cert.Certificate;
-import java.util.*;
-import java.net.Socket;
+import jbvbx.net.ssl.*;
+import jbvb.security.*;
+import jbvb.security.cert.*;
+import jbvb.security.cert.Certificbte;
+import jbvb.util.*;
+import jbvb.net.Socket;
 
-import javax.security.auth.x500.X500Principal;
+import jbvbx.security.buth.x500.X500Principbl;
 
 
 /**
- * An implementation of X509KeyManager backed by a KeyStore.
+ * An implementbtion of X509KeyMbnbger bbcked by b KeyStore.
  *
- * The backing KeyStore is inspected when this object is constructed.
- * All key entries containing a PrivateKey and a non-empty chain of
- * X509Certificate are then copied into an internal store. This means
- * that subsequent modifications of the KeyStore have no effect on the
- * X509KeyManagerImpl object.
+ * The bbcking KeyStore is inspected when this object is constructed.
+ * All key entries contbining b PrivbteKey bnd b non-empty chbin of
+ * X509Certificbte bre then copied into bn internbl store. This mebns
+ * thbt subsequent modificbtions of the KeyStore hbve no effect on the
+ * X509KeyMbnbgerImpl object.
  *
- * Note that this class assumes that all keys are protected by the same
- * password.
+ * Note thbt this clbss bssumes thbt bll keys bre protected by the sbme
+ * pbssword.
  *
- * The JSSE handshake code currently calls into this class via
- * chooseClientAlias() and chooseServerAlias() to find the certificates to
- * use. As implemented here, both always return the first alias returned by
- * getClientAliases() and getServerAliases(). In turn, these methods are
- * implemented by calling getAliases(), which performs the actual lookup.
+ * The JSSE hbndshbke code currently cblls into this clbss vib
+ * chooseClientAlibs() bnd chooseServerAlibs() to find the certificbtes to
+ * use. As implemented here, both blwbys return the first blibs returned by
+ * getClientAlibses() bnd getServerAlibses(). In turn, these methods bre
+ * implemented by cblling getAlibses(), which performs the bctubl lookup.
  *
- * Note that this class currently implements no checking of the local
- * certificates. In particular, it is *not* guaranteed that:
- *  . the certificates are within their validity period and not revoked
- *  . the signatures verify
- *  . they form a PKIX compliant chain.
- *  . the certificate extensions allow the certificate to be used for
+ * Note thbt this clbss currently implements no checking of the locbl
+ * certificbtes. In pbrticulbr, it is *not* gubrbnteed thbt:
+ *  . the certificbtes bre within their vblidity period bnd not revoked
+ *  . the signbtures verify
+ *  . they form b PKIX complibnt chbin.
+ *  . the certificbte extensions bllow the certificbte to be used for
  *    the desired purpose.
  *
- * Chains that fail any of these criteria will probably be rejected by
+ * Chbins thbt fbil bny of these criterib will probbbly be rejected by
  * the remote peer.
  *
  */
-final class SunX509KeyManagerImpl extends X509ExtendedKeyManager {
+finbl clbss SunX509KeyMbnbgerImpl extends X509ExtendedKeyMbnbger {
 
-    private static final Debug debug = Debug.getInstance("ssl");
+    privbte stbtic finbl Debug debug = Debug.getInstbnce("ssl");
 
-    private static final String[] STRING0 = new String[0];
+    privbte stbtic finbl String[] STRING0 = new String[0];
 
     /*
-     * The credentials from the KeyStore as
-     * Map: String(alias) -> X509Credentials(credentials)
+     * The credentibls from the KeyStore bs
+     * Mbp: String(blibs) -> X509Credentibls(credentibls)
      */
-    private Map<String,X509Credentials> credentialsMap;
+    privbte Mbp<String,X509Credentibls> credentiblsMbp;
 
     /*
-     * Cached server aliases for the case issuers == null.
-     * (in the current JSSE implementation, issuers are always null for
-     * server certs). See chooseServerAlias() for details.
+     * Cbched server blibses for the cbse issuers == null.
+     * (in the current JSSE implementbtion, issuers bre blwbys null for
+     * server certs). See chooseServerAlibs() for detbils.
      *
-     * Map: String(keyType) -> String[](alias)
+     * Mbp: String(keyType) -> String[](blibs)
      */
-    private final Map<String,String[]> serverAliasCache;
+    privbte finbl Mbp<String,String[]> serverAlibsCbche;
 
     /*
-     * Basic container for credentials implemented as an inner class.
+     * Bbsic contbiner for credentibls implemented bs bn inner clbss.
      */
-    private static class X509Credentials {
-        PrivateKey privateKey;
-        X509Certificate[] certificates;
-        private Set<X500Principal> issuerX500Principals;
+    privbte stbtic clbss X509Credentibls {
+        PrivbteKey privbteKey;
+        X509Certificbte[] certificbtes;
+        privbte Set<X500Principbl> issuerX500Principbls;
 
-        X509Credentials(PrivateKey privateKey, X509Certificate[] certificates) {
-            // assert privateKey and certificates != null
-            this.privateKey = privateKey;
-            this.certificates = certificates;
+        X509Credentibls(PrivbteKey privbteKey, X509Certificbte[] certificbtes) {
+            // bssert privbteKey bnd certificbtes != null
+            this.privbteKey = privbteKey;
+            this.certificbtes = certificbtes;
         }
 
-        synchronized Set<X500Principal> getIssuerX500Principals() {
-            // lazy initialization
-            if (issuerX500Principals == null) {
-                issuerX500Principals = new HashSet<X500Principal>();
-                for (int i = 0; i < certificates.length; i++) {
-                    issuerX500Principals.add(
-                                certificates[i].getIssuerX500Principal());
+        synchronized Set<X500Principbl> getIssuerX500Principbls() {
+            // lbzy initiblizbtion
+            if (issuerX500Principbls == null) {
+                issuerX500Principbls = new HbshSet<X500Principbl>();
+                for (int i = 0; i < certificbtes.length; i++) {
+                    issuerX500Principbls.bdd(
+                                certificbtes[i].getIssuerX500Principbl());
                 }
             }
-            return issuerX500Principals;
+            return issuerX500Principbls;
         }
     }
 
-    SunX509KeyManagerImpl(KeyStore ks, char[] password)
+    SunX509KeyMbnbgerImpl(KeyStore ks, chbr[] pbssword)
             throws KeyStoreException,
-            NoSuchAlgorithmException, UnrecoverableKeyException {
+            NoSuchAlgorithmException, UnrecoverbbleKeyException {
 
-        credentialsMap = new HashMap<String,X509Credentials>();
-        serverAliasCache = Collections.synchronizedMap(
-                            new HashMap<String,String[]>());
+        credentiblsMbp = new HbshMbp<String,X509Credentibls>();
+        serverAlibsCbche = Collections.synchronizedMbp(
+                            new HbshMbp<String,String[]>());
         if (ks == null) {
             return;
         }
 
-        for (Enumeration<String> aliases = ks.aliases();
-                                        aliases.hasMoreElements(); ) {
-            String alias = aliases.nextElement();
-            if (!ks.isKeyEntry(alias)) {
+        for (Enumerbtion<String> blibses = ks.blibses();
+                                        blibses.hbsMoreElements(); ) {
+            String blibs = blibses.nextElement();
+            if (!ks.isKeyEntry(blibs)) {
                 continue;
             }
-            Key key = ks.getKey(alias, password);
-            if (key instanceof PrivateKey == false) {
+            Key key = ks.getKey(blibs, pbssword);
+            if (key instbnceof PrivbteKey == fblse) {
                 continue;
             }
-            Certificate[] certs = ks.getCertificateChain(alias);
+            Certificbte[] certs = ks.getCertificbteChbin(blibs);
             if ((certs == null) || (certs.length == 0) ||
-                    !(certs[0] instanceof X509Certificate)) {
+                    !(certs[0] instbnceof X509Certificbte)) {
                 continue;
             }
-            if (!(certs instanceof X509Certificate[])) {
-                Certificate[] tmp = new X509Certificate[certs.length];
-                System.arraycopy(certs, 0, tmp, 0, certs.length);
+            if (!(certs instbnceof X509Certificbte[])) {
+                Certificbte[] tmp = new X509Certificbte[certs.length];
+                System.brrbycopy(certs, 0, tmp, 0, certs.length);
                 certs = tmp;
             }
 
-            X509Credentials cred = new X509Credentials((PrivateKey)key,
-                (X509Certificate[])certs);
-            credentialsMap.put(alias, cred);
-            if (debug != null && Debug.isOn("keymanager")) {
+            X509Credentibls cred = new X509Credentibls((PrivbteKey)key,
+                (X509Certificbte[])certs);
+            credentiblsMbp.put(blibs, cred);
+            if (debug != null && Debug.isOn("keymbnbger")) {
                 System.out.println("***");
-                System.out.println("found key for : " + alias);
+                System.out.println("found key for : " + blibs);
                 for (int i = 0; i < certs.length; i++) {
-                    System.out.println("chain [" + i + "] = "
+                    System.out.println("chbin [" + i + "] = "
                     + certs[i]);
                 }
                 System.out.println("***");
@@ -161,53 +161,53 @@ final class SunX509KeyManagerImpl extends X509ExtendedKeyManager {
     }
 
     /*
-     * Returns the certificate chain associated with the given alias.
+     * Returns the certificbte chbin bssocibted with the given blibs.
      *
-     * @return the certificate chain (ordered with the user's certificate first
-     * and the root certificate authority last)
+     * @return the certificbte chbin (ordered with the user's certificbte first
+     * bnd the root certificbte buthority lbst)
      */
     @Override
-    public X509Certificate[] getCertificateChain(String alias) {
-        if (alias == null) {
+    public X509Certificbte[] getCertificbteChbin(String blibs) {
+        if (blibs == null) {
             return null;
         }
-        X509Credentials cred = credentialsMap.get(alias);
+        X509Credentibls cred = credentiblsMbp.get(blibs);
         if (cred == null) {
             return null;
         } else {
-            return cred.certificates.clone();
+            return cred.certificbtes.clone();
         }
     }
 
     /*
-     * Returns the key associated with the given alias
+     * Returns the key bssocibted with the given blibs
      */
     @Override
-    public PrivateKey getPrivateKey(String alias) {
-        if (alias == null) {
+    public PrivbteKey getPrivbteKey(String blibs) {
+        if (blibs == null) {
             return null;
         }
-        X509Credentials cred = credentialsMap.get(alias);
+        X509Credentibls cred = credentiblsMbp.get(blibs);
         if (cred == null) {
             return null;
         } else {
-            return cred.privateKey;
+            return cred.privbteKey;
         }
     }
 
     /*
-     * Choose an alias to authenticate the client side of a secure
-     * socket given the public key type and the list of
-     * certificate issuer authorities recognized by the peer (if any).
+     * Choose bn blibs to buthenticbte the client side of b secure
+     * socket given the public key type bnd the list of
+     * certificbte issuer buthorities recognized by the peer (if bny).
      */
     @Override
-    public String chooseClientAlias(String[] keyTypes, Principal[] issuers,
+    public String chooseClientAlibs(String[] keyTypes, Principbl[] issuers,
             Socket socket) {
         /*
-         * We currently don't do anything with socket, but
-         * someday we might.  It might be a useful hint for
-         * selecting one of the aliases we get back from
-         * getClientAliases().
+         * We currently don't do bnything with socket, but
+         * somedby we might.  It might be b useful hint for
+         * selecting one of the blibses we get bbck from
+         * getClientAlibses().
          */
 
         if (keyTypes == null) {
@@ -215,129 +215,129 @@ final class SunX509KeyManagerImpl extends X509ExtendedKeyManager {
         }
 
         for (int i = 0; i < keyTypes.length; i++) {
-            String[] aliases = getClientAliases(keyTypes[i], issuers);
-            if ((aliases != null) && (aliases.length > 0)) {
-                return aliases[0];
+            String[] blibses = getClientAlibses(keyTypes[i], issuers);
+            if ((blibses != null) && (blibses.length > 0)) {
+                return blibses[0];
             }
         }
         return null;
     }
 
     /*
-     * Choose an alias to authenticate the client side of an
+     * Choose bn blibs to buthenticbte the client side of bn
      * <code>SSLEngine</code> connection given the public key type
-     * and the list of certificate issuer authorities recognized by
-     * the peer (if any).
+     * bnd the list of certificbte issuer buthorities recognized by
+     * the peer (if bny).
      *
      * @since 1.5
      */
     @Override
-    public String chooseEngineClientAlias(String[] keyType,
-            Principal[] issuers, SSLEngine engine) {
+    public String chooseEngineClientAlibs(String[] keyType,
+            Principbl[] issuers, SSLEngine engine) {
         /*
-         * If we ever start using socket as a selection criteria,
-         * we'll need to adjust this.
+         * If we ever stbrt using socket bs b selection criterib,
+         * we'll need to bdjust this.
          */
-        return chooseClientAlias(keyType, issuers, null);
+        return chooseClientAlibs(keyType, issuers, null);
     }
 
     /*
-     * Choose an alias to authenticate the server side of a secure
-     * socket given the public key type and the list of
-     * certificate issuer authorities recognized by the peer (if any).
+     * Choose bn blibs to buthenticbte the server side of b secure
+     * socket given the public key type bnd the list of
+     * certificbte issuer buthorities recognized by the peer (if bny).
      */
     @Override
-    public String chooseServerAlias(String keyType,
-            Principal[] issuers, Socket socket) {
+    public String chooseServerAlibs(String keyType,
+            Principbl[] issuers, Socket socket) {
         /*
-         * We currently don't do anything with socket, but
-         * someday we might.  It might be a useful hint for
-         * selecting one of the aliases we get back from
-         * getServerAliases().
+         * We currently don't do bnything with socket, but
+         * somedby we might.  It might be b useful hint for
+         * selecting one of the blibses we get bbck from
+         * getServerAlibses().
          */
         if (keyType == null) {
             return null;
         }
 
-        String[] aliases;
+        String[] blibses;
 
         if (issuers == null || issuers.length == 0) {
-            aliases = serverAliasCache.get(keyType);
-            if (aliases == null) {
-                aliases = getServerAliases(keyType, issuers);
-                // Cache the result (positive and negative lookups)
-                if (aliases == null) {
-                    aliases = STRING0;
+            blibses = serverAlibsCbche.get(keyType);
+            if (blibses == null) {
+                blibses = getServerAlibses(keyType, issuers);
+                // Cbche the result (positive bnd negbtive lookups)
+                if (blibses == null) {
+                    blibses = STRING0;
                 }
-                serverAliasCache.put(keyType, aliases);
+                serverAlibsCbche.put(keyType, blibses);
             }
         } else {
-            aliases = getServerAliases(keyType, issuers);
+            blibses = getServerAlibses(keyType, issuers);
         }
-        if ((aliases != null) && (aliases.length > 0)) {
-            return aliases[0];
+        if ((blibses != null) && (blibses.length > 0)) {
+            return blibses[0];
         }
         return null;
     }
 
     /*
-     * Choose an alias to authenticate the server side of an
+     * Choose bn blibs to buthenticbte the server side of bn
      * <code>SSLEngine</code> connection given the public key type
-     * and the list of certificate issuer authorities recognized by
-     * the peer (if any).
+     * bnd the list of certificbte issuer buthorities recognized by
+     * the peer (if bny).
      *
      * @since 1.5
      */
     @Override
-    public String chooseEngineServerAlias(String keyType,
-            Principal[] issuers, SSLEngine engine) {
+    public String chooseEngineServerAlibs(String keyType,
+            Principbl[] issuers, SSLEngine engine) {
         /*
-         * If we ever start using socket as a selection criteria,
-         * we'll need to adjust this.
+         * If we ever stbrt using socket bs b selection criterib,
+         * we'll need to bdjust this.
          */
-        return chooseServerAlias(keyType, issuers, null);
+        return chooseServerAlibs(keyType, issuers, null);
     }
 
     /*
-     * Get the matching aliases for authenticating the client side of a secure
-     * socket given the public key type and the list of
-     * certificate issuer authorities recognized by the peer (if any).
+     * Get the mbtching blibses for buthenticbting the client side of b secure
+     * socket given the public key type bnd the list of
+     * certificbte issuer buthorities recognized by the peer (if bny).
      */
     @Override
-    public String[] getClientAliases(String keyType, Principal[] issuers) {
-        return getAliases(keyType, issuers);
+    public String[] getClientAlibses(String keyType, Principbl[] issuers) {
+        return getAlibses(keyType, issuers);
     }
 
     /*
-     * Get the matching aliases for authenticating the server side of a secure
-     * socket given the public key type and the list of
-     * certificate issuer authorities recognized by the peer (if any).
+     * Get the mbtching blibses for buthenticbting the server side of b secure
+     * socket given the public key type bnd the list of
+     * certificbte issuer buthorities recognized by the peer (if bny).
      */
     @Override
-    public String[] getServerAliases(String keyType, Principal[] issuers) {
-        return getAliases(keyType, issuers);
+    public String[] getServerAlibses(String keyType, Principbl[] issuers) {
+        return getAlibses(keyType, issuers);
     }
 
     /*
-     * Get the matching aliases for authenticating the either side of a secure
-     * socket given the public key type and the list of
-     * certificate issuer authorities recognized by the peer (if any).
+     * Get the mbtching blibses for buthenticbting the either side of b secure
+     * socket given the public key type bnd the list of
+     * certificbte issuer buthorities recognized by the peer (if bny).
      *
-     * Issuers comes to us in the form of X500Principal[].
+     * Issuers comes to us in the form of X500Principbl[].
      */
-    private String[] getAliases(String keyType, Principal[] issuers) {
+    privbte String[] getAlibses(String keyType, Principbl[] issuers) {
         if (keyType == null) {
             return null;
         }
         if (issuers == null) {
-            issuers = new X500Principal[0];
+            issuers = new X500Principbl[0];
         }
-        if (issuers instanceof X500Principal[] == false) {
-            // normally, this will never happen but try to recover if it does
-            issuers = convertPrincipals(issuers);
+        if (issuers instbnceof X500Principbl[] == fblse) {
+            // normblly, this will never hbppen but try to recover if it does
+            issuers = convertPrincipbls(issuers);
         }
         String sigType;
-        if (keyType.contains("_")) {
+        if (keyType.contbins("_")) {
             int k = keyType.indexOf('_');
             sigType = keyType.substring(k + 1);
             keyType = keyType.substring(0, k);
@@ -345,83 +345,83 @@ final class SunX509KeyManagerImpl extends X509ExtendedKeyManager {
             sigType = null;
         }
 
-        X500Principal[] x500Issuers = (X500Principal[])issuers;
-        // the algorithm below does not produce duplicates, so avoid Set
-        List<String> aliases = new ArrayList<>();
+        X500Principbl[] x500Issuers = (X500Principbl[])issuers;
+        // the blgorithm below does not produce duplicbtes, so bvoid Set
+        List<String> blibses = new ArrbyList<>();
 
-        for (Map.Entry<String,X509Credentials> entry :
-                                                credentialsMap.entrySet()) {
+        for (Mbp.Entry<String,X509Credentibls> entry :
+                                                credentiblsMbp.entrySet()) {
 
-            String alias = entry.getKey();
-            X509Credentials credentials = entry.getValue();
-            X509Certificate[] certs = credentials.certificates;
+            String blibs = entry.getKey();
+            X509Credentibls credentibls = entry.getVblue();
+            X509Certificbte[] certs = credentibls.certificbtes;
 
-            if (!keyType.equals(certs[0].getPublicKey().getAlgorithm())) {
+            if (!keyType.equbls(certs[0].getPublicKey().getAlgorithm())) {
                 continue;
             }
             if (sigType != null) {
                 if (certs.length > 1) {
                     // if possible, check the public key in the issuer cert
-                    if (!sigType.equals(
+                    if (!sigType.equbls(
                             certs[1].getPublicKey().getAlgorithm())) {
                         continue;
                     }
                 } else {
-                    // Check the signature algorithm of the certificate itself.
+                    // Check the signbture blgorithm of the certificbte itself.
                     // Look for the "withRSA" in "SHA1withRSA", etc.
-                    String sigAlgName =
-                        certs[0].getSigAlgName().toUpperCase(Locale.ENGLISH);
-                    String pattern = "WITH" +
-                        sigType.toUpperCase(Locale.ENGLISH);
-                    if (sigAlgName.contains(pattern) == false) {
+                    String sigAlgNbme =
+                        certs[0].getSigAlgNbme().toUpperCbse(Locble.ENGLISH);
+                    String pbttern = "WITH" +
+                        sigType.toUpperCbse(Locble.ENGLISH);
+                    if (sigAlgNbme.contbins(pbttern) == fblse) {
                         continue;
                     }
                 }
             }
 
             if (issuers.length == 0) {
-                // no issuer specified, match all
-                aliases.add(alias);
-                if (debug != null && Debug.isOn("keymanager")) {
-                    System.out.println("matching alias: " + alias);
+                // no issuer specified, mbtch bll
+                blibses.bdd(blibs);
+                if (debug != null && Debug.isOn("keymbnbger")) {
+                    System.out.println("mbtching blibs: " + blibs);
                 }
             } else {
-                Set<X500Principal> certIssuers =
-                                        credentials.getIssuerX500Principals();
+                Set<X500Principbl> certIssuers =
+                                        credentibls.getIssuerX500Principbls();
                 for (int i = 0; i < x500Issuers.length; i++) {
-                    if (certIssuers.contains(issuers[i])) {
-                        aliases.add(alias);
-                        if (debug != null && Debug.isOn("keymanager")) {
-                            System.out.println("matching alias: " + alias);
+                    if (certIssuers.contbins(issuers[i])) {
+                        blibses.bdd(blibs);
+                        if (debug != null && Debug.isOn("keymbnbger")) {
+                            System.out.println("mbtching blibs: " + blibs);
                         }
-                        break;
+                        brebk;
                     }
                 }
             }
         }
 
-        String[] aliasStrings = aliases.toArray(STRING0);
-        return ((aliasStrings.length == 0) ? null : aliasStrings);
+        String[] blibsStrings = blibses.toArrby(STRING0);
+        return ((blibsStrings.length == 0) ? null : blibsStrings);
     }
 
     /*
-     * Convert an array of Principals to an array of X500Principals, if
-     * possible. Principals that cannot be converted are ignored.
+     * Convert bn brrby of Principbls to bn brrby of X500Principbls, if
+     * possible. Principbls thbt cbnnot be converted bre ignored.
      */
-    private static X500Principal[] convertPrincipals(Principal[] principals) {
-        List<X500Principal> list = new ArrayList<>(principals.length);
-        for (int i = 0; i < principals.length; i++) {
-            Principal p = principals[i];
-            if (p instanceof X500Principal) {
-                list.add((X500Principal)p);
+    privbte stbtic X500Principbl[] convertPrincipbls(Principbl[] principbls) {
+        List<X500Principbl> list = new ArrbyList<>(principbls.length);
+        for (int i = 0; i < principbls.length; i++) {
+            Principbl p = principbls[i];
+            if (p instbnceof X500Principbl) {
+                list.bdd((X500Principbl)p);
             } else {
                 try {
-                    list.add(new X500Principal(p.getName()));
-                } catch (IllegalArgumentException e) {
+                    list.bdd(new X500Principbl(p.getNbme()));
+                } cbtch (IllegblArgumentException e) {
                     // ignore
                 }
             }
         }
-        return list.toArray(new X500Principal[list.size()]);
+        return list.toArrby(new X500Principbl[list.size()]);
     }
 }

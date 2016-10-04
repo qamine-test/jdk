@@ -1,155 +1,155 @@
 /*
- * Copyright (c) 2004, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.net;
+pbckbge sun.net;
 
-import java.io.*;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.util.Properties;
+import jbvb.io.*;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import jbvb.util.Properties;
 
 /*
- * This class allows for centralized access to Networking properties.
- * Default values are loaded from the file jre/lib/net.properties
+ * This clbss bllows for centrblized bccess to Networking properties.
+ * Defbult vblues bre lobded from the file jre/lib/net.properties
  *
  *
- * @author Jean-Christophe Collet
+ * @buthor Jebn-Christophe Collet
  *
  */
 
-public class NetProperties {
-    static private Properties props = new Properties();
-    static {
+public clbss NetProperties {
+    stbtic privbte Properties props = new Properties();
+    stbtic {
         AccessController.doPrivileged(
             new PrivilegedAction<Void>() {
                 public Void run() {
-                    loadDefaultProperties();
+                    lobdDefbultProperties();
                     return null;
                 }});
     }
 
-    private NetProperties() { };
+    privbte NetProperties() { };
 
 
     /*
-     * Loads the default networking system properties
+     * Lobds the defbult networking system properties
      * the file is in jre/lib/net.properties
      */
-    static private void loadDefaultProperties() {
-        String fname = System.getProperty("java.home");
-        if (fname == null) {
-            throw new Error("Can't find java.home ??");
+    stbtic privbte void lobdDefbultProperties() {
+        String fnbme = System.getProperty("jbvb.home");
+        if (fnbme == null) {
+            throw new Error("Cbn't find jbvb.home ??");
         }
         try {
-            File f = new File(fname, "lib");
+            File f = new File(fnbme, "lib");
             f = new File(f, "net.properties");
-            fname = f.getCanonicalPath();
-            InputStream in = new FileInputStream(fname);
-            BufferedInputStream bin = new BufferedInputStream(in);
-            props.load(bin);
+            fnbme = f.getCbnonicblPbth();
+            InputStrebm in = new FileInputStrebm(fnbme);
+            BufferedInputStrebm bin = new BufferedInputStrebm(in);
+            props.lobd(bin);
             bin.close();
-        } catch (Exception e) {
-            // Do nothing. We couldn't find or access the file
-            // so we won't have default properties...
+        } cbtch (Exception e) {
+            // Do nothing. We couldn't find or bccess the file
+            // so we won't hbve defbult properties...
         }
     }
 
     /**
-     * Get a networking system property. If no system property was defined
-     * returns the default value, if it exists, otherwise returns
+     * Get b networking system property. If no system property wbs defined
+     * returns the defbult vblue, if it exists, otherwise returns
      * <code>null</code>.
-     * @param      key  the property name.
-     * @throws  SecurityException  if a security manager exists and its
-     *          <code>checkPropertiesAccess</code> method doesn't allow access
+     * @pbrbm      key  the property nbme.
+     * @throws  SecurityException  if b security mbnbger exists bnd its
+     *          <code>checkPropertiesAccess</code> method doesn't bllow bccess
      *          to the system properties.
-     * @return the <code>String</code> value for the property,
+     * @return the <code>String</code> vblue for the property,
      *         or <code>null</code>
      */
-    static public String get(String key) {
+    stbtic public String get(String key) {
         String def = props.getProperty(key);
         try {
             return System.getProperty(key, def);
-        } catch (IllegalArgumentException e) {
-        } catch (NullPointerException e) {
+        } cbtch (IllegblArgumentException e) {
+        } cbtch (NullPointerException e) {
         }
         return null;
     }
 
     /**
-     * Get an Integer networking system property. If no system property was
-     * defined returns the default value, if it exists, otherwise returns
+     * Get bn Integer networking system property. If no system property wbs
+     * defined returns the defbult vblue, if it exists, otherwise returns
      * <code>null</code>.
-     * @param   key     the property name.
-     * @param   defval  the default value to use if the property is not found
-     * @throws  SecurityException  if a security manager exists and its
-     *          <code>checkPropertiesAccess</code> method doesn't allow access
+     * @pbrbm   key     the property nbme.
+     * @pbrbm   defvbl  the defbult vblue to use if the property is not found
+     * @throws  SecurityException  if b security mbnbger exists bnd its
+     *          <code>checkPropertiesAccess</code> method doesn't bllow bccess
      *          to the system properties.
-     * @return the <code>Integer</code> value for the property,
+     * @return the <code>Integer</code> vblue for the property,
      *         or <code>null</code>
      */
-    static public Integer getInteger(String key, int defval) {
-        String val = null;
+    stbtic public Integer getInteger(String key, int defvbl) {
+        String vbl = null;
 
         try {
-            val = System.getProperty(key, props.getProperty(key));
-        } catch (IllegalArgumentException e) {
-        } catch (NullPointerException e) {
+            vbl = System.getProperty(key, props.getProperty(key));
+        } cbtch (IllegblArgumentException e) {
+        } cbtch (NullPointerException e) {
         }
 
-        if (val != null) {
+        if (vbl != null) {
             try {
-                return Integer.decode(val);
-            } catch (NumberFormatException ex) {
+                return Integer.decode(vbl);
+            } cbtch (NumberFormbtException ex) {
             }
         }
-        return defval;
+        return defvbl;
     }
 
     /**
-     * Get a Boolean networking system property. If no system property was
-     * defined returns the default value, if it exists, otherwise returns
+     * Get b Boolebn networking system property. If no system property wbs
+     * defined returns the defbult vblue, if it exists, otherwise returns
      * <code>null</code>.
-     * @param   key     the property name.
-     * @throws  SecurityException  if a security manager exists and its
-     *          <code>checkPropertiesAccess</code> method doesn't allow access
+     * @pbrbm   key     the property nbme.
+     * @throws  SecurityException  if b security mbnbger exists bnd its
+     *          <code>checkPropertiesAccess</code> method doesn't bllow bccess
      *          to the system properties.
-     * @return the <code>Boolean</code> value for the property,
+     * @return the <code>Boolebn</code> vblue for the property,
      *         or <code>null</code>
      */
-    static public Boolean getBoolean(String key) {
-        String val = null;
+    stbtic public Boolebn getBoolebn(String key) {
+        String vbl = null;
 
         try {
-            val = System.getProperty(key, props.getProperty(key));
-        } catch (IllegalArgumentException e) {
-        } catch (NullPointerException e) {
+            vbl = System.getProperty(key, props.getProperty(key));
+        } cbtch (IllegblArgumentException e) {
+        } cbtch (NullPointerException e) {
         }
 
-        if (val != null) {
+        if (vbl != null) {
             try {
-                return Boolean.valueOf(val);
-            } catch (NumberFormatException ex) {
+                return Boolebn.vblueOf(vbl);
+            } cbtch (NumberFormbtException ex) {
             }
         }
         return null;

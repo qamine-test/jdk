@@ -1,306 +1,306 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.rsa;
+pbckbge sun.security.rsb;
 
-import java.io.IOException;
-import java.nio.ByteBuffer;
-import java.util.Arrays;
+import jbvb.io.IOException;
+import jbvb.nio.ByteBuffer;
+import jbvb.util.Arrbys;
 
-import java.security.*;
-import java.security.interfaces.*;
+import jbvb.security.*;
+import jbvb.security.interfbces.*;
 
 import sun.security.util.*;
 import sun.security.x509.AlgorithmId;
 
 /**
- * PKCS#1 RSA signatures with the various message digest algorithms.
- * This file contains an abstract base class with all the logic plus
- * a nested static class for each of the message digest algorithms
+ * PKCS#1 RSA signbtures with the vbrious messbge digest blgorithms.
+ * This file contbins bn bbstrbct bbse clbss with bll the logic plus
+ * b nested stbtic clbss for ebch of the messbge digest blgorithms
  * (see end of the file). We support MD2, MD5, SHA-1, SHA-224, SHA-256,
- * SHA-384, and SHA-512.
+ * SHA-384, bnd SHA-512.
  *
  * @since   1.5
- * @author  Andreas Sterbenz
+ * @buthor  Andrebs Sterbenz
  */
-public abstract class RSASignature extends SignatureSpi {
+public bbstrbct clbss RSASignbture extends SignbtureSpi {
 
-    // we sign an ASN.1 SEQUENCE of AlgorithmId and digest
-    // it has the form 30:xx:30:xx:[digestOID]:05:00:04:xx:[digest]
-    // this means the encoded length is (8 + digestOID.length + digest.length)
-    private static final int baseLength = 8;
+    // we sign bn ASN.1 SEQUENCE of AlgorithmId bnd digest
+    // it hbs the form 30:xx:30:xx:[digestOID]:05:00:04:xx:[digest]
+    // this mebns the encoded length is (8 + digestOID.length + digest.length)
+    privbte stbtic finbl int bbseLength = 8;
 
-    // object identifier for the message digest algorithm used
-    private final ObjectIdentifier digestOID;
+    // object identifier for the messbge digest blgorithm used
+    privbte finbl ObjectIdentifier digestOID;
 
-    // length of the encoded signature blob
-    private final int encodedLength;
+    // length of the encoded signbture blob
+    privbte finbl int encodedLength;
 
-    // message digest implementation we use
-    private final MessageDigest md;
-    // flag indicating whether the digest is reset
-    private boolean digestReset;
+    // messbge digest implementbtion we use
+    privbte finbl MessbgeDigest md;
+    // flbg indicbting whether the digest is reset
+    privbte boolebn digestReset;
 
-    // private key, if initialized for signing
-    private RSAPrivateKey privateKey;
-    // public key, if initialized for verifying
-    private RSAPublicKey publicKey;
+    // privbte key, if initiblized for signing
+    privbte RSAPrivbteKey privbteKey;
+    // public key, if initiblized for verifying
+    privbte RSAPublicKey publicKey;
 
-    // padding to use, set when the initSign/initVerify is called
-    private RSAPadding padding;
+    // pbdding to use, set when the initSign/initVerify is cblled
+    privbte RSAPbdding pbdding;
 
     /**
-     * Construct a new RSASignature. Used by subclasses.
+     * Construct b new RSASignbture. Used by subclbsses.
      */
-    RSASignature(String algorithm, ObjectIdentifier digestOID, int oidLength) {
+    RSASignbture(String blgorithm, ObjectIdentifier digestOID, int oidLength) {
         this.digestOID = digestOID;
         try {
-            md = MessageDigest.getInstance(algorithm);
-        } catch (NoSuchAlgorithmException e) {
+            md = MessbgeDigest.getInstbnce(blgorithm);
+        } cbtch (NoSuchAlgorithmException e) {
             throw new ProviderException(e);
         }
         digestReset = true;
-        encodedLength = baseLength + oidLength + md.getDigestLength();
+        encodedLength = bbseLength + oidLength + md.getDigestLength();
     }
 
-    // initialize for verification. See JCA doc
+    // initiblize for verificbtion. See JCA doc
     protected void engineInitVerify(PublicKey publicKey)
-            throws InvalidKeyException {
-        RSAPublicKey rsaKey = (RSAPublicKey)RSAKeyFactory.toRSAKey(publicKey);
-        this.privateKey = null;
-        this.publicKey = rsaKey;
-        initCommon(rsaKey, null);
+            throws InvblidKeyException {
+        RSAPublicKey rsbKey = (RSAPublicKey)RSAKeyFbctory.toRSAKey(publicKey);
+        this.privbteKey = null;
+        this.publicKey = rsbKey;
+        initCommon(rsbKey, null);
     }
 
-    // initialize for signing. See JCA doc
-    protected void engineInitSign(PrivateKey privateKey)
-            throws InvalidKeyException {
-        engineInitSign(privateKey, null);
+    // initiblize for signing. See JCA doc
+    protected void engineInitSign(PrivbteKey privbteKey)
+            throws InvblidKeyException {
+        engineInitSign(privbteKey, null);
     }
 
-    // initialize for signing. See JCA doc
-    protected void engineInitSign(PrivateKey privateKey, SecureRandom random)
-            throws InvalidKeyException {
-        RSAPrivateKey rsaKey =
-            (RSAPrivateKey)RSAKeyFactory.toRSAKey(privateKey);
-        this.privateKey = rsaKey;
+    // initiblize for signing. See JCA doc
+    protected void engineInitSign(PrivbteKey privbteKey, SecureRbndom rbndom)
+            throws InvblidKeyException {
+        RSAPrivbteKey rsbKey =
+            (RSAPrivbteKey)RSAKeyFbctory.toRSAKey(privbteKey);
+        this.privbteKey = rsbKey;
         this.publicKey = null;
-        initCommon(rsaKey, random);
+        initCommon(rsbKey, rbndom);
     }
 
     /**
-     * Init code common to sign and verify.
+     * Init code common to sign bnd verify.
      */
-    private void initCommon(RSAKey rsaKey, SecureRandom random)
-            throws InvalidKeyException {
+    privbte void initCommon(RSAKey rsbKey, SecureRbndom rbndom)
+            throws InvblidKeyException {
         resetDigest();
-        int keySize = RSACore.getByteLength(rsaKey);
+        int keySize = RSACore.getByteLength(rsbKey);
         try {
-            padding = RSAPadding.getInstance
-                (RSAPadding.PAD_BLOCKTYPE_1, keySize, random);
-        } catch (InvalidAlgorithmParameterException iape) {
-            throw new InvalidKeyException(iape.getMessage());
+            pbdding = RSAPbdding.getInstbnce
+                (RSAPbdding.PAD_BLOCKTYPE_1, keySize, rbndom);
+        } cbtch (InvblidAlgorithmPbrbmeterException ibpe) {
+            throw new InvblidKeyException(ibpe.getMessbge());
         }
-        int maxDataSize = padding.getMaxDataSize();
-        if (encodedLength > maxDataSize) {
-            throw new InvalidKeyException
-                ("Key is too short for this signature algorithm");
+        int mbxDbtbSize = pbdding.getMbxDbtbSize();
+        if (encodedLength > mbxDbtbSize) {
+            throw new InvblidKeyException
+                ("Key is too short for this signbture blgorithm");
         }
     }
 
     /**
-     * Reset the message digest if it is not already reset.
+     * Reset the messbge digest if it is not blrebdy reset.
      */
-    private void resetDigest() {
-        if (digestReset == false) {
+    privbte void resetDigest() {
+        if (digestReset == fblse) {
             md.reset();
             digestReset = true;
         }
     }
 
     /**
-     * Return the message digest value.
+     * Return the messbge digest vblue.
      */
-    private byte[] getDigestValue() {
+    privbte byte[] getDigestVblue() {
         digestReset = true;
         return md.digest();
     }
 
-    // update the signature with the plaintext data. See JCA doc
-    protected void engineUpdate(byte b) throws SignatureException {
-        md.update(b);
-        digestReset = false;
+    // updbte the signbture with the plbintext dbtb. See JCA doc
+    protected void engineUpdbte(byte b) throws SignbtureException {
+        md.updbte(b);
+        digestReset = fblse;
     }
 
-    // update the signature with the plaintext data. See JCA doc
-    protected void engineUpdate(byte[] b, int off, int len)
-            throws SignatureException {
-        md.update(b, off, len);
-        digestReset = false;
+    // updbte the signbture with the plbintext dbtb. See JCA doc
+    protected void engineUpdbte(byte[] b, int off, int len)
+            throws SignbtureException {
+        md.updbte(b, off, len);
+        digestReset = fblse;
     }
 
-    // update the signature with the plaintext data. See JCA doc
-    protected void engineUpdate(ByteBuffer b) {
-        md.update(b);
-        digestReset = false;
+    // updbte the signbture with the plbintext dbtb. See JCA doc
+    protected void engineUpdbte(ByteBuffer b) {
+        md.updbte(b);
+        digestReset = fblse;
     }
 
-    // sign the data and return the signature. See JCA doc
-    protected byte[] engineSign() throws SignatureException {
-        byte[] digest = getDigestValue();
+    // sign the dbtb bnd return the signbture. See JCA doc
+    protected byte[] engineSign() throws SignbtureException {
+        byte[] digest = getDigestVblue();
         try {
-            byte[] encoded = encodeSignature(digestOID, digest);
-            byte[] padded = padding.pad(encoded);
-            byte[] encrypted = RSACore.rsa(padded, privateKey);
+            byte[] encoded = encodeSignbture(digestOID, digest);
+            byte[] pbdded = pbdding.pbd(encoded);
+            byte[] encrypted = RSACore.rsb(pbdded, privbteKey);
             return encrypted;
-        } catch (GeneralSecurityException e) {
-            throw new SignatureException("Could not sign data", e);
-        } catch (IOException e) {
-            throw new SignatureException("Could not encode data", e);
+        } cbtch (GenerblSecurityException e) {
+            throw new SignbtureException("Could not sign dbtb", e);
+        } cbtch (IOException e) {
+            throw new SignbtureException("Could not encode dbtb", e);
         }
     }
 
-    // verify the data and return the result. See JCA doc
-    protected boolean engineVerify(byte[] sigBytes) throws SignatureException {
+    // verify the dbtb bnd return the result. See JCA doc
+    protected boolebn engineVerify(byte[] sigBytes) throws SignbtureException {
         if (sigBytes.length != RSACore.getByteLength(publicKey)) {
-            throw new SignatureException("Signature length not correct: got " +
-                    sigBytes.length + " but was expecting " +
+            throw new SignbtureException("Signbture length not correct: got " +
+                    sigBytes.length + " but wbs expecting " +
                     RSACore.getByteLength(publicKey));
         }
-        byte[] digest = getDigestValue();
+        byte[] digest = getDigestVblue();
         try {
-            byte[] decrypted = RSACore.rsa(sigBytes, publicKey);
-            byte[] unpadded = padding.unpad(decrypted);
-            byte[] decodedDigest = decodeSignature(digestOID, unpadded);
-            return Arrays.equals(digest, decodedDigest);
-        } catch (javax.crypto.BadPaddingException e) {
-            // occurs if the app has used the wrong RSA public key
-            // or if sigBytes is invalid
-            // return false rather than propagating the exception for
-            // compatibility/ease of use
-            return false;
-        } catch (IOException e) {
-            throw new SignatureException("Signature encoding error", e);
+            byte[] decrypted = RSACore.rsb(sigBytes, publicKey);
+            byte[] unpbdded = pbdding.unpbd(decrypted);
+            byte[] decodedDigest = decodeSignbture(digestOID, unpbdded);
+            return Arrbys.equbls(digest, decodedDigest);
+        } cbtch (jbvbx.crypto.BbdPbddingException e) {
+            // occurs if the bpp hbs used the wrong RSA public key
+            // or if sigBytes is invblid
+            // return fblse rbther thbn propbgbting the exception for
+            // compbtibility/ebse of use
+            return fblse;
+        } cbtch (IOException e) {
+            throw new SignbtureException("Signbture encoding error", e);
         }
     }
 
     /**
-     * Encode the digest, return the to-be-signed data.
+     * Encode the digest, return the to-be-signed dbtb.
      * Also used by the PKCS#11 provider.
      */
-    public static byte[] encodeSignature(ObjectIdentifier oid, byte[] digest)
+    public stbtic byte[] encodeSignbture(ObjectIdentifier oid, byte[] digest)
             throws IOException {
-        DerOutputStream out = new DerOutputStream();
+        DerOutputStrebm out = new DerOutputStrebm();
         new AlgorithmId(oid).encode(out);
         out.putOctetString(digest);
-        DerValue result =
-            new DerValue(DerValue.tag_Sequence, out.toByteArray());
-        return result.toByteArray();
+        DerVblue result =
+            new DerVblue(DerVblue.tbg_Sequence, out.toByteArrby());
+        return result.toByteArrby();
     }
 
     /**
-     * Decode the signature data. Verify that the object identifier matches
-     * and return the message digest.
+     * Decode the signbture dbtb. Verify thbt the object identifier mbtches
+     * bnd return the messbge digest.
      */
-    public static byte[] decodeSignature(ObjectIdentifier oid, byte[] signature)
+    public stbtic byte[] decodeSignbture(ObjectIdentifier oid, byte[] signbture)
             throws IOException {
-        DerInputStream in = new DerInputStream(signature);
-        DerValue[] values = in.getSequence(2);
-        if ((values.length != 2) || (in.available() != 0)) {
+        DerInputStrebm in = new DerInputStrebm(signbture);
+        DerVblue[] vblues = in.getSequence(2);
+        if ((vblues.length != 2) || (in.bvbilbble() != 0)) {
             throw new IOException("SEQUENCE length error");
         }
-        AlgorithmId algId = AlgorithmId.parse(values[0]);
-        if (algId.getOID().equals((Object)oid) == false) {
-            throw new IOException("ObjectIdentifier mismatch: "
-                + algId.getOID());
+        AlgorithmId blgId = AlgorithmId.pbrse(vblues[0]);
+        if (blgId.getOID().equbls((Object)oid) == fblse) {
+            throw new IOException("ObjectIdentifier mismbtch: "
+                + blgId.getOID());
         }
-        if (algId.getEncodedParams() != null) {
-            throw new IOException("Unexpected AlgorithmId parameters");
+        if (blgId.getEncodedPbrbms() != null) {
+            throw new IOException("Unexpected AlgorithmId pbrbmeters");
         }
-        byte[] digest = values[1].getOctetString();
+        byte[] digest = vblues[1].getOctetString();
         return digest;
     }
 
-    // set parameter, not supported. See JCA doc
-    @Deprecated
-    protected void engineSetParameter(String param, Object value)
-            throws InvalidParameterException {
-        throw new UnsupportedOperationException("setParameter() not supported");
+    // set pbrbmeter, not supported. See JCA doc
+    @Deprecbted
+    protected void engineSetPbrbmeter(String pbrbm, Object vblue)
+            throws InvblidPbrbmeterException {
+        throw new UnsupportedOperbtionException("setPbrbmeter() not supported");
     }
 
-    // get parameter, not supported. See JCA doc
-    @Deprecated
-    protected Object engineGetParameter(String param)
-            throws InvalidParameterException {
-        throw new UnsupportedOperationException("getParameter() not supported");
+    // get pbrbmeter, not supported. See JCA doc
+    @Deprecbted
+    protected Object engineGetPbrbmeter(String pbrbm)
+            throws InvblidPbrbmeterException {
+        throw new UnsupportedOperbtionException("getPbrbmeter() not supported");
     }
 
-    // Nested class for MD2withRSA signatures
-    public static final class MD2withRSA extends RSASignature {
+    // Nested clbss for MD2withRSA signbtures
+    public stbtic finbl clbss MD2withRSA extends RSASignbture {
         public MD2withRSA() {
             super("MD2", AlgorithmId.MD2_oid, 10);
         }
     }
 
-    // Nested class for MD5withRSA signatures
-    public static final class MD5withRSA extends RSASignature {
+    // Nested clbss for MD5withRSA signbtures
+    public stbtic finbl clbss MD5withRSA extends RSASignbture {
         public MD5withRSA() {
             super("MD5", AlgorithmId.MD5_oid, 10);
         }
     }
 
-    // Nested class for SHA1withRSA signatures
-    public static final class SHA1withRSA extends RSASignature {
+    // Nested clbss for SHA1withRSA signbtures
+    public stbtic finbl clbss SHA1withRSA extends RSASignbture {
         public SHA1withRSA() {
             super("SHA-1", AlgorithmId.SHA_oid, 7);
         }
     }
 
-    // Nested class for SHA224withRSA signatures
-    public static final class SHA224withRSA extends RSASignature {
+    // Nested clbss for SHA224withRSA signbtures
+    public stbtic finbl clbss SHA224withRSA extends RSASignbture {
         public SHA224withRSA() {
             super("SHA-224", AlgorithmId.SHA224_oid, 11);
         }
     }
 
-    // Nested class for SHA256withRSA signatures
-    public static final class SHA256withRSA extends RSASignature {
+    // Nested clbss for SHA256withRSA signbtures
+    public stbtic finbl clbss SHA256withRSA extends RSASignbture {
         public SHA256withRSA() {
             super("SHA-256", AlgorithmId.SHA256_oid, 11);
         }
     }
 
-    // Nested class for SHA384withRSA signatures
-    public static final class SHA384withRSA extends RSASignature {
+    // Nested clbss for SHA384withRSA signbtures
+    public stbtic finbl clbss SHA384withRSA extends RSASignbture {
         public SHA384withRSA() {
             super("SHA-384", AlgorithmId.SHA384_oid, 11);
         }
     }
 
-    // Nested class for SHA512withRSA signatures
-    public static final class SHA512withRSA extends RSASignature {
+    // Nested clbss for SHA512withRSA signbtures
+    public stbtic finbl clbss SHA512withRSA extends RSASignbture {
         public SHA512withRSA() {
             super("SHA-512", AlgorithmId.SHA512_oid, 11);
         }

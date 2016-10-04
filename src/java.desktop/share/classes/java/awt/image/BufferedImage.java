@@ -1,307 +1,307 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt.image;
+pbckbge jbvb.bwt.imbge;
 
-import java.awt.Transparency;
-import java.awt.color.ColorSpace;
-import java.awt.Graphics2D;
-import java.awt.GraphicsConfiguration;
-import java.awt.GraphicsEnvironment;
-import java.awt.ImageCapabilities;
-import java.awt.geom.Rectangle2D;
-import java.awt.geom.Point2D;
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.util.Hashtable;
-import java.util.Vector;
+import jbvb.bwt.Trbnspbrency;
+import jbvb.bwt.color.ColorSpbce;
+import jbvb.bwt.Grbphics2D;
+import jbvb.bwt.GrbphicsConfigurbtion;
+import jbvb.bwt.GrbphicsEnvironment;
+import jbvb.bwt.ImbgeCbpbbilities;
+import jbvb.bwt.geom.Rectbngle2D;
+import jbvb.bwt.geom.Point2D;
+import jbvb.bwt.Point;
+import jbvb.bwt.Rectbngle;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import jbvb.util.Hbshtbble;
+import jbvb.util.Vector;
 
-import sun.awt.image.BytePackedRaster;
-import sun.awt.image.ShortComponentRaster;
-import sun.awt.image.ByteComponentRaster;
-import sun.awt.image.IntegerComponentRaster;
-import sun.awt.image.OffScreenImageSource;
+import sun.bwt.imbge.BytePbckedRbster;
+import sun.bwt.imbge.ShortComponentRbster;
+import sun.bwt.imbge.ByteComponentRbster;
+import sun.bwt.imbge.IntegerComponentRbster;
+import sun.bwt.imbge.OffScreenImbgeSource;
 
 /**
  *
- * The <code>BufferedImage</code> subclass describes an {@link
- * java.awt.Image Image} with an accessible buffer of image data.
- * A <code>BufferedImage</code> is comprised of a {@link ColorModel} and a
- * {@link Raster} of image data.
- * The number and types of bands in the {@link SampleModel} of the
- * <code>Raster</code> must match the number and types required by the
- * <code>ColorModel</code> to represent its color and alpha components.
- * All <code>BufferedImage</code> objects have an upper left corner
- * coordinate of (0,&nbsp;0).  Any <code>Raster</code> used to construct a
- * <code>BufferedImage</code> must therefore have minX=0 and minY=0.
+ * The <code>BufferedImbge</code> subclbss describes bn {@link
+ * jbvb.bwt.Imbge Imbge} with bn bccessible buffer of imbge dbtb.
+ * A <code>BufferedImbge</code> is comprised of b {@link ColorModel} bnd b
+ * {@link Rbster} of imbge dbtb.
+ * The number bnd types of bbnds in the {@link SbmpleModel} of the
+ * <code>Rbster</code> must mbtch the number bnd types required by the
+ * <code>ColorModel</code> to represent its color bnd blphb components.
+ * All <code>BufferedImbge</code> objects hbve bn upper left corner
+ * coordinbte of (0,&nbsp;0).  Any <code>Rbster</code> used to construct b
+ * <code>BufferedImbge</code> must therefore hbve minX=0 bnd minY=0.
  *
  * <p>
- * This class relies on the data fetching and setting methods
- * of <code>Raster</code>,
- * and on the color characterization methods of <code>ColorModel</code>.
+ * This clbss relies on the dbtb fetching bnd setting methods
+ * of <code>Rbster</code>,
+ * bnd on the color chbrbcterizbtion methods of <code>ColorModel</code>.
  *
  * @see ColorModel
- * @see Raster
- * @see WritableRaster
+ * @see Rbster
+ * @see WritbbleRbster
  */
 
-public class BufferedImage extends java.awt.Image
-                           implements WritableRenderedImage, Transparency
+public clbss BufferedImbge extends jbvb.bwt.Imbge
+                           implements WritbbleRenderedImbge, Trbnspbrency
 {
-    int        imageType = TYPE_CUSTOM;
+    int        imbgeType = TYPE_CUSTOM;
     ColorModel colorModel;
-    WritableRaster raster;
-    OffScreenImageSource osis;
-    Hashtable<?, ?> properties;
+    WritbbleRbster rbster;
+    OffScreenImbgeSource osis;
+    Hbshtbble<?, ?> properties;
 
-    boolean    isAlphaPremultiplied;// If true, alpha has been premultiplied in
-    // color channels
+    boolebn    isAlphbPremultiplied;// If true, blphb hbs been premultiplied in
+    // color chbnnels
 
     /**
-     * Image Type Constants
+     * Imbge Type Constbnts
      */
 
     /**
-     * Image type is not recognized so it must be a customized
-     * image.  This type is only used as a return value for the getType()
+     * Imbge type is not recognized so it must be b customized
+     * imbge.  This type is only used bs b return vblue for the getType()
      * method.
      */
-    public static final int TYPE_CUSTOM = 0;
+    public stbtic finbl int TYPE_CUSTOM = 0;
 
     /**
-     * Represents an image with 8-bit RGB color components packed into
-     * integer pixels.  The image has a {@link DirectColorModel} without
-     * alpha.
-     * When data with non-opaque alpha is stored
-     * in an image of this type,
-     * the color data must be adjusted to a non-premultiplied form
-     * and the alpha discarded,
-     * as described in the
-     * {@link java.awt.AlphaComposite} documentation.
+     * Represents bn imbge with 8-bit RGB color components pbcked into
+     * integer pixels.  The imbge hbs b {@link DirectColorModel} without
+     * blphb.
+     * When dbtb with non-opbque blphb is stored
+     * in bn imbge of this type,
+     * the color dbtb must be bdjusted to b non-premultiplied form
+     * bnd the blphb discbrded,
+     * bs described in the
+     * {@link jbvb.bwt.AlphbComposite} documentbtion.
      */
-    public static final int TYPE_INT_RGB = 1;
+    public stbtic finbl int TYPE_INT_RGB = 1;
 
     /**
-     * Represents an image with 8-bit RGBA color components packed into
-     * integer pixels.  The image has a <code>DirectColorModel</code>
-     * with alpha. The color data in this image is considered not to be
-     * premultiplied with alpha.  When this type is used as the
-     * <code>imageType</code> argument to a <code>BufferedImage</code>
-     * constructor, the created image is consistent with images
-     * created in the JDK1.1 and earlier releases.
+     * Represents bn imbge with 8-bit RGBA color components pbcked into
+     * integer pixels.  The imbge hbs b <code>DirectColorModel</code>
+     * with blphb. The color dbtb in this imbge is considered not to be
+     * premultiplied with blphb.  When this type is used bs the
+     * <code>imbgeType</code> brgument to b <code>BufferedImbge</code>
+     * constructor, the crebted imbge is consistent with imbges
+     * crebted in the JDK1.1 bnd ebrlier relebses.
      */
-    public static final int TYPE_INT_ARGB = 2;
+    public stbtic finbl int TYPE_INT_ARGB = 2;
 
     /**
-     * Represents an image with 8-bit RGBA color components packed into
-     * integer pixels.  The image has a <code>DirectColorModel</code>
-     * with alpha.  The color data in this image is considered to be
-     * premultiplied with alpha.
+     * Represents bn imbge with 8-bit RGBA color components pbcked into
+     * integer pixels.  The imbge hbs b <code>DirectColorModel</code>
+     * with blphb.  The color dbtb in this imbge is considered to be
+     * premultiplied with blphb.
      */
-    public static final int TYPE_INT_ARGB_PRE = 3;
+    public stbtic finbl int TYPE_INT_ARGB_PRE = 3;
 
     /**
-     * Represents an image with 8-bit RGB color components, corresponding
-     * to a Windows- or Solaris- style BGR color model, with the colors
-     * Blue, Green, and Red packed into integer pixels.  There is no alpha.
-     * The image has a {@link DirectColorModel}.
-     * When data with non-opaque alpha is stored
-     * in an image of this type,
-     * the color data must be adjusted to a non-premultiplied form
-     * and the alpha discarded,
-     * as described in the
-     * {@link java.awt.AlphaComposite} documentation.
+     * Represents bn imbge with 8-bit RGB color components, corresponding
+     * to b Windows- or Solbris- style BGR color model, with the colors
+     * Blue, Green, bnd Red pbcked into integer pixels.  There is no blphb.
+     * The imbge hbs b {@link DirectColorModel}.
+     * When dbtb with non-opbque blphb is stored
+     * in bn imbge of this type,
+     * the color dbtb must be bdjusted to b non-premultiplied form
+     * bnd the blphb discbrded,
+     * bs described in the
+     * {@link jbvb.bwt.AlphbComposite} documentbtion.
      */
-    public static final int TYPE_INT_BGR = 4;
+    public stbtic finbl int TYPE_INT_BGR = 4;
 
     /**
-     * Represents an image with 8-bit RGB color components, corresponding
-     * to a Windows-style BGR color model) with the colors Blue, Green,
-     * and Red stored in 3 bytes.  There is no alpha.  The image has a
+     * Represents bn imbge with 8-bit RGB color components, corresponding
+     * to b Windows-style BGR color model) with the colors Blue, Green,
+     * bnd Red stored in 3 bytes.  There is no blphb.  The imbge hbs b
      * <code>ComponentColorModel</code>.
-     * When data with non-opaque alpha is stored
-     * in an image of this type,
-     * the color data must be adjusted to a non-premultiplied form
-     * and the alpha discarded,
-     * as described in the
-     * {@link java.awt.AlphaComposite} documentation.
+     * When dbtb with non-opbque blphb is stored
+     * in bn imbge of this type,
+     * the color dbtb must be bdjusted to b non-premultiplied form
+     * bnd the blphb discbrded,
+     * bs described in the
+     * {@link jbvb.bwt.AlphbComposite} documentbtion.
      */
-    public static final int TYPE_3BYTE_BGR = 5;
+    public stbtic finbl int TYPE_3BYTE_BGR = 5;
 
     /**
-     * Represents an image with 8-bit RGBA color components with the colors
-     * Blue, Green, and Red stored in 3 bytes and 1 byte of alpha.  The
-     * image has a <code>ComponentColorModel</code> with alpha.  The
-     * color data in this image is considered not to be premultiplied with
-     * alpha.  The byte data is interleaved in a single
-     * byte array in the order A, B, G, R
-     * from lower to higher byte addresses within each pixel.
+     * Represents bn imbge with 8-bit RGBA color components with the colors
+     * Blue, Green, bnd Red stored in 3 bytes bnd 1 byte of blphb.  The
+     * imbge hbs b <code>ComponentColorModel</code> with blphb.  The
+     * color dbtb in this imbge is considered not to be premultiplied with
+     * blphb.  The byte dbtb is interlebved in b single
+     * byte brrby in the order A, B, G, R
+     * from lower to higher byte bddresses within ebch pixel.
      */
-    public static final int TYPE_4BYTE_ABGR = 6;
+    public stbtic finbl int TYPE_4BYTE_ABGR = 6;
 
     /**
-     * Represents an image with 8-bit RGBA color components with the colors
-     * Blue, Green, and Red stored in 3 bytes and 1 byte of alpha.  The
-     * image has a <code>ComponentColorModel</code> with alpha. The color
-     * data in this image is considered to be premultiplied with alpha.
-     * The byte data is interleaved in a single byte array in the order
-     * A, B, G, R from lower to higher byte addresses within each pixel.
+     * Represents bn imbge with 8-bit RGBA color components with the colors
+     * Blue, Green, bnd Red stored in 3 bytes bnd 1 byte of blphb.  The
+     * imbge hbs b <code>ComponentColorModel</code> with blphb. The color
+     * dbtb in this imbge is considered to be premultiplied with blphb.
+     * The byte dbtb is interlebved in b single byte brrby in the order
+     * A, B, G, R from lower to higher byte bddresses within ebch pixel.
      */
-    public static final int TYPE_4BYTE_ABGR_PRE = 7;
+    public stbtic finbl int TYPE_4BYTE_ABGR_PRE = 7;
 
     /**
-     * Represents an image with 5-6-5 RGB color components (5-bits red,
-     * 6-bits green, 5-bits blue) with no alpha.  This image has
-     * a <code>DirectColorModel</code>.
-     * When data with non-opaque alpha is stored
-     * in an image of this type,
-     * the color data must be adjusted to a non-premultiplied form
-     * and the alpha discarded,
-     * as described in the
-     * {@link java.awt.AlphaComposite} documentation.
+     * Represents bn imbge with 5-6-5 RGB color components (5-bits red,
+     * 6-bits green, 5-bits blue) with no blphb.  This imbge hbs
+     * b <code>DirectColorModel</code>.
+     * When dbtb with non-opbque blphb is stored
+     * in bn imbge of this type,
+     * the color dbtb must be bdjusted to b non-premultiplied form
+     * bnd the blphb discbrded,
+     * bs described in the
+     * {@link jbvb.bwt.AlphbComposite} documentbtion.
      */
-    public static final int TYPE_USHORT_565_RGB = 8;
+    public stbtic finbl int TYPE_USHORT_565_RGB = 8;
 
     /**
-     * Represents an image with 5-5-5 RGB color components (5-bits red,
-     * 5-bits green, 5-bits blue) with no alpha.  This image has
-     * a <code>DirectColorModel</code>.
-     * When data with non-opaque alpha is stored
-     * in an image of this type,
-     * the color data must be adjusted to a non-premultiplied form
-     * and the alpha discarded,
-     * as described in the
-     * {@link java.awt.AlphaComposite} documentation.
+     * Represents bn imbge with 5-5-5 RGB color components (5-bits red,
+     * 5-bits green, 5-bits blue) with no blphb.  This imbge hbs
+     * b <code>DirectColorModel</code>.
+     * When dbtb with non-opbque blphb is stored
+     * in bn imbge of this type,
+     * the color dbtb must be bdjusted to b non-premultiplied form
+     * bnd the blphb discbrded,
+     * bs described in the
+     * {@link jbvb.bwt.AlphbComposite} documentbtion.
      */
-    public static final int TYPE_USHORT_555_RGB = 9;
+    public stbtic finbl int TYPE_USHORT_555_RGB = 9;
 
     /**
-     * Represents a unsigned byte grayscale image, non-indexed.  This
-     * image has a <code>ComponentColorModel</code> with a CS_GRAY
-     * {@link ColorSpace}.
-     * When data with non-opaque alpha is stored
-     * in an image of this type,
-     * the color data must be adjusted to a non-premultiplied form
-     * and the alpha discarded,
-     * as described in the
-     * {@link java.awt.AlphaComposite} documentation.
+     * Represents b unsigned byte grbyscble imbge, non-indexed.  This
+     * imbge hbs b <code>ComponentColorModel</code> with b CS_GRAY
+     * {@link ColorSpbce}.
+     * When dbtb with non-opbque blphb is stored
+     * in bn imbge of this type,
+     * the color dbtb must be bdjusted to b non-premultiplied form
+     * bnd the blphb discbrded,
+     * bs described in the
+     * {@link jbvb.bwt.AlphbComposite} documentbtion.
      */
-    public static final int TYPE_BYTE_GRAY = 10;
+    public stbtic finbl int TYPE_BYTE_GRAY = 10;
 
     /**
-     * Represents an unsigned short grayscale image, non-indexed).  This
-     * image has a <code>ComponentColorModel</code> with a CS_GRAY
-     * <code>ColorSpace</code>.
-     * When data with non-opaque alpha is stored
-     * in an image of this type,
-     * the color data must be adjusted to a non-premultiplied form
-     * and the alpha discarded,
-     * as described in the
-     * {@link java.awt.AlphaComposite} documentation.
+     * Represents bn unsigned short grbyscble imbge, non-indexed).  This
+     * imbge hbs b <code>ComponentColorModel</code> with b CS_GRAY
+     * <code>ColorSpbce</code>.
+     * When dbtb with non-opbque blphb is stored
+     * in bn imbge of this type,
+     * the color dbtb must be bdjusted to b non-premultiplied form
+     * bnd the blphb discbrded,
+     * bs described in the
+     * {@link jbvb.bwt.AlphbComposite} documentbtion.
      */
-    public static final int TYPE_USHORT_GRAY = 11;
+    public stbtic finbl int TYPE_USHORT_GRAY = 11;
 
     /**
-     * Represents an opaque byte-packed 1, 2, or 4 bit image.  The
-     * image has an {@link IndexColorModel} without alpha.  When this
-     * type is used as the <code>imageType</code> argument to the
-     * <code>BufferedImage</code> constructor that takes an
-     * <code>imageType</code> argument but no <code>ColorModel</code>
-     * argument, a 1-bit image is created with an
-     * <code>IndexColorModel</code> with two colors in the default
-     * sRGB <code>ColorSpace</code>: {0,&nbsp;0,&nbsp;0} and
+     * Represents bn opbque byte-pbcked 1, 2, or 4 bit imbge.  The
+     * imbge hbs bn {@link IndexColorModel} without blphb.  When this
+     * type is used bs the <code>imbgeType</code> brgument to the
+     * <code>BufferedImbge</code> constructor thbt tbkes bn
+     * <code>imbgeType</code> brgument but no <code>ColorModel</code>
+     * brgument, b 1-bit imbge is crebted with bn
+     * <code>IndexColorModel</code> with two colors in the defbult
+     * sRGB <code>ColorSpbce</code>: {0,&nbsp;0,&nbsp;0} bnd
      * {255,&nbsp;255,&nbsp;255}.
      *
-     * <p> Images with 2 or 4 bits per pixel may be constructed via
-     * the <code>BufferedImage</code> constructor that takes a
-     * <code>ColorModel</code> argument by supplying a
-     * <code>ColorModel</code> with an appropriate map size.
+     * <p> Imbges with 2 or 4 bits per pixel mby be constructed vib
+     * the <code>BufferedImbge</code> constructor thbt tbkes b
+     * <code>ColorModel</code> brgument by supplying b
+     * <code>ColorModel</code> with bn bppropribte mbp size.
      *
-     * <p> Images with 8 bits per pixel should use the image types
+     * <p> Imbges with 8 bits per pixel should use the imbge types
      * <code>TYPE_BYTE_INDEXED</code> or <code>TYPE_BYTE_GRAY</code>
      * depending on their <code>ColorModel</code>.
 
-     * <p> When color data is stored in an image of this type,
-     * the closest color in the colormap is determined
-     * by the <code>IndexColorModel</code> and the resulting index is stored.
-     * Approximation and loss of alpha or color components
-     * can result, depending on the colors in the
-     * <code>IndexColorModel</code> colormap.
+     * <p> When color dbtb is stored in bn imbge of this type,
+     * the closest color in the colormbp is determined
+     * by the <code>IndexColorModel</code> bnd the resulting index is stored.
+     * Approximbtion bnd loss of blphb or color components
+     * cbn result, depending on the colors in the
+     * <code>IndexColorModel</code> colormbp.
      */
-    public static final int TYPE_BYTE_BINARY = 12;
+    public stbtic finbl int TYPE_BYTE_BINARY = 12;
 
     /**
-     * Represents an indexed byte image.  When this type is used as the
-     * <code>imageType</code> argument to the <code>BufferedImage</code>
-     * constructor that takes an <code>imageType</code> argument
-     * but no <code>ColorModel</code> argument, an
-     * <code>IndexColorModel</code> is created with
-     * a 256-color 6/6/6 color cube palette with the rest of the colors
-     * from 216-255 populated by grayscale values in the
-     * default sRGB ColorSpace.
+     * Represents bn indexed byte imbge.  When this type is used bs the
+     * <code>imbgeType</code> brgument to the <code>BufferedImbge</code>
+     * constructor thbt tbkes bn <code>imbgeType</code> brgument
+     * but no <code>ColorModel</code> brgument, bn
+     * <code>IndexColorModel</code> is crebted with
+     * b 256-color 6/6/6 color cube pblette with the rest of the colors
+     * from 216-255 populbted by grbyscble vblues in the
+     * defbult sRGB ColorSpbce.
      *
-     * <p> When color data is stored in an image of this type,
-     * the closest color in the colormap is determined
-     * by the <code>IndexColorModel</code> and the resulting index is stored.
-     * Approximation and loss of alpha or color components
-     * can result, depending on the colors in the
-     * <code>IndexColorModel</code> colormap.
+     * <p> When color dbtb is stored in bn imbge of this type,
+     * the closest color in the colormbp is determined
+     * by the <code>IndexColorModel</code> bnd the resulting index is stored.
+     * Approximbtion bnd loss of blphb or color components
+     * cbn result, depending on the colors in the
+     * <code>IndexColorModel</code> colormbp.
      */
-    public static final int TYPE_BYTE_INDEXED = 13;
+    public stbtic finbl int TYPE_BYTE_INDEXED = 13;
 
-    private static final int DCM_RED_MASK   = 0x00ff0000;
-    private static final int DCM_GREEN_MASK = 0x0000ff00;
-    private static final int DCM_BLUE_MASK  = 0x000000ff;
-    private static final int DCM_ALPHA_MASK = 0xff000000;
-    private static final int DCM_565_RED_MASK = 0xf800;
-    private static final int DCM_565_GRN_MASK = 0x07E0;
-    private static final int DCM_565_BLU_MASK = 0x001F;
-    private static final int DCM_555_RED_MASK = 0x7C00;
-    private static final int DCM_555_GRN_MASK = 0x03E0;
-    private static final int DCM_555_BLU_MASK = 0x001F;
-    private static final int DCM_BGR_RED_MASK = 0x0000ff;
-    private static final int DCM_BGR_GRN_MASK = 0x00ff00;
-    private static final int DCM_BGR_BLU_MASK = 0xff0000;
+    privbte stbtic finbl int DCM_RED_MASK   = 0x00ff0000;
+    privbte stbtic finbl int DCM_GREEN_MASK = 0x0000ff00;
+    privbte stbtic finbl int DCM_BLUE_MASK  = 0x000000ff;
+    privbte stbtic finbl int DCM_ALPHA_MASK = 0xff000000;
+    privbte stbtic finbl int DCM_565_RED_MASK = 0xf800;
+    privbte stbtic finbl int DCM_565_GRN_MASK = 0x07E0;
+    privbte stbtic finbl int DCM_565_BLU_MASK = 0x001F;
+    privbte stbtic finbl int DCM_555_RED_MASK = 0x7C00;
+    privbte stbtic finbl int DCM_555_GRN_MASK = 0x03E0;
+    privbte stbtic finbl int DCM_555_BLU_MASK = 0x001F;
+    privbte stbtic finbl int DCM_BGR_RED_MASK = 0x0000ff;
+    privbte stbtic finbl int DCM_BGR_GRN_MASK = 0x00ff00;
+    privbte stbtic finbl int DCM_BGR_BLU_MASK = 0xff0000;
 
 
-    static private native void initIDs();
-    static {
-        ColorModel.loadLibraries();
+    stbtic privbte nbtive void initIDs();
+    stbtic {
+        ColorModel.lobdLibrbries();
         initIDs();
     }
 
     /**
-     * Constructs a <code>BufferedImage</code> of one of the predefined
-     * image types.  The <code>ColorSpace</code> for the image is the
-     * default sRGB space.
-     * @param width     width of the created image
-     * @param height    height of the created image
-     * @param imageType type of the created image
-     * @see ColorSpace
+     * Constructs b <code>BufferedImbge</code> of one of the predefined
+     * imbge types.  The <code>ColorSpbce</code> for the imbge is the
+     * defbult sRGB spbce.
+     * @pbrbm width     width of the crebted imbge
+     * @pbrbm height    height of the crebted imbge
+     * @pbrbm imbgeType type of the crebted imbge
+     * @see ColorSpbce
      * @see #TYPE_INT_RGB
      * @see #TYPE_INT_ARGB
      * @see #TYPE_INT_ARGB_PRE
@@ -316,302 +316,302 @@ public class BufferedImage extends java.awt.Image
      * @see #TYPE_USHORT_565_RGB
      * @see #TYPE_USHORT_555_RGB
      */
-    public BufferedImage(int width,
+    public BufferedImbge(int width,
                          int height,
-                         int imageType) {
-        switch (imageType) {
-        case TYPE_INT_RGB:
+                         int imbgeType) {
+        switch (imbgeType) {
+        cbse TYPE_INT_RGB:
             {
                 colorModel = new DirectColorModel(24,
                                                   0x00ff0000,   // Red
                                                   0x0000ff00,   // Green
                                                   0x000000ff,   // Blue
-                                                  0x0           // Alpha
+                                                  0x0           // Alphb
                                                   );
-                  raster = colorModel.createCompatibleWritableRaster(width,
+                  rbster = colorModel.crebteCompbtibleWritbbleRbster(width,
                                                                       height);
             }
-        break;
+        brebk;
 
-        case TYPE_INT_ARGB:
+        cbse TYPE_INT_ARGB:
             {
-                colorModel = ColorModel.getRGBdefault();
+                colorModel = ColorModel.getRGBdefbult();
 
-                raster = colorModel.createCompatibleWritableRaster(width,
+                rbster = colorModel.crebteCompbtibleWritbbleRbster(width,
                                                                    height);
             }
-        break;
+        brebk;
 
-        case TYPE_INT_ARGB_PRE:
+        cbse TYPE_INT_ARGB_PRE:
             {
                 colorModel = new
                     DirectColorModel(
-                                     ColorSpace.getInstance(ColorSpace.CS_sRGB),
+                                     ColorSpbce.getInstbnce(ColorSpbce.CS_sRGB),
                                      32,
                                      0x00ff0000,// Red
                                      0x0000ff00,// Green
                                      0x000000ff,// Blue
-                                     0xff000000,// Alpha
-                                     true,       // Alpha Premultiplied
-                                     DataBuffer.TYPE_INT
+                                     0xff000000,// Alphb
+                                     true,       // Alphb Premultiplied
+                                     DbtbBuffer.TYPE_INT
                                      );
 
-                  raster = colorModel.createCompatibleWritableRaster(width,
+                  rbster = colorModel.crebteCompbtibleWritbbleRbster(width,
                                                                       height);
             }
-        break;
+        brebk;
 
-        case TYPE_INT_BGR:
+        cbse TYPE_INT_BGR:
             {
                 colorModel = new DirectColorModel(24,
                                                   0x000000ff,   // Red
                                                   0x0000ff00,   // Green
                                                   0x00ff0000    // Blue
                                                   );
-                  raster = colorModel.createCompatibleWritableRaster(width,
+                  rbster = colorModel.crebteCompbtibleWritbbleRbster(width,
                                                                       height);
             }
-        break;
+        brebk;
 
-        case TYPE_3BYTE_BGR:
+        cbse TYPE_3BYTE_BGR:
             {
-                ColorSpace cs = ColorSpace.getInstance(ColorSpace.CS_sRGB);
+                ColorSpbce cs = ColorSpbce.getInstbnce(ColorSpbce.CS_sRGB);
                 int[] nBits = {8, 8, 8};
                 int[] bOffs = {2, 1, 0};
-                colorModel = new ComponentColorModel(cs, nBits, false, false,
-                                                     Transparency.OPAQUE,
-                                                     DataBuffer.TYPE_BYTE);
-                raster = Raster.createInterleavedRaster(DataBuffer.TYPE_BYTE,
+                colorModel = new ComponentColorModel(cs, nBits, fblse, fblse,
+                                                     Trbnspbrency.OPAQUE,
+                                                     DbtbBuffer.TYPE_BYTE);
+                rbster = Rbster.crebteInterlebvedRbster(DbtbBuffer.TYPE_BYTE,
                                                         width, height,
                                                         width*3, 3,
                                                         bOffs, null);
             }
-        break;
+        brebk;
 
-        case TYPE_4BYTE_ABGR:
+        cbse TYPE_4BYTE_ABGR:
             {
-                ColorSpace cs = ColorSpace.getInstance(ColorSpace.CS_sRGB);
+                ColorSpbce cs = ColorSpbce.getInstbnce(ColorSpbce.CS_sRGB);
                 int[] nBits = {8, 8, 8, 8};
                 int[] bOffs = {3, 2, 1, 0};
-                colorModel = new ComponentColorModel(cs, nBits, true, false,
-                                                     Transparency.TRANSLUCENT,
-                                                     DataBuffer.TYPE_BYTE);
-                raster = Raster.createInterleavedRaster(DataBuffer.TYPE_BYTE,
+                colorModel = new ComponentColorModel(cs, nBits, true, fblse,
+                                                     Trbnspbrency.TRANSLUCENT,
+                                                     DbtbBuffer.TYPE_BYTE);
+                rbster = Rbster.crebteInterlebvedRbster(DbtbBuffer.TYPE_BYTE,
                                                         width, height,
                                                         width*4, 4,
                                                         bOffs, null);
             }
-        break;
+        brebk;
 
-        case TYPE_4BYTE_ABGR_PRE:
+        cbse TYPE_4BYTE_ABGR_PRE:
             {
-                ColorSpace cs = ColorSpace.getInstance(ColorSpace.CS_sRGB);
+                ColorSpbce cs = ColorSpbce.getInstbnce(ColorSpbce.CS_sRGB);
                 int[] nBits = {8, 8, 8, 8};
                 int[] bOffs = {3, 2, 1, 0};
                 colorModel = new ComponentColorModel(cs, nBits, true, true,
-                                                     Transparency.TRANSLUCENT,
-                                                     DataBuffer.TYPE_BYTE);
-                raster = Raster.createInterleavedRaster(DataBuffer.TYPE_BYTE,
+                                                     Trbnspbrency.TRANSLUCENT,
+                                                     DbtbBuffer.TYPE_BYTE);
+                rbster = Rbster.crebteInterlebvedRbster(DbtbBuffer.TYPE_BYTE,
                                                         width, height,
                                                         width*4, 4,
                                                         bOffs, null);
             }
-        break;
+        brebk;
 
-        case TYPE_BYTE_GRAY:
+        cbse TYPE_BYTE_GRAY:
             {
-                ColorSpace cs = ColorSpace.getInstance(ColorSpace.CS_GRAY);
+                ColorSpbce cs = ColorSpbce.getInstbnce(ColorSpbce.CS_GRAY);
                 int[] nBits = {8};
-                colorModel = new ComponentColorModel(cs, nBits, false, true,
-                                                     Transparency.OPAQUE,
-                                                     DataBuffer.TYPE_BYTE);
-                raster = colorModel.createCompatibleWritableRaster(width,
+                colorModel = new ComponentColorModel(cs, nBits, fblse, true,
+                                                     Trbnspbrency.OPAQUE,
+                                                     DbtbBuffer.TYPE_BYTE);
+                rbster = colorModel.crebteCompbtibleWritbbleRbster(width,
                                                                    height);
             }
-        break;
+        brebk;
 
-        case TYPE_USHORT_GRAY:
+        cbse TYPE_USHORT_GRAY:
             {
-                ColorSpace cs = ColorSpace.getInstance(ColorSpace.CS_GRAY);
+                ColorSpbce cs = ColorSpbce.getInstbnce(ColorSpbce.CS_GRAY);
                 int[] nBits = {16};
-                colorModel = new ComponentColorModel(cs, nBits, false, true,
-                                                     Transparency.OPAQUE,
-                                                     DataBuffer.TYPE_USHORT);
-                raster = colorModel.createCompatibleWritableRaster(width,
+                colorModel = new ComponentColorModel(cs, nBits, fblse, true,
+                                                     Trbnspbrency.OPAQUE,
+                                                     DbtbBuffer.TYPE_USHORT);
+                rbster = colorModel.crebteCompbtibleWritbbleRbster(width,
                                                                    height);
             }
-        break;
+        brebk;
 
-        case TYPE_BYTE_BINARY:
+        cbse TYPE_BYTE_BINARY:
             {
-                byte[] arr = {(byte)0, (byte)0xff};
+                byte[] brr = {(byte)0, (byte)0xff};
 
-                colorModel = new IndexColorModel(1, 2, arr, arr, arr);
-                raster = Raster.createPackedRaster(DataBuffer.TYPE_BYTE,
+                colorModel = new IndexColorModel(1, 2, brr, brr, brr);
+                rbster = Rbster.crebtePbckedRbster(DbtbBuffer.TYPE_BYTE,
                                                    width, height, 1, 1, null);
             }
-        break;
+        brebk;
 
-        case TYPE_BYTE_INDEXED:
+        cbse TYPE_BYTE_INDEXED:
             {
-                // Create a 6x6x6 color cube
-                int[] cmap = new int[256];
+                // Crebte b 6x6x6 color cube
+                int[] cmbp = new int[256];
                 int i=0;
                 for (int r=0; r < 256; r += 51) {
                     for (int g=0; g < 256; g += 51) {
                         for (int b=0; b < 256; b += 51) {
-                            cmap[i++] = (r<<16)|(g<<8)|b;
+                            cmbp[i++] = (r<<16)|(g<<8)|b;
                         }
                     }
                 }
-                // And populate the rest of the cmap with gray values
-                int grayIncr = 256/(256-i);
+                // And populbte the rest of the cmbp with grby vblues
+                int grbyIncr = 256/(256-i);
 
-                // The gray ramp will be between 18 and 252
-                int gray = grayIncr*3;
+                // The grby rbmp will be between 18 bnd 252
+                int grby = grbyIncr*3;
                 for (; i < 256; i++) {
-                    cmap[i] = (gray<<16)|(gray<<8)|gray;
-                    gray += grayIncr;
+                    cmbp[i] = (grby<<16)|(grby<<8)|grby;
+                    grby += grbyIncr;
                 }
 
-                colorModel = new IndexColorModel(8, 256, cmap, 0, false, -1,
-                                                 DataBuffer.TYPE_BYTE);
-                raster = Raster.createInterleavedRaster(DataBuffer.TYPE_BYTE,
+                colorModel = new IndexColorModel(8, 256, cmbp, 0, fblse, -1,
+                                                 DbtbBuffer.TYPE_BYTE);
+                rbster = Rbster.crebteInterlebvedRbster(DbtbBuffer.TYPE_BYTE,
                                                       width, height, 1, null);
             }
-        break;
+        brebk;
 
-        case TYPE_USHORT_565_RGB:
+        cbse TYPE_USHORT_565_RGB:
             {
                 colorModel = new DirectColorModel(16,
                                                   DCM_565_RED_MASK,
                                                   DCM_565_GRN_MASK,
                                                   DCM_565_BLU_MASK
                                                   );
-                raster = colorModel.createCompatibleWritableRaster(width,
+                rbster = colorModel.crebteCompbtibleWritbbleRbster(width,
                                                                    height);
             }
-            break;
+            brebk;
 
-        case TYPE_USHORT_555_RGB:
+        cbse TYPE_USHORT_555_RGB:
             {
                 colorModel = new DirectColorModel(15,
                                                   DCM_555_RED_MASK,
                                                   DCM_555_GRN_MASK,
                                                   DCM_555_BLU_MASK
                                                   );
-                raster = colorModel.createCompatibleWritableRaster(width,
+                rbster = colorModel.crebteCompbtibleWritbbleRbster(width,
                                                                    height);
             }
-            break;
+            brebk;
 
-        default:
-            throw new IllegalArgumentException ("Unknown image type " +
-                                                imageType);
+        defbult:
+            throw new IllegblArgumentException ("Unknown imbge type " +
+                                                imbgeType);
         }
 
-        this.imageType = imageType;
+        this.imbgeType = imbgeType;
     }
 
     /**
-     * Constructs a <code>BufferedImage</code> of one of the predefined
-     * image types:
+     * Constructs b <code>BufferedImbge</code> of one of the predefined
+     * imbge types:
      * TYPE_BYTE_BINARY or TYPE_BYTE_INDEXED.
      *
-     * <p> If the image type is TYPE_BYTE_BINARY, the number of
+     * <p> If the imbge type is TYPE_BYTE_BINARY, the number of
      * entries in the color model is used to determine whether the
-     * image should have 1, 2, or 4 bits per pixel.  If the color model
-     * has 1 or 2 entries, the image will have 1 bit per pixel.  If it
-     * has 3 or 4 entries, the image with have 2 bits per pixel.  If
-     * it has between 5 and 16 entries, the image will have 4 bits per
-     * pixel.  Otherwise, an IllegalArgumentException will be thrown.
+     * imbge should hbve 1, 2, or 4 bits per pixel.  If the color model
+     * hbs 1 or 2 entries, the imbge will hbve 1 bit per pixel.  If it
+     * hbs 3 or 4 entries, the imbge with hbve 2 bits per pixel.  If
+     * it hbs between 5 bnd 16 entries, the imbge will hbve 4 bits per
+     * pixel.  Otherwise, bn IllegblArgumentException will be thrown.
      *
-     * @param width     width of the created image
-     * @param height    height of the created image
-     * @param imageType type of the created image
-     * @param cm        <code>IndexColorModel</code> of the created image
-     * @throws IllegalArgumentException   if the imageType is not
-     * TYPE_BYTE_BINARY or TYPE_BYTE_INDEXED or if the imageType is
-     * TYPE_BYTE_BINARY and the color map has more than 16 entries.
+     * @pbrbm width     width of the crebted imbge
+     * @pbrbm height    height of the crebted imbge
+     * @pbrbm imbgeType type of the crebted imbge
+     * @pbrbm cm        <code>IndexColorModel</code> of the crebted imbge
+     * @throws IllegblArgumentException   if the imbgeType is not
+     * TYPE_BYTE_BINARY or TYPE_BYTE_INDEXED or if the imbgeType is
+     * TYPE_BYTE_BINARY bnd the color mbp hbs more thbn 16 entries.
      * @see #TYPE_BYTE_BINARY
      * @see #TYPE_BYTE_INDEXED
      */
-    public BufferedImage (int width,
+    public BufferedImbge (int width,
                           int height,
-                          int imageType,
+                          int imbgeType,
                           IndexColorModel cm) {
-        if (cm.hasAlpha() && cm.isAlphaPremultiplied()) {
-            throw new IllegalArgumentException("This image types do not have "+
-                                               "premultiplied alpha.");
+        if (cm.hbsAlphb() && cm.isAlphbPremultiplied()) {
+            throw new IllegblArgumentException("This imbge types do not hbve "+
+                                               "premultiplied blphb.");
         }
 
-        switch(imageType) {
-        case TYPE_BYTE_BINARY:
+        switch(imbgeType) {
+        cbse TYPE_BYTE_BINARY:
             int bits; // Will be set below
-            int mapSize = cm.getMapSize();
-            if (mapSize <= 2) {
+            int mbpSize = cm.getMbpSize();
+            if (mbpSize <= 2) {
                 bits = 1;
-            } else if (mapSize <= 4) {
+            } else if (mbpSize <= 4) {
                 bits = 2;
-            } else if (mapSize <= 16) {
+            } else if (mbpSize <= 16) {
                 bits = 4;
             } else {
-                throw new IllegalArgumentException
-                    ("Color map for TYPE_BYTE_BINARY " +
-                     "must have no more than 16 entries");
+                throw new IllegblArgumentException
+                    ("Color mbp for TYPE_BYTE_BINARY " +
+                     "must hbve no more thbn 16 entries");
             }
-            raster = Raster.createPackedRaster(DataBuffer.TYPE_BYTE,
+            rbster = Rbster.crebtePbckedRbster(DbtbBuffer.TYPE_BYTE,
                                                 width, height, 1, bits, null);
-            break;
+            brebk;
 
-        case TYPE_BYTE_INDEXED:
-            raster = Raster.createInterleavedRaster(DataBuffer.TYPE_BYTE,
+        cbse TYPE_BYTE_INDEXED:
+            rbster = Rbster.crebteInterlebvedRbster(DbtbBuffer.TYPE_BYTE,
                                                     width, height, 1, null);
-            break;
-        default:
-            throw new IllegalArgumentException("Invalid image type (" +
-                                               imageType+").  Image type must"+
+            brebk;
+        defbult:
+            throw new IllegblArgumentException("Invblid imbge type (" +
+                                               imbgeType+").  Imbge type must"+
                                                " be either TYPE_BYTE_BINARY or "+
                                                " TYPE_BYTE_INDEXED");
         }
 
-        if (!cm.isCompatibleRaster(raster)) {
-            throw new IllegalArgumentException("Incompatible image type and IndexColorModel");
+        if (!cm.isCompbtibleRbster(rbster)) {
+            throw new IllegblArgumentException("Incompbtible imbge type bnd IndexColorModel");
         }
 
         colorModel = cm;
-        this.imageType = imageType;
+        this.imbgeType = imbgeType;
     }
 
     /**
-     * Constructs a new <code>BufferedImage</code> with a specified
-     * <code>ColorModel</code> and <code>Raster</code>.  If the number and
-     * types of bands in the <code>SampleModel</code> of the
-     * <code>Raster</code> do not match the number and types required by
-     * the <code>ColorModel</code> to represent its color and alpha
-     * components, a {@link RasterFormatException} is thrown.  This
-     * method can multiply or divide the color <code>Raster</code> data by
-     * alpha to match the <code>alphaPremultiplied</code> state
+     * Constructs b new <code>BufferedImbge</code> with b specified
+     * <code>ColorModel</code> bnd <code>Rbster</code>.  If the number bnd
+     * types of bbnds in the <code>SbmpleModel</code> of the
+     * <code>Rbster</code> do not mbtch the number bnd types required by
+     * the <code>ColorModel</code> to represent its color bnd blphb
+     * components, b {@link RbsterFormbtException} is thrown.  This
+     * method cbn multiply or divide the color <code>Rbster</code> dbtb by
+     * blphb to mbtch the <code>blphbPremultiplied</code> stbte
      * in the <code>ColorModel</code>.  Properties for this
-     * <code>BufferedImage</code> can be established by passing
-     * in a {@link Hashtable} of <code>String</code>/<code>Object</code>
-     * pairs.
-     * @param cm <code>ColorModel</code> for the new image
-     * @param raster     <code>Raster</code> for the image data
-     * @param isRasterPremultiplied   if <code>true</code>, the data in
-     *                  the raster has been premultiplied with alpha.
-     * @param properties <code>Hashtable</code> of
-     *                  <code>String</code>/<code>Object</code> pairs.
-     * @exception RasterFormatException if the number and
-     * types of bands in the <code>SampleModel</code> of the
-     * <code>Raster</code> do not match the number and types required by
-     * the <code>ColorModel</code> to represent its color and alpha
+     * <code>BufferedImbge</code> cbn be estbblished by pbssing
+     * in b {@link Hbshtbble} of <code>String</code>/<code>Object</code>
+     * pbirs.
+     * @pbrbm cm <code>ColorModel</code> for the new imbge
+     * @pbrbm rbster     <code>Rbster</code> for the imbge dbtb
+     * @pbrbm isRbsterPremultiplied   if <code>true</code>, the dbtb in
+     *                  the rbster hbs been premultiplied with blphb.
+     * @pbrbm properties <code>Hbshtbble</code> of
+     *                  <code>String</code>/<code>Object</code> pbirs.
+     * @exception RbsterFormbtException if the number bnd
+     * types of bbnds in the <code>SbmpleModel</code> of the
+     * <code>Rbster</code> do not mbtch the number bnd types required by
+     * the <code>ColorModel</code> to represent its color bnd blphb
      * components.
-     * @exception IllegalArgumentException if
-     *          <code>raster</code> is incompatible with <code>cm</code>
+     * @exception IllegblArgumentException if
+     *          <code>rbster</code> is incompbtible with <code>cm</code>
      * @see ColorModel
-     * @see Raster
-     * @see WritableRaster
+     * @see Rbster
+     * @see WritbbleRbster
      */
 
 
@@ -621,211 +621,211 @@ public class BufferedImage extends java.awt.Image
  *  SEE THE METHOD DEFINERASTERTYPE @ RASTEROUTPUTMANAGER
  *
  */
-    public BufferedImage (ColorModel cm,
-                          WritableRaster raster,
-                          boolean isRasterPremultiplied,
-                          Hashtable<?,?> properties) {
+    public BufferedImbge (ColorModel cm,
+                          WritbbleRbster rbster,
+                          boolebn isRbsterPremultiplied,
+                          Hbshtbble<?,?> properties) {
 
-        if (!cm.isCompatibleRaster(raster)) {
+        if (!cm.isCompbtibleRbster(rbster)) {
             throw new
-                IllegalArgumentException("Raster "+raster+
-                                         " is incompatible with ColorModel "+
+                IllegblArgumentException("Rbster "+rbster+
+                                         " is incompbtible with ColorModel "+
                                          cm);
         }
 
-        if ((raster.minX != 0) || (raster.minY != 0)) {
+        if ((rbster.minX != 0) || (rbster.minY != 0)) {
             throw new
-                IllegalArgumentException("Raster "+raster+
-                                         " has minX or minY not equal to zero: "
-                                         + raster.minX + " " + raster.minY);
+                IllegblArgumentException("Rbster "+rbster+
+                                         " hbs minX or minY not equbl to zero: "
+                                         + rbster.minX + " " + rbster.minY);
         }
 
         colorModel = cm;
-        this.raster  = raster;
+        this.rbster  = rbster;
         this.properties = properties;
-        int numBands = raster.getNumBands();
-        boolean isAlphaPre = cm.isAlphaPremultiplied();
-        final boolean isStandard = isStandard(cm, raster);
-        ColorSpace cs;
+        int numBbnds = rbster.getNumBbnds();
+        boolebn isAlphbPre = cm.isAlphbPremultiplied();
+        finbl boolebn isStbndbrd = isStbndbrd(cm, rbster);
+        ColorSpbce cs;
 
-        // Force the raster data alpha state to match the premultiplied
-        // state in the color model
-        coerceData(isRasterPremultiplied);
+        // Force the rbster dbtb blphb stbte to mbtch the premultiplied
+        // stbte in the color model
+        coerceDbtb(isRbsterPremultiplied);
 
-        SampleModel sm = raster.getSampleModel();
-        cs = cm.getColorSpace();
+        SbmpleModel sm = rbster.getSbmpleModel();
+        cs = cm.getColorSpbce();
         int csType = cs.getType();
-        if (csType != ColorSpace.TYPE_RGB) {
-            if (csType == ColorSpace.TYPE_GRAY &&
-                isStandard &&
-                cm instanceof ComponentColorModel) {
-                // Check if this might be a child raster (fix for bug 4240596)
-                if (sm instanceof ComponentSampleModel &&
-                    ((ComponentSampleModel)sm).getPixelStride() != numBands) {
-                    imageType = TYPE_CUSTOM;
-                } else if (raster instanceof ByteComponentRaster &&
-                       raster.getNumBands() == 1 &&
+        if (csType != ColorSpbce.TYPE_RGB) {
+            if (csType == ColorSpbce.TYPE_GRAY &&
+                isStbndbrd &&
+                cm instbnceof ComponentColorModel) {
+                // Check if this might be b child rbster (fix for bug 4240596)
+                if (sm instbnceof ComponentSbmpleModel &&
+                    ((ComponentSbmpleModel)sm).getPixelStride() != numBbnds) {
+                    imbgeType = TYPE_CUSTOM;
+                } else if (rbster instbnceof ByteComponentRbster &&
+                       rbster.getNumBbnds() == 1 &&
                        cm.getComponentSize(0) == 8 &&
-                       ((ByteComponentRaster)raster).getPixelStride() == 1) {
-                    imageType = TYPE_BYTE_GRAY;
-                } else if (raster instanceof ShortComponentRaster &&
-                       raster.getNumBands() == 1 &&
+                       ((ByteComponentRbster)rbster).getPixelStride() == 1) {
+                    imbgeType = TYPE_BYTE_GRAY;
+                } else if (rbster instbnceof ShortComponentRbster &&
+                       rbster.getNumBbnds() == 1 &&
                        cm.getComponentSize(0) == 16 &&
-                       ((ShortComponentRaster)raster).getPixelStride() == 1) {
-                    imageType = TYPE_USHORT_GRAY;
+                       ((ShortComponentRbster)rbster).getPixelStride() == 1) {
+                    imbgeType = TYPE_USHORT_GRAY;
                 }
             } else {
-                imageType = TYPE_CUSTOM;
+                imbgeType = TYPE_CUSTOM;
             }
             return;
         }
 
-        if ((raster instanceof IntegerComponentRaster) &&
-            (numBands == 3 || numBands == 4)) {
-            IntegerComponentRaster iraster =
-                (IntegerComponentRaster) raster;
-            // Check if the raster params and the color model
-            // are correct
+        if ((rbster instbnceof IntegerComponentRbster) &&
+            (numBbnds == 3 || numBbnds == 4)) {
+            IntegerComponentRbster irbster =
+                (IntegerComponentRbster) rbster;
+            // Check if the rbster pbrbms bnd the color model
+            // bre correct
             int pixSize = cm.getPixelSize();
-            if (iraster.getPixelStride() == 1 &&
-                isStandard &&
-                cm instanceof DirectColorModel  &&
+            if (irbster.getPixelStride() == 1 &&
+                isStbndbrd &&
+                cm instbnceof DirectColorModel  &&
                 (pixSize == 32 || pixSize == 24))
             {
-                // Now check on the DirectColorModel params
+                // Now check on the DirectColorModel pbrbms
                 DirectColorModel dcm = (DirectColorModel) cm;
-                int rmask = dcm.getRedMask();
-                int gmask = dcm.getGreenMask();
-                int bmask = dcm.getBlueMask();
-                if (rmask == DCM_RED_MASK && gmask == DCM_GREEN_MASK &&
-                    bmask == DCM_BLUE_MASK)
+                int rmbsk = dcm.getRedMbsk();
+                int gmbsk = dcm.getGreenMbsk();
+                int bmbsk = dcm.getBlueMbsk();
+                if (rmbsk == DCM_RED_MASK && gmbsk == DCM_GREEN_MASK &&
+                    bmbsk == DCM_BLUE_MASK)
                 {
-                    if (dcm.getAlphaMask() == DCM_ALPHA_MASK) {
-                        imageType = (isAlphaPre
+                    if (dcm.getAlphbMbsk() == DCM_ALPHA_MASK) {
+                        imbgeType = (isAlphbPre
                                      ? TYPE_INT_ARGB_PRE
                                      : TYPE_INT_ARGB);
                     }
                     else {
-                        // No Alpha
-                        if (!dcm.hasAlpha()) {
-                            imageType = TYPE_INT_RGB;
+                        // No Alphb
+                        if (!dcm.hbsAlphb()) {
+                            imbgeType = TYPE_INT_RGB;
                         }
                     }
-                }   // if (dcm.getRedMask() == DCM_RED_MASK &&
-                else if (rmask == DCM_BGR_RED_MASK && gmask == DCM_BGR_GRN_MASK
-                         && bmask == DCM_BGR_BLU_MASK) {
-                    if (!dcm.hasAlpha()) {
-                        imageType = TYPE_INT_BGR;
+                }   // if (dcm.getRedMbsk() == DCM_RED_MASK &&
+                else if (rmbsk == DCM_BGR_RED_MASK && gmbsk == DCM_BGR_GRN_MASK
+                         && bmbsk == DCM_BGR_BLU_MASK) {
+                    if (!dcm.hbsAlphb()) {
+                        imbgeType = TYPE_INT_BGR;
                     }
-                }  // if (rmask == DCM_BGR_RED_MASK &&
-            }   // if (iraster.getPixelStride() == 1
-        }   // ((raster instanceof IntegerComponentRaster) &&
-        else if ((cm instanceof IndexColorModel) && (numBands == 1) &&
-                 isStandard &&
-                 (!cm.hasAlpha() || !isAlphaPre))
+                }  // if (rmbsk == DCM_BGR_RED_MASK &&
+            }   // if (irbster.getPixelStride() == 1
+        }   // ((rbster instbnceof IntegerComponentRbster) &&
+        else if ((cm instbnceof IndexColorModel) && (numBbnds == 1) &&
+                 isStbndbrd &&
+                 (!cm.hbsAlphb() || !isAlphbPre))
         {
             IndexColorModel icm = (IndexColorModel) cm;
             int pixSize = icm.getPixelSize();
 
-            if (raster instanceof BytePackedRaster) {
-                imageType = TYPE_BYTE_BINARY;
-            }   // if (raster instanceof BytePackedRaster)
-            else if (raster instanceof ByteComponentRaster) {
-                ByteComponentRaster braster = (ByteComponentRaster) raster;
-                if (braster.getPixelStride() == 1 && pixSize <= 8) {
-                    imageType = TYPE_BYTE_INDEXED;
+            if (rbster instbnceof BytePbckedRbster) {
+                imbgeType = TYPE_BYTE_BINARY;
+            }   // if (rbster instbnceof BytePbckedRbster)
+            else if (rbster instbnceof ByteComponentRbster) {
+                ByteComponentRbster brbster = (ByteComponentRbster) rbster;
+                if (brbster.getPixelStride() == 1 && pixSize <= 8) {
+                    imbgeType = TYPE_BYTE_INDEXED;
                 }
             }
-        }   // else if (cm instanceof IndexColorModel) && (numBands == 1))
-        else if ((raster instanceof ShortComponentRaster)
-                 && (cm instanceof DirectColorModel)
-                 && isStandard
-                 && (numBands == 3)
-                 && !cm.hasAlpha())
+        }   // else if (cm instbnceof IndexColorModel) && (numBbnds == 1))
+        else if ((rbster instbnceof ShortComponentRbster)
+                 && (cm instbnceof DirectColorModel)
+                 && isStbndbrd
+                 && (numBbnds == 3)
+                 && !cm.hbsAlphb())
         {
             DirectColorModel dcm = (DirectColorModel) cm;
-            if (dcm.getRedMask() == DCM_565_RED_MASK) {
-                if (dcm.getGreenMask() == DCM_565_GRN_MASK &&
-                    dcm.getBlueMask()  == DCM_565_BLU_MASK) {
-                    imageType = TYPE_USHORT_565_RGB;
+            if (dcm.getRedMbsk() == DCM_565_RED_MASK) {
+                if (dcm.getGreenMbsk() == DCM_565_GRN_MASK &&
+                    dcm.getBlueMbsk()  == DCM_565_BLU_MASK) {
+                    imbgeType = TYPE_USHORT_565_RGB;
                 }
             }
-            else if (dcm.getRedMask() == DCM_555_RED_MASK) {
-                if (dcm.getGreenMask() == DCM_555_GRN_MASK &&
-                    dcm.getBlueMask() == DCM_555_BLU_MASK) {
-                    imageType = TYPE_USHORT_555_RGB;
+            else if (dcm.getRedMbsk() == DCM_555_RED_MASK) {
+                if (dcm.getGreenMbsk() == DCM_555_GRN_MASK &&
+                    dcm.getBlueMbsk() == DCM_555_BLU_MASK) {
+                    imbgeType = TYPE_USHORT_555_RGB;
                 }
             }
-        }   // else if ((cm instanceof IndexColorModel) && (numBands == 1))
-        else if ((raster instanceof ByteComponentRaster)
-                 && (cm instanceof ComponentColorModel)
-                 && isStandard
-                 && (raster.getSampleModel() instanceof PixelInterleavedSampleModel)
-                 && (numBands == 3 || numBands == 4))
+        }   // else if ((cm instbnceof IndexColorModel) && (numBbnds == 1))
+        else if ((rbster instbnceof ByteComponentRbster)
+                 && (cm instbnceof ComponentColorModel)
+                 && isStbndbrd
+                 && (rbster.getSbmpleModel() instbnceof PixelInterlebvedSbmpleModel)
+                 && (numBbnds == 3 || numBbnds == 4))
         {
             ComponentColorModel ccm = (ComponentColorModel) cm;
-            PixelInterleavedSampleModel csm =
-                (PixelInterleavedSampleModel)raster.getSampleModel();
-            ByteComponentRaster braster = (ByteComponentRaster) raster;
-            int[] offs = csm.getBandOffsets();
-            if (ccm.getNumComponents() != numBands) {
-                throw new RasterFormatException("Number of components in "+
+            PixelInterlebvedSbmpleModel csm =
+                (PixelInterlebvedSbmpleModel)rbster.getSbmpleModel();
+            ByteComponentRbster brbster = (ByteComponentRbster) rbster;
+            int[] offs = csm.getBbndOffsets();
+            if (ccm.getNumComponents() != numBbnds) {
+                throw new RbsterFormbtException("Number of components in "+
                                                 "ColorModel ("+
                                                 ccm.getNumComponents()+
-                                                ") does not match # in "+
-                                                " Raster ("+numBands+")");
+                                                ") does not mbtch # in "+
+                                                " Rbster ("+numBbnds+")");
             }
             int[] nBits = ccm.getComponentSize();
-            boolean is8bit = true;
-            for (int i=0; i < numBands; i++) {
+            boolebn is8bit = true;
+            for (int i=0; i < numBbnds; i++) {
                 if (nBits[i] != 8) {
-                    is8bit = false;
-                    break;
+                    is8bit = fblse;
+                    brebk;
                 }
             }
             if (is8bit &&
-                braster.getPixelStride() == numBands &&
-                offs[0] == numBands-1 &&
-                offs[1] == numBands-2 &&
-                offs[2] == numBands-3)
+                brbster.getPixelStride() == numBbnds &&
+                offs[0] == numBbnds-1 &&
+                offs[1] == numBbnds-2 &&
+                offs[2] == numBbnds-3)
             {
-                if (numBands == 3 && !ccm.hasAlpha()) {
-                    imageType = TYPE_3BYTE_BGR;
+                if (numBbnds == 3 && !ccm.hbsAlphb()) {
+                    imbgeType = TYPE_3BYTE_BGR;
                 }
-                else if (offs[3] == 0 && ccm.hasAlpha()) {
-                    imageType = (isAlphaPre
+                else if (offs[3] == 0 && ccm.hbsAlphb()) {
+                    imbgeType = (isAlphbPre
                                  ? TYPE_4BYTE_ABGR_PRE
                                  : TYPE_4BYTE_ABGR);
                 }
             }
-        }   // else if ((raster instanceof ByteComponentRaster) &&
+        }   // else if ((rbster instbnceof ByteComponentRbster) &&
     }
 
-    private static boolean isStandard(ColorModel cm, WritableRaster wr) {
-        final Class<? extends ColorModel> cmClass = cm.getClass();
-        final Class<? extends WritableRaster> wrClass = wr.getClass();
-        final Class<? extends SampleModel> smClass = wr.getSampleModel().getClass();
+    privbte stbtic boolebn isStbndbrd(ColorModel cm, WritbbleRbster wr) {
+        finbl Clbss<? extends ColorModel> cmClbss = cm.getClbss();
+        finbl Clbss<? extends WritbbleRbster> wrClbss = wr.getClbss();
+        finbl Clbss<? extends SbmpleModel> smClbss = wr.getSbmpleModel().getClbss();
 
-        final PrivilegedAction<Boolean> checkClassLoadersAction =
-                new PrivilegedAction<Boolean>()
+        finbl PrivilegedAction<Boolebn> checkClbssLobdersAction =
+                new PrivilegedAction<Boolebn>()
         {
 
             @Override
-            public Boolean run() {
-                final ClassLoader std = System.class.getClassLoader();
+            public Boolebn run() {
+                finbl ClbssLobder std = System.clbss.getClbssLobder();
 
-                return (cmClass.getClassLoader() == std) &&
-                        (smClass.getClassLoader() == std) &&
-                        (wrClass.getClassLoader() == std);
+                return (cmClbss.getClbssLobder() == std) &&
+                        (smClbss.getClbssLobder() == std) &&
+                        (wrClbss.getClbssLobder() == std);
             }
         };
-        return AccessController.doPrivileged(checkClassLoadersAction);
+        return AccessController.doPrivileged(checkClbssLobdersAction);
     }
 
     /**
-     * Returns the image type.  If it is not one of the known types,
+     * Returns the imbge type.  If it is not one of the known types,
      * TYPE_CUSTOM is returned.
-     * @return the image type of this <code>BufferedImage</code>.
+     * @return the imbge type of this <code>BufferedImbge</code>.
      * @see #TYPE_INT_RGB
      * @see #TYPE_INT_ARGB
      * @see #TYPE_INT_ARGB_PRE
@@ -842,472 +842,472 @@ public class BufferedImage extends java.awt.Image
      * @see #TYPE_CUSTOM
      */
     public int getType() {
-        return imageType;
+        return imbgeType;
     }
 
     /**
      * Returns the <code>ColorModel</code>.
      * @return the <code>ColorModel</code> of this
-     *  <code>BufferedImage</code>.
+     *  <code>BufferedImbge</code>.
      */
     public ColorModel getColorModel() {
         return colorModel;
     }
 
     /**
-     * Returns the {@link WritableRaster}.
-     * @return the <code>WriteableRaster</code> of this
-     *  <code>BufferedImage</code>.
+     * Returns the {@link WritbbleRbster}.
+     * @return the <code>WritebbleRbster</code> of this
+     *  <code>BufferedImbge</code>.
      */
-    public WritableRaster getRaster() {
-        return raster;
+    public WritbbleRbster getRbster() {
+        return rbster;
     }
 
 
     /**
-     * Returns a <code>WritableRaster</code> representing the alpha
-     * channel for <code>BufferedImage</code> objects
-     * with <code>ColorModel</code> objects that support a separate
-     * spatial alpha channel, such as <code>ComponentColorModel</code> and
+     * Returns b <code>WritbbleRbster</code> representing the blphb
+     * chbnnel for <code>BufferedImbge</code> objects
+     * with <code>ColorModel</code> objects thbt support b sepbrbte
+     * spbtibl blphb chbnnel, such bs <code>ComponentColorModel</code> bnd
      * <code>DirectColorModel</code>.  Returns <code>null</code> if there
-     * is no alpha channel associated with the <code>ColorModel</code> in
-     * this image.  This method assumes that for all
-     * <code>ColorModel</code> objects other than
+     * is no blphb chbnnel bssocibted with the <code>ColorModel</code> in
+     * this imbge.  This method bssumes thbt for bll
+     * <code>ColorModel</code> objects other thbn
      * <code>IndexColorModel</code>, if the <code>ColorModel</code>
-     * supports alpha, there is a separate alpha channel
-     * which is stored as the last band of image data.
-     * If the image uses an <code>IndexColorModel</code> that
-     * has alpha in the lookup table, this method returns
-     * <code>null</code> since there is no spatially discrete alpha
-     * channel.  This method creates a new
-     * <code>WritableRaster</code>, but shares the data array.
-     * @return a <code>WritableRaster</code> or <code>null</code> if this
-     *          <code>BufferedImage</code> has no alpha channel associated
+     * supports blphb, there is b sepbrbte blphb chbnnel
+     * which is stored bs the lbst bbnd of imbge dbtb.
+     * If the imbge uses bn <code>IndexColorModel</code> thbt
+     * hbs blphb in the lookup tbble, this method returns
+     * <code>null</code> since there is no spbtiblly discrete blphb
+     * chbnnel.  This method crebtes b new
+     * <code>WritbbleRbster</code>, but shbres the dbtb brrby.
+     * @return b <code>WritbbleRbster</code> or <code>null</code> if this
+     *          <code>BufferedImbge</code> hbs no blphb chbnnel bssocibted
      *          with its <code>ColorModel</code>.
      */
-    public WritableRaster getAlphaRaster() {
-        return colorModel.getAlphaRaster(raster);
+    public WritbbleRbster getAlphbRbster() {
+        return colorModel.getAlphbRbster(rbster);
     }
 
     /**
-     * Returns an integer pixel in the default RGB color model
-     * (TYPE_INT_ARGB) and default sRGB colorspace.  Color
-     * conversion takes place if this default model does not match
-     * the image <code>ColorModel</code>.  There are only 8-bits of
-     * precision for each color component in the returned data when using
+     * Returns bn integer pixel in the defbult RGB color model
+     * (TYPE_INT_ARGB) bnd defbult sRGB colorspbce.  Color
+     * conversion tbkes plbce if this defbult model does not mbtch
+     * the imbge <code>ColorModel</code>.  There bre only 8-bits of
+     * precision for ebch color component in the returned dbtb when using
      * this method.
      *
      * <p>
      *
-     * An <code>ArrayOutOfBoundsException</code> may be thrown
-     * if the coordinates are not in bounds.
-     * However, explicit bounds checking is not guaranteed.
+     * An <code>ArrbyOutOfBoundsException</code> mby be thrown
+     * if the coordinbtes bre not in bounds.
+     * However, explicit bounds checking is not gubrbnteed.
      *
-     * @param x the X coordinate of the pixel from which to get
-     *          the pixel in the default RGB color model and sRGB
-     *          color space
-     * @param y the Y coordinate of the pixel from which to get
-     *          the pixel in the default RGB color model and sRGB
-     *          color space
-     * @return an integer pixel in the default RGB color model and
-     *          default sRGB colorspace.
+     * @pbrbm x the X coordinbte of the pixel from which to get
+     *          the pixel in the defbult RGB color model bnd sRGB
+     *          color spbce
+     * @pbrbm y the Y coordinbte of the pixel from which to get
+     *          the pixel in the defbult RGB color model bnd sRGB
+     *          color spbce
+     * @return bn integer pixel in the defbult RGB color model bnd
+     *          defbult sRGB colorspbce.
      * @see #setRGB(int, int, int)
      * @see #setRGB(int, int, int, int, int[], int, int)
      */
     public int getRGB(int x, int y) {
-        return colorModel.getRGB(raster.getDataElements(x, y, null));
+        return colorModel.getRGB(rbster.getDbtbElements(x, y, null));
     }
 
     /**
-     * Returns an array of integer pixels in the default RGB color model
-     * (TYPE_INT_ARGB) and default sRGB color space,
-     * from a portion of the image data.  Color conversion takes
-     * place if the default model does not match the image
-     * <code>ColorModel</code>.  There are only 8-bits of precision for
-     * each color component in the returned data when
-     * using this method.  With a specified coordinate (x,&nbsp;y) in the
-     * image, the ARGB pixel can be accessed in this way:
+     * Returns bn brrby of integer pixels in the defbult RGB color model
+     * (TYPE_INT_ARGB) bnd defbult sRGB color spbce,
+     * from b portion of the imbge dbtb.  Color conversion tbkes
+     * plbce if the defbult model does not mbtch the imbge
+     * <code>ColorModel</code>.  There bre only 8-bits of precision for
+     * ebch color component in the returned dbtb when
+     * using this method.  With b specified coordinbte (x,&nbsp;y) in the
+     * imbge, the ARGB pixel cbn be bccessed in this wby:
      *
      * <pre>
-     *    pixel   = rgbArray[offset + (y-startY)*scansize + (x-startX)]; </pre>
+     *    pixel   = rgbArrby[offset + (y-stbrtY)*scbnsize + (x-stbrtX)]; </pre>
      *
      * <p>
      *
-     * An <code>ArrayOutOfBoundsException</code> may be thrown
+     * An <code>ArrbyOutOfBoundsException</code> mby be thrown
      * if the region is not in bounds.
-     * However, explicit bounds checking is not guaranteed.
+     * However, explicit bounds checking is not gubrbnteed.
      *
-     * @param startX      the starting X coordinate
-     * @param startY      the starting Y coordinate
-     * @param w           width of region
-     * @param h           height of region
-     * @param rgbArray    if not <code>null</code>, the rgb pixels are
+     * @pbrbm stbrtX      the stbrting X coordinbte
+     * @pbrbm stbrtY      the stbrting Y coordinbte
+     * @pbrbm w           width of region
+     * @pbrbm h           height of region
+     * @pbrbm rgbArrby    if not <code>null</code>, the rgb pixels bre
      *          written here
-     * @param offset      offset into the <code>rgbArray</code>
-     * @param scansize    scanline stride for the <code>rgbArray</code>
-     * @return            array of RGB pixels.
+     * @pbrbm offset      offset into the <code>rgbArrby</code>
+     * @pbrbm scbnsize    scbnline stride for the <code>rgbArrby</code>
+     * @return            brrby of RGB pixels.
      * @see #setRGB(int, int, int)
      * @see #setRGB(int, int, int, int, int[], int, int)
      */
-    public int[] getRGB(int startX, int startY, int w, int h,
-                        int[] rgbArray, int offset, int scansize) {
+    public int[] getRGB(int stbrtX, int stbrtY, int w, int h,
+                        int[] rgbArrby, int offset, int scbnsize) {
         int yoff  = offset;
         int off;
-        Object data;
-        int nbands = raster.getNumBands();
-        int dataType = raster.getDataBuffer().getDataType();
-        switch (dataType) {
-        case DataBuffer.TYPE_BYTE:
-            data = new byte[nbands];
-            break;
-        case DataBuffer.TYPE_USHORT:
-            data = new short[nbands];
-            break;
-        case DataBuffer.TYPE_INT:
-            data = new int[nbands];
-            break;
-        case DataBuffer.TYPE_FLOAT:
-            data = new float[nbands];
-            break;
-        case DataBuffer.TYPE_DOUBLE:
-            data = new double[nbands];
-            break;
-        default:
-            throw new IllegalArgumentException("Unknown data buffer type: "+
-                                               dataType);
+        Object dbtb;
+        int nbbnds = rbster.getNumBbnds();
+        int dbtbType = rbster.getDbtbBuffer().getDbtbType();
+        switch (dbtbType) {
+        cbse DbtbBuffer.TYPE_BYTE:
+            dbtb = new byte[nbbnds];
+            brebk;
+        cbse DbtbBuffer.TYPE_USHORT:
+            dbtb = new short[nbbnds];
+            brebk;
+        cbse DbtbBuffer.TYPE_INT:
+            dbtb = new int[nbbnds];
+            brebk;
+        cbse DbtbBuffer.TYPE_FLOAT:
+            dbtb = new flobt[nbbnds];
+            brebk;
+        cbse DbtbBuffer.TYPE_DOUBLE:
+            dbtb = new double[nbbnds];
+            brebk;
+        defbult:
+            throw new IllegblArgumentException("Unknown dbtb buffer type: "+
+                                               dbtbType);
         }
 
-        if (rgbArray == null) {
-            rgbArray = new int[offset+h*scansize];
+        if (rgbArrby == null) {
+            rgbArrby = new int[offset+h*scbnsize];
         }
 
-        for (int y = startY; y < startY+h; y++, yoff+=scansize) {
+        for (int y = stbrtY; y < stbrtY+h; y++, yoff+=scbnsize) {
             off = yoff;
-            for (int x = startX; x < startX+w; x++) {
-                rgbArray[off++] = colorModel.getRGB(raster.getDataElements(x,
+            for (int x = stbrtX; x < stbrtX+w; x++) {
+                rgbArrby[off++] = colorModel.getRGB(rbster.getDbtbElements(x,
                                                                         y,
-                                                                        data));
+                                                                        dbtb));
             }
         }
 
-        return rgbArray;
+        return rgbArrby;
     }
 
 
     /**
-     * Sets a pixel in this <code>BufferedImage</code> to the specified
-     * RGB value. The pixel is assumed to be in the default RGB color
-     * model, TYPE_INT_ARGB, and default sRGB color space.  For images
-     * with an <code>IndexColorModel</code>, the index with the nearest
+     * Sets b pixel in this <code>BufferedImbge</code> to the specified
+     * RGB vblue. The pixel is bssumed to be in the defbult RGB color
+     * model, TYPE_INT_ARGB, bnd defbult sRGB color spbce.  For imbges
+     * with bn <code>IndexColorModel</code>, the index with the nebrest
      * color is chosen.
      *
      * <p>
      *
-     * An <code>ArrayOutOfBoundsException</code> may be thrown
-     * if the coordinates are not in bounds.
-     * However, explicit bounds checking is not guaranteed.
+     * An <code>ArrbyOutOfBoundsException</code> mby be thrown
+     * if the coordinbtes bre not in bounds.
+     * However, explicit bounds checking is not gubrbnteed.
      *
-     * @param x the X coordinate of the pixel to set
-     * @param y the Y coordinate of the pixel to set
-     * @param rgb the RGB value
+     * @pbrbm x the X coordinbte of the pixel to set
+     * @pbrbm y the Y coordinbte of the pixel to set
+     * @pbrbm rgb the RGB vblue
      * @see #getRGB(int, int)
      * @see #getRGB(int, int, int, int, int[], int, int)
      */
     public synchronized void setRGB(int x, int y, int rgb) {
-        raster.setDataElements(x, y, colorModel.getDataElements(rgb, null));
+        rbster.setDbtbElements(x, y, colorModel.getDbtbElements(rgb, null));
     }
 
     /**
-     * Sets an array of integer pixels in the default RGB color model
-     * (TYPE_INT_ARGB) and default sRGB color space,
-     * into a portion of the image data.  Color conversion takes place
-     * if the default model does not match the image
-     * <code>ColorModel</code>.  There are only 8-bits of precision for
-     * each color component in the returned data when
-     * using this method.  With a specified coordinate (x,&nbsp;y) in the
-     * this image, the ARGB pixel can be accessed in this way:
+     * Sets bn brrby of integer pixels in the defbult RGB color model
+     * (TYPE_INT_ARGB) bnd defbult sRGB color spbce,
+     * into b portion of the imbge dbtb.  Color conversion tbkes plbce
+     * if the defbult model does not mbtch the imbge
+     * <code>ColorModel</code>.  There bre only 8-bits of precision for
+     * ebch color component in the returned dbtb when
+     * using this method.  With b specified coordinbte (x,&nbsp;y) in the
+     * this imbge, the ARGB pixel cbn be bccessed in this wby:
      * <pre>
-     *    pixel   = rgbArray[offset + (y-startY)*scansize + (x-startX)];
+     *    pixel   = rgbArrby[offset + (y-stbrtY)*scbnsize + (x-stbrtX)];
      * </pre>
-     * WARNING: No dithering takes place.
+     * WARNING: No dithering tbkes plbce.
      *
      * <p>
      *
-     * An <code>ArrayOutOfBoundsException</code> may be thrown
+     * An <code>ArrbyOutOfBoundsException</code> mby be thrown
      * if the region is not in bounds.
-     * However, explicit bounds checking is not guaranteed.
+     * However, explicit bounds checking is not gubrbnteed.
      *
-     * @param startX      the starting X coordinate
-     * @param startY      the starting Y coordinate
-     * @param w           width of the region
-     * @param h           height of the region
-     * @param rgbArray    the rgb pixels
-     * @param offset      offset into the <code>rgbArray</code>
-     * @param scansize    scanline stride for the <code>rgbArray</code>
+     * @pbrbm stbrtX      the stbrting X coordinbte
+     * @pbrbm stbrtY      the stbrting Y coordinbte
+     * @pbrbm w           width of the region
+     * @pbrbm h           height of the region
+     * @pbrbm rgbArrby    the rgb pixels
+     * @pbrbm offset      offset into the <code>rgbArrby</code>
+     * @pbrbm scbnsize    scbnline stride for the <code>rgbArrby</code>
      * @see #getRGB(int, int)
      * @see #getRGB(int, int, int, int, int[], int, int)
      */
-    public void setRGB(int startX, int startY, int w, int h,
-                        int[] rgbArray, int offset, int scansize) {
+    public void setRGB(int stbrtX, int stbrtY, int w, int h,
+                        int[] rgbArrby, int offset, int scbnsize) {
         int yoff  = offset;
         int off;
         Object pixel = null;
 
-        for (int y = startY; y < startY+h; y++, yoff+=scansize) {
+        for (int y = stbrtY; y < stbrtY+h; y++, yoff+=scbnsize) {
             off = yoff;
-            for (int x = startX; x < startX+w; x++) {
-                pixel = colorModel.getDataElements(rgbArray[off++], pixel);
-                raster.setDataElements(x, y, pixel);
+            for (int x = stbrtX; x < stbrtX+w; x++) {
+                pixel = colorModel.getDbtbElements(rgbArrby[off++], pixel);
+                rbster.setDbtbElements(x, y, pixel);
             }
         }
     }
 
 
     /**
-     * Returns the width of the <code>BufferedImage</code>.
-     * @return the width of this <code>BufferedImage</code>
+     * Returns the width of the <code>BufferedImbge</code>.
+     * @return the width of this <code>BufferedImbge</code>
      */
     public int getWidth() {
-        return raster.getWidth();
+        return rbster.getWidth();
     }
 
     /**
-     * Returns the height of the <code>BufferedImage</code>.
-     * @return the height of this <code>BufferedImage</code>
+     * Returns the height of the <code>BufferedImbge</code>.
+     * @return the height of this <code>BufferedImbge</code>
      */
     public int getHeight() {
-        return raster.getHeight();
+        return rbster.getHeight();
     }
 
     /**
-     * Returns the width of the <code>BufferedImage</code>.
-     * @param observer ignored
-     * @return the width of this <code>BufferedImage</code>
+     * Returns the width of the <code>BufferedImbge</code>.
+     * @pbrbm observer ignored
+     * @return the width of this <code>BufferedImbge</code>
      */
-    public int getWidth(ImageObserver observer) {
-        return raster.getWidth();
+    public int getWidth(ImbgeObserver observer) {
+        return rbster.getWidth();
     }
 
     /**
-     * Returns the height of the <code>BufferedImage</code>.
-     * @param observer ignored
-     * @return the height of this <code>BufferedImage</code>
+     * Returns the height of the <code>BufferedImbge</code>.
+     * @pbrbm observer ignored
+     * @return the height of this <code>BufferedImbge</code>
      */
-    public int getHeight(ImageObserver observer) {
-        return raster.getHeight();
+    public int getHeight(ImbgeObserver observer) {
+        return rbster.getHeight();
     }
 
     /**
-     * Returns the object that produces the pixels for the image.
-     * @return the {@link ImageProducer} that is used to produce the
-     * pixels for this image.
-     * @see ImageProducer
+     * Returns the object thbt produces the pixels for the imbge.
+     * @return the {@link ImbgeProducer} thbt is used to produce the
+     * pixels for this imbge.
+     * @see ImbgeProducer
      */
-    public ImageProducer getSource() {
+    public ImbgeProducer getSource() {
         if (osis == null) {
             if (properties == null) {
-                properties = new Hashtable<>();
+                properties = new Hbshtbble<>();
             }
-            osis = new OffScreenImageSource(this, properties);
+            osis = new OffScreenImbgeSource(this, properties);
         }
         return osis;
     }
 
 
     /**
-     * Returns a property of the image by name.  Individual property names
-     * are defined by the various image formats.  If a property is not
-     * defined for a particular image, this method returns the
+     * Returns b property of the imbge by nbme.  Individubl property nbmes
+     * bre defined by the vbrious imbge formbts.  If b property is not
+     * defined for b pbrticulbr imbge, this method returns the
      * <code>UndefinedProperty</code> field.  If the properties
-     * for this image are not yet known, then this method returns
-     * <code>null</code> and the <code>ImageObserver</code> object is
-     * notified later.  The property name "comment" should be used to
-     * store an optional comment that can be presented to the user as a
-     * description of the image, its source, or its author.
-     * @param name the property name
-     * @param observer the <code>ImageObserver</code> that receives
-     *  notification regarding image information
-     * @return an {@link Object} that is the property referred to by the
-     *          specified <code>name</code> or <code>null</code> if the
-     *          properties of this image are not yet known.
-     * @throws NullPointerException if the property name is null.
-     * @see ImageObserver
-     * @see java.awt.Image#UndefinedProperty
+     * for this imbge bre not yet known, then this method returns
+     * <code>null</code> bnd the <code>ImbgeObserver</code> object is
+     * notified lbter.  The property nbme "comment" should be used to
+     * store bn optionbl comment thbt cbn be presented to the user bs b
+     * description of the imbge, its source, or its buthor.
+     * @pbrbm nbme the property nbme
+     * @pbrbm observer the <code>ImbgeObserver</code> thbt receives
+     *  notificbtion regbrding imbge informbtion
+     * @return bn {@link Object} thbt is the property referred to by the
+     *          specified <code>nbme</code> or <code>null</code> if the
+     *          properties of this imbge bre not yet known.
+     * @throws NullPointerException if the property nbme is null.
+     * @see ImbgeObserver
+     * @see jbvb.bwt.Imbge#UndefinedProperty
      */
-    public Object getProperty(String name, ImageObserver observer) {
-        return getProperty(name);
+    public Object getProperty(String nbme, ImbgeObserver observer) {
+        return getProperty(nbme);
     }
 
     /**
-     * Returns a property of the image by name.
-     * @param name the property name
-     * @return an <code>Object</code> that is the property referred to by
-     *          the specified <code>name</code>.
-     * @throws NullPointerException if the property name is null.
+     * Returns b property of the imbge by nbme.
+     * @pbrbm nbme the property nbme
+     * @return bn <code>Object</code> thbt is the property referred to by
+     *          the specified <code>nbme</code>.
+     * @throws NullPointerException if the property nbme is null.
      */
-    public Object getProperty(String name) {
-        if (name == null) {
-            throw new NullPointerException("null property name is not allowed");
+    public Object getProperty(String nbme) {
+        if (nbme == null) {
+            throw new NullPointerException("null property nbme is not bllowed");
         }
         if (properties == null) {
-            return java.awt.Image.UndefinedProperty;
+            return jbvb.bwt.Imbge.UndefinedProperty;
         }
-        Object o = properties.get(name);
+        Object o = properties.get(nbme);
         if (o == null) {
-            o = java.awt.Image.UndefinedProperty;
+            o = jbvb.bwt.Imbge.UndefinedProperty;
         }
         return o;
     }
 
     /**
-     * This method returns a {@link Graphics2D}, but is here
-     * for backwards compatibility.  {@link #createGraphics() createGraphics} is more
-     * convenient, since it is declared to return a
-     * <code>Graphics2D</code>.
-     * @return a <code>Graphics2D</code>, which can be used to draw into
-     *          this image.
+     * This method returns b {@link Grbphics2D}, but is here
+     * for bbckwbrds compbtibility.  {@link #crebteGrbphics() crebteGrbphics} is more
+     * convenient, since it is declbred to return b
+     * <code>Grbphics2D</code>.
+     * @return b <code>Grbphics2D</code>, which cbn be used to drbw into
+     *          this imbge.
      */
-    public java.awt.Graphics getGraphics() {
-        return createGraphics();
+    public jbvb.bwt.Grbphics getGrbphics() {
+        return crebteGrbphics();
     }
 
     /**
-     * Creates a <code>Graphics2D</code>, which can be used to draw into
-     * this <code>BufferedImage</code>.
-     * @return a <code>Graphics2D</code>, used for drawing into this
-     *          image.
+     * Crebtes b <code>Grbphics2D</code>, which cbn be used to drbw into
+     * this <code>BufferedImbge</code>.
+     * @return b <code>Grbphics2D</code>, used for drbwing into this
+     *          imbge.
      */
-    public Graphics2D createGraphics() {
-        GraphicsEnvironment env =
-            GraphicsEnvironment.getLocalGraphicsEnvironment();
-        return env.createGraphics(this);
+    public Grbphics2D crebteGrbphics() {
+        GrbphicsEnvironment env =
+            GrbphicsEnvironment.getLocblGrbphicsEnvironment();
+        return env.crebteGrbphics(this);
     }
 
     /**
-     * Returns a subimage defined by a specified rectangular region.
-     * The returned <code>BufferedImage</code> shares the same
-     * data array as the original image.
-     * @param x the X coordinate of the upper-left corner of the
-     *          specified rectangular region
-     * @param y the Y coordinate of the upper-left corner of the
-     *          specified rectangular region
-     * @param w the width of the specified rectangular region
-     * @param h the height of the specified rectangular region
-     * @return a <code>BufferedImage</code> that is the subimage of this
-     *          <code>BufferedImage</code>.
-     * @exception RasterFormatException if the specified
-     * area is not contained within this <code>BufferedImage</code>.
+     * Returns b subimbge defined by b specified rectbngulbr region.
+     * The returned <code>BufferedImbge</code> shbres the sbme
+     * dbtb brrby bs the originbl imbge.
+     * @pbrbm x the X coordinbte of the upper-left corner of the
+     *          specified rectbngulbr region
+     * @pbrbm y the Y coordinbte of the upper-left corner of the
+     *          specified rectbngulbr region
+     * @pbrbm w the width of the specified rectbngulbr region
+     * @pbrbm h the height of the specified rectbngulbr region
+     * @return b <code>BufferedImbge</code> thbt is the subimbge of this
+     *          <code>BufferedImbge</code>.
+     * @exception RbsterFormbtException if the specified
+     * breb is not contbined within this <code>BufferedImbge</code>.
      */
-    public BufferedImage getSubimage (int x, int y, int w, int h) {
-        return new BufferedImage (colorModel,
-                                  raster.createWritableChild(x, y, w, h,
+    public BufferedImbge getSubimbge (int x, int y, int w, int h) {
+        return new BufferedImbge (colorModel,
+                                  rbster.crebteWritbbleChild(x, y, w, h,
                                                              0, 0, null),
-                                  colorModel.isAlphaPremultiplied(),
+                                  colorModel.isAlphbPremultiplied(),
                                   properties);
     }
 
     /**
-     * Returns whether or not the alpha has been premultiplied.  It
-     * returns <code>false</code> if there is no alpha.
-     * @return <code>true</code> if the alpha has been premultiplied;
-     *          <code>false</code> otherwise.
+     * Returns whether or not the blphb hbs been premultiplied.  It
+     * returns <code>fblse</code> if there is no blphb.
+     * @return <code>true</code> if the blphb hbs been premultiplied;
+     *          <code>fblse</code> otherwise.
      */
-    public boolean isAlphaPremultiplied() {
-        return colorModel.isAlphaPremultiplied();
+    public boolebn isAlphbPremultiplied() {
+        return colorModel.isAlphbPremultiplied();
     }
 
     /**
-     * Forces the data to match the state specified in the
-     * <code>isAlphaPremultiplied</code> variable.  It may multiply or
-     * divide the color raster data by alpha, or do nothing if the data is
-     * in the correct state.
-     * @param isAlphaPremultiplied <code>true</code> if the alpha has been
-     *          premultiplied; <code>false</code> otherwise.
+     * Forces the dbtb to mbtch the stbte specified in the
+     * <code>isAlphbPremultiplied</code> vbribble.  It mby multiply or
+     * divide the color rbster dbtb by blphb, or do nothing if the dbtb is
+     * in the correct stbte.
+     * @pbrbm isAlphbPremultiplied <code>true</code> if the blphb hbs been
+     *          premultiplied; <code>fblse</code> otherwise.
      */
-    public void coerceData (boolean isAlphaPremultiplied) {
-        if (colorModel.hasAlpha() &&
-            colorModel.isAlphaPremultiplied() != isAlphaPremultiplied) {
-            // Make the color model do the conversion
-            colorModel = colorModel.coerceData (raster, isAlphaPremultiplied);
+    public void coerceDbtb (boolebn isAlphbPremultiplied) {
+        if (colorModel.hbsAlphb() &&
+            colorModel.isAlphbPremultiplied() != isAlphbPremultiplied) {
+            // Mbke the color model do the conversion
+            colorModel = colorModel.coerceDbtb (rbster, isAlphbPremultiplied);
         }
     }
 
     /**
-     * Returns a <code>String</code> representation of this
-     * <code>BufferedImage</code> object and its values.
-     * @return a <code>String</code> representing this
-     *          <code>BufferedImage</code>.
+     * Returns b <code>String</code> representbtion of this
+     * <code>BufferedImbge</code> object bnd its vblues.
+     * @return b <code>String</code> representing this
+     *          <code>BufferedImbge</code>.
      */
     public String toString() {
-        return "BufferedImage@"+Integer.toHexString(hashCode())
-            +": type = "+imageType
-            +" "+colorModel+" "+raster;
+        return "BufferedImbge@"+Integer.toHexString(hbshCode())
+            +": type = "+imbgeType
+            +" "+colorModel+" "+rbster;
     }
 
     /**
-     * Returns a {@link Vector} of {@link RenderedImage} objects that are
-     * the immediate sources, not the sources of these immediate sources,
-     * of image data for this <code>BufferedImage</code>.  This
-     * method returns <code>null</code> if the <code>BufferedImage</code>
-     * has no information about its immediate sources.  It returns an
-     * empty <code>Vector</code> if the <code>BufferedImage</code> has no
-     * immediate sources.
-     * @return a <code>Vector</code> containing immediate sources of
-     *          this <code>BufferedImage</code> object's image date, or
-     *          <code>null</code> if this <code>BufferedImage</code> has
-     *          no information about its immediate sources, or an empty
-     *          <code>Vector</code> if this <code>BufferedImage</code>
-     *          has no immediate sources.
+     * Returns b {@link Vector} of {@link RenderedImbge} objects thbt bre
+     * the immedibte sources, not the sources of these immedibte sources,
+     * of imbge dbtb for this <code>BufferedImbge</code>.  This
+     * method returns <code>null</code> if the <code>BufferedImbge</code>
+     * hbs no informbtion bbout its immedibte sources.  It returns bn
+     * empty <code>Vector</code> if the <code>BufferedImbge</code> hbs no
+     * immedibte sources.
+     * @return b <code>Vector</code> contbining immedibte sources of
+     *          this <code>BufferedImbge</code> object's imbge dbte, or
+     *          <code>null</code> if this <code>BufferedImbge</code> hbs
+     *          no informbtion bbout its immedibte sources, or bn empty
+     *          <code>Vector</code> if this <code>BufferedImbge</code>
+     *          hbs no immedibte sources.
      */
-    public Vector<RenderedImage> getSources() {
+    public Vector<RenderedImbge> getSources() {
         return null;
     }
 
     /**
-     * Returns an array of names recognized by
+     * Returns bn brrby of nbmes recognized by
      * {@link #getProperty(String) getProperty(String)}
-     * or <code>null</code>, if no property names are recognized.
-     * @return a <code>String</code> array containing all of the property
-     *          names that <code>getProperty(String)</code> recognizes;
-     *          or <code>null</code> if no property names are recognized.
+     * or <code>null</code>, if no property nbmes bre recognized.
+     * @return b <code>String</code> brrby contbining bll of the property
+     *          nbmes thbt <code>getProperty(String)</code> recognizes;
+     *          or <code>null</code> if no property nbmes bre recognized.
      */
-    public String[] getPropertyNames() {
+    public String[] getPropertyNbmes() {
          return null;
     }
 
     /**
-     * Returns the minimum x coordinate of this
-     * <code>BufferedImage</code>.  This is always zero.
-     * @return the minimum x coordinate of this
-     *          <code>BufferedImage</code>.
+     * Returns the minimum x coordinbte of this
+     * <code>BufferedImbge</code>.  This is blwbys zero.
+     * @return the minimum x coordinbte of this
+     *          <code>BufferedImbge</code>.
      */
     public int getMinX() {
-        return raster.getMinX();
+        return rbster.getMinX();
     }
 
     /**
-     * Returns the minimum y coordinate of this
-     * <code>BufferedImage</code>.  This is always zero.
-     * @return the minimum y coordinate of this
-     *          <code>BufferedImage</code>.
+     * Returns the minimum y coordinbte of this
+     * <code>BufferedImbge</code>.  This is blwbys zero.
+     * @return the minimum y coordinbte of this
+     *          <code>BufferedImbge</code>.
      */
     public int getMinY() {
-        return raster.getMinY();
+        return rbster.getMinY();
     }
 
     /**
-     * Returns the <code>SampleModel</code> associated with this
-     * <code>BufferedImage</code>.
-     * @return the <code>SampleModel</code> of this
-     *          <code>BufferedImage</code>.
+     * Returns the <code>SbmpleModel</code> bssocibted with this
+     * <code>BufferedImbge</code>.
+     * @return the <code>SbmpleModel</code> of this
+     *          <code>BufferedImbge</code>.
      */
-    public SampleModel getSampleModel() {
-        return raster.getSampleModel();
+    public SbmpleModel getSbmpleModel() {
+        return rbster.getSbmpleModel();
     }
 
     /**
      * Returns the number of tiles in the x direction.
-     * This is always one.
+     * This is blwbys one.
      * @return the number of tiles in the x direction.
      */
     public int getNumXTiles() {
@@ -1316,7 +1316,7 @@ public class BufferedImage extends java.awt.Image
 
     /**
      * Returns the number of tiles in the y direction.
-     * This is always one.
+     * This is blwbys one.
      * @return the number of tiles in the y direction.
      */
     public int getNumYTiles() {
@@ -1325,7 +1325,7 @@ public class BufferedImage extends java.awt.Image
 
     /**
      * Returns the minimum tile index in the x direction.
-     * This is always zero.
+     * This is blwbys zero.
      * @return the minimum tile index in the x direction.
      */
     public int getMinTileX() {
@@ -1334,7 +1334,7 @@ public class BufferedImage extends java.awt.Image
 
     /**
      * Returns the minimum tile index in the y direction.
-     * This is always zero.
+     * This is blwbys zero.
      * @return the minimum tile index in the y direction.
      */
     public int getMinTileY() {
@@ -1346,7 +1346,7 @@ public class BufferedImage extends java.awt.Image
      * @return the tile width in pixels.
      */
     public int getTileWidth() {
-       return raster.getWidth();
+       return rbster.getWidth();
     }
 
     /**
@@ -1354,229 +1354,229 @@ public class BufferedImage extends java.awt.Image
      * @return the tile height in pixels.
      */
     public int getTileHeight() {
-       return raster.getHeight();
+       return rbster.getHeight();
     }
 
     /**
-     * Returns the x offset of the tile grid relative to the origin,
-     * For example, the x coordinate of the location of tile
-     * (0,&nbsp;0).  This is always zero.
+     * Returns the x offset of the tile grid relbtive to the origin,
+     * For exbmple, the x coordinbte of the locbtion of tile
+     * (0,&nbsp;0).  This is blwbys zero.
      * @return the x offset of the tile grid.
      */
     public int getTileGridXOffset() {
-        return raster.getSampleModelTranslateX();
+        return rbster.getSbmpleModelTrbnslbteX();
     }
 
     /**
-     * Returns the y offset of the tile grid relative to the origin,
-     * For example, the y coordinate of the location of tile
-     * (0,&nbsp;0).  This is always zero.
+     * Returns the y offset of the tile grid relbtive to the origin,
+     * For exbmple, the y coordinbte of the locbtion of tile
+     * (0,&nbsp;0).  This is blwbys zero.
      * @return the y offset of the tile grid.
      */
     public int getTileGridYOffset() {
-        return raster.getSampleModelTranslateY();
+        return rbster.getSbmpleModelTrbnslbteY();
     }
 
     /**
      * Returns tile (<code>tileX</code>,&nbsp;<code>tileY</code>).  Note
-     * that <code>tileX</code> and <code>tileY</code> are indices
-     * into the tile array, not pixel locations.  The <code>Raster</code>
-     * that is returned is live, which means that it is updated if the
-     * image is changed.
-     * @param tileX the x index of the requested tile in the tile array
-     * @param tileY the y index of the requested tile in the tile array
-     * @return a <code>Raster</code> that is the tile defined by the
-     *          arguments <code>tileX</code> and <code>tileY</code>.
-     * @exception ArrayIndexOutOfBoundsException if both
-     *          <code>tileX</code> and <code>tileY</code> are not
-     *          equal to 0
+     * thbt <code>tileX</code> bnd <code>tileY</code> bre indices
+     * into the tile brrby, not pixel locbtions.  The <code>Rbster</code>
+     * thbt is returned is live, which mebns thbt it is updbted if the
+     * imbge is chbnged.
+     * @pbrbm tileX the x index of the requested tile in the tile brrby
+     * @pbrbm tileY the y index of the requested tile in the tile brrby
+     * @return b <code>Rbster</code> thbt is the tile defined by the
+     *          brguments <code>tileX</code> bnd <code>tileY</code>.
+     * @exception ArrbyIndexOutOfBoundsException if both
+     *          <code>tileX</code> bnd <code>tileY</code> bre not
+     *          equbl to 0
      */
-    public Raster getTile(int tileX, int tileY) {
+    public Rbster getTile(int tileX, int tileY) {
         if (tileX == 0 && tileY == 0) {
-            return raster;
+            return rbster;
         }
-        throw new ArrayIndexOutOfBoundsException("BufferedImages only have"+
+        throw new ArrbyIndexOutOfBoundsException("BufferedImbges only hbve"+
              " one tile with index 0,0");
     }
 
     /**
-     * Returns the image as one large tile.  The <code>Raster</code>
-     * returned is a copy of the image data is not updated if the
-     * image is changed.
-     * @return a <code>Raster</code> that is a copy of the image data.
-     * @see #setData(Raster)
+     * Returns the imbge bs one lbrge tile.  The <code>Rbster</code>
+     * returned is b copy of the imbge dbtb is not updbted if the
+     * imbge is chbnged.
+     * @return b <code>Rbster</code> thbt is b copy of the imbge dbtb.
+     * @see #setDbtb(Rbster)
      */
-    public Raster getData() {
+    public Rbster getDbtb() {
 
-        // REMIND : this allocates a whole new tile if raster is a
-        // subtile.  (It only copies in the requested area)
-        // We should do something smarter.
-        int width = raster.getWidth();
-        int height = raster.getHeight();
-        int startX = raster.getMinX();
-        int startY = raster.getMinY();
-        WritableRaster wr =
-           Raster.createWritableRaster(raster.getSampleModel(),
-                         new Point(raster.getSampleModelTranslateX(),
-                                   raster.getSampleModelTranslateY()));
+        // REMIND : this bllocbtes b whole new tile if rbster is b
+        // subtile.  (It only copies in the requested breb)
+        // We should do something smbrter.
+        int width = rbster.getWidth();
+        int height = rbster.getHeight();
+        int stbrtX = rbster.getMinX();
+        int stbrtY = rbster.getMinY();
+        WritbbleRbster wr =
+           Rbster.crebteWritbbleRbster(rbster.getSbmpleModel(),
+                         new Point(rbster.getSbmpleModelTrbnslbteX(),
+                                   rbster.getSbmpleModelTrbnslbteY()));
 
-        Object tdata = null;
+        Object tdbtb = null;
 
-        for (int i = startY; i < startY+height; i++)  {
-            tdata = raster.getDataElements(startX,i,width,1,tdata);
-            wr.setDataElements(startX,i,width,1, tdata);
+        for (int i = stbrtY; i < stbrtY+height; i++)  {
+            tdbtb = rbster.getDbtbElements(stbrtX,i,width,1,tdbtb);
+            wr.setDbtbElements(stbrtX,i,width,1, tdbtb);
         }
         return wr;
     }
 
     /**
-     * Computes and returns an arbitrary region of the
-     * <code>BufferedImage</code>.  The <code>Raster</code> returned is a
-     * copy of the image data and is not updated if the image is
-     * changed.
-     * @param rect the region of the <code>BufferedImage</code> to be
+     * Computes bnd returns bn brbitrbry region of the
+     * <code>BufferedImbge</code>.  The <code>Rbster</code> returned is b
+     * copy of the imbge dbtb bnd is not updbted if the imbge is
+     * chbnged.
+     * @pbrbm rect the region of the <code>BufferedImbge</code> to be
      * returned.
-     * @return a <code>Raster</code> that is a copy of the image data of
-     *          the specified region of the <code>BufferedImage</code>
-     * @see #setData(Raster)
+     * @return b <code>Rbster</code> thbt is b copy of the imbge dbtb of
+     *          the specified region of the <code>BufferedImbge</code>
+     * @see #setDbtb(Rbster)
      */
-    public Raster getData(Rectangle rect) {
-        SampleModel sm = raster.getSampleModel();
-        SampleModel nsm = sm.createCompatibleSampleModel(rect.width,
+    public Rbster getDbtb(Rectbngle rect) {
+        SbmpleModel sm = rbster.getSbmpleModel();
+        SbmpleModel nsm = sm.crebteCompbtibleSbmpleModel(rect.width,
                                                          rect.height);
-        WritableRaster wr = Raster.createWritableRaster(nsm,
-                                                  rect.getLocation());
+        WritbbleRbster wr = Rbster.crebteWritbbleRbster(nsm,
+                                                  rect.getLocbtion());
         int width = rect.width;
         int height = rect.height;
-        int startX = rect.x;
-        int startY = rect.y;
+        int stbrtX = rect.x;
+        int stbrtY = rect.y;
 
-        Object tdata = null;
+        Object tdbtb = null;
 
-        for (int i = startY; i < startY+height; i++)  {
-            tdata = raster.getDataElements(startX,i,width,1,tdata);
-            wr.setDataElements(startX,i,width,1, tdata);
+        for (int i = stbrtY; i < stbrtY+height; i++)  {
+            tdbtb = rbster.getDbtbElements(stbrtX,i,width,1,tdbtb);
+            wr.setDbtbElements(stbrtX,i,width,1, tdbtb);
         }
         return wr;
     }
 
     /**
-     * Computes an arbitrary rectangular region of the
-     * <code>BufferedImage</code> and copies it into a specified
-     * <code>WritableRaster</code>.  The region to be computed is
+     * Computes bn brbitrbry rectbngulbr region of the
+     * <code>BufferedImbge</code> bnd copies it into b specified
+     * <code>WritbbleRbster</code>.  The region to be computed is
      * determined from the bounds of the specified
-     * <code>WritableRaster</code>.  The specified
-     * <code>WritableRaster</code> must have a
-     * <code>SampleModel</code> that is compatible with this image.  If
-     * <code>outRaster</code> is <code>null</code>,
-     * an appropriate <code>WritableRaster</code> is created.
-     * @param outRaster a <code>WritableRaster</code> to hold the returned
-     *          part of the image, or <code>null</code>
-     * @return a reference to the supplied or created
-     *          <code>WritableRaster</code>.
+     * <code>WritbbleRbster</code>.  The specified
+     * <code>WritbbleRbster</code> must hbve b
+     * <code>SbmpleModel</code> thbt is compbtible with this imbge.  If
+     * <code>outRbster</code> is <code>null</code>,
+     * bn bppropribte <code>WritbbleRbster</code> is crebted.
+     * @pbrbm outRbster b <code>WritbbleRbster</code> to hold the returned
+     *          pbrt of the imbge, or <code>null</code>
+     * @return b reference to the supplied or crebted
+     *          <code>WritbbleRbster</code>.
      */
-    public WritableRaster copyData(WritableRaster outRaster) {
-        if (outRaster == null) {
-            return (WritableRaster) getData();
+    public WritbbleRbster copyDbtb(WritbbleRbster outRbster) {
+        if (outRbster == null) {
+            return (WritbbleRbster) getDbtb();
         }
-        int width = outRaster.getWidth();
-        int height = outRaster.getHeight();
-        int startX = outRaster.getMinX();
-        int startY = outRaster.getMinY();
+        int width = outRbster.getWidth();
+        int height = outRbster.getHeight();
+        int stbrtX = outRbster.getMinX();
+        int stbrtY = outRbster.getMinY();
 
-        Object tdata = null;
+        Object tdbtb = null;
 
-        for (int i = startY; i < startY+height; i++)  {
-            tdata = raster.getDataElements(startX,i,width,1,tdata);
-            outRaster.setDataElements(startX,i,width,1, tdata);
+        for (int i = stbrtY; i < stbrtY+height; i++)  {
+            tdbtb = rbster.getDbtbElements(stbrtX,i,width,1,tdbtb);
+            outRbster.setDbtbElements(stbrtX,i,width,1, tdbtb);
         }
 
-        return outRaster;
+        return outRbster;
     }
 
   /**
-     * Sets a rectangular region of the image to the contents of the
-     * specified <code>Raster</code> <code>r</code>, which is
-     * assumed to be in the same coordinate space as the
-     * <code>BufferedImage</code>. The operation is clipped to the bounds
-     * of the <code>BufferedImage</code>.
-     * @param r the specified <code>Raster</code>
-     * @see #getData
-     * @see #getData(Rectangle)
+     * Sets b rectbngulbr region of the imbge to the contents of the
+     * specified <code>Rbster</code> <code>r</code>, which is
+     * bssumed to be in the sbme coordinbte spbce bs the
+     * <code>BufferedImbge</code>. The operbtion is clipped to the bounds
+     * of the <code>BufferedImbge</code>.
+     * @pbrbm r the specified <code>Rbster</code>
+     * @see #getDbtb
+     * @see #getDbtb(Rectbngle)
     */
-    public void setData(Raster r) {
+    public void setDbtb(Rbster r) {
         int width = r.getWidth();
         int height = r.getHeight();
-        int startX = r.getMinX();
-        int startY = r.getMinY();
+        int stbrtX = r.getMinX();
+        int stbrtY = r.getMinY();
 
-        int[] tdata = null;
+        int[] tdbtb = null;
 
-        // Clip to the current Raster
-        Rectangle rclip = new Rectangle(startX, startY, width, height);
-        Rectangle bclip = new Rectangle(0, 0, raster.width, raster.height);
-        Rectangle intersect = rclip.intersection(bclip);
+        // Clip to the current Rbster
+        Rectbngle rclip = new Rectbngle(stbrtX, stbrtY, width, height);
+        Rectbngle bclip = new Rectbngle(0, 0, rbster.width, rbster.height);
+        Rectbngle intersect = rclip.intersection(bclip);
         if (intersect.isEmpty()) {
             return;
         }
         width = intersect.width;
         height = intersect.height;
-        startX = intersect.x;
-        startY = intersect.y;
+        stbrtX = intersect.x;
+        stbrtY = intersect.y;
 
-        // remind use get/setDataElements for speed if Rasters are
-        // compatible
-        for (int i = startY; i < startY+height; i++)  {
-            tdata = r.getPixels(startX,i,width,1,tdata);
-            raster.setPixels(startX,i,width,1, tdata);
+        // remind use get/setDbtbElements for speed if Rbsters bre
+        // compbtible
+        for (int i = stbrtY; i < stbrtY+height; i++)  {
+            tdbtb = r.getPixels(stbrtX,i,width,1,tdbtb);
+            rbster.setPixels(stbrtX,i,width,1, tdbtb);
         }
     }
 
 
   /**
-   * Adds a tile observer.  If the observer is already present,
-   * it receives multiple notifications.
-   * @param to the specified {@link TileObserver}
+   * Adds b tile observer.  If the observer is blrebdy present,
+   * it receives multiple notificbtions.
+   * @pbrbm to the specified {@link TileObserver}
    */
-    public void addTileObserver (TileObserver to) {
+    public void bddTileObserver (TileObserver to) {
     }
 
   /**
-   * Removes a tile observer.  If the observer was not registered,
-   * nothing happens.  If the observer was registered for multiple
-   * notifications, it is now registered for one fewer notification.
-   * @param to the specified <code>TileObserver</code>.
+   * Removes b tile observer.  If the observer wbs not registered,
+   * nothing hbppens.  If the observer wbs registered for multiple
+   * notificbtions, it is now registered for one fewer notificbtion.
+   * @pbrbm to the specified <code>TileObserver</code>.
    */
     public void removeTileObserver (TileObserver to) {
     }
 
     /**
-     * Returns whether or not a tile is currently checked out for writing.
-     * @param tileX the x index of the tile.
-     * @param tileY the y index of the tile.
+     * Returns whether or not b tile is currently checked out for writing.
+     * @pbrbm tileX the x index of the tile.
+     * @pbrbm tileY the y index of the tile.
      * @return <code>true</code> if the tile specified by the specified
-     *          indices is checked out for writing; <code>false</code>
+     *          indices is checked out for writing; <code>fblse</code>
      *          otherwise.
-     * @exception ArrayIndexOutOfBoundsException if both
-     *          <code>tileX</code> and <code>tileY</code> are not equal
+     * @exception ArrbyIndexOutOfBoundsException if both
+     *          <code>tileX</code> bnd <code>tileY</code> bre not equbl
      *          to 0
      */
-    public boolean isTileWritable (int tileX, int tileY) {
+    public boolebn isTileWritbble (int tileX, int tileY) {
         if (tileX == 0 && tileY == 0) {
             return true;
         }
-        throw new IllegalArgumentException("Only 1 tile in image");
+        throw new IllegblArgumentException("Only 1 tile in imbge");
     }
 
     /**
-     * Returns an array of {@link Point} objects indicating which tiles
-     * are checked out for writing.  Returns <code>null</code> if none are
+     * Returns bn brrby of {@link Point} objects indicbting which tiles
+     * bre checked out for writing.  Returns <code>null</code> if none bre
      * checked out.
-     * @return a <code>Point</code> array that indicates the tiles that
-     *          are checked out for writing, or <code>null</code> if no
-     *          tiles are checked out for writing.
+     * @return b <code>Point</code> brrby thbt indicbtes the tiles thbt
+     *          bre checked out for writing, or <code>null</code> if no
+     *          tiles bre checked out for writing.
      */
-    public Point[] getWritableTileIndices() {
+    public Point[] getWritbbleTileIndices() {
         Point[] p = new Point[1];
         p[0] = new Point(0, 0);
 
@@ -1584,55 +1584,55 @@ public class BufferedImage extends java.awt.Image
     }
 
     /**
-     * Returns whether or not any tile is checked out for writing.
-     * Semantically equivalent to
+     * Returns whether or not bny tile is checked out for writing.
+     * Sembnticblly equivblent to
      * <pre>
-     * (getWritableTileIndices() != null).
+     * (getWritbbleTileIndices() != null).
      * </pre>
-     * @return <code>true</code> if any tile is checked out for writing;
-     *          <code>false</code> otherwise.
+     * @return <code>true</code> if bny tile is checked out for writing;
+     *          <code>fblse</code> otherwise.
      */
-    public boolean hasTileWriters () {
+    public boolebn hbsTileWriters () {
         return true;
     }
 
   /**
-   * Checks out a tile for writing.  All registered
-   * <code>TileObservers</code> are notified when a tile goes from having
-   * no writers to having one writer.
-   * @param tileX the x index of the tile
-   * @param tileY the y index of the tile
-   * @return a <code>WritableRaster</code> that is the tile, indicated by
+   * Checks out b tile for writing.  All registered
+   * <code>TileObservers</code> bre notified when b tile goes from hbving
+   * no writers to hbving one writer.
+   * @pbrbm tileX the x index of the tile
+   * @pbrbm tileY the y index of the tile
+   * @return b <code>WritbbleRbster</code> thbt is the tile, indicbted by
    *            the specified indices, to be checked out for writing.
    */
-    public WritableRaster getWritableTile (int tileX, int tileY) {
-        return raster;
+    public WritbbleRbster getWritbbleTile (int tileX, int tileY) {
+        return rbster;
     }
 
   /**
-   * Relinquishes permission to write to a tile.  If the caller
-   * continues to write to the tile, the results are undefined.
-   * Calls to this method should only appear in matching pairs
-   * with calls to {@link #getWritableTile(int, int) getWritableTile(int, int)}.  Any other leads
+   * Relinquishes permission to write to b tile.  If the cbller
+   * continues to write to the tile, the results bre undefined.
+   * Cblls to this method should only bppebr in mbtching pbirs
+   * with cblls to {@link #getWritbbleTile(int, int) getWritbbleTile(int, int)}.  Any other lebds
    * to undefined results.  All registered <code>TileObservers</code>
-   * are notified when a tile goes from having one writer to having no
+   * bre notified when b tile goes from hbving one writer to hbving no
    * writers.
-   * @param tileX the x index of the tile
-   * @param tileY the y index of the tile
+   * @pbrbm tileX the x index of the tile
+   * @pbrbm tileY the y index of the tile
    */
-    public void releaseWritableTile (int tileX, int tileY) {
+    public void relebseWritbbleTile (int tileX, int tileY) {
     }
 
     /**
-     * Returns the transparency.  Returns either OPAQUE, BITMASK,
+     * Returns the trbnspbrency.  Returns either OPAQUE, BITMASK,
      * or TRANSLUCENT.
-     * @return the transparency of this <code>BufferedImage</code>.
-     * @see Transparency#OPAQUE
-     * @see Transparency#BITMASK
-     * @see Transparency#TRANSLUCENT
+     * @return the trbnspbrency of this <code>BufferedImbge</code>.
+     * @see Trbnspbrency#OPAQUE
+     * @see Trbnspbrency#BITMASK
+     * @see Trbnspbrency#TRANSLUCENT
      * @since 1.5
      */
-    public int getTransparency() {
-        return colorModel.getTransparency();
+    public int getTrbnspbrency() {
+        return colorModel.getTrbnspbrency();
     }
 }

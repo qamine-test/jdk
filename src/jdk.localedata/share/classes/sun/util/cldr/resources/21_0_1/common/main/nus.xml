@@ -3,157 +3,157 @@
 <ldml>
 	<identity>
 		<version number="$Revision: 6546 $"/>
-		<generation date="$Date: 2012-02-08 03:32:35 +0900 (Wed, 08 Feb 2012) $"/>
-		<language type="nus"/>
+		<generbtion dbte="$Dbte: 2012-02-08 03:32:35 +0900 (Wed, 08 Feb 2012) $"/>
+		<lbngubge type="nus"/>
 	</identity>
-	<localeDisplayNames>
-		<languages>
-			<language type="ak">Thok aka̱ni</language>
-			<language type="am">Thok bunyni</language>
-			<language type="ar">Thok Jalabni</language>
-			<language type="be">Thok bälärutha</language>
-			<language type="bg">Thok bälga̱a̱riani</language>
-			<language type="bn">Thok bängali</language>
-			<language type="cs">Thok cik</language>
-			<language type="de">Thok jarmani</language>
-			<language type="el">Thok girikni</language>
-			<language type="en">Thok liŋli̱thni</language>
-			<language type="es">Thok i̱thpaaniani</language>
-			<language type="fa">Thok perthiani</language>
-			<language type="fr">Thok pɔrɔthani</language>
-			<language type="ha">Thok ɣowthani</language>
-			<language type="hi">Thok ɣändini</language>
-			<language type="hu">Thok ɣänga̱a̱riɛni</language>
-			<language type="id">Thok indunithiani</language>
-			<language type="ig">Thok i̱gboni</language>
-			<language type="it">Thok i̱taliani</language>
-			<language type="ja">Thok japanni</language>
-			<language type="jv">Thok jabanithni</language>
-			<language type="km">Thok kameeri</language>
-			<language type="ko">Thok kuriani</language>
-			<language type="ms">Thok mayɛyni</language>
-			<language type="my">Thok bormi̱thni</language>
-			<language type="ne">Thok napalni</language>
-			<language type="nl">Thok da̱c</language>
-			<language type="nus">Thok Nath</language>
-			<language type="pa">Thok puɔnjabani</language>
-			<language type="pl">Thok pölicni</language>
-			<language type="pt">Thok puɔtigali</language>
-			<language type="ro">Thok ji̱ röm</language>
-			<language type="ru">Thok ra̱ciaani</language>
-			<language type="rw">Thok ruaandani</language>
-			<language type="so">Thok thomaaliani</language>
-			<language type="sv">Thok i̱thwidicni</language>
-			<language type="ta">Thok tamilni</language>
-			<language type="th">Thok tayni</language>
-			<language type="tr">Thok turkicni</language>
-			<language type="uk">Thok ukeraanini</language>
-			<language type="ur">Thok udoni</language>
-			<language type="vi">Thok betnaamni</language>
-			<language type="yo">Thok yurubani</language>
-			<language type="zh">Thok cayna</language>
-			<language type="zu">Thok dhuluni</language>
-		</languages>
+	<locbleDisplbyNbmes>
+		<lbngubges>
+			<lbngubge type="bk">Thok bkḇni</lbngubge>
+			<lbngubge type="bm">Thok bunyni</lbngubge>
+			<lbngubge type="br">Thok Jblbbni</lbngubge>
+			<lbngubge type="be">Thok bäläruthb</lbngubge>
+			<lbngubge type="bg">Thok bälgḇḇribni</lbngubge>
+			<lbngubge type="bn">Thok bängbli</lbngubge>
+			<lbngubge type="cs">Thok cik</lbngubge>
+			<lbngubge type="de">Thok jbrmbni</lbngubge>
+			<lbngubge type="el">Thok girikni</lbngubge>
+			<lbngubge type="en">Thok liŋli̱thni</lbngubge>
+			<lbngubge type="es">Thok i̱thpbbnibni</lbngubge>
+			<lbngubge type="fb">Thok perthibni</lbngubge>
+			<lbngubge type="fr">Thok pɔrɔthbni</lbngubge>
+			<lbngubge type="hb">Thok ɣowthbni</lbngubge>
+			<lbngubge type="hi">Thok ɣändini</lbngubge>
+			<lbngubge type="hu">Thok ɣängḇḇriɛni</lbngubge>
+			<lbngubge type="id">Thok indunithibni</lbngubge>
+			<lbngubge type="ig">Thok i̱gboni</lbngubge>
+			<lbngubge type="it">Thok i̱tblibni</lbngubge>
+			<lbngubge type="jb">Thok jbpbnni</lbngubge>
+			<lbngubge type="jv">Thok jbbbnithni</lbngubge>
+			<lbngubge type="km">Thok kbmeeri</lbngubge>
+			<lbngubge type="ko">Thok kuribni</lbngubge>
+			<lbngubge type="ms">Thok mbyɛyni</lbngubge>
+			<lbngubge type="my">Thok bormi̱thni</lbngubge>
+			<lbngubge type="ne">Thok nbpblni</lbngubge>
+			<lbngubge type="nl">Thok dḇc</lbngubge>
+			<lbngubge type="nus">Thok Nbth</lbngubge>
+			<lbngubge type="pb">Thok puɔnjbbbni</lbngubge>
+			<lbngubge type="pl">Thok pölicni</lbngubge>
+			<lbngubge type="pt">Thok puɔtigbli</lbngubge>
+			<lbngubge type="ro">Thok ji̱ röm</lbngubge>
+			<lbngubge type="ru">Thok rḇcibbni</lbngubge>
+			<lbngubge type="rw">Thok rubbndbni</lbngubge>
+			<lbngubge type="so">Thok thombblibni</lbngubge>
+			<lbngubge type="sv">Thok i̱thwidicni</lbngubge>
+			<lbngubge type="tb">Thok tbmilni</lbngubge>
+			<lbngubge type="th">Thok tbyni</lbngubge>
+			<lbngubge type="tr">Thok turkicni</lbngubge>
+			<lbngubge type="uk">Thok ukerbbnini</lbngubge>
+			<lbngubge type="ur">Thok udoni</lbngubge>
+			<lbngubge type="vi">Thok betnbbmni</lbngubge>
+			<lbngubge type="yo">Thok yurubbni</lbngubge>
+			<lbngubge type="zh">Thok cbynb</lbngubge>
+			<lbngubge type="zu">Thok dhuluni</lbngubge>
+		</lbngubges>
 		<territories>
-			<territory type="AD">Andora</territory>
-			<territory type="AF">Abganithtan</territory>
-			<territory type="AG">Antiguaa kɛnɛ Barbuda</territory>
-			<territory type="AI">Aŋguɛla</territory>
-			<territory type="AL">Albänia</territory>
-			<territory type="AM">Aɛrmänia</territory>
-			<territory type="AO">Aŋgola</territory>
+			<territory type="AD">Andorb</territory>
+			<territory type="AF">Abgbnithtbn</territory>
+			<territory type="AG">Antigubb kɛnɛ Bbrbudb</territory>
+			<territory type="AI">Aŋguɛlb</territory>
+			<territory type="AL">Albänib</territory>
+			<territory type="AM">Aɛrmänib</territory>
+			<territory type="AO">Aŋgolb</territory>
 			<territory type="AR">Aɛrgentin</territory>
-			<territory type="AS">Amerika thamow</territory>
-			<territory type="AT">Athtɛria</territory>
-			<territory type="AU">Athɔra̱lia</territory>
-			<territory type="AW">Aruba</territory>
-			<territory type="AZ">Adhe̱rbe̱ja̱n</territory>
-			<territory type="BA">Bothnia kɛnɛ ɣärgobinia</territory>
-			<territory type="BB">Bärbadoth</territory>
-			<territory type="BD">Bengeladiec</territory>
+			<territory type="AS">Amerikb thbmow</territory>
+			<territory type="AT">Athtɛrib</territory>
+			<territory type="AU">Athɔrḇlib</territory>
+			<territory type="AW">Arubb</territory>
+			<territory type="AZ">Adhe̱rbe̱jḇn</territory>
+			<territory type="BA">Bothnib kɛnɛ ɣärgobinib</territory>
+			<territory type="BB">Bärbbdoth</territory>
+			<territory type="BD">Bengelbdiec</territory>
 			<territory type="BE">Be̱lgim</territory>
-			<territory type="BF">Burkinɛ pa̱thu</territory>
-			<territory type="BG">Bulga̱a̱ria</territory>
-			<territory type="BH">Ba̱reen</territory>
+			<territory type="BF">Burkinɛ pḇthu</territory>
+			<territory type="BG">Bulgḇḇrib</territory>
+			<territory type="BH">Bḇreen</territory>
 			<territory type="BI">Burundi</territory>
 			<territory type="BJ">Be̱ni̱n</territory>
-			<territory type="BM">Be̱rmudaa</territory>
+			<territory type="BM">Be̱rmudbb</territory>
 			<territory type="BN">Burunɛy</territory>
-			<territory type="BO">Bulibia</territory>
-			<territory type="BR">Bäraadhiil</territory>
+			<territory type="BO">Bulibib</territory>
+			<territory type="BR">Bärbbdhiil</territory>
 			<territory type="BS">Bämuɔth</territory>
-			<territory type="BT">Buta̱n</territory>
-			<territory type="BW">Bothiwaana</territory>
+			<territory type="BT">Butḇn</territory>
+			<territory type="BW">Bothiwbbnb</territory>
 			<territory type="BY">Be̱lɛruth</territory>
-			<territory type="BZ">Bilidha</territory>
-			<territory type="CA">Känɛda</territory>
-			<territory type="CF">Cɛntrɔl aprika repuɔblic</territory>
+			<territory type="BZ">Bilidhb</territory>
+			<territory type="CA">Känɛdb</territory>
+			<territory type="CF">Cɛntrɔl bprikb repuɔblic</territory>
 			<territory type="CG">Kɔŋgɔ</territory>
 			<territory type="CI">Kodibo̱o̱</territory>
-			<territory type="CK">Kuk ɣa̱ylɛn</territory>
+			<territory type="CK">Kuk ɣḇylɛn</territory>
 			<territory type="CL">Cili̱</territory>
 			<territory type="CM">Kɛmɛrun</territory>
-			<territory type="CN">Cayna</territory>
-			<territory type="CO">Kolombia</territory>
-			<territory type="CR">Kothtirika</territory>
-			<territory type="CV">Kɛp bedi ɣa̱ylɛn</territory>
-			<territory type="DZ">Algeria</territory>
-			<territory type="HR">Korwaatia</territory>
-			<territory type="IO">Burutic ɣe̱ndian oce̱n</territory>
-			<territory type="KH">Kombodia</territory>
+			<territory type="CN">Cbynb</territory>
+			<territory type="CO">Kolombib</territory>
+			<territory type="CR">Kothtirikb</territory>
+			<territory type="CV">Kɛp bedi ɣḇylɛn</territory>
+			<territory type="DZ">Algerib</territory>
+			<territory type="HR">Korwbbtib</territory>
+			<territory type="IO">Burutic ɣe̱ndibn oce̱n</territory>
+			<territory type="KH">Kombodib</territory>
 			<territory type="KM">Komruth</territory>
-			<territory type="KY">Kaymɛn ɣa̱ylɛn</territory>
-			<territory type="SD">Sudan</territory>
-			<territory type="TD">Ca̱d</territory>
+			<territory type="KY">Kbymɛn ɣḇylɛn</territory>
+			<territory type="SD">Sudbn</territory>
+			<territory type="TD">Cḇd</territory>
 			<territory type="VG">Burutic dhuɔ̱ɔ̱l be̱rgin</territory>
 		</territories>
-	</localeDisplayNames>
-	<characters>
-		<exemplarCharacters>[a ä {a\u0331} b c d e ë {e\u0331} ɛ {ɛ\u0308} {ɛ\u0331} {ɛ\u0331\u0308} f g ɣ h i ï {i\u0331} j k l m n ŋ o ö {o\u0331} ɔ {ɔ\u0308} {ɔ\u0331} p q r s t u v w x y z]</exemplarCharacters>
-		<exemplarCharacters type="index">[A B C D E Ɛ F G Ɣ H I J K L M N Ŋ O Ɔ P Q R S T U V W X Y Z]</exemplarCharacters>
-	</characters>
+	</locbleDisplbyNbmes>
+	<chbrbcters>
+		<exemplbrChbrbcters>[b ä {b\u0331} b c d e ë {e\u0331} ɛ {ɛ\u0308} {ɛ\u0331} {ɛ\u0331\u0308} f g ɣ h i ï {i\u0331} j k l m n ŋ o ö {o\u0331} ɔ {ɔ\u0308} {ɔ\u0331} p q r s t u v w x y z]</exemplbrChbrbcters>
+		<exemplbrChbrbcters type="index">[A B C D E Ɛ F G Ɣ H I J K L M N Ŋ O Ɔ P Q R S T U V W X Y Z]</exemplbrChbrbcters>
+	</chbrbcters>
 	<delimiters>
-		<quotationStart>“</quotationStart>
-		<quotationEnd>”</quotationEnd>
-		<alternateQuotationStart>‘</alternateQuotationStart>
-		<alternateQuotationEnd>’</alternateQuotationEnd>
+		<quotbtionStbrt>“</quotbtionStbrt>
+		<quotbtionEnd>”</quotbtionEnd>
+		<blternbteQuotbtionStbrt>‘</blternbteQuotbtionStbrt>
+		<blternbteQuotbtionEnd>’</blternbteQuotbtionEnd>
 	</delimiters>
-	<dates>
-		<calendars>
-			<calendar type="gregorian">
+	<dbtes>
+		<cblendbrs>
+			<cblendbr type="gregoribn">
 				<months>
-					<monthContext type="format">
-						<monthWidth type="abbreviated">
+					<monthContext type="formbt">
+						<monthWidth type="bbbrevibted">
 							<month type="1">Tiop</month>
 							<month type="2">Pɛt</month>
 							<month type="3">Duɔ̱ɔ̱</month>
-							<month type="4">Guak</month>
+							<month type="4">Gubk</month>
 							<month type="5">Duä</month>
 							<month type="6">Kor</month>
-							<month type="7">Pay</month>
+							<month type="7">Pby</month>
 							<month type="8">Thoo</month>
 							<month type="9">Tɛɛ</month>
-							<month type="10">Laa</month>
+							<month type="10">Lbb</month>
 							<month type="11">Kur</month>
 							<month type="12">Tid</month>
 						</monthWidth>
 						<monthWidth type="wide">
-							<month type="1">Tiop thar pɛt</month>
+							<month type="1">Tiop thbr pɛt</month>
 							<month type="2">Pɛt</month>
 							<month type="3">Duɔ̱ɔ̱ŋ</month>
-							<month type="4">Guak</month>
+							<month type="4">Gubk</month>
 							<month type="5">Duät</month>
 							<month type="6">Kornyoot</month>
-							<month type="7">Pay yie̱tni</month>
+							<month type="7">Pby yie̱tni</month>
 							<month type="8">Tho̱o̱r</month>
 							<month type="9">Tɛɛr</month>
-							<month type="10">Laath</month>
+							<month type="10">Lbbth</month>
 							<month type="11">Kur</month>
 							<month type="12">Tio̱p in di̱i̱t</month>
 						</monthWidth>
 					</monthContext>
-					<monthContext type="stand-alone">
-						<monthWidth type="narrow">
+					<monthContext type="stbnd-blone">
+						<monthWidth type="nbrrow">
 							<month type="1">T</month>
 							<month type="2">P</month>
 							<month type="3">D</month>
@@ -169,210 +169,210 @@
 						</monthWidth>
 					</monthContext>
 				</months>
-				<days>
-					<dayContext type="format">
-						<dayWidth type="abbreviated">
-							<day type="sun">Cäŋ</day>
-							<day type="mon">Jiec</day>
-							<day type="tue">Rɛw</day>
-							<day type="wed">Diɔ̱k</day>
-							<day type="thu">Ŋuaan</day>
-							<day type="fri">Dhieec</day>
-							<day type="sat">Bäkɛl</day>
-						</dayWidth>
-						<dayWidth type="wide">
-							<day type="sun">Cäŋ kuɔth</day>
-							<day type="mon">Jiec la̱t</day>
-							<day type="tue">Rɛw lätni</day>
-							<day type="wed">Diɔ̱k lätni</day>
-							<day type="thu">Ŋuaan lätni</day>
-							<day type="fri">Dhieec lätni</day>
-							<day type="sat">Bäkɛl lätni</day>
-						</dayWidth>
-					</dayContext>
-					<dayContext type="stand-alone">
-						<dayWidth type="narrow">
-							<day type="sun">C</day>
-							<day type="mon">J</day>
-							<day type="tue">R</day>
-							<day type="wed">D</day>
-							<day type="thu">Ŋ</day>
-							<day type="fri">D</day>
-							<day type="sat">B</day>
-						</dayWidth>
-					</dayContext>
-				</days>
-				<quarters>
-					<quarterContext type="format">
-						<quarterWidth type="abbreviated">
-							<quarter type="1">P1</quarter>
-							<quarter type="2">P2</quarter>
-							<quarter type="3">P3</quarter>
-							<quarter type="4">P4</quarter>
-						</quarterWidth>
-						<quarterWidth type="wide">
-							<quarter type="1">Päth diɔk tin nhiam</quarter>
-							<quarter type="2">Päth diɔk tin guurɛ</quarter>
-							<quarter type="3">Päth diɔk tin wä kɔɔriɛn</quarter>
-							<quarter type="4">Päth diɔk tin jiɔakdiɛn</quarter>
-						</quarterWidth>
-					</quarterContext>
-				</quarters>
-				<dayPeriods>
-					<dayPeriodContext type="format">
-						<dayPeriodWidth type="wide">
-							<dayPeriod type="am">RW</dayPeriod>
-							<dayPeriod type="pm">TŊ</dayPeriod>
-						</dayPeriodWidth>
-					</dayPeriodContext>
-				</dayPeriods>
-				<eras>
-					<eraNames>
-						<era type="0">A ka̱n Yecu ni dap</era>
-						<era type="1">Ɛ ca Yecu dap</era>
-					</eraNames>
-					<eraAbbr>
-						<era type="0">AY</era>
-						<era type="1">ƐY</era>
-					</eraAbbr>
-				</eras>
-				<dateFormats>
-					<dateFormatLength type="full">
-						<dateFormat>
-							<pattern>EEEE d MMMM y</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="long">
-						<dateFormat>
-							<pattern>d MMMM y</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="medium">
-						<dateFormat>
-							<pattern>d MMM y</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="short">
-						<dateFormat>
-							<pattern>d/MM/yyyy</pattern>
-						</dateFormat>
-					</dateFormatLength>
-				</dateFormats>
-				<timeFormats>
-					<timeFormatLength type="full">
-						<timeFormat>
-							<pattern>zzzz h:mm:ss a</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="long">
-						<timeFormat>
-							<pattern>z h:mm:ss a</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="medium">
-						<timeFormat>
-							<pattern>h:mm:ss a</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="short">
-						<timeFormat>
-							<pattern>h:mm a</pattern>
-						</timeFormat>
-					</timeFormatLength>
-				</timeFormats>
-				<dateTimeFormats>
-					<availableFormats>
-						<dateFormatItem id="d">d</dateFormatItem>
-						<dateFormatItem id="Ed">E d</dateFormatItem>
-						<dateFormatItem id="hm">h:mm a</dateFormatItem>
-						<dateFormatItem id="Hm">HH:mm</dateFormatItem>
-						<dateFormatItem id="hms">h:mm:ss a</dateFormatItem>
-						<dateFormatItem id="Hms">HH:mm:ss</dateFormatItem>
-						<dateFormatItem id="M">L</dateFormatItem>
-						<dateFormatItem id="Md">d/M</dateFormatItem>
-						<dateFormatItem id="MEd">E، d-M</dateFormatItem>
-						<dateFormatItem id="MMM">LLL</dateFormatItem>
-						<dateFormatItem id="MMMd">d MMM</dateFormatItem>
-						<dateFormatItem id="MMMEd">E d MMM</dateFormatItem>
-						<dateFormatItem id="ms">m:ss</dateFormatItem>
-						<dateFormatItem id="y">y</dateFormatItem>
-						<dateFormatItem id="yM">M/y</dateFormatItem>
-						<dateFormatItem id="yMd">d/M/y</dateFormatItem>
-						<dateFormatItem id="yMEd">E، d/M/y</dateFormatItem>
-						<dateFormatItem id="yMMM">MMM y</dateFormatItem>
-						<dateFormatItem id="yMMMd">d MMM y</dateFormatItem>
-						<dateFormatItem id="yMMMEd">E، d MMM y</dateFormatItem>
-						<dateFormatItem id="yQ">Q y</dateFormatItem>
-						<dateFormatItem id="yQQQ">QQQ y</dateFormatItem>
-					</availableFormats>
-				</dateTimeFormats>
+				<dbys>
+					<dbyContext type="formbt">
+						<dbyWidth type="bbbrevibted">
+							<dby type="sun">Cäŋ</dby>
+							<dby type="mon">Jiec</dby>
+							<dby type="tue">Rɛw</dby>
+							<dby type="wed">Diɔ̱k</dby>
+							<dby type="thu">Ŋubbn</dby>
+							<dby type="fri">Dhieec</dby>
+							<dby type="sbt">Bäkɛl</dby>
+						</dbyWidth>
+						<dbyWidth type="wide">
+							<dby type="sun">Cäŋ kuɔth</dby>
+							<dby type="mon">Jiec lḇt</dby>
+							<dby type="tue">Rɛw lätni</dby>
+							<dby type="wed">Diɔ̱k lätni</dby>
+							<dby type="thu">Ŋubbn lätni</dby>
+							<dby type="fri">Dhieec lätni</dby>
+							<dby type="sbt">Bäkɛl lätni</dby>
+						</dbyWidth>
+					</dbyContext>
+					<dbyContext type="stbnd-blone">
+						<dbyWidth type="nbrrow">
+							<dby type="sun">C</dby>
+							<dby type="mon">J</dby>
+							<dby type="tue">R</dby>
+							<dby type="wed">D</dby>
+							<dby type="thu">Ŋ</dby>
+							<dby type="fri">D</dby>
+							<dby type="sbt">B</dby>
+						</dbyWidth>
+					</dbyContext>
+				</dbys>
+				<qubrters>
+					<qubrterContext type="formbt">
+						<qubrterWidth type="bbbrevibted">
+							<qubrter type="1">P1</qubrter>
+							<qubrter type="2">P2</qubrter>
+							<qubrter type="3">P3</qubrter>
+							<qubrter type="4">P4</qubrter>
+						</qubrterWidth>
+						<qubrterWidth type="wide">
+							<qubrter type="1">Päth diɔk tin nhibm</qubrter>
+							<qubrter type="2">Päth diɔk tin guurɛ</qubrter>
+							<qubrter type="3">Päth diɔk tin wä kɔɔriɛn</qubrter>
+							<qubrter type="4">Päth diɔk tin jiɔbkdiɛn</qubrter>
+						</qubrterWidth>
+					</qubrterContext>
+				</qubrters>
+				<dbyPeriods>
+					<dbyPeriodContext type="formbt">
+						<dbyPeriodWidth type="wide">
+							<dbyPeriod type="bm">RW</dbyPeriod>
+							<dbyPeriod type="pm">TŊ</dbyPeriod>
+						</dbyPeriodWidth>
+					</dbyPeriodContext>
+				</dbyPeriods>
+				<erbs>
+					<erbNbmes>
+						<erb type="0">A kḇn Yecu ni dbp</erb>
+						<erb type="1">Ɛ cb Yecu dbp</erb>
+					</erbNbmes>
+					<erbAbbr>
+						<erb type="0">AY</erb>
+						<erb type="1">ƐY</erb>
+					</erbAbbr>
+				</erbs>
+				<dbteFormbts>
+					<dbteFormbtLength type="full">
+						<dbteFormbt>
+							<pbttern>EEEE d MMMM y</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+					<dbteFormbtLength type="long">
+						<dbteFormbt>
+							<pbttern>d MMMM y</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+					<dbteFormbtLength type="medium">
+						<dbteFormbt>
+							<pbttern>d MMM y</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+					<dbteFormbtLength type="short">
+						<dbteFormbt>
+							<pbttern>d/MM/yyyy</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+				</dbteFormbts>
+				<timeFormbts>
+					<timeFormbtLength type="full">
+						<timeFormbt>
+							<pbttern>zzzz h:mm:ss b</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+					<timeFormbtLength type="long">
+						<timeFormbt>
+							<pbttern>z h:mm:ss b</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+					<timeFormbtLength type="medium">
+						<timeFormbt>
+							<pbttern>h:mm:ss b</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+					<timeFormbtLength type="short">
+						<timeFormbt>
+							<pbttern>h:mm b</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+				</timeFormbts>
+				<dbteTimeFormbts>
+					<bvbilbbleFormbts>
+						<dbteFormbtItem id="d">d</dbteFormbtItem>
+						<dbteFormbtItem id="Ed">E d</dbteFormbtItem>
+						<dbteFormbtItem id="hm">h:mm b</dbteFormbtItem>
+						<dbteFormbtItem id="Hm">HH:mm</dbteFormbtItem>
+						<dbteFormbtItem id="hms">h:mm:ss b</dbteFormbtItem>
+						<dbteFormbtItem id="Hms">HH:mm:ss</dbteFormbtItem>
+						<dbteFormbtItem id="M">L</dbteFormbtItem>
+						<dbteFormbtItem id="Md">d/M</dbteFormbtItem>
+						<dbteFormbtItem id="MEd">E، d-M</dbteFormbtItem>
+						<dbteFormbtItem id="MMM">LLL</dbteFormbtItem>
+						<dbteFormbtItem id="MMMd">d MMM</dbteFormbtItem>
+						<dbteFormbtItem id="MMMEd">E d MMM</dbteFormbtItem>
+						<dbteFormbtItem id="ms">m:ss</dbteFormbtItem>
+						<dbteFormbtItem id="y">y</dbteFormbtItem>
+						<dbteFormbtItem id="yM">M/y</dbteFormbtItem>
+						<dbteFormbtItem id="yMd">d/M/y</dbteFormbtItem>
+						<dbteFormbtItem id="yMEd">E، d/M/y</dbteFormbtItem>
+						<dbteFormbtItem id="yMMM">MMM y</dbteFormbtItem>
+						<dbteFormbtItem id="yMMMd">d MMM y</dbteFormbtItem>
+						<dbteFormbtItem id="yMMMEd">E، d MMM y</dbteFormbtItem>
+						<dbteFormbtItem id="yQ">Q y</dbteFormbtItem>
+						<dbteFormbtItem id="yQQQ">QQQ y</dbteFormbtItem>
+					</bvbilbbleFormbts>
+				</dbteTimeFormbts>
 				<fields>
-					<field type="era">
-						<displayName>Gua̱a̱th Ruëc</displayName>
+					<field type="erb">
+						<displbyNbme>Guḇḇth Ruëc</displbyNbme>
 					</field>
-					<field type="year">
-						<displayName>Ruɔ̱n</displayName>
+					<field type="yebr">
+						<displbyNbme>Ruɔ̱n</displbyNbme>
 					</field>
 					<field type="month">
-						<displayName>Pay</displayName>
+						<displbyNbme>Pby</displbyNbme>
 					</field>
 					<field type="week">
-						<displayName>Jiɔk</displayName>
+						<displbyNbme>Jiɔk</displbyNbme>
 					</field>
-					<field type="day">
-						<displayName>Cäŋ</displayName>
-						<relative type="-1">Pan</relative>
-						<relative type="0">Walɛ</relative>
-						<relative type="1">Ruun</relative>
+					<field type="dby">
+						<displbyNbme>Cäŋ</displbyNbme>
+						<relbtive type="-1">Pbn</relbtive>
+						<relbtive type="0">Wblɛ</relbtive>
+						<relbtive type="1">Ruun</relbtive>
 					</field>
-					<field type="weekday">
-						<displayName>Ni̱n jokä</displayName>
+					<field type="weekdby">
+						<displbyNbme>Ni̱n jokä</displbyNbme>
 					</field>
 					<field type="hour">
-						<displayName>Thaak</displayName>
+						<displbyNbme>Thbbk</displbyNbme>
 					</field>
 					<field type="minute">
-						<displayName>Minit</displayName>
+						<displbyNbme>Minit</displbyNbme>
 					</field>
 					<field type="second">
-						<displayName>Thɛkɛni</displayName>
+						<displbyNbme>Thɛkɛni</displbyNbme>
 					</field>
 				</fields>
-			</calendar>
-		</calendars>
-	</dates>
+			</cblendbr>
+		</cblendbrs>
+	</dbtes>
 	<numbers>
-		<symbols numberSystem="latn">
-			<decimal>.</decimal>
+		<symbols numberSystem="lbtn">
+			<decimbl>.</decimbl>
 			<group>,</group>
 		</symbols>
-		<decimalFormats numberSystem="latn">
-			<decimalFormatLength>
-				<decimalFormat>
-					<pattern>#,##0.###</pattern>
-				</decimalFormat>
-			</decimalFormatLength>
-		</decimalFormats>
-		<percentFormats numberSystem="latn">
-			<percentFormatLength>
-				<percentFormat>
-					<pattern>#,##0%</pattern>
-				</percentFormat>
-			</percentFormatLength>
-		</percentFormats>
-		<currencyFormats numberSystem="latn">
-			<currencyFormatLength>
-				<currencyFormat>
-					<pattern>¤#,##0.00;(¤#,##0.00)</pattern>
-				</currencyFormat>
-			</currencyFormatLength>
-		</currencyFormats>
+		<decimblFormbts numberSystem="lbtn">
+			<decimblFormbtLength>
+				<decimblFormbt>
+					<pbttern>#,##0.###</pbttern>
+				</decimblFormbt>
+			</decimblFormbtLength>
+		</decimblFormbts>
+		<percentFormbts numberSystem="lbtn">
+			<percentFormbtLength>
+				<percentFormbt>
+					<pbttern>#,##0%</pbttern>
+				</percentFormbt>
+			</percentFormbtLength>
+		</percentFormbts>
+		<currencyFormbts numberSystem="lbtn">
+			<currencyFormbtLength>
+				<currencyFormbt>
+					<pbttern>¤#,##0.00;(¤#,##0.00)</pbttern>
+				</currencyFormbt>
+			</currencyFormbtLength>
+		</currencyFormbts>
 	</numbers>
 	<posix>
-		<messages>
+		<messbges>
 			<yesstr>Ɣää:Ɣ</yesstr>
 			<nostr>Ëëy:Ë</nostr>
-		</messages>
+		</messbges>
 	</posix>
 </ldml>
 

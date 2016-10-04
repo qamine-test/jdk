@@ -1,111 +1,111 @@
 /*
- * Copyright (c) 1996, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 #ifndef AWT_MENU_H
 #define AWT_MENU_H
 
-#include "awt_MenuItem.h"
+#include "bwt_MenuItem.h"
 
-#include <java_awt_MenuItem.h>
-#include <sun_awt_windows_WMenuItemPeer.h>
-#include <java_awt_Menu.h>
-#include <sun_awt_windows_WMenuPeer.h>
+#include <jbvb_bwt_MenuItem.h>
+#include <sun_bwt_windows_WMenuItemPeer.h>
+#include <jbvb_bwt_Menu.h>
+#include <sun_bwt_windows_WMenuPeer.h>
 
-class AwtMenuBar;
+clbss AwtMenuBbr;
 
 
 /************************************************************************
- * AwtMenu class
+ * AwtMenu clbss
  */
 
-class AwtMenu : public AwtMenuItem {
+clbss AwtMenu : public AwtMenuItem {
 public:
-    // id's for methods executed on toolkit thread
+    // id's for methods executed on toolkit threbd
     enum {
         MENU_ADDSEPARATOR = MENUITEM_LAST+1,
         MENU_DELITEM,
         MENU_LAST
     };
 
-    /* method ids for java.awt.Menu */
-    static jmethodID countItemsMID;
-    static jmethodID getItemMID;
+    /* method ids for jbvb.bwt.Menu */
+    stbtic jmethodID countItemsMID;
+    stbtic jmethodID getItemMID;
 
     AwtMenu();
-    virtual ~AwtMenu();
+    virtubl ~AwtMenu();
 
-    virtual void Dispose();
+    virtubl void Dispose();
 
-    virtual LPCTSTR GetClassName();
+    virtubl LPCTSTR GetClbssNbme();
 
-    /* Create a new AwtMenu.  This must be run on the main thread. */
-    static AwtMenu* Create(jobject self, AwtMenu* parentMenu);
+    /* Crebte b new AwtMenu.  This must be run on the mbin threbd. */
+    stbtic AwtMenu* Crebte(jobject self, AwtMenu* pbrentMenu);
 
     INLINE HMENU GetHMenu() { return m_hMenu; }
     INLINE void SetHMenu(HMENU hMenu) {
         m_hMenu = hMenu;
-        SetID(static_cast<UINT>(reinterpret_cast<INT_PTR>(GetHMenu())));
+        SetID(stbtic_cbst<UINT>(reinterpret_cbst<INT_PTR>(GetHMenu())));
     }
 
-    virtual AwtMenuBar* GetMenuBar();
+    virtubl AwtMenuBbr* GetMenuBbr();
 
-    void AddSeparator();
-    virtual void UpdateContainerLayout();
-    void UpdateLayout();
-    virtual void AddItem(AwtMenuItem *item);
-    virtual void DeleteItem(UINT index);
+    void AddSepbrbtor();
+    virtubl void UpdbteContbinerLbyout();
+    void UpdbteLbyout();
+    virtubl void AddItem(AwtMenuItem *item);
+    virtubl void DeleteItem(UINT index);
 
-    virtual HWND GetOwnerHWnd();
+    virtubl HWND GetOwnerHWnd();
 
     /*for multifont menu */
     BOOL IsTopMenu();
-    virtual AwtMenuItem* GetItem(jobject target, long index);
+    virtubl AwtMenuItem* GetItem(jobject tbrget, long index);
 
-    virtual int CountItem(jobject target);
+    virtubl int CountItem(jobject tbrget);
 
-    virtual void SendDrawItem(AwtMenuItem* awtMenuItem,
-                              DRAWITEMSTRUCT& drawInfo);
-    virtual void SendMeasureItem(AwtMenuItem* awtMenuItem, HDC hDC,
-                                 MEASUREITEMSTRUCT& measureInfo);
-    void DrawItem(DRAWITEMSTRUCT& drawInfo);
-    void DrawItems(DRAWITEMSTRUCT& drawInfo);
-    void MeasureItem(HDC hDC, MEASUREITEMSTRUCT& measureInfo);
-    void MeasureItems(HDC hDC, MEASUREITEMSTRUCT& measureInfo);
+    virtubl void SendDrbwItem(AwtMenuItem* bwtMenuItem,
+                              DRAWITEMSTRUCT& drbwInfo);
+    virtubl void SendMebsureItem(AwtMenuItem* bwtMenuItem, HDC hDC,
+                                 MEASUREITEMSTRUCT& mebsureInfo);
+    void DrbwItem(DRAWITEMSTRUCT& drbwInfo);
+    void DrbwItems(DRAWITEMSTRUCT& drbwInfo);
+    void MebsureItem(HDC hDC, MEASUREITEMSTRUCT& mebsureInfo);
+    void MebsureItems(HDC hDC, MEASUREITEMSTRUCT& mebsureInfo);
 
-    virtual LRESULT WinThreadExecProc(ExecuteArgs * args);
+    virtubl LRESULT WinThrebdExecProc(ExecuteArgs * brgs);
 
-    // invoked on Toolkit thread
-    static void _CreateMenu(void *param);
-    static void _CreateSubMenu(void *param);
-    virtual BOOL IsSeparator() { return FALSE; }
+    // invoked on Toolkit threbd
+    stbtic void _CrebteMenu(void *pbrbm);
+    stbtic void _CrebteSubMenu(void *pbrbm);
+    virtubl BOOL IsSepbrbtor() { return FALSE; }
 
 protected:
-    virtual void RemoveCmdID() { /* do nothing */ }
+    virtubl void RemoveCmdID() { /* do nothing */ }
 
-private:
-    void UpdateLayout(const HMENU hmenu);
+privbte:
+    void UpdbteLbyout(const HMENU hmenu);
     HMENU    m_hMenu;
 };
 

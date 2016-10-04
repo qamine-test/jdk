@@ -1,59 +1,59 @@
 /*
- * Copyright (c) 1994, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1994, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.lang;
+pbckbge jbvb.lbng;
 
 /**
- * Thrown when an exceptional arithmetic condition has occurred. For
- * example, an integer "divide by zero" throws an
- * instance of this class.
+ * Thrown when bn exceptionbl brithmetic condition hbs occurred. For
+ * exbmple, bn integer "divide by zero" throws bn
+ * instbnce of this clbss.
  *
- * {@code ArithmeticException} objects may be constructed by the
- * virtual machine as if {@linkplain Throwable#Throwable(String,
- * Throwable, boolean, boolean) suppression were disabled and/or the
- * stack trace was not writable}.
+ * {@code ArithmeticException} objects mby be constructed by the
+ * virtubl mbchine bs if {@linkplbin Throwbble#Throwbble(String,
+ * Throwbble, boolebn, boolebn) suppression were disbbled bnd/or the
+ * stbck trbce wbs not writbble}.
  *
- * @author  unascribed
+ * @buthor  unbscribed
  * @since   1.0
  */
-public class ArithmeticException extends RuntimeException {
-    private static final long serialVersionUID = 2256477558314496007L;
+public clbss ArithmeticException extends RuntimeException {
+    privbte stbtic finbl long seriblVersionUID = 2256477558314496007L;
 
     /**
-     * Constructs an {@code ArithmeticException} with no detail
-     * message.
+     * Constructs bn {@code ArithmeticException} with no detbil
+     * messbge.
      */
     public ArithmeticException() {
         super();
     }
 
     /**
-     * Constructs an {@code ArithmeticException} with the specified
-     * detail message.
+     * Constructs bn {@code ArithmeticException} with the specified
+     * detbil messbge.
      *
-     * @param   s   the detail message.
+     * @pbrbm   s   the detbil messbge.
      */
     public ArithmeticException(String s) {
         super(s);

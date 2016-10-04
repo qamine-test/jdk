@@ -1,316 +1,316 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing;
+pbckbge jbvbx.swing;
 
-import java.awt.AWTKeyStroke;
-import java.awt.event.KeyEvent;
+import jbvb.bwt.AWTKeyStroke;
+import jbvb.bwt.event.KeyEvent;
 
 /**
- * A KeyStroke represents a key action on the keyboard, or equivalent input
- * device. KeyStrokes can correspond to only a press or release of a particular
- * key, just as KEY_PRESSED and KEY_RELEASED KeyEvents do; alternately, they
- * can correspond to typing a specific Java character, just as KEY_TYPED
- * KeyEvents do. In all cases, KeyStrokes can specify modifiers (alt, shift,
- * control, meta, altGraph, or a combination thereof) which must be present during the
- * action for an exact match.
+ * A KeyStroke represents b key bction on the keybobrd, or equivblent input
+ * device. KeyStrokes cbn correspond to only b press or relebse of b pbrticulbr
+ * key, just bs KEY_PRESSED bnd KEY_RELEASED KeyEvents do; blternbtely, they
+ * cbn correspond to typing b specific Jbvb chbrbcter, just bs KEY_TYPED
+ * KeyEvents do. In bll cbses, KeyStrokes cbn specify modifiers (blt, shift,
+ * control, metb, bltGrbph, or b combinbtion thereof) which must be present during the
+ * bction for bn exbct mbtch.
  * <p>
- * KeyStrokes are used to define high-level (semantic) action events. Instead
- * of trapping every keystroke and throwing away the ones you are not
- * interested in, those keystrokes you care about automatically initiate
- * actions on the Components with which they are registered.
+ * KeyStrokes bre used to define high-level (sembntic) bction events. Instebd
+ * of trbpping every keystroke bnd throwing bwby the ones you bre not
+ * interested in, those keystrokes you cbre bbout butombticblly initibte
+ * bctions on the Components with which they bre registered.
  * <p>
- * KeyStrokes are immutable, and are intended to be unique. Client code cannot
- * create a KeyStroke; a variant of <code>getKeyStroke</code> must be used
- * instead. These factory methods allow the KeyStroke implementation to cache
- * and share instances efficiently.
+ * KeyStrokes bre immutbble, bnd bre intended to be unique. Client code cbnnot
+ * crebte b KeyStroke; b vbribnt of <code>getKeyStroke</code> must be used
+ * instebd. These fbctory methods bllow the KeyStroke implementbtion to cbche
+ * bnd shbre instbnces efficiently.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
- * @see javax.swing.text.Keymap
+ * @see jbvbx.swing.text.Keymbp
  * @see #getKeyStroke
  *
- * @author Arnaud Weber
- * @author David Mendenhall
+ * @buthor Arnbud Weber
+ * @buthor Dbvid Mendenhbll
  * @since 1.2
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class KeyStroke extends AWTKeyStroke {
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public clbss KeyStroke extends AWTKeyStroke {
 
     /**
-     * Serial Version ID.
+     * Seribl Version ID.
      */
-    private static final long serialVersionUID = -9060180771037902530L;
+    privbte stbtic finbl long seriblVersionUID = -9060180771037902530L;
 
-    private KeyStroke() {
+    privbte KeyStroke() {
     }
-    private KeyStroke(char keyChar, int keyCode, int modifiers,
-                      boolean onKeyRelease) {
-        super(keyChar, keyCode, modifiers, onKeyRelease);
+    privbte KeyStroke(chbr keyChbr, int keyCode, int modifiers,
+                      boolebn onKeyRelebse) {
+        super(keyChbr, keyCode, modifiers, onKeyRelebse);
     }
 
     /**
-     * Returns a shared instance of a <code>KeyStroke</code>
-     * that represents a <code>KEY_TYPED</code> event for the
-     * specified character.
+     * Returns b shbred instbnce of b <code>KeyStroke</code>
+     * thbt represents b <code>KEY_TYPED</code> event for the
+     * specified chbrbcter.
      *
-     * @param keyChar the character value for a keyboard key
-     * @return a KeyStroke object for that key
+     * @pbrbm keyChbr the chbrbcter vblue for b keybobrd key
+     * @return b KeyStroke object for thbt key
      */
-    public static KeyStroke getKeyStroke(char keyChar) {
-        synchronized (AWTKeyStroke.class) {
-            registerSubclass(KeyStroke.class);
-            return (KeyStroke)getAWTKeyStroke(keyChar);
+    public stbtic KeyStroke getKeyStroke(chbr keyChbr) {
+        synchronized (AWTKeyStroke.clbss) {
+            registerSubclbss(KeyStroke.clbss);
+            return (KeyStroke)getAWTKeyStroke(keyChbr);
         }
     }
 
     /**
-     * Returns an instance of a KeyStroke, specifying whether the key is
-     * considered to be activated when it is pressed or released. Unlike all
-     * other factory methods in this class, the instances returned by this
-     * method are not necessarily cached or shared.
+     * Returns bn instbnce of b KeyStroke, specifying whether the key is
+     * considered to be bctivbted when it is pressed or relebsed. Unlike bll
+     * other fbctory methods in this clbss, the instbnces returned by this
+     * method bre not necessbrily cbched or shbred.
      *
-     * @param keyChar the character value for a keyboard key
-     * @param onKeyRelease <code>true</code> if this KeyStroke corresponds to a
-     *        key release; <code>false</code> otherwise.
-     * @return a KeyStroke object for that key
-     * @deprecated use getKeyStroke(char)
+     * @pbrbm keyChbr the chbrbcter vblue for b keybobrd key
+     * @pbrbm onKeyRelebse <code>true</code> if this KeyStroke corresponds to b
+     *        key relebse; <code>fblse</code> otherwise.
+     * @return b KeyStroke object for thbt key
+     * @deprecbted use getKeyStroke(chbr)
      */
-    @Deprecated
-    public static KeyStroke getKeyStroke(char keyChar, boolean onKeyRelease) {
-        return new KeyStroke(keyChar, KeyEvent.VK_UNDEFINED, 0, onKeyRelease);
+    @Deprecbted
+    public stbtic KeyStroke getKeyStroke(chbr keyChbr, boolebn onKeyRelebse) {
+        return new KeyStroke(keyChbr, KeyEvent.VK_UNDEFINED, 0, onKeyRelebse);
     }
 
     /**
-     * Returns a shared instance of a {@code KeyStroke}
-     * that represents a {@code KEY_TYPED} event for the
-     * specified Character object and a
-      * set of modifiers. Note that the first parameter is of type Character
-     * rather than char. This is to avoid inadvertent clashes with calls to
+     * Returns b shbred instbnce of b {@code KeyStroke}
+     * thbt represents b {@code KEY_TYPED} event for the
+     * specified Chbrbcter object bnd b
+      * set of modifiers. Note thbt the first pbrbmeter is of type Chbrbcter
+     * rbther thbn chbr. This is to bvoid inbdvertent clbshes with cblls to
      * <code>getKeyStroke(int keyCode, int modifiers)</code>.
      *
-     * The modifiers consist of any combination of following:<ul>
-     * <li>java.awt.event.InputEvent.SHIFT_DOWN_MASK
-     * <li>java.awt.event.InputEvent.CTRL_DOWN_MASK
-     * <li>java.awt.event.InputEvent.META_DOWN_MASK
-     * <li>java.awt.event.InputEvent.ALT_DOWN_MASK
-     * <li>java.awt.event.InputEvent.ALT_GRAPH_DOWN_MASK
+     * The modifiers consist of bny combinbtion of following:<ul>
+     * <li>jbvb.bwt.event.InputEvent.SHIFT_DOWN_MASK
+     * <li>jbvb.bwt.event.InputEvent.CTRL_DOWN_MASK
+     * <li>jbvb.bwt.event.InputEvent.META_DOWN_MASK
+     * <li>jbvb.bwt.event.InputEvent.ALT_DOWN_MASK
+     * <li>jbvb.bwt.event.InputEvent.ALT_GRAPH_DOWN_MASK
      * </ul>
-     * The old modifiers listed below also can be used, but they are
-     * mapped to _DOWN_ modifiers. <ul>
-     * <li>java.awt.event.InputEvent.SHIFT_MASK
-     * <li>java.awt.event.InputEvent.CTRL_MASK
-     * <li>java.awt.event.InputEvent.META_MASK
-     * <li>java.awt.event.InputEvent.ALT_MASK
-     * <li>java.awt.event.InputEvent.ALT_GRAPH_MASK
+     * The old modifiers listed below blso cbn be used, but they bre
+     * mbpped to _DOWN_ modifiers. <ul>
+     * <li>jbvb.bwt.event.InputEvent.SHIFT_MASK
+     * <li>jbvb.bwt.event.InputEvent.CTRL_MASK
+     * <li>jbvb.bwt.event.InputEvent.META_MASK
+     * <li>jbvb.bwt.event.InputEvent.ALT_MASK
+     * <li>jbvb.bwt.event.InputEvent.ALT_GRAPH_MASK
      * </ul>
-     * also can be used, but they are mapped to _DOWN_ modifiers.
+     * blso cbn be used, but they bre mbpped to _DOWN_ modifiers.
      *
-     * Since these numbers are all different powers of two, any combination of
-     * them is an integer in which each bit represents a different modifier
+     * Since these numbers bre bll different powers of two, bny combinbtion of
+     * them is bn integer in which ebch bit represents b different modifier
      * key. Use 0 to specify no modifiers.
      *
-     * @param keyChar the Character object for a keyboard character
-     * @param modifiers a bitwise-ored combination of any modifiers
-     * @return an KeyStroke object for that key
-     * @throws IllegalArgumentException if keyChar is null
+     * @pbrbm keyChbr the Chbrbcter object for b keybobrd chbrbcter
+     * @pbrbm modifiers b bitwise-ored combinbtion of bny modifiers
+     * @return bn KeyStroke object for thbt key
+     * @throws IllegblArgumentException if keyChbr is null
      *
-     * @see java.awt.event.InputEvent
+     * @see jbvb.bwt.event.InputEvent
      * @since 1.3
      */
-    public static KeyStroke getKeyStroke(Character keyChar, int modifiers) {
-        synchronized (AWTKeyStroke.class) {
-            registerSubclass(KeyStroke.class);
-            return (KeyStroke)getAWTKeyStroke(keyChar, modifiers);
+    public stbtic KeyStroke getKeyStroke(Chbrbcter keyChbr, int modifiers) {
+        synchronized (AWTKeyStroke.clbss) {
+            registerSubclbss(KeyStroke.clbss);
+            return (KeyStroke)getAWTKeyStroke(keyChbr, modifiers);
         }
     }
 
     /**
-     * Returns a shared instance of a KeyStroke, given a numeric key code and a
-     * set of modifiers, specifying whether the key is activated when it is
-     * pressed or released.
+     * Returns b shbred instbnce of b KeyStroke, given b numeric key code bnd b
+     * set of modifiers, specifying whether the key is bctivbted when it is
+     * pressed or relebsed.
      * <p>
-     * The "virtual key" constants defined in java.awt.event.KeyEvent can be
-     * used to specify the key code. For example:<ul>
-     * <li>java.awt.event.KeyEvent.VK_ENTER
-     * <li>java.awt.event.KeyEvent.VK_TAB
-     * <li>java.awt.event.KeyEvent.VK_SPACE
+     * The "virtubl key" constbnts defined in jbvb.bwt.event.KeyEvent cbn be
+     * used to specify the key code. For exbmple:<ul>
+     * <li>jbvb.bwt.event.KeyEvent.VK_ENTER
+     * <li>jbvb.bwt.event.KeyEvent.VK_TAB
+     * <li>jbvb.bwt.event.KeyEvent.VK_SPACE
      * </ul>
-     * Alternatively, the key code may be obtained by calling
-     * <code>java.awt.event.KeyEvent.getExtendedKeyCodeForChar</code>.
+     * Alternbtively, the key code mby be obtbined by cblling
+     * <code>jbvb.bwt.event.KeyEvent.getExtendedKeyCodeForChbr</code>.
      *
-     * The modifiers consist of any combination of:<ul>
-     * <li>java.awt.event.InputEvent.SHIFT_DOWN_MASK
-     * <li>java.awt.event.InputEvent.CTRL_DOWN_MASK
-     * <li>java.awt.event.InputEvent.META_DOWN_MASK
-     * <li>java.awt.event.InputEvent.ALT_DOWN_MASK
-     * <li>java.awt.event.InputEvent.ALT_GRAPH_DOWN_MASK
+     * The modifiers consist of bny combinbtion of:<ul>
+     * <li>jbvb.bwt.event.InputEvent.SHIFT_DOWN_MASK
+     * <li>jbvb.bwt.event.InputEvent.CTRL_DOWN_MASK
+     * <li>jbvb.bwt.event.InputEvent.META_DOWN_MASK
+     * <li>jbvb.bwt.event.InputEvent.ALT_DOWN_MASK
+     * <li>jbvb.bwt.event.InputEvent.ALT_GRAPH_DOWN_MASK
      * </ul>
      * The old modifiers <ul>
-     * <li>java.awt.event.InputEvent.SHIFT_MASK
-     * <li>java.awt.event.InputEvent.CTRL_MASK
-     * <li>java.awt.event.InputEvent.META_MASK
-     * <li>java.awt.event.InputEvent.ALT_MASK
-     * <li>java.awt.event.InputEvent.ALT_GRAPH_MASK
+     * <li>jbvb.bwt.event.InputEvent.SHIFT_MASK
+     * <li>jbvb.bwt.event.InputEvent.CTRL_MASK
+     * <li>jbvb.bwt.event.InputEvent.META_MASK
+     * <li>jbvb.bwt.event.InputEvent.ALT_MASK
+     * <li>jbvb.bwt.event.InputEvent.ALT_GRAPH_MASK
      * </ul>
-     * also can be used, but they are mapped to _DOWN_ modifiers.
+     * blso cbn be used, but they bre mbpped to _DOWN_ modifiers.
      *
-     * Since these numbers are all different powers of two, any combination of
-     * them is an integer in which each bit represents a different modifier
+     * Since these numbers bre bll different powers of two, bny combinbtion of
+     * them is bn integer in which ebch bit represents b different modifier
      * key. Use 0 to specify no modifiers.
      *
-     * @param keyCode an int specifying the numeric code for a keyboard key
-     * @param modifiers a bitwise-ored combination of any modifiers
-     * @param onKeyRelease <code>true</code> if the KeyStroke should represent
-     *        a key release; <code>false</code> otherwise.
-     * @return a KeyStroke object for that key
+     * @pbrbm keyCode bn int specifying the numeric code for b keybobrd key
+     * @pbrbm modifiers b bitwise-ored combinbtion of bny modifiers
+     * @pbrbm onKeyRelebse <code>true</code> if the KeyStroke should represent
+     *        b key relebse; <code>fblse</code> otherwise.
+     * @return b KeyStroke object for thbt key
      *
-     * @see java.awt.event.KeyEvent
-     * @see java.awt.event.InputEvent
+     * @see jbvb.bwt.event.KeyEvent
+     * @see jbvb.bwt.event.InputEvent
      */
-    public static KeyStroke getKeyStroke(int keyCode, int modifiers,
-                                         boolean onKeyRelease) {
-        synchronized (AWTKeyStroke.class) {
-            registerSubclass(KeyStroke.class);
+    public stbtic KeyStroke getKeyStroke(int keyCode, int modifiers,
+                                         boolebn onKeyRelebse) {
+        synchronized (AWTKeyStroke.clbss) {
+            registerSubclbss(KeyStroke.clbss);
             return (KeyStroke)getAWTKeyStroke(keyCode, modifiers,
-                                              onKeyRelease);
+                                              onKeyRelebse);
         }
     }
 
     /**
-     * Returns a shared instance of a KeyStroke, given a numeric key code and a
-     * set of modifiers. The returned KeyStroke will correspond to a key press.
+     * Returns b shbred instbnce of b KeyStroke, given b numeric key code bnd b
+     * set of modifiers. The returned KeyStroke will correspond to b key press.
      * <p>
-     * The "virtual key" constants defined in java.awt.event.KeyEvent can be
-     * used to specify the key code. For example:<ul>
-     * <li>java.awt.event.KeyEvent.VK_ENTER
-     * <li>java.awt.event.KeyEvent.VK_TAB
-     * <li>java.awt.event.KeyEvent.VK_SPACE
+     * The "virtubl key" constbnts defined in jbvb.bwt.event.KeyEvent cbn be
+     * used to specify the key code. For exbmple:<ul>
+     * <li>jbvb.bwt.event.KeyEvent.VK_ENTER
+     * <li>jbvb.bwt.event.KeyEvent.VK_TAB
+     * <li>jbvb.bwt.event.KeyEvent.VK_SPACE
      * </ul>
-     * Alternatively, the key code may be obtained by calling
-     * <code>java.awt.event.KeyEvent.getExtendedKeyCodeForChar</code>.
+     * Alternbtively, the key code mby be obtbined by cblling
+     * <code>jbvb.bwt.event.KeyEvent.getExtendedKeyCodeForChbr</code>.
      *
-     * The modifiers consist of any combination of:<ul>
-     * <li>java.awt.event.InputEvent.SHIFT_DOWN_MASK
-     * <li>java.awt.event.InputEvent.CTRL_DOWN_MASK
-     * <li>java.awt.event.InputEvent.META_DOWN_MASK
-     * <li>java.awt.event.InputEvent.ALT_DOWN_MASK
-     * <li>java.awt.event.InputEvent.ALT_GRAPH_DOWN_MASK
+     * The modifiers consist of bny combinbtion of:<ul>
+     * <li>jbvb.bwt.event.InputEvent.SHIFT_DOWN_MASK
+     * <li>jbvb.bwt.event.InputEvent.CTRL_DOWN_MASK
+     * <li>jbvb.bwt.event.InputEvent.META_DOWN_MASK
+     * <li>jbvb.bwt.event.InputEvent.ALT_DOWN_MASK
+     * <li>jbvb.bwt.event.InputEvent.ALT_GRAPH_DOWN_MASK
      * </ul>
      * The old modifiers <ul>
-     * <li>java.awt.event.InputEvent.SHIFT_MASK
-     * <li>java.awt.event.InputEvent.CTRL_MASK
-     * <li>java.awt.event.InputEvent.META_MASK
-     * <li>java.awt.event.InputEvent.ALT_MASK
-     * <li>java.awt.event.InputEvent.ALT_GRAPH_MASK
+     * <li>jbvb.bwt.event.InputEvent.SHIFT_MASK
+     * <li>jbvb.bwt.event.InputEvent.CTRL_MASK
+     * <li>jbvb.bwt.event.InputEvent.META_MASK
+     * <li>jbvb.bwt.event.InputEvent.ALT_MASK
+     * <li>jbvb.bwt.event.InputEvent.ALT_GRAPH_MASK
      * </ul>
-     * also can be used, but they are mapped to _DOWN_ modifiers.
+     * blso cbn be used, but they bre mbpped to _DOWN_ modifiers.
      *
-     * Since these numbers are all different powers of two, any combination of
-     * them is an integer in which each bit represents a different modifier
+     * Since these numbers bre bll different powers of two, bny combinbtion of
+     * them is bn integer in which ebch bit represents b different modifier
      * key. Use 0 to specify no modifiers.
      *
-     * @param keyCode an int specifying the numeric code for a keyboard key
-     * @param modifiers a bitwise-ored combination of any modifiers
-     * @return a KeyStroke object for that key
+     * @pbrbm keyCode bn int specifying the numeric code for b keybobrd key
+     * @pbrbm modifiers b bitwise-ored combinbtion of bny modifiers
+     * @return b KeyStroke object for thbt key
      *
-     * @see java.awt.event.KeyEvent
-     * @see java.awt.event.InputEvent
+     * @see jbvb.bwt.event.KeyEvent
+     * @see jbvb.bwt.event.InputEvent
      */
-    public static KeyStroke getKeyStroke(int keyCode, int modifiers) {
-        synchronized (AWTKeyStroke.class) {
-            registerSubclass(KeyStroke.class);
+    public stbtic KeyStroke getKeyStroke(int keyCode, int modifiers) {
+        synchronized (AWTKeyStroke.clbss) {
+            registerSubclbss(KeyStroke.clbss);
             return (KeyStroke)getAWTKeyStroke(keyCode, modifiers);
         }
     }
 
     /**
-     * Returns a KeyStroke which represents the stroke which generated a given
+     * Returns b KeyStroke which represents the stroke which generbted b given
      * KeyEvent.
      * <p>
-     * This method obtains the keyChar from a KeyTyped event, and the keyCode
-     * from a KeyPressed or KeyReleased event. The KeyEvent modifiers are
-     * obtained for all three types of KeyEvent.
+     * This method obtbins the keyChbr from b KeyTyped event, bnd the keyCode
+     * from b KeyPressed or KeyRelebsed event. The KeyEvent modifiers bre
+     * obtbined for bll three types of KeyEvent.
      *
-     * @param anEvent the KeyEvent from which to obtain the KeyStroke
-     * @throws NullPointerException if <code>anEvent</code> is null
-     * @return the KeyStroke that precipitated the event
+     * @pbrbm bnEvent the KeyEvent from which to obtbin the KeyStroke
+     * @throws NullPointerException if <code>bnEvent</code> is null
+     * @return the KeyStroke thbt precipitbted the event
      */
-    public static KeyStroke getKeyStrokeForEvent(KeyEvent anEvent) {
-        synchronized (AWTKeyStroke.class) {
-            registerSubclass(KeyStroke.class);
-            return (KeyStroke)getAWTKeyStrokeForEvent(anEvent);
+    public stbtic KeyStroke getKeyStrokeForEvent(KeyEvent bnEvent) {
+        synchronized (AWTKeyStroke.clbss) {
+            registerSubclbss(KeyStroke.clbss);
+            return (KeyStroke)getAWTKeyStrokeForEvent(bnEvent);
         }
     }
 
     /**
-     * Parses a string and returns a <code>KeyStroke</code>.
-     * The string must have the following syntax:
+     * Pbrses b string bnd returns b <code>KeyStroke</code>.
+     * The string must hbve the following syntbx:
      * <pre>
-     *    &lt;modifiers&gt;* (&lt;typedID&gt; | &lt;pressedReleasedID&gt;)
+     *    &lt;modifiers&gt;* (&lt;typedID&gt; | &lt;pressedRelebsedID&gt;)
      *
-     *    modifiers := shift | control | ctrl | meta | alt | altGraph
+     *    modifiers := shift | control | ctrl | metb | blt | bltGrbph
      *    typedID := typed &lt;typedKey&gt;
-     *    typedKey := string of length 1 giving Unicode character.
-     *    pressedReleasedID := (pressed | released) key
-     *    key := KeyEvent key code name, i.e. the name following "VK_".
+     *    typedKey := string of length 1 giving Unicode chbrbcter.
+     *    pressedRelebsedID := (pressed | relebsed) key
+     *    key := KeyEvent key code nbme, i.e. the nbme following "VK_".
      * </pre>
-     * If typed, pressed or released is not specified, pressed is assumed. Here
-     * are some examples:
+     * If typed, pressed or relebsed is not specified, pressed is bssumed. Here
+     * bre some exbmples:
      * <pre>
      *     "INSERT" =&gt; getKeyStroke(KeyEvent.VK_INSERT, 0);
      *     "control DELETE" =&gt; getKeyStroke(KeyEvent.VK_DELETE, InputEvent.CTRL_MASK);
-     *     "alt shift X" =&gt; getKeyStroke(KeyEvent.VK_X, InputEvent.ALT_MASK | InputEvent.SHIFT_MASK);
-     *     "alt shift released X" =&gt; getKeyStroke(KeyEvent.VK_X, InputEvent.ALT_MASK | InputEvent.SHIFT_MASK, true);
-     *     "typed a" =&gt; getKeyStroke('a');
+     *     "blt shift X" =&gt; getKeyStroke(KeyEvent.VK_X, InputEvent.ALT_MASK | InputEvent.SHIFT_MASK);
+     *     "blt shift relebsed X" =&gt; getKeyStroke(KeyEvent.VK_X, InputEvent.ALT_MASK | InputEvent.SHIFT_MASK, true);
+     *     "typed b" =&gt; getKeyStroke('b');
      * </pre>
      *
-     * In order to maintain backward-compatibility, specifying a null String,
-     * or a String which is formatted incorrectly, returns null.
+     * In order to mbintbin bbckwbrd-compbtibility, specifying b null String,
+     * or b String which is formbtted incorrectly, returns null.
      *
-     * @param s a String formatted as described above
-     * @return a KeyStroke object for that String, or null if the specified
-     *         String is null, or is formatted incorrectly
+     * @pbrbm s b String formbtted bs described bbove
+     * @return b KeyStroke object for thbt String, or null if the specified
+     *         String is null, or is formbtted incorrectly
      *
-     * @see java.awt.event.KeyEvent
+     * @see jbvb.bwt.event.KeyEvent
      */
-    public static KeyStroke getKeyStroke(String s) {
+    public stbtic KeyStroke getKeyStroke(String s) {
         if (s == null || s.length() == 0) {
             return null;
         }
-        synchronized (AWTKeyStroke.class) {
-            registerSubclass(KeyStroke.class);
+        synchronized (AWTKeyStroke.clbss) {
+            registerSubclbss(KeyStroke.clbss);
             try {
                 return (KeyStroke)getAWTKeyStroke(s);
-            } catch (IllegalArgumentException e) {
+            } cbtch (IllegblArgumentException e) {
                 return null;
             }
         }

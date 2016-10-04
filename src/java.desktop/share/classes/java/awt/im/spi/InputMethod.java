@@ -1,381 +1,381 @@
 /*
- * Copyright (c) 1997, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2004, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt.im.spi;
+pbckbge jbvb.bwt.im.spi;
 
-import java.util.Locale;
-import java.awt.AWTEvent;
-import java.awt.Rectangle;
-import java.lang.Character.Subset;
+import jbvb.util.Locble;
+import jbvb.bwt.AWTEvent;
+import jbvb.bwt.Rectbngle;
+import jbvb.lbng.Chbrbcter.Subset;
 
 
 /**
- * Defines the interface for an input method that supports complex text input.
- * Input methods traditionally support text input for languages that have
- * more characters than can be represented on a standard-size keyboard,
- * such as Chinese, Japanese, and Korean. However, they may also be used to
- * support phonetic text input for English or character reordering for Thai.
+ * Defines the interfbce for bn input method thbt supports complex text input.
+ * Input methods trbditionblly support text input for lbngubges thbt hbve
+ * more chbrbcters thbn cbn be represented on b stbndbrd-size keybobrd,
+ * such bs Chinese, Jbpbnese, bnd Korebn. However, they mby blso be used to
+ * support phonetic text input for English or chbrbcter reordering for Thbi.
  * <p>
- * Subclasses of InputMethod can be loaded by the input method framework; they
- * can then be selected either through the API
- * ({@link java.awt.im.InputContext#selectInputMethod InputContext.selectInputMethod})
- * or the user interface (the input method selection menu).
+ * Subclbsses of InputMethod cbn be lobded by the input method frbmework; they
+ * cbn then be selected either through the API
+ * ({@link jbvb.bwt.im.InputContext#selectInputMethod InputContext.selectInputMethod})
+ * or the user interfbce (the input method selection menu).
  *
  * @since 1.3
  *
- * @author JavaSoft International
+ * @buthor JbvbSoft Internbtionbl
  */
 
-public interface InputMethod {
+public interfbce InputMethod {
 
     /**
-     * Sets the input method context, which is used to dispatch input method
-     * events to the client component and to request information from
+     * Sets the input method context, which is used to dispbtch input method
+     * events to the client component bnd to request informbtion from
      * the client component.
      * <p>
-     * This method is called once immediately after instantiating this input
+     * This method is cblled once immedibtely bfter instbntibting this input
      * method.
      *
-     * @param context the input method context for this input method
+     * @pbrbm context the input method context for this input method
      * @exception NullPointerException if <code>context</code> is null
      */
     public void setInputMethodContext(InputMethodContext context);
 
     /**
-     * Attempts to set the input locale. If the input method supports the
-     * desired locale, it changes its behavior to support input for the locale
-     * and returns true.
-     * Otherwise, it returns false and does not change its behavior.
+     * Attempts to set the input locble. If the input method supports the
+     * desired locble, it chbnges its behbvior to support input for the locble
+     * bnd returns true.
+     * Otherwise, it returns fblse bnd does not chbnge its behbvior.
      * <p>
-     * This method is called
+     * This method is cblled
      * <ul>
-     * <li>by {@link java.awt.im.InputContext#selectInputMethod InputContext.selectInputMethod},
-     * <li>when switching to this input method through the user interface if the user
-     *     specified a locale or if the previously selected input method's
-     *     {@link java.awt.im.spi.InputMethod#getLocale getLocale} method
-     *     returns a non-null value.
+     * <li>by {@link jbvb.bwt.im.InputContext#selectInputMethod InputContext.selectInputMethod},
+     * <li>when switching to this input method through the user interfbce if the user
+     *     specified b locble or if the previously selected input method's
+     *     {@link jbvb.bwt.im.spi.InputMethod#getLocble getLocble} method
+     *     returns b non-null vblue.
      * </ul>
      *
-     * @param locale locale to input
-     * @return whether the specified locale is supported
-     * @exception NullPointerException if <code>locale</code> is null
+     * @pbrbm locble locble to input
+     * @return whether the specified locble is supported
+     * @exception NullPointerException if <code>locble</code> is null
      */
-    public boolean setLocale(Locale locale);
+    public boolebn setLocble(Locble locble);
 
     /**
-     * Returns the current input locale. Might return null in exceptional cases.
+     * Returns the current input locble. Might return null in exceptionbl cbses.
      * <p>
-     * This method is called
+     * This method is cblled
      * <ul>
-     * <li>by {@link java.awt.im.InputContext#getLocale InputContext.getLocale} and
-     * <li>when switching from this input method to a different one through the
-     *     user interface.
+     * <li>by {@link jbvb.bwt.im.InputContext#getLocble InputContext.getLocble} bnd
+     * <li>when switching from this input method to b different one through the
+     *     user interfbce.
      * </ul>
      *
-     * @return the current input locale, or null
+     * @return the current input locble, or null
      */
-    public Locale getLocale();
+    public Locble getLocble();
 
     /**
-     * Sets the subsets of the Unicode character set that this input method
-     * is allowed to input. Null may be passed in to indicate that all
-     * characters are allowed.
+     * Sets the subsets of the Unicode chbrbcter set thbt this input method
+     * is bllowed to input. Null mby be pbssed in to indicbte thbt bll
+     * chbrbcters bre bllowed.
      * <p>
-     * This method is called
+     * This method is cblled
      * <ul>
-     * <li>immediately after instantiating this input method,
-     * <li>when switching to this input method from a different one, and
-     * <li>by {@link java.awt.im.InputContext#setCharacterSubsets InputContext.setCharacterSubsets}.
+     * <li>immedibtely bfter instbntibting this input method,
+     * <li>when switching to this input method from b different one, bnd
+     * <li>by {@link jbvb.bwt.im.InputContext#setChbrbcterSubsets InputContext.setChbrbcterSubsets}.
      * </ul>
      *
-     * @param subsets the subsets of the Unicode character set from which
-     * characters may be input
+     * @pbrbm subsets the subsets of the Unicode chbrbcter set from which
+     * chbrbcters mby be input
      */
-    public void setCharacterSubsets(Subset[] subsets);
+    public void setChbrbcterSubsets(Subset[] subsets);
 
     /**
-     * Enables or disables this input method for composition,
-     * depending on the value of the parameter <code>enable</code>.
+     * Enbbles or disbbles this input method for composition,
+     * depending on the vblue of the pbrbmeter <code>enbble</code>.
      * <p>
-     * An input method that is enabled for composition interprets incoming
-     * events for both composition and control purposes, while a
-     * disabled input method does not interpret events for composition.
-     * Note however that events are passed on to the input method regardless
-     * whether it is enabled or not, and that an input method that is disabled
-     * for composition may still interpret events for control purposes,
-     * including to enable or disable itself for composition.
+     * An input method thbt is enbbled for composition interprets incoming
+     * events for both composition bnd control purposes, while b
+     * disbbled input method does not interpret events for composition.
+     * Note however thbt events bre pbssed on to the input method regbrdless
+     * whether it is enbbled or not, bnd thbt bn input method thbt is disbbled
+     * for composition mby still interpret events for control purposes,
+     * including to enbble or disbble itself for composition.
      * <p>
-     * For input methods provided by host operating systems, it is not always possible to
-     * determine whether this operation is supported. For example, an input method may enable
-     * composition only for some locales, and do nothing for other locales. For such input
-     * methods, it is possible that this method does not throw
-     * {@link java.lang.UnsupportedOperationException UnsupportedOperationException},
-     * but also does not affect whether composition is enabled.
+     * For input methods provided by host operbting systems, it is not blwbys possible to
+     * determine whether this operbtion is supported. For exbmple, bn input method mby enbble
+     * composition only for some locbles, bnd do nothing for other locbles. For such input
+     * methods, it is possible thbt this method does not throw
+     * {@link jbvb.lbng.UnsupportedOperbtionException UnsupportedOperbtionException},
+     * but blso does not bffect whether composition is enbbled.
      * <p>
-     * This method is called
+     * This method is cblled
      * <ul>
-     * <li>by {@link java.awt.im.InputContext#setCompositionEnabled InputContext.setCompositionEnabled},
-     * <li>when switching to this input method from a different one using the
-     *     user interface or
-     *     {@link java.awt.im.InputContext#selectInputMethod InputContext.selectInputMethod},
+     * <li>by {@link jbvb.bwt.im.InputContext#setCompositionEnbbled InputContext.setCompositionEnbbled},
+     * <li>when switching to this input method from b different one using the
+     *     user interfbce or
+     *     {@link jbvb.bwt.im.InputContext#selectInputMethod InputContext.selectInputMethod},
      *     if the previously selected input method's
-     *     {@link java.awt.im.spi.InputMethod#isCompositionEnabled isCompositionEnabled}
-     *     method returns without throwing an exception.
+     *     {@link jbvb.bwt.im.spi.InputMethod#isCompositionEnbbled isCompositionEnbbled}
+     *     method returns without throwing bn exception.
      * </ul>
      *
-     * @param enable whether to enable the input method for composition
-     * @throws UnsupportedOperationException if this input method does not
-     * support the enabling/disabling operation
-     * @see #isCompositionEnabled
+     * @pbrbm enbble whether to enbble the input method for composition
+     * @throws UnsupportedOperbtionException if this input method does not
+     * support the enbbling/disbbling operbtion
+     * @see #isCompositionEnbbled
      */
-    public void setCompositionEnabled(boolean enable);
+    public void setCompositionEnbbled(boolebn enbble);
 
     /**
-     * Determines whether this input method is enabled.
-     * An input method that is enabled for composition interprets incoming
-     * events for both composition and control purposes, while a
-     * disabled input method does not interpret events for composition.
+     * Determines whether this input method is enbbled.
+     * An input method thbt is enbbled for composition interprets incoming
+     * events for both composition bnd control purposes, while b
+     * disbbled input method does not interpret events for composition.
      * <p>
-     * This method is called
+     * This method is cblled
      * <ul>
-     * <li>by {@link java.awt.im.InputContext#isCompositionEnabled InputContext.isCompositionEnabled} and
-     * <li>when switching from this input method to a different one using the
-     *     user interface or
-     *     {@link java.awt.im.InputContext#selectInputMethod InputContext.selectInputMethod}.
+     * <li>by {@link jbvb.bwt.im.InputContext#isCompositionEnbbled InputContext.isCompositionEnbbled} bnd
+     * <li>when switching from this input method to b different one using the
+     *     user interfbce or
+     *     {@link jbvb.bwt.im.InputContext#selectInputMethod InputContext.selectInputMethod}.
      * </ul>
      *
-     * @return <code>true</code> if this input method is enabled for
-     * composition; <code>false</code> otherwise.
-     * @throws UnsupportedOperationException if this input method does not
-     * support checking whether it is enabled for composition
-     * @see #setCompositionEnabled
+     * @return <code>true</code> if this input method is enbbled for
+     * composition; <code>fblse</code> otherwise.
+     * @throws UnsupportedOperbtionException if this input method does not
+     * support checking whether it is enbbled for composition
+     * @see #setCompositionEnbbled
      */
-    public boolean isCompositionEnabled();
+    public boolebn isCompositionEnbbled();
 
     /**
-     * Starts the reconversion operation. The input method obtains the
+     * Stbrts the reconversion operbtion. The input method obtbins the
      * text to be reconverted from the current client component using the
-     * {@link java.awt.im.InputMethodRequests#getSelectedText InputMethodRequests.getSelectedText}
-     * method. It can use other <code>InputMethodRequests</code>
-     * methods to request additional information required for the
-     * reconversion operation. The composed and committed text
-     * produced by the operation is sent to the client component as a
+     * {@link jbvb.bwt.im.InputMethodRequests#getSelectedText InputMethodRequests.getSelectedText}
+     * method. It cbn use other <code>InputMethodRequests</code>
+     * methods to request bdditionbl informbtion required for the
+     * reconversion operbtion. The composed bnd committed text
+     * produced by the operbtion is sent to the client component bs b
      * sequence of <code>InputMethodEvent</code>s. If the given text
-     * cannot be reconverted, the same text should be sent to the
-     * client component as committed text.
+     * cbnnot be reconverted, the sbme text should be sent to the
+     * client component bs committed text.
      * <p>
-     * This method is called by
-     * {@link java.awt.im.InputContext#reconvert() InputContext.reconvert}.
+     * This method is cblled by
+     * {@link jbvb.bwt.im.InputContext#reconvert() InputContext.reconvert}.
      *
-     * @throws UnsupportedOperationException if the input method does not
-     * support the reconversion operation.
+     * @throws UnsupportedOperbtionException if the input method does not
+     * support the reconversion operbtion.
      */
     public void reconvert();
 
     /**
-     * Dispatches the event to the input method. If input method support is
-     * enabled for the focussed component, incoming events of certain types
-     * are dispatched to the current input method for this component before
-     * they are dispatched to the component's methods or event listeners.
-     * The input method decides whether it needs to handle the event. If it
-     * does, it also calls the event's <code>consume</code> method; this
-     * causes the event to not get dispatched to the component's event
+     * Dispbtches the event to the input method. If input method support is
+     * enbbled for the focussed component, incoming events of certbin types
+     * bre dispbtched to the current input method for this component before
+     * they bre dispbtched to the component's methods or event listeners.
+     * The input method decides whether it needs to hbndle the event. If it
+     * does, it blso cblls the event's <code>consume</code> method; this
+     * cbuses the event to not get dispbtched to the component's event
      * processing methods or event listeners.
      * <p>
-     * Events are dispatched if they are instances of InputEvent or its
-     * subclasses.
-     * This includes instances of the AWT classes KeyEvent and MouseEvent.
+     * Events bre dispbtched if they bre instbnces of InputEvent or its
+     * subclbsses.
+     * This includes instbnces of the AWT clbsses KeyEvent bnd MouseEvent.
      * <p>
-     * This method is called by {@link java.awt.im.InputContext#dispatchEvent InputContext.dispatchEvent}.
+     * This method is cblled by {@link jbvb.bwt.im.InputContext#dispbtchEvent InputContext.dispbtchEvent}.
      *
-     * @param event the event being dispatched to the input method
+     * @pbrbm event the event being dispbtched to the input method
      * @exception NullPointerException if <code>event</code> is null
      */
-    public void dispatchEvent(AWTEvent event);
+    public void dispbtchEvent(AWTEvent event);
 
     /**
-     * Notifies this input method of changes in the client window
-     * location or state. This method is called while this input
-     * method is the current input method of its input context and
-     * notifications for it are enabled (see {@link
-     * InputMethodContext#enableClientWindowNotification
-     * InputMethodContext.enableClientWindowNotification}). Calls
-     * to this method are temporarily suspended if the input context's
-     * {@link java.awt.im.InputContext#removeNotify removeNotify}
-     * method is called, and resume when the input method is activated
-     * for a new client component. It is called in the following
-     * situations:
+     * Notifies this input method of chbnges in the client window
+     * locbtion or stbte. This method is cblled while this input
+     * method is the current input method of its input context bnd
+     * notificbtions for it bre enbbled (see {@link
+     * InputMethodContext#enbbleClientWindowNotificbtion
+     * InputMethodContext.enbbleClientWindowNotificbtion}). Cblls
+     * to this method bre temporbrily suspended if the input context's
+     * {@link jbvb.bwt.im.InputContext#removeNotify removeNotify}
+     * method is cblled, bnd resume when the input method is bctivbted
+     * for b new client component. It is cblled in the following
+     * situbtions:
      * <ul>
      * <li>
-     * when the window containing the current client component changes
-     * in location, size, visibility, iconification state, or when the
+     * when the window contbining the current client component chbnges
+     * in locbtion, size, visibility, iconificbtion stbte, or when the
      * window is closed.</li>
      * <li>
-     * from <code> enableClientWindowNotification(inputMethod,
+     * from <code> enbbleClientWindowNotificbtion(inputMethod,
      * true)</code> if the current client component exists,</li>
      * <li>
-     * when activating the input method for the first time after it
-     * called
-     * <code>enableClientWindowNotification(inputMethod,
-     * true)</code> if during the call no current client component was
-     * available,</li>
+     * when bctivbting the input method for the first time bfter it
+     * cblled
+     * <code>enbbleClientWindowNotificbtion(inputMethod,
+     * true)</code> if during the cbll no current client component wbs
+     * bvbilbble,</li>
      * <li>
-     * when activating the input method for a new client component
-     * after the input context's removeNotify method has been
-     * called.</li>
+     * when bctivbting the input method for b new client component
+     * bfter the input context's removeNotify method hbs been
+     * cblled.</li>
      * </ul>
-     * @param bounds client window's {@link
-     * java.awt.Component#getBounds bounds} on the screen; or null if
+     * @pbrbm bounds client window's {@link
+     * jbvb.bwt.Component#getBounds bounds} on the screen; or null if
      * the client window is iconified or invisible
      */
-    public void notifyClientWindowChange(Rectangle bounds);
+    public void notifyClientWindowChbnge(Rectbngle bounds);
 
     /**
-     * Activates the input method for immediate input processing.
+     * Activbtes the input method for immedibte input processing.
      * <p>
-     * If an input method provides its own windows, it should make sure
-     * at this point that all necessary windows are open and visible.
+     * If bn input method provides its own windows, it should mbke sure
+     * bt this point thbt bll necessbry windows bre open bnd visible.
      * <p>
-     * This method is called
+     * This method is cblled
      * <ul>
-     * <li>by {@link java.awt.im.InputContext#dispatchEvent InputContext.dispatchEvent}
-     *     when a client component receives a FOCUS_GAINED event,
-     * <li>when switching to this input method from a different one using the
-     *     user interface or
-     *     {@link java.awt.im.InputContext#selectInputMethod InputContext.selectInputMethod}.
+     * <li>by {@link jbvb.bwt.im.InputContext#dispbtchEvent InputContext.dispbtchEvent}
+     *     when b client component receives b FOCUS_GAINED event,
+     * <li>when switching to this input method from b different one using the
+     *     user interfbce or
+     *     {@link jbvb.bwt.im.InputContext#selectInputMethod InputContext.selectInputMethod}.
      * </ul>
-     * The method is only called when the input method is inactive.
-     * A newly instantiated input method is assumed to be inactive.
+     * The method is only cblled when the input method is inbctive.
+     * A newly instbntibted input method is bssumed to be inbctive.
      */
-    public void activate();
+    public void bctivbte();
 
     /**
-     * Deactivates the input method.
-     * The isTemporary argument has the same meaning as in
-     * {@link java.awt.event.FocusEvent#isTemporary FocusEvent.isTemporary}.
+     * Debctivbtes the input method.
+     * The isTemporbry brgument hbs the sbme mebning bs in
+     * {@link jbvb.bwt.event.FocusEvent#isTemporbry FocusEvent.isTemporbry}.
      * <p>
-     * If an input method provides its own windows, only windows that relate
-     * to the current composition (such as a lookup choice window) should be
-     * closed at this point.
-     * It is possible that the input method will be immediately activated again
-     * for a different client component, and closing and reopening more
-     * persistent windows (such as a control panel) would create unnecessary
+     * If bn input method provides its own windows, only windows thbt relbte
+     * to the current composition (such bs b lookup choice window) should be
+     * closed bt this point.
+     * It is possible thbt the input method will be immedibtely bctivbted bgbin
+     * for b different client component, bnd closing bnd reopening more
+     * persistent windows (such bs b control pbnel) would crebte unnecessbry
      * screen flicker.
-     * Before an instance of a different input method class is activated,
-     * {@link #hideWindows} is called on the current input method.
+     * Before bn instbnce of b different input method clbss is bctivbted,
+     * {@link #hideWindows} is cblled on the current input method.
      * <p>
-     * This method is called
+     * This method is cblled
      * <ul>
-     * <li>by {@link java.awt.im.InputContext#dispatchEvent InputContext.dispatchEvent}
-     *     when a client component receives a FOCUS_LOST event,
-     * <li>when switching from this input method to a different one using the
-     *     user interface or
-     *     {@link java.awt.im.InputContext#selectInputMethod InputContext.selectInputMethod},
+     * <li>by {@link jbvb.bwt.im.InputContext#dispbtchEvent InputContext.dispbtchEvent}
+     *     when b client component receives b FOCUS_LOST event,
+     * <li>when switching from this input method to b different one using the
+     *     user interfbce or
+     *     {@link jbvb.bwt.im.InputContext#selectInputMethod InputContext.selectInputMethod},
      * <li>before {@link #removeNotify removeNotify} if the current client component is
      *     removed.
      * </ul>
-     * The method is only called when the input method is active.
+     * The method is only cblled when the input method is bctive.
      *
-     * @param isTemporary whether the focus change is temporary
+     * @pbrbm isTemporbry whether the focus chbnge is temporbry
      */
-    public void deactivate(boolean isTemporary);
+    public void debctivbte(boolebn isTemporbry);
 
     /**
-     * Closes or hides all windows opened by this input method instance or
-     * its class.
+     * Closes or hides bll windows opened by this input method instbnce or
+     * its clbss.
      * <p>
-     * This method is called
+     * This method is cblled
      * <ul>
-     * <li>before calling {@link #activate activate} on an instance of a different input
-     *     method class,
-     * <li>before calling {@link #dispose dispose} on this input method.
+     * <li>before cblling {@link #bctivbte bctivbte} on bn instbnce of b different input
+     *     method clbss,
+     * <li>before cblling {@link #dispose dispose} on this input method.
      * </ul>
-     * The method is only called when the input method is inactive.
+     * The method is only cblled when the input method is inbctive.
      */
     public void hideWindows();
 
     /**
-     * Notifies the input method that a client component has been
-     * removed from its containment hierarchy, or that input method
-     * support has been disabled for the component.
+     * Notifies the input method thbt b client component hbs been
+     * removed from its contbinment hierbrchy, or thbt input method
+     * support hbs been disbbled for the component.
      * <p>
-     * This method is called by {@link java.awt.im.InputContext#removeNotify InputContext.removeNotify}.
+     * This method is cblled by {@link jbvb.bwt.im.InputContext#removeNotify InputContext.removeNotify}.
      * <p>
-     * The method is only called when the input method is inactive.
+     * The method is only cblled when the input method is inbctive.
      */
     public void removeNotify();
 
     /**
-     * Ends any input composition that may currently be going on in this
-     * context. Depending on the platform and possibly user preferences,
-     * this may commit or delete uncommitted text. Any changes to the text
-     * are communicated to the active component using an input method event.
+     * Ends bny input composition thbt mby currently be going on in this
+     * context. Depending on the plbtform bnd possibly user preferences,
+     * this mby commit or delete uncommitted text. Any chbnges to the text
+     * bre communicbted to the bctive component using bn input method event.
      *
      * <p>
-     * A text editing component may call this in a variety of situations,
-     * for example, when the user moves the insertion point within the text
+     * A text editing component mby cbll this in b vbriety of situbtions,
+     * for exbmple, when the user moves the insertion point within the text
      * (but outside the composed text), or when the component's text is
-     * saved to a file or copied to the clipboard.
+     * sbved to b file or copied to the clipbobrd.
      * <p>
-     * This method is called
+     * This method is cblled
      * <ul>
-     * <li>by {@link java.awt.im.InputContext#endComposition InputContext.endComposition},
-     * <li>by {@link java.awt.im.InputContext#dispatchEvent InputContext.dispatchEvent}
-     *     when switching to a different client component
-     * <li>when switching from this input method to a different one using the
-     *     user interface or
-     *     {@link java.awt.im.InputContext#selectInputMethod InputContext.selectInputMethod}.
+     * <li>by {@link jbvb.bwt.im.InputContext#endComposition InputContext.endComposition},
+     * <li>by {@link jbvb.bwt.im.InputContext#dispbtchEvent InputContext.dispbtchEvent}
+     *     when switching to b different client component
+     * <li>when switching from this input method to b different one using the
+     *     user interfbce or
+     *     {@link jbvb.bwt.im.InputContext#selectInputMethod InputContext.selectInputMethod}.
      * </ul>
      */
     public void endComposition();
 
     /**
-     * Releases the resources used by this input method.
-     * In particular, the input method should dispose windows and close files that are no
+     * Relebses the resources used by this input method.
+     * In pbrticulbr, the input method should dispose windows bnd close files thbt bre no
      * longer needed.
      * <p>
-     * This method is called by {@link java.awt.im.InputContext#dispose InputContext.dispose}.
+     * This method is cblled by {@link jbvb.bwt.im.InputContext#dispose InputContext.dispose}.
      * <p>
-     * The method is only called when the input method is inactive.
-     * No method of this interface is called on this instance after dispose.
+     * The method is only cblled when the input method is inbctive.
+     * No method of this interfbce is cblled on this instbnce bfter dispose.
      */
     public void dispose();
 
     /**
-     * Returns a control object from this input method, or null. A
-     * control object provides methods that control the behavior of the
-     * input method or obtain information from the input method. The type
-     * of the object is an input method specific class. Clients have to
-     * compare the result against known input method control object
-     * classes and cast to the appropriate class to invoke the methods
+     * Returns b control object from this input method, or null. A
+     * control object provides methods thbt control the behbvior of the
+     * input method or obtbin informbtion from the input method. The type
+     * of the object is bn input method specific clbss. Clients hbve to
+     * compbre the result bgbinst known input method control object
+     * clbsses bnd cbst to the bppropribte clbss to invoke the methods
      * provided.
      * <p>
-     * This method is called by
-     * {@link java.awt.im.InputContext#getInputMethodControlObject InputContext.getInputMethodControlObject}.
+     * This method is cblled by
+     * {@link jbvb.bwt.im.InputContext#getInputMethodControlObject InputContext.getInputMethodControlObject}.
      *
-     * @return a control object from this input method, or null
+     * @return b control object from this input method, or null
      */
     public Object getControlObject();
 

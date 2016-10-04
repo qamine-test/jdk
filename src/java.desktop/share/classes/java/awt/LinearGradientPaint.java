@@ -1,381 +1,381 @@
 /*
- * Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt;
+pbckbge jbvb.bwt;
 
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-import java.awt.image.ColorModel;
-import java.beans.ConstructorProperties;
+import jbvb.bwt.geom.AffineTrbnsform;
+import jbvb.bwt.geom.Point2D;
+import jbvb.bwt.geom.Rectbngle2D;
+import jbvb.bwt.imbge.ColorModel;
+import jbvb.bebns.ConstructorProperties;
 
 /**
- * The {@code LinearGradientPaint} class provides a way to fill
- * a {@link java.awt.Shape} with a linear color gradient pattern.  The user
- * may specify two or more gradient colors, and this paint will provide an
- * interpolation between each color.  The user also specifies start and end
- * points which define where in user space the color gradient should begin
- * and end.
+ * The {@code LinebrGrbdientPbint} clbss provides b wby to fill
+ * b {@link jbvb.bwt.Shbpe} with b linebr color grbdient pbttern.  The user
+ * mby specify two or more grbdient colors, bnd this pbint will provide bn
+ * interpolbtion between ebch color.  The user blso specifies stbrt bnd end
+ * points which define where in user spbce the color grbdient should begin
+ * bnd end.
  * <p>
- * The user must provide an array of floats specifying how to distribute the
- * colors along the gradient.  These values should range from 0.0 to 1.0 and
- * act like keyframes along the gradient (they mark where the gradient should
- * be exactly a particular color).
+ * The user must provide bn brrby of flobts specifying how to distribute the
+ * colors blong the grbdient.  These vblues should rbnge from 0.0 to 1.0 bnd
+ * bct like keyfrbmes blong the grbdient (they mbrk where the grbdient should
+ * be exbctly b pbrticulbr color).
  * <p>
- * In the event that the user does not set the first keyframe value equal
- * to 0 and/or the last keyframe value equal to 1, keyframes will be created
- * at these positions and the first and last colors will be replicated there.
- * So, if a user specifies the following arrays to construct a gradient:<br>
+ * In the event thbt the user does not set the first keyfrbme vblue equbl
+ * to 0 bnd/or the lbst keyfrbme vblue equbl to 1, keyfrbmes will be crebted
+ * bt these positions bnd the first bnd lbst colors will be replicbted there.
+ * So, if b user specifies the following brrbys to construct b grbdient:<br>
  * <pre>
  *     {Color.BLUE, Color.RED}, {.3f, .7f}
  * </pre>
- * this will be converted to a gradient with the following keyframes:<br>
+ * this will be converted to b grbdient with the following keyfrbmes:<br>
  * <pre>
  *     {Color.BLUE, Color.BLUE, Color.RED, Color.RED}, {0f, .3f, .7f, 1f}
  * </pre>
  *
  * <p>
- * The user may also select what action the {@code LinearGradientPaint} object
- * takes when it is filling the space outside the start and end points by
+ * The user mby blso select whbt bction the {@code LinebrGrbdientPbint} object
+ * tbkes when it is filling the spbce outside the stbrt bnd end points by
  * setting {@code CycleMethod} to either {@code REFLECTION} or {@code REPEAT}.
- * The distances between any two colors in any of the reflected or repeated
- * copies of the gradient are the same as the distance between those same two
- * colors between the start and end points.
- * Note that some minor variations in distances may occur due to sampling at
- * the granularity of a pixel.
+ * The distbnces between bny two colors in bny of the reflected or repebted
+ * copies of the grbdient bre the sbme bs the distbnce between those sbme two
+ * colors between the stbrt bnd end points.
+ * Note thbt some minor vbribtions in distbnces mby occur due to sbmpling bt
+ * the grbnulbrity of b pixel.
  * If no cycle method is specified, {@code NO_CYCLE} will be chosen by
- * default, which means the endpoint colors will be used to fill the
- * remaining area.
+ * defbult, which mebns the endpoint colors will be used to fill the
+ * rembining breb.
  * <p>
- * The colorSpace parameter allows the user to specify in which colorspace
- * the interpolation should be performed, default sRGB or linearized RGB.
+ * The colorSpbce pbrbmeter bllows the user to specify in which colorspbce
+ * the interpolbtion should be performed, defbult sRGB or linebrized RGB.
  *
  * <p>
- * The following code demonstrates typical usage of
- * {@code LinearGradientPaint}:
+ * The following code demonstrbtes typicbl usbge of
+ * {@code LinebrGrbdientPbint}:
  * <pre>
- *     Point2D start = new Point2D.Float(0, 0);
- *     Point2D end = new Point2D.Float(50, 50);
- *     float[] dist = {0.0f, 0.2f, 1.0f};
+ *     Point2D stbrt = new Point2D.Flobt(0, 0);
+ *     Point2D end = new Point2D.Flobt(50, 50);
+ *     flobt[] dist = {0.0f, 0.2f, 1.0f};
  *     Color[] colors = {Color.RED, Color.WHITE, Color.BLUE};
- *     LinearGradientPaint p =
- *         new LinearGradientPaint(start, end, dist, colors);
+ *     LinebrGrbdientPbint p =
+ *         new LinebrGrbdientPbint(stbrt, end, dist, colors);
  * </pre>
  * <p>
- * This code will create a {@code LinearGradientPaint} which interpolates
- * between red and white for the first 20% of the gradient and between white
- * and blue for the remaining 80%.
+ * This code will crebte b {@code LinebrGrbdientPbint} which interpolbtes
+ * between red bnd white for the first 20% of the grbdient bnd between white
+ * bnd blue for the rembining 80%.
  *
  * <p>
- * This image demonstrates the example code above for each
+ * This imbge demonstrbtes the exbmple code bbove for ebch
  * of the three cycle methods:
  * <center>
- * <img src = "doc-files/LinearGradientPaint.png"
- * alt="image showing the output of the example code">
+ * <img src = "doc-files/LinebrGrbdientPbint.png"
+ * blt="imbge showing the output of the exbmple code">
  * </center>
  *
- * @see java.awt.Paint
- * @see java.awt.Graphics2D#setPaint
- * @author Nicholas Talian, Vincent Hardy, Jim Graham, Jerry Evans
+ * @see jbvb.bwt.Pbint
+ * @see jbvb.bwt.Grbphics2D#setPbint
+ * @buthor Nicholbs Tblibn, Vincent Hbrdy, Jim Grbhbm, Jerry Evbns
  * @since 1.6
  */
-public final class LinearGradientPaint extends MultipleGradientPaint {
+public finbl clbss LinebrGrbdientPbint extends MultipleGrbdientPbint {
 
-    /** Gradient start and end points. */
-    private final Point2D start, end;
+    /** Grbdient stbrt bnd end points. */
+    privbte finbl Point2D stbrt, end;
 
     /**
-     * Constructs a {@code LinearGradientPaint} with a default
-     * {@code NO_CYCLE} repeating method and {@code SRGB} color space.
+     * Constructs b {@code LinebrGrbdientPbint} with b defbult
+     * {@code NO_CYCLE} repebting method bnd {@code SRGB} color spbce.
      *
-     * @param startX the X coordinate of the gradient axis start point
-     *               in user space
-     * @param startY the Y coordinate of the gradient axis start point
-     *               in user space
-     * @param endX   the X coordinate of the gradient axis end point
-     *               in user space
-     * @param endY   the Y coordinate of the gradient axis end point
-     *               in user space
-     * @param fractions numbers ranging from 0.0 to 1.0 specifying the
-     *                  distribution of colors along the gradient
-     * @param colors array of colors corresponding to each fractional value
+     * @pbrbm stbrtX the X coordinbte of the grbdient bxis stbrt point
+     *               in user spbce
+     * @pbrbm stbrtY the Y coordinbte of the grbdient bxis stbrt point
+     *               in user spbce
+     * @pbrbm endX   the X coordinbte of the grbdient bxis end point
+     *               in user spbce
+     * @pbrbm endY   the Y coordinbte of the grbdient bxis end point
+     *               in user spbce
+     * @pbrbm frbctions numbers rbnging from 0.0 to 1.0 specifying the
+     *                  distribution of colors blong the grbdient
+     * @pbrbm colors brrby of colors corresponding to ebch frbctionbl vblue
      *
      * @throws NullPointerException
-     * if {@code fractions} array is null,
-     * or {@code colors} array is null,
-     * @throws IllegalArgumentException
-     * if start and end points are the same points,
-     * or {@code fractions.length != colors.length},
-     * or {@code colors} is less than 2 in size,
-     * or a {@code fractions} value is less than 0.0 or greater than 1.0,
-     * or the {@code fractions} are not provided in strictly increasing order
+     * if {@code frbctions} brrby is null,
+     * or {@code colors} brrby is null,
+     * @throws IllegblArgumentException
+     * if stbrt bnd end points bre the sbme points,
+     * or {@code frbctions.length != colors.length},
+     * or {@code colors} is less thbn 2 in size,
+     * or b {@code frbctions} vblue is less thbn 0.0 or grebter thbn 1.0,
+     * or the {@code frbctions} bre not provided in strictly increbsing order
      */
-    public LinearGradientPaint(float startX, float startY,
-                               float endX, float endY,
-                               float[] fractions, Color[] colors)
+    public LinebrGrbdientPbint(flobt stbrtX, flobt stbrtY,
+                               flobt endX, flobt endY,
+                               flobt[] frbctions, Color[] colors)
     {
-        this(new Point2D.Float(startX, startY),
-             new Point2D.Float(endX, endY),
-             fractions,
+        this(new Point2D.Flobt(stbrtX, stbrtY),
+             new Point2D.Flobt(endX, endY),
+             frbctions,
              colors,
              CycleMethod.NO_CYCLE);
     }
 
     /**
-     * Constructs a {@code LinearGradientPaint} with a default {@code SRGB}
-     * color space.
+     * Constructs b {@code LinebrGrbdientPbint} with b defbult {@code SRGB}
+     * color spbce.
      *
-     * @param startX the X coordinate of the gradient axis start point
-     *               in user space
-     * @param startY the Y coordinate of the gradient axis start point
-     *               in user space
-     * @param endX   the X coordinate of the gradient axis end point
-     *               in user space
-     * @param endY   the Y coordinate of the gradient axis end point
-     *               in user space
-     * @param fractions numbers ranging from 0.0 to 1.0 specifying the
-     *                  distribution of colors along the gradient
-     * @param colors array of colors corresponding to each fractional value
-     * @param cycleMethod either {@code NO_CYCLE}, {@code REFLECT},
+     * @pbrbm stbrtX the X coordinbte of the grbdient bxis stbrt point
+     *               in user spbce
+     * @pbrbm stbrtY the Y coordinbte of the grbdient bxis stbrt point
+     *               in user spbce
+     * @pbrbm endX   the X coordinbte of the grbdient bxis end point
+     *               in user spbce
+     * @pbrbm endY   the Y coordinbte of the grbdient bxis end point
+     *               in user spbce
+     * @pbrbm frbctions numbers rbnging from 0.0 to 1.0 specifying the
+     *                  distribution of colors blong the grbdient
+     * @pbrbm colors brrby of colors corresponding to ebch frbctionbl vblue
+     * @pbrbm cycleMethod either {@code NO_CYCLE}, {@code REFLECT},
      *                    or {@code REPEAT}
      *
      * @throws NullPointerException
-     * if {@code fractions} array is null,
-     * or {@code colors} array is null,
+     * if {@code frbctions} brrby is null,
+     * or {@code colors} brrby is null,
      * or {@code cycleMethod} is null
-     * @throws IllegalArgumentException
-     * if start and end points are the same points,
-     * or {@code fractions.length != colors.length},
-     * or {@code colors} is less than 2 in size,
-     * or a {@code fractions} value is less than 0.0 or greater than 1.0,
-     * or the {@code fractions} are not provided in strictly increasing order
+     * @throws IllegblArgumentException
+     * if stbrt bnd end points bre the sbme points,
+     * or {@code frbctions.length != colors.length},
+     * or {@code colors} is less thbn 2 in size,
+     * or b {@code frbctions} vblue is less thbn 0.0 or grebter thbn 1.0,
+     * or the {@code frbctions} bre not provided in strictly increbsing order
      */
-    public LinearGradientPaint(float startX, float startY,
-                               float endX, float endY,
-                               float[] fractions, Color[] colors,
+    public LinebrGrbdientPbint(flobt stbrtX, flobt stbrtY,
+                               flobt endX, flobt endY,
+                               flobt[] frbctions, Color[] colors,
                                CycleMethod cycleMethod)
     {
-        this(new Point2D.Float(startX, startY),
-             new Point2D.Float(endX, endY),
-             fractions,
+        this(new Point2D.Flobt(stbrtX, stbrtY),
+             new Point2D.Flobt(endX, endY),
+             frbctions,
              colors,
              cycleMethod);
     }
 
     /**
-     * Constructs a {@code LinearGradientPaint} with a default
-     * {@code NO_CYCLE} repeating method and {@code SRGB} color space.
+     * Constructs b {@code LinebrGrbdientPbint} with b defbult
+     * {@code NO_CYCLE} repebting method bnd {@code SRGB} color spbce.
      *
-     * @param start the gradient axis start {@code Point2D} in user space
-     * @param end the gradient axis end {@code Point2D} in user space
-     * @param fractions numbers ranging from 0.0 to 1.0 specifying the
-     *                  distribution of colors along the gradient
-     * @param colors array of colors corresponding to each fractional value
+     * @pbrbm stbrt the grbdient bxis stbrt {@code Point2D} in user spbce
+     * @pbrbm end the grbdient bxis end {@code Point2D} in user spbce
+     * @pbrbm frbctions numbers rbnging from 0.0 to 1.0 specifying the
+     *                  distribution of colors blong the grbdient
+     * @pbrbm colors brrby of colors corresponding to ebch frbctionbl vblue
      *
      * @throws NullPointerException
      * if one of the points is null,
-     * or {@code fractions} array is null,
-     * or {@code colors} array is null
-     * @throws IllegalArgumentException
-     * if start and end points are the same points,
-     * or {@code fractions.length != colors.length},
-     * or {@code colors} is less than 2 in size,
-     * or a {@code fractions} value is less than 0.0 or greater than 1.0,
-     * or the {@code fractions} are not provided in strictly increasing order
+     * or {@code frbctions} brrby is null,
+     * or {@code colors} brrby is null
+     * @throws IllegblArgumentException
+     * if stbrt bnd end points bre the sbme points,
+     * or {@code frbctions.length != colors.length},
+     * or {@code colors} is less thbn 2 in size,
+     * or b {@code frbctions} vblue is less thbn 0.0 or grebter thbn 1.0,
+     * or the {@code frbctions} bre not provided in strictly increbsing order
      */
-    public LinearGradientPaint(Point2D start, Point2D end,
-                               float[] fractions, Color[] colors)
+    public LinebrGrbdientPbint(Point2D stbrt, Point2D end,
+                               flobt[] frbctions, Color[] colors)
     {
-        this(start, end,
-             fractions, colors,
+        this(stbrt, end,
+             frbctions, colors,
              CycleMethod.NO_CYCLE);
     }
 
     /**
-     * Constructs a {@code LinearGradientPaint} with a default {@code SRGB}
-     * color space.
+     * Constructs b {@code LinebrGrbdientPbint} with b defbult {@code SRGB}
+     * color spbce.
      *
-     * @param start the gradient axis start {@code Point2D} in user space
-     * @param end the gradient axis end {@code Point2D} in user space
-     * @param fractions numbers ranging from 0.0 to 1.0 specifying the
-     *                  distribution of colors along the gradient
-     * @param colors array of colors corresponding to each fractional value
-     * @param cycleMethod either {@code NO_CYCLE}, {@code REFLECT},
+     * @pbrbm stbrt the grbdient bxis stbrt {@code Point2D} in user spbce
+     * @pbrbm end the grbdient bxis end {@code Point2D} in user spbce
+     * @pbrbm frbctions numbers rbnging from 0.0 to 1.0 specifying the
+     *                  distribution of colors blong the grbdient
+     * @pbrbm colors brrby of colors corresponding to ebch frbctionbl vblue
+     * @pbrbm cycleMethod either {@code NO_CYCLE}, {@code REFLECT},
      *                    or {@code REPEAT}
      *
      * @throws NullPointerException
      * if one of the points is null,
-     * or {@code fractions} array is null,
-     * or {@code colors} array is null,
+     * or {@code frbctions} brrby is null,
+     * or {@code colors} brrby is null,
      * or {@code cycleMethod} is null
-     * @throws IllegalArgumentException
-     * if start and end points are the same points,
-     * or {@code fractions.length != colors.length},
-     * or {@code colors} is less than 2 in size,
-     * or a {@code fractions} value is less than 0.0 or greater than 1.0,
-     * or the {@code fractions} are not provided in strictly increasing order
+     * @throws IllegblArgumentException
+     * if stbrt bnd end points bre the sbme points,
+     * or {@code frbctions.length != colors.length},
+     * or {@code colors} is less thbn 2 in size,
+     * or b {@code frbctions} vblue is less thbn 0.0 or grebter thbn 1.0,
+     * or the {@code frbctions} bre not provided in strictly increbsing order
      */
-    public LinearGradientPaint(Point2D start, Point2D end,
-                               float[] fractions, Color[] colors,
+    public LinebrGrbdientPbint(Point2D stbrt, Point2D end,
+                               flobt[] frbctions, Color[] colors,
                                CycleMethod cycleMethod)
     {
-        this(start, end,
-             fractions, colors,
+        this(stbrt, end,
+             frbctions, colors,
              cycleMethod,
-             ColorSpaceType.SRGB,
-             new AffineTransform());
+             ColorSpbceType.SRGB,
+             new AffineTrbnsform());
     }
 
     /**
-     * Constructs a {@code LinearGradientPaint}.
+     * Constructs b {@code LinebrGrbdientPbint}.
      *
-     * @param start the gradient axis start {@code Point2D} in user space
-     * @param end the gradient axis end {@code Point2D} in user space
-     * @param fractions numbers ranging from 0.0 to 1.0 specifying the
-     *                  distribution of colors along the gradient
-     * @param colors array of colors corresponding to each fractional value
-     * @param cycleMethod either {@code NO_CYCLE}, {@code REFLECT},
+     * @pbrbm stbrt the grbdient bxis stbrt {@code Point2D} in user spbce
+     * @pbrbm end the grbdient bxis end {@code Point2D} in user spbce
+     * @pbrbm frbctions numbers rbnging from 0.0 to 1.0 specifying the
+     *                  distribution of colors blong the grbdient
+     * @pbrbm colors brrby of colors corresponding to ebch frbctionbl vblue
+     * @pbrbm cycleMethod either {@code NO_CYCLE}, {@code REFLECT},
      *                    or {@code REPEAT}
-     * @param colorSpace which color space to use for interpolation,
+     * @pbrbm colorSpbce which color spbce to use for interpolbtion,
      *                   either {@code SRGB} or {@code LINEAR_RGB}
-     * @param gradientTransform transform to apply to the gradient
+     * @pbrbm grbdientTrbnsform trbnsform to bpply to the grbdient
      *
      * @throws NullPointerException
      * if one of the points is null,
-     * or {@code fractions} array is null,
-     * or {@code colors} array is null,
+     * or {@code frbctions} brrby is null,
+     * or {@code colors} brrby is null,
      * or {@code cycleMethod} is null,
-     * or {@code colorSpace} is null,
-     * or {@code gradientTransform} is null
-     * @throws IllegalArgumentException
-     * if start and end points are the same points,
-     * or {@code fractions.length != colors.length},
-     * or {@code colors} is less than 2 in size,
-     * or a {@code fractions} value is less than 0.0 or greater than 1.0,
-     * or the {@code fractions} are not provided in strictly increasing order
+     * or {@code colorSpbce} is null,
+     * or {@code grbdientTrbnsform} is null
+     * @throws IllegblArgumentException
+     * if stbrt bnd end points bre the sbme points,
+     * or {@code frbctions.length != colors.length},
+     * or {@code colors} is less thbn 2 in size,
+     * or b {@code frbctions} vblue is less thbn 0.0 or grebter thbn 1.0,
+     * or the {@code frbctions} bre not provided in strictly increbsing order
      */
-    @ConstructorProperties({ "startPoint", "endPoint", "fractions", "colors", "cycleMethod", "colorSpace", "transform" })
-    public LinearGradientPaint(Point2D start, Point2D end,
-                               float[] fractions, Color[] colors,
+    @ConstructorProperties({ "stbrtPoint", "endPoint", "frbctions", "colors", "cycleMethod", "colorSpbce", "trbnsform" })
+    public LinebrGrbdientPbint(Point2D stbrt, Point2D end,
+                               flobt[] frbctions, Color[] colors,
                                CycleMethod cycleMethod,
-                               ColorSpaceType colorSpace,
-                               AffineTransform gradientTransform)
+                               ColorSpbceType colorSpbce,
+                               AffineTrbnsform grbdientTrbnsform)
     {
-        super(fractions, colors, cycleMethod, colorSpace, gradientTransform);
+        super(frbctions, colors, cycleMethod, colorSpbce, grbdientTrbnsform);
 
-        // check input parameters
-        if (start == null || end == null) {
-            throw new NullPointerException("Start and end points must be" +
+        // check input pbrbmeters
+        if (stbrt == null || end == null) {
+            throw new NullPointerException("Stbrt bnd end points must be" +
                                            "non-null");
         }
 
-        if (start.equals(end)) {
-            throw new IllegalArgumentException("Start point cannot equal" +
+        if (stbrt.equbls(end)) {
+            throw new IllegblArgumentException("Stbrt point cbnnot equbl" +
                                                "endpoint");
         }
 
         // copy the points...
-        this.start = new Point2D.Double(start.getX(), start.getY());
+        this.stbrt = new Point2D.Double(stbrt.getX(), stbrt.getY());
         this.end = new Point2D.Double(end.getX(), end.getY());
     }
 
     /**
-     * Creates and returns a {@link PaintContext} used to
-     * generate a linear color gradient pattern.
-     * See the {@link Paint#createContext specification} of the
-     * method in the {@link Paint} interface for information
-     * on null parameter handling.
+     * Crebtes bnd returns b {@link PbintContext} used to
+     * generbte b linebr color grbdient pbttern.
+     * See the {@link Pbint#crebteContext specificbtion} of the
+     * method in the {@link Pbint} interfbce for informbtion
+     * on null pbrbmeter hbndling.
      *
-     * @param cm the preferred {@link ColorModel} which represents the most convenient
-     *           format for the caller to receive the pixel data, or {@code null}
+     * @pbrbm cm the preferred {@link ColorModel} which represents the most convenient
+     *           formbt for the cbller to receive the pixel dbtb, or {@code null}
      *           if there is no preference.
-     * @param deviceBounds the device space bounding box
-     *                     of the graphics primitive being rendered.
-     * @param userBounds the user space bounding box
-     *                   of the graphics primitive being rendered.
-     * @param transform the {@link AffineTransform} from user
-     *              space into device space.
-     * @param hints the set of hints that the context object can use to
-     *              choose between rendering alternatives.
-     * @return the {@code PaintContext} for
-     *         generating color patterns.
-     * @see Paint
-     * @see PaintContext
+     * @pbrbm deviceBounds the device spbce bounding box
+     *                     of the grbphics primitive being rendered.
+     * @pbrbm userBounds the user spbce bounding box
+     *                   of the grbphics primitive being rendered.
+     * @pbrbm trbnsform the {@link AffineTrbnsform} from user
+     *              spbce into device spbce.
+     * @pbrbm hints the set of hints thbt the context object cbn use to
+     *              choose between rendering blternbtives.
+     * @return the {@code PbintContext} for
+     *         generbting color pbtterns.
+     * @see Pbint
+     * @see PbintContext
      * @see ColorModel
-     * @see Rectangle
-     * @see Rectangle2D
-     * @see AffineTransform
+     * @see Rectbngle
+     * @see Rectbngle2D
+     * @see AffineTrbnsform
      * @see RenderingHints
      */
-    public PaintContext createContext(ColorModel cm,
-                                      Rectangle deviceBounds,
-                                      Rectangle2D userBounds,
-                                      AffineTransform transform,
+    public PbintContext crebteContext(ColorModel cm,
+                                      Rectbngle deviceBounds,
+                                      Rectbngle2D userBounds,
+                                      AffineTrbnsform trbnsform,
                                       RenderingHints hints)
     {
-        // avoid modifying the user's transform...
-        transform = new AffineTransform(transform);
-        // incorporate the gradient transform
-        transform.concatenate(gradientTransform);
+        // bvoid modifying the user's trbnsform...
+        trbnsform = new AffineTrbnsform(trbnsform);
+        // incorporbte the grbdient trbnsform
+        trbnsform.concbtenbte(grbdientTrbnsform);
 
-        if ((fractions.length == 2) &&
+        if ((frbctions.length == 2) &&
             (cycleMethod != CycleMethod.REPEAT) &&
-            (colorSpace == ColorSpaceType.SRGB))
+            (colorSpbce == ColorSpbceType.SRGB))
         {
-            // faster to use the basic GradientPaintContext for this
-            // common case
-            boolean cyclic = (cycleMethod != CycleMethod.NO_CYCLE);
-            return new GradientPaintContext(cm, start, end,
-                                            transform,
+            // fbster to use the bbsic GrbdientPbintContext for this
+            // common cbse
+            boolebn cyclic = (cycleMethod != CycleMethod.NO_CYCLE);
+            return new GrbdientPbintContext(cm, stbrt, end,
+                                            trbnsform,
                                             colors[0], colors[1],
                                             cyclic);
         } else {
-            return new LinearGradientPaintContext(this, cm,
+            return new LinebrGrbdientPbintContext(this, cm,
                                                   deviceBounds, userBounds,
-                                                  transform, hints,
-                                                  start, end,
-                                                  fractions, colors,
-                                                  cycleMethod, colorSpace);
+                                                  trbnsform, hints,
+                                                  stbrt, end,
+                                                  frbctions, colors,
+                                                  cycleMethod, colorSpbce);
         }
     }
 
     /**
-     * Returns a copy of the start point of the gradient axis.
+     * Returns b copy of the stbrt point of the grbdient bxis.
      *
-     * @return a {@code Point2D} object that is a copy of the point
-     * that anchors the first color of this {@code LinearGradientPaint}
+     * @return b {@code Point2D} object thbt is b copy of the point
+     * thbt bnchors the first color of this {@code LinebrGrbdientPbint}
      */
-    public Point2D getStartPoint() {
-        return new Point2D.Double(start.getX(), start.getY());
+    public Point2D getStbrtPoint() {
+        return new Point2D.Double(stbrt.getX(), stbrt.getY());
     }
 
     /**
-     * Returns a copy of the end point of the gradient axis.
+     * Returns b copy of the end point of the grbdient bxis.
      *
-     * @return a {@code Point2D} object that is a copy of the point
-     * that anchors the last color of this {@code LinearGradientPaint}
+     * @return b {@code Point2D} object thbt is b copy of the point
+     * thbt bnchors the lbst color of this {@code LinebrGrbdientPbint}
      */
     public Point2D getEndPoint() {
         return new Point2D.Double(end.getX(), end.getY());

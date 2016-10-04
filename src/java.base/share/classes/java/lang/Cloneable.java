@@ -1,54 +1,54 @@
 /*
- * Copyright (c) 1995, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2004, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.lang;
+pbckbge jbvb.lbng;
 
 /**
- * A class implements the <code>Cloneable</code> interface to
- * indicate to the {@link java.lang.Object#clone()} method that it
- * is legal for that method to make a
- * field-for-field copy of instances of that class.
+ * A clbss implements the <code>Clonebble</code> interfbce to
+ * indicbte to the {@link jbvb.lbng.Object#clone()} method thbt it
+ * is legbl for thbt method to mbke b
+ * field-for-field copy of instbnces of thbt clbss.
  * <p>
- * Invoking Object's clone method on an instance that does not implement the
- * <code>Cloneable</code> interface results in the exception
+ * Invoking Object's clone method on bn instbnce thbt does not implement the
+ * <code>Clonebble</code> interfbce results in the exception
  * <code>CloneNotSupportedException</code> being thrown.
  * <p>
- * By convention, classes that implement this interface should override
- * <tt>Object.clone</tt> (which is protected) with a public method.
- * See {@link java.lang.Object#clone()} for details on overriding this
+ * By convention, clbsses thbt implement this interfbce should override
+ * <tt>Object.clone</tt> (which is protected) with b public method.
+ * See {@link jbvb.lbng.Object#clone()} for detbils on overriding this
  * method.
  * <p>
- * Note that this interface does <i>not</i> contain the <tt>clone</tt> method.
- * Therefore, it is not possible to clone an object merely by virtue of the
- * fact that it implements this interface.  Even if the clone method is invoked
- * reflectively, there is no guarantee that it will succeed.
+ * Note thbt this interfbce does <i>not</i> contbin the <tt>clone</tt> method.
+ * Therefore, it is not possible to clone bn object merely by virtue of the
+ * fbct thbt it implements this interfbce.  Even if the clone method is invoked
+ * reflectively, there is no gubrbntee thbt it will succeed.
  *
- * @author  unascribed
- * @see     java.lang.CloneNotSupportedException
- * @see     java.lang.Object#clone()
+ * @buthor  unbscribed
+ * @see     jbvb.lbng.CloneNotSupportedException
+ * @see     jbvb.lbng.Object#clone()
  * @since   1.0
  */
-public interface Cloneable {
+public interfbce Clonebble {
 }

@@ -1,133 +1,133 @@
 '\" t
-.\"  Copyright (c) 2001, 2013, Oracle and/or its affiliates. All rights reserved.
+.\"  Copyright (c) 2001, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
 .\"
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
-.\" This code is free software; you can redistribute it and/or modify it
-.\" under the terms of the GNU General Public License version 2 only, as
-.\" published by the Free Software Foundation.
+.\" This code is free softwbre; you cbn redistribute it bnd/or modify it
+.\" under the terms of the GNU Generbl Public License version 2 only, bs
+.\" published by the Free Softwbre Foundbtion.
 .\"
-.\" This code is distributed in the hope that it will be useful, but WITHOUT
-.\" ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
-.\" version 2 for more details (a copy is included in the LICENSE file that
-.\" accompanied this code).
+.\" This code is distributed in the hope thbt it will be useful, but WITHOUT
+.\" ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU Generbl Public License
+.\" version 2 for more detbils (b copy is included in the LICENSE file thbt
+.\" bccompbnied this code).
 .\"
-.\" You should have received a copy of the GNU General Public License version
-.\" 2 along with this work; if not, write to the Free Software Foundation,
-.\" Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\" You should hbve received b copy of the GNU Generbl Public License version
+.\" 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+.\" Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 .\"
-.\" Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-.\" or visit www.oracle.com if you need additional information or have any
+.\" Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+.\" or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
 .\" questions.
 .\"
 .\"     Arch: generic
-.\"     Software: JDK 8
-.\"     Date: 21 November 2013
-.\"     SectDesc: Java IDL and RMI-IIOP Tools
+.\"     Softwbre: JDK 8
+.\"     Dbte: 21 November 2013
+.\"     SectDesc: Jbvb IDL bnd RMI-IIOP Tools
 .\"     Title: servertool.1
 .\"
 .if n .pl 99999
-.TH servertool 1 "21 November 2013" "JDK 8" "Java IDL and RMI-IIOP Tools"
+.TH servertool 1 "21 November 2013" "JDK 8" "Jbvb IDL bnd RMI-IIOP Tools"
 .\" -----------------------------------------------------------------
-.\" * Define some portability stuff
+.\" * Define some portbbility stuff
 .\" -----------------------------------------------------------------
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.\" http://bugs.debian.org/507673
-.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" http://bugs.debibn.org/507673
+.\" http://lists.gnu.org/brchive/html/groff/2009-02/msg00013.html
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.ie \n(.g .ds Aq \(aq
+.ie \n(.g .ds Aq \(bq
 .el       .ds Aq '
 .\" -----------------------------------------------------------------
-.\" * set default formatting
+.\" * set defbult formbtting
 .\" -----------------------------------------------------------------
-.\" disable hyphenation
+.\" disbble hyphenbtion
 .nh
-.\" disable justification (adjust text to left margin only)
-.ad l
+.\" disbble justificbtion (bdjust text to left mbrgin only)
+.bd l
 .\" -----------------------------------------------------------------
 .\" * MAIN CONTENT STARTS HERE *
 .\" -----------------------------------------------------------------
 
 .SH NAME    
-servertool \- Provides an easy-to-use interface for developers to register, unregister, start up, and shut down a persistent server\&.
+servertool \- Provides bn ebsy-to-use interfbce for developers to register, unregister, stbrt up, bnd shut down b persistent server\&.
 .SH SYNOPSIS    
 .sp     
 .nf     
 
-\fBservertool\fR \-ORBInitialPort \fInameserverport\fR [ \fIoptions\fR ] [ \fIcommands \fR]
+\fBservertool\fR \-ORBInitiblPort \fInbmeserverport\fR [ \fIoptions\fR ] [ \fIcommbnds \fR]
 .fi     
 .sp     
 .TP     
 \fIoptions\fR
-The command-line options\&. See Options\&.
+The commbnd-line options\&. See Options\&.
 .TP     
-commands
-The command-line commands\&. See Commands\&.
+commbnds
+The commbnd-line commbnds\&. See Commbnds\&.
 .SH DESCRIPTION    
-The \f3servertool\fR command provides the command-line interface for developers to register, unregister, start up, and shut down a persistent server\&. Command-line commands let you obtain various statistical information about the server\&. See Commands\&.
+The \f3servertool\fR commbnd provides the commbnd-line interfbce for developers to register, unregister, stbrt up, bnd shut down b persistent server\&. Commbnd-line commbnds let you obtbin vbrious stbtisticbl informbtion bbout the server\&. See Commbnds\&.
 .SH OPTIONS    
 .TP
--ORBInitialHost \fInameserverhost\fR
+-ORBInitiblHost \fInbmeserverhost\fR
 .br
-This options is required\&. It specifies the host machine on which the name server runs and listens for incoming requests\&. The \f3nameserverhost\fR value must specify the port on which the \f3orb\fR is running and listening for requests\&. The value defaults to \f3localhost\fR when this option is not specified\&. If \f3orbd\fR and \f3servertool\fR are running on different machines, then you must specify the name or IP address of the host on which \f3orbd\fR is running\&.
+This options is required\&. It specifies the host mbchine on which the nbme server runs bnd listens for incoming requests\&. The \f3nbmeserverhost\fR vblue must specify the port on which the \f3orb\fR is running bnd listening for requests\&. The vblue defbults to \f3locblhost\fR when this option is not specified\&. If \f3orbd\fR bnd \f3servertool\fR bre running on different mbchines, then you must specify the nbme or IP bddress of the host on which \f3orbd\fR is running\&.
 
-\fINote:\fR On Oracle Solaris, you must become a root user to start a process on a port below 1024\&. Oracle recommends that you use a port number above or equal to 1024 for the \f3nameserverport\fR value\&.
+\fINote:\fR On Orbcle Solbris, you must become b root user to stbrt b process on b port below 1024\&. Orbcle recommends thbt you use b port number bbove or equbl to 1024 for the \f3nbmeserverport\fR vblue\&.
 .TP
 -J\fIoption\fR
 .br
-Passes \f3option\fR to the Java Virtual Machine, where \f3option\fR is one of the options described on the reference page for the Java application launcher\&. For example, \f3-J-Xms48m\fR sets the startup memory to 48 MB\&. See java(1)\&.
+Pbsses \f3option\fR to the Jbvb Virtubl Mbchine, where \f3option\fR is one of the options described on the reference pbge for the Jbvb bpplicbtion lbuncher\&. For exbmple, \f3-J-Xms48m\fR sets the stbrtup memory to 48 MB\&. See jbvb(1)\&.
 .SH COMMANDS    
-You can start the \f3servertool\fR command with or without a command-line command\&.
+You cbn stbrt the \f3servertool\fR commbnd with or without b commbnd-line commbnd\&.
 .TP 0.2i    
 \(bu
-If you did not specify a command when you started \f3servertool\fR, then the command-line tool displays the \f3servertool\fR prompt where you can enter commands: \f3servertool >\fR\&.
+If you did not specify b commbnd when you stbrted \f3servertool\fR, then the commbnd-line tool displbys the \f3servertool\fR prompt where you cbn enter commbnds: \f3servertool >\fR\&.
 .TP 0.2i    
 \(bu
-If you specify a command when you start \f3servertool\fR, then the Java IDL Server Tool starts, executes the command, and exits\&.
+If you specify b commbnd when you stbrt \f3servertool\fR, then the Jbvb IDL Server Tool stbrts, executes the commbnd, bnd exits\&.
 .TP     
 .ll 180
-register -server \fIserver-class-name\fR -classpath \fIclasspath-to-server\fR [ -applicationName \fIapplication-name\fR -args \fIargs-to-server\fR -vmargs \fIflags-for-JVM\fR ]
-Registers a new persistent server with the Object Request Broker Daemon (ORBD)\&. If the server is not already registered, then it is registered and activated\&. This command causes an installation method to be called in the \f3main\fR class of the server identified by the \f3-server\fR option\&. The installation method must be \f3public static void install(org\&.omg\&.CORBA\&.ORB)\fR\&. The install method is optional and lets developers provide their own server installation behavior, such as creating a database schema\&.
+register -server \fIserver-clbss-nbme\fR -clbsspbth \fIclbsspbth-to-server\fR [ -bpplicbtionNbme \fIbpplicbtion-nbme\fR -brgs \fIbrgs-to-server\fR -vmbrgs \fIflbgs-for-JVM\fR ]
+Registers b new persistent server with the Object Request Broker Dbemon (ORBD)\&. If the server is not blrebdy registered, then it is registered bnd bctivbted\&. This commbnd cbuses bn instbllbtion method to be cblled in the \f3mbin\fR clbss of the server identified by the \f3-server\fR option\&. The instbllbtion method must be \f3public stbtic void instbll(org\&.omg\&.CORBA\&.ORB)\fR\&. The instbll method is optionbl bnd lets developers provide their own server instbllbtion behbvior, such bs crebting b dbtbbbse schemb\&.
 .TP     
 .ll 180
-unregister -serverid \fIserver-id\fR | -applicationName \fIapplication-name\fR
-Unregisters a server from the ORBD with either its server ID or its application name\&. This command causes an uninstallation method to be called in the \f3main\fR class of the server identified by the \f3-server\fR option\&. The \f3uninstall\fR method must be \f3public static void uninstall(org\&.omg\&.CORBA\&.ORB)\fR\&. The \f3uninstall\fR method is optional and lets developers provide their own server uninstallation behavior, such as undoing the behavior of the \f3install\fR method\&.
+unregister -serverid \fIserver-id\fR | -bpplicbtionNbme \fIbpplicbtion-nbme\fR
+Unregisters b server from the ORBD with either its server ID or its bpplicbtion nbme\&. This commbnd cbuses bn uninstbllbtion method to be cblled in the \f3mbin\fR clbss of the server identified by the \f3-server\fR option\&. The \f3uninstbll\fR method must be \f3public stbtic void uninstbll(org\&.omg\&.CORBA\&.ORB)\fR\&. The \f3uninstbll\fR method is optionbl bnd lets developers provide their own server uninstbllbtion behbvior, such bs undoing the behbvior of the \f3instbll\fR method\&.
 .TP     
-getserverid -applicationName \fIapplication-name\fR
-Returns the server ID that corresponds to the \f3application-name\fR value\&.
+getserverid -bpplicbtionNbme \fIbpplicbtion-nbme\fR
+Returns the server ID thbt corresponds to the \f3bpplicbtion-nbme\fR vblue\&.
 .TP     
 list
-Lists information about all persistent servers registered with the ORBD\&.
+Lists informbtion bbout bll persistent servers registered with the ORBD\&.
 .TP     
-listappnames
-Lists the application names for all servers currently registered with the ORBD\&.
+listbppnbmes
+Lists the bpplicbtion nbmes for bll servers currently registered with the ORBD\&.
 .TP     
-listactive
-Lists information about all persistent servers that were started by the ORBD and are currently running\&.
-.TP     
-.ll 180
-locate -serverid \fIserver-id\fR | -applicationName \fIapplication-name\fR [ -endpointType \fIendpointType\fR ]
-Locates the endpoints (ports) of a specific type for all ORBs created by a registered server\&. If a server is not already running, then it is activated\&. If an \f3endpointType\fR value is not specified, then the plain/non-protected endpoint associated with each ORB in a server is returned\&.
+listbctive
+Lists informbtion bbout bll persistent servers thbt were stbrted by the ORBD bnd bre currently running\&.
 .TP     
 .ll 180
-locateperorb -serverid \fIserver-id\fR | -applicationName \fIapplication-name\fR [ -orbid \fIORB-name\fR ]
-Locates all the endpoints (ports) registered by a specific Object Request Broker (ORB) of registered server\&. If a server is not already running, then it is activated\&. If an \f3orbid\fR is not specified, then the default value of \f3""\fR is assigned to the \f3orbid\fR\&. If any ORBs are created with an \f3orbid\fR of empty string, then all ports registered by it are returned\&.
+locbte -serverid \fIserver-id\fR | -bpplicbtionNbme \fIbpplicbtion-nbme\fR [ -endpointType \fIendpointType\fR ]
+Locbtes the endpoints (ports) of b specific type for bll ORBs crebted by b registered server\&. If b server is not blrebdy running, then it is bctivbted\&. If bn \f3endpointType\fR vblue is not specified, then the plbin/non-protected endpoint bssocibted with ebch ORB in b server is returned\&.
 .TP     
-orblist -serverid \fIserver-id\fR | -applicationName \fIapplication-name\fR
-Lists the \f3ORBId\fR of the ORBs defined on a server\&. An \f3ORBId\fR is the string name for the ORB created by the server\&. If the server is not already running, then it is activated\&.
+.ll 180
+locbteperorb -serverid \fIserver-id\fR | -bpplicbtionNbme \fIbpplicbtion-nbme\fR [ -orbid \fIORB-nbme\fR ]
+Locbtes bll the endpoints (ports) registered by b specific Object Request Broker (ORB) of registered server\&. If b server is not blrebdy running, then it is bctivbted\&. If bn \f3orbid\fR is not specified, then the defbult vblue of \f3""\fR is bssigned to the \f3orbid\fR\&. If bny ORBs bre crebted with bn \f3orbid\fR of empty string, then bll ports registered by it bre returned\&.
 .TP     
-shutdown -serverid \fIserver-id\fR | -applicationName application-name
-Shut down an active server that is registered with ORBD\&. During execution of this command, the \f3shutdown\fR method defined in the class specified by either the \f3-serverid\fR or \f3-applicationName\fR parameter is also called to shut down the server process\&.
+orblist -serverid \fIserver-id\fR | -bpplicbtionNbme \fIbpplicbtion-nbme\fR
+Lists the \f3ORBId\fR of the ORBs defined on b server\&. An \f3ORBId\fR is the string nbme for the ORB crebted by the server\&. If the server is not blrebdy running, then it is bctivbted\&.
 .TP     
-startup -serverid \fIserver-id\fR | -applicationName application-name
-Starts up or activate a server that is registered with ORBD\&. If the server is not running, then this command starts the server\&. If the server is already running, then an error message is displayed\&.
+shutdown -serverid \fIserver-id\fR | -bpplicbtionNbme bpplicbtion-nbme
+Shut down bn bctive server thbt is registered with ORBD\&. During execution of this commbnd, the \f3shutdown\fR method defined in the clbss specified by either the \f3-serverid\fR or \f3-bpplicbtionNbme\fR pbrbmeter is blso cblled to shut down the server process\&.
+.TP     
+stbrtup -serverid \fIserver-id\fR | -bpplicbtionNbme bpplicbtion-nbme
+Stbrts up or bctivbte b server thbt is registered with ORBD\&. If the server is not running, then this commbnd stbrts the server\&. If the server is blrebdy running, then bn error messbge is displbyed\&.
 .TP     
 help
-Lists all the commands available to the server through the \f3servertool\fR command\&.
+Lists bll the commbnds bvbilbble to the server through the \f3servertool\fR commbnd\&.
 .TP     
 quit
-Exits the \f3servertool\fR command\&.
+Exits the \f3servertool\fR commbnd\&.
 .SH SEE\ ALSO    
 .TP 0.2i    
 \(bu

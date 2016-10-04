@@ -1,90 +1,90 @@
 /*
- * Copyright (c) 1999, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.management.monitor;
+pbckbge jbvbx.mbnbgement.monitor;
 
-import static com.sun.jmx.defaults.JmxProperties.MONITOR_LOGGER;
-import java.util.logging.Level;
-import javax.management.MBeanNotificationInfo;
-import javax.management.ObjectName;
-import static javax.management.monitor.Monitor.NumericalType.*;
-import static javax.management.monitor.MonitorNotification.*;
+import stbtic com.sun.jmx.defbults.JmxProperties.MONITOR_LOGGER;
+import jbvb.util.logging.Level;
+import jbvbx.mbnbgement.MBebnNotificbtionInfo;
+import jbvbx.mbnbgement.ObjectNbme;
+import stbtic jbvbx.mbnbgement.monitor.Monitor.NumericblType.*;
+import stbtic jbvbx.mbnbgement.monitor.MonitorNotificbtion.*;
 
 /**
- * Defines a monitor MBean designed to observe the values of a gauge attribute.
+ * Defines b monitor MBebn designed to observe the vblues of b gbuge bttribute.
  *
- * <P> A gauge monitor observes an attribute that is continuously
- * variable with time. A gauge monitor sends notifications as
+ * <P> A gbuge monitor observes bn bttribute thbt is continuously
+ * vbribble with time. A gbuge monitor sends notificbtions bs
  * follows:
  *
  * <UL>
  *
- * <LI> if the attribute value is increasing and becomes equal to or
- * greater than the high threshold value, a {@link
- * MonitorNotification#THRESHOLD_HIGH_VALUE_EXCEEDED threshold high
- * notification} is sent. The notify high flag must be set to
+ * <LI> if the bttribute vblue is increbsing bnd becomes equbl to or
+ * grebter thbn the high threshold vblue, b {@link
+ * MonitorNotificbtion#THRESHOLD_HIGH_VALUE_EXCEEDED threshold high
+ * notificbtion} is sent. The notify high flbg must be set to
  * <CODE>true</CODE>.
  *
- * <BR>Subsequent crossings of the high threshold value do not cause
- * further notifications unless the attribute value becomes equal to
- * or less than the low threshold value.</LI>
+ * <BR>Subsequent crossings of the high threshold vblue do not cbuse
+ * further notificbtions unless the bttribute vblue becomes equbl to
+ * or less thbn the low threshold vblue.</LI>
  *
- * <LI> if the attribute value is decreasing and becomes equal to or
- * less than the low threshold value, a {@link
- * MonitorNotification#THRESHOLD_LOW_VALUE_EXCEEDED threshold low
- * notification} is sent. The notify low flag must be set to
+ * <LI> if the bttribute vblue is decrebsing bnd becomes equbl to or
+ * less thbn the low threshold vblue, b {@link
+ * MonitorNotificbtion#THRESHOLD_LOW_VALUE_EXCEEDED threshold low
+ * notificbtion} is sent. The notify low flbg must be set to
  * <CODE>true</CODE>.
  *
- * <BR>Subsequent crossings of the low threshold value do not cause
- * further notifications unless the attribute value becomes equal to
- * or greater than the high threshold value.</LI>
+ * <BR>Subsequent crossings of the low threshold vblue do not cbuse
+ * further notificbtions unless the bttribute vblue becomes equbl to
+ * or grebter thbn the high threshold vblue.</LI>
  *
  * </UL>
  *
- * This provides a hysteresis mechanism to avoid repeated triggering
- * of notifications when the attribute value makes small oscillations
- * around the high or low threshold value.
+ * This provides b hysteresis mechbnism to bvoid repebted triggering
+ * of notificbtions when the bttribute vblue mbkes smbll oscillbtions
+ * bround the high or low threshold vblue.
  *
- * <P> If the gauge difference mode is used, the value of the derived
- * gauge is calculated as the difference between the observed gauge
- * values for two successive observations.
+ * <P> If the gbuge difference mode is used, the vblue of the derived
+ * gbuge is cblculbted bs the difference between the observed gbuge
+ * vblues for two successive observbtions.
  *
- * <BR>The derived gauge value (V[t]) is calculated using the following method:
+ * <BR>The derived gbuge vblue (V[t]) is cblculbted using the following method:
  * <UL>
- * <LI>V[t] = gauge[t] - gauge[t-GP]</LI>
+ * <LI>V[t] = gbuge[t] - gbuge[t-GP]</LI>
  * </UL>
  *
- * This implementation of the gauge monitor requires the observed
- * attribute to be of the type integer or floating-point
+ * This implementbtion of the gbuge monitor requires the observed
+ * bttribute to be of the type integer or flobting-point
  * (<CODE>Byte</CODE>, <CODE>Integer</CODE>, <CODE>Short</CODE>,
- * <CODE>Long</CODE>, <CODE>Float</CODE>, <CODE>Double</CODE>).
+ * <CODE>Long</CODE>, <CODE>Flobt</CODE>, <CODE>Double</CODE>).
  *
  *
  * @since 1.5
  */
-public class GaugeMonitor extends Monitor implements GaugeMonitorMBean {
+public clbss GbugeMonitor extends Monitor implements GbugeMonitorMBebn {
 
     /*
      * ------------------------------------------
@@ -92,43 +92,43 @@ public class GaugeMonitor extends Monitor implements GaugeMonitorMBean {
      * ------------------------------------------
      */
 
-    static class GaugeMonitorObservedObject extends ObservedObject {
+    stbtic clbss GbugeMonitorObservedObject extends ObservedObject {
 
-        public GaugeMonitorObservedObject(ObjectName observedObject) {
+        public GbugeMonitorObservedObject(ObjectNbme observedObject) {
             super(observedObject);
         }
 
-        public final synchronized boolean getDerivedGaugeValid() {
-            return derivedGaugeValid;
+        public finbl synchronized boolebn getDerivedGbugeVblid() {
+            return derivedGbugeVblid;
         }
-        public final synchronized void setDerivedGaugeValid(
-                                                 boolean derivedGaugeValid) {
-            this.derivedGaugeValid = derivedGaugeValid;
+        public finbl synchronized void setDerivedGbugeVblid(
+                                                 boolebn derivedGbugeVblid) {
+            this.derivedGbugeVblid = derivedGbugeVblid;
         }
-        public final synchronized NumericalType getType() {
+        public finbl synchronized NumericblType getType() {
             return type;
         }
-        public final synchronized void setType(NumericalType type) {
+        public finbl synchronized void setType(NumericblType type) {
             this.type = type;
         }
-        public final synchronized Number getPreviousScanGauge() {
-            return previousScanGauge;
+        public finbl synchronized Number getPreviousScbnGbuge() {
+            return previousScbnGbuge;
         }
-        public final synchronized void setPreviousScanGauge(
-                                                  Number previousScanGauge) {
-            this.previousScanGauge = previousScanGauge;
+        public finbl synchronized void setPreviousScbnGbuge(
+                                                  Number previousScbnGbuge) {
+            this.previousScbnGbuge = previousScbnGbuge;
         }
-        public final synchronized int getStatus() {
-            return status;
+        public finbl synchronized int getStbtus() {
+            return stbtus;
         }
-        public final synchronized void setStatus(int status) {
-            this.status = status;
+        public finbl synchronized void setStbtus(int stbtus) {
+            this.stbtus = stbtus;
         }
 
-        private boolean derivedGaugeValid;
-        private NumericalType type;
-        private Number previousScanGauge;
-        private int status;
+        privbte boolebn derivedGbugeVblid;
+        privbte NumericblType type;
+        privbte Number previousScbnGbuge;
+        privbte int stbtus;
     }
 
     /*
@@ -138,47 +138,47 @@ public class GaugeMonitor extends Monitor implements GaugeMonitorMBean {
      */
 
     /**
-     * Gauge high threshold.
+     * Gbuge high threshold.
      *
-     * <BR>The default value is a null Integer object.
+     * <BR>The defbult vblue is b null Integer object.
      */
-    private Number highThreshold = INTEGER_ZERO;
+    privbte Number highThreshold = INTEGER_ZERO;
 
     /**
-     * Gauge low threshold.
+     * Gbuge low threshold.
      *
-     * <BR>The default value is a null Integer object.
+     * <BR>The defbult vblue is b null Integer object.
      */
-    private Number lowThreshold = INTEGER_ZERO;
+    privbte Number lowThreshold = INTEGER_ZERO;
 
     /**
-     * Flag indicating if the gauge monitor notifies when exceeding
+     * Flbg indicbting if the gbuge monitor notifies when exceeding
      * the high threshold.
      *
-     * <BR>The default value is <CODE>false</CODE>.
+     * <BR>The defbult vblue is <CODE>fblse</CODE>.
      */
-    private boolean notifyHigh = false;
+    privbte boolebn notifyHigh = fblse;
 
     /**
-     * Flag indicating if the gauge monitor notifies when exceeding
+     * Flbg indicbting if the gbuge monitor notifies when exceeding
      * the low threshold.
      *
-     * <BR>The default value is <CODE>false</CODE>.
+     * <BR>The defbult vblue is <CODE>fblse</CODE>.
      */
-    private boolean notifyLow = false;
+    privbte boolebn notifyLow = fblse;
 
     /**
-     * Flag indicating if the gauge difference mode is used.  If the
-     * gauge difference mode is used, the derived gauge is the
-     * difference between two consecutive observed values.  Otherwise,
-     * the derived gauge is directly the value of the observed
-     * attribute.
+     * Flbg indicbting if the gbuge difference mode is used.  If the
+     * gbuge difference mode is used, the derived gbuge is the
+     * difference between two consecutive observed vblues.  Otherwise,
+     * the derived gbuge is directly the vblue of the observed
+     * bttribute.
      *
-     * <BR>The default value is set to <CODE>false</CODE>.
+     * <BR>The defbult vblue is set to <CODE>fblse</CODE>.
      */
-    private boolean differenceMode = false;
+    privbte boolebn differenceMode = fblse;
 
-    private static final String[] types = {
+    privbte stbtic finbl String[] types = {
         RUNTIME_ERROR,
         OBSERVED_OBJECT_ERROR,
         OBSERVED_ATTRIBUTE_ERROR,
@@ -188,18 +188,18 @@ public class GaugeMonitor extends Monitor implements GaugeMonitorMBean {
         THRESHOLD_LOW_VALUE_EXCEEDED
     };
 
-    private static final MBeanNotificationInfo[] notifsInfo = {
-        new MBeanNotificationInfo(
+    privbte stbtic finbl MBebnNotificbtionInfo[] notifsInfo = {
+        new MBebnNotificbtionInfo(
             types,
-            "javax.management.monitor.MonitorNotification",
-            "Notifications sent by the GaugeMonitor MBean")
+            "jbvbx.mbnbgement.monitor.MonitorNotificbtion",
+            "Notificbtions sent by the GbugeMonitor MBebn")
     };
 
-    // Flags needed to implement the hysteresis mechanism.
+    // Flbgs needed to implement the hysteresis mechbnism.
     //
-    private static final int RISING             = 0;
-    private static final int FALLING            = 1;
-    private static final int RISING_OR_FALLING  = 2;
+    privbte stbtic finbl int RISING             = 0;
+    privbte stbtic finbl int FALLING            = 1;
+    privbte stbtic finbl int RISING_OR_FALLING  = 2;
 
     /*
      * ------------------------------------------
@@ -208,9 +208,9 @@ public class GaugeMonitor extends Monitor implements GaugeMonitorMBean {
      */
 
     /**
-     * Default constructor.
+     * Defbult constructor.
      */
-    public GaugeMonitor() {
+    public GbugeMonitor() {
     }
 
     /*
@@ -220,27 +220,27 @@ public class GaugeMonitor extends Monitor implements GaugeMonitorMBean {
      */
 
     /**
-     * Starts the gauge monitor.
+     * Stbrts the gbuge monitor.
      */
-    public synchronized void start() {
+    public synchronized void stbrt() {
         if (isActive()) {
-            MONITOR_LOGGER.logp(Level.FINER, GaugeMonitor.class.getName(),
-                    "start", "the monitor is already active");
+            MONITOR_LOGGER.logp(Level.FINER, GbugeMonitor.clbss.getNbme(),
+                    "stbrt", "the monitor is blrebdy bctive");
             return;
         }
-        // Reset values.
+        // Reset vblues.
         //
         for (ObservedObject o : observedObjects) {
-            final GaugeMonitorObservedObject gmo =
-                (GaugeMonitorObservedObject) o;
-            gmo.setStatus(RISING_OR_FALLING);
-            gmo.setPreviousScanGauge(null);
+            finbl GbugeMonitorObservedObject gmo =
+                (GbugeMonitorObservedObject) o;
+            gmo.setStbtus(RISING_OR_FALLING);
+            gmo.setPreviousScbnGbuge(null);
         }
-        doStart();
+        doStbrt();
     }
 
     /**
-     * Stops the gauge monitor.
+     * Stops the gbuge monitor.
      */
     public synchronized void stop() {
         doStop();
@@ -250,75 +250,75 @@ public class GaugeMonitor extends Monitor implements GaugeMonitorMBean {
     //--------------------
 
     /**
-     * Gets the derived gauge of the specified object, if this object is
-     * contained in the set of observed MBeans, or <code>null</code> otherwise.
+     * Gets the derived gbuge of the specified object, if this object is
+     * contbined in the set of observed MBebns, or <code>null</code> otherwise.
      *
-     * @param object the name of the MBean.
+     * @pbrbm object the nbme of the MBebn.
      *
-     * @return The derived gauge of the specified object.
+     * @return The derived gbuge of the specified object.
      *
      */
     @Override
-    public synchronized Number getDerivedGauge(ObjectName object) {
-        return (Number) super.getDerivedGauge(object);
+    public synchronized Number getDerivedGbuge(ObjectNbme object) {
+        return (Number) super.getDerivedGbuge(object);
     }
 
     /**
-     * Gets the derived gauge timestamp of the specified object, if
-     * this object is contained in the set of observed MBeans, or
+     * Gets the derived gbuge timestbmp of the specified object, if
+     * this object is contbined in the set of observed MBebns, or
      * <code>0</code> otherwise.
      *
-     * @param object the name of the object whose derived gauge
-     * timestamp is to be returned.
+     * @pbrbm object the nbme of the object whose derived gbuge
+     * timestbmp is to be returned.
      *
-     * @return The derived gauge timestamp of the specified object.
+     * @return The derived gbuge timestbmp of the specified object.
      *
      */
     @Override
-    public synchronized long getDerivedGaugeTimeStamp(ObjectName object) {
-        return super.getDerivedGaugeTimeStamp(object);
+    public synchronized long getDerivedGbugeTimeStbmp(ObjectNbme object) {
+        return super.getDerivedGbugeTimeStbmp(object);
     }
 
     /**
-     * Returns the derived gauge of the first object in the set of
-     * observed MBeans.
+     * Returns the derived gbuge of the first object in the set of
+     * observed MBebns.
      *
-     * @return The derived gauge.
+     * @return The derived gbuge.
      *
-     * @deprecated As of JMX 1.2, replaced by
-     * {@link #getDerivedGauge(ObjectName)}
+     * @deprecbted As of JMX 1.2, replbced by
+     * {@link #getDerivedGbuge(ObjectNbme)}
      */
-    @Deprecated
-    public synchronized Number getDerivedGauge() {
+    @Deprecbted
+    public synchronized Number getDerivedGbuge() {
         if (observedObjects.isEmpty()) {
             return null;
         } else {
-            return (Number) observedObjects.get(0).getDerivedGauge();
+            return (Number) observedObjects.get(0).getDerivedGbuge();
         }
     }
 
     /**
-     * Gets the derived gauge timestamp of the first object in the set
-     * of observed MBeans.
+     * Gets the derived gbuge timestbmp of the first object in the set
+     * of observed MBebns.
      *
-     * @return The derived gauge timestamp.
+     * @return The derived gbuge timestbmp.
      *
-     * @deprecated As of JMX 1.2, replaced by
-     * {@link #getDerivedGaugeTimeStamp(ObjectName)}
+     * @deprecbted As of JMX 1.2, replbced by
+     * {@link #getDerivedGbugeTimeStbmp(ObjectNbme)}
      */
-    @Deprecated
-    public synchronized long getDerivedGaugeTimeStamp() {
+    @Deprecbted
+    public synchronized long getDerivedGbugeTimeStbmp() {
         if (observedObjects.isEmpty()) {
             return 0;
         } else {
-            return observedObjects.get(0).getDerivedGaugeTimeStamp();
+            return observedObjects.get(0).getDerivedGbugeTimeStbmp();
         }
     }
 
     /**
-     * Gets the high threshold value common to all observed MBeans.
+     * Gets the high threshold vblue common to bll observed MBebns.
      *
-     * @return The high threshold value.
+     * @return The high threshold vblue.
      *
      * @see #setThresholds
      */
@@ -327,9 +327,9 @@ public class GaugeMonitor extends Monitor implements GaugeMonitorMBean {
     }
 
     /**
-     * Gets the low threshold value common to all observed MBeans.
+     * Gets the low threshold vblue common to bll observed MBebns.
      *
-     * @return The low threshold value.
+     * @return The low threshold vblue.
      *
      * @see #setThresholds
      */
@@ -338,149 +338,149 @@ public class GaugeMonitor extends Monitor implements GaugeMonitorMBean {
     }
 
     /**
-     * Sets the high and the low threshold values common to all
-     * observed MBeans.
+     * Sets the high bnd the low threshold vblues common to bll
+     * observed MBebns.
      *
-     * @param highValue The high threshold value.
-     * @param lowValue The low threshold value.
+     * @pbrbm highVblue The high threshold vblue.
+     * @pbrbm lowVblue The low threshold vblue.
      *
-     * @exception IllegalArgumentException The specified high/low
-     * threshold is null or the low threshold is greater than the high
-     * threshold or the high threshold and the low threshold are not
-     * of the same type.
+     * @exception IllegblArgumentException The specified high/low
+     * threshold is null or the low threshold is grebter thbn the high
+     * threshold or the high threshold bnd the low threshold bre not
+     * of the sbme type.
      *
      * @see #getHighThreshold
      * @see #getLowThreshold
      */
-    public synchronized void setThresholds(Number highValue, Number lowValue)
-        throws IllegalArgumentException {
+    public synchronized void setThresholds(Number highVblue, Number lowVblue)
+        throws IllegblArgumentException {
 
-        if ((highValue == null) || (lowValue == null)) {
-            throw new IllegalArgumentException("Null threshold value");
+        if ((highVblue == null) || (lowVblue == null)) {
+            throw new IllegblArgumentException("Null threshold vblue");
         }
 
-        if (highValue.getClass() != lowValue.getClass()) {
-            throw new IllegalArgumentException("Different type " +
-                                               "threshold values");
+        if (highVblue.getClbss() != lowVblue.getClbss()) {
+            throw new IllegblArgumentException("Different type " +
+                                               "threshold vblues");
         }
 
-        if (isFirstStrictlyGreaterThanLast(lowValue, highValue,
-                                           highValue.getClass().getName())) {
-            throw new IllegalArgumentException("High threshold less than " +
+        if (isFirstStrictlyGrebterThbnLbst(lowVblue, highVblue,
+                                           highVblue.getClbss().getNbme())) {
+            throw new IllegblArgumentException("High threshold less thbn " +
                                                "low threshold");
         }
 
-        if (highThreshold.equals(highValue) && lowThreshold.equals(lowValue))
+        if (highThreshold.equbls(highVblue) && lowThreshold.equbls(lowVblue))
             return;
-        highThreshold = highValue;
-        lowThreshold = lowValue;
+        highThreshold = highVblue;
+        lowThreshold = lowVblue;
 
-        // Reset values.
+        // Reset vblues.
         //
         int index = 0;
         for (ObservedObject o : observedObjects) {
-            resetAlreadyNotified(o, index++, THRESHOLD_ERROR_NOTIFIED);
-            final GaugeMonitorObservedObject gmo =
-                (GaugeMonitorObservedObject) o;
-            gmo.setStatus(RISING_OR_FALLING);
+            resetAlrebdyNotified(o, index++, THRESHOLD_ERROR_NOTIFIED);
+            finbl GbugeMonitorObservedObject gmo =
+                (GbugeMonitorObservedObject) o;
+            gmo.setStbtus(RISING_OR_FALLING);
         }
     }
 
     /**
-     * Gets the high notification's on/off switch value common to all
-     * observed MBeans.
+     * Gets the high notificbtion's on/off switch vblue common to bll
+     * observed MBebns.
      *
-     * @return <CODE>true</CODE> if the gauge monitor notifies when
-     * exceeding the high threshold, <CODE>false</CODE> otherwise.
+     * @return <CODE>true</CODE> if the gbuge monitor notifies when
+     * exceeding the high threshold, <CODE>fblse</CODE> otherwise.
      *
      * @see #setNotifyHigh
      */
-    public synchronized boolean getNotifyHigh() {
+    public synchronized boolebn getNotifyHigh() {
         return notifyHigh;
     }
 
     /**
-     * Sets the high notification's on/off switch value common to all
-     * observed MBeans.
+     * Sets the high notificbtion's on/off switch vblue common to bll
+     * observed MBebns.
      *
-     * @param value The high notification's on/off switch value.
+     * @pbrbm vblue The high notificbtion's on/off switch vblue.
      *
      * @see #getNotifyHigh
      */
-    public synchronized void setNotifyHigh(boolean value) {
-        if (notifyHigh == value)
+    public synchronized void setNotifyHigh(boolebn vblue) {
+        if (notifyHigh == vblue)
             return;
-        notifyHigh = value;
+        notifyHigh = vblue;
     }
 
     /**
-     * Gets the low notification's on/off switch value common to all
-     * observed MBeans.
+     * Gets the low notificbtion's on/off switch vblue common to bll
+     * observed MBebns.
      *
-     * @return <CODE>true</CODE> if the gauge monitor notifies when
-     * exceeding the low threshold, <CODE>false</CODE> otherwise.
+     * @return <CODE>true</CODE> if the gbuge monitor notifies when
+     * exceeding the low threshold, <CODE>fblse</CODE> otherwise.
      *
      * @see #setNotifyLow
      */
-    public synchronized boolean getNotifyLow() {
+    public synchronized boolebn getNotifyLow() {
         return notifyLow;
     }
 
     /**
-     * Sets the low notification's on/off switch value common to all
-     * observed MBeans.
+     * Sets the low notificbtion's on/off switch vblue common to bll
+     * observed MBebns.
      *
-     * @param value The low notification's on/off switch value.
+     * @pbrbm vblue The low notificbtion's on/off switch vblue.
      *
      * @see #getNotifyLow
      */
-    public synchronized void setNotifyLow(boolean value) {
-        if (notifyLow == value)
+    public synchronized void setNotifyLow(boolebn vblue) {
+        if (notifyLow == vblue)
             return;
-        notifyLow = value;
+        notifyLow = vblue;
     }
 
     /**
-     * Gets the difference mode flag value common to all observed MBeans.
+     * Gets the difference mode flbg vblue common to bll observed MBebns.
      *
      * @return <CODE>true</CODE> if the difference mode is used,
-     * <CODE>false</CODE> otherwise.
+     * <CODE>fblse</CODE> otherwise.
      *
      * @see #setDifferenceMode
      */
-    public synchronized boolean getDifferenceMode() {
+    public synchronized boolebn getDifferenceMode() {
         return differenceMode;
     }
 
     /**
-     * Sets the difference mode flag value common to all observed MBeans.
+     * Sets the difference mode flbg vblue common to bll observed MBebns.
      *
-     * @param value The difference mode flag value.
+     * @pbrbm vblue The difference mode flbg vblue.
      *
      * @see #getDifferenceMode
      */
-    public synchronized void setDifferenceMode(boolean value) {
-        if (differenceMode == value)
+    public synchronized void setDifferenceMode(boolebn vblue) {
+        if (differenceMode == vblue)
             return;
-        differenceMode = value;
+        differenceMode = vblue;
 
-        // Reset values.
+        // Reset vblues.
         //
         for (ObservedObject o : observedObjects) {
-            final GaugeMonitorObservedObject gmo =
-                (GaugeMonitorObservedObject) o;
-            gmo.setStatus(RISING_OR_FALLING);
-            gmo.setPreviousScanGauge(null);
+            finbl GbugeMonitorObservedObject gmo =
+                (GbugeMonitorObservedObject) o;
+            gmo.setStbtus(RISING_OR_FALLING);
+            gmo.setPreviousScbnGbuge(null);
         }
     }
 
    /**
-     * Returns a <CODE>NotificationInfo</CODE> object containing the
-     * name of the Java class of the notification and the notification
-     * types sent by the gauge monitor.
+     * Returns b <CODE>NotificbtionInfo</CODE> object contbining the
+     * nbme of the Jbvb clbss of the notificbtion bnd the notificbtion
+     * types sent by the gbuge monitor.
      */
     @Override
-    public MBeanNotificationInfo[] getNotificationInfo() {
+    public MBebnNotificbtionInfo[] getNotificbtionInfo() {
         return notifsInfo.clone();
     }
 
@@ -491,69 +491,69 @@ public class GaugeMonitor extends Monitor implements GaugeMonitorMBean {
      */
 
     /**
-     * Updates the derived gauge attribute of the observed object.
+     * Updbtes the derived gbuge bttribute of the observed object.
      *
-     * @param scanGauge The value of the observed attribute.
-     * @param o The observed object.
-     * @return <CODE>true</CODE> if the derived gauge value is valid,
-     * <CODE>false</CODE> otherwise.  The derived gauge value is
-     * invalid when the differenceMode flag is set to
-     * <CODE>true</CODE> and it is the first notification (so we
-     * haven't 2 consecutive values to update the derived gauge).
+     * @pbrbm scbnGbuge The vblue of the observed bttribute.
+     * @pbrbm o The observed object.
+     * @return <CODE>true</CODE> if the derived gbuge vblue is vblid,
+     * <CODE>fblse</CODE> otherwise.  The derived gbuge vblue is
+     * invblid when the differenceMode flbg is set to
+     * <CODE>true</CODE> bnd it is the first notificbtion (so we
+     * hbven't 2 consecutive vblues to updbte the derived gbuge).
      */
-    private synchronized boolean updateDerivedGauge(
-        Object scanGauge, GaugeMonitorObservedObject o) {
+    privbte synchronized boolebn updbteDerivedGbuge(
+        Object scbnGbuge, GbugeMonitorObservedObject o) {
 
-        boolean is_derived_gauge_valid;
+        boolebn is_derived_gbuge_vblid;
 
-        // The gauge difference mode is used.
+        // The gbuge difference mode is used.
         //
         if (differenceMode) {
 
-            // The previous scan gauge has been initialized.
+            // The previous scbn gbuge hbs been initiblized.
             //
-            if (o.getPreviousScanGauge() != null) {
-                setDerivedGaugeWithDifference((Number)scanGauge, o);
-                is_derived_gauge_valid = true;
+            if (o.getPreviousScbnGbuge() != null) {
+                setDerivedGbugeWithDifference((Number)scbnGbuge, o);
+                is_derived_gbuge_vblid = true;
             }
-            // The previous scan gauge has not been initialized.
-            // We cannot update the derived gauge...
+            // The previous scbn gbuge hbs not been initiblized.
+            // We cbnnot updbte the derived gbuge...
             //
             else {
-                is_derived_gauge_valid = false;
+                is_derived_gbuge_vblid = fblse;
             }
-            o.setPreviousScanGauge((Number)scanGauge);
+            o.setPreviousScbnGbuge((Number)scbnGbuge);
         }
-        // The gauge difference mode is not used.
+        // The gbuge difference mode is not used.
         //
         else {
-            o.setDerivedGauge((Number)scanGauge);
-            is_derived_gauge_valid = true;
+            o.setDerivedGbuge((Number)scbnGbuge);
+            is_derived_gbuge_vblid = true;
         }
 
-        return is_derived_gauge_valid;
+        return is_derived_gbuge_vblid;
     }
 
     /**
-     * Updates the notification attribute of the observed object
-     * and notifies the listeners only once if the notify flag
+     * Updbtes the notificbtion bttribute of the observed object
+     * bnd notifies the listeners only once if the notify flbg
      * is set to <CODE>true</CODE>.
-     * @param o The observed object.
+     * @pbrbm o The observed object.
      */
-    private synchronized MonitorNotification updateNotifications(
-        GaugeMonitorObservedObject o) {
+    privbte synchronized MonitorNotificbtion updbteNotificbtions(
+        GbugeMonitorObservedObject o) {
 
-        MonitorNotification n = null;
+        MonitorNotificbtion n = null;
 
-        // Send high notification if notifyHigh is true.
-        // Send low notification if notifyLow is true.
+        // Send high notificbtion if notifyHigh is true.
+        // Send low notificbtion if notifyLow is true.
         //
-        if (o.getStatus() == RISING_OR_FALLING) {
-            if (isFirstGreaterThanLast((Number)o.getDerivedGauge(),
+        if (o.getStbtus() == RISING_OR_FALLING) {
+            if (isFirstGrebterThbnLbst((Number)o.getDerivedGbuge(),
                                        highThreshold,
                                        o.getType())) {
                 if (notifyHigh) {
-                    n = new MonitorNotification(
+                    n = new MonitorNotificbtion(
                             THRESHOLD_HIGH_VALUE_EXCEEDED,
                             this,
                             0,
@@ -564,12 +564,12 @@ public class GaugeMonitor extends Monitor implements GaugeMonitorMBean {
                             null,
                             highThreshold);
                 }
-                o.setStatus(FALLING);
-            } else if (isFirstGreaterThanLast(lowThreshold,
-                                              (Number)o.getDerivedGauge(),
+                o.setStbtus(FALLING);
+            } else if (isFirstGrebterThbnLbst(lowThreshold,
+                                              (Number)o.getDerivedGbuge(),
                                               o.getType())) {
                 if (notifyLow) {
-                    n = new MonitorNotification(
+                    n = new MonitorNotificbtion(
                             THRESHOLD_LOW_VALUE_EXCEEDED,
                             this,
                             0,
@@ -580,15 +580,15 @@ public class GaugeMonitor extends Monitor implements GaugeMonitorMBean {
                             null,
                             lowThreshold);
                 }
-                o.setStatus(RISING);
+                o.setStbtus(RISING);
             }
         } else {
-            if (o.getStatus() == RISING) {
-                if (isFirstGreaterThanLast((Number)o.getDerivedGauge(),
+            if (o.getStbtus() == RISING) {
+                if (isFirstGrebterThbnLbst((Number)o.getDerivedGbuge(),
                                            highThreshold,
                                            o.getType())) {
                     if (notifyHigh) {
-                        n = new MonitorNotification(
+                        n = new MonitorNotificbtion(
                                 THRESHOLD_HIGH_VALUE_EXCEEDED,
                                 this,
                                 0,
@@ -599,14 +599,14 @@ public class GaugeMonitor extends Monitor implements GaugeMonitorMBean {
                                 null,
                                 highThreshold);
                     }
-                    o.setStatus(FALLING);
+                    o.setStbtus(FALLING);
                 }
-            } else if (o.getStatus() == FALLING) {
-                if (isFirstGreaterThanLast(lowThreshold,
-                                           (Number)o.getDerivedGauge(),
+            } else if (o.getStbtus() == FALLING) {
+                if (isFirstGrebterThbnLbst(lowThreshold,
+                                           (Number)o.getDerivedGbuge(),
                                            o.getType())) {
                     if (notifyLow) {
-                        n = new MonitorNotification(
+                        n = new MonitorNotificbtion(
                                 THRESHOLD_LOW_VALUE_EXCEEDED,
                                 this,
                                 0,
@@ -617,7 +617,7 @@ public class GaugeMonitor extends Monitor implements GaugeMonitorMBean {
                                 null,
                                 lowThreshold);
                     }
-                    o.setStatus(RISING);
+                    o.setStbtus(RISING);
                 }
             }
         }
@@ -626,117 +626,117 @@ public class GaugeMonitor extends Monitor implements GaugeMonitorMBean {
     }
 
     /**
-     * Sets the derived gauge when the differenceMode flag is set to
-     * <CODE>true</CODE>.  Both integer and floating-point types are
-     * allowed.
+     * Sets the derived gbuge when the differenceMode flbg is set to
+     * <CODE>true</CODE>.  Both integer bnd flobting-point types bre
+     * bllowed.
      *
-     * @param scanGauge The value of the observed attribute.
-     * @param o The observed object.
+     * @pbrbm scbnGbuge The vblue of the observed bttribute.
+     * @pbrbm o The observed object.
      */
-    private synchronized void setDerivedGaugeWithDifference(
-        Number scanGauge, GaugeMonitorObservedObject o) {
-        Number prev = o.getPreviousScanGauge();
+    privbte synchronized void setDerivedGbugeWithDifference(
+        Number scbnGbuge, GbugeMonitorObservedObject o) {
+        Number prev = o.getPreviousScbnGbuge();
         Number der;
         switch (o.getType()) {
-        case INTEGER:
-            der = Integer.valueOf(((Integer)scanGauge).intValue() -
-                                  ((Integer)prev).intValue());
-            break;
-        case BYTE:
-            der = Byte.valueOf((byte)(((Byte)scanGauge).byteValue() -
-                                      ((Byte)prev).byteValue()));
-            break;
-        case SHORT:
-            der = Short.valueOf((short)(((Short)scanGauge).shortValue() -
-                                        ((Short)prev).shortValue()));
-            break;
-        case LONG:
-            der = Long.valueOf(((Long)scanGauge).longValue() -
-                               ((Long)prev).longValue());
-            break;
-        case FLOAT:
-            der = Float.valueOf(((Float)scanGauge).floatValue() -
-                                ((Float)prev).floatValue());
-            break;
-        case DOUBLE:
-            der = Double.valueOf(((Double)scanGauge).doubleValue() -
-                                 ((Double)prev).doubleValue());
-            break;
-        default:
+        cbse INTEGER:
+            der = Integer.vblueOf(((Integer)scbnGbuge).intVblue() -
+                                  ((Integer)prev).intVblue());
+            brebk;
+        cbse BYTE:
+            der = Byte.vblueOf((byte)(((Byte)scbnGbuge).byteVblue() -
+                                      ((Byte)prev).byteVblue()));
+            brebk;
+        cbse SHORT:
+            der = Short.vblueOf((short)(((Short)scbnGbuge).shortVblue() -
+                                        ((Short)prev).shortVblue()));
+            brebk;
+        cbse LONG:
+            der = Long.vblueOf(((Long)scbnGbuge).longVblue() -
+                               ((Long)prev).longVblue());
+            brebk;
+        cbse FLOAT:
+            der = Flobt.vblueOf(((Flobt)scbnGbuge).flobtVblue() -
+                                ((Flobt)prev).flobtVblue());
+            brebk;
+        cbse DOUBLE:
+            der = Double.vblueOf(((Double)scbnGbuge).doubleVblue() -
+                                 ((Double)prev).doubleVblue());
+            brebk;
+        defbult:
             // Should never occur...
-            MONITOR_LOGGER.logp(Level.FINEST, GaugeMonitor.class.getName(),
-                    "setDerivedGaugeWithDifference",
-                    "the threshold type is invalid");
+            MONITOR_LOGGER.logp(Level.FINEST, GbugeMonitor.clbss.getNbme(),
+                    "setDerivedGbugeWithDifference",
+                    "the threshold type is invblid");
             return;
         }
-        o.setDerivedGauge(der);
+        o.setDerivedGbuge(der);
     }
 
     /**
-     * Tests if the first specified Number is greater than or equal to
-     * the last.  Both integer and floating-point types are allowed.
+     * Tests if the first specified Number is grebter thbn or equbl to
+     * the lbst.  Both integer bnd flobting-point types bre bllowed.
      *
-     * @param greater The first Number to compare with the second.
-     * @param less The second Number to compare with the first.
-     * @param type The number type.
+     * @pbrbm grebter The first Number to compbre with the second.
+     * @pbrbm less The second Number to compbre with the first.
+     * @pbrbm type The number type.
      * @return <CODE>true</CODE> if the first specified Number is
-     * greater than or equal to the last, <CODE>false</CODE>
+     * grebter thbn or equbl to the lbst, <CODE>fblse</CODE>
      * otherwise.
      */
-    private boolean isFirstGreaterThanLast(Number greater,
+    privbte boolebn isFirstGrebterThbnLbst(Number grebter,
                                            Number less,
-                                           NumericalType type) {
+                                           NumericblType type) {
 
         switch (type) {
-        case INTEGER:
-        case BYTE:
-        case SHORT:
-        case LONG:
-            return (greater.longValue() >= less.longValue());
-        case FLOAT:
-        case DOUBLE:
-            return (greater.doubleValue() >= less.doubleValue());
-        default:
+        cbse INTEGER:
+        cbse BYTE:
+        cbse SHORT:
+        cbse LONG:
+            return (grebter.longVblue() >= less.longVblue());
+        cbse FLOAT:
+        cbse DOUBLE:
+            return (grebter.doubleVblue() >= less.doubleVblue());
+        defbult:
             // Should never occur...
-            MONITOR_LOGGER.logp(Level.FINEST, GaugeMonitor.class.getName(),
-                    "isFirstGreaterThanLast",
-                    "the threshold type is invalid");
-            return false;
+            MONITOR_LOGGER.logp(Level.FINEST, GbugeMonitor.clbss.getNbme(),
+                    "isFirstGrebterThbnLbst",
+                    "the threshold type is invblid");
+            return fblse;
         }
     }
 
     /**
-     * Tests if the first specified Number is strictly greater than the last.
-     * Both integer and floating-point types are allowed.
+     * Tests if the first specified Number is strictly grebter thbn the lbst.
+     * Both integer bnd flobting-point types bre bllowed.
      *
-     * @param greater The first Number to compare with the second.
-     * @param less The second Number to compare with the first.
-     * @param className The number class name.
+     * @pbrbm grebter The first Number to compbre with the second.
+     * @pbrbm less The second Number to compbre with the first.
+     * @pbrbm clbssNbme The number clbss nbme.
      * @return <CODE>true</CODE> if the first specified Number is
-     * strictly greater than the last, <CODE>false</CODE> otherwise.
+     * strictly grebter thbn the lbst, <CODE>fblse</CODE> otherwise.
      */
-    private boolean isFirstStrictlyGreaterThanLast(Number greater,
+    privbte boolebn isFirstStrictlyGrebterThbnLbst(Number grebter,
                                                    Number less,
-                                                   String className) {
+                                                   String clbssNbme) {
 
-        if (className.equals("java.lang.Integer") ||
-            className.equals("java.lang.Byte") ||
-            className.equals("java.lang.Short") ||
-            className.equals("java.lang.Long")) {
+        if (clbssNbme.equbls("jbvb.lbng.Integer") ||
+            clbssNbme.equbls("jbvb.lbng.Byte") ||
+            clbssNbme.equbls("jbvb.lbng.Short") ||
+            clbssNbme.equbls("jbvb.lbng.Long")) {
 
-            return (greater.longValue() > less.longValue());
+            return (grebter.longVblue() > less.longVblue());
         }
-        else if (className.equals("java.lang.Float") ||
-                 className.equals("java.lang.Double")) {
+        else if (clbssNbme.equbls("jbvb.lbng.Flobt") ||
+                 clbssNbme.equbls("jbvb.lbng.Double")) {
 
-            return (greater.doubleValue() > less.doubleValue());
+            return (grebter.doubleVblue() > less.doubleVblue());
         }
         else {
             // Should never occur...
-            MONITOR_LOGGER.logp(Level.FINEST, GaugeMonitor.class.getName(),
-                    "isFirstStrictlyGreaterThanLast",
-                    "the threshold type is invalid");
-            return false;
+            MONITOR_LOGGER.logp(Level.FINEST, GbugeMonitor.clbss.getNbme(),
+                    "isFirstStrictlyGrebterThbnLbst",
+                    "the threshold type is invblid");
+            return fblse;
         }
     }
 
@@ -747,138 +747,138 @@ public class GaugeMonitor extends Monitor implements GaugeMonitorMBean {
      */
 
     /**
-     * Factory method for ObservedObject creation.
+     * Fbctory method for ObservedObject crebtion.
      *
      * @since 1.6
      */
     @Override
-    ObservedObject createObservedObject(ObjectName object) {
-        final GaugeMonitorObservedObject gmo =
-            new GaugeMonitorObservedObject(object);
-        gmo.setStatus(RISING_OR_FALLING);
-        gmo.setPreviousScanGauge(null);
+    ObservedObject crebteObservedObject(ObjectNbme object) {
+        finbl GbugeMonitorObservedObject gmo =
+            new GbugeMonitorObservedObject(object);
+        gmo.setStbtus(RISING_OR_FALLING);
+        gmo.setPreviousScbnGbuge(null);
         return gmo;
     }
 
     /**
-     * This method globally sets the derived gauge type for the given
-     * "object" and "attribute" after checking that the type of the
-     * supplied observed attribute value is one of the value types
+     * This method globblly sets the derived gbuge type for the given
+     * "object" bnd "bttribute" bfter checking thbt the type of the
+     * supplied observed bttribute vblue is one of the vblue types
      * supported by this monitor.
      */
     @Override
-    synchronized boolean isComparableTypeValid(ObjectName object,
-                                               String attribute,
-                                               Comparable<?> value) {
-        final GaugeMonitorObservedObject o =
-            (GaugeMonitorObservedObject) getObservedObject(object);
+    synchronized boolebn isCompbrbbleTypeVblid(ObjectNbme object,
+                                               String bttribute,
+                                               Compbrbble<?> vblue) {
+        finbl GbugeMonitorObservedObject o =
+            (GbugeMonitorObservedObject) getObservedObject(object);
         if (o == null)
-            return false;
+            return fblse;
 
-        // Check that the observed attribute is either of type
-        // "Integer" or "Float".
+        // Check thbt the observed bttribute is either of type
+        // "Integer" or "Flobt".
         //
-        if (value instanceof Integer) {
+        if (vblue instbnceof Integer) {
             o.setType(INTEGER);
-        } else if (value instanceof Byte) {
+        } else if (vblue instbnceof Byte) {
             o.setType(BYTE);
-        } else if (value instanceof Short) {
+        } else if (vblue instbnceof Short) {
             o.setType(SHORT);
-        } else if (value instanceof Long) {
+        } else if (vblue instbnceof Long) {
             o.setType(LONG);
-        } else if (value instanceof Float) {
+        } else if (vblue instbnceof Flobt) {
             o.setType(FLOAT);
-        } else if (value instanceof Double) {
+        } else if (vblue instbnceof Double) {
             o.setType(DOUBLE);
         } else {
-            return false;
+            return fblse;
         }
         return true;
     }
 
     @Override
-    synchronized Comparable<?> getDerivedGaugeFromComparable(
-                                                  ObjectName object,
-                                                  String attribute,
-                                                  Comparable<?> value) {
-        final GaugeMonitorObservedObject o =
-            (GaugeMonitorObservedObject) getObservedObject(object);
+    synchronized Compbrbble<?> getDerivedGbugeFromCompbrbble(
+                                                  ObjectNbme object,
+                                                  String bttribute,
+                                                  Compbrbble<?> vblue) {
+        finbl GbugeMonitorObservedObject o =
+            (GbugeMonitorObservedObject) getObservedObject(object);
         if (o == null)
             return null;
 
-        // Update the derived gauge attributes and check the
-        // validity of the new value. The derived gauge value
-        // is invalid when the differenceMode flag is set to
-        // true and it is the first notification, i.e. we
-        // haven't got 2 consecutive values to update the
-        // derived gauge.
+        // Updbte the derived gbuge bttributes bnd check the
+        // vblidity of the new vblue. The derived gbuge vblue
+        // is invblid when the differenceMode flbg is set to
+        // true bnd it is the first notificbtion, i.e. we
+        // hbven't got 2 consecutive vblues to updbte the
+        // derived gbuge.
         //
-        o.setDerivedGaugeValid(updateDerivedGauge(value, o));
+        o.setDerivedGbugeVblid(updbteDerivedGbuge(vblue, o));
 
-        return (Comparable<?>) o.getDerivedGauge();
+        return (Compbrbble<?>) o.getDerivedGbuge();
     }
 
     @Override
-    synchronized void onErrorNotification(MonitorNotification notification) {
-        final GaugeMonitorObservedObject o = (GaugeMonitorObservedObject)
-            getObservedObject(notification.getObservedObject());
+    synchronized void onErrorNotificbtion(MonitorNotificbtion notificbtion) {
+        finbl GbugeMonitorObservedObject o = (GbugeMonitorObservedObject)
+            getObservedObject(notificbtion.getObservedObject());
         if (o == null)
             return;
 
-        // Reset values.
+        // Reset vblues.
         //
-        o.setStatus(RISING_OR_FALLING);
-        o.setPreviousScanGauge(null);
+        o.setStbtus(RISING_OR_FALLING);
+        o.setPreviousScbnGbuge(null);
     }
 
     @Override
-    synchronized MonitorNotification buildAlarmNotification(
-                                               ObjectName object,
-                                               String attribute,
-                                               Comparable<?> value) {
-        final GaugeMonitorObservedObject o =
-            (GaugeMonitorObservedObject) getObservedObject(object);
+    synchronized MonitorNotificbtion buildAlbrmNotificbtion(
+                                               ObjectNbme object,
+                                               String bttribute,
+                                               Compbrbble<?> vblue) {
+        finbl GbugeMonitorObservedObject o =
+            (GbugeMonitorObservedObject) getObservedObject(object);
         if (o == null)
             return null;
 
-        // Notify the listeners if the updated derived
-        // gauge value is valid.
+        // Notify the listeners if the updbted derived
+        // gbuge vblue is vblid.
         //
-        final MonitorNotification alarm;
-        if (o.getDerivedGaugeValid())
-            alarm = updateNotifications(o);
+        finbl MonitorNotificbtion blbrm;
+        if (o.getDerivedGbugeVblid())
+            blbrm = updbteNotificbtions(o);
         else
-            alarm = null;
-        return alarm;
+            blbrm = null;
+        return blbrm;
     }
 
     /**
-     * Tests if the threshold high and threshold low are both of the
-     * same type as the gauge.  Both integer and floating-point types
-     * are allowed.
+     * Tests if the threshold high bnd threshold low bre both of the
+     * sbme type bs the gbuge.  Both integer bnd flobting-point types
+     * bre bllowed.
      *
      * Note:
-     *   If the optional lowThreshold or highThreshold have not been
-     *   initialized, their default value is an Integer object with
-     *   a value equal to zero.
+     *   If the optionbl lowThreshold or highThreshold hbve not been
+     *   initiblized, their defbult vblue is bn Integer object with
+     *   b vblue equbl to zero.
      *
-     * @param object The observed object.
-     * @param attribute The observed attribute.
-     * @param value The sample value.
-     * @return <CODE>true</CODE> if type is the same,
-     * <CODE>false</CODE> otherwise.
+     * @pbrbm object The observed object.
+     * @pbrbm bttribute The observed bttribute.
+     * @pbrbm vblue The sbmple vblue.
+     * @return <CODE>true</CODE> if type is the sbme,
+     * <CODE>fblse</CODE> otherwise.
      */
     @Override
-    synchronized boolean isThresholdTypeValid(ObjectName object,
-                                              String attribute,
-                                              Comparable<?> value) {
-        final GaugeMonitorObservedObject o =
-            (GaugeMonitorObservedObject) getObservedObject(object);
+    synchronized boolebn isThresholdTypeVblid(ObjectNbme object,
+                                              String bttribute,
+                                              Compbrbble<?> vblue) {
+        finbl GbugeMonitorObservedObject o =
+            (GbugeMonitorObservedObject) getObservedObject(object);
         if (o == null)
-            return false;
+            return fblse;
 
-        Class<? extends Number> c = classForType(o.getType());
-        return (isValidForType(highThreshold, c) &&
-                isValidForType(lowThreshold, c));
+        Clbss<? extends Number> c = clbssForType(o.getType());
+        return (isVblidForType(highThreshold, c) &&
+                isVblidForType(lowThreshold, c));
     }
 }

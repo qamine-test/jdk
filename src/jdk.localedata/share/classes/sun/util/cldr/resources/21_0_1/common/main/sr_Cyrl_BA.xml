@@ -3,99 +3,99 @@
 <ldml>
 	<identity>
 		<version number="$Revision: 4582 $"/>
-		<generation date="$Date: 2010-02-06 01:51:25 +0900 (Sat, 06 Feb 2010) $"/>
-		<language type="sr"/>
+		<generbtion dbte="$Dbte: 2010-02-06 01:51:25 +0900 (Sbt, 06 Feb 2010) $"/>
+		<lbngubge type="sr"/>
 		<script type="Cyrl"/>
 		<territory type="BA"/>
 	</identity>
-	<localeDisplayNames>
-		<languages>
-			<language type="sr" draft="unconfirmed">српски</language>
-		</languages>
-	</localeDisplayNames>
-	<dates>
-		<calendars>
-			<calendar type="gregorian">
+	<locbleDisplbyNbmes>
+		<lbngubges>
+			<lbngubge type="sr" drbft="unconfirmed">српски</lbngubge>
+		</lbngubges>
+	</locbleDisplbyNbmes>
+	<dbtes>
+		<cblendbrs>
+			<cblendbr type="gregoribn">
 				<months>
-					<monthContext type="format">
+					<monthContext type="formbt">
 						<monthWidth type="wide">
 							<month type="6">јуни</month>
 							<month type="7">јули</month>
 						</monthWidth>
 					</monthContext>
 				</months>
-				<days>
-					<dayContext type="format">
-						<dayWidth type="abbreviated">
-							<day type="wed">сри</day>
-						</dayWidth>
-						<dayWidth type="wide">
-							<day type="wed">сриједа</day>
-						</dayWidth>
-					</dayContext>
-				</days>
-				<dateFormats>
-					<dateFormatLength type="medium">
-						<dateFormat>
-							<pattern>yyyy-MM-dd</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="short">
-						<dateFormat>
-							<pattern>yy-MM-dd</pattern>
-						</dateFormat>
-					</dateFormatLength>
-				</dateFormats>
-				<timeFormats>
-					<timeFormatLength type="full">
-						<timeFormat>
-							<pattern>HH 'часова', mm 'минута', ss 'секунди' zzzz</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="medium">
-						<timeFormat>
-							<pattern>HH:mm:ss</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="short">
-						<timeFormat>
-							<pattern>HH:mm</pattern>
-						</timeFormat>
-					</timeFormatLength>
-				</timeFormats>
-				<dateTimeFormats>
-					<intervalFormats>
-						<intervalFormatItem id="Md">
-							<greatestDifference id="d" draft="unconfirmed">MM-dd - MM-dd</greatestDifference>
-							<greatestDifference id="M" draft="unconfirmed">MM-dd - MM-dd</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="MEd">
-							<greatestDifference id="d" draft="unconfirmed">E, MM-dd - E, MM-dd</greatestDifference>
-							<greatestDifference id="M" draft="unconfirmed">E, MM-dd - E, MM-dd</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yM">
-							<greatestDifference id="M" draft="unconfirmed">yy-MM - yy-MM</greatestDifference>
-							<greatestDifference id="y" draft="unconfirmed">yy-MM - yy-MM</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yMd">
-							<greatestDifference id="d" draft="unconfirmed">yy-MM-dd - yy-MM-dd</greatestDifference>
-							<greatestDifference id="M" draft="unconfirmed">yy-MM-dd - yy-MM-dd</greatestDifference>
-							<greatestDifference id="y" draft="unconfirmed">yy-MM-dd - yy-MM-dd</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yMEd">
-							<greatestDifference id="d" draft="unconfirmed">E, yy-MM-dd - E, yy-MM-dd</greatestDifference>
-							<greatestDifference id="M" draft="unconfirmed">E, yy-MM-dd - E, yy-MM-dd</greatestDifference>
-							<greatestDifference id="y" draft="unconfirmed">E, yy-MM-dd - E, yy-MM-dd</greatestDifference>
-						</intervalFormatItem>
-					</intervalFormats>
-				</dateTimeFormats>
-			</calendar>
-		</calendars>
-	</dates>
+				<dbys>
+					<dbyContext type="formbt">
+						<dbyWidth type="bbbrevibted">
+							<dby type="wed">сри</dby>
+						</dbyWidth>
+						<dbyWidth type="wide">
+							<dby type="wed">сриједа</dby>
+						</dbyWidth>
+					</dbyContext>
+				</dbys>
+				<dbteFormbts>
+					<dbteFormbtLength type="medium">
+						<dbteFormbt>
+							<pbttern>yyyy-MM-dd</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+					<dbteFormbtLength type="short">
+						<dbteFormbt>
+							<pbttern>yy-MM-dd</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+				</dbteFormbts>
+				<timeFormbts>
+					<timeFormbtLength type="full">
+						<timeFormbt>
+							<pbttern>HH 'часова', mm 'минута', ss 'секунди' zzzz</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+					<timeFormbtLength type="medium">
+						<timeFormbt>
+							<pbttern>HH:mm:ss</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+					<timeFormbtLength type="short">
+						<timeFormbt>
+							<pbttern>HH:mm</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+				</timeFormbts>
+				<dbteTimeFormbts>
+					<intervblFormbts>
+						<intervblFormbtItem id="Md">
+							<grebtestDifference id="d" drbft="unconfirmed">MM-dd - MM-dd</grebtestDifference>
+							<grebtestDifference id="M" drbft="unconfirmed">MM-dd - MM-dd</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="MEd">
+							<grebtestDifference id="d" drbft="unconfirmed">E, MM-dd - E, MM-dd</grebtestDifference>
+							<grebtestDifference id="M" drbft="unconfirmed">E, MM-dd - E, MM-dd</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="yM">
+							<grebtestDifference id="M" drbft="unconfirmed">yy-MM - yy-MM</grebtestDifference>
+							<grebtestDifference id="y" drbft="unconfirmed">yy-MM - yy-MM</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="yMd">
+							<grebtestDifference id="d" drbft="unconfirmed">yy-MM-dd - yy-MM-dd</grebtestDifference>
+							<grebtestDifference id="M" drbft="unconfirmed">yy-MM-dd - yy-MM-dd</grebtestDifference>
+							<grebtestDifference id="y" drbft="unconfirmed">yy-MM-dd - yy-MM-dd</grebtestDifference>
+						</intervblFormbtItem>
+						<intervblFormbtItem id="yMEd">
+							<grebtestDifference id="d" drbft="unconfirmed">E, yy-MM-dd - E, yy-MM-dd</grebtestDifference>
+							<grebtestDifference id="M" drbft="unconfirmed">E, yy-MM-dd - E, yy-MM-dd</grebtestDifference>
+							<grebtestDifference id="y" drbft="unconfirmed">E, yy-MM-dd - E, yy-MM-dd</grebtestDifference>
+						</intervblFormbtItem>
+					</intervblFormbts>
+				</dbteTimeFormbts>
+			</cblendbr>
+		</cblendbrs>
+	</dbtes>
 	<numbers>
 		<currencies>
 			<currency type="BAM">
-				<displayName>Конвертибилна Марка</displayName>
+				<displbyNbme>Конвертибилна Марка</displbyNbme>
 				<symbol>КМ.</symbol>
 			</currency>
 		</currencies>

@@ -1,334 +1,334 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt.datatransfer;
+pbckbge jbvb.bwt.dbtbtrbnsfer;
 
-import java.util.Enumeration;
-import java.util.Hashtable;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
+import jbvb.util.Enumerbtion;
+import jbvb.util.Hbshtbble;
+import jbvb.util.Iterbtor;
+import jbvb.util.Mbp;
+import jbvb.util.Set;
 
 
 /**
- * An object that encapsulates the parameter list of a MimeType
- * as defined in RFC 2045 and 2046.
+ * An object thbt encbpsulbtes the pbrbmeter list of b MimeType
+ * bs defined in RFC 2045 bnd 2046.
  *
- * @author jeff.dunn@eng.sun.com
+ * @buthor jeff.dunn@eng.sun.com
  */
-class MimeTypeParameterList implements Cloneable {
+clbss MimeTypePbrbmeterList implements Clonebble {
 
     /**
-     * Default constructor.
+     * Defbult constructor.
      */
-    public MimeTypeParameterList() {
-        parameters = new Hashtable<>();
+    public MimeTypePbrbmeterList() {
+        pbrbmeters = new Hbshtbble<>();
     }
 
-    public MimeTypeParameterList(String rawdata)
-        throws MimeTypeParseException
+    public MimeTypePbrbmeterList(String rbwdbtb)
+        throws MimeTypePbrseException
     {
-        parameters = new Hashtable<>();
+        pbrbmeters = new Hbshtbble<>();
 
-        //    now parse rawdata
-        parse(rawdata);
+        //    now pbrse rbwdbtb
+        pbrse(rbwdbtb);
     }
 
-    public int hashCode() {
-        int code = Integer.MAX_VALUE/45; // "random" value for empty lists
-        String paramName = null;
-        Enumeration<String> enum_ = this.getNames();
+    public int hbshCode() {
+        int code = Integer.MAX_VALUE/45; // "rbndom" vblue for empty lists
+        String pbrbmNbme = null;
+        Enumerbtion<String> enum_ = this.getNbmes();
 
-        while (enum_.hasMoreElements()) {
-            paramName = enum_.nextElement();
-            code += paramName.hashCode();
-            code += this.get(paramName).hashCode();
+        while (enum_.hbsMoreElements()) {
+            pbrbmNbme = enum_.nextElement();
+            code += pbrbmNbme.hbshCode();
+            code += this.get(pbrbmNbme).hbshCode();
         }
 
         return code;
-    } // hashCode()
+    } // hbshCode()
 
     /**
-     * Two parameter lists are considered equal if they have exactly
-     * the same set of parameter names and associated values. The
-     * order of the parameters is not considered.
+     * Two pbrbmeter lists bre considered equbl if they hbve exbctly
+     * the sbme set of pbrbmeter nbmes bnd bssocibted vblues. The
+     * order of the pbrbmeters is not considered.
      */
-    public boolean equals(Object thatObject) {
-        //System.out.println("MimeTypeParameterList.equals("+this+","+thatObject+")");
-        if (!(thatObject instanceof MimeTypeParameterList)) {
-            return false;
+    public boolebn equbls(Object thbtObject) {
+        //System.out.println("MimeTypePbrbmeterList.equbls("+this+","+thbtObject+")");
+        if (!(thbtObject instbnceof MimeTypePbrbmeterList)) {
+            return fblse;
         }
-        MimeTypeParameterList that = (MimeTypeParameterList)thatObject;
-        if (this.size() != that.size()) {
-            return false;
+        MimeTypePbrbmeterList thbt = (MimeTypePbrbmeterList)thbtObject;
+        if (this.size() != thbt.size()) {
+            return fblse;
         }
-        String name = null;
-        String thisValue = null;
-        String thatValue = null;
-        Set<Map.Entry<String, String>> entries = parameters.entrySet();
-        Iterator<Map.Entry<String, String>> iterator = entries.iterator();
-        Map.Entry<String, String> entry = null;
-        while (iterator.hasNext()) {
-            entry = iterator.next();
-            name = entry.getKey();
-            thisValue = entry.getValue();
-            thatValue = that.parameters.get(name);
-            if ((thisValue == null) || (thatValue == null)) {
-                // both null -> equal, only one null -> not equal
-                if (thisValue != thatValue) {
-                    return false;
+        String nbme = null;
+        String thisVblue = null;
+        String thbtVblue = null;
+        Set<Mbp.Entry<String, String>> entries = pbrbmeters.entrySet();
+        Iterbtor<Mbp.Entry<String, String>> iterbtor = entries.iterbtor();
+        Mbp.Entry<String, String> entry = null;
+        while (iterbtor.hbsNext()) {
+            entry = iterbtor.next();
+            nbme = entry.getKey();
+            thisVblue = entry.getVblue();
+            thbtVblue = thbt.pbrbmeters.get(nbme);
+            if ((thisVblue == null) || (thbtVblue == null)) {
+                // both null -> equbl, only one null -> not equbl
+                if (thisVblue != thbtVblue) {
+                    return fblse;
                 }
-            } else if (!thisValue.equals(thatValue)) {
-                return false;
+            } else if (!thisVblue.equbls(thbtVblue)) {
+                return fblse;
             }
-        } // while iterator
+        } // while iterbtor
 
         return true;
-    } // equals()
+    } // equbls()
 
     /**
-     * A routine for parsing the parameter list out of a String.
+     * A routine for pbrsing the pbrbmeter list out of b String.
      */
-    protected void parse(String rawdata) throws MimeTypeParseException {
-        int length = rawdata.length();
+    protected void pbrse(String rbwdbtb) throws MimeTypePbrseException {
+        int length = rbwdbtb.length();
         if(length > 0) {
-            int currentIndex = skipWhiteSpace(rawdata, 0);
-            int lastIndex = 0;
+            int currentIndex = skipWhiteSpbce(rbwdbtb, 0);
+            int lbstIndex = 0;
 
             if(currentIndex < length) {
-                char currentChar = rawdata.charAt(currentIndex);
-                while ((currentIndex < length) && (currentChar == ';')) {
-                    String name;
-                    String value;
-                    boolean foundit;
+                chbr currentChbr = rbwdbtb.chbrAt(currentIndex);
+                while ((currentIndex < length) && (currentChbr == ';')) {
+                    String nbme;
+                    String vblue;
+                    boolebn foundit;
 
-                    //    eat the ';'
+                    //    ebt the ';'
                     ++currentIndex;
 
-                    //    now parse the parameter name
+                    //    now pbrse the pbrbmeter nbme
 
-                    //    skip whitespace
-                    currentIndex = skipWhiteSpace(rawdata, currentIndex);
+                    //    skip whitespbce
+                    currentIndex = skipWhiteSpbce(rbwdbtb, currentIndex);
 
                     if(currentIndex < length) {
-                        //    find the end of the token char run
-                        lastIndex = currentIndex;
-                        currentChar = rawdata.charAt(currentIndex);
-                        while((currentIndex < length) && isTokenChar(currentChar)) {
+                        //    find the end of the token chbr run
+                        lbstIndex = currentIndex;
+                        currentChbr = rbwdbtb.chbrAt(currentIndex);
+                        while((currentIndex < length) && isTokenChbr(currentChbr)) {
                             ++currentIndex;
-                            currentChar = rawdata.charAt(currentIndex);
+                            currentChbr = rbwdbtb.chbrAt(currentIndex);
                         }
-                        name = rawdata.substring(lastIndex, currentIndex).toLowerCase();
+                        nbme = rbwdbtb.substring(lbstIndex, currentIndex).toLowerCbse();
 
-                        //    now parse the '=' that separates the name from the value
+                        //    now pbrse the '=' thbt sepbrbtes the nbme from the vblue
 
-                        //    skip whitespace
-                        currentIndex = skipWhiteSpace(rawdata, currentIndex);
+                        //    skip whitespbce
+                        currentIndex = skipWhiteSpbce(rbwdbtb, currentIndex);
 
-                        if((currentIndex < length) && (rawdata.charAt(currentIndex) == '='))  {
-                            //    eat it and parse the parameter value
+                        if((currentIndex < length) && (rbwdbtb.chbrAt(currentIndex) == '='))  {
+                            //    ebt it bnd pbrse the pbrbmeter vblue
                             ++currentIndex;
 
-                            //    skip whitespace
-                            currentIndex = skipWhiteSpace(rawdata, currentIndex);
+                            //    skip whitespbce
+                            currentIndex = skipWhiteSpbce(rbwdbtb, currentIndex);
 
                             if(currentIndex < length) {
-                                //    now find out whether or not we have a quoted value
-                                currentChar = rawdata.charAt(currentIndex);
-                                if(currentChar == '"') {
-                                    //    yup it's quoted so eat it and capture the quoted string
+                                //    now find out whether or not we hbve b quoted vblue
+                                currentChbr = rbwdbtb.chbrAt(currentIndex);
+                                if(currentChbr == '"') {
+                                    //    yup it's quoted so ebt it bnd cbpture the quoted string
                                     ++currentIndex;
-                                    lastIndex = currentIndex;
+                                    lbstIndex = currentIndex;
 
                                     if(currentIndex < length) {
                                         //    find the next unescqped quote
-                                        foundit = false;
+                                        foundit = fblse;
                                         while((currentIndex < length) && !foundit) {
-                                            currentChar = rawdata.charAt(currentIndex);
-                                            if(currentChar == '\\') {
-                                                //    found an escape sequence so pass this and the next character
+                                            currentChbr = rbwdbtb.chbrAt(currentIndex);
+                                            if(currentChbr == '\\') {
+                                                //    found bn escbpe sequence so pbss this bnd the next chbrbcter
                                                 currentIndex += 2;
-                                            } else if(currentChar == '"') {
+                                            } else if(currentChbr == '"') {
                                                 //    foundit!
                                                 foundit = true;
                                             } else {
                                                 ++currentIndex;
                                             }
                                         }
-                                        if(currentChar == '"') {
-                                            value = unquote(rawdata.substring(lastIndex, currentIndex));
-                                            //    eat the quote
+                                        if(currentChbr == '"') {
+                                            vblue = unquote(rbwdbtb.substring(lbstIndex, currentIndex));
+                                            //    ebt the quote
                                             ++currentIndex;
                                         } else {
-                                            throw new MimeTypeParseException("Encountered unterminated quoted parameter value.");
+                                            throw new MimeTypePbrseException("Encountered unterminbted quoted pbrbmeter vblue.");
                                         }
                                     } else {
-                                        throw new MimeTypeParseException("Encountered unterminated quoted parameter value.");
+                                        throw new MimeTypePbrseException("Encountered unterminbted quoted pbrbmeter vblue.");
                                     }
-                                } else if(isTokenChar(currentChar)) {
-                                    //    nope it's an ordinary token so it ends with a non-token char
-                                    lastIndex = currentIndex;
-                                    foundit = false;
+                                } else if(isTokenChbr(currentChbr)) {
+                                    //    nope it's bn ordinbry token so it ends with b non-token chbr
+                                    lbstIndex = currentIndex;
+                                    foundit = fblse;
                                     while((currentIndex < length) && !foundit) {
-                                        currentChar = rawdata.charAt(currentIndex);
+                                        currentChbr = rbwdbtb.chbrAt(currentIndex);
 
-                                        if(isTokenChar(currentChar)) {
+                                        if(isTokenChbr(currentChbr)) {
                                             ++currentIndex;
                                         } else {
                                             foundit = true;
                                         }
                                     }
-                                    value = rawdata.substring(lastIndex, currentIndex);
+                                    vblue = rbwdbtb.substring(lbstIndex, currentIndex);
                                 } else {
-                                    //    it ain't a value
-                                    throw new MimeTypeParseException("Unexpected character encountered at index " + currentIndex);
+                                    //    it bin't b vblue
+                                    throw new MimeTypePbrseException("Unexpected chbrbcter encountered bt index " + currentIndex);
                                 }
 
-                                //    now put the data into the hashtable
-                                parameters.put(name, value);
+                                //    now put the dbtb into the hbshtbble
+                                pbrbmeters.put(nbme, vblue);
                             } else {
-                                throw new MimeTypeParseException("Couldn't find a value for parameter named " + name);
+                                throw new MimeTypePbrseException("Couldn't find b vblue for pbrbmeter nbmed " + nbme);
                             }
                         } else {
-                            throw new MimeTypeParseException("Couldn't find the '=' that separates a parameter name from its value.");
+                            throw new MimeTypePbrseException("Couldn't find the '=' thbt sepbrbtes b pbrbmeter nbme from its vblue.");
                         }
                     } else {
-                        throw new MimeTypeParseException("Couldn't find parameter name");
+                        throw new MimeTypePbrseException("Couldn't find pbrbmeter nbme");
                     }
 
-                    //    setup the next iteration
-                    currentIndex = skipWhiteSpace(rawdata, currentIndex);
+                    //    setup the next iterbtion
+                    currentIndex = skipWhiteSpbce(rbwdbtb, currentIndex);
                     if(currentIndex < length) {
-                        currentChar = rawdata.charAt(currentIndex);
+                        currentChbr = rbwdbtb.chbrAt(currentIndex);
                     }
                 }
                 if(currentIndex < length) {
-                    throw new MimeTypeParseException("More characters encountered in input than expected.");
+                    throw new MimeTypePbrseException("More chbrbcters encountered in input thbn expected.");
                 }
             }
         }
     }
 
     /**
-     * return the number of name-value pairs in this list.
+     * return the number of nbme-vblue pbirs in this list.
      */
     public int size() {
-        return parameters.size();
+        return pbrbmeters.size();
     }
 
     /**
      * Determine whether or not this list is empty.
      */
-    public boolean isEmpty() {
-        return parameters.isEmpty();
+    public boolebn isEmpty() {
+        return pbrbmeters.isEmpty();
     }
 
     /**
-     * Retrieve the value associated with the given name, or null if there
-     * is no current association.
+     * Retrieve the vblue bssocibted with the given nbme, or null if there
+     * is no current bssocibtion.
      */
-    public String get(String name) {
-        return parameters.get(name.trim().toLowerCase());
+    public String get(String nbme) {
+        return pbrbmeters.get(nbme.trim().toLowerCbse());
     }
 
     /**
-     * Set the value to be associated with the given name, replacing
-     * any previous association.
+     * Set the vblue to be bssocibted with the given nbme, replbcing
+     * bny previous bssocibtion.
      */
-    public void set(String name, String value) {
-        parameters.put(name.trim().toLowerCase(), value);
+    public void set(String nbme, String vblue) {
+        pbrbmeters.put(nbme.trim().toLowerCbse(), vblue);
     }
 
     /**
-     * Remove any value associated with the given name.
+     * Remove bny vblue bssocibted with the given nbme.
      */
-    public void remove(String name) {
-        parameters.remove(name.trim().toLowerCase());
+    public void remove(String nbme) {
+        pbrbmeters.remove(nbme.trim().toLowerCbse());
     }
 
     /**
-     * Retrieve an enumeration of all the names in this list.
+     * Retrieve bn enumerbtion of bll the nbmes in this list.
      */
-    public Enumeration<String> getNames() {
-        return parameters.keys();
+    public Enumerbtion<String> getNbmes() {
+        return pbrbmeters.keys();
     }
 
     public String toString() {
-        // Heuristic: 8 characters per field
-        StringBuilder buffer = new StringBuilder(parameters.size() * 16);
+        // Heuristic: 8 chbrbcters per field
+        StringBuilder buffer = new StringBuilder(pbrbmeters.size() * 16);
 
-        Enumeration<String> keys = parameters.keys();
-        while(keys.hasMoreElements())
+        Enumerbtion<String> keys = pbrbmeters.keys();
+        while(keys.hbsMoreElements())
         {
-            buffer.append("; ");
+            buffer.bppend("; ");
 
             String key = keys.nextElement();
-            buffer.append(key);
-            buffer.append('=');
-               buffer.append(quote(parameters.get(key)));
+            buffer.bppend(key);
+            buffer.bppend('=');
+               buffer.bppend(quote(pbrbmeters.get(key)));
         }
 
         return buffer.toString();
     }
 
     /**
-     * @return a clone of this object
+     * @return b clone of this object
      */
-    @SuppressWarnings("unchecked") // Cast from clone
+    @SuppressWbrnings("unchecked") // Cbst from clone
      public Object clone() {
-         MimeTypeParameterList newObj = null;
+         MimeTypePbrbmeterList newObj = null;
          try {
-             newObj = (MimeTypeParameterList)super.clone();
-         } catch (CloneNotSupportedException cannotHappen) {
+             newObj = (MimeTypePbrbmeterList)super.clone();
+         } cbtch (CloneNotSupportedException cbnnotHbppen) {
          }
-         newObj.parameters = (Hashtable<String, String>)parameters.clone();
+         newObj.pbrbmeters = (Hbshtbble<String, String>)pbrbmeters.clone();
          return newObj;
      }
 
-    private Hashtable<String, String> parameters;
+    privbte Hbshtbble<String, String> pbrbmeters;
 
-    //    below here be scary parsing related things
+    //    below here be scbry pbrsing relbted things
 
     /**
-     * Determine whether or not a given character belongs to a legal token.
+     * Determine whether or not b given chbrbcter belongs to b legbl token.
      */
-    private static boolean isTokenChar(char c) {
+    privbte stbtic boolebn isTokenChbr(chbr c) {
         return ((c > 040) && (c < 0177)) && (TSPECIALS.indexOf(c) < 0);
     }
 
     /**
-     * return the index of the first non white space character in
-     * rawdata at or after index i.
+     * return the index of the first non white spbce chbrbcter in
+     * rbwdbtb bt or bfter index i.
      */
-    private static int skipWhiteSpace(String rawdata, int i) {
-        int length = rawdata.length();
+    privbte stbtic int skipWhiteSpbce(String rbwdbtb, int i) {
+        int length = rbwdbtb.length();
         if (i < length) {
-            char c =  rawdata.charAt(i);
-            while ((i < length) && Character.isWhitespace(c)) {
+            chbr c =  rbwdbtb.chbrAt(i);
+            while ((i < length) && Chbrbcter.isWhitespbce(c)) {
                 ++i;
-                c = rawdata.charAt(i);
+                c = rbwdbtb.chbrAt(i);
             }
         }
 
@@ -336,60 +336,60 @@ class MimeTypeParameterList implements Cloneable {
     }
 
     /**
-     * A routine that knows how and when to quote and escape the given value.
+     * A routine thbt knows how bnd when to quote bnd escbpe the given vblue.
      */
-    private static String quote(String value) {
-        boolean needsQuotes = false;
+    privbte stbtic String quote(String vblue) {
+        boolebn needsQuotes = fblse;
 
-        //    check to see if we actually have to quote this thing
-        int length = value.length();
+        //    check to see if we bctublly hbve to quote this thing
+        int length = vblue.length();
         for(int i = 0; (i < length) && !needsQuotes; ++i) {
-            needsQuotes = !isTokenChar(value.charAt(i));
+            needsQuotes = !isTokenChbr(vblue.chbrAt(i));
         }
 
         if(needsQuotes) {
             StringBuilder buffer = new StringBuilder((int)(length * 1.5));
 
-            //    add the initial quote
-            buffer.append('"');
+            //    bdd the initibl quote
+            buffer.bppend('"');
 
-            //    add the properly escaped text
+            //    bdd the properly escbped text
             for(int i = 0; i < length; ++i) {
-                char c = value.charAt(i);
+                chbr c = vblue.chbrAt(i);
                 if((c == '\\') || (c == '"')) {
-                    buffer.append('\\');
+                    buffer.bppend('\\');
                 }
-                buffer.append(c);
+                buffer.bppend(c);
             }
 
-            //    add the closing quote
-            buffer.append('"');
+            //    bdd the closing quote
+            buffer.bppend('"');
 
             return buffer.toString();
         }
         else
         {
-            return value;
+            return vblue;
         }
     }
 
     /**
-     * A routine that knows how to strip the quotes and escape sequences from the given value.
+     * A routine thbt knows how to strip the quotes bnd escbpe sequences from the given vblue.
      */
-    private static String unquote(String value) {
-        int valueLength = value.length();
-        StringBuilder buffer = new StringBuilder(valueLength);
+    privbte stbtic String unquote(String vblue) {
+        int vblueLength = vblue.length();
+        StringBuilder buffer = new StringBuilder(vblueLength);
 
-        boolean escaped = false;
-        for(int i = 0; i < valueLength; ++i) {
-            char currentChar = value.charAt(i);
-            if(!escaped && (currentChar != '\\')) {
-                buffer.append(currentChar);
-            } else if(escaped) {
-                buffer.append(currentChar);
-                escaped = false;
+        boolebn escbped = fblse;
+        for(int i = 0; i < vblueLength; ++i) {
+            chbr currentChbr = vblue.chbrAt(i);
+            if(!escbped && (currentChbr != '\\')) {
+                buffer.bppend(currentChbr);
+            } else if(escbped) {
+                buffer.bppend(currentChbr);
+                escbped = fblse;
             } else {
-                escaped = true;
+                escbped = true;
             }
         }
 
@@ -397,8 +397,8 @@ class MimeTypeParameterList implements Cloneable {
     }
 
     /**
-     * A string that holds all the special chars.
+     * A string thbt holds bll the specibl chbrs.
      */
-    private static final String TSPECIALS = "()<>@,;:\\\"/[]?=";
+    privbte stbtic finbl String TSPECIALS = "()<>@,;:\\\"/[]?=";
 
 }

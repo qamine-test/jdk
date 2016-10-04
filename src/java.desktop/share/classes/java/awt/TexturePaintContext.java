@@ -1,54 +1,54 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt;
+pbckbge jbvb.bwt;
 
-import java.awt.image.BufferedImage;
-import java.awt.image.Raster;
-import java.awt.image.WritableRaster;
-import java.awt.image.ColorModel;
-import java.awt.image.DirectColorModel;
-import java.awt.image.IndexColorModel;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.NoninvertibleTransformException;
-import java.lang.ref.WeakReference;
-import sun.awt.image.SunWritableRaster;
-import sun.awt.image.IntegerInterleavedRaster;
-import sun.awt.image.ByteInterleavedRaster;
+import jbvb.bwt.imbge.BufferedImbge;
+import jbvb.bwt.imbge.Rbster;
+import jbvb.bwt.imbge.WritbbleRbster;
+import jbvb.bwt.imbge.ColorModel;
+import jbvb.bwt.imbge.DirectColorModel;
+import jbvb.bwt.imbge.IndexColorModel;
+import jbvb.bwt.geom.AffineTrbnsform;
+import jbvb.bwt.geom.NoninvertibleTrbnsformException;
+import jbvb.lbng.ref.WebkReference;
+import sun.bwt.imbge.SunWritbbleRbster;
+import sun.bwt.imbge.IntegerInterlebvedRbster;
+import sun.bwt.imbge.ByteInterlebvedRbster;
 
-abstract class TexturePaintContext implements PaintContext {
-    public static ColorModel xrgbmodel =
+bbstrbct clbss TexturePbintContext implements PbintContext {
+    public stbtic ColorModel xrgbmodel =
         new DirectColorModel(24, 0xff0000, 0xff00, 0xff);
-    public static ColorModel argbmodel = ColorModel.getRGBdefault();
+    public stbtic ColorModel brgbmodel = ColorModel.getRGBdefbult();
 
     ColorModel colorModel;
     int bWidth;
     int bHeight;
-    int maxWidth;
+    int mbxWidth;
 
-    WritableRaster outRas;
+    WritbbleRbster outRbs;
 
     double xOrg;
     double yOrg;
@@ -66,125 +66,125 @@ abstract class TexturePaintContext implements PaintContext {
     int rowincxerr;
     int rowincyerr;
 
-    public static PaintContext getContext(BufferedImage bufImg,
-                                          AffineTransform xform,
+    public stbtic PbintContext getContext(BufferedImbge bufImg,
+                                          AffineTrbnsform xform,
                                           RenderingHints hints,
-                                          Rectangle devBounds) {
-        WritableRaster raster = bufImg.getRaster();
+                                          Rectbngle devBounds) {
+        WritbbleRbster rbster = bufImg.getRbster();
         ColorModel cm = bufImg.getColorModel();
-        int maxw = devBounds.width;
-        Object val = hints.get(RenderingHints.KEY_INTERPOLATION);
-        boolean filter =
-            (val == null
+        int mbxw = devBounds.width;
+        Object vbl = hints.get(RenderingHints.KEY_INTERPOLATION);
+        boolebn filter =
+            (vbl == null
              ? (hints.get(RenderingHints.KEY_RENDERING) == RenderingHints.VALUE_RENDER_QUALITY)
-             : (val != RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR));
-        if (raster instanceof IntegerInterleavedRaster &&
-            (!filter || isFilterableDCM(cm)))
+             : (vbl != RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR));
+        if (rbster instbnceof IntegerInterlebvedRbster &&
+            (!filter || isFilterbbleDCM(cm)))
         {
-            IntegerInterleavedRaster iir = (IntegerInterleavedRaster) raster;
-            if (iir.getNumDataElements() == 1 && iir.getPixelStride() == 1) {
-                return new Int(iir, cm, xform, maxw, filter);
+            IntegerInterlebvedRbster iir = (IntegerInterlebvedRbster) rbster;
+            if (iir.getNumDbtbElements() == 1 && iir.getPixelStride() == 1) {
+                return new Int(iir, cm, xform, mbxw, filter);
             }
-        } else if (raster instanceof ByteInterleavedRaster) {
-            ByteInterleavedRaster bir = (ByteInterleavedRaster) raster;
-            if (bir.getNumDataElements() == 1 && bir.getPixelStride() == 1) {
+        } else if (rbster instbnceof ByteInterlebvedRbster) {
+            ByteInterlebvedRbster bir = (ByteInterlebvedRbster) rbster;
+            if (bir.getNumDbtbElements() == 1 && bir.getPixelStride() == 1) {
                 if (filter) {
-                    if (isFilterableICM(cm)) {
-                        return new ByteFilter(bir, cm, xform, maxw);
+                    if (isFilterbbleICM(cm)) {
+                        return new ByteFilter(bir, cm, xform, mbxw);
                     }
                 } else {
-                    return new Byte(bir, cm, xform, maxw);
+                    return new Byte(bir, cm, xform, mbxw);
                 }
             }
         }
-        return new Any(raster, cm, xform, maxw, filter);
+        return new Any(rbster, cm, xform, mbxw, filter);
     }
 
-    public static boolean isFilterableICM(ColorModel cm) {
-        if (cm instanceof IndexColorModel) {
+    public stbtic boolebn isFilterbbleICM(ColorModel cm) {
+        if (cm instbnceof IndexColorModel) {
             IndexColorModel icm = (IndexColorModel) cm;
-            if (icm.getMapSize() <= 256) {
+            if (icm.getMbpSize() <= 256) {
                 return true;
             }
         }
-        return false;
+        return fblse;
     }
 
-    public static boolean isFilterableDCM(ColorModel cm) {
-        if (cm instanceof DirectColorModel) {
+    public stbtic boolebn isFilterbbleDCM(ColorModel cm) {
+        if (cm instbnceof DirectColorModel) {
             DirectColorModel dcm = (DirectColorModel) cm;
-            return (isMaskOK(dcm.getAlphaMask(), true) &&
-                    isMaskOK(dcm.getRedMask(), false) &&
-                    isMaskOK(dcm.getGreenMask(), false) &&
-                    isMaskOK(dcm.getBlueMask(), false));
+            return (isMbskOK(dcm.getAlphbMbsk(), true) &&
+                    isMbskOK(dcm.getRedMbsk(), fblse) &&
+                    isMbskOK(dcm.getGreenMbsk(), fblse) &&
+                    isMbskOK(dcm.getBlueMbsk(), fblse));
         }
-        return false;
+        return fblse;
     }
 
-    public static boolean isMaskOK(int mask, boolean canbezero) {
-        if (canbezero && mask == 0) {
+    public stbtic boolebn isMbskOK(int mbsk, boolebn cbnbezero) {
+        if (cbnbezero && mbsk == 0) {
             return true;
         }
-        return (mask == 0xff ||
-                mask == 0xff00 ||
-                mask == 0xff0000 ||
-                mask == 0xff000000);
+        return (mbsk == 0xff ||
+                mbsk == 0xff00 ||
+                mbsk == 0xff0000 ||
+                mbsk == 0xff000000);
     }
 
-    public static ColorModel getInternedColorModel(ColorModel cm) {
-        if (xrgbmodel == cm || xrgbmodel.equals(cm)) {
+    public stbtic ColorModel getInternedColorModel(ColorModel cm) {
+        if (xrgbmodel == cm || xrgbmodel.equbls(cm)) {
             return xrgbmodel;
         }
-        if (argbmodel == cm || argbmodel.equals(cm)) {
-            return argbmodel;
+        if (brgbmodel == cm || brgbmodel.equbls(cm)) {
+            return brgbmodel;
         }
         return cm;
     }
 
-    TexturePaintContext(ColorModel cm, AffineTransform xform,
-                        int bWidth, int bHeight, int maxw) {
+    TexturePbintContext(ColorModel cm, AffineTrbnsform xform,
+                        int bWidth, int bHeight, int mbxw) {
         this.colorModel = getInternedColorModel(cm);
         this.bWidth = bWidth;
         this.bHeight = bHeight;
-        this.maxWidth = maxw;
+        this.mbxWidth = mbxw;
 
         try {
-            xform = xform.createInverse();
-        } catch (NoninvertibleTransformException e) {
-            xform.setToScale(0, 0);
+            xform = xform.crebteInverse();
+        } cbtch (NoninvertibleTrbnsformException e) {
+            xform.setToScble(0, 0);
         }
-        this.incXAcross = mod(xform.getScaleX(), bWidth);
-        this.incYAcross = mod(xform.getShearY(), bHeight);
-        this.incXDown = mod(xform.getShearX(), bWidth);
-        this.incYDown = mod(xform.getScaleY(), bHeight);
-        this.xOrg = xform.getTranslateX();
-        this.yOrg = xform.getTranslateY();
+        this.incXAcross = mod(xform.getScbleX(), bWidth);
+        this.incYAcross = mod(xform.getShebrY(), bHeight);
+        this.incXDown = mod(xform.getShebrX(), bWidth);
+        this.incYDown = mod(xform.getScbleY(), bHeight);
+        this.xOrg = xform.getTrbnslbteX();
+        this.yOrg = xform.getTrbnslbteY();
         this.colincx = (int) incXAcross;
         this.colincy = (int) incYAcross;
-        this.colincxerr = fractAsInt(incXAcross);
-        this.colincyerr = fractAsInt(incYAcross);
+        this.colincxerr = frbctAsInt(incXAcross);
+        this.colincyerr = frbctAsInt(incYAcross);
         this.rowincx = (int) incXDown;
         this.rowincy = (int) incYDown;
-        this.rowincxerr = fractAsInt(incXDown);
-        this.rowincyerr = fractAsInt(incYDown);
+        this.rowincxerr = frbctAsInt(incXDown);
+        this.rowincyerr = frbctAsInt(incYDown);
 
     }
 
-    static int fractAsInt(double d) {
+    stbtic int frbctAsInt(double d) {
         return (int) ((d % 1.0) * Integer.MAX_VALUE);
     }
 
-    static double mod(double num, double den) {
+    stbtic double mod(double num, double den) {
         num = num % den;
         if (num < 0) {
             num += den;
             if (num >= den) {
-                // For very small negative numerators, the answer might
-                // be such a tiny bit less than den that the difference
-                // is smaller than the mantissa of a double allows and
-                // the result would then be rounded to den.  If that is
-                // the case then we map that number to 0 as the nearest
-                // modulus representation.
+                // For very smbll negbtive numerbtors, the bnswer might
+                // be such b tiny bit less thbn den thbt the difference
+                // is smbller thbn the mbntissb of b double bllows bnd
+                // the result would then be rounded to den.  If thbt is
+                // the cbse then we mbp thbt number to 0 bs the nebrest
+                // modulus representbtion.
                 num = 0;
             }
         }
@@ -192,10 +192,10 @@ abstract class TexturePaintContext implements PaintContext {
     }
 
     /**
-     * Release the resources allocated for the operation.
+     * Relebse the resources bllocbted for the operbtion.
      */
     public void dispose() {
-        dropRaster(colorModel, outRas);
+        dropRbster(colorModel, outRbs);
     }
 
     /**
@@ -206,112 +206,112 @@ abstract class TexturePaintContext implements PaintContext {
     }
 
     /**
-     * Return a Raster containing the colors generated for the graphics
-     * operation.
-     * @param x,y,w,h The area in device space for which colors are
-     * generated.
+     * Return b Rbster contbining the colors generbted for the grbphics
+     * operbtion.
+     * @pbrbm x,y,w,h The breb in device spbce for which colors bre
+     * generbted.
      */
-    public Raster getRaster(int x, int y, int w, int h) {
-        if (outRas == null ||
-            outRas.getWidth() < w ||
-            outRas.getHeight() < h)
+    public Rbster getRbster(int x, int y, int w, int h) {
+        if (outRbs == null ||
+            outRbs.getWidth() < w ||
+            outRbs.getHeight() < h)
         {
-            // If h==1, we will probably get lots of "scanline" rects
-            outRas = makeRaster((h == 1 ? Math.max(w, maxWidth) : w), h);
+            // If h==1, we will probbbly get lots of "scbnline" rects
+            outRbs = mbkeRbster((h == 1 ? Mbth.mbx(w, mbxWidth) : w), h);
         }
         double X = mod(xOrg + x * incXAcross + y * incXDown, bWidth);
         double Y = mod(yOrg + x * incYAcross + y * incYDown, bHeight);
 
-        setRaster((int) X, (int) Y, fractAsInt(X), fractAsInt(Y),
+        setRbster((int) X, (int) Y, frbctAsInt(X), frbctAsInt(Y),
                   w, h, bWidth, bHeight,
                   colincx, colincxerr,
                   colincy, colincyerr,
                   rowincx, rowincxerr,
                   rowincy, rowincyerr);
 
-        SunWritableRaster.markDirty(outRas);
+        SunWritbbleRbster.mbrkDirty(outRbs);
 
-        return outRas;
+        return outRbs;
     }
 
-    private static WeakReference<Raster> xrgbRasRef;
-    private static WeakReference<Raster> argbRasRef;
+    privbte stbtic WebkReference<Rbster> xrgbRbsRef;
+    privbte stbtic WebkReference<Rbster> brgbRbsRef;
 
-    synchronized static WritableRaster makeRaster(ColorModel cm,
-                                                  Raster srcRas,
+    synchronized stbtic WritbbleRbster mbkeRbster(ColorModel cm,
+                                                  Rbster srcRbs,
                                                   int w, int h)
     {
         if (xrgbmodel == cm) {
-            if (xrgbRasRef != null) {
-                WritableRaster wr = (WritableRaster) xrgbRasRef.get();
+            if (xrgbRbsRef != null) {
+                WritbbleRbster wr = (WritbbleRbster) xrgbRbsRef.get();
                 if (wr != null && wr.getWidth() >= w && wr.getHeight() >= h) {
-                    xrgbRasRef = null;
+                    xrgbRbsRef = null;
                     return wr;
                 }
             }
-            // If we are going to cache this Raster, make it non-tiny
+            // If we bre going to cbche this Rbster, mbke it non-tiny
             if (w <= 32 && h <= 32) {
                 w = h = 32;
             }
-        } else if (argbmodel == cm) {
-            if (argbRasRef != null) {
-                WritableRaster wr = (WritableRaster) argbRasRef.get();
+        } else if (brgbmodel == cm) {
+            if (brgbRbsRef != null) {
+                WritbbleRbster wr = (WritbbleRbster) brgbRbsRef.get();
                 if (wr != null && wr.getWidth() >= w && wr.getHeight() >= h) {
-                    argbRasRef = null;
+                    brgbRbsRef = null;
                     return wr;
                 }
             }
-            // If we are going to cache this Raster, make it non-tiny
+            // If we bre going to cbche this Rbster, mbke it non-tiny
             if (w <= 32 && h <= 32) {
                 w = h = 32;
             }
         }
-        if (srcRas != null) {
-            return srcRas.createCompatibleWritableRaster(w, h);
+        if (srcRbs != null) {
+            return srcRbs.crebteCompbtibleWritbbleRbster(w, h);
         } else {
-            return cm.createCompatibleWritableRaster(w, h);
+            return cm.crebteCompbtibleWritbbleRbster(w, h);
         }
     }
 
-    synchronized static void dropRaster(ColorModel cm, Raster outRas) {
-        if (outRas == null) {
+    synchronized stbtic void dropRbster(ColorModel cm, Rbster outRbs) {
+        if (outRbs == null) {
             return;
         }
         if (xrgbmodel == cm) {
-            xrgbRasRef = new WeakReference<>(outRas);
-        } else if (argbmodel == cm) {
-            argbRasRef = new WeakReference<>(outRas);
+            xrgbRbsRef = new WebkReference<>(outRbs);
+        } else if (brgbmodel == cm) {
+            brgbRbsRef = new WebkReference<>(outRbs);
         }
     }
 
-    private static WeakReference<Raster> byteRasRef;
+    privbte stbtic WebkReference<Rbster> byteRbsRef;
 
-    synchronized static WritableRaster makeByteRaster(Raster srcRas,
+    synchronized stbtic WritbbleRbster mbkeByteRbster(Rbster srcRbs,
                                                       int w, int h)
     {
-        if (byteRasRef != null) {
-            WritableRaster wr = (WritableRaster) byteRasRef.get();
+        if (byteRbsRef != null) {
+            WritbbleRbster wr = (WritbbleRbster) byteRbsRef.get();
             if (wr != null && wr.getWidth() >= w && wr.getHeight() >= h) {
-                byteRasRef = null;
+                byteRbsRef = null;
                 return wr;
             }
         }
-        // If we are going to cache this Raster, make it non-tiny
+        // If we bre going to cbche this Rbster, mbke it non-tiny
         if (w <= 32 && h <= 32) {
             w = h = 32;
         }
-        return srcRas.createCompatibleWritableRaster(w, h);
+        return srcRbs.crebteCompbtibleWritbbleRbster(w, h);
     }
 
-    synchronized static void dropByteRaster(Raster outRas) {
-        if (outRas == null) {
+    synchronized stbtic void dropByteRbster(Rbster outRbs) {
+        if (outRbs == null) {
             return;
         }
-        byteRasRef = new WeakReference<>(outRas);
+        byteRbsRef = new WebkReference<>(outRbs);
     }
 
-    public abstract WritableRaster makeRaster(int w, int h);
-    public abstract void setRaster(int x, int y, int xerr, int yerr,
+    public bbstrbct WritbbleRbster mbkeRbster(int w, int h);
+    public bbstrbct void setRbster(int x, int y, int xerr, int yerr,
                                    int w, int h, int bWidth, int bHeight,
                                    int colincx, int colincxerr,
                                    int colincy, int colincyerr,
@@ -319,121 +319,121 @@ abstract class TexturePaintContext implements PaintContext {
                                    int rowincy, int rowincyerr);
 
     /*
-     * Blends the four ARGB values in the rgbs array using the factors
-     * described by xmul and ymul in the following ratio:
+     * Blends the four ARGB vblues in the rgbs brrby using the fbctors
+     * described by xmul bnd ymul in the following rbtio:
      *
      *     rgbs[0] * (1-xmul) * (1-ymul) +
      *     rgbs[1] * (  xmul) * (1-ymul) +
      *     rgbs[2] * (1-xmul) * (  ymul) +
      *     rgbs[3] * (  xmul) * (  ymul)
      *
-     * xmul and ymul are integer values in the half-open range [0, 2^31)
-     * where 0 == 0.0 and 2^31 == 1.0.
+     * xmul bnd ymul bre integer vblues in the hblf-open rbnge [0, 2^31)
+     * where 0 == 0.0 bnd 2^31 == 1.0.
      *
-     * Note that since the range is half-open, the values are always
-     * logically less than 1.0.  This makes sense because while choosing
-     * pixels to blend, when the error values reach 1.0 we move to the
-     * next pixel and reset them to 0.0.
+     * Note thbt since the rbnge is hblf-open, the vblues bre blwbys
+     * logicblly less thbn 1.0.  This mbkes sense becbuse while choosing
+     * pixels to blend, when the error vblues rebch 1.0 we move to the
+     * next pixel bnd reset them to 0.0.
      */
-    public static int blend(int rgbs[], int xmul, int ymul) {
-        // xmul/ymul are 31 bits wide, (0 => 2^31-1)
+    public stbtic int blend(int rgbs[], int xmul, int ymul) {
+        // xmul/ymul bre 31 bits wide, (0 => 2^31-1)
         // shift them to 12 bits wide, (0 => 2^12-1)
         xmul = (xmul >>> 19);
         ymul = (ymul >>> 19);
-        int accumA, accumR, accumG, accumB;
-        accumA = accumR = accumG = accumB = 0;
+        int bccumA, bccumR, bccumG, bccumB;
+        bccumA = bccumR = bccumG = bccumB = 0;
         for (int i = 0; i < 4; i++) {
             int rgb = rgbs[i];
-            // The complement of the [xy]mul values (1-[xy]mul) can result
-            // in new values in the range (1 => 2^12).  Thus for any given
-            // loop iteration, the values could be anywhere in (0 => 2^12).
+            // The complement of the [xy]mul vblues (1-[xy]mul) cbn result
+            // in new vblues in the rbnge (1 => 2^12).  Thus for bny given
+            // loop iterbtion, the vblues could be bnywhere in (0 => 2^12).
             xmul = (1<<12) - xmul;
             if ((i & 1) == 0) {
                 ymul = (1<<12) - ymul;
             }
-            // xmul and ymul are each 12 bits (0 => 2^12)
-            // factor is thus 24 bits (0 => 2^24)
-            int factor = xmul * ymul;
-            if (factor != 0) {
-                // accum variables will accumulate 32 bits
-                // bytes extracted from rgb fit in 8 bits (0 => 255)
-                // byte * factor thus fits in 32 bits (0 => 255 * 2^24)
-                accumA += (((rgb >>> 24)       ) * factor);
-                accumR += (((rgb >>> 16) & 0xff) * factor);
-                accumG += (((rgb >>>  8) & 0xff) * factor);
-                accumB += (((rgb       ) & 0xff) * factor);
+            // xmul bnd ymul bre ebch 12 bits (0 => 2^12)
+            // fbctor is thus 24 bits (0 => 2^24)
+            int fbctor = xmul * ymul;
+            if (fbctor != 0) {
+                // bccum vbribbles will bccumulbte 32 bits
+                // bytes extrbcted from rgb fit in 8 bits (0 => 255)
+                // byte * fbctor thus fits in 32 bits (0 => 255 * 2^24)
+                bccumA += (((rgb >>> 24)       ) * fbctor);
+                bccumR += (((rgb >>> 16) & 0xff) * fbctor);
+                bccumG += (((rgb >>>  8) & 0xff) * fbctor);
+                bccumB += (((rgb       ) & 0xff) * fbctor);
             }
         }
-        return ((((accumA + (1<<23)) >>> 24) << 24) |
-                (((accumR + (1<<23)) >>> 24) << 16) |
-                (((accumG + (1<<23)) >>> 24) <<  8) |
-                (((accumB + (1<<23)) >>> 24)      ));
+        return ((((bccumA + (1<<23)) >>> 24) << 24) |
+                (((bccumR + (1<<23)) >>> 24) << 16) |
+                (((bccumG + (1<<23)) >>> 24) <<  8) |
+                (((bccumB + (1<<23)) >>> 24)      ));
     }
 
-    static class Int extends TexturePaintContext {
-        IntegerInterleavedRaster srcRas;
-        int inData[];
+    stbtic clbss Int extends TexturePbintContext {
+        IntegerInterlebvedRbster srcRbs;
+        int inDbtb[];
         int inOff;
-        int inSpan;
-        int outData[];
+        int inSpbn;
+        int outDbtb[];
         int outOff;
-        int outSpan;
-        boolean filter;
+        int outSpbn;
+        boolebn filter;
 
-        public Int(IntegerInterleavedRaster srcRas, ColorModel cm,
-                   AffineTransform xform, int maxw, boolean filter)
+        public Int(IntegerInterlebvedRbster srcRbs, ColorModel cm,
+                   AffineTrbnsform xform, int mbxw, boolebn filter)
         {
-            super(cm, xform, srcRas.getWidth(), srcRas.getHeight(), maxw);
-            this.srcRas = srcRas;
-            this.inData = srcRas.getDataStorage();
-            this.inSpan = srcRas.getScanlineStride();
-            this.inOff = srcRas.getDataOffset(0);
+            super(cm, xform, srcRbs.getWidth(), srcRbs.getHeight(), mbxw);
+            this.srcRbs = srcRbs;
+            this.inDbtb = srcRbs.getDbtbStorbge();
+            this.inSpbn = srcRbs.getScbnlineStride();
+            this.inOff = srcRbs.getDbtbOffset(0);
             this.filter = filter;
         }
 
-        public WritableRaster makeRaster(int w, int h) {
-            WritableRaster ras = makeRaster(colorModel, srcRas, w, h);
-            IntegerInterleavedRaster iiRas = (IntegerInterleavedRaster) ras;
-            outData = iiRas.getDataStorage();
-            outSpan = iiRas.getScanlineStride();
-            outOff = iiRas.getDataOffset(0);
-            return ras;
+        public WritbbleRbster mbkeRbster(int w, int h) {
+            WritbbleRbster rbs = mbkeRbster(colorModel, srcRbs, w, h);
+            IntegerInterlebvedRbster iiRbs = (IntegerInterlebvedRbster) rbs;
+            outDbtb = iiRbs.getDbtbStorbge();
+            outSpbn = iiRbs.getScbnlineStride();
+            outOff = iiRbs.getDbtbOffset(0);
+            return rbs;
         }
 
-        public void setRaster(int x, int y, int xerr, int yerr,
+        public void setRbster(int x, int y, int xerr, int yerr,
                               int w, int h, int bWidth, int bHeight,
                               int colincx, int colincxerr,
                               int colincy, int colincyerr,
                               int rowincx, int rowincxerr,
                               int rowincy, int rowincyerr) {
-            int[] inData = this.inData;
-            int[] outData = this.outData;
+            int[] inDbtb = this.inDbtb;
+            int[] outDbtb = this.outDbtb;
             int out = outOff;
-            int inSpan = this.inSpan;
+            int inSpbn = this.inSpbn;
             int inOff = this.inOff;
-            int outSpan = this.outSpan;
-            boolean filter = this.filter;
-            boolean normalx = (colincx == 1 && colincxerr == 0 &&
+            int outSpbn = this.outSpbn;
+            boolebn filter = this.filter;
+            boolebn normblx = (colincx == 1 && colincxerr == 0 &&
                                colincy == 0 && colincyerr == 0) && !filter;
             int rowx = x;
             int rowy = y;
             int rowxerr = xerr;
             int rowyerr = yerr;
-            if (normalx) {
-                outSpan -= w;
+            if (normblx) {
+                outSpbn -= w;
             }
             int rgbs[] = filter ? new int[4] : null;
             for (int j = 0; j < h; j++) {
-                if (normalx) {
-                    int in = inOff + rowy * inSpan + bWidth;
+                if (normblx) {
+                    int in = inOff + rowy * inSpbn + bWidth;
                     x = bWidth - rowx;
                     out += w;
                     if (bWidth >= 32) {
                         int i = w;
                         while (i > 0) {
                             int copyw = (i < x) ? i : x;
-                            System.arraycopy(inData, in - x,
-                                             outData, out - i,
+                            System.brrbycopy(inDbtb, in - x,
+                                             outDbtb, out - i,
                                              copyw);
                             i -= copyw;
                             if ((x -= copyw) == 0) {
@@ -442,7 +442,7 @@ abstract class TexturePaintContext implements PaintContext {
                         }
                     } else {
                         for (int i = w; i > 0; i--) {
-                            outData[out - i] = inData[in - x];
+                            outDbtb[out - i] = inDbtb[in - x];
                             if (--x == 0) {
                                 x = bWidth;
                             }
@@ -462,14 +462,14 @@ abstract class TexturePaintContext implements PaintContext {
                             if ((nexty = y + 1) >= bHeight) {
                                 nexty = 0;
                             }
-                            rgbs[0] = inData[inOff + y * inSpan + x];
-                            rgbs[1] = inData[inOff + y * inSpan + nextx];
-                            rgbs[2] = inData[inOff + nexty * inSpan + x];
-                            rgbs[3] = inData[inOff + nexty * inSpan + nextx];
-                            outData[out + i] =
-                                TexturePaintContext.blend(rgbs, xerr, yerr);
+                            rgbs[0] = inDbtb[inOff + y * inSpbn + x];
+                            rgbs[1] = inDbtb[inOff + y * inSpbn + nextx];
+                            rgbs[2] = inDbtb[inOff + nexty * inSpbn + x];
+                            rgbs[3] = inDbtb[inOff + nexty * inSpbn + nextx];
+                            outDbtb[out + i] =
+                                TexturePbintContext.blend(rgbs, xerr, yerr);
                         } else {
-                            outData[out + i] = inData[inOff + y * inSpan + x];
+                            outDbtb[out + i] = inDbtb[inOff + y * inSpbn + x];
                         }
                         if ((xerr += colincxerr) < 0) {
                             xerr &= Integer.MAX_VALUE;
@@ -501,75 +501,75 @@ abstract class TexturePaintContext implements PaintContext {
                 if ((rowy += rowincy) >= bHeight) {
                     rowy -= bHeight;
                 }
-                out += outSpan;
+                out += outSpbn;
             }
         }
     }
 
-    static class Byte extends TexturePaintContext {
-        ByteInterleavedRaster srcRas;
-        byte inData[];
+    stbtic clbss Byte extends TexturePbintContext {
+        ByteInterlebvedRbster srcRbs;
+        byte inDbtb[];
         int inOff;
-        int inSpan;
-        byte outData[];
+        int inSpbn;
+        byte outDbtb[];
         int outOff;
-        int outSpan;
+        int outSpbn;
 
-        public Byte(ByteInterleavedRaster srcRas, ColorModel cm,
-                    AffineTransform xform, int maxw)
+        public Byte(ByteInterlebvedRbster srcRbs, ColorModel cm,
+                    AffineTrbnsform xform, int mbxw)
         {
-            super(cm, xform, srcRas.getWidth(), srcRas.getHeight(), maxw);
-            this.srcRas = srcRas;
-            this.inData = srcRas.getDataStorage();
-            this.inSpan = srcRas.getScanlineStride();
-            this.inOff = srcRas.getDataOffset(0);
+            super(cm, xform, srcRbs.getWidth(), srcRbs.getHeight(), mbxw);
+            this.srcRbs = srcRbs;
+            this.inDbtb = srcRbs.getDbtbStorbge();
+            this.inSpbn = srcRbs.getScbnlineStride();
+            this.inOff = srcRbs.getDbtbOffset(0);
         }
 
-        public WritableRaster makeRaster(int w, int h) {
-            WritableRaster ras = makeByteRaster(srcRas, w, h);
-            ByteInterleavedRaster biRas = (ByteInterleavedRaster) ras;
-            outData = biRas.getDataStorage();
-            outSpan = biRas.getScanlineStride();
-            outOff = biRas.getDataOffset(0);
-            return ras;
+        public WritbbleRbster mbkeRbster(int w, int h) {
+            WritbbleRbster rbs = mbkeByteRbster(srcRbs, w, h);
+            ByteInterlebvedRbster biRbs = (ByteInterlebvedRbster) rbs;
+            outDbtb = biRbs.getDbtbStorbge();
+            outSpbn = biRbs.getScbnlineStride();
+            outOff = biRbs.getDbtbOffset(0);
+            return rbs;
         }
 
         public void dispose() {
-            dropByteRaster(outRas);
+            dropByteRbster(outRbs);
         }
 
-        public void setRaster(int x, int y, int xerr, int yerr,
+        public void setRbster(int x, int y, int xerr, int yerr,
                               int w, int h, int bWidth, int bHeight,
                               int colincx, int colincxerr,
                               int colincy, int colincyerr,
                               int rowincx, int rowincxerr,
                               int rowincy, int rowincyerr) {
-            byte[] inData = this.inData;
-            byte[] outData = this.outData;
+            byte[] inDbtb = this.inDbtb;
+            byte[] outDbtb = this.outDbtb;
             int out = outOff;
-            int inSpan = this.inSpan;
+            int inSpbn = this.inSpbn;
             int inOff = this.inOff;
-            int outSpan = this.outSpan;
-            boolean normalx = (colincx == 1 && colincxerr == 0 &&
+            int outSpbn = this.outSpbn;
+            boolebn normblx = (colincx == 1 && colincxerr == 0 &&
                                colincy == 0 && colincyerr == 0);
             int rowx = x;
             int rowy = y;
             int rowxerr = xerr;
             int rowyerr = yerr;
-            if (normalx) {
-                outSpan -= w;
+            if (normblx) {
+                outSpbn -= w;
             }
             for (int j = 0; j < h; j++) {
-                if (normalx) {
-                    int in = inOff + rowy * inSpan + bWidth;
+                if (normblx) {
+                    int in = inOff + rowy * inSpbn + bWidth;
                     x = bWidth - rowx;
                     out += w;
                     if (bWidth >= 32) {
                         int i = w;
                         while (i > 0) {
                             int copyw = (i < x) ? i : x;
-                            System.arraycopy(inData, in - x,
-                                             outData, out - i,
+                            System.brrbycopy(inDbtb, in - x,
+                                             outDbtb, out - i,
                                              copyw);
                             i -= copyw;
                             if ((x -= copyw) == 0) {
@@ -578,7 +578,7 @@ abstract class TexturePaintContext implements PaintContext {
                         }
                     } else {
                         for (int i = w; i > 0; i--) {
-                            outData[out - i] = inData[in - x];
+                            outDbtb[out - i] = inDbtb[in - x];
                             if (--x == 0) {
                                 x = bWidth;
                             }
@@ -590,7 +590,7 @@ abstract class TexturePaintContext implements PaintContext {
                     xerr = rowxerr;
                     yerr = rowyerr;
                     for (int i = 0; i < w; i++) {
-                        outData[out + i] = inData[inOff + y * inSpan + x];
+                        outDbtb[out + i] = inDbtb[inOff + y * inSpbn + x];
                         if ((xerr += colincxerr) < 0) {
                             xerr &= Integer.MAX_VALUE;
                             x++;
@@ -621,58 +621,58 @@ abstract class TexturePaintContext implements PaintContext {
                 if ((rowy += rowincy) >= bHeight) {
                     rowy -= bHeight;
                 }
-                out += outSpan;
+                out += outSpbn;
             }
         }
     }
 
-    static class ByteFilter extends TexturePaintContext {
-        ByteInterleavedRaster srcRas;
-        int inPalette[];
-        byte inData[];
+    stbtic clbss ByteFilter extends TexturePbintContext {
+        ByteInterlebvedRbster srcRbs;
+        int inPblette[];
+        byte inDbtb[];
         int inOff;
-        int inSpan;
-        int outData[];
+        int inSpbn;
+        int outDbtb[];
         int outOff;
-        int outSpan;
+        int outSpbn;
 
-        public ByteFilter(ByteInterleavedRaster srcRas, ColorModel cm,
-                          AffineTransform xform, int maxw)
+        public ByteFilter(ByteInterlebvedRbster srcRbs, ColorModel cm,
+                          AffineTrbnsform xform, int mbxw)
         {
-            super((cm.getTransparency() == Transparency.OPAQUE
-                   ? xrgbmodel : argbmodel),
-                  xform, srcRas.getWidth(), srcRas.getHeight(), maxw);
-            this.inPalette = new int[256];
-            ((IndexColorModel) cm).getRGBs(this.inPalette);
-            this.srcRas = srcRas;
-            this.inData = srcRas.getDataStorage();
-            this.inSpan = srcRas.getScanlineStride();
-            this.inOff = srcRas.getDataOffset(0);
+            super((cm.getTrbnspbrency() == Trbnspbrency.OPAQUE
+                   ? xrgbmodel : brgbmodel),
+                  xform, srcRbs.getWidth(), srcRbs.getHeight(), mbxw);
+            this.inPblette = new int[256];
+            ((IndexColorModel) cm).getRGBs(this.inPblette);
+            this.srcRbs = srcRbs;
+            this.inDbtb = srcRbs.getDbtbStorbge();
+            this.inSpbn = srcRbs.getScbnlineStride();
+            this.inOff = srcRbs.getDbtbOffset(0);
         }
 
-        public WritableRaster makeRaster(int w, int h) {
-            // Note that we do not pass srcRas to makeRaster since it
-            // is a Byte Raster and this colorModel needs an Int Raster
-            WritableRaster ras = makeRaster(colorModel, null, w, h);
-            IntegerInterleavedRaster iiRas = (IntegerInterleavedRaster) ras;
-            outData = iiRas.getDataStorage();
-            outSpan = iiRas.getScanlineStride();
-            outOff = iiRas.getDataOffset(0);
-            return ras;
+        public WritbbleRbster mbkeRbster(int w, int h) {
+            // Note thbt we do not pbss srcRbs to mbkeRbster since it
+            // is b Byte Rbster bnd this colorModel needs bn Int Rbster
+            WritbbleRbster rbs = mbkeRbster(colorModel, null, w, h);
+            IntegerInterlebvedRbster iiRbs = (IntegerInterlebvedRbster) rbs;
+            outDbtb = iiRbs.getDbtbStorbge();
+            outSpbn = iiRbs.getScbnlineStride();
+            outOff = iiRbs.getDbtbOffset(0);
+            return rbs;
         }
 
-        public void setRaster(int x, int y, int xerr, int yerr,
+        public void setRbster(int x, int y, int xerr, int yerr,
                               int w, int h, int bWidth, int bHeight,
                               int colincx, int colincxerr,
                               int colincy, int colincyerr,
                               int rowincx, int rowincxerr,
                               int rowincy, int rowincyerr) {
-            byte[] inData = this.inData;
-            int[] outData = this.outData;
+            byte[] inDbtb = this.inDbtb;
+            int[] outDbtb = this.outDbtb;
             int out = outOff;
-            int inSpan = this.inSpan;
+            int inSpbn = this.inSpbn;
             int inOff = this.inOff;
-            int outSpan = this.outSpan;
+            int outSpbn = this.outSpbn;
             int rowx = x;
             int rowy = y;
             int rowxerr = xerr;
@@ -691,16 +691,16 @@ abstract class TexturePaintContext implements PaintContext {
                     if ((nexty = y + 1) >= bHeight) {
                         nexty = 0;
                     }
-                    rgbs[0] = inPalette[0xff & inData[inOff + x +
-                                                      inSpan * y]];
-                    rgbs[1] = inPalette[0xff & inData[inOff + nextx +
-                                                      inSpan * y]];
-                    rgbs[2] = inPalette[0xff & inData[inOff + x +
-                                                      inSpan * nexty]];
-                    rgbs[3] = inPalette[0xff & inData[inOff + nextx +
-                                                      inSpan * nexty]];
-                    outData[out + i] =
-                        TexturePaintContext.blend(rgbs, xerr, yerr);
+                    rgbs[0] = inPblette[0xff & inDbtb[inOff + x +
+                                                      inSpbn * y]];
+                    rgbs[1] = inPblette[0xff & inDbtb[inOff + nextx +
+                                                      inSpbn * y]];
+                    rgbs[2] = inPblette[0xff & inDbtb[inOff + x +
+                                                      inSpbn * nexty]];
+                    rgbs[3] = inPblette[0xff & inDbtb[inOff + nextx +
+                                                      inSpbn * nexty]];
+                    outDbtb[out + i] =
+                        TexturePbintContext.blend(rgbs, xerr, yerr);
                     if ((xerr += colincxerr) < 0) {
                         xerr &= Integer.MAX_VALUE;
                         x++;
@@ -730,40 +730,40 @@ abstract class TexturePaintContext implements PaintContext {
                 if ((rowy += rowincy) >= bHeight) {
                     rowy -= bHeight;
                 }
-                out += outSpan;
+                out += outSpbn;
             }
         }
     }
 
-    static class Any extends TexturePaintContext {
-        WritableRaster srcRas;
-        boolean filter;
+    stbtic clbss Any extends TexturePbintContext {
+        WritbbleRbster srcRbs;
+        boolebn filter;
 
-        public Any(WritableRaster srcRas, ColorModel cm,
-                   AffineTransform xform, int maxw, boolean filter)
+        public Any(WritbbleRbster srcRbs, ColorModel cm,
+                   AffineTrbnsform xform, int mbxw, boolebn filter)
         {
-            super(cm, xform, srcRas.getWidth(), srcRas.getHeight(), maxw);
-            this.srcRas = srcRas;
+            super(cm, xform, srcRbs.getWidth(), srcRbs.getHeight(), mbxw);
+            this.srcRbs = srcRbs;
             this.filter = filter;
         }
 
-        public WritableRaster makeRaster(int w, int h) {
-            return makeRaster(colorModel, srcRas, w, h);
+        public WritbbleRbster mbkeRbster(int w, int h) {
+            return mbkeRbster(colorModel, srcRbs, w, h);
         }
 
-        public void setRaster(int x, int y, int xerr, int yerr,
+        public void setRbster(int x, int y, int xerr, int yerr,
                               int w, int h, int bWidth, int bHeight,
                               int colincx, int colincxerr,
                               int colincy, int colincyerr,
                               int rowincx, int rowincxerr,
                               int rowincy, int rowincyerr) {
-            Object data = null;
+            Object dbtb = null;
             int rowx = x;
             int rowy = y;
             int rowxerr = xerr;
             int rowyerr = yerr;
-            WritableRaster srcRas = this.srcRas;
-            WritableRaster outRas = this.outRas;
+            WritbbleRbster srcRbs = this.srcRbs;
+            WritbbleRbster outRbs = this.outRbs;
             int rgbs[] = filter ? new int[4] : null;
             for (int j = 0; j < h; j++) {
                 x = rowx;
@@ -771,7 +771,7 @@ abstract class TexturePaintContext implements PaintContext {
                 xerr = rowxerr;
                 yerr = rowyerr;
                 for (int i = 0; i < w; i++) {
-                    data = srcRas.getDataElements(x, y, data);
+                    dbtb = srcRbs.getDbtbElements(x, y, dbtb);
                     if (filter) {
                         int nextx, nexty;
                         if ((nextx = x + 1) >= bWidth) {
@@ -780,18 +780,18 @@ abstract class TexturePaintContext implements PaintContext {
                         if ((nexty = y + 1) >= bHeight) {
                             nexty = 0;
                         }
-                        rgbs[0] = colorModel.getRGB(data);
-                        data = srcRas.getDataElements(nextx, y, data);
-                        rgbs[1] = colorModel.getRGB(data);
-                        data = srcRas.getDataElements(x, nexty, data);
-                        rgbs[2] = colorModel.getRGB(data);
-                        data = srcRas.getDataElements(nextx, nexty, data);
-                        rgbs[3] = colorModel.getRGB(data);
+                        rgbs[0] = colorModel.getRGB(dbtb);
+                        dbtb = srcRbs.getDbtbElements(nextx, y, dbtb);
+                        rgbs[1] = colorModel.getRGB(dbtb);
+                        dbtb = srcRbs.getDbtbElements(x, nexty, dbtb);
+                        rgbs[2] = colorModel.getRGB(dbtb);
+                        dbtb = srcRbs.getDbtbElements(nextx, nexty, dbtb);
+                        rgbs[3] = colorModel.getRGB(dbtb);
                         int rgb =
-                            TexturePaintContext.blend(rgbs, xerr, yerr);
-                        data = colorModel.getDataElements(rgb, data);
+                            TexturePbintContext.blend(rgbs, xerr, yerr);
+                        dbtb = colorModel.getDbtbElements(rgb, dbtb);
                     }
-                    outRas.setDataElements(i, j, data);
+                    outRbs.setDbtbElements(i, j, dbtb);
                     if ((xerr += colincxerr) < 0) {
                         xerr &= Integer.MAX_VALUE;
                         x++;

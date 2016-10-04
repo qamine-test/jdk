@@ -1,273 +1,273 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * Written by Doug Lea with assistance from members of JCP JSR-166
- * Expert Group and released to the public domain, as explained at
- * http://creativecommons.org/publicdomain/zero/1.0/
+ * Written by Doug Leb with bssistbnce from members of JCP JSR-166
+ * Expert Group bnd relebsed to the public dombin, bs explbined bt
+ * http://crebtivecommons.org/publicdombin/zero/1.0/
  */
 
-package java.util.concurrent;
+pbckbge jbvb.util.concurrent;
 
-import java.io.Serializable;
-import java.util.Collection;
-import java.util.List;
-import java.util.RandomAccess;
-import java.lang.ref.WeakReference;
-import java.lang.ref.ReferenceQueue;
-import java.util.concurrent.Callable;
-import java.util.concurrent.CancellationException;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
-import java.util.concurrent.RejectedExecutionException;
-import java.util.concurrent.RunnableFuture;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
-import java.util.concurrent.locks.ReentrantLock;
-import java.lang.reflect.Constructor;
+import jbvb.io.Seriblizbble;
+import jbvb.util.Collection;
+import jbvb.util.List;
+import jbvb.util.RbndomAccess;
+import jbvb.lbng.ref.WebkReference;
+import jbvb.lbng.ref.ReferenceQueue;
+import jbvb.util.concurrent.Cbllbble;
+import jbvb.util.concurrent.CbncellbtionException;
+import jbvb.util.concurrent.ExecutionException;
+import jbvb.util.concurrent.Future;
+import jbvb.util.concurrent.RejectedExecutionException;
+import jbvb.util.concurrent.RunnbbleFuture;
+import jbvb.util.concurrent.TimeUnit;
+import jbvb.util.concurrent.TimeoutException;
+import jbvb.util.concurrent.locks.ReentrbntLock;
+import jbvb.lbng.reflect.Constructor;
 
 /**
- * Abstract base class for tasks that run within a {@link ForkJoinPool}.
- * A {@code ForkJoinTask} is a thread-like entity that is much
- * lighter weight than a normal thread.  Huge numbers of tasks and
- * subtasks may be hosted by a small number of actual threads in a
- * ForkJoinPool, at the price of some usage limitations.
+ * Abstrbct bbse clbss for tbsks thbt run within b {@link ForkJoinPool}.
+ * A {@code ForkJoinTbsk} is b threbd-like entity thbt is much
+ * lighter weight thbn b normbl threbd.  Huge numbers of tbsks bnd
+ * subtbsks mby be hosted by b smbll number of bctubl threbds in b
+ * ForkJoinPool, bt the price of some usbge limitbtions.
  *
- * <p>A "main" {@code ForkJoinTask} begins execution when it is
- * explicitly submitted to a {@link ForkJoinPool}, or, if not already
- * engaged in a ForkJoin computation, commenced in the {@link
- * ForkJoinPool#commonPool()} via {@link #fork}, {@link #invoke}, or
- * related methods.  Once started, it will usually in turn start other
- * subtasks.  As indicated by the name of this class, many programs
- * using {@code ForkJoinTask} employ only methods {@link #fork} and
- * {@link #join}, or derivatives such as {@link
- * #invokeAll(ForkJoinTask...) invokeAll}.  However, this class also
- * provides a number of other methods that can come into play in
- * advanced usages, as well as extension mechanics that allow support
+ * <p>A "mbin" {@code ForkJoinTbsk} begins execution when it is
+ * explicitly submitted to b {@link ForkJoinPool}, or, if not blrebdy
+ * engbged in b ForkJoin computbtion, commenced in the {@link
+ * ForkJoinPool#commonPool()} vib {@link #fork}, {@link #invoke}, or
+ * relbted methods.  Once stbrted, it will usublly in turn stbrt other
+ * subtbsks.  As indicbted by the nbme of this clbss, mbny progrbms
+ * using {@code ForkJoinTbsk} employ only methods {@link #fork} bnd
+ * {@link #join}, or derivbtives such bs {@link
+ * #invokeAll(ForkJoinTbsk...) invokeAll}.  However, this clbss blso
+ * provides b number of other methods thbt cbn come into plby in
+ * bdvbnced usbges, bs well bs extension mechbnics thbt bllow support
  * of new forms of fork/join processing.
  *
- * <p>A {@code ForkJoinTask} is a lightweight form of {@link Future}.
- * The efficiency of {@code ForkJoinTask}s stems from a set of
- * restrictions (that are only partially statically enforceable)
- * reflecting their main use as computational tasks calculating pure
- * functions or operating on purely isolated objects.  The primary
- * coordination mechanisms are {@link #fork}, that arranges
- * asynchronous execution, and {@link #join}, that doesn't proceed
- * until the task's result has been computed.  Computations should
- * ideally avoid {@code synchronized} methods or blocks, and should
- * minimize other blocking synchronization apart from joining other
- * tasks or using synchronizers such as Phasers that are advertised to
- * cooperate with fork/join scheduling. Subdividable tasks should also
- * not perform blocking I/O, and should ideally access variables that
- * are completely independent of those accessed by other running
- * tasks. These guidelines are loosely enforced by not permitting
- * checked exceptions such as {@code IOExceptions} to be
- * thrown. However, computations may still encounter unchecked
- * exceptions, that are rethrown to callers attempting to join
- * them. These exceptions may additionally include {@link
- * RejectedExecutionException} stemming from internal resource
- * exhaustion, such as failure to allocate internal task
- * queues. Rethrown exceptions behave in the same way as regular
- * exceptions, but, when possible, contain stack traces (as displayed
- * for example using {@code ex.printStackTrace()}) of both the thread
- * that initiated the computation as well as the thread actually
- * encountering the exception; minimally only the latter.
+ * <p>A {@code ForkJoinTbsk} is b lightweight form of {@link Future}.
+ * The efficiency of {@code ForkJoinTbsk}s stems from b set of
+ * restrictions (thbt bre only pbrtiblly stbticblly enforcebble)
+ * reflecting their mbin use bs computbtionbl tbsks cblculbting pure
+ * functions or operbting on purely isolbted objects.  The primbry
+ * coordinbtion mechbnisms bre {@link #fork}, thbt brrbnges
+ * bsynchronous execution, bnd {@link #join}, thbt doesn't proceed
+ * until the tbsk's result hbs been computed.  Computbtions should
+ * ideblly bvoid {@code synchronized} methods or blocks, bnd should
+ * minimize other blocking synchronizbtion bpbrt from joining other
+ * tbsks or using synchronizers such bs Phbsers thbt bre bdvertised to
+ * cooperbte with fork/join scheduling. Subdividbble tbsks should blso
+ * not perform blocking I/O, bnd should ideblly bccess vbribbles thbt
+ * bre completely independent of those bccessed by other running
+ * tbsks. These guidelines bre loosely enforced by not permitting
+ * checked exceptions such bs {@code IOExceptions} to be
+ * thrown. However, computbtions mby still encounter unchecked
+ * exceptions, thbt bre rethrown to cbllers bttempting to join
+ * them. These exceptions mby bdditionblly include {@link
+ * RejectedExecutionException} stemming from internbl resource
+ * exhbustion, such bs fbilure to bllocbte internbl tbsk
+ * queues. Rethrown exceptions behbve in the sbme wby bs regulbr
+ * exceptions, but, when possible, contbin stbck trbces (bs displbyed
+ * for exbmple using {@code ex.printStbckTrbce()}) of both the threbd
+ * thbt initibted the computbtion bs well bs the threbd bctublly
+ * encountering the exception; minimblly only the lbtter.
  *
- * <p>It is possible to define and use ForkJoinTasks that may block,
- * but doing do requires three further considerations: (1) Completion
- * of few if any <em>other</em> tasks should be dependent on a task
- * that blocks on external synchronization or I/O. Event-style async
- * tasks that are never joined (for example, those subclassing {@link
- * CountedCompleter}) often fall into this category.  (2) To minimize
- * resource impact, tasks should be small; ideally performing only the
- * (possibly) blocking action. (3) Unless the {@link
- * ForkJoinPool.ManagedBlocker} API is used, or the number of possibly
- * blocked tasks is known to be less than the pool's {@link
- * ForkJoinPool#getParallelism} level, the pool cannot guarantee that
- * enough threads will be available to ensure progress or good
- * performance.
+ * <p>It is possible to define bnd use ForkJoinTbsks thbt mby block,
+ * but doing do requires three further considerbtions: (1) Completion
+ * of few if bny <em>other</em> tbsks should be dependent on b tbsk
+ * thbt blocks on externbl synchronizbtion or I/O. Event-style bsync
+ * tbsks thbt bre never joined (for exbmple, those subclbssing {@link
+ * CountedCompleter}) often fbll into this cbtegory.  (2) To minimize
+ * resource impbct, tbsks should be smbll; ideblly performing only the
+ * (possibly) blocking bction. (3) Unless the {@link
+ * ForkJoinPool.MbnbgedBlocker} API is used, or the number of possibly
+ * blocked tbsks is known to be less thbn the pool's {@link
+ * ForkJoinPool#getPbrbllelism} level, the pool cbnnot gubrbntee thbt
+ * enough threbds will be bvbilbble to ensure progress or good
+ * performbnce.
  *
- * <p>The primary method for awaiting completion and extracting
- * results of a task is {@link #join}, but there are several variants:
- * The {@link Future#get} methods support interruptible and/or timed
- * waits for completion and report results using {@code Future}
- * conventions. Method {@link #invoke} is semantically
- * equivalent to {@code fork(); join()} but always attempts to begin
- * execution in the current thread. The "<em>quiet</em>" forms of
- * these methods do not extract results or report exceptions. These
- * may be useful when a set of tasks are being executed, and you need
- * to delay processing of results or exceptions until all complete.
- * Method {@code invokeAll} (available in multiple versions)
- * performs the most common form of parallel invocation: forking a set
- * of tasks and joining them all.
+ * <p>The primbry method for bwbiting completion bnd extrbcting
+ * results of b tbsk is {@link #join}, but there bre severbl vbribnts:
+ * The {@link Future#get} methods support interruptible bnd/or timed
+ * wbits for completion bnd report results using {@code Future}
+ * conventions. Method {@link #invoke} is sembnticblly
+ * equivblent to {@code fork(); join()} but blwbys bttempts to begin
+ * execution in the current threbd. The "<em>quiet</em>" forms of
+ * these methods do not extrbct results or report exceptions. These
+ * mby be useful when b set of tbsks bre being executed, bnd you need
+ * to delby processing of results or exceptions until bll complete.
+ * Method {@code invokeAll} (bvbilbble in multiple versions)
+ * performs the most common form of pbrbllel invocbtion: forking b set
+ * of tbsks bnd joining them bll.
  *
- * <p>In the most typical usages, a fork-join pair act like a call
- * (fork) and return (join) from a parallel recursive function. As is
- * the case with other forms of recursive calls, returns (joins)
- * should be performed innermost-first. For example, {@code a.fork();
- * b.fork(); b.join(); a.join();} is likely to be substantially more
- * efficient than joining {@code a} before {@code b}.
+ * <p>In the most typicbl usbges, b fork-join pbir bct like b cbll
+ * (fork) bnd return (join) from b pbrbllel recursive function. As is
+ * the cbse with other forms of recursive cblls, returns (joins)
+ * should be performed innermost-first. For exbmple, {@code b.fork();
+ * b.fork(); b.join(); b.join();} is likely to be substbntiblly more
+ * efficient thbn joining {@code b} before {@code b}.
  *
- * <p>The execution status of tasks may be queried at several levels
- * of detail: {@link #isDone} is true if a task completed in any way
- * (including the case where a task was cancelled without executing);
- * {@link #isCompletedNormally} is true if a task completed without
- * cancellation or encountering an exception; {@link #isCancelled} is
- * true if the task was cancelled (in which case {@link #getException}
- * returns a {@link java.util.concurrent.CancellationException}); and
- * {@link #isCompletedAbnormally} is true if a task was either
- * cancelled or encountered an exception, in which case {@link
+ * <p>The execution stbtus of tbsks mby be queried bt severbl levels
+ * of detbil: {@link #isDone} is true if b tbsk completed in bny wby
+ * (including the cbse where b tbsk wbs cbncelled without executing);
+ * {@link #isCompletedNormblly} is true if b tbsk completed without
+ * cbncellbtion or encountering bn exception; {@link #isCbncelled} is
+ * true if the tbsk wbs cbncelled (in which cbse {@link #getException}
+ * returns b {@link jbvb.util.concurrent.CbncellbtionException}); bnd
+ * {@link #isCompletedAbnormblly} is true if b tbsk wbs either
+ * cbncelled or encountered bn exception, in which cbse {@link
  * #getException} will return either the encountered exception or
- * {@link java.util.concurrent.CancellationException}.
+ * {@link jbvb.util.concurrent.CbncellbtionException}.
  *
- * <p>The ForkJoinTask class is not usually directly subclassed.
- * Instead, you subclass one of the abstract classes that support a
- * particular style of fork/join processing, typically {@link
- * RecursiveAction} for most computations that do not return results,
- * {@link RecursiveTask} for those that do, and {@link
- * CountedCompleter} for those in which completed actions trigger
- * other actions.  Normally, a concrete ForkJoinTask subclass declares
- * fields comprising its parameters, established in a constructor, and
- * then defines a {@code compute} method that somehow uses the control
- * methods supplied by this base class.
+ * <p>The ForkJoinTbsk clbss is not usublly directly subclbssed.
+ * Instebd, you subclbss one of the bbstrbct clbsses thbt support b
+ * pbrticulbr style of fork/join processing, typicblly {@link
+ * RecursiveAction} for most computbtions thbt do not return results,
+ * {@link RecursiveTbsk} for those thbt do, bnd {@link
+ * CountedCompleter} for those in which completed bctions trigger
+ * other bctions.  Normblly, b concrete ForkJoinTbsk subclbss declbres
+ * fields comprising its pbrbmeters, estbblished in b constructor, bnd
+ * then defines b {@code compute} method thbt somehow uses the control
+ * methods supplied by this bbse clbss.
  *
- * <p>Method {@link #join} and its variants are appropriate for use
- * only when completion dependencies are acyclic; that is, the
- * parallel computation can be described as a directed acyclic graph
- * (DAG). Otherwise, executions may encounter a form of deadlock as
- * tasks cyclically wait for each other.  However, this framework
- * supports other methods and techniques (for example the use of
- * {@link Phaser}, {@link #helpQuiesce}, and {@link #complete}) that
- * may be of use in constructing custom subclasses for problems that
- * are not statically structured as DAGs. To support such usages, a
- * ForkJoinTask may be atomically <em>tagged</em> with a {@code short}
- * value using {@link #setForkJoinTaskTag} or {@link
- * #compareAndSetForkJoinTaskTag} and checked using {@link
- * #getForkJoinTaskTag}. The ForkJoinTask implementation does not use
- * these {@code protected} methods or tags for any purpose, but they
- * may be of use in the construction of specialized subclasses.  For
- * example, parallel graph traversals can use the supplied methods to
- * avoid revisiting nodes/tasks that have already been processed.
- * (Method names for tagging are bulky in part to encourage definition
- * of methods that reflect their usage patterns.)
+ * <p>Method {@link #join} bnd its vbribnts bre bppropribte for use
+ * only when completion dependencies bre bcyclic; thbt is, the
+ * pbrbllel computbtion cbn be described bs b directed bcyclic grbph
+ * (DAG). Otherwise, executions mby encounter b form of debdlock bs
+ * tbsks cyclicblly wbit for ebch other.  However, this frbmework
+ * supports other methods bnd techniques (for exbmple the use of
+ * {@link Phbser}, {@link #helpQuiesce}, bnd {@link #complete}) thbt
+ * mby be of use in constructing custom subclbsses for problems thbt
+ * bre not stbticblly structured bs DAGs. To support such usbges, b
+ * ForkJoinTbsk mby be btomicblly <em>tbgged</em> with b {@code short}
+ * vblue using {@link #setForkJoinTbskTbg} or {@link
+ * #compbreAndSetForkJoinTbskTbg} bnd checked using {@link
+ * #getForkJoinTbskTbg}. The ForkJoinTbsk implementbtion does not use
+ * these {@code protected} methods or tbgs for bny purpose, but they
+ * mby be of use in the construction of speciblized subclbsses.  For
+ * exbmple, pbrbllel grbph trbversbls cbn use the supplied methods to
+ * bvoid revisiting nodes/tbsks thbt hbve blrebdy been processed.
+ * (Method nbmes for tbgging bre bulky in pbrt to encourbge definition
+ * of methods thbt reflect their usbge pbtterns.)
  *
- * <p>Most base support methods are {@code final}, to prevent
- * overriding of implementations that are intrinsically tied to the
- * underlying lightweight task scheduling framework.  Developers
- * creating new basic styles of fork/join processing should minimally
+ * <p>Most bbse support methods bre {@code finbl}, to prevent
+ * overriding of implementbtions thbt bre intrinsicblly tied to the
+ * underlying lightweight tbsk scheduling frbmework.  Developers
+ * crebting new bbsic styles of fork/join processing should minimblly
  * implement {@code protected} methods {@link #exec}, {@link
- * #setRawResult}, and {@link #getRawResult}, while also introducing
- * an abstract computational method that can be implemented in its
- * subclasses, possibly relying on other {@code protected} methods
- * provided by this class.
+ * #setRbwResult}, bnd {@link #getRbwResult}, while blso introducing
+ * bn bbstrbct computbtionbl method thbt cbn be implemented in its
+ * subclbsses, possibly relying on other {@code protected} methods
+ * provided by this clbss.
  *
- * <p>ForkJoinTasks should perform relatively small amounts of
- * computation. Large tasks should be split into smaller subtasks,
- * usually via recursive decomposition. As a very rough rule of thumb,
- * a task should perform more than 100 and less than 10000 basic
- * computational steps, and should avoid indefinite looping. If tasks
- * are too big, then parallelism cannot improve throughput. If too
- * small, then memory and internal task maintenance overhead may
+ * <p>ForkJoinTbsks should perform relbtively smbll bmounts of
+ * computbtion. Lbrge tbsks should be split into smbller subtbsks,
+ * usublly vib recursive decomposition. As b very rough rule of thumb,
+ * b tbsk should perform more thbn 100 bnd less thbn 10000 bbsic
+ * computbtionbl steps, bnd should bvoid indefinite looping. If tbsks
+ * bre too big, then pbrbllelism cbnnot improve throughput. If too
+ * smbll, then memory bnd internbl tbsk mbintenbnce overhebd mby
  * overwhelm processing.
  *
- * <p>This class provides {@code adapt} methods for {@link Runnable}
- * and {@link Callable}, that may be of use when mixing execution of
- * {@code ForkJoinTasks} with other kinds of tasks. When all tasks are
- * of this form, consider using a pool constructed in <em>asyncMode</em>.
+ * <p>This clbss provides {@code bdbpt} methods for {@link Runnbble}
+ * bnd {@link Cbllbble}, thbt mby be of use when mixing execution of
+ * {@code ForkJoinTbsks} with other kinds of tbsks. When bll tbsks bre
+ * of this form, consider using b pool constructed in <em>bsyncMode</em>.
  *
- * <p>ForkJoinTasks are {@code Serializable}, which enables them to be
- * used in extensions such as remote execution frameworks. It is
- * sensible to serialize tasks only before or after, but not during,
- * execution. Serialization is not relied on during execution itself.
+ * <p>ForkJoinTbsks bre {@code Seriblizbble}, which enbbles them to be
+ * used in extensions such bs remote execution frbmeworks. It is
+ * sensible to seriblize tbsks only before or bfter, but not during,
+ * execution. Seriblizbtion is not relied on during execution itself.
  *
  * @since 1.7
- * @author Doug Lea
+ * @buthor Doug Leb
  */
-public abstract class ForkJoinTask<V> implements Future<V>, Serializable {
+public bbstrbct clbss ForkJoinTbsk<V> implements Future<V>, Seriblizbble {
 
     /*
-     * See the internal documentation of class ForkJoinPool for a
-     * general implementation overview.  ForkJoinTasks are mainly
-     * responsible for maintaining their "status" field amidst relays
-     * to methods in ForkJoinWorkerThread and ForkJoinPool.
+     * See the internbl documentbtion of clbss ForkJoinPool for b
+     * generbl implementbtion overview.  ForkJoinTbsks bre mbinly
+     * responsible for mbintbining their "stbtus" field bmidst relbys
+     * to methods in ForkJoinWorkerThrebd bnd ForkJoinPool.
      *
-     * The methods of this class are more-or-less layered into
-     * (1) basic status maintenance
-     * (2) execution and awaiting completion
-     * (3) user-level methods that additionally report results.
-     * This is sometimes hard to see because this file orders exported
-     * methods in a way that flows well in javadocs.
+     * The methods of this clbss bre more-or-less lbyered into
+     * (1) bbsic stbtus mbintenbnce
+     * (2) execution bnd bwbiting completion
+     * (3) user-level methods thbt bdditionblly report results.
+     * This is sometimes hbrd to see becbuse this file orders exported
+     * methods in b wby thbt flows well in jbvbdocs.
      */
 
     /*
-     * The status field holds run control status bits packed into a
-     * single int to minimize footprint and to ensure atomicity (via
-     * CAS).  Status is initially zero, and takes on nonnegative
-     * values until completed, upon which status (anded with
-     * DONE_MASK) holds value NORMAL, CANCELLED, or EXCEPTIONAL. Tasks
-     * undergoing blocking waits by other threads have the SIGNAL bit
-     * set.  Completion of a stolen task with SIGNAL set awakens any
-     * waiters via notifyAll. Even though suboptimal for some
-     * purposes, we use basic builtin wait/notify to take advantage of
-     * "monitor inflation" in JVMs that we would otherwise need to
-     * emulate to avoid adding further per-task bookkeeping overhead.
-     * We want these monitors to be "fat", i.e., not use biasing or
-     * thin-lock techniques, so use some odd coding idioms that tend
-     * to avoid them, mainly by arranging that every synchronized
-     * block performs a wait, notifyAll or both.
+     * The stbtus field holds run control stbtus bits pbcked into b
+     * single int to minimize footprint bnd to ensure btomicity (vib
+     * CAS).  Stbtus is initiblly zero, bnd tbkes on nonnegbtive
+     * vblues until completed, upon which stbtus (bnded with
+     * DONE_MASK) holds vblue NORMAL, CANCELLED, or EXCEPTIONAL. Tbsks
+     * undergoing blocking wbits by other threbds hbve the SIGNAL bit
+     * set.  Completion of b stolen tbsk with SIGNAL set bwbkens bny
+     * wbiters vib notifyAll. Even though suboptimbl for some
+     * purposes, we use bbsic builtin wbit/notify to tbke bdvbntbge of
+     * "monitor inflbtion" in JVMs thbt we would otherwise need to
+     * emulbte to bvoid bdding further per-tbsk bookkeeping overhebd.
+     * We wbnt these monitors to be "fbt", i.e., not use bibsing or
+     * thin-lock techniques, so use some odd coding idioms thbt tend
+     * to bvoid them, mbinly by brrbnging thbt every synchronized
+     * block performs b wbit, notifyAll or both.
      *
-     * These control bits occupy only (some of) the upper half (16
-     * bits) of status field. The lower bits are used for user-defined
-     * tags.
+     * These control bits occupy only (some of) the upper hblf (16
+     * bits) of stbtus field. The lower bits bre used for user-defined
+     * tbgs.
      */
 
-    /** The run status of this task */
-    volatile int status; // accessed directly by pool and workers
-    static final int DONE_MASK   = 0xf0000000;  // mask out non-completion bits
-    static final int NORMAL      = 0xf0000000;  // must be negative
-    static final int CANCELLED   = 0xc0000000;  // must be < NORMAL
-    static final int EXCEPTIONAL = 0x80000000;  // must be < CANCELLED
-    static final int SIGNAL      = 0x00010000;  // must be >= 1 << 16
-    static final int SMASK       = 0x0000ffff;  // short bits for tags
+    /** The run stbtus of this tbsk */
+    volbtile int stbtus; // bccessed directly by pool bnd workers
+    stbtic finbl int DONE_MASK   = 0xf0000000;  // mbsk out non-completion bits
+    stbtic finbl int NORMAL      = 0xf0000000;  // must be negbtive
+    stbtic finbl int CANCELLED   = 0xc0000000;  // must be < NORMAL
+    stbtic finbl int EXCEPTIONAL = 0x80000000;  // must be < CANCELLED
+    stbtic finbl int SIGNAL      = 0x00010000;  // must be >= 1 << 16
+    stbtic finbl int SMASK       = 0x0000ffff;  // short bits for tbgs
 
     /**
-     * Marks completion and wakes up threads waiting to join this
-     * task.
+     * Mbrks completion bnd wbkes up threbds wbiting to join this
+     * tbsk.
      *
-     * @param completion one of NORMAL, CANCELLED, EXCEPTIONAL
-     * @return completion status on exit
+     * @pbrbm completion one of NORMAL, CANCELLED, EXCEPTIONAL
+     * @return completion stbtus on exit
      */
-    private int setCompletion(int completion) {
+    privbte int setCompletion(int completion) {
         for (int s;;) {
-            if ((s = status) < 0)
+            if ((s = stbtus) < 0)
                 return s;
-            if (U.compareAndSwapInt(this, STATUS, s, s | completion)) {
+            if (U.compbreAndSwbpInt(this, STATUS, s, s | completion)) {
                 if ((s >>> 16) != 0)
                     synchronized (this) { notifyAll(); }
                 return completion;
@@ -276,19 +276,19 @@ public abstract class ForkJoinTask<V> implements Future<V>, Serializable {
     }
 
     /**
-     * Primary execution method for stolen tasks. Unless done, calls
-     * exec and records status if completed, but doesn't wait for
+     * Primbry execution method for stolen tbsks. Unless done, cblls
+     * exec bnd records stbtus if completed, but doesn't wbit for
      * completion otherwise.
      *
-     * @return status on exit from this method
+     * @return stbtus on exit from this method
      */
-    final int doExec() {
-        int s; boolean completed;
-        if ((s = status) >= 0) {
+    finbl int doExec() {
+        int s; boolebn completed;
+        if ((s = stbtus) >= 0) {
             try {
                 completed = exec();
-            } catch (Throwable rex) {
-                return setExceptionalCompletion(rex);
+            } cbtch (Throwbble rex) {
+                return setExceptionblCompletion(rex);
             }
             if (completed)
                 s = setCompletion(NORMAL);
@@ -297,40 +297,40 @@ public abstract class ForkJoinTask<V> implements Future<V>, Serializable {
     }
 
     /**
-     * Tries to set SIGNAL status unless already completed. Used by
-     * ForkJoinPool. Other variants are directly incorporated into
-     * externalAwaitDone etc.
+     * Tries to set SIGNAL stbtus unless blrebdy completed. Used by
+     * ForkJoinPool. Other vbribnts bre directly incorporbted into
+     * externblAwbitDone etc.
      *
      * @return true if successful
      */
-    final boolean trySetSignal() {
-        int s = status;
-        return s >= 0 && U.compareAndSwapInt(this, STATUS, s, s | SIGNAL);
+    finbl boolebn trySetSignbl() {
+        int s = stbtus;
+        return s >= 0 && U.compbreAndSwbpInt(this, STATUS, s, s | SIGNAL);
     }
 
     /**
-     * Blocks a non-worker-thread until completion.
-     * @return status upon completion
+     * Blocks b non-worker-threbd until completion.
+     * @return stbtus upon completion
      */
-    private int externalAwaitDone() {
+    privbte int externblAwbitDone() {
         int s;
         ForkJoinPool cp = ForkJoinPool.common;
-        if ((s = status) >= 0) {
+        if ((s = stbtus) >= 0) {
             if (cp != null) {
-                if (this instanceof CountedCompleter)
-                    s = cp.externalHelpComplete((CountedCompleter<?>)this, Integer.MAX_VALUE);
-                else if (cp.tryExternalUnpush(this))
+                if (this instbnceof CountedCompleter)
+                    s = cp.externblHelpComplete((CountedCompleter<?>)this, Integer.MAX_VALUE);
+                else if (cp.tryExternblUnpush(this))
                     s = doExec();
             }
-            if (s >= 0 && (s = status) >= 0) {
-                boolean interrupted = false;
+            if (s >= 0 && (s = stbtus) >= 0) {
+                boolebn interrupted = fblse;
                 do {
-                    if (U.compareAndSwapInt(this, STATUS, s, s | SIGNAL)) {
+                    if (U.compbreAndSwbpInt(this, STATUS, s, s | SIGNAL)) {
                         synchronized (this) {
-                            if (status >= 0) {
+                            if (stbtus >= 0) {
                                 try {
-                                    wait();
-                                } catch (InterruptedException ie) {
+                                    wbit();
+                                } cbtch (InterruptedException ie) {
                                     interrupted = true;
                                 }
                             }
@@ -338,33 +338,33 @@ public abstract class ForkJoinTask<V> implements Future<V>, Serializable {
                                 notifyAll();
                         }
                     }
-                } while ((s = status) >= 0);
+                } while ((s = stbtus) >= 0);
                 if (interrupted)
-                    Thread.currentThread().interrupt();
+                    Threbd.currentThrebd().interrupt();
             }
         }
         return s;
     }
 
     /**
-     * Blocks a non-worker-thread until completion or interruption.
+     * Blocks b non-worker-threbd until completion or interruption.
      */
-    private int externalInterruptibleAwaitDone() throws InterruptedException {
+    privbte int externblInterruptibleAwbitDone() throws InterruptedException {
         int s;
         ForkJoinPool cp = ForkJoinPool.common;
-        if (Thread.interrupted())
+        if (Threbd.interrupted())
             throw new InterruptedException();
-        if ((s = status) >= 0 && cp != null) {
-            if (this instanceof CountedCompleter)
-                cp.externalHelpComplete((CountedCompleter<?>)this, Integer.MAX_VALUE);
-            else if (cp.tryExternalUnpush(this))
+        if ((s = stbtus) >= 0 && cp != null) {
+            if (this instbnceof CountedCompleter)
+                cp.externblHelpComplete((CountedCompleter<?>)this, Integer.MAX_VALUE);
+            else if (cp.tryExternblUnpush(this))
                 doExec();
         }
-        while ((s = status) >= 0) {
-            if (U.compareAndSwapInt(this, STATUS, s, s | SIGNAL)) {
+        while ((s = stbtus) >= 0) {
+            if (U.compbreAndSwbpInt(this, STATUS, s, s | SIGNAL)) {
                 synchronized (this) {
-                    if (status >= 0)
-                        wait();
+                    if (stbtus >= 0)
+                        wbit();
                     else
                         notifyAll();
                 }
@@ -374,105 +374,105 @@ public abstract class ForkJoinTask<V> implements Future<V>, Serializable {
     }
 
     /**
-     * Implementation for join, get, quietlyJoin. Directly handles
-     * only cases of already-completed, external wait, and
-     * unfork+exec.  Others are relayed to ForkJoinPool.awaitJoin.
+     * Implementbtion for join, get, quietlyJoin. Directly hbndles
+     * only cbses of blrebdy-completed, externbl wbit, bnd
+     * unfork+exec.  Others bre relbyed to ForkJoinPool.bwbitJoin.
      *
-     * @return status upon completion
+     * @return stbtus upon completion
      */
-    private int doJoin() {
-        int s; Thread t; ForkJoinWorkerThread wt; ForkJoinPool.WorkQueue w;
-        return (s = status) < 0 ? s :
-            ((t = Thread.currentThread()) instanceof ForkJoinWorkerThread) ?
-            (w = (wt = (ForkJoinWorkerThread)t).workQueue).
+    privbte int doJoin() {
+        int s; Threbd t; ForkJoinWorkerThrebd wt; ForkJoinPool.WorkQueue w;
+        return (s = stbtus) < 0 ? s :
+            ((t = Threbd.currentThrebd()) instbnceof ForkJoinWorkerThrebd) ?
+            (w = (wt = (ForkJoinWorkerThrebd)t).workQueue).
             tryUnpush(this) && (s = doExec()) < 0 ? s :
-            wt.pool.awaitJoin(w, this) :
-            externalAwaitDone();
+            wt.pool.bwbitJoin(w, this) :
+            externblAwbitDone();
     }
 
     /**
-     * Implementation for invoke, quietlyInvoke.
+     * Implementbtion for invoke, quietlyInvoke.
      *
-     * @return status upon completion
+     * @return stbtus upon completion
      */
-    private int doInvoke() {
-        int s; Thread t; ForkJoinWorkerThread wt;
+    privbte int doInvoke() {
+        int s; Threbd t; ForkJoinWorkerThrebd wt;
         return (s = doExec()) < 0 ? s :
-            ((t = Thread.currentThread()) instanceof ForkJoinWorkerThread) ?
-            (wt = (ForkJoinWorkerThread)t).pool.awaitJoin(wt.workQueue, this) :
-            externalAwaitDone();
+            ((t = Threbd.currentThrebd()) instbnceof ForkJoinWorkerThrebd) ?
+            (wt = (ForkJoinWorkerThrebd)t).pool.bwbitJoin(wt.workQueue, this) :
+            externblAwbitDone();
     }
 
-    // Exception table support
+    // Exception tbble support
 
     /**
-     * Table of exceptions thrown by tasks, to enable reporting by
-     * callers. Because exceptions are rare, we don't directly keep
-     * them with task objects, but instead use a weak ref table.  Note
-     * that cancellation exceptions don't appear in the table, but are
-     * instead recorded as status values.
+     * Tbble of exceptions thrown by tbsks, to enbble reporting by
+     * cbllers. Becbuse exceptions bre rbre, we don't directly keep
+     * them with tbsk objects, but instebd use b webk ref tbble.  Note
+     * thbt cbncellbtion exceptions don't bppebr in the tbble, but bre
+     * instebd recorded bs stbtus vblues.
      *
-     * Note: These statics are initialized below in static block.
+     * Note: These stbtics bre initiblized below in stbtic block.
      */
-    private static final ExceptionNode[] exceptionTable;
-    private static final ReentrantLock exceptionTableLock;
-    private static final ReferenceQueue<Object> exceptionTableRefQueue;
+    privbte stbtic finbl ExceptionNode[] exceptionTbble;
+    privbte stbtic finbl ReentrbntLock exceptionTbbleLock;
+    privbte stbtic finbl ReferenceQueue<Object> exceptionTbbleRefQueue;
 
     /**
-     * Fixed capacity for exceptionTable.
+     * Fixed cbpbcity for exceptionTbble.
      */
-    private static final int EXCEPTION_MAP_CAPACITY = 32;
+    privbte stbtic finbl int EXCEPTION_MAP_CAPACITY = 32;
 
     /**
-     * Key-value nodes for exception table.  The chained hash table
-     * uses identity comparisons, full locking, and weak references
-     * for keys. The table has a fixed capacity because it only
-     * maintains task exceptions long enough for joiners to access
-     * them, so should never become very large for sustained
-     * periods. However, since we do not know when the last joiner
-     * completes, we must use weak references and expunge them. We do
-     * so on each operation (hence full locking). Also, some thread in
-     * any ForkJoinPool will call helpExpungeStaleExceptions when its
+     * Key-vblue nodes for exception tbble.  The chbined hbsh tbble
+     * uses identity compbrisons, full locking, bnd webk references
+     * for keys. The tbble hbs b fixed cbpbcity becbuse it only
+     * mbintbins tbsk exceptions long enough for joiners to bccess
+     * them, so should never become very lbrge for sustbined
+     * periods. However, since we do not know when the lbst joiner
+     * completes, we must use webk references bnd expunge them. We do
+     * so on ebch operbtion (hence full locking). Also, some threbd in
+     * bny ForkJoinPool will cbll helpExpungeStbleExceptions when its
      * pool becomes isQuiescent.
      */
-    static final class ExceptionNode extends WeakReference<ForkJoinTask<?>> {
-        final Throwable ex;
+    stbtic finbl clbss ExceptionNode extends WebkReference<ForkJoinTbsk<?>> {
+        finbl Throwbble ex;
         ExceptionNode next;
-        final long thrower;  // use id not ref to avoid weak cycles
-        final int hashCode;  // store task hashCode before weak ref disappears
-        ExceptionNode(ForkJoinTask<?> task, Throwable ex, ExceptionNode next) {
-            super(task, exceptionTableRefQueue);
+        finbl long thrower;  // use id not ref to bvoid webk cycles
+        finbl int hbshCode;  // store tbsk hbshCode before webk ref disbppebrs
+        ExceptionNode(ForkJoinTbsk<?> tbsk, Throwbble ex, ExceptionNode next) {
+            super(tbsk, exceptionTbbleRefQueue);
             this.ex = ex;
             this.next = next;
-            this.thrower = Thread.currentThread().getId();
-            this.hashCode = System.identityHashCode(task);
+            this.thrower = Threbd.currentThrebd().getId();
+            this.hbshCode = System.identityHbshCode(tbsk);
         }
     }
 
     /**
-     * Records exception and sets status.
+     * Records exception bnd sets stbtus.
      *
-     * @return status on exit
+     * @return stbtus on exit
      */
-    final int recordExceptionalCompletion(Throwable ex) {
+    finbl int recordExceptionblCompletion(Throwbble ex) {
         int s;
-        if ((s = status) >= 0) {
-            int h = System.identityHashCode(this);
-            final ReentrantLock lock = exceptionTableLock;
+        if ((s = stbtus) >= 0) {
+            int h = System.identityHbshCode(this);
+            finbl ReentrbntLock lock = exceptionTbbleLock;
             lock.lock();
             try {
-                expungeStaleExceptions();
-                ExceptionNode[] t = exceptionTable;
+                expungeStbleExceptions();
+                ExceptionNode[] t = exceptionTbble;
                 int i = h & (t.length - 1);
                 for (ExceptionNode e = t[i]; ; e = e.next) {
                     if (e == null) {
                         t[i] = new ExceptionNode(this, ex, t[i]);
-                        break;
+                        brebk;
                     }
-                    if (e.get() == this) // already present
-                        break;
+                    if (e.get() == this) // blrebdy present
+                        brebk;
                 }
-            } finally {
+            } finblly {
                 lock.unlock();
             }
             s = setCompletion(EXCEPTIONAL);
@@ -481,47 +481,47 @@ public abstract class ForkJoinTask<V> implements Future<V>, Serializable {
     }
 
     /**
-     * Records exception and possibly propagates.
+     * Records exception bnd possibly propbgbtes.
      *
-     * @return status on exit
+     * @return stbtus on exit
      */
-    private int setExceptionalCompletion(Throwable ex) {
-        int s = recordExceptionalCompletion(ex);
+    privbte int setExceptionblCompletion(Throwbble ex) {
+        int s = recordExceptionblCompletion(ex);
         if ((s & DONE_MASK) == EXCEPTIONAL)
-            internalPropagateException(ex);
+            internblPropbgbteException(ex);
         return s;
     }
 
     /**
-     * Hook for exception propagation support for tasks with completers.
+     * Hook for exception propbgbtion support for tbsks with completers.
      */
-    void internalPropagateException(Throwable ex) {
+    void internblPropbgbteException(Throwbble ex) {
     }
 
     /**
-     * Cancels, ignoring any exceptions thrown by cancel. Used during
-     * worker and pool shutdown. Cancel is spec'ed not to throw any
-     * exceptions, but if it does anyway, we have no recourse during
-     * shutdown, so guard against this case.
+     * Cbncels, ignoring bny exceptions thrown by cbncel. Used during
+     * worker bnd pool shutdown. Cbncel is spec'ed not to throw bny
+     * exceptions, but if it does bnywby, we hbve no recourse during
+     * shutdown, so gubrd bgbinst this cbse.
      */
-    static final void cancelIgnoringExceptions(ForkJoinTask<?> t) {
-        if (t != null && t.status >= 0) {
+    stbtic finbl void cbncelIgnoringExceptions(ForkJoinTbsk<?> t) {
+        if (t != null && t.stbtus >= 0) {
             try {
-                t.cancel(false);
-            } catch (Throwable ignore) {
+                t.cbncel(fblse);
+            } cbtch (Throwbble ignore) {
             }
         }
     }
 
     /**
-     * Removes exception node and clears status.
+     * Removes exception node bnd clebrs stbtus.
      */
-    private void clearExceptionalCompletion() {
-        int h = System.identityHashCode(this);
-        final ReentrantLock lock = exceptionTableLock;
+    privbte void clebrExceptionblCompletion() {
+        int h = System.identityHbshCode(this);
+        finbl ReentrbntLock lock = exceptionTbbleLock;
         lock.lock();
         try {
-            ExceptionNode[] t = exceptionTable;
+            ExceptionNode[] t = exceptionTbble;
             int i = h & (t.length - 1);
             ExceptionNode e = t[i];
             ExceptionNode pred = null;
@@ -532,84 +532,84 @@ public abstract class ForkJoinTask<V> implements Future<V>, Serializable {
                         t[i] = next;
                     else
                         pred.next = next;
-                    break;
+                    brebk;
                 }
                 pred = e;
                 e = next;
             }
-            expungeStaleExceptions();
-            status = 0;
-        } finally {
+            expungeStbleExceptions();
+            stbtus = 0;
+        } finblly {
             lock.unlock();
         }
     }
 
     /**
-     * Returns a rethrowable exception for the given task, if
-     * available. To provide accurate stack traces, if the exception
-     * was not thrown by the current thread, we try to create a new
-     * exception of the same type as the one thrown, but with the
-     * recorded exception as its cause. If there is no such
-     * constructor, we instead try to use a no-arg constructor,
-     * followed by initCause, to the same effect. If none of these
-     * apply, or any fail due to other exceptions, we return the
-     * recorded exception, which is still correct, although it may
-     * contain a misleading stack trace.
+     * Returns b rethrowbble exception for the given tbsk, if
+     * bvbilbble. To provide bccurbte stbck trbces, if the exception
+     * wbs not thrown by the current threbd, we try to crebte b new
+     * exception of the sbme type bs the one thrown, but with the
+     * recorded exception bs its cbuse. If there is no such
+     * constructor, we instebd try to use b no-brg constructor,
+     * followed by initCbuse, to the sbme effect. If none of these
+     * bpply, or bny fbil due to other exceptions, we return the
+     * recorded exception, which is still correct, blthough it mby
+     * contbin b mislebding stbck trbce.
      *
      * @return the exception, or null if none
      */
-    private Throwable getThrowableException() {
-        if ((status & DONE_MASK) != EXCEPTIONAL)
+    privbte Throwbble getThrowbbleException() {
+        if ((stbtus & DONE_MASK) != EXCEPTIONAL)
             return null;
-        int h = System.identityHashCode(this);
+        int h = System.identityHbshCode(this);
         ExceptionNode e;
-        final ReentrantLock lock = exceptionTableLock;
+        finbl ReentrbntLock lock = exceptionTbbleLock;
         lock.lock();
         try {
-            expungeStaleExceptions();
-            ExceptionNode[] t = exceptionTable;
+            expungeStbleExceptions();
+            ExceptionNode[] t = exceptionTbble;
             e = t[h & (t.length - 1)];
             while (e != null && e.get() != this)
                 e = e.next;
-        } finally {
+        } finblly {
             lock.unlock();
         }
-        Throwable ex;
+        Throwbble ex;
         if (e == null || (ex = e.ex) == null)
             return null;
-        if (false && e.thrower != Thread.currentThread().getId()) {
-            Class<? extends Throwable> ec = ex.getClass();
+        if (fblse && e.thrower != Threbd.currentThrebd().getId()) {
+            Clbss<? extends Throwbble> ec = ex.getClbss();
             try {
                 Constructor<?> noArgCtor = null;
                 Constructor<?>[] cs = ec.getConstructors();// public ctors only
                 for (int i = 0; i < cs.length; ++i) {
                     Constructor<?> c = cs[i];
-                    Class<?>[] ps = c.getParameterTypes();
+                    Clbss<?>[] ps = c.getPbrbmeterTypes();
                     if (ps.length == 0)
                         noArgCtor = c;
-                    else if (ps.length == 1 && ps[0] == Throwable.class)
-                        return (Throwable)(c.newInstance(ex));
+                    else if (ps.length == 1 && ps[0] == Throwbble.clbss)
+                        return (Throwbble)(c.newInstbnce(ex));
                 }
                 if (noArgCtor != null) {
-                    Throwable wx = (Throwable)(noArgCtor.newInstance());
-                    wx.initCause(ex);
+                    Throwbble wx = (Throwbble)(noArgCtor.newInstbnce());
+                    wx.initCbuse(ex);
                     return wx;
                 }
-            } catch (Exception ignore) {
+            } cbtch (Exception ignore) {
             }
         }
         return ex;
     }
 
     /**
-     * Poll stale refs and remove them. Call only while holding lock.
+     * Poll stble refs bnd remove them. Cbll only while holding lock.
      */
-    private static void expungeStaleExceptions() {
-        for (Object x; (x = exceptionTableRefQueue.poll()) != null;) {
-            if (x instanceof ExceptionNode) {
-                int hashCode = ((ExceptionNode)x).hashCode;
-                ExceptionNode[] t = exceptionTable;
-                int i = hashCode & (t.length - 1);
+    privbte stbtic void expungeStbleExceptions() {
+        for (Object x; (x = exceptionTbbleRefQueue.poll()) != null;) {
+            if (x instbnceof ExceptionNode) {
+                int hbshCode = ((ExceptionNode)x).hbshCode;
+                ExceptionNode[] t = exceptionTbble;
+                int i = hbshCode & (t.length - 1);
                 ExceptionNode e = t[i];
                 ExceptionNode pred = null;
                 while (e != null) {
@@ -619,7 +619,7 @@ public abstract class ForkJoinTask<V> implements Future<V>, Serializable {
                             t[i] = next;
                         else
                             pred.next = next;
-                        break;
+                        brebk;
                     }
                     pred = e;
                     e = next;
@@ -629,125 +629,125 @@ public abstract class ForkJoinTask<V> implements Future<V>, Serializable {
     }
 
     /**
-     * If lock is available, poll stale refs and remove them.
-     * Called from ForkJoinPool when pools become quiescent.
+     * If lock is bvbilbble, poll stble refs bnd remove them.
+     * Cblled from ForkJoinPool when pools become quiescent.
      */
-    static final void helpExpungeStaleExceptions() {
-        final ReentrantLock lock = exceptionTableLock;
+    stbtic finbl void helpExpungeStbleExceptions() {
+        finbl ReentrbntLock lock = exceptionTbbleLock;
         if (lock.tryLock()) {
             try {
-                expungeStaleExceptions();
-            } finally {
+                expungeStbleExceptions();
+            } finblly {
                 lock.unlock();
             }
         }
     }
 
     /**
-     * A version of "sneaky throw" to relay exceptions
+     * A version of "snebky throw" to relby exceptions
      */
-    static void rethrow(Throwable ex) {
+    stbtic void rethrow(Throwbble ex) {
         if (ex != null)
-            ForkJoinTask.<RuntimeException>uncheckedThrow(ex);
+            ForkJoinTbsk.<RuntimeException>uncheckedThrow(ex);
     }
 
     /**
-     * The sneaky part of sneaky throw, relying on generics
-     * limitations to evade compiler complaints about rethrowing
+     * The snebky pbrt of snebky throw, relying on generics
+     * limitbtions to evbde compiler complbints bbout rethrowing
      * unchecked exceptions
      */
-    @SuppressWarnings("unchecked") static <T extends Throwable>
-        void uncheckedThrow(Throwable t) throws T {
-        throw (T)t; // rely on vacuous cast
+    @SuppressWbrnings("unchecked") stbtic <T extends Throwbble>
+        void uncheckedThrow(Throwbble t) throws T {
+        throw (T)t; // rely on vbcuous cbst
     }
 
     /**
-     * Throws exception, if any, associated with the given status.
+     * Throws exception, if bny, bssocibted with the given stbtus.
      */
-    private void reportException(int s) {
+    privbte void reportException(int s) {
         if (s == CANCELLED)
-            throw new CancellationException();
+            throw new CbncellbtionException();
         if (s == EXCEPTIONAL)
-            rethrow(getThrowableException());
+            rethrow(getThrowbbleException());
     }
 
     // public methods
 
     /**
-     * Arranges to asynchronously execute this task in the pool the
-     * current task is running in, if applicable, or using the {@link
+     * Arrbnges to bsynchronously execute this tbsk in the pool the
+     * current tbsk is running in, if bpplicbble, or using the {@link
      * ForkJoinPool#commonPool()} if not {@link #inForkJoinPool}.  While
-     * it is not necessarily enforced, it is a usage error to fork a
-     * task more than once unless it has completed and been
-     * reinitialized.  Subsequent modifications to the state of this
-     * task or any data it operates on are not necessarily
-     * consistently observable by any thread other than the one
-     * executing it unless preceded by a call to {@link #join} or
-     * related methods, or a call to {@link #isDone} returning {@code
+     * it is not necessbrily enforced, it is b usbge error to fork b
+     * tbsk more thbn once unless it hbs completed bnd been
+     * reinitiblized.  Subsequent modificbtions to the stbte of this
+     * tbsk or bny dbtb it operbtes on bre not necessbrily
+     * consistently observbble by bny threbd other thbn the one
+     * executing it unless preceded by b cbll to {@link #join} or
+     * relbted methods, or b cbll to {@link #isDone} returning {@code
      * true}.
      *
-     * @return {@code this}, to simplify usage
+     * @return {@code this}, to simplify usbge
      */
-    public final ForkJoinTask<V> fork() {
-        Thread t;
-        if ((t = Thread.currentThread()) instanceof ForkJoinWorkerThread)
-            ((ForkJoinWorkerThread)t).workQueue.push(this);
+    public finbl ForkJoinTbsk<V> fork() {
+        Threbd t;
+        if ((t = Threbd.currentThrebd()) instbnceof ForkJoinWorkerThrebd)
+            ((ForkJoinWorkerThrebd)t).workQueue.push(this);
         else
-            ForkJoinPool.common.externalPush(this);
+            ForkJoinPool.common.externblPush(this);
         return this;
     }
 
     /**
-     * Returns the result of the computation when it {@link #isDone is
-     * done}.  This method differs from {@link #get()} in that
-     * abnormal completion results in {@code RuntimeException} or
-     * {@code Error}, not {@code ExecutionException}, and that
-     * interrupts of the calling thread do <em>not</em> cause the
-     * method to abruptly return by throwing {@code
+     * Returns the result of the computbtion when it {@link #isDone is
+     * done}.  This method differs from {@link #get()} in thbt
+     * bbnormbl completion results in {@code RuntimeException} or
+     * {@code Error}, not {@code ExecutionException}, bnd thbt
+     * interrupts of the cblling threbd do <em>not</em> cbuse the
+     * method to bbruptly return by throwing {@code
      * InterruptedException}.
      *
      * @return the computed result
      */
-    public final V join() {
+    public finbl V join() {
         int s;
         if ((s = doJoin() & DONE_MASK) != NORMAL)
             reportException(s);
-        return getRawResult();
+        return getRbwResult();
     }
 
     /**
-     * Commences performing this task, awaits its completion if
-     * necessary, and returns its result, or throws an (unchecked)
+     * Commences performing this tbsk, bwbits its completion if
+     * necessbry, bnd returns its result, or throws bn (unchecked)
      * {@code RuntimeException} or {@code Error} if the underlying
-     * computation did so.
+     * computbtion did so.
      *
      * @return the computed result
      */
-    public final V invoke() {
+    public finbl V invoke() {
         int s;
         if ((s = doInvoke() & DONE_MASK) != NORMAL)
             reportException(s);
-        return getRawResult();
+        return getRbwResult();
     }
 
     /**
-     * Forks the given tasks, returning when {@code isDone} holds for
-     * each task or an (unchecked) exception is encountered, in which
-     * case the exception is rethrown. If more than one task
-     * encounters an exception, then this method throws any one of
-     * these exceptions. If any task encounters an exception, the
-     * other may be cancelled. However, the execution status of
-     * individual tasks is not guaranteed upon exceptional return. The
-     * status of each task may be obtained using {@link
-     * #getException()} and related methods to check if they have been
-     * cancelled, completed normally or exceptionally, or left
+     * Forks the given tbsks, returning when {@code isDone} holds for
+     * ebch tbsk or bn (unchecked) exception is encountered, in which
+     * cbse the exception is rethrown. If more thbn one tbsk
+     * encounters bn exception, then this method throws bny one of
+     * these exceptions. If bny tbsk encounters bn exception, the
+     * other mby be cbncelled. However, the execution stbtus of
+     * individubl tbsks is not gubrbnteed upon exceptionbl return. The
+     * stbtus of ebch tbsk mby be obtbined using {@link
+     * #getException()} bnd relbted methods to check if they hbve been
+     * cbncelled, completed normblly or exceptionblly, or left
      * unprocessed.
      *
-     * @param t1 the first task
-     * @param t2 the second task
-     * @throws NullPointerException if any task is null
+     * @pbrbm t1 the first tbsk
+     * @pbrbm t2 the second tbsk
+     * @throws NullPointerException if bny tbsk is null
      */
-    public static void invokeAll(ForkJoinTask<?> t1, ForkJoinTask<?> t2) {
+    public stbtic void invokeAll(ForkJoinTbsk<?> t1, ForkJoinTbsk<?> t2) {
         int s1, s2;
         t2.fork();
         if ((s1 = t1.doInvoke() & DONE_MASK) != NORMAL)
@@ -757,25 +757,25 @@ public abstract class ForkJoinTask<V> implements Future<V>, Serializable {
     }
 
     /**
-     * Forks the given tasks, returning when {@code isDone} holds for
-     * each task or an (unchecked) exception is encountered, in which
-     * case the exception is rethrown. If more than one task
-     * encounters an exception, then this method throws any one of
-     * these exceptions. If any task encounters an exception, others
-     * may be cancelled. However, the execution status of individual
-     * tasks is not guaranteed upon exceptional return. The status of
-     * each task may be obtained using {@link #getException()} and
-     * related methods to check if they have been cancelled, completed
-     * normally or exceptionally, or left unprocessed.
+     * Forks the given tbsks, returning when {@code isDone} holds for
+     * ebch tbsk or bn (unchecked) exception is encountered, in which
+     * cbse the exception is rethrown. If more thbn one tbsk
+     * encounters bn exception, then this method throws bny one of
+     * these exceptions. If bny tbsk encounters bn exception, others
+     * mby be cbncelled. However, the execution stbtus of individubl
+     * tbsks is not gubrbnteed upon exceptionbl return. The stbtus of
+     * ebch tbsk mby be obtbined using {@link #getException()} bnd
+     * relbted methods to check if they hbve been cbncelled, completed
+     * normblly or exceptionblly, or left unprocessed.
      *
-     * @param tasks the tasks
-     * @throws NullPointerException if any task is null
+     * @pbrbm tbsks the tbsks
+     * @throws NullPointerException if bny tbsk is null
      */
-    public static void invokeAll(ForkJoinTask<?>... tasks) {
-        Throwable ex = null;
-        int last = tasks.length - 1;
-        for (int i = last; i >= 0; --i) {
-            ForkJoinTask<?> t = tasks[i];
+    public stbtic void invokeAll(ForkJoinTbsk<?>... tbsks) {
+        Throwbble ex = null;
+        int lbst = tbsks.length - 1;
+        for (int i = lbst; i >= 0; --i) {
+            ForkJoinTbsk<?> t = tbsks[i];
             if (t == null) {
                 if (ex == null)
                     ex = new NullPointerException();
@@ -785,11 +785,11 @@ public abstract class ForkJoinTask<V> implements Future<V>, Serializable {
             else if (t.doInvoke() < NORMAL && ex == null)
                 ex = t.getException();
         }
-        for (int i = 1; i <= last; ++i) {
-            ForkJoinTask<?> t = tasks[i];
+        for (int i = 1; i <= lbst; ++i) {
+            ForkJoinTbsk<?> t = tbsks[i];
             if (t != null) {
                 if (ex != null)
-                    t.cancel(false);
+                    t.cbncel(fblse);
                 else if (t.doJoin() < NORMAL)
                     ex = t.getException();
             }
@@ -799,35 +799,35 @@ public abstract class ForkJoinTask<V> implements Future<V>, Serializable {
     }
 
     /**
-     * Forks all tasks in the specified collection, returning when
-     * {@code isDone} holds for each task or an (unchecked) exception
-     * is encountered, in which case the exception is rethrown. If
-     * more than one task encounters an exception, then this method
-     * throws any one of these exceptions. If any task encounters an
-     * exception, others may be cancelled. However, the execution
-     * status of individual tasks is not guaranteed upon exceptional
-     * return. The status of each task may be obtained using {@link
-     * #getException()} and related methods to check if they have been
-     * cancelled, completed normally or exceptionally, or left
+     * Forks bll tbsks in the specified collection, returning when
+     * {@code isDone} holds for ebch tbsk or bn (unchecked) exception
+     * is encountered, in which cbse the exception is rethrown. If
+     * more thbn one tbsk encounters bn exception, then this method
+     * throws bny one of these exceptions. If bny tbsk encounters bn
+     * exception, others mby be cbncelled. However, the execution
+     * stbtus of individubl tbsks is not gubrbnteed upon exceptionbl
+     * return. The stbtus of ebch tbsk mby be obtbined using {@link
+     * #getException()} bnd relbted methods to check if they hbve been
+     * cbncelled, completed normblly or exceptionblly, or left
      * unprocessed.
      *
-     * @param tasks the collection of tasks
-     * @param <T> the type of the values returned from the tasks
-     * @return the tasks argument, to simplify usage
-     * @throws NullPointerException if tasks or any element are null
+     * @pbrbm tbsks the collection of tbsks
+     * @pbrbm <T> the type of the vblues returned from the tbsks
+     * @return the tbsks brgument, to simplify usbge
+     * @throws NullPointerException if tbsks or bny element bre null
      */
-    public static <T extends ForkJoinTask<?>> Collection<T> invokeAll(Collection<T> tasks) {
-        if (!(tasks instanceof RandomAccess) || !(tasks instanceof List<?>)) {
-            invokeAll(tasks.toArray(new ForkJoinTask<?>[tasks.size()]));
-            return tasks;
+    public stbtic <T extends ForkJoinTbsk<?>> Collection<T> invokeAll(Collection<T> tbsks) {
+        if (!(tbsks instbnceof RbndomAccess) || !(tbsks instbnceof List<?>)) {
+            invokeAll(tbsks.toArrby(new ForkJoinTbsk<?>[tbsks.size()]));
+            return tbsks;
         }
-        @SuppressWarnings("unchecked")
-        List<? extends ForkJoinTask<?>> ts =
-            (List<? extends ForkJoinTask<?>>) tasks;
-        Throwable ex = null;
-        int last = ts.size() - 1;
-        for (int i = last; i >= 0; --i) {
-            ForkJoinTask<?> t = ts.get(i);
+        @SuppressWbrnings("unchecked")
+        List<? extends ForkJoinTbsk<?>> ts =
+            (List<? extends ForkJoinTbsk<?>>) tbsks;
+        Throwbble ex = null;
+        int lbst = ts.size() - 1;
+        for (int i = lbst; i >= 0; --i) {
+            ForkJoinTbsk<?> t = ts.get(i);
             if (t == null) {
                 if (ex == null)
                     ex = new NullPointerException();
@@ -837,227 +837,227 @@ public abstract class ForkJoinTask<V> implements Future<V>, Serializable {
             else if (t.doInvoke() < NORMAL && ex == null)
                 ex = t.getException();
         }
-        for (int i = 1; i <= last; ++i) {
-            ForkJoinTask<?> t = ts.get(i);
+        for (int i = 1; i <= lbst; ++i) {
+            ForkJoinTbsk<?> t = ts.get(i);
             if (t != null) {
                 if (ex != null)
-                    t.cancel(false);
+                    t.cbncel(fblse);
                 else if (t.doJoin() < NORMAL)
                     ex = t.getException();
             }
         }
         if (ex != null)
             rethrow(ex);
-        return tasks;
+        return tbsks;
     }
 
     /**
-     * Attempts to cancel execution of this task. This attempt will
-     * fail if the task has already completed or could not be
-     * cancelled for some other reason. If successful, and this task
-     * has not started when {@code cancel} is called, execution of
-     * this task is suppressed. After this method returns
-     * successfully, unless there is an intervening call to {@link
-     * #reinitialize}, subsequent calls to {@link #isCancelled},
-     * {@link #isDone}, and {@code cancel} will return {@code true}
-     * and calls to {@link #join} and related methods will result in
-     * {@code CancellationException}.
+     * Attempts to cbncel execution of this tbsk. This bttempt will
+     * fbil if the tbsk hbs blrebdy completed or could not be
+     * cbncelled for some other rebson. If successful, bnd this tbsk
+     * hbs not stbrted when {@code cbncel} is cblled, execution of
+     * this tbsk is suppressed. After this method returns
+     * successfully, unless there is bn intervening cbll to {@link
+     * #reinitiblize}, subsequent cblls to {@link #isCbncelled},
+     * {@link #isDone}, bnd {@code cbncel} will return {@code true}
+     * bnd cblls to {@link #join} bnd relbted methods will result in
+     * {@code CbncellbtionException}.
      *
-     * <p>This method may be overridden in subclasses, but if so, must
-     * still ensure that these properties hold. In particular, the
-     * {@code cancel} method itself must not throw exceptions.
+     * <p>This method mby be overridden in subclbsses, but if so, must
+     * still ensure thbt these properties hold. In pbrticulbr, the
+     * {@code cbncel} method itself must not throw exceptions.
      *
      * <p>This method is designed to be invoked by <em>other</em>
-     * tasks. To terminate the current task, you can just return or
-     * throw an unchecked exception from its computation method, or
-     * invoke {@link #completeExceptionally(Throwable)}.
+     * tbsks. To terminbte the current tbsk, you cbn just return or
+     * throw bn unchecked exception from its computbtion method, or
+     * invoke {@link #completeExceptionblly(Throwbble)}.
      *
-     * @param mayInterruptIfRunning this value has no effect in the
-     * default implementation because interrupts are not used to
-     * control cancellation.
+     * @pbrbm mbyInterruptIfRunning this vblue hbs no effect in the
+     * defbult implementbtion becbuse interrupts bre not used to
+     * control cbncellbtion.
      *
-     * @return {@code true} if this task is now cancelled
+     * @return {@code true} if this tbsk is now cbncelled
      */
-    public boolean cancel(boolean mayInterruptIfRunning) {
+    public boolebn cbncel(boolebn mbyInterruptIfRunning) {
         return (setCompletion(CANCELLED) & DONE_MASK) == CANCELLED;
     }
 
-    public final boolean isDone() {
-        return status < 0;
+    public finbl boolebn isDone() {
+        return stbtus < 0;
     }
 
-    public final boolean isCancelled() {
-        return (status & DONE_MASK) == CANCELLED;
+    public finbl boolebn isCbncelled() {
+        return (stbtus & DONE_MASK) == CANCELLED;
     }
 
     /**
-     * Returns {@code true} if this task threw an exception or was cancelled.
+     * Returns {@code true} if this tbsk threw bn exception or wbs cbncelled.
      *
-     * @return {@code true} if this task threw an exception or was cancelled
+     * @return {@code true} if this tbsk threw bn exception or wbs cbncelled
      */
-    public final boolean isCompletedAbnormally() {
-        return status < NORMAL;
+    public finbl boolebn isCompletedAbnormblly() {
+        return stbtus < NORMAL;
     }
 
     /**
-     * Returns {@code true} if this task completed without throwing an
-     * exception and was not cancelled.
+     * Returns {@code true} if this tbsk completed without throwing bn
+     * exception bnd wbs not cbncelled.
      *
-     * @return {@code true} if this task completed without throwing an
-     * exception and was not cancelled
+     * @return {@code true} if this tbsk completed without throwing bn
+     * exception bnd wbs not cbncelled
      */
-    public final boolean isCompletedNormally() {
-        return (status & DONE_MASK) == NORMAL;
+    public finbl boolebn isCompletedNormblly() {
+        return (stbtus & DONE_MASK) == NORMAL;
     }
 
     /**
-     * Returns the exception thrown by the base computation, or a
-     * {@code CancellationException} if cancelled, or {@code null} if
-     * none or if the method has not yet completed.
+     * Returns the exception thrown by the bbse computbtion, or b
+     * {@code CbncellbtionException} if cbncelled, or {@code null} if
+     * none or if the method hbs not yet completed.
      *
      * @return the exception, or {@code null} if none
      */
-    public final Throwable getException() {
-        int s = status & DONE_MASK;
+    public finbl Throwbble getException() {
+        int s = stbtus & DONE_MASK;
         return ((s >= NORMAL)    ? null :
-                (s == CANCELLED) ? new CancellationException() :
-                getThrowableException());
+                (s == CANCELLED) ? new CbncellbtionException() :
+                getThrowbbleException());
     }
 
     /**
-     * Completes this task abnormally, and if not already aborted or
-     * cancelled, causes it to throw the given exception upon
-     * {@code join} and related operations. This method may be used
-     * to induce exceptions in asynchronous tasks, or to force
-     * completion of tasks that would not otherwise complete.  Its use
-     * in other situations is discouraged.  This method is
-     * overridable, but overridden versions must invoke {@code super}
-     * implementation to maintain guarantees.
+     * Completes this tbsk bbnormblly, bnd if not blrebdy bborted or
+     * cbncelled, cbuses it to throw the given exception upon
+     * {@code join} bnd relbted operbtions. This method mby be used
+     * to induce exceptions in bsynchronous tbsks, or to force
+     * completion of tbsks thbt would not otherwise complete.  Its use
+     * in other situbtions is discourbged.  This method is
+     * overridbble, but overridden versions must invoke {@code super}
+     * implementbtion to mbintbin gubrbntees.
      *
-     * @param ex the exception to throw. If this exception is not a
-     * {@code RuntimeException} or {@code Error}, the actual exception
-     * thrown will be a {@code RuntimeException} with cause {@code ex}.
+     * @pbrbm ex the exception to throw. If this exception is not b
+     * {@code RuntimeException} or {@code Error}, the bctubl exception
+     * thrown will be b {@code RuntimeException} with cbuse {@code ex}.
      */
-    public void completeExceptionally(Throwable ex) {
-        setExceptionalCompletion((ex instanceof RuntimeException) ||
-                                 (ex instanceof Error) ? ex :
+    public void completeExceptionblly(Throwbble ex) {
+        setExceptionblCompletion((ex instbnceof RuntimeException) ||
+                                 (ex instbnceof Error) ? ex :
                                  new RuntimeException(ex));
     }
 
     /**
-     * Completes this task, and if not already aborted or cancelled,
-     * returning the given value as the result of subsequent
-     * invocations of {@code join} and related operations. This method
-     * may be used to provide results for asynchronous tasks, or to
-     * provide alternative handling for tasks that would not otherwise
-     * complete normally. Its use in other situations is
-     * discouraged. This method is overridable, but overridden
-     * versions must invoke {@code super} implementation to maintain
-     * guarantees.
+     * Completes this tbsk, bnd if not blrebdy bborted or cbncelled,
+     * returning the given vblue bs the result of subsequent
+     * invocbtions of {@code join} bnd relbted operbtions. This method
+     * mby be used to provide results for bsynchronous tbsks, or to
+     * provide blternbtive hbndling for tbsks thbt would not otherwise
+     * complete normblly. Its use in other situbtions is
+     * discourbged. This method is overridbble, but overridden
+     * versions must invoke {@code super} implementbtion to mbintbin
+     * gubrbntees.
      *
-     * @param value the result value for this task
+     * @pbrbm vblue the result vblue for this tbsk
      */
-    public void complete(V value) {
+    public void complete(V vblue) {
         try {
-            setRawResult(value);
-        } catch (Throwable rex) {
-            setExceptionalCompletion(rex);
+            setRbwResult(vblue);
+        } cbtch (Throwbble rex) {
+            setExceptionblCompletion(rex);
             return;
         }
         setCompletion(NORMAL);
     }
 
     /**
-     * Completes this task normally without setting a value. The most
-     * recent value established by {@link #setRawResult} (or {@code
-     * null} by default) will be returned as the result of subsequent
-     * invocations of {@code join} and related operations.
+     * Completes this tbsk normblly without setting b vblue. The most
+     * recent vblue estbblished by {@link #setRbwResult} (or {@code
+     * null} by defbult) will be returned bs the result of subsequent
+     * invocbtions of {@code join} bnd relbted operbtions.
      *
      * @since 1.8
      */
-    public final void quietlyComplete() {
+    public finbl void quietlyComplete() {
         setCompletion(NORMAL);
     }
 
     /**
-     * Waits if necessary for the computation to complete, and then
+     * Wbits if necessbry for the computbtion to complete, bnd then
      * retrieves its result.
      *
      * @return the computed result
-     * @throws CancellationException if the computation was cancelled
-     * @throws ExecutionException if the computation threw an
+     * @throws CbncellbtionException if the computbtion wbs cbncelled
+     * @throws ExecutionException if the computbtion threw bn
      * exception
-     * @throws InterruptedException if the current thread is not a
-     * member of a ForkJoinPool and was interrupted while waiting
+     * @throws InterruptedException if the current threbd is not b
+     * member of b ForkJoinPool bnd wbs interrupted while wbiting
      */
-    public final V get() throws InterruptedException, ExecutionException {
-        int s = (Thread.currentThread() instanceof ForkJoinWorkerThread) ?
-            doJoin() : externalInterruptibleAwaitDone();
-        Throwable ex;
+    public finbl V get() throws InterruptedException, ExecutionException {
+        int s = (Threbd.currentThrebd() instbnceof ForkJoinWorkerThrebd) ?
+            doJoin() : externblInterruptibleAwbitDone();
+        Throwbble ex;
         if ((s &= DONE_MASK) == CANCELLED)
-            throw new CancellationException();
-        if (s == EXCEPTIONAL && (ex = getThrowableException()) != null)
+            throw new CbncellbtionException();
+        if (s == EXCEPTIONAL && (ex = getThrowbbleException()) != null)
             throw new ExecutionException(ex);
-        return getRawResult();
+        return getRbwResult();
     }
 
     /**
-     * Waits if necessary for at most the given time for the computation
-     * to complete, and then retrieves its result, if available.
+     * Wbits if necessbry for bt most the given time for the computbtion
+     * to complete, bnd then retrieves its result, if bvbilbble.
      *
-     * @param timeout the maximum time to wait
-     * @param unit the time unit of the timeout argument
+     * @pbrbm timeout the mbximum time to wbit
+     * @pbrbm unit the time unit of the timeout brgument
      * @return the computed result
-     * @throws CancellationException if the computation was cancelled
-     * @throws ExecutionException if the computation threw an
+     * @throws CbncellbtionException if the computbtion wbs cbncelled
+     * @throws ExecutionException if the computbtion threw bn
      * exception
-     * @throws InterruptedException if the current thread is not a
-     * member of a ForkJoinPool and was interrupted while waiting
-     * @throws TimeoutException if the wait timed out
+     * @throws InterruptedException if the current threbd is not b
+     * member of b ForkJoinPool bnd wbs interrupted while wbiting
+     * @throws TimeoutException if the wbit timed out
      */
-    public final V get(long timeout, TimeUnit unit)
+    public finbl V get(long timeout, TimeUnit unit)
         throws InterruptedException, ExecutionException, TimeoutException {
-        if (Thread.interrupted())
+        if (Threbd.interrupted())
             throw new InterruptedException();
-        // Messy in part because we measure in nanosecs, but wait in millisecs
+        // Messy in pbrt becbuse we mebsure in nbnosecs, but wbit in millisecs
         int s; long ms;
-        long ns = unit.toNanos(timeout);
+        long ns = unit.toNbnos(timeout);
         ForkJoinPool cp;
-        if ((s = status) >= 0 && ns > 0L) {
-            long deadline = System.nanoTime() + ns;
+        if ((s = stbtus) >= 0 && ns > 0L) {
+            long debdline = System.nbnoTime() + ns;
             ForkJoinPool p = null;
             ForkJoinPool.WorkQueue w = null;
-            Thread t = Thread.currentThread();
-            if (t instanceof ForkJoinWorkerThread) {
-                ForkJoinWorkerThread wt = (ForkJoinWorkerThread)t;
+            Threbd t = Threbd.currentThrebd();
+            if (t instbnceof ForkJoinWorkerThrebd) {
+                ForkJoinWorkerThrebd wt = (ForkJoinWorkerThrebd)t;
                 p = wt.pool;
                 w = wt.workQueue;
-                p.helpJoinOnce(w, this); // no retries on failure
+                p.helpJoinOnce(w, this); // no retries on fbilure
             }
             else if ((cp = ForkJoinPool.common) != null) {
-                if (this instanceof CountedCompleter)
-                    cp.externalHelpComplete((CountedCompleter<?>)this, Integer.MAX_VALUE);
-                else if (cp.tryExternalUnpush(this))
+                if (this instbnceof CountedCompleter)
+                    cp.externblHelpComplete((CountedCompleter<?>)this, Integer.MAX_VALUE);
+                else if (cp.tryExternblUnpush(this))
                     doExec();
             }
-            boolean canBlock = false;
-            boolean interrupted = false;
+            boolebn cbnBlock = fblse;
+            boolebn interrupted = fblse;
             try {
-                while ((s = status) >= 0) {
+                while ((s = stbtus) >= 0) {
                     if (w != null && w.qlock < 0)
-                        cancelIgnoringExceptions(this);
-                    else if (!canBlock) {
-                        if (p == null || p.tryCompensate(p.ctl))
-                            canBlock = true;
+                        cbncelIgnoringExceptions(this);
+                    else if (!cbnBlock) {
+                        if (p == null || p.tryCompensbte(p.ctl))
+                            cbnBlock = true;
                     }
                     else {
                         if ((ms = TimeUnit.NANOSECONDS.toMillis(ns)) > 0L &&
-                            U.compareAndSwapInt(this, STATUS, s, s | SIGNAL)) {
+                            U.compbreAndSwbpInt(this, STATUS, s, s | SIGNAL)) {
                             synchronized (this) {
-                                if (status >= 0) {
+                                if (stbtus >= 0) {
                                     try {
-                                        wait(ms);
-                                    } catch (InterruptedException ie) {
+                                        wbit(ms);
+                                    } cbtch (InterruptedException ie) {
                                         if (p == null)
                                             interrupted = true;
                                     }
@@ -1066,60 +1066,60 @@ public abstract class ForkJoinTask<V> implements Future<V>, Serializable {
                                     notifyAll();
                             }
                         }
-                        if ((s = status) < 0 || interrupted ||
-                            (ns = deadline - System.nanoTime()) <= 0L)
-                            break;
+                        if ((s = stbtus) < 0 || interrupted ||
+                            (ns = debdline - System.nbnoTime()) <= 0L)
+                            brebk;
                     }
                 }
-            } finally {
-                if (p != null && canBlock)
+            } finblly {
+                if (p != null && cbnBlock)
                     p.incrementActiveCount();
             }
             if (interrupted)
                 throw new InterruptedException();
         }
         if ((s &= DONE_MASK) != NORMAL) {
-            Throwable ex;
+            Throwbble ex;
             if (s == CANCELLED)
-                throw new CancellationException();
+                throw new CbncellbtionException();
             if (s != EXCEPTIONAL)
                 throw new TimeoutException();
-            if ((ex = getThrowableException()) != null)
+            if ((ex = getThrowbbleException()) != null)
                 throw new ExecutionException(ex);
         }
-        return getRawResult();
+        return getRbwResult();
     }
 
     /**
-     * Joins this task, without returning its result or throwing its
-     * exception. This method may be useful when processing
-     * collections of tasks when some have been cancelled or otherwise
-     * known to have aborted.
+     * Joins this tbsk, without returning its result or throwing its
+     * exception. This method mby be useful when processing
+     * collections of tbsks when some hbve been cbncelled or otherwise
+     * known to hbve bborted.
      */
-    public final void quietlyJoin() {
+    public finbl void quietlyJoin() {
         doJoin();
     }
 
     /**
-     * Commences performing this task and awaits its completion if
-     * necessary, without returning its result or throwing its
+     * Commences performing this tbsk bnd bwbits its completion if
+     * necessbry, without returning its result or throwing its
      * exception.
      */
-    public final void quietlyInvoke() {
+    public finbl void quietlyInvoke() {
         doInvoke();
     }
 
     /**
-     * Possibly executes tasks until the pool hosting the current task
-     * {@link ForkJoinPool#isQuiescent is quiescent}. This method may
-     * be of use in designs in which many tasks are forked, but none
-     * are explicitly joined, instead executing them until all are
+     * Possibly executes tbsks until the pool hosting the current tbsk
+     * {@link ForkJoinPool#isQuiescent is quiescent}. This method mby
+     * be of use in designs in which mbny tbsks bre forked, but none
+     * bre explicitly joined, instebd executing them until bll bre
      * processed.
      */
-    public static void helpQuiesce() {
-        Thread t;
-        if ((t = Thread.currentThread()) instanceof ForkJoinWorkerThread) {
-            ForkJoinWorkerThread wt = (ForkJoinWorkerThread)t;
+    public stbtic void helpQuiesce() {
+        Threbd t;
+        if ((t = Threbd.currentThrebd()) instbnceof ForkJoinWorkerThrebd) {
+            ForkJoinWorkerThrebd wt = (ForkJoinWorkerThrebd)t;
             wt.pool.helpQuiescePool(wt.workQueue);
         }
         else
@@ -1127,422 +1127,422 @@ public abstract class ForkJoinTask<V> implements Future<V>, Serializable {
     }
 
     /**
-     * Resets the internal bookkeeping state of this task, allowing a
-     * subsequent {@code fork}. This method allows repeated reuse of
-     * this task, but only if reuse occurs when this task has either
-     * never been forked, or has been forked, then completed and all
-     * outstanding joins of this task have also completed. Effects
-     * under any other usage conditions are not guaranteed.
-     * This method may be useful when executing
-     * pre-constructed trees of subtasks in loops.
+     * Resets the internbl bookkeeping stbte of this tbsk, bllowing b
+     * subsequent {@code fork}. This method bllows repebted reuse of
+     * this tbsk, but only if reuse occurs when this tbsk hbs either
+     * never been forked, or hbs been forked, then completed bnd bll
+     * outstbnding joins of this tbsk hbve blso completed. Effects
+     * under bny other usbge conditions bre not gubrbnteed.
+     * This method mby be useful when executing
+     * pre-constructed trees of subtbsks in loops.
      *
      * <p>Upon completion of this method, {@code isDone()} reports
-     * {@code false}, and {@code getException()} reports {@code
-     * null}. However, the value returned by {@code getRawResult} is
-     * unaffected. To clear this value, you can invoke {@code
-     * setRawResult(null)}.
+     * {@code fblse}, bnd {@code getException()} reports {@code
+     * null}. However, the vblue returned by {@code getRbwResult} is
+     * unbffected. To clebr this vblue, you cbn invoke {@code
+     * setRbwResult(null)}.
      */
-    public void reinitialize() {
-        if ((status & DONE_MASK) == EXCEPTIONAL)
-            clearExceptionalCompletion();
+    public void reinitiblize() {
+        if ((stbtus & DONE_MASK) == EXCEPTIONAL)
+            clebrExceptionblCompletion();
         else
-            status = 0;
+            stbtus = 0;
     }
 
     /**
-     * Returns the pool hosting the current task execution, or null
-     * if this task is executing outside of any ForkJoinPool.
+     * Returns the pool hosting the current tbsk execution, or null
+     * if this tbsk is executing outside of bny ForkJoinPool.
      *
      * @see #inForkJoinPool
      * @return the pool, or {@code null} if none
      */
-    public static ForkJoinPool getPool() {
-        Thread t = Thread.currentThread();
-        return (t instanceof ForkJoinWorkerThread) ?
-            ((ForkJoinWorkerThread) t).pool : null;
+    public stbtic ForkJoinPool getPool() {
+        Threbd t = Threbd.currentThrebd();
+        return (t instbnceof ForkJoinWorkerThrebd) ?
+            ((ForkJoinWorkerThrebd) t).pool : null;
     }
 
     /**
-     * Returns {@code true} if the current thread is a {@link
-     * ForkJoinWorkerThread} executing as a ForkJoinPool computation.
+     * Returns {@code true} if the current threbd is b {@link
+     * ForkJoinWorkerThrebd} executing bs b ForkJoinPool computbtion.
      *
-     * @return {@code true} if the current thread is a {@link
-     * ForkJoinWorkerThread} executing as a ForkJoinPool computation,
-     * or {@code false} otherwise
+     * @return {@code true} if the current threbd is b {@link
+     * ForkJoinWorkerThrebd} executing bs b ForkJoinPool computbtion,
+     * or {@code fblse} otherwise
      */
-    public static boolean inForkJoinPool() {
-        return Thread.currentThread() instanceof ForkJoinWorkerThread;
+    public stbtic boolebn inForkJoinPool() {
+        return Threbd.currentThrebd() instbnceof ForkJoinWorkerThrebd;
     }
 
     /**
-     * Tries to unschedule this task for execution. This method will
-     * typically (but is not guaranteed to) succeed if this task is
-     * the most recently forked task by the current thread, and has
-     * not commenced executing in another thread.  This method may be
-     * useful when arranging alternative local processing of tasks
-     * that could have been, but were not, stolen.
+     * Tries to unschedule this tbsk for execution. This method will
+     * typicblly (but is not gubrbnteed to) succeed if this tbsk is
+     * the most recently forked tbsk by the current threbd, bnd hbs
+     * not commenced executing in bnother threbd.  This method mby be
+     * useful when brrbnging blternbtive locbl processing of tbsks
+     * thbt could hbve been, but were not, stolen.
      *
      * @return {@code true} if unforked
      */
-    public boolean tryUnfork() {
-        Thread t;
-        return (((t = Thread.currentThread()) instanceof ForkJoinWorkerThread) ?
-                ((ForkJoinWorkerThread)t).workQueue.tryUnpush(this) :
-                ForkJoinPool.common.tryExternalUnpush(this));
+    public boolebn tryUnfork() {
+        Threbd t;
+        return (((t = Threbd.currentThrebd()) instbnceof ForkJoinWorkerThrebd) ?
+                ((ForkJoinWorkerThrebd)t).workQueue.tryUnpush(this) :
+                ForkJoinPool.common.tryExternblUnpush(this));
     }
 
     /**
-     * Returns an estimate of the number of tasks that have been
-     * forked by the current worker thread but not yet executed. This
-     * value may be useful for heuristic decisions about whether to
-     * fork other tasks.
+     * Returns bn estimbte of the number of tbsks thbt hbve been
+     * forked by the current worker threbd but not yet executed. This
+     * vblue mby be useful for heuristic decisions bbout whether to
+     * fork other tbsks.
      *
-     * @return the number of tasks
+     * @return the number of tbsks
      */
-    public static int getQueuedTaskCount() {
-        Thread t; ForkJoinPool.WorkQueue q;
-        if ((t = Thread.currentThread()) instanceof ForkJoinWorkerThread)
-            q = ((ForkJoinWorkerThread)t).workQueue;
+    public stbtic int getQueuedTbskCount() {
+        Threbd t; ForkJoinPool.WorkQueue q;
+        if ((t = Threbd.currentThrebd()) instbnceof ForkJoinWorkerThrebd)
+            q = ((ForkJoinWorkerThrebd)t).workQueue;
         else
             q = ForkJoinPool.commonSubmitterQueue();
         return (q == null) ? 0 : q.queueSize();
     }
 
     /**
-     * Returns an estimate of how many more locally queued tasks are
-     * held by the current worker thread than there are other worker
-     * threads that might steal them, or zero if this thread is not
-     * operating in a ForkJoinPool. This value may be useful for
-     * heuristic decisions about whether to fork other tasks. In many
-     * usages of ForkJoinTasks, at steady state, each worker should
-     * aim to maintain a small constant surplus (for example, 3) of
-     * tasks, and to process computations locally if this threshold is
+     * Returns bn estimbte of how mbny more locblly queued tbsks bre
+     * held by the current worker threbd thbn there bre other worker
+     * threbds thbt might stebl them, or zero if this threbd is not
+     * operbting in b ForkJoinPool. This vblue mby be useful for
+     * heuristic decisions bbout whether to fork other tbsks. In mbny
+     * usbges of ForkJoinTbsks, bt stebdy stbte, ebch worker should
+     * bim to mbintbin b smbll constbnt surplus (for exbmple, 3) of
+     * tbsks, bnd to process computbtions locblly if this threshold is
      * exceeded.
      *
-     * @return the surplus number of tasks, which may be negative
+     * @return the surplus number of tbsks, which mby be negbtive
      */
-    public static int getSurplusQueuedTaskCount() {
-        return ForkJoinPool.getSurplusQueuedTaskCount();
+    public stbtic int getSurplusQueuedTbskCount() {
+        return ForkJoinPool.getSurplusQueuedTbskCount();
     }
 
     // Extension methods
 
     /**
-     * Returns the result that would be returned by {@link #join}, even
-     * if this task completed abnormally, or {@code null} if this task
-     * is not known to have been completed.  This method is designed
-     * to aid debugging, as well as to support extensions. Its use in
-     * any other context is discouraged.
+     * Returns the result thbt would be returned by {@link #join}, even
+     * if this tbsk completed bbnormblly, or {@code null} if this tbsk
+     * is not known to hbve been completed.  This method is designed
+     * to bid debugging, bs well bs to support extensions. Its use in
+     * bny other context is discourbged.
      *
      * @return the result, or {@code null} if not completed
      */
-    public abstract V getRawResult();
+    public bbstrbct V getRbwResult();
 
     /**
-     * Forces the given value to be returned as a result.  This method
-     * is designed to support extensions, and should not in general be
-     * called otherwise.
+     * Forces the given vblue to be returned bs b result.  This method
+     * is designed to support extensions, bnd should not in generbl be
+     * cblled otherwise.
      *
-     * @param value the value
+     * @pbrbm vblue the vblue
      */
-    protected abstract void setRawResult(V value);
+    protected bbstrbct void setRbwResult(V vblue);
 
     /**
-     * Immediately performs the base action of this task and returns
-     * true if, upon return from this method, this task is guaranteed
-     * to have completed normally. This method may return false
-     * otherwise, to indicate that this task is not necessarily
-     * complete (or is not known to be complete), for example in
-     * asynchronous actions that require explicit invocations of
-     * completion methods. This method may also throw an (unchecked)
-     * exception to indicate abnormal exit. This method is designed to
-     * support extensions, and should not in general be called
+     * Immedibtely performs the bbse bction of this tbsk bnd returns
+     * true if, upon return from this method, this tbsk is gubrbnteed
+     * to hbve completed normblly. This method mby return fblse
+     * otherwise, to indicbte thbt this tbsk is not necessbrily
+     * complete (or is not known to be complete), for exbmple in
+     * bsynchronous bctions thbt require explicit invocbtions of
+     * completion methods. This method mby blso throw bn (unchecked)
+     * exception to indicbte bbnormbl exit. This method is designed to
+     * support extensions, bnd should not in generbl be cblled
      * otherwise.
      *
-     * @return {@code true} if this task is known to have completed normally
+     * @return {@code true} if this tbsk is known to hbve completed normblly
      */
-    protected abstract boolean exec();
+    protected bbstrbct boolebn exec();
 
     /**
-     * Returns, but does not unschedule or execute, a task queued by
-     * the current thread but not yet executed, if one is immediately
-     * available. There is no guarantee that this task will actually
-     * be polled or executed next. Conversely, this method may return
-     * null even if a task exists but cannot be accessed without
-     * contention with other threads.  This method is designed
-     * primarily to support extensions, and is unlikely to be useful
+     * Returns, but does not unschedule or execute, b tbsk queued by
+     * the current threbd but not yet executed, if one is immedibtely
+     * bvbilbble. There is no gubrbntee thbt this tbsk will bctublly
+     * be polled or executed next. Conversely, this method mby return
+     * null even if b tbsk exists but cbnnot be bccessed without
+     * contention with other threbds.  This method is designed
+     * primbrily to support extensions, bnd is unlikely to be useful
      * otherwise.
      *
-     * @return the next task, or {@code null} if none are available
+     * @return the next tbsk, or {@code null} if none bre bvbilbble
      */
-    protected static ForkJoinTask<?> peekNextLocalTask() {
-        Thread t; ForkJoinPool.WorkQueue q;
-        if ((t = Thread.currentThread()) instanceof ForkJoinWorkerThread)
-            q = ((ForkJoinWorkerThread)t).workQueue;
+    protected stbtic ForkJoinTbsk<?> peekNextLocblTbsk() {
+        Threbd t; ForkJoinPool.WorkQueue q;
+        if ((t = Threbd.currentThrebd()) instbnceof ForkJoinWorkerThrebd)
+            q = ((ForkJoinWorkerThrebd)t).workQueue;
         else
             q = ForkJoinPool.commonSubmitterQueue();
         return (q == null) ? null : q.peek();
     }
 
     /**
-     * Unschedules and returns, without executing, the next task
-     * queued by the current thread but not yet executed, if the
-     * current thread is operating in a ForkJoinPool.  This method is
-     * designed primarily to support extensions, and is unlikely to be
+     * Unschedules bnd returns, without executing, the next tbsk
+     * queued by the current threbd but not yet executed, if the
+     * current threbd is operbting in b ForkJoinPool.  This method is
+     * designed primbrily to support extensions, bnd is unlikely to be
      * useful otherwise.
      *
-     * @return the next task, or {@code null} if none are available
+     * @return the next tbsk, or {@code null} if none bre bvbilbble
      */
-    protected static ForkJoinTask<?> pollNextLocalTask() {
-        Thread t;
-        return ((t = Thread.currentThread()) instanceof ForkJoinWorkerThread) ?
-            ((ForkJoinWorkerThread)t).workQueue.nextLocalTask() :
+    protected stbtic ForkJoinTbsk<?> pollNextLocblTbsk() {
+        Threbd t;
+        return ((t = Threbd.currentThrebd()) instbnceof ForkJoinWorkerThrebd) ?
+            ((ForkJoinWorkerThrebd)t).workQueue.nextLocblTbsk() :
             null;
     }
 
     /**
-     * If the current thread is operating in a ForkJoinPool,
-     * unschedules and returns, without executing, the next task
-     * queued by the current thread but not yet executed, if one is
-     * available, or if not available, a task that was forked by some
-     * other thread, if available. Availability may be transient, so a
-     * {@code null} result does not necessarily imply quiescence of
-     * the pool this task is operating in.  This method is designed
-     * primarily to support extensions, and is unlikely to be useful
+     * If the current threbd is operbting in b ForkJoinPool,
+     * unschedules bnd returns, without executing, the next tbsk
+     * queued by the current threbd but not yet executed, if one is
+     * bvbilbble, or if not bvbilbble, b tbsk thbt wbs forked by some
+     * other threbd, if bvbilbble. Avbilbbility mby be trbnsient, so b
+     * {@code null} result does not necessbrily imply quiescence of
+     * the pool this tbsk is operbting in.  This method is designed
+     * primbrily to support extensions, bnd is unlikely to be useful
      * otherwise.
      *
-     * @return a task, or {@code null} if none are available
+     * @return b tbsk, or {@code null} if none bre bvbilbble
      */
-    protected static ForkJoinTask<?> pollTask() {
-        Thread t; ForkJoinWorkerThread wt;
-        return ((t = Thread.currentThread()) instanceof ForkJoinWorkerThread) ?
-            (wt = (ForkJoinWorkerThread)t).pool.nextTaskFor(wt.workQueue) :
+    protected stbtic ForkJoinTbsk<?> pollTbsk() {
+        Threbd t; ForkJoinWorkerThrebd wt;
+        return ((t = Threbd.currentThrebd()) instbnceof ForkJoinWorkerThrebd) ?
+            (wt = (ForkJoinWorkerThrebd)t).pool.nextTbskFor(wt.workQueue) :
             null;
     }
 
-    // tag operations
+    // tbg operbtions
 
     /**
-     * Returns the tag for this task.
+     * Returns the tbg for this tbsk.
      *
-     * @return the tag for this task
+     * @return the tbg for this tbsk
      * @since 1.8
      */
-    public final short getForkJoinTaskTag() {
-        return (short)status;
+    public finbl short getForkJoinTbskTbg() {
+        return (short)stbtus;
     }
 
     /**
-     * Atomically sets the tag value for this task.
+     * Atomicblly sets the tbg vblue for this tbsk.
      *
-     * @param tag the tag value
-     * @return the previous value of the tag
+     * @pbrbm tbg the tbg vblue
+     * @return the previous vblue of the tbg
      * @since 1.8
      */
-    public final short setForkJoinTaskTag(short tag) {
+    public finbl short setForkJoinTbskTbg(short tbg) {
         for (int s;;) {
-            if (U.compareAndSwapInt(this, STATUS, s = status,
-                                    (s & ~SMASK) | (tag & SMASK)))
+            if (U.compbreAndSwbpInt(this, STATUS, s = stbtus,
+                                    (s & ~SMASK) | (tbg & SMASK)))
                 return (short)s;
         }
     }
 
     /**
-     * Atomically conditionally sets the tag value for this task.
-     * Among other applications, tags can be used as visit markers
-     * in tasks operating on graphs, as in methods that check: {@code
-     * if (task.compareAndSetForkJoinTaskTag((short)0, (short)1))}
-     * before processing, otherwise exiting because the node has
-     * already been visited.
+     * Atomicblly conditionblly sets the tbg vblue for this tbsk.
+     * Among other bpplicbtions, tbgs cbn be used bs visit mbrkers
+     * in tbsks operbting on grbphs, bs in methods thbt check: {@code
+     * if (tbsk.compbreAndSetForkJoinTbskTbg((short)0, (short)1))}
+     * before processing, otherwise exiting becbuse the node hbs
+     * blrebdy been visited.
      *
-     * @param e the expected tag value
-     * @param tag the new tag value
-     * @return {@code true} if successful; i.e., the current value was
-     * equal to e and is now tag.
+     * @pbrbm e the expected tbg vblue
+     * @pbrbm tbg the new tbg vblue
+     * @return {@code true} if successful; i.e., the current vblue wbs
+     * equbl to e bnd is now tbg.
      * @since 1.8
      */
-    public final boolean compareAndSetForkJoinTaskTag(short e, short tag) {
+    public finbl boolebn compbreAndSetForkJoinTbskTbg(short e, short tbg) {
         for (int s;;) {
-            if ((short)(s = status) != e)
-                return false;
-            if (U.compareAndSwapInt(this, STATUS, s,
-                                    (s & ~SMASK) | (tag & SMASK)))
+            if ((short)(s = stbtus) != e)
+                return fblse;
+            if (U.compbreAndSwbpInt(this, STATUS, s,
+                                    (s & ~SMASK) | (tbg & SMASK)))
                 return true;
         }
     }
 
     /**
-     * Adaptor for Runnables. This implements RunnableFuture
-     * to be compliant with AbstractExecutorService constraints
+     * Adbptor for Runnbbles. This implements RunnbbleFuture
+     * to be complibnt with AbstrbctExecutorService constrbints
      * when used in ForkJoinPool.
      */
-    static final class AdaptedRunnable<T> extends ForkJoinTask<T>
-        implements RunnableFuture<T> {
-        final Runnable runnable;
+    stbtic finbl clbss AdbptedRunnbble<T> extends ForkJoinTbsk<T>
+        implements RunnbbleFuture<T> {
+        finbl Runnbble runnbble;
         T result;
-        AdaptedRunnable(Runnable runnable, T result) {
-            if (runnable == null) throw new NullPointerException();
-            this.runnable = runnable;
+        AdbptedRunnbble(Runnbble runnbble, T result) {
+            if (runnbble == null) throw new NullPointerException();
+            this.runnbble = runnbble;
             this.result = result; // OK to set this even before completion
         }
-        public final T getRawResult() { return result; }
-        public final void setRawResult(T v) { result = v; }
-        public final boolean exec() { runnable.run(); return true; }
-        public final void run() { invoke(); }
-        private static final long serialVersionUID = 5232453952276885070L;
+        public finbl T getRbwResult() { return result; }
+        public finbl void setRbwResult(T v) { result = v; }
+        public finbl boolebn exec() { runnbble.run(); return true; }
+        public finbl void run() { invoke(); }
+        privbte stbtic finbl long seriblVersionUID = 5232453952276885070L;
     }
 
     /**
-     * Adaptor for Runnables without results
+     * Adbptor for Runnbbles without results
      */
-    static final class AdaptedRunnableAction extends ForkJoinTask<Void>
-        implements RunnableFuture<Void> {
-        final Runnable runnable;
-        AdaptedRunnableAction(Runnable runnable) {
-            if (runnable == null) throw new NullPointerException();
-            this.runnable = runnable;
+    stbtic finbl clbss AdbptedRunnbbleAction extends ForkJoinTbsk<Void>
+        implements RunnbbleFuture<Void> {
+        finbl Runnbble runnbble;
+        AdbptedRunnbbleAction(Runnbble runnbble) {
+            if (runnbble == null) throw new NullPointerException();
+            this.runnbble = runnbble;
         }
-        public final Void getRawResult() { return null; }
-        public final void setRawResult(Void v) { }
-        public final boolean exec() { runnable.run(); return true; }
-        public final void run() { invoke(); }
-        private static final long serialVersionUID = 5232453952276885070L;
+        public finbl Void getRbwResult() { return null; }
+        public finbl void setRbwResult(Void v) { }
+        public finbl boolebn exec() { runnbble.run(); return true; }
+        public finbl void run() { invoke(); }
+        privbte stbtic finbl long seriblVersionUID = 5232453952276885070L;
     }
 
     /**
-     * Adaptor for Runnables in which failure forces worker exception
+     * Adbptor for Runnbbles in which fbilure forces worker exception
      */
-    static final class RunnableExecuteAction extends ForkJoinTask<Void> {
-        final Runnable runnable;
-        RunnableExecuteAction(Runnable runnable) {
-            if (runnable == null) throw new NullPointerException();
-            this.runnable = runnable;
+    stbtic finbl clbss RunnbbleExecuteAction extends ForkJoinTbsk<Void> {
+        finbl Runnbble runnbble;
+        RunnbbleExecuteAction(Runnbble runnbble) {
+            if (runnbble == null) throw new NullPointerException();
+            this.runnbble = runnbble;
         }
-        public final Void getRawResult() { return null; }
-        public final void setRawResult(Void v) { }
-        public final boolean exec() { runnable.run(); return true; }
-        void internalPropagateException(Throwable ex) {
-            rethrow(ex); // rethrow outside exec() catches.
+        public finbl Void getRbwResult() { return null; }
+        public finbl void setRbwResult(Void v) { }
+        public finbl boolebn exec() { runnbble.run(); return true; }
+        void internblPropbgbteException(Throwbble ex) {
+            rethrow(ex); // rethrow outside exec() cbtches.
         }
-        private static final long serialVersionUID = 5232453952276885070L;
+        privbte stbtic finbl long seriblVersionUID = 5232453952276885070L;
     }
 
     /**
-     * Adaptor for Callables
+     * Adbptor for Cbllbbles
      */
-    static final class AdaptedCallable<T> extends ForkJoinTask<T>
-        implements RunnableFuture<T> {
-        final Callable<? extends T> callable;
+    stbtic finbl clbss AdbptedCbllbble<T> extends ForkJoinTbsk<T>
+        implements RunnbbleFuture<T> {
+        finbl Cbllbble<? extends T> cbllbble;
         T result;
-        AdaptedCallable(Callable<? extends T> callable) {
-            if (callable == null) throw new NullPointerException();
-            this.callable = callable;
+        AdbptedCbllbble(Cbllbble<? extends T> cbllbble) {
+            if (cbllbble == null) throw new NullPointerException();
+            this.cbllbble = cbllbble;
         }
-        public final T getRawResult() { return result; }
-        public final void setRawResult(T v) { result = v; }
-        public final boolean exec() {
+        public finbl T getRbwResult() { return result; }
+        public finbl void setRbwResult(T v) { result = v; }
+        public finbl boolebn exec() {
             try {
-                result = callable.call();
+                result = cbllbble.cbll();
                 return true;
-            } catch (Error err) {
+            } cbtch (Error err) {
                 throw err;
-            } catch (RuntimeException rex) {
+            } cbtch (RuntimeException rex) {
                 throw rex;
-            } catch (Exception ex) {
+            } cbtch (Exception ex) {
                 throw new RuntimeException(ex);
             }
         }
-        public final void run() { invoke(); }
-        private static final long serialVersionUID = 2838392045355241008L;
+        public finbl void run() { invoke(); }
+        privbte stbtic finbl long seriblVersionUID = 2838392045355241008L;
     }
 
     /**
-     * Returns a new {@code ForkJoinTask} that performs the {@code run}
-     * method of the given {@code Runnable} as its action, and returns
-     * a null result upon {@link #join}.
+     * Returns b new {@code ForkJoinTbsk} thbt performs the {@code run}
+     * method of the given {@code Runnbble} bs its bction, bnd returns
+     * b null result upon {@link #join}.
      *
-     * @param runnable the runnable action
-     * @return the task
+     * @pbrbm runnbble the runnbble bction
+     * @return the tbsk
      */
-    public static ForkJoinTask<?> adapt(Runnable runnable) {
-        return new AdaptedRunnableAction(runnable);
+    public stbtic ForkJoinTbsk<?> bdbpt(Runnbble runnbble) {
+        return new AdbptedRunnbbleAction(runnbble);
     }
 
     /**
-     * Returns a new {@code ForkJoinTask} that performs the {@code run}
-     * method of the given {@code Runnable} as its action, and returns
+     * Returns b new {@code ForkJoinTbsk} thbt performs the {@code run}
+     * method of the given {@code Runnbble} bs its bction, bnd returns
      * the given result upon {@link #join}.
      *
-     * @param runnable the runnable action
-     * @param result the result upon completion
-     * @param <T> the type of the result
-     * @return the task
+     * @pbrbm runnbble the runnbble bction
+     * @pbrbm result the result upon completion
+     * @pbrbm <T> the type of the result
+     * @return the tbsk
      */
-    public static <T> ForkJoinTask<T> adapt(Runnable runnable, T result) {
-        return new AdaptedRunnable<T>(runnable, result);
+    public stbtic <T> ForkJoinTbsk<T> bdbpt(Runnbble runnbble, T result) {
+        return new AdbptedRunnbble<T>(runnbble, result);
     }
 
     /**
-     * Returns a new {@code ForkJoinTask} that performs the {@code call}
-     * method of the given {@code Callable} as its action, and returns
-     * its result upon {@link #join}, translating any checked exceptions
+     * Returns b new {@code ForkJoinTbsk} thbt performs the {@code cbll}
+     * method of the given {@code Cbllbble} bs its bction, bnd returns
+     * its result upon {@link #join}, trbnslbting bny checked exceptions
      * encountered into {@code RuntimeException}.
      *
-     * @param callable the callable action
-     * @param <T> the type of the callable's result
-     * @return the task
+     * @pbrbm cbllbble the cbllbble bction
+     * @pbrbm <T> the type of the cbllbble's result
+     * @return the tbsk
      */
-    public static <T> ForkJoinTask<T> adapt(Callable<? extends T> callable) {
-        return new AdaptedCallable<T>(callable);
+    public stbtic <T> ForkJoinTbsk<T> bdbpt(Cbllbble<? extends T> cbllbble) {
+        return new AdbptedCbllbble<T>(cbllbble);
     }
 
-    // Serialization support
+    // Seriblizbtion support
 
-    private static final long serialVersionUID = -7721805057305804111L;
+    privbte stbtic finbl long seriblVersionUID = -7721805057305804111L;
 
     /**
-     * Saves this task to a stream (that is, serializes it).
+     * Sbves this tbsk to b strebm (thbt is, seriblizes it).
      *
-     * @param s the stream
-     * @throws java.io.IOException if an I/O error occurs
-     * @serialData the current run status and the exception thrown
+     * @pbrbm s the strebm
+     * @throws jbvb.io.IOException if bn I/O error occurs
+     * @seriblDbtb the current run stbtus bnd the exception thrown
      * during execution, or {@code null} if none
      */
-    private void writeObject(java.io.ObjectOutputStream s)
-        throws java.io.IOException {
-        s.defaultWriteObject();
+    privbte void writeObject(jbvb.io.ObjectOutputStrebm s)
+        throws jbvb.io.IOException {
+        s.defbultWriteObject();
         s.writeObject(getException());
     }
 
     /**
-     * Reconstitutes this task from a stream (that is, deserializes it).
-     * @param s the stream
-     * @throws ClassNotFoundException if the class of a serialized object
+     * Reconstitutes this tbsk from b strebm (thbt is, deseriblizes it).
+     * @pbrbm s the strebm
+     * @throws ClbssNotFoundException if the clbss of b seriblized object
      *         could not be found
-     * @throws java.io.IOException if an I/O error occurs
+     * @throws jbvb.io.IOException if bn I/O error occurs
      */
-    private void readObject(java.io.ObjectInputStream s)
-        throws java.io.IOException, ClassNotFoundException {
-        s.defaultReadObject();
-        Object ex = s.readObject();
+    privbte void rebdObject(jbvb.io.ObjectInputStrebm s)
+        throws jbvb.io.IOException, ClbssNotFoundException {
+        s.defbultRebdObject();
+        Object ex = s.rebdObject();
         if (ex != null)
-            setExceptionalCompletion((Throwable)ex);
+            setExceptionblCompletion((Throwbble)ex);
     }
 
-    // Unsafe mechanics
-    private static final sun.misc.Unsafe U;
-    private static final long STATUS;
+    // Unsbfe mechbnics
+    privbte stbtic finbl sun.misc.Unsbfe U;
+    privbte stbtic finbl long STATUS;
 
-    static {
-        exceptionTableLock = new ReentrantLock();
-        exceptionTableRefQueue = new ReferenceQueue<Object>();
-        exceptionTable = new ExceptionNode[EXCEPTION_MAP_CAPACITY];
+    stbtic {
+        exceptionTbbleLock = new ReentrbntLock();
+        exceptionTbbleRefQueue = new ReferenceQueue<Object>();
+        exceptionTbble = new ExceptionNode[EXCEPTION_MAP_CAPACITY];
         try {
-            U = sun.misc.Unsafe.getUnsafe();
-            Class<?> k = ForkJoinTask.class;
+            U = sun.misc.Unsbfe.getUnsbfe();
+            Clbss<?> k = ForkJoinTbsk.clbss;
             STATUS = U.objectFieldOffset
-                (k.getDeclaredField("status"));
-        } catch (Exception e) {
+                (k.getDeclbredField("stbtus"));
+        } cbtch (Exception e) {
             throw new Error(e);
         }
     }

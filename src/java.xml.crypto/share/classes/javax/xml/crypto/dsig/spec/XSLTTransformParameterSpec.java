@@ -1,66 +1,66 @@
 /*
- * Copyright (c) 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 /*
- * $Id: XSLTTransformParameterSpec.java,v 1.4 2005/05/10 16:40:18 mullan Exp $
+ * $Id: XSLTTrbnsformPbrbmeterSpec.jbvb,v 1.4 2005/05/10 16:40:18 mullbn Exp $
  */
-package javax.xml.crypto.dsig.spec;
+pbckbge jbvbx.xml.crypto.dsig.spec;
 
-import javax.xml.crypto.dsig.Transform;
-import javax.xml.crypto.XMLStructure;
+import jbvbx.xml.crypto.dsig.Trbnsform;
+import jbvbx.xml.crypto.XMLStructure;
 
 /**
- * Parameters for the <a href="http://www.w3.org/TR/1999/REC-xslt-19991116">
- * XSLT Transform Algorithm</a>.
- * The parameters include a namespace-qualified stylesheet element.
+ * Pbrbmeters for the <b href="http://www.w3.org/TR/1999/REC-xslt-19991116">
+ * XSLT Trbnsform Algorithm</b>.
+ * The pbrbmeters include b nbmespbce-qublified stylesheet element.
  *
- * <p>An <code>XSLTTransformParameterSpec</code> is instantiated with a
- * mechanism-dependent (ex: DOM) stylesheet element. For example:
+ * <p>An <code>XSLTTrbnsformPbrbmeterSpec</code> is instbntibted with b
+ * mechbnism-dependent (ex: DOM) stylesheet element. For exbmple:
  * <pre>
  *   DOMStructure stylesheet = new DOMStructure(element)
- *   XSLTTransformParameterSpec spec = new XSLTransformParameterSpec(stylesheet);
+ *   XSLTTrbnsformPbrbmeterSpec spec = new XSLTrbnsformPbrbmeterSpec(stylesheet);
  * </pre>
- * where <code>element</code> is an {@link org.w3c.dom.Element} containing
- * the namespace-qualified stylesheet element.
+ * where <code>element</code> is bn {@link org.w3c.dom.Element} contbining
+ * the nbmespbce-qublified stylesheet element.
  *
- * @author Sean Mullan
- * @author JSR 105 Expert Group
+ * @buthor Sebn Mullbn
+ * @buthor JSR 105 Expert Group
  * @since 1.6
- * @see Transform
+ * @see Trbnsform
  */
-public final class XSLTTransformParameterSpec implements TransformParameterSpec{
-    private XMLStructure stylesheet;
+public finbl clbss XSLTTrbnsformPbrbmeterSpec implements TrbnsformPbrbmeterSpec{
+    privbte XMLStructure stylesheet;
 
     /**
-     * Creates an <code>XSLTTransformParameterSpec</code> with the specified
+     * Crebtes bn <code>XSLTTrbnsformPbrbmeterSpec</code> with the specified
      * stylesheet.
      *
-     * @param stylesheet the XSLT stylesheet to be used
+     * @pbrbm stylesheet the XSLT stylesheet to be used
      * @throws NullPointerException if <code>stylesheet</code> is
      *    <code>null</code>
      */
-    public XSLTTransformParameterSpec(XMLStructure stylesheet) {
+    public XSLTTrbnsformPbrbmeterSpec(XMLStructure stylesheet) {
         if (stylesheet == null) {
             throw new NullPointerException();
         }

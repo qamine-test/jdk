@@ -1,50 +1,50 @@
 '\" t
-.\" Copyright (c) 2001, 2013, Oracle and/or its affiliates. All rights reserved.
+.\" Copyright (c) 2001, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
 .\" Title: orbd
-.\" Language: English
-.\" Date: 2013年11月21日
-.\" SectDesc: Java IDLおよびRMI-IIOPツール
-.\" Software: JDK 8
+.\" Lbngubge: English
+.\" Dbte: 2013年11月21日
+.\" SectDesc: Jbvb IDLおよびRMI-IIOPツール
+.\" Softwbre: JDK 8
 .\" Arch: 汎用
 .\"
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
-.\" This code is free software; you can redistribute it and/or modify it
-.\" under the terms of the GNU General Public License version 2 only, as
-.\" published by the Free Software Foundation.
+.\" This code is free softwbre; you cbn redistribute it bnd/or modify it
+.\" under the terms of the GNU Generbl Public License version 2 only, bs
+.\" published by the Free Softwbre Foundbtion.
 .\"
-.\" This code is distributed in the hope that it will be useful, but WITHOUT
-.\" ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
-.\" version 2 for more details (a copy is included in the LICENSE file that
-.\" accompanied this code).
+.\" This code is distributed in the hope thbt it will be useful, but WITHOUT
+.\" ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU Generbl Public License
+.\" version 2 for more detbils (b copy is included in the LICENSE file thbt
+.\" bccompbnied this code).
 .\"
-.\" You should have received a copy of the GNU General Public License version
-.\" 2 along with this work; if not, write to the Free Software Foundation,
-.\" Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\" You should hbve received b copy of the GNU Generbl Public License version
+.\" 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+.\" Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 .\"
-.\" Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-.\" or visit www.oracle.com if you need additional information or have any
+.\" Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+.\" or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
 .\" questions.
 .\"
 .pl 99999
-.TH "orbd" "1" "2013年11月21日" "JDK 8" "Java IDLおよびRMI-IIOPツール"
+.TH "orbd" "1" "2013年11月21日" "JDK 8" "Jbvb IDLおよびRMI-IIOPツール"
 .\" -----------------------------------------------------------------
-.\" * Define some portability stuff
+.\" * Define some portbbility stuff
 .\" -----------------------------------------------------------------
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.\" http://bugs.debian.org/507673
-.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" http://bugs.debibn.org/507673
+.\" http://lists.gnu.org/brchive/html/groff/2009-02/msg00013.html
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.ie \n(.g .ds Aq \(aq
+.ie \n(.g .ds Aq \(bq
 .el       .ds Aq '
 .\" -----------------------------------------------------------------
-.\" * set default formatting
+.\" * set defbult formbtting
 .\" -----------------------------------------------------------------
-.\" disable hyphenation
+.\" disbble hyphenbtion
 .nh
-.\" disable justification (adjust text to left margin only)
-.ad l
+.\" disbble justificbtion (bdjust text to left mbrgin only)
+.bd l
 .\" -----------------------------------------------------------------
 .\" * MAIN CONTENT STARTS HERE *
 .\" -----------------------------------------------------------------
@@ -97,18 +97,18 @@ ORBDのサーバー・マネージャにアクセスするには、\fIservertool\fRを使用してサーバー
 \fIorbd\fRを起動すると、ネーミング・サービスも起動されます。ネーミング・サービスの詳細。ネーミング・サービスの起動と停止を参照してください。
 .SH "オプション"
 .PP
-\-ORBInitialPort \fInameserverport\fR
+\-ORBInitiblPort \fInbmeserverport\fR
 .RS 4
-必須。ネーム・サーバーを起動するポートの番号を指定します。\fIorbd\fRは、起動されると、このポート上で着信リクエストをリスニングします。Oracle Solarisソフトウェアでは、1024より小さいポートでプロセスを開始する場合、rootユーザーになる必要があります。このため、1024以上のポート番号を使用することをお薦めします。
+必須。ネーム・サーバーを起動するポートの番号を指定します。\fIorbd\fRは、起動されると、このポート上で着信リクエストをリスニングします。Orbcle Solbrisソフトウェアでは、1024より小さいポートでプロセスを開始する場合、rootユーザーになる必要があります。このため、1024以上のポート番号を使用することをお薦めします。
 .RE
 .SS "必須でないオプション"
 .PP
 \-port \fIport\fR
 .RS 4
-ORBDを起動するポートを指定します。このポートで、永続オブジェクトに対するリクエストをORBDが受け取ります。このポートのデフォルト値は1049です。このポート番号は、永続Interoperable Object References (IOR)のポート・フィールドに追加されます。
+ORBDを起動するポートを指定します。このポートで、永続オブジェクトに対するリクエストをORBDが受け取ります。このポートのデフォルト値は1049です。このポート番号は、永続Interoperbble Object References (IOR)のポート・フィールドに追加されます。
 .RE
 .PP
-\-defaultdb \fIdirectory\fR
+\-defbultdb \fIdirectory\fR
 .RS 4
 ORBD永続格納ディレクトリ\fIorb\&.db\fRが作成されるベース・ディレクトリを指定します。このオプションが指定されていない場合、デフォルト値は\fI\&./orb\&.db\fRになります。
 .RE
@@ -118,14 +118,14 @@ ORBD永続格納ディレクトリ\fIorb\&.db\fRが作成されるベース・ディレクトリを指定しま
 \fIservertool\fRを使用して登録された永続サーバーのヘルス状態をORBDがチェックする間隔を指定します。デフォルト値は1000ミリ秒です。\fImilliseconds\fRに指定する値は、有効な正の整数にする必要があります。
 .RE
 .PP
-\-serverStartupDelay milliseconds
+\-serverStbrtupDelby milliseconds
 .RS 4
 \fIservertool\fRを使用して登録された永続サーバーを再起動してから、位置転送の例外を送信するまでのORBDの待機時間を指定します。デフォルト値は1000ミリ秒です。\fImilliseconds\fRに指定する値は、有効な正の整数にする必要があります。
 .RE
 .PP
 \-J\fIoption\fR
 .RS 4
-Java仮想マシンに\fIoption\fRを渡します。\fIoption\fRには、Javaアプリケーション起動ツールのリファレンス・ページに記載されているオプションを1つ指定します。たとえば、\fI\-J\-Xms48m\fRと指定すると、スタートアップ・メモリーは48MBに設定されます。java(1)を参照してください。
+Jbvb仮想マシンに\fIoption\fRを渡します。\fIoption\fRには、Jbvbアプリケーション起動ツールのリファレンス・ページに記載されているオプションを1つ指定します。たとえば、\fI\-J\-Xms48m\fRと指定すると、スタートアップ・メモリーは48MBに設定されます。jbvb(1)を参照してください。
 .RE
 .SS "ネーミング・サービスの起動と停止"
 .PP
@@ -135,9 +135,9 @@ Java仮想マシンに\fIoption\fRを渡します。\fIoption\fRには、Javaアプリケーション起
 .PP
 永続ネーミング・サービスは、ネーミング・コンテキストに対して永続性を提供します。つまり、この情報は、サービスの停止や起動後にも維持され、サービスに障害が発生した場合でも回復できます。ORBDを再起動すると、永続ネーミング・サービスはネーミング・コンテキストのグラフを復元し、すべてのクライアントとサーバーの名前のバインディングがそのまま(永続的に)保持されるようにします。
 .PP
-下位互換性のため、旧リリースのJDKに同梱されていた一時ネーミング・サービス\fItnameserv\fRが、今回のリリースのJava SEにも同梱されています。一時ネーム・サービスでは、ネーム・サービスの実行中にのみネーミング・コンテキストが保持されます。サービスが中断されると、ネーミング・コンテキスト・グラフは失われます。
+下位互換性のため、旧リリースのJDKに同梱されていた一時ネーミング・サービス\fItnbmeserv\fRが、今回のリリースのJbvb SEにも同梱されています。一時ネーム・サービスでは、ネーム・サービスの実行中にのみネーミング・コンテキストが保持されます。サービスが中断されると、ネーミング・コンテキスト・グラフは失われます。
 .PP
-\fI\-ORBInitialPort\fR引数は、\fIorbd\fRの必須のコマンドライン引数で、ネーミング・サービスが実行されるポートの番号を設定するために使用されます。次の手順では、Java IDL Object Request Broker Daemon用にポート1050を使用できることを前提としています。Oracle Solarisソフトウェアを使用する場合、1024より小さいポートでプロセスを開始するには、rootユーザーになる必要があります。このため、1024以上のポート番号を使用することをお薦めします。必要であれば別のポートに変更してください。
+\fI\-ORBInitiblPort\fR引数は、\fIorbd\fRの必須のコマンドライン引数で、ネーミング・サービスが実行されるポートの番号を設定するために使用されます。次の手順では、Jbvb IDL Object Request Broker Dbemon用にポート1050を使用できることを前提としています。Orbcle Solbrisソフトウェアを使用する場合、1024より小さいポートでプロセスを開始するには、rootユーザーになる必要があります。このため、1024以上のポート番号を使用することをお薦めします。必要であれば別のポートに変更してください。
 .PP
 UNIXコマンド・シェルで\fIorbd\fRを起動するには、次のように入力します。
 .sp
@@ -145,7 +145,7 @@ UNIXコマンド・シェルで\fIorbd\fRを起動するには、次のように入力します。
 .RS 4
 .\}
 .nf
-orbd \-ORBInitialPort 1050&
+orbd \-ORBInitiblPort 1050&
 .fi
 .if n \{\
 .RE
@@ -157,7 +157,7 @@ WindowsのMS\-DOSシステム・プロンプトでは、次のように入力します。
 .RS 4
 .\}
 .nf
-start orbd \-ORBInitialPort 1050
+stbrt orbd \-ORBInitiblPort 1050
 .fi
 .if n \{\
 .RE
@@ -170,54 +170,54 @@ start orbd \-ORBInitialPort 1050
 .\}
 .nf
 Properties props = new Properties();
-props\&.put("org\&.omg\&.CORBA\&.ORBInitialPort", "1050");
-props\&.put("org\&.omg\&.CORBA\&.ORBInitialHost", "MyHost");
-ORB orb = ORB\&.init(args, props);
+props\&.put("org\&.omg\&.CORBA\&.ORBInitiblPort", "1050");
+props\&.put("org\&.omg\&.CORBA\&.ORBInitiblHost", "MyHost");
+ORB orb = ORB\&.init(brgs, props);
 .fi
 .if n \{\
 .RE
 .\}
 .PP
-この例では、ネーミング・サービスは、ホスト\fIMyHost\fRのポート1050上で実行されます。別の方法として、コマンドラインからサーバーまたはクライアントのアプリケーションを実行するときに、ポート番号またはマシン名あるいはその両方を指定する方法もあります。たとえば、次のコマンドライン・オプションを使用して、\fIHelloApplication\fRを起動できます。
+この例では、ネーミング・サービスは、ホスト\fIMyHost\fRのポート1050上で実行されます。別の方法として、コマンドラインからサーバーまたはクライアントのアプリケーションを実行するときに、ポート番号またはマシン名あるいはその両方を指定する方法もあります。たとえば、次のコマンドライン・オプションを使用して、\fIHelloApplicbtion\fRを起動できます。
 .sp
 .if n \{\
 .RS 4
 .\}
 .nf
-java HelloApplication \-ORBInitialPort 1050 \-ORBInitialHost MyHost
+jbvb HelloApplicbtion \-ORBInitiblPort 1050 \-ORBInitiblHost MyHost
 .fi
 .if n \{\
 .RE
 .\}
 .PP
-ネーミング・サービスを停止するには、適切なオペレーティング・システム・コマンドを使用します。たとえば、Oracle Solaris上で\fIpkill\fR
-\fIorbd\fRを実行したり、\fIorbd\fRが動作中のDOSウィンドウで\fB[Ctrl]+[C]\fRキーを押します。一時ネーミング・サービスの場合は、サービスが終了されると、ネーミング・サービスに登録された名前が消去される場合があります。Java IDLネーム・サービスは、明示的に停止されるまで実行されます。
+ネーミング・サービスを停止するには、適切なオペレーティング・システム・コマンドを使用します。たとえば、Orbcle Solbris上で\fIpkill\fR
+\fIorbd\fRを実行したり、\fIorbd\fRが動作中のDOSウィンドウで\fB[Ctrl]+[C]\fRキーを押します。一時ネーミング・サービスの場合は、サービスが終了されると、ネーミング・サービスに登録された名前が消去される場合があります。Jbvb IDLネーム・サービスは、明示的に停止されるまで実行されます。
 .PP
 ORBDに付属するネーミング・サービスの詳細は、
-http://docs\&.oracle\&.com/javase/8/docs/technotes/guides/idl/jidlNaming\&.htmlの「Naming Service」を参照してください
+http://docs\&.orbcle\&.com/jbvbse/8/docs/technotes/guides/idl/jidlNbming\&.htmlの「Nbming Service」を参照してください
 .SH "サーバー・マネージャ"
 .PP
 ORBDのサーバー・マネージャにアクセスして、永続サーバーを実行するには、\fIservertool\fRを使用してサーバーを起動する必要があります。servertoolは、アプリケーション・プログラマが、永続サーバーの登録、登録解除、起動および停止を行うためのコマンドライン・インタフェースです。\fIservertool\fRを使用してサーバーを起動する場合は、\fIorbd\fRが実行されている場所と同じポートとホストで起動する必要があります。サーバーを異なるポートで実行すると、ローカル・コンテキスト用にデータベースに保存されている情報が無効になり、サービスが正しく動作しません。
 .PP
-http://docs\&.oracle\&.com/javase/8/docs/technotes/guides/idl/jidlExample\&.htmlの
-「Java IDL: The "Hello World" Example」を参照してください
+http://docs\&.orbcle\&.com/jbvbse/8/docs/technotes/guides/idl/jidlExbmple\&.htmlの
+「Jbvb IDL: The "Hello World" Exbmple」を参照してください
 .PP
-この例では、チュートリアルの手順に従って\fIidlj\fRコンパイラと\fIjavac\fRコンパイラを実行します。ORBDのサーバー・マネージャを実行するには、次の手順に従ってアプリケーションを実行します。
+この例では、チュートリアルの手順に従って\fIidlj\fRコンパイラと\fIjbvbc\fRコンパイラを実行します。ORBDのサーバー・マネージャを実行するには、次の手順に従ってアプリケーションを実行します。
 .PP
 \fIorbd\fRを起動します。
 .PP
 UNIXコマンド・シェルで次のように入力します:
-\fIorbd \-ORBInitialPort 1050\fR。
+\fIorbd \-ORBInitiblPort 1050\fR。
 .PP
 MS\-DOSシステム・プロンプト(Windows)で次のように入力します:
-\fIs\fR\fItart orbd \-ORBInitialPort 105\fR\fI0\fR
+\fIs\fR\fItbrt orbd \-ORBInitiblPort 105\fR\fI0\fR
 .PP
-ポート1050はネーム・サーバーを実行するポートです。\fI\-ORBInitialPort\fRオプションは必須コマンドライン引数です。Oracle Solarisソフトウェアを使用する場合、1024より小さいポートでプロセスを開始するには、rootユーザーになる必要があります。このため、1024以上のポート番号を使用することをお薦めします。
+ポート1050はネーム・サーバーを実行するポートです。\fI\-ORBInitiblPort\fRオプションは必須コマンドライン引数です。Orbcle Solbrisソフトウェアを使用する場合、1024より小さいポートでプロセスを開始するには、rootユーザーになる必要があります。このため、1024以上のポート番号を使用することをお薦めします。
 .PP
 \fIservertool\fRを起動します:
-\fIservertool \-ORBInitialPort 1050\fR。
+\fIservertool \-ORBInitiblPort 1050\fR。
 .PP
-前回の手順とネーム・サーバー(\fIorbd\fR)のポートが同じであることを確認します。たとえば\fI\-ORBInitialPort 1050\&.\fRのようになります。\fIservertool\fRは、ネーム・サーバーと同じポート上で起動する必要があります。
+前回の手順とネーム・サーバー(\fIorbd\fR)のポートが同じであることを確認します。たとえば\fI\-ORBInitiblPort 1050\&.\fRのようになります。\fIservertool\fRは、ネーム・サーバーと同じポート上で起動する必要があります。
 .PP
 \fIservertool\fRコマンドライン・インタフェースで、\fIservertool\fRプロンプトから\fIHello\fRサーバーを起動します。
 .sp
@@ -225,29 +225,29 @@ MS\-DOSシステム・プロンプト(Windows)で次のように入力します:
 .RS 4
 .\}
 .nf
-servertool  > register \-server HelloServer \-classpath \&. \-applicationName
-                HelloServerApName
+servertool  > register \-server HelloServer \-clbsspbth \&. \-bpplicbtionNbme
+                HelloServerApNbme
 .fi
 .if n \{\
 .RE
 .\}
 .PP
-\fIservertool\fRによってサーバーが登録されて、\fIHelloServerApName\fRという名前がサーバーに割り当てられ、登録されているすべてのサーバー一覧とともにサーバーIDが表示されます。他の端末ウィンドウまたはプロンプトからクライアント・アプリケーションを実行します。
+\fIservertool\fRによってサーバーが登録されて、\fIHelloServerApNbme\fRという名前がサーバーに割り当てられ、登録されているすべてのサーバー一覧とともにサーバーIDが表示されます。他の端末ウィンドウまたはプロンプトからクライアント・アプリケーションを実行します。
 .sp
 .if n \{\
 .RS 4
 .\}
 .nf
-java HelloClient \-ORBInitialPort 1050 \-ORBInitialHost localhost
+jbvb HelloClient \-ORBInitiblPort 1050 \-ORBInitiblHost locblhost
 .fi
 .if n \{\
 .RE
 .\}
 .PP
-この例の\fI\-ORBInitialHost localhost\fRは省略することができます。ネーム・サーバーが\fIHello\fRクライアントとして同一ホスト上で動作しているからです。ネーム・サーバーが別のホストで実行されている場合は、\-\fIORBInitialHost nameserverhost\fRオプションを使用してIDLネーム・サーバーが実行されているホストを指定します。前の手順で行われたとおりにネーム・サーバー(\fIorbd\fR)ポートを指定します(例:
-\fI\-ORBInitialPort 1050\fR)。ORBDのサーバー・マネージャの操作が終了したら、ネーム・サーバー(\fIorbd\fR)と\fIservertool\fRを停止するか終了してください。MS\-DOSプロンプトで\fIorbd\fRをシャットダウンするには、サーバーを実行しているウィンドウを選択して\fB[Ctrl]+[C]\fRキーを押します。
+この例の\fI\-ORBInitiblHost locblhost\fRは省略することができます。ネーム・サーバーが\fIHello\fRクライアントとして同一ホスト上で動作しているからです。ネーム・サーバーが別のホストで実行されている場合は、\-\fIORBInitiblHost nbmeserverhost\fRオプションを使用してIDLネーム・サーバーが実行されているホストを指定します。前の手順で行われたとおりにネーム・サーバー(\fIorbd\fR)ポートを指定します(例:
+\fI\-ORBInitiblPort 1050\fR)。ORBDのサーバー・マネージャの操作が終了したら、ネーム・サーバー(\fIorbd\fR)と\fIservertool\fRを停止するか終了してください。MS\-DOSプロンプトで\fIorbd\fRをシャットダウンするには、サーバーを実行しているウィンドウを選択して\fB[Ctrl]+[C]\fRキーを押します。
 .PP
-Oracle Solarisから\fIorbd\fRをシャットダウンするには、プロセスを検索して、\fIkill\fRコマンドで終了します。サーバーを明示的に停止するまでは、呼出し待機状態が続きます。\fIservertool\fRをシャットダウンするには、\fBquit\fRと入力してキーボードの\fB[Enter]\fRキーを押します。
+Orbcle Solbrisから\fIorbd\fRをシャットダウンするには、プロセスを検索して、\fIkill\fRコマンドで終了します。サーバーを明示的に停止するまでは、呼出し待機状態が続きます。\fIservertool\fRをシャットダウンするには、\fBquit\fRと入力してキーボードの\fB[Enter]\fRキーを押します。
 .SH "関連項目"
 .sp
 .RS 4
@@ -269,8 +269,8 @@ servertool(1)
 .sp -1
 .IP \(bu 2.3
 .\}
-http://docs\&.oracle\&.com/javase/8/docs/technotes/guides/idl/jidlNaming\&.htmlの
-「Naming Service」
+http://docs\&.orbcle\&.com/jbvbse/8/docs/technotes/guides/idl/jidlNbming\&.htmlの
+「Nbming Service」
 .RE
 .br
 'pl 8.5i

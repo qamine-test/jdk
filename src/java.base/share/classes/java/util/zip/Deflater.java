@@ -1,207 +1,207 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.util.zip;
+pbckbge jbvb.util.zip;
 
 /**
- * This class provides support for general purpose compression using the
- * popular ZLIB compression library. The ZLIB compression library was
- * initially developed as part of the PNG graphics standard and is not
- * protected by patents. It is fully described in the specifications at
- * the <a href="package-summary.html#package_description">java.util.zip
- * package description</a>.
+ * This clbss provides support for generbl purpose compression using the
+ * populbr ZLIB compression librbry. The ZLIB compression librbry wbs
+ * initiblly developed bs pbrt of the PNG grbphics stbndbrd bnd is not
+ * protected by pbtents. It is fully described in the specificbtions bt
+ * the <b href="pbckbge-summbry.html#pbckbge_description">jbvb.util.zip
+ * pbckbge description</b>.
  *
- * <p>The following code fragment demonstrates a trivial compression
- * and decompression of a string using <tt>Deflater</tt> and
- * <tt>Inflater</tt>.
+ * <p>The following code frbgment demonstrbtes b trivibl compression
+ * bnd decompression of b string using <tt>Deflbter</tt> bnd
+ * <tt>Inflbter</tt>.
  *
  * <blockquote><pre>
  * try {
- *     // Encode a String into bytes
- *     String inputString = "blahblahblah";
+ *     // Encode b String into bytes
+ *     String inputString = "blbhblbhblbh";
  *     byte[] input = inputString.getBytes("UTF-8");
  *
  *     // Compress the bytes
  *     byte[] output = new byte[100];
- *     Deflater compresser = new Deflater();
+ *     Deflbter compresser = new Deflbter();
  *     compresser.setInput(input);
  *     compresser.finish();
- *     int compressedDataLength = compresser.deflate(output);
+ *     int compressedDbtbLength = compresser.deflbte(output);
  *     compresser.end();
  *
  *     // Decompress the bytes
- *     Inflater decompresser = new Inflater();
- *     decompresser.setInput(output, 0, compressedDataLength);
+ *     Inflbter decompresser = new Inflbter();
+ *     decompresser.setInput(output, 0, compressedDbtbLength);
  *     byte[] result = new byte[100];
- *     int resultLength = decompresser.inflate(result);
+ *     int resultLength = decompresser.inflbte(result);
  *     decompresser.end();
  *
- *     // Decode the bytes into a String
+ *     // Decode the bytes into b String
  *     String outputString = new String(result, 0, resultLength, "UTF-8");
- * } catch(java.io.UnsupportedEncodingException ex) {
- *     // handle
- * } catch (java.util.zip.DataFormatException ex) {
- *     // handle
+ * } cbtch(jbvb.io.UnsupportedEncodingException ex) {
+ *     // hbndle
+ * } cbtch (jbvb.util.zip.DbtbFormbtException ex) {
+ *     // hbndle
  * }
  * </pre></blockquote>
  *
- * @see         Inflater
- * @author      David Connelly
+ * @see         Inflbter
+ * @buthor      Dbvid Connelly
  */
 public
-class Deflater {
+clbss Deflbter {
 
-    private final ZStreamRef zsRef;
-    private byte[] buf = new byte[0];
-    private int off, len;
-    private int level, strategy;
-    private boolean setParams;
-    private boolean finish, finished;
-    private long bytesRead;
-    private long bytesWritten;
+    privbte finbl ZStrebmRef zsRef;
+    privbte byte[] buf = new byte[0];
+    privbte int off, len;
+    privbte int level, strbtegy;
+    privbte boolebn setPbrbms;
+    privbte boolebn finish, finished;
+    privbte long bytesRebd;
+    privbte long bytesWritten;
 
     /**
-     * Compression method for the deflate algorithm (the only one currently
+     * Compression method for the deflbte blgorithm (the only one currently
      * supported).
      */
-    public static final int DEFLATED = 8;
+    public stbtic finbl int DEFLATED = 8;
 
     /**
      * Compression level for no compression.
      */
-    public static final int NO_COMPRESSION = 0;
+    public stbtic finbl int NO_COMPRESSION = 0;
 
     /**
-     * Compression level for fastest compression.
+     * Compression level for fbstest compression.
      */
-    public static final int BEST_SPEED = 1;
+    public stbtic finbl int BEST_SPEED = 1;
 
     /**
      * Compression level for best compression.
      */
-    public static final int BEST_COMPRESSION = 9;
+    public stbtic finbl int BEST_COMPRESSION = 9;
 
     /**
-     * Default compression level.
+     * Defbult compression level.
      */
-    public static final int DEFAULT_COMPRESSION = -1;
+    public stbtic finbl int DEFAULT_COMPRESSION = -1;
 
     /**
-     * Compression strategy best used for data consisting mostly of small
-     * values with a somewhat random distribution. Forces more Huffman coding
-     * and less string matching.
+     * Compression strbtegy best used for dbtb consisting mostly of smbll
+     * vblues with b somewhbt rbndom distribution. Forces more Huffmbn coding
+     * bnd less string mbtching.
      */
-    public static final int FILTERED = 1;
+    public stbtic finbl int FILTERED = 1;
 
     /**
-     * Compression strategy for Huffman coding only.
+     * Compression strbtegy for Huffmbn coding only.
      */
-    public static final int HUFFMAN_ONLY = 2;
+    public stbtic finbl int HUFFMAN_ONLY = 2;
 
     /**
-     * Default compression strategy.
+     * Defbult compression strbtegy.
      */
-    public static final int DEFAULT_STRATEGY = 0;
+    public stbtic finbl int DEFAULT_STRATEGY = 0;
 
     /**
-     * Compression flush mode used to achieve best compression result.
+     * Compression flush mode used to bchieve best compression result.
      *
-     * @see Deflater#deflate(byte[], int, int, int)
+     * @see Deflbter#deflbte(byte[], int, int, int)
      * @since 1.7
      */
-    public static final int NO_FLUSH = 0;
+    public stbtic finbl int NO_FLUSH = 0;
 
     /**
-     * Compression flush mode used to flush out all pending output; may
-     * degrade compression for some compression algorithms.
+     * Compression flush mode used to flush out bll pending output; mby
+     * degrbde compression for some compression blgorithms.
      *
-     * @see Deflater#deflate(byte[], int, int, int)
+     * @see Deflbter#deflbte(byte[], int, int, int)
      * @since 1.7
      */
-    public static final int SYNC_FLUSH = 2;
+    public stbtic finbl int SYNC_FLUSH = 2;
 
     /**
-     * Compression flush mode used to flush out all pending output and
-     * reset the deflater. Using this mode too often can seriously degrade
+     * Compression flush mode used to flush out bll pending output bnd
+     * reset the deflbter. Using this mode too often cbn seriously degrbde
      * compression.
      *
-     * @see Deflater#deflate(byte[], int, int, int)
+     * @see Deflbter#deflbte(byte[], int, int, int)
      * @since 1.7
      */
-    public static final int FULL_FLUSH = 3;
+    public stbtic finbl int FULL_FLUSH = 3;
 
-    static {
-        /* Zip library is loaded from System.initializeSystemClass */
+    stbtic {
+        /* Zip librbry is lobded from System.initiblizeSystemClbss */
         initIDs();
     }
 
     /**
-     * Creates a new compressor using the specified compression level.
-     * If 'nowrap' is true then the ZLIB header and checksum fields will
-     * not be used in order to support the compression format used in
-     * both GZIP and PKZIP.
-     * @param level the compression level (0-9)
-     * @param nowrap if true then use GZIP compatible compression
+     * Crebtes b new compressor using the specified compression level.
+     * If 'nowrbp' is true then the ZLIB hebder bnd checksum fields will
+     * not be used in order to support the compression formbt used in
+     * both GZIP bnd PKZIP.
+     * @pbrbm level the compression level (0-9)
+     * @pbrbm nowrbp if true then use GZIP compbtible compression
      */
-    public Deflater(int level, boolean nowrap) {
+    public Deflbter(int level, boolebn nowrbp) {
         this.level = level;
-        this.strategy = DEFAULT_STRATEGY;
-        this.zsRef = new ZStreamRef(init(level, DEFAULT_STRATEGY, nowrap));
+        this.strbtegy = DEFAULT_STRATEGY;
+        this.zsRef = new ZStrebmRef(init(level, DEFAULT_STRATEGY, nowrbp));
     }
 
     /**
-     * Creates a new compressor using the specified compression level.
-     * Compressed data will be generated in ZLIB format.
-     * @param level the compression level (0-9)
+     * Crebtes b new compressor using the specified compression level.
+     * Compressed dbtb will be generbted in ZLIB formbt.
+     * @pbrbm level the compression level (0-9)
      */
-    public Deflater(int level) {
-        this(level, false);
+    public Deflbter(int level) {
+        this(level, fblse);
     }
 
     /**
-     * Creates a new compressor with the default compression level.
-     * Compressed data will be generated in ZLIB format.
+     * Crebtes b new compressor with the defbult compression level.
+     * Compressed dbtb will be generbted in ZLIB formbt.
      */
-    public Deflater() {
-        this(DEFAULT_COMPRESSION, false);
+    public Deflbter() {
+        this(DEFAULT_COMPRESSION, fblse);
     }
 
     /**
-     * Sets input data for compression. This should be called whenever
-     * needsInput() returns true indicating that more input data is required.
-     * @param b the input data bytes
-     * @param off the start offset of the data
-     * @param len the length of the data
-     * @see Deflater#needsInput
+     * Sets input dbtb for compression. This should be cblled whenever
+     * needsInput() returns true indicbting thbt more input dbtb is required.
+     * @pbrbm b the input dbtb bytes
+     * @pbrbm off the stbrt offset of the dbtb
+     * @pbrbm len the length of the dbtb
+     * @see Deflbter#needsInput
      */
     public void setInput(byte[] b, int off, int len) {
         if (b== null) {
             throw new NullPointerException();
         }
         if (off < 0 || len < 0 || off > b.length - len) {
-            throw new ArrayIndexOutOfBoundsException();
+            throw new ArrbyIndexOutOfBoundsException();
         }
         synchronized (zsRef) {
             this.buf = b;
@@ -211,118 +211,118 @@ class Deflater {
     }
 
     /**
-     * Sets input data for compression. This should be called whenever
-     * needsInput() returns true indicating that more input data is required.
-     * @param b the input data bytes
-     * @see Deflater#needsInput
+     * Sets input dbtb for compression. This should be cblled whenever
+     * needsInput() returns true indicbting thbt more input dbtb is required.
+     * @pbrbm b the input dbtb bytes
+     * @see Deflbter#needsInput
      */
     public void setInput(byte[] b) {
         setInput(b, 0, b.length);
     }
 
     /**
-     * Sets preset dictionary for compression. A preset dictionary is used
-     * when the history buffer can be predetermined. When the data is later
-     * uncompressed with Inflater.inflate(), Inflater.getAdler() can be called
-     * in order to get the Adler-32 value of the dictionary required for
+     * Sets preset dictionbry for compression. A preset dictionbry is used
+     * when the history buffer cbn be predetermined. When the dbtb is lbter
+     * uncompressed with Inflbter.inflbte(), Inflbter.getAdler() cbn be cblled
+     * in order to get the Adler-32 vblue of the dictionbry required for
      * decompression.
-     * @param b the dictionary data bytes
-     * @param off the start offset of the data
-     * @param len the length of the data
-     * @see Inflater#inflate
-     * @see Inflater#getAdler
+     * @pbrbm b the dictionbry dbtb bytes
+     * @pbrbm off the stbrt offset of the dbtb
+     * @pbrbm len the length of the dbtb
+     * @see Inflbter#inflbte
+     * @see Inflbter#getAdler
      */
-    public void setDictionary(byte[] b, int off, int len) {
+    public void setDictionbry(byte[] b, int off, int len) {
         if (b == null) {
             throw new NullPointerException();
         }
         if (off < 0 || len < 0 || off > b.length - len) {
-            throw new ArrayIndexOutOfBoundsException();
+            throw new ArrbyIndexOutOfBoundsException();
         }
         synchronized (zsRef) {
             ensureOpen();
-            setDictionary(zsRef.address(), b, off, len);
+            setDictionbry(zsRef.bddress(), b, off, len);
         }
     }
 
     /**
-     * Sets preset dictionary for compression. A preset dictionary is used
-     * when the history buffer can be predetermined. When the data is later
-     * uncompressed with Inflater.inflate(), Inflater.getAdler() can be called
-     * in order to get the Adler-32 value of the dictionary required for
+     * Sets preset dictionbry for compression. A preset dictionbry is used
+     * when the history buffer cbn be predetermined. When the dbtb is lbter
+     * uncompressed with Inflbter.inflbte(), Inflbter.getAdler() cbn be cblled
+     * in order to get the Adler-32 vblue of the dictionbry required for
      * decompression.
-     * @param b the dictionary data bytes
-     * @see Inflater#inflate
-     * @see Inflater#getAdler
+     * @pbrbm b the dictionbry dbtb bytes
+     * @see Inflbter#inflbte
+     * @see Inflbter#getAdler
      */
-    public void setDictionary(byte[] b) {
-        setDictionary(b, 0, b.length);
+    public void setDictionbry(byte[] b) {
+        setDictionbry(b, 0, b.length);
     }
 
     /**
-     * Sets the compression strategy to the specified value.
+     * Sets the compression strbtegy to the specified vblue.
      *
-     * <p> If the compression strategy is changed, the next invocation
-     * of {@code deflate} will compress the input available so far with
-     * the old strategy (and may be flushed); the new strategy will take
-     * effect only after that invocation.
+     * <p> If the compression strbtegy is chbnged, the next invocbtion
+     * of {@code deflbte} will compress the input bvbilbble so fbr with
+     * the old strbtegy (bnd mby be flushed); the new strbtegy will tbke
+     * effect only bfter thbt invocbtion.
      *
-     * @param strategy the new compression strategy
-     * @exception IllegalArgumentException if the compression strategy is
-     *                                     invalid
+     * @pbrbm strbtegy the new compression strbtegy
+     * @exception IllegblArgumentException if the compression strbtegy is
+     *                                     invblid
      */
-    public void setStrategy(int strategy) {
-        switch (strategy) {
-          case DEFAULT_STRATEGY:
-          case FILTERED:
-          case HUFFMAN_ONLY:
-            break;
-          default:
-            throw new IllegalArgumentException();
+    public void setStrbtegy(int strbtegy) {
+        switch (strbtegy) {
+          cbse DEFAULT_STRATEGY:
+          cbse FILTERED:
+          cbse HUFFMAN_ONLY:
+            brebk;
+          defbult:
+            throw new IllegblArgumentException();
         }
         synchronized (zsRef) {
-            if (this.strategy != strategy) {
-                this.strategy = strategy;
-                setParams = true;
+            if (this.strbtegy != strbtegy) {
+                this.strbtegy = strbtegy;
+                setPbrbms = true;
             }
         }
     }
 
     /**
-     * Sets the compression level to the specified value.
+     * Sets the compression level to the specified vblue.
      *
-     * <p> If the compression level is changed, the next invocation
-     * of {@code deflate} will compress the input available so far
-     * with the old level (and may be flushed); the new level will
-     * take effect only after that invocation.
+     * <p> If the compression level is chbnged, the next invocbtion
+     * of {@code deflbte} will compress the input bvbilbble so fbr
+     * with the old level (bnd mby be flushed); the new level will
+     * tbke effect only bfter thbt invocbtion.
      *
-     * @param level the new compression level (0-9)
-     * @exception IllegalArgumentException if the compression level is invalid
+     * @pbrbm level the new compression level (0-9)
+     * @exception IllegblArgumentException if the compression level is invblid
      */
     public void setLevel(int level) {
         if ((level < 0 || level > 9) && level != DEFAULT_COMPRESSION) {
-            throw new IllegalArgumentException("invalid compression level");
+            throw new IllegblArgumentException("invblid compression level");
         }
         synchronized (zsRef) {
             if (this.level != level) {
                 this.level = level;
-                setParams = true;
+                setPbrbms = true;
             }
         }
     }
 
     /**
-     * Returns true if the input data buffer is empty and setInput()
-     * should be called in order to provide more input.
-     * @return true if the input data buffer is empty and setInput()
-     * should be called in order to provide more input
+     * Returns true if the input dbtb buffer is empty bnd setInput()
+     * should be cblled in order to provide more input.
+     * @return true if the input dbtb buffer is empty bnd setInput()
+     * should be cblled in order to provide more input
      */
-    public boolean needsInput() {
+    public boolebn needsInput() {
         return len <= 0;
     }
 
     /**
-     * When called, indicates that compression should end with the current
+     * When cblled, indicbtes thbt compression should end with the current
      * contents of the input buffer.
      */
     public void finish() {
@@ -332,176 +332,176 @@ class Deflater {
     }
 
     /**
-     * Returns true if the end of the compressed data output stream has
-     * been reached.
-     * @return true if the end of the compressed data output stream has
-     * been reached
+     * Returns true if the end of the compressed dbtb output strebm hbs
+     * been rebched.
+     * @return true if the end of the compressed dbtb output strebm hbs
+     * been rebched
      */
-    public boolean finished() {
+    public boolebn finished() {
         synchronized (zsRef) {
             return finished;
         }
     }
 
     /**
-     * Compresses the input data and fills specified buffer with compressed
-     * data. Returns actual number of bytes of compressed data. A return value
-     * of 0 indicates that {@link #needsInput() needsInput} should be called
-     * in order to determine if more input data is required.
+     * Compresses the input dbtb bnd fills specified buffer with compressed
+     * dbtb. Returns bctubl number of bytes of compressed dbtb. A return vblue
+     * of 0 indicbtes thbt {@link #needsInput() needsInput} should be cblled
+     * in order to determine if more input dbtb is required.
      *
-     * <p>This method uses {@link #NO_FLUSH} as its compression flush mode.
-     * An invocation of this method of the form {@code deflater.deflate(b, off, len)}
-     * yields the same result as the invocation of
-     * {@code deflater.deflate(b, off, len, Deflater.NO_FLUSH)}.
+     * <p>This method uses {@link #NO_FLUSH} bs its compression flush mode.
+     * An invocbtion of this method of the form {@code deflbter.deflbte(b, off, len)}
+     * yields the sbme result bs the invocbtion of
+     * {@code deflbter.deflbte(b, off, len, Deflbter.NO_FLUSH)}.
      *
-     * @param b the buffer for the compressed data
-     * @param off the start offset of the data
-     * @param len the maximum number of bytes of compressed data
-     * @return the actual number of bytes of compressed data written to the
+     * @pbrbm b the buffer for the compressed dbtb
+     * @pbrbm off the stbrt offset of the dbtb
+     * @pbrbm len the mbximum number of bytes of compressed dbtb
+     * @return the bctubl number of bytes of compressed dbtb written to the
      *         output buffer
      */
-    public int deflate(byte[] b, int off, int len) {
-        return deflate(b, off, len, NO_FLUSH);
+    public int deflbte(byte[] b, int off, int len) {
+        return deflbte(b, off, len, NO_FLUSH);
     }
 
     /**
-     * Compresses the input data and fills specified buffer with compressed
-     * data. Returns actual number of bytes of compressed data. A return value
-     * of 0 indicates that {@link #needsInput() needsInput} should be called
-     * in order to determine if more input data is required.
+     * Compresses the input dbtb bnd fills specified buffer with compressed
+     * dbtb. Returns bctubl number of bytes of compressed dbtb. A return vblue
+     * of 0 indicbtes thbt {@link #needsInput() needsInput} should be cblled
+     * in order to determine if more input dbtb is required.
      *
-     * <p>This method uses {@link #NO_FLUSH} as its compression flush mode.
-     * An invocation of this method of the form {@code deflater.deflate(b)}
-     * yields the same result as the invocation of
-     * {@code deflater.deflate(b, 0, b.length, Deflater.NO_FLUSH)}.
+     * <p>This method uses {@link #NO_FLUSH} bs its compression flush mode.
+     * An invocbtion of this method of the form {@code deflbter.deflbte(b)}
+     * yields the sbme result bs the invocbtion of
+     * {@code deflbter.deflbte(b, 0, b.length, Deflbter.NO_FLUSH)}.
      *
-     * @param b the buffer for the compressed data
-     * @return the actual number of bytes of compressed data written to the
+     * @pbrbm b the buffer for the compressed dbtb
+     * @return the bctubl number of bytes of compressed dbtb written to the
      *         output buffer
      */
-    public int deflate(byte[] b) {
-        return deflate(b, 0, b.length, NO_FLUSH);
+    public int deflbte(byte[] b) {
+        return deflbte(b, 0, b.length, NO_FLUSH);
     }
 
     /**
-     * Compresses the input data and fills the specified buffer with compressed
-     * data. Returns actual number of bytes of data compressed.
+     * Compresses the input dbtb bnd fills the specified buffer with compressed
+     * dbtb. Returns bctubl number of bytes of dbtb compressed.
      *
      * <p>Compression flush mode is one of the following three modes:
      *
      * <ul>
-     * <li>{@link #NO_FLUSH}: allows the deflater to decide how much data
-     * to accumulate, before producing output, in order to achieve the best
-     * compression (should be used in normal use scenario). A return value
-     * of 0 in this flush mode indicates that {@link #needsInput()} should
-     * be called in order to determine if more input data is required.
+     * <li>{@link #NO_FLUSH}: bllows the deflbter to decide how much dbtb
+     * to bccumulbte, before producing output, in order to bchieve the best
+     * compression (should be used in normbl use scenbrio). A return vblue
+     * of 0 in this flush mode indicbtes thbt {@link #needsInput()} should
+     * be cblled in order to determine if more input dbtb is required.
      *
-     * <li>{@link #SYNC_FLUSH}: all pending output in the deflater is flushed,
-     * to the specified output buffer, so that an inflater that works on
-     * compressed data can get all input data available so far (In particular
-     * the {@link #needsInput()} returns {@code true} after this invocation
-     * if enough output space is provided). Flushing with {@link #SYNC_FLUSH}
-     * may degrade compression for some compression algorithms and so it
-     * should be used only when necessary.
+     * <li>{@link #SYNC_FLUSH}: bll pending output in the deflbter is flushed,
+     * to the specified output buffer, so thbt bn inflbter thbt works on
+     * compressed dbtb cbn get bll input dbtb bvbilbble so fbr (In pbrticulbr
+     * the {@link #needsInput()} returns {@code true} bfter this invocbtion
+     * if enough output spbce is provided). Flushing with {@link #SYNC_FLUSH}
+     * mby degrbde compression for some compression blgorithms bnd so it
+     * should be used only when necessbry.
      *
-     * <li>{@link #FULL_FLUSH}: all pending output is flushed out as with
-     * {@link #SYNC_FLUSH}. The compression state is reset so that the inflater
-     * that works on the compressed output data can restart from this point
-     * if previous compressed data has been damaged or if random access is
-     * desired. Using {@link #FULL_FLUSH} too often can seriously degrade
+     * <li>{@link #FULL_FLUSH}: bll pending output is flushed out bs with
+     * {@link #SYNC_FLUSH}. The compression stbte is reset so thbt the inflbter
+     * thbt works on the compressed output dbtb cbn restbrt from this point
+     * if previous compressed dbtb hbs been dbmbged or if rbndom bccess is
+     * desired. Using {@link #FULL_FLUSH} too often cbn seriously degrbde
      * compression.
      * </ul>
      *
-     * <p>In the case of {@link #FULL_FLUSH} or {@link #SYNC_FLUSH}, if
-     * the return value is {@code len}, the space available in output
-     * buffer {@code b}, this method should be invoked again with the same
-     * {@code flush} parameter and more output space.
+     * <p>In the cbse of {@link #FULL_FLUSH} or {@link #SYNC_FLUSH}, if
+     * the return vblue is {@code len}, the spbce bvbilbble in output
+     * buffer {@code b}, this method should be invoked bgbin with the sbme
+     * {@code flush} pbrbmeter bnd more output spbce.
      *
-     * @param b the buffer for the compressed data
-     * @param off the start offset of the data
-     * @param len the maximum number of bytes of compressed data
-     * @param flush the compression flush mode
-     * @return the actual number of bytes of compressed data written to
+     * @pbrbm b the buffer for the compressed dbtb
+     * @pbrbm off the stbrt offset of the dbtb
+     * @pbrbm len the mbximum number of bytes of compressed dbtb
+     * @pbrbm flush the compression flush mode
+     * @return the bctubl number of bytes of compressed dbtb written to
      *         the output buffer
      *
-     * @throws IllegalArgumentException if the flush mode is invalid
+     * @throws IllegblArgumentException if the flush mode is invblid
      * @since 1.7
      */
-    public int deflate(byte[] b, int off, int len, int flush) {
+    public int deflbte(byte[] b, int off, int len, int flush) {
         if (b == null) {
             throw new NullPointerException();
         }
         if (off < 0 || len < 0 || off > b.length - len) {
-            throw new ArrayIndexOutOfBoundsException();
+            throw new ArrbyIndexOutOfBoundsException();
         }
         synchronized (zsRef) {
             ensureOpen();
             if (flush == NO_FLUSH || flush == SYNC_FLUSH ||
                 flush == FULL_FLUSH) {
                 int thisLen = this.len;
-                int n = deflateBytes(zsRef.address(), b, off, len, flush);
+                int n = deflbteBytes(zsRef.bddress(), b, off, len, flush);
                 bytesWritten += n;
-                bytesRead += (thisLen - this.len);
+                bytesRebd += (thisLen - this.len);
                 return n;
             }
-            throw new IllegalArgumentException();
+            throw new IllegblArgumentException();
         }
     }
 
     /**
-     * Returns the ADLER-32 value of the uncompressed data.
-     * @return the ADLER-32 value of the uncompressed data
+     * Returns the ADLER-32 vblue of the uncompressed dbtb.
+     * @return the ADLER-32 vblue of the uncompressed dbtb
      */
     public int getAdler() {
         synchronized (zsRef) {
             ensureOpen();
-            return getAdler(zsRef.address());
+            return getAdler(zsRef.bddress());
         }
     }
 
     /**
-     * Returns the total number of uncompressed bytes input so far.
+     * Returns the totbl number of uncompressed bytes input so fbr.
      *
-     * <p>Since the number of bytes may be greater than
-     * Integer.MAX_VALUE, the {@link #getBytesRead()} method is now
-     * the preferred means of obtaining this information.</p>
+     * <p>Since the number of bytes mby be grebter thbn
+     * Integer.MAX_VALUE, the {@link #getBytesRebd()} method is now
+     * the preferred mebns of obtbining this informbtion.</p>
      *
-     * @return the total number of uncompressed bytes input so far
+     * @return the totbl number of uncompressed bytes input so fbr
      */
-    public int getTotalIn() {
-        return (int) getBytesRead();
+    public int getTotblIn() {
+        return (int) getBytesRebd();
     }
 
     /**
-     * Returns the total number of uncompressed bytes input so far.
+     * Returns the totbl number of uncompressed bytes input so fbr.
      *
-     * @return the total (non-negative) number of uncompressed bytes input so far
+     * @return the totbl (non-negbtive) number of uncompressed bytes input so fbr
      * @since 1.5
      */
-    public long getBytesRead() {
+    public long getBytesRebd() {
         synchronized (zsRef) {
             ensureOpen();
-            return bytesRead;
+            return bytesRebd;
         }
     }
 
     /**
-     * Returns the total number of compressed bytes output so far.
+     * Returns the totbl number of compressed bytes output so fbr.
      *
-     * <p>Since the number of bytes may be greater than
+     * <p>Since the number of bytes mby be grebter thbn
      * Integer.MAX_VALUE, the {@link #getBytesWritten()} method is now
-     * the preferred means of obtaining this information.</p>
+     * the preferred mebns of obtbining this informbtion.</p>
      *
-     * @return the total number of compressed bytes output so far
+     * @return the totbl number of compressed bytes output so fbr
      */
-    public int getTotalOut() {
+    public int getTotblOut() {
         return (int) getBytesWritten();
     }
 
     /**
-     * Returns the total number of compressed bytes output so far.
+     * Returns the totbl number of compressed bytes output so fbr.
      *
-     * @return the total (non-negative) number of compressed bytes output so far
+     * @return the totbl (non-negbtive) number of compressed bytes output so fbr
      * @since 1.5
      */
     public long getBytesWritten() {
@@ -512,57 +512,57 @@ class Deflater {
     }
 
     /**
-     * Resets deflater so that a new set of input data can be processed.
-     * Keeps current compression level and strategy settings.
+     * Resets deflbter so thbt b new set of input dbtb cbn be processed.
+     * Keeps current compression level bnd strbtegy settings.
      */
     public void reset() {
         synchronized (zsRef) {
             ensureOpen();
-            reset(zsRef.address());
-            finish = false;
-            finished = false;
+            reset(zsRef.bddress());
+            finish = fblse;
+            finished = fblse;
             off = len = 0;
-            bytesRead = bytesWritten = 0;
+            bytesRebd = bytesWritten = 0;
         }
     }
 
     /**
-     * Closes the compressor and discards any unprocessed input.
-     * This method should be called when the compressor is no longer
-     * being used, but will also be called automatically by the
-     * finalize() method. Once this method is called, the behavior
-     * of the Deflater object is undefined.
+     * Closes the compressor bnd discbrds bny unprocessed input.
+     * This method should be cblled when the compressor is no longer
+     * being used, but will blso be cblled butombticblly by the
+     * finblize() method. Once this method is cblled, the behbvior
+     * of the Deflbter object is undefined.
      */
     public void end() {
         synchronized (zsRef) {
-            long addr = zsRef.address();
-            zsRef.clear();
-            if (addr != 0) {
-                end(addr);
+            long bddr = zsRef.bddress();
+            zsRef.clebr();
+            if (bddr != 0) {
+                end(bddr);
                 buf = null;
             }
         }
     }
 
     /**
-     * Closes the compressor when garbage is collected.
+     * Closes the compressor when gbrbbge is collected.
      */
-    protected void finalize() {
+    protected void finblize() {
         end();
     }
 
-    private void ensureOpen() {
-        assert Thread.holdsLock(zsRef);
-        if (zsRef.address() == 0)
-            throw new NullPointerException("Deflater has been closed");
+    privbte void ensureOpen() {
+        bssert Threbd.holdsLock(zsRef);
+        if (zsRef.bddress() == 0)
+            throw new NullPointerException("Deflbter hbs been closed");
     }
 
-    private static native void initIDs();
-    private native static long init(int level, int strategy, boolean nowrap);
-    private native static void setDictionary(long addr, byte[] b, int off, int len);
-    private native int deflateBytes(long addr, byte[] b, int off, int len,
+    privbte stbtic nbtive void initIDs();
+    privbte nbtive stbtic long init(int level, int strbtegy, boolebn nowrbp);
+    privbte nbtive stbtic void setDictionbry(long bddr, byte[] b, int off, int len);
+    privbte nbtive int deflbteBytes(long bddr, byte[] b, int off, int len,
                                     int flush);
-    private native static int getAdler(long addr);
-    private native static void reset(long addr);
-    private native static void end(long addr);
+    privbte nbtive stbtic int getAdler(long bddr);
+    privbte nbtive stbtic void reset(long bddr);
+    privbte nbtive stbtic void end(long bddr);
 }

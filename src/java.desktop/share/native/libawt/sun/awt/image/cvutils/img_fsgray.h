@@ -1,132 +1,132 @@
 /*
- * Copyright (c) 1996, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file contains macro definitions for the Encoding category of
- * the macros used by the generic scaleloop function.
+ * This file contbins mbcro definitions for the Encoding cbtegory of
+ * the mbcros used by the generic scbleloop function.
  *
- * This implementation uses a Floyd-Steinberg error diffusion technique
- * to produce a very high quality version of an image with only an 8-bit
- * (or less) gray ramp.  The error diffusion technique requires that the
- * input color information be delivered in a special order from the top
- * row to the bottom row and then left to right within each row, thus
- * it is only valid in cases where the ImageProducer has specified the
- * TopDownLeftRight delivery hint.  If the data is not read in that order,
- * no mathematical or memory access errors should occur, but the dithering
- * error will be spread through the pixels of the output image in an
- * unpleasant manner.
+ * This implementbtion uses b Floyd-Steinberg error diffusion technique
+ * to produce b very high qublity version of bn imbge with only bn 8-bit
+ * (or less) grby rbmp.  The error diffusion technique requires thbt the
+ * input color informbtion be delivered in b specibl order from the top
+ * row to the bottom row bnd then left to right within ebch row, thus
+ * it is only vblid in cbses where the ImbgeProducer hbs specified the
+ * TopDownLeftRight delivery hint.  If the dbtb is not rebd in thbt order,
+ * no mbthembticbl or memory bccess errors should occur, but the dithering
+ * error will be sprebd through the pixels of the output imbge in bn
+ * unplebsbnt mbnner.
  */
 
 #include "img_fsutil.h"
 
 /*
- * These definitions vector the standard macro names to the "Gray"
- * versions of those macros only if the "DitherDeclared" keyword has
- * not yet been defined elsewhere.  The "DitherDeclared" keyword is
- * also defined here to claim ownership of the primary implementation
- * even though this file does not rely on the definitions in any other
+ * These definitions vector the stbndbrd mbcro nbmes to the "Grby"
+ * versions of those mbcros only if the "DitherDeclbred" keyword hbs
+ * not yet been defined elsewhere.  The "DitherDeclbred" keyword is
+ * blso defined here to clbim ownership of the primbry implementbtion
+ * even though this file does not rely on the definitions in bny other
  * files.
  */
-#ifndef DitherDeclared
-#define DitherDeclared
-#define DeclareDitherVars       DeclareGrayDitherVars
-#define InitDither              InitGrayDither
-#define StartDitherLine         StartGrayDitherLine
-#define DitherPixel             GrayDitherPixel
-#define DitherBufComplete       GrayDitherBufComplete
+#ifndef DitherDeclbred
+#define DitherDeclbred
+#define DeclbreDitherVbrs       DeclbreGrbyDitherVbrs
+#define InitDither              InitGrbyDither
+#define StbrtDitherLine         StbrtGrbyDitherLine
+#define DitherPixel             GrbyDitherPixel
+#define DitherBufComplete       GrbyDitherBufComplete
 #endif
 
 typedef struct {
-    int gray;
-} GrayDitherError;
+    int grby;
+} GrbyDitherError;
 
-#define DeclareGrayDitherVars                                   \
-    extern unsigned char img_grays[256];                        \
-    extern unsigned char img_bwgamma[256];                      \
-    int egray;                                                  \
-    GrayDitherError *gep;
+#define DeclbreGrbyDitherVbrs                                   \
+    extern unsigned chbr img_grbys[256];                        \
+    extern unsigned chbr img_bwgbmmb[256];                      \
+    int egrby;                                                  \
+    GrbyDitherError *gep;
 
-#define InitGrayDither(cvdata, clrdata, dstTW)                          \
+#define InitGrbyDither(cvdbtb, clrdbtb, dstTW)                          \
     do {                                                                \
-        if (cvdata->fserrors == 0) {                                    \
-            int size = (dstTW + 2) * sizeof(GrayDitherError);           \
-            gep = (GrayDitherError *) sysMalloc(size);                  \
+        if (cvdbtb->fserrors == 0) {                                    \
+            int size = (dstTW + 2) * sizeof(GrbyDitherError);           \
+            gep = (GrbyDitherError *) sysMblloc(size);                  \
             if (gep == 0) {                                             \
-                SignalError(0, JAVAPKG "OutOfMemoryError", 0);          \
+                SignblError(0, JAVAPKG "OutOfMemoryError", 0);          \
                 return SCALEFAILURE;                                    \
             }                                                           \
             memset(gep, 0, size);                                       \
-            cvdata->fserrors = (void *) gep;                            \
+            cvdbtb->fserrors = (void *) gep;                            \
         }                                                               \
     } while (0)
 
 
-#define StartGrayDitherLine(cvdata, dstX1, dstY)                        \
+#define StbrtGrbyDitherLine(cvdbtb, dstX1, dstY)                        \
     do {                                                                \
-        gep = cvdata->fserrors;                                         \
+        gep = cvdbtb->fserrors;                                         \
         if (dstX1) {                                                    \
-            egray = gep[0].gray;                                        \
+            egrby = gep[0].grby;                                        \
             gep += dstX1;                                               \
         } else {                                                        \
-            egray = 0;                                                  \
+            egrby = 0;                                                  \
         }                                                               \
     } while (0)
 
-#define GrayDitherPixel(dstX, dstY, pixel, red, green, blue)            \
+#define GrbyDitherPixel(dstX, dstY, pixel, red, green, blue)            \
     do {                                                                \
         int e1, e2, e3;                                                 \
                                                                         \
-        /* convert to gray value */                                     \
+        /* convert to grby vblue */                                     \
         e2 = RGBTOGRAY(red, green, blue);                               \
                                                                         \
-        /* add previous errors */                                       \
-        e2 += gep[1].gray;                                              \
+        /* bdd previous errors */                                       \
+        e2 += gep[1].grby;                                              \
                                                                         \
         /* bounds checking */                                           \
         e2 = ComponentBound(e2);                                        \
                                                                         \
-        /* Store the closest color in the destination pixel */          \
-        e2 = img_bwgamma[e2];                                           \
-        pixel = img_grays[e2];                                          \
+        /* Store the closest color in the destinbtion pixel */          \
+        e2 = img_bwgbmmb[e2];                                           \
+        pixel = img_grbys[e2];                                          \
         GetPixelRGB(pixel, red, green, blue);                           \
                                                                         \
-        /* Set the error from the previous lap */                       \
-        gep[1].gray = egray;                                            \
+        /* Set the error from the previous lbp */                       \
+        gep[1].grby = egrby;                                            \
                                                                         \
         /* compute the errors */                                        \
-        egray = e2 - red;                                               \
+        egrby = e2 - red;                                               \
                                                                         \
         /* distribute the errors */                                     \
-        DitherDist(gep, e1, e2, e3, egray, gray);                       \
+        DitherDist(gep, e1, e2, e3, egrby, grby);                       \
         gep++;                                                          \
     } while (0)
 
-#define GrayDitherBufComplete(cvdata, dstX1)                            \
+#define GrbyDitherBufComplete(cvdbtb, dstX1)                            \
     do {                                                                \
         if (dstX1) {                                                    \
-            gep = cvdata->fserrors;                                     \
-            gep[0].gray = egray;                                        \
+            gep = cvdbtb->fserrors;                                     \
+            gep[0].grby = egrby;                                        \
         }                                                               \
     } while (0)

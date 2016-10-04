@@ -1,400 +1,400 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt.X11;
+pbckbge sun.bwt.X11;
 
-import java.awt.Component;
-import java.awt.Cursor;
-import java.awt.Window;
+import jbvb.bwt.Component;
+import jbvb.bwt.Cursor;
+import jbvb.bwt.Window;
 
-import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.Transferable;
+import jbvb.bwt.dbtbtrbnsfer.DbtbFlbvor;
+import jbvb.bwt.dbtbtrbnsfer.Trbnsferbble;
 
-import java.awt.dnd.DnDConstants;
-import java.awt.dnd.DragGestureEvent;
-import java.awt.dnd.InvalidDnDOperationException;
+import jbvb.bwt.dnd.DnDConstbnts;
+import jbvb.bwt.dnd.DrbgGestureEvent;
+import jbvb.bwt.dnd.InvblidDnDOperbtionException;
 
-import java.util.*;
+import jbvb.util.*;
 
-import sun.util.logging.PlatformLogger;
+import sun.util.logging.PlbtformLogger;
 
-import sun.awt.dnd.SunDragSourceContextPeer;
-import sun.awt.dnd.SunDropTargetContextPeer;
-import sun.awt.SunToolkit;
-import sun.awt.AWTAccessor;
+import sun.bwt.dnd.SunDrbgSourceContextPeer;
+import sun.bwt.dnd.SunDropTbrgetContextPeer;
+import sun.bwt.SunToolkit;
+import sun.bwt.AWTAccessor;
 
 /**
- * The XDragSourceContextPeer class is the class responsible for handling
- * the interaction between the XDnD/Motif DnD subsystem and Java drag sources.
+ * The XDrbgSourceContextPeer clbss is the clbss responsible for hbndling
+ * the interbction between the XDnD/Motif DnD subsystem bnd Jbvb drbg sources.
  *
  * @since 1.5
  */
-public final class XDragSourceContextPeer
-    extends SunDragSourceContextPeer implements XDragSourceProtocolListener {
-    private static final PlatformLogger logger =
-        PlatformLogger.getLogger("sun.awt.X11.xembed.xdnd.XDragSourceContextPeer");
+public finbl clbss XDrbgSourceContextPeer
+    extends SunDrbgSourceContextPeer implements XDrbgSourceProtocolListener {
+    privbte stbtic finbl PlbtformLogger logger =
+        PlbtformLogger.getLogger("sun.bwt.X11.xembed.xdnd.XDrbgSourceContextPeer");
 
-    /* The events selected on the root window when the drag begins. */
-    private static final int ROOT_EVENT_MASK = (int)XConstants.ButtonMotionMask |
-        (int)XConstants.KeyPressMask | (int)XConstants.KeyReleaseMask;
-    /* The events to be delivered during grab. */
-    private static final int GRAB_EVENT_MASK = (int)XConstants.ButtonPressMask |
-        (int)XConstants.ButtonMotionMask | (int)XConstants.ButtonReleaseMask;
+    /* The events selected on the root window when the drbg begins. */
+    privbte stbtic finbl int ROOT_EVENT_MASK = (int)XConstbnts.ButtonMotionMbsk |
+        (int)XConstbnts.KeyPressMbsk | (int)XConstbnts.KeyRelebseMbsk;
+    /* The events to be delivered during grbb. */
+    privbte stbtic finbl int GRAB_EVENT_MASK = (int)XConstbnts.ButtonPressMbsk |
+        (int)XConstbnts.ButtonMotionMbsk | (int)XConstbnts.ButtonRelebseMbsk;
 
-    /* The event mask of the root window before the drag operation starts. */
-    private long rootEventMask = 0;
-    private boolean dndInProgress = false;
-    private boolean dragInProgress = false;
-    private long dragRootWindow = 0;
+    /* The event mbsk of the root window before the drbg operbtion stbrts. */
+    privbte long rootEventMbsk = 0;
+    privbte boolebn dndInProgress = fblse;
+    privbte boolebn drbgInProgress = fblse;
+    privbte long drbgRootWindow = 0;
 
-    /* The protocol chosen for the communication with the current drop target. */
-    private XDragSourceProtocol dragProtocol = null;
-    /* The drop action chosen by the current drop target. */
-    private int targetAction = DnDConstants.ACTION_NONE;
-    /* The set of drop actions supported by the drag source. */
-    private int sourceActions = DnDConstants.ACTION_NONE;
-    /* The drop action selected by the drag source based on the modifiers state
-       and the action selected by the current drop target. */
-    private int sourceAction = DnDConstants.ACTION_NONE;
-    /* The data formats supported by the drag source for the current drag
-       operation. */
-    private long[] sourceFormats = null;
-    /* The XID of the root subwindow that contains the current target. */
-    private long targetRootSubwindow = 0;
-    /* The pointer location. */
-    private int xRoot = 0;
-    private int yRoot = 0;
-    /* Keyboard modifiers state. */
-    private int eventState = 0;
+    /* The protocol chosen for the communicbtion with the current drop tbrget. */
+    privbte XDrbgSourceProtocol drbgProtocol = null;
+    /* The drop bction chosen by the current drop tbrget. */
+    privbte int tbrgetAction = DnDConstbnts.ACTION_NONE;
+    /* The set of drop bctions supported by the drbg source. */
+    privbte int sourceActions = DnDConstbnts.ACTION_NONE;
+    /* The drop bction selected by the drbg source bbsed on the modifiers stbte
+       bnd the bction selected by the current drop tbrget. */
+    privbte int sourceAction = DnDConstbnts.ACTION_NONE;
+    /* The dbtb formbts supported by the drbg source for the current drbg
+       operbtion. */
+    privbte long[] sourceFormbts = null;
+    /* The XID of the root subwindow thbt contbins the current tbrget. */
+    privbte long tbrgetRootSubwindow = 0;
+    /* The pointer locbtion. */
+    privbte int xRoot = 0;
+    privbte int yRoot = 0;
+    /* Keybobrd modifiers stbte. */
+    privbte int eventStbte = 0;
 
-    /* XEmbed DnD support. We act as a proxy between source and target. */
-    private long proxyModeSourceWindow = 0;
+    /* XEmbed DnD support. We bct bs b proxy between source bnd tbrget. */
+    privbte long proxyModeSourceWindow = 0;
 
-    /* The singleton instance. */
-    private static final XDragSourceContextPeer theInstance =
-        new XDragSourceContextPeer(null);
+    /* The singleton instbnce. */
+    privbte stbtic finbl XDrbgSourceContextPeer theInstbnce =
+        new XDrbgSourceContextPeer(null);
 
-    private XDragSourceContextPeer(DragGestureEvent dge) {
+    privbte XDrbgSourceContextPeer(DrbgGestureEvent dge) {
         super(dge);
     }
 
-    static XDragSourceProtocolListener getXDragSourceProtocolListener() {
-        return theInstance;
+    stbtic XDrbgSourceProtocolListener getXDrbgSourceProtocolListener() {
+        return theInstbnce;
     }
 
-    static XDragSourceContextPeer createDragSourceContextPeer(DragGestureEvent dge)
-      throws InvalidDnDOperationException {
-    theInstance.setTrigger(dge);
-        return theInstance;
+    stbtic XDrbgSourceContextPeer crebteDrbgSourceContextPeer(DrbgGestureEvent dge)
+      throws InvblidDnDOperbtionException {
+    theInstbnce.setTrigger(dge);
+        return theInstbnce;
     }
 
-    protected void startDrag(Transferable transferable,
-                             long[] formats, Map<Long, DataFlavor> formatMap) {
+    protected void stbrtDrbg(Trbnsferbble trbnsferbble,
+                             long[] formbts, Mbp<Long, DbtbFlbvor> formbtMbp) {
         Component component = getTrigger().getComponent();
         Component c = null;
         XWindowPeer wpeer = null;
 
-        for (c = component; c != null && !(c instanceof Window);
-             c = AWTAccessor.getComponentAccessor().getParent(c));
+        for (c = component; c != null && !(c instbnceof Window);
+             c = AWTAccessor.getComponentAccessor().getPbrent(c));
 
-        if (c instanceof Window) {
+        if (c instbnceof Window) {
             wpeer = (XWindowPeer)c.getPeer();
         }
 
         if (wpeer == null) {
-            throw new InvalidDnDOperationException(
-                "Cannot find top-level for the drag source component");
+            throw new InvblidDnDOperbtionException(
+                "Cbnnot find top-level for the drbg source component");
         }
 
         long xcursor = 0;
         long rootWindow = 0;
-        long dragWindow = 0;
-        long timeStamp = 0;
+        long drbgWindow = 0;
+        long timeStbmp = 0;
 
-        /* Retrieve the X cursor for the drag operation. */
+        /* Retrieve the X cursor for the drbg operbtion. */
         {
             Cursor cursor = getCursor();
             if (cursor != null) {
-                xcursor = XGlobalCursorManager.getCursor(cursor);
+                xcursor = XGlobblCursorMbnbger.getCursor(cursor);
             }
         }
 
-        XToolkit.awtLock();
+        XToolkit.bwtLock();
         try {
             if (proxyModeSourceWindow != 0) {
-                throw new InvalidDnDOperationException("Proxy drag in progress");
+                throw new InvblidDnDOperbtionException("Proxy drbg in progress");
             }
             if (dndInProgress) {
-                throw new InvalidDnDOperationException("Drag in progress");
+                throw new InvblidDnDOperbtionException("Drbg in progress");
             }
 
-            /* Determine the root window for the drag operation. */
+            /* Determine the root window for the drbg operbtion. */
             {
-                long screen = XlibWrapper.XScreenNumberOfScreen(wpeer.getScreen());
-                rootWindow = XlibWrapper.RootWindow(XToolkit.getDisplay(), screen);
+                long screen = XlibWrbpper.XScreenNumberOfScreen(wpeer.getScreen());
+                rootWindow = XlibWrbpper.RootWindow(XToolkit.getDisplby(), screen);
             }
 
-            dragWindow = XWindow.getXAWTRootWindow().getWindow();
+            drbgWindow = XWindow.getXAWTRootWindow().getWindow();
 
-            timeStamp = XToolkit.getCurrentServerTime();
+            timeStbmp = XToolkit.getCurrentServerTime();
 
-            int dropActions = getDragSourceContext().getSourceActions();
+            int dropActions = getDrbgSourceContext().getSourceActions();
 
-            Iterator<XDragSourceProtocol> dragProtocols =
-                XDragAndDropProtocols.getDragSourceProtocols();
-            while (dragProtocols.hasNext()) {
-                XDragSourceProtocol dragProtocol = dragProtocols.next();
+            Iterbtor<XDrbgSourceProtocol> drbgProtocols =
+                XDrbgAndDropProtocols.getDrbgSourceProtocols();
+            while (drbgProtocols.hbsNext()) {
+                XDrbgSourceProtocol drbgProtocol = drbgProtocols.next();
                 try {
-                    dragProtocol.initializeDrag(dropActions, transferable,
-                                                formatMap, formats);
-                } catch (XException xe) {
-                    throw (InvalidDnDOperationException)
-                        new InvalidDnDOperationException().initCause(xe);
+                    drbgProtocol.initiblizeDrbg(dropActions, trbnsferbble,
+                                                formbtMbp, formbts);
+                } cbtch (XException xe) {
+                    throw (InvblidDnDOperbtionException)
+                        new InvblidDnDOperbtionException().initCbuse(xe);
                 }
             }
 
-            /* Install X grabs. */
+            /* Instbll X grbbs. */
             {
-                int status;
-                XWindowAttributes wattr = new XWindowAttributes();
+                int stbtus;
+                XWindowAttributes wbttr = new XWindowAttributes();
                 try {
-                    status = XlibWrapper.XGetWindowAttributes(XToolkit.getDisplay(),
-                                                              rootWindow, wattr.pData);
+                    stbtus = XlibWrbpper.XGetWindowAttributes(XToolkit.getDisplby(),
+                                                              rootWindow, wbttr.pDbtb);
 
-                    if (status == 0) {
-                        throw new InvalidDnDOperationException("XGetWindowAttributes failed");
+                    if (stbtus == 0) {
+                        throw new InvblidDnDOperbtionException("XGetWindowAttributes fbiled");
                     }
 
-                    rootEventMask = wattr.get_your_event_mask();
+                    rootEventMbsk = wbttr.get_your_event_mbsk();
 
-                    XlibWrapper.XSelectInput(XToolkit.getDisplay(), rootWindow,
-                                             rootEventMask | ROOT_EVENT_MASK);
-                } finally {
-                    wattr.dispose();
+                    XlibWrbpper.XSelectInput(XToolkit.getDisplby(), rootWindow,
+                                             rootEventMbsk | ROOT_EVENT_MASK);
+                } finblly {
+                    wbttr.dispose();
                 }
 
-                XBaseWindow.ungrabInput();
+                XBbseWindow.ungrbbInput();
 
-                status = XlibWrapper.XGrabPointer(XToolkit.getDisplay(), rootWindow,
+                stbtus = XlibWrbpper.XGrbbPointer(XToolkit.getDisplby(), rootWindow,
                                                   0, GRAB_EVENT_MASK,
-                                                  XConstants.GrabModeAsync,
-                                                  XConstants.GrabModeAsync,
-                                                  XConstants.None, xcursor, timeStamp);
+                                                  XConstbnts.GrbbModeAsync,
+                                                  XConstbnts.GrbbModeAsync,
+                                                  XConstbnts.None, xcursor, timeStbmp);
 
-                if (status != XConstants.GrabSuccess) {
-                    cleanup(timeStamp);
-                    throwGrabFailureException("Cannot grab pointer", status);
+                if (stbtus != XConstbnts.GrbbSuccess) {
+                    clebnup(timeStbmp);
+                    throwGrbbFbilureException("Cbnnot grbb pointer", stbtus);
                     return;
                 }
 
-                status = XlibWrapper.XGrabKeyboard(XToolkit.getDisplay(), rootWindow,
+                stbtus = XlibWrbpper.XGrbbKeybobrd(XToolkit.getDisplby(), rootWindow,
                                                    0,
-                                                   XConstants.GrabModeAsync,
-                                                   XConstants.GrabModeAsync,
-                                                   timeStamp);
+                                                   XConstbnts.GrbbModeAsync,
+                                                   XConstbnts.GrbbModeAsync,
+                                                   timeStbmp);
 
-                if (status != XConstants.GrabSuccess) {
-                    cleanup(timeStamp);
-                    throwGrabFailureException("Cannot grab keyboard", status);
+                if (stbtus != XConstbnts.GrbbSuccess) {
+                    clebnup(timeStbmp);
+                    throwGrbbFbilureException("Cbnnot grbb keybobrd", stbtus);
                     return;
                 }
             }
 
-            /* Update the global state. */
+            /* Updbte the globbl stbte. */
             dndInProgress = true;
-            dragInProgress = true;
-            dragRootWindow = rootWindow;
+            drbgInProgress = true;
+            drbgRootWindow = rootWindow;
             sourceActions = dropActions;
-            sourceFormats = formats;
-        } finally {
-            XToolkit.awtUnlock();
+            sourceFormbts = formbts;
+        } finblly {
+            XToolkit.bwtUnlock();
         }
 
-        /* This implementation doesn't use native context */
-        setNativeContext(0);
+        /* This implementbtion doesn't use nbtive context */
+        setNbtiveContext(0);
 
-        SunDropTargetContextPeer.setCurrentJVMLocalSourceTransferable(transferable);
+        SunDropTbrgetContextPeer.setCurrentJVMLocblSourceTrbnsferbble(trbnsferbble);
     }
 
     public long getProxyModeSourceWindow() {
         return proxyModeSourceWindow;
     }
 
-    private void setProxyModeSourceWindowImpl(long window) {
+    privbte void setProxyModeSourceWindowImpl(long window) {
         proxyModeSourceWindow = window;
     }
 
-    public static void setProxyModeSourceWindow(long window) {
-        theInstance.setProxyModeSourceWindowImpl(window);
+    public stbtic void setProxyModeSourceWindow(long window) {
+        theInstbnce.setProxyModeSourceWindowImpl(window);
     }
 
     /**
      * set cursor
      */
 
-    public void setCursor(Cursor c) throws InvalidDnDOperationException {
-        XToolkit.awtLock();
+    public void setCursor(Cursor c) throws InvblidDnDOperbtionException {
+        XToolkit.bwtLock();
         try {
             super.setCursor(c);
-        } finally {
-            XToolkit.awtUnlock();
+        } finblly {
+            XToolkit.bwtUnlock();
         }
     }
 
-    protected void setNativeCursor(long nativeCtxt, Cursor c, int cType) {
-        assert XToolkit.isAWTLockHeldByCurrentThread();
+    protected void setNbtiveCursor(long nbtiveCtxt, Cursor c, int cType) {
+        bssert XToolkit.isAWTLockHeldByCurrentThrebd();
 
         if (c == null) {
             return;
         }
 
-        long xcursor = XGlobalCursorManager.getCursor(c);
+        long xcursor = XGlobblCursorMbnbger.getCursor(c);
 
         if (xcursor == 0) {
             return;
         }
 
-        XlibWrapper.XChangeActivePointerGrab(XToolkit.getDisplay(),
+        XlibWrbpper.XChbngeActivePointerGrbb(XToolkit.getDisplby(),
                                              GRAB_EVENT_MASK,
                                              xcursor,
-                                             XConstants.CurrentTime);
+                                             XConstbnts.CurrentTime);
     }
 
-    protected boolean needsBogusExitBeforeDrop() {
-        return false;
+    protected boolebn needsBogusExitBeforeDrop() {
+        return fblse;
     }
 
-    private void throwGrabFailureException(String msg, int grabStatus)
-      throws InvalidDnDOperationException {
-        String msgCause = "";
-        switch (grabStatus) {
-        case XConstants.GrabNotViewable:  msgCause = "not viewable";    break;
-        case XConstants.AlreadyGrabbed:   msgCause = "already grabbed"; break;
-        case XConstants.GrabInvalidTime:  msgCause = "invalid time";    break;
-        case XConstants.GrabFrozen:       msgCause = "grab frozen";     break;
-        default:                           msgCause = "unknown failure"; break;
+    privbte void throwGrbbFbilureException(String msg, int grbbStbtus)
+      throws InvblidDnDOperbtionException {
+        String msgCbuse = "";
+        switch (grbbStbtus) {
+        cbse XConstbnts.GrbbNotViewbble:  msgCbuse = "not viewbble";    brebk;
+        cbse XConstbnts.AlrebdyGrbbbed:   msgCbuse = "blrebdy grbbbed"; brebk;
+        cbse XConstbnts.GrbbInvblidTime:  msgCbuse = "invblid time";    brebk;
+        cbse XConstbnts.GrbbFrozen:       msgCbuse = "grbb frozen";     brebk;
+        defbult:                           msgCbuse = "unknown fbilure"; brebk;
         }
-        throw new InvalidDnDOperationException(msg + ": " + msgCause);
+        throw new InvblidDnDOperbtionException(msg + ": " + msgCbuse);
     }
 
     /**
-     * The caller must own awtLock.
+     * The cbller must own bwtLock.
      */
-    public void cleanup(long time) {
+    public void clebnup(long time) {
         if (dndInProgress) {
-            if (dragProtocol != null) {
-                dragProtocol.sendLeaveMessage(time);
+            if (drbgProtocol != null) {
+                drbgProtocol.sendLebveMessbge(time);
             }
 
-            if (targetAction != DnDConstants.ACTION_NONE) {
-                dragExit(xRoot, yRoot);
+            if (tbrgetAction != DnDConstbnts.ACTION_NONE) {
+                drbgExit(xRoot, yRoot);
             }
 
-            dragDropFinished(false, DnDConstants.ACTION_NONE, xRoot, yRoot);
+            drbgDropFinished(fblse, DnDConstbnts.ACTION_NONE, xRoot, yRoot);
         }
 
-        Iterator<XDragSourceProtocol> dragProtocols =
-            XDragAndDropProtocols.getDragSourceProtocols();
-        while (dragProtocols.hasNext()) {
-            XDragSourceProtocol dragProtocol = dragProtocols.next();
+        Iterbtor<XDrbgSourceProtocol> drbgProtocols =
+            XDrbgAndDropProtocols.getDrbgSourceProtocols();
+        while (drbgProtocols.hbsNext()) {
+            XDrbgSourceProtocol drbgProtocol = drbgProtocols.next();
             try {
-                dragProtocol.cleanup();
-            } catch (XException xe) {
+                drbgProtocol.clebnup();
+            } cbtch (XException xe) {
                 // Ignore the exception.
             }
         }
 
-        dndInProgress = false;
-        dragInProgress = false;
-        dragRootWindow = 0;
-        sourceFormats = null;
-        sourceActions = DnDConstants.ACTION_NONE;
-        sourceAction = DnDConstants.ACTION_NONE;
-        eventState = 0;
+        dndInProgress = fblse;
+        drbgInProgress = fblse;
+        drbgRootWindow = 0;
+        sourceFormbts = null;
+        sourceActions = DnDConstbnts.ACTION_NONE;
+        sourceAction = DnDConstbnts.ACTION_NONE;
+        eventStbte = 0;
         xRoot = 0;
         yRoot = 0;
 
-        cleanupTargetInfo();
+        clebnupTbrgetInfo();
 
-        removeDnDGrab(time);
+        removeDnDGrbb(time);
     }
 
     /**
-     * The caller must own awtLock.
+     * The cbller must own bwtLock.
      */
-    private void cleanupTargetInfo() {
-        targetAction = DnDConstants.ACTION_NONE;
-        dragProtocol = null;
-        targetRootSubwindow = 0;
+    privbte void clebnupTbrgetInfo() {
+        tbrgetAction = DnDConstbnts.ACTION_NONE;
+        drbgProtocol = null;
+        tbrgetRootSubwindow = 0;
     }
 
-    private void removeDnDGrab(long time) {
-        assert XToolkit.isAWTLockHeldByCurrentThread();
+    privbte void removeDnDGrbb(long time) {
+        bssert XToolkit.isAWTLockHeldByCurrentThrebd();
 
-        XlibWrapper.XUngrabPointer(XToolkit.getDisplay(), time);
-        XlibWrapper.XUngrabKeyboard(XToolkit.getDisplay(), time);
+        XlibWrbpper.XUngrbbPointer(XToolkit.getDisplby(), time);
+        XlibWrbpper.XUngrbbKeybobrd(XToolkit.getDisplby(), time);
 
-        /* Restore the root event mask if it was changed. */
-        if ((rootEventMask | ROOT_EVENT_MASK) != rootEventMask &&
-            dragRootWindow != 0) {
+        /* Restore the root event mbsk if it wbs chbnged. */
+        if ((rootEventMbsk | ROOT_EVENT_MASK) != rootEventMbsk &&
+            drbgRootWindow != 0) {
 
-            XlibWrapper.XSelectInput(XToolkit.getDisplay(),
-                                     dragRootWindow,
-                                     rootEventMask);
+            XlibWrbpper.XSelectInput(XToolkit.getDisplby(),
+                                     drbgRootWindow,
+                                     rootEventMbsk);
         }
 
-        rootEventMask = 0;
-        dragRootWindow = 0;
+        rootEventMbsk = 0;
+        drbgRootWindow = 0;
     }
 
-    private boolean processClientMessage(XClientMessageEvent xclient) {
-        if (dragProtocol != null) {
-            return dragProtocol.processClientMessage(xclient);
+    privbte boolebn processClientMessbge(XClientMessbgeEvent xclient) {
+        if (drbgProtocol != null) {
+            return drbgProtocol.processClientMessbge(xclient);
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Updates the source action according to the specified state.
+     * Updbtes the source bction bccording to the specified stbte.
      *
      * @returns true if the source
      */
-    private boolean updateSourceAction(int state) {
-        int action = SunDragSourceContextPeer.convertModifiersToDropAction(XWindow.getModifiers(state, 0, 0),
+    privbte boolebn updbteSourceAction(int stbte) {
+        int bction = SunDrbgSourceContextPeer.convertModifiersToDropAction(XWindow.getModifiers(stbte, 0, 0),
                                                                            sourceActions);
-        if (sourceAction == action) {
-            return false;
+        if (sourceAction == bction) {
+            return fblse;
         }
-        sourceAction = action;
+        sourceAction = bction;
         return true;
     }
 
     /**
      * Returns the client window under the specified root subwindow.
      */
-    private static long findClientWindow(long window) {
+    privbte stbtic long findClientWindow(long window) {
         if (XlibUtil.isTrueToplevelWindow(window)) {
             return window;
         }
@@ -410,36 +410,36 @@ public final class XDragSourceContextPeer
         return 0;
     }
 
-    private void doUpdateTargetWindow(long subwindow, long time) {
+    privbte void doUpdbteTbrgetWindow(long subwindow, long time) {
         long clientWindow = 0;
         long proxyWindow = 0;
-        XDragSourceProtocol protocol = null;
-        boolean isReceiver = false;
+        XDrbgSourceProtocol protocol = null;
+        boolebn isReceiver = fblse;
 
         if (subwindow != 0) {
             clientWindow = findClientWindow(subwindow);
         }
 
         if (clientWindow != 0) {
-            Iterator<XDragSourceProtocol> dragProtocols =
-                XDragAndDropProtocols.getDragSourceProtocols();
-            while (dragProtocols.hasNext()) {
-                XDragSourceProtocol dragProtocol = dragProtocols.next();
-                if (dragProtocol.attachTargetWindow(clientWindow, time)) {
-                    protocol = dragProtocol;
-                    break;
+            Iterbtor<XDrbgSourceProtocol> drbgProtocols =
+                XDrbgAndDropProtocols.getDrbgSourceProtocols();
+            while (drbgProtocols.hbsNext()) {
+                XDrbgSourceProtocol drbgProtocol = drbgProtocols.next();
+                if (drbgProtocol.bttbchTbrgetWindow(clientWindow, time)) {
+                    protocol = drbgProtocol;
+                    brebk;
                 }
             }
         }
 
-        /* Update the global state. */
-        dragProtocol = protocol;
-        targetAction = DnDConstants.ACTION_NONE;
-        targetRootSubwindow = subwindow;
+        /* Updbte the globbl stbte. */
+        drbgProtocol = protocol;
+        tbrgetAction = DnDConstbnts.ACTION_NONE;
+        tbrgetRootSubwindow = subwindow;
     }
 
-    private void updateTargetWindow(XMotionEvent xmotion) {
-        assert XToolkit.isAWTLockHeldByCurrentThread();
+    privbte void updbteTbrgetWindow(XMotionEvent xmotion) {
+        bssert XToolkit.isAWTLockHeldByCurrentThrebd();
 
         int x = xmotion.get_x_root();
         int y = xmotion.get_y_root();
@@ -447,42 +447,42 @@ public final class XDragSourceContextPeer
         long subwindow = xmotion.get_subwindow();
 
         /*
-         * If this event had occurred before the pointer was grabbed,
+         * If this event hbd occurred before the pointer wbs grbbbed,
          * query the server for the current root subwindow.
          */
         if (xmotion.get_window() != xmotion.get_root()) {
-            XlibWrapper.XQueryPointer(XToolkit.getDisplay(),
+            XlibWrbpper.XQueryPointer(XToolkit.getDisplby(),
                                       xmotion.get_root(),
-                                      XlibWrapper.larg1,  // root
-                                      XlibWrapper.larg2,  // subwindow
-                                      XlibWrapper.larg3,  // x_root
-                                      XlibWrapper.larg4,  // y_root
-                                      XlibWrapper.larg5,  // x
-                                      XlibWrapper.larg6,  // y
-                                      XlibWrapper.larg7); // modifiers
-            subwindow = Native.getLong(XlibWrapper.larg2);
+                                      XlibWrbpper.lbrg1,  // root
+                                      XlibWrbpper.lbrg2,  // subwindow
+                                      XlibWrbpper.lbrg3,  // x_root
+                                      XlibWrbpper.lbrg4,  // y_root
+                                      XlibWrbpper.lbrg5,  // x
+                                      XlibWrbpper.lbrg6,  // y
+                                      XlibWrbpper.lbrg7); // modifiers
+            subwindow = Nbtive.getLong(XlibWrbpper.lbrg2);
         }
 
-        if (targetRootSubwindow != subwindow) {
-            if (dragProtocol != null) {
-                dragProtocol.sendLeaveMessage(time);
+        if (tbrgetRootSubwindow != subwindow) {
+            if (drbgProtocol != null) {
+                drbgProtocol.sendLebveMessbge(time);
 
                 /*
-                 * Neither Motif DnD nor XDnD provide a mean for the target
-                 * to notify the source that the pointer exits the drop site
-                 * that occupies the whole top level.
-                 * We detect this situation and post dragExit.
+                 * Neither Motif DnD nor XDnD provide b mebn for the tbrget
+                 * to notify the source thbt the pointer exits the drop site
+                 * thbt occupies the whole top level.
+                 * We detect this situbtion bnd post drbgExit.
                  */
-                if (targetAction != DnDConstants.ACTION_NONE) {
-                    dragExit(x, y);
+                if (tbrgetAction != DnDConstbnts.ACTION_NONE) {
+                    drbgExit(x, y);
                 }
             }
 
-            /* Update the global state. */
-            doUpdateTargetWindow(subwindow, time);
+            /* Updbte the globbl stbte. */
+            doUpdbteTbrgetWindow(subwindow, time);
 
-            if (dragProtocol != null) {
-                dragProtocol.sendEnterMessage(sourceFormats,
+            if (drbgProtocol != null) {
+                drbgProtocol.sendEnterMessbge(sourceFormbts,
                                               sourceAction,
                                               sourceActions,
                                               time);
@@ -492,154 +492,154 @@ public final class XDragSourceContextPeer
 
     /*
      * DO NOT USE is_hint field of xmotion since it could not be set when we
-     * convert XKeyEvent or XButtonRelease to XMotionEvent.
+     * convert XKeyEvent or XButtonRelebse to XMotionEvent.
      */
-    private void processMouseMove(XMotionEvent xmotion) {
-        if (!dragInProgress) {
+    privbte void processMouseMove(XMotionEvent xmotion) {
+        if (!drbgInProgress) {
             return;
         }
         if (xRoot != xmotion.get_x_root() || yRoot != xmotion.get_y_root()) {
             xRoot = xmotion.get_x_root();
             yRoot = xmotion.get_y_root();
 
-            postDragSourceDragEvent(targetAction,
-                                    XWindow.getModifiers(xmotion.get_state(),0,0),
+            postDrbgSourceDrbgEvent(tbrgetAction,
+                                    XWindow.getModifiers(xmotion.get_stbte(),0,0),
                                     xRoot, yRoot, DISPATCH_MOUSE_MOVED);
         }
 
-        if (eventState != xmotion.get_state()) {
-            if (updateSourceAction(xmotion.get_state()) && dragProtocol != null) {
-                postDragSourceDragEvent(targetAction,
-                                        XWindow.getModifiers(xmotion.get_state(),0,0),
+        if (eventStbte != xmotion.get_stbte()) {
+            if (updbteSourceAction(xmotion.get_stbte()) && drbgProtocol != null) {
+                postDrbgSourceDrbgEvent(tbrgetAction,
+                                        XWindow.getModifiers(xmotion.get_stbte(),0,0),
                                         xRoot, yRoot, DISPATCH_CHANGED);
             }
-            eventState = xmotion.get_state();
+            eventStbte = xmotion.get_stbte();
         }
 
-        updateTargetWindow(xmotion);
+        updbteTbrgetWindow(xmotion);
 
-        if (dragProtocol != null) {
-            dragProtocol.sendMoveMessage(xmotion.get_x_root(),
+        if (drbgProtocol != null) {
+            drbgProtocol.sendMoveMessbge(xmotion.get_x_root(),
                                          xmotion.get_y_root(),
                                          sourceAction, sourceActions,
                                          xmotion.get_time());
         }
     }
 
-    private void processDrop(XButtonEvent xbutton) {
+    privbte void processDrop(XButtonEvent xbutton) {
         try {
-            dragProtocol.initiateDrop(xbutton.get_x_root(),
+            drbgProtocol.initibteDrop(xbutton.get_x_root(),
                                       xbutton.get_y_root(),
                                       sourceAction, sourceActions,
                                       xbutton.get_time());
-        } catch (XException e) {
-            cleanup(xbutton.get_time());
+        } cbtch (XException e) {
+            clebnup(xbutton.get_time());
         }
     }
 
-    private boolean processProxyModeEvent(XEvent ev) {
+    privbte boolebn processProxyModeEvent(XEvent ev) {
         if (getProxyModeSourceWindow() == 0) {
-            return false;
+            return fblse;
         }
 
-        if (ev.get_type() != XConstants.ClientMessage) {
-            return false;
+        if (ev.get_type() != XConstbnts.ClientMessbge) {
+            return fblse;
         }
 
-        if (logger.isLoggable(PlatformLogger.Level.FINEST)) {
+        if (logger.isLoggbble(PlbtformLogger.Level.FINEST)) {
             logger.finest("        proxyModeSourceWindow=" +
                           getProxyModeSourceWindow() +
                           " ev=" + ev);
         }
 
-        XClientMessageEvent xclient = ev.get_xclient();
+        XClientMessbgeEvent xclient = ev.get_xclient();
 
-        Iterator<XDragSourceProtocol> dragProtocols =
-            XDragAndDropProtocols.getDragSourceProtocols();
-        while (dragProtocols.hasNext()) {
-            XDragSourceProtocol dragProtocol = dragProtocols.next();
-            if (dragProtocol.processProxyModeEvent(xclient,
+        Iterbtor<XDrbgSourceProtocol> drbgProtocols =
+            XDrbgAndDropProtocols.getDrbgSourceProtocols();
+        while (drbgProtocols.hbsNext()) {
+            XDrbgSourceProtocol drbgProtocol = drbgProtocols.next();
+            if (drbgProtocol.processProxyModeEvent(xclient,
                                                    getProxyModeSourceWindow())) {
                 return true;
             }
         }
 
-        return false;
+        return fblse;
     }
 
     /**
-     * The caller must own awtLock.
+     * The cbller must own bwtLock.
      *
-     * @returns true if the even was processed and shouldn't be passed along.
+     * @returns true if the even wbs processed bnd shouldn't be pbssed blong.
      */
-    private boolean doProcessEvent(XEvent ev) {
-        assert XToolkit.isAWTLockHeldByCurrentThread();
+    privbte boolebn doProcessEvent(XEvent ev) {
+        bssert XToolkit.isAWTLockHeldByCurrentThrebd();
 
         if (processProxyModeEvent(ev)) {
             return true;
         }
 
         if (!dndInProgress) {
-            return false;
+            return fblse;
         }
 
         switch (ev.get_type()) {
-        case XConstants.ClientMessage: {
-            XClientMessageEvent xclient = ev.get_xclient();
-            return processClientMessage(xclient);
+        cbse XConstbnts.ClientMessbge: {
+            XClientMessbgeEvent xclient = ev.get_xclient();
+            return processClientMessbge(xclient);
         }
-        case XConstants.DestroyNotify: {
+        cbse XConstbnts.DestroyNotify: {
             XDestroyWindowEvent xde = ev.get_xdestroywindow();
 
-            /* Target crashed during drop processing - cleanup. */
-            if (!dragInProgress &&
-                dragProtocol != null &&
-                xde.get_window() == dragProtocol.getTargetWindow()) {
-                cleanup(XConstants.CurrentTime);
+            /* Tbrget crbshed during drop processing - clebnup. */
+            if (!drbgInProgress &&
+                drbgProtocol != null &&
+                xde.get_window() == drbgProtocol.getTbrgetWindow()) {
+                clebnup(XConstbnts.CurrentTime);
                 return true;
             }
-            /* Pass along */
-            return false;
+            /* Pbss blong */
+            return fblse;
         }
         }
 
-        if (!dragInProgress) {
-            return false;
+        if (!drbgInProgress) {
+            return fblse;
         }
 
-        /* Process drag-only messages. */
+        /* Process drbg-only messbges. */
         switch (ev.get_type()) {
-        case XConstants.KeyRelease:
-        case XConstants.KeyPress: {
+        cbse XConstbnts.KeyRelebse:
+        cbse XConstbnts.KeyPress: {
             XKeyEvent xkey = ev.get_xkey();
-            long keysym = XlibWrapper.XKeycodeToKeysym(XToolkit.getDisplay(),
+            long keysym = XlibWrbpper.XKeycodeToKeysym(XToolkit.getDisplby(),
                                                        xkey.get_keycode(), 0);
             switch ((int)keysym) {
-            case (int)XKeySymConstants.XK_Escape: {
-                if (ev.get_type() == XConstants.KeyRelease) {
-                    cleanup(xkey.get_time());
+            cbse (int)XKeySymConstbnts.XK_Escbpe: {
+                if (ev.get_type() == XConstbnts.KeyRelebse) {
+                    clebnup(xkey.get_time());
                 }
-                break;
+                brebk;
             }
-            case (int)XKeySymConstants.XK_Control_R:
-            case (int)XKeySymConstants.XK_Control_L:
-            case (int)XKeySymConstants.XK_Shift_R:
-            case (int)XKeySymConstants.XK_Shift_L: {
-                XlibWrapper.XQueryPointer(XToolkit.getDisplay(),
+            cbse (int)XKeySymConstbnts.XK_Control_R:
+            cbse (int)XKeySymConstbnts.XK_Control_L:
+            cbse (int)XKeySymConstbnts.XK_Shift_R:
+            cbse (int)XKeySymConstbnts.XK_Shift_L: {
+                XlibWrbpper.XQueryPointer(XToolkit.getDisplby(),
                                           xkey.get_root(),
-                                          XlibWrapper.larg1,  // root
-                                          XlibWrapper.larg2,  // subwindow
-                                          XlibWrapper.larg3,  // x_root
-                                          XlibWrapper.larg4,  // y_root
-                                          XlibWrapper.larg5,  // x
-                                          XlibWrapper.larg6,  // y
-                                          XlibWrapper.larg7); // modifiers
+                                          XlibWrbpper.lbrg1,  // root
+                                          XlibWrbpper.lbrg2,  // subwindow
+                                          XlibWrbpper.lbrg3,  // x_root
+                                          XlibWrbpper.lbrg4,  // y_root
+                                          XlibWrbpper.lbrg5,  // x
+                                          XlibWrbpper.lbrg6,  // y
+                                          XlibWrbpper.lbrg7); // modifiers
                 XMotionEvent xmotion = new XMotionEvent();
                 try {
-                    xmotion.set_type(XConstants.MotionNotify);
-                    xmotion.set_serial(xkey.get_serial());
+                    xmotion.set_type(XConstbnts.MotionNotify);
+                    xmotion.set_seribl(xkey.get_seribl());
                     xmotion.set_send_event(xkey.get_send_event());
-                    xmotion.set_display(xkey.get_display());
+                    xmotion.set_displby(xkey.get_displby());
                     xmotion.set_window(xkey.get_window());
                     xmotion.set_root(xkey.get_root());
                     xmotion.set_subwindow(xkey.get_subwindow());
@@ -648,30 +648,30 @@ public final class XDragSourceContextPeer
                     xmotion.set_y(xkey.get_y());
                     xmotion.set_x_root(xkey.get_x_root());
                     xmotion.set_y_root(xkey.get_y_root());
-                    xmotion.set_state((int)Native.getLong(XlibWrapper.larg7));
+                    xmotion.set_stbte((int)Nbtive.getLong(XlibWrbpper.lbrg7));
                     // we do not use this field, so it's unset for now
                     // xmotion.set_is_hint(???);
-                    xmotion.set_same_screen(xkey.get_same_screen());
+                    xmotion.set_sbme_screen(xkey.get_sbme_screen());
 
-                    //It's safe to use key event as motion event since we use only their common fields.
+                    //It's sbfe to use key event bs motion event since we use only their common fields.
                     processMouseMove(xmotion);
-                } finally {
+                } finblly {
                     xmotion.dispose();
                 }
-                break;
+                brebk;
             }
             }
             return true;
         }
-        case XConstants.ButtonPress:
+        cbse XConstbnts.ButtonPress:
             return true;
-        case XConstants.MotionNotify:
+        cbse XConstbnts.MotionNotify:
             processMouseMove(ev.get_xmotion());
             return true;
-        case XConstants.ButtonRelease: {
+        cbse XConstbnts.ButtonRelebse: {
             XButtonEvent xbutton = ev.get_xbutton();
             /*
-             * Ignore the buttons above 20 due to the bit limit for
+             * Ignore the buttons bbove 20 due to the bit limit for
              * InputEvent.BUTTON_DOWN_MASK.
              * One more bit is reserved for FIRST_HIGH_BIT.
              */
@@ -680,16 +680,16 @@ public final class XDragSourceContextPeer
             }
 
             /*
-             * On some X servers it could happen that ButtonRelease coordinates
-             * differ from the latest MotionNotify coordinates, so we need to
-             * process it as a mouse motion.
+             * On some X servers it could hbppen thbt ButtonRelebse coordinbtes
+             * differ from the lbtest MotionNotify coordinbtes, so we need to
+             * process it bs b mouse motion.
              */
             XMotionEvent xmotion = new XMotionEvent();
             try {
-                xmotion.set_type(XConstants.MotionNotify);
-                xmotion.set_serial(xbutton.get_serial());
+                xmotion.set_type(XConstbnts.MotionNotify);
+                xmotion.set_seribl(xbutton.get_seribl());
                 xmotion.set_send_event(xbutton.get_send_event());
-                xmotion.set_display(xbutton.get_display());
+                xmotion.set_displby(xbutton.get_displby());
                 xmotion.set_window(xbutton.get_window());
                 xmotion.set_root(xbutton.get_root());
                 xmotion.set_subwindow(xbutton.get_subwindow());
@@ -698,111 +698,111 @@ public final class XDragSourceContextPeer
                 xmotion.set_y(xbutton.get_y());
                 xmotion.set_x_root(xbutton.get_x_root());
                 xmotion.set_y_root(xbutton.get_y_root());
-                xmotion.set_state(xbutton.get_state());
+                xmotion.set_stbte(xbutton.get_stbte());
                 // we do not use this field, so it's unset for now
                 // xmotion.set_is_hint(???);
-                xmotion.set_same_screen(xbutton.get_same_screen());
+                xmotion.set_sbme_screen(xbutton.get_sbme_screen());
 
-                //It's safe to use key event as motion event since we use only their common fields.
+                //It's sbfe to use key event bs motion event since we use only their common fields.
                 processMouseMove(xmotion);
-            } finally {
+            } finblly {
                 xmotion.dispose();
             }
-            if (xbutton.get_button() == XConstants.buttons[0]
-                || xbutton.get_button() == XConstants.buttons[1]) {
-                // drag is initiated with Button1 or Button2 pressed and
-                // ended on release of either of these buttons (as the same
-                // behavior was with our old Motif DnD-based implementation)
-                removeDnDGrab(xbutton.get_time());
-                dragInProgress = false;
-                if (dragProtocol != null && targetAction != DnDConstants.ACTION_NONE) {
+            if (xbutton.get_button() == XConstbnts.buttons[0]
+                || xbutton.get_button() == XConstbnts.buttons[1]) {
+                // drbg is initibted with Button1 or Button2 pressed bnd
+                // ended on relebse of either of these buttons (bs the sbme
+                // behbvior wbs with our old Motif DnD-bbsed implementbtion)
+                removeDnDGrbb(xbutton.get_time());
+                drbgInProgress = fblse;
+                if (drbgProtocol != null && tbrgetAction != DnDConstbnts.ACTION_NONE) {
                     /*
-                     * ACTION_NONE indicates that either the drop target rejects the
-                     * drop or it haven't responded yet. The latter could happen in
-                     * case of fast drag, slow target-server connection or slow
-                     * drag notifications processing on the target side.
+                     * ACTION_NONE indicbtes thbt either the drop tbrget rejects the
+                     * drop or it hbven't responded yet. The lbtter could hbppen in
+                     * cbse of fbst drbg, slow tbrget-server connection or slow
+                     * drbg notificbtions processing on the tbrget side.
                      */
                     processDrop(xbutton);
                 } else {
-                    cleanup(xbutton.get_time());
+                    clebnup(xbutton.get_time());
                 }
             }
             return true;
         }
         }
 
-        return false;
+        return fblse;
     }
 
-    static boolean processEvent(XEvent ev) {
-        XToolkit.awtLock();
+    stbtic boolebn processEvent(XEvent ev) {
+        XToolkit.bwtLock();
         try {
             try {
-                return theInstance.doProcessEvent(ev);
-            } catch (XException e) {
-                e.printStackTrace();
-                return false;
+                return theInstbnce.doProcessEvent(ev);
+            } cbtch (XException e) {
+                e.printStbckTrbce();
+                return fblse;
             }
-        } finally {
-            XToolkit.awtUnlock();
+        } finblly {
+            XToolkit.bwtUnlock();
         }
     }
 
-    /* XDragSourceProtocolListener implementation */
+    /* XDrbgSourceProtocolListener implementbtion */
 
-    public void handleDragReply(int action) {
-        // NOTE: we have to use the current pointer location, since
-        // the target didn't specify the coordinates for the reply.
-        handleDragReply(action, xRoot, yRoot);
+    public void hbndleDrbgReply(int bction) {
+        // NOTE: we hbve to use the current pointer locbtion, since
+        // the tbrget didn't specify the coordinbtes for the reply.
+        hbndleDrbgReply(bction, xRoot, yRoot);
     }
 
-    public void handleDragReply(int action, int x, int y) {
-        // NOTE: we have to use the current modifiers state, since
-        // the target didn't specify the modifiers state for the reply.
-        handleDragReply(action, xRoot, yRoot, XWindow.getModifiers(eventState,0,0));
+    public void hbndleDrbgReply(int bction, int x, int y) {
+        // NOTE: we hbve to use the current modifiers stbte, since
+        // the tbrget didn't specify the modifiers stbte for the reply.
+        hbndleDrbgReply(bction, xRoot, yRoot, XWindow.getModifiers(eventStbte,0,0));
     }
 
-    public void handleDragReply(int action, int x, int y, int modifiers) {
-        if (action == DnDConstants.ACTION_NONE &&
-            targetAction != DnDConstants.ACTION_NONE) {
-            dragExit(x, y);
-        } else if (action != DnDConstants.ACTION_NONE) {
+    public void hbndleDrbgReply(int bction, int x, int y, int modifiers) {
+        if (bction == DnDConstbnts.ACTION_NONE &&
+            tbrgetAction != DnDConstbnts.ACTION_NONE) {
+            drbgExit(x, y);
+        } else if (bction != DnDConstbnts.ACTION_NONE) {
             int type = 0;
 
-            if (targetAction == DnDConstants.ACTION_NONE) {
-                type = SunDragSourceContextPeer.DISPATCH_ENTER;
+            if (tbrgetAction == DnDConstbnts.ACTION_NONE) {
+                type = SunDrbgSourceContextPeer.DISPATCH_ENTER;
             } else {
-                type = SunDragSourceContextPeer.DISPATCH_MOTION;
+                type = SunDrbgSourceContextPeer.DISPATCH_MOTION;
             }
 
-            // Note that we use the modifiers state a
-            postDragSourceDragEvent(action, modifiers, x, y, type);
+            // Note thbt we use the modifiers stbte b
+            postDrbgSourceDrbgEvent(bction, modifiers, x, y, type);
         }
 
-        targetAction = action;
+        tbrgetAction = bction;
     }
 
-    public void handleDragFinished() {
-        /* Assume that the drop was successful. */
-        handleDragFinished(true);
+    public void hbndleDrbgFinished() {
+        /* Assume thbt the drop wbs successful. */
+        hbndleDrbgFinished(true);
     }
 
-    public void handleDragFinished(boolean success) {
-        /* Assume that the performed drop action is the latest drop action
-           accepted by the drop target. */
-        handleDragFinished(true, targetAction);
+    public void hbndleDrbgFinished(boolebn success) {
+        /* Assume thbt the performed drop bction is the lbtest drop bction
+           bccepted by the drop tbrget. */
+        hbndleDrbgFinished(true, tbrgetAction);
     }
 
-    public void handleDragFinished(boolean success, int action) {
-        // NOTE: we have to use the current pointer location, since
-        // the target didn't specify the coordinates for the reply.
-        handleDragFinished(success, action, xRoot, yRoot);
+    public void hbndleDrbgFinished(boolebn success, int bction) {
+        // NOTE: we hbve to use the current pointer locbtion, since
+        // the tbrget didn't specify the coordinbtes for the reply.
+        hbndleDrbgFinished(success, bction, xRoot, yRoot);
     }
 
-    public void handleDragFinished(boolean success, int action, int x, int y) {
-        dragDropFinished(success, action, x, y);
+    public void hbndleDrbgFinished(boolebn success, int bction, int x, int y) {
+        drbgDropFinished(success, bction, x, y);
 
-        dndInProgress = false;
-        cleanup(XConstants.CurrentTime);
+        dndInProgress = fblse;
+        clebnup(XConstbnts.CurrentTime);
     }
 }

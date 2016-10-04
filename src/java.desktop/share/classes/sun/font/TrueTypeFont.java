@@ -1,332 +1,332 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.font;
+pbckbge sun.font;
 
-import java.awt.Font;
-import java.awt.FontFormatException;
-import java.awt.GraphicsEnvironment;
-import java.awt.geom.Point2D;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.RandomAccessFile;
-import java.io.UnsupportedEncodingException;
-import java.nio.ByteBuffer;
-import java.nio.CharBuffer;
-import java.nio.IntBuffer;
-import java.nio.ShortBuffer;
-import java.nio.channels.ClosedChannelException;
-import java.nio.channels.FileChannel;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Map.Entry;
+import jbvb.bwt.Font;
+import jbvb.bwt.FontFormbtException;
+import jbvb.bwt.GrbphicsEnvironment;
+import jbvb.bwt.geom.Point2D;
+import jbvb.io.FileNotFoundException;
+import jbvb.io.IOException;
+import jbvb.io.RbndomAccessFile;
+import jbvb.io.UnsupportedEncodingException;
+import jbvb.nio.ByteBuffer;
+import jbvb.nio.ChbrBuffer;
+import jbvb.nio.IntBuffer;
+import jbvb.nio.ShortBuffer;
+import jbvb.nio.chbnnels.ClosedChbnnelException;
+import jbvb.nio.chbnnels.FileChbnnel;
+import jbvb.util.ArrbyList;
+import jbvb.util.HbshMbp;
+import jbvb.util.HbshSet;
+import jbvb.util.List;
+import jbvb.util.Locble;
+import jbvb.util.Mbp;
+import jbvb.util.Mbp.Entry;
 
-import sun.java2d.Disposer;
-import sun.java2d.DisposerRecord;
+import sun.jbvb2d.Disposer;
+import sun.jbvb2d.DisposerRecord;
 
 /**
- * TrueTypeFont is not called SFntFont because it is not expected
- * to handle all types that may be housed in a such a font file.
- * If additional types are supported later, it may make sense to
- * create an SFnt superclass. Eg to handle sfnt-housed postscript fonts.
- * OpenType fonts are handled by this class, and possibly should be
- * represented by a subclass.
- * An instance stores some information from the font file to faciliate
- * faster access. File size, the table directory and the names of the font
- * are the most important of these. It amounts to approx 400 bytes
- * for a typical font. Systems with mutiple locales sometimes have up to 400
- * font files, and an app which loads all font files would need around
- * 160Kbytes. So storing any more info than this would be expensive.
+ * TrueTypeFont is not cblled SFntFont becbuse it is not expected
+ * to hbndle bll types thbt mby be housed in b such b font file.
+ * If bdditionbl types bre supported lbter, it mby mbke sense to
+ * crebte bn SFnt superclbss. Eg to hbndle sfnt-housed postscript fonts.
+ * OpenType fonts bre hbndled by this clbss, bnd possibly should be
+ * represented by b subclbss.
+ * An instbnce stores some informbtion from the font file to fbcilibte
+ * fbster bccess. File size, the tbble directory bnd the nbmes of the font
+ * bre the most importbnt of these. It bmounts to bpprox 400 bytes
+ * for b typicbl font. Systems with mutiple locbles sometimes hbve up to 400
+ * font files, bnd bn bpp which lobds bll font files would need bround
+ * 160Kbytes. So storing bny more info thbn this would be expensive.
  */
-public class TrueTypeFont extends FileFont {
+public clbss TrueTypeFont extends FileFont {
 
-   /* -- Tags for required TrueType tables */
-    public static final int cmapTag = 0x636D6170; // 'cmap'
-    public static final int glyfTag = 0x676C7966; // 'glyf'
-    public static final int headTag = 0x68656164; // 'head'
-    public static final int hheaTag = 0x68686561; // 'hhea'
-    public static final int hmtxTag = 0x686D7478; // 'hmtx'
-    public static final int locaTag = 0x6C6F6361; // 'loca'
-    public static final int maxpTag = 0x6D617870; // 'maxp'
-    public static final int nameTag = 0x6E616D65; // 'name'
-    public static final int postTag = 0x706F7374; // 'post'
-    public static final int os_2Tag = 0x4F532F32; // 'OS/2'
+   /* -- Tbgs for required TrueType tbbles */
+    public stbtic finbl int cmbpTbg = 0x636D6170; // 'cmbp'
+    public stbtic finbl int glyfTbg = 0x676C7966; // 'glyf'
+    public stbtic finbl int hebdTbg = 0x68656164; // 'hebd'
+    public stbtic finbl int hhebTbg = 0x68686561; // 'hheb'
+    public stbtic finbl int hmtxTbg = 0x686D7478; // 'hmtx'
+    public stbtic finbl int locbTbg = 0x6C6F6361; // 'locb'
+    public stbtic finbl int mbxpTbg = 0x6D617870; // 'mbxp'
+    public stbtic finbl int nbmeTbg = 0x6E616D65; // 'nbme'
+    public stbtic finbl int postTbg = 0x706F7374; // 'post'
+    public stbtic finbl int os_2Tbg = 0x4F532F32; // 'OS/2'
 
-    /* -- Tags for opentype related tables */
-    public static final int GDEFTag = 0x47444546; // 'GDEF'
-    public static final int GPOSTag = 0x47504F53; // 'GPOS'
-    public static final int GSUBTag = 0x47535542; // 'GSUB'
-    public static final int mortTag = 0x6D6F7274; // 'mort'
+    /* -- Tbgs for opentype relbted tbbles */
+    public stbtic finbl int GDEFTbg = 0x47444546; // 'GDEF'
+    public stbtic finbl int GPOSTbg = 0x47504F53; // 'GPOS'
+    public stbtic finbl int GSUBTbg = 0x47535542; // 'GSUB'
+    public stbtic finbl int mortTbg = 0x6D6F7274; // 'mort'
 
-    /* -- Tags for non-standard tables */
-    public static final int fdscTag = 0x66647363; // 'fdsc' - gxFont descriptor
-    public static final int fvarTag = 0x66766172; // 'fvar' - gxFont variations
-    public static final int featTag = 0x66656174; // 'feat' - layout features
-    public static final int EBLCTag = 0x45424C43; // 'EBLC' - embedded bitmaps
-    public static final int gaspTag = 0x67617370; // 'gasp' - hint/smooth sizes
+    /* -- Tbgs for non-stbndbrd tbbles */
+    public stbtic finbl int fdscTbg = 0x66647363; // 'fdsc' - gxFont descriptor
+    public stbtic finbl int fvbrTbg = 0x66766172; // 'fvbr' - gxFont vbribtions
+    public stbtic finbl int febtTbg = 0x66656174; // 'febt' - lbyout febtures
+    public stbtic finbl int EBLCTbg = 0x45424C43; // 'EBLC' - embedded bitmbps
+    public stbtic finbl int gbspTbg = 0x67617370; // 'gbsp' - hint/smooth sizes
 
-    /* --  Other tags */
-    public static final int ttcfTag = 0x74746366; // 'ttcf' - TTC file
-    public static final int v1ttTag = 0x00010000; // 'v1tt' - Version 1 TT font
-    public static final int trueTag = 0x74727565; // 'true' - Version 2 TT font
-    public static final int ottoTag = 0x4f54544f; // 'otto' - OpenType font
+    /* --  Other tbgs */
+    public stbtic finbl int ttcfTbg = 0x74746366; // 'ttcf' - TTC file
+    public stbtic finbl int v1ttTbg = 0x00010000; // 'v1tt' - Version 1 TT font
+    public stbtic finbl int trueTbg = 0x74727565; // 'true' - Version 2 TT font
+    public stbtic finbl int ottoTbg = 0x4f54544f; // 'otto' - OpenType font
 
-    /* -- ID's used in the 'name' table */
-    public static final int MS_PLATFORM_ID = 3;
-    /* MS locale id for US English is the "default" */
-    public static final short ENGLISH_LOCALE_ID = 0x0409; // 1033 decimal
-    public static final int FAMILY_NAME_ID = 1;
-    // public static final int STYLE_WEIGHT_ID = 2; // currently unused.
-    public static final int FULL_NAME_ID = 4;
-    public static final int POSTSCRIPT_NAME_ID = 6;
+    /* -- ID's used in the 'nbme' tbble */
+    public stbtic finbl int MS_PLATFORM_ID = 3;
+    /* MS locble id for US English is the "defbult" */
+    public stbtic finbl short ENGLISH_LOCALE_ID = 0x0409; // 1033 decimbl
+    public stbtic finbl int FAMILY_NAME_ID = 1;
+    // public stbtic finbl int STYLE_WEIGHT_ID = 2; // currently unused.
+    public stbtic finbl int FULL_NAME_ID = 4;
+    public stbtic finbl int POSTSCRIPT_NAME_ID = 6;
 
-    private static final short US_LCID = 0x0409;  // US English - default
+    privbte stbtic finbl short US_LCID = 0x0409;  // US English - defbult
 
-    private static Map<String, Short> lcidMap;
+    privbte stbtic Mbp<String, Short> lcidMbp;
 
-    static class DirectoryEntry {
-        int tag;
+    stbtic clbss DirectoryEntry {
+        int tbg;
         int offset;
         int length;
     }
 
-    /* There is a pool which limits the number of fd's that are in
-     * use. Normally fd's are closed as they are replaced in the pool.
-     * But if an instance of this class becomes unreferenced, then there
-     * needs to be a way to close the fd. A finalize() method could do this,
-     * but using the Disposer class will ensure its called in a more timely
-     * manner. This is not something which should be relied upon to free
-     * fd's - its a safeguard.
+    /* There is b pool which limits the number of fd's thbt bre in
+     * use. Normblly fd's bre closed bs they bre replbced in the pool.
+     * But if bn instbnce of this clbss becomes unreferenced, then there
+     * needs to be b wby to close the fd. A finblize() method could do this,
+     * but using the Disposer clbss will ensure its cblled in b more timely
+     * mbnner. This is not something which should be relied upon to free
+     * fd's - its b sbfegubrd.
      */
-    private static class TTDisposerRecord implements DisposerRecord {
+    privbte stbtic clbss TTDisposerRecord implements DisposerRecord {
 
-        FileChannel channel = null;
+        FileChbnnel chbnnel = null;
 
         public synchronized void dispose() {
             try {
-                if (channel != null) {
-                    channel.close();
+                if (chbnnel != null) {
+                    chbnnel.close();
                 }
-            } catch (IOException e) {
-            } finally {
-                channel = null;
+            } cbtch (IOException e) {
+            } finblly {
+                chbnnel = null;
             }
         }
     }
 
     TTDisposerRecord disposerRecord = new TTDisposerRecord();
 
-    /* > 0 only if this font is a part of a collection */
+    /* > 0 only if this font is b pbrt of b collection */
     int fontIndex = 0;
 
-    /* Number of fonts in this collection. ==1 if not a collection */
+    /* Number of fonts in this collection. ==1 if not b collection */
     int directoryCount = 1;
 
-    /* offset in file of table directory for this font */
-    int directoryOffset; // 12 if its not a collection.
+    /* offset in file of tbble directory for this font */
+    int directoryOffset; // 12 if its not b collection.
 
-    /* number of table entries in the directory/offsets table */
-    int numTables;
+    /* number of tbble entries in the directory/offsets tbble */
+    int numTbbles;
 
-    /* The contents of the the directory/offsets table */
-    DirectoryEntry []tableDirectory;
+    /* The contents of the the directory/offsets tbble */
+    DirectoryEntry []tbbleDirectory;
 
-//     protected byte []gposTable = null;
-//     protected byte []gdefTable = null;
-//     protected byte []gsubTable = null;
-//     protected byte []mortTable = null;
-//     protected boolean hintsTabledChecked = false;
-//     protected boolean containsHintsTable = false;
+//     protected byte []gposTbble = null;
+//     protected byte []gdefTbble = null;
+//     protected byte []gsubTbble = null;
+//     protected byte []mortTbble = null;
+//     protected boolebn hintsTbbledChecked = fblse;
+//     protected boolebn contbinsHintsTbble = fblse;
 
-    /* These fields are set from os/2 table info. */
-    private boolean supportsJA;
-    private boolean supportsCJK;
+    /* These fields bre set from os/2 tbble info. */
+    privbte boolebn supportsJA;
+    privbte boolebn supportsCJK;
 
-    /* These are for faster access to the name of the font as
-     * typically exposed via API to applications.
+    /* These bre for fbster bccess to the nbme of the font bs
+     * typicblly exposed vib API to bpplicbtions.
      */
-    private Locale nameLocale;
-    private String localeFamilyName;
-    private String localeFullName;
+    privbte Locble nbmeLocble;
+    privbte String locbleFbmilyNbme;
+    privbte String locbleFullNbme;
 
     /**
-     * - does basic verification of the file
-     * - reads the header table for this font (within a collection)
-     * - reads the names (full, family).
+     * - does bbsic verificbtion of the file
+     * - rebds the hebder tbble for this font (within b collection)
+     * - rebds the nbmes (full, fbmily).
      * - determines the style of the font.
-     * - initializes the CMAP
-     * @throws FontFormatException - if the font can't be opened
-     * or fails verification,  or there's no usable cmap
+     * - initiblizes the CMAP
+     * @throws FontFormbtException - if the font cbn't be opened
+     * or fbils verificbtion,  or there's no usbble cmbp
      */
-    public TrueTypeFont(String platname, Object nativeNames, int fIndex,
-                 boolean javaRasterizer)
-        throws FontFormatException {
-        super(platname, nativeNames);
-        useJavaRasterizer = javaRasterizer;
-        fontRank = Font2D.TTF_RANK;
+    public TrueTypeFont(String plbtnbme, Object nbtiveNbmes, int fIndex,
+                 boolebn jbvbRbsterizer)
+        throws FontFormbtException {
+        super(plbtnbme, nbtiveNbmes);
+        useJbvbRbsterizer = jbvbRbsterizer;
+        fontRbnk = Font2D.TTF_RANK;
         try {
             verify();
             init(fIndex);
-        } catch (Throwable t) {
+        } cbtch (Throwbble t) {
             close();
-            if (t instanceof FontFormatException) {
-                throw (FontFormatException)t;
+            if (t instbnceof FontFormbtException) {
+                throw (FontFormbtException)t;
             } else {
-                throw new FontFormatException("Unexpected runtime exception.");
+                throw new FontFormbtException("Unexpected runtime exception.");
             }
         }
-        Disposer.addObjectRecord(this, disposerRecord);
+        Disposer.bddObjectRecord(this, disposerRecord);
     }
 
-    /* Enable natives just for fonts picked up from the platform that
-     * may have external bitmaps on Solaris. Could do this just for
-     * the fonts that are specified in font configuration files which
-     * would lighten the burden (think about that).
-     * The EBLCTag is used to skip natives for fonts that contain embedded
-     * bitmaps as there's no need to use X11 for those fonts.
-     * Skip all the latin fonts as they don't need this treatment.
-     * Further refine this to fonts that are natively accessible (ie
-     * as PCF bitmap fonts on the X11 font path).
-     * This method is called when creating the first strike for this font.
+    /* Enbble nbtives just for fonts picked up from the plbtform thbt
+     * mby hbve externbl bitmbps on Solbris. Could do this just for
+     * the fonts thbt bre specified in font configurbtion files which
+     * would lighten the burden (think bbout thbt).
+     * The EBLCTbg is used to skip nbtives for fonts thbt contbin embedded
+     * bitmbps bs there's no need to use X11 for those fonts.
+     * Skip bll the lbtin fonts bs they don't need this trebtment.
+     * Further refine this to fonts thbt bre nbtively bccessible (ie
+     * bs PCF bitmbp fonts on the X11 font pbth).
+     * This method is cblled when crebting the first strike for this font.
      */
     @Override
-    protected boolean checkUseNatives() {
-        if (checkedNatives) {
-            return useNatives;
+    protected boolebn checkUseNbtives() {
+        if (checkedNbtives) {
+            return useNbtives;
         }
-        if (!FontUtilities.isSolaris || useJavaRasterizer ||
-            FontUtilities.useT2K || nativeNames == null ||
-            getDirectoryEntry(EBLCTag) != null ||
-            GraphicsEnvironment.isHeadless()) {
-            checkedNatives = true;
-            return false; /* useNatives is false */
-        } else if (nativeNames instanceof String) {
-            String name = (String)nativeNames;
-            /* Don't do do this for Latin fonts */
-            if (name.indexOf("8859") > 0) {
-                checkedNatives = true;
-                return false;
-            } else if (NativeFont.hasExternalBitmaps(name)) {
-                nativeFonts = new NativeFont[1];
+        if (!FontUtilities.isSolbris || useJbvbRbsterizer ||
+            FontUtilities.useT2K || nbtiveNbmes == null ||
+            getDirectoryEntry(EBLCTbg) != null ||
+            GrbphicsEnvironment.isHebdless()) {
+            checkedNbtives = true;
+            return fblse; /* useNbtives is fblse */
+        } else if (nbtiveNbmes instbnceof String) {
+            String nbme = (String)nbtiveNbmes;
+            /* Don't do do this for Lbtin fonts */
+            if (nbme.indexOf("8859") > 0) {
+                checkedNbtives = true;
+                return fblse;
+            } else if (NbtiveFont.hbsExternblBitmbps(nbme)) {
+                nbtiveFonts = new NbtiveFont[1];
                 try {
-                    nativeFonts[0] = new NativeFont(name, true);
-                    /* If reach here we have an non-latin font that has
-                     * external bitmaps and we successfully created it.
+                    nbtiveFonts[0] = new NbtiveFont(nbme, true);
+                    /* If rebch here we hbve bn non-lbtin font thbt hbs
+                     * externbl bitmbps bnd we successfully crebted it.
                      */
-                    useNatives = true;
-                } catch (FontFormatException e) {
-                    nativeFonts = null;
+                    useNbtives = true;
+                } cbtch (FontFormbtException e) {
+                    nbtiveFonts = null;
                 }
             }
-        } else if (nativeNames instanceof String[]) {
-            String[] natNames = (String[])nativeNames;
-            int numNames = natNames.length;
-            boolean externalBitmaps = false;
-            for (int nn = 0; nn < numNames; nn++) {
-                if (natNames[nn].indexOf("8859") > 0) {
-                    checkedNatives = true;
-                    return false;
-                } else if (NativeFont.hasExternalBitmaps(natNames[nn])) {
-                    externalBitmaps = true;
+        } else if (nbtiveNbmes instbnceof String[]) {
+            String[] nbtNbmes = (String[])nbtiveNbmes;
+            int numNbmes = nbtNbmes.length;
+            boolebn externblBitmbps = fblse;
+            for (int nn = 0; nn < numNbmes; nn++) {
+                if (nbtNbmes[nn].indexOf("8859") > 0) {
+                    checkedNbtives = true;
+                    return fblse;
+                } else if (NbtiveFont.hbsExternblBitmbps(nbtNbmes[nn])) {
+                    externblBitmbps = true;
                 }
             }
-            if (!externalBitmaps) {
-                checkedNatives = true;
-                return false;
+            if (!externblBitmbps) {
+                checkedNbtives = true;
+                return fblse;
             }
-            useNatives = true;
-            nativeFonts = new NativeFont[numNames];
-            for (int nn = 0; nn < numNames; nn++) {
+            useNbtives = true;
+            nbtiveFonts = new NbtiveFont[numNbmes];
+            for (int nn = 0; nn < numNbmes; nn++) {
                 try {
-                    nativeFonts[nn] = new NativeFont(natNames[nn], true);
-                } catch (FontFormatException e) {
-                    useNatives = false;
-                    nativeFonts = null;
+                    nbtiveFonts[nn] = new NbtiveFont(nbtNbmes[nn], true);
+                } cbtch (FontFormbtException e) {
+                    useNbtives = fblse;
+                    nbtiveFonts = null;
                 }
             }
         }
-        if (useNatives) {
-            glyphToCharMap = new char[getMapper().getNumGlyphs()];
+        if (useNbtives) {
+            glyphToChbrMbp = new chbr[getMbpper().getNumGlyphs()];
         }
-        checkedNatives = true;
-        return useNatives;
+        checkedNbtives = true;
+        return useNbtives;
     }
 
 
-    /* This is intended to be called, and the returned value used,
-     * from within a block synchronized on this font object.
-     * ie the channel returned may be nulled out at any time by "close()"
-     * unless the caller holds a lock.
-     * Deadlock warning: FontManager.addToPool(..) acquires a global lock,
-     * which means nested locks may be in effect.
+    /* This is intended to be cblled, bnd the returned vblue used,
+     * from within b block synchronized on this font object.
+     * ie the chbnnel returned mby be nulled out bt bny time by "close()"
+     * unless the cbller holds b lock.
+     * Debdlock wbrning: FontMbnbger.bddToPool(..) bcquires b globbl lock,
+     * which mebns nested locks mby be in effect.
      */
-    private synchronized FileChannel open() throws FontFormatException {
-        if (disposerRecord.channel == null) {
+    privbte synchronized FileChbnnel open() throws FontFormbtException {
+        if (disposerRecord.chbnnel == null) {
             if (FontUtilities.isLogging()) {
-                FontUtilities.getLogger().info("open TTF: " + platName);
+                FontUtilities.getLogger().info("open TTF: " + plbtNbme);
             }
             try {
-                RandomAccessFile raf = (RandomAccessFile)
-                java.security.AccessController.doPrivileged(
-                    new java.security.PrivilegedAction<Object>() {
+                RbndomAccessFile rbf = (RbndomAccessFile)
+                jbvb.security.AccessController.doPrivileged(
+                    new jbvb.security.PrivilegedAction<Object>() {
                         public Object run() {
                             try {
-                                return new RandomAccessFile(platName, "r");
-                            } catch (FileNotFoundException ffne) {
+                                return new RbndomAccessFile(plbtNbme, "r");
+                            } cbtch (FileNotFoundException ffne) {
                             }
                             return null;
                     }
                 });
-                disposerRecord.channel = raf.getChannel();
-                fileSize = (int)disposerRecord.channel.size();
-                FontManager fm = FontManagerFactory.getInstance();
-                if (fm instanceof SunFontManager) {
-                    ((SunFontManager) fm).addToPool(this);
+                disposerRecord.chbnnel = rbf.getChbnnel();
+                fileSize = (int)disposerRecord.chbnnel.size();
+                FontMbnbger fm = FontMbnbgerFbctory.getInstbnce();
+                if (fm instbnceof SunFontMbnbger) {
+                    ((SunFontMbnbger) fm).bddToPool(this);
                 }
-            } catch (NullPointerException e) {
+            } cbtch (NullPointerException e) {
                 close();
-                throw new FontFormatException(e.toString());
-            } catch (ClosedChannelException e) {
-                /* NIO I/O is interruptible, recurse to retry operation.
-                 * The call to channel.size() above can throw this exception.
-                 * Clear interrupts before recursing in case NIO didn't.
-                 * Note that close() sets disposerRecord.channel to null.
+                throw new FontFormbtException(e.toString());
+            } cbtch (ClosedChbnnelException e) {
+                /* NIO I/O is interruptible, recurse to retry operbtion.
+                 * The cbll to chbnnel.size() bbove cbn throw this exception.
+                 * Clebr interrupts before recursing in cbse NIO didn't.
+                 * Note thbt close() sets disposerRecord.chbnnel to null.
                  */
-                Thread.interrupted();
+                Threbd.interrupted();
                 close();
                 open();
-            } catch (IOException e) {
+            } cbtch (IOException e) {
                 close();
-                throw new FontFormatException(e.toString());
+                throw new FontFormbtException(e.toString());
             }
         }
-        return disposerRecord.channel;
+        return disposerRecord.chbnnel;
     }
 
     protected synchronized void close() {
@@ -334,28 +334,28 @@ public class TrueTypeFont extends FileFont {
     }
 
 
-    int readBlock(ByteBuffer buffer, int offset, int length) {
-        int bread = 0;
+    int rebdBlock(ByteBuffer buffer, int offset, int length) {
+        int brebd = 0;
         try {
             synchronized (this) {
-                if (disposerRecord.channel == null) {
+                if (disposerRecord.chbnnel == null) {
                     open();
                 }
                 if (offset + length > fileSize) {
                     if (offset >= fileSize) {
-                        /* Since the caller ensures that offset is < fileSize
-                         * this condition suggests that fileSize is now
-                         * different than the value we originally provided
-                         * to native when the scaler was created.
-                         * Also fileSize is updated every time we
-                         * open() the file here, but in native the value
-                         * isn't updated. If the file has changed whilst we
-                         * are executing we want to bail, not spin.
+                        /* Since the cbller ensures thbt offset is < fileSize
+                         * this condition suggests thbt fileSize is now
+                         * different thbn the vblue we originblly provided
+                         * to nbtive when the scbler wbs crebted.
+                         * Also fileSize is updbted every time we
+                         * open() the file here, but in nbtive the vblue
+                         * isn't updbted. If the file hbs chbnged whilst we
+                         * bre executing we wbnt to bbil, not spin.
                          */
                         if (FontUtilities.isLogging()) {
-                            String msg = "Read offset is " + offset +
+                            String msg = "Rebd offset is " + offset +
                                 " file size is " + fileSize+
-                                " file is " + platName;
+                                " file is " + plbtNbme;
                             FontUtilities.getLogger().severe(msg);
                         }
                         return -1;
@@ -363,127 +363,127 @@ public class TrueTypeFont extends FileFont {
                         length = fileSize - offset;
                     }
                 }
-                buffer.clear();
-                disposerRecord.channel.position(offset);
-                while (bread < length) {
-                    int cnt = disposerRecord.channel.read(buffer);
+                buffer.clebr();
+                disposerRecord.chbnnel.position(offset);
+                while (brebd < length) {
+                    int cnt = disposerRecord.chbnnel.rebd(buffer);
                     if (cnt == -1) {
                         String msg = "Unexpected EOF " + this;
-                        int currSize = (int)disposerRecord.channel.size();
+                        int currSize = (int)disposerRecord.chbnnel.size();
                         if (currSize != fileSize) {
-                            msg += " File size was " + fileSize +
-                                " and now is " + currSize;
+                            msg += " File size wbs " + fileSize +
+                                " bnd now is " + currSize;
                         }
                         if (FontUtilities.isLogging()) {
                             FontUtilities.getLogger().severe(msg);
                         }
-                        // We could still flip() the buffer here because
-                        // it's possible that we did read some data in
-                        // an earlier loop, and we probably should
-                        // return that to the caller. Although if
-                        // the caller expected 8K of data and we return
-                        // only a few bytes then maybe it's better instead to
-                        // set bread = -1 to indicate failure.
-                        // The following is therefore using arbitrary values
-                        // but is meant to allow cases where enough
-                        // data was read to probably continue.
-                        if (bread > length/2 || bread > 16384) {
+                        // We could still flip() the buffer here becbuse
+                        // it's possible thbt we did rebd some dbtb in
+                        // bn ebrlier loop, bnd we probbbly should
+                        // return thbt to the cbller. Although if
+                        // the cbller expected 8K of dbtb bnd we return
+                        // only b few bytes then mbybe it's better instebd to
+                        // set brebd = -1 to indicbte fbilure.
+                        // The following is therefore using brbitrbry vblues
+                        // but is mebnt to bllow cbses where enough
+                        // dbtb wbs rebd to probbbly continue.
+                        if (brebd > length/2 || brebd > 16384) {
                             buffer.flip();
                             if (FontUtilities.isLogging()) {
-                                msg = "Returning " + bread +
-                                    " bytes instead of " + length;
+                                msg = "Returning " + brebd +
+                                    " bytes instebd of " + length;
                                 FontUtilities.getLogger().severe(msg);
                             }
                         } else {
-                            bread = -1;
+                            brebd = -1;
                         }
                         throw new IOException(msg);
                     }
-                    bread += cnt;
+                    brebd += cnt;
                 }
                 buffer.flip();
-                if (bread > length) { // possible if buffer.size() > length
-                    bread = length;
+                if (brebd > length) { // possible if buffer.size() > length
+                    brebd = length;
                 }
             }
-        } catch (FontFormatException e) {
+        } cbtch (FontFormbtException e) {
             if (FontUtilities.isLogging()) {
                 FontUtilities.getLogger().severe(
-                                       "While reading " + platName, e);
+                                       "While rebding " + plbtNbme, e);
             }
-            bread = -1; // signal EOF
-            deregisterFontAndClearStrikeCache();
-        } catch (ClosedChannelException e) {
-            /* NIO I/O is interruptible, recurse to retry operation.
-             * Clear interrupts before recursing in case NIO didn't.
+            brebd = -1; // signbl EOF
+            deregisterFontAndClebrStrikeCbche();
+        } cbtch (ClosedChbnnelException e) {
+            /* NIO I/O is interruptible, recurse to retry operbtion.
+             * Clebr interrupts before recursing in cbse NIO didn't.
              */
-            Thread.interrupted();
+            Threbd.interrupted();
             close();
-            return readBlock(buffer, offset, length);
-        } catch (IOException e) {
-            /* If we did not read any bytes at all and the exception is
-             * not a recoverable one (ie is not ClosedChannelException) then
-             * we should indicate that there is no point in re-trying.
-             * Other than an attempt to read past the end of the file it
-             * seems unlikely this would occur as problems opening the
-             * file are handled as a FontFormatException.
+            return rebdBlock(buffer, offset, length);
+        } cbtch (IOException e) {
+            /* If we did not rebd bny bytes bt bll bnd the exception is
+             * not b recoverbble one (ie is not ClosedChbnnelException) then
+             * we should indicbte thbt there is no point in re-trying.
+             * Other thbn bn bttempt to rebd pbst the end of the file it
+             * seems unlikely this would occur bs problems opening the
+             * file bre hbndled bs b FontFormbtException.
              */
             if (FontUtilities.isLogging()) {
                 FontUtilities.getLogger().severe(
-                                       "While reading " + platName, e);
+                                       "While rebding " + plbtNbme, e);
             }
-            if (bread == 0) {
-                bread = -1; // signal EOF
-                deregisterFontAndClearStrikeCache();
+            if (brebd == 0) {
+                brebd = -1; // signbl EOF
+                deregisterFontAndClebrStrikeCbche();
             }
         }
-        return bread;
+        return brebd;
     }
 
-    ByteBuffer readBlock(int offset, int length) {
+    ByteBuffer rebdBlock(int offset, int length) {
 
-        ByteBuffer buffer = ByteBuffer.allocate(length);
+        ByteBuffer buffer = ByteBuffer.bllocbte(length);
         try {
             synchronized (this) {
-                if (disposerRecord.channel == null) {
+                if (disposerRecord.chbnnel == null) {
                     open();
                 }
                 if (offset + length > fileSize) {
                     if (offset > fileSize) {
-                        return null; // assert?
+                        return null; // bssert?
                     } else {
-                        buffer = ByteBuffer.allocate(fileSize-offset);
+                        buffer = ByteBuffer.bllocbte(fileSize-offset);
                     }
                 }
-                disposerRecord.channel.position(offset);
-                disposerRecord.channel.read(buffer);
+                disposerRecord.chbnnel.position(offset);
+                disposerRecord.chbnnel.rebd(buffer);
                 buffer.flip();
             }
-        } catch (FontFormatException e) {
+        } cbtch (FontFormbtException e) {
             return null;
-        } catch (ClosedChannelException e) {
-            /* NIO I/O is interruptible, recurse to retry operation.
-             * Clear interrupts before recursing in case NIO didn't.
+        } cbtch (ClosedChbnnelException e) {
+            /* NIO I/O is interruptible, recurse to retry operbtion.
+             * Clebr interrupts before recursing in cbse NIO didn't.
              */
-            Thread.interrupted();
+            Threbd.interrupted();
             close();
-            readBlock(buffer, offset, length);
-        } catch (IOException e) {
+            rebdBlock(buffer, offset, length);
+        } cbtch (IOException e) {
             return null;
         }
         return buffer;
     }
 
-    /* This is used by native code which can't allocate a direct byte
-     * buffer because of bug 4845371. It, and references to it in native
-     * code in scalerMethods.c can be removed once that bug is fixed.
-     * 4845371 is now fixed but we'll keep this around as it doesn't cost
-     * us anything if its never used/called.
+    /* This is used by nbtive code which cbn't bllocbte b direct byte
+     * buffer becbuse of bug 4845371. It, bnd references to it in nbtive
+     * code in scblerMethods.c cbn be removed once thbt bug is fixed.
+     * 4845371 is now fixed but we'll keep this bround bs it doesn't cost
+     * us bnything if its never used/cblled.
      */
-    byte[] readBytes(int offset, int length) {
-        ByteBuffer buffer = readBlock(offset, length);
-        if (buffer.hasArray()) {
-            return buffer.array();
+    byte[] rebdBytes(int offset, int length) {
+        ByteBuffer buffer = rebdBlock(offset, length);
+        if (buffer.hbsArrby()) {
+            return buffer.brrby();
         } else {
             byte[] bufferBytes = new byte[buffer.limit()];
             buffer.get(bufferBytes);
@@ -491,130 +491,130 @@ public class TrueTypeFont extends FileFont {
         }
     }
 
-    private void verify() throws FontFormatException {
+    privbte void verify() throws FontFormbtException {
         open();
     }
 
-    /* sizes, in bytes, of TT/TTC header records */
-    private static final int TTCHEADERSIZE = 12;
-    private static final int DIRECTORYHEADERSIZE = 12;
-    private static final int DIRECTORYENTRYSIZE = 16;
+    /* sizes, in bytes, of TT/TTC hebder records */
+    privbte stbtic finbl int TTCHEADERSIZE = 12;
+    privbte stbtic finbl int DIRECTORYHEADERSIZE = 12;
+    privbte stbtic finbl int DIRECTORYENTRYSIZE = 16;
 
-    protected void init(int fIndex) throws FontFormatException  {
-        int headerOffset = 0;
-        ByteBuffer buffer = readBlock(0, TTCHEADERSIZE);
+    protected void init(int fIndex) throws FontFormbtException  {
+        int hebderOffset = 0;
+        ByteBuffer buffer = rebdBlock(0, TTCHEADERSIZE);
         try {
             switch (buffer.getInt()) {
 
-            case ttcfTag:
+            cbse ttcfTbg:
                 buffer.getInt(); // skip TTC version ID
                 directoryCount = buffer.getInt();
                 if (fIndex >= directoryCount) {
-                    throw new FontFormatException("Bad collection index");
+                    throw new FontFormbtException("Bbd collection index");
                 }
                 fontIndex = fIndex;
-                buffer = readBlock(TTCHEADERSIZE+4*fIndex, 4);
-                headerOffset = buffer.getInt();
-                break;
+                buffer = rebdBlock(TTCHEADERSIZE+4*fIndex, 4);
+                hebderOffset = buffer.getInt();
+                brebk;
 
-            case v1ttTag:
-            case trueTag:
-            case ottoTag:
-                break;
+            cbse v1ttTbg:
+            cbse trueTbg:
+            cbse ottoTbg:
+                brebk;
 
-            default:
-                throw new FontFormatException("Unsupported sfnt " +
-                                              getPublicFileName());
+            defbult:
+                throw new FontFormbtException("Unsupported sfnt " +
+                                              getPublicFileNbme());
             }
 
-            /* Now have the offset of this TT font (possibly within a TTC)
-             * After the TT version/scaler type field, is the short
-             * representing the number of tables in the table directory.
-             * The table directory begins at 12 bytes after the header.
-             * Each table entry is 16 bytes long (4 32-bit ints)
+            /* Now hbve the offset of this TT font (possibly within b TTC)
+             * After the TT version/scbler type field, is the short
+             * representing the number of tbbles in the tbble directory.
+             * The tbble directory begins bt 12 bytes bfter the hebder.
+             * Ebch tbble entry is 16 bytes long (4 32-bit ints)
              */
-            buffer = readBlock(headerOffset+4, 2);
-            numTables = buffer.getShort();
-            directoryOffset = headerOffset+DIRECTORYHEADERSIZE;
-            ByteBuffer bbuffer = readBlock(directoryOffset,
-                                           numTables*DIRECTORYENTRYSIZE);
-            IntBuffer ibuffer = bbuffer.asIntBuffer();
-            DirectoryEntry table;
-            tableDirectory = new DirectoryEntry[numTables];
-            for (int i=0; i<numTables;i++) {
-                tableDirectory[i] = table = new DirectoryEntry();
-                table.tag   =  ibuffer.get();
+            buffer = rebdBlock(hebderOffset+4, 2);
+            numTbbles = buffer.getShort();
+            directoryOffset = hebderOffset+DIRECTORYHEADERSIZE;
+            ByteBuffer bbuffer = rebdBlock(directoryOffset,
+                                           numTbbles*DIRECTORYENTRYSIZE);
+            IntBuffer ibuffer = bbuffer.bsIntBuffer();
+            DirectoryEntry tbble;
+            tbbleDirectory = new DirectoryEntry[numTbbles];
+            for (int i=0; i<numTbbles;i++) {
+                tbbleDirectory[i] = tbble = new DirectoryEntry();
+                tbble.tbg   =  ibuffer.get();
                 /* checksum */ ibuffer.get();
-                table.offset = ibuffer.get();
-                table.length = ibuffer.get();
-                if (table.offset + table.length > fileSize) {
-                    throw new FontFormatException("bad table, tag="+table.tag);
+                tbble.offset = ibuffer.get();
+                tbble.length = ibuffer.get();
+                if (tbble.offset + tbble.length > fileSize) {
+                    throw new FontFormbtException("bbd tbble, tbg="+tbble.tbg);
                 }
             }
 
-            if (getDirectoryEntry(headTag) == null) {
-                throw new FontFormatException("missing head table");
+            if (getDirectoryEntry(hebdTbg) == null) {
+                throw new FontFormbtException("missing hebd tbble");
             }
-            if (getDirectoryEntry(maxpTag) == null) {
-                throw new FontFormatException("missing maxp table");
+            if (getDirectoryEntry(mbxpTbg) == null) {
+                throw new FontFormbtException("missing mbxp tbble");
             }
-            if (getDirectoryEntry(hmtxTag) != null
-                    && getDirectoryEntry(hheaTag) == null) {
-                throw new FontFormatException("missing hhea table");
+            if (getDirectoryEntry(hmtxTbg) != null
+                    && getDirectoryEntry(hhebTbg) == null) {
+                throw new FontFormbtException("missing hheb tbble");
             }
-            initNames();
-        } catch (Exception e) {
+            initNbmes();
+        } cbtch (Exception e) {
             if (FontUtilities.isLogging()) {
                 FontUtilities.getLogger().severe(e.toString());
             }
-            if (e instanceof FontFormatException) {
-                throw (FontFormatException)e;
+            if (e instbnceof FontFormbtException) {
+                throw (FontFormbtException)e;
             } else {
-                throw new FontFormatException(e.toString());
+                throw new FontFormbtException(e.toString());
             }
         }
-        if (familyName == null || fullName == null) {
-            throw new FontFormatException("Font name not found");
+        if (fbmilyNbme == null || fullNbme == null) {
+            throw new FontFormbtException("Font nbme not found");
         }
-        /* The os2_Table is needed to gather some info, but we don't
-         * want to keep it around (as a field) so obtain it once and
-         * pass it to the code that needs it.
+        /* The os2_Tbble is needed to gbther some info, but we don't
+         * wbnt to keep it bround (bs b field) so obtbin it once bnd
+         * pbss it to the code thbt needs it.
          */
-        ByteBuffer os2_Table = getTableBuffer(os_2Tag);
-        setStyle(os2_Table);
-        setCJKSupport(os2_Table);
+        ByteBuffer os2_Tbble = getTbbleBuffer(os_2Tbg);
+        setStyle(os2_Tbble);
+        setCJKSupport(os2_Tbble);
     }
 
-    /* The array index corresponds to a bit offset in the TrueType
-     * font's OS/2 compatibility table's code page ranges fields.
-     * These are two 32 bit unsigned int fields at offsets 78 and 82.
-     * We are only interested in determining if the font supports
-     * the windows encodings we expect as the default encoding in
-     * supported locales, so we only map the first of these fields.
+    /* The brrby index corresponds to b bit offset in the TrueType
+     * font's OS/2 compbtibility tbble's code pbge rbnges fields.
+     * These bre two 32 bit unsigned int fields bt offsets 78 bnd 82.
+     * We bre only interested in determining if the font supports
+     * the windows encodings we expect bs the defbult encoding in
+     * supported locbles, so we only mbp the first of these fields.
      */
-    static final String encoding_mapping[] = {
-        "cp1252",    /*  0:Latin 1  */
-        "cp1250",    /*  1:Latin 2  */
+    stbtic finbl String encoding_mbpping[] = {
+        "cp1252",    /*  0:Lbtin 1  */
+        "cp1250",    /*  1:Lbtin 2  */
         "cp1251",    /*  2:Cyrillic */
         "cp1253",    /*  3:Greek    */
-        "cp1254",    /*  4:Turkish/Latin 5  */
+        "cp1254",    /*  4:Turkish/Lbtin 5  */
         "cp1255",    /*  5:Hebrew   */
-        "cp1256",    /*  6:Arabic   */
-        "cp1257",    /*  7:Windows Baltic   */
-        "",          /*  8:reserved for alternate ANSI */
-        "",          /*  9:reserved for alternate ANSI */
-        "",          /* 10:reserved for alternate ANSI */
-        "",          /* 11:reserved for alternate ANSI */
-        "",          /* 12:reserved for alternate ANSI */
-        "",          /* 13:reserved for alternate ANSI */
-        "",          /* 14:reserved for alternate ANSI */
-        "",          /* 15:reserved for alternate ANSI */
-        "ms874",     /* 16:Thai     */
-        "ms932",     /* 17:JIS/Japanese */
+        "cp1256",    /*  6:Arbbic   */
+        "cp1257",    /*  7:Windows Bbltic   */
+        "",          /*  8:reserved for blternbte ANSI */
+        "",          /*  9:reserved for blternbte ANSI */
+        "",          /* 10:reserved for blternbte ANSI */
+        "",          /* 11:reserved for blternbte ANSI */
+        "",          /* 12:reserved for blternbte ANSI */
+        "",          /* 13:reserved for blternbte ANSI */
+        "",          /* 14:reserved for blternbte ANSI */
+        "",          /* 15:reserved for blternbte ANSI */
+        "ms874",     /* 16:Thbi     */
+        "ms932",     /* 17:JIS/Jbpbnese */
         "gbk",       /* 18:PRC GBK Cp950  */
-        "ms949",     /* 19:Korean Extended Wansung */
-        "ms950",     /* 20:Chinese (Taiwan, Hongkong, Macau) */
-        "ms1361",    /* 21:Korean Johab */
+        "ms949",     /* 19:Korebn Extended Wbnsung */
+        "ms950",     /* 20:Chinese (Tbiwbn, Hongkong, Mbcbu) */
+        "ms1361",    /* 21:Korebn Johbb */
         "",          /* 22 */
         "",          /* 23 */
         "",          /* 24 */
@@ -627,26 +627,26 @@ public class TrueTypeFont extends FileFont {
         "",          /* 31 */
     };
 
-    /* This maps two letter language codes to a Windows code page.
-     * Note that eg Cp1252 (the first subarray) is not exactly the same as
-     * Latin-1 since Windows code pages are do not necessarily correspond.
-     * There are two codepages for zh and ko so if a font supports
-     * only one of these ranges then we need to distinguish based on
-     * country. So far this only seems to matter for zh.
-     * REMIND: Unicode locales such as Hindi do not have a code page so
-     * this whole mechanism needs to be revised to map languages to
-     * the Unicode ranges either when this fails, or as an additional
-     * validating test. Basing it on Unicode ranges should get us away
-     * from needing to map to this small and incomplete set of Windows
-     * code pages which looks odd on non-Windows platforms.
+    /* This mbps two letter lbngubge codes to b Windows code pbge.
+     * Note thbt eg Cp1252 (the first subbrrby) is not exbctly the sbme bs
+     * Lbtin-1 since Windows code pbges bre do not necessbrily correspond.
+     * There bre two codepbges for zh bnd ko so if b font supports
+     * only one of these rbnges then we need to distinguish bbsed on
+     * country. So fbr this only seems to mbtter for zh.
+     * REMIND: Unicode locbles such bs Hindi do not hbve b code pbge so
+     * this whole mechbnism needs to be revised to mbp lbngubges to
+     * the Unicode rbnges either when this fbils, or bs bn bdditionbl
+     * vblidbting test. Bbsing it on Unicode rbnges should get us bwby
+     * from needing to mbp to this smbll bnd incomplete set of Windows
+     * code pbges which looks odd on non-Windows plbtforms.
      */
-    private static final String languages[][] = {
+    privbte stbtic finbl String lbngubges[][] = {
 
-        /* cp1252/Latin 1 */
-        { "en", "ca", "da", "de", "es", "fi", "fr", "is", "it",
+        /* cp1252/Lbtin 1 */
+        { "en", "cb", "db", "de", "es", "fi", "fr", "is", "it",
           "nl", "no", "pt", "sq", "sv", },
 
-         /* cp1250/Latin2 */
+         /* cp1250/Lbtin2 */
         { "cs", "cz", "et", "hr", "hu", "nr", "pl", "ro", "sk",
           "sl", "sq", "sr", },
 
@@ -656,38 +656,38 @@ public class TrueTypeFont extends FileFont {
         /* cp1253/Greek*/
         { "el" },
 
-         /* cp1254/Turkish,Latin 5 */
+         /* cp1254/Turkish,Lbtin 5 */
         { "tr" },
 
          /* cp1255/Hebrew */
         { "he" },
 
-        /* cp1256/Arabic */
-        { "ar" },
+        /* cp1256/Arbbic */
+        { "br" },
 
-         /* cp1257/Windows Baltic */
+         /* cp1257/Windows Bbltic */
         { "et", "lt", "lv" },
 
-        /* ms874/Thai */
+        /* ms874/Thbi */
         { "th" },
 
-         /* ms932/Japanese */
-        { "ja" },
+         /* ms932/Jbpbnese */
+        { "jb" },
 
         /* gbk/Chinese (PRC GBK Cp950) */
         { "zh", "zh_CN", },
 
-        /* ms949/Korean Extended Wansung */
+        /* ms949/Korebn Extended Wbnsung */
         { "ko" },
 
-        /* ms950/Chinese (Taiwan, Hongkong, Macau) */
+        /* ms950/Chinese (Tbiwbn, Hongkong, Mbcbu) */
         { "zh_HK", "zh_TW", },
 
-        /* ms1361/Korean Johab */
+        /* ms1361/Korebn Johbb */
         { "ko" },
     };
 
-    private static final String codePages[] = {
+    privbte stbtic finbl String codePbges[] = {
         "cp1252",
         "cp1250",
         "cp1251",
@@ -704,138 +704,138 @@ public class TrueTypeFont extends FileFont {
         "ms1361",
     };
 
-    private static String defaultCodePage = null;
-    static String getCodePage() {
+    privbte stbtic String defbultCodePbge = null;
+    stbtic String getCodePbge() {
 
-        if (defaultCodePage != null) {
-            return defaultCodePage;
+        if (defbultCodePbge != null) {
+            return defbultCodePbge;
         }
 
         if (FontUtilities.isWindows) {
-            defaultCodePage =
-                java.security.AccessController.doPrivileged(
-                   new sun.security.action.GetPropertyAction("file.encoding"));
+            defbultCodePbge =
+                jbvb.security.AccessController.doPrivileged(
+                   new sun.security.bction.GetPropertyAction("file.encoding"));
         } else {
-            if (languages.length != codePages.length) {
-                throw new InternalError("wrong code pages array length");
+            if (lbngubges.length != codePbges.length) {
+                throw new InternblError("wrong code pbges brrby length");
             }
-            Locale locale = sun.awt.SunToolkit.getStartupLocale();
+            Locble locble = sun.bwt.SunToolkit.getStbrtupLocble();
 
-            String language = locale.getLanguage();
-            if (language != null) {
-                if (language.equals("zh")) {
-                    String country = locale.getCountry();
+            String lbngubge = locble.getLbngubge();
+            if (lbngubge != null) {
+                if (lbngubge.equbls("zh")) {
+                    String country = locble.getCountry();
                     if (country != null) {
-                        language = language + "_" + country;
+                        lbngubge = lbngubge + "_" + country;
                     }
                 }
-                for (int i=0; i<languages.length;i++) {
-                    for (int l=0;l<languages[i].length; l++) {
-                        if (language.equals(languages[i][l])) {
-                            defaultCodePage = codePages[i];
-                            return defaultCodePage;
+                for (int i=0; i<lbngubges.length;i++) {
+                    for (int l=0;l<lbngubges[i].length; l++) {
+                        if (lbngubge.equbls(lbngubges[i][l])) {
+                            defbultCodePbge = codePbges[i];
+                            return defbultCodePbge;
                         }
                     }
                 }
             }
         }
-        if (defaultCodePage == null) {
-            defaultCodePage = "";
+        if (defbultCodePbge == null) {
+            defbultCodePbge = "";
         }
-        return defaultCodePage;
+        return defbultCodePbge;
     }
 
-    /* Theoretically, reserved bits must not be set, include symbol bits */
-    public static final int reserved_bits1 = 0x80000000;
-    public static final int reserved_bits2 = 0x0000ffff;
+    /* Theoreticblly, reserved bits must not be set, include symbol bits */
+    public stbtic finbl int reserved_bits1 = 0x80000000;
+    public stbtic finbl int reserved_bits2 = 0x0000ffff;
     @Override
-    boolean supportsEncoding(String encoding) {
+    boolebn supportsEncoding(String encoding) {
         if (encoding == null) {
-            encoding = getCodePage();
+            encoding = getCodePbge();
         }
-        if ("".equals(encoding)) {
-            return false;
+        if ("".equbls(encoding)) {
+            return fblse;
         }
 
-        encoding = encoding.toLowerCase();
+        encoding = encoding.toLowerCbse();
 
-        /* java_props_md.c has a couple of special cases
-         * if language packs are installed. In these encodings the
+        /* jbvb_props_md.c hbs b couple of specibl cbses
+         * if lbngubge pbcks bre instblled. In these encodings the
          * fontconfig files pick up different fonts :
-         * SimSun-18030 and MingLiU_HKSCS. Since these fonts will
-         * indicate they support the base encoding, we need to rewrite
-         * these encodings here before checking the map/array.
+         * SimSun-18030 bnd MingLiU_HKSCS. Since these fonts will
+         * indicbte they support the bbse encoding, we need to rewrite
+         * these encodings here before checking the mbp/brrby.
          */
-        if (encoding.equals("gb18030")) {
+        if (encoding.equbls("gb18030")) {
             encoding = "gbk";
-        } else if (encoding.equals("ms950_hkscs")) {
+        } else if (encoding.equbls("ms950_hkscs")) {
             encoding = "ms950";
         }
 
-        ByteBuffer buffer = getTableBuffer(os_2Tag);
-        /* required info is at offsets 78 and 82 */
-        if (buffer == null || buffer.capacity() < 86) {
-            return false;
+        ByteBuffer buffer = getTbbleBuffer(os_2Tbg);
+        /* required info is bt offsets 78 bnd 82 */
+        if (buffer == null || buffer.cbpbcity() < 86) {
+            return fblse;
         }
 
-        int range1 = buffer.getInt(78); /* ulCodePageRange1 */
-        int range2 = buffer.getInt(82); /* ulCodePageRange2 */
+        int rbnge1 = buffer.getInt(78); /* ulCodePbgeRbnge1 */
+        int rbnge2 = buffer.getInt(82); /* ulCodePbgeRbnge2 */
 
-        /* This test is too stringent for Arial on Solaris (and perhaps
-         * other fonts). Arial has at least one reserved bit set for an
-         * unknown reason.
+        /* This test is too stringent for Aribl on Solbris (bnd perhbps
+         * other fonts). Aribl hbs bt lebst one reserved bit set for bn
+         * unknown rebson.
          */
-//         if (((range1 & reserved_bits1) | (range2 & reserved_bits2)) != 0) {
-//             return false;
+//         if (((rbnge1 & reserved_bits1) | (rbnge2 & reserved_bits2)) != 0) {
+//             return fblse;
 //         }
 
-        for (int em=0; em<encoding_mapping.length; em++) {
-            if (encoding_mapping[em].equals(encoding)) {
-                if (((1 << em) & range1) != 0) {
+        for (int em=0; em<encoding_mbpping.length; em++) {
+            if (encoding_mbpping[em].equbls(encoding)) {
+                if (((1 << em) & rbnge1) != 0) {
                     return true;
                 }
             }
         }
-        return false;
+        return fblse;
     }
 
 
-    /* Use info in the os_2Table to test CJK support */
-    private void setCJKSupport(ByteBuffer os2Table) {
-        /* required info is in ulong at offset 46 */
-        if (os2Table == null || os2Table.capacity() < 50) {
+    /* Use info in the os_2Tbble to test CJK support */
+    privbte void setCJKSupport(ByteBuffer os2Tbble) {
+        /* required info is in ulong bt offset 46 */
+        if (os2Tbble == null || os2Tbble.cbpbcity() < 50) {
             return;
         }
-        int range2 = os2Table.getInt(46); /* ulUnicodeRange2 */
+        int rbnge2 = os2Tbble.getInt(46); /* ulUnicodeRbnge2 */
 
-        /* Any of these bits set in the 32-63 range indicate a font with
-         * support for a CJK range. We aren't looking at some other bits
-         * in the 64-69 range such as half width forms as its unlikely a font
-         * would include those and none of these.
+        /* Any of these bits set in the 32-63 rbnge indicbte b font with
+         * support for b CJK rbnge. We bren't looking bt some other bits
+         * in the 64-69 rbnge such bs hblf width forms bs its unlikely b font
+         * would include those bnd none of these.
          */
-        supportsCJK = ((range2 & 0x29bf0000) != 0);
+        supportsCJK = ((rbnge2 & 0x29bf0000) != 0);
 
-        /* This should be generalised, but for now just need to know if
-         * Hiragana or Katakana ranges are supported by the font.
-         * In the 4 longs representing unicode ranges supported
-         * bits 49 & 50 indicate hiragana and katakana
+        /* This should be generblised, but for now just need to know if
+         * Hirbgbnb or Kbtbkbnb rbnges bre supported by the font.
+         * In the 4 longs representing unicode rbnges supported
+         * bits 49 & 50 indicbte hirbgbnb bnd kbtbkbnb
          * This is bits 17 & 18 in the 2nd ulong. If either is supported
-         * we presume this is a JA font.
+         * we presume this is b JA font.
          */
-        supportsJA = ((range2 & 0x60000) != 0);
+        supportsJA = ((rbnge2 & 0x60000) != 0);
     }
 
-    boolean supportsJA() {
+    boolebn supportsJA() {
         return supportsJA;
     }
 
-     ByteBuffer getTableBuffer(int tag) {
+     ByteBuffer getTbbleBuffer(int tbg) {
         DirectoryEntry entry = null;
 
-        for (int i=0;i<numTables;i++) {
-            if (tableDirectory[i].tag == tag) {
-                entry = tableDirectory[i];
-                break;
+        for (int i=0;i<numTbbles;i++) {
+            if (tbbleDirectory[i].tbg == tbg) {
+                entry = tbbleDirectory[i];
+                brebk;
             }
         }
         if (entry == null || entry.length == 0 ||
@@ -843,30 +843,30 @@ public class TrueTypeFont extends FileFont {
             return null;
         }
 
-        int bread = 0;
-        ByteBuffer buffer = ByteBuffer.allocate(entry.length);
+        int brebd = 0;
+        ByteBuffer buffer = ByteBuffer.bllocbte(entry.length);
         synchronized (this) {
             try {
-                if (disposerRecord.channel == null) {
+                if (disposerRecord.chbnnel == null) {
                     open();
                 }
-                disposerRecord.channel.position(entry.offset);
-                bread = disposerRecord.channel.read(buffer);
+                disposerRecord.chbnnel.position(entry.offset);
+                brebd = disposerRecord.chbnnel.rebd(buffer);
                 buffer.flip();
-            } catch (ClosedChannelException e) {
-                /* NIO I/O is interruptible, recurse to retry operation.
-                 * Clear interrupts before recursing in case NIO didn't.
+            } cbtch (ClosedChbnnelException e) {
+                /* NIO I/O is interruptible, recurse to retry operbtion.
+                 * Clebr interrupts before recursing in cbse NIO didn't.
                  */
-                Thread.interrupted();
+                Threbd.interrupted();
                 close();
-                return getTableBuffer(tag);
-            } catch (IOException e) {
+                return getTbbleBuffer(tbg);
+            } cbtch (IOException e) {
                 return null;
-            } catch (FontFormatException e) {
+            } cbtch (FontFormbtException e) {
                 return null;
             }
 
-            if (bread < entry.length) {
+            if (brebd < entry.length) {
                 return null;
             } else {
                 return buffer;
@@ -874,194 +874,194 @@ public class TrueTypeFont extends FileFont {
         }
     }
 
-    /* NB: is it better to move declaration to Font2D? */
-    long getLayoutTableCache() {
+    /* NB: is it better to move declbrbtion to Font2D? */
+    long getLbyoutTbbleCbche() {
         try {
-          return getScaler().getLayoutTableCache();
-        } catch(FontScalerException fe) {
+          return getScbler().getLbyoutTbbleCbche();
+        } cbtch(FontScblerException fe) {
             return 0L;
         }
     }
 
     @Override
-    byte[] getTableBytes(int tag) {
-        ByteBuffer buffer = getTableBuffer(tag);
+    byte[] getTbbleBytes(int tbg) {
+        ByteBuffer buffer = getTbbleBuffer(tbg);
         if (buffer == null) {
             return null;
-        } else if (buffer.hasArray()) {
+        } else if (buffer.hbsArrby()) {
             try {
-                return buffer.array();
-            } catch (Exception re) {
+                return buffer.brrby();
+            } cbtch (Exception re) {
             }
         }
-        byte []data = new byte[getTableSize(tag)];
-        buffer.get(data);
-        return data;
+        byte []dbtb = new byte[getTbbleSize(tbg)];
+        buffer.get(dbtb);
+        return dbtb;
     }
 
-    int getTableSize(int tag) {
-        for (int i=0;i<numTables;i++) {
-            if (tableDirectory[i].tag == tag) {
-                return tableDirectory[i].length;
-            }
-        }
-        return 0;
-    }
-
-    int getTableOffset(int tag) {
-        for (int i=0;i<numTables;i++) {
-            if (tableDirectory[i].tag == tag) {
-                return tableDirectory[i].offset;
+    int getTbbleSize(int tbg) {
+        for (int i=0;i<numTbbles;i++) {
+            if (tbbleDirectory[i].tbg == tbg) {
+                return tbbleDirectory[i].length;
             }
         }
         return 0;
     }
 
-    DirectoryEntry getDirectoryEntry(int tag) {
-        for (int i=0;i<numTables;i++) {
-            if (tableDirectory[i].tag == tag) {
-                return tableDirectory[i];
+    int getTbbleOffset(int tbg) {
+        for (int i=0;i<numTbbles;i++) {
+            if (tbbleDirectory[i].tbg == tbg) {
+                return tbbleDirectory[i].offset;
+            }
+        }
+        return 0;
+    }
+
+    DirectoryEntry getDirectoryEntry(int tbg) {
+        for (int i=0;i<numTbbles;i++) {
+            if (tbbleDirectory[i].tbg == tbg) {
+                return tbbleDirectory[i];
             }
         }
         return null;
     }
 
-    /* Used to determine if this size has embedded bitmaps, which
+    /* Used to determine if this size hbs embedded bitmbps, which
      * for CJK fonts should be used in preference to LCD glyphs.
      */
-    boolean useEmbeddedBitmapsForSize(int ptSize) {
+    boolebn useEmbeddedBitmbpsForSize(int ptSize) {
         if (!supportsCJK) {
-            return false;
+            return fblse;
         }
-        if (getDirectoryEntry(EBLCTag) == null) {
-            return false;
+        if (getDirectoryEntry(EBLCTbg) == null) {
+            return fblse;
         }
-        ByteBuffer eblcTable = getTableBuffer(EBLCTag);
-        int numSizes = eblcTable.getInt(4);
-        /* The bitmapSizeTable's start at offset of 8.
-         * Each bitmapSizeTable entry is 48 bytes.
+        ByteBuffer eblcTbble = getTbbleBuffer(EBLCTbg);
+        int numSizes = eblcTbble.getInt(4);
+        /* The bitmbpSizeTbble's stbrt bt offset of 8.
+         * Ebch bitmbpSizeTbble entry is 48 bytes.
          * The offset of ppemY in the entry is 45.
          */
         for (int i=0;i<numSizes;i++) {
-            int ppemY = eblcTable.get(8+(i*48)+45) &0xff;
+            int ppemY = eblcTbble.get(8+(i*48)+45) &0xff;
             if (ppemY == ptSize) {
                 return true;
             }
         }
-        return false;
+        return fblse;
     }
 
-    public String getFullName() {
-        return fullName;
+    public String getFullNbme() {
+        return fullNbme;
     }
 
-    /* This probably won't get called but is there to support the
-     * contract() of setStyle() defined in the superclass.
+    /* This probbbly won't get cblled but is there to support the
+     * contrbct() of setStyle() defined in the superclbss.
      */
     @Override
     protected void setStyle() {
-        setStyle(getTableBuffer(os_2Tag));
+        setStyle(getTbbleBuffer(os_2Tbg));
     }
 
-    /* TrueTypeFont can use the fsSelection fields of OS/2 table
-     * to determine the style. In the unlikely case that doesn't exist,
-     * can use macStyle in the 'head' table but simpler to
-     * fall back to super class algorithm of looking for well known string.
-     * A very few fonts don't specify this information, but I only
-     * came across one: Lucida Sans Thai Typewriter Oblique in
-     * /usr/openwin/lib/locale/th_TH/X11/fonts/TrueType/lucidai.ttf
-     * that explicitly specified the wrong value. It says its regular.
-     * I didn't find any fonts that were inconsistent (ie regular plus some
-     * other value).
+    /* TrueTypeFont cbn use the fsSelection fields of OS/2 tbble
+     * to determine the style. In the unlikely cbse thbt doesn't exist,
+     * cbn use mbcStyle in the 'hebd' tbble but simpler to
+     * fbll bbck to super clbss blgorithm of looking for well known string.
+     * A very few fonts don't specify this informbtion, but I only
+     * cbme bcross one: Lucidb Sbns Thbi Typewriter Oblique in
+     * /usr/openwin/lib/locble/th_TH/X11/fonts/TrueType/lucidbi.ttf
+     * thbt explicitly specified the wrong vblue. It sbys its regulbr.
+     * I didn't find bny fonts thbt were inconsistent (ie regulbr plus some
+     * other vblue).
      */
-    private static final int fsSelectionItalicBit  = 0x00001;
-    private static final int fsSelectionBoldBit    = 0x00020;
-    private static final int fsSelectionRegularBit = 0x00040;
-    private void setStyle(ByteBuffer os_2Table) {
-        /* fsSelection is unsigned short at buffer offset 62 */
-        if (os_2Table == null || os_2Table.capacity() < 64) {
+    privbte stbtic finbl int fsSelectionItblicBit  = 0x00001;
+    privbte stbtic finbl int fsSelectionBoldBit    = 0x00020;
+    privbte stbtic finbl int fsSelectionRegulbrBit = 0x00040;
+    privbte void setStyle(ByteBuffer os_2Tbble) {
+        /* fsSelection is unsigned short bt buffer offset 62 */
+        if (os_2Tbble == null || os_2Tbble.cbpbcity() < 64) {
             super.setStyle();
             return;
         }
-        int fsSelection = os_2Table.getChar(62) & 0xffff;
-        int italic  = fsSelection & fsSelectionItalicBit;
+        int fsSelection = os_2Tbble.getChbr(62) & 0xffff;
+        int itblic  = fsSelection & fsSelectionItblicBit;
         int bold    = fsSelection & fsSelectionBoldBit;
-        int regular = fsSelection & fsSelectionRegularBit;
-//      System.out.println("platname="+platName+" font="+fullName+
-//                         " family="+familyName+
-//                         " R="+regular+" I="+italic+" B="+bold);
-        if (regular!=0 && ((italic|bold)!=0)) {
-            /* This is inconsistent. Try using the font name algorithm */
+        int regulbr = fsSelection & fsSelectionRegulbrBit;
+//      System.out.println("plbtnbme="+plbtNbme+" font="+fullNbme+
+//                         " fbmily="+fbmilyNbme+
+//                         " R="+regulbr+" I="+itblic+" B="+bold);
+        if (regulbr!=0 && ((itblic|bold)!=0)) {
+            /* This is inconsistent. Try using the font nbme blgorithm */
             super.setStyle();
             return;
-        } else if ((regular|italic|bold) == 0) {
-            /* No style specified. Try using the font name algorithm */
+        } else if ((regulbr|itblic|bold) == 0) {
+            /* No style specified. Try using the font nbme blgorithm */
             super.setStyle();
             return;
         }
-        switch (bold|italic) {
-        case fsSelectionItalicBit:
+        switch (bold|itblic) {
+        cbse fsSelectionItblicBit:
             style = Font.ITALIC;
-            break;
-        case fsSelectionBoldBit:
-            if (FontUtilities.isSolaris && platName.endsWith("HG-GothicB.ttf")) {
-                /* Workaround for Solaris's use of a JA font that's marked as
-                 * being designed bold, but is used as a PLAIN font.
+            brebk;
+        cbse fsSelectionBoldBit:
+            if (FontUtilities.isSolbris && plbtNbme.endsWith("HG-GothicB.ttf")) {
+                /* Workbround for Solbris's use of b JA font thbt's mbrked bs
+                 * being designed bold, but is used bs b PLAIN font.
                  */
                 style = Font.PLAIN;
             } else {
                 style = Font.BOLD;
             }
-            break;
-        case fsSelectionBoldBit|fsSelectionItalicBit:
+            brebk;
+        cbse fsSelectionBoldBit|fsSelectionItblicBit:
             style = Font.BOLD|Font.ITALIC;
         }
     }
 
-    private float stSize, stPos, ulSize, ulPos;
+    privbte flobt stSize, stPos, ulSize, ulPos;
 
-    private void setStrikethroughMetrics(ByteBuffer os_2Table, int upem) {
-        if (os_2Table == null || os_2Table.capacity() < 30 || upem < 0) {
+    privbte void setStrikethroughMetrics(ByteBuffer os_2Tbble, int upem) {
+        if (os_2Tbble == null || os_2Tbble.cbpbcity() < 30 || upem < 0) {
             stSize = .05f;
             stPos = -.4f;
             return;
         }
-        ShortBuffer sb = os_2Table.asShortBuffer();
-        stSize = sb.get(13) / (float)upem;
-        stPos = -sb.get(14) / (float)upem;
+        ShortBuffer sb = os_2Tbble.bsShortBuffer();
+        stSize = sb.get(13) / (flobt)upem;
+        stPos = -sb.get(14) / (flobt)upem;
     }
 
-    private void setUnderlineMetrics(ByteBuffer postTable, int upem) {
-        if (postTable == null || postTable.capacity() < 12 || upem < 0) {
+    privbte void setUnderlineMetrics(ByteBuffer postTbble, int upem) {
+        if (postTbble == null || postTbble.cbpbcity() < 12 || upem < 0) {
             ulSize = .05f;
             ulPos = .1f;
             return;
         }
-        ShortBuffer sb = postTable.asShortBuffer();
-        ulSize = sb.get(5) / (float)upem;
-        ulPos = -sb.get(4) / (float)upem;
+        ShortBuffer sb = postTbble.bsShortBuffer();
+        ulSize = sb.get(5) / (flobt)upem;
+        ulPos = -sb.get(4) / (flobt)upem;
     }
 
     @Override
-    public void getStyleMetrics(float pointSize, float[] metrics, int offset) {
+    public void getStyleMetrics(flobt pointSize, flobt[] metrics, int offset) {
 
         if (ulSize == 0f && ulPos == 0f) {
 
-            ByteBuffer head_Table = getTableBuffer(headTag);
+            ByteBuffer hebd_Tbble = getTbbleBuffer(hebdTbg);
             int upem = -1;
-            if (head_Table != null && head_Table.capacity() >= 18) {
-                ShortBuffer sb = head_Table.asShortBuffer();
+            if (hebd_Tbble != null && hebd_Tbble.cbpbcity() >= 18) {
+                ShortBuffer sb = hebd_Tbble.bsShortBuffer();
                 upem = sb.get(9) & 0xffff;
                 if (upem < 16 || upem > 16384) {
                     upem = 2048;
                 }
             }
 
-            ByteBuffer os2_Table = getTableBuffer(os_2Tag);
-            setStrikethroughMetrics(os2_Table, upem);
+            ByteBuffer os2_Tbble = getTbbleBuffer(os_2Tbg);
+            setStrikethroughMetrics(os2_Tbble, upem);
 
-            ByteBuffer post_Table = getTableBuffer(postTag);
-            setUnderlineMetrics(post_Table, upem);
+            ByteBuffer post_Tbble = getTbbleBuffer(postTbg);
+            setUnderlineMetrics(post_Tbble, upem);
         }
 
         metrics[offset] = stPos * pointSize;
@@ -1071,13 +1071,13 @@ public class TrueTypeFont extends FileFont {
         metrics[offset+3] = ulSize * pointSize;
     }
 
-    private String makeString(byte[] bytes, int len, short encoding) {
+    privbte String mbkeString(byte[] bytes, int len, short encoding) {
 
         /* Check for fonts using encodings 2->6 is just for
-         * some old DBCS fonts, apparently mostly on Solaris.
-         * Some of these fonts encode ascii names as double-byte characters.
-         * ie with a leading zero byte for what properly should be a
-         * single byte-char.
+         * some old DBCS fonts, bppbrently mostly on Solbris.
+         * Some of these fonts encode bscii nbmes bs double-byte chbrbcters.
+         * ie with b lebding zero byte for whbt properly should be b
+         * single byte-chbr.
          */
         if (encoding >=2 && encoding <= 6) {
              byte[] oldbytes = bytes;
@@ -1091,437 +1091,437 @@ public class TrueTypeFont extends FileFont {
              }
          }
 
-        String charset;
+        String chbrset;
         switch (encoding) {
-            case 1:  charset = "UTF-16";  break; // most common case first.
-            case 0:  charset = "UTF-16";  break; // symbol uses this
-            case 2:  charset = "SJIS";    break;
-            case 3:  charset = "GBK";     break;
-            case 4:  charset = "MS950";   break;
-            case 5:  charset = "EUC_KR";  break;
-            case 6:  charset = "Johab";   break;
-            default: charset = "UTF-16";  break;
+            cbse 1:  chbrset = "UTF-16";  brebk; // most common cbse first.
+            cbse 0:  chbrset = "UTF-16";  brebk; // symbol uses this
+            cbse 2:  chbrset = "SJIS";    brebk;
+            cbse 3:  chbrset = "GBK";     brebk;
+            cbse 4:  chbrset = "MS950";   brebk;
+            cbse 5:  chbrset = "EUC_KR";  brebk;
+            cbse 6:  chbrset = "Johbb";   brebk;
+            defbult: chbrset = "UTF-16";  brebk;
         }
 
         try {
-            return new String(bytes, 0, len, charset);
-        } catch (UnsupportedEncodingException e) {
+            return new String(bytes, 0, len, chbrset);
+        } cbtch (UnsupportedEncodingException e) {
             if (FontUtilities.isLogging()) {
-                FontUtilities.getLogger().warning(e + " EncodingID=" + encoding);
+                FontUtilities.getLogger().wbrning(e + " EncodingID=" + encoding);
             }
             return new String(bytes, 0, len);
-        } catch (Throwable t) {
+        } cbtch (Throwbble t) {
             return null;
         }
     }
 
-    protected void initNames() {
+    protected void initNbmes() {
 
-        byte[] name = new byte[256];
-        ByteBuffer buffer = getTableBuffer(nameTag);
+        byte[] nbme = new byte[256];
+        ByteBuffer buffer = getTbbleBuffer(nbmeTbg);
 
         if (buffer != null) {
-            ShortBuffer sbuffer = buffer.asShortBuffer();
-            sbuffer.get(); // format - not needed.
+            ShortBuffer sbuffer = buffer.bsShortBuffer();
+            sbuffer.get(); // formbt - not needed.
             short numRecords = sbuffer.get();
-            /* The name table uses unsigned shorts. Many of these
-             * are known small values that fit in a short.
-             * The values that are sizes or offsets into the table could be
-             * greater than 32767, so read and store those as ints
+            /* The nbme tbble uses unsigned shorts. Mbny of these
+             * bre known smbll vblues thbt fit in b short.
+             * The vblues thbt bre sizes or offsets into the tbble could be
+             * grebter thbn 32767, so rebd bnd store those bs ints
              */
             int stringPtr = sbuffer.get() & 0xffff;
 
-            nameLocale = sun.awt.SunToolkit.getStartupLocale();
-            short nameLocaleID = getLCIDFromLocale(nameLocale);
-            languageCompatibleLCIDs =
-                getLanguageCompatibleLCIDsFromLocale(nameLocale);
+            nbmeLocble = sun.bwt.SunToolkit.getStbrtupLocble();
+            short nbmeLocbleID = getLCIDFromLocble(nbmeLocble);
+            lbngubgeCompbtibleLCIDs =
+                getLbngubgeCompbtibleLCIDsFromLocble(nbmeLocble);
 
             for (int i=0; i<numRecords; i++) {
-                short platformID = sbuffer.get();
-                if (platformID != MS_PLATFORM_ID) {
+                short plbtformID = sbuffer.get();
+                if (plbtformID != MS_PLATFORM_ID) {
                     sbuffer.position(sbuffer.position()+5);
                     continue; // skip over this record.
                 }
                 short encodingID = sbuffer.get();
-                short langID     = sbuffer.get();
-                short nameID     = sbuffer.get();
-                int nameLen    = ((int) sbuffer.get()) & 0xffff;
-                int namePtr    = (((int) sbuffer.get()) & 0xffff) + stringPtr;
-                String tmpName = null;
-                switch (nameID) {
+                short lbngID     = sbuffer.get();
+                short nbmeID     = sbuffer.get();
+                int nbmeLen    = ((int) sbuffer.get()) & 0xffff;
+                int nbmePtr    = (((int) sbuffer.get()) & 0xffff) + stringPtr;
+                String tmpNbme = null;
+                switch (nbmeID) {
 
-                case FAMILY_NAME_ID:
-                    boolean compatible = false;
-                    if (familyName == null || langID == ENGLISH_LOCALE_ID ||
-                        langID == nameLocaleID ||
-                        (localeFamilyName == null &&
-                         (compatible = isLanguageCompatible(langID))))
+                cbse FAMILY_NAME_ID:
+                    boolebn compbtible = fblse;
+                    if (fbmilyNbme == null || lbngID == ENGLISH_LOCALE_ID ||
+                        lbngID == nbmeLocbleID ||
+                        (locbleFbmilyNbme == null &&
+                         (compbtible = isLbngubgeCompbtible(lbngID))))
                     {
-                        buffer.position(namePtr);
-                        buffer.get(name, 0, nameLen);
-                        tmpName = makeString(name, nameLen, encodingID);
-                        if (familyName == null || langID == ENGLISH_LOCALE_ID){
-                            familyName = tmpName;
+                        buffer.position(nbmePtr);
+                        buffer.get(nbme, 0, nbmeLen);
+                        tmpNbme = mbkeString(nbme, nbmeLen, encodingID);
+                        if (fbmilyNbme == null || lbngID == ENGLISH_LOCALE_ID){
+                            fbmilyNbme = tmpNbme;
                         }
-                        if (langID == nameLocaleID ||
-                            (localeFamilyName == null && compatible))
+                        if (lbngID == nbmeLocbleID ||
+                            (locbleFbmilyNbme == null && compbtible))
                         {
-                            localeFamilyName = tmpName;
+                            locbleFbmilyNbme = tmpNbme;
                         }
                     }
 /*
-                    for (int ii=0;ii<nameLen;ii++) {
-                        int val = (int)name[ii]&0xff;
-                        System.err.print(Integer.toHexString(val)+ " ");
+                    for (int ii=0;ii<nbmeLen;ii++) {
+                        int vbl = (int)nbme[ii]&0xff;
+                        System.err.print(Integer.toHexString(vbl)+ " ");
                     }
                     System.err.println();
-                    System.err.println("familyName="+familyName +
-                                       " nameLen="+nameLen+
-                                       " langID="+langID+ " eid="+encodingID +
-                                       " str len="+familyName.length());
+                    System.err.println("fbmilyNbme="+fbmilyNbme +
+                                       " nbmeLen="+nbmeLen+
+                                       " lbngID="+lbngID+ " eid="+encodingID +
+                                       " str len="+fbmilyNbme.length());
 
 */
-                    break;
+                    brebk;
 
-                case FULL_NAME_ID:
-                    compatible = false;
-                    if (fullName == null || langID == ENGLISH_LOCALE_ID ||
-                        langID == nameLocaleID ||
-                        (localeFullName == null &&
-                         (compatible = isLanguageCompatible(langID))))
+                cbse FULL_NAME_ID:
+                    compbtible = fblse;
+                    if (fullNbme == null || lbngID == ENGLISH_LOCALE_ID ||
+                        lbngID == nbmeLocbleID ||
+                        (locbleFullNbme == null &&
+                         (compbtible = isLbngubgeCompbtible(lbngID))))
                     {
-                        buffer.position(namePtr);
-                        buffer.get(name, 0, nameLen);
-                        tmpName = makeString(name, nameLen, encodingID);
+                        buffer.position(nbmePtr);
+                        buffer.get(nbme, 0, nbmeLen);
+                        tmpNbme = mbkeString(nbme, nbmeLen, encodingID);
 
-                        if (fullName == null || langID == ENGLISH_LOCALE_ID) {
-                            fullName = tmpName;
+                        if (fullNbme == null || lbngID == ENGLISH_LOCALE_ID) {
+                            fullNbme = tmpNbme;
                         }
-                        if (langID == nameLocaleID ||
-                            (localeFullName == null && compatible))
+                        if (lbngID == nbmeLocbleID ||
+                            (locbleFullNbme == null && compbtible))
                         {
-                            localeFullName = tmpName;
+                            locbleFullNbme = tmpNbme;
                         }
                     }
-                    break;
+                    brebk;
                 }
             }
-            if (localeFamilyName == null) {
-                localeFamilyName = familyName;
+            if (locbleFbmilyNbme == null) {
+                locbleFbmilyNbme = fbmilyNbme;
             }
-            if (localeFullName == null) {
-                localeFullName = fullName;
+            if (locbleFullNbme == null) {
+                locbleFullNbme = fullNbme;
             }
         }
     }
 
-    /* Return the requested name in the requested locale, for the
-     * MS platform ID. If the requested locale isn't found, return US
-     * English, if that isn't found, return null and let the caller
-     * figure out how to handle that.
+    /* Return the requested nbme in the requested locble, for the
+     * MS plbtform ID. If the requested locble isn't found, return US
+     * English, if thbt isn't found, return null bnd let the cbller
+     * figure out how to hbndle thbt.
      */
-    protected String lookupName(short findLocaleID, int findNameID) {
-        String foundName = null;
-        byte[] name = new byte[1024];
+    protected String lookupNbme(short findLocbleID, int findNbmeID) {
+        String foundNbme = null;
+        byte[] nbme = new byte[1024];
 
-        ByteBuffer buffer = getTableBuffer(nameTag);
+        ByteBuffer buffer = getTbbleBuffer(nbmeTbg);
         if (buffer != null) {
-            ShortBuffer sbuffer = buffer.asShortBuffer();
-            sbuffer.get(); // format - not needed.
+            ShortBuffer sbuffer = buffer.bsShortBuffer();
+            sbuffer.get(); // formbt - not needed.
             short numRecords = sbuffer.get();
 
-            /* The name table uses unsigned shorts. Many of these
-             * are known small values that fit in a short.
-             * The values that are sizes or offsets into the table could be
-             * greater than 32767, so read and store those as ints
+            /* The nbme tbble uses unsigned shorts. Mbny of these
+             * bre known smbll vblues thbt fit in b short.
+             * The vblues thbt bre sizes or offsets into the tbble could be
+             * grebter thbn 32767, so rebd bnd store those bs ints
              */
             int stringPtr = ((int) sbuffer.get()) & 0xffff;
 
             for (int i=0; i<numRecords; i++) {
-                short platformID = sbuffer.get();
-                if (platformID != MS_PLATFORM_ID) {
+                short plbtformID = sbuffer.get();
+                if (plbtformID != MS_PLATFORM_ID) {
                     sbuffer.position(sbuffer.position()+5);
                     continue; // skip over this record.
                 }
                 short encodingID = sbuffer.get();
-                short langID     = sbuffer.get();
-                short nameID     = sbuffer.get();
-                int   nameLen    = ((int) sbuffer.get()) & 0xffff;
-                int   namePtr    = (((int) sbuffer.get()) & 0xffff) + stringPtr;
-                if (nameID == findNameID &&
-                    ((foundName == null && langID == ENGLISH_LOCALE_ID)
-                     || langID == findLocaleID)) {
-                    buffer.position(namePtr);
-                    buffer.get(name, 0, nameLen);
-                    foundName = makeString(name, nameLen, encodingID);
-                    if (langID == findLocaleID) {
-                        return foundName;
+                short lbngID     = sbuffer.get();
+                short nbmeID     = sbuffer.get();
+                int   nbmeLen    = ((int) sbuffer.get()) & 0xffff;
+                int   nbmePtr    = (((int) sbuffer.get()) & 0xffff) + stringPtr;
+                if (nbmeID == findNbmeID &&
+                    ((foundNbme == null && lbngID == ENGLISH_LOCALE_ID)
+                     || lbngID == findLocbleID)) {
+                    buffer.position(nbmePtr);
+                    buffer.get(nbme, 0, nbmeLen);
+                    foundNbme = mbkeString(nbme, nbmeLen, encodingID);
+                    if (lbngID == findLocbleID) {
+                        return foundNbme;
                     }
                 }
             }
         }
-        return foundName;
+        return foundNbme;
     }
 
     /**
-     * @return number of logical fonts. Is "1" for all but TTC files
+     * @return number of logicbl fonts. Is "1" for bll but TTC files
      */
     public int getFontCount() {
         return directoryCount;
     }
 
-    protected synchronized FontScaler getScaler() {
-        if (scaler == null) {
-            scaler = FontScaler.getScaler(this, fontIndex,
+    protected synchronized FontScbler getScbler() {
+        if (scbler == null) {
+            scbler = FontScbler.getScbler(this, fontIndex,
                 supportsCJK, fileSize);
         }
-        return scaler;
+        return scbler;
     }
 
 
-    /* Postscript name is rarely requested. Don't waste cycles locating it
-     * as part of font creation, nor storage to hold it. Get it only on demand.
+    /* Postscript nbme is rbrely requested. Don't wbste cycles locbting it
+     * bs pbrt of font crebtion, nor storbge to hold it. Get it only on dembnd.
      */
     @Override
-    public String getPostscriptName() {
-        String name = lookupName(ENGLISH_LOCALE_ID, POSTSCRIPT_NAME_ID);
-        if (name == null) {
-            return fullName;
+    public String getPostscriptNbme() {
+        String nbme = lookupNbme(ENGLISH_LOCALE_ID, POSTSCRIPT_NAME_ID);
+        if (nbme == null) {
+            return fullNbme;
         } else {
-            return name;
+            return nbme;
         }
     }
 
     @Override
-    public String getFontName(Locale locale) {
-        if (locale == null) {
-            return fullName;
-        } else if (locale.equals(nameLocale) && localeFullName != null) {
-            return localeFullName;
+    public String getFontNbme(Locble locble) {
+        if (locble == null) {
+            return fullNbme;
+        } else if (locble.equbls(nbmeLocble) && locbleFullNbme != null) {
+            return locbleFullNbme;
         } else {
-            short localeID = getLCIDFromLocale(locale);
-            String name = lookupName(localeID, FULL_NAME_ID);
-            if (name == null) {
-                return fullName;
+            short locbleID = getLCIDFromLocble(locble);
+            String nbme = lookupNbme(locbleID, FULL_NAME_ID);
+            if (nbme == null) {
+                return fullNbme;
             } else {
-                return name;
+                return nbme;
             }
         }
     }
 
-    // Return a Microsoft LCID from the given Locale.
-    // Used when getting localized font data.
+    // Return b Microsoft LCID from the given Locble.
+    // Used when getting locblized font dbtb.
 
-    private static void addLCIDMapEntry(Map<String, Short> map,
-                                        String key, short value) {
-        map.put(key, Short.valueOf(value));
+    privbte stbtic void bddLCIDMbpEntry(Mbp<String, Short> mbp,
+                                        String key, short vblue) {
+        mbp.put(key, Short.vblueOf(vblue));
     }
 
-    private static synchronized void createLCIDMap() {
-        if (lcidMap != null) {
+    privbte stbtic synchronized void crebteLCIDMbp() {
+        if (lcidMbp != null) {
             return;
         }
 
-        Map<String, Short> map = new HashMap<String, Short>(200);
+        Mbp<String, Short> mbp = new HbshMbp<String, Short>(200);
 
-        // the following statements are derived from the langIDMap
-        // in src/windows/native/java/lang/java_props_md.c using the following
-        // awk script:
+        // the following stbtements bre derived from the lbngIDMbp
+        // in src/windows/nbtive/jbvb/lbng/jbvb_props_md.c using the following
+        // bwk script:
         //    $1~/\/\*/   { next}
         //    $3~/\?\?/   { next }
         //    $3!~/_/     { next }
         //    $1~/0x0409/ { next }
-        //    $1~/0x0c0a/ { next }
+        //    $1~/0x0c0b/ { next }
         //    $1~/0x042c/ { next }
         //    $1~/0x0443/ { next }
         //    $1~/0x0812/ { next }
-        //    $1~/0x04/   { print "        addLCIDMapEntry(map, " substr($3, 0, 3) "\", (short) " substr($1, 0, 6) ");" ; next }
-        //    $3~/,/      { print "        addLCIDMapEntry(map, " $3  " (short) " substr($1, 0, 6) ");" ; next }
-        //                { print "        addLCIDMapEntry(map, " $3 ", (short) " substr($1, 0, 6) ");" ; next }
+        //    $1~/0x04/   { print "        bddLCIDMbpEntry(mbp, " substr($3, 0, 3) "\", (short) " substr($1, 0, 6) ");" ; next }
+        //    $3~/,/      { print "        bddLCIDMbpEntry(mbp, " $3  " (short) " substr($1, 0, 6) ");" ; next }
+        //                { print "        bddLCIDMbpEntry(mbp, " $3 ", (short) " substr($1, 0, 6) ");" ; next }
         // The lines of this script:
-        // - eliminate comments
-        // - eliminate questionable locales
-        // - eliminate language-only locales
-        // - eliminate the default LCID value
-        // - eliminate a few other unneeded LCID values
-        // - print language-only locale entries for x04* LCID values
-        //   (apparently Microsoft doesn't use language-only LCID values -
-        //   see http://www.microsoft.com/OpenType/otspec/name.htm
-        // - print complete entries for all other LCID values
+        // - eliminbte comments
+        // - eliminbte questionbble locbles
+        // - eliminbte lbngubge-only locbles
+        // - eliminbte the defbult LCID vblue
+        // - eliminbte b few other unneeded LCID vblues
+        // - print lbngubge-only locble entries for x04* LCID vblues
+        //   (bppbrently Microsoft doesn't use lbngubge-only LCID vblues -
+        //   see http://www.microsoft.com/OpenType/otspec/nbme.htm
+        // - print complete entries for bll other LCID vblues
         // Run
-        //     awk -f awk-script langIDMap > statements
-        addLCIDMapEntry(map, "ar", (short) 0x0401);
-        addLCIDMapEntry(map, "bg", (short) 0x0402);
-        addLCIDMapEntry(map, "ca", (short) 0x0403);
-        addLCIDMapEntry(map, "zh", (short) 0x0404);
-        addLCIDMapEntry(map, "cs", (short) 0x0405);
-        addLCIDMapEntry(map, "da", (short) 0x0406);
-        addLCIDMapEntry(map, "de", (short) 0x0407);
-        addLCIDMapEntry(map, "el", (short) 0x0408);
-        addLCIDMapEntry(map, "es", (short) 0x040a);
-        addLCIDMapEntry(map, "fi", (short) 0x040b);
-        addLCIDMapEntry(map, "fr", (short) 0x040c);
-        addLCIDMapEntry(map, "iw", (short) 0x040d);
-        addLCIDMapEntry(map, "hu", (short) 0x040e);
-        addLCIDMapEntry(map, "is", (short) 0x040f);
-        addLCIDMapEntry(map, "it", (short) 0x0410);
-        addLCIDMapEntry(map, "ja", (short) 0x0411);
-        addLCIDMapEntry(map, "ko", (short) 0x0412);
-        addLCIDMapEntry(map, "nl", (short) 0x0413);
-        addLCIDMapEntry(map, "no", (short) 0x0414);
-        addLCIDMapEntry(map, "pl", (short) 0x0415);
-        addLCIDMapEntry(map, "pt", (short) 0x0416);
-        addLCIDMapEntry(map, "rm", (short) 0x0417);
-        addLCIDMapEntry(map, "ro", (short) 0x0418);
-        addLCIDMapEntry(map, "ru", (short) 0x0419);
-        addLCIDMapEntry(map, "hr", (short) 0x041a);
-        addLCIDMapEntry(map, "sk", (short) 0x041b);
-        addLCIDMapEntry(map, "sq", (short) 0x041c);
-        addLCIDMapEntry(map, "sv", (short) 0x041d);
-        addLCIDMapEntry(map, "th", (short) 0x041e);
-        addLCIDMapEntry(map, "tr", (short) 0x041f);
-        addLCIDMapEntry(map, "ur", (short) 0x0420);
-        addLCIDMapEntry(map, "in", (short) 0x0421);
-        addLCIDMapEntry(map, "uk", (short) 0x0422);
-        addLCIDMapEntry(map, "be", (short) 0x0423);
-        addLCIDMapEntry(map, "sl", (short) 0x0424);
-        addLCIDMapEntry(map, "et", (short) 0x0425);
-        addLCIDMapEntry(map, "lv", (short) 0x0426);
-        addLCIDMapEntry(map, "lt", (short) 0x0427);
-        addLCIDMapEntry(map, "fa", (short) 0x0429);
-        addLCIDMapEntry(map, "vi", (short) 0x042a);
-        addLCIDMapEntry(map, "hy", (short) 0x042b);
-        addLCIDMapEntry(map, "eu", (short) 0x042d);
-        addLCIDMapEntry(map, "mk", (short) 0x042f);
-        addLCIDMapEntry(map, "tn", (short) 0x0432);
-        addLCIDMapEntry(map, "xh", (short) 0x0434);
-        addLCIDMapEntry(map, "zu", (short) 0x0435);
-        addLCIDMapEntry(map, "af", (short) 0x0436);
-        addLCIDMapEntry(map, "ka", (short) 0x0437);
-        addLCIDMapEntry(map, "fo", (short) 0x0438);
-        addLCIDMapEntry(map, "hi", (short) 0x0439);
-        addLCIDMapEntry(map, "mt", (short) 0x043a);
-        addLCIDMapEntry(map, "se", (short) 0x043b);
-        addLCIDMapEntry(map, "gd", (short) 0x043c);
-        addLCIDMapEntry(map, "ms", (short) 0x043e);
-        addLCIDMapEntry(map, "kk", (short) 0x043f);
-        addLCIDMapEntry(map, "ky", (short) 0x0440);
-        addLCIDMapEntry(map, "sw", (short) 0x0441);
-        addLCIDMapEntry(map, "tt", (short) 0x0444);
-        addLCIDMapEntry(map, "bn", (short) 0x0445);
-        addLCIDMapEntry(map, "pa", (short) 0x0446);
-        addLCIDMapEntry(map, "gu", (short) 0x0447);
-        addLCIDMapEntry(map, "ta", (short) 0x0449);
-        addLCIDMapEntry(map, "te", (short) 0x044a);
-        addLCIDMapEntry(map, "kn", (short) 0x044b);
-        addLCIDMapEntry(map, "ml", (short) 0x044c);
-        addLCIDMapEntry(map, "mr", (short) 0x044e);
-        addLCIDMapEntry(map, "sa", (short) 0x044f);
-        addLCIDMapEntry(map, "mn", (short) 0x0450);
-        addLCIDMapEntry(map, "cy", (short) 0x0452);
-        addLCIDMapEntry(map, "gl", (short) 0x0456);
-        addLCIDMapEntry(map, "dv", (short) 0x0465);
-        addLCIDMapEntry(map, "qu", (short) 0x046b);
-        addLCIDMapEntry(map, "mi", (short) 0x0481);
-        addLCIDMapEntry(map, "ar_IQ", (short) 0x0801);
-        addLCIDMapEntry(map, "zh_CN", (short) 0x0804);
-        addLCIDMapEntry(map, "de_CH", (short) 0x0807);
-        addLCIDMapEntry(map, "en_GB", (short) 0x0809);
-        addLCIDMapEntry(map, "es_MX", (short) 0x080a);
-        addLCIDMapEntry(map, "fr_BE", (short) 0x080c);
-        addLCIDMapEntry(map, "it_CH", (short) 0x0810);
-        addLCIDMapEntry(map, "nl_BE", (short) 0x0813);
-        addLCIDMapEntry(map, "no_NO_NY", (short) 0x0814);
-        addLCIDMapEntry(map, "pt_PT", (short) 0x0816);
-        addLCIDMapEntry(map, "ro_MD", (short) 0x0818);
-        addLCIDMapEntry(map, "ru_MD", (short) 0x0819);
-        addLCIDMapEntry(map, "sr_CS", (short) 0x081a);
-        addLCIDMapEntry(map, "sv_FI", (short) 0x081d);
-        addLCIDMapEntry(map, "az_AZ", (short) 0x082c);
-        addLCIDMapEntry(map, "se_SE", (short) 0x083b);
-        addLCIDMapEntry(map, "ga_IE", (short) 0x083c);
-        addLCIDMapEntry(map, "ms_BN", (short) 0x083e);
-        addLCIDMapEntry(map, "uz_UZ", (short) 0x0843);
-        addLCIDMapEntry(map, "qu_EC", (short) 0x086b);
-        addLCIDMapEntry(map, "ar_EG", (short) 0x0c01);
-        addLCIDMapEntry(map, "zh_HK", (short) 0x0c04);
-        addLCIDMapEntry(map, "de_AT", (short) 0x0c07);
-        addLCIDMapEntry(map, "en_AU", (short) 0x0c09);
-        addLCIDMapEntry(map, "fr_CA", (short) 0x0c0c);
-        addLCIDMapEntry(map, "sr_CS", (short) 0x0c1a);
-        addLCIDMapEntry(map, "se_FI", (short) 0x0c3b);
-        addLCIDMapEntry(map, "qu_PE", (short) 0x0c6b);
-        addLCIDMapEntry(map, "ar_LY", (short) 0x1001);
-        addLCIDMapEntry(map, "zh_SG", (short) 0x1004);
-        addLCIDMapEntry(map, "de_LU", (short) 0x1007);
-        addLCIDMapEntry(map, "en_CA", (short) 0x1009);
-        addLCIDMapEntry(map, "es_GT", (short) 0x100a);
-        addLCIDMapEntry(map, "fr_CH", (short) 0x100c);
-        addLCIDMapEntry(map, "hr_BA", (short) 0x101a);
-        addLCIDMapEntry(map, "ar_DZ", (short) 0x1401);
-        addLCIDMapEntry(map, "zh_MO", (short) 0x1404);
-        addLCIDMapEntry(map, "de_LI", (short) 0x1407);
-        addLCIDMapEntry(map, "en_NZ", (short) 0x1409);
-        addLCIDMapEntry(map, "es_CR", (short) 0x140a);
-        addLCIDMapEntry(map, "fr_LU", (short) 0x140c);
-        addLCIDMapEntry(map, "bs_BA", (short) 0x141a);
-        addLCIDMapEntry(map, "ar_MA", (short) 0x1801);
-        addLCIDMapEntry(map, "en_IE", (short) 0x1809);
-        addLCIDMapEntry(map, "es_PA", (short) 0x180a);
-        addLCIDMapEntry(map, "fr_MC", (short) 0x180c);
-        addLCIDMapEntry(map, "sr_BA", (short) 0x181a);
-        addLCIDMapEntry(map, "ar_TN", (short) 0x1c01);
-        addLCIDMapEntry(map, "en_ZA", (short) 0x1c09);
-        addLCIDMapEntry(map, "es_DO", (short) 0x1c0a);
-        addLCIDMapEntry(map, "sr_BA", (short) 0x1c1a);
-        addLCIDMapEntry(map, "ar_OM", (short) 0x2001);
-        addLCIDMapEntry(map, "en_JM", (short) 0x2009);
-        addLCIDMapEntry(map, "es_VE", (short) 0x200a);
-        addLCIDMapEntry(map, "ar_YE", (short) 0x2401);
-        addLCIDMapEntry(map, "es_CO", (short) 0x240a);
-        addLCIDMapEntry(map, "ar_SY", (short) 0x2801);
-        addLCIDMapEntry(map, "en_BZ", (short) 0x2809);
-        addLCIDMapEntry(map, "es_PE", (short) 0x280a);
-        addLCIDMapEntry(map, "ar_JO", (short) 0x2c01);
-        addLCIDMapEntry(map, "en_TT", (short) 0x2c09);
-        addLCIDMapEntry(map, "es_AR", (short) 0x2c0a);
-        addLCIDMapEntry(map, "ar_LB", (short) 0x3001);
-        addLCIDMapEntry(map, "en_ZW", (short) 0x3009);
-        addLCIDMapEntry(map, "es_EC", (short) 0x300a);
-        addLCIDMapEntry(map, "ar_KW", (short) 0x3401);
-        addLCIDMapEntry(map, "en_PH", (short) 0x3409);
-        addLCIDMapEntry(map, "es_CL", (short) 0x340a);
-        addLCIDMapEntry(map, "ar_AE", (short) 0x3801);
-        addLCIDMapEntry(map, "es_UY", (short) 0x380a);
-        addLCIDMapEntry(map, "ar_BH", (short) 0x3c01);
-        addLCIDMapEntry(map, "es_PY", (short) 0x3c0a);
-        addLCIDMapEntry(map, "ar_QA", (short) 0x4001);
-        addLCIDMapEntry(map, "es_BO", (short) 0x400a);
-        addLCIDMapEntry(map, "es_SV", (short) 0x440a);
-        addLCIDMapEntry(map, "es_HN", (short) 0x480a);
-        addLCIDMapEntry(map, "es_NI", (short) 0x4c0a);
-        addLCIDMapEntry(map, "es_PR", (short) 0x500a);
+        //     bwk -f bwk-script lbngIDMbp > stbtements
+        bddLCIDMbpEntry(mbp, "br", (short) 0x0401);
+        bddLCIDMbpEntry(mbp, "bg", (short) 0x0402);
+        bddLCIDMbpEntry(mbp, "cb", (short) 0x0403);
+        bddLCIDMbpEntry(mbp, "zh", (short) 0x0404);
+        bddLCIDMbpEntry(mbp, "cs", (short) 0x0405);
+        bddLCIDMbpEntry(mbp, "db", (short) 0x0406);
+        bddLCIDMbpEntry(mbp, "de", (short) 0x0407);
+        bddLCIDMbpEntry(mbp, "el", (short) 0x0408);
+        bddLCIDMbpEntry(mbp, "es", (short) 0x040b);
+        bddLCIDMbpEntry(mbp, "fi", (short) 0x040b);
+        bddLCIDMbpEntry(mbp, "fr", (short) 0x040c);
+        bddLCIDMbpEntry(mbp, "iw", (short) 0x040d);
+        bddLCIDMbpEntry(mbp, "hu", (short) 0x040e);
+        bddLCIDMbpEntry(mbp, "is", (short) 0x040f);
+        bddLCIDMbpEntry(mbp, "it", (short) 0x0410);
+        bddLCIDMbpEntry(mbp, "jb", (short) 0x0411);
+        bddLCIDMbpEntry(mbp, "ko", (short) 0x0412);
+        bddLCIDMbpEntry(mbp, "nl", (short) 0x0413);
+        bddLCIDMbpEntry(mbp, "no", (short) 0x0414);
+        bddLCIDMbpEntry(mbp, "pl", (short) 0x0415);
+        bddLCIDMbpEntry(mbp, "pt", (short) 0x0416);
+        bddLCIDMbpEntry(mbp, "rm", (short) 0x0417);
+        bddLCIDMbpEntry(mbp, "ro", (short) 0x0418);
+        bddLCIDMbpEntry(mbp, "ru", (short) 0x0419);
+        bddLCIDMbpEntry(mbp, "hr", (short) 0x041b);
+        bddLCIDMbpEntry(mbp, "sk", (short) 0x041b);
+        bddLCIDMbpEntry(mbp, "sq", (short) 0x041c);
+        bddLCIDMbpEntry(mbp, "sv", (short) 0x041d);
+        bddLCIDMbpEntry(mbp, "th", (short) 0x041e);
+        bddLCIDMbpEntry(mbp, "tr", (short) 0x041f);
+        bddLCIDMbpEntry(mbp, "ur", (short) 0x0420);
+        bddLCIDMbpEntry(mbp, "in", (short) 0x0421);
+        bddLCIDMbpEntry(mbp, "uk", (short) 0x0422);
+        bddLCIDMbpEntry(mbp, "be", (short) 0x0423);
+        bddLCIDMbpEntry(mbp, "sl", (short) 0x0424);
+        bddLCIDMbpEntry(mbp, "et", (short) 0x0425);
+        bddLCIDMbpEntry(mbp, "lv", (short) 0x0426);
+        bddLCIDMbpEntry(mbp, "lt", (short) 0x0427);
+        bddLCIDMbpEntry(mbp, "fb", (short) 0x0429);
+        bddLCIDMbpEntry(mbp, "vi", (short) 0x042b);
+        bddLCIDMbpEntry(mbp, "hy", (short) 0x042b);
+        bddLCIDMbpEntry(mbp, "eu", (short) 0x042d);
+        bddLCIDMbpEntry(mbp, "mk", (short) 0x042f);
+        bddLCIDMbpEntry(mbp, "tn", (short) 0x0432);
+        bddLCIDMbpEntry(mbp, "xh", (short) 0x0434);
+        bddLCIDMbpEntry(mbp, "zu", (short) 0x0435);
+        bddLCIDMbpEntry(mbp, "bf", (short) 0x0436);
+        bddLCIDMbpEntry(mbp, "kb", (short) 0x0437);
+        bddLCIDMbpEntry(mbp, "fo", (short) 0x0438);
+        bddLCIDMbpEntry(mbp, "hi", (short) 0x0439);
+        bddLCIDMbpEntry(mbp, "mt", (short) 0x043b);
+        bddLCIDMbpEntry(mbp, "se", (short) 0x043b);
+        bddLCIDMbpEntry(mbp, "gd", (short) 0x043c);
+        bddLCIDMbpEntry(mbp, "ms", (short) 0x043e);
+        bddLCIDMbpEntry(mbp, "kk", (short) 0x043f);
+        bddLCIDMbpEntry(mbp, "ky", (short) 0x0440);
+        bddLCIDMbpEntry(mbp, "sw", (short) 0x0441);
+        bddLCIDMbpEntry(mbp, "tt", (short) 0x0444);
+        bddLCIDMbpEntry(mbp, "bn", (short) 0x0445);
+        bddLCIDMbpEntry(mbp, "pb", (short) 0x0446);
+        bddLCIDMbpEntry(mbp, "gu", (short) 0x0447);
+        bddLCIDMbpEntry(mbp, "tb", (short) 0x0449);
+        bddLCIDMbpEntry(mbp, "te", (short) 0x044b);
+        bddLCIDMbpEntry(mbp, "kn", (short) 0x044b);
+        bddLCIDMbpEntry(mbp, "ml", (short) 0x044c);
+        bddLCIDMbpEntry(mbp, "mr", (short) 0x044e);
+        bddLCIDMbpEntry(mbp, "sb", (short) 0x044f);
+        bddLCIDMbpEntry(mbp, "mn", (short) 0x0450);
+        bddLCIDMbpEntry(mbp, "cy", (short) 0x0452);
+        bddLCIDMbpEntry(mbp, "gl", (short) 0x0456);
+        bddLCIDMbpEntry(mbp, "dv", (short) 0x0465);
+        bddLCIDMbpEntry(mbp, "qu", (short) 0x046b);
+        bddLCIDMbpEntry(mbp, "mi", (short) 0x0481);
+        bddLCIDMbpEntry(mbp, "br_IQ", (short) 0x0801);
+        bddLCIDMbpEntry(mbp, "zh_CN", (short) 0x0804);
+        bddLCIDMbpEntry(mbp, "de_CH", (short) 0x0807);
+        bddLCIDMbpEntry(mbp, "en_GB", (short) 0x0809);
+        bddLCIDMbpEntry(mbp, "es_MX", (short) 0x080b);
+        bddLCIDMbpEntry(mbp, "fr_BE", (short) 0x080c);
+        bddLCIDMbpEntry(mbp, "it_CH", (short) 0x0810);
+        bddLCIDMbpEntry(mbp, "nl_BE", (short) 0x0813);
+        bddLCIDMbpEntry(mbp, "no_NO_NY", (short) 0x0814);
+        bddLCIDMbpEntry(mbp, "pt_PT", (short) 0x0816);
+        bddLCIDMbpEntry(mbp, "ro_MD", (short) 0x0818);
+        bddLCIDMbpEntry(mbp, "ru_MD", (short) 0x0819);
+        bddLCIDMbpEntry(mbp, "sr_CS", (short) 0x081b);
+        bddLCIDMbpEntry(mbp, "sv_FI", (short) 0x081d);
+        bddLCIDMbpEntry(mbp, "bz_AZ", (short) 0x082c);
+        bddLCIDMbpEntry(mbp, "se_SE", (short) 0x083b);
+        bddLCIDMbpEntry(mbp, "gb_IE", (short) 0x083c);
+        bddLCIDMbpEntry(mbp, "ms_BN", (short) 0x083e);
+        bddLCIDMbpEntry(mbp, "uz_UZ", (short) 0x0843);
+        bddLCIDMbpEntry(mbp, "qu_EC", (short) 0x086b);
+        bddLCIDMbpEntry(mbp, "br_EG", (short) 0x0c01);
+        bddLCIDMbpEntry(mbp, "zh_HK", (short) 0x0c04);
+        bddLCIDMbpEntry(mbp, "de_AT", (short) 0x0c07);
+        bddLCIDMbpEntry(mbp, "en_AU", (short) 0x0c09);
+        bddLCIDMbpEntry(mbp, "fr_CA", (short) 0x0c0c);
+        bddLCIDMbpEntry(mbp, "sr_CS", (short) 0x0c1b);
+        bddLCIDMbpEntry(mbp, "se_FI", (short) 0x0c3b);
+        bddLCIDMbpEntry(mbp, "qu_PE", (short) 0x0c6b);
+        bddLCIDMbpEntry(mbp, "br_LY", (short) 0x1001);
+        bddLCIDMbpEntry(mbp, "zh_SG", (short) 0x1004);
+        bddLCIDMbpEntry(mbp, "de_LU", (short) 0x1007);
+        bddLCIDMbpEntry(mbp, "en_CA", (short) 0x1009);
+        bddLCIDMbpEntry(mbp, "es_GT", (short) 0x100b);
+        bddLCIDMbpEntry(mbp, "fr_CH", (short) 0x100c);
+        bddLCIDMbpEntry(mbp, "hr_BA", (short) 0x101b);
+        bddLCIDMbpEntry(mbp, "br_DZ", (short) 0x1401);
+        bddLCIDMbpEntry(mbp, "zh_MO", (short) 0x1404);
+        bddLCIDMbpEntry(mbp, "de_LI", (short) 0x1407);
+        bddLCIDMbpEntry(mbp, "en_NZ", (short) 0x1409);
+        bddLCIDMbpEntry(mbp, "es_CR", (short) 0x140b);
+        bddLCIDMbpEntry(mbp, "fr_LU", (short) 0x140c);
+        bddLCIDMbpEntry(mbp, "bs_BA", (short) 0x141b);
+        bddLCIDMbpEntry(mbp, "br_MA", (short) 0x1801);
+        bddLCIDMbpEntry(mbp, "en_IE", (short) 0x1809);
+        bddLCIDMbpEntry(mbp, "es_PA", (short) 0x180b);
+        bddLCIDMbpEntry(mbp, "fr_MC", (short) 0x180c);
+        bddLCIDMbpEntry(mbp, "sr_BA", (short) 0x181b);
+        bddLCIDMbpEntry(mbp, "br_TN", (short) 0x1c01);
+        bddLCIDMbpEntry(mbp, "en_ZA", (short) 0x1c09);
+        bddLCIDMbpEntry(mbp, "es_DO", (short) 0x1c0b);
+        bddLCIDMbpEntry(mbp, "sr_BA", (short) 0x1c1b);
+        bddLCIDMbpEntry(mbp, "br_OM", (short) 0x2001);
+        bddLCIDMbpEntry(mbp, "en_JM", (short) 0x2009);
+        bddLCIDMbpEntry(mbp, "es_VE", (short) 0x200b);
+        bddLCIDMbpEntry(mbp, "br_YE", (short) 0x2401);
+        bddLCIDMbpEntry(mbp, "es_CO", (short) 0x240b);
+        bddLCIDMbpEntry(mbp, "br_SY", (short) 0x2801);
+        bddLCIDMbpEntry(mbp, "en_BZ", (short) 0x2809);
+        bddLCIDMbpEntry(mbp, "es_PE", (short) 0x280b);
+        bddLCIDMbpEntry(mbp, "br_JO", (short) 0x2c01);
+        bddLCIDMbpEntry(mbp, "en_TT", (short) 0x2c09);
+        bddLCIDMbpEntry(mbp, "es_AR", (short) 0x2c0b);
+        bddLCIDMbpEntry(mbp, "br_LB", (short) 0x3001);
+        bddLCIDMbpEntry(mbp, "en_ZW", (short) 0x3009);
+        bddLCIDMbpEntry(mbp, "es_EC", (short) 0x300b);
+        bddLCIDMbpEntry(mbp, "br_KW", (short) 0x3401);
+        bddLCIDMbpEntry(mbp, "en_PH", (short) 0x3409);
+        bddLCIDMbpEntry(mbp, "es_CL", (short) 0x340b);
+        bddLCIDMbpEntry(mbp, "br_AE", (short) 0x3801);
+        bddLCIDMbpEntry(mbp, "es_UY", (short) 0x380b);
+        bddLCIDMbpEntry(mbp, "br_BH", (short) 0x3c01);
+        bddLCIDMbpEntry(mbp, "es_PY", (short) 0x3c0b);
+        bddLCIDMbpEntry(mbp, "br_QA", (short) 0x4001);
+        bddLCIDMbpEntry(mbp, "es_BO", (short) 0x400b);
+        bddLCIDMbpEntry(mbp, "es_SV", (short) 0x440b);
+        bddLCIDMbpEntry(mbp, "es_HN", (short) 0x480b);
+        bddLCIDMbpEntry(mbp, "es_NI", (short) 0x4c0b);
+        bddLCIDMbpEntry(mbp, "es_PR", (short) 0x500b);
 
-        lcidMap = map;
+        lcidMbp = mbp;
     }
 
-    private static short getLCIDFromLocale(Locale locale) {
-        // optimize for common case
-        if (locale.equals(Locale.US)) {
+    privbte stbtic short getLCIDFromLocble(Locble locble) {
+        // optimize for common cbse
+        if (locble.equbls(Locble.US)) {
             return US_LCID;
         }
 
-        if (lcidMap == null) {
-            createLCIDMap();
+        if (lcidMbp == null) {
+            crebteLCIDMbp();
         }
 
-        String key = locale.toString();
-        while (!"".equals(key)) {
-            Short lcidObject = lcidMap.get(key);
+        String key = locble.toString();
+        while (!"".equbls(key)) {
+            Short lcidObject = lcidMbp.get(key);
             if (lcidObject != null) {
-                return lcidObject.shortValue();
+                return lcidObject.shortVblue();
             }
-            int pos = key.lastIndexOf('_');
+            int pos = key.lbstIndexOf('_');
             if (pos < 1) {
                 return US_LCID;
             }
@@ -1532,162 +1532,162 @@ public class TrueTypeFont extends FileFont {
     }
 
     @Override
-    public String getFamilyName(Locale locale) {
-        if (locale == null) {
-            return familyName;
-        } else if (locale.equals(nameLocale) && localeFamilyName != null) {
-            return localeFamilyName;
+    public String getFbmilyNbme(Locble locble) {
+        if (locble == null) {
+            return fbmilyNbme;
+        } else if (locble.equbls(nbmeLocble) && locbleFbmilyNbme != null) {
+            return locbleFbmilyNbme;
         } else {
-            short localeID = getLCIDFromLocale(locale);
-            String name = lookupName(localeID, FAMILY_NAME_ID);
-            if (name == null) {
-                return familyName;
+            short locbleID = getLCIDFromLocble(locble);
+            String nbme = lookupNbme(locbleID, FAMILY_NAME_ID);
+            if (nbme == null) {
+                return fbmilyNbme;
             } else {
-                return name;
+                return nbme;
             }
         }
     }
 
-    public CharToGlyphMapper getMapper() {
-        if (mapper == null) {
-            mapper = new TrueTypeGlyphMapper(this);
+    public ChbrToGlyphMbpper getMbpper() {
+        if (mbpper == null) {
+            mbpper = new TrueTypeGlyphMbpper(this);
         }
-        return mapper;
+        return mbpper;
     }
 
-    /* This duplicates initNames() but that has to run fast as its used
-     * during typical start-up and the information here is likely never
+    /* This duplicbtes initNbmes() but thbt hbs to run fbst bs its used
+     * during typicbl stbrt-up bnd the informbtion here is likely never
      * needed.
      */
-    protected void initAllNames(int requestedID, HashSet<String> names) {
+    protected void initAllNbmes(int requestedID, HbshSet<String> nbmes) {
 
-        byte[] name = new byte[256];
-        ByteBuffer buffer = getTableBuffer(nameTag);
+        byte[] nbme = new byte[256];
+        ByteBuffer buffer = getTbbleBuffer(nbmeTbg);
 
         if (buffer != null) {
-            ShortBuffer sbuffer = buffer.asShortBuffer();
-            sbuffer.get(); // format - not needed.
+            ShortBuffer sbuffer = buffer.bsShortBuffer();
+            sbuffer.get(); // formbt - not needed.
             short numRecords = sbuffer.get();
 
-            /* The name table uses unsigned shorts. Many of these
-             * are known small values that fit in a short.
-             * The values that are sizes or offsets into the table could be
-             * greater than 32767, so read and store those as ints
+            /* The nbme tbble uses unsigned shorts. Mbny of these
+             * bre known smbll vblues thbt fit in b short.
+             * The vblues thbt bre sizes or offsets into the tbble could be
+             * grebter thbn 32767, so rebd bnd store those bs ints
              */
             int stringPtr = ((int) sbuffer.get()) & 0xffff;
             for (int i=0; i<numRecords; i++) {
-                short platformID = sbuffer.get();
-                if (platformID != MS_PLATFORM_ID) {
+                short plbtformID = sbuffer.get();
+                if (plbtformID != MS_PLATFORM_ID) {
                     sbuffer.position(sbuffer.position()+5);
                     continue; // skip over this record.
                 }
                 short encodingID = sbuffer.get();
-                short langID     = sbuffer.get();
-                short nameID     = sbuffer.get();
-                int   nameLen    = ((int) sbuffer.get()) & 0xffff;
-                int   namePtr    = (((int) sbuffer.get()) & 0xffff) + stringPtr;
+                short lbngID     = sbuffer.get();
+                short nbmeID     = sbuffer.get();
+                int   nbmeLen    = ((int) sbuffer.get()) & 0xffff;
+                int   nbmePtr    = (((int) sbuffer.get()) & 0xffff) + stringPtr;
 
-                if (nameID == requestedID) {
-                    buffer.position(namePtr);
-                    buffer.get(name, 0, nameLen);
-                    names.add(makeString(name, nameLen, encodingID));
+                if (nbmeID == requestedID) {
+                    buffer.position(nbmePtr);
+                    buffer.get(nbme, 0, nbmeLen);
+                    nbmes.bdd(mbkeString(nbme, nbmeLen, encodingID));
                 }
             }
         }
     }
 
-    String[] getAllFamilyNames() {
-        HashSet<String> aSet = new HashSet<>();
+    String[] getAllFbmilyNbmes() {
+        HbshSet<String> bSet = new HbshSet<>();
         try {
-            initAllNames(FAMILY_NAME_ID, aSet);
-        } catch (Exception e) {
-            /* In case of malformed font */
+            initAllNbmes(FAMILY_NAME_ID, bSet);
+        } cbtch (Exception e) {
+            /* In cbse of mblformed font */
         }
-        return aSet.toArray(new String[0]);
+        return bSet.toArrby(new String[0]);
     }
 
-    String[] getAllFullNames() {
-        HashSet<String> aSet = new HashSet<>();
+    String[] getAllFullNbmes() {
+        HbshSet<String> bSet = new HbshSet<>();
         try {
-            initAllNames(FULL_NAME_ID, aSet);
-        } catch (Exception e) {
-            /* In case of malformed font */
+            initAllNbmes(FULL_NAME_ID, bSet);
+        } cbtch (Exception e) {
+            /* In cbse of mblformed font */
         }
-        return aSet.toArray(new String[0]);
+        return bSet.toArrby(new String[0]);
     }
 
-    /*  Used by the OpenType engine for mark positioning.
+    /*  Used by the OpenType engine for mbrk positioning.
      */
     @Override
-    Point2D.Float getGlyphPoint(long pScalerContext,
+    Point2D.Flobt getGlyphPoint(long pScblerContext,
                                 int glyphCode, int ptNumber) {
         try {
-            return getScaler().getGlyphPoint(pScalerContext,
+            return getScbler().getGlyphPoint(pScblerContext,
                                              glyphCode, ptNumber);
-        } catch(FontScalerException fe) {
+        } cbtch(FontScblerException fe) {
             return null;
         }
     }
 
-    private char[] gaspTable;
+    privbte chbr[] gbspTbble;
 
-    private char[] getGaspTable() {
+    privbte chbr[] getGbspTbble() {
 
-        if (gaspTable != null) {
-            return gaspTable;
+        if (gbspTbble != null) {
+            return gbspTbble;
         }
 
-        ByteBuffer buffer = getTableBuffer(gaspTag);
+        ByteBuffer buffer = getTbbleBuffer(gbspTbg);
         if (buffer == null) {
-            return gaspTable = new char[0];
+            return gbspTbble = new chbr[0];
         }
 
-        CharBuffer cbuffer = buffer.asCharBuffer();
-        char format = cbuffer.get();
-        /* format "1" has appeared for some Windows Vista fonts.
-         * Its presently undocumented but the existing values
-         * seem to be still valid so we can use it.
+        ChbrBuffer cbuffer = buffer.bsChbrBuffer();
+        chbr formbt = cbuffer.get();
+        /* formbt "1" hbs bppebred for some Windows Vistb fonts.
+         * Its presently undocumented but the existing vblues
+         * seem to be still vblid so we cbn use it.
          */
-        if (format > 1) { // unrecognised format
-            return gaspTable = new char[0];
+        if (formbt > 1) { // unrecognised formbt
+            return gbspTbble = new chbr[0];
         }
 
-        char numRanges = cbuffer.get();
-        if (4+numRanges*4 > getTableSize(gaspTag)) { // sanity check
-            return gaspTable = new char[0];
+        chbr numRbnges = cbuffer.get();
+        if (4+numRbnges*4 > getTbbleSize(gbspTbg)) { // sbnity check
+            return gbspTbble = new chbr[0];
         }
-        gaspTable = new char[2*numRanges];
-        cbuffer.get(gaspTable);
-        return gaspTable;
+        gbspTbble = new chbr[2*numRbnges];
+        cbuffer.get(gbspTbble);
+        return gbspTbble;
     }
 
-    /* This is to obtain info from the TT 'gasp' (grid-fitting and
-     * scan-conversion procedure) table which specifies three combinations:
-     * Hint, Smooth (greyscale), Hint and Smooth.
-     * In this simplified scheme we don't distinguish the latter two. We
-     * hint even at small sizes, so as to preserve metrics consistency.
-     * If the information isn't available default values are substituted.
-     * The more precise defaults we'd do if we distinguished the cases are:
+    /* This is to obtbin info from the TT 'gbsp' (grid-fitting bnd
+     * scbn-conversion procedure) tbble which specifies three combinbtions:
+     * Hint, Smooth (greyscble), Hint bnd Smooth.
+     * In this simplified scheme we don't distinguish the lbtter two. We
+     * hint even bt smbll sizes, so bs to preserve metrics consistency.
+     * If the informbtion isn't bvbilbble defbult vblues bre substituted.
+     * The more precise defbults we'd do if we distinguished the cbses bre:
      * Bold (no other style) fonts :
      * 0-8 : Smooth ( do grey)
      * 9+  : Hint + smooth (gridfit + grey)
-     * Plain, Italic and Bold-Italic fonts :
+     * Plbin, Itblic bnd Bold-Itblic fonts :
      * 0-8 : Smooth ( do grey)
      * 9-17 : Hint (gridfit)
      * 18+  : Hint + smooth (gridfit + grey)
-     * The defaults should rarely come into play as most TT fonts provide
-     * better defaults.
-     * REMIND: consider unpacking the table into an array of booleans
-     * for faster use.
+     * The defbults should rbrely come into plby bs most TT fonts provide
+     * better defbults.
+     * REMIND: consider unpbcking the tbble into bn brrby of boolebns
+     * for fbster use.
      */
     @Override
-    public boolean useAAForPtSize(int ptsize) {
+    public boolebn useAAForPtSize(int ptsize) {
 
-        char[] gasp = getGaspTable();
-        if (gasp.length > 0) {
-            for (int i=0;i<gasp.length;i+=2) {
-                if (ptsize <= gasp[i]) {
-                    return ((gasp[i+1] & 0x2) != 0); // bit 2 means DO_GRAY;
+        chbr[] gbsp = getGbspTbble();
+        if (gbsp.length > 0) {
+            for (int i=0;i<gbsp.length;i+=2) {
+                if (ptsize <= gbsp[i]) {
+                    return ((gbsp[i+1] & 0x2) != 0); // bit 2 mebns DO_GRAY;
                 }
             }
             return true;
@@ -1701,165 +1701,165 @@ public class TrueTypeFont extends FileFont {
     }
 
     @Override
-    public boolean hasSupplementaryChars() {
-        return ((TrueTypeGlyphMapper)getMapper()).hasSupplementaryChars();
+    public boolebn hbsSupplementbryChbrs() {
+        return ((TrueTypeGlyphMbpper)getMbpper()).hbsSupplementbryChbrs();
     }
 
     @Override
     public String toString() {
-        return "** TrueType Font: Family="+familyName+ " Name="+fullName+
-            " style="+style+" fileName="+getPublicFileName();
+        return "** TrueType Font: Fbmily="+fbmilyNbme+ " Nbme="+fullNbme+
+            " style="+style+" fileNbme="+getPublicFileNbme();
     }
 
 
-    private static Map<String, short[]> lcidLanguageCompatibilityMap;
-    private static final short[] EMPTY_COMPATIBLE_LCIDS = new short[0];
+    privbte stbtic Mbp<String, short[]> lcidLbngubgeCompbtibilityMbp;
+    privbte stbtic finbl short[] EMPTY_COMPATIBLE_LCIDS = new short[0];
 
-    // the language compatible LCIDs for this font's nameLocale
-    private short[] languageCompatibleLCIDs;
+    // the lbngubge compbtible LCIDs for this font's nbmeLocble
+    privbte short[] lbngubgeCompbtibleLCIDs;
 
     /*
-     * Returns true if the given lcid's language is compatible
-     * to the language of the startup Locale. I.e. if
-     * startupLocale.getLanguage().equals(lcidLocale.getLanguage()) would
+     * Returns true if the given lcid's lbngubge is compbtible
+     * to the lbngubge of the stbrtup Locble. I.e. if
+     * stbrtupLocble.getLbngubge().equbls(lcidLocble.getLbngubge()) would
      * return true.
      */
-    private boolean isLanguageCompatible(short lcid){
-        for (short s : languageCompatibleLCIDs) {
+    privbte boolebn isLbngubgeCompbtible(short lcid){
+        for (short s : lbngubgeCompbtibleLCIDs) {
             if (s == lcid) {
                 return true;
             }
         }
-        return false;
+        return fblse;
     }
 
     /*
-     * Returns an array of all the language compatible LCIDs for the
-     * given Locale. This array is later used to find compatible
-     * locales.
+     * Returns bn brrby of bll the lbngubge compbtible LCIDs for the
+     * given Locble. This brrby is lbter used to find compbtible
+     * locbles.
      */
-    private static short[] getLanguageCompatibleLCIDsFromLocale(Locale locale) {
-        if (lcidLanguageCompatibilityMap == null) {
-            createLCIDMap();
-            createLCIDLanguageCompatibilityMap();
+    privbte stbtic short[] getLbngubgeCompbtibleLCIDsFromLocble(Locble locble) {
+        if (lcidLbngubgeCompbtibilityMbp == null) {
+            crebteLCIDMbp();
+            crebteLCIDLbngubgeCompbtibilityMbp();
         }
-        String language = locale.getLanguage();
-        short[] result = lcidLanguageCompatibilityMap.get(language);
+        String lbngubge = locble.getLbngubge();
+        short[] result = lcidLbngubgeCompbtibilityMbp.get(lbngubge);
         return result == null ? EMPTY_COMPATIBLE_LCIDS : result;
     }
 
-//     private static void prtLine(String s) {
+//     privbte stbtic void prtLine(String s) {
 //        System.out.println(s);
 //     }
 
 //     /*
-//      * Initializes the map from Locale keys (e.g. "en_BZ" or "de")
-//      * to language compatible LCIDs.
-//      * This map could be statically created based on the fixed known set
-//      * added to lcidMap.
+//      * Initiblizes the mbp from Locble keys (e.g. "en_BZ" or "de")
+//      * to lbngubge compbtible LCIDs.
+//      * This mbp could be stbticblly crebted bbsed on the fixed known set
+//      * bdded to lcidMbp.
 //      */
-//     private static void createLCIDLanguageCompatibilityMap() {
-//         if (lcidLanguageCompatibilityMap != null) {
+//     privbte stbtic void crebteLCIDLbngubgeCompbtibilityMbp() {
+//         if (lcidLbngubgeCompbtibilityMbp != null) {
 //             return;
 //         }
-//         HashMap<String, List<Short>> result = new HashMap<>();
-//         for (Entry<String, Short> e : lcidMap.entrySet()) {
-//             String language = e.getKey();
-//             int index = language.indexOf('_');
+//         HbshMbp<String, List<Short>> result = new HbshMbp<>();
+//         for (Entry<String, Short> e : lcidMbp.entrySet()) {
+//             String lbngubge = e.getKey();
+//             int index = lbngubge.indexOf('_');
 //             if (index != -1) {
-//                 language = language.substring(0, index);
+//                 lbngubge = lbngubge.substring(0, index);
 //             }
-//             List<Short> list = result.get(language);
+//             List<Short> list = result.get(lbngubge);
 //             if (list == null) {
-//                 list = new ArrayList<>();
-//                 result.put(language, list);
+//                 list = new ArrbyList<>();
+//                 result.put(lbngubge, list);
 //             }
 //             if (index == -1) {
-//                 list.add(0, e.getValue());
+//                 list.bdd(0, e.getVblue());
 //             } else{
-//                 list.add(e.getValue());
+//                 list.bdd(e.getVblue());
 //             }
 //         }
-//         Map<String, short[]> compMap = new HashMap<>();
+//         Mbp<String, short[]> compMbp = new HbshMbp<>();
 //         for (Entry<String, List<Short>> e : result.entrySet()) {
-//             if (e.getValue().size() > 1) {
-//                 List<Short> list = e.getValue();
+//             if (e.getVblue().size() > 1) {
+//                 List<Short> list = e.getVblue();
 //                 short[] shorts = new short[list.size()];
 //                 for (int i = 0; i < shorts.length; i++) {
 //                     shorts[i] = list.get(i);
 //                 }
-//                 compMap.put(e.getKey(), shorts);
+//                 compMbp.put(e.getKey(), shorts);
 //             }
 //         }
 
-//         /* Now dump code to init the map to System.out */
-//         prtLine("    private static void createLCIDLanguageCompatibilityMap() {");
+//         /* Now dump code to init the mbp to System.out */
+//         prtLine("    privbte stbtic void crebteLCIDLbngubgeCompbtibilityMbp() {");
 //         prtLine("");
 
-//         prtLine("        Map<String, short[]> map = new HashMap<>();");
+//         prtLine("        Mbp<String, short[]> mbp = new HbshMbp<>();");
 //         prtLine("");
-//         prtLine("        short[] sarr;");
-//         for (Entry<String, short[]> e : compMap.entrySet()) {
-//             String lang = e.getKey();
-//             short[] ids = e.getValue();
-//             StringBuilder sb = new StringBuilder("sarr = new short[] { ");
+//         prtLine("        short[] sbrr;");
+//         for (Entry<String, short[]> e : compMbp.entrySet()) {
+//             String lbng = e.getKey();
+//             short[] ids = e.getVblue();
+//             StringBuilder sb = new StringBuilder("sbrr = new short[] { ");
 //             for (int i = 0; i < ids.length; i++) {
-//                 sb.append(ids[i]+", ");
+//                 sb.bppend(ids[i]+", ");
 //             }
-//             sb.append("}");
+//             sb.bppend("}");
 //             prtLine("        " + sb + ";");
-//             prtLine("        map.put(\"" + lang + "\", sarr);");
+//             prtLine("        mbp.put(\"" + lbng + "\", sbrr);");
 //         }
 //         prtLine("");
-//         prtLine("        lcidLanguageCompatibilityMap = map;");
+//         prtLine("        lcidLbngubgeCompbtibilityMbp = mbp;");
 //         prtLine("    }");
-//         /* done dumping map */
+//         /* done dumping mbp */
 
-//         lcidLanguageCompatibilityMap = compMap;
+//         lcidLbngubgeCompbtibilityMbp = compMbp;
 //     }
 
-    private static void createLCIDLanguageCompatibilityMap() {
+    privbte stbtic void crebteLCIDLbngubgeCompbtibilityMbp() {
 
-        Map<String, short[]> map = new HashMap<>();
+        Mbp<String, short[]> mbp = new HbshMbp<>();
 
-        short[] sarr;
-        sarr = new short[] { 1031, 3079, 5127, 2055, 4103, };
-        map.put("de", sarr);
-        sarr = new short[] { 1044, 2068, };
-        map.put("no", sarr);
-        sarr = new short[] { 1049, 2073, };
-        map.put("ru", sarr);
-        sarr = new short[] { 1053, 2077, };
-        map.put("sv", sarr);
-        sarr = new short[] { 1046, 2070, };
-        map.put("pt", sarr);
-        sarr = new short[] { 1131, 3179, 2155, };
-        map.put("qu", sarr);
-        sarr = new short[] { 1086, 2110, };
-        map.put("ms", sarr);
-        sarr = new short[] { 11273, 3081, 12297, 8201, 10249, 4105, 13321, 6153, 7177, 5129, 2057, };
-        map.put("en", sarr);
-        sarr = new short[] { 1050, 4122, };
-        map.put("hr", sarr);
-        sarr = new short[] { 1040, 2064, };
-        map.put("it", sarr);
-        sarr = new short[] { 1036, 5132, 6156, 2060, 3084, 4108, };
-        map.put("fr", sarr);
-        sarr = new short[] { 1034, 12298, 14346, 2058, 8202, 19466, 17418, 9226, 13322, 5130, 7178, 11274, 16394, 4106, 10250, 6154, 18442, 20490, 15370, };
-        map.put("es", sarr);
-        sarr = new short[] { 1028, 3076, 5124, 4100, 2052, };
-        map.put("zh", sarr);
-        sarr = new short[] { 1025, 8193, 16385, 9217, 2049, 14337, 15361, 11265, 13313, 10241, 7169, 12289, 4097, 5121, 6145, 3073, };
-        map.put("ar", sarr);
-        sarr = new short[] { 1083, 3131, 2107, };
-        map.put("se", sarr);
-        sarr = new short[] { 1048, 2072, };
-        map.put("ro", sarr);
-        sarr = new short[] { 1043, 2067, };
-        map.put("nl", sarr);
-        sarr = new short[] { 7194, 3098, };
-        map.put("sr", sarr);
+        short[] sbrr;
+        sbrr = new short[] { 1031, 3079, 5127, 2055, 4103, };
+        mbp.put("de", sbrr);
+        sbrr = new short[] { 1044, 2068, };
+        mbp.put("no", sbrr);
+        sbrr = new short[] { 1049, 2073, };
+        mbp.put("ru", sbrr);
+        sbrr = new short[] { 1053, 2077, };
+        mbp.put("sv", sbrr);
+        sbrr = new short[] { 1046, 2070, };
+        mbp.put("pt", sbrr);
+        sbrr = new short[] { 1131, 3179, 2155, };
+        mbp.put("qu", sbrr);
+        sbrr = new short[] { 1086, 2110, };
+        mbp.put("ms", sbrr);
+        sbrr = new short[] { 11273, 3081, 12297, 8201, 10249, 4105, 13321, 6153, 7177, 5129, 2057, };
+        mbp.put("en", sbrr);
+        sbrr = new short[] { 1050, 4122, };
+        mbp.put("hr", sbrr);
+        sbrr = new short[] { 1040, 2064, };
+        mbp.put("it", sbrr);
+        sbrr = new short[] { 1036, 5132, 6156, 2060, 3084, 4108, };
+        mbp.put("fr", sbrr);
+        sbrr = new short[] { 1034, 12298, 14346, 2058, 8202, 19466, 17418, 9226, 13322, 5130, 7178, 11274, 16394, 4106, 10250, 6154, 18442, 20490, 15370, };
+        mbp.put("es", sbrr);
+        sbrr = new short[] { 1028, 3076, 5124, 4100, 2052, };
+        mbp.put("zh", sbrr);
+        sbrr = new short[] { 1025, 8193, 16385, 9217, 2049, 14337, 15361, 11265, 13313, 10241, 7169, 12289, 4097, 5121, 6145, 3073, };
+        mbp.put("br", sbrr);
+        sbrr = new short[] { 1083, 3131, 2107, };
+        mbp.put("se", sbrr);
+        sbrr = new short[] { 1048, 2072, };
+        mbp.put("ro", sbrr);
+        sbrr = new short[] { 1043, 2067, };
+        mbp.put("nl", sbrr);
+        sbrr = new short[] { 7194, 3098, };
+        mbp.put("sr", sbrr);
 
-        lcidLanguageCompatibilityMap = map;
+        lcidLbngubgeCompbtibilityMbp = mbp;
     }
 }

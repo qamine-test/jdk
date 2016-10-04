@@ -1,100 +1,100 @@
 /*
- * Copyright (c) 2001, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
  */
 
-package sun.nio.cs;
+pbckbge sun.nio.cs;
 
-import java.io.*;
-import java.nio.*;
-import java.nio.channels.*;
-import java.nio.charset.*;
+import jbvb.io.*;
+import jbvb.nio.*;
+import jbvb.nio.chbnnels.*;
+import jbvb.nio.chbrset.*;
 
-public class StreamEncoder extends Writer
+public clbss StrebmEncoder extends Writer
 {
 
-    private static final int DEFAULT_BYTE_BUFFER_SIZE = 8192;
+    privbte stbtic finbl int DEFAULT_BYTE_BUFFER_SIZE = 8192;
 
-    private volatile boolean isOpen = true;
+    privbte volbtile boolebn isOpen = true;
 
-    private void ensureOpen() throws IOException {
+    privbte void ensureOpen() throws IOException {
         if (!isOpen)
-            throw new IOException("Stream closed");
+            throw new IOException("Strebm closed");
     }
 
-    // Factories for java.io.OutputStreamWriter
-    public static StreamEncoder forOutputStreamWriter(OutputStream out,
+    // Fbctories for jbvb.io.OutputStrebmWriter
+    public stbtic StrebmEncoder forOutputStrebmWriter(OutputStrebm out,
                                                       Object lock,
-                                                      String charsetName)
+                                                      String chbrsetNbme)
         throws UnsupportedEncodingException
     {
-        String csn = charsetName;
+        String csn = chbrsetNbme;
         if (csn == null)
-            csn = Charset.defaultCharset().name();
+            csn = Chbrset.defbultChbrset().nbme();
         try {
-            if (Charset.isSupported(csn))
-                return new StreamEncoder(out, lock, Charset.forName(csn));
-        } catch (IllegalCharsetNameException x) { }
+            if (Chbrset.isSupported(csn))
+                return new StrebmEncoder(out, lock, Chbrset.forNbme(csn));
+        } cbtch (IllegblChbrsetNbmeException x) { }
         throw new UnsupportedEncodingException (csn);
     }
 
-    public static StreamEncoder forOutputStreamWriter(OutputStream out,
+    public stbtic StrebmEncoder forOutputStrebmWriter(OutputStrebm out,
                                                       Object lock,
-                                                      Charset cs)
+                                                      Chbrset cs)
     {
-        return new StreamEncoder(out, lock, cs);
+        return new StrebmEncoder(out, lock, cs);
     }
 
-    public static StreamEncoder forOutputStreamWriter(OutputStream out,
+    public stbtic StrebmEncoder forOutputStrebmWriter(OutputStrebm out,
                                                       Object lock,
-                                                      CharsetEncoder enc)
+                                                      ChbrsetEncoder enc)
     {
-        return new StreamEncoder(out, lock, enc);
+        return new StrebmEncoder(out, lock, enc);
     }
 
 
-    // Factory for java.nio.channels.Channels.newWriter
+    // Fbctory for jbvb.nio.chbnnels.Chbnnels.newWriter
 
-    public static StreamEncoder forEncoder(WritableByteChannel ch,
-                                           CharsetEncoder enc,
-                                           int minBufferCap)
+    public stbtic StrebmEncoder forEncoder(WritbbleByteChbnnel ch,
+                                           ChbrsetEncoder enc,
+                                           int minBufferCbp)
     {
-        return new StreamEncoder(ch, enc, minBufferCap);
+        return new StrebmEncoder(ch, enc, minBufferCbp);
     }
 
 
-    // -- Public methods corresponding to those in OutputStreamWriter --
+    // -- Public methods corresponding to those in OutputStrebmWriter --
 
-    // All synchronization and state/argument checking is done in these public
-    // methods; the concrete stream-encoder subclasses defined below need not
-    // do any such checking.
+    // All synchronizbtion bnd stbte/brgument checking is done in these public
+    // methods; the concrete strebm-encoder subclbsses defined below need not
+    // do bny such checking.
 
     public String getEncoding() {
         if (isOpen())
-            return encodingName();
+            return encodingNbme();
         return null;
     }
 
@@ -103,17 +103,17 @@ public class StreamEncoder extends Writer
             if (isOpen())
                 implFlushBuffer();
             else
-                throw new IOException("Stream closed");
+                throw new IOException("Strebm closed");
         }
     }
 
     public void write(int c) throws IOException {
-        char cbuf[] = new char[1];
-        cbuf[0] = (char) c;
+        chbr cbuf[] = new chbr[1];
+        cbuf[0] = (chbr) c;
         write(cbuf, 0, 1);
     }
 
-    public void write(char cbuf[], int off, int len) throws IOException {
+    public void write(chbr cbuf[], int off, int len) throws IOException {
         synchronized (lock) {
             ensureOpen();
             if ((off < 0) || (off > cbuf.length) || (len < 0) ||
@@ -127,11 +127,11 @@ public class StreamEncoder extends Writer
     }
 
     public void write(String str, int off, int len) throws IOException {
-        /* Check the len before creating a char buffer */
+        /* Check the len before crebting b chbr buffer */
         if (len < 0)
             throw new IndexOutOfBoundsException();
-        char cbuf[] = new char[len];
-        str.getChars(off, off + len, cbuf, 0);
+        chbr cbuf[] = new chbr[len];
+        str.getChbrs(off, off + len, cbuf, 0);
         write(cbuf, 0, len);
     }
 
@@ -147,138 +147,138 @@ public class StreamEncoder extends Writer
             if (!isOpen)
                 return;
             implClose();
-            isOpen = false;
+            isOpen = fblse;
         }
     }
 
-    private boolean isOpen() {
+    privbte boolebn isOpen() {
         return isOpen;
     }
 
 
-    // -- Charset-based stream encoder impl --
+    // -- Chbrset-bbsed strebm encoder impl --
 
-    private Charset cs;
-    private CharsetEncoder encoder;
-    private ByteBuffer bb;
+    privbte Chbrset cs;
+    privbte ChbrsetEncoder encoder;
+    privbte ByteBuffer bb;
 
-    // Exactly one of these is non-null
-    private final OutputStream out;
-    private WritableByteChannel ch;
+    // Exbctly one of these is non-null
+    privbte finbl OutputStrebm out;
+    privbte WritbbleByteChbnnel ch;
 
-    // Leftover first char in a surrogate pair
-    private boolean haveLeftoverChar = false;
-    private char leftoverChar;
-    private CharBuffer lcb = null;
+    // Leftover first chbr in b surrogbte pbir
+    privbte boolebn hbveLeftoverChbr = fblse;
+    privbte chbr leftoverChbr;
+    privbte ChbrBuffer lcb = null;
 
-    private StreamEncoder(OutputStream out, Object lock, Charset cs) {
+    privbte StrebmEncoder(OutputStrebm out, Object lock, Chbrset cs) {
         this(out, lock,
          cs.newEncoder()
-         .onMalformedInput(CodingErrorAction.REPLACE)
-         .onUnmappableCharacter(CodingErrorAction.REPLACE));
+         .onMblformedInput(CodingErrorAction.REPLACE)
+         .onUnmbppbbleChbrbcter(CodingErrorAction.REPLACE));
     }
 
-    private StreamEncoder(OutputStream out, Object lock, CharsetEncoder enc) {
+    privbte StrebmEncoder(OutputStrebm out, Object lock, ChbrsetEncoder enc) {
         super(lock);
         this.out = out;
         this.ch = null;
-        this.cs = enc.charset();
+        this.cs = enc.chbrset();
         this.encoder = enc;
 
-        // This path disabled until direct buffers are faster
-        if (false && out instanceof FileOutputStream) {
-                ch = ((FileOutputStream)out).getChannel();
+        // This pbth disbbled until direct buffers bre fbster
+        if (fblse && out instbnceof FileOutputStrebm) {
+                ch = ((FileOutputStrebm)out).getChbnnel();
         if (ch != null)
-                    bb = ByteBuffer.allocateDirect(DEFAULT_BYTE_BUFFER_SIZE);
+                    bb = ByteBuffer.bllocbteDirect(DEFAULT_BYTE_BUFFER_SIZE);
         }
             if (ch == null) {
-        bb = ByteBuffer.allocate(DEFAULT_BYTE_BUFFER_SIZE);
+        bb = ByteBuffer.bllocbte(DEFAULT_BYTE_BUFFER_SIZE);
         }
     }
 
-    private StreamEncoder(WritableByteChannel ch, CharsetEncoder enc, int mbc) {
+    privbte StrebmEncoder(WritbbleByteChbnnel ch, ChbrsetEncoder enc, int mbc) {
         this.out = null;
         this.ch = ch;
-        this.cs = enc.charset();
+        this.cs = enc.chbrset();
         this.encoder = enc;
-        this.bb = ByteBuffer.allocate(mbc < 0
+        this.bb = ByteBuffer.bllocbte(mbc < 0
                                   ? DEFAULT_BYTE_BUFFER_SIZE
                                   : mbc);
     }
 
-    private void writeBytes() throws IOException {
+    privbte void writeBytes() throws IOException {
         bb.flip();
         int lim = bb.limit();
         int pos = bb.position();
-        assert (pos <= lim);
+        bssert (pos <= lim);
         int rem = (pos <= lim ? lim - pos : 0);
 
             if (rem > 0) {
         if (ch != null) {
             if (ch.write(bb) != rem)
-                assert false : rem;
+                bssert fblse : rem;
         } else {
-            out.write(bb.array(), bb.arrayOffset() + pos, rem);
+            out.write(bb.brrby(), bb.brrbyOffset() + pos, rem);
         }
         }
-        bb.clear();
+        bb.clebr();
         }
 
-    private void flushLeftoverChar(CharBuffer cb, boolean endOfInput)
+    privbte void flushLeftoverChbr(ChbrBuffer cb, boolebn endOfInput)
         throws IOException
     {
-        if (!haveLeftoverChar && !endOfInput)
+        if (!hbveLeftoverChbr && !endOfInput)
             return;
         if (lcb == null)
-            lcb = CharBuffer.allocate(2);
+            lcb = ChbrBuffer.bllocbte(2);
         else
-            lcb.clear();
-        if (haveLeftoverChar)
-            lcb.put(leftoverChar);
-        if ((cb != null) && cb.hasRemaining())
+            lcb.clebr();
+        if (hbveLeftoverChbr)
+            lcb.put(leftoverChbr);
+        if ((cb != null) && cb.hbsRembining())
             lcb.put(cb.get());
         lcb.flip();
-        while (lcb.hasRemaining() || endOfInput) {
+        while (lcb.hbsRembining() || endOfInput) {
             CoderResult cr = encoder.encode(lcb, bb, endOfInput);
             if (cr.isUnderflow()) {
-                if (lcb.hasRemaining()) {
-                    leftoverChar = lcb.get();
-                    if (cb != null && cb.hasRemaining())
-                        flushLeftoverChar(cb, endOfInput);
+                if (lcb.hbsRembining()) {
+                    leftoverChbr = lcb.get();
+                    if (cb != null && cb.hbsRembining())
+                        flushLeftoverChbr(cb, endOfInput);
                     return;
                 }
-                break;
+                brebk;
             }
             if (cr.isOverflow()) {
-                assert bb.position() > 0;
+                bssert bb.position() > 0;
                 writeBytes();
                 continue;
             }
             cr.throwException();
         }
-        haveLeftoverChar = false;
+        hbveLeftoverChbr = fblse;
     }
 
-    void implWrite(char cbuf[], int off, int len)
+    void implWrite(chbr cbuf[], int off, int len)
         throws IOException
     {
-        CharBuffer cb = CharBuffer.wrap(cbuf, off, len);
+        ChbrBuffer cb = ChbrBuffer.wrbp(cbuf, off, len);
 
-        if (haveLeftoverChar)
-        flushLeftoverChar(cb, false);
+        if (hbveLeftoverChbr)
+        flushLeftoverChbr(cb, fblse);
 
-        while (cb.hasRemaining()) {
-        CoderResult cr = encoder.encode(cb, bb, false);
+        while (cb.hbsRembining()) {
+        CoderResult cr = encoder.encode(cb, bb, fblse);
         if (cr.isUnderflow()) {
-           assert (cb.remaining() <= 1) : cb.remaining();
-           if (cb.remaining() == 1) {
-                haveLeftoverChar = true;
-                leftoverChar = cb.get();
+           bssert (cb.rembining() <= 1) : cb.rembining();
+           if (cb.rembining() == 1) {
+                hbveLeftoverChbr = true;
+                leftoverChbr = cb.get();
             }
-            break;
+            brebk;
         }
         if (cr.isOverflow()) {
-            assert bb.position() > 0;
+            bssert bb.position() > 0;
             writeBytes();
             continue;
         }
@@ -298,14 +298,14 @@ public class StreamEncoder extends Writer
     }
 
     void implClose() throws IOException {
-        flushLeftoverChar(null, true);
+        flushLeftoverChbr(null, true);
         try {
             for (;;) {
                 CoderResult cr = encoder.flush(bb);
                 if (cr.isUnderflow())
-                    break;
+                    brebk;
                 if (cr.isOverflow()) {
-                    assert bb.position() > 0;
+                    bssert bb.position() > 0;
                     writeBytes();
                     continue;
                 }
@@ -318,15 +318,15 @@ public class StreamEncoder extends Writer
                 ch.close();
             else
                 out.close();
-        } catch (IOException x) {
+        } cbtch (IOException x) {
             encoder.reset();
             throw x;
         }
     }
 
-    String encodingName() {
-        return ((cs instanceof HistoricallyNamedCharset)
-            ? ((HistoricallyNamedCharset)cs).historicalName()
-            : cs.name());
+    String encodingNbme() {
+        return ((cs instbnceof HistoricbllyNbmedChbrset)
+            ? ((HistoricbllyNbmedChbrset)cs).historicblNbme()
+            : cs.nbme());
     }
 }

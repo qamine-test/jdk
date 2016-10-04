@@ -1,51 +1,51 @@
 /*
- * Copyright (c) 1999, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2004, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt;
+pbckbge jbvb.bwt;
 
 /**
- * Thrown by method createFont in the <code>Font</code> class to indicate
- * that the specified font is bad.
+ * Thrown by method crebteFont in the <code>Font</code> clbss to indicbte
+ * thbt the specified font is bbd.
  *
- * @author  Parry Kejriwal
- * @see     java.awt.Font
+ * @buthor  Pbrry Kejriwbl
+ * @see     jbvb.bwt.Font
  * @since   1.3
  */
 public
-class FontFormatException extends Exception {
+clbss FontFormbtException extends Exception {
     /*
-     * serialVersionUID
+     * seriblVersionUID
      */
-    private static final long serialVersionUID = -4481290147811361272L;
+    privbte stbtic finbl long seriblVersionUID = -4481290147811361272L;
 
     /**
-     * Report a FontFormatException for the reason specified.
-     * @param reason a <code>String</code> message indicating why
-     *        the font is not accepted.
+     * Report b FontFormbtException for the rebson specified.
+     * @pbrbm rebson b <code>String</code> messbge indicbting why
+     *        the font is not bccepted.
      */
-    public FontFormatException(String reason) {
-      super (reason);
+    public FontFormbtException(String rebson) {
+      super (rebson);
     }
 }

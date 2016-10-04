@@ -1,91 +1,91 @@
 /*
- * Copyright (c) 2003, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.java2d;
+pbckbge sun.jbvb2d;
 
-import sun.awt.image.SunVolatileImage;
-import sun.awt.image.VolatileSurfaceManager;
+import sun.bwt.imbge.SunVolbtileImbge;
+import sun.bwt.imbge.VolbtileSurfbceMbnbger;
 
 /**
- * This factory creates platform specific VolatileSurfaceManager
- * implementations.
+ * This fbctory crebtes plbtform specific VolbtileSurfbceMbnbger
+ * implementbtions.
  *
- * There are two platform specific SurfaceManagerFactories in OpenJDK,
- * UnixSurfaceManagerFactory and WindowsSurfaceManagerFactory.
- * The actually used SurfaceManagerFactory is set by the respective platform
- * GraphicsEnvironment implementations in the static initializer.
+ * There bre two plbtform specific SurfbceMbnbgerFbctories in OpenJDK,
+ * UnixSurfbceMbnbgerFbctory bnd WindowsSurfbceMbnbgerFbctory.
+ * The bctublly used SurfbceMbnbgerFbctory is set by the respective plbtform
+ * GrbphicsEnvironment implementbtions in the stbtic initiblizer.
  */
-public abstract class SurfaceManagerFactory {
+public bbstrbct clbss SurfbceMbnbgerFbctory {
 
     /**
-     * The single shared instance.
+     * The single shbred instbnce.
      */
-    private static SurfaceManagerFactory instance;
+    privbte stbtic SurfbceMbnbgerFbctory instbnce;
 
     /**
-     * Returns the surface manager factory instance. This returns a factory
-     * that has been set by {@link #setInstance(SurfaceManagerFactory)}.
+     * Returns the surfbce mbnbger fbctory instbnce. This returns b fbctory
+     * thbt hbs been set by {@link #setInstbnce(SurfbceMbnbgerFbctory)}.
      *
-     * @return the surface manager factory
+     * @return the surfbce mbnbger fbctory
      */
-    public synchronized static SurfaceManagerFactory getInstance() {
+    public synchronized stbtic SurfbceMbnbgerFbctory getInstbnce() {
 
-        if (instance == null) {
-            throw new IllegalStateException("No SurfaceManagerFactory set.");
+        if (instbnce == null) {
+            throw new IllegblStbteException("No SurfbceMbnbgerFbctory set.");
         }
-        return instance;
+        return instbnce;
     }
 
     /**
-     * Sets the surface manager factory. This may only be called once, and it
-     * may not be set back to {@code null} when the factory is already
-     * instantiated.
+     * Sets the surfbce mbnbger fbctory. This mby only be cblled once, bnd it
+     * mby not be set bbck to {@code null} when the fbctory is blrebdy
+     * instbntibted.
      *
-     * @param factory the factory to set
+     * @pbrbm fbctory the fbctory to set
      */
-    public synchronized static void setInstance(SurfaceManagerFactory factory) {
+    public synchronized stbtic void setInstbnce(SurfbceMbnbgerFbctory fbctory) {
 
-        if (factory == null) {
-            // We don't want to allow setting this to null at any time.
-            throw new IllegalArgumentException("factory must be non-null");
+        if (fbctory == null) {
+            // We don't wbnt to bllow setting this to null bt bny time.
+            throw new IllegblArgumentException("fbctory must be non-null");
         }
 
-        if (instance != null) {
-            // We don't want to re-set the instance at any time.
-            throw new IllegalStateException("The surface manager factory is already initialized");
+        if (instbnce != null) {
+            // We don't wbnt to re-set the instbnce bt bny time.
+            throw new IllegblStbteException("The surfbce mbnbger fbctory is blrebdy initiblized");
         }
 
-        instance = factory;
+        instbnce = fbctory;
     }
 
     /**
-     * Creates a new instance of a VolatileSurfaceManager given any
-     * arbitrary SunVolatileImage.  An optional context Object can be supplied
-     * as a way for the caller to pass pipeline-specific context data to
-     * the VolatileSurfaceManager (such as a backbuffer handle, for example).
+     * Crebtes b new instbnce of b VolbtileSurfbceMbnbger given bny
+     * brbitrbry SunVolbtileImbge.  An optionbl context Object cbn be supplied
+     * bs b wby for the cbller to pbss pipeline-specific context dbtb to
+     * the VolbtileSurfbceMbnbger (such bs b bbckbuffer hbndle, for exbmple).
      */
-     public abstract VolatileSurfaceManager
-         createVolatileManager(SunVolatileImage image, Object context);
+     public bbstrbct VolbtileSurfbceMbnbger
+         crebteVolbtileMbnbger(SunVolbtileImbge imbge, Object context);
 }

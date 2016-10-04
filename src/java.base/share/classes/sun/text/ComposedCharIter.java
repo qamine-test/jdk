@@ -1,83 +1,83 @@
 /*
- * Copyright (c) 2001, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.text;
+pbckbge sun.text;
 
-import sun.text.normalizer.NormalizerBase;
-import sun.text.normalizer.NormalizerImpl;
+import sun.text.normblizer.NormblizerBbse;
+import sun.text.normblizer.NormblizerImpl;
 
-public final class ComposedCharIter {
+public finbl clbss ComposedChbrIter {
     /**
-     * Constant that indicates the iteration has completed.
-     * {@link #next} returns this value when there are no more composed characters
-     * over which to iterate.
+     * Constbnt thbt indicbtes the iterbtion hbs completed.
+     * {@link #next} returns this vblue when there bre no more composed chbrbcters
+     * over which to iterbte.
      */
-    public static final int DONE = NormalizerBase.DONE;
+    public stbtic finbl int DONE = NormblizerBbse.DONE;
 
-    //cache the decomps mapping, so the seconde composedcharIter does
-    //not need to get the data again.
-    private static int chars[];
-    private static String decomps[];
-    private static int decompNum;
+    //cbche the decomps mbpping, so the seconde composedchbrIter does
+    //not need to get the dbtb bgbin.
+    privbte stbtic int chbrs[];
+    privbte stbtic String decomps[];
+    privbte stbtic int decompNum;
 
-    static {
-        int maxNum = 2000;     //TBD: Unicode 4.0 only has 1926 canoDecomp...
-        chars = new int[maxNum];
-        decomps = new String[maxNum];
-        decompNum = NormalizerImpl.getDecompose(chars, decomps);
+    stbtic {
+        int mbxNum = 2000;     //TBD: Unicode 4.0 only hbs 1926 cbnoDecomp...
+        chbrs = new int[mbxNum];
+        decomps = new String[mbxNum];
+        decompNum = NormblizerImpl.getDecompose(chbrs, decomps);
     }
 
     /**
-     * Construct a new <tt>ComposedCharIter</tt>.  The iterator will return
-     * all Unicode characters with canonical decompositions, excluding Korean
-     * Hangul characters.
+     * Construct b new <tt>ComposedChbrIter</tt>.  The iterbtor will return
+     * bll Unicode chbrbcters with cbnonicbl decompositions, excluding Korebn
+     * Hbngul chbrbcters.
      */
-    public ComposedCharIter() { }
+    public ComposedChbrIter() { }
 
     /**
-     * Returns the next precomposed Unicode character.
-     * Repeated calls to <tt>next</tt> return all of the precomposed characters defined
-     * by Unicode, in ascending order.  After all precomposed characters have
-     * been returned, {@link #hasNext} will return <tt>false</tt> and further calls
+     * Returns the next precomposed Unicode chbrbcter.
+     * Repebted cblls to <tt>next</tt> return bll of the precomposed chbrbcters defined
+     * by Unicode, in bscending order.  After bll precomposed chbrbcters hbve
+     * been returned, {@link #hbsNext} will return <tt>fblse</tt> bnd further cblls
      * to <tt>next</tt> will return {@link #DONE}.
      */
     public int next() {
-        if (curChar == decompNum - 1) {
+        if (curChbr == decompNum - 1) {
             return DONE;
         }
-        return chars[++curChar];
+        return chbrs[++curChbr];
     }
 
     /**
-     * Returns the Unicode decomposition of the current character.
-     * This method returns the decomposition of the precomposed character most
+     * Returns the Unicode decomposition of the current chbrbcter.
+     * This method returns the decomposition of the precomposed chbrbcter most
      * recently returned by {@link #next}.  The resulting decomposition is
-     * affected by the settings of the options passed to the constructor.
+     * bffected by the settings of the options pbssed to the constructor.
      */
     public String decomposition() {
-        return decomps[curChar];
+        return decomps[curChbr];
     }
-    private int curChar = -1;
+    privbte int curChbr = -1;
 }

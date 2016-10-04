@@ -1,355 +1,355 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing;
+pbckbge jbvbx.swing;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.beans.Transient;
-import java.util.*;
-import javax.swing.event.*;
-import javax.swing.plaf.*;
-import javax.accessibility.*;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvb.bebns.Trbnsient;
+import jbvb.util.*;
+import jbvbx.swing.event.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.bccessibility.*;
 import sun.swing.SwingUtilities2;
 
-import java.io.Serializable;
-import java.io.ObjectOutputStream;
-import java.io.ObjectInputStream;
-import java.io.IOException;
+import jbvb.io.Seriblizbble;
+import jbvb.io.ObjectOutputStrebm;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.IOException;
 
 /**
- * A component that lets the user switch between a group of components by
- * clicking on a tab with a given title and/or icon.
- * For examples and information on using tabbed panes see
- * <a href="http://docs.oracle.com/javase/tutorial/uiswing/components/tabbedpane.html">How to Use Tabbed Panes</a>,
- * a section in <em>The Java Tutorial</em>.
+ * A component thbt lets the user switch between b group of components by
+ * clicking on b tbb with b given title bnd/or icon.
+ * For exbmples bnd informbtion on using tbbbed pbnes see
+ * <b href="http://docs.orbcle.com/jbvbse/tutoribl/uiswing/components/tbbbedpbne.html">How to Use Tbbbed Pbnes</b>,
+ * b section in <em>The Jbvb Tutoribl</em>.
  * <p>
- * Tabs/components are added to a <code>TabbedPane</code> object by using the
- * <code>addTab</code> and <code>insertTab</code> methods.
- * A tab is represented by an index corresponding
- * to the position it was added in, where the first tab has an index equal to 0
- * and the last tab has an index equal to the tab count minus 1.
+ * Tbbs/components bre bdded to b <code>TbbbedPbne</code> object by using the
+ * <code>bddTbb</code> bnd <code>insertTbb</code> methods.
+ * A tbb is represented by bn index corresponding
+ * to the position it wbs bdded in, where the first tbb hbs bn index equbl to 0
+ * bnd the lbst tbb hbs bn index equbl to the tbb count minus 1.
  * <p>
- * The <code>TabbedPane</code> uses a <code>SingleSelectionModel</code>
+ * The <code>TbbbedPbne</code> uses b <code>SingleSelectionModel</code>
  * to represent the set
- * of tab indices and the currently selected index.  If the tab count
- * is greater than 0, then there will always be a selected index, which
- * by default will be initialized to the first tab.  If the tab count is
+ * of tbb indices bnd the currently selected index.  If the tbb count
+ * is grebter thbn 0, then there will blwbys be b selected index, which
+ * by defbult will be initiblized to the first tbb.  If the tbb count is
  * 0, then the selected index will be -1.
  * <p>
- * The tab title can be rendered by a <code>Component</code>.
- * For example, the following produce similar results:
+ * The tbb title cbn be rendered by b <code>Component</code>.
+ * For exbmple, the following produce similbr results:
  * <pre>
- * // In this case the look and feel renders the title for the tab.
- * tabbedPane.addTab("Tab", myComponent);
- * // In this case the custom component is responsible for rendering the
- * // title of the tab.
- * tabbedPane.addTab(null, myComponent);
- * tabbedPane.setTabComponentAt(0, new JLabel("Tab"));
+ * // In this cbse the look bnd feel renders the title for the tbb.
+ * tbbbedPbne.bddTbb("Tbb", myComponent);
+ * // In this cbse the custom component is responsible for rendering the
+ * // title of the tbb.
+ * tbbbedPbne.bddTbb(null, myComponent);
+ * tbbbedPbne.setTbbComponentAt(0, new JLbbel("Tbb"));
  * </pre>
- * The latter is typically used when you want a more complex user interaction
- * that requires custom components on the tab.  For example, you could
- * provide a custom component that animates or one that has widgets for
- * closing the tab.
+ * The lbtter is typicblly used when you wbnt b more complex user interbction
+ * thbt requires custom components on the tbb.  For exbmple, you could
+ * provide b custom component thbt bnimbtes or one thbt hbs widgets for
+ * closing the tbb.
  * <p>
- * If you specify a component for a tab, the <code>JTabbedPane</code>
- * will not render any text or icon you have specified for the tab.
+ * If you specify b component for b tbb, the <code>JTbbbedPbne</code>
+ * will not render bny text or icon you hbve specified for the tbb.
  * <p>
  * <strong>Note:</strong>
- * Do not use <code>setVisible</code> directly on a tab component to make it visible,
- * use <code>setSelectedComponent</code> or <code>setSelectedIndex</code> methods instead.
+ * Do not use <code>setVisible</code> directly on b tbb component to mbke it visible,
+ * use <code>setSelectedComponent</code> or <code>setSelectedIndex</code> methods instebd.
  * <p>
- * <strong>Warning:</strong> Swing is not thread safe. For more
- * information see <a
- * href="package-summary.html#threading">Swing's Threading
- * Policy</a>.
+ * <strong>Wbrning:</strong> Swing is not threbd sbfe. For more
+ * informbtion see <b
+ * href="pbckbge-summbry.html#threbding">Swing's Threbding
+ * Policy</b>.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
- * @beaninfo
- *      attribute: isContainer true
- *    description: A component which provides a tab folder metaphor for
- *                 displaying one component from a set of components.
+ * @bebninfo
+ *      bttribute: isContbiner true
+ *    description: A component which provides b tbb folder metbphor for
+ *                 displbying one component from b set of components.
  *
- * @author Dave Moore
- * @author Philip Milne
- * @author Amy Fowler
+ * @buthor Dbve Moore
+ * @buthor Philip Milne
+ * @buthor Amy Fowler
  *
  * @see SingleSelectionModel
  * @since 1.2
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class JTabbedPane extends JComponent
-       implements Serializable, Accessible, SwingConstants {
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public clbss JTbbbedPbne extends JComponent
+       implements Seriblizbble, Accessible, SwingConstbnts {
 
    /**
-    * The tab layout policy for wrapping tabs in multiple runs when all
-    * tabs will not fit within a single run.
+    * The tbb lbyout policy for wrbpping tbbs in multiple runs when bll
+    * tbbs will not fit within b single run.
     */
-    public static final int WRAP_TAB_LAYOUT = 0;
+    public stbtic finbl int WRAP_TAB_LAYOUT = 0;
 
    /**
-    * Tab layout policy for providing a subset of available tabs when all
-    * the tabs will not fit within a single run.  If all the tabs do
-    * not fit within a single run the look and feel will provide a way
-    * to navigate to hidden tabs.
+    * Tbb lbyout policy for providing b subset of bvbilbble tbbs when bll
+    * the tbbs will not fit within b single run.  If bll the tbbs do
+    * not fit within b single run the look bnd feel will provide b wby
+    * to nbvigbte to hidden tbbs.
     */
-    public static final int SCROLL_TAB_LAYOUT = 1;
+    public stbtic finbl int SCROLL_TAB_LAYOUT = 1;
 
 
     /**
-     * @see #getUIClassID
-     * @see #readObject
+     * @see #getUIClbssID
+     * @see #rebdObject
      */
-    private static final String uiClassID = "TabbedPaneUI";
+    privbte stbtic finbl String uiClbssID = "TbbbedPbneUI";
 
     /**
-     * Where the tabs are placed.
-     * @see #setTabPlacement
+     * Where the tbbs bre plbced.
+     * @see #setTbbPlbcement
      */
-    protected int tabPlacement = TOP;
+    protected int tbbPlbcement = TOP;
 
-    private int tabLayoutPolicy;
+    privbte int tbbLbyoutPolicy;
 
-    /** The default selection model */
+    /** The defbult selection model */
     protected SingleSelectionModel model;
 
-    private boolean haveRegistered;
+    privbte boolebn hbveRegistered;
 
     /**
-     * The <code>changeListener</code> is the listener we add to the
+     * The <code>chbngeListener</code> is the listener we bdd to the
      * model.
      */
-    protected ChangeListener changeListener = null;
+    protected ChbngeListener chbngeListener = null;
 
-    private final java.util.List<Page> pages;
+    privbte finbl jbvb.util.List<Pbge> pbges;
 
-    /* The component that is currently visible */
-    private Component visComp = null;
-
-    /**
-     * Only one <code>ChangeEvent</code> is needed per <code>TabPane</code>
-     * instance since the
-     * event's only (read-only) state is the source property.  The source
-     * of events generated here is always "this".
-     */
-    protected transient ChangeEvent changeEvent = null;
+    /* The component thbt is currently visible */
+    privbte Component visComp = null;
 
     /**
-     * Creates an empty <code>TabbedPane</code> with a default
-     * tab placement of <code>JTabbedPane.TOP</code>.
-     * @see #addTab
+     * Only one <code>ChbngeEvent</code> is needed per <code>TbbPbne</code>
+     * instbnce since the
+     * event's only (rebd-only) stbte is the source property.  The source
+     * of events generbted here is blwbys "this".
      */
-    public JTabbedPane() {
+    protected trbnsient ChbngeEvent chbngeEvent = null;
+
+    /**
+     * Crebtes bn empty <code>TbbbedPbne</code> with b defbult
+     * tbb plbcement of <code>JTbbbedPbne.TOP</code>.
+     * @see #bddTbb
+     */
+    public JTbbbedPbne() {
         this(TOP, WRAP_TAB_LAYOUT);
     }
 
     /**
-     * Creates an empty <code>TabbedPane</code> with the specified tab placement
-     * of either: <code>JTabbedPane.TOP</code>, <code>JTabbedPane.BOTTOM</code>,
-     * <code>JTabbedPane.LEFT</code>, or <code>JTabbedPane.RIGHT</code>.
+     * Crebtes bn empty <code>TbbbedPbne</code> with the specified tbb plbcement
+     * of either: <code>JTbbbedPbne.TOP</code>, <code>JTbbbedPbne.BOTTOM</code>,
+     * <code>JTbbbedPbne.LEFT</code>, or <code>JTbbbedPbne.RIGHT</code>.
      *
-     * @param tabPlacement the placement for the tabs relative to the content
-     * @see #addTab
+     * @pbrbm tbbPlbcement the plbcement for the tbbs relbtive to the content
+     * @see #bddTbb
      */
-    public JTabbedPane(int tabPlacement) {
-        this(tabPlacement, WRAP_TAB_LAYOUT);
+    public JTbbbedPbne(int tbbPlbcement) {
+        this(tbbPlbcement, WRAP_TAB_LAYOUT);
     }
 
     /**
-     * Creates an empty <code>TabbedPane</code> with the specified tab placement
-     * and tab layout policy.  Tab placement may be either:
-     * <code>JTabbedPane.TOP</code>, <code>JTabbedPane.BOTTOM</code>,
-     * <code>JTabbedPane.LEFT</code>, or <code>JTabbedPane.RIGHT</code>.
-     * Tab layout policy may be either: <code>JTabbedPane.WRAP_TAB_LAYOUT</code>
-     * or <code>JTabbedPane.SCROLL_TAB_LAYOUT</code>.
+     * Crebtes bn empty <code>TbbbedPbne</code> with the specified tbb plbcement
+     * bnd tbb lbyout policy.  Tbb plbcement mby be either:
+     * <code>JTbbbedPbne.TOP</code>, <code>JTbbbedPbne.BOTTOM</code>,
+     * <code>JTbbbedPbne.LEFT</code>, or <code>JTbbbedPbne.RIGHT</code>.
+     * Tbb lbyout policy mby be either: <code>JTbbbedPbne.WRAP_TAB_LAYOUT</code>
+     * or <code>JTbbbedPbne.SCROLL_TAB_LAYOUT</code>.
      *
-     * @param tabPlacement the placement for the tabs relative to the content
-     * @param tabLayoutPolicy the policy for laying out tabs when all tabs will not fit on one run
-     * @exception IllegalArgumentException if tab placement or tab layout policy are not
-     *            one of the above supported values
-     * @see #addTab
+     * @pbrbm tbbPlbcement the plbcement for the tbbs relbtive to the content
+     * @pbrbm tbbLbyoutPolicy the policy for lbying out tbbs when bll tbbs will not fit on one run
+     * @exception IllegblArgumentException if tbb plbcement or tbb lbyout policy bre not
+     *            one of the bbove supported vblues
+     * @see #bddTbb
      * @since 1.4
      */
-    public JTabbedPane(int tabPlacement, int tabLayoutPolicy) {
-        setTabPlacement(tabPlacement);
-        setTabLayoutPolicy(tabLayoutPolicy);
-        pages = new ArrayList<Page>(1);
-        setModel(new DefaultSingleSelectionModel());
-        updateUI();
+    public JTbbbedPbne(int tbbPlbcement, int tbbLbyoutPolicy) {
+        setTbbPlbcement(tbbPlbcement);
+        setTbbLbyoutPolicy(tbbLbyoutPolicy);
+        pbges = new ArrbyList<Pbge>(1);
+        setModel(new DefbultSingleSelectionModel());
+        updbteUI();
     }
 
     /**
-     * Returns the UI object which implements the L&amp;F for this component.
+     * Returns the UI object which implements the L&bmp;F for this component.
      *
-     * @return a <code>TabbedPaneUI</code> object
+     * @return b <code>TbbbedPbneUI</code> object
      * @see #setUI
      */
-    public TabbedPaneUI getUI() {
-        return (TabbedPaneUI)ui;
+    public TbbbedPbneUI getUI() {
+        return (TbbbedPbneUI)ui;
     }
 
     /**
-     * Sets the UI object which implements the L&amp;F for this component.
+     * Sets the UI object which implements the L&bmp;F for this component.
      *
-     * @param ui the new UI object
-     * @see UIDefaults#getUI
-     * @beaninfo
+     * @pbrbm ui the new UI object
+     * @see UIDefbults#getUI
+     * @bebninfo
      *        bound: true
      *       hidden: true
-     *    attribute: visualUpdate true
-     *  description: The UI object that implements the tabbedpane's LookAndFeel
+     *    bttribute: visublUpdbte true
+     *  description: The UI object thbt implements the tbbbedpbne's LookAndFeel
      */
-    public void setUI(TabbedPaneUI ui) {
+    public void setUI(TbbbedPbneUI ui) {
         super.setUI(ui);
-        // disabled icons are generated by LF so they should be unset here
-        for (int i = 0; i < getTabCount(); i++) {
-            Icon icon = pages.get(i).disabledIcon;
-            if (icon instanceof UIResource) {
-                setDisabledIconAt(i, null);
+        // disbbled icons bre generbted by LF so they should be unset here
+        for (int i = 0; i < getTbbCount(); i++) {
+            Icon icon = pbges.get(i).disbbledIcon;
+            if (icon instbnceof UIResource) {
+                setDisbbledIconAt(i, null);
             }
         }
     }
 
     /**
-     * Resets the UI property to a value from the current look and feel.
+     * Resets the UI property to b vblue from the current look bnd feel.
      *
-     * @see JComponent#updateUI
+     * @see JComponent#updbteUI
      */
-    public void updateUI() {
-        setUI((TabbedPaneUI)UIManager.getUI(this));
+    public void updbteUI() {
+        setUI((TbbbedPbneUI)UIMbnbger.getUI(this));
     }
 
 
     /**
-     * Returns the name of the UI class that implements the
-     * L&amp;F for this component.
+     * Returns the nbme of the UI clbss thbt implements the
+     * L&bmp;F for this component.
      *
-     * @return the string "TabbedPaneUI"
-     * @see JComponent#getUIClassID
-     * @see UIDefaults#getUI
+     * @return the string "TbbbedPbneUI"
+     * @see JComponent#getUIClbssID
+     * @see UIDefbults#getUI
      */
-    public String getUIClassID() {
-        return uiClassID;
+    public String getUIClbssID() {
+        return uiClbssID;
     }
 
 
     /**
-     * We pass <code>ModelChanged</code> events along to the listeners with
-     * the tabbedpane (instead of the model itself) as the event source.
+     * We pbss <code>ModelChbnged</code> events blong to the listeners with
+     * the tbbbedpbne (instebd of the model itself) bs the event source.
      */
-    protected class ModelListener implements ChangeListener, Serializable {
-        public void stateChanged(ChangeEvent e) {
-            fireStateChanged();
+    protected clbss ModelListener implements ChbngeListener, Seriblizbble {
+        public void stbteChbnged(ChbngeEvent e) {
+            fireStbteChbnged();
         }
     }
 
     /**
-     * Subclasses that want to handle <code>ChangeEvents</code> differently
-     * can override this to return a subclass of <code>ModelListener</code> or
-     * another <code>ChangeListener</code> implementation.
+     * Subclbsses thbt wbnt to hbndle <code>ChbngeEvents</code> differently
+     * cbn override this to return b subclbss of <code>ModelListener</code> or
+     * bnother <code>ChbngeListener</code> implementbtion.
      *
-     * @return a {@code ChangeListener}
-     * @see #fireStateChanged
+     * @return b {@code ChbngeListener}
+     * @see #fireStbteChbnged
      */
-    protected ChangeListener createChangeListener() {
+    protected ChbngeListener crebteChbngeListener() {
         return new ModelListener();
     }
 
     /**
-     * Adds a <code>ChangeListener</code> to this tabbedpane.
+     * Adds b <code>ChbngeListener</code> to this tbbbedpbne.
      *
-     * @param l the <code>ChangeListener</code> to add
-     * @see #fireStateChanged
-     * @see #removeChangeListener
+     * @pbrbm l the <code>ChbngeListener</code> to bdd
+     * @see #fireStbteChbnged
+     * @see #removeChbngeListener
      */
-    public void addChangeListener(ChangeListener l) {
-        listenerList.add(ChangeListener.class, l);
+    public void bddChbngeListener(ChbngeListener l) {
+        listenerList.bdd(ChbngeListener.clbss, l);
     }
 
     /**
-     * Removes a <code>ChangeListener</code> from this tabbedpane.
+     * Removes b <code>ChbngeListener</code> from this tbbbedpbne.
      *
-     * @param l the <code>ChangeListener</code> to remove
-     * @see #fireStateChanged
-     * @see #addChangeListener
+     * @pbrbm l the <code>ChbngeListener</code> to remove
+     * @see #fireStbteChbnged
+     * @see #bddChbngeListener
      */
-    public void removeChangeListener(ChangeListener l) {
-        listenerList.remove(ChangeListener.class, l);
+    public void removeChbngeListener(ChbngeListener l) {
+        listenerList.remove(ChbngeListener.clbss, l);
     }
 
    /**
-     * Returns an array of all the <code>ChangeListener</code>s added
-     * to this <code>JTabbedPane</code> with <code>addChangeListener</code>.
+     * Returns bn brrby of bll the <code>ChbngeListener</code>s bdded
+     * to this <code>JTbbbedPbne</code> with <code>bddChbngeListener</code>.
      *
-     * @return all of the <code>ChangeListener</code>s added or an empty
-     *         array if no listeners have been added
+     * @return bll of the <code>ChbngeListener</code>s bdded or bn empty
+     *         brrby if no listeners hbve been bdded
      * @since 1.4
      */
-    public ChangeListener[] getChangeListeners() {
-        return listenerList.getListeners(ChangeListener.class);
+    public ChbngeListener[] getChbngeListeners() {
+        return listenerList.getListeners(ChbngeListener.clbss);
     }
 
     /**
-     * Sends a {@code ChangeEvent}, with this {@code JTabbedPane} as the source,
-     * to each registered listener. This method is called each time there is
-     * a change to either the selected index or the selected tab in the
-     * {@code JTabbedPane}. Usually, the selected index and selected tab change
-     * together. However, there are some cases, such as tab addition, where the
-     * selected index changes and the same tab remains selected. There are other
-     * cases, such as deleting the selected tab, where the index remains the
-     * same, but a new tab moves to that index. Events are fired for all of
-     * these cases.
+     * Sends b {@code ChbngeEvent}, with this {@code JTbbbedPbne} bs the source,
+     * to ebch registered listener. This method is cblled ebch time there is
+     * b chbnge to either the selected index or the selected tbb in the
+     * {@code JTbbbedPbne}. Usublly, the selected index bnd selected tbb chbnge
+     * together. However, there bre some cbses, such bs tbb bddition, where the
+     * selected index chbnges bnd the sbme tbb rembins selected. There bre other
+     * cbses, such bs deleting the selected tbb, where the index rembins the
+     * sbme, but b new tbb moves to thbt index. Events bre fired for bll of
+     * these cbses.
      *
-     * @see #addChangeListener
+     * @see #bddChbngeListener
      * @see EventListenerList
      */
-    protected void fireStateChanged() {
-        /* --- Begin code to deal with visibility --- */
+    protected void fireStbteChbnged() {
+        /* --- Begin code to debl with visibility --- */
 
-        /* This code deals with changing the visibility of components to
-         * hide and show the contents for the selected tab. It duplicates
-         * logic already present in BasicTabbedPaneUI, logic that is
-         * processed during the layout pass. This code exists to allow
-         * developers to do things that are quite difficult to accomplish
-         * with the previous model of waiting for the layout pass to process
-         * visibility changes; such as requesting focus on the new visible
+        /* This code debls with chbnging the visibility of components to
+         * hide bnd show the contents for the selected tbb. It duplicbtes
+         * logic blrebdy present in BbsicTbbbedPbneUI, logic thbt is
+         * processed during the lbyout pbss. This code exists to bllow
+         * developers to do things thbt bre quite difficult to bccomplish
+         * with the previous model of wbiting for the lbyout pbss to process
+         * visibility chbnges; such bs requesting focus on the new visible
          * component.
          *
-         * For the average code, using the typical JTabbedPane methods,
-         * all visibility changes will now be processed here. However,
-         * the code in BasicTabbedPaneUI still exists, for the purposes
-         * of backward compatibility. Therefore, when making changes to
-         * this code, ensure that the BasicTabbedPaneUI code is kept in
+         * For the bverbge code, using the typicbl JTbbbedPbne methods,
+         * bll visibility chbnges will now be processed here. However,
+         * the code in BbsicTbbbedPbneUI still exists, for the purposes
+         * of bbckwbrd compbtibility. Therefore, when mbking chbnges to
+         * this code, ensure thbt the BbsicTbbbedPbneUI code is kept in
          * synch.
          */
 
@@ -357,10 +357,10 @@ public class JTabbedPane extends JComponent
 
         /* if the selection is now nothing */
         if (selIndex < 0) {
-            /* if there was a previous visible component */
+            /* if there wbs b previous visible component */
             if (visComp != null && visComp.isVisible()) {
-                /* make it invisible */
-                visComp.setVisible(false);
+                /* mbke it invisible */
+                visComp.setVisible(fblse);
             }
 
             /* now there's no visible component */
@@ -371,25 +371,25 @@ public class JTabbedPane extends JComponent
             /* Fetch the component for the new selection */
             Component newComp = getComponentAt(selIndex);
 
-            /* if the new component is non-null and different */
+            /* if the new component is non-null bnd different */
             if (newComp != null && newComp != visComp) {
-                boolean shouldChangeFocus = false;
+                boolebn shouldChbngeFocus = fblse;
 
-                /* Note: the following (clearing of the old visible component)
-                 * is inside this if-statement for good reason: Tabbed pane
+                /* Note: the following (clebring of the old visible component)
+                 * is inside this if-stbtement for good rebson: Tbbbed pbne
                  * should continue to show the previously visible component
-                 * if there is no component for the chosen tab.
+                 * if there is no component for the chosen tbb.
                  */
 
-                /* if there was a previous visible component */
+                /* if there wbs b previous visible component */
                 if (visComp != null) {
-                    shouldChangeFocus =
+                    shouldChbngeFocus =
                         (SwingUtilities.findFocusOwner(visComp) != null);
 
                     /* if it's still visible */
                     if (visComp.isVisible()) {
-                        /* make it invisible */
-                        visComp.setVisible(false);
+                        /* mbke it invisible */
+                        visComp.setVisible(fblse);
                     }
                 }
 
@@ -397,34 +397,34 @@ public class JTabbedPane extends JComponent
                     newComp.setVisible(true);
                 }
 
-                if (shouldChangeFocus) {
-                    SwingUtilities2.tabbedPaneChangeFocusTo(newComp);
+                if (shouldChbngeFocus) {
+                    SwingUtilities2.tbbbedPbneChbngeFocusTo(newComp);
                 }
 
                 visComp = newComp;
-            } /* else - the visible component shouldn't changed */
+            } /* else - the visible component shouldn't chbnged */
         }
 
-        /* --- End code to deal with visibility --- */
+        /* --- End code to debl with visibility --- */
 
-        // Guaranteed to return a non-null array
+        // Gubrbnteed to return b non-null brrby
         Object[] listeners = listenerList.getListenerList();
-        // Process the listeners last to first, notifying
-        // those that are interested in this event
+        // Process the listeners lbst to first, notifying
+        // those thbt bre interested in this event
         for (int i = listeners.length-2; i>=0; i-=2) {
-            if (listeners[i]==ChangeListener.class) {
-                // Lazily create the event:
-                if (changeEvent == null)
-                    changeEvent = new ChangeEvent(this);
-                ((ChangeListener)listeners[i+1]).stateChanged(changeEvent);
+            if (listeners[i]==ChbngeListener.clbss) {
+                // Lbzily crebte the event:
+                if (chbngeEvent == null)
+                    chbngeEvent = new ChbngeEvent(this);
+                ((ChbngeListener)listeners[i+1]).stbteChbnged(chbngeEvent);
             }
         }
     }
 
     /**
-     * Returns the model associated with this tabbedpane.
+     * Returns the model bssocibted with this tbbbedpbne.
      *
-     * @return the {@code SingleSelectionModel} associated with this tabbedpane
+     * @return the {@code SingleSelectionModel} bssocibted with this tbbbedpbne
      * @see #setModel
      */
     public SingleSelectionModel getModel() {
@@ -432,165 +432,165 @@ public class JTabbedPane extends JComponent
     }
 
     /**
-     * Sets the model to be used with this tabbedpane.
+     * Sets the model to be used with this tbbbedpbne.
      *
-     * @param model the model to be used
+     * @pbrbm model the model to be used
      * @see #getModel
-     * @beaninfo
+     * @bebninfo
      *       bound: true
-     * description: The tabbedpane's SingleSelectionModel.
+     * description: The tbbbedpbne's SingleSelectionModel.
      */
     public void setModel(SingleSelectionModel model) {
         SingleSelectionModel oldModel = getModel();
 
         if (oldModel != null) {
-            oldModel.removeChangeListener(changeListener);
-            changeListener = null;
+            oldModel.removeChbngeListener(chbngeListener);
+            chbngeListener = null;
         }
 
         this.model = model;
 
         if (model != null) {
-            changeListener = createChangeListener();
-            model.addChangeListener(changeListener);
+            chbngeListener = crebteChbngeListener();
+            model.bddChbngeListener(chbngeListener);
         }
 
-        firePropertyChange("model", oldModel, model);
-        repaint();
+        firePropertyChbnge("model", oldModel, model);
+        repbint();
     }
 
     /**
-     * Returns the placement of the tabs for this tabbedpane.
+     * Returns the plbcement of the tbbs for this tbbbedpbne.
      *
-     * @return an {@code int} specifying the placement for the tabs
-     * @see #setTabPlacement
+     * @return bn {@code int} specifying the plbcement for the tbbs
+     * @see #setTbbPlbcement
      */
-    public int getTabPlacement() {
-        return tabPlacement;
+    public int getTbbPlbcement() {
+        return tbbPlbcement;
     }
 
     /**
-     * Sets the tab placement for this tabbedpane.
-     * Possible values are:<ul>
-     * <li><code>JTabbedPane.TOP</code>
-     * <li><code>JTabbedPane.BOTTOM</code>
-     * <li><code>JTabbedPane.LEFT</code>
-     * <li><code>JTabbedPane.RIGHT</code>
+     * Sets the tbb plbcement for this tbbbedpbne.
+     * Possible vblues bre:<ul>
+     * <li><code>JTbbbedPbne.TOP</code>
+     * <li><code>JTbbbedPbne.BOTTOM</code>
+     * <li><code>JTbbbedPbne.LEFT</code>
+     * <li><code>JTbbbedPbne.RIGHT</code>
      * </ul>
-     * The default value, if not set, is <code>SwingConstants.TOP</code>.
+     * The defbult vblue, if not set, is <code>SwingConstbnts.TOP</code>.
      *
-     * @param tabPlacement the placement for the tabs relative to the content
-     * @exception IllegalArgumentException if tab placement value isn't one
-     *                          of the above valid values
+     * @pbrbm tbbPlbcement the plbcement for the tbbs relbtive to the content
+     * @exception IllegblArgumentException if tbb plbcement vblue isn't one
+     *                          of the bbove vblid vblues
      *
-     * @beaninfo
+     * @bebninfo
      *    preferred: true
      *        bound: true
-     *    attribute: visualUpdate true
-     *         enum: TOP JTabbedPane.TOP
-     *               LEFT JTabbedPane.LEFT
-     *               BOTTOM JTabbedPane.BOTTOM
-     *               RIGHT JTabbedPane.RIGHT
-     *  description: The tabbedpane's tab placement.
+     *    bttribute: visublUpdbte true
+     *         enum: TOP JTbbbedPbne.TOP
+     *               LEFT JTbbbedPbne.LEFT
+     *               BOTTOM JTbbbedPbne.BOTTOM
+     *               RIGHT JTbbbedPbne.RIGHT
+     *  description: The tbbbedpbne's tbb plbcement.
      *
      */
-    public void setTabPlacement(int tabPlacement) {
-        if (tabPlacement != TOP && tabPlacement != LEFT &&
-            tabPlacement != BOTTOM && tabPlacement != RIGHT) {
-            throw new IllegalArgumentException("illegal tab placement: must be TOP, BOTTOM, LEFT, or RIGHT");
+    public void setTbbPlbcement(int tbbPlbcement) {
+        if (tbbPlbcement != TOP && tbbPlbcement != LEFT &&
+            tbbPlbcement != BOTTOM && tbbPlbcement != RIGHT) {
+            throw new IllegblArgumentException("illegbl tbb plbcement: must be TOP, BOTTOM, LEFT, or RIGHT");
         }
-        if (this.tabPlacement != tabPlacement) {
-            int oldValue = this.tabPlacement;
-            this.tabPlacement = tabPlacement;
-            firePropertyChange("tabPlacement", oldValue, tabPlacement);
-            revalidate();
-            repaint();
+        if (this.tbbPlbcement != tbbPlbcement) {
+            int oldVblue = this.tbbPlbcement;
+            this.tbbPlbcement = tbbPlbcement;
+            firePropertyChbnge("tbbPlbcement", oldVblue, tbbPlbcement);
+            revblidbte();
+            repbint();
         }
     }
 
     /**
-     * Returns the policy used by the tabbedpane to layout the tabs when all the
-     * tabs will not fit within a single run.
+     * Returns the policy used by the tbbbedpbne to lbyout the tbbs when bll the
+     * tbbs will not fit within b single run.
      *
-     * @return an {@code int} specifying the policy used to layout the tabs
-     * @see #setTabLayoutPolicy
+     * @return bn {@code int} specifying the policy used to lbyout the tbbs
+     * @see #setTbbLbyoutPolicy
      * @since 1.4
      */
-    public int getTabLayoutPolicy() {
-        return tabLayoutPolicy;
+    public int getTbbLbyoutPolicy() {
+        return tbbLbyoutPolicy;
     }
 
    /**
-     * Sets the policy which the tabbedpane will use in laying out the tabs
-     * when all the tabs will not fit within a single run.
-     * Possible values are:
+     * Sets the policy which the tbbbedpbne will use in lbying out the tbbs
+     * when bll the tbbs will not fit within b single run.
+     * Possible vblues bre:
      * <ul>
-     * <li><code>JTabbedPane.WRAP_TAB_LAYOUT</code>
-     * <li><code>JTabbedPane.SCROLL_TAB_LAYOUT</code>
+     * <li><code>JTbbbedPbne.WRAP_TAB_LAYOUT</code>
+     * <li><code>JTbbbedPbne.SCROLL_TAB_LAYOUT</code>
      * </ul>
      *
-     * The default value, if not set by the UI, is <code>JTabbedPane.WRAP_TAB_LAYOUT</code>.
+     * The defbult vblue, if not set by the UI, is <code>JTbbbedPbne.WRAP_TAB_LAYOUT</code>.
      * <p>
-     * Some look and feels might only support a subset of the possible
-     * layout policies, in which case the value of this property may be
+     * Some look bnd feels might only support b subset of the possible
+     * lbyout policies, in which cbse the vblue of this property mby be
      * ignored.
      *
-     * @param tabLayoutPolicy the policy used to layout the tabs
-     * @exception IllegalArgumentException if layoutPolicy value isn't one
-     *                          of the above valid values
-     * @see #getTabLayoutPolicy
+     * @pbrbm tbbLbyoutPolicy the policy used to lbyout the tbbs
+     * @exception IllegblArgumentException if lbyoutPolicy vblue isn't one
+     *                          of the bbove vblid vblues
+     * @see #getTbbLbyoutPolicy
      * @since 1.4
      *
-     * @beaninfo
+     * @bebninfo
      *    preferred: true
      *        bound: true
-     *    attribute: visualUpdate true
-     *         enum: WRAP_TAB_LAYOUT JTabbedPane.WRAP_TAB_LAYOUT
-     *               SCROLL_TAB_LAYOUT JTabbedPane.SCROLL_TAB_LAYOUT
-     *  description: The tabbedpane's policy for laying out the tabs
+     *    bttribute: visublUpdbte true
+     *         enum: WRAP_TAB_LAYOUT JTbbbedPbne.WRAP_TAB_LAYOUT
+     *               SCROLL_TAB_LAYOUT JTbbbedPbne.SCROLL_TAB_LAYOUT
+     *  description: The tbbbedpbne's policy for lbying out the tbbs
      *
      */
-    public void setTabLayoutPolicy(int tabLayoutPolicy) {
-        if (tabLayoutPolicy != WRAP_TAB_LAYOUT && tabLayoutPolicy != SCROLL_TAB_LAYOUT) {
-            throw new IllegalArgumentException("illegal tab layout policy: must be WRAP_TAB_LAYOUT or SCROLL_TAB_LAYOUT");
+    public void setTbbLbyoutPolicy(int tbbLbyoutPolicy) {
+        if (tbbLbyoutPolicy != WRAP_TAB_LAYOUT && tbbLbyoutPolicy != SCROLL_TAB_LAYOUT) {
+            throw new IllegblArgumentException("illegbl tbb lbyout policy: must be WRAP_TAB_LAYOUT or SCROLL_TAB_LAYOUT");
         }
-        if (this.tabLayoutPolicy != tabLayoutPolicy) {
-            int oldValue = this.tabLayoutPolicy;
-            this.tabLayoutPolicy = tabLayoutPolicy;
-            firePropertyChange("tabLayoutPolicy", oldValue, tabLayoutPolicy);
-            revalidate();
-            repaint();
+        if (this.tbbLbyoutPolicy != tbbLbyoutPolicy) {
+            int oldVblue = this.tbbLbyoutPolicy;
+            this.tbbLbyoutPolicy = tbbLbyoutPolicy;
+            firePropertyChbnge("tbbLbyoutPolicy", oldVblue, tbbLbyoutPolicy);
+            revblidbte();
+            repbint();
         }
     }
 
     /**
-     * Returns the currently selected index for this tabbedpane.
-     * Returns -1 if there is no currently selected tab.
+     * Returns the currently selected index for this tbbbedpbne.
+     * Returns -1 if there is no currently selected tbb.
      *
-     * @return the index of the selected tab
+     * @return the index of the selected tbb
      * @see #setSelectedIndex
      */
-    @Transient
+    @Trbnsient
     public int getSelectedIndex() {
         return model.getSelectedIndex();
     }
 
     /**
-     * Sets the selected index for this tabbedpane. The index must be
-     * a valid tab index or -1, which indicates that no tab should be selected
-     * (can also be used when there are no tabs in the tabbedpane).  If a -1
-     * value is specified when the tabbedpane contains one or more tabs, then
-     * the results will be implementation defined.
+     * Sets the selected index for this tbbbedpbne. The index must be
+     * b vblid tbb index or -1, which indicbtes thbt no tbb should be selected
+     * (cbn blso be used when there bre no tbbs in the tbbbedpbne).  If b -1
+     * vblue is specified when the tbbbedpbne contbins one or more tbbs, then
+     * the results will be implementbtion defined.
      *
-     * @param index  the index to be selected
-     * @exception IndexOutOfBoundsException if index is out of range
-     *            {@code (index < -1 || index >= tab count)}
+     * @pbrbm index  the index to be selected
+     * @exception IndexOutOfBoundsException if index is out of rbnge
+     *            {@code (index < -1 || index >= tbb count)}
      *
      * @see #getSelectedIndex
      * @see SingleSelectionModel#setSelectedIndex
-     * @beaninfo
+     * @bebninfo
      *   preferred: true
-     * description: The tabbedpane's selected tab index.
+     * description: The tbbbedpbne's selected tbb index.
      */
     public void setSelectedIndex(int index) {
         if (index != -1) {
@@ -600,63 +600,63 @@ public class JTabbedPane extends JComponent
     }
 
 
-    private void setSelectedIndexImpl(int index, boolean doAccessibleChanges) {
+    privbte void setSelectedIndexImpl(int index, boolebn doAccessibleChbnges) {
         int oldIndex = model.getSelectedIndex();
-        Page oldPage = null, newPage = null;
-        String oldName = null;
+        Pbge oldPbge = null, newPbge = null;
+        String oldNbme = null;
 
-        doAccessibleChanges = doAccessibleChanges && (oldIndex != index);
+        doAccessibleChbnges = doAccessibleChbnges && (oldIndex != index);
 
-        if (doAccessibleChanges) {
-            if (accessibleContext != null) {
-                oldName = accessibleContext.getAccessibleName();
+        if (doAccessibleChbnges) {
+            if (bccessibleContext != null) {
+                oldNbme = bccessibleContext.getAccessibleNbme();
             }
 
             if (oldIndex >= 0) {
-                oldPage = pages.get(oldIndex);
+                oldPbge = pbges.get(oldIndex);
             }
 
             if (index >= 0) {
-                newPage = pages.get(index);
+                newPbge = pbges.get(index);
             }
         }
 
         model.setSelectedIndex(index);
 
-        if (doAccessibleChanges) {
-            changeAccessibleSelection(oldPage, oldName, newPage);
+        if (doAccessibleChbnges) {
+            chbngeAccessibleSelection(oldPbge, oldNbme, newPbge);
         }
     }
 
-    private void changeAccessibleSelection(Page oldPage, String oldName, Page newPage) {
-        if (accessibleContext == null) {
+    privbte void chbngeAccessibleSelection(Pbge oldPbge, String oldNbme, Pbge newPbge) {
+        if (bccessibleContext == null) {
             return;
         }
 
-        if (oldPage != null) {
-            oldPage.firePropertyChange(AccessibleContext.ACCESSIBLE_STATE_PROPERTY,
-                                       AccessibleState.SELECTED, null);
+        if (oldPbge != null) {
+            oldPbge.firePropertyChbnge(AccessibleContext.ACCESSIBLE_STATE_PROPERTY,
+                                       AccessibleStbte.SELECTED, null);
         }
 
-        if (newPage != null) {
-            newPage.firePropertyChange(AccessibleContext.ACCESSIBLE_STATE_PROPERTY,
-                                       null, AccessibleState.SELECTED);
+        if (newPbge != null) {
+            newPbge.firePropertyChbnge(AccessibleContext.ACCESSIBLE_STATE_PROPERTY,
+                                       null, AccessibleStbte.SELECTED);
         }
 
-        accessibleContext.firePropertyChange(
+        bccessibleContext.firePropertyChbnge(
             AccessibleContext.ACCESSIBLE_NAME_PROPERTY,
-            oldName,
-            accessibleContext.getAccessibleName());
+            oldNbme,
+            bccessibleContext.getAccessibleNbme());
     }
 
     /**
-     * Returns the currently selected component for this tabbedpane.
-     * Returns <code>null</code> if there is no currently selected tab.
+     * Returns the currently selected component for this tbbbedpbne.
+     * Returns <code>null</code> if there is no currently selected tbb.
      *
-     * @return the component corresponding to the selected tab
+     * @return the component corresponding to the selected tbb
      * @see #setSelectedComponent
      */
-    @Transient
+    @Trbnsient
     public Component getSelectedComponent() {
         int index = getSelectedIndex();
         if (index == -1) {
@@ -666,57 +666,57 @@ public class JTabbedPane extends JComponent
     }
 
     /**
-     * Sets the selected component for this tabbedpane.  This
-     * will automatically set the <code>selectedIndex</code> to the index
+     * Sets the selected component for this tbbbedpbne.  This
+     * will butombticblly set the <code>selectedIndex</code> to the index
      * corresponding to the specified component.
      *
-     * @param c the selected {@code Component} for this {@code TabbedPane}
-     * @exception IllegalArgumentException if component not found in tabbed
-     *          pane
+     * @pbrbm c the selected {@code Component} for this {@code TbbbedPbne}
+     * @exception IllegblArgumentException if component not found in tbbbed
+     *          pbne
      * @see #getSelectedComponent
-     * @beaninfo
+     * @bebninfo
      *   preferred: true
-     * description: The tabbedpane's selected component.
+     * description: The tbbbedpbne's selected component.
      */
     public void setSelectedComponent(Component c) {
         int index = indexOfComponent(c);
         if (index != -1) {
             setSelectedIndex(index);
         } else {
-            throw new IllegalArgumentException("component not found in tabbed pane");
+            throw new IllegblArgumentException("component not found in tbbbed pbne");
         }
     }
 
     /**
-     * Inserts a new tab for the given component, at the given index,
-     * represented by the given title and/or icon, either of which may
+     * Inserts b new tbb for the given component, bt the given index,
+     * represented by the given title bnd/or icon, either of which mby
      * be {@code null}.
      *
-     * @param title the title to be displayed on the tab
-     * @param icon the icon to be displayed on the tab
-     * @param component the component to be displayed when this tab is clicked.
-     * @param tip the tooltip to be displayed for this tab
-     * @param index the position to insert this new tab
-     *       ({@code > 0 and <= getTabCount()})
+     * @pbrbm title the title to be displbyed on the tbb
+     * @pbrbm icon the icon to be displbyed on the tbb
+     * @pbrbm component the component to be displbyed when this tbb is clicked.
+     * @pbrbm tip the tooltip to be displbyed for this tbb
+     * @pbrbm index the position to insert this new tbb
+     *       ({@code > 0 bnd <= getTbbCount()})
      *
-     * @throws IndexOutOfBoundsException if the index is out of range
-     *         ({@code < 0 or > getTabCount()})
+     * @throws IndexOutOfBoundsException if the index is out of rbnge
+     *         ({@code < 0 or > getTbbCount()})
      *
-     * @see #addTab
-     * @see #removeTabAt
+     * @see #bddTbb
+     * @see #removeTbbAt
      */
-    public void insertTab(String title, Icon icon, Component component, String tip, int index) {
+    public void insertTbb(String title, Icon icon, Component component, String tip, int index) {
         int newIndex = index;
 
-        // If component already exists, remove corresponding
-        // tab so that new tab gets added correctly
-        // Note: we are allowing component=null because of compatibility,
-        // but we really should throw an exception because much of the
-        // rest of the JTabbedPane implementation isn't designed to deal
-        // with null components for tabs.
+        // If component blrebdy exists, remove corresponding
+        // tbb so thbt new tbb gets bdded correctly
+        // Note: we bre bllowing component=null becbuse of compbtibility,
+        // but we reblly should throw bn exception becbuse much of the
+        // rest of the JTbbbedPbne implementbtion isn't designed to debl
+        // with null components for tbbs.
         int removeIndex = indexOfComponent(component);
         if (component != null && removeIndex != -1) {
-            removeTabAt(removeIndex);
+            removeTbbAt(removeIndex);
             if (newIndex > removeIndex) {
                 newIndex--;
             }
@@ -724,282 +724,282 @@ public class JTabbedPane extends JComponent
 
         int selectedIndex = getSelectedIndex();
 
-        pages.add(
+        pbges.bdd(
             newIndex,
-            new Page(this, title != null? title : "", icon, null, component, tip));
+            new Pbge(this, title != null? title : "", icon, null, component, tip));
 
 
         if (component != null) {
-            addImpl(component, null, -1);
-            component.setVisible(false);
+            bddImpl(component, null, -1);
+            component.setVisible(fblse);
         } else {
-            firePropertyChange("indexForNullComponent", -1, index);
+            firePropertyChbnge("indexForNullComponent", -1, index);
         }
 
-        if (pages.size() == 1) {
+        if (pbges.size() == 1) {
             setSelectedIndex(0);
         }
 
         if (selectedIndex >= newIndex) {
-            setSelectedIndexImpl(selectedIndex + 1, false);
+            setSelectedIndexImpl(selectedIndex + 1, fblse);
         }
 
-        if (!haveRegistered && tip != null) {
-            ToolTipManager.sharedInstance().registerComponent(this);
-            haveRegistered = true;
+        if (!hbveRegistered && tip != null) {
+            ToolTipMbnbger.shbredInstbnce().registerComponent(this);
+            hbveRegistered = true;
         }
 
-        if (accessibleContext != null) {
-            accessibleContext.firePropertyChange(
+        if (bccessibleContext != null) {
+            bccessibleContext.firePropertyChbnge(
                     AccessibleContext.ACCESSIBLE_VISIBLE_DATA_PROPERTY,
                     null, component);
         }
-        revalidate();
-        repaint();
+        revblidbte();
+        repbint();
     }
 
     /**
-     * Adds a <code>component</code> and <code>tip</code>
-     * represented by a <code>title</code> and/or <code>icon</code>,
-     * either of which can be <code>null</code>.
-     * Cover method for <code>insertTab</code>.
+     * Adds b <code>component</code> bnd <code>tip</code>
+     * represented by b <code>title</code> bnd/or <code>icon</code>,
+     * either of which cbn be <code>null</code>.
+     * Cover method for <code>insertTbb</code>.
      *
-     * @param title the title to be displayed in this tab
-     * @param icon the icon to be displayed in this tab
-     * @param component the component to be displayed when this tab is clicked
-     * @param tip the tooltip to be displayed for this tab
+     * @pbrbm title the title to be displbyed in this tbb
+     * @pbrbm icon the icon to be displbyed in this tbb
+     * @pbrbm component the component to be displbyed when this tbb is clicked
+     * @pbrbm tip the tooltip to be displbyed for this tbb
      *
-     * @see #insertTab
-     * @see #removeTabAt
+     * @see #insertTbb
+     * @see #removeTbbAt
      */
-    public void addTab(String title, Icon icon, Component component, String tip) {
-        insertTab(title, icon, component, tip, pages.size());
+    public void bddTbb(String title, Icon icon, Component component, String tip) {
+        insertTbb(title, icon, component, tip, pbges.size());
     }
 
     /**
-     * Adds a <code>component</code> represented by a <code>title</code>
-     * and/or <code>icon</code>, either of which can be <code>null</code>.
-     * Cover method for <code>insertTab</code>.
+     * Adds b <code>component</code> represented by b <code>title</code>
+     * bnd/or <code>icon</code>, either of which cbn be <code>null</code>.
+     * Cover method for <code>insertTbb</code>.
      *
-     * @param title the title to be displayed in this tab
-     * @param icon the icon to be displayed in this tab
-     * @param component the component to be displayed when this tab is clicked
+     * @pbrbm title the title to be displbyed in this tbb
+     * @pbrbm icon the icon to be displbyed in this tbb
+     * @pbrbm component the component to be displbyed when this tbb is clicked
      *
-     * @see #insertTab
-     * @see #removeTabAt
+     * @see #insertTbb
+     * @see #removeTbbAt
      */
-    public void addTab(String title, Icon icon, Component component) {
-        insertTab(title, icon, component, null, pages.size());
+    public void bddTbb(String title, Icon icon, Component component) {
+        insertTbb(title, icon, component, null, pbges.size());
     }
 
     /**
-     * Adds a <code>component</code> represented by a <code>title</code>
-     * and no icon.
-     * Cover method for <code>insertTab</code>.
+     * Adds b <code>component</code> represented by b <code>title</code>
+     * bnd no icon.
+     * Cover method for <code>insertTbb</code>.
      *
-     * @param title the title to be displayed in this tab
-     * @param component the component to be displayed when this tab is clicked
+     * @pbrbm title the title to be displbyed in this tbb
+     * @pbrbm component the component to be displbyed when this tbb is clicked
      *
-     * @see #insertTab
-     * @see #removeTabAt
+     * @see #insertTbb
+     * @see #removeTbbAt
      */
-    public void addTab(String title, Component component) {
-        insertTab(title, null, component, null, pages.size());
+    public void bddTbb(String title, Component component) {
+        insertTbb(title, null, component, null, pbges.size());
     }
 
     /**
-     * Adds a <code>component</code> with a tab title defaulting to
-     * the name of the component which is the result of calling
-     * <code>component.getName</code>.
-     * Cover method for <code>insertTab</code>.
+     * Adds b <code>component</code> with b tbb title defbulting to
+     * the nbme of the component which is the result of cblling
+     * <code>component.getNbme</code>.
+     * Cover method for <code>insertTbb</code>.
      *
-     * @param component the component to be displayed when this tab is clicked
+     * @pbrbm component the component to be displbyed when this tbb is clicked
      * @return the component
      *
-     * @see #insertTab
-     * @see #removeTabAt
+     * @see #insertTbb
+     * @see #removeTbbAt
      */
-    public Component add(Component component) {
-        if (!(component instanceof UIResource)) {
-            addTab(component.getName(), component);
+    public Component bdd(Component component) {
+        if (!(component instbnceof UIResource)) {
+            bddTbb(component.getNbme(), component);
         } else {
-            super.add(component);
+            super.bdd(component);
         }
         return component;
     }
 
     /**
-     * Adds a <code>component</code> with the specified tab title.
-     * Cover method for <code>insertTab</code>.
+     * Adds b <code>component</code> with the specified tbb title.
+     * Cover method for <code>insertTbb</code>.
      *
-     * @param title the title to be displayed in this tab
-     * @param component the component to be displayed when this tab is clicked
+     * @pbrbm title the title to be displbyed in this tbb
+     * @pbrbm component the component to be displbyed when this tbb is clicked
      * @return the component
      *
-     * @see #insertTab
-     * @see #removeTabAt
+     * @see #insertTbb
+     * @see #removeTbbAt
      */
-    public Component add(String title, Component component) {
-        if (!(component instanceof UIResource)) {
-            addTab(title, component);
+    public Component bdd(String title, Component component) {
+        if (!(component instbnceof UIResource)) {
+            bddTbb(title, component);
         } else {
-            super.add(title, component);
+            super.bdd(title, component);
         }
         return component;
     }
 
     /**
-     * Adds a <code>component</code> at the specified tab index with a tab
-     * title defaulting to the name of the component.
-     * Cover method for <code>insertTab</code>.
+     * Adds b <code>component</code> bt the specified tbb index with b tbb
+     * title defbulting to the nbme of the component.
+     * Cover method for <code>insertTbb</code>.
      *
-     * @param component the component to be displayed when this tab is clicked
-     * @param index the position to insert this new tab
+     * @pbrbm component the component to be displbyed when this tbb is clicked
+     * @pbrbm index the position to insert this new tbb
      * @return the component
      *
-     * @see #insertTab
-     * @see #removeTabAt
+     * @see #insertTbb
+     * @see #removeTbbAt
      */
-    public Component add(Component component, int index) {
-        if (!(component instanceof UIResource)) {
-            // Container.add() interprets -1 as "append", so convert
-            // the index appropriately to be handled by the vector
-            insertTab(component.getName(), null, component, null,
-                      index == -1? getTabCount() : index);
+    public Component bdd(Component component, int index) {
+        if (!(component instbnceof UIResource)) {
+            // Contbiner.bdd() interprets -1 bs "bppend", so convert
+            // the index bppropribtely to be hbndled by the vector
+            insertTbb(component.getNbme(), null, component, null,
+                      index == -1? getTbbCount() : index);
         } else {
-            super.add(component, index);
+            super.bdd(component, index);
         }
         return component;
     }
 
     /**
-     * Adds a <code>component</code> to the tabbed pane.
-     * If <code>constraints</code> is a <code>String</code> or an
-     * <code>Icon</code>, it will be used for the tab title,
-     * otherwise the component's name will be used as the tab title.
-     * Cover method for <code>insertTab</code>.
+     * Adds b <code>component</code> to the tbbbed pbne.
+     * If <code>constrbints</code> is b <code>String</code> or bn
+     * <code>Icon</code>, it will be used for the tbb title,
+     * otherwise the component's nbme will be used bs the tbb title.
+     * Cover method for <code>insertTbb</code>.
      *
-     * @param component the component to be displayed when this tab is clicked
-     * @param constraints the object to be displayed in the tab
+     * @pbrbm component the component to be displbyed when this tbb is clicked
+     * @pbrbm constrbints the object to be displbyed in the tbb
      *
-     * @see #insertTab
-     * @see #removeTabAt
+     * @see #insertTbb
+     * @see #removeTbbAt
      */
-    public void add(Component component, Object constraints) {
-        if (!(component instanceof UIResource)) {
-            if (constraints instanceof String) {
-                addTab((String)constraints, component);
-            } else if (constraints instanceof Icon) {
-                addTab(null, (Icon)constraints, component);
+    public void bdd(Component component, Object constrbints) {
+        if (!(component instbnceof UIResource)) {
+            if (constrbints instbnceof String) {
+                bddTbb((String)constrbints, component);
+            } else if (constrbints instbnceof Icon) {
+                bddTbb(null, (Icon)constrbints, component);
             } else {
-                add(component);
+                bdd(component);
             }
         } else {
-            super.add(component, constraints);
+            super.bdd(component, constrbints);
         }
     }
 
     /**
-     * Adds a <code>component</code> at the specified tab index.
-     * If <code>constraints</code> is a <code>String</code> or an
-     * <code>Icon</code>, it will be used for the tab title,
-     * otherwise the component's name will be used as the tab title.
-     * Cover method for <code>insertTab</code>.
+     * Adds b <code>component</code> bt the specified tbb index.
+     * If <code>constrbints</code> is b <code>String</code> or bn
+     * <code>Icon</code>, it will be used for the tbb title,
+     * otherwise the component's nbme will be used bs the tbb title.
+     * Cover method for <code>insertTbb</code>.
      *
-     * @param component the component to be displayed when this tab is clicked
-     * @param constraints the object to be displayed in the tab
-     * @param index the position to insert this new tab
+     * @pbrbm component the component to be displbyed when this tbb is clicked
+     * @pbrbm constrbints the object to be displbyed in the tbb
+     * @pbrbm index the position to insert this new tbb
      *
-     * @see #insertTab
-     * @see #removeTabAt
+     * @see #insertTbb
+     * @see #removeTbbAt
      */
-    public void add(Component component, Object constraints, int index) {
-        if (!(component instanceof UIResource)) {
+    public void bdd(Component component, Object constrbints, int index) {
+        if (!(component instbnceof UIResource)) {
 
-            Icon icon = constraints instanceof Icon? (Icon)constraints : null;
-            String title = constraints instanceof String? (String)constraints : null;
-            // Container.add() interprets -1 as "append", so convert
-            // the index appropriately to be handled by the vector
-            insertTab(title, icon, component, null, index == -1? getTabCount() : index);
+            Icon icon = constrbints instbnceof Icon? (Icon)constrbints : null;
+            String title = constrbints instbnceof String? (String)constrbints : null;
+            // Contbiner.bdd() interprets -1 bs "bppend", so convert
+            // the index bppropribtely to be hbndled by the vector
+            insertTbb(title, icon, component, null, index == -1? getTbbCount() : index);
         } else {
-            super.add(component, constraints, index);
+            super.bdd(component, constrbints, index);
         }
     }
 
     /**
-     * Removes the tab at <code>index</code>.
-     * After the component associated with <code>index</code> is removed,
+     * Removes the tbb bt <code>index</code>.
+     * After the component bssocibted with <code>index</code> is removed,
      * its visibility is reset to true to ensure it will be visible
-     * if added to other containers.
-     * @param index the index of the tab to be removed
-     * @exception IndexOutOfBoundsException if index is out of range
-     *            {@code (index < 0 || index >= tab count)}
+     * if bdded to other contbiners.
+     * @pbrbm index the index of the tbb to be removed
+     * @exception IndexOutOfBoundsException if index is out of rbnge
+     *            {@code (index < 0 || index >= tbb count)}
      *
-     * @see #addTab
-     * @see #insertTab
+     * @see #bddTbb
+     * @see #insertTbb
      */
-    public void removeTabAt(int index) {
+    public void removeTbbAt(int index) {
         checkIndex(index);
 
         Component component = getComponentAt(index);
-        boolean shouldChangeFocus = false;
+        boolebn shouldChbngeFocus = fblse;
         int selected = getSelectedIndex();
-        String oldName = null;
+        String oldNbme = null;
 
-        /* if we're about to remove the visible component */
+        /* if we're bbout to remove the visible component */
         if (component == visComp) {
-            shouldChangeFocus = (SwingUtilities.findFocusOwner(visComp) != null);
+            shouldChbngeFocus = (SwingUtilities.findFocusOwner(visComp) != null);
             visComp = null;
         }
 
-        if (accessibleContext != null) {
-            /* if we're removing the selected page */
+        if (bccessibleContext != null) {
+            /* if we're removing the selected pbge */
             if (index == selected) {
-                /* fire an accessible notification that it's unselected */
-                pages.get(index).firePropertyChange(
+                /* fire bn bccessible notificbtion thbt it's unselected */
+                pbges.get(index).firePropertyChbnge(
                     AccessibleContext.ACCESSIBLE_STATE_PROPERTY,
-                    AccessibleState.SELECTED, null);
+                    AccessibleStbte.SELECTED, null);
 
-                oldName = accessibleContext.getAccessibleName();
+                oldNbme = bccessibleContext.getAccessibleNbme();
             }
 
-            accessibleContext.firePropertyChange(
+            bccessibleContext.firePropertyChbnge(
                     AccessibleContext.ACCESSIBLE_VISIBLE_DATA_PROPERTY,
                     component, null);
         }
 
-        // Force the tabComponent to be cleaned up.
-        setTabComponentAt(index, null);
-        pages.remove(index);
+        // Force the tbbComponent to be clebned up.
+        setTbbComponentAt(index, null);
+        pbges.remove(index);
 
-        // NOTE 4/15/2002 (joutwate):
+        // NOTE 4/15/2002 (joutwbte):
         // This fix is implemented using client properties since there is
-        // currently no IndexPropertyChangeEvent.  Once
-        // IndexPropertyChangeEvents have been added this code should be
+        // currently no IndexPropertyChbngeEvent.  Once
+        // IndexPropertyChbngeEvents hbve been bdded this code should be
         // modified to use it.
-        putClientProperty("__index_to_remove__", Integer.valueOf(index));
+        putClientProperty("__index_to_remove__", Integer.vblueOf(index));
 
-        /* if the selected tab is after the removal */
+        /* if the selected tbb is bfter the removbl */
         if (selected > index) {
-            setSelectedIndexImpl(selected - 1, false);
+            setSelectedIndexImpl(selected - 1, fblse);
 
-        /* if the selected tab is the last tab */
-        } else if (selected >= getTabCount()) {
-            setSelectedIndexImpl(selected - 1, false);
-            Page newSelected = (selected != 0)
-                ? pages.get(selected - 1)
+        /* if the selected tbb is the lbst tbb */
+        } else if (selected >= getTbbCount()) {
+            setSelectedIndexImpl(selected - 1, fblse);
+            Pbge newSelected = (selected != 0)
+                ? pbges.get(selected - 1)
                 : null;
 
-            changeAccessibleSelection(null, oldName, newSelected);
+            chbngeAccessibleSelection(null, oldNbme, newSelected);
 
-        /* selected index hasn't changed, but the associated tab has */
+        /* selected index hbsn't chbnged, but the bssocibted tbb hbs */
         } else if (index == selected) {
-            fireStateChanged();
-            changeAccessibleSelection(null, oldName, pages.get(index));
+            fireStbteChbnged();
+            chbngeAccessibleSelection(null, oldNbme, pbges.get(index));
         }
 
-        // We can't assume the tab indices correspond to the
-        // container's children array indices, so make sure we
+        // We cbn't bssume the tbb indices correspond to the
+        // contbiner's children brrby indices, so mbke sure we
         // remove the correct child!
         if (component != null) {
             Component components[] = getComponents();
@@ -1007,689 +1007,689 @@ public class JTabbedPane extends JComponent
                 if (components[i] == component) {
                     super.remove(i);
                     component.setVisible(true);
-                    break;
+                    brebk;
                 }
             }
         }
 
-        if (shouldChangeFocus) {
-            SwingUtilities2.tabbedPaneChangeFocusTo(getSelectedComponent());
+        if (shouldChbngeFocus) {
+            SwingUtilities2.tbbbedPbneChbngeFocusTo(getSelectedComponent());
         }
 
-        revalidate();
-        repaint();
+        revblidbte();
+        repbint();
     }
 
     /**
      * Removes the specified <code>Component</code> from the
-     * <code>JTabbedPane</code>. The method does nothing
+     * <code>JTbbbedPbne</code>. The method does nothing
      * if the <code>component</code> is null.
      *
-     * @param component the component to remove from the tabbedpane
-     * @see #addTab
-     * @see #removeTabAt
+     * @pbrbm component the component to remove from the tbbbedpbne
+     * @see #bddTbb
+     * @see #removeTbbAt
      */
     public void remove(Component component) {
         int index = indexOfComponent(component);
         if (index != -1) {
-            removeTabAt(index);
+            removeTbbAt(index);
         } else {
-            // Container#remove(comp) invokes Container#remove(int)
-            // so make sure JTabbedPane#remove(int) isn't called here
+            // Contbiner#remove(comp) invokes Contbiner#remove(int)
+            // so mbke sure JTbbbedPbne#remove(int) isn't cblled here
             Component children[] = getComponents();
             for (int i=0; i < children.length; i++) {
                 if (component == children[i]) {
                     super.remove(i);
-                    break;
+                    brebk;
                 }
             }
         }
     }
 
     /**
-     * Removes the tab and component which corresponds to the specified index.
+     * Removes the tbb bnd component which corresponds to the specified index.
      *
-     * @param index the index of the component to remove from the
-     *          <code>tabbedpane</code>
-     * @exception IndexOutOfBoundsException if index is out of range
-     *            {@code (index < 0 || index >= tab count)}
-     * @see #addTab
-     * @see #removeTabAt
+     * @pbrbm index the index of the component to remove from the
+     *          <code>tbbbedpbne</code>
+     * @exception IndexOutOfBoundsException if index is out of rbnge
+     *            {@code (index < 0 || index >= tbb count)}
+     * @see #bddTbb
+     * @see #removeTbbAt
      */
     public void remove(int index) {
-        removeTabAt(index);
+        removeTbbAt(index);
     }
 
     /**
-     * Removes all the tabs and their corresponding components
-     * from the <code>tabbedpane</code>.
+     * Removes bll the tbbs bnd their corresponding components
+     * from the <code>tbbbedpbne</code>.
      *
-     * @see #addTab
-     * @see #removeTabAt
+     * @see #bddTbb
+     * @see #removeTbbAt
      */
     public void removeAll() {
         setSelectedIndexImpl(-1, true);
 
-        int tabCount = getTabCount();
-        // We invoke removeTabAt for each tab, otherwise we may end up
-        // removing Components added by the UI.
-        while (tabCount-- > 0) {
-            removeTabAt(tabCount);
+        int tbbCount = getTbbCount();
+        // We invoke removeTbbAt for ebch tbb, otherwise we mby end up
+        // removing Components bdded by the UI.
+        while (tbbCount-- > 0) {
+            removeTbbAt(tbbCount);
         }
     }
 
     /**
-     * Returns the number of tabs in this <code>tabbedpane</code>.
+     * Returns the number of tbbs in this <code>tbbbedpbne</code>.
      *
-     * @return an integer specifying the number of tabbed pages
+     * @return bn integer specifying the number of tbbbed pbges
      */
-    public int getTabCount() {
-        return pages.size();
+    public int getTbbCount() {
+        return pbges.size();
     }
 
     /**
-     * Returns the number of tab runs currently used to display
-     * the tabs.
-     * @return an integer giving the number of rows if the
-     *          <code>tabPlacement</code>
+     * Returns the number of tbb runs currently used to displby
+     * the tbbs.
+     * @return bn integer giving the number of rows if the
+     *          <code>tbbPlbcement</code>
      *          is <code>TOP</code> or <code>BOTTOM</code>
-     *          and the number of columns if
-     *          <code>tabPlacement</code>
+     *          bnd the number of columns if
+     *          <code>tbbPlbcement</code>
      *          is <code>LEFT</code> or <code>RIGHT</code>,
-     *          or 0 if there is no UI set on this <code>tabbedpane</code>
+     *          or 0 if there is no UI set on this <code>tbbbedpbne</code>
      */
-    public int getTabRunCount() {
+    public int getTbbRunCount() {
         if (ui != null) {
-            return ((TabbedPaneUI)ui).getTabRunCount(this);
+            return ((TbbbedPbneUI)ui).getTbbRunCount(this);
         }
         return 0;
     }
 
 
-// Getters for the Pages
+// Getters for the Pbges
 
     /**
-     * Returns the tab title at <code>index</code>.
+     * Returns the tbb title bt <code>index</code>.
      *
-     * @param index  the index of the item being queried
-     * @return the title at <code>index</code>
-     * @exception IndexOutOfBoundsException if index is out of range
-     *            {@code (index < 0 || index >= tab count)}
+     * @pbrbm index  the index of the item being queried
+     * @return the title bt <code>index</code>
+     * @exception IndexOutOfBoundsException if index is out of rbnge
+     *            {@code (index < 0 || index >= tbb count)}
      * @see #setTitleAt
      */
     public String getTitleAt(int index) {
-        return pages.get(index).title;
+        return pbges.get(index).title;
     }
 
     /**
-     * Returns the tab icon at <code>index</code>.
+     * Returns the tbb icon bt <code>index</code>.
      *
-     * @param index  the index of the item being queried
-     * @return the icon at <code>index</code>
-     * @exception IndexOutOfBoundsException if index is out of range
-     *            {@code (index < 0 || index >= tab count)}
+     * @pbrbm index  the index of the item being queried
+     * @return the icon bt <code>index</code>
+     * @exception IndexOutOfBoundsException if index is out of rbnge
+     *            {@code (index < 0 || index >= tbb count)}
      *
      * @see #setIconAt
      */
     public Icon getIconAt(int index) {
-        return pages.get(index).icon;
+        return pbges.get(index).icon;
     }
 
     /**
-     * Returns the tab disabled icon at <code>index</code>.
-     * If the tab disabled icon doesn't exist at <code>index</code>
-     * this will forward the call to the look and feel to construct
-     * an appropriate disabled Icon from the corresponding enabled
-     * Icon. Some look and feels might not render the disabled Icon,
-     * in which case it won't be created.
+     * Returns the tbb disbbled icon bt <code>index</code>.
+     * If the tbb disbbled icon doesn't exist bt <code>index</code>
+     * this will forwbrd the cbll to the look bnd feel to construct
+     * bn bppropribte disbbled Icon from the corresponding enbbled
+     * Icon. Some look bnd feels might not render the disbbled Icon,
+     * in which cbse it won't be crebted.
      *
-     * @param index  the index of the item being queried
-     * @return the icon at <code>index</code>
-     * @exception IndexOutOfBoundsException if index is out of range
-     *            {@code (index < 0 || index >= tab count)}
+     * @pbrbm index  the index of the item being queried
+     * @return the icon bt <code>index</code>
+     * @exception IndexOutOfBoundsException if index is out of rbnge
+     *            {@code (index < 0 || index >= tbb count)}
      *
-     * @see #setDisabledIconAt
+     * @see #setDisbbledIconAt
      */
-    public Icon getDisabledIconAt(int index) {
-        Page page = pages.get(index);
-        if (page.disabledIcon == null) {
-            page.disabledIcon = UIManager.getLookAndFeel().getDisabledIcon(this, page.icon);
+    public Icon getDisbbledIconAt(int index) {
+        Pbge pbge = pbges.get(index);
+        if (pbge.disbbledIcon == null) {
+            pbge.disbbledIcon = UIMbnbger.getLookAndFeel().getDisbbledIcon(this, pbge.icon);
         }
-        return page.disabledIcon;
+        return pbge.disbbledIcon;
     }
 
     /**
-     * Returns the tab tooltip text at <code>index</code>.
+     * Returns the tbb tooltip text bt <code>index</code>.
      *
-     * @param index  the index of the item being queried
-     * @return a string containing the tool tip text at <code>index</code>
-     * @exception IndexOutOfBoundsException if index is out of range
-     *            {@code (index < 0 || index >= tab count)}
+     * @pbrbm index  the index of the item being queried
+     * @return b string contbining the tool tip text bt <code>index</code>
+     * @exception IndexOutOfBoundsException if index is out of rbnge
+     *            {@code (index < 0 || index >= tbb count)}
      *
      * @see #setToolTipTextAt
      * @since 1.3
      */
     public String getToolTipTextAt(int index) {
-        return pages.get(index).tip;
+        return pbges.get(index).tip;
     }
 
     /**
-     * Returns the tab background color at <code>index</code>.
+     * Returns the tbb bbckground color bt <code>index</code>.
      *
-     * @param index  the index of the item being queried
-     * @return the <code>Color</code> of the tab background at
+     * @pbrbm index  the index of the item being queried
+     * @return the <code>Color</code> of the tbb bbckground bt
      *          <code>index</code>
-     * @exception IndexOutOfBoundsException if index is out of range
-     *            {@code (index < 0 || index >= tab count)}
+     * @exception IndexOutOfBoundsException if index is out of rbnge
+     *            {@code (index < 0 || index >= tbb count)}
      *
-     * @see #setBackgroundAt
+     * @see #setBbckgroundAt
      */
-    public Color getBackgroundAt(int index) {
-        return pages.get(index).getBackground();
+    public Color getBbckgroundAt(int index) {
+        return pbges.get(index).getBbckground();
     }
 
     /**
-     * Returns the tab foreground color at <code>index</code>.
+     * Returns the tbb foreground color bt <code>index</code>.
      *
-     * @param index  the index of the item being queried
-     * @return the <code>Color</code> of the tab foreground at
+     * @pbrbm index  the index of the item being queried
+     * @return the <code>Color</code> of the tbb foreground bt
      *          <code>index</code>
-     * @exception IndexOutOfBoundsException if index is out of range
-     *            {@code (index < 0 || index >= tab count)}
+     * @exception IndexOutOfBoundsException if index is out of rbnge
+     *            {@code (index < 0 || index >= tbb count)}
      *
      * @see #setForegroundAt
      */
     public Color getForegroundAt(int index) {
-        return pages.get(index).getForeground();
+        return pbges.get(index).getForeground();
     }
 
     /**
-     * Returns whether or not the tab at <code>index</code> is
-     * currently enabled.
+     * Returns whether or not the tbb bt <code>index</code> is
+     * currently enbbled.
      *
-     * @param index  the index of the item being queried
-     * @return true if the tab at <code>index</code> is enabled;
-     *          false otherwise
-     * @exception IndexOutOfBoundsException if index is out of range
-     *            {@code (index < 0 || index >= tab count)}
+     * @pbrbm index  the index of the item being queried
+     * @return true if the tbb bt <code>index</code> is enbbled;
+     *          fblse otherwise
+     * @exception IndexOutOfBoundsException if index is out of rbnge
+     *            {@code (index < 0 || index >= tbb count)}
      *
-     * @see #setEnabledAt
+     * @see #setEnbbledAt
      */
-    public boolean isEnabledAt(int index) {
-        return pages.get(index).isEnabled();
+    public boolebn isEnbbledAt(int index) {
+        return pbges.get(index).isEnbbled();
     }
 
     /**
-     * Returns the component at <code>index</code>.
+     * Returns the component bt <code>index</code>.
      *
-     * @param index  the index of the item being queried
-     * @return the <code>Component</code> at <code>index</code>
-     * @exception IndexOutOfBoundsException if index is out of range
-     *            {@code (index < 0 || index >= tab count)}
+     * @pbrbm index  the index of the item being queried
+     * @return the <code>Component</code> bt <code>index</code>
+     * @exception IndexOutOfBoundsException if index is out of rbnge
+     *            {@code (index < 0 || index >= tbb count)}
      *
      * @see #setComponentAt
      */
     public Component getComponentAt(int index) {
-        return pages.get(index).component;
+        return pbges.get(index).component;
     }
 
     /**
-     * Returns the keyboard mnemonic for accessing the specified tab.
-     * The mnemonic is the key which when combined with the look and feel's
-     * mouseless modifier (usually Alt) will activate the specified
-     * tab.
+     * Returns the keybobrd mnemonic for bccessing the specified tbb.
+     * The mnemonic is the key which when combined with the look bnd feel's
+     * mouseless modifier (usublly Alt) will bctivbte the specified
+     * tbb.
      *
      * @since 1.4
-     * @param tabIndex the index of the tab that the mnemonic refers to
+     * @pbrbm tbbIndex the index of the tbb thbt the mnemonic refers to
      * @return the key code which represents the mnemonic;
-     *         -1 if a mnemonic is not specified for the tab
-     * @exception IndexOutOfBoundsException if index is out of range
-     *            (<code>tabIndex</code> &lt; 0 ||
-     *              <code>tabIndex</code> &gt;= tab count)
-     * @see #setDisplayedMnemonicIndexAt(int,int)
+     *         -1 if b mnemonic is not specified for the tbb
+     * @exception IndexOutOfBoundsException if index is out of rbnge
+     *            (<code>tbbIndex</code> &lt; 0 ||
+     *              <code>tbbIndex</code> &gt;= tbb count)
+     * @see #setDisplbyedMnemonicIndexAt(int,int)
      * @see #setMnemonicAt(int,int)
      */
-    public int getMnemonicAt(int tabIndex) {
-        checkIndex(tabIndex);
+    public int getMnemonicAt(int tbbIndex) {
+        checkIndex(tbbIndex);
 
-        Page page = pages.get(tabIndex);
-        return page.getMnemonic();
+        Pbge pbge = pbges.get(tbbIndex);
+        return pbge.getMnemonic();
     }
 
     /**
-     * Returns the character, as an index, that the look and feel should
-     * provide decoration for as representing the mnemonic character.
+     * Returns the chbrbcter, bs bn index, thbt the look bnd feel should
+     * provide decorbtion for bs representing the mnemonic chbrbcter.
      *
      * @since 1.4
-     * @param tabIndex the index of the tab that the mnemonic refers to
-     * @return index representing mnemonic character if one exists;
+     * @pbrbm tbbIndex the index of the tbb thbt the mnemonic refers to
+     * @return index representing mnemonic chbrbcter if one exists;
      *    otherwise returns -1
-     * @exception IndexOutOfBoundsException if index is out of range
-     *            (<code>tabIndex</code> &lt; 0 ||
-     *              <code>tabIndex</code> &gt;= tab count)
-     * @see #setDisplayedMnemonicIndexAt(int,int)
+     * @exception IndexOutOfBoundsException if index is out of rbnge
+     *            (<code>tbbIndex</code> &lt; 0 ||
+     *              <code>tbbIndex</code> &gt;= tbb count)
+     * @see #setDisplbyedMnemonicIndexAt(int,int)
      * @see #setMnemonicAt(int,int)
      */
-    public int getDisplayedMnemonicIndexAt(int tabIndex) {
-        checkIndex(tabIndex);
+    public int getDisplbyedMnemonicIndexAt(int tbbIndex) {
+        checkIndex(tbbIndex);
 
-        Page page = pages.get(tabIndex);
-        return page.getDisplayedMnemonicIndex();
+        Pbge pbge = pbges.get(tbbIndex);
+        return pbge.getDisplbyedMnemonicIndex();
     }
 
     /**
-     * Returns the tab bounds at <code>index</code>.  If the tab at
+     * Returns the tbb bounds bt <code>index</code>.  If the tbb bt
      * this index is not currently visible in the UI, then returns
      * <code>null</code>.
-     * If there is no UI set on this <code>tabbedpane</code>,
+     * If there is no UI set on this <code>tbbbedpbne</code>,
      * then returns <code>null</code>.
      *
-     * @param index the index to be queried
-     * @return a <code>Rectangle</code> containing the tab bounds at
-     *          <code>index</code>, or <code>null</code> if tab at
+     * @pbrbm index the index to be queried
+     * @return b <code>Rectbngle</code> contbining the tbb bounds bt
+     *          <code>index</code>, or <code>null</code> if tbb bt
      *          <code>index</code> is not currently visible in the UI,
-     *          or if there is no UI set on this <code>tabbedpane</code>
-     * @exception IndexOutOfBoundsException if index is out of range
-     *            {@code (index < 0 || index >= tab count)}
+     *          or if there is no UI set on this <code>tbbbedpbne</code>
+     * @exception IndexOutOfBoundsException if index is out of rbnge
+     *            {@code (index < 0 || index >= tbb count)}
      */
-    public Rectangle getBoundsAt(int index) {
+    public Rectbngle getBoundsAt(int index) {
         checkIndex(index);
         if (ui != null) {
-            return ((TabbedPaneUI)ui).getTabBounds(this, index);
+            return ((TbbbedPbneUI)ui).getTbbBounds(this, index);
         }
         return null;
     }
 
 
-// Setters for the Pages
+// Setters for the Pbges
 
     /**
-     * Sets the title at <code>index</code> to <code>title</code> which
-     * can be <code>null</code>.
-     * The title is not shown if a tab component for this tab was specified.
-     * An internal exception is raised if there is no tab at that index.
+     * Sets the title bt <code>index</code> to <code>title</code> which
+     * cbn be <code>null</code>.
+     * The title is not shown if b tbb component for this tbb wbs specified.
+     * An internbl exception is rbised if there is no tbb bt thbt index.
      *
-     * @param index the tab index where the title should be set
-     * @param title the title to be displayed in the tab
-     * @exception IndexOutOfBoundsException if index is out of range
-     *            {@code (index < 0 || index >= tab count)}
+     * @pbrbm index the tbb index where the title should be set
+     * @pbrbm title the title to be displbyed in the tbb
+     * @exception IndexOutOfBoundsException if index is out of rbnge
+     *            {@code (index < 0 || index >= tbb count)}
      *
      * @see #getTitleAt
-     * @see #setTabComponentAt
-     * @beaninfo
+     * @see #setTbbComponentAt
+     * @bebninfo
      *    preferred: true
-     *    attribute: visualUpdate true
-     *  description: The title at the specified tab index.
+     *    bttribute: visublUpdbte true
+     *  description: The title bt the specified tbb index.
      */
     public void setTitleAt(int index, String title) {
-        Page page = pages.get(index);
-        String oldTitle =page.title;
-        page.title = title;
+        Pbge pbge = pbges.get(index);
+        String oldTitle =pbge.title;
+        pbge.title = title;
 
         if (oldTitle != title) {
-            firePropertyChange("indexForTitle", -1, index);
+            firePropertyChbnge("indexForTitle", -1, index);
         }
-        page.updateDisplayedMnemonicIndex();
-        if ((oldTitle != title) && (accessibleContext != null)) {
-            accessibleContext.firePropertyChange(
+        pbge.updbteDisplbyedMnemonicIndex();
+        if ((oldTitle != title) && (bccessibleContext != null)) {
+            bccessibleContext.firePropertyChbnge(
                     AccessibleContext.ACCESSIBLE_VISIBLE_DATA_PROPERTY,
                     oldTitle, title);
         }
         if (title == null || oldTitle == null ||
-            !title.equals(oldTitle)) {
-            revalidate();
-            repaint();
+            !title.equbls(oldTitle)) {
+            revblidbte();
+            repbint();
         }
     }
 
     /**
-     * Sets the icon at <code>index</code> to <code>icon</code> which can be
-     * <code>null</code>. This does not set disabled icon at <code>icon</code>.
-     * If the new Icon is different than the current Icon and disabled icon
-     * is not explicitly set, the LookAndFeel will be asked to generate a disabled
-     * Icon. To explicitly set disabled icon, use <code>setDisableIconAt()</code>.
-     * The icon is not shown if a tab component for this tab was specified.
-     * An internal exception is raised if there is no tab at that index.
+     * Sets the icon bt <code>index</code> to <code>icon</code> which cbn be
+     * <code>null</code>. This does not set disbbled icon bt <code>icon</code>.
+     * If the new Icon is different thbn the current Icon bnd disbbled icon
+     * is not explicitly set, the LookAndFeel will be bsked to generbte b disbbled
+     * Icon. To explicitly set disbbled icon, use <code>setDisbbleIconAt()</code>.
+     * The icon is not shown if b tbb component for this tbb wbs specified.
+     * An internbl exception is rbised if there is no tbb bt thbt index.
      *
-     * @param index the tab index where the icon should be set
-     * @param icon the icon to be displayed in the tab
-     * @exception IndexOutOfBoundsException if index is out of range
-     *            {@code (index < 0 || index >= tab count)}
+     * @pbrbm index the tbb index where the icon should be set
+     * @pbrbm icon the icon to be displbyed in the tbb
+     * @exception IndexOutOfBoundsException if index is out of rbnge
+     *            {@code (index < 0 || index >= tbb count)}
      *
-     * @see #setDisabledIconAt
+     * @see #setDisbbledIconAt
      * @see #getIconAt
-     * @see #getDisabledIconAt
-     * @see #setTabComponentAt
-     * @beaninfo
+     * @see #getDisbbledIconAt
+     * @see #setTbbComponentAt
+     * @bebninfo
      *    preferred: true
-     *    attribute: visualUpdate true
-     *  description: The icon at the specified tab index.
+     *    bttribute: visublUpdbte true
+     *  description: The icon bt the specified tbb index.
      */
     public void setIconAt(int index, Icon icon) {
-        Page page = pages.get(index);
-        Icon oldIcon = page.icon;
+        Pbge pbge = pbges.get(index);
+        Icon oldIcon = pbge.icon;
         if (icon != oldIcon) {
-            page.icon = icon;
+            pbge.icon = icon;
 
-            /* If the default icon has really changed and we had
-             * generated the disabled icon for this page, then
-             * clear the disabledIcon field of the page.
+            /* If the defbult icon hbs reblly chbnged bnd we hbd
+             * generbted the disbbled icon for this pbge, then
+             * clebr the disbbledIcon field of the pbge.
              */
-            if (page.disabledIcon instanceof UIResource) {
-                page.disabledIcon = null;
+            if (pbge.disbbledIcon instbnceof UIResource) {
+                pbge.disbbledIcon = null;
             }
 
-            // Fire the accessibility Visible data change
-            if (accessibleContext != null) {
-                accessibleContext.firePropertyChange(
+            // Fire the bccessibility Visible dbtb chbnge
+            if (bccessibleContext != null) {
+                bccessibleContext.firePropertyChbnge(
                         AccessibleContext.ACCESSIBLE_VISIBLE_DATA_PROPERTY,
                         oldIcon, icon);
             }
-            revalidate();
-            repaint();
+            revblidbte();
+            repbint();
         }
     }
 
     /**
-     * Sets the disabled icon at <code>index</code> to <code>icon</code>
-     * which can be <code>null</code>.
-     * An internal exception is raised if there is no tab at that index.
+     * Sets the disbbled icon bt <code>index</code> to <code>icon</code>
+     * which cbn be <code>null</code>.
+     * An internbl exception is rbised if there is no tbb bt thbt index.
      *
-     * @param index the tab index where the disabled icon should be set
-     * @param disabledIcon the icon to be displayed in the tab when disabled
-     * @exception IndexOutOfBoundsException if index is out of range
-     *            {@code (index < 0 || index >= tab count)}
+     * @pbrbm index the tbb index where the disbbled icon should be set
+     * @pbrbm disbbledIcon the icon to be displbyed in the tbb when disbbled
+     * @exception IndexOutOfBoundsException if index is out of rbnge
+     *            {@code (index < 0 || index >= tbb count)}
      *
-     * @see #getDisabledIconAt
-     * @beaninfo
+     * @see #getDisbbledIconAt
+     * @bebninfo
      *    preferred: true
-     *    attribute: visualUpdate true
-     *  description: The disabled icon at the specified tab index.
+     *    bttribute: visublUpdbte true
+     *  description: The disbbled icon bt the specified tbb index.
      */
-    public void setDisabledIconAt(int index, Icon disabledIcon) {
-        Icon oldIcon = pages.get(index).disabledIcon;
-        pages.get(index).disabledIcon = disabledIcon;
-        if (disabledIcon != oldIcon && !isEnabledAt(index)) {
-            revalidate();
-            repaint();
+    public void setDisbbledIconAt(int index, Icon disbbledIcon) {
+        Icon oldIcon = pbges.get(index).disbbledIcon;
+        pbges.get(index).disbbledIcon = disbbledIcon;
+        if (disbbledIcon != oldIcon && !isEnbbledAt(index)) {
+            revblidbte();
+            repbint();
         }
     }
 
     /**
-     * Sets the tooltip text at <code>index</code> to <code>toolTipText</code>
-     * which can be <code>null</code>.
-     * An internal exception is raised if there is no tab at that index.
+     * Sets the tooltip text bt <code>index</code> to <code>toolTipText</code>
+     * which cbn be <code>null</code>.
+     * An internbl exception is rbised if there is no tbb bt thbt index.
      *
-     * @param index the tab index where the tooltip text should be set
-     * @param toolTipText the tooltip text to be displayed for the tab
-     * @exception IndexOutOfBoundsException if index is out of range
-     *            {@code (index < 0 || index >= tab count)}
+     * @pbrbm index the tbb index where the tooltip text should be set
+     * @pbrbm toolTipText the tooltip text to be displbyed for the tbb
+     * @exception IndexOutOfBoundsException if index is out of rbnge
+     *            {@code (index < 0 || index >= tbb count)}
      *
      * @see #getToolTipTextAt
-     * @beaninfo
+     * @bebninfo
      *    preferred: true
-     *  description: The tooltip text at the specified tab index.
+     *  description: The tooltip text bt the specified tbb index.
      * @since 1.3
      */
     public void setToolTipTextAt(int index, String toolTipText) {
-        String oldToolTipText = pages.get(index).tip;
-        pages.get(index).tip = toolTipText;
+        String oldToolTipText = pbges.get(index).tip;
+        pbges.get(index).tip = toolTipText;
 
-        if ((oldToolTipText != toolTipText) && (accessibleContext != null)) {
-            accessibleContext.firePropertyChange(
+        if ((oldToolTipText != toolTipText) && (bccessibleContext != null)) {
+            bccessibleContext.firePropertyChbnge(
                     AccessibleContext.ACCESSIBLE_VISIBLE_DATA_PROPERTY,
                     oldToolTipText, toolTipText);
         }
-        if (!haveRegistered && toolTipText != null) {
-            ToolTipManager.sharedInstance().registerComponent(this);
-            haveRegistered = true;
+        if (!hbveRegistered && toolTipText != null) {
+            ToolTipMbnbger.shbredInstbnce().registerComponent(this);
+            hbveRegistered = true;
         }
     }
 
     /**
-     * Sets the background color at <code>index</code> to
-     * <code>background</code>
-     * which can be <code>null</code>, in which case the tab's background color
-     * will default to the background color of the <code>tabbedpane</code>.
-     * An internal exception is raised if there is no tab at that index.
+     * Sets the bbckground color bt <code>index</code> to
+     * <code>bbckground</code>
+     * which cbn be <code>null</code>, in which cbse the tbb's bbckground color
+     * will defbult to the bbckground color of the <code>tbbbedpbne</code>.
+     * An internbl exception is rbised if there is no tbb bt thbt index.
      * <p>
-     * It is up to the look and feel to honor this property, some may
+     * It is up to the look bnd feel to honor this property, some mby
      * choose to ignore it.
      *
-     * @param index the tab index where the background should be set
-     * @param background the color to be displayed in the tab's background
-     * @exception IndexOutOfBoundsException if index is out of range
-     *            {@code (index < 0 || index >= tab count)}
+     * @pbrbm index the tbb index where the bbckground should be set
+     * @pbrbm bbckground the color to be displbyed in the tbb's bbckground
+     * @exception IndexOutOfBoundsException if index is out of rbnge
+     *            {@code (index < 0 || index >= tbb count)}
      *
-     * @see #getBackgroundAt
-     * @beaninfo
+     * @see #getBbckgroundAt
+     * @bebninfo
      *    preferred: true
-     *    attribute: visualUpdate true
-     *  description: The background color at the specified tab index.
+     *    bttribute: visublUpdbte true
+     *  description: The bbckground color bt the specified tbb index.
      */
-    public void setBackgroundAt(int index, Color background) {
-        Color oldBg = pages.get(index).background;
-        pages.get(index).setBackground(background);
-        if (background == null || oldBg == null ||
-            !background.equals(oldBg)) {
-            Rectangle tabBounds = getBoundsAt(index);
-            if (tabBounds != null) {
-                repaint(tabBounds);
+    public void setBbckgroundAt(int index, Color bbckground) {
+        Color oldBg = pbges.get(index).bbckground;
+        pbges.get(index).setBbckground(bbckground);
+        if (bbckground == null || oldBg == null ||
+            !bbckground.equbls(oldBg)) {
+            Rectbngle tbbBounds = getBoundsAt(index);
+            if (tbbBounds != null) {
+                repbint(tbbBounds);
             }
         }
     }
 
     /**
-     * Sets the foreground color at <code>index</code> to
-     * <code>foreground</code> which can be
-     * <code>null</code>, in which case the tab's foreground color
-     * will default to the foreground color of this <code>tabbedpane</code>.
-     * An internal exception is raised if there is no tab at that index.
+     * Sets the foreground color bt <code>index</code> to
+     * <code>foreground</code> which cbn be
+     * <code>null</code>, in which cbse the tbb's foreground color
+     * will defbult to the foreground color of this <code>tbbbedpbne</code>.
+     * An internbl exception is rbised if there is no tbb bt thbt index.
      * <p>
-     * It is up to the look and feel to honor this property, some may
+     * It is up to the look bnd feel to honor this property, some mby
      * choose to ignore it.
      *
-     * @param index the tab index where the foreground should be set
-     * @param foreground the color to be displayed as the tab's foreground
-     * @exception IndexOutOfBoundsException if index is out of range
-     *            {@code (index < 0 || index >= tab count)}
+     * @pbrbm index the tbb index where the foreground should be set
+     * @pbrbm foreground the color to be displbyed bs the tbb's foreground
+     * @exception IndexOutOfBoundsException if index is out of rbnge
+     *            {@code (index < 0 || index >= tbb count)}
      *
      * @see #getForegroundAt
-     * @beaninfo
+     * @bebninfo
      *    preferred: true
-     *    attribute: visualUpdate true
-     *  description: The foreground color at the specified tab index.
+     *    bttribute: visublUpdbte true
+     *  description: The foreground color bt the specified tbb index.
      */
     public void setForegroundAt(int index, Color foreground) {
-        Color oldFg = pages.get(index).foreground;
-        pages.get(index).setForeground(foreground);
+        Color oldFg = pbges.get(index).foreground;
+        pbges.get(index).setForeground(foreground);
         if (foreground == null || oldFg == null ||
-            !foreground.equals(oldFg)) {
-            Rectangle tabBounds = getBoundsAt(index);
-            if (tabBounds != null) {
-                repaint(tabBounds);
+            !foreground.equbls(oldFg)) {
+            Rectbngle tbbBounds = getBoundsAt(index);
+            if (tbbBounds != null) {
+                repbint(tbbBounds);
             }
         }
     }
 
     /**
-     * Sets whether or not the tab at <code>index</code> is enabled.
-     * An internal exception is raised if there is no tab at that index.
+     * Sets whether or not the tbb bt <code>index</code> is enbbled.
+     * An internbl exception is rbised if there is no tbb bt thbt index.
      *
-     * @param index the tab index which should be enabled/disabled
-     * @param enabled whether or not the tab should be enabled
-     * @exception IndexOutOfBoundsException if index is out of range
-     *            {@code (index < 0 || index >= tab count)}
+     * @pbrbm index the tbb index which should be enbbled/disbbled
+     * @pbrbm enbbled whether or not the tbb should be enbbled
+     * @exception IndexOutOfBoundsException if index is out of rbnge
+     *            {@code (index < 0 || index >= tbb count)}
      *
-     * @see #isEnabledAt
+     * @see #isEnbbledAt
      */
-    public void setEnabledAt(int index, boolean enabled) {
-        boolean oldEnabled = pages.get(index).isEnabled();
-        pages.get(index).setEnabled(enabled);
-        if (enabled != oldEnabled) {
-            revalidate();
-            repaint();
+    public void setEnbbledAt(int index, boolebn enbbled) {
+        boolebn oldEnbbled = pbges.get(index).isEnbbled();
+        pbges.get(index).setEnbbled(enbbled);
+        if (enbbled != oldEnbbled) {
+            revblidbte();
+            repbint();
         }
     }
 
     /**
-     * Sets the component at <code>index</code> to <code>component</code>.
-     * An internal exception is raised if there is no tab at that index.
+     * Sets the component bt <code>index</code> to <code>component</code>.
+     * An internbl exception is rbised if there is no tbb bt thbt index.
      *
-     * @param index the tab index where this component is being placed
-     * @param component the component for the tab
-     * @exception IndexOutOfBoundsException if index is out of range
-     *            {@code (index < 0 || index >= tab count)}
+     * @pbrbm index the tbb index where this component is being plbced
+     * @pbrbm component the component for the tbb
+     * @exception IndexOutOfBoundsException if index is out of rbnge
+     *            {@code (index < 0 || index >= tbb count)}
      *
      * @see #getComponentAt
-     * @beaninfo
-     *    attribute: visualUpdate true
-     *  description: The component at the specified tab index.
+     * @bebninfo
+     *    bttribute: visublUpdbte true
+     *  description: The component bt the specified tbb index.
      */
     public void setComponentAt(int index, Component component) {
-        Page page = pages.get(index);
-        if (component != page.component) {
-            boolean shouldChangeFocus = false;
+        Pbge pbge = pbges.get(index);
+        if (component != pbge.component) {
+            boolebn shouldChbngeFocus = fblse;
 
-            if (page.component != null) {
-                shouldChangeFocus =
-                    (SwingUtilities.findFocusOwner(page.component) != null);
+            if (pbge.component != null) {
+                shouldChbngeFocus =
+                    (SwingUtilities.findFocusOwner(pbge.component) != null);
 
-                // REMIND(aim): this is really silly;
-                // why not if (page.component.getParent() == this) remove(component)
+                // REMIND(bim): this is reblly silly;
+                // why not if (pbge.component.getPbrent() == this) remove(component)
                 synchronized(getTreeLock()) {
                     int count = getComponentCount();
                     Component children[] = getComponents();
                     for (int i = 0; i < count; i++) {
-                        if (children[i] == page.component) {
+                        if (children[i] == pbge.component) {
                             super.remove(i);
                         }
                     }
                 }
             }
 
-            page.component = component;
-            boolean selectedPage = (getSelectedIndex() == index);
+            pbge.component = component;
+            boolebn selectedPbge = (getSelectedIndex() == index);
 
-            if (selectedPage) {
+            if (selectedPbge) {
                 this.visComp = component;
             }
 
             if (component != null) {
-                component.setVisible(selectedPage);
-                addImpl(component, null, -1);
+                component.setVisible(selectedPbge);
+                bddImpl(component, null, -1);
 
-                if (shouldChangeFocus) {
-                    SwingUtilities2.tabbedPaneChangeFocusTo(component);
+                if (shouldChbngeFocus) {
+                    SwingUtilities2.tbbbedPbneChbngeFocusTo(component);
                 }
             } else {
-                repaint();
+                repbint();
             }
 
-            revalidate();
+            revblidbte();
         }
     }
 
     /**
-     * Provides a hint to the look and feel as to which character in the
-     * text should be decorated to represent the mnemonic. Not all look and
-     * feels may support this. A value of -1 indicates either there is
-     * no mnemonic for this tab, or you do not wish the mnemonic to be
-     * displayed for this tab.
+     * Provides b hint to the look bnd feel bs to which chbrbcter in the
+     * text should be decorbted to represent the mnemonic. Not bll look bnd
+     * feels mby support this. A vblue of -1 indicbtes either there is
+     * no mnemonic for this tbb, or you do not wish the mnemonic to be
+     * displbyed for this tbb.
      * <p>
-     * The value of this is updated as the properties relating to the
-     * mnemonic change (such as the mnemonic itself, the text...).
-     * You should only ever have to call this if
-     * you do not wish the default character to be underlined. For example, if
-     * the text at tab index 3 was 'Apple Price', with a mnemonic of 'p',
-     * and you wanted the 'P'
-     * to be decorated, as 'Apple <u>P</u>rice', you would have to invoke
-     * <code>setDisplayedMnemonicIndex(3, 6)</code> after invoking
+     * The vblue of this is updbted bs the properties relbting to the
+     * mnemonic chbnge (such bs the mnemonic itself, the text...).
+     * You should only ever hbve to cbll this if
+     * you do not wish the defbult chbrbcter to be underlined. For exbmple, if
+     * the text bt tbb index 3 wbs 'Apple Price', with b mnemonic of 'p',
+     * bnd you wbnted the 'P'
+     * to be decorbted, bs 'Apple <u>P</u>rice', you would hbve to invoke
+     * <code>setDisplbyedMnemonicIndex(3, 6)</code> bfter invoking
      * <code>setMnemonicAt(3, KeyEvent.VK_P)</code>.
-     * <p>Note that it is the programmer's responsibility to ensure
-     * that each tab has a unique mnemonic or unpredictable results may
+     * <p>Note thbt it is the progrbmmer's responsibility to ensure
+     * thbt ebch tbb hbs b unique mnemonic or unpredictbble results mby
      * occur.
      *
      * @since 1.4
-     * @param tabIndex the index of the tab that the mnemonic refers to
-     * @param mnemonicIndex index into the <code>String</code> to underline
-     * @exception IndexOutOfBoundsException if <code>tabIndex</code> is
-     *            out of range ({@code tabIndex < 0 || tabIndex >= tab
+     * @pbrbm tbbIndex the index of the tbb thbt the mnemonic refers to
+     * @pbrbm mnemonicIndex index into the <code>String</code> to underline
+     * @exception IndexOutOfBoundsException if <code>tbbIndex</code> is
+     *            out of rbnge ({@code tbbIndex < 0 || tbbIndex >= tbb
      *            count})
-     * @exception IllegalArgumentException will be thrown if
-     *            <code>mnemonicIndex</code> is &gt;= length of the tab
+     * @exception IllegblArgumentException will be thrown if
+     *            <code>mnemonicIndex</code> is &gt;= length of the tbb
      *            title , or &lt; -1
      * @see #setMnemonicAt(int,int)
-     * @see #getDisplayedMnemonicIndexAt(int)
+     * @see #getDisplbyedMnemonicIndexAt(int)
      *
-     * @beaninfo
+     * @bebninfo
      *        bound: true
-     *    attribute: visualUpdate true
-     *  description: the index into the String to draw the keyboard character
-     *               mnemonic at
+     *    bttribute: visublUpdbte true
+     *  description: the index into the String to drbw the keybobrd chbrbcter
+     *               mnemonic bt
      */
-    public void setDisplayedMnemonicIndexAt(int tabIndex, int mnemonicIndex) {
-        checkIndex(tabIndex);
+    public void setDisplbyedMnemonicIndexAt(int tbbIndex, int mnemonicIndex) {
+        checkIndex(tbbIndex);
 
-        Page page = pages.get(tabIndex);
+        Pbge pbge = pbges.get(tbbIndex);
 
-        page.setDisplayedMnemonicIndex(mnemonicIndex);
+        pbge.setDisplbyedMnemonicIndex(mnemonicIndex);
     }
 
     /**
-     * Sets the keyboard mnemonic for accessing the specified tab.
-     * The mnemonic is the key which when combined with the look and feel's
-     * mouseless modifier (usually Alt) will activate the specified
-     * tab.
+     * Sets the keybobrd mnemonic for bccessing the specified tbb.
+     * The mnemonic is the key which when combined with the look bnd feel's
+     * mouseless modifier (usublly Alt) will bctivbte the specified
+     * tbb.
      * <p>
-     * A mnemonic must correspond to a single key on the keyboard
-     * and should be specified using one of the <code>VK_XXX</code>
-     * keycodes defined in <code>java.awt.event.KeyEvent</code>
-     * or one of the extended keycodes obtained through
-     * <code>java.awt.event.KeyEvent.getExtendedKeyCodeForChar</code>.
-     * Mnemonics are case-insensitive, therefore a key event
-     * with the corresponding keycode would cause the button to be
-     * activated whether or not the Shift modifier was pressed.
+     * A mnemonic must correspond to b single key on the keybobrd
+     * bnd should be specified using one of the <code>VK_XXX</code>
+     * keycodes defined in <code>jbvb.bwt.event.KeyEvent</code>
+     * or one of the extended keycodes obtbined through
+     * <code>jbvb.bwt.event.KeyEvent.getExtendedKeyCodeForChbr</code>.
+     * Mnemonics bre cbse-insensitive, therefore b key event
+     * with the corresponding keycode would cbuse the button to be
+     * bctivbted whether or not the Shift modifier wbs pressed.
      * <p>
-     * This will update the displayed mnemonic property for the specified
-     * tab.
+     * This will updbte the displbyed mnemonic property for the specified
+     * tbb.
      *
      * @since 1.4
-     * @param tabIndex the index of the tab that the mnemonic refers to
-     * @param mnemonic the key code which represents the mnemonic
-     * @exception IndexOutOfBoundsException if <code>tabIndex</code> is out
-     *            of range ({@code tabIndex < 0 || tabIndex >= tab count})
+     * @pbrbm tbbIndex the index of the tbb thbt the mnemonic refers to
+     * @pbrbm mnemonic the key code which represents the mnemonic
+     * @exception IndexOutOfBoundsException if <code>tbbIndex</code> is out
+     *            of rbnge ({@code tbbIndex < 0 || tbbIndex >= tbb count})
      * @see #getMnemonicAt(int)
-     * @see #setDisplayedMnemonicIndexAt(int,int)
+     * @see #setDisplbyedMnemonicIndexAt(int,int)
      *
-     * @beaninfo
+     * @bebninfo
      *        bound: true
-     *    attribute: visualUpdate true
-     *  description: The keyboard mnenmonic, as a KeyEvent VK constant,
-     *               for the specified tab
+     *    bttribute: visublUpdbte true
+     *  description: The keybobrd mnenmonic, bs b KeyEvent VK constbnt,
+     *               for the specified tbb
      */
-    public void setMnemonicAt(int tabIndex, int mnemonic) {
-        checkIndex(tabIndex);
+    public void setMnemonicAt(int tbbIndex, int mnemonic) {
+        checkIndex(tbbIndex);
 
-        Page page = pages.get(tabIndex);
-        page.setMnemonic(mnemonic);
+        Pbge pbge = pbges.get(tbbIndex);
+        pbge.setMnemonic(mnemonic);
 
-        firePropertyChange("mnemonicAt", null, null);
+        firePropertyChbnge("mnemonicAt", null, null);
     }
 
-// end of Page setters
+// end of Pbge setters
 
     /**
-     * Returns the first tab index with a given <code>title</code>,  or
-     * -1 if no tab has this title.
+     * Returns the first tbb index with b given <code>title</code>,  or
+     * -1 if no tbb hbs this title.
      *
-     * @param title the title for the tab
-     * @return the first tab index which matches <code>title</code>, or
-     *          -1 if no tab has this title
+     * @pbrbm title the title for the tbb
+     * @return the first tbb index which mbtches <code>title</code>, or
+     *          -1 if no tbb hbs this title
      */
-    public int indexOfTab(String title) {
-        for(int i = 0; i < getTabCount(); i++) {
-            if (getTitleAt(i).equals(title == null? "" : title)) {
+    public int indexOfTbb(String title) {
+        for(int i = 0; i < getTbbCount(); i++) {
+            if (getTitleAt(i).equbls(title == null? "" : title)) {
                 return i;
             }
         }
@@ -1697,18 +1697,18 @@ public class JTabbedPane extends JComponent
     }
 
     /**
-     * Returns the first tab index with a given <code>icon</code>,
-     * or -1 if no tab has this icon.
+     * Returns the first tbb index with b given <code>icon</code>,
+     * or -1 if no tbb hbs this icon.
      *
-     * @param icon the icon for the tab
-     * @return the first tab index which matches <code>icon</code>,
-     *          or -1 if no tab has this icon
+     * @pbrbm icon the icon for the tbb
+     * @return the first tbb index which mbtches <code>icon</code>,
+     *          or -1 if no tbb hbs this icon
      */
-    public int indexOfTab(Icon icon) {
-        for(int i = 0; i < getTabCount(); i++) {
-            Icon tabIcon = getIconAt(i);
-            if ((tabIcon != null && tabIcon.equals(icon)) ||
-                (tabIcon == null && tabIcon == icon)) {
+    public int indexOfTbb(Icon icon) {
+        for(int i = 0; i < getTbbCount(); i++) {
+            Icon tbbIcon = getIconAt(i);
+            if ((tbbIcon != null && tbbIcon.equbls(icon)) ||
+                (tbbIcon == null && tbbIcon == icon)) {
                 return i;
             }
         }
@@ -1716,17 +1716,17 @@ public class JTabbedPane extends JComponent
     }
 
     /**
-     * Returns the index of the tab for the specified component.
-     * Returns -1 if there is no tab for this component.
+     * Returns the index of the tbb for the specified component.
+     * Returns -1 if there is no tbb for this component.
      *
-     * @param component the component for the tab
-     * @return the first tab which matches this component, or -1
-     *          if there is no tab for this component
+     * @pbrbm component the component for the tbb
+     * @return the first tbb which mbtches this component, or -1
+     *          if there is no tbb for this component
      */
     public int indexOfComponent(Component component) {
-        for(int i = 0; i < getTabCount(); i++) {
+        for(int i = 0; i < getTbbCount(); i++) {
             Component c = getComponentAt(i);
-            if ((c != null && c.equals(component)) ||
+            if ((c != null && c.equbls(component)) ||
                 (c == null && c == component)) {
                 return i;
             }
@@ -1735,19 +1735,19 @@ public class JTabbedPane extends JComponent
     }
 
     /**
-     * Returns the tab index corresponding to the tab whose bounds
-     * intersect the specified location.  Returns -1 if no tab
-     * intersects the location.
+     * Returns the tbb index corresponding to the tbb whose bounds
+     * intersect the specified locbtion.  Returns -1 if no tbb
+     * intersects the locbtion.
      *
-     * @param x the x location relative to this tabbedpane
-     * @param y the y location relative to this tabbedpane
-     * @return the tab index which intersects the location, or
-     *         -1 if no tab intersects the location
+     * @pbrbm x the x locbtion relbtive to this tbbbedpbne
+     * @pbrbm y the y locbtion relbtive to this tbbbedpbne
+     * @return the tbb index which intersects the locbtion, or
+     *         -1 if no tbb intersects the locbtion
      * @since 1.4
      */
-    public int indexAtLocation(int x, int y) {
+    public int indexAtLocbtion(int x, int y) {
         if (ui != null) {
-            return ((TabbedPaneUI)ui).tabForCoordinate(this, x, y);
+            return ((TbbbedPbneUI)ui).tbbForCoordinbte(this, x, y);
         }
         return -1;
     }
@@ -1755,106 +1755,106 @@ public class JTabbedPane extends JComponent
 
     /**
      * Returns the tooltip text for the component determined by the
-     * mouse event location.
+     * mouse event locbtion.
      *
-     * @param event  the <code>MouseEvent</code> that tells where the
+     * @pbrbm event  the <code>MouseEvent</code> thbt tells where the
      *          cursor is lingering
-     * @return the <code>String</code> containing the tooltip text
+     * @return the <code>String</code> contbining the tooltip text
      */
     public String getToolTipText(MouseEvent event) {
         if (ui != null) {
-            int index = ((TabbedPaneUI)ui).tabForCoordinate(this, event.getX(), event.getY());
+            int index = ((TbbbedPbneUI)ui).tbbForCoordinbte(this, event.getX(), event.getY());
 
             if (index != -1) {
-                return pages.get(index).tip;
+                return pbges.get(index).tip;
             }
         }
         return super.getToolTipText(event);
     }
 
-    private void checkIndex(int index) {
-        if (index < 0 || index >= pages.size()) {
-            throw new IndexOutOfBoundsException("Index: "+index+", Tab count: "+pages.size());
+    privbte void checkIndex(int index) {
+        if (index < 0 || index >= pbges.size()) {
+            throw new IndexOutOfBoundsException("Index: "+index+", Tbb count: "+pbges.size());
         }
     }
 
 
     /**
-     * See <code>readObject</code> and <code>writeObject</code> in
+     * See <code>rebdObject</code> bnd <code>writeObject</code> in
      * <code>JComponent</code> for more
-     * information about serialization in Swing.
+     * informbtion bbout seriblizbtion in Swing.
      */
-    private void writeObject(ObjectOutputStream s) throws IOException {
-        s.defaultWriteObject();
-        if (getUIClassID().equals(uiClassID)) {
+    privbte void writeObject(ObjectOutputStrebm s) throws IOException {
+        s.defbultWriteObject();
+        if (getUIClbssID().equbls(uiClbssID)) {
             byte count = JComponent.getWriteObjCounter(this);
             JComponent.setWriteObjCounter(this, --count);
             if (count == 0 && ui != null) {
-                ui.installUI(this);
+                ui.instbllUI(this);
             }
         }
     }
 
-    /* Called from the <code>JComponent</code>'s
-     * <code>EnableSerializationFocusListener</code> to
-     * do any Swing-specific pre-serialization configuration.
+    /* Cblled from the <code>JComponent</code>'s
+     * <code>EnbbleSeriblizbtionFocusListener</code> to
+     * do bny Swing-specific pre-seriblizbtion configurbtion.
      */
     void compWriteObjectNotify() {
         super.compWriteObjectNotify();
-        // If ToolTipText != null, then the tooltip has already been
+        // If ToolTipText != null, then the tooltip hbs blrebdy been
         // unregistered by JComponent.compWriteObjectNotify()
-        if (getToolTipText() == null && haveRegistered) {
-            ToolTipManager.sharedInstance().unregisterComponent(this);
+        if (getToolTipText() == null && hbveRegistered) {
+            ToolTipMbnbger.shbredInstbnce().unregisterComponent(this);
         }
     }
 
     /**
-     * See <code>readObject</code> and <code>writeObject</code> in
+     * See <code>rebdObject</code> bnd <code>writeObject</code> in
      * <code>JComponent</code> for more
-     * information about serialization in Swing.
+     * informbtion bbout seriblizbtion in Swing.
      */
-    private void readObject(ObjectInputStream s)
-        throws IOException, ClassNotFoundException
+    privbte void rebdObject(ObjectInputStrebm s)
+        throws IOException, ClbssNotFoundException
     {
-        s.defaultReadObject();
-        if ((ui != null) && (getUIClassID().equals(uiClassID))) {
-            ui.installUI(this);
+        s.defbultRebdObject();
+        if ((ui != null) && (getUIClbssID().equbls(uiClbssID))) {
+            ui.instbllUI(this);
         }
-        // If ToolTipText != null, then the tooltip has already been
-        // registered by JComponent.readObject()
-        if (getToolTipText() == null && haveRegistered) {
-            ToolTipManager.sharedInstance().registerComponent(this);
+        // If ToolTipText != null, then the tooltip hbs blrebdy been
+        // registered by JComponent.rebdObject()
+        if (getToolTipText() == null && hbveRegistered) {
+            ToolTipMbnbger.shbredInstbnce().registerComponent(this);
         }
     }
 
 
     /**
-     * Returns a string representation of this <code>JTabbedPane</code>.
+     * Returns b string representbtion of this <code>JTbbbedPbne</code>.
      * This method
-     * is intended to be used only for debugging purposes, and the
-     * content and format of the returned string may vary between
-     * implementations. The returned string may be empty but may not
+     * is intended to be used only for debugging purposes, bnd the
+     * content bnd formbt of the returned string mby vbry between
+     * implementbtions. The returned string mby be empty but mby not
      * be <code>null</code>.
      *
-     * @return  a string representation of this JTabbedPane.
+     * @return  b string representbtion of this JTbbbedPbne.
      */
-    protected String paramString() {
-        String tabPlacementString;
-        if (tabPlacement == TOP) {
-            tabPlacementString = "TOP";
-        } else if (tabPlacement == BOTTOM) {
-            tabPlacementString = "BOTTOM";
-        } else if (tabPlacement == LEFT) {
-            tabPlacementString = "LEFT";
-        } else if (tabPlacement == RIGHT) {
-            tabPlacementString = "RIGHT";
-        } else tabPlacementString = "";
-        String haveRegisteredString = (haveRegistered ?
-                                       "true" : "false");
+    protected String pbrbmString() {
+        String tbbPlbcementString;
+        if (tbbPlbcement == TOP) {
+            tbbPlbcementString = "TOP";
+        } else if (tbbPlbcement == BOTTOM) {
+            tbbPlbcementString = "BOTTOM";
+        } else if (tbbPlbcement == LEFT) {
+            tbbPlbcementString = "LEFT";
+        } else if (tbbPlbcement == RIGHT) {
+            tbbPlbcementString = "RIGHT";
+        } else tbbPlbcementString = "";
+        String hbveRegisteredString = (hbveRegistered ?
+                                       "true" : "fblse");
 
-        return super.paramString() +
-        ",haveRegistered=" + haveRegisteredString +
-        ",tabPlacement=" + tabPlacementString;
+        return super.pbrbmString() +
+        ",hbveRegistered=" + hbveRegisteredString +
+        ",tbbPlbcement=" + tbbPlbcementString;
     }
 
 /////////////////
@@ -1862,56 +1862,56 @@ public class JTabbedPane extends JComponent
 ////////////////
 
     /**
-     * Gets the AccessibleContext associated with this JTabbedPane.
-     * For tabbed panes, the AccessibleContext takes the form of an
-     * AccessibleJTabbedPane.
-     * A new AccessibleJTabbedPane instance is created if necessary.
+     * Gets the AccessibleContext bssocibted with this JTbbbedPbne.
+     * For tbbbed pbnes, the AccessibleContext tbkes the form of bn
+     * AccessibleJTbbbedPbne.
+     * A new AccessibleJTbbbedPbne instbnce is crebted if necessbry.
      *
-     * @return an AccessibleJTabbedPane that serves as the
-     *         AccessibleContext of this JTabbedPane
+     * @return bn AccessibleJTbbbedPbne thbt serves bs the
+     *         AccessibleContext of this JTbbbedPbne
      */
     public AccessibleContext getAccessibleContext() {
-        if (accessibleContext == null) {
-            accessibleContext = new AccessibleJTabbedPane();
+        if (bccessibleContext == null) {
+            bccessibleContext = new AccessibleJTbbbedPbne();
 
-            // initialize AccessibleContext for the existing pages
-            int count = getTabCount();
+            // initiblize AccessibleContext for the existing pbges
+            int count = getTbbCount();
             for (int i = 0; i < count; i++) {
-                pages.get(i).initAccessibleContext();
+                pbges.get(i).initAccessibleContext();
             }
         }
-        return accessibleContext;
+        return bccessibleContext;
     }
 
     /**
-     * This class implements accessibility support for the
-     * <code>JTabbedPane</code> class.  It provides an implementation of the
-     * Java Accessibility API appropriate to tabbed pane user-interface
+     * This clbss implements bccessibility support for the
+     * <code>JTbbbedPbne</code> clbss.  It provides bn implementbtion of the
+     * Jbvb Accessibility API bppropribte to tbbbed pbne user-interfbce
      * elements.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Seriblized objects of this clbss will not be compbtible with
+     * future Swing relebses. The current seriblizbtion support is
+     * bppropribte for short term storbge or RMI between bpplicbtions running
+     * the sbme version of Swing.  As of 1.4, support for long term storbge
+     * of bll JbvbBebns&trbde;
+     * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+     * Plebse see {@link jbvb.bebns.XMLEncoder}.
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    protected class AccessibleJTabbedPane extends AccessibleJComponent
-        implements AccessibleSelection, ChangeListener {
+    @SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+    protected clbss AccessibleJTbbbedPbne extends AccessibleJComponent
+        implements AccessibleSelection, ChbngeListener {
 
         /**
-         * Returns the accessible name of this object, or {@code null} if
-         * there is no accessible name.
+         * Returns the bccessible nbme of this object, or {@code null} if
+         * there is no bccessible nbme.
          *
-         * @return the accessible name of this object, nor {@code null}.
+         * @return the bccessible nbme of this object, nor {@code null}.
          * @since 1.6
          */
-        public String getAccessibleName() {
-            if (accessibleName != null) {
-                return accessibleName;
+        public String getAccessibleNbme() {
+            if (bccessibleNbme != null) {
+                return bccessibleNbme;
             }
 
             String cp = (String)getClientProperty(AccessibleContext.ACCESSIBLE_NAME_PROPERTY);
@@ -1923,30 +1923,30 @@ public class JTabbedPane extends JComponent
             int index = getSelectedIndex();
 
             if (index >= 0) {
-                return pages.get(index).getAccessibleName();
+                return pbges.get(index).getAccessibleNbme();
             }
 
-            return super.getAccessibleName();
+            return super.getAccessibleNbme();
         }
 
         /**
-         *  Constructs an AccessibleJTabbedPane
+         *  Constructs bn AccessibleJTbbbedPbne
          */
-        public AccessibleJTabbedPane() {
+        public AccessibleJTbbbedPbne() {
             super();
-            JTabbedPane.this.model.addChangeListener(this);
+            JTbbbedPbne.this.model.bddChbngeListener(this);
         }
 
-        public void stateChanged(ChangeEvent e) {
+        public void stbteChbnged(ChbngeEvent e) {
             Object o = e.getSource();
-            firePropertyChange(AccessibleContext.ACCESSIBLE_SELECTION_PROPERTY,
+            firePropertyChbnge(AccessibleContext.ACCESSIBLE_SELECTION_PROPERTY,
                                null, o);
         }
 
         /**
          * Get the role of this object.
          *
-         * @return an instance of AccessibleRole describing the role of
+         * @return bn instbnce of AccessibleRole describing the role of
          *          the object
          */
         public AccessibleRole getAccessibleRole() {
@@ -1954,34 +1954,34 @@ public class JTabbedPane extends JComponent
         }
 
         /**
-         * Returns the number of accessible children in the object.
+         * Returns the number of bccessible children in the object.
          *
-         * @return the number of accessible children in the object.
+         * @return the number of bccessible children in the object.
          */
         public int getAccessibleChildrenCount() {
-            return getTabCount();
+            return getTbbCount();
         }
 
         /**
          * Return the specified Accessible child of the object.
          *
-         * @param i zero-based index of child
+         * @pbrbm i zero-bbsed index of child
          * @return the Accessible child of the object
-         * @exception IllegalArgumentException if index is out of bounds
+         * @exception IllegblArgumentException if index is out of bounds
          */
         public Accessible getAccessibleChild(int i) {
-            if (i < 0 || i >= getTabCount()) {
+            if (i < 0 || i >= getTbbCount()) {
                 return null;
             }
-            return pages.get(i);
+            return pbges.get(i);
         }
 
         /**
-         * Gets the <code>AccessibleSelection</code> associated with
-         * this object.  In the implementation of the Java
-         * Accessibility API for this class,
+         * Gets the <code>AccessibleSelection</code> bssocibted with
+         * this object.  In the implementbtion of the Jbvb
+         * Accessibility API for this clbss,
          * returns this object, which is responsible for implementing the
-         * <code>AccessibleSelection</code> interface on behalf of itself.
+         * <code>AccessibleSelection</code> interfbce on behblf of itself.
          *
          * @return this object
          */
@@ -1990,20 +1990,20 @@ public class JTabbedPane extends JComponent
         }
 
         /**
-         * Returns the <code>Accessible</code> child contained at
-         * the local coordinate <code>Point</code>, if one exists.
-         * Otherwise returns the currently selected tab.
+         * Returns the <code>Accessible</code> child contbined bt
+         * the locbl coordinbte <code>Point</code>, if one exists.
+         * Otherwise returns the currently selected tbb.
          *
-         * @return the <code>Accessible</code> at the specified
-         *    location, if it exists
+         * @return the <code>Accessible</code> bt the specified
+         *    locbtion, if it exists
          */
         public Accessible getAccessibleAt(Point p) {
-            int tab = ((TabbedPaneUI) ui).tabForCoordinate(JTabbedPane.this,
+            int tbb = ((TbbbedPbneUI) ui).tbbForCoordinbte(JTbbbedPbne.this,
                                                            p.x, p.y);
-            if (tab == -1) {
-                tab = getSelectedIndex();
+            if (tbb == -1) {
+                tbb = getSelectedIndex();
             }
-            return getAccessibleChild(tab);
+            return getAccessibleChild(tbb);
         }
 
         public int getAccessibleSelectionCount() {
@@ -2015,53 +2015,53 @@ public class JTabbedPane extends JComponent
             if (index == -1) {
                 return null;
             }
-            return pages.get(index);
+            return pbges.get(index);
         }
 
-        public boolean isAccessibleChildSelected(int i) {
+        public boolebn isAccessibleChildSelected(int i) {
             return (i == getSelectedIndex());
         }
 
-        public void addAccessibleSelection(int i) {
+        public void bddAccessibleSelection(int i) {
            setSelectedIndex(i);
         }
 
         public void removeAccessibleSelection(int i) {
-           // can't do
+           // cbn't do
         }
 
-        public void clearAccessibleSelection() {
-           // can't do
+        public void clebrAccessibleSelection() {
+           // cbn't do
         }
 
         public void selectAllAccessibleSelection() {
-           // can't do
+           // cbn't do
         }
     }
 
-    private class Page extends AccessibleContext
-        implements Serializable, Accessible, AccessibleComponent {
+    privbte clbss Pbge extends AccessibleContext
+        implements Seriblizbble, Accessible, AccessibleComponent {
         String title;
-        Color background;
+        Color bbckground;
         Color foreground;
         Icon icon;
-        Icon disabledIcon;
-        JTabbedPane parent;
+        Icon disbbledIcon;
+        JTbbbedPbne pbrent;
         Component component;
         String tip;
-        boolean enabled = true;
-        boolean needsUIUpdate;
+        boolebn enbbled = true;
+        boolebn needsUIUpdbte;
         int mnemonic = -1;
         int mnemonicIndex = -1;
-        Component tabComponent;
+        Component tbbComponent;
 
-        Page(JTabbedPane parent,
-             String title, Icon icon, Icon disabledIcon, Component component, String tip) {
+        Pbge(JTbbbedPbne pbrent,
+             String title, Icon icon, Icon disbbledIcon, Component component, String tip) {
             this.title = title;
             this.icon = icon;
-            this.disabledIcon = disabledIcon;
-            this.parent = parent;
-            this.setAccessibleParent(parent);
+            this.disbbledIcon = disbbledIcon;
+            this.pbrent = pbrent;
+            this.setAccessiblePbrent(pbrent);
             this.component = component;
             this.tip = tip;
 
@@ -2069,27 +2069,27 @@ public class JTabbedPane extends JComponent
         }
 
         /*
-         * initializes the AccessibleContext for the page
+         * initiblizes the AccessibleContext for the pbge
          */
         void initAccessibleContext() {
-            if (JTabbedPane.this.accessibleContext != null &&
-                component instanceof Accessible) {
+            if (JTbbbedPbne.this.bccessibleContext != null &&
+                component instbnceof Accessible) {
                 /*
-                 * Do initialization if the AccessibleJTabbedPane
-                 * has been instantiated. We do not want to load
-                 * Accessibility classes unnecessarily.
+                 * Do initiblizbtion if the AccessibleJTbbbedPbne
+                 * hbs been instbntibted. We do not wbnt to lobd
+                 * Accessibility clbsses unnecessbrily.
                  */
-                AccessibleContext ac;
-                ac = component.getAccessibleContext();
-                if (ac != null) {
-                    ac.setAccessibleParent(this);
+                AccessibleContext bc;
+                bc = component.getAccessibleContext();
+                if (bc != null) {
+                    bc.setAccessiblePbrent(this);
                 }
             }
         }
 
         void setMnemonic(int mnemonic) {
             this.mnemonic = mnemonic;
-            updateDisplayedMnemonicIndex();
+            updbteDisplbyedMnemonicIndex();
         }
 
         int getMnemonic() {
@@ -2097,32 +2097,32 @@ public class JTabbedPane extends JComponent
         }
 
         /*
-         * Sets the page displayed mnemonic index
+         * Sets the pbge displbyed mnemonic index
          */
-        void setDisplayedMnemonicIndex(int mnemonicIndex) {
+        void setDisplbyedMnemonicIndex(int mnemonicIndex) {
             if (this.mnemonicIndex != mnemonicIndex) {
                 if (mnemonicIndex != -1 && (title == null ||
                         mnemonicIndex < 0 ||
                         mnemonicIndex >= title.length())) {
-                    throw new IllegalArgumentException(
-                                "Invalid mnemonic index: " + mnemonicIndex);
+                    throw new IllegblArgumentException(
+                                "Invblid mnemonic index: " + mnemonicIndex);
                 }
                 this.mnemonicIndex = mnemonicIndex;
-                JTabbedPane.this.firePropertyChange("displayedMnemonicIndexAt",
+                JTbbbedPbne.this.firePropertyChbnge("displbyedMnemonicIndexAt",
                                                     null, null);
             }
         }
 
         /*
-         * Returns the page displayed mnemonic index
+         * Returns the pbge displbyed mnemonic index
          */
-        int getDisplayedMnemonicIndex() {
+        int getDisplbyedMnemonicIndex() {
             return this.mnemonicIndex;
         }
 
-        void updateDisplayedMnemonicIndex() {
-            setDisplayedMnemonicIndex(
-                SwingUtilities.findDisplayedMnemonicIndex(title, mnemonic));
+        void updbteDisplbyedMnemonicIndex() {
+            setDisplbyedMnemonicIndex(
+                SwingUtilities.findDisplbyedMnemonicIndex(title, mnemonic));
         }
 
         /////////////////
@@ -2136,9 +2136,9 @@ public class JTabbedPane extends JComponent
 
         // AccessibleContext methods
 
-        public String getAccessibleName() {
-            if (accessibleName != null) {
-                return accessibleName;
+        public String getAccessibleNbme() {
+            if (bccessibleNbme != null) {
+                return bccessibleNbme;
             } else if (title != null) {
                 return title;
             }
@@ -2146,8 +2146,8 @@ public class JTabbedPane extends JComponent
         }
 
         public String getAccessibleDescription() {
-            if (accessibleDescription != null) {
-                return accessibleDescription;
+            if (bccessibleDescription != null) {
+                return bccessibleDescription;
             } else if (tip != null) {
                 return tip;
             }
@@ -2158,23 +2158,23 @@ public class JTabbedPane extends JComponent
             return AccessibleRole.PAGE_TAB;
         }
 
-        public AccessibleStateSet getAccessibleStateSet() {
-            AccessibleStateSet states;
-            states = parent.getAccessibleContext().getAccessibleStateSet();
-            states.add(AccessibleState.SELECTABLE);
-            int i = parent.indexOfTab(title);
-            if (i == parent.getSelectedIndex()) {
-                states.add(AccessibleState.SELECTED);
+        public AccessibleStbteSet getAccessibleStbteSet() {
+            AccessibleStbteSet stbtes;
+            stbtes = pbrent.getAccessibleContext().getAccessibleStbteSet();
+            stbtes.bdd(AccessibleStbte.SELECTABLE);
+            int i = pbrent.indexOfTbb(title);
+            if (i == pbrent.getSelectedIndex()) {
+                stbtes.bdd(AccessibleStbte.SELECTED);
             }
-            return states;
+            return stbtes;
         }
 
-        public int getAccessibleIndexInParent() {
-            return parent.indexOfTab(title);
+        public int getAccessibleIndexInPbrent() {
+            return pbrent.indexOfTbb(title);
         }
 
         public int getAccessibleChildrenCount() {
-            if (component instanceof Accessible) {
+            if (component instbnceof Accessible) {
                 return 1;
             } else {
                 return 0;
@@ -2182,15 +2182,15 @@ public class JTabbedPane extends JComponent
         }
 
         public Accessible getAccessibleChild(int i) {
-            if (component instanceof Accessible) {
+            if (component instbnceof Accessible) {
                 return (Accessible) component;
             } else {
                 return null;
             }
         }
 
-        public Locale getLocale() {
-            return parent.getLocale();
+        public Locble getLocble() {
+            return pbrent.getLocble();
         }
 
         public AccessibleComponent getAccessibleComponent() {
@@ -2200,16 +2200,16 @@ public class JTabbedPane extends JComponent
 
         // AccessibleComponent methods
 
-        public Color getBackground() {
-            return background != null? background : parent.getBackground();
+        public Color getBbckground() {
+            return bbckground != null? bbckground : pbrent.getBbckground();
         }
 
-        public void setBackground(Color c) {
-            background = c;
+        public void setBbckground(Color c) {
+            bbckground = c;
         }
 
         public Color getForeground() {
-            return foreground != null? foreground : parent.getForeground();
+            return foreground != null? foreground : pbrent.getForeground();
         }
 
         public void setForeground(Color c) {
@@ -2217,77 +2217,77 @@ public class JTabbedPane extends JComponent
         }
 
         public Cursor getCursor() {
-            return parent.getCursor();
+            return pbrent.getCursor();
         }
 
         public void setCursor(Cursor c) {
-            parent.setCursor(c);
+            pbrent.setCursor(c);
         }
 
         public Font getFont() {
-            return parent.getFont();
+            return pbrent.getFont();
         }
 
         public void setFont(Font f) {
-            parent.setFont(f);
+            pbrent.setFont(f);
         }
 
         public FontMetrics getFontMetrics(Font f) {
-            return parent.getFontMetrics(f);
+            return pbrent.getFontMetrics(f);
         }
 
-        public boolean isEnabled() {
-            return enabled;
+        public boolebn isEnbbled() {
+            return enbbled;
         }
 
-        public void setEnabled(boolean b) {
-            enabled = b;
+        public void setEnbbled(boolebn b) {
+            enbbled = b;
         }
 
-        public boolean isVisible() {
-            return parent.isVisible();
+        public boolebn isVisible() {
+            return pbrent.isVisible();
         }
 
-        public void setVisible(boolean b) {
-            parent.setVisible(b);
+        public void setVisible(boolebn b) {
+            pbrent.setVisible(b);
         }
 
-        public boolean isShowing() {
-            return parent.isShowing();
+        public boolebn isShowing() {
+            return pbrent.isShowing();
         }
 
-        public boolean contains(Point p) {
-            Rectangle r = getBounds();
-            return r.contains(p);
+        public boolebn contbins(Point p) {
+            Rectbngle r = getBounds();
+            return r.contbins(p);
         }
 
-        public Point getLocationOnScreen() {
-             Point parentLocation = parent.getLocationOnScreen();
-             Point componentLocation = getLocation();
-             componentLocation.translate(parentLocation.x, parentLocation.y);
-             return componentLocation;
+        public Point getLocbtionOnScreen() {
+             Point pbrentLocbtion = pbrent.getLocbtionOnScreen();
+             Point componentLocbtion = getLocbtion();
+             componentLocbtion.trbnslbte(pbrentLocbtion.x, pbrentLocbtion.y);
+             return componentLocbtion;
         }
 
-        public Point getLocation() {
-             Rectangle r = getBounds();
+        public Point getLocbtion() {
+             Rectbngle r = getBounds();
              return new Point(r.x, r.y);
         }
 
-        public void setLocation(Point p) {
+        public void setLocbtion(Point p) {
             // do nothing
         }
 
-        public Rectangle getBounds() {
-            return parent.getUI().getTabBounds(parent,
-                                               parent.indexOfTab(title));
+        public Rectbngle getBounds() {
+            return pbrent.getUI().getTbbBounds(pbrent,
+                                               pbrent.indexOfTbb(title));
         }
 
-        public void setBounds(Rectangle r) {
+        public void setBounds(Rectbngle r) {
             // do nothing
         }
 
         public Dimension getSize() {
-            Rectangle r = getBounds();
+            Rectbngle r = getBounds();
             return new Dimension(r.width, r.height);
         }
 
@@ -2296,22 +2296,22 @@ public class JTabbedPane extends JComponent
         }
 
         public Accessible getAccessibleAt(Point p) {
-            if (component instanceof Accessible) {
+            if (component instbnceof Accessible) {
                 return (Accessible) component;
             } else {
                 return null;
             }
         }
 
-        public boolean isFocusTraversable() {
-            return false;
+        public boolebn isFocusTrbversbble() {
+            return fblse;
         }
 
         public void requestFocus() {
             // do nothing
         }
 
-        public void addFocusListener(FocusListener l) {
+        public void bddFocusListener(FocusListener l) {
             // do nothing
         }
 
@@ -2321,27 +2321,27 @@ public class JTabbedPane extends JComponent
 
         // TIGER - 4732339
         /**
-         * Returns an AccessibleIcon
+         * Returns bn AccessibleIcon
          *
-         * @return the enabled icon if one exists and the page
-         * is enabled. Otherwise, returns the disabled icon if
-         * one exists and the page is disabled.  Otherwise, null
+         * @return the enbbled icon if one exists bnd the pbge
+         * is enbbled. Otherwise, returns the disbbled icon if
+         * one exists bnd the pbge is disbbled.  Otherwise, null
          * is returned.
          */
         public AccessibleIcon [] getAccessibleIcon() {
-            AccessibleIcon accessibleIcon = null;
-            if (enabled && icon instanceof ImageIcon) {
-                AccessibleContext ac =
-                    ((ImageIcon)icon).getAccessibleContext();
-                accessibleIcon = (AccessibleIcon)ac;
-            } else if (!enabled && disabledIcon instanceof ImageIcon) {
-                AccessibleContext ac =
-                    ((ImageIcon)disabledIcon).getAccessibleContext();
-                accessibleIcon = (AccessibleIcon)ac;
+            AccessibleIcon bccessibleIcon = null;
+            if (enbbled && icon instbnceof ImbgeIcon) {
+                AccessibleContext bc =
+                    ((ImbgeIcon)icon).getAccessibleContext();
+                bccessibleIcon = (AccessibleIcon)bc;
+            } else if (!enbbled && disbbledIcon instbnceof ImbgeIcon) {
+                AccessibleContext bc =
+                    ((ImbgeIcon)disbbledIcon).getAccessibleContext();
+                bccessibleIcon = (AccessibleIcon)bc;
             }
-            if (accessibleIcon != null) {
+            if (bccessibleIcon != null) {
                 AccessibleIcon [] returnIcons = new AccessibleIcon[1];
-                returnIcons[0] = accessibleIcon;
+                returnIcons[0] = bccessibleIcon;
                 return returnIcons;
             } else {
                 return null;
@@ -2350,76 +2350,76 @@ public class JTabbedPane extends JComponent
     }
 
     /**
-    * Sets the component that is responsible for rendering the
-    * title for the specified tab.  A null value means
-    * <code>JTabbedPane</code> will render the title and/or icon for
-    * the specified tab.  A non-null value means the component will
-    * render the title and <code>JTabbedPane</code> will not render
-    * the title and/or icon.
+    * Sets the component thbt is responsible for rendering the
+    * title for the specified tbb.  A null vblue mebns
+    * <code>JTbbbedPbne</code> will render the title bnd/or icon for
+    * the specified tbb.  A non-null vblue mebns the component will
+    * render the title bnd <code>JTbbbedPbne</code> will not render
+    * the title bnd/or icon.
     * <p>
-    * Note: The component must not be one that the developer has
-    *       already added to the tabbed pane.
+    * Note: The component must not be one thbt the developer hbs
+    *       blrebdy bdded to the tbbbed pbne.
     *
-    * @param index the tab index where the component should be set
-    * @param component the component to render the title for the
-    *                  specified tab
-    * @exception IndexOutOfBoundsException if index is out of range
-    *            {@code (index < 0 || index >= tab count)}
-    * @exception IllegalArgumentException if component has already been
-    *            added to this <code>JTabbedPane</code>
+    * @pbrbm index the tbb index where the component should be set
+    * @pbrbm component the component to render the title for the
+    *                  specified tbb
+    * @exception IndexOutOfBoundsException if index is out of rbnge
+    *            {@code (index < 0 || index >= tbb count)}
+    * @exception IllegblArgumentException if component hbs blrebdy been
+    *            bdded to this <code>JTbbbedPbne</code>
     *
-    * @see #getTabComponentAt
-    * @beaninfo
+    * @see #getTbbComponentAt
+    * @bebninfo
     *    preferred: true
-    *    attribute: visualUpdate true
-    *  description: The tab component at the specified tab index.
+    *    bttribute: visublUpdbte true
+    *  description: The tbb component bt the specified tbb index.
     * @since 1.6
     */
-    public void setTabComponentAt(int index, Component component) {
+    public void setTbbComponentAt(int index, Component component) {
         if (component != null && indexOfComponent(component) != -1) {
-            throw new IllegalArgumentException("Component is already added to this JTabbedPane");
+            throw new IllegblArgumentException("Component is blrebdy bdded to this JTbbbedPbne");
         }
-        Component oldValue = getTabComponentAt(index);
-        if (component != oldValue) {
-            int tabComponentIndex = indexOfTabComponent(component);
-            if (tabComponentIndex != -1) {
-                setTabComponentAt(tabComponentIndex, null);
+        Component oldVblue = getTbbComponentAt(index);
+        if (component != oldVblue) {
+            int tbbComponentIndex = indexOfTbbComponent(component);
+            if (tbbComponentIndex != -1) {
+                setTbbComponentAt(tbbComponentIndex, null);
             }
-            pages.get(index).tabComponent = component;
-            firePropertyChange("indexForTabComponent", -1, index);
+            pbges.get(index).tbbComponent = component;
+            firePropertyChbnge("indexForTbbComponent", -1, index);
         }
     }
 
     /**
-     * Returns the tab component at <code>index</code>.
+     * Returns the tbb component bt <code>index</code>.
      *
-     * @param index  the index of the item being queried
-     * @return the tab component at <code>index</code>
-     * @exception IndexOutOfBoundsException if index is out of range
-     *            {@code (index < 0 || index >= tab count)}
+     * @pbrbm index  the index of the item being queried
+     * @return the tbb component bt <code>index</code>
+     * @exception IndexOutOfBoundsException if index is out of rbnge
+     *            {@code (index < 0 || index >= tbb count)}
      *
-     * @see #setTabComponentAt
+     * @see #setTbbComponentAt
      * @since 1.6
      */
-    public Component getTabComponentAt(int index) {
-        return pages.get(index).tabComponent;
+    public Component getTbbComponentAt(int index) {
+        return pbges.get(index).tbbComponent;
     }
 
     /**
-     * Returns the index of the tab for the specified tab component.
-     * Returns -1 if there is no tab for this tab component.
+     * Returns the index of the tbb for the specified tbb component.
+     * Returns -1 if there is no tbb for this tbb component.
      *
-     * @param tabComponent the tab component for the tab
-     * @return the first tab which matches this tab component, or -1
-     *          if there is no tab for this tab component
-     * @see #setTabComponentAt
-     * @see #getTabComponentAt
+     * @pbrbm tbbComponent the tbb component for the tbb
+     * @return the first tbb which mbtches this tbb component, or -1
+     *          if there is no tbb for this tbb component
+     * @see #setTbbComponentAt
+     * @see #getTbbComponentAt
      * @since 1.6
      */
-     public int indexOfTabComponent(Component tabComponent) {
-        for(int i = 0; i < getTabCount(); i++) {
-            Component c = getTabComponentAt(i);
-            if (c == tabComponent) {
+     public int indexOfTbbComponent(Component tbbComponent) {
+        for(int i = 0; i < getTbbCount(); i++) {
+            Component c = getTbbComponentAt(i);
+            if (c == tbbComponent) {
                 return i;
             }
         }

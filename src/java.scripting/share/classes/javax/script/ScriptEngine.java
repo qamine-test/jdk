@@ -1,323 +1,323 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.script;
+pbckbge jbvbx.script;
 
-import java.io.Reader;
-import java.util.Map;
-import java.util.Set;
+import jbvb.io.Rebder;
+import jbvb.util.Mbp;
+import jbvb.util.Set;
 
 /**
- * <code>ScriptEngine</code> is the fundamental interface whose methods must be
- * fully functional in every implementation of this specification.
+ * <code>ScriptEngine</code> is the fundbmentbl interfbce whose methods must be
+ * fully functionbl in every implementbtion of this specificbtion.
  * <br><br>
- * These methods provide basic scripting functionality.  Applications written to this
- * simple interface are expected to work with minimal modifications in every implementation.
- * It includes methods that execute scripts, and ones that set and get values.
+ * These methods provide bbsic scripting functionblity.  Applicbtions written to this
+ * simple interfbce bre expected to work with minimbl modificbtions in every implementbtion.
+ * It includes methods thbt execute scripts, bnd ones thbt set bnd get vblues.
  * <br><br>
- * The values are key/value pairs of two types.  The first type of pairs consists of
- * those whose keys are reserved and defined in this specification or  by individual
- * implementations.  The values in the pairs with reserved keys have specified meanings.
+ * The vblues bre key/vblue pbirs of two types.  The first type of pbirs consists of
+ * those whose keys bre reserved bnd defined in this specificbtion or  by individubl
+ * implementbtions.  The vblues in the pbirs with reserved keys hbve specified mebnings.
  * <br><br>
- * The other type of pairs consists of those that create Java language Bindings, the values are
- * usually represented in scripts by the corresponding keys or by decorated forms of them.
+ * The other type of pbirs consists of those thbt crebte Jbvb lbngubge Bindings, the vblues bre
+ * usublly represented in scripts by the corresponding keys or by decorbted forms of them.
  *
- * @author Mike Grogan
+ * @buthor Mike Grogbn
  * @since 1.6
  */
 
-public interface ScriptEngine  {
+public interfbce ScriptEngine  {
 
     /**
-     * Reserved key for a named value that passes
-     * an array of positional arguments to a script.
+     * Reserved key for b nbmed vblue thbt pbsses
+     * bn brrby of positionbl brguments to b script.
      */
-    public static final String ARGV="javax.script.argv";
+    public stbtic finbl String ARGV="jbvbx.script.brgv";
 
     /**
-     * Reserved key for a named value that is
-     * the name of the file being executed.
+     * Reserved key for b nbmed vblue thbt is
+     * the nbme of the file being executed.
      */
-    public static final String FILENAME = "javax.script.filename";
+    public stbtic finbl String FILENAME = "jbvbx.script.filenbme";
 
     /**
-     * Reserved key for a named value that is
-     * the name of the <code>ScriptEngine</code> implementation.
+     * Reserved key for b nbmed vblue thbt is
+     * the nbme of the <code>ScriptEngine</code> implementbtion.
      */
-    public static final String ENGINE = "javax.script.engine";
+    public stbtic finbl String ENGINE = "jbvbx.script.engine";
 
     /**
-     * Reserved key for a named value that identifies
-     * the version of the <code>ScriptEngine</code> implementation.
+     * Reserved key for b nbmed vblue thbt identifies
+     * the version of the <code>ScriptEngine</code> implementbtion.
      */
-    public static final String ENGINE_VERSION = "javax.script.engine_version";
+    public stbtic finbl String ENGINE_VERSION = "jbvbx.script.engine_version";
 
     /**
-     * Reserved key for a named value that identifies
-     * the short name of the scripting language.  The name is used by the
-     * <code>ScriptEngineManager</code> to locate a <code>ScriptEngine</code>
-     * with a given name in the <code>getEngineByName</code> method.
+     * Reserved key for b nbmed vblue thbt identifies
+     * the short nbme of the scripting lbngubge.  The nbme is used by the
+     * <code>ScriptEngineMbnbger</code> to locbte b <code>ScriptEngine</code>
+     * with b given nbme in the <code>getEngineByNbme</code> method.
      */
-    public static final String NAME = "javax.script.name";
+    public stbtic finbl String NAME = "jbvbx.script.nbme";
 
     /**
-     * Reserved key for a named value that is
-     * the full name of Scripting Language supported by the implementation.
+     * Reserved key for b nbmed vblue thbt is
+     * the full nbme of Scripting Lbngubge supported by the implementbtion.
      */
-    public static final String LANGUAGE = "javax.script.language";
+    public stbtic finbl String LANGUAGE = "jbvbx.script.lbngubge";
 
     /**
-     * Reserved key for the named value that identifies
-     * the version of the scripting language supported by the implementation.
+     * Reserved key for the nbmed vblue thbt identifies
+     * the version of the scripting lbngubge supported by the implementbtion.
      */
-    public static final String LANGUAGE_VERSION ="javax.script.language_version";
+    public stbtic finbl String LANGUAGE_VERSION ="jbvbx.script.lbngubge_version";
 
 
     /**
-     * Causes the immediate execution of the script whose source is the String
-     * passed as the first argument.  The script may be reparsed or recompiled before
-     * execution.  State left in the engine from previous executions, including
-     * variable values and compiled procedures may be visible during this execution.
+     * Cbuses the immedibte execution of the script whose source is the String
+     * pbssed bs the first brgument.  The script mby be repbrsed or recompiled before
+     * execution.  Stbte left in the engine from previous executions, including
+     * vbribble vblues bnd compiled procedures mby be visible during this execution.
      *
-     * @param script The script to be executed by the script engine.
+     * @pbrbm script The script to be executed by the script engine.
      *
-     * @param context A <code>ScriptContext</code> exposing sets of attributes in
-     * different scopes.  The meanings of the scopes <code>ScriptContext.GLOBAL_SCOPE</code>,
-     * and <code>ScriptContext.ENGINE_SCOPE</code> are defined in the specification.
+     * @pbrbm context A <code>ScriptContext</code> exposing sets of bttributes in
+     * different scopes.  The mebnings of the scopes <code>ScriptContext.GLOBAL_SCOPE</code>,
+     * bnd <code>ScriptContext.ENGINE_SCOPE</code> bre defined in the specificbtion.
      * <br><br>
-     * The <code>ENGINE_SCOPE</code> <code>Bindings</code> of the <code>ScriptContext</code> contains the
-     * bindings of scripting variables to application objects to be used during this
+     * The <code>ENGINE_SCOPE</code> <code>Bindings</code> of the <code>ScriptContext</code> contbins the
+     * bindings of scripting vbribbles to bpplicbtion objects to be used during this
      * script execution.
      *
      *
-     * @return The value returned from the execution of the script.
+     * @return The vblue returned from the execution of the script.
      *
-     * @throws ScriptException if an error occurs in script. ScriptEngines should create and throw
-     * <code>ScriptException</code> wrappers for checked Exceptions thrown by underlying scripting
-     * implementations.
-     * @throws NullPointerException if either argument is null.
+     * @throws ScriptException if bn error occurs in script. ScriptEngines should crebte bnd throw
+     * <code>ScriptException</code> wrbppers for checked Exceptions thrown by underlying scripting
+     * implementbtions.
+     * @throws NullPointerException if either brgument is null.
      */
-    public Object eval(String script, ScriptContext context) throws ScriptException;
+    public Object evbl(String script, ScriptContext context) throws ScriptException;
 
 
     /**
-     * Same as <code>eval(String, ScriptContext)</code> where the source of the script
-     * is read from a <code>Reader</code>.
+     * Sbme bs <code>evbl(String, ScriptContext)</code> where the source of the script
+     * is rebd from b <code>Rebder</code>.
      *
-     * @param reader The source of the script to be executed by the script engine.
+     * @pbrbm rebder The source of the script to be executed by the script engine.
      *
-     * @param context The <code>ScriptContext</code> passed to the script engine.
+     * @pbrbm context The <code>ScriptContext</code> pbssed to the script engine.
      *
-     * @return The value returned from the execution of the script.
+     * @return The vblue returned from the execution of the script.
      *
-     * @throws ScriptException if an error occurs in script.
-     * @throws NullPointerException if either argument is null.
+     * @throws ScriptException if bn error occurs in script.
+     * @throws NullPointerException if either brgument is null.
      */
-    public Object eval(Reader reader , ScriptContext context) throws ScriptException;
+    public Object evbl(Rebder rebder , ScriptContext context) throws ScriptException;
 
     /**
-     * Executes the specified script.  The default <code>ScriptContext</code> for the <code>ScriptEngine</code>
+     * Executes the specified script.  The defbult <code>ScriptContext</code> for the <code>ScriptEngine</code>
      * is used.
      *
-     * @param script The script language source to be executed.
+     * @pbrbm script The script lbngubge source to be executed.
      *
-     * @return The value returned from the execution of the script.
+     * @return The vblue returned from the execution of the script.
      *
      * @throws ScriptException if error occurs in script.
-     * @throws NullPointerException if the argument is null.
+     * @throws NullPointerException if the brgument is null.
      */
-    public Object eval(String script) throws ScriptException;
+    public Object evbl(String script) throws ScriptException;
 
     /**
-     * Same as <code>eval(String)</code> except that the source of the script is
-     * provided as a <code>Reader</code>
+     * Sbme bs <code>evbl(String)</code> except thbt the source of the script is
+     * provided bs b <code>Rebder</code>
      *
-     * @param reader The source of the script.
+     * @pbrbm rebder The source of the script.
      *
-     * @return The value returned by the script.
+     * @return The vblue returned by the script.
      *
-     * @throws ScriptException if an error occurs in script.
-     * @throws NullPointerException if the argument is null.
+     * @throws ScriptException if bn error occurs in script.
+     * @throws NullPointerException if the brgument is null.
      */
-    public Object eval(Reader reader) throws ScriptException;
+    public Object evbl(Rebder rebder) throws ScriptException;
 
     /**
-     * Executes the script using the <code>Bindings</code> argument as the <code>ENGINE_SCOPE</code>
+     * Executes the script using the <code>Bindings</code> brgument bs the <code>ENGINE_SCOPE</code>
      * <code>Bindings</code> of the <code>ScriptEngine</code> during the script execution.  The
-     * <code>Reader</code>, <code>Writer</code> and non-<code>ENGINE_SCOPE</code> <code>Bindings</code> of the
-     * default <code>ScriptContext</code> are used. The <code>ENGINE_SCOPE</code>
-     * <code>Bindings</code> of the <code>ScriptEngine</code> is not changed, and its
-     * mappings are unaltered by the script execution.
+     * <code>Rebder</code>, <code>Writer</code> bnd non-<code>ENGINE_SCOPE</code> <code>Bindings</code> of the
+     * defbult <code>ScriptContext</code> bre used. The <code>ENGINE_SCOPE</code>
+     * <code>Bindings</code> of the <code>ScriptEngine</code> is not chbnged, bnd its
+     * mbppings bre unbltered by the script execution.
      *
-     * @param script The source for the script.
+     * @pbrbm script The source for the script.
      *
-     * @param n The <code>Bindings</code> of attributes to be used for script execution.
+     * @pbrbm n The <code>Bindings</code> of bttributes to be used for script execution.
      *
-     * @return The value returned by the script.
+     * @return The vblue returned by the script.
      *
-     * @throws ScriptException if an error occurs in script.
-     * @throws NullPointerException if either argument is null.
+     * @throws ScriptException if bn error occurs in script.
+     * @throws NullPointerException if either brgument is null.
      */
-    public Object eval(String script, Bindings n) throws ScriptException;
+    public Object evbl(String script, Bindings n) throws ScriptException;
 
     /**
-     * Same as <code>eval(String, Bindings)</code> except that the source of the script
-     * is provided as a <code>Reader</code>.
+     * Sbme bs <code>evbl(String, Bindings)</code> except thbt the source of the script
+     * is provided bs b <code>Rebder</code>.
      *
-     * @param reader The source of the script.
-     * @param n The <code>Bindings</code> of attributes.
+     * @pbrbm rebder The source of the script.
+     * @pbrbm n The <code>Bindings</code> of bttributes.
      *
-     * @return The value returned by the script.
+     * @return The vblue returned by the script.
      *
-     * @throws ScriptException if an error occurs.
-     * @throws NullPointerException if either argument is null.
+     * @throws ScriptException if bn error occurs.
+     * @throws NullPointerException if either brgument is null.
      */
-    public Object eval(Reader reader , Bindings n) throws ScriptException;
+    public Object evbl(Rebder rebder , Bindings n) throws ScriptException;
 
 
 
     /**
-     * Sets a key/value pair in the state of the ScriptEngine that may either create
-     * a Java Language Binding to be used in the execution of scripts or be used in some
-     * other way, depending on whether the key is reserved.  Must have the same effect as
+     * Sets b key/vblue pbir in the stbte of the ScriptEngine thbt mby either crebte
+     * b Jbvb Lbngubge Binding to be used in the execution of scripts or be used in some
+     * other wby, depending on whether the key is reserved.  Must hbve the sbme effect bs
      * <code>getBindings(ScriptContext.ENGINE_SCOPE).put</code>.
      *
-     * @param key The name of named value to add
-     * @param value The value of named value to add.
+     * @pbrbm key The nbme of nbmed vblue to bdd
+     * @pbrbm vblue The vblue of nbmed vblue to bdd.
      *
      * @throws NullPointerException if key is null.
-     * @throws IllegalArgumentException if key is empty.
+     * @throws IllegblArgumentException if key is empty.
      */
-    public void put(String key, Object value);
+    public void put(String key, Object vblue);
 
 
     /**
-     * Retrieves a value set in the state of this engine.  The value might be one
-     * which was set using <code>setValue</code> or some other value in the state
-     * of the <code>ScriptEngine</code>, depending on the implementation.  Must have the same effect
-     * as <code>getBindings(ScriptContext.ENGINE_SCOPE).get</code>
+     * Retrieves b vblue set in the stbte of this engine.  The vblue might be one
+     * which wbs set using <code>setVblue</code> or some other vblue in the stbte
+     * of the <code>ScriptEngine</code>, depending on the implementbtion.  Must hbve the sbme effect
+     * bs <code>getBindings(ScriptContext.ENGINE_SCOPE).get</code>
      *
-     * @param key The key whose value is to be returned
-     * @return the value for the given key
+     * @pbrbm key The key whose vblue is to be returned
+     * @return the vblue for the given key
      *
      * @throws NullPointerException if key is null.
-     * @throws IllegalArgumentException if key is empty.
+     * @throws IllegblArgumentException if key is empty.
      */
     public Object get(String key);
 
 
     /**
-     * Returns a scope of named values.  The possible scopes are:
+     * Returns b scope of nbmed vblues.  The possible scopes bre:
      * <br><br>
      * <ul>
-     * <li><code>ScriptContext.GLOBAL_SCOPE</code> - The set of named values representing global
-     * scope. If this <code>ScriptEngine</code> is created by a <code>ScriptEngineManager</code>,
-     * then the manager sets global scope bindings. This may be <code>null</code> if no global
-     * scope is associated with this <code>ScriptEngine</code></li>
-     * <li><code>ScriptContext.ENGINE_SCOPE</code> - The set of named values representing the state of
-     * this <code>ScriptEngine</code>.  The values are generally visible in scripts using
-     * the associated keys as variable names.</li>
-     * <li>Any other value of scope defined in the default <code>ScriptContext</code> of the <code>ScriptEngine</code>.
+     * <li><code>ScriptContext.GLOBAL_SCOPE</code> - The set of nbmed vblues representing globbl
+     * scope. If this <code>ScriptEngine</code> is crebted by b <code>ScriptEngineMbnbger</code>,
+     * then the mbnbger sets globbl scope bindings. This mby be <code>null</code> if no globbl
+     * scope is bssocibted with this <code>ScriptEngine</code></li>
+     * <li><code>ScriptContext.ENGINE_SCOPE</code> - The set of nbmed vblues representing the stbte of
+     * this <code>ScriptEngine</code>.  The vblues bre generblly visible in scripts using
+     * the bssocibted keys bs vbribble nbmes.</li>
+     * <li>Any other vblue of scope defined in the defbult <code>ScriptContext</code> of the <code>ScriptEngine</code>.
      * </li>
      * </ul>
      * <br><br>
-     * The <code>Bindings</code> instances that are returned must be identical to those returned by the
-     * <code>getBindings</code> method of <code>ScriptContext</code> called with corresponding arguments on
-     * the default <code>ScriptContext</code> of the <code>ScriptEngine</code>.
+     * The <code>Bindings</code> instbnces thbt bre returned must be identicbl to those returned by the
+     * <code>getBindings</code> method of <code>ScriptContext</code> cblled with corresponding brguments on
+     * the defbult <code>ScriptContext</code> of the <code>ScriptEngine</code>.
      *
-     * @param scope Either <code>ScriptContext.ENGINE_SCOPE</code> or <code>ScriptContext.GLOBAL_SCOPE</code>
-     * which specifies the <code>Bindings</code> to return.  Implementations of <code>ScriptContext</code>
-     * may define additional scopes.  If the default <code>ScriptContext</code> of the <code>ScriptEngine</code>
-     * defines additional scopes, any of them can be passed to get the corresponding <code>Bindings</code>.
+     * @pbrbm scope Either <code>ScriptContext.ENGINE_SCOPE</code> or <code>ScriptContext.GLOBAL_SCOPE</code>
+     * which specifies the <code>Bindings</code> to return.  Implementbtions of <code>ScriptContext</code>
+     * mby define bdditionbl scopes.  If the defbult <code>ScriptContext</code> of the <code>ScriptEngine</code>
+     * defines bdditionbl scopes, bny of them cbn be pbssed to get the corresponding <code>Bindings</code>.
      *
      * @return The <code>Bindings</code> with the specified scope.
      *
-     * @throws IllegalArgumentException if specified scope is invalid
+     * @throws IllegblArgumentException if specified scope is invblid
      *
      */
     public Bindings getBindings(int scope);
 
     /**
-     * Sets a scope of named values to be used by scripts.  The possible scopes are:
+     * Sets b scope of nbmed vblues to be used by scripts.  The possible scopes bre:
      *<br><br>
      * <ul>
-     * <li><code>ScriptContext.ENGINE_SCOPE</code> - The specified <code>Bindings</code> replaces the
+     * <li><code>ScriptContext.ENGINE_SCOPE</code> - The specified <code>Bindings</code> replbces the
      * engine scope of the <code>ScriptEngine</code>.
      * </li>
      * <li><code>ScriptContext.GLOBAL_SCOPE</code> - The specified <code>Bindings</code> must be visible
-     * as the <code>GLOBAL_SCOPE</code>.
+     * bs the <code>GLOBAL_SCOPE</code>.
      * </li>
-     * <li>Any other value of scope defined in the default <code>ScriptContext</code> of the <code>ScriptEngine</code>.
+     * <li>Any other vblue of scope defined in the defbult <code>ScriptContext</code> of the <code>ScriptEngine</code>.
      *</li>
      * </ul>
      * <br><br>
-     * The method must have the same effect as calling the <code>setBindings</code> method of
-     * <code>ScriptContext</code> with the corresponding value of <code>scope</code> on the default
+     * The method must hbve the sbme effect bs cblling the <code>setBindings</code> method of
+     * <code>ScriptContext</code> with the corresponding vblue of <code>scope</code> on the defbult
      * <code>ScriptContext</code> of the <code>ScriptEngine</code>.
      *
-     * @param bindings The <code>Bindings</code> for the specified scope.
-     * @param scope The specified scope.  Either <code>ScriptContext.ENGINE_SCOPE</code>,
-     * <code>ScriptContext.GLOBAL_SCOPE</code>, or any other valid value of scope.
+     * @pbrbm bindings The <code>Bindings</code> for the specified scope.
+     * @pbrbm scope The specified scope.  Either <code>ScriptContext.ENGINE_SCOPE</code>,
+     * <code>ScriptContext.GLOBAL_SCOPE</code>, or bny other vblid vblue of scope.
      *
-     * @throws IllegalArgumentException if the scope is invalid
-     * @throws NullPointerException if the bindings is null and the scope is
+     * @throws IllegblArgumentException if the scope is invblid
+     * @throws NullPointerException if the bindings is null bnd the scope is
      * <code>ScriptContext.ENGINE_SCOPE</code>
      */
     public void setBindings(Bindings bindings, int scope);
 
 
     /**
-     * Returns an uninitialized <code>Bindings</code>.
+     * Returns bn uninitiblized <code>Bindings</code>.
      *
-     * @return A <code>Bindings</code> that can be used to replace the state of this <code>ScriptEngine</code>.
+     * @return A <code>Bindings</code> thbt cbn be used to replbce the stbte of this <code>ScriptEngine</code>.
      **/
-    public Bindings createBindings();
+    public Bindings crebteBindings();
 
 
     /**
-     * Returns the default <code>ScriptContext</code> of the <code>ScriptEngine</code> whose Bindings, Reader
-     * and Writers are used for script executions when no <code>ScriptContext</code> is specified.
+     * Returns the defbult <code>ScriptContext</code> of the <code>ScriptEngine</code> whose Bindings, Rebder
+     * bnd Writers bre used for script executions when no <code>ScriptContext</code> is specified.
      *
-     * @return The default <code>ScriptContext</code> of the <code>ScriptEngine</code>.
+     * @return The defbult <code>ScriptContext</code> of the <code>ScriptEngine</code>.
      */
     public ScriptContext getContext();
 
     /**
-     * Sets the default <code>ScriptContext</code> of the <code>ScriptEngine</code> whose Bindings, Reader
-     * and Writers are used for script executions when no <code>ScriptContext</code> is specified.
+     * Sets the defbult <code>ScriptContext</code> of the <code>ScriptEngine</code> whose Bindings, Rebder
+     * bnd Writers bre used for script executions when no <code>ScriptContext</code> is specified.
      *
-     * @param context A <code>ScriptContext</code> that will replace the default <code>ScriptContext</code> in
+     * @pbrbm context A <code>ScriptContext</code> thbt will replbce the defbult <code>ScriptContext</code> in
      * the <code>ScriptEngine</code>.
      * @throws NullPointerException if context is null.
      */
     public void setContext(ScriptContext context);
 
     /**
-     * Returns a <code>ScriptEngineFactory</code> for the class to which this <code>ScriptEngine</code> belongs.
+     * Returns b <code>ScriptEngineFbctory</code> for the clbss to which this <code>ScriptEngine</code> belongs.
      *
-     * @return The <code>ScriptEngineFactory</code>
+     * @return The <code>ScriptEngineFbctory</code>
      */
-    public ScriptEngineFactory getFactory();
+    public ScriptEngineFbctory getFbctory();
 }

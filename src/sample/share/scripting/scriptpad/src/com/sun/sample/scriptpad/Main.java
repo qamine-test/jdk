@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,53 +30,53 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-package com.sun.sample.scriptpad;
+pbckbge com.sun.sbmple.scriptpbd;
 
-import javax.script.*;
-import java.io.*;
+import jbvbx.script.*;
+import jbvb.io.*;
 
 /**
- * This is the entry point of "Scriptpad" sample. This class creates
- * ScriptEngine and evaluates few JavaScript "files" -- which are stored
- * as resources (please refer to src/resources/*.js). Actual code for the
- * scriptpad's main functionality lives in these JavaScript files.
+ * This is the entry point of "Scriptpbd" sbmple. This clbss crebtes
+ * ScriptEngine bnd evblubtes few JbvbScript "files" -- which bre stored
+ * bs resources (plebse refer to src/resources/*.js). Actubl code for the
+ * scriptpbd's mbin functionblity lives in these JbvbScript files.
  */
-public class Main {
-    public static void main(String[] args) throws Exception {
+public clbss Mbin {
+    public stbtic void mbin(String[] brgs) throws Exception {
 
-        // create a ScriptEngineManager
-        ScriptEngineManager m = new ScriptEngineManager();
-        // get an instance of JavaScript script engine
-        ScriptEngine engine = m.getEngineByName("js");
+        // crebte b ScriptEngineMbnbger
+        ScriptEngineMbnbger m = new ScriptEngineMbnbger();
+        // get bn instbnce of JbvbScript script engine
+        ScriptEngine engine = m.getEngineByNbme("js");
 
-        // expose the current script engine as a global variable
+        // expose the current script engine bs b globbl vbribble
         engine.put("engine", engine);
 
-        // evaluate few scripts that are bundled in "resources"
-        eval(engine, "conc.js");
-        eval(engine, "gui.js");
-        eval(engine, "scriptpad.js");
-        eval(engine, "mm.js");
+        // evblubte few scripts thbt bre bundled in "resources"
+        evbl(engine, "conc.js");
+        evbl(engine, "gui.js");
+        evbl(engine, "scriptpbd.js");
+        evbl(engine, "mm.js");
     }
 
-    private static void eval(ScriptEngine engine, String name)
+    privbte stbtic void evbl(ScriptEngine engine, String nbme)
                             throws Exception {
         /*
-         * This class is compiled into a jar file. The jar file
-         * contains few scripts under /resources URL.
+         * This clbss is compiled into b jbr file. The jbr file
+         * contbins few scripts under /resources URL.
          */
-        InputStream is = Main.class.getResourceAsStream("/resources/" + name);
-        // current script file name for better error messages
-        engine.put(ScriptEngine.FILENAME, name);
-        // evaluate the script in the InputStream
-        engine.eval(new InputStreamReader(is));
+        InputStrebm is = Mbin.clbss.getResourceAsStrebm("/resources/" + nbme);
+        // current script file nbme for better error messbges
+        engine.put(ScriptEngine.FILENAME, nbme);
+        // evblubte the script in the InputStrebm
+        engine.evbl(new InputStrebmRebder(is));
     }
 }

@@ -1,57 +1,57 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt.event;
+pbckbge jbvb.bwt.event;
 
-import java.util.EventListener;
+import jbvb.util.EventListener;
 
 /**
- * The listener interface for receiving item events.
- * The class that is interested in processing an item event
- * implements this interface. The object created with that
- * class is then registered with a component using the
- * component's <code>addItemListener</code> method. When an
+ * The listener interfbce for receiving item events.
+ * The clbss thbt is interested in processing bn item event
+ * implements this interfbce. The object crebted with thbt
+ * clbss is then registered with b component using the
+ * component's <code>bddItemListener</code> method. When bn
  * item-selection event occurs, the listener object's
- * <code>itemStateChanged</code> method is invoked.
+ * <code>itemStbteChbnged</code> method is invoked.
  *
- * @author Amy Fowler
+ * @buthor Amy Fowler
  *
- * @see java.awt.ItemSelectable
+ * @see jbvb.bwt.ItemSelectbble
  * @see ItemEvent
- * @see <a href="http://docs.oracle.com/javase/tutorial/uiswing/events/itemlistener.html">Tutorial: Writing an Item Listener</a>
+ * @see <b href="http://docs.orbcle.com/jbvbse/tutoribl/uiswing/events/itemlistener.html">Tutoribl: Writing bn Item Listener</b>
  *
  * @since 1.1
  */
-public interface ItemListener extends EventListener {
+public interfbce ItemListener extends EventListener {
 
     /**
-     * Invoked when an item has been selected or deselected by the user.
-     * The code written for this method performs the operations
-     * that need to occur when an item is selected (or deselected).
-     * @param e the event to be processed
+     * Invoked when bn item hbs been selected or deselected by the user.
+     * The code written for this method performs the operbtions
+     * thbt need to occur when bn item is selected (or deselected).
+     * @pbrbm e the event to be processed
      */
-    void itemStateChanged(ItemEvent e);
+    void itemStbteChbnged(ItemEvent e);
 
 }

@@ -1,78 +1,78 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
  *
  *  (C) Copyright IBM Corp. 1999 All Rights Reserved.
- *  Copyright 1997 The Open Group Research Institute.  All rights reserved.
+ *  Copyright 1997 The Open Group Resebrch Institute.  All rights reserved.
  */
 
-package sun.security.krb5.internal.ccache;
+pbckbge sun.security.krb5.internbl.ccbche;
 
-import java.io.IOException;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
-import sun.security.krb5.internal.util.KrbDataOutputStream;
+import jbvb.io.IOException;
+import jbvb.io.FileOutputStrebm;
+import jbvb.io.OutputStrebm;
+import sun.security.krb5.internbl.util.KrbDbtbOutputStrebm;
 import sun.security.krb5.*;
-import sun.security.krb5.internal.*;
+import sun.security.krb5.internbl.*;
 
 /**
- * This class implements a buffered output stream. It provides functions to write FCC-format data to a disk file.
+ * This clbss implements b buffered output strebm. It provides functions to write FCC-formbt dbtb to b disk file.
  *
- * @author Yanni Zhang
+ * @buthor Ybnni Zhbng
  *
  */
-public class CCacheOutputStream extends KrbDataOutputStream implements FileCCacheConstants {
-    public CCacheOutputStream(OutputStream os) {
+public clbss CCbcheOutputStrebm extends KrbDbtbOutputStrebm implements FileCCbcheConstbnts {
+    public CCbcheOutputStrebm(OutputStrebm os) {
         super(os);
     }
 
-    public void writeHeader(PrincipalName p, int version) throws IOException {
+    public void writeHebder(PrincipblNbme p, int version) throws IOException {
         write((version & 0xff00) >> 8);
         write(version & 0x00ff);
-        p.writePrincipal(this);
+        p.writePrincipbl(this);
     }
 
     /**
-     * Writes a credentials in FCC format to this cache output stream.
+     * Writes b credentibls in FCC formbt to this cbche output strebm.
      *
-     * @param creds the credentials to be written to the output stream.
-     * @exception IOException if an I/O exception occurs.
-     * @exception Asn1Exception  if an Asn1Exception occurs.
+     * @pbrbm creds the credentibls to be written to the output strebm.
+     * @exception IOException if bn I/O exception occurs.
+     * @exception Asn1Exception  if bn Asn1Exception occurs.
      */
-    /*For object data fields which themselves have multiple data fields, such as PrincipalName, EncryptionKey
-      HostAddresses, AuthorizationData, I created corresponding write methods (writePrincipal,
-      writeKey,...) in each class, since converting the object into FCC format data stream
-      should be encapsulated in object itself.
+    /*For object dbtb fields which themselves hbve multiple dbtb fields, such bs PrincipblNbme, EncryptionKey
+      HostAddresses, AuthorizbtionDbtb, I crebted corresponding write methods (writePrincipbl,
+      writeKey,...) in ebch clbss, since converting the object into FCC formbt dbtb strebm
+      should be encbpsulbted in object itself.
     */
-    public void addCreds(Credentials creds) throws IOException, Asn1Exception {
-        creds.cname.writePrincipal(this);
-        creds.sname.writePrincipal(this);
+    public void bddCreds(Credentibls creds) throws IOException, Asn1Exception {
+        creds.cnbme.writePrincipbl(this);
+        creds.snbme.writePrincipbl(this);
         creds.key.writeKey(this);
-        write32((int)(creds.authtime.getTime()/1000));
-        if (creds.starttime != null)
-            write32((int)(creds.starttime.getTime()/1000));
+        write32((int)(creds.buthtime.getTime()/1000));
+        if (creds.stbrttime != null)
+            write32((int)(creds.stbrttime.getTime()/1000));
         else write32(0);
         write32((int)(creds.endtime.getTime()/1000));
         if (creds.renewTill != null)
@@ -83,17 +83,17 @@ public class CCacheOutputStream extends KrbDataOutputStream implements FileCCach
             write8(1);
         }
         else write8(0);
-        writeFlags(creds.flags);
-        if (creds.caddr == null)
+        writeFlbgs(creds.flbgs);
+        if (creds.cbddr == null)
             write32(0);
         else
-            creds.caddr.writeAddrs(this);
+            creds.cbddr.writeAddrs(this);
 
-        if (creds.authorizationData == null) {
+        if (creds.buthorizbtionDbtb == null) {
             write32(0);
         }
         else
-            creds.authorizationData.writeAuth(this);
+            creds.buthorizbtionDbtb.writeAuth(this);
         writeTicket(creds.ticket);
         writeTicket(creds.secondTicket);
     }
@@ -103,49 +103,49 @@ public class CCacheOutputStream extends KrbDataOutputStream implements FileCCach
             write32(0);
         }
         else {
-            byte[] bytes = t.asn1Encode();
+            byte[] bytes = t.bsn1Encode();
             write32(bytes.length);
             write(bytes, 0, bytes.length);
         }
     }
 
-    void writeFlags(TicketFlags flags) throws IOException {
-        int tFlags = 0;
-        boolean[] f = flags.toBooleanArray();
+    void writeFlbgs(TicketFlbgs flbgs) throws IOException {
+        int tFlbgs = 0;
+        boolebn[] f = flbgs.toBoolebnArrby();
         if (f[1] == true) {
-            tFlags |= TKT_FLG_FORWARDABLE;
+            tFlbgs |= TKT_FLG_FORWARDABLE;
         }
         if (f[2] == true) {
-            tFlags |= TKT_FLG_FORWARDED;
+            tFlbgs |= TKT_FLG_FORWARDED;
         }
         if (f[3] == true) {
-            tFlags |= TKT_FLG_PROXIABLE;
+            tFlbgs |= TKT_FLG_PROXIABLE;
         }
         if (f[4] == true) {
-            tFlags |= TKT_FLG_PROXY;
+            tFlbgs |= TKT_FLG_PROXY;
         }
         if (f[5] == true) {
-            tFlags |= TKT_FLG_MAY_POSTDATE;
+            tFlbgs |= TKT_FLG_MAY_POSTDATE;
         }
         if (f[6] == true) {
-            tFlags |= TKT_FLG_POSTDATED;
+            tFlbgs |= TKT_FLG_POSTDATED;
         }
         if (f[7] == true) {
-            tFlags |= TKT_FLG_INVALID;
+            tFlbgs |= TKT_FLG_INVALID;
         }
         if (f[8] == true) {
-            tFlags |= TKT_FLG_RENEWABLE;
+            tFlbgs |= TKT_FLG_RENEWABLE;
         }
         if (f[9] == true) {
-            tFlags |= TKT_FLG_INITIAL;
+            tFlbgs |= TKT_FLG_INITIAL;
         }
         if (f[10] == true) {
-            tFlags |= TKT_FLG_PRE_AUTH;
+            tFlbgs |= TKT_FLG_PRE_AUTH;
         }
         if (f[11] == true) {
-            tFlags |= TKT_FLG_HW_AUTH;
+            tFlbgs |= TKT_FLG_HW_AUTH;
         }
-        write32(tFlags);
+        write32(tFlbgs);
 
     }
 }

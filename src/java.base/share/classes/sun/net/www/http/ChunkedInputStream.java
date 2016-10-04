@@ -1,221 +1,221 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.net.www.http;
+pbckbge sun.net.www.http;
 
-import java.io.*;
-import java.util.*;
+import jbvb.io.*;
+import jbvb.util.*;
 
 import sun.net.*;
 import sun.net.www.*;
 
 /**
- * A <code>ChunkedInputStream</code> provides a stream for reading a body of
- * a http message that can be sent as a series of chunks, each with its own
- * size indicator. Optionally the last chunk can be followed by trailers
- * containing entity-header fields.
+ * A <code>ChunkedInputStrebm</code> provides b strebm for rebding b body of
+ * b http messbge thbt cbn be sent bs b series of chunks, ebch with its own
+ * size indicbtor. Optionblly the lbst chunk cbn be followed by trbilers
+ * contbining entity-hebder fields.
  * <p>
- * A <code>ChunkedInputStream</code> is also <code>Hurryable</code> so it
- * can be hurried to the end of the stream if the bytes are available on
- * the underlying stream.
+ * A <code>ChunkedInputStrebm</code> is blso <code>Hurrybble</code> so it
+ * cbn be hurried to the end of the strebm if the bytes bre bvbilbble on
+ * the underlying strebm.
  */
 public
-class ChunkedInputStream extends InputStream implements Hurryable {
+clbss ChunkedInputStrebm extends InputStrebm implements Hurrybble {
 
     /**
-     * The underlying stream
+     * The underlying strebm
      */
-    private InputStream in;
+    privbte InputStrebm in;
 
     /**
-     * The <code>HttpClient</code> that should be notified when the chunked stream has
+     * The <code>HttpClient</code> thbt should be notified when the chunked strebm hbs
      * completed.
      */
-    private HttpClient hc;
+    privbte HttpClient hc;
 
     /**
-     * The <code>MessageHeader</code> that is populated with any optional trailer
-     * that appear after the last chunk.
+     * The <code>MessbgeHebder</code> thbt is populbted with bny optionbl trbiler
+     * thbt bppebr bfter the lbst chunk.
      */
-    private MessageHeader responses;
+    privbte MessbgeHebder responses;
 
     /**
-     * The size, in bytes, of the chunk that is currently being read.
-     * This size is only valid if the current position in the underlying
-     * input stream is inside a chunk (ie: state == STATE_READING_CHUNK).
+     * The size, in bytes, of the chunk thbt is currently being rebd.
+     * This size is only vblid if the current position in the underlying
+     * input strebm is inside b chunk (ie: stbte == STATE_READING_CHUNK).
      */
-    private int chunkSize;
+    privbte int chunkSize;
 
     /**
-     * The number of bytes read from the underlying stream for the current
-     * chunk. This value is always in the range <code>0</code> through to
+     * The number of bytes rebd from the underlying strebm for the current
+     * chunk. This vblue is blwbys in the rbnge <code>0</code> through to
      * <code>chunkSize</code>
      */
-    private int chunkRead;
+    privbte int chunkRebd;
 
     /**
-     * The internal buffer array where chunk data is available for the
-     * application to read.
+     * The internbl buffer brrby where chunk dbtb is bvbilbble for the
+     * bpplicbtion to rebd.
      */
-    private byte chunkData[] = new byte[4096];
+    privbte byte chunkDbtb[] = new byte[4096];
 
     /**
-     * The current position in the buffer. It contains the index
-     * of the next byte to read from <code>chunkData</code>
+     * The current position in the buffer. It contbins the index
+     * of the next byte to rebd from <code>chunkDbtb</code>
      */
-    private int chunkPos;
+    privbte int chunkPos;
 
     /**
-     * The index one greater than the index of the last valid byte in the
-     * buffer. This value is always in the range <code>0</code> through
-     * <code>chunkData.length</code>.
+     * The index one grebter thbn the index of the lbst vblid byte in the
+     * buffer. This vblue is blwbys in the rbnge <code>0</code> through
+     * <code>chunkDbtb.length</code>.
      */
-    private int chunkCount;
+    privbte int chunkCount;
 
     /**
-     * The internal buffer where bytes from the underlying stream can be
-     * read. It may contain bytes representing chunk-size, chunk-data, or
-     * trailer fields.
+     * The internbl buffer where bytes from the underlying strebm cbn be
+     * rebd. It mby contbin bytes representing chunk-size, chunk-dbtb, or
+     * trbiler fields.
      */
-    private byte rawData[] = new byte[32];
+    privbte byte rbwDbtb[] = new byte[32];
 
     /**
-     * The current position in the buffer. It contains the index
-     * of the next byte to read from <code>rawData</code>
+     * The current position in the buffer. It contbins the index
+     * of the next byte to rebd from <code>rbwDbtb</code>
      */
-    private int rawPos;
+    privbte int rbwPos;
 
     /**
-     * The index one greater than the index of the last valid byte in the
-     * buffer. This value is always in the range <code>0</code> through
-     * <code>rawData.length</code>.
+     * The index one grebter thbn the index of the lbst vblid byte in the
+     * buffer. This vblue is blwbys in the rbnge <code>0</code> through
+     * <code>rbwDbtb.length</code>.
      */
-    private int rawCount;
+    privbte int rbwCount;
 
     /**
-     * Indicates if an error was encountered when processing the chunked
-     * stream.
+     * Indicbtes if bn error wbs encountered when processing the chunked
+     * strebm.
      */
-    private boolean error;
+    privbte boolebn error;
 
     /**
-     * Indicates if the chunked stream has been closed using the
+     * Indicbtes if the chunked strebm hbs been closed using the
      * <code>close</code> method.
      */
-    private boolean closed;
+    privbte boolebn closed;
 
     /*
-     * Maximum chunk header size of 2KB + 2 bytes for CRLF
+     * Mbximum chunk hebder size of 2KB + 2 bytes for CRLF
      */
-    private final static int MAX_CHUNK_HEADER_SIZE = 2050;
+    privbte finbl stbtic int MAX_CHUNK_HEADER_SIZE = 2050;
 
     /**
-     * State to indicate that next field should be :-
+     * Stbte to indicbte thbt next field should be :-
      *  chunk-size [ chunk-extension ] CRLF
      */
-    static final int STATE_AWAITING_CHUNK_HEADER    = 1;
+    stbtic finbl int STATE_AWAITING_CHUNK_HEADER    = 1;
 
     /**
-     * State to indicate that we are currently reading the chunk-data.
+     * Stbte to indicbte thbt we bre currently rebding the chunk-dbtb.
      */
-    static final int STATE_READING_CHUNK            = 2;
+    stbtic finbl int STATE_READING_CHUNK            = 2;
 
     /**
-     * Indicates that a chunk has been completely read and the next
-     * fields to be examine should be CRLF
+     * Indicbtes thbt b chunk hbs been completely rebd bnd the next
+     * fields to be exbmine should be CRLF
      */
-    static final int STATE_AWAITING_CHUNK_EOL       = 3;
+    stbtic finbl int STATE_AWAITING_CHUNK_EOL       = 3;
 
     /**
-     * Indicates that all chunks have been read and the next field
-     * should be optional trailers or an indication that the chunked
-     * stream is complete.
+     * Indicbtes thbt bll chunks hbve been rebd bnd the next field
+     * should be optionbl trbilers or bn indicbtion thbt the chunked
+     * strebm is complete.
      */
-    static final int STATE_AWAITING_TRAILERS        = 4;
+    stbtic finbl int STATE_AWAITING_TRAILERS        = 4;
 
     /**
-     * State to indicate that the chunked stream is complete and
-     * no further bytes should be read from the underlying stream.
+     * Stbte to indicbte thbt the chunked strebm is complete bnd
+     * no further bytes should be rebd from the underlying strebm.
      */
-    static final int STATE_DONE                     = 5;
+    stbtic finbl int STATE_DONE                     = 5;
 
     /**
-     * Indicates the current state.
+     * Indicbtes the current stbte.
      */
-    private int state;
+    privbte int stbte;
 
 
     /**
-     * Check to make sure that this stream has not been closed.
+     * Check to mbke sure thbt this strebm hbs not been closed.
      */
-    private void ensureOpen() throws IOException {
+    privbte void ensureOpen() throws IOException {
         if (closed) {
-            throw new IOException("stream is closed");
+            throw new IOException("strebm is closed");
         }
     }
 
 
     /**
-     * Ensures there is <code>size</code> bytes available in
-     * <code>rawData</code>. This requires that we either
+     * Ensures there is <code>size</code> bytes bvbilbble in
+     * <code>rbwDbtb</code>. This requires thbt we either
      * shift the bytes in use to the begining of the buffer
-     * or allocate a large buffer with sufficient space available.
+     * or bllocbte b lbrge buffer with sufficient spbce bvbilbble.
      */
-    private void ensureRawAvailable(int size) {
-        if (rawCount + size > rawData.length) {
-            int used = rawCount - rawPos;
-            if (used + size > rawData.length) {
+    privbte void ensureRbwAvbilbble(int size) {
+        if (rbwCount + size > rbwDbtb.length) {
+            int used = rbwCount - rbwPos;
+            if (used + size > rbwDbtb.length) {
                 byte tmp[] = new byte[used + size];
                 if (used > 0) {
-                    System.arraycopy(rawData, rawPos, tmp, 0, used);
+                    System.brrbycopy(rbwDbtb, rbwPos, tmp, 0, used);
                 }
-                rawData = tmp;
+                rbwDbtb = tmp;
             } else {
                 if (used > 0) {
-                    System.arraycopy(rawData, rawPos, rawData, 0, used);
+                    System.brrbycopy(rbwDbtb, rbwPos, rbwDbtb, 0, used);
                 }
             }
-            rawCount = used;
-            rawPos = 0;
+            rbwCount = used;
+            rbwPos = 0;
         }
     }
 
 
     /**
-     * Close the underlying input stream by either returning it to the
-     * keep alive cache or closing the stream.
+     * Close the underlying input strebm by either returning it to the
+     * keep blive cbche or closing the strebm.
      * <p>
-     * As a chunked stream is inheritly persistent (see HTTP 1.1 RFC) the
-     * underlying stream can be returned to the keep alive cache if the
-     * stream can be completely read without error.
+     * As b chunked strebm is inheritly persistent (see HTTP 1.1 RFC) the
+     * underlying strebm cbn be returned to the keep blive cbche if the
+     * strebm cbn be completely rebd without error.
      */
-    private void closeUnderlying() throws IOException {
+    privbte void closeUnderlying() throws IOException {
         if (in == null) {
             return;
         }
 
-        if (!error && state == STATE_DONE) {
+        if (!error && stbte == STATE_DONE) {
             hc.finished();
         } else {
             if (!hurry()) {
@@ -227,255 +227,255 @@ class ChunkedInputStream extends InputStream implements Hurryable {
     }
 
     /**
-     * Attempt to read the remainder of a chunk directly into the
-     * caller's buffer.
+     * Attempt to rebd the rembinder of b chunk directly into the
+     * cbller's buffer.
      * <p>
-     * Return the number of bytes read.
+     * Return the number of bytes rebd.
      */
-    private int fastRead(byte[] b, int off, int len) throws IOException {
+    privbte int fbstRebd(byte[] b, int off, int len) throws IOException {
 
-        // assert state == STATE_READING_CHUNKS;
+        // bssert stbte == STATE_READING_CHUNKS;
 
-        int remaining = chunkSize - chunkRead;
-        int cnt = (remaining < len) ? remaining : len;
+        int rembining = chunkSize - chunkRebd;
+        int cnt = (rembining < len) ? rembining : len;
         if (cnt > 0) {
-            int nread;
+            int nrebd;
             try {
-                nread = in.read(b, off, cnt);
-            } catch (IOException e) {
+                nrebd = in.rebd(b, off, cnt);
+            } cbtch (IOException e) {
                 error = true;
                 throw e;
             }
-            if (nread > 0) {
-                chunkRead += nread;
-                if (chunkRead >= chunkSize) {
-                    state = STATE_AWAITING_CHUNK_EOL;
+            if (nrebd > 0) {
+                chunkRebd += nrebd;
+                if (chunkRebd >= chunkSize) {
+                    stbte = STATE_AWAITING_CHUNK_EOL;
                 }
-                return nread;
+                return nrebd;
             }
             error = true;
-            throw new IOException("Premature EOF");
+            throw new IOException("Prembture EOF");
         } else {
             return 0;
         }
     }
 
     /**
-     * Process any outstanding bytes that have already been read into
-     * <code>rawData</code>.
+     * Process bny outstbnding bytes thbt hbve blrebdy been rebd into
+     * <code>rbwDbtb</code>.
      * <p>
-     * The parsing of the chunked stream is performed as a state machine with
-     * <code>state</code> representing the current state of the processing.
+     * The pbrsing of the chunked strebm is performed bs b stbte mbchine with
+     * <code>stbte</code> representing the current stbte of the processing.
      * <p>
-     * Returns when either all the outstanding bytes in rawData have been
-     * processed or there is insufficient bytes available to continue
-     * processing. When the latter occurs <code>rawPos</code> will not have
-     * been updated and thus the processing can be restarted once further
-     * bytes have been read into <code>rawData</code>.
+     * Returns when either bll the outstbnding bytes in rbwDbtb hbve been
+     * processed or there is insufficient bytes bvbilbble to continue
+     * processing. When the lbtter occurs <code>rbwPos</code> will not hbve
+     * been updbted bnd thus the processing cbn be restbrted once further
+     * bytes hbve been rebd into <code>rbwDbtb</code>.
      */
-    private void processRaw() throws IOException {
+    privbte void processRbw() throws IOException {
         int pos;
         int i;
 
-        while (state != STATE_DONE) {
+        while (stbte != STATE_DONE) {
 
-            switch (state) {
+            switch (stbte) {
 
                 /**
-                 * We are awaiting a line with a chunk header
+                 * We bre bwbiting b line with b chunk hebder
                  */
-                case STATE_AWAITING_CHUNK_HEADER:
+                cbse STATE_AWAITING_CHUNK_HEADER:
                     /*
-                     * Find \n to indicate end of chunk header. If not found when there is
-                     * insufficient bytes in the raw buffer to parse a chunk header.
+                     * Find \n to indicbte end of chunk hebder. If not found when there is
+                     * insufficient bytes in the rbw buffer to pbrse b chunk hebder.
                      */
-                    pos = rawPos;
-                    while (pos < rawCount) {
-                        if (rawData[pos] == '\n') {
-                            break;
+                    pos = rbwPos;
+                    while (pos < rbwCount) {
+                        if (rbwDbtb[pos] == '\n') {
+                            brebk;
                         }
                         pos++;
-                        if ((pos - rawPos) >= MAX_CHUNK_HEADER_SIZE) {
+                        if ((pos - rbwPos) >= MAX_CHUNK_HEADER_SIZE) {
                             error = true;
-                            throw new IOException("Chunk header too long");
+                            throw new IOException("Chunk hebder too long");
                         }
                     }
-                    if (pos >= rawCount) {
+                    if (pos >= rbwCount) {
                         return;
                     }
 
                     /*
-                     * Extract the chunk size from the header (ignoring extensions).
+                     * Extrbct the chunk size from the hebder (ignoring extensions).
                      */
-                    String header = new String(rawData, rawPos, pos-rawPos+1, "US-ASCII");
-                    for (i=0; i < header.length(); i++) {
-                        if (Character.digit(header.charAt(i), 16) == -1)
-                            break;
+                    String hebder = new String(rbwDbtb, rbwPos, pos-rbwPos+1, "US-ASCII");
+                    for (i=0; i < hebder.length(); i++) {
+                        if (Chbrbcter.digit(hebder.chbrAt(i), 16) == -1)
+                            brebk;
                     }
                     try {
-                        chunkSize = Integer.parseInt(header.substring(0, i), 16);
-                    } catch (NumberFormatException e) {
+                        chunkSize = Integer.pbrseInt(hebder.substring(0, i), 16);
+                    } cbtch (NumberFormbtException e) {
                         error = true;
                         throw new IOException("Bogus chunk size");
                     }
 
                     /*
-                     * Chunk has been parsed so move rawPos to first byte of chunk
-                     * data.
+                     * Chunk hbs been pbrsed so move rbwPos to first byte of chunk
+                     * dbtb.
                      */
-                    rawPos = pos + 1;
-                    chunkRead = 0;
+                    rbwPos = pos + 1;
+                    chunkRebd = 0;
 
                     /*
-                     * A chunk size of 0 means EOF.
+                     * A chunk size of 0 mebns EOF.
                      */
                     if (chunkSize > 0) {
-                        state = STATE_READING_CHUNK;
+                        stbte = STATE_READING_CHUNK;
                     } else {
-                        state = STATE_AWAITING_TRAILERS;
+                        stbte = STATE_AWAITING_TRAILERS;
                     }
-                    break;
+                    brebk;
 
 
                 /**
-                 * We are awaiting raw entity data (some may have already been
-                 * read). chunkSize is the size of the chunk; chunkRead is the
-                 * total read from the underlying stream to date.
+                 * We bre bwbiting rbw entity dbtb (some mby hbve blrebdy been
+                 * rebd). chunkSize is the size of the chunk; chunkRebd is the
+                 * totbl rebd from the underlying strebm to dbte.
                  */
-                case STATE_READING_CHUNK :
-                    /* no data available yet */
-                    if (rawPos >= rawCount) {
+                cbse STATE_READING_CHUNK :
+                    /* no dbtb bvbilbble yet */
+                    if (rbwPos >= rbwCount) {
                         return;
                     }
 
                     /*
-                     * Compute the number of bytes of chunk data available in the
-                     * raw buffer.
+                     * Compute the number of bytes of chunk dbtb bvbilbble in the
+                     * rbw buffer.
                      */
-                    int copyLen = Math.min( chunkSize-chunkRead, rawCount-rawPos );
+                    int copyLen = Mbth.min( chunkSize-chunkRebd, rbwCount-rbwPos );
 
                     /*
-                     * Expand or compact chunkData if needed.
+                     * Expbnd or compbct chunkDbtb if needed.
                      */
-                    if (chunkData.length < chunkCount + copyLen) {
+                    if (chunkDbtb.length < chunkCount + copyLen) {
                         int cnt = chunkCount - chunkPos;
-                        if (chunkData.length < cnt + copyLen) {
+                        if (chunkDbtb.length < cnt + copyLen) {
                             byte tmp[] = new byte[cnt + copyLen];
-                            System.arraycopy(chunkData, chunkPos, tmp, 0, cnt);
-                            chunkData = tmp;
+                            System.brrbycopy(chunkDbtb, chunkPos, tmp, 0, cnt);
+                            chunkDbtb = tmp;
                         } else {
-                            System.arraycopy(chunkData, chunkPos, chunkData, 0, cnt);
+                            System.brrbycopy(chunkDbtb, chunkPos, chunkDbtb, 0, cnt);
                         }
                         chunkPos = 0;
                         chunkCount = cnt;
                     }
 
                     /*
-                     * Copy the chunk data into chunkData so that it's available
-                     * to the read methods.
+                     * Copy the chunk dbtb into chunkDbtb so thbt it's bvbilbble
+                     * to the rebd methods.
                      */
-                    System.arraycopy(rawData, rawPos, chunkData, chunkCount, copyLen);
-                    rawPos += copyLen;
+                    System.brrbycopy(rbwDbtb, rbwPos, chunkDbtb, chunkCount, copyLen);
+                    rbwPos += copyLen;
                     chunkCount += copyLen;
-                    chunkRead += copyLen;
+                    chunkRebd += copyLen;
 
                     /*
-                     * If all the chunk has been copied into chunkData then the next
+                     * If bll the chunk hbs been copied into chunkDbtb then the next
                      * token should be CRLF.
                      */
-                    if (chunkSize - chunkRead <= 0) {
-                        state = STATE_AWAITING_CHUNK_EOL;
+                    if (chunkSize - chunkRebd <= 0) {
+                        stbte = STATE_AWAITING_CHUNK_EOL;
                     } else {
                         return;
                     }
-                    break;
+                    brebk;
 
 
                 /**
-                 * Awaiting CRLF after the chunk
+                 * Awbiting CRLF bfter the chunk
                  */
-                case STATE_AWAITING_CHUNK_EOL:
-                    /* not available yet */
-                    if (rawPos + 1 >= rawCount) {
+                cbse STATE_AWAITING_CHUNK_EOL:
+                    /* not bvbilbble yet */
+                    if (rbwPos + 1 >= rbwCount) {
                         return;
                     }
 
-                    if (rawData[rawPos] != '\r') {
+                    if (rbwDbtb[rbwPos] != '\r') {
                         error = true;
                         throw new IOException("missing CR");
                     }
-                    if (rawData[rawPos+1] != '\n') {
+                    if (rbwDbtb[rbwPos+1] != '\n') {
                         error = true;
                         throw new IOException("missing LF");
                     }
-                    rawPos += 2;
+                    rbwPos += 2;
 
                     /*
                      * Move onto the next chunk
                      */
-                    state = STATE_AWAITING_CHUNK_HEADER;
-                    break;
+                    stbte = STATE_AWAITING_CHUNK_HEADER;
+                    brebk;
 
 
                 /**
-                 * Last chunk has been read so not we're waiting for optional
-                 * trailers.
+                 * Lbst chunk hbs been rebd so not we're wbiting for optionbl
+                 * trbilers.
                  */
-                case STATE_AWAITING_TRAILERS:
+                cbse STATE_AWAITING_TRAILERS:
 
                     /*
-                     * Do we have an entire line in the raw buffer?
+                     * Do we hbve bn entire line in the rbw buffer?
                      */
-                    pos = rawPos;
-                    while (pos < rawCount) {
-                        if (rawData[pos] == '\n') {
-                            break;
+                    pos = rbwPos;
+                    while (pos < rbwCount) {
+                        if (rbwDbtb[pos] == '\n') {
+                            brebk;
                         }
                         pos++;
                     }
-                    if (pos >= rawCount) {
+                    if (pos >= rbwCount) {
                         return;
                     }
 
-                    if (pos == rawPos) {
+                    if (pos == rbwPos) {
                         error = true;
                         throw new IOException("LF should be proceeded by CR");
                     }
-                    if (rawData[pos-1] != '\r') {
+                    if (rbwDbtb[pos-1] != '\r') {
                         error = true;
                         throw new IOException("LF should be proceeded by CR");
                     }
 
                     /*
-                     * Stream done so close underlying stream.
+                     * Strebm done so close underlying strebm.
                      */
-                    if (pos == (rawPos + 1)) {
+                    if (pos == (rbwPos + 1)) {
 
-                        state = STATE_DONE;
+                        stbte = STATE_DONE;
                         closeUnderlying();
 
                         return;
                     }
 
                     /*
-                     * Extract any tailers and append them to the message
-                     * headers.
+                     * Extrbct bny tbilers bnd bppend them to the messbge
+                     * hebders.
                      */
-                    String trailer = new String(rawData, rawPos, pos-rawPos, "US-ASCII");
-                    i = trailer.indexOf(':');
+                    String trbiler = new String(rbwDbtb, rbwPos, pos-rbwPos, "US-ASCII");
+                    i = trbiler.indexOf(':');
                     if (i == -1) {
-                        throw new IOException("Malformed tailer - format should be key:value");
+                        throw new IOException("Mblformed tbiler - formbt should be key:vblue");
                     }
-                    String key = (trailer.substring(0, i)).trim();
-                    String value = (trailer.substring(i+1, trailer.length())).trim();
+                    String key = (trbiler.substring(0, i)).trim();
+                    String vblue = (trbiler.substring(i+1, trbiler.length())).trim();
 
-                    responses.add(key, value);
+                    responses.bdd(key, vblue);
 
                     /*
-                     * Move onto the next trailer.
+                     * Move onto the next trbiler.
                      */
-                    rawPos = pos+1;
-                    break;
+                    rbwPos = pos+1;
+                    brebk;
 
             } /* switch */
         }
@@ -483,119 +483,119 @@ class ChunkedInputStream extends InputStream implements Hurryable {
 
 
     /**
-     * Reads any available bytes from the underlying stream into
-     * <code>rawData</code> and returns the number of bytes of
-     * chunk data available in <code>chunkData</code> that the
-     * application can read.
+     * Rebds bny bvbilbble bytes from the underlying strebm into
+     * <code>rbwDbtb</code> bnd returns the number of bytes of
+     * chunk dbtb bvbilbble in <code>chunkDbtb</code> thbt the
+     * bpplicbtion cbn rebd.
      */
-    private int readAheadNonBlocking() throws IOException {
+    privbte int rebdAhebdNonBlocking() throws IOException {
 
         /*
-         * If there's anything available on the underlying stream then we read
-         * it into the raw buffer and process it. Processing ensures that any
-         * available chunk data is made available in chunkData.
+         * If there's bnything bvbilbble on the underlying strebm then we rebd
+         * it into the rbw buffer bnd process it. Processing ensures thbt bny
+         * bvbilbble chunk dbtb is mbde bvbilbble in chunkDbtb.
          */
-        int avail = in.available();
-        if (avail > 0) {
+        int bvbil = in.bvbilbble();
+        if (bvbil > 0) {
 
-            /* ensure that there is space in rawData to read the available */
-            ensureRawAvailable(avail);
+            /* ensure thbt there is spbce in rbwDbtb to rebd the bvbilbble */
+            ensureRbwAvbilbble(bvbil);
 
-            int nread;
+            int nrebd;
             try {
-                nread = in.read(rawData, rawCount, avail);
-            } catch (IOException e) {
+                nrebd = in.rebd(rbwDbtb, rbwCount, bvbil);
+            } cbtch (IOException e) {
                 error = true;
                 throw e;
             }
-            if (nread < 0) {
-                error = true;   /* premature EOF ? */
+            if (nrebd < 0) {
+                error = true;   /* prembture EOF ? */
                 return -1;
             }
-            rawCount += nread;
+            rbwCount += nrebd;
 
             /*
-             * Process the raw bytes that have been read.
+             * Process the rbw bytes thbt hbve been rebd.
              */
-            processRaw();
+            processRbw();
         }
 
         /*
-         * Return the number of chunked bytes available to read
+         * Return the number of chunked bytes bvbilbble to rebd
          */
         return chunkCount - chunkPos;
     }
 
     /**
-     * Reads from the underlying stream until there is chunk data
-     * available in <code>chunkData</code> for the application to
-     * read.
+     * Rebds from the underlying strebm until there is chunk dbtb
+     * bvbilbble in <code>chunkDbtb</code> for the bpplicbtion to
+     * rebd.
      */
-    private int readAheadBlocking() throws IOException {
+    privbte int rebdAhebdBlocking() throws IOException {
 
         do {
             /*
-             * All of chunked response has been read to return EOF.
+             * All of chunked response hbs been rebd to return EOF.
              */
-            if (state == STATE_DONE) {
+            if (stbte == STATE_DONE) {
                 return -1;
             }
 
             /*
-             * We must read into the raw buffer so make sure there is space
-             * available. We use a size of 32 to avoid too much chunk data
-             * being read into the raw buffer.
+             * We must rebd into the rbw buffer so mbke sure there is spbce
+             * bvbilbble. We use b size of 32 to bvoid too much chunk dbtb
+             * being rebd into the rbw buffer.
              */
-            ensureRawAvailable(32);
-            int nread;
+            ensureRbwAvbilbble(32);
+            int nrebd;
             try {
-                nread = in.read(rawData, rawCount, rawData.length-rawCount);
-            } catch (IOException e) {
+                nrebd = in.rebd(rbwDbtb, rbwCount, rbwDbtb.length-rbwCount);
+            } cbtch (IOException e) {
                 error = true;
                 throw e;
             }
 
             /**
-             * If we hit EOF it means there's a problem as we should never
-             * attempt to read once the last chunk and trailers have been
+             * If we hit EOF it mebns there's b problem bs we should never
+             * bttempt to rebd once the lbst chunk bnd trbilers hbve been
              * received.
              */
-            if (nread < 0) {
+            if (nrebd < 0) {
                 error = true;
-                throw new IOException("Premature EOF");
+                throw new IOException("Prembture EOF");
             }
 
             /**
-             * Process the bytes from the underlying stream
+             * Process the bytes from the underlying strebm
              */
-            rawCount += nread;
-            processRaw();
+            rbwCount += nrebd;
+            processRbw();
 
         } while (chunkCount <= 0);
 
         /*
-         * Return the number of chunked bytes available to read
+         * Return the number of chunked bytes bvbilbble to rebd
          */
         return chunkCount - chunkPos;
     }
 
     /**
-     * Read ahead in either blocking or non-blocking mode. This method
-     * is typically used when we run out of available bytes in
-     * <code>chunkData</code> or we need to determine how many bytes
-     * are available on the input stream.
+     * Rebd bhebd in either blocking or non-blocking mode. This method
+     * is typicblly used when we run out of bvbilbble bytes in
+     * <code>chunkDbtb</code> or we need to determine how mbny bytes
+     * bre bvbilbble on the input strebm.
      */
-    private int readAhead(boolean allowBlocking) throws IOException {
+    privbte int rebdAhebd(boolebn bllowBlocking) throws IOException {
 
         /*
-         * Last chunk already received - return EOF
+         * Lbst chunk blrebdy received - return EOF
          */
-        if (state == STATE_DONE) {
+        if (stbte == STATE_DONE) {
             return -1;
         }
 
         /*
-         * Reset position/count if data in chunkData is exhausted.
+         * Reset position/count if dbtb in chunkDbtb is exhbusted.
          */
         if (chunkPos >= chunkCount) {
             chunkCount = 0;
@@ -603,71 +603,71 @@ class ChunkedInputStream extends InputStream implements Hurryable {
         }
 
         /*
-         * Read ahead blocking or non-blocking
+         * Rebd bhebd blocking or non-blocking
          */
-        if (allowBlocking) {
-            return readAheadBlocking();
+        if (bllowBlocking) {
+            return rebdAhebdBlocking();
         } else {
-            return readAheadNonBlocking();
+            return rebdAhebdNonBlocking();
         }
     }
 
     /**
-     * Creates a <code>ChunkedInputStream</code> and saves its  arguments, for
-     * later use.
+     * Crebtes b <code>ChunkedInputStrebm</code> bnd sbves its  brguments, for
+     * lbter use.
      *
-     * @param   in   the underlying input stream.
-     * @param   hc   the HttpClient
-     * @param   responses   the MessageHeader that should be populated with optional
-     *                      trailers.
+     * @pbrbm   in   the underlying input strebm.
+     * @pbrbm   hc   the HttpClient
+     * @pbrbm   responses   the MessbgeHebder thbt should be populbted with optionbl
+     *                      trbilers.
      */
-    public ChunkedInputStream(InputStream in, HttpClient hc, MessageHeader responses) throws IOException {
+    public ChunkedInputStrebm(InputStrebm in, HttpClient hc, MessbgeHebder responses) throws IOException {
 
-        /* save arguments */
+        /* sbve brguments */
         this.in = in;
         this.responses = responses;
         this.hc = hc;
 
         /*
-         * Set our initial state to indicate that we are first starting to
-         * look for a chunk header.
+         * Set our initibl stbte to indicbte thbt we bre first stbrting to
+         * look for b chunk hebder.
          */
-        state = STATE_AWAITING_CHUNK_HEADER;
+        stbte = STATE_AWAITING_CHUNK_HEADER;
     }
 
     /**
      * See
-     * the general contract of the <code>read</code>
-     * method of <code>InputStream</code>.
+     * the generbl contrbct of the <code>rebd</code>
+     * method of <code>InputStrebm</code>.
      *
-     * @return     the next byte of data, or <code>-1</code> if the end of the
-     *             stream is reached.
-     * @exception  IOException  if an I/O error occurs.
-     * @see        java.io.FilterInputStream#in
+     * @return     the next byte of dbtb, or <code>-1</code> if the end of the
+     *             strebm is rebched.
+     * @exception  IOException  if bn I/O error occurs.
+     * @see        jbvb.io.FilterInputStrebm#in
      */
-    public synchronized int read() throws IOException {
+    public synchronized int rebd() throws IOException {
         ensureOpen();
         if (chunkPos >= chunkCount) {
-            if (readAhead(true) <= 0) {
+            if (rebdAhebd(true) <= 0) {
                 return -1;
             }
         }
-        return chunkData[chunkPos++] & 0xff;
+        return chunkDbtb[chunkPos++] & 0xff;
     }
 
 
     /**
-     * Reads bytes from this stream into the specified byte array, starting at
+     * Rebds bytes from this strebm into the specified byte brrby, stbrting bt
      * the given offset.
      *
-     * @param      b     destination buffer.
-     * @param      off   offset at which to start storing bytes.
-     * @param      len   maximum number of bytes to read.
-     * @return     the number of bytes read, or <code>-1</code> if the end of
-     *             the stream has been reached.
-     * @exception  IOException  if an I/O error occurs.
+     * @pbrbm      b     destinbtion buffer.
+     * @pbrbm      off   offset bt which to stbrt storing bytes.
+     * @pbrbm      len   mbximum number of bytes to rebd.
+     * @return     the number of bytes rebd, or <code>-1</code> if the end of
+     *             the strebm hbs been rebched.
+     * @exception  IOException  if bn I/O error occurs.
      */
-    public synchronized int read(byte b[], int off, int len)
+    public synchronized int rebd(byte b[], int off, int len)
         throws IOException
     {
         ensureOpen();
@@ -678,69 +678,69 @@ class ChunkedInputStream extends InputStream implements Hurryable {
             return 0;
         }
 
-        int avail = chunkCount - chunkPos;
-        if (avail <= 0) {
+        int bvbil = chunkCount - chunkPos;
+        if (bvbil <= 0) {
             /*
-             * Optimization: if we're in the middle of the chunk read
-             * directly from the underlying stream into the caller's
+             * Optimizbtion: if we're in the middle of the chunk rebd
+             * directly from the underlying strebm into the cbller's
              * buffer
              */
-            if (state == STATE_READING_CHUNK) {
-                return fastRead( b, off, len );
+            if (stbte == STATE_READING_CHUNK) {
+                return fbstRebd( b, off, len );
             }
 
             /*
-             * We're not in the middle of a chunk so we must read ahead
-             * until there is some chunk data available.
+             * We're not in the middle of b chunk so we must rebd bhebd
+             * until there is some chunk dbtb bvbilbble.
              */
-            avail = readAhead(true);
-            if (avail < 0) {
+            bvbil = rebdAhebd(true);
+            if (bvbil < 0) {
                 return -1;      /* EOF */
             }
         }
-        int cnt = (avail < len) ? avail : len;
-        System.arraycopy(chunkData, chunkPos, b, off, cnt);
+        int cnt = (bvbil < len) ? bvbil : len;
+        System.brrbycopy(chunkDbtb, chunkPos, b, off, cnt);
         chunkPos += cnt;
 
         return cnt;
     }
 
     /**
-     * Returns the number of bytes that can be read from this input
-     * stream without blocking.
+     * Returns the number of bytes thbt cbn be rebd from this input
+     * strebm without blocking.
      *
-     * @return     the number of bytes that can be read from this input
-     *             stream without blocking.
-     * @exception  IOException  if an I/O error occurs.
-     * @see        java.io.FilterInputStream#in
+     * @return     the number of bytes thbt cbn be rebd from this input
+     *             strebm without blocking.
+     * @exception  IOException  if bn I/O error occurs.
+     * @see        jbvb.io.FilterInputStrebm#in
      */
-    public synchronized int available() throws IOException {
+    public synchronized int bvbilbble() throws IOException {
         ensureOpen();
 
-        int avail = chunkCount - chunkPos;
-        if(avail > 0) {
-            return avail;
+        int bvbil = chunkCount - chunkPos;
+        if(bvbil > 0) {
+            return bvbil;
         }
 
-        avail = readAhead(false);
+        bvbil = rebdAhebd(fblse);
 
-        if (avail < 0) {
+        if (bvbil < 0) {
             return 0;
         } else  {
-            return avail;
+            return bvbil;
         }
     }
 
     /**
-     * Close the stream by either returning the connection to the
-     * keep alive cache or closing the underlying stream.
+     * Close the strebm by either returning the connection to the
+     * keep blive cbche or closing the underlying strebm.
      * <p>
-     * If the chunked response hasn't been completely read we
+     * If the chunked response hbsn't been completely rebd we
      * try to "hurry" to the end of the response. If this is
-     * possible (without blocking) then the connection can be
-     * returned to the keep alive cache.
+     * possible (without blocking) then the connection cbn be
+     * returned to the keep blive cbche.
      *
-     * @exception  IOException  if an I/O error occurs.
+     * @exception  IOException  if bn I/O error occurs.
      */
     public synchronized void close() throws IOException {
         if (closed) {
@@ -751,30 +751,30 @@ class ChunkedInputStream extends InputStream implements Hurryable {
     }
 
     /**
-     * Hurry the input stream by reading everything from the underlying
-     * stream. If the last chunk (and optional trailers) can be read without
-     * blocking then the stream is considered hurried.
+     * Hurry the input strebm by rebding everything from the underlying
+     * strebm. If the lbst chunk (bnd optionbl trbilers) cbn be rebd without
+     * blocking then the strebm is considered hurried.
      * <p>
-     * Note that if an error has occurred or we can't get to last chunk
-     * without blocking then this stream can't be hurried and should be
+     * Note thbt if bn error hbs occurred or we cbn't get to lbst chunk
+     * without blocking then this strebm cbn't be hurried bnd should be
      * closed.
      */
-    public synchronized boolean hurry() {
+    public synchronized boolebn hurry() {
         if (in == null || error) {
-            return false;
+            return fblse;
         }
 
         try {
-            readAhead(false);
-        } catch (Exception e) {
-            return false;
+            rebdAhebd(fblse);
+        } cbtch (Exception e) {
+            return fblse;
         }
 
         if (error) {
-            return false;
+            return fblse;
         }
 
-        return (state == STATE_DONE);
+        return (stbte == STATE_DONE);
     }
 
 }

@@ -1,547 +1,547 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing;
+pbckbge jbvbx.swing;
 
-import java.awt.*;
+import jbvb.bwt.*;
 
-import java.beans.PropertyVetoException;
-import java.beans.PropertyChangeEvent;
+import jbvb.bebns.PropertyVetoException;
+import jbvb.bebns.PropertyChbngeEvent;
 
-import javax.swing.event.InternalFrameEvent;
-import javax.swing.event.InternalFrameListener;
-import javax.swing.plaf.*;
+import jbvbx.swing.event.InternblFrbmeEvent;
+import jbvbx.swing.event.InternblFrbmeListener;
+import jbvbx.swing.plbf.*;
 
-import javax.accessibility.*;
+import jbvbx.bccessibility.*;
 
-import java.io.ObjectOutputStream;
-import java.io.IOException;
-import java.lang.StringBuilder;
-import java.beans.PropertyChangeListener;
-import sun.awt.AppContext;
+import jbvb.io.ObjectOutputStrebm;
+import jbvb.io.IOException;
+import jbvb.lbng.StringBuilder;
+import jbvb.bebns.PropertyChbngeListener;
+import sun.bwt.AppContext;
 import sun.swing.SwingUtilities2;
 
 
 /**
- * A lightweight object that provides many of the features of
- * a native frame, including dragging, closing, becoming an icon,
- * resizing, title display, and support for a menu bar.
- * For task-oriented documentation and examples of using internal frames,
- * see <a
- href="http://docs.oracle.com/javase/tutorial/uiswing/components/internalframe.html" target="_top">How to Use Internal Frames</a>,
- * a section in <em>The Java Tutorial</em>.
+ * A lightweight object thbt provides mbny of the febtures of
+ * b nbtive frbme, including drbgging, closing, becoming bn icon,
+ * resizing, title displby, bnd support for b menu bbr.
+ * For tbsk-oriented documentbtion bnd exbmples of using internbl frbmes,
+ * see <b
+ href="http://docs.orbcle.com/jbvbse/tutoribl/uiswing/components/internblfrbme.html" tbrget="_top">How to Use Internbl Frbmes</b>,
+ * b section in <em>The Jbvb Tutoribl</em>.
  *
  * <p>
  *
- * Generally,
- * you add <code>JInternalFrame</code>s to a <code>JDesktopPane</code>. The UI
- * delegates the look-and-feel-specific actions to the
- * <code>DesktopManager</code>
- * object maintained by the <code>JDesktopPane</code>.
+ * Generblly,
+ * you bdd <code>JInternblFrbme</code>s to b <code>JDesktopPbne</code>. The UI
+ * delegbtes the look-bnd-feel-specific bctions to the
+ * <code>DesktopMbnbger</code>
+ * object mbintbined by the <code>JDesktopPbne</code>.
  * <p>
- * The <code>JInternalFrame</code> content pane
- * is where you add child components.
- * As a convenience, the {@code add}, {@code remove}, and {@code setLayout}
- * methods of this class are overridden, so that they delegate calls
- * to the corresponding methods of the {@code ContentPane}.
- * For example, you can add a child component to an internal frame as follows:
+ * The <code>JInternblFrbme</code> content pbne
+ * is where you bdd child components.
+ * As b convenience, the {@code bdd}, {@code remove}, bnd {@code setLbyout}
+ * methods of this clbss bre overridden, so thbt they delegbte cblls
+ * to the corresponding methods of the {@code ContentPbne}.
+ * For exbmple, you cbn bdd b child component to bn internbl frbme bs follows:
  * <pre>
- *       internalFrame.add(child);
+ *       internblFrbme.bdd(child);
  * </pre>
- * And the child will be added to the contentPane.
- * The content pane is actually managed by an instance of
- * <code>JRootPane</code>,
- * which also manages a layout pane, glass pane, and
- * optional menu bar for the internal frame. Please see the
- * <code>JRootPane</code>
- * documentation for a complete description of these components.
- * Refer to {@link javax.swing.RootPaneContainer}
- * for details on adding, removing and setting the <code>LayoutManager</code>
- * of a <code>JInternalFrame</code>.
+ * And the child will be bdded to the contentPbne.
+ * The content pbne is bctublly mbnbged by bn instbnce of
+ * <code>JRootPbne</code>,
+ * which blso mbnbges b lbyout pbne, glbss pbne, bnd
+ * optionbl menu bbr for the internbl frbme. Plebse see the
+ * <code>JRootPbne</code>
+ * documentbtion for b complete description of these components.
+ * Refer to {@link jbvbx.swing.RootPbneContbiner}
+ * for detbils on bdding, removing bnd setting the <code>LbyoutMbnbger</code>
+ * of b <code>JInternblFrbme</code>.
  * <p>
- * <strong>Warning:</strong> Swing is not thread safe. For more
- * information see <a
- * href="package-summary.html#threading">Swing's Threading
- * Policy</a>.
+ * <strong>Wbrning:</strong> Swing is not threbd sbfe. For more
+ * informbtion see <b
+ * href="pbckbge-summbry.html#threbding">Swing's Threbding
+ * Policy</b>.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
- * @see InternalFrameEvent
- * @see JDesktopPane
- * @see DesktopManager
- * @see JInternalFrame.JDesktopIcon
- * @see JRootPane
- * @see javax.swing.RootPaneContainer
+ * @see InternblFrbmeEvent
+ * @see JDesktopPbne
+ * @see DesktopMbnbger
+ * @see JInternblFrbme.JDesktopIcon
+ * @see JRootPbne
+ * @see jbvbx.swing.RootPbneContbiner
  *
- * @author David Kloba
- * @author Rich Schiavi
+ * @buthor Dbvid Klobb
+ * @buthor Rich Schibvi
  * @since 1.2
- * @beaninfo
- *      attribute: isContainer true
- *      attribute: containerDelegate getContentPane
- *      description: A frame container which is contained within
- *                   another window.
+ * @bebninfo
+ *      bttribute: isContbiner true
+ *      bttribute: contbinerDelegbte getContentPbne
+ *      description: A frbme contbiner which is contbined within
+ *                   bnother window.
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class JInternalFrame extends JComponent implements
-        Accessible, WindowConstants,
-        RootPaneContainer
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public clbss JInternblFrbme extends JComponent implements
+        Accessible, WindowConstbnts,
+        RootPbneContbiner
 {
     /**
-     * @see #getUIClassID
-     * @see #readObject
+     * @see #getUIClbssID
+     * @see #rebdObject
      */
-    private static final String uiClassID = "InternalFrameUI";
+    privbte stbtic finbl String uiClbssID = "InternblFrbmeUI";
 
     /**
-     * The <code>JRootPane</code> instance that manages the
-     * content pane
-     * and optional menu bar for this internal frame, as well as the
-     * glass pane.
+     * The <code>JRootPbne</code> instbnce thbt mbnbges the
+     * content pbne
+     * bnd optionbl menu bbr for this internbl frbme, bs well bs the
+     * glbss pbne.
      *
-     * @see JRootPane
-     * @see RootPaneContainer
+     * @see JRootPbne
+     * @see RootPbneContbiner
      */
-    protected JRootPane rootPane;
+    protected JRootPbne rootPbne;
 
     /**
-     * If true then calls to <code>add</code> and <code>setLayout</code>
-     * will be forwarded to the <code>contentPane</code>. This is initially
-     * false, but is set to true when the <code>JInternalFrame</code> is
+     * If true then cblls to <code>bdd</code> bnd <code>setLbyout</code>
+     * will be forwbrded to the <code>contentPbne</code>. This is initiblly
+     * fblse, but is set to true when the <code>JInternblFrbme</code> is
      * constructed.
      *
-     * @see #isRootPaneCheckingEnabled
-     * @see #setRootPaneCheckingEnabled
-     * @see javax.swing.RootPaneContainer
+     * @see #isRootPbneCheckingEnbbled
+     * @see #setRootPbneCheckingEnbbled
+     * @see jbvbx.swing.RootPbneContbiner
      */
-    protected boolean rootPaneCheckingEnabled = false;
+    protected boolebn rootPbneCheckingEnbbled = fblse;
 
-    /** The frame can be closed. */
-    protected boolean closable;
-    /** The frame has been closed. */
-    protected boolean isClosed;
-    /** The frame can be expanded to the size of the desktop pane. */
-    protected boolean maximizable;
+    /** The frbme cbn be closed. */
+    protected boolebn closbble;
+    /** The frbme hbs been closed. */
+    protected boolebn isClosed;
+    /** The frbme cbn be expbnded to the size of the desktop pbne. */
+    protected boolebn mbximizbble;
     /**
-     * The frame has been expanded to its maximum size.
-     * @see #maximizable
+     * The frbme hbs been expbnded to its mbximum size.
+     * @see #mbximizbble
      */
-    protected boolean isMaximum;
+    protected boolebn isMbximum;
     /**
-     * The frame can "iconified" (shrunk down and displayed as
-     * an icon-image).
-     * @see JInternalFrame.JDesktopIcon
-     * @see #setIconifiable
+     * The frbme cbn "iconified" (shrunk down bnd displbyed bs
+     * bn icon-imbge).
+     * @see JInternblFrbme.JDesktopIcon
+     * @see #setIconifibble
      */
-    protected boolean iconable;
+    protected boolebn iconbble;
     /**
-     * The frame has been iconified.
+     * The frbme hbs been iconified.
      * @see #isIcon()
      */
-    protected boolean isIcon;
-    /** The frame's size can be changed. */
-    protected boolean resizable;
-    /** The frame is currently selected. */
-    protected boolean isSelected;
-    /** The icon shown in the top-left corner of this internal frame. */
-    protected Icon frameIcon;
-    /** The title displayed in this internal frame's title bar. */
+    protected boolebn isIcon;
+    /** The frbme's size cbn be chbnged. */
+    protected boolebn resizbble;
+    /** The frbme is currently selected. */
+    protected boolebn isSelected;
+    /** The icon shown in the top-left corner of this internbl frbme. */
+    protected Icon frbmeIcon;
+    /** The title displbyed in this internbl frbme's title bbr. */
     protected String  title;
     /**
-     * The icon that is displayed when this internal frame is iconified.
-     * @see #iconable
+     * The icon thbt is displbyed when this internbl frbme is iconified.
+     * @see #iconbble
      */
     protected JDesktopIcon desktopIcon;
 
-    private Cursor lastCursor;
+    privbte Cursor lbstCursor;
 
-    private boolean opened;
+    privbte boolebn opened;
 
-    private Rectangle normalBounds = null;
+    privbte Rectbngle normblBounds = null;
 
-    private int defaultCloseOperation = DISPOSE_ON_CLOSE;
+    privbte int defbultCloseOperbtion = DISPOSE_ON_CLOSE;
 
     /**
-     * Contains the Component that focus is to go when
-     * <code>restoreSubcomponentFocus</code> is invoked, that is,
-     * <code>restoreSubcomponentFocus</code> sets this to the value returned
+     * Contbins the Component thbt focus is to go when
+     * <code>restoreSubcomponentFocus</code> is invoked, thbt is,
+     * <code>restoreSubcomponentFocus</code> sets this to the vblue returned
      * from <code>getMostRecentFocusOwner</code>.
      */
-    private Component lastFocusOwner;
+    privbte Component lbstFocusOwner;
 
-    /** Bound property name. */
-    public final static String CONTENT_PANE_PROPERTY = "contentPane";
-    /** Bound property name. */
-    public final static String MENU_BAR_PROPERTY = "JMenuBar";
-    /** Bound property name. */
-    public final static String TITLE_PROPERTY = "title";
-    /** Bound property name. */
-    public final static String LAYERED_PANE_PROPERTY = "layeredPane";
-    /** Bound property name. */
-    public final static String ROOT_PANE_PROPERTY = "rootPane";
-    /** Bound property name. */
-    public final static String GLASS_PANE_PROPERTY = "glassPane";
-    /** Bound property name. */
-    public final static String FRAME_ICON_PROPERTY = "frameIcon";
+    /** Bound property nbme. */
+    public finbl stbtic String CONTENT_PANE_PROPERTY = "contentPbne";
+    /** Bound property nbme. */
+    public finbl stbtic String MENU_BAR_PROPERTY = "JMenuBbr";
+    /** Bound property nbme. */
+    public finbl stbtic String TITLE_PROPERTY = "title";
+    /** Bound property nbme. */
+    public finbl stbtic String LAYERED_PANE_PROPERTY = "lbyeredPbne";
+    /** Bound property nbme. */
+    public finbl stbtic String ROOT_PANE_PROPERTY = "rootPbne";
+    /** Bound property nbme. */
+    public finbl stbtic String GLASS_PANE_PROPERTY = "glbssPbne";
+    /** Bound property nbme. */
+    public finbl stbtic String FRAME_ICON_PROPERTY = "frbmeIcon";
 
     /**
-     * Constrained property name indicated that this frame has
-     * selected status.
+     * Constrbined property nbme indicbted thbt this frbme hbs
+     * selected stbtus.
      */
-    public final static String IS_SELECTED_PROPERTY = "selected";
-    /** Constrained property name indicating that the internal frame is closed. */
-    public final static String IS_CLOSED_PROPERTY = "closed";
-    /** Constrained property name indicating that the internal frame is maximized. */
-    public final static String IS_MAXIMUM_PROPERTY = "maximum";
-    /** Constrained property name indicating that the internal frame is iconified. */
-    public final static String IS_ICON_PROPERTY = "icon";
+    public finbl stbtic String IS_SELECTED_PROPERTY = "selected";
+    /** Constrbined property nbme indicbting thbt the internbl frbme is closed. */
+    public finbl stbtic String IS_CLOSED_PROPERTY = "closed";
+    /** Constrbined property nbme indicbting thbt the internbl frbme is mbximized. */
+    public finbl stbtic String IS_MAXIMUM_PROPERTY = "mbximum";
+    /** Constrbined property nbme indicbting thbt the internbl frbme is iconified. */
+    public finbl stbtic String IS_ICON_PROPERTY = "icon";
 
-    private static final Object PROPERTY_CHANGE_LISTENER_KEY =
-        new StringBuilder("InternalFramePropertyChangeListener");
+    privbte stbtic finbl Object PROPERTY_CHANGE_LISTENER_KEY =
+        new StringBuilder("InternblFrbmePropertyChbngeListener");
 
-    private static void addPropertyChangeListenerIfNecessary() {
+    privbte stbtic void bddPropertyChbngeListenerIfNecessbry() {
         if (AppContext.getAppContext().get(PROPERTY_CHANGE_LISTENER_KEY) ==
             null) {
-            PropertyChangeListener focusListener =
-                new FocusPropertyChangeListener();
+            PropertyChbngeListener focusListener =
+                new FocusPropertyChbngeListener();
 
             AppContext.getAppContext().put(PROPERTY_CHANGE_LISTENER_KEY,
                 focusListener);
 
-            KeyboardFocusManager.getCurrentKeyboardFocusManager().
-                addPropertyChangeListener(focusListener);
+            KeybobrdFocusMbnbger.getCurrentKeybobrdFocusMbnbger().
+                bddPropertyChbngeListener(focusListener);
         }
     }
 
-    private static class FocusPropertyChangeListener implements
-        PropertyChangeListener {
-        public void propertyChange(PropertyChangeEvent e) {
-            if (e.getPropertyName() == "permanentFocusOwner") {
-                updateLastFocusOwner((Component)e.getNewValue());
+    privbte stbtic clbss FocusPropertyChbngeListener implements
+        PropertyChbngeListener {
+        public void propertyChbnge(PropertyChbngeEvent e) {
+            if (e.getPropertyNbme() == "permbnentFocusOwner") {
+                updbteLbstFocusOwner((Component)e.getNewVblue());
             }
         }
     }
 
-    private static void updateLastFocusOwner(Component component) {
+    privbte stbtic void updbteLbstFocusOwner(Component component) {
         if (component != null) {
-            Component parent = component;
-            while (parent != null && !(parent instanceof Window)) {
-                if (parent instanceof JInternalFrame) {
-                    // Update lastFocusOwner for parent.
-                    ((JInternalFrame)parent).setLastFocusOwner(component);
+            Component pbrent = component;
+            while (pbrent != null && !(pbrent instbnceof Window)) {
+                if (pbrent instbnceof JInternblFrbme) {
+                    // Updbte lbstFocusOwner for pbrent.
+                    ((JInternblFrbme)pbrent).setLbstFocusOwner(component);
                 }
-                parent = parent.getParent();
+                pbrent = pbrent.getPbrent();
             }
         }
     }
 
     /**
-     * Creates a non-resizable, non-closable, non-maximizable,
-     * non-iconifiable <code>JInternalFrame</code> with no title.
+     * Crebtes b non-resizbble, non-closbble, non-mbximizbble,
+     * non-iconifibble <code>JInternblFrbme</code> with no title.
      */
-    public JInternalFrame() {
-        this("", false, false, false, false);
+    public JInternblFrbme() {
+        this("", fblse, fblse, fblse, fblse);
     }
 
     /**
-     * Creates a non-resizable, non-closable, non-maximizable,
-     * non-iconifiable <code>JInternalFrame</code> with the specified title.
-     * Note that passing in a <code>null</code> <code>title</code> results in
-     * unspecified behavior and possibly an exception.
+     * Crebtes b non-resizbble, non-closbble, non-mbximizbble,
+     * non-iconifibble <code>JInternblFrbme</code> with the specified title.
+     * Note thbt pbssing in b <code>null</code> <code>title</code> results in
+     * unspecified behbvior bnd possibly bn exception.
      *
-     * @param title  the non-<code>null</code> <code>String</code>
-     *     to display in the title bar
+     * @pbrbm title  the non-<code>null</code> <code>String</code>
+     *     to displby in the title bbr
      */
-    public JInternalFrame(String title) {
-        this(title, false, false, false, false);
+    public JInternblFrbme(String title) {
+        this(title, fblse, fblse, fblse, fblse);
     }
 
     /**
-     * Creates a non-closable, non-maximizable, non-iconifiable
-     * <code>JInternalFrame</code> with the specified title
-     * and resizability.
+     * Crebtes b non-closbble, non-mbximizbble, non-iconifibble
+     * <code>JInternblFrbme</code> with the specified title
+     * bnd resizbbility.
      *
-     * @param title      the <code>String</code> to display in the title bar
-     * @param resizable  if <code>true</code>, the internal frame can be resized
+     * @pbrbm title      the <code>String</code> to displby in the title bbr
+     * @pbrbm resizbble  if <code>true</code>, the internbl frbme cbn be resized
      */
-    public JInternalFrame(String title, boolean resizable) {
-        this(title, resizable, false, false, false);
+    public JInternblFrbme(String title, boolebn resizbble) {
+        this(title, resizbble, fblse, fblse, fblse);
     }
 
     /**
-     * Creates a non-maximizable, non-iconifiable <code>JInternalFrame</code>
-     * with the specified title, resizability, and
-     * closability.
+     * Crebtes b non-mbximizbble, non-iconifibble <code>JInternblFrbme</code>
+     * with the specified title, resizbbility, bnd
+     * closbbility.
      *
-     * @param title      the <code>String</code> to display in the title bar
-     * @param resizable  if <code>true</code>, the internal frame can be resized
-     * @param closable   if <code>true</code>, the internal frame can be closed
+     * @pbrbm title      the <code>String</code> to displby in the title bbr
+     * @pbrbm resizbble  if <code>true</code>, the internbl frbme cbn be resized
+     * @pbrbm closbble   if <code>true</code>, the internbl frbme cbn be closed
      */
-    public JInternalFrame(String title, boolean resizable, boolean closable) {
-        this(title, resizable, closable, false, false);
+    public JInternblFrbme(String title, boolebn resizbble, boolebn closbble) {
+        this(title, resizbble, closbble, fblse, fblse);
     }
 
     /**
-     * Creates a non-iconifiable <code>JInternalFrame</code>
+     * Crebtes b non-iconifibble <code>JInternblFrbme</code>
      * with the specified title,
-     * resizability, closability, and maximizability.
+     * resizbbility, closbbility, bnd mbximizbbility.
      *
-     * @param title       the <code>String</code> to display in the title bar
-     * @param resizable   if <code>true</code>, the internal frame can be resized
-     * @param closable    if <code>true</code>, the internal frame can be closed
-     * @param maximizable if <code>true</code>, the internal frame can be maximized
+     * @pbrbm title       the <code>String</code> to displby in the title bbr
+     * @pbrbm resizbble   if <code>true</code>, the internbl frbme cbn be resized
+     * @pbrbm closbble    if <code>true</code>, the internbl frbme cbn be closed
+     * @pbrbm mbximizbble if <code>true</code>, the internbl frbme cbn be mbximized
      */
-    public JInternalFrame(String title, boolean resizable, boolean closable,
-                          boolean maximizable) {
-        this(title, resizable, closable, maximizable, false);
+    public JInternblFrbme(String title, boolebn resizbble, boolebn closbble,
+                          boolebn mbximizbble) {
+        this(title, resizbble, closbble, mbximizbble, fblse);
     }
 
     /**
-     * Creates a <code>JInternalFrame</code> with the specified title,
-     * resizability, closability, maximizability, and iconifiability.
-     * All <code>JInternalFrame</code> constructors use this one.
+     * Crebtes b <code>JInternblFrbme</code> with the specified title,
+     * resizbbility, closbbility, mbximizbbility, bnd iconifibbility.
+     * All <code>JInternblFrbme</code> constructors use this one.
      *
-     * @param title       the <code>String</code> to display in the title bar
-     * @param resizable   if <code>true</code>, the internal frame can be resized
-     * @param closable    if <code>true</code>, the internal frame can be closed
-     * @param maximizable if <code>true</code>, the internal frame can be maximized
-     * @param iconifiable if <code>true</code>, the internal frame can be iconified
+     * @pbrbm title       the <code>String</code> to displby in the title bbr
+     * @pbrbm resizbble   if <code>true</code>, the internbl frbme cbn be resized
+     * @pbrbm closbble    if <code>true</code>, the internbl frbme cbn be closed
+     * @pbrbm mbximizbble if <code>true</code>, the internbl frbme cbn be mbximized
+     * @pbrbm iconifibble if <code>true</code>, the internbl frbme cbn be iconified
      */
-    public JInternalFrame(String title, boolean resizable, boolean closable,
-                                boolean maximizable, boolean iconifiable) {
+    public JInternblFrbme(String title, boolebn resizbble, boolebn closbble,
+                                boolebn mbximizbble, boolebn iconifibble) {
 
-        setRootPane(createRootPane());
-        setLayout(new BorderLayout());
+        setRootPbne(crebteRootPbne());
+        setLbyout(new BorderLbyout());
         this.title = title;
-        this.resizable = resizable;
-        this.closable = closable;
-        this.maximizable = maximizable;
-        isMaximum = false;
-        this.iconable = iconifiable;
-        isIcon = false;
-        setVisible(false);
-        setRootPaneCheckingEnabled(true);
+        this.resizbble = resizbble;
+        this.closbble = closbble;
+        this.mbximizbble = mbximizbble;
+        isMbximum = fblse;
+        this.iconbble = iconifibble;
+        isIcon = fblse;
+        setVisible(fblse);
+        setRootPbneCheckingEnbbled(true);
         desktopIcon = new JDesktopIcon(this);
-        updateUI();
-        sun.awt.SunToolkit.checkAndSetPolicy(this);
-        addPropertyChangeListenerIfNecessary();
+        updbteUI();
+        sun.bwt.SunToolkit.checkAndSetPolicy(this);
+        bddPropertyChbngeListenerIfNecessbry();
     }
 
     /**
-     * Called by the constructor to set up the <code>JRootPane</code>.
-     * @return  a new <code>JRootPane</code>
-     * @see JRootPane
+     * Cblled by the constructor to set up the <code>JRootPbne</code>.
+     * @return  b new <code>JRootPbne</code>
+     * @see JRootPbne
      */
-    protected JRootPane createRootPane() {
-        return new JRootPane();
+    protected JRootPbne crebteRootPbne() {
+        return new JRootPbne();
     }
 
     /**
-     * Returns the look-and-feel object that renders this component.
+     * Returns the look-bnd-feel object thbt renders this component.
      *
-     * @return the <code>InternalFrameUI</code> object that renders
+     * @return the <code>InternblFrbmeUI</code> object thbt renders
      *          this component
      */
-    public InternalFrameUI getUI() {
-        return (InternalFrameUI)ui;
+    public InternblFrbmeUI getUI() {
+        return (InternblFrbmeUI)ui;
     }
 
     /**
-     * Sets the UI delegate for this <code>JInternalFrame</code>.
-     * @param ui  the UI delegate
-     * @beaninfo
+     * Sets the UI delegbte for this <code>JInternblFrbme</code>.
+     * @pbrbm ui  the UI delegbte
+     * @bebninfo
      *        bound: true
      *       hidden: true
-     *    attribute: visualUpdate true
-     *  description: The UI object that implements the Component's LookAndFeel.
+     *    bttribute: visublUpdbte true
+     *  description: The UI object thbt implements the Component's LookAndFeel.
      */
-    public void setUI(InternalFrameUI ui) {
-        boolean checkingEnabled = isRootPaneCheckingEnabled();
+    public void setUI(InternblFrbmeUI ui) {
+        boolebn checkingEnbbled = isRootPbneCheckingEnbbled();
         try {
-            setRootPaneCheckingEnabled(false);
+            setRootPbneCheckingEnbbled(fblse);
             super.setUI(ui);
         }
-        finally {
-            setRootPaneCheckingEnabled(checkingEnabled);
+        finblly {
+            setRootPbneCheckingEnbbled(checkingEnbbled);
         }
     }
 
     /**
-     * Notification from the <code>UIManager</code> that the look and feel
-     * has changed.
-     * Replaces the current UI object with the latest version from the
-     * <code>UIManager</code>.
+     * Notificbtion from the <code>UIMbnbger</code> thbt the look bnd feel
+     * hbs chbnged.
+     * Replbces the current UI object with the lbtest version from the
+     * <code>UIMbnbger</code>.
      *
-     * @see JComponent#updateUI
+     * @see JComponent#updbteUI
      */
-    public void updateUI() {
-        setUI((InternalFrameUI)UIManager.getUI(this));
-        invalidate();
+    public void updbteUI() {
+        setUI((InternblFrbmeUI)UIMbnbger.getUI(this));
+        invblidbte();
         if (desktopIcon != null) {
-            desktopIcon.updateUIWhenHidden();
+            desktopIcon.updbteUIWhenHidden();
         }
     }
 
-    /* This method is called if <code>updateUI</code> was called
-     * on the associated
-     * JDesktopIcon.  It's necessary to avoid infinite recursion.
+    /* This method is cblled if <code>updbteUI</code> wbs cblled
+     * on the bssocibted
+     * JDesktopIcon.  It's necessbry to bvoid infinite recursion.
      */
-    void updateUIWhenHidden() {
-        setUI((InternalFrameUI)UIManager.getUI(this));
-        invalidate();
+    void updbteUIWhenHidden() {
+        setUI((InternblFrbmeUI)UIMbnbger.getUI(this));
+        invblidbte();
         Component[] children = getComponents();
         if (children != null) {
             for (Component child : children) {
-                SwingUtilities.updateComponentTreeUI(child);
+                SwingUtilities.updbteComponentTreeUI(child);
             }
         }
     }
 
 
     /**
-     * Returns the name of the look-and-feel
-     * class that renders this component.
+     * Returns the nbme of the look-bnd-feel
+     * clbss thbt renders this component.
      *
-     * @return the string "InternalFrameUI"
+     * @return the string "InternblFrbmeUI"
      *
-     * @see JComponent#getUIClassID
-     * @see UIDefaults#getUI
+     * @see JComponent#getUIClbssID
+     * @see UIDefbults#getUI
      *
-     * @beaninfo
-     *     description: UIClassID
+     * @bebninfo
+     *     description: UIClbssID
      */
-    public String getUIClassID() {
-        return uiClassID;
+    public String getUIClbssID() {
+        return uiClbssID;
     }
 
     /**
-     * Returns whether calls to <code>add</code> and
-     * <code>setLayout</code> are forwarded to the <code>contentPane</code>.
+     * Returns whether cblls to <code>bdd</code> bnd
+     * <code>setLbyout</code> bre forwbrded to the <code>contentPbne</code>.
      *
-     * @return true if <code>add</code> and <code>setLayout</code>
-     *         are forwarded; false otherwise
+     * @return true if <code>bdd</code> bnd <code>setLbyout</code>
+     *         bre forwbrded; fblse otherwise
      *
-     * @see #addImpl
-     * @see #setLayout
-     * @see #setRootPaneCheckingEnabled
-     * @see javax.swing.RootPaneContainer
+     * @see #bddImpl
+     * @see #setLbyout
+     * @see #setRootPbneCheckingEnbbled
+     * @see jbvbx.swing.RootPbneContbiner
      */
-    protected boolean isRootPaneCheckingEnabled() {
-        return rootPaneCheckingEnabled;
+    protected boolebn isRootPbneCheckingEnbbled() {
+        return rootPbneCheckingEnbbled;
     }
 
     /**
-     * Sets whether calls to <code>add</code> and
-     * <code>setLayout</code> are forwarded to the <code>contentPane</code>.
+     * Sets whether cblls to <code>bdd</code> bnd
+     * <code>setLbyout</code> bre forwbrded to the <code>contentPbne</code>.
      *
-     * @param enabled  true if <code>add</code> and <code>setLayout</code>
-     *        are forwarded, false if they should operate directly on the
-     *        <code>JInternalFrame</code>.
+     * @pbrbm enbbled  true if <code>bdd</code> bnd <code>setLbyout</code>
+     *        bre forwbrded, fblse if they should operbte directly on the
+     *        <code>JInternblFrbme</code>.
      *
-     * @see #addImpl
-     * @see #setLayout
-     * @see #isRootPaneCheckingEnabled
-     * @see javax.swing.RootPaneContainer
-     * @beaninfo
+     * @see #bddImpl
+     * @see #setLbyout
+     * @see #isRootPbneCheckingEnbbled
+     * @see jbvbx.swing.RootPbneContbiner
+     * @bebninfo
      *      hidden: true
-     * description: Whether the add and setLayout methods are forwarded
+     * description: Whether the bdd bnd setLbyout methods bre forwbrded
      */
-    protected void setRootPaneCheckingEnabled(boolean enabled) {
-        rootPaneCheckingEnabled = enabled;
+    protected void setRootPbneCheckingEnbbled(boolebn enbbled) {
+        rootPbneCheckingEnbbled = enbbled;
     }
 
     /**
      * Adds the specified child <code>Component</code>.
-     * This method is overridden to conditionally forward calls to the
-     * <code>contentPane</code>.
-     * By default, children are added to the <code>contentPane</code> instead
-     * of the frame, refer to {@link javax.swing.RootPaneContainer} for
-     * details.
+     * This method is overridden to conditionblly forwbrd cblls to the
+     * <code>contentPbne</code>.
+     * By defbult, children bre bdded to the <code>contentPbne</code> instebd
+     * of the frbme, refer to {@link jbvbx.swing.RootPbneContbiner} for
+     * detbils.
      *
-     * @param comp the component to be enhanced
-     * @param constraints the constraints to be respected
-     * @param index the index
-     * @exception IllegalArgumentException if <code>index</code> is invalid
-     * @exception IllegalArgumentException if adding the container's parent
+     * @pbrbm comp the component to be enhbnced
+     * @pbrbm constrbints the constrbints to be respected
+     * @pbrbm index the index
+     * @exception IllegblArgumentException if <code>index</code> is invblid
+     * @exception IllegblArgumentException if bdding the contbiner's pbrent
      *                  to itself
-     * @exception IllegalArgumentException if adding a window to a container
+     * @exception IllegblArgumentException if bdding b window to b contbiner
      *
-     * @see #setRootPaneCheckingEnabled
-     * @see javax.swing.RootPaneContainer
+     * @see #setRootPbneCheckingEnbbled
+     * @see jbvbx.swing.RootPbneContbiner
      */
-    protected void addImpl(Component comp, Object constraints, int index) {
-        if(isRootPaneCheckingEnabled()) {
-            getContentPane().add(comp, constraints, index);
+    protected void bddImpl(Component comp, Object constrbints, int index) {
+        if(isRootPbneCheckingEnbbled()) {
+            getContentPbne().bdd(comp, constrbints, index);
         }
         else {
-            super.addImpl(comp, constraints, index);
+            super.bddImpl(comp, constrbints, index);
         }
     }
 
     /**
-     * Removes the specified component from the container. If
-     * <code>comp</code> is not a child of the <code>JInternalFrame</code>
-     * this will forward the call to the <code>contentPane</code>.
+     * Removes the specified component from the contbiner. If
+     * <code>comp</code> is not b child of the <code>JInternblFrbme</code>
+     * this will forwbrd the cbll to the <code>contentPbne</code>.
      *
-     * @param comp the component to be removed
+     * @pbrbm comp the component to be removed
      * @throws NullPointerException if <code>comp</code> is null
-     * @see #add
-     * @see javax.swing.RootPaneContainer
+     * @see #bdd
+     * @see jbvbx.swing.RootPbneContbiner
      */
     public void remove(Component comp) {
         int oldCount = getComponentCount();
         super.remove(comp);
         if (oldCount == getComponentCount()) {
-            getContentPane().remove(comp);
+            getContentPbne().remove(comp);
         }
     }
 
 
     /**
-     * Ensures that, by default, the layout of this component cannot be set.
-     * Overridden to conditionally forward the call to the
-     * <code>contentPane</code>.
-     * Refer to {@link javax.swing.RootPaneContainer} for
-     * more information.
+     * Ensures thbt, by defbult, the lbyout of this component cbnnot be set.
+     * Overridden to conditionblly forwbrd the cbll to the
+     * <code>contentPbne</code>.
+     * Refer to {@link jbvbx.swing.RootPbneContbiner} for
+     * more informbtion.
      *
-     * @param manager the <code>LayoutManager</code>
-     * @see #setRootPaneCheckingEnabled
+     * @pbrbm mbnbger the <code>LbyoutMbnbger</code>
+     * @see #setRootPbneCheckingEnbbled
      */
-    public void setLayout(LayoutManager manager) {
-        if(isRootPaneCheckingEnabled()) {
-            getContentPane().setLayout(manager);
+    public void setLbyout(LbyoutMbnbger mbnbger) {
+        if(isRootPbneCheckingEnbbled()) {
+            getContentPbne().setLbyout(mbnbger);
         }
         else {
-            super.setLayout(manager);
+            super.setLbyout(mbnbger);
         }
     }
 
@@ -551,486 +551,486 @@ public class JInternalFrame extends JComponent implements
 //////////////////////////////////////////////////////////////////////////
 
     /**
-     * Returns the current <code>JMenuBar</code> for this
-     * <code>JInternalFrame</code>, or <code>null</code>
-     * if no menu bar has been set.
-     * @return the current menu bar, or <code>null</code> if none has been set
+     * Returns the current <code>JMenuBbr</code> for this
+     * <code>JInternblFrbme</code>, or <code>null</code>
+     * if no menu bbr hbs been set.
+     * @return the current menu bbr, or <code>null</code> if none hbs been set
      *
-     * @deprecated As of Swing version 1.0.3,
-     * replaced by <code>getJMenuBar()</code>.
+     * @deprecbted As of Swing version 1.0.3,
+     * replbced by <code>getJMenuBbr()</code>.
      */
-    @Deprecated
-    public JMenuBar getMenuBar() {
-      return getRootPane().getMenuBar();
+    @Deprecbted
+    public JMenuBbr getMenuBbr() {
+      return getRootPbne().getMenuBbr();
     }
 
     /**
-     * Returns the current <code>JMenuBar</code> for this
-     * <code>JInternalFrame</code>, or <code>null</code>
-     * if no menu bar has been set.
+     * Returns the current <code>JMenuBbr</code> for this
+     * <code>JInternblFrbme</code>, or <code>null</code>
+     * if no menu bbr hbs been set.
      *
-     * @return  the <code>JMenuBar</code> used by this internal frame
-     * @see #setJMenuBar
+     * @return  the <code>JMenuBbr</code> used by this internbl frbme
+     * @see #setJMenuBbr
      */
-    public JMenuBar getJMenuBar() {
-        return getRootPane().getJMenuBar();
+    public JMenuBbr getJMenuBbr() {
+        return getRootPbne().getJMenuBbr();
     }
 
     /**
-     * Sets the <code>menuBar</code> property for this <code>JInternalFrame</code>.
+     * Sets the <code>menuBbr</code> property for this <code>JInternblFrbme</code>.
      *
-     * @param m  the <code>JMenuBar</code> to use in this internal frame
-     * @see #getJMenuBar
-     * @deprecated As of Swing version 1.0.3
-     *  replaced by <code>setJMenuBar(JMenuBar m)</code>.
+     * @pbrbm m  the <code>JMenuBbr</code> to use in this internbl frbme
+     * @see #getJMenuBbr
+     * @deprecbted As of Swing version 1.0.3
+     *  replbced by <code>setJMenuBbr(JMenuBbr m)</code>.
      */
-    @Deprecated
-    public void setMenuBar(JMenuBar m) {
-        JMenuBar oldValue = getMenuBar();
-        getRootPane().setJMenuBar(m);
-        firePropertyChange(MENU_BAR_PROPERTY, oldValue, m);
+    @Deprecbted
+    public void setMenuBbr(JMenuBbr m) {
+        JMenuBbr oldVblue = getMenuBbr();
+        getRootPbne().setJMenuBbr(m);
+        firePropertyChbnge(MENU_BAR_PROPERTY, oldVblue, m);
     }
 
     /**
-     * Sets the <code>menuBar</code> property for this <code>JInternalFrame</code>.
+     * Sets the <code>menuBbr</code> property for this <code>JInternblFrbme</code>.
      *
-     * @param m  the <code>JMenuBar</code> to use in this internal frame
-     * @see #getJMenuBar
-     * @beaninfo
+     * @pbrbm m  the <code>JMenuBbr</code> to use in this internbl frbme
+     * @see #getJMenuBbr
+     * @bebninfo
      *     bound: true
      *     preferred: true
-     *     description: The menu bar for accessing pulldown menus
-     *                  from this internal frame.
+     *     description: The menu bbr for bccessing pulldown menus
+     *                  from this internbl frbme.
      */
-    public void setJMenuBar(JMenuBar m){
-        JMenuBar oldValue = getMenuBar();
-        getRootPane().setJMenuBar(m);
-        firePropertyChange(MENU_BAR_PROPERTY, oldValue, m);
+    public void setJMenuBbr(JMenuBbr m){
+        JMenuBbr oldVblue = getMenuBbr();
+        getRootPbne().setJMenuBbr(m);
+        firePropertyChbnge(MENU_BAR_PROPERTY, oldVblue, m);
     }
 
-    // implements javax.swing.RootPaneContainer
+    // implements jbvbx.swing.RootPbneContbiner
     /**
-     * Returns the content pane for this internal frame.
-     * @return the content pane
+     * Returns the content pbne for this internbl frbme.
+     * @return the content pbne
      */
-    public Container getContentPane() {
-        return getRootPane().getContentPane();
+    public Contbiner getContentPbne() {
+        return getRootPbne().getContentPbne();
     }
 
 
     /**
-     * Sets this <code>JInternalFrame</code>'s <code>contentPane</code>
+     * Sets this <code>JInternblFrbme</code>'s <code>contentPbne</code>
      * property.
      *
-     * @param c  the content pane for this internal frame
+     * @pbrbm c  the content pbne for this internbl frbme
      *
-     * @exception java.awt.IllegalComponentStateException (a runtime
-     *           exception) if the content pane parameter is <code>null</code>
-     * @see RootPaneContainer#getContentPane
-     * @beaninfo
+     * @exception jbvb.bwt.IllegblComponentStbteException (b runtime
+     *           exception) if the content pbne pbrbmeter is <code>null</code>
+     * @see RootPbneContbiner#getContentPbne
+     * @bebninfo
      *     bound: true
      *     hidden: true
-     *     description: The client area of the internal frame where child
-     *                  components are normally inserted.
+     *     description: The client breb of the internbl frbme where child
+     *                  components bre normblly inserted.
      */
-    public void setContentPane(Container c) {
-        Container oldValue = getContentPane();
-        getRootPane().setContentPane(c);
-        firePropertyChange(CONTENT_PANE_PROPERTY, oldValue, c);
+    public void setContentPbne(Contbiner c) {
+        Contbiner oldVblue = getContentPbne();
+        getRootPbne().setContentPbne(c);
+        firePropertyChbnge(CONTENT_PANE_PROPERTY, oldVblue, c);
     }
 
     /**
-     * Returns the layered pane for this internal frame.
+     * Returns the lbyered pbne for this internbl frbme.
      *
-     * @return a <code>JLayeredPane</code> object
-     * @see RootPaneContainer#setLayeredPane
-     * @see RootPaneContainer#getLayeredPane
+     * @return b <code>JLbyeredPbne</code> object
+     * @see RootPbneContbiner#setLbyeredPbne
+     * @see RootPbneContbiner#getLbyeredPbne
      */
-    public JLayeredPane getLayeredPane() {
-        return getRootPane().getLayeredPane();
+    public JLbyeredPbne getLbyeredPbne() {
+        return getRootPbne().getLbyeredPbne();
     }
 
     /**
-     * Sets this <code>JInternalFrame</code>'s
-     * <code>layeredPane</code> property.
+     * Sets this <code>JInternblFrbme</code>'s
+     * <code>lbyeredPbne</code> property.
      *
-     * @param layered the <code>JLayeredPane</code> for this internal frame
+     * @pbrbm lbyered the <code>JLbyeredPbne</code> for this internbl frbme
      *
-     * @exception java.awt.IllegalComponentStateException (a runtime
-     *           exception) if the layered pane parameter is <code>null</code>
-     * @see RootPaneContainer#setLayeredPane
-     * @beaninfo
+     * @exception jbvb.bwt.IllegblComponentStbteException (b runtime
+     *           exception) if the lbyered pbne pbrbmeter is <code>null</code>
+     * @see RootPbneContbiner#setLbyeredPbne
+     * @bebninfo
      *     hidden: true
      *     bound: true
-     *     description: The pane which holds the various desktop layers.
+     *     description: The pbne which holds the vbrious desktop lbyers.
      */
-    public void setLayeredPane(JLayeredPane layered) {
-        JLayeredPane oldValue = getLayeredPane();
-        getRootPane().setLayeredPane(layered);
-        firePropertyChange(LAYERED_PANE_PROPERTY, oldValue, layered);
+    public void setLbyeredPbne(JLbyeredPbne lbyered) {
+        JLbyeredPbne oldVblue = getLbyeredPbne();
+        getRootPbne().setLbyeredPbne(lbyered);
+        firePropertyChbnge(LAYERED_PANE_PROPERTY, oldVblue, lbyered);
     }
 
     /**
-     * Returns the glass pane for this internal frame.
+     * Returns the glbss pbne for this internbl frbme.
      *
-     * @return the glass pane
-     * @see RootPaneContainer#setGlassPane
+     * @return the glbss pbne
+     * @see RootPbneContbiner#setGlbssPbne
      */
-    public Component getGlassPane() {
-        return getRootPane().getGlassPane();
+    public Component getGlbssPbne() {
+        return getRootPbne().getGlbssPbne();
     }
 
     /**
-     * Sets this <code>JInternalFrame</code>'s
-     * <code>glassPane</code> property.
+     * Sets this <code>JInternblFrbme</code>'s
+     * <code>glbssPbne</code> property.
      *
-     * @param glass the glass pane for this internal frame
-     * @see RootPaneContainer#getGlassPane
-     * @beaninfo
+     * @pbrbm glbss the glbss pbne for this internbl frbme
+     * @see RootPbneContbiner#getGlbssPbne
+     * @bebninfo
      *     bound: true
      *     hidden: true
-     *     description: A transparent pane used for menu rendering.
+     *     description: A trbnspbrent pbne used for menu rendering.
      */
-    public void setGlassPane(Component glass) {
-        Component oldValue = getGlassPane();
-        getRootPane().setGlassPane(glass);
-        firePropertyChange(GLASS_PANE_PROPERTY, oldValue, glass);
+    public void setGlbssPbne(Component glbss) {
+        Component oldVblue = getGlbssPbne();
+        getRootPbne().setGlbssPbne(glbss);
+        firePropertyChbnge(GLASS_PANE_PROPERTY, oldVblue, glbss);
     }
 
     /**
-     * Returns the <code>rootPane</code> object for this internal frame.
+     * Returns the <code>rootPbne</code> object for this internbl frbme.
      *
-     * @return the <code>rootPane</code> property
-     * @see RootPaneContainer#getRootPane
+     * @return the <code>rootPbne</code> property
+     * @see RootPbneContbiner#getRootPbne
      */
-    public JRootPane getRootPane() {
-        return rootPane;
+    public JRootPbne getRootPbne() {
+        return rootPbne;
     }
 
 
     /**
-     * Sets the <code>rootPane</code> property
-     * for this <code>JInternalFrame</code>.
-     * This method is called by the constructor.
+     * Sets the <code>rootPbne</code> property
+     * for this <code>JInternblFrbme</code>.
+     * This method is cblled by the constructor.
      *
-     * @param root  the new <code>JRootPane</code> object
-     * @beaninfo
+     * @pbrbm root  the new <code>JRootPbne</code> object
+     * @bebninfo
      *     bound: true
      *     hidden: true
-     *     description: The root pane used by this internal frame.
+     *     description: The root pbne used by this internbl frbme.
      */
-    protected void setRootPane(JRootPane root) {
-        if(rootPane != null) {
-            remove(rootPane);
+    protected void setRootPbne(JRootPbne root) {
+        if(rootPbne != null) {
+            remove(rootPbne);
         }
-        JRootPane oldValue = getRootPane();
-        rootPane = root;
-        if(rootPane != null) {
-            boolean checkingEnabled = isRootPaneCheckingEnabled();
+        JRootPbne oldVblue = getRootPbne();
+        rootPbne = root;
+        if(rootPbne != null) {
+            boolebn checkingEnbbled = isRootPbneCheckingEnbbled();
             try {
-                setRootPaneCheckingEnabled(false);
-                add(rootPane, BorderLayout.CENTER);
+                setRootPbneCheckingEnbbled(fblse);
+                bdd(rootPbne, BorderLbyout.CENTER);
             }
-            finally {
-                setRootPaneCheckingEnabled(checkingEnabled);
+            finblly {
+                setRootPbneCheckingEnbbled(checkingEnbbled);
             }
         }
-        firePropertyChange(ROOT_PANE_PROPERTY, oldValue, root);
+        firePropertyChbnge(ROOT_PANE_PROPERTY, oldVblue, root);
     }
 
     /**
-     * Sets whether this <code>JInternalFrame</code> can be closed by
-     * some user action.
-     * @param b a boolean value, where <code>true</code> means this internal frame can be closed
-     * @beaninfo
+     * Sets whether this <code>JInternblFrbme</code> cbn be closed by
+     * some user bction.
+     * @pbrbm b b boolebn vblue, where <code>true</code> mebns this internbl frbme cbn be closed
+     * @bebninfo
      *     preferred: true
      *           bound: true
-     *     description: Indicates whether this internal frame can be closed.
+     *     description: Indicbtes whether this internbl frbme cbn be closed.
      */
-    public void setClosable(boolean b) {
-        Boolean oldValue = closable ? Boolean.TRUE : Boolean.FALSE;
-        Boolean newValue = b ? Boolean.TRUE : Boolean.FALSE;
-        closable = b;
-        firePropertyChange("closable", oldValue, newValue);
+    public void setClosbble(boolebn b) {
+        Boolebn oldVblue = closbble ? Boolebn.TRUE : Boolebn.FALSE;
+        Boolebn newVblue = b ? Boolebn.TRUE : Boolebn.FALSE;
+        closbble = b;
+        firePropertyChbnge("closbble", oldVblue, newVblue);
     }
 
     /**
-     * Returns whether this <code>JInternalFrame</code> can be closed by
-     * some user action.
-     * @return <code>true</code> if this internal frame can be closed
+     * Returns whether this <code>JInternblFrbme</code> cbn be closed by
+     * some user bction.
+     * @return <code>true</code> if this internbl frbme cbn be closed
      */
-    public boolean isClosable() {
-        return closable;
+    public boolebn isClosbble() {
+        return closbble;
     }
 
     /**
-     * Returns whether this <code>JInternalFrame</code> is currently closed.
-     * @return <code>true</code> if this internal frame is closed, <code>false</code> otherwise
+     * Returns whether this <code>JInternblFrbme</code> is currently closed.
+     * @return <code>true</code> if this internbl frbme is closed, <code>fblse</code> otherwise
      */
-    public boolean isClosed() {
+    public boolebn isClosed() {
         return isClosed;
     }
 
     /**
-     * Closes this internal frame if the argument is <code>true</code>.
-     * Do not invoke this method with a <code>false</code> argument;
-     * the result of invoking <code>setClosed(false)</code>
+     * Closes this internbl frbme if the brgument is <code>true</code>.
+     * Do not invoke this method with b <code>fblse</code> brgument;
+     * the result of invoking <code>setClosed(fblse)</code>
      * is unspecified.
      *
      * <p>
      *
-     * If the internal frame is already closed,
-     * this method does nothing and returns immediately.
+     * If the internbl frbme is blrebdy closed,
+     * this method does nothing bnd returns immedibtely.
      * Otherwise,
      * this method begins by firing
-     * an <code>INTERNAL_FRAME_CLOSING</code> event.
+     * bn <code>INTERNAL_FRAME_CLOSING</code> event.
      * Then this method sets the <code>closed</code> property to <code>true</code>
-     * unless a listener vetoes the property change.
-     * This method finishes by making the internal frame
-     * invisible and unselected,
-     * and then firing an <code>INTERNAL_FRAME_CLOSED</code> event.
+     * unless b listener vetoes the property chbnge.
+     * This method finishes by mbking the internbl frbme
+     * invisible bnd unselected,
+     * bnd then firing bn <code>INTERNAL_FRAME_CLOSED</code> event.
      *
      * <p>
      *
      * <b>Note:</b>
-     * To reuse an internal frame that has been closed,
-     * you must add it to a container
-     * (even if you never removed it from its previous container).
-     * Typically, this container will be the <code>JDesktopPane</code>
-     * that previously contained the internal frame.
+     * To reuse bn internbl frbme thbt hbs been closed,
+     * you must bdd it to b contbiner
+     * (even if you never removed it from its previous contbiner).
+     * Typicblly, this contbiner will be the <code>JDesktopPbne</code>
+     * thbt previously contbined the internbl frbme.
      *
-     * @param b must be <code>true</code>
+     * @pbrbm b must be <code>true</code>
      *
-     * @exception PropertyVetoException when the attempt to set the
-     *            property is vetoed by the <code>JInternalFrame</code>
+     * @exception PropertyVetoException when the bttempt to set the
+     *            property is vetoed by the <code>JInternblFrbme</code>
      *
      * @see #isClosed()
-     * @see #setDefaultCloseOperation
+     * @see #setDefbultCloseOperbtion
      * @see #dispose
-     * @see javax.swing.event.InternalFrameEvent#INTERNAL_FRAME_CLOSING
+     * @see jbvbx.swing.event.InternblFrbmeEvent#INTERNAL_FRAME_CLOSING
      *
-     * @beaninfo
+     * @bebninfo
      *           bound: true
-     *     constrained: true
-     *     description: Indicates whether this internal frame has been closed.
+     *     constrbined: true
+     *     description: Indicbtes whether this internbl frbme hbs been closed.
      */
-    public void setClosed(boolean b) throws PropertyVetoException {
+    public void setClosed(boolebn b) throws PropertyVetoException {
         if (isClosed == b) {
             return;
         }
 
-        Boolean oldValue = isClosed ? Boolean.TRUE : Boolean.FALSE;
-        Boolean newValue = b ? Boolean.TRUE : Boolean.FALSE;
+        Boolebn oldVblue = isClosed ? Boolebn.TRUE : Boolebn.FALSE;
+        Boolebn newVblue = b ? Boolebn.TRUE : Boolebn.FALSE;
         if (b) {
-          fireInternalFrameEvent(InternalFrameEvent.INTERNAL_FRAME_CLOSING);
+          fireInternblFrbmeEvent(InternblFrbmeEvent.INTERNAL_FRAME_CLOSING);
         }
-        fireVetoableChange(IS_CLOSED_PROPERTY, oldValue, newValue);
+        fireVetobbleChbnge(IS_CLOSED_PROPERTY, oldVblue, newVblue);
         isClosed = b;
         if (isClosed) {
-          setVisible(false);
+          setVisible(fblse);
         }
-        firePropertyChange(IS_CLOSED_PROPERTY, oldValue, newValue);
+        firePropertyChbnge(IS_CLOSED_PROPERTY, oldVblue, newVblue);
         if (isClosed) {
           dispose();
         } else if (!opened) {
-          /* this bogus -- we haven't defined what
-             setClosed(false) means. */
-          //        fireInternalFrameEvent(InternalFrameEvent.INTERNAL_FRAME_OPENED);
+          /* this bogus -- we hbven't defined whbt
+             setClosed(fblse) mebns. */
+          //        fireInternblFrbmeEvent(InternblFrbmeEvent.INTERNAL_FRAME_OPENED);
           //            opened = true;
         }
     }
 
     /**
-     * Sets whether the <code>JInternalFrame</code> can be resized by some
-     * user action.
+     * Sets whether the <code>JInternblFrbme</code> cbn be resized by some
+     * user bction.
      *
-     * @param b  a boolean, where <code>true</code> means this internal frame can be resized
-     * @beaninfo
+     * @pbrbm b  b boolebn, where <code>true</code> mebns this internbl frbme cbn be resized
+     * @bebninfo
      *     preferred: true
      *           bound: true
-     *     description: Determines whether this internal frame can be resized
+     *     description: Determines whether this internbl frbme cbn be resized
      *                  by the user.
      */
-    public void setResizable(boolean b) {
-        Boolean oldValue = resizable ? Boolean.TRUE : Boolean.FALSE;
-        Boolean newValue = b ? Boolean.TRUE : Boolean.FALSE;
-        resizable = b;
-        firePropertyChange("resizable", oldValue, newValue);
+    public void setResizbble(boolebn b) {
+        Boolebn oldVblue = resizbble ? Boolebn.TRUE : Boolebn.FALSE;
+        Boolebn newVblue = b ? Boolebn.TRUE : Boolebn.FALSE;
+        resizbble = b;
+        firePropertyChbnge("resizbble", oldVblue, newVblue);
     }
 
     /**
-     * Returns whether the <code>JInternalFrame</code> can be resized
-     * by some user action.
+     * Returns whether the <code>JInternblFrbme</code> cbn be resized
+     * by some user bction.
      *
-     * @return <code>true</code> if this internal frame can be resized, <code>false</code> otherwise
+     * @return <code>true</code> if this internbl frbme cbn be resized, <code>fblse</code> otherwise
      */
-    public boolean isResizable() {
-        // don't allow resizing when maximized.
-        return isMaximum ? false : resizable;
+    public boolebn isResizbble() {
+        // don't bllow resizing when mbximized.
+        return isMbximum ? fblse : resizbble;
     }
 
     /**
-     * Sets the <code>iconable</code> property,
+     * Sets the <code>iconbble</code> property,
      * which must be <code>true</code>
-     * for the user to be able to
-     * make the <code>JInternalFrame</code> an icon.
-     * Some look and feels might not implement iconification;
+     * for the user to be bble to
+     * mbke the <code>JInternblFrbme</code> bn icon.
+     * Some look bnd feels might not implement iconificbtion;
      * they will ignore this property.
      *
-     * @param b  a boolean, where <code>true</code> means this internal frame can be iconified
-     * @beaninfo
+     * @pbrbm b  b boolebn, where <code>true</code> mebns this internbl frbme cbn be iconified
+     * @bebninfo
      *     preferred: true
                bound: true
-     *     description: Determines whether this internal frame can be iconified.
+     *     description: Determines whether this internbl frbme cbn be iconified.
      */
-    public void setIconifiable(boolean b) {
-        Boolean oldValue = iconable ? Boolean.TRUE : Boolean.FALSE;
-        Boolean newValue = b ? Boolean.TRUE : Boolean.FALSE;
-        iconable = b;
-        firePropertyChange("iconable", oldValue, newValue);
+    public void setIconifibble(boolebn b) {
+        Boolebn oldVblue = iconbble ? Boolebn.TRUE : Boolebn.FALSE;
+        Boolebn newVblue = b ? Boolebn.TRUE : Boolebn.FALSE;
+        iconbble = b;
+        firePropertyChbnge("iconbble", oldVblue, newVblue);
     }
 
     /**
-     * Gets the <code>iconable</code> property,
-     * which by default is <code>false</code>.
+     * Gets the <code>iconbble</code> property,
+     * which by defbult is <code>fblse</code>.
      *
-     * @return the value of the <code>iconable</code> property.
+     * @return the vblue of the <code>iconbble</code> property.
      *
-     * @see #setIconifiable
+     * @see #setIconifibble
      */
-    public boolean isIconifiable() {
-        return iconable;
+    public boolebn isIconifibble() {
+        return iconbble;
     }
 
     /**
-     * Returns whether the <code>JInternalFrame</code> is currently iconified.
+     * Returns whether the <code>JInternblFrbme</code> is currently iconified.
      *
-     * @return <code>true</code> if this internal frame is iconified
+     * @return <code>true</code> if this internbl frbme is iconified
      */
-    public boolean isIcon() {
+    public boolebn isIcon() {
         return isIcon;
     }
 
     /**
-     * Iconifies or de-iconifies this internal frame,
-     * if the look and feel supports iconification.
-     * If the internal frame's state changes to iconified,
-     * this method fires an <code>INTERNAL_FRAME_ICONIFIED</code> event.
-     * If the state changes to de-iconified,
-     * an <code>INTERNAL_FRAME_DEICONIFIED</code> event is fired.
+     * Iconifies or de-iconifies this internbl frbme,
+     * if the look bnd feel supports iconificbtion.
+     * If the internbl frbme's stbte chbnges to iconified,
+     * this method fires bn <code>INTERNAL_FRAME_ICONIFIED</code> event.
+     * If the stbte chbnges to de-iconified,
+     * bn <code>INTERNAL_FRAME_DEICONIFIED</code> event is fired.
      *
-     * @param b a boolean, where <code>true</code> means to iconify this internal frame and
-     *          <code>false</code> means to de-iconify it
-     * @exception PropertyVetoException when the attempt to set the
-     *            property is vetoed by the <code>JInternalFrame</code>
+     * @pbrbm b b boolebn, where <code>true</code> mebns to iconify this internbl frbme bnd
+     *          <code>fblse</code> mebns to de-iconify it
+     * @exception PropertyVetoException when the bttempt to set the
+     *            property is vetoed by the <code>JInternblFrbme</code>
      *
-     * @see InternalFrameEvent#INTERNAL_FRAME_ICONIFIED
-     * @see InternalFrameEvent#INTERNAL_FRAME_DEICONIFIED
+     * @see InternblFrbmeEvent#INTERNAL_FRAME_ICONIFIED
+     * @see InternblFrbmeEvent#INTERNAL_FRAME_DEICONIFIED
      *
-     * @beaninfo
+     * @bebninfo
      *           bound: true
-     *     constrained: true
-     *     description: The image displayed when this internal frame is minimized.
+     *     constrbined: true
+     *     description: The imbge displbyed when this internbl frbme is minimized.
      */
-    public void setIcon(boolean b) throws PropertyVetoException {
+    public void setIcon(boolebn b) throws PropertyVetoException {
         if (isIcon == b) {
             return;
         }
 
-        /* If an internal frame is being iconified before it has a
-           parent, (e.g., client wants it to start iconic), create the
-           parent if possible so that we can place the icon in its
-           proper place on the desktop. I am not sure the call to
-           validate() is necessary, since we are not going to display
-           this frame yet */
-        firePropertyChange("ancestor", null, getParent());
+        /* If bn internbl frbme is being iconified before it hbs b
+           pbrent, (e.g., client wbnts it to stbrt iconic), crebte the
+           pbrent if possible so thbt we cbn plbce the icon in its
+           proper plbce on the desktop. I bm not sure the cbll to
+           vblidbte() is necessbry, since we bre not going to displby
+           this frbme yet */
+        firePropertyChbnge("bncestor", null, getPbrent());
 
-        Boolean oldValue = isIcon ? Boolean.TRUE : Boolean.FALSE;
-        Boolean newValue = b ? Boolean.TRUE : Boolean.FALSE;
-        fireVetoableChange(IS_ICON_PROPERTY, oldValue, newValue);
+        Boolebn oldVblue = isIcon ? Boolebn.TRUE : Boolebn.FALSE;
+        Boolebn newVblue = b ? Boolebn.TRUE : Boolebn.FALSE;
+        fireVetobbleChbnge(IS_ICON_PROPERTY, oldVblue, newVblue);
         isIcon = b;
-        firePropertyChange(IS_ICON_PROPERTY, oldValue, newValue);
+        firePropertyChbnge(IS_ICON_PROPERTY, oldVblue, newVblue);
         if (b)
-          fireInternalFrameEvent(InternalFrameEvent.INTERNAL_FRAME_ICONIFIED);
+          fireInternblFrbmeEvent(InternblFrbmeEvent.INTERNAL_FRAME_ICONIFIED);
         else
-          fireInternalFrameEvent(InternalFrameEvent.INTERNAL_FRAME_DEICONIFIED);
+          fireInternblFrbmeEvent(InternblFrbmeEvent.INTERNAL_FRAME_DEICONIFIED);
     }
 
     /**
-     * Sets the <code>maximizable</code> property,
-     * which determines whether the <code>JInternalFrame</code>
-     * can be maximized by
-     * some user action.
-     * Some look and feels might not support maximizing internal frames;
+     * Sets the <code>mbximizbble</code> property,
+     * which determines whether the <code>JInternblFrbme</code>
+     * cbn be mbximized by
+     * some user bction.
+     * Some look bnd feels might not support mbximizing internbl frbmes;
      * they will ignore this property.
      *
-     * @param b <code>true</code> to specify that this internal frame should be maximizable; <code>false</code> to specify that it should not be
-     * @beaninfo
+     * @pbrbm b <code>true</code> to specify thbt this internbl frbme should be mbximizbble; <code>fblse</code> to specify thbt it should not be
+     * @bebninfo
      *         bound: true
      *     preferred: true
-     *     description: Determines whether this internal frame can be maximized.
+     *     description: Determines whether this internbl frbme cbn be mbximized.
      */
-    public void setMaximizable(boolean b) {
-        Boolean oldValue = maximizable ? Boolean.TRUE : Boolean.FALSE;
-        Boolean newValue = b ? Boolean.TRUE : Boolean.FALSE;
-        maximizable = b;
-        firePropertyChange("maximizable", oldValue, newValue);
+    public void setMbximizbble(boolebn b) {
+        Boolebn oldVblue = mbximizbble ? Boolebn.TRUE : Boolebn.FALSE;
+        Boolebn newVblue = b ? Boolebn.TRUE : Boolebn.FALSE;
+        mbximizbble = b;
+        firePropertyChbnge("mbximizbble", oldVblue, newVblue);
     }
 
     /**
-     * Gets the value of the <code>maximizable</code> property.
+     * Gets the vblue of the <code>mbximizbble</code> property.
      *
-     * @return the value of the <code>maximizable</code> property
-     * @see #setMaximizable
+     * @return the vblue of the <code>mbximizbble</code> property
+     * @see #setMbximizbble
      */
-    public boolean isMaximizable() {
-        return maximizable;
+    public boolebn isMbximizbble() {
+        return mbximizbble;
     }
 
     /**
-     * Returns whether the <code>JInternalFrame</code> is currently maximized.
+     * Returns whether the <code>JInternblFrbme</code> is currently mbximized.
      *
-     * @return <code>true</code> if this internal frame is maximized, <code>false</code> otherwise
+     * @return <code>true</code> if this internbl frbme is mbximized, <code>fblse</code> otherwise
      */
-    public boolean isMaximum() {
-        return isMaximum;
+    public boolebn isMbximum() {
+        return isMbximum;
     }
 
     /**
-     * Maximizes and restores this internal frame.  A maximized frame is resized to
-     * fully fit the <code>JDesktopPane</code> area associated with the
-     * <code>JInternalFrame</code>.
-     * A restored frame's size is set to the <code>JInternalFrame</code>'s
-     * actual size.
+     * Mbximizes bnd restores this internbl frbme.  A mbximized frbme is resized to
+     * fully fit the <code>JDesktopPbne</code> breb bssocibted with the
+     * <code>JInternblFrbme</code>.
+     * A restored frbme's size is set to the <code>JInternblFrbme</code>'s
+     * bctubl size.
      *
-     * @param b  a boolean, where <code>true</code> maximizes this internal frame and <code>false</code>
+     * @pbrbm b  b boolebn, where <code>true</code> mbximizes this internbl frbme bnd <code>fblse</code>
      *           restores it
-     * @exception PropertyVetoException when the attempt to set the
-     *            property is vetoed by the <code>JInternalFrame</code>
-     * @beaninfo
+     * @exception PropertyVetoException when the bttempt to set the
+     *            property is vetoed by the <code>JInternblFrbme</code>
+     * @bebninfo
      *     bound: true
-     *     constrained: true
-     *     description: Indicates whether this internal frame is maximized.
+     *     constrbined: true
+     *     description: Indicbtes whether this internbl frbme is mbximized.
      */
-    public void setMaximum(boolean b) throws PropertyVetoException {
-        if (isMaximum == b) {
+    public void setMbximum(boolebn b) throws PropertyVetoException {
+        if (isMbximum == b) {
             return;
         }
 
-        Boolean oldValue = isMaximum ? Boolean.TRUE : Boolean.FALSE;
-        Boolean newValue = b ? Boolean.TRUE : Boolean.FALSE;
-        fireVetoableChange(IS_MAXIMUM_PROPERTY, oldValue, newValue);
-        /* setting isMaximum above the event firing means that
-           property listeners that, for some reason, test it will
-           get it wrong... See, for example, getNormalBounds() */
-        isMaximum = b;
-        firePropertyChange(IS_MAXIMUM_PROPERTY, oldValue, newValue);
+        Boolebn oldVblue = isMbximum ? Boolebn.TRUE : Boolebn.FALSE;
+        Boolebn newVblue = b ? Boolebn.TRUE : Boolebn.FALSE;
+        fireVetobbleChbnge(IS_MAXIMUM_PROPERTY, oldVblue, newVblue);
+        /* setting isMbximum bbove the event firing mebns thbt
+           property listeners thbt, for some rebson, test it will
+           get it wrong... See, for exbmple, getNormblBounds() */
+        isMbximum = b;
+        firePropertyChbnge(IS_MAXIMUM_PROPERTY, oldVblue, newVblue);
     }
 
     /**
-     * Returns the title of the <code>JInternalFrame</code>.
+     * Returns the title of the <code>JInternblFrbme</code>.
      *
-     * @return a <code>String</code> containing this internal frame's title
+     * @return b <code>String</code> contbining this internbl frbme's title
      * @see #setTitle
      */
     public String getTitle() {
@@ -1038,184 +1038,184 @@ public class JInternalFrame extends JComponent implements
     }
 
     /**
-     * Sets the <code>JInternalFrame</code> title. <code>title</code>
-     * may have a <code>null</code> value.
+     * Sets the <code>JInternblFrbme</code> title. <code>title</code>
+     * mby hbve b <code>null</code> vblue.
      * @see #getTitle
      *
-     * @param title  the <code>String</code> to display in the title bar
-     * @beaninfo
+     * @pbrbm title  the <code>String</code> to displby in the title bbr
+     * @bebninfo
      *     preferred: true
      *     bound: true
-     *     description: The text displayed in the title bar.
+     *     description: The text displbyed in the title bbr.
      */
     public void setTitle(String title) {
-        String oldValue = this.title;
+        String oldVblue = this.title;
         this.title = title;
-        firePropertyChange(TITLE_PROPERTY, oldValue, title);
+        firePropertyChbnge(TITLE_PROPERTY, oldVblue, title);
     }
 
     /**
-     * Selects or deselects the internal frame
+     * Selects or deselects the internbl frbme
      * if it's showing.
-     * A <code>JInternalFrame</code> normally draws its title bar
+     * A <code>JInternblFrbme</code> normblly drbws its title bbr
      * differently if it is
-     * the selected frame, which indicates to the user that this
-     * internal frame has the focus.
-     * When this method changes the state of the internal frame
-     * from deselected to selected, it fires an
-     * <code>InternalFrameEvent.INTERNAL_FRAME_ACTIVATED</code> event.
-     * If the change is from selected to deselected,
-     * an <code>InternalFrameEvent.INTERNAL_FRAME_DEACTIVATED</code> event
+     * the selected frbme, which indicbtes to the user thbt this
+     * internbl frbme hbs the focus.
+     * When this method chbnges the stbte of the internbl frbme
+     * from deselected to selected, it fires bn
+     * <code>InternblFrbmeEvent.INTERNAL_FRAME_ACTIVATED</code> event.
+     * If the chbnge is from selected to deselected,
+     * bn <code>InternblFrbmeEvent.INTERNAL_FRAME_DEACTIVATED</code> event
      * is fired.
      *
-     * @param selected  a boolean, where <code>true</code> means this internal frame
-     *                  should become selected (currently active)
-     *                  and <code>false</code> means it should become deselected
-     * @exception PropertyVetoException when the attempt to set the
-     *            property is vetoed by the <code>JInternalFrame</code>
+     * @pbrbm selected  b boolebn, where <code>true</code> mebns this internbl frbme
+     *                  should become selected (currently bctive)
+     *                  bnd <code>fblse</code> mebns it should become deselected
+     * @exception PropertyVetoException when the bttempt to set the
+     *            property is vetoed by the <code>JInternblFrbme</code>
      *
      * @see #isShowing
-     * @see InternalFrameEvent#INTERNAL_FRAME_ACTIVATED
-     * @see InternalFrameEvent#INTERNAL_FRAME_DEACTIVATED
+     * @see InternblFrbmeEvent#INTERNAL_FRAME_ACTIVATED
+     * @see InternblFrbmeEvent#INTERNAL_FRAME_DEACTIVATED
      *
-     * @beaninfo
-     *     constrained: true
+     * @bebninfo
+     *     constrbined: true
      *           bound: true
-     *     description: Indicates whether this internal frame is currently
-     *                  the active frame.
+     *     description: Indicbtes whether this internbl frbme is currently
+     *                  the bctive frbme.
      */
-    public void setSelected(boolean selected) throws PropertyVetoException {
-       // The InternalFrame may already be selected, but the focus
-       // may be outside it, so restore the focus to the subcomponent
-       // which previously had it. See Bug 4302764.
+    public void setSelected(boolebn selected) throws PropertyVetoException {
+       // The InternblFrbme mby blrebdy be selected, but the focus
+       // mby be outside it, so restore the focus to the subcomponent
+       // which previously hbd it. See Bug 4302764.
         if (selected && isSelected) {
             restoreSubcomponentFocus();
             return;
         }
-        // The internal frame or the desktop icon must be showing to allow
-        // selection.  We may deselect even if neither is showing.
+        // The internbl frbme or the desktop icon must be showing to bllow
+        // selection.  We mby deselect even if neither is showing.
         if ((isSelected == selected) || (selected &&
             (isIcon ? !desktopIcon.isShowing() : !isShowing()))) {
             return;
         }
 
-        Boolean oldValue = isSelected ? Boolean.TRUE : Boolean.FALSE;
-        Boolean newValue = selected ? Boolean.TRUE : Boolean.FALSE;
-        fireVetoableChange(IS_SELECTED_PROPERTY, oldValue, newValue);
+        Boolebn oldVblue = isSelected ? Boolebn.TRUE : Boolebn.FALSE;
+        Boolebn newVblue = selected ? Boolebn.TRUE : Boolebn.FALSE;
+        fireVetobbleChbnge(IS_SELECTED_PROPERTY, oldVblue, newVblue);
 
-        /* We don't want to leave focus in the previously selected
-           frame, so we have to set it to *something* in case it
-           doesn't get set in some other way (as if a user clicked on
-           a component that doesn't request focus).  If this call is
-           happening because the user clicked on a component that will
-           want focus, then it will get transfered there later.
+        /* We don't wbnt to lebve focus in the previously selected
+           frbme, so we hbve to set it to *something* in cbse it
+           doesn't get set in some other wby (bs if b user clicked on
+           b component thbt doesn't request focus).  If this cbll is
+           hbppening becbuse the user clicked on b component thbt will
+           wbnt focus, then it will get trbnsfered there lbter.
 
-           We test for parent.isShowing() above, because AWT throws a
-           NPE if you try to request focus on a lightweight before its
-           parent has been made visible */
+           We test for pbrent.isShowing() bbove, becbuse AWT throws b
+           NPE if you try to request focus on b lightweight before its
+           pbrent hbs been mbde visible */
 
         if (selected) {
             restoreSubcomponentFocus();
         }
 
         isSelected = selected;
-        firePropertyChange(IS_SELECTED_PROPERTY, oldValue, newValue);
+        firePropertyChbnge(IS_SELECTED_PROPERTY, oldVblue, newVblue);
         if (isSelected)
-          fireInternalFrameEvent(InternalFrameEvent.INTERNAL_FRAME_ACTIVATED);
+          fireInternblFrbmeEvent(InternblFrbmeEvent.INTERNAL_FRAME_ACTIVATED);
         else
-          fireInternalFrameEvent(InternalFrameEvent.INTERNAL_FRAME_DEACTIVATED);
-        repaint();
+          fireInternblFrbmeEvent(InternblFrbmeEvent.INTERNAL_FRAME_DEACTIVATED);
+        repbint();
     }
 
     /**
-     * Returns whether the <code>JInternalFrame</code> is the
-     * currently "selected" or active frame.
+     * Returns whether the <code>JInternblFrbme</code> is the
+     * currently "selected" or bctive frbme.
      *
-     * @return <code>true</code> if this internal frame is currently selected (active)
+     * @return <code>true</code> if this internbl frbme is currently selected (bctive)
      * @see #setSelected
      */
-    public boolean isSelected() {
+    public boolebn isSelected() {
         return isSelected;
     }
 
     /**
-     * Sets an image to be displayed in the titlebar of this internal frame (usually
+     * Sets bn imbge to be displbyed in the titlebbr of this internbl frbme (usublly
      * in the top-left corner).
-     * This image is not the <code>desktopIcon</code> object, which
-     * is the image displayed in the <code>JDesktop</code> when
-     * this internal frame is iconified.
+     * This imbge is not the <code>desktopIcon</code> object, which
+     * is the imbge displbyed in the <code>JDesktop</code> when
+     * this internbl frbme is iconified.
      *
-     * Passing <code>null</code> to this function is valid,
-     * but the look and feel
-     * can choose the
-     * appropriate behavior for that situation, such as displaying no icon
-     * or a default icon for the look and feel.
+     * Pbssing <code>null</code> to this function is vblid,
+     * but the look bnd feel
+     * cbn choose the
+     * bppropribte behbvior for thbt situbtion, such bs displbying no icon
+     * or b defbult icon for the look bnd feel.
      *
-     * @param icon the <code>Icon</code> to display in the title bar
-     * @see #getFrameIcon
-     * @beaninfo
+     * @pbrbm icon the <code>Icon</code> to displby in the title bbr
+     * @see #getFrbmeIcon
+     * @bebninfo
      *           bound: true
-     *     description: The icon shown in the top-left corner of this internal frame.
+     *     description: The icon shown in the top-left corner of this internbl frbme.
      */
-  public void setFrameIcon(Icon icon) {
-        Icon oldIcon = frameIcon;
-        frameIcon = icon;
-        firePropertyChange(FRAME_ICON_PROPERTY, oldIcon, icon);
+  public void setFrbmeIcon(Icon icon) {
+        Icon oldIcon = frbmeIcon;
+        frbmeIcon = icon;
+        firePropertyChbnge(FRAME_ICON_PROPERTY, oldIcon, icon);
     }
 
     /**
-     * Returns the image displayed in the title bar of this internal frame (usually
+     * Returns the imbge displbyed in the title bbr of this internbl frbme (usublly
      * in the top-left corner).
      *
-     * @return the <code>Icon</code> displayed in the title bar
-     * @see #setFrameIcon
+     * @return the <code>Icon</code> displbyed in the title bbr
+     * @see #setFrbmeIcon
      */
-    public Icon getFrameIcon()  {
-        return frameIcon;
+    public Icon getFrbmeIcon()  {
+        return frbmeIcon;
     }
 
     /**
-      * Convenience method that moves this component to position 0 if its
-      * parent is a <code>JLayeredPane</code>.
+      * Convenience method thbt moves this component to position 0 if its
+      * pbrent is b <code>JLbyeredPbne</code>.
       */
     public void moveToFront() {
         if (isIcon()) {
-            if (getDesktopIcon().getParent() instanceof JLayeredPane) {
-                ((JLayeredPane)getDesktopIcon().getParent()).
+            if (getDesktopIcon().getPbrent() instbnceof JLbyeredPbne) {
+                ((JLbyeredPbne)getDesktopIcon().getPbrent()).
                     moveToFront(getDesktopIcon());
             }
         }
-        else if (getParent() instanceof JLayeredPane) {
-            ((JLayeredPane)getParent()).moveToFront(this);
+        else if (getPbrent() instbnceof JLbyeredPbne) {
+            ((JLbyeredPbne)getPbrent()).moveToFront(this);
         }
     }
 
     /**
-      * Convenience method that moves this component to position -1 if its
-      * parent is a <code>JLayeredPane</code>.
+      * Convenience method thbt moves this component to position -1 if its
+      * pbrent is b <code>JLbyeredPbne</code>.
       */
-    public void moveToBack() {
+    public void moveToBbck() {
         if (isIcon()) {
-            if (getDesktopIcon().getParent() instanceof JLayeredPane) {
-                ((JLayeredPane)getDesktopIcon().getParent()).
-                    moveToBack(getDesktopIcon());
+            if (getDesktopIcon().getPbrent() instbnceof JLbyeredPbne) {
+                ((JLbyeredPbne)getDesktopIcon().getPbrent()).
+                    moveToBbck(getDesktopIcon());
             }
         }
-        else if (getParent() instanceof JLayeredPane) {
-            ((JLayeredPane)getParent()).moveToBack(this);
+        else if (getPbrent() instbnceof JLbyeredPbne) {
+            ((JLbyeredPbne)getPbrent()).moveToBbck(this);
         }
     }
 
     /**
-     * Returns the last <code>Cursor</code> that was set by the
-     * <code>setCursor</code> method that is not a resizable
+     * Returns the lbst <code>Cursor</code> thbt wbs set by the
+     * <code>setCursor</code> method thbt is not b resizbble
      * <code>Cursor</code>.
      *
-     * @return the last non-resizable <code>Cursor</code>
+     * @return the lbst non-resizbble <code>Cursor</code>
      * @since 1.6
      */
-    public Cursor getLastCursor() {
-        return lastCursor;
+    public Cursor getLbstCursor() {
+        return lbstCursor;
     }
 
     /**
@@ -1224,7 +1224,7 @@ public class JInternalFrame extends JComponent implements
      */
     public void setCursor(Cursor cursor) {
         if (cursor == null) {
-            lastCursor = null;
+            lbstCursor = null;
             super.setCursor(cursor);
             return;
         }
@@ -1237,114 +1237,114 @@ public class JInternalFrame extends JComponent implements
               type == Cursor.S_RESIZE_CURSOR   ||
               type == Cursor.W_RESIZE_CURSOR   ||
               type == Cursor.E_RESIZE_CURSOR)) {
-            lastCursor = cursor;
+            lbstCursor = cursor;
         }
         super.setCursor(cursor);
     }
 
     /**
-     * Convenience method for setting the layer attribute of this component.
+     * Convenience method for setting the lbyer bttribute of this component.
      *
-     * @param layer  an <code>Integer</code> object specifying this
-     *          frame's desktop layer
-     * @see JLayeredPane
-     * @beaninfo
+     * @pbrbm lbyer  bn <code>Integer</code> object specifying this
+     *          frbme's desktop lbyer
+     * @see JLbyeredPbne
+     * @bebninfo
      *     expert: true
-     *     description: Specifies what desktop layer is used.
+     *     description: Specifies whbt desktop lbyer is used.
      */
-    public void setLayer(Integer layer) {
-        if(getParent() != null && getParent() instanceof JLayeredPane) {
-            // Normally we want to do this, as it causes the LayeredPane
-            // to draw properly.
-            JLayeredPane p = (JLayeredPane)getParent();
-            p.setLayer(this, layer.intValue(), p.getPosition(this));
+    public void setLbyer(Integer lbyer) {
+        if(getPbrent() != null && getPbrent() instbnceof JLbyeredPbne) {
+            // Normblly we wbnt to do this, bs it cbuses the LbyeredPbne
+            // to drbw properly.
+            JLbyeredPbne p = (JLbyeredPbne)getPbrent();
+            p.setLbyer(this, lbyer.intVblue(), p.getPosition(this));
         } else {
              // Try to do the right thing
-             JLayeredPane.putLayer(this, layer.intValue());
-             if(getParent() != null)
-                 getParent().repaint(getX(), getY(), getWidth(), getHeight());
+             JLbyeredPbne.putLbyer(this, lbyer.intVblue());
+             if(getPbrent() != null)
+                 getPbrent().repbint(getX(), getY(), getWidth(), getHeight());
         }
     }
 
     /**
-     * Convenience method for setting the layer attribute of this component.
-     * The method <code>setLayer(Integer)</code> should be used for
-     * layer values predefined in <code>JLayeredPane</code>.
-     * When using <code>setLayer(int)</code>, care must be taken not to
-     * accidentally clash with those values.
+     * Convenience method for setting the lbyer bttribute of this component.
+     * The method <code>setLbyer(Integer)</code> should be used for
+     * lbyer vblues predefined in <code>JLbyeredPbne</code>.
+     * When using <code>setLbyer(int)</code>, cbre must be tbken not to
+     * bccidentblly clbsh with those vblues.
      *
-     * @param layer  an integer specifying this internal frame's desktop layer
+     * @pbrbm lbyer  bn integer specifying this internbl frbme's desktop lbyer
      *
      * @since 1.3
      *
-     * @see #setLayer(Integer)
-     * @see JLayeredPane
-     * @beaninfo
+     * @see #setLbyer(Integer)
+     * @see JLbyeredPbne
+     * @bebninfo
      *     expert: true
-     *     description: Specifies what desktop layer is used.
+     *     description: Specifies whbt desktop lbyer is used.
      */
-    public void setLayer(int layer) {
-      this.setLayer(Integer.valueOf(layer));
+    public void setLbyer(int lbyer) {
+      this.setLbyer(Integer.vblueOf(lbyer));
     }
 
     /**
-     * Convenience method for getting the layer attribute of this component.
+     * Convenience method for getting the lbyer bttribute of this component.
      *
-     * @return  an <code>Integer</code> object specifying this
-     *          frame's desktop layer
-     * @see JLayeredPane
+     * @return  bn <code>Integer</code> object specifying this
+     *          frbme's desktop lbyer
+     * @see JLbyeredPbne
       */
-    public int getLayer() {
-        return JLayeredPane.getLayer(this);
+    public int getLbyer() {
+        return JLbyeredPbne.getLbyer(this);
     }
 
     /**
-      * Convenience method that searches the ancestor hierarchy for a
-      * <code>JDesktop</code> instance. If <code>JInternalFrame</code>
-      * finds none, the <code>desktopIcon</code> tree is searched.
+      * Convenience method thbt sebrches the bncestor hierbrchy for b
+      * <code>JDesktop</code> instbnce. If <code>JInternblFrbme</code>
+      * finds none, the <code>desktopIcon</code> tree is sebrched.
       *
-      * @return the <code>JDesktopPane</code> this internal frame belongs to,
+      * @return the <code>JDesktopPbne</code> this internbl frbme belongs to,
       *         or <code>null</code> if none is found
       */
-    public JDesktopPane getDesktopPane() {
-        Container p;
+    public JDesktopPbne getDesktopPbne() {
+        Contbiner p;
 
-        // Search upward for desktop
-        p = getParent();
-        while(p != null && !(p instanceof JDesktopPane))
-            p = p.getParent();
+        // Sebrch upwbrd for desktop
+        p = getPbrent();
+        while(p != null && !(p instbnceof JDesktopPbne))
+            p = p.getPbrent();
 
         if(p == null) {
-           // search its icon parent for desktop
-           p = getDesktopIcon().getParent();
-           while(p != null && !(p instanceof JDesktopPane))
-                p = p.getParent();
+           // sebrch its icon pbrent for desktop
+           p = getDesktopIcon().getPbrent();
+           while(p != null && !(p instbnceof JDesktopPbne))
+                p = p.getPbrent();
         }
 
-        return (JDesktopPane)p;
+        return (JDesktopPbne)p;
     }
 
     /**
-     * Sets the <code>JDesktopIcon</code> associated with this
-     * <code>JInternalFrame</code>.
+     * Sets the <code>JDesktopIcon</code> bssocibted with this
+     * <code>JInternblFrbme</code>.
      *
-     * @param d the <code>JDesktopIcon</code> to display on the desktop
+     * @pbrbm d the <code>JDesktopIcon</code> to displby on the desktop
      * @see #getDesktopIcon
-     * @beaninfo
+     * @bebninfo
      *           bound: true
-     *     description: The icon shown when this internal frame is minimized.
+     *     description: The icon shown when this internbl frbme is minimized.
      */
     public void setDesktopIcon(JDesktopIcon d) {
-        JDesktopIcon oldValue = getDesktopIcon();
+        JDesktopIcon oldVblue = getDesktopIcon();
         desktopIcon = d;
-        firePropertyChange("desktopIcon", oldValue, d);
+        firePropertyChbnge("desktopIcon", oldVblue, d);
     }
 
     /**
      * Returns the <code>JDesktopIcon</code> used when this
-     * <code>JInternalFrame</code> is iconified.
+     * <code>JInternblFrbme</code> is iconified.
      *
-     * @return the <code>JDesktopIcon</code> displayed on the desktop
+     * @return the <code>JDesktopIcon</code> displbyed on the desktop
      * @see #setDesktopIcon
      */
     public JDesktopIcon getDesktopIcon() {
@@ -1352,73 +1352,73 @@ public class JInternalFrame extends JComponent implements
     }
 
     /**
-     * If the <code>JInternalFrame</code> is not in maximized state, returns
-     * <code>getBounds()</code>; otherwise, returns the bounds that the
-     * <code>JInternalFrame</code> would be restored to.
+     * If the <code>JInternblFrbme</code> is not in mbximized stbte, returns
+     * <code>getBounds()</code>; otherwise, returns the bounds thbt the
+     * <code>JInternblFrbme</code> would be restored to.
      *
-     * @return a <code>Rectangle</code> containing the bounds of this
-     *          frame when in the normal state
+     * @return b <code>Rectbngle</code> contbining the bounds of this
+     *          frbme when in the normbl stbte
      * @since 1.3
      */
-    public Rectangle getNormalBounds() {
+    public Rectbngle getNormblBounds() {
 
-      /* we used to test (!isMaximum) here, but since this
+      /* we used to test (!isMbximum) here, but since this
          method is used by the property listener for the
          IS_MAXIMUM_PROPERTY, it ended up getting the wrong
-         answer... Since normalBounds get set to null when the
-         frame is restored, this should work better */
+         bnswer... Since normblBounds get set to null when the
+         frbme is restored, this should work better */
 
-      if (normalBounds != null) {
-        return normalBounds;
+      if (normblBounds != null) {
+        return normblBounds;
       } else {
         return getBounds();
       }
     }
 
     /**
-     * Sets the normal bounds for this internal frame, the bounds that
-     * this internal frame would be restored to from its maximized state.
-     * This method is intended for use only by desktop managers.
+     * Sets the normbl bounds for this internbl frbme, the bounds thbt
+     * this internbl frbme would be restored to from its mbximized stbte.
+     * This method is intended for use only by desktop mbnbgers.
      *
-     * @param r the bounds that this internal frame should be restored to
+     * @pbrbm r the bounds thbt this internbl frbme should be restored to
      * @since 1.3
      */
-    public void setNormalBounds(Rectangle r) {
-        normalBounds = r;
+    public void setNormblBounds(Rectbngle r) {
+        normblBounds = r;
     }
 
     /**
-     * If this <code>JInternalFrame</code> is active,
-     * returns the child that has focus.
+     * If this <code>JInternblFrbme</code> is bctive,
+     * returns the child thbt hbs focus.
      * Otherwise, returns <code>null</code>.
      *
-     * @return the component with focus, or <code>null</code> if no children have focus
+     * @return the component with focus, or <code>null</code> if no children hbve focus
      * @since 1.3
      */
     public Component getFocusOwner() {
         if (isSelected()) {
-            return lastFocusOwner;
+            return lbstFocusOwner;
         }
         return null;
     }
 
     /**
-     * Returns the child component of this <code>JInternalFrame</code>
-     * that will receive the
-     * focus when this <code>JInternalFrame</code> is selected.
-     * If this <code>JInternalFrame</code> is
-     * currently selected, this method returns the same component as
+     * Returns the child component of this <code>JInternblFrbme</code>
+     * thbt will receive the
+     * focus when this <code>JInternblFrbme</code> is selected.
+     * If this <code>JInternblFrbme</code> is
+     * currently selected, this method returns the sbme component bs
      * the <code>getFocusOwner</code> method.
-     * If this <code>JInternalFrame</code> is not selected,
-     * then the child component that most recently requested focus will be
-     * returned. If no child component has ever requested focus, then this
-     * <code>JInternalFrame</code>'s initial focusable component is returned.
+     * If this <code>JInternblFrbme</code> is not selected,
+     * then the child component thbt most recently requested focus will be
+     * returned. If no child component hbs ever requested focus, then this
+     * <code>JInternblFrbme</code>'s initibl focusbble component is returned.
      * If no such
-     * child exists, then this <code>JInternalFrame</code>'s default component
+     * child exists, then this <code>JInternblFrbme</code>'s defbult component
      * to focus is returned.
      *
-     * @return the child component that will receive focus when this
-     *         <code>JInternalFrame</code> is selected
+     * @return the child component thbt will receive focus when this
+     *         <code>JInternblFrbme</code> is selected
      * @see #getFocusOwner
      * @see #isSelected
      * @since 1.4
@@ -1428,28 +1428,28 @@ public class JInternalFrame extends JComponent implements
             return getFocusOwner();
         }
 
-        if (lastFocusOwner != null) {
-            return lastFocusOwner;
+        if (lbstFocusOwner != null) {
+            return lbstFocusOwner;
         }
 
-        FocusTraversalPolicy policy = getFocusTraversalPolicy();
-        if (policy instanceof InternalFrameFocusTraversalPolicy) {
-            return ((InternalFrameFocusTraversalPolicy)policy).
-                getInitialComponent(this);
+        FocusTrbversblPolicy policy = getFocusTrbversblPolicy();
+        if (policy instbnceof InternblFrbmeFocusTrbversblPolicy) {
+            return ((InternblFrbmeFocusTrbversblPolicy)policy).
+                getInitiblComponent(this);
         }
 
-        Component toFocus = policy.getDefaultComponent(this);
+        Component toFocus = policy.getDefbultComponent(this);
         if (toFocus != null) {
             return toFocus;
         }
-        return getContentPane();
+        return getContentPbne();
     }
 
     /**
-     * Requests the internal frame to restore focus to the
-     * last subcomponent that had focus. This is used by the UI when
-     * the user selected this internal frame --
-     * for example, by clicking on the title bar.
+     * Requests the internbl frbme to restore focus to the
+     * lbst subcomponent thbt hbd focus. This is used by the UI when
+     * the user selected this internbl frbme --
+     * for exbmple, by clicking on the title bbr.
      *
      * @since 1.3
      */
@@ -1458,297 +1458,297 @@ public class JInternalFrame extends JComponent implements
             SwingUtilities2.compositeRequestFocus(getDesktopIcon());
         }
         else {
-            Component component = KeyboardFocusManager.getCurrentKeyboardFocusManager().getPermanentFocusOwner();
+            Component component = KeybobrdFocusMbnbger.getCurrentKeybobrdFocusMbnbger().getPermbnentFocusOwner();
             if ((component == null) || !SwingUtilities.isDescendingFrom(component, this)) {
-                // FocusPropertyChangeListener will eventually update
-                // lastFocusOwner. As focus requests are asynchronous
-                // lastFocusOwner may be accessed before it has been correctly
-                // updated. To avoid any problems, lastFocusOwner is immediately
-                // set, assuming the request will succeed.
-                setLastFocusOwner(getMostRecentFocusOwner());
-                if (lastFocusOwner == null) {
-                    // Make sure focus is restored somewhere, so that
-                    // we don't leave a focused component in another frame while
-                    // this frame is selected.
-                    setLastFocusOwner(getContentPane());
+                // FocusPropertyChbngeListener will eventublly updbte
+                // lbstFocusOwner. As focus requests bre bsynchronous
+                // lbstFocusOwner mby be bccessed before it hbs been correctly
+                // updbted. To bvoid bny problems, lbstFocusOwner is immedibtely
+                // set, bssuming the request will succeed.
+                setLbstFocusOwner(getMostRecentFocusOwner());
+                if (lbstFocusOwner == null) {
+                    // Mbke sure focus is restored somewhere, so thbt
+                    // we don't lebve b focused component in bnother frbme while
+                    // this frbme is selected.
+                    setLbstFocusOwner(getContentPbne());
                 }
-                lastFocusOwner.requestFocus();
+                lbstFocusOwner.requestFocus();
             }
         }
     }
 
-    private void setLastFocusOwner(Component component) {
-        lastFocusOwner = component;
+    privbte void setLbstFocusOwner(Component component) {
+        lbstFocusOwner = component;
     }
 
     /**
-     * Moves and resizes this component.  Unlike other components,
-     * this implementation also forces re-layout, so that frame
-     * decorations such as the title bar are always redisplayed.
+     * Moves bnd resizes this component.  Unlike other components,
+     * this implementbtion blso forces re-lbyout, so thbt frbme
+     * decorbtions such bs the title bbr bre blwbys redisplbyed.
      *
-     * @param x  an integer giving the component's new horizontal position
-     *           measured in pixels from the left of its container
-     * @param y  an integer giving the component's new vertical position,
-     *           measured in pixels from the bottom of its container
-     * @param width  an integer giving the component's new width in pixels
-     * @param height an integer giving the component's new height in pixels
+     * @pbrbm x  bn integer giving the component's new horizontbl position
+     *           mebsured in pixels from the left of its contbiner
+     * @pbrbm y  bn integer giving the component's new verticbl position,
+     *           mebsured in pixels from the bottom of its contbiner
+     * @pbrbm width  bn integer giving the component's new width in pixels
+     * @pbrbm height bn integer giving the component's new height in pixels
      */
-    public void reshape(int x, int y, int width, int height) {
-        super.reshape(x, y, width, height);
-        validate();
-        repaint();
+    public void reshbpe(int x, int y, int width, int height) {
+        super.reshbpe(x, y, width, height);
+        vblidbte();
+        repbint();
     }
 
 ///////////////////////////
-// Frame/Window equivalents
+// Frbme/Window equivblents
 ///////////////////////////
 
     /**
-     * Adds the specified listener to receive internal
-     * frame events from this internal frame.
+     * Adds the specified listener to receive internbl
+     * frbme events from this internbl frbme.
      *
-     * @param l the internal frame listener
+     * @pbrbm l the internbl frbme listener
      */
-    public void addInternalFrameListener(InternalFrameListener l) {  // remind: sync ??
-      listenerList.add(InternalFrameListener.class, l);
+    public void bddInternblFrbmeListener(InternblFrbmeListener l) {  // remind: sync ??
+      listenerList.bdd(InternblFrbmeListener.clbss, l);
       // remind: needed?
-      enableEvents(0);   // turn on the newEventsOnly flag in Component.
+      enbbleEvents(0);   // turn on the newEventsOnly flbg in Component.
     }
 
     /**
-     * Removes the specified internal frame listener so that it no longer
-     * receives internal frame events from this internal frame.
+     * Removes the specified internbl frbme listener so thbt it no longer
+     * receives internbl frbme events from this internbl frbme.
      *
-     * @param l the internal frame listener
+     * @pbrbm l the internbl frbme listener
      */
-    public void removeInternalFrameListener(InternalFrameListener l) {  // remind: sync??
-      listenerList.remove(InternalFrameListener.class, l);
+    public void removeInternblFrbmeListener(InternblFrbmeListener l) {  // remind: sync??
+      listenerList.remove(InternblFrbmeListener.clbss, l);
     }
 
     /**
-     * Returns an array of all the <code>InternalFrameListener</code>s added
-     * to this <code>JInternalFrame</code> with
-     * <code>addInternalFrameListener</code>.
+     * Returns bn brrby of bll the <code>InternblFrbmeListener</code>s bdded
+     * to this <code>JInternblFrbme</code> with
+     * <code>bddInternblFrbmeListener</code>.
      *
-     * @return all of the <code>InternalFrameListener</code>s added or an empty
-     *         array if no listeners have been added
+     * @return bll of the <code>InternblFrbmeListener</code>s bdded or bn empty
+     *         brrby if no listeners hbve been bdded
      * @since 1.4
      *
-     * @see #addInternalFrameListener
+     * @see #bddInternblFrbmeListener
      */
-    public InternalFrameListener[] getInternalFrameListeners() {
-        return listenerList.getListeners(InternalFrameListener.class);
+    public InternblFrbmeListener[] getInternblFrbmeListeners() {
+        return listenerList.getListeners(InternblFrbmeListener.clbss);
     }
 
-    // remind: name ok? all one method ok? need to be synchronized?
+    // remind: nbme ok? bll one method ok? need to be synchronized?
     /**
-     * Fires an internal frame event.
+     * Fires bn internbl frbme event.
      *
-     * @param id  the type of the event being fired; one of the following:
+     * @pbrbm id  the type of the event being fired; one of the following:
      * <ul>
-     * <li><code>InternalFrameEvent.INTERNAL_FRAME_OPENED</code>
-     * <li><code>InternalFrameEvent.INTERNAL_FRAME_CLOSING</code>
-     * <li><code>InternalFrameEvent.INTERNAL_FRAME_CLOSED</code>
-     * <li><code>InternalFrameEvent.INTERNAL_FRAME_ICONIFIED</code>
-     * <li><code>InternalFrameEvent.INTERNAL_FRAME_DEICONIFIED</code>
-     * <li><code>InternalFrameEvent.INTERNAL_FRAME_ACTIVATED</code>
-     * <li><code>InternalFrameEvent.INTERNAL_FRAME_DEACTIVATED</code>
+     * <li><code>InternblFrbmeEvent.INTERNAL_FRAME_OPENED</code>
+     * <li><code>InternblFrbmeEvent.INTERNAL_FRAME_CLOSING</code>
+     * <li><code>InternblFrbmeEvent.INTERNAL_FRAME_CLOSED</code>
+     * <li><code>InternblFrbmeEvent.INTERNAL_FRAME_ICONIFIED</code>
+     * <li><code>InternblFrbmeEvent.INTERNAL_FRAME_DEICONIFIED</code>
+     * <li><code>InternblFrbmeEvent.INTERNAL_FRAME_ACTIVATED</code>
+     * <li><code>InternblFrbmeEvent.INTERNAL_FRAME_DEACTIVATED</code>
      * </ul>
-     * If the event type is not one of the above, nothing happens.
+     * If the event type is not one of the bbove, nothing hbppens.
      */
-    protected void fireInternalFrameEvent(int id){
+    protected void fireInternblFrbmeEvent(int id){
       Object[] listeners = listenerList.getListenerList();
-      InternalFrameEvent e = null;
+      InternblFrbmeEvent e = null;
       for (int i = listeners.length -2; i >=0; i -= 2){
-        if (listeners[i] == InternalFrameListener.class){
+        if (listeners[i] == InternblFrbmeListener.clbss){
           if (e == null){
-            e = new InternalFrameEvent(this, id);
-            //      System.out.println("InternalFrameEvent: " + e.paramString());
+            e = new InternblFrbmeEvent(this, id);
+            //      System.out.println("InternblFrbmeEvent: " + e.pbrbmString());
           }
           switch(e.getID()) {
-          case InternalFrameEvent.INTERNAL_FRAME_OPENED:
-            ((InternalFrameListener)listeners[i+1]).internalFrameOpened(e);
-            break;
-          case InternalFrameEvent.INTERNAL_FRAME_CLOSING:
-            ((InternalFrameListener)listeners[i+1]).internalFrameClosing(e);
-            break;
-          case InternalFrameEvent.INTERNAL_FRAME_CLOSED:
-            ((InternalFrameListener)listeners[i+1]).internalFrameClosed(e);
-            break;
-          case InternalFrameEvent.INTERNAL_FRAME_ICONIFIED:
-            ((InternalFrameListener)listeners[i+1]).internalFrameIconified(e);
-            break;
-          case InternalFrameEvent.INTERNAL_FRAME_DEICONIFIED:
-            ((InternalFrameListener)listeners[i+1]).internalFrameDeiconified(e);
-            break;
-          case InternalFrameEvent.INTERNAL_FRAME_ACTIVATED:
-            ((InternalFrameListener)listeners[i+1]).internalFrameActivated(e);
-            break;
-          case InternalFrameEvent.INTERNAL_FRAME_DEACTIVATED:
-            ((InternalFrameListener)listeners[i+1]).internalFrameDeactivated(e);
-            break;
-          default:
-            break;
+          cbse InternblFrbmeEvent.INTERNAL_FRAME_OPENED:
+            ((InternblFrbmeListener)listeners[i+1]).internblFrbmeOpened(e);
+            brebk;
+          cbse InternblFrbmeEvent.INTERNAL_FRAME_CLOSING:
+            ((InternblFrbmeListener)listeners[i+1]).internblFrbmeClosing(e);
+            brebk;
+          cbse InternblFrbmeEvent.INTERNAL_FRAME_CLOSED:
+            ((InternblFrbmeListener)listeners[i+1]).internblFrbmeClosed(e);
+            brebk;
+          cbse InternblFrbmeEvent.INTERNAL_FRAME_ICONIFIED:
+            ((InternblFrbmeListener)listeners[i+1]).internblFrbmeIconified(e);
+            brebk;
+          cbse InternblFrbmeEvent.INTERNAL_FRAME_DEICONIFIED:
+            ((InternblFrbmeListener)listeners[i+1]).internblFrbmeDeiconified(e);
+            brebk;
+          cbse InternblFrbmeEvent.INTERNAL_FRAME_ACTIVATED:
+            ((InternblFrbmeListener)listeners[i+1]).internblFrbmeActivbted(e);
+            brebk;
+          cbse InternblFrbmeEvent.INTERNAL_FRAME_DEACTIVATED:
+            ((InternblFrbmeListener)listeners[i+1]).internblFrbmeDebctivbted(e);
+            brebk;
+          defbult:
+            brebk;
           }
         }
       }
-      /* we could do it off the event, but at the moment, that's not how
+      /* we could do it off the event, but bt the moment, thbt's not how
          I'm implementing it */
-      //      if (id == InternalFrameEvent.INTERNAL_FRAME_CLOSING) {
-      //          doDefaultCloseAction();
+      //      if (id == InternblFrbmeEvent.INTERNAL_FRAME_CLOSING) {
+      //          doDefbultCloseAction();
       //      }
     }
 
     /**
-     * Fires an
+     * Fires bn
      * <code>INTERNAL_FRAME_CLOSING</code> event
-     * and then performs the action specified by
-     * the internal frame's default close operation.
-     * This method is typically invoked by the
-     * look-and-feel-implemented action handler
-     * for the internal frame's close button.
+     * bnd then performs the bction specified by
+     * the internbl frbme's defbult close operbtion.
+     * This method is typicblly invoked by the
+     * look-bnd-feel-implemented bction hbndler
+     * for the internbl frbme's close button.
      *
      * @since 1.3
-     * @see #setDefaultCloseOperation
-     * @see javax.swing.event.InternalFrameEvent#INTERNAL_FRAME_CLOSING
+     * @see #setDefbultCloseOperbtion
+     * @see jbvbx.swing.event.InternblFrbmeEvent#INTERNAL_FRAME_CLOSING
      */
-    public void doDefaultCloseAction() {
-        fireInternalFrameEvent(InternalFrameEvent.INTERNAL_FRAME_CLOSING);
-        switch(defaultCloseOperation) {
-          case DO_NOTHING_ON_CLOSE:
-            break;
-          case HIDE_ON_CLOSE:
-            setVisible(false);
+    public void doDefbultCloseAction() {
+        fireInternblFrbmeEvent(InternblFrbmeEvent.INTERNAL_FRAME_CLOSING);
+        switch(defbultCloseOperbtion) {
+          cbse DO_NOTHING_ON_CLOSE:
+            brebk;
+          cbse HIDE_ON_CLOSE:
+            setVisible(fblse);
             if (isSelected())
                 try {
-                    setSelected(false);
-                } catch (PropertyVetoException pve) {}
+                    setSelected(fblse);
+                } cbtch (PropertyVetoException pve) {}
 
-            /* should this activate the next frame? that's really
-               desktopmanager's policy... */
-            break;
-          case DISPOSE_ON_CLOSE:
+            /* should this bctivbte the next frbme? thbt's reblly
+               desktopmbnbger's policy... */
+            brebk;
+          cbse DISPOSE_ON_CLOSE:
               try {
-                fireVetoableChange(IS_CLOSED_PROPERTY, Boolean.FALSE,
-                                   Boolean.TRUE);
+                fireVetobbleChbnge(IS_CLOSED_PROPERTY, Boolebn.FALSE,
+                                   Boolebn.TRUE);
                 isClosed = true;
-                setVisible(false);
-                firePropertyChange(IS_CLOSED_PROPERTY, Boolean.FALSE,
-                                   Boolean.TRUE);
+                setVisible(fblse);
+                firePropertyChbnge(IS_CLOSED_PROPERTY, Boolebn.FALSE,
+                                   Boolebn.TRUE);
                 dispose();
-              } catch (PropertyVetoException pve) {}
-              break;
-          default:
-              break;
+              } cbtch (PropertyVetoException pve) {}
+              brebk;
+          defbult:
+              brebk;
         }
     }
 
     /**
-     * Sets the operation that will happen by default when
-     * the user initiates a "close" on this internal frame.
-     * The possible choices are:
+     * Sets the operbtion thbt will hbppen by defbult when
+     * the user initibtes b "close" on this internbl frbme.
+     * The possible choices bre:
      * <br><br>
      * <dl>
      * <dt><code>DO_NOTHING_ON_CLOSE</code>
      * <dd> Do nothing.
-     *      This requires the program to handle the operation
+     *      This requires the progrbm to hbndle the operbtion
      *      in the <code>windowClosing</code> method
-     *      of a registered <code>InternalFrameListener</code> object.
+     *      of b registered <code>InternblFrbmeListener</code> object.
      * <dt><code>HIDE_ON_CLOSE</code>
-     * <dd> Automatically make the internal frame invisible.
+     * <dd> Autombticblly mbke the internbl frbme invisible.
      * <dt><code>DISPOSE_ON_CLOSE</code>
-     * <dd> Automatically dispose of the internal frame.
+     * <dd> Autombticblly dispose of the internbl frbme.
      * </dl>
      * <p>
-     * The default value is <code>DISPOSE_ON_CLOSE</code>.
-     * Before performing the specified close operation,
-     * the internal frame fires
-     * an <code>INTERNAL_FRAME_CLOSING</code> event.
+     * The defbult vblue is <code>DISPOSE_ON_CLOSE</code>.
+     * Before performing the specified close operbtion,
+     * the internbl frbme fires
+     * bn <code>INTERNAL_FRAME_CLOSING</code> event.
      *
-     * @param operation one of the following constants defined in
-     *                  <code>javax.swing.WindowConstants</code>
-     *                  (an interface implemented by
-     *                  <code>JInternalFrame</code>):
+     * @pbrbm operbtion one of the following constbnts defined in
+     *                  <code>jbvbx.swing.WindowConstbnts</code>
+     *                  (bn interfbce implemented by
+     *                  <code>JInternblFrbme</code>):
      *                  <code>DO_NOTHING_ON_CLOSE</code>,
      *                  <code>HIDE_ON_CLOSE</code>, or
      *                  <code>DISPOSE_ON_CLOSE</code>
      *
-     * @see #addInternalFrameListener
-     * @see #getDefaultCloseOperation
+     * @see #bddInternblFrbmeListener
+     * @see #getDefbultCloseOperbtion
      * @see #setVisible
      * @see #dispose
-     * @see InternalFrameEvent#INTERNAL_FRAME_CLOSING
+     * @see InternblFrbmeEvent#INTERNAL_FRAME_CLOSING
      */
-    public void setDefaultCloseOperation(int operation) {
-        this.defaultCloseOperation = operation;
+    public void setDefbultCloseOperbtion(int operbtion) {
+        this.defbultCloseOperbtion = operbtion;
     }
 
    /**
-    * Returns the default operation that occurs when the user
-    * initiates a "close" on this internal frame.
-    * @return the operation that will occur when the user closes the internal
-    *         frame
-    * @see #setDefaultCloseOperation
+    * Returns the defbult operbtion thbt occurs when the user
+    * initibtes b "close" on this internbl frbme.
+    * @return the operbtion thbt will occur when the user closes the internbl
+    *         frbme
+    * @see #setDefbultCloseOperbtion
     */
-    public int getDefaultCloseOperation() {
-        return defaultCloseOperation;
+    public int getDefbultCloseOperbtion() {
+        return defbultCloseOperbtion;
     }
 
     /**
-     * Causes subcomponents of this <code>JInternalFrame</code>
-     * to be laid out at their preferred size.  Internal frames that are
-     * iconized or maximized are first restored and then packed.  If the
-     * internal frame is unable to be restored its state is not changed
-     * and will not be packed.
+     * Cbuses subcomponents of this <code>JInternblFrbme</code>
+     * to be lbid out bt their preferred size.  Internbl frbmes thbt bre
+     * iconized or mbximized bre first restored bnd then pbcked.  If the
+     * internbl frbme is unbble to be restored its stbte is not chbnged
+     * bnd will not be pbcked.
      *
-     * @see       java.awt.Window#pack
+     * @see       jbvb.bwt.Window#pbck
      */
-    public void pack() {
+    public void pbck() {
         try {
             if (isIcon()) {
-                setIcon(false);
-            } else if (isMaximum()) {
-                setMaximum(false);
+                setIcon(fblse);
+            } else if (isMbximum()) {
+                setMbximum(fblse);
             }
-        } catch(PropertyVetoException e) {
+        } cbtch(PropertyVetoException e) {
             return;
         }
         setSize(getPreferredSize());
-        validate();
+        vblidbte();
     }
 
     /**
-     * If the internal frame is not visible,
-     * brings the internal frame to the front,
-     * makes it visible,
-     * and attempts to select it.
-     * The first time the internal frame is made visible,
-     * this method also fires an <code>INTERNAL_FRAME_OPENED</code> event.
-     * This method does nothing if the internal frame is already visible.
+     * If the internbl frbme is not visible,
+     * brings the internbl frbme to the front,
+     * mbkes it visible,
+     * bnd bttempts to select it.
+     * The first time the internbl frbme is mbde visible,
+     * this method blso fires bn <code>INTERNAL_FRAME_OPENED</code> event.
+     * This method does nothing if the internbl frbme is blrebdy visible.
      * Invoking this method
-     * has the same result as invoking
+     * hbs the sbme result bs invoking
      * <code>setVisible(true)</code>.
      *
      * @see #moveToFront
      * @see #setSelected
-     * @see InternalFrameEvent#INTERNAL_FRAME_OPENED
+     * @see InternblFrbmeEvent#INTERNAL_FRAME_OPENED
      * @see #setVisible
      */
     public void show() {
         // bug 4312922
         if (isVisible()) {
-            //match the behavior of setVisible(true): do nothing
+            //mbtch the behbvior of setVisible(true): do nothing
             return;
         }
 
         // bug 4149505
         if (!opened) {
-          fireInternalFrameEvent(InternalFrameEvent.INTERNAL_FRAME_OPENED);
+          fireInternblFrbmeEvent(InternblFrbmeEvent.INTERNAL_FRAME_OPENED);
           opened = true;
         }
 
-        /* icon default visibility is false; set it to true so that it shows
-           up when user iconifies frame */
+        /* icon defbult visibility is fblse; set it to true so thbt it shows
+           up when user iconifies frbme */
         getDesktopIcon().setVisible(true);
 
         toFront();
@@ -1761,57 +1761,57 @@ public class JInternalFrame extends JComponent implements
         if (!isSelected()) {
             try {
                 setSelected(true);
-            } catch (PropertyVetoException pve) {}
+            } cbtch (PropertyVetoException pve) {}
         }
     }
 
     public void hide() {
         if (isIcon()) {
-            getDesktopIcon().setVisible(false);
+            getDesktopIcon().setVisible(fblse);
         }
         super.hide();
     }
 
     /**
-     * Makes this internal frame
-     * invisible, unselected, and closed.
-     * If the frame is not already closed,
-     * this method fires an
+     * Mbkes this internbl frbme
+     * invisible, unselected, bnd closed.
+     * If the frbme is not blrebdy closed,
+     * this method fires bn
      * <code>INTERNAL_FRAME_CLOSED</code> event.
-     * The results of invoking this method are similar to
+     * The results of invoking this method bre similbr to
      * <code>setClosed(true)</code>,
-     * but <code>dispose</code> always succeeds in closing
-     * the internal frame and does not fire
-     * an <code>INTERNAL_FRAME_CLOSING</code> event.
+     * but <code>dispose</code> blwbys succeeds in closing
+     * the internbl frbme bnd does not fire
+     * bn <code>INTERNAL_FRAME_CLOSING</code> event.
      *
-     * @see javax.swing.event.InternalFrameEvent#INTERNAL_FRAME_CLOSED
+     * @see jbvbx.swing.event.InternblFrbmeEvent#INTERNAL_FRAME_CLOSED
      * @see #setVisible
      * @see #setSelected
      * @see #setClosed
      */
     public void dispose() {
         if (isVisible()) {
-            setVisible(false);
+            setVisible(fblse);
         }
         if (isSelected()) {
             try {
-                setSelected(false);
-            } catch (PropertyVetoException pve) {}
+                setSelected(fblse);
+            } cbtch (PropertyVetoException pve) {}
         }
         if (!isClosed) {
-          firePropertyChange(IS_CLOSED_PROPERTY, Boolean.FALSE, Boolean.TRUE);
+          firePropertyChbnge(IS_CLOSED_PROPERTY, Boolebn.FALSE, Boolebn.TRUE);
           isClosed = true;
         }
-        fireInternalFrameEvent(InternalFrameEvent.INTERNAL_FRAME_CLOSED);
+        fireInternblFrbmeEvent(InternblFrbmeEvent.INTERNAL_FRAME_CLOSED);
     }
 
     /**
-     * Brings this internal frame to the front.
-     * Places this internal frame  at the top of the stacking order
-     * and makes the corresponding adjustment to other visible internal
-     * frames.
+     * Brings this internbl frbme to the front.
+     * Plbces this internbl frbme  bt the top of the stbcking order
+     * bnd mbkes the corresponding bdjustment to other visible internbl
+     * frbmes.
      *
-     * @see       java.awt.Window#toFront
+     * @see       jbvb.bwt.Window#toFront
      * @see       #moveToFront
      */
     public void toFront() {
@@ -1819,250 +1819,250 @@ public class JInternalFrame extends JComponent implements
     }
 
     /**
-     * Sends this internal frame to the back.
-     * Places this internal frame at the bottom of the stacking order
-     * and makes the corresponding adjustment to other visible
-     * internal frames.
+     * Sends this internbl frbme to the bbck.
+     * Plbces this internbl frbme bt the bottom of the stbcking order
+     * bnd mbkes the corresponding bdjustment to other visible
+     * internbl frbmes.
      *
-     * @see       java.awt.Window#toBack
-     * @see       #moveToBack
+     * @see       jbvb.bwt.Window#toBbck
+     * @see       #moveToBbck
      */
-    public void toBack() {
-        moveToBack();
+    public void toBbck() {
+        moveToBbck();
     }
 
     /**
-     * Does nothing because <code>JInternalFrame</code>s must always be roots of a focus
-     * traversal cycle.
+     * Does nothing becbuse <code>JInternblFrbme</code>s must blwbys be roots of b focus
+     * trbversbl cycle.
      *
-     * @param focusCycleRoot this value is ignored
+     * @pbrbm focusCycleRoot this vblue is ignored
      * @see #isFocusCycleRoot
-     * @see java.awt.Container#setFocusTraversalPolicy
-     * @see java.awt.Container#getFocusTraversalPolicy
+     * @see jbvb.bwt.Contbiner#setFocusTrbversblPolicy
+     * @see jbvb.bwt.Contbiner#getFocusTrbversblPolicy
      * @since 1.4
      */
-    public final void setFocusCycleRoot(boolean focusCycleRoot) {
+    public finbl void setFocusCycleRoot(boolebn focusCycleRoot) {
     }
 
     /**
-     * Always returns <code>true</code> because all <code>JInternalFrame</code>s must be
-     * roots of a focus traversal cycle.
+     * Alwbys returns <code>true</code> becbuse bll <code>JInternblFrbme</code>s must be
+     * roots of b focus trbversbl cycle.
      *
      * @return <code>true</code>
      * @see #setFocusCycleRoot
-     * @see java.awt.Container#setFocusTraversalPolicy
-     * @see java.awt.Container#getFocusTraversalPolicy
+     * @see jbvb.bwt.Contbiner#setFocusTrbversblPolicy
+     * @see jbvb.bwt.Contbiner#getFocusTrbversblPolicy
      * @since 1.4
      */
-    public final boolean isFocusCycleRoot() {
+    public finbl boolebn isFocusCycleRoot() {
         return true;
     }
 
     /**
-     * Always returns <code>null</code> because <code>JInternalFrame</code>s
-     * must always be roots of a focus
-     * traversal cycle.
+     * Alwbys returns <code>null</code> becbuse <code>JInternblFrbme</code>s
+     * must blwbys be roots of b focus
+     * trbversbl cycle.
      *
      * @return <code>null</code>
-     * @see java.awt.Container#isFocusCycleRoot()
+     * @see jbvb.bwt.Contbiner#isFocusCycleRoot()
      * @since 1.4
      */
-    public final Container getFocusCycleRootAncestor() {
+    public finbl Contbiner getFocusCycleRootAncestor() {
         return null;
     }
 
     /**
-     * Gets the warning string that is displayed with this internal frame.
-     * Since an internal frame is always secure (since it's fully
-     * contained within a window that might need a warning string)
-     * this method always returns <code>null</code>.
+     * Gets the wbrning string thbt is displbyed with this internbl frbme.
+     * Since bn internbl frbme is blwbys secure (since it's fully
+     * contbined within b window thbt might need b wbrning string)
+     * this method blwbys returns <code>null</code>.
      * @return    <code>null</code>
-     * @see       java.awt.Window#getWarningString
+     * @see       jbvb.bwt.Window#getWbrningString
      */
-    public final String getWarningString() {
+    public finbl String getWbrningString() {
         return null;
     }
 
     /**
-     * See <code>readObject</code> and <code>writeObject</code>
+     * See <code>rebdObject</code> bnd <code>writeObject</code>
      * in <code>JComponent</code> for more
-     * information about serialization in Swing.
+     * informbtion bbout seriblizbtion in Swing.
      */
-    private void writeObject(ObjectOutputStream s) throws IOException {
-        s.defaultWriteObject();
-        if (getUIClassID().equals(uiClassID)) {
+    privbte void writeObject(ObjectOutputStrebm s) throws IOException {
+        s.defbultWriteObject();
+        if (getUIClbssID().equbls(uiClbssID)) {
             byte count = JComponent.getWriteObjCounter(this);
             JComponent.setWriteObjCounter(this, --count);
             if (count == 0 && ui != null) {
-                boolean old = isRootPaneCheckingEnabled();
+                boolebn old = isRootPbneCheckingEnbbled();
                 try {
-                    setRootPaneCheckingEnabled(false);
-                    ui.installUI(this);
-                } finally {
-                    setRootPaneCheckingEnabled(old);
+                    setRootPbneCheckingEnbbled(fblse);
+                    ui.instbllUI(this);
+                } finblly {
+                    setRootPbneCheckingEnbbled(old);
                 }
             }
         }
     }
 
-    /* Called from the JComponent's EnableSerializationFocusListener to
-     * do any Swing-specific pre-serialization configuration.
+    /* Cblled from the JComponent's EnbbleSeriblizbtionFocusListener to
+     * do bny Swing-specific pre-seriblizbtion configurbtion.
      */
     void compWriteObjectNotify() {
-      // need to disable rootpane checking for InternalFrame: 4172083
-      boolean old = isRootPaneCheckingEnabled();
+      // need to disbble rootpbne checking for InternblFrbme: 4172083
+      boolebn old = isRootPbneCheckingEnbbled();
       try {
-        setRootPaneCheckingEnabled(false);
+        setRootPbneCheckingEnbbled(fblse);
         super.compWriteObjectNotify();
       }
-      finally {
-        setRootPaneCheckingEnabled(old);
+      finblly {
+        setRootPbneCheckingEnbbled(old);
       }
     }
 
     /**
-     * Returns a string representation of this <code>JInternalFrame</code>.
+     * Returns b string representbtion of this <code>JInternblFrbme</code>.
      * This method
-     * is intended to be used only for debugging purposes, and the
-     * content and format of the returned string may vary between
-     * implementations. The returned string may be empty but may not
+     * is intended to be used only for debugging purposes, bnd the
+     * content bnd formbt of the returned string mby vbry between
+     * implementbtions. The returned string mby be empty but mby not
      * be <code>null</code>.
      *
-     * @return  a string representation of this <code>JInternalFrame</code>
+     * @return  b string representbtion of this <code>JInternblFrbme</code>
      */
-    protected String paramString() {
-        String rootPaneString = (rootPane != null ?
-                                 rootPane.toString() : "");
-        String rootPaneCheckingEnabledString = (rootPaneCheckingEnabled ?
-                                                "true" : "false");
-        String closableString = (closable ? "true" : "false");
-        String isClosedString = (isClosed ? "true" : "false");
-        String maximizableString = (maximizable ? "true" : "false");
-        String isMaximumString = (isMaximum ? "true" : "false");
-        String iconableString = (iconable ? "true" : "false");
-        String isIconString = (isIcon ? "true" : "false");
-        String resizableString = (resizable ? "true" : "false");
-        String isSelectedString = (isSelected ? "true" : "false");
-        String frameIconString = (frameIcon != null ?
-                                  frameIcon.toString() : "");
+    protected String pbrbmString() {
+        String rootPbneString = (rootPbne != null ?
+                                 rootPbne.toString() : "");
+        String rootPbneCheckingEnbbledString = (rootPbneCheckingEnbbled ?
+                                                "true" : "fblse");
+        String closbbleString = (closbble ? "true" : "fblse");
+        String isClosedString = (isClosed ? "true" : "fblse");
+        String mbximizbbleString = (mbximizbble ? "true" : "fblse");
+        String isMbximumString = (isMbximum ? "true" : "fblse");
+        String iconbbleString = (iconbble ? "true" : "fblse");
+        String isIconString = (isIcon ? "true" : "fblse");
+        String resizbbleString = (resizbble ? "true" : "fblse");
+        String isSelectedString = (isSelected ? "true" : "fblse");
+        String frbmeIconString = (frbmeIcon != null ?
+                                  frbmeIcon.toString() : "");
         String titleString = (title != null ?
                               title : "");
         String desktopIconString = (desktopIcon != null ?
                                     desktopIcon.toString() : "");
-        String openedString = (opened ? "true" : "false");
-        String defaultCloseOperationString;
-        if (defaultCloseOperation == HIDE_ON_CLOSE) {
-            defaultCloseOperationString = "HIDE_ON_CLOSE";
-        } else if (defaultCloseOperation == DISPOSE_ON_CLOSE) {
-            defaultCloseOperationString = "DISPOSE_ON_CLOSE";
-        } else if (defaultCloseOperation == DO_NOTHING_ON_CLOSE) {
-            defaultCloseOperationString = "DO_NOTHING_ON_CLOSE";
-        } else defaultCloseOperationString = "";
+        String openedString = (opened ? "true" : "fblse");
+        String defbultCloseOperbtionString;
+        if (defbultCloseOperbtion == HIDE_ON_CLOSE) {
+            defbultCloseOperbtionString = "HIDE_ON_CLOSE";
+        } else if (defbultCloseOperbtion == DISPOSE_ON_CLOSE) {
+            defbultCloseOperbtionString = "DISPOSE_ON_CLOSE";
+        } else if (defbultCloseOperbtion == DO_NOTHING_ON_CLOSE) {
+            defbultCloseOperbtionString = "DO_NOTHING_ON_CLOSE";
+        } else defbultCloseOperbtionString = "";
 
-        return super.paramString() +
-        ",closable=" + closableString +
-        ",defaultCloseOperation=" + defaultCloseOperationString +
+        return super.pbrbmString() +
+        ",closbble=" + closbbleString +
+        ",defbultCloseOperbtion=" + defbultCloseOperbtionString +
         ",desktopIcon=" + desktopIconString +
-        ",frameIcon=" + frameIconString +
-        ",iconable=" + iconableString +
+        ",frbmeIcon=" + frbmeIconString +
+        ",iconbble=" + iconbbleString +
         ",isClosed=" + isClosedString +
         ",isIcon=" + isIconString +
-        ",isMaximum=" + isMaximumString +
+        ",isMbximum=" + isMbximumString +
         ",isSelected=" + isSelectedString +
-        ",maximizable=" + maximizableString +
+        ",mbximizbble=" + mbximizbbleString +
         ",opened=" + openedString +
-        ",resizable=" + resizableString +
-        ",rootPane=" + rootPaneString +
-        ",rootPaneCheckingEnabled=" + rootPaneCheckingEnabledString +
+        ",resizbble=" + resizbbleString +
+        ",rootPbne=" + rootPbneString +
+        ",rootPbneCheckingEnbbled=" + rootPbneCheckingEnbbledString +
         ",title=" + titleString;
     }
 
-    // ======= begin optimized frame dragging defence code ==============
+    // ======= begin optimized frbme drbgging defence code ==============
 
-    boolean isDragging = false;
-    boolean danger = false;
+    boolebn isDrbgging = fblse;
+    boolebn dbnger = fblse;
 
     /**
-     * Overridden to allow optimized painting when the
-     * internal frame is being dragged.
+     * Overridden to bllow optimized pbinting when the
+     * internbl frbme is being drbgged.
      */
-    protected void paintComponent(Graphics g) {
-      if (isDragging) {
+    protected void pbintComponent(Grbphics g) {
+      if (isDrbgging) {
         //         System.out.println("ouch");
-         danger = true;
+         dbnger = true;
       }
 
-      super.paintComponent(g);
+      super.pbintComponent(g);
    }
 
-    // ======= end optimized frame dragging defence code ==============
+    // ======= end optimized frbme drbgging defence code ==============
 
 /////////////////
 // Accessibility support
 ////////////////
 
     /**
-     * Gets the <code>AccessibleContext</code> associated with this
-     * <code>JInternalFrame</code>.
-     * For internal frames, the <code>AccessibleContext</code>
-     * takes the form of an
-     * <code>AccessibleJInternalFrame</code> object.
-     * A new <code>AccessibleJInternalFrame</code> instance is created if necessary.
+     * Gets the <code>AccessibleContext</code> bssocibted with this
+     * <code>JInternblFrbme</code>.
+     * For internbl frbmes, the <code>AccessibleContext</code>
+     * tbkes the form of bn
+     * <code>AccessibleJInternblFrbme</code> object.
+     * A new <code>AccessibleJInternblFrbme</code> instbnce is crebted if necessbry.
      *
-     * @return an <code>AccessibleJInternalFrame</code> that serves as the
+     * @return bn <code>AccessibleJInternblFrbme</code> thbt serves bs the
      *         <code>AccessibleContext</code> of this
-     *         <code>JInternalFrame</code>
-     * @see AccessibleJInternalFrame
+     *         <code>JInternblFrbme</code>
+     * @see AccessibleJInternblFrbme
      */
     public AccessibleContext getAccessibleContext() {
-        if (accessibleContext == null) {
-            accessibleContext = new AccessibleJInternalFrame();
+        if (bccessibleContext == null) {
+            bccessibleContext = new AccessibleJInternblFrbme();
         }
-        return accessibleContext;
+        return bccessibleContext;
     }
 
     /**
-     * This class implements accessibility support for the
-     * <code>JInternalFrame</code> class.  It provides an implementation of the
-     * Java Accessibility API appropriate to internal frame user-interface
+     * This clbss implements bccessibility support for the
+     * <code>JInternblFrbme</code> clbss.  It provides bn implementbtion of the
+     * Jbvb Accessibility API bppropribte to internbl frbme user-interfbce
      * elements.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Seriblized objects of this clbss will not be compbtible with
+     * future Swing relebses. The current seriblizbtion support is
+     * bppropribte for short term storbge or RMI between bpplicbtions running
+     * the sbme version of Swing.  As of 1.4, support for long term storbge
+     * of bll JbvbBebns&trbde;
+     * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+     * Plebse see {@link jbvb.bebns.XMLEncoder}.
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    protected class AccessibleJInternalFrame extends AccessibleJComponent
-        implements AccessibleValue {
+    @SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+    protected clbss AccessibleJInternblFrbme extends AccessibleJComponent
+        implements AccessibleVblue {
 
         /**
-         * Get the accessible name of this object.
+         * Get the bccessible nbme of this object.
          *
-         * @return the localized name of the object -- can be <code>null</code> if this
-         * object does not have a name
-         * @see #setAccessibleName
+         * @return the locblized nbme of the object -- cbn be <code>null</code> if this
+         * object does not hbve b nbme
+         * @see #setAccessibleNbme
          */
-        public String getAccessibleName() {
-            String name = accessibleName;
+        public String getAccessibleNbme() {
+            String nbme = bccessibleNbme;
 
-            if (name == null) {
-                name = (String)getClientProperty(AccessibleContext.ACCESSIBLE_NAME_PROPERTY);
+            if (nbme == null) {
+                nbme = (String)getClientProperty(AccessibleContext.ACCESSIBLE_NAME_PROPERTY);
             }
-            if (name == null) {
-                name = getTitle();
+            if (nbme == null) {
+                nbme = getTitle();
             }
-            return name;
+            return nbme;
         }
 
         /**
          * Get the role of this object.
          *
-         * @return an instance of AccessibleRole describing the role of the
+         * @return bn instbnce of AccessibleRole describing the role of the
          * object
          * @see AccessibleRole
          */
@@ -2071,110 +2071,110 @@ public class JInternalFrame extends JComponent implements
         }
 
         /**
-         * Gets the AccessibleValue associated with this object.  In the
-         * implementation of the Java Accessibility API for this class,
+         * Gets the AccessibleVblue bssocibted with this object.  In the
+         * implementbtion of the Jbvb Accessibility API for this clbss,
          * returns this object, which is responsible for implementing the
-         * <code>AccessibleValue</code> interface on behalf of itself.
+         * <code>AccessibleVblue</code> interfbce on behblf of itself.
          *
          * @return this object
          */
-        public AccessibleValue getAccessibleValue() {
+        public AccessibleVblue getAccessibleVblue() {
             return this;
         }
 
 
         //
-        // AccessibleValue methods
+        // AccessibleVblue methods
         //
 
         /**
-         * Get the value of this object as a Number.
+         * Get the vblue of this object bs b Number.
          *
-         * @return value of the object -- can be <code>null</code> if this object does not
-         * have a value
+         * @return vblue of the object -- cbn be <code>null</code> if this object does not
+         * hbve b vblue
          */
-        public Number getCurrentAccessibleValue() {
-            return Integer.valueOf(getLayer());
+        public Number getCurrentAccessibleVblue() {
+            return Integer.vblueOf(getLbyer());
         }
 
         /**
-         * Set the value of this object as a Number.
+         * Set the vblue of this object bs b Number.
          *
-         * @return <code>true</code> if the value was set
+         * @return <code>true</code> if the vblue wbs set
          */
-        public boolean setCurrentAccessibleValue(Number n) {
+        public boolebn setCurrentAccessibleVblue(Number n) {
             // TIGER - 4422535
             if (n == null) {
-                return false;
+                return fblse;
             }
-            setLayer(Integer.valueOf(n.intValue()));
+            setLbyer(Integer.vblueOf(n.intVblue()));
             return true;
         }
 
         /**
-         * Get the minimum value of this object as a Number.
+         * Get the minimum vblue of this object bs b Number.
          *
-         * @return Minimum value of the object; <code>null</code> if this object does not
-         * have a minimum value
+         * @return Minimum vblue of the object; <code>null</code> if this object does not
+         * hbve b minimum vblue
          */
-        public Number getMinimumAccessibleValue() {
+        public Number getMinimumAccessibleVblue() {
             return Integer.MIN_VALUE;
         }
 
         /**
-         * Get the maximum value of this object as a Number.
+         * Get the mbximum vblue of this object bs b Number.
          *
-         * @return Maximum value of the object; <code>null</code> if this object does not
-         * have a maximum value
+         * @return Mbximum vblue of the object; <code>null</code> if this object does not
+         * hbve b mbximum vblue
          */
-        public Number getMaximumAccessibleValue() {
+        public Number getMbximumAccessibleVblue() {
             return Integer.MAX_VALUE;
         }
 
-    } // AccessibleJInternalFrame
+    } // AccessibleJInternblFrbme
 
     /**
-     * This component represents an iconified version of a
-     * <code>JInternalFrame</code>.
-     * This API should NOT BE USED by Swing applications, as it will go
-     * away in future versions of Swing as its functionality is moved into
-     * <code>JInternalFrame</code>.  This class is public only so that
-     * UI objects can display a desktop icon.  If an application
-     * wants to display a desktop icon, it should create a
-     * <code>JInternalFrame</code> instance and iconify it.
+     * This component represents bn iconified version of b
+     * <code>JInternblFrbme</code>.
+     * This API should NOT BE USED by Swing bpplicbtions, bs it will go
+     * bwby in future versions of Swing bs its functionblity is moved into
+     * <code>JInternblFrbme</code>.  This clbss is public only so thbt
+     * UI objects cbn displby b desktop icon.  If bn bpplicbtion
+     * wbnts to displby b desktop icon, it should crebte b
+     * <code>JInternblFrbme</code> instbnce bnd iconify it.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Seriblized objects of this clbss will not be compbtible with
+     * future Swing relebses. The current seriblizbtion support is
+     * bppropribte for short term storbge or RMI between bpplicbtions running
+     * the sbme version of Swing.  As of 1.4, support for long term storbge
+     * of bll JbvbBebns&trbde;
+     * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+     * Plebse see {@link jbvb.bebns.XMLEncoder}.
      *
-     * @author David Kloba
+     * @buthor Dbvid Klobb
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    static public class JDesktopIcon extends JComponent implements Accessible
+    @SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+    stbtic public clbss JDesktopIcon extends JComponent implements Accessible
     {
-        JInternalFrame internalFrame;
+        JInternblFrbme internblFrbme;
 
         /**
-         * Creates an icon for an internal frame.
+         * Crebtes bn icon for bn internbl frbme.
          *
-         * @param f  the <code>JInternalFrame</code>
-         *              for which the icon is created
+         * @pbrbm f  the <code>JInternblFrbme</code>
+         *              for which the icon is crebted
          */
-        public JDesktopIcon(JInternalFrame f) {
-            setVisible(false);
-            setInternalFrame(f);
-            updateUI();
+        public JDesktopIcon(JInternblFrbme f) {
+            setVisible(fblse);
+            setInternblFrbme(f);
+            updbteUI();
         }
 
         /**
-         * Returns the look-and-feel object that renders this component.
+         * Returns the look-bnd-feel object thbt renders this component.
          *
-         * @return the <code>DesktopIconUI</code> object that renders
+         * @return the <code>DesktopIconUI</code> object thbt renders
          *              this component
          */
         public DesktopIconUI getUI() {
@@ -2182,112 +2182,112 @@ public class JInternalFrame extends JComponent implements
         }
 
         /**
-         * Sets the look-and-feel object that renders this component.
+         * Sets the look-bnd-feel object thbt renders this component.
          *
-         * @param ui  the <code>DesktopIconUI</code> look-and-feel object
-         * @see UIDefaults#getUI
+         * @pbrbm ui  the <code>DesktopIconUI</code> look-bnd-feel object
+         * @see UIDefbults#getUI
          */
         public void setUI(DesktopIconUI ui) {
             super.setUI(ui);
         }
 
         /**
-         * Returns the <code>JInternalFrame</code> that this
-         * <code>DesktopIcon</code> is associated with.
+         * Returns the <code>JInternblFrbme</code> thbt this
+         * <code>DesktopIcon</code> is bssocibted with.
          *
-         * @return the <code>JInternalFrame</code> with which this icon
-         *              is associated
+         * @return the <code>JInternblFrbme</code> with which this icon
+         *              is bssocibted
          */
-        public JInternalFrame getInternalFrame() {
-            return internalFrame;
+        public JInternblFrbme getInternblFrbme() {
+            return internblFrbme;
         }
 
         /**
-         * Sets the <code>JInternalFrame</code> with which this
-         * <code>DesktopIcon</code> is associated.
+         * Sets the <code>JInternblFrbme</code> with which this
+         * <code>DesktopIcon</code> is bssocibted.
          *
-         * @param f  the <code>JInternalFrame</code> with which this icon
-         *              is associated
+         * @pbrbm f  the <code>JInternblFrbme</code> with which this icon
+         *              is bssocibted
          */
-        public void setInternalFrame(JInternalFrame f) {
-            internalFrame = f;
+        public void setInternblFrbme(JInternblFrbme f) {
+            internblFrbme = f;
         }
 
         /**
-         * Convenience method to ask the icon for the <code>Desktop</code>
+         * Convenience method to bsk the icon for the <code>Desktop</code>
          * object it belongs to.
          *
-         * @return the <code>JDesktopPane</code> that contains this
-         *           icon's internal frame, or <code>null</code> if none found
+         * @return the <code>JDesktopPbne</code> thbt contbins this
+         *           icon's internbl frbme, or <code>null</code> if none found
          */
-        public JDesktopPane getDesktopPane() {
-            if(getInternalFrame() != null)
-                return getInternalFrame().getDesktopPane();
+        public JDesktopPbne getDesktopPbne() {
+            if(getInternblFrbme() != null)
+                return getInternblFrbme().getDesktopPbne();
             return null;
         }
 
         /**
-         * Notification from the <code>UIManager</code> that the look and feel
-         * has changed.
-         * Replaces the current UI object with the latest version from the
-         * <code>UIManager</code>.
+         * Notificbtion from the <code>UIMbnbger</code> thbt the look bnd feel
+         * hbs chbnged.
+         * Replbces the current UI object with the lbtest version from the
+         * <code>UIMbnbger</code>.
          *
-         * @see JComponent#updateUI
+         * @see JComponent#updbteUI
          */
-        public void updateUI() {
-            boolean hadUI = (ui != null);
-            setUI((DesktopIconUI)UIManager.getUI(this));
-            invalidate();
+        public void updbteUI() {
+            boolebn hbdUI = (ui != null);
+            setUI((DesktopIconUI)UIMbnbger.getUI(this));
+            invblidbte();
 
             Dimension r = getPreferredSize();
             setSize(r.width, r.height);
 
 
-            if (internalFrame != null && internalFrame.getUI() != null) {  // don't do this if UI not created yet
-                SwingUtilities.updateComponentTreeUI(internalFrame);
+            if (internblFrbme != null && internblFrbme.getUI() != null) {  // don't do this if UI not crebted yet
+                SwingUtilities.updbteComponentTreeUI(internblFrbme);
             }
         }
 
-        /* This method is called if updateUI was called on the associated
-         * JInternalFrame.  It's necessary to avoid infinite recursion.
+        /* This method is cblled if updbteUI wbs cblled on the bssocibted
+         * JInternblFrbme.  It's necessbry to bvoid infinite recursion.
          */
-        void updateUIWhenHidden() {
-            /* Update this UI and any associated internal frame */
-            setUI((DesktopIconUI)UIManager.getUI(this));
+        void updbteUIWhenHidden() {
+            /* Updbte this UI bnd bny bssocibted internbl frbme */
+            setUI((DesktopIconUI)UIMbnbger.getUI(this));
 
             Dimension r = getPreferredSize();
             setSize(r.width, r.height);
 
-            invalidate();
+            invblidbte();
             Component[] children = getComponents();
             if (children != null) {
                 for (Component child : children) {
-                    SwingUtilities.updateComponentTreeUI(child);
+                    SwingUtilities.updbteComponentTreeUI(child);
                 }
             }
         }
 
         /**
-         * Returns the name of the look-and-feel
-         * class that renders this component.
+         * Returns the nbme of the look-bnd-feel
+         * clbss thbt renders this component.
          *
          * @return the string "DesktopIconUI"
-         * @see JComponent#getUIClassID
-         * @see UIDefaults#getUI
+         * @see JComponent#getUIClbssID
+         * @see UIDefbults#getUI
          */
-        public String getUIClassID() {
+        public String getUIClbssID() {
             return "DesktopIconUI";
         }
         ////////////////
-        // Serialization support
+        // Seriblizbtion support
         ////////////////
-        private void writeObject(ObjectOutputStream s) throws IOException {
-            s.defaultWriteObject();
-            if (getUIClassID().equals("DesktopIconUI")) {
+        privbte void writeObject(ObjectOutputStrebm s) throws IOException {
+            s.defbultWriteObject();
+            if (getUIClbssID().equbls("DesktopIconUI")) {
                 byte count = JComponent.getWriteObjCounter(this);
                 JComponent.setWriteObjCounter(this, --count);
                 if (count == 0 && ui != null) {
-                    ui.installUI(this);
+                    ui.instbllUI(this);
                 }
             }
         }
@@ -2297,44 +2297,44 @@ public class JInternalFrame extends JComponent implements
        ////////////////
 
         /**
-         * Gets the AccessibleContext associated with this JDesktopIcon.
-         * For desktop icons, the AccessibleContext takes the form of an
+         * Gets the AccessibleContext bssocibted with this JDesktopIcon.
+         * For desktop icons, the AccessibleContext tbkes the form of bn
          * AccessibleJDesktopIcon.
-         * A new AccessibleJDesktopIcon instance is created if necessary.
+         * A new AccessibleJDesktopIcon instbnce is crebted if necessbry.
          *
-         * @return an AccessibleJDesktopIcon that serves as the
+         * @return bn AccessibleJDesktopIcon thbt serves bs the
          *         AccessibleContext of this JDesktopIcon
          */
         public AccessibleContext getAccessibleContext() {
-            if (accessibleContext == null) {
-                accessibleContext = new AccessibleJDesktopIcon();
+            if (bccessibleContext == null) {
+                bccessibleContext = new AccessibleJDesktopIcon();
             }
-            return accessibleContext;
+            return bccessibleContext;
         }
 
         /**
-         * This class implements accessibility support for the
-         * <code>JInternalFrame.JDesktopIcon</code> class.  It provides an
-         * implementation of the Java Accessibility API appropriate to
-         * desktop icon user-interface elements.
+         * This clbss implements bccessibility support for the
+         * <code>JInternblFrbme.JDesktopIcon</code> clbss.  It provides bn
+         * implementbtion of the Jbvb Accessibility API bppropribte to
+         * desktop icon user-interfbce elements.
          * <p>
-         * <strong>Warning:</strong>
-         * Serialized objects of this class will not be compatible with
-         * future Swing releases. The current serialization support is
-         * appropriate for short term storage or RMI between applications running
-         * the same version of Swing.  As of 1.4, support for long term storage
-         * of all JavaBeans&trade;
-         * has been added to the <code>java.beans</code> package.
-         * Please see {@link java.beans.XMLEncoder}.
+         * <strong>Wbrning:</strong>
+         * Seriblized objects of this clbss will not be compbtible with
+         * future Swing relebses. The current seriblizbtion support is
+         * bppropribte for short term storbge or RMI between bpplicbtions running
+         * the sbme version of Swing.  As of 1.4, support for long term storbge
+         * of bll JbvbBebns&trbde;
+         * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+         * Plebse see {@link jbvb.bebns.XMLEncoder}.
          */
-        @SuppressWarnings("serial") // Same-version serialization only
-        protected class AccessibleJDesktopIcon extends AccessibleJComponent
-            implements AccessibleValue {
+        @SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+        protected clbss AccessibleJDesktopIcon extends AccessibleJComponent
+            implements AccessibleVblue {
 
             /**
              * Gets the role of this object.
              *
-             * @return an instance of AccessibleRole describing the role of the
+             * @return bn instbnce of AccessibleRole describing the role of the
              * object
              * @see AccessibleRole
              */
@@ -2343,81 +2343,81 @@ public class JInternalFrame extends JComponent implements
             }
 
             /**
-             * Gets the AccessibleValue associated with this object.  In the
-             * implementation of the Java Accessibility API for this class,
+             * Gets the AccessibleVblue bssocibted with this object.  In the
+             * implementbtion of the Jbvb Accessibility API for this clbss,
              * returns this object, which is responsible for implementing the
-             * <code>AccessibleValue</code> interface on behalf of itself.
+             * <code>AccessibleVblue</code> interfbce on behblf of itself.
              *
              * @return this object
              */
-            public AccessibleValue getAccessibleValue() {
+            public AccessibleVblue getAccessibleVblue() {
                 return this;
             }
 
             //
-            // AccessibleValue methods
+            // AccessibleVblue methods
             //
 
             /**
-             * Gets the value of this object as a <code>Number</code>.
+             * Gets the vblue of this object bs b <code>Number</code>.
              *
-             * @return value of the object -- can be <code>null</code> if this object does not
-             * have a value
+             * @return vblue of the object -- cbn be <code>null</code> if this object does not
+             * hbve b vblue
              */
-            public Number getCurrentAccessibleValue() {
-                AccessibleContext a = JDesktopIcon.this.getInternalFrame().getAccessibleContext();
-                AccessibleValue v = a.getAccessibleValue();
+            public Number getCurrentAccessibleVblue() {
+                AccessibleContext b = JDesktopIcon.this.getInternblFrbme().getAccessibleContext();
+                AccessibleVblue v = b.getAccessibleVblue();
                 if (v != null) {
-                    return v.getCurrentAccessibleValue();
+                    return v.getCurrentAccessibleVblue();
                 } else {
                     return null;
                 }
             }
 
             /**
-             * Sets the value of this object as a <code>Number</code>.
+             * Sets the vblue of this object bs b <code>Number</code>.
              *
-             * @return <code>true</code> if the value was set
+             * @return <code>true</code> if the vblue wbs set
              */
-            public boolean setCurrentAccessibleValue(Number n) {
+            public boolebn setCurrentAccessibleVblue(Number n) {
                 // TIGER - 4422535
                 if (n == null) {
-                    return false;
+                    return fblse;
                 }
-                AccessibleContext a = JDesktopIcon.this.getInternalFrame().getAccessibleContext();
-                AccessibleValue v = a.getAccessibleValue();
+                AccessibleContext b = JDesktopIcon.this.getInternblFrbme().getAccessibleContext();
+                AccessibleVblue v = b.getAccessibleVblue();
                 if (v != null) {
-                    return v.setCurrentAccessibleValue(n);
+                    return v.setCurrentAccessibleVblue(n);
                 } else {
-                    return false;
+                    return fblse;
                 }
             }
 
             /**
-             * Gets the minimum value of this object as a <code>Number</code>.
+             * Gets the minimum vblue of this object bs b <code>Number</code>.
              *
-             * @return minimum value of the object; <code>null</code> if this object does not
-             * have a minimum value
+             * @return minimum vblue of the object; <code>null</code> if this object does not
+             * hbve b minimum vblue
              */
-            public Number getMinimumAccessibleValue() {
-                AccessibleContext a = JDesktopIcon.this.getInternalFrame().getAccessibleContext();
-                if (a instanceof AccessibleValue) {
-                    return ((AccessibleValue)a).getMinimumAccessibleValue();
+            public Number getMinimumAccessibleVblue() {
+                AccessibleContext b = JDesktopIcon.this.getInternblFrbme().getAccessibleContext();
+                if (b instbnceof AccessibleVblue) {
+                    return ((AccessibleVblue)b).getMinimumAccessibleVblue();
                 } else {
                     return null;
                 }
             }
 
             /**
-             * Gets the maximum value of this object as a <code>Number</code>.
+             * Gets the mbximum vblue of this object bs b <code>Number</code>.
              *
-             * @return maximum value of the object; <code>null</code> if this object does not
-             * have a maximum value
+             * @return mbximum vblue of the object; <code>null</code> if this object does not
+             * hbve b mbximum vblue
              */
-            public Number getMaximumAccessibleValue() {
-                AccessibleContext a = JDesktopIcon.this.getInternalFrame().getAccessibleContext();
-                if (a instanceof AccessibleValue) {
-                    return ((AccessibleValue)a).getMaximumAccessibleValue();
+            public Number getMbximumAccessibleVblue() {
+                AccessibleContext b = JDesktopIcon.this.getInternblFrbme().getAccessibleContext();
+                if (b instbnceof AccessibleVblue) {
+                    return ((AccessibleVblue)b).getMbximumAccessibleVblue();
                 } else {
                     return null;
                 }

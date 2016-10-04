@@ -1,66 +1,66 @@
 /*
- * Copyright (c) 2009, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2009, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package com.sun.nio.sctp;
+pbckbge com.sun.nio.sctp;
 
 /**
- * A handler for consuming notifications from the SCTP stack.
+ * A hbndler for consuming notificbtions from the SCTP stbck.
  *
- * <P> The SCTP channels defined in this package allow a notification handler to
- * be specified to consume notifications from the SCTP stack. When a
- * notification is received the {@linkplain #handleNotification
- * handleNotification} method of the handler is invoked to handle that
- * notification.
+ * <P> The SCTP chbnnels defined in this pbckbge bllow b notificbtion hbndler to
+ * be specified to consume notificbtions from the SCTP stbck. When b
+ * notificbtion is received the {@linkplbin #hbndleNotificbtion
+ * hbndleNotificbtion} method of the hbndler is invoked to hbndle thbt
+ * notificbtion.
  *
- * <P> Additionally, an attachment object can be attached to the {@code receive}
- * operation to provide context when consuming the notification. The
- * attachment is important for cases where a <i>state-less</i> {@code
- * NotificationHandler} is used to consume the result of many {@code receive}
- * operations.
+ * <P> Additionblly, bn bttbchment object cbn be bttbched to the {@code receive}
+ * operbtion to provide context when consuming the notificbtion. The
+ * bttbchment is importbnt for cbses where b <i>stbte-less</i> {@code
+ * NotificbtionHbndler} is used to consume the result of mbny {@code receive}
+ * operbtions.
  *
- * <P> Handler implementations are encouraged to extend the {@link
- * AbstractNotificationHandler} class which implements this interface and
- * provide notification specific methods. However, an API should generally use
- * this handler interface as the type for parameters, return type, etc. rather
- * than the abstract class.
+ * <P> Hbndler implementbtions bre encourbged to extend the {@link
+ * AbstrbctNotificbtionHbndler} clbss which implements this interfbce bnd
+ * provide notificbtion specific methods. However, bn API should generblly use
+ * this hbndler interfbce bs the type for pbrbmeters, return type, etc. rbther
+ * thbn the bbstrbct clbss.
  *
- * @param  T  The type of the object attached to the receive operation
+ * @pbrbm  T  The type of the object bttbched to the receive operbtion
  *
  * @since 1.7
  */
 @jdk.Exported
-public interface NotificationHandler<T> {
+public interfbce NotificbtionHbndler<T> {
     /**
-     * Invoked when a notification is received from the SCTP stack.
+     * Invoked when b notificbtion is received from the SCTP stbck.
      *
-     * @param  notification
-     *         The notification
+     * @pbrbm  notificbtion
+     *         The notificbtion
      *
-     * @param  attachment
-     *         The object attached to the receive operation when it was initiated.
+     * @pbrbm  bttbchment
+     *         The object bttbched to the receive operbtion when it wbs initibted.
      *
-     * @return  The handler result
+     * @return  The hbndler result
      */
-    HandlerResult handleNotification(Notification notification, T attachment);
+    HbndlerResult hbndleNotificbtion(Notificbtion notificbtion, T bttbchment);
 }

@@ -1,103 +1,103 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.nio.ch;
+pbckbge sun.nio.ch;
 
-import java.nio.channels.*;
-import java.nio.channels.spi.AsynchronousChannelProvider;
-import java.io.Closeable;
-import java.io.IOException;
-import java.io.FileDescriptor;
-import java.util.*;
-import java.util.concurrent.*;
-import java.util.concurrent.locks.ReadWriteLock;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
-import java.security.AccessController;
-import sun.security.action.GetPropertyAction;
-import sun.misc.Unsafe;
+import jbvb.nio.chbnnels.*;
+import jbvb.nio.chbnnels.spi.AsynchronousChbnnelProvider;
+import jbvb.io.Closebble;
+import jbvb.io.IOException;
+import jbvb.io.FileDescriptor;
+import jbvb.util.*;
+import jbvb.util.concurrent.*;
+import jbvb.util.concurrent.locks.RebdWriteLock;
+import jbvb.util.concurrent.locks.ReentrbntRebdWriteLock;
+import jbvb.security.AccessController;
+import sun.security.bction.GetPropertyAction;
+import sun.misc.Unsbfe;
 
 /**
- * Windows implementation of AsynchronousChannelGroup encapsulating an I/O
+ * Windows implementbtion of AsynchronousChbnnelGroup encbpsulbting bn I/O
  * completion port.
  */
 
-class Iocp extends AsynchronousChannelGroupImpl {
-    private static final Unsafe unsafe = Unsafe.getUnsafe();
-    private static final long INVALID_HANDLE_VALUE  = -1L;
-    private static final boolean supportsThreadAgnosticIo;
+clbss Iocp extends AsynchronousChbnnelGroupImpl {
+    privbte stbtic finbl Unsbfe unsbfe = Unsbfe.getUnsbfe();
+    privbte stbtic finbl long INVALID_HANDLE_VALUE  = -1L;
+    privbte stbtic finbl boolebn supportsThrebdAgnosticIo;
 
-    // maps completion key to channel
-    private final ReadWriteLock keyToChannelLock = new ReentrantReadWriteLock();
-    private final Map<Integer,OverlappedChannel> keyToChannel =
-        new HashMap<Integer,OverlappedChannel>();
-    private int nextCompletionKey;
+    // mbps completion key to chbnnel
+    privbte finbl RebdWriteLock keyToChbnnelLock = new ReentrbntRebdWriteLock();
+    privbte finbl Mbp<Integer,OverlbppedChbnnel> keyToChbnnel =
+        new HbshMbp<Integer,OverlbppedChbnnel>();
+    privbte int nextCompletionKey;
 
-    // handle to completion port
-    private final long port;
+    // hbndle to completion port
+    privbte finbl long port;
 
-    // true if port has been closed
-    private boolean closed;
+    // true if port hbs been closed
+    privbte boolebn closed;
 
-    // the set of "stale" OVERLAPPED structures. These OVERLAPPED structures
-    // relate to I/O operations where the completion notification was not
-    // received in a timely manner after the channel is closed.
-    private final Set<Long> staleIoSet = new HashSet<Long>();
+    // the set of "stble" OVERLAPPED structures. These OVERLAPPED structures
+    // relbte to I/O operbtions where the completion notificbtion wbs not
+    // received in b timely mbnner bfter the chbnnel is closed.
+    privbte finbl Set<Long> stbleIoSet = new HbshSet<Long>();
 
-    Iocp(AsynchronousChannelProvider provider, ThreadPool pool)
+    Iocp(AsynchronousChbnnelProvider provider, ThrebdPool pool)
         throws IOException
     {
         super(provider, pool);
         this.port =
-          createIoCompletionPort(INVALID_HANDLE_VALUE, 0, 0, fixedThreadCount());
+          crebteIoCompletionPort(INVALID_HANDLE_VALUE, 0, 0, fixedThrebdCount());
         this.nextCompletionKey = 1;
     }
 
-    Iocp start() {
-        startThreads(new EventHandlerTask());
+    Iocp stbrt() {
+        stbrtThrebds(new EventHbndlerTbsk());
         return this;
     }
 
     /*
-     * Channels implements this interface support overlapped I/O and can be
-     * associated with a completion port.
+     * Chbnnels implements this interfbce support overlbpped I/O bnd cbn be
+     * bssocibted with b completion port.
      */
-    static interface OverlappedChannel extends Closeable {
+    stbtic interfbce OverlbppedChbnnel extends Closebble {
         /**
-         * Returns a reference to the pending I/O result.
+         * Returns b reference to the pending I/O result.
          */
-        <V,A> PendingFuture<V,A> getByOverlapped(long overlapped);
+        <V,A> PendingFuture<V,A> getByOverlbpped(long overlbpped);
     }
 
     /**
-     * Indicates if this operating system supports thread agnostic I/O.
+     * Indicbtes if this operbting system supports threbd bgnostic I/O.
      */
-    static boolean supportsThreadAgnosticIo() {
-        return supportsThreadAgnosticIo;
+    stbtic boolebn supportsThrebdAgnosticIo() {
+        return supportsThrebdAgnosticIo;
     }
 
-    // release all resources
+    // relebse bll resources
     void implClose() {
         synchronized (this) {
             if (closed)
@@ -105,220 +105,220 @@ class Iocp extends AsynchronousChannelGroupImpl {
             closed = true;
         }
         close0(port);
-        synchronized (staleIoSet) {
-            for (Long ov: staleIoSet) {
-                unsafe.freeMemory(ov);
+        synchronized (stbleIoSet) {
+            for (Long ov: stbleIoSet) {
+                unsbfe.freeMemory(ov);
             }
-            staleIoSet.clear();
+            stbleIoSet.clebr();
         }
     }
 
     @Override
-    boolean isEmpty() {
-        keyToChannelLock.writeLock().lock();
+    boolebn isEmpty() {
+        keyToChbnnelLock.writeLock().lock();
         try {
-            return keyToChannel.isEmpty();
-        } finally {
-            keyToChannelLock.writeLock().unlock();
+            return keyToChbnnel.isEmpty();
+        } finblly {
+            keyToChbnnelLock.writeLock().unlock();
         }
     }
 
     @Override
-    final Object attachForeignChannel(final Channel channel, FileDescriptor fdObj)
+    finbl Object bttbchForeignChbnnel(finbl Chbnnel chbnnel, FileDescriptor fdObj)
         throws IOException
     {
-        int key = associate(new OverlappedChannel() {
-            public <V,A> PendingFuture<V,A> getByOverlapped(long overlapped) {
+        int key = bssocibte(new OverlbppedChbnnel() {
+            public <V,A> PendingFuture<V,A> getByOverlbpped(long overlbpped) {
                 return null;
             }
             public void close() throws IOException {
-                channel.close();
+                chbnnel.close();
             }
         }, 0L);
-        return Integer.valueOf(key);
+        return Integer.vblueOf(key);
     }
 
     @Override
-    final void detachForeignChannel(Object key) {
-        disassociate((Integer)key);
+    finbl void detbchForeignChbnnel(Object key) {
+        disbssocibte((Integer)key);
     }
 
     @Override
-    void closeAllChannels() {
+    void closeAllChbnnels() {
         /**
-         * On Windows the close operation will close the socket/file handle
-         * and then wait until all outstanding I/O operations have aborted.
-         * This is necessary as each channel's cache of OVERLAPPED structures
-         * can only be freed once all I/O operations have completed. As I/O
-         * completion requires a lookup of the keyToChannel then we must close
-         * the channels when not holding the write lock.
+         * On Windows the close operbtion will close the socket/file hbndle
+         * bnd then wbit until bll outstbnding I/O operbtions hbve bborted.
+         * This is necessbry bs ebch chbnnel's cbche of OVERLAPPED structures
+         * cbn only be freed once bll I/O operbtions hbve completed. As I/O
+         * completion requires b lookup of the keyToChbnnel then we must close
+         * the chbnnels when not holding the write lock.
          */
-        final int MAX_BATCH_SIZE = 32;
-        OverlappedChannel channels[] = new OverlappedChannel[MAX_BATCH_SIZE];
+        finbl int MAX_BATCH_SIZE = 32;
+        OverlbppedChbnnel chbnnels[] = new OverlbppedChbnnel[MAX_BATCH_SIZE];
         int count;
         do {
-            // grab a batch of up to 32 channels
-            keyToChannelLock.writeLock().lock();
+            // grbb b bbtch of up to 32 chbnnels
+            keyToChbnnelLock.writeLock().lock();
             count = 0;
             try {
-                for (Integer key: keyToChannel.keySet()) {
-                    channels[count++] = keyToChannel.get(key);
+                for (Integer key: keyToChbnnel.keySet()) {
+                    chbnnels[count++] = keyToChbnnel.get(key);
                     if (count >= MAX_BATCH_SIZE)
-                        break;
+                        brebk;
                 }
-            } finally {
-                keyToChannelLock.writeLock().unlock();
+            } finblly {
+                keyToChbnnelLock.writeLock().unlock();
             }
 
             // close them
             for (int i=0; i<count; i++) {
                 try {
-                    channels[i].close();
-                } catch (IOException ignore) { }
+                    chbnnels[i].close();
+                } cbtch (IOException ignore) { }
             }
         } while (count > 0);
     }
 
-    private void wakeup() {
+    privbte void wbkeup() {
         try {
-            postQueuedCompletionStatus(port, 0);
-        } catch (IOException e) {
-            // should not happen
+            postQueuedCompletionStbtus(port, 0);
+        } cbtch (IOException e) {
+            // should not hbppen
             throw new AssertionError(e);
         }
     }
 
     @Override
-    void executeOnHandlerTask(Runnable task) {
+    void executeOnHbndlerTbsk(Runnbble tbsk) {
         synchronized (this) {
             if (closed)
                 throw new RejectedExecutionException();
-            offerTask(task);
-            wakeup();
+            offerTbsk(tbsk);
+            wbkeup();
         }
 
     }
 
     @Override
-    void shutdownHandlerTasks() {
-        // shutdown all handler threads
-        int nThreads = threadCount();
-        while (nThreads-- > 0) {
-            wakeup();
+    void shutdownHbndlerTbsks() {
+        // shutdown bll hbndler threbds
+        int nThrebds = threbdCount();
+        while (nThrebds-- > 0) {
+            wbkeup();
         }
     }
 
     /**
-     * Associate the given handle with this group
+     * Associbte the given hbndle with this group
      */
-    int associate(OverlappedChannel ch, long handle) throws IOException {
-        keyToChannelLock.writeLock().lock();
+    int bssocibte(OverlbppedChbnnel ch, long hbndle) throws IOException {
+        keyToChbnnelLock.writeLock().lock();
 
-        // generate a completion key (if not shutdown)
+        // generbte b completion key (if not shutdown)
         int key;
         try {
             if (isShutdown())
-                throw new ShutdownChannelGroupException();
+                throw new ShutdownChbnnelGroupException();
 
-            // generate unique key
+            // generbte unique key
             do {
                 key = nextCompletionKey++;
-            } while ((key == 0) || keyToChannel.containsKey(key));
+            } while ((key == 0) || keyToChbnnel.contbinsKey(key));
 
-            // associate with I/O completion port
-            if (handle != 0L) {
-                createIoCompletionPort(handle, port, key, 0);
+            // bssocibte with I/O completion port
+            if (hbndle != 0L) {
+                crebteIoCompletionPort(hbndle, port, key, 0);
             }
 
-            // setup mapping
-            keyToChannel.put(key, ch);
-        } finally {
-            keyToChannelLock.writeLock().unlock();
+            // setup mbpping
+            keyToChbnnel.put(key, ch);
+        } finblly {
+            keyToChbnnelLock.writeLock().unlock();
         }
         return key;
     }
 
     /**
-     * Disassociate channel from the group.
+     * Disbssocibte chbnnel from the group.
      */
-    void disassociate(int key) {
-        boolean checkForShutdown = false;
+    void disbssocibte(int key) {
+        boolebn checkForShutdown = fblse;
 
-        keyToChannelLock.writeLock().lock();
+        keyToChbnnelLock.writeLock().lock();
         try {
-            keyToChannel.remove(key);
+            keyToChbnnel.remove(key);
 
-            // last key to be removed so check if group is shutdown
-            if (keyToChannel.isEmpty())
+            // lbst key to be removed so check if group is shutdown
+            if (keyToChbnnel.isEmpty())
                 checkForShutdown = true;
 
-        } finally {
-            keyToChannelLock.writeLock().unlock();
+        } finblly {
+            keyToChbnnelLock.writeLock().unlock();
         }
 
         // continue shutdown
         if (checkForShutdown && isShutdown()) {
             try {
                 shutdownNow();
-            } catch (IOException ignore) { }
+            } cbtch (IOException ignore) { }
         }
     }
 
     /**
-     * Invoked when a channel associated with this port is closed before
-     * notifications for all outstanding I/O operations have been received.
+     * Invoked when b chbnnel bssocibted with this port is closed before
+     * notificbtions for bll outstbnding I/O operbtions hbve been received.
      */
-    void makeStale(Long overlapped) {
-        synchronized (staleIoSet) {
-            staleIoSet.add(overlapped);
+    void mbkeStble(Long overlbpped) {
+        synchronized (stbleIoSet) {
+            stbleIoSet.bdd(overlbpped);
         }
     }
 
     /**
-     * Checks if the given OVERLAPPED is stale and if so, releases it.
+     * Checks if the given OVERLAPPED is stble bnd if so, relebses it.
      */
-    private void checkIfStale(long ov) {
-        synchronized (staleIoSet) {
-            boolean removed = staleIoSet.remove(ov);
+    privbte void checkIfStble(long ov) {
+        synchronized (stbleIoSet) {
+            boolebn removed = stbleIoSet.remove(ov);
             if (removed) {
-                unsafe.freeMemory(ov);
+                unsbfe.freeMemory(ov);
             }
         }
     }
 
     /**
-     * The handler for consuming the result of an asynchronous I/O operation.
+     * The hbndler for consuming the result of bn bsynchronous I/O operbtion.
      */
-    static interface ResultHandler {
+    stbtic interfbce ResultHbndler {
         /**
-         * Invoked if the I/O operation completes successfully.
+         * Invoked if the I/O operbtion completes successfully.
          */
-        public void completed(int bytesTransferred, boolean canInvokeDirect);
+        public void completed(int bytesTrbnsferred, boolebn cbnInvokeDirect);
 
         /**
-         * Invoked if the I/O operation fails.
+         * Invoked if the I/O operbtion fbils.
          */
-        public void failed(int error, IOException ioe);
+        public void fbiled(int error, IOException ioe);
     }
 
-    // Creates IOException for the given I/O error.
-    private static IOException translateErrorToIOException(int error) {
-        String msg = getErrorMessage(error);
+    // Crebtes IOException for the given I/O error.
+    privbte stbtic IOException trbnslbteErrorToIOException(int error) {
+        String msg = getErrorMessbge(error);
         if (msg == null)
             msg = "Unknown error: 0x0" + Integer.toHexString(error);
         return new IOException(msg);
     }
 
     /**
-     * Long-running task servicing system-wide or per-file completion port
+     * Long-running tbsk servicing system-wide or per-file completion port
      */
-    private class EventHandlerTask implements Runnable {
+    privbte clbss EventHbndlerTbsk implements Runnbble {
         public void run() {
             Invoker.GroupAndInvokeCount myGroupAndInvokeCount =
                 Invoker.getGroupAndInvokeCount();
-            boolean canInvokeDirect = (myGroupAndInvokeCount != null);
-            CompletionStatus ioResult = new CompletionStatus();
-            boolean replaceMe = false;
+            boolebn cbnInvokeDirect = (myGroupAndInvokeCount != null);
+            CompletionStbtus ioResult = new CompletionStbtus();
+            boolebn replbceMe = fblse;
 
             try {
                 for (;;) {
@@ -326,83 +326,83 @@ class Iocp extends AsynchronousChannelGroupImpl {
                     if (myGroupAndInvokeCount != null)
                         myGroupAndInvokeCount.resetInvokeCount();
 
-                    // wait for I/O completion event
-                    // A error here is fatal (thread will not be replaced)
-                    replaceMe = false;
+                    // wbit for I/O completion event
+                    // A error here is fbtbl (threbd will not be replbced)
+                    replbceMe = fblse;
                     try {
-                        getQueuedCompletionStatus(port, ioResult);
-                    } catch (IOException x) {
-                        // should not happen
-                        x.printStackTrace();
+                        getQueuedCompletionStbtus(port, ioResult);
+                    } cbtch (IOException x) {
+                        // should not hbppen
+                        x.printStbckTrbce();
                         return;
                     }
 
-                    // handle wakeup to execute task or shutdown
+                    // hbndle wbkeup to execute tbsk or shutdown
                     if (ioResult.completionKey() == 0 &&
-                        ioResult.overlapped() == 0L)
+                        ioResult.overlbpped() == 0L)
                     {
-                        Runnable task = pollTask();
-                        if (task == null) {
+                        Runnbble tbsk = pollTbsk();
+                        if (tbsk == null) {
                             // shutdown request
                             return;
                         }
 
-                        // run task
-                        // (if error/exception then replace thread)
-                        replaceMe = true;
-                        task.run();
+                        // run tbsk
+                        // (if error/exception then replbce threbd)
+                        replbceMe = true;
+                        tbsk.run();
                         continue;
                     }
 
-                    // map key to channel
-                    OverlappedChannel ch = null;
-                    keyToChannelLock.readLock().lock();
+                    // mbp key to chbnnel
+                    OverlbppedChbnnel ch = null;
+                    keyToChbnnelLock.rebdLock().lock();
                     try {
-                        ch = keyToChannel.get(ioResult.completionKey());
+                        ch = keyToChbnnel.get(ioResult.completionKey());
                         if (ch == null) {
-                            checkIfStale(ioResult.overlapped());
+                            checkIfStble(ioResult.overlbpped());
                             continue;
                         }
-                    } finally {
-                        keyToChannelLock.readLock().unlock();
+                    } finblly {
+                        keyToChbnnelLock.rebdLock().unlock();
                     }
 
                     // lookup I/O request
-                    PendingFuture<?,?> result = ch.getByOverlapped(ioResult.overlapped());
+                    PendingFuture<?,?> result = ch.getByOverlbpped(ioResult.overlbpped());
                     if (result == null) {
-                        // we get here if the OVERLAPPED structure is associated
-                        // with an I/O operation on a channel that was closed
-                        // but the I/O operation event wasn't read in a timely
-                        // manner. Alternatively, it may be related to a
-                        // tryLock operation as the OVERLAPPED structures for
-                        // these operations are not in the I/O cache.
-                        checkIfStale(ioResult.overlapped());
+                        // we get here if the OVERLAPPED structure is bssocibted
+                        // with bn I/O operbtion on b chbnnel thbt wbs closed
+                        // but the I/O operbtion event wbsn't rebd in b timely
+                        // mbnner. Alternbtively, it mby be relbted to b
+                        // tryLock operbtion bs the OVERLAPPED structures for
+                        // these operbtions bre not in the I/O cbche.
+                        checkIfStble(ioResult.overlbpped());
                         continue;
                     }
 
-                    // synchronize on result in case I/O completed immediately
-                    // and was handled by initiator
+                    // synchronize on result in cbse I/O completed immedibtely
+                    // bnd wbs hbndled by initibtor
                     synchronized (result) {
                         if (result.isDone()) {
                             continue;
                         }
-                        // not handled by initiator
+                        // not hbndled by initibtor
                     }
 
-                    // invoke I/O result handler
+                    // invoke I/O result hbndler
                     int error = ioResult.error();
-                    ResultHandler rh = (ResultHandler)result.getContext();
-                    replaceMe = true; // (if error/exception then replace thread)
+                    ResultHbndler rh = (ResultHbndler)result.getContext();
+                    replbceMe = true; // (if error/exception then replbce threbd)
                     if (error == 0) {
-                        rh.completed(ioResult.bytesTransferred(), canInvokeDirect);
+                        rh.completed(ioResult.bytesTrbnsferred(), cbnInvokeDirect);
                     } else {
-                        rh.failed(error, translateErrorToIOException(error));
+                        rh.fbiled(error, trbnslbteErrorToIOException(error));
                     }
                 }
-            } finally {
-                // last thread to exit when shutdown releases resources
-                int remaining = threadExit(this, replaceMe);
-                if (remaining == 0 && isShutdown()) {
+            } finblly {
+                // lbst threbd to exit when shutdown relebses resources
+                int rembining = threbdExit(this, replbceMe);
+                if (rembining == 0 && isShutdown()) {
                     implClose();
                 }
             }
@@ -410,46 +410,46 @@ class Iocp extends AsynchronousChannelGroupImpl {
     }
 
     /**
-     * Container for data returned by GetQueuedCompletionStatus
+     * Contbiner for dbtb returned by GetQueuedCompletionStbtus
      */
-    private static class CompletionStatus {
-        private int error;
-        private int bytesTransferred;
-        private int completionKey;
-        private long overlapped;
+    privbte stbtic clbss CompletionStbtus {
+        privbte int error;
+        privbte int bytesTrbnsferred;
+        privbte int completionKey;
+        privbte long overlbpped;
 
-        private CompletionStatus() { }
+        privbte CompletionStbtus() { }
         int error() { return error; }
-        int bytesTransferred() { return bytesTransferred; }
+        int bytesTrbnsferred() { return bytesTrbnsferred; }
         int completionKey() { return completionKey; }
-        long overlapped() { return overlapped; }
+        long overlbpped() { return overlbpped; }
     }
 
-    // -- native methods --
+    // -- nbtive methods --
 
-    private static native void initIDs();
+    privbte stbtic nbtive void initIDs();
 
-    private static native long createIoCompletionPort(long handle,
+    privbte stbtic nbtive long crebteIoCompletionPort(long hbndle,
         long existingPort, int completionKey, int concurrency) throws IOException;
 
-    private static native void close0(long handle);
+    privbte stbtic nbtive void close0(long hbndle);
 
-    private static native void getQueuedCompletionStatus(long completionPort,
-        CompletionStatus status) throws IOException;
+    privbte stbtic nbtive void getQueuedCompletionStbtus(long completionPort,
+        CompletionStbtus stbtus) throws IOException;
 
-    private static native void postQueuedCompletionStatus(long completionPort,
+    privbte stbtic nbtive void postQueuedCompletionStbtus(long completionPort,
         int completionKey) throws IOException;
 
-    private static native String getErrorMessage(int error);
+    privbte stbtic nbtive String getErrorMessbge(int error);
 
-    static {
-        IOUtil.load();
+    stbtic {
+        IOUtil.lobd();
         initIDs();
 
-        // thread agnostic I/O on Vista/2008 or newer
+        // threbd bgnostic I/O on Vistb/2008 or newer
         String osversion = AccessController.doPrivileged(
             new GetPropertyAction("os.version"));
         String vers[] = osversion.split("\\.");
-        supportsThreadAgnosticIo = Integer.parseInt(vers[0]) >= 6;
+        supportsThrebdAgnosticIo = Integer.pbrseInt(vers[0]) >= 6;
     }
 }

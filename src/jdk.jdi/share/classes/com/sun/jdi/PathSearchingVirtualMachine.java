@@ -1,62 +1,62 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jdi;
+pbckbge com.sun.jdi;
 
-import java.util.List;
+import jbvb.util.List;
 
 /**
- * A virtual machine which searches for classes through paths
+ * A virtubl mbchine which sebrches for clbsses through pbths
  *
- * @author Gordon Hirsch
+ * @buthor Gordon Hirsch
  * @since  1.3
  */
 @jdk.Exported
-public interface PathSearchingVirtualMachine extends VirtualMachine {
+public interfbce PbthSebrchingVirtublMbchine extends VirtublMbchine {
     /**
-     * Get the class path for this virtual machine.
+     * Get the clbss pbth for this virtubl mbchine.
      *
-     * @return {@link List} of components of the classpath,
-     * each represented by a {@link String}.
+     * @return {@link List} of components of the clbsspbth,
+     * ebch represented by b {@link String}.
      */
-    List<String> classPath();
+    List<String> clbssPbth();
 
     /**
-     * Get the boot class path for this virtual machine.
+     * Get the boot clbss pbth for this virtubl mbchine.
      *
-     * @return {@link List} of components of the boot class path,
-     * each represented by a {@link String}.
+     * @return {@link List} of components of the boot clbss pbth,
+     * ebch represented by b {@link String}.
      */
-    List<String> bootClassPath();
+    List<String> bootClbssPbth();
 
     /**
-     * Get the base directory used for path searching. Relative directories
-     * in the class path and boot class path can be resolved through
-     * this directory name.
+     * Get the bbse directory used for pbth sebrching. Relbtive directories
+     * in the clbss pbth bnd boot clbss pbth cbn be resolved through
+     * this directory nbme.
      *
-     * @return the base directory.
+     * @return the bbse directory.
      */
-    String baseDirectory();
+    String bbseDirectory();
 }

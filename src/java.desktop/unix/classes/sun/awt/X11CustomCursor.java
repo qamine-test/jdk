@@ -1,53 +1,53 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt;
+pbckbge sun.bwt;
 
-import sun.awt.CustomCursor;
-import java.awt.*;
-import java.awt.image.*;
-import sun.awt.image.ImageRepresentation;
+import sun.bwt.CustomCursor;
+import jbvb.bwt.*;
+import jbvb.bwt.imbge.*;
+import sun.bwt.imbge.ImbgeRepresentbtion;
 
 /**
- * A class to encapsulate a custom image-based cursor.
+ * A clbss to encbpsulbte b custom imbge-bbsed cursor.
  *
  * @see Component#setCursor
- * @author      Thomas Ball
+ * @buthor      Thombs Bbll
  */
-@SuppressWarnings("serial") // JDK-implementation class
-public abstract class X11CustomCursor extends CustomCursor {
+@SuppressWbrnings("seribl") // JDK-implementbtion clbss
+public bbstrbct clbss X11CustomCursor extends CustomCursor {
 
-    public X11CustomCursor(Image cursor, Point hotSpot, String name)
+    public X11CustomCursor(Imbge cursor, Point hotSpot, String nbme)
             throws IndexOutOfBoundsException {
-        super(cursor, hotSpot, name);
+        super(cursor, hotSpot, nbme);
     }
 
-    protected void createNativeCursor(Image im, int[] pixels, int width, int height,
+    protected void crebteNbtiveCursor(Imbge im, int[] pixels, int width, int height,
                                       int xHotSpot, int yHotSpot) {
 
-        class CCount implements Comparable<CCount> {
+        clbss CCount implements Compbrbble<CCount> {
             int color;
             int count;
 
@@ -56,7 +56,7 @@ public abstract class X11CustomCursor extends CustomCursor {
                 count = ct;
             }
 
-            public int compareTo(CCount cc) {
+            public int compbreTo(CCount cc) {
                 return cc.count - count;
             }
         }
@@ -69,7 +69,7 @@ public abstract class X11CustomCursor extends CustomCursor {
                 tmp[i] = pixels[i] & 0x00ffffff;
             }
         }
-        java.util.Arrays.sort(tmp);
+        jbvb.util.Arrbys.sort(tmp);
 
         int fc = 0x000000;
         int bc = 0xffffff;
@@ -80,7 +80,7 @@ public abstract class X11CustomCursor extends CustomCursor {
         while ( is < pixels.length ) {
             if (tmp[is] != -1) {
                 cols[numColors++] = new CCount(tmp[is], 1);
-                break;
+                brebk;
             }
             is ++;
         }
@@ -92,7 +92,7 @@ public abstract class X11CustomCursor extends CustomCursor {
                 cols[numColors-1].count ++;
             }
         }
-        java.util.Arrays.sort(cols, 0, numColors);
+        jbvb.util.Arrbys.sort(cols, 0, numColors);
 
         if (numColors > 0) fc = cols[0].color;
         int fcr = (fc >> 16) & 0x000000ff;
@@ -128,7 +128,7 @@ public abstract class X11CustomCursor extends CustomCursor {
             if ( (rr-fcr)*(rr-fcr) + (gg-fcg)*(gg-fcg) + (bb-fcb)*(bb-fcb)
                  >= rdis )  {
                 bc = cols[j].color;
-                break;
+                brebk;
             }
         }
         int bcr = (bc >> 16) & 0x000000ff;
@@ -136,25 +136,25 @@ public abstract class X11CustomCursor extends CustomCursor {
         int bcb = (bc >>  0) & 0x000000ff;
 
 
-        // On Solaris 2.5.x, the above code for cursor of any size runs fine
-        // but on Solaris 2.6, the width of a cursor has to be 8 divisible,
-        //   otherwise, the cursor could be displayed as garbaged.
-        // To work around the 2.6 problem, the following code pads any cursor
-        //   with a transparent area to make a new cursor of width 8 multiples.
+        // On Solbris 2.5.x, the bbove code for cursor of bny size runs fine
+        // but on Solbris 2.6, the width of b cursor hbs to be 8 divisible,
+        //   otherwise, the cursor could be displbyed bs gbrbbged.
+        // To work bround the 2.6 problem, the following code pbds bny cursor
+        //   with b trbnspbrent breb to mbke b new cursor of width 8 multiples.
         // --- Bug 4148455
         int wNByte = (width + 7)/8;
         int tNByte = wNByte * height;
-        byte[] xorMask = new byte[tNByte];
-        byte[] andMask = new byte[tNByte];
+        byte[] xorMbsk = new byte[tNByte];
+        byte[] bndMbsk = new byte[tNByte];
 
         for (int i = 0; i < width; i++) {
-            int omask = 1 << (i % 8);
+            int ombsk = 1 << (i % 8);
             for (int j = 0; j < height; j++) {
                 int ip = j*width + i;
                 int ibyte = j*wNByte + i/8;
 
                 if ((pixels[ip] & 0xff000000) != 0) {
-                    andMask[ibyte] |= omask;
+                    bndMbsk[ibyte] |= ombsk;
                 }
 
                 int pr = (pixels[ip] >> 16) & 0x000000ff;
@@ -163,15 +163,15 @@ public abstract class X11CustomCursor extends CustomCursor {
                 if ( (pr-fcr)*(pr-fcr) + (pg-fcg)*(pg-fcg) + (pb-fcb)*(pb-fcb)
                   <= (pr-bcr)*(pr-bcr) + (pg-bcg)*(pg-bcg) + (pb-bcb)*(pb-bcb) ) {
                     // show foreground color
-                    xorMask[ibyte] |= omask;
+                    xorMbsk[ibyte] |= ombsk;
                 }
             }
         }
 
-        createCursor(xorMask, andMask, 8*wNByte, height, fc, bc, xHotSpot, yHotSpot);
+        crebteCursor(xorMbsk, bndMbsk, 8*wNByte, height, fc, bc, xHotSpot, yHotSpot);
     }
 
-    protected abstract void createCursor(byte[] xorMask, byte[] andMask,
+    protected bbstrbct void crebteCursor(byte[] xorMbsk, byte[] bndMbsk,
                                      int width, int height,
                                      int fcolor, int bcolor,
                                      int xHotSpot, int yHotSpot);

@@ -1,65 +1,65 @@
 /*
- * Copyright (c) 2001, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jndi.ldap.sasl;
+pbckbge com.sun.jndi.ldbp.sbsl;
 
-import javax.security.sasl.Sasl;
-import javax.security.sasl.SaslClient;
-import javax.security.sasl.SaslException;
-import java.io.IOException;
-import java.io.FilterOutputStream;
-import java.io.OutputStream;
+import jbvbx.security.sbsl.Sbsl;
+import jbvbx.security.sbsl.SbslClient;
+import jbvbx.security.sbsl.SbslException;
+import jbvb.io.IOException;
+import jbvb.io.FilterOutputStrebm;
+import jbvb.io.OutputStrebm;
 
-class SaslOutputStream extends FilterOutputStream {
-    private static final boolean debug = false;
+clbss SbslOutputStrebm extends FilterOutputStrebm {
+    privbte stbtic finbl boolebn debug = fblse;
 
-    private byte[] lenBuf = new byte[4];  // buffer for storing length
-    private int rawSendSize = 65536;
-    private SaslClient sc;
+    privbte byte[] lenBuf = new byte[4];  // buffer for storing length
+    privbte int rbwSendSize = 65536;
+    privbte SbslClient sc;
 
-    SaslOutputStream(SaslClient sc, OutputStream out) throws SaslException {
+    SbslOutputStrebm(SbslClient sc, OutputStrebm out) throws SbslException {
         super(out);
         this.sc = sc;
 
         if (debug) {
-            System.err.println("SaslOutputStream: " + out);
+            System.err.println("SbslOutputStrebm: " + out);
         }
 
-        String str = (String) sc.getNegotiatedProperty(Sasl.RAW_SEND_SIZE);
+        String str = (String) sc.getNegotibtedProperty(Sbsl.RAW_SEND_SIZE);
         if (str != null) {
             try {
-                rawSendSize = Integer.parseInt(str);
-            } catch (NumberFormatException e) {
-                throw new SaslException(Sasl.RAW_SEND_SIZE +
+                rbwSendSize = Integer.pbrseInt(str);
+            } cbtch (NumberFormbtException e) {
+                throw new SbslException(Sbsl.RAW_SEND_SIZE +
                     " property must be numeric string: " + str);
             }
         }
     }
 
-    // Override this method to call write(byte[], int, int) counterpart
-    // super.write(int) simply calls out.write(int)
+    // Override this method to cbll write(byte[], int, int) counterpbrt
+    // super.write(int) simply cblls out.write(int)
 
     public void write(int b) throws IOException {
         byte[] buffer = new byte[1];
@@ -68,67 +68,67 @@ class SaslOutputStream extends FilterOutputStream {
     }
 
     /**
-     * Override this method to "wrap" the outgoing buffer before
-     * writing it to the underlying output stream.
+     * Override this method to "wrbp" the outgoing buffer before
+     * writing it to the underlying output strebm.
      */
-    public void write(byte[] buffer, int offset, int total) throws IOException {
+    public void write(byte[] buffer, int offset, int totbl) throws IOException {
         int count;
-        byte[] wrappedToken, saslBuffer;
+        byte[] wrbppedToken, sbslBuffer;
 
-        // "Packetize" buffer to be within rawSendSize
+        // "Pbcketize" buffer to be within rbwSendSize
         if (debug) {
-            System.err.println("Total size: " + total);
+            System.err.println("Totbl size: " + totbl);
         }
 
-        for (int i = 0; i < total; i += rawSendSize) {
+        for (int i = 0; i < totbl; i += rbwSendSize) {
 
-            // Calculate length of current "packet"
-            count = (total - i) < rawSendSize ? (total - i) : rawSendSize;
+            // Cblculbte length of current "pbcket"
+            count = (totbl - i) < rbwSendSize ? (totbl - i) : rbwSendSize;
 
-            // Generate wrapped token
-            wrappedToken = sc.wrap(buffer, offset+i, count);
+            // Generbte wrbpped token
+            wrbppedToken = sc.wrbp(buffer, offset+i, count);
 
             // Write out length
-            intToNetworkByteOrder(wrappedToken.length, lenBuf, 0, 4);
+            intToNetworkByteOrder(wrbppedToken.length, lenBuf, 0, 4);
 
             if (debug) {
-                System.err.println("sending size: " + wrappedToken.length);
+                System.err.println("sending size: " + wrbppedToken.length);
             }
             out.write(lenBuf, 0, 4);
 
-            // Write out wrapped token
-            out.write(wrappedToken, 0, wrappedToken.length);
+            // Write out wrbpped token
+            out.write(wrbppedToken, 0, wrbppedToken.length);
         }
     }
 
     public void close() throws IOException {
-        SaslException save = null;
+        SbslException sbve = null;
         try {
-            sc.dispose();  // Dispose of SaslClient's state
-        } catch (SaslException e) {
-            // Save exception for throwing after closing 'in'
-            save = e;
+            sc.dispose();  // Dispose of SbslClient's stbte
+        } cbtch (SbslException e) {
+            // Sbve exception for throwing bfter closing 'in'
+            sbve = e;
         }
-        super.close();  // Close underlying output stream
+        super.close();  // Close underlying output strebm
 
-        if (save != null) {
-            throw save;
+        if (sbve != null) {
+            throw sbve;
         }
     }
 
-    // Copied from com.sun.security.sasl.util.SaslImpl
+    // Copied from com.sun.security.sbsl.util.SbslImpl
     /**
-     * Encodes an integer into 4 bytes in network byte order in the buffer
+     * Encodes bn integer into 4 bytes in network byte order in the buffer
      * supplied.
      */
-    private static void intToNetworkByteOrder(int num, byte[] buf, int start,
+    privbte stbtic void intToNetworkByteOrder(int num, byte[] buf, int stbrt,
         int count) {
         if (count > 4) {
-            throw new IllegalArgumentException("Cannot handle more than 4 bytes");
+            throw new IllegblArgumentException("Cbnnot hbndle more thbn 4 bytes");
         }
 
         for (int i = count-1; i >= 0; i--) {
-            buf[start+i] = (byte)(num & 0xff);
+            buf[stbrt+i] = (byte)(num & 0xff);
             num >>>= 8;
         }
     }

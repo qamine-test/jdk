@@ -1,70 +1,70 @@
 /*
- * Copyright (c) 1999, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.management;
+pbckbge jbvbx.mbnbgement;
 
 
 /**
- * This class is used by the query-building mechanism to represent binary
- * relations.
- * @serial include
+ * This clbss is used by the query-building mechbnism to represent binbry
+ * relbtions.
+ * @seribl include
  *
  * @since 1.5
  */
-class BetweenQueryExp extends QueryEval implements QueryExp {
+clbss BetweenQueryExp extends QueryEvbl implements QueryExp {
 
-    /* Serial version */
-    private static final long serialVersionUID = -2933597532866307444L;
+    /* Seribl version */
+    privbte stbtic finbl long seriblVersionUID = -2933597532866307444L;
 
     /**
-     * @serial The checked value
+     * @seribl The checked vblue
      */
-    private ValueExp exp1;
+    privbte VblueExp exp1;
 
     /**
-     * @serial The lower bound value
+     * @seribl The lower bound vblue
      */
-    private ValueExp exp2;
+    privbte VblueExp exp2;
 
     /**
-     * @serial The upper bound value
+     * @seribl The upper bound vblue
      */
-    private ValueExp exp3;
+    privbte VblueExp exp3;
 
 
     /**
-     * Basic Constructor.
+     * Bbsic Constructor.
      */
     public BetweenQueryExp() {
     }
 
     /**
-     * Creates a new BetweenQueryExp with v1 checked value, v2 lower bound
-     * and v3 upper bound values.
+     * Crebtes b new BetweenQueryExp with v1 checked vblue, v2 lower bound
+     * bnd v3 upper bound vblues.
      */
-    public BetweenQueryExp(ValueExp v1, ValueExp v2, ValueExp v3) {
+    public BetweenQueryExp(VblueExp v1, VblueExp v2, VblueExp v3) {
         exp1  = v1;
         exp2  = v2;
         exp3  = v3;
@@ -72,63 +72,63 @@ class BetweenQueryExp extends QueryEval implements QueryExp {
 
 
     /**
-     * Returns the checked value of the query.
+     * Returns the checked vblue of the query.
      */
-    public ValueExp getCheckedValue()  {
+    public VblueExp getCheckedVblue()  {
         return exp1;
     }
 
     /**
-     * Returns the lower bound value of the query.
+     * Returns the lower bound vblue of the query.
      */
-    public ValueExp getLowerBound()  {
+    public VblueExp getLowerBound()  {
         return exp2;
     }
 
     /**
-     * Returns the upper bound value of the query.
+     * Returns the upper bound vblue of the query.
      */
-    public ValueExp getUpperBound()  {
+    public VblueExp getUpperBound()  {
         return exp3;
     }
 
     /**
-     * Applies the BetweenQueryExp on an MBean.
+     * Applies the BetweenQueryExp on bn MBebn.
      *
-     * @param name The name of the MBean on which the BetweenQueryExp will be applied.
+     * @pbrbm nbme The nbme of the MBebn on which the BetweenQueryExp will be bpplied.
      *
-     * @return  True if the query was successfully applied to the MBean, false otherwise.
+     * @return  True if the query wbs successfully bpplied to the MBebn, fblse otherwise.
      *
-     * @exception BadStringOperationException
-     * @exception BadBinaryOpValueExpException
-     * @exception BadAttributeValueExpException
-     * @exception InvalidApplicationException
+     * @exception BbdStringOperbtionException
+     * @exception BbdBinbryOpVblueExpException
+     * @exception BbdAttributeVblueExpException
+     * @exception InvblidApplicbtionException
      */
-    public boolean apply(ObjectName name) throws BadStringOperationException, BadBinaryOpValueExpException,
-        BadAttributeValueExpException, InvalidApplicationException  {
-        ValueExp val1 = exp1.apply(name);
-        ValueExp val2 = exp2.apply(name);
-        ValueExp val3 = exp3.apply(name);
-        boolean numeric = val1 instanceof NumericValueExp;
+    public boolebn bpply(ObjectNbme nbme) throws BbdStringOperbtionException, BbdBinbryOpVblueExpException,
+        BbdAttributeVblueExpException, InvblidApplicbtionException  {
+        VblueExp vbl1 = exp1.bpply(nbme);
+        VblueExp vbl2 = exp2.bpply(nbme);
+        VblueExp vbl3 = exp3.bpply(nbme);
+        boolebn numeric = vbl1 instbnceof NumericVblueExp;
 
         if (numeric) {
-            if (((NumericValueExp)val1).isLong()) {
-                long lval1 = ((NumericValueExp)val1).longValue();
-                long lval2 = ((NumericValueExp)val2).longValue();
-                long lval3 = ((NumericValueExp)val3).longValue();
-                return lval2 <= lval1 && lval1 <= lval3;
+            if (((NumericVblueExp)vbl1).isLong()) {
+                long lvbl1 = ((NumericVblueExp)vbl1).longVblue();
+                long lvbl2 = ((NumericVblueExp)vbl2).longVblue();
+                long lvbl3 = ((NumericVblueExp)vbl3).longVblue();
+                return lvbl2 <= lvbl1 && lvbl1 <= lvbl3;
             } else {
-                double dval1 = ((NumericValueExp)val1).doubleValue();
-                double dval2 = ((NumericValueExp)val2).doubleValue();
-                double dval3 = ((NumericValueExp)val3).doubleValue();
-                return dval2 <= dval1 && dval1 <= dval3;
+                double dvbl1 = ((NumericVblueExp)vbl1).doubleVblue();
+                double dvbl2 = ((NumericVblueExp)vbl2).doubleVblue();
+                double dvbl3 = ((NumericVblueExp)vbl3).doubleVblue();
+                return dvbl2 <= dvbl1 && dvbl1 <= dvbl3;
             }
 
         } else {
-            String sval1 = ((StringValueExp)val1).getValue();
-            String sval2 = ((StringValueExp)val2).getValue();
-            String sval3 = ((StringValueExp)val3).getValue();
-            return sval2.compareTo(sval1) <= 0 && sval1.compareTo(sval3) <= 0;
+            String svbl1 = ((StringVblueExp)vbl1).getVblue();
+            String svbl2 = ((StringVblueExp)vbl2).getVblue();
+            String svbl3 = ((StringVblueExp)vbl3).getVblue();
+            return svbl2.compbreTo(svbl1) <= 0 && svbl1.compbreTo(svbl3) <= 0;
         }
     }
 
@@ -137,6 +137,6 @@ class BetweenQueryExp extends QueryEval implements QueryExp {
      */
     @Override
     public String toString()  {
-        return "(" + exp1 + ") between (" + exp2 + ") and (" + exp3 + ")";
+        return "(" + exp1 + ") between (" + exp2 + ") bnd (" + exp3 + ")";
     }
 }

@@ -1,139 +1,139 @@
 /*
- * Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jndi.ldap;
+pbckbge com.sun.jndi.ldbp;
 
-import java.util.Hashtable;
-import java.util.Vector;
-import java.util.EventObject;
+import jbvb.util.Hbshtbble;
+import jbvb.util.Vector;
+import jbvb.util.EventObject;
 
-import javax.naming.*;
-import javax.naming.event.*;
-import javax.naming.directory.SearchControls;
-import javax.naming.ldap.UnsolicitedNotificationListener;
-import javax.naming.ldap.UnsolicitedNotificationEvent;
-import javax.naming.ldap.UnsolicitedNotification;
+import jbvbx.nbming.*;
+import jbvbx.nbming.event.*;
+import jbvbx.nbming.directory.SebrchControls;
+import jbvbx.nbming.ldbp.UnsolicitedNotificbtionListener;
+import jbvbx.nbming.ldbp.UnsolicitedNotificbtionEvent;
+import jbvbx.nbming.ldbp.UnsolicitedNotificbtion;
 
 /**
- * This is a utility class that can be used by a context that supports
- * event notification.  You can use an instance of this class as a member field
- * of your context and delegate various work to it.
- * It is currently structured so that each context should have its own
- * EventSupport (instead of static version shared by all contexts
- * of a service provider).
+ * This is b utility clbss thbt cbn be used by b context thbt supports
+ * event notificbtion.  You cbn use bn instbnce of this clbss bs b member field
+ * of your context bnd delegbte vbrious work to it.
+ * It is currently structured so thbt ebch context should hbve its own
+ * EventSupport (instebd of stbtic version shbred by bll contexts
+ * of b service provider).
  *<p>
- * This class supports two types of listeners: those that register for
- * NamingEvents, and those for UnsolicitedNotificationEvents (they can be mixed
- * into the same listener).
- * For NamingEvent listeners, it maintains a hashtable that maps
- * registration requests--the key--to
- * <em>notifiers</em>--the value. Each registration request consists of:
+ * This clbss supports two types of listeners: those thbt register for
+ * NbmingEvents, bnd those for UnsolicitedNotificbtionEvents (they cbn be mixed
+ * into the sbme listener).
+ * For NbmingEvent listeners, it mbintbins b hbshtbble thbt mbps
+ * registrbtion requests--the key--to
+ * <em>notifiers</em>--the vblue. Ebch registrbtion request consists of:
  *<ul>
- *<li>The name argument of the registration.
- *<li>The filter (default is "(objectclass=*)").
- *<li>The search controls (default is null SearchControls).
- *<li>The events that the listener is interested in. This is determined by
- * finding out which <tt>NamingListener</tt> interface the listener supports.
+ *<li>The nbme brgument of the registrbtion.
+ *<li>The filter (defbult is "(objectclbss=*)").
+ *<li>The sebrch controls (defbult is null SebrchControls).
+ *<li>The events thbt the listener is interested in. This is determined by
+ * finding out which <tt>NbmingListener</tt> interfbce the listener supports.
  *</ul>
  *<p>
- *A notifier (<tt>NamingEventNotifier</tt>) is a worker thread that is responsible
- *for gathering information for generating events requested by its listeners.
- *Each notifier maintains its own list of listeners; these listeners have
- *all made the same registration request (at different times) and implements
- *the same <tt>NamingListener</tt> interfaces.
+ *A notifier (<tt>NbmingEventNotifier</tt>) is b worker threbd thbt is responsible
+ *for gbthering informbtion for generbting events requested by its listeners.
+ *Ebch notifier mbintbins its own list of listeners; these listeners hbve
+ *bll mbde the sbme registrbtion request (bt different times) bnd implements
+ *the sbme <tt>NbmingListener</tt> interfbces.
  *<p>
- *For unsolicited listeners, this class maintains a vector, unsolicited.
- *When an unsolicited listener is registered, this class adds itself
- *to the context's LdapClient. When LdapClient receives an unsolicited
- *notification, it notifies this EventSupport to fire an event to the
- *the listeners. Special handling in LdapClient is done for the DISCONNECT
- *notification. [It results in the EventSupport firing also a
- *NamingExceptionEvent to the unsolicited listeners.]
+ *For unsolicited listeners, this clbss mbintbins b vector, unsolicited.
+ *When bn unsolicited listener is registered, this clbss bdds itself
+ *to the context's LdbpClient. When LdbpClient receives bn unsolicited
+ *notificbtion, it notifies this EventSupport to fire bn event to the
+ *the listeners. Specibl hbndling in LdbpClient is done for the DISCONNECT
+ *notificbtion. [It results in the EventSupport firing blso b
+ *NbmingExceptionEvent to the unsolicited listeners.]
  *<p>
  *
- *When a context no longer needs this EventSupport, it should invoke
- *cleanup() on it.
+ *When b context no longer needs this EventSupport, it should invoke
+ *clebnup() on it.
  *<p>
- *<h4>Registration</h4>
- *When a registration request is made, this class attempts to find an
- *existing notifier that's already working on the request. If one is
- *found, the listener is added to the notifier's list. If one is not found,
- *a new notifier is created for the listener.
+ *<h4>Registrbtion</h4>
+ *When b registrbtion request is mbde, this clbss bttempts to find bn
+ *existing notifier thbt's blrebdy working on the request. If one is
+ *found, the listener is bdded to the notifier's list. If one is not found,
+ *b new notifier is crebted for the listener.
  *
- *<h4>Deregistration</h4>
- *When a deregistration request is made, this class attempts to find its
+ *<h4>Deregistrbtion</h4>
+ *When b deregistrbtion request is mbde, this clbss bttempts to find its
  *corresponding notifier. If the notifier is found, the listener is removed
- *from the notifier's list. If the listener is the last listener on the list,
- *the notifier's thread is terminated and removed from this class's hashtable.
- *Nothing happens if the notifier is not found.
+ *from the notifier's list. If the listener is the lbst listener on the list,
+ *the notifier's threbd is terminbted bnd removed from this clbss's hbshtbble.
+ *Nothing hbppens if the notifier is not found.
  *
- *<h4>Event Dispatching</h4>
- *The notifiers are responsible for gather information for generating events
- *requested by their respective listeners. When a notifier gets sufficient
- *information to generate an event, it creates invokes the
- *appropriate <tt>fireXXXEvent</tt> on this class with the information and list of
- *listeners. This causes an event and the list of listeners to be added
+ *<h4>Event Dispbtching</h4>
+ *The notifiers bre responsible for gbther informbtion for generbting events
+ *requested by their respective listeners. When b notifier gets sufficient
+ *informbtion to generbte bn event, it crebtes invokes the
+ *bppropribte <tt>fireXXXEvent</tt> on this clbss with the informbtion bnd list of
+ *listeners. This cbuses bn event bnd the list of listeners to be bdded
  *to the <em>event queue</em>.
- *This class maintains an event queue and a dispatching thread that dequeues
- *events from the queue and dispatches them to the listeners.
+ *This clbss mbintbins bn event queue bnd b dispbtching threbd thbt dequeues
+ *events from the queue bnd dispbtches them to the listeners.
  *
- *<h4>Synchronization</h4>
- *This class is used by the main thread (LdapCtx) to add/remove listeners.
- *It is also used asynchronously by NamingEventNotifiers threads and
- *the context's Connection thread. It is used by the notifier threads to
- *queue events and to update the notifiers list when the notifiers exit.
- *It is used by the Connection thread to fire unsolicited notifications.
- *Methods that access/update the 'unsolicited' and 'notifiers' lists are
- *thread-safe.
+ *<h4>Synchronizbtion</h4>
+ *This clbss is used by the mbin threbd (LdbpCtx) to bdd/remove listeners.
+ *It is blso used bsynchronously by NbmingEventNotifiers threbds bnd
+ *the context's Connection threbd. It is used by the notifier threbds to
+ *queue events bnd to updbte the notifiers list when the notifiers exit.
+ *It is used by the Connection threbd to fire unsolicited notificbtions.
+ *Methods thbt bccess/updbte the 'unsolicited' bnd 'notifiers' lists bre
+ *threbd-sbfe.
  *
- * @author Rosanna Lee
+ * @buthor Rosbnnb Lee
  */
-final class EventSupport {
-    final static private boolean debug = false;
+finbl clbss EventSupport {
+    finbl stbtic privbte boolebn debug = fblse;
 
-    private LdapCtx ctx;
-
-    /**
-     * NamingEventNotifiers; hashed by search arguments;
-     */
-    private Hashtable<NotifierArgs, NamingEventNotifier> notifiers =
-            new Hashtable<>(11);
+    privbte LdbpCtx ctx;
 
     /**
-     * List of unsolicited notification listeners.
+     * NbmingEventNotifiers; hbshed by sebrch brguments;
      */
-    private Vector<UnsolicitedNotificationListener> unsolicited = null;
+    privbte Hbshtbble<NotifierArgs, NbmingEventNotifier> notifiers =
+            new Hbshtbble<>(11);
+
+    /**
+     * List of unsolicited notificbtion listeners.
+     */
+    privbte Vector<UnsolicitedNotificbtionListener> unsolicited = null;
 
     /**
      * Constructs EventSupport for ctx.
-     * <em>Do we need to record the name of the target context?
-     * Or can we assume that EventSupport is called on a resolved
-     * context? Do we need other add/remove-NamingListener methods?
-     * package private;
+     * <em>Do we need to record the nbme of the tbrget context?
+     * Or cbn we bssume thbt EventSupport is cblled on b resolved
+     * context? Do we need other bdd/remove-NbmingListener methods?
+     * pbckbge privbte;
      */
-    EventSupport(LdapCtx ctx) {
+    EventSupport(LdbpCtx ctx) {
         this.ctx = ctx;
     }
 
@@ -141,79 +141,79 @@ final class EventSupport {
      * Adds <tt>l</tt> to list of listeners interested in <tt>nm</tt>.
      */
     /*
-     * Make the add/removeNamingListeners synchronized to:
-     * 1. protect usage of 'unsolicited', which may be read by
-     *    the Connection thread when dispatching unsolicited notification.
-     * 2. ensure that NamingEventNotifier thread's access to 'notifiers'
-     *    is safe
+     * Mbke the bdd/removeNbmingListeners synchronized to:
+     * 1. protect usbge of 'unsolicited', which mby be rebd by
+     *    the Connection threbd when dispbtching unsolicited notificbtion.
+     * 2. ensure thbt NbmingEventNotifier threbd's bccess to 'notifiers'
+     *    is sbfe
      */
-    synchronized void addNamingListener(String nm, int scope,
-        NamingListener l) throws NamingException {
+    synchronized void bddNbmingListener(String nm, int scope,
+        NbmingListener l) throws NbmingException {
 
-        if (l instanceof ObjectChangeListener ||
-            l instanceof NamespaceChangeListener) {
-            NotifierArgs args = new NotifierArgs(nm, scope, l);
+        if (l instbnceof ObjectChbngeListener ||
+            l instbnceof NbmespbceChbngeListener) {
+            NotifierArgs brgs = new NotifierArgs(nm, scope, l);
 
-            NamingEventNotifier notifier = notifiers.get(args);
+            NbmingEventNotifier notifier = notifiers.get(brgs);
             if (notifier == null) {
-                notifier = new NamingEventNotifier(this, ctx, args, l);
-                notifiers.put(args, notifier);
+                notifier = new NbmingEventNotifier(this, ctx, brgs, l);
+                notifiers.put(brgs, notifier);
             } else {
-                notifier.addNamingListener(l);
+                notifier.bddNbmingListener(l);
             }
         }
-        if (l instanceof UnsolicitedNotificationListener) {
+        if (l instbnceof UnsolicitedNotificbtionListener) {
             // Add listener to this's list of unsolicited notifiers
             if (unsolicited == null) {
                 unsolicited = new Vector<>(3);
             }
 
-            unsolicited.addElement((UnsolicitedNotificationListener)l);
+            unsolicited.bddElement((UnsolicitedNotificbtionListener)l);
         }
     }
 
     /**
      * Adds <tt>l</tt> to list of listeners interested in <tt>nm</tt>
-     * and filter.
+     * bnd filter.
      */
-    synchronized void addNamingListener(String nm, String filter,
-        SearchControls ctls, NamingListener l) throws NamingException {
+    synchronized void bddNbmingListener(String nm, String filter,
+        SebrchControls ctls, NbmingListener l) throws NbmingException {
 
-        if (l instanceof ObjectChangeListener ||
-            l instanceof NamespaceChangeListener) {
-            NotifierArgs args = new NotifierArgs(nm, filter, ctls, l);
+        if (l instbnceof ObjectChbngeListener ||
+            l instbnceof NbmespbceChbngeListener) {
+            NotifierArgs brgs = new NotifierArgs(nm, filter, ctls, l);
 
-            NamingEventNotifier notifier = notifiers.get(args);
+            NbmingEventNotifier notifier = notifiers.get(brgs);
             if (notifier == null) {
-                notifier = new NamingEventNotifier(this, ctx, args, l);
-                notifiers.put(args, notifier);
+                notifier = new NbmingEventNotifier(this, ctx, brgs, l);
+                notifiers.put(brgs, notifier);
             } else {
-                notifier.addNamingListener(l);
+                notifier.bddNbmingListener(l);
             }
         }
-        if (l instanceof UnsolicitedNotificationListener) {
+        if (l instbnceof UnsolicitedNotificbtionListener) {
             // Add listener to this's list of unsolicited notifiers
             if (unsolicited == null) {
                 unsolicited = new Vector<>(3);
             }
-            unsolicited.addElement((UnsolicitedNotificationListener)l);
+            unsolicited.bddElement((UnsolicitedNotificbtionListener)l);
         }
     }
 
     /**
-     * Removes <tt>l</tt> from all notifiers in this context.
+     * Removes <tt>l</tt> from bll notifiers in this context.
      */
-    synchronized void removeNamingListener(NamingListener l) {
+    synchronized void removeNbmingListener(NbmingListener l) {
         if (debug) System.err.println("EventSupport removing listener");
 
-        // Go through list of notifiers, remove 'l' from each.
+        // Go through list of notifiers, remove 'l' from ebch.
         // If 'l' is notifier's only listener, remove notifier too.
-        for (NamingEventNotifier notifier : notifiers.values()) {
+        for (NbmingEventNotifier notifier : notifiers.vblues()) {
             if (notifier != null) {
                 if (debug)
                     System.err.println("EventSupport removing listener from notifier");
-                notifier.removeNamingListener(l);
-                if (!notifier.hasNamingListeners()) {
+                notifier.removeNbmingListener(l);
+                if (!notifier.hbsNbmingListeners()) {
                     if (debug)
                         System.err.println("EventSupport stopping notifier");
                     notifier.stop();
@@ -231,26 +231,26 @@ final class EventSupport {
 
     }
 
-    synchronized boolean hasUnsolicited() {
+    synchronized boolebn hbsUnsolicited() {
         return (unsolicited != null && unsolicited.size() > 0);
     }
 
     /**
-      * package private;
-      * Called by NamingEventNotifier to remove itself when it encounters
-      * a NamingException.
+      * pbckbge privbte;
+      * Cblled by NbmingEventNotifier to remove itself when it encounters
+      * b NbmingException.
       */
-    synchronized void removeDeadNotifier(NotifierArgs info) {
+    synchronized void removeDebdNotifier(NotifierArgs info) {
         if (debug) {
-            System.err.println("EventSupport.removeDeadNotifier: " + info.name);
+            System.err.println("EventSupport.removeDebdNotifier: " + info.nbme);
         }
         notifiers.remove(info);
     }
 
     /**
-     * Fire an event to unsolicited listeners.
-     * package private;
-     * Called by LdapCtx when its clnt receives an unsolicited notification.
+     * Fire bn event to unsolicited listeners.
+     * pbckbge privbte;
+     * Cblled by LdbpCtx when its clnt receives bn unsolicited notificbtion.
      */
     synchronized void fireUnsolicited(Object obj) {
         if (debug) {
@@ -258,47 +258,47 @@ final class EventSupport {
                 + unsolicited);
         }
         if (unsolicited == null || unsolicited.size() == 0) {
-            // This shouldn't really happen, but might in case
-            // there is a timing problem that removes a listener
-            // before a fired event event reaches here.
+            // This shouldn't reblly hbppen, but might in cbse
+            // there is b timing problem thbt removes b listener
+            // before b fired event event rebches here.
             return;
         }
 
-        if (obj instanceof UnsolicitedNotification) {
+        if (obj instbnceof UnsolicitedNotificbtion) {
 
-            // Fire UnsolicitedNotification to unsolicited listeners
+            // Fire UnsolicitedNotificbtion to unsolicited listeners
 
-            UnsolicitedNotificationEvent evt =
-                new UnsolicitedNotificationEvent(ctx, (UnsolicitedNotification)obj);
+            UnsolicitedNotificbtionEvent evt =
+                new UnsolicitedNotificbtionEvent(ctx, (UnsolicitedNotificbtion)obj);
             queueEvent(evt, unsolicited);
 
-        } else if (obj instanceof NamingException) {
+        } else if (obj instbnceof NbmingException) {
 
-            // Fire NamingExceptionEvent to unsolicited listeners.
+            // Fire NbmingExceptionEvent to unsolicited listeners.
 
-            NamingExceptionEvent evt =
-                new NamingExceptionEvent(ctx, (NamingException)obj);
+            NbmingExceptionEvent evt =
+                new NbmingExceptionEvent(ctx, (NbmingException)obj);
             queueEvent(evt, unsolicited);
 
-            // When an exception occurs, the unsolicited listeners
-            // are automatically deregistered.
-            // When LdapClient.processUnsolicited() fires a NamingException,
-            // it will update its listener list so we don't have to.
-            // Likewise for LdapCtx.
+            // When bn exception occurs, the unsolicited listeners
+            // bre butombticblly deregistered.
+            // When LdbpClient.processUnsolicited() fires b NbmingException,
+            // it will updbte its listener list so we don't hbve to.
+            // Likewise for LdbpCtx.
 
             unsolicited = null;
         }
     }
 
     /**
-     * Stops notifier threads that are collecting event data and
-     * stops the event queue from dispatching events.
-     * Package private; used by LdapCtx.
+     * Stops notifier threbds thbt bre collecting event dbtb bnd
+     * stops the event queue from dispbtching events.
+     * Pbckbge privbte; used by LdbpCtx.
      */
-    synchronized void cleanup() {
-        if (debug) System.err.println("EventSupport clean up");
+    synchronized void clebnup() {
+        if (debug) System.err.println("EventSupport clebn up");
         if (notifiers != null) {
-            for (NamingEventNotifier notifier : notifiers.values()) {
+            for (NbmingEventNotifier notifier : notifiers.vblues()) {
                 notifier.stop();
             }
             notifiers = null;
@@ -307,40 +307,40 @@ final class EventSupport {
             eventQueue.stop();
             eventQueue = null;
         }
-        // %%% Should we fire NamingExceptionEvents to unsolicited listeners?
+        // %%% Should we fire NbmingExceptionEvents to unsolicited listeners?
     }
 
     /*
      * The queue of events to be delivered.
      */
-    private EventQueue eventQueue;
+    privbte EventQueue eventQueue;
 
     /**
-     * Add the event and vector of listeners to the queue to be delivered.
-     * An event dispatcher thread dequeues events from the queue and dispatches
+     * Add the event bnd vector of listeners to the queue to be delivered.
+     * An event dispbtcher threbd dequeues events from the queue bnd dispbtches
      * them to the registered listeners.
-     * Package private; used by NamingEventNotifier to fire events
+     * Pbckbge privbte; used by NbmingEventNotifier to fire events
      */
     synchronized void queueEvent(EventObject event,
-                                 Vector<? extends NamingListener> vector) {
+                                 Vector<? extends NbmingListener> vector) {
         if (eventQueue == null)
             eventQueue = new EventQueue();
 
         /*
-         * Copy the vector in order to freeze the state of the set
+         * Copy the vector in order to freeze the stbte of the set
          * of EventListeners the event should be delivered to prior
-         * to delivery.  This ensures that any changes made to the
-         * Vector from a target listener's method during the delivery
-         * of this event will not take effect until after the event is
+         * to delivery.  This ensures thbt bny chbnges mbde to the
+         * Vector from b tbrget listener's method during the delivery
+         * of this event will not tbke effect until bfter the event is
          * delivered.
          */
-        @SuppressWarnings("unchecked") // clone()
-        Vector<NamingListener> v =
-                (Vector<NamingListener>)vector.clone();
+        @SuppressWbrnings("unchecked") // clone()
+        Vector<NbmingListener> v =
+                (Vector<NbmingListener>)vector.clone();
         eventQueue.enqueue(event, v);
     }
 
-    // No finalize() needed because EventSupport is always owned by
-    // an LdapCtx. LdapCtx's finalize() and close() always call cleanup() so
-    // there is no need for EventSupport to have a finalize().
+    // No finblize() needed becbuse EventSupport is blwbys owned by
+    // bn LdbpCtx. LdbpCtx's finblize() bnd close() blwbys cbll clebnup() so
+    // there is no need for EventSupport to hbve b finblize().
 }

@@ -1,281 +1,281 @@
 /*
- * Copyright (c) 2000, 2002, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2002, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.plaf.basic;
+pbckbge jbvbx.swing.plbf.bbsic;
 
-import java.io.*;
-import java.awt.datatransfer.*;
-import javax.swing.plaf.UIResource;
+import jbvb.io.*;
+import jbvb.bwt.dbtbtrbnsfer.*;
+import jbvbx.swing.plbf.UIResource;
 
 /**
- * A transferable implementation for the default data transfer of some Swing
+ * A trbnsferbble implementbtion for the defbult dbtb trbnsfer of some Swing
  * components.
  *
- * @author  Timothy Prinzing
+ * @buthor  Timothy Prinzing
  */
-class BasicTransferable implements Transferable, UIResource {
+clbss BbsicTrbnsferbble implements Trbnsferbble, UIResource {
 
-    protected String plainData;
-    protected String htmlData;
+    protected String plbinDbtb;
+    protected String htmlDbtb;
 
-    private static DataFlavor[] htmlFlavors;
-    private static DataFlavor[] stringFlavors;
-    private static DataFlavor[] plainFlavors;
+    privbte stbtic DbtbFlbvor[] htmlFlbvors;
+    privbte stbtic DbtbFlbvor[] stringFlbvors;
+    privbte stbtic DbtbFlbvor[] plbinFlbvors;
 
-    static {
+    stbtic {
         try {
-            htmlFlavors = new DataFlavor[3];
-            htmlFlavors[0] = new DataFlavor("text/html;class=java.lang.String");
-            htmlFlavors[1] = new DataFlavor("text/html;class=java.io.Reader");
-            htmlFlavors[2] = new DataFlavor("text/html;charset=unicode;class=java.io.InputStream");
+            htmlFlbvors = new DbtbFlbvor[3];
+            htmlFlbvors[0] = new DbtbFlbvor("text/html;clbss=jbvb.lbng.String");
+            htmlFlbvors[1] = new DbtbFlbvor("text/html;clbss=jbvb.io.Rebder");
+            htmlFlbvors[2] = new DbtbFlbvor("text/html;chbrset=unicode;clbss=jbvb.io.InputStrebm");
 
-            plainFlavors = new DataFlavor[3];
-            plainFlavors[0] = new DataFlavor("text/plain;class=java.lang.String");
-            plainFlavors[1] = new DataFlavor("text/plain;class=java.io.Reader");
-            plainFlavors[2] = new DataFlavor("text/plain;charset=unicode;class=java.io.InputStream");
+            plbinFlbvors = new DbtbFlbvor[3];
+            plbinFlbvors[0] = new DbtbFlbvor("text/plbin;clbss=jbvb.lbng.String");
+            plbinFlbvors[1] = new DbtbFlbvor("text/plbin;clbss=jbvb.io.Rebder");
+            plbinFlbvors[2] = new DbtbFlbvor("text/plbin;chbrset=unicode;clbss=jbvb.io.InputStrebm");
 
-            stringFlavors = new DataFlavor[2];
-            stringFlavors[0] = new DataFlavor(DataFlavor.javaJVMLocalObjectMimeType+";class=java.lang.String");
-            stringFlavors[1] = DataFlavor.stringFlavor;
+            stringFlbvors = new DbtbFlbvor[2];
+            stringFlbvors[0] = new DbtbFlbvor(DbtbFlbvor.jbvbJVMLocblObjectMimeType+";clbss=jbvb.lbng.String");
+            stringFlbvors[1] = DbtbFlbvor.stringFlbvor;
 
-        } catch (ClassNotFoundException cle) {
-            System.err.println("error initializing javax.swing.plaf.basic.BasicTranserable");
+        } cbtch (ClbssNotFoundException cle) {
+            System.err.println("error initiblizing jbvbx.swing.plbf.bbsic.BbsicTrbnserbble");
         }
     }
 
-    public BasicTransferable(String plainData, String htmlData) {
-        this.plainData = plainData;
-        this.htmlData = htmlData;
+    public BbsicTrbnsferbble(String plbinDbtb, String htmlDbtb) {
+        this.plbinDbtb = plbinDbtb;
+        this.htmlDbtb = htmlDbtb;
     }
 
 
     /**
-     * Returns an array of DataFlavor objects indicating the flavors the data
-     * can be provided in.  The array should be ordered according to preference
-     * for providing the data (from most richly descriptive to least descriptive).
-     * @return an array of data flavors in which this data can be transferred
+     * Returns bn brrby of DbtbFlbvor objects indicbting the flbvors the dbtb
+     * cbn be provided in.  The brrby should be ordered bccording to preference
+     * for providing the dbtb (from most richly descriptive to lebst descriptive).
+     * @return bn brrby of dbtb flbvors in which this dbtb cbn be trbnsferred
      */
-    public DataFlavor[] getTransferDataFlavors() {
-        DataFlavor[] richerFlavors = getRicherFlavors();
-        int nRicher = (richerFlavors != null) ? richerFlavors.length : 0;
-        int nHTML = (isHTMLSupported()) ? htmlFlavors.length : 0;
-        int nPlain = (isPlainSupported()) ? plainFlavors.length: 0;
-        int nString = (isPlainSupported()) ? stringFlavors.length : 0;
-        int nFlavors = nRicher + nHTML + nPlain + nString;
-        DataFlavor[] flavors = new DataFlavor[nFlavors];
+    public DbtbFlbvor[] getTrbnsferDbtbFlbvors() {
+        DbtbFlbvor[] richerFlbvors = getRicherFlbvors();
+        int nRicher = (richerFlbvors != null) ? richerFlbvors.length : 0;
+        int nHTML = (isHTMLSupported()) ? htmlFlbvors.length : 0;
+        int nPlbin = (isPlbinSupported()) ? plbinFlbvors.length: 0;
+        int nString = (isPlbinSupported()) ? stringFlbvors.length : 0;
+        int nFlbvors = nRicher + nHTML + nPlbin + nString;
+        DbtbFlbvor[] flbvors = new DbtbFlbvor[nFlbvors];
 
-        // fill in the array
+        // fill in the brrby
         int nDone = 0;
         if (nRicher > 0) {
-            System.arraycopy(richerFlavors, 0, flavors, nDone, nRicher);
+            System.brrbycopy(richerFlbvors, 0, flbvors, nDone, nRicher);
             nDone += nRicher;
         }
         if (nHTML > 0) {
-            System.arraycopy(htmlFlavors, 0, flavors, nDone, nHTML);
+            System.brrbycopy(htmlFlbvors, 0, flbvors, nDone, nHTML);
             nDone += nHTML;
         }
-        if (nPlain > 0) {
-            System.arraycopy(plainFlavors, 0, flavors, nDone, nPlain);
-            nDone += nPlain;
+        if (nPlbin > 0) {
+            System.brrbycopy(plbinFlbvors, 0, flbvors, nDone, nPlbin);
+            nDone += nPlbin;
         }
         if (nString > 0) {
-            System.arraycopy(stringFlavors, 0, flavors, nDone, nString);
+            System.brrbycopy(stringFlbvors, 0, flbvors, nDone, nString);
             nDone += nString;
         }
-        return flavors;
+        return flbvors;
     }
 
     /**
-     * Returns whether or not the specified data flavor is supported for
+     * Returns whether or not the specified dbtb flbvor is supported for
      * this object.
-     * @param flavor the requested flavor for the data
-     * @return boolean indicating whether or not the data flavor is supported
+     * @pbrbm flbvor the requested flbvor for the dbtb
+     * @return boolebn indicbting whether or not the dbtb flbvor is supported
      */
-    public boolean isDataFlavorSupported(DataFlavor flavor) {
-        DataFlavor[] flavors = getTransferDataFlavors();
-        for (int i = 0; i < flavors.length; i++) {
-            if (flavors[i].equals(flavor)) {
+    public boolebn isDbtbFlbvorSupported(DbtbFlbvor flbvor) {
+        DbtbFlbvor[] flbvors = getTrbnsferDbtbFlbvors();
+        for (int i = 0; i < flbvors.length; i++) {
+            if (flbvors[i].equbls(flbvor)) {
                 return true;
             }
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Returns an object which represents the data to be transferred.  The class
-     * of the object returned is defined by the representation class of the flavor.
+     * Returns bn object which represents the dbtb to be trbnsferred.  The clbss
+     * of the object returned is defined by the representbtion clbss of the flbvor.
      *
-     * @param flavor the requested flavor for the data
-     * @see DataFlavor#getRepresentationClass
-     * @exception IOException                if the data is no longer available
-     *              in the requested flavor.
-     * @exception UnsupportedFlavorException if the requested data flavor is
+     * @pbrbm flbvor the requested flbvor for the dbtb
+     * @see DbtbFlbvor#getRepresentbtionClbss
+     * @exception IOException                if the dbtb is no longer bvbilbble
+     *              in the requested flbvor.
+     * @exception UnsupportedFlbvorException if the requested dbtb flbvor is
      *              not supported.
      */
-    public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException, IOException {
-        DataFlavor[] richerFlavors = getRicherFlavors();
-        if (isRicherFlavor(flavor)) {
-            return getRicherData(flavor);
-        } else if (isHTMLFlavor(flavor)) {
-            String data = getHTMLData();
-            data = (data == null) ? "" : data;
-            if (String.class.equals(flavor.getRepresentationClass())) {
-                return data;
-            } else if (Reader.class.equals(flavor.getRepresentationClass())) {
-                return new StringReader(data);
-            } else if (InputStream.class.equals(flavor.getRepresentationClass())) {
-                return new StringBufferInputStream(data);
+    public Object getTrbnsferDbtb(DbtbFlbvor flbvor) throws UnsupportedFlbvorException, IOException {
+        DbtbFlbvor[] richerFlbvors = getRicherFlbvors();
+        if (isRicherFlbvor(flbvor)) {
+            return getRicherDbtb(flbvor);
+        } else if (isHTMLFlbvor(flbvor)) {
+            String dbtb = getHTMLDbtb();
+            dbtb = (dbtb == null) ? "" : dbtb;
+            if (String.clbss.equbls(flbvor.getRepresentbtionClbss())) {
+                return dbtb;
+            } else if (Rebder.clbss.equbls(flbvor.getRepresentbtionClbss())) {
+                return new StringRebder(dbtb);
+            } else if (InputStrebm.clbss.equbls(flbvor.getRepresentbtionClbss())) {
+                return new StringBufferInputStrebm(dbtb);
             }
-            // fall through to unsupported
-        } else if (isPlainFlavor(flavor)) {
-            String data = getPlainData();
-            data = (data == null) ? "" : data;
-            if (String.class.equals(flavor.getRepresentationClass())) {
-                return data;
-            } else if (Reader.class.equals(flavor.getRepresentationClass())) {
-                return new StringReader(data);
-            } else if (InputStream.class.equals(flavor.getRepresentationClass())) {
-                return new StringBufferInputStream(data);
+            // fbll through to unsupported
+        } else if (isPlbinFlbvor(flbvor)) {
+            String dbtb = getPlbinDbtb();
+            dbtb = (dbtb == null) ? "" : dbtb;
+            if (String.clbss.equbls(flbvor.getRepresentbtionClbss())) {
+                return dbtb;
+            } else if (Rebder.clbss.equbls(flbvor.getRepresentbtionClbss())) {
+                return new StringRebder(dbtb);
+            } else if (InputStrebm.clbss.equbls(flbvor.getRepresentbtionClbss())) {
+                return new StringBufferInputStrebm(dbtb);
             }
-            // fall through to unsupported
+            // fbll through to unsupported
 
-        } else if (isStringFlavor(flavor)) {
-            String data = getPlainData();
-            data = (data == null) ? "" : data;
-            return data;
+        } else if (isStringFlbvor(flbvor)) {
+            String dbtb = getPlbinDbtb();
+            dbtb = (dbtb == null) ? "" : dbtb;
+            return dbtb;
         }
-        throw new UnsupportedFlavorException(flavor);
+        throw new UnsupportedFlbvorException(flbvor);
     }
 
-    // --- richer subclass flavors ----------------------------------------------
+    // --- richer subclbss flbvors ----------------------------------------------
 
-    protected boolean isRicherFlavor(DataFlavor flavor) {
-        DataFlavor[] richerFlavors = getRicherFlavors();
-        int nFlavors = (richerFlavors != null) ? richerFlavors.length : 0;
-        for (int i = 0; i < nFlavors; i++) {
-            if (richerFlavors[i].equals(flavor)) {
+    protected boolebn isRicherFlbvor(DbtbFlbvor flbvor) {
+        DbtbFlbvor[] richerFlbvors = getRicherFlbvors();
+        int nFlbvors = (richerFlbvors != null) ? richerFlbvors.length : 0;
+        for (int i = 0; i < nFlbvors; i++) {
+            if (richerFlbvors[i].equbls(flbvor)) {
                 return true;
             }
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Some subclasses will have flavors that are more descriptive than HTML
-     * or plain text.  If this method returns a non-null value, it will be
-     * placed at the start of the array of supported flavors.
+     * Some subclbsses will hbve flbvors thbt bre more descriptive thbn HTML
+     * or plbin text.  If this method returns b non-null vblue, it will be
+     * plbced bt the stbrt of the brrby of supported flbvors.
      */
-    protected DataFlavor[] getRicherFlavors() {
+    protected DbtbFlbvor[] getRicherFlbvors() {
         return null;
     }
 
-    protected Object getRicherData(DataFlavor flavor) throws UnsupportedFlavorException {
+    protected Object getRicherDbtb(DbtbFlbvor flbvor) throws UnsupportedFlbvorException {
         return null;
     }
 
-    // --- html flavors ----------------------------------------------------------
+    // --- html flbvors ----------------------------------------------------------
 
     /**
-     * Returns whether or not the specified data flavor is an HTML flavor that
+     * Returns whether or not the specified dbtb flbvor is bn HTML flbvor thbt
      * is supported.
-     * @param flavor the requested flavor for the data
-     * @return boolean indicating whether or not the data flavor is supported
+     * @pbrbm flbvor the requested flbvor for the dbtb
+     * @return boolebn indicbting whether or not the dbtb flbvor is supported
      */
-    protected boolean isHTMLFlavor(DataFlavor flavor) {
-        DataFlavor[] flavors = htmlFlavors;
-        for (int i = 0; i < flavors.length; i++) {
-            if (flavors[i].equals(flavor)) {
+    protected boolebn isHTMLFlbvor(DbtbFlbvor flbvor) {
+        DbtbFlbvor[] flbvors = htmlFlbvors;
+        for (int i = 0; i < flbvors.length; i++) {
+            if (flbvors[i].equbls(flbvor)) {
                 return true;
             }
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Should the HTML flavors be offered?  If so, the method
-     * getHTMLData should be implemented to provide something reasonable.
+     * Should the HTML flbvors be offered?  If so, the method
+     * getHTMLDbtb should be implemented to provide something rebsonbble.
      */
-    protected boolean isHTMLSupported() {
-        return htmlData != null;
+    protected boolebn isHTMLSupported() {
+        return htmlDbtb != null;
     }
 
     /**
-     * Fetch the data in a text/html format
+     * Fetch the dbtb in b text/html formbt
      */
-    protected String getHTMLData() {
-        return htmlData;
+    protected String getHTMLDbtb() {
+        return htmlDbtb;
     }
 
-    // --- plain text flavors ----------------------------------------------------
+    // --- plbin text flbvors ----------------------------------------------------
 
     /**
-     * Returns whether or not the specified data flavor is an plain flavor that
+     * Returns whether or not the specified dbtb flbvor is bn plbin flbvor thbt
      * is supported.
-     * @param flavor the requested flavor for the data
-     * @return boolean indicating whether or not the data flavor is supported
+     * @pbrbm flbvor the requested flbvor for the dbtb
+     * @return boolebn indicbting whether or not the dbtb flbvor is supported
      */
-    protected boolean isPlainFlavor(DataFlavor flavor) {
-        DataFlavor[] flavors = plainFlavors;
-        for (int i = 0; i < flavors.length; i++) {
-            if (flavors[i].equals(flavor)) {
+    protected boolebn isPlbinFlbvor(DbtbFlbvor flbvor) {
+        DbtbFlbvor[] flbvors = plbinFlbvors;
+        for (int i = 0; i < flbvors.length; i++) {
+            if (flbvors[i].equbls(flbvor)) {
                 return true;
             }
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Should the plain text flavors be offered?  If so, the method
-     * getPlainData should be implemented to provide something reasonable.
+     * Should the plbin text flbvors be offered?  If so, the method
+     * getPlbinDbtb should be implemented to provide something rebsonbble.
      */
-    protected boolean isPlainSupported() {
-        return plainData != null;
+    protected boolebn isPlbinSupported() {
+        return plbinDbtb != null;
     }
 
     /**
-     * Fetch the data in a text/plain format.
+     * Fetch the dbtb in b text/plbin formbt.
      */
-    protected String getPlainData() {
-        return plainData;
+    protected String getPlbinDbtb() {
+        return plbinDbtb;
     }
 
-    // --- string flavorss --------------------------------------------------------
+    // --- string flbvorss --------------------------------------------------------
 
     /**
-     * Returns whether or not the specified data flavor is a String flavor that
+     * Returns whether or not the specified dbtb flbvor is b String flbvor thbt
      * is supported.
-     * @param flavor the requested flavor for the data
-     * @return boolean indicating whether or not the data flavor is supported
+     * @pbrbm flbvor the requested flbvor for the dbtb
+     * @return boolebn indicbting whether or not the dbtb flbvor is supported
      */
-    protected boolean isStringFlavor(DataFlavor flavor) {
-        DataFlavor[] flavors = stringFlavors;
-        for (int i = 0; i < flavors.length; i++) {
-            if (flavors[i].equals(flavor)) {
+    protected boolebn isStringFlbvor(DbtbFlbvor flbvor) {
+        DbtbFlbvor[] flbvors = stringFlbvors;
+        for (int i = 0; i < flbvors.length; i++) {
+            if (flbvors[i].equbls(flbvor)) {
                 return true;
             }
         }
-        return false;
+        return fblse;
     }
 
 

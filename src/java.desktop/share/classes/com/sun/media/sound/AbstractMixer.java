@@ -1,50 +1,50 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.media.sound;
+pbckbge com.sun.medib.sound;
 
-import java.util.Vector;
+import jbvb.util.Vector;
 
-import javax.sound.sampled.Control;
-import javax.sound.sampled.Mixer;
-import javax.sound.sampled.Line;
-import javax.sound.sampled.LineUnavailableException;
+import jbvbx.sound.sbmpled.Control;
+import jbvbx.sound.sbmpled.Mixer;
+import jbvbx.sound.sbmpled.Line;
+import jbvbx.sound.sbmpled.LineUnbvbilbbleException;
 
 /**
- * Abstract Mixer.  Implements Mixer (with abstract methods) and specifies
- * some other common methods for use by our implementation.
+ * Abstrbct Mixer.  Implements Mixer (with bbstrbct methods) bnd specifies
+ * some other common methods for use by our implementbtion.
  *
- * @author Kara Kytle
+ * @buthor Kbrb Kytle
  */
-//$$fb 2002-07-26: let AbstractMixer be an AbstractLine and NOT an AbstractDataLine!
-abstract class AbstractMixer extends AbstractLine implements Mixer {
+//$$fb 2002-07-26: let AbstrbctMixer be bn AbstrbctLine bnd NOT bn AbstrbctDbtbLine!
+bbstrbct clbss AbstrbctMixer extends AbstrbctLine implements Mixer {
 
     //  STATIC VARIABLES
-    protected static final int PCM  = 0;
-    protected static final int ULAW = 1;
-    protected static final int ALAW = 2;
+    protected stbtic finbl int PCM  = 0;
+    protected stbtic finbl int ULAW = 1;
+    protected stbtic finbl int ALAW = 2;
 
 
     // IMMUTABLE PROPERTIES
@@ -52,7 +52,7 @@ abstract class AbstractMixer extends AbstractLine implements Mixer {
     /**
      * Info object describing this mixer.
      */
-    private final Mixer.Info mixerInfo;
+    privbte finbl Mixer.Info mixerInfo;
 
     /**
      * source lines provided by this mixer
@@ -60,28 +60,28 @@ abstract class AbstractMixer extends AbstractLine implements Mixer {
     protected Line.Info[] sourceLineInfo;
 
     /**
-     * target lines provided by this mixer
+     * tbrget lines provided by this mixer
      */
-    protected Line.Info[] targetLineInfo;
+    protected Line.Info[] tbrgetLineInfo;
 
     /**
-     * if any line of this mixer is started
+     * if bny line of this mixer is stbrted
      */
-    private boolean started = false;
+    privbte boolebn stbrted = fblse;
 
     /**
-     * if this mixer had been opened manually with open()
-     * If it was, then it won't be closed automatically,
-     * only when close() is called manually.
+     * if this mixer hbd been opened mbnublly with open()
+     * If it wbs, then it won't be closed butombticblly,
+     * only when close() is cblled mbnublly.
      */
-    private boolean manuallyOpened = false;
+    privbte boolebn mbnubllyOpened = fblse;
 
 
     /**
-     * Supported formats for the mixer.
+     * Supported formbts for the mixer.
      */
     //$$fb DELETE
-    //protected Vector formats = new Vector();
+    //protected Vector formbts = new Vector();
 
 
     // STATE VARIABLES
@@ -90,221 +90,221 @@ abstract class AbstractMixer extends AbstractLine implements Mixer {
     /**
      * Source lines (ports) currently open
      */
-    private final Vector<Line> sourceLines = new Vector<>();
+    privbte finbl Vector<Line> sourceLines = new Vector<>();
 
 
     /**
-     * Target lines currently open.
+     * Tbrget lines currently open.
      */
-    private final Vector<Line> targetLines = new Vector<>();
+    privbte finbl Vector<Line> tbrgetLines = new Vector<>();
 
 
     /**
-     * Constructs a new AbstractMixer.
-     * @param mixer the mixer with which this line is associated
-     * @param controls set of supported controls
+     * Constructs b new AbstrbctMixer.
+     * @pbrbm mixer the mixer with which this line is bssocibted
+     * @pbrbm controls set of supported controls
      */
-    protected AbstractMixer(Mixer.Info mixerInfo,
+    protected AbstrbctMixer(Mixer.Info mixerInfo,
                             Control[] controls,
                             Line.Info[] sourceLineInfo,
-                            Line.Info[] targetLineInfo) {
+                            Line.Info[] tbrgetLineInfo) {
 
-        // Line.Info, AbstractMixer, Control[]
-        super(new Line.Info(Mixer.class), null, controls);
+        // Line.Info, AbstrbctMixer, Control[]
+        super(new Line.Info(Mixer.clbss), null, controls);
 
-        // setup the line part
+        // setup the line pbrt
         this.mixer = this;
         if (controls == null) {
             controls = new Control[0];
         }
 
-        // setup the mixer part
+        // setup the mixer pbrt
         this.mixerInfo = mixerInfo;
         this.sourceLineInfo = sourceLineInfo;
-        this.targetLineInfo = targetLineInfo;
+        this.tbrgetLineInfo = tbrgetLineInfo;
     }
 
 
     // MIXER METHODS
 
 
-    public final Mixer.Info getMixerInfo() {
+    public finbl Mixer.Info getMixerInfo() {
         return mixerInfo;
     }
 
 
-    public final Line.Info[] getSourceLineInfo() {
-        Line.Info[] localArray = new Line.Info[sourceLineInfo.length];
-        System.arraycopy(sourceLineInfo, 0, localArray, 0, sourceLineInfo.length);
-        return localArray;
+    public finbl Line.Info[] getSourceLineInfo() {
+        Line.Info[] locblArrby = new Line.Info[sourceLineInfo.length];
+        System.brrbycopy(sourceLineInfo, 0, locblArrby, 0, sourceLineInfo.length);
+        return locblArrby;
     }
 
 
-    public final Line.Info[] getTargetLineInfo() {
+    public finbl Line.Info[] getTbrgetLineInfo() {
 
-        Line.Info[] localArray = new Line.Info[targetLineInfo.length];
-        System.arraycopy(targetLineInfo, 0, localArray, 0, targetLineInfo.length);
-        return localArray;
+        Line.Info[] locblArrby = new Line.Info[tbrgetLineInfo.length];
+        System.brrbycopy(tbrgetLineInfo, 0, locblArrby, 0, tbrgetLineInfo.length);
+        return locblArrby;
     }
 
 
-    public final Line.Info[] getSourceLineInfo(Line.Info info) {
+    public finbl Line.Info[] getSourceLineInfo(Line.Info info) {
 
         int i;
         Vector<Line.Info> vec = new Vector<>();
 
         for (i = 0; i < sourceLineInfo.length; i++) {
 
-            if (info.matches(sourceLineInfo[i])) {
-                vec.addElement(sourceLineInfo[i]);
+            if (info.mbtches(sourceLineInfo[i])) {
+                vec.bddElement(sourceLineInfo[i]);
             }
         }
 
-        Line.Info[] returnedArray = new Line.Info[vec.size()];
-        for (i = 0; i < returnedArray.length; i++) {
-            returnedArray[i] = vec.elementAt(i);
+        Line.Info[] returnedArrby = new Line.Info[vec.size()];
+        for (i = 0; i < returnedArrby.length; i++) {
+            returnedArrby[i] = vec.elementAt(i);
         }
 
-        return returnedArray;
+        return returnedArrby;
     }
 
 
-    public final Line.Info[] getTargetLineInfo(Line.Info info) {
+    public finbl Line.Info[] getTbrgetLineInfo(Line.Info info) {
 
         int i;
         Vector<Line.Info> vec = new Vector<>();
 
-        for (i = 0; i < targetLineInfo.length; i++) {
+        for (i = 0; i < tbrgetLineInfo.length; i++) {
 
-            if (info.matches(targetLineInfo[i])) {
-                vec.addElement(targetLineInfo[i]);
+            if (info.mbtches(tbrgetLineInfo[i])) {
+                vec.bddElement(tbrgetLineInfo[i]);
             }
         }
 
-        Line.Info[] returnedArray = new Line.Info[vec.size()];
-        for (i = 0; i < returnedArray.length; i++) {
-            returnedArray[i] = vec.elementAt(i);
+        Line.Info[] returnedArrby = new Line.Info[vec.size()];
+        for (i = 0; i < returnedArrby.length; i++) {
+            returnedArrby[i] = vec.elementAt(i);
         }
 
-        return returnedArray;
+        return returnedArrby;
     }
 
 
-    public final boolean isLineSupported(Line.Info info) {
+    public finbl boolebn isLineSupported(Line.Info info) {
 
         int i;
 
         for (i = 0; i < sourceLineInfo.length; i++) {
 
-            if (info.matches(sourceLineInfo[i])) {
+            if (info.mbtches(sourceLineInfo[i])) {
                 return true;
             }
         }
 
-        for (i = 0; i < targetLineInfo.length; i++) {
+        for (i = 0; i < tbrgetLineInfo.length; i++) {
 
-            if (info.matches(targetLineInfo[i])) {
+            if (info.mbtches(tbrgetLineInfo[i])) {
                 return true;
             }
         }
 
-        return false;
+        return fblse;
     }
 
 
-    public abstract Line getLine(Line.Info info) throws LineUnavailableException;
+    public bbstrbct Line getLine(Line.Info info) throws LineUnbvbilbbleException;
 
-    public abstract int getMaxLines(Line.Info info);
+    public bbstrbct int getMbxLines(Line.Info info);
 
-    protected abstract void implOpen() throws LineUnavailableException;
-    protected abstract void implStart();
-    protected abstract void implStop();
-    protected abstract void implClose();
+    protected bbstrbct void implOpen() throws LineUnbvbilbbleException;
+    protected bbstrbct void implStbrt();
+    protected bbstrbct void implStop();
+    protected bbstrbct void implClose();
 
 
-    public final Line[] getSourceLines() {
+    public finbl Line[] getSourceLines() {
 
-        Line[] localLines;
+        Line[] locblLines;
 
         synchronized(sourceLines) {
 
-            localLines = new Line[sourceLines.size()];
+            locblLines = new Line[sourceLines.size()];
 
-            for (int i = 0; i < localLines.length; i++) {
-                localLines[i] = sourceLines.elementAt(i);
+            for (int i = 0; i < locblLines.length; i++) {
+                locblLines[i] = sourceLines.elementAt(i);
             }
         }
 
-        return localLines;
+        return locblLines;
     }
 
 
-    public final Line[] getTargetLines() {
+    public finbl Line[] getTbrgetLines() {
 
-        Line[] localLines;
+        Line[] locblLines;
 
-        synchronized(targetLines) {
+        synchronized(tbrgetLines) {
 
-            localLines = new Line[targetLines.size()];
+            locblLines = new Line[tbrgetLines.size()];
 
-            for (int i = 0; i < localLines.length; i++) {
-                localLines[i] = targetLines.elementAt(i);
+            for (int i = 0; i < locblLines.length; i++) {
+                locblLines[i] = tbrgetLines.elementAt(i);
             }
         }
 
-        return localLines;
+        return locblLines;
     }
 
 
     /**
-     * Default implementation always throws an exception.
+     * Defbult implementbtion blwbys throws bn exception.
      */
-    public final void synchronize(Line[] lines, boolean maintainSync) {
-        throw new IllegalArgumentException("Synchronization not supported by this mixer.");
+    public finbl void synchronize(Line[] lines, boolebn mbintbinSync) {
+        throw new IllegblArgumentException("Synchronizbtion not supported by this mixer.");
     }
 
 
     /**
-     * Default implementation always throws an exception.
+     * Defbult implementbtion blwbys throws bn exception.
      */
-    public final void unsynchronize(Line[] lines) {
-        throw new IllegalArgumentException("Synchronization not supported by this mixer.");
+    public finbl void unsynchronize(Line[] lines) {
+        throw new IllegblArgumentException("Synchronizbtion not supported by this mixer.");
     }
 
 
     /**
-     * Default implementation always returns false.
+     * Defbult implementbtion blwbys returns fblse.
      */
-    public final boolean isSynchronizationSupported(Line[] lines,
-                                                    boolean maintainSync) {
-        return false;
+    public finbl boolebn isSynchronizbtionSupported(Line[] lines,
+                                                    boolebn mbintbinSync) {
+        return fblse;
     }
 
 
     // OVERRIDES OF ABSTRACT DATA LINE METHODS
 
     /**
-     * This implementation tries to open the mixer with its current format and buffer size settings.
+     * This implementbtion tries to open the mixer with its current formbt bnd buffer size settings.
      */
-    public final synchronized void open() throws LineUnavailableException {
+    public finbl synchronized void open() throws LineUnbvbilbbleException {
         open(true);
     }
 
     /**
-     * This implementation tries to open the mixer with its current format and buffer size settings.
+     * This implementbtion tries to open the mixer with its current formbt bnd buffer size settings.
      */
-    final synchronized void open(boolean manual) throws LineUnavailableException {
-        if (Printer.trace) Printer.trace(">> AbstractMixer: open()");
+    finbl synchronized void open(boolebn mbnubl) throws LineUnbvbilbbleException {
+        if (Printer.trbce) Printer.trbce(">> AbstrbctMixer: open()");
         if (!isOpen()) {
             implOpen();
-            // if the mixer is not currently open, set open to true and send event
+            // if the mixer is not currently open, set open to true bnd send event
             setOpen(true);
-            if (manual) {
-                manuallyOpened = true;
+            if (mbnubl) {
+                mbnubllyOpened = true;
             }
         }
 
-        if (Printer.trace) Printer.trace("<< AbstractMixer: open() succeeded");
+        if (Printer.trbce) Printer.trbce("<< AbstrbctMixer: open() succeeded");
     }
 
 
@@ -312,243 +312,243 @@ abstract class AbstractMixer extends AbstractLine implements Mixer {
 
 
     /**
-     * The default implementation of this method just determines whether
-     * this line is a source or target line, calls open(no-arg) on the
-     * mixer, and adds the line to the appropriate vector.
-     * The mixer may be opened at a format different than the line's
-     * format if it is a DataLine.
+     * The defbult implementbtion of this method just determines whether
+     * this line is b source or tbrget line, cblls open(no-brg) on the
+     * mixer, bnd bdds the line to the bppropribte vector.
+     * The mixer mby be opened bt b formbt different thbn the line's
+     * formbt if it is b DbtbLine.
      */
-    final synchronized void open(Line line) throws LineUnavailableException {
+    finbl synchronized void open(Line line) throws LineUnbvbilbbleException {
 
-        if (Printer.trace) Printer.trace(">> AbstractMixer: open(line = " + line + ")");
+        if (Printer.trbce) Printer.trbce(">> AbstrbctMixer: open(line = " + line + ")");
 
         // $$kk: 06.11.99: ignore ourselves for now
-        if (this.equals(line)) {
-            if (Printer.trace) Printer.trace("<< AbstractMixer: open(" + line + ") nothing done");
+        if (this.equbls(line)) {
+            if (Printer.trbce) Printer.trbce("<< AbstrbctMixer: open(" + line + ") nothing done");
             return;
         }
 
         // source line?
         if (isSourceLine(line.getLineInfo())) {
-            if (! sourceLines.contains(line) ) {
-                // call the no-arg open method for the mixer; it should open at its
-                // default format if it is not open yet
-                open(false);
+            if (! sourceLines.contbins(line) ) {
+                // cbll the no-brg open method for the mixer; it should open bt its
+                // defbult formbt if it is not open yet
+                open(fblse);
 
-                // we opened successfully! add the line to the list
-                sourceLines.addElement(line);
+                // we opened successfully! bdd the line to the list
+                sourceLines.bddElement(line);
             }
         } else {
-            // target line?
-            if(isTargetLine(line.getLineInfo())) {
-                if (! targetLines.contains(line) ) {
-                    // call the no-arg open method for the mixer; it should open at its
-                    // default format if it is not open yet
-                    open(false);
+            // tbrget line?
+            if(isTbrgetLine(line.getLineInfo())) {
+                if (! tbrgetLines.contbins(line) ) {
+                    // cbll the no-brg open method for the mixer; it should open bt its
+                    // defbult formbt if it is not open yet
+                    open(fblse);
 
-                    // we opened successfully!  add the line to the list
-                    targetLines.addElement(line);
+                    // we opened successfully!  bdd the line to the list
+                    tbrgetLines.bddElement(line);
                 }
             } else {
-                if (Printer.err) Printer.err("Unknown line received for AbstractMixer.open(Line): " + line);
+                if (Printer.err) Printer.err("Unknown line received for AbstrbctMixer.open(Line): " + line);
             }
         }
 
-        if (Printer.trace) Printer.trace("<< AbstractMixer: open(" + line + ") completed");
+        if (Printer.trbce) Printer.trbce("<< AbstrbctMixer: open(" + line + ") completed");
     }
 
 
     /**
-     * Removes this line from the list of open source lines and
-     * open target lines, if it exists in either.
+     * Removes this line from the list of open source lines bnd
+     * open tbrget lines, if it exists in either.
      * If the list is now empty, closes the mixer.
      */
-    final synchronized void close(Line line) {
+    finbl synchronized void close(Line line) {
 
-        if (Printer.trace) Printer.trace(">> AbstractMixer: close(" + line + ")");
+        if (Printer.trbce) Printer.trbce(">> AbstrbctMixer: close(" + line + ")");
 
         // $$kk: 06.11.99: ignore ourselves for now
-        if (this.equals(line)) {
-            if (Printer.trace) Printer.trace("<< AbstractMixer: close(" + line + ") nothing done");
+        if (this.equbls(line)) {
+            if (Printer.trbce) Printer.trbce("<< AbstrbctMixer: close(" + line + ") nothing done");
             return;
         }
 
         sourceLines.removeElement(line);
-        targetLines.removeElement(line);
+        tbrgetLines.removeElement(line);
 
-        if (Printer.debug) Printer.debug("AbstractMixer: close(line): sourceLines.size() now: " + sourceLines.size());
-        if (Printer.debug) Printer.debug("AbstractMixer: close(line): targetLines.size() now: " + targetLines.size());
+        if (Printer.debug) Printer.debug("AbstrbctMixer: close(line): sourceLines.size() now: " + sourceLines.size());
+        if (Printer.debug) Printer.debug("AbstrbctMixer: close(line): tbrgetLines.size() now: " + tbrgetLines.size());
 
 
-        if (sourceLines.isEmpty() && targetLines.isEmpty() && !manuallyOpened) {
-            if (Printer.trace) Printer.trace("AbstractMixer: close(" + line + "): need to close the mixer");
+        if (sourceLines.isEmpty() && tbrgetLines.isEmpty() && !mbnubllyOpened) {
+            if (Printer.trbce) Printer.trbce("AbstrbctMixer: close(" + line + "): need to close the mixer");
             close();
         }
 
-        if (Printer.trace) Printer.trace("<< AbstractMixer: close(" + line + ") succeeded");
+        if (Printer.trbce) Printer.trbce("<< AbstrbctMixer: close(" + line + ") succeeded");
     }
 
 
     /**
-     * Close all lines and then close this mixer.
+     * Close bll lines bnd then close this mixer.
      */
-    public final synchronized void close() {
-        if (Printer.trace) Printer.trace(">> AbstractMixer: close()");
+    public finbl synchronized void close() {
+        if (Printer.trbce) Printer.trbce(">> AbstrbctMixer: close()");
         if (isOpen()) {
-            // close all source lines
-            Line[] localLines = getSourceLines();
-            for (int i = 0; i<localLines.length; i++) {
-                localLines[i].close();
+            // close bll source lines
+            Line[] locblLines = getSourceLines();
+            for (int i = 0; i<locblLines.length; i++) {
+                locblLines[i].close();
             }
 
-            // close all target lines
-            localLines = getTargetLines();
-            for (int i = 0; i<localLines.length; i++) {
-                localLines[i].close();
+            // close bll tbrget lines
+            locblLines = getTbrgetLines();
+            for (int i = 0; i<locblLines.length; i++) {
+                locblLines[i].close();
             }
 
             implClose();
 
-            // set the open state to false and send events
-            setOpen(false);
+            // set the open stbte to fblse bnd send events
+            setOpen(fblse);
         }
-        manuallyOpened = false;
-        if (Printer.trace) Printer.trace("<< AbstractMixer: close() succeeded");
+        mbnubllyOpened = fblse;
+        if (Printer.trbce) Printer.trbce("<< AbstrbctMixer: close() succeeded");
     }
 
     /**
-     * Starts the mixer.
+     * Stbrts the mixer.
      */
-    final synchronized void start(Line line) {
+    finbl synchronized void stbrt(Line line) {
 
-        if (Printer.trace) Printer.trace(">> AbstractMixer: start(" + line + ")");
+        if (Printer.trbce) Printer.trbce(">> AbstrbctMixer: stbrt(" + line + ")");
 
         // $$kk: 06.11.99: ignore ourselves for now
-        if (this.equals(line)) {
-            if (Printer.trace) Printer.trace("<< AbstractMixer: start(" + line + ") nothing done");
+        if (this.equbls(line)) {
+            if (Printer.trbce) Printer.trbce("<< AbstrbctMixer: stbrt(" + line + ") nothing done");
             return;
         }
 
-        // we just start the mixer regardless of anything else here.
-        if (!started) {
-            if (Printer.debug) Printer.debug("AbstractMixer: start(line): starting the mixer");
-            implStart();
-            started = true;
+        // we just stbrt the mixer regbrdless of bnything else here.
+        if (!stbrted) {
+            if (Printer.debug) Printer.debug("AbstrbctMixer: stbrt(line): stbrting the mixer");
+            implStbrt();
+            stbrted = true;
         }
 
-        if (Printer.trace) Printer.trace("<< AbstractMixer: start(" + line + ") succeeded");
+        if (Printer.trbce) Printer.trbce("<< AbstrbctMixer: stbrt(" + line + ") succeeded");
     }
 
 
     /**
-     * Stops the mixer if this was the last running line.
+     * Stops the mixer if this wbs the lbst running line.
      */
-    final synchronized void stop(Line line) {
+    finbl synchronized void stop(Line line) {
 
-        if (Printer.trace) Printer.trace(">> AbstractMixer: stop(" + line + ")");
+        if (Printer.trbce) Printer.trbce(">> AbstrbctMixer: stop(" + line + ")");
 
         // $$kk: 06.11.99: ignore ourselves for now
-        if (this.equals(line)) {
-            if (Printer.trace) Printer.trace("<< AbstractMixer: stop(" + line + ") nothing done");
+        if (this.equbls(line)) {
+            if (Printer.trbce) Printer.trbce("<< AbstrbctMixer: stop(" + line + ") nothing done");
             return;
         }
 
-        @SuppressWarnings("unchecked")
-        Vector<Line> localSourceLines = (Vector<Line>)sourceLines.clone();
-        for (int i = 0; i < localSourceLines.size(); i++) {
+        @SuppressWbrnings("unchecked")
+        Vector<Line> locblSourceLines = (Vector<Line>)sourceLines.clone();
+        for (int i = 0; i < locblSourceLines.size(); i++) {
 
-            // if any other open line is running, return
+            // if bny other open line is running, return
 
-            // this covers clips and source data lines
-            if (localSourceLines.elementAt(i) instanceof AbstractDataLine) {
-                AbstractDataLine sourceLine = (AbstractDataLine)localSourceLines.elementAt(i);
-                if ( sourceLine.isStartedRunning() && (!sourceLine.equals(line)) ) {
-                    if (Printer.trace) Printer.trace("<< AbstractMixer: stop(" + line + ") found running sourceLine: " + sourceLine);
+            // this covers clips bnd source dbtb lines
+            if (locblSourceLines.elementAt(i) instbnceof AbstrbctDbtbLine) {
+                AbstrbctDbtbLine sourceLine = (AbstrbctDbtbLine)locblSourceLines.elementAt(i);
+                if ( sourceLine.isStbrtedRunning() && (!sourceLine.equbls(line)) ) {
+                    if (Printer.trbce) Printer.trbce("<< AbstrbctMixer: stop(" + line + ") found running sourceLine: " + sourceLine);
                     return;
                 }
             }
         }
 
-        @SuppressWarnings("unchecked")
-        Vector<Line> localTargetLines = (Vector<Line>)targetLines.clone();
-        for (int i = 0; i < localTargetLines.size(); i++) {
+        @SuppressWbrnings("unchecked")
+        Vector<Line> locblTbrgetLines = (Vector<Line>)tbrgetLines.clone();
+        for (int i = 0; i < locblTbrgetLines.size(); i++) {
 
-            // if any other open line is running, return
-            // this covers target data lines
-            if (localTargetLines.elementAt(i) instanceof AbstractDataLine) {
-                AbstractDataLine targetLine = (AbstractDataLine)localTargetLines.elementAt(i);
-                if ( targetLine.isStartedRunning() && (!targetLine.equals(line)) ) {
-                    if (Printer.trace) Printer.trace("<< AbstractMixer: stop(" + line + ") found running targetLine: " + targetLine);
+            // if bny other open line is running, return
+            // this covers tbrget dbtb lines
+            if (locblTbrgetLines.elementAt(i) instbnceof AbstrbctDbtbLine) {
+                AbstrbctDbtbLine tbrgetLine = (AbstrbctDbtbLine)locblTbrgetLines.elementAt(i);
+                if ( tbrgetLine.isStbrtedRunning() && (!tbrgetLine.equbls(line)) ) {
+                    if (Printer.trbce) Printer.trbce("<< AbstrbctMixer: stop(" + line + ") found running tbrgetLine: " + tbrgetLine);
                     return;
                 }
             }
         }
 
         // otherwise, stop
-        if (Printer.debug) Printer.debug("AbstractMixer: stop(line): stopping the mixer");
-        started = false;
+        if (Printer.debug) Printer.debug("AbstrbctMixer: stop(line): stopping the mixer");
+        stbrted = fblse;
         implStop();
 
-        if (Printer.trace) Printer.trace("<< AbstractMixer: stop(" + line + ") succeeded");
+        if (Printer.trbce) Printer.trbce("<< AbstrbctMixer: stop(" + line + ") succeeded");
     }
 
 
 
     /**
-     * Determines whether this is a source line for this mixer.
+     * Determines whether this is b source line for this mixer.
      * Right now this just checks whether it's supported, but should
-     * check whether it actually belongs to this mixer....
+     * check whether it bctublly belongs to this mixer....
      */
-    final boolean isSourceLine(Line.Info info) {
+    finbl boolebn isSourceLine(Line.Info info) {
 
         for (int i = 0; i < sourceLineInfo.length; i++) {
-            if (info.matches(sourceLineInfo[i])) {
+            if (info.mbtches(sourceLineInfo[i])) {
                 return true;
             }
         }
 
-        return false;
+        return fblse;
     }
 
 
     /**
-     * Determines whether this is a target line for this mixer.
+     * Determines whether this is b tbrget line for this mixer.
      * Right now this just checks whether it's supported, but should
-     * check whether it actually belongs to this mixer....
+     * check whether it bctublly belongs to this mixer....
      */
-    final boolean isTargetLine(Line.Info info) {
+    finbl boolebn isTbrgetLine(Line.Info info) {
 
-        for (int i = 0; i < targetLineInfo.length; i++) {
-            if (info.matches(targetLineInfo[i])) {
+        for (int i = 0; i < tbrgetLineInfo.length; i++) {
+            if (info.mbtches(tbrgetLineInfo[i])) {
                 return true;
             }
         }
 
-        return false;
+        return fblse;
     }
 
 
     /**
-     * Returns the first complete Line.Info object it finds that
-     * matches the one specified, or null if no matching Line.Info
+     * Returns the first complete Line.Info object it finds thbt
+     * mbtches the one specified, or null if no mbtching Line.Info
      * object is found.
      */
-    final Line.Info getLineInfo(Line.Info info) {
+    finbl Line.Info getLineInfo(Line.Info info) {
         if (info == null) {
             return null;
         }
-        // $$kk: 05.31.99: need to change this so that
-        // the format and buffer size get set in the
-        // returned info object for data lines??
+        // $$kk: 05.31.99: need to chbnge this so thbt
+        // the formbt bnd buffer size get set in the
+        // returned info object for dbtb lines??
         for (int i = 0; i < sourceLineInfo.length; i++) {
-            if (info.matches(sourceLineInfo[i])) {
+            if (info.mbtches(sourceLineInfo[i])) {
                 return sourceLineInfo[i];
             }
         }
 
-        for (int i = 0; i < targetLineInfo.length; i++) {
-            if (info.matches(targetLineInfo[i])) {
-                return targetLineInfo[i];
+        for (int i = 0; i < tbrgetLineInfo.length; i++) {
+            if (info.mbtches(tbrgetLineInfo[i])) {
+                return tbrgetLineInfo[i];
             }
         }
 

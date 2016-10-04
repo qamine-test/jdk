@@ -1,289 +1,289 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.io;
+pbckbge jbvb.io;
 
-import java.lang.reflect.Field;
-import sun.reflect.CallerSensitive;
+import jbvb.lbng.reflect.Field;
+import sun.reflect.CbllerSensitive;
 import sun.reflect.Reflection;
 import sun.reflect.misc.ReflectUtil;
 
 /**
- * A description of a Serializable field from a Serializable class.  An array
- * of ObjectStreamFields is used to declare the Serializable fields of a class.
+ * A description of b Seriblizbble field from b Seriblizbble clbss.  An brrby
+ * of ObjectStrebmFields is used to declbre the Seriblizbble fields of b clbss.
  *
- * @author      Mike Warres
- * @author      Roger Riggs
- * @see ObjectStreamClass
+ * @buthor      Mike Wbrres
+ * @buthor      Roger Riggs
+ * @see ObjectStrebmClbss
  * @since 1.2
  */
-public class ObjectStreamField
-    implements Comparable<Object>
+public clbss ObjectStrebmField
+    implements Compbrbble<Object>
 {
 
-    /** field name */
-    private final String name;
-    /** canonical JVM signature of field type */
-    private final String signature;
-    /** field type (Object.class if unknown non-primitive type) */
-    private final Class<?> type;
-    /** whether or not to (de)serialize field values as unshared */
-    private final boolean unshared;
-    /** corresponding reflective field object, if any */
-    private final Field field;
-    /** offset of field value in enclosing field group */
-    private int offset = 0;
+    /** field nbme */
+    privbte finbl String nbme;
+    /** cbnonicbl JVM signbture of field type */
+    privbte finbl String signbture;
+    /** field type (Object.clbss if unknown non-primitive type) */
+    privbte finbl Clbss<?> type;
+    /** whether or not to (de)seriblize field vblues bs unshbred */
+    privbte finbl boolebn unshbred;
+    /** corresponding reflective field object, if bny */
+    privbte finbl Field field;
+    /** offset of field vblue in enclosing field group */
+    privbte int offset = 0;
 
     /**
-     * Create a Serializable field with the specified type.  This field should
-     * be documented with a <code>serialField</code> tag.
+     * Crebte b Seriblizbble field with the specified type.  This field should
+     * be documented with b <code>seriblField</code> tbg.
      *
-     * @param   name the name of the serializable field
-     * @param   type the <code>Class</code> object of the serializable field
+     * @pbrbm   nbme the nbme of the seriblizbble field
+     * @pbrbm   type the <code>Clbss</code> object of the seriblizbble field
      */
-    public ObjectStreamField(String name, Class<?> type) {
-        this(name, type, false);
+    public ObjectStrebmField(String nbme, Clbss<?> type) {
+        this(nbme, type, fblse);
     }
 
     /**
-     * Creates an ObjectStreamField representing a serializable field with the
-     * given name and type.  If unshared is false, values of the represented
-     * field are serialized and deserialized in the default manner--if the
-     * field is non-primitive, object values are serialized and deserialized as
-     * if they had been written and read by calls to writeObject and
-     * readObject.  If unshared is true, values of the represented field are
-     * serialized and deserialized as if they had been written and read by
-     * calls to writeUnshared and readUnshared.
+     * Crebtes bn ObjectStrebmField representing b seriblizbble field with the
+     * given nbme bnd type.  If unshbred is fblse, vblues of the represented
+     * field bre seriblized bnd deseriblized in the defbult mbnner--if the
+     * field is non-primitive, object vblues bre seriblized bnd deseriblized bs
+     * if they hbd been written bnd rebd by cblls to writeObject bnd
+     * rebdObject.  If unshbred is true, vblues of the represented field bre
+     * seriblized bnd deseriblized bs if they hbd been written bnd rebd by
+     * cblls to writeUnshbred bnd rebdUnshbred.
      *
-     * @param   name field name
-     * @param   type field type
-     * @param   unshared if false, write/read field values in the same manner
-     *          as writeObject/readObject; if true, write/read in the same
-     *          manner as writeUnshared/readUnshared
+     * @pbrbm   nbme field nbme
+     * @pbrbm   type field type
+     * @pbrbm   unshbred if fblse, write/rebd field vblues in the sbme mbnner
+     *          bs writeObject/rebdObject; if true, write/rebd in the sbme
+     *          mbnner bs writeUnshbred/rebdUnshbred
      * @since   1.4
      */
-    public ObjectStreamField(String name, Class<?> type, boolean unshared) {
-        if (name == null) {
+    public ObjectStrebmField(String nbme, Clbss<?> type, boolebn unshbred) {
+        if (nbme == null) {
             throw new NullPointerException();
         }
-        this.name = name;
+        this.nbme = nbme;
         this.type = type;
-        this.unshared = unshared;
-        signature = ObjectStreamClass.getClassSignature(type).intern();
+        this.unshbred = unshbred;
+        signbture = ObjectStrebmClbss.getClbssSignbture(type).intern();
         field = null;
     }
 
     /**
-     * Creates an ObjectStreamField representing a field with the given name,
-     * signature and unshared setting.
+     * Crebtes bn ObjectStrebmField representing b field with the given nbme,
+     * signbture bnd unshbred setting.
      */
-    ObjectStreamField(String name, String signature, boolean unshared) {
-        if (name == null) {
+    ObjectStrebmField(String nbme, String signbture, boolebn unshbred) {
+        if (nbme == null) {
             throw new NullPointerException();
         }
-        this.name = name;
-        this.signature = signature.intern();
-        this.unshared = unshared;
+        this.nbme = nbme;
+        this.signbture = signbture.intern();
+        this.unshbred = unshbred;
         field = null;
 
-        switch (signature.charAt(0)) {
-            case 'Z': type = Boolean.TYPE; break;
-            case 'B': type = Byte.TYPE; break;
-            case 'C': type = Character.TYPE; break;
-            case 'S': type = Short.TYPE; break;
-            case 'I': type = Integer.TYPE; break;
-            case 'J': type = Long.TYPE; break;
-            case 'F': type = Float.TYPE; break;
-            case 'D': type = Double.TYPE; break;
-            case 'L':
-            case '[': type = Object.class; break;
-            default: throw new IllegalArgumentException("illegal signature");
+        switch (signbture.chbrAt(0)) {
+            cbse 'Z': type = Boolebn.TYPE; brebk;
+            cbse 'B': type = Byte.TYPE; brebk;
+            cbse 'C': type = Chbrbcter.TYPE; brebk;
+            cbse 'S': type = Short.TYPE; brebk;
+            cbse 'I': type = Integer.TYPE; brebk;
+            cbse 'J': type = Long.TYPE; brebk;
+            cbse 'F': type = Flobt.TYPE; brebk;
+            cbse 'D': type = Double.TYPE; brebk;
+            cbse 'L':
+            cbse '[': type = Object.clbss; brebk;
+            defbult: throw new IllegblArgumentException("illegbl signbture");
         }
     }
 
     /**
-     * Creates an ObjectStreamField representing the given field with the
-     * specified unshared setting.  For compatibility with the behavior of
-     * earlier serialization implementations, a "showType" parameter is
-     * necessary to govern whether or not a getType() call on this
-     * ObjectStreamField (if non-primitive) will return Object.class (as
-     * opposed to a more specific reference type).
+     * Crebtes bn ObjectStrebmField representing the given field with the
+     * specified unshbred setting.  For compbtibility with the behbvior of
+     * ebrlier seriblizbtion implementbtions, b "showType" pbrbmeter is
+     * necessbry to govern whether or not b getType() cbll on this
+     * ObjectStrebmField (if non-primitive) will return Object.clbss (bs
+     * opposed to b more specific reference type).
      */
-    ObjectStreamField(Field field, boolean unshared, boolean showType) {
+    ObjectStrebmField(Field field, boolebn unshbred, boolebn showType) {
         this.field = field;
-        this.unshared = unshared;
-        name = field.getName();
-        Class<?> ftype = field.getType();
-        type = (showType || ftype.isPrimitive()) ? ftype : Object.class;
-        signature = ObjectStreamClass.getClassSignature(ftype).intern();
+        this.unshbred = unshbred;
+        nbme = field.getNbme();
+        Clbss<?> ftype = field.getType();
+        type = (showType || ftype.isPrimitive()) ? ftype : Object.clbss;
+        signbture = ObjectStrebmClbss.getClbssSignbture(ftype).intern();
     }
 
     /**
-     * Get the name of this field.
+     * Get the nbme of this field.
      *
-     * @return  a <code>String</code> representing the name of the serializable
+     * @return  b <code>String</code> representing the nbme of the seriblizbble
      *          field
      */
-    public String getName() {
-        return name;
+    public String getNbme() {
+        return nbme;
     }
 
     /**
-     * Get the type of the field.  If the type is non-primitive and this
-     * <code>ObjectStreamField</code> was obtained from a deserialized {@link
-     * ObjectStreamClass} instance, then <code>Object.class</code> is returned.
-     * Otherwise, the <code>Class</code> object for the type of the field is
+     * Get the type of the field.  If the type is non-primitive bnd this
+     * <code>ObjectStrebmField</code> wbs obtbined from b deseriblized {@link
+     * ObjectStrebmClbss} instbnce, then <code>Object.clbss</code> is returned.
+     * Otherwise, the <code>Clbss</code> object for the type of the field is
      * returned.
      *
-     * @return  a <code>Class</code> object representing the type of the
-     *          serializable field
+     * @return  b <code>Clbss</code> object representing the type of the
+     *          seriblizbble field
      */
-    @CallerSensitive
-    public Class<?> getType() {
-        if (System.getSecurityManager() != null) {
-            Class<?> caller = Reflection.getCallerClass();
-            if (ReflectUtil.needsPackageAccessCheck(caller.getClassLoader(), type.getClassLoader())) {
-                ReflectUtil.checkPackageAccess(type);
+    @CbllerSensitive
+    public Clbss<?> getType() {
+        if (System.getSecurityMbnbger() != null) {
+            Clbss<?> cbller = Reflection.getCbllerClbss();
+            if (ReflectUtil.needsPbckbgeAccessCheck(cbller.getClbssLobder(), type.getClbssLobder())) {
+                ReflectUtil.checkPbckbgeAccess(type);
             }
         }
         return type;
     }
 
     /**
-     * Returns character encoding of field type.  The encoding is as follows:
+     * Returns chbrbcter encoding of field type.  The encoding is bs follows:
      * <blockquote><pre>
      * B            byte
-     * C            char
+     * C            chbr
      * D            double
-     * F            float
+     * F            flobt
      * I            int
      * J            long
-     * L            class or interface
+     * L            clbss or interfbce
      * S            short
-     * Z            boolean
-     * [            array
+     * Z            boolebn
+     * [            brrby
      * </pre></blockquote>
      *
-     * @return  the typecode of the serializable field
+     * @return  the typecode of the seriblizbble field
      */
-    // REMIND: deprecate?
-    public char getTypeCode() {
-        return signature.charAt(0);
+    // REMIND: deprecbte?
+    public chbr getTypeCode() {
+        return signbture.chbrAt(0);
     }
 
     /**
-     * Return the JVM type signature.
+     * Return the JVM type signbture.
      *
-     * @return  null if this field has a primitive type.
+     * @return  null if this field hbs b primitive type.
      */
-    // REMIND: deprecate?
+    // REMIND: deprecbte?
     public String getTypeString() {
-        return isPrimitive() ? null : signature;
+        return isPrimitive() ? null : signbture;
     }
 
     /**
-     * Offset of field within instance data.
+     * Offset of field within instbnce dbtb.
      *
      * @return  the offset of this field
      * @see #setOffset
      */
-    // REMIND: deprecate?
+    // REMIND: deprecbte?
     public int getOffset() {
         return offset;
     }
 
     /**
-     * Offset within instance data.
+     * Offset within instbnce dbtb.
      *
-     * @param   offset the offset of the field
+     * @pbrbm   offset the offset of the field
      * @see #getOffset
      */
-    // REMIND: deprecate?
+    // REMIND: deprecbte?
     protected void setOffset(int offset) {
         this.offset = offset;
     }
 
     /**
-     * Return true if this field has a primitive type.
+     * Return true if this field hbs b primitive type.
      *
-     * @return  true if and only if this field corresponds to a primitive type
+     * @return  true if bnd only if this field corresponds to b primitive type
      */
-    // REMIND: deprecate?
-    public boolean isPrimitive() {
-        char tcode = signature.charAt(0);
+    // REMIND: deprecbte?
+    public boolebn isPrimitive() {
+        chbr tcode = signbture.chbrAt(0);
         return ((tcode != 'L') && (tcode != '['));
     }
 
     /**
-     * Returns boolean value indicating whether or not the serializable field
-     * represented by this ObjectStreamField instance is unshared.
+     * Returns boolebn vblue indicbting whether or not the seriblizbble field
+     * represented by this ObjectStrebmField instbnce is unshbred.
      *
-     * @return {@code true} if this field is unshared
+     * @return {@code true} if this field is unshbred
      *
      * @since 1.4
      */
-    public boolean isUnshared() {
-        return unshared;
+    public boolebn isUnshbred() {
+        return unshbred;
     }
 
     /**
-     * Compare this field with another <code>ObjectStreamField</code>.  Return
-     * -1 if this is smaller, 0 if equal, 1 if greater.  Types that are
-     * primitives are "smaller" than object types.  If equal, the field names
-     * are compared.
+     * Compbre this field with bnother <code>ObjectStrebmField</code>.  Return
+     * -1 if this is smbller, 0 if equbl, 1 if grebter.  Types thbt bre
+     * primitives bre "smbller" thbn object types.  If equbl, the field nbmes
+     * bre compbred.
      */
-    // REMIND: deprecate?
-    public int compareTo(Object obj) {
-        ObjectStreamField other = (ObjectStreamField) obj;
-        boolean isPrim = isPrimitive();
+    // REMIND: deprecbte?
+    public int compbreTo(Object obj) {
+        ObjectStrebmField other = (ObjectStrebmField) obj;
+        boolebn isPrim = isPrimitive();
         if (isPrim != other.isPrimitive()) {
             return isPrim ? -1 : 1;
         }
-        return name.compareTo(other.name);
+        return nbme.compbreTo(other.nbme);
     }
 
     /**
-     * Return a string that describes this field.
+     * Return b string thbt describes this field.
      */
     public String toString() {
-        return signature + ' ' + name;
+        return signbture + ' ' + nbme;
     }
 
     /**
-     * Returns field represented by this ObjectStreamField, or null if
-     * ObjectStreamField is not associated with an actual field.
+     * Returns field represented by this ObjectStrebmField, or null if
+     * ObjectStrebmField is not bssocibted with bn bctubl field.
      */
     Field getField() {
         return field;
     }
 
     /**
-     * Returns JVM type signature of field (similar to getTypeString, except
-     * that signature strings are returned for primitive fields as well).
+     * Returns JVM type signbture of field (similbr to getTypeString, except
+     * thbt signbture strings bre returned for primitive fields bs well).
      */
-    String getSignature() {
-        return signature;
+    String getSignbture() {
+        return signbture;
     }
 }

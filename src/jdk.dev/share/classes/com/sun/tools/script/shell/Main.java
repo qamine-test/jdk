@@ -1,270 +1,270 @@
 /*
- * Copyright (c) 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.tools.script.shell;
+pbckbge com.sun.tools.script.shell;
 
-import java.io.*;
-import java.net.*;
-import java.text.*;
-import java.util.*;
-import javax.script.*;
+import jbvb.io.*;
+import jbvb.net.*;
+import jbvb.text.*;
+import jbvb.util.*;
+import jbvbx.script.*;
 
 /**
- * This is the main class for Java script shell.
+ * This is the mbin clbss for Jbvb script shell.
  */
-public class Main {
+public clbss Mbin {
     /**
-     * main entry point to the command line tool
-     * @param args command line argument array
+     * mbin entry point to the commbnd line tool
+     * @pbrbm brgs commbnd line brgument brrby
      */
-    public static void main(String[] args) {
-        // parse command line options
-        String[] scriptArgs = processOptions(args);
+    public stbtic void mbin(String[] brgs) {
+        // pbrse commbnd line options
+        String[] scriptArgs = processOptions(brgs);
 
-        // process each script command
-        for (Command cmd : scripts) {
+        // process ebch script commbnd
+        for (Commbnd cmd : scripts) {
             cmd.run(scriptArgs);
         }
 
         System.exit(EXIT_SUCCESS);
     }
 
-    // Each -e or -f or interactive mode is represented
-    // by an instance of Command.
-    private static interface Command {
-        public void run(String[] arguments);
+    // Ebch -e or -f or interbctive mode is represented
+    // by bn instbnce of Commbnd.
+    privbte stbtic interfbce Commbnd {
+        public void run(String[] brguments);
     }
 
     /**
-     * Parses and processes command line options.
-     * @param args command line argument array
+     * Pbrses bnd processes commbnd line options.
+     * @pbrbm brgs commbnd line brgument brrby
      */
-    private static String[] processOptions(String[] args) {
-        // current scripting language selected
-        String currentLanguage = DEFAULT_LANGUAGE;
+    privbte stbtic String[] processOptions(String[] brgs) {
+        // current scripting lbngubge selected
+        String currentLbngubge = DEFAULT_LANGUAGE;
         // current script file encoding selected
         String currentEncoding = null;
 
-        // check for -classpath or -cp first
-        checkClassPath(args);
+        // check for -clbsspbth or -cp first
+        checkClbssPbth(brgs);
 
-        // have we seen -e or -f ?
-        boolean seenScript = false;
-        // have we seen -f - already?
-        boolean seenStdin = false;
-        for (int i=0; i < args.length; i++) {
-            String arg = args[i];
-            if (arg.equals("-classpath") ||
-                    arg.equals("-cp")) {
-                // handled already, just continue
+        // hbve we seen -e or -f ?
+        boolebn seenScript = fblse;
+        // hbve we seen -f - blrebdy?
+        boolebn seenStdin = fblse;
+        for (int i=0; i < brgs.length; i++) {
+            String brg = brgs[i];
+            if (brg.equbls("-clbsspbth") ||
+                    brg.equbls("-cp")) {
+                // hbndled blrebdy, just continue
                 i++;
                 continue;
             }
 
-            // collect non-option arguments and pass these as script arguments
-            if (!arg.startsWith("-")) {
+            // collect non-option brguments bnd pbss these bs script brguments
+            if (!brg.stbrtsWith("-")) {
                 int numScriptArgs;
-                int startScriptArg;
+                int stbrtScriptArg;
                 if (seenScript) {
-                    // if we have seen -e or -f already all non-option arguments
-                    // are passed as script arguments
-                    numScriptArgs = args.length - i;
-                    startScriptArg = i;
+                    // if we hbve seen -e or -f blrebdy bll non-option brguments
+                    // bre pbssed bs script brguments
+                    numScriptArgs = brgs.length - i;
+                    stbrtScriptArg = i;
                 } else {
-                    // if we have not seen -e or -f, first non-option argument
-                    // is treated as script file name and rest of the non-option
-                    // arguments are passed to script as script arguments
-                    numScriptArgs = args.length - i - 1;
-                    startScriptArg = i + 1;
-                    ScriptEngine se = getScriptEngine(currentLanguage);
-                    addFileSource(se, args[i], currentEncoding);
+                    // if we hbve not seen -e or -f, first non-option brgument
+                    // is trebted bs script file nbme bnd rest of the non-option
+                    // brguments bre pbssed to script bs script brguments
+                    numScriptArgs = brgs.length - i - 1;
+                    stbrtScriptArg = i + 1;
+                    ScriptEngine se = getScriptEngine(currentLbngubge);
+                    bddFileSource(se, brgs[i], currentEncoding);
                 }
-                // collect script arguments and return to main
+                // collect script brguments bnd return to mbin
                 String[] result = new String[numScriptArgs];
-                System.arraycopy(args, startScriptArg, result, 0, numScriptArgs);
+                System.brrbycopy(brgs, stbrtScriptArg, result, 0, numScriptArgs);
                 return result;
             }
 
-            if (arg.startsWith("-D")) {
-                String value = arg.substring(2);
-                int eq = value.indexOf('=');
+            if (brg.stbrtsWith("-D")) {
+                String vblue = brg.substring(2);
+                int eq = vblue.indexOf('=');
                 if (eq != -1) {
-                    System.setProperty(value.substring(0, eq),
-                            value.substring(eq + 1));
+                    System.setProperty(vblue.substring(0, eq),
+                            vblue.substring(eq + 1));
                 } else {
-                    if (!value.equals("")) {
-                        System.setProperty(value, "");
+                    if (!vblue.equbls("")) {
+                        System.setProperty(vblue, "");
                     } else {
-                        // do not allow empty property name
-                        usage(EXIT_CMD_NO_PROPNAME);
+                        // do not bllow empty property nbme
+                        usbge(EXIT_CMD_NO_PROPNAME);
                     }
                 }
                 continue;
-            } else if (arg.equals("-?") || arg.equals("-help")) {
-                usage(EXIT_SUCCESS);
-            } else if (arg.equals("-e")) {
+            } else if (brg.equbls("-?") || brg.equbls("-help")) {
+                usbge(EXIT_SUCCESS);
+            } else if (brg.equbls("-e")) {
                 seenScript = true;
-                if (++i == args.length)
-                    usage(EXIT_CMD_NO_SCRIPT);
+                if (++i == brgs.length)
+                    usbge(EXIT_CMD_NO_SCRIPT);
 
-                ScriptEngine se = getScriptEngine(currentLanguage);
-                addStringSource(se, args[i]);
+                ScriptEngine se = getScriptEngine(currentLbngubge);
+                bddStringSource(se, brgs[i]);
                 continue;
-            } else if (arg.equals("-encoding")) {
-                if (++i == args.length)
-                    usage(EXIT_CMD_NO_ENCODING);
-                currentEncoding = args[i];
+            } else if (brg.equbls("-encoding")) {
+                if (++i == brgs.length)
+                    usbge(EXIT_CMD_NO_ENCODING);
+                currentEncoding = brgs[i];
                 continue;
-            } else if (arg.equals("-f")) {
+            } else if (brg.equbls("-f")) {
                 seenScript = true;
-                if (++i == args.length)
-                    usage(EXIT_CMD_NO_FILE);
-                ScriptEngine se = getScriptEngine(currentLanguage);
-                if (args[i].equals("-")) {
+                if (++i == brgs.length)
+                    usbge(EXIT_CMD_NO_FILE);
+                ScriptEngine se = getScriptEngine(currentLbngubge);
+                if (brgs[i].equbls("-")) {
                     if (seenStdin) {
-                        usage(EXIT_MULTIPLE_STDIN);
+                        usbge(EXIT_MULTIPLE_STDIN);
                     } else {
                         seenStdin = true;
                     }
-                    addInteractiveMode(se);
+                    bddInterbctiveMode(se);
                 } else {
-                    addFileSource(se, args[i], currentEncoding);
+                    bddFileSource(se, brgs[i], currentEncoding);
                 }
                 continue;
-            } else if (arg.equals("-l")) {
-                if (++i == args.length)
-                    usage(EXIT_CMD_NO_LANG);
-                currentLanguage = args[i];
+            } else if (brg.equbls("-l")) {
+                if (++i == brgs.length)
+                    usbge(EXIT_CMD_NO_LANG);
+                currentLbngubge = brgs[i];
                 continue;
-            } else if (arg.equals("-q")) {
+            } else if (brg.equbls("-q")) {
                 listScriptEngines();
             }
             // some unknown option...
-            usage(EXIT_UNKNOWN_OPTION);
+            usbge(EXIT_UNKNOWN_OPTION);
         }
 
         if (! seenScript) {
-            ScriptEngine se = getScriptEngine(currentLanguage);
-            addInteractiveMode(se);
+            ScriptEngine se = getScriptEngine(currentLbngubge);
+            bddInterbctiveMode(se);
         }
         return new String[0];
     }
 
     /**
-     * Adds interactive mode Command
-     * @param se ScriptEngine to use in interactive mode.
+     * Adds interbctive mode Commbnd
+     * @pbrbm se ScriptEngine to use in interbctive mode.
      */
-    private static void addInteractiveMode(final ScriptEngine se) {
-        scripts.add(new Command() {
-            public void run(String[] args) {
-                setScriptArguments(se, args);
+    privbte stbtic void bddInterbctiveMode(finbl ScriptEngine se) {
+        scripts.bdd(new Commbnd() {
+            public void run(String[] brgs) {
+                setScriptArguments(se, brgs);
                 processSource(se, "-", null);
             }
         });
     }
 
     /**
-     * Adds script source file Command
-     * @param se ScriptEngine used to evaluate the script file
-     * @param fileName script file name
-     * @param encoding script file encoding
+     * Adds script source file Commbnd
+     * @pbrbm se ScriptEngine used to evblubte the script file
+     * @pbrbm fileNbme script file nbme
+     * @pbrbm encoding script file encoding
      */
-    private static void addFileSource(final ScriptEngine se,
-            final String fileName,
-            final String encoding) {
-        scripts.add(new Command() {
-            public void run(String[] args) {
-                setScriptArguments(se, args);
-                processSource(se, fileName, encoding);
+    privbte stbtic void bddFileSource(finbl ScriptEngine se,
+            finbl String fileNbme,
+            finbl String encoding) {
+        scripts.bdd(new Commbnd() {
+            public void run(String[] brgs) {
+                setScriptArguments(se, brgs);
+                processSource(se, fileNbme, encoding);
             }
         });
     }
 
     /**
-     * Adds script string source Command
-     * @param se ScriptEngine to be used to evaluate the script string
-     * @param source Script source string
+     * Adds script string source Commbnd
+     * @pbrbm se ScriptEngine to be used to evblubte the script string
+     * @pbrbm source Script source string
      */
-    private static void addStringSource(final ScriptEngine se,
-            final String source) {
-        scripts.add(new Command() {
-            public void run(String[] args) {
-                setScriptArguments(se, args);
-                String oldFile = setScriptFilename(se, "<string>");
+    privbte stbtic void bddStringSource(finbl ScriptEngine se,
+            finbl String source) {
+        scripts.bdd(new Commbnd() {
+            public void run(String[] brgs) {
+                setScriptArguments(se, brgs);
+                String oldFile = setScriptFilenbme(se, "<string>");
                 try {
-                    evaluateString(se, source);
-                } finally {
-                    setScriptFilename(se, oldFile);
+                    evblubteString(se, source);
+                } finblly {
+                    setScriptFilenbme(se, oldFile);
                 }
             }
         });
     }
 
     /**
-     * Prints list of script engines available and exits.
+     * Prints list of script engines bvbilbble bnd exits.
      */
-    private static void listScriptEngines() {
-        List<ScriptEngineFactory> factories = engineManager.getEngineFactories();
-        for (ScriptEngineFactory factory: factories) {
-            getError().println(getMessage("engine.info",
-                    new Object[] { factory.getLanguageName(),
-                            factory.getLanguageVersion(),
-                            factory.getEngineName(),
-                            factory.getEngineVersion()
+    privbte stbtic void listScriptEngines() {
+        List<ScriptEngineFbctory> fbctories = engineMbnbger.getEngineFbctories();
+        for (ScriptEngineFbctory fbctory: fbctories) {
+            getError().println(getMessbge("engine.info",
+                    new Object[] { fbctory.getLbngubgeNbme(),
+                            fbctory.getLbngubgeVersion(),
+                            fbctory.getEngineNbme(),
+                            fbctory.getEngineVersion()
             }));
         }
         System.exit(EXIT_SUCCESS);
     }
 
     /**
-     * Processes a given source file or standard input.
-     * @param se ScriptEngine to be used to evaluate
-     * @param filename file name, can be null
-     * @param encoding script file encoding, can be null
+     * Processes b given source file or stbndbrd input.
+     * @pbrbm se ScriptEngine to be used to evblubte
+     * @pbrbm filenbme file nbme, cbn be null
+     * @pbrbm encoding script file encoding, cbn be null
      */
-    private static void processSource(ScriptEngine se, String filename,
+    privbte stbtic void processSource(ScriptEngine se, String filenbme,
             String encoding) {
-        if (filename.equals("-")) {
-            BufferedReader in = new BufferedReader
-                    (new InputStreamReader(getIn()));
-            boolean hitEOF = false;
+        if (filenbme.equbls("-")) {
+            BufferedRebder in = new BufferedRebder
+                    (new InputStrebmRebder(getIn()));
+            boolebn hitEOF = fblse;
             String prompt = getPrompt(se);
             se.put(ScriptEngine.FILENAME, "<STDIN>");
             while (!hitEOF) {
                 getError().print(prompt);
                 String source = "";
                 try {
-                    source = in.readLine();
-                } catch (IOException ioe) {
+                    source = in.rebdLine();
+                } cbtch (IOException ioe) {
                     getError().println(ioe.toString());
                 }
                 if (source == null) {
                     hitEOF = true;
-                    break;
+                    brebk;
                 }
-                Object res = evaluateString(se, source, false);
+                Object res = evblubteString(se, source, fblse);
                 if (res != null) {
                     res = res.toString();
                     if (res == null) {
@@ -274,35 +274,35 @@ public class Main {
                 }
             }
         } else {
-            FileInputStream fis = null;
+            FileInputStrebm fis = null;
             try {
-                fis = new FileInputStream(filename);
-            } catch (FileNotFoundException fnfe) {
-                getError().println(getMessage("file.not.found",
-                        new Object[] { filename }));
+                fis = new FileInputStrebm(filenbme);
+            } cbtch (FileNotFoundException fnfe) {
+                getError().println(getMessbge("file.not.found",
+                        new Object[] { filenbme }));
                         System.exit(EXIT_FILE_NOT_FOUND);
             }
-            evaluateStream(se, fis, filename, encoding);
+            evblubteStrebm(se, fis, filenbme, encoding);
         }
     }
 
     /**
-     * Evaluates given script source
-     * @param se ScriptEngine to evaluate the string
-     * @param script Script source string
-     * @param exitOnError whether to exit the process on script error
+     * Evblubtes given script source
+     * @pbrbm se ScriptEngine to evblubte the string
+     * @pbrbm script Script source string
+     * @pbrbm exitOnError whether to exit the process on script error
      */
-    private static Object evaluateString(ScriptEngine se,
-            String script, boolean exitOnError) {
+    privbte stbtic Object evblubteString(ScriptEngine se,
+            String script, boolebn exitOnError) {
         try {
-            return se.eval(script);
-        } catch (ScriptException sexp) {
-            getError().println(getMessage("string.script.error",
-                    new Object[] { sexp.getMessage() }));
+            return se.evbl(script);
+        } cbtch (ScriptException sexp) {
+            getError().println(getMessbge("string.script.error",
+                    new Object[] { sexp.getMessbge() }));
                     if (exitOnError)
                         System.exit(EXIT_SCRIPT_ERROR);
-        } catch (Exception exp) {
-            exp.printStackTrace(getError());
+        } cbtch (Exception exp) {
+            exp.printStbckTrbce(getError());
             if (exitOnError)
                 System.exit(EXIT_SCRIPT_ERROR);
         }
@@ -311,190 +311,190 @@ public class Main {
     }
 
     /**
-     * Evaluate script string source and exit on script error
-     * @param se ScriptEngine to evaluate the string
-     * @param script Script source string
+     * Evblubte script string source bnd exit on script error
+     * @pbrbm se ScriptEngine to evblubte the string
+     * @pbrbm script Script source string
      */
-    private static void evaluateString(ScriptEngine se, String script) {
-        evaluateString(se, script, true);
+    privbte stbtic void evblubteString(ScriptEngine se, String script) {
+        evblubteString(se, script, true);
     }
 
     /**
-     * Evaluates script from given reader
-     * @param se ScriptEngine to evaluate the string
-     * @param reader Reader from which is script is read
-     * @param name file name to report in error.
+     * Evblubtes script from given rebder
+     * @pbrbm se ScriptEngine to evblubte the string
+     * @pbrbm rebder Rebder from which is script is rebd
+     * @pbrbm nbme file nbme to report in error.
      */
-    private static Object evaluateReader(ScriptEngine se,
-            Reader reader, String name) {
-        String oldFilename = setScriptFilename(se, name);
+    privbte stbtic Object evblubteRebder(ScriptEngine se,
+            Rebder rebder, String nbme) {
+        String oldFilenbme = setScriptFilenbme(se, nbme);
         try {
-            return se.eval(reader);
-        } catch (ScriptException sexp) {
-            getError().println(getMessage("file.script.error",
-                    new Object[] { name, sexp.getMessage() }));
+            return se.evbl(rebder);
+        } cbtch (ScriptException sexp) {
+            getError().println(getMessbge("file.script.error",
+                    new Object[] { nbme, sexp.getMessbge() }));
                     System.exit(EXIT_SCRIPT_ERROR);
-        } catch (Exception exp) {
-            exp.printStackTrace(getError());
+        } cbtch (Exception exp) {
+            exp.printStbckTrbce(getError());
             System.exit(EXIT_SCRIPT_ERROR);
-        } finally {
-            setScriptFilename(se, oldFilename);
+        } finblly {
+            setScriptFilenbme(se, oldFilenbme);
         }
         return null;
     }
 
     /**
-     * Evaluates given input stream
-     * @param se ScriptEngine to evaluate the string
-     * @param is InputStream from which script is read
-     * @param name file name to report in error
+     * Evblubtes given input strebm
+     * @pbrbm se ScriptEngine to evblubte the string
+     * @pbrbm is InputStrebm from which script is rebd
+     * @pbrbm nbme file nbme to report in error
      */
-    private static Object evaluateStream(ScriptEngine se,
-            InputStream is, String name,
+    privbte stbtic Object evblubteStrebm(ScriptEngine se,
+            InputStrebm is, String nbme,
             String encoding) {
-        BufferedReader reader = null;
+        BufferedRebder rebder = null;
         if (encoding != null) {
             try {
-                reader = new BufferedReader(new InputStreamReader(is,
+                rebder = new BufferedRebder(new InputStrebmRebder(is,
                         encoding));
-            } catch (UnsupportedEncodingException uee) {
-                getError().println(getMessage("encoding.unsupported",
+            } cbtch (UnsupportedEncodingException uee) {
+                getError().println(getMessbge("encoding.unsupported",
                         new Object[] { encoding }));
                         System.exit(EXIT_NO_ENCODING_FOUND);
             }
         } else {
-            reader = new BufferedReader(new InputStreamReader(is));
+            rebder = new BufferedRebder(new InputStrebmRebder(is));
         }
-        return evaluateReader(se, reader, name);
+        return evblubteRebder(se, rebder, nbme);
     }
 
     /**
-     * Prints usage message and exits
-     * @param exitCode process exit code
+     * Prints usbge messbge bnd exits
+     * @pbrbm exitCode process exit code
      */
-    private static void usage(int exitCode) {
-        getError().println(getMessage("main.usage",
+    privbte stbtic void usbge(int exitCode) {
+        getError().println(getMessbge("mbin.usbge",
                 new Object[] { PROGRAM_NAME }));
                 System.exit(exitCode);
     }
 
     /**
-     * Gets prompt for interactive mode
+     * Gets prompt for interbctive mode
      * @return prompt string to use
      */
-    private static String getPrompt(ScriptEngine se) {
-        List<String> names = se.getFactory().getNames();
-        return names.get(0) + "> ";
+    privbte stbtic String getPrompt(ScriptEngine se) {
+        List<String> nbmes = se.getFbctory().getNbmes();
+        return nbmes.get(0) + "> ";
     }
 
     /**
-     * Get formatted, localized error message
+     * Get formbtted, locblized error messbge
      */
-    private static String getMessage(String key, Object[] params) {
-        return MessageFormat.format(msgRes.getString(key), params);
+    privbte stbtic String getMessbge(String key, Object[] pbrbms) {
+        return MessbgeFormbt.formbt(msgRes.getString(key), pbrbms);
     }
 
-    // input stream from where we will read
-    private static InputStream getIn() {
+    // input strebm from where we will rebd
+    privbte stbtic InputStrebm getIn() {
         return System.in;
     }
 
-    // stream to print error messages
-    private static PrintStream getError() {
+    // strebm to print error messbges
+    privbte stbtic PrintStrebm getError() {
         return System.err;
     }
 
     // get current script engine
-    private static ScriptEngine getScriptEngine(String lang) {
-        ScriptEngine se = engines.get(lang);
+    privbte stbtic ScriptEngine getScriptEngine(String lbng) {
+        ScriptEngine se = engines.get(lbng);
         if (se == null) {
-            se = engineManager.getEngineByName(lang);
+            se = engineMbnbger.getEngineByNbme(lbng);
             if (se == null) {
-                getError().println(getMessage("engine.not.found",
-                        new Object[] { lang }));
+                getError().println(getMessbge("engine.not.found",
+                        new Object[] { lbng }));
                         System.exit(EXIT_ENGINE_NOT_FOUND);
             }
 
-            // initialize the engine
+            // initiblize the engine
             initScriptEngine(se);
-            // to avoid re-initialization of engine, store it in a map
-            engines.put(lang, se);
+            // to bvoid re-initiblizbtion of engine, store it in b mbp
+            engines.put(lbng, se);
         }
         return se;
     }
 
-    // initialize a given script engine
-    private static void initScriptEngine(ScriptEngine se) {
-        // put engine global variable
+    // initiblize b given script engine
+    privbte stbtic void initScriptEngine(ScriptEngine se) {
+        // put engine globbl vbribble
         se.put("engine", se);
 
-        // load init.<ext> file from resource
-        List<String> exts = se.getFactory().getExtensions();
-        InputStream sysIn = null;
-        ClassLoader cl = Thread.currentThread().getContextClassLoader();
+        // lobd init.<ext> file from resource
+        List<String> exts = se.getFbctory().getExtensions();
+        InputStrebm sysIn = null;
+        ClbssLobder cl = Threbd.currentThrebd().getContextClbssLobder();
         for (String ext : exts) {
-            sysIn = cl.getResourceAsStream("com/sun/tools/script/shell/init." +
+            sysIn = cl.getResourceAsStrebm("com/sun/tools/script/shell/init." +
                     ext);
-            if (sysIn != null) break;
+            if (sysIn != null) brebk;
         }
         if (sysIn != null) {
-            evaluateStream(se, sysIn, "<system-init>", null);
+            evblubteStrebm(se, sysIn, "<system-init>", null);
         }
     }
 
     /**
-     * Checks for -classpath, -cp in command line args. Creates a ClassLoader
-     * and sets it as Thread context loader for current thread.
+     * Checks for -clbsspbth, -cp in commbnd line brgs. Crebtes b ClbssLobder
+     * bnd sets it bs Threbd context lobder for current threbd.
      *
-     * @param args command line argument array
+     * @pbrbm brgs commbnd line brgument brrby
      */
-    private static void checkClassPath(String[] args) {
-        String classPath = null;
-        for (int i = 0; i < args.length; i++) {
-            if (args[i].equals("-classpath") ||
-                    args[i].equals("-cp")) {
-                if (++i == args.length) {
-                    // just -classpath or -cp with no value
-                    usage(EXIT_CMD_NO_CLASSPATH);
+    privbte stbtic void checkClbssPbth(String[] brgs) {
+        String clbssPbth = null;
+        for (int i = 0; i < brgs.length; i++) {
+            if (brgs[i].equbls("-clbsspbth") ||
+                    brgs[i].equbls("-cp")) {
+                if (++i == brgs.length) {
+                    // just -clbsspbth or -cp with no vblue
+                    usbge(EXIT_CMD_NO_CLASSPATH);
                 } else {
-                    classPath = args[i];
+                    clbssPbth = brgs[i];
                 }
             }
         }
 
-        if (classPath != null) {
-            /* We create a class loader, configure it with specified
-             * classpath values and set the same as context loader.
-             * Note that ScriptEngineManager uses context loader to
-             * load script engines. So, this ensures that user defined
-             * script engines will be loaded. For classes referred
-             * from scripts, Rhino engine uses thread context loader
-             * but this is script engine dependent. We don't have
-             * script engine independent solution anyway. Unless we
-             * know the class loader used by a specific engine, we
-             * can't configure correct loader.
+        if (clbssPbth != null) {
+            /* We crebte b clbss lobder, configure it with specified
+             * clbsspbth vblues bnd set the sbme bs context lobder.
+             * Note thbt ScriptEngineMbnbger uses context lobder to
+             * lobd script engines. So, this ensures thbt user defined
+             * script engines will be lobded. For clbsses referred
+             * from scripts, Rhino engine uses threbd context lobder
+             * but this is script engine dependent. We don't hbve
+             * script engine independent solution bnywby. Unless we
+             * know the clbss lobder used by b specific engine, we
+             * cbn't configure correct lobder.
              */
-            ClassLoader parent = Main.class.getClassLoader();
-            URL[] urls = pathToURLs(classPath);
-            URLClassLoader loader = new URLClassLoader(urls, parent);
-            Thread.currentThread().setContextClassLoader(loader);
+            ClbssLobder pbrent = Mbin.clbss.getClbssLobder();
+            URL[] urls = pbthToURLs(clbssPbth);
+            URLClbssLobder lobder = new URLClbssLobder(urls, pbrent);
+            Threbd.currentThrebd().setContextClbssLobder(lobder);
         }
 
-        // now initialize script engine manager. Note that this has to
-        // be done after setting the context loader so that manager
-        // will see script engines from user specified classpath
-        engineManager = new ScriptEngineManager();
+        // now initiblize script engine mbnbger. Note thbt this hbs to
+        // be done bfter setting the context lobder so thbt mbnbger
+        // will see script engines from user specified clbsspbth
+        engineMbnbger = new ScriptEngineMbnbger();
     }
 
     /**
-     * Utility method for converting a search path string to an array
-     * of directory and JAR file URLs.
+     * Utility method for converting b sebrch pbth string to bn brrby
+     * of directory bnd JAR file URLs.
      *
-     * @param path the search path string
-     * @return the resulting array of directory and JAR file URLs
+     * @pbrbm pbth the sebrch pbth string
+     * @return the resulting brrby of directory bnd JAR file URLs
      */
-    private static URL[] pathToURLs(String path) {
-        String[] components = path.split(File.pathSeparator);
+    privbte stbtic URL[] pbthToURLs(String pbth) {
+        String[] components = pbth.split(File.pbthSepbrbtor);
         URL[] urls = new URL[components.length];
         int count = 0;
         while(count < components.length) {
@@ -505,7 +505,7 @@ public class Main {
         }
         if (urls.length != count) {
             URL[] tmp = new URL[count];
-            System.arraycopy(urls, 0, tmp, 0, count);
+            System.brrbycopy(urls, 0, tmp, 0, count);
             urls = tmp;
         }
         return urls;
@@ -513,75 +513,75 @@ public class Main {
 
     /**
      * Returns the directory or JAR file URL corresponding to the specified
-     * local file name.
+     * locbl file nbme.
      *
-     * @param file the File object
+     * @pbrbm file the File object
      * @return the resulting directory or JAR file URL, or null if unknown
      */
-    private static URL fileToURL(File file) {
-        String name;
+    privbte stbtic URL fileToURL(File file) {
+        String nbme;
         try {
-            name = file.getCanonicalPath();
-        } catch (IOException e) {
-            name = file.getAbsolutePath();
+            nbme = file.getCbnonicblPbth();
+        } cbtch (IOException e) {
+            nbme = file.getAbsolutePbth();
         }
-        name = name.replace(File.separatorChar, '/');
-        if (!name.startsWith("/")) {
-            name = "/" + name;
+        nbme = nbme.replbce(File.sepbrbtorChbr, '/');
+        if (!nbme.stbrtsWith("/")) {
+            nbme = "/" + nbme;
         }
-        // If the file does not exist, then assume that it's a directory
+        // If the file does not exist, then bssume thbt it's b directory
         if (!file.isFile()) {
-            name = name + "/";
+            nbme = nbme + "/";
         }
         try {
-            return new URL("file", "", name);
-        } catch (MalformedURLException e) {
-            throw new IllegalArgumentException("file");
+            return new URL("file", "", nbme);
+        } cbtch (MblformedURLException e) {
+            throw new IllegblArgumentException("file");
         }
     }
 
-    private static void setScriptArguments(ScriptEngine se, String[] args) {
-        se.put("arguments", args);
-        se.put(ScriptEngine.ARGV, args);
+    privbte stbtic void setScriptArguments(ScriptEngine se, String[] brgs) {
+        se.put("brguments", brgs);
+        se.put(ScriptEngine.ARGV, brgs);
     }
 
-    private static String setScriptFilename(ScriptEngine se, String name) {
-        String oldName = (String) se.get(ScriptEngine.FILENAME);
-        se.put(ScriptEngine.FILENAME, name);
-        return oldName;
+    privbte stbtic String setScriptFilenbme(ScriptEngine se, String nbme) {
+        String oldNbme = (String) se.get(ScriptEngine.FILENAME);
+        se.put(ScriptEngine.FILENAME, nbme);
+        return oldNbme;
     }
 
     // exit codes
-    private static final int EXIT_SUCCESS            = 0;
-    private static final int EXIT_CMD_NO_CLASSPATH   = 1;
-    private static final int EXIT_CMD_NO_FILE        = 2;
-    private static final int EXIT_CMD_NO_SCRIPT      = 3;
-    private static final int EXIT_CMD_NO_LANG        = 4;
-    private static final int EXIT_CMD_NO_ENCODING    = 5;
-    private static final int EXIT_CMD_NO_PROPNAME    = 6;
-    private static final int EXIT_UNKNOWN_OPTION     = 7;
-    private static final int EXIT_ENGINE_NOT_FOUND   = 8;
-    private static final int EXIT_NO_ENCODING_FOUND  = 9;
-    private static final int EXIT_SCRIPT_ERROR       = 10;
-    private static final int EXIT_FILE_NOT_FOUND     = 11;
-    private static final int EXIT_MULTIPLE_STDIN     = 12;
+    privbte stbtic finbl int EXIT_SUCCESS            = 0;
+    privbte stbtic finbl int EXIT_CMD_NO_CLASSPATH   = 1;
+    privbte stbtic finbl int EXIT_CMD_NO_FILE        = 2;
+    privbte stbtic finbl int EXIT_CMD_NO_SCRIPT      = 3;
+    privbte stbtic finbl int EXIT_CMD_NO_LANG        = 4;
+    privbte stbtic finbl int EXIT_CMD_NO_ENCODING    = 5;
+    privbte stbtic finbl int EXIT_CMD_NO_PROPNAME    = 6;
+    privbte stbtic finbl int EXIT_UNKNOWN_OPTION     = 7;
+    privbte stbtic finbl int EXIT_ENGINE_NOT_FOUND   = 8;
+    privbte stbtic finbl int EXIT_NO_ENCODING_FOUND  = 9;
+    privbte stbtic finbl int EXIT_SCRIPT_ERROR       = 10;
+    privbte stbtic finbl int EXIT_FILE_NOT_FOUND     = 11;
+    privbte stbtic finbl int EXIT_MULTIPLE_STDIN     = 12;
 
-    // default scripting language
-    private static final String DEFAULT_LANGUAGE = "js";
+    // defbult scripting lbngubge
+    privbte stbtic finbl String DEFAULT_LANGUAGE = "js";
     // list of scripts to process
-    private static List<Command> scripts;
-    // the script engine manager
-    private static ScriptEngineManager engineManager;
-    // map of engines we loaded
-    private static Map<String, ScriptEngine> engines;
-    // error messages resource
-    private static ResourceBundle msgRes;
-    private static String BUNDLE_NAME = "com.sun.tools.script.shell.messages";
-    private static String PROGRAM_NAME = "jrunscript";
+    privbte stbtic List<Commbnd> scripts;
+    // the script engine mbnbger
+    privbte stbtic ScriptEngineMbnbger engineMbnbger;
+    // mbp of engines we lobded
+    privbte stbtic Mbp<String, ScriptEngine> engines;
+    // error messbges resource
+    privbte stbtic ResourceBundle msgRes;
+    privbte stbtic String BUNDLE_NAME = "com.sun.tools.script.shell.messbges";
+    privbte stbtic String PROGRAM_NAME = "jrunscript";
 
-    static {
-        scripts = new ArrayList<Command>();
-        engines = new HashMap<String, ScriptEngine>();
-        msgRes = ResourceBundle.getBundle(BUNDLE_NAME, Locale.getDefault());
+    stbtic {
+        scripts = new ArrbyList<Commbnd>();
+        engines = new HbshMbp<String, ScriptEngine>();
+        msgRes = ResourceBundle.getBundle(BUNDLE_NAME, Locble.getDefbult());
     }
 }

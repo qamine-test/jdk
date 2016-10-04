@@ -1,130 +1,130 @@
 /*
- * Copyright (c) 2002, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2007, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.management.remote.rmi;
+pbckbge jbvbx.mbnbgement.remote.rmi;
 
-import java.io.IOException;
-import java.rmi.NoSuchObjectException;
-import java.rmi.Remote;
-import java.rmi.RemoteException;
-import java.rmi.server.RMIClientSocketFactory;
-import java.rmi.server.RMIServerSocketFactory;
-import java.rmi.server.UnicastRemoteObject;
-import java.rmi.server.RemoteObject;
-import java.util.Map;
-import java.util.Collections;
-import javax.security.auth.Subject;
+import jbvb.io.IOException;
+import jbvb.rmi.NoSuchObjectException;
+import jbvb.rmi.Remote;
+import jbvb.rmi.RemoteException;
+import jbvb.rmi.server.RMIClientSocketFbctory;
+import jbvb.rmi.server.RMIServerSocketFbctory;
+import jbvb.rmi.server.UnicbstRemoteObject;
+import jbvb.rmi.server.RemoteObject;
+import jbvb.util.Mbp;
+import jbvb.util.Collections;
+import jbvbx.security.buth.Subject;
 
-import com.sun.jmx.remote.internal.RMIExporter;
+import com.sun.jmx.remote.internbl.RMIExporter;
 import com.sun.jmx.remote.util.EnvHelp;
-import sun.rmi.server.UnicastServerRef;
-import sun.rmi.server.UnicastServerRef2;
+import sun.rmi.server.UnicbstServerRef;
+import sun.rmi.server.UnicbstServerRef2;
 
 /**
- * <p>An {@link RMIServer} object that is exported through JRMP and that
- * creates client connections as RMI objects exported through JRMP.
- * User code does not usually reference this class directly.</p>
+ * <p>An {@link RMIServer} object thbt is exported through JRMP bnd thbt
+ * crebtes client connections bs RMI objects exported through JRMP.
+ * User code does not usublly reference this clbss directly.</p>
  *
  * @see RMIServerImpl
  *
  * @since 1.5
  */
-public class RMIJRMPServerImpl extends RMIServerImpl {
+public clbss RMIJRMPServerImpl extends RMIServerImpl {
     /**
-     * <p>Creates a new {@link RMIServer} object that will be exported
-     * on the given port using the given socket factories.</p>
+     * <p>Crebtes b new {@link RMIServer} object thbt will be exported
+     * on the given port using the given socket fbctories.</p>
      *
-     * @param port the port on which this object and the {@link
-     * RMIConnectionImpl} objects it creates will be exported.  Can be
-     * zero, to indicate any available port.
+     * @pbrbm port the port on which this object bnd the {@link
+     * RMIConnectionImpl} objects it crebtes will be exported.  Cbn be
+     * zero, to indicbte bny bvbilbble port.
      *
-     * @param csf the client socket factory for the created RMI
-     * objects.  Can be null.
+     * @pbrbm csf the client socket fbctory for the crebted RMI
+     * objects.  Cbn be null.
      *
-     * @param ssf the server socket factory for the created RMI
-     * objects.  Can be null.
+     * @pbrbm ssf the server socket fbctory for the crebted RMI
+     * objects.  Cbn be null.
      *
-     * @param env the environment map.  Can be null.
+     * @pbrbm env the environment mbp.  Cbn be null.
      *
      * @exception IOException if the {@link RMIServer} object
-     * cannot be created.
+     * cbnnot be crebted.
      *
-     * @exception IllegalArgumentException if <code>port</code> is
-     * negative.
+     * @exception IllegblArgumentException if <code>port</code> is
+     * negbtive.
      */
     public RMIJRMPServerImpl(int port,
-                             RMIClientSocketFactory csf,
-                             RMIServerSocketFactory ssf,
-                             Map<String,?> env)
+                             RMIClientSocketFbctory csf,
+                             RMIServerSocketFbctory ssf,
+                             Mbp<String,?> env)
             throws IOException {
 
         super(env);
 
         if (port < 0)
-            throw new IllegalArgumentException("Negative port: " + port);
+            throw new IllegblArgumentException("Negbtive port: " + port);
 
         this.port = port;
         this.csf = csf;
         this.ssf = ssf;
-        this.env = (env == null) ? Collections.<String, Object>emptyMap() : env;
+        this.env = (env == null) ? Collections.<String, Object>emptyMbp() : env;
     }
 
     protected void export() throws IOException {
         export(this);
     }
 
-    private void export(Remote obj) throws RemoteException {
-        final RMIExporter exporter =
+    privbte void export(Remote obj) throws RemoteException {
+        finbl RMIExporter exporter =
             (RMIExporter) env.get(RMIExporter.EXPORTER_ATTRIBUTE);
-        final boolean daemon = EnvHelp.isServerDaemon(env);
+        finbl boolebn dbemon = EnvHelp.isServerDbemon(env);
 
-        if (daemon && exporter != null) {
-            throw new IllegalArgumentException("If "+EnvHelp.JMX_SERVER_DAEMON+
-                    " is specified as true, "+RMIExporter.EXPORTER_ATTRIBUTE+
-                    " cannot be used to specify an exporter!");
+        if (dbemon && exporter != null) {
+            throw new IllegblArgumentException("If "+EnvHelp.JMX_SERVER_DAEMON+
+                    " is specified bs true, "+RMIExporter.EXPORTER_ATTRIBUTE+
+                    " cbnnot be used to specify bn exporter!");
         }
 
-        if (daemon) {
+        if (dbemon) {
             if (csf == null && ssf == null) {
-                new UnicastServerRef(port).exportObject(obj, null, true);
+                new UnicbstServerRef(port).exportObject(obj, null, true);
             } else {
-                new UnicastServerRef2(port, csf, ssf).exportObject(obj, null, true);
+                new UnicbstServerRef2(port, csf, ssf).exportObject(obj, null, true);
             }
         } else if (exporter != null) {
             exporter.exportObject(obj, port, csf, ssf);
         } else {
-            UnicastRemoteObject.exportObject(obj, port, csf, ssf);
+            UnicbstRemoteObject.exportObject(obj, port, csf, ssf);
         }
     }
 
-    private void unexport(Remote obj, boolean force)
+    privbte void unexport(Remote obj, boolebn force)
             throws NoSuchObjectException {
         RMIExporter exporter =
             (RMIExporter) env.get(RMIExporter.EXPORTER_ATTRIBUTE);
         if (exporter == null)
-            UnicastRemoteObject.unexportObject(obj, force);
+            UnicbstRemoteObject.unexportObject(obj, force);
         else
             exporter.unexportObject(obj, force);
     }
@@ -134,43 +134,43 @@ public class RMIJRMPServerImpl extends RMIServerImpl {
     }
 
     /**
-     * <p>Returns a serializable stub for this {@link RMIServer} object.</p>
+     * <p>Returns b seriblizbble stub for this {@link RMIServer} object.</p>
      *
-     * @return a serializable stub.
+     * @return b seriblizbble stub.
      *
-     * @exception IOException if the stub cannot be obtained - e.g the
-     *            RMIJRMPServerImpl has not been exported yet.
+     * @exception IOException if the stub cbnnot be obtbined - e.g the
+     *            RMIJRMPServerImpl hbs not been exported yet.
      */
     public Remote toStub() throws IOException {
         return RemoteObject.toStub(this);
     }
 
     /**
-     * <p>Creates a new client connection as an RMI object exported
-     * through JRMP. The port and socket factories for the new
-     * {@link RMIConnection} object are the ones supplied
+     * <p>Crebtes b new client connection bs bn RMI object exported
+     * through JRMP. The port bnd socket fbctories for the new
+     * {@link RMIConnection} object bre the ones supplied
      * to the <code>RMIJRMPServerImpl</code> constructor.</p>
      *
-     * @param connectionId the ID of the new connection. Every
-     * connection opened by this connector server will have a
-     * different id.  The behavior is unspecified if this parameter is
+     * @pbrbm connectionId the ID of the new connection. Every
+     * connection opened by this connector server will hbve b
+     * different id.  The behbvior is unspecified if this pbrbmeter is
      * null.
      *
-     * @param subject the authenticated subject.  Can be null.
+     * @pbrbm subject the buthenticbted subject.  Cbn be null.
      *
-     * @return the newly-created <code>RMIConnection</code>.
+     * @return the newly-crebted <code>RMIConnection</code>.
      *
      * @exception IOException if the new {@link RMIConnection}
-     * object cannot be created or exported.
+     * object cbnnot be crebted or exported.
      */
-    protected RMIConnection makeClient(String connectionId, Subject subject)
+    protected RMIConnection mbkeClient(String connectionId, Subject subject)
             throws IOException {
 
         if (connectionId == null)
             throw new NullPointerException("Null connectionId");
 
         RMIConnection client =
-            new RMIConnectionImpl(this, connectionId, getDefaultClassLoader(),
+            new RMIConnectionImpl(this, connectionId, getDefbultClbssLobder(),
                                   subject, env);
         export(client);
         return client;
@@ -181,19 +181,19 @@ public class RMIJRMPServerImpl extends RMIServerImpl {
     }
 
     /**
-     * <p>Called by {@link #close()} to close the connector server by
+     * <p>Cblled by {@link #close()} to close the connector server by
      * unexporting this object.  After returning from this method, the
-     * connector server must not accept any new connections.</p>
+     * connector server must not bccept bny new connections.</p>
      *
-     * @exception IOException if the attempt to close the connector
-     * server failed.
+     * @exception IOException if the bttempt to close the connector
+     * server fbiled.
      */
     protected void closeServer() throws IOException {
         unexport(this, true);
     }
 
-    private final int port;
-    private final RMIClientSocketFactory csf;
-    private final RMIServerSocketFactory ssf;
-    private final Map<String, ?> env;
+    privbte finbl int port;
+    privbte finbl RMIClientSocketFbctory csf;
+    privbte finbl RMIServerSocketFbctory ssf;
+    privbte finbl Mbp<String, ?> env;
 }

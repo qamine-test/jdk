@@ -1,65 +1,65 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.net.www.protocol.jar;
+pbckbge sun.net.www.protocol.jbr;
 
-import java.io.IOException;
-import java.io.FileNotFoundException;
-import java.net.URL;
-import java.net.URLConnection;
-import java.util.HashMap;
-import java.util.jar.JarFile;
-import java.security.Permission;
+import jbvb.io.IOException;
+import jbvb.io.FileNotFoundException;
+import jbvb.net.URL;
+import jbvb.net.URLConnection;
+import jbvb.util.HbshMbp;
+import jbvb.util.jbr.JbrFile;
+import jbvb.security.Permission;
 import sun.net.util.URLUtil;
 
-/* A factory for cached JAR file. This class is used to both retrieve
- * and cache Jar files.
+/* A fbctory for cbched JAR file. This clbss is used to both retrieve
+ * bnd cbche Jbr files.
  *
- * @author Benjamin Renaud
+ * @buthor Benjbmin Renbud
  * @since 1.2
  */
-class JarFileFactory implements URLJarFile.URLJarFileCloseController {
+clbss JbrFileFbctory implements URLJbrFile.URLJbrFileCloseController {
 
-    /* the url to file cache */
-    private static final HashMap<String, JarFile> fileCache = new HashMap<>();
+    /* the url to file cbche */
+    privbte stbtic finbl HbshMbp<String, JbrFile> fileCbche = new HbshMbp<>();
 
-    /* the file to url cache */
-    private static final HashMap<JarFile, URL> urlCache = new HashMap<>();
+    /* the file to url cbche */
+    privbte stbtic finbl HbshMbp<JbrFile, URL> urlCbche = new HbshMbp<>();
 
-    private static final JarFileFactory instance = new JarFileFactory();
+    privbte stbtic finbl JbrFileFbctory instbnce = new JbrFileFbctory();
 
-    private JarFileFactory() { }
+    privbte JbrFileFbctory() { }
 
-    public static JarFileFactory getInstance() {
-        return instance;
+    public stbtic JbrFileFbctory getInstbnce() {
+        return instbnce;
     }
 
-    URLConnection getConnection(JarFile jarFile) throws IOException {
+    URLConnection getConnection(JbrFile jbrFile) throws IOException {
         URL u;
-        synchronized (instance) {
-            u = urlCache.get(jarFile);
+        synchronized (instbnce) {
+            u = urlCbche.get(jbrFile);
         }
         if (u != null)
             return u.openConnection();
@@ -67,36 +67,36 @@ class JarFileFactory implements URLJarFile.URLJarFileCloseController {
         return null;
     }
 
-    public JarFile get(URL url) throws IOException {
+    public JbrFile get(URL url) throws IOException {
         return get(url, true);
     }
 
-    JarFile get(URL url, boolean useCaches) throws IOException {
+    JbrFile get(URL url, boolebn useCbches) throws IOException {
 
-        JarFile result;
-        JarFile local_result;
+        JbrFile result;
+        JbrFile locbl_result;
 
-        if (useCaches) {
-            synchronized (instance) {
-                result = getCachedJarFile(url);
+        if (useCbches) {
+            synchronized (instbnce) {
+                result = getCbchedJbrFile(url);
             }
             if (result == null) {
-                local_result = URLJarFile.getJarFile(url, this);
-                synchronized (instance) {
-                    result = getCachedJarFile(url);
+                locbl_result = URLJbrFile.getJbrFile(url, this);
+                synchronized (instbnce) {
+                    result = getCbchedJbrFile(url);
                     if (result == null) {
-                        fileCache.put(URLUtil.urlNoFragString(url), local_result);
-                        urlCache.put(local_result, url);
-                        result = local_result;
+                        fileCbche.put(URLUtil.urlNoFrbgString(url), locbl_result);
+                        urlCbche.put(locbl_result, url);
+                        result = locbl_result;
                     } else {
-                        if (local_result != null) {
-                            local_result.close();
+                        if (locbl_result != null) {
+                            locbl_result.close();
                         }
                     }
                 }
             }
         } else {
-            result = URLJarFile.getJarFile(url, this);
+            result = URLJbrFile.getJbrFile(url, this);
         }
         if (result == null)
             throw new FileNotFoundException(url.toString());
@@ -105,38 +105,38 @@ class JarFileFactory implements URLJarFile.URLJarFileCloseController {
     }
 
     /**
-     * Callback method of the URLJarFileCloseController to
-     * indicate that the JarFile is close. This way we can
-     * remove the JarFile from the cache
+     * Cbllbbck method of the URLJbrFileCloseController to
+     * indicbte thbt the JbrFile is close. This wby we cbn
+     * remove the JbrFile from the cbche
      */
-    public void close(JarFile jarFile) {
-        synchronized (instance) {
-            URL urlRemoved = urlCache.remove(jarFile);
+    public void close(JbrFile jbrFile) {
+        synchronized (instbnce) {
+            URL urlRemoved = urlCbche.remove(jbrFile);
             if (urlRemoved != null)
-                fileCache.remove(URLUtil.urlNoFragString(urlRemoved));
+                fileCbche.remove(URLUtil.urlNoFrbgString(urlRemoved));
         }
     }
 
-    private JarFile getCachedJarFile(URL url) {
-        assert Thread.holdsLock(instance);
-        JarFile result = fileCache.get(URLUtil.urlNoFragString(url));
+    privbte JbrFile getCbchedJbrFile(URL url) {
+        bssert Threbd.holdsLock(instbnce);
+        JbrFile result = fileCbche.get(URLUtil.urlNoFrbgString(url));
 
-        /* if the JAR file is cached, the permission will always be there */
+        /* if the JAR file is cbched, the permission will blwbys be there */
         if (result != null) {
             Permission perm = getPermission(result);
             if (perm != null) {
-                SecurityManager sm = System.getSecurityManager();
+                SecurityMbnbger sm = System.getSecurityMbnbger();
                 if (sm != null) {
                     try {
                         sm.checkPermission(perm);
-                    } catch (SecurityException se) {
-                        // fallback to checkRead/checkConnect for pre 1.2
-                        // security managers
-                        if ((perm instanceof java.io.FilePermission) &&
-                            perm.getActions().indexOf("read") != -1) {
-                            sm.checkRead(perm.getName());
-                        } else if ((perm instanceof
-                            java.net.SocketPermission) &&
+                    } cbtch (SecurityException se) {
+                        // fbllbbck to checkRebd/checkConnect for pre 1.2
+                        // security mbnbgers
+                        if ((perm instbnceof jbvb.io.FilePermission) &&
+                            perm.getActions().indexOf("rebd") != -1) {
+                            sm.checkRebd(perm.getNbme());
+                        } else if ((perm instbnceof
+                            jbvb.net.SocketPermission) &&
                             perm.getActions().indexOf("connect") != -1) {
                             sm.checkConnect(url.getHost(), url.getPort());
                         } else {
@@ -149,12 +149,12 @@ class JarFileFactory implements URLJarFile.URLJarFileCloseController {
         return result;
     }
 
-    private Permission getPermission(JarFile jarFile) {
+    privbte Permission getPermission(JbrFile jbrFile) {
         try {
-            URLConnection uc = getConnection(jarFile);
+            URLConnection uc = getConnection(jbrFile);
             if (uc != null)
                 return uc.getPermission();
-        } catch (IOException ioe) {
+        } cbtch (IOException ioe) {
             // gulp
         }
 

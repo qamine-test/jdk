@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 1998, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -27,22 +27,22 @@
 
 /*
  * FUNCTION
- *      mlib_ImageAffine_u8_1ch_nn
- *      mlib_ImageAffine_u8_2ch_nn
- *      mlib_ImageAffine_u8_3ch_nn
- *      mlib_ImageAffine_u8_4ch_nn
- *      mlib_ImageAffine_s16_1ch_nn
- *      mlib_ImageAffine_s16_2ch_nn
- *      mlib_ImageAffine_s16_3ch_nn
- *      mlib_ImageAffine_s16_4ch_nn
- *        - image affine transformation with Nearest Neighbor filtering
+ *      mlib_ImbgeAffine_u8_1ch_nn
+ *      mlib_ImbgeAffine_u8_2ch_nn
+ *      mlib_ImbgeAffine_u8_3ch_nn
+ *      mlib_ImbgeAffine_u8_4ch_nn
+ *      mlib_ImbgeAffine_s16_1ch_nn
+ *      mlib_ImbgeAffine_s16_2ch_nn
+ *      mlib_ImbgeAffine_s16_3ch_nn
+ *      mlib_ImbgeAffine_s16_4ch_nn
+ *        - imbge bffine trbnsformbtion with Nebrest Neighbor filtering
  *
  */
 
 #include "vis_proto.h"
-#include "mlib_image.h"
-#include "mlib_ImageCopy.h"
-#include "mlib_ImageAffine.h"
+#include "mlib_imbge.h"
+#include "mlib_ImbgeCopy.h"
+#include "mlib_ImbgeAffine.h"
 
 #define BUFF_SIZE  256
 
@@ -54,10 +54,10 @@
 #undef  DTYPE
 #define DTYPE mlib_u8
 
-#define LD_U8(sp, x) vis_read_lo(vis_ld_u8_i(sp, ((x) >> MLIB_SHIFT)))
+#define LD_U8(sp, x) vis_rebd_lo(vis_ld_u8_i(sp, ((x) >> MLIB_SHIFT)))
 
 /***************************************************************/
-mlib_status mlib_ImageAffine_u8_1ch_nn(mlib_affine_param *param)
+mlib_stbtus mlib_ImbgeAffine_u8_1ch_nn(mlib_bffine_pbrbm *pbrbm)
 {
   DECLAREVAR();
   mlib_s32 i, size;
@@ -65,7 +65,7 @@ mlib_status mlib_ImageAffine_u8_1ch_nn(mlib_affine_param *param)
   mlib_s64 Y0, Y1, dYl;
 #endif /* _NO_LONGLONG */
 
-  for (j = yStart; j <= yFinish; j++) {
+  for (j = yStbrt; j <= yFinish; j++) {
     mlib_d64 s0, s1;
 
     CLIP(1);
@@ -80,7 +80,7 @@ mlib_status mlib_ImageAffine_u8_1ch_nn(mlib_affine_param *param)
     }
 
 #ifdef _NO_LONGLONG
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
     for (i = 0; i <= (size - 4); i += 4) {
       mlib_u8 *sp0, *sp1, *sp2, *sp3;
 
@@ -91,9 +91,9 @@ mlib_status mlib_ImageAffine_u8_1ch_nn(mlib_affine_param *param)
 
       s0 = vis_fpmerge(LD_U8(sp0, X), LD_U8(sp2, X + 2*dX));
       s1 = vis_fpmerge(LD_U8(sp1, X + dX), LD_U8(sp3, X + 3*dX));
-      s0 = vis_fpmerge(vis_read_lo(s0), vis_read_lo(s1));
+      s0 = vis_fpmerge(vis_rebd_lo(s0), vis_rebd_lo(s1));
 
-      *(mlib_f32*)dp = vis_read_lo(s0);
+      *(mlib_f32*)dp = vis_rebd_lo(s0);
 
       dp += 4;
       X += 4*dX;
@@ -109,7 +109,7 @@ mlib_status mlib_ImageAffine_u8_1ch_nn(mlib_affine_param *param)
       dYl = -(((mlib_s64)(-dY) << 33) | ((-dY) << 1));
     }
 
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
     for (i = 0; i <= (size - 4); i += 4) {
       mlib_u8 *sp0, *sp1, *sp2, *sp3;
 
@@ -121,9 +121,9 @@ mlib_status mlib_ImageAffine_u8_1ch_nn(mlib_affine_param *param)
 
       s0 = vis_fpmerge(LD_U8(sp0, X), LD_U8(sp2, X + 2*dX));
       s1 = vis_fpmerge(LD_U8(sp1, X + dX), LD_U8(sp3, X + 3*dX));
-      s0 = vis_fpmerge(vis_read_lo(s0), vis_read_lo(s1));
+      s0 = vis_fpmerge(vis_rebd_lo(s0), vis_rebd_lo(s1));
 
-      *(mlib_f32*)dp = vis_read_lo(s0);
+      *(mlib_f32*)dp = vis_rebd_lo(s0);
 
       dp += 4;
       X += 4*dX;
@@ -145,7 +145,7 @@ mlib_status mlib_ImageAffine_u8_1ch_nn(mlib_affine_param *param)
 
 /***************************************************************/
 #undef  LD_U8
-#define LD_U8(sp, x) vis_read_lo(vis_ld_u8_i(sp, x))
+#define LD_U8(sp, x) vis_rebd_lo(vis_ld_u8_i(sp, x))
 
 /***************************************************************/
 #define GET_POINTERS_2CH                                        \
@@ -163,29 +163,29 @@ mlib_status mlib_ImageAffine_u8_1ch_nn(mlib_affine_param *param)
   s2 = vis_fpmerge(LD_U8(sp1, 0), LD_U8(sp3, 0));               \
   s3 = vis_fpmerge(LD_U8(sp1, 1), LD_U8(sp3, 1));               \
                                                                 \
-  s0 = vis_fpmerge(vis_read_lo(s0), vis_read_lo(s2));           \
-  s1 = vis_fpmerge(vis_read_lo(s1), vis_read_lo(s3));           \
-  dd = vis_fpmerge(vis_read_lo(s0), vis_read_lo(s1))
+  s0 = vis_fpmerge(vis_rebd_lo(s0), vis_rebd_lo(s2));           \
+  s1 = vis_fpmerge(vis_rebd_lo(s1), vis_rebd_lo(s3));           \
+  dd = vis_fpmerge(vis_rebd_lo(s0), vis_rebd_lo(s1))
 
 /***************************************************************/
-mlib_status mlib_ImageAffine_u8_2ch_nn(mlib_affine_param *param)
+mlib_stbtus mlib_ImbgeAffine_u8_2ch_nn(mlib_bffine_pbrbm *pbrbm)
 {
   DECLAREVAR();
   DTYPE  *dstLineEnd;
   mlib_s32 i, size;
 
-  for (j = yStart; j <= yFinish; j++) {
+  for (j = yStbrt; j <= yFinish; j++) {
     mlib_u8  *sp0, *sp1, *sp2, *sp3;
-    mlib_d64 *da, s0, s1, s2, s3, dd, d_old;
-    mlib_s32 emask;
+    mlib_d64 *db, s0, s1, s2, s3, dd, d_old;
+    mlib_s32 embsk;
 
     CLIP(2);
-    dstLineEnd  = (DTYPE*)dstData + 2 * xRight;
+    dstLineEnd  = (DTYPE*)dstDbtb + 2 * xRight;
     size = xRight - xLeft + 1;
     dstLineEnd++;
 
     if (((mlib_s32)dp & 7) == 0) {
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
       for (i = 0; i <= (size - 4); i += 4) {
         GET_POINTERS_2CH;
         AFFINE_U8_2CH;
@@ -200,21 +200,21 @@ mlib_status mlib_ImageAffine_u8_2ch_nn(mlib_affine_param *param)
         if (i + 3 < size) sp3 = S_PTR(Y + 3*dY) + 2*((X + 3*dX) >> MLIB_SHIFT);
 
         AFFINE_U8_2CH;
-        emask = vis_edge8(dp, dstLineEnd);
-        vis_pst_8(dd, dp, emask);
+        embsk = vis_edge8(dp, dstLineEnd);
+        vis_pst_8(dd, dp, embsk);
       }
 
     } else {
-      da = vis_alignaddr(dp, 0);
-      d_old = vis_faligndata(da[0], da[0]);
-      vis_alignaddr((void*)0, (mlib_u8*)da - dp);
+      db = vis_blignbddr(dp, 0);
+      d_old = vis_fbligndbtb(db[0], db[0]);
+      vis_blignbddr((void*)0, (mlib_u8*)db - dp);
 
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
       for (i = 0; i <= (size - 4); i += 4) {
         GET_POINTERS_2CH;
         AFFINE_U8_2CH;
 
-        *da++ = vis_faligndata(d_old, dd);
+        *db++ = vis_fbligndbtb(d_old, dd);
         d_old = dd;
       }
 
@@ -227,12 +227,12 @@ mlib_status mlib_ImageAffine_u8_2ch_nn(mlib_affine_param *param)
         AFFINE_U8_2CH;
       }
 
-      emask = vis_edge8(da, dstLineEnd);
-      vis_pst_8(vis_faligndata(d_old, dd), da++, emask);
+      embsk = vis_edge8(db, dstLineEnd);
+      vis_pst_8(vis_fbligndbtb(d_old, dd), db++, embsk);
 
-      if ((mlib_u8*)da <= dstLineEnd) {
-        emask = vis_edge8(da, dstLineEnd);
-        vis_pst_8(vis_faligndata(dd, dd), da, emask);
+      if ((mlib_u8*)db <= dstLineEnd) {
+        embsk = vis_edge8(db, dstLineEnd);
+        vis_pst_8(vis_fbligndbtb(dd, dd), db, embsk);
       }
     }
   }
@@ -242,16 +242,16 @@ mlib_status mlib_ImageAffine_u8_2ch_nn(mlib_affine_param *param)
 
 /***************************************************************/
 #undef  LD_U8
-#define LD_U8(sp, x) vis_read_lo(vis_ld_u8(sp + x))
+#define LD_U8(sp, x) vis_rebd_lo(vis_ld_u8(sp + x))
 
 /***************************************************************/
-mlib_status mlib_ImageAffine_u8_3ch_nn(mlib_affine_param *param)
+mlib_stbtus mlib_ImbgeAffine_u8_3ch_nn(mlib_bffine_pbrbm *pbrbm)
 {
   DECLAREVAR();
   DTYPE  *srcPixelPtr;
   mlib_s32 i, size;
 
-  for (j = yStart; j <= yFinish; j++) {
+  for (j = yStbrt; j <= yFinish; j++) {
     mlib_d64 s0, s1, s2, s3, s4, s5;
 
     CLIP(3);
@@ -268,7 +268,7 @@ mlib_status mlib_ImageAffine_u8_3ch_nn(mlib_affine_param *param)
       size--;
     }
 
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
     for (i = 0; i <= (size - 4); i += 4) {
       mlib_u8 *sp0, *sp1, *sp2, *sp3;
 
@@ -284,17 +284,17 @@ mlib_status mlib_ImageAffine_u8_3ch_nn(mlib_affine_param *param)
 
       s0 = vis_fpmerge(LD_U8(sp0, 0), LD_U8(sp0, 2));
       s1 = vis_fpmerge(LD_U8(sp0, 1), LD_U8(sp1, 0));
-      s0 = vis_fpmerge(vis_read_lo(s0), vis_read_lo(s1));
+      s0 = vis_fpmerge(vis_rebd_lo(s0), vis_rebd_lo(s1));
       s2 = vis_fpmerge(LD_U8(sp1, 1), LD_U8(sp2, 0));
       s3 = vis_fpmerge(LD_U8(sp1, 2), LD_U8(sp2, 1));
-      s2 = vis_fpmerge(vis_read_lo(s2), vis_read_lo(s3));
+      s2 = vis_fpmerge(vis_rebd_lo(s2), vis_rebd_lo(s3));
       s4 = vis_fpmerge(LD_U8(sp2, 2), LD_U8(sp3, 1));
       s5 = vis_fpmerge(LD_U8(sp3, 0), LD_U8(sp3, 2));
-      s4 = vis_fpmerge(vis_read_lo(s4), vis_read_lo(s5));
+      s4 = vis_fpmerge(vis_rebd_lo(s4), vis_rebd_lo(s5));
 
-      ((mlib_f32*)dp)[0] = vis_read_lo(s0);
-      ((mlib_f32*)dp)[1] = vis_read_lo(s2);
-      ((mlib_f32*)dp)[2] = vis_read_lo(s4);
+      ((mlib_f32*)dp)[0] = vis_rebd_lo(s0);
+      ((mlib_f32*)dp)[1] = vis_rebd_lo(s2);
+      ((mlib_f32*)dp)[2] = vis_rebd_lo(s4);
 
       dp += 12;
       X += 4*dX;
@@ -317,7 +317,7 @@ mlib_status mlib_ImageAffine_u8_3ch_nn(mlib_affine_param *param)
 
 /***************************************************************/
 #undef  LD_U8
-#define LD_U8(sp, x) vis_read_lo(vis_ld_u8_i(sp, x))
+#define LD_U8(sp, x) vis_rebd_lo(vis_ld_u8_i(sp, x))
 
 /***************************************************************/
 #define AFFINE_U8_4x2                                           \
@@ -329,9 +329,9 @@ mlib_status mlib_ImageAffine_u8_3ch_nn(mlib_affine_param *param)
   s2 = vis_fpmerge(LD_U8(sp0, 2), LD_U8(sp1, 2));               \
   s3 = vis_fpmerge(LD_U8(sp0, 3), LD_U8(sp1, 3));               \
                                                                 \
-  s0 = vis_fpmerge(vis_read_lo(s0), vis_read_lo(s2));           \
-  s1 = vis_fpmerge(vis_read_lo(s1), vis_read_lo(s3));           \
-  dd = vis_fpmerge(vis_read_lo(s0), vis_read_lo(s1));           \
+  s0 = vis_fpmerge(vis_rebd_lo(s0), vis_rebd_lo(s2));           \
+  s1 = vis_fpmerge(vis_rebd_lo(s1), vis_rebd_lo(s3));           \
+  dd = vis_fpmerge(vis_rebd_lo(s0), vis_rebd_lo(s1));           \
                                                                 \
   X += 2*dX;                                                    \
   Y += 2*dY
@@ -342,27 +342,27 @@ mlib_status mlib_ImageAffine_u8_3ch_nn(mlib_affine_param *param)
                                                                 \
   s0 = vis_fpmerge(LD_U8(sp0, 0), LD_U8(sp0, 2));               \
   s1 = vis_fpmerge(LD_U8(sp0, 1), LD_U8(sp0, 3));               \
-  s0 = vis_fpmerge(vis_read_lo(s0), vis_read_lo(s1));           \
-  dd = vis_freg_pair(vis_read_lo(s0), vis_fzeros())
+  s0 = vis_fpmerge(vis_rebd_lo(s0), vis_rebd_lo(s1));           \
+  dd = vis_freg_pbir(vis_rebd_lo(s0), vis_fzeros())
 
 /***************************************************************/
-mlib_status mlib_ImageAffine_u8_4ch_nn(mlib_affine_param *param)
+mlib_stbtus mlib_ImbgeAffine_u8_4ch_nn(mlib_bffine_pbrbm *pbrbm)
 {
   DECLAREVAR();
   DTYPE  *dstLineEnd;
   mlib_s32 i, size;
 
-  for (j = yStart; j <= yFinish; j++) {
+  for (j = yStbrt; j <= yFinish; j++) {
     mlib_u8  *sp0, *sp1;
-    mlib_d64 *da, s0, s1, s2, s3, dd, d_old;
-    mlib_s32 emask;
+    mlib_d64 *db, s0, s1, s2, s3, dd, d_old;
+    mlib_s32 embsk;
 
     CLIP(4);
-    dstLineEnd  = (DTYPE*)dstData + 4 * xRight;
+    dstLineEnd  = (DTYPE*)dstDbtb + 4 * xRight;
     size = xRight - xLeft + 1;
 
     if (((mlib_s32)dp & 7) == 0) {
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
       for (i = 0; i <= (size - 2); i += 2) {
         AFFINE_U8_4x2;
         *(mlib_d64*)dp = dd;
@@ -371,19 +371,19 @@ mlib_status mlib_ImageAffine_u8_4ch_nn(mlib_affine_param *param)
 
       if (i < size) {
         AFFINE_U8_4x1;
-        *(mlib_f32*)dp = vis_read_hi(dd);
+        *(mlib_f32*)dp = vis_rebd_hi(dd);
       }
 
     } else {
-      da = vis_alignaddr(dp, 0);
-      d_old = vis_faligndata(da[0], da[0]);
-      vis_alignaddr((void*)0, (mlib_u8*)da - dp);
+      db = vis_blignbddr(dp, 0);
+      d_old = vis_fbligndbtb(db[0], db[0]);
+      vis_blignbddr((void*)0, (mlib_u8*)db - dp);
 
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
       for (i = 0; i <= (size - 2); i += 2) {
         AFFINE_U8_4x2;
 
-        *da++ = vis_faligndata(d_old, dd);
+        *db++ = vis_fbligndbtb(d_old, dd);
         d_old = dd;
       }
 
@@ -392,12 +392,12 @@ mlib_status mlib_ImageAffine_u8_4ch_nn(mlib_affine_param *param)
       }
 
       dstLineEnd += 3;
-      emask = vis_edge8(da, dstLineEnd);
-      vis_pst_8(vis_faligndata(d_old, dd), da++, emask);
+      embsk = vis_edge8(db, dstLineEnd);
+      vis_pst_8(vis_fbligndbtb(d_old, dd), db++, embsk);
 
-      if ((mlib_u8*)da <= dstLineEnd) {
-        emask = vis_edge8(da, dstLineEnd);
-        vis_pst_8(vis_faligndata(dd, dd), da, emask);
+      if ((mlib_u8*)db <= dstLineEnd) {
+        embsk = vis_edge8(db, dstLineEnd);
+        vis_pst_8(vis_fbligndbtb(dd, dd), db, embsk);
       }
     }
   }
@@ -412,14 +412,14 @@ mlib_status mlib_ImageAffine_u8_4ch_nn(mlib_affine_param *param)
 #define SHIFT1(x) (((x) >> (MLIB_SHIFT - 1)) &~ 1)
 
 /***************************************************************/
-mlib_status mlib_ImageAffine_s16_1ch_nn(mlib_affine_param *param)
+mlib_stbtus mlib_ImbgeAffine_s16_1ch_nn(mlib_bffine_pbrbm *pbrbm)
 {
   DECLAREVAR();
   mlib_s32 i, size;
 
-  vis_alignaddr((void*)0, 6);
+  vis_blignbddr((void*)0, 6);
 
-  for (j = yStart; j <= yFinish; j++) {
+  for (j = yStbrt; j <= yFinish; j++) {
     mlib_d64 ss;
 
     CLIP(1);
@@ -433,7 +433,7 @@ mlib_status mlib_ImageAffine_s16_1ch_nn(mlib_affine_param *param)
       size--;
     }
 
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
     for (i = 0; i <= (size - 4); i += 4) {
       mlib_u16 *sp0, *sp1, *sp2, *sp3;
 
@@ -442,10 +442,10 @@ mlib_status mlib_ImageAffine_s16_1ch_nn(mlib_affine_param *param)
       sp2 = S_PTR(Y + 2*dY);
       sp3 = S_PTR(Y + 3*dY);
 
-      ss = vis_faligndata(vis_ld_u16_i(sp3, SHIFT1(X + 3*dX)), ss);
-      ss = vis_faligndata(vis_ld_u16_i(sp2, SHIFT1(X + 2*dX)), ss);
-      ss = vis_faligndata(vis_ld_u16_i(sp1, SHIFT1(X +   dX)), ss);
-      ss = vis_faligndata(vis_ld_u16_i(sp0, SHIFT1(X)), ss);
+      ss = vis_fbligndbtb(vis_ld_u16_i(sp3, SHIFT1(X + 3*dX)), ss);
+      ss = vis_fbligndbtb(vis_ld_u16_i(sp2, SHIFT1(X + 2*dX)), ss);
+      ss = vis_fbligndbtb(vis_ld_u16_i(sp1, SHIFT1(X +   dX)), ss);
+      ss = vis_fbligndbtb(vis_ld_u16_i(sp0, SHIFT1(X)), ss);
 
       *(mlib_d64*)dp = ss;
 
@@ -465,17 +465,17 @@ mlib_status mlib_ImageAffine_s16_1ch_nn(mlib_affine_param *param)
 }
 
 /***************************************************************/
-mlib_status mlib_ImageAffine_s16_2ch_nn(mlib_affine_param *param)
+mlib_stbtus mlib_ImbgeAffine_s16_2ch_nn(mlib_bffine_pbrbm *pbrbm)
 {
   DECLAREVAR();
   DTYPE  *srcPixelPtr;
   DTYPE  *dstLineEnd;
 
-  for (j = yStart; j <= yFinish; j++) {
+  for (j = yStbrt; j <= yFinish; j++) {
     CLIP(2);
-    dstLineEnd  = (DTYPE*)dstData + 2 * xRight;
+    dstLineEnd  = (DTYPE*)dstDbtb + 2 * xRight;
 
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
     for (; dp <= dstLineEnd; dp += 2) {
       sp = S_PTR(Y) + 2*(X >> MLIB_SHIFT);
       dp[0] = sp[0];
@@ -494,15 +494,15 @@ mlib_status mlib_ImageAffine_s16_2ch_nn(mlib_affine_param *param)
 #define LD_U16(sp, x) vis_ld_u16(sp + x)
 
 /***************************************************************/
-mlib_status mlib_ImageAffine_s16_3ch_nn(mlib_affine_param *param)
+mlib_stbtus mlib_ImbgeAffine_s16_3ch_nn(mlib_bffine_pbrbm *pbrbm)
 {
   DECLAREVAR();
   DTYPE  *srcPixelPtr;
   mlib_s32 i, size;
 
-  vis_alignaddr((void*)0, 6);
+  vis_blignbddr((void*)0, 6);
 
-  for (j = yStart; j <= yFinish; j++) {
+  for (j = yStbrt; j <= yFinish; j++) {
     mlib_d64 s0, s1, s2;
 
     CLIP(3);
@@ -519,7 +519,7 @@ mlib_status mlib_ImageAffine_s16_3ch_nn(mlib_affine_param *param)
       size--;
     }
 
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
     for (i = 0; i <= (size - 4); i += 4) {
       mlib_u16 *sp0, *sp1, *sp2, *sp3;
 
@@ -533,18 +533,18 @@ mlib_status mlib_ImageAffine_s16_3ch_nn(mlib_affine_param *param)
       sp2 += 3*((X + 2*dX) >> MLIB_SHIFT);
       sp3 += 3*((X + 3*dX) >> MLIB_SHIFT);
 
-      s2 = vis_faligndata(LD_U16(sp3, 2), s2);
-      s2 = vis_faligndata(LD_U16(sp3, 1), s2);
-      s2 = vis_faligndata(LD_U16(sp3, 0), s2);
-      s2 = vis_faligndata(LD_U16(sp2, 2), s2);
-      s1 = vis_faligndata(LD_U16(sp2, 1), s1);
-      s1 = vis_faligndata(LD_U16(sp2, 0), s1);
-      s1 = vis_faligndata(LD_U16(sp1, 2), s1);
-      s1 = vis_faligndata(LD_U16(sp1, 1), s1);
-      s0 = vis_faligndata(LD_U16(sp1, 0), s0);
-      s0 = vis_faligndata(LD_U16(sp0, 2), s0);
-      s0 = vis_faligndata(LD_U16(sp0, 1), s0);
-      s0 = vis_faligndata(LD_U16(sp0, 0), s0);
+      s2 = vis_fbligndbtb(LD_U16(sp3, 2), s2);
+      s2 = vis_fbligndbtb(LD_U16(sp3, 1), s2);
+      s2 = vis_fbligndbtb(LD_U16(sp3, 0), s2);
+      s2 = vis_fbligndbtb(LD_U16(sp2, 2), s2);
+      s1 = vis_fbligndbtb(LD_U16(sp2, 1), s1);
+      s1 = vis_fbligndbtb(LD_U16(sp2, 0), s1);
+      s1 = vis_fbligndbtb(LD_U16(sp1, 2), s1);
+      s1 = vis_fbligndbtb(LD_U16(sp1, 1), s1);
+      s0 = vis_fbligndbtb(LD_U16(sp1, 0), s0);
+      s0 = vis_fbligndbtb(LD_U16(sp0, 2), s0);
+      s0 = vis_fbligndbtb(LD_U16(sp0, 1), s0);
+      s0 = vis_fbligndbtb(LD_U16(sp0, 0), s0);
 
       ((mlib_d64*)dp)[0] = s0;
       ((mlib_d64*)dp)[1] = s1;
@@ -573,48 +573,48 @@ mlib_status mlib_ImageAffine_s16_3ch_nn(mlib_affine_param *param)
 #define AFFINE_S16_4ch                                          \
   sp = S_PTR(Y) + 4*(X >> MLIB_SHIFT);                          \
                                                                 \
-  dd = vis_faligndata(LD_U16(sp, 3), dd);                       \
-  dd = vis_faligndata(LD_U16(sp, 2), dd);                       \
-  dd = vis_faligndata(LD_U16(sp, 1), dd);                       \
-  dd = vis_faligndata(LD_U16(sp, 0), dd);                       \
+  dd = vis_fbligndbtb(LD_U16(sp, 3), dd);                       \
+  dd = vis_fbligndbtb(LD_U16(sp, 2), dd);                       \
+  dd = vis_fbligndbtb(LD_U16(sp, 1), dd);                       \
+  dd = vis_fbligndbtb(LD_U16(sp, 0), dd);                       \
                                                                 \
   X += dX;                                                      \
   Y += dY
 
 /***************************************************************/
-mlib_status mlib_ImageAffine_s16_4ch_nn(mlib_affine_param *param)
+mlib_stbtus mlib_ImbgeAffine_s16_4ch_nn(mlib_bffine_pbrbm *pbrbm)
 {
   DECLAREVAR();
   DTYPE  *srcPixelPtr;
-  mlib_s32 i, size, max_xsize = param -> max_xsize;
+  mlib_s32 i, size, mbx_xsize = pbrbm -> mbx_xsize;
   mlib_d64 buff[BUFF_SIZE], *pbuff = buff;
 
-  if (max_xsize > BUFF_SIZE) {
-    pbuff = mlib_malloc(sizeof(mlib_d64)*max_xsize);
+  if (mbx_xsize > BUFF_SIZE) {
+    pbuff = mlib_mblloc(sizeof(mlib_d64)*mbx_xsize);
   }
 
-  for (j = yStart; j <= yFinish; j++) {
-    mlib_d64 *da, dd;
+  for (j = yStbrt; j <= yFinish; j++) {
+    mlib_d64 *db, dd;
 
-    vis_alignaddr((void*)0, 6);
+    vis_blignbddr((void*)0, 6);
 
     CLIP(4);
     size = xRight - xLeft + 1;
 
     if ((mlib_s32)dp & 7) {
-      da = buff;
+      db = buff;
     } else {
-      da = (mlib_d64*)dp;
+      db = (mlib_d64*)dp;
     }
 
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
     for (i = 0; i < size; i++) {
       AFFINE_S16_4ch;
-      da[i] = dd;
+      db[i] = dd;
     }
 
     if ((mlib_s32)dp & 7) {
-      mlib_ImageCopy_na((mlib_u8*)buff, (mlib_u8*)dp, 8*size);
+      mlib_ImbgeCopy_nb((mlib_u8*)buff, (mlib_u8*)dp, 8*size);
     }
   }
 

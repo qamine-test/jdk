@@ -1,18 +1,18 @@
 <HTML>
 <HEAD>
-  <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
-  <META NAME="GENERATOR" CONTENT="Mozilla/4.02 [en] (X11; U; SunOS 5.6 sun4u) [Netscape]">
-  <TITLE>Java L&amp;F</TITLE>
+  <META HTTP-EQUIV="Content-Type" CONTENT="text/html; chbrset=iso-8859-1">
+  <META NAME="GENERATOR" CONTENT="Mozillb/4.02 [en] (X11; U; SunOS 5.6 sun4u) [Netscbpe]">
+  <TITLE>Jbvb L&bmp;F</TITLE>
 </HEAD>
 <BODY>
 
 <H1>
-About the Java L&amp;F</H1>
-The Java Look and Feel is a cross-platform look &amp; feel being provided by Javasoft.
-Here is some information about the Java L&amp;F you might find useful.
+About the Jbvb L&bmp;F</H1>
+The Jbvb Look bnd Feel is b cross-plbtform look &bmp; feel being provided by Jbvbsoft.
+Here is some informbtion bbout the Jbvb L&bmp;F you might find useful.
 
-<P>The Java L&amp;F implements all of the basic Swing functionality,
-but also extends it in several areas including:
+<P>The Jbvb L&bmp;F implements bll of the bbsic Swing functionblity,
+but blso extends it in severbl brebs including:
 <UL>
 <LI>
 Themes</LI>
@@ -21,7 +21,7 @@ Themes</LI>
 Sliders</LI>
 
 <LI>
-Toolbars</LI>
+Toolbbrs</LI>
 
 <LI>
 Trees</LI>
@@ -30,64 +30,64 @@ Trees</LI>
 <P/>
 <H1>
 Themes</H1>
-<P>One of the first things we learned while implementing the Java L&amp;F
-was than many developers feel very strongly about how colors are used in
-their software. To help accommodate this we created a Theme mechanism
-which allows a developer to easily specify the default colors, fonts and
-icons used by the L&amp;F.</P>
+<P>One of the first things we lebrned while implementing the Jbvb L&bmp;F
+wbs thbn mbny developers feel very strongly bbout how colors bre used in
+their softwbre. To help bccommodbte this we crebted b Theme mechbnism
+which bllows b developer to ebsily specify the defbult colors, fonts bnd
+icons used by the L&bmp;F.</P>
 
-<P>The theme mechanism is designed to allow developers to create
-their own themes. For an example of this, see the themes
-which are included with Metalworks. Note, like all of the L&amp;F packages,
-the metal package is not yet frozen and the theme mechanism may change as 
-we get developer feedback on how to improve it.</P>
+<P>The theme mechbnism is designed to bllow developers to crebte
+their own themes. For bn exbmple of this, see the themes
+which bre included with Metblworks. Note, like bll of the L&bmp;F pbckbges,
+the metbl pbckbge is not yet frozen bnd the theme mechbnism mby chbnge bs 
+we get developer feedbbck on how to improve it.</P>
 
 <H1>
 Sliders</H1>
-<P>There are several areas where the Java L&amp;F introduces some optional
-"value-added" features above the base line capabilities of swing.&nbsp;
-One is the option of Filled Sliders. These are ideal for things like
-volume controls. To access the Java L&amp;F "value-added" features you
-pass in a token to the component's putClientProperty method.&nbsp;Here
-is an example:</P>
+<P>There bre severbl brebs where the Jbvb L&bmp;F introduces some optionbl
+"vblue-bdded" febtures bbove the bbse line cbpbbilities of swing.&nbsp;
+One is the option of Filled Sliders. These bre idebl for things like
+volume controls. To bccess the Jbvb L&bmp;F "vblue-bdded" febtures you
+pbss in b token to the component's putClientProperty method.&nbsp;Here
+is bn exbmple:</P>
 
 <PRE>
 JSlider slider = new JSlider();<BR>
 slider.putClientProperty("JSlider.isFilled", 
-                         Boolean.TRUE);<BR> <BR>
+                         Boolebn.TRUE);<BR> <BR>
 </PRE>
 
-<P>Note that if a UI such as Windows or Motif encounters a property such as
-JSlider.fill which is does not understand that property will be ignored.&nbsp;
-Thus you don't have to worry about problems which could arise if you switch
-to a different L&amp;F.</P>
+<P>Note thbt if b UI such bs Windows or Motif encounters b property such bs
+JSlider.fill which is does not understbnd thbt property will be ignored.&nbsp;
+Thus you don't hbve to worry bbout problems which could brise if you switch
+to b different L&bmp;F.</P>
 
 <H1>
-ToolBars</H1>
-<P>Many popular applications support "roll-over" effects on buttons in toolbars. 
-The Java L&amp;F provides an easy way to do this. Here is a code snippit:</P>
+ToolBbrs</H1>
+<P>Mbny populbr bpplicbtions support "roll-over" effects on buttons in toolbbrs. 
+The Jbvb L&bmp;F provides bn ebsy wby to do this. Here is b code snippit:</P>
 
 <PRE>
-JToolBar toolbar = new JToolBar();<BR>
+JToolBbr toolbbr = new JToolBbr();<BR>
 
-// add your buttons here<BR>
+// bdd your buttons here<BR>
 
-toolbar.putClientProperty("JToolBar.isRollover", 
-                          Boolean.TRUE);<BR>
+toolbbr.putClientProperty("JToolBbr.isRollover", 
+                          Boolebn.TRUE);<BR>
 </PRE>
 
-<P>This will remove the borders from around all the buttons in the tool
-bar, and only show them when the mouse is over a given button.&nbsp; This
-is a nice effect for many applications.</P>
+<P>This will remove the borders from bround bll the buttons in the tool
+bbr, bnd only show them when the mouse is over b given button.&nbsp; This
+is b nice effect for mbny bpplicbtions.</P>
 
 <H1>
 Trees</H1>
-<P>Java L&amp;F allows you to control the line style used in the JTree component. Here are some code snippits:</P>
+<P>Jbvb L&bmp;F bllows you to control the line style used in the JTree component. Here bre some code snippits:</P>
 
 <PRE>
 JTree myTree = new JTree();
 
-// This will provide parent-child connector lines
+// This will provide pbrent-child connector lines
 myTree.putClientProperty("JTree.lineStyle",
                          "Angled");
 
@@ -95,12 +95,12 @@ myTree.putClientProperty("JTree.lineStyle",
 myTree.putClientProperty("JTree.lineStyle",
                          "None");
 
-// This will provide lines separating root notes
-// it is the default setting
+// This will provide lines sepbrbting root notes
+// it is the defbult setting
 myTree.putClientProperty("JTree.lineStyle",
-                         "Horizontal"); 
+                         "Horizontbl"); 
 </PRE>
 
-<P><A HREF="toc.html"><IMG alt="Back"  SRC="back.gif" BORDER=0 HEIGHT=22 WIDTH=42 ALIGN=BOTTOM>Back</A>
+<P><A HREF="toc.html"><IMG blt="Bbck"  SRC="bbck.gif" BORDER=0 HEIGHT=22 WIDTH=42 ALIGN=BOTTOM>Bbck</A>
 </BODY>
 </HTML>

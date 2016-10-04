@@ -1,223 +1,223 @@
 /*
- * Copyright (c) 1996, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.x509;
+pbckbge sun.security.x509;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.Reader;
-import java.security.AccessController;
-import java.text.Normalizer;
-import java.util.*;
+import jbvb.io.ByteArrbyOutputStrebm;
+import jbvb.io.IOException;
+import jbvb.io.OutputStrebm;
+import jbvb.io.Rebder;
+import jbvb.security.AccessController;
+import jbvb.text.Normblizer;
+import jbvb.util.*;
 
-import sun.security.action.GetBooleanAction;
+import sun.security.bction.GetBoolebnAction;
 import sun.security.util.*;
 import sun.security.pkcs.PKCS9Attribute;
 
 
 /**
- * X.500 Attribute-Value-Assertion (AVA):  an attribute, as identified by
- * some attribute ID, has some particular value.  Values are as a rule ASN.1
- * printable strings.  A conventional set of type IDs is recognized when
- * parsing (and generating) RFC 1779, 2253 or 4514 syntax strings.
+ * X.500 Attribute-Vblue-Assertion (AVA):  bn bttribute, bs identified by
+ * some bttribute ID, hbs some pbrticulbr vblue.  Vblues bre bs b rule ASN.1
+ * printbble strings.  A conventionbl set of type IDs is recognized when
+ * pbrsing (bnd generbting) RFC 1779, 2253 or 4514 syntbx strings.
  *
- * <P>AVAs are components of X.500 relative names.  Think of them as being
- * individual fields of a database record.  The attribute ID is how you
- * identify the field, and the value is part of a particular record.
+ * <P>AVAs bre components of X.500 relbtive nbmes.  Think of them bs being
+ * individubl fields of b dbtbbbse record.  The bttribute ID is how you
+ * identify the field, bnd the vblue is pbrt of b pbrticulbr record.
  * <p>
- * Note that instances of this class are immutable.
+ * Note thbt instbnces of this clbss bre immutbble.
  *
- * @see X500Name
+ * @see X500Nbme
  * @see RDN
  *
  *
- * @author David Brownell
- * @author Amit Kapoor
- * @author Hemma Prafullchandra
+ * @buthor Dbvid Brownell
+ * @buthor Amit Kbpoor
+ * @buthor Hemmb Prbfullchbndrb
  */
-public class AVA implements DerEncoder {
+public clbss AVA implements DerEncoder {
 
-    private static final Debug debug = Debug.getInstance("x509", "\t[AVA]");
-    // See CR 6391482: if enabled this flag preserves the old but incorrect
-    // PrintableString encoding for DomainComponent. It may need to be set to
-    // avoid breaking preexisting certificates generated with sun.security APIs.
-    private static final boolean PRESERVE_OLD_DC_ENCODING =
-        AccessController.doPrivileged(new GetBooleanAction
+    privbte stbtic finbl Debug debug = Debug.getInstbnce("x509", "\t[AVA]");
+    // See CR 6391482: if enbbled this flbg preserves the old but incorrect
+    // PrintbbleString encoding for DombinComponent. It mby need to be set to
+    // bvoid brebking preexisting certificbtes generbted with sun.security APIs.
+    privbte stbtic finbl boolebn PRESERVE_OLD_DC_ENCODING =
+        AccessController.doPrivileged(new GetBoolebnAction
             ("com.sun.security.preserveOldDCEncoding"));
 
     /**
-     * DEFAULT format allows both RFC1779 and RFC2253 syntax and
-     * additional keywords.
+     * DEFAULT formbt bllows both RFC1779 bnd RFC2253 syntbx bnd
+     * bdditionbl keywords.
      */
-    final static int DEFAULT = 1;
+    finbl stbtic int DEFAULT = 1;
     /**
-     * RFC1779 specifies format according to RFC1779.
+     * RFC1779 specifies formbt bccording to RFC1779.
      */
-    final static int RFC1779 = 2;
+    finbl stbtic int RFC1779 = 2;
     /**
-     * RFC2253 specifies format according to RFC2253.
+     * RFC2253 specifies formbt bccording to RFC2253.
      */
-    final static int RFC2253 = 3;
+    finbl stbtic int RFC2253 = 3;
 
-    // currently not private, accessed directly from RDN
-    final ObjectIdentifier oid;
-    final DerValue value;
+    // currently not privbte, bccessed directly from RDN
+    finbl ObjectIdentifier oid;
+    finbl DerVblue vblue;
 
     /*
-     * If the value has any of these characters in it, it must be quoted.
-     * Backslash and quote characters must also be individually escaped.
-     * Leading and trailing spaces, also multiple internal spaces, also
-     * call for quoting the whole string.
+     * If the vblue hbs bny of these chbrbcters in it, it must be quoted.
+     * Bbckslbsh bnd quote chbrbcters must blso be individublly escbped.
+     * Lebding bnd trbiling spbces, blso multiple internbl spbces, blso
+     * cbll for quoting the whole string.
      */
-    private static final String specialChars1779 = ",=\n+<>#;\\\"";
+    privbte stbtic finbl String speciblChbrs1779 = ",=\n+<>#;\\\"";
 
     /*
-     * In RFC2253, if the value has any of these characters in it, it
-     * must be quoted by a preceding \.
+     * In RFC2253, if the vblue hbs bny of these chbrbcters in it, it
+     * must be quoted by b preceding \.
      */
-    private static final String specialChars2253 = ",=+<>#;\\\"";
+    privbte stbtic finbl String speciblChbrs2253 = ",=+<>#;\\\"";
 
     /*
-     * includes special chars from RFC1779 and RFC2253, as well as ' ' from
+     * includes specibl chbrs from RFC1779 bnd RFC2253, bs well bs ' ' from
      * RFC 4514.
      */
-    private static final String specialCharsDefault = ",=\n+<>#;\\\" ";
-    private static final String escapedDefault = ",+<>;\"";
+    privbte stbtic finbl String speciblChbrsDefbult = ",=\n+<>#;\\\" ";
+    privbte stbtic finbl String escbpedDefbult = ",+<>;\"";
 
     /*
-     * Values that aren't printable strings are emitted as BER-encoded
-     * hex data.
+     * Vblues thbt bren't printbble strings bre emitted bs BER-encoded
+     * hex dbtb.
      */
-    private static final String hexDigits = "0123456789ABCDEF";
+    privbte stbtic finbl String hexDigits = "0123456789ABCDEF";
 
-    public AVA(ObjectIdentifier type, DerValue val) {
-        if ((type == null) || (val == null)) {
+    public AVA(ObjectIdentifier type, DerVblue vbl) {
+        if ((type == null) || (vbl == null)) {
             throw new NullPointerException();
         }
         oid = type;
-        value = val;
+        vblue = vbl;
     }
 
     /**
-     * Parse an RFC 1779, 2253 or 4514 style AVA string:  CN=fee fie foe fum
-     * or perhaps with quotes.  Not all defined AVA tags are supported;
-     * of current note are X.400 related ones (PRMD, ADMD, etc).
+     * Pbrse bn RFC 1779, 2253 or 4514 style AVA string:  CN=fee fie foe fum
+     * or perhbps with quotes.  Not bll defined AVA tbgs bre supported;
+     * of current note bre X.400 relbted ones (PRMD, ADMD, etc).
      *
-     * This terminates at unescaped AVA separators ("+") or RDN
-     * separators (",", ";"), and removes cosmetic whitespace at the end of
-     * values.
+     * This terminbtes bt unescbped AVA sepbrbtors ("+") or RDN
+     * sepbrbtors (",", ";"), bnd removes cosmetic whitespbce bt the end of
+     * vblues.
      */
-    AVA(Reader in) throws IOException {
+    AVA(Rebder in) throws IOException {
         this(in, DEFAULT);
     }
 
     /**
-     * Parse an RFC 1779, 2253 or 4514 style AVA string:  CN=fee fie foe fum
-     * or perhaps with quotes. Additional keywords can be specified in the
-     * keyword/OID map.
+     * Pbrse bn RFC 1779, 2253 or 4514 style AVA string:  CN=fee fie foe fum
+     * or perhbps with quotes. Additionbl keywords cbn be specified in the
+     * keyword/OID mbp.
      *
-     * This terminates at unescaped AVA separators ("+") or RDN
-     * separators (",", ";"), and removes cosmetic whitespace at the end of
-     * values.
+     * This terminbtes bt unescbped AVA sepbrbtors ("+") or RDN
+     * sepbrbtors (",", ";"), bnd removes cosmetic whitespbce bt the end of
+     * vblues.
      */
-    AVA(Reader in, Map<String, String> keywordMap) throws IOException {
-        this(in, DEFAULT, keywordMap);
+    AVA(Rebder in, Mbp<String, String> keywordMbp) throws IOException {
+        this(in, DEFAULT, keywordMbp);
     }
 
     /**
-     * Parse an AVA string formatted according to format.
+     * Pbrse bn AVA string formbtted bccording to formbt.
      */
-    AVA(Reader in, int format) throws IOException {
-        this(in, format, Collections.<String, String>emptyMap());
+    AVA(Rebder in, int formbt) throws IOException {
+        this(in, formbt, Collections.<String, String>emptyMbp());
     }
 
     /**
-     * Parse an AVA string formatted according to format.
+     * Pbrse bn AVA string formbtted bccording to formbt.
      *
-     * @param in Reader containing AVA String
-     * @param format parsing format
-     * @param keywordMap a Map where a keyword String maps to a corresponding
-     *   OID String. Each AVA keyword will be mapped to the corresponding OID.
-     *   If an entry does not exist, it will fallback to the builtin
-     *   keyword/OID mapping.
-     * @throws IOException if the AVA String is not valid in the specified
-     *   format or an OID String from the keywordMap is improperly formatted
+     * @pbrbm in Rebder contbining AVA String
+     * @pbrbm formbt pbrsing formbt
+     * @pbrbm keywordMbp b Mbp where b keyword String mbps to b corresponding
+     *   OID String. Ebch AVA keyword will be mbpped to the corresponding OID.
+     *   If bn entry does not exist, it will fbllbbck to the builtin
+     *   keyword/OID mbpping.
+     * @throws IOException if the AVA String is not vblid in the specified
+     *   formbt or bn OID String from the keywordMbp is improperly formbtted
      */
-    AVA(Reader in, int format, Map<String, String> keywordMap)
+    AVA(Rebder in, int formbt, Mbp<String, String> keywordMbp)
         throws IOException {
-        // assume format is one of DEFAULT or RFC2253
+        // bssume formbt is one of DEFAULT or RFC2253
 
         StringBuilder   temp = new StringBuilder();
         int             c;
 
         /*
-         * First get the keyword indicating the attribute's type,
-         * and map it to the appropriate OID.
+         * First get the keyword indicbting the bttribute's type,
+         * bnd mbp it to the bppropribte OID.
          */
         while (true) {
-            c = readChar(in, "Incorrect AVA format");
+            c = rebdChbr(in, "Incorrect AVA formbt");
             if (c == '=') {
-                break;
+                brebk;
             }
-            temp.append((char)c);
+            temp.bppend((chbr)c);
         }
 
-        oid = AVAKeyword.getOID(temp.toString(), format, keywordMap);
+        oid = AVAKeyword.getOID(temp.toString(), formbt, keywordMbp);
 
         /*
-         * Now parse the value.  "#hex", a quoted string, or a string
-         * terminated by "+", ",", ";".  Whitespace before or after
-         * the value is stripped away unless format is RFC2253.
+         * Now pbrse the vblue.  "#hex", b quoted string, or b string
+         * terminbted by "+", ",", ";".  Whitespbce before or bfter
+         * the vblue is stripped bwby unless formbt is RFC2253.
          */
         temp.setLength(0);
-        if (format == RFC2253) {
-            // read next character
-            c = in.read();
+        if (formbt == RFC2253) {
+            // rebd next chbrbcter
+            c = in.rebd();
             if (c == ' ') {
-                throw new IOException("Incorrect AVA RFC2253 format - " +
-                                      "leading space must be escaped");
+                throw new IOException("Incorrect AVA RFC2253 formbt - " +
+                                      "lebding spbce must be escbped");
             }
         } else {
-            // read next character skipping whitespace
+            // rebd next chbrbcter skipping whitespbce
             do {
-                c = in.read();
+                c = in.rebd();
             } while ((c == ' ') || (c == '\n'));
         }
         if (c == -1) {
-            // empty value
-            value = new DerValue("");
+            // empty vblue
+            vblue = new DerVblue("");
             return;
         }
 
         if (c == '#') {
-            value = parseHexString(in, format);
-        } else if ((c == '"') && (format != RFC2253)) {
-            value = parseQuotedString(in, temp);
+            vblue = pbrseHexString(in, formbt);
+        } else if ((c == '"') && (formbt != RFC2253)) {
+            vblue = pbrseQuotedString(in, temp);
         } else {
-            value = parseString(in, c, format, temp);
+            vblue = pbrseString(in, c, formbt, temp);
         }
     }
 
@@ -229,876 +229,876 @@ public class AVA implements DerEncoder {
     }
 
     /**
-     * Get the value of this AVA as a DerValue.
+     * Get the vblue of this AVA bs b DerVblue.
      */
-    public DerValue getDerValue() {
-        return value;
+    public DerVblue getDerVblue() {
+        return vblue;
     }
 
     /**
-     * Get the value of this AVA as a String.
+     * Get the vblue of this AVA bs b String.
      *
-     * @exception RuntimeException if we could not obtain the string form
+     * @exception RuntimeException if we could not obtbin the string form
      *    (should not occur)
      */
-    public String getValueString() {
+    public String getVblueString() {
         try {
-            String s = value.getAsString();
+            String s = vblue.getAsString();
             if (s == null) {
                 throw new RuntimeException("AVA string is null");
             }
             return s;
-        } catch (IOException e) {
+        } cbtch (IOException e) {
             // should not occur
             throw new RuntimeException("AVA error: " + e, e);
         }
     }
 
-    private static DerValue parseHexString
-        (Reader in, int format) throws IOException {
+    privbte stbtic DerVblue pbrseHexString
+        (Rebder in, int formbt) throws IOException {
 
         int c;
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ByteArrbyOutputStrebm bbos = new ByteArrbyOutputStrebm();
         byte b = 0;
         int cNdx = 0;
         while (true) {
-            c = in.read();
+            c = in.rebd();
 
-            if (isTerminator(c, format)) {
-                break;
+            if (isTerminbtor(c, formbt)) {
+                brebk;
             }
 
-            int cVal = hexDigits.indexOf(Character.toUpperCase((char)c));
+            int cVbl = hexDigits.indexOf(Chbrbcter.toUpperCbse((chbr)c));
 
-            if (cVal == -1) {
-                throw new IOException("AVA parse, invalid hex " +
-                                              "digit: "+ (char)c);
+            if (cVbl == -1) {
+                throw new IOException("AVA pbrse, invblid hex " +
+                                              "digit: "+ (chbr)c);
             }
 
             if ((cNdx % 2) == 1) {
-                b = (byte)((b * 16) + (byte)(cVal));
-                baos.write(b);
+                b = (byte)((b * 16) + (byte)(cVbl));
+                bbos.write(b);
             } else {
-                b = (byte)(cVal);
+                b = (byte)(cVbl);
             }
             cNdx++;
         }
 
         // throw exception if no hex digits
         if (cNdx == 0) {
-            throw new IOException("AVA parse, zero hex digits");
+            throw new IOException("AVA pbrse, zero hex digits");
         }
 
         // throw exception if odd number of hex digits
         if (cNdx % 2 == 1) {
-            throw new IOException("AVA parse, odd number of hex digits");
+            throw new IOException("AVA pbrse, odd number of hex digits");
         }
 
-        return new DerValue(baos.toByteArray());
+        return new DerVblue(bbos.toByteArrby());
     }
 
-    private DerValue parseQuotedString
-        (Reader in, StringBuilder temp) throws IOException {
+    privbte DerVblue pbrseQuotedString
+        (Rebder in, StringBuilder temp) throws IOException {
 
-        // RFC1779 specifies that an entire RDN may be enclosed in double
-        // quotes. In this case the syntax is any sequence of
-        // backslash-specialChar, backslash-backslash,
-        // backslash-doublequote, or character other than backslash or
+        // RFC1779 specifies thbt bn entire RDN mby be enclosed in double
+        // quotes. In this cbse the syntbx is bny sequence of
+        // bbckslbsh-speciblChbr, bbckslbsh-bbckslbsh,
+        // bbckslbsh-doublequote, or chbrbcter other thbn bbckslbsh or
         // doublequote.
-        int c = readChar(in, "Quoted string did not end in quote");
+        int c = rebdChbr(in, "Quoted string did not end in quote");
 
-        List<Byte> embeddedHex = new ArrayList<Byte>();
-        boolean isPrintableString = true;
+        List<Byte> embeddedHex = new ArrbyList<Byte>();
+        boolebn isPrintbbleString = true;
         while (c != '"') {
             if (c == '\\') {
-                c = readChar(in, "Quoted string did not end in quote");
+                c = rebdChbr(in, "Quoted string did not end in quote");
 
-                // check for embedded hex pairs
+                // check for embedded hex pbirs
                 Byte hexByte = null;
-                if ((hexByte = getEmbeddedHexPair(c, in)) != null) {
+                if ((hexByte = getEmbeddedHexPbir(c, in)) != null) {
 
-                    // always encode AVAs with embedded hex as UTF8
-                    isPrintableString = false;
+                    // blwbys encode AVAs with embedded hex bs UTF8
+                    isPrintbbleString = fblse;
 
-                    // append consecutive embedded hex
-                    // as single string later
-                    embeddedHex.add(hexByte);
-                    c = in.read();
+                    // bppend consecutive embedded hex
+                    // bs single string lbter
+                    embeddedHex.bdd(hexByte);
+                    c = in.rebd();
                     continue;
                 }
 
-                if (specialChars1779.indexOf((char)c) < 0) {
+                if (speciblChbrs1779.indexOf((chbr)c) < 0) {
                     throw new IOException
-                        ("Invalid escaped character in AVA: " +
-                        (char)c);
+                        ("Invblid escbped chbrbcter in AVA: " +
+                        (chbr)c);
                 }
             }
 
-            // add embedded hex bytes before next char
+            // bdd embedded hex bytes before next chbr
             if (embeddedHex.size() > 0) {
                 String hexString = getEmbeddedHexString(embeddedHex);
-                temp.append(hexString);
-                embeddedHex.clear();
+                temp.bppend(hexString);
+                embeddedHex.clebr();
             }
 
-            // check for non-PrintableString chars
-            isPrintableString &= DerValue.isPrintableStringChar((char)c);
-            temp.append((char)c);
-            c = readChar(in, "Quoted string did not end in quote");
+            // check for non-PrintbbleString chbrs
+            isPrintbbleString &= DerVblue.isPrintbbleStringChbr((chbr)c);
+            temp.bppend((chbr)c);
+            c = rebdChbr(in, "Quoted string did not end in quote");
         }
 
-        // add trailing embedded hex bytes
+        // bdd trbiling embedded hex bytes
         if (embeddedHex.size() > 0) {
             String hexString = getEmbeddedHexString(embeddedHex);
-            temp.append(hexString);
-            embeddedHex.clear();
+            temp.bppend(hexString);
+            embeddedHex.clebr();
         }
 
         do {
-            c = in.read();
+            c = in.rebd();
         } while ((c == '\n') || (c == ' '));
         if (c != -1) {
-            throw new IOException("AVA had characters other than "
-                    + "whitespace after terminating quote");
+            throw new IOException("AVA hbd chbrbcters other thbn "
+                    + "whitespbce bfter terminbting quote");
         }
 
-        // encode as PrintableString unless value contains
-        // non-PrintableString chars
-        if (this.oid.equals((Object)PKCS9Attribute.EMAIL_ADDRESS_OID) ||
-            (this.oid.equals((Object)X500Name.DOMAIN_COMPONENT_OID) &&
-                PRESERVE_OLD_DC_ENCODING == false)) {
-            // EmailAddress and DomainComponent must be IA5String
-            return new DerValue(DerValue.tag_IA5String,
+        // encode bs PrintbbleString unless vblue contbins
+        // non-PrintbbleString chbrs
+        if (this.oid.equbls((Object)PKCS9Attribute.EMAIL_ADDRESS_OID) ||
+            (this.oid.equbls((Object)X500Nbme.DOMAIN_COMPONENT_OID) &&
+                PRESERVE_OLD_DC_ENCODING == fblse)) {
+            // EmbilAddress bnd DombinComponent must be IA5String
+            return new DerVblue(DerVblue.tbg_IA5String,
                                         temp.toString().trim());
-        } else if (isPrintableString) {
-            return new DerValue(temp.toString().trim());
+        } else if (isPrintbbleString) {
+            return new DerVblue(temp.toString().trim());
         } else {
-            return new DerValue(DerValue.tag_UTF8String,
+            return new DerVblue(DerVblue.tbg_UTF8String,
                                         temp.toString().trim());
         }
     }
 
-    private DerValue parseString
-        (Reader in, int c, int format, StringBuilder temp) throws IOException {
+    privbte DerVblue pbrseString
+        (Rebder in, int c, int formbt, StringBuilder temp) throws IOException {
 
-        List<Byte> embeddedHex = new ArrayList<>();
-        boolean isPrintableString = true;
-        boolean escape = false;
-        boolean leadingChar = true;
-        int spaceCount = 0;
+        List<Byte> embeddedHex = new ArrbyList<>();
+        boolebn isPrintbbleString = true;
+        boolebn escbpe = fblse;
+        boolebn lebdingChbr = true;
+        int spbceCount = 0;
         do {
-            escape = false;
+            escbpe = fblse;
             if (c == '\\') {
-                escape = true;
-                c = readChar(in, "Invalid trailing backslash");
+                escbpe = true;
+                c = rebdChbr(in, "Invblid trbiling bbckslbsh");
 
-                // check for embedded hex pairs
+                // check for embedded hex pbirs
                 Byte hexByte = null;
-                if ((hexByte = getEmbeddedHexPair(c, in)) != null) {
+                if ((hexByte = getEmbeddedHexPbir(c, in)) != null) {
 
-                    // always encode AVAs with embedded hex as UTF8
-                    isPrintableString = false;
+                    // blwbys encode AVAs with embedded hex bs UTF8
+                    isPrintbbleString = fblse;
 
-                    // append consecutive embedded hex
-                    // as single string later
-                    embeddedHex.add(hexByte);
-                    c = in.read();
-                    leadingChar = false;
+                    // bppend consecutive embedded hex
+                    // bs single string lbter
+                    embeddedHex.bdd(hexByte);
+                    c = in.rebd();
+                    lebdingChbr = fblse;
                     continue;
                 }
 
-                // check if character was improperly escaped
-                if (format == DEFAULT &&
-                       specialCharsDefault.indexOf((char)c) == -1) {
+                // check if chbrbcter wbs improperly escbped
+                if (formbt == DEFAULT &&
+                       speciblChbrsDefbult.indexOf((chbr)c) == -1) {
                     throw new IOException
-                        ("Invalid escaped character in AVA: '" +
-                        (char)c + "'");
-                } else if (format == RFC2253) {
+                        ("Invblid escbped chbrbcter in AVA: '" +
+                        (chbr)c + "'");
+                } else if (formbt == RFC2253) {
                     if (c == ' ') {
-                        // only leading/trailing space can be escaped
-                        if (!leadingChar && !trailingSpace(in)) {
+                        // only lebding/trbiling spbce cbn be escbped
+                        if (!lebdingChbr && !trbilingSpbce(in)) {
                             throw new IOException
-                                    ("Invalid escaped space character " +
-                                    "in AVA.  Only a leading or trailing " +
-                                    "space character can be escaped.");
+                                    ("Invblid escbped spbce chbrbcter " +
+                                    "in AVA.  Only b lebding or trbiling " +
+                                    "spbce chbrbcter cbn be escbped.");
                         }
                     } else if (c == '#') {
-                        // only leading '#' can be escaped
-                        if (!leadingChar) {
+                        // only lebding '#' cbn be escbped
+                        if (!lebdingChbr) {
                             throw new IOException
-                                ("Invalid escaped '#' character in AVA.  " +
-                                "Only a leading '#' can be escaped.");
+                                ("Invblid escbped '#' chbrbcter in AVA.  " +
+                                "Only b lebding '#' cbn be escbped.");
                         }
-                    } else if (specialChars2253.indexOf((char)c) == -1) {
+                    } else if (speciblChbrs2253.indexOf((chbr)c) == -1) {
                         throw new IOException
-                                ("Invalid escaped character in AVA: '" +
-                                (char)c + "'");
+                                ("Invblid escbped chbrbcter in AVA: '" +
+                                (chbr)c + "'");
                     }
                 }
             } else {
-                // check if character should have been escaped
-                if (format == RFC2253) {
-                    if (specialChars2253.indexOf((char)c) != -1) {
+                // check if chbrbcter should hbve been escbped
+                if (formbt == RFC2253) {
+                    if (speciblChbrs2253.indexOf((chbr)c) != -1) {
                         throw new IOException
-                                ("Character '" + (char)c +
-                                 "' in AVA appears without escape");
+                                ("Chbrbcter '" + (chbr)c +
+                                 "' in AVA bppebrs without escbpe");
                     }
-                } else if (escapedDefault.indexOf((char)c) != -1) {
+                } else if (escbpedDefbult.indexOf((chbr)c) != -1) {
                     throw new IOException
-                            ("Character '" + (char)c +
-                            "' in AVA appears without escape");
+                            ("Chbrbcter '" + (chbr)c +
+                            "' in AVA bppebrs without escbpe");
                 }
             }
 
-            // add embedded hex bytes before next char
+            // bdd embedded hex bytes before next chbr
             if (embeddedHex.size() > 0) {
-                // add space(s) before embedded hex bytes
-                for (int i = 0; i < spaceCount; i++) {
-                    temp.append(" ");
+                // bdd spbce(s) before embedded hex bytes
+                for (int i = 0; i < spbceCount; i++) {
+                    temp.bppend(" ");
                 }
-                spaceCount = 0;
+                spbceCount = 0;
 
                 String hexString = getEmbeddedHexString(embeddedHex);
-                temp.append(hexString);
-                embeddedHex.clear();
+                temp.bppend(hexString);
+                embeddedHex.clebr();
             }
 
-            // check for non-PrintableString chars
-            isPrintableString &= DerValue.isPrintableStringChar((char)c);
-            if (c == ' ' && escape == false) {
-                // do not add non-escaped spaces yet
-                // (non-escaped trailing spaces are ignored)
-                spaceCount++;
+            // check for non-PrintbbleString chbrs
+            isPrintbbleString &= DerVblue.isPrintbbleStringChbr((chbr)c);
+            if (c == ' ' && escbpe == fblse) {
+                // do not bdd non-escbped spbces yet
+                // (non-escbped trbiling spbces bre ignored)
+                spbceCount++;
             } else {
-                // add space(s)
-                for (int i = 0; i < spaceCount; i++) {
-                    temp.append(" ");
+                // bdd spbce(s)
+                for (int i = 0; i < spbceCount; i++) {
+                    temp.bppend(" ");
                 }
-                spaceCount = 0;
-                temp.append((char)c);
+                spbceCount = 0;
+                temp.bppend((chbr)c);
             }
-            c = in.read();
-            leadingChar = false;
-        } while (isTerminator(c, format) == false);
+            c = in.rebd();
+            lebdingChbr = fblse;
+        } while (isTerminbtor(c, formbt) == fblse);
 
-        if (format == RFC2253 && spaceCount > 0) {
-            throw new IOException("Incorrect AVA RFC2253 format - " +
-                                        "trailing space must be escaped");
+        if (formbt == RFC2253 && spbceCount > 0) {
+            throw new IOException("Incorrect AVA RFC2253 formbt - " +
+                                        "trbiling spbce must be escbped");
         }
 
-        // add trailing embedded hex bytes
+        // bdd trbiling embedded hex bytes
         if (embeddedHex.size() > 0) {
             String hexString = getEmbeddedHexString(embeddedHex);
-            temp.append(hexString);
-            embeddedHex.clear();
+            temp.bppend(hexString);
+            embeddedHex.clebr();
         }
 
-        // encode as PrintableString unless value contains
-        // non-PrintableString chars
-        if (this.oid.equals((Object)PKCS9Attribute.EMAIL_ADDRESS_OID) ||
-            (this.oid.equals((Object)X500Name.DOMAIN_COMPONENT_OID) &&
-                PRESERVE_OLD_DC_ENCODING == false)) {
-            // EmailAddress and DomainComponent must be IA5String
-            return new DerValue(DerValue.tag_IA5String, temp.toString());
-        } else if (isPrintableString) {
-            return new DerValue(temp.toString());
+        // encode bs PrintbbleString unless vblue contbins
+        // non-PrintbbleString chbrs
+        if (this.oid.equbls((Object)PKCS9Attribute.EMAIL_ADDRESS_OID) ||
+            (this.oid.equbls((Object)X500Nbme.DOMAIN_COMPONENT_OID) &&
+                PRESERVE_OLD_DC_ENCODING == fblse)) {
+            // EmbilAddress bnd DombinComponent must be IA5String
+            return new DerVblue(DerVblue.tbg_IA5String, temp.toString());
+        } else if (isPrintbbleString) {
+            return new DerVblue(temp.toString());
         } else {
-            return new DerValue(DerValue.tag_UTF8String, temp.toString());
+            return new DerVblue(DerVblue.tbg_UTF8String, temp.toString());
         }
     }
 
-    private static Byte getEmbeddedHexPair(int c1, Reader in)
+    privbte stbtic Byte getEmbeddedHexPbir(int c1, Rebder in)
         throws IOException {
 
-        if (hexDigits.indexOf(Character.toUpperCase((char)c1)) >= 0) {
-            int c2 = readChar(in, "unexpected EOF - " +
-                        "escaped hex value must include two valid digits");
+        if (hexDigits.indexOf(Chbrbcter.toUpperCbse((chbr)c1)) >= 0) {
+            int c2 = rebdChbr(in, "unexpected EOF - " +
+                        "escbped hex vblue must include two vblid digits");
 
-            if (hexDigits.indexOf(Character.toUpperCase((char)c2)) >= 0) {
-                int hi = Character.digit((char)c1, 16);
-                int lo = Character.digit((char)c2, 16);
+            if (hexDigits.indexOf(Chbrbcter.toUpperCbse((chbr)c2)) >= 0) {
+                int hi = Chbrbcter.digit((chbr)c1, 16);
+                int lo = Chbrbcter.digit((chbr)c2, 16);
                 return (byte)((hi<<4) + lo);
             } else {
                 throw new IOException
-                        ("escaped hex value must include two valid digits");
+                        ("escbped hex vblue must include two vblid digits");
             }
         }
         return null;
     }
 
-    private static String getEmbeddedHexString(List<Byte> hexList)
+    privbte stbtic String getEmbeddedHexString(List<Byte> hexList)
                                                 throws IOException {
         int n = hexList.size();
         byte[] hexBytes = new byte[n];
         for (int i = 0; i < n; i++) {
-                hexBytes[i] = hexList.get(i).byteValue();
+                hexBytes[i] = hexList.get(i).byteVblue();
         }
         return new String(hexBytes, "UTF8");
     }
 
-    private static boolean isTerminator(int ch, int format) {
+    privbte stbtic boolebn isTerminbtor(int ch, int formbt) {
         switch (ch) {
-        case -1:
-        case '+':
-        case ',':
+        cbse -1:
+        cbse '+':
+        cbse ',':
             return true;
-        case ';':
-            return format != RFC2253;
-        default:
-            return false;
+        cbse ';':
+            return formbt != RFC2253;
+        defbult:
+            return fblse;
         }
     }
 
-    private static int readChar(Reader in, String errMsg) throws IOException {
-        int c = in.read();
+    privbte stbtic int rebdChbr(Rebder in, String errMsg) throws IOException {
+        int c = in.rebd();
         if (c == -1) {
             throw new IOException(errMsg);
         }
         return c;
     }
 
-    private static boolean trailingSpace(Reader in) throws IOException {
+    privbte stbtic boolebn trbilingSpbce(Rebder in) throws IOException {
 
-        boolean trailing = false;
+        boolebn trbiling = fblse;
 
-        if (!in.markSupported()) {
+        if (!in.mbrkSupported()) {
             // oh well
             return true;
         } else {
-            // make readAheadLimit huge -
-            // in practice, AVA was passed a StringReader from X500Name,
-            // and StringReader ignores readAheadLimit anyways
-            in.mark(9999);
+            // mbke rebdAhebdLimit huge -
+            // in prbctice, AVA wbs pbssed b StringRebder from X500Nbme,
+            // bnd StringRebder ignores rebdAhebdLimit bnywbys
+            in.mbrk(9999);
             while (true) {
-                int nextChar = in.read();
-                if (nextChar == -1) {
-                    trailing = true;
-                    break;
-                } else if (nextChar == ' ') {
+                int nextChbr = in.rebd();
+                if (nextChbr == -1) {
+                    trbiling = true;
+                    brebk;
+                } else if (nextChbr == ' ') {
                     continue;
-                } else if (nextChar == '\\') {
-                    int followingChar = in.read();
-                    if (followingChar != ' ') {
-                        trailing = false;
-                        break;
+                } else if (nextChbr == '\\') {
+                    int followingChbr = in.rebd();
+                    if (followingChbr != ' ') {
+                        trbiling = fblse;
+                        brebk;
                     }
                 } else {
-                    trailing = false;
-                    break;
+                    trbiling = fblse;
+                    brebk;
                 }
             }
 
             in.reset();
-            return trailing;
+            return trbiling;
         }
     }
 
-    AVA(DerValue derval) throws IOException {
-        // Individual attribute value assertions are SEQUENCE of two values.
-        // That'd be a "struct" outside of ASN.1.
-        if (derval.tag != DerValue.tag_Sequence) {
-            throw new IOException("AVA not a sequence");
+    AVA(DerVblue dervbl) throws IOException {
+        // Individubl bttribute vblue bssertions bre SEQUENCE of two vblues.
+        // Thbt'd be b "struct" outside of ASN.1.
+        if (dervbl.tbg != DerVblue.tbg_Sequence) {
+            throw new IOException("AVA not b sequence");
         }
-        oid = X500Name.intern(derval.data.getOID());
-        value = derval.data.getDerValue();
+        oid = X500Nbme.intern(dervbl.dbtb.getOID());
+        vblue = dervbl.dbtb.getDerVblue();
 
-        if (derval.data.available() != 0) {
-            throw new IOException("AVA, extra bytes = "
-                + derval.data.available());
+        if (dervbl.dbtb.bvbilbble() != 0) {
+            throw new IOException("AVA, extrb bytes = "
+                + dervbl.dbtb.bvbilbble());
         }
     }
 
-    AVA(DerInputStream in) throws IOException {
-        this(in.getDerValue());
+    AVA(DerInputStrebm in) throws IOException {
+        this(in.getDerVblue());
     }
 
-    public boolean equals(Object obj) {
+    public boolebn equbls(Object obj) {
         if (this == obj) {
             return true;
         }
-        if (obj instanceof AVA == false) {
-            return false;
+        if (obj instbnceof AVA == fblse) {
+            return fblse;
         }
         AVA other = (AVA)obj;
-        return this.toRFC2253CanonicalString().equals
-                                (other.toRFC2253CanonicalString());
+        return this.toRFC2253CbnonicblString().equbls
+                                (other.toRFC2253CbnonicblString());
     }
 
     /**
-     * Returns a hashcode for this AVA.
+     * Returns b hbshcode for this AVA.
      *
-     * @return a hashcode for this AVA.
+     * @return b hbshcode for this AVA.
      */
-    public int hashCode() {
-        return toRFC2253CanonicalString().hashCode();
+    public int hbshCode() {
+        return toRFC2253CbnonicblString().hbshCode();
     }
 
     /*
-     * AVAs are encoded as a SEQUENCE of two elements.
+     * AVAs bre encoded bs b SEQUENCE of two elements.
      */
-    public void encode(DerOutputStream out) throws IOException {
+    public void encode(DerOutputStrebm out) throws IOException {
         derEncode(out);
     }
 
     /**
-     * DER encode this object onto an output stream.
-     * Implements the <code>DerEncoder</code> interface.
+     * DER encode this object onto bn output strebm.
+     * Implements the <code>DerEncoder</code> interfbce.
      *
-     * @param out
-     * the output stream on which to write the DER encoding.
+     * @pbrbm out
+     * the output strebm on which to write the DER encoding.
      *
      * @exception IOException on encoding error.
      */
-    public void derEncode(OutputStream out) throws IOException {
-        DerOutputStream         tmp = new DerOutputStream();
-        DerOutputStream         tmp2 = new DerOutputStream();
+    public void derEncode(OutputStrebm out) throws IOException {
+        DerOutputStrebm         tmp = new DerOutputStrebm();
+        DerOutputStrebm         tmp2 = new DerOutputStrebm();
 
         tmp.putOID(oid);
-        value.encode(tmp);
-        tmp2.write(DerValue.tag_Sequence, tmp);
-        out.write(tmp2.toByteArray());
+        vblue.encode(tmp);
+        tmp2.write(DerVblue.tbg_Sequence, tmp);
+        out.write(tmp2.toByteArrby());
     }
 
-    private String toKeyword(int format, Map<String, String> oidMap) {
-        return AVAKeyword.getKeyword(oid, format, oidMap);
+    privbte String toKeyword(int formbt, Mbp<String, String> oidMbp) {
+        return AVAKeyword.getKeyword(oid, formbt, oidMbp);
     }
 
     /**
-     * Returns a printable form of this attribute, using RFC 1779
-     * syntax for individual attribute/value assertions.
+     * Returns b printbble form of this bttribute, using RFC 1779
+     * syntbx for individubl bttribute/vblue bssertions.
      */
     public String toString() {
-        return toKeywordValueString
-            (toKeyword(DEFAULT, Collections.<String, String>emptyMap()));
+        return toKeywordVblueString
+            (toKeyword(DEFAULT, Collections.<String, String>emptyMbp()));
     }
 
     /**
-     * Returns a printable form of this attribute, using RFC 1779
-     * syntax for individual attribute/value assertions. It only
-     * emits standardised keywords.
+     * Returns b printbble form of this bttribute, using RFC 1779
+     * syntbx for individubl bttribute/vblue bssertions. It only
+     * emits stbndbrdised keywords.
      */
     public String toRFC1779String() {
-        return toRFC1779String(Collections.<String, String>emptyMap());
+        return toRFC1779String(Collections.<String, String>emptyMbp());
     }
 
     /**
-     * Returns a printable form of this attribute, using RFC 1779
-     * syntax for individual attribute/value assertions. It
-     * emits standardised keywords, as well as keywords contained in the
-     * OID/keyword map.
+     * Returns b printbble form of this bttribute, using RFC 1779
+     * syntbx for individubl bttribute/vblue bssertions. It
+     * emits stbndbrdised keywords, bs well bs keywords contbined in the
+     * OID/keyword mbp.
      */
-    public String toRFC1779String(Map<String, String> oidMap) {
-        return toKeywordValueString(toKeyword(RFC1779, oidMap));
+    public String toRFC1779String(Mbp<String, String> oidMbp) {
+        return toKeywordVblueString(toKeyword(RFC1779, oidMbp));
     }
 
     /**
-     * Returns a printable form of this attribute, using RFC 2253
-     * syntax for individual attribute/value assertions. It only
-     * emits standardised keywords.
+     * Returns b printbble form of this bttribute, using RFC 2253
+     * syntbx for individubl bttribute/vblue bssertions. It only
+     * emits stbndbrdised keywords.
      */
     public String toRFC2253String() {
-        return toRFC2253String(Collections.<String, String>emptyMap());
+        return toRFC2253String(Collections.<String, String>emptyMbp());
     }
 
     /**
-     * Returns a printable form of this attribute, using RFC 2253
-     * syntax for individual attribute/value assertions. It
-     * emits standardised keywords, as well as keywords contained in the
-     * OID/keyword map.
+     * Returns b printbble form of this bttribute, using RFC 2253
+     * syntbx for individubl bttribute/vblue bssertions. It
+     * emits stbndbrdised keywords, bs well bs keywords contbined in the
+     * OID/keyword mbp.
      */
-    public String toRFC2253String(Map<String, String> oidMap) {
+    public String toRFC2253String(Mbp<String, String> oidMbp) {
         /*
-         * Section 2.3: The AttributeTypeAndValue is encoded as the string
-         * representation of the AttributeType, followed by an equals character
-         * ('=' ASCII 61), followed by the string representation of the
-         * AttributeValue. The encoding of the AttributeValue is given in
+         * Section 2.3: The AttributeTypeAndVblue is encoded bs the string
+         * representbtion of the AttributeType, followed by bn equbls chbrbcter
+         * ('=' ASCII 61), followed by the string representbtion of the
+         * AttributeVblue. The encoding of the AttributeVblue is given in
          * section 2.4.
          */
-        StringBuilder typeAndValue = new StringBuilder(100);
-        typeAndValue.append(toKeyword(RFC2253, oidMap));
-        typeAndValue.append('=');
+        StringBuilder typeAndVblue = new StringBuilder(100);
+        typeAndVblue.bppend(toKeyword(RFC2253, oidMbp));
+        typeAndVblue.bppend('=');
 
         /*
-         * Section 2.4: Converting an AttributeValue from ASN.1 to a String.
-         * If the AttributeValue is of a type which does not have a string
-         * representation defined for it, then it is simply encoded as an
-         * octothorpe character ('#' ASCII 35) followed by the hexadecimal
-         * representation of each of the bytes of the BER encoding of the X.500
-         * AttributeValue.  This form SHOULD be used if the AttributeType is of
-         * the dotted-decimal form.
+         * Section 2.4: Converting bn AttributeVblue from ASN.1 to b String.
+         * If the AttributeVblue is of b type which does not hbve b string
+         * representbtion defined for it, then it is simply encoded bs bn
+         * octothorpe chbrbcter ('#' ASCII 35) followed by the hexbdecimbl
+         * representbtion of ebch of the bytes of the BER encoding of the X.500
+         * AttributeVblue.  This form SHOULD be used if the AttributeType is of
+         * the dotted-decimbl form.
          */
-        if ((typeAndValue.charAt(0) >= '0' && typeAndValue.charAt(0) <= '9') ||
-            !isDerString(value, false))
+        if ((typeAndVblue.chbrAt(0) >= '0' && typeAndVblue.chbrAt(0) <= '9') ||
+            !isDerString(vblue, fblse))
         {
-            byte[] data = null;
+            byte[] dbtb = null;
             try {
-                data = value.toByteArray();
-            } catch (IOException ie) {
-                throw new IllegalArgumentException("DER Value conversion");
+                dbtb = vblue.toByteArrby();
+            } cbtch (IOException ie) {
+                throw new IllegblArgumentException("DER Vblue conversion");
             }
-            typeAndValue.append('#');
-            for (int j = 0; j < data.length; j++) {
-                byte b = data[j];
-                typeAndValue.append(Character.forDigit(0xF & (b >>> 4), 16));
-                typeAndValue.append(Character.forDigit(0xF & b, 16));
+            typeAndVblue.bppend('#');
+            for (int j = 0; j < dbtb.length; j++) {
+                byte b = dbtb[j];
+                typeAndVblue.bppend(Chbrbcter.forDigit(0xF & (b >>> 4), 16));
+                typeAndVblue.bppend(Chbrbcter.forDigit(0xF & b, 16));
             }
         } else {
             /*
-             * 2.4 (cont): Otherwise, if the AttributeValue is of a type which
-             * has a string representation, the value is converted first to a
-             * UTF-8 string according to its syntax specification.
+             * 2.4 (cont): Otherwise, if the AttributeVblue is of b type which
+             * hbs b string representbtion, the vblue is converted first to b
+             * UTF-8 string bccording to its syntbx specificbtion.
              *
-             * NOTE: this implementation only emits DirectoryStrings of the
+             * NOTE: this implementbtion only emits DirectoryStrings of the
              * types returned by isDerString().
              */
-            String valStr = null;
+            String vblStr = null;
             try {
-                valStr = new String(value.getDataBytes(), "UTF8");
-            } catch (IOException ie) {
-                throw new IllegalArgumentException("DER Value conversion");
+                vblStr = new String(vblue.getDbtbBytes(), "UTF8");
+            } cbtch (IOException ie) {
+                throw new IllegblArgumentException("DER Vblue conversion");
             }
 
             /*
-             * 2.4 (cont): If the UTF-8 string does not have any of the
-             * following characters which need escaping, then that string can be
-             * used as the string representation of the value.
+             * 2.4 (cont): If the UTF-8 string does not hbve bny of the
+             * following chbrbcters which need escbping, then thbt string cbn be
+             * used bs the string representbtion of the vblue.
              *
-             *   o   a space or "#" character occurring at the beginning of the
+             *   o   b spbce or "#" chbrbcter occurring bt the beginning of the
              *       string
-             *   o   a space character occurring at the end of the string
-             *   o   one of the characters ",", "+", """, "\", "<", ">" or ";"
+             *   o   b spbce chbrbcter occurring bt the end of the string
+             *   o   one of the chbrbcters ",", "+", """, "\", "<", ">" or ";"
              *
-             * Implementations MAY escape other characters.
+             * Implementbtions MAY escbpe other chbrbcters.
              *
-             * NOTE: this implementation also recognizes "=" and "#" as
-             * characters which need escaping, and null which is escaped as
+             * NOTE: this implementbtion blso recognizes "=" bnd "#" bs
+             * chbrbcters which need escbping, bnd null which is escbped bs
              * '\00' (see RFC 4514).
              *
-             * If a character to be escaped is one of the list shown above, then
-             * it is prefixed by a backslash ('\' ASCII 92).
+             * If b chbrbcter to be escbped is one of the list shown bbove, then
+             * it is prefixed by b bbckslbsh ('\' ASCII 92).
              *
-             * Otherwise the character to be escaped is replaced by a backslash
-             * and two hex digits, which form a single byte in the code of the
-             * character.
+             * Otherwise the chbrbcter to be escbped is replbced by b bbckslbsh
+             * bnd two hex digits, which form b single byte in the code of the
+             * chbrbcter.
              */
-            final String escapees = ",=+<>#;\"\\";
+            finbl String escbpees = ",=+<>#;\"\\";
             StringBuilder sbuffer = new StringBuilder();
 
-            for (int i = 0; i < valStr.length(); i++) {
-                char c = valStr.charAt(i);
-                if (DerValue.isPrintableStringChar(c) ||
-                    escapees.indexOf(c) >= 0) {
+            for (int i = 0; i < vblStr.length(); i++) {
+                chbr c = vblStr.chbrAt(i);
+                if (DerVblue.isPrintbbleStringChbr(c) ||
+                    escbpees.indexOf(c) >= 0) {
 
-                    // escape escapees
-                    if (escapees.indexOf(c) >= 0) {
-                        sbuffer.append('\\');
+                    // escbpe escbpees
+                    if (escbpees.indexOf(c) >= 0) {
+                        sbuffer.bppend('\\');
                     }
 
-                    // append printable/escaped char
-                    sbuffer.append(c);
+                    // bppend printbble/escbped chbr
+                    sbuffer.bppend(c);
 
                 } else if (c == '\u0000') {
-                    // escape null character
-                    sbuffer.append("\\00");
+                    // escbpe null chbrbcter
+                    sbuffer.bppend("\\00");
 
-                } else if (debug != null && Debug.isOn("ava")) {
+                } else if (debug != null && Debug.isOn("bvb")) {
 
-                    // embed non-printable/non-escaped char
-                    // as escaped hex pairs for debugging
-                    byte[] valueBytes = null;
+                    // embed non-printbble/non-escbped chbr
+                    // bs escbped hex pbirs for debugging
+                    byte[] vblueBytes = null;
                     try {
-                        valueBytes = Character.toString(c).getBytes("UTF8");
-                    } catch (IOException ie) {
-                        throw new IllegalArgumentException
-                                        ("DER Value conversion");
+                        vblueBytes = Chbrbcter.toString(c).getBytes("UTF8");
+                    } cbtch (IOException ie) {
+                        throw new IllegblArgumentException
+                                        ("DER Vblue conversion");
                     }
-                    for (int j = 0; j < valueBytes.length; j++) {
-                        sbuffer.append('\\');
-                        char hexChar = Character.forDigit
-                                (0xF & (valueBytes[j] >>> 4), 16);
-                        sbuffer.append(Character.toUpperCase(hexChar));
-                        hexChar = Character.forDigit
-                                (0xF & (valueBytes[j]), 16);
-                        sbuffer.append(Character.toUpperCase(hexChar));
+                    for (int j = 0; j < vblueBytes.length; j++) {
+                        sbuffer.bppend('\\');
+                        chbr hexChbr = Chbrbcter.forDigit
+                                (0xF & (vblueBytes[j] >>> 4), 16);
+                        sbuffer.bppend(Chbrbcter.toUpperCbse(hexChbr));
+                        hexChbr = Chbrbcter.forDigit
+                                (0xF & (vblueBytes[j]), 16);
+                        sbuffer.bppend(Chbrbcter.toUpperCbse(hexChbr));
                     }
                 } else {
 
-                    // append non-printable/non-escaped char
-                    sbuffer.append(c);
+                    // bppend non-printbble/non-escbped chbr
+                    sbuffer.bppend(c);
                 }
             }
 
-            char[] chars = sbuffer.toString().toCharArray();
+            chbr[] chbrs = sbuffer.toString().toChbrArrby();
             sbuffer = new StringBuilder();
 
-            // Find leading and trailing whitespace.
-            int lead;   // index of first char that is not leading whitespace
-            for (lead = 0; lead < chars.length; lead++) {
-                if (chars[lead] != ' ' && chars[lead] != '\r') {
-                    break;
+            // Find lebding bnd trbiling whitespbce.
+            int lebd;   // index of first chbr thbt is not lebding whitespbce
+            for (lebd = 0; lebd < chbrs.length; lebd++) {
+                if (chbrs[lebd] != ' ' && chbrs[lebd] != '\r') {
+                    brebk;
                 }
             }
-            int trail;  // index of last char that is not trailing whitespace
-            for (trail = chars.length - 1; trail >= 0; trail--) {
-                if (chars[trail] != ' ' && chars[trail] != '\r') {
-                    break;
+            int trbil;  // index of lbst chbr thbt is not trbiling whitespbce
+            for (trbil = chbrs.length - 1; trbil >= 0; trbil--) {
+                if (chbrs[trbil] != ' ' && chbrs[trbil] != '\r') {
+                    brebk;
                 }
             }
 
-            // escape leading and trailing whitespace
-            for (int i = 0; i < chars.length; i++) {
-                char c = chars[i];
-                if (i < lead || i > trail) {
-                    sbuffer.append('\\');
+            // escbpe lebding bnd trbiling whitespbce
+            for (int i = 0; i < chbrs.length; i++) {
+                chbr c = chbrs[i];
+                if (i < lebd || i > trbil) {
+                    sbuffer.bppend('\\');
                 }
-                sbuffer.append(c);
+                sbuffer.bppend(c);
             }
-            typeAndValue.append(sbuffer.toString());
+            typeAndVblue.bppend(sbuffer.toString());
         }
-        return typeAndValue.toString();
+        return typeAndVblue.toString();
     }
 
-    public String toRFC2253CanonicalString() {
+    public String toRFC2253CbnonicblString() {
         /*
-         * Section 2.3: The AttributeTypeAndValue is encoded as the string
-         * representation of the AttributeType, followed by an equals character
-         * ('=' ASCII 61), followed by the string representation of the
-         * AttributeValue. The encoding of the AttributeValue is given in
+         * Section 2.3: The AttributeTypeAndVblue is encoded bs the string
+         * representbtion of the AttributeType, followed by bn equbls chbrbcter
+         * ('=' ASCII 61), followed by the string representbtion of the
+         * AttributeVblue. The encoding of the AttributeVblue is given in
          * section 2.4.
          */
-        StringBuilder typeAndValue = new StringBuilder(40);
-        typeAndValue.append
-            (toKeyword(RFC2253, Collections.<String, String>emptyMap()));
-        typeAndValue.append('=');
+        StringBuilder typeAndVblue = new StringBuilder(40);
+        typeAndVblue.bppend
+            (toKeyword(RFC2253, Collections.<String, String>emptyMbp()));
+        typeAndVblue.bppend('=');
 
         /*
-         * Section 2.4: Converting an AttributeValue from ASN.1 to a String.
-         * If the AttributeValue is of a type which does not have a string
-         * representation defined for it, then it is simply encoded as an
-         * octothorpe character ('#' ASCII 35) followed by the hexadecimal
-         * representation of each of the bytes of the BER encoding of the X.500
-         * AttributeValue.  This form SHOULD be used if the AttributeType is of
-         * the dotted-decimal form.
+         * Section 2.4: Converting bn AttributeVblue from ASN.1 to b String.
+         * If the AttributeVblue is of b type which does not hbve b string
+         * representbtion defined for it, then it is simply encoded bs bn
+         * octothorpe chbrbcter ('#' ASCII 35) followed by the hexbdecimbl
+         * representbtion of ebch of the bytes of the BER encoding of the X.500
+         * AttributeVblue.  This form SHOULD be used if the AttributeType is of
+         * the dotted-decimbl form.
          */
-        if ((typeAndValue.charAt(0) >= '0' && typeAndValue.charAt(0) <= '9') ||
-            !isDerString(value, true))
+        if ((typeAndVblue.chbrAt(0) >= '0' && typeAndVblue.chbrAt(0) <= '9') ||
+            !isDerString(vblue, true))
         {
-            byte[] data = null;
+            byte[] dbtb = null;
             try {
-                data = value.toByteArray();
-            } catch (IOException ie) {
-                throw new IllegalArgumentException("DER Value conversion");
+                dbtb = vblue.toByteArrby();
+            } cbtch (IOException ie) {
+                throw new IllegblArgumentException("DER Vblue conversion");
             }
-            typeAndValue.append('#');
-            for (int j = 0; j < data.length; j++) {
-                byte b = data[j];
-                typeAndValue.append(Character.forDigit(0xF & (b >>> 4), 16));
-                typeAndValue.append(Character.forDigit(0xF & b, 16));
+            typeAndVblue.bppend('#');
+            for (int j = 0; j < dbtb.length; j++) {
+                byte b = dbtb[j];
+                typeAndVblue.bppend(Chbrbcter.forDigit(0xF & (b >>> 4), 16));
+                typeAndVblue.bppend(Chbrbcter.forDigit(0xF & b, 16));
             }
         } else {
             /*
-             * 2.4 (cont): Otherwise, if the AttributeValue is of a type which
-             * has a string representation, the value is converted first to a
-             * UTF-8 string according to its syntax specification.
+             * 2.4 (cont): Otherwise, if the AttributeVblue is of b type which
+             * hbs b string representbtion, the vblue is converted first to b
+             * UTF-8 string bccording to its syntbx specificbtion.
              *
-             * NOTE: this implementation only emits DirectoryStrings of the
+             * NOTE: this implementbtion only emits DirectoryStrings of the
              * types returned by isDerString().
              */
-            String valStr = null;
+            String vblStr = null;
             try {
-                valStr = new String(value.getDataBytes(), "UTF8");
-            } catch (IOException ie) {
-                throw new IllegalArgumentException("DER Value conversion");
+                vblStr = new String(vblue.getDbtbBytes(), "UTF8");
+            } cbtch (IOException ie) {
+                throw new IllegblArgumentException("DER Vblue conversion");
             }
 
             /*
-             * 2.4 (cont): If the UTF-8 string does not have any of the
-             * following characters which need escaping, then that string can be
-             * used as the string representation of the value.
+             * 2.4 (cont): If the UTF-8 string does not hbve bny of the
+             * following chbrbcters which need escbping, then thbt string cbn be
+             * used bs the string representbtion of the vblue.
              *
-             *   o   a space or "#" character occurring at the beginning of the
+             *   o   b spbce or "#" chbrbcter occurring bt the beginning of the
              *       string
-             *   o   a space character occurring at the end of the string
+             *   o   b spbce chbrbcter occurring bt the end of the string
              *
-             *   o   one of the characters ",", "+", """, "\", "<", ">" or ";"
+             *   o   one of the chbrbcters ",", "+", """, "\", "<", ">" or ";"
              *
-             * If a character to be escaped is one of the list shown above, then
-             * it is prefixed by a backslash ('\' ASCII 92).
+             * If b chbrbcter to be escbped is one of the list shown bbove, then
+             * it is prefixed by b bbckslbsh ('\' ASCII 92).
              *
-             * Otherwise the character to be escaped is replaced by a backslash
-             * and two hex digits, which form a single byte in the code of the
-             * character.
+             * Otherwise the chbrbcter to be escbped is replbced by b bbckslbsh
+             * bnd two hex digits, which form b single byte in the code of the
+             * chbrbcter.
              */
-            final String escapees = ",+<>;\"\\";
+            finbl String escbpees = ",+<>;\"\\";
             StringBuilder sbuffer = new StringBuilder();
-            boolean previousWhite = false;
+            boolebn previousWhite = fblse;
 
-            for (int i = 0; i < valStr.length(); i++) {
-                char c = valStr.charAt(i);
+            for (int i = 0; i < vblStr.length(); i++) {
+                chbr c = vblStr.chbrAt(i);
 
-                if (DerValue.isPrintableStringChar(c) ||
-                    escapees.indexOf(c) >= 0 ||
+                if (DerVblue.isPrintbbleStringChbr(c) ||
+                    escbpees.indexOf(c) >= 0 ||
                     (i == 0 && c == '#')) {
 
-                    // escape leading '#' and escapees
-                    if ((i == 0 && c == '#') || escapees.indexOf(c) >= 0) {
-                        sbuffer.append('\\');
+                    // escbpe lebding '#' bnd escbpees
+                    if ((i == 0 && c == '#') || escbpees.indexOf(c) >= 0) {
+                        sbuffer.bppend('\\');
                     }
 
-                    // convert multiple whitespace to single whitespace
-                    if (!Character.isWhitespace(c)) {
-                        previousWhite = false;
-                        sbuffer.append(c);
+                    // convert multiple whitespbce to single whitespbce
+                    if (!Chbrbcter.isWhitespbce(c)) {
+                        previousWhite = fblse;
+                        sbuffer.bppend(c);
                     } else {
-                        if (previousWhite == false) {
-                            // add single whitespace
+                        if (previousWhite == fblse) {
+                            // bdd single whitespbce
                             previousWhite = true;
-                            sbuffer.append(c);
+                            sbuffer.bppend(c);
                         } else {
-                            // ignore subsequent consecutive whitespace
+                            // ignore subsequent consecutive whitespbce
                             continue;
                         }
                     }
 
-                } else if (debug != null && Debug.isOn("ava")) {
+                } else if (debug != null && Debug.isOn("bvb")) {
 
-                    // embed non-printable/non-escaped char
-                    // as escaped hex pairs for debugging
+                    // embed non-printbble/non-escbped chbr
+                    // bs escbped hex pbirs for debugging
 
-                    previousWhite = false;
+                    previousWhite = fblse;
 
-                    byte valueBytes[] = null;
+                    byte vblueBytes[] = null;
                     try {
-                        valueBytes = Character.toString(c).getBytes("UTF8");
-                    } catch (IOException ie) {
-                        throw new IllegalArgumentException
-                                        ("DER Value conversion");
+                        vblueBytes = Chbrbcter.toString(c).getBytes("UTF8");
+                    } cbtch (IOException ie) {
+                        throw new IllegblArgumentException
+                                        ("DER Vblue conversion");
                     }
-                    for (int j = 0; j < valueBytes.length; j++) {
-                        sbuffer.append('\\');
-                        sbuffer.append(Character.forDigit
-                                        (0xF & (valueBytes[j] >>> 4), 16));
-                        sbuffer.append(Character.forDigit
-                                        (0xF & (valueBytes[j]), 16));
+                    for (int j = 0; j < vblueBytes.length; j++) {
+                        sbuffer.bppend('\\');
+                        sbuffer.bppend(Chbrbcter.forDigit
+                                        (0xF & (vblueBytes[j] >>> 4), 16));
+                        sbuffer.bppend(Chbrbcter.forDigit
+                                        (0xF & (vblueBytes[j]), 16));
                     }
                 } else {
 
-                    // append non-printable/non-escaped char
+                    // bppend non-printbble/non-escbped chbr
 
-                    previousWhite = false;
-                    sbuffer.append(c);
+                    previousWhite = fblse;
+                    sbuffer.bppend(c);
                 }
             }
 
-            // remove leading and trailing whitespace from value
-            typeAndValue.append(sbuffer.toString().trim());
+            // remove lebding bnd trbiling whitespbce from vblue
+            typeAndVblue.bppend(sbuffer.toString().trim());
         }
 
-        String canon = typeAndValue.toString();
-        canon = canon.toUpperCase(Locale.US).toLowerCase(Locale.US);
-        return Normalizer.normalize(canon, Normalizer.Form.NFKD);
+        String cbnon = typeAndVblue.toString();
+        cbnon = cbnon.toUpperCbse(Locble.US).toLowerCbse(Locble.US);
+        return Normblizer.normblize(cbnon, Normblizer.Form.NFKD);
     }
 
     /*
-     * Return true if DerValue can be represented as a String.
+     * Return true if DerVblue cbn be represented bs b String.
      */
-    private static boolean isDerString(DerValue value, boolean canonical) {
-        if (canonical) {
-            switch (value.tag) {
-                case DerValue.tag_PrintableString:
-                case DerValue.tag_UTF8String:
+    privbte stbtic boolebn isDerString(DerVblue vblue, boolebn cbnonicbl) {
+        if (cbnonicbl) {
+            switch (vblue.tbg) {
+                cbse DerVblue.tbg_PrintbbleString:
+                cbse DerVblue.tbg_UTF8String:
                     return true;
-                default:
-                    return false;
+                defbult:
+                    return fblse;
             }
         } else {
-            switch (value.tag) {
-                case DerValue.tag_PrintableString:
-                case DerValue.tag_T61String:
-                case DerValue.tag_IA5String:
-                case DerValue.tag_GeneralString:
-                case DerValue.tag_BMPString:
-                case DerValue.tag_UTF8String:
+            switch (vblue.tbg) {
+                cbse DerVblue.tbg_PrintbbleString:
+                cbse DerVblue.tbg_T61String:
+                cbse DerVblue.tbg_IA5String:
+                cbse DerVblue.tbg_GenerblString:
+                cbse DerVblue.tbg_BMPString:
+                cbse DerVblue.tbg_UTF8String:
                     return true;
-                default:
-                    return false;
+                defbult:
+                    return fblse;
             }
         }
     }
 
-    boolean hasRFC2253Keyword() {
-        return AVAKeyword.hasKeyword(oid, RFC2253);
+    boolebn hbsRFC2253Keyword() {
+        return AVAKeyword.hbsKeyword(oid, RFC2253);
     }
 
-    private String toKeywordValueString(String keyword) {
+    privbte String toKeywordVblueString(String keyword) {
         /*
-         * Construct the value with as little copying and garbage
-         * production as practical.  First the keyword (mandatory),
-         * then the equals sign, finally the value.
+         * Construct the vblue with bs little copying bnd gbrbbge
+         * production bs prbcticbl.  First the keyword (mbndbtory),
+         * then the equbls sign, finblly the vblue.
          */
-        StringBuilder   retval = new StringBuilder(40);
+        StringBuilder   retvbl = new StringBuilder(40);
 
-        retval.append(keyword);
-        retval.append("=");
+        retvbl.bppend(keyword);
+        retvbl.bppend("=");
 
         try {
-            String valStr = value.getAsString();
+            String vblStr = vblue.getAsString();
 
-            if (valStr == null) {
+            if (vblStr == null) {
 
-                // rfc1779 specifies that attribute values associated
-                // with non-standard keyword attributes may be represented
-                // using the hex format below.  This will be used only
-                // when the value is not a string type
+                // rfc1779 specifies thbt bttribute vblues bssocibted
+                // with non-stbndbrd keyword bttributes mby be represented
+                // using the hex formbt below.  This will be used only
+                // when the vblue is not b string type
 
-                byte    data [] = value.toByteArray();
+                byte    dbtb [] = vblue.toByteArrby();
 
-                retval.append('#');
-                for (int i = 0; i < data.length; i++) {
-                    retval.append(hexDigits.charAt((data [i] >> 4) & 0x0f));
-                    retval.append(hexDigits.charAt(data [i] & 0x0f));
+                retvbl.bppend('#');
+                for (int i = 0; i < dbtb.length; i++) {
+                    retvbl.bppend(hexDigits.chbrAt((dbtb [i] >> 4) & 0x0f));
+                    retvbl.bppend(hexDigits.chbrAt(dbtb [i] & 0x0f));
                 }
 
             } else {
 
-                boolean quoteNeeded = false;
+                boolebn quoteNeeded = fblse;
                 StringBuilder sbuffer = new StringBuilder();
-                boolean previousWhite = false;
-                final String escapees = ",+=\n<>#;\\\"";
+                boolebn previousWhite = fblse;
+                finbl String escbpees = ",+=\n<>#;\\\"";
 
                 /*
-                 * Special characters (e.g. AVA list separators) cause strings
-                 * to need quoting, or at least escaping.  So do leading or
-                 * trailing spaces, and multiple internal spaces.
+                 * Specibl chbrbcters (e.g. AVA list sepbrbtors) cbuse strings
+                 * to need quoting, or bt lebst escbping.  So do lebding or
+                 * trbiling spbces, bnd multiple internbl spbces.
                  */
-                int length = valStr.length();
-                boolean alreadyQuoted =
-                    (length > 1 && valStr.charAt(0) == '\"'
-                     && valStr.charAt(length - 1) == '\"');
+                int length = vblStr.length();
+                boolebn blrebdyQuoted =
+                    (length > 1 && vblStr.chbrAt(0) == '\"'
+                     && vblStr.chbrAt(length - 1) == '\"');
 
                 for (int i = 0; i < length; i++) {
-                    char c = valStr.charAt(i);
-                    if (alreadyQuoted && (i == 0 || i == length - 1)) {
-                        sbuffer.append(c);
+                    chbr c = vblStr.chbrAt(i);
+                    if (blrebdyQuoted && (i == 0 || i == length - 1)) {
+                        sbuffer.bppend(c);
                         continue;
                     }
-                    if (DerValue.isPrintableStringChar(c) ||
-                        escapees.indexOf(c) >= 0) {
+                    if (DerVblue.isPrintbbleStringChbr(c) ||
+                        escbpees.indexOf(c) >= 0) {
 
-                        // quote if leading whitespace or special chars
+                        // quote if lebding whitespbce or specibl chbrs
                         if (!quoteNeeded &&
                             ((i == 0 && (c == ' ' || c == '\n')) ||
-                                escapees.indexOf(c) >= 0)) {
+                                escbpees.indexOf(c) >= 0)) {
                             quoteNeeded = true;
                         }
 
-                        // quote if multiple internal whitespace
+                        // quote if multiple internbl whitespbce
                         if (!(c == ' ' || c == '\n')) {
-                            // escape '"' and '\'
+                            // escbpe '"' bnd '\'
                             if (c == '"' || c == '\\') {
-                                sbuffer.append('\\');
+                                sbuffer.bppend('\\');
                             }
-                            previousWhite = false;
+                            previousWhite = fblse;
                         } else {
                             if (!quoteNeeded && previousWhite) {
                                 quoteNeeded = true;
@@ -1106,205 +1106,205 @@ public class AVA implements DerEncoder {
                             previousWhite = true;
                         }
 
-                        sbuffer.append(c);
+                        sbuffer.bppend(c);
 
-                    } else if (debug != null && Debug.isOn("ava")) {
+                    } else if (debug != null && Debug.isOn("bvb")) {
 
-                        // embed non-printable/non-escaped char
-                        // as escaped hex pairs for debugging
+                        // embed non-printbble/non-escbped chbr
+                        // bs escbped hex pbirs for debugging
 
-                        previousWhite = false;
+                        previousWhite = fblse;
 
-                        // embed escaped hex pairs
-                        byte[] valueBytes =
-                                Character.toString(c).getBytes("UTF8");
-                        for (int j = 0; j < valueBytes.length; j++) {
-                            sbuffer.append('\\');
-                            char hexChar = Character.forDigit
-                                        (0xF & (valueBytes[j] >>> 4), 16);
-                            sbuffer.append(Character.toUpperCase(hexChar));
-                            hexChar = Character.forDigit
-                                        (0xF & (valueBytes[j]), 16);
-                            sbuffer.append(Character.toUpperCase(hexChar));
+                        // embed escbped hex pbirs
+                        byte[] vblueBytes =
+                                Chbrbcter.toString(c).getBytes("UTF8");
+                        for (int j = 0; j < vblueBytes.length; j++) {
+                            sbuffer.bppend('\\');
+                            chbr hexChbr = Chbrbcter.forDigit
+                                        (0xF & (vblueBytes[j] >>> 4), 16);
+                            sbuffer.bppend(Chbrbcter.toUpperCbse(hexChbr));
+                            hexChbr = Chbrbcter.forDigit
+                                        (0xF & (vblueBytes[j]), 16);
+                            sbuffer.bppend(Chbrbcter.toUpperCbse(hexChbr));
                         }
                     } else {
 
-                        // append non-printable/non-escaped char
+                        // bppend non-printbble/non-escbped chbr
 
-                        previousWhite = false;
-                        sbuffer.append(c);
+                        previousWhite = fblse;
+                        sbuffer.bppend(c);
                     }
                 }
 
-                // quote if trailing whitespace
+                // quote if trbiling whitespbce
                 if (sbuffer.length() > 0) {
-                    char trailChar = sbuffer.charAt(sbuffer.length() - 1);
-                    if (trailChar == ' ' || trailChar == '\n') {
+                    chbr trbilChbr = sbuffer.chbrAt(sbuffer.length() - 1);
+                    if (trbilChbr == ' ' || trbilChbr == '\n') {
                         quoteNeeded = true;
                     }
                 }
 
                 // Emit the string ... quote it if needed
-                // if string is already quoted, don't re-quote
-                if (!alreadyQuoted && quoteNeeded) {
-                    retval.append("\"" + sbuffer.toString() + "\"");
+                // if string is blrebdy quoted, don't re-quote
+                if (!blrebdyQuoted && quoteNeeded) {
+                    retvbl.bppend("\"" + sbuffer.toString() + "\"");
                 } else {
-                    retval.append(sbuffer.toString());
+                    retvbl.bppend(sbuffer.toString());
                 }
             }
-        } catch (IOException e) {
-            throw new IllegalArgumentException("DER Value conversion");
+        } cbtch (IOException e) {
+            throw new IllegblArgumentException("DER Vblue conversion");
         }
 
-        return retval.toString();
+        return retvbl.toString();
     }
 
 }
 
 /**
- * Helper class that allows conversion from String to ObjectIdentifier and
- * vice versa according to RFC1779, RFC2253, and an augmented version of
- * those standards.
+ * Helper clbss thbt bllows conversion from String to ObjectIdentifier bnd
+ * vice versb bccording to RFC1779, RFC2253, bnd bn bugmented version of
+ * those stbndbrds.
  */
-class AVAKeyword {
+clbss AVAKeyword {
 
-    private static final Map<ObjectIdentifier,AVAKeyword> oidMap;
-    private static final Map<String,AVAKeyword> keywordMap;
+    privbte stbtic finbl Mbp<ObjectIdentifier,AVAKeyword> oidMbp;
+    privbte stbtic finbl Mbp<String,AVAKeyword> keywordMbp;
 
-    private String keyword;
-    private ObjectIdentifier oid;
-    private boolean rfc1779Compliant, rfc2253Compliant;
+    privbte String keyword;
+    privbte ObjectIdentifier oid;
+    privbte boolebn rfc1779Complibnt, rfc2253Complibnt;
 
-    private AVAKeyword(String keyword, ObjectIdentifier oid,
-               boolean rfc1779Compliant, boolean rfc2253Compliant) {
+    privbte AVAKeyword(String keyword, ObjectIdentifier oid,
+               boolebn rfc1779Complibnt, boolebn rfc2253Complibnt) {
         this.keyword = keyword;
         this.oid = oid;
-        this.rfc1779Compliant = rfc1779Compliant;
-        this.rfc2253Compliant = rfc2253Compliant;
+        this.rfc1779Complibnt = rfc1779Complibnt;
+        this.rfc2253Complibnt = rfc2253Complibnt;
 
         // register it
-        oidMap.put(oid, this);
-        keywordMap.put(keyword, this);
+        oidMbp.put(oid, this);
+        keywordMbp.put(keyword, this);
     }
 
-    private boolean isCompliant(int standard) {
-        switch (standard) {
-        case AVA.RFC1779:
-            return rfc1779Compliant;
-        case AVA.RFC2253:
-            return rfc2253Compliant;
-        case AVA.DEFAULT:
+    privbte boolebn isComplibnt(int stbndbrd) {
+        switch (stbndbrd) {
+        cbse AVA.RFC1779:
+            return rfc1779Complibnt;
+        cbse AVA.RFC2253:
+            return rfc2253Complibnt;
+        cbse AVA.DEFAULT:
             return true;
-        default:
-            // should not occur, internal error
-            throw new IllegalArgumentException("Invalid standard " + standard);
+        defbult:
+            // should not occur, internbl error
+            throw new IllegblArgumentException("Invblid stbndbrd " + stbndbrd);
         }
     }
 
     /**
-     * Get an object identifier representing the specified keyword (or
-     * string encoded object identifier) in the given standard.
+     * Get bn object identifier representing the specified keyword (or
+     * string encoded object identifier) in the given stbndbrd.
      *
-     * @param keywordMap a Map where a keyword String maps to a corresponding
-     *   OID String. Each AVA keyword will be mapped to the corresponding OID.
-     *   If an entry does not exist, it will fallback to the builtin
-     *   keyword/OID mapping.
-     * @throws IOException If the keyword is not valid in the specified standard
-     *   or the OID String to which a keyword maps to is improperly formatted.
+     * @pbrbm keywordMbp b Mbp where b keyword String mbps to b corresponding
+     *   OID String. Ebch AVA keyword will be mbpped to the corresponding OID.
+     *   If bn entry does not exist, it will fbllbbck to the builtin
+     *   keyword/OID mbpping.
+     * @throws IOException If the keyword is not vblid in the specified stbndbrd
+     *   or the OID String to which b keyword mbps to is improperly formbtted.
      */
-    static ObjectIdentifier getOID
-        (String keyword, int standard, Map<String, String> extraKeywordMap)
+    stbtic ObjectIdentifier getOID
+        (String keyword, int stbndbrd, Mbp<String, String> extrbKeywordMbp)
             throws IOException {
 
-        keyword = keyword.toUpperCase(Locale.ENGLISH);
-        if (standard == AVA.RFC2253) {
-            if (keyword.startsWith(" ") || keyword.endsWith(" ")) {
-                throw new IOException("Invalid leading or trailing space " +
+        keyword = keyword.toUpperCbse(Locble.ENGLISH);
+        if (stbndbrd == AVA.RFC2253) {
+            if (keyword.stbrtsWith(" ") || keyword.endsWith(" ")) {
+                throw new IOException("Invblid lebding or trbiling spbce " +
                         "in keyword \"" + keyword + "\"");
             }
         } else {
             keyword = keyword.trim();
         }
 
-        // check user-specified keyword map first, then fallback to built-in
-        // map
-        String oidString = extraKeywordMap.get(keyword);
+        // check user-specified keyword mbp first, then fbllbbck to built-in
+        // mbp
+        String oidString = extrbKeywordMbp.get(keyword);
         if (oidString == null) {
-            AVAKeyword ak = keywordMap.get(keyword);
-            if ((ak != null) && ak.isCompliant(standard)) {
-                return ak.oid;
+            AVAKeyword bk = keywordMbp.get(keyword);
+            if ((bk != null) && bk.isComplibnt(stbndbrd)) {
+                return bk.oid;
             }
         } else {
             return new ObjectIdentifier(oidString);
         }
 
         // no keyword found, check if OID string
-        if (standard == AVA.DEFAULT && keyword.startsWith("OID.")) {
+        if (stbndbrd == AVA.DEFAULT && keyword.stbrtsWith("OID.")) {
             keyword = keyword.substring(4);
         }
 
-        boolean number = false;
+        boolebn number = fblse;
         if (keyword.length() != 0) {
-            char ch = keyword.charAt(0);
+            chbr ch = keyword.chbrAt(0);
             if ((ch >= '0') && (ch <= '9')) {
                 number = true;
             }
         }
-        if (number == false) {
-            throw new IOException("Invalid keyword \"" + keyword + "\"");
+        if (number == fblse) {
+            throw new IOException("Invblid keyword \"" + keyword + "\"");
         }
         return new ObjectIdentifier(keyword);
     }
 
     /**
-     * Get a keyword for the given ObjectIdentifier according to standard.
-     * If no keyword is available, the ObjectIdentifier is encoded as a
+     * Get b keyword for the given ObjectIdentifier bccording to stbndbrd.
+     * If no keyword is bvbilbble, the ObjectIdentifier is encoded bs b
      * String.
      */
-    static String getKeyword(ObjectIdentifier oid, int standard) {
+    stbtic String getKeyword(ObjectIdentifier oid, int stbndbrd) {
         return getKeyword
-            (oid, standard, Collections.<String, String>emptyMap());
+            (oid, stbndbrd, Collections.<String, String>emptyMbp());
     }
 
     /**
-     * Get a keyword for the given ObjectIdentifier according to standard.
-     * Checks the extraOidMap for a keyword first, then falls back to the
-     * builtin/default set. If no keyword is available, the ObjectIdentifier
-     * is encoded as a String.
+     * Get b keyword for the given ObjectIdentifier bccording to stbndbrd.
+     * Checks the extrbOidMbp for b keyword first, then fblls bbck to the
+     * builtin/defbult set. If no keyword is bvbilbble, the ObjectIdentifier
+     * is encoded bs b String.
      */
-    static String getKeyword
-        (ObjectIdentifier oid, int standard, Map<String, String> extraOidMap) {
+    stbtic String getKeyword
+        (ObjectIdentifier oid, int stbndbrd, Mbp<String, String> extrbOidMbp) {
 
-        // check extraOidMap first, then fallback to built-in map
+        // check extrbOidMbp first, then fbllbbck to built-in mbp
         String oidString = oid.toString();
-        String keywordString = extraOidMap.get(oidString);
+        String keywordString = extrbOidMbp.get(oidString);
         if (keywordString == null) {
-            AVAKeyword ak = oidMap.get(oid);
-            if ((ak != null) && ak.isCompliant(standard)) {
-                return ak.keyword;
+            AVAKeyword bk = oidMbp.get(oid);
+            if ((bk != null) && bk.isComplibnt(stbndbrd)) {
+                return bk.keyword;
             }
         } else {
             if (keywordString.length() == 0) {
-                throw new IllegalArgumentException("keyword cannot be empty");
+                throw new IllegblArgumentException("keyword cbnnot be empty");
             }
             keywordString = keywordString.trim();
-            char c = keywordString.charAt(0);
+            chbr c = keywordString.chbrAt(0);
             if (c < 65 || c > 122 || (c > 90 && c < 97)) {
-                throw new IllegalArgumentException
-                    ("keyword does not start with letter");
+                throw new IllegblArgumentException
+                    ("keyword does not stbrt with letter");
             }
             for (int i=1; i<keywordString.length(); i++) {
-                c = keywordString.charAt(i);
+                c = keywordString.chbrAt(i);
                 if ((c < 65 || c > 122 || (c > 90 && c < 97)) &&
                     (c < 48 || c > 57) && c != '_') {
-                    throw new IllegalArgumentException
-                    ("keyword character is not a letter, digit, or underscore");
+                    throw new IllegblArgumentException
+                    ("keyword chbrbcter is not b letter, digit, or underscore");
                 }
             }
             return keywordString;
         }
-        // no compliant keyword, use OID
-        if (standard == AVA.RFC2253) {
+        // no complibnt keyword, use OID
+        if (stbndbrd == AVA.RFC2253) {
             return oidString;
         } else {
             return "OID." + oidString;
@@ -1312,45 +1312,45 @@ class AVAKeyword {
     }
 
     /**
-     * Test if oid has an associated keyword in standard.
+     * Test if oid hbs bn bssocibted keyword in stbndbrd.
      */
-    static boolean hasKeyword(ObjectIdentifier oid, int standard) {
-        AVAKeyword ak = oidMap.get(oid);
-        if (ak == null) {
-            return false;
+    stbtic boolebn hbsKeyword(ObjectIdentifier oid, int stbndbrd) {
+        AVAKeyword bk = oidMbp.get(oid);
+        if (bk == null) {
+            return fblse;
         }
-        return ak.isCompliant(standard);
+        return bk.isComplibnt(stbndbrd);
     }
 
-    static {
-        oidMap = new HashMap<ObjectIdentifier,AVAKeyword>();
-        keywordMap = new HashMap<String,AVAKeyword>();
+    stbtic {
+        oidMbp = new HbshMbp<ObjectIdentifier,AVAKeyword>();
+        keywordMbp = new HbshMbp<String,AVAKeyword>();
 
-        // NOTE if multiple keywords are available for one OID, order
-        // is significant!! Preferred *LAST*.
-        new AVAKeyword("CN",           X500Name.commonName_oid,   true,  true);
-        new AVAKeyword("C",            X500Name.countryName_oid,  true,  true);
-        new AVAKeyword("L",            X500Name.localityName_oid, true,  true);
-        new AVAKeyword("S",            X500Name.stateName_oid,    false, false);
-        new AVAKeyword("ST",           X500Name.stateName_oid,    true,  true);
-        new AVAKeyword("O",            X500Name.orgName_oid,      true,  true);
-        new AVAKeyword("OU",           X500Name.orgUnitName_oid,  true,  true);
-        new AVAKeyword("T",            X500Name.title_oid,        false, false);
-        new AVAKeyword("IP",           X500Name.ipAddress_oid,    false, false);
-        new AVAKeyword("STREET",       X500Name.streetAddress_oid,true,  true);
-        new AVAKeyword("DC",           X500Name.DOMAIN_COMPONENT_OID,
-                                                                  false, true);
-        new AVAKeyword("DNQUALIFIER",  X500Name.DNQUALIFIER_OID,  false, false);
-        new AVAKeyword("DNQ",          X500Name.DNQUALIFIER_OID,  false, false);
-        new AVAKeyword("SURNAME",      X500Name.SURNAME_OID,      false, false);
-        new AVAKeyword("GIVENNAME",    X500Name.GIVENNAME_OID,    false, false);
-        new AVAKeyword("INITIALS",     X500Name.INITIALS_OID,     false, false);
-        new AVAKeyword("GENERATION",   X500Name.GENERATIONQUALIFIER_OID,
-                                                                  false, false);
-        new AVAKeyword("EMAIL", PKCS9Attribute.EMAIL_ADDRESS_OID, false, false);
+        // NOTE if multiple keywords bre bvbilbble for one OID, order
+        // is significbnt!! Preferred *LAST*.
+        new AVAKeyword("CN",           X500Nbme.commonNbme_oid,   true,  true);
+        new AVAKeyword("C",            X500Nbme.countryNbme_oid,  true,  true);
+        new AVAKeyword("L",            X500Nbme.locblityNbme_oid, true,  true);
+        new AVAKeyword("S",            X500Nbme.stbteNbme_oid,    fblse, fblse);
+        new AVAKeyword("ST",           X500Nbme.stbteNbme_oid,    true,  true);
+        new AVAKeyword("O",            X500Nbme.orgNbme_oid,      true,  true);
+        new AVAKeyword("OU",           X500Nbme.orgUnitNbme_oid,  true,  true);
+        new AVAKeyword("T",            X500Nbme.title_oid,        fblse, fblse);
+        new AVAKeyword("IP",           X500Nbme.ipAddress_oid,    fblse, fblse);
+        new AVAKeyword("STREET",       X500Nbme.streetAddress_oid,true,  true);
+        new AVAKeyword("DC",           X500Nbme.DOMAIN_COMPONENT_OID,
+                                                                  fblse, true);
+        new AVAKeyword("DNQUALIFIER",  X500Nbme.DNQUALIFIER_OID,  fblse, fblse);
+        new AVAKeyword("DNQ",          X500Nbme.DNQUALIFIER_OID,  fblse, fblse);
+        new AVAKeyword("SURNAME",      X500Nbme.SURNAME_OID,      fblse, fblse);
+        new AVAKeyword("GIVENNAME",    X500Nbme.GIVENNAME_OID,    fblse, fblse);
+        new AVAKeyword("INITIALS",     X500Nbme.INITIALS_OID,     fblse, fblse);
+        new AVAKeyword("GENERATION",   X500Nbme.GENERATIONQUALIFIER_OID,
+                                                                  fblse, fblse);
+        new AVAKeyword("EMAIL", PKCS9Attribute.EMAIL_ADDRESS_OID, fblse, fblse);
         new AVAKeyword("EMAILADDRESS", PKCS9Attribute.EMAIL_ADDRESS_OID,
-                                                                  false, false);
-        new AVAKeyword("UID",          X500Name.userid_oid,       false, true);
-        new AVAKeyword("SERIALNUMBER", X500Name.SERIALNUMBER_OID, false, false);
+                                                                  fblse, fblse);
+        new AVAKeyword("UID",          X500Nbme.userid_oid,       fblse, true);
+        new AVAKeyword("SERIALNUMBER", X500Nbme.SERIALNUMBER_OID, fblse, fblse);
     }
 }

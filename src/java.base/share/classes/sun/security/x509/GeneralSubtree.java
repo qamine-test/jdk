@@ -1,211 +1,211 @@
 /*
- * Copyright (c) 1997, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2004, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.x509;
+pbckbge sun.security.x509;
 
-import java.io.*;
+import jbvb.io.*;
 
 import sun.security.util.*;
 
 /**
- * Represent the GeneralSubtree ASN.1 object, whose syntax is:
+ * Represent the GenerblSubtree ASN.1 object, whose syntbx is:
  * <pre>
- * GeneralSubtree ::= SEQUENCE {
- *    base             GeneralName,
- *    minimum  [0]     BaseDistance DEFAULT 0,
- *    maximum  [1]     BaseDistance OPTIONAL
+ * GenerblSubtree ::= SEQUENCE {
+ *    bbse             GenerblNbme,
+ *    minimum  [0]     BbseDistbnce DEFAULT 0,
+ *    mbximum  [1]     BbseDistbnce OPTIONAL
  * }
- * BaseDistance ::= INTEGER (0..MAX)
+ * BbseDistbnce ::= INTEGER (0..MAX)
  * </pre>
- * @author Amit Kapoor
- * @author Hemma Prafullchandra
+ * @buthor Amit Kbpoor
+ * @buthor Hemmb Prbfullchbndrb
  */
-public class GeneralSubtree {
-    private static final byte TAG_MIN = 0;
-    private static final byte TAG_MAX = 1;
-    private static final int  MIN_DEFAULT = 0;
+public clbss GenerblSubtree {
+    privbte stbtic finbl byte TAG_MIN = 0;
+    privbte stbtic finbl byte TAG_MAX = 1;
+    privbte stbtic finbl int  MIN_DEFAULT = 0;
 
-    private GeneralName name;
-    private int         minimum = MIN_DEFAULT;
-    private int         maximum = -1;
+    privbte GenerblNbme nbme;
+    privbte int         minimum = MIN_DEFAULT;
+    privbte int         mbximum = -1;
 
-    private int myhash = -1;
+    privbte int myhbsh = -1;
 
     /**
-     * The default constructor for the class.
+     * The defbult constructor for the clbss.
      *
-     * @params name the GeneralName
-     * @params min the minimum BaseDistance
-     * @params max the maximum BaseDistance
+     * @pbrbms nbme the GenerblNbme
+     * @pbrbms min the minimum BbseDistbnce
+     * @pbrbms mbx the mbximum BbseDistbnce
      */
-    public GeneralSubtree(GeneralName name, int min, int max) {
-        this.name = name;
+    public GenerblSubtree(GenerblNbme nbme, int min, int mbx) {
+        this.nbme = nbme;
         this.minimum = min;
-        this.maximum = max;
+        this.mbximum = mbx;
     }
 
     /**
-     * Create the object from its DER encoded form.
+     * Crebte the object from its DER encoded form.
      *
-     * @param val the DER encoded from of the same.
+     * @pbrbm vbl the DER encoded from of the sbme.
      */
-    public GeneralSubtree(DerValue val) throws IOException {
-        if (val.tag != DerValue.tag_Sequence) {
-            throw new IOException("Invalid encoding for GeneralSubtree.");
+    public GenerblSubtree(DerVblue vbl) throws IOException {
+        if (vbl.tbg != DerVblue.tbg_Sequence) {
+            throw new IOException("Invblid encoding for GenerblSubtree.");
         }
-        name = new GeneralName(val.data.getDerValue(), true);
+        nbme = new GenerblNbme(vbl.dbtb.getDerVblue(), true);
 
-        // NB. this is always encoded with the IMPLICIT tag
-        // The checks only make sense if we assume implicit tagging,
-        // with explicit tagging the form is always constructed.
-        while (val.data.available() != 0) {
-            DerValue opt = val.data.getDerValue();
+        // NB. this is blwbys encoded with the IMPLICIT tbg
+        // The checks only mbke sense if we bssume implicit tbgging,
+        // with explicit tbgging the form is blwbys constructed.
+        while (vbl.dbtb.bvbilbble() != 0) {
+            DerVblue opt = vbl.dbtb.getDerVblue();
 
             if (opt.isContextSpecific(TAG_MIN) && !opt.isConstructed()) {
-                opt.resetTag(DerValue.tag_Integer);
+                opt.resetTbg(DerVblue.tbg_Integer);
                 minimum = opt.getInteger();
 
             } else if (opt.isContextSpecific(TAG_MAX) && !opt.isConstructed()) {
-                opt.resetTag(DerValue.tag_Integer);
-                maximum = opt.getInteger();
+                opt.resetTbg(DerVblue.tbg_Integer);
+                mbximum = opt.getInteger();
             } else
-                throw new IOException("Invalid encoding of GeneralSubtree.");
+                throw new IOException("Invblid encoding of GenerblSubtree.");
         }
     }
 
     /**
-     * Return the GeneralName.
+     * Return the GenerblNbme.
      *
-     * @return the GeneralName
+     * @return the GenerblNbme
      */
-    public GeneralName getName() {
-        //XXXX May want to consider cloning this
-        return name;
+    public GenerblNbme getNbme() {
+        //XXXX Mby wbnt to consider cloning this
+        return nbme;
     }
 
     /**
-     * Return the minimum BaseDistance.
+     * Return the minimum BbseDistbnce.
      *
-     * @return the minimum BaseDistance. Default is 0 if not set.
+     * @return the minimum BbseDistbnce. Defbult is 0 if not set.
      */
     public int getMinimum() {
         return minimum;
     }
 
     /**
-     * Return the maximum BaseDistance.
+     * Return the mbximum BbseDistbnce.
      *
-     * @return the maximum BaseDistance, or -1 if not set.
+     * @return the mbximum BbseDistbnce, or -1 if not set.
      */
-    public int getMaximum() {
-        return maximum;
+    public int getMbximum() {
+        return mbximum;
     }
 
     /**
-     * Return a printable string of the GeneralSubtree.
+     * Return b printbble string of the GenerblSubtree.
      */
     public String toString() {
-        String s = "\n   GeneralSubtree: [\n" +
-            "    GeneralName: " + ((name == null) ? "" : name.toString()) +
+        String s = "\n   GenerblSubtree: [\n" +
+            "    GenerblNbme: " + ((nbme == null) ? "" : nbme.toString()) +
             "\n    Minimum: " + minimum;
-            if (maximum == -1) {
-                s += "\t    Maximum: undefined";
+            if (mbximum == -1) {
+                s += "\t    Mbximum: undefined";
             } else
-                s += "\t    Maximum: " + maximum;
+                s += "\t    Mbximum: " + mbximum;
             s += "    ]\n";
         return (s);
     }
 
     /**
-     * Compare this GeneralSubtree with another
+     * Compbre this GenerblSubtree with bnother
      *
-     * @param other GeneralSubtree to compare to this
-     * @returns true if match
+     * @pbrbm other GenerblSubtree to compbre to this
+     * @returns true if mbtch
      */
-    public boolean equals(Object other) {
-        if (!(other instanceof GeneralSubtree))
-            return false;
-        GeneralSubtree otherGS = (GeneralSubtree)other;
-        if (this.name == null) {
-            if (otherGS.name != null) {
-                return false;
+    public boolebn equbls(Object other) {
+        if (!(other instbnceof GenerblSubtree))
+            return fblse;
+        GenerblSubtree otherGS = (GenerblSubtree)other;
+        if (this.nbme == null) {
+            if (otherGS.nbme != null) {
+                return fblse;
             }
         } else {
-            if (!((this.name).equals(otherGS.name)))
-                return false;
+            if (!((this.nbme).equbls(otherGS.nbme)))
+                return fblse;
         }
         if (this.minimum != otherGS.minimum)
-            return false;
-        if (this.maximum != otherGS.maximum)
-            return false;
+            return fblse;
+        if (this.mbximum != otherGS.mbximum)
+            return fblse;
         return true;
     }
 
     /**
-     * Returns the hash code for this GeneralSubtree.
+     * Returns the hbsh code for this GenerblSubtree.
      *
-     * @return a hash code value.
+     * @return b hbsh code vblue.
      */
-    public int hashCode() {
-        if (myhash == -1) {
-            myhash = 17;
-            if (name != null) {
-                myhash = 37 * myhash + name.hashCode();
+    public int hbshCode() {
+        if (myhbsh == -1) {
+            myhbsh = 17;
+            if (nbme != null) {
+                myhbsh = 37 * myhbsh + nbme.hbshCode();
             }
             if (minimum != MIN_DEFAULT) {
-                myhash = 37 * myhash + minimum;
+                myhbsh = 37 * myhbsh + minimum;
             }
-            if (maximum != -1) {
-                myhash = 37 * myhash + maximum;
+            if (mbximum != -1) {
+                myhbsh = 37 * myhbsh + mbximum;
             }
         }
-        return myhash;
+        return myhbsh;
     }
 
     /**
-     * Encode the GeneralSubtree.
+     * Encode the GenerblSubtree.
      *
-     * @params out the DerOutputStream to encode this object to.
+     * @pbrbms out the DerOutputStrebm to encode this object to.
      */
-    public void encode(DerOutputStream out) throws IOException {
-        DerOutputStream seq = new DerOutputStream();
+    public void encode(DerOutputStrebm out) throws IOException {
+        DerOutputStrebm seq = new DerOutputStrebm();
 
-        name.encode(seq);
+        nbme.encode(seq);
 
         if (minimum != MIN_DEFAULT) {
-            DerOutputStream tmp = new DerOutputStream();
+            DerOutputStrebm tmp = new DerOutputStrebm();
             tmp.putInteger(minimum);
-            seq.writeImplicit(DerValue.createTag(DerValue.TAG_CONTEXT,
-                              false, TAG_MIN), tmp);
+            seq.writeImplicit(DerVblue.crebteTbg(DerVblue.TAG_CONTEXT,
+                              fblse, TAG_MIN), tmp);
         }
-        if (maximum != -1) {
-            DerOutputStream tmp = new DerOutputStream();
-            tmp.putInteger(maximum);
-            seq.writeImplicit(DerValue.createTag(DerValue.TAG_CONTEXT,
-                              false, TAG_MAX), tmp);
+        if (mbximum != -1) {
+            DerOutputStrebm tmp = new DerOutputStrebm();
+            tmp.putInteger(mbximum);
+            seq.writeImplicit(DerVblue.crebteTbg(DerVblue.TAG_CONTEXT,
+                              fblse, TAG_MAX), tmp);
         }
-        out.write(DerValue.tag_Sequence, seq);
+        out.write(DerVblue.tbg_Sequence, seq);
     }
 }

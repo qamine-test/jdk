@@ -1,70 +1,70 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-#import <Cocoa/Cocoa.h>
-#import <JavaNativeFoundation/JavaNativeFoundation.h>
+#import <Cocob/Cocob.h>
+#import <JbvbNbtiveFoundbtion/JbvbNbtiveFoundbtion.h>
 
-#import "CDragSource.h"
-#import "CDropTarget.h"
+#import "CDrbgSource.h"
+#import "CDropTbrget.h"
 
-@interface AWTView : NSView<NSTextInputClient, CDragSourceHolder, CDropTargetHolder> {
-@private
-    jobject m_cPlatformView;
+@interfbce AWTView : NSView<NSTextInputClient, CDrbgSourceHolder, CDropTbrgetHolder> {
+@privbte
+    jobject m_cPlbtformView;
 
-    // Handler for the tracking area needed for Enter/Exit events management.
-    NSTrackingArea* rolloverTrackingArea;
+    // Hbndler for the trbcking breb needed for Enter/Exit events mbnbgement.
+    NSTrbckingAreb* rolloverTrbckingAreb;
 
-    // TODO: NSMenu *contextualMenu;
+    // TODO: NSMenu *contextublMenu;
 
-    // dnd support (see AppKit/NSDragging.h, NSDraggingSource/Destination):
-    CDragSource *_dragSource;
-    CDropTarget *_dropTarget;
+    // dnd support (see AppKit/NSDrbgging.h, NSDrbggingSource/Destinbtion):
+    CDrbgSource *_drbgSource;
+    CDropTbrget *_dropTbrget;
 
-    // Input method data
+    // Input method dbtb
     jobject fInputMethodLOCKABLE;
     BOOL fKeyEventsNeeded;
     BOOL fProcessingKeystroke;
 
-    BOOL fEnablePressAndHold;
+    BOOL fEnbblePressAndHold;
     BOOL fInPressAndHold;
     BOOL fPAHNeedsToSelect;
 
-    id cglLayer; // is a sublayer of view.layer
+    id cglLbyer; // is b sublbyer of view.lbyer
 
     BOOL mouseIsOver;
 }
 
-@property (nonatomic, retain) id cglLayer;
-@property (nonatomic) BOOL mouseIsOver;
+@property (nonbtomic, retbin) id cglLbyer;
+@property (nonbtomic) BOOL mouseIsOver;
 
-- (id) initWithRect:(NSRect) rect platformView:(jobject)cPlatformView windowLayer:(CALayer*)windowLayer;
-- (void) deliverJavaMouseEvent: (NSEvent *) event;
-- (jobject) awtComponent:(JNIEnv *)env;
+- (id) initWithRect:(NSRect) rect plbtformView:(jobject)cPlbtformView windowLbyer:(CALbyer*)windowLbyer;
+- (void) deliverJbvbMouseEvent: (NSEvent *) event;
+- (jobject) bwtComponent:(JNIEnv *)env;
 
-// Input method-related events
+// Input method-relbted events
 - (void)setInputMethod:(jobject)inputMethod;
-- (void)abandonInput;
+- (void)bbbndonInput;
 
 @end

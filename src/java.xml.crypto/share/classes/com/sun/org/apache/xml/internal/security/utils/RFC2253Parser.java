@@ -3,115 +3,115 @@
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Licensed to the Apbche Softwbre Foundbtion (ASF) under one
+ * or more contributor license bgreements. See the NOTICE file
+ * distributed with this work for bdditionbl informbtion
+ * regbrding copyright ownership. The ASF licenses this file
+ * to you under the Apbche License, Version 2.0 (the
+ * "License"); you mby not use this file except in complibnce
+ * with the License. You mby obtbin b copy of the License bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.bpbche.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unless required by bpplicbble lbw or bgreed to in writing,
+ * softwbre distributed under the License is distributed on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
+ * specific lbngubge governing permissions bnd limitbtions
  * under the License.
  */
-package com.sun.org.apache.xml.internal.security.utils;
+pbckbge com.sun.org.bpbche.xml.internbl.security.utils;
 
-import java.io.IOException;
-import java.io.StringReader;
+import jbvb.io.IOException;
+import jbvb.io.StringRebder;
 
-public class RFC2253Parser {
+public clbss RFC2253Pbrser {
 
     /**
      * Method rfc2253toXMLdsig
      *
-     * @param dn
-     * @return normalized string
+     * @pbrbm dn
+     * @return normblized string
      */
-    public static String rfc2253toXMLdsig(String dn) {
-        // Transform from RFC1779 to RFC2253
-        String normalized = normalize(dn, true);
+    public stbtic String rfc2253toXMLdsig(String dn) {
+        // Trbnsform from RFC1779 to RFC2253
+        String normblized = normblize(dn, true);
 
-        return rfctoXML(normalized);
+        return rfctoXML(normblized);
     }
 
     /**
      * Method xmldsigtoRFC2253
      *
-     * @param dn
-     * @return normalized string
+     * @pbrbm dn
+     * @return normblized string
      */
-    public static String xmldsigtoRFC2253(String dn) {
-        // Transform from RFC1779 to RFC2253
-        String normalized = normalize(dn, false);
+    public stbtic String xmldsigtoRFC2253(String dn) {
+        // Trbnsform from RFC1779 to RFC2253
+        String normblized = normblize(dn, fblse);
 
-        return xmltoRFC(normalized);
+        return xmltoRFC(normblized);
     }
 
     /**
-     * Method normalize
+     * Method normblize
      *
-     * @param dn
-     * @return normalized string
+     * @pbrbm dn
+     * @return normblized string
      */
-    public static String normalize(String dn) {
-        return normalize(dn, true);
+    public stbtic String normblize(String dn) {
+        return normblize(dn, true);
     }
 
     /**
-     * Method normalize
+     * Method normblize
      *
-     * @param dn
-     * @param toXml
-     * @return normalized string
+     * @pbrbm dn
+     * @pbrbm toXml
+     * @return normblized string
      */
-    public static String normalize(String dn, boolean toXml) {
+    public stbtic String normblize(String dn, boolebn toXml) {
         //if empty string
-        if ((dn == null) || dn.equals("")) {
+        if ((dn == null) || dn.equbls("")) {
             return "";
         }
 
         try {
-            String DN = semicolonToComma(dn);
+            String DN = semicolonToCommb(dn);
             StringBuilder sb = new StringBuilder();
             int i = 0;
             int l = 0;
             int k;
 
-            //for name component
+            //for nbme component
             for (int j = 0; (k = DN.indexOf(',', j)) >= 0; j = k + 1) {
                 l += countQuotes(DN, j, k);
 
-                if ((k > 0) && (DN.charAt(k - 1) != '\\') && (l % 2) == 0) {
-                    sb.append(parseRDN(DN.substring(i, k).trim(), toXml) + ",");
+                if ((k > 0) && (DN.chbrAt(k - 1) != '\\') && (l % 2) == 0) {
+                    sb.bppend(pbrseRDN(DN.substring(i, k).trim(), toXml) + ",");
 
                     i = k + 1;
                     l = 0;
                 }
             }
 
-            sb.append(parseRDN(trim(DN.substring(i)), toXml));
+            sb.bppend(pbrseRDN(trim(DN.substring(i)), toXml));
 
             return sb.toString();
-        } catch (IOException ex) {
+        } cbtch (IOException ex) {
             return dn;
         }
     }
 
     /**
-     * Method parseRDN
+     * Method pbrseRDN
      *
-     * @param str
-     * @param toXml
-     * @return normalized string
+     * @pbrbm str
+     * @pbrbm toXml
+     * @return normblized string
      * @throws IOException
      */
-    static String parseRDN(String str, boolean toXml) throws IOException {
+    stbtic String pbrseRDN(String str, boolebn toXml) throws IOException {
         StringBuilder sb = new StringBuilder();
         int i = 0;
         int l = 0;
@@ -120,120 +120,120 @@ public class RFC2253Parser {
         for (int j = 0; (k = str.indexOf('+', j)) >= 0; j = k + 1) {
             l += countQuotes(str, j, k);
 
-            if ((k > 0) && (str.charAt(k - 1) != '\\') && (l % 2) == 0) {
-                sb.append(parseATAV(trim(str.substring(i, k)), toXml) + "+");
+            if ((k > 0) && (str.chbrAt(k - 1) != '\\') && (l % 2) == 0) {
+                sb.bppend(pbrseATAV(trim(str.substring(i, k)), toXml) + "+");
 
                 i = k + 1;
                 l = 0;
             }
         }
 
-        sb.append(parseATAV(trim(str.substring(i)), toXml));
+        sb.bppend(pbrseATAV(trim(str.substring(i)), toXml));
 
         return sb.toString();
     }
 
     /**
-     * Method parseATAV
+     * Method pbrseATAV
      *
-     * @param str
-     * @param toXml
-     * @return normalized string
+     * @pbrbm str
+     * @pbrbm toXml
+     * @return normblized string
      * @throws IOException
      */
-    static String parseATAV(String str, boolean toXml) throws IOException {
+    stbtic String pbrseATAV(String str, boolebn toXml) throws IOException {
         int i = str.indexOf('=');
 
-        if ((i == -1) || ((i > 0) && (str.charAt(i - 1) == '\\'))) {
+        if ((i == -1) || ((i > 0) && (str.chbrAt(i - 1) == '\\'))) {
             return str;
         }
-        String attrType = normalizeAT(str.substring(0, i));
-        // only normalize if value is a String
-        String attrValue = null;
-        if (attrType.charAt(0) >= '0' && attrType.charAt(0) <= '9') {
-            attrValue = str.substring(i + 1);
+        String bttrType = normblizeAT(str.substring(0, i));
+        // only normblize if vblue is b String
+        String bttrVblue = null;
+        if (bttrType.chbrAt(0) >= '0' && bttrType.chbrAt(0) <= '9') {
+            bttrVblue = str.substring(i + 1);
         } else {
-            attrValue = normalizeV(str.substring(i + 1), toXml);
+            bttrVblue = normblizeV(str.substring(i + 1), toXml);
         }
 
-        return attrType + "=" + attrValue;
+        return bttrType + "=" + bttrVblue;
 
     }
 
     /**
-     * Method normalizeAT
+     * Method normblizeAT
      *
-     * @param str
-     * @return normalized string
+     * @pbrbm str
+     * @return normblized string
      */
-    static String normalizeAT(String str) {
+    stbtic String normblizeAT(String str) {
 
-        String at = str.toUpperCase().trim();
+        String bt = str.toUpperCbse().trim();
 
-        if (at.startsWith("OID")) {
-            at = at.substring(3);
+        if (bt.stbrtsWith("OID")) {
+            bt = bt.substring(3);
         }
 
-        return at;
+        return bt;
     }
 
     /**
-     * Method normalizeV
+     * Method normblizeV
      *
-     * @param str
-     * @param toXml
-     * @return normalized string
+     * @pbrbm str
+     * @pbrbm toXml
+     * @return normblized string
      * @throws IOException
      */
-    static String normalizeV(String str, boolean toXml) throws IOException {
-        String value = trim(str);
+    stbtic String normblizeV(String str, boolebn toXml) throws IOException {
+        String vblue = trim(str);
 
-        if (value.startsWith("\"")) {
+        if (vblue.stbrtsWith("\"")) {
             StringBuilder sb = new StringBuilder();
-            StringReader sr = new StringReader(value.substring(1, value.length() - 1));
+            StringRebder sr = new StringRebder(vblue.substring(1, vblue.length() - 1));
             int i = 0;
-            char c;
+            chbr c;
 
-            while ((i = sr.read()) > -1) {
-                c = (char) i;
+            while ((i = sr.rebd()) > -1) {
+                c = (chbr) i;
 
-                //the following char is defined at 4.Relationship with RFC1779 and LDAPv2 inrfc2253
+                //the following chbr is defined bt 4.Relbtionship with RFC1779 bnd LDAPv2 inrfc2253
                 if ((c == ',') || (c == '=') || (c == '+') || (c == '<')
                     || (c == '>') || (c == '#') || (c == ';')) {
-                    sb.append('\\');
+                    sb.bppend('\\');
                 }
 
-                sb.append(c);
+                sb.bppend(c);
             }
 
-            value = trim(sb.toString());
+            vblue = trim(sb.toString());
         }
 
         if (toXml) {
-            if (value.startsWith("#")) {
-                value = '\\' + value;
+            if (vblue.stbrtsWith("#")) {
+                vblue = '\\' + vblue;
             }
         } else {
-            if (value.startsWith("\\#")) {
-                value = value.substring(1);
+            if (vblue.stbrtsWith("\\#")) {
+                vblue = vblue.substring(1);
             }
         }
 
-        return value;
+        return vblue;
     }
 
     /**
      * Method rfctoXML
      *
-     * @param string
-     * @return normalized string
+     * @pbrbm string
+     * @return normblized string
      */
-    static String rfctoXML(String string) {
+    stbtic String rfctoXML(String string) {
         try {
-            String s = changeLess32toXML(string);
+            String s = chbngeLess32toXML(string);
 
-            return changeWStoXML(s);
-        } catch (Exception e) {
+            return chbngeWStoXML(s);
+        } cbtch (Exception e) {
             return string;
         }
     }
@@ -241,55 +241,55 @@ public class RFC2253Parser {
     /**
      * Method xmltoRFC
      *
-     * @param string
-     * @return normalized string
+     * @pbrbm string
+     * @return normblized string
      */
-    static String xmltoRFC(String string) {
+    stbtic String xmltoRFC(String string) {
         try {
-            String s = changeLess32toRFC(string);
+            String s = chbngeLess32toRFC(string);
 
-            return changeWStoRFC(s);
-        } catch (Exception e) {
+            return chbngeWStoRFC(s);
+        } cbtch (Exception e) {
             return string;
         }
     }
 
     /**
-     * Method changeLess32toRFC
+     * Method chbngeLess32toRFC
      *
-     * @param string
-     * @return normalized string
+     * @pbrbm string
+     * @return normblized string
      * @throws IOException
      */
-    static String changeLess32toRFC(String string) throws IOException {
+    stbtic String chbngeLess32toRFC(String string) throws IOException {
         StringBuilder sb = new StringBuilder();
-        StringReader sr = new StringReader(string);
+        StringRebder sr = new StringRebder(string);
         int i = 0;
-        char c;
+        chbr c;
 
-        while ((i = sr.read()) > -1) {
-            c = (char) i;
+        while ((i = sr.rebd()) > -1) {
+            c = (chbr) i;
 
             if (c == '\\') {
-                sb.append(c);
+                sb.bppend(c);
 
-                char c1 = (char) sr.read();
-                char c2 = (char) sr.read();
+                chbr c1 = (chbr) sr.rebd();
+                chbr c2 = (chbr) sr.rebd();
 
-                //65 (A) 97 (a)
+                //65 (A) 97 (b)
                 if ((((c1 >= 48) && (c1 <= 57)) || ((c1 >= 65) && (c1 <= 70)) || ((c1 >= 97) && (c1 <= 102)))
                     && (((c2 >= 48) && (c2 <= 57))
                         || ((c2 >= 65) && (c2 <= 70))
                         || ((c2 >= 97) && (c2 <= 102)))) {
-                    char ch = (char) Byte.parseByte("" + c1 + c2, 16);
+                    chbr ch = (chbr) Byte.pbrseByte("" + c1 + c2, 16);
 
-                    sb.append(ch);
+                    sb.bppend(ch);
                 } else {
-                    sb.append(c1);
-                    sb.append(c2);
+                    sb.bppend(c1);
+                    sb.bppend(c2);
                 }
             } else {
-                sb.append(c);
+                sb.bppend(c);
             }
         }
 
@@ -297,23 +297,23 @@ public class RFC2253Parser {
     }
 
     /**
-     * Method changeLess32toXML
+     * Method chbngeLess32toXML
      *
-     * @param string
-     * @return normalized string
+     * @pbrbm string
+     * @return normblized string
      * @throws IOException
      */
-    static String changeLess32toXML(String string) throws IOException {
+    stbtic String chbngeLess32toXML(String string) throws IOException {
         StringBuilder sb = new StringBuilder();
-        StringReader sr = new StringReader(string);
+        StringRebder sr = new StringRebder(string);
         int i = 0;
 
-        while ((i = sr.read()) > -1) {
+        while ((i = sr.rebd()) > -1) {
             if (i < 32) {
-                sb.append('\\');
-                sb.append(Integer.toHexString(i));
+                sb.bppend('\\');
+                sb.bppend(Integer.toHexString(i));
             } else {
-                sb.append((char) i);
+                sb.bppend((chbr) i);
             }
         }
 
@@ -321,36 +321,36 @@ public class RFC2253Parser {
     }
 
     /**
-     * Method changeWStoXML
+     * Method chbngeWStoXML
      *
-     * @param string
-     * @return normalized string
+     * @pbrbm string
+     * @return normblized string
      * @throws IOException
      */
-    static String changeWStoXML(String string) throws IOException {
+    stbtic String chbngeWStoXML(String string) throws IOException {
         StringBuilder sb = new StringBuilder();
-        StringReader sr = new StringReader(string);
+        StringRebder sr = new StringRebder(string);
         int i = 0;
-        char c;
+        chbr c;
 
-        while ((i = sr.read()) > -1) {
-            c = (char) i;
+        while ((i = sr.rebd()) > -1) {
+            c = (chbr) i;
 
             if (c == '\\') {
-                char c1 = (char) sr.read();
+                chbr c1 = (chbr) sr.rebd();
 
                 if (c1 == ' ') {
-                    sb.append('\\');
+                    sb.bppend('\\');
 
                     String s = "20";
 
-                    sb.append(s);
+                    sb.bppend(s);
                 } else {
-                    sb.append('\\');
-                    sb.append(c1);
+                    sb.bppend('\\');
+                    sb.bppend(c1);
                 }
             } else {
-                sb.append(c);
+                sb.bppend(c);
             }
         }
 
@@ -358,57 +358,57 @@ public class RFC2253Parser {
     }
 
     /**
-     * Method changeWStoRFC
+     * Method chbngeWStoRFC
      *
-     * @param string
-     * @return normalized string
+     * @pbrbm string
+     * @return normblized string
      */
-    static String changeWStoRFC(String string) {
+    stbtic String chbngeWStoRFC(String string) {
         StringBuilder sb = new StringBuilder();
         int i = 0;
         int k;
 
         for (int j = 0; (k = string.indexOf("\\20", j)) >= 0; j = k + 3) {
-            sb.append(trim(string.substring(i, k)) + "\\ ");
+            sb.bppend(trim(string.substring(i, k)) + "\\ ");
 
             i = k + 3;
         }
 
-        sb.append(string.substring(i));
+        sb.bppend(string.substring(i));
 
         return sb.toString();
     }
 
     /**
-     * Method semicolonToComma
+     * Method semicolonToCommb
      *
-     * @param str
-     * @return normalized string
+     * @pbrbm str
+     * @return normblized string
      */
-    static String semicolonToComma(String str) {
-        return removeWSandReplace(str, ";", ",");
+    stbtic String semicolonToCommb(String str) {
+        return removeWSbndReplbce(str, ";", ",");
     }
 
     /**
-     * Method removeWhiteSpace
+     * Method removeWhiteSpbce
      *
-     * @param str
-     * @param symbol
-     * @return normalized string
+     * @pbrbm str
+     * @pbrbm symbol
+     * @return normblized string
      */
-    static String removeWhiteSpace(String str, String symbol) {
-        return removeWSandReplace(str, symbol, symbol);
+    stbtic String removeWhiteSpbce(String str, String symbol) {
+        return removeWSbndReplbce(str, symbol, symbol);
     }
 
     /**
-     * Method removeWSandReplace
+     * Method removeWSbndReplbce
      *
-     * @param str
-     * @param symbol
-     * @param replace
-     * @return normalized string
+     * @pbrbm str
+     * @pbrbm symbol
+     * @pbrbm replbce
+     * @return normblized string
      */
-    static String removeWSandReplace(String str, String symbol, String replace) {
+    stbtic String removeWSbndReplbce(String str, String symbol, String replbce) {
         StringBuilder sb = new StringBuilder();
         int i = 0;
         int l = 0;
@@ -417,32 +417,32 @@ public class RFC2253Parser {
         for (int j = 0; (k = str.indexOf(symbol, j)) >= 0; j = k + 1) {
             l += countQuotes(str, j, k);
 
-            if ((k > 0) && (str.charAt(k - 1) != '\\') && (l % 2) == 0) {
-                sb.append(trim(str.substring(i, k)) + replace);
+            if ((k > 0) && (str.chbrAt(k - 1) != '\\') && (l % 2) == 0) {
+                sb.bppend(trim(str.substring(i, k)) + replbce);
 
                 i = k + 1;
                 l = 0;
             }
         }
 
-        sb.append(trim(str.substring(i)));
+        sb.bppend(trim(str.substring(i)));
 
         return sb.toString();
     }
 
     /**
-     * Returns the number of Quotation from i to j
+     * Returns the number of Quotbtion from i to j
      *
-     * @param s
-     * @param i
-     * @param j
+     * @pbrbm s
+     * @pbrbm i
+     * @pbrbm j
      * @return number of quotes
      */
-    private static int countQuotes(String s, int i, int j) {
+    privbte stbtic int countQuotes(String s, int i, int j) {
         int k = 0;
 
         for (int l = i; l < j; l++) {
-            if (s.charAt(l) == '"') {
+            if (s.chbrAt(l) == '"') {
                 k++;
             }
         }
@@ -450,21 +450,21 @@ public class RFC2253Parser {
         return k;
     }
 
-    //only for the end of a space character occurring at the end of the string from rfc2253
+    //only for the end of b spbce chbrbcter occurring bt the end of the string from rfc2253
 
     /**
      * Method trim
      *
-     * @param str
+     * @pbrbm str
      * @return the string
      */
-    static String trim(String str) {
+    stbtic String trim(String str) {
 
         String trimed = str.trim();
         int i = str.indexOf(trimed) + trimed.length();
 
         if ((str.length() > i) && trimed.endsWith("\\")
-            && !trimed.endsWith("\\\\") && (str.charAt(i) == ' ')) {
+            && !trimed.endsWith("\\\\") && (str.chbrAt(i) == ' ')) {
             trimed = trimed + " ";
         }
 

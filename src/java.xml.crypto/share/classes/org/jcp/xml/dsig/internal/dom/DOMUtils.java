@@ -3,59 +3,59 @@
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Licensed to the Apbche Softwbre Foundbtion (ASF) under one
+ * or more contributor license bgreements. See the NOTICE file
+ * distributed with this work for bdditionbl informbtion
+ * regbrding copyright ownership. The ASF licenses this file
+ * to you under the Apbche License, Version 2.0 (the
+ * "License"); you mby not use this file except in complibnce
+ * with the License. You mby obtbin b copy of the License bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.bpbche.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unless required by bpplicbble lbw or bgreed to in writing,
+ * softwbre distributed under the License is distributed on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
+ * specific lbngubge governing permissions bnd limitbtions
  * under the License.
  */
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  */
 /*
- * $Id: DOMUtils.java 1333415 2012-05-03 12:03:51Z coheigea $
+ * $Id: DOMUtils.jbvb 1333415 2012-05-03 12:03:51Z coheigeb $
  */
-package org.jcp.xml.dsig.internal.dom;
+pbckbge org.jcp.xml.dsig.internbl.dom;
 
-import java.util.*;
-import java.security.spec.AlgorithmParameterSpec;
+import jbvb.util.*;
+import jbvb.security.spec.AlgorithmPbrbmeterSpec;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import javax.xml.crypto.*;
-import javax.xml.crypto.dsig.*;
-import javax.xml.crypto.dsig.spec.*;
+import jbvbx.xml.crypto.*;
+import jbvbx.xml.crypto.dsig.*;
+import jbvbx.xml.crypto.dsig.spec.*;
 
 /**
- * Useful static DOM utility methods.
+ * Useful stbtic DOM utility methods.
  *
- * @author Sean Mullan
+ * @buthor Sebn Mullbn
  */
-public class DOMUtils {
+public clbss DOMUtils {
 
-    // class cannot be instantiated
-    private DOMUtils() {}
+    // clbss cbnnot be instbntibted
+    privbte DOMUtils() {}
 
     /**
      * Returns the owner document of the specified node.
      *
-     * @param node the node
+     * @pbrbm node the node
      * @return the owner document
      */
-    public static Document getOwnerDocument(Node node) {
+    public stbtic Document getOwnerDocument(Node node) {
         if (node.getNodeType() == Node.DOCUMENT_NODE) {
             return (Document)node;
         } else {
@@ -64,66 +64,66 @@ public class DOMUtils {
     }
 
     /**
-     * Creates an element in the specified namespace, with the specified tag
-     * and namespace prefix.
+     * Crebtes bn element in the specified nbmespbce, with the specified tbg
+     * bnd nbmespbce prefix.
      *
-     * @param doc the owner document
-     * @param tag the tag
-     * @param nsURI the namespace URI
-     * @param prefix the namespace prefix
-     * @return the newly created element
+     * @pbrbm doc the owner document
+     * @pbrbm tbg the tbg
+     * @pbrbm nsURI the nbmespbce URI
+     * @pbrbm prefix the nbmespbce prefix
+     * @return the newly crebted element
      */
-    public static Element createElement(Document doc, String tag,
+    public stbtic Element crebteElement(Document doc, String tbg,
                                         String nsURI, String prefix)
     {
-        String qName = (prefix == null || prefix.length() == 0)
-                       ? tag : prefix + ":" + tag;
-        return doc.createElementNS(nsURI, qName);
+        String qNbme = (prefix == null || prefix.length() == 0)
+                       ? tbg : prefix + ":" + tbg;
+        return doc.crebteElementNS(nsURI, qNbme);
     }
 
     /**
-     * Sets an element's attribute (using DOM level 2) with the
-     * specified value and namespace prefix.
+     * Sets bn element's bttribute (using DOM level 2) with the
+     * specified vblue bnd nbmespbce prefix.
      *
-     * @param elem the element to set the attribute on
-     * @param name the name of the attribute
-     * @param value the attribute value. If null, no attribute is set.
+     * @pbrbm elem the element to set the bttribute on
+     * @pbrbm nbme the nbme of the bttribute
+     * @pbrbm vblue the bttribute vblue. If null, no bttribute is set.
      */
-    public static void setAttribute(Element elem, String name, String value) {
-        if (value == null) {
+    public stbtic void setAttribute(Element elem, String nbme, String vblue) {
+        if (vblue == null) {
             return;
         }
-        elem.setAttributeNS(null, name, value);
+        elem.setAttributeNS(null, nbme, vblue);
     }
 
     /**
-     * Sets an element's attribute (using DOM level 2) with the
-     * specified value and namespace prefix AND registers the ID value with
-     * the specified element. This is for resolving same-document
+     * Sets bn element's bttribute (using DOM level 2) with the
+     * specified vblue bnd nbmespbce prefix AND registers the ID vblue with
+     * the specified element. This is for resolving sbme-document
      * ID references.
      *
-     * @param elem the element to set the attribute on
-     * @param name the name of the attribute
-     * @param value the attribute value. If null, no attribute is set.
+     * @pbrbm elem the element to set the bttribute on
+     * @pbrbm nbme the nbme of the bttribute
+     * @pbrbm vblue the bttribute vblue. If null, no bttribute is set.
      */
-    public static void setAttributeID(Element elem, String name, String value) {
-        if (value == null) {
+    public stbtic void setAttributeID(Element elem, String nbme, String vblue) {
+        if (vblue == null) {
             return;
         }
-        elem.setAttributeNS(null, name, value);
-        elem.setIdAttributeNS(null, name, true);
+        elem.setAttributeNS(null, nbme, vblue);
+        elem.setIdAttributeNS(null, nbme, true);
     }
 
     /**
      * Returns the first child element of the specified node, or null if there
      * is no such element.
      *
-     * @param node the node
+     * @pbrbm node the node
      * @return the first child element of the specified node, or null if there
      *    is no such element
      * @throws NullPointerException if <code>node == null</code>
      */
-    public static Element getFirstChildElement(Node node) {
+    public stbtic Element getFirstChildElement(Node node) {
         Node child = node.getFirstChild();
         while (child != null && child.getNodeType() != Node.ELEMENT_NODE) {
             child = child.getNextSibling();
@@ -132,46 +132,46 @@ public class DOMUtils {
     }
 
     /**
-     * Returns the first child element of the specified node and checks that
-     * the local name is equal to {@code localName}.
+     * Returns the first child element of the specified node bnd checks thbt
+     * the locbl nbme is equbl to {@code locblNbme}.
      *
-     * @param node the node
+     * @pbrbm node the node
      * @return the first child element of the specified node
      * @throws NullPointerException if {@code node == null}
-     * @throws MarshalException if no such element or the local name is not
-     *    equal to {@code localName}
+     * @throws MbrshblException if no such element or the locbl nbme is not
+     *    equbl to {@code locblNbme}
      */
-    public static Element getFirstChildElement(Node node, String localName)
-        throws MarshalException
+    public stbtic Element getFirstChildElement(Node node, String locblNbme)
+        throws MbrshblException
     {
-        return verifyElement(getFirstChildElement(node), localName);
+        return verifyElement(getFirstChildElement(node), locblNbme);
     }
 
-    private static Element verifyElement(Element elem, String localName)
-        throws MarshalException
+    privbte stbtic Element verifyElement(Element elem, String locblNbme)
+        throws MbrshblException
     {
         if (elem == null) {
-            throw new MarshalException("Missing " + localName + " element");
+            throw new MbrshblException("Missing " + locblNbme + " element");
         }
-        String name = elem.getLocalName();
-        if (!name.equals(localName)) {
-            throw new MarshalException("Invalid element name: " +
-                                       name + ", expected " + localName);
+        String nbme = elem.getLocblNbme();
+        if (!nbme.equbls(locblNbme)) {
+            throw new MbrshblException("Invblid element nbme: " +
+                                       nbme + ", expected " + locblNbme);
         }
         return elem;
     }
 
     /**
-     * Returns the last child element of the specified node, or null if there
+     * Returns the lbst child element of the specified node, or null if there
      * is no such element.
      *
-     * @param node the node
-     * @return the last child element of the specified node, or null if there
+     * @pbrbm node the node
+     * @return the lbst child element of the specified node, or null if there
      *    is no such element
      * @throws NullPointerException if <code>node == null</code>
      */
-    public static Element getLastChildElement(Node node) {
-        Node child = node.getLastChild();
+    public stbtic Element getLbstChildElement(Node node) {
+        Node child = node.getLbstChild();
         while (child != null && child.getNodeType() != Node.ELEMENT_NODE) {
             child = child.getPreviousSibling();
         }
@@ -182,12 +182,12 @@ public class DOMUtils {
      * Returns the next sibling element of the specified node, or null if there
      * is no such element.
      *
-     * @param node the node
+     * @pbrbm node the node
      * @return the next sibling element of the specified node, or null if there
      *    is no such element
      * @throws NullPointerException if <code>node == null</code>
      */
-    public static Element getNextSiblingElement(Node node) {
+    public stbtic Element getNextSiblingElement(Node node) {
         Node sibling = node.getNextSibling();
         while (sibling != null && sibling.getNodeType() != Node.ELEMENT_NODE) {
             sibling = sibling.getNextSibling();
@@ -196,112 +196,112 @@ public class DOMUtils {
     }
 
     /**
-     * Returns the next sibling element of the specified node and checks that
-     * the local name is equal to {@code localName}.
+     * Returns the next sibling element of the specified node bnd checks thbt
+     * the locbl nbme is equbl to {@code locblNbme}.
      *
-     * @param node the node
+     * @pbrbm node the node
      * @return the next sibling element of the specified node
      * @throws NullPointerException if {@code node == null}
-     * @throws MarshalException if no such element or the local name is not
-     *    equal to {@code localName}
+     * @throws MbrshblException if no such element or the locbl nbme is not
+     *    equbl to {@code locblNbme}
      */
-    public static Element getNextSiblingElement(Node node, String localName)
-        throws MarshalException
+    public stbtic Element getNextSiblingElement(Node node, String locblNbme)
+        throws MbrshblException
     {
-        return verifyElement(getNextSiblingElement(node), localName);
+        return verifyElement(getNextSiblingElement(node), locblNbme);
     }
 
     /**
-     * Returns the attribute value for the attribute with the specified name.
-     * Returns null if there is no such attribute, or
-     * the empty string if the attribute value is empty.
+     * Returns the bttribute vblue for the bttribute with the specified nbme.
+     * Returns null if there is no such bttribute, or
+     * the empty string if the bttribute vblue is empty.
      *
-     * <p>This works around a limitation of the DOM
+     * <p>This works bround b limitbtion of the DOM
      * <code>Element.getAttributeNode</code> method, which does not distinguish
-     * between an unspecified attribute and an attribute with a value of
-     * "" (it returns "" for both cases).
+     * between bn unspecified bttribute bnd bn bttribute with b vblue of
+     * "" (it returns "" for both cbses).
      *
-     * @param elem the element containing the attribute
-     * @param name the name of the attribute
-     * @return the attribute value (may be null if unspecified)
+     * @pbrbm elem the element contbining the bttribute
+     * @pbrbm nbme the nbme of the bttribute
+     * @return the bttribute vblue (mby be null if unspecified)
      */
-    public static String getAttributeValue(Element elem, String name) {
-        Attr attr = elem.getAttributeNodeNS(null, name);
-        return (attr == null) ? null : attr.getValue();
+    public stbtic String getAttributeVblue(Element elem, String nbme) {
+        Attr bttr = elem.getAttributeNodeNS(null, nbme);
+        return (bttr == null) ? null : bttr.getVblue();
     }
 
     /**
-     * Returns a Set of <code>Node</code>s, backed by the specified
+     * Returns b Set of <code>Node</code>s, bbcked by the specified
      * <code>NodeList</code>.
      *
-     * @param nl the NodeList
-     * @return a Set of Nodes
+     * @pbrbm nl the NodeList
+     * @return b Set of Nodes
      */
-    public static Set<Node> nodeSet(NodeList nl) {
+    public stbtic Set<Node> nodeSet(NodeList nl) {
         return new NodeSet(nl);
     }
 
-    static class NodeSet extends AbstractSet<Node> {
-        private NodeList nl;
+    stbtic clbss NodeSet extends AbstrbctSet<Node> {
+        privbte NodeList nl;
         public NodeSet(NodeList nl) {
             this.nl = nl;
         }
 
         public int size() { return nl.getLength(); }
-        public Iterator<Node> iterator() {
-            return new Iterator<Node>() {
+        public Iterbtor<Node> iterbtor() {
+            return new Iterbtor<Node>() {
                 int index = 0;
 
                 public void remove() {
-                    throw new UnsupportedOperationException();
+                    throw new UnsupportedOperbtionException();
                 }
                 public Node next() {
-                    if (!hasNext()) {
+                    if (!hbsNext()) {
                         throw new NoSuchElementException();
                     }
                     return nl.item(index++);
                 }
-                public boolean hasNext() {
-                    return index < nl.getLength() ? true : false;
+                public boolebn hbsNext() {
+                    return index < nl.getLength() ? true : fblse;
                 }
             };
         }
     }
 
     /**
-     * Returns the prefix associated with the specified namespace URI
+     * Returns the prefix bssocibted with the specified nbmespbce URI
      *
-     * @param context contains the namespace map
-     * @param nsURI the namespace URI
-     * @return the prefix associated with the specified namespace URI, or
+     * @pbrbm context contbins the nbmespbce mbp
+     * @pbrbm nsURI the nbmespbce URI
+     * @return the prefix bssocibted with the specified nbmespbce URI, or
      *    null if not set
      */
-    public static String getNSPrefix(XMLCryptoContext context, String nsURI) {
+    public stbtic String getNSPrefix(XMLCryptoContext context, String nsURI) {
         if (context != null) {
-            return context.getNamespacePrefix
-                (nsURI, context.getDefaultNamespacePrefix());
+            return context.getNbmespbcePrefix
+                (nsURI, context.getDefbultNbmespbcePrefix());
         } else {
             return null;
         }
     }
 
     /**
-     * Returns the prefix associated with the XML Signature namespace URI
+     * Returns the prefix bssocibted with the XML Signbture nbmespbce URI
      *
-     * @param context contains the namespace map
-     * @return the prefix associated with the specified namespace URI, or
+     * @pbrbm context contbins the nbmespbce mbp
+     * @return the prefix bssocibted with the specified nbmespbce URI, or
      *    null if not set
      */
-    public static String getSignaturePrefix(XMLCryptoContext context) {
-        return getNSPrefix(context, XMLSignature.XMLNS);
+    public stbtic String getSignbturePrefix(XMLCryptoContext context) {
+        return getNSPrefix(context, XMLSignbture.XMLNS);
     }
 
     /**
-     * Removes all children nodes from the specified node.
+     * Removes bll children nodes from the specified node.
      *
-     * @param node the parent node whose children are to be removed
+     * @pbrbm node the pbrent node whose children bre to be removed
      */
-    public static void removeAllChildren(Node node) {
+    public stbtic void removeAllChildren(Node node) {
         NodeList children = node.getChildNodes();
         for (int i = 0, length = children.getLength(); i < length; i++) {
             node.removeChild(children.item(i));
@@ -309,110 +309,110 @@ public class DOMUtils {
     }
 
     /**
-     * Compares 2 nodes for equality. Implementation is not complete.
+     * Compbres 2 nodes for equblity. Implementbtion is not complete.
      */
-    public static boolean nodesEqual(Node thisNode, Node otherNode) {
+    public stbtic boolebn nodesEqubl(Node thisNode, Node otherNode) {
         if (thisNode == otherNode) {
             return true;
         }
         if (thisNode.getNodeType() != otherNode.getNodeType()) {
-            return false;
+            return fblse;
         }
         // FIXME - test content, etc
         return true;
     }
 
     /**
-     * Checks if child element has same owner document before
-     * appending to the parent, and imports it to the parent's document
-     * if necessary.
+     * Checks if child element hbs sbme owner document before
+     * bppending to the pbrent, bnd imports it to the pbrent's document
+     * if necessbry.
      */
-    public static void appendChild(Node parent, Node child) {
-        Document ownerDoc = getOwnerDocument(parent);
+    public stbtic void bppendChild(Node pbrent, Node child) {
+        Document ownerDoc = getOwnerDocument(pbrent);
         if (child.getOwnerDocument() != ownerDoc) {
-            parent.appendChild(ownerDoc.importNode(child, true));
+            pbrent.bppendChild(ownerDoc.importNode(child, true));
         } else {
-            parent.appendChild(child);
+            pbrent.bppendChild(child);
         }
     }
 
-    public static boolean paramsEqual(AlgorithmParameterSpec spec1,
-        AlgorithmParameterSpec spec2) {
+    public stbtic boolebn pbrbmsEqubl(AlgorithmPbrbmeterSpec spec1,
+        AlgorithmPbrbmeterSpec spec2) {
         if (spec1 == spec2) {
             return true;
         }
-        if (spec1 instanceof XPathFilter2ParameterSpec &&
-            spec2 instanceof XPathFilter2ParameterSpec) {
-            return paramsEqual((XPathFilter2ParameterSpec)spec1,
-                               (XPathFilter2ParameterSpec)spec2);
+        if (spec1 instbnceof XPbthFilter2PbrbmeterSpec &&
+            spec2 instbnceof XPbthFilter2PbrbmeterSpec) {
+            return pbrbmsEqubl((XPbthFilter2PbrbmeterSpec)spec1,
+                               (XPbthFilter2PbrbmeterSpec)spec2);
         }
-        if (spec1 instanceof ExcC14NParameterSpec &&
-            spec2 instanceof ExcC14NParameterSpec) {
-            return paramsEqual((ExcC14NParameterSpec) spec1,
-                               (ExcC14NParameterSpec)spec2);
+        if (spec1 instbnceof ExcC14NPbrbmeterSpec &&
+            spec2 instbnceof ExcC14NPbrbmeterSpec) {
+            return pbrbmsEqubl((ExcC14NPbrbmeterSpec) spec1,
+                               (ExcC14NPbrbmeterSpec)spec2);
         }
-        if (spec1 instanceof XPathFilterParameterSpec &&
-            spec2 instanceof XPathFilterParameterSpec) {
-            return paramsEqual((XPathFilterParameterSpec)spec1,
-                               (XPathFilterParameterSpec)spec2);
+        if (spec1 instbnceof XPbthFilterPbrbmeterSpec &&
+            spec2 instbnceof XPbthFilterPbrbmeterSpec) {
+            return pbrbmsEqubl((XPbthFilterPbrbmeterSpec)spec1,
+                               (XPbthFilterPbrbmeterSpec)spec2);
         }
-        if (spec1 instanceof XSLTTransformParameterSpec &&
-            spec2 instanceof XSLTTransformParameterSpec) {
-            return paramsEqual((XSLTTransformParameterSpec)spec1,
-                               (XSLTTransformParameterSpec)spec2);
+        if (spec1 instbnceof XSLTTrbnsformPbrbmeterSpec &&
+            spec2 instbnceof XSLTTrbnsformPbrbmeterSpec) {
+            return pbrbmsEqubl((XSLTTrbnsformPbrbmeterSpec)spec1,
+                               (XSLTTrbnsformPbrbmeterSpec)spec2);
         }
-        return false;
+        return fblse;
     }
 
-    private static boolean paramsEqual(XPathFilter2ParameterSpec spec1,
-                                       XPathFilter2ParameterSpec spec2)
+    privbte stbtic boolebn pbrbmsEqubl(XPbthFilter2PbrbmeterSpec spec1,
+                                       XPbthFilter2PbrbmeterSpec spec2)
     {
-        @SuppressWarnings("unchecked")
-        List<XPathType> types = spec1.getXPathList();
-        @SuppressWarnings("unchecked")
-        List<XPathType> otypes = spec2.getXPathList();
+        @SuppressWbrnings("unchecked")
+        List<XPbthType> types = spec1.getXPbthList();
+        @SuppressWbrnings("unchecked")
+        List<XPbthType> otypes = spec2.getXPbthList();
         int size = types.size();
         if (size != otypes.size()) {
-            return false;
+            return fblse;
         }
         for (int i = 0; i < size; i++) {
-            XPathType type = types.get(i);
-            XPathType otype = otypes.get(i);
-            if (!type.getExpression().equals(otype.getExpression()) ||
-                !type.getNamespaceMap().equals(otype.getNamespaceMap()) ||
+            XPbthType type = types.get(i);
+            XPbthType otype = otypes.get(i);
+            if (!type.getExpression().equbls(otype.getExpression()) ||
+                !type.getNbmespbceMbp().equbls(otype.getNbmespbceMbp()) ||
                 type.getFilter() != otype.getFilter()) {
-                return false;
+                return fblse;
             }
         }
         return true;
     }
 
-    private static boolean paramsEqual(ExcC14NParameterSpec spec1,
-                                       ExcC14NParameterSpec spec2)
+    privbte stbtic boolebn pbrbmsEqubl(ExcC14NPbrbmeterSpec spec1,
+                                       ExcC14NPbrbmeterSpec spec2)
     {
-        return spec1.getPrefixList().equals(spec2.getPrefixList());
+        return spec1.getPrefixList().equbls(spec2.getPrefixList());
     }
 
-    private static boolean paramsEqual(XPathFilterParameterSpec spec1,
-                                       XPathFilterParameterSpec spec2)
+    privbte stbtic boolebn pbrbmsEqubl(XPbthFilterPbrbmeterSpec spec1,
+                                       XPbthFilterPbrbmeterSpec spec2)
     {
-        return (spec1.getXPath().equals(spec2.getXPath()) &&
-                spec1.getNamespaceMap().equals(spec2.getNamespaceMap()));
+        return (spec1.getXPbth().equbls(spec2.getXPbth()) &&
+                spec1.getNbmespbceMbp().equbls(spec2.getNbmespbceMbp()));
     }
 
-    private static boolean paramsEqual(XSLTTransformParameterSpec spec1,
-                                       XSLTTransformParameterSpec spec2)
+    privbte stbtic boolebn pbrbmsEqubl(XSLTTrbnsformPbrbmeterSpec spec1,
+                                       XSLTTrbnsformPbrbmeterSpec spec2)
     {
 
         XMLStructure ostylesheet = spec2.getStylesheet();
-        if (!(ostylesheet instanceof javax.xml.crypto.dom.DOMStructure)) {
-            return false;
+        if (!(ostylesheet instbnceof jbvbx.xml.crypto.dom.DOMStructure)) {
+            return fblse;
         }
         Node ostylesheetElem =
-            ((javax.xml.crypto.dom.DOMStructure) ostylesheet).getNode();
+            ((jbvbx.xml.crypto.dom.DOMStructure) ostylesheet).getNode();
         XMLStructure stylesheet = spec1.getStylesheet();
         Node stylesheetElem =
-            ((javax.xml.crypto.dom.DOMStructure) stylesheet).getNode();
-        return nodesEqual(stylesheetElem, ostylesheetElem);
+            ((jbvbx.xml.crypto.dom.DOMStructure) stylesheet).getNode();
+        return nodesEqubl(stylesheetElem, ostylesheetElem);
     }
 }

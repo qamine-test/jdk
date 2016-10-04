@@ -1,188 +1,188 @@
 /*
- * Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.java2d.d3d;
+pbckbge sun.jbvb2d.d3d;
 
-import java.lang.annotation.Native;
-import sun.java2d.pipe.BufferedContext;
-import sun.java2d.pipe.RenderBuffer;
-import sun.java2d.pipe.RenderQueue;
-import sun.java2d.pipe.hw.ContextCapabilities;
-import static sun.java2d.pipe.BufferedOpCodes.*;
-import static sun.java2d.pipe.hw.ContextCapabilities.*;
-import static sun.java2d.d3d.D3DContext.D3DContextCaps.*;
+import jbvb.lbng.bnnotbtion.Nbtive;
+import sun.jbvb2d.pipe.BufferedContext;
+import sun.jbvb2d.pipe.RenderBuffer;
+import sun.jbvb2d.pipe.RenderQueue;
+import sun.jbvb2d.pipe.hw.ContextCbpbbilities;
+import stbtic sun.jbvb2d.pipe.BufferedOpCodes.*;
+import stbtic sun.jbvb2d.pipe.hw.ContextCbpbbilities.*;
+import stbtic sun.jbvb2d.d3d.D3DContext.D3DContextCbps.*;
 
 /**
- * Note that the RenderQueue lock must be acquired before calling any of
- * the methods in this class.
+ * Note thbt the RenderQueue lock must be bcquired before cblling bny of
+ * the methods in this clbss.
  */
-class D3DContext extends BufferedContext {
+clbss D3DContext extends BufferedContext {
 
-    private final D3DGraphicsDevice device;
+    privbte finbl D3DGrbphicsDevice device;
 
-    D3DContext(RenderQueue rq, D3DGraphicsDevice device) {
+    D3DContext(RenderQueue rq, D3DGrbphicsDevice device) {
         super(rq);
         this.device = device;
     }
 
     /**
-     * Invalidates the currentContext field to ensure that we properly
-     * revalidate the D3DContext (make it current, etc.) next time through
-     * the validate() method.  This is typically invoked from methods
-     * that affect the current context state (e.g. disposing a context or
-     * surface).
+     * Invblidbtes the currentContext field to ensure thbt we properly
+     * revblidbte the D3DContext (mbke it current, etc.) next time through
+     * the vblidbte() method.  This is typicblly invoked from methods
+     * thbt bffect the current context stbte (e.g. disposing b context or
+     * surfbce).
      */
-    static void invalidateCurrentContext() {
-        // assert D3DRenderQueue.getInstance().lock.isHeldByCurrentThread();
+    stbtic void invblidbteCurrentContext() {
+        // bssert D3DRenderQueue.getInstbnce().lock.isHeldByCurrentThrebd();
 
-        // invalidate the current Java-level context so that we
-        // revalidate everything the next time around
+        // invblidbte the current Jbvb-level context so thbt we
+        // revblidbte everything the next time bround
         if (currentContext != null) {
-            currentContext.invalidateContext();
+            currentContext.invblidbteContext();
             currentContext = null;
         }
 
-        // invalidate the context reference at the native level, and
-        // then flush the queue so that we have no pending operations
+        // invblidbte the context reference bt the nbtive level, bnd
+        // then flush the queue so thbt we hbve no pending operbtions
         // dependent on the current context
-        D3DRenderQueue rq = D3DRenderQueue.getInstance();
-        rq.ensureCapacity(4);
+        D3DRenderQueue rq = D3DRenderQueue.getInstbnce();
+        rq.ensureCbpbcity(4);
         rq.getBuffer().putInt(INVALIDATE_CONTEXT);
         rq.flushNow();
     }
 
     /**
-     * Sets the current context on the native level to be the one passed as
-     * the argument.
-     * If the context is not the same as the defaultContext the latter
+     * Sets the current context on the nbtive level to be the one pbssed bs
+     * the brgument.
+     * If the context is not the sbme bs the defbultContext the lbtter
      * will be reset to null.
      *
-     * This call is needed when copying from a SW surface to a Texture
-     * (the upload test) or copying from d3d to SW surface to make sure we
-     * have the correct current context.
+     * This cbll is needed when copying from b SW surfbce to b Texture
+     * (the uplobd test) or copying from d3d to SW surfbce to mbke sure we
+     * hbve the correct current context.
      *
-     * @param d3dc the context to be made current on the native level
+     * @pbrbm d3dc the context to be mbde current on the nbtive level
      */
-    static void setScratchSurface(D3DContext d3dc) {
-        // assert D3DRenderQueue.getInstance().lock.isHeldByCurrentThread();
+    stbtic void setScrbtchSurfbce(D3DContext d3dc) {
+        // bssert D3DRenderQueue.getInstbnce().lock.isHeldByCurrentThrebd();
 
-        // invalidate the current context
+        // invblidbte the current context
         if (d3dc != currentContext) {
             currentContext = null;
         }
 
-        // set the scratch context
-        D3DRenderQueue rq = D3DRenderQueue.getInstance();
+        // set the scrbtch context
+        D3DRenderQueue rq = D3DRenderQueue.getInstbnce();
         RenderBuffer buf = rq.getBuffer();
-        rq.ensureCapacity(8);
+        rq.ensureCbpbcity(8);
         buf.putInt(SET_SCRATCH_SURFACE);
         buf.putInt(d3dc.getDevice().getScreen());
     }
 
     public RenderQueue getRenderQueue() {
-        return D3DRenderQueue.getInstance();
+        return D3DRenderQueue.getInstbnce();
     }
 
     @Override
-    public void saveState() {
-        // assert rq.lock.isHeldByCurrentThread();
+    public void sbveStbte() {
+        // bssert rq.lock.isHeldByCurrentThrebd();
 
-        // reset all attributes of this and current contexts
-        invalidateContext();
-        invalidateCurrentContext();
+        // reset bll bttributes of this bnd current contexts
+        invblidbteContext();
+        invblidbteCurrentContext();
 
-        setScratchSurface(this);
+        setScrbtchSurfbce(this);
 
-        // save the state on the native level
-        rq.ensureCapacity(4);
+        // sbve the stbte on the nbtive level
+        rq.ensureCbpbcity(4);
         buf.putInt(SAVE_STATE);
         rq.flushNow();
     }
 
     @Override
-    public void restoreState() {
-        // assert rq.lock.isHeldByCurrentThread();
+    public void restoreStbte() {
+        // bssert rq.lock.isHeldByCurrentThrebd();
 
-        // reset all attributes of this and current contexts
-        invalidateContext();
-        invalidateCurrentContext();
+        // reset bll bttributes of this bnd current contexts
+        invblidbteContext();
+        invblidbteCurrentContext();
 
-        setScratchSurface(this);
+        setScrbtchSurfbce(this);
 
-        // restore the state on the native level
-        rq.ensureCapacity(4);
+        // restore the stbte on the nbtive level
+        rq.ensureCbpbcity(4);
         buf.putInt(RESTORE_STATE);
         rq.flushNow();
     }
 
-    D3DGraphicsDevice getDevice() {
+    D3DGrbphicsDevice getDevice() {
         return device;
     }
 
-    static class D3DContextCaps extends ContextCapabilities {
+    stbtic clbss D3DContextCbps extends ContextCbpbbilities {
         /**
-         * Indicates the presence of pixel shaders (v2.0 or greater).
-         * This cap will only be set if the hardware supports the minimum number
+         * Indicbtes the presence of pixel shbders (v2.0 or grebter).
+         * This cbp will only be set if the hbrdwbre supports the minimum number
          * of texture units.
          */
-    @Native static final int CAPS_LCD_SHADER       = (FIRST_PRIVATE_CAP << 0);
+    @Nbtive stbtic finbl int CAPS_LCD_SHADER       = (FIRST_PRIVATE_CAP << 0);
         /**
-         * Indicates the presence of pixel shaders (v2.0 or greater).
-         * This cap will only be set if the hardware meets our
+         * Indicbtes the presence of pixel shbders (v2.0 or grebter).
+         * This cbp will only be set if the hbrdwbre meets our
          * minimum requirements.
          */
-    @Native static final int CAPS_BIOP_SHADER      = (FIRST_PRIVATE_CAP << 1);
+    @Nbtive stbtic finbl int CAPS_BIOP_SHADER      = (FIRST_PRIVATE_CAP << 1);
         /**
-         * Indicates that the device was successfully initialized and can
-         * be safely used.
+         * Indicbtes thbt the device wbs successfully initiblized bnd cbn
+         * be sbfely used.
          */
-    @Native static final int CAPS_DEVICE_OK        = (FIRST_PRIVATE_CAP << 2);
+    @Nbtive stbtic finbl int CAPS_DEVICE_OK        = (FIRST_PRIVATE_CAP << 2);
         /**
-         * Indicates that the device has all of the necessary capabilities
-         * to support the Antialiasing Pixel Shader program.
+         * Indicbtes thbt the device hbs bll of the necessbry cbpbbilities
+         * to support the Antiblibsing Pixel Shbder progrbm.
          */
-    @Native static final int CAPS_AA_SHADER        = (FIRST_PRIVATE_CAP << 3);
+    @Nbtive stbtic finbl int CAPS_AA_SHADER        = (FIRST_PRIVATE_CAP << 3);
 
-        D3DContextCaps(int caps, String adapterId) {
-            super(caps, adapterId);
+        D3DContextCbps(int cbps, String bdbpterId) {
+            super(cbps, bdbpterId);
         }
 
         @Override
         public String toString() {
             StringBuffer buf = new StringBuffer(super.toString());
-            if ((caps & CAPS_LCD_SHADER) != 0) {
-                buf.append("CAPS_LCD_SHADER|");
+            if ((cbps & CAPS_LCD_SHADER) != 0) {
+                buf.bppend("CAPS_LCD_SHADER|");
             }
-            if ((caps & CAPS_BIOP_SHADER) != 0) {
-                buf.append("CAPS_BIOP_SHADER|");
+            if ((cbps & CAPS_BIOP_SHADER) != 0) {
+                buf.bppend("CAPS_BIOP_SHADER|");
             }
-            if ((caps & CAPS_AA_SHADER) != 0) {
-                buf.append("CAPS_AA_SHADER|");
+            if ((cbps & CAPS_AA_SHADER) != 0) {
+                buf.bppend("CAPS_AA_SHADER|");
             }
-            if ((caps & CAPS_DEVICE_OK) != 0) {
-                buf.append("CAPS_DEVICE_OK|");
+            if ((cbps & CAPS_DEVICE_OK) != 0) {
+                buf.bppend("CAPS_DEVICE_OK|");
             }
             return buf.toString();
         }

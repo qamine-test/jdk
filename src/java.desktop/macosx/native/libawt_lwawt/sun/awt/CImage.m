@@ -1,123 +1,123 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 #import "jni_util.h"
 
-#import <Cocoa/Cocoa.h>
-#import <JavaNativeFoundation/JavaNativeFoundation.h>
+#import <Cocob/Cocob.h>
+#import <JbvbNbtiveFoundbtion/JbvbNbtiveFoundbtion.h>
 
 #import "GeomUtilities.h"
-#import "ThreadUtilities.h"
+#import "ThrebdUtilities.h"
 
-#import "sun_lwawt_macosx_CImage.h"
+#import "sun_lwbwt_mbcosx_CImbge.h"
 
 
-static void CImage_CopyArrayIntoNSImageRep
+stbtic void CImbge_CopyArrbyIntoNSImbgeRep
 (jint *srcPixels, jint *dstPixels, int width, int height)
 {
     int x, y;
-    // TODO: test this on big endian systems (not sure if its correct)...
+    // TODO: test this on big endibn systems (not sure if its correct)...
     for (y = 0; y < height; y++) {
         for (x = 0; x < width; x++) {
             jint pix = srcPixels[x];
-            jint a = (pix >> 24) & 0xff;
+            jint b = (pix >> 24) & 0xff;
             jint r = (pix >> 16) & 0xff;
             jint g = (pix >>  8) & 0xff;
             jint b = (pix      ) & 0xff;
-            dstPixels[x] = (b << 24) | (g << 16) | (r << 8) | a;
+            dstPixels[x] = (b << 24) | (g << 16) | (r << 8) | b;
         }
-        srcPixels += width; // TODO: use explicit scanStride
+        srcPixels += width; // TODO: use explicit scbnStride
         dstPixels += width;
     }
 }
 
-static void CImage_CopyNSImageIntoArray
-(NSImage *srcImage, jint *dstPixels, NSRect fromRect, NSRect toRect)
+stbtic void CImbge_CopyNSImbgeIntoArrby
+(NSImbge *srcImbge, jint *dstPixels, NSRect fromRect, NSRect toRect)
 {
     int width = toRect.size.width;
     int height = toRect.size.height;
-    CGColorSpaceRef colorspace = CGColorSpaceCreateDeviceRGB();
-    CGContextRef cgRef = CGBitmapContextCreate(dstPixels, width, height,
-                                8, width * 4, colorspace,
-                                kCGImageAlphaPremultipliedFirst | kCGBitmapByteOrder32Host);
-    CGColorSpaceRelease(colorspace);
-    NSGraphicsContext *context = [NSGraphicsContext graphicsContextWithGraphicsPort:cgRef flipped:NO];
-    CGContextRelease(cgRef);
-    NSGraphicsContext *oldContext = [[NSGraphicsContext currentContext] retain];
-    [NSGraphicsContext setCurrentContext:context];
-    [srcImage drawInRect:toRect
+    CGColorSpbceRef colorspbce = CGColorSpbceCrebteDeviceRGB();
+    CGContextRef cgRef = CGBitmbpContextCrebte(dstPixels, width, height,
+                                8, width * 4, colorspbce,
+                                kCGImbgeAlphbPremultipliedFirst | kCGBitmbpByteOrder32Host);
+    CGColorSpbceRelebse(colorspbce);
+    NSGrbphicsContext *context = [NSGrbphicsContext grbphicsContextWithGrbphicsPort:cgRef flipped:NO];
+    CGContextRelebse(cgRef);
+    NSGrbphicsContext *oldContext = [[NSGrbphicsContext currentContext] retbin];
+    [NSGrbphicsContext setCurrentContext:context];
+    [srcImbge drbwInRect:toRect
                 fromRect:fromRect
-               operation:NSCompositeSourceOver
-                fraction:1.0];
-    [NSGraphicsContext setCurrentContext:oldContext];
-    [oldContext release];
+               operbtion:NSCompositeSourceOver
+                frbction:1.0];
+    [NSGrbphicsContext setCurrentContext:oldContext];
+    [oldContext relebse];
 }
 
-static NSBitmapImageRep* CImage_CreateImageRep(JNIEnv *env, jintArray buffer, jint width, jint height)
+stbtic NSBitmbpImbgeRep* CImbge_CrebteImbgeRep(JNIEnv *env, jintArrby buffer, jint width, jint height)
 {
-    NSBitmapImageRep* imageRep = [[[NSBitmapImageRep alloc] initWithBitmapDataPlanes:NULL
+    NSBitmbpImbgeRep* imbgeRep = [[[NSBitmbpImbgeRep blloc] initWithBitmbpDbtbPlbnes:NULL
                                                                           pixelsWide:width
                                                                           pixelsHigh:height
-                                                                       bitsPerSample:8
-                                                                     samplesPerPixel:4
-                                                                            hasAlpha:YES
-                                                                            isPlanar:NO
-                                                                      colorSpaceName:NSDeviceRGBColorSpace
-                                                                        bitmapFormat:NSAlphaFirstBitmapFormat
-                                                                         bytesPerRow:width*4 // TODO: use explicit scanStride
-                                                                        bitsPerPixel:32] autorelease];
+                                                                       bitsPerSbmple:8
+                                                                     sbmplesPerPixel:4
+                                                                            hbsAlphb:YES
+                                                                            isPlbnbr:NO
+                                                                      colorSpbceNbme:NSDeviceRGBColorSpbce
+                                                                        bitmbpFormbt:NSAlphbFirstBitmbpFormbt
+                                                                         bytesPerRow:width*4 // TODO: use explicit scbnStride
+                                                                        bitsPerPixel:32] butorelebse];
 
-    jint *imgData = (jint *)[imageRep bitmapData];
-    if (imgData == NULL) return 0L;
+    jint *imgDbtb = (jint *)[imbgeRep bitmbpDbtb];
+    if (imgDbtb == NULL) return 0L;
 
-    jint *src = (*env)->GetPrimitiveArrayCritical(env, buffer, NULL);
+    jint *src = (*env)->GetPrimitiveArrbyCriticbl(env, buffer, NULL);
     if (src == NULL) return 0L;
 
-    CImage_CopyArrayIntoNSImageRep(src, imgData, width, height);
+    CImbge_CopyArrbyIntoNSImbgeRep(src, imgDbtb, width, height);
 
-    (*env)->ReleasePrimitiveArrayCritical(env, buffer, src, JNI_ABORT);
+    (*env)->RelebsePrimitiveArrbyCriticbl(env, buffer, src, JNI_ABORT);
 
-    return imageRep;
+    return imbgeRep;
 }
 
 /*
- * Class:     sun_lwawt_macosx_CImage
- * Method:    nativeCreateNSImageFromArray
- * Signature: ([III)J
+ * Clbss:     sun_lwbwt_mbcosx_CImbge
+ * Method:    nbtiveCrebteNSImbgeFromArrby
+ * Signbture: ([III)J
  */
-JNIEXPORT jlong JNICALL Java_sun_lwawt_macosx_CImage_nativeCreateNSImageFromArray
-(JNIEnv *env, jclass klass, jintArray buffer, jint width, jint height)
+JNIEXPORT jlong JNICALL Jbvb_sun_lwbwt_mbcosx_CImbge_nbtiveCrebteNSImbgeFromArrby
+(JNIEnv *env, jclbss klbss, jintArrby buffer, jint width, jint height)
 {
     jlong result = 0L;
 
 JNF_COCOA_ENTER(env);
     
-    NSBitmapImageRep* imageRep = CImage_CreateImageRep(env, buffer, width, height);
-    if (imageRep) {
-        NSImage *nsImage = [[NSImage alloc] initWithSize:NSMakeSize(width, height)];
-        [nsImage addRepresentation:imageRep];
-        result = ptr_to_jlong(nsImage);
+    NSBitmbpImbgeRep* imbgeRep = CImbge_CrebteImbgeRep(env, buffer, width, height);
+    if (imbgeRep) {
+        NSImbge *nsImbge = [[NSImbge blloc] initWithSize:NSMbkeSize(width, height)];
+        [nsImbge bddRepresentbtion:imbgeRep];
+        result = ptr_to_jlong(nsImbge);
     }
 
 JNF_COCOA_EXIT(env);
@@ -126,42 +126,42 @@ JNF_COCOA_EXIT(env);
 }
 
 /*
- * Class:     sun_lwawt_macosx_CImage
- * Method:    nativeCreateNSImageFromArrays
- * Signature: ([[I[I[I)J
+ * Clbss:     sun_lwbwt_mbcosx_CImbge
+ * Method:    nbtiveCrebteNSImbgeFromArrbys
+ * Signbture: ([[I[I[I)J
  */
-JNIEXPORT jlong JNICALL Java_sun_lwawt_macosx_CImage_nativeCreateNSImageFromArrays
-(JNIEnv *env, jclass klass, jobjectArray buffers, jintArray widths, jintArray heights)
+JNIEXPORT jlong JNICALL Jbvb_sun_lwbwt_mbcosx_CImbge_nbtiveCrebteNSImbgeFromArrbys
+(JNIEnv *env, jclbss klbss, jobjectArrby buffers, jintArrby widths, jintArrby heights)
 {
     jlong result = 0L;
 
 JNF_COCOA_ENTER(env);
 
-    jsize num = (*env)->GetArrayLength(env, buffers);
-    NSMutableArray * reps = [NSMutableArray arrayWithCapacity: num];
+    jsize num = (*env)->GetArrbyLength(env, buffers);
+    NSMutbbleArrby * reps = [NSMutbbleArrby brrbyWithCbpbcity: num];
 
-    jint * ws = (*env)->GetIntArrayElements(env, widths, NULL);
+    jint * ws = (*env)->GetIntArrbyElements(env, widths, NULL);
     if (ws != NULL) {
-        jint * hs = (*env)->GetIntArrayElements(env, heights, NULL);
+        jint * hs = (*env)->GetIntArrbyElements(env, heights, NULL);
         if (hs != NULL) {
             jsize i;
             for (i = 0; i < num; i++) {
-                jintArray buffer = (*env)->GetObjectArrayElement(env, buffers, i);
+                jintArrby buffer = (*env)->GetObjectArrbyElement(env, buffers, i);
 
-                NSBitmapImageRep* imageRep = CImage_CreateImageRep(env, buffer, ws[i], hs[i]);
-                if (imageRep) {
-                    [reps addObject: imageRep];
+                NSBitmbpImbgeRep* imbgeRep = CImbge_CrebteImbgeRep(env, buffer, ws[i], hs[i]);
+                if (imbgeRep) {
+                    [reps bddObject: imbgeRep];
                 }
             }
 
-            (*env)->ReleaseIntArrayElements(env, heights, hs, JNI_ABORT);
+            (*env)->RelebseIntArrbyElements(env, heights, hs, JNI_ABORT);
         }
-        (*env)->ReleaseIntArrayElements(env, widths, ws, JNI_ABORT);
+        (*env)->RelebseIntArrbyElements(env, widths, ws, JNI_ABORT);
     }
     if ([reps count]) {
-        NSImage *nsImage = [[NSImage alloc] initWithSize:NSMakeSize(0, 0)];
-        [nsImage addRepresentations: reps];
-        result = ptr_to_jlong(nsImage);
+        NSImbge *nsImbge = [[NSImbge blloc] initWithSize:NSMbkeSize(0, 0)];
+        [nsImbge bddRepresentbtions: reps];
+        result = ptr_to_jlong(nsImbge);
     }
 
 JNF_COCOA_EXIT(env);
@@ -170,126 +170,126 @@ JNF_COCOA_EXIT(env);
 }
 
 /*
- * Class:     sun_lwawt_macosx_CImage
- * Method:    nativeCreateNSImageFromIconSelector
- * Signature: (I)J
+ * Clbss:     sun_lwbwt_mbcosx_CImbge
+ * Method:    nbtiveCrebteNSImbgeFromIconSelector
+ * Signbture: (I)J
  */
-JNIEXPORT jlong JNICALL Java_sun_lwawt_macosx_CImage_nativeCreateNSImageFromIconSelector
-(JNIEnv *env, jclass klass, jint selector)
+JNIEXPORT jlong JNICALL Jbvb_sun_lwbwt_mbcosx_CImbge_nbtiveCrebteNSImbgeFromIconSelector
+(JNIEnv *env, jclbss klbss, jint selector)
 {
-    NSImage *image = nil;
+    NSImbge *imbge = nil;
 
 JNF_COCOA_ENTER(env);
 
     IconRef iconRef;
-    if (noErr == GetIconRef(kOnSystemDisk, kSystemIconsCreator, selector, &iconRef)) {
-        image = [[NSImage alloc] initWithIconRef:iconRef];
-        ReleaseIconRef(iconRef);
+    if (noErr == GetIconRef(kOnSystemDisk, kSystemIconsCrebtor, selector, &iconRef)) {
+        imbge = [[NSImbge blloc] initWithIconRef:iconRef];
+        RelebseIconRef(iconRef);
     }
 
 JNF_COCOA_EXIT(env);
 
-    return ptr_to_jlong(image);
+    return ptr_to_jlong(imbge);
 }
 
 /*
- * Class:     sun_lwawt_macosx_CImage
- * Method:    nativeCreateNSImageFromFileContents
- * Signature: (Ljava/lang/String;)J
+ * Clbss:     sun_lwbwt_mbcosx_CImbge
+ * Method:    nbtiveCrebteNSImbgeFromFileContents
+ * Signbture: (Ljbvb/lbng/String;)J
  */
-JNIEXPORT jlong JNICALL Java_sun_lwawt_macosx_CImage_nativeCreateNSImageFromFileContents
-(JNIEnv *env, jclass klass, jstring file)
+JNIEXPORT jlong JNICALL Jbvb_sun_lwbwt_mbcosx_CImbge_nbtiveCrebteNSImbgeFromFileContents
+(JNIEnv *env, jclbss klbss, jstring file)
 {
-    NSImage *image = nil;
+    NSImbge *imbge = nil;
 
 JNF_COCOA_ENTER(env);
 
-    NSString *path = JNFNormalizedNSStringForPath(env, file);
-    image = [[NSImage alloc] initByReferencingFile:path];
+    NSString *pbth = JNFNormblizedNSStringForPbth(env, file);
+    imbge = [[NSImbge blloc] initByReferencingFile:pbth];
 
 JNF_COCOA_EXIT(env);
 
-    return ptr_to_jlong(image);
+    return ptr_to_jlong(imbge);
 }
 
 /*
- * Class:     sun_lwawt_macosx_CImage
- * Method:    nativeCreateNSImageOfFileFromLaunchServices
- * Signature: (Ljava/lang/String;)J
+ * Clbss:     sun_lwbwt_mbcosx_CImbge
+ * Method:    nbtiveCrebteNSImbgeOfFileFromLbunchServices
+ * Signbture: (Ljbvb/lbng/String;)J
  */
-JNIEXPORT jlong JNICALL Java_sun_lwawt_macosx_CImage_nativeCreateNSImageOfFileFromLaunchServices
-(JNIEnv *env, jclass klass, jstring file)
+JNIEXPORT jlong JNICALL Jbvb_sun_lwbwt_mbcosx_CImbge_nbtiveCrebteNSImbgeOfFileFromLbunchServices
+(JNIEnv *env, jclbss klbss, jstring file)
 {
-    __block NSImage *image = nil;
+    __block NSImbge *imbge = nil;
 
 JNF_COCOA_ENTER(env);
 
-    NSString *path = JNFNormalizedNSStringForPath(env, file);
-    [ThreadUtilities performOnMainThreadWaiting:YES block:^(){
-        image = [[[NSWorkspace sharedWorkspace] iconForFile:path] retain];
-        [image setScalesWhenResized:TRUE];
+    NSString *pbth = JNFNormblizedNSStringForPbth(env, file);
+    [ThrebdUtilities performOnMbinThrebdWbiting:YES block:^(){
+        imbge = [[[NSWorkspbce shbredWorkspbce] iconForFile:pbth] retbin];
+        [imbge setScblesWhenResized:TRUE];
     }];
 
 JNF_COCOA_EXIT(env);
 
-    return ptr_to_jlong(image);
+    return ptr_to_jlong(imbge);
 }
 
 /*
- * Class:     sun_lwawt_macosx_CImage
- * Method:    nativeCreateNSImageFromImageName
- * Signature: (Ljava/lang/String;)J
+ * Clbss:     sun_lwbwt_mbcosx_CImbge
+ * Method:    nbtiveCrebteNSImbgeFromImbgeNbme
+ * Signbture: (Ljbvb/lbng/String;)J
  */
-JNIEXPORT jlong JNICALL Java_sun_lwawt_macosx_CImage_nativeCreateNSImageFromImageName
-(JNIEnv *env, jclass klass, jstring name)
+JNIEXPORT jlong JNICALL Jbvb_sun_lwbwt_mbcosx_CImbge_nbtiveCrebteNSImbgeFromImbgeNbme
+(JNIEnv *env, jclbss klbss, jstring nbme)
 {
-    NSImage *image = nil;
+    NSImbge *imbge = nil;
 
 JNF_COCOA_ENTER(env);
 
-    image = [[NSImage imageNamed:JNFJavaToNSString(env, name)] retain];
+    imbge = [[NSImbge imbgeNbmed:JNFJbvbToNSString(env, nbme)] retbin];
 
 JNF_COCOA_EXIT(env);
 
-    return ptr_to_jlong(image);
+    return ptr_to_jlong(imbge);
 }
 
 /*
- * Class:     sun_lwawt_macosx_CImage
- * Method:    nativeCopyNSImageIntoArray
- * Signature: (J[IIIII)V
+ * Clbss:     sun_lwbwt_mbcosx_CImbge
+ * Method:    nbtiveCopyNSImbgeIntoArrby
+ * Signbture: (J[IIIII)V
  */
-JNIEXPORT void JNICALL Java_sun_lwawt_macosx_CImage_nativeCopyNSImageIntoArray
-(JNIEnv *env, jclass klass, jlong nsImgPtr, jintArray buffer, jint sw, jint sh,
+JNIEXPORT void JNICALL Jbvb_sun_lwbwt_mbcosx_CImbge_nbtiveCopyNSImbgeIntoArrby
+(JNIEnv *env, jclbss klbss, jlong nsImgPtr, jintArrby buffer, jint sw, jint sh,
                  jint dw, jint dh)
 {
 JNF_COCOA_ENTER(env);
 
-    NSImage *img = (NSImage *)jlong_to_ptr(nsImgPtr);
-    jint *dst = (*env)->GetPrimitiveArrayCritical(env, buffer, NULL);
+    NSImbge *img = (NSImbge *)jlong_to_ptr(nsImgPtr);
+    jint *dst = (*env)->GetPrimitiveArrbyCriticbl(env, buffer, NULL);
     if (dst) {
-        NSRect fromRect = NSMakeRect(0, 0, sw, sh);
-        NSRect toRect = NSMakeRect(0, 0, dw, dh);
-        CImage_CopyNSImageIntoArray(img, dst, fromRect, toRect);
-        (*env)->ReleasePrimitiveArrayCritical(env, buffer, dst, JNI_ABORT);
+        NSRect fromRect = NSMbkeRect(0, 0, sw, sh);
+        NSRect toRect = NSMbkeRect(0, 0, dw, dh);
+        CImbge_CopyNSImbgeIntoArrby(img, dst, fromRect, toRect);
+        (*env)->RelebsePrimitiveArrbyCriticbl(env, buffer, dst, JNI_ABORT);
     }
 
 JNF_COCOA_EXIT(env);
 }
 
 /*
- * Class:     sun_lwawt_macosx_CImage
- * Method:    nativeGetNSImageSize
- * Signature: (J)Ljava/awt/geom/Dimension2D;
+ * Clbss:     sun_lwbwt_mbcosx_CImbge
+ * Method:    nbtiveGetNSImbgeSize
+ * Signbture: (J)Ljbvb/bwt/geom/Dimension2D;
  */
-JNIEXPORT jobject JNICALL Java_sun_lwawt_macosx_CImage_nativeGetNSImageSize
-(JNIEnv *env, jclass klass, jlong nsImgPtr)
+JNIEXPORT jobject JNICALL Jbvb_sun_lwbwt_mbcosx_CImbge_nbtiveGetNSImbgeSize
+(JNIEnv *env, jclbss klbss, jlong nsImgPtr)
 {
     jobject size = NULL;
 
 JNF_COCOA_ENTER(env);
 
-    size = NSToJavaSize(env, [(NSImage *)jlong_to_ptr(nsImgPtr) size]);
+    size = NSToJbvbSize(env, [(NSImbge *)jlong_to_ptr(nsImgPtr) size]);
 
 JNF_COCOA_EXIT(env);
 
@@ -297,153 +297,153 @@ JNF_COCOA_EXIT(env);
 }
 
 /*
- * Class:     sun_lwawt_macosx_CImage
- * Method:    nativeSetNSImageSize
- * Signature: (JDD)V
+ * Clbss:     sun_lwbwt_mbcosx_CImbge
+ * Method:    nbtiveSetNSImbgeSize
+ * Signbture: (JDD)V
  */
-JNIEXPORT void JNICALL Java_sun_lwawt_macosx_CImage_nativeSetNSImageSize
-(JNIEnv *env, jclass clazz, jlong image, jdouble w, jdouble h)
+JNIEXPORT void JNICALL Jbvb_sun_lwbwt_mbcosx_CImbge_nbtiveSetNSImbgeSize
+(JNIEnv *env, jclbss clbzz, jlong imbge, jdouble w, jdouble h)
 {
-    if (!image) return;
-    NSImage *i = (NSImage *)jlong_to_ptr(image);
+    if (!imbge) return;
+    NSImbge *i = (NSImbge *)jlong_to_ptr(imbge);
 
 JNF_COCOA_ENTER(env);
 
-    [i setScalesWhenResized:TRUE];
-    [i setSize:NSMakeSize(w, h)];
+    [i setScblesWhenResized:TRUE];
+    [i setSize:NSMbkeSize(w, h)];
 
 JNF_COCOA_EXIT(env);
 }
 
 /*
- * Class:     sun_lwawt_macosx_CImage
- * Method:    nativeResizeNSImageRepresentations
- * Signature: (JDD)V
+ * Clbss:     sun_lwbwt_mbcosx_CImbge
+ * Method:    nbtiveResizeNSImbgeRepresentbtions
+ * Signbture: (JDD)V
  */
-JNIEXPORT void JNICALL Java_sun_lwawt_macosx_CImage_nativeResizeNSImageRepresentations
-(JNIEnv *env, jclass clazz, jlong image, jdouble w, jdouble h)
+JNIEXPORT void JNICALL Jbvb_sun_lwbwt_mbcosx_CImbge_nbtiveResizeNSImbgeRepresentbtions
+(JNIEnv *env, jclbss clbzz, jlong imbge, jdouble w, jdouble h)
 {
-    if (!image) return;
-    NSImage *i = (NSImage *)jlong_to_ptr(image);
+    if (!imbge) return;
+    NSImbge *i = (NSImbge *)jlong_to_ptr(imbge);
     
 JNF_COCOA_ENTER(env);
     
-    NSImageRep *imageRep = nil;
-    NSArray *imageRepresentations = [i representations];
-    NSEnumerator *imageEnumerator = [imageRepresentations objectEnumerator];
-    while ((imageRep = [imageEnumerator nextObject]) != nil) {
-        [imageRep setSize:NSMakeSize(w, h)];
+    NSImbgeRep *imbgeRep = nil;
+    NSArrby *imbgeRepresentbtions = [i representbtions];
+    NSEnumerbtor *imbgeEnumerbtor = [imbgeRepresentbtions objectEnumerbtor];
+    while ((imbgeRep = [imbgeEnumerbtor nextObject]) != nil) {
+        [imbgeRep setSize:NSMbkeSize(w, h)];
     }
     
 JNF_COCOA_EXIT(env);
 }
 
-NSComparisonResult getOrder(BOOL order){
-    return (NSComparisonResult) (order ? NSOrderedAscending : NSOrderedDescending);
+NSCompbrisonResult getOrder(BOOL order){
+    return (NSCompbrisonResult) (order ? NSOrderedAscending : NSOrderedDescending);
 }
 
 /*
- * Class:     sun_lwawt_macosx_CImage
- * Method:    nativeGetNSImageRepresentationsCount
- * Signature: (JDD)[Ljava/awt/geom/Dimension2D;
+ * Clbss:     sun_lwbwt_mbcosx_CImbge
+ * Method:    nbtiveGetNSImbgeRepresentbtionsCount
+ * Signbture: (JDD)[Ljbvb/bwt/geom/Dimension2D;
  */
-JNIEXPORT jobjectArray JNICALL
-                  Java_sun_lwawt_macosx_CImage_nativeGetNSImageRepresentationSizes
-(JNIEnv *env, jclass clazz, jlong image, jdouble w, jdouble h)
+JNIEXPORT jobjectArrby JNICALL
+                  Jbvb_sun_lwbwt_mbcosx_CImbge_nbtiveGetNSImbgeRepresentbtionSizes
+(JNIEnv *env, jclbss clbzz, jlong imbge, jdouble w, jdouble h)
 {
-    if (!image) return NULL;
-    jobjectArray jreturnArray = NULL;
-    NSImage *img = (NSImage *)jlong_to_ptr(image);
+    if (!imbge) return NULL;
+    jobjectArrby jreturnArrby = NULL;
+    NSImbge *img = (NSImbge *)jlong_to_ptr(imbge);
 
 JNF_COCOA_ENTER(env);
         
-    NSArray *imageRepresentations = [img representations];
-    if([imageRepresentations count] == 0){
+    NSArrby *imbgeRepresentbtions = [img representbtions];
+    if([imbgeRepresentbtions count] == 0){
         return NULL;
     }
     
-    NSArray *sortedImageRepresentations = [imageRepresentations
-                    sortedArrayUsingComparator: ^(id obj1, id obj2) {
+    NSArrby *sortedImbgeRepresentbtions = [imbgeRepresentbtions
+                    sortedArrbyUsingCompbrbtor: ^(id obj1, id obj2) {
         
-        NSImageRep *imageRep1 = (NSImageRep *) obj1;
-        NSImageRep *imageRep2 = (NSImageRep *) obj2;
-        NSSize size1 = [imageRep1 size];
-        NSSize size2 = [imageRep2 size];
+        NSImbgeRep *imbgeRep1 = (NSImbgeRep *) obj1;
+        NSImbgeRep *imbgeRep2 = (NSImbgeRep *) obj2;
+        NSSize size1 = [imbgeRep1 size];
+        NSSize size2 = [imbgeRep2 size];
         
-        if (NSEqualSizes(size1, size2)) {
-            return getOrder([imageRep1 pixelsWide] <= [imageRep2 pixelsWide] &&
-                            [imageRep1 pixelsHigh] <= [imageRep2 pixelsHigh]);
+        if (NSEqublSizes(size1, size2)) {
+            return getOrder([imbgeRep1 pixelsWide] <= [imbgeRep2 pixelsWide] &&
+                            [imbgeRep1 pixelsHigh] <= [imbgeRep2 pixelsHigh]);
         }
 
         return getOrder(size1.width <= size2.width && size1.height <= size2.height);
     }];
 
-    NSMutableArray *sortedPixelSizes = [[[NSMutableArray alloc] init] autorelease];
-    NSSize lastSize = [[sortedImageRepresentations lastObject] size];
+    NSMutbbleArrby *sortedPixelSizes = [[[NSMutbbleArrby blloc] init] butorelebse];
+    NSSize lbstSize = [[sortedImbgeRepresentbtions lbstObject] size];
     
-    NSUInteger i = [sortedImageRepresentations indexOfObjectPassingTest:
+    NSUInteger i = [sortedImbgeRepresentbtions indexOfObjectPbssingTest:
                ^BOOL(id obj, NSUInteger idx, BOOL *stop) {
-        NSSize imageRepSize = [obj size];
-        return (w <= imageRepSize.width && h <= imageRepSize.height)
-                   || NSEqualSizes(imageRepSize, lastSize);
+        NSSize imbgeRepSize = [obj size];
+        return (w <= imbgeRepSize.width && h <= imbgeRepSize.height)
+                   || NSEqublSizes(imbgeRepSize, lbstSize);
     }];
 
-    NSUInteger count = [sortedImageRepresentations count];
+    NSUInteger count = [sortedImbgeRepresentbtions count];
     i = (i == NSNotFound) ? count - 1 : i;
-    NSSize bestFitSize = [[sortedImageRepresentations objectAtIndex: i] size];
+    NSSize bestFitSize = [[sortedImbgeRepresentbtions objectAtIndex: i] size];
 
     for(; i < count; i++){
-        NSImageRep *imageRep = [sortedImageRepresentations objectAtIndex: i];
+        NSImbgeRep *imbgeRep = [sortedImbgeRepresentbtions objectAtIndex: i];
 
-        if (!NSEqualSizes([imageRep size], bestFitSize)) {
-            break;
+        if (!NSEqublSizes([imbgeRep size], bestFitSize)) {
+            brebk;
         }
 
-        NSSize pixelSize = NSMakeSize(
-                                [imageRep pixelsWide], [imageRep pixelsHigh]);
-        [sortedPixelSizes addObject: [NSValue valueWithSize: pixelSize]];
+        NSSize pixelSize = NSMbkeSize(
+                                [imbgeRep pixelsWide], [imbgeRep pixelsHigh]);
+        [sortedPixelSizes bddObject: [NSVblue vblueWithSize: pixelSize]];
     }
 
     count = [sortedPixelSizes count];
-    static JNF_CLASS_CACHE(jc_Dimension, "java/awt/Dimension");
-    jreturnArray = JNFNewObjectArray(env, &jc_Dimension, count);
-    CHECK_NULL_RETURN(jreturnArray, NULL);
+    stbtic JNF_CLASS_CACHE(jc_Dimension, "jbvb/bwt/Dimension");
+    jreturnArrby = JNFNewObjectArrby(env, &jc_Dimension, count);
+    CHECK_NULL_RETURN(jreturnArrby, NULL);
 
     for(i = 0; i < count; i++){
-        NSSize pixelSize = [[sortedPixelSizes objectAtIndex: i] sizeValue];
+        NSSize pixelSize = [[sortedPixelSizes objectAtIndex: i] sizeVblue];
 
-        (*env)->SetObjectArrayElement(env, jreturnArray, i,
-                                      NSToJavaSize(env, pixelSize));
+        (*env)->SetObjectArrbyElement(env, jreturnArrby, i,
+                                      NSToJbvbSize(env, pixelSize));
         JNU_CHECK_EXCEPTION_RETURN(env, NULL);
     }
 
 JNF_COCOA_EXIT(env);
 
-    return jreturnArray;
+    return jreturnArrby;
 }
 
 /*
- * Class:     sun_lwawt_macosx_CImage
- * Method:    nativeGetPlatformImageBytes
- * Signature: ([III)[B
+ * Clbss:     sun_lwbwt_mbcosx_CImbge
+ * Method:    nbtiveGetPlbtformImbgeBytes
+ * Signbture: ([III)[B
  */
-JNIEXPORT jbyteArray JNICALL Java_sun_lwawt_macosx_CImage_nativeGetPlatformImageBytes
-(JNIEnv *env, jclass klass, jintArray buffer, jint width, jint height)
+JNIEXPORT jbyteArrby JNICALL Jbvb_sun_lwbwt_mbcosx_CImbge_nbtiveGetPlbtformImbgeBytes
+(JNIEnv *env, jclbss klbss, jintArrby buffer, jint width, jint height)
 {
-    jbyteArray result = 0L;
+    jbyteArrby result = 0L;
 
     JNF_COCOA_ENTER(env);
 
-    NSBitmapImageRep* imageRep = CImage_CreateImageRep(env, buffer, width, height);
-    if (imageRep) {
-        NSData *tiffImage = [imageRep TIFFRepresentation];
-        jsize tiffSize = (jsize)[tiffImage length];
-        result = (*env)->NewByteArray(env, tiffSize);
+    NSBitmbpImbgeRep* imbgeRep = CImbge_CrebteImbgeRep(env, buffer, width, height);
+    if (imbgeRep) {
+        NSDbtb *tiffImbge = [imbgeRep TIFFRepresentbtion];
+        jsize tiffSize = (jsize)[tiffImbge length];
+        result = (*env)->NewByteArrby(env, tiffSize);
         CHECK_NULL_RETURN(result, nil);
-        jbyte *tiffData = (jbyte *)(*env)->GetPrimitiveArrayCritical(env, result, 0);
-        CHECK_NULL_RETURN(tiffData, nil);
-        [tiffImage getBytes:tiffData];
-        (*env)->ReleasePrimitiveArrayCritical(env, result, tiffData, 0);
+        jbyte *tiffDbtb = (jbyte *)(*env)->GetPrimitiveArrbyCriticbl(env, result, 0);
+        CHECK_NULL_RETURN(tiffDbtb, nil);
+        [tiffImbge getBytes:tiffDbtb];
+        (*env)->RelebsePrimitiveArrbyCriticbl(env, result, tiffDbtb, 0);
     }
 
     JNF_COCOA_EXIT(env);
@@ -452,30 +452,30 @@ JNIEXPORT jbyteArray JNICALL Java_sun_lwawt_macosx_CImage_nativeGetPlatformImage
 }
 
 /*
- * Class:     sun_lwawt_macosx_CImage
- * Method:    nativeCreateNSImageFromBytes
- * Signature: ([B)J
+ * Clbss:     sun_lwbwt_mbcosx_CImbge
+ * Method:    nbtiveCrebteNSImbgeFromBytes
+ * Signbture: ([B)J
  */
-JNIEXPORT jlong JNICALL Java_sun_lwawt_macosx_CImage_nativeCreateNSImageFromBytes
-(JNIEnv *env, jclass klass, jbyteArray sourceData)
+JNIEXPORT jlong JNICALL Jbvb_sun_lwbwt_mbcosx_CImbge_nbtiveCrebteNSImbgeFromBytes
+(JNIEnv *env, jclbss klbss, jbyteArrby sourceDbtb)
 {
     jlong result = 0L;
-    CHECK_NULL_RETURN(sourceData, 0L);
+    CHECK_NULL_RETURN(sourceDbtb, 0L);
 
     JNF_COCOA_ENTER(env);
 
-    jsize sourceSize = (*env)->GetArrayLength(env, sourceData);
+    jsize sourceSize = (*env)->GetArrbyLength(env, sourceDbtb);
     if (sourceSize == 0) return 0L;
 
-    jbyte *sourceBytes = (*env)->GetPrimitiveArrayCritical(env, sourceData, NULL);
+    jbyte *sourceBytes = (*env)->GetPrimitiveArrbyCriticbl(env, sourceDbtb, NULL);
     CHECK_NULL_RETURN(sourceBytes, 0L);
-    NSData *rawData = [NSData dataWithBytes:sourceBytes length:sourceSize];
-    NSImage *newImage = [[NSImage alloc] initWithData:rawData];
+    NSDbtb *rbwDbtb = [NSDbtb dbtbWithBytes:sourceBytes length:sourceSize];
+    NSImbge *newImbge = [[NSImbge blloc] initWithDbtb:rbwDbtb];
 
-    (*env)->ReleasePrimitiveArrayCritical(env, sourceData, sourceBytes, JNI_ABORT);
-    CHECK_NULL_RETURN(newImage, 0L);
+    (*env)->RelebsePrimitiveArrbyCriticbl(env, sourceDbtb, sourceBytes, JNI_ABORT);
+    CHECK_NULL_RETURN(newImbge, 0L);
 
-    result = ptr_to_jlong(newImage);
+    result = ptr_to_jlong(newImbge);
     JNF_COCOA_EXIT(env);
 
     return result;

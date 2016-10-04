@@ -1,69 +1,69 @@
 /*
- * Copyright (c) 1999, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.media.sound;
+pbckbge com.sun.medib.sound;
 
-import java.io.IOException;
+import jbvb.io.IOException;
 
-import java.util.Vector;
+import jbvb.util.Vector;
 
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.AudioInputStream;
+import jbvbx.sound.sbmpled.AudioFormbt;
+import jbvbx.sound.sbmpled.AudioSystem;
+import jbvbx.sound.sbmpled.AudioInputStrebm;
 
 
 /**
- * U-law encodes linear data, and decodes u-law data to linear data.
+ * U-lbw encodes linebr dbtb, bnd decodes u-lbw dbtb to linebr dbtb.
  *
- * @author Kara Kytle
+ * @buthor Kbrb Kytle
  */
-public final class UlawCodec extends SunCodec {
+public finbl clbss UlbwCodec extends SunCodec {
 
-    /* Tables used for U-law decoding */
+    /* Tbbles used for U-lbw decoding */
 
-    private final static byte[] ULAW_TABH = new byte[256];
-    private final static byte[] ULAW_TABL = new byte[256];
+    privbte finbl stbtic byte[] ULAW_TABH = new byte[256];
+    privbte finbl stbtic byte[] ULAW_TABL = new byte[256];
 
-    private static final AudioFormat.Encoding[] ulawEncodings = {AudioFormat.Encoding.ULAW,
-                                                                 AudioFormat.Encoding.PCM_SIGNED};
+    privbte stbtic finbl AudioFormbt.Encoding[] ulbwEncodings = {AudioFormbt.Encoding.ULAW,
+                                                                 AudioFormbt.Encoding.PCM_SIGNED};
 
-    private static final short seg_end [] = {0xFF, 0x1FF, 0x3FF,
+    privbte stbtic finbl short seg_end [] = {0xFF, 0x1FF, 0x3FF,
                                              0x7FF, 0xFFF, 0x1FFF, 0x3FFF, 0x7FFF};
 
     /**
-     * Initializes the decode tables
+     * Initiblizes the decode tbbles
      */
-    static {
+    stbtic {
         for (int i=0;i<256;i++) {
-            int ulaw = ~i;
+            int ulbw = ~i;
             int t;
 
-            ulaw &= 0xFF;
-            t = ((ulaw & 0xf)<<3) + 132;
-            t <<= ((ulaw & 0x70) >> 4);
-            t = ( (ulaw&0x80) != 0 ) ? (132-t) : (t-132);
+            ulbw &= 0xFF;
+            t = ((ulbw & 0xf)<<3) + 132;
+            t <<= ((ulbw & 0x70) >> 4);
+            t = ( (ulbw&0x80) != 0 ) ? (132-t) : (t-132);
 
             ULAW_TABL[i] = (byte) (t&0xff);
             ULAW_TABH[i] = (byte) ((t>>8) & 0xff);
@@ -72,347 +72,347 @@ public final class UlawCodec extends SunCodec {
 
 
     /**
-     * Constructs a new ULAW codec object.
+     * Constructs b new ULAW codec object.
      */
-    public UlawCodec() {
-        super(ulawEncodings, ulawEncodings);
+    public UlbwCodec() {
+        super(ulbwEncodings, ulbwEncodings);
     }
 
     /**
      */
-    public AudioFormat.Encoding[] getTargetEncodings(AudioFormat sourceFormat){
-        if( AudioFormat.Encoding.PCM_SIGNED.equals(sourceFormat.getEncoding()) ) {
-            if( sourceFormat.getSampleSizeInBits() == 16 ) {
-                AudioFormat.Encoding enc[] = new AudioFormat.Encoding[1];
-                enc[0] = AudioFormat.Encoding.ULAW;
+    public AudioFormbt.Encoding[] getTbrgetEncodings(AudioFormbt sourceFormbt){
+        if( AudioFormbt.Encoding.PCM_SIGNED.equbls(sourceFormbt.getEncoding()) ) {
+            if( sourceFormbt.getSbmpleSizeInBits() == 16 ) {
+                AudioFormbt.Encoding enc[] = new AudioFormbt.Encoding[1];
+                enc[0] = AudioFormbt.Encoding.ULAW;
                 return enc;
             } else {
-                return new AudioFormat.Encoding[0];
+                return new AudioFormbt.Encoding[0];
             }
-        } else if (AudioFormat.Encoding.ULAW.equals(sourceFormat.getEncoding())) {
-            if (sourceFormat.getSampleSizeInBits() == 8) {
-                AudioFormat.Encoding enc[] = new AudioFormat.Encoding[1];
-                enc[0] = AudioFormat.Encoding.PCM_SIGNED;
+        } else if (AudioFormbt.Encoding.ULAW.equbls(sourceFormbt.getEncoding())) {
+            if (sourceFormbt.getSbmpleSizeInBits() == 8) {
+                AudioFormbt.Encoding enc[] = new AudioFormbt.Encoding[1];
+                enc[0] = AudioFormbt.Encoding.PCM_SIGNED;
                 return enc;
             } else {
-                return new AudioFormat.Encoding[0];
+                return new AudioFormbt.Encoding[0];
             }
         } else {
-            return new AudioFormat.Encoding[0];
+            return new AudioFormbt.Encoding[0];
         }
     }
 
 
     /**
      */
-    public AudioFormat[] getTargetFormats(AudioFormat.Encoding targetEncoding, AudioFormat sourceFormat){
-        if( (AudioFormat.Encoding.PCM_SIGNED.equals(targetEncoding)
-             && AudioFormat.Encoding.ULAW.equals(sourceFormat.getEncoding()))
+    public AudioFormbt[] getTbrgetFormbts(AudioFormbt.Encoding tbrgetEncoding, AudioFormbt sourceFormbt){
+        if( (AudioFormbt.Encoding.PCM_SIGNED.equbls(tbrgetEncoding)
+             && AudioFormbt.Encoding.ULAW.equbls(sourceFormbt.getEncoding()))
             ||
-            (AudioFormat.Encoding.ULAW.equals(targetEncoding)
-             && AudioFormat.Encoding.PCM_SIGNED.equals(sourceFormat.getEncoding()))) {
-                return getOutputFormats(sourceFormat);
+            (AudioFormbt.Encoding.ULAW.equbls(tbrgetEncoding)
+             && AudioFormbt.Encoding.PCM_SIGNED.equbls(sourceFormbt.getEncoding()))) {
+                return getOutputFormbts(sourceFormbt);
             } else {
-                return new AudioFormat[0];
+                return new AudioFormbt[0];
             }
     }
 
     /**
      */
-    public AudioInputStream getAudioInputStream(AudioFormat.Encoding targetEncoding, AudioInputStream sourceStream){
-        AudioFormat sourceFormat = sourceStream.getFormat();
-        AudioFormat.Encoding sourceEncoding = sourceFormat.getEncoding();
+    public AudioInputStrebm getAudioInputStrebm(AudioFormbt.Encoding tbrgetEncoding, AudioInputStrebm sourceStrebm){
+        AudioFormbt sourceFormbt = sourceStrebm.getFormbt();
+        AudioFormbt.Encoding sourceEncoding = sourceFormbt.getEncoding();
 
-        if (sourceEncoding.equals(targetEncoding)) {
-            return sourceStream;
+        if (sourceEncoding.equbls(tbrgetEncoding)) {
+            return sourceStrebm;
         } else {
-            AudioFormat targetFormat = null;
-            if (!isConversionSupported(targetEncoding,sourceStream.getFormat())) {
-                throw new IllegalArgumentException("Unsupported conversion: " + sourceStream.getFormat().toString() + " to " + targetEncoding.toString());
+            AudioFormbt tbrgetFormbt = null;
+            if (!isConversionSupported(tbrgetEncoding,sourceStrebm.getFormbt())) {
+                throw new IllegblArgumentException("Unsupported conversion: " + sourceStrebm.getFormbt().toString() + " to " + tbrgetEncoding.toString());
             }
-            if (AudioFormat.Encoding.ULAW.equals(sourceEncoding) &&
-                AudioFormat.Encoding.PCM_SIGNED.equals(targetEncoding) ) {
-                targetFormat = new AudioFormat( targetEncoding,
-                                                sourceFormat.getSampleRate(),
+            if (AudioFormbt.Encoding.ULAW.equbls(sourceEncoding) &&
+                AudioFormbt.Encoding.PCM_SIGNED.equbls(tbrgetEncoding) ) {
+                tbrgetFormbt = new AudioFormbt( tbrgetEncoding,
+                                                sourceFormbt.getSbmpleRbte(),
                                                 16,
-                                                sourceFormat.getChannels(),
-                                                2*sourceFormat.getChannels(),
-                                                sourceFormat.getSampleRate(),
-                                                sourceFormat.isBigEndian());
-            } else if (AudioFormat.Encoding.PCM_SIGNED.equals(sourceEncoding) &&
-                       AudioFormat.Encoding.ULAW.equals(targetEncoding)) {
-                targetFormat = new AudioFormat( targetEncoding,
-                                                sourceFormat.getSampleRate(),
+                                                sourceFormbt.getChbnnels(),
+                                                2*sourceFormbt.getChbnnels(),
+                                                sourceFormbt.getSbmpleRbte(),
+                                                sourceFormbt.isBigEndibn());
+            } else if (AudioFormbt.Encoding.PCM_SIGNED.equbls(sourceEncoding) &&
+                       AudioFormbt.Encoding.ULAW.equbls(tbrgetEncoding)) {
+                tbrgetFormbt = new AudioFormbt( tbrgetEncoding,
+                                                sourceFormbt.getSbmpleRbte(),
                                                 8,
-                                                sourceFormat.getChannels(),
-                                                sourceFormat.getChannels(),
-                                                sourceFormat.getSampleRate(),
-                                                false);
+                                                sourceFormbt.getChbnnels(),
+                                                sourceFormbt.getChbnnels(),
+                                                sourceFormbt.getSbmpleRbte(),
+                                                fblse);
             } else {
-                throw new IllegalArgumentException("Unsupported conversion: " + sourceStream.getFormat().toString() + " to " + targetEncoding.toString());
+                throw new IllegblArgumentException("Unsupported conversion: " + sourceStrebm.getFormbt().toString() + " to " + tbrgetEncoding.toString());
             }
 
-            return getAudioInputStream( targetFormat, sourceStream );
+            return getAudioInputStrebm( tbrgetFormbt, sourceStrebm );
         }
     }
 
     /**
      * use old code...
      */
-    public AudioInputStream getAudioInputStream(AudioFormat targetFormat, AudioInputStream sourceStream){
-        return getConvertedStream(targetFormat, sourceStream);
+    public AudioInputStrebm getAudioInputStrebm(AudioFormbt tbrgetFormbt, AudioInputStrebm sourceStrebm){
+        return getConvertedStrebm(tbrgetFormbt, sourceStrebm);
     }
 
 
     // OLD CODE
 
     /**
-     * Opens the codec with the specified parameters.
-     * @param stream stream from which data to be processed should be read
-     * @param outputFormat desired data format of the stream after processing
-     * @return stream from which processed data may be read
-     * @throws IllegalArgumentException if the format combination supplied is
+     * Opens the codec with the specified pbrbmeters.
+     * @pbrbm strebm strebm from which dbtb to be processed should be rebd
+     * @pbrbm outputFormbt desired dbtb formbt of the strebm bfter processing
+     * @return strebm from which processed dbtb mby be rebd
+     * @throws IllegblArgumentException if the formbt combinbtion supplied is
      * not supported.
      */
-    /*  public AudioInputStream getConvertedStream(AudioFormat outputFormat, AudioInputStream stream) { */
-    private AudioInputStream getConvertedStream(AudioFormat outputFormat, AudioInputStream stream) {
-        AudioInputStream cs = null;
+    /*  public AudioInputStrebm getConvertedStrebm(AudioFormbt outputFormbt, AudioInputStrebm strebm) { */
+    privbte AudioInputStrebm getConvertedStrebm(AudioFormbt outputFormbt, AudioInputStrebm strebm) {
+        AudioInputStrebm cs = null;
 
-        AudioFormat inputFormat = stream.getFormat();
+        AudioFormbt inputFormbt = strebm.getFormbt();
 
-        if( inputFormat.matches(outputFormat) ) {
-            cs = stream;
+        if( inputFormbt.mbtches(outputFormbt) ) {
+            cs = strebm;
         } else {
-            cs = (AudioInputStream) (new UlawCodecStream(stream, outputFormat));
+            cs = (AudioInputStrebm) (new UlbwCodecStrebm(strebm, outputFormbt));
         }
         return cs;
     }
 
     /**
-     * Obtains the set of output formats supported by the codec
-     * given a particular input format.
-     * If no output formats are supported for this input format,
-     * returns an array of length 0.
-     * @return array of supported output formats.
+     * Obtbins the set of output formbts supported by the codec
+     * given b pbrticulbr input formbt.
+     * If no output formbts bre supported for this input formbt,
+     * returns bn brrby of length 0.
+     * @return brrby of supported output formbts.
      */
-    /*  public AudioFormat[] getOutputFormats(AudioFormat inputFormat) { */
-    private AudioFormat[] getOutputFormats(AudioFormat inputFormat) {
+    /*  public AudioFormbt[] getOutputFormbts(AudioFormbt inputFormbt) { */
+    privbte AudioFormbt[] getOutputFormbts(AudioFormbt inputFormbt) {
 
-        Vector<AudioFormat> formats = new Vector<>();
-        AudioFormat format;
+        Vector<AudioFormbt> formbts = new Vector<>();
+        AudioFormbt formbt;
 
-        if ((inputFormat.getSampleSizeInBits() == 16)
-            && AudioFormat.Encoding.PCM_SIGNED.equals(inputFormat.getEncoding())) {
-            format = new AudioFormat(AudioFormat.Encoding.ULAW,
-                                     inputFormat.getSampleRate(),
+        if ((inputFormbt.getSbmpleSizeInBits() == 16)
+            && AudioFormbt.Encoding.PCM_SIGNED.equbls(inputFormbt.getEncoding())) {
+            formbt = new AudioFormbt(AudioFormbt.Encoding.ULAW,
+                                     inputFormbt.getSbmpleRbte(),
                                      8,
-                                     inputFormat.getChannels(),
-                                     inputFormat.getChannels(),
-                                     inputFormat.getSampleRate(),
-                                     false );
-            formats.addElement(format);
+                                     inputFormbt.getChbnnels(),
+                                     inputFormbt.getChbnnels(),
+                                     inputFormbt.getSbmpleRbte(),
+                                     fblse );
+            formbts.bddElement(formbt);
         }
 
-        if (AudioFormat.Encoding.ULAW.equals(inputFormat.getEncoding())) {
-            format = new AudioFormat(AudioFormat.Encoding.PCM_SIGNED,
-                                     inputFormat.getSampleRate(),
+        if (AudioFormbt.Encoding.ULAW.equbls(inputFormbt.getEncoding())) {
+            formbt = new AudioFormbt(AudioFormbt.Encoding.PCM_SIGNED,
+                                     inputFormbt.getSbmpleRbte(),
                                      16,
-                                     inputFormat.getChannels(),
-                                     inputFormat.getChannels()*2,
-                                     inputFormat.getSampleRate(),
-                                     false );
-            formats.addElement(format);
+                                     inputFormbt.getChbnnels(),
+                                     inputFormbt.getChbnnels()*2,
+                                     inputFormbt.getSbmpleRbte(),
+                                     fblse );
+            formbts.bddElement(formbt);
 
-            format = new AudioFormat(AudioFormat.Encoding.PCM_SIGNED,
-                                     inputFormat.getSampleRate(),
+            formbt = new AudioFormbt(AudioFormbt.Encoding.PCM_SIGNED,
+                                     inputFormbt.getSbmpleRbte(),
                                      16,
-                                     inputFormat.getChannels(),
-                                     inputFormat.getChannels()*2,
-                                     inputFormat.getSampleRate(),
+                                     inputFormbt.getChbnnels(),
+                                     inputFormbt.getChbnnels()*2,
+                                     inputFormbt.getSbmpleRbte(),
                                      true );
-            formats.addElement(format);
+            formbts.bddElement(formbt);
         }
 
-        AudioFormat[] formatArray = new AudioFormat[formats.size()];
-        for (int i = 0; i < formatArray.length; i++) {
-            formatArray[i] = formats.elementAt(i);
+        AudioFormbt[] formbtArrby = new AudioFormbt[formbts.size()];
+        for (int i = 0; i < formbtArrby.length; i++) {
+            formbtArrby[i] = formbts.elementAt(i);
         }
-        return formatArray;
+        return formbtArrby;
     }
 
 
-    class UlawCodecStream extends AudioInputStream {
+    clbss UlbwCodecStrebm extends AudioInputStrebm {
 
-        private static final int tempBufferSize = 64;
-        private byte tempBuffer [] = null;
+        privbte stbtic finbl int tempBufferSize = 64;
+        privbte byte tempBuffer [] = null;
 
         /**
-         * True to encode to u-law, false to decode to linear
+         * True to encode to u-lbw, fblse to decode to linebr
          */
-        boolean encode = false;
+        boolebn encode = fblse;
 
-        AudioFormat encodeFormat;
-        AudioFormat decodeFormat;
+        AudioFormbt encodeFormbt;
+        AudioFormbt decodeFormbt;
 
-        byte tabByte1[] = null;
-        byte tabByte2[] = null;
+        byte tbbByte1[] = null;
+        byte tbbByte2[] = null;
         int highByte = 0;
         int lowByte  = 1;
 
-        UlawCodecStream(AudioInputStream stream, AudioFormat outputFormat) {
-            super(stream, outputFormat, AudioSystem.NOT_SPECIFIED);
+        UlbwCodecStrebm(AudioInputStrebm strebm, AudioFormbt outputFormbt) {
+            super(strebm, outputFormbt, AudioSystem.NOT_SPECIFIED);
 
-            AudioFormat inputFormat = stream.getFormat();
+            AudioFormbt inputFormbt = strebm.getFormbt();
 
-            // throw an IllegalArgumentException if not ok
-            if (!(isConversionSupported(outputFormat, inputFormat))) {
-                throw new IllegalArgumentException("Unsupported conversion: " + inputFormat.toString() + " to " + outputFormat.toString());
+            // throw bn IllegblArgumentException if not ok
+            if (!(isConversionSupported(outputFormbt, inputFormbt))) {
+                throw new IllegblArgumentException("Unsupported conversion: " + inputFormbt.toString() + " to " + outputFormbt.toString());
             }
 
-            //$$fb 2002-07-18: fix for 4714846: JavaSound ULAW (8-bit) encoder erroneously depends on endian-ness
-            boolean PCMIsBigEndian;
+            //$$fb 2002-07-18: fix for 4714846: JbvbSound ULAW (8-bit) encoder erroneously depends on endibn-ness
+            boolebn PCMIsBigEndibn;
 
-            // determine whether we are encoding or decoding
-            if (AudioFormat.Encoding.ULAW.equals(inputFormat.getEncoding())) {
-                encode = false;
-                encodeFormat = inputFormat;
-                decodeFormat = outputFormat;
-                PCMIsBigEndian = outputFormat.isBigEndian();
+            // determine whether we bre encoding or decoding
+            if (AudioFormbt.Encoding.ULAW.equbls(inputFormbt.getEncoding())) {
+                encode = fblse;
+                encodeFormbt = inputFormbt;
+                decodeFormbt = outputFormbt;
+                PCMIsBigEndibn = outputFormbt.isBigEndibn();
             } else {
                 encode = true;
-                encodeFormat = outputFormat;
-                decodeFormat = inputFormat;
-                PCMIsBigEndian = inputFormat.isBigEndian();
+                encodeFormbt = outputFormbt;
+                decodeFormbt = inputFormbt;
+                PCMIsBigEndibn = inputFormbt.isBigEndibn();
                 tempBuffer = new byte[tempBufferSize];
             }
 
-            // setup tables according to byte order
-            if (PCMIsBigEndian) {
-                tabByte1 = ULAW_TABH;
-                tabByte2 = ULAW_TABL;
+            // setup tbbles bccording to byte order
+            if (PCMIsBigEndibn) {
+                tbbByte1 = ULAW_TABH;
+                tbbByte2 = ULAW_TABL;
                 highByte = 0;
                 lowByte  = 1;
             } else {
-                tabByte1 = ULAW_TABL;
-                tabByte2 = ULAW_TABH;
+                tbbByte1 = ULAW_TABL;
+                tbbByte2 = ULAW_TABH;
                 highByte = 1;
                 lowByte  = 0;
             }
 
-            // set the AudioInputStream length in frames if we know it
-            if (stream instanceof AudioInputStream) {
-                frameLength = stream.getFrameLength();
+            // set the AudioInputStrebm length in frbmes if we know it
+            if (strebm instbnceof AudioInputStrebm) {
+                frbmeLength = strebm.getFrbmeLength();
             }
-            // set framePos to zero
-            framePos = 0;
-            frameSize = inputFormat.getFrameSize();
-            if (frameSize == AudioSystem.NOT_SPECIFIED) {
-                frameSize = 1;
+            // set frbmePos to zero
+            frbmePos = 0;
+            frbmeSize = inputFormbt.getFrbmeSize();
+            if (frbmeSize == AudioSystem.NOT_SPECIFIED) {
+                frbmeSize = 1;
             }
         }
 
 
         /*
          * $$jb 2/23/99
-         * Used to determine segment number in uLaw encoding
+         * Used to determine segment number in uLbw encoding
          */
-        private short search(short val, short table[], short size) {
+        privbte short sebrch(short vbl, short tbble[], short size) {
             for(short i = 0; i < size; i++) {
-                if (val <= table[i]) { return i; }
+                if (vbl <= tbble[i]) { return i; }
             }
             return size;
         }
 
         /**
-         * Note that this won't actually read anything; must read in
+         * Note thbt this won't bctublly rebd bnything; must rebd in
          * two-byte units.
          */
-        public int read() throws IOException {
+        public int rebd() throws IOException {
             byte[] b = new byte[1];
-            if (read(b, 0, b.length) == 1) {
+            if (rebd(b, 0, b.length) == 1) {
                 return b[1] & 0xFF;
             }
             return -1;
         }
 
-        public int read(byte[] b) throws IOException {
-            return read(b, 0, b.length);
+        public int rebd(byte[] b) throws IOException {
+            return rebd(b, 0, b.length);
         }
 
-        public int read(byte[] b, int off, int len) throws IOException {
-            // don't read fractional frames
-            if( len%frameSize != 0 ) {
-                len -= (len%frameSize);
+        public int rebd(byte[] b, int off, int len) throws IOException {
+            // don't rebd frbctionbl frbmes
+            if( len%frbmeSize != 0 ) {
+                len -= (len%frbmeSize);
             }
             if (encode) {
                 short BIAS = 0x84;
-                short mask;
+                short mbsk;
                 short seg;
                 int i;
 
-                short sample;
+                short sbmple;
                 byte enc;
 
-                int readCount = 0;
+                int rebdCount = 0;
                 int currentPos = off;
-                int readLeft = len*2;
-                int readLen = ( (readLeft>tempBufferSize) ? tempBufferSize : readLeft );
+                int rebdLeft = len*2;
+                int rebdLen = ( (rebdLeft>tempBufferSize) ? tempBufferSize : rebdLeft );
 
-                while ((readCount = super.read(tempBuffer,0,readLen))>0) {
-                    for(i = 0; i < readCount; i+=2) {
-                        /* Get the sample from the tempBuffer */
-                        sample = (short)(( (tempBuffer[i + highByte]) << 8) & 0xFF00);
-                        sample |= (short)( (short) (tempBuffer[i + lowByte]) & 0xFF);
+                while ((rebdCount = super.rebd(tempBuffer,0,rebdLen))>0) {
+                    for(i = 0; i < rebdCount; i+=2) {
+                        /* Get the sbmple from the tempBuffer */
+                        sbmple = (short)(( (tempBuffer[i + highByte]) << 8) & 0xFF00);
+                        sbmple |= (short)( (short) (tempBuffer[i + lowByte]) & 0xFF);
 
-                        /* Get the sign and the magnitude of the value. */
-                        if(sample < 0) {
-                            sample = (short) (BIAS - sample);
-                            mask = 0x7F;
+                        /* Get the sign bnd the mbgnitude of the vblue. */
+                        if(sbmple < 0) {
+                            sbmple = (short) (BIAS - sbmple);
+                            mbsk = 0x7F;
                         } else {
-                            sample += BIAS;
-                            mask = 0xFF;
+                            sbmple += BIAS;
+                            mbsk = 0xFF;
                         }
-                        /* Convert the scaled magnitude to segment number. */
-                        seg = search(sample, seg_end, (short) 8);
+                        /* Convert the scbled mbgnitude to segment number. */
+                        seg = sebrch(sbmple, seg_end, (short) 8);
                         /*
-                         * Combine the sign, segment, quantization bits;
-                         * and complement the code word.
+                         * Combine the sign, segment, qubntizbtion bits;
+                         * bnd complement the code word.
                          */
-                        if (seg >= 8) {  /* out of range, return maximum value. */
-                            enc = (byte) (0x7F ^ mask);
+                        if (seg >= 8) {  /* out of rbnge, return mbximum vblue. */
+                            enc = (byte) (0x7F ^ mbsk);
                         } else {
-                            enc = (byte) ((seg << 4) | ((sample >> (seg+3)) & 0xF));
-                            enc ^= mask;
+                            enc = (byte) ((seg << 4) | ((sbmple >> (seg+3)) & 0xF));
+                            enc ^= mbsk;
                         }
-                        /* Now put the encoded sample where it belongs */
+                        /* Now put the encoded sbmple where it belongs */
                         b[currentPos] = enc;
                         currentPos++;
                     }
-                    /* And update pointers and counters for next iteration */
-                    readLeft -= readCount;
-                    readLen = ( (readLeft>tempBufferSize) ? tempBufferSize : readLeft );
+                    /* And updbte pointers bnd counters for next iterbtion */
+                    rebdLeft -= rebdCount;
+                    rebdLen = ( (rebdLeft>tempBufferSize) ? tempBufferSize : rebdLeft );
                 }
-                if( currentPos==off && readCount<0 ) {  // EOF or error on read
-                    return readCount;
+                if( currentPos==off && rebdCount<0 ) {  // EOF or error on rebd
+                    return rebdCount;
                 }
                 return (currentPos - off);  /* Number of bytes written to new buffer */
             } else {
                 int i;
-                int readLen = len/2;
-                int readOffset = off + len/2;
-                int readCount = super.read(b, readOffset, readLen);
+                int rebdLen = len/2;
+                int rebdOffset = off + len/2;
+                int rebdCount = super.rebd(b, rebdOffset, rebdLen);
 
-                if(readCount<0) {               // EOF or error
-                    return readCount;
+                if(rebdCount<0) {               // EOF or error
+                    return rebdCount;
                 }
-                for (i = off; i < (off + (readCount*2)); i+=2) {
-                    b[i]        = tabByte1[b[readOffset] & 0xFF];
-                    b[i+1]      = tabByte2[b[readOffset] & 0xFF];
-                    readOffset++;
+                for (i = off; i < (off + (rebdCount*2)); i+=2) {
+                    b[i]        = tbbByte1[b[rebdOffset] & 0xFF];
+                    b[i+1]      = tbbByte2[b[rebdOffset] & 0xFF];
+                    rebdOffset++;
                 }
                 return (i - off);
             }
         }
-    } // end class UlawCodecStream
+    } // end clbss UlbwCodecStrebm
 
-} // end class ULAW
+} // end clbss ULAW

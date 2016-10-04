@@ -1,153 +1,153 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.lwawt.macosx;
+pbckbge sun.lwbwt.mbcosx;
 
-import java.awt.*;
-import java.awt.peer.*;
-import java.awt.BufferCapabilities.FlipContents;
-import java.awt.event.*;
-import java.awt.image.*;
-import java.security.AccessController;
-import java.util.List;
-import java.io.*;
+import jbvb.bwt.*;
+import jbvb.bwt.peer.*;
+import jbvb.bwt.BufferCbpbbilities.FlipContents;
+import jbvb.bwt.event.*;
+import jbvb.bwt.imbge.*;
+import jbvb.security.AccessController;
+import jbvb.util.List;
+import jbvb.io.*;
 
-import sun.awt.CausedFocusEvent.Cause;
-import sun.awt.AWTAccessor;
-import sun.java2d.pipe.Region;
-import sun.security.action.GetBooleanAction;
+import sun.bwt.CbusedFocusEvent.Cbuse;
+import sun.bwt.AWTAccessor;
+import sun.jbvb2d.pipe.Region;
+import sun.security.bction.GetBoolebnAction;
 
-class CFileDialog implements FileDialogPeer {
+clbss CFileDiblog implements FileDiblogPeer {
 
-    private class Task implements Runnable {
+    privbte clbss Tbsk implements Runnbble {
 
         @Override
         public void run() {
             try {
-                boolean navigateApps = !AccessController.doPrivileged(
-                        new GetBooleanAction("apple.awt.use-file-dialog-packages"));
-                boolean chooseDirectories = AccessController.doPrivileged(
-                        new GetBooleanAction("apple.awt.fileDialogForDirectories"));
+                boolebn nbvigbteApps = !AccessController.doPrivileged(
+                        new GetBoolebnAction("bpple.bwt.use-file-diblog-pbckbges"));
+                boolebn chooseDirectories = AccessController.doPrivileged(
+                        new GetBoolebnAction("bpple.bwt.fileDiblogForDirectories"));
 
-                int dialogMode = target.getMode();
-                String title = target.getTitle();
+                int diblogMode = tbrget.getMode();
+                String title = tbrget.getTitle();
                 if (title == null) {
                     title = " ";
                 }
 
-                String[] userFileNames = nativeRunFileDialog(title,
-                        dialogMode,
-                        target.isMultipleMode(),
-                        navigateApps,
+                String[] userFileNbmes = nbtiveRunFileDiblog(title,
+                        diblogMode,
+                        tbrget.isMultipleMode(),
+                        nbvigbteApps,
                         chooseDirectories,
-                        target.getFilenameFilter() != null,
-                        target.getDirectory(),
-                        target.getFile());
+                        tbrget.getFilenbmeFilter() != null,
+                        tbrget.getDirectory(),
+                        tbrget.getFile());
 
                 String directory = null;
                 String file = null;
                 File[] files = null;
 
-                if (userFileNames != null) {
-                    // the dialog wasn't cancelled
-                    int filesNumber = userFileNames.length;
+                if (userFileNbmes != null) {
+                    // the diblog wbsn't cbncelled
+                    int filesNumber = userFileNbmes.length;
                     files = new File[filesNumber];
                     for (int i = 0; i < filesNumber; i++) {
-                        files[i] = new File(userFileNames[i]);
+                        files[i] = new File(userFileNbmes[i]);
                     }
 
-                    directory = files[0].getParent();
-                    // make sure directory always ends in '/'
-                    if (!directory.endsWith(File.separator)) {
-                        directory = directory + File.separator;
+                    directory = files[0].getPbrent();
+                    // mbke sure directory blwbys ends in '/'
+                    if (!directory.endsWith(File.sepbrbtor)) {
+                        directory = directory + File.sepbrbtor;
                     }
 
-                    file = files[0].getName(); // pick any file
+                    file = files[0].getNbme(); // pick bny file
                 }
 
-                // store results back in component
-                AWTAccessor.FileDialogAccessor accessor = AWTAccessor.getFileDialogAccessor();
-                accessor.setDirectory(target, directory);
-                accessor.setFile(target, file);
-                accessor.setFiles(target, files);
-            } finally {
-                // Java2 Dialog waits for hide to let show() return
-                target.dispose();
+                // store results bbck in component
+                AWTAccessor.FileDiblogAccessor bccessor = AWTAccessor.getFileDiblogAccessor();
+                bccessor.setDirectory(tbrget, directory);
+                bccessor.setFile(tbrget, file);
+                bccessor.setFiles(tbrget, files);
+            } finblly {
+                // Jbvb2 Diblog wbits for hide to let show() return
+                tbrget.dispose();
             }
         }
     }
 
-    // The target FileDialog
-    private final FileDialog target;
+    // The tbrget FileDiblog
+    privbte finbl FileDiblog tbrget;
 
-    CFileDialog(FileDialog target) {
-        this.target = target;
+    CFileDiblog(FileDiblog tbrget) {
+        this.tbrget = tbrget;
     }
 
     @Override
     public void dispose() {
-        LWCToolkit.targetDisposedPeer(target, this);
-        // Unlike other peers, we do not have a native model pointer to
-        // dispose of because the save and open panels are never released by
-        // an application.
+        LWCToolkit.tbrgetDisposedPeer(tbrget, this);
+        // Unlike other peers, we do not hbve b nbtive model pointer to
+        // dispose of becbuse the sbve bnd open pbnels bre never relebsed by
+        // bn bpplicbtion.
     }
 
     @Override
-    public void setVisible(boolean visible) {
+    public void setVisible(boolebn visible) {
         if (visible) {
-            // Java2 Dialog class requires peer to run code in a separate thread
-            // and handles keeping the call modal
-            new Thread(new Task()).start(); // invokes my 'run' method, below...
+            // Jbvb2 Diblog clbss requires peer to run code in b sepbrbte threbd
+            // bnd hbndles keeping the cbll modbl
+            new Threbd(new Tbsk()).stbrt(); // invokes my 'run' method, below...
         }
-        // We hide ourself before "show" returns - setVisible(false)
-        // doesn't apply
+        // We hide ourself before "show" returns - setVisible(fblse)
+        // doesn't bpply
     }
 
     /**
-     * A callback method.
-     * If the file dialog has a file filter, ask it if inFilename is acceptable.
-     * If the dialog doesn't have a file filter return true.
+     * A cbllbbck method.
+     * If the file diblog hbs b file filter, bsk it if inFilenbme is bcceptbble.
+     * If the diblog doesn't hbve b file filter return true.
      */
-    private boolean queryFilenameFilter(final String inFilename) {
-        boolean ret = false;
+    privbte boolebn queryFilenbmeFilter(finbl String inFilenbme) {
+        boolebn ret = fblse;
 
-        final FilenameFilter ff = target.getFilenameFilter();
-        File fileObj = new File(inFilename);
+        finbl FilenbmeFilter ff = tbrget.getFilenbmeFilter();
+        File fileObj = new File(inFilenbme);
 
-        // Directories are never filtered by the FileDialog.
+        // Directories bre never filtered by the FileDiblog.
         if (!fileObj.isDirectory()) {
-            File directoryObj = new File(fileObj.getParent());
-            String nameOnly = fileObj.getName();
-            ret = ff.accept(directoryObj, nameOnly);
+            File directoryObj = new File(fileObj.getPbrent());
+            String nbmeOnly = fileObj.getNbme();
+            ret = ff.bccept(directoryObj, nbmeOnly);
         }
         return ret;
     }
 
-    private native String[] nativeRunFileDialog(String title, int mode,
-            boolean multipleMode, boolean shouldNavigateApps,
-            boolean canChooseDirectories, boolean hasFilenameFilter,
+    privbte nbtive String[] nbtiveRunFileDiblog(String title, int mode,
+            boolebn multipleMode, boolebn shouldNbvigbteApps,
+            boolebn cbnChooseDirectories, boolebn hbsFilenbmeFilter,
             String directory, String file);
 
     @Override
@@ -159,7 +159,7 @@ class CFileDialog implements FileDialogPeer {
     }
 
     @Override
-    public void setFilenameFilter(FilenameFilter filter) {
+    public void setFilenbmeFilter(FilenbmeFilter filter) {
     }
 
     @Override
@@ -167,7 +167,7 @@ class CFileDialog implements FileDialogPeer {
     }
 
     @Override
-    public void setResizable(boolean resizeable) {
+    public void setResizbble(boolebn resizebble) {
     }
 
     @Override
@@ -175,27 +175,27 @@ class CFileDialog implements FileDialogPeer {
     }
 
     @Override
-    public void repositionSecurityWarning() {
+    public void repositionSecurityWbrning() {
     }
 
     @Override
-    public void updateAlwaysOnTopState() {
+    public void updbteAlwbysOnTopStbte() {
     }
 
     @Override
-    public void setModalBlocked(Dialog blocker, boolean blocked) {
+    public void setModblBlocked(Diblog blocker, boolebn blocked) {
     }
 
     @Override
-    public void setOpacity(float opacity) {
+    public void setOpbcity(flobt opbcity) {
     }
 
     @Override
-    public void setOpaque(boolean isOpaque) {
+    public void setOpbque(boolebn isOpbque) {
     }
 
     @Override
-    public void toBack() {
+    public void toBbck() {
     }
 
     @Override
@@ -203,35 +203,35 @@ class CFileDialog implements FileDialogPeer {
     }
 
     @Override
-    public void updateFocusableWindowState() {
+    public void updbteFocusbbleWindowStbte() {
     }
 
     @Override
-    public void updateIconImages() {
+    public void updbteIconImbges() {
     }
 
     @Override
-    public void updateMinimumSize() {
+    public void updbteMinimumSize() {
     }
 
     @Override
-    public void updateWindow() {
+    public void updbteWindow() {
     }
 
     @Override
-    public void beginLayout() {
+    public void beginLbyout() {
     }
 
     @Override
-    public void beginValidate() {
+    public void beginVblidbte() {
     }
 
     @Override
-    public void endLayout() {
+    public void endLbyout() {
     }
 
     @Override
-    public void endValidate() {
+    public void endVblidbte() {
     }
 
     @Override
@@ -240,40 +240,40 @@ class CFileDialog implements FileDialogPeer {
     }
 
     @Override
-    public void applyShape(Region shape) {
+    public void bpplyShbpe(Region shbpe) {
     }
 
     @Override
-    public boolean canDetermineObscurity() {
-        return false;
+    public boolebn cbnDetermineObscurity() {
+        return fblse;
     }
 
     @Override
-    public int checkImage(Image img, int w, int h, ImageObserver o) {
+    public int checkImbge(Imbge img, int w, int h, ImbgeObserver o) {
         return 0;
     }
 
     @Override
-    public void coalescePaintEvent(PaintEvent e) {
+    public void coblescePbintEvent(PbintEvent e) {
     }
 
     @Override
-    public void createBuffers(int numBuffers, BufferCapabilities caps)
+    public void crebteBuffers(int numBuffers, BufferCbpbbilities cbps)
             throws AWTException {
     }
 
     @Override
-    public Image createImage(ImageProducer producer) {
+    public Imbge crebteImbge(ImbgeProducer producer) {
         return null;
     }
 
     @Override
-    public Image createImage(int width, int height) {
+    public Imbge crebteImbge(int width, int height) {
         return null;
     }
 
     @Override
-    public VolatileImage createVolatileImage(int width, int height) {
+    public VolbtileImbge crebteVolbtileImbge(int width, int height) {
         return null;
     }
 
@@ -286,7 +286,7 @@ class CFileDialog implements FileDialogPeer {
     }
 
     @Override
-    public Image getBackBuffer() {
+    public Imbge getBbckBuffer() {
         return null;
     }
 
@@ -301,23 +301,23 @@ class CFileDialog implements FileDialogPeer {
     }
 
     @Override
-    public Graphics getGraphics() {
+    public Grbphics getGrbphics() {
         return null;
     }
 
     @Override
-    public GraphicsConfiguration getGraphicsConfiguration() {
+    public GrbphicsConfigurbtion getGrbphicsConfigurbtion() {
         return null;
     }
 
     @Override
-    public Point getLocationOnScreen() {
+    public Point getLocbtionOnScreen() {
         return null;
     }
 
     @Override
     public Dimension getMinimumSize() {
-        return target.getSize();
+        return tbrget.getSize();
     }
 
     @Override
@@ -326,58 +326,58 @@ class CFileDialog implements FileDialogPeer {
     }
 
     @Override
-    public void handleEvent(AWTEvent e) {
+    public void hbndleEvent(AWTEvent e) {
     }
 
     @Override
-    public boolean handlesWheelScrolling() {
-        return false;
+    public boolebn hbndlesWheelScrolling() {
+        return fblse;
     }
 
     @Override
-    public boolean isFocusable() {
-        return false;
+    public boolebn isFocusbble() {
+        return fblse;
     }
 
     @Override
-    public boolean isObscured() {
-        return false;
+    public boolebn isObscured() {
+        return fblse;
     }
 
     @Override
-    public boolean isReparentSupported() {
-        return false;
+    public boolebn isRepbrentSupported() {
+        return fblse;
     }
 
     @Override
-    public void layout() {
+    public void lbyout() {
     }
 
     @Override
-    public void paint(Graphics g) {
+    public void pbint(Grbphics g) {
     }
 
     @Override
-    public boolean prepareImage(Image img, int w, int h, ImageObserver o) {
-        return false;
+    public boolebn prepbreImbge(Imbge img, int w, int h, ImbgeObserver o) {
+        return fblse;
     }
 
     @Override
-    public void print(Graphics g) {
+    public void print(Grbphics g) {
     }
 
     @Override
-    public void reparent(ContainerPeer newContainer) {
+    public void repbrent(ContbinerPeer newContbiner) {
     }
 
     @Override
-    public boolean requestFocus(Component lightweightChild, boolean temporary,
-            boolean focusedWindowChangeAllowed, long time, Cause cause) {
-        return false;
+    public boolebn requestFocus(Component lightweightChild, boolebn temporbry,
+            boolebn focusedWindowChbngeAllowed, long time, Cbuse cbuse) {
+        return fblse;
     }
 
     @Override
-    public void setBackground(Color c) {
+    public void setBbckground(Color c) {
     }
 
     @Override
@@ -389,7 +389,7 @@ class CFileDialog implements FileDialogPeer {
     }
 
     @Override
-    public void setEnabled(boolean e) {
+    public void setEnbbled(boolebn e) {
     }
 
     @Override
@@ -397,15 +397,15 @@ class CFileDialog implements FileDialogPeer {
     }
 
     @Override
-    public void setZOrder(ComponentPeer above) {
+    public void setZOrder(ComponentPeer bbove) {
     }
 
     @Override
-    public void updateCursorImmediately() {
+    public void updbteCursorImmedibtely() {
     }
 
     @Override
-    public boolean updateGraphicsData(GraphicsConfiguration gc) {
-        return false;
+    public boolebn updbteGrbphicsDbtb(GrbphicsConfigurbtion gc) {
+        return fblse;
     }
 }

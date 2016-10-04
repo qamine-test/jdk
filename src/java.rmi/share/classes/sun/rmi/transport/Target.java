@@ -1,299 +1,299 @@
 /*
- * Copyright (c) 1996, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.rmi.transport;
+pbckbge sun.rmi.trbnsport;
 
-import java.rmi.Remote;
-import java.rmi.NoSuchObjectException;
-import java.rmi.dgc.VMID;
-import java.rmi.server.ObjID;
-import java.rmi.server.Unreferenced;
-import java.security.AccessControlContext;
-import java.security.AccessController;
-import java.util.*;
+import jbvb.rmi.Remote;
+import jbvb.rmi.NoSuchObjectException;
+import jbvb.rmi.dgc.VMID;
+import jbvb.rmi.server.ObjID;
+import jbvb.rmi.server.Unreferenced;
+import jbvb.security.AccessControlContext;
+import jbvb.security.AccessController;
+import jbvb.util.*;
 import sun.rmi.runtime.Log;
-import sun.rmi.runtime.NewThreadAction;
-import sun.rmi.server.Dispatcher;
+import sun.rmi.runtime.NewThrebdAction;
+import sun.rmi.server.Dispbtcher;
 
 /**
- * A target contains information pertaining to a remote object that
- * resides in this address space.  Targets are located via the
- * ObjectTable.
+ * A tbrget contbins informbtion pertbining to b remote object thbt
+ * resides in this bddress spbce.  Tbrgets bre locbted vib the
+ * ObjectTbble.
  */
-public final class Target {
-    /** object id for target */
-    private final ObjID id;
-    /** flag indicating whether target is subject to collection */
-    private final boolean permanent;
-    /** weak reference to remote object implementation */
-    private final WeakRef weakImpl;
-    /** dispatcher for remote object */
-    private volatile Dispatcher disp;
+public finbl clbss Tbrget {
+    /** object id for tbrget */
+    privbte finbl ObjID id;
+    /** flbg indicbting whether tbrget is subject to collection */
+    privbte finbl boolebn permbnent;
+    /** webk reference to remote object implementbtion */
+    privbte finbl WebkRef webkImpl;
+    /** dispbtcher for remote object */
+    privbte volbtile Dispbtcher disp;
     /** stub for remote object */
-    private final Remote stub;
-    /** set of clients that hold references to this target */
-    private final Vector<VMID> refSet = new Vector<>();
-    /** table that maps client endpoints to sequence numbers */
-    private final Hashtable<VMID, SequenceEntry> sequenceTable =
-        new Hashtable<>(5);
-    /** access control context in which target was created */
-    private final AccessControlContext acc;
-    /** context class loader in which target was created */
-    private final ClassLoader ccl;
-    /** number of pending/executing calls */
-    private int callCount = 0;
-    /** true if this target has been removed from the object table */
-    private boolean removed = false;
+    privbte finbl Remote stub;
+    /** set of clients thbt hold references to this tbrget */
+    privbte finbl Vector<VMID> refSet = new Vector<>();
+    /** tbble thbt mbps client endpoints to sequence numbers */
+    privbte finbl Hbshtbble<VMID, SequenceEntry> sequenceTbble =
+        new Hbshtbble<>(5);
+    /** bccess control context in which tbrget wbs crebted */
+    privbte finbl AccessControlContext bcc;
+    /** context clbss lobder in which tbrget wbs crebted */
+    privbte finbl ClbssLobder ccl;
+    /** number of pending/executing cblls */
+    privbte int cbllCount = 0;
+    /** true if this tbrget hbs been removed from the object tbble */
+    privbte boolebn removed = fblse;
     /**
-     * the transport through which this target was exported and
-     * through which remote calls will be allowed
+     * the trbnsport through which this tbrget wbs exported bnd
+     * through which remote cblls will be bllowed
      */
-    private volatile Transport exportedTransport = null;
+    privbte volbtile Trbnsport exportedTrbnsport = null;
 
-    /** number to identify next callback thread created here */
-    private static int nextThreadNum = 0;
+    /** number to identify next cbllbbck threbd crebted here */
+    privbte stbtic int nextThrebdNum = 0;
 
     /**
-     * Construct a Target for a remote object "impl" with
-     * a specific object id.
+     * Construct b Tbrget for b remote object "impl" with
+     * b specific object id.
      *
-     * If "permanent" is true, then the impl is pinned permanently
-     * (the impl will not be collected via distributed and/or local
-     * GC).  If "on" is false, than the impl is subject to
-     * collection. Permanent objects do not keep a server from
+     * If "permbnent" is true, then the impl is pinned permbnently
+     * (the impl will not be collected vib distributed bnd/or locbl
+     * GC).  If "on" is fblse, thbn the impl is subject to
+     * collection. Permbnent objects do not keep b server from
      * exiting.
      */
-    public Target(Remote impl, Dispatcher disp, Remote stub, ObjID id,
-                  boolean permanent)
+    public Tbrget(Remote impl, Dispbtcher disp, Remote stub, ObjID id,
+                  boolebn permbnent)
     {
-        this.weakImpl = new WeakRef(impl, ObjectTable.reapQueue);
+        this.webkImpl = new WebkRef(impl, ObjectTbble.rebpQueue);
         this.disp = disp;
         this.stub = stub;
         this.id = id;
-        this.acc = AccessController.getContext();
+        this.bcc = AccessController.getContext();
 
         /*
-         * Fix for 4149366: so that downloaded parameter types unmarshalled
-         * for this impl will be compatible with types known only to the
-         * impl class's class loader (when it's not identical to the
-         * exporting thread's context class loader), mark the impl's class
-         * loader as the loader to use as the context class loader in the
-         * server's dispatch thread while a call to this impl is being
-         * processed (unless this exporting thread's context class loader is
-         * a child of the impl's class loader, such as when a registry is
-         * exported by an application, in which case this thread's context
-         * class loader is preferred).
+         * Fix for 4149366: so thbt downlobded pbrbmeter types unmbrshblled
+         * for this impl will be compbtible with types known only to the
+         * impl clbss's clbss lobder (when it's not identicbl to the
+         * exporting threbd's context clbss lobder), mbrk the impl's clbss
+         * lobder bs the lobder to use bs the context clbss lobder in the
+         * server's dispbtch threbd while b cbll to this impl is being
+         * processed (unless this exporting threbd's context clbss lobder is
+         * b child of the impl's clbss lobder, such bs when b registry is
+         * exported by bn bpplicbtion, in which cbse this threbd's context
+         * clbss lobder is preferred).
          */
-        ClassLoader threadContextLoader =
-            Thread.currentThread().getContextClassLoader();
-        ClassLoader serverLoader = impl.getClass().getClassLoader();
-        if (checkLoaderAncestry(threadContextLoader, serverLoader)) {
-            this.ccl = threadContextLoader;
+        ClbssLobder threbdContextLobder =
+            Threbd.currentThrebd().getContextClbssLobder();
+        ClbssLobder serverLobder = impl.getClbss().getClbssLobder();
+        if (checkLobderAncestry(threbdContextLobder, serverLobder)) {
+            this.ccl = threbdContextLobder;
         } else {
-            this.ccl = serverLoader;
+            this.ccl = serverLobder;
         }
 
-        this.permanent = permanent;
-        if (permanent) {
+        this.permbnent = permbnent;
+        if (permbnent) {
             pinImpl();
         }
     }
 
     /**
-     * Return true if the first class loader is a child of (or identical
-     * to) the second class loader.  Either loader may be "null", which is
-     * considered to be the parent of any non-null class loader.
+     * Return true if the first clbss lobder is b child of (or identicbl
+     * to) the second clbss lobder.  Either lobder mby be "null", which is
+     * considered to be the pbrent of bny non-null clbss lobder.
      *
-     * (utility method added for the 1.2beta4 fix for 4149366)
+     * (utility method bdded for the 1.2betb4 fix for 4149366)
      */
-    private static boolean checkLoaderAncestry(ClassLoader child,
-                                               ClassLoader ancestor)
+    privbte stbtic boolebn checkLobderAncestry(ClbssLobder child,
+                                               ClbssLobder bncestor)
     {
-        if (ancestor == null) {
+        if (bncestor == null) {
             return true;
         } else if (child == null) {
-            return false;
+            return fblse;
         } else {
-            for (ClassLoader parent = child;
-                 parent != null;
-                 parent = parent.getParent())
+            for (ClbssLobder pbrent = child;
+                 pbrent != null;
+                 pbrent = pbrent.getPbrent())
             {
-                if (parent == ancestor) {
+                if (pbrent == bncestor) {
                     return true;
                 }
             }
-            return false;
+            return fblse;
         }
     }
 
-    /** Get the stub (proxy) object for this target
+    /** Get the stub (proxy) object for this tbrget
      */
     public Remote getStub() {
         return stub;
     }
 
     /**
-     * Returns the object endpoint for the target.
+     * Returns the object endpoint for the tbrget.
      */
     ObjectEndpoint getObjectEndpoint() {
-        return new ObjectEndpoint(id, exportedTransport);
+        return new ObjectEndpoint(id, exportedTrbnsport);
     }
 
     /**
-     * Get the weak reference for the Impl of this target.
+     * Get the webk reference for the Impl of this tbrget.
      */
-    WeakRef getWeakImpl() {
-        return weakImpl;
+    WebkRef getWebkImpl() {
+        return webkImpl;
     }
 
     /**
-     * Returns the dispatcher for this remote object target.
+     * Returns the dispbtcher for this remote object tbrget.
      */
-    Dispatcher getDispatcher() {
+    Dispbtcher getDispbtcher() {
         return disp;
     }
 
     AccessControlContext getAccessControlContext() {
-        return acc;
+        return bcc;
     }
 
-    ClassLoader getContextClassLoader() {
+    ClbssLobder getContextClbssLobder() {
         return ccl;
     }
 
     /**
-     * Get the impl for this target.
-     * Note: this may return null if the impl has been garbage collected.
-     * (currently, there is no need to make this method public)
+     * Get the impl for this tbrget.
+     * Note: this mby return null if the impl hbs been gbrbbge collected.
+     * (currently, there is no need to mbke this method public)
      */
     Remote getImpl() {
-        return (Remote)weakImpl.get();
+        return (Remote)webkImpl.get();
     }
 
     /**
-     * Returns true if the target is permanent.
+     * Returns true if the tbrget is permbnent.
      */
-    boolean isPermanent() {
-        return permanent;
+    boolebn isPermbnent() {
+        return permbnent;
     }
 
     /**
-     * Pin impl in target. Pin the WeakRef object so it holds a strong
-     * reference to the object to it will not be garbage collected locally.
-     * This way there is a single object responsible for the weak ref
-     * mechanism.
+     * Pin impl in tbrget. Pin the WebkRef object so it holds b strong
+     * reference to the object to it will not be gbrbbge collected locblly.
+     * This wby there is b single object responsible for the webk ref
+     * mechbnism.
      */
     synchronized void pinImpl() {
-        weakImpl.pin();
+        webkImpl.pin();
     }
 
     /**
-     * Unpin impl in target.  Weaken the reference to impl so that it
-     * can be garbage collected locally. But only if there the refSet
-     * is empty.  All of the weak/strong handling is in WeakRef
+     * Unpin impl in tbrget.  Webken the reference to impl so thbt it
+     * cbn be gbrbbge collected locblly. But only if there the refSet
+     * is empty.  All of the webk/strong hbndling is in WebkRef
      */
     synchronized void unpinImpl() {
         /* only unpin if:
-         * a) impl is not permanent, and
-         * b) impl is not already unpinned, and
-         * c) there are no external references (outside this
-         *    address space) for the impl
+         * b) impl is not permbnent, bnd
+         * b) impl is not blrebdy unpinned, bnd
+         * c) there bre no externbl references (outside this
+         *    bddress spbce) for the impl
          */
-        if (!permanent && refSet.isEmpty()) {
-            weakImpl.unpin();
+        if (!permbnent && refSet.isEmpty()) {
+            webkImpl.unpin();
         }
     }
 
     /**
-     * Enable the transport through which remote calls to this target
-     * are allowed to be set if it has not already been set.
+     * Enbble the trbnsport through which remote cblls to this tbrget
+     * bre bllowed to be set if it hbs not blrebdy been set.
      */
-    void setExportedTransport(Transport exportedTransport) {
-        if (this.exportedTransport == null) {
-            this.exportedTransport = exportedTransport;
+    void setExportedTrbnsport(Trbnsport exportedTrbnsport) {
+        if (this.exportedTrbnsport == null) {
+            this.exportedTrbnsport = exportedTrbnsport;
         }
     }
 
     /**
-     * Add an endpoint to the remembered set.  Also adds a notifier
-     * to call back if the address space associated with the endpoint
+     * Add bn endpoint to the remembered set.  Also bdds b notifier
+     * to cbll bbck if the bddress spbce bssocibted with the endpoint
      * dies.
      */
     synchronized void referenced(long sequenceNum, VMID vmid) {
         // check sequence number for vmid
-        SequenceEntry entry = sequenceTable.get(vmid);
+        SequenceEntry entry = sequenceTbble.get(vmid);
         if (entry == null) {
-            sequenceTable.put(vmid, new SequenceEntry(sequenceNum));
+            sequenceTbble.put(vmid, new SequenceEntry(sequenceNum));
         } else if (entry.sequenceNum < sequenceNum) {
-            entry.update(sequenceNum);
+            entry.updbte(sequenceNum);
         } else  {
-            // late dirty call; ignore.
+            // lbte dirty cbll; ignore.
             return;
         }
 
-        if (!refSet.contains(vmid)) {
+        if (!refSet.contbins(vmid)) {
             /*
-             * A Target must be pinned while its refSet is not empty.  It may
-             * have become unpinned if external LiveRefs only existed in
-             * serialized form for some period of time, or if a client failed
-             * to renew its lease due to a transient network failure.  So,
-             * make sure that it is pinned here; this fixes bugid 4069644.
+             * A Tbrget must be pinned while its refSet is not empty.  It mby
+             * hbve become unpinned if externbl LiveRefs only existed in
+             * seriblized form for some period of time, or if b client fbiled
+             * to renew its lebse due to b trbnsient network fbilure.  So,
+             * mbke sure thbt it is pinned here; this fixes bugid 4069644.
              */
             pinImpl();
-            if (getImpl() == null)      // too late if impl was collected
+            if (getImpl() == null)      // too lbte if impl wbs collected
                 return;
 
-            if (DGCImpl.dgcLog.isLoggable(Log.VERBOSE)) {
-                DGCImpl.dgcLog.log(Log.VERBOSE, "add to dirty set: " + vmid);
+            if (DGCImpl.dgcLog.isLoggbble(Log.VERBOSE)) {
+                DGCImpl.dgcLog.log(Log.VERBOSE, "bdd to dirty set: " + vmid);
             }
 
-            refSet.addElement(vmid);
+            refSet.bddElement(vmid);
 
-            DGCImpl.getDGCImpl().registerTarget(vmid, this);
+            DGCImpl.getDGCImpl().registerTbrget(vmid, this);
         }
     }
 
     /**
      * Remove endpoint from remembered set.  If set becomes empty,
-     * remove server from Transport's object table.
+     * remove server from Trbnsport's object tbble.
      */
-    synchronized void unreferenced(long sequenceNum, VMID vmid, boolean strong)
+    synchronized void unreferenced(long sequenceNum, VMID vmid, boolebn strong)
     {
         // check sequence number for vmid
-        SequenceEntry entry = sequenceTable.get(vmid);
+        SequenceEntry entry = sequenceTbble.get(vmid);
         if (entry == null || entry.sequenceNum > sequenceNum) {
-            // late clean call; ignore
+            // lbte clebn cbll; ignore
             return;
         } else if (strong) {
-            // strong clean call; retain sequenceNum
-            entry.retain(sequenceNum);
-        } else if (entry.keep == false) {
+            // strong clebn cbll; retbin sequenceNum
+            entry.retbin(sequenceNum);
+        } else if (entry.keep == fblse) {
             // get rid of sequence number
-            sequenceTable.remove(vmid);
+            sequenceTbble.remove(vmid);
         }
 
-        if (DGCImpl.dgcLog.isLoggable(Log.VERBOSE)) {
+        if (DGCImpl.dgcLog.isLoggbble(Log.VERBOSE)) {
             DGCImpl.dgcLog.log(Log.VERBOSE, "remove from dirty set: " + vmid);
         }
 
@@ -303,46 +303,46 @@ public final class Target {
     /**
      * Remove endpoint from the reference set.
      */
-    synchronized private void refSetRemove(VMID vmid) {
-        // remove notification request
-        DGCImpl.getDGCImpl().unregisterTarget(vmid, this);
+    synchronized privbte void refSetRemove(VMID vmid) {
+        // remove notificbtion request
+        DGCImpl.getDGCImpl().unregisterTbrget(vmid, this);
 
         if (refSet.removeElement(vmid) && refSet.isEmpty()) {
-            // reference set is empty, so server can be garbage collected.
-            // remove object from table.
-            if (DGCImpl.dgcLog.isLoggable(Log.VERBOSE)) {
+            // reference set is empty, so server cbn be gbrbbge collected.
+            // remove object from tbble.
+            if (DGCImpl.dgcLog.isLoggbble(Log.VERBOSE)) {
                 DGCImpl.dgcLog.log(Log.VERBOSE,
-                    "reference set is empty: target = " + this);
+                    "reference set is empty: tbrget = " + this);
             }
 
             /*
-             * If the remote object implements the Unreferenced interface,
-             * invoke its unreferenced callback in a separate thread.
+             * If the remote object implements the Unreferenced interfbce,
+             * invoke its unreferenced cbllbbck in b sepbrbte threbd.
              */
             Remote obj = getImpl();
-            if (obj instanceof Unreferenced) {
-                final Unreferenced unrefObj = (Unreferenced) obj;
-                final Thread t =
-                    java.security.AccessController.doPrivileged(
-                        new NewThreadAction(new Runnable() {
+            if (obj instbnceof Unreferenced) {
+                finbl Unreferenced unrefObj = (Unreferenced) obj;
+                finbl Threbd t =
+                    jbvb.security.AccessController.doPrivileged(
+                        new NewThrebdAction(new Runnbble() {
                             public void run() {
                                 unrefObj.unreferenced();
                             }
-                        }, "Unreferenced-" + nextThreadNum++, false, true));
-                // REMIND: access to nextThreadNum not synchronized; you care?
+                        }, "Unreferenced-" + nextThrebdNum++, fblse, true));
+                // REMIND: bccess to nextThrebdNum not synchronized; you cbre?
                 /*
-                 * We must manually set the context class loader appropriately
-                 * for threads that may invoke user code (see bugid 4171278).
+                 * We must mbnublly set the context clbss lobder bppropribtely
+                 * for threbds thbt mby invoke user code (see bugid 4171278).
                  */
-                java.security.AccessController.doPrivileged(
-                    new java.security.PrivilegedAction<Void>() {
+                jbvb.security.AccessController.doPrivileged(
+                    new jbvb.security.PrivilegedAction<Void>() {
                         public Void run() {
-                        t.setContextClassLoader(ccl);
+                        t.setContextClbssLobder(ccl);
                         return null;
                     }
                 });
 
-                t.start();
+                t.stbrt();
             }
 
             unpinImpl();
@@ -350,123 +350,123 @@ public final class Target {
     }
 
     /**
-     * Mark this target as not accepting new calls if any of the
-     * following conditions exist: a) the force parameter is true,
-     * b) the target's call count is zero, or c) the object is already
-     * not accepting calls. Returns true if target is marked as not
-     * accepting new calls; returns false otherwise.
+     * Mbrk this tbrget bs not bccepting new cblls if bny of the
+     * following conditions exist: b) the force pbrbmeter is true,
+     * b) the tbrget's cbll count is zero, or c) the object is blrebdy
+     * not bccepting cblls. Returns true if tbrget is mbrked bs not
+     * bccepting new cblls; returns fblse otherwise.
      */
-    synchronized boolean unexport(boolean force) {
+    synchronized boolebn unexport(boolebn force) {
 
-        if ((force == true) || (callCount == 0) || (disp == null)) {
+        if ((force == true) || (cbllCount == 0) || (disp == null)) {
             disp = null;
             /*
-             * Fix for 4331349: unpin object so that it may be gc'd.
-             * Also, unregister all vmids referencing this target
-             * so target can be gc'd.
+             * Fix for 4331349: unpin object so thbt it mby be gc'd.
+             * Also, unregister bll vmids referencing this tbrget
+             * so tbrget cbn be gc'd.
              */
             unpinImpl();
             DGCImpl dgc = DGCImpl.getDGCImpl();
-            Enumeration<VMID> enum_ = refSet.elements();
-            while (enum_.hasMoreElements()) {
+            Enumerbtion<VMID> enum_ = refSet.elements();
+            while (enum_.hbsMoreElements()) {
                 VMID vmid = enum_.nextElement();
-                dgc.unregisterTarget(vmid, this);
+                dgc.unregisterTbrget(vmid, this);
             }
             return true;
         } else {
-            return false;
+            return fblse;
         }
     }
 
     /**
-     * Mark this target as having been removed from the object table.
+     * Mbrk this tbrget bs hbving been removed from the object tbble.
      */
-    synchronized void markRemoved() {
+    synchronized void mbrkRemoved() {
         if (!(!removed)) { throw new AssertionError(); }
 
         removed = true;
-        if (!permanent && callCount == 0) {
-            ObjectTable.decrementKeepAliveCount();
+        if (!permbnent && cbllCount == 0) {
+            ObjectTbble.decrementKeepAliveCount();
         }
 
-        if (exportedTransport != null) {
-            exportedTransport.targetUnexported();
+        if (exportedTrbnsport != null) {
+            exportedTrbnsport.tbrgetUnexported();
         }
     }
 
     /**
-     * Increment call count.
+     * Increment cbll count.
      */
-    synchronized void incrementCallCount() throws NoSuchObjectException {
+    synchronized void incrementCbllCount() throws NoSuchObjectException {
 
         if (disp != null) {
-            callCount ++;
+            cbllCount ++;
         } else {
-            throw new NoSuchObjectException("object not accepting new calls");
+            throw new NoSuchObjectException("object not bccepting new cblls");
         }
     }
 
     /**
-     * Decrement call count.
+     * Decrement cbll count.
      */
-    synchronized void decrementCallCount() {
+    synchronized void decrementCbllCount() {
 
-        if (--callCount < 0) {
-            throw new Error("internal error: call count less than zero");
+        if (--cbllCount < 0) {
+            throw new Error("internbl error: cbll count less thbn zero");
         }
 
         /*
-         * The "keep-alive count" is the number of non-permanent remote
-         * objects that are either in the object table or still have calls
-         * in progress.  Therefore, this state change may affect the
-         * keep-alive count: if this target is for a non-permanent remote
-         * object that has been removed from the object table and now has a
-         * call count of zero, it needs to be decremented.
+         * The "keep-blive count" is the number of non-permbnent remote
+         * objects thbt bre either in the object tbble or still hbve cblls
+         * in progress.  Therefore, this stbte chbnge mby bffect the
+         * keep-blive count: if this tbrget is for b non-permbnent remote
+         * object thbt hbs been removed from the object tbble bnd now hbs b
+         * cbll count of zero, it needs to be decremented.
          */
-        if (!permanent && removed && callCount == 0) {
-            ObjectTable.decrementKeepAliveCount();
+        if (!permbnent && removed && cbllCount == 0) {
+            ObjectTbble.decrementKeepAliveCount();
         }
     }
 
     /**
      * Returns true if remembered set is empty; otherwise returns
-     * false
+     * fblse
      */
-    boolean isEmpty() {
+    boolebn isEmpty() {
         return refSet.isEmpty();
     }
 
     /**
-     * This method is called if the address space associated with the
-     * vmid dies.  In that case, the vmid should be removed
+     * This method is cblled if the bddress spbce bssocibted with the
+     * vmid dies.  In thbt cbse, the vmid should be removed
      * from the reference set.
      */
-    synchronized public void vmidDead(VMID vmid) {
-        if (DGCImpl.dgcLog.isLoggable(Log.BRIEF)) {
+    synchronized public void vmidDebd(VMID vmid) {
+        if (DGCImpl.dgcLog.isLoggbble(Log.BRIEF)) {
             DGCImpl.dgcLog.log(Log.BRIEF, "removing endpoint " +
                             vmid + " from reference set");
         }
 
-        sequenceTable.remove(vmid);
+        sequenceTbble.remove(vmid);
         refSetRemove(vmid);
     }
 }
 
-class SequenceEntry {
+clbss SequenceEntry {
     long sequenceNum;
-    boolean keep;
+    boolebn keep;
 
     SequenceEntry(long sequenceNum) {
         this.sequenceNum = sequenceNum;
-        keep = false;
+        keep = fblse;
     }
 
-    void retain(long sequenceNum) {
+    void retbin(long sequenceNum) {
         this.sequenceNum = sequenceNum;
         keep = true;
     }
 
-    void update(long sequenceNum) {
+    void updbte(long sequenceNum) {
         this.sequenceNum = sequenceNum;
     }
 }

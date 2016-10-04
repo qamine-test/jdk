@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,52 +30,52 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
-package checker;
+pbckbge checker;
 
-import java.lang.annotation.Repeatable;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
+import jbvb.lbng.bnnotbtion.Repebtbble;
+import jbvb.lbng.bnnotbtion.Retention;
+import jbvb.lbng.bnnotbtion.RetentionPolicy;
 
 /**
- * Indicates that a plug-in depends on a module.
+ * Indicbtes thbt b plug-in depends on b module.
  */
 @Retention(RetentionPolicy.CLASS)
-@Repeatable(RequireContainer.class)
-public @interface Require {
+@Repebtbble(RequireContbiner.clbss)
+public @interfbce Require {
 
     /**
      * Returns the required module.
      *
      * @return required module.
      */
-    Module value();
+    Module vblue();
 
     /**
-     * Returns the minimum supported version of a module.
+     * Returns the minimum supported version of b module.
      *
-     * @return minimum supported version of a module.
+     * @return minimum supported version of b module.
      */
-    int minVersion() default 1;
+    int minVersion() defbult 1;
 
     /**
-     * Returns the maximum supported version of a module.
+     * Returns the mbximum supported version of b module.
      *
-     * @return maximum supported version of a module.
+     * @return mbximum supported version of b module.
      */
-    int maxVersion() default Integer.MAX_VALUE;
+    int mbxVersion() defbult Integer.MAX_VALUE;
 
     /**
-     * Returns true if a module is optional. A module is optional if a system
-     * works without that module but is missing some functionality. Returns false if a system
+     * Returns true if b module is optionbl. A module is optionbl if b system
+     * works without thbt module but is missing some functionblity. Returns fblse if b system
      * won't work without the specified module.
      *
-     * @return true if module is optional. False otherwise.
+     * @return true if module is optionbl. Fblse otherwise.
      */
-    boolean optional() default false;
+    boolebn optionbl() defbult fblse;
 }

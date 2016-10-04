@@ -1,274 +1,274 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing;
+pbckbge jbvbx.swing;
 
 
-import javax.swing.border.*;
+import jbvbx.swing.border.*;
 
-import java.awt.LayoutManager;
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Rectangle;
-import java.awt.Dimension;
-import java.awt.Insets;
-import java.io.Serializable;
+import jbvb.bwt.LbyoutMbnbger;
+import jbvb.bwt.Component;
+import jbvb.bwt.Contbiner;
+import jbvb.bwt.Rectbngle;
+import jbvb.bwt.Dimension;
+import jbvb.bwt.Insets;
+import jbvb.io.Seriblizbble;
 
 
 /**
- * The layout manager used by <code>JScrollPane</code>.
- * <code>JScrollPaneLayout</code> is
- * responsible for nine components: a viewport, two scrollbars,
- * a row header, a column header, and four "corner" components.
+ * The lbyout mbnbger used by <code>JScrollPbne</code>.
+ * <code>JScrollPbneLbyout</code> is
+ * responsible for nine components: b viewport, two scrollbbrs,
+ * b row hebder, b column hebder, bnd four "corner" components.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
- * @see JScrollPane
+ * @see JScrollPbne
  * @see JViewport
  *
- * @author Hans Muller
+ * @buthor Hbns Muller
  * @since 1.2
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class ScrollPaneLayout
-    implements LayoutManager, ScrollPaneConstants, Serializable
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public clbss ScrollPbneLbyout
+    implements LbyoutMbnbger, ScrollPbneConstbnts, Seriblizbble
 {
 
     /**
-     * The scrollpane's viewport child.
-     * Default is an empty <code>JViewport</code>.
-     * @see JScrollPane#setViewport
+     * The scrollpbne's viewport child.
+     * Defbult is bn empty <code>JViewport</code>.
+     * @see JScrollPbne#setViewport
      */
     protected JViewport viewport;
 
 
     /**
-     * The scrollpane's vertical scrollbar child.
-     * Default is a <code>JScrollBar</code>.
-     * @see JScrollPane#setVerticalScrollBar
+     * The scrollpbne's verticbl scrollbbr child.
+     * Defbult is b <code>JScrollBbr</code>.
+     * @see JScrollPbne#setVerticblScrollBbr
      */
-    protected JScrollBar vsb;
+    protected JScrollBbr vsb;
 
 
     /**
-     * The scrollpane's horizontal scrollbar child.
-     * Default is a <code>JScrollBar</code>.
-     * @see JScrollPane#setHorizontalScrollBar
+     * The scrollpbne's horizontbl scrollbbr child.
+     * Defbult is b <code>JScrollBbr</code>.
+     * @see JScrollPbne#setHorizontblScrollBbr
      */
-    protected JScrollBar hsb;
+    protected JScrollBbr hsb;
 
 
     /**
-     * The row header child.  Default is <code>null</code>.
-     * @see JScrollPane#setRowHeader
+     * The row hebder child.  Defbult is <code>null</code>.
+     * @see JScrollPbne#setRowHebder
      */
-    protected JViewport rowHead;
+    protected JViewport rowHebd;
 
 
     /**
-     * The column header child.  Default is <code>null</code>.
-     * @see JScrollPane#setColumnHeader
+     * The column hebder child.  Defbult is <code>null</code>.
+     * @see JScrollPbne#setColumnHebder
      */
-    protected JViewport colHead;
+    protected JViewport colHebd;
 
 
     /**
-     * The component to display in the lower left corner.
-     * Default is <code>null</code>.
-     * @see JScrollPane#setCorner
+     * The component to displby in the lower left corner.
+     * Defbult is <code>null</code>.
+     * @see JScrollPbne#setCorner
      */
     protected Component lowerLeft;
 
 
     /**
-     * The component to display in the lower right corner.
-     * Default is <code>null</code>.
-     * @see JScrollPane#setCorner
+     * The component to displby in the lower right corner.
+     * Defbult is <code>null</code>.
+     * @see JScrollPbne#setCorner
      */
     protected Component lowerRight;
 
 
     /**
-     * The component to display in the upper left corner.
-     * Default is <code>null</code>.
-     * @see JScrollPane#setCorner
+     * The component to displby in the upper left corner.
+     * Defbult is <code>null</code>.
+     * @see JScrollPbne#setCorner
      */
     protected Component upperLeft;
 
 
     /**
-     * The component to display in the upper right corner.
-     * Default is <code>null</code>.
-     * @see JScrollPane#setCorner
+     * The component to displby in the upper right corner.
+     * Defbult is <code>null</code>.
+     * @see JScrollPbne#setCorner
      */
     protected Component upperRight;
 
 
     /**
-     * The display policy for the vertical scrollbar.
-     * The default is <code>ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED</code>.
+     * The displby policy for the verticbl scrollbbr.
+     * The defbult is <code>ScrollPbneConstbnts.VERTICAL_SCROLLBAR_AS_NEEDED</code>.
      * <p>
-     * This field is obsolete, please use the <code>JScrollPane</code> field instead.
+     * This field is obsolete, plebse use the <code>JScrollPbne</code> field instebd.
      *
-     * @see JScrollPane#setVerticalScrollBarPolicy
+     * @see JScrollPbne#setVerticblScrollBbrPolicy
      */
     protected int vsbPolicy = VERTICAL_SCROLLBAR_AS_NEEDED;
 
 
     /**
-     * The display policy for the horizontal scrollbar.
-     * The default is <code>ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED</code>.
+     * The displby policy for the horizontbl scrollbbr.
+     * The defbult is <code>ScrollPbneConstbnts.HORIZONTAL_SCROLLBAR_AS_NEEDED</code>.
      * <p>
-     * This field is obsolete, please use the <code>JScrollPane</code> field instead.
+     * This field is obsolete, plebse use the <code>JScrollPbne</code> field instebd.
      *
-     * @see JScrollPane#setHorizontalScrollBarPolicy
+     * @see JScrollPbne#setHorizontblScrollBbrPolicy
      */
     protected int hsbPolicy = HORIZONTAL_SCROLLBAR_AS_NEEDED;
 
 
     /**
-     * This method is invoked after the ScrollPaneLayout is set as the
-     * LayoutManager of a <code>JScrollPane</code>.
-     * It initializes all of the internal fields that
-     * are ordinarily set by <code>addLayoutComponent</code>.  For example:
+     * This method is invoked bfter the ScrollPbneLbyout is set bs the
+     * LbyoutMbnbger of b <code>JScrollPbne</code>.
+     * It initiblizes bll of the internbl fields thbt
+     * bre ordinbrily set by <code>bddLbyoutComponent</code>.  For exbmple:
      * <pre>
-     * ScrollPaneLayout mySPLayout = new ScrollPanelLayout() {
-     *     public void layoutContainer(Container p) {
-     *         super.layoutContainer(p);
-     *         // do some extra work here ...
+     * ScrollPbneLbyout mySPLbyout = new ScrollPbnelLbyout() {
+     *     public void lbyoutContbiner(Contbiner p) {
+     *         super.lbyoutContbiner(p);
+     *         // do some extrb work here ...
      *     }
      * };
-     * scrollpane.setLayout(mySPLayout):
+     * scrollpbne.setLbyout(mySPLbyout):
      * </pre>
      *
-     * @param sp an instance of the {@code JScrollPane}
+     * @pbrbm sp bn instbnce of the {@code JScrollPbne}
      */
-    public void syncWithScrollPane(JScrollPane sp) {
+    public void syncWithScrollPbne(JScrollPbne sp) {
         viewport = sp.getViewport();
-        vsb = sp.getVerticalScrollBar();
-        hsb = sp.getHorizontalScrollBar();
-        rowHead = sp.getRowHeader();
-        colHead = sp.getColumnHeader();
+        vsb = sp.getVerticblScrollBbr();
+        hsb = sp.getHorizontblScrollBbr();
+        rowHebd = sp.getRowHebder();
+        colHebd = sp.getColumnHebder();
         lowerLeft = sp.getCorner(LOWER_LEFT_CORNER);
         lowerRight = sp.getCorner(LOWER_RIGHT_CORNER);
         upperLeft = sp.getCorner(UPPER_LEFT_CORNER);
         upperRight = sp.getCorner(UPPER_RIGHT_CORNER);
-        vsbPolicy = sp.getVerticalScrollBarPolicy();
-        hsbPolicy = sp.getHorizontalScrollBarPolicy();
+        vsbPolicy = sp.getVerticblScrollBbrPolicy();
+        hsbPolicy = sp.getHorizontblScrollBbrPolicy();
     }
 
 
     /**
-     * Removes an existing component.  When a new component, such as
-     * the left corner, or vertical scrollbar, is added, the old one,
+     * Removes bn existing component.  When b new component, such bs
+     * the left corner, or verticbl scrollbbr, is bdded, the old one,
      * if it exists, must be removed.
      * <p>
      * This method returns <code>newC</code>. If <code>oldC</code> is
-     * not equal to <code>newC</code> and is non-<code>null</code>,
-     * it will be removed from its parent.
+     * not equbl to <code>newC</code> bnd is non-<code>null</code>,
+     * it will be removed from its pbrent.
      *
-     * @param oldC the <code>Component</code> to replace
-     * @param newC the <code>Component</code> to add
+     * @pbrbm oldC the <code>Component</code> to replbce
+     * @pbrbm newC the <code>Component</code> to bdd
      * @return the <code>newC</code>
      */
-    protected Component addSingletonComponent(Component oldC, Component newC)
+    protected Component bddSingletonComponent(Component oldC, Component newC)
     {
         if ((oldC != null) && (oldC != newC)) {
-            oldC.getParent().remove(oldC);
+            oldC.getPbrent().remove(oldC);
         }
         return newC;
     }
 
 
     /**
-     * Adds the specified component to the layout. The layout is
+     * Adds the specified component to the lbyout. The lbyout is
      * identified using one of:
      * <ul>
-     * <li>ScrollPaneConstants.VIEWPORT
-     * <li>ScrollPaneConstants.VERTICAL_SCROLLBAR
-     * <li>ScrollPaneConstants.HORIZONTAL_SCROLLBAR
-     * <li>ScrollPaneConstants.ROW_HEADER
-     * <li>ScrollPaneConstants.COLUMN_HEADER
-     * <li>ScrollPaneConstants.LOWER_LEFT_CORNER
-     * <li>ScrollPaneConstants.LOWER_RIGHT_CORNER
-     * <li>ScrollPaneConstants.UPPER_LEFT_CORNER
-     * <li>ScrollPaneConstants.UPPER_RIGHT_CORNER
+     * <li>ScrollPbneConstbnts.VIEWPORT
+     * <li>ScrollPbneConstbnts.VERTICAL_SCROLLBAR
+     * <li>ScrollPbneConstbnts.HORIZONTAL_SCROLLBAR
+     * <li>ScrollPbneConstbnts.ROW_HEADER
+     * <li>ScrollPbneConstbnts.COLUMN_HEADER
+     * <li>ScrollPbneConstbnts.LOWER_LEFT_CORNER
+     * <li>ScrollPbneConstbnts.LOWER_RIGHT_CORNER
+     * <li>ScrollPbneConstbnts.UPPER_LEFT_CORNER
+     * <li>ScrollPbneConstbnts.UPPER_RIGHT_CORNER
      * </ul>
      *
-     * @param s the component identifier
-     * @param c the the component to be added
-     * @exception IllegalArgumentException if <code>s</code> is an invalid key
+     * @pbrbm s the component identifier
+     * @pbrbm c the the component to be bdded
+     * @exception IllegblArgumentException if <code>s</code> is bn invblid key
      */
-    public void addLayoutComponent(String s, Component c)
+    public void bddLbyoutComponent(String s, Component c)
     {
-        if (s.equals(VIEWPORT)) {
-            viewport = (JViewport)addSingletonComponent(viewport, c);
+        if (s.equbls(VIEWPORT)) {
+            viewport = (JViewport)bddSingletonComponent(viewport, c);
         }
-        else if (s.equals(VERTICAL_SCROLLBAR)) {
-            vsb = (JScrollBar)addSingletonComponent(vsb, c);
+        else if (s.equbls(VERTICAL_SCROLLBAR)) {
+            vsb = (JScrollBbr)bddSingletonComponent(vsb, c);
         }
-        else if (s.equals(HORIZONTAL_SCROLLBAR)) {
-            hsb = (JScrollBar)addSingletonComponent(hsb, c);
+        else if (s.equbls(HORIZONTAL_SCROLLBAR)) {
+            hsb = (JScrollBbr)bddSingletonComponent(hsb, c);
         }
-        else if (s.equals(ROW_HEADER)) {
-            rowHead = (JViewport)addSingletonComponent(rowHead, c);
+        else if (s.equbls(ROW_HEADER)) {
+            rowHebd = (JViewport)bddSingletonComponent(rowHebd, c);
         }
-        else if (s.equals(COLUMN_HEADER)) {
-            colHead = (JViewport)addSingletonComponent(colHead, c);
+        else if (s.equbls(COLUMN_HEADER)) {
+            colHebd = (JViewport)bddSingletonComponent(colHebd, c);
         }
-        else if (s.equals(LOWER_LEFT_CORNER)) {
-            lowerLeft = addSingletonComponent(lowerLeft, c);
+        else if (s.equbls(LOWER_LEFT_CORNER)) {
+            lowerLeft = bddSingletonComponent(lowerLeft, c);
         }
-        else if (s.equals(LOWER_RIGHT_CORNER)) {
-            lowerRight = addSingletonComponent(lowerRight, c);
+        else if (s.equbls(LOWER_RIGHT_CORNER)) {
+            lowerRight = bddSingletonComponent(lowerRight, c);
         }
-        else if (s.equals(UPPER_LEFT_CORNER)) {
-            upperLeft = addSingletonComponent(upperLeft, c);
+        else if (s.equbls(UPPER_LEFT_CORNER)) {
+            upperLeft = bddSingletonComponent(upperLeft, c);
         }
-        else if (s.equals(UPPER_RIGHT_CORNER)) {
-            upperRight = addSingletonComponent(upperRight, c);
+        else if (s.equbls(UPPER_RIGHT_CORNER)) {
+            upperRight = bddSingletonComponent(upperRight, c);
         }
         else {
-            throw new IllegalArgumentException("invalid layout key " + s);
+            throw new IllegblArgumentException("invblid lbyout key " + s);
         }
     }
 
 
     /**
-     * Removes the specified component from the layout.
+     * Removes the specified component from the lbyout.
      *
-     * @param c the component to remove
+     * @pbrbm c the component to remove
      */
-    public void removeLayoutComponent(Component c)
+    public void removeLbyoutComponent(Component c)
     {
         if (c == viewport) {
             viewport = null;
@@ -279,11 +279,11 @@ public class ScrollPaneLayout
         else if (c == hsb) {
             hsb = null;
         }
-        else if (c == rowHead) {
-            rowHead = null;
+        else if (c == rowHebd) {
+            rowHebd = null;
         }
-        else if (c == colHead) {
-            colHead = null;
+        else if (c == colHebd) {
+            colHebd = null;
         }
         else if (c == lowerLeft) {
             lowerLeft = null;
@@ -301,88 +301,88 @@ public class ScrollPaneLayout
 
 
     /**
-     * Returns the vertical scrollbar-display policy.
+     * Returns the verticbl scrollbbr-displby policy.
      *
-     * @return an integer giving the display policy
-     * @see #setVerticalScrollBarPolicy
+     * @return bn integer giving the displby policy
+     * @see #setVerticblScrollBbrPolicy
      */
-    public int getVerticalScrollBarPolicy() {
+    public int getVerticblScrollBbrPolicy() {
         return vsbPolicy;
     }
 
 
     /**
-     * Sets the vertical scrollbar-display policy. The options
-     * are:
+     * Sets the verticbl scrollbbr-displby policy. The options
+     * bre:
      * <ul>
-     * <li>ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED
-     * <li>ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER
-     * <li>ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS
+     * <li>ScrollPbneConstbnts.VERTICAL_SCROLLBAR_AS_NEEDED
+     * <li>ScrollPbneConstbnts.VERTICAL_SCROLLBAR_NEVER
+     * <li>ScrollPbneConstbnts.VERTICAL_SCROLLBAR_ALWAYS
      * </ul>
-     * Note: Applications should use the <code>JScrollPane</code> version
-     * of this method.  It only exists for backwards compatibility
-     * with the Swing 1.0.2 (and earlier) versions of this class.
+     * Note: Applicbtions should use the <code>JScrollPbne</code> version
+     * of this method.  It only exists for bbckwbrds compbtibility
+     * with the Swing 1.0.2 (bnd ebrlier) versions of this clbss.
      *
-     * @param x an integer giving the display policy
-     * @exception IllegalArgumentException if <code>x</code> is an invalid
-     *          vertical scroll bar policy, as listed above
+     * @pbrbm x bn integer giving the displby policy
+     * @exception IllegblArgumentException if <code>x</code> is bn invblid
+     *          verticbl scroll bbr policy, bs listed bbove
      */
-    public void setVerticalScrollBarPolicy(int x) {
+    public void setVerticblScrollBbrPolicy(int x) {
         switch (x) {
-        case VERTICAL_SCROLLBAR_AS_NEEDED:
-        case VERTICAL_SCROLLBAR_NEVER:
-        case VERTICAL_SCROLLBAR_ALWAYS:
+        cbse VERTICAL_SCROLLBAR_AS_NEEDED:
+        cbse VERTICAL_SCROLLBAR_NEVER:
+        cbse VERTICAL_SCROLLBAR_ALWAYS:
                 vsbPolicy = x;
-                break;
-        default:
-            throw new IllegalArgumentException("invalid verticalScrollBarPolicy");
+                brebk;
+        defbult:
+            throw new IllegblArgumentException("invblid verticblScrollBbrPolicy");
         }
     }
 
 
     /**
-     * Returns the horizontal scrollbar-display policy.
+     * Returns the horizontbl scrollbbr-displby policy.
      *
-     * @return an integer giving the display policy
-     * @see #setHorizontalScrollBarPolicy
+     * @return bn integer giving the displby policy
+     * @see #setHorizontblScrollBbrPolicy
      */
-    public int getHorizontalScrollBarPolicy() {
+    public int getHorizontblScrollBbrPolicy() {
         return hsbPolicy;
     }
 
     /**
-     * Sets the horizontal scrollbar-display policy.
-     * The options are:<ul>
-     * <li>ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED
-     * <li>ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER
-     * <li>ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS
+     * Sets the horizontbl scrollbbr-displby policy.
+     * The options bre:<ul>
+     * <li>ScrollPbneConstbnts.HORIZONTAL_SCROLLBAR_AS_NEEDED
+     * <li>ScrollPbneConstbnts.HORIZONTAL_SCROLLBAR_NEVER
+     * <li>ScrollPbneConstbnts.HORIZONTAL_SCROLLBAR_ALWAYS
      * </ul>
-     * Note: Applications should use the <code>JScrollPane</code> version
-     * of this method.  It only exists for backwards compatibility
-     * with the Swing 1.0.2 (and earlier) versions of this class.
+     * Note: Applicbtions should use the <code>JScrollPbne</code> version
+     * of this method.  It only exists for bbckwbrds compbtibility
+     * with the Swing 1.0.2 (bnd ebrlier) versions of this clbss.
      *
-     * @param x an int giving the display policy
-     * @exception IllegalArgumentException if <code>x</code> is not a valid
-     *          horizontal scrollbar policy, as listed above
+     * @pbrbm x bn int giving the displby policy
+     * @exception IllegblArgumentException if <code>x</code> is not b vblid
+     *          horizontbl scrollbbr policy, bs listed bbove
      */
-    public void setHorizontalScrollBarPolicy(int x) {
+    public void setHorizontblScrollBbrPolicy(int x) {
         switch (x) {
-        case HORIZONTAL_SCROLLBAR_AS_NEEDED:
-        case HORIZONTAL_SCROLLBAR_NEVER:
-        case HORIZONTAL_SCROLLBAR_ALWAYS:
+        cbse HORIZONTAL_SCROLLBAR_AS_NEEDED:
+        cbse HORIZONTAL_SCROLLBAR_NEVER:
+        cbse HORIZONTAL_SCROLLBAR_ALWAYS:
                 hsbPolicy = x;
-                break;
-        default:
-            throw new IllegalArgumentException("invalid horizontalScrollBarPolicy");
+                brebk;
+        defbult:
+            throw new IllegblArgumentException("invblid horizontblScrollBbrPolicy");
         }
     }
 
 
     /**
-     * Returns the <code>JViewport</code> object that displays the
-     * scrollable contents.
-     * @return the <code>JViewport</code> object that displays the scrollable contents
-     * @see JScrollPane#getViewport
+     * Returns the <code>JViewport</code> object thbt displbys the
+     * scrollbble contents.
+     * @return the <code>JViewport</code> object thbt displbys the scrollbble contents
+     * @see JScrollPbne#getViewport
      */
     public JViewport getViewport() {
         return viewport;
@@ -390,63 +390,63 @@ public class ScrollPaneLayout
 
 
     /**
-     * Returns the <code>JScrollBar</code> object that handles horizontal scrolling.
-     * @return the <code>JScrollBar</code> object that handles horizontal scrolling
-     * @see JScrollPane#getHorizontalScrollBar
+     * Returns the <code>JScrollBbr</code> object thbt hbndles horizontbl scrolling.
+     * @return the <code>JScrollBbr</code> object thbt hbndles horizontbl scrolling
+     * @see JScrollPbne#getHorizontblScrollBbr
      */
-    public JScrollBar getHorizontalScrollBar() {
+    public JScrollBbr getHorizontblScrollBbr() {
         return hsb;
     }
 
     /**
-     * Returns the <code>JScrollBar</code> object that handles vertical scrolling.
-     * @return the <code>JScrollBar</code> object that handles vertical scrolling
-     * @see JScrollPane#getVerticalScrollBar
+     * Returns the <code>JScrollBbr</code> object thbt hbndles verticbl scrolling.
+     * @return the <code>JScrollBbr</code> object thbt hbndles verticbl scrolling
+     * @see JScrollPbne#getVerticblScrollBbr
      */
-    public JScrollBar getVerticalScrollBar() {
+    public JScrollBbr getVerticblScrollBbr() {
         return vsb;
     }
 
 
     /**
-     * Returns the <code>JViewport</code> object that is the row header.
-     * @return the <code>JViewport</code> object that is the row header
-     * @see JScrollPane#getRowHeader
+     * Returns the <code>JViewport</code> object thbt is the row hebder.
+     * @return the <code>JViewport</code> object thbt is the row hebder
+     * @see JScrollPbne#getRowHebder
      */
-    public JViewport getRowHeader() {
-        return rowHead;
+    public JViewport getRowHebder() {
+        return rowHebd;
     }
 
 
     /**
-     * Returns the <code>JViewport</code> object that is the column header.
-     * @return the <code>JViewport</code> object that is the column header
-     * @see JScrollPane#getColumnHeader
+     * Returns the <code>JViewport</code> object thbt is the column hebder.
+     * @return the <code>JViewport</code> object thbt is the column hebder
+     * @see JScrollPbne#getColumnHebder
      */
-    public JViewport getColumnHeader() {
-        return colHead;
+    public JViewport getColumnHebder() {
+        return colHebd;
     }
 
 
     /**
-     * Returns the <code>Component</code> at the specified corner.
-     * @param key the <code>String</code> specifying the corner
-     * @return the <code>Component</code> at the specified corner, as defined in
-     *         {@link ScrollPaneConstants}; if <code>key</code> is not one of the
+     * Returns the <code>Component</code> bt the specified corner.
+     * @pbrbm key the <code>String</code> specifying the corner
+     * @return the <code>Component</code> bt the specified corner, bs defined in
+     *         {@link ScrollPbneConstbnts}; if <code>key</code> is not one of the
      *          four corners, <code>null</code> is returned
-     * @see JScrollPane#getCorner
+     * @see JScrollPbne#getCorner
      */
     public Component getCorner(String key) {
-        if (key.equals(LOWER_LEFT_CORNER)) {
+        if (key.equbls(LOWER_LEFT_CORNER)) {
             return lowerLeft;
         }
-        else if (key.equals(LOWER_RIGHT_CORNER)) {
+        else if (key.equbls(LOWER_RIGHT_CORNER)) {
             return lowerRight;
         }
-        else if (key.equals(UPPER_LEFT_CORNER)) {
+        else if (key.equbls(UPPER_LEFT_CORNER)) {
             return upperLeft;
         }
-        else if (key.equals(UPPER_RIGHT_CORNER)) {
+        else if (key.equbls(UPPER_RIGHT_CORNER)) {
             return upperRight;
         }
         else {
@@ -456,36 +456,36 @@ public class ScrollPaneLayout
 
 
     /**
-     * The preferred size of a <code>ScrollPane</code> is the size of the insets,
+     * The preferred size of b <code>ScrollPbne</code> is the size of the insets,
      * plus the preferred size of the viewport, plus the preferred size of
-     * the visible headers, plus the preferred size of the scrollbars
-     * that will appear given the current view and the current
-     * scrollbar displayPolicies.
-     * <p>Note that the rowHeader is calculated as part of the preferred width
-     * and the colHeader is calculated as part of the preferred size.
+     * the visible hebders, plus the preferred size of the scrollbbrs
+     * thbt will bppebr given the current view bnd the current
+     * scrollbbr displbyPolicies.
+     * <p>Note thbt the rowHebder is cblculbted bs pbrt of the preferred width
+     * bnd the colHebder is cblculbted bs pbrt of the preferred size.
      *
-     * @param parent the <code>Container</code> that will be laid out
-     * @return a <code>Dimension</code> object specifying the preferred size of the
-     *         viewport and any scrollbars
-     * @see ViewportLayout
-     * @see LayoutManager
+     * @pbrbm pbrent the <code>Contbiner</code> thbt will be lbid out
+     * @return b <code>Dimension</code> object specifying the preferred size of the
+     *         viewport bnd bny scrollbbrs
+     * @see ViewportLbyout
+     * @see LbyoutMbnbger
      */
-    public Dimension preferredLayoutSize(Container parent)
+    public Dimension preferredLbyoutSize(Contbiner pbrent)
     {
         /* Sync the (now obsolete) policy fields with the
-         * JScrollPane.
+         * JScrollPbne.
          */
-        JScrollPane scrollPane = (JScrollPane)parent;
-        vsbPolicy = scrollPane.getVerticalScrollBarPolicy();
-        hsbPolicy = scrollPane.getHorizontalScrollBarPolicy();
+        JScrollPbne scrollPbne = (JScrollPbne)pbrent;
+        vsbPolicy = scrollPbne.getVerticblScrollBbrPolicy();
+        hsbPolicy = scrollPbne.getHorizontblScrollBbrPolicy();
 
-        Insets insets = parent.getInsets();
+        Insets insets = pbrent.getInsets();
         int prefWidth = insets.left + insets.right;
         int prefHeight = insets.top + insets.bottom;
 
-        /* Note that viewport.getViewSize() is equivalent to
-         * viewport.getView().getPreferredSize() modulo a null
-         * view or a view whose size was explicitly set.
+        /* Note thbt viewport.getViewSize() is equivblent to
+         * viewport.getView().getPreferredSize() modulo b null
+         * view or b view whose size wbs explicitly set.
          */
 
         Dimension extentSize = null;
@@ -502,7 +502,7 @@ public class ScrollPaneLayout
             }
         }
 
-        /* If there's a viewport add its preferredSize.
+        /* If there's b viewport bdd its preferredSize.
          */
 
         if (extentSize != null) {
@@ -510,43 +510,43 @@ public class ScrollPaneLayout
             prefHeight += extentSize.height;
         }
 
-        /* If there's a JScrollPane.viewportBorder, add its insets.
+        /* If there's b JScrollPbne.viewportBorder, bdd its insets.
          */
 
-        Border viewportBorder = scrollPane.getViewportBorder();
+        Border viewportBorder = scrollPbne.getViewportBorder();
         if (viewportBorder != null) {
-            Insets vpbInsets = viewportBorder.getBorderInsets(parent);
+            Insets vpbInsets = viewportBorder.getBorderInsets(pbrent);
             prefWidth += vpbInsets.left + vpbInsets.right;
             prefHeight += vpbInsets.top + vpbInsets.bottom;
         }
 
-        /* If a header exists and it's visible, factor its
+        /* If b hebder exists bnd it's visible, fbctor its
          * preferred size in.
          */
 
-        if ((rowHead != null) && rowHead.isVisible()) {
-            prefWidth += rowHead.getPreferredSize().width;
+        if ((rowHebd != null) && rowHebd.isVisible()) {
+            prefWidth += rowHebd.getPreferredSize().width;
         }
 
-        if ((colHead != null) && colHead.isVisible()) {
-            prefHeight += colHead.getPreferredSize().height;
+        if ((colHebd != null) && colHebd.isVisible()) {
+            prefHeight += colHebd.getPreferredSize().height;
         }
 
-        /* If a scrollbar is going to appear, factor its preferred size in.
-         * If the scrollbars policy is AS_NEEDED, this can be a little
+        /* If b scrollbbr is going to bppebr, fbctor its preferred size in.
+         * If the scrollbbrs policy is AS_NEEDED, this cbn be b little
          * tricky:
          *
-         * - If the view is a Scrollable then scrollableTracksViewportWidth
-         * and scrollableTracksViewportHeight can be used to effectively
-         * disable scrolling (if they're true) in their respective dimensions.
+         * - If the view is b Scrollbble then scrollbbleTrbcksViewportWidth
+         * bnd scrollbbleTrbcksViewportHeight cbn be used to effectively
+         * disbble scrolling (if they're true) in their respective dimensions.
          *
-         * - Assuming that a scrollbar hasn't been disabled by the
-         * previous constraint, we need to decide if the scrollbar is going
-         * to appear to correctly compute the JScrollPanes preferred size.
-         * To do this we compare the preferredSize of the viewport (the
+         * - Assuming thbt b scrollbbr hbsn't been disbbled by the
+         * previous constrbint, we need to decide if the scrollbbr is going
+         * to bppebr to correctly compute the JScrollPbnes preferred size.
+         * To do this we compbre the preferredSize of the viewport (the
          * extentSize) to the preferredSize of the view.  Although we're
-         * not responsible for laying out the view we'll assume that the
-         * JViewport will always give it its preferredSize.
+         * not responsible for lbying out the view we'll bssume thbt the
+         * JViewport will blwbys give it its preferredSize.
          */
 
         if ((vsb != null) && (vsbPolicy != VERTICAL_SCROLLBAR_NEVER)) {
@@ -554,11 +554,11 @@ public class ScrollPaneLayout
                 prefWidth += vsb.getPreferredSize().width;
             }
             else if ((viewSize != null) && (extentSize != null)) {
-                boolean canScroll = true;
-                if (view instanceof Scrollable) {
-                    canScroll = !((Scrollable)view).getScrollableTracksViewportHeight();
+                boolebn cbnScroll = true;
+                if (view instbnceof Scrollbble) {
+                    cbnScroll = !((Scrollbble)view).getScrollbbleTrbcksViewportHeight();
                 }
-                if (canScroll && (viewSize.height > extentSize.height)) {
+                if (cbnScroll && (viewSize.height > extentSize.height)) {
                     prefWidth += vsb.getPreferredSize().width;
                 }
             }
@@ -569,11 +569,11 @@ public class ScrollPaneLayout
                 prefHeight += hsb.getPreferredSize().height;
             }
             else if ((viewSize != null) && (extentSize != null)) {
-                boolean canScroll = true;
-                if (view instanceof Scrollable) {
-                    canScroll = !((Scrollable)view).getScrollableTracksViewportWidth();
+                boolebn cbnScroll = true;
+                if (view instbnceof Scrollbble) {
+                    cbnScroll = !((Scrollbble)view).getScrollbbleTrbcksViewportWidth();
                 }
-                if (canScroll && (viewSize.width > extentSize.width)) {
+                if (cbnScroll && (viewSize.width > extentSize.width)) {
                     prefHeight += hsb.getPreferredSize().height;
                 }
             }
@@ -584,29 +584,29 @@ public class ScrollPaneLayout
 
 
     /**
-     * The minimum size of a <code>ScrollPane</code> is the size of the insets
-     * plus minimum size of the viewport, plus the scrollpane's
+     * The minimum size of b <code>ScrollPbne</code> is the size of the insets
+     * plus minimum size of the viewport, plus the scrollpbne's
      * viewportBorder insets, plus the minimum size
-     * of the visible headers, plus the minimum size of the
-     * scrollbars whose displayPolicy isn't NEVER.
+     * of the visible hebders, plus the minimum size of the
+     * scrollbbrs whose displbyPolicy isn't NEVER.
      *
-     * @param parent the <code>Container</code> that will be laid out
-     * @return a <code>Dimension</code> object specifying the minimum size
+     * @pbrbm pbrent the <code>Contbiner</code> thbt will be lbid out
+     * @return b <code>Dimension</code> object specifying the minimum size
      */
-    public Dimension minimumLayoutSize(Container parent)
+    public Dimension minimumLbyoutSize(Contbiner pbrent)
     {
         /* Sync the (now obsolete) policy fields with the
-         * JScrollPane.
+         * JScrollPbne.
          */
-        JScrollPane scrollPane = (JScrollPane)parent;
-        vsbPolicy = scrollPane.getVerticalScrollBarPolicy();
-        hsbPolicy = scrollPane.getHorizontalScrollBarPolicy();
+        JScrollPbne scrollPbne = (JScrollPbne)pbrent;
+        vsbPolicy = scrollPbne.getVerticblScrollBbrPolicy();
+        hsbPolicy = scrollPbne.getHorizontblScrollBbrPolicy();
 
-        Insets insets = parent.getInsets();
+        Insets insets = pbrent.getInsets();
         int minWidth = insets.left + insets.right;
         int minHeight = insets.top + insets.bottom;
 
-        /* If there's a viewport add its minimumSize.
+        /* If there's b viewport bdd its minimumSize.
          */
 
         if (viewport != null) {
@@ -615,45 +615,45 @@ public class ScrollPaneLayout
             minHeight += size.height;
         }
 
-        /* If there's a JScrollPane.viewportBorder, add its insets.
+        /* If there's b JScrollPbne.viewportBorder, bdd its insets.
          */
 
-        Border viewportBorder = scrollPane.getViewportBorder();
+        Border viewportBorder = scrollPbne.getViewportBorder();
         if (viewportBorder != null) {
-            Insets vpbInsets = viewportBorder.getBorderInsets(parent);
+            Insets vpbInsets = viewportBorder.getBorderInsets(pbrent);
             minWidth += vpbInsets.left + vpbInsets.right;
             minHeight += vpbInsets.top + vpbInsets.bottom;
         }
 
-        /* If a header exists and it's visible, factor its
+        /* If b hebder exists bnd it's visible, fbctor its
          * minimum size in.
          */
 
-        if ((rowHead != null) && rowHead.isVisible()) {
-            Dimension size = rowHead.getMinimumSize();
+        if ((rowHebd != null) && rowHebd.isVisible()) {
+            Dimension size = rowHebd.getMinimumSize();
             minWidth += size.width;
-            minHeight = Math.max(minHeight, size.height);
+            minHeight = Mbth.mbx(minHeight, size.height);
         }
 
-        if ((colHead != null) && colHead.isVisible()) {
-            Dimension size = colHead.getMinimumSize();
-            minWidth = Math.max(minWidth, size.width);
+        if ((colHebd != null) && colHebd.isVisible()) {
+            Dimension size = colHebd.getMinimumSize();
+            minWidth = Mbth.mbx(minWidth, size.width);
             minHeight += size.height;
         }
 
-        /* If a scrollbar might appear, factor its minimum
+        /* If b scrollbbr might bppebr, fbctor its minimum
          * size in.
          */
 
         if ((vsb != null) && (vsbPolicy != VERTICAL_SCROLLBAR_NEVER)) {
             Dimension size = vsb.getMinimumSize();
             minWidth += size.width;
-            minHeight = Math.max(minHeight, size.height);
+            minHeight = Mbth.mbx(minHeight, size.height);
         }
 
         if ((hsb != null) && (hsbPolicy != HORIZONTAL_SCROLLBAR_NEVER)) {
             Dimension size = hsb.getMinimumSize();
-            minWidth = Math.max(minWidth, size.width);
+            minWidth = Mbth.mbx(minWidth, size.width);
             minHeight += size.height;
         }
 
@@ -662,132 +662,132 @@ public class ScrollPaneLayout
 
 
     /**
-     * Lays out the scrollpane. The positioning of components depends on
-     * the following constraints:
+     * Lbys out the scrollpbne. The positioning of components depends on
+     * the following constrbints:
      * <ul>
-     * <li> The row header, if present and visible, gets its preferred
-     * width and the viewport's height.
+     * <li> The row hebder, if present bnd visible, gets its preferred
+     * width bnd the viewport's height.
      *
-     * <li> The column header, if present and visible, gets its preferred
-     * height and the viewport's width.
+     * <li> The column hebder, if present bnd visible, gets its preferred
+     * height bnd the viewport's width.
      *
-     * <li> If a vertical scrollbar is needed, i.e. if the viewport's extent
-     * height is smaller than its view height or if the <code>displayPolicy</code>
-     * is ALWAYS, it's treated like the row header with respect to its
-     * dimensions and is made visible.
+     * <li> If b verticbl scrollbbr is needed, i.e. if the viewport's extent
+     * height is smbller thbn its view height or if the <code>displbyPolicy</code>
+     * is ALWAYS, it's trebted like the row hebder with respect to its
+     * dimensions bnd is mbde visible.
      *
-     * <li> If a horizontal scrollbar is needed, it is treated like the
-     * column header (see the paragraph above regarding the vertical scrollbar).
+     * <li> If b horizontbl scrollbbr is needed, it is trebted like the
+     * column hebder (see the pbrbgrbph bbove regbrding the verticbl scrollbbr).
      *
-     * <li> If the scrollpane has a non-<code>null</code>
-     * <code>viewportBorder</code>, then space is allocated for that.
+     * <li> If the scrollpbne hbs b non-<code>null</code>
+     * <code>viewportBorder</code>, then spbce is bllocbted for thbt.
      *
-     * <li> The viewport gets the space available after accounting for
-     * the previous constraints.
+     * <li> The viewport gets the spbce bvbilbble bfter bccounting for
+     * the previous constrbints.
      *
-     * <li> The corner components, if provided, are aligned with the
-     * ends of the scrollbars and headers. If there is a vertical
-     * scrollbar, the right corners appear; if there is a horizontal
-     * scrollbar, the lower corners appear; a row header gets left
-     * corners, and a column header gets upper corners.
+     * <li> The corner components, if provided, bre bligned with the
+     * ends of the scrollbbrs bnd hebders. If there is b verticbl
+     * scrollbbr, the right corners bppebr; if there is b horizontbl
+     * scrollbbr, the lower corners bppebr; b row hebder gets left
+     * corners, bnd b column hebder gets upper corners.
      * </ul>
      *
-     * @param parent the <code>Container</code> to lay out
+     * @pbrbm pbrent the <code>Contbiner</code> to lby out
      */
-    public void layoutContainer(Container parent)
+    public void lbyoutContbiner(Contbiner pbrent)
     {
         /* Sync the (now obsolete) policy fields with the
-         * JScrollPane.
+         * JScrollPbne.
          */
-        JScrollPane scrollPane = (JScrollPane)parent;
-        vsbPolicy = scrollPane.getVerticalScrollBarPolicy();
-        hsbPolicy = scrollPane.getHorizontalScrollBarPolicy();
+        JScrollPbne scrollPbne = (JScrollPbne)pbrent;
+        vsbPolicy = scrollPbne.getVerticblScrollBbrPolicy();
+        hsbPolicy = scrollPbne.getHorizontblScrollBbrPolicy();
 
-        Rectangle availR = scrollPane.getBounds();
-        availR.x = availR.y = 0;
+        Rectbngle bvbilR = scrollPbne.getBounds();
+        bvbilR.x = bvbilR.y = 0;
 
-        Insets insets = parent.getInsets();
-        availR.x = insets.left;
-        availR.y = insets.top;
-        availR.width -= insets.left + insets.right;
-        availR.height -= insets.top + insets.bottom;
+        Insets insets = pbrent.getInsets();
+        bvbilR.x = insets.left;
+        bvbilR.y = insets.top;
+        bvbilR.width -= insets.left + insets.right;
+        bvbilR.height -= insets.top + insets.bottom;
 
-        /* Get the scrollPane's orientation.
+        /* Get the scrollPbne's orientbtion.
          */
-        boolean leftToRight = SwingUtilities.isLeftToRight(scrollPane);
+        boolebn leftToRight = SwingUtilities.isLeftToRight(scrollPbne);
 
-        /* If there's a visible column header remove the space it
-         * needs from the top of availR.  The column header is treated
-         * as if it were fixed height, arbitrary width.
+        /* If there's b visible column hebder remove the spbce it
+         * needs from the top of bvbilR.  The column hebder is trebted
+         * bs if it were fixed height, brbitrbry width.
          */
 
-        Rectangle colHeadR = new Rectangle(0, availR.y, 0, 0);
+        Rectbngle colHebdR = new Rectbngle(0, bvbilR.y, 0, 0);
 
-        if ((colHead != null) && (colHead.isVisible())) {
-            int colHeadHeight = Math.min(availR.height,
-                                         colHead.getPreferredSize().height);
-            colHeadR.height = colHeadHeight;
-            availR.y += colHeadHeight;
-            availR.height -= colHeadHeight;
+        if ((colHebd != null) && (colHebd.isVisible())) {
+            int colHebdHeight = Mbth.min(bvbilR.height,
+                                         colHebd.getPreferredSize().height);
+            colHebdR.height = colHebdHeight;
+            bvbilR.y += colHebdHeight;
+            bvbilR.height -= colHebdHeight;
         }
 
-        /* If there's a visible row header remove the space it needs
-         * from the left or right of availR.  The row header is treated
-         * as if it were fixed width, arbitrary height.
+        /* If there's b visible row hebder remove the spbce it needs
+         * from the left or right of bvbilR.  The row hebder is trebted
+         * bs if it were fixed width, brbitrbry height.
          */
 
-        Rectangle rowHeadR = new Rectangle(0, 0, 0, 0);
+        Rectbngle rowHebdR = new Rectbngle(0, 0, 0, 0);
 
-        if ((rowHead != null) && (rowHead.isVisible())) {
-            int rowHeadWidth = Math.min(availR.width,
-                                        rowHead.getPreferredSize().width);
-            rowHeadR.width = rowHeadWidth;
-            availR.width -= rowHeadWidth;
+        if ((rowHebd != null) && (rowHebd.isVisible())) {
+            int rowHebdWidth = Mbth.min(bvbilR.width,
+                                        rowHebd.getPreferredSize().width);
+            rowHebdR.width = rowHebdWidth;
+            bvbilR.width -= rowHebdWidth;
             if ( leftToRight ) {
-                rowHeadR.x = availR.x;
-                availR.x += rowHeadWidth;
+                rowHebdR.x = bvbilR.x;
+                bvbilR.x += rowHebdWidth;
             } else {
-                rowHeadR.x = availR.x + availR.width;
+                rowHebdR.x = bvbilR.x + bvbilR.width;
             }
         }
 
-        /* If there's a JScrollPane.viewportBorder, remove the
-         * space it occupies for availR.
+        /* If there's b JScrollPbne.viewportBorder, remove the
+         * spbce it occupies for bvbilR.
          */
 
-        Border viewportBorder = scrollPane.getViewportBorder();
+        Border viewportBorder = scrollPbne.getViewportBorder();
         Insets vpbInsets;
         if (viewportBorder != null) {
-            vpbInsets = viewportBorder.getBorderInsets(parent);
-            availR.x += vpbInsets.left;
-            availR.y += vpbInsets.top;
-            availR.width -= vpbInsets.left + vpbInsets.right;
-            availR.height -= vpbInsets.top + vpbInsets.bottom;
+            vpbInsets = viewportBorder.getBorderInsets(pbrent);
+            bvbilR.x += vpbInsets.left;
+            bvbilR.y += vpbInsets.top;
+            bvbilR.width -= vpbInsets.left + vpbInsets.right;
+            bvbilR.height -= vpbInsets.top + vpbInsets.bottom;
         }
         else {
             vpbInsets = new Insets(0,0,0,0);
         }
 
 
-        /* At this point availR is the space available for the viewport
-         * and scrollbars. rowHeadR is correct except for its height and y
-         * and colHeadR is correct except for its width and x.  Once we're
-         * through computing the dimensions  of these three parts we can
-         * go back and set the dimensions of rowHeadR.height, rowHeadR.y,
-         * colHeadR.width, colHeadR.x and the bounds for the corners.
+        /* At this point bvbilR is the spbce bvbilbble for the viewport
+         * bnd scrollbbrs. rowHebdR is correct except for its height bnd y
+         * bnd colHebdR is correct except for its width bnd x.  Once we're
+         * through computing the dimensions  of these three pbrts we cbn
+         * go bbck bnd set the dimensions of rowHebdR.height, rowHebdR.y,
+         * colHebdR.width, colHebdR.x bnd the bounds for the corners.
          *
-         * We'll decide about putting up scrollbars by comparing the
+         * We'll decide bbout putting up scrollbbrs by compbring the
          * viewport views preferred size with the viewports extent
-         * size (generally just its size).  Using the preferredSize is
-         * reasonable because layout proceeds top down - so we expect
-         * the viewport to be laid out next.  And we assume that the
-         * viewports layout manager will give the view it's preferred
+         * size (generblly just its size).  Using the preferredSize is
+         * rebsonbble becbuse lbyout proceeds top down - so we expect
+         * the viewport to be lbid out next.  And we bssume thbt the
+         * viewports lbyout mbnbger will give the view it's preferred
          * size.  One exception to this is when the view implements
-         * Scrollable and Scrollable.getViewTracksViewport{Width,Height}
-         * methods return true.  If the view is tracking the viewports
-         * width we don't bother with a horizontal scrollbar, similarly
-         * if view.getViewTracksViewport(Height) is true we don't bother
-         * with a vertical scrollbar.
+         * Scrollbble bnd Scrollbble.getViewTrbcksViewport{Width,Height}
+         * methods return true.  If the view is trbcking the viewports
+         * width we don't bother with b horizontbl scrollbbr, similbrly
+         * if view.getViewTrbcksViewport(Height) is true we don't bother
+         * with b verticbl scrollbbr.
          */
 
         Component view = (viewport != null) ? viewport.getView() : null;
@@ -796,133 +796,133 @@ public class ScrollPaneLayout
                            : new Dimension(0,0);
 
         Dimension extentSize =
-            (viewport != null) ? viewport.toViewCoordinates(availR.getSize())
+            (viewport != null) ? viewport.toViewCoordinbtes(bvbilR.getSize())
                                : new Dimension(0,0);
 
-        boolean viewTracksViewportWidth = false;
-        boolean viewTracksViewportHeight = false;
-        boolean isEmpty = (availR.width < 0 || availR.height < 0);
-        Scrollable sv;
-        // Don't bother checking the Scrollable methods if there is no room
-        // for the viewport, we aren't going to show any scrollbars in this
-        // case anyway.
-        if (!isEmpty && view instanceof Scrollable) {
-            sv = (Scrollable)view;
-            viewTracksViewportWidth = sv.getScrollableTracksViewportWidth();
-            viewTracksViewportHeight = sv.getScrollableTracksViewportHeight();
+        boolebn viewTrbcksViewportWidth = fblse;
+        boolebn viewTrbcksViewportHeight = fblse;
+        boolebn isEmpty = (bvbilR.width < 0 || bvbilR.height < 0);
+        Scrollbble sv;
+        // Don't bother checking the Scrollbble methods if there is no room
+        // for the viewport, we bren't going to show bny scrollbbrs in this
+        // cbse bnywby.
+        if (!isEmpty && view instbnceof Scrollbble) {
+            sv = (Scrollbble)view;
+            viewTrbcksViewportWidth = sv.getScrollbbleTrbcksViewportWidth();
+            viewTrbcksViewportHeight = sv.getScrollbbleTrbcksViewportHeight();
         }
         else {
             sv = null;
         }
 
-        /* If there's a vertical scrollbar and we need one, allocate
-         * space for it (we'll make it visible later). A vertical
-         * scrollbar is considered to be fixed width, arbitrary height.
+        /* If there's b verticbl scrollbbr bnd we need one, bllocbte
+         * spbce for it (we'll mbke it visible lbter). A verticbl
+         * scrollbbr is considered to be fixed width, brbitrbry height.
          */
 
-        Rectangle vsbR = new Rectangle(0, availR.y - vpbInsets.top, 0, 0);
+        Rectbngle vsbR = new Rectbngle(0, bvbilR.y - vpbInsets.top, 0, 0);
 
-        boolean vsbNeeded;
+        boolebn vsbNeeded;
         if (vsbPolicy == VERTICAL_SCROLLBAR_ALWAYS) {
             vsbNeeded = true;
         }
         else if (vsbPolicy == VERTICAL_SCROLLBAR_NEVER) {
-            vsbNeeded = false;
+            vsbNeeded = fblse;
         }
         else {  // vsbPolicy == VERTICAL_SCROLLBAR_AS_NEEDED
-            vsbNeeded = !viewTracksViewportHeight && (viewPrefSize.height > extentSize.height);
+            vsbNeeded = !viewTrbcksViewportHeight && (viewPrefSize.height > extentSize.height);
         }
 
 
         if ((vsb != null) && vsbNeeded) {
-            adjustForVSB(true, availR, vsbR, vpbInsets, leftToRight);
-            extentSize = viewport.toViewCoordinates(availR.getSize());
+            bdjustForVSB(true, bvbilR, vsbR, vpbInsets, leftToRight);
+            extentSize = viewport.toViewCoordinbtes(bvbilR.getSize());
         }
 
-        /* If there's a horizontal scrollbar and we need one, allocate
-         * space for it (we'll make it visible later). A horizontal
-         * scrollbar is considered to be fixed height, arbitrary width.
+        /* If there's b horizontbl scrollbbr bnd we need one, bllocbte
+         * spbce for it (we'll mbke it visible lbter). A horizontbl
+         * scrollbbr is considered to be fixed height, brbitrbry width.
          */
 
-        Rectangle hsbR = new Rectangle(availR.x - vpbInsets.left, 0, 0, 0);
-        boolean hsbNeeded;
+        Rectbngle hsbR = new Rectbngle(bvbilR.x - vpbInsets.left, 0, 0, 0);
+        boolebn hsbNeeded;
         if (hsbPolicy == HORIZONTAL_SCROLLBAR_ALWAYS) {
             hsbNeeded = true;
         }
         else if (hsbPolicy == HORIZONTAL_SCROLLBAR_NEVER) {
-            hsbNeeded = false;
+            hsbNeeded = fblse;
         }
         else {  // hsbPolicy == HORIZONTAL_SCROLLBAR_AS_NEEDED
-            hsbNeeded = !viewTracksViewportWidth && (viewPrefSize.width > extentSize.width);
+            hsbNeeded = !viewTrbcksViewportWidth && (viewPrefSize.width > extentSize.width);
         }
 
         if ((hsb != null) && hsbNeeded) {
-            adjustForHSB(true, availR, hsbR, vpbInsets);
+            bdjustForHSB(true, bvbilR, hsbR, vpbInsets);
 
-            /* If we added the horizontal scrollbar then we've implicitly
-             * reduced  the vertical space available to the viewport.
-             * As a consequence we may have to add the vertical scrollbar,
-             * if that hasn't been done so already.  Of course we
-             * don't bother with any of this if the vsbPolicy is NEVER.
+            /* If we bdded the horizontbl scrollbbr then we've implicitly
+             * reduced  the verticbl spbce bvbilbble to the viewport.
+             * As b consequence we mby hbve to bdd the verticbl scrollbbr,
+             * if thbt hbsn't been done so blrebdy.  Of course we
+             * don't bother with bny of this if the vsbPolicy is NEVER.
              */
             if ((vsb != null) && !vsbNeeded &&
                 (vsbPolicy != VERTICAL_SCROLLBAR_NEVER)) {
 
-                extentSize = viewport.toViewCoordinates(availR.getSize());
+                extentSize = viewport.toViewCoordinbtes(bvbilR.getSize());
                 vsbNeeded = viewPrefSize.height > extentSize.height;
 
                 if (vsbNeeded) {
-                    adjustForVSB(true, availR, vsbR, vpbInsets, leftToRight);
+                    bdjustForVSB(true, bvbilR, vsbR, vpbInsets, leftToRight);
                 }
             }
         }
 
-        /* Set the size of the viewport first, and then recheck the Scrollable
-         * methods. Some components base their return values for the Scrollable
-         * methods on the size of the Viewport, so that if we don't
-         * ask after resetting the bounds we may have gotten the wrong
-         * answer.
+        /* Set the size of the viewport first, bnd then recheck the Scrollbble
+         * methods. Some components bbse their return vblues for the Scrollbble
+         * methods on the size of the Viewport, so thbt if we don't
+         * bsk bfter resetting the bounds we mby hbve gotten the wrong
+         * bnswer.
          */
 
         if (viewport != null) {
-            viewport.setBounds(availR);
+            viewport.setBounds(bvbilR);
 
             if (sv != null) {
-                extentSize = viewport.toViewCoordinates(availR.getSize());
+                extentSize = viewport.toViewCoordinbtes(bvbilR.getSize());
 
-                boolean oldHSBNeeded = hsbNeeded;
-                boolean oldVSBNeeded = vsbNeeded;
-                viewTracksViewportWidth = sv.
-                                          getScrollableTracksViewportWidth();
-                viewTracksViewportHeight = sv.
-                                          getScrollableTracksViewportHeight();
+                boolebn oldHSBNeeded = hsbNeeded;
+                boolebn oldVSBNeeded = vsbNeeded;
+                viewTrbcksViewportWidth = sv.
+                                          getScrollbbleTrbcksViewportWidth();
+                viewTrbcksViewportHeight = sv.
+                                          getScrollbbleTrbcksViewportHeight();
                 if (vsb != null && vsbPolicy == VERTICAL_SCROLLBAR_AS_NEEDED) {
-                    boolean newVSBNeeded = !viewTracksViewportHeight &&
+                    boolebn newVSBNeeded = !viewTrbcksViewportHeight &&
                                      (viewPrefSize.height > extentSize.height);
                     if (newVSBNeeded != vsbNeeded) {
                         vsbNeeded = newVSBNeeded;
-                        adjustForVSB(vsbNeeded, availR, vsbR, vpbInsets,
+                        bdjustForVSB(vsbNeeded, bvbilR, vsbR, vpbInsets,
                                      leftToRight);
-                        extentSize = viewport.toViewCoordinates
-                                              (availR.getSize());
+                        extentSize = viewport.toViewCoordinbtes
+                                              (bvbilR.getSize());
                     }
                 }
                 if (hsb != null && hsbPolicy ==HORIZONTAL_SCROLLBAR_AS_NEEDED){
-                    boolean newHSBbNeeded = !viewTracksViewportWidth &&
+                    boolebn newHSBbNeeded = !viewTrbcksViewportWidth &&
                                        (viewPrefSize.width > extentSize.width);
                     if (newHSBbNeeded != hsbNeeded) {
                         hsbNeeded = newHSBbNeeded;
-                        adjustForHSB(hsbNeeded, availR, hsbR, vpbInsets);
+                        bdjustForHSB(hsbNeeded, bvbilR, hsbR, vpbInsets);
                         if ((vsb != null) && !vsbNeeded &&
                             (vsbPolicy != VERTICAL_SCROLLBAR_NEVER)) {
 
-                            extentSize = viewport.toViewCoordinates
-                                         (availR.getSize());
+                            extentSize = viewport.toViewCoordinbtes
+                                         (bvbilR.getSize());
                             vsbNeeded = viewPrefSize.height >
                                         extentSize.height;
 
                             if (vsbNeeded) {
-                                adjustForVSB(true, availR, vsbR, vpbInsets,
+                                bdjustForVSB(true, bvbilR, vsbR, vpbInsets,
                                              leftToRight);
                             }
                         }
@@ -930,191 +930,191 @@ public class ScrollPaneLayout
                 }
                 if (oldHSBNeeded != hsbNeeded ||
                     oldVSBNeeded != vsbNeeded) {
-                    viewport.setBounds(availR);
-                    // You could argue that we should recheck the
-                    // Scrollable methods again until they stop changing,
-                    // but they might never stop changing, so we stop here
-                    // and don't do any additional checks.
+                    viewport.setBounds(bvbilR);
+                    // You could brgue thbt we should recheck the
+                    // Scrollbble methods bgbin until they stop chbnging,
+                    // but they might never stop chbnging, so we stop here
+                    // bnd don't do bny bdditionbl checks.
                 }
             }
         }
 
-        /* We now have the final size of the viewport: availR.
-         * Now fixup the header and scrollbar widths/heights.
+        /* We now hbve the finbl size of the viewport: bvbilR.
+         * Now fixup the hebder bnd scrollbbr widths/heights.
          */
-        vsbR.height = availR.height + vpbInsets.top + vpbInsets.bottom;
-        hsbR.width = availR.width + vpbInsets.left + vpbInsets.right;
-        rowHeadR.height = availR.height + vpbInsets.top + vpbInsets.bottom;
-        rowHeadR.y = availR.y - vpbInsets.top;
-        colHeadR.width = availR.width + vpbInsets.left + vpbInsets.right;
-        colHeadR.x = availR.x - vpbInsets.left;
+        vsbR.height = bvbilR.height + vpbInsets.top + vpbInsets.bottom;
+        hsbR.width = bvbilR.width + vpbInsets.left + vpbInsets.right;
+        rowHebdR.height = bvbilR.height + vpbInsets.top + vpbInsets.bottom;
+        rowHebdR.y = bvbilR.y - vpbInsets.top;
+        colHebdR.width = bvbilR.width + vpbInsets.left + vpbInsets.right;
+        colHebdR.x = bvbilR.x - vpbInsets.left;
 
-        /* Set the bounds of the remaining components.  The scrollbars
-         * are made invisible if they're not needed.
+        /* Set the bounds of the rembining components.  The scrollbbrs
+         * bre mbde invisible if they're not needed.
          */
 
-        if (rowHead != null) {
-            rowHead.setBounds(rowHeadR);
+        if (rowHebd != null) {
+            rowHebd.setBounds(rowHebdR);
         }
 
-        if (colHead != null) {
-            colHead.setBounds(colHeadR);
+        if (colHebd != null) {
+            colHebd.setBounds(colHebdR);
         }
 
         if (vsb != null) {
             if (vsbNeeded) {
-                if (colHead != null &&
-                    UIManager.getBoolean("ScrollPane.fillUpperCorner"))
+                if (colHebd != null &&
+                    UIMbnbger.getBoolebn("ScrollPbne.fillUpperCorner"))
                 {
                     if ((leftToRight && upperRight == null) ||
                         (!leftToRight && upperLeft == null))
                     {
-                        // This is used primarily for GTK L&F, which needs to
-                        // extend the vertical scrollbar to fill the upper
-                        // corner near the column header.  Note that we skip
-                        // this step (and use the default behavior) if the
-                        // user has set a custom corner component.
-                        vsbR.y = colHeadR.y;
-                        vsbR.height += colHeadR.height;
+                        // This is used primbrily for GTK L&F, which needs to
+                        // extend the verticbl scrollbbr to fill the upper
+                        // corner nebr the column hebder.  Note thbt we skip
+                        // this step (bnd use the defbult behbvior) if the
+                        // user hbs set b custom corner component.
+                        vsbR.y = colHebdR.y;
+                        vsbR.height += colHebdR.height;
                     }
                 }
                 vsb.setVisible(true);
                 vsb.setBounds(vsbR);
             }
             else {
-                vsb.setVisible(false);
+                vsb.setVisible(fblse);
             }
         }
 
         if (hsb != null) {
             if (hsbNeeded) {
-                if (rowHead != null &&
-                    UIManager.getBoolean("ScrollPane.fillLowerCorner"))
+                if (rowHebd != null &&
+                    UIMbnbger.getBoolebn("ScrollPbne.fillLowerCorner"))
                 {
                     if ((leftToRight && lowerLeft == null) ||
                         (!leftToRight && lowerRight == null))
                     {
-                        // This is used primarily for GTK L&F, which needs to
-                        // extend the horizontal scrollbar to fill the lower
-                        // corner near the row header.  Note that we skip
-                        // this step (and use the default behavior) if the
-                        // user has set a custom corner component.
+                        // This is used primbrily for GTK L&F, which needs to
+                        // extend the horizontbl scrollbbr to fill the lower
+                        // corner nebr the row hebder.  Note thbt we skip
+                        // this step (bnd use the defbult behbvior) if the
+                        // user hbs set b custom corner component.
                         if (leftToRight) {
-                            hsbR.x = rowHeadR.x;
+                            hsbR.x = rowHebdR.x;
                         }
-                        hsbR.width += rowHeadR.width;
+                        hsbR.width += rowHebdR.width;
                     }
                 }
                 hsb.setVisible(true);
                 hsb.setBounds(hsbR);
             }
             else {
-                hsb.setVisible(false);
+                hsb.setVisible(fblse);
             }
         }
 
         if (lowerLeft != null) {
-            lowerLeft.setBounds(leftToRight ? rowHeadR.x : vsbR.x,
+            lowerLeft.setBounds(leftToRight ? rowHebdR.x : vsbR.x,
                                 hsbR.y,
-                                leftToRight ? rowHeadR.width : vsbR.width,
+                                leftToRight ? rowHebdR.width : vsbR.width,
                                 hsbR.height);
         }
 
         if (lowerRight != null) {
-            lowerRight.setBounds(leftToRight ? vsbR.x : rowHeadR.x,
+            lowerRight.setBounds(leftToRight ? vsbR.x : rowHebdR.x,
                                  hsbR.y,
-                                 leftToRight ? vsbR.width : rowHeadR.width,
+                                 leftToRight ? vsbR.width : rowHebdR.width,
                                  hsbR.height);
         }
 
         if (upperLeft != null) {
-            upperLeft.setBounds(leftToRight ? rowHeadR.x : vsbR.x,
-                                colHeadR.y,
-                                leftToRight ? rowHeadR.width : vsbR.width,
-                                colHeadR.height);
+            upperLeft.setBounds(leftToRight ? rowHebdR.x : vsbR.x,
+                                colHebdR.y,
+                                leftToRight ? rowHebdR.width : vsbR.width,
+                                colHebdR.height);
         }
 
         if (upperRight != null) {
-            upperRight.setBounds(leftToRight ? vsbR.x : rowHeadR.x,
-                                 colHeadR.y,
-                                 leftToRight ? vsbR.width : rowHeadR.width,
-                                 colHeadR.height);
+            upperRight.setBounds(leftToRight ? vsbR.x : rowHebdR.x,
+                                 colHebdR.y,
+                                 leftToRight ? vsbR.width : rowHebdR.width,
+                                 colHebdR.height);
         }
     }
 
     /**
-     * Adjusts the <code>Rectangle</code> <code>available</code> based on if
-     * the vertical scrollbar is needed (<code>wantsVSB</code>).
-     * The location of the vsb is updated in <code>vsbR</code>, and
-     * the viewport border insets (<code>vpbInsets</code>) are used to offset
-     * the vsb. This is only called when <code>wantsVSB</code> has
-     * changed, eg you shouldn't invoke adjustForVSB(true) twice.
+     * Adjusts the <code>Rectbngle</code> <code>bvbilbble</code> bbsed on if
+     * the verticbl scrollbbr is needed (<code>wbntsVSB</code>).
+     * The locbtion of the vsb is updbted in <code>vsbR</code>, bnd
+     * the viewport border insets (<code>vpbInsets</code>) bre used to offset
+     * the vsb. This is only cblled when <code>wbntsVSB</code> hbs
+     * chbnged, eg you shouldn't invoke bdjustForVSB(true) twice.
      */
-    private void adjustForVSB(boolean wantsVSB, Rectangle available,
-                              Rectangle vsbR, Insets vpbInsets,
-                              boolean leftToRight) {
+    privbte void bdjustForVSB(boolebn wbntsVSB, Rectbngle bvbilbble,
+                              Rectbngle vsbR, Insets vpbInsets,
+                              boolebn leftToRight) {
         int oldWidth = vsbR.width;
-        if (wantsVSB) {
-            int vsbWidth = Math.max(0, Math.min(vsb.getPreferredSize().width,
-                                                available.width));
+        if (wbntsVSB) {
+            int vsbWidth = Mbth.mbx(0, Mbth.min(vsb.getPreferredSize().width,
+                                                bvbilbble.width));
 
-            available.width -= vsbWidth;
+            bvbilbble.width -= vsbWidth;
             vsbR.width = vsbWidth;
 
             if( leftToRight ) {
-                vsbR.x = available.x + available.width + vpbInsets.right;
+                vsbR.x = bvbilbble.x + bvbilbble.width + vpbInsets.right;
             } else {
-                vsbR.x = available.x - vpbInsets.left;
-                available.x += vsbWidth;
+                vsbR.x = bvbilbble.x - vpbInsets.left;
+                bvbilbble.x += vsbWidth;
             }
         }
         else {
-            available.width += oldWidth;
+            bvbilbble.width += oldWidth;
         }
     }
 
     /**
-     * Adjusts the <code>Rectangle</code> <code>available</code> based on if
-     * the horizontal scrollbar is needed (<code>wantsHSB</code>).
-     * The location of the hsb is updated in <code>hsbR</code>, and
-     * the viewport border insets (<code>vpbInsets</code>) are used to offset
-     * the hsb.  This is only called when <code>wantsHSB</code> has
-     * changed, eg you shouldn't invoked adjustForHSB(true) twice.
+     * Adjusts the <code>Rectbngle</code> <code>bvbilbble</code> bbsed on if
+     * the horizontbl scrollbbr is needed (<code>wbntsHSB</code>).
+     * The locbtion of the hsb is updbted in <code>hsbR</code>, bnd
+     * the viewport border insets (<code>vpbInsets</code>) bre used to offset
+     * the hsb.  This is only cblled when <code>wbntsHSB</code> hbs
+     * chbnged, eg you shouldn't invoked bdjustForHSB(true) twice.
      */
-    private void adjustForHSB(boolean wantsHSB, Rectangle available,
-                              Rectangle hsbR, Insets vpbInsets) {
+    privbte void bdjustForHSB(boolebn wbntsHSB, Rectbngle bvbilbble,
+                              Rectbngle hsbR, Insets vpbInsets) {
         int oldHeight = hsbR.height;
-        if (wantsHSB) {
-            int hsbHeight = Math.max(0, Math.min(available.height,
+        if (wbntsHSB) {
+            int hsbHeight = Mbth.mbx(0, Mbth.min(bvbilbble.height,
                                               hsb.getPreferredSize().height));
 
-            available.height -= hsbHeight;
-            hsbR.y = available.y + available.height + vpbInsets.bottom;
+            bvbilbble.height -= hsbHeight;
+            hsbR.y = bvbilbble.y + bvbilbble.height + vpbInsets.bottom;
             hsbR.height = hsbHeight;
         }
         else {
-            available.height += oldHeight;
+            bvbilbble.height += oldHeight;
         }
     }
 
 
 
     /**
-     * Returns the bounds of the border around the specified scroll pane's
+     * Returns the bounds of the border bround the specified scroll pbne's
      * viewport.
      *
-     * @param scrollpane an instance of the {@code JScrollPane}
-     * @return the size and position of the viewport border
-     * @deprecated As of JDK version Swing1.1
-     *    replaced by <code>JScrollPane.getViewportBorderBounds()</code>.
+     * @pbrbm scrollpbne bn instbnce of the {@code JScrollPbne}
+     * @return the size bnd position of the viewport border
+     * @deprecbted As of JDK version Swing1.1
+     *    replbced by <code>JScrollPbne.getViewportBorderBounds()</code>.
      */
-    @Deprecated
-    public Rectangle getViewportBorderBounds(JScrollPane scrollpane) {
-        return scrollpane.getViewportBorderBounds();
+    @Deprecbted
+    public Rectbngle getViewportBorderBounds(JScrollPbne scrollpbne) {
+        return scrollpbne.getViewportBorderBounds();
     }
 
     /**
-     * The UI resource version of <code>ScrollPaneLayout</code>.
+     * The UI resource version of <code>ScrollPbneLbyout</code>.
      */
-    public static class UIResource extends ScrollPaneLayout implements javax.swing.plaf.UIResource {}
+    public stbtic clbss UIResource extends ScrollPbneLbyout implements jbvbx.swing.plbf.UIResource {}
 }

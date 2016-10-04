@@ -1,93 +1,93 @@
 /*
- * Copyright (c) 2010, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.lang;
+pbckbge jbvb.lbng;
 
-import java.lang.annotation.*;
+import jbvb.lbng.bnnotbtion.*;
 
 /**
- * A programmer assertion that the body of the annotated method or
- * constructor does not perform potentially unsafe operations on its
- * varargs parameter.  Applying this annotation to a method or
- * constructor suppresses unchecked warnings about a
- * <i>non-reifiable</i> variable arity (vararg) type and suppresses
- * unchecked warnings about parameterized array creation at call
+ * A progrbmmer bssertion thbt the body of the bnnotbted method or
+ * constructor does not perform potentiblly unsbfe operbtions on its
+ * vbrbrgs pbrbmeter.  Applying this bnnotbtion to b method or
+ * constructor suppresses unchecked wbrnings bbout b
+ * <i>non-reifibble</i> vbribble brity (vbrbrg) type bnd suppresses
+ * unchecked wbrnings bbout pbrbmeterized brrby crebtion bt cbll
  * sites.
  *
- * <p> In addition to the usage restrictions imposed by its {@link
- * Target @Target} meta-annotation, compilers are required to implement
- * additional usage restrictions on this annotation type; it is a
- * compile-time error if a method or constructor declaration is
- * annotated with a {@code @SafeVarargs} annotation, and either:
+ * <p> In bddition to the usbge restrictions imposed by its {@link
+ * Tbrget @Tbrget} metb-bnnotbtion, compilers bre required to implement
+ * bdditionbl usbge restrictions on this bnnotbtion type; it is b
+ * compile-time error if b method or constructor declbrbtion is
+ * bnnotbted with b {@code @SbfeVbrbrgs} bnnotbtion, bnd either:
  * <ul>
- * <li>  the declaration is a fixed arity method or constructor
+ * <li>  the declbrbtion is b fixed brity method or constructor
  *
- * <li> the declaration is a variable arity method that is neither
- * {@code static} nor {@code final} nor {@code private}.
+ * <li> the declbrbtion is b vbribble brity method thbt is neither
+ * {@code stbtic} nor {@code finbl} nor {@code privbte}.
  *
  * </ul>
  *
- * <p> Compilers are encouraged to issue warnings when this annotation
- * type is applied to a method or constructor declaration where:
+ * <p> Compilers bre encourbged to issue wbrnings when this bnnotbtion
+ * type is bpplied to b method or constructor declbrbtion where:
  *
  * <ul>
  *
- * <li> The variable arity parameter has a reifiable element type,
- * which includes primitive types, {@code Object}, and {@code String}.
- * (The unchecked warnings this annotation type suppresses already do
- * not occur for a reifiable element type.)
+ * <li> The vbribble brity pbrbmeter hbs b reifibble element type,
+ * which includes primitive types, {@code Object}, bnd {@code String}.
+ * (The unchecked wbrnings this bnnotbtion type suppresses blrebdy do
+ * not occur for b reifibble element type.)
  *
- * <li> The body of the method or constructor declaration performs
- * potentially unsafe operations, such as an assignment to an element
- * of the variable arity parameter's array that generates an unchecked
- * warning.  Some unsafe operations do not trigger an unchecked
- * warning.  For example, the aliasing in
+ * <li> The body of the method or constructor declbrbtion performs
+ * potentiblly unsbfe operbtions, such bs bn bssignment to bn element
+ * of the vbribble brity pbrbmeter's brrby thbt generbtes bn unchecked
+ * wbrning.  Some unsbfe operbtions do not trigger bn unchecked
+ * wbrning.  For exbmple, the blibsing in
  *
  * <blockquote><pre>
- * &#64;SafeVarargs // Not actually safe!
- * static void m(List&lt;String&gt;... stringLists) {
- *   Object[] array = stringLists;
- *   List&lt;Integer&gt; tmpList = Arrays.asList(42);
- *   array[0] = tmpList; // Semantically invalid, but compiles without warnings
- *   String s = stringLists[0].get(0); // Oh no, ClassCastException at runtime!
+ * &#64;SbfeVbrbrgs // Not bctublly sbfe!
+ * stbtic void m(List&lt;String&gt;... stringLists) {
+ *   Object[] brrby = stringLists;
+ *   List&lt;Integer&gt; tmpList = Arrbys.bsList(42);
+ *   brrby[0] = tmpList; // Sembnticblly invblid, but compiles without wbrnings
+ *   String s = stringLists[0].get(0); // Oh no, ClbssCbstException bt runtime!
  * }
  * </pre></blockquote>
  *
- * leads to a {@code ClassCastException} at runtime.
+ * lebds to b {@code ClbssCbstException} bt runtime.
  *
- * <p>Future versions of the platform may mandate compiler errors for
- * such unsafe operations.
+ * <p>Future versions of the plbtform mby mbndbte compiler errors for
+ * such unsbfe operbtions.
  *
  * </ul>
  *
  * @since 1.7
- * @jls 4.7 Reifiable Types
- * @jls 8.4.1 Formal Parameters
- * @jls 9.6.3.7 @SafeVarargs
+ * @jls 4.7 Reifibble Types
+ * @jls 8.4.1 Formbl Pbrbmeters
+ * @jls 9.6.3.7 @SbfeVbrbrgs
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.CONSTRUCTOR, ElementType.METHOD})
-public @interface SafeVarargs {}
+@Tbrget({ElementType.CONSTRUCTOR, ElementType.METHOD})
+public @interfbce SbfeVbrbrgs {}

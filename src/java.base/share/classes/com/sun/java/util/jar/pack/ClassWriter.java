@@ -1,317 +1,317 @@
 /*
- * Copyright (c) 2001, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.java.util.jar.pack;
+pbckbge com.sun.jbvb.util.jbr.pbck;
 
 
-import com.sun.java.util.jar.pack.ConstantPool.Entry;
-import com.sun.java.util.jar.pack.ConstantPool.Index;
-import com.sun.java.util.jar.pack.ConstantPool.NumberEntry;
-import com.sun.java.util.jar.pack.ConstantPool.MethodHandleEntry;
-import com.sun.java.util.jar.pack.ConstantPool.BootstrapMethodEntry;
-import com.sun.java.util.jar.pack.Package.Class;
-import com.sun.java.util.jar.pack.Package.InnerClass;
-import java.io.BufferedOutputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.List;
-import static com.sun.java.util.jar.pack.Constants.*;
+import com.sun.jbvb.util.jbr.pbck.ConstbntPool.Entry;
+import com.sun.jbvb.util.jbr.pbck.ConstbntPool.Index;
+import com.sun.jbvb.util.jbr.pbck.ConstbntPool.NumberEntry;
+import com.sun.jbvb.util.jbr.pbck.ConstbntPool.MethodHbndleEntry;
+import com.sun.jbvb.util.jbr.pbck.ConstbntPool.BootstrbpMethodEntry;
+import com.sun.jbvb.util.jbr.pbck.Pbckbge.Clbss;
+import com.sun.jbvb.util.jbr.pbck.Pbckbge.InnerClbss;
+import jbvb.io.BufferedOutputStrebm;
+import jbvb.io.ByteArrbyOutputStrebm;
+import jbvb.io.DbtbOutputStrebm;
+import jbvb.io.IOException;
+import jbvb.io.OutputStrebm;
+import jbvb.util.List;
+import stbtic com.sun.jbvb.util.jbr.pbck.Constbnts.*;
 /**
- * Writer for a class file that is incorporated into a package.
- * @author John Rose
+ * Writer for b clbss file thbt is incorporbted into b pbckbge.
+ * @buthor John Rose
  */
-class ClassWriter {
+clbss ClbssWriter {
     int verbose;
 
-    Package pkg;
-    Class cls;
-    DataOutputStream out;
+    Pbckbge pkg;
+    Clbss cls;
+    DbtbOutputStrebm out;
     Index cpIndex;
     Index bsmIndex;
 
-    ClassWriter(Class cls, OutputStream out) throws IOException {
-        this.pkg = cls.getPackage();
+    ClbssWriter(Clbss cls, OutputStrebm out) throws IOException {
+        this.pkg = cls.getPbckbge();
         this.cls = cls;
         this.verbose = pkg.verbose;
-        this.out = new DataOutputStream(new BufferedOutputStream(out));
-        this.cpIndex = ConstantPool.makeIndex(cls.toString(), cls.getCPMap());
-        this.cpIndex.flattenSigs = true;
-        if (cls.hasBootstrapMethods()) {
-            this.bsmIndex = ConstantPool.makeIndex(cpIndex.debugName+".BootstrapMethods",
-                                                   cls.getBootstrapMethodMap());
+        this.out = new DbtbOutputStrebm(new BufferedOutputStrebm(out));
+        this.cpIndex = ConstbntPool.mbkeIndex(cls.toString(), cls.getCPMbp());
+        this.cpIndex.flbttenSigs = true;
+        if (cls.hbsBootstrbpMethods()) {
+            this.bsmIndex = ConstbntPool.mbkeIndex(cpIndex.debugNbme+".BootstrbpMethods",
+                                                   cls.getBootstrbpMethodMbp());
         }
         if (verbose > 1)
-            Utils.log.fine("local CP="+(verbose > 2 ? cpIndex.dumpString() : cpIndex.toString()));
+            Utils.log.fine("locbl CP="+(verbose > 2 ? cpIndex.dumpString() : cpIndex.toString()));
     }
 
-    private void writeShort(int x) throws IOException {
+    privbte void writeShort(int x) throws IOException {
         out.writeShort(x);
     }
 
-    private void writeInt(int x) throws IOException {
+    privbte void writeInt(int x) throws IOException {
         out.writeInt(x);
     }
 
-    /** Write a 2-byte int representing a CP entry, using the local cpIndex. */
-    private void writeRef(Entry e) throws IOException {
+    /** Write b 2-byte int representing b CP entry, using the locbl cpIndex. */
+    privbte void writeRef(Entry e) throws IOException {
         writeRef(e, cpIndex);
     }
 
-    /** Write a 2-byte int representing a CP entry, using the given cpIndex. */
-    private void writeRef(Entry e, Index cpIndex) throws IOException {
+    /** Write b 2-byte int representing b CP entry, using the given cpIndex. */
+    privbte void writeRef(Entry e, Index cpIndex) throws IOException {
         int i = (e == null) ? 0 : cpIndex.indexOf(e);
         writeShort(i);
     }
 
     void write() throws IOException {
-        boolean ok = false;
+        boolebn ok = fblse;
         try {
             if (verbose > 1)  Utils.log.fine("...writing "+cls);
-            writeMagicNumbers();
-            writeConstantPool();
-            writeHeader();
-            writeMembers(false);  // fields
+            writeMbgicNumbers();
+            writeConstbntPool();
+            writeHebder();
+            writeMembers(fblse);  // fields
             writeMembers(true);   // methods
             writeAttributes(ATTR_CONTEXT_CLASS, cls);
-            /* Closing here will cause all the underlying
-               streams to close, Causing the jar stream
-               to close prematurely, instead we just flush.
+            /* Closing here will cbuse bll the underlying
+               strebms to close, Cbusing the jbr strebm
+               to close prembturely, instebd we just flush.
                out.close();
              */
             out.flush();
             ok = true;
-        } finally {
+        } finblly {
             if (!ok) {
-                Utils.log.warning("Error on output of "+cls);
+                Utils.log.wbrning("Error on output of "+cls);
             }
         }
     }
 
-    void writeMagicNumbers() throws IOException {
-        writeInt(cls.magic);
+    void writeMbgicNumbers() throws IOException {
+        writeInt(cls.mbgic);
         writeShort(cls.version.minor);
-        writeShort(cls.version.major);
+        writeShort(cls.version.mbjor);
     }
 
-    void writeConstantPool() throws IOException {
-        Entry[] cpMap = cls.cpMap;
-        writeShort(cpMap.length);
-        for (int i = 0; i < cpMap.length; i++) {
-            Entry e = cpMap[i];
-            assert((e == null) == (i == 0 || cpMap[i-1] != null && cpMap[i-1].isDoubleWord()));
+    void writeConstbntPool() throws IOException {
+        Entry[] cpMbp = cls.cpMbp;
+        writeShort(cpMbp.length);
+        for (int i = 0; i < cpMbp.length; i++) {
+            Entry e = cpMbp[i];
+            bssert((e == null) == (i == 0 || cpMbp[i-1] != null && cpMbp[i-1].isDoubleWord()));
             if (e == null)  continue;
-            byte tag = e.getTag();
+            byte tbg = e.getTbg();
             if (verbose > 2)  Utils.log.fine("   CP["+i+"] = "+e);
-            out.write(tag);
-            switch (tag) {
-                case CONSTANT_Signature:
-                    throw new AssertionError("CP should have Signatures remapped to Utf8");
-                case CONSTANT_Utf8:
-                    out.writeUTF(e.stringValue());
-                    break;
-                case CONSTANT_Integer:
-                    out.writeInt(((NumberEntry)e).numberValue().intValue());
-                    break;
-                case CONSTANT_Float:
-                    float fval = ((NumberEntry)e).numberValue().floatValue();
-                    out.writeInt(Float.floatToRawIntBits(fval));
-                    break;
-                case CONSTANT_Long:
-                    out.writeLong(((NumberEntry)e).numberValue().longValue());
-                    break;
-                case CONSTANT_Double:
-                    double dval = ((NumberEntry)e).numberValue().doubleValue();
-                    out.writeLong(Double.doubleToRawLongBits(dval));
-                    break;
-                case CONSTANT_Class:
-                case CONSTANT_String:
-                case CONSTANT_MethodType:
+            out.write(tbg);
+            switch (tbg) {
+                cbse CONSTANT_Signbture:
+                    throw new AssertionError("CP should hbve Signbtures rembpped to Utf8");
+                cbse CONSTANT_Utf8:
+                    out.writeUTF(e.stringVblue());
+                    brebk;
+                cbse CONSTANT_Integer:
+                    out.writeInt(((NumberEntry)e).numberVblue().intVblue());
+                    brebk;
+                cbse CONSTANT_Flobt:
+                    flobt fvbl = ((NumberEntry)e).numberVblue().flobtVblue();
+                    out.writeInt(Flobt.flobtToRbwIntBits(fvbl));
+                    brebk;
+                cbse CONSTANT_Long:
+                    out.writeLong(((NumberEntry)e).numberVblue().longVblue());
+                    brebk;
+                cbse CONSTANT_Double:
+                    double dvbl = ((NumberEntry)e).numberVblue().doubleVblue();
+                    out.writeLong(Double.doubleToRbwLongBits(dvbl));
+                    brebk;
+                cbse CONSTANT_Clbss:
+                cbse CONSTANT_String:
+                cbse CONSTANT_MethodType:
                     writeRef(e.getRef(0));
-                    break;
-                case CONSTANT_MethodHandle:
-                    MethodHandleEntry mhe = (MethodHandleEntry) e;
+                    brebk;
+                cbse CONSTANT_MethodHbndle:
+                    MethodHbndleEntry mhe = (MethodHbndleEntry) e;
                     out.writeByte(mhe.refKind);
                     writeRef(mhe.getRef(0));
-                    break;
-                case CONSTANT_Fieldref:
-                case CONSTANT_Methodref:
-                case CONSTANT_InterfaceMethodref:
-                case CONSTANT_NameandType:
+                    brebk;
+                cbse CONSTANT_Fieldref:
+                cbse CONSTANT_Methodref:
+                cbse CONSTANT_InterfbceMethodref:
+                cbse CONSTANT_NbmebndType:
                     writeRef(e.getRef(0));
                     writeRef(e.getRef(1));
-                    break;
-                case CONSTANT_InvokeDynamic:
+                    brebk;
+                cbse CONSTANT_InvokeDynbmic:
                     writeRef(e.getRef(0), bsmIndex);
                     writeRef(e.getRef(1));
-                    break;
-                case CONSTANT_BootstrapMethod:
-                    throw new AssertionError("CP should have BootstrapMethods moved to side-table");
-                default:
-                    throw new IOException("Bad constant pool tag "+tag);
+                    brebk;
+                cbse CONSTANT_BootstrbpMethod:
+                    throw new AssertionError("CP should hbve BootstrbpMethods moved to side-tbble");
+                defbult:
+                    throw new IOException("Bbd constbnt pool tbg "+tbg);
             }
         }
     }
 
-    void writeHeader() throws IOException {
-        writeShort(cls.flags);
-        writeRef(cls.thisClass);
-        writeRef(cls.superClass);
-        writeShort(cls.interfaces.length);
-        for (int i = 0; i < cls.interfaces.length; i++) {
-            writeRef(cls.interfaces[i]);
+    void writeHebder() throws IOException {
+        writeShort(cls.flbgs);
+        writeRef(cls.thisClbss);
+        writeRef(cls.superClbss);
+        writeShort(cls.interfbces.length);
+        for (int i = 0; i < cls.interfbces.length; i++) {
+            writeRef(cls.interfbces[i]);
         }
     }
 
-    void writeMembers(boolean doMethods) throws IOException {
-        List<? extends Class.Member> mems;
+    void writeMembers(boolebn doMethods) throws IOException {
+        List<? extends Clbss.Member> mems;
         if (!doMethods)
             mems = cls.getFields();
         else
             mems = cls.getMethods();
         writeShort(mems.size());
-        for (Class.Member m : mems) {
+        for (Clbss.Member m : mems) {
             writeMember(m, doMethods);
         }
     }
 
-    void writeMember(Class.Member m, boolean doMethod) throws IOException {
+    void writeMember(Clbss.Member m, boolebn doMethod) throws IOException {
         if (verbose > 2)  Utils.log.fine("writeMember "+m);
-        writeShort(m.flags);
-        writeRef(m.getDescriptor().nameRef);
+        writeShort(m.flbgs);
+        writeRef(m.getDescriptor().nbmeRef);
         writeRef(m.getDescriptor().typeRef);
         writeAttributes(!doMethod ? ATTR_CONTEXT_FIELD : ATTR_CONTEXT_METHOD,
                         m);
     }
 
-    private void reorderBSMandICS(Attribute.Holder h) {
-        Attribute bsmAttr = h.getAttribute(Package.attrBootstrapMethodsEmpty);
+    privbte void reorderBSMbndICS(Attribute.Holder h) {
+        Attribute bsmAttr = h.getAttribute(Pbckbge.bttrBootstrbpMethodsEmpty);
         if (bsmAttr == null) return;
 
-        Attribute icsAttr = h.getAttribute(Package.attrInnerClassesEmpty);
+        Attribute icsAttr = h.getAttribute(Pbckbge.bttrInnerClbssesEmpty);
         if (icsAttr == null) return;
 
-        int bsmidx = h.attributes.indexOf(bsmAttr);
-        int icsidx = h.attributes.indexOf(icsAttr);
+        int bsmidx = h.bttributes.indexOf(bsmAttr);
+        int icsidx = h.bttributes.indexOf(icsAttr);
         if (bsmidx > icsidx) {
-            h.attributes.remove(bsmAttr);
-            h.attributes.add(icsidx, bsmAttr);
+            h.bttributes.remove(bsmAttr);
+            h.bttributes.bdd(icsidx, bsmAttr);
         }
         return;
     }
 
-    // handy buffer for collecting attrs
-    ByteArrayOutputStream buf    = new ByteArrayOutputStream();
-    DataOutputStream      bufOut = new DataOutputStream(buf);
+    // hbndy buffer for collecting bttrs
+    ByteArrbyOutputStrebm buf    = new ByteArrbyOutputStrebm();
+    DbtbOutputStrebm      bufOut = new DbtbOutputStrebm(buf);
 
     void writeAttributes(int ctype, Attribute.Holder h) throws IOException {
-        if (h.attributes == null) {
-            writeShort(0);  // attribute size
+        if (h.bttributes == null) {
+            writeShort(0);  // bttribute size
             return;
         }
-        // there may be cases if an InnerClass attribute is explicit, then the
+        // there mby be cbses if bn InnerClbss bttribute is explicit, then the
         // ordering could be wrong, fix the ordering before we write it out.
-        if (h instanceof Package.Class)
-            reorderBSMandICS(h);
+        if (h instbnceof Pbckbge.Clbss)
+            reorderBSMbndICS(h);
 
-        writeShort(h.attributes.size());
-        for (Attribute a : h.attributes) {
-            a.finishRefs(cpIndex);
-            writeRef(a.getNameRef());
-            if (a.layout() == Package.attrCodeEmpty ||
-                a.layout() == Package.attrBootstrapMethodsEmpty ||
-                a.layout() == Package.attrInnerClassesEmpty) {
-                // These are hardwired.
-                DataOutputStream savedOut = out;
-                assert(out != bufOut);
+        writeShort(h.bttributes.size());
+        for (Attribute b : h.bttributes) {
+            b.finishRefs(cpIndex);
+            writeRef(b.getNbmeRef());
+            if (b.lbyout() == Pbckbge.bttrCodeEmpty ||
+                b.lbyout() == Pbckbge.bttrBootstrbpMethodsEmpty ||
+                b.lbyout() == Pbckbge.bttrInnerClbssesEmpty) {
+                // These bre hbrdwired.
+                DbtbOutputStrebm sbvedOut = out;
+                bssert(out != bufOut);
                 buf.reset();
                 out = bufOut;
-                if ("Code".equals(a.name())) {
-                    Class.Method m = (Class.Method) h;
+                if ("Code".equbls(b.nbme())) {
+                    Clbss.Method m = (Clbss.Method) h;
                     writeCode(m.code);
-                } else if ("BootstrapMethods".equals(a.name())) {
-                    assert(h == cls);
-                    writeBootstrapMethods(cls);
-                } else if ("InnerClasses".equals(a.name())) {
-                    assert(h == cls);
-                    writeInnerClasses(cls);
+                } else if ("BootstrbpMethods".equbls(b.nbme())) {
+                    bssert(h == cls);
+                    writeBootstrbpMethods(cls);
+                } else if ("InnerClbsses".equbls(b.nbme())) {
+                    bssert(h == cls);
+                    writeInnerClbsses(cls);
                 } else {
                     throw new AssertionError();
                 }
-                out = savedOut;
+                out = sbvedOut;
                 if (verbose > 2)
-                    Utils.log.fine("Attribute "+a.name()+" ["+buf.size()+"]");
+                    Utils.log.fine("Attribute "+b.nbme()+" ["+buf.size()+"]");
                 writeInt(buf.size());
                 buf.writeTo(out);
             } else {
                 if (verbose > 2)
-                    Utils.log.fine("Attribute "+a.name()+" ["+a.size()+"]");
-                writeInt(a.size());
-                out.write(a.bytes());
+                    Utils.log.fine("Attribute "+b.nbme()+" ["+b.size()+"]");
+                writeInt(b.size());
+                out.write(b.bytes());
             }
         }
     }
 
     void writeCode(Code code) throws IOException {
         code.finishRefs(cpIndex);
-        writeShort(code.max_stack);
-        writeShort(code.max_locals);
+        writeShort(code.mbx_stbck);
+        writeShort(code.mbx_locbls);
         writeInt(code.bytes.length);
         out.write(code.bytes);
-        int nh = code.getHandlerCount();
+        int nh = code.getHbndlerCount();
         writeShort(nh);
         for (int i = 0; i < nh; i++) {
-             writeShort(code.handler_start[i]);
-             writeShort(code.handler_end[i]);
-             writeShort(code.handler_catch[i]);
-             writeRef(code.handler_class[i]);
+             writeShort(code.hbndler_stbrt[i]);
+             writeShort(code.hbndler_end[i]);
+             writeShort(code.hbndler_cbtch[i]);
+             writeRef(code.hbndler_clbss[i]);
         }
         writeAttributes(ATTR_CONTEXT_CODE, code);
     }
 
-    void writeBootstrapMethods(Class cls) throws IOException {
-        List<BootstrapMethodEntry> bsms = cls.getBootstrapMethods();
+    void writeBootstrbpMethods(Clbss cls) throws IOException {
+        List<BootstrbpMethodEntry> bsms = cls.getBootstrbpMethods();
         writeShort(bsms.size());
-        for (BootstrapMethodEntry e : bsms) {
+        for (BootstrbpMethodEntry e : bsms) {
             writeRef(e.bsmRef);
-            writeShort(e.argRefs.length);
-            for (Entry argRef : e.argRefs) {
-                writeRef(argRef);
+            writeShort(e.brgRefs.length);
+            for (Entry brgRef : e.brgRefs) {
+                writeRef(brgRef);
             }
         }
     }
 
-    void writeInnerClasses(Class cls) throws IOException {
-        List<InnerClass> ics = cls.getInnerClasses();
+    void writeInnerClbsses(Clbss cls) throws IOException {
+        List<InnerClbss> ics = cls.getInnerClbsses();
         writeShort(ics.size());
-        for (InnerClass ic : ics) {
-            writeRef(ic.thisClass);
-            writeRef(ic.outerClass);
-            writeRef(ic.name);
-            writeShort(ic.flags);
+        for (InnerClbss ic : ics) {
+            writeRef(ic.thisClbss);
+            writeRef(ic.outerClbss);
+            writeRef(ic.nbme);
+            writeShort(ic.flbgs);
         }
     }
 }

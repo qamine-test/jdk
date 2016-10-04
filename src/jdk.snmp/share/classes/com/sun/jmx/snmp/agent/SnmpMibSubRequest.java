@@ -1,211 +1,211 @@
 /*
- * Copyright (c) 2000, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jmx.snmp.agent;
+pbckbge com.sun.jmx.snmp.bgent;
 
-import java.util.Enumeration;
-import java.util.Vector;
-import com.sun.jmx.snmp.SnmpVarBind;
-import com.sun.jmx.snmp.SnmpStatusException;
+import jbvb.util.Enumerbtion;
+import jbvb.util.Vector;
+import com.sun.jmx.snmp.SnmpVbrBind;
+import com.sun.jmx.snmp.SnmpStbtusException;
 import com.sun.jmx.snmp.SnmpOid;
 // import com.sun.jmx.snmp.SnmpIndex;
 
 /**
- * This interface models an SNMP sub request to be performed on a specific
- * SNMP MIB node. The node involved can be either an SNMP group, an SNMP table,
- * or an SNMP table entry (conceptual row). The conceptual row may or may not
- * already exist. If the row did not exist at the time when the request
- * was received, the <CODE>isNewEntry()</CODE> method will return <CODE>
+ * This interfbce models bn SNMP sub request to be performed on b specific
+ * SNMP MIB node. The node involved cbn be either bn SNMP group, bn SNMP tbble,
+ * or bn SNMP tbble entry (conceptubl row). The conceptubl row mby or mby not
+ * blrebdy exist. If the row did not exist bt the time when the request
+ * wbs received, the <CODE>isNewEntry()</CODE> method will return <CODE>
  * true</CODE>.
  * <p>
- * Objects implementing this interface will be allocated by the SNMP engine.
- * You will never need to implement this interface. You will only use it.
+ * Objects implementing this interfbce will be bllocbted by the SNMP engine.
+ * You will never need to implement this interfbce. You will only use it.
  * </p>
- * <p><b>This API is a Sun Microsystems internal API  and is subject
- * to change without notice.</b></p>
+ * <p><b>This API is b Sun Microsystems internbl API  bnd is subject
+ * to chbnge without notice.</b></p>
  */
-public interface SnmpMibSubRequest extends SnmpMibRequest {
+public interfbce SnmpMibSubRequest extends SnmpMibRequest {
     /**
-     * Return the list of varbind to be handled by the SNMP MIB node.
+     * Return the list of vbrbind to be hbndled by the SNMP MIB node.
      * <p>
      * <b>Note:</b> <ul>
-     * <i>In case of SET operation, if this node is a table row which
-     * contains a control variable (as identified by the table's
-     * isRowStatus() method) the control variable will not
-     * be included in this list: it will be obtained by calling
-     * getRowStatusVarBind(). This will allow you to handle the control
-     * variable specifically.</i><br>
-     * You will never need to worry about this unless you need to
-     * implement a non standard mechanism for handling row
-     * creation and deletion.
+     * <i>In cbse of SET operbtion, if this node is b tbble row which
+     * contbins b control vbribble (bs identified by the tbble's
+     * isRowStbtus() method) the control vbribble will not
+     * be included in this list: it will be obtbined by cblling
+     * getRowStbtusVbrBind(). This will bllow you to hbndle the control
+     * vbribble specificblly.</i><br>
+     * You will never need to worry bbout this unless you need to
+     * implement b non stbndbrd mechbnism for hbndling row
+     * crebtion bnd deletion.
      * </ul>
      * <p>
-     * @return The elements of the enumeration are instances of
-     *         {@link com.sun.jmx.snmp.SnmpVarBind}
+     * @return The elements of the enumerbtion bre instbnces of
+     *         {@link com.sun.jmx.snmp.SnmpVbrBind}
      */
     @Override
-    public Enumeration<SnmpVarBind> getElements();
+    public Enumerbtion<SnmpVbrBind> getElements();
 
     /**
-     * Return the list of varbind to be handled by the SNMP MIB node.
+     * Return the list of vbrbind to be hbndled by the SNMP MIB node.
      * <p>
      * <b>Note:</b> <ul>
-     * <i>In case of SET operation, if this node is a table row which
-     * contains a control variable (as identified by the table's
-     * isRowStatus() method) the control variable will not
-     * be included in this list: it will be obtained by calling
-     * getRowStatusVarBind(). This will allow you to handle the control
-     * variable specifically.</i><br>
-     * You will never need to worry about this unless you need to
-     * implement a non standard mechanism for handling row
-     * creation and deletion.
+     * <i>In cbse of SET operbtion, if this node is b tbble row which
+     * contbins b control vbribble (bs identified by the tbble's
+     * isRowStbtus() method) the control vbribble will not
+     * be included in this list: it will be obtbined by cblling
+     * getRowStbtusVbrBind(). This will bllow you to hbndle the control
+     * vbribble specificblly.</i><br>
+     * You will never need to worry bbout this unless you need to
+     * implement b non stbndbrd mechbnism for hbndling row
+     * crebtion bnd deletion.
      * </ul>
      * <p>
-     * @return The elements of the vector are instances of
-     *         {@link com.sun.jmx.snmp.SnmpVarBind}
+     * @return The elements of the vector bre instbnces of
+     *         {@link com.sun.jmx.snmp.SnmpVbrBind}
      */
     @Override
-    public Vector<SnmpVarBind> getSubList();
+    public Vector<SnmpVbrBind> getSubList();
 
     /**
-     * Return the part of the OID identifying the table entry involved.
+     * Return the pbrt of the OID identifying the tbble entry involved.
      * <p>
      *
      * @return {@link com.sun.jmx.snmp.SnmpOid} or <CODE>null</CODE>
-     *         if the request is not directed to an entry.
+     *         if the request is not directed to bn entry.
      */
     public SnmpOid     getEntryOid();
 
     /**
-     * Indicate whether the entry involved is a new entry.
-     * This method will return <CODE>true</CODE> if the entry was not
-     * found when the request was processed. As a consequence, <CODE>
-     * true</CODE> means that either the entry does not exist yet,
-     * or it has been created while processing this request.
-     * The result of this method is only significant when an entry
+     * Indicbte whether the entry involved is b new entry.
+     * This method will return <CODE>true</CODE> if the entry wbs not
+     * found when the request wbs processed. As b consequence, <CODE>
+     * true</CODE> mebns thbt either the entry does not exist yet,
+     * or it hbs been crebted while processing this request.
+     * The result of this method is only significbnt when bn entry
      * is involved.
      *
      * <p>
      * @return <CODE>true</CODE> If the entry did not exist,
-     *  or <CODE>false</CODE> if the entry involved was found.
+     *  or <CODE>fblse</CODE> if the entry involved wbs found.
      */
-    public boolean     isNewEntry();
+    public boolebn     isNewEntry();
 
     /**
-     * Return the varbind that holds the RowStatus variable.
-     * It corresponds to the varbind that was identified by
-     * the <code>isRowStatus()</code> method generated by mibgen
-     * on {@link com.sun.jmx.snmp.agent.SnmpMibTable} derivatives.
-     * <ul><li>In SMIv2, it is the varbind which contains the columnar
-     *         object implementing the RowStatus TEXTUAL-CONVENTION.</li>
-     *      <li>In SMIv1 nothing special is generated</li>
-     *      <ul>You may however subclass the generated table metadata
-     *          class in order to provide your own implementation of
-     *          isRowStatus(), getRowAction(), isRowReady() and
-     *          setRowStatus()
-     *          (see  {@link com.sun.jmx.snmp.agent.SnmpMibTable}).</ul>
+     * Return the vbrbind thbt holds the RowStbtus vbribble.
+     * It corresponds to the vbrbind thbt wbs identified by
+     * the <code>isRowStbtus()</code> method generbted by mibgen
+     * on {@link com.sun.jmx.snmp.bgent.SnmpMibTbble} derivbtives.
+     * <ul><li>In SMIv2, it is the vbrbind which contbins the columnbr
+     *         object implementing the RowStbtus TEXTUAL-CONVENTION.</li>
+     *      <li>In SMIv1 nothing specibl is generbted</li>
+     *      <ul>You mby however subclbss the generbted tbble metbdbtb
+     *          clbss in order to provide your own implementbtion of
+     *          isRowStbtus(), getRowAction(), isRowRebdy() bnd
+     *          setRowStbtus()
+     *          (see  {@link com.sun.jmx.snmp.bgent.SnmpMibTbble}).</ul>
      * </ul>
      * <p>
-     * @return a varbind that serves to control the table modification.
-     *         <code>null</code> means that no such varbind could be
+     * @return b vbrbind thbt serves to control the tbble modificbtion.
+     *         <code>null</code> mebns thbt no such vbrbind could be
      *         identified.<br>
      *         <b>Note:</b><i>The runtime will only try to identify
-     *         the RowStatus varbind when processing an
-     *         SNMP SET request. In this case, the identified
-     *         varbind will not be included in the set of varbinds
-     *         returned by getSubList() and getElements().
+     *         the RowStbtus vbrbind when processing bn
+     *         SNMP SET request. In this cbse, the identified
+     *         vbrbind will not be included in the set of vbrbinds
+     *         returned by getSubList() bnd getElements().
      *         </i>
      *
      **/
-    public SnmpVarBind getRowStatusVarBind();
+    public SnmpVbrBind getRowStbtusVbrBind();
 
     /**
-     * This method should be called when a status exception needs to
-     * be raised for a given varbind of an SNMP GET request. This method
-     * performs all the necessary conversions (SNMPv1 <=> SNMPv2) and
-     * propagates the exception if needed:
-     * If the version is SNMP v1, the exception is propagated.
-     * If the version is SNMP v2, the exception is stored in the varbind.
-     * This method also takes care of setting the correct value of the
+     * This method should be cblled when b stbtus exception needs to
+     * be rbised for b given vbrbind of bn SNMP GET request. This method
+     * performs bll the necessbry conversions (SNMPv1 <=> SNMPv2) bnd
+     * propbgbtes the exception if needed:
+     * If the version is SNMP v1, the exception is propbgbted.
+     * If the version is SNMP v2, the exception is stored in the vbrbind.
+     * This method blso tbkes cbre of setting the correct vblue of the
      * index field.
      * <p>
      *
-     * @param varbind The varbind for which the exception is
-     *        registered. Note that this varbind <b>must</b> have
-     *        been obtained from the enumeration returned by
+     * @pbrbm vbrbind The vbrbind for which the exception is
+     *        registered. Note thbt this vbrbind <b>must</b> hbve
+     *        been obtbined from the enumerbtion returned by
      *        <CODE>getElements()</CODE>, or from the vector
      *        returned by <CODE>getSubList()</CODE>
      *
-     * @param exception The exception to be registered for the given varbind.
+     * @pbrbm exception The exception to be registered for the given vbrbind.
      *
      */
-    public void registerGetException(SnmpVarBind varbind,
-                                     SnmpStatusException exception)
-        throws SnmpStatusException;
+    public void registerGetException(SnmpVbrBind vbrbind,
+                                     SnmpStbtusException exception)
+        throws SnmpStbtusException;
 
     /**
-     * This method should be called when a status exception needs to
-     * be raised for a given varbind of an SNMP SET request. This method
-     * performs all the necessary conversions (SNMPv1 <=> SNMPv2) and
-     * propagates the exception if needed.
-     * This method also takes care of setting the correct value of the
+     * This method should be cblled when b stbtus exception needs to
+     * be rbised for b given vbrbind of bn SNMP SET request. This method
+     * performs bll the necessbry conversions (SNMPv1 <=> SNMPv2) bnd
+     * propbgbtes the exception if needed.
+     * This method blso tbkes cbre of setting the correct vblue of the
      * index field.
      * <p>
      *
-     * @param varbind The varbind for which the exception is
-     *        registered. Note that this varbind <b>must</b> have
-     *        been obtained from the enumeration returned by
+     * @pbrbm vbrbind The vbrbind for which the exception is
+     *        registered. Note thbt this vbrbind <b>must</b> hbve
+     *        been obtbined from the enumerbtion returned by
      *        <CODE>getElements()</CODE>, or from the vector
      *        returned by <CODE>getSubList()</CODE>
      *
-     * @param exception The exception to be registered for the given varbind.
+     * @pbrbm exception The exception to be registered for the given vbrbind.
      *
      */
-    public void registerSetException(SnmpVarBind varbind,
-                                     SnmpStatusException exception)
-        throws SnmpStatusException;
+    public void registerSetException(SnmpVbrBind vbrbind,
+                                     SnmpStbtusException exception)
+        throws SnmpStbtusException;
 
     /**
-     * This method should be called when a status exception needs to
-     * be raised when checking a given varbind for an SNMP SET request.
-     * This method performs all the necessary conversions (SNMPv1 <=>
-     * SNMPv2) and propagates the exception if needed.
-     * This method also takes care of setting the correct value of the
+     * This method should be cblled when b stbtus exception needs to
+     * be rbised when checking b given vbrbind for bn SNMP SET request.
+     * This method performs bll the necessbry conversions (SNMPv1 <=>
+     * SNMPv2) bnd propbgbtes the exception if needed.
+     * This method blso tbkes cbre of setting the correct vblue of the
      * index field.
      * <p>
      *
-     * @param varbind The varbind for which the exception is
-     *        registered. Note that this varbind <b>must</b> have
-     *        been obtained from the enumeration returned by
+     * @pbrbm vbrbind The vbrbind for which the exception is
+     *        registered. Note thbt this vbrbind <b>must</b> hbve
+     *        been obtbined from the enumerbtion returned by
      *        <CODE>getElements()</CODE>, or from the vector
      *        returned by <CODE>getSubList()</CODE>
      *
-     * @param exception The exception to be registered for the given varbind.
+     * @pbrbm exception The exception to be registered for the given vbrbind.
      *
      */
-    public void registerCheckException(SnmpVarBind varbind,
-                                       SnmpStatusException exception)
-        throws SnmpStatusException;
+    public void registerCheckException(SnmpVbrBind vbrbind,
+                                       SnmpStbtusException exception)
+        throws SnmpStbtusException;
 }

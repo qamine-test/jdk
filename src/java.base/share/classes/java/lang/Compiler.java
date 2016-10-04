@@ -1,80 +1,80 @@
 /*
- * Copyright (c) 1995, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.lang;
+pbckbge jbvb.lbng;
 
 /**
- * The {@code Compiler} class is provided to support Java-to-native-code
- * compilers and related services. By design, the {@code Compiler} class does
- * nothing; it serves as a placeholder for a JIT compiler implementation.
+ * The {@code Compiler} clbss is provided to support Jbvb-to-nbtive-code
+ * compilers bnd relbted services. By design, the {@code Compiler} clbss does
+ * nothing; it serves bs b plbceholder for b JIT compiler implementbtion.
  *
- * <p> When the Java Virtual Machine first starts, it determines if the system
- * property {@code java.compiler} exists. (System properties are accessible
- * through {@link System#getProperty(String)} and {@link
- * System#getProperty(String, String)}.  If so, it is assumed to be the name of
- * a library (with a platform-dependent exact location and type); {@link
- * System#loadLibrary} is called to load that library. If this loading
- * succeeds, the function named {@code java_lang_Compiler_start()} in that
- * library is called.
+ * <p> When the Jbvb Virtubl Mbchine first stbrts, it determines if the system
+ * property {@code jbvb.compiler} exists. (System properties bre bccessible
+ * through {@link System#getProperty(String)} bnd {@link
+ * System#getProperty(String, String)}.  If so, it is bssumed to be the nbme of
+ * b librbry (with b plbtform-dependent exbct locbtion bnd type); {@link
+ * System#lobdLibrbry} is cblled to lobd thbt librbry. If this lobding
+ * succeeds, the function nbmed {@code jbvb_lbng_Compiler_stbrt()} in thbt
+ * librbry is cblled.
  *
- * <p> If no compiler is available, these methods do nothing.
+ * <p> If no compiler is bvbilbble, these methods do nothing.
  *
- * @author  Frank Yellin
+ * @buthor  Frbnk Yellin
  * @since   1.0
  */
-public final class Compiler  {
-    private Compiler() {}               // don't make instances
+public finbl clbss Compiler  {
+    privbte Compiler() {}               // don't mbke instbnces
 
-    private static native void initialize();
+    privbte stbtic nbtive void initiblize();
 
-    private static native void registerNatives();
+    privbte stbtic nbtive void registerNbtives();
 
-    static {
-        registerNatives();
-        java.security.AccessController.doPrivileged(
-            new java.security.PrivilegedAction<Void>() {
+    stbtic {
+        registerNbtives();
+        jbvb.security.AccessController.doPrivileged(
+            new jbvb.security.PrivilegedAction<Void>() {
                 public Void run() {
-                    boolean loaded = false;
-                    String jit = System.getProperty("java.compiler");
-                    if ((jit != null) && (!jit.equals("NONE")) &&
-                        (!jit.equals("")))
+                    boolebn lobded = fblse;
+                    String jit = System.getProperty("jbvb.compiler");
+                    if ((jit != null) && (!jit.equbls("NONE")) &&
+                        (!jit.equbls("")))
                     {
                         try {
-                            System.loadLibrary(jit);
-                            initialize();
-                            loaded = true;
-                        } catch (UnsatisfiedLinkError e) {
-                            System.err.println("Warning: JIT compiler \"" +
+                            System.lobdLibrbry(jit);
+                            initiblize();
+                            lobded = true;
+                        } cbtch (UnsbtisfiedLinkError e) {
+                            System.err.println("Wbrning: JIT compiler \"" +
                               jit + "\" not found. Will use interpreter.");
                         }
                     }
-                    String info = System.getProperty("java.vm.info");
-                    if (loaded) {
-                        System.setProperty("java.vm.info", info + ", " + jit);
+                    String info = System.getProperty("jbvb.vm.info");
+                    if (lobded) {
+                        System.setProperty("jbvb.vm.info", info + ", " + jit);
                     } else {
-                        System.setProperty("java.vm.info", info + ", nojit");
+                        System.setProperty("jbvb.vm.info", info + ", nojit");
                     }
                     return null;
                 }
@@ -82,55 +82,55 @@ public final class Compiler  {
     }
 
     /**
-     * Compiles the specified class.
+     * Compiles the specified clbss.
      *
-     * @param  clazz
-     *         A class
+     * @pbrbm  clbzz
+     *         A clbss
      *
-     * @return  {@code true} if the compilation succeeded; {@code false} if the
-     *          compilation failed or no compiler is available
+     * @return  {@code true} if the compilbtion succeeded; {@code fblse} if the
+     *          compilbtion fbiled or no compiler is bvbilbble
      *
      * @throws  NullPointerException
-     *          If {@code clazz} is {@code null}
+     *          If {@code clbzz} is {@code null}
      */
-    public static native boolean compileClass(Class<?> clazz);
+    public stbtic nbtive boolebn compileClbss(Clbss<?> clbzz);
 
     /**
-     * Compiles all classes whose name matches the specified string.
+     * Compiles bll clbsses whose nbme mbtches the specified string.
      *
-     * @param  string
-     *         The name of the classes to compile
+     * @pbrbm  string
+     *         The nbme of the clbsses to compile
      *
-     * @return  {@code true} if the compilation succeeded; {@code false} if the
-     *          compilation failed or no compiler is available
+     * @return  {@code true} if the compilbtion succeeded; {@code fblse} if the
+     *          compilbtion fbiled or no compiler is bvbilbble
      *
      * @throws  NullPointerException
      *          If {@code string} is {@code null}
      */
-    public static native boolean compileClasses(String string);
+    public stbtic nbtive boolebn compileClbsses(String string);
 
     /**
-     * Examines the argument type and its fields and perform some documented
-     * operation.  No specific operations are required.
+     * Exbmines the brgument type bnd its fields bnd perform some documented
+     * operbtion.  No specific operbtions bre required.
      *
-     * @param  any
-     *         An argument
+     * @pbrbm  bny
+     *         An brgument
      *
-     * @return  A compiler-specific value, or {@code null} if no compiler is
-     *          available
+     * @return  A compiler-specific vblue, or {@code null} if no compiler is
+     *          bvbilbble
      *
      * @throws  NullPointerException
-     *          If {@code any} is {@code null}
+     *          If {@code bny} is {@code null}
      */
-    public static native Object command(Object any);
+    public stbtic nbtive Object commbnd(Object bny);
 
     /**
-     * Cause the Compiler to resume operation.
+     * Cbuse the Compiler to resume operbtion.
      */
-    public static native void enable();
+    public stbtic nbtive void enbble();
 
     /**
-     * Cause the Compiler to cease operation.
+     * Cbuse the Compiler to cebse operbtion.
      */
-    public static native void disable();
+    public stbtic nbtive void disbble();
 }

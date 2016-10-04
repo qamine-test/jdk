@@ -1,74 +1,74 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * The Original Code is HAT. The Initial Developer of the
- * Original Code is Bill Foote, with contributions from others
- * at JavaSoft/Sun.
+ * The Originbl Code is HAT. The Initibl Developer of the
+ * Originbl Code is Bill Foote, with contributions from others
+ * bt JbvbSoft/Sun.
  */
 
-var hatPkg = Packages.com.sun.tools.hat.internal;
+vbr hbtPkg = Pbckbges.com.sun.tools.hbt.internbl;
 
 /**
- * This is JavaScript interface for heap analysis using HAT
- * (Heap Analysis Tool). HAT classes are referred from
- * this file. In particular, refer to classes in hat.model 
- * package.
+ * This is JbvbScript interfbce for hebp bnblysis using HAT
+ * (Hebp Anblysis Tool). HAT clbsses bre referred from
+ * this file. In pbrticulbr, refer to clbsses in hbt.model 
+ * pbckbge.
  * 
- * HAT model objects are wrapped as convenient script objects so that
- * fields may be accessed in natural syntax. For eg. Java fields can be
- * accessed with obj.field_name syntax and array elements can be accessed
- * with array[index] syntax. 
+ * HAT model objects bre wrbpped bs convenient script objects so thbt
+ * fields mby be bccessed in nbturbl syntbx. For eg. Jbvb fields cbn be
+ * bccessed with obj.field_nbme syntbx bnd brrby elements cbn be bccessed
+ * with brrby[index] syntbx. 
  */
 
-// returns an enumeration that wraps elements of
-// the input enumeration elements.
-function wrapperEnumeration(e) {
-    return new java.util.Enumeration() {
-        hasMoreElements: function() {
-            return e.hasMoreElements();
+// returns bn enumerbtion thbt wrbps elements of
+// the input enumerbtion elements.
+function wrbpperEnumerbtion(e) {
+    return new jbvb.util.Enumerbtion() {
+        hbsMoreElements: function() {
+            return e.hbsMoreElements();
         },
         nextElement: function() {
-            return wrapJavaValue(e.nextElement());
+            return wrbpJbvbVblue(e.nextElement());
         }
     };
 }
 
-// returns an enumeration that filters out elements
-// of input enumeration using the filter function.
-function filterEnumeration(e, func, wrap) {
-    var next = undefined;
-    var index = 0;
+// returns bn enumerbtion thbt filters out elements
+// of input enumerbtion using the filter function.
+function filterEnumerbtion(e, func, wrbp) {
+    vbr next = undefined;
+    vbr index = 0;
 
     function findNext() {
-        var tmp;
-        while (e.hasMoreElements()) {
+        vbr tmp;
+        while (e.hbsMoreElements()) {
             tmp = e.nextElement();
             index++;
-            if (wrap) {
-                tmp = wrapJavaValue(tmp);
+            if (wrbp) {
+                tmp = wrbpJbvbVblue(tmp);
             }
             if (func(tmp, index, e)) {
                 next = tmp;
@@ -77,201 +77,201 @@ function filterEnumeration(e, func, wrap) {
         }
     }
 
-    return new java.util.Enumeration() {
-        hasMoreElements: function() {
+    return new jbvb.util.Enumerbtion() {
+        hbsMoreElements: function() {
             findNext();
             return next != undefined;
         },
 
         nextElement: function() {
             if (next == undefined) {
-                // user may not have called hasMoreElements?
+                // user mby not hbve cblled hbsMoreElements?
                 findNext();
             }
             if (next == undefined) {
                 throw "NoSuchElementException";
             }
-            var res = next;
+            vbr res = next;
             next = undefined;
             return res;
         }
     };
 }
 
-// enumeration that has no elements ..
-var emptyEnumeration = new java.util.Enumeration() {
-        hasMoreElements: function() { 
-            return false;
+// enumerbtion thbt hbs no elements ..
+vbr emptyEnumerbtion = new jbvb.util.Enumerbtion() {
+        hbsMoreElements: function() { 
+            return fblse;
         },
         nextElement: function() {
             throw "NoSuchElementException";
         }
     };
 
-function wrapRoot(root) {
+function wrbpRoot(root) {
     if (root) {
         return {
             id: root.idString,
             description: root.description,
-            referrer: wrapJavaValue(root.referer),
-            type: root.typeName
+            referrer: wrbpJbvbVblue(root.referer),
+            type: root.typeNbme
         };
     } else {
         return null;
     }
 }
 
-function JavaClassProto() {    
-    function jclass(obj) {
-        return obj['wrapped-object'];
+function JbvbClbssProto() {    
+    function jclbss(obj) {
+        return obj['wrbpped-object'];
     }
 
-    // return whether given class is subclass of this class or not
-    this.isSubclassOf = function(other) {
-        var tmp = jclass(this);
-        var otherid = objectid(other);
+    // return whether given clbss is subclbss of this clbss or not
+    this.isSubclbssOf = function(other) {
+        vbr tmp = jclbss(this);
+        vbr otherid = objectid(other);
         while (tmp != null) {
-            if (otherid.equals(tmp.idString)) {
+            if (otherid.equbls(tmp.idString)) {
                 return true;
             }
-            tmp = tmp.superclass;
+            tmp = tmp.superclbss;
         }
-        return false;
+        return fblse;
     }
 
-    // return whether given class is superclass of this class or not
-    this.isSuperclassOf = function(other) {
-        return other.isSubclassOf(this); 
+    // return whether given clbss is superclbss of this clbss or not
+    this.isSuperclbssOf = function(other) {
+        return other.isSubclbssOf(this); 
     }
 
-    // includes direct and indirect superclasses
-    this.superclasses = function() {
-        var res = new Array();
-        var tmp = this.superclass;
+    // includes direct bnd indirect superclbsses
+    this.superclbsses = function() {
+        vbr res = new Arrby();
+        vbr tmp = this.superclbss;
         while (tmp != null) {
             res[res.length] = tmp;
-            tmp = tmp.superclass;
+            tmp = tmp.superclbss;
         }
         return res;
     }
 
     /**
-     * Returns an array containing subclasses of this class.
+     * Returns bn brrby contbining subclbsses of this clbss.
      *
-     * @param indirect should include indirect subclasses or not.
-     *                 default is true.
+     * @pbrbm indirect should include indirect subclbsses or not.
+     *                 defbult is true.
      */
-    this.subclasses = function(indirect) {
+    this.subclbsses = function(indirect) {
         if (indirect == undefined) indirect = true;
-        var classes = jclass(this).subclasses;
-        var res = new Array();
-        for (var i in classes) {
-            var subclass = wrapJavaValue(classes[i]);
-            res[res.length] = subclass;
+        vbr clbsses = jclbss(this).subclbsses;
+        vbr res = new Arrby();
+        for (vbr i in clbsses) {
+            vbr subclbss = wrbpJbvbVblue(clbsses[i]);
+            res[res.length] = subclbss;
             if (indirect) {
-                res = res.concat(subclass.subclasses());
+                res = res.concbt(subclbss.subclbsses());
             }
         }
         return res;
     }
-    this.toString = function() { return jclass(this).toString(); }
+    this.toString = function() { return jclbss(this).toString(); }
 }
 
-var theJavaClassProto = new JavaClassProto();
+vbr theJbvbClbssProto = new JbvbClbssProto();
 
-// Script wrapper for HAT model objects, values.
-// wraps a Java value as appropriate for script object
-function wrapJavaValue(thing) {
+// Script wrbpper for HAT model objects, vblues.
+// wrbps b Jbvb vblue bs bppropribte for script object
+function wrbpJbvbVblue(thing) {
     if (thing == null || thing == undefined ||
-        thing instanceof hatPkg.model.HackJavaValue) {
+        thing instbnceof hbtPkg.model.HbckJbvbVblue) {
 	return null;
     } 
     
-    if (thing instanceof hatPkg.model.JavaValue) {
-        // map primitive values to closest JavaScript primitives
-        if (thing instanceof hatPkg.model.JavaBoolean) {
+    if (thing instbnceof hbtPkg.model.JbvbVblue) {
+        // mbp primitive vblues to closest JbvbScript primitives
+        if (thing instbnceof hbtPkg.model.JbvbBoolebn) {
             return thing.toString() == "true";
-        } else if (thing instanceof hatPkg.model.JavaChar) {
+        } else if (thing instbnceof hbtPkg.model.JbvbChbr) {
             return thing.toString() + '';
         } else {
-            return java.lang.Double.parseDouble(thing.toString());
+            return jbvb.lbng.Double.pbrseDouble(thing.toString());
         }			
     } else {
-        // wrap Java object as script object
-        return wrapJavaObject(thing);		
+        // wrbp Jbvb object bs script object
+        return wrbpJbvbObject(thing);		
     }
 }
 
-// wrap Java object with appropriate script object
-function wrapJavaObject(thing) {
+// wrbp Jbvb object with bppropribte script object
+function wrbpJbvbObject(thing) {
 
-    // HAT Java model object wrapper. Handles all cases 
-    // (instance, object/primitive array and Class objects)	
-    function javaObject(jobject) {		
-        // FIXME: Do I need this? or can I assume that these would
-        // have been resolved already?
-        if (jobject instanceof hatPkg.model.JavaObjectRef) {
+    // HAT Jbvb model object wrbpper. Hbndles bll cbses 
+    // (instbnce, object/primitive brrby bnd Clbss objects)	
+    function jbvbObject(jobject) {		
+        // FIXME: Do I need this? or cbn I bssume thbt these would
+        // hbve been resolved blrebdy?
+        if (jobject instbnceof hbtPkg.model.JbvbObjectRef) {
             jobject = jobject.dereference();
-            if (jobject instanceof hatPkg.model.HackJavaValue) {
+            if (jobject instbnceof hbtPkg.model.HbckJbvbVblue) {
                 print(jobject);
                 return null;
             }
         }
 
-        if (jobject instanceof hatPkg.model.JavaObject) {
-            return new JavaObjectWrapper(jobject);
-        } else if (jobject instanceof hatPkg.model.JavaClass) {
-            return new JavaClassWrapper(jobject);
-        } else if (jobject instanceof hatPkg.model.JavaObjectArray) {
-            return new JavaObjectArrayWrapper(jobject);
-        } else if (jobject instanceof hatPkg.model.JavaValueArray) {
-            return new JavaValueArrayWrapper(jobject);
+        if (jobject instbnceof hbtPkg.model.JbvbObject) {
+            return new JbvbObjectWrbpper(jobject);
+        } else if (jobject instbnceof hbtPkg.model.JbvbClbss) {
+            return new JbvbClbssWrbpper(jobject);
+        } else if (jobject instbnceof hbtPkg.model.JbvbObjectArrby) {
+            return new JbvbObjectArrbyWrbpper(jobject);
+        } else if (jobject instbnceof hbtPkg.model.JbvbVblueArrby) {
+            return new JbvbVblueArrbyWrbpper(jobject);
         } else {
-            print("unknown heap object type: " + jobject.getClass());
+            print("unknown hebp object type: " + jobject.getClbss());
             return jobject;
         }
     }
     
-    // returns wrapper for Java instances
-    function JavaObjectWrapper(instance) {
-        var things = instance.fields;
-        var fields = instance.clazz.fieldsForInstance;
+    // returns wrbpper for Jbvb instbnces
+    function JbvbObjectWrbpper(instbnce) {
+        vbr things = instbnce.fields;
+        vbr fields = instbnce.clbzz.fieldsForInstbnce;
     		
-        // instance fields can be accessed in natural syntax
-        return new JSAdapter() {
+        // instbnce fields cbn be bccessed in nbturbl syntbx
+        return new JSAdbpter() {
             __getIds__ : function() {
-                    var res = new Array(fields.length);
-                    for (var i in fields) {
-                        res[i] = fields[i].name;
+                    vbr res = new Arrby(fields.length);
+                    for (vbr i in fields) {
+                        res[i] = fields[i].nbme;
                     }
                     return res;
             },
-            __has__ : function(name) {
-                    for (var i in fields) {
-                        if (name == fields[i].name) return true;
+            __hbs__ : function(nbme) {
+                    for (vbr i in fields) {
+                        if (nbme == fields[i].nbme) return true;
                     }
-                    return name == 'class' || name == 'toString' ||
-                           name == 'wrapped-object';
+                    return nbme == 'clbss' || nbme == 'toString' ||
+                           nbme == 'wrbpped-object';
             },
-            __get__ : function(name) {
+            __get__ : function(nbme) {
     
-                    for (var i in fields) {
-                        if(fields[i].name == name) {
-                            return wrapJavaValue(things[i]);
+                    for (vbr i in fields) {
+                        if(fields[i].nbme == nbme) {
+                            return wrbpJbvbVblue(things[i]);
                         }
                     }
     
-                    if (name == 'class') {
-                        return wrapJavaValue(instance.clazz);
-                    } else if (name == 'wrapped-object') {
-                        return instance;
+                    if (nbme == 'clbss') {
+                        return wrbpJbvbVblue(instbnce.clbzz);
+                    } else if (nbme == 'wrbpped-object') {
+                        return instbnce;
                     } 
     
                     return undefined;
             },
-            __call__: function(name) {
-                if (name == 'toString') {
-                    return instance.toString();
+            __cbll__: function(nbme) {
+                if (nbme == 'toString') {
+                    return instbnce.toString();
                 } else {
                     return undefined;
                 }
@@ -280,93 +280,93 @@ function wrapJavaObject(thing) {
     }
 
 
-    // return wrapper for Java Class objects
-    function JavaClassWrapper(jclass) {	
-        var fields = jclass.statics;
+    // return wrbpper for Jbvb Clbss objects
+    function JbvbClbssWrbpper(jclbss) {	
+        vbr fields = jclbss.stbtics;
     
-        // to access static fields of given Class cl, use 
-        // cl.statics.<static-field-name> syntax
-        this.statics = new JSAdapter() {
+        // to bccess stbtic fields of given Clbss cl, use 
+        // cl.stbtics.<stbtic-field-nbme> syntbx
+        this.stbtics = new JSAdbpter() {
             __getIds__ : function() {
-                var res = new Array(fields.length);
-                for (var i in fields) {
-                    res[i] = fields[i].field.name;
+                vbr res = new Arrby(fields.length);
+                for (vbr i in fields) {
+                    res[i] = fields[i].field.nbme;
                 }
                 return res;
             },
-            __has__ : function(name) {
-                for (var i in fields) {
-                    if (name == fields[i].field.name) {
+            __hbs__ : function(nbme) {
+                for (vbr i in fields) {
+                    if (nbme == fields[i].field.nbme) {
                         return true;
                     }					
                 }
-                return false;
+                return fblse;
             },
-            __get__ : function(name) {
-                for (var i in fields) {
-                    if (name == fields[i].field.name) {
-                        return wrapJavaValue(fields[i].value);	
+            __get__ : function(nbme) {
+                for (vbr i in fields) {
+                    if (nbme == fields[i].field.nbme) {
+                        return wrbpJbvbVblue(fields[i].vblue);	
                     }					
                 }
                 return undefined;
             }
         }
     		
-        if (jclass.superclass != null) {
-            this.superclass = wrapJavaValue(jclass.superclass);
+        if (jclbss.superclbss != null) {
+            this.superclbss = wrbpJbvbVblue(jclbss.superclbss);
         } else {
-            this.superclass = null;
+            this.superclbss = null;
         }
 
-        this.loader = wrapJavaValue(jclass.getLoader());
-        this.signers = wrapJavaValue(jclass.getSigners());
-        this.protectionDomain = wrapJavaValue(jclass.getProtectionDomain());
-        this.instanceSize = jclass.instanceSize;
-        this.name = jclass.name; 
-        this.fields = jclass.fields;
-        this['wrapped-object'] = jclass;
+        this.lobder = wrbpJbvbVblue(jclbss.getLobder());
+        this.signers = wrbpJbvbVblue(jclbss.getSigners());
+        this.protectionDombin = wrbpJbvbVblue(jclbss.getProtectionDombin());
+        this.instbnceSize = jclbss.instbnceSize;
+        this.nbme = jclbss.nbme; 
+        this.fields = jclbss.fields;
+        this['wrbpped-object'] = jclbss;
     }
 
-    for (var i in theJavaClassProto) {
-        if (typeof theJavaClassProto[i] == 'function') {
-           JavaClassWrapper.prototype[i] = theJavaClassProto[i];
+    for (vbr i in theJbvbClbssProto) {
+        if (typeof theJbvbClbssProto[i] == 'function') {
+           JbvbClbssWrbpper.prototype[i] = theJbvbClbssProto[i];
         }
     }
     
-    // returns wrapper for Java object arrays
-    function JavaObjectArrayWrapper(array) {
-        var elements = array.elements;
-        // array elements can be accessed in natural syntax
-        // also, 'length' property is supported.
-        return new JSAdapter() {
+    // returns wrbpper for Jbvb object brrbys
+    function JbvbObjectArrbyWrbpper(brrby) {
+        vbr elements = brrby.elements;
+        // brrby elements cbn be bccessed in nbturbl syntbx
+        // blso, 'length' property is supported.
+        return new JSAdbpter() {
             __getIds__ : function() {
-                var res = new Array(elements.length);
-                for (var i = 0; i < elements.length; i++) {
+                vbr res = new Arrby(elements.length);
+                for (vbr i = 0; i < elements.length; i++) {
                     res[i] = String(i);
                 }
                 return res;
             },
-            __has__: function(name) {
-                return (name >= 0 && name < elements.length)  ||
-                        name == 'length' || name == 'class' ||
-                        name == 'toString' || name == 'wrapped-object';
+            __hbs__: function(nbme) {
+                return (nbme >= 0 && nbme < elements.length)  ||
+                        nbme == 'length' || nbme == 'clbss' ||
+                        nbme == 'toString' || nbme == 'wrbpped-object';
             },
-            __get__ : function(name) {
-                if (name >= 0 && name < elements.length) {
-                    return wrapJavaValue(elements[name]);
-                } else if (name == 'length') {
+            __get__ : function(nbme) {
+                if (nbme >= 0 && nbme < elements.length) {
+                    return wrbpJbvbVblue(elements[nbme]);
+                } else if (nbme == 'length') {
                     return elements.length;
-                } else if (name == 'class') {
-                    return wrapJavaValue(array.clazz);
-                } else if (name == 'wrapped-object') {
-                    return array;
+                } else if (nbme == 'clbss') {
+                    return wrbpJbvbVblue(brrby.clbzz);
+                } else if (nbme == 'wrbpped-object') {
+                    return brrby;
                 } else {
                     return undefined;
                 }				
             },
-            __call__: function(name) {
-                if (name == 'toString') {
-                    return array.toString();
+            __cbll__: function(nbme) {
+                if (nbme == 'toString') {
+                    return brrby.toString();
                 } else {
                     return undefined;
                 }
@@ -374,59 +374,59 @@ function wrapJavaObject(thing) {
         }			
     }
     
-    // returns wrapper for Java primitive arrays
-    function JavaValueArrayWrapper(array) {
-        var type = String(java.lang.Character.toString(array.elementType));
-        var elements = array.elements;
-        // array elements can be accessed in natural syntax
-        // also, 'length' property is supported.
-        return new JSAdapter() {
+    // returns wrbpper for Jbvb primitive brrbys
+    function JbvbVblueArrbyWrbpper(brrby) {
+        vbr type = String(jbvb.lbng.Chbrbcter.toString(brrby.elementType));
+        vbr elements = brrby.elements;
+        // brrby elements cbn be bccessed in nbturbl syntbx
+        // blso, 'length' property is supported.
+        return new JSAdbpter() {
             __getIds__ : function() {
-                var r = new Array(array.length);
-                for (var i = 0; i < array.length; i++) {
+                vbr r = new Arrby(brrby.length);
+                for (vbr i = 0; i < brrby.length; i++) {
                     r[i] = String(i);
                 }
                 return r;
             },
-            __has__: function(name) {
-                return (name >= 0 && name < array.length) ||
-                        name == 'length' || name == 'class' ||
-                        name == 'toString' || name == 'wrapped-object';
+            __hbs__: function(nbme) {
+                return (nbme >= 0 && nbme < brrby.length) ||
+                        nbme == 'length' || nbme == 'clbss' ||
+                        nbme == 'toString' || nbme == 'wrbpped-object';
             },
-            __get__: function(name) {
-                if (name >= 0 && name < array.length) {
-                    return elements[name];
+            __get__: function(nbme) {
+                if (nbme >= 0 && nbme < brrby.length) {
+                    return elements[nbme];
                 }
     
-                if (name == 'length') {
-                    return array.length;
-                } else if (name == 'wrapped-object') {
-                    return array;
-                } else if (name == 'class') {
-                    return wrapJavaValue(array.clazz);
+                if (nbme == 'length') {
+                    return brrby.length;
+                } else if (nbme == 'wrbpped-object') {
+                    return brrby;
+                } else if (nbme == 'clbss') {
+                    return wrbpJbvbVblue(brrby.clbzz);
                 } else {
                     return undefined;
                 }
             },
-            __call__: function(name) {
-                if (name == 'toString') {
-                    return array.valueString(true);
+            __cbll__: function(nbme) {
+                if (nbme == 'toString') {
+                    return brrby.vblueString(true);
                 } else {
                     return undefined;
                 }
             } 
         }
     }
-    return javaObject(thing);
+    return jbvbObject(thing);
 }
 
-// unwrap a script object to corresponding HAT object
-function unwrapJavaObject(jobject) {
-    if (!(jobject instanceof hatPkg.model.JavaHeapObject)) {
+// unwrbp b script object to corresponding HAT object
+function unwrbpJbvbObject(jobject) {
+    if (!(jobject instbnceof hbtPkg.model.JbvbHebpObject)) {
         try {
-            jobject = jobject["wrapped-object"];
-        } catch (e) {
-            print("unwrapJavaObject: " + jobject + ", " + e);
+            jobject = jobject["wrbpped-object"];
+        } cbtch (e) {
+            print("unwrbpJbvbObject: " + jobject + ", " + e);
             jobject = undefined;
         }
     }
@@ -434,248 +434,248 @@ function unwrapJavaObject(jobject) {
 }
 
 /**
- * readHeapDump parses a heap dump file and returns script wrapper object.
+ * rebdHebpDump pbrses b hebp dump file bnd returns script wrbpper object.
  *
- * @param file  Heap dump file name
- * @param stack flag to tell if allocation site traces are available
- * @param refs  flag to tell if backward references are needed or not
- * @param debug debug level for HAT
- * @return heap as a JavaScript object
+ * @pbrbm file  Hebp dump file nbme
+ * @pbrbm stbck flbg to tell if bllocbtion site trbces bre bvbilbble
+ * @pbrbm refs  flbg to tell if bbckwbrd references bre needed or not
+ * @pbrbm debug debug level for HAT
+ * @return hebp bs b JbvbScript object
  */
-function readHeapDump(file, stack, refs, debug) {
+function rebdHebpDump(file, stbck, refs, debug) {
 
-    // default value of debug is 0
+    // defbult vblue of debug is 0
     if (!debug) debug = 0;
 
-    // by default, we assume no stack traces
-    if (!stack) stack = false;
+    // by defbult, we bssume no stbck trbces
+    if (!stbck) stbck = fblse;
 
-    // by default, backward references are resolved
+    // by defbult, bbckwbrd references bre resolved
     if (!refs) refs = true;
 
-    // read the heap dump 
-    var heap = hatPkg.parser.HprofReader.readFile(file, stack, debug);
+    // rebd the hebp dump 
+    vbr hebp = hbtPkg.pbrser.HprofRebder.rebdFile(file, stbck, debug);
 
     // resolve it
-    heap.resolve(refs);
+    hebp.resolve(refs);
 
-    // wrap Snapshot as convenient script object
-    return wrapHeapSnapshot(heap);
+    // wrbp Snbpshot bs convenient script object
+    return wrbpHebpSnbpshot(hebp);
 }
 
 /**
  * The result object supports the following methods:
  * 
- *  forEachClass  -- calls a callback for each Java Class
- *  forEachObject -- calls a callback for each Java object
- *  findClass -- finds Java Class of given name
+ *  forEbchClbss  -- cblls b cbllbbck for ebch Jbvb Clbss
+ *  forEbchObject -- cblls b cbllbbck for ebch Jbvb object
+ *  findClbss -- finds Jbvb Clbss of given nbme
  *  findObject -- finds object from given object id
- *  objects -- returns all objects of given class as an enumeration
- *  classes -- returns all classes in the heap as an enumeration
- *  reachables -- returns all objects reachable from a given object
- *  livepaths -- returns an array of live paths because of which an
- *               object alive.
- *  describeRef -- returns description for a reference from a 'from' 
- *              object to a 'to' object.
+ *  objects -- returns bll objects of given clbss bs bn enumerbtion
+ *  clbsses -- returns bll clbsses in the hebp bs bn enumerbtion
+ *  rebchbbles -- returns bll objects rebchbble from b given object
+ *  livepbths -- returns bn brrby of live pbths becbuse of which bn
+ *               object blive.
+ *  describeRef -- returns description for b reference from b 'from' 
+ *              object to b 'to' object.
  */
-function wrapHeapSnapshot(heap) {
-    function getClazz(clazz) {
-        if (clazz == undefined) clazz = "java.lang.Object";
-        var type = typeof(clazz);
+function wrbpHebpSnbpshot(hebp) {
+    function getClbzz(clbzz) {
+        if (clbzz == undefined) clbzz = "jbvb.lbng.Object";
+        vbr type = typeof(clbzz);
         if (type == "string") {
-            clazz = heap.findClass(clazz);		
+            clbzz = hebp.findClbss(clbzz);		
         } else if (type == "object") {
-            clazz = unwrapJavaObject(clazz);
+            clbzz = unwrbpJbvbObject(clbzz);
         } else {
-            throw "class expected";;
+            throw "clbss expected";;
         }
-        return clazz;
+        return clbzz;
     }
 
-    // return heap as a script object with useful methods.
+    // return hebp bs b script object with useful methods.
     return {
-        snapshot: heap,
+        snbpshot: hebp,
 
         /**
-         * Class iteration: Calls callback function for each
-         * Java Class in the heap. Default callback function 
-         * is 'print'. If callback returns true, the iteration 
+         * Clbss iterbtion: Cblls cbllbbck function for ebch
+         * Jbvb Clbss in the hebp. Defbult cbllbbck function 
+         * is 'print'. If cbllbbck returns true, the iterbtion 
          * is stopped.
          *
-         * @param callback function to be called.
+         * @pbrbm cbllbbck function to be cblled.
          */
-        forEachClass: function(callback) {
-            if (callback == undefined) callback = print;
-            var classes = this.snapshot.classes;
-            while (classes.hasMoreElements()) {
-                if (callback(wrapJavaValue(classes.nextElement())))
+        forEbchClbss: function(cbllbbck) {
+            if (cbllbbck == undefined) cbllbbck = print;
+            vbr clbsses = this.snbpshot.clbsses;
+            while (clbsses.hbsMoreElements()) {
+                if (cbllbbck(wrbpJbvbVblue(clbsses.nextElement())))
                     return;
             }
         },
 
         /**
-         * Returns an Enumeration of all roots.
+         * Returns bn Enumerbtion of bll roots.
          */
         roots: function() {
-            var e = this.snapshot.roots;
-            return new java.util.Enumeration() {
-                hasMoreElements: function() {
-                    return e.hasMoreElements();
+            vbr e = this.snbpshot.roots;
+            return new jbvb.util.Enumerbtion() {
+                hbsMoreElements: function() {
+                    return e.hbsMoreElements();
                 },
                 nextElement: function() {
-                    return wrapRoot(e.nextElement());
+                    return wrbpRoot(e.nextElement());
                 }
             };
         },
 
         /**
-         * Returns an Enumeration for all Java classes.
+         * Returns bn Enumerbtion for bll Jbvb clbsses.
          */
-        classes: function() {
-            return wrapIterator(this.snapshot.classes, true);
+        clbsses: function() {
+            return wrbpIterbtor(this.snbpshot.clbsses, true);
         },
 
         /**
-         * Object iteration: Calls callback function for each
-         * Java Object in the heap. Default callback function 
-         * is 'print'.If callback returns true, the iteration 
+         * Object iterbtion: Cblls cbllbbck function for ebch
+         * Jbvb Object in the hebp. Defbult cbllbbck function 
+         * is 'print'.If cbllbbck returns true, the iterbtion 
          * is stopped.
          *
-         * @param callback function to be called. 
-         * @param clazz Class whose objects are retrieved.
-         *        Optional, default is 'java.lang.Object'
-         * @param includeSubtypes flag to tell if objects of subtypes
-         *        are included or not. optional, default is true.
+         * @pbrbm cbllbbck function to be cblled. 
+         * @pbrbm clbzz Clbss whose objects bre retrieved.
+         *        Optionbl, defbult is 'jbvb.lbng.Object'
+         * @pbrbm includeSubtypes flbg to tell if objects of subtypes
+         *        bre included or not. optionbl, defbult is true.
          */
-        forEachObject: function(callback, clazz, includeSubtypes) {
+        forEbchObject: function(cbllbbck, clbzz, includeSubtypes) {
             if (includeSubtypes == undefined) includeSubtypes = true;
-            if (callback == undefined) callback = print;
-            clazz = getClazz(clazz);
+            if (cbllbbck == undefined) cbllbbck = print;
+            clbzz = getClbzz(clbzz);
 
-            if (clazz) {
-                var instances = clazz.getInstances(includeSubtypes);
-                while (instances.hasNextElements()) {
-                    if (callback(wrapJavaValue(instances.nextElement())))
+            if (clbzz) {
+                vbr instbnces = clbzz.getInstbnces(includeSubtypes);
+                while (instbnces.hbsNextElements()) {
+                    if (cbllbbck(wrbpJbvbVblue(instbnces.nextElement())))
                         return;
                 }
             }
         },
 
         /** 
-         * Returns an enumeration of Java objects in the heap.
+         * Returns bn enumerbtion of Jbvb objects in the hebp.
          * 
-         * @param clazz Class whose objects are retrieved.
-         *        Optional, default is 'java.lang.Object'
-         * @param includeSubtypes flag to tell if objects of subtypes
-         *        are included or not. optional, default is true.
-         * @param where (optional) filter expression or function to
-         *        filter the objects. The expression has to return true
-         *        to include object passed to it in the result array. 
-         *        Built-in variable 'it' refers to the current object in 
+         * @pbrbm clbzz Clbss whose objects bre retrieved.
+         *        Optionbl, defbult is 'jbvb.lbng.Object'
+         * @pbrbm includeSubtypes flbg to tell if objects of subtypes
+         *        bre included or not. optionbl, defbult is true.
+         * @pbrbm where (optionbl) filter expression or function to
+         *        filter the objects. The expression hbs to return true
+         *        to include object pbssed to it in the result brrby. 
+         *        Built-in vbribble 'it' refers to the current object in 
          *        filter expression.
          */
-        objects: function(clazz, includeSubtypes, where) {
+        objects: function(clbzz, includeSubtypes, where) {
             if (includeSubtypes == undefined) includeSubtypes = true;
             if (where) {
                 if (typeof(where) == 'string') {
                     where = new Function("it", "return " + where);
                 }
             }
-            clazz = getClazz(clazz);
-            if (clazz) {
-                var instances = clazz.getInstances(includeSubtypes);
+            clbzz = getClbzz(clbzz);
+            if (clbzz) {
+                vbr instbnces = clbzz.getInstbnces(includeSubtypes);
                 if (where) {
-                    return filterEnumeration(instances, where, true);
+                    return filterEnumerbtion(instbnces, where, true);
                 } else {
-                    return wrapperEnumeration(instances);
+                    return wrbpperEnumerbtion(instbnces);
                 }
             } else {
-                return emptyEnumeration;
+                return emptyEnumerbtion;
             }
         },
 
         /**
-         * Find Java Class of given name.
+         * Find Jbvb Clbss of given nbme.
          * 
-         * @param name class name
+         * @pbrbm nbme clbss nbme
          */
-        findClass: function(name) {
-            var clazz = this.snapshot.findClass(name + '');
-            return wrapJavaValue(clazz);
+        findClbss: function(nbme) {
+            vbr clbzz = this.snbpshot.findClbss(nbme + '');
+            return wrbpJbvbVblue(clbzz);
         },
 
         /**
-         * Find Java Object from given object id
+         * Find Jbvb Object from given object id
          *
-         * @param id object id as string
+         * @pbrbm id object id bs string
          */
         findObject: function(id) {
-            return wrapJavaValue(this.snapshot.findThing(id));
+            return wrbpJbvbVblue(this.snbpshot.findThing(id));
         },
 
         /**
-         * Returns an enumeration of objects in the finalizer
-         * queue waiting to be finalized.
+         * Returns bn enumerbtion of objects in the finblizer
+         * queue wbiting to be finblized.
          */
-        finalizables: function() {
-            var tmp = this.snapshot.getFinalizerObjects();
-            return wrapperEnumeration(tmp);
+        finblizbbles: function() {
+            vbr tmp = this.snbpshot.getFinblizerObjects();
+            return wrbpperEnumerbtion(tmp);
         },
  
         /**
-         * Returns an array that contains objects referred from the
-         * given Java object directly or indirectly (i.e., all 
-         * transitively referred objects are returned).
+         * Returns bn brrby thbt contbins objects referred from the
+         * given Jbvb object directly or indirectly (i.e., bll 
+         * trbnsitively referred objects bre returned).
          *
-         * @param jobject Java object whose reachables are returned.
+         * @pbrbm jobject Jbvb object whose rebchbbles bre returned.
          */
-        reachables: function (jobject) {
-            return reachables(jobject, this.snapshot.reachableExcludes);
+        rebchbbles: function (jobject) {
+            return rebchbbles(jobject, this.snbpshot.rebchbbleExcludes);
         },
 
         /**
-         * Returns array of paths of references by which the given 
-         * Java object is live. Each path itself is an array of
-         * objects in the chain of references. Each path supports
-         * toHtml method that returns html description of the path.
+         * Returns brrby of pbths of references by which the given 
+         * Jbvb object is live. Ebch pbth itself is bn brrby of
+         * objects in the chbin of references. Ebch pbth supports
+         * toHtml method thbt returns html description of the pbth.
          *
-         * @param jobject Java object whose live paths are returned
-         * @param weak flag to indicate whether to include paths with
-         *             weak references or not. default is false.
+         * @pbrbm jobject Jbvb object whose live pbths bre returned
+         * @pbrbm webk flbg to indicbte whether to include pbths with
+         *             webk references or not. defbult is fblse.
          */
-        livepaths: function (jobject, weak) {
-            if (weak == undefined) {
-                weak = false;
+        livepbths: function (jobject, webk) {
+            if (webk == undefined) {
+                webk = fblse;
             }
 
-            function wrapRefChain(refChain) {
-                var path = new Array();
+            function wrbpRefChbin(refChbin) {
+                vbr pbth = new Arrby();
 
-                // compute path array from refChain
-                var tmp = refChain;
+                // compute pbth brrby from refChbin
+                vbr tmp = refChbin;
                 while (tmp != null) {
-                    var obj = tmp.obj;
-                    path[path.length] = wrapJavaValue(obj);
+                    vbr obj = tmp.obj;
+                    pbth[pbth.length] = wrbpJbvbVblue(obj);
                     tmp = tmp.next;
                 }
 
                 function computeDescription(html) {
-                    var root = refChain.obj.root;
-                    var desc = root.description;
+                    vbr root = refChbin.obj.root;
+                    vbr desc = root.description;
                     if (root.referer) {
-                        var ref = root.referer;
+                        vbr ref = root.referer;
                         desc += " (from " + 
                             (html? toHtml(ref) : ref.toString()) + ')';
                     }
                     desc += '->';
-                    var tmp = refChain;
+                    vbr tmp = refChbin;
                     while (tmp != null) {
-                        var next = tmp.next;
-                        var obj = tmp.obj;
+                        vbr next = tmp.next;
+                        vbr obj = tmp.obj;
                         desc += html? toHtml(obj) : obj.toString();
                         if (next != null) {
                             desc += " (" + 
-                                    obj.describeReferenceTo(next.obj, heap)  + 
+                                    obj.describeReferenceTo(next.obj, hebp)  + 
                                     ") ->";
                         }
                         tmp = next;
@@ -683,33 +683,33 @@ function wrapHeapSnapshot(heap) {
                     return desc;
                 }
 
-                return new JSAdapter() {
+                return new JSAdbpter() {
                     __getIds__ : function() {
-                        var res = new Array(path.length);
-                        for (var i = 0; i < path.length; i++) {
+                        vbr res = new Arrby(pbth.length);
+                        for (vbr i = 0; i < pbth.length; i++) {
                             res[i] = String(i);
                         }
                         return res;
                     },
-                    __has__ : function (name) {
-                        return (name >= 0 && name < path.length) ||
-                            name == 'length' || name == 'toHtml' ||
-                            name == 'toString';
+                    __hbs__ : function (nbme) {
+                        return (nbme >= 0 && nbme < pbth.length) ||
+                            nbme == 'length' || nbme == 'toHtml' ||
+                            nbme == 'toString';
                     },
-                    __get__ : function(name) {
-                        if (name >= 0 && name < path.length) {
-                            return path[name];
-                        } else if (name == 'length') {
-                            return path.length;
+                    __get__ : function(nbme) {
+                        if (nbme >= 0 && nbme < pbth.length) {
+                            return pbth[nbme];
+                        } else if (nbme == 'length') {
+                            return pbth.length;
                         } else {
                             return undefined;
                         }
                     },
-                    __call__: function(name) {
-                        if (name == 'toHtml') {
+                    __cbll__: function(nbme) {
+                        if (nbme == 'toHtml') {
                             return computeDescription(true);
-                        } else if (name == 'toString') {
-                            return computeDescription(false);
+                        } else if (nbme == 'toString') {
+                            return computeDescription(fblse);
                         } else {
                             return undefined;
                         }
@@ -717,26 +717,26 @@ function wrapHeapSnapshot(heap) {
                 };
             }
 
-            jobject = unwrapJavaObject(jobject);
-            var refChains = this.snapshot.rootsetReferencesTo(jobject, weak);
-            var paths = new Array(refChains.length);
-            for (var i in refChains) {
-                paths[i] = wrapRefChain(refChains[i]);
+            jobject = unwrbpJbvbObject(jobject);
+            vbr refChbins = this.snbpshot.rootsetReferencesTo(jobject, webk);
+            vbr pbths = new Arrby(refChbins.length);
+            for (vbr i in refChbins) {
+                pbths[i] = wrbpRefChbin(refChbins[i]);
             }
-            return paths;
+            return pbths;
         },
 
         /**
          * Return description string for reference from 'from' object
-         * to 'to' Java object.
+         * to 'to' Jbvb object.
          *
-         * @param from source Java object
-         * @param to destination Java object
+         * @pbrbm from source Jbvb object
+         * @pbrbm to destinbtion Jbvb object
          */
         describeRef: function (from, to) {
-            from = unwrapJavaObject(from);
-            to = unwrapJavaObject(to);
-            return from.describeReferenceTo(to, this.snapshot);
+            from = unwrbpJbvbObject(from);
+            to = unwrbpJbvbObject(to);
+            return from.describeReferenceTo(to, this.snbpshot);
         },
     };
 }
@@ -744,135 +744,135 @@ function wrapHeapSnapshot(heap) {
 // per-object functions
 
 /**
- * Returns allocation site trace (if available) of a Java object
+ * Returns bllocbtion site trbce (if bvbilbble) of b Jbvb object
  *
- * @param jobject object whose allocation site trace is returned
+ * @pbrbm jobject object whose bllocbtion site trbce is returned
  */
-function allocTrace(jobject) {
+function bllocTrbce(jobject) {
     try {
-        jobject = unwrapJavaObject(jobject);			
-        var trace = jobject.allocatedFrom;
-        return (trace != null) ? trace.frames : null;
-    } catch (e) {
-        print("allocTrace: " + jobject + ", " + e);
+        jobject = unwrbpJbvbObject(jobject);			
+        vbr trbce = jobject.bllocbtedFrom;
+        return (trbce != null) ? trbce.frbmes : null;
+    } cbtch (e) {
+        print("bllocTrbce: " + jobject + ", " + e);
         return null;
     }
 }
 
 /**
- * Returns Class object for given Java object
+ * Returns Clbss object for given Jbvb object
  *
- * @param jobject object whose Class object is returned
+ * @pbrbm jobject object whose Clbss object is returned
  */
-function classof(jobject) {
-    jobject = unwrapJavaObject(jobject);
-    return wrapJavaValue(jobject.clazz);
+function clbssof(jobject) {
+    jobject = unwrbpJbvbObject(jobject);
+    return wrbpJbvbVblue(jobject.clbzz);
 }
 
 /**
- * Find referers (a.k.a in-coming references). Calls callback
- * for each referrer of the given Java object. If the callback 
- * returns true, the iteration is stopped.
+ * Find referers (b.k.b in-coming references). Cblls cbllbbck
+ * for ebch referrer of the given Jbvb object. If the cbllbbck 
+ * returns true, the iterbtion is stopped.
  *
- * @param callback function to call for each referer
- * @param jobject object whose referers are retrieved
+ * @pbrbm cbllbbck function to cbll for ebch referer
+ * @pbrbm jobject object whose referers bre retrieved
  */
-function forEachReferrer(callback, jobject) {
-    jobject = unwrapJavaObject(jobject);
-    var refs = jobject.referers;
-    while (refs.hasMoreElements()) {
-        if (callback(wrapJavaValue(refs.nextElement()))) {
+function forEbchReferrer(cbllbbck, jobject) {
+    jobject = unwrbpJbvbObject(jobject);
+    vbr refs = jobject.referers;
+    while (refs.hbsMoreElements()) {
+        if (cbllbbck(wrbpJbvbVblue(refs.nextElement()))) {
             return;
         }
     }
 }
 
 /**
- * Compares two Java objects for object identity.
+ * Compbres two Jbvb objects for object identity.
  *
- * @param o1, o2 objects to compare for identity
+ * @pbrbm o1, o2 objects to compbre for identity
  */
-function identical(o1, o2) {
+function identicbl(o1, o2) {
     return objectid(o1) == objectid(o2);
 }
 
 /**
- * Returns Java object id as string
+ * Returns Jbvb object id bs string
  *
- * @param jobject object whose id is returned
+ * @pbrbm jobject object whose id is returned
  */
 function objectid(jobject) {
     try {
-        jobject = unwrapJavaObject(jobject);
+        jobject = unwrbpJbvbObject(jobject);
         return String(jobject.idString);
-    } catch (e) {
+    } cbtch (e) {
         print("objectid: " + jobject + ", " + e);
         return null;
     }
 }
 
 /**
- * Prints allocation site trace of given object
+ * Prints bllocbtion site trbce of given object
  *
- * @param jobject object whose allocation site trace is returned
+ * @pbrbm jobject object whose bllocbtion site trbce is returned
  */
-function printAllocTrace(jobject) {
-    var frames = this.allocTrace(jobject);
-    if (frames == null || frames.length == 0) {
-        print("allocation site trace unavailable for " + 
+function printAllocTrbce(jobject) {
+    vbr frbmes = this.bllocTrbce(jobject);
+    if (frbmes == null || frbmes.length == 0) {
+        print("bllocbtion site trbce unbvbilbble for " + 
               objectid(jobject));
         return;
     }    
-    print(objectid(jobject) + " was allocated at ..");
-    for (var i in frames) {
-        var frame = frames[i];
-        var src = frame.sourceFileName;
+    print(objectid(jobject) + " wbs bllocbted bt ..");
+    for (vbr i in frbmes) {
+        vbr frbme = frbmes[i];
+        vbr src = frbme.sourceFileNbme;
         if (src == null) src = '<unknown source>';
-        print('\t' + frame.className + "." +
-             frame.methodName + '(' + frame.methodSignature + ') [' +
-             src + ':' + frame.lineNumber + ']');
+        print('\t' + frbme.clbssNbme + "." +
+             frbme.methodNbme + '(' + frbme.methodSignbture + ') [' +
+             src + ':' + frbme.lineNumber + ']');
     }
 }
 
 /**
- * Returns an enumeration of referrers of the given Java object.
+ * Returns bn enumerbtion of referrers of the given Jbvb object.
  *
- * @param jobject Java object whose referrers are returned.
+ * @pbrbm jobject Jbvb object whose referrers bre returned.
  */
 function referrers(jobject) {
     try {
-        jobject = unwrapJavaObject(jobject);
-        return wrapperEnumeration(jobject.referers);
-    } catch (e) {
+        jobject = unwrbpJbvbObject(jobject);
+        return wrbpperEnumerbtion(jobject.referers);
+    } cbtch (e) {
         print("referrers: " + jobject + ", " + e);
-        return emptyEnumeration;
+        return emptyEnumerbtion;
     }
 }
 
 /**
- * Returns an array that contains objects referred from the
- * given Java object.
+ * Returns bn brrby thbt contbins objects referred from the
+ * given Jbvb object.
  *
- * @param jobject Java object whose referees are returned.
+ * @pbrbm jobject Jbvb object whose referees bre returned.
  */
 function referees(jobject) {
-    var res = new Array();
-    jobject = unwrapJavaObject(jobject);
+    vbr res = new Arrby();
+    jobject = unwrbpJbvbObject(jobject);
     if (jobject != undefined) {
         try {
             jobject.visitReferencedObjects(
-                new hatPkg.model.JavaHeapObjectVisitor() {
+                new hbtPkg.model.JbvbHebpObjectVisitor() {
                     visit: function(other) { 
-                        res[res.length] = wrapJavaValue(other);
+                        res[res.length] = wrbpJbvbVblue(other);
                     },
-                    exclude: function(clazz, field) { 
-                        return false; 
+                    exclude: function(clbzz, field) { 
+                        return fblse; 
                     },
                     mightExclude: function() { 
-                        return false; 
+                        return fblse; 
                     }
                 });
-        } catch (e) {
+        } cbtch (e) {
             print("referees: " + jobject + ", " + e);
         }
     }
@@ -880,49 +880,49 @@ function referees(jobject) {
 }
 
 /**
- * Returns an array that contains objects referred from the
- * given Java object directly or indirectly (i.e., all 
- * transitively referred objects are returned).
+ * Returns bn brrby thbt contbins objects referred from the
+ * given Jbvb object directly or indirectly (i.e., bll 
+ * trbnsitively referred objects bre returned).
  *
- * @param jobject Java object whose reachables are returned.
- * @param excludes optional comma separated list of fields to be 
- *                 removed in reachables computation. Fields are
- *                 written as class_name.field_name form.
+ * @pbrbm jobject Jbvb object whose rebchbbles bre returned.
+ * @pbrbm excludes optionbl commb sepbrbted list of fields to be 
+ *                 removed in rebchbbles computbtion. Fields bre
+ *                 written bs clbss_nbme.field_nbme form.
  */
-function reachables(jobject, excludes) {
+function rebchbbles(jobject, excludes) {
     if (excludes == undefined) {
         excludes = null;
     } else if (typeof(excludes) == 'string') {
-        var st = new java.util.StringTokenizer(excludes, ",");
-        var excludedFields = new Array();
-        while (st.hasMoreTokens()) {
+        vbr st = new jbvb.util.StringTokenizer(excludes, ",");
+        vbr excludedFields = new Arrby();
+        while (st.hbsMoreTokens()) {
             excludedFields[excludedFields.length] = st.nextToken().trim();
         }
         if (excludedFields.length > 0) { 
-            excludes = new hatPkg.model.ReachableExcludes() {
+            excludes = new hbtPkg.model.RebchbbleExcludes() {
                         isExcluded: function (field) {
-                            for (var index in excludedFields) {
-                                if (field.equals(excludedFields[index])) {
+                            for (vbr index in excludedFields) {
+                                if (field.equbls(excludedFields[index])) {
                                     return true;
                                 }
                             }
-                            return false;
+                            return fblse;
                         }
                     };
         } else {
             // nothing to filter...
             excludes = null;
         }
-    } else if (! (excludes instanceof hatPkg.model.ReachableExcludes)) {
+    } else if (! (excludes instbnceof hbtPkg.model.RebchbbleExcludes)) {
         excludes = null;
     }
 
-    jobject = unwrapJavaObject(jobject);
-    var ro = new hatPkg.model.ReachableObjects(jobject, excludes);  
-    var tmp = ro.reachables;
-    var res = new Array(tmp.length);
-    for (var i in tmp) {
-        res[i] = wrapJavaValue(tmp[i]);
+    jobject = unwrbpJbvbObject(jobject);
+    vbr ro = new hbtPkg.model.RebchbbleObjects(jobject, excludes);  
+    vbr tmp = ro.rebchbbles;
+    vbr res = new Arrby(tmp.length);
+    for (vbr i in tmp) {
+        res[i] = wrbpJbvbVblue(tmp[i]);
     }
     return res;
 }
@@ -931,72 +931,72 @@ function reachables(jobject, excludes) {
 /**
  * Returns whether 'from' object refers to 'to' object or not.
  *
- * @param from Java object that is source of the reference.
- * @param to Java object that is destination of the reference.
+ * @pbrbm from Jbvb object thbt is source of the reference.
+ * @pbrbm to Jbvb object thbt is destinbtion of the reference.
  */
 function refers(from, to) {
     try {
-        var tmp = unwrapJavaObject(from);
-        if (tmp instanceof hatPkg.model.JavaClass) {
-            from = from.statics;
-        } else if (tmp instanceof hatPkg.model.JavaValueArray) {
-            return false;
+        vbr tmp = unwrbpJbvbObject(from);
+        if (tmp instbnceof hbtPkg.model.JbvbClbss) {
+            from = from.stbtics;
+        } else if (tmp instbnceof hbtPkg.model.JbvbVblueArrby) {
+            return fblse;
         }
-        for (var i in from) {
-            if (identical(from[i], to)) {
+        for (vbr i in from) {
+            if (identicbl(from[i], to)) {
                 return true;
             }
         }
-    } catch (e) {
+    } cbtch (e) {
         print("refers: " + from + ", " + e);
     }
-    return false;
+    return fblse;
 }
 
 /**
  * If rootset includes given jobject, return Root
- * object explanining the reason why it is a root.
+ * object explbnining the rebson why it is b root.
  *
- * @param jobject object whose Root is returned
+ * @pbrbm jobject object whose Root is returned
  */
 function root(jobject) {
     try {
-        jobject = unwrapJavaObject(jobject);
-        return wrapRoot(jobject.root);
-    } catch (e) {
+        jobject = unwrbpJbvbObject(jobject);
+        return wrbpRoot(jobject.root);
+    } cbtch (e) {
         return null;
     }
 }
 
 /**
- * Returns size of the given Java object
+ * Returns size of the given Jbvb object
  *
- * @param jobject object whose size is returned
+ * @pbrbm jobject object whose size is returned
  */
 function sizeof(jobject) {
     try {
-        jobject = unwrapJavaObject(jobject);
+        jobject = unwrbpJbvbObject(jobject);
         return jobject.size;
-    } catch (e) {
+    } cbtch (e) {
         print("sizeof: " + jobject + ", " + e);
         return null;
     }
 }
 
 /**
- * Returns String by replacing Unicode chars and
- * HTML special chars (such as '<') with entities.
+ * Returns String by replbcing Unicode chbrs bnd
+ * HTML specibl chbrs (such bs '<') with entities.
  *
- * @param str string to be encoded
+ * @pbrbm str string to be encoded
  */
 function encodeHtml(str) {
-    return hatPkg.util.Misc.encodeHtml(str);
+    return hbtPkg.util.Misc.encodeHtml(str);
 }
 
 /**
  * Returns HTML string for the given object.
  *
- * @param obj object for which HTML string is returned.
+ * @pbrbm obj object for which HTML string is returned.
  */
 function toHtml(obj) {
     if (obj == null) {
@@ -1007,22 +1007,22 @@ function toHtml(obj) {
         return "undefined";
     } 
 
-    var tmp = unwrapJavaObject(obj);
+    vbr tmp = unwrbpJbvbObject(obj);
     if (tmp != undefined) {
-        var id = tmp.idString;
-        if (tmp instanceof Packages.com.sun.tools.hat.internal.model.JavaClass) {
-            var name = tmp.name;
-            return "<a href='/class/" + id + "'>class " + name + "</a>";
+        vbr id = tmp.idString;
+        if (tmp instbnceof Pbckbges.com.sun.tools.hbt.internbl.model.JbvbClbss) {
+            vbr nbme = tmp.nbme;
+            return "<b href='/clbss/" + id + "'>clbss " + nbme + "</b>";
         } else {
-            var name = tmp.clazz.name;
-            return "<a href='/object/" + id + "'>" +
-                   name + "@" + id + "</a>";
+            vbr nbme = tmp.clbzz.nbme;
+            return "<b href='/object/" + id + "'>" +
+                   nbme + "@" + id + "</b>";
         }
-    } else if (obj instanceof Object) {
-        if (Array.isArray(obj)) {
-            // script array
-            var res = "[ ";
-            for (var i in obj) {
+    } else if (obj instbnceof Object) {
+        if (Arrby.isArrby(obj)) {
+            // script brrby
+            vbr res = "[ ";
+            for (vbr i in obj) {
                 res += toHtml(obj[i]);
                 if (i != obj.length - 1) {
                     res += ", ";
@@ -1031,14 +1031,14 @@ function toHtml(obj) {
             res += " ]";
             return res;
         } else {
-            // if the object has a toHtml function property
-            // just use that...
+            // if the object hbs b toHtml function property
+            // just use thbt...
             if (typeof(obj.toHtml) == 'function') {
                 return obj.toHtml();
             } else {
                 // script object
-                var res = "{ ";
-                for (var i in obj) {
+                vbr res = "{ ";
+                for (vbr i in obj) {
                     res +=  i + ":" + toHtml(obj[i]) + ", ";
                 }
                 res += "}";
@@ -1046,12 +1046,12 @@ function toHtml(obj) {
             }
         }
     } else {
-        // a Java object
-        obj = wrapIterator(obj);
-        // special case for enumeration
-        if (obj instanceof java.util.Enumeration) {
-            var res = "[ ";
-            while (obj.hasMoreElements()) {
+        // b Jbvb object
+        obj = wrbpIterbtor(obj);
+        // specibl cbse for enumerbtion
+        if (obj instbnceof jbvb.util.Enumerbtion) {
+            vbr res = "[ ";
+            while (obj.hbsMoreElements()) {
                 res += toHtml(obj.nextElement()) + ", ";
             }
             res += "]";
@@ -1063,21 +1063,21 @@ function toHtml(obj) {
 }
 
 /*
- * Generic array/iterator/enumeration [or even object!] manipulation 
- * functions. These functions accept an array/iteration/enumeration
- * and expression String or function. These functions iterate each 
- * element of array and apply the expression/function on each element.
+ * Generic brrby/iterbtor/enumerbtion [or even object!] mbnipulbtion 
+ * functions. These functions bccept bn brrby/iterbtion/enumerbtion
+ * bnd expression String or function. These functions iterbte ebch 
+ * element of brrby bnd bpply the expression/function on ebch element.
  */
 
-// private function to wrap an Iterator as an Enumeration
-function wrapIterator(itr, wrap) {
-    if (itr instanceof java.util.Iterator) {
-        return new java.util.Enumeration() {
-                   hasMoreElements: function() {
-                       return itr.hasNext();
+// privbte function to wrbp bn Iterbtor bs bn Enumerbtion
+function wrbpIterbtor(itr, wrbp) {
+    if (itr instbnceof jbvb.util.Iterbtor) {
+        return new jbvb.util.Enumerbtion() {
+                   hbsMoreElements: function() {
+                       return itr.hbsNext();
                    },
                    nextElement: function() {
-                       return wrap? wrapJavaValue(itr.next()) : itr.next();
+                       return wrbp? wrbpJbvbVblue(itr.next()) : itr.next();
                    }
                };
     } else {
@@ -1086,24 +1086,24 @@ function wrapIterator(itr, wrap) {
 }
 
 /**
- * Converts an enumeration/iterator/object into an array
+ * Converts bn enumerbtion/iterbtor/object into bn brrby
  *
- * @param obj enumeration/iterator/object
- * @return array that contains values of enumeration/iterator/object
+ * @pbrbm obj enumerbtion/iterbtor/object
+ * @return brrby thbt contbins vblues of enumerbtion/iterbtor/object
  */
-function toArray(obj) {	
-    obj = wrapIterator(obj);
-    if (obj instanceof java.util.Enumeration) {
-        var res = new Array();
-        while (obj.hasMoreElements()) {
+function toArrby(obj) {	
+    obj = wrbpIterbtor(obj);
+    if (obj instbnceof jbvb.util.Enumerbtion) {
+        vbr res = new Arrby();
+        while (obj.hbsMoreElements()) {
             res[res.length] = obj.nextElement();
         }
         return res;
-    } else if (obj instanceof Array) {
+    } else if (obj instbnceof Arrby) {
         return obj;
     } else {
-        var res = new Array();
-        for (var index in obj) {
+        vbr res = new Arrby();
+        for (vbr index in obj) {
             res[res.length] = obj[index];
         }
         return res;
@@ -1111,105 +1111,105 @@ function toArray(obj) {
 }
 
 /**
- * Returns whether the given array/iterator/enumeration contains 
- * an element that satisfies the given boolean expression specified 
+ * Returns whether the given brrby/iterbtor/enumerbtion contbins 
+ * bn element thbt sbtisfies the given boolebn expression specified 
  * in code. 
  *
- * @param array input array/iterator/enumeration that is iterated
- * @param code  expression string or function 
- * @return boolean result
+ * @pbrbm brrby input brrby/iterbtor/enumerbtion thbt is iterbted
+ * @pbrbm code  expression string or function 
+ * @return boolebn result
  *
- * The code evaluated can refer to the following built-in variables. 
+ * The code evblubted cbn refer to the following built-in vbribbles. 
  *
  * 'it' -> currently visited element
  * 'index' -> index of the current element
- * 'array' -> array that is being iterated
+ * 'brrby' -> brrby thbt is being iterbted
  */
-function contains(array, code) {
-    array = wrapIterator(array);
-    var func = code;
+function contbins(brrby, code) {
+    brrby = wrbpIterbtor(brrby);
+    vbr func = code;
     if (typeof(func) != 'function') {
-        func = new Function("it", "index", "array",  "return " + code);
+        func = new Function("it", "index", "brrby",  "return " + code);
     }
 
-    if (array instanceof java.util.Enumeration) {
-        var index = 0;
-        while (array.hasMoreElements()) {
-            var it = array.nextElement();
-            if (func(it, index, array)) {
+    if (brrby instbnceof jbvb.util.Enumerbtion) {
+        vbr index = 0;
+        while (brrby.hbsMoreElements()) {
+            vbr it = brrby.nextElement();
+            if (func(it, index, brrby)) {
                 return true;
             }
             index++;
         }
     } else {
-        for (var index in array) {
-            var it = array[index];
-            if (func(it, String(index), array)) {
+        for (vbr index in brrby) {
+            vbr it = brrby[index];
+            if (func(it, String(index), brrby)) {
                 return true;
             }
         }
     }
-    return false;
+    return fblse;
 }
 
 /**
- * concatenates two arrays/iterators/enumerators.
+ * concbtenbtes two brrbys/iterbtors/enumerbtors.
  *
- * @param array1 array/iterator/enumeration
- * @param array2 array/iterator/enumeration
+ * @pbrbm brrby1 brrby/iterbtor/enumerbtion
+ * @pbrbm brrby2 brrby/iterbtor/enumerbtion
  *
- * @return concatenated array or composite enumeration
+ * @return concbtenbted brrby or composite enumerbtion
  */
-function concat(array1, array2) {
-    array1 = wrapIterator(array1);
-    array2 = wrapIterator(array2);
-    if (array1 instanceof Array && array2 instanceof Array) {
-        return array1.concat(array2);
-    } else if (array1 instanceof java.util.Enumeration &&
-               array2 instanceof java.util.Enumeration) {
-        return new Packages.com.sun.tools.hat.internal.util.CompositeEnumeration(array1, array2);
+function concbt(brrby1, brrby2) {
+    brrby1 = wrbpIterbtor(brrby1);
+    brrby2 = wrbpIterbtor(brrby2);
+    if (brrby1 instbnceof Arrby && brrby2 instbnceof Arrby) {
+        return brrby1.concbt(brrby2);
+    } else if (brrby1 instbnceof jbvb.util.Enumerbtion &&
+               brrby2 instbnceof jbvb.util.Enumerbtion) {
+        return new Pbckbges.com.sun.tools.hbt.internbl.util.CompositeEnumerbtion(brrby1, brrby2);
     } else {
         return undefined;
     }
 }
 
 /**
- * Returns the number of array/iterator/enumeration elements 
- * that satisfy the given boolean expression specified in code. 
- * The code evaluated can refer to the following built-in variables. 
+ * Returns the number of brrby/iterbtor/enumerbtion elements 
+ * thbt sbtisfy the given boolebn expression specified in code. 
+ * The code evblubted cbn refer to the following built-in vbribbles. 
  *
- * @param array input array/iterator/enumeration that is iterated
- * @param code  expression string or function 
+ * @pbrbm brrby input brrby/iterbtor/enumerbtion thbt is iterbted
+ * @pbrbm code  expression string or function 
  * @return number of elements
  *
  * 'it' -> currently visited element
  * 'index' -> index of the current element
- * 'array' -> array that is being iterated
+ * 'brrby' -> brrby thbt is being iterbted
  */
-function count(array, code) {
+function count(brrby, code) {
     if (code == undefined) {
-        return length(array);
+        return length(brrby);
     }
-    array = wrapIterator(array);
-    var func = code;
+    brrby = wrbpIterbtor(brrby);
+    vbr func = code;
     if (typeof(func) != 'function') {
-        func = new Function("it", "index", "array",  "return " + code);
+        func = new Function("it", "index", "brrby",  "return " + code);
     }
 
-    var result = 0;
-    if (array instanceof java.util.Enumeration) {
-        var index = 0;
-        while (array.hasMoreElements()) {
-            var it = array.nextElement();
-            if (func(it, index, array)) {
+    vbr result = 0;
+    if (brrby instbnceof jbvb.util.Enumerbtion) {
+        vbr index = 0;
+        while (brrby.hbsMoreElements()) {
+            vbr it = brrby.nextElement();
+            if (func(it, index, brrby)) {
                 result++;
             }
             index++;
         }
     } else {
-        for (var index in array) {
-            var it = array[index];
-            if (func(it, index, array)) {
+        for (vbr index in brrby) {
+            vbr it = brrby[index];
+            if (func(it, index, brrby)) {
                 result++;
             }
         }
@@ -1218,33 +1218,33 @@ function count(array, code) {
 }
 
 /**
- * filter function returns an array/enumeration that contains 
- * elements of the input array/iterator/enumeration that satisfy 
- * the given boolean expression. The boolean expression code can 
- * refer to the following built-in variables. 
+ * filter function returns bn brrby/enumerbtion thbt contbins 
+ * elements of the input brrby/iterbtor/enumerbtion thbt sbtisfy 
+ * the given boolebn expression. The boolebn expression code cbn 
+ * refer to the following built-in vbribbles. 
  *
- * @param array input array/iterator/enumeration that is iterated
- * @param code  expression string or function 
- * @return array/enumeration that contains the filtered elements
+ * @pbrbm brrby input brrby/iterbtor/enumerbtion thbt is iterbted
+ * @pbrbm code  expression string or function 
+ * @return brrby/enumerbtion thbt contbins the filtered elements
  *
  * 'it' -> currently visited element
  * 'index' -> index of the current element
- * 'array' -> array that is being iterated
- * 'result' -> result array
+ * 'brrby' -> brrby thbt is being iterbted
+ * 'result' -> result brrby
  */
-function filter(array, code) {
-    array = wrapIterator(array);
-    var func = code;
+function filter(brrby, code) {
+    brrby = wrbpIterbtor(brrby);
+    vbr func = code;
     if (typeof(code) != 'function') {
-        func = new Function("it", "index", "array", "result", "return " + code);
+        func = new Function("it", "index", "brrby", "result", "return " + code);
     }
-    if (array instanceof java.util.Enumeration) {
-        return filterEnumeration(array, func, false);
+    if (brrby instbnceof jbvb.util.Enumerbtion) {
+        return filterEnumerbtion(brrby, func, fblse);
     } else {
-        var result = new Array();
-        for (var index in array) {
-            var it = array[index];
-            if (func(it, String(index), array, result)) {
+        vbr result = new Arrby();
+        for (vbr index in brrby) {
+            vbr it = brrby[index];
+            if (func(it, String(index), brrby, result)) {
                 result[result.length] = it;
             }
         }
@@ -1253,24 +1253,24 @@ function filter(array, code) {
 }
 
 /**
- * Returns the number of elements of array/iterator/enumeration.
+ * Returns the number of elements of brrby/iterbtor/enumerbtion.
  *
- * @param array input array/iterator/enumeration that is iterated
+ * @pbrbm brrby input brrby/iterbtor/enumerbtion thbt is iterbted
  */
-function length(array) {
-    array = wrapIterator(array);
-    if (array instanceof Array) {
-        return array.length;
-    } else if (array instanceof java.util.Enumeration) {
-        var cnt = 0;
-        while (array.hasMoreElements()) {
-            array.nextElement(); 
+function length(brrby) {
+    brrby = wrbpIterbtor(brrby);
+    if (brrby instbnceof Arrby) {
+        return brrby.length;
+    } else if (brrby instbnceof jbvb.util.Enumerbtion) {
+        vbr cnt = 0;
+        while (brrby.hbsMoreElements()) {
+            brrby.nextElement(); 
             cnt++;
         }
         return cnt;
     } else {
-        var cnt = 0;
-        for (var index in array) {
+        vbr cnt = 0;
+        for (vbr index in brrby) {
             cnt++;
         }
         return cnt;
@@ -1278,77 +1278,77 @@ function length(array) {
 }
 
 /**
- * Transforms the given object or array by evaluating given code
- * on each element of the object or array. The code evaluated
- * can refer to the following built-in variables. 
+ * Trbnsforms the given object or brrby by evblubting given code
+ * on ebch element of the object or brrby. The code evblubted
+ * cbn refer to the following built-in vbribbles. 
  *
- * @param array input array/iterator/enumeration that is iterated
- * @param code  expression string or function 
- * @return array/enumeration that contains mapped values
+ * @pbrbm brrby input brrby/iterbtor/enumerbtion thbt is iterbted
+ * @pbrbm code  expression string or function 
+ * @return brrby/enumerbtion thbt contbins mbpped vblues
  *
  * 'it' -> currently visited element
  * 'index' -> index of the current element
- * 'array' -> array that is being iterated
- * 'result' -> result array
+ * 'brrby' -> brrby thbt is being iterbted
+ * 'result' -> result brrby
  *
- * map function returns an array/enumeration of values created 
- * by repeatedly calling code on each element of the input
- * array/iterator/enumeration.
+ * mbp function returns bn brrby/enumerbtion of vblues crebted 
+ * by repebtedly cblling code on ebch element of the input
+ * brrby/iterbtor/enumerbtion.
  */
-function map(array, code) {
-    array = wrapIterator(array);
-    var func = code;
+function mbp(brrby, code) {
+    brrby = wrbpIterbtor(brrby);
+    vbr func = code;
     if(typeof(code) != 'function') {
-        func = new Function("it", "index", "array", "result", "return " + code);
+        func = new Function("it", "index", "brrby", "result", "return " + code);
     }
 
-    if (array instanceof java.util.Enumeration) {
-        var index = 0;
-        var result = new java.util.Enumeration() {
-            hasMoreElements: function() {
-                return array.hasMoreElements();
+    if (brrby instbnceof jbvb.util.Enumerbtion) {
+        vbr index = 0;
+        vbr result = new jbvb.util.Enumerbtion() {
+            hbsMoreElements: function() {
+                return brrby.hbsMoreElements();
             },
             nextElement: function() {
-                return func(array.nextElement(), index++, array, result);
+                return func(brrby.nextElement(), index++, brrby, result);
             }
         };
         return result;
     } else {
-        var result = new Array();
-        for (var index in array) {
-            var it = array[index];
-            result[result.length] = func(it, String(index), array, result);
+        vbr result = new Arrby();
+        for (vbr index in brrby) {
+            vbr it = brrby[index];
+            result[result.length] = func(it, String(index), brrby, result);
         }
         return result;
     }
 }
 
-// private function used by min, max functions
-function minmax(array, code) {
+// privbte function used by min, mbx functions
+function minmbx(brrby, code) {
     if (typeof(code) == 'string') {
         code = new Function("lhs", "rhs", "return " + code);
     }
-    array = wrapIterator(array);
-    if (array instanceof java.util.Enumeration) {
-        if (! array.hasMoreElements()) {
+    brrby = wrbpIterbtor(brrby);
+    if (brrby instbnceof jbvb.util.Enumerbtion) {
+        if (! brrby.hbsMoreElements()) {
             return undefined;
         }
-        var res = array.nextElement();
-        while (array.hasMoreElements()) {
-            var next = array.nextElement();
+        vbr res = brrby.nextElement();
+        while (brrby.hbsMoreElements()) {
+            vbr next = brrby.nextElement();
             if (code(next, res)) {
                 res = next;
             }
         }
         return res;
     } else {
-        if (array.length == 0) {
+        if (brrby.length == 0) {
             return undefined;
         }
-        var res = array[0];
-        for (var index = 1; index < array.length; index++) {
-            if (code(array[index], res)) {
-                res = array[index];
+        vbr res = brrby[0];
+        for (vbr index = 1; index < brrby.length; index++) {
+            if (code(brrby[index], res)) {
+                res = brrby[index];
             }
         } 
         return res;
@@ -1356,117 +1356,117 @@ function minmax(array, code) {
 }
 
 /**
- * Returns the maximum element of the array/iterator/enumeration
+ * Returns the mbximum element of the brrby/iterbtor/enumerbtion
  *
- * @param array input array/iterator/enumeration that is iterated
- * @param code (optional) comparision expression or function
- *        by default numerical maximum is computed.
+ * @pbrbm brrby input brrby/iterbtor/enumerbtion thbt is iterbted
+ * @pbrbm code (optionbl) compbrision expression or function
+ *        by defbult numericbl mbximum is computed.
  */
-function max(array, code) {
+function mbx(brrby, code) {
     if (code == undefined) {
         code = function (lhs, rhs) { return lhs > rhs; }
     }
-    return minmax(array, code);
+    return minmbx(brrby, code);
 }
 
 /**
- * Returns the minimum element of the array/iterator/enumeration
+ * Returns the minimum element of the brrby/iterbtor/enumerbtion
  *
- * @param array input array/iterator/enumeration that is iterated
- * @param code (optional) comparision expression or function
- *        by default numerical minimum is computed.
+ * @pbrbm brrby input brrby/iterbtor/enumerbtion thbt is iterbted
+ * @pbrbm code (optionbl) compbrision expression or function
+ *        by defbult numericbl minimum is computed.
  */
-function min(array, code) {
+function min(brrby, code) {
     if (code == undefined) {
         code = function (lhs, rhs) { return lhs < rhs; }
     } 
-    return minmax(array, code);
+    return minmbx(brrby, code);
 }
 
 /**
- * sort function sorts the input array. optionally accepts
- * code to compare the elements. If code is not supplied,
- * numerical sort is done.
+ * sort function sorts the input brrby. optionblly bccepts
+ * code to compbre the elements. If code is not supplied,
+ * numericbl sort is done.
  *
- * @param array input array/iterator/enumeration that is sorted
- * @param code  expression string or function 
- * @return sorted array 
+ * @pbrbm brrby input brrby/iterbtor/enumerbtion thbt is sorted
+ * @pbrbm code  expression string or function 
+ * @return sorted brrby 
  *
- * The comparison expression can refer to the following
- * built-in variables:
+ * The compbrison expression cbn refer to the following
+ * built-in vbribbles:
  *
  * 'lhs' -> 'left side' element
  * 'rhs' -> 'right side' element
  */
-function sort(array, code) {
-    // we need an array to sort, so convert non-arrays
-    array = toArray(array);
+function sort(brrby, code) {
+    // we need bn brrby to sort, so convert non-brrbys
+    brrby = toArrby(brrby);
 
-    // by default use numerical comparison
-    var func = code;
+    // by defbult use numericbl compbrison
+    vbr func = code;
     if (code == undefined) {
         func = function(lhs, rhs) { return lhs - rhs; };
     } else if (typeof(code) == 'string') {
         func = new Function("lhs", "rhs", "return " + code);
     }
-    return array.sort(func);
+    return brrby.sort(func);
 }
 
 /**
- * Returns the sum of the elements of the array
+ * Returns the sum of the elements of the brrby
  *
- * @param array input array that is summed.
- * @param code optional expression used to map
+ * @pbrbm brrby input brrby thbt is summed.
+ * @pbrbm code optionbl expression used to mbp
  *        input elements before sum.
  */
-function sum(array, code) {
-    array = wrapIterator(array);
+function sum(brrby, code) {
+    brrby = wrbpIterbtor(brrby);
     if (code != undefined) {
-        array = map(array, code);
+        brrby = mbp(brrby, code);
     }
-    var result = 0;
-    if (array instanceof java.util.Enumeration) {
-        while (array.hasMoreElements()) {
-            result += Number(array.nextElement());
+    vbr result = 0;
+    if (brrby instbnceof jbvb.util.Enumerbtion) {
+        while (brrby.hbsMoreElements()) {
+            result += Number(brrby.nextElement());
         }
     } else {
-        for (var index in array) {
-            result += Number(array[index]);
+        for (vbr index in brrby) {
+            result += Number(brrby[index]);
         }
     }
     return result;
 }
 
 /**
- * Returns array of unique elements from the given input 
- * array/iterator/enumeration.
+ * Returns brrby of unique elements from the given input 
+ * brrby/iterbtor/enumerbtion.
  *
- * @param array from which unique elements are returned.
- * @param code optional expression (or function) giving unique
- *             attribute/property for each element.
- *             by default, objectid is used for uniqueness.
+ * @pbrbm brrby from which unique elements bre returned.
+ * @pbrbm code optionbl expression (or function) giving unique
+ *             bttribute/property for ebch element.
+ *             by defbult, objectid is used for uniqueness.
  */
-function unique(array, code) {
-    array = wrapIterator(array);
+function unique(brrby, code) {
+    brrby = wrbpIterbtor(brrby);
     if (code == undefined) {
         code = new Function("it", "return objectid(it);");
     } else if (typeof(code) == 'string') {
         code = new Function("it", "return " + code);
     }
-    var tmp = new Object();
-    if (array instanceof java.util.Enumeration) {
-        while (array.hasMoreElements()) {
-            var it = array.nextElement();
+    vbr tmp = new Object();
+    if (brrby instbnceof jbvb.util.Enumerbtion) {
+        while (brrby.hbsMoreElements()) {
+            vbr it = brrby.nextElement();
             tmp[code(it)] = it;
         }
     } else {
-        for (var index in array) {
-            var it = array[index];
+        for (vbr index in brrby) {
+            vbr it = brrby[index];
             tmp[code(it)] = it;
         }
     }
-    var res = new Array();
-    for (var index in tmp) {
+    vbr res = new Arrby();
+    for (vbr index in tmp) {
         res[res.length] = tmp[index];
     }
     return res;

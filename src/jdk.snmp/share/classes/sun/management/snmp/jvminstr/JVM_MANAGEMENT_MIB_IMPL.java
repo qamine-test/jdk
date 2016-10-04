@@ -1,193 +1,193 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.management.snmp.jvminstr;
+pbckbge sun.mbnbgement.snmp.jvminstr;
 
-// java imports
+// jbvb imports
 //
-import java.util.Hashtable;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.lang.ref.WeakReference;
+import jbvb.util.Hbshtbble;
+import jbvb.util.List;
+import jbvb.util.ArrbyList;
+import jbvb.util.Iterbtor;
+import jbvb.lbng.ref.WebkReference;
 
 // jmx imports
 //
-import javax.management.MBeanServer;
-import javax.management.ObjectName;
-import javax.management.InstanceAlreadyExistsException;
-import javax.management.NotificationEmitter;
-import javax.management.NotificationListener;
-import javax.management.Notification;
-import javax.management.ListenerNotFoundException;
-import javax.management.openmbean.CompositeData;
+import jbvbx.mbnbgement.MBebnServer;
+import jbvbx.mbnbgement.ObjectNbme;
+import jbvbx.mbnbgement.InstbnceAlrebdyExistsException;
+import jbvbx.mbnbgement.NotificbtionEmitter;
+import jbvbx.mbnbgement.NotificbtionListener;
+import jbvbx.mbnbgement.Notificbtion;
+import jbvbx.mbnbgement.ListenerNotFoundException;
+import jbvbx.mbnbgement.openmbebn.CompositeDbtb;
 
 // jdmk imports
 //
-import com.sun.jmx.snmp.agent.SnmpMib;
-import com.sun.jmx.snmp.daemon.SnmpAdaptorServer;
+import com.sun.jmx.snmp.bgent.SnmpMib;
+import com.sun.jmx.snmp.dbemon.SnmpAdbptorServer;
 import com.sun.jmx.snmp.SnmpPeer;
-import com.sun.jmx.snmp.SnmpParameters;
+import com.sun.jmx.snmp.SnmpPbrbmeters;
 
-import com.sun.jmx.snmp.SnmpOidTable;
+import com.sun.jmx.snmp.SnmpOidTbble;
 import com.sun.jmx.snmp.SnmpOid;
-import com.sun.jmx.snmp.SnmpVarBindList;
-import com.sun.jmx.snmp.SnmpVarBind;
+import com.sun.jmx.snmp.SnmpVbrBindList;
+import com.sun.jmx.snmp.SnmpVbrBind;
 import com.sun.jmx.snmp.SnmpCounter;
 import com.sun.jmx.snmp.SnmpCounter64;
 import com.sun.jmx.snmp.SnmpString;
 import com.sun.jmx.snmp.SnmpInt;
-import com.sun.jmx.snmp.Enumerated;
-import com.sun.jmx.snmp.agent.SnmpMibTable;
+import com.sun.jmx.snmp.Enumerbted;
+import com.sun.jmx.snmp.bgent.SnmpMibTbble;
 
-import sun.management.snmp.jvmmib.JVM_MANAGEMENT_MIBOidTable;
-import sun.management.snmp.jvmmib.JVM_MANAGEMENT_MIB;
-import sun.management.snmp.jvmmib.JvmMemoryMeta;
-import sun.management.snmp.jvmmib.JvmThreadingMeta;
-import sun.management.snmp.jvmmib.JvmRuntimeMeta;
-import sun.management.snmp.jvmmib.JvmClassLoadingMeta;
-import sun.management.snmp.jvmmib.JvmCompilationMeta;
-import sun.management.snmp.util.MibLogger;
-import sun.management.snmp.util.SnmpCachedData;
-import sun.management.snmp.util.SnmpTableHandler;
+import sun.mbnbgement.snmp.jvmmib.JVM_MANAGEMENT_MIBOidTbble;
+import sun.mbnbgement.snmp.jvmmib.JVM_MANAGEMENT_MIB;
+import sun.mbnbgement.snmp.jvmmib.JvmMemoryMetb;
+import sun.mbnbgement.snmp.jvmmib.JvmThrebdingMetb;
+import sun.mbnbgement.snmp.jvmmib.JvmRuntimeMetb;
+import sun.mbnbgement.snmp.jvmmib.JvmClbssLobdingMetb;
+import sun.mbnbgement.snmp.jvmmib.JvmCompilbtionMetb;
+import sun.mbnbgement.snmp.util.MibLogger;
+import sun.mbnbgement.snmp.util.SnmpCbchedDbtb;
+import sun.mbnbgement.snmp.util.SnmpTbbleHbndler;
 
-//java management imports
-import java.lang.management.ManagementFactory;
-import java.lang.management.MemoryPoolMXBean;
-import java.lang.management.MemoryNotificationInfo;
-import java.lang.management.MemoryType;
+//jbvb mbnbgement imports
+import jbvb.lbng.mbnbgement.MbnbgementFbctory;
+import jbvb.lbng.mbnbgement.MemoryPoolMXBebn;
+import jbvb.lbng.mbnbgement.MemoryNotificbtionInfo;
+import jbvb.lbng.mbnbgement.MemoryType;
 
-public class JVM_MANAGEMENT_MIB_IMPL extends JVM_MANAGEMENT_MIB {
-    private static final long serialVersionUID = -8104825586888859831L;
+public clbss JVM_MANAGEMENT_MIB_IMPL extends JVM_MANAGEMENT_MIB {
+    privbte stbtic finbl long seriblVersionUID = -8104825586888859831L;
 
-    private static final MibLogger log =
-        new MibLogger(JVM_MANAGEMENT_MIB_IMPL.class);
+    privbte stbtic finbl MibLogger log =
+        new MibLogger(JVM_MANAGEMENT_MIB_IMPL.clbss);
 
-    private static WeakReference<SnmpOidTable> tableRef;
+    privbte stbtic WebkReference<SnmpOidTbble> tbbleRef;
 
-    public static SnmpOidTable getOidTable() {
-        SnmpOidTable table = null;
-        if(tableRef == null) {
-            table =  new JVM_MANAGEMENT_MIBOidTable();
-            tableRef = new WeakReference<>(table);
-            return table;
+    public stbtic SnmpOidTbble getOidTbble() {
+        SnmpOidTbble tbble = null;
+        if(tbbleRef == null) {
+            tbble =  new JVM_MANAGEMENT_MIBOidTbble();
+            tbbleRef = new WebkReference<>(tbble);
+            return tbble;
         }
 
-        table = tableRef.get();
-        if(table == null) {
-            table = new JVM_MANAGEMENT_MIBOidTable();
-            tableRef = new WeakReference<>(table);
+        tbble = tbbleRef.get();
+        if(tbble == null) {
+            tbble = new JVM_MANAGEMENT_MIBOidTbble();
+            tbbleRef = new WebkReference<>(tbble);
         }
 
-        return table;
+        return tbble;
     }
 
     /**
-     * Handler waiting for memory <CODE>Notification</CODE>.
-     * Translate each JMX notification in SNMP trap.
+     * Hbndler wbiting for memory <CODE>Notificbtion</CODE>.
+     * Trbnslbte ebch JMX notificbtion in SNMP trbp.
      */
-    private class NotificationHandler implements NotificationListener {
-        public void handleNotification(Notification notification,
-                                       Object handback) {
-            log.debug("handleNotification", "Received notification [ " +
-                      notification.getType() + "]");
+    privbte clbss NotificbtionHbndler implements NotificbtionListener {
+        public void hbndleNotificbtion(Notificbtion notificbtion,
+                                       Object hbndbbck) {
+            log.debug("hbndleNotificbtion", "Received notificbtion [ " +
+                      notificbtion.getType() + "]");
 
-            String type = notification.getType();
-            if (type.equals(MemoryNotificationInfo.MEMORY_THRESHOLD_EXCEEDED) ||
-                type.equals(MemoryNotificationInfo.
+            String type = notificbtion.getType();
+            if (type.equbls(MemoryNotificbtionInfo.MEMORY_THRESHOLD_EXCEEDED) ||
+                type.equbls(MemoryNotificbtionInfo.
                     MEMORY_COLLECTION_THRESHOLD_EXCEEDED)) {
-                MemoryNotificationInfo minfo = MemoryNotificationInfo.
-                    from((CompositeData) notification.getUserData());
+                MemoryNotificbtionInfo minfo = MemoryNotificbtionInfo.
+                    from((CompositeDbtb) notificbtion.getUserDbtb());
                 SnmpCounter64 count = new SnmpCounter64(minfo.getCount());
                 SnmpCounter64 used =
-                    new SnmpCounter64(minfo.getUsage().getUsed());
-                SnmpString poolName = new SnmpString(minfo.getPoolName());
+                    new SnmpCounter64(minfo.getUsbge().getUsed());
+                SnmpString poolNbme = new SnmpString(minfo.getPoolNbme());
                 SnmpOid entryIndex =
-                    getJvmMemPoolEntryIndex(minfo.getPoolName());
+                    getJvmMemPoolEntryIndex(minfo.getPoolNbme());
 
                 if (entryIndex == null) {
-                    log.error("handleNotification",
-                              "Error: Can't find entry index for Memory Pool: "
-                              + minfo.getPoolName() +": " +
-                              "No trap emitted for " + type);
+                    log.error("hbndleNotificbtion",
+                              "Error: Cbn't find entry index for Memory Pool: "
+                              + minfo.getPoolNbme() +": " +
+                              "No trbp emitted for " + type);
                     return;
                 }
 
-                SnmpOid trap = null;
+                SnmpOid trbp = null;
 
-                final SnmpOidTable mibTable = getOidTable();
+                finbl SnmpOidTbble mibTbble = getOidTbble();
                 try {
                     SnmpOid usedOid  = null;
                     SnmpOid countOid = null;
 
-                    if (type.equals(MemoryNotificationInfo.
+                    if (type.equbls(MemoryNotificbtionInfo.
                                    MEMORY_THRESHOLD_EXCEEDED)) {
-                        trap = new SnmpOid(mibTable.
-                        resolveVarName("jvmLowMemoryPoolUsageNotif").getOid());
+                        trbp = new SnmpOid(mibTbble.
+                        resolveVbrNbme("jvmLowMemoryPoolUsbgeNotif").getOid());
                         usedOid =
-                            new SnmpOid(mibTable.
-                            resolveVarName("jvmMemPoolUsed").getOid() +
+                            new SnmpOid(mibTbble.
+                            resolveVbrNbme("jvmMemPoolUsed").getOid() +
                                     "." + entryIndex);
                         countOid =
-                            new SnmpOid(mibTable.
-                            resolveVarName("jvmMemPoolThreshdCount").getOid()
+                            new SnmpOid(mibTbble.
+                            resolveVbrNbme("jvmMemPoolThreshdCount").getOid()
                                     + "." + entryIndex);
-                    } else if  (type.equals(MemoryNotificationInfo.
+                    } else if  (type.equbls(MemoryNotificbtionInfo.
                                    MEMORY_COLLECTION_THRESHOLD_EXCEEDED)) {
-                        trap = new SnmpOid(mibTable.
-                        resolveVarName("jvmLowMemoryPoolCollectNotif").
+                        trbp = new SnmpOid(mibTbble.
+                        resolveVbrNbme("jvmLowMemoryPoolCollectNotif").
                                            getOid());
                         usedOid =
-                            new SnmpOid(mibTable.
-                            resolveVarName("jvmMemPoolCollectUsed").getOid() +
+                            new SnmpOid(mibTbble.
+                            resolveVbrNbme("jvmMemPoolCollectUsed").getOid() +
                                         "." + entryIndex);
                         countOid =
-                            new SnmpOid(mibTable.
-                            resolveVarName("jvmMemPoolCollectThreshdCount").
+                            new SnmpOid(mibTbble.
+                            resolveVbrNbme("jvmMemPoolCollectThreshdCount").
                                         getOid() +
                                         "." + entryIndex);
                     }
 
-                    //Datas
-                    SnmpVarBindList list = new SnmpVarBindList();
-                    SnmpOid poolNameOid =
-                        new SnmpOid(mibTable.
-                                    resolveVarName("jvmMemPoolName").getOid() +
+                    //Dbtbs
+                    SnmpVbrBindList list = new SnmpVbrBindList();
+                    SnmpOid poolNbmeOid =
+                        new SnmpOid(mibTbble.
+                                    resolveVbrNbme("jvmMemPoolNbme").getOid() +
                                     "." + entryIndex);
 
-                    SnmpVarBind varCount = new SnmpVarBind(countOid, count);
-                    SnmpVarBind varUsed = new SnmpVarBind(usedOid, used);
-                    SnmpVarBind varPoolName = new SnmpVarBind(poolNameOid,
-                                              poolName);
+                    SnmpVbrBind vbrCount = new SnmpVbrBind(countOid, count);
+                    SnmpVbrBind vbrUsed = new SnmpVbrBind(usedOid, used);
+                    SnmpVbrBind vbrPoolNbme = new SnmpVbrBind(poolNbmeOid,
+                                              poolNbme);
 
-                    list.add(varPoolName);
-                    list.add(varCount);
-                    list.add(varUsed);
+                    list.bdd(vbrPoolNbme);
+                    list.bdd(vbrCount);
+                    list.bdd(vbrUsed);
 
-                    sendTrap(trap, list);
-                }catch(Exception e) {
-                    log.error("handleNotification",
+                    sendTrbp(trbp, list);
+                }cbtch(Exception e) {
+                    log.error("hbndleNotificbtion",
                               "Exception occurred : " + e);
                 }
             }
@@ -195,124 +195,124 @@ public class JVM_MANAGEMENT_MIB_IMPL extends JVM_MANAGEMENT_MIB {
     }
 
     /**
-     * List of notification targets.
+     * List of notificbtion tbrgets.
      */
-    private ArrayList<NotificationTarget> notificationTargets =
-            new ArrayList<>();
-    private final NotificationEmitter emitter;
-    private final NotificationHandler handler;
+    privbte ArrbyList<NotificbtionTbrget> notificbtionTbrgets =
+            new ArrbyList<>();
+    privbte finbl NotificbtionEmitter emitter;
+    privbte finbl NotificbtionHbndler hbndler;
 
 
     /**
-     * Instantiate a JVM MIB intrusmentation.
-     * A <CODE>NotificationListener</CODE> is added to the <CODE>MemoryMXBean</CODE>
-     * <CODE>NotificationEmitter</CODE>
+     * Instbntibte b JVM MIB intrusmentbtion.
+     * A <CODE>NotificbtionListener</CODE> is bdded to the <CODE>MemoryMXBebn</CODE>
+     * <CODE>NotificbtionEmitter</CODE>
      */
     public JVM_MANAGEMENT_MIB_IMPL() {
-        handler = new NotificationHandler();
-        emitter = (NotificationEmitter) ManagementFactory.getMemoryMXBean();
-        emitter.addNotificationListener(handler, null, null);
+        hbndler = new NotificbtionHbndler();
+        emitter = (NotificbtionEmitter) MbnbgementFbctory.getMemoryMXBebn();
+        emitter.bddNotificbtionListener(hbndler, null, null);
     }
 
-    private synchronized void sendTrap(SnmpOid trap, SnmpVarBindList list) {
-        final Iterator<NotificationTarget> iterator = notificationTargets.iterator();
-        final SnmpAdaptorServer adaptor =
-            (SnmpAdaptorServer) getSnmpAdaptor();
+    privbte synchronized void sendTrbp(SnmpOid trbp, SnmpVbrBindList list) {
+        finbl Iterbtor<NotificbtionTbrget> iterbtor = notificbtionTbrgets.iterbtor();
+        finbl SnmpAdbptorServer bdbptor =
+            (SnmpAdbptorServer) getSnmpAdbptor();
 
-        if (adaptor == null) {
-            log.error("sendTrap", "Cannot send trap: adaptor is null.");
+        if (bdbptor == null) {
+            log.error("sendTrbp", "Cbnnot send trbp: bdbptor is null.");
             return;
         }
 
-        if (!adaptor.isActive()) {
-            log.config("sendTrap", "Adaptor is not active: trap not sent.");
+        if (!bdbptor.isActive()) {
+            log.config("sendTrbp", "Adbptor is not bctive: trbp not sent.");
             return;
         }
 
-        while(iterator.hasNext()) {
-            NotificationTarget target = null;
+        while(iterbtor.hbsNext()) {
+            NotificbtionTbrget tbrget = null;
             try {
-                target = iterator.next();
+                tbrget = iterbtor.next();
                 SnmpPeer peer =
-                    new SnmpPeer(target.getAddress(), target.getPort());
-                SnmpParameters p = new SnmpParameters();
-                p.setRdCommunity(target.getCommunity());
-                peer.setParams(p);
-                log.debug("handleNotification", "Sending trap to " +
-                          target.getAddress() + ":" + target.getPort());
-                adaptor.snmpV2Trap(peer, trap, list, null);
-            }catch(Exception e) {
-                log.error("sendTrap",
-                          "Exception occurred while sending trap to [" +
-                          target + "]. Exception : " + e);
-                log.debug("sendTrap",e);
+                    new SnmpPeer(tbrget.getAddress(), tbrget.getPort());
+                SnmpPbrbmeters p = new SnmpPbrbmeters();
+                p.setRdCommunity(tbrget.getCommunity());
+                peer.setPbrbms(p);
+                log.debug("hbndleNotificbtion", "Sending trbp to " +
+                          tbrget.getAddress() + ":" + tbrget.getPort());
+                bdbptor.snmpV2Trbp(peer, trbp, list, null);
+            }cbtch(Exception e) {
+                log.error("sendTrbp",
+                          "Exception occurred while sending trbp to [" +
+                          tbrget + "]. Exception : " + e);
+                log.debug("sendTrbp",e);
             }
         }
     }
 
     /**
-     * Add a notification target.
-     * @param target The target to add
-     * @throws IllegalArgumentException If target parameter is null.
+     * Add b notificbtion tbrget.
+     * @pbrbm tbrget The tbrget to bdd
+     * @throws IllegblArgumentException If tbrget pbrbmeter is null.
      */
-    public synchronized void addTarget(NotificationTarget target)
-        throws IllegalArgumentException {
-        if(target == null)
-            throw new IllegalArgumentException("Target is null");
+    public synchronized void bddTbrget(NotificbtionTbrget tbrget)
+        throws IllegblArgumentException {
+        if(tbrget == null)
+            throw new IllegblArgumentException("Tbrget is null");
 
-        notificationTargets.add(target);
+        notificbtionTbrgets.bdd(tbrget);
     }
 
     /**
-     * Remove notification listener.
+     * Remove notificbtion listener.
      */
-    public void terminate() {
+    public void terminbte() {
         try {
-            emitter.removeNotificationListener(handler);
-        }catch(ListenerNotFoundException e) {
-            log.error("terminate", "Listener Not found : " + e);
+            emitter.removeNotificbtionListener(hbndler);
+        }cbtch(ListenerNotFoundException e) {
+            log.error("terminbte", "Listener Not found : " + e);
         }
     }
 
     /**
-     * Add notification targets.
-     * @param targets A list of
-     * <CODE>sun.management.snmp.jvminstr.NotificationTarget</CODE>
-     * @throws IllegalArgumentException If targets parameter is null.
+     * Add notificbtion tbrgets.
+     * @pbrbm tbrgets A list of
+     * <CODE>sun.mbnbgement.snmp.jvminstr.NotificbtionTbrget</CODE>
+     * @throws IllegblArgumentException If tbrgets pbrbmeter is null.
      */
-    public synchronized void addTargets(List<NotificationTarget> targets)
-        throws IllegalArgumentException {
-        if(targets == null)
-            throw new IllegalArgumentException("Target list is null");
+    public synchronized void bddTbrgets(List<NotificbtionTbrget> tbrgets)
+        throws IllegblArgumentException {
+        if(tbrgets == null)
+            throw new IllegblArgumentException("Tbrget list is null");
 
-        notificationTargets.addAll(targets);
+        notificbtionTbrgets.bddAll(tbrgets);
     }
 
     /**
-     * Factory method for "JvmMemory" group MBean.
+     * Fbctory method for "JvmMemory" group MBebn.
      *
-     * You can redefine this method if you need to replace the default
-     * generated MBean class with your own customized class.
+     * You cbn redefine this method if you need to replbce the defbult
+     * generbted MBebn clbss with your own customized clbss.
      *
-     * @param groupName Name of the group ("JvmMemory")
-     * @param groupOid  OID of this group
-     * @param groupObjname ObjectName for this group (may be null)
-     * @param server    MBeanServer for this group (may be null)
+     * @pbrbm groupNbme Nbme of the group ("JvmMemory")
+     * @pbrbm groupOid  OID of this group
+     * @pbrbm groupObjnbme ObjectNbme for this group (mby be null)
+     * @pbrbm server    MBebnServer for this group (mby be null)
      *
-     * @return An instance of the MBean class generated for the
+     * @return An instbnce of the MBebn clbss generbted for the
      *         "JvmMemory" group (JvmMemory)
      *
-     * Note that when using standard metadata,
-     * the returned object must implement the "JvmMemoryMBean"
-     * interface.
+     * Note thbt when using stbndbrd metbdbtb,
+     * the returned object must implement the "JvmMemoryMBebn"
+     * interfbce.
      **/
-    protected Object createJvmMemoryMBean(String groupName,
-                String groupOid,  ObjectName groupObjname,
-                                          MBeanServer server)  {
+    protected Object crebteJvmMemoryMBebn(String groupNbme,
+                String groupOid,  ObjectNbme groupObjnbme,
+                                          MBebnServer server)  {
 
-        // Note that when using standard metadata,
-        // the returned object must implement the "JvmMemoryMBean"
-        // interface.
+        // Note thbt when using stbndbrd metbdbtb,
+        // the returned object must implement the "JvmMemoryMBebn"
+        // interfbce.
         //
         if (server != null)
             return new JvmMemoryImpl(this,server);
@@ -321,130 +321,130 @@ public class JVM_MANAGEMENT_MIB_IMPL extends JVM_MANAGEMENT_MIB {
     }
 
     /**
-     * Factory method for "JvmMemory" group metadata class.
+     * Fbctory method for "JvmMemory" group metbdbtb clbss.
      *
-     * You can redefine this method if you need to replace the default
-     * generated metadata class with your own customized class.
+     * You cbn redefine this method if you need to replbce the defbult
+     * generbted metbdbtb clbss with your own customized clbss.
      *
-     * @param groupName Name of the group ("JvmMemory")
-     * @param groupOid  OID of this group
-     * @param groupObjname ObjectName for this group (may be null)
-     * @param server    MBeanServer for this group (may be null)
+     * @pbrbm groupNbme Nbme of the group ("JvmMemory")
+     * @pbrbm groupOid  OID of this group
+     * @pbrbm groupObjnbme ObjectNbme for this group (mby be null)
+     * @pbrbm server    MBebnServer for this group (mby be null)
      *
-     * @return An instance of the metadata class generated for the
-     *         "JvmMemory" group (JvmMemoryMeta)
+     * @return An instbnce of the metbdbtb clbss generbted for the
+     *         "JvmMemory" group (JvmMemoryMetb)
      *
      **/
-    protected JvmMemoryMeta createJvmMemoryMetaNode(String groupName,
+    protected JvmMemoryMetb crebteJvmMemoryMetbNode(String groupNbme,
                                                     String groupOid,
-                                                    ObjectName groupObjname,
-                                                    MBeanServer server) {
-        return new JvmMemoryMetaImpl(this, objectserver);
+                                                    ObjectNbme groupObjnbme,
+                                                    MBebnServer server) {
+        return new JvmMemoryMetbImpl(this, objectserver);
     }
 
     /**
-     * Factory method for "JvmThreading" group metadata class.
+     * Fbctory method for "JvmThrebding" group metbdbtb clbss.
      *
-     * You can redefine this method if you need to replace the default
-     * generated metadata class with your own customized class.
+     * You cbn redefine this method if you need to replbce the defbult
+     * generbted metbdbtb clbss with your own customized clbss.
      *
-     * @param groupName Name of the group ("JvmThreading")
-     * @param groupOid  OID of this group
-     * @param groupObjname ObjectName for this group (may be null)
-     * @param server    MBeanServer for this group (may be null)
+     * @pbrbm groupNbme Nbme of the group ("JvmThrebding")
+     * @pbrbm groupOid  OID of this group
+     * @pbrbm groupObjnbme ObjectNbme for this group (mby be null)
+     * @pbrbm server    MBebnServer for this group (mby be null)
      *
-     * @return An instance of the metadata class generated for the
-     *         "JvmThreading" group (JvmThreadingMeta)
+     * @return An instbnce of the metbdbtb clbss generbted for the
+     *         "JvmThrebding" group (JvmThrebdingMetb)
      *
      **/
-    protected JvmThreadingMeta createJvmThreadingMetaNode(String groupName,
+    protected JvmThrebdingMetb crebteJvmThrebdingMetbNode(String groupNbme,
                                                           String groupOid,
-                                                          ObjectName groupObjname,
-                                                          MBeanServer server)  {
-        return new JvmThreadingMetaImpl(this, objectserver);
+                                                          ObjectNbme groupObjnbme,
+                                                          MBebnServer server)  {
+        return new JvmThrebdingMetbImpl(this, objectserver);
     }
 
     /**
-     * Factory method for "JvmThreading" group MBean.
+     * Fbctory method for "JvmThrebding" group MBebn.
      *
-     * You can redefine this method if you need to replace the default
-     * generated MBean class with your own customized class.
+     * You cbn redefine this method if you need to replbce the defbult
+     * generbted MBebn clbss with your own customized clbss.
      *
-     * @param groupName Name of the group ("JvmThreading")
-     * @param groupOid  OID of this group
-     * @param groupObjname ObjectName for this group (may be null)
-     * @param server    MBeanServer for this group (may be null)
+     * @pbrbm groupNbme Nbme of the group ("JvmThrebding")
+     * @pbrbm groupOid  OID of this group
+     * @pbrbm groupObjnbme ObjectNbme for this group (mby be null)
+     * @pbrbm server    MBebnServer for this group (mby be null)
      *
-     * @return An instance of the MBean class generated for the
-     *         "JvmThreading" group (JvmThreading)
+     * @return An instbnce of the MBebn clbss generbted for the
+     *         "JvmThrebding" group (JvmThrebding)
      *
-     * Note that when using standard metadata,
-     * the returned object must implement the "JvmThreadingMBean"
-     * interface.
+     * Note thbt when using stbndbrd metbdbtb,
+     * the returned object must implement the "JvmThrebdingMBebn"
+     * interfbce.
      **/
-    protected Object createJvmThreadingMBean(String groupName,
+    protected Object crebteJvmThrebdingMBebn(String groupNbme,
                                              String groupOid,
-                                             ObjectName groupObjname,
-                                             MBeanServer server)  {
+                                             ObjectNbme groupObjnbme,
+                                             MBebnServer server)  {
 
-        // Note that when using standard metadata,
-        // the returned object must implement the "JvmThreadingMBean"
-        // interface.
+        // Note thbt when using stbndbrd metbdbtb,
+        // the returned object must implement the "JvmThrebdingMBebn"
+        // interfbce.
         //
         if (server != null)
-            return new JvmThreadingImpl(this,server);
+            return new JvmThrebdingImpl(this,server);
         else
-            return new JvmThreadingImpl(this);
+            return new JvmThrebdingImpl(this);
     }
 
     /**
-     * Factory method for "JvmRuntime" group metadata class.
+     * Fbctory method for "JvmRuntime" group metbdbtb clbss.
      *
-     * You can redefine this method if you need to replace the default
-     * generated metadata class with your own customized class.
+     * You cbn redefine this method if you need to replbce the defbult
+     * generbted metbdbtb clbss with your own customized clbss.
      *
-     * @param groupName Name of the group ("JvmRuntime")
-     * @param groupOid  OID of this group
-     * @param groupObjname ObjectName for this group (may be null)
-     * @param server    MBeanServer for this group (may be null)
+     * @pbrbm groupNbme Nbme of the group ("JvmRuntime")
+     * @pbrbm groupOid  OID of this group
+     * @pbrbm groupObjnbme ObjectNbme for this group (mby be null)
+     * @pbrbm server    MBebnServer for this group (mby be null)
      *
-     * @return An instance of the metadata class generated for the
-     *         "JvmRuntime" group (JvmRuntimeMeta)
+     * @return An instbnce of the metbdbtb clbss generbted for the
+     *         "JvmRuntime" group (JvmRuntimeMetb)
      *
      **/
-    protected JvmRuntimeMeta createJvmRuntimeMetaNode(String groupName,
+    protected JvmRuntimeMetb crebteJvmRuntimeMetbNode(String groupNbme,
                                                       String groupOid,
-                                                      ObjectName groupObjname,
-                                                      MBeanServer server)  {
-        return new JvmRuntimeMetaImpl(this, objectserver);
+                                                      ObjectNbme groupObjnbme,
+                                                      MBebnServer server)  {
+        return new JvmRuntimeMetbImpl(this, objectserver);
     }
 
     /**
-     * Factory method for "JvmRuntime" group MBean.
+     * Fbctory method for "JvmRuntime" group MBebn.
      *
-     * You can redefine this method if you need to replace the default
-     * generated MBean class with your own customized class.
+     * You cbn redefine this method if you need to replbce the defbult
+     * generbted MBebn clbss with your own customized clbss.
      *
-     * @param groupName Name of the group ("JvmRuntime")
-     * @param groupOid  OID of this group
-     * @param groupObjname ObjectName for this group (may be null)
-     * @param server    MBeanServer for this group (may be null)
+     * @pbrbm groupNbme Nbme of the group ("JvmRuntime")
+     * @pbrbm groupOid  OID of this group
+     * @pbrbm groupObjnbme ObjectNbme for this group (mby be null)
+     * @pbrbm server    MBebnServer for this group (mby be null)
      *
-     * @return An instance of the MBean class generated for the
+     * @return An instbnce of the MBebn clbss generbted for the
      *         "JvmRuntime" group (JvmRuntime)
      *
-     * Note that when using standard metadata,
-     * the returned object must implement the "JvmRuntimeMBean"
-     * interface.
+     * Note thbt when using stbndbrd metbdbtb,
+     * the returned object must implement the "JvmRuntimeMBebn"
+     * interfbce.
      **/
-    protected Object createJvmRuntimeMBean(String groupName,
+    protected Object crebteJvmRuntimeMBebn(String groupNbme,
                                            String groupOid,
-                                           ObjectName groupObjname,
-                                           MBeanServer server)  {
+                                           ObjectNbme groupObjnbme,
+                                           MBebnServer server)  {
 
-        // Note that when using standard metadata,
-        // the returned object must implement the "JvmRuntimeMBean"
-        // interface.
+        // Note thbt when using stbndbrd metbdbtb,
+        // the returned object must implement the "JvmRuntimeMBebn"
+        // interfbce.
         //
         if (server != null)
             return new JvmRuntimeImpl(this,server);
@@ -453,88 +453,88 @@ public class JVM_MANAGEMENT_MIB_IMPL extends JVM_MANAGEMENT_MIB {
     }
 
     /**
-     * Factory method for "JvmCompilation" group metadata class.
+     * Fbctory method for "JvmCompilbtion" group metbdbtb clbss.
      *
-     * You can redefine this method if you need to replace the default
-     * generated metadata class with your own customized class.
+     * You cbn redefine this method if you need to replbce the defbult
+     * generbted metbdbtb clbss with your own customized clbss.
      *
-     * @param groupName Name of the group ("JvmCompilation")
-     * @param groupOid  OID of this group
-     * @param groupObjname ObjectName for this group (may be null)
-     * @param server    MBeanServer for this group (may be null)
+     * @pbrbm groupNbme Nbme of the group ("JvmCompilbtion")
+     * @pbrbm groupOid  OID of this group
+     * @pbrbm groupObjnbme ObjectNbme for this group (mby be null)
+     * @pbrbm server    MBebnServer for this group (mby be null)
      *
-     * @return An instance of the metadata class generated for the
-     *         "JvmCompilation" group (JvmCompilationMeta)
+     * @return An instbnce of the metbdbtb clbss generbted for the
+     *         "JvmCompilbtion" group (JvmCompilbtionMetb)
      *
      **/
-    protected JvmCompilationMeta
-        createJvmCompilationMetaNode(String groupName,
+    protected JvmCompilbtionMetb
+        crebteJvmCompilbtionMetbNode(String groupNbme,
                                      String groupOid,
-                                     ObjectName groupObjname,
-                                     MBeanServer server)  {
-        // If there is no compilation system, the jvmCompilation  will not
-        // be instantiated.
+                                     ObjectNbme groupObjnbme,
+                                     MBebnServer server)  {
+        // If there is no compilbtion system, the jvmCompilbtion  will not
+        // be instbntibted.
         //
-        if (ManagementFactory.getCompilationMXBean() == null) return null;
-        return super.createJvmCompilationMetaNode(groupName,groupOid,
-                                                  groupObjname,server);
+        if (MbnbgementFbctory.getCompilbtionMXBebn() == null) return null;
+        return super.crebteJvmCompilbtionMetbNode(groupNbme,groupOid,
+                                                  groupObjnbme,server);
     }
 
     /**
-     * Factory method for "JvmCompilation" group MBean.
+     * Fbctory method for "JvmCompilbtion" group MBebn.
      *
-     * You can redefine this method if you need to replace the default
-     * generated MBean class with your own customized class.
+     * You cbn redefine this method if you need to replbce the defbult
+     * generbted MBebn clbss with your own customized clbss.
      *
-     * @param groupName Name of the group ("JvmCompilation")
-     * @param groupOid  OID of this group
-     * @param groupObjname ObjectName for this group (may be null)
-     * @param server    MBeanServer for this group (may be null)
+     * @pbrbm groupNbme Nbme of the group ("JvmCompilbtion")
+     * @pbrbm groupOid  OID of this group
+     * @pbrbm groupObjnbme ObjectNbme for this group (mby be null)
+     * @pbrbm server    MBebnServer for this group (mby be null)
      *
-     * @return An instance of the MBean class generated for the
-     *         "JvmCompilation" group (JvmCompilation)
+     * @return An instbnce of the MBebn clbss generbted for the
+     *         "JvmCompilbtion" group (JvmCompilbtion)
      *
-     * Note that when using standard metadata,
-     * the returned object must implement the "JvmCompilationMBean"
-     * interface.
+     * Note thbt when using stbndbrd metbdbtb,
+     * the returned object must implement the "JvmCompilbtionMBebn"
+     * interfbce.
      **/
-    protected Object createJvmCompilationMBean(String groupName,
-                String groupOid,  ObjectName groupObjname, MBeanServer server)  {
+    protected Object crebteJvmCompilbtionMBebn(String groupNbme,
+                String groupOid,  ObjectNbme groupObjnbme, MBebnServer server)  {
 
-        // Note that when using standard metadata,
-        // the returned object must implement the "JvmCompilationMBean"
-        // interface.
+        // Note thbt when using stbndbrd metbdbtb,
+        // the returned object must implement the "JvmCompilbtionMBebn"
+        // interfbce.
         //
         if (server != null)
-            return new JvmCompilationImpl(this,server);
+            return new JvmCompilbtionImpl(this,server);
         else
-            return new JvmCompilationImpl(this);
+            return new JvmCompilbtionImpl(this);
     }
 
     /**
-     * Factory method for "JvmOS" group MBean.
+     * Fbctory method for "JvmOS" group MBebn.
      *
-     * You can redefine this method if you need to replace the default
-     * generated MBean class with your own customized class.
+     * You cbn redefine this method if you need to replbce the defbult
+     * generbted MBebn clbss with your own customized clbss.
      *
-     * @param groupName Name of the group ("JvmOS")
-     * @param groupOid  OID of this group
-     * @param groupObjname ObjectName for this group (may be null)
-     * @param server    MBeanServer for this group (may be null)
+     * @pbrbm groupNbme Nbme of the group ("JvmOS")
+     * @pbrbm groupOid  OID of this group
+     * @pbrbm groupObjnbme ObjectNbme for this group (mby be null)
+     * @pbrbm server    MBebnServer for this group (mby be null)
      *
-     * @return An instance of the MBean class generated for the
+     * @return An instbnce of the MBebn clbss generbted for the
      *         "JvmOS" group (JvmOS)
      *
-     * Note that when using standard metadata,
-     * the returned object must implement the "JvmOSMBean"
-     * interface.
+     * Note thbt when using stbndbrd metbdbtb,
+     * the returned object must implement the "JvmOSMBebn"
+     * interfbce.
      **/
-    protected Object createJvmOSMBean(String groupName,
-                String groupOid,  ObjectName groupObjname, MBeanServer server)  {
+    protected Object crebteJvmOSMBebn(String groupNbme,
+                String groupOid,  ObjectNbme groupObjnbme, MBebnServer server)  {
 
-        // Note that when using standard metadata,
-        // the returned object must implement the "JvmOSMBean"
-        // interface.
+        // Note thbt when using stbndbrd metbdbtb,
+        // the returned object must implement the "JvmOSMBebn"
+        // interfbce.
         //
         if (server != null)
             return new JvmOSImpl(this,server);
@@ -544,39 +544,39 @@ public class JVM_MANAGEMENT_MIB_IMPL extends JVM_MANAGEMENT_MIB {
 
 
     /**
-     * Factory method for "JvmClassLoading" group MBean.
+     * Fbctory method for "JvmClbssLobding" group MBebn.
      *
-     * You can redefine this method if you need to replace the default
-     * generated MBean class with your own customized class.
+     * You cbn redefine this method if you need to replbce the defbult
+     * generbted MBebn clbss with your own customized clbss.
      *
-     * @param groupName Name of the group ("JvmClassLoading")
-     * @param groupOid  OID of this group
-     * @param groupObjname ObjectName for this group (may be null)
-     * @param server    MBeanServer for this group (may be null)
+     * @pbrbm groupNbme Nbme of the group ("JvmClbssLobding")
+     * @pbrbm groupOid  OID of this group
+     * @pbrbm groupObjnbme ObjectNbme for this group (mby be null)
+     * @pbrbm server    MBebnServer for this group (mby be null)
      *
-     * @return An instance of the MBean class generated for the
-     *         "JvmClassLoading" group (JvmClassLoading)
+     * @return An instbnce of the MBebn clbss generbted for the
+     *         "JvmClbssLobding" group (JvmClbssLobding)
      *
-     * Note that when using standard metadata,
-     * the returned object must implement the "JvmClassLoadingMBean"
-     * interface.
+     * Note thbt when using stbndbrd metbdbtb,
+     * the returned object must implement the "JvmClbssLobdingMBebn"
+     * interfbce.
      **/
-    protected Object createJvmClassLoadingMBean(String groupName,
+    protected Object crebteJvmClbssLobdingMBebn(String groupNbme,
                                                 String groupOid,
-                                                ObjectName groupObjname,
-                                                MBeanServer server)  {
+                                                ObjectNbme groupObjnbme,
+                                                MBebnServer server)  {
 
-        // Note that when using standard metadata,
-        // the returned object must implement the "JvmClassLoadingMBean"
-        // interface.
+        // Note thbt when using stbndbrd metbdbtb,
+        // the returned object must implement the "JvmClbssLobdingMBebn"
+        // interfbce.
         //
         if (server != null)
-            return new JvmClassLoadingImpl(this,server);
+            return new JvmClbssLobdingImpl(this,server);
         else
-            return new JvmClassLoadingImpl(this);
+            return new JvmClbssLobdingImpl(this);
     }
 
-    static String validDisplayStringTC(String str) {
+    stbtic String vblidDisplbyStringTC(String str) {
 
         if(str == null) return "";
 
@@ -587,7 +587,7 @@ public class JVM_MANAGEMENT_MIB_IMPL extends JVM_MANAGEMENT_MIB {
             return str;
     }
 
-    static String validJavaObjectNameTC(String str) {
+    stbtic String vblidJbvbObjectNbmeTC(String str) {
 
         if(str == null) return "";
 
@@ -598,7 +598,7 @@ public class JVM_MANAGEMENT_MIB_IMPL extends JVM_MANAGEMENT_MIB {
             return str;
     }
 
-    static String validPathElementTC(String str) {
+    stbtic String vblidPbthElementTC(String str) {
 
         if(str == null) return "";
 
@@ -608,7 +608,7 @@ public class JVM_MANAGEMENT_MIB_IMPL extends JVM_MANAGEMENT_MIB {
         else
             return str;
     }
-    static String validArgValueTC(String str) {
+    stbtic String vblidArgVblueTC(String str) {
 
         if(str == null) return "";
 
@@ -620,75 +620,75 @@ public class JVM_MANAGEMENT_MIB_IMPL extends JVM_MANAGEMENT_MIB {
     }
 
     /**
-     * WARNING: This should probably be moved to JvmMemPoolTableMetaImpl
+     * WARNING: This should probbbly be moved to JvmMemPoolTbbleMetbImpl
      **/
-    private SnmpTableHandler getJvmMemPoolTableHandler(Object userData) {
-        final SnmpMibTable meta =
-            getRegisteredTableMeta("JvmMemPoolTable");
-        if (! (meta instanceof JvmMemPoolTableMetaImpl)) {
-            final String err = ((meta==null)?"No metadata for JvmMemPoolTable":
-                                "Bad metadata class for JvmMemPoolTable: " +
-                                meta.getClass().getName());
-            log.error("getJvmMemPoolTableHandler", err);
+    privbte SnmpTbbleHbndler getJvmMemPoolTbbleHbndler(Object userDbtb) {
+        finbl SnmpMibTbble metb =
+            getRegisteredTbbleMetb("JvmMemPoolTbble");
+        if (! (metb instbnceof JvmMemPoolTbbleMetbImpl)) {
+            finbl String err = ((metb==null)?"No metbdbtb for JvmMemPoolTbble":
+                                "Bbd metbdbtb clbss for JvmMemPoolTbble: " +
+                                metb.getClbss().getNbme());
+            log.error("getJvmMemPoolTbbleHbndler", err);
             return null;
         }
-        final JvmMemPoolTableMetaImpl memPoolTable =
-            (JvmMemPoolTableMetaImpl) meta;
-        return memPoolTable.getHandler(userData);
+        finbl JvmMemPoolTbbleMetbImpl memPoolTbble =
+            (JvmMemPoolTbbleMetbImpl) metb;
+        return memPoolTbble.getHbndler(userDbtb);
     }
 
     /**
-     * WARNING: This should probably be moved to JvmMemPoolTableMetaImpl
+     * WARNING: This should probbbly be moved to JvmMemPoolTbbleMetbImpl
      **/
-    private int findInCache(SnmpTableHandler handler,
-                            String poolName) {
+    privbte int findInCbche(SnmpTbbleHbndler hbndler,
+                            String poolNbme) {
 
-        if (!(handler instanceof SnmpCachedData)) {
-            if (handler != null) {
-                final String err = "Bad class for JvmMemPoolTable datas: " +
-                    handler.getClass().getName();
+        if (!(hbndler instbnceof SnmpCbchedDbtb)) {
+            if (hbndler != null) {
+                finbl String err = "Bbd clbss for JvmMemPoolTbble dbtbs: " +
+                    hbndler.getClbss().getNbme();
                 log.error("getJvmMemPoolEntry", err);
             }
             return -1;
         }
 
-        final SnmpCachedData data = (SnmpCachedData)handler;
-        final int len = data.datas.length;
-        for (int i=0; i < data.datas.length ; i++) {
-            final MemoryPoolMXBean pool = (MemoryPoolMXBean) data.datas[i];
-            if (poolName.equals(pool.getName())) return i;
+        finbl SnmpCbchedDbtb dbtb = (SnmpCbchedDbtb)hbndler;
+        finbl int len = dbtb.dbtbs.length;
+        for (int i=0; i < dbtb.dbtbs.length ; i++) {
+            finbl MemoryPoolMXBebn pool = (MemoryPoolMXBebn) dbtb.dbtbs[i];
+            if (poolNbme.equbls(pool.getNbme())) return i;
         }
         return -1;
     }
 
     /**
-     * WARNING: This should probably be moved to JvmMemPoolTableMetaImpl
+     * WARNING: This should probbbly be moved to JvmMemPoolTbbleMetbImpl
      **/
-    private SnmpOid getJvmMemPoolEntryIndex(SnmpTableHandler handler,
-                                            String poolName) {
-        final int index = findInCache(handler,poolName);
+    privbte SnmpOid getJvmMemPoolEntryIndex(SnmpTbbleHbndler hbndler,
+                                            String poolNbme) {
+        finbl int index = findInCbche(hbndler,poolNbme);
         if (index < 0) return null;
-        return ((SnmpCachedData)handler).indexes[index];
+        return ((SnmpCbchedDbtb)hbndler).indexes[index];
     }
 
-    private SnmpOid getJvmMemPoolEntryIndex(String poolName) {
-        return getJvmMemPoolEntryIndex(getJvmMemPoolTableHandler(null),
-                                       poolName);
+    privbte SnmpOid getJvmMemPoolEntryIndex(String poolNbme) {
+        return getJvmMemPoolEntryIndex(getJvmMemPoolTbbleHbndler(null),
+                                       poolNbme);
     }
 
-    // cache validity
+    // cbche vblidity
     //
-    // Should we define a property for this? Should we have different
-    // cache validity periods depending on which table we cache?
+    // Should we define b property for this? Should we hbve different
+    // cbche vblidity periods depending on which tbble we cbche?
     //
-    public long validity() {
+    public long vblidity() {
         return DEFAULT_CACHE_VALIDITY_PERIOD;
     }
 
     // Defined in RFC 2579
-    private final static int DISPLAY_STRING_MAX_LENGTH=255;
-    private final static int JAVA_OBJECT_NAME_MAX_LENGTH=1023;
-    private final static int PATH_ELEMENT_MAX_LENGTH=1023;
-    private final static int ARG_VALUE_MAX_LENGTH=1023;
-    private final static int DEFAULT_CACHE_VALIDITY_PERIOD=1000;
+    privbte finbl stbtic int DISPLAY_STRING_MAX_LENGTH=255;
+    privbte finbl stbtic int JAVA_OBJECT_NAME_MAX_LENGTH=1023;
+    privbte finbl stbtic int PATH_ELEMENT_MAX_LENGTH=1023;
+    privbte finbl stbtic int ARG_VALUE_MAX_LENGTH=1023;
+    privbte finbl stbtic int DEFAULT_CACHE_VALIDITY_PERIOD=1000;
 }

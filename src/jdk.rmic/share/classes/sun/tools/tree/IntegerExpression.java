@@ -1,96 +1,96 @@
 /*
- * Copyright (c) 1994, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1994, 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.tree;
+pbckbge sun.tools.tree;
 
-import sun.tools.java.*;
-import sun.tools.asm.Assembler;
+import sun.tools.jbvb.*;
+import sun.tools.bsm.Assembler;
 
 /**
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file bre not pbrt of bny
+ * supported API.  Code thbt depends on them does so bt its own risk:
+ * they bre subject to chbnge or removbl without notice.
  */
 public
-class IntegerExpression extends ConstantExpression {
-    int value;
+clbss IntegerExpression extends ConstbntExpression {
+    int vblue;
 
     /**
      * Constructor
      */
-    IntegerExpression(int op, long where, Type type, int value) {
+    IntegerExpression(int op, long where, Type type, int vblue) {
         super(op, where, type);
-        this.value = value;
+        this.vblue = vblue;
     }
 
     /**
      * See if this number fits in the given type.
      */
-    public boolean fitsType(Environment env, Context ctx, Type t) {
+    public boolebn fitsType(Environment env, Context ctx, Type t) {
         if (this.type.isType(TC_CHAR)) {
-            // A char constant is not really an int constant,
-            // so do not report that 'a' fits in a byte or short,
-            // even if its value is in fact 7-bit ascii.  See JLS 5.2.
+            // A chbr constbnt is not reblly bn int constbnt,
+            // so do not report thbt 'b' fits in b byte or short,
+            // even if its vblue is in fbct 7-bit bscii.  See JLS 5.2.
             return super.fitsType(env, ctx, t);
         }
         switch (t.getTypeCode()) {
-          case TC_BYTE:
-            return value == (byte)value;
-          case TC_SHORT:
-            return value == (short)value;
-          case TC_CHAR:
-            return value == (char)value;
+          cbse TC_BYTE:
+            return vblue == (byte)vblue;
+          cbse TC_SHORT:
+            return vblue == (short)vblue;
+          cbse TC_CHAR:
+            return vblue == (chbr)vblue;
         }
         return super.fitsType(env, ctx, t);
     }
 
     /**
-     * Get the value
+     * Get the vblue
      */
-    public Object getValue() {
-        return value;
+    public Object getVblue() {
+        return vblue;
     }
 
     /**
-     * Check if the expression is equal to a value
+     * Check if the expression is equbl to b vblue
      */
-    public boolean equals(int i) {
-        return value == i;
+    public boolebn equbls(int i) {
+        return vblue == i;
     }
 
     /**
-     * Check if the expression is equal to its default static value
+     * Check if the expression is equbl to its defbult stbtic vblue
      */
-    public boolean equalsDefault() {
-        return value == 0;
+    public boolebn equblsDefbult() {
+        return vblue == 0;
     }
 
     /**
      * Code
      */
-    public void codeValue(Environment env, Context ctx, Assembler asm) {
-        asm.add(where, opc_ldc, value);
+    public void codeVblue(Environment env, Context ctx, Assembler bsm) {
+        bsm.bdd(where, opc_ldc, vblue);
     }
 }

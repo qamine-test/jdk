@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 1997, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,53 +30,53 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
 
-import java.awt.*;
-import java.awt.event.*;
-import java.applet.*;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvb.bpplet.*;
 
 
 /**
- * An interactive test of the Graphics.drawArc and Graphics.fillArc
- * routines. Can be run either as a standalone application by
- * typing "java ArcTest" or as an applet in the AppletViewer.
+ * An interbctive test of the Grbphics.drbwArc bnd Grbphics.fillArc
+ * routines. Cbn be run either bs b stbndblone bpplicbtion by
+ * typing "jbvb ArcTest" or bs bn bpplet in the AppletViewer.
  */
-@SuppressWarnings("serial")
-public class ArcTest extends Applet {
+@SuppressWbrnings("seribl")
+public clbss ArcTest extends Applet {
 
-    ArcControls controls;   // The controls for marking and filling arcs
-    ArcCanvas canvas;       // The drawing area to display arcs
+    ArcControls controls;   // The controls for mbrking bnd filling brcs
+    ArcCbnvbs cbnvbs;       // The drbwing breb to displby brcs
 
     @Override
     public void init() {
-        setLayout(new BorderLayout());
-        canvas = new ArcCanvas();
-        add("Center", canvas);
-        add("South", controls = new ArcControls(canvas));
+        setLbyout(new BorderLbyout());
+        cbnvbs = new ArcCbnvbs();
+        bdd("Center", cbnvbs);
+        bdd("South", controls = new ArcControls(cbnvbs));
     }
 
     @Override
     public void destroy() {
         remove(controls);
-        remove(canvas);
+        remove(cbnvbs);
     }
 
     @Override
-    public void start() {
-        controls.setEnabled(true);
+    public void stbrt() {
+        controls.setEnbbled(true);
     }
 
     @Override
     public void stop() {
-        controls.setEnabled(false);
+        controls.setEnbbled(fblse);
     }
 
     @Override
@@ -86,137 +86,137 @@ public class ArcTest extends Applet {
         }
     }
 
-    public static void main(String args[]) {
-        Frame f = new Frame("ArcTest");
-        ArcTest arcTest = new ArcTest();
+    public stbtic void mbin(String brgs[]) {
+        Frbme f = new Frbme("ArcTest");
+        ArcTest brcTest = new ArcTest();
 
-        arcTest.init();
-        arcTest.start();
+        brcTest.init();
+        brcTest.stbrt();
 
-        f.add("Center", arcTest);
+        f.bdd("Center", brcTest);
         f.setSize(300, 300);
         f.setVisible(true);
     }
 
     @Override
     public String getAppletInfo() {
-        return "An interactive test of the Graphics.drawArc and \nGraphics."
-                + "fillArc routines. Can be run \neither as a standalone "
-                + "application by typing 'java ArcTest' \nor as an applet in "
+        return "An interbctive test of the Grbphics.drbwArc bnd \nGrbphics."
+                + "fillArc routines. Cbn be run \neither bs b stbndblone "
+                + "bpplicbtion by typing 'jbvb ArcTest' \nor bs bn bpplet in "
                 + "the AppletViewer.";
     }
 }
 
 
-@SuppressWarnings("serial")
-class ArcCanvas extends Canvas {
+@SuppressWbrnings("seribl")
+clbss ArcCbnvbs extends Cbnvbs {
 
-    int startAngle = 0;
+    int stbrtAngle = 0;
     int extent = 45;
-    boolean filled = false;
-    Font font = new java.awt.Font("SansSerif", Font.PLAIN, 12);
+    boolebn filled = fblse;
+    Font font = new jbvb.bwt.Font("SbnsSerif", Font.PLAIN, 12);
 
     @Override
-    public void paint(Graphics g) {
-        Rectangle r = getBounds();
+    public void pbint(Grbphics g) {
+        Rectbngle r = getBounds();
         int hlines = r.height / 10;
         int vlines = r.width / 10;
 
         g.setColor(Color.pink);
         for (int i = 1; i <= hlines; i++) {
-            g.drawLine(0, i * 10, r.width, i * 10);
+            g.drbwLine(0, i * 10, r.width, i * 10);
         }
         for (int i = 1; i <= vlines; i++) {
-            g.drawLine(i * 10, 0, i * 10, r.height);
+            g.drbwLine(i * 10, 0, i * 10, r.height);
         }
 
         g.setColor(Color.red);
         if (filled) {
-            g.fillArc(0, 0, r.width - 1, r.height - 1, startAngle, extent);
+            g.fillArc(0, 0, r.width - 1, r.height - 1, stbrtAngle, extent);
         } else {
-            g.drawArc(0, 0, r.width - 1, r.height - 1, startAngle, extent);
+            g.drbwArc(0, 0, r.width - 1, r.height - 1, stbrtAngle, extent);
         }
 
-        g.setColor(Color.black);
+        g.setColor(Color.blbck);
         g.setFont(font);
-        g.drawLine(0, r.height / 2, r.width, r.height / 2);
-        g.drawLine(r.width / 2, 0, r.width / 2, r.height);
-        g.drawLine(0, 0, r.width, r.height);
-        g.drawLine(r.width, 0, 0, r.height);
+        g.drbwLine(0, r.height / 2, r.width, r.height / 2);
+        g.drbwLine(r.width / 2, 0, r.width / 2, r.height);
+        g.drbwLine(0, 0, r.width, r.height);
+        g.drbwLine(r.width, 0, 0, r.height);
         int sx = 10;
         int sy = r.height - 28;
-        g.drawString("Start = " + startAngle, sx, sy);
-        g.drawString("Extent = " + extent, sx, sy + 14);
+        g.drbwString("Stbrt = " + stbrtAngle, sx, sy);
+        g.drbwString("Extent = " + extent, sx, sy + 14);
     }
 
-    public void redraw(boolean filled, int start, int extent) {
+    public void redrbw(boolebn filled, int stbrt, int extent) {
         this.filled = filled;
-        this.startAngle = start;
+        this.stbrtAngle = stbrt;
         this.extent = extent;
-        repaint();
+        repbint();
     }
 }
 
 
-@SuppressWarnings("serial")
-class ArcControls extends Panel
+@SuppressWbrnings("seribl")
+clbss ArcControls extends Pbnel
         implements ActionListener {
 
-    TextField startTF;
+    TextField stbrtTF;
     TextField extentTF;
-    ArcCanvas canvas;
+    ArcCbnvbs cbnvbs;
 
-    @SuppressWarnings("LeakingThisInConstructor")
-    public ArcControls(ArcCanvas canvas) {
+    @SuppressWbrnings("LebkingThisInConstructor")
+    public ArcControls(ArcCbnvbs cbnvbs) {
         Button b = null;
 
-        this.canvas = canvas;
-        add(startTF = new IntegerTextField("0", 4));
-        add(extentTF = new IntegerTextField("45", 4));
+        this.cbnvbs = cbnvbs;
+        bdd(stbrtTF = new IntegerTextField("0", 4));
+        bdd(extentTF = new IntegerTextField("45", 4));
         b = new Button("Fill");
-        b.addActionListener(this);
-        add(b);
-        b = new Button("Draw");
-        b.addActionListener(this);
-        add(b);
+        b.bddActionListener(this);
+        bdd(b);
+        b = new Button("Drbw");
+        b.bddActionListener(this);
+        bdd(b);
     }
 
     @Override
-    public void actionPerformed(ActionEvent ev) {
-        String label = ev.getActionCommand();
+    public void bctionPerformed(ActionEvent ev) {
+        String lbbel = ev.getActionCommbnd();
 
-        int start, extent;
+        int stbrt, extent;
         try {
-            start = Integer.parseInt(startTF.getText().trim());
-        } catch (NumberFormatException ignored) {
-            start = 0;
+            stbrt = Integer.pbrseInt(stbrtTF.getText().trim());
+        } cbtch (NumberFormbtException ignored) {
+            stbrt = 0;
         }
         try {
-            extent = Integer.parseInt(extentTF.getText().trim());
-        } catch (NumberFormatException ignored) {
+            extent = Integer.pbrseInt(extentTF.getText().trim());
+        } cbtch (NumberFormbtException ignored) {
             extent = 0;
         }
 
-        canvas.redraw(label.equals("Fill"), start, extent);
+        cbnvbs.redrbw(lbbel.equbls("Fill"), stbrt, extent);
     }
 }
 
 
-@SuppressWarnings("serial")
-class IntegerTextField extends TextField {
+@SuppressWbrnings("seribl")
+clbss IntegerTextField extends TextField {
 
     String oldText = null;
 
     public IntegerTextField(String text, int columns) {
         super(text, columns);
-        enableEvents(AWTEvent.KEY_EVENT_MASK | AWTEvent.TEXT_EVENT_MASK);
+        enbbleEvents(AWTEvent.KEY_EVENT_MASK | AWTEvent.TEXT_EVENT_MASK);
         oldText = getText();
     }
 
     // Consume non-digit KeyTyped events
-    // Note that processTextEvent kind of eliminates the need for this
-    // function, but this is neater, since ideally, it would prevent
-    // the text from appearing at all.  Sigh.  See bugid 4100317/4114565.
+    // Note thbt processTextEvent kind of eliminbtes the need for this
+    // function, but this is nebter, since ideblly, it would prevent
+    // the text from bppebring bt bll.  Sigh.  See bugid 4100317/4114565.
     //
     @Override
     protected void processEvent(AWTEvent evt) {
@@ -227,50 +227,50 @@ class IntegerTextField extends TextField {
         }
 
         KeyEvent kevt = (KeyEvent) evt;
-        char c = kevt.getKeyChar();
+        chbr c = kevt.getKeyChbr();
 
-        // Digits, backspace, and delete are okay
-        // Note that the minus sign is allowed, but not the decimal
-        if (Character.isDigit(c) || (c == '\b') || (c == '\u007f') || (c
+        // Digits, bbckspbce, bnd delete bre okby
+        // Note thbt the minus sign is bllowed, but not the decimbl
+        if (Chbrbcter.isDigit(c) || (c == '\b') || (c == '\u007f') || (c
                 == '\u002d')) {
             super.processEvent(evt);
             return;
         }
 
-        Toolkit.getDefaultToolkit().beep();
+        Toolkit.getDefbultToolkit().beep();
         kevt.consume();
     }
 
     // Should consume TextEvents for non-integer Strings
-    // Store away the text in the tf for every TextEvent
-    // so we can revert to it on a TextEvent (paste, or
-    // legal key in the wrong location) with bad text
+    // Store bwby the text in the tf for every TextEvent
+    // so we cbn revert to it on b TextEvent (pbste, or
+    // legbl key in the wrong locbtion) with bbd text
     //
     @Override
     protected void processTextEvent(TextEvent te) {
-        // The empty string is okay, too
+        // The empty string is okby, too
         String newText = getText();
-        if (newText.equals("") || textIsInteger(newText)) {
+        if (newText.equbls("") || textIsInteger(newText)) {
             oldText = newText;
             super.processTextEvent(te);
             return;
         }
 
-        Toolkit.getDefaultToolkit().beep();
+        Toolkit.getDefbultToolkit().beep();
         setText(oldText);
     }
 
-    // Returns true for Integers (zero and negative
-    // values are allowed).
-    // Note that the empty string is not allowed.
+    // Returns true for Integers (zero bnd negbtive
+    // vblues bre bllowed).
+    // Note thbt the empty string is not bllowed.
     //
-    private boolean textIsInteger(String textToCheck) {
+    privbte boolebn textIsInteger(String textToCheck) {
 
         try {
-            Integer.parseInt(textToCheck, 10);
+            Integer.pbrseInt(textToCheck, 10);
             return true;
-        } catch (NumberFormatException ignored) {
-            return false;
+        } cbtch (NumberFormbtException ignored) {
+            return fblse;
         }
     }
 }

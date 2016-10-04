@@ -1,295 +1,295 @@
 /*
- * Copyright (c) 1997, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.x509;
+pbckbge sun.security.x509;
 
-import java.util.*;
-import java.io.IOException;
+import jbvb.util.*;
+import jbvb.io.IOException;
 
-import java.security.cert.CertificateException;
+import jbvb.security.cert.CertificbteException;
 
 import sun.security.util.*;
 
 /**
- * This class defines the mapping from OID & name to classes and vice
- * versa.  Used by CertificateExtensions & PKCS10 to get the java
- * classes associated with a particular OID/name.
+ * This clbss defines the mbpping from OID & nbme to clbsses bnd vice
+ * versb.  Used by CertificbteExtensions & PKCS10 to get the jbvb
+ * clbsses bssocibted with b pbrticulbr OID/nbme.
  *
- * @author Amit Kapoor
- * @author Hemma Prafullchandra
- * @author Andreas Sterbenz
+ * @buthor Amit Kbpoor
+ * @buthor Hemmb Prbfullchbndrb
+ * @buthor Andrebs Sterbenz
  *
  */
-public class OIDMap {
+public clbss OIDMbp {
 
-    private OIDMap() {
+    privbte OIDMbp() {
         // empty
     }
 
-    // "user-friendly" names
-    private static final String ROOT = X509CertImpl.NAME + "." +
+    // "user-friendly" nbmes
+    privbte stbtic finbl String ROOT = X509CertImpl.NAME + "." +
                                  X509CertInfo.NAME + "." +
                                  X509CertInfo.EXTENSIONS;
-    private static final String AUTH_KEY_IDENTIFIER = ROOT + "." +
+    privbte stbtic finbl String AUTH_KEY_IDENTIFIER = ROOT + "." +
                                           AuthorityKeyIdentifierExtension.NAME;
-    private static final String SUB_KEY_IDENTIFIER  = ROOT + "." +
+    privbte stbtic finbl String SUB_KEY_IDENTIFIER  = ROOT + "." +
                                           SubjectKeyIdentifierExtension.NAME;
-    private static final String KEY_USAGE           = ROOT + "." +
-                                          KeyUsageExtension.NAME;
-    private static final String PRIVATE_KEY_USAGE   = ROOT + "." +
-                                          PrivateKeyUsageExtension.NAME;
-    private static final String POLICY_MAPPINGS     = ROOT + "." +
-                                          PolicyMappingsExtension.NAME;
-    private static final String SUB_ALT_NAME        = ROOT + "." +
-                                          SubjectAlternativeNameExtension.NAME;
-    private static final String ISSUER_ALT_NAME     = ROOT + "." +
-                                          IssuerAlternativeNameExtension.NAME;
-    private static final String BASIC_CONSTRAINTS   = ROOT + "." +
-                                          BasicConstraintsExtension.NAME;
-    private static final String NAME_CONSTRAINTS    = ROOT + "." +
-                                          NameConstraintsExtension.NAME;
-    private static final String POLICY_CONSTRAINTS  = ROOT + "." +
-                                          PolicyConstraintsExtension.NAME;
-    private static final String CRL_NUMBER  = ROOT + "." +
+    privbte stbtic finbl String KEY_USAGE           = ROOT + "." +
+                                          KeyUsbgeExtension.NAME;
+    privbte stbtic finbl String PRIVATE_KEY_USAGE   = ROOT + "." +
+                                          PrivbteKeyUsbgeExtension.NAME;
+    privbte stbtic finbl String POLICY_MAPPINGS     = ROOT + "." +
+                                          PolicyMbppingsExtension.NAME;
+    privbte stbtic finbl String SUB_ALT_NAME        = ROOT + "." +
+                                          SubjectAlternbtiveNbmeExtension.NAME;
+    privbte stbtic finbl String ISSUER_ALT_NAME     = ROOT + "." +
+                                          IssuerAlternbtiveNbmeExtension.NAME;
+    privbte stbtic finbl String BASIC_CONSTRAINTS   = ROOT + "." +
+                                          BbsicConstrbintsExtension.NAME;
+    privbte stbtic finbl String NAME_CONSTRAINTS    = ROOT + "." +
+                                          NbmeConstrbintsExtension.NAME;
+    privbte stbtic finbl String POLICY_CONSTRAINTS  = ROOT + "." +
+                                          PolicyConstrbintsExtension.NAME;
+    privbte stbtic finbl String CRL_NUMBER  = ROOT + "." +
                                               CRLNumberExtension.NAME;
-    private static final String CRL_REASON  = ROOT + "." +
-                                              CRLReasonCodeExtension.NAME;
-    private static final String NETSCAPE_CERT  = ROOT + "." +
-                                              NetscapeCertTypeExtension.NAME;
-    private static final String CERT_POLICIES = ROOT + "." +
-                                             CertificatePoliciesExtension.NAME;
-    private static final String EXT_KEY_USAGE       = ROOT + "." +
-                                          ExtendedKeyUsageExtension.NAME;
-    private static final String INHIBIT_ANY_POLICY  = ROOT + "." +
+    privbte stbtic finbl String CRL_REASON  = ROOT + "." +
+                                              CRLRebsonCodeExtension.NAME;
+    privbte stbtic finbl String NETSCAPE_CERT  = ROOT + "." +
+                                              NetscbpeCertTypeExtension.NAME;
+    privbte stbtic finbl String CERT_POLICIES = ROOT + "." +
+                                             CertificbtePoliciesExtension.NAME;
+    privbte stbtic finbl String EXT_KEY_USAGE       = ROOT + "." +
+                                          ExtendedKeyUsbgeExtension.NAME;
+    privbte stbtic finbl String INHIBIT_ANY_POLICY  = ROOT + "." +
                                           InhibitAnyPolicyExtension.NAME;
-    private static final String CRL_DIST_POINTS = ROOT + "." +
+    privbte stbtic finbl String CRL_DIST_POINTS = ROOT + "." +
                                         CRLDistributionPointsExtension.NAME;
 
-    private static final String CERT_ISSUER = ROOT + "." +
-                                        CertificateIssuerExtension.NAME;
-    private static final String SUBJECT_INFO_ACCESS = ROOT + "." +
+    privbte stbtic finbl String CERT_ISSUER = ROOT + "." +
+                                        CertificbteIssuerExtension.NAME;
+    privbte stbtic finbl String SUBJECT_INFO_ACCESS = ROOT + "." +
                                           SubjectInfoAccessExtension.NAME;
-    private static final String AUTH_INFO_ACCESS = ROOT + "." +
+    privbte stbtic finbl String AUTH_INFO_ACCESS = ROOT + "." +
                                           AuthorityInfoAccessExtension.NAME;
-    private static final String ISSUING_DIST_POINT = ROOT + "." +
+    privbte stbtic finbl String ISSUING_DIST_POINT = ROOT + "." +
                                         IssuingDistributionPointExtension.NAME;
-    private static final String DELTA_CRL_INDICATOR = ROOT + "." +
-                                        DeltaCRLIndicatorExtension.NAME;
-    private static final String FRESHEST_CRL = ROOT + "." +
+    privbte stbtic finbl String DELTA_CRL_INDICATOR = ROOT + "." +
+                                        DeltbCRLIndicbtorExtension.NAME;
+    privbte stbtic finbl String FRESHEST_CRL = ROOT + "." +
                                         FreshestCRLExtension.NAME;
-    private static final String OCSPNOCHECK = ROOT + "." +
+    privbte stbtic finbl String OCSPNOCHECK = ROOT + "." +
                                         OCSPNoCheckExtension.NAME;
 
-    private static final int NetscapeCertType_data[] =
+    privbte stbtic finbl int NetscbpeCertType_dbtb[] =
         { 2, 16, 840, 1, 113730, 1, 1 };
 
-    /** Map ObjectIdentifier(oid) -> OIDInfo(info) */
-    private final static Map<ObjectIdentifier,OIDInfo> oidMap;
+    /** Mbp ObjectIdentifier(oid) -> OIDInfo(info) */
+    privbte finbl stbtic Mbp<ObjectIdentifier,OIDInfo> oidMbp;
 
-    /** Map String(friendly name) -> OIDInfo(info) */
-    private final static Map<String,OIDInfo> nameMap;
+    /** Mbp String(friendly nbme) -> OIDInfo(info) */
+    privbte finbl stbtic Mbp<String,OIDInfo> nbmeMbp;
 
-    static {
-        oidMap = new HashMap<ObjectIdentifier,OIDInfo>();
-        nameMap = new HashMap<String,OIDInfo>();
-        addInternal(SUB_KEY_IDENTIFIER, PKIXExtensions.SubjectKey_Id,
+    stbtic {
+        oidMbp = new HbshMbp<ObjectIdentifier,OIDInfo>();
+        nbmeMbp = new HbshMbp<String,OIDInfo>();
+        bddInternbl(SUB_KEY_IDENTIFIER, PKIXExtensions.SubjectKey_Id,
                     "sun.security.x509.SubjectKeyIdentifierExtension");
-        addInternal(KEY_USAGE, PKIXExtensions.KeyUsage_Id,
-                    "sun.security.x509.KeyUsageExtension");
-        addInternal(PRIVATE_KEY_USAGE, PKIXExtensions.PrivateKeyUsage_Id,
-                    "sun.security.x509.PrivateKeyUsageExtension");
-        addInternal(SUB_ALT_NAME, PKIXExtensions.SubjectAlternativeName_Id,
-                    "sun.security.x509.SubjectAlternativeNameExtension");
-        addInternal(ISSUER_ALT_NAME, PKIXExtensions.IssuerAlternativeName_Id,
-                    "sun.security.x509.IssuerAlternativeNameExtension");
-        addInternal(BASIC_CONSTRAINTS, PKIXExtensions.BasicConstraints_Id,
-                    "sun.security.x509.BasicConstraintsExtension");
-        addInternal(CRL_NUMBER, PKIXExtensions.CRLNumber_Id,
+        bddInternbl(KEY_USAGE, PKIXExtensions.KeyUsbge_Id,
+                    "sun.security.x509.KeyUsbgeExtension");
+        bddInternbl(PRIVATE_KEY_USAGE, PKIXExtensions.PrivbteKeyUsbge_Id,
+                    "sun.security.x509.PrivbteKeyUsbgeExtension");
+        bddInternbl(SUB_ALT_NAME, PKIXExtensions.SubjectAlternbtiveNbme_Id,
+                    "sun.security.x509.SubjectAlternbtiveNbmeExtension");
+        bddInternbl(ISSUER_ALT_NAME, PKIXExtensions.IssuerAlternbtiveNbme_Id,
+                    "sun.security.x509.IssuerAlternbtiveNbmeExtension");
+        bddInternbl(BASIC_CONSTRAINTS, PKIXExtensions.BbsicConstrbints_Id,
+                    "sun.security.x509.BbsicConstrbintsExtension");
+        bddInternbl(CRL_NUMBER, PKIXExtensions.CRLNumber_Id,
                     "sun.security.x509.CRLNumberExtension");
-        addInternal(CRL_REASON, PKIXExtensions.ReasonCode_Id,
-                    "sun.security.x509.CRLReasonCodeExtension");
-        addInternal(NAME_CONSTRAINTS, PKIXExtensions.NameConstraints_Id,
-                    "sun.security.x509.NameConstraintsExtension");
-        addInternal(POLICY_MAPPINGS, PKIXExtensions.PolicyMappings_Id,
-                    "sun.security.x509.PolicyMappingsExtension");
-        addInternal(AUTH_KEY_IDENTIFIER, PKIXExtensions.AuthorityKey_Id,
+        bddInternbl(CRL_REASON, PKIXExtensions.RebsonCode_Id,
+                    "sun.security.x509.CRLRebsonCodeExtension");
+        bddInternbl(NAME_CONSTRAINTS, PKIXExtensions.NbmeConstrbints_Id,
+                    "sun.security.x509.NbmeConstrbintsExtension");
+        bddInternbl(POLICY_MAPPINGS, PKIXExtensions.PolicyMbppings_Id,
+                    "sun.security.x509.PolicyMbppingsExtension");
+        bddInternbl(AUTH_KEY_IDENTIFIER, PKIXExtensions.AuthorityKey_Id,
                     "sun.security.x509.AuthorityKeyIdentifierExtension");
-        addInternal(POLICY_CONSTRAINTS, PKIXExtensions.PolicyConstraints_Id,
-                    "sun.security.x509.PolicyConstraintsExtension");
-        addInternal(NETSCAPE_CERT, ObjectIdentifier.newInternal
+        bddInternbl(POLICY_CONSTRAINTS, PKIXExtensions.PolicyConstrbints_Id,
+                    "sun.security.x509.PolicyConstrbintsExtension");
+        bddInternbl(NETSCAPE_CERT, ObjectIdentifier.newInternbl
                     (new int[] {2,16,840,1,113730,1,1}),
-                    "sun.security.x509.NetscapeCertTypeExtension");
-        addInternal(CERT_POLICIES, PKIXExtensions.CertificatePolicies_Id,
-                    "sun.security.x509.CertificatePoliciesExtension");
-        addInternal(EXT_KEY_USAGE, PKIXExtensions.ExtendedKeyUsage_Id,
-                    "sun.security.x509.ExtendedKeyUsageExtension");
-        addInternal(INHIBIT_ANY_POLICY, PKIXExtensions.InhibitAnyPolicy_Id,
+                    "sun.security.x509.NetscbpeCertTypeExtension");
+        bddInternbl(CERT_POLICIES, PKIXExtensions.CertificbtePolicies_Id,
+                    "sun.security.x509.CertificbtePoliciesExtension");
+        bddInternbl(EXT_KEY_USAGE, PKIXExtensions.ExtendedKeyUsbge_Id,
+                    "sun.security.x509.ExtendedKeyUsbgeExtension");
+        bddInternbl(INHIBIT_ANY_POLICY, PKIXExtensions.InhibitAnyPolicy_Id,
                     "sun.security.x509.InhibitAnyPolicyExtension");
-        addInternal(CRL_DIST_POINTS, PKIXExtensions.CRLDistributionPoints_Id,
+        bddInternbl(CRL_DIST_POINTS, PKIXExtensions.CRLDistributionPoints_Id,
                     "sun.security.x509.CRLDistributionPointsExtension");
-        addInternal(CERT_ISSUER, PKIXExtensions.CertificateIssuer_Id,
-                    "sun.security.x509.CertificateIssuerExtension");
-        addInternal(SUBJECT_INFO_ACCESS, PKIXExtensions.SubjectInfoAccess_Id,
+        bddInternbl(CERT_ISSUER, PKIXExtensions.CertificbteIssuer_Id,
+                    "sun.security.x509.CertificbteIssuerExtension");
+        bddInternbl(SUBJECT_INFO_ACCESS, PKIXExtensions.SubjectInfoAccess_Id,
                     "sun.security.x509.SubjectInfoAccessExtension");
-        addInternal(AUTH_INFO_ACCESS, PKIXExtensions.AuthInfoAccess_Id,
+        bddInternbl(AUTH_INFO_ACCESS, PKIXExtensions.AuthInfoAccess_Id,
                     "sun.security.x509.AuthorityInfoAccessExtension");
-        addInternal(ISSUING_DIST_POINT,
+        bddInternbl(ISSUING_DIST_POINT,
                     PKIXExtensions.IssuingDistributionPoint_Id,
                     "sun.security.x509.IssuingDistributionPointExtension");
-        addInternal(DELTA_CRL_INDICATOR, PKIXExtensions.DeltaCRLIndicator_Id,
-                    "sun.security.x509.DeltaCRLIndicatorExtension");
-        addInternal(FRESHEST_CRL, PKIXExtensions.FreshestCRL_Id,
+        bddInternbl(DELTA_CRL_INDICATOR, PKIXExtensions.DeltbCRLIndicbtor_Id,
+                    "sun.security.x509.DeltbCRLIndicbtorExtension");
+        bddInternbl(FRESHEST_CRL, PKIXExtensions.FreshestCRL_Id,
                     "sun.security.x509.FreshestCRLExtension");
-        addInternal(OCSPNOCHECK, PKIXExtensions.OCSPNoCheck_Id,
+        bddInternbl(OCSPNOCHECK, PKIXExtensions.OCSPNoCheck_Id,
                     "sun.security.x509.OCSPNoCheckExtension");
     }
 
     /**
-     * Add attributes to the table. For internal use in the static
-     * initializer.
+     * Add bttributes to the tbble. For internbl use in the stbtic
+     * initiblizer.
      */
-    private static void addInternal(String name, ObjectIdentifier oid,
-            String className) {
-        OIDInfo info = new OIDInfo(name, oid, className);
-        oidMap.put(oid, info);
-        nameMap.put(name, info);
+    privbte stbtic void bddInternbl(String nbme, ObjectIdentifier oid,
+            String clbssNbme) {
+        OIDInfo info = new OIDInfo(nbme, oid, clbssNbme);
+        oidMbp.put(oid, info);
+        nbmeMbp.put(nbme, info);
     }
 
     /**
-     * Inner class encapsulating the mapping info and Class loading.
+     * Inner clbss encbpsulbting the mbpping info bnd Clbss lobding.
      */
-    private static class OIDInfo {
+    privbte stbtic clbss OIDInfo {
 
-        final ObjectIdentifier oid;
-        final String name;
-        final String className;
-        private volatile Class<?> clazz;
+        finbl ObjectIdentifier oid;
+        finbl String nbme;
+        finbl String clbssNbme;
+        privbte volbtile Clbss<?> clbzz;
 
-        OIDInfo(String name, ObjectIdentifier oid, String className) {
-            this.name = name;
+        OIDInfo(String nbme, ObjectIdentifier oid, String clbssNbme) {
+            this.nbme = nbme;
             this.oid = oid;
-            this.className = className;
+            this.clbssNbme = clbssNbme;
         }
 
-        OIDInfo(String name, ObjectIdentifier oid, Class<?> clazz) {
-            this.name = name;
+        OIDInfo(String nbme, ObjectIdentifier oid, Clbss<?> clbzz) {
+            this.nbme = nbme;
             this.oid = oid;
-            this.className = clazz.getName();
-            this.clazz = clazz;
+            this.clbssNbme = clbzz.getNbme();
+            this.clbzz = clbzz;
         }
 
         /**
-         * Return the Class object associated with this attribute.
+         * Return the Clbss object bssocibted with this bttribute.
          */
-        Class<?> getClazz() throws CertificateException {
+        Clbss<?> getClbzz() throws CertificbteException {
             try {
-                Class<?> c = clazz;
+                Clbss<?> c = clbzz;
                 if (c == null) {
-                    c = Class.forName(className);
-                    clazz = c;
+                    c = Clbss.forNbme(clbssNbme);
+                    clbzz = c;
                 }
                 return c;
-            } catch (ClassNotFoundException e) {
-                throw new CertificateException("Could not load class: " + e, e);
+            } cbtch (ClbssNotFoundException e) {
+                throw new CertificbteException("Could not lobd clbss: " + e, e);
             }
         }
     }
 
     /**
-     * Add a name to lookup table.
+     * Add b nbme to lookup tbble.
      *
-     * @param name the name of the attr
-     * @param oid the string representation of the object identifier for
-     *         the class.
-     * @param clazz the Class object associated with this attribute
-     * @exception CertificateException on errors.
+     * @pbrbm nbme the nbme of the bttr
+     * @pbrbm oid the string representbtion of the object identifier for
+     *         the clbss.
+     * @pbrbm clbzz the Clbss object bssocibted with this bttribute
+     * @exception CertificbteException on errors.
      */
-    public static void addAttribute(String name, String oid, Class<?> clazz)
-            throws CertificateException {
+    public stbtic void bddAttribute(String nbme, String oid, Clbss<?> clbzz)
+            throws CertificbteException {
         ObjectIdentifier objId;
         try {
             objId = new ObjectIdentifier(oid);
-        } catch (IOException ioe) {
-            throw new CertificateException
-                                ("Invalid Object identifier: " + oid);
+        } cbtch (IOException ioe) {
+            throw new CertificbteException
+                                ("Invblid Object identifier: " + oid);
         }
-        OIDInfo info = new OIDInfo(name, objId, clazz);
-        if (oidMap.put(objId, info) != null) {
-            throw new CertificateException
-                                ("Object identifier already exists: " + oid);
+        OIDInfo info = new OIDInfo(nbme, objId, clbzz);
+        if (oidMbp.put(objId, info) != null) {
+            throw new CertificbteException
+                                ("Object identifier blrebdy exists: " + oid);
         }
-        if (nameMap.put(name, info) != null) {
-            throw new CertificateException("Name already exists: " + name);
+        if (nbmeMbp.put(nbme, info) != null) {
+            throw new CertificbteException("Nbme blrebdy exists: " + nbme);
         }
     }
 
     /**
-     * Return user friendly name associated with the OID.
+     * Return user friendly nbme bssocibted with the OID.
      *
-     * @param oid the name of the object identifier to be returned.
-     * @return the user friendly name or null if no name
+     * @pbrbm oid the nbme of the object identifier to be returned.
+     * @return the user friendly nbme or null if no nbme
      * is registered for this oid.
      */
-    public static String getName(ObjectIdentifier oid) {
-        OIDInfo info = oidMap.get(oid);
-        return (info == null) ? null : info.name;
+    public stbtic String getNbme(ObjectIdentifier oid) {
+        OIDInfo info = oidMbp.get(oid);
+        return (info == null) ? null : info.nbme;
     }
 
     /**
-     * Return Object identifier for user friendly name.
+     * Return Object identifier for user friendly nbme.
      *
-     * @param name the user friendly name.
+     * @pbrbm nbme the user friendly nbme.
      * @return the Object Identifier or null if no oid
-     * is registered for this name.
+     * is registered for this nbme.
      */
-    public static ObjectIdentifier getOID(String name) {
-        OIDInfo info = nameMap.get(name);
+    public stbtic ObjectIdentifier getOID(String nbme) {
+        OIDInfo info = nbmeMbp.get(nbme);
         return (info == null) ? null : info.oid;
     }
 
     /**
-     * Return the java class object associated with the user friendly name.
+     * Return the jbvb clbss object bssocibted with the user friendly nbme.
      *
-     * @param name the user friendly name.
-     * @exception CertificateException if class cannot be instantiated.
+     * @pbrbm nbme the user friendly nbme.
+     * @exception CertificbteException if clbss cbnnot be instbntibted.
      */
-    public static Class<?> getClass(String name) throws CertificateException {
-        OIDInfo info = nameMap.get(name);
-        return (info == null) ? null : info.getClazz();
+    public stbtic Clbss<?> getClbss(String nbme) throws CertificbteException {
+        OIDInfo info = nbmeMbp.get(nbme);
+        return (info == null) ? null : info.getClbzz();
     }
 
     /**
-     * Return the java class object associated with the object identifier.
+     * Return the jbvb clbss object bssocibted with the object identifier.
      *
-     * @param oid the name of the object identifier to be returned.
-     * @exception CertificateException if class cannot be instatiated.
+     * @pbrbm oid the nbme of the object identifier to be returned.
+     * @exception CertificbteException if clbss cbnnot be instbtibted.
      */
-    public static Class<?> getClass(ObjectIdentifier oid)
-            throws CertificateException {
-        OIDInfo info = oidMap.get(oid);
-        return (info == null) ? null : info.getClazz();
+    public stbtic Clbss<?> getClbss(ObjectIdentifier oid)
+            throws CertificbteException {
+        OIDInfo info = oidMbp.get(oid);
+        return (info == null) ? null : info.getClbzz();
     }
 
 }

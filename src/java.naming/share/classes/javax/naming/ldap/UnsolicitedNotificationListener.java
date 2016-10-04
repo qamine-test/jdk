@@ -1,68 +1,68 @@
 /*
- * Copyright (c) 1999, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2010, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.naming.ldap;
+pbckbge jbvbx.nbming.ldbp;
 
-import javax.naming.event.NamingListener;
+import jbvbx.nbming.event.NbmingListener;
 
 /**
- * This interface is for handling <tt>UnsolicitedNotificationEvent</tt>.
- * "Unsolicited notification" is defined in
+ * This interfbce is for hbndling <tt>UnsolicitedNotificbtionEvent</tt>.
+ * "Unsolicited notificbtion" is defined in
  * <A HREF="http://www.ietf.org/rfc/rfc2251.txt">RFC 2251</A>.
- * It allows the server to send unsolicited notifications to the client.
- * A <tt>UnsolicitedNotificationListener</tt> must:
+ * It bllows the server to send unsolicited notificbtions to the client.
+ * A <tt>UnsolicitedNotificbtionListener</tt> must:
  *<ol>
- * <li>Implement this interface and its method
- * <li>Implement <tt>NamingListener.namingExceptionThrown()</tt> so
- * that it will be notified of exceptions thrown while attempting to
- * collect unsolicited notification events.
- * <li>Register with the context using one of the <tt>addNamingListener()</tt>
+ * <li>Implement this interfbce bnd its method
+ * <li>Implement <tt>NbmingListener.nbmingExceptionThrown()</tt> so
+ * thbt it will be notified of exceptions thrown while bttempting to
+ * collect unsolicited notificbtion events.
+ * <li>Register with the context using one of the <tt>bddNbmingListener()</tt>
  * methods from <tt>EventContext</tt> or <tt>EventDirContext</tt>.
- * Only the <tt>NamingListener</tt> argument of these methods are applicable;
- * the rest are ignored for a <tt>UnsolicitedNotificationListener</tt>.
- * (These arguments might be applicable to the listener if it implements
- * other listener interfaces).
+ * Only the <tt>NbmingListener</tt> brgument of these methods bre bpplicbble;
+ * the rest bre ignored for b <tt>UnsolicitedNotificbtionListener</tt>.
+ * (These brguments might be bpplicbble to the listener if it implements
+ * other listener interfbces).
  *</ol>
  *
- * @author Rosanna Lee
- * @author Scott Seligman
- * @author Vincent Ryan
+ * @buthor Rosbnnb Lee
+ * @buthor Scott Seligmbn
+ * @buthor Vincent Rybn
  *
- * @see UnsolicitedNotificationEvent
- * @see UnsolicitedNotification
- * @see javax.naming.event.EventContext#addNamingListener
- * @see javax.naming.event.EventDirContext#addNamingListener
- * @see javax.naming.event.EventContext#removeNamingListener
+ * @see UnsolicitedNotificbtionEvent
+ * @see UnsolicitedNotificbtion
+ * @see jbvbx.nbming.event.EventContext#bddNbmingListener
+ * @see jbvbx.nbming.event.EventDirContext#bddNbmingListener
+ * @see jbvbx.nbming.event.EventContext#removeNbmingListener
  * @since 1.3
  */
-public interface UnsolicitedNotificationListener extends NamingListener {
+public interfbce UnsolicitedNotificbtionListener extends NbmingListener {
 
     /**
-     * Called when an unsolicited notification has been received.
+     * Cblled when bn unsolicited notificbtion hbs been received.
      *
-     * @param evt The non-null UnsolicitedNotificationEvent
+     * @pbrbm evt The non-null UnsolicitedNotificbtionEvent
      */
-     void notificationReceived(UnsolicitedNotificationEvent evt);
+     void notificbtionReceived(UnsolicitedNotificbtionEvent evt);
 }

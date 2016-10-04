@@ -1,112 +1,112 @@
 /*
- * Copyright (c) 2004, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.jconsole.inspector;
+pbckbge sun.tools.jconsole.inspector;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.util.*;
-import java.util.Timer;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvb.util.*;
+import jbvb.util.Timer;
 
-import javax.swing.*;
+import jbvbx.swing.*;
 
 import sun.tools.jconsole.*;
 
-@SuppressWarnings("serial")
-public class XPlottingViewer extends PlotterPanel implements ActionListener {
-    // TODO: Make number of decimal places customizable
-    private static final int PLOTTER_DECIMALS = 4;
+@SuppressWbrnings("seribl")
+public clbss XPlottingViewer extends PlotterPbnel implements ActionListener {
+    // TODO: Mbke number of decimbl plbces customizbble
+    privbte stbtic finbl int PLOTTER_DECIMALS = 4;
 
-    private JButton plotButton;
-    // The plotter cache holds Plotter instances for the various attributes
-    private static HashMap<String, XPlottingViewer> plotterCache =
-        new HashMap<String, XPlottingViewer>();
-     private static HashMap<String, Timer> timerCache =
-         new HashMap<String, Timer>();
-    private MBeansTab tab;
-    private String attributeName;
-    private String key;
-    private JTable table;
-    private XPlottingViewer(String key,
-                            XMBean mbean,
-                            String attributeName,
-                            Object value,
-                            JTable table,
-                            MBeansTab tab) {
+    privbte JButton plotButton;
+    // The plotter cbche holds Plotter instbnces for the vbrious bttributes
+    privbte stbtic HbshMbp<String, XPlottingViewer> plotterCbche =
+        new HbshMbp<String, XPlottingViewer>();
+     privbte stbtic HbshMbp<String, Timer> timerCbche =
+         new HbshMbp<String, Timer>();
+    privbte MBebnsTbb tbb;
+    privbte String bttributeNbme;
+    privbte String key;
+    privbte JTbble tbble;
+    privbte XPlottingViewer(String key,
+                            XMBebn mbebn,
+                            String bttributeNbme,
+                            Object vblue,
+                            JTbble tbble,
+                            MBebnsTbb tbb) {
         super(null);
 
-        this.tab = tab;
+        this.tbb = tbb;
         this.key = key;
-        this.table = table;
-        this.attributeName = attributeName;
-        Plotter plotter = createPlotter(mbean, attributeName, key, table);
-        setupDisplay(plotter);
+        this.tbble = tbble;
+        this.bttributeNbme = bttributeNbme;
+        Plotter plotter = crebtePlotter(mbebn, bttributeNbme, key, tbble);
+        setupDisplby(plotter);
     }
 
-    static void dispose(MBeansTab tab) {
-        Iterator<String> it = plotterCache.keySet().iterator();
-        while(it.hasNext()) {
+    stbtic void dispose(MBebnsTbb tbb) {
+        Iterbtor<String> it = plotterCbche.keySet().iterbtor();
+        while(it.hbsNext()) {
             String key = it.next();
-            if(key.startsWith(String.valueOf(tab.hashCode()))) {
+            if(key.stbrtsWith(String.vblueOf(tbb.hbshCode()))) {
                 it.remove();
             }
         }
-        //plotterCache.clear();
-        it = timerCache.keySet().iterator();
-        while(it.hasNext()) {
+        //plotterCbche.clebr();
+        it = timerCbche.keySet().iterbtor();
+        while(it.hbsNext()) {
             String key = it.next();
-            if(key.startsWith(String.valueOf(tab.hashCode()))) {
-                Timer t = timerCache.get(key);
-                t.cancel();
+            if(key.stbrtsWith(String.vblueOf(tbb.hbshCode()))) {
+                Timer t = timerCbche.get(key);
+                t.cbncel();
                 it.remove();
             }
         }
     }
 
-    public static boolean isViewableValue(Object value) {
-        return (value instanceof Number);
+    public stbtic boolebn isViewbbleVblue(Object vblue) {
+        return (vblue instbnceof Number);
     }
 
     //Fired by dbl click
-    public  static Component loadPlotting(XMBean mbean,
-                                          String attributeName,
-                                          Object value,
-                                          JTable table,
-                                          MBeansTab tab) {
+    public  stbtic Component lobdPlotting(XMBebn mbebn,
+                                          String bttributeNbme,
+                                          Object vblue,
+                                          JTbble tbble,
+                                          MBebnsTbb tbb) {
         Component comp = null;
-        if(isViewableValue(value)) {
-            String key = String.valueOf(tab.hashCode()) + " " + String.valueOf(mbean.hashCode()) + " " + mbean.getObjectName().getCanonicalName() + attributeName;
-            XPlottingViewer plotter = plotterCache.get(key);
+        if(isViewbbleVblue(vblue)) {
+            String key = String.vblueOf(tbb.hbshCode()) + " " + String.vblueOf(mbebn.hbshCode()) + " " + mbebn.getObjectNbme().getCbnonicblNbme() + bttributeNbme;
+            XPlottingViewer plotter = plotterCbche.get(key);
             if(plotter == null) {
                 plotter = new XPlottingViewer(key,
-                                              mbean,
-                                              attributeName,
-                                              value,
-                                              table,
-                                              tab);
-                plotterCache.put(key, plotter);
+                                              mbebn,
+                                              bttributeNbme,
+                                              vblue,
+                                              tbble,
+                                              tbb);
+                plotterCbche.put(key, plotter);
             }
 
             comp = plotter;
@@ -114,25 +114,25 @@ public class XPlottingViewer extends PlotterPanel implements ActionListener {
         return comp;
     }
 
-    /*public void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        setBackground(g.getColor());
-        plotter.paintComponent(g);
+    /*public void pbintComponent(Grbphics g) {
+        super.pbintComponent(g);
+        setBbckground(g.getColor());
+        plotter.pbintComponent(g);
         }*/
     @Override
-    public void actionPerformed(ActionEvent evt) {
-        plotterCache.remove(key);
-        Timer t = timerCache.remove(key);
-        t.cancel();
-        ((XMBeanAttributes) table).collapse(attributeName, this);
+    public void bctionPerformed(ActionEvent evt) {
+        plotterCbche.remove(key);
+        Timer t = timerCbche.remove(key);
+        t.cbncel();
+        ((XMBebnAttributes) tbble).collbpse(bttributeNbme, this);
     }
 
-    //Create plotter instance
-    public Plotter createPlotter(final XMBean xmbean,
-                                 final String attributeName,
+    //Crebte plotter instbnce
+    public Plotter crebtePlotter(finbl XMBebn xmbebn,
+                                 finbl String bttributeNbme,
                                  String key,
-                                 JTable table) {
-        final Plotter plotter = new XPlotter(table, Plotter.Unit.NONE) {
+                                 JTbble tbble) {
+        finbl Plotter plotter = new XPlotter(tbble, Plotter.Unit.NONE) {
                 Dimension prefSize = new Dimension(400, 170);
             @Override
                 public Dimension getPreferredSize() {
@@ -144,75 +144,75 @@ public class XPlottingViewer extends PlotterPanel implements ActionListener {
                 }
             };
 
-        plotter.createSequence(attributeName, attributeName, null, true);
+        plotter.crebteSequence(bttributeNbme, bttributeNbme, null, true);
 
-        TimerTask timerTask = new TimerTask() {
+        TimerTbsk timerTbsk = new TimerTbsk() {
                 public void run() {
-                    tab.workerAdd(new Runnable() {
+                    tbb.workerAdd(new Runnbble() {
                             public void run() {
                                 try {
                                     Number n =
-                                        (Number) xmbean.getSnapshotMBeanServerConnection().getAttribute(xmbean.getObjectName(), attributeName);
+                                        (Number) xmbebn.getSnbpshotMBebnServerConnection().getAttribute(xmbebn.getObjectNbme(), bttributeNbme);
                                     long v;
-                                    if (n instanceof Float || n instanceof Double) {
-                                        plotter.setDecimals(PLOTTER_DECIMALS);
-                                        double d = (n instanceof Float) ? (Float)n : (Double)n;
-                                        v = Math.round(d * Math.pow(10.0, PLOTTER_DECIMALS));
+                                    if (n instbnceof Flobt || n instbnceof Double) {
+                                        plotter.setDecimbls(PLOTTER_DECIMALS);
+                                        double d = (n instbnceof Flobt) ? (Flobt)n : (Double)n;
+                                        v = Mbth.round(d * Mbth.pow(10.0, PLOTTER_DECIMALS));
                                     } else {
-                                        v = n.longValue();
+                                        v = n.longVblue();
                                     }
-                                    plotter.addValues(System.currentTimeMillis(), v);
-                                } catch (Exception ex) {
-                                    // Should have a trace logged with proper
-                                    // trace mecchanism
+                                    plotter.bddVblues(System.currentTimeMillis(), v);
+                                } cbtch (Exception ex) {
+                                    // Should hbve b trbce logged with proper
+                                    // trbce mecchbnism
                                 }
                             }
                         });
                 }
             };
 
-        String timerName = "Timer-" + key;
-        Timer timer = new Timer(timerName, true);
-        timer.schedule(timerTask, 0, tab.getUpdateInterval());
-        timerCache.put(key, timer);
+        String timerNbme = "Timer-" + key;
+        Timer timer = new Timer(timerNbme, true);
+        timer.schedule(timerTbsk, 0, tbb.getUpdbteIntervbl());
+        timerCbche.put(key, timer);
         return plotter;
     }
 
-    private void setupDisplay(Plotter plotter) {
-        final JPanel buttonPanel = new JPanel();
-        final GridBagLayout gbl = new GridBagLayout();
-        buttonPanel.setLayout(gbl);
-        setLayout(new BorderLayout());
-        plotButton = new JButton(Messages.DISCARD_CHART);
-        plotButton.addActionListener(this);
-        plotButton.setEnabled(true);
+    privbte void setupDisplby(Plotter plotter) {
+        finbl JPbnel buttonPbnel = new JPbnel();
+        finbl GridBbgLbyout gbl = new GridBbgLbyout();
+        buttonPbnel.setLbyout(gbl);
+        setLbyout(new BorderLbyout());
+        plotButton = new JButton(Messbges.DISCARD_CHART);
+        plotButton.bddActionListener(this);
+        plotButton.setEnbbled(true);
 
-        GridBagConstraints buttonConstraints = new GridBagConstraints();
-        buttonConstraints.gridx = 0;
-        buttonConstraints.gridy = 0;
-        buttonConstraints.fill = GridBagConstraints.VERTICAL;
-        buttonConstraints.anchor = GridBagConstraints.CENTER;
-        gbl.setConstraints(plotButton, buttonConstraints);
-        buttonPanel.add(plotButton);
+        GridBbgConstrbints buttonConstrbints = new GridBbgConstrbints();
+        buttonConstrbints.gridx = 0;
+        buttonConstrbints.gridy = 0;
+        buttonConstrbints.fill = GridBbgConstrbints.VERTICAL;
+        buttonConstrbints.bnchor = GridBbgConstrbints.CENTER;
+        gbl.setConstrbints(plotButton, buttonConstrbints);
+        buttonPbnel.bdd(plotButton);
 
-        if (attributeName != null && attributeName.length()!=0) {
-            final JPanel plotterLabelPanel = new JPanel();
-            final JLabel label = new JLabel(attributeName);
-            final GridBagLayout gbl2 = new GridBagLayout();
-            plotterLabelPanel.setLayout(gbl2);
-            final GridBagConstraints labelConstraints = new GridBagConstraints();
-            labelConstraints.gridx = 0;
-            labelConstraints.gridy = 0;
-            labelConstraints.fill = GridBagConstraints.VERTICAL;
-            labelConstraints.anchor = GridBagConstraints.CENTER;
-            labelConstraints.ipady = 10;
-            gbl2.setConstraints(label, labelConstraints);
-            plotterLabelPanel.add(label);
-            add(plotterLabelPanel, BorderLayout.NORTH);
+        if (bttributeNbme != null && bttributeNbme.length()!=0) {
+            finbl JPbnel plotterLbbelPbnel = new JPbnel();
+            finbl JLbbel lbbel = new JLbbel(bttributeNbme);
+            finbl GridBbgLbyout gbl2 = new GridBbgLbyout();
+            plotterLbbelPbnel.setLbyout(gbl2);
+            finbl GridBbgConstrbints lbbelConstrbints = new GridBbgConstrbints();
+            lbbelConstrbints.gridx = 0;
+            lbbelConstrbints.gridy = 0;
+            lbbelConstrbints.fill = GridBbgConstrbints.VERTICAL;
+            lbbelConstrbints.bnchor = GridBbgConstrbints.CENTER;
+            lbbelConstrbints.ipbdy = 10;
+            gbl2.setConstrbints(lbbel, lbbelConstrbints);
+            plotterLbbelPbnel.bdd(lbbel);
+            bdd(plotterLbbelPbnel, BorderLbyout.NORTH);
         }
         setPlotter(plotter);
-        add(buttonPanel, BorderLayout.SOUTH);
-        repaint();
+        bdd(buttonPbnel, BorderLbyout.SOUTH);
+        repbint();
     }
 
 }

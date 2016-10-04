@@ -1,14 +1,14 @@
-/* IBM/Microsoft Code Page 850 character set */
-/* derived form tables on ftp.unicode.org */
-/* Original header:
-#    Name:     cp850_DOSLatin1 to Unicode table
+/* IBM/Microsoft Code Pbge 850 chbrbcter set */
+/* derived form tbbles on ftp.unicode.org */
+/* Originbl hebder:
+#    Nbme:     cp850_DOSLbtin1 to Unicode tbble
 #    Unicode version: 2.0
-#    Table version: 2.00
-#    Table format:  Format A
-#    Date:          04/24/96
+#    Tbble version: 2.00
+#    Tbble formbt:  Formbt A
+#    Dbte:          04/24/96
 #    Authors:       Lori Brownell <loribr@microsoft.com>
-#                   K.D. Chang    <a-kchang@microsoft.com>
-#    General notes: none
+#                   K.D. Chbng    <b-kchbng@microsoft.com>
+#    Generbl notes: none
 */
 0	1	2	3	4	5	6	7	
 8	9	10	11	12	13	14	15	

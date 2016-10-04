@@ -1,333 +1,333 @@
 /*
- * Copyright (c) 2009, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2009, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 /*
  *******************************************************************************
- * (C) Copyright IBM Corp. and others, 1996-2009 - All Rights Reserved         *
+ * (C) Copyright IBM Corp. bnd others, 1996-2009 - All Rights Reserved         *
  *                                                                             *
- * The original version of this source code and documentation is copyrighted   *
- * and owned by IBM, These materials are provided under terms of a License     *
- * Agreement between IBM and Sun. This technology is protected by multiple     *
- * US and International patents. This notice and attribution to IBM may not    *
+ * The originbl version of this source code bnd documentbtion is copyrighted   *
+ * bnd owned by IBM, These mbteribls bre provided under terms of b License     *
+ * Agreement between IBM bnd Sun. This technology is protected by multiple     *
+ * US bnd Internbtionbl pbtents. This notice bnd bttribution to IBM mby not    *
  * to removed.                                                                 *
  *******************************************************************************
  */
 
-package sun.text.normalizer;
+pbckbge sun.text.normblizer;
 
-import java.io.IOException;
-import java.util.MissingResourceException;
+import jbvb.io.IOException;
+import jbvb.util.MissingResourceException;
 
 /**
  * <p>
- * The UCharacter class provides extensions to the
- * <a href="http://docs.oracle.com/javase/1.5.0/docs/api/java/lang/Character.html">
- * java.lang.Character</a> class. These extensions provide support for
- * more Unicode properties and together with the <a href=../text/UTF16.html>UTF16</a>
- * class, provide support for supplementary characters (those with code
- * points above U+FFFF).
- * Each ICU release supports the latest version of Unicode available at that time.
+ * The UChbrbcter clbss provides extensions to the
+ * <b href="http://docs.orbcle.com/jbvbse/1.5.0/docs/bpi/jbvb/lbng/Chbrbcter.html">
+ * jbvb.lbng.Chbrbcter</b> clbss. These extensions provide support for
+ * more Unicode properties bnd together with the <b href=../text/UTF16.html>UTF16</b>
+ * clbss, provide support for supplementbry chbrbcters (those with code
+ * points bbove U+FFFF).
+ * Ebch ICU relebse supports the lbtest version of Unicode bvbilbble bt thbt time.
  * </p>
  * <p>
- * Code points are represented in these API using ints. While it would be
- * more convenient in Java to have a separate primitive datatype for them,
- * ints suffice in the meantime.
+ * Code points bre represented in these API using ints. While it would be
+ * more convenient in Jbvb to hbve b sepbrbte primitive dbtbtype for them,
+ * ints suffice in the mebntime.
  * </p>
  * <p>
- * To use this class please add the jar file name icu4j.jar to the
- * class path, since it contains data files which supply the information used
+ * To use this clbss plebse bdd the jbr file nbme icu4j.jbr to the
+ * clbss pbth, since it contbins dbtb files which supply the informbtion used
  * by this file.<br>
  * E.g. In Windows <br>
- * <code>set CLASSPATH=%CLASSPATH%;$JAR_FILE_PATH/ucharacter.jar</code>.<br>
- * Otherwise, another method would be to copy the files uprops.dat and
- * unames.icu from the icu4j source subdirectory
- * <i>$ICU4J_SRC/src/com.ibm.icu.impl.data</i> to your class directory
- * <i>$ICU4J_CLASS/com.ibm.icu.impl.data</i>.
+ * <code>set CLASSPATH=%CLASSPATH%;$JAR_FILE_PATH/uchbrbcter.jbr</code>.<br>
+ * Otherwise, bnother method would be to copy the files uprops.dbt bnd
+ * unbmes.icu from the icu4j source subdirectory
+ * <i>$ICU4J_SRC/src/com.ibm.icu.impl.dbtb</i> to your clbss directory
+ * <i>$ICU4J_CLASS/com.ibm.icu.impl.dbtb</i>.
  * </p>
  * <p>
- * Aside from the additions for UTF-16 support, and the updated Unicode
- * properties, the main differences between UCharacter and Character are:
+ * Aside from the bdditions for UTF-16 support, bnd the updbted Unicode
+ * properties, the mbin differences between UChbrbcter bnd Chbrbcter bre:
  * <ul>
- * <li> UCharacter is not designed to be a char wrapper and does not have
- *      APIs to which involves management of that single char.<br>
+ * <li> UChbrbcter is not designed to be b chbr wrbpper bnd does not hbve
+ *      APIs to which involves mbnbgement of thbt single chbr.<br>
  *      These include:
  *      <ul>
- *        <li> char charValue(),
- *        <li> int compareTo(java.lang.Character, java.lang.Character), etc.
+ *        <li> chbr chbrVblue(),
+ *        <li> int compbreTo(jbvb.lbng.Chbrbcter, jbvb.lbng.Chbrbcter), etc.
  *      </ul>
- * <li> UCharacter does not include Character APIs that are deprecated, nor
- *      does it include the Java-specific character information, such as
- *      boolean isJavaIdentifierPart(char ch).
- * <li> Character maps characters 'A' - 'Z' and 'a' - 'z' to the numeric
- *      values '10' - '35'. UCharacter also does this in digit and
- *      getNumericValue, to adhere to the java semantics of these
- *      methods.  New methods unicodeDigit, and
- *      getUnicodeNumericValue do not treat the above code points
- *      as having numeric values.  This is a semantic change from ICU4J 1.3.1.
+ * <li> UChbrbcter does not include Chbrbcter APIs thbt bre deprecbted, nor
+ *      does it include the Jbvb-specific chbrbcter informbtion, such bs
+ *      boolebn isJbvbIdentifierPbrt(chbr ch).
+ * <li> Chbrbcter mbps chbrbcters 'A' - 'Z' bnd 'b' - 'z' to the numeric
+ *      vblues '10' - '35'. UChbrbcter blso does this in digit bnd
+ *      getNumericVblue, to bdhere to the jbvb sembntics of these
+ *      methods.  New methods unicodeDigit, bnd
+ *      getUnicodeNumericVblue do not trebt the bbove code points
+ *      bs hbving numeric vblues.  This is b sembntic chbnge from ICU4J 1.3.1.
  * </ul>
  * <p>
- * Further detail differences can be determined from the program
- *        <a href="http://source.icu-project.org/repos/icu/icu4j/trunk/src/com/ibm/icu/dev/test/lang/UCharacterCompare.java">
- *        com.ibm.icu.dev.test.lang.UCharacterCompare</a>
+ * Further detbil differences cbn be determined from the progrbm
+ *        <b href="http://source.icu-project.org/repos/icu/icu4j/trunk/src/com/ibm/icu/dev/test/lbng/UChbrbcterCompbre.jbvb">
+ *        com.ibm.icu.dev.test.lbng.UChbrbcterCompbre</b>
  * </p>
  * <p>
- * In addition to Java compatibility functions, which calculate derived properties,
- * this API provides low-level access to the Unicode Character Database.
+ * In bddition to Jbvb compbtibility functions, which cblculbte derived properties,
+ * this API provides low-level bccess to the Unicode Chbrbcter Dbtbbbse.
  * </p>
  * <p>
- * Unicode assigns each code point (not just assigned character) values for
- * many properties.
- * Most of them are simple boolean flags, or constants from a small enumerated list.
- * For some properties, values are strings or other relatively more complex types.
+ * Unicode bssigns ebch code point (not just bssigned chbrbcter) vblues for
+ * mbny properties.
+ * Most of them bre simple boolebn flbgs, or constbnts from b smbll enumerbted list.
+ * For some properties, vblues bre strings or other relbtively more complex types.
  * </p>
  * <p>
- * For more information see
- * "About the Unicode Character Database" (http://www.unicode.org/ucd/)
- * and the ICU User Guide chapter on Properties (http://www.icu-project.org/userguide/properties.html).
+ * For more informbtion see
+ * "About the Unicode Chbrbcter Dbtbbbse" (http://www.unicode.org/ucd/)
+ * bnd the ICU User Guide chbpter on Properties (http://www.icu-project.org/userguide/properties.html).
  * </p>
  * <p>
- * There are also functions that provide easy migration from C/POSIX functions
- * like isblank(). Their use is generally discouraged because the C/POSIX
- * standards do not define their semantics beyond the ASCII range, which means
- * that different implementations exhibit very different behavior.
- * Instead, Unicode properties should be used directly.
+ * There bre blso functions thbt provide ebsy migrbtion from C/POSIX functions
+ * like isblbnk(). Their use is generblly discourbged becbuse the C/POSIX
+ * stbndbrds do not define their sembntics beyond the ASCII rbnge, which mebns
+ * thbt different implementbtions exhibit very different behbvior.
+ * Instebd, Unicode properties should be used directly.
  * </p>
  * <p>
- * There are also only a few, broad C/POSIX character classes, and they tend
- * to be used for conflicting purposes. For example, the "isalpha()" class
- * is sometimes used to determine word boundaries, while a more sophisticated
- * approach would at least distinguish initial letters from continuation
- * characters (the latter including combining marks).
- * (In ICU, BreakIterator is the most sophisticated API for word boundaries.)
- * Another example: There is no "istitle()" class for titlecase characters.
+ * There bre blso only b few, brobd C/POSIX chbrbcter clbsses, bnd they tend
+ * to be used for conflicting purposes. For exbmple, the "isblphb()" clbss
+ * is sometimes used to determine word boundbries, while b more sophisticbted
+ * bpprobch would bt lebst distinguish initibl letters from continubtion
+ * chbrbcters (the lbtter including combining mbrks).
+ * (In ICU, BrebkIterbtor is the most sophisticbted API for word boundbries.)
+ * Another exbmple: There is no "istitle()" clbss for titlecbse chbrbcters.
  * </p>
  * <p>
- * ICU 3.4 and later provides API access for all twelve C/POSIX character classes.
- * ICU implements them according to the Standard Recommendations in
- * Annex C: Compatibility Properties of UTS #18 Unicode Regular Expressions
- * (http://www.unicode.org/reports/tr18/#Compatibility_Properties).
+ * ICU 3.4 bnd lbter provides API bccess for bll twelve C/POSIX chbrbcter clbsses.
+ * ICU implements them bccording to the Stbndbrd Recommendbtions in
+ * Annex C: Compbtibility Properties of UTS #18 Unicode Regulbr Expressions
+ * (http://www.unicode.org/reports/tr18/#Compbtibility_Properties).
  * </p>
  * <p>
- * API access for C/POSIX character classes is as follows:
- * - alpha:     isUAlphabetic(c) or hasBinaryProperty(c, UProperty.ALPHABETIC)
- * - lower:     isULowercase(c) or hasBinaryProperty(c, UProperty.LOWERCASE)
- * - upper:     isUUppercase(c) or hasBinaryProperty(c, UProperty.UPPERCASE)
+ * API bccess for C/POSIX chbrbcter clbsses is bs follows:
+ * - blphb:     isUAlphbbetic(c) or hbsBinbryProperty(c, UProperty.ALPHABETIC)
+ * - lower:     isULowercbse(c) or hbsBinbryProperty(c, UProperty.LOWERCASE)
+ * - upper:     isUUppercbse(c) or hbsBinbryProperty(c, UProperty.UPPERCASE)
  * - punct:     ((1<<getType(c)) & ((1<<DASH_PUNCTUATION)|(1<<START_PUNCTUATION)|(1<<END_PUNCTUATION)|(1<<CONNECTOR_PUNCTUATION)|(1<<OTHER_PUNCTUATION)|(1<<INITIAL_PUNCTUATION)|(1<<FINAL_PUNCTUATION)))!=0
  * - digit:     isDigit(c) or getType(c)==DECIMAL_DIGIT_NUMBER
- * - xdigit:    hasBinaryProperty(c, UProperty.POSIX_XDIGIT)
- * - alnum:     hasBinaryProperty(c, UProperty.POSIX_ALNUM)
- * - space:     isUWhiteSpace(c) or hasBinaryProperty(c, UProperty.WHITE_SPACE)
- * - blank:     hasBinaryProperty(c, UProperty.POSIX_BLANK)
+ * - xdigit:    hbsBinbryProperty(c, UProperty.POSIX_XDIGIT)
+ * - blnum:     hbsBinbryProperty(c, UProperty.POSIX_ALNUM)
+ * - spbce:     isUWhiteSpbce(c) or hbsBinbryProperty(c, UProperty.WHITE_SPACE)
+ * - blbnk:     hbsBinbryProperty(c, UProperty.POSIX_BLANK)
  * - cntrl:     getType(c)==CONTROL
- * - graph:     hasBinaryProperty(c, UProperty.POSIX_GRAPH)
- * - print:     hasBinaryProperty(c, UProperty.POSIX_PRINT)
+ * - grbph:     hbsBinbryProperty(c, UProperty.POSIX_GRAPH)
+ * - print:     hbsBinbryProperty(c, UProperty.POSIX_PRINT)
  * </p>
  * <p>
- * The C/POSIX character classes are also available in UnicodeSet patterns,
- * using patterns like [:graph:] or \p{graph}.
+ * The C/POSIX chbrbcter clbsses bre blso bvbilbble in UnicodeSet pbtterns,
+ * using pbtterns like [:grbph:] or \p{grbph}.
  * </p>
  * <p>
- * Note: There are several ICU (and Java) whitespace functions.
- * Comparison:
- * - isUWhiteSpace=UCHAR_WHITE_SPACE: Unicode White_Space property;
- *       most of general categories "Z" (separators) + most whitespace ISO controls
- *       (including no-break spaces, but excluding IS1..IS4 and ZWSP)
- * - isWhitespace: Java isWhitespace; Z + whitespace ISO controls but excluding no-break spaces
- * - isSpaceChar: just Z (including no-break spaces)
+ * Note: There bre severbl ICU (bnd Jbvb) whitespbce functions.
+ * Compbrison:
+ * - isUWhiteSpbce=UCHAR_WHITE_SPACE: Unicode White_Spbce property;
+ *       most of generbl cbtegories "Z" (sepbrbtors) + most whitespbce ISO controls
+ *       (including no-brebk spbces, but excluding IS1..IS4 bnd ZWSP)
+ * - isWhitespbce: Jbvb isWhitespbce; Z + whitespbce ISO controls but excluding no-brebk spbces
+ * - isSpbceChbr: just Z (including no-brebk spbces)
  * </p>
  * <p>
- * This class is not subclassable
+ * This clbss is not subclbssbble
  * </p>
- * @author Syn Wee Quek
- * @stable ICU 2.1
- * @see com.ibm.icu.lang.UCharacterEnums
+ * @buthor Syn Wee Quek
+ * @stbble ICU 2.1
+ * @see com.ibm.icu.lbng.UChbrbcterEnums
  */
 
-public final class UCharacter
+public finbl clbss UChbrbcter
 {
 
     /**
-     * Numeric Type constants.
+     * Numeric Type constbnts.
      * @see UProperty#NUMERIC_TYPE
-     * @stable ICU 2.4
+     * @stbble ICU 2.4
      */
-    public static interface NumericType
+    public stbtic interfbce NumericType
     {
         /**
-         * @stable ICU 2.4
+         * @stbble ICU 2.4
          */
-        public static final int DECIMAL = 1;
+        public stbtic finbl int DECIMAL = 1;
     }
 
-    // public data members -----------------------------------------------
+    // public dbtb members -----------------------------------------------
 
     /**
-     * The lowest Unicode code point value.
-     * @stable ICU 2.1
+     * The lowest Unicode code point vblue.
+     * @stbble ICU 2.1
      */
-    public static final int MIN_VALUE = UTF16.CODEPOINT_MIN_VALUE;
+    public stbtic finbl int MIN_VALUE = UTF16.CODEPOINT_MIN_VALUE;
 
     /**
-     * The highest Unicode code point value (scalar value) according to the
-     * Unicode Standard.
-     * This is a 21-bit value (21 bits, rounded up).<br>
-     * Up-to-date Unicode implementation of java.lang.Character.MIN_VALUE
-     * @stable ICU 2.1
+     * The highest Unicode code point vblue (scblbr vblue) bccording to the
+     * Unicode Stbndbrd.
+     * This is b 21-bit vblue (21 bits, rounded up).<br>
+     * Up-to-dbte Unicode implementbtion of jbvb.lbng.Chbrbcter.MIN_VALUE
+     * @stbble ICU 2.1
      */
-    public static final int MAX_VALUE = UTF16.CODEPOINT_MAX_VALUE;
+    public stbtic finbl int MAX_VALUE = UTF16.CODEPOINT_MAX_VALUE;
 
     /**
-     * The minimum value for Supplementary code points
-     * @stable ICU 2.1
+     * The minimum vblue for Supplementbry code points
+     * @stbble ICU 2.1
      */
-    public static final int SUPPLEMENTARY_MIN_VALUE =
+    public stbtic finbl int SUPPLEMENTARY_MIN_VALUE =
         UTF16.SUPPLEMENTARY_MIN_VALUE;
 
     // public methods ----------------------------------------------------
 
     /**
-     * Retrieves the numeric value of a decimal digit code point.
-     * <br>This method observes the semantics of
-     * <code>java.lang.Character.digit()</code>.  Note that this
-     * will return positive values for code points for which isDigit
-     * returns false, just like java.lang.Character.
-     * <br><em>Semantic Change:</em> In release 1.3.1 and
-     * prior, this did not treat the European letters as having a
-     * digit value, and also treated numeric letters and other numbers as
+     * Retrieves the numeric vblue of b decimbl digit code point.
+     * <br>This method observes the sembntics of
+     * <code>jbvb.lbng.Chbrbcter.digit()</code>.  Note thbt this
+     * will return positive vblues for code points for which isDigit
+     * returns fblse, just like jbvb.lbng.Chbrbcter.
+     * <br><em>Sembntic Chbnge:</em> In relebse 1.3.1 bnd
+     * prior, this did not trebt the Europebn letters bs hbving b
+     * digit vblue, bnd blso trebted numeric letters bnd other numbers bs
      * digits.
-     * This has been changed to conform to the java semantics.
-     * <br>A code point is a valid digit if and only if:
+     * This hbs been chbnged to conform to the jbvb sembntics.
+     * <br>A code point is b vblid digit if bnd only if:
      * <ul>
-     *   <li>ch is a decimal digit or one of the european letters, and
-     *   <li>the value of ch is less than the specified radix.
+     *   <li>ch is b decimbl digit or one of the europebn letters, bnd
+     *   <li>the vblue of ch is less thbn the specified rbdix.
      * </ul>
-     * @param ch the code point to query
-     * @param radix the radix
-     * @return the numeric value represented by the code point in the
-     * specified radix, or -1 if the code point is not a decimal digit
-     * or if its value is too large for the radix
-     * @stable ICU 2.1
+     * @pbrbm ch the code point to query
+     * @pbrbm rbdix the rbdix
+     * @return the numeric vblue represented by the code point in the
+     * specified rbdix, or -1 if the code point is not b decimbl digit
+     * or if its vblue is too lbrge for the rbdix
+     * @stbble ICU 2.1
      */
-    public static int digit(int ch, int radix)
+    public stbtic int digit(int ch, int rbdix)
     {
         // when ch is out of bounds getProperty == 0
         int props = getProperty(ch);
-        int value;
+        int vblue;
         if (getNumericType(props) == NumericType.DECIMAL) {
-            value = UCharacterProperty.getUnsignedValue(props);
+            vblue = UChbrbcterProperty.getUnsignedVblue(props);
         } else {
-            value = getEuropeanDigit(ch);
+            vblue = getEuropebnDigit(ch);
         }
-        return (0 <= value && value < radix) ? value : -1;
+        return (0 <= vblue && vblue < rbdix) ? vblue : -1;
     }
 
     /**
-     * Returns the Bidirection property of a code point.
-     * For example, 0x0041 (letter A) has the LEFT_TO_RIGHT directional
+     * Returns the Bidirection property of b code point.
+     * For exbmple, 0x0041 (letter A) hbs the LEFT_TO_RIGHT directionbl
      * property.<br>
-     * Result returned belongs to the interface
-     * <a href=UCharacterDirection.html>UCharacterDirection</a>
-     * @param ch the code point to be determined its direction
-     * @return direction constant from UCharacterDirection.
-     * @stable ICU 2.1
+     * Result returned belongs to the interfbce
+     * <b href=UChbrbcterDirection.html>UChbrbcterDirection</b>
+     * @pbrbm ch the code point to be determined its direction
+     * @return direction constbnt from UChbrbcterDirection.
+     * @stbble ICU 2.1
      */
-    public static int getDirection(int ch)
+    public stbtic int getDirection(int ch)
     {
-        return gBdp.getClass(ch);
+        return gBdp.getClbss(ch);
     }
 
     /**
-     * Returns a code point corresponding to the two UTF16 characters.
-     * @param lead the lead char
-     * @param trail the trail char
-     * @return code point if surrogate characters are valid.
-     * @exception IllegalArgumentException thrown when argument characters do
-     *            not form a valid codepoint
-     * @stable ICU 2.1
+     * Returns b code point corresponding to the two UTF16 chbrbcters.
+     * @pbrbm lebd the lebd chbr
+     * @pbrbm trbil the trbil chbr
+     * @return code point if surrogbte chbrbcters bre vblid.
+     * @exception IllegblArgumentException thrown when brgument chbrbcters do
+     *            not form b vblid codepoint
+     * @stbble ICU 2.1
      */
-    public static int getCodePoint(char lead, char trail)
+    public stbtic int getCodePoint(chbr lebd, chbr trbil)
     {
-        if (UTF16.isLeadSurrogate(lead) && UTF16.isTrailSurrogate(trail)) {
-            return UCharacterProperty.getRawSupplementary(lead, trail);
+        if (UTF16.isLebdSurrogbte(lebd) && UTF16.isTrbilSurrogbte(trbil)) {
+            return UChbrbcterProperty.getRbwSupplementbry(lebd, trbil);
         }
-        throw new IllegalArgumentException("Illegal surrogate characters");
+        throw new IllegblArgumentException("Illegbl surrogbte chbrbcters");
     }
 
     /**
-     * <p>Get the "age" of the code point.</p>
-     * <p>The "age" is the Unicode version when the code point was first
-     * designated (as a non-character or for Private Use) or assigned a
-     * character.
-     * <p>This can be useful to avoid emitting code points to receiving
-     * processes that do not accept newer characters.</p>
-     * <p>The data is from the UCD file DerivedAge.txt.</p>
-     * @param ch The code point.
+     * <p>Get the "bge" of the code point.</p>
+     * <p>The "bge" is the Unicode version when the code point wbs first
+     * designbted (bs b non-chbrbcter or for Privbte Use) or bssigned b
+     * chbrbcter.
+     * <p>This cbn be useful to bvoid emitting code points to receiving
+     * processes thbt do not bccept newer chbrbcters.</p>
+     * <p>The dbtb is from the UCD file DerivedAge.txt.</p>
+     * @pbrbm ch The code point.
      * @return the Unicode version number
-     * @stable ICU 2.6
+     * @stbble ICU 2.6
      */
-    public static VersionInfo getAge(int ch)
+    public stbtic VersionInfo getAge(int ch)
     {
         if (ch < MIN_VALUE || ch > MAX_VALUE) {
-        throw new IllegalArgumentException("Codepoint out of bounds");
+        throw new IllegblArgumentException("Codepoint out of bounds");
         }
         return PROPERTY_.getAge(ch);
     }
 
-    // private variables -------------------------------------------------
+    // privbte vbribbles -------------------------------------------------
 
     /**
-     * Database storing the sets of character property
+     * Dbtbbbse storing the sets of chbrbcter property
      */
-    private static final UCharacterProperty PROPERTY_;
+    privbte stbtic finbl UChbrbcterProperty PROPERTY_;
     /**
-     * For optimization
+     * For optimizbtion
      */
-    private static final char[] PROPERTY_TRIE_INDEX_;
-    private static final char[] PROPERTY_TRIE_DATA_;
-    private static final int PROPERTY_INITIAL_VALUE_;
+    privbte stbtic finbl chbr[] PROPERTY_TRIE_INDEX_;
+    privbte stbtic finbl chbr[] PROPERTY_TRIE_DATA_;
+    privbte stbtic finbl int PROPERTY_INITIAL_VALUE_;
 
-    private static final UBiDiProps gBdp;
+    privbte stbtic finbl UBiDiProps gBdp;
 
-    // block to initialise character property database
-    static
+    // block to initiblise chbrbcter property dbtbbbse
+    stbtic
     {
         try
         {
-            PROPERTY_ = UCharacterProperty.getInstance();
+            PROPERTY_ = UChbrbcterProperty.getInstbnce();
             PROPERTY_TRIE_INDEX_ = PROPERTY_.m_trieIndex_;
-            PROPERTY_TRIE_DATA_ = PROPERTY_.m_trieData_;
-            PROPERTY_INITIAL_VALUE_ = PROPERTY_.m_trieInitialValue_;
+            PROPERTY_TRIE_DATA_ = PROPERTY_.m_trieDbtb_;
+            PROPERTY_INITIAL_VALUE_ = PROPERTY_.m_trieInitiblVblue_;
         }
-        catch (Exception e)
+        cbtch (Exception e)
         {
-            throw new MissingResourceException(e.getMessage(),"","");
+            throw new MissingResourceException(e.getMessbge(),"","");
         }
 
         UBiDiProps bdp;
         try {
             bdp=UBiDiProps.getSingleton();
-        } catch(IOException e) {
+        } cbtch(IOException e) {
             bdp=UBiDiProps.getDummy();
         }
         gBdp=bdp;
@@ -336,95 +336,95 @@ public final class UCharacter
     /**
      * Shift to get numeric type
      */
-    private static final int NUMERIC_TYPE_SHIFT_ = 5;
+    privbte stbtic finbl int NUMERIC_TYPE_SHIFT_ = 5;
     /**
-     * Mask to get numeric type
+     * Mbsk to get numeric type
      */
-    private static final int NUMERIC_TYPE_MASK_ = 0x7 << NUMERIC_TYPE_SHIFT_;
+    privbte stbtic finbl int NUMERIC_TYPE_MASK_ = 0x7 << NUMERIC_TYPE_SHIFT_;
 
-    // private methods ---------------------------------------------------
+    // privbte methods ---------------------------------------------------
 
     /**
-     * Getting the digit values of characters like 'A' - 'Z', normal,
-     * half-width and full-width. This method assumes that the other digit
-     * characters are checked by the calling method.
-     * @param ch character to test
-     * @return -1 if ch is not a character of the form 'A' - 'Z', otherwise
+     * Getting the digit vblues of chbrbcters like 'A' - 'Z', normbl,
+     * hblf-width bnd full-width. This method bssumes thbt the other digit
+     * chbrbcters bre checked by the cblling method.
+     * @pbrbm ch chbrbcter to test
+     * @return -1 if ch is not b chbrbcter of the form 'A' - 'Z', otherwise
      *         its corresponding digit will be returned.
      */
-    private static int getEuropeanDigit(int ch) {
-        if ((ch > 0x7a && ch < 0xff21)
-            || ch < 0x41 || (ch > 0x5a && ch < 0x61)
-            || ch > 0xff5a || (ch > 0xff3a && ch < 0xff41)) {
+    privbte stbtic int getEuropebnDigit(int ch) {
+        if ((ch > 0x7b && ch < 0xff21)
+            || ch < 0x41 || (ch > 0x5b && ch < 0x61)
+            || ch > 0xff5b || (ch > 0xff3b && ch < 0xff41)) {
             return -1;
         }
-        if (ch <= 0x7a) {
+        if (ch <= 0x7b) {
             // ch >= 0x41 or ch < 0x61
-            return ch + 10 - ((ch <= 0x5a) ? 0x41 : 0x61);
+            return ch + 10 - ((ch <= 0x5b) ? 0x41 : 0x61);
         }
         // ch >= 0xff21
-        if (ch <= 0xff3a) {
+        if (ch <= 0xff3b) {
             return ch + 10 - 0xff21;
         }
-        // ch >= 0xff41 && ch <= 0xff5a
+        // ch >= 0xff41 && ch <= 0xff5b
         return ch + 10 - 0xff41;
     }
 
     /**
-     * Gets the numeric type of the property argument
-     * @param props 32 bit property
+     * Gets the numeric type of the property brgument
+     * @pbrbm props 32 bit property
      * @return the numeric type
      */
-    private static int getNumericType(int props)
+    privbte stbtic int getNumericType(int props)
     {
         return (props & NUMERIC_TYPE_MASK_) >> NUMERIC_TYPE_SHIFT_;
     }
 
     /**
-     * Gets the property value at the index.
+     * Gets the property vblue bt the index.
      * This is optimized.
-     * Note this is alittle different from CharTrie the index m_trieData_
-     * is never negative.
-     * This is a duplicate of UCharacterProperty.getProperty. For optimization
-     * purposes, this method calls the trie data directly instead of through
-     * UCharacterProperty.getProperty.
-     * @param ch code point whose property value is to be retrieved
-     * @return property value of code point
-     * @stable ICU 2.6
+     * Note this is blittle different from ChbrTrie the index m_trieDbtb_
+     * is never negbtive.
+     * This is b duplicbte of UChbrbcterProperty.getProperty. For optimizbtion
+     * purposes, this method cblls the trie dbtb directly instebd of through
+     * UChbrbcterProperty.getProperty.
+     * @pbrbm ch code point whose property vblue is to be retrieved
+     * @return property vblue of code point
+     * @stbble ICU 2.6
      */
-    private static final int getProperty(int ch)
+    privbte stbtic finbl int getProperty(int ch)
     {
         if (ch < UTF16.LEAD_SURROGATE_MIN_VALUE
             || (ch > UTF16.LEAD_SURROGATE_MAX_VALUE
                 && ch < UTF16.SUPPLEMENTARY_MIN_VALUE)) {
             // BMP codepoint 0000..D7FF or DC00..FFFF
-            try { // using try for ch < 0 is faster than using an if statement
+            try { // using try for ch < 0 is fbster thbn using bn if stbtement
                 return PROPERTY_TRIE_DATA_[
                               (PROPERTY_TRIE_INDEX_[ch >> 5] << 2)
                               + (ch & 0x1f)];
-            } catch (ArrayIndexOutOfBoundsException e) {
+            } cbtch (ArrbyIndexOutOfBoundsException e) {
                 return PROPERTY_INITIAL_VALUE_;
             }
         }
         if (ch <= UTF16.LEAD_SURROGATE_MAX_VALUE) {
-            // lead surrogate D800..DBFF
+            // lebd surrogbte D800..DBFF
             return PROPERTY_TRIE_DATA_[
                               (PROPERTY_TRIE_INDEX_[(0x2800 >> 5) + (ch >> 5)] << 2)
                               + (ch & 0x1f)];
         }
-        // for optimization
+        // for optimizbtion
         if (ch <= UTF16.CODEPOINT_MAX_VALUE) {
-            // supplementary code point 10000..10FFFF
-            // look at the construction of supplementary characters
-            // trail forms the ends of it.
-            return PROPERTY_.m_trie_.getSurrogateValue(
-                                      UTF16.getLeadSurrogate(ch),
-                                      (char)(ch & 0x3ff));
+            // supplementbry code point 10000..10FFFF
+            // look bt the construction of supplementbry chbrbcters
+            // trbil forms the ends of it.
+            return PROPERTY_.m_trie_.getSurrogbteVblue(
+                                      UTF16.getLebdSurrogbte(ch),
+                                      (chbr)(ch & 0x3ff));
         }
-        // return m_dataOffset_ if there is an error, in this case we return
-        // the default value: m_initialValue_
-        // we cannot assume that m_initialValue_ is at offset 0
-        // this is for optimization.
+        // return m_dbtbOffset_ if there is bn error, in this cbse we return
+        // the defbult vblue: m_initiblVblue_
+        // we cbnnot bssume thbt m_initiblVblue_ is bt offset 0
+        // this is for optimizbtion.
         return PROPERTY_INITIAL_VALUE_;
     }
 

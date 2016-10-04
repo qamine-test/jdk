@@ -1,114 +1,114 @@
 /*
- * Copyright (c) 2007, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.management.jmxremote;
+pbckbge sun.mbnbgement.jmxremote;
 
-import java.io.IOException;
-import java.net.InetAddress;
-import java.net.NetworkInterface;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.net.SocketException;
-import java.rmi.server.RMIServerSocketFactory;
-import java.util.Enumeration;
+import jbvb.io.IOException;
+import jbvb.net.InetAddress;
+import jbvb.net.NetworkInterfbce;
+import jbvb.net.ServerSocket;
+import jbvb.net.Socket;
+import jbvb.net.SocketException;
+import jbvb.rmi.server.RMIServerSocketFbctory;
+import jbvb.util.Enumerbtion;
 
 /**
- * This RMI server socket factory creates server sockets that
- * will only accept connection requests from clients running
- * on the host where the RMI remote objects have been exported.
+ * This RMI server socket fbctory crebtes server sockets thbt
+ * will only bccept connection requests from clients running
+ * on the host where the RMI remote objects hbve been exported.
  */
-public final class LocalRMIServerSocketFactory implements RMIServerSocketFactory {
+public finbl clbss LocblRMIServerSocketFbctory implements RMIServerSocketFbctory {
     /**
-     * Creates a server socket that only accepts connection requests from
-     * clients running on the host where the RMI remote objects have been
+     * Crebtes b server socket thbt only bccepts connection requests from
+     * clients running on the host where the RMI remote objects hbve been
      * exported.
      */
-    public ServerSocket createServerSocket(int port) throws IOException {
+    public ServerSocket crebteServerSocket(int port) throws IOException {
         return new ServerSocket(port) {
             @Override
-            public Socket accept() throws IOException {
-                final Socket socket = super.accept();
-                final InetAddress remoteAddr = socket.getInetAddress();
-                final String msg = "The server sockets created using the " +
-                       "LocalRMIServerSocketFactory only accept connections " +
+            public Socket bccept() throws IOException {
+                finbl Socket socket = super.bccept();
+                finbl InetAddress remoteAddr = socket.getInetAddress();
+                finbl String msg = "The server sockets crebted using the " +
+                       "LocblRMIServerSocketFbctory only bccept connections " +
                        "from clients running on the host where the RMI " +
-                       "remote objects have been exported.";
+                       "remote objects hbve been exported.";
 
                 if (remoteAddr == null) {
-                    // Though unlikeky, the socket could be already
-                    // closed... Send a more detailed message in
-                    // this case. Also avoid throwing NullPointerExceptiion
+                    // Though unlikeky, the socket could be blrebdy
+                    // closed... Send b more detbiled messbge in
+                    // this cbse. Also bvoid throwing NullPointerExceptiion
                     //
-                    String details = "";
+                    String detbils = "";
                     if (socket.isClosed()) {
-                        details = " Socket is closed.";
+                        detbils = " Socket is closed.";
                     } else if (!socket.isConnected()) {
-                        details = " Socket is not connected";
+                        detbils = " Socket is not connected";
                     }
                     try {
                         socket.close();
-                    } catch (Exception ok) {
-                        // ok - this is just cleanup before throwing detailed
+                    } cbtch (Exception ok) {
+                        // ok - this is just clebnup before throwing detbiled
                         // exception.
                     }
                     throw new IOException(msg +
-                            " Couldn't determine client address." +
-                            details);
-                } else if (remoteAddr.isLoopbackAddress()) {
-                    // local address: accept the connection.
+                            " Couldn't determine client bddress." +
+                            detbils);
+                } else if (remoteAddr.isLoopbbckAddress()) {
+                    // locbl bddress: bccept the connection.
                     return socket;
                 }
-                // Retrieve all the network interfaces on this host.
-                Enumeration<NetworkInterface> nis;
+                // Retrieve bll the network interfbces on this host.
+                Enumerbtion<NetworkInterfbce> nis;
                 try {
-                    nis = NetworkInterface.getNetworkInterfaces();
-                } catch (SocketException e) {
+                    nis = NetworkInterfbce.getNetworkInterfbces();
+                } cbtch (SocketException e) {
                     try {
                         socket.close();
-                    } catch (IOException ioe) {
+                    } cbtch (IOException ioe) {
                         // Ignore...
                     }
                     throw new IOException(msg, e);
                 }
-                // Walk through the network interfaces to see
-                // if any of them matches the client's address.
-                // If true, then the client's address is local.
-                while (nis.hasMoreElements()) {
-                    NetworkInterface ni = nis.nextElement();
-                    Enumeration<InetAddress> addrs = ni.getInetAddresses();
-                    while (addrs.hasMoreElements()) {
-                        InetAddress localAddr = addrs.nextElement();
-                        if (localAddr.equals(remoteAddr)) {
+                // Wblk through the network interfbces to see
+                // if bny of them mbtches the client's bddress.
+                // If true, then the client's bddress is locbl.
+                while (nis.hbsMoreElements()) {
+                    NetworkInterfbce ni = nis.nextElement();
+                    Enumerbtion<InetAddress> bddrs = ni.getInetAddresses();
+                    while (bddrs.hbsMoreElements()) {
+                        InetAddress locblAddr = bddrs.nextElement();
+                        if (locblAddr.equbls(remoteAddr)) {
                             return socket;
                         }
                     }
                 }
-                // The client's address is remote so refuse the connection.
+                // The client's bddress is remote so refuse the connection.
                 try {
                     socket.close();
-                } catch (IOException ioe) {
+                } cbtch (IOException ioe) {
                     // Ignore...
                 }
                 throw new IOException(msg);
@@ -117,19 +117,19 @@ public final class LocalRMIServerSocketFactory implements RMIServerSocketFactory
     }
 
     /**
-     * Two LocalRMIServerSocketFactory objects
-     * are equal if they are of the same type.
+     * Two LocblRMIServerSocketFbctory objects
+     * bre equbl if they bre of the sbme type.
      */
     @Override
-    public boolean equals(Object obj) {
-        return (obj instanceof LocalRMIServerSocketFactory);
+    public boolebn equbls(Object obj) {
+        return (obj instbnceof LocblRMIServerSocketFbctory);
     }
 
     /**
-     * Returns a hash code value for this LocalRMIServerSocketFactory.
+     * Returns b hbsh code vblue for this LocblRMIServerSocketFbctory.
      */
     @Override
-    public int hashCode() {
-        return getClass().hashCode();
+    public int hbshCode() {
+        return getClbss().hbshCode();
     }
 }

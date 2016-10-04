@@ -1,134 +1,134 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.security.sasl;
+pbckbge com.sun.security.sbsl;
 
-import javax.security.sasl.SaslException;
-import javax.security.sasl.Sasl;
+import jbvbx.security.sbsl.SbslException;
+import jbvbx.security.sbsl.Sbsl;
 
 // For HMAC_MD5
-import java.security.NoSuchAlgorithmException;
-import java.security.MessageDigest;
+import jbvb.security.NoSuchAlgorithmException;
+import jbvb.security.MessbgeDigest;
 
-import java.util.Arrays;
-import java.util.logging.Logger;
+import jbvb.util.Arrbys;
+import jbvb.util.logging.Logger;
 
 /**
-  * Base class for implementing CRAM-MD5 client and server mechanisms.
+  * Bbse clbss for implementing CRAM-MD5 client bnd server mechbnisms.
   *
-  * @author Vincent Ryan
-  * @author Rosanna Lee
+  * @buthor Vincent Rybn
+  * @buthor Rosbnnb Lee
   */
-abstract class CramMD5Base {
-    protected boolean completed = false;
-    protected boolean aborted = false;
+bbstrbct clbss CrbmMD5Bbse {
+    protected boolebn completed = fblse;
+    protected boolebn bborted = fblse;
     protected byte[] pw;
 
-    protected CramMD5Base() {
+    protected CrbmMD5Bbse() {
         initLogger();
     }
 
     /**
-     * Retrieves this mechanism's name.
+     * Retrieves this mechbnism's nbme.
      *
      * @return  The string "CRAM-MD5".
      */
-    public String getMechanismName() {
+    public String getMechbnismNbme() {
         return "CRAM-MD5";
     }
 
     /**
-     * Determines whether this mechanism has completed.
-     * CRAM-MD5 completes after processing one challenge from the server.
+     * Determines whether this mechbnism hbs completed.
+     * CRAM-MD5 completes bfter processing one chbllenge from the server.
      *
-     * @return true if has completed; false otherwise;
+     * @return true if hbs completed; fblse otherwise;
      */
-    public boolean isComplete() {
+    public boolebn isComplete() {
         return completed;
     }
 
     /**
-      * Unwraps the incoming buffer. CRAM-MD5 supports no security layer.
+      * Unwrbps the incoming buffer. CRAM-MD5 supports no security lbyer.
       *
-      * @throws SaslException If attempt to use this method.
+      * @throws SbslException If bttempt to use this method.
       */
-    public byte[] unwrap(byte[] incoming, int offset, int len)
-        throws SaslException {
+    public byte[] unwrbp(byte[] incoming, int offset, int len)
+        throws SbslException {
         if (completed) {
-            throw new IllegalStateException(
-                "CRAM-MD5 supports neither integrity nor privacy");
+            throw new IllegblStbteException(
+                "CRAM-MD5 supports neither integrity nor privbcy");
         } else {
-            throw new IllegalStateException(
-                "CRAM-MD5 authentication not completed");
+            throw new IllegblStbteException(
+                "CRAM-MD5 buthenticbtion not completed");
         }
     }
 
     /**
-      * Wraps the outgoing buffer. CRAM-MD5 supports no security layer.
+      * Wrbps the outgoing buffer. CRAM-MD5 supports no security lbyer.
       *
-      * @throws SaslException If attempt to use this method.
+      * @throws SbslException If bttempt to use this method.
       */
-    public byte[] wrap(byte[] outgoing, int offset, int len) throws SaslException {
+    public byte[] wrbp(byte[] outgoing, int offset, int len) throws SbslException {
         if (completed) {
-            throw new IllegalStateException(
-                "CRAM-MD5 supports neither integrity nor privacy");
+            throw new IllegblStbteException(
+                "CRAM-MD5 supports neither integrity nor privbcy");
         } else {
-            throw new IllegalStateException(
-                "CRAM-MD5 authentication not completed");
+            throw new IllegblStbteException(
+                "CRAM-MD5 buthenticbtion not completed");
         }
     }
 
     /**
-     * Retrieves the negotiated property.
-     * This method can be called only after the authentication exchange has
-     * completed (i.e., when <tt>isComplete()</tt> returns true); otherwise, a
-     * <tt>SaslException</tt> is thrown.
+     * Retrieves the negotibted property.
+     * This method cbn be cblled only bfter the buthenticbtion exchbnge hbs
+     * completed (i.e., when <tt>isComplete()</tt> returns true); otherwise, b
+     * <tt>SbslException</tt> is thrown.
      *
-     * @return value of property; only QOP is applicable to CRAM-MD5.
-     * @exception IllegalStateException if this authentication exchange has not completed
+     * @return vblue of property; only QOP is bpplicbble to CRAM-MD5.
+     * @exception IllegblStbteException if this buthenticbtion exchbnge hbs not completed
      */
-    public Object getNegotiatedProperty(String propName) {
+    public Object getNegotibtedProperty(String propNbme) {
         if (completed) {
-            if (propName.equals(Sasl.QOP)) {
-                return "auth";
+            if (propNbme.equbls(Sbsl.QOP)) {
+                return "buth";
             } else {
                 return null;
             }
         } else {
-            throw new IllegalStateException(
-                "CRAM-MD5 authentication not completed");
+            throw new IllegblStbteException(
+                "CRAM-MD5 buthenticbtion not completed");
         }
     }
 
-    public void dispose() throws SaslException {
-        clearPassword();
+    public void dispose() throws SbslException {
+        clebrPbssword();
     }
 
-    protected void clearPassword() {
+    protected void clebrPbssword() {
         if (pw != null) {
-            // zero out password
+            // zero out pbssword
             for (int i = 0; i < pw.length; i++) {
                 pw[i] = (byte)0;
             }
@@ -136,78 +136,78 @@ abstract class CramMD5Base {
         }
     }
 
-    protected void finalize() {
-        clearPassword();
+    protected void finblize() {
+        clebrPbssword();
     }
 
-    static private final int MD5_BLOCKSIZE = 64;
+    stbtic privbte finbl int MD5_BLOCKSIZE = 64;
     /**
-     * Hashes its input arguments according to HMAC-MD5 (RFC 2104)
-     * and returns the resulting digest in its ASCII representation.
+     * Hbshes its input brguments bccording to HMAC-MD5 (RFC 2104)
+     * bnd returns the resulting digest in its ASCII representbtion.
      *
-     * HMAC-MD5 function is described as follows:
+     * HMAC-MD5 function is described bs follows:
      *
-     *       MD5(key XOR opad, MD5(key XOR ipad, text))
+     *       MD5(key XOR opbd, MD5(key XOR ipbd, text))
      *
-     * where key  is an n byte key
-     *       ipad is the byte 0x36 repeated 64 times
-     *       opad is the byte 0x5c repeated 64 times
-     *       text is the data to be protected
+     * where key  is bn n byte key
+     *       ipbd is the byte 0x36 repebted 64 times
+     *       opbd is the byte 0x5c repebted 64 times
+     *       text is the dbtb to be protected
      */
-    final static String HMAC_MD5(byte[] key, byte[] text)
+    finbl stbtic String HMAC_MD5(byte[] key, byte[] text)
         throws NoSuchAlgorithmException {
 
-        MessageDigest md5 = MessageDigest.getInstance("MD5");
+        MessbgeDigest md5 = MessbgeDigest.getInstbnce("MD5");
 
-        /* digest the key if longer than 64 bytes */
+        /* digest the key if longer thbn 64 bytes */
         if (key.length > MD5_BLOCKSIZE) {
             key = md5.digest(key);
         }
 
-        byte[] ipad = new byte[MD5_BLOCKSIZE];  /* inner padding */
-        byte[] opad = new byte[MD5_BLOCKSIZE];  /* outer padding */
+        byte[] ipbd = new byte[MD5_BLOCKSIZE];  /* inner pbdding */
+        byte[] opbd = new byte[MD5_BLOCKSIZE];  /* outer pbdding */
         byte[] digest;
         int i;
 
-        /* store key in pads */
+        /* store key in pbds */
         for (i = 0; i < key.length; i++) {
-            ipad[i] = key[i];
-            opad[i] = key[i];
+            ipbd[i] = key[i];
+            opbd[i] = key[i];
         }
 
-        /* XOR key with pads */
+        /* XOR key with pbds */
         for (i = 0; i < MD5_BLOCKSIZE; i++) {
-            ipad[i] ^= 0x36;
-            opad[i] ^= 0x5c;
+            ipbd[i] ^= 0x36;
+            opbd[i] ^= 0x5c;
         }
 
         /* inner MD5 */
-        md5.update(ipad);
-        md5.update(text);
+        md5.updbte(ipbd);
+        md5.updbte(text);
         digest = md5.digest();
 
         /* outer MD5 */
-        md5.update(opad);
-        md5.update(digest);
+        md5.updbte(opbd);
+        md5.updbte(digest);
         digest = md5.digest();
 
-        // Get character representation of digest
+        // Get chbrbcter representbtion of digest
         StringBuilder digestString = new StringBuilder();
 
         for (i = 0; i < digest.length; i++) {
             if ((digest[i] & 0x000000ff) < 0x10) {
-                digestString.append("0" +
+                digestString.bppend("0" +
                     Integer.toHexString(digest[i] & 0x000000ff));
             } else {
-                digestString.append(
+                digestString.bppend(
                     Integer.toHexString(digest[i] & 0x000000ff));
             }
         }
 
-        Arrays.fill(ipad, (byte)0);
-        Arrays.fill(opad, (byte)0);
-        ipad = null;
-        opad = null;
+        Arrbys.fill(ipbd, (byte)0);
+        Arrbys.fill(opbd, (byte)0);
+        ipbd = null;
+        opbd = null;
 
         return (digestString.toString());
     }
@@ -215,14 +215,14 @@ abstract class CramMD5Base {
     /**
      * Sets logger field.
      */
-    private static synchronized void initLogger() {
+    privbte stbtic synchronized void initLogger() {
         if (logger == null) {
             logger = Logger.getLogger(SASL_LOGGER_NAME);
         }
     }
     /**
-     * Logger for debug messages
+     * Logger for debug messbges
      */
-    private static final String SASL_LOGGER_NAME = "javax.security.sasl";
-    protected static Logger logger;  // set in initLogger(); lazily loads logger
+    privbte stbtic finbl String SASL_LOGGER_NAME = "jbvbx.security.sbsl";
+    protected stbtic Logger logger;  // set in initLogger(); lbzily lobds logger
 }

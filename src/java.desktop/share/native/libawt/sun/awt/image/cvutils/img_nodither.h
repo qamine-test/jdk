@@ -1,52 +1,52 @@
 /*
- * Copyright (c) 1996, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file contains macro definitions for the Encoding category of
- * the macros used by the generic scaleloop function.
+ * This file contbins mbcro definitions for the Encoding cbtegory of
+ * the mbcros used by the generic scbleloop function.
  *
- * This implementation performs no encoding of output pixels at all
- * and is only useful for output pixel formats which consist of 3
- * bytes per pixel containing the red, green and blue components.
- * Since the components are stored explicitly in their own memory
- * accesses, they do not need to be encoded into a single monolithic
- * pixel first.  The value of the "pixel" variable will be undefined
- * during the output stage of the generic scale loop if this file
+ * This implementbtion performs no encoding of output pixels bt bll
+ * bnd is only useful for output pixel formbts which consist of 3
+ * bytes per pixel contbining the red, green bnd blue components.
+ * Since the components bre stored explicitly in their own memory
+ * bccesses, they do not need to be encoded into b single monolithic
+ * pixel first.  The vblue of the "pixel" vbribble will be undefined
+ * during the output stbge of the generic scble loop if this file
  * is used.
  */
 
-#define DeclareDitherVars
+#define DeclbreDitherVbrs
 
-#define InitDither(cvdata, clrdata, dstTW)                      \
+#define InitDither(cvdbtb, clrdbtb, dstTW)                      \
     do {} while (0)
 
-#define StartDitherLine(cvdata, dstX1, dstY)                    \
+#define StbrtDitherLine(cvdbtb, dstX1, dstY)                    \
     do {} while (0)
 
 #define DitherPixel(dstX, dstY, pixel, red, green, blue)        \
     do {} while (0)
 
-#define DitherBufComplete(cvdata, dstX1)                        \
+#define DitherBufComplete(cvdbtb, dstX1)                        \
     do {} while (0)

@@ -3,113 +3,113 @@
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Licensed to the Apbche Softwbre Foundbtion (ASF) under one
+ * or more contributor license bgreements. See the NOTICE file
+ * distributed with this work for bdditionbl informbtion
+ * regbrding copyright ownership. The ASF licenses this file
+ * to you under the Apbche License, Version 2.0 (the
+ * "License"); you mby not use this file except in complibnce
+ * with the License. You mby obtbin b copy of the License bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.bpbche.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unless required by bpplicbble lbw or bgreed to in writing,
+ * softwbre distributed under the License is distributed on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
+ * specific lbngubge governing permissions bnd limitbtions
  * under the License.
  */
-package com.sun.org.apache.xml.internal.security.utils;
+pbckbge com.sun.org.bpbche.xml.internbl.security.utils;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
+import jbvb.io.IOException;
+import jbvb.io.OutputStrebm;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import jbvb.util.ArrbyList;
+import jbvb.util.HbshSet;
+import jbvb.util.Iterbtor;
+import jbvb.util.List;
+import jbvb.util.Set;
 
-import com.sun.org.apache.xml.internal.security.c14n.CanonicalizationException;
-import com.sun.org.apache.xml.internal.security.c14n.Canonicalizer;
-import com.sun.org.apache.xml.internal.security.c14n.InvalidCanonicalizerException;
+import com.sun.org.bpbche.xml.internbl.security.c14n.CbnonicblizbtionException;
+import com.sun.org.bpbche.xml.internbl.security.c14n.Cbnonicblizer;
+import com.sun.org.bpbche.xml.internbl.security.c14n.InvblidCbnonicblizerException;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.NbmedNodeMbp;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.ProcessingInstruction;
 import org.w3c.dom.Text;
 
 /**
- * DOM and XML accessibility and comfort functions.
+ * DOM bnd XML bccessibility bnd comfort functions.
  *
- * @author Christian Geuer-Pollmann
+ * @buthor Christibn Geuer-Pollmbnn
  */
-public class XMLUtils {
+public clbss XMLUtils {
 
-    private static boolean ignoreLineBreaks =
-        AccessController.doPrivileged(new PrivilegedAction<Boolean>() {
-            public Boolean run() {
-                return Boolean.valueOf(Boolean.getBoolean
-                    ("com.sun.org.apache.xml.internal.security.ignoreLineBreaks"));
+    privbte stbtic boolebn ignoreLineBrebks =
+        AccessController.doPrivileged(new PrivilegedAction<Boolebn>() {
+            public Boolebn run() {
+                return Boolebn.vblueOf(Boolebn.getBoolebn
+                    ("com.sun.org.bpbche.xml.internbl.security.ignoreLineBrebks"));
             }
-        }).booleanValue();
+        }).boolebnVblue();
 
-    private static volatile String dsPrefix = "ds";
-    private static volatile String ds11Prefix = "dsig11";
-    private static volatile String xencPrefix = "xenc";
-    private static volatile String xenc11Prefix = "xenc11";
+    privbte stbtic volbtile String dsPrefix = "ds";
+    privbte stbtic volbtile String ds11Prefix = "dsig11";
+    privbte stbtic volbtile String xencPrefix = "xenc";
+    privbte stbtic volbtile String xenc11Prefix = "xenc11";
 
-    /** {@link org.apache.commons.logging} logging facility */
-    private static final java.util.logging.Logger log =
-        java.util.logging.Logger.getLogger(XMLUtils.class.getName());
+    /** {@link org.bpbche.commons.logging} logging fbcility */
+    privbte stbtic finbl jbvb.util.logging.Logger log =
+        jbvb.util.logging.Logger.getLogger(XMLUtils.clbss.getNbme());
 
 
     /**
      * Constructor XMLUtils
      *
      */
-    private XMLUtils() {
-        // we don't allow instantiation
+    privbte XMLUtils() {
+        // we don't bllow instbntibtion
     }
 
     /**
-     * Set the prefix for the digital signature namespace
-     * @param prefix the new prefix for the digital signature namespace
+     * Set the prefix for the digitbl signbture nbmespbce
+     * @pbrbm prefix the new prefix for the digitbl signbture nbmespbce
      */
-    public static void setDsPrefix(String prefix) {
+    public stbtic void setDsPrefix(String prefix) {
         dsPrefix = prefix;
     }
 
     /**
-     * Set the prefix for the digital signature 1.1 namespace
-     * @param prefix the new prefix for the digital signature 1.1 namespace
+     * Set the prefix for the digitbl signbture 1.1 nbmespbce
+     * @pbrbm prefix the new prefix for the digitbl signbture 1.1 nbmespbce
      */
-    public static void setDs11Prefix(String prefix) {
+    public stbtic void setDs11Prefix(String prefix) {
         ds11Prefix = prefix;
     }
 
     /**
-     * Set the prefix for the encryption namespace
-     * @param prefix the new prefix for the encryption namespace
+     * Set the prefix for the encryption nbmespbce
+     * @pbrbm prefix the new prefix for the encryption nbmespbce
      */
-    public static void setXencPrefix(String prefix) {
+    public stbtic void setXencPrefix(String prefix) {
         xencPrefix = prefix;
     }
 
     /**
-     * Set the prefix for the encryption namespace 1.1
-     * @param prefix the new prefix for the encryption namespace 1.1
+     * Set the prefix for the encryption nbmespbce 1.1
+     * @pbrbm prefix the new prefix for the encryption nbmespbce 1.1
      */
-    public static void setXenc11Prefix(String prefix) {
+    public stbtic void setXenc11Prefix(String prefix) {
         xenc11Prefix = prefix;
     }
 
-    public static Element getNextElement(Node el) {
+    public stbtic Element getNextElement(Node el) {
         Node node = el;
         while ((node != null) && (node.getNodeType() != Node.ELEMENT_NODE)) {
             node = node.getNextSibling();
@@ -118,39 +118,39 @@ public class XMLUtils {
     }
 
     /**
-     * @param rootNode
-     * @param result
-     * @param exclude
-     * @param com whether comments or not
+     * @pbrbm rootNode
+     * @pbrbm result
+     * @pbrbm exclude
+     * @pbrbm com whether comments or not
      */
-    public static void getSet(Node rootNode, Set<Node> result, Node exclude, boolean com) {
-        if ((exclude != null) && isDescendantOrSelf(exclude, rootNode)) {
+    public stbtic void getSet(Node rootNode, Set<Node> result, Node exclude, boolebn com) {
+        if ((exclude != null) && isDescendbntOrSelf(exclude, rootNode)) {
             return;
         }
         getSetRec(rootNode, result, exclude, com);
     }
 
-    @SuppressWarnings("fallthrough")
-    private static void getSetRec(final Node rootNode, final Set<Node> result,
-                                final Node exclude, final boolean com) {
+    @SuppressWbrnings("fbllthrough")
+    privbte stbtic void getSetRec(finbl Node rootNode, finbl Set<Node> result,
+                                finbl Node exclude, finbl boolebn com) {
         if (rootNode == exclude) {
             return;
         }
         switch (rootNode.getNodeType()) {
-        case Node.ELEMENT_NODE:
-            result.add(rootNode);
+        cbse Node.ELEMENT_NODE:
+            result.bdd(rootNode);
             Element el = (Element)rootNode;
-            if (el.hasAttributes()) {
-                NamedNodeMap nl = el.getAttributes();
+            if (el.hbsAttributes()) {
+                NbmedNodeMbp nl = el.getAttributes();
                 for (int i = 0;i < nl.getLength(); i++) {
-                    result.add(nl.item(i));
+                    result.bdd(nl.item(i));
                 }
             }
             //no return keep working
-        case Node.DOCUMENT_NODE:
+        cbse Node.DOCUMENT_NODE:
             for (Node r = rootNode.getFirstChild(); r != null; r = r.getNextSibling()) {
                 if (r.getNodeType() == Node.TEXT_NODE) {
-                    result.add(r);
+                    result.bdd(r);
                     while ((r != null) && (r.getNodeType() == Node.TEXT_NODE)) {
                         r = r.getNextSibling();
                     }
@@ -161,112 +161,112 @@ public class XMLUtils {
                 getSetRec(r, result, exclude, com);
             }
             return;
-        case Node.COMMENT_NODE:
+        cbse Node.COMMENT_NODE:
             if (com) {
-                result.add(rootNode);
+                result.bdd(rootNode);
             }
             return;
-        case Node.DOCUMENT_TYPE_NODE:
+        cbse Node.DOCUMENT_TYPE_NODE:
             return;
-        default:
-            result.add(rootNode);
+        defbult:
+            result.bdd(rootNode);
         }
     }
 
 
     /**
-     * Outputs a DOM tree to an {@link OutputStream}.
+     * Outputs b DOM tree to bn {@link OutputStrebm}.
      *
-     * @param contextNode root node of the DOM tree
-     * @param os the {@link OutputStream}
+     * @pbrbm contextNode root node of the DOM tree
+     * @pbrbm os the {@link OutputStrebm}
      */
-    public static void outputDOM(Node contextNode, OutputStream os) {
-        XMLUtils.outputDOM(contextNode, os, false);
+    public stbtic void outputDOM(Node contextNode, OutputStrebm os) {
+        XMLUtils.outputDOM(contextNode, os, fblse);
     }
 
     /**
-     * Outputs a DOM tree to an {@link OutputStream}. <I>If an Exception is
-     * thrown during execution, it's StackTrace is output to System.out, but the
+     * Outputs b DOM tree to bn {@link OutputStrebm}. <I>If bn Exception is
+     * thrown during execution, it's StbckTrbce is output to System.out, but the
      * Exception is not re-thrown.</I>
      *
-     * @param contextNode root node of the DOM tree
-     * @param os the {@link OutputStream}
-     * @param addPreamble
+     * @pbrbm contextNode root node of the DOM tree
+     * @pbrbm os the {@link OutputStrebm}
+     * @pbrbm bddPrebmble
      */
-    public static void outputDOM(Node contextNode, OutputStream os, boolean addPreamble) {
+    public stbtic void outputDOM(Node contextNode, OutputStrebm os, boolebn bddPrebmble) {
         try {
-            if (addPreamble) {
+            if (bddPrebmble) {
                 os.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n".getBytes("UTF-8"));
             }
 
-            os.write(Canonicalizer.getInstance(
-                Canonicalizer.ALGO_ID_C14N_WITH_COMMENTS).canonicalizeSubtree(contextNode)
+            os.write(Cbnonicblizer.getInstbnce(
+                Cbnonicblizer.ALGO_ID_C14N_WITH_COMMENTS).cbnonicblizeSubtree(contextNode)
             );
-        } catch (IOException ex) {
-            if (log.isLoggable(java.util.logging.Level.FINE)) {
-                log.log(java.util.logging.Level.FINE, ex.getMessage(), ex);
+        } cbtch (IOException ex) {
+            if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+                log.log(jbvb.util.logging.Level.FINE, ex.getMessbge(), ex);
             }
         }
-        catch (InvalidCanonicalizerException ex) {
-            if (log.isLoggable(java.util.logging.Level.FINE)) {
-                log.log(java.util.logging.Level.FINE, ex.getMessage(), ex);
+        cbtch (InvblidCbnonicblizerException ex) {
+            if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+                log.log(jbvb.util.logging.Level.FINE, ex.getMessbge(), ex);
             }
-        } catch (CanonicalizationException ex) {
-            if (log.isLoggable(java.util.logging.Level.FINE)) {
-                log.log(java.util.logging.Level.FINE, ex.getMessage(), ex);
+        } cbtch (CbnonicblizbtionException ex) {
+            if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+                log.log(jbvb.util.logging.Level.FINE, ex.getMessbge(), ex);
             }
         }
     }
 
     /**
-     * Serializes the <CODE>contextNode</CODE> into the OutputStream, <I>but
-     * suppresses all Exceptions</I>.
+     * Seriblizes the <CODE>contextNode</CODE> into the OutputStrebm, <I>but
+     * suppresses bll Exceptions</I>.
      * <BR />
      * NOTE: <I>This should only be used for debugging purposes,
-     * NOT in a production environment; this method ignores all exceptions,
-     * so you won't notice if something goes wrong. If you're asking what is to
-     * be used in a production environment, simply use the code inside the
-     * <code>try{}</code> statement, but handle the Exceptions appropriately.</I>
+     * NOT in b production environment; this method ignores bll exceptions,
+     * so you won't notice if something goes wrong. If you're bsking whbt is to
+     * be used in b production environment, simply use the code inside the
+     * <code>try{}</code> stbtement, but hbndle the Exceptions bppropribtely.</I>
      *
-     * @param contextNode
-     * @param os
+     * @pbrbm contextNode
+     * @pbrbm os
      */
-    public static void outputDOMc14nWithComments(Node contextNode, OutputStream os) {
+    public stbtic void outputDOMc14nWithComments(Node contextNode, OutputStrebm os) {
         try {
-            os.write(Canonicalizer.getInstance(
-                Canonicalizer.ALGO_ID_C14N_WITH_COMMENTS).canonicalizeSubtree(contextNode)
+            os.write(Cbnonicblizer.getInstbnce(
+                Cbnonicblizer.ALGO_ID_C14N_WITH_COMMENTS).cbnonicblizeSubtree(contextNode)
             );
-        } catch (IOException ex) {
-            if (log.isLoggable(java.util.logging.Level.FINE)) {
-                log.log(java.util.logging.Level.FINE, ex.getMessage(), ex);
+        } cbtch (IOException ex) {
+            if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+                log.log(jbvb.util.logging.Level.FINE, ex.getMessbge(), ex);
             }
-            // throw new RuntimeException(ex.getMessage());
-        } catch (InvalidCanonicalizerException ex) {
-            if (log.isLoggable(java.util.logging.Level.FINE)) {
-                log.log(java.util.logging.Level.FINE, ex.getMessage(), ex);
+            // throw new RuntimeException(ex.getMessbge());
+        } cbtch (InvblidCbnonicblizerException ex) {
+            if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+                log.log(jbvb.util.logging.Level.FINE, ex.getMessbge(), ex);
             }
-            // throw new RuntimeException(ex.getMessage());
-        } catch (CanonicalizationException ex) {
-            if (log.isLoggable(java.util.logging.Level.FINE)) {
-                log.log(java.util.logging.Level.FINE, ex.getMessage(), ex);
+            // throw new RuntimeException(ex.getMessbge());
+        } cbtch (CbnonicblizbtionException ex) {
+            if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+                log.log(jbvb.util.logging.Level.FINE, ex.getMessbge(), ex);
             }
-            // throw new RuntimeException(ex.getMessage());
+            // throw new RuntimeException(ex.getMessbge());
         }
     }
 
     /**
      * Method getFullTextChildrenFromElement
      *
-     * @param element
+     * @pbrbm element
      * @return the string of children
      */
-    public static String getFullTextChildrenFromElement(Element element) {
+    public stbtic String getFullTextChildrenFromElement(Element element) {
         StringBuilder sb = new StringBuilder();
 
         Node child = element.getFirstChild();
         while (child != null) {
             if (child.getNodeType() == Node.TEXT_NODE) {
-                sb.append(((Text)child).getData());
+                sb.bppend(((Text)child).getDbtb());
             }
             child = child.getNextSibling();
         }
@@ -275,187 +275,187 @@ public class XMLUtils {
     }
 
     /**
-     * Creates an Element in the XML Signature specification namespace.
+     * Crebtes bn Element in the XML Signbture specificbtion nbmespbce.
      *
-     * @param doc the factory Document
-     * @param elementName the local name of the Element
+     * @pbrbm doc the fbctory Document
+     * @pbrbm elementNbme the locbl nbme of the Element
      * @return the Element
      */
-    public static Element createElementInSignatureSpace(Document doc, String elementName) {
+    public stbtic Element crebteElementInSignbtureSpbce(Document doc, String elementNbme) {
         if (doc == null) {
             throw new RuntimeException("Document is null");
         }
 
         if ((dsPrefix == null) || (dsPrefix.length() == 0)) {
-            return doc.createElementNS(Constants.SignatureSpecNS, elementName);
+            return doc.crebteElementNS(Constbnts.SignbtureSpecNS, elementNbme);
         }
-        return doc.createElementNS(Constants.SignatureSpecNS, dsPrefix + ":" + elementName);
+        return doc.crebteElementNS(Constbnts.SignbtureSpecNS, dsPrefix + ":" + elementNbme);
     }
 
     /**
-     * Creates an Element in the XML Signature 1.1 specification namespace.
+     * Crebtes bn Element in the XML Signbture 1.1 specificbtion nbmespbce.
      *
-     * @param doc the factory Document
-     * @param elementName the local name of the Element
+     * @pbrbm doc the fbctory Document
+     * @pbrbm elementNbme the locbl nbme of the Element
      * @return the Element
      */
-    public static Element createElementInSignature11Space(Document doc, String elementName) {
+    public stbtic Element crebteElementInSignbture11Spbce(Document doc, String elementNbme) {
         if (doc == null) {
             throw new RuntimeException("Document is null");
         }
 
         if ((ds11Prefix == null) || (ds11Prefix.length() == 0)) {
-            return doc.createElementNS(Constants.SignatureSpec11NS, elementName);
+            return doc.crebteElementNS(Constbnts.SignbtureSpec11NS, elementNbme);
         }
-        return doc.createElementNS(Constants.SignatureSpec11NS, ds11Prefix + ":" + elementName);
+        return doc.crebteElementNS(Constbnts.SignbtureSpec11NS, ds11Prefix + ":" + elementNbme);
     }
 
     /**
-     * Creates an Element in the XML Encryption specification namespace.
+     * Crebtes bn Element in the XML Encryption specificbtion nbmespbce.
      *
-     * @param doc the factory Document
-     * @param elementName the local name of the Element
+     * @pbrbm doc the fbctory Document
+     * @pbrbm elementNbme the locbl nbme of the Element
      * @return the Element
      */
-    public static Element createElementInEncryptionSpace(Document doc, String elementName) {
+    public stbtic Element crebteElementInEncryptionSpbce(Document doc, String elementNbme) {
         if (doc == null) {
             throw new RuntimeException("Document is null");
         }
 
         if ((xencPrefix == null) || (xencPrefix.length() == 0)) {
-            return doc.createElementNS(EncryptionConstants.EncryptionSpecNS, elementName);
+            return doc.crebteElementNS(EncryptionConstbnts.EncryptionSpecNS, elementNbme);
         }
         return
-            doc.createElementNS(
-                EncryptionConstants.EncryptionSpecNS, xencPrefix + ":" + elementName
+            doc.crebteElementNS(
+                EncryptionConstbnts.EncryptionSpecNS, xencPrefix + ":" + elementNbme
             );
     }
 
     /**
-     * Creates an Element in the XML Encryption 1.1 specification namespace.
+     * Crebtes bn Element in the XML Encryption 1.1 specificbtion nbmespbce.
      *
-     * @param doc the factory Document
-     * @param elementName the local name of the Element
+     * @pbrbm doc the fbctory Document
+     * @pbrbm elementNbme the locbl nbme of the Element
      * @return the Element
      */
-    public static Element createElementInEncryption11Space(Document doc, String elementName) {
+    public stbtic Element crebteElementInEncryption11Spbce(Document doc, String elementNbme) {
         if (doc == null) {
             throw new RuntimeException("Document is null");
         }
 
         if ((xenc11Prefix == null) || (xenc11Prefix.length() == 0)) {
-            return doc.createElementNS(EncryptionConstants.EncryptionSpec11NS, elementName);
+            return doc.crebteElementNS(EncryptionConstbnts.EncryptionSpec11NS, elementNbme);
         }
         return
-            doc.createElementNS(
-                EncryptionConstants.EncryptionSpec11NS, xenc11Prefix + ":" + elementName
+            doc.crebteElementNS(
+                EncryptionConstbnts.EncryptionSpec11NS, xenc11Prefix + ":" + elementNbme
             );
     }
 
     /**
-     * Returns true if the element is in XML Signature namespace and the local
-     * name equals the supplied one.
+     * Returns true if the element is in XML Signbture nbmespbce bnd the locbl
+     * nbme equbls the supplied one.
      *
-     * @param element
-     * @param localName
-     * @return true if the element is in XML Signature namespace and the local name equals
+     * @pbrbm element
+     * @pbrbm locblNbme
+     * @return true if the element is in XML Signbture nbmespbce bnd the locbl nbme equbls
      * the supplied one
      */
-    public static boolean elementIsInSignatureSpace(Element element, String localName) {
+    public stbtic boolebn elementIsInSignbtureSpbce(Element element, String locblNbme) {
         if (element == null){
-            return false;
+            return fblse;
         }
 
-        return Constants.SignatureSpecNS.equals(element.getNamespaceURI())
-            && element.getLocalName().equals(localName);
+        return Constbnts.SignbtureSpecNS.equbls(element.getNbmespbceURI())
+            && element.getLocblNbme().equbls(locblNbme);
     }
 
     /**
-     * Returns true if the element is in XML Signature 1.1 namespace and the local
-     * name equals the supplied one.
+     * Returns true if the element is in XML Signbture 1.1 nbmespbce bnd the locbl
+     * nbme equbls the supplied one.
      *
-     * @param element
-     * @param localName
-     * @return true if the element is in XML Signature namespace and the local name equals
+     * @pbrbm element
+     * @pbrbm locblNbme
+     * @return true if the element is in XML Signbture nbmespbce bnd the locbl nbme equbls
      * the supplied one
      */
-    public static boolean elementIsInSignature11Space(Element element, String localName) {
+    public stbtic boolebn elementIsInSignbture11Spbce(Element element, String locblNbme) {
         if (element == null) {
-            return false;
+            return fblse;
         }
 
-        return Constants.SignatureSpec11NS.equals(element.getNamespaceURI())
-            && element.getLocalName().equals(localName);
+        return Constbnts.SignbtureSpec11NS.equbls(element.getNbmespbceURI())
+            && element.getLocblNbme().equbls(locblNbme);
     }
 
     /**
-     * Returns true if the element is in XML Encryption namespace and the local
-     * name equals the supplied one.
+     * Returns true if the element is in XML Encryption nbmespbce bnd the locbl
+     * nbme equbls the supplied one.
      *
-     * @param element
-     * @param localName
-     * @return true if the element is in XML Encryption namespace and the local name
-     * equals the supplied one
+     * @pbrbm element
+     * @pbrbm locblNbme
+     * @return true if the element is in XML Encryption nbmespbce bnd the locbl nbme
+     * equbls the supplied one
      */
-    public static boolean elementIsInEncryptionSpace(Element element, String localName) {
+    public stbtic boolebn elementIsInEncryptionSpbce(Element element, String locblNbme) {
         if (element == null){
-            return false;
+            return fblse;
         }
-        return EncryptionConstants.EncryptionSpecNS.equals(element.getNamespaceURI())
-            && element.getLocalName().equals(localName);
+        return EncryptionConstbnts.EncryptionSpecNS.equbls(element.getNbmespbceURI())
+            && element.getLocblNbme().equbls(locblNbme);
     }
 
     /**
-     * Returns true if the element is in XML Encryption 1.1 namespace and the local
-     * name equals the supplied one.
+     * Returns true if the element is in XML Encryption 1.1 nbmespbce bnd the locbl
+     * nbme equbls the supplied one.
      *
-     * @param element
-     * @param localName
-     * @return true if the element is in XML Encryption 1.1 namespace and the local name
-     * equals the supplied one
+     * @pbrbm element
+     * @pbrbm locblNbme
+     * @return true if the element is in XML Encryption 1.1 nbmespbce bnd the locbl nbme
+     * equbls the supplied one
      */
-    public static boolean elementIsInEncryption11Space(Element element, String localName) {
+    public stbtic boolebn elementIsInEncryption11Spbce(Element element, String locblNbme) {
         if (element == null){
-            return false;
+            return fblse;
         }
-        return EncryptionConstants.EncryptionSpec11NS.equals(element.getNamespaceURI())
-            && element.getLocalName().equals(localName);
+        return EncryptionConstbnts.EncryptionSpec11NS.equbls(element.getNbmespbceURI())
+            && element.getLocblNbme().equbls(locblNbme);
     }
 
     /**
-     * This method returns the owner document of a particular node.
-     * This method is necessary because it <I>always</I> returns a
+     * This method returns the owner document of b pbrticulbr node.
+     * This method is necessbry becbuse it <I>blwbys</I> returns b
      * {@link Document}. {@link Node#getOwnerDocument} returns <CODE>null</CODE>
-     * if the {@link Node} is a {@link Document}.
+     * if the {@link Node} is b {@link Document}.
      *
-     * @param node
+     * @pbrbm node
      * @return the owner document of the node
      */
-    public static Document getOwnerDocument(Node node) {
+    public stbtic Document getOwnerDocument(Node node) {
         if (node.getNodeType() == Node.DOCUMENT_NODE) {
             return (Document) node;
         }
         try {
             return node.getOwnerDocument();
-        } catch (NullPointerException npe) {
-            throw new NullPointerException(I18n.translate("endorsed.jdk1.4.0")
-                                           + " Original message was \""
-                                           + npe.getMessage() + "\"");
+        } cbtch (NullPointerException npe) {
+            throw new NullPointerException(I18n.trbnslbte("endorsed.jdk1.4.0")
+                                           + " Originbl messbge wbs \""
+                                           + npe.getMessbge() + "\"");
         }
     }
 
     /**
      * This method returns the first non-null owner document of the Nodes in this Set.
-     * This method is necessary because it <I>always</I> returns a
+     * This method is necessbry becbuse it <I>blwbys</I> returns b
      * {@link Document}. {@link Node#getOwnerDocument} returns <CODE>null</CODE>
-     * if the {@link Node} is a {@link Document}.
+     * if the {@link Node} is b {@link Document}.
      *
-     * @param xpathNodeSet
+     * @pbrbm xpbthNodeSet
      * @return the owner document
      */
-    public static Document getOwnerDocument(Set<Node> xpathNodeSet) {
+    public stbtic Document getOwnerDocument(Set<Node> xpbthNodeSet) {
         NullPointerException npe = null;
-        for (Node node : xpathNodeSet) {
+        for (Node node : xpbthNodeSet) {
             int nodeType = node.getNodeType();
             if (nodeType == Node.DOCUMENT_NODE) {
                 return (Document) node;
@@ -465,131 +465,131 @@ public class XMLUtils {
                     return ((Attr)node).getOwnerElement().getOwnerDocument();
                 }
                 return node.getOwnerDocument();
-            } catch (NullPointerException e) {
+            } cbtch (NullPointerException e) {
                 npe = e;
             }
         }
 
-        throw new NullPointerException(I18n.translate("endorsed.jdk1.4.0")
-                                       + " Original message was \""
-                                       + (npe == null ? "" : npe.getMessage()) + "\"");
+        throw new NullPointerException(I18n.trbnslbte("endorsed.jdk1.4.0")
+                                       + " Originbl messbge wbs \""
+                                       + (npe == null ? "" : npe.getMessbge()) + "\"");
     }
 
     /**
-     * Method createDSctx
+     * Method crebteDSctx
      *
-     * @param doc
-     * @param prefix
-     * @param namespace
+     * @pbrbm doc
+     * @pbrbm prefix
+     * @pbrbm nbmespbce
      * @return the element.
      */
-    public static Element createDSctx(Document doc, String prefix, String namespace) {
+    public stbtic Element crebteDSctx(Document doc, String prefix, String nbmespbce) {
         if ((prefix == null) || (prefix.trim().length() == 0)) {
-            throw new IllegalArgumentException("You must supply a prefix");
+            throw new IllegblArgumentException("You must supply b prefix");
         }
 
-        Element ctx = doc.createElementNS(null, "namespaceContext");
+        Element ctx = doc.crebteElementNS(null, "nbmespbceContext");
 
-        ctx.setAttributeNS(Constants.NamespaceSpecNS, "xmlns:" + prefix.trim(), namespace);
+        ctx.setAttributeNS(Constbnts.NbmespbceSpecNS, "xmlns:" + prefix.trim(), nbmespbce);
 
         return ctx;
     }
 
     /**
-     * Method addReturnToElement
+     * Method bddReturnToElement
      *
-     * @param e
+     * @pbrbm e
      */
-    public static void addReturnToElement(Element e) {
-        if (!ignoreLineBreaks) {
+    public stbtic void bddReturnToElement(Element e) {
+        if (!ignoreLineBrebks) {
             Document doc = e.getOwnerDocument();
-            e.appendChild(doc.createTextNode("\n"));
+            e.bppendChild(doc.crebteTextNode("\n"));
         }
     }
 
-    public static void addReturnToElement(Document doc, HelperNodeList nl) {
-        if (!ignoreLineBreaks) {
-            nl.appendChild(doc.createTextNode("\n"));
+    public stbtic void bddReturnToElement(Document doc, HelperNodeList nl) {
+        if (!ignoreLineBrebks) {
+            nl.bppendChild(doc.crebteTextNode("\n"));
         }
     }
 
-    public static void addReturnBeforeChild(Element e, Node child) {
-        if (!ignoreLineBreaks) {
+    public stbtic void bddReturnBeforeChild(Element e, Node child) {
+        if (!ignoreLineBrebks) {
             Document doc = e.getOwnerDocument();
-            e.insertBefore(doc.createTextNode("\n"), child);
+            e.insertBefore(doc.crebteTextNode("\n"), child);
         }
     }
 
     /**
      * Method convertNodelistToSet
      *
-     * @param xpathNodeSet
+     * @pbrbm xpbthNodeSet
      * @return the set with the nodelist
      */
-    public static Set<Node> convertNodelistToSet(NodeList xpathNodeSet) {
-        if (xpathNodeSet == null) {
-            return new HashSet<Node>();
+    public stbtic Set<Node> convertNodelistToSet(NodeList xpbthNodeSet) {
+        if (xpbthNodeSet == null) {
+            return new HbshSet<Node>();
         }
 
-        int length = xpathNodeSet.getLength();
-        Set<Node> set = new HashSet<Node>(length);
+        int length = xpbthNodeSet.getLength();
+        Set<Node> set = new HbshSet<Node>(length);
 
         for (int i = 0; i < length; i++) {
-            set.add(xpathNodeSet.item(i));
+            set.bdd(xpbthNodeSet.item(i));
         }
 
         return set;
     }
 
     /**
-     * This method spreads all namespace attributes in a DOM document to their
-     * children. This is needed because the XML Signature XPath transform
-     * must evaluate the XPath against all nodes in the input, even against
-     * XPath namespace nodes. Through a bug in XalanJ2, the namespace nodes are
-     * not fully visible in the Xalan XPath model, so we have to do this by
-     * hand in DOM spaces so that the nodes become visible in XPath space.
+     * This method sprebds bll nbmespbce bttributes in b DOM document to their
+     * children. This is needed becbuse the XML Signbture XPbth trbnsform
+     * must evblubte the XPbth bgbinst bll nodes in the input, even bgbinst
+     * XPbth nbmespbce nodes. Through b bug in XblbnJ2, the nbmespbce nodes bre
+     * not fully visible in the Xblbn XPbth model, so we hbve to do this by
+     * hbnd in DOM spbces so thbt the nodes become visible in XPbth spbce.
      *
-     * @param doc
-     * @see <A HREF="http://nagoya.apache.org/bugzilla/show_bug.cgi?id=2650">
-     * Namespace axis resolution is not XPath compliant </A>
+     * @pbrbm doc
+     * @see <A HREF="http://nbgoyb.bpbche.org/bugzillb/show_bug.cgi?id=2650">
+     * Nbmespbce bxis resolution is not XPbth complibnt </A>
      */
-    public static void circumventBug2650(Document doc) {
+    public stbtic void circumventBug2650(Document doc) {
 
         Element documentElement = doc.getDocumentElement();
 
-        // if the document element has no xmlns definition, we add xmlns=""
+        // if the document element hbs no xmlns definition, we bdd xmlns=""
         Attr xmlnsAttr =
-            documentElement.getAttributeNodeNS(Constants.NamespaceSpecNS, "xmlns");
+            documentElement.getAttributeNodeNS(Constbnts.NbmespbceSpecNS, "xmlns");
 
         if (xmlnsAttr == null) {
-            documentElement.setAttributeNS(Constants.NamespaceSpecNS, "xmlns", "");
+            documentElement.setAttributeNS(Constbnts.NbmespbceSpecNS, "xmlns", "");
         }
 
-        XMLUtils.circumventBug2650internal(doc);
+        XMLUtils.circumventBug2650internbl(doc);
     }
 
     /**
      * This is the work horse for {@link #circumventBug2650}.
      *
-     * @param node
-     * @see <A HREF="http://nagoya.apache.org/bugzilla/show_bug.cgi?id=2650">
-     * Namespace axis resolution is not XPath compliant </A>
+     * @pbrbm node
+     * @see <A HREF="http://nbgoyb.bpbche.org/bugzillb/show_bug.cgi?id=2650">
+     * Nbmespbce bxis resolution is not XPbth complibnt </A>
      */
-    @SuppressWarnings("fallthrough")
-    private static void circumventBug2650internal(Node node) {
-        Node parent = null;
+    @SuppressWbrnings("fbllthrough")
+    privbte stbtic void circumventBug2650internbl(Node node) {
+        Node pbrent = null;
         Node sibling = null;
-        final String namespaceNs = Constants.NamespaceSpecNS;
+        finbl String nbmespbceNs = Constbnts.NbmespbceSpecNS;
         do {
             switch (node.getNodeType()) {
-            case Node.ELEMENT_NODE :
+            cbse Node.ELEMENT_NODE :
                 Element element = (Element) node;
-                if (!element.hasChildNodes()) {
-                    break;
+                if (!element.hbsChildNodes()) {
+                    brebk;
                 }
-                if (element.hasAttributes()) {
-                    NamedNodeMap attributes = element.getAttributes();
-                    int attributesLength = attributes.getLength();
+                if (element.hbsAttributes()) {
+                    NbmedNodeMbp bttributes = element.getAttributes();
+                    int bttributesLength = bttributes.getLength();
 
                     for (Node child = element.getFirstChild(); child!=null;
                         child = child.getNextSibling()) {
@@ -599,30 +599,30 @@ public class XMLUtils {
                         }
                         Element childElement = (Element) child;
 
-                        for (int i = 0; i < attributesLength; i++) {
-                            Attr currentAttr = (Attr) attributes.item(i);
-                            if (!namespaceNs.equals(currentAttr.getNamespaceURI())) {
+                        for (int i = 0; i < bttributesLength; i++) {
+                            Attr currentAttr = (Attr) bttributes.item(i);
+                            if (!nbmespbceNs.equbls(currentAttr.getNbmespbceURI())) {
                                 continue;
                             }
-                            if (childElement.hasAttributeNS(namespaceNs,
-                                                            currentAttr.getLocalName())) {
+                            if (childElement.hbsAttributeNS(nbmespbceNs,
+                                                            currentAttr.getLocblNbme())) {
                                 continue;
                             }
-                            childElement.setAttributeNS(namespaceNs,
-                                                        currentAttr.getName(),
-                                                        currentAttr.getNodeValue());
+                            childElement.setAttributeNS(nbmespbceNs,
+                                                        currentAttr.getNbme(),
+                                                        currentAttr.getNodeVblue());
                         }
                     }
                 }
-            case Node.ENTITY_REFERENCE_NODE :
-            case Node.DOCUMENT_NODE :
-                parent = node;
+            cbse Node.ENTITY_REFERENCE_NODE :
+            cbse Node.DOCUMENT_NODE :
+                pbrent = node;
                 sibling = node.getFirstChild();
-                break;
+                brebk;
             }
-            while ((sibling == null) && (parent != null)) {
-                sibling = parent.getNextSibling();
-                parent = parent.getParentNode();
+            while ((sibling == null) && (pbrent != null)) {
+                sibling = pbrent.getNextSibling();
+                pbrent = pbrent.getPbrentNode();
             }
             if (sibling == null) {
                 return;
@@ -634,15 +634,15 @@ public class XMLUtils {
     }
 
     /**
-     * @param sibling
-     * @param nodeName
-     * @param number
-     * @return nodes with the constraint
+     * @pbrbm sibling
+     * @pbrbm nodeNbme
+     * @pbrbm number
+     * @return nodes with the constrbint
      */
-    public static Element selectDsNode(Node sibling, String nodeName, int number) {
+    public stbtic Element selectDsNode(Node sibling, String nodeNbme, int number) {
         while (sibling != null) {
-            if (Constants.SignatureSpecNS.equals(sibling.getNamespaceURI())
-                && sibling.getLocalName().equals(nodeName)) {
+            if (Constbnts.SignbtureSpecNS.equbls(sibling.getNbmespbceURI())
+                && sibling.getLocblNbme().equbls(nodeNbme)) {
                 if (number == 0){
                     return (Element)sibling;
                 }
@@ -654,15 +654,15 @@ public class XMLUtils {
     }
 
     /**
-     * @param sibling
-     * @param nodeName
-     * @param number
-     * @return nodes with the constraint
+     * @pbrbm sibling
+     * @pbrbm nodeNbme
+     * @pbrbm number
+     * @return nodes with the constrbint
      */
-    public static Element selectDs11Node(Node sibling, String nodeName, int number) {
+    public stbtic Element selectDs11Node(Node sibling, String nodeNbme, int number) {
         while (sibling != null) {
-            if (Constants.SignatureSpec11NS.equals(sibling.getNamespaceURI())
-                && sibling.getLocalName().equals(nodeName)) {
+            if (Constbnts.SignbtureSpec11NS.equbls(sibling.getNbmespbceURI())
+                && sibling.getLocblNbme().equbls(nodeNbme)) {
                 if (number == 0){
                     return (Element)sibling;
                 }
@@ -674,15 +674,15 @@ public class XMLUtils {
     }
 
     /**
-     * @param sibling
-     * @param nodeName
-     * @param number
-     * @return nodes with the constrain
+     * @pbrbm sibling
+     * @pbrbm nodeNbme
+     * @pbrbm number
+     * @return nodes with the constrbin
      */
-    public static Element selectXencNode(Node sibling, String nodeName, int number) {
+    public stbtic Element selectXencNode(Node sibling, String nodeNbme, int number) {
         while (sibling != null) {
-            if (EncryptionConstants.EncryptionSpecNS.equals(sibling.getNamespaceURI())
-                && sibling.getLocalName().equals(nodeName)) {
+            if (EncryptionConstbnts.EncryptionSpecNS.equbls(sibling.getNbmespbceURI())
+                && sibling.getLocblNbme().equbls(nodeNbme)) {
                 if (number == 0){
                     return (Element)sibling;
                 }
@@ -695,13 +695,13 @@ public class XMLUtils {
 
 
     /**
-     * @param sibling
-     * @param nodeName
-     * @param number
-     * @return nodes with the constrain
+     * @pbrbm sibling
+     * @pbrbm nodeNbme
+     * @pbrbm number
+     * @return nodes with the constrbin
      */
-    public static Text selectDsNodeText(Node sibling, String nodeName, int number) {
-        Node n = selectDsNode(sibling,nodeName,number);
+    public stbtic Text selectDsNodeText(Node sibling, String nodeNbme, int number) {
+        Node n = selectDsNode(sibling,nodeNbme,number);
         if (n == null) {
             return null;
         }
@@ -713,13 +713,13 @@ public class XMLUtils {
     }
 
     /**
-     * @param sibling
-     * @param nodeName
-     * @param number
-     * @return nodes with the constrain
+     * @pbrbm sibling
+     * @pbrbm nodeNbme
+     * @pbrbm number
+     * @return nodes with the constrbin
      */
-    public static Text selectDs11NodeText(Node sibling, String nodeName, int number) {
-        Node n = selectDs11Node(sibling,nodeName,number);
+    public stbtic Text selectDs11NodeText(Node sibling, String nodeNbme, int number) {
+        Node n = selectDs11Node(sibling,nodeNbme,number);
         if (n == null) {
             return null;
         }
@@ -731,14 +731,14 @@ public class XMLUtils {
     }
 
     /**
-     * @param sibling
-     * @param uri
-     * @param nodeName
-     * @param number
-     * @return nodes with the constrain
+     * @pbrbm sibling
+     * @pbrbm uri
+     * @pbrbm nodeNbme
+     * @pbrbm number
+     * @return nodes with the constrbin
      */
-    public static Text selectNodeText(Node sibling, String uri, String nodeName, int number) {
-        Node n = selectNode(sibling,uri,nodeName,number);
+    public stbtic Text selectNodeText(Node sibling, String uri, String nodeNbme, int number) {
+        Node n = selectNode(sibling,uri,nodeNbme,number);
         if (n == null) {
             return null;
         }
@@ -750,16 +750,16 @@ public class XMLUtils {
     }
 
     /**
-     * @param sibling
-     * @param uri
-     * @param nodeName
-     * @param number
-     * @return nodes with the constrain
+     * @pbrbm sibling
+     * @pbrbm uri
+     * @pbrbm nodeNbme
+     * @pbrbm number
+     * @return nodes with the constrbin
      */
-    public static Element selectNode(Node sibling, String uri, String nodeName, int number) {
+    public stbtic Element selectNode(Node sibling, String uri, String nodeNbme, int number) {
         while (sibling != null) {
-            if (sibling.getNamespaceURI() != null && sibling.getNamespaceURI().equals(uri)
-                && sibling.getLocalName().equals(nodeName)) {
+            if (sibling.getNbmespbceURI() != null && sibling.getNbmespbceURI().equbls(uri)
+                && sibling.getLocblNbme().equbls(nodeNbme)) {
                 if (number == 0){
                     return (Element)sibling;
                 }
@@ -771,55 +771,55 @@ public class XMLUtils {
     }
 
     /**
-     * @param sibling
-     * @param nodeName
-     * @return nodes with the constrain
+     * @pbrbm sibling
+     * @pbrbm nodeNbme
+     * @return nodes with the constrbin
      */
-    public static Element[] selectDsNodes(Node sibling, String nodeName) {
-        return selectNodes(sibling, Constants.SignatureSpecNS, nodeName);
+    public stbtic Element[] selectDsNodes(Node sibling, String nodeNbme) {
+        return selectNodes(sibling, Constbnts.SignbtureSpecNS, nodeNbme);
     }
 
     /**
-     * @param sibling
-     * @param nodeName
-     * @return nodes with the constrain
+     * @pbrbm sibling
+     * @pbrbm nodeNbme
+     * @return nodes with the constrbin
      */
-    public static Element[] selectDs11Nodes(Node sibling, String nodeName) {
-        return selectNodes(sibling, Constants.SignatureSpec11NS, nodeName);
+    public stbtic Element[] selectDs11Nodes(Node sibling, String nodeNbme) {
+        return selectNodes(sibling, Constbnts.SignbtureSpec11NS, nodeNbme);
     }
 
     /**
-     * @param sibling
-     * @param uri
-     * @param nodeName
-     * @return nodes with the constraint
+     * @pbrbm sibling
+     * @pbrbm uri
+     * @pbrbm nodeNbme
+     * @return nodes with the constrbint
      */
-    public static Element[] selectNodes(Node sibling, String uri, String nodeName) {
-        List<Element> list = new ArrayList<Element>();
+    public stbtic Element[] selectNodes(Node sibling, String uri, String nodeNbme) {
+        List<Element> list = new ArrbyList<Element>();
         while (sibling != null) {
-            if (sibling.getNamespaceURI() != null && sibling.getNamespaceURI().equals(uri)
-                && sibling.getLocalName().equals(nodeName)) {
-                list.add((Element)sibling);
+            if (sibling.getNbmespbceURI() != null && sibling.getNbmespbceURI().equbls(uri)
+                && sibling.getLocblNbme().equbls(nodeNbme)) {
+                list.bdd((Element)sibling);
             }
             sibling = sibling.getNextSibling();
         }
-        return list.toArray(new Element[list.size()]);
+        return list.toArrby(new Element[list.size()]);
     }
 
     /**
-     * @param signatureElement
-     * @param inputSet
-     * @return nodes with the constrain
+     * @pbrbm signbtureElement
+     * @pbrbm inputSet
+     * @return nodes with the constrbin
      */
-    public static Set<Node> excludeNodeFromSet(Node signatureElement, Set<Node> inputSet) {
-        Set<Node> resultSet = new HashSet<Node>();
-        Iterator<Node> iterator = inputSet.iterator();
+    public stbtic Set<Node> excludeNodeFromSet(Node signbtureElement, Set<Node> inputSet) {
+        Set<Node> resultSet = new HbshSet<Node>();
+        Iterbtor<Node> iterbtor = inputSet.iterbtor();
 
-        while (iterator.hasNext()) {
-            Node inputNode = iterator.next();
+        while (iterbtor.hbsNext()) {
+            Node inputNode = iterbtor.next();
 
-            if (!XMLUtils.isDescendantOrSelf(signatureElement, inputNode)) {
-                resultSet.add(inputNode);
+            if (!XMLUtils.isDescendbntOrSelf(signbtureElement, inputNode)) {
+                resultSet.bdd(inputNode);
             }
         }
         return resultSet;
@@ -828,198 +828,198 @@ public class XMLUtils {
     /**
      * Method getStrFromNode
      *
-     * @param xpathnode
+     * @pbrbm xpbthnode
      * @return the string for the node.
      */
-    public static String getStrFromNode(Node xpathnode) {
-        if (xpathnode.getNodeType() == Node.TEXT_NODE) {
-            // we iterate over all siblings of the context node because eventually,
+    public stbtic String getStrFromNode(Node xpbthnode) {
+        if (xpbthnode.getNodeType() == Node.TEXT_NODE) {
+            // we iterbte over bll siblings of the context node becbuse eventublly,
             // the text is "polluted" with pi's or comments
             StringBuilder sb = new StringBuilder();
 
-            for (Node currentSibling = xpathnode.getParentNode().getFirstChild();
+            for (Node currentSibling = xpbthnode.getPbrentNode().getFirstChild();
                 currentSibling != null;
                 currentSibling = currentSibling.getNextSibling()) {
                 if (currentSibling.getNodeType() == Node.TEXT_NODE) {
-                    sb.append(((Text) currentSibling).getData());
+                    sb.bppend(((Text) currentSibling).getDbtb());
                 }
             }
 
             return sb.toString();
-        } else if (xpathnode.getNodeType() == Node.ATTRIBUTE_NODE) {
-            return ((Attr) xpathnode).getNodeValue();
-        } else if (xpathnode.getNodeType() == Node.PROCESSING_INSTRUCTION_NODE) {
-            return ((ProcessingInstruction) xpathnode).getNodeValue();
+        } else if (xpbthnode.getNodeType() == Node.ATTRIBUTE_NODE) {
+            return ((Attr) xpbthnode).getNodeVblue();
+        } else if (xpbthnode.getNodeType() == Node.PROCESSING_INSTRUCTION_NODE) {
+            return ((ProcessingInstruction) xpbthnode).getNodeVblue();
         }
 
         return null;
     }
 
     /**
-     * Returns true if the descendantOrSelf is on the descendant-or-self axis
+     * Returns true if the descendbntOrSelf is on the descendbnt-or-self bxis
      * of the context node.
      *
-     * @param ctx
-     * @param descendantOrSelf
-     * @return true if the node is descendant
+     * @pbrbm ctx
+     * @pbrbm descendbntOrSelf
+     * @return true if the node is descendbnt
      */
-    public static boolean isDescendantOrSelf(Node ctx, Node descendantOrSelf) {
-        if (ctx == descendantOrSelf) {
+    public stbtic boolebn isDescendbntOrSelf(Node ctx, Node descendbntOrSelf) {
+        if (ctx == descendbntOrSelf) {
             return true;
         }
 
-        Node parent = descendantOrSelf;
+        Node pbrent = descendbntOrSelf;
 
         while (true) {
-            if (parent == null) {
-                return false;
+            if (pbrent == null) {
+                return fblse;
             }
 
-            if (parent == ctx) {
+            if (pbrent == ctx) {
                 return true;
             }
 
-            if (parent.getNodeType() == Node.ATTRIBUTE_NODE) {
-                parent = ((Attr) parent).getOwnerElement();
+            if (pbrent.getNodeType() == Node.ATTRIBUTE_NODE) {
+                pbrent = ((Attr) pbrent).getOwnerElement();
             } else {
-                parent = parent.getParentNode();
+                pbrent = pbrent.getPbrentNode();
             }
         }
     }
 
-    public static boolean ignoreLineBreaks() {
-        return ignoreLineBreaks;
+    public stbtic boolebn ignoreLineBrebks() {
+        return ignoreLineBrebks;
     }
 
     /**
-     * Returns the attribute value for the attribute with the specified name.
-     * Returns null if there is no such attribute, or
-     * the empty string if the attribute value is empty.
+     * Returns the bttribute vblue for the bttribute with the specified nbme.
+     * Returns null if there is no such bttribute, or
+     * the empty string if the bttribute vblue is empty.
      *
-     * <p>This works around a limitation of the DOM
+     * <p>This works bround b limitbtion of the DOM
      * <code>Element.getAttributeNode</code> method, which does not distinguish
-     * between an unspecified attribute and an attribute with a value of
-     * "" (it returns "" for both cases).
+     * between bn unspecified bttribute bnd bn bttribute with b vblue of
+     * "" (it returns "" for both cbses).
      *
-     * @param elem the element containing the attribute
-     * @param name the name of the attribute
-     * @return the attribute value (may be null if unspecified)
+     * @pbrbm elem the element contbining the bttribute
+     * @pbrbm nbme the nbme of the bttribute
+     * @return the bttribute vblue (mby be null if unspecified)
      */
-    public static String getAttributeValue(Element elem, String name) {
-        Attr attr = elem.getAttributeNodeNS(null, name);
-        return (attr == null) ? null : attr.getValue();
+    public stbtic String getAttributeVblue(Element elem, String nbme) {
+        Attr bttr = elem.getAttributeNodeNS(null, nbme);
+        return (bttr == null) ? null : bttr.getVblue();
     }
 
     /**
-     * This method is a tree-search to help prevent against wrapping attacks. It checks that no
-     * two Elements have ID Attributes that match the "value" argument, if this is the case then
-     * "false" is returned. Note that a return value of "true" does not necessarily mean that
-     * a matching Element has been found, just that no wrapping attack has been detected.
+     * This method is b tree-sebrch to help prevent bgbinst wrbpping bttbcks. It checks thbt no
+     * two Elements hbve ID Attributes thbt mbtch the "vblue" brgument, if this is the cbse then
+     * "fblse" is returned. Note thbt b return vblue of "true" does not necessbrily mebn thbt
+     * b mbtching Element hbs been found, just thbt no wrbpping bttbck hbs been detected.
      */
-    public static boolean protectAgainstWrappingAttack(Node startNode, String value) {
-        Node startParent = startNode.getParentNode();
+    public stbtic boolebn protectAgbinstWrbppingAttbck(Node stbrtNode, String vblue) {
+        Node stbrtPbrent = stbrtNode.getPbrentNode();
         Node processedNode = null;
         Element foundElement = null;
 
-        String id = value.trim();
-        if (!id.isEmpty() && id.charAt(0) == '#') {
+        String id = vblue.trim();
+        if (!id.isEmpty() && id.chbrAt(0) == '#') {
             id = id.substring(1);
         }
 
-        while (startNode != null) {
-            if (startNode.getNodeType() == Node.ELEMENT_NODE) {
-                Element se = (Element) startNode;
+        while (stbrtNode != null) {
+            if (stbrtNode.getNodeType() == Node.ELEMENT_NODE) {
+                Element se = (Element) stbrtNode;
 
-                NamedNodeMap attributes = se.getAttributes();
-                if (attributes != null) {
-                    for (int i = 0; i < attributes.getLength(); i++) {
-                        Attr attr = (Attr)attributes.item(i);
-                        if (attr.isId() && id.equals(attr.getValue())) {
+                NbmedNodeMbp bttributes = se.getAttributes();
+                if (bttributes != null) {
+                    for (int i = 0; i < bttributes.getLength(); i++) {
+                        Attr bttr = (Attr)bttributes.item(i);
+                        if (bttr.isId() && id.equbls(bttr.getVblue())) {
                             if (foundElement == null) {
-                                // Continue searching to find duplicates
-                                foundElement = attr.getOwnerElement();
+                                // Continue sebrching to find duplicbtes
+                                foundElement = bttr.getOwnerElement();
                             } else {
-                                log.log(java.util.logging.Level.FINE, "Multiple elements with the same 'Id' attribute value!");
-                                return false;
+                                log.log(jbvb.util.logging.Level.FINE, "Multiple elements with the sbme 'Id' bttribute vblue!");
+                                return fblse;
                             }
                         }
                     }
                 }
             }
 
-            processedNode = startNode;
-            startNode = startNode.getFirstChild();
+            processedNode = stbrtNode;
+            stbrtNode = stbrtNode.getFirstChild();
 
             // no child, this node is done.
-            if (startNode == null) {
+            if (stbrtNode == null) {
                 // close node processing, get sibling
-                startNode = processedNode.getNextSibling();
+                stbrtNode = processedNode.getNextSibling();
             }
 
-            // no more siblings, get parent, all children
-            // of parent are processed.
-            while (startNode == null) {
-                processedNode = processedNode.getParentNode();
-                if (processedNode == startParent) {
+            // no more siblings, get pbrent, bll children
+            // of pbrent bre processed.
+            while (stbrtNode == null) {
+                processedNode = processedNode.getPbrentNode();
+                if (processedNode == stbrtPbrent) {
                     return true;
                 }
-                // close parent node processing (processed node now)
-                startNode = processedNode.getNextSibling();
+                // close pbrent node processing (processed node now)
+                stbrtNode = processedNode.getNextSibling();
             }
         }
         return true;
     }
 
     /**
-     * This method is a tree-search to help prevent against wrapping attacks. It checks that no other
-     * Element than the given "knownElement" argument has an ID attribute that matches the "value"
-     * argument, which is the ID value of "knownElement". If this is the case then "false" is returned.
+     * This method is b tree-sebrch to help prevent bgbinst wrbpping bttbcks. It checks thbt no other
+     * Element thbn the given "knownElement" brgument hbs bn ID bttribute thbt mbtches the "vblue"
+     * brgument, which is the ID vblue of "knownElement". If this is the cbse then "fblse" is returned.
      */
-    public static boolean protectAgainstWrappingAttack(
-        Node startNode, Element knownElement, String value
+    public stbtic boolebn protectAgbinstWrbppingAttbck(
+        Node stbrtNode, Element knownElement, String vblue
     ) {
-        Node startParent = startNode.getParentNode();
+        Node stbrtPbrent = stbrtNode.getPbrentNode();
         Node processedNode = null;
 
-        String id = value.trim();
-        if (!id.isEmpty() && id.charAt(0) == '#') {
+        String id = vblue.trim();
+        if (!id.isEmpty() && id.chbrAt(0) == '#') {
             id = id.substring(1);
         }
 
-        while (startNode != null) {
-            if (startNode.getNodeType() == Node.ELEMENT_NODE) {
-                Element se = (Element) startNode;
+        while (stbrtNode != null) {
+            if (stbrtNode.getNodeType() == Node.ELEMENT_NODE) {
+                Element se = (Element) stbrtNode;
 
-                NamedNodeMap attributes = se.getAttributes();
-                if (attributes != null) {
-                    for (int i = 0; i < attributes.getLength(); i++) {
-                        Attr attr = (Attr)attributes.item(i);
-                        if (attr.isId() && id.equals(attr.getValue()) && se != knownElement) {
-                            log.log(java.util.logging.Level.FINE, "Multiple elements with the same 'Id' attribute value!");
-                            return false;
+                NbmedNodeMbp bttributes = se.getAttributes();
+                if (bttributes != null) {
+                    for (int i = 0; i < bttributes.getLength(); i++) {
+                        Attr bttr = (Attr)bttributes.item(i);
+                        if (bttr.isId() && id.equbls(bttr.getVblue()) && se != knownElement) {
+                            log.log(jbvb.util.logging.Level.FINE, "Multiple elements with the sbme 'Id' bttribute vblue!");
+                            return fblse;
                         }
                     }
                 }
             }
 
-            processedNode = startNode;
-            startNode = startNode.getFirstChild();
+            processedNode = stbrtNode;
+            stbrtNode = stbrtNode.getFirstChild();
 
             // no child, this node is done.
-            if (startNode == null) {
+            if (stbrtNode == null) {
                 // close node processing, get sibling
-                startNode = processedNode.getNextSibling();
+                stbrtNode = processedNode.getNextSibling();
             }
 
-            // no more siblings, get parent, all children
-            // of parent are processed.
-            while (startNode == null) {
-                processedNode = processedNode.getParentNode();
-                if (processedNode == startParent) {
+            // no more siblings, get pbrent, bll children
+            // of pbrent bre processed.
+            while (stbrtNode == null) {
+                processedNode = processedNode.getPbrentNode();
+                if (processedNode == stbrtPbrent) {
                     return true;
                 }
-                // close parent node processing (processed node now)
-                startNode = processedNode.getNextSibling();
+                // close pbrent node processing (processed node now)
+                stbrtNode = processedNode.getNextSibling();
             }
         }
         return true;

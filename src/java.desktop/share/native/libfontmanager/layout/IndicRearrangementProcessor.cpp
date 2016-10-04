@@ -1,24 +1,24 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  *
  */
@@ -30,397 +30,397 @@
  */
 
 #include "LETypes.h"
-#include "MorphTables.h"
-#include "StateTables.h"
-#include "MorphStateTables.h"
-#include "SubtableProcessor.h"
-#include "StateTableProcessor.h"
-#include "IndicRearrangementProcessor.h"
-#include "LEGlyphStorage.h"
-#include "LESwaps.h"
+#include "MorphTbbles.h"
+#include "StbteTbbles.h"
+#include "MorphStbteTbbles.h"
+#include "SubtbbleProcessor.h"
+#include "StbteTbbleProcessor.h"
+#include "IndicRebrrbngementProcessor.h"
+#include "LEGlyphStorbge.h"
+#include "LESwbps.h"
 
 U_NAMESPACE_BEGIN
 
-UOBJECT_DEFINE_RTTI_IMPLEMENTATION(IndicRearrangementProcessor)
+UOBJECT_DEFINE_RTTI_IMPLEMENTATION(IndicRebrrbngementProcessor)
 
-  IndicRearrangementProcessor::IndicRearrangementProcessor(const LEReferenceTo<MorphSubtableHeader> &morphSubtableHeader, LEErrorCode &success)
-  : StateTableProcessor(morphSubtableHeader, success),
-  indicRearrangementSubtableHeader(morphSubtableHeader, success),
-  entryTable(stateTableHeader, success, (const IndicRearrangementStateEntry*)(&stateTableHeader->stHeader),
-             entryTableOffset, LE_UNBOUNDED_ARRAY),
-  int16Table(stateTableHeader, success, (const le_int16*)entryTable.getAlias(), 0, LE_UNBOUNDED_ARRAY)
+  IndicRebrrbngementProcessor::IndicRebrrbngementProcessor(const LEReferenceTo<MorphSubtbbleHebder> &morphSubtbbleHebder, LEErrorCode &success)
+  : StbteTbbleProcessor(morphSubtbbleHebder, success),
+  indicRebrrbngementSubtbbleHebder(morphSubtbbleHebder, success),
+  entryTbble(stbteTbbleHebder, success, (const IndicRebrrbngementStbteEntry*)(&stbteTbbleHebder->stHebder),
+             entryTbbleOffset, LE_UNBOUNDED_ARRAY),
+  int16Tbble(stbteTbbleHebder, success, (const le_int16*)entryTbble.getAlibs(), 0, LE_UNBOUNDED_ARRAY)
 
 {
 }
 
-IndicRearrangementProcessor::~IndicRearrangementProcessor()
+IndicRebrrbngementProcessor::~IndicRebrrbngementProcessor()
 {
 }
 
-void IndicRearrangementProcessor::beginStateTable()
+void IndicRebrrbngementProcessor::beginStbteTbble()
 {
     firstGlyph = 0;
-    lastGlyph = 0;
+    lbstGlyph = 0;
 }
 
-ByteOffset IndicRearrangementProcessor::processStateEntry(LEGlyphStorage &glyphStorage, le_int32 &currGlyph, EntryTableIndex index)
+ByteOffset IndicRebrrbngementProcessor::processStbteEntry(LEGlyphStorbge &glyphStorbge, le_int32 &currGlyph, EntryTbbleIndex index)
 {
-  LEErrorCode success = LE_NO_ERROR; // todo- make a param?
-  const IndicRearrangementStateEntry *entry = entryTable.getAlias(index,success);
-    ByteOffset newState = SWAPW(entry->newStateOffset);
-    IndicRearrangementFlags flags = (IndicRearrangementFlags) SWAPW(entry->flags);
+  LEErrorCode success = LE_NO_ERROR; // todo- mbke b pbrbm?
+  const IndicRebrrbngementStbteEntry *entry = entryTbble.getAlibs(index,success);
+    ByteOffset newStbte = SWAPW(entry->newStbteOffset);
+    IndicRebrrbngementFlbgs flbgs = (IndicRebrrbngementFlbgs) SWAPW(entry->flbgs);
 
-    if (flags & irfMarkFirst) {
+    if (flbgs & irfMbrkFirst) {
         firstGlyph = currGlyph;
     }
 
-    if (flags & irfMarkLast) {
-        lastGlyph = currGlyph;
+    if (flbgs & irfMbrkLbst) {
+        lbstGlyph = currGlyph;
     }
 
-    doRearrangementAction(glyphStorage, (IndicRearrangementVerb) (flags & irfVerbMask));
+    doRebrrbngementAction(glyphStorbge, (IndicRebrrbngementVerb) (flbgs & irfVerbMbsk));
 
-    if (!(flags & irfDontAdvance)) {
-        // XXX: Should handle reverse too...
+    if (!(flbgs & irfDontAdvbnce)) {
+        // XXX: Should hbndle reverse too...
         currGlyph += 1;
     }
 
-    return newState;
+    return newStbte;
 }
 
-void IndicRearrangementProcessor::endStateTable()
+void IndicRebrrbngementProcessor::endStbteTbble()
 {
 }
 
-void IndicRearrangementProcessor::doRearrangementAction(LEGlyphStorage &glyphStorage, IndicRearrangementVerb verb) const
+void IndicRebrrbngementProcessor::doRebrrbngementAction(LEGlyphStorbge &glyphStorbge, IndicRebrrbngementVerb verb) const
 {
-    LEGlyphID a, b, c, d;
-    le_int32 ia, ib, ic, id, ix, x;
+    LEGlyphID b, b, c, d;
+    le_int32 ib, ib, ic, id, ix, x;
     LEErrorCode success = LE_NO_ERROR;
 
     switch(verb)
     {
-    case irvNoAction:
-        break;
+    cbse irvNoAction:
+        brebk;
 
-    case irvxA:
-        a = glyphStorage[firstGlyph];
-        ia = glyphStorage.getCharIndex(firstGlyph, success);
+    cbse irvxA:
+        b = glyphStorbge[firstGlyph];
+        ib = glyphStorbge.getChbrIndex(firstGlyph, success);
         x = firstGlyph + 1;
 
-        while (x <= lastGlyph) {
-            glyphStorage[x - 1] = glyphStorage[x];
-            ix = glyphStorage.getCharIndex(x, success);
-            glyphStorage.setCharIndex(x - 1, ix, success);
+        while (x <= lbstGlyph) {
+            glyphStorbge[x - 1] = glyphStorbge[x];
+            ix = glyphStorbge.getChbrIndex(x, success);
+            glyphStorbge.setChbrIndex(x - 1, ix, success);
             x += 1;
         }
 
-        glyphStorage[lastGlyph] = a;
-        glyphStorage.setCharIndex(lastGlyph, ia, success);
-        break;
+        glyphStorbge[lbstGlyph] = b;
+        glyphStorbge.setChbrIndex(lbstGlyph, ib, success);
+        brebk;
 
-    case irvDx:
-        d = glyphStorage[lastGlyph];
-        id = glyphStorage.getCharIndex(lastGlyph, success);
-        x = lastGlyph - 1;
+    cbse irvDx:
+        d = glyphStorbge[lbstGlyph];
+        id = glyphStorbge.getChbrIndex(lbstGlyph, success);
+        x = lbstGlyph - 1;
 
         while (x >= firstGlyph) {
-            glyphStorage[x + 1] = glyphStorage[x];
-            ix = glyphStorage.getCharIndex(x, success);
-            glyphStorage.setCharIndex(x + 1, ix, success);
+            glyphStorbge[x + 1] = glyphStorbge[x];
+            ix = glyphStorbge.getChbrIndex(x, success);
+            glyphStorbge.setChbrIndex(x + 1, ix, success);
             x -= 1;
         }
 
-        glyphStorage[firstGlyph] = d;
-        glyphStorage.setCharIndex(firstGlyph, id, success);
-        break;
+        glyphStorbge[firstGlyph] = d;
+        glyphStorbge.setChbrIndex(firstGlyph, id, success);
+        brebk;
 
-    case irvDxA:
-        a = glyphStorage[firstGlyph];
-        ia = glyphStorage.getCharIndex(firstGlyph, success);
-        id = glyphStorage.getCharIndex(lastGlyph,  success);
+    cbse irvDxA:
+        b = glyphStorbge[firstGlyph];
+        ib = glyphStorbge.getChbrIndex(firstGlyph, success);
+        id = glyphStorbge.getChbrIndex(lbstGlyph,  success);
 
-        glyphStorage[firstGlyph] = glyphStorage[lastGlyph];
-        glyphStorage[lastGlyph] = a;
+        glyphStorbge[firstGlyph] = glyphStorbge[lbstGlyph];
+        glyphStorbge[lbstGlyph] = b;
 
-        glyphStorage.setCharIndex(firstGlyph, id, success);
-        glyphStorage.setCharIndex(lastGlyph,  ia, success);
-        break;
+        glyphStorbge.setChbrIndex(firstGlyph, id, success);
+        glyphStorbge.setChbrIndex(lbstGlyph,  ib, success);
+        brebk;
 
-    case irvxAB:
-        a = glyphStorage[firstGlyph];
-        b = glyphStorage[firstGlyph + 1];
-        ia = glyphStorage.getCharIndex(firstGlyph, success);
-        ib = glyphStorage.getCharIndex(firstGlyph + 1, success);
+    cbse irvxAB:
+        b = glyphStorbge[firstGlyph];
+        b = glyphStorbge[firstGlyph + 1];
+        ib = glyphStorbge.getChbrIndex(firstGlyph, success);
+        ib = glyphStorbge.getChbrIndex(firstGlyph + 1, success);
         x = firstGlyph + 2;
 
-        while (x <= lastGlyph) {
-            glyphStorage[x - 2] = glyphStorage[x];
-            ix = glyphStorage.getCharIndex(x, success);
-            glyphStorage.setCharIndex(x - 2, ix, success);
+        while (x <= lbstGlyph) {
+            glyphStorbge[x - 2] = glyphStorbge[x];
+            ix = glyphStorbge.getChbrIndex(x, success);
+            glyphStorbge.setChbrIndex(x - 2, ix, success);
             x += 1;
         }
 
-        glyphStorage[lastGlyph - 1] = a;
-        glyphStorage[lastGlyph] = b;
+        glyphStorbge[lbstGlyph - 1] = b;
+        glyphStorbge[lbstGlyph] = b;
 
-        glyphStorage.setCharIndex(lastGlyph - 1, ia, success);
-        glyphStorage.setCharIndex(lastGlyph, ib, success);
-        break;
+        glyphStorbge.setChbrIndex(lbstGlyph - 1, ib, success);
+        glyphStorbge.setChbrIndex(lbstGlyph, ib, success);
+        brebk;
 
-    case irvxBA:
-        a = glyphStorage[firstGlyph];
-        b = glyphStorage[firstGlyph + 1];
-        ia = glyphStorage.getCharIndex(firstGlyph, success);
-        ib = glyphStorage.getCharIndex(firstGlyph + 1, success);
+    cbse irvxBA:
+        b = glyphStorbge[firstGlyph];
+        b = glyphStorbge[firstGlyph + 1];
+        ib = glyphStorbge.getChbrIndex(firstGlyph, success);
+        ib = glyphStorbge.getChbrIndex(firstGlyph + 1, success);
         x = firstGlyph + 2;
 
-        while (x <= lastGlyph) {
-            glyphStorage[x - 2] = glyphStorage[x];
-            ix = glyphStorage.getCharIndex(x, success);
-            glyphStorage.setCharIndex(x - 2, ix, success);
+        while (x <= lbstGlyph) {
+            glyphStorbge[x - 2] = glyphStorbge[x];
+            ix = glyphStorbge.getChbrIndex(x, success);
+            glyphStorbge.setChbrIndex(x - 2, ix, success);
             x += 1;
         }
 
-        glyphStorage[lastGlyph - 1] = b;
-        glyphStorage[lastGlyph] = a;
+        glyphStorbge[lbstGlyph - 1] = b;
+        glyphStorbge[lbstGlyph] = b;
 
-        glyphStorage.setCharIndex(lastGlyph - 1, ib, success);
-        glyphStorage.setCharIndex(lastGlyph, ia, success);
-        break;
+        glyphStorbge.setChbrIndex(lbstGlyph - 1, ib, success);
+        glyphStorbge.setChbrIndex(lbstGlyph, ib, success);
+        brebk;
 
-    case irvCDx:
-        c = glyphStorage[lastGlyph - 1];
-        d = glyphStorage[lastGlyph];
-        ic = glyphStorage.getCharIndex(lastGlyph - 1, success);
-        id = glyphStorage.getCharIndex(lastGlyph, success);
-        x = lastGlyph - 2;
+    cbse irvCDx:
+        c = glyphStorbge[lbstGlyph - 1];
+        d = glyphStorbge[lbstGlyph];
+        ic = glyphStorbge.getChbrIndex(lbstGlyph - 1, success);
+        id = glyphStorbge.getChbrIndex(lbstGlyph, success);
+        x = lbstGlyph - 2;
 
         while (x >= firstGlyph) {
-            glyphStorage[x + 2] = glyphStorage[x];
-            ix = glyphStorage.getCharIndex(x, success);
-            glyphStorage.setCharIndex(x + 2, ix, success);
+            glyphStorbge[x + 2] = glyphStorbge[x];
+            ix = glyphStorbge.getChbrIndex(x, success);
+            glyphStorbge.setChbrIndex(x + 2, ix, success);
             x -= 1;
         }
 
-        glyphStorage[firstGlyph] = c;
-        glyphStorage[firstGlyph + 1] = d;
+        glyphStorbge[firstGlyph] = c;
+        glyphStorbge[firstGlyph + 1] = d;
 
-        glyphStorage.setCharIndex(firstGlyph, ic, success);
-        glyphStorage.setCharIndex(firstGlyph + 1, id, success);
-        break;
+        glyphStorbge.setChbrIndex(firstGlyph, ic, success);
+        glyphStorbge.setChbrIndex(firstGlyph + 1, id, success);
+        brebk;
 
-    case irvDCx:
-        c = glyphStorage[lastGlyph - 1];
-        d = glyphStorage[lastGlyph];
-        ic = glyphStorage.getCharIndex(lastGlyph - 1, success);
-        id = glyphStorage.getCharIndex(lastGlyph, success);
-        x = lastGlyph - 2;
+    cbse irvDCx:
+        c = glyphStorbge[lbstGlyph - 1];
+        d = glyphStorbge[lbstGlyph];
+        ic = glyphStorbge.getChbrIndex(lbstGlyph - 1, success);
+        id = glyphStorbge.getChbrIndex(lbstGlyph, success);
+        x = lbstGlyph - 2;
 
         while (x >= firstGlyph) {
-            glyphStorage[x + 2] = glyphStorage[x];
-            ix = glyphStorage.getCharIndex(x, success);
-            glyphStorage.setCharIndex(x + 2, ix, success);
+            glyphStorbge[x + 2] = glyphStorbge[x];
+            ix = glyphStorbge.getChbrIndex(x, success);
+            glyphStorbge.setChbrIndex(x + 2, ix, success);
             x -= 1;
         }
 
-        glyphStorage[firstGlyph] = d;
-        glyphStorage[firstGlyph + 1] = c;
+        glyphStorbge[firstGlyph] = d;
+        glyphStorbge[firstGlyph + 1] = c;
 
-        glyphStorage.setCharIndex(firstGlyph, id, success);
-        glyphStorage.setCharIndex(firstGlyph + 1, ic, success);
-        break;
+        glyphStorbge.setChbrIndex(firstGlyph, id, success);
+        glyphStorbge.setChbrIndex(firstGlyph + 1, ic, success);
+        brebk;
 
-    case irvCDxA:
-        a = glyphStorage[firstGlyph];
-        c = glyphStorage[lastGlyph - 1];
-        d = glyphStorage[lastGlyph];
-        ia = glyphStorage.getCharIndex(firstGlyph, success);
-        ic = glyphStorage.getCharIndex(lastGlyph - 1, success);
-        id = glyphStorage.getCharIndex(lastGlyph, success);
-        x = lastGlyph - 2;
+    cbse irvCDxA:
+        b = glyphStorbge[firstGlyph];
+        c = glyphStorbge[lbstGlyph - 1];
+        d = glyphStorbge[lbstGlyph];
+        ib = glyphStorbge.getChbrIndex(firstGlyph, success);
+        ic = glyphStorbge.getChbrIndex(lbstGlyph - 1, success);
+        id = glyphStorbge.getChbrIndex(lbstGlyph, success);
+        x = lbstGlyph - 2;
 
         while (x > firstGlyph) {
-            glyphStorage[x + 1] = glyphStorage[x];
-            ix = glyphStorage.getCharIndex(x, success);
-            glyphStorage.setCharIndex(x + 1, ix, success);
+            glyphStorbge[x + 1] = glyphStorbge[x];
+            ix = glyphStorbge.getChbrIndex(x, success);
+            glyphStorbge.setChbrIndex(x + 1, ix, success);
             x -= 1;
         }
 
-        glyphStorage[firstGlyph] = c;
-        glyphStorage[firstGlyph + 1] = d;
-        glyphStorage[lastGlyph] = a;
+        glyphStorbge[firstGlyph] = c;
+        glyphStorbge[firstGlyph + 1] = d;
+        glyphStorbge[lbstGlyph] = b;
 
-        glyphStorage.setCharIndex(firstGlyph, ic, success);
-        glyphStorage.setCharIndex(firstGlyph + 1, id, success);
-        glyphStorage.setCharIndex(lastGlyph, ia, success);
-        break;
+        glyphStorbge.setChbrIndex(firstGlyph, ic, success);
+        glyphStorbge.setChbrIndex(firstGlyph + 1, id, success);
+        glyphStorbge.setChbrIndex(lbstGlyph, ib, success);
+        brebk;
 
-    case irvDCxA:
-        a = glyphStorage[firstGlyph];
-        c = glyphStorage[lastGlyph - 1];
-        d = glyphStorage[lastGlyph];
-        ia = glyphStorage.getCharIndex(firstGlyph, success);
-        ic = glyphStorage.getCharIndex(lastGlyph - 1, success);
-        id = glyphStorage.getCharIndex(lastGlyph, success);
-        x = lastGlyph - 2;
+    cbse irvDCxA:
+        b = glyphStorbge[firstGlyph];
+        c = glyphStorbge[lbstGlyph - 1];
+        d = glyphStorbge[lbstGlyph];
+        ib = glyphStorbge.getChbrIndex(firstGlyph, success);
+        ic = glyphStorbge.getChbrIndex(lbstGlyph - 1, success);
+        id = glyphStorbge.getChbrIndex(lbstGlyph, success);
+        x = lbstGlyph - 2;
 
         while (x > firstGlyph) {
-            glyphStorage[x + 1] = glyphStorage[x];
-            ix = glyphStorage.getCharIndex(x, success);
-            glyphStorage.setCharIndex(x + 1, ix, success);
+            glyphStorbge[x + 1] = glyphStorbge[x];
+            ix = glyphStorbge.getChbrIndex(x, success);
+            glyphStorbge.setChbrIndex(x + 1, ix, success);
             x -= 1;
         }
 
-        glyphStorage[firstGlyph] = d;
-        glyphStorage[firstGlyph + 1] = c;
-        glyphStorage[lastGlyph] = a;
+        glyphStorbge[firstGlyph] = d;
+        glyphStorbge[firstGlyph + 1] = c;
+        glyphStorbge[lbstGlyph] = b;
 
-        glyphStorage.setCharIndex(firstGlyph, id, success);
-        glyphStorage.setCharIndex(firstGlyph + 1, ic, success);
-        glyphStorage.setCharIndex(lastGlyph, ia, success);
-        break;
+        glyphStorbge.setChbrIndex(firstGlyph, id, success);
+        glyphStorbge.setChbrIndex(firstGlyph + 1, ic, success);
+        glyphStorbge.setChbrIndex(lbstGlyph, ib, success);
+        brebk;
 
-    case irvDxAB:
-        a = glyphStorage[firstGlyph];
-        b = glyphStorage[firstGlyph + 1];
-        d = glyphStorage[lastGlyph];
-        ia = glyphStorage.getCharIndex(firstGlyph, success);
-        ib = glyphStorage.getCharIndex(firstGlyph + 1, success);
-        id = glyphStorage.getCharIndex(lastGlyph, success);
+    cbse irvDxAB:
+        b = glyphStorbge[firstGlyph];
+        b = glyphStorbge[firstGlyph + 1];
+        d = glyphStorbge[lbstGlyph];
+        ib = glyphStorbge.getChbrIndex(firstGlyph, success);
+        ib = glyphStorbge.getChbrIndex(firstGlyph + 1, success);
+        id = glyphStorbge.getChbrIndex(lbstGlyph, success);
         x = firstGlyph + 2;
 
-        while (x < lastGlyph) {
-            glyphStorage[x - 2] = glyphStorage[x];
-            ix = glyphStorage.getCharIndex(x, success);
-            glyphStorage.setCharIndex(x - 2, ix, success);
+        while (x < lbstGlyph) {
+            glyphStorbge[x - 2] = glyphStorbge[x];
+            ix = glyphStorbge.getChbrIndex(x, success);
+            glyphStorbge.setChbrIndex(x - 2, ix, success);
             x += 1;
         }
 
-        glyphStorage[firstGlyph] = d;
-        glyphStorage[lastGlyph - 1] = a;
-        glyphStorage[lastGlyph] = b;
+        glyphStorbge[firstGlyph] = d;
+        glyphStorbge[lbstGlyph - 1] = b;
+        glyphStorbge[lbstGlyph] = b;
 
-        glyphStorage.setCharIndex(firstGlyph, id, success);
-        glyphStorage.setCharIndex(lastGlyph - 1, ia, success);
-        glyphStorage.setCharIndex(lastGlyph, ib, success);
-        break;
+        glyphStorbge.setChbrIndex(firstGlyph, id, success);
+        glyphStorbge.setChbrIndex(lbstGlyph - 1, ib, success);
+        glyphStorbge.setChbrIndex(lbstGlyph, ib, success);
+        brebk;
 
-    case irvDxBA:
-        a = glyphStorage[firstGlyph];
-        b = glyphStorage[firstGlyph + 1];
-        d = glyphStorage[lastGlyph];
-        ia = glyphStorage.getCharIndex(firstGlyph, success);
-        ib = glyphStorage.getCharIndex(firstGlyph + 1, success);
-        id = glyphStorage.getCharIndex(lastGlyph, success);
+    cbse irvDxBA:
+        b = glyphStorbge[firstGlyph];
+        b = glyphStorbge[firstGlyph + 1];
+        d = glyphStorbge[lbstGlyph];
+        ib = glyphStorbge.getChbrIndex(firstGlyph, success);
+        ib = glyphStorbge.getChbrIndex(firstGlyph + 1, success);
+        id = glyphStorbge.getChbrIndex(lbstGlyph, success);
         x = firstGlyph + 2;
 
-        while (x < lastGlyph) {
-            glyphStorage[x - 2] = glyphStorage[x];
-            ix = glyphStorage.getCharIndex(x, success);
-            glyphStorage.setCharIndex(x - 2, ix, success);
+        while (x < lbstGlyph) {
+            glyphStorbge[x - 2] = glyphStorbge[x];
+            ix = glyphStorbge.getChbrIndex(x, success);
+            glyphStorbge.setChbrIndex(x - 2, ix, success);
             x += 1;
         }
 
-        glyphStorage[firstGlyph] = d;
-        glyphStorage[lastGlyph - 1] = b;
-        glyphStorage[lastGlyph] = a;
+        glyphStorbge[firstGlyph] = d;
+        glyphStorbge[lbstGlyph - 1] = b;
+        glyphStorbge[lbstGlyph] = b;
 
-        glyphStorage.setCharIndex(firstGlyph, id, success);
-        glyphStorage.setCharIndex(lastGlyph - 1, ib, success);
-        glyphStorage.setCharIndex(lastGlyph, ia, success);
-        break;
+        glyphStorbge.setChbrIndex(firstGlyph, id, success);
+        glyphStorbge.setChbrIndex(lbstGlyph - 1, ib, success);
+        glyphStorbge.setChbrIndex(lbstGlyph, ib, success);
+        brebk;
 
-    case irvCDxAB:
-        a = glyphStorage[firstGlyph];
-        b = glyphStorage[firstGlyph + 1];
+    cbse irvCDxAB:
+        b = glyphStorbge[firstGlyph];
+        b = glyphStorbge[firstGlyph + 1];
 
-        glyphStorage[firstGlyph] = glyphStorage[lastGlyph - 1];
-        glyphStorage[firstGlyph + 1] = glyphStorage[lastGlyph];
+        glyphStorbge[firstGlyph] = glyphStorbge[lbstGlyph - 1];
+        glyphStorbge[firstGlyph + 1] = glyphStorbge[lbstGlyph];
 
-        glyphStorage[lastGlyph - 1] = a;
-        glyphStorage[lastGlyph] = b;
+        glyphStorbge[lbstGlyph - 1] = b;
+        glyphStorbge[lbstGlyph] = b;
 
-        ia = glyphStorage.getCharIndex(firstGlyph, success);
-        ib = glyphStorage.getCharIndex(firstGlyph + 1, success);
-        ic = glyphStorage.getCharIndex(lastGlyph - 1, success);
-        id = glyphStorage.getCharIndex(lastGlyph, success);
+        ib = glyphStorbge.getChbrIndex(firstGlyph, success);
+        ib = glyphStorbge.getChbrIndex(firstGlyph + 1, success);
+        ic = glyphStorbge.getChbrIndex(lbstGlyph - 1, success);
+        id = glyphStorbge.getChbrIndex(lbstGlyph, success);
 
-        glyphStorage.setCharIndex(firstGlyph, ic, success);
-        glyphStorage.setCharIndex(firstGlyph + 1, id, success);
+        glyphStorbge.setChbrIndex(firstGlyph, ic, success);
+        glyphStorbge.setChbrIndex(firstGlyph + 1, id, success);
 
-        glyphStorage.setCharIndex(lastGlyph - 1, ia, success);
-        glyphStorage.setCharIndex(lastGlyph, ib, success);
-        break;
+        glyphStorbge.setChbrIndex(lbstGlyph - 1, ib, success);
+        glyphStorbge.setChbrIndex(lbstGlyph, ib, success);
+        brebk;
 
-    case irvCDxBA:
-        a = glyphStorage[firstGlyph];
-        b = glyphStorage[firstGlyph + 1];
+    cbse irvCDxBA:
+        b = glyphStorbge[firstGlyph];
+        b = glyphStorbge[firstGlyph + 1];
 
-        glyphStorage[firstGlyph] = glyphStorage[lastGlyph - 1];
-        glyphStorage[firstGlyph + 1] = glyphStorage[lastGlyph];
+        glyphStorbge[firstGlyph] = glyphStorbge[lbstGlyph - 1];
+        glyphStorbge[firstGlyph + 1] = glyphStorbge[lbstGlyph];
 
-        glyphStorage[lastGlyph - 1] = b;
-        glyphStorage[lastGlyph] = a;
+        glyphStorbge[lbstGlyph - 1] = b;
+        glyphStorbge[lbstGlyph] = b;
 
-        ia = glyphStorage.getCharIndex(firstGlyph, success);
-        ib = glyphStorage.getCharIndex(firstGlyph + 1, success);
-        ic = glyphStorage.getCharIndex(lastGlyph - 1, success);
-        id = glyphStorage.getCharIndex(lastGlyph, success);
+        ib = glyphStorbge.getChbrIndex(firstGlyph, success);
+        ib = glyphStorbge.getChbrIndex(firstGlyph + 1, success);
+        ic = glyphStorbge.getChbrIndex(lbstGlyph - 1, success);
+        id = glyphStorbge.getChbrIndex(lbstGlyph, success);
 
-        glyphStorage.setCharIndex(firstGlyph, ic, success);
-        glyphStorage.setCharIndex(firstGlyph + 1, id, success);
+        glyphStorbge.setChbrIndex(firstGlyph, ic, success);
+        glyphStorbge.setChbrIndex(firstGlyph + 1, id, success);
 
-        glyphStorage.setCharIndex(lastGlyph - 1, ib, success);
-        glyphStorage.setCharIndex(lastGlyph, ia, success);
-        break;
+        glyphStorbge.setChbrIndex(lbstGlyph - 1, ib, success);
+        glyphStorbge.setChbrIndex(lbstGlyph, ib, success);
+        brebk;
 
-    case irvDCxAB:
-        a = glyphStorage[firstGlyph];
-        b = glyphStorage[firstGlyph + 1];
+    cbse irvDCxAB:
+        b = glyphStorbge[firstGlyph];
+        b = glyphStorbge[firstGlyph + 1];
 
-        glyphStorage[firstGlyph] = glyphStorage[lastGlyph];
-        glyphStorage[firstGlyph + 1] = glyphStorage[lastGlyph - 1];
+        glyphStorbge[firstGlyph] = glyphStorbge[lbstGlyph];
+        glyphStorbge[firstGlyph + 1] = glyphStorbge[lbstGlyph - 1];
 
-        glyphStorage[lastGlyph - 1] = a;
-        glyphStorage[lastGlyph] = b;
+        glyphStorbge[lbstGlyph - 1] = b;
+        glyphStorbge[lbstGlyph] = b;
 
-        ia = glyphStorage.getCharIndex(firstGlyph, success);
-        ib = glyphStorage.getCharIndex(firstGlyph + 1, success);
-        ic = glyphStorage.getCharIndex(lastGlyph - 1, success);
-        id = glyphStorage.getCharIndex(lastGlyph, success);
+        ib = glyphStorbge.getChbrIndex(firstGlyph, success);
+        ib = glyphStorbge.getChbrIndex(firstGlyph + 1, success);
+        ic = glyphStorbge.getChbrIndex(lbstGlyph - 1, success);
+        id = glyphStorbge.getChbrIndex(lbstGlyph, success);
 
-        glyphStorage.setCharIndex(firstGlyph, id, success);
-        glyphStorage.setCharIndex(firstGlyph + 1, ic, success);
+        glyphStorbge.setChbrIndex(firstGlyph, id, success);
+        glyphStorbge.setChbrIndex(firstGlyph + 1, ic, success);
 
-        glyphStorage.setCharIndex(lastGlyph - 1, ia, success);
-        glyphStorage.setCharIndex(lastGlyph, ib, success);
-        break;
+        glyphStorbge.setChbrIndex(lbstGlyph - 1, ib, success);
+        glyphStorbge.setChbrIndex(lbstGlyph, ib, success);
+        brebk;
 
-    case irvDCxBA:
-        a = glyphStorage[firstGlyph];
-        b = glyphStorage[firstGlyph + 1];
+    cbse irvDCxBA:
+        b = glyphStorbge[firstGlyph];
+        b = glyphStorbge[firstGlyph + 1];
 
-        glyphStorage[firstGlyph] = glyphStorage[lastGlyph];
-        glyphStorage[firstGlyph + 1] = glyphStorage[lastGlyph - 1];
+        glyphStorbge[firstGlyph] = glyphStorbge[lbstGlyph];
+        glyphStorbge[firstGlyph + 1] = glyphStorbge[lbstGlyph - 1];
 
-        glyphStorage[lastGlyph - 1] = b;
-        glyphStorage[lastGlyph] = a;
+        glyphStorbge[lbstGlyph - 1] = b;
+        glyphStorbge[lbstGlyph] = b;
 
-        ia = glyphStorage.getCharIndex(firstGlyph, success);
-        ib = glyphStorage.getCharIndex(firstGlyph + 1, success);
-        ic = glyphStorage.getCharIndex(lastGlyph - 1, success);
-        id = glyphStorage.getCharIndex(lastGlyph, success);
+        ib = glyphStorbge.getChbrIndex(firstGlyph, success);
+        ib = glyphStorbge.getChbrIndex(firstGlyph + 1, success);
+        ic = glyphStorbge.getChbrIndex(lbstGlyph - 1, success);
+        id = glyphStorbge.getChbrIndex(lbstGlyph, success);
 
-        glyphStorage.setCharIndex(firstGlyph, id, success);
-        glyphStorage.setCharIndex(firstGlyph + 1, ic, success);
+        glyphStorbge.setChbrIndex(firstGlyph, id, success);
+        glyphStorbge.setChbrIndex(firstGlyph + 1, ic, success);
 
-        glyphStorage.setCharIndex(lastGlyph - 1, ib, success);
-        glyphStorage.setCharIndex(lastGlyph, ia, success);
-        break;
+        glyphStorbge.setChbrIndex(lbstGlyph - 1, ib, success);
+        glyphStorbge.setChbrIndex(lbstGlyph, ib, success);
+        brebk;
 
-    default:
-        break;
+    defbult:
+        brebk;
     }
 }
 

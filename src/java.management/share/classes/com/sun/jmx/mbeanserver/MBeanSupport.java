@@ -1,276 +1,276 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jmx.mbeanserver;
+pbckbge com.sun.jmx.mbebnserver;
 
 
-import javax.management.Attribute;
-import javax.management.AttributeList;
-import javax.management.AttributeNotFoundException;
-import javax.management.InvalidAttributeValueException;
-import javax.management.MBeanException;
-import javax.management.MBeanInfo;
-import javax.management.MBeanRegistration;
-import javax.management.MBeanServer;
-import javax.management.NotCompliantMBeanException;
-import javax.management.ObjectName;
-import javax.management.ReflectionException;
-import com.sun.jmx.mbeanserver.MXBeanMappingFactory;
+import jbvbx.mbnbgement.Attribute;
+import jbvbx.mbnbgement.AttributeList;
+import jbvbx.mbnbgement.AttributeNotFoundException;
+import jbvbx.mbnbgement.InvblidAttributeVblueException;
+import jbvbx.mbnbgement.MBebnException;
+import jbvbx.mbnbgement.MBebnInfo;
+import jbvbx.mbnbgement.MBebnRegistrbtion;
+import jbvbx.mbnbgement.MBebnServer;
+import jbvbx.mbnbgement.NotComplibntMBebnException;
+import jbvbx.mbnbgement.ObjectNbme;
+import jbvbx.mbnbgement.ReflectionException;
+import com.sun.jmx.mbebnserver.MXBebnMbppingFbctory;
 import sun.reflect.misc.ReflectUtil;
 
 /**
- * Base class for MBeans.  There is one instance of this class for
- * every Standard MBean and every MXBean.  We try to limit the amount
- * of information per instance so we can handle very large numbers of
- * MBeans comfortably.
+ * Bbse clbss for MBebns.  There is one instbnce of this clbss for
+ * every Stbndbrd MBebn bnd every MXBebn.  We try to limit the bmount
+ * of informbtion per instbnce so we cbn hbndle very lbrge numbers of
+ * MBebns comfortbbly.
  *
- * @param <M> either Method or ConvertingMethod, for Standard MBeans
- * and MXBeans respectively.
+ * @pbrbm <M> either Method or ConvertingMethod, for Stbndbrd MBebns
+ * bnd MXBebns respectively.
  *
  * @since 1.6
  */
 /*
- * We maintain a couple of caches to increase sharing between
- * different MBeans of the same type and also to reduce creation time
- * for the second and subsequent instances of the same type.
+ * We mbintbin b couple of cbches to increbse shbring between
+ * different MBebns of the sbme type bnd blso to reduce crebtion time
+ * for the second bnd subsequent instbnces of the sbme type.
  *
- * The first cache maps from an MBean interface to a PerInterface
- * object containing information parsed out of the interface.  The
- * interface is either a Standard MBean interface or an MXBean
- * interface, and there is one cache for each case.
+ * The first cbche mbps from bn MBebn interfbce to b PerInterfbce
+ * object contbining informbtion pbrsed out of the interfbce.  The
+ * interfbce is either b Stbndbrd MBebn interfbce or bn MXBebn
+ * interfbce, bnd there is one cbche for ebch cbse.
  *
- * The PerInterface includes an MBeanInfo.  This contains the
- * attributes and operations parsed out of the interface's methods,
- * plus a basic Descriptor for the interface containing at least the
- * interfaceClassName field and any fields derived from annotations on
- * the interface.  This MBeanInfo can never be the MBeanInfo for any
- * actual MBean, because an MBeanInfo's getClassName() is the name of
- * a concrete class and we don't know what the class will be.
- * Furthermore a real MBeanInfo may need to add constructors and/or
- * notifications to the MBeanInfo.
+ * The PerInterfbce includes bn MBebnInfo.  This contbins the
+ * bttributes bnd operbtions pbrsed out of the interfbce's methods,
+ * plus b bbsic Descriptor for the interfbce contbining bt lebst the
+ * interfbceClbssNbme field bnd bny fields derived from bnnotbtions on
+ * the interfbce.  This MBebnInfo cbn never be the MBebnInfo for bny
+ * bctubl MBebn, becbuse bn MBebnInfo's getClbssNbme() is the nbme of
+ * b concrete clbss bnd we don't know whbt the clbss will be.
+ * Furthermore b rebl MBebnInfo mby need to bdd constructors bnd/or
+ * notificbtions to the MBebnInfo.
  *
- * The PerInterface also contains an MBeanDispatcher which is able to
- * route getAttribute, setAttribute, and invoke to the appropriate
- * method of the interface, including doing any necessary translation
- * of parameters and return values for MXBeans.
+ * The PerInterfbce blso contbins bn MBebnDispbtcher which is bble to
+ * route getAttribute, setAttribute, bnd invoke to the bppropribte
+ * method of the interfbce, including doing bny necessbry trbnslbtion
+ * of pbrbmeters bnd return vblues for MXBebns.
  *
- * The PerInterface also contains the original Class for the interface.
+ * The PerInterfbce blso contbins the originbl Clbss for the interfbce.
  *
- * We need to be careful about references.  When there are no MBeans
- * with a given interface, there must not be any strong references to
- * the interface Class.  Otherwise it could never be garbage collected,
- * and neither could its ClassLoader or any other classes loaded by
- * its ClassLoader.  Therefore the cache must wrap the PerInterface
- * in a WeakReference.  Each instance of MBeanSupport has a strong
- * reference to its PerInterface, which prevents PerInterface instances
- * from being garbage-collected prematurely.
+ * We need to be cbreful bbout references.  When there bre no MBebns
+ * with b given interfbce, there must not be bny strong references to
+ * the interfbce Clbss.  Otherwise it could never be gbrbbge collected,
+ * bnd neither could its ClbssLobder or bny other clbsses lobded by
+ * its ClbssLobder.  Therefore the cbche must wrbp the PerInterfbce
+ * in b WebkReference.  Ebch instbnce of MBebnSupport hbs b strong
+ * reference to its PerInterfbce, which prevents PerInterfbce instbnces
+ * from being gbrbbge-collected prembturely.
  *
- * The second cache maps from a concrete class and an MBean interface
- * that that class implements to the MBeanInfo for that class and
- * interface.  (The ability to specify an interface separately comes
- * from the class StandardMBean.  MBeans registered directly in the
- * MBean Server will always have the same interface here.)
+ * The second cbche mbps from b concrete clbss bnd bn MBebn interfbce
+ * thbt thbt clbss implements to the MBebnInfo for thbt clbss bnd
+ * interfbce.  (The bbility to specify bn interfbce sepbrbtely comes
+ * from the clbss StbndbrdMBebn.  MBebns registered directly in the
+ * MBebn Server will blwbys hbve the sbme interfbce here.)
  *
- * The MBeanInfo in this second cache will be the MBeanInfo from the
- * PerInterface cache for the given itnerface, but with the
- * getClassName() having the concrete class's name, and the public
- * constructors based on the concrete class's constructors.  This
- * MBeanInfo can be shared between all instances of the concrete class
- * specifying the same interface, except instances that are
- * NotificationBroadcasters.  NotificationBroadcasters supply the
- * MBeanNotificationInfo[] in the MBeanInfo based on the instance
- * method NotificationBroadcaster.getNotificationInfo(), so two
- * instances of the same concrete class do not necessarily have the
- * same MBeanNotificationInfo[].  Currently we do not try to detect
- * when they do, although it would probably be worthwhile doing that
- * since it is a very common case.
+ * The MBebnInfo in this second cbche will be the MBebnInfo from the
+ * PerInterfbce cbche for the given itnerfbce, but with the
+ * getClbssNbme() hbving the concrete clbss's nbme, bnd the public
+ * constructors bbsed on the concrete clbss's constructors.  This
+ * MBebnInfo cbn be shbred between bll instbnces of the concrete clbss
+ * specifying the sbme interfbce, except instbnces thbt bre
+ * NotificbtionBrobdcbsters.  NotificbtionBrobdcbsters supply the
+ * MBebnNotificbtionInfo[] in the MBebnInfo bbsed on the instbnce
+ * method NotificbtionBrobdcbster.getNotificbtionInfo(), so two
+ * instbnces of the sbme concrete clbss do not necessbrily hbve the
+ * sbme MBebnNotificbtionInfo[].  Currently we do not try to detect
+ * when they do, blthough it would probbbly be worthwhile doing thbt
+ * since it is b very common cbse.
  *
- * Standard MBeans additionally have the property that
- * getNotificationInfo() must in principle be called every time
- * getMBeanInfo() is called for the MBean, since the returned array is
- * allowed to change over time.  We attempt to reduce the cost of
- * doing this by detecting when the Standard MBean is a subclass of
- * NotificationBroadcasterSupport that does not override
- * getNotificationInfo(), meaning that the MBeanNotificationInfo[] is
- * the one that was supplied to the constructor.  MXBeans do not have
- * this problem because their getNotificationInfo() method is called
+ * Stbndbrd MBebns bdditionblly hbve the property thbt
+ * getNotificbtionInfo() must in principle be cblled every time
+ * getMBebnInfo() is cblled for the MBebn, since the returned brrby is
+ * bllowed to chbnge over time.  We bttempt to reduce the cost of
+ * doing this by detecting when the Stbndbrd MBebn is b subclbss of
+ * NotificbtionBrobdcbsterSupport thbt does not override
+ * getNotificbtionInfo(), mebning thbt the MBebnNotificbtionInfo[] is
+ * the one thbt wbs supplied to the constructor.  MXBebns do not hbve
+ * this problem becbuse their getNotificbtionInfo() method is cblled
  * only once.
  *
  */
-public abstract class MBeanSupport<M>
-        implements DynamicMBean2, MBeanRegistration {
+public bbstrbct clbss MBebnSupport<M>
+        implements DynbmicMBebn2, MBebnRegistrbtion {
 
-    <T> MBeanSupport(T resource, Class<T> mbeanInterfaceType)
-            throws NotCompliantMBeanException {
-        if (mbeanInterfaceType == null)
-            throw new NotCompliantMBeanException("Null MBean interface");
-        if (!mbeanInterfaceType.isInstance(resource)) {
-            final String msg =
-                "Resource class " + resource.getClass().getName() +
-                " is not an instance of " + mbeanInterfaceType.getName();
-            throw new NotCompliantMBeanException(msg);
+    <T> MBebnSupport(T resource, Clbss<T> mbebnInterfbceType)
+            throws NotComplibntMBebnException {
+        if (mbebnInterfbceType == null)
+            throw new NotComplibntMBebnException("Null MBebn interfbce");
+        if (!mbebnInterfbceType.isInstbnce(resource)) {
+            finbl String msg =
+                "Resource clbss " + resource.getClbss().getNbme() +
+                " is not bn instbnce of " + mbebnInterfbceType.getNbme();
+            throw new NotComplibntMBebnException(msg);
         }
-        ReflectUtil.checkPackageAccess(mbeanInterfaceType);
+        ReflectUtil.checkPbckbgeAccess(mbebnInterfbceType);
         this.resource = resource;
-        MBeanIntrospector<M> introspector = getMBeanIntrospector();
-        this.perInterface = introspector.getPerInterface(mbeanInterfaceType);
-        this.mbeanInfo = introspector.getMBeanInfo(resource, perInterface);
+        MBebnIntrospector<M> introspector = getMBebnIntrospector();
+        this.perInterfbce = introspector.getPerInterfbce(mbebnInterfbceType);
+        this.mbebnInfo = introspector.getMBebnInfo(resource, perInterfbce);
     }
 
-    /** Return the appropriate introspector for this type of MBean. */
-    abstract MBeanIntrospector<M> getMBeanIntrospector();
+    /** Return the bppropribte introspector for this type of MBebn. */
+    bbstrbct MBebnIntrospector<M> getMBebnIntrospector();
 
     /**
-     * Return a cookie for this MBean.  This cookie will be passed to
-     * MBean method invocations where it can supply additional information
-     * to the invocation.  For example, with MXBeans it can be used to
-     * supply the MXBeanLookup context for resolving inter-MXBean references.
+     * Return b cookie for this MBebn.  This cookie will be pbssed to
+     * MBebn method invocbtions where it cbn supply bdditionbl informbtion
+     * to the invocbtion.  For exbmple, with MXBebns it cbn be used to
+     * supply the MXBebnLookup context for resolving inter-MXBebn references.
      */
-    abstract Object getCookie();
+    bbstrbct Object getCookie();
 
-    public final boolean isMXBean() {
-        return perInterface.isMXBean();
+    public finbl boolebn isMXBebn() {
+        return perInterfbce.isMXBebn();
     }
 
-    // Methods that javax.management.StandardMBean should call from its
-    // preRegister and postRegister, given that it is not supposed to
-    // call the contained object's preRegister etc methods even if it has them
-    public abstract void register(MBeanServer mbs, ObjectName name)
+    // Methods thbt jbvbx.mbnbgement.StbndbrdMBebn should cbll from its
+    // preRegister bnd postRegister, given thbt it is not supposed to
+    // cbll the contbined object's preRegister etc methods even if it hbs them
+    public bbstrbct void register(MBebnServer mbs, ObjectNbme nbme)
             throws Exception;
-    public abstract void unregister();
+    public bbstrbct void unregister();
 
-    public final ObjectName preRegister(MBeanServer server, ObjectName name)
+    public finbl ObjectNbme preRegister(MBebnServer server, ObjectNbme nbme)
             throws Exception {
-        if (resource instanceof MBeanRegistration)
-            name = ((MBeanRegistration) resource).preRegister(server, name);
-        return name;
+        if (resource instbnceof MBebnRegistrbtion)
+            nbme = ((MBebnRegistrbtion) resource).preRegister(server, nbme);
+        return nbme;
     }
 
-    public final void preRegister2(MBeanServer server, ObjectName name)
+    public finbl void preRegister2(MBebnServer server, ObjectNbme nbme)
             throws Exception {
-        register(server, name);
+        register(server, nbme);
     }
 
-    public final void registerFailed() {
+    public finbl void registerFbiled() {
         unregister();
     }
 
-    public final void postRegister(Boolean registrationDone) {
-        if (resource instanceof MBeanRegistration)
-            ((MBeanRegistration) resource).postRegister(registrationDone);
+    public finbl void postRegister(Boolebn registrbtionDone) {
+        if (resource instbnceof MBebnRegistrbtion)
+            ((MBebnRegistrbtion) resource).postRegister(registrbtionDone);
     }
 
-    public final void preDeregister() throws Exception {
-        if (resource instanceof MBeanRegistration)
-            ((MBeanRegistration) resource).preDeregister();
+    public finbl void preDeregister() throws Exception {
+        if (resource instbnceof MBebnRegistrbtion)
+            ((MBebnRegistrbtion) resource).preDeregister();
     }
 
-    public final void postDeregister() {
-        // Undo any work from registration.  We do this in postDeregister
-        // not preDeregister, because if the user preDeregister throws an
-        // exception then the MBean is not unregistered.
+    public finbl void postDeregister() {
+        // Undo bny work from registrbtion.  We do this in postDeregister
+        // not preDeregister, becbuse if the user preDeregister throws bn
+        // exception then the MBebn is not unregistered.
         try {
             unregister();
-        } finally {
-            if (resource instanceof MBeanRegistration)
-                ((MBeanRegistration) resource).postDeregister();
+        } finblly {
+            if (resource instbnceof MBebnRegistrbtion)
+                ((MBebnRegistrbtion) resource).postDeregister();
         }
     }
 
-    public final Object getAttribute(String attribute)
+    public finbl Object getAttribute(String bttribute)
             throws AttributeNotFoundException,
-                   MBeanException,
+                   MBebnException,
                    ReflectionException {
-        return perInterface.getAttribute(resource, attribute, getCookie());
+        return perInterfbce.getAttribute(resource, bttribute, getCookie());
     }
 
-    public final AttributeList getAttributes(String[] attributes) {
-        final AttributeList result = new AttributeList(attributes.length);
-        for (String attrName : attributes) {
+    public finbl AttributeList getAttributes(String[] bttributes) {
+        finbl AttributeList result = new AttributeList(bttributes.length);
+        for (String bttrNbme : bttributes) {
             try {
-                final Object attrValue = getAttribute(attrName);
-                result.add(new Attribute(attrName, attrValue));
-            } catch (Exception e) {
-                // OK: attribute is not included in returned list, per spec
+                finbl Object bttrVblue = getAttribute(bttrNbme);
+                result.bdd(new Attribute(bttrNbme, bttrVblue));
+            } cbtch (Exception e) {
+                // OK: bttribute is not included in returned list, per spec
                 // XXX: log the exception
             }
         }
         return result;
     }
 
-    public final void setAttribute(Attribute attribute)
+    public finbl void setAttribute(Attribute bttribute)
             throws AttributeNotFoundException,
-                   InvalidAttributeValueException,
-                   MBeanException,
+                   InvblidAttributeVblueException,
+                   MBebnException,
                    ReflectionException {
-        final String name = attribute.getName();
-        final Object value = attribute.getValue();
-        perInterface.setAttribute(resource, name, value, getCookie());
+        finbl String nbme = bttribute.getNbme();
+        finbl Object vblue = bttribute.getVblue();
+        perInterfbce.setAttribute(resource, nbme, vblue, getCookie());
     }
 
-    public final AttributeList setAttributes(AttributeList attributes) {
-        final AttributeList result = new AttributeList(attributes.size());
-        for (Object attrObj : attributes) {
-            // We can't use AttributeList.asList because it has side-effects
-            Attribute attr = (Attribute) attrObj;
+    public finbl AttributeList setAttributes(AttributeList bttributes) {
+        finbl AttributeList result = new AttributeList(bttributes.size());
+        for (Object bttrObj : bttributes) {
+            // We cbn't use AttributeList.bsList becbuse it hbs side-effects
+            Attribute bttr = (Attribute) bttrObj;
             try {
-                setAttribute(attr);
-                result.add(new Attribute(attr.getName(), attr.getValue()));
-            } catch (Exception e) {
-                // OK: attribute is not included in returned list, per spec
+                setAttribute(bttr);
+                result.bdd(new Attribute(bttr.getNbme(), bttr.getVblue()));
+            } cbtch (Exception e) {
+                // OK: bttribute is not included in returned list, per spec
                 // XXX: log the exception
             }
         }
         return result;
     }
 
-    public final Object invoke(String operation, Object[] params,
-                         String[] signature)
-            throws MBeanException, ReflectionException {
-        return perInterface.invoke(resource, operation, params, signature,
+    public finbl Object invoke(String operbtion, Object[] pbrbms,
+                         String[] signbture)
+            throws MBebnException, ReflectionException {
+        return perInterfbce.invoke(resource, operbtion, pbrbms, signbture,
                                    getCookie());
     }
 
-    // Overridden by StandardMBeanSupport
-    public MBeanInfo getMBeanInfo() {
-        return mbeanInfo;
+    // Overridden by StbndbrdMBebnSupport
+    public MBebnInfo getMBebnInfo() {
+        return mbebnInfo;
     }
 
-    public final String getClassName() {
-        return resource.getClass().getName();
+    public finbl String getClbssNbme() {
+        return resource.getClbss().getNbme();
     }
 
-    public final Object getResource() {
+    public finbl Object getResource() {
         return resource;
     }
 
-    public final Class<?> getMBeanInterface() {
-        return perInterface.getMBeanInterface();
+    public finbl Clbss<?> getMBebnInterfbce() {
+        return perInterfbce.getMBebnInterfbce();
     }
 
-    private final MBeanInfo mbeanInfo;
-    private final Object resource;
-    private final PerInterface<M> perInterface;
+    privbte finbl MBebnInfo mbebnInfo;
+    privbte finbl Object resource;
+    privbte finbl PerInterfbce<M> perInterfbce;
 }

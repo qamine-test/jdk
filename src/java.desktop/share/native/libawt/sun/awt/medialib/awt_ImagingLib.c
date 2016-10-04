@@ -1,48 +1,48 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "sun_awt_image_ImagingLib.h"
-#include "java_awt_Transparency.h"
-#include "java_awt_image_AffineTransformOp.h"
-#include "java_awt_image_BufferedImage.h"
-#include "java_awt_color_ColorSpace.h"
-#include "java_awt_image_ConvolveOp.h"
-#include "sun_awt_image_IntegerComponentRaster.h"
-#include "awt_ImagingLib.h"
-#include "awt_parseImage.h"
-#include "imageInitIDs.h"
+#include "sun_bwt_imbge_ImbgingLib.h"
+#include "jbvb_bwt_Trbnspbrency.h"
+#include "jbvb_bwt_imbge_AffineTrbnsformOp.h"
+#include "jbvb_bwt_imbge_BufferedImbge.h"
+#include "jbvb_bwt_color_ColorSpbce.h"
+#include "jbvb_bwt_imbge_ConvolveOp.h"
+#include "sun_bwt_imbge_IntegerComponentRbster.h"
+#include "bwt_ImbgingLib.h"
+#include "bwt_pbrseImbge.h"
+#include "imbgeInitIDs.h"
 #include <jni.h>
 #include <jni_util.h>
-#include <assert.h>
-#include "awt_Mlib.h"
+#include <bssert.h>
+#include "bwt_Mlib.h"
 #include "gdefs.h"
-#include "safe_alloc.h"
-#include "safe_math.h"
+#include "sbfe_blloc.h"
+#include "sbfe_mbth.h"
 
 /***************************************************************************
  *                               Definitions                               *
@@ -57,23 +57,23 @@
 #define FALSE 0
 #endif /* FALSE */
 
-#define TYPE_CUSTOM         java_awt_image_BufferedImage_TYPE_CUSTOM
-#define TYPE_INT_RGB        java_awt_image_BufferedImage_TYPE_INT_RGB
-#define TYPE_INT_ARGB       java_awt_image_BufferedImage_TYPE_INT_ARGB
-#define TYPE_INT_ARGB_PRE   java_awt_image_BufferedImage_TYPE_INT_ARGB_PRE
-#define TYPE_INT_BGR        java_awt_image_BufferedImage_TYPE_INT_BGR
-#define TYPE_4BYTE_ABGR     java_awt_image_BufferedImage_TYPE_4BYTE_ABGR
-#define TYPE_4BYTE_ABGR_PRE java_awt_image_BufferedImage_TYPE_4BYTE_ABGR_PRE
+#define TYPE_CUSTOM         jbvb_bwt_imbge_BufferedImbge_TYPE_CUSTOM
+#define TYPE_INT_RGB        jbvb_bwt_imbge_BufferedImbge_TYPE_INT_RGB
+#define TYPE_INT_ARGB       jbvb_bwt_imbge_BufferedImbge_TYPE_INT_ARGB
+#define TYPE_INT_ARGB_PRE   jbvb_bwt_imbge_BufferedImbge_TYPE_INT_ARGB_PRE
+#define TYPE_INT_BGR        jbvb_bwt_imbge_BufferedImbge_TYPE_INT_BGR
+#define TYPE_4BYTE_ABGR     jbvb_bwt_imbge_BufferedImbge_TYPE_4BYTE_ABGR
+#define TYPE_4BYTE_ABGR_PRE jbvb_bwt_imbge_BufferedImbge_TYPE_4BYTE_ABGR_PRE
 
-/* (alpha*color)>>nbits + alpha>>(nbits-1) */
-#define BLEND(color, alpha, alphaNbits) \
-    ((((alpha)*(color))>>(alphaNbits)) + ((alpha) >> ((alphaNbits)-1)))
+/* (blphb*color)>>nbits + blphb>>(nbits-1) */
+#define BLEND(color, blphb, blphbNbits) \
+    ((((blphb)*(color))>>(blphbNbits)) + ((blphb) >> ((blphbNbits)-1)))
 
-    /* ((color - (alpha>>(nBits-1)))<<nBits)/alpha */
-#define UNBLEND(color, alpha, alphaNbits) \
-    ((((color)-((alpha)>>((alphaNbits)-1)))<<(alphaNbits))/(alpha))
+    /* ((color - (blphb>>(nBits-1)))<<nBits)/blphb */
+#define UNBLEND(color, blphb, blphbNbits) \
+    ((((color)-((blphb)>>((blphbNbits)-1)))<<(blphbNbits))/(blphb))
 
-/* Enumeration of all of the mlib functions used */
+/* Enumerbtion of bll of the mlib functions used */
 typedef enum {
     MLIB_CONVMxN,
     MLIB_AFFINE,
@@ -82,112 +82,112 @@ typedef enum {
 } mlibTypeE_t;
 
 typedef struct {
-    int dataType;           /* One of BYTE_DATA_TYPE, SHORT_DATA_TYPE, */
+    int dbtbType;           /* One of BYTE_DATA_TYPE, SHORT_DATA_TYPE, */
     int needToCopy;
-    int cvtSrcToDefault;    /* If TRUE, convert the src to def CM (pre?) */
-    int allocDefaultDst;    /* If TRUE, alloc def CM dst buffer */
+    int cvtSrcToDefbult;    /* If TRUE, convert the src to def CM (pre?) */
+    int bllocDefbultDst;    /* If TRUE, blloc def CM dst buffer */
     int cvtToDst;           /* If TRUE, convert dst buffer to Dst CM */
-    int addAlpha;
+    int bddAlphb;
 } mlibHintS_t;
 
 /***************************************************************************
- *                     Static Variables/Structures                         *
+ *                     Stbtic Vbribbles/Structures                         *
  ***************************************************************************/
 
-static mlibSysFnS_t sMlibSysFns = {
-    NULL, // placeholder for j2d_mlib_ImageCreate
-    NULL, // placeholder for j2d_mlib_ImageCreateStruct
-    NULL, // placeholder for j2d_mlib_ImageDelete
+stbtic mlibSysFnS_t sMlibSysFns = {
+    NULL, // plbceholder for j2d_mlib_ImbgeCrebte
+    NULL, // plbceholder for j2d_mlib_ImbgeCrebteStruct
+    NULL, // plbceholder for j2d_mlib_ImbgeDelete
 };
 
-static mlibFnS_t sMlibFns[] = {
-    {NULL, "j2d_mlib_ImageConvMxN"},
-    {NULL, "j2d_mlib_ImageAffine"},
-    {NULL, "j2d_mlib_ImageLookUp"},
-    {NULL, "j2d_mlib_ImageConvKernelConvert"},
+stbtic mlibFnS_t sMlibFns[] = {
+    {NULL, "j2d_mlib_ImbgeConvMxN"},
+    {NULL, "j2d_mlib_ImbgeAffine"},
+    {NULL, "j2d_mlib_ImbgeLookUp"},
+    {NULL, "j2d_mlib_ImbgeConvKernelConvert"},
     {NULL, NULL},
 };
 
-static int s_timeIt = 0;
-static int s_printIt = 0;
-static int s_startOff = 0;
-static int s_nomlib = 0;
+stbtic int s_timeIt = 0;
+stbtic int s_printIt = 0;
+stbtic int s_stbrtOff = 0;
+stbtic int s_nomlib = 0;
 
 /***************************************************************************
- *                          Static Function Prototypes                     *
+ *                          Stbtic Function Prototypes                     *
  ***************************************************************************/
 
-static int
-allocateArray(JNIEnv *env, BufImageS_t *imageP,
-              mlib_image **mlibImagePP, void **dataPP, int isSrc,
-              int cvtToDefault, int addAlpha);
-static int
-allocateRasterArray(JNIEnv *env, RasterS_t *rasterP,
-                    mlib_image **mlibImagePP, void **dataPP, int isSrc);
+stbtic int
+bllocbteArrby(JNIEnv *env, BufImbgeS_t *imbgeP,
+              mlib_imbge **mlibImbgePP, void **dbtbPP, int isSrc,
+              int cvtToDefbult, int bddAlphb);
+stbtic int
+bllocbteRbsterArrby(JNIEnv *env, RbsterS_t *rbsterP,
+                    mlib_imbge **mlibImbgePP, void **dbtbPP, int isSrc);
 
-static void
-freeArray(JNIEnv *env, BufImageS_t *srcimageP, mlib_image *srcmlibImP,
-          void *srcdataP, BufImageS_t *dstimageP, mlib_image *dstmlibImP,
-          void *dstdataP);
-static void
-freeDataArray(JNIEnv *env, jobject srcJdata, mlib_image *srcmlibImP,
-          void *srcdataP, jobject dstJdata, mlib_image *dstmlibImP,
-          void *dstdataP);
+stbtic void
+freeArrby(JNIEnv *env, BufImbgeS_t *srcimbgeP, mlib_imbge *srcmlibImP,
+          void *srcdbtbP, BufImbgeS_t *dstimbgeP, mlib_imbge *dstmlibImP,
+          void *dstdbtbP);
+stbtic void
+freeDbtbArrby(JNIEnv *env, jobject srcJdbtb, mlib_imbge *srcmlibImP,
+          void *srcdbtbP, jobject dstJdbtb, mlib_imbge *dstmlibImP,
+          void *dstdbtbP);
 
-static int
-storeImageArray(JNIEnv *env, BufImageS_t *srcP, BufImageS_t *dstP,
-                mlib_image *mlibImP);
+stbtic int
+storeImbgeArrby(JNIEnv *env, BufImbgeS_t *srcP, BufImbgeS_t *dstP,
+                mlib_imbge *mlibImP);
 
-static int
-storeRasterArray(JNIEnv *env, RasterS_t *srcP, RasterS_t *dstP,
-                mlib_image *mlibImP);
+stbtic int
+storeRbsterArrby(JNIEnv *env, RbsterS_t *srcP, RbsterS_t *dstP,
+                mlib_imbge *mlibImP);
 
-static int
-storeICMarray(JNIEnv *env, BufImageS_t *srcP, BufImageS_t *dstP,
-              mlib_image *mlibImP);
+stbtic int
+storeICMbrrby(JNIEnv *env, BufImbgeS_t *srcP, BufImbgeS_t *dstP,
+              mlib_imbge *mlibImP);
 
-static int
-colorMatch(int r, int g, int b, int a, unsigned char *argb, int numColors);
+stbtic int
+colorMbtch(int r, int g, int b, int b, unsigned chbr *brgb, int numColors);
 
-static int
-setImageHints(JNIEnv *env, BufImageS_t *srcP, BufImageS_t *dstP,
-              int expandICM, int useAlpha,
+stbtic int
+setImbgeHints(JNIEnv *env, BufImbgeS_t *srcP, BufImbgeS_t *dstP,
+              int expbndICM, int useAlphb,
               int premultiply, mlibHintS_t *hintP);
 
 
-static int expandICM(JNIEnv *env, BufImageS_t *imageP, unsigned int *mDataP);
-static int expandPackedBCR(JNIEnv *env, RasterS_t *rasterP, int component,
-                           unsigned char *outDataP);
-static int expandPackedSCR(JNIEnv *env, RasterS_t *rasterP, int component,
-                           unsigned char *outDataP);
-static int expandPackedICR(JNIEnv *env, RasterS_t *rasterP, int component,
-                           unsigned char *outDataP);
-static int expandPackedBCRdefault(JNIEnv *env, RasterS_t *rasterP,
-                                  int component, unsigned char *outDataP,
-                                  int forceAlpha);
-static int expandPackedSCRdefault(JNIEnv *env, RasterS_t *rasterP,
-                                  int component, unsigned char *outDataP,
-                                  int forceAlpha);
-static int expandPackedICRdefault(JNIEnv *env, RasterS_t *rasterP,
-                                  int component, unsigned char *outDataP,
-                                  int forceAlpha);
-static int setPackedBCR(JNIEnv *env, RasterS_t *rasterP, int component,
-                        unsigned char *outDataP);
-static int setPackedSCR(JNIEnv *env, RasterS_t *rasterP, int component,
-                        unsigned char *outDataP);
-static int setPackedICR(JNIEnv *env, RasterS_t *rasterP, int component,
-                        unsigned char *outDataP);
-static int setPackedBCRdefault(JNIEnv *env, RasterS_t *rasterP,
-                               int component, unsigned char *outDataP,
-                               int supportsAlpha);
-static int setPackedSCRdefault(JNIEnv *env, RasterS_t *rasterP,
-                               int component, unsigned char *outDataP,
-                               int supportsAlpha);
-static int setPackedICRdefault(JNIEnv *env, RasterS_t *rasterP,
-                               int component, unsigned char *outDataP,
-                               int supportsAlpha);
+stbtic int expbndICM(JNIEnv *env, BufImbgeS_t *imbgeP, unsigned int *mDbtbP);
+stbtic int expbndPbckedBCR(JNIEnv *env, RbsterS_t *rbsterP, int component,
+                           unsigned chbr *outDbtbP);
+stbtic int expbndPbckedSCR(JNIEnv *env, RbsterS_t *rbsterP, int component,
+                           unsigned chbr *outDbtbP);
+stbtic int expbndPbckedICR(JNIEnv *env, RbsterS_t *rbsterP, int component,
+                           unsigned chbr *outDbtbP);
+stbtic int expbndPbckedBCRdefbult(JNIEnv *env, RbsterS_t *rbsterP,
+                                  int component, unsigned chbr *outDbtbP,
+                                  int forceAlphb);
+stbtic int expbndPbckedSCRdefbult(JNIEnv *env, RbsterS_t *rbsterP,
+                                  int component, unsigned chbr *outDbtbP,
+                                  int forceAlphb);
+stbtic int expbndPbckedICRdefbult(JNIEnv *env, RbsterS_t *rbsterP,
+                                  int component, unsigned chbr *outDbtbP,
+                                  int forceAlphb);
+stbtic int setPbckedBCR(JNIEnv *env, RbsterS_t *rbsterP, int component,
+                        unsigned chbr *outDbtbP);
+stbtic int setPbckedSCR(JNIEnv *env, RbsterS_t *rbsterP, int component,
+                        unsigned chbr *outDbtbP);
+stbtic int setPbckedICR(JNIEnv *env, RbsterS_t *rbsterP, int component,
+                        unsigned chbr *outDbtbP);
+stbtic int setPbckedBCRdefbult(JNIEnv *env, RbsterS_t *rbsterP,
+                               int component, unsigned chbr *outDbtbP,
+                               int supportsAlphb);
+stbtic int setPbckedSCRdefbult(JNIEnv *env, RbsterS_t *rbsterP,
+                               int component, unsigned chbr *outDbtbP,
+                               int supportsAlphb);
+stbtic int setPbckedICRdefbult(JNIEnv *env, RbsterS_t *rbsterP,
+                               int component, unsigned chbr *outDbtbP,
+                               int supportsAlphb);
 
-mlib_start_timer start_timer = NULL;
+mlib_stbrt_timer stbrt_timer = NULL;
 mlib_stop_timer stop_timer = NULL;
 
 /***************************************************************************
@@ -195,137 +195,137 @@ mlib_stop_timer stop_timer = NULL;
  ***************************************************************************/
 #ifdef DEBUG
 
-static void
-printMedialibError(int status) {
-    switch(status) {
-    case MLIB_FAILURE:
-        jio_fprintf(stderr, "failure\n");
-        break;
-    case MLIB_NULLPOINTER:
+stbtic void
+printMediblibError(int stbtus) {
+    switch(stbtus) {
+    cbse MLIB_FAILURE:
+        jio_fprintf(stderr, "fbilure\n");
+        brebk;
+    cbse MLIB_NULLPOINTER:
         jio_fprintf(stderr, "null pointer\n");
-        break;
-    case MLIB_OUTOFRANGE:
-        jio_fprintf (stderr, "out of range\n");
-        break;
-    default:
-        jio_fprintf (stderr, "medialib error\n");
-        break;
+        brebk;
+    cbse MLIB_OUTOFRANGE:
+        jio_fprintf (stderr, "out of rbnge\n");
+        brebk;
+    defbult:
+        jio_fprintf (stderr, "mediblib error\n");
+        brebk;
     }
 }
 #else /* ! DEBUG */
-#  define printMedialibError(x)
+#  define printMediblibError(x)
 
 #endif /* ! DEBUG */
 
-static int
+stbtic int
 getMlibEdgeHint(jint edgeHint) {
     switch (edgeHint) {
-    case java_awt_image_ConvolveOp_EDGE_NO_OP:
+    cbse jbvb_bwt_imbge_ConvolveOp_EDGE_NO_OP:
         return MLIB_EDGE_DST_COPY_SRC;
-    case java_awt_image_ConvolveOp_EDGE_ZERO_FILL:
-    default:
+    cbse jbvb_bwt_imbge_ConvolveOp_EDGE_ZERO_FILL:
+    defbult:
         return MLIB_EDGE_DST_FILL_ZERO;
     }
 }
 
 /*
- * We have to make sure that awt_setPixels can be safely applied to the given pair of
- * raster and mlib image.
+ * We hbve to mbke sure thbt bwt_setPixels cbn be sbfely bpplied to the given pbir of
+ * rbster bnd mlib imbge.
  *
- * In particular, make sure that
- *  - dimension is the same
- *  - number of channels in mlib image corresponds to the number of bands in the raster
- *  - sample size in image and raster are the same.
+ * In pbrticulbr, mbke sure thbt
+ *  - dimension is the sbme
+ *  - number of chbnnels in mlib imbge corresponds to the number of bbnds in the rbster
+ *  - sbmple size in imbge bnd rbster bre the sbme.
  *
  * Returns:
- *  -1 to indicate failure,
- *   1 to indicate success
+ *  -1 to indicbte fbilure,
+ *   1 to indicbte success
  */
-static int setPixelsFormMlibImage(JNIEnv *env, RasterS_t *rasterP, mlib_image* img) {
-    if (rasterP->width != img->width || rasterP->height != img->height) {
-        /* dimension does not match */
+stbtic int setPixelsFormMlibImbge(JNIEnv *env, RbsterS_t *rbsterP, mlib_imbge* img) {
+    if (rbsterP->width != img->width || rbsterP->height != img->height) {
+        /* dimension does not mbtch */
         return -1;
     }
 
-    if (rasterP->numBands != img->channels) {
-        /* number of bands does not match */
+    if (rbsterP->numBbnds != img->chbnnels) {
+        /* number of bbnds does not mbtch */
         return -1;
     }
 
-    switch (rasterP->dataType) {
-    case BYTE_DATA_TYPE:
+    switch (rbsterP->dbtbType) {
+    cbse BYTE_DATA_TYPE:
         if (img->type != MLIB_BYTE) {
             return -1;
         }
-        break;
-    case SHORT_DATA_TYPE:
+        brebk;
+    cbse SHORT_DATA_TYPE:
         if (img->type != MLIB_SHORT && img->type != MLIB_USHORT) {
             return -1;
         }
-        break;
-    default:
-        /* awt_setPixels does not support such rasters */
+        brebk;
+    defbult:
+        /* bwt_setPixels does not support such rbsters */
         return -1;
     }
 
-    return awt_setPixels(env, rasterP, mlib_ImageGetData(img));
+    return bwt_setPixels(env, rbsterP, mlib_ImbgeGetDbtb(img));
 }
 
 /***************************************************************************
- *                          External Functions                             *
+ *                          Externbl Functions                             *
  ***************************************************************************/
 JNIEXPORT jint JNICALL
-Java_sun_awt_image_ImagingLib_convolveBI(JNIEnv *env, jobject this,
+Jbvb_sun_bwt_imbge_ImbgingLib_convolveBI(JNIEnv *env, jobject this,
                                          jobject jsrc, jobject jdst,
                                          jobject jkernel, jint edgeHint)
 {
-    void *sdata, *ddata;
-    mlib_image *src;
-    mlib_image *dst;
-    int i, scale;
+    void *sdbtb, *ddbtb;
+    mlib_imbge *src;
+    mlib_imbge *dst;
+    int i, scble;
     mlib_d64 *dkern;
-    mlib_s32 *kdata;
+    mlib_s32 *kdbtb;
     int klen;
-    float kmax;
-    mlib_s32 cmask;
-    mlib_status status;
-    int retStatus = 1;
-    float *kern;
-    BufImageS_t *srcImageP, *dstImageP;
-    jobject jdata;
+    flobt kmbx;
+    mlib_s32 cmbsk;
+    mlib_stbtus stbtus;
+    int retStbtus = 1;
+    flobt *kern;
+    BufImbgeS_t *srcImbgeP, *dstImbgeP;
+    jobject jdbtb;
     int kwidth;
     int kheight;
     int w, h;
     int x, y;
     mlibHintS_t hint;
-    int nbands;
+    int nbbnds;
 
-    /* This function requires a lot of local refs ??? Is 64 enough ??? */
-    if ((*env)->EnsureLocalCapacity(env, 64) < 0)
+    /* This function requires b lot of locbl refs ??? Is 64 enough ??? */
+    if ((*env)->EnsureLocblCbpbcity(env, 64) < 0)
         return 0;
 
     if (s_nomlib) return 0;
-    if (s_timeIt)     (*start_timer)(3600);
+    if (s_timeIt)     (*stbrt_timer)(3600);
 
     kwidth  = (*env)->GetIntField(env, jkernel, g_KernelWidthID);
     kheight = (*env)->GetIntField(env, jkernel, g_KernelHeightID);
-    jdata = (*env)->GetObjectField(env, jkernel, g_KernelDataID);
-    klen  = (*env)->GetArrayLength(env, jdata);
-    kern  = (float *) (*env)->GetPrimitiveArrayCritical(env, jdata, NULL);
+    jdbtb = (*env)->GetObjectField(env, jkernel, g_KernelDbtbID);
+    klen  = (*env)->GetArrbyLength(env, jdbtb);
+    kern  = (flobt *) (*env)->GetPrimitiveArrbyCriticbl(env, jdbtb, NULL);
     if (kern == NULL) {
-        /* out of memory exception already thrown */
+        /* out of memory exception blrebdy thrown */
         return 0;
     }
 
     if ((kwidth&0x1) == 0) {
-        /* Kernel has even width */
+        /* Kernel hbs even width */
         w = kwidth+1;
     }
     else {
         w = kwidth;
     }
     if ((kheight&0x1) == 0) {
-        /* Kernel has even height */
+        /* Kernel hbs even height */
         h = kheight+1;
     }
     else {
@@ -334,106 +334,106 @@ Java_sun_awt_image_ImagingLib_convolveBI(JNIEnv *env, jobject this,
 
     dkern = NULL;
     if (SAFE_TO_ALLOC_3(w, h, sizeof(mlib_d64))) {
-        dkern = (mlib_d64 *)calloc(1, w * h * sizeof(mlib_d64));
+        dkern = (mlib_d64 *)cblloc(1, w * h * sizeof(mlib_d64));
     }
     if (dkern == NULL) {
-        (*env)->ReleasePrimitiveArrayCritical(env, jdata, kern, JNI_ABORT);
+        (*env)->RelebsePrimitiveArrbyCriticbl(env, jdbtb, kern, JNI_ABORT);
         return 0;
     }
 
-    /* Need to flip and find max value of the kernel.
-     * Also, save the kernel values as mlib_d64 values.
-     * The flip is to operate correctly with medialib,
-     * which doesn't do the mathemetically correct thing,
-     * i.e. it doesn't rotate the kernel by 180 degrees.
-     * REMIND: This should perhaps be done at the Java
+    /* Need to flip bnd find mbx vblue of the kernel.
+     * Also, sbve the kernel vblues bs mlib_d64 vblues.
+     * The flip is to operbte correctly with mediblib,
+     * which doesn't do the mbthemeticblly correct thing,
+     * i.e. it doesn't rotbte the kernel by 180 degrees.
+     * REMIND: This should perhbps be done bt the Jbvb
      * level by ConvolveOp.
-     * REMIND: Should the max test be looking at absolute
-     * values?
-     * REMIND: What if klen != kheight * kwidth?
+     * REMIND: Should the mbx test be looking bt bbsolute
+     * vblues?
+     * REMIND: Whbt if klen != kheight * kwidth?
      */
-    kmax = kern[klen-1];
+    kmbx = kern[klen-1];
     i = klen-1;
     for (y=0; y < kheight; y++) {
         for (x=0; x < kwidth; x++, i--) {
             dkern[y*w+x] = (mlib_d64) kern[i];
-            if (kern[i] > kmax) {
-                kmax = kern[i];
+            if (kern[i] > kmbx) {
+                kmbx = kern[i];
             }
         }
     }
 
-    (*env)->ReleasePrimitiveArrayCritical(env, jdata, kern, JNI_ABORT);
+    (*env)->RelebsePrimitiveArrbyCriticbl(env, jdbtb, kern, JNI_ABORT);
 
-    if (kmax > 1<<16) {
-        /* We can only handle 16 bit max */
+    if (kmbx > 1<<16) {
+        /* We cbn only hbndle 16 bit mbx */
         free(dkern);
         return 0;
     }
 
 
-    /* Parse the source image */
-    if (awt_parseImage(env, jsrc, &srcImageP, FALSE) <= 0) {
-        /* Can't handle any custom images */
+    /* Pbrse the source imbge */
+    if (bwt_pbrseImbge(env, jsrc, &srcImbgeP, FALSE) <= 0) {
+        /* Cbn't hbndle bny custom imbges */
         free(dkern);
         return 0;
     }
 
-    /* Parse the destination image */
-    if (awt_parseImage(env, jdst, &dstImageP, FALSE) <= 0) {
-        /* Can't handle any custom images */
-        awt_freeParsedImage(srcImageP, TRUE);
+    /* Pbrse the destinbtion imbge */
+    if (bwt_pbrseImbge(env, jdst, &dstImbgeP, FALSE) <= 0) {
+        /* Cbn't hbndle bny custom imbges */
+        bwt_freePbrsedImbge(srcImbgeP, TRUE);
         free(dkern);
         return 0;
     }
 
-    nbands = setImageHints(env, srcImageP, dstImageP, TRUE, TRUE,
+    nbbnds = setImbgeHints(env, srcImbgeP, dstImbgeP, TRUE, TRUE,
                         FALSE, &hint);
-    if (nbands < 1) {
-        /* Can't handle any custom images */
-        awt_freeParsedImage(srcImageP, TRUE);
-        awt_freeParsedImage(dstImageP, TRUE);
+    if (nbbnds < 1) {
+        /* Cbn't hbndle bny custom imbges */
+        bwt_freePbrsedImbge(srcImbgeP, TRUE);
+        bwt_freePbrsedImbge(dstImbgeP, TRUE);
         free(dkern);
         return 0;
     }
-    /* Allocate the arrays */
-    if (allocateArray(env, srcImageP, &src, &sdata, TRUE,
-                      hint.cvtSrcToDefault, hint.addAlpha) < 0) {
+    /* Allocbte the brrbys */
+    if (bllocbteArrby(env, srcImbgeP, &src, &sdbtb, TRUE,
+                      hint.cvtSrcToDefbult, hint.bddAlphb) < 0) {
         /* Must be some problem */
-        awt_freeParsedImage(srcImageP, TRUE);
-        awt_freeParsedImage(dstImageP, TRUE);
+        bwt_freePbrsedImbge(srcImbgeP, TRUE);
+        bwt_freePbrsedImbge(dstImbgeP, TRUE);
         free(dkern);
         return 0;
     }
-    if (allocateArray(env, dstImageP, &dst, &ddata, FALSE,
+    if (bllocbteArrby(env, dstImbgeP, &dst, &ddbtb, FALSE,
                       hint.cvtToDst, FALSE) < 0) {
         /* Must be some problem */
-        freeArray(env, srcImageP, src, sdata, NULL, NULL, NULL);
-        awt_freeParsedImage(srcImageP, TRUE);
-        awt_freeParsedImage(dstImageP, TRUE);
+        freeArrby(env, srcImbgeP, src, sdbtb, NULL, NULL, NULL);
+        bwt_freePbrsedImbge(srcImbgeP, TRUE);
+        bwt_freePbrsedImbge(dstImbgeP, TRUE);
         free(dkern);
         return 0;
     }
 
-    kdata = NULL;
+    kdbtb = NULL;
     if (SAFE_TO_ALLOC_3(w, h, sizeof(mlib_s32))) {
-        kdata = (mlib_s32 *)malloc(w * h * sizeof(mlib_s32));
+        kdbtb = (mlib_s32 *)mblloc(w * h * sizeof(mlib_s32));
     }
-    if (kdata == NULL) {
-        freeArray(env, srcImageP, src, sdata, dstImageP, dst, ddata);
-        awt_freeParsedImage(srcImageP, TRUE);
-        awt_freeParsedImage(dstImageP, TRUE);
+    if (kdbtb == NULL) {
+        freeArrby(env, srcImbgeP, src, sdbtb, dstImbgeP, dst, ddbtb);
+        bwt_freePbrsedImbge(srcImbgeP, TRUE);
+        bwt_freePbrsedImbge(dstImbgeP, TRUE);
         free(dkern);
         return 0;
     }
 
-    if ((*sMlibFns[MLIB_CONVKERNCVT].fptr)(kdata, &scale, dkern, w, h,
-                                    mlib_ImageGetType(src)) != MLIB_SUCCESS) {
-        freeArray(env, srcImageP, src, sdata, dstImageP, dst, ddata);
-        awt_freeParsedImage(srcImageP, TRUE);
-        awt_freeParsedImage(dstImageP, TRUE);
+    if ((*sMlibFns[MLIB_CONVKERNCVT].fptr)(kdbtb, &scble, dkern, w, h,
+                                    mlib_ImbgeGetType(src)) != MLIB_SUCCESS) {
+        freeArrby(env, srcImbgeP, src, sdbtb, dstImbgeP, dst, ddbtb);
+        bwt_freePbrsedImbge(srcImbgeP, TRUE);
+        bwt_freePbrsedImbge(dstImbgeP, TRUE);
         free(dkern);
-        free(kdata);
+        free(kdbtb);
         return 0;
     }
 
@@ -445,128 +445,128 @@ Java_sun_awt_image_ImagingLib_convolveBI(JNIEnv *env, jobject this,
             }
             fprintf(stderr, "\n");
         }
-        fprintf(stderr, "New Kernel(scale=%d):\n", scale);
+        fprintf(stderr, "New Kernel(scble=%d):\n", scble);
         for (y=kheight-1; y >= 0; y--) {
             for (x=kwidth-1; x >= 0; x--) {
-                fprintf(stderr, "%d ", kdata[y*w+x]);
+                fprintf(stderr, "%d ", kdbtb[y*w+x]);
             }
             fprintf(stderr, "\n");
         }
     }
 
-    cmask = (1<<src->channels)-1;
-    status = (*sMlibFns[MLIB_CONVMxN].fptr)(dst, src, kdata, w, h,
-                               (w-1)/2, (h-1)/2, scale, cmask,
+    cmbsk = (1<<src->chbnnels)-1;
+    stbtus = (*sMlibFns[MLIB_CONVMxN].fptr)(dst, src, kdbtb, w, h,
+                               (w-1)/2, (h-1)/2, scble, cmbsk,
                                getMlibEdgeHint(edgeHint));
 
-    if (status != MLIB_SUCCESS) {
-        printMedialibError(status);
-        retStatus = 0;
+    if (stbtus != MLIB_SUCCESS) {
+        printMediblibError(stbtus);
+        retStbtus = 0;
     }
 
     if (s_printIt) {
         unsigned int *dP;
-        if (s_startOff != 0) {
-            printf("Starting at %d\n", s_startOff);
+        if (s_stbrtOff != 0) {
+            printf("Stbrting bt %d\n", s_stbrtOff);
         }
-        if (sdata == NULL) {
-            dP = (unsigned int *) mlib_ImageGetData(src);
+        if (sdbtb == NULL) {
+            dP = (unsigned int *) mlib_ImbgeGetDbtb(src);
         }
         else {
-            dP = (unsigned int *) sdata;
+            dP = (unsigned int *) sdbtb;
         }
         printf("src is\n");
         for (i=0; i < 20; i++) {
-            printf("%x ",dP[s_startOff+i]);
+            printf("%x ",dP[s_stbrtOff+i]);
         }
         printf("\n");
-        if (ddata == NULL) {
-            dP = (unsigned int *)mlib_ImageGetData(dst);
+        if (ddbtb == NULL) {
+            dP = (unsigned int *)mlib_ImbgeGetDbtb(dst);
         }
         else {
-            dP = (unsigned int *) ddata;
+            dP = (unsigned int *) ddbtb;
         }
         printf("dst is \n");
         for (i=0; i < 20; i++) {
-            printf("%x ",dP[s_startOff+i]);
+            printf("%x ",dP[s_stbrtOff+i]);
         }
         printf("\n");
     }
 
-    /* Means that we couldn't write directly into the destination buffer */
-    if (ddata == NULL) {
+    /* Mebns thbt we couldn't write directly into the destinbtion buffer */
+    if (ddbtb == NULL) {
 
-        /* Need to store it back into the array */
-        if (storeImageArray(env, srcImageP, dstImageP, dst) < 0) {
+        /* Need to store it bbck into the brrby */
+        if (storeImbgeArrby(env, srcImbgeP, dstImbgeP, dst) < 0) {
             /* Error */
-            retStatus = 0;
+            retStbtus = 0;
         }
     }
 
-    /* Release the pinned memory */
-    freeArray(env, srcImageP, src, sdata, dstImageP, dst, ddata);
-    awt_freeParsedImage(srcImageP, TRUE);
-    awt_freeParsedImage(dstImageP, TRUE);
+    /* Relebse the pinned memory */
+    freeArrby(env, srcImbgeP, src, sdbtb, dstImbgeP, dst, ddbtb);
+    bwt_freePbrsedImbge(srcImbgeP, TRUE);
+    bwt_freePbrsedImbge(dstImbgeP, TRUE);
     free(dkern);
-    free(kdata);
+    free(kdbtb);
 
     if (s_timeIt) (*stop_timer)(3600, 1);
 
-    return retStatus;
+    return retStbtus;
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_awt_image_ImagingLib_convolveRaster(JNIEnv *env, jobject this,
+Jbvb_sun_bwt_imbge_ImbgingLib_convolveRbster(JNIEnv *env, jobject this,
                                              jobject jsrc, jobject jdst,
                                              jobject jkernel, jint edgeHint)
 {
-    mlib_image *src;
-    mlib_image *dst;
-    int i, scale;
+    mlib_imbge *src;
+    mlib_imbge *dst;
+    int i, scble;
     mlib_d64 *dkern;
-    mlib_s32 *kdata;
+    mlib_s32 *kdbtb;
     int klen;
-    float kmax;
-    int retStatus = 1;
-    mlib_status status;
-    mlib_s32 cmask;
-    void *sdata;
-    void *ddata;
-    RasterS_t *srcRasterP;
-    RasterS_t *dstRasterP;
+    flobt kmbx;
+    int retStbtus = 1;
+    mlib_stbtus stbtus;
+    mlib_s32 cmbsk;
+    void *sdbtb;
+    void *ddbtb;
+    RbsterS_t *srcRbsterP;
+    RbsterS_t *dstRbsterP;
     int kwidth;
     int kheight;
     int w, h;
     int x, y;
-    jobject jdata;
-    float *kern;
+    jobject jdbtb;
+    flobt *kern;
 
-    /* This function requires a lot of local refs ??? Is 64 enough ??? */
-    if ((*env)->EnsureLocalCapacity(env, 64) < 0)
+    /* This function requires b lot of locbl refs ??? Is 64 enough ??? */
+    if ((*env)->EnsureLocblCbpbcity(env, 64) < 0)
         return 0;
 
     if (s_nomlib) return 0;
-    if (s_timeIt)     (*start_timer)(3600);
+    if (s_timeIt)     (*stbrt_timer)(3600);
 
     kwidth  = (*env)->GetIntField(env, jkernel, g_KernelWidthID);
     kheight = (*env)->GetIntField(env, jkernel, g_KernelHeightID);
-    jdata = (*env)->GetObjectField(env, jkernel, g_KernelDataID);
-    klen  = (*env)->GetArrayLength(env, jdata);
-    kern  = (float *) (*env)->GetPrimitiveArrayCritical(env, jdata, NULL);
+    jdbtb = (*env)->GetObjectField(env, jkernel, g_KernelDbtbID);
+    klen  = (*env)->GetArrbyLength(env, jdbtb);
+    kern  = (flobt *) (*env)->GetPrimitiveArrbyCriticbl(env, jdbtb, NULL);
     if (kern == NULL) {
-        /* out of memory exception already thrown */
+        /* out of memory exception blrebdy thrown */
         return 0;
     }
 
     if ((kwidth&0x1) == 0) {
-        /* Kernel has even width */
+        /* Kernel hbs even width */
         w = kwidth+1;
     }
     else {
         w = kwidth;
     }
     if ((kheight&0x1) == 0) {
-        /* Kernel has even height */
+        /* Kernel hbs even height */
         h = kheight+1;
     }
     else {
@@ -575,113 +575,113 @@ Java_sun_awt_image_ImagingLib_convolveRaster(JNIEnv *env, jobject this,
 
     dkern = NULL;
     if (SAFE_TO_ALLOC_3(w, h, sizeof(mlib_d64))) {
-        dkern = (mlib_d64 *)calloc(1, w * h * sizeof(mlib_d64));
+        dkern = (mlib_d64 *)cblloc(1, w * h * sizeof(mlib_d64));
     }
     if (dkern == NULL) {
-        (*env)->ReleasePrimitiveArrayCritical(env, jdata, kern, JNI_ABORT);
+        (*env)->RelebsePrimitiveArrbyCriticbl(env, jdbtb, kern, JNI_ABORT);
         return 0;
     }
 
-    /* Need to flip and find max value of the kernel.
-     * Also, save the kernel values as mlib_d64 values.
-     * The flip is to operate correctly with medialib,
-     * which doesn't do the mathemetically correct thing,
-     * i.e. it doesn't rotate the kernel by 180 degrees.
-     * REMIND: This should perhaps be done at the Java
+    /* Need to flip bnd find mbx vblue of the kernel.
+     * Also, sbve the kernel vblues bs mlib_d64 vblues.
+     * The flip is to operbte correctly with mediblib,
+     * which doesn't do the mbthemeticblly correct thing,
+     * i.e. it doesn't rotbte the kernel by 180 degrees.
+     * REMIND: This should perhbps be done bt the Jbvb
      * level by ConvolveOp.
-     * REMIND: Should the max test be looking at absolute
-     * values?
-     * REMIND: What if klen != kheight * kwidth?
+     * REMIND: Should the mbx test be looking bt bbsolute
+     * vblues?
+     * REMIND: Whbt if klen != kheight * kwidth?
      */
-    kmax = kern[klen-1];
+    kmbx = kern[klen-1];
     i = klen-1;
     for (y=0; y < kheight; y++) {
         for (x=0; x < kwidth; x++, i--) {
             dkern[y*w+x] = (mlib_d64) kern[i];
-            if (kern[i] > kmax) {
-                kmax = kern[i];
+            if (kern[i] > kmbx) {
+                kmbx = kern[i];
             }
         }
     }
 
-    (*env)->ReleasePrimitiveArrayCritical(env, jdata, kern, JNI_ABORT);
+    (*env)->RelebsePrimitiveArrbyCriticbl(env, jdbtb, kern, JNI_ABORT);
 
-    if (kmax > 1<<16) {
-        /* We can only handle 16 bit max */
+    if (kmbx > 1<<16) {
+        /* We cbn only hbndle 16 bit mbx */
         free(dkern);
         return 0;
     }
 
-    /* Parse the source image */
-    if ((srcRasterP = (RasterS_t *) calloc(1, sizeof(RasterS_t))) == NULL) {
+    /* Pbrse the source imbge */
+    if ((srcRbsterP = (RbsterS_t *) cblloc(1, sizeof(RbsterS_t))) == NULL) {
         JNU_ThrowOutOfMemoryError(env, "Out of memory");
         free(dkern);
         return -1;
     }
 
-    if ((dstRasterP = (RasterS_t *) calloc(1, sizeof(RasterS_t))) == NULL) {
+    if ((dstRbsterP = (RbsterS_t *) cblloc(1, sizeof(RbsterS_t))) == NULL) {
         JNU_ThrowOutOfMemoryError(env, "Out of memory");
-        free(srcRasterP);
+        free(srcRbsterP);
         free(dkern);
         return -1;
     }
 
-    /* Parse the source raster */
-    if (awt_parseRaster(env, jsrc, srcRasterP) <= 0) {
-        /* Can't handle any custom rasters */
-        free(srcRasterP);
-        free(dstRasterP);
+    /* Pbrse the source rbster */
+    if (bwt_pbrseRbster(env, jsrc, srcRbsterP) <= 0) {
+        /* Cbn't hbndle bny custom rbsters */
+        free(srcRbsterP);
+        free(dstRbsterP);
         free(dkern);
         return 0;
     }
 
-    /* Parse the destination raster */
-    if (awt_parseRaster(env, jdst, dstRasterP) <= 0) {
-        /* Can't handle any custom images */
-        awt_freeParsedRaster(srcRasterP, TRUE);
-        free(dstRasterP);
+    /* Pbrse the destinbtion rbster */
+    if (bwt_pbrseRbster(env, jdst, dstRbsterP) <= 0) {
+        /* Cbn't hbndle bny custom imbges */
+        bwt_freePbrsedRbster(srcRbsterP, TRUE);
+        free(dstRbsterP);
         free(dkern);
         return 0;
     }
 
-    /* Allocate the arrays */
-    if (allocateRasterArray(env, srcRasterP, &src, &sdata, TRUE) < 0) {
+    /* Allocbte the brrbys */
+    if (bllocbteRbsterArrby(env, srcRbsterP, &src, &sdbtb, TRUE) < 0) {
         /* Must be some problem */
-        awt_freeParsedRaster(srcRasterP, TRUE);
-        awt_freeParsedRaster(dstRasterP, TRUE);
+        bwt_freePbrsedRbster(srcRbsterP, TRUE);
+        bwt_freePbrsedRbster(dstRbsterP, TRUE);
         free(dkern);
         return 0;
     }
-    if (allocateRasterArray(env, dstRasterP, &dst, &ddata, FALSE) < 0) {
+    if (bllocbteRbsterArrby(env, dstRbsterP, &dst, &ddbtb, FALSE) < 0) {
         /* Must be some problem */
-        freeDataArray(env, srcRasterP->jdata, src, sdata, NULL, NULL, NULL);
-        awt_freeParsedRaster(srcRasterP, TRUE);
-        awt_freeParsedRaster(dstRasterP, TRUE);
+        freeDbtbArrby(env, srcRbsterP->jdbtb, src, sdbtb, NULL, NULL, NULL);
+        bwt_freePbrsedRbster(srcRbsterP, TRUE);
+        bwt_freePbrsedRbster(dstRbsterP, TRUE);
         free(dkern);
         return 0;
     }
 
-    kdata = NULL;
+    kdbtb = NULL;
     if (SAFE_TO_ALLOC_3(w, h, sizeof(mlib_s32))) {
-        kdata = (mlib_s32 *)malloc(w * h * sizeof(mlib_s32));
+        kdbtb = (mlib_s32 *)mblloc(w * h * sizeof(mlib_s32));
     }
-    if (kdata == NULL) {
-        freeDataArray(env, srcRasterP->jdata, src, sdata,
-                      dstRasterP->jdata, dst, ddata);
-        awt_freeParsedRaster(srcRasterP, TRUE);
-        awt_freeParsedRaster(dstRasterP, TRUE);
+    if (kdbtb == NULL) {
+        freeDbtbArrby(env, srcRbsterP->jdbtb, src, sdbtb,
+                      dstRbsterP->jdbtb, dst, ddbtb);
+        bwt_freePbrsedRbster(srcRbsterP, TRUE);
+        bwt_freePbrsedRbster(dstRbsterP, TRUE);
         free(dkern);
         return 0;
     }
 
-    if ((*sMlibFns[MLIB_CONVKERNCVT].fptr)(kdata, &scale, dkern, w, h,
-                                    mlib_ImageGetType(src)) != MLIB_SUCCESS) {
-        freeDataArray(env, srcRasterP->jdata, src, sdata,
-                      dstRasterP->jdata, dst, ddata);
-        awt_freeParsedRaster(srcRasterP, TRUE);
-        awt_freeParsedRaster(dstRasterP, TRUE);
+    if ((*sMlibFns[MLIB_CONVKERNCVT].fptr)(kdbtb, &scble, dkern, w, h,
+                                    mlib_ImbgeGetType(src)) != MLIB_SUCCESS) {
+        freeDbtbArrby(env, srcRbsterP->jdbtb, src, sdbtb,
+                      dstRbsterP->jdbtb, dst, ddbtb);
+        bwt_freePbrsedRbster(srcRbsterP, TRUE);
+        bwt_freePbrsedRbster(dstRbsterP, TRUE);
         free(dkern);
-        free(kdata);
+        free(kdbtb);
         return 0;
     }
 
@@ -693,250 +693,250 @@ Java_sun_awt_image_ImagingLib_convolveRaster(JNIEnv *env, jobject this,
             }
             fprintf(stderr, "\n");
         }
-        fprintf(stderr, "New Kernel(scale=%d):\n", scale);
+        fprintf(stderr, "New Kernel(scble=%d):\n", scble);
         for (y=kheight-1; y >= 0; y--) {
             for (x=kwidth-1; x >= 0; x--) {
-                fprintf(stderr, "%d ", kdata[y*w+x]);
+                fprintf(stderr, "%d ", kdbtb[y*w+x]);
             }
             fprintf(stderr, "\n");
         }
     }
 
-    cmask = (1<<src->channels)-1;
-    status = (*sMlibFns[MLIB_CONVMxN].fptr)(dst, src, kdata, w, h,
-                               (w-1)/2, (h-1)/2, scale, cmask,
+    cmbsk = (1<<src->chbnnels)-1;
+    stbtus = (*sMlibFns[MLIB_CONVMxN].fptr)(dst, src, kdbtb, w, h,
+                               (w-1)/2, (h-1)/2, scble, cmbsk,
                                getMlibEdgeHint(edgeHint));
 
-    if (status != MLIB_SUCCESS) {
-        printMedialibError(status);
-        retStatus = 0;
+    if (stbtus != MLIB_SUCCESS) {
+        printMediblibError(stbtus);
+        retStbtus = 0;
     }
 
     if (s_printIt) {
         unsigned int *dP;
-        if (s_startOff != 0) {
-            printf("Starting at %d\n", s_startOff);
+        if (s_stbrtOff != 0) {
+            printf("Stbrting bt %d\n", s_stbrtOff);
         }
-        if (sdata == NULL) {
-            dP = (unsigned int *) mlib_ImageGetData(src);
+        if (sdbtb == NULL) {
+            dP = (unsigned int *) mlib_ImbgeGetDbtb(src);
         }
         else {
-            dP = (unsigned int *) sdata;
+            dP = (unsigned int *) sdbtb;
         }
         printf("src is\n");
         for (i=0; i < 20; i++) {
-            printf("%x ",dP[s_startOff+i]);
+            printf("%x ",dP[s_stbrtOff+i]);
         }
         printf("\n");
-        if (ddata == NULL) {
-            dP = (unsigned int *)mlib_ImageGetData(dst);
+        if (ddbtb == NULL) {
+            dP = (unsigned int *)mlib_ImbgeGetDbtb(dst);
         }
         else {
-            dP = (unsigned int *) ddata;
+            dP = (unsigned int *) ddbtb;
         }
         printf("dst is\n");
         for (i=0; i < 20; i++) {
-            printf("%x ",dP[s_startOff+i]);
+            printf("%x ",dP[s_stbrtOff+i]);
         }
         printf("\n");
     }
 
-    /* Means that we couldn't write directly into the destination buffer */
-    if (ddata == NULL) {
-        if (storeRasterArray(env, srcRasterP, dstRasterP, dst) < 0) {
-            retStatus = setPixelsFormMlibImage(env, dstRasterP, dst);
+    /* Mebns thbt we couldn't write directly into the destinbtion buffer */
+    if (ddbtb == NULL) {
+        if (storeRbsterArrby(env, srcRbsterP, dstRbsterP, dst) < 0) {
+            retStbtus = setPixelsFormMlibImbge(env, dstRbsterP, dst);
         }
     }
 
-    /* Release the pinned memory */
-    freeDataArray(env, srcRasterP->jdata, src, sdata,
-                  dstRasterP->jdata, dst, ddata);
-    awt_freeParsedRaster(srcRasterP, TRUE);
-    awt_freeParsedRaster(dstRasterP, TRUE);
+    /* Relebse the pinned memory */
+    freeDbtbArrby(env, srcRbsterP->jdbtb, src, sdbtb,
+                  dstRbsterP->jdbtb, dst, ddbtb);
+    bwt_freePbrsedRbster(srcRbsterP, TRUE);
+    bwt_freePbrsedRbster(dstRbsterP, TRUE);
     free(dkern);
-    free(kdata);
+    free(kdbtb);
 
     if (s_timeIt) (*stop_timer)(3600,1);
 
-    return retStatus;
+    return retStbtus;
 }
 
 
 JNIEXPORT jint JNICALL
-Java_sun_awt_image_ImagingLib_transformBI(JNIEnv *env, jobject this,
+Jbvb_sun_bwt_imbge_ImbgingLib_trbnsformBI(JNIEnv *env, jobject this,
                                           jobject jsrc,
                                           jobject jdst,
-                                          jdoubleArray jmatrix,
+                                          jdoubleArrby jmbtrix,
                                           jint interpType)
 {
-    mlib_image *src;
-    mlib_image *dst;
+    mlib_imbge *src;
+    mlib_imbge *dst;
     int i;
-    int retStatus = 1;
-    mlib_status status;
-    double *matrix;
+    int retStbtus = 1;
+    mlib_stbtus stbtus;
+    double *mbtrix;
     mlib_d64 mtx[6];
-    void *sdata;
-    void *ddata;
-    BufImageS_t *srcImageP;
-    BufImageS_t *dstImageP;
+    void *sdbtb;
+    void *ddbtb;
+    BufImbgeS_t *srcImbgeP;
+    BufImbgeS_t *dstImbgeP;
     mlib_filter filter;
     mlibHintS_t hint;
     unsigned int *dP;
     int useIndexed;
-    int nbands;
+    int nbbnds;
 
-    /* This function requires a lot of local refs ??? Is 64 enough ??? */
-    if ((*env)->EnsureLocalCapacity(env, 64) < 0)
+    /* This function requires b lot of locbl refs ??? Is 64 enough ??? */
+    if ((*env)->EnsureLocblCbpbcity(env, 64) < 0)
         return 0;
 
     if (s_nomlib) return 0;
     if (s_timeIt) {
-        (*start_timer)(3600);
+        (*stbrt_timer)(3600);
     }
 
     switch(interpType) {
-    case java_awt_image_AffineTransformOp_TYPE_BILINEAR:
+    cbse jbvb_bwt_imbge_AffineTrbnsformOp_TYPE_BILINEAR:
         filter = MLIB_BILINEAR;
-        break;
-    case java_awt_image_AffineTransformOp_TYPE_NEAREST_NEIGHBOR:
+        brebk;
+    cbse jbvb_bwt_imbge_AffineTrbnsformOp_TYPE_NEAREST_NEIGHBOR:
         filter = MLIB_NEAREST;
-        break;
-    case java_awt_image_AffineTransformOp_TYPE_BICUBIC:
+        brebk;
+    cbse jbvb_bwt_imbge_AffineTrbnsformOp_TYPE_BICUBIC:
         filter = MLIB_BICUBIC;
-        break;
-    default:
-        JNU_ThrowInternalError(env, "Unknown interpolation type");
+        brebk;
+    defbult:
+        JNU_ThrowInternblError(env, "Unknown interpolbtion type");
         return -1;
     }
 
-    if ((*env)->GetArrayLength(env, jmatrix) < 6) {
+    if ((*env)->GetArrbyLength(env, jmbtrix) < 6) {
         /*
          * Very unlikely, however we should check for this:
-         * if given matrix array is too short, we can't handle it
+         * if given mbtrix brrby is too short, we cbn't hbndle it
          */
         return 0;
     }
 
-    matrix = (*env)->GetPrimitiveArrayCritical(env, jmatrix, NULL);
-    if (matrix == NULL) {
-        /* out of memory error already thrown */
+    mbtrix = (*env)->GetPrimitiveArrbyCriticbl(env, jmbtrix, NULL);
+    if (mbtrix == NULL) {
+        /* out of memory error blrebdy thrown */
         return 0;
     }
 
     if (s_printIt) {
-        printf("matrix is %g %g %g %g %g %g\n", matrix[0], matrix[1],
-               matrix[2], matrix[3], matrix[4], matrix[5]);
+        printf("mbtrix is %g %g %g %g %g %g\n", mbtrix[0], mbtrix[1],
+               mbtrix[2], mbtrix[3], mbtrix[4], mbtrix[5]);
     }
 
-    mtx[0] = matrix[0];
-    mtx[1] = matrix[2];
-    mtx[2] = matrix[4];
-    mtx[3] = matrix[1];
-    mtx[4] = matrix[3];
-    mtx[5] = matrix[5];
+    mtx[0] = mbtrix[0];
+    mtx[1] = mbtrix[2];
+    mtx[2] = mbtrix[4];
+    mtx[3] = mbtrix[1];
+    mtx[4] = mbtrix[3];
+    mtx[5] = mbtrix[5];
 
-    (*env)->ReleasePrimitiveArrayCritical(env, jmatrix, matrix, JNI_ABORT);
+    (*env)->RelebsePrimitiveArrbyCriticbl(env, jmbtrix, mbtrix, JNI_ABORT);
 
-    /* Parse the source image */
-    if (awt_parseImage(env, jsrc, &srcImageP, FALSE) <= 0) {
-        /* Can't handle any custom images */
+    /* Pbrse the source imbge */
+    if (bwt_pbrseImbge(env, jsrc, &srcImbgeP, FALSE) <= 0) {
+        /* Cbn't hbndle bny custom imbges */
         return 0;
     }
 
-    /* Parse the destination image */
-    if (awt_parseImage(env, jdst, &dstImageP, FALSE) <= 0) {
-        /* Can't handle any custom images */
-        awt_freeParsedImage(srcImageP, TRUE);
+    /* Pbrse the destinbtion imbge */
+    if (bwt_pbrseImbge(env, jdst, &dstImbgeP, FALSE) <= 0) {
+        /* Cbn't hbndle bny custom imbges */
+        bwt_freePbrsedImbge(srcImbgeP, TRUE);
         return 0;
     }
 
-    /* REMIND!!  Can't assume that it is the same LUT!! */
+    /* REMIND!!  Cbn't bssume thbt it is the sbme LUT!! */
     /* Fix 4213160, 4184283 */
-    useIndexed = (srcImageP->cmodel.cmType == INDEX_CM_TYPE &&
-                  dstImageP->cmodel.cmType == INDEX_CM_TYPE &&
-                  srcImageP->raster.rasterType == dstImageP->raster.rasterType &&
-                  srcImageP->raster.rasterType == COMPONENT_RASTER_TYPE);
+    useIndexed = (srcImbgeP->cmodel.cmType == INDEX_CM_TYPE &&
+                  dstImbgeP->cmodel.cmType == INDEX_CM_TYPE &&
+                  srcImbgeP->rbster.rbsterType == dstImbgeP->rbster.rbsterType &&
+                  srcImbgeP->rbster.rbsterType == COMPONENT_RASTER_TYPE);
 
-    nbands = setImageHints(env, srcImageP, dstImageP, !useIndexed, TRUE,
+    nbbnds = setImbgeHints(env, srcImbgeP, dstImbgeP, !useIndexed, TRUE,
                         FALSE, &hint);
-    if (nbands < 1) {
-        /* Can't handle any custom images */
-        awt_freeParsedImage(srcImageP, TRUE);
-        awt_freeParsedImage(dstImageP, TRUE);
+    if (nbbnds < 1) {
+        /* Cbn't hbndle bny custom imbges */
+        bwt_freePbrsedImbge(srcImbgeP, TRUE);
+        bwt_freePbrsedImbge(dstImbgeP, TRUE);
         return 0;
     }
 
-    /* Allocate the arrays */
-    if (allocateArray(env, srcImageP, &src, &sdata, TRUE,
-                      hint.cvtSrcToDefault, hint.addAlpha) < 0) {
+    /* Allocbte the brrbys */
+    if (bllocbteArrby(env, srcImbgeP, &src, &sdbtb, TRUE,
+                      hint.cvtSrcToDefbult, hint.bddAlphb) < 0) {
         /* Must be some problem */
-        awt_freeParsedImage(srcImageP, TRUE);
-        awt_freeParsedImage(dstImageP, TRUE);
+        bwt_freePbrsedImbge(srcImbgeP, TRUE);
+        bwt_freePbrsedImbge(dstImbgeP, TRUE);
         return 0;
     }
-    if (allocateArray(env, dstImageP, &dst, &ddata, FALSE,
+    if (bllocbteArrby(env, dstImbgeP, &dst, &ddbtb, FALSE,
                       hint.cvtToDst, FALSE) < 0) {
         /* Must be some problem */
-        freeArray(env, srcImageP, src, sdata, NULL, NULL, NULL);
-        awt_freeParsedImage(srcImageP, TRUE);
-        awt_freeParsedImage(dstImageP, TRUE);
+        freeArrby(env, srcImbgeP, src, sdbtb, NULL, NULL, NULL);
+        bwt_freePbrsedImbge(srcImbgeP, TRUE);
+        bwt_freePbrsedImbge(dstImbgeP, TRUE);
         return 0;
     }
 #if 0
 fprintf(stderr,"Src----------------\n");
 fprintf(stderr,"Type : %d\n",src->type);
-fprintf(stderr,"Channels: %d\n",src->channels);
+fprintf(stderr,"Chbnnels: %d\n",src->chbnnels);
 fprintf(stderr,"Width   : %d\n",src->width);
 fprintf(stderr,"Height  : %d\n",src->height);
 fprintf(stderr,"Stride  : %d\n",src->stride);
-fprintf(stderr,"Flags   : %d\n",src->flags);
+fprintf(stderr,"Flbgs   : %d\n",src->flbgs);
 
 fprintf(stderr,"Dst----------------\n");
 fprintf(stderr,"Type : %d\n",dst->type);
-fprintf(stderr,"Channels: %d\n",dst->channels);
+fprintf(stderr,"Chbnnels: %d\n",dst->chbnnels);
 fprintf(stderr,"Width   : %d\n",dst->width);
 fprintf(stderr,"Height  : %d\n",dst->height);
 fprintf(stderr,"Stride  : %d\n",dst->stride);
-fprintf(stderr,"Flags   : %d\n",dst->flags);
+fprintf(stderr,"Flbgs   : %d\n",dst->flbgs);
 #endif
 
-    if (dstImageP->cmodel.cmType == INDEX_CM_TYPE) {
-        /* Need to clear the destination to the transparent pixel */
-        unsigned char *cP = (unsigned char *)mlib_ImageGetData(dst);
+    if (dstImbgeP->cmodel.cmType == INDEX_CM_TYPE) {
+        /* Need to clebr the destinbtion to the trbnspbrent pixel */
+        unsigned chbr *cP = (unsigned chbr *)mlib_ImbgeGetDbtb(dst);
 
-        memset(cP, dstImageP->cmodel.transIdx,
-               mlib_ImageGetWidth(dst)*mlib_ImageGetHeight(dst));
+        memset(cP, dstImbgeP->cmodel.trbnsIdx,
+               mlib_ImbgeGetWidth(dst)*mlib_ImbgeGetHeight(dst));
     }
-    /* Perform the transformation */
-    if ((status = (*sMlibFns[MLIB_AFFINE].fptr)(dst, src, mtx, filter,
+    /* Perform the trbnsformbtion */
+    if ((stbtus = (*sMlibFns[MLIB_AFFINE].fptr)(dst, src, mtx, filter,
                                   MLIB_EDGE_SRC_EXTEND) != MLIB_SUCCESS))
     {
-        printMedialibError(status);
-        freeArray(env, srcImageP, src, sdata, dstImageP, dst, ddata);
-        awt_freeParsedImage(srcImageP, TRUE);
-        awt_freeParsedImage(dstImageP, TRUE);
+        printMediblibError(stbtus);
+        freeArrby(env, srcImbgeP, src, sdbtb, dstImbgeP, dst, ddbtb);
+        bwt_freePbrsedImbge(srcImbgeP, TRUE);
+        bwt_freePbrsedImbge(dstImbgeP, TRUE);
 
         return 0;
     }
 
     if (s_printIt) {
-        if (sdata == NULL) {
-            dP = (unsigned int *) mlib_ImageGetData(src);
+        if (sdbtb == NULL) {
+            dP = (unsigned int *) mlib_ImbgeGetDbtb(src);
         }
         else {
-            dP = (unsigned int *) sdata;
+            dP = (unsigned int *) sdbtb;
         }
         printf("src is\n");
         for (i=0; i < 20; i++) {
             printf("%x ",dP[i]);
         }
         printf("\n");
-        if (ddata == NULL) {
-            dP = (unsigned int *)mlib_ImageGetData(dst);
+        if (ddbtb == NULL) {
+            dP = (unsigned int *)mlib_ImbgeGetDbtb(dst);
         }
         else {
-            dP = (unsigned int *) ddata;
+            dP = (unsigned int *) ddbtb;
         }
         printf("dst is\n");
         for (i=0; i < 20; i++) {
@@ -945,200 +945,200 @@ fprintf(stderr,"Flags   : %d\n",dst->flags);
         printf("\n");
     }
 
-    /* Means that we couldn't write directly into the destination buffer */
-    if (ddata == NULL) {
-        freeDataArray(env, srcImageP->raster.jdata, src, sdata,
+    /* Mebns thbt we couldn't write directly into the destinbtion buffer */
+    if (ddbtb == NULL) {
+        freeDbtbArrby(env, srcImbgeP->rbster.jdbtb, src, sdbtb,
                       NULL, NULL, NULL);
-        /* Need to store it back into the array */
-        if (storeImageArray(env, srcImageP, dstImageP, dst) < 0) {
+        /* Need to store it bbck into the brrby */
+        if (storeImbgeArrby(env, srcImbgeP, dstImbgeP, dst) < 0) {
             /* Error */
-            retStatus = 0;
+            retStbtus = 0;
         }
-        freeDataArray(env, NULL, NULL, NULL, dstImageP->raster.jdata,
-                      dst, ddata);
+        freeDbtbArrby(env, NULL, NULL, NULL, dstImbgeP->rbster.jdbtb,
+                      dst, ddbtb);
     }
     else {
-        /* Release the pinned memory */
-        freeArray(env, srcImageP, src, sdata, dstImageP, dst, ddata);
+        /* Relebse the pinned memory */
+        freeArrby(env, srcImbgeP, src, sdbtb, dstImbgeP, dst, ddbtb);
     }
 
-    awt_freeParsedImage(srcImageP, TRUE);
-    awt_freeParsedImage(dstImageP, TRUE);
+    bwt_freePbrsedImbge(srcImbgeP, TRUE);
+    bwt_freePbrsedImbge(dstImbgeP, TRUE);
 
     if (s_timeIt) (*stop_timer)(3600,1);
 
-    return retStatus;
+    return retStbtus;
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_awt_image_ImagingLib_transformRaster(JNIEnv *env, jobject this,
+Jbvb_sun_bwt_imbge_ImbgingLib_trbnsformRbster(JNIEnv *env, jobject this,
                                               jobject jsrc,
                                               jobject jdst,
-                                              jdoubleArray jmatrix,
+                                              jdoubleArrby jmbtrix,
                                               jint interpType)
 {
-    mlib_image *src;
-    mlib_image *dst;
+    mlib_imbge *src;
+    mlib_imbge *dst;
     int i;
-    int retStatus = 1;
-    mlib_status status;
-    double *matrix;
+    int retStbtus = 1;
+    mlib_stbtus stbtus;
+    double *mbtrix;
     mlib_d64 mtx[6];
-    void *sdata;
-    void *ddata;
-    RasterS_t *srcRasterP;
-    RasterS_t *dstRasterP;
+    void *sdbtb;
+    void *ddbtb;
+    RbsterS_t *srcRbsterP;
+    RbsterS_t *dstRbsterP;
     mlib_filter filter;
     unsigned int *dP;
 
-    /* This function requires a lot of local refs ??? Is 64 enough ??? */
-    if ((*env)->EnsureLocalCapacity(env, 64) < 0)
+    /* This function requires b lot of locbl refs ??? Is 64 enough ??? */
+    if ((*env)->EnsureLocblCbpbcity(env, 64) < 0)
         return 0;
 
     if (s_nomlib) return 0;
     if (s_timeIt) {
-        (*start_timer)(3600);
+        (*stbrt_timer)(3600);
     }
 
     switch(interpType) {
-    case java_awt_image_AffineTransformOp_TYPE_BILINEAR:
+    cbse jbvb_bwt_imbge_AffineTrbnsformOp_TYPE_BILINEAR:
         filter = MLIB_BILINEAR;
-        break;
-    case java_awt_image_AffineTransformOp_TYPE_NEAREST_NEIGHBOR:
+        brebk;
+    cbse jbvb_bwt_imbge_AffineTrbnsformOp_TYPE_NEAREST_NEIGHBOR:
         filter = MLIB_NEAREST;
-        break;
-    case java_awt_image_AffineTransformOp_TYPE_BICUBIC:
+        brebk;
+    cbse jbvb_bwt_imbge_AffineTrbnsformOp_TYPE_BICUBIC:
         filter = MLIB_BICUBIC;
-        break;
-    default:
-        JNU_ThrowInternalError(env, "Unknown interpolation type");
+        brebk;
+    defbult:
+        JNU_ThrowInternblError(env, "Unknown interpolbtion type");
         return -1;
     }
 
-    if ((srcRasterP = (RasterS_t *) calloc(1, sizeof(RasterS_t))) == NULL) {
+    if ((srcRbsterP = (RbsterS_t *) cblloc(1, sizeof(RbsterS_t))) == NULL) {
         JNU_ThrowOutOfMemoryError(env, "Out of memory");
         return -1;
     }
 
-    if ((dstRasterP = (RasterS_t *) calloc(1, sizeof(RasterS_t))) == NULL) {
+    if ((dstRbsterP = (RbsterS_t *) cblloc(1, sizeof(RbsterS_t))) == NULL) {
         JNU_ThrowOutOfMemoryError(env, "Out of memory");
-        free(srcRasterP);
+        free(srcRbsterP);
         return -1;
     }
 
-    if ((*env)->GetArrayLength(env, jmatrix) < 6) {
+    if ((*env)->GetArrbyLength(env, jmbtrix) < 6) {
         /*
          * Very unlikely, however we should check for this:
-         * if given matrix array is too short, we can't handle it.
+         * if given mbtrix brrby is too short, we cbn't hbndle it.
          */
-        free(srcRasterP);
-        free(dstRasterP);
+        free(srcRbsterP);
+        free(dstRbsterP);
         return 0;
     }
 
-    matrix = (*env)->GetPrimitiveArrayCritical(env, jmatrix, NULL);
-    if (matrix == NULL) {
-        /* out of memory error already thrown */
-        free(srcRasterP);
-        free(dstRasterP);
+    mbtrix = (*env)->GetPrimitiveArrbyCriticbl(env, jmbtrix, NULL);
+    if (mbtrix == NULL) {
+        /* out of memory error blrebdy thrown */
+        free(srcRbsterP);
+        free(dstRbsterP);
         return 0;
     }
 
     if (s_printIt) {
-        printf("matrix is %g %g %g %g %g %g\n", matrix[0], matrix[1],
-               matrix[2], matrix[3], matrix[4], matrix[5]);
+        printf("mbtrix is %g %g %g %g %g %g\n", mbtrix[0], mbtrix[1],
+               mbtrix[2], mbtrix[3], mbtrix[4], mbtrix[5]);
     }
 
-    mtx[0] = matrix[0];
-    mtx[1] = matrix[2];
-    mtx[2] = matrix[4];
-    mtx[3] = matrix[1];
-    mtx[4] = matrix[3];
-    mtx[5] = matrix[5];
+    mtx[0] = mbtrix[0];
+    mtx[1] = mbtrix[2];
+    mtx[2] = mbtrix[4];
+    mtx[3] = mbtrix[1];
+    mtx[4] = mbtrix[3];
+    mtx[5] = mbtrix[5];
 
-    (*env)->ReleasePrimitiveArrayCritical(env, jmatrix, matrix, JNI_ABORT);
+    (*env)->RelebsePrimitiveArrbyCriticbl(env, jmbtrix, mbtrix, JNI_ABORT);
 
-    /* Parse the source raster */
-    if (awt_parseRaster(env, jsrc, srcRasterP) <= 0) {
-        /* Can't handle any custom rasters */
-        free(srcRasterP);
-        free(dstRasterP);
+    /* Pbrse the source rbster */
+    if (bwt_pbrseRbster(env, jsrc, srcRbsterP) <= 0) {
+        /* Cbn't hbndle bny custom rbsters */
+        free(srcRbsterP);
+        free(dstRbsterP);
         return 0;
     }
 
-    /* Parse the destination raster */
-    if (awt_parseRaster(env, jdst, dstRasterP) <= 0) {
-        /* Can't handle any custom images */
-        awt_freeParsedRaster(srcRasterP, TRUE);
-        free(dstRasterP);
+    /* Pbrse the destinbtion rbster */
+    if (bwt_pbrseRbster(env, jdst, dstRbsterP) <= 0) {
+        /* Cbn't hbndle bny custom imbges */
+        bwt_freePbrsedRbster(srcRbsterP, TRUE);
+        free(dstRbsterP);
         return 0;
     }
 
-    /* Allocate the arrays */
-    if (allocateRasterArray(env, srcRasterP, &src, &sdata, TRUE) < 0) {
+    /* Allocbte the brrbys */
+    if (bllocbteRbsterArrby(env, srcRbsterP, &src, &sdbtb, TRUE) < 0) {
         /* Must be some problem */
-        awt_freeParsedRaster(srcRasterP, TRUE);
-        awt_freeParsedRaster(dstRasterP, TRUE);
+        bwt_freePbrsedRbster(srcRbsterP, TRUE);
+        bwt_freePbrsedRbster(dstRbsterP, TRUE);
         return 0;
     }
-    if (allocateRasterArray(env, dstRasterP, &dst, &ddata, FALSE) < 0) {
+    if (bllocbteRbsterArrby(env, dstRbsterP, &dst, &ddbtb, FALSE) < 0) {
         /* Must be some problem */
-        freeDataArray(env, srcRasterP->jdata, src, sdata, NULL, NULL, NULL);
-        awt_freeParsedRaster(srcRasterP, TRUE);
-        awt_freeParsedRaster(dstRasterP, TRUE);
+        freeDbtbArrby(env, srcRbsterP->jdbtb, src, sdbtb, NULL, NULL, NULL);
+        bwt_freePbrsedRbster(srcRbsterP, TRUE);
+        bwt_freePbrsedRbster(dstRbsterP, TRUE);
         return 0;
     }
 
 #if 0
 fprintf(stderr,"Src----------------\n");
 fprintf(stderr,"Type : %d\n",src->type);
-fprintf(stderr,"Channels: %d\n",src->channels);
+fprintf(stderr,"Chbnnels: %d\n",src->chbnnels);
 fprintf(stderr,"Width   : %d\n",src->width);
 fprintf(stderr,"Height  : %d\n",src->height);
 fprintf(stderr,"Stride  : %d\n",src->stride);
-fprintf(stderr,"Flags   : %d\n",src->flags);
+fprintf(stderr,"Flbgs   : %d\n",src->flbgs);
 
 fprintf(stderr,"Dst----------------\n");
 fprintf(stderr,"Type : %d\n",dst->type);
-fprintf(stderr,"Channels: %d\n",dst->channels);
+fprintf(stderr,"Chbnnels: %d\n",dst->chbnnels);
 fprintf(stderr,"Width   : %d\n",dst->width);
 fprintf(stderr,"Height  : %d\n",dst->height);
 fprintf(stderr,"Stride  : %d\n",dst->stride);
-fprintf(stderr,"Flags   : %d\n",dst->flags);
+fprintf(stderr,"Flbgs   : %d\n",dst->flbgs);
 #endif
 
     {
-        unsigned char *cP = (unsigned char *)mlib_ImageGetData(dst);
+        unsigned chbr *cP = (unsigned chbr *)mlib_ImbgeGetDbtb(dst);
 
-        memset(cP, 0, mlib_ImageGetWidth(dst)*mlib_ImageGetHeight(dst));
+        memset(cP, 0, mlib_ImbgeGetWidth(dst)*mlib_ImbgeGetHeight(dst));
     }
 
-    /* Perform the transformation */
-    if ((status = (*sMlibFns[MLIB_AFFINE].fptr)(dst, src, mtx, filter,
+    /* Perform the trbnsformbtion */
+    if ((stbtus = (*sMlibFns[MLIB_AFFINE].fptr)(dst, src, mtx, filter,
                                   MLIB_EDGE_SRC_EXTEND) != MLIB_SUCCESS))
     {
-        printMedialibError(status);
+        printMediblibError(stbtus);
         /* REMIND: Free the regions */
         return 0;
     }
 
     if (s_printIt) {
-        if (sdata == NULL) {
-            dP = (unsigned int *) mlib_ImageGetData(src);
+        if (sdbtb == NULL) {
+            dP = (unsigned int *) mlib_ImbgeGetDbtb(src);
         }
         else {
-            dP = (unsigned int *) sdata;
+            dP = (unsigned int *) sdbtb;
         }
         printf("src is\n");
         for (i=0; i < 20; i++) {
             printf("%x ",dP[i]);
         }
         printf("\n");
-        if (ddata == NULL) {
-            dP = (unsigned int *)mlib_ImageGetData(dst);
+        if (ddbtb == NULL) {
+            dP = (unsigned int *)mlib_ImbgeGetDbtb(dst);
         }
         else {
-            dP = (unsigned int *) ddata;
+            dP = (unsigned int *) ddbtb;
         }
         printf("dst is\n");
         for (i=0; i < 20; i++) {
@@ -1147,32 +1147,32 @@ fprintf(stderr,"Flags   : %d\n",dst->flags);
         printf("\n");
     }
 
-    /* Means that we couldn't write directly into the destination buffer */
-    if (ddata == NULL) {
-        /* Need to store it back into the array */
-        if (storeRasterArray(env, srcRasterP, dstRasterP, dst) < 0) {
-            (*env)->ExceptionClear(env); // Could not store the array, try another way
-            retStatus = setPixelsFormMlibImage(env, dstRasterP, dst);
+    /* Mebns thbt we couldn't write directly into the destinbtion buffer */
+    if (ddbtb == NULL) {
+        /* Need to store it bbck into the brrby */
+        if (storeRbsterArrby(env, srcRbsterP, dstRbsterP, dst) < 0) {
+            (*env)->ExceptionClebr(env); // Could not store the brrby, try bnother wby
+            retStbtus = setPixelsFormMlibImbge(env, dstRbsterP, dst);
         }
     }
 
-    /* Release the pinned memory */
-    freeDataArray(env, srcRasterP->jdata, src, sdata,
-                  dstRasterP->jdata, dst, ddata);
+    /* Relebse the pinned memory */
+    freeDbtbArrby(env, srcRbsterP->jdbtb, src, sdbtb,
+                  dstRbsterP->jdbtb, dst, ddbtb);
 
-    awt_freeParsedRaster(srcRasterP, TRUE);
-    awt_freeParsedRaster(dstRasterP, TRUE);
+    bwt_freePbrsedRbster(srcRbsterP, TRUE);
+    bwt_freePbrsedRbster(dstRbsterP, TRUE);
 
     if (s_timeIt) (*stop_timer)(3600,1);
 
-    return retStatus;
+    return retStbtus;
 }
 
 typedef struct {
-    jobject jArray;
+    jobject jArrby;
     jsize length;
-    unsigned char *table;
-} LookupArrayInfo;
+    unsigned chbr *tbble;
+} LookupArrbyInfo;
 
 #define NLUT 8
 
@@ -1182,16 +1182,16 @@ typedef struct {
 #define INDEXES    { 0, 1, 2, 3, 4, 5, 6, 7 }
 #endif
 
-static int lookupShortData(mlib_image* src, mlib_image* dst,
-    LookupArrayInfo* lookup)
+stbtic int lookupShortDbtb(mlib_imbge* src, mlib_imbge* dst,
+    LookupArrbyInfo* lookup)
 {
     int x, y;
-    unsigned int mask = NLUT-1;
+    unsigned int mbsk = NLUT-1;
 
-    unsigned short* srcLine = (unsigned short*)src->data;
-    unsigned char* dstLine = (unsigned char*)dst->data;
+    unsigned short* srcLine = (unsigned short*)src->dbtb;
+    unsigned chbr* dstLine = (unsigned chbr*)dst->dbtb;
 
-    static int indexes[NLUT] = INDEXES;
+    stbtic int indexes[NLUT] = INDEXES;
 
     if (src->width != dst->width || src->height != dst->height) {
         return 0;
@@ -1202,34 +1202,34 @@ static int lookupShortData(mlib_image* src, mlib_image* dst,
         int npix = src->width;
 
         unsigned short* srcPixel = srcLine;
-        unsigned char* dstPixel = dstLine;
+        unsigned chbr* dstPixel = dstLine;
 
 #ifdef SIMPLE_LOOKUP_LOOP
-        for (x=0; status && x < width; x++) {
+        for (x=0; stbtus && x < width; x++) {
             unsigned short s = *srcPixel++;
             if (s >= lookup->length) {
-                /* we can not handle source image using
-                * byte lookup table. Fall back to processing
-                * images in java
+                /* we cbn not hbndle source imbge using
+                * byte lookup tbble. Fbll bbck to processing
+                * imbges in jbvb
                 */
                 return 0;
             }
-            *dstPixel++ = lookup->table[s];
+            *dstPixel++ = lookup->tbble[s];
         }
 #else
-        /* Get to 32 bit-aligned point */
+        /* Get to 32 bit-bligned point */
         while(((uintptr_t)dstPixel & 0x3) != 0 && npix>0) {
             unsigned short s = *srcPixel++;
             if (s >= lookup->length) {
                 return 0;
             }
-            *dstPixel++ = lookup->table[s];
+            *dstPixel++ = lookup->tbble[s];
             npix--;
         }
 
         /*
-         * Do NLUT pixels per loop iteration.
-         * Pack into ints and write out 2 at a time.
+         * Do NLUT pixels per loop iterbtion.
+         * Pbck into ints bnd write out 2 bt b time.
          */
         nloop = npix/NLUT;
         nx = npix%NLUT;
@@ -1245,15 +1245,15 @@ static int lookupShortData(mlib_image* src, mlib_image* dst,
             }
 
             dstP[0] = (int)
-                ((lookup->table[srcPixel[indexes[0]]] << 24) |
-                 (lookup->table[srcPixel[indexes[1]]] << 16) |
-                 (lookup->table[srcPixel[indexes[2]]] << 8)  |
-                  lookup->table[srcPixel[indexes[3]]]);
+                ((lookup->tbble[srcPixel[indexes[0]]] << 24) |
+                 (lookup->tbble[srcPixel[indexes[1]]] << 16) |
+                 (lookup->tbble[srcPixel[indexes[2]]] << 8)  |
+                  lookup->tbble[srcPixel[indexes[3]]]);
             dstP[1] = (int)
-                ((lookup->table[srcPixel[indexes[4]]] << 24) |
-                 (lookup->table[srcPixel[indexes[5]]] << 16) |
-                 (lookup->table[srcPixel[indexes[6]]] << 8)  |
-                  lookup->table[srcPixel[indexes[7]]]);
+                ((lookup->tbble[srcPixel[indexes[4]]] << 24) |
+                 (lookup->tbble[srcPixel[indexes[5]]] << 16) |
+                 (lookup->tbble[srcPixel[indexes[6]]] << 8)  |
+                  lookup->tbble[srcPixel[indexes[7]]]);
 
 
             dstPixel += NLUT;
@@ -1261,166 +1261,166 @@ static int lookupShortData(mlib_image* src, mlib_image* dst,
         }
 
         /*
-         * Complete any remaining pixels
+         * Complete bny rembining pixels
          */
         for(x=nx; x!=0; x--) {
             unsigned short s = *srcPixel++;
             if (s >= lookup->length) {
                 return 0;
             }
-            *dstPixel++ = lookup->table[s];
+            *dstPixel++ = lookup->tbble[s];
         }
 #endif
 
-        dstLine += dst->stride;     // array of bytes, scan stride in bytes
-        srcLine += src->stride / 2; // array of shorts, scan stride in bytes
+        dstLine += dst->stride;     // brrby of bytes, scbn stride in bytes
+        srcLine += src->stride / 2; // brrby of shorts, scbn stride in bytes
     }
     return 1;
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_awt_image_ImagingLib_lookupByteBI(JNIEnv *env, jobject thisLib,
+Jbvb_sun_bwt_imbge_ImbgingLib_lookupByteBI(JNIEnv *env, jobject thisLib,
                                            jobject jsrc, jobject jdst,
-                                           jobjectArray jtableArrays)
+                                           jobjectArrby jtbbleArrbys)
 {
-    mlib_image *src;
-    mlib_image *dst;
-    void *sdata, *ddata;
-    unsigned char **tbl;
-    unsigned char lut[256];
-    int retStatus = 1;
+    mlib_imbge *src;
+    mlib_imbge *dst;
+    void *sdbtb, *ddbtb;
+    unsigned chbr **tbl;
+    unsigned chbr lut[256];
+    int retStbtus = 1;
     int i;
-    mlib_status status;
-    int lut_nbands;
-    LookupArrayInfo *jtable;
-    BufImageS_t *srcImageP, *dstImageP;
-    int nbands;
+    mlib_stbtus stbtus;
+    int lut_nbbnds;
+    LookupArrbyInfo *jtbble;
+    BufImbgeS_t *srcImbgeP, *dstImbgeP;
+    int nbbnds;
     int ncomponents;
     mlibHintS_t hint;
 
-    /* This function requires a lot of local refs ??? Is 64 enough ??? */
-    if ((*env)->EnsureLocalCapacity(env, 64) < 0)
+    /* This function requires b lot of locbl refs ??? Is 64 enough ??? */
+    if ((*env)->EnsureLocblCbpbcity(env, 64) < 0)
         return 0;
 
     if (s_nomlib) return 0;
-    if (s_timeIt) (*start_timer)(3600);
+    if (s_timeIt) (*stbrt_timer)(3600);
 
-    /* Parse the source image */
-    if (awt_parseImage(env, jsrc, &srcImageP, FALSE) <= 0) {
-        /* Can't handle any custom images */
+    /* Pbrse the source imbge */
+    if (bwt_pbrseImbge(env, jsrc, &srcImbgeP, FALSE) <= 0) {
+        /* Cbn't hbndle bny custom imbges */
         return 0;
     }
 
-    /* Parse the destination image */
-    if (awt_parseImage(env, jdst, &dstImageP, FALSE) <= 0) {
-        /* Can't handle any custom images */
-        awt_freeParsedImage(srcImageP, TRUE);
+    /* Pbrse the destinbtion imbge */
+    if (bwt_pbrseImbge(env, jdst, &dstImbgeP, FALSE) <= 0) {
+        /* Cbn't hbndle bny custom imbges */
+        bwt_freePbrsedImbge(srcImbgeP, TRUE);
         return 0;
     }
 
-    nbands = setImageHints(env, srcImageP, dstImageP, FALSE, TRUE,
+    nbbnds = setImbgeHints(env, srcImbgeP, dstImbgeP, FALSE, TRUE,
                         FALSE, &hint);
 
-    if (nbands < 1 || nbands > srcImageP->cmodel.numComponents) {
-        /* Can't handle any custom images */
-        awt_freeParsedImage(srcImageP, TRUE);
-        awt_freeParsedImage(dstImageP, TRUE);
+    if (nbbnds < 1 || nbbnds > srcImbgeP->cmodel.numComponents) {
+        /* Cbn't hbndle bny custom imbges */
+        bwt_freePbrsedImbge(srcImbgeP, TRUE);
+        bwt_freePbrsedImbge(dstImbgeP, TRUE);
         return 0;
     }
 
-    ncomponents = srcImageP->cmodel.isDefaultCompatCM
+    ncomponents = srcImbgeP->cmodel.isDefbultCompbtCM
         ? 4
-        : srcImageP->cmodel.numComponents;
+        : srcImbgeP->cmodel.numComponents;
 
-    /* Make sure that color order can be used for
-     * re-ordering of lookup arrays.
+    /* Mbke sure thbt color order cbn be used for
+     * re-ordering of lookup brrbys.
      */
-    for (i = 0; i < nbands; i++) {
-        int idx = srcImageP->hints.colorOrder[i];
+    for (i = 0; i < nbbnds; i++) {
+        int idx = srcImbgeP->hints.colorOrder[i];
 
         if (idx < 0 || idx >= ncomponents) {
-            awt_freeParsedImage(srcImageP, TRUE);
-            awt_freeParsedImage(dstImageP, TRUE);
+            bwt_freePbrsedImbge(srcImbgeP, TRUE);
+            bwt_freePbrsedImbge(dstImbgeP, TRUE);
             return 0;
         }
     }
 
-    lut_nbands = (*env)->GetArrayLength(env, jtableArrays);
+    lut_nbbnds = (*env)->GetArrbyLength(env, jtbbleArrbys);
 
-    if (lut_nbands > ncomponents) {
-        lut_nbands = ncomponents;
+    if (lut_nbbnds > ncomponents) {
+        lut_nbbnds = ncomponents;
     }
 
     tbl = NULL;
-    if (SAFE_TO_ALLOC_2(ncomponents, sizeof(unsigned char *))) {
-        tbl = (unsigned char **)
-            calloc(1, ncomponents * sizeof(unsigned char *));
+    if (SAFE_TO_ALLOC_2(ncomponents, sizeof(unsigned chbr *))) {
+        tbl = (unsigned chbr **)
+            cblloc(1, ncomponents * sizeof(unsigned chbr *));
     }
 
-    jtable = NULL;
-    if (SAFE_TO_ALLOC_2(lut_nbands, sizeof(LookupArrayInfo))) {
-        jtable = (LookupArrayInfo *)malloc(lut_nbands * sizeof (LookupArrayInfo));
+    jtbble = NULL;
+    if (SAFE_TO_ALLOC_2(lut_nbbnds, sizeof(LookupArrbyInfo))) {
+        jtbble = (LookupArrbyInfo *)mblloc(lut_nbbnds * sizeof (LookupArrbyInfo));
     }
 
-    if (tbl == NULL || jtable == NULL) {
+    if (tbl == NULL || jtbble == NULL) {
         if (tbl != NULL) free(tbl);
-        if (jtable != NULL) free(jtable);
-        awt_freeParsedImage(srcImageP, TRUE);
-        awt_freeParsedImage(dstImageP, TRUE);
+        if (jtbble != NULL) free(jtbble);
+        bwt_freePbrsedImbge(srcImbgeP, TRUE);
+        bwt_freePbrsedImbge(dstImbgeP, TRUE);
         JNU_ThrowNullPointerException(env, "NULL LUT");
         return 0;
     }
-    /* Need to grab these pointers before we lock down arrays */
-    for (i=0; i < lut_nbands; i++) {
-        jtable[i].jArray = (*env)->GetObjectArrayElement(env, jtableArrays, i);
+    /* Need to grbb these pointers before we lock down brrbys */
+    for (i=0; i < lut_nbbnds; i++) {
+        jtbble[i].jArrby = (*env)->GetObjectArrbyElement(env, jtbbleArrbys, i);
 
-        if (jtable[i].jArray != NULL) {
-            jtable[i].length = (*env)->GetArrayLength(env, jtable[i].jArray);
-            jtable[i].table = NULL;
+        if (jtbble[i].jArrby != NULL) {
+            jtbble[i].length = (*env)->GetArrbyLength(env, jtbble[i].jArrby);
+            jtbble[i].tbble = NULL;
 
-            if (jtable[i].length < 256) {
-                /* we may read outside the table during lookup */
-                jtable[i].jArray = NULL;
-                jtable[i].length = 0;
+            if (jtbble[i].length < 256) {
+                /* we mby rebd outside the tbble during lookup */
+                jtbble[i].jArrby = NULL;
+                jtbble[i].length = 0;
             }
         }
-        if (jtable[i].jArray == NULL) {
+        if (jtbble[i].jArrby == NULL) {
             free(tbl);
-            free(jtable);
-            awt_freeParsedImage(srcImageP, TRUE);
-            awt_freeParsedImage(dstImageP, TRUE);
+            free(jtbble);
+            bwt_freePbrsedImbge(srcImbgeP, TRUE);
+            bwt_freePbrsedImbge(dstImbgeP, TRUE);
             return 0;
         }
     }
 
-    /* Allocate the arrays */
-    if (allocateArray(env, srcImageP, &src, &sdata, TRUE, FALSE, FALSE) < 0) {
+    /* Allocbte the brrbys */
+    if (bllocbteArrby(env, srcImbgeP, &src, &sdbtb, TRUE, FALSE, FALSE) < 0) {
         /* Must be some problem */
         free(tbl);
-        free(jtable);
-        awt_freeParsedImage(srcImageP, TRUE);
-        awt_freeParsedImage(dstImageP, TRUE);
+        free(jtbble);
+        bwt_freePbrsedImbge(srcImbgeP, TRUE);
+        bwt_freePbrsedImbge(dstImbgeP, TRUE);
         return 0;
     }
-    if (allocateArray(env, dstImageP, &dst, &ddata, FALSE, FALSE, FALSE) < 0) {
+    if (bllocbteArrby(env, dstImbgeP, &dst, &ddbtb, FALSE, FALSE, FALSE) < 0) {
         /* Must be some problem */
         free(tbl);
-        free(jtable);
-        freeArray(env, srcImageP, src, sdata, NULL, NULL, NULL);
-        awt_freeParsedImage(srcImageP, TRUE);
-        awt_freeParsedImage(dstImageP, TRUE);
+        free(jtbble);
+        freeArrby(env, srcImbgeP, src, sdbtb, NULL, NULL, NULL);
+        bwt_freePbrsedImbge(srcImbgeP, TRUE);
+        bwt_freePbrsedImbge(dstImbgeP, TRUE);
         return 0;
     }
 
-    /* Set up a straight lut so we don't mess around with alpha */
+    /* Set up b strbight lut so we don't mess bround with blphb */
     /*
-     * NB: medialib lookup routine expects lookup array for each
-     * component of source image including alpha.
-     * If lookup table we got form the java layer does not contain
-     * sufficient number of lookup arrays we add references to identity
-     * lookup array to make medialib happier.
+     * NB: mediblib lookup routine expects lookup brrby for ebch
+     * component of source imbge including blphb.
+     * If lookup tbble we got form the jbvb lbyer does not contbin
+     * sufficient number of lookup brrbys we bdd references to identity
+     * lookup brrby to mbke mediblib hbppier.
      */
-    if (lut_nbands < ncomponents) {
+    if (lut_nbbnds < ncomponents) {
         int j;
         /* REMIND: This should be the size of the input lut!! */
         for (j=0; j < 256; j++) {
@@ -1431,327 +1431,327 @@ Java_sun_awt_image_ImagingLib_lookupByteBI(JNIEnv *env, jobject thisLib,
         }
     }
 
-    for (i=0; i < lut_nbands; i++) {
-        jtable[i].table = (unsigned char *)
-            (*env)->GetPrimitiveArrayCritical(env, jtable[i].jArray, NULL);
-        if (jtable[i].table == NULL) {
-            /* Free what we've got so far. */
+    for (i=0; i < lut_nbbnds; i++) {
+        jtbble[i].tbble = (unsigned chbr *)
+            (*env)->GetPrimitiveArrbyCriticbl(env, jtbble[i].jArrby, NULL);
+        if (jtbble[i].tbble == NULL) {
+            /* Free whbt we've got so fbr. */
             int j;
             for (j = 0; j < i; j++) {
-                (*env)->ReleasePrimitiveArrayCritical(env,
-                                                      jtable[j].jArray,
-                                                      (jbyte *) jtable[j].table,
+                (*env)->RelebsePrimitiveArrbyCriticbl(env,
+                                                      jtbble[j].jArrby,
+                                                      (jbyte *) jtbble[j].tbble,
                                                       JNI_ABORT);
             }
             free(tbl);
-            free(jtable);
-            freeArray(env, srcImageP, src, sdata, NULL, NULL, NULL);
-            awt_freeParsedImage(srcImageP, TRUE);
-            awt_freeParsedImage(dstImageP, TRUE);
+            free(jtbble);
+            freeArrby(env, srcImbgeP, src, sdbtb, NULL, NULL, NULL);
+            bwt_freePbrsedImbge(srcImbgeP, TRUE);
+            bwt_freePbrsedImbge(dstImbgeP, TRUE);
             return 0;
         }
-        tbl[srcImageP->hints.colorOrder[i]] = jtable[i].table;
+        tbl[srcImbgeP->hints.colorOrder[i]] = jtbble[i].tbble;
     }
 
-    if (lut_nbands == 1) {
-        for (i=1; i < nbands -
-                 srcImageP->cmodel.supportsAlpha; i++) {
-                     tbl[srcImageP->hints.colorOrder[i]] = jtable[0].table;
+    if (lut_nbbnds == 1) {
+        for (i=1; i < nbbnds -
+                 srcImbgeP->cmodel.supportsAlphb; i++) {
+                     tbl[srcImbgeP->hints.colorOrder[i]] = jtbble[0].tbble;
         }
     }
 
-    /* Mlib needs 16bit lookuptable and must be signed! */
+    /* Mlib needs 16bit lookuptbble bnd must be signed! */
     if (src->type == MLIB_SHORT) {
         if (dst->type == MLIB_BYTE) {
-            if (nbands > 1) {
-                retStatus = 0;
+            if (nbbnds > 1) {
+                retStbtus = 0;
             }
             else {
-                retStatus = lookupShortData(src, dst, &jtable[0]);
+                retStbtus = lookupShortDbtb(src, dst, &jtbble[0]);
             }
         }
-        /* How about ddata == null? */
+        /* How bbout ddbtb == null? */
     }
-    else if ((status = (*sMlibFns[MLIB_LOOKUP].fptr)(dst, src,
+    else if ((stbtus = (*sMlibFns[MLIB_LOOKUP].fptr)(dst, src,
                                       (void **)tbl) != MLIB_SUCCESS)) {
-        printMedialibError(status);
-        retStatus = 0;
+        printMediblibError(stbtus);
+        retStbtus = 0;
     }
 
-   /* Release the LUT */
-    for (i=0; i < lut_nbands; i++) {
-        (*env)->ReleasePrimitiveArrayCritical(env, jtable[i].jArray,
-            (jbyte *) jtable[i].table, JNI_ABORT);
+   /* Relebse the LUT */
+    for (i=0; i < lut_nbbnds; i++) {
+        (*env)->RelebsePrimitiveArrbyCriticbl(env, jtbble[i].jArrby,
+            (jbyte *) jtbble[i].tbble, JNI_ABORT);
     }
-    free ((void *) jtable);
+    free ((void *) jtbble);
     free ((void *) tbl);
 
     /*
-     * Means that we couldn't write directly into
-     * the destination buffer
+     * Mebns thbt we couldn't write directly into
+     * the destinbtion buffer
      */
-    if (ddata == NULL) {
+    if (ddbtb == NULL) {
 
-        /* Need to store it back into the array */
-        if (storeImageArray(env, srcImageP, dstImageP, dst) < 0) {
+        /* Need to store it bbck into the brrby */
+        if (storeImbgeArrby(env, srcImbgeP, dstImbgeP, dst) < 0) {
             /* Error */
-            retStatus = 0;
+            retStbtus = 0;
         }
     }
 
 
-    /* Release the pinned memory */
-    freeArray(env, srcImageP, src, sdata, dstImageP, dst, ddata);
+    /* Relebse the pinned memory */
+    freeArrby(env, srcImbgeP, src, sdbtb, dstImbgeP, dst, ddbtb);
 
-    awt_freeParsedImage(srcImageP, TRUE);
-    awt_freeParsedImage(dstImageP, TRUE);
+    bwt_freePbrsedImbge(srcImbgeP, TRUE);
+    bwt_freePbrsedImbge(dstImbgeP, TRUE);
 
     if (s_timeIt) (*stop_timer)(3600, 1);
 
-    return retStatus;
+    return retStbtus;
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_awt_image_ImagingLib_lookupByteRaster(JNIEnv *env,
+Jbvb_sun_bwt_imbge_ImbgingLib_lookupByteRbster(JNIEnv *env,
                                                jobject this,
                                                jobject jsrc,
                                                jobject jdst,
-                                               jobjectArray jtableArrays)
+                                               jobjectArrby jtbbleArrbys)
 {
-    RasterS_t*     srcRasterP;
-    RasterS_t*     dstRasterP;
-    mlib_image*    src;
-    mlib_image*    dst;
-    void*          sdata;
-    void*          ddata;
-    LookupArrayInfo jtable[4];
-    unsigned char* mlib_lookupTable[4];
+    RbsterS_t*     srcRbsterP;
+    RbsterS_t*     dstRbsterP;
+    mlib_imbge*    src;
+    mlib_imbge*    dst;
+    void*          sdbtb;
+    void*          ddbtb;
+    LookupArrbyInfo jtbble[4];
+    unsigned chbr* mlib_lookupTbble[4];
     int            i;
-    int            retStatus = 1;
-    mlib_status    status;
+    int            retStbtus = 1;
+    mlib_stbtus    stbtus;
     int            jlen;
-    int            lut_nbands;
-    int            src_nbands;
-    int            dst_nbands;
-    unsigned char  ilut[256];
+    int            lut_nbbnds;
+    int            src_nbbnds;
+    int            dst_nbbnds;
+    unsigned chbr  ilut[256];
 
-    /* This function requires a lot of local refs ??? Is 64 enough ??? */
-    if ((*env)->EnsureLocalCapacity(env, 64) < 0)
+    /* This function requires b lot of locbl refs ??? Is 64 enough ??? */
+    if ((*env)->EnsureLocblCbpbcity(env, 64) < 0)
         return 0;
 
     if (s_nomlib) return 0;
-    if (s_timeIt) (*start_timer)(3600);
+    if (s_timeIt) (*stbrt_timer)(3600);
 
-    if ((srcRasterP = (RasterS_t*) calloc(1, sizeof(RasterS_t))) == NULL) {
+    if ((srcRbsterP = (RbsterS_t*) cblloc(1, sizeof(RbsterS_t))) == NULL) {
         JNU_ThrowOutOfMemoryError(env, "Out of memory");
         return -1;
     }
 
-    if ((dstRasterP = (RasterS_t *) calloc(1, sizeof(RasterS_t))) == NULL) {
+    if ((dstRbsterP = (RbsterS_t *) cblloc(1, sizeof(RbsterS_t))) == NULL) {
         JNU_ThrowOutOfMemoryError(env, "Out of memory");
-        free(srcRasterP);
+        free(srcRbsterP);
         return -1;
     }
 
-    /* Parse the source raster - reject custom images */
-    if (awt_parseRaster(env, jsrc, srcRasterP) <= 0) {
-        free(srcRasterP);
-        free(dstRasterP);
+    /* Pbrse the source rbster - reject custom imbges */
+    if (bwt_pbrseRbster(env, jsrc, srcRbsterP) <= 0) {
+        free(srcRbsterP);
+        free(dstRbsterP);
         return 0;
     }
 
-    /* Parse the destination image - reject custom images */
-    if (awt_parseRaster(env, jdst, dstRasterP) <= 0) {
-        awt_freeParsedRaster(srcRasterP, TRUE);
-        free(dstRasterP);
+    /* Pbrse the destinbtion imbge - reject custom imbges */
+    if (bwt_pbrseRbster(env, jdst, dstRbsterP) <= 0) {
+        bwt_freePbrsedRbster(srcRbsterP, TRUE);
+        free(dstRbsterP);
         return 0;
     }
 
-    jlen = (*env)->GetArrayLength(env, jtableArrays);
+    jlen = (*env)->GetArrbyLength(env, jtbbleArrbys);
 
-    lut_nbands = jlen;
-    src_nbands = srcRasterP->numBands;
-    dst_nbands = dstRasterP->numBands;
+    lut_nbbnds = jlen;
+    src_nbbnds = srcRbsterP->numBbnds;
+    dst_nbbnds = dstRbsterP->numBbnds;
 
-    /* adjust number of lookup bands */
-    if (lut_nbands > src_nbands) {
-        lut_nbands = src_nbands;
+    /* bdjust number of lookup bbnds */
+    if (lut_nbbnds > src_nbbnds) {
+        lut_nbbnds = src_nbbnds;
     }
 
-    /* MediaLib can't do more than 4 bands */
-    if (src_nbands <= 0 || src_nbands > 4 ||
-        dst_nbands <= 0 || dst_nbands > 4 ||
-        lut_nbands <= 0 || lut_nbands > 4 ||
-        src_nbands != dst_nbands ||
-        ((lut_nbands != 1) && (lut_nbands != src_nbands)))
+    /* MedibLib cbn't do more thbn 4 bbnds */
+    if (src_nbbnds <= 0 || src_nbbnds > 4 ||
+        dst_nbbnds <= 0 || dst_nbbnds > 4 ||
+        lut_nbbnds <= 0 || lut_nbbnds > 4 ||
+        src_nbbnds != dst_nbbnds ||
+        ((lut_nbbnds != 1) && (lut_nbbnds != src_nbbnds)))
     {
-        // we should free parsed rasters here
-        awt_freeParsedRaster(srcRasterP, TRUE);
-        awt_freeParsedRaster(dstRasterP, TRUE);
+        // we should free pbrsed rbsters here
+        bwt_freePbrsedRbster(srcRbsterP, TRUE);
+        bwt_freePbrsedRbster(dstRbsterP, TRUE);
         return 0;
     }
 
-    /* Allocate the raster arrays */
-    if (allocateRasterArray(env, srcRasterP, &src, &sdata, TRUE) < 0) {
+    /* Allocbte the rbster brrbys */
+    if (bllocbteRbsterArrby(env, srcRbsterP, &src, &sdbtb, TRUE) < 0) {
         /* Must be some problem */
-        awt_freeParsedRaster(srcRasterP, TRUE);
-        awt_freeParsedRaster(dstRasterP, TRUE);
+        bwt_freePbrsedRbster(srcRbsterP, TRUE);
+        bwt_freePbrsedRbster(dstRbsterP, TRUE);
         return 0;
     }
-    if (allocateRasterArray(env, dstRasterP, &dst, &ddata, FALSE) < 0) {
+    if (bllocbteRbsterArrby(env, dstRbsterP, &dst, &ddbtb, FALSE) < 0) {
         /* Must be some problem */
-        freeDataArray(env, srcRasterP->jdata, src, sdata, NULL, NULL, NULL);
-        awt_freeParsedRaster(srcRasterP, TRUE);
-        awt_freeParsedRaster(dstRasterP, TRUE);
+        freeDbtbArrby(env, srcRbsterP->jdbtb, src, sdbtb, NULL, NULL, NULL);
+        bwt_freePbrsedRbster(srcRbsterP, TRUE);
+        bwt_freePbrsedRbster(dstRbsterP, TRUE);
         return 0;
     }
 
     /*
-     * Well, until now we have analyzed number of bands in
-     * src and dst rasters.
-     * However, it is not enough because medialib lookup routine uses
-     * number of channels of medialib image. Note that in certain
-     * case number of channels may differs form the number of bands.
-     * Good example is raster that is used in TYPE_INT_RGB buffered
-     * image: it has 3 bands, but their medialib representation has
-     * 4 channels.
+     * Well, until now we hbve bnblyzed number of bbnds in
+     * src bnd dst rbsters.
+     * However, it is not enough becbuse mediblib lookup routine uses
+     * number of chbnnels of mediblib imbge. Note thbt in certbin
+     * cbse number of chbnnels mby differs form the number of bbnds.
+     * Good exbmple is rbster thbt is used in TYPE_INT_RGB buffered
+     * imbge: it hbs 3 bbnds, but their mediblib representbtion hbs
+     * 4 chbnnels.
      *
-     * In order to avoid the lookup routine failure, we need:
+     * In order to bvoid the lookup routine fbilure, we need:
      *
-     * 1. verify that src and dst have same number of channels.
-     * 2. provide lookup array for every channel. If we have "extra"
-     *    channel (like the raster described above) then we need to
-     *    provide identical lookup array.
+     * 1. verify thbt src bnd dst hbve sbme number of chbnnels.
+     * 2. provide lookup brrby for every chbnnel. If we hbve "extrb"
+     *    chbnnel (like the rbster described bbove) then we need to
+     *    provide identicbl lookup brrby.
      */
-    if (src->channels != dst->channels) {
-        freeDataArray(env, srcRasterP->jdata, src, sdata,
-                      dstRasterP->jdata, dst, ddata);
+    if (src->chbnnels != dst->chbnnels) {
+        freeDbtbArrby(env, srcRbsterP->jdbtb, src, sdbtb,
+                      dstRbsterP->jdbtb, dst, ddbtb);
 
-        awt_freeParsedRaster(srcRasterP, TRUE);
-        awt_freeParsedRaster(dstRasterP, TRUE);
+        bwt_freePbrsedRbster(srcRbsterP, TRUE);
+        bwt_freePbrsedRbster(dstRbsterP, TRUE);
         return 0;
     }
 
-    if (src_nbands < src->channels) {
+    if (src_nbbnds < src->chbnnels) {
         for (i = 0; i < 256; i++) {
             ilut[i] = i;
         }
     }
 
 
-    /* Get references to the lookup table arrays */
-    /* Need to grab these pointers before we lock down arrays */
-    for (i=0; i < lut_nbands; i++) {
-        jtable[i].jArray = (*env)->GetObjectArrayElement(env, jtableArrays, i);
-        jtable[i].table = NULL;
-        if (jtable[i].jArray != NULL) {
-            jtable[i].length = (*env)->GetArrayLength(env, jtable[i].jArray);
-            if (jtable[i].length < 256) {
-                 /* we may read outside the table during lookup */
-                jtable[i].jArray = NULL;
+    /* Get references to the lookup tbble brrbys */
+    /* Need to grbb these pointers before we lock down brrbys */
+    for (i=0; i < lut_nbbnds; i++) {
+        jtbble[i].jArrby = (*env)->GetObjectArrbyElement(env, jtbbleArrbys, i);
+        jtbble[i].tbble = NULL;
+        if (jtbble[i].jArrby != NULL) {
+            jtbble[i].length = (*env)->GetArrbyLength(env, jtbble[i].jArrby);
+            if (jtbble[i].length < 256) {
+                 /* we mby rebd outside the tbble during lookup */
+                jtbble[i].jArrby = NULL;
             }
         }
 
-        if (jtable[i].jArray == NULL)
+        if (jtbble[i].jArrby == NULL)
         {
-            freeDataArray(env, srcRasterP->jdata, src, sdata,
-                          dstRasterP->jdata, dst, ddata);
+            freeDbtbArrby(env, srcRbsterP->jdbtb, src, sdbtb,
+                          dstRbsterP->jdbtb, dst, ddbtb);
 
-            awt_freeParsedRaster(srcRasterP, TRUE);
-            awt_freeParsedRaster(dstRasterP, TRUE);
+            bwt_freePbrsedRbster(srcRbsterP, TRUE);
+            bwt_freePbrsedRbster(dstRbsterP, TRUE);
             return 0;
         }
     }
 
-    for (i=0; i < lut_nbands; i++) {
-        jtable[i].table = (unsigned char *)
-            (*env)->GetPrimitiveArrayCritical(env, jtable[i].jArray, NULL);
-        if (jtable[i].table == NULL) {
-            /* Free what we've got so far. */
+    for (i=0; i < lut_nbbnds; i++) {
+        jtbble[i].tbble = (unsigned chbr *)
+            (*env)->GetPrimitiveArrbyCriticbl(env, jtbble[i].jArrby, NULL);
+        if (jtbble[i].tbble == NULL) {
+            /* Free whbt we've got so fbr. */
             int j;
             for (j = 0; j < i; j++) {
-                (*env)->ReleasePrimitiveArrayCritical(env,
-                                                      jtable[j].jArray,
-                                                      (jbyte *) jtable[j].table,
+                (*env)->RelebsePrimitiveArrbyCriticbl(env,
+                                                      jtbble[j].jArrby,
+                                                      (jbyte *) jtbble[j].tbble,
                                                       JNI_ABORT);
             }
-            freeDataArray(env, srcRasterP->jdata, src, sdata,
-                          dstRasterP->jdata, dst, ddata);
-            awt_freeParsedRaster(srcRasterP, TRUE);
-            awt_freeParsedRaster(dstRasterP, TRUE);
+            freeDbtbArrby(env, srcRbsterP->jdbtb, src, sdbtb,
+                          dstRbsterP->jdbtb, dst, ddbtb);
+            bwt_freePbrsedRbster(srcRbsterP, TRUE);
+            bwt_freePbrsedRbster(dstRbsterP, TRUE);
             return 0;
         }
-        mlib_lookupTable[i] = jtable[i].table;
+        mlib_lookupTbble[i] = jtbble[i].tbble;
     }
 
     /*
-     * Medialib routine expects lookup array for each band of raster.
-     * Setup the  rest of lookup arrays if supplied lookup table
-     * contains single lookup array.
+     * Mediblib routine expects lookup brrby for ebch bbnd of rbster.
+     * Setup the  rest of lookup brrbys if supplied lookup tbble
+     * contbins single lookup brrby.
      */
-    for (i = lut_nbands; i < src_nbands; i++) {
-        mlib_lookupTable[i] = jtable[0].table;
+    for (i = lut_nbbnds; i < src_nbbnds; i++) {
+        mlib_lookupTbble[i] = jtbble[0].tbble;
     }
 
     /*
-     * Setup lookup array for "extra" channels
+     * Setup lookup brrby for "extrb" chbnnels
      */
-    for ( ; i < src->channels; i++) {
-        mlib_lookupTable[i] = ilut;
+    for ( ; i < src->chbnnels; i++) {
+        mlib_lookupTbble[i] = ilut;
     }
 
-    /* Mlib needs 16bit lookuptable and must be signed! */
+    /* Mlib needs 16bit lookuptbble bnd must be signed! */
     if (src->type == MLIB_SHORT) {
         if (dst->type == MLIB_BYTE) {
-            if (lut_nbands > 1) {
-                retStatus = 0;
+            if (lut_nbbnds > 1) {
+                retStbtus = 0;
             } else {
-                retStatus = lookupShortData(src, dst, &jtable[0]);
+                retStbtus = lookupShortDbtb(src, dst, &jtbble[0]);
             }
         }
-        /* How about ddata == null? */
-    } else if ((status = (*sMlibFns[MLIB_LOOKUP].fptr)(dst, src,
-                                      (void **)mlib_lookupTable) != MLIB_SUCCESS)) {
-        printMedialibError(status);
-        retStatus = 0;
+        /* How bbout ddbtb == null? */
+    } else if ((stbtus = (*sMlibFns[MLIB_LOOKUP].fptr)(dst, src,
+                                      (void **)mlib_lookupTbble) != MLIB_SUCCESS)) {
+        printMediblibError(stbtus);
+        retStbtus = 0;
     }
 
-    /* Release the LUT */
-    for (i=0; i < lut_nbands; i++) {
-        (*env)->ReleasePrimitiveArrayCritical(env, jtable[i].jArray,
-                                              (jbyte *) jtable[i].table, JNI_ABORT);
+    /* Relebse the LUT */
+    for (i=0; i < lut_nbbnds; i++) {
+        (*env)->RelebsePrimitiveArrbyCriticbl(env, jtbble[i].jArrby,
+                                              (jbyte *) jtbble[i].tbble, JNI_ABORT);
     }
 
     /*
-     * Means that we couldn't write directly into
-     * the destination buffer
+     * Mebns thbt we couldn't write directly into
+     * the destinbtion buffer
      */
-    if (ddata == NULL) {
-        if (storeRasterArray(env, srcRasterP, dstRasterP, dst) < 0) {
-            retStatus = setPixelsFormMlibImage(env, dstRasterP, dst);
+    if (ddbtb == NULL) {
+        if (storeRbsterArrby(env, srcRbsterP, dstRbsterP, dst) < 0) {
+            retStbtus = setPixelsFormMlibImbge(env, dstRbsterP, dst);
         }
     }
 
-    /* Release the pinned memory */
-    freeDataArray(env, srcRasterP->jdata, src, sdata,
-                  dstRasterP->jdata, dst, ddata);
+    /* Relebse the pinned memory */
+    freeDbtbArrby(env, srcRbsterP->jdbtb, src, sdbtb,
+                  dstRbsterP->jdbtb, dst, ddbtb);
 
-    awt_freeParsedRaster(srcRasterP, TRUE);
-    awt_freeParsedRaster(dstRasterP, TRUE);
+    bwt_freePbrsedRbster(srcRbsterP, TRUE);
+    bwt_freePbrsedRbster(dstRbsterP, TRUE);
 
     if (s_timeIt) (*stop_timer)(3600, 1);
 
-    return retStatus;
+    return retStbtus;
 }
 
 
-JNIEXPORT jboolean JNICALL
-Java_sun_awt_image_ImagingLib_init(JNIEnv *env, jclass thisClass) {
-    char *start;
+JNIEXPORT jboolebn JNICALL
+Jbvb_sun_bwt_imbge_ImbgingLib_init(JNIEnv *env, jclbss thisClbss) {
+    chbr *stbrt;
     if (getenv("IMLIB_DEBUG")) {
-        start_timer = awt_setMlibStartTimer();
-        stop_timer = awt_setMlibStopTimer();
-        if (start_timer && stop_timer) {
+        stbrt_timer = bwt_setMlibStbrtTimer();
+        stop_timer = bwt_setMlibStopTimer();
+        if (stbrt_timer && stop_timer) {
             s_timeIt = 1;
         }
     }
@@ -1759,8 +1759,8 @@ Java_sun_awt_image_ImagingLib_init(JNIEnv *env, jclass thisClass) {
     if (getenv("IMLIB_PRINT")) {
         s_printIt = 1;
     }
-    if ((start = getenv("IMLIB_START")) != NULL) {
-        sscanf(start, "%d", &s_startOff);
+    if ((stbrt = getenv("IMLIB_START")) != NULL) {
+        sscbnf(stbrt, "%d", &s_stbrtOff);
     }
 
     if (getenv ("IMLIB_NOMLIB")) {
@@ -1768,8 +1768,8 @@ Java_sun_awt_image_ImagingLib_init(JNIEnv *env, jclass thisClass) {
         return JNI_FALSE;
     }
 
-    /* This function is platform-dependent and is in awt_mlib.c */
-    if (awt_getImagingLib(env, (mlibFnS_t *)&sMlibFns, &sMlibSysFns) !=
+    /* This function is plbtform-dependent bnd is in bwt_mlib.c */
+    if (bwt_getImbgingLib(env, (mlibFnS_t *)&sMlibFns, &sMlibSysFns) !=
         MLIB_SUCCESS)
     {
         s_nomlib = 1;
@@ -1779,40 +1779,40 @@ Java_sun_awt_image_ImagingLib_init(JNIEnv *env, jclass thisClass) {
 }
 
 /* REMIND: How to specify border? */
-static void extendEdge(JNIEnv *env, BufImageS_t *imageP,
+stbtic void extendEdge(JNIEnv *env, BufImbgeS_t *imbgeP,
                        int *widthP, int *heightP) {
-    RasterS_t *rasterP = &imageP->raster;
+    RbsterS_t *rbsterP = &imbgeP->rbster;
     int width;
     int height;
     /* Useful for convolution? */
 
-    jobject jbaseraster = (*env)->GetObjectField(env, rasterP->jraster,
-                                                 g_RasterBaseRasterID);
-    width = rasterP->width;
-    height = rasterP->height;
+    jobject jbbserbster = (*env)->GetObjectField(env, rbsterP->jrbster,
+                                                 g_RbsterBbseRbsterID);
+    width = rbsterP->width;
+    height = rbsterP->height;
 #ifdef WORKING
-    if (! JNU_IsNull(env, jbaseraster) &&
-        !(*env)->IsSameObject(env, rasterP->jraster, jbaseraster)) {
+    if (! JNU_IsNull(env, jbbserbster) &&
+        !(*env)->IsSbmeObject(env, rbsterP->jrbster, jbbserbster)) {
         int xOff;
         int yOff;
-        int baseWidth;
-        int baseHeight;
-        int baseXoff;
-        int baseYoff;
-        /* Not the same object so get the width and height */
-        xOff = (*env)->GetIntField(env, rasterP->jraster, g_RasterXOffsetID);
-        yOff = (*env)->GetIntField(env, rasterP->jraster, g_RasterYOffsetID);
-        baseWidth  = (*env)->GetIntField(env, jbaseraster, g_RasterWidthID);
-        baseHeight = (*env)->GetIntField(env, jbaseraster, g_RasterHeightID);
-        baseXoff   = (*env)->GetIntField(env, jbaseraster, g_RasterXOffsetID);
-        baseYoff   = (*env)->GetIntField(env, jbaseraster, g_RasterYOffsetID);
+        int bbseWidth;
+        int bbseHeight;
+        int bbseXoff;
+        int bbseYoff;
+        /* Not the sbme object so get the width bnd height */
+        xOff = (*env)->GetIntField(env, rbsterP->jrbster, g_RbsterXOffsetID);
+        yOff = (*env)->GetIntField(env, rbsterP->jrbster, g_RbsterYOffsetID);
+        bbseWidth  = (*env)->GetIntField(env, jbbserbster, g_RbsterWidthID);
+        bbseHeight = (*env)->GetIntField(env, jbbserbster, g_RbsterHeightID);
+        bbseXoff   = (*env)->GetIntField(env, jbbserbster, g_RbsterXOffsetID);
+        bbseYoff   = (*env)->GetIntField(env, jbbserbster, g_RbsterYOffsetID);
 
-        if (xOff + rasterP->width < baseXoff + baseWidth) {
-            /* Can use edge */
+        if (xOff + rbsterP->width < bbseXoff + bbseWidth) {
+            /* Cbn use edge */
             width++;
         }
-        if (yOff + rasterP->height < baseYoff + baseHeight) {
-            /* Can use edge */
+        if (yOff + rbsterP->height < bbseYoff + bbseHeight) {
+            /* Cbn use edge */
             height++;
         }
 
@@ -1821,105 +1821,105 @@ static void extendEdge(JNIEnv *env, BufImageS_t *imageP,
 
 }
 
-static int
-setImageHints(JNIEnv *env, BufImageS_t *srcP, BufImageS_t *dstP,
-              int expandICM, int useAlpha,
+stbtic int
+setImbgeHints(JNIEnv *env, BufImbgeS_t *srcP, BufImbgeS_t *dstP,
+              int expbndICM, int useAlphb,
               int premultiply, mlibHintS_t *hintP)
 {
     ColorModelS_t *srcCMP = &srcP->cmodel;
     ColorModelS_t *dstCMP = &dstP->cmodel;
-    int nbands = 0;
+    int nbbnds = 0;
     int ncomponents;
 
-    hintP->dataType = srcP->raster.dataType;
-    hintP->addAlpha = FALSE;
+    hintP->dbtbType = srcP->rbster.dbtbType;
+    hintP->bddAlphb = FALSE;
 
-    /* Are the color spaces the same? */
+    /* Are the color spbces the sbme? */
     if (srcCMP->csType != dstCMP->csType) {
-        /* If the src is GRAY and dst RGB, we can handle it */
-        if (!(srcCMP->csType == java_awt_color_ColorSpace_TYPE_GRAY &&
-              dstCMP->csType == java_awt_color_ColorSpace_TYPE_RGB)) {
-            /* Nope, need to handle that in java for now */
+        /* If the src is GRAY bnd dst RGB, we cbn hbndle it */
+        if (!(srcCMP->csType == jbvb_bwt_color_ColorSpbce_TYPE_GRAY &&
+              dstCMP->csType == jbvb_bwt_color_ColorSpbce_TYPE_RGB)) {
+            /* Nope, need to hbndle thbt in jbvb for now */
             return -1;
         }
         else {
-            hintP->cvtSrcToDefault = TRUE;
+            hintP->cvtSrcToDefbult = TRUE;
         }
     }
     else {
-        if (srcP->hints.needToExpand) {
-            hintP->cvtSrcToDefault = TRUE;
+        if (srcP->hints.needToExpbnd) {
+            hintP->cvtSrcToDefbult = TRUE;
         }
         else {
-            /* Need to initialize this */
-            hintP->cvtSrcToDefault = FALSE;
+            /* Need to initiblize this */
+            hintP->cvtSrcToDefbult = FALSE;
         }
     }
 
     ncomponents = srcCMP->numComponents;
-    if ((useAlpha == 0) && srcCMP->supportsAlpha) {
+    if ((useAlphb == 0) && srcCMP->supportsAlphb) {
         ncomponents--;  /* ?? */
-        /* Not really, more like shrink src to get rid of alpha */
-        hintP->cvtSrcToDefault = TRUE;
+        /* Not reblly, more like shrink src to get rid of blphb */
+        hintP->cvtSrcToDefbult = TRUE;
     }
 
-    hintP->dataType = srcP->raster.dataType;
-    if (hintP->cvtSrcToDefault == FALSE) {
+    hintP->dbtbType = srcP->rbster.dbtbType;
+    if (hintP->cvtSrcToDefbult == FALSE) {
         if (srcCMP->cmType == INDEX_CM_TYPE) {
-            if (expandICM) {
-                nbands = srcCMP->numComponents;
-                hintP->cvtSrcToDefault = TRUE;
+            if (expbndICM) {
+                nbbnds = srcCMP->numComponents;
+                hintP->cvtSrcToDefbult = TRUE;
 
-                if (dstCMP->isDefaultCompatCM) {
-                    hintP->allocDefaultDst = FALSE;
+                if (dstCMP->isDefbultCompbtCM) {
+                    hintP->bllocDefbultDst = FALSE;
                     hintP->cvtToDst = FALSE;
                 }
-                else if (dstCMP->isDefaultCompatCM) {
-                    hintP->allocDefaultDst = FALSE;
+                else if (dstCMP->isDefbultCompbtCM) {
+                    hintP->bllocDefbultDst = FALSE;
                     hintP->cvtToDst = FALSE;
                 }
             }
             else {
-                nbands = 1;
-                hintP->cvtSrcToDefault = FALSE;
+                nbbnds = 1;
+                hintP->cvtSrcToDefbult = FALSE;
             }
 
         }
         else {
-            if (srcP->hints.packing & INTERLEAVED) {
-                nbands = srcCMP->numComponents;
+            if (srcP->hints.pbcking & INTERLEAVED) {
+                nbbnds = srcCMP->numComponents;
             }
             else {
-                nbands = 1;
+                nbbnds = 1;
             }
 
-            /* Look at the packing */
-            if ((srcP->hints.packing&BYTE_INTERLEAVED)==BYTE_INTERLEAVED ||
-                (srcP->hints.packing&SHORT_INTERLEAVED)==SHORT_INTERLEAVED||
-                (srcP->hints.packing&BYTE_SINGLE_BAND) == BYTE_SINGLE_BAND||
-                (srcP->hints.packing&SHORT_SINGLE_BAND)==SHORT_SINGLE_BAND||
-                (srcP->hints.packing&BYTE_BANDED)  == BYTE_BANDED       ||
-                (srcP->hints.packing&SHORT_BANDED) == SHORT_BANDED) {
-                /* Can use src directly */
-                hintP->cvtSrcToDefault = FALSE;
+            /* Look bt the pbcking */
+            if ((srcP->hints.pbcking&BYTE_INTERLEAVED)==BYTE_INTERLEAVED ||
+                (srcP->hints.pbcking&SHORT_INTERLEAVED)==SHORT_INTERLEAVED||
+                (srcP->hints.pbcking&BYTE_SINGLE_BAND) == BYTE_SINGLE_BAND||
+                (srcP->hints.pbcking&SHORT_SINGLE_BAND)==SHORT_SINGLE_BAND||
+                (srcP->hints.pbcking&BYTE_BANDED)  == BYTE_BANDED       ||
+                (srcP->hints.pbcking&SHORT_BANDED) == SHORT_BANDED) {
+                /* Cbn use src directly */
+                hintP->cvtSrcToDefbult = FALSE;
             }
             else {
-                /* Must be packed or custom */
-                hintP->cvtSrcToDefault = TRUE;
+                /* Must be pbcked or custom */
+                hintP->cvtSrcToDefbult = TRUE;
             }
         }
     }
-    if (hintP->cvtSrcToDefault) {
+    if (hintP->cvtSrcToDefbult) {
         /* By definition */
-        nbands = 4;  /* What about alpha? */
-        hintP->dataType = BYTE_DATA_TYPE;
+        nbbnds = 4;  /* Whbt bbout blphb? */
+        hintP->dbtbType = BYTE_DATA_TYPE;
         hintP->needToCopy = TRUE;
 
-        if (srcP->imageType == dstP->imageType) {
+        if (srcP->imbgeType == dstP->imbgeType) {
             hintP->cvtToDst = TRUE;
         }
-        else if (dstP->cmodel.isDefaultCM) {
-            /* Not necessarily */
+        else if (dstP->cmodel.isDefbultCM) {
+            /* Not necessbrily */
             hintP->cvtToDst = FALSE;
         }
         else {
@@ -1927,101 +1927,101 @@ setImageHints(JNIEnv *env, BufImageS_t *srcP, BufImageS_t *dstP,
         }
     }
     else {
-        int srcImageType = srcP->imageType;
-        int dstImageType = dstP->imageType;
-        /* Special case where we need to fill in alpha values */
-        if (srcCMP->isDefaultCompatCM && dstCMP->isDefaultCompatCM) {
+        int srcImbgeType = srcP->imbgeType;
+        int dstImbgeType = dstP->imbgeType;
+        /* Specibl cbse where we need to fill in blphb vblues */
+        if (srcCMP->isDefbultCompbtCM && dstCMP->isDefbultCompbtCM) {
             int i;
-            if (!srcCMP->supportsAlpha &&dstCMP->supportsAlpha) {
-                hintP->addAlpha = TRUE;
+            if (!srcCMP->supportsAlphb &&dstCMP->supportsAlphb) {
+                hintP->bddAlphb = TRUE;
             }
             for (i=0; i < srcCMP->numComponents; i++) {
                 if (srcP->hints.colorOrder[i] != dstP->hints.colorOrder[i]){
-                    if (!srcCMP->isDefaultCM) {
-                        hintP->cvtSrcToDefault = TRUE;
-                        srcImageType = java_awt_image_BufferedImage_TYPE_INT_ARGB;
+                    if (!srcCMP->isDefbultCM) {
+                        hintP->cvtSrcToDefbult = TRUE;
+                        srcImbgeType = jbvb_bwt_imbge_BufferedImbge_TYPE_INT_ARGB;
                     }
-                    if (!dstCMP->isDefaultCM) {
+                    if (!dstCMP->isDefbultCM) {
                         hintP->cvtToDst = TRUE;
-                        dstImageType = java_awt_image_BufferedImage_TYPE_INT_ARGB;
+                        dstImbgeType = jbvb_bwt_imbge_BufferedImbge_TYPE_INT_ARGB;
                     }
 
-                    break;
+                    brebk;
                 }
             }
         }
         else if (srcCMP->cmType != INDEX_CM_TYPE &&
-                 !srcCMP->supportsAlpha && dstCMP->supportsAlpha)
+                 !srcCMP->supportsAlphb && dstCMP->supportsAlphb)
         {
-            /* We've already handled the index case.  This is for the rest of the cases */
-            srcImageType = java_awt_image_BufferedImage_TYPE_INT_ARGB;
-            hintP->cvtSrcToDefault = TRUE;
+            /* We've blrebdy hbndled the index cbse.  This is for the rest of the cbses */
+            srcImbgeType = jbvb_bwt_imbge_BufferedImbge_TYPE_INT_ARGB;
+            hintP->cvtSrcToDefbult = TRUE;
         }
 
-        hintP->allocDefaultDst = FALSE;
-        if (srcImageType == dstImageType) {
-            /* Same image type so use it */
+        hintP->bllocDefbultDst = FALSE;
+        if (srcImbgeType == dstImbgeType) {
+            /* Sbme imbge type so use it */
             hintP->cvtToDst = FALSE;
         }
-        else if (srcImageType == TYPE_INT_RGB &&
-                 (dstImageType == TYPE_INT_ARGB ||
-                  dstImageType == TYPE_INT_ARGB_PRE)) {
+        else if (srcImbgeType == TYPE_INT_RGB &&
+                 (dstImbgeType == TYPE_INT_ARGB ||
+                  dstImbgeType == TYPE_INT_ARGB_PRE)) {
             hintP->cvtToDst = FALSE;
         }
-        else if (srcImageType == TYPE_INT_BGR &&
-                 (dstImageType == TYPE_4BYTE_ABGR ||
-                  dstImageType == TYPE_4BYTE_ABGR_PRE)) {
+        else if (srcImbgeType == TYPE_INT_BGR &&
+                 (dstImbgeType == TYPE_4BYTE_ABGR ||
+                  dstImbgeType == TYPE_4BYTE_ABGR_PRE)) {
             hintP->cvtToDst = FALSE;
         }
-        else if (srcP->hints.packing == dstP->hints.packing) {
-            /* Now what? */
+        else if (srcP->hints.pbcking == dstP->hints.pbcking) {
+            /* Now whbt? */
 
             /* Check color order */
 
-            /* Check if just need to scale the data */
+            /* Check if just need to scble the dbtb */
 
             hintP->cvtToDst = TRUE;
         }
         else {
-            /* Don't know what it is so convert it */
-            hintP->allocDefaultDst = TRUE;
+            /* Don't know whbt it is so convert it */
+            hintP->bllocDefbultDst = TRUE;
             hintP->cvtToDst = TRUE;
         }
-        hintP->needToCopy = (ncomponents > nbands);
+        hintP->needToCopy = (ncomponents > nbbnds);
     }
 
-    return nbands;
+    return nbbnds;
 }
 
 
-static int
-expandPacked(JNIEnv *env, BufImageS_t *img, ColorModelS_t *cmP,
-             RasterS_t *rasterP, int component, unsigned char *bdataP) {
+stbtic int
+expbndPbcked(JNIEnv *env, BufImbgeS_t *img, ColorModelS_t *cmP,
+             RbsterS_t *rbsterP, int component, unsigned chbr *bdbtbP) {
 
-    if (rasterP->rasterType == COMPONENT_RASTER_TYPE) {
-        switch (rasterP->dataType) {
-        case BYTE_DATA_TYPE:
-            if (expandPackedBCR(env, rasterP, component, bdataP) < 0) {
-                /* Must have been an error */
+    if (rbsterP->rbsterType == COMPONENT_RASTER_TYPE) {
+        switch (rbsterP->dbtbType) {
+        cbse BYTE_DATA_TYPE:
+            if (expbndPbckedBCR(env, rbsterP, component, bdbtbP) < 0) {
+                /* Must hbve been bn error */
                 return -1;
             }
-            break;
+            brebk;
 
-        case SHORT_DATA_TYPE:
-            if (expandPackedICR(env, rasterP, component, bdataP) < 0) {
-                /* Must have been an error */
+        cbse SHORT_DATA_TYPE:
+            if (expbndPbckedICR(env, rbsterP, component, bdbtbP) < 0) {
+                /* Must hbve been bn error */
                 return -1;
             }
-            break;
+            brebk;
 
-        case INT_DATA_TYPE:
-            if (expandPackedICR(env, rasterP, component, bdataP) < 0) {
-                /* Must have been an error */
+        cbse INT_DATA_TYPE:
+            if (expbndPbckedICR(env, rbsterP, component, bdbtbP) < 0) {
+                /* Must hbve been bn error */
                 return -1;
             }
-            break;
+            brebk;
 
-        default:
+        defbult:
             /* REMIND: Return some sort of error */
             return -1;
         }
@@ -2036,34 +2036,34 @@ expandPacked(JNIEnv *env, BufImageS_t *img, ColorModelS_t *cmP,
 
 #define NUM_LINES    10
 
-static int
-cvtCustomToDefault(JNIEnv *env, BufImageS_t *imageP, int component,
-                   unsigned char *dataP) {
-    const RasterS_t *rasterP = &imageP->raster;
-    const int w = rasterP->width;
-    const int h = rasterP->height;
+stbtic int
+cvtCustomToDefbult(JNIEnv *env, BufImbgeS_t *imbgeP, int component,
+                   unsigned chbr *dbtbP) {
+    const RbsterS_t *rbsterP = &imbgeP->rbster;
+    const int w = rbsterP->width;
+    const int h = rbsterP->height;
 
     int y;
-    jintArray jpixels = NULL;
+    jintArrby jpixels = NULL;
     jint *pixels;
-    unsigned char *dP = dataP;
+    unsigned chbr *dP = dbtbP;
     int numLines = h > NUM_LINES ? NUM_LINES : h;
 
-    /* it is safe to calculate the scan length, because width has been verified
-     * on creation of the mlib image
+    /* it is sbfe to cblculbte the scbn length, becbuse width hbs been verified
+     * on crebtion of the mlib imbge
      */
-    const int scanLength = w * 4;
+    const int scbnLength = w * 4;
 
     int nbytes = 0;
-    if (!SAFE_TO_MULT(numLines, scanLength)) {
+    if (!SAFE_TO_MULT(numLines, scbnLength)) {
         return -1;
     }
 
-    nbytes = numLines * scanLength;
+    nbytes = numLines * scbnLength;
 
-    jpixels = (*env)->NewIntArray(env, nbytes);
+    jpixels = (*env)->NewIntArrby(env, nbytes);
     if (JNU_IsNull(env, jpixels)) {
-        (*env)->ExceptionClear(env);
+        (*env)->ExceptionClebr(env);
         JNU_ThrowOutOfMemoryError(env, "Out of Memory");
         return -1;
     }
@@ -2071,65 +2071,65 @@ cvtCustomToDefault(JNIEnv *env, BufImageS_t *imageP, int component,
     for (y = 0; y < h; y += numLines) {
         if (y + numLines > h) {
             numLines = h - y;
-            nbytes = numLines * scanLength;
+            nbytes = numLines * scbnLength;
         }
 
-        (*env)->CallObjectMethod(env, imageP->jimage,
+        (*env)->CbllObjectMethod(env, imbgeP->jimbge,
                                  g_BImgGetRGBMID, 0, y,
                                  w, numLines,
                                  jpixels, 0, w);
         if ((*env)->ExceptionOccurred(env)) {
-            (*env)->DeleteLocalRef(env, jpixels);
+            (*env)->DeleteLocblRef(env, jpixels);
             return -1;
         }
 
-        pixels = (*env)->GetPrimitiveArrayCritical(env, jpixels, NULL);
+        pixels = (*env)->GetPrimitiveArrbyCriticbl(env, jpixels, NULL);
         if (pixels == NULL) {
-            (*env)->DeleteLocalRef(env, jpixels);
+            (*env)->DeleteLocblRef(env, jpixels);
             return -1;
         }
 
         memcpy(dP, pixels, nbytes);
         dP += nbytes;
 
-        (*env)->ReleasePrimitiveArrayCritical(env, jpixels, pixels,
+        (*env)->RelebsePrimitiveArrbyCriticbl(env, jpixels, pixels,
                                               JNI_ABORT);
     }
 
-    /* Need to release the array */
-    (*env)->DeleteLocalRef(env, jpixels);
+    /* Need to relebse the brrby */
+    (*env)->DeleteLocblRef(env, jpixels);
 
     return 0;
 }
 
-static int
-cvtDefaultToCustom(JNIEnv *env, BufImageS_t *imageP, int component,
-                   unsigned char *dataP) {
-    const RasterS_t *rasterP = &imageP->raster;
-    const int w = rasterP->width;
-    const int h = rasterP->height;
+stbtic int
+cvtDefbultToCustom(JNIEnv *env, BufImbgeS_t *imbgeP, int component,
+                   unsigned chbr *dbtbP) {
+    const RbsterS_t *rbsterP = &imbgeP->rbster;
+    const int w = rbsterP->width;
+    const int h = rbsterP->height;
 
     int y;
-    jintArray jpixels = NULL;
+    jintArrby jpixels = NULL;
     jint *pixels;
-    unsigned char *dP = dataP;
+    unsigned chbr *dP = dbtbP;
     int numLines = h > NUM_LINES ? NUM_LINES : h;
 
-    /* it is safe to calculate the scan length, because width has been verified
-     * on creation of the mlib image
+    /* it is sbfe to cblculbte the scbn length, becbuse width hbs been verified
+     * on crebtion of the mlib imbge
      */
-    const int scanLength = w * 4;
+    const int scbnLength = w * 4;
 
     int nbytes = 0;
-    if (!SAFE_TO_MULT(numLines, scanLength)) {
+    if (!SAFE_TO_MULT(numLines, scbnLength)) {
         return -1;
     }
 
-    nbytes = numLines * scanLength;
+    nbytes = numLines * scbnLength;
 
-    jpixels = (*env)->NewIntArray(env, nbytes);
+    jpixels = (*env)->NewIntArrby(env, nbytes);
     if (JNU_IsNull(env, jpixels)) {
-        (*env)->ExceptionClear(env);
+        (*env)->ExceptionClebr(env);
         JNU_ThrowOutOfMemoryError(env, "Out of Memory");
         return -1;
     }
@@ -2137,84 +2137,84 @@ cvtDefaultToCustom(JNIEnv *env, BufImageS_t *imageP, int component,
     for (y = 0; y < h; y += numLines) {
         if (y + numLines > h) {
             numLines = h - y;
-            nbytes = numLines * scanLength;
+            nbytes = numLines * scbnLength;
         }
 
-        pixels = (*env)->GetPrimitiveArrayCritical(env, jpixels, NULL);
+        pixels = (*env)->GetPrimitiveArrbyCriticbl(env, jpixels, NULL);
         if (pixels == NULL) {
-            (*env)->DeleteLocalRef(env, jpixels);
+            (*env)->DeleteLocblRef(env, jpixels);
             return -1;
         }
 
         memcpy(pixels, dP, nbytes);
         dP += nbytes;
 
-       (*env)->ReleasePrimitiveArrayCritical(env, jpixels, pixels, 0);
+       (*env)->RelebsePrimitiveArrbyCriticbl(env, jpixels, pixels, 0);
 
-       (*env)->CallVoidMethod(env, imageP->jimage, g_BImgSetRGBMID, 0, y,
+       (*env)->CbllVoidMethod(env, imbgeP->jimbge, g_BImgSetRGBMID, 0, y,
                                 w, numLines, jpixels,
                                 0, w);
        if ((*env)->ExceptionOccurred(env)) {
-           (*env)->DeleteLocalRef(env, jpixels);
+           (*env)->DeleteLocblRef(env, jpixels);
            return -1;
        }
     }
 
-    /* Need to release the array */
-    (*env)->DeleteLocalRef(env, jpixels);
+    /* Need to relebse the brrby */
+    (*env)->DeleteLocblRef(env, jpixels);
 
     return 0;
 }
 
-static int
-allocateArray(JNIEnv *env, BufImageS_t *imageP,
-              mlib_image **mlibImagePP, void **dataPP, int isSrc,
-              int cvtToDefault, int addAlpha) {
-    void *dataP;
-    unsigned char *cDataP;
-    RasterS_t *rasterP = &imageP->raster;
-    ColorModelS_t *cmP = &imageP->cmodel;
-    int dataType = BYTE_DATA_TYPE;
+stbtic int
+bllocbteArrby(JNIEnv *env, BufImbgeS_t *imbgeP,
+              mlib_imbge **mlibImbgePP, void **dbtbPP, int isSrc,
+              int cvtToDefbult, int bddAlphb) {
+    void *dbtbP;
+    unsigned chbr *cDbtbP;
+    RbsterS_t *rbsterP = &imbgeP->rbster;
+    ColorModelS_t *cmP = &imbgeP->cmodel;
+    int dbtbType = BYTE_DATA_TYPE;
     int width;
     int height;
-    HintS_t *hintP = &imageP->hints;
-    *dataPP = NULL;
+    HintS_t *hintP = &imbgeP->hints;
+    *dbtbPP = NULL;
 
-    width = rasterP->width;
-    height = rasterP->height;
+    width = rbsterP->width;
+    height = rbsterP->height;
 
     /* Useful for convolution? */
-    /* This code is zero'ed out so that it cannot be called */
+    /* This code is zero'ed out so thbt it cbnnot be cblled */
 
-    /* To do this correctly, we need to expand src and dst in the     */
-    /* same direction up/down/left/right only if both can be expanded */
-    /* in that direction.  Expanding right and down is easy -         */
-    /* increment width.  Expanding top and left requires bumping      */
-    /* around pointers and incrementing the width/height              */
+    /* To do this correctly, we need to expbnd src bnd dst in the     */
+    /* sbme direction up/down/left/right only if both cbn be expbnded */
+    /* in thbt direction.  Expbnding right bnd down is ebsy -         */
+    /* increment width.  Expbnding top bnd left requires bumping      */
+    /* bround pointers bnd incrementing the width/height              */
 
 #if 0
     if (0 && useEdges) {
-        baseWidth  = rasterP->baseRasterWidth;
-        baseHeight = rasterP->baseRasterHeight;
-        baseXoff = rasterP->baseOriginX;
-        baseYoff = rasterP->baseOriginY;
+        bbseWidth  = rbsterP->bbseRbsterWidth;
+        bbseHeight = rbsterP->bbseRbsterHeight;
+        bbseXoff = rbsterP->bbseOriginX;
+        bbseYoff = rbsterP->bbseOriginY;
 
-        if (rasterP->minX + rasterP->width < baseXoff + baseWidth) {
-            /* Can use edge */
+        if (rbsterP->minX + rbsterP->width < bbseXoff + bbseWidth) {
+            /* Cbn use edge */
             width++;
         }
-        if (rasterP->minY + rasterP->height < baseYoff + baseHeight) {
-            /* Can use edge */
+        if (rbsterP->minY + rbsterP->height < bbseYoff + bbseHeight) {
+            /* Cbn use edge */
             height++;
         }
 
-        if (rasterP->minX > baseXoff ) {
-            /* Can use edge */
+        if (rbsterP->minX > bbseXoff ) {
+            /* Cbn use edge */
             width++;
             /* NEED TO BUMP POINTER BACK A PIXELSTRIDE */
         }
-        if (rasterP->minY  > baseYoff) {
-            /* Can use edge */
+        if (rbsterP->minY  > bbseYoff) {
+            /* Cbn use edge */
             height++;
             /* NEED TO BUMP POINTER BACK A SCANLINE */
         }
@@ -2222,68 +2222,68 @@ allocateArray(JNIEnv *env, BufImageS_t *imageP,
 
     }
 #endif
-    if (cvtToDefault) {
-        int status = 0;
-        *mlibImagePP = (*sMlibSysFns.createFP)(MLIB_BYTE, 4, width, height);
-        if (*mlibImagePP == NULL) {
+    if (cvtToDefbult) {
+        int stbtus = 0;
+        *mlibImbgePP = (*sMlibSysFns.crebteFP)(MLIB_BYTE, 4, width, height);
+        if (*mlibImbgePP == NULL) {
             return -1;
         }
-        cDataP  = (unsigned char *) mlib_ImageGetData(*mlibImagePP);
-        /* Make sure the image is cleared.
-         * NB: the image dimension is already verified, so we can
-         * safely calculate the length of the buffer.
+        cDbtbP  = (unsigned chbr *) mlib_ImbgeGetDbtb(*mlibImbgePP);
+        /* Mbke sure the imbge is clebred.
+         * NB: the imbge dimension is blrebdy verified, so we cbn
+         * sbfely cblculbte the length of the buffer.
          */
-        memset(cDataP, 0, width*height*4);
+        memset(cDbtbP, 0, width*height*4);
 
         if (!isSrc) {
             return 0;
         }
 
-        switch(imageP->cmodel.cmType) {
-        case INDEX_CM_TYPE:
-            /* REMIND: Need to rearrange according to dst cm */
+        switch(imbgeP->cmodel.cmType) {
+        cbse INDEX_CM_TYPE:
+            /* REMIND: Need to rebrrbnge bccording to dst cm */
             /* Fix 4213160, 4184283 */
-            if (rasterP->rasterType == COMPONENT_RASTER_TYPE) {
-                return expandICM(env, imageP, (unsigned int *)cDataP);
+            if (rbsterP->rbsterType == COMPONENT_RASTER_TYPE) {
+                return expbndICM(env, imbgeP, (unsigned int *)cDbtbP);
             }
             else {
-                return cvtCustomToDefault(env, imageP, -1, cDataP);
+                return cvtCustomToDefbult(env, imbgeP, -1, cDbtbP);
             }
 
-        case DIRECT_CM_TYPE:
-            switch(imageP->raster.dataType) {
-            case BYTE_DATA_TYPE:
-                return expandPackedBCRdefault(env, rasterP, -1, cDataP,
-                                              !imageP->cmodel.supportsAlpha);
-            case SHORT_DATA_TYPE:
-                return expandPackedSCRdefault(env, rasterP, -1, cDataP,
-                                              !imageP->cmodel.supportsAlpha);
-            case INT_DATA_TYPE:
-                return expandPackedICRdefault(env, rasterP, -1, cDataP,
-                                              !imageP->cmodel.supportsAlpha);
+        cbse DIRECT_CM_TYPE:
+            switch(imbgeP->rbster.dbtbType) {
+            cbse BYTE_DATA_TYPE:
+                return expbndPbckedBCRdefbult(env, rbsterP, -1, cDbtbP,
+                                              !imbgeP->cmodel.supportsAlphb);
+            cbse SHORT_DATA_TYPE:
+                return expbndPbckedSCRdefbult(env, rbsterP, -1, cDbtbP,
+                                              !imbgeP->cmodel.supportsAlphb);
+            cbse INT_DATA_TYPE:
+                return expbndPbckedICRdefbult(env, rbsterP, -1, cDbtbP,
+                                              !imbgeP->cmodel.supportsAlphb);
             }
-        } /* switch(imageP->cmodel.cmType) */
+        } /* switch(imbgeP->cmodel.cmType) */
 
-        return cvtCustomToDefault(env, imageP, -1, cDataP);
+        return cvtCustomToDefbult(env, imbgeP, -1, cDbtbP);
     }
 
-    /* Interleaved with shared data */
-    dataP = (void *) (*env)->GetPrimitiveArrayCritical(env, rasterP->jdata,
+    /* Interlebved with shbred dbtb */
+    dbtbP = (void *) (*env)->GetPrimitiveArrbyCriticbl(env, rbsterP->jdbtb,
                                                        NULL);
-    if (dataP == NULL) {
+    if (dbtbP == NULL) {
         return -1;
     }
 
-    /* Means we need to fill in alpha */
-    if (!cvtToDefault && addAlpha) {
-        *mlibImagePP = (*sMlibSysFns.createFP)(MLIB_BYTE, 4, width, height);
-        if (*mlibImagePP != NULL) {
+    /* Mebns we need to fill in blphb */
+    if (!cvtToDefbult && bddAlphb) {
+        *mlibImbgePP = (*sMlibSysFns.crebteFP)(MLIB_BYTE, 4, width, height);
+        if (*mlibImbgePP != NULL) {
             unsigned int *dstP  = (unsigned int *)
-                mlib_ImageGetData(*mlibImagePP);
-            int dstride = (*mlibImagePP)->stride>>2;
+                mlib_ImbgeGetDbtb(*mlibImbgePP);
+            int dstride = (*mlibImbgePP)->stride>>2;
             int sstride = hintP->sStride>>2;
             unsigned int *srcP = (unsigned int *)
-                ((unsigned char *)dataP + hintP->dataOffset);
+                ((unsigned chbr *)dbtbP + hintP->dbtbOffset);
             unsigned int *dP, *sP;
             int x, y;
             for (y=0; y < height; y++, srcP += sstride, dstP += dstride){
@@ -2294,97 +2294,97 @@ allocateArray(JNIEnv *env, BufImageS_t *imageP,
                 }
             }
         }
-        (*env)->ReleasePrimitiveArrayCritical(env, rasterP->jdata, dataP,
+        (*env)->RelebsePrimitiveArrbyCriticbl(env, rbsterP->jdbtb, dbtbP,
                                               JNI_ABORT);
         return 0;
     }
-    else if ((hintP->packing & BYTE_INTERLEAVED) == BYTE_INTERLEAVED) {
-        int nChans = (cmP->isDefaultCompatCM ? 4 : hintP->numChans);
-        /* Easy case.  It is or is similar to the default CM so use
-     * the array.  Must be byte data.
+    else if ((hintP->pbcking & BYTE_INTERLEAVED) == BYTE_INTERLEAVED) {
+        int nChbns = (cmP->isDefbultCompbtCM ? 4 : hintP->numChbns);
+        /* Ebsy cbse.  It is or is similbr to the defbult CM so use
+     * the brrby.  Must be byte dbtb.
          */
-            /* Create the medialib image */
-        *mlibImagePP = (*sMlibSysFns.createStructFP)(MLIB_BYTE,
-                                              nChans,
+            /* Crebte the mediblib imbge */
+        *mlibImbgePP = (*sMlibSysFns.crebteStructFP)(MLIB_BYTE,
+                                              nChbns,
                                               width,
                                               height,
                                               hintP->sStride,
-                                              (unsigned char *)dataP
-                                              + hintP->dataOffset);
+                                              (unsigned chbr *)dbtbP
+                                              + hintP->dbtbOffset);
     }
-    else if ((hintP->packing & SHORT_INTERLEAVED) == SHORT_INTERLEAVED) {
-        *mlibImagePP = (*sMlibSysFns.createStructFP)(MLIB_SHORT,
-                                              hintP->numChans,
+    else if ((hintP->pbcking & SHORT_INTERLEAVED) == SHORT_INTERLEAVED) {
+        *mlibImbgePP = (*sMlibSysFns.crebteStructFP)(MLIB_SHORT,
+                                              hintP->numChbns,
                                               width,
                                               height,
-                                              imageP->raster.scanlineStride*2,
-                                              (unsigned short *)dataP
-                                              + hintP->channelOffset);
+                                              imbgeP->rbster.scbnlineStride*2,
+                                              (unsigned short *)dbtbP
+                                              + hintP->chbnnelOffset);
     }
     else {
-        /* Release the data array */
-        (*env)->ReleasePrimitiveArrayCritical(env, rasterP->jdata, dataP,
+        /* Relebse the dbtb brrby */
+        (*env)->RelebsePrimitiveArrbyCriticbl(env, rbsterP->jdbtb, dbtbP,
                                               JNI_ABORT);
         return -1;
     }
 
-    *dataPP = dataP;
+    *dbtbPP = dbtbP;
     return 0;
 }
 
-static int
-allocateRasterArray(JNIEnv *env, RasterS_t *rasterP,
-                    mlib_image **mlibImagePP, void **dataPP, int isSrc) {
-    void *dataP;
-    unsigned char *cDataP;
-    int dataType = BYTE_DATA_TYPE;
+stbtic int
+bllocbteRbsterArrby(JNIEnv *env, RbsterS_t *rbsterP,
+                    mlib_imbge **mlibImbgePP, void **dbtbPP, int isSrc) {
+    void *dbtbP;
+    unsigned chbr *cDbtbP;
+    int dbtbType = BYTE_DATA_TYPE;
     int width;
     int height;
-    int dataSize;
+    int dbtbSize;
     int offset;
 
-    *dataPP = NULL;
+    *dbtbPP = NULL;
 
-    width = rasterP->width;
-    height = rasterP->height;
+    width = rbsterP->width;
+    height = rbsterP->height;
 
-    if (rasterP->numBands <= 0 || rasterP->numBands > 4) {
+    if (rbsterP->numBbnds <= 0 || rbsterP->numBbnds > 4) {
         /* REMIND: Fix this */
         return -1;
     }
 
     /* Useful for convolution? */
-    /* This code is zero'ed out so that it cannot be called */
+    /* This code is zero'ed out so thbt it cbnnot be cblled */
 
-    /* To do this correctly, we need to expand src and dst in the     */
-    /* same direction up/down/left/right only if both can be expanded */
-    /* in that direction.  Expanding right and down is easy -         */
-    /* increment width.  Expanding top and left requires bumping      */
-    /* around pointers and incrementing the width/height              */
+    /* To do this correctly, we need to expbnd src bnd dst in the     */
+    /* sbme direction up/down/left/right only if both cbn be expbnded */
+    /* in thbt direction.  Expbnding right bnd down is ebsy -         */
+    /* increment width.  Expbnding top bnd left requires bumping      */
+    /* bround pointers bnd incrementing the width/height              */
 
 #if 0
     if (0 && useEdges) {
-        baseWidth  = rasterP->baseRasterWidth;
-        baseHeight = rasterP->baseRasterHeight;
-        baseXoff = rasterP->baseOriginX;
-        baseYoff = rasterP->baseOriginY;
+        bbseWidth  = rbsterP->bbseRbsterWidth;
+        bbseHeight = rbsterP->bbseRbsterHeight;
+        bbseXoff = rbsterP->bbseOriginX;
+        bbseYoff = rbsterP->bbseOriginY;
 
-        if (rasterP->minX + rasterP->width < baseXoff + baseWidth) {
-            /* Can use edge */
+        if (rbsterP->minX + rbsterP->width < bbseXoff + bbseWidth) {
+            /* Cbn use edge */
             width++;
         }
-        if (rasterP->minY + rasterP->height < baseYoff + baseHeight) {
-            /* Can use edge */
+        if (rbsterP->minY + rbsterP->height < bbseYoff + bbseHeight) {
+            /* Cbn use edge */
             height++;
         }
 
-        if (rasterP->minX > baseXoff ) {
-            /* Can use edge */
+        if (rbsterP->minX > bbseXoff ) {
+            /* Cbn use edge */
             width++;
             /* NEED TO BUMP POINTER BACK A PIXELSTRIDE */
         }
-        if (rasterP->minY  > baseYoff) {
-            /* Can use edge */
+        if (rbsterP->minY  > bbseYoff) {
+            /* Cbn use edge */
             height++;
             /* NEED TO BUMP POINTER BACK A SCANLINE */
         }
@@ -2392,336 +2392,336 @@ allocateRasterArray(JNIEnv *env, RasterS_t *rasterP,
 
     }
 #endif
-    switch (rasterP->type) {
-    case sun_awt_image_IntegerComponentRaster_TYPE_INT_8BIT_SAMPLES:
-        if (!((rasterP->chanOffsets[0] == 0 || SAFE_TO_ALLOC_2(rasterP->chanOffsets[0], 4)) &&
+    switch (rbsterP->type) {
+    cbse sun_bwt_imbge_IntegerComponentRbster_TYPE_INT_8BIT_SAMPLES:
+        if (!((rbsterP->chbnOffsets[0] == 0 || SAFE_TO_ALLOC_2(rbsterP->chbnOffsets[0], 4)) &&
               SAFE_TO_ALLOC_2(width, 4) &&
-              SAFE_TO_ALLOC_3(height, rasterP->scanlineStride, 4)))
+              SAFE_TO_ALLOC_3(height, rbsterP->scbnlineStride, 4)))
         {
             return -1;
         }
-        offset = 4 * rasterP->chanOffsets[0];
-        dataSize = 4 * (*env)->GetArrayLength(env, rasterP->jdata);
+        offset = 4 * rbsterP->chbnOffsets[0];
+        dbtbSize = 4 * (*env)->GetArrbyLength(env, rbsterP->jdbtb);
 
-        if (offset < 0 || offset >= dataSize ||
-            width > rasterP->scanlineStride ||
-            height * rasterP->scanlineStride * 4 > dataSize - offset)
+        if (offset < 0 || offset >= dbtbSize ||
+            width > rbsterP->scbnlineStride ||
+            height * rbsterP->scbnlineStride * 4 > dbtbSize - offset)
         {
-            // raster data buffer is too short
+            // rbster dbtb buffer is too short
             return -1;
         }
-        dataP = (void *) (*env)->GetPrimitiveArrayCritical(env, rasterP->jdata,
+        dbtbP = (void *) (*env)->GetPrimitiveArrbyCriticbl(env, rbsterP->jdbtb,
                                                            NULL);
-        if (dataP == NULL) {
+        if (dbtbP == NULL) {
             return -1;
         }
-        *mlibImagePP = (*sMlibSysFns.createStructFP)(MLIB_BYTE, 4,
+        *mlibImbgePP = (*sMlibSysFns.crebteStructFP)(MLIB_BYTE, 4,
                                               width, height,
-                                              rasterP->scanlineStride*4,
-                                              (unsigned char *)dataP + offset);
-        *dataPP = dataP;
+                                              rbsterP->scbnlineStride*4,
+                                              (unsigned chbr *)dbtbP + offset);
+        *dbtbPP = dbtbP;
         return 0;
-    case sun_awt_image_IntegerComponentRaster_TYPE_BYTE_SAMPLES:
-        if (!(SAFE_TO_ALLOC_2(width, rasterP->numBands) &&
-              SAFE_TO_ALLOC_2(height, rasterP->scanlineStride)))
+    cbse sun_bwt_imbge_IntegerComponentRbster_TYPE_BYTE_SAMPLES:
+        if (!(SAFE_TO_ALLOC_2(width, rbsterP->numBbnds) &&
+              SAFE_TO_ALLOC_2(height, rbsterP->scbnlineStride)))
         {
             return -1;
         }
-        offset = rasterP->chanOffsets[0];
-        dataSize = (*env)->GetArrayLength(env, rasterP->jdata);
+        offset = rbsterP->chbnOffsets[0];
+        dbtbSize = (*env)->GetArrbyLength(env, rbsterP->jdbtb);
 
-        if (offset < 0 || offset >= dataSize ||
-            width * rasterP->numBands > rasterP->scanlineStride ||
-            height * rasterP->scanlineStride > dataSize - offset)
+        if (offset < 0 || offset >= dbtbSize ||
+            width * rbsterP->numBbnds > rbsterP->scbnlineStride ||
+            height * rbsterP->scbnlineStride > dbtbSize - offset)
         {
-            // raster data buffer is too short
+            // rbster dbtb buffer is too short
             return -1;
         }
-        dataP = (void *) (*env)->GetPrimitiveArrayCritical(env, rasterP->jdata,
+        dbtbP = (void *) (*env)->GetPrimitiveArrbyCriticbl(env, rbsterP->jdbtb,
                                                            NULL);
-        if (dataP == NULL) {
+        if (dbtbP == NULL) {
             return -1;
         }
-        *mlibImagePP = (*sMlibSysFns.createStructFP)(MLIB_BYTE, rasterP->numBands,
+        *mlibImbgePP = (*sMlibSysFns.crebteStructFP)(MLIB_BYTE, rbsterP->numBbnds,
                                               width, height,
-                                              rasterP->scanlineStride,
-                                              (unsigned char *)dataP + offset);
-        *dataPP = dataP;
+                                              rbsterP->scbnlineStride,
+                                              (unsigned chbr *)dbtbP + offset);
+        *dbtbPP = dbtbP;
         return 0;
-    case sun_awt_image_IntegerComponentRaster_TYPE_USHORT_SAMPLES:
-        if (!((rasterP->chanOffsets[0] == 0 || SAFE_TO_ALLOC_2(rasterP->chanOffsets[0], 2)) &&
-              SAFE_TO_ALLOC_3(width, rasterP->numBands, 2) &&
-              SAFE_TO_ALLOC_3(height, rasterP->scanlineStride, 2)))
+    cbse sun_bwt_imbge_IntegerComponentRbster_TYPE_USHORT_SAMPLES:
+        if (!((rbsterP->chbnOffsets[0] == 0 || SAFE_TO_ALLOC_2(rbsterP->chbnOffsets[0], 2)) &&
+              SAFE_TO_ALLOC_3(width, rbsterP->numBbnds, 2) &&
+              SAFE_TO_ALLOC_3(height, rbsterP->scbnlineStride, 2)))
         {
               return -1;
         }
-        offset = rasterP->chanOffsets[0] * 2;
-        dataSize = 2 * (*env)->GetArrayLength(env, rasterP->jdata);
+        offset = rbsterP->chbnOffsets[0] * 2;
+        dbtbSize = 2 * (*env)->GetArrbyLength(env, rbsterP->jdbtb);
 
-        if (offset < 0 || offset >= dataSize ||
-            width * rasterP->numBands > rasterP->scanlineStride ||
-            height * rasterP->scanlineStride * 2 > dataSize - offset)
+        if (offset < 0 || offset >= dbtbSize ||
+            width * rbsterP->numBbnds > rbsterP->scbnlineStride ||
+            height * rbsterP->scbnlineStride * 2 > dbtbSize - offset)
         {
-            // raster data buffer is too short
+            // rbster dbtb buffer is too short
              return -1;
         }
-        dataP = (void *) (*env)->GetPrimitiveArrayCritical(env, rasterP->jdata,
+        dbtbP = (void *) (*env)->GetPrimitiveArrbyCriticbl(env, rbsterP->jdbtb,
                                                            NULL);
-        if (dataP == NULL) {
+        if (dbtbP == NULL) {
             return -1;
         }
-        *mlibImagePP = (*sMlibSysFns.createStructFP)(MLIB_SHORT,
-                                                     rasterP->numBands,
+        *mlibImbgePP = (*sMlibSysFns.crebteStructFP)(MLIB_SHORT,
+                                                     rbsterP->numBbnds,
                                                      width, height,
-                                                     rasterP->scanlineStride*2,
-                                                     (unsigned char *)dataP + offset);
-        *dataPP = dataP;
+                                                     rbsterP->scbnlineStride*2,
+                                                     (unsigned chbr *)dbtbP + offset);
+        *dbtbPP = dbtbP;
         return 0;
 
-    case sun_awt_image_IntegerComponentRaster_TYPE_BYTE_PACKED_SAMPLES:
-        *mlibImagePP = (*sMlibSysFns.createFP)(MLIB_BYTE, rasterP->numBands,
+    cbse sun_bwt_imbge_IntegerComponentRbster_TYPE_BYTE_PACKED_SAMPLES:
+        *mlibImbgePP = (*sMlibSysFns.crebteFP)(MLIB_BYTE, rbsterP->numBbnds,
                                         width, height);
-        if (*mlibImagePP == NULL) {
+        if (*mlibImbgePP == NULL) {
             return -1;
         }
         if (!isSrc) return 0;
-        cDataP  = (unsigned char *) mlib_ImageGetData(*mlibImagePP);
-        return expandPackedBCR(env, rasterP, -1, cDataP);
+        cDbtbP  = (unsigned chbr *) mlib_ImbgeGetDbtb(*mlibImbgePP);
+        return expbndPbckedBCR(env, rbsterP, -1, cDbtbP);
 
-    case sun_awt_image_IntegerComponentRaster_TYPE_USHORT_PACKED_SAMPLES:
-        if (rasterP->sppsm.maxBitSize <= 8) {
-            *mlibImagePP = (*sMlibSysFns.createFP)(MLIB_BYTE, rasterP->numBands,
+    cbse sun_bwt_imbge_IntegerComponentRbster_TYPE_USHORT_PACKED_SAMPLES:
+        if (rbsterP->sppsm.mbxBitSize <= 8) {
+            *mlibImbgePP = (*sMlibSysFns.crebteFP)(MLIB_BYTE, rbsterP->numBbnds,
                                             width, height);
-            if (*mlibImagePP == NULL) {
+            if (*mlibImbgePP == NULL) {
                 return -1;
             }
             if (!isSrc) return 0;
-            cDataP  = (unsigned char *) mlib_ImageGetData(*mlibImagePP);
-            return expandPackedSCR(env, rasterP, -1, cDataP);
+            cDbtbP  = (unsigned chbr *) mlib_ImbgeGetDbtb(*mlibImbgePP);
+            return expbndPbckedSCR(env, rbsterP, -1, cDbtbP);
         }
-        break;
-    case sun_awt_image_IntegerComponentRaster_TYPE_INT_PACKED_SAMPLES:
-        if (rasterP->sppsm.maxBitSize <= 8) {
-            *mlibImagePP = (*sMlibSysFns.createFP)(MLIB_BYTE, rasterP->numBands,
+        brebk;
+    cbse sun_bwt_imbge_IntegerComponentRbster_TYPE_INT_PACKED_SAMPLES:
+        if (rbsterP->sppsm.mbxBitSize <= 8) {
+            *mlibImbgePP = (*sMlibSysFns.crebteFP)(MLIB_BYTE, rbsterP->numBbnds,
                                             width, height);
-            if (*mlibImagePP == NULL) {
+            if (*mlibImbgePP == NULL) {
                 return -1;
             }
             if (!isSrc) return 0;
-            cDataP  = (unsigned char *) mlib_ImageGetData(*mlibImagePP);
-            return expandPackedICR(env, rasterP, -1, cDataP);
+            cDbtbP  = (unsigned chbr *) mlib_ImbgeGetDbtb(*mlibImbgePP);
+            return expbndPbckedICR(env, rbsterP, -1, cDbtbP);
         }
-        break;
+        brebk;
     }
 
-    /* Just expand it right now */
-    switch (rasterP->dataType) {
-    case BYTE_DATA_TYPE:
-        if ((*mlibImagePP = (*sMlibSysFns.createFP)(MLIB_BYTE, rasterP->numBands,
+    /* Just expbnd it right now */
+    switch (rbsterP->dbtbType) {
+    cbse BYTE_DATA_TYPE:
+        if ((*mlibImbgePP = (*sMlibSysFns.crebteFP)(MLIB_BYTE, rbsterP->numBbnds,
                                              width, height)) == NULL) {
             return -1;
         }
         if (isSrc) {
-            if (awt_getPixels(env, rasterP, mlib_ImageGetData(*mlibImagePP)) < 0) {
-                (*sMlibSysFns.deleteImageFP)(*mlibImagePP);
+            if (bwt_getPixels(env, rbsterP, mlib_ImbgeGetDbtb(*mlibImbgePP)) < 0) {
+                (*sMlibSysFns.deleteImbgeFP)(*mlibImbgePP);
                 return -1;
             }
         }
-        break;
+        brebk;
 
-    case SHORT_DATA_TYPE:
-        if ((*mlibImagePP = (*sMlibSysFns.createFP)(MLIB_SHORT,
-                                                    rasterP->numBands,
+    cbse SHORT_DATA_TYPE:
+        if ((*mlibImbgePP = (*sMlibSysFns.crebteFP)(MLIB_SHORT,
+                                                    rbsterP->numBbnds,
                                                     width, height)) == NULL) {
             return -1;
         }
         if (isSrc) {
-            if (awt_getPixels(env, rasterP, mlib_ImageGetData(*mlibImagePP)) < 0) {
-                (*sMlibSysFns.deleteImageFP)(*mlibImagePP);
+            if (bwt_getPixels(env, rbsterP, mlib_ImbgeGetDbtb(*mlibImbgePP)) < 0) {
+                (*sMlibSysFns.deleteImbgeFP)(*mlibImbgePP);
                 return -1;
             }
         }
-        break;
+        brebk;
 
-    default:
+    defbult:
         return -1;
     }
     return 0;
 }
 
-static void
-freeArray(JNIEnv *env, BufImageS_t *srcimageP, mlib_image *srcmlibImP,
-          void *srcdataP, BufImageS_t *dstimageP, mlib_image *dstmlibImP,
-          void *dstdataP) {
-    jobject srcJdata = (srcimageP != NULL ? srcimageP->raster.jdata : NULL);
-    jobject dstJdata = (dstimageP != NULL ? dstimageP->raster.jdata : NULL);
-    freeDataArray(env, srcJdata, srcmlibImP, srcdataP,
-                  dstJdata, dstmlibImP, dstdataP);
+stbtic void
+freeArrby(JNIEnv *env, BufImbgeS_t *srcimbgeP, mlib_imbge *srcmlibImP,
+          void *srcdbtbP, BufImbgeS_t *dstimbgeP, mlib_imbge *dstmlibImP,
+          void *dstdbtbP) {
+    jobject srcJdbtb = (srcimbgeP != NULL ? srcimbgeP->rbster.jdbtb : NULL);
+    jobject dstJdbtb = (dstimbgeP != NULL ? dstimbgeP->rbster.jdbtb : NULL);
+    freeDbtbArrby(env, srcJdbtb, srcmlibImP, srcdbtbP,
+                  dstJdbtb, dstmlibImP, dstdbtbP);
 }
-static void
-freeDataArray(JNIEnv *env, jobject srcJdata, mlib_image *srcmlibImP,
-          void *srcdataP, jobject dstJdata, mlib_image *dstmlibImP,
-          void *dstdataP)
+stbtic void
+freeDbtbArrby(JNIEnv *env, jobject srcJdbtb, mlib_imbge *srcmlibImP,
+          void *srcdbtbP, jobject dstJdbtb, mlib_imbge *dstmlibImP,
+          void *dstdbtbP)
 {
-    /* Free the medialib image */
+    /* Free the mediblib imbge */
     if (srcmlibImP) {
-        (*sMlibSysFns.deleteImageFP)(srcmlibImP);
+        (*sMlibSysFns.deleteImbgeFP)(srcmlibImP);
     }
 
-    /* Release the array */
-    if (srcdataP) {
-        (*env)->ReleasePrimitiveArrayCritical(env, srcJdata,
-                                              srcdataP, JNI_ABORT);
+    /* Relebse the brrby */
+    if (srcdbtbP) {
+        (*env)->RelebsePrimitiveArrbyCriticbl(env, srcJdbtb,
+                                              srcdbtbP, JNI_ABORT);
     }
 
-    /* Free the medialib image */
+    /* Free the mediblib imbge */
     if (dstmlibImP) {
-        (*sMlibSysFns.deleteImageFP)(dstmlibImP);
+        (*sMlibSysFns.deleteImbgeFP)(dstmlibImP);
     }
 
-    /* Release the array */
-    if (dstdataP) {
-        (*env)->ReleasePrimitiveArrayCritical(env, dstJdata,
-                                              dstdataP, 0);
+    /* Relebse the brrby */
+    if (dstdbtbP) {
+        (*env)->RelebsePrimitiveArrbyCriticbl(env, dstJdbtb,
+                                              dstdbtbP, 0);
     }
 }
 
 #define ERR_BAD_IMAGE_LAYOUT (-2)
 
-#define CHECK_DST_ARRAY(start_offset, elements_per_scan, elements_per_pixel) \
+#define CHECK_DST_ARRAY(stbrt_offset, elements_per_scbn, elements_per_pixel) \
     do {                                                                     \
-        int offset = (start_offset);                                         \
-        int lastScanOffset;                                                  \
+        int offset = (stbrt_offset);                                         \
+        int lbstScbnOffset;                                                  \
                                                                              \
-        if (!SAFE_TO_MULT((elements_per_scan),                               \
-                          (rasterP->height - 1)))                            \
+        if (!SAFE_TO_MULT((elements_per_scbn),                               \
+                          (rbsterP->height - 1)))                            \
         {                                                                    \
             return ERR_BAD_IMAGE_LAYOUT;                                     \
         }                                                                    \
-        lastScanOffset = (elements_per_scan) * (rasterP->height - 1);        \
+        lbstScbnOffset = (elements_per_scbn) * (rbsterP->height - 1);        \
                                                                              \
-        if (!SAFE_TO_ADD(offset, lastScanOffset)) {                          \
+        if (!SAFE_TO_ADD(offset, lbstScbnOffset)) {                          \
             return ERR_BAD_IMAGE_LAYOUT;                                     \
         }                                                                    \
-        lastScanOffset += offset;                                            \
+        lbstScbnOffset += offset;                                            \
                                                                              \
-        if (!SAFE_TO_MULT((elements_per_pixel), rasterP->width)) {           \
+        if (!SAFE_TO_MULT((elements_per_pixel), rbsterP->width)) {           \
             return ERR_BAD_IMAGE_LAYOUT;                                     \
         }                                                                    \
-        offset = (elements_per_pixel) * rasterP->width;                      \
+        offset = (elements_per_pixel) * rbsterP->width;                      \
                                                                              \
-        if (!SAFE_TO_ADD(offset, lastScanOffset)) {                          \
+        if (!SAFE_TO_ADD(offset, lbstScbnOffset)) {                          \
             return ERR_BAD_IMAGE_LAYOUT;                                     \
         }                                                                    \
-        lastScanOffset += offset;                                            \
+        lbstScbnOffset += offset;                                            \
                                                                              \
-        if (dataArrayLength < lastScanOffset) {                              \
+        if (dbtbArrbyLength < lbstScbnOffset) {                              \
             return ERR_BAD_IMAGE_LAYOUT;                                     \
         }                                                                    \
     } while(0);                                                              \
 
-static int
-storeImageArray(JNIEnv *env, BufImageS_t *srcP, BufImageS_t *dstP,
-                mlib_image *mlibImP) {
+stbtic int
+storeImbgeArrby(JNIEnv *env, BufImbgeS_t *srcP, BufImbgeS_t *dstP,
+                mlib_imbge *mlibImP) {
     int mStride;
-    unsigned char *cmDataP, *dataP, *cDataP;
+    unsigned chbr *cmDbtbP, *dbtbP, *cDbtbP;
     HintS_t *hintP = &dstP->hints;
-    RasterS_t *rasterP = &dstP->raster;
-    jsize dataArrayLength = (*env)->GetArrayLength(env, rasterP->jdata);
+    RbsterS_t *rbsterP = &dstP->rbster;
+    jsize dbtbArrbyLength = (*env)->GetArrbyLength(env, rbsterP->jdbtb);
     int y;
 
-    /* REMIND: Store mlib data type? */
+    /* REMIND: Store mlib dbtb type? */
 
-    /* Check if it is an IndexColorModel */
+    /* Check if it is bn IndexColorModel */
     if (dstP->cmodel.cmType == INDEX_CM_TYPE) {
-        if (dstP->raster.rasterType == COMPONENT_RASTER_TYPE) {
-            return storeICMarray(env, srcP, dstP, mlibImP);
+        if (dstP->rbster.rbsterType == COMPONENT_RASTER_TYPE) {
+            return storeICMbrrby(env, srcP, dstP, mlibImP);
         }
         else {
-            /* Packed or some other custom raster */
-            cmDataP = (unsigned char *) mlib_ImageGetData(mlibImP);
-            return cvtDefaultToCustom(env, dstP, -1, cmDataP);
+            /* Pbcked or some other custom rbster */
+            cmDbtbP = (unsigned chbr *) mlib_ImbgeGetDbtb(mlibImP);
+            return cvtDefbultToCustom(env, dstP, -1, cmDbtbP);
         }
     }
 
-    if (hintP->packing == BYTE_INTERLEAVED) {
-        /* Write it back to the destination */
-        if (rasterP->dataType != BYTE_DATA_TYPE) {
-            /* We are working with a raster which was marked
-               as a byte interleaved due to performance reasons.
-               So, we have to convert the length of the data
-               array to bytes as well.
+    if (hintP->pbcking == BYTE_INTERLEAVED) {
+        /* Write it bbck to the destinbtion */
+        if (rbsterP->dbtbType != BYTE_DATA_TYPE) {
+            /* We bre working with b rbster which wbs mbrked
+               bs b byte interlebved due to performbnce rebsons.
+               So, we hbve to convert the length of the dbtb
+               brrby to bytes bs well.
             */
-            if (!SAFE_TO_MULT(rasterP->dataSize, dataArrayLength)) {
+            if (!SAFE_TO_MULT(rbsterP->dbtbSize, dbtbArrbyLength)) {
                 return ERR_BAD_IMAGE_LAYOUT;
             }
-            dataArrayLength *= rasterP->dataSize;
+            dbtbArrbyLength *= rbsterP->dbtbSize;
         }
 
-        CHECK_DST_ARRAY(hintP->dataOffset, hintP->sStride, hintP->numChans);
-        cmDataP = (unsigned char *) mlib_ImageGetData(mlibImP);
-        mStride = mlib_ImageGetStride(mlibImP);
-        dataP = (unsigned char *)(*env)->GetPrimitiveArrayCritical(env,
-                                                      rasterP->jdata, NULL);
-        if (dataP == NULL) return 0;
-        cDataP = dataP + hintP->dataOffset;
-        for (y=0; y < rasterP->height;
-             y++, cmDataP += mStride, cDataP += hintP->sStride)
+        CHECK_DST_ARRAY(hintP->dbtbOffset, hintP->sStride, hintP->numChbns);
+        cmDbtbP = (unsigned chbr *) mlib_ImbgeGetDbtb(mlibImP);
+        mStride = mlib_ImbgeGetStride(mlibImP);
+        dbtbP = (unsigned chbr *)(*env)->GetPrimitiveArrbyCriticbl(env,
+                                                      rbsterP->jdbtb, NULL);
+        if (dbtbP == NULL) return 0;
+        cDbtbP = dbtbP + hintP->dbtbOffset;
+        for (y=0; y < rbsterP->height;
+             y++, cmDbtbP += mStride, cDbtbP += hintP->sStride)
         {
-            memcpy(cDataP, cmDataP, rasterP->width*hintP->numChans);
+            memcpy(cDbtbP, cmDbtbP, rbsterP->width*hintP->numChbns);
         }
-        (*env)->ReleasePrimitiveArrayCritical(env, rasterP->jdata, dataP,
+        (*env)->RelebsePrimitiveArrbyCriticbl(env, rbsterP->jdbtb, dbtbP,
                                               JNI_ABORT);
     }
     else if (dstP->cmodel.cmType == DIRECT_CM_TYPE) {
         /* Just need to move bits */
         if (mlibImP->type == MLIB_BYTE) {
-            if (dstP->hints.packing == PACKED_BYTE_INTER) {
-                return setPackedBCRdefault(env, rasterP, -1,
-                                           (unsigned char *) mlibImP->data,
-                                           dstP->cmodel.supportsAlpha);
-            } else if (dstP->hints.packing == PACKED_SHORT_INTER) {
-                return setPackedSCRdefault(env, rasterP, -1,
-                                           (unsigned char *) mlibImP->data,
-                                           dstP->cmodel.supportsAlpha);
-            } else if (dstP->hints.packing == PACKED_INT_INTER) {
-                return setPackedICRdefault(env, rasterP, -1,
-                                           (unsigned char *) mlibImP->data,
-                                           dstP->cmodel.supportsAlpha);
+            if (dstP->hints.pbcking == PACKED_BYTE_INTER) {
+                return setPbckedBCRdefbult(env, rbsterP, -1,
+                                           (unsigned chbr *) mlibImP->dbtb,
+                                           dstP->cmodel.supportsAlphb);
+            } else if (dstP->hints.pbcking == PACKED_SHORT_INTER) {
+                return setPbckedSCRdefbult(env, rbsterP, -1,
+                                           (unsigned chbr *) mlibImP->dbtb,
+                                           dstP->cmodel.supportsAlphb);
+            } else if (dstP->hints.pbcking == PACKED_INT_INTER) {
+                return setPbckedICRdefbult(env, rbsterP, -1,
+                                           (unsigned chbr *) mlibImP->dbtb,
+                                           dstP->cmodel.supportsAlphb);
             }
         }
         else if (mlibImP->type == MLIB_SHORT) {
-            return setPixelsFormMlibImage(env, rasterP, mlibImP);
+            return setPixelsFormMlibImbge(env, rbsterP, mlibImP);
         }
     }
     else {
-        return cvtDefaultToCustom(env, dstP, -1,
-                                  (unsigned char *)mlibImP->data);
+        return cvtDefbultToCustom(env, dstP, -1,
+                                  (unsigned chbr *)mlibImP->dbtb);
     }
 
     return 0;
 }
 
-static int
-storeRasterArray(JNIEnv *env, RasterS_t *srcP, RasterS_t *dstP,
-                mlib_image *mlibImP) {
-    unsigned char *cDataP;
+stbtic int
+storeRbsterArrby(JNIEnv *env, RbsterS_t *srcP, RbsterS_t *dstP,
+                mlib_imbge *mlibImP) {
+    unsigned chbr *cDbtbP;
 
     switch(dstP->type) {
-    case sun_awt_image_IntegerComponentRaster_TYPE_BYTE_PACKED_SAMPLES:
-        cDataP  = (unsigned char *) mlib_ImageGetData(mlibImP);
-        return setPackedBCR(env, dstP, -1, cDataP);
+    cbse sun_bwt_imbge_IntegerComponentRbster_TYPE_BYTE_PACKED_SAMPLES:
+        cDbtbP  = (unsigned chbr *) mlib_ImbgeGetDbtb(mlibImP);
+        return setPbckedBCR(env, dstP, -1, cDbtbP);
 
-    case sun_awt_image_IntegerComponentRaster_TYPE_USHORT_PACKED_SAMPLES:
-        if (dstP->sppsm.maxBitSize <= 8) {
-            cDataP  = (unsigned char *) mlib_ImageGetData(mlibImP);
-            return setPackedSCR(env, dstP, -1, cDataP);
+    cbse sun_bwt_imbge_IntegerComponentRbster_TYPE_USHORT_PACKED_SAMPLES:
+        if (dstP->sppsm.mbxBitSize <= 8) {
+            cDbtbP  = (unsigned chbr *) mlib_ImbgeGetDbtb(mlibImP);
+            return setPbckedSCR(env, dstP, -1, cDbtbP);
         }
-        break;
-    case sun_awt_image_IntegerComponentRaster_TYPE_INT_PACKED_SAMPLES:
-        if (dstP->sppsm.maxBitSize <= 8) {
-            cDataP  = (unsigned char *) mlib_ImageGetData(mlibImP);
-            return setPackedICR(env, dstP, -1, cDataP);
+        brebk;
+    cbse sun_bwt_imbge_IntegerComponentRbster_TYPE_INT_PACKED_SAMPLES:
+        if (dstP->sppsm.mbxBitSize <= 8) {
+            cDbtbP  = (unsigned chbr *) mlib_ImbgeGetDbtb(mlibImP);
+            return setPbckedICR(env, dstP, -1, cDbtbP);
         }
     }
 
@@ -2729,269 +2729,269 @@ storeRasterArray(JNIEnv *env, RasterS_t *srcP, RasterS_t *dstP,
 }
 
 
-static int
-storeICMarray(JNIEnv *env, BufImageS_t *srcP, BufImageS_t *dstP,
-              mlib_image *mlibImP)
+stbtic int
+storeICMbrrby(JNIEnv *env, BufImbgeS_t *srcP, BufImbgeS_t *dstP,
+              mlib_imbge *mlibImP)
 {
-    int *argb;
+    int *brgb;
     int x, y;
-    unsigned char *dataP, *cDataP, *cP;
-    unsigned char *sP;
-    int aIdx, rIdx, gIdx, bIdx;
+    unsigned chbr *dbtbP, *cDbtbP, *cP;
+    unsigned chbr *sP;
+    int bIdx, rIdx, gIdx, bIdx;
     ColorModelS_t *cmodelP = &dstP->cmodel;
-    RasterS_t *rasterP = &dstP->raster;
+    RbsterS_t *rbsterP = &dstP->rbster;
 
     /* REMIND: Only works for RGB */
-    if (cmodelP->csType != java_awt_color_ColorSpace_TYPE_RGB) {
-        JNU_ThrowInternalError(env, "Writing to non-RGB images not implemented yet");
+    if (cmodelP->csType != jbvb_bwt_color_ColorSpbce_TYPE_RGB) {
+        JNU_ThrowInternblError(env, "Writing to non-RGB imbges not implemented yet");
         return -1;
     }
 
-    if (srcP->imageType == java_awt_image_BufferedImage_TYPE_INT_ARGB ||
-        srcP->imageType == java_awt_image_BufferedImage_TYPE_INT_ARGB_PRE ||
-        srcP->imageType == java_awt_image_BufferedImage_TYPE_INT_RGB)
+    if (srcP->imbgeType == jbvb_bwt_imbge_BufferedImbge_TYPE_INT_ARGB ||
+        srcP->imbgeType == jbvb_bwt_imbge_BufferedImbge_TYPE_INT_ARGB_PRE ||
+        srcP->imbgeType == jbvb_bwt_imbge_BufferedImbge_TYPE_INT_RGB)
     {
-        aIdx = 0;
+        bIdx = 0;
         rIdx = 1;
         gIdx = 2;
         bIdx = 3;
     }
-    else if (srcP->imageType ==java_awt_image_BufferedImage_TYPE_4BYTE_ABGR||
-        srcP->imageType == java_awt_image_BufferedImage_TYPE_4BYTE_ABGR_PRE)
+    else if (srcP->imbgeType ==jbvb_bwt_imbge_BufferedImbge_TYPE_4BYTE_ABGR||
+        srcP->imbgeType == jbvb_bwt_imbge_BufferedImbge_TYPE_4BYTE_ABGR_PRE)
     {
-        aIdx = 0;
+        bIdx = 0;
         rIdx = 3;
         gIdx = 2;
         bIdx = 1;
     }
-    else if (srcP->imageType == java_awt_image_BufferedImage_TYPE_3BYTE_BGR){
+    else if (srcP->imbgeType == jbvb_bwt_imbge_BufferedImbge_TYPE_3BYTE_BGR){
         rIdx = 2;
         gIdx = 1;
         bIdx = 0;
-        aIdx = 0;       /* Ignored */
+        bIdx = 0;       /* Ignored */
     }
     else if (srcP->cmodel.cmType == INDEX_CM_TYPE) {
         rIdx = 0;
         gIdx = 1;
         bIdx = 2;
-        aIdx = 3;   /* Use supportsAlpha to see if it is really there */
+        bIdx = 3;   /* Use supportsAlphb to see if it is reblly there */
     }
     else {
         return -1;
     }
 
-    /* Lock down the destination raster */
-    dataP = (unsigned char *) (*env)->GetPrimitiveArrayCritical(env,
-                                                  rasterP->jdata, NULL);
-    if (dataP == NULL) {
+    /* Lock down the destinbtion rbster */
+    dbtbP = (unsigned chbr *) (*env)->GetPrimitiveArrbyCriticbl(env,
+                                                  rbsterP->jdbtb, NULL);
+    if (dbtbP == NULL) {
         return -1;
     }
-    argb = (*env)->GetPrimitiveArrayCritical(env, cmodelP->jrgb, NULL);
-    if (argb == NULL) {
-        (*env)->ReleasePrimitiveArrayCritical(env, rasterP->jdata, dataP,
+    brgb = (*env)->GetPrimitiveArrbyCriticbl(env, cmodelP->jrgb, NULL);
+    if (brgb == NULL) {
+        (*env)->RelebsePrimitiveArrbyCriticbl(env, rbsterP->jdbtb, dbtbP,
                                               JNI_ABORT);
         return -1;
     }
 
-    cDataP = dataP + dstP->hints.dataOffset;
-    sP = (unsigned char *) mlib_ImageGetData(mlibImP);
+    cDbtbP = dbtbP + dstP->hints.dbtbOffset;
+    sP = (unsigned chbr *) mlib_ImbgeGetDbtb(mlibImP);
 
-    for (y=0; y < rasterP->height; y++, cDataP += rasterP->scanlineStride) {
-        cP = cDataP;
-        for (x=0; x < rasterP->width; x++, cP += rasterP->pixelStride) {
-            *cP = colorMatch(sP[rIdx], sP[gIdx], sP[bIdx], sP[aIdx],
-                             (unsigned char *)argb, cmodelP->mapSize);
+    for (y=0; y < rbsterP->height; y++, cDbtbP += rbsterP->scbnlineStride) {
+        cP = cDbtbP;
+        for (x=0; x < rbsterP->width; x++, cP += rbsterP->pixelStride) {
+            *cP = colorMbtch(sP[rIdx], sP[gIdx], sP[bIdx], sP[bIdx],
+                             (unsigned chbr *)brgb, cmodelP->mbpSize);
             sP += cmodelP->numComponents;
         }
     }
 
-    (*env)->ReleasePrimitiveArrayCritical(env, cmodelP->jrgb, argb, JNI_ABORT);
-    (*env)->ReleasePrimitiveArrayCritical(env, rasterP->jdata, dataP,
+    (*env)->RelebsePrimitiveArrbyCriticbl(env, cmodelP->jrgb, brgb, JNI_ABORT);
+    (*env)->RelebsePrimitiveArrbyCriticbl(env, rbsterP->jdbtb, dbtbP,
                                           JNI_ABORT);
     return -1;
 }
 
-static int expandICM(JNIEnv *env, BufImageS_t *imageP, unsigned int *mDataP)
+stbtic int expbndICM(JNIEnv *env, BufImbgeS_t *imbgeP, unsigned int *mDbtbP)
 {
-    ColorModelS_t *cmP = &imageP->cmodel;
-    RasterS_t *rasterP = &imageP->raster;
-    HintS_t *hintP     = &imageP->hints;
+    ColorModelS_t *cmP = &imbgeP->cmodel;
+    RbsterS_t *rbsterP = &imbgeP->rbster;
+    HintS_t *hintP     = &imbgeP->hints;
     int *rgb;
-    int status = 0;
-    unsigned char *dataP, *cP;
+    int stbtus = 0;
+    unsigned chbr *dbtbP, *cP;
     unsigned int *mP;
-    int width = rasterP->width;
-    int height = rasterP->height;
+    int width = rbsterP->width;
+    int height = rbsterP->height;
     int x, y;
 
-    /* Need to grab the lookup tables.  Right now only bytes */
-    rgb = (int *) (*env)->GetPrimitiveArrayCritical(env, cmP->jrgb, NULL);
+    /* Need to grbb the lookup tbbles.  Right now only bytes */
+    rgb = (int *) (*env)->GetPrimitiveArrbyCriticbl(env, cmP->jrgb, NULL);
     CHECK_NULL_RETURN(rgb, -1);
 
-    /* Interleaved with shared data */
-    dataP = (void *) (*env)->GetPrimitiveArrayCritical(env,
-                                                       rasterP->jdata, NULL);
-    if (dataP == NULL) {
-        /* Release the lookup tables */
-        (*env)->ReleasePrimitiveArrayCritical(env, cmP->jrgb, rgb, JNI_ABORT);
+    /* Interlebved with shbred dbtb */
+    dbtbP = (void *) (*env)->GetPrimitiveArrbyCriticbl(env,
+                                                       rbsterP->jdbtb, NULL);
+    if (dbtbP == NULL) {
+        /* Relebse the lookup tbbles */
+        (*env)->RelebsePrimitiveArrbyCriticbl(env, cmP->jrgb, rgb, JNI_ABORT);
         return -1;
     }
 
-    if (rasterP->dataType == BYTE_DATA_TYPE) {
-        unsigned char *cDataP = ((unsigned char *)dataP) + hintP->dataOffset;
+    if (rbsterP->dbtbType == BYTE_DATA_TYPE) {
+        unsigned chbr *cDbtbP = ((unsigned chbr *)dbtbP) + hintP->dbtbOffset;
 
         for (y=0; y < height; y++) {
-            mP = mDataP;
-            cP = cDataP;
-            for (x=0; x < width; x++, cP += rasterP->pixelStride) {
+            mP = mDbtbP;
+            cP = cDbtbP;
+            for (x=0; x < width; x++, cP += rbsterP->pixelStride) {
                 *mP++ = rgb[*cP];
             }
-            mDataP += width;
-            cDataP += rasterP->scanlineStride;
+            mDbtbP += width;
+            cDbtbP += rbsterP->scbnlineStride;
         }
     }
-    else if (rasterP->dataType == SHORT_DATA_TYPE) {
-        unsigned short *sDataP, *sP;
-        sDataP = ((unsigned short *)dataP) + hintP->channelOffset;
+    else if (rbsterP->dbtbType == SHORT_DATA_TYPE) {
+        unsigned short *sDbtbP, *sP;
+        sDbtbP = ((unsigned short *)dbtbP) + hintP->chbnnelOffset;
 
         for (y=0; y < height; y++) {
-            mP = mDataP;
-            sP = sDataP;
-            for (x=0; x < width; x++, sP+=rasterP->pixelStride) {
+            mP = mDbtbP;
+            sP = sDbtbP;
+            for (x=0; x < width; x++, sP+=rbsterP->pixelStride) {
                 *mP++ = rgb[*sP];
             }
-            mDataP += width;
-            sDataP += rasterP->scanlineStride;
+            mDbtbP += width;
+            sDbtbP += rbsterP->scbnlineStride;
         }
     }
     else {
         /* Unknown type */
-        status = -1;
+        stbtus = -1;
     }
-    /* Release the lookup table data */
-    (*env)->ReleasePrimitiveArrayCritical(env, imageP->cmodel.jrgb,
+    /* Relebse the lookup tbble dbtb */
+    (*env)->RelebsePrimitiveArrbyCriticbl(env, imbgeP->cmodel.jrgb,
                                           rgb, JNI_ABORT);
-    /* Release the data array */
-    (*env)->ReleasePrimitiveArrayCritical(env, rasterP->jdata,
-                                          dataP, JNI_ABORT);
-    return status;
+    /* Relebse the dbtb brrby */
+    (*env)->RelebsePrimitiveArrbyCriticbl(env, rbsterP->jdbtb,
+                                          dbtbP, JNI_ABORT);
+    return stbtus;
 }
-/* This routine is expecting a ByteComponentRaster with a PackedColorModel */
-static int expandPackedBCR(JNIEnv *env, RasterS_t *rasterP, int component,
-                           unsigned char *outDataP)
+/* This routine is expecting b ByteComponentRbster with b PbckedColorModel */
+stbtic int expbndPbckedBCR(JNIEnv *env, RbsterS_t *rbsterP, int component,
+                           unsigned chbr *outDbtbP)
 {
     int x, y, c;
-    unsigned char *outP = outDataP;
-    unsigned char *lineInP, *inP;
-    jarray jInDataP;
-    jint   *inDataP;
+    unsigned chbr *outP = outDbtbP;
+    unsigned chbr *lineInP, *inP;
+    jbrrby jInDbtbP;
+    jint   *inDbtbP;
     int loff[MAX_NUMBANDS], roff[MAX_NUMBANDS];
 
-    if (rasterP->numBands > MAX_NUMBANDS) {
+    if (rbsterP->numBbnds > MAX_NUMBANDS) {
         return -1;
     }
 
-    /* Grab data ptr, strides, offsets from raster */
-    jInDataP = (*env)->GetObjectField(env, rasterP->jraster, g_BCRdataID);
-    inDataP = (*env)->GetPrimitiveArrayCritical(env, jInDataP, 0);
-    if (inDataP == NULL) {
+    /* Grbb dbtb ptr, strides, offsets from rbster */
+    jInDbtbP = (*env)->GetObjectField(env, rbsterP->jrbster, g_BCRdbtbID);
+    inDbtbP = (*env)->GetPrimitiveArrbyCriticbl(env, jInDbtbP, 0);
+    if (inDbtbP == NULL) {
         return -1;
     }
-    lineInP =  (unsigned char *)inDataP + rasterP->chanOffsets[0];
+    lineInP =  (unsigned chbr *)inDbtbP + rbsterP->chbnOffsets[0];
 
     if (component < 0) {
-        for (c=0; c < rasterP->numBands; c++) {
-            roff[c] = rasterP->sppsm.offsets[c] + (rasterP->sppsm.nBits[c]-8);
+        for (c=0; c < rbsterP->numBbnds; c++) {
+            roff[c] = rbsterP->sppsm.offsets[c] + (rbsterP->sppsm.nBits[c]-8);
             if (roff[c] < 0) {
                 loff[c] = -roff[c];
                 roff[c] = 0;
             }
             else loff[c] = 0;
         }
-        /* Convert the all bands */
-        if (rasterP->numBands < 4) {
-            /* Need to put in alpha */
-            for (y=0; y < rasterP->height; y++) {
+        /* Convert the bll bbnds */
+        if (rbsterP->numBbnds < 4) {
+            /* Need to put in blphb */
+            for (y=0; y < rbsterP->height; y++) {
                 inP = lineInP;
-                for (x=0; x < rasterP->width; x++) {
-                    for (c=0; c < rasterP->numBands; c++) {
-                        *outP++ = (unsigned char)
-                            (((*inP&rasterP->sppsm.maskArray[c]) >> roff[c])
+                for (x=0; x < rbsterP->width; x++) {
+                    for (c=0; c < rbsterP->numBbnds; c++) {
+                        *outP++ = (unsigned chbr)
+                            (((*inP&rbsterP->sppsm.mbskArrby[c]) >> roff[c])
                              <<loff[c]);
                     }
                     inP++;
                 }
-                lineInP += rasterP->scanlineStride;
+                lineInP += rbsterP->scbnlineStride;
             }
         }
         else {
-            for (y=0; y < rasterP->height; y++) {
+            for (y=0; y < rbsterP->height; y++) {
                 inP = lineInP;
-                for (x=0; x < rasterP->width; x++) {
-                    for (c=0; c < rasterP->numBands; c++) {
-                        *outP++ = (unsigned char)
-                            (((*inP&rasterP->sppsm.maskArray[c]) >> roff[c])
+                for (x=0; x < rbsterP->width; x++) {
+                    for (c=0; c < rbsterP->numBbnds; c++) {
+                        *outP++ = (unsigned chbr)
+                            (((*inP&rbsterP->sppsm.mbskArrby[c]) >> roff[c])
                              <<loff[c]);
                     }
                     inP++;
                 }
-                lineInP += rasterP->scanlineStride;
+                lineInP += rbsterP->scbnlineStride;
             }
         }
     }
     else {
         c = component;
-        roff[0] = rasterP->sppsm.offsets[c] + (rasterP->sppsm.nBits[c]-8);
+        roff[0] = rbsterP->sppsm.offsets[c] + (rbsterP->sppsm.nBits[c]-8);
         if (roff[0] < 0) {
             loff[0] = -roff[0];
             roff[0] = 0;
         }
         else loff[c] = 0;
-        for (y=0; y < rasterP->height; y++) {
+        for (y=0; y < rbsterP->height; y++) {
             inP = lineInP;
-            for (x=0; x < rasterP->width; x++) {
-                *outP++ = (unsigned char)
-                    ((*inP & rasterP->sppsm.maskArray[c])>>roff[0])<<loff[0];
+            for (x=0; x < rbsterP->width; x++) {
+                *outP++ = (unsigned chbr)
+                    ((*inP & rbsterP->sppsm.mbskArrby[c])>>roff[0])<<loff[0];
                 inP++;
             }
-            lineInP += rasterP->scanlineStride;
+            lineInP += rbsterP->scbnlineStride;
         }
     }
 
-    (*env)->ReleasePrimitiveArrayCritical(env, jInDataP, inDataP, JNI_ABORT);
+    (*env)->RelebsePrimitiveArrbyCriticbl(env, jInDbtbP, inDbtbP, JNI_ABORT);
 
     return 0;
 }
 
-/* This routine is expecting a ByteComponentRaster with a PackedColorModel */
-static int expandPackedBCRdefault(JNIEnv *env, RasterS_t *rasterP,
-                                  int component, unsigned char *outDataP,
-                                  int forceAlpha)
+/* This routine is expecting b ByteComponentRbster with b PbckedColorModel */
+stbtic int expbndPbckedBCRdefbult(JNIEnv *env, RbsterS_t *rbsterP,
+                                  int component, unsigned chbr *outDbtbP,
+                                  int forceAlphb)
 {
     int x, y, c;
-    unsigned char *outP = outDataP;
-    unsigned char *lineInP, *inP;
-    jarray jInDataP;
-    jint   *inDataP;
+    unsigned chbr *outP = outDbtbP;
+    unsigned chbr *lineInP, *inP;
+    jbrrby jInDbtbP;
+    jint   *inDbtbP;
     int loff[MAX_NUMBANDS], roff[MAX_NUMBANDS];
-    int numBands = rasterP->numBands - (forceAlpha ? 0 : 1);
-    int a = numBands;
+    int numBbnds = rbsterP->numBbnds - (forceAlphb ? 0 : 1);
+    int b = numBbnds;
 
-    if (rasterP->numBands > MAX_NUMBANDS) {
+    if (rbsterP->numBbnds > MAX_NUMBANDS) {
         return -1;
     }
 
-    /* Grab data ptr, strides, offsets from raster */
-    jInDataP = (*env)->GetObjectField(env, rasterP->jraster, g_BCRdataID);
-    inDataP = (*env)->GetPrimitiveArrayCritical(env, jInDataP, 0);
-    if (inDataP == NULL) {
+    /* Grbb dbtb ptr, strides, offsets from rbster */
+    jInDbtbP = (*env)->GetObjectField(env, rbsterP->jrbster, g_BCRdbtbID);
+    inDbtbP = (*env)->GetPrimitiveArrbyCriticbl(env, jInDbtbP, 0);
+    if (inDbtbP == NULL) {
         return -1;
     }
-    lineInP =  (unsigned char *)inDataP + rasterP->chanOffsets[0];
+    lineInP =  (unsigned chbr *)inDbtbP + rbsterP->chbnOffsets[0];
 
     if (component < 0) {
-        for (c=0; c < rasterP->numBands; c++) {
-            roff[c] = rasterP->sppsm.offsets[c] + (rasterP->sppsm.nBits[c]-8);
+        for (c=0; c < rbsterP->numBbnds; c++) {
+            roff[c] = rbsterP->sppsm.offsets[c] + (rbsterP->sppsm.nBits[c]-8);
             if (roff[c] < 0) {
                 loff[c] = -roff[c];
                 roff[c] = 0;
@@ -2999,187 +2999,187 @@ static int expandPackedBCRdefault(JNIEnv *env, RasterS_t *rasterP,
             else loff[c] = 0;
         }
 
-        /* Need to put in alpha */
-        if (forceAlpha) {
-            for (y=0; y < rasterP->height; y++) {
+        /* Need to put in blphb */
+        if (forceAlphb) {
+            for (y=0; y < rbsterP->height; y++) {
                 inP = lineInP;
-                for (x=0; x < rasterP->width; x++) {
+                for (x=0; x < rbsterP->width; x++) {
                     *outP++ = 0xff;
-                    for (c=0; c < numBands; c++) {
-                        *outP++ = (unsigned char)
-                            (((*inP&rasterP->sppsm.maskArray[c]) >> roff[c])
+                    for (c=0; c < numBbnds; c++) {
+                        *outP++ = (unsigned chbr)
+                            (((*inP&rbsterP->sppsm.mbskArrby[c]) >> roff[c])
                              <<loff[c]);
                     }
                     inP++;
                 }
-                lineInP += rasterP->scanlineStride;
+                lineInP += rbsterP->scbnlineStride;
             }
         }
         else {
-            for (y=0; y < rasterP->height; y++) {
+            for (y=0; y < rbsterP->height; y++) {
                 inP = lineInP;
-                for (x=0; x < rasterP->width; x++) {
-                    *outP++ = (unsigned char)
-                        (((*inP&rasterP->sppsm.maskArray[a]) >> roff[a])
-                         <<loff[a]);
-                    for (c=0; c < numBands; c++) {
-                        *outP++ = (unsigned char)
-                            (((*inP&rasterP->sppsm.maskArray[c]) >> roff[c])
+                for (x=0; x < rbsterP->width; x++) {
+                    *outP++ = (unsigned chbr)
+                        (((*inP&rbsterP->sppsm.mbskArrby[b]) >> roff[b])
+                         <<loff[b]);
+                    for (c=0; c < numBbnds; c++) {
+                        *outP++ = (unsigned chbr)
+                            (((*inP&rbsterP->sppsm.mbskArrby[c]) >> roff[c])
                              <<loff[c]);
                     }
                     inP++;
                 }
-                lineInP += rasterP->scanlineStride;
+                lineInP += rbsterP->scbnlineStride;
             }
         }
     }
     else {
         c = component;
-        roff[0] = rasterP->sppsm.offsets[c] + (rasterP->sppsm.nBits[c]-8);
+        roff[0] = rbsterP->sppsm.offsets[c] + (rbsterP->sppsm.nBits[c]-8);
         if (roff[0] < 0) {
             loff[0] = -roff[0];
             roff[0] = 0;
         }
         else loff[c] = 0;
-        for (y=0; y < rasterP->height; y++) {
+        for (y=0; y < rbsterP->height; y++) {
             inP = lineInP;
-            for (x=0; x < rasterP->width; x++) {
-                *outP++ = (unsigned char)
-                    ((*inP & rasterP->sppsm.maskArray[c])>>roff[0])<<loff[0];
+            for (x=0; x < rbsterP->width; x++) {
+                *outP++ = (unsigned chbr)
+                    ((*inP & rbsterP->sppsm.mbskArrby[c])>>roff[0])<<loff[0];
                 inP++;
             }
-            lineInP += rasterP->scanlineStride;
+            lineInP += rbsterP->scbnlineStride;
         }
     }
 
-    (*env)->ReleasePrimitiveArrayCritical(env, jInDataP, inDataP, JNI_ABORT);
+    (*env)->RelebsePrimitiveArrbyCriticbl(env, jInDbtbP, inDbtbP, JNI_ABORT);
 
     return 0;
 }
 
-/* This routine is expecting a ShortComponentRaster with a PackedColorModel */
-static int expandPackedSCR(JNIEnv *env, RasterS_t *rasterP, int component,
-                           unsigned char *outDataP)
+/* This routine is expecting b ShortComponentRbster with b PbckedColorModel */
+stbtic int expbndPbckedSCR(JNIEnv *env, RbsterS_t *rbsterP, int component,
+                           unsigned chbr *outDbtbP)
 {
     int x, y, c;
-    unsigned char *outP = outDataP;
+    unsigned chbr *outP = outDbtbP;
     unsigned short *lineInP, *inP;
-    jarray jInDataP;
-    jint   *inDataP;
+    jbrrby jInDbtbP;
+    jint   *inDbtbP;
     int loff[MAX_NUMBANDS], roff[MAX_NUMBANDS];
 
-    if (rasterP->numBands > MAX_NUMBANDS) {
+    if (rbsterP->numBbnds > MAX_NUMBANDS) {
         return -1;
     }
 
-    /* Grab data ptr, strides, offsets from raster */
-    jInDataP = (*env)->GetObjectField(env, rasterP->jraster, g_SCRdataID);
-    inDataP = (*env)->GetPrimitiveArrayCritical(env, jInDataP, 0);
-    if (inDataP == NULL) {
+    /* Grbb dbtb ptr, strides, offsets from rbster */
+    jInDbtbP = (*env)->GetObjectField(env, rbsterP->jrbster, g_SCRdbtbID);
+    inDbtbP = (*env)->GetPrimitiveArrbyCriticbl(env, jInDbtbP, 0);
+    if (inDbtbP == NULL) {
         return -1;
     }
-    lineInP =  (unsigned short *)inDataP + rasterP->chanOffsets[0];
+    lineInP =  (unsigned short *)inDbtbP + rbsterP->chbnOffsets[0];
 
     if (component < 0) {
-        for (c=0; c < rasterP->numBands; c++) {
-            roff[c] = rasterP->sppsm.offsets[c] + (rasterP->sppsm.nBits[c]-8);
+        for (c=0; c < rbsterP->numBbnds; c++) {
+            roff[c] = rbsterP->sppsm.offsets[c] + (rbsterP->sppsm.nBits[c]-8);
             if (roff[c] < 0) {
                 loff[c] = -roff[c];
                 roff[c] = 0;
             }
             else loff[c] = 0;
         }
-        /* Convert the all bands */
-        if (rasterP->numBands < 4) {
-            /* Need to put in alpha */
-            for (y=0; y < rasterP->height; y++) {
+        /* Convert the bll bbnds */
+        if (rbsterP->numBbnds < 4) {
+            /* Need to put in blphb */
+            for (y=0; y < rbsterP->height; y++) {
                 inP = lineInP;
-                for (x=0; x < rasterP->width; x++) {
-                    for (c=0; c < rasterP->numBands; c++) {
+                for (x=0; x < rbsterP->width; x++) {
+                    for (c=0; c < rbsterP->numBbnds; c++) {
                         /*
                          *Not correct.  Might need to unpremult,
                          * shift, etc
                          */
-                        *outP++ = (unsigned char)
-                            (((*inP&rasterP->sppsm.maskArray[c]) >> roff[c])
+                        *outP++ = (unsigned chbr)
+                            (((*inP&rbsterP->sppsm.mbskArrby[c]) >> roff[c])
                              <<loff[c]);
                     }
                     inP++;
                 }
-                lineInP += rasterP->scanlineStride;
+                lineInP += rbsterP->scbnlineStride;
             }
         } else {
-            for (y=0; y < rasterP->height; y++) {
+            for (y=0; y < rbsterP->height; y++) {
                 inP = lineInP;
-                for (x=0; x < rasterP->width; x++) {
-                    for (c=0; c < rasterP->numBands; c++) {
+                for (x=0; x < rbsterP->width; x++) {
+                    for (c=0; c < rbsterP->numBbnds; c++) {
                         /*
                          *Not correct.  Might need to unpremult,
                          * shift, etc
                          */
-                        *outP++ = (unsigned char)
-                            (((*inP&rasterP->sppsm.maskArray[c]) >> roff[c])
+                        *outP++ = (unsigned chbr)
+                            (((*inP&rbsterP->sppsm.mbskArrby[c]) >> roff[c])
                              <<loff[c]);
                     }
                     inP++;
                 }
-                lineInP += rasterP->scanlineStride;
+                lineInP += rbsterP->scbnlineStride;
             }
         }
     }
     else {
         c = component;
-        roff[0] = rasterP->sppsm.offsets[c] + (rasterP->sppsm.nBits[c]-8);
+        roff[0] = rbsterP->sppsm.offsets[c] + (rbsterP->sppsm.nBits[c]-8);
         if (roff[0] < 0) {
             loff[0] = -roff[0];
             roff[0] = 0;
         }
         else loff[c] = 0;
-        for (y=0; y < rasterP->height; y++) {
+        for (y=0; y < rbsterP->height; y++) {
             inP = lineInP;
-            for (x=0; x < rasterP->width; x++) {
-                *outP++ = (unsigned char)
-                    ((*inP & rasterP->sppsm.maskArray[c])>>roff[0])<<loff[0];
+            for (x=0; x < rbsterP->width; x++) {
+                *outP++ = (unsigned chbr)
+                    ((*inP & rbsterP->sppsm.mbskArrby[c])>>roff[0])<<loff[0];
                 inP++;
             }
-            lineInP += rasterP->scanlineStride;
+            lineInP += rbsterP->scbnlineStride;
         }
     }
 
-    (*env)->ReleasePrimitiveArrayCritical(env, jInDataP, inDataP, JNI_ABORT);
+    (*env)->RelebsePrimitiveArrbyCriticbl(env, jInDbtbP, inDbtbP, JNI_ABORT);
 
     return 0;
 }
 
-/* This routine is expecting a ShortComponentRaster with a PackedColorModel */
-static int expandPackedSCRdefault(JNIEnv *env, RasterS_t *rasterP,
-                                  int component, unsigned char *outDataP,
-                                  int forceAlpha)
+/* This routine is expecting b ShortComponentRbster with b PbckedColorModel */
+stbtic int expbndPbckedSCRdefbult(JNIEnv *env, RbsterS_t *rbsterP,
+                                  int component, unsigned chbr *outDbtbP,
+                                  int forceAlphb)
 {
     int x, y, c;
-    unsigned char *outP = outDataP;
+    unsigned chbr *outP = outDbtbP;
     unsigned short *lineInP, *inP;
-    jarray jInDataP;
-    jint   *inDataP;
+    jbrrby jInDbtbP;
+    jint   *inDbtbP;
     int loff[MAX_NUMBANDS], roff[MAX_NUMBANDS];
-    int numBands = rasterP->numBands - (forceAlpha ? 0 : 1);
-    int a = numBands;
+    int numBbnds = rbsterP->numBbnds - (forceAlphb ? 0 : 1);
+    int b = numBbnds;
 
-    if (rasterP->numBands > MAX_NUMBANDS) {
+    if (rbsterP->numBbnds > MAX_NUMBANDS) {
         return -1;
     }
 
-    /* Grab data ptr, strides, offsets from raster */
-    jInDataP = (*env)->GetObjectField(env, rasterP->jraster, g_SCRdataID);
-    inDataP = (*env)->GetPrimitiveArrayCritical(env, jInDataP, 0);
-    if (inDataP == NULL) {
+    /* Grbb dbtb ptr, strides, offsets from rbster */
+    jInDbtbP = (*env)->GetObjectField(env, rbsterP->jrbster, g_SCRdbtbID);
+    inDbtbP = (*env)->GetPrimitiveArrbyCriticbl(env, jInDbtbP, 0);
+    if (inDbtbP == NULL) {
         return -1;
     }
-    lineInP =  (unsigned short *)inDataP + rasterP->chanOffsets[0];
+    lineInP =  (unsigned short *)inDbtbP + rbsterP->chbnOffsets[0];
 
     if (component < 0) {
-        for (c=0; c < rasterP->numBands; c++) {
-            roff[c] = rasterP->sppsm.offsets[c] + (rasterP->sppsm.nBits[c]-8);
+        for (c=0; c < rbsterP->numBbnds; c++) {
+            roff[c] = rbsterP->sppsm.offsets[c] + (rbsterP->sppsm.nBits[c]-8);
             if (roff[c] < 0) {
                 loff[c] = -roff[c];
                 roff[c] = 0;
@@ -3187,193 +3187,193 @@ static int expandPackedSCRdefault(JNIEnv *env, RasterS_t *rasterP,
             else loff[c] = 0;
         }
 
-        /* Need to put in alpha */
-        if (forceAlpha) {
-            for (y=0; y < rasterP->height; y++) {
+        /* Need to put in blphb */
+        if (forceAlphb) {
+            for (y=0; y < rbsterP->height; y++) {
                 inP = lineInP;
-                for (x=0; x < rasterP->width; x++) {
+                for (x=0; x < rbsterP->width; x++) {
                     *outP++ = 0xff;
-                    for (c=0; c < numBands; c++) {
+                    for (c=0; c < numBbnds; c++) {
                         /*
                          * Not correct.  Might need to unpremult,
                          * shift, etc
                          */
-                        *outP++ = (unsigned char)
-                                (((*inP&rasterP->sppsm.maskArray[c]) >> roff[c])
+                        *outP++ = (unsigned chbr)
+                                (((*inP&rbsterP->sppsm.mbskArrby[c]) >> roff[c])
                                    <<loff[c]);
                     }
                     inP++;
                 }
-                lineInP += rasterP->scanlineStride;
+                lineInP += rbsterP->scbnlineStride;
             }
         }
         else {
-            for (y=0; y < rasterP->height; y++) {
+            for (y=0; y < rbsterP->height; y++) {
                 inP = lineInP;
-                for (x=0; x < rasterP->width; x++) {
-                    *outP++ = (unsigned char)
-                        (((*inP&rasterP->sppsm.maskArray[a]) >> roff[a])
-                                   <<loff[a]);
-                    for (c=0; c < numBands; c++) {
+                for (x=0; x < rbsterP->width; x++) {
+                    *outP++ = (unsigned chbr)
+                        (((*inP&rbsterP->sppsm.mbskArrby[b]) >> roff[b])
+                                   <<loff[b]);
+                    for (c=0; c < numBbnds; c++) {
                         /*
                          * Not correct.  Might need to
                          * unpremult, shift, etc
                          */
-                        *outP++ = (unsigned char)
-                                (((*inP&rasterP->sppsm.maskArray[c]) >> roff[c])
+                        *outP++ = (unsigned chbr)
+                                (((*inP&rbsterP->sppsm.mbskArrby[c]) >> roff[c])
                                    <<loff[c]);
                     }
                     inP++;
                 }
-                lineInP += rasterP->scanlineStride;
+                lineInP += rbsterP->scbnlineStride;
             }
         }
     }
     else {
         c = component;
-        roff[0] = rasterP->sppsm.offsets[c] + (rasterP->sppsm.nBits[c]-8);
+        roff[0] = rbsterP->sppsm.offsets[c] + (rbsterP->sppsm.nBits[c]-8);
         if (roff[0] < 0) {
             loff[0] = -roff[0];
             roff[0] = 0;
         }
         else loff[c] = 0;
-        for (y=0; y < rasterP->height; y++) {
+        for (y=0; y < rbsterP->height; y++) {
             inP = lineInP;
-            for (x=0; x < rasterP->width; x++) {
-                *outP++ = (unsigned char)
-                        ((*inP & rasterP->sppsm.maskArray[c])>>roff[0])<<loff[0];
+            for (x=0; x < rbsterP->width; x++) {
+                *outP++ = (unsigned chbr)
+                        ((*inP & rbsterP->sppsm.mbskArrby[c])>>roff[0])<<loff[0];
                 inP++;
             }
-            lineInP += rasterP->scanlineStride;
+            lineInP += rbsterP->scbnlineStride;
         }
     }
 
-    (*env)->ReleasePrimitiveArrayCritical(env, jInDataP, inDataP, JNI_ABORT);
+    (*env)->RelebsePrimitiveArrbyCriticbl(env, jInDbtbP, inDbtbP, JNI_ABORT);
 
     return 0;
 
 }
 
-/* This routine is expecting a IntegerComponentRaster with a PackedColorModel*/
-static int expandPackedICR(JNIEnv *env, RasterS_t *rasterP, int component,
-                           unsigned char *outDataP)
+/* This routine is expecting b IntegerComponentRbster with b PbckedColorModel*/
+stbtic int expbndPbckedICR(JNIEnv *env, RbsterS_t *rbsterP, int component,
+                           unsigned chbr *outDbtbP)
 {
     int x, y, c;
-    unsigned char *outP = outDataP;
+    unsigned chbr *outP = outDbtbP;
     unsigned int *lineInP, *inP;
-    jarray jInDataP;
-    jint   *inDataP;
+    jbrrby jInDbtbP;
+    jint   *inDbtbP;
     int loff[MAX_NUMBANDS], roff[MAX_NUMBANDS];
 
-    if (rasterP->numBands > MAX_NUMBANDS) {
+    if (rbsterP->numBbnds > MAX_NUMBANDS) {
         return -1;
     }
 
-    /* Grab data ptr, strides, offsets from raster */
-    jInDataP = (*env)->GetObjectField(env, rasterP->jraster, g_ICRdataID);
-    inDataP = (*env)->GetPrimitiveArrayCritical(env, jInDataP, 0);
-    if (inDataP == NULL) {
+    /* Grbb dbtb ptr, strides, offsets from rbster */
+    jInDbtbP = (*env)->GetObjectField(env, rbsterP->jrbster, g_ICRdbtbID);
+    inDbtbP = (*env)->GetPrimitiveArrbyCriticbl(env, jInDbtbP, 0);
+    if (inDbtbP == NULL) {
         return -1;
     }
-    lineInP =  (unsigned int *)inDataP + rasterP->chanOffsets[0];
+    lineInP =  (unsigned int *)inDbtbP + rbsterP->chbnOffsets[0];
 
     if (component < 0) {
-        for (c=0; c < rasterP->numBands; c++) {
-            roff[c] = rasterP->sppsm.offsets[c] + (rasterP->sppsm.nBits[c]-8);
+        for (c=0; c < rbsterP->numBbnds; c++) {
+            roff[c] = rbsterP->sppsm.offsets[c] + (rbsterP->sppsm.nBits[c]-8);
             if (roff[c] < 0) {
                 loff[c] = -roff[c];
                 roff[c] = 0;
             }
             else loff[c] = 0;
         }
-        /* Convert the all bands */
-        if (rasterP->numBands < 4) {
-            for (y=0; y < rasterP->height; y++) {
+        /* Convert the bll bbnds */
+        if (rbsterP->numBbnds < 4) {
+            for (y=0; y < rbsterP->height; y++) {
                 inP = lineInP;
-                for (x=0; x < rasterP->width; x++) {
-                    for (c=0; c < rasterP->numBands; c++) {
+                for (x=0; x < rbsterP->width; x++) {
+                    for (c=0; c < rbsterP->numBbnds; c++) {
                         /*
                          * Not correct.  Might need to unpremult,
                          * shift, etc
                          */
-                        *outP++ = (unsigned char)(((*inP&rasterP->sppsm.maskArray[c]) >> roff[c])
+                        *outP++ = (unsigned chbr)(((*inP&rbsterP->sppsm.mbskArrby[c]) >> roff[c])
                                    <<loff[c]);
                     }
                     inP++;
                 }
-                lineInP += rasterP->scanlineStride;
+                lineInP += rbsterP->scbnlineStride;
             }
         }
         else {
-            for (y=0; y < rasterP->height; y++) {
+            for (y=0; y < rbsterP->height; y++) {
                 inP = lineInP;
-                for (x=0; x < rasterP->width; x++) {
-                    for (c=0; c < rasterP->numBands; c++) {
+                for (x=0; x < rbsterP->width; x++) {
+                    for (c=0; c < rbsterP->numBbnds; c++) {
                         /*
                          * Not correct.  Might need to
                          * unpremult, shift, etc
                          */
-                        *outP++ = (unsigned char)(((*inP&rasterP->sppsm.maskArray[c]) >> roff[c])
+                        *outP++ = (unsigned chbr)(((*inP&rbsterP->sppsm.mbskArrby[c]) >> roff[c])
                                    <<loff[c]);
                     }
                     inP++;
                 }
-                lineInP += rasterP->scanlineStride;
+                lineInP += rbsterP->scbnlineStride;
             }
         }
     }
     else {
         c = component;
-        roff[0] = rasterP->sppsm.offsets[c] + (rasterP->sppsm.nBits[c]-8);
+        roff[0] = rbsterP->sppsm.offsets[c] + (rbsterP->sppsm.nBits[c]-8);
         if (roff[0] < 0) {
             loff[0] = -roff[0];
             roff[0] = 0;
         }
         else loff[c] = 0;
-        for (y=0; y < rasterP->height; y++) {
+        for (y=0; y < rbsterP->height; y++) {
             inP = lineInP;
-            for (x=0; x < rasterP->width; x++) {
-                *outP++ = (unsigned char)(((*inP & rasterP->sppsm.maskArray[c])>>roff[0])<<loff[0]);
+            for (x=0; x < rbsterP->width; x++) {
+                *outP++ = (unsigned chbr)(((*inP & rbsterP->sppsm.mbskArrby[c])>>roff[0])<<loff[0]);
                 inP++;
             }
-            lineInP += rasterP->scanlineStride;
+            lineInP += rbsterP->scbnlineStride;
         }
     }
 
-    (*env)->ReleasePrimitiveArrayCritical(env, jInDataP, inDataP, JNI_ABORT);
+    (*env)->RelebsePrimitiveArrbyCriticbl(env, jInDbtbP, inDbtbP, JNI_ABORT);
 
     return 0;
 }
 
-/* This routine is expecting a IntegerComponentRaster with a PackedColorModel*/
-static int expandPackedICRdefault(JNIEnv *env, RasterS_t *rasterP,
-                                  int component, unsigned char *outDataP,
-                                  int forceAlpha)
+/* This routine is expecting b IntegerComponentRbster with b PbckedColorModel*/
+stbtic int expbndPbckedICRdefbult(JNIEnv *env, RbsterS_t *rbsterP,
+                                  int component, unsigned chbr *outDbtbP,
+                                  int forceAlphb)
 {
     int x, y, c;
-    unsigned char *outP = outDataP;
+    unsigned chbr *outP = outDbtbP;
     unsigned int *lineInP, *inP;
-    jarray jInDataP;
-    jint   *inDataP;
+    jbrrby jInDbtbP;
+    jint   *inDbtbP;
     int loff[MAX_NUMBANDS], roff[MAX_NUMBANDS];
-    int numBands = rasterP->numBands - (forceAlpha ? 0 : 1);
-    int a = numBands;
+    int numBbnds = rbsterP->numBbnds - (forceAlphb ? 0 : 1);
+    int b = numBbnds;
 
-    if (rasterP->numBands > MAX_NUMBANDS) {
+    if (rbsterP->numBbnds > MAX_NUMBANDS) {
         return -1;
     }
 
-    /* Grab data ptr, strides, offsets from raster */
-    jInDataP = (*env)->GetObjectField(env, rasterP->jraster, g_ICRdataID);
-    inDataP = (*env)->GetPrimitiveArrayCritical(env, jInDataP, 0);
-    if (inDataP == NULL) {
+    /* Grbb dbtb ptr, strides, offsets from rbster */
+    jInDbtbP = (*env)->GetObjectField(env, rbsterP->jrbster, g_ICRdbtbID);
+    inDbtbP = (*env)->GetPrimitiveArrbyCriticbl(env, jInDbtbP, 0);
+    if (inDbtbP == NULL) {
         return -1;
     }
-    lineInP =  (unsigned int *)inDataP + rasterP->chanOffsets[0];
+    lineInP =  (unsigned int *)inDbtbP + rbsterP->chbnOffsets[0];
 
     if (component < 0) {
-        for (c=0; c < rasterP->numBands; c++) {
-            roff[c] = rasterP->sppsm.offsets[c] + (rasterP->sppsm.nBits[c]-8);
+        for (c=0; c < rbsterP->numBbnds; c++) {
+            roff[c] = rbsterP->sppsm.offsets[c] + (rbsterP->sppsm.nBits[c]-8);
             if (roff[c] < 0) {
                 loff[c] = -roff[c];
                 roff[c] = 0;
@@ -3381,617 +3381,617 @@ static int expandPackedICRdefault(JNIEnv *env, RasterS_t *rasterP,
             else loff[c] = 0;
         }
 
-        /* Need to put in alpha */
-        if (forceAlpha) {
-            for (y=0; y < rasterP->height; y++) {
+        /* Need to put in blphb */
+        if (forceAlphb) {
+            for (y=0; y < rbsterP->height; y++) {
                 inP = lineInP;
-                for (x=0; x < rasterP->width; x++) {
+                for (x=0; x < rbsterP->width; x++) {
                     *outP++ = 0xff;
-                    for (c=0; c < numBands; c++) {
+                    for (c=0; c < numBbnds; c++) {
                         /*
                          * Not correct.  Might need to unpremult,
                          * shift, etc
                          */
-                        *outP++ = (unsigned char)(((*inP&rasterP->sppsm.maskArray[c]) >> roff[c])
+                        *outP++ = (unsigned chbr)(((*inP&rbsterP->sppsm.mbskArrby[c]) >> roff[c])
                                    <<loff[c]);
                     }
                     inP++;
                 }
-                lineInP += rasterP->scanlineStride;
+                lineInP += rbsterP->scbnlineStride;
             }
         }
         else {
-            for (y=0; y < rasterP->height; y++) {
+            for (y=0; y < rbsterP->height; y++) {
                 inP = lineInP;
-                for (x=0; x < rasterP->width; x++) {
-                    *outP++ = (unsigned char)(((*inP&rasterP->sppsm.maskArray[a]) >> roff[a])
-                                   <<loff[a]);
-                    for (c=0; c < numBands; c++) {
+                for (x=0; x < rbsterP->width; x++) {
+                    *outP++ = (unsigned chbr)(((*inP&rbsterP->sppsm.mbskArrby[b]) >> roff[b])
+                                   <<loff[b]);
+                    for (c=0; c < numBbnds; c++) {
                         /*
                          * Not correct.  Might need to
                          * unpremult, shift, etc
                          */
-                        *outP++ = (unsigned char)(((*inP&rasterP->sppsm.maskArray[c]) >> roff[c])
+                        *outP++ = (unsigned chbr)(((*inP&rbsterP->sppsm.mbskArrby[c]) >> roff[c])
                                    <<loff[c]);
                     }
                     inP++;
                 }
-                lineInP += rasterP->scanlineStride;
+                lineInP += rbsterP->scbnlineStride;
             }
         }
     }
     else {
         c = component;
-        roff[0] = rasterP->sppsm.offsets[c] + (rasterP->sppsm.nBits[c]-8);
+        roff[0] = rbsterP->sppsm.offsets[c] + (rbsterP->sppsm.nBits[c]-8);
         if (roff[0] < 0) {
             loff[0] = -roff[0];
             roff[0] = 0;
         }
         else loff[c] = 0;
-        for (y=0; y < rasterP->height; y++) {
+        for (y=0; y < rbsterP->height; y++) {
             inP = lineInP;
-            for (x=0; x < rasterP->width; x++) {
-                *outP++ = (unsigned char)(((*inP & rasterP->sppsm.maskArray[c])>>roff[0])<<loff[0]);
+            for (x=0; x < rbsterP->width; x++) {
+                *outP++ = (unsigned chbr)(((*inP & rbsterP->sppsm.mbskArrby[c])>>roff[0])<<loff[0]);
                 inP++;
             }
-            lineInP += rasterP->scanlineStride;
+            lineInP += rbsterP->scbnlineStride;
         }
     }
 
-    (*env)->ReleasePrimitiveArrayCritical(env, jInDataP, inDataP, JNI_ABORT);
+    (*env)->RelebsePrimitiveArrbyCriticbl(env, jInDbtbP, inDbtbP, JNI_ABORT);
 
     return 0;
 }
 
-/* This routine is expecting a ByteComponentRaster with a PackedColorModel */
-static int setPackedBCR(JNIEnv *env, RasterS_t *rasterP, int component,
-                        unsigned char *inDataP)
+/* This routine is expecting b ByteComponentRbster with b PbckedColorModel */
+stbtic int setPbckedBCR(JNIEnv *env, RbsterS_t *rbsterP, int component,
+                        unsigned chbr *inDbtbP)
 {
     int x, y, c;
-    unsigned char *inP = inDataP;
-    unsigned char *lineOutP, *outP;
-    jarray jOutDataP;
-    jsize dataArrayLength;
-    unsigned char *outDataP;
+    unsigned chbr *inP = inDbtbP;
+    unsigned chbr *lineOutP, *outP;
+    jbrrby jOutDbtbP;
+    jsize dbtbArrbyLength;
+    unsigned chbr *outDbtbP;
     int loff[MAX_NUMBANDS], roff[MAX_NUMBANDS];
 
-    if (rasterP->numBands > MAX_NUMBANDS) {
+    if (rbsterP->numBbnds > MAX_NUMBANDS) {
         return -1;
     }
 
-    /* Grab data ptr, strides, offsets from raster */
-    jOutDataP = (*env)->GetObjectField(env, rasterP->jraster, g_BCRdataID);
-    if (JNU_IsNull(env, jOutDataP)) {
+    /* Grbb dbtb ptr, strides, offsets from rbster */
+    jOutDbtbP = (*env)->GetObjectField(env, rbsterP->jrbster, g_BCRdbtbID);
+    if (JNU_IsNull(env, jOutDbtbP)) {
         return -1;
     }
 
-    dataArrayLength = (*env)->GetArrayLength(env, jOutDataP);
-    CHECK_DST_ARRAY(rasterP->chanOffsets[0], rasterP->scanlineStride, 1);
+    dbtbArrbyLength = (*env)->GetArrbyLength(env, jOutDbtbP);
+    CHECK_DST_ARRAY(rbsterP->chbnOffsets[0], rbsterP->scbnlineStride, 1);
 
-    outDataP = (*env)->GetPrimitiveArrayCritical(env, jOutDataP, 0);
-    if (outDataP == NULL) {
+    outDbtbP = (*env)->GetPrimitiveArrbyCriticbl(env, jOutDbtbP, 0);
+    if (outDbtbP == NULL) {
         return -1;
     }
-    lineOutP = outDataP + rasterP->chanOffsets[0];
+    lineOutP = outDbtbP + rbsterP->chbnOffsets[0];
 
     if (component < 0) {
-        for (c=0; c < rasterP->numBands; c++) {
-            loff[c] = rasterP->sppsm.offsets[c] + (rasterP->sppsm.nBits[c]-8);
+        for (c=0; c < rbsterP->numBbnds; c++) {
+            loff[c] = rbsterP->sppsm.offsets[c] + (rbsterP->sppsm.nBits[c]-8);
             if (loff[c] < 0) {
                 roff[c] = -loff[c];
                 loff[c] = 0;
             }
             else roff[c] = 0;
         }
-        /* Convert the all bands */
-        for (y=0; y < rasterP->height; y++) {
+        /* Convert the bll bbnds */
+        for (y=0; y < rbsterP->height; y++) {
             outP = lineOutP;
             *outP = 0;
-            for (x=0; x < rasterP->width; x++) {
-                for (c=0; c < rasterP->numBands; c++, inP++) {
-                    *outP |= (*inP<<loff[c]>>roff[c])&rasterP->sppsm.maskArray[c];
+            for (x=0; x < rbsterP->width; x++) {
+                for (c=0; c < rbsterP->numBbnds; c++, inP++) {
+                    *outP |= (*inP<<loff[c]>>roff[c])&rbsterP->sppsm.mbskArrby[c];
                 }
                 outP++;
             }
-            lineOutP += rasterP->scanlineStride;
+            lineOutP += rbsterP->scbnlineStride;
         }
     }
     else {
         c = component;
-        loff[0] = rasterP->sppsm.offsets[c] + (rasterP->sppsm.nBits[c]-8);
+        loff[0] = rbsterP->sppsm.offsets[c] + (rbsterP->sppsm.nBits[c]-8);
         if (loff[0] < 0) {
             roff[0] = -loff[0];
             loff[0] = 0;
         }
         else roff[c] = 0;
-        for (y=0; y < rasterP->height; y++) {
+        for (y=0; y < rbsterP->height; y++) {
             outP = lineOutP;
-            for (x=0; x < rasterP->width; x++, inP++) {
-                *outP |= (*inP<<loff[0]>>roff[0])&rasterP->sppsm.maskArray[c];
+            for (x=0; x < rbsterP->width; x++, inP++) {
+                *outP |= (*inP<<loff[0]>>roff[0])&rbsterP->sppsm.mbskArrby[c];
                 outP++;
             }
-            lineOutP += rasterP->scanlineStride;
+            lineOutP += rbsterP->scbnlineStride;
         }
     }
 
-    (*env)->ReleasePrimitiveArrayCritical(env, jOutDataP, outDataP, JNI_ABORT);
+    (*env)->RelebsePrimitiveArrbyCriticbl(env, jOutDbtbP, outDbtbP, JNI_ABORT);
 
     return 0;
 }
 
-/* This routine is expecting a ShortComponentRaster with a PackedColorModel */
-static int setPackedSCR(JNIEnv *env, RasterS_t *rasterP, int component,
-                           unsigned char *inDataP)
+/* This routine is expecting b ShortComponentRbster with b PbckedColorModel */
+stbtic int setPbckedSCR(JNIEnv *env, RbsterS_t *rbsterP, int component,
+                           unsigned chbr *inDbtbP)
 {
     int x, y, c;
-    unsigned char *inP = inDataP;
+    unsigned chbr *inP = inDbtbP;
     unsigned short *lineOutP, *outP;
-    jarray jOutDataP;
-    jsize dataArrayLength;
-    unsigned short *outDataP;
+    jbrrby jOutDbtbP;
+    jsize dbtbArrbyLength;
+    unsigned short *outDbtbP;
     int loff[MAX_NUMBANDS], roff[MAX_NUMBANDS];
 
-    if (rasterP->numBands > MAX_NUMBANDS) {
+    if (rbsterP->numBbnds > MAX_NUMBANDS) {
         return -1;
     }
 
-    /* Grab data ptr, strides, offsets from raster */
-    jOutDataP = (*env)->GetObjectField(env, rasterP->jraster, g_SCRdataID);
-    if (JNU_IsNull(env, jOutDataP)) {
+    /* Grbb dbtb ptr, strides, offsets from rbster */
+    jOutDbtbP = (*env)->GetObjectField(env, rbsterP->jrbster, g_SCRdbtbID);
+    if (JNU_IsNull(env, jOutDbtbP)) {
         return -1;
     }
 
-    dataArrayLength = (*env)->GetArrayLength(env, jOutDataP);
-    CHECK_DST_ARRAY(rasterP->chanOffsets[0], rasterP->scanlineStride, 1);
+    dbtbArrbyLength = (*env)->GetArrbyLength(env, jOutDbtbP);
+    CHECK_DST_ARRAY(rbsterP->chbnOffsets[0], rbsterP->scbnlineStride, 1);
 
-    outDataP = (*env)->GetPrimitiveArrayCritical(env, jOutDataP, 0);
-    if (outDataP == NULL) {
+    outDbtbP = (*env)->GetPrimitiveArrbyCriticbl(env, jOutDbtbP, 0);
+    if (outDbtbP == NULL) {
         return -1;
     }
-    lineOutP = outDataP + rasterP->chanOffsets[0];
+    lineOutP = outDbtbP + rbsterP->chbnOffsets[0];
 
     if (component < 0) {
-        for (c=0; c < rasterP->numBands; c++) {
-            loff[c] = rasterP->sppsm.offsets[c] + (rasterP->sppsm.nBits[c]-8);
+        for (c=0; c < rbsterP->numBbnds; c++) {
+            loff[c] = rbsterP->sppsm.offsets[c] + (rbsterP->sppsm.nBits[c]-8);
             if (loff[c] < 0) {
                 roff[c] = -loff[c];
                 loff[c] = 0;
             }
             else roff[c] = 0;
         }
-        /* Convert the all bands */
-        for (y=0; y < rasterP->height; y++) {
+        /* Convert the bll bbnds */
+        for (y=0; y < rbsterP->height; y++) {
             outP = lineOutP;
-            for (x=0; x < rasterP->width; x++) {
-                for (c=0; c < rasterP->numBands; c++, inP++) {
+            for (x=0; x < rbsterP->width; x++) {
+                for (c=0; c < rbsterP->numBbnds; c++, inP++) {
                     /* Not correct.  Might need to unpremult, shift, etc */
-                    *outP |= (*inP<<loff[c]>>roff[c])&rasterP->sppsm.maskArray[c];
+                    *outP |= (*inP<<loff[c]>>roff[c])&rbsterP->sppsm.mbskArrby[c];
                 }
                 outP++;
             }
-            lineOutP += rasterP->scanlineStride;
+            lineOutP += rbsterP->scbnlineStride;
         }
     }
     else {
         c = component;
-        loff[0] = rasterP->sppsm.offsets[c] + (rasterP->sppsm.nBits[c]-8);
+        loff[0] = rbsterP->sppsm.offsets[c] + (rbsterP->sppsm.nBits[c]-8);
         if (loff[0] < 0) {
             roff[0] = -loff[0];
             loff[0] = 0;
         }
         else roff[c] = 0;
-        for (y=0; y < rasterP->height; y++) {
+        for (y=0; y < rbsterP->height; y++) {
             outP = lineOutP;
-            for (x=0; x < rasterP->width; x++, inP++) {
-                *outP |= (*inP<<loff[0]>>roff[0])&rasterP->sppsm.maskArray[c];
+            for (x=0; x < rbsterP->width; x++, inP++) {
+                *outP |= (*inP<<loff[0]>>roff[0])&rbsterP->sppsm.mbskArrby[c];
                 outP++;
             }
-            lineOutP += rasterP->scanlineStride;
+            lineOutP += rbsterP->scbnlineStride;
         }
     }
 
-    (*env)->ReleasePrimitiveArrayCritical(env, jOutDataP, outDataP, JNI_ABORT);
+    (*env)->RelebsePrimitiveArrbyCriticbl(env, jOutDbtbP, outDbtbP, JNI_ABORT);
 
     return 0;
 }
 
-/* This routine is expecting a IntegerComponentRaster with a PackedColorModel*/
-static int setPackedICR(JNIEnv *env, RasterS_t *rasterP, int component,
-                           unsigned char *inDataP)
+/* This routine is expecting b IntegerComponentRbster with b PbckedColorModel*/
+stbtic int setPbckedICR(JNIEnv *env, RbsterS_t *rbsterP, int component,
+                           unsigned chbr *inDbtbP)
 {
     int x, y, c;
-    unsigned char *inP = inDataP;
+    unsigned chbr *inP = inDbtbP;
     unsigned int *lineOutP, *outP;
-    jarray jOutDataP;
-    jsize dataArrayLength;
-    unsigned int *outDataP;
+    jbrrby jOutDbtbP;
+    jsize dbtbArrbyLength;
+    unsigned int *outDbtbP;
     int loff[MAX_NUMBANDS], roff[MAX_NUMBANDS];
 
-    if (rasterP->numBands > MAX_NUMBANDS) {
+    if (rbsterP->numBbnds > MAX_NUMBANDS) {
         return -1;
     }
 
-    /* Grab data ptr, strides, offsets from raster */
-    jOutDataP = (*env)->GetObjectField(env, rasterP->jraster, g_ICRdataID);
-    if (JNU_IsNull(env, jOutDataP)) {
+    /* Grbb dbtb ptr, strides, offsets from rbster */
+    jOutDbtbP = (*env)->GetObjectField(env, rbsterP->jrbster, g_ICRdbtbID);
+    if (JNU_IsNull(env, jOutDbtbP)) {
         return -1;
     }
 
-    dataArrayLength = (*env)->GetArrayLength(env, jOutDataP);
-    CHECK_DST_ARRAY(rasterP->chanOffsets[0], rasterP->scanlineStride, 1);
+    dbtbArrbyLength = (*env)->GetArrbyLength(env, jOutDbtbP);
+    CHECK_DST_ARRAY(rbsterP->chbnOffsets[0], rbsterP->scbnlineStride, 1);
 
-    outDataP = (*env)->GetPrimitiveArrayCritical(env, jOutDataP, 0);
-    if (outDataP == NULL) {
+    outDbtbP = (*env)->GetPrimitiveArrbyCriticbl(env, jOutDbtbP, 0);
+    if (outDbtbP == NULL) {
         return -1;
     }
-    lineOutP = outDataP + rasterP->chanOffsets[0];
+    lineOutP = outDbtbP + rbsterP->chbnOffsets[0];
 
     if (component < 0) {
-        for (c=0; c < rasterP->numBands; c++) {
-            loff[c] = rasterP->sppsm.offsets[c] + (rasterP->sppsm.nBits[c]-8);
+        for (c=0; c < rbsterP->numBbnds; c++) {
+            loff[c] = rbsterP->sppsm.offsets[c] + (rbsterP->sppsm.nBits[c]-8);
             if (loff[c] < 0) {
                 roff[c] = -loff[c];
                 loff[c] = 0;
             }
             else roff[c] = 0;
         }
-        /* Convert the all bands */
-        for (y=0; y < rasterP->height; y++) {
+        /* Convert the bll bbnds */
+        for (y=0; y < rbsterP->height; y++) {
             outP = lineOutP;
-            for (x=0; x < rasterP->width; x++) {
-                for (c=0; c < rasterP->numBands; c++, inP++) {
+            for (x=0; x < rbsterP->width; x++) {
+                for (c=0; c < rbsterP->numBbnds; c++, inP++) {
                     /* Not correct.  Might need to unpremult, shift, etc */
-                    *outP |= (*inP<<loff[c]>>roff[c])&rasterP->sppsm.maskArray[c];
+                    *outP |= (*inP<<loff[c]>>roff[c])&rbsterP->sppsm.mbskArrby[c];
                 }
                 outP++;
             }
-            lineOutP += rasterP->scanlineStride;
+            lineOutP += rbsterP->scbnlineStride;
         }
     }
     else {
         c = component;
-        loff[0] = rasterP->sppsm.offsets[c] + (rasterP->sppsm.nBits[c]-8);
+        loff[0] = rbsterP->sppsm.offsets[c] + (rbsterP->sppsm.nBits[c]-8);
         if (loff[0] < 0) {
             roff[0] = -loff[0];
             loff[0] = 0;
         }
         else roff[c] = 0;
 
-        for (y=0; y < rasterP->height; y++) {
+        for (y=0; y < rbsterP->height; y++) {
             outP = lineOutP;
-            for (x=0; x < rasterP->width; x++, inP++) {
-                *outP |= (*inP<<loff[0]>>roff[0])&rasterP->sppsm.maskArray[c];
+            for (x=0; x < rbsterP->width; x++, inP++) {
+                *outP |= (*inP<<loff[0]>>roff[0])&rbsterP->sppsm.mbskArrby[c];
                 outP++;
             }
-            lineOutP += rasterP->scanlineStride;
+            lineOutP += rbsterP->scbnlineStride;
         }
     }
 
-    (*env)->ReleasePrimitiveArrayCritical(env, jOutDataP, outDataP, JNI_ABORT);
+    (*env)->RelebsePrimitiveArrbyCriticbl(env, jOutDbtbP, outDbtbP, JNI_ABORT);
 
     return 0;
 }
 
-/* This routine is expecting a ByteComponentRaster with a PackedColorModel */
-static int setPackedBCRdefault(JNIEnv *env, RasterS_t *rasterP,
-                               int component, unsigned char *inDataP,
-                               int supportsAlpha)
+/* This routine is expecting b ByteComponentRbster with b PbckedColorModel */
+stbtic int setPbckedBCRdefbult(JNIEnv *env, RbsterS_t *rbsterP,
+                               int component, unsigned chbr *inDbtbP,
+                               int supportsAlphb)
 {
     int x, y, c;
-    unsigned char *inP = inDataP;
-    unsigned char *lineOutP, *outP;
-    jarray jOutDataP;
-    jsize  dataArrayLength;
-    unsigned char *outDataP;
+    unsigned chbr *inP = inDbtbP;
+    unsigned chbr *lineOutP, *outP;
+    jbrrby jOutDbtbP;
+    jsize  dbtbArrbyLength;
+    unsigned chbr *outDbtbP;
     int loff[MAX_NUMBANDS], roff[MAX_NUMBANDS];
-    int a = rasterP->numBands - 1;
+    int b = rbsterP->numBbnds - 1;
 
-    if (rasterP->numBands > MAX_NUMBANDS) {
+    if (rbsterP->numBbnds > MAX_NUMBANDS) {
         return -1;
     }
 
-    /* Grab data ptr, strides, offsets from raster */
-    jOutDataP = (*env)->GetObjectField(env, rasterP->jraster, g_BCRdataID);
-    if (JNU_IsNull(env, jOutDataP)) {
+    /* Grbb dbtb ptr, strides, offsets from rbster */
+    jOutDbtbP = (*env)->GetObjectField(env, rbsterP->jrbster, g_BCRdbtbID);
+    if (JNU_IsNull(env, jOutDbtbP)) {
         return -1;
     }
 
-    dataArrayLength = (*env)->GetArrayLength(env, jOutDataP);
-    CHECK_DST_ARRAY(rasterP->chanOffsets[0], rasterP->scanlineStride, 1);
+    dbtbArrbyLength = (*env)->GetArrbyLength(env, jOutDbtbP);
+    CHECK_DST_ARRAY(rbsterP->chbnOffsets[0], rbsterP->scbnlineStride, 1);
 
-    outDataP = (*env)->GetPrimitiveArrayCritical(env, jOutDataP, 0);
-    if (outDataP == NULL) {
+    outDbtbP = (*env)->GetPrimitiveArrbyCriticbl(env, jOutDbtbP, 0);
+    if (outDbtbP == NULL) {
         return -1;
     }
-    lineOutP = outDataP + rasterP->chanOffsets[0];
+    lineOutP = outDbtbP + rbsterP->chbnOffsets[0];
 
     if (component < 0) {
-        for (c=0; c < rasterP->numBands; c++) {
-            loff[c] = rasterP->sppsm.offsets[c] + (rasterP->sppsm.nBits[c]-8);
+        for (c=0; c < rbsterP->numBbnds; c++) {
+            loff[c] = rbsterP->sppsm.offsets[c] + (rbsterP->sppsm.nBits[c]-8);
             if (loff[c] < 0) {
                 roff[c] = -loff[c];
                 loff[c] = 0;
             }
             else roff[c] = 0;
         }
-        /* Convert the all bands */
-        if (supportsAlpha) {
-            for (y=0; y < rasterP->height; y++) {
+        /* Convert the bll bbnds */
+        if (supportsAlphb) {
+            for (y=0; y < rbsterP->height; y++) {
                 outP = lineOutP;
                 *outP = 0;
-                for (x=0; x < rasterP->width; x++) {
-                    *outP |= (*inP<<loff[a]>>roff[a])&
-                        rasterP->sppsm.maskArray[a];
+                for (x=0; x < rbsterP->width; x++) {
+                    *outP |= (*inP<<loff[b]>>roff[b])&
+                        rbsterP->sppsm.mbskArrby[b];
                     inP++;
-                    for (c=0; c < rasterP->numBands-1; c++, inP++) {
+                    for (c=0; c < rbsterP->numBbnds-1; c++, inP++) {
                         *outP |= (*inP<<loff[c]>>roff[c])&
-                            rasterP->sppsm.maskArray[c];
+                            rbsterP->sppsm.mbskArrby[c];
                     }
                     outP++;
                 }
-                lineOutP += rasterP->scanlineStride;
+                lineOutP += rbsterP->scbnlineStride;
             }
         }
         else {
-            for (y=0; y < rasterP->height; y++) {
+            for (y=0; y < rbsterP->height; y++) {
                 outP = lineOutP;
                 *outP = 0;
-                for (x=0; x < rasterP->width; x++) {
+                for (x=0; x < rbsterP->width; x++) {
                     inP++;
-                    for (c=0; c < rasterP->numBands; c++, inP++) {
-                        *outP |= (*inP<<loff[c]>>roff[c])&rasterP->sppsm.maskArray[c];
+                    for (c=0; c < rbsterP->numBbnds; c++, inP++) {
+                        *outP |= (*inP<<loff[c]>>roff[c])&rbsterP->sppsm.mbskArrby[c];
                     }
                     outP++;
                 }
-                lineOutP += rasterP->scanlineStride;
+                lineOutP += rbsterP->scbnlineStride;
             }
         }
     }
     else {
         c = component;
-        loff[0] = rasterP->sppsm.offsets[c] + (rasterP->sppsm.nBits[c]-8);
+        loff[0] = rbsterP->sppsm.offsets[c] + (rbsterP->sppsm.nBits[c]-8);
         if (loff[0] < 0) {
             roff[0] = -loff[0];
             loff[0] = 0;
         }
         else roff[c] = 0;
-        for (y=0; y < rasterP->height; y++) {
+        for (y=0; y < rbsterP->height; y++) {
             outP = lineOutP;
-            for (x=0; x < rasterP->width; x++, inP++) {
-                *outP |= (*inP<<loff[0]>>roff[0])&rasterP->sppsm.maskArray[c];
+            for (x=0; x < rbsterP->width; x++, inP++) {
+                *outP |= (*inP<<loff[0]>>roff[0])&rbsterP->sppsm.mbskArrby[c];
                 outP++;
             }
-            lineOutP += rasterP->scanlineStride;
+            lineOutP += rbsterP->scbnlineStride;
         }
     }
 
-    (*env)->ReleasePrimitiveArrayCritical(env, jOutDataP, outDataP, JNI_ABORT);
+    (*env)->RelebsePrimitiveArrbyCriticbl(env, jOutDbtbP, outDbtbP, JNI_ABORT);
 
     return 0;
 }
 
-/* This routine is expecting a ShortComponentRaster with a PackedColorModel */
-static int setPackedSCRdefault(JNIEnv *env, RasterS_t *rasterP,
-                               int component, unsigned char *inDataP,
-                               int supportsAlpha)
+/* This routine is expecting b ShortComponentRbster with b PbckedColorModel */
+stbtic int setPbckedSCRdefbult(JNIEnv *env, RbsterS_t *rbsterP,
+                               int component, unsigned chbr *inDbtbP,
+                               int supportsAlphb)
 {
     int x, y, c;
-    unsigned char *inP = inDataP;
+    unsigned chbr *inP = inDbtbP;
     unsigned short *lineOutP, *outP;
-    jarray jOutDataP;
-    jsize dataArrayLength;
-    unsigned short *outDataP;
+    jbrrby jOutDbtbP;
+    jsize dbtbArrbyLength;
+    unsigned short *outDbtbP;
     int loff[MAX_NUMBANDS], roff[MAX_NUMBANDS];
-    int a = rasterP->numBands - 1;
+    int b = rbsterP->numBbnds - 1;
 
-    if (rasterP->numBands > MAX_NUMBANDS) {
+    if (rbsterP->numBbnds > MAX_NUMBANDS) {
         return -1;
     }
 
-    /* Grab data ptr, strides, offsets from raster */
-    jOutDataP = (*env)->GetObjectField(env, rasterP->jraster, g_SCRdataID);
-    if (JNU_IsNull(env, jOutDataP)) {
+    /* Grbb dbtb ptr, strides, offsets from rbster */
+    jOutDbtbP = (*env)->GetObjectField(env, rbsterP->jrbster, g_SCRdbtbID);
+    if (JNU_IsNull(env, jOutDbtbP)) {
         return -1;
     }
-    dataArrayLength = (*env)->GetArrayLength(env, jOutDataP);
-    CHECK_DST_ARRAY(rasterP->chanOffsets[0], rasterP->scanlineStride, 1);
+    dbtbArrbyLength = (*env)->GetArrbyLength(env, jOutDbtbP);
+    CHECK_DST_ARRAY(rbsterP->chbnOffsets[0], rbsterP->scbnlineStride, 1);
 
-    outDataP = (*env)->GetPrimitiveArrayCritical(env, jOutDataP, 0);
-    if (outDataP == NULL) {
+    outDbtbP = (*env)->GetPrimitiveArrbyCriticbl(env, jOutDbtbP, 0);
+    if (outDbtbP == NULL) {
         return -1;
     }
-    lineOutP = outDataP + rasterP->chanOffsets[0];
+    lineOutP = outDbtbP + rbsterP->chbnOffsets[0];
 
     if (component < 0) {
-        for (c=0; c < rasterP->numBands; c++) {
-            loff[c] = rasterP->sppsm.offsets[c] + (rasterP->sppsm.nBits[c]-8);
+        for (c=0; c < rbsterP->numBbnds; c++) {
+            loff[c] = rbsterP->sppsm.offsets[c] + (rbsterP->sppsm.nBits[c]-8);
             if (loff[c] < 0) {
                 roff[c] = -loff[c];
                 loff[c] = 0;
             }
             else roff[c] = 0;
         }
-        /* Convert the all bands */
-        if (supportsAlpha) {
-            for (y=0; y < rasterP->height; y++) {
+        /* Convert the bll bbnds */
+        if (supportsAlphb) {
+            for (y=0; y < rbsterP->height; y++) {
                 outP = lineOutP;
-                for (x=0; x < rasterP->width; x++) {
-                    *outP |= (*inP<<loff[a]>>roff[a])&
-                        rasterP->sppsm.maskArray[a];
+                for (x=0; x < rbsterP->width; x++) {
+                    *outP |= (*inP<<loff[b]>>roff[b])&
+                        rbsterP->sppsm.mbskArrby[b];
                     inP++;
-                    for (c=0; c < rasterP->numBands-1; c++, inP++) {
+                    for (c=0; c < rbsterP->numBbnds-1; c++, inP++) {
                         /* Not correct.  Might need to unpremult, shift, etc */
                         *outP |= (*inP<<loff[c]>>roff[c])&
-                            rasterP->sppsm.maskArray[c];
+                            rbsterP->sppsm.mbskArrby[c];
                     }
                     outP++;
                 }
-                lineOutP += rasterP->scanlineStride;
+                lineOutP += rbsterP->scbnlineStride;
             }
         }
         else {
-            for (y=0; y < rasterP->height; y++) {
+            for (y=0; y < rbsterP->height; y++) {
                 outP = lineOutP;
-                for (x=0; x < rasterP->width; x++) {
+                for (x=0; x < rbsterP->width; x++) {
                     inP++;
-                    for (c=0; c < rasterP->numBands; c++, inP++) {
+                    for (c=0; c < rbsterP->numBbnds; c++, inP++) {
                         /* Not correct.  Might need to unpremult, shift, etc */
-                        *outP |= (*inP<<loff[c]>>roff[c])&rasterP->sppsm.maskArray[c];
+                        *outP |= (*inP<<loff[c]>>roff[c])&rbsterP->sppsm.mbskArrby[c];
                     }
                     outP++;
                 }
-                lineOutP += rasterP->scanlineStride;
+                lineOutP += rbsterP->scbnlineStride;
             }
         }
     }
     else {
         c = component;
-        loff[0] = rasterP->sppsm.offsets[c] + (rasterP->sppsm.nBits[c]-8);
+        loff[0] = rbsterP->sppsm.offsets[c] + (rbsterP->sppsm.nBits[c]-8);
         if (loff[0] < 0) {
             roff[0] = -loff[0];
             loff[0] = 0;
         }
         else roff[c] = 0;
-        for (y=0; y < rasterP->height; y++) {
+        for (y=0; y < rbsterP->height; y++) {
             outP = lineOutP;
-            for (x=0; x < rasterP->width; x++, inP++) {
-                *outP |= (*inP<<loff[0]>>roff[0])&rasterP->sppsm.maskArray[c];
+            for (x=0; x < rbsterP->width; x++, inP++) {
+                *outP |= (*inP<<loff[0]>>roff[0])&rbsterP->sppsm.mbskArrby[c];
                 outP++;
             }
-            lineOutP += rasterP->scanlineStride;
+            lineOutP += rbsterP->scbnlineStride;
         }
     }
 
-    (*env)->ReleasePrimitiveArrayCritical(env, jOutDataP, outDataP, JNI_ABORT);
+    (*env)->RelebsePrimitiveArrbyCriticbl(env, jOutDbtbP, outDbtbP, JNI_ABORT);
 
     return 0;
 }
 
-/* This routine is expecting a IntegerComponentRaster with a PackedColorModel*/
-static int setPackedICRdefault(JNIEnv *env, RasterS_t *rasterP,
-                               int component, unsigned char *inDataP,
-                               int supportsAlpha)
+/* This routine is expecting b IntegerComponentRbster with b PbckedColorModel*/
+stbtic int setPbckedICRdefbult(JNIEnv *env, RbsterS_t *rbsterP,
+                               int component, unsigned chbr *inDbtbP,
+                               int supportsAlphb)
 {
     int x, y, c;
-    unsigned char *inP = inDataP;
+    unsigned chbr *inP = inDbtbP;
     unsigned int *lineOutP, *outP;
-    jarray jOutDataP;
-    jsize dataArrayLength;
-    unsigned int *outDataP;
+    jbrrby jOutDbtbP;
+    jsize dbtbArrbyLength;
+    unsigned int *outDbtbP;
     int loff[MAX_NUMBANDS], roff[MAX_NUMBANDS];
-    int a = rasterP->numBands - 1;
+    int b = rbsterP->numBbnds - 1;
 
-    if (rasterP->numBands > MAX_NUMBANDS) {
+    if (rbsterP->numBbnds > MAX_NUMBANDS) {
         return -1;
     }
 
-    /* Grab data ptr, strides, offsets from raster */
-    jOutDataP = (*env)->GetObjectField(env, rasterP->jraster, g_ICRdataID);
-    if (JNU_IsNull(env, jOutDataP)) {
+    /* Grbb dbtb ptr, strides, offsets from rbster */
+    jOutDbtbP = (*env)->GetObjectField(env, rbsterP->jrbster, g_ICRdbtbID);
+    if (JNU_IsNull(env, jOutDbtbP)) {
         return -1;
     }
 
-    dataArrayLength = (*env)->GetArrayLength(env, jOutDataP);
-    CHECK_DST_ARRAY(rasterP->chanOffsets[0], rasterP->scanlineStride, 1);
+    dbtbArrbyLength = (*env)->GetArrbyLength(env, jOutDbtbP);
+    CHECK_DST_ARRAY(rbsterP->chbnOffsets[0], rbsterP->scbnlineStride, 1);
 
-    outDataP = (*env)->GetPrimitiveArrayCritical(env, jOutDataP, 0);
-    if (outDataP == NULL) {
+    outDbtbP = (*env)->GetPrimitiveArrbyCriticbl(env, jOutDbtbP, 0);
+    if (outDbtbP == NULL) {
         return -1;
     }
-    lineOutP = outDataP + rasterP->chanOffsets[0];
+    lineOutP = outDbtbP + rbsterP->chbnOffsets[0];
 
     if (component < 0) {
-        for (c=0; c < rasterP->numBands; c++) {
-            loff[c] = rasterP->sppsm.offsets[c] + (rasterP->sppsm.nBits[c]-8);
+        for (c=0; c < rbsterP->numBbnds; c++) {
+            loff[c] = rbsterP->sppsm.offsets[c] + (rbsterP->sppsm.nBits[c]-8);
             if (loff[c] < 0) {
                 roff[c] = -loff[c];
                 loff[c] = 0;
             }
             else roff[c] = 0;
         }
-        /* Convert the all bands */
-        if (supportsAlpha) {
-            for (y=0; y < rasterP->height; y++) {
+        /* Convert the bll bbnds */
+        if (supportsAlphb) {
+            for (y=0; y < rbsterP->height; y++) {
                 outP = lineOutP;
-                for (x=0; x < rasterP->width; x++) {
-                    *outP |= (*inP<<loff[a]>>roff[a])&
-                        rasterP->sppsm.maskArray[a];
+                for (x=0; x < rbsterP->width; x++) {
+                    *outP |= (*inP<<loff[b]>>roff[b])&
+                        rbsterP->sppsm.mbskArrby[b];
                     inP++;
-                    for (c=0; c < rasterP->numBands-1; c++, inP++) {
+                    for (c=0; c < rbsterP->numBbnds-1; c++, inP++) {
                         /* Not correct.  Might need to unpremult, shift, etc */
                         *outP |= (*inP<<loff[c]>>roff[c])&
-                            rasterP->sppsm.maskArray[c];
+                            rbsterP->sppsm.mbskArrby[c];
                     }
                     outP++;
                 }
-                lineOutP += rasterP->scanlineStride;
+                lineOutP += rbsterP->scbnlineStride;
             }
         }
         else {
-            for (y=0; y < rasterP->height; y++) {
+            for (y=0; y < rbsterP->height; y++) {
                 outP = lineOutP;
-                for (x=0; x < rasterP->width; x++) {
+                for (x=0; x < rbsterP->width; x++) {
                     inP++;
-                    for (c=0; c < rasterP->numBands; c++, inP++) {
+                    for (c=0; c < rbsterP->numBbnds; c++, inP++) {
                         /* Not correct.  Might need to unpremult, shift, etc */
                         *outP |= (*inP<<loff[c]>>roff[c])&
-                            rasterP->sppsm.maskArray[c];
+                            rbsterP->sppsm.mbskArrby[c];
                     }
                     outP++;
                 }
-                lineOutP += rasterP->scanlineStride;
+                lineOutP += rbsterP->scbnlineStride;
             }
         }
     }
     else {
         c = component;
-        loff[0] = rasterP->sppsm.offsets[c] + (rasterP->sppsm.nBits[c]-8);
+        loff[0] = rbsterP->sppsm.offsets[c] + (rbsterP->sppsm.nBits[c]-8);
         if (loff[0] < 0) {
             roff[0] = -loff[0];
             loff[0] = 0;
         }
         else roff[c] = 0;
 
-        for (y=0; y < rasterP->height; y++) {
+        for (y=0; y < rbsterP->height; y++) {
             outP = lineOutP;
-            for (x=0; x < rasterP->width; x++, inP++) {
-                *outP |= (*inP<<loff[0]>>roff[0])&rasterP->sppsm.maskArray[c];
+            for (x=0; x < rbsterP->width; x++, inP++) {
+                *outP |= (*inP<<loff[0]>>roff[0])&rbsterP->sppsm.mbskArrby[c];
                 outP++;
             }
-            lineOutP += rasterP->scanlineStride;
+            lineOutP += rbsterP->scbnlineStride;
         }
     }
 
-    (*env)->ReleasePrimitiveArrayCritical(env, jOutDataP, outDataP, JNI_ABORT);
+    (*env)->RelebsePrimitiveArrbyCriticbl(env, jOutDbtbP, outDbtbP, JNI_ABORT);
 
     return 0;
 }
 
-/* This is temporary code.  Should go away when there is better color
- * conversion code available.
- * REMIND:  Ignoring alpha
+/* This is temporbry code.  Should go bwby when there is better color
+ * conversion code bvbilbble.
+ * REMIND:  Ignoring blphb
  */
-/* returns the absolute value x */
+/* returns the bbsolute vblue x */
 #define ABS(x) ((x) < 0 ? -(x) : (x))
-#define CLIP(val,min,max)       ((val < min) ? min : ((val > max) ? max : val))
+#define CLIP(vbl,min,mbx)       ((vbl < min) ? min : ((vbl > mbx) ? mbx : vbl))
 
-static int
-colorMatch(int r, int g, int b, int a, unsigned char *argb, int numColors) {
+stbtic int
+colorMbtch(int r, int g, int b, int b, unsigned chbr *brgb, int numColors) {
     int besti = 0;
     int mindist, i, t, d;
-    unsigned char red, green, blue;
+    unsigned chbr red, green, blue;
 
     r = CLIP(r, 0, 255);
     g = CLIP(g, 0, 255);
     b = CLIP(b, 0, 255);
 
-    /* look for pure gray match */
+    /* look for pure grby mbtch */
     if ((r == g) && (g == b)) {
         mindist = 256;
-        for (i = 0 ; i < numColors ; i++, argb+=4) {
-            red = argb[1];
-            green = argb[2];
-            blue = argb[3];
+        for (i = 0 ; i < numColors ; i++, brgb+=4) {
+            red = brgb[1];
+            green = brgb[2];
+            blue = brgb[3];
             if (! ((red == green) && (green == blue)) ) {
                 continue;
             }
@@ -4006,12 +4006,12 @@ colorMatch(int r, int g, int b, int a, unsigned char *argb, int numColors) {
         return besti;
     }
 
-    /* look for non-pure gray match */
+    /* look for non-pure grby mbtch */
     mindist = 256 * 256 * 256;
-    for (i = 0 ; i < numColors ; i++, argb+=4) {
-        red = argb[1];
-        green = argb[2];
-        blue = argb[3];
+    for (i = 0 ; i < numColors ; i++, brgb+=4) {
+        red = brgb[1];
+        green = brgb[2];
+        blue = brgb[3];
         t = red - r;
         d = t * t;
         if (d >= mindist) {

@@ -1,48 +1,48 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * ASM: a very small and fast Java bytecode manipulation framework
- * Copyright (c) 2000-2011 INRIA, France Telecom
+ * ASM: b very smbll bnd fbst Jbvb bytecode mbnipulbtion frbmework
+ * Copyright (c) 2000-2011 INRIA, Frbnce Telecom
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- * 3. Neither the name of the copyright holders nor the names of its
- *    contributors may be used to endorse or promote products derived from
- *    this software without specific prior written permission.
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
+ * 1. Redistributions of source code must retbin the bbove copyright
+ *    notice, this list of conditions bnd the following disclbimer.
+ * 2. Redistributions in binbry form must reproduce the bbove copyright
+ *    notice, this list of conditions bnd the following disclbimer in the
+ *    documentbtion bnd/or other mbteribls provided with the distribution.
+ * 3. Neither the nbme of the copyright holders nor the nbmes of its
+ *    contributors mby be used to endorse or promote products derived from
+ *    this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -56,75 +56,75 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
-package jdk.internal.org.objectweb.asm.util;
+pbckbge jdk.internbl.org.objectweb.bsm.util;
 
-import java.io.FileInputStream;
-import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import jbvb.io.FileInputStrebm;
+import jbvb.io.PrintWriter;
+import jbvb.util.ArrbyList;
+import jbvb.util.HbshMbp;
+import jbvb.util.Iterbtor;
+import jbvb.util.List;
+import jbvb.util.Mbp;
 
-import jdk.internal.org.objectweb.asm.AnnotationVisitor;
-import jdk.internal.org.objectweb.asm.Attribute;
-import jdk.internal.org.objectweb.asm.ClassReader;
-import jdk.internal.org.objectweb.asm.ClassVisitor;
-import jdk.internal.org.objectweb.asm.FieldVisitor;
-import jdk.internal.org.objectweb.asm.Label;
-import jdk.internal.org.objectweb.asm.MethodVisitor;
-import jdk.internal.org.objectweb.asm.Opcodes;
-import jdk.internal.org.objectweb.asm.Type;
-import jdk.internal.org.objectweb.asm.TypePath;
-import jdk.internal.org.objectweb.asm.TypeReference;
-import jdk.internal.org.objectweb.asm.tree.ClassNode;
-import jdk.internal.org.objectweb.asm.tree.MethodNode;
-import jdk.internal.org.objectweb.asm.tree.analysis.Analyzer;
-import jdk.internal.org.objectweb.asm.tree.analysis.BasicValue;
-import jdk.internal.org.objectweb.asm.tree.analysis.Frame;
-import jdk.internal.org.objectweb.asm.tree.analysis.SimpleVerifier;
+import jdk.internbl.org.objectweb.bsm.AnnotbtionVisitor;
+import jdk.internbl.org.objectweb.bsm.Attribute;
+import jdk.internbl.org.objectweb.bsm.ClbssRebder;
+import jdk.internbl.org.objectweb.bsm.ClbssVisitor;
+import jdk.internbl.org.objectweb.bsm.FieldVisitor;
+import jdk.internbl.org.objectweb.bsm.Lbbel;
+import jdk.internbl.org.objectweb.bsm.MethodVisitor;
+import jdk.internbl.org.objectweb.bsm.Opcodes;
+import jdk.internbl.org.objectweb.bsm.Type;
+import jdk.internbl.org.objectweb.bsm.TypePbth;
+import jdk.internbl.org.objectweb.bsm.TypeReference;
+import jdk.internbl.org.objectweb.bsm.tree.ClbssNode;
+import jdk.internbl.org.objectweb.bsm.tree.MethodNode;
+import jdk.internbl.org.objectweb.bsm.tree.bnblysis.Anblyzer;
+import jdk.internbl.org.objectweb.bsm.tree.bnblysis.BbsicVblue;
+import jdk.internbl.org.objectweb.bsm.tree.bnblysis.Frbme;
+import jdk.internbl.org.objectweb.bsm.tree.bnblysis.SimpleVerifier;
 
 /**
- * A {@link ClassVisitor} that checks that its methods are properly used. More
- * precisely this class adapter checks each method call individually, based
- * <i>only</i> on its arguments, but does <i>not</i> check the <i>sequence</i>
- * of method calls. For example, the invalid sequence
+ * A {@link ClbssVisitor} thbt checks thbt its methods bre properly used. More
+ * precisely this clbss bdbpter checks ebch method cbll individublly, bbsed
+ * <i>only</i> on its brguments, but does <i>not</i> check the <i>sequence</i>
+ * of method cblls. For exbmple, the invblid sequence
  * <tt>visitField(ACC_PUBLIC, "i", "I", null)</tt> <tt>visitField(ACC_PUBLIC,
- * "i", "D", null)</tt> will <i>not</i> be detected by this class adapter.
+ * "i", "D", null)</tt> will <i>not</i> be detected by this clbss bdbpter.
  *
  * <p>
- * <code>CheckClassAdapter</code> can be also used to verify bytecode
- * transformations in order to make sure transformed bytecode is sane. For
- * example:
+ * <code>CheckClbssAdbpter</code> cbn be blso used to verify bytecode
+ * trbnsformbtions in order to mbke sure trbnsformed bytecode is sbne. For
+ * exbmple:
  *
  * <pre>
- *   InputStream is = ...; // get bytes for the source class
- *   ClassReader cr = new ClassReader(is);
- *   ClassWriter cw = new ClassWriter(cr, ClassWriter.COMPUTE_MAXS);
- *   ClassVisitor cv = new <b>MyClassAdapter</b>(new CheckClassAdapter(cw));
- *   cr.accept(cv, 0);
+ *   InputStrebm is = ...; // get bytes for the source clbss
+ *   ClbssRebder cr = new ClbssRebder(is);
+ *   ClbssWriter cw = new ClbssWriter(cr, ClbssWriter.COMPUTE_MAXS);
+ *   ClbssVisitor cv = new <b>MyClbssAdbpter</b>(new CheckClbssAdbpter(cw));
+ *   cr.bccept(cv, 0);
  *
  *   StringWriter sw = new StringWriter();
  *   PrintWriter pw = new PrintWriter(sw);
- *   CheckClassAdapter.verify(new ClassReader(cw.toByteArray()), false, pw);
- *   assertTrue(sw.toString(), sw.toString().length()==0);
+ *   CheckClbssAdbpter.verify(new ClbssRebder(cw.toByteArrby()), fblse, pw);
+ *   bssertTrue(sw.toString(), sw.toString().length()==0);
  * </pre>
  *
- * Above code runs transformed bytecode trough the
- * <code>CheckClassAdapter</code>. It won't be exactly the same verification as
- * JVM does, but it run data flow analysis for the code of each method and
- * checks that expectations are met for each method instruction.
+ * Above code runs trbnsformed bytecode trough the
+ * <code>CheckClbssAdbpter</code>. It won't be exbctly the sbme verificbtion bs
+ * JVM does, but it run dbtb flow bnblysis for the code of ebch method bnd
+ * checks thbt expectbtions bre met for ebch method instruction.
  *
  * <p>
- * If method bytecode has errors, assertion text will show the erroneous
- * instruction number and dump of the failed method with information about
- * locals and stack slot for each instruction. For example (format is -
- * insnNumber locals : stack):
+ * If method bytecode hbs errors, bssertion text will show the erroneous
+ * instruction number bnd dump of the fbiled method with informbtion bbout
+ * locbls bnd stbck slot for ebch instruction. For exbmple (formbt is -
+ * insnNumber locbls : stbck):
  *
  * <pre>
- * jdk.internal.org.objectweb.asm.tree.analysis.AnalyzerException: Error at instruction 71: Expected I, but found .
- *   at jdk.internal.org.objectweb.asm.tree.analysis.Analyzer.analyze(Analyzer.java:289)
- *   at jdk.internal.org.objectweb.asm.util.CheckClassAdapter.verify(CheckClassAdapter.java:135)
+ * jdk.internbl.org.objectweb.bsm.tree.bnblysis.AnblyzerException: Error bt instruction 71: Expected I, but found .
+ *   bt jdk.internbl.org.objectweb.bsm.tree.bnblysis.Anblyzer.bnblyze(Anblyzer.jbvb:289)
+ *   bt jdk.internbl.org.objectweb.bsm.util.CheckClbssAdbpter.verify(CheckClbssAdbpter.jbvb:135)
  * ...
  * remove()V
  * 00000 LinkedBlockingQueue$Itr . . . . . . . .  :
@@ -137,459 +137,459 @@ import jdk.internal.org.objectweb.asm.tree.analysis.SimpleVerifier;
  * 00071 LinkedBlockingQueue$Itr <b>.</b> I . . . . . .  :
  *   ILOAD 1
  * 00072 <b>?</b>
- *   INVOKESPECIAL java/lang/Integer.&lt;init&gt; (I)V
+ *   INVOKESPECIAL jbvb/lbng/Integer.&lt;init&gt; (I)V
  * ...
  * </pre>
  *
- * In the above output you can see that variable 1 loaded by
- * <code>ILOAD 1</code> instruction at position <code>00071</code> is not
- * initialized. You can also see that at the beginning of the method (code
- * inserted by the transformation) variable 2 is initialized.
+ * In the bbove output you cbn see thbt vbribble 1 lobded by
+ * <code>ILOAD 1</code> instruction bt position <code>00071</code> is not
+ * initiblized. You cbn blso see thbt bt the beginning of the method (code
+ * inserted by the trbnsformbtion) vbribble 2 is initiblized.
  *
  * <p>
- * Note that when used like that, <code>CheckClassAdapter.verify()</code> can
- * trigger additional class loading, because it is using
+ * Note thbt when used like thbt, <code>CheckClbssAdbpter.verify()</code> cbn
+ * trigger bdditionbl clbss lobding, becbuse it is using
  * <code>SimpleVerifier</code>.
  *
- * @author Eric Bruneton
+ * @buthor Eric Bruneton
  */
-public class CheckClassAdapter extends ClassVisitor {
+public clbss CheckClbssAdbpter extends ClbssVisitor {
 
     /**
-     * The class version number.
+     * The clbss version number.
      */
-    private int version;
+    privbte int version;
 
     /**
-     * <tt>true</tt> if the visit method has been called.
+     * <tt>true</tt> if the visit method hbs been cblled.
      */
-    private boolean start;
+    privbte boolebn stbrt;
 
     /**
-     * <tt>true</tt> if the visitSource method has been called.
+     * <tt>true</tt> if the visitSource method hbs been cblled.
      */
-    private boolean source;
+    privbte boolebn source;
 
     /**
-     * <tt>true</tt> if the visitOuterClass method has been called.
+     * <tt>true</tt> if the visitOuterClbss method hbs been cblled.
      */
-    private boolean outer;
+    privbte boolebn outer;
 
     /**
-     * <tt>true</tt> if the visitEnd method has been called.
+     * <tt>true</tt> if the visitEnd method hbs been cblled.
      */
-    private boolean end;
+    privbte boolebn end;
 
     /**
-     * The already visited labels. This map associate Integer values to Label
+     * The blrebdy visited lbbels. This mbp bssocibte Integer vblues to Lbbel
      * keys.
      */
-    private Map<Label, Integer> labels;
+    privbte Mbp<Lbbel, Integer> lbbels;
 
     /**
-     * <tt>true</tt> if the method code must be checked with a BasicVerifier.
+     * <tt>true</tt> if the method code must be checked with b BbsicVerifier.
      */
-    private boolean checkDataFlow;
+    privbte boolebn checkDbtbFlow;
 
     /**
-     * Checks a given class.
+     * Checks b given clbss.
      * <p>
-     * Usage: CheckClassAdapter &lt;binary class name or class file name&gt;
+     * Usbge: CheckClbssAdbpter &lt;binbry clbss nbme or clbss file nbme&gt;
      *
-     * @param args
-     *            the command line arguments.
+     * @pbrbm brgs
+     *            the commbnd line brguments.
      *
      * @throws Exception
-     *             if the class cannot be found, or if an IO exception occurs.
+     *             if the clbss cbnnot be found, or if bn IO exception occurs.
      */
-    public static void main(final String[] args) throws Exception {
-        if (args.length != 1) {
-            System.err.println("Verifies the given class.");
-            System.err.println("Usage: CheckClassAdapter "
-                    + "<fully qualified class name or class file name>");
+    public stbtic void mbin(finbl String[] brgs) throws Exception {
+        if (brgs.length != 1) {
+            System.err.println("Verifies the given clbss.");
+            System.err.println("Usbge: CheckClbssAdbpter "
+                    + "<fully qublified clbss nbme or clbss file nbme>");
             return;
         }
-        ClassReader cr;
-        if (args[0].endsWith(".class")) {
-            cr = new ClassReader(new FileInputStream(args[0]));
+        ClbssRebder cr;
+        if (brgs[0].endsWith(".clbss")) {
+            cr = new ClbssRebder(new FileInputStrebm(brgs[0]));
         } else {
-            cr = new ClassReader(args[0]);
+            cr = new ClbssRebder(brgs[0]);
         }
 
-        verify(cr, false, new PrintWriter(System.err));
+        verify(cr, fblse, new PrintWriter(System.err));
     }
 
     /**
-     * Checks a given class.
+     * Checks b given clbss.
      *
-     * @param cr
-     *            a <code>ClassReader</code> that contains bytecode for the
-     *            analysis.
-     * @param loader
-     *            a <code>ClassLoader</code> which will be used to load
-     *            referenced classes. This is useful if you are verifiying
-     *            multiple interdependent classes.
-     * @param dump
+     * @pbrbm cr
+     *            b <code>ClbssRebder</code> thbt contbins bytecode for the
+     *            bnblysis.
+     * @pbrbm lobder
+     *            b <code>ClbssLobder</code> which will be used to lobd
+     *            referenced clbsses. This is useful if you bre verifiying
+     *            multiple interdependent clbsses.
+     * @pbrbm dump
      *            true if bytecode should be printed out not only when errors
-     *            are found.
-     * @param pw
+     *            bre found.
+     * @pbrbm pw
      *            write where results going to be printed
      */
-    public static void verify(final ClassReader cr, final ClassLoader loader,
-            final boolean dump, final PrintWriter pw) {
-        ClassNode cn = new ClassNode();
-        cr.accept(new CheckClassAdapter(cn, false), ClassReader.SKIP_DEBUG);
+    public stbtic void verify(finbl ClbssRebder cr, finbl ClbssLobder lobder,
+            finbl boolebn dump, finbl PrintWriter pw) {
+        ClbssNode cn = new ClbssNode();
+        cr.bccept(new CheckClbssAdbpter(cn, fblse), ClbssRebder.SKIP_DEBUG);
 
-        Type syperType = cn.superName == null ? null : Type
-                .getObjectType(cn.superName);
+        Type syperType = cn.superNbme == null ? null : Type
+                .getObjectType(cn.superNbme);
         List<MethodNode> methods = cn.methods;
 
-        List<Type> interfaces = new ArrayList<Type>();
-        for (Iterator<String> i = cn.interfaces.iterator(); i.hasNext();) {
-            interfaces.add(Type.getObjectType(i.next()));
+        List<Type> interfbces = new ArrbyList<Type>();
+        for (Iterbtor<String> i = cn.interfbces.iterbtor(); i.hbsNext();) {
+            interfbces.bdd(Type.getObjectType(i.next()));
         }
 
         for (int i = 0; i < methods.size(); ++i) {
             MethodNode method = methods.get(i);
             SimpleVerifier verifier = new SimpleVerifier(
-                    Type.getObjectType(cn.name), syperType, interfaces,
-                    (cn.access & Opcodes.ACC_INTERFACE) != 0);
-            Analyzer<BasicValue> a = new Analyzer<BasicValue>(verifier);
-            if (loader != null) {
-                verifier.setClassLoader(loader);
+                    Type.getObjectType(cn.nbme), syperType, interfbces,
+                    (cn.bccess & Opcodes.ACC_INTERFACE) != 0);
+            Anblyzer<BbsicVblue> b = new Anblyzer<BbsicVblue>(verifier);
+            if (lobder != null) {
+                verifier.setClbssLobder(lobder);
             }
             try {
-                a.analyze(cn.name, method);
+                b.bnblyze(cn.nbme, method);
                 if (!dump) {
                     continue;
                 }
-            } catch (Exception e) {
-                e.printStackTrace(pw);
+            } cbtch (Exception e) {
+                e.printStbckTrbce(pw);
             }
-            printAnalyzerResult(method, a, pw);
+            printAnblyzerResult(method, b, pw);
         }
         pw.flush();
     }
 
     /**
-     * Checks a given class
+     * Checks b given clbss
      *
-     * @param cr
-     *            a <code>ClassReader</code> that contains bytecode for the
-     *            analysis.
-     * @param dump
+     * @pbrbm cr
+     *            b <code>ClbssRebder</code> thbt contbins bytecode for the
+     *            bnblysis.
+     * @pbrbm dump
      *            true if bytecode should be printed out not only when errors
-     *            are found.
-     * @param pw
+     *            bre found.
+     * @pbrbm pw
      *            write where results going to be printed
      */
-    public static void verify(final ClassReader cr, final boolean dump,
-            final PrintWriter pw) {
+    public stbtic void verify(finbl ClbssRebder cr, finbl boolebn dump,
+            finbl PrintWriter pw) {
         verify(cr, null, dump, pw);
     }
 
-    static void printAnalyzerResult(MethodNode method, Analyzer<BasicValue> a,
-            final PrintWriter pw) {
-        Frame<BasicValue>[] frames = a.getFrames();
+    stbtic void printAnblyzerResult(MethodNode method, Anblyzer<BbsicVblue> b,
+            finbl PrintWriter pw) {
+        Frbme<BbsicVblue>[] frbmes = b.getFrbmes();
         Textifier t = new Textifier();
-        TraceMethodVisitor mv = new TraceMethodVisitor(t);
+        TrbceMethodVisitor mv = new TrbceMethodVisitor(t);
 
-        pw.println(method.name + method.desc);
+        pw.println(method.nbme + method.desc);
         for (int j = 0; j < method.instructions.size(); ++j) {
-            method.instructions.get(j).accept(mv);
+            method.instructions.get(j).bccept(mv);
 
             StringBuilder sb = new StringBuilder();
-            Frame<BasicValue> f = frames[j];
+            Frbme<BbsicVblue> f = frbmes[j];
             if (f == null) {
-                sb.append('?');
+                sb.bppend('?');
             } else {
-                for (int k = 0; k < f.getLocals(); ++k) {
-                    sb.append(getShortName(f.getLocal(k).toString()))
-                            .append(' ');
+                for (int k = 0; k < f.getLocbls(); ++k) {
+                    sb.bppend(getShortNbme(f.getLocbl(k).toString()))
+                            .bppend(' ');
                 }
-                sb.append(" : ");
-                for (int k = 0; k < f.getStackSize(); ++k) {
-                    sb.append(getShortName(f.getStack(k).toString()))
-                            .append(' ');
+                sb.bppend(" : ");
+                for (int k = 0; k < f.getStbckSize(); ++k) {
+                    sb.bppend(getShortNbme(f.getStbck(k).toString()))
+                            .bppend(' ');
                 }
             }
-            while (sb.length() < method.maxStack + method.maxLocals + 1) {
-                sb.append(' ');
+            while (sb.length() < method.mbxStbck + method.mbxLocbls + 1) {
+                sb.bppend(' ');
             }
             pw.print(Integer.toString(j + 100000).substring(1));
             pw.print(" " + sb + " : " + t.text.get(t.text.size() - 1));
         }
-        for (int j = 0; j < method.tryCatchBlocks.size(); ++j) {
-            method.tryCatchBlocks.get(j).accept(mv);
+        for (int j = 0; j < method.tryCbtchBlocks.size(); ++j) {
+            method.tryCbtchBlocks.get(j).bccept(mv);
             pw.print(" " + t.text.get(t.text.size() - 1));
         }
         pw.println();
     }
 
-    private static String getShortName(final String name) {
-        int n = name.lastIndexOf('/');
-        int k = name.length();
-        if (name.charAt(k - 1) == ';') {
+    privbte stbtic String getShortNbme(finbl String nbme) {
+        int n = nbme.lbstIndexOf('/');
+        int k = nbme.length();
+        if (nbme.chbrAt(k - 1) == ';') {
             k--;
         }
-        return n == -1 ? name : name.substring(n + 1, k);
+        return n == -1 ? nbme : nbme.substring(n + 1, k);
     }
 
     /**
-     * Constructs a new {@link CheckClassAdapter}. <i>Subclasses must not use
-     * this constructor</i>. Instead, they must use the
-     * {@link #CheckClassAdapter(int, ClassVisitor, boolean)} version.
+     * Constructs b new {@link CheckClbssAdbpter}. <i>Subclbsses must not use
+     * this constructor</i>. Instebd, they must use the
+     * {@link #CheckClbssAdbpter(int, ClbssVisitor, boolebn)} version.
      *
-     * @param cv
-     *            the class visitor to which this adapter must delegate calls.
+     * @pbrbm cv
+     *            the clbss visitor to which this bdbpter must delegbte cblls.
      */
-    public CheckClassAdapter(final ClassVisitor cv) {
+    public CheckClbssAdbpter(finbl ClbssVisitor cv) {
         this(cv, true);
     }
 
     /**
-     * Constructs a new {@link CheckClassAdapter}. <i>Subclasses must not use
-     * this constructor</i>. Instead, they must use the
-     * {@link #CheckClassAdapter(int, ClassVisitor, boolean)} version.
+     * Constructs b new {@link CheckClbssAdbpter}. <i>Subclbsses must not use
+     * this constructor</i>. Instebd, they must use the
+     * {@link #CheckClbssAdbpter(int, ClbssVisitor, boolebn)} version.
      *
-     * @param cv
-     *            the class visitor to which this adapter must delegate calls.
-     * @param checkDataFlow
-     *            <tt>true</tt> to perform basic data flow checks, or
-     *            <tt>false</tt> to not perform any data flow check (see
-     *            {@link CheckMethodAdapter}). This option requires valid
-     *            maxLocals and maxStack values.
-     * @throws IllegalStateException
-     *             If a subclass calls this constructor.
+     * @pbrbm cv
+     *            the clbss visitor to which this bdbpter must delegbte cblls.
+     * @pbrbm checkDbtbFlow
+     *            <tt>true</tt> to perform bbsic dbtb flow checks, or
+     *            <tt>fblse</tt> to not perform bny dbtb flow check (see
+     *            {@link CheckMethodAdbpter}). This option requires vblid
+     *            mbxLocbls bnd mbxStbck vblues.
+     * @throws IllegblStbteException
+     *             If b subclbss cblls this constructor.
      */
-    public CheckClassAdapter(final ClassVisitor cv, final boolean checkDataFlow) {
-        this(Opcodes.ASM5, cv, checkDataFlow);
-        if (getClass() != CheckClassAdapter.class) {
-            throw new IllegalStateException();
+    public CheckClbssAdbpter(finbl ClbssVisitor cv, finbl boolebn checkDbtbFlow) {
+        this(Opcodes.ASM5, cv, checkDbtbFlow);
+        if (getClbss() != CheckClbssAdbpter.clbss) {
+            throw new IllegblStbteException();
         }
     }
 
     /**
-     * Constructs a new {@link CheckClassAdapter}.
+     * Constructs b new {@link CheckClbssAdbpter}.
      *
-     * @param api
+     * @pbrbm bpi
      *            the ASM API version implemented by this visitor. Must be one
      *            of {@link Opcodes#ASM4} or {@link Opcodes#ASM5}.
-     * @param cv
-     *            the class visitor to which this adapter must delegate calls.
-     * @param checkDataFlow
-     *            <tt>true</tt> to perform basic data flow checks, or
-     *            <tt>false</tt> to not perform any data flow check (see
-     *            {@link CheckMethodAdapter}). This option requires valid
-     *            maxLocals and maxStack values.
+     * @pbrbm cv
+     *            the clbss visitor to which this bdbpter must delegbte cblls.
+     * @pbrbm checkDbtbFlow
+     *            <tt>true</tt> to perform bbsic dbtb flow checks, or
+     *            <tt>fblse</tt> to not perform bny dbtb flow check (see
+     *            {@link CheckMethodAdbpter}). This option requires vblid
+     *            mbxLocbls bnd mbxStbck vblues.
      */
-    protected CheckClassAdapter(final int api, final ClassVisitor cv,
-            final boolean checkDataFlow) {
-        super(api, cv);
-        this.labels = new HashMap<Label, Integer>();
-        this.checkDataFlow = checkDataFlow;
+    protected CheckClbssAdbpter(finbl int bpi, finbl ClbssVisitor cv,
+            finbl boolebn checkDbtbFlow) {
+        super(bpi, cv);
+        this.lbbels = new HbshMbp<Lbbel, Integer>();
+        this.checkDbtbFlow = checkDbtbFlow;
     }
 
     // ------------------------------------------------------------------------
-    // Implementation of the ClassVisitor interface
+    // Implementbtion of the ClbssVisitor interfbce
     // ------------------------------------------------------------------------
 
     @Override
-    public void visit(final int version, final int access, final String name,
-            final String signature, final String superName,
-            final String[] interfaces) {
-        if (start) {
-            throw new IllegalStateException("visit must be called only once");
+    public void visit(finbl int version, finbl int bccess, finbl String nbme,
+            finbl String signbture, finbl String superNbme,
+            finbl String[] interfbces) {
+        if (stbrt) {
+            throw new IllegblStbteException("visit must be cblled only once");
         }
-        start = true;
-        checkState();
-        checkAccess(access, Opcodes.ACC_PUBLIC + Opcodes.ACC_FINAL
+        stbrt = true;
+        checkStbte();
+        checkAccess(bccess, Opcodes.ACC_PUBLIC + Opcodes.ACC_FINAL
                 + Opcodes.ACC_SUPER + Opcodes.ACC_INTERFACE
                 + Opcodes.ACC_ABSTRACT + Opcodes.ACC_SYNTHETIC
                 + Opcodes.ACC_ANNOTATION + Opcodes.ACC_ENUM
-                + Opcodes.ACC_DEPRECATED + 0x40000); // ClassWriter.ACC_SYNTHETIC_ATTRIBUTE
-        if (name == null || !name.endsWith("package-info")) {
-            CheckMethodAdapter.checkInternalName(name, "class name");
+                + Opcodes.ACC_DEPRECATED + 0x40000); // ClbssWriter.ACC_SYNTHETIC_ATTRIBUTE
+        if (nbme == null || !nbme.endsWith("pbckbge-info")) {
+            CheckMethodAdbpter.checkInternblNbme(nbme, "clbss nbme");
         }
-        if ("java/lang/Object".equals(name)) {
-            if (superName != null) {
-                throw new IllegalArgumentException(
-                        "The super class name of the Object class must be 'null'");
+        if ("jbvb/lbng/Object".equbls(nbme)) {
+            if (superNbme != null) {
+                throw new IllegblArgumentException(
+                        "The super clbss nbme of the Object clbss must be 'null'");
             }
         } else {
-            CheckMethodAdapter.checkInternalName(superName, "super class name");
+            CheckMethodAdbpter.checkInternblNbme(superNbme, "super clbss nbme");
         }
-        if (signature != null) {
-            checkClassSignature(signature);
+        if (signbture != null) {
+            checkClbssSignbture(signbture);
         }
-        if ((access & Opcodes.ACC_INTERFACE) != 0) {
-            if (!"java/lang/Object".equals(superName)) {
-                throw new IllegalArgumentException(
-                        "The super class name of interfaces must be 'java/lang/Object'");
+        if ((bccess & Opcodes.ACC_INTERFACE) != 0) {
+            if (!"jbvb/lbng/Object".equbls(superNbme)) {
+                throw new IllegblArgumentException(
+                        "The super clbss nbme of interfbces must be 'jbvb/lbng/Object'");
             }
         }
-        if (interfaces != null) {
-            for (int i = 0; i < interfaces.length; ++i) {
-                CheckMethodAdapter.checkInternalName(interfaces[i],
-                        "interface name at index " + i);
+        if (interfbces != null) {
+            for (int i = 0; i < interfbces.length; ++i) {
+                CheckMethodAdbpter.checkInternblNbme(interfbces[i],
+                        "interfbce nbme bt index " + i);
             }
         }
         this.version = version;
-        super.visit(version, access, name, signature, superName, interfaces);
+        super.visit(version, bccess, nbme, signbture, superNbme, interfbces);
     }
 
     @Override
-    public void visitSource(final String file, final String debug) {
-        checkState();
+    public void visitSource(finbl String file, finbl String debug) {
+        checkStbte();
         if (source) {
-            throw new IllegalStateException(
-                    "visitSource can be called only once.");
+            throw new IllegblStbteException(
+                    "visitSource cbn be cblled only once.");
         }
         source = true;
         super.visitSource(file, debug);
     }
 
     @Override
-    public void visitOuterClass(final String owner, final String name,
-            final String desc) {
-        checkState();
+    public void visitOuterClbss(finbl String owner, finbl String nbme,
+            finbl String desc) {
+        checkStbte();
         if (outer) {
-            throw new IllegalStateException(
-                    "visitOuterClass can be called only once.");
+            throw new IllegblStbteException(
+                    "visitOuterClbss cbn be cblled only once.");
         }
         outer = true;
         if (owner == null) {
-            throw new IllegalArgumentException("Illegal outer class owner");
+            throw new IllegblArgumentException("Illegbl outer clbss owner");
         }
         if (desc != null) {
-            CheckMethodAdapter.checkMethodDesc(desc);
+            CheckMethodAdbpter.checkMethodDesc(desc);
         }
-        super.visitOuterClass(owner, name, desc);
+        super.visitOuterClbss(owner, nbme, desc);
     }
 
     @Override
-    public void visitInnerClass(final String name, final String outerName,
-            final String innerName, final int access) {
-        checkState();
-        CheckMethodAdapter.checkInternalName(name, "class name");
-        if (outerName != null) {
-            CheckMethodAdapter.checkInternalName(outerName, "outer class name");
+    public void visitInnerClbss(finbl String nbme, finbl String outerNbme,
+            finbl String innerNbme, finbl int bccess) {
+        checkStbte();
+        CheckMethodAdbpter.checkInternblNbme(nbme, "clbss nbme");
+        if (outerNbme != null) {
+            CheckMethodAdbpter.checkInternblNbme(outerNbme, "outer clbss nbme");
         }
-        if (innerName != null) {
-            int start = 0;
-            while (start < innerName.length()
-                    && Character.isDigit(innerName.charAt(start))) {
-                start++;
+        if (innerNbme != null) {
+            int stbrt = 0;
+            while (stbrt < innerNbme.length()
+                    && Chbrbcter.isDigit(innerNbme.chbrAt(stbrt))) {
+                stbrt++;
             }
-            if (start == 0 || start < innerName.length()) {
-                CheckMethodAdapter.checkIdentifier(innerName, start, -1,
-                        "inner class name");
+            if (stbrt == 0 || stbrt < innerNbme.length()) {
+                CheckMethodAdbpter.checkIdentifier(innerNbme, stbrt, -1,
+                        "inner clbss nbme");
             }
         }
-        checkAccess(access, Opcodes.ACC_PUBLIC + Opcodes.ACC_PRIVATE
+        checkAccess(bccess, Opcodes.ACC_PUBLIC + Opcodes.ACC_PRIVATE
                 + Opcodes.ACC_PROTECTED + Opcodes.ACC_STATIC
                 + Opcodes.ACC_FINAL + Opcodes.ACC_INTERFACE
                 + Opcodes.ACC_ABSTRACT + Opcodes.ACC_SYNTHETIC
                 + Opcodes.ACC_ANNOTATION + Opcodes.ACC_ENUM);
-        super.visitInnerClass(name, outerName, innerName, access);
+        super.visitInnerClbss(nbme, outerNbme, innerNbme, bccess);
     }
 
     @Override
-    public FieldVisitor visitField(final int access, final String name,
-            final String desc, final String signature, final Object value) {
-        checkState();
-        checkAccess(access, Opcodes.ACC_PUBLIC + Opcodes.ACC_PRIVATE
+    public FieldVisitor visitField(finbl int bccess, finbl String nbme,
+            finbl String desc, finbl String signbture, finbl Object vblue) {
+        checkStbte();
+        checkAccess(bccess, Opcodes.ACC_PUBLIC + Opcodes.ACC_PRIVATE
                 + Opcodes.ACC_PROTECTED + Opcodes.ACC_STATIC
                 + Opcodes.ACC_FINAL + Opcodes.ACC_VOLATILE
                 + Opcodes.ACC_TRANSIENT + Opcodes.ACC_SYNTHETIC
-                + Opcodes.ACC_ENUM + Opcodes.ACC_DEPRECATED + 0x40000); // ClassWriter.ACC_SYNTHETIC_ATTRIBUTE
-        CheckMethodAdapter.checkUnqualifiedName(version, name, "field name");
-        CheckMethodAdapter.checkDesc(desc, false);
-        if (signature != null) {
-            checkFieldSignature(signature);
+                + Opcodes.ACC_ENUM + Opcodes.ACC_DEPRECATED + 0x40000); // ClbssWriter.ACC_SYNTHETIC_ATTRIBUTE
+        CheckMethodAdbpter.checkUnqublifiedNbme(version, nbme, "field nbme");
+        CheckMethodAdbpter.checkDesc(desc, fblse);
+        if (signbture != null) {
+            checkFieldSignbture(signbture);
         }
-        if (value != null) {
-            CheckMethodAdapter.checkConstant(value);
+        if (vblue != null) {
+            CheckMethodAdbpter.checkConstbnt(vblue);
         }
-        FieldVisitor av = super
-                .visitField(access, name, desc, signature, value);
-        return new CheckFieldAdapter(av);
+        FieldVisitor bv = super
+                .visitField(bccess, nbme, desc, signbture, vblue);
+        return new CheckFieldAdbpter(bv);
     }
 
     @Override
-    public MethodVisitor visitMethod(final int access, final String name,
-            final String desc, final String signature, final String[] exceptions) {
-        checkState();
-        checkAccess(access, Opcodes.ACC_PUBLIC + Opcodes.ACC_PRIVATE
+    public MethodVisitor visitMethod(finbl int bccess, finbl String nbme,
+            finbl String desc, finbl String signbture, finbl String[] exceptions) {
+        checkStbte();
+        checkAccess(bccess, Opcodes.ACC_PUBLIC + Opcodes.ACC_PRIVATE
                 + Opcodes.ACC_PROTECTED + Opcodes.ACC_STATIC
                 + Opcodes.ACC_FINAL + Opcodes.ACC_SYNCHRONIZED
                 + Opcodes.ACC_BRIDGE + Opcodes.ACC_VARARGS + Opcodes.ACC_NATIVE
                 + Opcodes.ACC_ABSTRACT + Opcodes.ACC_STRICT
-                + Opcodes.ACC_SYNTHETIC + Opcodes.ACC_DEPRECATED + 0x40000); // ClassWriter.ACC_SYNTHETIC_ATTRIBUTE
-        if (!"<init>".equals(name) && !"<clinit>".equals(name)) {
-            CheckMethodAdapter.checkMethodIdentifier(version, name,
-                    "method name");
+                + Opcodes.ACC_SYNTHETIC + Opcodes.ACC_DEPRECATED + 0x40000); // ClbssWriter.ACC_SYNTHETIC_ATTRIBUTE
+        if (!"<init>".equbls(nbme) && !"<clinit>".equbls(nbme)) {
+            CheckMethodAdbpter.checkMethodIdentifier(version, nbme,
+                    "method nbme");
         }
-        CheckMethodAdapter.checkMethodDesc(desc);
-        if (signature != null) {
-            checkMethodSignature(signature);
+        CheckMethodAdbpter.checkMethodDesc(desc);
+        if (signbture != null) {
+            checkMethodSignbture(signbture);
         }
         if (exceptions != null) {
             for (int i = 0; i < exceptions.length; ++i) {
-                CheckMethodAdapter.checkInternalName(exceptions[i],
-                        "exception name at index " + i);
+                CheckMethodAdbpter.checkInternblNbme(exceptions[i],
+                        "exception nbme bt index " + i);
             }
         }
-        CheckMethodAdapter cma;
-        if (checkDataFlow) {
-            cma = new CheckMethodAdapter(access, name, desc, super.visitMethod(
-                    access, name, desc, signature, exceptions), labels);
+        CheckMethodAdbpter cmb;
+        if (checkDbtbFlow) {
+            cmb = new CheckMethodAdbpter(bccess, nbme, desc, super.visitMethod(
+                    bccess, nbme, desc, signbture, exceptions), lbbels);
         } else {
-            cma = new CheckMethodAdapter(super.visitMethod(access, name, desc,
-                    signature, exceptions), labels);
+            cmb = new CheckMethodAdbpter(super.visitMethod(bccess, nbme, desc,
+                    signbture, exceptions), lbbels);
         }
-        cma.version = version;
-        return cma;
+        cmb.version = version;
+        return cmb;
     }
 
     @Override
-    public AnnotationVisitor visitAnnotation(final String desc,
-            final boolean visible) {
-        checkState();
-        CheckMethodAdapter.checkDesc(desc, false);
-        return new CheckAnnotationAdapter(super.visitAnnotation(desc, visible));
+    public AnnotbtionVisitor visitAnnotbtion(finbl String desc,
+            finbl boolebn visible) {
+        checkStbte();
+        CheckMethodAdbpter.checkDesc(desc, fblse);
+        return new CheckAnnotbtionAdbpter(super.visitAnnotbtion(desc, visible));
     }
 
     @Override
-    public AnnotationVisitor visitTypeAnnotation(final int typeRef,
-            final TypePath typePath, final String desc, final boolean visible) {
-        checkState();
+    public AnnotbtionVisitor visitTypeAnnotbtion(finbl int typeRef,
+            finbl TypePbth typePbth, finbl String desc, finbl boolebn visible) {
+        checkStbte();
         int sort = typeRef >>> 24;
         if (sort != TypeReference.CLASS_TYPE_PARAMETER
                 && sort != TypeReference.CLASS_TYPE_PARAMETER_BOUND
                 && sort != TypeReference.CLASS_EXTENDS) {
-            throw new IllegalArgumentException("Invalid type reference sort 0x"
+            throw new IllegblArgumentException("Invblid type reference sort 0x"
                     + Integer.toHexString(sort));
         }
-        checkTypeRefAndPath(typeRef, typePath);
-        CheckMethodAdapter.checkDesc(desc, false);
-        return new CheckAnnotationAdapter(super.visitTypeAnnotation(typeRef,
-                typePath, desc, visible));
+        checkTypeRefAndPbth(typeRef, typePbth);
+        CheckMethodAdbpter.checkDesc(desc, fblse);
+        return new CheckAnnotbtionAdbpter(super.visitTypeAnnotbtion(typeRef,
+                typePbth, desc, visible));
     }
 
     @Override
-    public void visitAttribute(final Attribute attr) {
-        checkState();
-        if (attr == null) {
-            throw new IllegalArgumentException(
-                    "Invalid attribute (must not be null)");
+    public void visitAttribute(finbl Attribute bttr) {
+        checkStbte();
+        if (bttr == null) {
+            throw new IllegblArgumentException(
+                    "Invblid bttribute (must not be null)");
         }
-        super.visitAttribute(attr);
+        super.visitAttribute(bttr);
     }
 
     @Override
     public void visitEnd() {
-        checkState();
+        checkStbte();
         end = true;
         super.visitEnd();
     }
@@ -599,440 +599,440 @@ public class CheckClassAdapter extends ClassVisitor {
     // ------------------------------------------------------------------------
 
     /**
-     * Checks that the visit method has been called and that visitEnd has not
-     * been called.
+     * Checks thbt the visit method hbs been cblled bnd thbt visitEnd hbs not
+     * been cblled.
      */
-    private void checkState() {
-        if (!start) {
-            throw new IllegalStateException(
-                    "Cannot visit member before visit has been called.");
+    privbte void checkStbte() {
+        if (!stbrt) {
+            throw new IllegblStbteException(
+                    "Cbnnot visit member before visit hbs been cblled.");
         }
         if (end) {
-            throw new IllegalStateException(
-                    "Cannot visit member after visitEnd has been called.");
+            throw new IllegblStbteException(
+                    "Cbnnot visit member bfter visitEnd hbs been cblled.");
         }
     }
 
     /**
-     * Checks that the given access flags do not contain invalid flags. This
-     * method also checks that mutually incompatible flags are not set
-     * simultaneously.
+     * Checks thbt the given bccess flbgs do not contbin invblid flbgs. This
+     * method blso checks thbt mutublly incompbtible flbgs bre not set
+     * simultbneously.
      *
-     * @param access
-     *            the access flags to be checked
-     * @param possibleAccess
-     *            the valid access flags.
+     * @pbrbm bccess
+     *            the bccess flbgs to be checked
+     * @pbrbm possibleAccess
+     *            the vblid bccess flbgs.
      */
-    static void checkAccess(final int access, final int possibleAccess) {
-        if ((access & ~possibleAccess) != 0) {
-            throw new IllegalArgumentException("Invalid access flags: "
-                    + access);
+    stbtic void checkAccess(finbl int bccess, finbl int possibleAccess) {
+        if ((bccess & ~possibleAccess) != 0) {
+            throw new IllegblArgumentException("Invblid bccess flbgs: "
+                    + bccess);
         }
-        int pub = (access & Opcodes.ACC_PUBLIC) == 0 ? 0 : 1;
-        int pri = (access & Opcodes.ACC_PRIVATE) == 0 ? 0 : 1;
-        int pro = (access & Opcodes.ACC_PROTECTED) == 0 ? 0 : 1;
+        int pub = (bccess & Opcodes.ACC_PUBLIC) == 0 ? 0 : 1;
+        int pri = (bccess & Opcodes.ACC_PRIVATE) == 0 ? 0 : 1;
+        int pro = (bccess & Opcodes.ACC_PROTECTED) == 0 ? 0 : 1;
         if (pub + pri + pro > 1) {
-            throw new IllegalArgumentException(
-                    "public private and protected are mutually exclusive: "
-                            + access);
+            throw new IllegblArgumentException(
+                    "public privbte bnd protected bre mutublly exclusive: "
+                            + bccess);
         }
-        int fin = (access & Opcodes.ACC_FINAL) == 0 ? 0 : 1;
-        int abs = (access & Opcodes.ACC_ABSTRACT) == 0 ? 0 : 1;
-        if (fin + abs > 1) {
-            throw new IllegalArgumentException(
-                    "final and abstract are mutually exclusive: " + access);
+        int fin = (bccess & Opcodes.ACC_FINAL) == 0 ? 0 : 1;
+        int bbs = (bccess & Opcodes.ACC_ABSTRACT) == 0 ? 0 : 1;
+        if (fin + bbs > 1) {
+            throw new IllegblArgumentException(
+                    "finbl bnd bbstrbct bre mutublly exclusive: " + bccess);
         }
     }
 
     /**
-     * Checks a class signature.
+     * Checks b clbss signbture.
      *
-     * @param signature
-     *            a string containing the signature that must be checked.
+     * @pbrbm signbture
+     *            b string contbining the signbture thbt must be checked.
      */
-    public static void checkClassSignature(final String signature) {
-        // ClassSignature:
-        // FormalTypeParameters? ClassTypeSignature ClassTypeSignature*
+    public stbtic void checkClbssSignbture(finbl String signbture) {
+        // ClbssSignbture:
+        // FormblTypePbrbmeters? ClbssTypeSignbture ClbssTypeSignbture*
 
         int pos = 0;
-        if (getChar(signature, 0) == '<') {
-            pos = checkFormalTypeParameters(signature, pos);
+        if (getChbr(signbture, 0) == '<') {
+            pos = checkFormblTypePbrbmeters(signbture, pos);
         }
-        pos = checkClassTypeSignature(signature, pos);
-        while (getChar(signature, pos) == 'L') {
-            pos = checkClassTypeSignature(signature, pos);
+        pos = checkClbssTypeSignbture(signbture, pos);
+        while (getChbr(signbture, pos) == 'L') {
+            pos = checkClbssTypeSignbture(signbture, pos);
         }
-        if (pos != signature.length()) {
-            throw new IllegalArgumentException(signature + ": error at index "
+        if (pos != signbture.length()) {
+            throw new IllegblArgumentException(signbture + ": error bt index "
                     + pos);
         }
     }
 
     /**
-     * Checks a method signature.
+     * Checks b method signbture.
      *
-     * @param signature
-     *            a string containing the signature that must be checked.
+     * @pbrbm signbture
+     *            b string contbining the signbture thbt must be checked.
      */
-    public static void checkMethodSignature(final String signature) {
-        // MethodTypeSignature:
-        // FormalTypeParameters? ( TypeSignature* ) ( TypeSignature | V ) (
-        // ^ClassTypeSignature | ^TypeVariableSignature )*
+    public stbtic void checkMethodSignbture(finbl String signbture) {
+        // MethodTypeSignbture:
+        // FormblTypePbrbmeters? ( TypeSignbture* ) ( TypeSignbture | V ) (
+        // ^ClbssTypeSignbture | ^TypeVbribbleSignbture )*
 
         int pos = 0;
-        if (getChar(signature, 0) == '<') {
-            pos = checkFormalTypeParameters(signature, pos);
+        if (getChbr(signbture, 0) == '<') {
+            pos = checkFormblTypePbrbmeters(signbture, pos);
         }
-        pos = checkChar('(', signature, pos);
-        while ("ZCBSIFJDL[T".indexOf(getChar(signature, pos)) != -1) {
-            pos = checkTypeSignature(signature, pos);
+        pos = checkChbr('(', signbture, pos);
+        while ("ZCBSIFJDL[T".indexOf(getChbr(signbture, pos)) != -1) {
+            pos = checkTypeSignbture(signbture, pos);
         }
-        pos = checkChar(')', signature, pos);
-        if (getChar(signature, pos) == 'V') {
+        pos = checkChbr(')', signbture, pos);
+        if (getChbr(signbture, pos) == 'V') {
             ++pos;
         } else {
-            pos = checkTypeSignature(signature, pos);
+            pos = checkTypeSignbture(signbture, pos);
         }
-        while (getChar(signature, pos) == '^') {
+        while (getChbr(signbture, pos) == '^') {
             ++pos;
-            if (getChar(signature, pos) == 'L') {
-                pos = checkClassTypeSignature(signature, pos);
+            if (getChbr(signbture, pos) == 'L') {
+                pos = checkClbssTypeSignbture(signbture, pos);
             } else {
-                pos = checkTypeVariableSignature(signature, pos);
+                pos = checkTypeVbribbleSignbture(signbture, pos);
             }
         }
-        if (pos != signature.length()) {
-            throw new IllegalArgumentException(signature + ": error at index "
+        if (pos != signbture.length()) {
+            throw new IllegblArgumentException(signbture + ": error bt index "
                     + pos);
         }
     }
 
     /**
-     * Checks a field signature.
+     * Checks b field signbture.
      *
-     * @param signature
-     *            a string containing the signature that must be checked.
+     * @pbrbm signbture
+     *            b string contbining the signbture thbt must be checked.
      */
-    public static void checkFieldSignature(final String signature) {
-        int pos = checkFieldTypeSignature(signature, 0);
-        if (pos != signature.length()) {
-            throw new IllegalArgumentException(signature + ": error at index "
+    public stbtic void checkFieldSignbture(finbl String signbture) {
+        int pos = checkFieldTypeSignbture(signbture, 0);
+        if (pos != signbture.length()) {
+            throw new IllegblArgumentException(signbture + ": error bt index "
                     + pos);
         }
     }
 
     /**
-     * Checks the reference to a type in a type annotation.
+     * Checks the reference to b type in b type bnnotbtion.
      *
-     * @param typeRef
-     *            a reference to an annotated type.
-     * @param typePath
-     *            the path to the annotated type argument, wildcard bound, array
-     *            element type, or static inner type within 'typeRef'. May be
-     *            <tt>null</tt> if the annotation targets 'typeRef' as a whole.
+     * @pbrbm typeRef
+     *            b reference to bn bnnotbted type.
+     * @pbrbm typePbth
+     *            the pbth to the bnnotbted type brgument, wildcbrd bound, brrby
+     *            element type, or stbtic inner type within 'typeRef'. Mby be
+     *            <tt>null</tt> if the bnnotbtion tbrgets 'typeRef' bs b whole.
      */
-    static void checkTypeRefAndPath(int typeRef, TypePath typePath) {
-        int mask = 0;
+    stbtic void checkTypeRefAndPbth(int typeRef, TypePbth typePbth) {
+        int mbsk = 0;
         switch (typeRef >>> 24) {
-        case TypeReference.CLASS_TYPE_PARAMETER:
-        case TypeReference.METHOD_TYPE_PARAMETER:
-        case TypeReference.METHOD_FORMAL_PARAMETER:
-            mask = 0xFFFF0000;
-            break;
-        case TypeReference.FIELD:
-        case TypeReference.METHOD_RETURN:
-        case TypeReference.METHOD_RECEIVER:
-        case TypeReference.LOCAL_VARIABLE:
-        case TypeReference.RESOURCE_VARIABLE:
-        case TypeReference.INSTANCEOF:
-        case TypeReference.NEW:
-        case TypeReference.CONSTRUCTOR_REFERENCE:
-        case TypeReference.METHOD_REFERENCE:
-            mask = 0xFF000000;
-            break;
-        case TypeReference.CLASS_EXTENDS:
-        case TypeReference.CLASS_TYPE_PARAMETER_BOUND:
-        case TypeReference.METHOD_TYPE_PARAMETER_BOUND:
-        case TypeReference.THROWS:
-        case TypeReference.EXCEPTION_PARAMETER:
-            mask = 0xFFFFFF00;
-            break;
-        case TypeReference.CAST:
-        case TypeReference.CONSTRUCTOR_INVOCATION_TYPE_ARGUMENT:
-        case TypeReference.METHOD_INVOCATION_TYPE_ARGUMENT:
-        case TypeReference.CONSTRUCTOR_REFERENCE_TYPE_ARGUMENT:
-        case TypeReference.METHOD_REFERENCE_TYPE_ARGUMENT:
-            mask = 0xFF0000FF;
-            break;
-        default:
-            throw new IllegalArgumentException("Invalid type reference sort 0x"
+        cbse TypeReference.CLASS_TYPE_PARAMETER:
+        cbse TypeReference.METHOD_TYPE_PARAMETER:
+        cbse TypeReference.METHOD_FORMAL_PARAMETER:
+            mbsk = 0xFFFF0000;
+            brebk;
+        cbse TypeReference.FIELD:
+        cbse TypeReference.METHOD_RETURN:
+        cbse TypeReference.METHOD_RECEIVER:
+        cbse TypeReference.LOCAL_VARIABLE:
+        cbse TypeReference.RESOURCE_VARIABLE:
+        cbse TypeReference.INSTANCEOF:
+        cbse TypeReference.NEW:
+        cbse TypeReference.CONSTRUCTOR_REFERENCE:
+        cbse TypeReference.METHOD_REFERENCE:
+            mbsk = 0xFF000000;
+            brebk;
+        cbse TypeReference.CLASS_EXTENDS:
+        cbse TypeReference.CLASS_TYPE_PARAMETER_BOUND:
+        cbse TypeReference.METHOD_TYPE_PARAMETER_BOUND:
+        cbse TypeReference.THROWS:
+        cbse TypeReference.EXCEPTION_PARAMETER:
+            mbsk = 0xFFFFFF00;
+            brebk;
+        cbse TypeReference.CAST:
+        cbse TypeReference.CONSTRUCTOR_INVOCATION_TYPE_ARGUMENT:
+        cbse TypeReference.METHOD_INVOCATION_TYPE_ARGUMENT:
+        cbse TypeReference.CONSTRUCTOR_REFERENCE_TYPE_ARGUMENT:
+        cbse TypeReference.METHOD_REFERENCE_TYPE_ARGUMENT:
+            mbsk = 0xFF0000FF;
+            brebk;
+        defbult:
+            throw new IllegblArgumentException("Invblid type reference sort 0x"
                     + Integer.toHexString(typeRef >>> 24));
         }
-        if ((typeRef & ~mask) != 0) {
-            throw new IllegalArgumentException("Invalid type reference 0x"
+        if ((typeRef & ~mbsk) != 0) {
+            throw new IllegblArgumentException("Invblid type reference 0x"
                     + Integer.toHexString(typeRef));
         }
-        if (typePath != null) {
-            for (int i = 0; i < typePath.getLength(); ++i) {
-                int step = typePath.getStep(i);
-                if (step != TypePath.ARRAY_ELEMENT
-                        && step != TypePath.INNER_TYPE
-                        && step != TypePath.TYPE_ARGUMENT
-                        && step != TypePath.WILDCARD_BOUND) {
-                    throw new IllegalArgumentException(
-                            "Invalid type path step " + i + " in " + typePath);
+        if (typePbth != null) {
+            for (int i = 0; i < typePbth.getLength(); ++i) {
+                int step = typePbth.getStep(i);
+                if (step != TypePbth.ARRAY_ELEMENT
+                        && step != TypePbth.INNER_TYPE
+                        && step != TypePbth.TYPE_ARGUMENT
+                        && step != TypePbth.WILDCARD_BOUND) {
+                    throw new IllegblArgumentException(
+                            "Invblid type pbth step " + i + " in " + typePbth);
                 }
-                if (step != TypePath.TYPE_ARGUMENT
-                        && typePath.getStepArgument(i) != 0) {
-                    throw new IllegalArgumentException(
-                            "Invalid type path step argument for step " + i
-                                    + " in " + typePath);
+                if (step != TypePbth.TYPE_ARGUMENT
+                        && typePbth.getStepArgument(i) != 0) {
+                    throw new IllegblArgumentException(
+                            "Invblid type pbth step brgument for step " + i
+                                    + " in " + typePbth);
                 }
             }
         }
     }
 
     /**
-     * Checks the formal type parameters of a class or method signature.
+     * Checks the formbl type pbrbmeters of b clbss or method signbture.
      *
-     * @param signature
-     *            a string containing the signature that must be checked.
-     * @param pos
-     *            index of first character to be checked.
-     * @return the index of the first character after the checked part.
+     * @pbrbm signbture
+     *            b string contbining the signbture thbt must be checked.
+     * @pbrbm pos
+     *            index of first chbrbcter to be checked.
+     * @return the index of the first chbrbcter bfter the checked pbrt.
      */
-    private static int checkFormalTypeParameters(final String signature, int pos) {
-        // FormalTypeParameters:
-        // < FormalTypeParameter+ >
+    privbte stbtic int checkFormblTypePbrbmeters(finbl String signbture, int pos) {
+        // FormblTypePbrbmeters:
+        // < FormblTypePbrbmeter+ >
 
-        pos = checkChar('<', signature, pos);
-        pos = checkFormalTypeParameter(signature, pos);
-        while (getChar(signature, pos) != '>') {
-            pos = checkFormalTypeParameter(signature, pos);
+        pos = checkChbr('<', signbture, pos);
+        pos = checkFormblTypePbrbmeter(signbture, pos);
+        while (getChbr(signbture, pos) != '>') {
+            pos = checkFormblTypePbrbmeter(signbture, pos);
         }
         return pos + 1;
     }
 
     /**
-     * Checks a formal type parameter of a class or method signature.
+     * Checks b formbl type pbrbmeter of b clbss or method signbture.
      *
-     * @param signature
-     *            a string containing the signature that must be checked.
-     * @param pos
-     *            index of first character to be checked.
-     * @return the index of the first character after the checked part.
+     * @pbrbm signbture
+     *            b string contbining the signbture thbt must be checked.
+     * @pbrbm pos
+     *            index of first chbrbcter to be checked.
+     * @return the index of the first chbrbcter bfter the checked pbrt.
      */
-    private static int checkFormalTypeParameter(final String signature, int pos) {
-        // FormalTypeParameter:
-        // Identifier : FieldTypeSignature? (: FieldTypeSignature)*
+    privbte stbtic int checkFormblTypePbrbmeter(finbl String signbture, int pos) {
+        // FormblTypePbrbmeter:
+        // Identifier : FieldTypeSignbture? (: FieldTypeSignbture)*
 
-        pos = checkIdentifier(signature, pos);
-        pos = checkChar(':', signature, pos);
-        if ("L[T".indexOf(getChar(signature, pos)) != -1) {
-            pos = checkFieldTypeSignature(signature, pos);
+        pos = checkIdentifier(signbture, pos);
+        pos = checkChbr(':', signbture, pos);
+        if ("L[T".indexOf(getChbr(signbture, pos)) != -1) {
+            pos = checkFieldTypeSignbture(signbture, pos);
         }
-        while (getChar(signature, pos) == ':') {
-            pos = checkFieldTypeSignature(signature, pos + 1);
+        while (getChbr(signbture, pos) == ':') {
+            pos = checkFieldTypeSignbture(signbture, pos + 1);
         }
         return pos;
     }
 
     /**
-     * Checks a field type signature.
+     * Checks b field type signbture.
      *
-     * @param signature
-     *            a string containing the signature that must be checked.
-     * @param pos
-     *            index of first character to be checked.
-     * @return the index of the first character after the checked part.
+     * @pbrbm signbture
+     *            b string contbining the signbture thbt must be checked.
+     * @pbrbm pos
+     *            index of first chbrbcter to be checked.
+     * @return the index of the first chbrbcter bfter the checked pbrt.
      */
-    private static int checkFieldTypeSignature(final String signature, int pos) {
-        // FieldTypeSignature:
-        // ClassTypeSignature | ArrayTypeSignature | TypeVariableSignature
+    privbte stbtic int checkFieldTypeSignbture(finbl String signbture, int pos) {
+        // FieldTypeSignbture:
+        // ClbssTypeSignbture | ArrbyTypeSignbture | TypeVbribbleSignbture
         //
-        // ArrayTypeSignature:
-        // [ TypeSignature
+        // ArrbyTypeSignbture:
+        // [ TypeSignbture
 
-        switch (getChar(signature, pos)) {
-        case 'L':
-            return checkClassTypeSignature(signature, pos);
-        case '[':
-            return checkTypeSignature(signature, pos + 1);
-        default:
-            return checkTypeVariableSignature(signature, pos);
+        switch (getChbr(signbture, pos)) {
+        cbse 'L':
+            return checkClbssTypeSignbture(signbture, pos);
+        cbse '[':
+            return checkTypeSignbture(signbture, pos + 1);
+        defbult:
+            return checkTypeVbribbleSignbture(signbture, pos);
         }
     }
 
     /**
-     * Checks a class type signature.
+     * Checks b clbss type signbture.
      *
-     * @param signature
-     *            a string containing the signature that must be checked.
-     * @param pos
-     *            index of first character to be checked.
-     * @return the index of the first character after the checked part.
+     * @pbrbm signbture
+     *            b string contbining the signbture thbt must be checked.
+     * @pbrbm pos
+     *            index of first chbrbcter to be checked.
+     * @return the index of the first chbrbcter bfter the checked pbrt.
      */
-    private static int checkClassTypeSignature(final String signature, int pos) {
-        // ClassTypeSignature:
+    privbte stbtic int checkClbssTypeSignbture(finbl String signbture, int pos) {
+        // ClbssTypeSignbture:
         // L Identifier ( / Identifier )* TypeArguments? ( . Identifier
         // TypeArguments? )* ;
 
-        pos = checkChar('L', signature, pos);
-        pos = checkIdentifier(signature, pos);
-        while (getChar(signature, pos) == '/') {
-            pos = checkIdentifier(signature, pos + 1);
+        pos = checkChbr('L', signbture, pos);
+        pos = checkIdentifier(signbture, pos);
+        while (getChbr(signbture, pos) == '/') {
+            pos = checkIdentifier(signbture, pos + 1);
         }
-        if (getChar(signature, pos) == '<') {
-            pos = checkTypeArguments(signature, pos);
+        if (getChbr(signbture, pos) == '<') {
+            pos = checkTypeArguments(signbture, pos);
         }
-        while (getChar(signature, pos) == '.') {
-            pos = checkIdentifier(signature, pos + 1);
-            if (getChar(signature, pos) == '<') {
-                pos = checkTypeArguments(signature, pos);
+        while (getChbr(signbture, pos) == '.') {
+            pos = checkIdentifier(signbture, pos + 1);
+            if (getChbr(signbture, pos) == '<') {
+                pos = checkTypeArguments(signbture, pos);
             }
         }
-        return checkChar(';', signature, pos);
+        return checkChbr(';', signbture, pos);
     }
 
     /**
-     * Checks the type arguments in a class type signature.
+     * Checks the type brguments in b clbss type signbture.
      *
-     * @param signature
-     *            a string containing the signature that must be checked.
-     * @param pos
-     *            index of first character to be checked.
-     * @return the index of the first character after the checked part.
+     * @pbrbm signbture
+     *            b string contbining the signbture thbt must be checked.
+     * @pbrbm pos
+     *            index of first chbrbcter to be checked.
+     * @return the index of the first chbrbcter bfter the checked pbrt.
      */
-    private static int checkTypeArguments(final String signature, int pos) {
+    privbte stbtic int checkTypeArguments(finbl String signbture, int pos) {
         // TypeArguments:
         // < TypeArgument+ >
 
-        pos = checkChar('<', signature, pos);
-        pos = checkTypeArgument(signature, pos);
-        while (getChar(signature, pos) != '>') {
-            pos = checkTypeArgument(signature, pos);
+        pos = checkChbr('<', signbture, pos);
+        pos = checkTypeArgument(signbture, pos);
+        while (getChbr(signbture, pos) != '>') {
+            pos = checkTypeArgument(signbture, pos);
         }
         return pos + 1;
     }
 
     /**
-     * Checks a type argument in a class type signature.
+     * Checks b type brgument in b clbss type signbture.
      *
-     * @param signature
-     *            a string containing the signature that must be checked.
-     * @param pos
-     *            index of first character to be checked.
-     * @return the index of the first character after the checked part.
+     * @pbrbm signbture
+     *            b string contbining the signbture thbt must be checked.
+     * @pbrbm pos
+     *            index of first chbrbcter to be checked.
+     * @return the index of the first chbrbcter bfter the checked pbrt.
      */
-    private static int checkTypeArgument(final String signature, int pos) {
+    privbte stbtic int checkTypeArgument(finbl String signbture, int pos) {
         // TypeArgument:
-        // * | ( ( + | - )? FieldTypeSignature )
+        // * | ( ( + | - )? FieldTypeSignbture )
 
-        char c = getChar(signature, pos);
+        chbr c = getChbr(signbture, pos);
         if (c == '*') {
             return pos + 1;
         } else if (c == '+' || c == '-') {
             pos++;
         }
-        return checkFieldTypeSignature(signature, pos);
+        return checkFieldTypeSignbture(signbture, pos);
     }
 
     /**
-     * Checks a type variable signature.
+     * Checks b type vbribble signbture.
      *
-     * @param signature
-     *            a string containing the signature that must be checked.
-     * @param pos
-     *            index of first character to be checked.
-     * @return the index of the first character after the checked part.
+     * @pbrbm signbture
+     *            b string contbining the signbture thbt must be checked.
+     * @pbrbm pos
+     *            index of first chbrbcter to be checked.
+     * @return the index of the first chbrbcter bfter the checked pbrt.
      */
-    private static int checkTypeVariableSignature(final String signature,
+    privbte stbtic int checkTypeVbribbleSignbture(finbl String signbture,
             int pos) {
-        // TypeVariableSignature:
+        // TypeVbribbleSignbture:
         // T Identifier ;
 
-        pos = checkChar('T', signature, pos);
-        pos = checkIdentifier(signature, pos);
-        return checkChar(';', signature, pos);
+        pos = checkChbr('T', signbture, pos);
+        pos = checkIdentifier(signbture, pos);
+        return checkChbr(';', signbture, pos);
     }
 
     /**
-     * Checks a type signature.
+     * Checks b type signbture.
      *
-     * @param signature
-     *            a string containing the signature that must be checked.
-     * @param pos
-     *            index of first character to be checked.
-     * @return the index of the first character after the checked part.
+     * @pbrbm signbture
+     *            b string contbining the signbture thbt must be checked.
+     * @pbrbm pos
+     *            index of first chbrbcter to be checked.
+     * @return the index of the first chbrbcter bfter the checked pbrt.
      */
-    private static int checkTypeSignature(final String signature, int pos) {
-        // TypeSignature:
-        // Z | C | B | S | I | F | J | D | FieldTypeSignature
+    privbte stbtic int checkTypeSignbture(finbl String signbture, int pos) {
+        // TypeSignbture:
+        // Z | C | B | S | I | F | J | D | FieldTypeSignbture
 
-        switch (getChar(signature, pos)) {
-        case 'Z':
-        case 'C':
-        case 'B':
-        case 'S':
-        case 'I':
-        case 'F':
-        case 'J':
-        case 'D':
+        switch (getChbr(signbture, pos)) {
+        cbse 'Z':
+        cbse 'C':
+        cbse 'B':
+        cbse 'S':
+        cbse 'I':
+        cbse 'F':
+        cbse 'J':
+        cbse 'D':
             return pos + 1;
-        default:
-            return checkFieldTypeSignature(signature, pos);
+        defbult:
+            return checkFieldTypeSignbture(signbture, pos);
         }
     }
 
     /**
-     * Checks an identifier.
+     * Checks bn identifier.
      *
-     * @param signature
-     *            a string containing the signature that must be checked.
-     * @param pos
-     *            index of first character to be checked.
-     * @return the index of the first character after the checked part.
+     * @pbrbm signbture
+     *            b string contbining the signbture thbt must be checked.
+     * @pbrbm pos
+     *            index of first chbrbcter to be checked.
+     * @return the index of the first chbrbcter bfter the checked pbrt.
      */
-    private static int checkIdentifier(final String signature, int pos) {
-        if (!Character.isJavaIdentifierStart(getChar(signature, pos))) {
-            throw new IllegalArgumentException(signature
-                    + ": identifier expected at index " + pos);
+    privbte stbtic int checkIdentifier(finbl String signbture, int pos) {
+        if (!Chbrbcter.isJbvbIdentifierStbrt(getChbr(signbture, pos))) {
+            throw new IllegblArgumentException(signbture
+                    + ": identifier expected bt index " + pos);
         }
         ++pos;
-        while (Character.isJavaIdentifierPart(getChar(signature, pos))) {
+        while (Chbrbcter.isJbvbIdentifierPbrt(getChbr(signbture, pos))) {
             ++pos;
         }
         return pos;
     }
 
     /**
-     * Checks a single character.
+     * Checks b single chbrbcter.
      *
-     * @param signature
-     *            a string containing the signature that must be checked.
-     * @param pos
-     *            index of first character to be checked.
-     * @return the index of the first character after the checked part.
+     * @pbrbm signbture
+     *            b string contbining the signbture thbt must be checked.
+     * @pbrbm pos
+     *            index of first chbrbcter to be checked.
+     * @return the index of the first chbrbcter bfter the checked pbrt.
      */
-    private static int checkChar(final char c, final String signature, int pos) {
-        if (getChar(signature, pos) == c) {
+    privbte stbtic int checkChbr(finbl chbr c, finbl String signbture, int pos) {
+        if (getChbr(signbture, pos) == c) {
             return pos + 1;
         }
-        throw new IllegalArgumentException(signature + ": '" + c
-                + "' expected at index " + pos);
+        throw new IllegblArgumentException(signbture + ": '" + c
+                + "' expected bt index " + pos);
     }
 
     /**
-     * Returns the signature car at the given index.
+     * Returns the signbture cbr bt the given index.
      *
-     * @param signature
-     *            a signature.
-     * @param pos
-     *            an index in signature.
-     * @return the character at the given index, or 0 if there is no such
-     *         character.
+     * @pbrbm signbture
+     *            b signbture.
+     * @pbrbm pos
+     *            bn index in signbture.
+     * @return the chbrbcter bt the given index, or 0 if there is no such
+     *         chbrbcter.
      */
-    private static char getChar(final String signature, int pos) {
-        return pos < signature.length() ? signature.charAt(pos) : (char) 0;
+    privbte stbtic chbr getChbr(finbl String signbture, int pos) {
+        return pos < signbture.length() ? signbture.chbrAt(pos) : (chbr) 0;
     }
 }

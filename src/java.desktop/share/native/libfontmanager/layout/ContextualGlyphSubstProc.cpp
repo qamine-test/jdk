@@ -1,24 +1,24 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  *
  */
@@ -30,78 +30,78 @@
  */
 
 #include "LETypes.h"
-#include "MorphTables.h"
-#include "StateTables.h"
-#include "MorphStateTables.h"
-#include "SubtableProcessor.h"
-#include "StateTableProcessor.h"
-#include "ContextualGlyphSubstProc.h"
-#include "LEGlyphStorage.h"
-#include "LESwaps.h"
+#include "MorphTbbles.h"
+#include "StbteTbbles.h"
+#include "MorphStbteTbbles.h"
+#include "SubtbbleProcessor.h"
+#include "StbteTbbleProcessor.h"
+#include "ContextublGlyphSubstProc.h"
+#include "LEGlyphStorbge.h"
+#include "LESwbps.h"
 
 U_NAMESPACE_BEGIN
 
-UOBJECT_DEFINE_RTTI_IMPLEMENTATION(ContextualGlyphSubstitutionProcessor)
+UOBJECT_DEFINE_RTTI_IMPLEMENTATION(ContextublGlyphSubstitutionProcessor)
 
-ContextualGlyphSubstitutionProcessor::ContextualGlyphSubstitutionProcessor(const LEReferenceTo<MorphSubtableHeader> &morphSubtableHeader, LEErrorCode &success)
-  : StateTableProcessor(morphSubtableHeader, success), entryTable(), contextualGlyphSubstitutionHeader(morphSubtableHeader, success)
+ContextublGlyphSubstitutionProcessor::ContextublGlyphSubstitutionProcessor(const LEReferenceTo<MorphSubtbbleHebder> &morphSubtbbleHebder, LEErrorCode &success)
+  : StbteTbbleProcessor(morphSubtbbleHebder, success), entryTbble(), contextublGlyphSubstitutionHebder(morphSubtbbleHebder, success)
 {
-  contextualGlyphSubstitutionHeader.orphan();
-  substitutionTableOffset = SWAPW(contextualGlyphSubstitutionHeader->substitutionTableOffset);
+  contextublGlyphSubstitutionHebder.orphbn();
+  substitutionTbbleOffset = SWAPW(contextublGlyphSubstitutionHebder->substitutionTbbleOffset);
 
 
-  entryTable = LEReferenceToArrayOf<ContextualGlyphSubstitutionStateEntry>(stateTableHeader, success,
-                                                                           (const ContextualGlyphSubstitutionStateEntry*)(&stateTableHeader->stHeader),
-                                                                           entryTableOffset, LE_UNBOUNDED_ARRAY);
-  int16Table = LEReferenceToArrayOf<le_int16>(stateTableHeader, success, (const le_int16*)(&stateTableHeader->stHeader),
-                                              0, LE_UNBOUNDED_ARRAY); // rest of the table as le_int16s
+  entryTbble = LEReferenceToArrbyOf<ContextublGlyphSubstitutionStbteEntry>(stbteTbbleHebder, success,
+                                                                           (const ContextublGlyphSubstitutionStbteEntry*)(&stbteTbbleHebder->stHebder),
+                                                                           entryTbbleOffset, LE_UNBOUNDED_ARRAY);
+  int16Tbble = LEReferenceToArrbyOf<le_int16>(stbteTbbleHebder, success, (const le_int16*)(&stbteTbbleHebder->stHebder),
+                                              0, LE_UNBOUNDED_ARRAY); // rest of the tbble bs le_int16s
 }
 
-ContextualGlyphSubstitutionProcessor::~ContextualGlyphSubstitutionProcessor()
+ContextublGlyphSubstitutionProcessor::~ContextublGlyphSubstitutionProcessor()
 {
 }
 
-void ContextualGlyphSubstitutionProcessor::beginStateTable()
+void ContextublGlyphSubstitutionProcessor::beginStbteTbble()
 {
-    markGlyph = 0;
+    mbrkGlyph = 0;
 }
 
-ByteOffset ContextualGlyphSubstitutionProcessor::processStateEntry(LEGlyphStorage &glyphStorage, le_int32 &currGlyph, EntryTableIndex index)
+ByteOffset ContextublGlyphSubstitutionProcessor::processStbteEntry(LEGlyphStorbge &glyphStorbge, le_int32 &currGlyph, EntryTbbleIndex index)
 {
   LEErrorCode success = LE_NO_ERROR;
-  const ContextualGlyphSubstitutionStateEntry *entry = entryTable.getAlias(index, success);
-  ByteOffset newState = SWAPW(entry->newStateOffset);
-  le_int16 flags = SWAPW(entry->flags);
-  WordOffset markOffset = SWAPW(entry->markOffset);
+  const ContextublGlyphSubstitutionStbteEntry *entry = entryTbble.getAlibs(index, success);
+  ByteOffset newStbte = SWAPW(entry->newStbteOffset);
+  le_int16 flbgs = SWAPW(entry->flbgs);
+  WordOffset mbrkOffset = SWAPW(entry->mbrkOffset);
   WordOffset currOffset = SWAPW(entry->currOffset);
 
-  if (markOffset != 0 && LE_SUCCESS(success)) {
-    LEGlyphID mGlyph = glyphStorage[markGlyph];
-    TTGlyphID newGlyph = SWAPW(int16Table.getObject(markOffset + LE_GET_GLYPH(mGlyph), success)); // whew.
+  if (mbrkOffset != 0 && LE_SUCCESS(success)) {
+    LEGlyphID mGlyph = glyphStorbge[mbrkGlyph];
+    TTGlyphID newGlyph = SWAPW(int16Tbble.getObject(mbrkOffset + LE_GET_GLYPH(mGlyph), success)); // whew.
 
-    glyphStorage[markGlyph] = LE_SET_GLYPH(mGlyph, newGlyph);
+    glyphStorbge[mbrkGlyph] = LE_SET_GLYPH(mGlyph, newGlyph);
   }
 
   if (currOffset != 0) {
-    LEGlyphID thisGlyph = glyphStorage[currGlyph];
-    TTGlyphID newGlyph = SWAPW(int16Table.getObject(currOffset + LE_GET_GLYPH(thisGlyph), success)); // whew.
+    LEGlyphID thisGlyph = glyphStorbge[currGlyph];
+    TTGlyphID newGlyph = SWAPW(int16Tbble.getObject(currOffset + LE_GET_GLYPH(thisGlyph), success)); // whew.
 
-    glyphStorage[currGlyph] = LE_SET_GLYPH(thisGlyph, newGlyph);
+    glyphStorbge[currGlyph] = LE_SET_GLYPH(thisGlyph, newGlyph);
   }
 
-    if (flags & cgsSetMark) {
-        markGlyph = currGlyph;
+    if (flbgs & cgsSetMbrk) {
+        mbrkGlyph = currGlyph;
     }
 
-    if (!(flags & cgsDontAdvance)) {
-        // should handle reverse too!
+    if (!(flbgs & cgsDontAdvbnce)) {
+        // should hbndle reverse too!
         currGlyph += 1;
     }
 
-    return newState;
+    return newStbte;
 }
 
-void ContextualGlyphSubstitutionProcessor::endStateTable()
+void ContextublGlyphSubstitutionProcessor::endStbteTbble()
 {
 }
 

@@ -1,178 +1,178 @@
 /*
- * Copyright (c) 2005, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jmx.mbeanserver;
+pbckbge com.sun.jmx.mbebnserver;
 
-import static com.sun.jmx.mbeanserver.Util.*;
+import stbtic com.sun.jmx.mbebnserver.Util.*;
 
-import java.util.Iterator;
-import java.util.Set;
+import jbvb.util.Iterbtor;
+import jbvb.util.Set;
 
-import javax.management.InstanceAlreadyExistsException;
-import javax.management.JMX;
-import javax.management.MBeanServer;
-import javax.management.NotCompliantMBeanException;
-import javax.management.ObjectName;
+import jbvbx.mbnbgement.InstbnceAlrebdyExistsException;
+import jbvbx.mbnbgement.JMX;
+import jbvbx.mbnbgement.MBebnServer;
+import jbvbx.mbnbgement.NotComplibntMBebnException;
+import jbvbx.mbnbgement.ObjectNbme;
 
 /**
- * Base class for MXBeans.
+ * Bbse clbss for MXBebns.
  *
  * @since 1.6
  */
-public class MXBeanSupport extends MBeanSupport<ConvertingMethod> {
+public clbss MXBebnSupport extends MBebnSupport<ConvertingMethod> {
 
     /**
-       <p>Construct an MXBean that wraps the given resource using the
-       given MXBean interface.</p>
+       <p>Construct bn MXBebn thbt wrbps the given resource using the
+       given MXBebn interfbce.</p>
 
-       @param resource the underlying resource for the new MXBean.
+       @pbrbm resource the underlying resource for the new MXBebn.
 
-       @param mxbeanInterface the interface to be used to determine
-       the MXBean's management interface.
+       @pbrbm mxbebnInterfbce the interfbce to be used to determine
+       the MXBebn's mbnbgement interfbce.
 
-       @param <T> a type parameter that allows the compiler to check
-       that {@code resource} implements {@code mxbeanInterface},
-       provided that {@code mxbeanInterface} is a class constant like
-       {@code SomeMXBean.class}.
+       @pbrbm <T> b type pbrbmeter thbt bllows the compiler to check
+       thbt {@code resource} implements {@code mxbebnInterfbce},
+       provided thbt {@code mxbebnInterfbce} is b clbss constbnt like
+       {@code SomeMXBebn.clbss}.
 
-       @throws IllegalArgumentException if {@code resource} is null or
-       if it does not implement the class {@code mxbeanInterface} or if
-       that class is not a valid MXBean interface.
+       @throws IllegblArgumentException if {@code resource} is null or
+       if it does not implement the clbss {@code mxbebnInterfbce} or if
+       thbt clbss is not b vblid MXBebn interfbce.
     */
-    public <T> MXBeanSupport(T resource, Class<T> mxbeanInterface)
-            throws NotCompliantMBeanException {
-        super(resource, mxbeanInterface);
+    public <T> MXBebnSupport(T resource, Clbss<T> mxbebnInterfbce)
+            throws NotComplibntMBebnException {
+        super(resource, mxbebnInterfbce);
     }
 
     @Override
-    MBeanIntrospector<ConvertingMethod> getMBeanIntrospector() {
-        return MXBeanIntrospector.getInstance();
+    MBebnIntrospector<ConvertingMethod> getMBebnIntrospector() {
+        return MXBebnIntrospector.getInstbnce();
     }
 
     @Override
     Object getCookie() {
-        return mxbeanLookup;
+        return mxbebnLookup;
     }
 
-    static <T> Class<? super T> findMXBeanInterface(Class<T> resourceClass) {
-        if (resourceClass == null)
-            throw new IllegalArgumentException("Null resource class");
-        final Set<Class<?>> intfs = transitiveInterfaces(resourceClass);
-        final Set<Class<?>> candidates = newSet();
-        for (Class<?> intf : intfs) {
-            if (JMX.isMXBeanInterface(intf))
-                candidates.add(intf);
+    stbtic <T> Clbss<? super T> findMXBebnInterfbce(Clbss<T> resourceClbss) {
+        if (resourceClbss == null)
+            throw new IllegblArgumentException("Null resource clbss");
+        finbl Set<Clbss<?>> intfs = trbnsitiveInterfbces(resourceClbss);
+        finbl Set<Clbss<?>> cbndidbtes = newSet();
+        for (Clbss<?> intf : intfs) {
+            if (JMX.isMXBebnInterfbce(intf))
+                cbndidbtes.bdd(intf);
         }
     reduce:
-        while (candidates.size() > 1) {
-            for (Class<?> intf : candidates) {
-                for (Iterator<Class<?>> it = candidates.iterator(); it.hasNext();
+        while (cbndidbtes.size() > 1) {
+            for (Clbss<?> intf : cbndidbtes) {
+                for (Iterbtor<Clbss<?>> it = cbndidbtes.iterbtor(); it.hbsNext();
                     ) {
-                    final Class<?> intf2 = it.next();
-                    if (intf != intf2 && intf2.isAssignableFrom(intf)) {
+                    finbl Clbss<?> intf2 = it.next();
+                    if (intf != intf2 && intf2.isAssignbbleFrom(intf)) {
                         it.remove();
                         continue reduce;
                     }
                 }
             }
-            final String msg =
-                "Class " + resourceClass.getName() + " implements more than " +
-                "one MXBean interface: " + candidates;
-            throw new IllegalArgumentException(msg);
+            finbl String msg =
+                "Clbss " + resourceClbss.getNbme() + " implements more thbn " +
+                "one MXBebn interfbce: " + cbndidbtes;
+            throw new IllegblArgumentException(msg);
         }
-        if (candidates.iterator().hasNext()) {
-            return Util.cast(candidates.iterator().next());
+        if (cbndidbtes.iterbtor().hbsNext()) {
+            return Util.cbst(cbndidbtes.iterbtor().next());
         } else {
-            final String msg =
-                "Class " + resourceClass.getName() +
-                " is not a JMX compliant MXBean";
-            throw new IllegalArgumentException(msg);
+            finbl String msg =
+                "Clbss " + resourceClbss.getNbme() +
+                " is not b JMX complibnt MXBebn";
+            throw new IllegblArgumentException(msg);
         }
     }
 
-    /* Return all interfaces inherited by this class, directly or
-     * indirectly through the parent class and interfaces.
+    /* Return bll interfbces inherited by this clbss, directly or
+     * indirectly through the pbrent clbss bnd interfbces.
      */
-    private static Set<Class<?>> transitiveInterfaces(Class<?> c) {
-        Set<Class<?>> set = newSet();
-        transitiveInterfaces(c, set);
+    privbte stbtic Set<Clbss<?>> trbnsitiveInterfbces(Clbss<?> c) {
+        Set<Clbss<?>> set = newSet();
+        trbnsitiveInterfbces(c, set);
         return set;
     }
-    private static void transitiveInterfaces(Class<?> c, Set<Class<?>> intfs) {
+    privbte stbtic void trbnsitiveInterfbces(Clbss<?> c, Set<Clbss<?>> intfs) {
         if (c == null)
             return;
-        if (c.isInterface())
-            intfs.add(c);
-        transitiveInterfaces(c.getSuperclass(), intfs);
-        for (Class<?> sup : c.getInterfaces())
-            transitiveInterfaces(sup, intfs);
+        if (c.isInterfbce())
+            intfs.bdd(c);
+        trbnsitiveInterfbces(c.getSuperclbss(), intfs);
+        for (Clbss<?> sup : c.getInterfbces())
+            trbnsitiveInterfbces(sup, intfs);
     }
 
     /*
-     * The sequence of events for tracking inter-MXBean references is
-     * relatively complicated.  We use the magical preRegister2 method
-     * which the MBeanServer knows about.  The steps during registration
-     * are:
-     * (1) Call user preRegister, if any.  If exception, abandon.
-     * (2) Call preRegister2 and hence this register method.  If exception,
-     * call postRegister(false) and abandon.
-     * (3) Try to register the MBean.  If exception, call registerFailed()
-     * which will call the unregister method.  (Also call postRegister(false).)
-     * (4) If we get this far, we can call postRegister(true).
+     * The sequence of events for trbcking inter-MXBebn references is
+     * relbtively complicbted.  We use the mbgicbl preRegister2 method
+     * which the MBebnServer knows bbout.  The steps during registrbtion
+     * bre:
+     * (1) Cbll user preRegister, if bny.  If exception, bbbndon.
+     * (2) Cbll preRegister2 bnd hence this register method.  If exception,
+     * cbll postRegister(fblse) bnd bbbndon.
+     * (3) Try to register the MBebn.  If exception, cbll registerFbiled()
+     * which will cbll the unregister method.  (Also cbll postRegister(fblse).)
+     * (4) If we get this fbr, we cbn cbll postRegister(true).
      *
-     * When we are wrapped in an instance of javax.management.StandardMBean,
-     * things are simpler.  That class calls this method from its preRegister,
-     * and propagates any exception.  There is no user preRegister in this case.
-     * If this method succeeds but registration subsequently fails,
-     * StandardMBean calls unregister from its postRegister(false) method.
+     * When we bre wrbpped in bn instbnce of jbvbx.mbnbgement.StbndbrdMBebn,
+     * things bre simpler.  Thbt clbss cblls this method from its preRegister,
+     * bnd propbgbtes bny exception.  There is no user preRegister in this cbse.
+     * If this method succeeds but registrbtion subsequently fbils,
+     * StbndbrdMBebn cblls unregister from its postRegister(fblse) method.
      */
     @Override
-    public void register(MBeanServer server, ObjectName name)
-            throws InstanceAlreadyExistsException {
-        if (name == null)
-            throw new IllegalArgumentException("Null object name");
-        // eventually we could have some logic to supply a default name
+    public void register(MBebnServer server, ObjectNbme nbme)
+            throws InstbnceAlrebdyExistsException {
+        if (nbme == null)
+            throw new IllegblArgumentException("Null object nbme");
+        // eventublly we could hbve some logic to supply b defbult nbme
 
         synchronized (lock) {
-            this.mxbeanLookup = MXBeanLookup.lookupFor(server);
-            this.mxbeanLookup.addReference(name, getResource());
-            this.objectName = name;
+            this.mxbebnLookup = MXBebnLookup.lookupFor(server);
+            this.mxbebnLookup.bddReference(nbme, getResource());
+            this.objectNbme = nbme;
         }
     }
 
     @Override
     public void unregister() {
         synchronized (lock) {
-            if (mxbeanLookup != null) {
-                if (mxbeanLookup.removeReference(objectName, getResource()))
-                    objectName = null;
+            if (mxbebnLookup != null) {
+                if (mxbebnLookup.removeReference(objectNbme, getResource()))
+                    objectNbme = null;
             }
         }
     }
-    private final Object lock = new Object(); // for mxbeanLookup and objectName
+    privbte finbl Object lock = new Object(); // for mxbebnLookup bnd objectNbme
 
-    private MXBeanLookup mxbeanLookup;
-    private ObjectName objectName;
+    privbte MXBebnLookup mxbebnLookup;
+    privbte ObjectNbme objectNbme;
 }

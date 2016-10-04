@@ -1,168 +1,168 @@
 /*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.tools.jdi;
+pbckbge com.sun.tools.jdi;
 
 import com.sun.jdi.*;
 import com.sun.jdi.event.*;
 import com.sun.jdi.connect.spi.Connection;
 import com.sun.jdi.event.EventSet;
 
-import java.util.*;
-import java.io.IOException;
+import jbvb.util.*;
+import jbvb.io.IOException;
 
-public class TargetVM implements Runnable {
-    private Map<String, Packet> waitingQueue = new HashMap<String, Packet>(32,0.75f);
-    private boolean shouldListen = true;
-    private List<EventQueue> eventQueues = Collections.synchronizedList(new ArrayList<EventQueue>(2));
-    private VirtualMachineImpl vm;
-    private Connection connection;
-    private Thread readerThread;
-    private EventController eventController = null;
-    private boolean eventsHeld = false;
+public clbss TbrgetVM implements Runnbble {
+    privbte Mbp<String, Pbcket> wbitingQueue = new HbshMbp<String, Pbcket>(32,0.75f);
+    privbte boolebn shouldListen = true;
+    privbte List<EventQueue> eventQueues = Collections.synchronizedList(new ArrbyList<EventQueue>(2));
+    privbte VirtublMbchineImpl vm;
+    privbte Connection connection;
+    privbte Threbd rebderThrebd;
+    privbte EventController eventController = null;
+    privbte boolebn eventsHeld = fblse;
 
     /*
-     * TO DO: The limit numbers below are somewhat arbitrary and should
-     * be configurable in the future.
+     * TO DO: The limit numbers below bre somewhbt brbitrbry bnd should
+     * be configurbble in the future.
      */
-    static private final int OVERLOADED_QUEUE = 2000;
-    static private final int UNDERLOADED_QUEUE = 100;
+    stbtic privbte finbl int OVERLOADED_QUEUE = 2000;
+    stbtic privbte finbl int UNDERLOADED_QUEUE = 100;
 
-    TargetVM(VirtualMachineImpl vm, Connection connection) {
+    TbrgetVM(VirtublMbchineImpl vm, Connection connection) {
         this.vm = vm;
         this.connection = connection;
-        this.readerThread = new Thread(vm.threadGroupForJDI(),
-                                       this, "JDI Target VM Interface");
-        this.readerThread.setDaemon(true);
+        this.rebderThrebd = new Threbd(vm.threbdGroupForJDI(),
+                                       this, "JDI Tbrget VM Interfbce");
+        this.rebderThrebd.setDbemon(true);
     }
 
-    void start() {
-        readerThread.start();
+    void stbrt() {
+        rebderThrebd.stbrt();
     }
 
-    private void dumpPacket(Packet packet, boolean sending) {
+    privbte void dumpPbcket(Pbcket pbcket, boolebn sending) {
         String direction = sending ? "Sending" : "Receiving";
         if (sending) {
-            vm.printTrace(direction + " Command. id=" + packet.id +
-                          ", length=" + packet.data.length +
-                          ", commandSet=" + packet.cmdSet +
-                          ", command=" + packet.cmd +
-                          ", flags=" + packet.flags);
+            vm.printTrbce(direction + " Commbnd. id=" + pbcket.id +
+                          ", length=" + pbcket.dbtb.length +
+                          ", commbndSet=" + pbcket.cmdSet +
+                          ", commbnd=" + pbcket.cmd +
+                          ", flbgs=" + pbcket.flbgs);
         } else {
-            String type = (packet.flags & Packet.Reply) != 0 ?
+            String type = (pbcket.flbgs & Pbcket.Reply) != 0 ?
                           "Reply" : "Event";
-            vm.printTrace(direction + " " + type + ". id=" + packet.id +
-                          ", length=" + packet.data.length +
-                          ", errorCode=" + packet.errorCode +
-                          ", flags=" + packet.flags);
+            vm.printTrbce(direction + " " + type + ". id=" + pbcket.id +
+                          ", length=" + pbcket.dbtb.length +
+                          ", errorCode=" + pbcket.errorCode +
+                          ", flbgs=" + pbcket.flbgs);
         }
         StringBuilder line = new StringBuilder(80);
-        line.append("0000: ");
-        for (int i = 0; i < packet.data.length; i++) {
+        line.bppend("0000: ");
+        for (int i = 0; i < pbcket.dbtb.length; i++) {
             if ((i > 0) && (i % 16 == 0)) {
-                vm.printTrace(line.toString());
+                vm.printTrbce(line.toString());
                 line.setLength(0);
-                line.append(String.valueOf(i));
-                line.append(": ");
+                line.bppend(String.vblueOf(i));
+                line.bppend(": ");
                 int len = line.length();
                 for (int j = 0; j < 6 - len; j++) {
                     line.insert(0, '0');
                 }
             }
-            int val = 0xff & packet.data[i];
-            String str = Integer.toHexString(val);
+            int vbl = 0xff & pbcket.dbtb[i];
+            String str = Integer.toHexString(vbl);
             if (str.length() == 1) {
-                line.append('0');
+                line.bppend('0');
             }
-            line.append(str);
-            line.append(' ');
+            line.bppend(str);
+            line.bppend(' ');
         }
         if (line.length() > 6) {
-            vm.printTrace(line.toString());
+            vm.printTrbce(line.toString());
         }
     }
 
     public void run() {
-        if ((vm.traceFlags & VirtualMachine.TRACE_SENDS) != 0) {
-            vm.printTrace("Target VM interface thread running");
+        if ((vm.trbceFlbgs & VirtublMbchine.TRACE_SENDS) != 0) {
+            vm.printTrbce("Tbrget VM interfbce threbd running");
         }
-        Packet p=null,p2;
+        Pbcket p=null,p2;
         String idString;
 
         while(shouldListen) {
 
-            boolean done = false;
+            boolebn done = fblse;
             try {
-                byte b[] = connection.readPacket();
+                byte b[] = connection.rebdPbcket();
                 if (b.length == 0) {
                     done = true;
                 }
-                p = Packet.fromByteArray(b);
-            } catch (IOException e) {
+                p = Pbcket.fromByteArrby(b);
+            } cbtch (IOException e) {
                 done = true;
             }
 
             if (done) {
-                shouldListen = false;
+                shouldListen = fblse;
                 try {
                     connection.close();
-                } catch (IOException ioe) { }
-                break;
+                } cbtch (IOException ioe) { }
+                brebk;
             }
 
-            if ((vm.traceFlags & VirtualMachineImpl.TRACE_RAW_RECEIVES) != 0)  {
-                dumpPacket(p, false);
+            if ((vm.trbceFlbgs & VirtublMbchineImpl.TRACE_RAW_RECEIVES) != 0)  {
+                dumpPbcket(p, fblse);
             }
 
-            if((p.flags & Packet.Reply) == 0) {
-                // It's a command
-                handleVMCommand(p);
+            if((p.flbgs & Pbcket.Reply) == 0) {
+                // It's b commbnd
+                hbndleVMCommbnd(p);
             } else {
-                /*if(p.errorCode != Packet.ReplyNoError) {
-                    System.err.println("Packet " + p.id + " returned failure = " + p.errorCode);
+                /*if(p.errorCode != Pbcket.ReplyNoError) {
+                    System.err.println("Pbcket " + p.id + " returned fbilure = " + p.errorCode);
                 }*/
 
-                vm.state().notifyCommandComplete(p.id);
-                idString = String.valueOf(p.id);
+                vm.stbte().notifyCommbndComplete(p.id);
+                idString = String.vblueOf(p.id);
 
-                synchronized(waitingQueue) {
-                    p2 = waitingQueue.get(idString);
+                synchronized(wbitingQueue) {
+                    p2 = wbitingQueue.get(idString);
 
                     if (p2 != null)
-                        waitingQueue.remove(idString);
+                        wbitingQueue.remove(idString);
                 }
 
                 if(p2 == null) {
-                    // Whoa! a reply without a sender. Problem.
-                    // FIX ME! Need to post an error.
+                    // Whob! b reply without b sender. Problem.
+                    // FIX ME! Need to post bn error.
 
                     System.err.println("Recieved reply with no sender!");
                     continue;
                 }
                 p2.errorCode = p.errorCode;
-                p2.data = p.data;
+                p2.dbtb = p.dbtb;
                 p2.replied = true;
 
                 synchronized(p2) {
@@ -171,60 +171,60 @@ public class TargetVM implements Runnable {
             }
         }
 
-        // inform the VM mamager that this VM is history
-        vm.vmManager.disposeVirtualMachine(vm);
+        // inform the VM mbmbger thbt this VM is history
+        vm.vmMbnbger.disposeVirtublMbchine(vm);
 
-        // close down all the event queues
-        // Closing a queue causes a VMDisconnectEvent to
+        // close down bll the event queues
+        // Closing b queue cbuses b VMDisconnectEvent to
         // be put onto the queue.
         synchronized(eventQueues) {
-            Iterator<EventQueue> iter = eventQueues.iterator();
-            while (iter.hasNext()) {
+            Iterbtor<EventQueue> iter = eventQueues.iterbtor();
+            while (iter.hbsNext()) {
                 ((EventQueueImpl)iter.next()).close();
             }
         }
 
         // indirectly throw VMDisconnectedException to
-        // command requesters.
-        synchronized(waitingQueue) {
-            Iterator<Packet> iter = waitingQueue.values().iterator();
-            while (iter.hasNext()) {
-                Packet packet = iter.next();
-                synchronized(packet) {
-                    packet.notify();
+        // commbnd requesters.
+        synchronized(wbitingQueue) {
+            Iterbtor<Pbcket> iter = wbitingQueue.vblues().iterbtor();
+            while (iter.hbsNext()) {
+                Pbcket pbcket = iter.next();
+                synchronized(pbcket) {
+                    pbcket.notify();
                 }
             }
-            waitingQueue.clear();
+            wbitingQueue.clebr();
         }
 
-        if ((vm.traceFlags & VirtualMachine.TRACE_SENDS) != 0) {
-            vm.printTrace("Target VM interface thread exiting");
+        if ((vm.trbceFlbgs & VirtublMbchine.TRACE_SENDS) != 0) {
+            vm.printTrbce("Tbrget VM interfbce threbd exiting");
         }
     }
 
-    protected void handleVMCommand(Packet p) {
+    protected void hbndleVMCommbnd(Pbcket p) {
         switch (p.cmdSet) {
-            case JDWP.Event.COMMAND_SET:
-                handleEventCmdSet(p);
-                break;
+            cbse JDWP.Event.COMMAND_SET:
+                hbndleEventCmdSet(p);
+                brebk;
 
-            default:
+            defbult:
                 System.err.println("Ignoring cmd " + p.id + "/" +
                                    p.cmdSet + "/" + p.cmd + " from the VM");
                 return;
         }
     }
 
-    /* Events should not be constructed on this thread (the thread
-     * which reads all data from the transport). This means that the
-     * packet cannot be converted to real JDI objects as that may
-     * involve further communications with the back end which would
-     * deadlock.
+    /* Events should not be constructed on this threbd (the threbd
+     * which rebds bll dbtb from the trbnsport). This mebns thbt the
+     * pbcket cbnnot be converted to rebl JDI objects bs thbt mby
+     * involve further communicbtions with the bbck end which would
+     * debdlock.
      *
-     * Instead the whole packet is passed for lazy eval by a queue
-     * reading thread.
+     * Instebd the whole pbcket is pbssed for lbzy evbl by b queue
+     * rebding threbd.
      */
-    protected void handleEventCmdSet(Packet p) {
+    protected void hbndleEventCmdSet(Pbcket p) {
         EventSet eventSet = new EventSetImpl(vm, p);
 
         if (eventSet != null) {
@@ -232,107 +232,107 @@ public class TargetVM implements Runnable {
         }
     }
 
-    private EventController eventController() {
+    privbte EventController eventController() {
         if (eventController == null) {
             eventController = new EventController(vm);
         }
         return eventController;
     }
 
-    private synchronized void controlEventFlow(int maxQueueSize) {
-        if (!eventsHeld && (maxQueueSize > OVERLOADED_QUEUE)) {
+    privbte synchronized void controlEventFlow(int mbxQueueSize) {
+        if (!eventsHeld && (mbxQueueSize > OVERLOADED_QUEUE)) {
             eventController().hold();
             eventsHeld = true;
-        } else if (eventsHeld && (maxQueueSize < UNDERLOADED_QUEUE)) {
-            eventController().release();
-            eventsHeld = false;
+        } else if (eventsHeld && (mbxQueueSize < UNDERLOADED_QUEUE)) {
+            eventController().relebse();
+            eventsHeld = fblse;
         }
     }
 
     void notifyDequeueEventSet() {
-        int maxQueueSize = 0;
+        int mbxQueueSize = 0;
         synchronized(eventQueues) {
-            Iterator<EventQueue> iter = eventQueues.iterator();
-            while (iter.hasNext()) {
+            Iterbtor<EventQueue> iter = eventQueues.iterbtor();
+            while (iter.hbsNext()) {
                 EventQueueImpl queue = (EventQueueImpl)iter.next();
-                maxQueueSize = Math.max(maxQueueSize, queue.size());
+                mbxQueueSize = Mbth.mbx(mbxQueueSize, queue.size());
             }
         }
-        controlEventFlow(maxQueueSize);
+        controlEventFlow(mbxQueueSize);
     }
 
-    private void queueEventSet(EventSet eventSet) {
-        int maxQueueSize = 0;
+    privbte void queueEventSet(EventSet eventSet) {
+        int mbxQueueSize = 0;
 
         synchronized(eventQueues) {
-            Iterator<EventQueue> iter = eventQueues.iterator();
-            while (iter.hasNext()) {
+            Iterbtor<EventQueue> iter = eventQueues.iterbtor();
+            while (iter.hbsNext()) {
                 EventQueueImpl queue = (EventQueueImpl)iter.next();
                 queue.enqueue(eventSet);
-                maxQueueSize = Math.max(maxQueueSize, queue.size());
+                mbxQueueSize = Mbth.mbx(mbxQueueSize, queue.size());
             }
         }
 
-        controlEventFlow(maxQueueSize);
+        controlEventFlow(mbxQueueSize);
     }
 
-    void send(Packet packet) {
-        String id = String.valueOf(packet.id);
+    void send(Pbcket pbcket) {
+        String id = String.vblueOf(pbcket.id);
 
-        synchronized(waitingQueue) {
-            waitingQueue.put(id, packet);
+        synchronized(wbitingQueue) {
+            wbitingQueue.put(id, pbcket);
         }
 
-        if ((vm.traceFlags & VirtualMachineImpl.TRACE_RAW_SENDS) != 0) {
-            dumpPacket(packet, true);
+        if ((vm.trbceFlbgs & VirtublMbchineImpl.TRACE_RAW_SENDS) != 0) {
+            dumpPbcket(pbcket, true);
         }
 
         try {
-            connection.writePacket(packet.toByteArray());
-        } catch (IOException e) {
-            throw new VMDisconnectedException(e.getMessage());
+            connection.writePbcket(pbcket.toByteArrby());
+        } cbtch (IOException e) {
+            throw new VMDisconnectedException(e.getMessbge());
         }
     }
 
-    void waitForReply(Packet packet) {
-        synchronized(packet) {
-            while ((!packet.replied) && shouldListen) {
-                try { packet.wait(); } catch (InterruptedException e) {;}
+    void wbitForReply(Pbcket pbcket) {
+        synchronized(pbcket) {
+            while ((!pbcket.replied) && shouldListen) {
+                try { pbcket.wbit(); } cbtch (InterruptedException e) {;}
             }
 
-            if (!packet.replied) {
+            if (!pbcket.replied) {
                 throw new VMDisconnectedException();
             }
         }
     }
 
-    void addEventQueue(EventQueueImpl queue) {
-        if ((vm.traceFlags & VirtualMachine.TRACE_EVENTS) != 0) {
-            vm.printTrace("New event queue added");
+    void bddEventQueue(EventQueueImpl queue) {
+        if ((vm.trbceFlbgs & VirtublMbchine.TRACE_EVENTS) != 0) {
+            vm.printTrbce("New event queue bdded");
         }
-        eventQueues.add(queue);
+        eventQueues.bdd(queue);
     }
 
     void stopListening() {
-        if ((vm.traceFlags & VirtualMachine.TRACE_EVENTS) != 0) {
-            vm.printTrace("Target VM i/f closing event queues");
+        if ((vm.trbceFlbgs & VirtublMbchine.TRACE_EVENTS) != 0) {
+            vm.printTrbce("Tbrget VM i/f closing event queues");
         }
-        shouldListen = false;
+        shouldListen = fblse;
         try {
             connection.close();
-        } catch (IOException ioe) { }
+        } cbtch (IOException ioe) { }
     }
 
-    static private class EventController extends Thread {
-        VirtualMachineImpl vm;
+    stbtic privbte clbss EventController extends Threbd {
+        VirtublMbchineImpl vm;
         int controlRequest = 0;
 
-        EventController(VirtualMachineImpl vm) {
-            super(vm.threadGroupForJDI(), "JDI Event Control Thread");
+        EventController(VirtublMbchineImpl vm) {
+            super(vm.threbdGroupForJDI(), "JDI Event Control Threbd");
             this.vm = vm;
-            setDaemon(true);
+            setDbemon(true);
             setPriority((MAX_PRIORITY + NORM_PRIORITY)/2);
-            super.start();
+            super.stbrt();
         }
 
         synchronized void hold() {
@@ -340,7 +340,7 @@ public class TargetVM implements Runnable {
             notifyAll();
         }
 
-        synchronized void release() {
+        synchronized void relebse() {
             controlRequest--;
             notifyAll();
         }
@@ -350,23 +350,23 @@ public class TargetVM implements Runnable {
                 int currentRequest;
                 synchronized(this) {
                     while (controlRequest == 0) {
-                        try {wait();} catch (InterruptedException e) {}
+                        try {wbit();} cbtch (InterruptedException e) {}
                     }
                     currentRequest = controlRequest;
                     controlRequest = 0;
                 }
                 try {
                     if (currentRequest > 0) {
-                        JDWP.VirtualMachine.HoldEvents.process(vm);
+                        JDWP.VirtublMbchine.HoldEvents.process(vm);
                     } else {
-                        JDWP.VirtualMachine.ReleaseEvents.process(vm);
+                        JDWP.VirtublMbchine.RelebseEvents.process(vm);
                     }
-                } catch (JDWPException e) {
+                } cbtch (JDWPException e) {
                     /*
-                     * Don't want to terminate the thread, so the
-                     * stack trace is printed and we continue.
+                     * Don't wbnt to terminbte the threbd, so the
+                     * stbck trbce is printed bnd we continue.
                      */
-                    e.toJDIException().printStackTrace(System.err);
+                    e.toJDIException().printStbckTrbce(System.err);
                 }
             }
         }

@@ -1,24 +1,24 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  *
  */
@@ -34,11 +34,11 @@
 
 /**
  * \file
- * \internal
+ * \internbl
  */
 
 #include "LETypes.h"
-#include "LayoutTables.h"
+#include "LbyoutTbbles.h"
 
 U_NAMESPACE_BEGIN
 
@@ -46,10 +46,10 @@ U_NAMESPACE_BEGIN
 
 
 /*
- * State table loop detection.
- * Detects if too many ( LE_STATE_PATIENCE_COUNT ) state changes occur without moving the glyph index 'g'.
+ * Stbte tbble loop detection.
+ * Detects if too mbny ( LE_STATE_PATIENCE_COUNT ) stbte chbnges occur without moving the glyph index 'g'.
  *
- * Usage (pseudocode):
+ * Usbge (pseudocode):
  *
  * {
  *   LE_STATE_PATIENCE_INIT();
@@ -57,84 +57,84 @@ U_NAMESPACE_BEGIN
  *   int g=0; // the glyph index - expect it to be moving
  *
  *   for(;;) {
- *     if(LE_STATE_PATIENCE_DECR()) { // decrements the patience counter
- *        // ran out of patience, get out.
- *        break;
+ *     if(LE_STATE_PATIENCE_DECR()) { // decrements the pbtience counter
+ *        // rbn out of pbtience, get out.
+ *        brebk;
  *     }
  *
  *     LE_STATE_PATIENCE_CURR(int, g); // store the 'current'
- *     state = newState(state,g);
+ *     stbte = newStbte(stbte,g);
  *     g+= <something, could be zero>;
- *     LE_STATE_PATIENCE_INCR(g);  // if g has moved, increment the patience counter. Otherwise leave it.
+ *     LE_STATE_PATIENCE_INCR(g);  // if g hbs moved, increment the pbtience counter. Otherwise lebve it.
  *   }
  *
  */
 
-#define LE_STATE_PATIENCE_COUNT 4096 /**< give up if a state table doesn't move the glyph after this many iterations */
-#define LE_STATE_PATIENCE_INIT()  le_uint32 le_patience_count = LE_STATE_PATIENCE_COUNT
-#define LE_STATE_PATIENCE_DECR()  --le_patience_count==0
-#define LE_STATE_PATIENCE_CURR(type,x)  type le_patience_curr=(x)
-#define LE_STATE_PATIENCE_INCR(x)    if((x)!=le_patience_curr) ++le_patience_count;
+#define LE_STATE_PATIENCE_COUNT 4096 /**< give up if b stbte tbble doesn't move the glyph bfter this mbny iterbtions */
+#define LE_STATE_PATIENCE_INIT()  le_uint32 le_pbtience_count = LE_STATE_PATIENCE_COUNT
+#define LE_STATE_PATIENCE_DECR()  --le_pbtience_count==0
+#define LE_STATE_PATIENCE_CURR(type,x)  type le_pbtience_curr=(x)
+#define LE_STATE_PATIENCE_INCR(x)    if((x)!=le_pbtience_curr) ++le_pbtience_count;
 
 
-struct StateTableHeader
+struct StbteTbbleHebder
 {
-    le_int16 stateSize;
-    ByteOffset classTableOffset;
-    ByteOffset stateArrayOffset;
-    ByteOffset entryTableOffset;
+    le_int16 stbteSize;
+    ByteOffset clbssTbbleOffset;
+    ByteOffset stbteArrbyOffset;
+    ByteOffset entryTbbleOffset;
 };
 
-struct StateTableHeader2
+struct StbteTbbleHebder2
 {
-    le_uint32 nClasses;
-    le_uint32 classTableOffset;
-    le_uint32 stateArrayOffset;
-    le_uint32 entryTableOffset;
+    le_uint32 nClbsses;
+    le_uint32 clbssTbbleOffset;
+    le_uint32 stbteArrbyOffset;
+    le_uint32 entryTbbleOffset;
 };
 
-enum ClassCodes
+enum ClbssCodes
 {
-    classCodeEOT = 0,
-    classCodeOOB = 1,
-    classCodeDEL = 2,
-    classCodeEOL = 3,
-    classCodeFirstFree = 4,
-    classCodeMAX = 0xFF
+    clbssCodeEOT = 0,
+    clbssCodeOOB = 1,
+    clbssCodeDEL = 2,
+    clbssCodeEOL = 3,
+    clbssCodeFirstFree = 4,
+    clbssCodeMAX = 0xFF
 };
 
-typedef le_uint8 ClassCode;
+typedef le_uint8 ClbssCode;
 
-struct ClassTable
+struct ClbssTbble
 {
     TTGlyphID firstGlyph;
     le_uint16 nGlyphs;
-    ClassCode classArray[ANY_NUMBER];
+    ClbssCode clbssArrby[ANY_NUMBER];
 };
-LE_VAR_ARRAY(ClassTable, classArray)
+LE_VAR_ARRAY(ClbssTbble, clbssArrby)
 
-enum StateNumber
+enum StbteNumber
 {
-    stateSOT        = 0,
-    stateSOL        = 1,
-    stateFirstFree  = 2,
-    stateMAX        = 0xFF
-};
-
-typedef le_uint8 EntryTableIndex;
-
-struct StateEntry
-{
-    ByteOffset  newStateOffset;
-    le_int16    flags;
+    stbteSOT        = 0,
+    stbteSOL        = 1,
+    stbteFirstFree  = 2,
+    stbteMAX        = 0xFF
 };
 
-typedef le_uint16 EntryTableIndex2;
+typedef le_uint8 EntryTbbleIndex;
 
-struct StateEntry2 // same struct different interpretation
+struct StbteEntry
 {
-    le_uint16    newStateIndex;
-    le_uint16    flags;
+    ByteOffset  newStbteOffset;
+    le_int16    flbgs;
+};
+
+typedef le_uint16 EntryTbbleIndex2;
+
+struct StbteEntry2 // sbme struct different interpretbtion
+{
+    le_uint16    newStbteIndex;
+    le_uint16    flbgs;
 };
 
 U_NAMESPACE_END

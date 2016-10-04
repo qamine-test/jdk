@@ -3,15 +3,15 @@
  * DO NOT REMOVE OR ALTER!
  */
 /*
- * jdtrans.c
+ * jdtrbns.c
  *
- * Copyright (C) 1995-1997, Thomas G. Lane.
- * This file is part of the Independent JPEG Group's software.
- * For conditions of distribution and use, see the accompanying README file.
+ * Copyright (C) 1995-1997, Thombs G. Lbne.
+ * This file is pbrt of the Independent JPEG Group's softwbre.
+ * For conditions of distribution bnd use, see the bccompbnying README file.
  *
- * This file contains library routines for transcoding decompression,
- * that is, reading raw DCT coefficient arrays from an input JPEG file.
- * The routines in jdapimin.c will also be needed by a transcoder.
+ * This file contbins librbry routines for trbnscoding decompression,
+ * thbt is, rebding rbw DCT coefficient brrbys from bn input JPEG file.
+ * The routines in jdbpimin.c will blso be needed by b trbnscoder.
  */
 
 #define JPEG_INTERNALS
@@ -19,45 +19,45 @@
 #include "jpeglib.h"
 
 
-/* Forward declarations */
-LOCAL(void) transdecode_master_selection JPP((j_decompress_ptr cinfo));
+/* Forwbrd declbrbtions */
+LOCAL(void) trbnsdecode_mbster_selection JPP((j_decompress_ptr cinfo));
 
 
 /*
- * Read the coefficient arrays from a JPEG file.
- * jpeg_read_header must be completed before calling this.
+ * Rebd the coefficient brrbys from b JPEG file.
+ * jpeg_rebd_hebder must be completed before cblling this.
  *
- * The entire image is read into a set of virtual coefficient-block arrays,
- * one per component.  The return value is a pointer to the array of
- * virtual-array descriptors.  These can be manipulated directly via the
- * JPEG memory manager, or handed off to jpeg_write_coefficients().
- * To release the memory occupied by the virtual arrays, call
- * jpeg_finish_decompress() when done with the data.
+ * The entire imbge is rebd into b set of virtubl coefficient-block brrbys,
+ * one per component.  The return vblue is b pointer to the brrby of
+ * virtubl-brrby descriptors.  These cbn be mbnipulbted directly vib the
+ * JPEG memory mbnbger, or hbnded off to jpeg_write_coefficients().
+ * To relebse the memory occupied by the virtubl brrbys, cbll
+ * jpeg_finish_decompress() when done with the dbtb.
  *
- * An alternative usage is to simply obtain access to the coefficient arrays
- * during a buffered-image-mode decompression operation.  This is allowed
- * after any jpeg_finish_output() call.  The arrays can be accessed until
- * jpeg_finish_decompress() is called.  (Note that any call to the library
- * may reposition the arrays, so don't rely on access_virt_barray() results
- * to stay valid across library calls.)
+ * An blternbtive usbge is to simply obtbin bccess to the coefficient brrbys
+ * during b buffered-imbge-mode decompression operbtion.  This is bllowed
+ * bfter bny jpeg_finish_output() cbll.  The brrbys cbn be bccessed until
+ * jpeg_finish_decompress() is cblled.  (Note thbt bny cbll to the librbry
+ * mby reposition the brrbys, so don't rely on bccess_virt_bbrrby() results
+ * to stby vblid bcross librbry cblls.)
  *
- * Returns NULL if suspended.  This case need be checked only if
- * a suspending data source is used.
+ * Returns NULL if suspended.  This cbse need be checked only if
+ * b suspending dbtb source is used.
  */
 
-GLOBAL(jvirt_barray_ptr *)
-jpeg_read_coefficients (j_decompress_ptr cinfo)
+GLOBAL(jvirt_bbrrby_ptr *)
+jpeg_rebd_coefficients (j_decompress_ptr cinfo)
 {
-  if (cinfo->global_state == DSTATE_READY) {
-    /* First call: initialize active modules */
-    transdecode_master_selection(cinfo);
-    cinfo->global_state = DSTATE_RDCOEFS;
+  if (cinfo->globbl_stbte == DSTATE_READY) {
+    /* First cbll: initiblize bctive modules */
+    trbnsdecode_mbster_selection(cinfo);
+    cinfo->globbl_stbte = DSTATE_RDCOEFS;
   }
-  if (cinfo->global_state == DSTATE_RDCOEFS) {
+  if (cinfo->globbl_stbte == DSTATE_RDCOEFS) {
     /* Absorb whole file into the coef buffer */
     for (;;) {
       int retcode;
-      /* Call progress monitor hook if present */
+      /* Cbll progress monitor hook if present */
       if (cinfo->progress != NULL)
         (*cinfo->progress->progress_monitor) ((j_common_ptr) cinfo);
       /* Absorb some more input */
@@ -65,46 +65,46 @@ jpeg_read_coefficients (j_decompress_ptr cinfo)
       if (retcode == JPEG_SUSPENDED)
         return NULL;
       if (retcode == JPEG_REACHED_EOI)
-        break;
-      /* Advance progress counter if appropriate */
+        brebk;
+      /* Advbnce progress counter if bppropribte */
       if (cinfo->progress != NULL &&
           (retcode == JPEG_ROW_COMPLETED || retcode == JPEG_REACHED_SOS)) {
-        if (++cinfo->progress->pass_counter >= cinfo->progress->pass_limit) {
-          /* startup underestimated number of scans; ratchet up one scan */
-          cinfo->progress->pass_limit += (long) cinfo->total_iMCU_rows;
+        if (++cinfo->progress->pbss_counter >= cinfo->progress->pbss_limit) {
+          /* stbrtup underestimbted number of scbns; rbtchet up one scbn */
+          cinfo->progress->pbss_limit += (long) cinfo->totbl_iMCU_rows;
         }
       }
     }
-    /* Set state so that jpeg_finish_decompress does the right thing */
-    cinfo->global_state = DSTATE_STOPPING;
+    /* Set stbte so thbt jpeg_finish_decompress does the right thing */
+    cinfo->globbl_stbte = DSTATE_STOPPING;
   }
-  /* At this point we should be in state DSTATE_STOPPING if being used
-   * standalone, or in state DSTATE_BUFIMAGE if being invoked to get access
-   * to the coefficients during a full buffered-image-mode decompression.
+  /* At this point we should be in stbte DSTATE_STOPPING if being used
+   * stbndblone, or in stbte DSTATE_BUFIMAGE if being invoked to get bccess
+   * to the coefficients during b full buffered-imbge-mode decompression.
    */
-  if ((cinfo->global_state == DSTATE_STOPPING ||
-       cinfo->global_state == DSTATE_BUFIMAGE) && cinfo->buffered_image) {
-    return cinfo->coef->coef_arrays;
+  if ((cinfo->globbl_stbte == DSTATE_STOPPING ||
+       cinfo->globbl_stbte == DSTATE_BUFIMAGE) && cinfo->buffered_imbge) {
+    return cinfo->coef->coef_brrbys;
   }
-  /* Oops, improper usage */
-  ERREXIT1(cinfo, JERR_BAD_STATE, cinfo->global_state);
-  return NULL;                  /* keep compiler happy */
+  /* Oops, improper usbge */
+  ERREXIT1(cinfo, JERR_BAD_STATE, cinfo->globbl_stbte);
+  return NULL;                  /* keep compiler hbppy */
 }
 
 
 /*
- * Master selection of decompression modules for transcoding.
- * This substitutes for jdmaster.c's initialization of the full decompressor.
+ * Mbster selection of decompression modules for trbnscoding.
+ * This substitutes for jdmbster.c's initiblizbtion of the full decompressor.
  */
 
 LOCAL(void)
-transdecode_master_selection (j_decompress_ptr cinfo)
+trbnsdecode_mbster_selection (j_decompress_ptr cinfo)
 {
-  /* This is effectively a buffered-image operation. */
-  cinfo->buffered_image = TRUE;
+  /* This is effectively b buffered-imbge operbtion. */
+  cinfo->buffered_imbge = TRUE;
 
-  /* Entropy decoding: either Huffman or arithmetic coding. */
-  if (cinfo->arith_code) {
+  /* Entropy decoding: either Huffmbn or brithmetic coding. */
+  if (cinfo->brith_code) {
     ERREXIT(cinfo, JERR_ARITH_NOTIMPL);
   } else {
     if (cinfo->progressive_mode) {
@@ -117,31 +117,31 @@ transdecode_master_selection (j_decompress_ptr cinfo)
       jinit_huff_decoder(cinfo);
   }
 
-  /* Always get a full-image coefficient buffer. */
+  /* Alwbys get b full-imbge coefficient buffer. */
   jinit_d_coef_controller(cinfo, TRUE);
 
-  /* We can now tell the memory manager to allocate virtual arrays. */
-  (*cinfo->mem->realize_virt_arrays) ((j_common_ptr) cinfo);
+  /* We cbn now tell the memory mbnbger to bllocbte virtubl brrbys. */
+  (*cinfo->mem->reblize_virt_brrbys) ((j_common_ptr) cinfo);
 
-  /* Initialize input side of decompressor to consume first scan. */
-  (*cinfo->inputctl->start_input_pass) (cinfo);
+  /* Initiblize input side of decompressor to consume first scbn. */
+  (*cinfo->inputctl->stbrt_input_pbss) (cinfo);
 
-  /* Initialize progress monitoring. */
+  /* Initiblize progress monitoring. */
   if (cinfo->progress != NULL) {
-    int nscans;
-    /* Estimate number of scans to set pass_limit. */
+    int nscbns;
+    /* Estimbte number of scbns to set pbss_limit. */
     if (cinfo->progressive_mode) {
-      /* Arbitrarily estimate 2 interleaved DC scans + 3 AC scans/component. */
-      nscans = 2 + 3 * cinfo->num_components;
-    } else if (cinfo->inputctl->has_multiple_scans) {
-      /* For a nonprogressive multiscan file, estimate 1 scan per component. */
-      nscans = cinfo->num_components;
+      /* Arbitrbrily estimbte 2 interlebved DC scbns + 3 AC scbns/component. */
+      nscbns = 2 + 3 * cinfo->num_components;
+    } else if (cinfo->inputctl->hbs_multiple_scbns) {
+      /* For b nonprogressive multiscbn file, estimbte 1 scbn per component. */
+      nscbns = cinfo->num_components;
     } else {
-      nscans = 1;
+      nscbns = 1;
     }
-    cinfo->progress->pass_counter = 0L;
-    cinfo->progress->pass_limit = (long) cinfo->total_iMCU_rows * nscans;
-    cinfo->progress->completed_passes = 0;
-    cinfo->progress->total_passes = 1;
+    cinfo->progress->pbss_counter = 0L;
+    cinfo->progress->pbss_limit = (long) cinfo->totbl_iMCU_rows * nscbns;
+    cinfo->progress->completed_pbsses = 0;
+    cinfo->progress->totbl_pbsses = 1;
   }
 }

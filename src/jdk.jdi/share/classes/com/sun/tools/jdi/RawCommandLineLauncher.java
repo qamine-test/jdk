@@ -1,132 +1,132 @@
 /*
- * Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.tools.jdi;
+pbckbge com.sun.tools.jdi;
 
 import com.sun.tools.jdi.*;
 import com.sun.jdi.connect.*;
 import com.sun.jdi.connect.spi.*;
-import com.sun.jdi.VirtualMachine;
-import java.util.Map;
-import java.io.IOException;
+import com.sun.jdi.VirtublMbchine;
+import jbvb.util.Mbp;
+import jbvb.io.IOException;
 
-public class RawCommandLineLauncher extends AbstractLauncher implements LaunchingConnector {
+public clbss RbwCommbndLineLbuncher extends AbstrbctLbuncher implements LbunchingConnector {
 
-    static private final String ARG_COMMAND = "command";
-    static private final String ARG_ADDRESS = "address";
-    static private final String ARG_QUOTE   = "quote";
+    stbtic privbte finbl String ARG_COMMAND = "commbnd";
+    stbtic privbte finbl String ARG_ADDRESS = "bddress";
+    stbtic privbte finbl String ARG_QUOTE   = "quote";
 
-    TransportService transportService;
-    Transport transport;
+    TrbnsportService trbnsportService;
+    Trbnsport trbnsport;
 
-    public TransportService transportService() {
-        return transportService;
+    public TrbnsportService trbnsportService() {
+        return trbnsportService;
     }
 
-    public Transport transport() {
-        return transport;
+    public Trbnsport trbnsport() {
+        return trbnsport;
     }
 
-    public RawCommandLineLauncher() {
+    public RbwCommbndLineLbuncher() {
         super();
 
         try {
-            Class<?> c = Class.forName("com.sun.tools.jdi.SharedMemoryTransportService");
-            transportService = (TransportService)c.newInstance();
-            transport = new Transport() {
-                public String name() {
+            Clbss<?> c = Clbss.forNbme("com.sun.tools.jdi.ShbredMemoryTrbnsportService");
+            trbnsportService = (TrbnsportService)c.newInstbnce();
+            trbnsport = new Trbnsport() {
+                public String nbme() {
                     return "dt_shmem";
                 }
             };
-        } catch (ClassNotFoundException x) {
-        } catch (UnsatisfiedLinkError x) {
-        } catch (InstantiationException x) {
-        } catch (IllegalAccessException x) {
+        } cbtch (ClbssNotFoundException x) {
+        } cbtch (UnsbtisfiedLinkError x) {
+        } cbtch (InstbntibtionException x) {
+        } cbtch (IllegblAccessException x) {
         };
 
-        if (transportService == null) {
-            transportService = new SocketTransportService();
-            transport = new Transport() {
-                public String name() {
+        if (trbnsportService == null) {
+            trbnsportService = new SocketTrbnsportService();
+            trbnsport = new Trbnsport() {
+                public String nbme() {
                     return "dt_socket";
                 }
             };
         }
 
-        addStringArgument(
+        bddStringArgument(
                 ARG_COMMAND,
-                getString("raw.command.label"),
-                getString("raw.command"),
+                getString("rbw.commbnd.lbbel"),
+                getString("rbw.commbnd"),
                 "",
                 true);
-        addStringArgument(
+        bddStringArgument(
                 ARG_QUOTE,
-                getString("raw.quote.label"),
-                getString("raw.quote"),
+                getString("rbw.quote.lbbel"),
+                getString("rbw.quote"),
                 "\"",
                 true);
 
-        addStringArgument(
+        bddStringArgument(
                 ARG_ADDRESS,
-                getString("raw.address.label"),
-                getString("raw.address"),
+                getString("rbw.bddress.lbbel"),
+                getString("rbw.bddress"),
                 "",
                 true);
     }
 
 
-    public VirtualMachine
-        launch(Map<String,? extends Connector.Argument> arguments)
-        throws IOException, IllegalConnectorArgumentsException,
-               VMStartException
+    public VirtublMbchine
+        lbunch(Mbp<String,? extends Connector.Argument> brguments)
+        throws IOException, IllegblConnectorArgumentsException,
+               VMStbrtException
     {
-        String command = argument(ARG_COMMAND, arguments).value();
-        String address = argument(ARG_ADDRESS, arguments).value();
+        String commbnd = brgument(ARG_COMMAND, brguments).vblue();
+        String bddress = brgument(ARG_ADDRESS, brguments).vblue();
 
-        String quote = argument(ARG_QUOTE, arguments).value();
+        String quote = brgument(ARG_QUOTE, brguments).vblue();
 
         if (quote.length() > 1) {
-            throw new IllegalConnectorArgumentsException("Invalid length",
+            throw new IllegblConnectorArgumentsException("Invblid length",
                                                          ARG_QUOTE);
         }
 
-        TransportService.ListenKey listener = transportService.startListening(address);
+        TrbnsportService.ListenKey listener = trbnsportService.stbrtListening(bddress);
 
         try {
-            return launch(tokenizeCommand(command, quote.charAt(0)),
-                          address, listener, transportService);
-        } finally {
-            transportService.stopListening(listener);
+            return lbunch(tokenizeCommbnd(commbnd, quote.chbrAt(0)),
+                          bddress, listener, trbnsportService);
+        } finblly {
+            trbnsportService.stopListening(listener);
         }
     }
 
-    public String name() {
-        return "com.sun.jdi.RawCommandLineLaunch";
+    public String nbme() {
+        return "com.sun.jdi.RbwCommbndLineLbunch";
     }
 
     public String description() {
-        return getString("raw.description");
+        return getString("rbw.description");
     }
 }

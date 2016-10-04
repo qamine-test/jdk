@@ -1,399 +1,399 @@
 /*
- * Copyright (c) 2002, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.swing;
+pbckbge sun.swing;
 
-import java.lang.reflect.*;
-import java.awt.*;
-import static java.awt.RenderingHints.*;
-import java.awt.event.*;
-import java.awt.font.*;
-import java.awt.print.PrinterGraphics;
-import java.text.CharacterIterator;
-import java.text.AttributedCharacterIterator;
-import java.text.AttributedString;
+import jbvb.lbng.reflect.*;
+import jbvb.bwt.*;
+import stbtic jbvb.bwt.RenderingHints.*;
+import jbvb.bwt.event.*;
+import jbvb.bwt.font.*;
+import jbvb.bwt.print.PrinterGrbphics;
+import jbvb.text.ChbrbcterIterbtor;
+import jbvb.text.AttributedChbrbcterIterbtor;
+import jbvb.text.AttributedString;
 
-import javax.swing.*;
-import javax.swing.event.TreeModelEvent;
-import javax.swing.text.Highlighter;
-import javax.swing.text.JTextComponent;
-import javax.swing.text.DefaultHighlighter;
-import javax.swing.text.DefaultCaret;
-import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableColumnModel;
-import javax.swing.tree.TreeModel;
-import javax.swing.tree.TreePath;
+import jbvbx.swing.*;
+import jbvbx.swing.event.TreeModelEvent;
+import jbvbx.swing.text.Highlighter;
+import jbvbx.swing.text.JTextComponent;
+import jbvbx.swing.text.DefbultHighlighter;
+import jbvbx.swing.text.DefbultCbret;
+import jbvbx.swing.tbble.TbbleCellRenderer;
+import jbvbx.swing.tbble.TbbleColumnModel;
+import jbvbx.swing.tree.TreeModel;
+import jbvbx.swing.tree.TreePbth;
 
-import sun.print.ProxyPrintGraphics;
-import sun.awt.*;
-import java.io.*;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.util.*;
+import sun.print.ProxyPrintGrbphics;
+import sun.bwt.*;
+import jbvb.io.*;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import jbvb.util.*;
 import sun.font.FontDesignMetrics;
 import sun.font.FontUtilities;
-import sun.java2d.SunGraphicsEnvironment;
+import sun.jbvb2d.SunGrbphicsEnvironment;
 
-import java.util.concurrent.Callable;
-import java.util.concurrent.Future;
-import java.util.concurrent.FutureTask;
+import jbvb.util.concurrent.Cbllbble;
+import jbvb.util.concurrent.Future;
+import jbvb.util.concurrent.FutureTbsk;
 
 /**
  * A collection of utility methods for Swing.
  * <p>
- * <b>WARNING:</b> While this class is public, it should not be treated as
- * public API and its API may change in incompatable ways between dot dot
- * releases and even patch releases. You should not rely on this class even
+ * <b>WARNING:</b> While this clbss is public, it should not be trebted bs
+ * public API bnd its API mby chbnge in incompbtbble wbys between dot dot
+ * relebses bnd even pbtch relebses. You should not rely on this clbss even
  * existing.
  *
  */
-public class SwingUtilities2 {
+public clbss SwingUtilities2 {
     /**
-     * The <code>AppContext</code> key for our one <code>LAFState</code>
-     * instance.
+     * The <code>AppContext</code> key for our one <code>LAFStbte</code>
+     * instbnce.
      */
-    public static final Object LAF_STATE_KEY =
-            new StringBuffer("LookAndFeel State");
+    public stbtic finbl Object LAF_STATE_KEY =
+            new StringBuffer("LookAndFeel Stbte");
 
-    public static final Object MENU_SELECTION_MANAGER_LISTENER_KEY =
-            new StringBuffer("MenuSelectionManager listener key");
+    public stbtic finbl Object MENU_SELECTION_MANAGER_LISTENER_KEY =
+            new StringBuffer("MenuSelectionMbnbger listener key");
 
-    // Maintain a cache of CACHE_SIZE fonts and the left side bearing
-     // of the characters falling into the range MIN_CHAR_INDEX to
-     // MAX_CHAR_INDEX. The values in fontCache are created as needed.
-     private static LSBCacheEntry[] fontCache;
+    // Mbintbin b cbche of CACHE_SIZE fonts bnd the left side bebring
+     // of the chbrbcters fblling into the rbnge MIN_CHAR_INDEX to
+     // MAX_CHAR_INDEX. The vblues in fontCbche bre crebted bs needed.
+     privbte stbtic LSBCbcheEntry[] fontCbche;
      // Windows defines 6 font desktop properties, we will therefore only
-     // cache the metrics for 6 fonts.
-     private static final int CACHE_SIZE = 6;
-     // nextIndex in fontCache to insert a font into.
-     private static int nextIndex;
-     // LSBCacheEntry used to search in fontCache to see if we already
-     // have an entry for a particular font
-     private static LSBCacheEntry searchKey;
+     // cbche the metrics for 6 fonts.
+     privbte stbtic finbl int CACHE_SIZE = 6;
+     // nextIndex in fontCbche to insert b font into.
+     privbte stbtic int nextIndex;
+     // LSBCbcheEntry used to sebrch in fontCbche to see if we blrebdy
+     // hbve bn entry for b pbrticulbr font
+     privbte stbtic LSBCbcheEntry sebrchKey;
 
-     // getLeftSideBearing will consult all characters that fall in the
-     // range MIN_CHAR_INDEX to MAX_CHAR_INDEX.
-     private static final int MIN_CHAR_INDEX = (int)'W';
-     private static final int MAX_CHAR_INDEX = (int)'W' + 1;
+     // getLeftSideBebring will consult bll chbrbcters thbt fbll in the
+     // rbnge MIN_CHAR_INDEX to MAX_CHAR_INDEX.
+     privbte stbtic finbl int MIN_CHAR_INDEX = (int)'W';
+     privbte stbtic finbl int MAX_CHAR_INDEX = (int)'W' + 1;
 
-    public static final FontRenderContext DEFAULT_FRC =
-        new FontRenderContext(null, false, false);
+    public stbtic finbl FontRenderContext DEFAULT_FRC =
+        new FontRenderContext(null, fblse, fblse);
 
     /**
-     * A JComponent client property is used to determine text aa settings.
-     * To avoid having this property persist between look and feels changes
-     * the value of the property is set to null in JComponent.setUI
+     * A JComponent client property is used to determine text bb settings.
+     * To bvoid hbving this property persist between look bnd feels chbnges
+     * the vblue of the property is set to null in JComponent.setUI
      */
-    public static final Object AA_TEXT_PROPERTY_KEY =
+    public stbtic finbl Object AA_TEXT_PROPERTY_KEY =
                           new StringBuffer("AATextInfoPropertyKey");
 
     /**
-     * Attribute key for the content elements.  If it is set on an element, the
-     * element is considered to be a line break.
+     * Attribute key for the content elements.  If it is set on bn element, the
+     * element is considered to be b line brebk.
      */
-    public static final String IMPLIED_CR = "CR";
+    public stbtic finbl String IMPLIED_CR = "CR";
 
     /**
-     * Used to tell a text component, being used as an editor for table
-     * or tree, how many clicks it took to start editing.
+     * Used to tell b text component, being used bs bn editor for tbble
+     * or tree, how mbny clicks it took to stbrt editing.
      */
-    private static final StringBuilder SKIP_CLICK_COUNT =
+    privbte stbtic finbl StringBuilder SKIP_CLICK_COUNT =
         new StringBuilder("skipClickCount");
 
-    /* Presently this class assumes default fractional metrics.
-     * This may need to change to emulate future platform L&Fs.
+    /* Presently this clbss bssumes defbult frbctionbl metrics.
+     * This mby need to chbnge to emulbte future plbtform L&Fs.
      */
-    public static class AATextInfo {
+    public stbtic clbss AATextInfo {
 
-        private static AATextInfo getAATextInfoFromMap(Map<java.awt.RenderingHints.Key, Object> hints) {
+        privbte stbtic AATextInfo getAATextInfoFromMbp(Mbp<jbvb.bwt.RenderingHints.Key, Object> hints) {
 
-            Object aaHint   = hints.get(KEY_TEXT_ANTIALIASING);
+            Object bbHint   = hints.get(KEY_TEXT_ANTIALIASING);
             Object contHint = hints.get(KEY_TEXT_LCD_CONTRAST);
 
-            if (aaHint == null ||
-                aaHint == VALUE_TEXT_ANTIALIAS_OFF ||
-                aaHint == VALUE_TEXT_ANTIALIAS_DEFAULT) {
+            if (bbHint == null ||
+                bbHint == VALUE_TEXT_ANTIALIAS_OFF ||
+                bbHint == VALUE_TEXT_ANTIALIAS_DEFAULT) {
                 return null;
             } else {
-                return new AATextInfo(aaHint, (Integer)contHint);
+                return new AATextInfo(bbHint, (Integer)contHint);
             }
         }
 
-        @SuppressWarnings("unchecked")
-        public static AATextInfo getAATextInfo(boolean lafCondition) {
-            SunToolkit.setAAFontSettingsCondition(lafCondition);
-            Toolkit tk = Toolkit.getDefaultToolkit();
-            Object map = tk.getDesktopProperty(SunToolkit.DESKTOPFONTHINTS);
-            if (map instanceof Map) {
-                return getAATextInfoFromMap((Map<java.awt.RenderingHints.Key, Object>)map);
+        @SuppressWbrnings("unchecked")
+        public stbtic AATextInfo getAATextInfo(boolebn lbfCondition) {
+            SunToolkit.setAAFontSettingsCondition(lbfCondition);
+            Toolkit tk = Toolkit.getDefbultToolkit();
+            Object mbp = tk.getDesktopProperty(SunToolkit.DESKTOPFONTHINTS);
+            if (mbp instbnceof Mbp) {
+                return getAATextInfoFromMbp((Mbp<jbvb.bwt.RenderingHints.Key, Object>)mbp);
             } else {
                 return null;
             }
         }
 
-        Object aaHint;
-        Integer lcdContrastHint;
+        Object bbHint;
+        Integer lcdContrbstHint;
         FontRenderContext frc;
 
-        /* These are rarely constructed objects, and only when a complete
-         * UI is being updated, so the cost of the tests here is minimal
-         * and saves tests elsewhere.
-         * We test that the values are ones we support/expect.
+        /* These bre rbrely constructed objects, bnd only when b complete
+         * UI is being updbted, so the cost of the tests here is minimbl
+         * bnd sbves tests elsewhere.
+         * We test thbt the vblues bre ones we support/expect.
          */
-        public AATextInfo(Object aaHint, Integer lcdContrastHint) {
-            if (aaHint == null) {
-                throw new InternalError("null not allowed here");
+        public AATextInfo(Object bbHint, Integer lcdContrbstHint) {
+            if (bbHint == null) {
+                throw new InternblError("null not bllowed here");
             }
-            if (aaHint == VALUE_TEXT_ANTIALIAS_OFF ||
-                aaHint == VALUE_TEXT_ANTIALIAS_DEFAULT) {
-                throw new InternalError("AA must be on");
+            if (bbHint == VALUE_TEXT_ANTIALIAS_OFF ||
+                bbHint == VALUE_TEXT_ANTIALIAS_DEFAULT) {
+                throw new InternblError("AA must be on");
             }
-            this.aaHint = aaHint;
-            this.lcdContrastHint = lcdContrastHint;
-            this.frc = new FontRenderContext(null, aaHint,
+            this.bbHint = bbHint;
+            this.lcdContrbstHint = lcdContrbstHint;
+            this.frc = new FontRenderContext(null, bbHint,
                                              VALUE_FRACTIONALMETRICS_DEFAULT);
         }
     }
 
     /**
-     * Key used in client properties used to indicate that the
-     * <code>ComponentUI</code> of the JComponent instance should be returned.
+     * Key used in client properties used to indicbte thbt the
+     * <code>ComponentUI</code> of the JComponent instbnce should be returned.
      */
-    public static final Object COMPONENT_UI_PROPERTY_KEY =
+    public stbtic finbl Object COMPONENT_UI_PROPERTY_KEY =
                             new StringBuffer("ComponentUIPropertyKey");
 
-    /** Client Property key for the text maximal offsets for BasicMenuItemUI */
-    public static final StringUIClientPropertyKey BASICMENUITEMUI_MAX_TEXT_OFFSET =
-        new StringUIClientPropertyKey ("maxTextOffset");
+    /** Client Property key for the text mbximbl offsets for BbsicMenuItemUI */
+    public stbtic finbl StringUIClientPropertyKey BASICMENUITEMUI_MAX_TEXT_OFFSET =
+        new StringUIClientPropertyKey ("mbxTextOffset");
 
     // security stuff
-    private static final String UntrustedClipboardAccess =
+    privbte stbtic finbl String UntrustedClipbobrdAccess =
         "UNTRUSTED_CLIPBOARD_ACCESS_KEY";
 
-    //all access to  charsBuffer is to be synchronized on charsBufferLock
-    private static final int CHAR_BUFFER_SIZE = 100;
-    private static final Object charsBufferLock = new Object();
-    private static char[] charsBuffer = new char[CHAR_BUFFER_SIZE];
+    //bll bccess to  chbrsBuffer is to be synchronized on chbrsBufferLock
+    privbte stbtic finbl int CHAR_BUFFER_SIZE = 100;
+    privbte stbtic finbl Object chbrsBufferLock = new Object();
+    privbte stbtic chbr[] chbrsBuffer = new chbr[CHAR_BUFFER_SIZE];
 
-    static {
-        fontCache = new LSBCacheEntry[CACHE_SIZE];
+    stbtic {
+        fontCbche = new LSBCbcheEntry[CACHE_SIZE];
     }
 
     /**
-     * Fill the character buffer cache.  Return the buffer length.
+     * Fill the chbrbcter buffer cbche.  Return the buffer length.
      */
-    private static int syncCharsBuffer(String s) {
+    privbte stbtic int syncChbrsBuffer(String s) {
         int length = s.length();
-        if ((charsBuffer == null) || (charsBuffer.length < length)) {
-            charsBuffer = s.toCharArray();
+        if ((chbrsBuffer == null) || (chbrsBuffer.length < length)) {
+            chbrsBuffer = s.toChbrArrby();
         } else {
-            s.getChars(0, length, charsBuffer, 0);
+            s.getChbrs(0, length, chbrsBuffer, 0);
         }
         return length;
     }
 
     /**
-     * checks whether TextLayout is required to handle characters.
+     * checks whether TextLbyout is required to hbndle chbrbcters.
      *
-     * @param text characters to be tested
-     * @param start start
-     * @param limit limit
-     * @return <tt>true</tt>  if TextLayout is required
-     *         <tt>false</tt> if TextLayout is not required
+     * @pbrbm text chbrbcters to be tested
+     * @pbrbm stbrt stbrt
+     * @pbrbm limit limit
+     * @return <tt>true</tt>  if TextLbyout is required
+     *         <tt>fblse</tt> if TextLbyout is not required
      */
-    public static final boolean isComplexLayout(char[] text, int start, int limit) {
-        return FontUtilities.isComplexText(text, start, limit);
+    public stbtic finbl boolebn isComplexLbyout(chbr[] text, int stbrt, int limit) {
+        return FontUtilities.isComplexText(text, stbrt, limit);
     }
 
     //
     // WARNING WARNING WARNING WARNING WARNING WARNING
-    // Many of the following methods are invoked from older API.
-    // As this older API was not passed a Component, a null Component may
-    // now be passsed in.  For example, SwingUtilities.computeStringWidth
-    // is implemented to call SwingUtilities2.stringWidth, the
-    // SwingUtilities variant does not take a JComponent, as such
-    // SwingUtilities2.stringWidth can be passed a null Component.
-    // In other words, if you add new functionality to these methods you
-    // need to gracefully handle null.
+    // Mbny of the following methods bre invoked from older API.
+    // As this older API wbs not pbssed b Component, b null Component mby
+    // now be pbsssed in.  For exbmple, SwingUtilities.computeStringWidth
+    // is implemented to cbll SwingUtilities2.stringWidth, the
+    // SwingUtilities vbribnt does not tbke b JComponent, bs such
+    // SwingUtilities2.stringWidth cbn be pbssed b null Component.
+    // In other words, if you bdd new functionblity to these methods you
+    // need to grbcefully hbndle null.
     //
 
     /**
-     * Returns whether or not text should be drawn antialiased.
+     * Returns whether or not text should be drbwn bntiblibsed.
      *
-     * @param c JComponent to test.
-     * @return Whether or not text should be drawn antialiased for the
+     * @pbrbm c JComponent to test.
+     * @return Whether or not text should be drbwn bntiblibsed for the
      *         specified component.
      */
-    public static AATextInfo drawTextAntialiased(JComponent c) {
+    public stbtic AATextInfo drbwTextAntiblibsed(JComponent c) {
         if (c != null) {
-            /* a non-null property implies some form of AA requested */
+            /* b non-null property implies some form of AA requested */
             return (AATextInfo)c.getClientProperty(AA_TEXT_PROPERTY_KEY);
         }
-        // No component, assume aa is off
+        // No component, bssume bb is off
         return null;
     }
 
     /**
-     * Returns the left side bearing of the first character of string. The
-     * left side bearing is calculated from the passed in
-     * FontMetrics.  If the passed in String is less than one
-     * character {@code 0} is returned.
+     * Returns the left side bebring of the first chbrbcter of string. The
+     * left side bebring is cblculbted from the pbssed in
+     * FontMetrics.  If the pbssed in String is less thbn one
+     * chbrbcter {@code 0} is returned.
      *
-     * @param c JComponent that will display the string
-     * @param fm FontMetrics used to measure the String width
-     * @param string String to get the left side bearing for.
+     * @pbrbm c JComponent thbt will displby the string
+     * @pbrbm fm FontMetrics used to mebsure the String width
+     * @pbrbm string String to get the left side bebring for.
      * @throws NullPointerException if {@code string} is {@code null}
      *
-     * @return the left side bearing of the first character of string
+     * @return the left side bebring of the first chbrbcter of string
      * or {@code 0} if the string is empty
      */
-    public static int getLeftSideBearing(JComponent c, FontMetrics fm,
+    public stbtic int getLeftSideBebring(JComponent c, FontMetrics fm,
                                          String string) {
         if ((string == null) || (string.length() == 0)) {
             return 0;
         }
-        return getLeftSideBearing(c, fm, string.charAt(0));
+        return getLeftSideBebring(c, fm, string.chbrAt(0));
     }
 
     /**
-     * Returns the left side bearing of the first character of string. The
-     * left side bearing is calculated from the passed in FontMetrics.
+     * Returns the left side bebring of the first chbrbcter of string. The
+     * left side bebring is cblculbted from the pbssed in FontMetrics.
      *
-     * @param c JComponent that will display the string
-     * @param fm FontMetrics used to measure the String width
-     * @param firstChar Character to get the left side bearing for.
+     * @pbrbm c JComponent thbt will displby the string
+     * @pbrbm fm FontMetrics used to mebsure the String width
+     * @pbrbm firstChbr Chbrbcter to get the left side bebring for.
      */
-    public static int getLeftSideBearing(JComponent c, FontMetrics fm,
-                                         char firstChar) {
-        int charIndex = (int) firstChar;
-        if (charIndex < MAX_CHAR_INDEX && charIndex >= MIN_CHAR_INDEX) {
+    public stbtic int getLeftSideBebring(JComponent c, FontMetrics fm,
+                                         chbr firstChbr) {
+        int chbrIndex = (int) firstChbr;
+        if (chbrIndex < MAX_CHAR_INDEX && chbrIndex >= MIN_CHAR_INDEX) {
             byte[] lsbs = null;
 
             FontRenderContext frc = getFontRenderContext(c, fm);
             Font font = fm.getFont();
-            synchronized (SwingUtilities2.class) {
-                LSBCacheEntry entry = null;
-                if (searchKey == null) {
-                    searchKey = new LSBCacheEntry(frc, font);
+            synchronized (SwingUtilities2.clbss) {
+                LSBCbcheEntry entry = null;
+                if (sebrchKey == null) {
+                    sebrchKey = new LSBCbcheEntry(frc, font);
                 } else {
-                    searchKey.reset(frc, font);
+                    sebrchKey.reset(frc, font);
                 }
-                // See if we already have an entry for this pair
-                for (LSBCacheEntry cacheEntry : fontCache) {
-                    if (searchKey.equals(cacheEntry)) {
-                        entry = cacheEntry;
-                        break;
+                // See if we blrebdy hbve bn entry for this pbir
+                for (LSBCbcheEntry cbcheEntry : fontCbche) {
+                    if (sebrchKey.equbls(cbcheEntry)) {
+                        entry = cbcheEntry;
+                        brebk;
                     }
                 }
                 if (entry == null) {
-                    // No entry for this pair, add it.
-                    entry = searchKey;
-                    fontCache[nextIndex] = searchKey;
-                    searchKey = null;
+                    // No entry for this pbir, bdd it.
+                    entry = sebrchKey;
+                    fontCbche[nextIndex] = sebrchKey;
+                    sebrchKey = null;
                     nextIndex = (nextIndex + 1) % CACHE_SIZE;
                 }
-                return entry.getLeftSideBearing(firstChar);
+                return entry.getLeftSideBebring(firstChbr);
             }
         }
         return 0;
     }
 
     /**
-     * Returns the FontMetrics for the current Font of the passed
-     * in Graphics.  This method is used when a Graphics
-     * is available, typically when painting.  If a Graphics is not
-     * available the JComponent method of the same name should be used.
+     * Returns the FontMetrics for the current Font of the pbssed
+     * in Grbphics.  This method is used when b Grbphics
+     * is bvbilbble, typicblly when pbinting.  If b Grbphics is not
+     * bvbilbble the JComponent method of the sbme nbme should be used.
      * <p>
-     * Callers should pass in a non-null JComponent, the exception
-     * to this is if a JComponent is not readily available at the time of
-     * painting.
+     * Cbllers should pbss in b non-null JComponent, the exception
+     * to this is if b JComponent is not rebdily bvbilbble bt the time of
+     * pbinting.
      * <p>
-     * This does not necessarily return the FontMetrics from the
-     * Graphics.
+     * This does not necessbrily return the FontMetrics from the
+     * Grbphics.
      *
-     * @param c JComponent requesting FontMetrics, may be null
-     * @param g Graphics Graphics
+     * @pbrbm c JComponent requesting FontMetrics, mby be null
+     * @pbrbm g Grbphics Grbphics
      */
-    public static FontMetrics getFontMetrics(JComponent c, Graphics g) {
+    public stbtic FontMetrics getFontMetrics(JComponent c, Grbphics g) {
         return getFontMetrics(c, g, g.getFont());
     }
 
 
     /**
      * Returns the FontMetrics for the specified Font.
-     * This method is used when a Graphics is available, typically when
-     * painting.  If a Graphics is not available the JComponent method of
-     * the same name should be used.
+     * This method is used when b Grbphics is bvbilbble, typicblly when
+     * pbinting.  If b Grbphics is not bvbilbble the JComponent method of
+     * the sbme nbme should be used.
      * <p>
-     * Callers should pass in a non-null JComonent, the exception
-     * to this is if a JComponent is not readily available at the time of
-     * painting.
+     * Cbllers should pbss in b non-null JComonent, the exception
+     * to this is if b JComponent is not rebdily bvbilbble bt the time of
+     * pbinting.
      * <p>
-     * This does not necessarily return the FontMetrics from the
-     * Graphics.
+     * This does not necessbrily return the FontMetrics from the
+     * Grbphics.
      *
-     * @param c JComponent requesting FontMetrics, may be null
-     * @param c Graphics Graphics
-     * @param font Font to get FontMetrics for
+     * @pbrbm c JComponent requesting FontMetrics, mby be null
+     * @pbrbm c Grbphics Grbphics
+     * @pbrbm font Font to get FontMetrics for
      */
-    public static FontMetrics getFontMetrics(JComponent c, Graphics g,
+    public stbtic FontMetrics getFontMetrics(JComponent c, Grbphics g,
                                              Font font) {
         if (c != null) {
-            // Note: We assume that we're using the FontMetrics
-            // from the widget to layout out text, otherwise we can get
-            // mismatches when printing.
+            // Note: We bssume thbt we're using the FontMetrics
+            // from the widget to lbyout out text, otherwise we cbn get
+            // mismbtches when printing.
             return c.getFontMetrics(font);
         }
-        return Toolkit.getDefaultToolkit().getFontMetrics(font);
+        return Toolkit.getDefbultToolkit().getFontMetrics(font);
     }
 
 
     /**
-     * Returns the width of the passed in String.
-     * If the passed String is <code>null</code>, returns zero.
+     * Returns the width of the pbssed in String.
+     * If the pbssed String is <code>null</code>, returns zero.
      *
-     * @param c JComponent that will display the string, may be null
-     * @param fm FontMetrics used to measure the String width
-     * @param string String to get the width of
+     * @pbrbm c JComponent thbt will displby the string, mby be null
+     * @pbrbm fm FontMetrics used to mebsure the String width
+     * @pbrbm string String to get the width of
      */
-    public static int stringWidth(JComponent c, FontMetrics fm, String string){
-        if (string == null || string.equals("")) {
+    public stbtic int stringWidth(JComponent c, FontMetrics fm, String string){
+        if (string == null || string.equbls("")) {
             return 0;
         }
-        boolean needsTextLayout = ((c != null) &&
+        boolebn needsTextLbyout = ((c != null) &&
                 (c.getClientProperty(TextAttribute.NUMERIC_SHAPING) != null));
-        if (needsTextLayout) {
-            synchronized(charsBufferLock) {
-                int length = syncCharsBuffer(string);
-                needsTextLayout = isComplexLayout(charsBuffer, 0, length);
+        if (needsTextLbyout) {
+            synchronized(chbrsBufferLock) {
+                int length = syncChbrsBuffer(string);
+                needsTextLbyout = isComplexLbyout(chbrsBuffer, 0, length);
             }
         }
-        if (needsTextLayout) {
-            TextLayout layout = createTextLayout(c, string,
+        if (needsTextLbyout) {
+            TextLbyout lbyout = crebteTextLbyout(c, string,
                                     fm.getFont(), fm.getFontRenderContext());
-            return (int) layout.getAdvance();
+            return (int) lbyout.getAdvbnce();
         } else {
             return fm.stringWidth(string);
         }
@@ -401,75 +401,75 @@ public class SwingUtilities2 {
 
 
     /**
-     * Clips the passed in String to the space provided.
+     * Clips the pbssed in String to the spbce provided.
      *
-     * @param c JComponent that will display the string, may be null
-     * @param fm FontMetrics used to measure the String width
-     * @param string String to display
-     * @param availTextWidth Amount of space that the string can be drawn in
-     * @return Clipped string that can fit in the provided space.
+     * @pbrbm c JComponent thbt will displby the string, mby be null
+     * @pbrbm fm FontMetrics used to mebsure the String width
+     * @pbrbm string String to displby
+     * @pbrbm bvbilTextWidth Amount of spbce thbt the string cbn be drbwn in
+     * @return Clipped string thbt cbn fit in the provided spbce.
      */
-    public static String clipStringIfNecessary(JComponent c, FontMetrics fm,
+    public stbtic String clipStringIfNecessbry(JComponent c, FontMetrics fm,
                                                String string,
-                                               int availTextWidth) {
-        if ((string == null) || (string.equals("")))  {
+                                               int bvbilTextWidth) {
+        if ((string == null) || (string.equbls("")))  {
             return "";
         }
         int textWidth = SwingUtilities2.stringWidth(c, fm, string);
-        if (textWidth > availTextWidth) {
-            return SwingUtilities2.clipString(c, fm, string, availTextWidth);
+        if (textWidth > bvbilTextWidth) {
+            return SwingUtilities2.clipString(c, fm, string, bvbilTextWidth);
         }
         return string;
     }
 
 
     /**
-     * Clips the passed in String to the space provided.  NOTE: this assumes
-     * the string does not fit in the available space.
+     * Clips the pbssed in String to the spbce provided.  NOTE: this bssumes
+     * the string does not fit in the bvbilbble spbce.
      *
-     * @param c JComponent that will display the string, may be null
-     * @param fm FontMetrics used to measure the String width
-     * @param string String to display
-     * @param availTextWidth Amount of space that the string can be drawn in
-     * @return Clipped string that can fit in the provided space.
+     * @pbrbm c JComponent thbt will displby the string, mby be null
+     * @pbrbm fm FontMetrics used to mebsure the String width
+     * @pbrbm string String to displby
+     * @pbrbm bvbilTextWidth Amount of spbce thbt the string cbn be drbwn in
+     * @return Clipped string thbt cbn fit in the provided spbce.
      */
-    public static String clipString(JComponent c, FontMetrics fm,
-                                    String string, int availTextWidth) {
-        // c may be null here.
+    public stbtic String clipString(JComponent c, FontMetrics fm,
+                                    String string, int bvbilTextWidth) {
+        // c mby be null here.
         String clipString = "...";
-        availTextWidth -= SwingUtilities2.stringWidth(c, fm, clipString);
-        if (availTextWidth <= 0) {
-            //can not fit any characters
+        bvbilTextWidth -= SwingUtilities2.stringWidth(c, fm, clipString);
+        if (bvbilTextWidth <= 0) {
+            //cbn not fit bny chbrbcters
             return clipString;
         }
 
-        boolean needsTextLayout;
-        synchronized (charsBufferLock) {
-            int stringLength = syncCharsBuffer(string);
-            needsTextLayout =
-                isComplexLayout(charsBuffer, 0, stringLength);
-            if (!needsTextLayout) {
+        boolebn needsTextLbyout;
+        synchronized (chbrsBufferLock) {
+            int stringLength = syncChbrsBuffer(string);
+            needsTextLbyout =
+                isComplexLbyout(chbrsBuffer, 0, stringLength);
+            if (!needsTextLbyout) {
                 int width = 0;
-                for (int nChars = 0; nChars < stringLength; nChars++) {
-                    width += fm.charWidth(charsBuffer[nChars]);
-                    if (width > availTextWidth) {
-                        string = string.substring(0, nChars);
-                        break;
+                for (int nChbrs = 0; nChbrs < stringLength; nChbrs++) {
+                    width += fm.chbrWidth(chbrsBuffer[nChbrs]);
+                    if (width > bvbilTextWidth) {
+                        string = string.substring(0, nChbrs);
+                        brebk;
                     }
                 }
             }
         }
-        if (needsTextLayout) {
+        if (needsTextLbyout) {
             FontRenderContext frc = getFontRenderContext(c, fm);
-            AttributedString aString = new AttributedString(string);
+            AttributedString bString = new AttributedString(string);
             if (c != null) {
-                aString.addAttribute(TextAttribute.NUMERIC_SHAPING,
+                bString.bddAttribute(TextAttribute.NUMERIC_SHAPING,
                         c.getClientProperty(TextAttribute.NUMERIC_SHAPING));
             }
-            LineBreakMeasurer measurer =
-                new LineBreakMeasurer(aString.getIterator(), frc);
-            int nChars = measurer.nextOffset(availTextWidth);
-            string = string.substring(0, nChars);
+            LineBrebkMebsurer mebsurer =
+                new LineBrebkMebsurer(bString.getIterbtor(), frc);
+            int nChbrs = mebsurer.nextOffset(bvbilTextWidth);
+            string = string.substring(0, nChbrs);
 
         }
         return string + clipString;
@@ -477,48 +477,48 @@ public class SwingUtilities2 {
 
 
     /**
-     * Draws the string at the specified location.
+     * Drbws the string bt the specified locbtion.
      *
-     * @param c JComponent that will display the string, may be null
-     * @param g Graphics to draw the text to
-     * @param text String to display
-     * @param x X coordinate to draw the text at
-     * @param y Y coordinate to draw the text at
+     * @pbrbm c JComponent thbt will displby the string, mby be null
+     * @pbrbm g Grbphics to drbw the text to
+     * @pbrbm text String to displby
+     * @pbrbm x X coordinbte to drbw the text bt
+     * @pbrbm y Y coordinbte to drbw the text bt
      */
-    public static void drawString(JComponent c, Graphics g, String text,
+    public stbtic void drbwString(JComponent c, Grbphics g, String text,
                                   int x, int y) {
-        // c may be null
+        // c mby be null
 
-        // All non-editable widgets that draw strings call into this
-        // methods.  By non-editable that means widgets like JLabel, JButton
+        // All non-editbble widgets thbt drbw strings cbll into this
+        // methods.  By non-editbble thbt mebns widgets like JLbbel, JButton
         // but NOT JTextComponents.
-        if ( text == null || text.length() <= 0 ) { //no need to paint empty strings
+        if ( text == null || text.length() <= 0 ) { //no need to pbint empty strings
             return;
         }
         if (isPrinting(g)) {
-            Graphics2D g2d = getGraphics2D(g);
+            Grbphics2D g2d = getGrbphics2D(g);
             if (g2d != null) {
-                /* The printed text must scale linearly with the UI.
-                 * Calculate the width on screen, obtain a TextLayout with
-                 * advances for the printer graphics FRC, and then justify
-                 * it to fit in the screen width. This distributes the spacing
-                 * more evenly than directly laying out to the screen advances.
+                /* The printed text must scble linebrly with the UI.
+                 * Cblculbte the width on screen, obtbin b TextLbyout with
+                 * bdvbnces for the printer grbphics FRC, bnd then justify
+                 * it to fit in the screen width. This distributes the spbcing
+                 * more evenly thbn directly lbying out to the screen bdvbnces.
                  */
-                String trimmedText = trimTrailingSpaces(text);
+                String trimmedText = trimTrbilingSpbces(text);
                 if (!trimmedText.isEmpty()) {
-                    float screenWidth = (float) g2d.getFont().getStringBounds
+                    flobt screenWidth = (flobt) g2d.getFont().getStringBounds
                             (trimmedText, DEFAULT_FRC).getWidth();
-                    TextLayout layout = createTextLayout(c, text, g2d.getFont(),
+                    TextLbyout lbyout = crebteTextLbyout(c, text, g2d.getFont(),
                                                        g2d.getFontRenderContext());
 
-                    layout = layout.getJustifiedLayout(screenWidth);
-                    /* Use alternate print color if specified */
+                    lbyout = lbyout.getJustifiedLbyout(screenWidth);
+                    /* Use blternbte print color if specified */
                     Color col = g2d.getColor();
-                    if (col instanceof PrintColorUIResource) {
+                    if (col instbnceof PrintColorUIResource) {
                         g2d.setColor(((PrintColorUIResource)col).getPrintColor());
                     }
 
-                    layout.draw(g2d, x, y);
+                    lbyout.drbw(g2d, x, y);
 
                     g2d.setColor(col);
                 }
@@ -528,124 +528,124 @@ public class SwingUtilities2 {
         }
 
         // If we get here we're not printing
-        if (g instanceof Graphics2D) {
-            AATextInfo info = drawTextAntialiased(c);
-            Graphics2D g2 = (Graphics2D)g;
+        if (g instbnceof Grbphics2D) {
+            AATextInfo info = drbwTextAntiblibsed(c);
+            Grbphics2D g2 = (Grbphics2D)g;
 
-            boolean needsTextLayout = ((c != null) &&
+            boolebn needsTextLbyout = ((c != null) &&
                 (c.getClientProperty(TextAttribute.NUMERIC_SHAPING) != null));
 
-            if (needsTextLayout) {
-                synchronized(charsBufferLock) {
-                    int length = syncCharsBuffer(text);
-                    needsTextLayout = isComplexLayout(charsBuffer, 0, length);
+            if (needsTextLbyout) {
+                synchronized(chbrsBufferLock) {
+                    int length = syncChbrsBuffer(text);
+                    needsTextLbyout = isComplexLbyout(chbrsBuffer, 0, length);
                 }
             }
 
             if (info != null) {
-                Object oldContrast = null;
-                Object oldAAValue = g2.getRenderingHint(KEY_TEXT_ANTIALIASING);
-                if (info.aaHint != oldAAValue) {
-                    g2.setRenderingHint(KEY_TEXT_ANTIALIASING, info.aaHint);
+                Object oldContrbst = null;
+                Object oldAAVblue = g2.getRenderingHint(KEY_TEXT_ANTIALIASING);
+                if (info.bbHint != oldAAVblue) {
+                    g2.setRenderingHint(KEY_TEXT_ANTIALIASING, info.bbHint);
                 } else {
-                    oldAAValue = null;
+                    oldAAVblue = null;
                 }
-                if (info.lcdContrastHint != null) {
-                    oldContrast = g2.getRenderingHint(KEY_TEXT_LCD_CONTRAST);
-                    if (info.lcdContrastHint.equals(oldContrast)) {
-                        oldContrast = null;
+                if (info.lcdContrbstHint != null) {
+                    oldContrbst = g2.getRenderingHint(KEY_TEXT_LCD_CONTRAST);
+                    if (info.lcdContrbstHint.equbls(oldContrbst)) {
+                        oldContrbst = null;
                     } else {
                         g2.setRenderingHint(KEY_TEXT_LCD_CONTRAST,
-                                            info.lcdContrastHint);
+                                            info.lcdContrbstHint);
                     }
                 }
 
-                if (needsTextLayout) {
-                    TextLayout layout = createTextLayout(c, text, g2.getFont(),
+                if (needsTextLbyout) {
+                    TextLbyout lbyout = crebteTextLbyout(c, text, g2.getFont(),
                                                     g2.getFontRenderContext());
-                    layout.draw(g2, x, y);
+                    lbyout.drbw(g2, x, y);
                 } else {
-                    g.drawString(text, x, y);
+                    g.drbwString(text, x, y);
                 }
 
-                if (oldAAValue != null) {
-                    g2.setRenderingHint(KEY_TEXT_ANTIALIASING, oldAAValue);
+                if (oldAAVblue != null) {
+                    g2.setRenderingHint(KEY_TEXT_ANTIALIASING, oldAAVblue);
                 }
-                if (oldContrast != null) {
-                    g2.setRenderingHint(KEY_TEXT_LCD_CONTRAST, oldContrast);
+                if (oldContrbst != null) {
+                    g2.setRenderingHint(KEY_TEXT_LCD_CONTRAST, oldContrbst);
                 }
 
                 return;
             }
 
-            if (needsTextLayout){
-                TextLayout layout = createTextLayout(c, text, g2.getFont(),
+            if (needsTextLbyout){
+                TextLbyout lbyout = crebteTextLbyout(c, text, g2.getFont(),
                                                     g2.getFontRenderContext());
-                layout.draw(g2, x, y);
+                lbyout.drbw(g2, x, y);
                 return;
             }
         }
 
-        g.drawString(text, x, y);
+        g.drbwString(text, x, y);
     }
 
     /**
-     * Draws the string at the specified location underlining the specified
-     * character.
+     * Drbws the string bt the specified locbtion underlining the specified
+     * chbrbcter.
      *
-     * @param c JComponent that will display the string, may be null
-     * @param g Graphics to draw the text to
-     * @param text String to display
-     * @param underlinedIndex Index of a character in the string to underline
-     * @param x X coordinate to draw the text at
-     * @param y Y coordinate to draw the text at
+     * @pbrbm c JComponent thbt will displby the string, mby be null
+     * @pbrbm g Grbphics to drbw the text to
+     * @pbrbm text String to displby
+     * @pbrbm underlinedIndex Index of b chbrbcter in the string to underline
+     * @pbrbm x X coordinbte to drbw the text bt
+     * @pbrbm y Y coordinbte to drbw the text bt
      */
-    public static void drawStringUnderlineCharAt(JComponent c,Graphics g,
+    public stbtic void drbwStringUnderlineChbrAt(JComponent c,Grbphics g,
                            String text, int underlinedIndex, int x,int y) {
         if (text == null || text.length() <= 0) {
             return;
         }
-        SwingUtilities2.drawString(c, g, text, x, y);
+        SwingUtilities2.drbwString(c, g, text, x, y);
         int textLength = text.length();
         if (underlinedIndex >= 0 && underlinedIndex < textLength ) {
             int underlineRectY = y;
             int underlineRectHeight = 1;
             int underlineRectX = 0;
             int underlineRectWidth = 0;
-            boolean isPrinting = isPrinting(g);
-            boolean needsTextLayout = isPrinting;
-            if (!needsTextLayout) {
-                synchronized (charsBufferLock) {
-                    syncCharsBuffer(text);
-                    needsTextLayout =
-                        isComplexLayout(charsBuffer, 0, textLength);
+            boolebn isPrinting = isPrinting(g);
+            boolebn needsTextLbyout = isPrinting;
+            if (!needsTextLbyout) {
+                synchronized (chbrsBufferLock) {
+                    syncChbrsBuffer(text);
+                    needsTextLbyout =
+                        isComplexLbyout(chbrsBuffer, 0, textLength);
                 }
             }
-            if (!needsTextLayout) {
+            if (!needsTextLbyout) {
                 FontMetrics fm = g.getFontMetrics();
                 underlineRectX = x +
                     SwingUtilities2.stringWidth(c,fm,
                                         text.substring(0,underlinedIndex));
-                underlineRectWidth = fm.charWidth(text.
-                                                  charAt(underlinedIndex));
+                underlineRectWidth = fm.chbrWidth(text.
+                                                  chbrAt(underlinedIndex));
             } else {
-                Graphics2D g2d = getGraphics2D(g);
+                Grbphics2D g2d = getGrbphics2D(g);
                 if (g2d != null) {
-                    TextLayout layout =
-                        createTextLayout(c, text, g2d.getFont(),
+                    TextLbyout lbyout =
+                        crebteTextLbyout(c, text, g2d.getFont(),
                                        g2d.getFontRenderContext());
                     if (isPrinting) {
-                        float screenWidth = (float)g2d.getFont().
+                        flobt screenWidth = (flobt)g2d.getFont().
                             getStringBounds(text, DEFAULT_FRC).getWidth();
-                        layout = layout.getJustifiedLayout(screenWidth);
+                        lbyout = lbyout.getJustifiedLbyout(screenWidth);
                     }
-                    TextHitInfo leading =
-                        TextHitInfo.leading(underlinedIndex);
-                    TextHitInfo trailing =
-                        TextHitInfo.trailing(underlinedIndex);
-                    Shape shape =
-                        layout.getVisualHighlightShape(leading, trailing);
-                    Rectangle rect = shape.getBounds();
+                    TextHitInfo lebding =
+                        TextHitInfo.lebding(underlinedIndex);
+                    TextHitInfo trbiling =
+                        TextHitInfo.trbiling(underlinedIndex);
+                    Shbpe shbpe =
+                        lbyout.getVisublHighlightShbpe(lebding, trbiling);
+                    Rectbngle rect = shbpe.getBounds();
                     underlineRectX = x + rect.x;
                     underlineRectWidth = rect.width;
                 }
@@ -657,18 +657,18 @@ public class SwingUtilities2 {
 
 
     /**
-     * A variation of locationToIndex() which only returns an index if the
-     * Point is within the actual bounds of a list item (not just in the cell)
-     * and if the JList has the "List.isFileList" client property set.
+     * A vbribtion of locbtionToIndex() which only returns bn index if the
+     * Point is within the bctubl bounds of b list item (not just in the cell)
+     * bnd if the JList hbs the "List.isFileList" client property set.
      * Otherwise, this method returns -1.
-     * This is used to make WindowsL&F JFileChooser act like native dialogs.
+     * This is used to mbke WindowsL&F JFileChooser bct like nbtive diblogs.
      */
-    public static int loc2IndexFileList(JList<?> list, Point point) {
-        int index = list.locationToIndex(point);
+    public stbtic int loc2IndexFileList(JList<?> list, Point point) {
+        int index = list.locbtionToIndex(point);
         if (index != -1) {
             Object bySize = list.getClientProperty("List.isFileList");
-            if (bySize instanceof Boolean && ((Boolean)bySize).booleanValue() &&
-                !pointIsInActualBounds(list, index, point)) {
+            if (bySize instbnceof Boolebn && ((Boolebn)bySize).boolebnVblue() &&
+                !pointIsInActublBounds(list, index, point)) {
                 index = -1;
             }
         }
@@ -677,137 +677,137 @@ public class SwingUtilities2 {
 
 
     /**
-     * Returns true if the given point is within the actual bounds of the
-     * JList item at index (not just inside the cell).
+     * Returns true if the given point is within the bctubl bounds of the
+     * JList item bt index (not just inside the cell).
      */
-    private static <T> boolean pointIsInActualBounds(JList<T> list, int index,
+    privbte stbtic <T> boolebn pointIsInActublBounds(JList<T> list, int index,
                                                 Point point) {
         ListCellRenderer<? super T> renderer = list.getCellRenderer();
-        T value = list.getModel().getElementAt(index);
+        T vblue = list.getModel().getElementAt(index);
         Component item = renderer.getListCellRendererComponent(list,
-                          value, index, false, false);
+                          vblue, index, fblse, fblse);
         Dimension itemSize = item.getPreferredSize();
-        Rectangle cellBounds = list.getCellBounds(index, index);
-        if (!item.getComponentOrientation().isLeftToRight()) {
+        Rectbngle cellBounds = list.getCellBounds(index, index);
+        if (!item.getComponentOrientbtion().isLeftToRight()) {
             cellBounds.x += (cellBounds.width - itemSize.width);
         }
         cellBounds.width = itemSize.width;
 
-        return cellBounds.contains(point);
+        return cellBounds.contbins(point);
     }
 
 
     /**
      * Returns true if the given point is outside the preferredSize of the
-     * item at the given row of the table.  (Column must be 0).
-     * Does not check the "Table.isFileList" property. That should be checked
-     * before calling this method.
-     * This is used to make WindowsL&F JFileChooser act like native dialogs.
+     * item bt the given row of the tbble.  (Column must be 0).
+     * Does not check the "Tbble.isFileList" property. Thbt should be checked
+     * before cblling this method.
+     * This is used to mbke WindowsL&F JFileChooser bct like nbtive diblogs.
      */
-    public static boolean pointOutsidePrefSize(JTable table, int row, int column, Point p) {
-        if (table.convertColumnIndexToModel(column) != 0 || row == -1) {
+    public stbtic boolebn pointOutsidePrefSize(JTbble tbble, int row, int column, Point p) {
+        if (tbble.convertColumnIndexToModel(column) != 0 || row == -1) {
             return true;
         }
-        TableCellRenderer tcr = table.getCellRenderer(row, column);
-        Object value = table.getValueAt(row, column);
-        Component cell = tcr.getTableCellRendererComponent(table, value, false,
-                false, row, column);
+        TbbleCellRenderer tcr = tbble.getCellRenderer(row, column);
+        Object vblue = tbble.getVblueAt(row, column);
+        Component cell = tcr.getTbbleCellRendererComponent(tbble, vblue, fblse,
+                fblse, row, column);
         Dimension itemSize = cell.getPreferredSize();
-        Rectangle cellBounds = table.getCellRect(row, column, false);
+        Rectbngle cellBounds = tbble.getCellRect(row, column, fblse);
         cellBounds.width = itemSize.width;
         cellBounds.height = itemSize.height;
 
-        // See if coords are inside
+        // See if coords bre inside
         // ASSUME: mouse x,y will never be < cell's x,y
-        assert (p.x >= cellBounds.x && p.y >= cellBounds.y);
+        bssert (p.x >= cellBounds.x && p.y >= cellBounds.y);
         return p.x > cellBounds.x + cellBounds.width ||
                 p.y > cellBounds.y + cellBounds.height;
     }
 
     /**
-     * Set the lead and anchor without affecting selection.
+     * Set the lebd bnd bnchor without bffecting selection.
      */
-    public static void setLeadAnchorWithoutSelection(ListSelectionModel model,
-                                                     int lead, int anchor) {
-        if (anchor == -1) {
-            anchor = lead;
+    public stbtic void setLebdAnchorWithoutSelection(ListSelectionModel model,
+                                                     int lebd, int bnchor) {
+        if (bnchor == -1) {
+            bnchor = lebd;
         }
-        if (lead == -1) {
+        if (lebd == -1) {
             model.setAnchorSelectionIndex(-1);
-            model.setLeadSelectionIndex(-1);
+            model.setLebdSelectionIndex(-1);
         } else {
-            if (model.isSelectedIndex(lead)) {
-                model.addSelectionInterval(lead, lead);
+            if (model.isSelectedIndex(lebd)) {
+                model.bddSelectionIntervbl(lebd, lebd);
             } else {
-                model.removeSelectionInterval(lead, lead);
+                model.removeSelectionIntervbl(lebd, lebd);
             }
-            model.setAnchorSelectionIndex(anchor);
+            model.setAnchorSelectionIndex(bnchor);
         }
     }
 
     /**
-     * Ignore mouse events if the component is null, not enabled, the event
-     * is not associated with the left mouse button, or the event has been
+     * Ignore mouse events if the component is null, not enbbled, the event
+     * is not bssocibted with the left mouse button, or the event hbs been
      * consumed.
      */
-    public static boolean shouldIgnore(MouseEvent me, JComponent c) {
-        return c == null || !c.isEnabled()
+    public stbtic boolebn shouldIgnore(MouseEvent me, JComponent c) {
+        return c == null || !c.isEnbbled()
                          || !SwingUtilities.isLeftMouseButton(me)
                          || me.isConsumed();
     }
 
     /**
-     * Request focus on the given component if it doesn't already have it
-     * and <code>isRequestFocusEnabled()</code> returns true.
+     * Request focus on the given component if it doesn't blrebdy hbve it
+     * bnd <code>isRequestFocusEnbbled()</code> returns true.
      */
-    public static void adjustFocus(JComponent c) {
-        if (!c.hasFocus() && c.isRequestFocusEnabled()) {
+    public stbtic void bdjustFocus(JComponent c) {
+        if (!c.hbsFocus() && c.isRequestFocusEnbbled()) {
             c.requestFocus();
         }
     }
 
     /**
-     * The following draw functions have the same semantic as the
-     * Graphics methods with the same names.
+     * The following drbw functions hbve the sbme sembntic bs the
+     * Grbphics methods with the sbme nbmes.
      *
      * this is used for printing
      */
-    public static int drawChars(JComponent c, Graphics g,
-                                 char[] data,
+    public stbtic int drbwChbrs(JComponent c, Grbphics g,
+                                 chbr[] dbtb,
                                  int offset,
                                  int length,
                                  int x,
                                  int y) {
-        if ( length <= 0 ) { //no need to paint empty strings
+        if ( length <= 0 ) { //no need to pbint empty strings
             return x;
         }
-        int nextX = x + getFontMetrics(c, g).charsWidth(data, offset, length);
+        int nextX = x + getFontMetrics(c, g).chbrsWidth(dbtb, offset, length);
         if (isPrinting(g)) {
-            Graphics2D g2d = getGraphics2D(g);
+            Grbphics2D g2d = getGrbphics2D(g);
             if (g2d != null) {
                 FontRenderContext deviceFontRenderContext = g2d.
                     getFontRenderContext();
                 FontRenderContext frc = getFontRenderContext(c);
                 if (frc != null &&
-                    !isFontRenderContextPrintCompatible
+                    !isFontRenderContextPrintCompbtible
                     (deviceFontRenderContext, frc)) {
 
-                    String text = new String(data, offset, length);
-                    TextLayout layout = new TextLayout(text, g2d.getFont(),
+                    String text = new String(dbtb, offset, length);
+                    TextLbyout lbyout = new TextLbyout(text, g2d.getFont(),
                                     deviceFontRenderContext);
-                    String trimmedText = trimTrailingSpaces(text);
+                    String trimmedText = trimTrbilingSpbces(text);
                     if (!trimmedText.isEmpty()) {
-                        float screenWidth = (float)g2d.getFont().
+                        flobt screenWidth = (flobt)g2d.getFont().
                             getStringBounds(trimmedText, frc).getWidth();
-                        layout = layout.getJustifiedLayout(screenWidth);
+                        lbyout = lbyout.getJustifiedLbyout(screenWidth);
 
-                        /* Use alternate print color if specified */
+                        /* Use blternbte print color if specified */
                         Color col = g2d.getColor();
-                        if (col instanceof PrintColorUIResource) {
+                        if (col instbnceof PrintColorUIResource) {
                             g2d.setColor(((PrintColorUIResource)col).getPrintColor());
                         }
 
-                        layout.draw(g2d,x,y);
+                        lbyout.drbw(g2d,x,y);
 
                         g2d.setColor(col);
                     }
@@ -816,125 +816,125 @@ public class SwingUtilities2 {
                 }
             }
         }
-        // Assume we're not printing if we get here, or that we are invoked
-        // via Swing text printing which is laid out for the printer.
-        AATextInfo info = drawTextAntialiased(c);
-        if (info != null && (g instanceof Graphics2D)) {
-            Graphics2D g2 = (Graphics2D)g;
+        // Assume we're not printing if we get here, or thbt we bre invoked
+        // vib Swing text printing which is lbid out for the printer.
+        AATextInfo info = drbwTextAntiblibsed(c);
+        if (info != null && (g instbnceof Grbphics2D)) {
+            Grbphics2D g2 = (Grbphics2D)g;
 
-            Object oldContrast = null;
-            Object oldAAValue = g2.getRenderingHint(KEY_TEXT_ANTIALIASING);
-            if (info.aaHint != null && info.aaHint != oldAAValue) {
-                g2.setRenderingHint(KEY_TEXT_ANTIALIASING, info.aaHint);
+            Object oldContrbst = null;
+            Object oldAAVblue = g2.getRenderingHint(KEY_TEXT_ANTIALIASING);
+            if (info.bbHint != null && info.bbHint != oldAAVblue) {
+                g2.setRenderingHint(KEY_TEXT_ANTIALIASING, info.bbHint);
             } else {
-                oldAAValue = null;
+                oldAAVblue = null;
             }
-            if (info.lcdContrastHint != null) {
-                oldContrast = g2.getRenderingHint(KEY_TEXT_LCD_CONTRAST);
-                if (info.lcdContrastHint.equals(oldContrast)) {
-                    oldContrast = null;
+            if (info.lcdContrbstHint != null) {
+                oldContrbst = g2.getRenderingHint(KEY_TEXT_LCD_CONTRAST);
+                if (info.lcdContrbstHint.equbls(oldContrbst)) {
+                    oldContrbst = null;
                 } else {
                     g2.setRenderingHint(KEY_TEXT_LCD_CONTRAST,
-                                        info.lcdContrastHint);
+                                        info.lcdContrbstHint);
                 }
             }
 
-            g.drawChars(data, offset, length, x, y);
+            g.drbwChbrs(dbtb, offset, length, x, y);
 
-            if (oldAAValue != null) {
-                g2.setRenderingHint(KEY_TEXT_ANTIALIASING, oldAAValue);
+            if (oldAAVblue != null) {
+                g2.setRenderingHint(KEY_TEXT_ANTIALIASING, oldAAVblue);
             }
-            if (oldContrast != null) {
-                g2.setRenderingHint(KEY_TEXT_LCD_CONTRAST, oldContrast);
+            if (oldContrbst != null) {
+                g2.setRenderingHint(KEY_TEXT_LCD_CONTRAST, oldContrbst);
             }
         }
         else {
-            g.drawChars(data, offset, length, x, y);
+            g.drbwChbrs(dbtb, offset, length, x, y);
         }
         return nextX;
     }
 
     /*
-     * see documentation for drawChars
-     * returns the advance
+     * see documentbtion for drbwChbrs
+     * returns the bdvbnce
      */
-    public static float drawString(JComponent c, Graphics g,
-                                   AttributedCharacterIterator iterator,
+    public stbtic flobt drbwString(JComponent c, Grbphics g,
+                                   AttributedChbrbcterIterbtor iterbtor,
                                    int x,
                                    int y) {
 
-        float retVal;
-        boolean isPrinting = isPrinting(g);
+        flobt retVbl;
+        boolebn isPrinting = isPrinting(g);
         Color col = g.getColor();
 
         if (isPrinting) {
-            /* Use alternate print color if specified */
-            if (col instanceof PrintColorUIResource) {
+            /* Use blternbte print color if specified */
+            if (col instbnceof PrintColorUIResource) {
                 g.setColor(((PrintColorUIResource)col).getPrintColor());
             }
         }
 
-        Graphics2D g2d = getGraphics2D(g);
+        Grbphics2D g2d = getGrbphics2D(g);
         if (g2d == null) {
-            g.drawString(iterator,x,y); //for the cases where advance
-                                        //matters it should not happen
-            retVal = x;
+            g.drbwString(iterbtor,x,y); //for the cbses where bdvbnce
+                                        //mbtters it should not hbppen
+            retVbl = x;
 
         } else {
             FontRenderContext frc;
             if (isPrinting) {
                 frc = getFontRenderContext(c);
-                if (frc.isAntiAliased() || frc.usesFractionalMetrics()) {
-                    frc = new FontRenderContext(frc.getTransform(), false, false);
+                if (frc.isAntiAlibsed() || frc.usesFrbctionblMetrics()) {
+                    frc = new FontRenderContext(frc.getTrbnsform(), fblse, fblse);
                 }
             } else if ((frc = getFRCProperty(c)) != null) {
                 /* frc = frc; ! */
             } else {
                 frc = g2d.getFontRenderContext();
             }
-            TextLayout layout;
+            TextLbyout lbyout;
             if (isPrinting) {
                 FontRenderContext deviceFRC = g2d.getFontRenderContext();
-                if (!isFontRenderContextPrintCompatible(frc, deviceFRC)) {
-                    layout = new TextLayout(iterator, deviceFRC);
-                    AttributedCharacterIterator trimmedIt =
-                            getTrimmedTrailingSpacesIterator(iterator);
+                if (!isFontRenderContextPrintCompbtible(frc, deviceFRC)) {
+                    lbyout = new TextLbyout(iterbtor, deviceFRC);
+                    AttributedChbrbcterIterbtor trimmedIt =
+                            getTrimmedTrbilingSpbcesIterbtor(iterbtor);
                     if (trimmedIt != null) {
-                        float screenWidth = new TextLayout(trimmedIt, frc).
-                                getAdvance();
-                        layout = layout.getJustifiedLayout(screenWidth);
+                        flobt screenWidth = new TextLbyout(trimmedIt, frc).
+                                getAdvbnce();
+                        lbyout = lbyout.getJustifiedLbyout(screenWidth);
                     }
                 } else {
-                    layout = new TextLayout(iterator, frc);
+                    lbyout = new TextLbyout(iterbtor, frc);
                 }
             } else {
-                layout = new TextLayout(iterator, frc);
+                lbyout = new TextLbyout(iterbtor, frc);
             }
-            layout.draw(g2d, x, y);
-            retVal = layout.getAdvance();
+            lbyout.drbw(g2d, x, y);
+            retVbl = lbyout.getAdvbnce();
         }
 
         if (isPrinting) {
             g.setColor(col);
         }
 
-        return retVal;
+        return retVbl;
     }
 
     /**
-     * This method should be used for drawing a borders over a filled rectangle.
-     * Draws vertical line, using the current color, between the points {@code
-     * (x, y1)} and {@code (x, y2)} in graphics context's coordinate system.
-     * Note: it use {@code Graphics.fillRect()} internally.
+     * This method should be used for drbwing b borders over b filled rectbngle.
+     * Drbws verticbl line, using the current color, between the points {@code
+     * (x, y1)} bnd {@code (x, y2)} in grbphics context's coordinbte system.
+     * Note: it use {@code Grbphics.fillRect()} internblly.
      *
-     * @param g  Graphics to draw the line to.
-     * @param x  the <i>x</i> coordinate.
-     * @param y1 the first point's <i>y</i> coordinate.
-     * @param y2 the second point's <i>y</i> coordinate.
+     * @pbrbm g  Grbphics to drbw the line to.
+     * @pbrbm x  the <i>x</i> coordinbte.
+     * @pbrbm y1 the first point's <i>y</i> coordinbte.
+     * @pbrbm y2 the second point's <i>y</i> coordinbte.
      */
-    public static void drawVLine(Graphics g, int x, int y1, int y2) {
+    public stbtic void drbwVLine(Grbphics g, int x, int y1, int y2) {
         if (y2 < y1) {
-            final int temp = y2;
+            finbl int temp = y2;
             y2 = y1;
             y1 = temp;
         }
@@ -942,19 +942,19 @@ public class SwingUtilities2 {
     }
 
     /**
-     * This method should be used for drawing a borders over a filled rectangle.
-     * Draws horizontal line, using the current color, between the points {@code
-     * (x1, y)} and {@code (x2, y)} in graphics context's coordinate system.
-     * Note: it use {@code Graphics.fillRect()} internally.
+     * This method should be used for drbwing b borders over b filled rectbngle.
+     * Drbws horizontbl line, using the current color, between the points {@code
+     * (x1, y)} bnd {@code (x2, y)} in grbphics context's coordinbte system.
+     * Note: it use {@code Grbphics.fillRect()} internblly.
      *
-     * @param g  Graphics to draw the line to.
-     * @param x1 the first point's <i>x</i> coordinate.
-     * @param x2 the second point's <i>x</i> coordinate.
-     * @param y  the <i>y</i> coordinate.
+     * @pbrbm g  Grbphics to drbw the line to.
+     * @pbrbm x1 the first point's <i>x</i> coordinbte.
+     * @pbrbm x2 the second point's <i>x</i> coordinbte.
+     * @pbrbm y  the <i>y</i> coordinbte.
      */
-    public static void drawHLine(Graphics g, int x1, int x2, int y) {
+    public stbtic void drbwHLine(Grbphics g, int x1, int x2, int y) {
         if (x2 < x1) {
-            final int temp = x2;
+            finbl int temp = x2;
             x2 = x1;
             x1 = temp;
         }
@@ -962,22 +962,22 @@ public class SwingUtilities2 {
     }
 
     /**
-     * This method should be used for drawing a borders over a filled rectangle.
-     * Draws the outline of the specified rectangle. The left and right edges of
-     * the rectangle are at {@code x} and {@code x + w}. The top and bottom
-     * edges are at {@code y} and {@code y + h}. The rectangle is drawn using
-     * the graphics context's current color. Note: it use {@code
-     * Graphics.fillRect()} internally.
+     * This method should be used for drbwing b borders over b filled rectbngle.
+     * Drbws the outline of the specified rectbngle. The left bnd right edges of
+     * the rectbngle bre bt {@code x} bnd {@code x + w}. The top bnd bottom
+     * edges bre bt {@code y} bnd {@code y + h}. The rectbngle is drbwn using
+     * the grbphics context's current color. Note: it use {@code
+     * Grbphics.fillRect()} internblly.
      *
-     * @param g Graphics to draw the rectangle to.
-     * @param x the <i>x</i> coordinate of the rectangle to be drawn.
-     * @param y the <i>y</i> coordinate of the rectangle to be drawn.
-     * @param w the w of the rectangle to be drawn.
-     * @param h the h of the rectangle to be drawn.
-     * @see SwingUtilities2#drawVLine(java.awt.Graphics, int, int, int)
-     * @see SwingUtilities2#drawHLine(java.awt.Graphics, int, int, int)
+     * @pbrbm g Grbphics to drbw the rectbngle to.
+     * @pbrbm x the <i>x</i> coordinbte of the rectbngle to be drbwn.
+     * @pbrbm y the <i>y</i> coordinbte of the rectbngle to be drbwn.
+     * @pbrbm w the w of the rectbngle to be drbwn.
+     * @pbrbm h the h of the rectbngle to be drbwn.
+     * @see SwingUtilities2#drbwVLine(jbvb.bwt.Grbphics, int, int, int)
+     * @see SwingUtilities2#drbwHLine(jbvb.bwt.Grbphics, int, int, int)
      */
-    public static void drawRect(Graphics g, int x, int y, int w, int h) {
+    public stbtic void drbwRect(Grbphics g, int x, int y, int w, int h) {
         if (w < 0 || h < 0) {
             return;
         }
@@ -992,90 +992,90 @@ public class SwingUtilities2 {
         }
     }
 
-    private static TextLayout createTextLayout(JComponent c, String s,
+    privbte stbtic TextLbyout crebteTextLbyout(JComponent c, String s,
                                             Font f, FontRenderContext frc) {
-        Object shaper = (c == null ?
+        Object shbper = (c == null ?
                     null : c.getClientProperty(TextAttribute.NUMERIC_SHAPING));
-        if (shaper == null) {
-            return new TextLayout(s, f, frc);
+        if (shbper == null) {
+            return new TextLbyout(s, f, frc);
         } else {
-            Map<TextAttribute, Object> a = new HashMap<TextAttribute, Object>();
-            a.put(TextAttribute.FONT, f);
-            a.put(TextAttribute.NUMERIC_SHAPING, shaper);
-            return new TextLayout(s, a, frc);
+            Mbp<TextAttribute, Object> b = new HbshMbp<TextAttribute, Object>();
+            b.put(TextAttribute.FONT, f);
+            b.put(TextAttribute.NUMERIC_SHAPING, shbper);
+            return new TextLbyout(s, b, frc);
         }
     }
 
     /*
-     * Checks if two given FontRenderContexts are compatible for printing.
-     * We can't just use equals as we want to exclude from the comparison :
-     * + whether AA is set as irrelevant for printing and shouldn't affect
-     * printed metrics anyway
-     * + any translation component in the transform of either FRC, as it
-     * does not affect metrics.
-     * Compatible means no special handling needed for text painting
+     * Checks if two given FontRenderContexts bre compbtible for printing.
+     * We cbn't just use equbls bs we wbnt to exclude from the compbrison :
+     * + whether AA is set bs irrelevbnt for printing bnd shouldn't bffect
+     * printed metrics bnywby
+     * + bny trbnslbtion component in the trbnsform of either FRC, bs it
+     * does not bffect metrics.
+     * Compbtible mebns no specibl hbndling needed for text pbinting
      */
-    private static boolean
-        isFontRenderContextPrintCompatible(FontRenderContext frc1,
+    privbte stbtic boolebn
+        isFontRenderContextPrintCompbtible(FontRenderContext frc1,
                                            FontRenderContext frc2) {
 
         if (frc1 == frc2) {
             return true;
         }
 
-        if (frc1 == null || frc2 == null) { // not supposed to happen
-            return false;
+        if (frc1 == null || frc2 == null) { // not supposed to hbppen
+            return fblse;
         }
 
-        if (frc1.getFractionalMetricsHint() !=
-            frc2.getFractionalMetricsHint()) {
-            return false;
+        if (frc1.getFrbctionblMetricsHint() !=
+            frc2.getFrbctionblMetricsHint()) {
+            return fblse;
         }
 
-        /* If both are identity, return true */
-        if (!frc1.isTransformed() && !frc2.isTransformed()) {
+        /* If both bre identity, return true */
+        if (!frc1.isTrbnsformed() && !frc2.isTrbnsformed()) {
             return true;
         }
 
-        /* That's the end of the cheap tests, need to get and compare
-         * the transform matrices. We don't care about the translation
-         * components, so return true if they are otherwise identical.
+        /* Thbt's the end of the chebp tests, need to get bnd compbre
+         * the trbnsform mbtrices. We don't cbre bbout the trbnslbtion
+         * components, so return true if they bre otherwise identicbl.
          */
-        double[] mat1 = new double[4];
-        double[] mat2 = new double[4];
-        frc1.getTransform().getMatrix(mat1);
-        frc2.getTransform().getMatrix(mat2);
+        double[] mbt1 = new double[4];
+        double[] mbt2 = new double[4];
+        frc1.getTrbnsform().getMbtrix(mbt1);
+        frc2.getTrbnsform().getMbtrix(mbt2);
         return
-            mat1[0] == mat2[0] &&
-            mat1[1] == mat2[1] &&
-            mat1[2] == mat2[2] &&
-            mat1[3] == mat2[3];
+            mbt1[0] == mbt2[0] &&
+            mbt1[1] == mbt2[1] &&
+            mbt1[2] == mbt2[2] &&
+            mbt1[3] == mbt2[3];
     }
 
     /*
-     * Tries it best to get Graphics2D out of the given Graphics
-     * returns null if can not derive it.
+     * Tries it best to get Grbphics2D out of the given Grbphics
+     * returns null if cbn not derive it.
      */
-    public static Graphics2D getGraphics2D(Graphics g) {
-        if (g instanceof Graphics2D) {
-            return (Graphics2D) g;
-        } else if (g instanceof ProxyPrintGraphics) {
-            return (Graphics2D)(((ProxyPrintGraphics)g).getGraphics());
+    public stbtic Grbphics2D getGrbphics2D(Grbphics g) {
+        if (g instbnceof Grbphics2D) {
+            return (Grbphics2D) g;
+        } else if (g instbnceof ProxyPrintGrbphics) {
+            return (Grbphics2D)(((ProxyPrintGrbphics)g).getGrbphics());
         } else {
             return null;
         }
     }
 
     /*
-     * Returns FontRenderContext associated with Component.
-     * FontRenderContext from Component.getFontMetrics is associated
+     * Returns FontRenderContext bssocibted with Component.
+     * FontRenderContext from Component.getFontMetrics is bssocibted
      * with the component.
      *
      * Uses Component.getFontMetrics to get the FontRenderContext from.
-     * see JComponent.getFontMetrics and TextLayoutStrategy.java
+     * see JComponent.getFontMetrics bnd TextLbyoutStrbtegy.jbvb
      */
-    public static FontRenderContext getFontRenderContext(Component c) {
-        assert c != null;
+    public stbtic FontRenderContext getFontRenderContext(Component c) {
+        bssert c != null;
         if (c == null) {
             return DEFAULT_FRC;
         } else {
@@ -1085,22 +1085,22 @@ public class SwingUtilities2 {
 
     /**
      * A convenience method to get FontRenderContext.
-     * Returns the FontRenderContext for the passed in FontMetrics or
-     * for the passed in Component if FontMetrics is null
+     * Returns the FontRenderContext for the pbssed in FontMetrics or
+     * for the pbssed in Component if FontMetrics is null
      */
-    private static FontRenderContext getFontRenderContext(Component c, FontMetrics fm) {
-        assert fm != null || c!= null;
+    privbte stbtic FontRenderContext getFontRenderContext(Component c, FontMetrics fm) {
+        bssert fm != null || c!= null;
         return (fm != null) ? fm.getFontRenderContext()
             : getFontRenderContext(c);
     }
 
     /*
      * This method is to be used only for JComponent.getFontMetrics.
-     * In all other places to get FontMetrics we need to use
+     * In bll other plbces to get FontMetrics we need to use
      * JComponent.getFontMetrics.
      *
      */
-    public static FontMetrics getFontMetrics(JComponent c, Font font) {
+    public stbtic FontMetrics getFontMetrics(JComponent c, Font font) {
         FontRenderContext  frc = getFRCProperty(c);
         if (frc == null) {
             frc = DEFAULT_FRC;
@@ -1109,10 +1109,10 @@ public class SwingUtilities2 {
     }
 
 
-    /* Get any FontRenderContext associated with a JComponent
-     * - may return null
+    /* Get bny FontRenderContext bssocibted with b JComponent
+     * - mby return null
      */
-    private static FontRenderContext getFRCProperty(JComponent c) {
+    privbte stbtic FontRenderContext getFRCProperty(JComponent c) {
         if (c != null) {
             AATextInfo info =
                 (AATextInfo)c.getClientProperty(AA_TEXT_PROPERTY_KEY);
@@ -1124,40 +1124,40 @@ public class SwingUtilities2 {
     }
 
     /*
-     * returns true if the Graphics is print Graphics
-     * false otherwise
+     * returns true if the Grbphics is print Grbphics
+     * fblse otherwise
      */
-    static boolean isPrinting(Graphics g) {
-        return (g instanceof PrinterGraphics || g instanceof PrintGraphics);
+    stbtic boolebn isPrinting(Grbphics g) {
+        return (g instbnceof PrinterGrbphics || g instbnceof PrintGrbphics);
     }
 
-    private static String trimTrailingSpaces(String s) {
+    privbte stbtic String trimTrbilingSpbces(String s) {
         int i = s.length() - 1;
-        while(i >= 0 && Character.isWhitespace(s.charAt(i))) {
+        while(i >= 0 && Chbrbcter.isWhitespbce(s.chbrAt(i))) {
             i--;
         }
         return s.substring(0, i + 1);
     }
 
-    private static AttributedCharacterIterator getTrimmedTrailingSpacesIterator
-            (AttributedCharacterIterator iterator) {
-        int curIdx = iterator.getIndex();
+    privbte stbtic AttributedChbrbcterIterbtor getTrimmedTrbilingSpbcesIterbtor
+            (AttributedChbrbcterIterbtor iterbtor) {
+        int curIdx = iterbtor.getIndex();
 
-        char c = iterator.last();
-        while(c != CharacterIterator.DONE && Character.isWhitespace(c)) {
-            c = iterator.previous();
+        chbr c = iterbtor.lbst();
+        while(c != ChbrbcterIterbtor.DONE && Chbrbcter.isWhitespbce(c)) {
+            c = iterbtor.previous();
         }
 
-        if (c != CharacterIterator.DONE) {
-            int endIdx = iterator.getIndex();
+        if (c != ChbrbcterIterbtor.DONE) {
+            int endIdx = iterbtor.getIndex();
 
-            if (endIdx == iterator.getEndIndex() - 1) {
-                iterator.setIndex(curIdx);
-                return iterator;
+            if (endIdx == iterbtor.getEndIndex() - 1) {
+                iterbtor.setIndex(curIdx);
+                return iterbtor;
             } else {
-                AttributedString trimmedText = new AttributedString(iterator,
-                        iterator.getBeginIndex(), endIdx + 1);
-                return trimmedText.getIterator();
+                AttributedString trimmedText = new AttributedString(iterbtor,
+                        iterbtor.getBeginIndex(), endIdx + 1);
+                return trimmedText.getIterbtor();
             }
         } else {
             return null;
@@ -1165,55 +1165,55 @@ public class SwingUtilities2 {
     }
 
     /**
-     * Determines whether the SelectedTextColor should be used for painting text
+     * Determines whether the SelectedTextColor should be used for pbinting text
      * foreground for the specified highlight.
      *
-     * Returns true only if the highlight painter for the specified highlight
-     * is the swing painter (whether inner class of javax.swing.text.DefaultHighlighter
-     * or com.sun.java.swing.plaf.windows.WindowsTextUI) and its background color
-     * is null or equals to the selection color of the text component.
+     * Returns true only if the highlight pbinter for the specified highlight
+     * is the swing pbinter (whether inner clbss of jbvbx.swing.text.DefbultHighlighter
+     * or com.sun.jbvb.swing.plbf.windows.WindowsTextUI) bnd its bbckground color
+     * is null or equbls to the selection color of the text component.
      *
-     * This is a hack for fixing both bugs 4761990 and 5003294
+     * This is b hbck for fixing both bugs 4761990 bnd 5003294
      */
-    public static boolean useSelectedTextColor(Highlighter.Highlight h, JTextComponent c) {
-        Highlighter.HighlightPainter painter = h.getPainter();
-        String painterClass = painter.getClass().getName();
-        if (painterClass.indexOf("javax.swing.text.DefaultHighlighter") != 0 &&
-                painterClass.indexOf("com.sun.java.swing.plaf.windows.WindowsTextUI") != 0) {
-            return false;
+    public stbtic boolebn useSelectedTextColor(Highlighter.Highlight h, JTextComponent c) {
+        Highlighter.HighlightPbinter pbinter = h.getPbinter();
+        String pbinterClbss = pbinter.getClbss().getNbme();
+        if (pbinterClbss.indexOf("jbvbx.swing.text.DefbultHighlighter") != 0 &&
+                pbinterClbss.indexOf("com.sun.jbvb.swing.plbf.windows.WindowsTextUI") != 0) {
+            return fblse;
         }
         try {
-            DefaultHighlighter.DefaultHighlightPainter defPainter =
-                    (DefaultHighlighter.DefaultHighlightPainter) painter;
-            if (defPainter.getColor() != null &&
-                    !defPainter.getColor().equals(c.getSelectionColor())) {
-                return false;
+            DefbultHighlighter.DefbultHighlightPbinter defPbinter =
+                    (DefbultHighlighter.DefbultHighlightPbinter) pbinter;
+            if (defPbinter.getColor() != null &&
+                    !defPbinter.getColor().equbls(c.getSelectionColor())) {
+                return fblse;
             }
-        } catch (ClassCastException e) {
-            return false;
+        } cbtch (ClbssCbstException e) {
+            return fblse;
         }
         return true;
     }
 
     /**
-     * LSBCacheEntry is used to cache the left side bearing (lsb) for
-     * a particular <code>Font</code> and <code>FontRenderContext</code>.
-     * This only caches characters that fall in the range
+     * LSBCbcheEntry is used to cbche the left side bebring (lsb) for
+     * b pbrticulbr <code>Font</code> bnd <code>FontRenderContext</code>.
+     * This only cbches chbrbcters thbt fbll in the rbnge
      * <code>MIN_CHAR_INDEX</code> to <code>MAX_CHAR_INDEX</code>.
      */
-    private static class LSBCacheEntry {
-        // Used to indicate a particular entry in lsb has not been set.
-        private static final byte UNSET = Byte.MAX_VALUE;
-        // Used in creating a GlyphVector to get the lsb
-        private static final char[] oneChar = new char[1];
+    privbte stbtic clbss LSBCbcheEntry {
+        // Used to indicbte b pbrticulbr entry in lsb hbs not been set.
+        privbte stbtic finbl byte UNSET = Byte.MAX_VALUE;
+        // Used in crebting b GlyphVector to get the lsb
+        privbte stbtic finbl chbr[] oneChbr = new chbr[1];
 
-        private byte[] lsbCache;
-        private Font font;
-        private FontRenderContext frc;
+        privbte byte[] lsbCbche;
+        privbte Font font;
+        privbte FontRenderContext frc;
 
 
-        public LSBCacheEntry(FontRenderContext frc, Font font) {
-            lsbCache = new byte[MAX_CHAR_INDEX - MIN_CHAR_INDEX];
+        public LSBCbcheEntry(FontRenderContext frc, Font font) {
+            lsbCbche = new byte[MAX_CHAR_INDEX - MIN_CHAR_INDEX];
             reset(frc, font);
 
         }
@@ -1221,174 +1221,174 @@ public class SwingUtilities2 {
         public void reset(FontRenderContext frc, Font font) {
             this.font = font;
             this.frc = frc;
-            for (int counter = lsbCache.length - 1; counter >= 0; counter--) {
-                lsbCache[counter] = UNSET;
+            for (int counter = lsbCbche.length - 1; counter >= 0; counter--) {
+                lsbCbche[counter] = UNSET;
             }
         }
 
-        public int getLeftSideBearing(char aChar) {
-            int index = aChar - MIN_CHAR_INDEX;
-            assert (index >= 0 && index < (MAX_CHAR_INDEX - MIN_CHAR_INDEX));
-            byte lsb = lsbCache[index];
+        public int getLeftSideBebring(chbr bChbr) {
+            int index = bChbr - MIN_CHAR_INDEX;
+            bssert (index >= 0 && index < (MAX_CHAR_INDEX - MIN_CHAR_INDEX));
+            byte lsb = lsbCbche[index];
             if (lsb == UNSET) {
-                oneChar[0] = aChar;
-                GlyphVector gv = font.createGlyphVector(frc, oneChar);
+                oneChbr[0] = bChbr;
+                GlyphVector gv = font.crebteGlyphVector(frc, oneChbr);
                 lsb = (byte) gv.getGlyphPixelBounds(0, frc, 0f, 0f).x;
                 if (lsb < 0) {
-                    /* HRGB/HBGR LCD glyph images will always have a pixel
+                    /* HRGB/HBGR LCD glyph imbges will blwbys hbve b pixel
                      * on the left used in colour fringe reduction.
                      * Text rendering positions this correctly but here
-                     * we are using the glyph image to adjust that position
-                     * so must account for it.
+                     * we bre using the glyph imbge to bdjust thbt position
+                     * so must bccount for it.
                      */
-                    Object aaHint = frc.getAntiAliasingHint();
-                    if (aaHint == VALUE_TEXT_ANTIALIAS_LCD_HRGB ||
-                            aaHint == VALUE_TEXT_ANTIALIAS_LCD_HBGR) {
+                    Object bbHint = frc.getAntiAlibsingHint();
+                    if (bbHint == VALUE_TEXT_ANTIALIAS_LCD_HRGB ||
+                            bbHint == VALUE_TEXT_ANTIALIAS_LCD_HBGR) {
                         lsb++;
                     }
                 }
-                lsbCache[index] = lsb;
+                lsbCbche[index] = lsb;
             }
             return lsb;
 
 
         }
 
-        public boolean equals(Object entry) {
+        public boolebn equbls(Object entry) {
             if (entry == this) {
                 return true;
             }
-            if (!(entry instanceof LSBCacheEntry)) {
-                return false;
+            if (!(entry instbnceof LSBCbcheEntry)) {
+                return fblse;
             }
-            LSBCacheEntry oEntry = (LSBCacheEntry) entry;
-            return (font.equals(oEntry.font) &&
-                    frc.equals(oEntry.frc));
+            LSBCbcheEntry oEntry = (LSBCbcheEntry) entry;
+            return (font.equbls(oEntry.font) &&
+                    frc.equbls(oEntry.frc));
         }
 
-        public int hashCode() {
+        public int hbshCode() {
             int result = 17;
             if (font != null) {
-                result = 37 * result + font.hashCode();
+                result = 37 * result + font.hbshCode();
             }
             if (frc != null) {
-                result = 37 * result + frc.hashCode();
+                result = 37 * result + frc.hbshCode();
             }
             return result;
         }
     }
 
     /*
-     * here goes the fix for 4856343 [Problem with applet interaction
-     * with system selection clipboard]
+     * here goes the fix for 4856343 [Problem with bpplet interbction
+     * with system selection clipbobrd]
      *
-     * NOTE. In case isTrustedContext() no checking
-     * are to be performed
+     * NOTE. In cbse isTrustedContext() no checking
+     * bre to be performed
      */
 
     /**
-    * checks the security permissions for accessing system clipboard
+    * checks the security permissions for bccessing system clipbobrd
     *
     * for untrusted context (see isTrustedContext) checks the
-    * permissions for the current event being handled
+    * permissions for the current event being hbndled
     *
     */
-   public static boolean canAccessSystemClipboard() {
-       boolean canAccess = false;
-       if (!GraphicsEnvironment.isHeadless()) {
-           SecurityManager sm = System.getSecurityManager();
+   public stbtic boolebn cbnAccessSystemClipbobrd() {
+       boolebn cbnAccess = fblse;
+       if (!GrbphicsEnvironment.isHebdless()) {
+           SecurityMbnbger sm = System.getSecurityMbnbger();
            if (sm == null) {
-               canAccess = true;
+               cbnAccess = true;
            } else {
                try {
                    sm.checkPermission(AWTPermissions.ACCESS_CLIPBOARD_PERMISSION);
-                   canAccess = true;
-               } catch (SecurityException e) {
+                   cbnAccess = true;
+               } cbtch (SecurityException e) {
                }
-               if (canAccess && ! isTrustedContext()) {
-                   canAccess = canCurrentEventAccessSystemClipboard(true);
+               if (cbnAccess && ! isTrustedContext()) {
+                   cbnAccess = cbnCurrentEventAccessSystemClipbobrd(true);
                }
            }
        }
-       return canAccess;
+       return cbnAccess;
    }
     /**
-    * Returns true if EventQueue.getCurrentEvent() has the permissions to
-     * access the system clipboard
+    * Returns true if EventQueue.getCurrentEvent() hbs the permissions to
+     * bccess the system clipbobrd
      */
-    public static boolean canCurrentEventAccessSystemClipboard() {
+    public stbtic boolebn cbnCurrentEventAccessSystemClipbobrd() {
         return  isTrustedContext()
-            || canCurrentEventAccessSystemClipboard(false);
+            || cbnCurrentEventAccessSystemClipbobrd(fblse);
     }
 
     /**
-     * Returns true if the given event has permissions to access the
-     * system clipboard
+     * Returns true if the given event hbs permissions to bccess the
+     * system clipbobrd
      *
-     * @param e AWTEvent to check
+     * @pbrbm e AWTEvent to check
      */
-    public static boolean canEventAccessSystemClipboard(AWTEvent e) {
+    public stbtic boolebn cbnEventAccessSystemClipbobrd(AWTEvent e) {
         return isTrustedContext()
-            || canEventAccessSystemClipboard(e, false);
+            || cbnEventAccessSystemClipbobrd(e, fblse);
     }
 
     /**
      * Returns true if the given event is corrent gesture for
-     * accessing clipboard
+     * bccessing clipbobrd
      *
-     * @param ie InputEvent to check
+     * @pbrbm ie InputEvent to check
      */
 
-    private static boolean isAccessClipboardGesture(InputEvent ie) {
-        boolean allowedGesture = false;
-        if (ie instanceof KeyEvent) { //we can validate only keyboard gestures
+    privbte stbtic boolebn isAccessClipbobrdGesture(InputEvent ie) {
+        boolebn bllowedGesture = fblse;
+        if (ie instbnceof KeyEvent) { //we cbn vblidbte only keybobrd gestures
             KeyEvent ke = (KeyEvent)ie;
             int keyCode = ke.getKeyCode();
             int keyModifiers = ke.getModifiers();
             switch(keyCode) {
-            case KeyEvent.VK_C:
-            case KeyEvent.VK_V:
-            case KeyEvent.VK_X:
-                allowedGesture = (keyModifiers == InputEvent.CTRL_MASK);
-                break;
-            case KeyEvent.VK_INSERT:
-                allowedGesture = (keyModifiers == InputEvent.CTRL_MASK ||
+            cbse KeyEvent.VK_C:
+            cbse KeyEvent.VK_V:
+            cbse KeyEvent.VK_X:
+                bllowedGesture = (keyModifiers == InputEvent.CTRL_MASK);
+                brebk;
+            cbse KeyEvent.VK_INSERT:
+                bllowedGesture = (keyModifiers == InputEvent.CTRL_MASK ||
                                   keyModifiers == InputEvent.SHIFT_MASK);
-                break;
-            case KeyEvent.VK_COPY:
-            case KeyEvent.VK_PASTE:
-            case KeyEvent.VK_CUT:
-                allowedGesture = true;
-                break;
-            case KeyEvent.VK_DELETE:
-                allowedGesture = ( keyModifiers == InputEvent.SHIFT_MASK);
-                break;
+                brebk;
+            cbse KeyEvent.VK_COPY:
+            cbse KeyEvent.VK_PASTE:
+            cbse KeyEvent.VK_CUT:
+                bllowedGesture = true;
+                brebk;
+            cbse KeyEvent.VK_DELETE:
+                bllowedGesture = ( keyModifiers == InputEvent.SHIFT_MASK);
+                brebk;
             }
         }
-        return allowedGesture;
+        return bllowedGesture;
     }
 
     /**
-     * Returns true if e has the permissions to
-     * access the system clipboard and if it is allowed gesture (if
+     * Returns true if e hbs the permissions to
+     * bccess the system clipbobrd bnd if it is bllowed gesture (if
      * checkGesture is true)
      *
-     * @param e AWTEvent to check
-     * @param checkGesture boolean
+     * @pbrbm e AWTEvent to check
+     * @pbrbm checkGesture boolebn
      */
-    private static boolean canEventAccessSystemClipboard(AWTEvent e,
-                                                        boolean checkGesture) {
-        if (EventQueue.isDispatchThread()) {
+    privbte stbtic boolebn cbnEventAccessSystemClipbobrd(AWTEvent e,
+                                                        boolebn checkGesture) {
+        if (EventQueue.isDispbtchThrebd()) {
             /*
-             * Checking event permissions makes sense only for event
-             * dispathing thread
+             * Checking event permissions mbkes sense only for event
+             * dispbthing threbd
              */
-            if (e instanceof InputEvent
-                && (! checkGesture || isAccessClipboardGesture((InputEvent)e))) {
+            if (e instbnceof InputEvent
+                && (! checkGesture || isAccessClipbobrdGesture((InputEvent)e))) {
                 return AWTAccessor.getInputEventAccessor().
-                        canAccessSystemClipboard((InputEvent) e);
+                        cbnAccessSystemClipbobrd((InputEvent) e);
             } else {
-                return false;
+                return fblse;
             }
         } else {
             return true;
@@ -1396,186 +1396,186 @@ public class SwingUtilities2 {
     }
 
     /**
-     * Utility method that throws SecurityException if SecurityManager is set
-     * and modifiers are not public
+     * Utility method thbt throws SecurityException if SecurityMbnbger is set
+     * bnd modifiers bre not public
      *
-     * @param modifiers a set of modifiers
+     * @pbrbm modifiers b set of modifiers
      */
-    public static void checkAccess(int modifiers) {
-        if (System.getSecurityManager() != null
+    public stbtic void checkAccess(int modifiers) {
+        if (System.getSecurityMbnbger() != null
                 && !Modifier.isPublic(modifiers)) {
-            throw new SecurityException("Resource is not accessible");
+            throw new SecurityException("Resource is not bccessible");
         }
     }
 
     /**
-     * Returns true if EventQueue.getCurrentEvent() has the permissions to
-     * access the system clipboard and if it is allowed gesture (if
+     * Returns true if EventQueue.getCurrentEvent() hbs the permissions to
+     * bccess the system clipbobrd bnd if it is bllowed gesture (if
      * checkGesture true)
      *
-     * @param checkGesture boolean
+     * @pbrbm checkGesture boolebn
      */
-    private static boolean canCurrentEventAccessSystemClipboard(boolean
+    privbte stbtic boolebn cbnCurrentEventAccessSystemClipbobrd(boolebn
                                                                checkGesture) {
         AWTEvent event = EventQueue.getCurrentEvent();
-        return canEventAccessSystemClipboard(event, checkGesture);
+        return cbnEventAccessSystemClipbobrd(event, checkGesture);
     }
 
     /**
      * see RFE 5012841 [Per AppContect security permissions] for the
-     * details
+     * detbils
      *
      */
-    private static boolean isTrustedContext() {
-        return (System.getSecurityManager() == null)
+    privbte stbtic boolebn isTrustedContext() {
+        return (System.getSecurityMbnbger() == null)
             || (AppContext.getAppContext().
-                get(UntrustedClipboardAccess) == null);
+                get(UntrustedClipbobrdAccess) == null);
     }
 
-    public static String displayPropertiesToCSS(Font font, Color fg) {
+    public stbtic String displbyPropertiesToCSS(Font font, Color fg) {
         StringBuilder rule = new StringBuilder("body {");
         if (font != null) {
-            rule.append(" font-family: ");
-            rule.append(font.getFamily());
-            rule.append(" ; ");
-            rule.append(" font-size: ");
-            rule.append(font.getSize());
-            rule.append("pt ;");
+            rule.bppend(" font-fbmily: ");
+            rule.bppend(font.getFbmily());
+            rule.bppend(" ; ");
+            rule.bppend(" font-size: ");
+            rule.bppend(font.getSize());
+            rule.bppend("pt ;");
             if (font.isBold()) {
-                rule.append(" font-weight: 700 ; ");
+                rule.bppend(" font-weight: 700 ; ");
             }
-            if (font.isItalic()) {
-                rule.append(" font-style: italic ; ");
+            if (font.isItblic()) {
+                rule.bppend(" font-style: itblic ; ");
             }
         }
         if (fg != null) {
-            rule.append(" color: #");
+            rule.bppend(" color: #");
             if (fg.getRed() < 16) {
-                rule.append('0');
+                rule.bppend('0');
             }
-            rule.append(Integer.toHexString(fg.getRed()));
+            rule.bppend(Integer.toHexString(fg.getRed()));
             if (fg.getGreen() < 16) {
-                rule.append('0');
+                rule.bppend('0');
             }
-            rule.append(Integer.toHexString(fg.getGreen()));
+            rule.bppend(Integer.toHexString(fg.getGreen()));
             if (fg.getBlue() < 16) {
-                rule.append('0');
+                rule.bppend('0');
             }
-            rule.append(Integer.toHexString(fg.getBlue()));
-            rule.append(" ; ");
+            rule.bppend(Integer.toHexString(fg.getBlue()));
+            rule.bppend(" ; ");
         }
-        rule.append(" }");
+        rule.bppend(" }");
         return rule.toString();
     }
 
     /**
-     * Utility method that creates a <code>UIDefaults.LazyValue</code> that
-     * creates an <code>ImageIcon</code> <code>UIResource</code> for the
-     * specified image file name. The image is loaded using
-     * <code>getResourceAsStream</code>, starting with a call to that method
-     * on the base class parameter. If it cannot be found, searching will
-     * continue through the base class' inheritance hierarchy, up to and
-     * including <code>rootClass</code>.
+     * Utility method thbt crebtes b <code>UIDefbults.LbzyVblue</code> thbt
+     * crebtes bn <code>ImbgeIcon</code> <code>UIResource</code> for the
+     * specified imbge file nbme. The imbge is lobded using
+     * <code>getResourceAsStrebm</code>, stbrting with b cbll to thbt method
+     * on the bbse clbss pbrbmeter. If it cbnnot be found, sebrching will
+     * continue through the bbse clbss' inheritbnce hierbrchy, up to bnd
+     * including <code>rootClbss</code>.
      *
-     * @param baseClass the first class to use in searching for the resource
-     * @param rootClass an ancestor of <code>baseClass</code> to finish the
-     *                  search at
-     * @param imageFile the name of the file to be found
-     * @return a lazy value that creates the <code>ImageIcon</code>
-     *         <code>UIResource</code> for the image,
-     *         or null if it cannot be found
+     * @pbrbm bbseClbss the first clbss to use in sebrching for the resource
+     * @pbrbm rootClbss bn bncestor of <code>bbseClbss</code> to finish the
+     *                  sebrch bt
+     * @pbrbm imbgeFile the nbme of the file to be found
+     * @return b lbzy vblue thbt crebtes the <code>ImbgeIcon</code>
+     *         <code>UIResource</code> for the imbge,
+     *         or null if it cbnnot be found
      */
-    public static Object makeIcon(final Class<?> baseClass,
-                                  final Class<?> rootClass,
-                                  final String imageFile) {
-        return makeIcon(baseClass, rootClass, imageFile, true);
+    public stbtic Object mbkeIcon(finbl Clbss<?> bbseClbss,
+                                  finbl Clbss<?> rootClbss,
+                                  finbl String imbgeFile) {
+        return mbkeIcon(bbseClbss, rootClbss, imbgeFile, true);
     }
 
     /**
-     * Utility method that creates a <code>UIDefaults.LazyValue</code> that
-     * creates an <code>ImageIcon</code> <code>UIResource</code> for the
-     * specified image file name. The image is loaded using
-     * <code>getResourceAsStream</code>, starting with a call to that method
-     * on the base class parameter. If it cannot be found, searching will
-     * continue through the base class' inheritance hierarchy, up to and
-     * including <code>rootClass</code>.
+     * Utility method thbt crebtes b <code>UIDefbults.LbzyVblue</code> thbt
+     * crebtes bn <code>ImbgeIcon</code> <code>UIResource</code> for the
+     * specified imbge file nbme. The imbge is lobded using
+     * <code>getResourceAsStrebm</code>, stbrting with b cbll to thbt method
+     * on the bbse clbss pbrbmeter. If it cbnnot be found, sebrching will
+     * continue through the bbse clbss' inheritbnce hierbrchy, up to bnd
+     * including <code>rootClbss</code>.
      *
-     * Finds an image with a given name without privileges enabled.
+     * Finds bn imbge with b given nbme without privileges enbbled.
      *
-     * @param baseClass the first class to use in searching for the resource
-     * @param rootClass an ancestor of <code>baseClass</code> to finish the
-     *                  search at
-     * @param imageFile the name of the file to be found
-     * @return a lazy value that creates the <code>ImageIcon</code>
-     *         <code>UIResource</code> for the image,
-     *         or null if it cannot be found
+     * @pbrbm bbseClbss the first clbss to use in sebrching for the resource
+     * @pbrbm rootClbss bn bncestor of <code>bbseClbss</code> to finish the
+     *                  sebrch bt
+     * @pbrbm imbgeFile the nbme of the file to be found
+     * @return b lbzy vblue thbt crebtes the <code>ImbgeIcon</code>
+     *         <code>UIResource</code> for the imbge,
+     *         or null if it cbnnot be found
      */
-    public static Object makeIcon_Unprivileged(final Class<?> baseClass,
-                                  final Class<?> rootClass,
-                                  final String imageFile) {
-        return makeIcon(baseClass, rootClass, imageFile, false);
+    public stbtic Object mbkeIcon_Unprivileged(finbl Clbss<?> bbseClbss,
+                                  finbl Clbss<?> rootClbss,
+                                  finbl String imbgeFile) {
+        return mbkeIcon(bbseClbss, rootClbss, imbgeFile, fblse);
     }
 
-    private static Object makeIcon(final Class<?> baseClass,
-                                  final Class<?> rootClass,
-                                  final String imageFile,
-                                  final boolean enablePrivileges) {
-        return (UIDefaults.LazyValue) (table) -> {
-            byte[] buffer = enablePrivileges ? AccessController.doPrivileged(
+    privbte stbtic Object mbkeIcon(finbl Clbss<?> bbseClbss,
+                                  finbl Clbss<?> rootClbss,
+                                  finbl String imbgeFile,
+                                  finbl boolebn enbblePrivileges) {
+        return (UIDefbults.LbzyVblue) (tbble) -> {
+            byte[] buffer = enbblePrivileges ? AccessController.doPrivileged(
                     (PrivilegedAction<byte[]>) ()
-                    -> getIconBytes(baseClass, rootClass, imageFile))
-                    : getIconBytes(baseClass, rootClass, imageFile);
+                    -> getIconBytes(bbseClbss, rootClbss, imbgeFile))
+                    : getIconBytes(bbseClbss, rootClbss, imbgeFile);
 
             if (buffer == null) {
                 return null;
             }
             if (buffer.length == 0) {
-                System.err.println("warning: " + imageFile
+                System.err.println("wbrning: " + imbgeFile
                         + " is zero-length");
                 return null;
             }
 
-            return new ImageIconUIResource(buffer);
+            return new ImbgeIconUIResource(buffer);
         };
     }
 
-    private static byte[] getIconBytes(final Class<?> baseClass,
-                                  final Class<?> rootClass,
-                                  final String imageFile) {
-                /* Copy resource into a byte array.  This is
-                 * necessary because several browsers consider
-                 * Class.getResource a security risk because it
-                 * can be used to load additional classes.
-                 * Class.getResourceAsStream just returns raw
-                 * bytes, which we can convert to an image.
+    privbte stbtic byte[] getIconBytes(finbl Clbss<?> bbseClbss,
+                                  finbl Clbss<?> rootClbss,
+                                  finbl String imbgeFile) {
+                /* Copy resource into b byte brrby.  This is
+                 * necessbry becbuse severbl browsers consider
+                 * Clbss.getResource b security risk becbuse it
+                 * cbn be used to lobd bdditionbl clbsses.
+                 * Clbss.getResourceAsStrebm just returns rbw
+                 * bytes, which we cbn convert to bn imbge.
                  */
-                            Class<?> srchClass = baseClass;
+                            Clbss<?> srchClbss = bbseClbss;
 
-                            while (srchClass != null) {
+                            while (srchClbss != null) {
 
-            try (InputStream resource =
-                    srchClass.getResourceAsStream(imageFile)) {
+            try (InputStrebm resource =
+                    srchClbss.getResourceAsStrebm(imbgeFile)) {
                 if (resource == null) {
-                    if (srchClass == rootClass) {
-                                    break;
+                    if (srchClbss == rootClbss) {
+                                    brebk;
                                 }
-                                srchClass = srchClass.getSuperclass();
+                                srchClbss = srchClbss.getSuperclbss();
                     continue;
                             }
 
-                try (BufferedInputStream in
-                        = new BufferedInputStream(resource);
-                        ByteArrayOutputStream out
-                        = new ByteArrayOutputStream(1024)) {
+                try (BufferedInputStrebm in
+                        = new BufferedInputStrebm(resource);
+                        ByteArrbyOutputStrebm out
+                        = new ByteArrbyOutputStrebm(1024)) {
                             byte[] buffer = new byte[1024];
                             int n;
-                            while ((n = in.read(buffer)) > 0) {
+                            while ((n = in.rebd(buffer)) > 0) {
                                 out.write(buffer, 0, n);
                             }
                             out.flush();
-                            return out.toByteArray();
+                            return out.toByteArrby();
                 }
-                        } catch (IOException ioe) {
+                        } cbtch (IOException ioe) {
                             System.err.println(ioe.toString());
                         }
         }
@@ -1583,118 +1583,118 @@ public class SwingUtilities2 {
                     }
 
     /* Used to help decide if AA text rendering should be used, so
-     * this local display test should be additionally qualified
-     * against whether we have XRender support on both ends of the wire,
-     * as with that support remote performance may be good enough to turn
-     * on by default. An additional complication there is XRender does not
-     * appear capable of performing gamma correction needed for LCD text.
+     * this locbl displby test should be bdditionblly qublified
+     * bgbinst whether we hbve XRender support on both ends of the wire,
+     * bs with thbt support remote performbnce mby be good enough to turn
+     * on by defbult. An bdditionbl complicbtion there is XRender does not
+     * bppebr cbpbble of performing gbmmb correction needed for LCD text.
      */
-    public static boolean isLocalDisplay() {
-        boolean isLocal;
-        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-        if (ge instanceof SunGraphicsEnvironment) {
-            isLocal = ((SunGraphicsEnvironment) ge).isDisplayLocal();
+    public stbtic boolebn isLocblDisplby() {
+        boolebn isLocbl;
+        GrbphicsEnvironment ge = GrbphicsEnvironment.getLocblGrbphicsEnvironment();
+        if (ge instbnceof SunGrbphicsEnvironment) {
+            isLocbl = ((SunGrbphicsEnvironment) ge).isDisplbyLocbl();
         } else {
-            isLocal = true;
+            isLocbl = true;
         }
-        return isLocal;
+        return isLocbl;
     }
 
     /**
-     * Returns an integer from the defaults table. If <code>key</code> does
-     * not map to a valid <code>Integer</code>, or can not be convered from
-     * a <code>String</code> to an integer, the value 0 is returned.
+     * Returns bn integer from the defbults tbble. If <code>key</code> does
+     * not mbp to b vblid <code>Integer</code>, or cbn not be convered from
+     * b <code>String</code> to bn integer, the vblue 0 is returned.
      *
-     * @param key  an <code>Object</code> specifying the int.
+     * @pbrbm key  bn <code>Object</code> specifying the int.
      * @return the int
      */
-    public static int getUIDefaultsInt(Object key) {
-        return getUIDefaultsInt(key, 0);
+    public stbtic int getUIDefbultsInt(Object key) {
+        return getUIDefbultsInt(key, 0);
     }
 
     /**
-     * Returns an integer from the defaults table that is appropriate
-     * for the given locale. If <code>key</code> does not map to a valid
-     * <code>Integer</code>, or can not be convered from a <code>String</code>
-     * to an integer, the value 0 is returned.
+     * Returns bn integer from the defbults tbble thbt is bppropribte
+     * for the given locble. If <code>key</code> does not mbp to b vblid
+     * <code>Integer</code>, or cbn not be convered from b <code>String</code>
+     * to bn integer, the vblue 0 is returned.
      *
-     * @param key  an <code>Object</code> specifying the int. Returned value
-     *             is 0 if <code>key</code> is not available,
-     * @param l the <code>Locale</code> for which the int is desired
+     * @pbrbm key  bn <code>Object</code> specifying the int. Returned vblue
+     *             is 0 if <code>key</code> is not bvbilbble,
+     * @pbrbm l the <code>Locble</code> for which the int is desired
      * @return the int
      */
-    public static int getUIDefaultsInt(Object key, Locale l) {
-        return getUIDefaultsInt(key, l, 0);
+    public stbtic int getUIDefbultsInt(Object key, Locble l) {
+        return getUIDefbultsInt(key, l, 0);
     }
 
     /**
-     * Returns an integer from the defaults table. If <code>key</code> does
-     * not map to a valid <code>Integer</code>, or can not be convered from
-     * a <code>String</code> to an integer, <code>default</code> is
+     * Returns bn integer from the defbults tbble. If <code>key</code> does
+     * not mbp to b vblid <code>Integer</code>, or cbn not be convered from
+     * b <code>String</code> to bn integer, <code>defbult</code> is
      * returned.
      *
-     * @param key  an <code>Object</code> specifying the int. Returned value
-     *             is 0 if <code>key</code> is not available,
-     * @param defaultValue Returned value if <code>key</code> is not available,
-     *                     or is not an Integer
+     * @pbrbm key  bn <code>Object</code> specifying the int. Returned vblue
+     *             is 0 if <code>key</code> is not bvbilbble,
+     * @pbrbm defbultVblue Returned vblue if <code>key</code> is not bvbilbble,
+     *                     or is not bn Integer
      * @return the int
      */
-    public static int getUIDefaultsInt(Object key, int defaultValue) {
-        return getUIDefaultsInt(key, null, defaultValue);
+    public stbtic int getUIDefbultsInt(Object key, int defbultVblue) {
+        return getUIDefbultsInt(key, null, defbultVblue);
     }
 
     /**
-     * Returns an integer from the defaults table that is appropriate
-     * for the given locale. If <code>key</code> does not map to a valid
-     * <code>Integer</code>, or can not be convered from a <code>String</code>
-     * to an integer, <code>default</code> is returned.
+     * Returns bn integer from the defbults tbble thbt is bppropribte
+     * for the given locble. If <code>key</code> does not mbp to b vblid
+     * <code>Integer</code>, or cbn not be convered from b <code>String</code>
+     * to bn integer, <code>defbult</code> is returned.
      *
-     * @param key  an <code>Object</code> specifying the int. Returned value
-     *             is 0 if <code>key</code> is not available,
-     * @param l the <code>Locale</code> for which the int is desired
-     * @param defaultValue Returned value if <code>key</code> is not available,
-     *                     or is not an Integer
+     * @pbrbm key  bn <code>Object</code> specifying the int. Returned vblue
+     *             is 0 if <code>key</code> is not bvbilbble,
+     * @pbrbm l the <code>Locble</code> for which the int is desired
+     * @pbrbm defbultVblue Returned vblue if <code>key</code> is not bvbilbble,
+     *                     or is not bn Integer
      * @return the int
      */
-    public static int getUIDefaultsInt(Object key, Locale l, int defaultValue) {
-        Object value = UIManager.get(key, l);
+    public stbtic int getUIDefbultsInt(Object key, Locble l, int defbultVblue) {
+        Object vblue = UIMbnbger.get(key, l);
 
-        if (value instanceof Integer) {
-            return ((Integer)value).intValue();
+        if (vblue instbnceof Integer) {
+            return ((Integer)vblue).intVblue();
         }
-        if (value instanceof String) {
+        if (vblue instbnceof String) {
             try {
-                return Integer.parseInt((String)value);
-            } catch (NumberFormatException nfe) {}
+                return Integer.pbrseInt((String)vblue);
+            } cbtch (NumberFormbtException nfe) {}
         }
-        return defaultValue;
+        return defbultVblue;
     }
 
-    // At this point we need this method here. But we assume that there
-    // will be a common method for this purpose in the future releases.
-    public static Component compositeRequestFocus(Component component) {
-        if (component instanceof Container) {
-            Container container = (Container)component;
-            if (container.isFocusCycleRoot()) {
-                FocusTraversalPolicy policy = container.getFocusTraversalPolicy();
-                Component comp = policy.getDefaultComponent(container);
+    // At this point we need this method here. But we bssume thbt there
+    // will be b common method for this purpose in the future relebses.
+    public stbtic Component compositeRequestFocus(Component component) {
+        if (component instbnceof Contbiner) {
+            Contbiner contbiner = (Contbiner)component;
+            if (contbiner.isFocusCycleRoot()) {
+                FocusTrbversblPolicy policy = contbiner.getFocusTrbversblPolicy();
+                Component comp = policy.getDefbultComponent(contbiner);
                 if (comp!=null) {
                     comp.requestFocus();
                     return comp;
                 }
             }
-            Container rootAncestor = container.getFocusCycleRootAncestor();
+            Contbiner rootAncestor = contbiner.getFocusCycleRootAncestor();
             if (rootAncestor!=null) {
-                FocusTraversalPolicy policy = rootAncestor.getFocusTraversalPolicy();
-                Component comp = policy.getComponentAfter(rootAncestor, container);
+                FocusTrbversblPolicy policy = rootAncestor.getFocusTrbversblPolicy();
+                Component comp = policy.getComponentAfter(rootAncestor, contbiner);
 
-                if (comp!=null && SwingUtilities.isDescendingFrom(comp, container)) {
+                if (comp!=null && SwingUtilities.isDescendingFrom(comp, contbiner)) {
                     comp.requestFocus();
                     return comp;
                 }
             }
         }
-        if (component.isFocusable()) {
+        if (component.isFocusbble()) {
             component.requestFocus();
             return component;
         }
@@ -1702,93 +1702,93 @@ public class SwingUtilities2 {
     }
 
     /**
-     * Change focus to the visible component in {@code JTabbedPane}.
-     * This is not a general-purpose method and is here only to permit
-     * sharing code.
+     * Chbnge focus to the visible component in {@code JTbbbedPbne}.
+     * This is not b generbl-purpose method bnd is here only to permit
+     * shbring code.
      */
-    public static boolean tabbedPaneChangeFocusTo(Component comp) {
+    public stbtic boolebn tbbbedPbneChbngeFocusTo(Component comp) {
         if (comp != null) {
-            if (comp.isFocusTraversable()) {
+            if (comp.isFocusTrbversbble()) {
                 SwingUtilities2.compositeRequestFocus(comp);
                 return true;
-            } else if (comp instanceof JComponent
-                       && ((JComponent)comp).requestDefaultFocus()) {
+            } else if (comp instbnceof JComponent
+                       && ((JComponent)comp).requestDefbultFocus()) {
 
                  return true;
             }
         }
 
-        return false;
+        return fblse;
     }
 
     /**
-     * Submits a value-returning task for execution on the EDT and
-     * returns a Future representing the pending results of the task.
+     * Submits b vblue-returning tbsk for execution on the EDT bnd
+     * returns b Future representing the pending results of the tbsk.
      *
-     * @param task the task to submit
-     * @return a Future representing pending completion of the task
-     * @throws NullPointerException if the task is null
+     * @pbrbm tbsk the tbsk to submit
+     * @return b Future representing pending completion of the tbsk
+     * @throws NullPointerException if the tbsk is null
      */
-    public static <V> Future<V> submit(Callable<V> task) {
-        if (task == null) {
+    public stbtic <V> Future<V> submit(Cbllbble<V> tbsk) {
+        if (tbsk == null) {
             throw new NullPointerException();
         }
-        FutureTask<V> future = new FutureTask<V>(task);
+        FutureTbsk<V> future = new FutureTbsk<V>(tbsk);
         execute(future);
         return future;
     }
 
     /**
-     * Submits a Runnable task for execution on the EDT and returns a
-     * Future representing that task.
+     * Submits b Runnbble tbsk for execution on the EDT bnd returns b
+     * Future representing thbt tbsk.
      *
-     * @param task the task to submit
-     * @param result the result to return upon successful completion
-     * @return a Future representing pending completion of the task,
-     *         and whose <tt>get()</tt> method will return the given
-     *         result value upon completion
-     * @throws NullPointerException if the task is null
+     * @pbrbm tbsk the tbsk to submit
+     * @pbrbm result the result to return upon successful completion
+     * @return b Future representing pending completion of the tbsk,
+     *         bnd whose <tt>get()</tt> method will return the given
+     *         result vblue upon completion
+     * @throws NullPointerException if the tbsk is null
      */
-    public static <V> Future<V> submit(Runnable task, V result) {
-        if (task == null) {
+    public stbtic <V> Future<V> submit(Runnbble tbsk, V result) {
+        if (tbsk == null) {
             throw new NullPointerException();
         }
-        FutureTask<V> future = new FutureTask<V>(task, result);
+        FutureTbsk<V> future = new FutureTbsk<V>(tbsk, result);
         execute(future);
         return future;
     }
 
     /**
-     * Sends a Runnable to the EDT for the execution.
+     * Sends b Runnbble to the EDT for the execution.
      */
-    private static void execute(Runnable command) {
-        SwingUtilities.invokeLater(command);
+    privbte stbtic void execute(Runnbble commbnd) {
+        SwingUtilities.invokeLbter(commbnd);
     }
 
     /**
      * Sets the {@code SKIP_CLICK_COUNT} client property on the component
-     * if it is an instance of {@code JTextComponent} with a
-     * {@code DefaultCaret}. This property, used for text components acting
-     * as editors in a table or tree, tells {@code DefaultCaret} how many
-     * clicks to skip before starting selection.
+     * if it is bn instbnce of {@code JTextComponent} with b
+     * {@code DefbultCbret}. This property, used for text components bcting
+     * bs editors in b tbble or tree, tells {@code DefbultCbret} how mbny
+     * clicks to skip before stbrting selection.
      */
-    public static void setSkipClickCount(Component comp, int count) {
-        if (comp instanceof JTextComponent
-                && ((JTextComponent) comp).getCaret() instanceof DefaultCaret) {
+    public stbtic void setSkipClickCount(Component comp, int count) {
+        if (comp instbnceof JTextComponent
+                && ((JTextComponent) comp).getCbret() instbnceof DefbultCbret) {
 
             ((JTextComponent) comp).putClientProperty(SKIP_CLICK_COUNT, count);
         }
     }
 
     /**
-     * Return the MouseEvent's click count, possibly reduced by the value of
-     * the component's {@code SKIP_CLICK_COUNT} client property. Clears
+     * Return the MouseEvent's click count, possibly reduced by the vblue of
+     * the component's {@code SKIP_CLICK_COUNT} client property. Clebrs
      * the {@code SKIP_CLICK_COUNT} property if the mouse event's click count
-     * is 1. In order for clearing of the property to work correctly, there
-     * must be a mousePressed implementation on the caller with this
-     * call as the first line.
+     * is 1. In order for clebring of the property to work correctly, there
+     * must be b mousePressed implementbtion on the cbller with this
+     * cbll bs the first line.
      */
-    public static int getAdjustedClickCount(JTextComponent comp, MouseEvent e) {
+    public stbtic int getAdjustedClickCount(JTextComponent comp, MouseEvent e) {
         int cc = e.getClickCount();
 
         if (cc == 1) {
@@ -1811,96 +1811,96 @@ public class SwingUtilities2 {
      */
     public enum Section {
 
-        /** The leading section */
+        /** The lebding section */
         LEADING,
 
         /** The middle section */
         MIDDLE,
 
-        /** The trailing section */
+        /** The trbiling section */
         TRAILING
     }
 
     /**
-     * This method divides a rectangle into two or three sections along
-     * the specified axis and determines which section the given point
-     * lies in on that axis; used by drag and drop when calculating drop
-     * locations.
+     * This method divides b rectbngle into two or three sections blong
+     * the specified bxis bnd determines which section the given point
+     * lies in on thbt bxis; used by drbg bnd drop when cblculbting drop
+     * locbtions.
      * <p>
-     * For two sections, the rectangle is divided equally and the method
+     * For two sections, the rectbngle is divided equblly bnd the method
      * returns whether the point lies in {@code Section.LEADING} or
-     * {@code Section.TRAILING}. For horizontal divisions, the calculation
-     * respects component orientation.
+     * {@code Section.TRAILING}. For horizontbl divisions, the cblculbtion
+     * respects component orientbtion.
      * <p>
-     * For three sections, if the rectangle is greater than or equal to
-     * 30 pixels in length along the axis, the calculation gives 10 pixels
-     * to each of the leading and trailing sections and the remainder to the
-     * middle. For smaller sizes, the rectangle is divided equally into three
+     * For three sections, if the rectbngle is grebter thbn or equbl to
+     * 30 pixels in length blong the bxis, the cblculbtion gives 10 pixels
+     * to ebch of the lebding bnd trbiling sections bnd the rembinder to the
+     * middle. For smbller sizes, the rectbngle is divided equblly into three
      * sections.
      * <p>
-     * Note: This method assumes that the point is within the bounds of
-     * the given rectangle on the specified axis. However, in cases where
-     * it isn't, the results still have meaning: {@code Section.MIDDLE}
-     * remains the same, {@code Section.LEADING} indicates that the point
-     * is in or somewhere before the leading section, and
-     * {@code Section.TRAILING} indicates that the point is in or somewhere
-     * after the trailing section.
+     * Note: This method bssumes thbt the point is within the bounds of
+     * the given rectbngle on the specified bxis. However, in cbses where
+     * it isn't, the results still hbve mebning: {@code Section.MIDDLE}
+     * rembins the sbme, {@code Section.LEADING} indicbtes thbt the point
+     * is in or somewhere before the lebding section, bnd
+     * {@code Section.TRAILING} indicbtes thbt the point is in or somewhere
+     * bfter the trbiling section.
      *
-     * @param rect the rectangle
-     * @param p the point the check
-     * @param horizontal {@code true} to use the horizontal axis,
-     *        or {@code false} for the vertical axis
-     * @param ltr {@code true} for left to right orientation,
-     *        or {@code false} for right to left orientation;
-     *        only used for horizontal calculations
-     * @param three {@code true} for three sections,
-     *        or {@code false} for two
+     * @pbrbm rect the rectbngle
+     * @pbrbm p the point the check
+     * @pbrbm horizontbl {@code true} to use the horizontbl bxis,
+     *        or {@code fblse} for the verticbl bxis
+     * @pbrbm ltr {@code true} for left to right orientbtion,
+     *        or {@code fblse} for right to left orientbtion;
+     *        only used for horizontbl cblculbtions
+     * @pbrbm three {@code true} for three sections,
+     *        or {@code fblse} for two
      *
      * @return the {@code Section} where the point lies
      *
-     * @throws NullPointerException if {@code rect} or {@code p} are
+     * @throws NullPointerException if {@code rect} or {@code p} bre
      *         {@code null}
      */
-    private static Section liesIn(Rectangle rect, Point p, boolean horizontal,
-                                  boolean ltr, boolean three) {
+    privbte stbtic Section liesIn(Rectbngle rect, Point p, boolebn horizontbl,
+                                  boolebn ltr, boolebn three) {
 
-        /* beginning of the rectangle on the axis */
+        /* beginning of the rectbngle on the bxis */
         int p0;
 
-        /* point on the axis we're interested in */
+        /* point on the bxis we're interested in */
         int pComp;
 
-        /* length of the rectangle on the axis */
+        /* length of the rectbngle on the bxis */
         int length;
 
-        /* value of ltr if horizontal, else true */
-        boolean forward;
+        /* vblue of ltr if horizontbl, else true */
+        boolebn forwbrd;
 
-        if (horizontal) {
+        if (horizontbl) {
             p0 = rect.x;
             pComp = p.x;
             length = rect.width;
-            forward = ltr;
+            forwbrd = ltr;
         } else {
             p0 = rect.y;
             pComp = p.y;
             length = rect.height;
-            forward = true;
+            forwbrd = true;
         }
 
         if (three) {
-            int boundary = (length >= 30) ? 10 : length / 3;
+            int boundbry = (length >= 30) ? 10 : length / 3;
 
-            if (pComp < p0 + boundary) {
-               return forward ? Section.LEADING : Section.TRAILING;
-           } else if (pComp >= p0 + length - boundary) {
-               return forward ? Section.TRAILING : Section.LEADING;
+            if (pComp < p0 + boundbry) {
+               return forwbrd ? Section.LEADING : Section.TRAILING;
+           } else if (pComp >= p0 + length - boundbry) {
+               return forwbrd ? Section.TRAILING : Section.LEADING;
            }
 
            return Section.MIDDLE;
         } else {
             int middle = p0 + length / 2;
-            if (forward) {
+            if (forwbrd) {
                 return pComp >= middle ? Section.TRAILING : Section.LEADING;
             } else {
                 return pComp < middle ? Section.TRAILING : Section.LEADING;
@@ -1909,68 +1909,68 @@ public class SwingUtilities2 {
     }
 
     /**
-     * This method divides a rectangle into two or three sections along
-     * the horizontal axis and determines which section the given point
-     * lies in; used by drag and drop when calculating drop locations.
+     * This method divides b rectbngle into two or three sections blong
+     * the horizontbl bxis bnd determines which section the given point
+     * lies in; used by drbg bnd drop when cblculbting drop locbtions.
      * <p>
-     * See the documentation for {@link #liesIn} for more information
-     * on how the section is calculated.
+     * See the documentbtion for {@link #liesIn} for more informbtion
+     * on how the section is cblculbted.
      *
-     * @param rect the rectangle
-     * @param p the point the check
-     * @param ltr {@code true} for left to right orientation,
-     *        or {@code false} for right to left orientation
-     * @param three {@code true} for three sections,
-     *        or {@code false} for two
+     * @pbrbm rect the rectbngle
+     * @pbrbm p the point the check
+     * @pbrbm ltr {@code true} for left to right orientbtion,
+     *        or {@code fblse} for right to left orientbtion
+     * @pbrbm three {@code true} for three sections,
+     *        or {@code fblse} for two
      *
      * @return the {@code Section} where the point lies
      *
-     * @throws NullPointerException if {@code rect} or {@code p} are
+     * @throws NullPointerException if {@code rect} or {@code p} bre
      *         {@code null}
      */
-    public static Section liesInHorizontal(Rectangle rect, Point p,
-                                           boolean ltr, boolean three) {
+    public stbtic Section liesInHorizontbl(Rectbngle rect, Point p,
+                                           boolebn ltr, boolebn three) {
         return liesIn(rect, p, true, ltr, three);
     }
 
     /**
-     * This method divides a rectangle into two or three sections along
-     * the vertical axis and determines which section the given point
-     * lies in; used by drag and drop when calculating drop locations.
+     * This method divides b rectbngle into two or three sections blong
+     * the verticbl bxis bnd determines which section the given point
+     * lies in; used by drbg bnd drop when cblculbting drop locbtions.
      * <p>
-     * See the documentation for {@link #liesIn} for more information
-     * on how the section is calculated.
+     * See the documentbtion for {@link #liesIn} for more informbtion
+     * on how the section is cblculbted.
      *
-     * @param rect the rectangle
-     * @param p the point the check
-     * @param three {@code true} for three sections,
-     *        or {@code false} for two
+     * @pbrbm rect the rectbngle
+     * @pbrbm p the point the check
+     * @pbrbm three {@code true} for three sections,
+     *        or {@code fblse} for two
      *
      * @return the {@code Section} where the point lies
      *
-     * @throws NullPointerException if {@code rect} or {@code p} are
+     * @throws NullPointerException if {@code rect} or {@code p} bre
      *         {@code null}
      */
-    public static Section liesInVertical(Rectangle rect, Point p,
-                                         boolean three) {
-        return liesIn(rect, p, false, false, three);
+    public stbtic Section liesInVerticbl(Rectbngle rect, Point p,
+                                         boolebn three) {
+        return liesIn(rect, p, fblse, fblse, three);
     }
 
     /**
-     * Maps the index of the column in the view at
+     * Mbps the index of the column in the view bt
      * {@code viewColumnIndex} to the index of the column
-     * in the table model.  Returns the index of the corresponding
+     * in the tbble model.  Returns the index of the corresponding
      * column in the model.  If {@code viewColumnIndex}
-     * is less than zero, returns {@code viewColumnIndex}.
+     * is less thbn zero, returns {@code viewColumnIndex}.
      *
-     * @param cm the table model
-     * @param   viewColumnIndex     the index of the column in the view
+     * @pbrbm cm the tbble model
+     * @pbrbm   viewColumnIndex     the index of the column in the view
      * @return  the index of the corresponding column in the model
      *
-     * @see JTable#convertColumnIndexToModel(int)
-     * @see javax.swing.plaf.basic.BasicTableHeaderUI
+     * @see JTbble#convertColumnIndexToModel(int)
+     * @see jbvbx.swing.plbf.bbsic.BbsicTbbleHebderUI
      */
-    public static int convertColumnIndexToModel(TableColumnModel cm,
+    public stbtic int convertColumnIndexToModel(TbbleColumnModel cm,
                                                 int viewColumnIndex) {
         if (viewColumnIndex < 0) {
             return viewColumnIndex;
@@ -1979,21 +1979,21 @@ public class SwingUtilities2 {
     }
 
     /**
-     * Maps the index of the column in the {@code cm} at
+     * Mbps the index of the column in the {@code cm} bt
      * {@code modelColumnIndex} to the index of the column
      * in the view.  Returns the index of the
      * corresponding column in the view; returns {@code -1} if this column
-     * is not being displayed. If {@code modelColumnIndex} is less than zero,
+     * is not being displbyed. If {@code modelColumnIndex} is less thbn zero,
      * returns {@code modelColumnIndex}.
      *
-     * @param cm the table model
-     * @param modelColumnIndex the index of the column in the model
+     * @pbrbm cm the tbble model
+     * @pbrbm modelColumnIndex the index of the column in the model
      * @return the index of the corresponding column in the view
      *
-     * @see JTable#convertColumnIndexToView(int)
-     * @see javax.swing.plaf.basic.BasicTableHeaderUI
+     * @see JTbble#convertColumnIndexToView(int)
+     * @see jbvbx.swing.plbf.bbsic.BbsicTbbleHebderUI
      */
-    public static int convertColumnIndexToView(TableColumnModel cm,
+    public stbtic int convertColumnIndexToView(TbbleColumnModel cm,
                                         int modelColumnIndex) {
         if (modelColumnIndex < 0) {
             return modelColumnIndex;
@@ -2006,36 +2006,36 @@ public class SwingUtilities2 {
         return -1;
     }
 
-    public static int getSystemMnemonicKeyMask() {
-        Toolkit toolkit = Toolkit.getDefaultToolkit();
-        if (toolkit instanceof SunToolkit) {
-            return ((SunToolkit) toolkit).getFocusAcceleratorKeyMask();
+    public stbtic int getSystemMnemonicKeyMbsk() {
+        Toolkit toolkit = Toolkit.getDefbultToolkit();
+        if (toolkit instbnceof SunToolkit) {
+            return ((SunToolkit) toolkit).getFocusAccelerbtorKeyMbsk();
         }
         return InputEvent.ALT_MASK;
     }
 
     /**
-     * Returns the {@link TreePath} that identifies the changed nodes.
+     * Returns the {@link TreePbth} thbt identifies the chbnged nodes.
      *
-     * @param event  changes in a tree model
-     * @param model  corresponing tree model
-     * @return  the path to the changed nodes
+     * @pbrbm event  chbnges in b tree model
+     * @pbrbm model  corresponing tree model
+     * @return  the pbth to the chbnged nodes
      */
-    public static TreePath getTreePath(TreeModelEvent event, TreeModel model) {
-        TreePath path = event.getTreePath();
-        if ((path == null) && (model != null)) {
+    public stbtic TreePbth getTreePbth(TreeModelEvent event, TreeModel model) {
+        TreePbth pbth = event.getTreePbth();
+        if ((pbth == null) && (model != null)) {
             Object root = model.getRoot();
             if (root != null) {
-                path = new TreePath(root);
+                pbth = new TreePbth(root);
             }
         }
-        return path;
+        return pbth;
     }
 
     /**
-     * Used to listen to "blit" repaints in RepaintManager.
+     * Used to listen to "blit" repbints in RepbintMbnbger.
      */
-    public interface RepaintListener {
-        void repaintPerformed(JComponent c, int x, int y, int w, int h);
+    public interfbce RepbintListener {
+        void repbintPerformed(JComponent c, int x, int y, int w, int h);
     }
 }

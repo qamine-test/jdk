@@ -1,284 +1,284 @@
 /*
- * Copyright (c) 2002, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.util;
+pbckbge sun.security.util;
 
-import java.io.IOException;
-import java.util.*;
+import jbvb.io.IOException;
+import jbvb.util.*;
 
-import java.security.Principal;
-import java.security.cert.*;
+import jbvb.security.Principbl;
+import jbvb.security.cert.*;
 
-import javax.security.auth.x500.X500Principal;
+import jbvbx.security.buth.x500.X500Principbl;
 
 import sun.security.ssl.Krb5Helper;
-import sun.security.x509.X500Name;
+import sun.security.x509.X500Nbme;
 
 import sun.net.util.IPAddressUtil;
 
 /**
- * Class to check hostnames against the names specified in a certificate as
- * required for TLS and LDAP.
+ * Clbss to check hostnbmes bgbinst the nbmes specified in b certificbte bs
+ * required for TLS bnd LDAP.
  *
  */
-public class HostnameChecker {
+public clbss HostnbmeChecker {
 
-    // Constant for a HostnameChecker for TLS
-    public final static byte TYPE_TLS = 1;
-    private final static HostnameChecker INSTANCE_TLS =
-                                        new HostnameChecker(TYPE_TLS);
+    // Constbnt for b HostnbmeChecker for TLS
+    public finbl stbtic byte TYPE_TLS = 1;
+    privbte finbl stbtic HostnbmeChecker INSTANCE_TLS =
+                                        new HostnbmeChecker(TYPE_TLS);
 
-    // Constant for a HostnameChecker for LDAP
-    public final static byte TYPE_LDAP = 2;
-    private final static HostnameChecker INSTANCE_LDAP =
-                                        new HostnameChecker(TYPE_LDAP);
+    // Constbnt for b HostnbmeChecker for LDAP
+    public finbl stbtic byte TYPE_LDAP = 2;
+    privbte finbl stbtic HostnbmeChecker INSTANCE_LDAP =
+                                        new HostnbmeChecker(TYPE_LDAP);
 
-    // constants for subject alt names of type DNS and IP
-    private final static int ALTNAME_DNS = 2;
-    private final static int ALTNAME_IP  = 7;
+    // constbnts for subject blt nbmes of type DNS bnd IP
+    privbte finbl stbtic int ALTNAME_DNS = 2;
+    privbte finbl stbtic int ALTNAME_IP  = 7;
 
-    // the algorithm to follow to perform the check. Currently unused.
-    private final byte checkType;
+    // the blgorithm to follow to perform the check. Currently unused.
+    privbte finbl byte checkType;
 
-    private HostnameChecker(byte checkType) {
+    privbte HostnbmeChecker(byte checkType) {
         this.checkType = checkType;
     }
 
     /**
-     * Get a HostnameChecker instance. checkType should be one of the
-     * TYPE_* constants defined in this class.
+     * Get b HostnbmeChecker instbnce. checkType should be one of the
+     * TYPE_* constbnts defined in this clbss.
      */
-    public static HostnameChecker getInstance(byte checkType) {
+    public stbtic HostnbmeChecker getInstbnce(byte checkType) {
         if (checkType == TYPE_TLS) {
             return INSTANCE_TLS;
         } else if (checkType == TYPE_LDAP) {
             return INSTANCE_LDAP;
         }
-        throw new IllegalArgumentException("Unknown check type: " + checkType);
+        throw new IllegblArgumentException("Unknown check type: " + checkType);
     }
 
     /**
      * Perform the check.
      *
-     * @exception CertificateException if the name does not match any of
-     * the names specified in the certificate
+     * @exception CertificbteException if the nbme does not mbtch bny of
+     * the nbmes specified in the certificbte
      */
-    public void match(String expectedName, X509Certificate cert)
-            throws CertificateException {
-        if (isIpAddress(expectedName)) {
-           matchIP(expectedName, cert);
+    public void mbtch(String expectedNbme, X509Certificbte cert)
+            throws CertificbteException {
+        if (isIpAddress(expectedNbme)) {
+           mbtchIP(expectedNbme, cert);
         } else {
-           matchDNS(expectedName, cert);
+           mbtchDNS(expectedNbme, cert);
         }
     }
 
     /**
      * Perform the check for Kerberos.
      */
-    public static boolean match(String expectedName, Principal principal) {
-        String hostName = getServerName(principal);
-        return (expectedName.equalsIgnoreCase(hostName));
+    public stbtic boolebn mbtch(String expectedNbme, Principbl principbl) {
+        String hostNbme = getServerNbme(principbl);
+        return (expectedNbme.equblsIgnoreCbse(hostNbme));
     }
 
     /**
-     * Return the Server name from Kerberos principal.
+     * Return the Server nbme from Kerberos principbl.
      */
-    public static String getServerName(Principal principal) {
-        return Krb5Helper.getPrincipalHostName(principal);
+    public stbtic String getServerNbme(Principbl principbl) {
+        return Krb5Helper.getPrincipblHostNbme(principbl);
     }
 
     /**
-     * Test whether the given hostname looks like a literal IPv4 or IPv6
-     * address. The hostname does not need to be a fully qualified name.
+     * Test whether the given hostnbme looks like b literbl IPv4 or IPv6
+     * bddress. The hostnbme does not need to be b fully qublified nbme.
      *
-     * This is not a strict check that performs full input validation.
-     * That means if the method returns true, name need not be a correct
-     * IP address, rather that it does not represent a valid DNS hostname.
-     * Likewise for IP addresses when it returns false.
+     * This is not b strict check thbt performs full input vblidbtion.
+     * Thbt mebns if the method returns true, nbme need not be b correct
+     * IP bddress, rbther thbt it does not represent b vblid DNS hostnbme.
+     * Likewise for IP bddresses when it returns fblse.
      */
-    private static boolean isIpAddress(String name) {
-        if (IPAddressUtil.isIPv4LiteralAddress(name) ||
-            IPAddressUtil.isIPv6LiteralAddress(name)) {
+    privbte stbtic boolebn isIpAddress(String nbme) {
+        if (IPAddressUtil.isIPv4LiterblAddress(nbme) ||
+            IPAddressUtil.isIPv6LiterblAddress(nbme)) {
             return true;
         } else {
-            return false;
+            return fblse;
         }
     }
 
     /**
-     * Check if the certificate allows use of the given IP address.
+     * Check if the certificbte bllows use of the given IP bddress.
      *
      * From RFC2818:
-     * In some cases, the URI is specified as an IP address rather than a
-     * hostname. In this case, the iPAddress subjectAltName must be present
-     * in the certificate and must exactly match the IP in the URI.
+     * In some cbses, the URI is specified bs bn IP bddress rbther thbn b
+     * hostnbme. In this cbse, the iPAddress subjectAltNbme must be present
+     * in the certificbte bnd must exbctly mbtch the IP in the URI.
      */
-    private static void matchIP(String expectedIP, X509Certificate cert)
-            throws CertificateException {
-        Collection<List<?>> subjAltNames = cert.getSubjectAlternativeNames();
-        if (subjAltNames == null) {
-            throw new CertificateException
-                                ("No subject alternative names present");
+    privbte stbtic void mbtchIP(String expectedIP, X509Certificbte cert)
+            throws CertificbteException {
+        Collection<List<?>> subjAltNbmes = cert.getSubjectAlternbtiveNbmes();
+        if (subjAltNbmes == null) {
+            throw new CertificbteException
+                                ("No subject blternbtive nbmes present");
         }
-        for (List<?> next : subjAltNames) {
-            // For IP address, it needs to be exact match
-            if (((Integer)next.get(0)).intValue() == ALTNAME_IP) {
+        for (List<?> next : subjAltNbmes) {
+            // For IP bddress, it needs to be exbct mbtch
+            if (((Integer)next.get(0)).intVblue() == ALTNAME_IP) {
                 String ipAddress = (String)next.get(1);
-                if (expectedIP.equalsIgnoreCase(ipAddress)) {
+                if (expectedIP.equblsIgnoreCbse(ipAddress)) {
                     return;
                 }
             }
         }
-        throw new CertificateException("No subject alternative " +
-                        "names matching " + "IP address " +
+        throw new CertificbteException("No subject blternbtive " +
+                        "nbmes mbtching " + "IP bddress " +
                         expectedIP + " found");
     }
 
     /**
-     * Check if the certificate allows use of the given DNS name.
+     * Check if the certificbte bllows use of the given DNS nbme.
      *
      * From RFC2818:
-     * If a subjectAltName extension of type dNSName is present, that MUST
-     * be used as the identity. Otherwise, the (most specific) Common Name
-     * field in the Subject field of the certificate MUST be used. Although
-     * the use of the Common Name is existing practice, it is deprecated and
-     * Certification Authorities are encouraged to use the dNSName instead.
+     * If b subjectAltNbme extension of type dNSNbme is present, thbt MUST
+     * be used bs the identity. Otherwise, the (most specific) Common Nbme
+     * field in the Subject field of the certificbte MUST be used. Although
+     * the use of the Common Nbme is existing prbctice, it is deprecbted bnd
+     * Certificbtion Authorities bre encourbged to use the dNSNbme instebd.
      *
-     * Matching is performed using the matching rules specified by
-     * [RFC2459].  If more than one identity of a given type is present in
-     * the certificate (e.g., more than one dNSName name, a match in any one
-     * of the set is considered acceptable.)
+     * Mbtching is performed using the mbtching rules specified by
+     * [RFC2459].  If more thbn one identity of b given type is present in
+     * the certificbte (e.g., more thbn one dNSNbme nbme, b mbtch in bny one
+     * of the set is considered bcceptbble.)
      */
-    private void matchDNS(String expectedName, X509Certificate cert)
-            throws CertificateException {
-        Collection<List<?>> subjAltNames = cert.getSubjectAlternativeNames();
-        if (subjAltNames != null) {
-            boolean foundDNS = false;
-            for ( List<?> next : subjAltNames) {
-                if (((Integer)next.get(0)).intValue() == ALTNAME_DNS) {
+    privbte void mbtchDNS(String expectedNbme, X509Certificbte cert)
+            throws CertificbteException {
+        Collection<List<?>> subjAltNbmes = cert.getSubjectAlternbtiveNbmes();
+        if (subjAltNbmes != null) {
+            boolebn foundDNS = fblse;
+            for ( List<?> next : subjAltNbmes) {
+                if (((Integer)next.get(0)).intVblue() == ALTNAME_DNS) {
                     foundDNS = true;
-                    String dnsName = (String)next.get(1);
-                    if (isMatched(expectedName, dnsName)) {
+                    String dnsNbme = (String)next.get(1);
+                    if (isMbtched(expectedNbme, dnsNbme)) {
                         return;
                     }
                 }
             }
             if (foundDNS) {
-                // if certificate contains any subject alt names of type DNS
-                // but none match, reject
-                throw new CertificateException("No subject alternative DNS "
-                        + "name matching " + expectedName + " found.");
+                // if certificbte contbins bny subject blt nbmes of type DNS
+                // but none mbtch, reject
+                throw new CertificbteException("No subject blternbtive DNS "
+                        + "nbme mbtching " + expectedNbme + " found.");
             }
         }
-        X500Name subjectName = getSubjectX500Name(cert);
-        DerValue derValue = subjectName.findMostSpecificAttribute
-                                                    (X500Name.commonName_oid);
-        if (derValue != null) {
+        X500Nbme subjectNbme = getSubjectX500Nbme(cert);
+        DerVblue derVblue = subjectNbme.findMostSpecificAttribute
+                                                    (X500Nbme.commonNbme_oid);
+        if (derVblue != null) {
             try {
-                if (isMatched(expectedName, derValue.getAsString())) {
+                if (isMbtched(expectedNbme, derVblue.getAsString())) {
                     return;
                 }
-            } catch (IOException e) {
+            } cbtch (IOException e) {
                 // ignore
             }
         }
-        String msg = "No name matching " + expectedName + " found";
-        throw new CertificateException(msg);
+        String msg = "No nbme mbtching " + expectedNbme + " found";
+        throw new CertificbteException(msg);
     }
 
 
     /**
-     * Return the subject of a certificate as X500Name, by reparsing if
-     * necessary. X500Name should only be used if access to name components
-     * is required, in other cases X500Principal is to be preferred.
+     * Return the subject of b certificbte bs X500Nbme, by repbrsing if
+     * necessbry. X500Nbme should only be used if bccess to nbme components
+     * is required, in other cbses X500Principbl is to be preferred.
      *
      * This method is currently used from within JSSE, do not remove.
      */
-    public static X500Name getSubjectX500Name(X509Certificate cert)
-            throws CertificateParsingException {
+    public stbtic X500Nbme getSubjectX500Nbme(X509Certificbte cert)
+            throws CertificbtePbrsingException {
         try {
-            Principal subjectDN = cert.getSubjectDN();
-            if (subjectDN instanceof X500Name) {
-                return (X500Name)subjectDN;
+            Principbl subjectDN = cert.getSubjectDN();
+            if (subjectDN instbnceof X500Nbme) {
+                return (X500Nbme)subjectDN;
             } else {
-                X500Principal subjectX500 = cert.getSubjectX500Principal();
-                return new X500Name(subjectX500.getEncoded());
+                X500Principbl subjectX500 = cert.getSubjectX500Principbl();
+                return new X500Nbme(subjectX500.getEncoded());
             }
-        } catch (IOException e) {
-            throw(CertificateParsingException)
-                new CertificateParsingException().initCause(e);
+        } cbtch (IOException e) {
+            throw(CertificbtePbrsingException)
+                new CertificbtePbrsingException().initCbuse(e);
         }
     }
 
 
     /**
-     * Returns true if name matches against template.<p>
+     * Returns true if nbme mbtches bgbinst templbte.<p>
      *
-     * The matching is performed as per RFC 2818 rules for TLS and
+     * The mbtching is performed bs per RFC 2818 rules for TLS bnd
      * RFC 2830 rules for LDAP.<p>
      *
-     * The <code>name</code> parameter should represent a DNS name.
-     * The <code>template</code> parameter
-     * may contain the wildcard character *
+     * The <code>nbme</code> pbrbmeter should represent b DNS nbme.
+     * The <code>templbte</code> pbrbmeter
+     * mby contbin the wildcbrd chbrbcter *
      */
-    private boolean isMatched(String name, String template) {
+    privbte boolebn isMbtched(String nbme, String templbte) {
         if (checkType == TYPE_TLS) {
-            return matchAllWildcards(name, template);
+            return mbtchAllWildcbrds(nbme, templbte);
         } else if (checkType == TYPE_LDAP) {
-            return matchLeftmostWildcard(name, template);
+            return mbtchLeftmostWildcbrd(nbme, templbte);
         } else {
-            return false;
+            return fblse;
         }
     }
 
 
     /**
-     * Returns true if name matches against template.<p>
+     * Returns true if nbme mbtches bgbinst templbte.<p>
      *
      * According to RFC 2818, section 3.1 -
-     * Names may contain the wildcard character * which is
-     * considered to match any single domain name component
-     * or component fragment.
-     * E.g., *.a.com matches foo.a.com but not
-     * bar.foo.a.com. f*.com matches foo.com but not bar.com.
+     * Nbmes mby contbin the wildcbrd chbrbcter * which is
+     * considered to mbtch bny single dombin nbme component
+     * or component frbgment.
+     * E.g., *.b.com mbtches foo.b.com but not
+     * bbr.foo.b.com. f*.com mbtches foo.com but not bbr.com.
      */
-    private static boolean matchAllWildcards(String name,
-         String template) {
-        name = name.toLowerCase(Locale.ENGLISH);
-        template = template.toLowerCase(Locale.ENGLISH);
-        StringTokenizer nameSt = new StringTokenizer(name, ".");
-        StringTokenizer templateSt = new StringTokenizer(template, ".");
+    privbte stbtic boolebn mbtchAllWildcbrds(String nbme,
+         String templbte) {
+        nbme = nbme.toLowerCbse(Locble.ENGLISH);
+        templbte = templbte.toLowerCbse(Locble.ENGLISH);
+        StringTokenizer nbmeSt = new StringTokenizer(nbme, ".");
+        StringTokenizer templbteSt = new StringTokenizer(templbte, ".");
 
-        if (nameSt.countTokens() != templateSt.countTokens()) {
-            return false;
+        if (nbmeSt.countTokens() != templbteSt.countTokens()) {
+            return fblse;
         }
 
-        while (nameSt.hasMoreTokens()) {
-            if (!matchWildCards(nameSt.nextToken(),
-                        templateSt.nextToken())) {
-                return false;
+        while (nbmeSt.hbsMoreTokens()) {
+            if (!mbtchWildCbrds(nbmeSt.nextToken(),
+                        templbteSt.nextToken())) {
+                return fblse;
             }
         }
         return true;
@@ -286,71 +286,71 @@ public class HostnameChecker {
 
 
     /**
-     * Returns true if name matches against template.<p>
+     * Returns true if nbme mbtches bgbinst templbte.<p>
      *
      * As per RFC 2830, section 3.6 -
-     * The "*" wildcard character is allowed.  If present, it applies only
-     * to the left-most name component.
-     * E.g. *.bar.com would match a.bar.com, b.bar.com, etc. but not
-     * bar.com.
+     * The "*" wildcbrd chbrbcter is bllowed.  If present, it bpplies only
+     * to the left-most nbme component.
+     * E.g. *.bbr.com would mbtch b.bbr.com, b.bbr.com, etc. but not
+     * bbr.com.
      */
-    private static boolean matchLeftmostWildcard(String name,
-                         String template) {
-        name = name.toLowerCase(Locale.ENGLISH);
-        template = template.toLowerCase(Locale.ENGLISH);
+    privbte stbtic boolebn mbtchLeftmostWildcbrd(String nbme,
+                         String templbte) {
+        nbme = nbme.toLowerCbse(Locble.ENGLISH);
+        templbte = templbte.toLowerCbse(Locble.ENGLISH);
 
         // Retreive leftmost component
-        int templateIdx = template.indexOf('.');
-        int nameIdx = name.indexOf('.');
+        int templbteIdx = templbte.indexOf('.');
+        int nbmeIdx = nbme.indexOf('.');
 
-        if (templateIdx == -1)
-            templateIdx = template.length();
-        if (nameIdx == -1)
-            nameIdx = name.length();
+        if (templbteIdx == -1)
+            templbteIdx = templbte.length();
+        if (nbmeIdx == -1)
+            nbmeIdx = nbme.length();
 
-        if (matchWildCards(name.substring(0, nameIdx),
-            template.substring(0, templateIdx))) {
+        if (mbtchWildCbrds(nbme.substring(0, nbmeIdx),
+            templbte.substring(0, templbteIdx))) {
 
-            // match rest of the name
-            return template.substring(templateIdx).equals(
-                        name.substring(nameIdx));
+            // mbtch rest of the nbme
+            return templbte.substring(templbteIdx).equbls(
+                        nbme.substring(nbmeIdx));
         } else {
-            return false;
+            return fblse;
         }
     }
 
 
     /**
-     * Returns true if the name matches against the template that may
-     * contain wildcard char * <p>
+     * Returns true if the nbme mbtches bgbinst the templbte thbt mby
+     * contbin wildcbrd chbr * <p>
      */
-    private static boolean matchWildCards(String name, String template) {
+    privbte stbtic boolebn mbtchWildCbrds(String nbme, String templbte) {
 
-        int wildcardIdx = template.indexOf('*');
-        if (wildcardIdx == -1)
-            return name.equals(template);
+        int wildcbrdIdx = templbte.indexOf('*');
+        if (wildcbrdIdx == -1)
+            return nbme.equbls(templbte);
 
-        boolean isBeginning = true;
-        String beforeWildcard = "";
-        String afterWildcard = template;
+        boolebn isBeginning = true;
+        String beforeWildcbrd = "";
+        String bfterWildcbrd = templbte;
 
-        while (wildcardIdx != -1) {
+        while (wildcbrdIdx != -1) {
 
-            // match in sequence the non-wildcard chars in the template.
-            beforeWildcard = afterWildcard.substring(0, wildcardIdx);
-            afterWildcard = afterWildcard.substring(wildcardIdx + 1);
+            // mbtch in sequence the non-wildcbrd chbrs in the templbte.
+            beforeWildcbrd = bfterWildcbrd.substring(0, wildcbrdIdx);
+            bfterWildcbrd = bfterWildcbrd.substring(wildcbrdIdx + 1);
 
-            int beforeStartIdx = name.indexOf(beforeWildcard);
-            if ((beforeStartIdx == -1) ||
-                        (isBeginning && beforeStartIdx != 0)) {
-                return false;
+            int beforeStbrtIdx = nbme.indexOf(beforeWildcbrd);
+            if ((beforeStbrtIdx == -1) ||
+                        (isBeginning && beforeStbrtIdx != 0)) {
+                return fblse;
             }
-            isBeginning = false;
+            isBeginning = fblse;
 
-            // update the match scope
-            name = name.substring(beforeStartIdx + beforeWildcard.length());
-            wildcardIdx = afterWildcard.indexOf('*');
+            // updbte the mbtch scope
+            nbme = nbme.substring(beforeStbrtIdx + beforeWildcbrd.length());
+            wildcbrdIdx = bfterWildcbrd.indexOf('*');
         }
-        return name.endsWith(afterWildcard);
+        return nbme.endsWith(bfterWildcbrd);
     }
 }

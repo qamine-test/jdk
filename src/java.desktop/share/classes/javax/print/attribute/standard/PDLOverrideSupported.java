@@ -1,126 +1,126 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.print.attribute.standard;
+pbckbge jbvbx.print.bttribute.stbndbrd;
 
-import javax.print.attribute.Attribute;
-import javax.print.attribute.EnumSyntax;
-import javax.print.attribute.PrintServiceAttribute;
+import jbvbx.print.bttribute.Attribute;
+import jbvbx.print.bttribute.EnumSyntbx;
+import jbvbx.print.bttribute.PrintServiceAttribute;
 
 /**
- * Class PDLOverrideSupported is a printing attribute class, an enumeration,
- * that expresses the printer's ability to attempt to override processing
- * instructions embedded in documents' print data with processing instructions
- * specified as attributes outside the print data.
+ * Clbss PDLOverrideSupported is b printing bttribute clbss, bn enumerbtion,
+ * thbt expresses the printer's bbility to bttempt to override processing
+ * instructions embedded in documents' print dbtb with processing instructions
+ * specified bs bttributes outside the print dbtb.
  * <P>
- * <B>IPP Compatibility:</B> The category name returned by
- * <CODE>getName()</CODE> is the IPP attribute name.  The enumeration's
- * integer value is the IPP enum value.  The <code>toString()</code> method
- * returns the IPP string representation of the attribute value.
+ * <B>IPP Compbtibility:</B> The cbtegory nbme returned by
+ * <CODE>getNbme()</CODE> is the IPP bttribute nbme.  The enumerbtion's
+ * integer vblue is the IPP enum vblue.  The <code>toString()</code> method
+ * returns the IPP string representbtion of the bttribute vblue.
  *
- * @author  Alan Kaminsky
+ * @buthor  Albn Kbminsky
  */
-public class PDLOverrideSupported extends EnumSyntax
+public clbss PDLOverrideSupported extends EnumSyntbx
     implements PrintServiceAttribute {
 
-    private static final long serialVersionUID = -4393264467928463934L;
+    privbte stbtic finbl long seriblVersionUID = -4393264467928463934L;
 
     /**
-     * The printer makes no attempt to make the external job attribute values
-     * take precedence over embedded instructions in the documents' print
-     * data.
+     * The printer mbkes no bttempt to mbke the externbl job bttribute vblues
+     * tbke precedence over embedded instructions in the documents' print
+     * dbtb.
      */
-    public static final PDLOverrideSupported
+    public stbtic finbl PDLOverrideSupported
         NOT_ATTEMPTED = new PDLOverrideSupported(0);
 
     /**
-     * The printer attempts to make the external job attribute values take
-     * precedence over embedded instructions in the documents' print data,
-     * however there is no guarantee.
+     * The printer bttempts to mbke the externbl job bttribute vblues tbke
+     * precedence over embedded instructions in the documents' print dbtb,
+     * however there is no gubrbntee.
      */
-    public static final PDLOverrideSupported
+    public stbtic finbl PDLOverrideSupported
         ATTEMPTED = new PDLOverrideSupported(1);
 
 
     /**
-     * Construct a new PDL override supported enumeration value with the given
-     * integer value.
+     * Construct b new PDL override supported enumerbtion vblue with the given
+     * integer vblue.
      *
-     * @param  value  Integer value.
+     * @pbrbm  vblue  Integer vblue.
      */
-    protected PDLOverrideSupported(int value) {
-        super (value);
+    protected PDLOverrideSupported(int vblue) {
+        super (vblue);
     }
 
-    private static final String[] myStringTable = {
-        "not-attempted",
-        "attempted"
+    privbte stbtic finbl String[] myStringTbble = {
+        "not-bttempted",
+        "bttempted"
     };
 
-    private static final PDLOverrideSupported[] myEnumValueTable = {
+    privbte stbtic finbl PDLOverrideSupported[] myEnumVblueTbble = {
         NOT_ATTEMPTED,
         ATTEMPTED
     };
 
     /**
-     * Returns the string table for class PDLOverrideSupported.
+     * Returns the string tbble for clbss PDLOverrideSupported.
      */
-    protected String[] getStringTable() {
-        return myStringTable.clone();
+    protected String[] getStringTbble() {
+        return myStringTbble.clone();
     }
 
     /**
-     * Returns the enumeration value table for class PDLOverrideSupported.
+     * Returns the enumerbtion vblue tbble for clbss PDLOverrideSupported.
      */
-    protected EnumSyntax[] getEnumValueTable() {
-        return (EnumSyntax[])myEnumValueTable.clone();
+    protected EnumSyntbx[] getEnumVblueTbble() {
+        return (EnumSyntbx[])myEnumVblueTbble.clone();
     }
 
     /**
-     * Get the printing attribute class which is to be used as the "category"
-     * for this printing attribute value.
+     * Get the printing bttribute clbss which is to be used bs the "cbtegory"
+     * for this printing bttribute vblue.
      * <P>
-     * For class PDLOverrideSupported and any vendor-defined subclasses, the
-     * category is class PDLOverrideSupported itself.
+     * For clbss PDLOverrideSupported bnd bny vendor-defined subclbsses, the
+     * cbtegory is clbss PDLOverrideSupported itself.
      *
-     * @return  Printing attribute class (category), an instance of class
-     *          {@link java.lang.Class java.lang.Class}.
+     * @return  Printing bttribute clbss (cbtegory), bn instbnce of clbss
+     *          {@link jbvb.lbng.Clbss jbvb.lbng.Clbss}.
      */
-    public final Class<? extends Attribute> getCategory() {
-        return PDLOverrideSupported.class;
+    public finbl Clbss<? extends Attribute> getCbtegory() {
+        return PDLOverrideSupported.clbss;
     }
 
     /**
-     * Get the name of the category of which this attribute value is an
-     * instance.
+     * Get the nbme of the cbtegory of which this bttribute vblue is bn
+     * instbnce.
      * <P>
-     * For class PDLOverrideSupported and any vendor-defined subclasses, the
-     * category name is <CODE>"pdl-override-supported"</CODE>.
+     * For clbss PDLOverrideSupported bnd bny vendor-defined subclbsses, the
+     * cbtegory nbme is <CODE>"pdl-override-supported"</CODE>.
      *
-     * @return  Attribute category name.
+     * @return  Attribute cbtegory nbme.
      */
-    public final String getName() {
+    public finbl String getNbme() {
         return "pdl-override-supported";
     }
 

@@ -1,51 +1,51 @@
 /*
- * Copyright (c) 2001, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package com.sun.jmx.snmp.internal;
+pbckbge com.sun.jmx.snmp.internbl;
 
-import java.net.InetAddress;
-import com.sun.jmx.snmp.SnmpPduFactory;
-import com.sun.jmx.snmp.SnmpSecurityParameters;
+import jbvb.net.InetAddress;
+import com.sun.jmx.snmp.SnmpPduFbctory;
+import com.sun.jmx.snmp.SnmpSecurityPbrbmeters;
 import com.sun.jmx.snmp.SnmpSecurityException;
 import com.sun.jmx.snmp.SnmpTooBigException;
-import com.sun.jmx.snmp.SnmpStatusException;
+import com.sun.jmx.snmp.SnmpStbtusException;
 import com.sun.jmx.snmp.SnmpPdu;
 import com.sun.jmx.snmp.SnmpMsg;
 
-import com.sun.jmx.snmp.internal.SnmpSecurityCache;
-import com.sun.jmx.snmp.SnmpBadSecurityLevelException;
+import com.sun.jmx.snmp.internbl.SnmpSecurityCbche;
+import com.sun.jmx.snmp.SnmpBbdSecurityLevelException;
 /**
- * <P> An <CODE>SnmpIncomingResponse</CODE> handles the unmarshalling of the received response.</P>
- * <p><b>This API is a Sun Microsystems internal API  and is subject
- * to change without notice.</b></p>
+ * <P> An <CODE>SnmpIncomingResponse</CODE> hbndles the unmbrshblling of the received response.</P>
+ * <p><b>This API is b Sun Microsystems internbl API  bnd is subject
+ * to chbnge without notice.</b></p>
  * @since 1.5
  */
 
-public interface SnmpIncomingResponse {
+public interfbce SnmpIncomingResponse {
     /**
-     * Returns the source address.
-     * @return The source address.
+     * Returns the source bddress.
+     * @return The source bddress.
      */
     public InetAddress getAddress();
 
@@ -56,15 +56,15 @@ public interface SnmpIncomingResponse {
     public int getPort();
 
     /**
-     * Gets the incoming response security parameters.
-     * @return The security parameters.
+     * Gets the incoming response security pbrbmeters.
+     * @return The security pbrbmeters.
      **/
-    public SnmpSecurityParameters getSecurityParameters();
+    public SnmpSecurityPbrbmeters getSecurityPbrbmeters();
     /**
-     * Call this method in order to reuse <CODE>SnmpOutgoingRequest</CODE> cache.
-     * @param cache The security cache.
+     * Cbll this method in order to reuse <CODE>SnmpOutgoingRequest</CODE> cbche.
+     * @pbrbm cbche The security cbche.
      */
-    public void setSecurityCache(SnmpSecurityCache cache);
+    public void setSecurityCbche(SnmpSecurityCbche cbche);
     /**
      * Gets the incoming response security level. This level is defined in
      * {@link com.sun.jmx.snmp.SnmpEngine SnmpEngine}.
@@ -77,46 +77,46 @@ public interface SnmpIncomingResponse {
      */
     public int getSecurityModel();
     /**
-     * Gets the incoming response context name.
-     * @return The context name.
+     * Gets the incoming response context nbme.
+     * @return The context nbme.
      */
-    public byte[] getContextName();
+    public byte[] getContextNbme();
 
     /**
-     * Decodes the specified bytes and initializes itself with the received
+     * Decodes the specified bytes bnd initiblizes itself with the received
      * response.
      *
-     * @param inputBytes The bytes to be decoded.
+     * @pbrbm inputBytes The bytes to be decoded.
      *
-     * @exception SnmpStatusException If the specified bytes are not a valid encoding.
+     * @exception SnmpStbtusException If the specified bytes bre not b vblid encoding.
      */
-    public SnmpMsg decodeMessage(byte[] inputBytes,
+    public SnmpMsg decodeMessbge(byte[] inputBytes,
                                  int byteCount,
-                                 InetAddress address,
+                                 InetAddress bddress,
                                  int port)
-        throws SnmpStatusException, SnmpSecurityException;
+        throws SnmpStbtusException, SnmpSecurityException;
 
     /**
      * Gets the request PDU encoded in the received response.
      * <P>
-     * This method decodes the data field and returns the resulting PDU.
+     * This method decodes the dbtb field bnd returns the resulting PDU.
      *
      * @return The resulting PDU.
-     * @exception SnmpStatusException If the encoding is not valid.
+     * @exception SnmpStbtusException If the encoding is not vblid.
      */
     public SnmpPdu decodeSnmpPdu()
-        throws SnmpStatusException;
+        throws SnmpStbtusException;
 
     /**
      * Returns the response request Id.
-     * @param data The flat message.
+     * @pbrbm dbtb The flbt messbge.
      * @return The request Id.
      */
-    public int getRequestId(byte[] data) throws SnmpStatusException;
+    public int getRequestId(byte[] dbtb) throws SnmpStbtusException;
 
     /**
-     * Returns a stringified form of the message to send.
-     * @return The message state string.
+     * Returns b stringified form of the messbge to send.
+     * @return The messbge stbte string.
      */
-    public String printMessage();
+    public String printMessbge();
 }

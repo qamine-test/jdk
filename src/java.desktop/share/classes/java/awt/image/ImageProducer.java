@@ -1,112 +1,112 @@
 /*
- * Copyright (c) 1995, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt.image;
+pbckbge jbvb.bwt.imbge;
 
 /**
- * The interface for objects which can produce the image data for Images.
- * Each image contains an ImageProducer which is used to reconstruct
- * the image whenever it is needed, for example, when a new size of the
- * Image is scaled, or when the width or height of the Image is being
+ * The interfbce for objects which cbn produce the imbge dbtb for Imbges.
+ * Ebch imbge contbins bn ImbgeProducer which is used to reconstruct
+ * the imbge whenever it is needed, for exbmple, when b new size of the
+ * Imbge is scbled, or when the width or height of the Imbge is being
  * requested.
  *
- * @see ImageConsumer
+ * @see ImbgeConsumer
  *
- * @author      Jim Graham
+ * @buthor      Jim Grbhbm
  */
-public interface ImageProducer {
+public interfbce ImbgeProducer {
     /**
-     * Registers an <code>ImageConsumer</code> with the
-     * <code>ImageProducer</code> for access to the image data
-     * during a later reconstruction of the <code>Image</code>.
-     * The <code>ImageProducer</code> may, at its discretion,
-     * start delivering the image data to the consumer
-     * using the <code>ImageConsumer</code> interface immediately,
-     * or when the next available image reconstruction is triggered
-     * by a call to the <code>startProduction</code> method.
-     * @param ic the specified <code>ImageConsumer</code>
-     * @see #startProduction
+     * Registers bn <code>ImbgeConsumer</code> with the
+     * <code>ImbgeProducer</code> for bccess to the imbge dbtb
+     * during b lbter reconstruction of the <code>Imbge</code>.
+     * The <code>ImbgeProducer</code> mby, bt its discretion,
+     * stbrt delivering the imbge dbtb to the consumer
+     * using the <code>ImbgeConsumer</code> interfbce immedibtely,
+     * or when the next bvbilbble imbge reconstruction is triggered
+     * by b cbll to the <code>stbrtProduction</code> method.
+     * @pbrbm ic the specified <code>ImbgeConsumer</code>
+     * @see #stbrtProduction
      */
-    public void addConsumer(ImageConsumer ic);
+    public void bddConsumer(ImbgeConsumer ic);
 
     /**
-     * Determines if a specified <code>ImageConsumer</code>
+     * Determines if b specified <code>ImbgeConsumer</code>
      * object is currently registered with this
-     * <code>ImageProducer</code> as one of its consumers.
-     * @param ic the specified <code>ImageConsumer</code>
+     * <code>ImbgeProducer</code> bs one of its consumers.
+     * @pbrbm ic the specified <code>ImbgeConsumer</code>
      * @return <code>true</code> if the specified
-     *         <code>ImageConsumer</code> is registered with
-     *         this <code>ImageProducer</code>;
-     *         <code>false</code> otherwise.
+     *         <code>ImbgeConsumer</code> is registered with
+     *         this <code>ImbgeProducer</code>;
+     *         <code>fblse</code> otherwise.
      */
-    public boolean isConsumer(ImageConsumer ic);
+    public boolebn isConsumer(ImbgeConsumer ic);
 
     /**
-     * Removes the specified <code>ImageConsumer</code> object
+     * Removes the specified <code>ImbgeConsumer</code> object
      * from the list of consumers currently registered to
-     * receive image data.  It is not considered an error
-     * to remove a consumer that is not currently registered.
-     * The <code>ImageProducer</code> should stop sending data
-     * to this consumer as soon as is feasible.
-     * @param ic the specified <code>ImageConsumer</code>
+     * receive imbge dbtb.  It is not considered bn error
+     * to remove b consumer thbt is not currently registered.
+     * The <code>ImbgeProducer</code> should stop sending dbtb
+     * to this consumer bs soon bs is febsible.
+     * @pbrbm ic the specified <code>ImbgeConsumer</code>
      */
-    public void removeConsumer(ImageConsumer ic);
+    public void removeConsumer(ImbgeConsumer ic);
 
     /**
-     * Registers the specified <code>ImageConsumer</code> object
-     * as a consumer and starts an immediate reconstruction of
-     * the image data which will then be delivered to this
-     * consumer and any other consumer which might have already
+     * Registers the specified <code>ImbgeConsumer</code> object
+     * bs b consumer bnd stbrts bn immedibte reconstruction of
+     * the imbge dbtb which will then be delivered to this
+     * consumer bnd bny other consumer which might hbve blrebdy
      * been registered with the producer.  This method differs
-     * from the addConsumer method in that a reproduction of
-     * the image data should be triggered as soon as possible.
-     * @param ic the specified <code>ImageConsumer</code>
-     * @see #addConsumer
+     * from the bddConsumer method in thbt b reproduction of
+     * the imbge dbtb should be triggered bs soon bs possible.
+     * @pbrbm ic the specified <code>ImbgeConsumer</code>
+     * @see #bddConsumer
      */
-    public void startProduction(ImageConsumer ic);
+    public void stbrtProduction(ImbgeConsumer ic);
 
     /**
-     * Requests, on behalf of the <code>ImageConsumer</code>,
-     * that the <code>ImageProducer</code> attempt to resend
-     * the image data one more time in TOPDOWNLEFTRIGHT order
-     * so that higher quality conversion algorithms which
-     * depend on receiving pixels in order can be used to
-     * produce a better output version of the image.  The
-     * <code>ImageProducer</code> is free to
-     * ignore this call if it cannot resend the data in that
-     * order.  If the data can be resent, the
-     * <code>ImageProducer</code> should respond by executing
-     * the following minimum set of <code>ImageConsumer</code>
-     * method calls:
+     * Requests, on behblf of the <code>ImbgeConsumer</code>,
+     * thbt the <code>ImbgeProducer</code> bttempt to resend
+     * the imbge dbtb one more time in TOPDOWNLEFTRIGHT order
+     * so thbt higher qublity conversion blgorithms which
+     * depend on receiving pixels in order cbn be used to
+     * produce b better output version of the imbge.  The
+     * <code>ImbgeProducer</code> is free to
+     * ignore this cbll if it cbnnot resend the dbtb in thbt
+     * order.  If the dbtb cbn be resent, the
+     * <code>ImbgeProducer</code> should respond by executing
+     * the following minimum set of <code>ImbgeConsumer</code>
+     * method cblls:
      * <pre>{@code
      *  ic.setHints(TOPDOWNLEFTRIGHT | < otherhints >);
-     *  ic.setPixels(...);      // As many times as needed
-     *  ic.imageComplete();
+     *  ic.setPixels(...);      // As mbny times bs needed
+     *  ic.imbgeComplete();
      * }</pre>
-     * @param ic the specified <code>ImageConsumer</code>
-     * @see ImageConsumer#setHints
+     * @pbrbm ic the specified <code>ImbgeConsumer</code>
+     * @see ImbgeConsumer#setHints
      */
-    public void requestTopDownLeftRightResend(ImageConsumer ic);
+    public void requestTopDownLeftRightResend(ImbgeConsumer ic);
 }

@@ -1,194 +1,194 @@
 #
-# Copyright (c) 2000, 2009, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2000, 2009, Orbcle bnd/or its bffilibtes. All rights reserved.
 # DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 #
-# This code is free software; you can redistribute it and/or modify it
-# under the terms of the GNU General Public License version 2 only, as
-# published by the Free Software Foundation.  Oracle designates this
-# particular file as subject to the "Classpath" exception as provided
-# by Oracle in the LICENSE file that accompanied this code.
+# This code is free softwbre; you cbn redistribute it bnd/or modify it
+# under the terms of the GNU Generbl Public License version 2 only, bs
+# published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+# pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+# by Orbcle in the LICENSE file thbt bccompbnied this code.
 #
-# This code is distributed in the hope that it will be useful, but WITHOUT
-# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-# FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-# version 2 for more details (a copy is included in the LICENSE file that
-# accompanied this code).
+# This code is distributed in the hope thbt it will be useful, but WITHOUT
+# ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+# FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+# version 2 for more detbils (b copy is included in the LICENSE file thbt
+# bccompbnied this code).
 #
-# You should have received a copy of the GNU General Public License version
-# 2 along with this work; if not, write to the Free Software Foundation,
-# Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+# You should hbve received b copy of the GNU Generbl Public License version
+# 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+# Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 #
-# Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-# or visit www.oracle.com if you need additional information or have any
+# Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+# or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
 # questions.
 #
 
-# Generated exception classes for java.nio.channels
+# Generbted exception clbsses for jbvb.nio.chbnnels
 
 SINCE=1.4
-PACKAGE=java.nio.channels
-# This year should only change if the generated source is modified.
+PACKAGE=jbvb.nio.chbnnels
+# This yebr should only chbnge if the generbted source is modified.
 COPYRIGHT_YEARS="2000, 2007,"
 
 
-SUPER=java.io.IOException
+SUPER=jbvb.io.IOException
 
-gen ClosedChannelException "
- * Checked exception thrown when an attempt is made to invoke or complete an
- * I/O operation upon channel that is closed, or at least closed to that
- * operation.  That this exception is thrown does not necessarily imply that
- * the channel is completely closed.  A socket channel whose write half has
- * been shut down, for example, may still be open for reading." \
+gen ClosedChbnnelException "
+ * Checked exception thrown when bn bttempt is mbde to invoke or complete bn
+ * I/O operbtion upon chbnnel thbt is closed, or bt lebst closed to thbt
+ * operbtion.  Thbt this exception is thrown does not necessbrily imply thbt
+ * the chbnnel is completely closed.  A socket chbnnel whose write hblf hbs
+ * been shut down, for exbmple, mby still be open for rebding." \
  882777185433553857L
 
 gen FileLockInterruptionException "
- * Checked exception received by a thread when another thread interrupts it
- * while it is waiting to acquire a file lock.  Before this exception is thrown
- * the interrupt status of the previously-blocked thread will have been set." \
+ * Checked exception received by b threbd when bnother threbd interrupts it
+ * while it is wbiting to bcquire b file lock.  Before this exception is thrown
+ * the interrupt stbtus of the previously-blocked threbd will hbve been set." \
  7104080643653532383L
 
 
-SUPER=ClosedChannelException
+SUPER=ClosedChbnnelException
 
 gen AsynchronousCloseException "
- * Checked exception received by a thread when another thread closes the
- * channel or the part of the channel upon which it is blocked in an I/O
- * operation." \
+ * Checked exception received by b threbd when bnother threbd closes the
+ * chbnnel or the pbrt of the chbnnel upon which it is blocked in bn I/O
+ * operbtion." \
  6891178312432313966L
 
 
 SUPER=AsynchronousCloseException
 
 gen ClosedByInterruptException "
- * Checked exception received by a thread when another thread interrupts it
- * while it is blocked in an I/O operation upon a channel.  Before this
- * exception is thrown the channel will have been closed and the interrupt
- * status of the previously-blocked thread will have been set." \
+ * Checked exception received by b threbd when bnother threbd interrupts it
+ * while it is blocked in bn I/O operbtion upon b chbnnel.  Before this
+ * exception is thrown the chbnnel will hbve been closed bnd the interrupt
+ * stbtus of the previously-blocked threbd will hbve been set." \
  -4488191543534286750L
 
 
-SUPER=IllegalArgumentException
+SUPER=IllegblArgumentException
 
-gen IllegalSelectorException "
- * Unchecked exception thrown when an attempt is made to register a channel
- * with a selector that was not created by the provider that created the
- * channel." \
+gen IllegblSelectorException "
+ * Unchecked exception thrown when bn bttempt is mbde to register b chbnnel
+ * with b selector thbt wbs not crebted by the provider thbt crebted the
+ * chbnnel." \
  -8406323347253320987L
 
 gen UnresolvedAddressException "
- * Unchecked exception thrown when an attempt is made to invoke a network
- * operation upon an unresolved socket address." \
+ * Unchecked exception thrown when bn bttempt is mbde to invoke b network
+ * operbtion upon bn unresolved socket bddress." \
  6136959093620794148L
 
 gen UnsupportedAddressTypeException "
- * Unchecked exception thrown when an attempt is made to bind or connect
- * to a socket address of a type that is not supported." \
+ * Unchecked exception thrown when bn bttempt is mbde to bind or connect
+ * to b socket bddress of b type thbt is not supported." \
  -2964323842829700493L
 
 
-SUPER=IllegalStateException
+SUPER=IllegblStbteException
 
-gen AlreadyConnectedException "
- * Unchecked exception thrown when an attempt is made to connect a {@link
- * SocketChannel} that is already connected." \
+gen AlrebdyConnectedException "
+ * Unchecked exception thrown when bn bttempt is mbde to connect b {@link
+ * SocketChbnnel} thbt is blrebdy connected." \
  -7331895245053773357L
 
 gen ConnectionPendingException "
- * Unchecked exception thrown when an attempt is made to connect a {@link
- * SocketChannel} for which a non-blocking connection operation is already in
+ * Unchecked exception thrown when bn bttempt is mbde to connect b {@link
+ * SocketChbnnel} for which b non-blocking connection operbtion is blrebdy in
  * progress." \
  2008393366501760879L
 
 gen ClosedSelectorException "
- * Unchecked exception thrown when an attempt is made to invoke an I/O
- * operation upon a closed selector." \
+ * Unchecked exception thrown when bn bttempt is mbde to invoke bn I/O
+ * operbtion upon b closed selector." \
  6466297122317847835L
 
-gen CancelledKeyException "
- * Unchecked exception thrown when an attempt is made to use
- * a selection key that is no longer valid." \
+gen CbncelledKeyException "
+ * Unchecked exception thrown when bn bttempt is mbde to use
+ * b selection key thbt is no longer vblid." \
  -8438032138028814268L
 
-gen IllegalBlockingModeException "
- * Unchecked exception thrown when a blocking-mode-specific operation
- * is invoked upon a channel in the incorrect blocking mode." \
+gen IllegblBlockingModeException "
+ * Unchecked exception thrown when b blocking-mode-specific operbtion
+ * is invoked upon b chbnnel in the incorrect blocking mode." \
  -3335774961855590474L
 
 gen NoConnectionPendingException "
- * Unchecked exception thrown when the {@link SocketChannel#finishConnect
- * finishConnect} method of a {@link SocketChannel} is invoked without first
- * successfully invoking its {@link SocketChannel#connect connect} method." \
+ * Unchecked exception thrown when the {@link SocketChbnnel#finishConnect
+ * finishConnect} method of b {@link SocketChbnnel} is invoked without first
+ * successfully invoking its {@link SocketChbnnel#connect connect} method." \
  -8296561183633134743L
 
-gen NonReadableChannelException "
- * Unchecked exception thrown when an attempt is made to read
- * from a channel that was not originally opened for reading." \
+gen NonRebdbbleChbnnelException "
+ * Unchecked exception thrown when bn bttempt is mbde to rebd
+ * from b chbnnel thbt wbs not originblly opened for rebding." \
  -3200915679294993514L
 
-gen NonWritableChannelException "
- * Unchecked exception thrown when an attempt is made to write
- * to a channel that was not originally opened for writing." \
+gen NonWritbbleChbnnelException "
+ * Unchecked exception thrown when bn bttempt is mbde to write
+ * to b chbnnel thbt wbs not originblly opened for writing." \
  -7071230488279011621L
 
 gen NotYetBoundException "
- * Unchecked exception thrown when an attempt is made to invoke an I/O
- * operation upon a server socket channel that is not yet bound." \
+ * Unchecked exception thrown when bn bttempt is mbde to invoke bn I/O
+ * operbtion upon b server socket chbnnel thbt is not yet bound." \
  4640999303950202242L
 
 gen NotYetConnectedException "
- * Unchecked exception thrown when an attempt is made to invoke an I/O
- * operation upon a socket channel that is not yet connected." \
+ * Unchecked exception thrown when bn bttempt is mbde to invoke bn I/O
+ * operbtion upon b socket chbnnel thbt is not yet connected." \
  4697316551909513464L
 
-gen OverlappingFileLockException "
- * Unchecked exception thrown when an attempt is made to acquire a lock on a
- * region of a file that overlaps a region already locked by the same Java
- * virtual machine, or when another thread is already waiting to lock an
- * overlapping region of the same file." \
+gen OverlbppingFileLockException "
+ * Unchecked exception thrown when bn bttempt is mbde to bcquire b lock on b
+ * region of b file thbt overlbps b region blrebdy locked by the sbme Jbvb
+ * virtubl mbchine, or when bnother threbd is blrebdy wbiting to lock bn
+ * overlbpping region of the sbme file." \
  2047812138163068433L
 
 
 SINCE=1.7
 
-SUPER=java.io.IOException
+SUPER=jbvb.io.IOException
 
 gen InterruptedByTimeoutException "
- * Checked exception received by a thread when a timeout elapses before an
- * asynchronous operation completes." \
+ * Checked exception received by b threbd when b timeout elbpses before bn
+ * bsynchronous operbtion completes." \
  -4268008601014042947L
 
-SUPER=IllegalArgumentException
+SUPER=IllegblArgumentException
 
-gen IllegalChannelGroupException "
- * Unchecked exception thrown when an attempt is made to open a channel
- * in a group that was not created by the same provider. " \
+gen IllegblChbnnelGroupException "
+ * Unchecked exception thrown when bn bttempt is mbde to open b chbnnel
+ * in b group thbt wbs not crebted by the sbme provider. " \
  -2495041211157744253L
 
 
-SUPER=IllegalStateException
+SUPER=IllegblStbteException
 
-gen AlreadyBoundException "
- * Unchecked exception thrown when an attempt is made to bind the socket a
- * network oriented channel that is already bound." \
+gen AlrebdyBoundException "
+ * Unchecked exception thrown when bn bttempt is mbde to bind the socket b
+ * network oriented chbnnel thbt is blrebdy bound." \
  6796072983322737592L
 
 gen AcceptPendingException "
- * Unchecked exception thrown when an attempt is made to initiate an accept
- * operation on a channel and a previous accept operation has not completed." \
+ * Unchecked exception thrown when bn bttempt is mbde to initibte bn bccept
+ * operbtion on b chbnnel bnd b previous bccept operbtion hbs not completed." \
  2721339977965416421L
 
-gen ReadPendingException "
- * Unchecked exception thrown when an attempt is made to read from an
- * asynchronous socket channel and a previous read has not completed." \
+gen RebdPendingException "
+ * Unchecked exception thrown when bn bttempt is mbde to rebd from bn
+ * bsynchronous socket chbnnel bnd b previous rebd hbs not completed." \
  1986315242191227217L
 
 gen WritePendingException "
- * Unchecked exception thrown when an attempt is made to write to an
- * asynchronous socket channel and a previous write has not completed." \
+ * Unchecked exception thrown when bn bttempt is mbde to write to bn
+ * bsynchronous socket chbnnel bnd b previous write hbs not completed." \
  7031871839266032276L
 
-gen ShutdownChannelGroupException "
- * Unchecked exception thrown when an attempt is made to construct a channel in 
- * a group that is shutdown or the completion handler for an I/O operation 
- * cannot be invoked because the channel group has terminated." \
+gen ShutdownChbnnelGroupException "
+ * Unchecked exception thrown when bn bttempt is mbde to construct b chbnnel in 
+ * b group thbt is shutdown or the completion hbndler for bn I/O operbtion 
+ * cbnnot be invoked becbuse the chbnnel group hbs terminbted." \
  -3903801676350154157L

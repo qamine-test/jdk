@@ -1,48 +1,48 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * ASM: a very small and fast Java bytecode manipulation framework
- * Copyright (c) 2000-2011 INRIA, France Telecom
+ * ASM: b very smbll bnd fbst Jbvb bytecode mbnipulbtion frbmework
+ * Copyright (c) 2000-2011 INRIA, Frbnce Telecom
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- * 3. Neither the name of the copyright holders nor the names of its
- *    contributors may be used to endorse or promote products derived from
- *    this software without specific prior written permission.
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
+ * 1. Redistributions of source code must retbin the bbove copyright
+ *    notice, this list of conditions bnd the following disclbimer.
+ * 2. Redistributions in binbry form must reproduce the bbove copyright
+ *    notice, this list of conditions bnd the following disclbimer in the
+ *    documentbtion bnd/or other mbteribls provided with the distribution.
+ * 3. Neither the nbme of the copyright holders nor the nbmes of its
+ *    contributors mby be used to endorse or promote products derived from
+ *    this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -56,133 +56,133 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
-package jdk.internal.org.objectweb.asm.tree;
+pbckbge jdk.internbl.org.objectweb.bsm.tree;
 
-import java.util.ArrayList;
-import java.util.List;
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
 
-import jdk.internal.org.objectweb.asm.AnnotationVisitor;
-import jdk.internal.org.objectweb.asm.Opcodes;
+import jdk.internbl.org.objectweb.bsm.AnnotbtionVisitor;
+import jdk.internbl.org.objectweb.bsm.Opcodes;
 
 /**
- * A node that represents an annotationn.
+ * A node thbt represents bn bnnotbtionn.
  *
- * @author Eric Bruneton
+ * @buthor Eric Bruneton
  */
-public class AnnotationNode extends AnnotationVisitor {
+public clbss AnnotbtionNode extends AnnotbtionVisitor {
 
     /**
-     * The class descriptor of the annotation class.
+     * The clbss descriptor of the bnnotbtion clbss.
      */
     public String desc;
 
     /**
-     * The name value pairs of this annotation. Each name value pair is stored
-     * as two consecutive elements in the list. The name is a {@link String},
-     * and the value may be a {@link Byte}, {@link Boolean}, {@link Character},
-     * {@link Short}, {@link Integer}, {@link Long}, {@link Float},
-     * {@link Double}, {@link String} or {@link jdk.internal.org.objectweb.asm.Type}, or an
-     * two elements String array (for enumeration values), a
-     * {@link AnnotationNode}, or a {@link List} of values of one of the
-     * preceding types. The list may be <tt>null</tt> if there is no name value
-     * pair.
+     * The nbme vblue pbirs of this bnnotbtion. Ebch nbme vblue pbir is stored
+     * bs two consecutive elements in the list. The nbme is b {@link String},
+     * bnd the vblue mby be b {@link Byte}, {@link Boolebn}, {@link Chbrbcter},
+     * {@link Short}, {@link Integer}, {@link Long}, {@link Flobt},
+     * {@link Double}, {@link String} or {@link jdk.internbl.org.objectweb.bsm.Type}, or bn
+     * two elements String brrby (for enumerbtion vblues), b
+     * {@link AnnotbtionNode}, or b {@link List} of vblues of one of the
+     * preceding types. The list mby be <tt>null</tt> if there is no nbme vblue
+     * pbir.
      */
-    public List<Object> values;
+    public List<Object> vblues;
 
     /**
-     * Constructs a new {@link AnnotationNode}. <i>Subclasses must not use this
-     * constructor</i>. Instead, they must use the
-     * {@link #AnnotationNode(int, String)} version.
+     * Constructs b new {@link AnnotbtionNode}. <i>Subclbsses must not use this
+     * constructor</i>. Instebd, they must use the
+     * {@link #AnnotbtionNode(int, String)} version.
      *
-     * @param desc
-     *            the class descriptor of the annotation class.
-     * @throws IllegalStateException
-     *             If a subclass calls this constructor.
+     * @pbrbm desc
+     *            the clbss descriptor of the bnnotbtion clbss.
+     * @throws IllegblStbteException
+     *             If b subclbss cblls this constructor.
      */
-    public AnnotationNode(final String desc) {
+    public AnnotbtionNode(finbl String desc) {
         this(Opcodes.ASM5, desc);
-        if (getClass() != AnnotationNode.class) {
-            throw new IllegalStateException();
+        if (getClbss() != AnnotbtionNode.clbss) {
+            throw new IllegblStbteException();
         }
     }
 
     /**
-     * Constructs a new {@link AnnotationNode}.
+     * Constructs b new {@link AnnotbtionNode}.
      *
-     * @param api
+     * @pbrbm bpi
      *            the ASM API version implemented by this visitor. Must be one
      *            of {@link Opcodes#ASM4} or {@link Opcodes#ASM5}.
-     * @param desc
-     *            the class descriptor of the annotation class.
+     * @pbrbm desc
+     *            the clbss descriptor of the bnnotbtion clbss.
      */
-    public AnnotationNode(final int api, final String desc) {
-        super(api);
+    public AnnotbtionNode(finbl int bpi, finbl String desc) {
+        super(bpi);
         this.desc = desc;
     }
 
     /**
-     * Constructs a new {@link AnnotationNode} to visit an array value.
+     * Constructs b new {@link AnnotbtionNode} to visit bn brrby vblue.
      *
-     * @param values
-     *            where the visited values must be stored.
+     * @pbrbm vblues
+     *            where the visited vblues must be stored.
      */
-    AnnotationNode(final List<Object> values) {
+    AnnotbtionNode(finbl List<Object> vblues) {
         super(Opcodes.ASM5);
-        this.values = values;
+        this.vblues = vblues;
     }
 
     // ------------------------------------------------------------------------
-    // Implementation of the AnnotationVisitor abstract class
+    // Implementbtion of the AnnotbtionVisitor bbstrbct clbss
     // ------------------------------------------------------------------------
 
     @Override
-    public void visit(final String name, final Object value) {
-        if (values == null) {
-            values = new ArrayList<Object>(this.desc != null ? 2 : 1);
+    public void visit(finbl String nbme, finbl Object vblue) {
+        if (vblues == null) {
+            vblues = new ArrbyList<Object>(this.desc != null ? 2 : 1);
         }
         if (this.desc != null) {
-            values.add(name);
+            vblues.bdd(nbme);
         }
-        values.add(value);
+        vblues.bdd(vblue);
     }
 
     @Override
-    public void visitEnum(final String name, final String desc,
-            final String value) {
-        if (values == null) {
-            values = new ArrayList<Object>(this.desc != null ? 2 : 1);
+    public void visitEnum(finbl String nbme, finbl String desc,
+            finbl String vblue) {
+        if (vblues == null) {
+            vblues = new ArrbyList<Object>(this.desc != null ? 2 : 1);
         }
         if (this.desc != null) {
-            values.add(name);
+            vblues.bdd(nbme);
         }
-        values.add(new String[] { desc, value });
+        vblues.bdd(new String[] { desc, vblue });
     }
 
     @Override
-    public AnnotationVisitor visitAnnotation(final String name,
-            final String desc) {
-        if (values == null) {
-            values = new ArrayList<Object>(this.desc != null ? 2 : 1);
+    public AnnotbtionVisitor visitAnnotbtion(finbl String nbme,
+            finbl String desc) {
+        if (vblues == null) {
+            vblues = new ArrbyList<Object>(this.desc != null ? 2 : 1);
         }
         if (this.desc != null) {
-            values.add(name);
+            vblues.bdd(nbme);
         }
-        AnnotationNode annotation = new AnnotationNode(desc);
-        values.add(annotation);
-        return annotation;
+        AnnotbtionNode bnnotbtion = new AnnotbtionNode(desc);
+        vblues.bdd(bnnotbtion);
+        return bnnotbtion;
     }
 
     @Override
-    public AnnotationVisitor visitArray(final String name) {
-        if (values == null) {
-            values = new ArrayList<Object>(this.desc != null ? 2 : 1);
+    public AnnotbtionVisitor visitArrby(finbl String nbme) {
+        if (vblues == null) {
+            vblues = new ArrbyList<Object>(this.desc != null ? 2 : 1);
         }
         if (this.desc != null) {
-            values.add(name);
+            vblues.bdd(nbme);
         }
-        List<Object> array = new ArrayList<Object>();
-        values.add(array);
-        return new AnnotationNode(array);
+        List<Object> brrby = new ArrbyList<Object>();
+        vblues.bdd(brrby);
+        return new AnnotbtionNode(brrby);
     }
 
     @Override
@@ -194,66 +194,66 @@ public class AnnotationNode extends AnnotationVisitor {
     // ------------------------------------------------------------------------
 
     /**
-     * Checks that this annotation node is compatible with the given ASM API
-     * version. This methods checks that this node, and all its nodes
-     * recursively, do not contain elements that were introduced in more recent
-     * versions of the ASM API than the given version.
+     * Checks thbt this bnnotbtion node is compbtible with the given ASM API
+     * version. This methods checks thbt this node, bnd bll its nodes
+     * recursively, do not contbin elements thbt were introduced in more recent
+     * versions of the ASM API thbn the given version.
      *
-     * @param api
-     *            an ASM API version. Must be one of {@link Opcodes#ASM4} or
+     * @pbrbm bpi
+     *            bn ASM API version. Must be one of {@link Opcodes#ASM4} or
      *            {@link Opcodes#ASM5}.
      */
-    public void check(final int api) {
+    public void check(finbl int bpi) {
         // nothing to do
     }
 
     /**
-     * Makes the given visitor visit this annotation.
+     * Mbkes the given visitor visit this bnnotbtion.
      *
-     * @param av
-     *            an annotation visitor. Maybe <tt>null</tt>.
+     * @pbrbm bv
+     *            bn bnnotbtion visitor. Mbybe <tt>null</tt>.
      */
-    public void accept(final AnnotationVisitor av) {
-        if (av != null) {
-            if (values != null) {
-                for (int i = 0; i < values.size(); i += 2) {
-                    String name = (String) values.get(i);
-                    Object value = values.get(i + 1);
-                    accept(av, name, value);
+    public void bccept(finbl AnnotbtionVisitor bv) {
+        if (bv != null) {
+            if (vblues != null) {
+                for (int i = 0; i < vblues.size(); i += 2) {
+                    String nbme = (String) vblues.get(i);
+                    Object vblue = vblues.get(i + 1);
+                    bccept(bv, nbme, vblue);
                 }
             }
-            av.visitEnd();
+            bv.visitEnd();
         }
     }
 
     /**
-     * Makes the given visitor visit a given annotation value.
+     * Mbkes the given visitor visit b given bnnotbtion vblue.
      *
-     * @param av
-     *            an annotation visitor. Maybe <tt>null</tt>.
-     * @param name
-     *            the value name.
-     * @param value
-     *            the actual value.
+     * @pbrbm bv
+     *            bn bnnotbtion visitor. Mbybe <tt>null</tt>.
+     * @pbrbm nbme
+     *            the vblue nbme.
+     * @pbrbm vblue
+     *            the bctubl vblue.
      */
-    static void accept(final AnnotationVisitor av, final String name,
-            final Object value) {
-        if (av != null) {
-            if (value instanceof String[]) {
-                String[] typeconst = (String[]) value;
-                av.visitEnum(name, typeconst[0], typeconst[1]);
-            } else if (value instanceof AnnotationNode) {
-                AnnotationNode an = (AnnotationNode) value;
-                an.accept(av.visitAnnotation(name, an.desc));
-            } else if (value instanceof List) {
-                AnnotationVisitor v = av.visitArray(name);
-                List<?> array = (List<?>) value;
-                for (int j = 0; j < array.size(); ++j) {
-                    accept(v, null, array.get(j));
+    stbtic void bccept(finbl AnnotbtionVisitor bv, finbl String nbme,
+            finbl Object vblue) {
+        if (bv != null) {
+            if (vblue instbnceof String[]) {
+                String[] typeconst = (String[]) vblue;
+                bv.visitEnum(nbme, typeconst[0], typeconst[1]);
+            } else if (vblue instbnceof AnnotbtionNode) {
+                AnnotbtionNode bn = (AnnotbtionNode) vblue;
+                bn.bccept(bv.visitAnnotbtion(nbme, bn.desc));
+            } else if (vblue instbnceof List) {
+                AnnotbtionVisitor v = bv.visitArrby(nbme);
+                List<?> brrby = (List<?>) vblue;
+                for (int j = 0; j < brrby.size(); ++j) {
+                    bccept(v, null, brrby.get(j));
                 }
                 v.visitEnd();
             } else {
-                av.visit(name, value);
+                bv.visit(nbme, vblue);
             }
         }
     }

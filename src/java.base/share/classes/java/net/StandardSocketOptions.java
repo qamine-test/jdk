@@ -1,367 +1,367 @@
 /*
- * Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.net;
+pbckbge jbvb.net;
 
 /**
- * Defines the <em>standard</em> socket options.
+ * Defines the <em>stbndbrd</em> socket options.
  *
- * <p> The {@link SocketOption#name name} of each socket option defined by this
- * class is its field name.
+ * <p> The {@link SocketOption#nbme nbme} of ebch socket option defined by this
+ * clbss is its field nbme.
  *
- * <p> In this release, the socket options defined here are used by {@link
- * java.nio.channels.NetworkChannel network} channels in the {@link
- * java.nio.channels channels} package.
+ * <p> In this relebse, the socket options defined here bre used by {@link
+ * jbvb.nio.chbnnels.NetworkChbnnel network} chbnnels in the {@link
+ * jbvb.nio.chbnnels chbnnels} pbckbge.
  *
  * @since 1.7
  */
 
-public final class StandardSocketOptions {
-    private StandardSocketOptions() { }
+public finbl clbss StbndbrdSocketOptions {
+    privbte StbndbrdSocketOptions() { }
 
     // -- SOL_SOCKET --
 
     /**
-     * Allow transmission of broadcast datagrams.
+     * Allow trbnsmission of brobdcbst dbtbgrbms.
      *
-     * <p> The value of this socket option is a {@code Boolean} that represents
-     * whether the option is enabled or disabled. The option is specific to
-     * datagram-oriented sockets sending to {@link java.net.Inet4Address IPv4}
-     * broadcast addresses. When the socket option is enabled then the socket
-     * can be used to send <em>broadcast datagrams</em>.
+     * <p> The vblue of this socket option is b {@code Boolebn} thbt represents
+     * whether the option is enbbled or disbbled. The option is specific to
+     * dbtbgrbm-oriented sockets sending to {@link jbvb.net.Inet4Address IPv4}
+     * brobdcbst bddresses. When the socket option is enbbled then the socket
+     * cbn be used to send <em>brobdcbst dbtbgrbms</em>.
      *
-     * <p> The initial value of this socket option is {@code FALSE}. The socket
-     * option may be enabled or disabled at any time. Some operating systems may
-     * require that the Java virtual machine be started with implementation
-     * specific privileges to enable this option or send broadcast datagrams.
+     * <p> The initibl vblue of this socket option is {@code FALSE}. The socket
+     * option mby be enbbled or disbbled bt bny time. Some operbting systems mby
+     * require thbt the Jbvb virtubl mbchine be stbrted with implementbtion
+     * specific privileges to enbble this option or send brobdcbst dbtbgrbms.
      *
-     * @see <a href="http://www.ietf.org/rfc/rfc919.txt">RFC&nbsp;929:
-     * Broadcasting Internet Datagrams</a>
-     * @see DatagramSocket#setBroadcast
+     * @see <b href="http://www.ietf.org/rfc/rfc919.txt">RFC&nbsp;929:
+     * Brobdcbsting Internet Dbtbgrbms</b>
+     * @see DbtbgrbmSocket#setBrobdcbst
      */
-    public static final SocketOption<Boolean> SO_BROADCAST =
-        new StdSocketOption<Boolean>("SO_BROADCAST", Boolean.class);
+    public stbtic finbl SocketOption<Boolebn> SO_BROADCAST =
+        new StdSocketOption<Boolebn>("SO_BROADCAST", Boolebn.clbss);
 
     /**
-     * Keep connection alive.
+     * Keep connection blive.
      *
-     * <p> The value of this socket option is a {@code Boolean} that represents
-     * whether the option is enabled or disabled. When the {@code SO_KEEPALIVE}
-     * option is enabled the operating system may use a <em>keep-alive</em>
-     * mechanism to periodically probe the other end of a connection when the
-     * connection is otherwise idle. The exact semantics of the keep alive
-     * mechanism is system dependent and therefore unspecified.
+     * <p> The vblue of this socket option is b {@code Boolebn} thbt represents
+     * whether the option is enbbled or disbbled. When the {@code SO_KEEPALIVE}
+     * option is enbbled the operbting system mby use b <em>keep-blive</em>
+     * mechbnism to periodicblly probe the other end of b connection when the
+     * connection is otherwise idle. The exbct sembntics of the keep blive
+     * mechbnism is system dependent bnd therefore unspecified.
      *
-     * <p> The initial value of this socket option is {@code FALSE}. The socket
-     * option may be enabled or disabled at any time.
+     * <p> The initibl vblue of this socket option is {@code FALSE}. The socket
+     * option mby be enbbled or disbbled bt bny time.
      *
-     * @see <a href="http://www.ietf.org/rfc/rfc1122.txt">RFC&nbsp;1122
-     * Requirements for Internet Hosts -- Communication Layers</a>
+     * @see <b href="http://www.ietf.org/rfc/rfc1122.txt">RFC&nbsp;1122
+     * Requirements for Internet Hosts -- Communicbtion Lbyers</b>
      * @see Socket#setKeepAlive
      */
-    public static final SocketOption<Boolean> SO_KEEPALIVE =
-        new StdSocketOption<Boolean>("SO_KEEPALIVE", Boolean.class);
+    public stbtic finbl SocketOption<Boolebn> SO_KEEPALIVE =
+        new StdSocketOption<Boolebn>("SO_KEEPALIVE", Boolebn.clbss);
 
     /**
      * The size of the socket send buffer.
      *
-     * <p> The value of this socket option is an {@code Integer} that is the
-     * size of the socket send buffer in bytes. The socket send buffer is an
-     * output buffer used by the networking implementation. It may need to be
-     * increased for high-volume connections. The value of the socket option is
-     * a <em>hint</em> to the implementation to size the buffer and the actual
-     * size may differ. The socket option can be queried to retrieve the actual
+     * <p> The vblue of this socket option is bn {@code Integer} thbt is the
+     * size of the socket send buffer in bytes. The socket send buffer is bn
+     * output buffer used by the networking implementbtion. It mby need to be
+     * increbsed for high-volume connections. The vblue of the socket option is
+     * b <em>hint</em> to the implementbtion to size the buffer bnd the bctubl
+     * size mby differ. The socket option cbn be queried to retrieve the bctubl
      * size.
      *
-     * <p> For datagram-oriented sockets, the size of the send buffer may limit
-     * the size of the datagrams that may be sent by the socket. Whether
-     * datagrams larger than the buffer size are sent or discarded is system
+     * <p> For dbtbgrbm-oriented sockets, the size of the send buffer mby limit
+     * the size of the dbtbgrbms thbt mby be sent by the socket. Whether
+     * dbtbgrbms lbrger thbn the buffer size bre sent or discbrded is system
      * dependent.
      *
-     * <p> The initial/default size of the socket send buffer and the range of
-     * allowable values is system dependent although a negative size is not
-     * allowed. An attempt to set the socket send buffer to larger than its
-     * maximum size causes it to be set to its maximum size.
+     * <p> The initibl/defbult size of the socket send buffer bnd the rbnge of
+     * bllowbble vblues is system dependent blthough b negbtive size is not
+     * bllowed. An bttempt to set the socket send buffer to lbrger thbn its
+     * mbximum size cbuses it to be set to its mbximum size.
      *
-     * <p> An implementation allows this socket option to be set before the
-     * socket is bound or connected. Whether an implementation allows the
-     * socket send buffer to be changed after the socket is bound is system
+     * <p> An implementbtion bllows this socket option to be set before the
+     * socket is bound or connected. Whether bn implementbtion bllows the
+     * socket send buffer to be chbnged bfter the socket is bound is system
      * dependent.
      *
      * @see Socket#setSendBufferSize
      */
-    public static final SocketOption<Integer> SO_SNDBUF =
-        new StdSocketOption<Integer>("SO_SNDBUF", Integer.class);
+    public stbtic finbl SocketOption<Integer> SO_SNDBUF =
+        new StdSocketOption<Integer>("SO_SNDBUF", Integer.clbss);
 
 
     /**
      * The size of the socket receive buffer.
      *
-     * <p> The value of this socket option is an {@code Integer} that is the
+     * <p> The vblue of this socket option is bn {@code Integer} thbt is the
      * size of the socket receive buffer in bytes. The socket receive buffer is
-     * an input buffer used by the networking implementation. It may need to be
-     * increased for high-volume connections or decreased to limit the possible
-     * backlog of incoming data. The value of the socket option is a
-     * <em>hint</em> to the implementation to size the buffer and the actual
-     * size may differ.
+     * bn input buffer used by the networking implementbtion. It mby need to be
+     * increbsed for high-volume connections or decrebsed to limit the possible
+     * bbcklog of incoming dbtb. The vblue of the socket option is b
+     * <em>hint</em> to the implementbtion to size the buffer bnd the bctubl
+     * size mby differ.
      *
-     * <p> For datagram-oriented sockets, the size of the receive buffer may
-     * limit the size of the datagrams that can be received. Whether datagrams
-     * larger than the buffer size can be received is system dependent.
-     * Increasing the socket receive buffer may be important for cases where
-     * datagrams arrive in bursts faster than they can be processed.
+     * <p> For dbtbgrbm-oriented sockets, the size of the receive buffer mby
+     * limit the size of the dbtbgrbms thbt cbn be received. Whether dbtbgrbms
+     * lbrger thbn the buffer size cbn be received is system dependent.
+     * Increbsing the socket receive buffer mby be importbnt for cbses where
+     * dbtbgrbms brrive in bursts fbster thbn they cbn be processed.
      *
-     * <p> In the case of stream-oriented sockets and the TCP/IP protocol, the
-     * size of the socket receive buffer may be used when advertising the size
+     * <p> In the cbse of strebm-oriented sockets bnd the TCP/IP protocol, the
+     * size of the socket receive buffer mby be used when bdvertising the size
      * of the TCP receive window to the remote peer.
      *
-     * <p> The initial/default size of the socket receive buffer and the range
-     * of allowable values is system dependent although a negative size is not
-     * allowed. An attempt to set the socket receive buffer to larger than its
-     * maximum size causes it to be set to its maximum size.
+     * <p> The initibl/defbult size of the socket receive buffer bnd the rbnge
+     * of bllowbble vblues is system dependent blthough b negbtive size is not
+     * bllowed. An bttempt to set the socket receive buffer to lbrger thbn its
+     * mbximum size cbuses it to be set to its mbximum size.
      *
-     * <p> An implementation allows this socket option to be set before the
-     * socket is bound or connected. Whether an implementation allows the
-     * socket receive buffer to be changed after the socket is bound is system
+     * <p> An implementbtion bllows this socket option to be set before the
+     * socket is bound or connected. Whether bn implementbtion bllows the
+     * socket receive buffer to be chbnged bfter the socket is bound is system
      * dependent.
      *
-     * @see <a href="http://www.ietf.org/rfc/rfc1323.txt">RFC&nbsp;1323: TCP
-     * Extensions for High Performance</a>
+     * @see <b href="http://www.ietf.org/rfc/rfc1323.txt">RFC&nbsp;1323: TCP
+     * Extensions for High Performbnce</b>
      * @see Socket#setReceiveBufferSize
      * @see ServerSocket#setReceiveBufferSize
      */
-    public static final SocketOption<Integer> SO_RCVBUF =
-        new StdSocketOption<Integer>("SO_RCVBUF", Integer.class);
+    public stbtic finbl SocketOption<Integer> SO_RCVBUF =
+        new StdSocketOption<Integer>("SO_RCVBUF", Integer.clbss);
 
     /**
-     * Re-use address.
+     * Re-use bddress.
      *
-     * <p> The value of this socket option is a {@code Boolean} that represents
-     * whether the option is enabled or disabled. The exact semantics of this
-     * socket option are socket type and system dependent.
+     * <p> The vblue of this socket option is b {@code Boolebn} thbt represents
+     * whether the option is enbbled or disbbled. The exbct sembntics of this
+     * socket option bre socket type bnd system dependent.
      *
-     * <p> In the case of stream-oriented sockets, this socket option will
-     * usually determine whether the socket can be bound to a socket address
-     * when a previous connection involving that socket address is in the
-     * <em>TIME_WAIT</em> state. On implementations where the semantics differ,
-     * and the socket option is not required to be enabled in order to bind the
-     * socket when a previous connection is in this state, then the
-     * implementation may choose to ignore this option.
+     * <p> In the cbse of strebm-oriented sockets, this socket option will
+     * usublly determine whether the socket cbn be bound to b socket bddress
+     * when b previous connection involving thbt socket bddress is in the
+     * <em>TIME_WAIT</em> stbte. On implementbtions where the sembntics differ,
+     * bnd the socket option is not required to be enbbled in order to bind the
+     * socket when b previous connection is in this stbte, then the
+     * implementbtion mby choose to ignore this option.
      *
-     * <p> For datagram-oriented sockets the socket option is used to allow
-     * multiple programs bind to the same address. This option should be enabled
-     * when the socket is to be used for Internet Protocol (IP) multicasting.
+     * <p> For dbtbgrbm-oriented sockets the socket option is used to bllow
+     * multiple progrbms bind to the sbme bddress. This option should be enbbled
+     * when the socket is to be used for Internet Protocol (IP) multicbsting.
      *
-     * <p> An implementation allows this socket option to be set before the
-     * socket is bound or connected. Changing the value of this socket option
-     * after the socket is bound has no effect. The default value of this
+     * <p> An implementbtion bllows this socket option to be set before the
+     * socket is bound or connected. Chbnging the vblue of this socket option
+     * bfter the socket is bound hbs no effect. The defbult vblue of this
      * socket option is system dependent.
      *
-     * @see <a href="http://www.ietf.org/rfc/rfc793.txt">RFC&nbsp;793: Transmission
-     * Control Protocol</a>
+     * @see <b href="http://www.ietf.org/rfc/rfc793.txt">RFC&nbsp;793: Trbnsmission
+     * Control Protocol</b>
      * @see ServerSocket#setReuseAddress
      */
-    public static final SocketOption<Boolean> SO_REUSEADDR =
-        new StdSocketOption<Boolean>("SO_REUSEADDR", Boolean.class);
+    public stbtic finbl SocketOption<Boolebn> SO_REUSEADDR =
+        new StdSocketOption<Boolebn>("SO_REUSEADDR", Boolebn.clbss);
 
     /**
-     * Linger on close if data is present.
+     * Linger on close if dbtb is present.
      *
-     * <p> The value of this socket option is an {@code Integer} that controls
-     * the action taken when unsent data is queued on the socket and a method
-     * to close the socket is invoked. If the value of the socket option is zero
-     * or greater, then it represents a timeout value, in seconds, known as the
-     * <em>linger interval</em>. The linger interval is the timeout for the
-     * {@code close} method to block while the operating system attempts to
-     * transmit the unsent data or it decides that it is unable to transmit the
-     * data. If the value of the socket option is less than zero then the option
-     * is disabled. In that case the {@code close} method does not wait until
-     * unsent data is transmitted; if possible the operating system will transmit
-     * any unsent data before the connection is closed.
+     * <p> The vblue of this socket option is bn {@code Integer} thbt controls
+     * the bction tbken when unsent dbtb is queued on the socket bnd b method
+     * to close the socket is invoked. If the vblue of the socket option is zero
+     * or grebter, then it represents b timeout vblue, in seconds, known bs the
+     * <em>linger intervbl</em>. The linger intervbl is the timeout for the
+     * {@code close} method to block while the operbting system bttempts to
+     * trbnsmit the unsent dbtb or it decides thbt it is unbble to trbnsmit the
+     * dbtb. If the vblue of the socket option is less thbn zero then the option
+     * is disbbled. In thbt cbse the {@code close} method does not wbit until
+     * unsent dbtb is trbnsmitted; if possible the operbting system will trbnsmit
+     * bny unsent dbtb before the connection is closed.
      *
-     * <p> This socket option is intended for use with sockets that are configured
-     * in {@link java.nio.channels.SelectableChannel#isBlocking() blocking} mode
-     * only. The behavior of the {@code close} method when this option is
-     * enabled on a non-blocking socket is not defined.
+     * <p> This socket option is intended for use with sockets thbt bre configured
+     * in {@link jbvb.nio.chbnnels.SelectbbleChbnnel#isBlocking() blocking} mode
+     * only. The behbvior of the {@code close} method when this option is
+     * enbbled on b non-blocking socket is not defined.
      *
-     * <p> The initial value of this socket option is a negative value, meaning
-     * that the option is disabled. The option may be enabled, or the linger
-     * interval changed, at any time. The maximum value of the linger interval
-     * is system dependent. Setting the linger interval to a value that is
-     * greater than its maximum value causes the linger interval to be set to
-     * its maximum value.
+     * <p> The initibl vblue of this socket option is b negbtive vblue, mebning
+     * thbt the option is disbbled. The option mby be enbbled, or the linger
+     * intervbl chbnged, bt bny time. The mbximum vblue of the linger intervbl
+     * is system dependent. Setting the linger intervbl to b vblue thbt is
+     * grebter thbn its mbximum vblue cbuses the linger intervbl to be set to
+     * its mbximum vblue.
      *
      * @see Socket#setSoLinger
      */
-    public static final SocketOption<Integer> SO_LINGER =
-        new StdSocketOption<Integer>("SO_LINGER", Integer.class);
+    public stbtic finbl SocketOption<Integer> SO_LINGER =
+        new StdSocketOption<Integer>("SO_LINGER", Integer.clbss);
 
 
     // -- IPPROTO_IP --
 
     /**
-     * The Type of Service (ToS) octet in the Internet Protocol (IP) header.
+     * The Type of Service (ToS) octet in the Internet Protocol (IP) hebder.
      *
-     * <p> The value of this socket option is an {@code Integer} representing
-     * the value of the ToS octet in IP packets sent by sockets to an {@link
-     * StandardProtocolFamily#INET IPv4} socket. The interpretation of the ToS
-     * octet is network specific and is not defined by this class. Further
-     * information on the ToS octet can be found in <a
-     * href="http://www.ietf.org/rfc/rfc1349.txt">RFC&nbsp;1349</a> and <a
-     * href="http://www.ietf.org/rfc/rfc2474.txt">RFC&nbsp;2474</a>. The value
-     * of the socket option is a <em>hint</em>. An implementation may ignore the
-     * value, or ignore specific values.
+     * <p> The vblue of this socket option is bn {@code Integer} representing
+     * the vblue of the ToS octet in IP pbckets sent by sockets to bn {@link
+     * StbndbrdProtocolFbmily#INET IPv4} socket. The interpretbtion of the ToS
+     * octet is network specific bnd is not defined by this clbss. Further
+     * informbtion on the ToS octet cbn be found in <b
+     * href="http://www.ietf.org/rfc/rfc1349.txt">RFC&nbsp;1349</b> bnd <b
+     * href="http://www.ietf.org/rfc/rfc2474.txt">RFC&nbsp;2474</b>. The vblue
+     * of the socket option is b <em>hint</em>. An implementbtion mby ignore the
+     * vblue, or ignore specific vblues.
      *
-     * <p> The initial/default value of the TOS field in the ToS octet is
-     * implementation specific but will typically be {@code 0}. For
-     * datagram-oriented sockets the option may be configured at any time after
-     * the socket has been bound. The new value of the octet is used when sending
-     * subsequent datagrams. It is system dependent whether this option can be
-     * queried or changed prior to binding the socket.
+     * <p> The initibl/defbult vblue of the TOS field in the ToS octet is
+     * implementbtion specific but will typicblly be {@code 0}. For
+     * dbtbgrbm-oriented sockets the option mby be configured bt bny time bfter
+     * the socket hbs been bound. The new vblue of the octet is used when sending
+     * subsequent dbtbgrbms. It is system dependent whether this option cbn be
+     * queried or chbnged prior to binding the socket.
      *
-     * <p> The behavior of this socket option on a stream-oriented socket, or an
-     * {@link StandardProtocolFamily#INET6 IPv6} socket, is not defined in this
-     * release.
+     * <p> The behbvior of this socket option on b strebm-oriented socket, or bn
+     * {@link StbndbrdProtocolFbmily#INET6 IPv6} socket, is not defined in this
+     * relebse.
      *
-     * @see DatagramSocket#setTrafficClass
+     * @see DbtbgrbmSocket#setTrbfficClbss
      */
-    public static final SocketOption<Integer> IP_TOS =
-        new StdSocketOption<Integer>("IP_TOS", Integer.class);
+    public stbtic finbl SocketOption<Integer> IP_TOS =
+        new StdSocketOption<Integer>("IP_TOS", Integer.clbss);
 
     /**
-     * The network interface for Internet Protocol (IP) multicast datagrams.
+     * The network interfbce for Internet Protocol (IP) multicbst dbtbgrbms.
      *
-     * <p> The value of this socket option is a {@link NetworkInterface} that
-     * represents the outgoing interface for multicast datagrams sent by the
-     * datagram-oriented socket. For {@link StandardProtocolFamily#INET6 IPv6}
-     * sockets then it is system dependent whether setting this option also
-     * sets the outgoing interface for multicast datagrams sent to IPv4
-     * addresses.
+     * <p> The vblue of this socket option is b {@link NetworkInterfbce} thbt
+     * represents the outgoing interfbce for multicbst dbtbgrbms sent by the
+     * dbtbgrbm-oriented socket. For {@link StbndbrdProtocolFbmily#INET6 IPv6}
+     * sockets then it is system dependent whether setting this option blso
+     * sets the outgoing interfbce for multicbst dbtbgrbms sent to IPv4
+     * bddresses.
      *
-     * <p> The initial/default value of this socket option may be {@code null}
-     * to indicate that outgoing interface will be selected by the operating
-     * system, typically based on the network routing tables. An implementation
-     * allows this socket option to be set after the socket is bound. Whether
-     * the socket option can be queried or changed prior to binding the socket
+     * <p> The initibl/defbult vblue of this socket option mby be {@code null}
+     * to indicbte thbt outgoing interfbce will be selected by the operbting
+     * system, typicblly bbsed on the network routing tbbles. An implementbtion
+     * bllows this socket option to be set bfter the socket is bound. Whether
+     * the socket option cbn be queried or chbnged prior to binding the socket
      * is system dependent.
      *
-     * @see java.nio.channels.MulticastChannel
-     * @see MulticastSocket#setInterface
+     * @see jbvb.nio.chbnnels.MulticbstChbnnel
+     * @see MulticbstSocket#setInterfbce
      */
-    public static final SocketOption<NetworkInterface> IP_MULTICAST_IF =
-        new StdSocketOption<NetworkInterface>("IP_MULTICAST_IF", NetworkInterface.class);
+    public stbtic finbl SocketOption<NetworkInterfbce> IP_MULTICAST_IF =
+        new StdSocketOption<NetworkInterfbce>("IP_MULTICAST_IF", NetworkInterfbce.clbss);
 
     /**
-     * The <em>time-to-live</em> for Internet Protocol (IP) multicast datagrams.
+     * The <em>time-to-live</em> for Internet Protocol (IP) multicbst dbtbgrbms.
      *
-     * <p> The value of this socket option is an {@code Integer} in the range
-     * {@code 0 <= value <= 255}. It is used to control the scope of multicast
-     * datagrams sent by the datagram-oriented socket.
-     * In the case of an {@link StandardProtocolFamily#INET IPv4} socket
-     * the option is the time-to-live (TTL) on multicast datagrams sent by the
-     * socket. Datagrams with a TTL of zero are not transmitted on the network
-     * but may be delivered locally. In the case of an {@link
-     * StandardProtocolFamily#INET6 IPv6} socket the option is the
-     * <em>hop limit</em> which is number of <em>hops</em> that the datagram can
-     * pass through before expiring on the network. For IPv6 sockets it is
-     * system dependent whether the option also sets the <em>time-to-live</em>
-     * on multicast datagrams sent to IPv4 addresses.
+     * <p> The vblue of this socket option is bn {@code Integer} in the rbnge
+     * {@code 0 <= vblue <= 255}. It is used to control the scope of multicbst
+     * dbtbgrbms sent by the dbtbgrbm-oriented socket.
+     * In the cbse of bn {@link StbndbrdProtocolFbmily#INET IPv4} socket
+     * the option is the time-to-live (TTL) on multicbst dbtbgrbms sent by the
+     * socket. Dbtbgrbms with b TTL of zero bre not trbnsmitted on the network
+     * but mby be delivered locblly. In the cbse of bn {@link
+     * StbndbrdProtocolFbmily#INET6 IPv6} socket the option is the
+     * <em>hop limit</em> which is number of <em>hops</em> thbt the dbtbgrbm cbn
+     * pbss through before expiring on the network. For IPv6 sockets it is
+     * system dependent whether the option blso sets the <em>time-to-live</em>
+     * on multicbst dbtbgrbms sent to IPv4 bddresses.
      *
-     * <p> The initial/default value of the time-to-live setting is typically
-     * {@code 1}. An implementation allows this socket option to be set after
-     * the socket is bound. Whether the socket option can be queried or changed
+     * <p> The initibl/defbult vblue of the time-to-live setting is typicblly
+     * {@code 1}. An implementbtion bllows this socket option to be set bfter
+     * the socket is bound. Whether the socket option cbn be queried or chbnged
      * prior to binding the socket is system dependent.
      *
-     * @see java.nio.channels.MulticastChannel
-     * @see MulticastSocket#setTimeToLive
+     * @see jbvb.nio.chbnnels.MulticbstChbnnel
+     * @see MulticbstSocket#setTimeToLive
      */
-    public static final SocketOption<Integer> IP_MULTICAST_TTL =
-        new StdSocketOption<Integer>("IP_MULTICAST_TTL", Integer.class);
+    public stbtic finbl SocketOption<Integer> IP_MULTICAST_TTL =
+        new StdSocketOption<Integer>("IP_MULTICAST_TTL", Integer.clbss);
 
     /**
-     * Loopback for Internet Protocol (IP) multicast datagrams.
+     * Loopbbck for Internet Protocol (IP) multicbst dbtbgrbms.
      *
-     * <p> The value of this socket option is a {@code Boolean} that controls
-     * the <em>loopback</em> of multicast datagrams. The value of the socket
-     * option represents if the option is enabled or disabled.
+     * <p> The vblue of this socket option is b {@code Boolebn} thbt controls
+     * the <em>loopbbck</em> of multicbst dbtbgrbms. The vblue of the socket
+     * option represents if the option is enbbled or disbbled.
      *
-     * <p> The exact semantics of this socket options are system dependent.
-     * In particular, it is system dependent whether the loopback applies to
-     * multicast datagrams sent from the socket or received by the socket.
-     * For {@link StandardProtocolFamily#INET6 IPv6} sockets then it is
-     * system dependent whether the option also applies to multicast datagrams
-     * sent to IPv4 addresses.
+     * <p> The exbct sembntics of this socket options bre system dependent.
+     * In pbrticulbr, it is system dependent whether the loopbbck bpplies to
+     * multicbst dbtbgrbms sent from the socket or received by the socket.
+     * For {@link StbndbrdProtocolFbmily#INET6 IPv6} sockets then it is
+     * system dependent whether the option blso bpplies to multicbst dbtbgrbms
+     * sent to IPv4 bddresses.
      *
-     * <p> The initial/default value of this socket option is {@code TRUE}. An
-     * implementation allows this socket option to be set after the socket is
-     * bound. Whether the socket option can be queried or changed prior to
+     * <p> The initibl/defbult vblue of this socket option is {@code TRUE}. An
+     * implementbtion bllows this socket option to be set bfter the socket is
+     * bound. Whether the socket option cbn be queried or chbnged prior to
      * binding the socket is system dependent.
      *
-     * @see java.nio.channels.MulticastChannel
-     *  @see MulticastSocket#setLoopbackMode
+     * @see jbvb.nio.chbnnels.MulticbstChbnnel
+     *  @see MulticbstSocket#setLoopbbckMode
      */
-    public static final SocketOption<Boolean> IP_MULTICAST_LOOP =
-        new StdSocketOption<Boolean>("IP_MULTICAST_LOOP", Boolean.class);
+    public stbtic finbl SocketOption<Boolebn> IP_MULTICAST_LOOP =
+        new StdSocketOption<Boolebn>("IP_MULTICAST_LOOP", Boolebn.clbss);
 
 
     // -- IPPROTO_TCP --
 
     /**
-     * Disable the Nagle algorithm.
+     * Disbble the Nbgle blgorithm.
      *
-     * <p> The value of this socket option is a {@code Boolean} that represents
-     * whether the option is enabled or disabled. The socket option is specific to
-     * stream-oriented sockets using the TCP/IP protocol. TCP/IP uses an algorithm
-     * known as <em>The Nagle Algorithm</em> to coalesce short segments and
+     * <p> The vblue of this socket option is b {@code Boolebn} thbt represents
+     * whether the option is enbbled or disbbled. The socket option is specific to
+     * strebm-oriented sockets using the TCP/IP protocol. TCP/IP uses bn blgorithm
+     * known bs <em>The Nbgle Algorithm</em> to coblesce short segments bnd
      * improve network efficiency.
      *
-     * <p> The default value of this socket option is {@code FALSE}. The
-     * socket option should only be enabled in cases where it is known that the
-     * coalescing impacts performance. The socket option may be enabled at any
-     * time. In other words, the Nagle Algorithm can be disabled. Once the option
-     * is enabled, it is system dependent whether it can be subsequently
-     * disabled. If it cannot, then invoking the {@code setOption} method to
-     * disable the option has no effect.
+     * <p> The defbult vblue of this socket option is {@code FALSE}. The
+     * socket option should only be enbbled in cbses where it is known thbt the
+     * coblescing impbcts performbnce. The socket option mby be enbbled bt bny
+     * time. In other words, the Nbgle Algorithm cbn be disbbled. Once the option
+     * is enbbled, it is system dependent whether it cbn be subsequently
+     * disbbled. If it cbnnot, then invoking the {@code setOption} method to
+     * disbble the option hbs no effect.
      *
-     * @see <a href="http://www.ietf.org/rfc/rfc1122.txt">RFC&nbsp;1122:
-     * Requirements for Internet Hosts -- Communication Layers</a>
-     * @see Socket#setTcpNoDelay
+     * @see <b href="http://www.ietf.org/rfc/rfc1122.txt">RFC&nbsp;1122:
+     * Requirements for Internet Hosts -- Communicbtion Lbyers</b>
+     * @see Socket#setTcpNoDelby
      */
-    public static final SocketOption<Boolean> TCP_NODELAY =
-        new StdSocketOption<Boolean>("TCP_NODELAY", Boolean.class);
+    public stbtic finbl SocketOption<Boolebn> TCP_NODELAY =
+        new StdSocketOption<Boolebn>("TCP_NODELAY", Boolebn.clbss);
 
 
-    private static class StdSocketOption<T> implements SocketOption<T> {
-        private final String name;
-        private final Class<T> type;
-        StdSocketOption(String name, Class<T> type) {
-            this.name = name;
+    privbte stbtic clbss StdSocketOption<T> implements SocketOption<T> {
+        privbte finbl String nbme;
+        privbte finbl Clbss<T> type;
+        StdSocketOption(String nbme, Clbss<T> type) {
+            this.nbme = nbme;
             this.type = type;
         }
-        @Override public String name() { return name; }
-        @Override public Class<T> type() { return type; }
-        @Override public String toString() { return name; }
+        @Override public String nbme() { return nbme; }
+        @Override public Clbss<T> type() { return type; }
+        @Override public String toString() { return nbme; }
     }
 }

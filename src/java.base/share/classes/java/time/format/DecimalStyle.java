@@ -1,50 +1,50 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * Copyright (c) 2008-2012, Stephen Colebourne & Michael Nascimento Santos
+ * Copyright (c) 2008-2012, Stephen Colebourne & Michbel Nbscimento Sbntos
  *
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions bre met:
  *
- *  * Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ *  * Redistributions of source code must retbin the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer.
  *
- *  * Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ *  * Redistributions in binbry form must reproduce the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer in the documentbtion
+ *    bnd/or other mbteribls provided with the distribution.
  *
- *  * Neither the name of JSR-310 nor the names of its contributors
- *    may be used to endorse or promote products derived from this software
+ *  * Neither the nbme of JSR-310 nor the nbmes of its contributors
+ *    mby be used to endorse or promote products derived from this softwbre
  *    without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
@@ -59,323 +59,323 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package java.time.format;
+pbckbge jbvb.time.formbt;
 
-import java.text.DecimalFormatSymbols;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Locale;
-import java.util.Objects;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
+import jbvb.text.DecimblFormbtSymbols;
+import jbvb.util.Collections;
+import jbvb.util.HbshSet;
+import jbvb.util.Locble;
+import jbvb.util.Objects;
+import jbvb.util.Set;
+import jbvb.util.concurrent.ConcurrentHbshMbp;
+import jbvb.util.concurrent.ConcurrentMbp;
 
 /**
- * Localized decimal style used in date and time formatting.
+ * Locblized decimbl style used in dbte bnd time formbtting.
  * <p>
- * A significant part of dealing with dates and times is the localization.
- * This class acts as a central point for accessing the information.
+ * A significbnt pbrt of debling with dbtes bnd times is the locblizbtion.
+ * This clbss bcts bs b centrbl point for bccessing the informbtion.
  *
  * @implSpec
- * This class is immutable and thread-safe.
+ * This clbss is immutbble bnd threbd-sbfe.
  *
  * @since 1.8
  */
-public final class DecimalStyle {
+public finbl clbss DecimblStyle {
 
     /**
-     * The standard set of non-localized decimal style symbols.
+     * The stbndbrd set of non-locblized decimbl style symbols.
      * <p>
-     * This uses standard ASCII characters for zero, positive, negative and a dot for the decimal point.
+     * This uses stbndbrd ASCII chbrbcters for zero, positive, negbtive bnd b dot for the decimbl point.
      */
-    public static final DecimalStyle STANDARD = new DecimalStyle('0', '+', '-', '.');
+    public stbtic finbl DecimblStyle STANDARD = new DecimblStyle('0', '+', '-', '.');
     /**
-     * The cache of DecimalStyle instances.
+     * The cbche of DecimblStyle instbnces.
      */
-    private static final ConcurrentMap<Locale, DecimalStyle> CACHE = new ConcurrentHashMap<>(16, 0.75f, 2);
+    privbte stbtic finbl ConcurrentMbp<Locble, DecimblStyle> CACHE = new ConcurrentHbshMbp<>(16, 0.75f, 2);
 
     /**
      * The zero digit.
      */
-    private final char zeroDigit;
+    privbte finbl chbr zeroDigit;
     /**
      * The positive sign.
      */
-    private final char positiveSign;
+    privbte finbl chbr positiveSign;
     /**
-     * The negative sign.
+     * The negbtive sign.
      */
-    private final char negativeSign;
+    privbte finbl chbr negbtiveSign;
     /**
-     * The decimal separator.
+     * The decimbl sepbrbtor.
      */
-    private final char decimalSeparator;
+    privbte finbl chbr decimblSepbrbtor;
 
     //-----------------------------------------------------------------------
     /**
-     * Lists all the locales that are supported.
+     * Lists bll the locbles thbt bre supported.
      * <p>
-     * The locale 'en_US' will always be present.
+     * The locble 'en_US' will blwbys be present.
      *
-     * @return a Set of Locales for which localization is supported
+     * @return b Set of Locbles for which locblizbtion is supported
      */
-    public static Set<Locale> getAvailableLocales() {
-        Locale[] l = DecimalFormatSymbols.getAvailableLocales();
-        Set<Locale> locales = new HashSet<>(l.length);
-        Collections.addAll(locales, l);
-        return locales;
+    public stbtic Set<Locble> getAvbilbbleLocbles() {
+        Locble[] l = DecimblFormbtSymbols.getAvbilbbleLocbles();
+        Set<Locble> locbles = new HbshSet<>(l.length);
+        Collections.bddAll(locbles, l);
+        return locbles;
     }
 
     /**
-     * Obtains the DecimalStyle for the default
-     * {@link java.util.Locale.Category#FORMAT FORMAT} locale.
+     * Obtbins the DecimblStyle for the defbult
+     * {@link jbvb.util.Locble.Cbtegory#FORMAT FORMAT} locble.
      * <p>
-     * This method provides access to locale sensitive decimal style symbols.
+     * This method provides bccess to locble sensitive decimbl style symbols.
      * <p>
-     * This is equivalent to calling
-     * {@link #of(Locale)
-     *     of(Locale.getDefault(Locale.Category.FORMAT))}.
+     * This is equivblent to cblling
+     * {@link #of(Locble)
+     *     of(Locble.getDefbult(Locble.Cbtegory.FORMAT))}.
      *
-     * @see java.util.Locale.Category#FORMAT
-     * @return the decimal style, not null
+     * @see jbvb.util.Locble.Cbtegory#FORMAT
+     * @return the decimbl style, not null
      */
-    public static DecimalStyle ofDefaultLocale() {
-        return of(Locale.getDefault(Locale.Category.FORMAT));
+    public stbtic DecimblStyle ofDefbultLocble() {
+        return of(Locble.getDefbult(Locble.Cbtegory.FORMAT));
     }
 
     /**
-     * Obtains the DecimalStyle for the specified locale.
+     * Obtbins the DecimblStyle for the specified locble.
      * <p>
-     * This method provides access to locale sensitive decimal style symbols.
+     * This method provides bccess to locble sensitive decimbl style symbols.
      *
-     * @param locale  the locale, not null
-     * @return the decimal style, not null
+     * @pbrbm locble  the locble, not null
+     * @return the decimbl style, not null
      */
-    public static DecimalStyle of(Locale locale) {
-        Objects.requireNonNull(locale, "locale");
-        DecimalStyle info = CACHE.get(locale);
+    public stbtic DecimblStyle of(Locble locble) {
+        Objects.requireNonNull(locble, "locble");
+        DecimblStyle info = CACHE.get(locble);
         if (info == null) {
-            info = create(locale);
-            CACHE.putIfAbsent(locale, info);
-            info = CACHE.get(locale);
+            info = crebte(locble);
+            CACHE.putIfAbsent(locble, info);
+            info = CACHE.get(locble);
         }
         return info;
     }
 
-    private static DecimalStyle create(Locale locale) {
-        DecimalFormatSymbols oldSymbols = DecimalFormatSymbols.getInstance(locale);
-        char zeroDigit = oldSymbols.getZeroDigit();
-        char positiveSign = '+';
-        char negativeSign = oldSymbols.getMinusSign();
-        char decimalSeparator = oldSymbols.getDecimalSeparator();
-        if (zeroDigit == '0' && negativeSign == '-' && decimalSeparator == '.') {
+    privbte stbtic DecimblStyle crebte(Locble locble) {
+        DecimblFormbtSymbols oldSymbols = DecimblFormbtSymbols.getInstbnce(locble);
+        chbr zeroDigit = oldSymbols.getZeroDigit();
+        chbr positiveSign = '+';
+        chbr negbtiveSign = oldSymbols.getMinusSign();
+        chbr decimblSepbrbtor = oldSymbols.getDecimblSepbrbtor();
+        if (zeroDigit == '0' && negbtiveSign == '-' && decimblSepbrbtor == '.') {
             return STANDARD;
         }
-        return new DecimalStyle(zeroDigit, positiveSign, negativeSign, decimalSeparator);
+        return new DecimblStyle(zeroDigit, positiveSign, negbtiveSign, decimblSepbrbtor);
     }
 
     //-----------------------------------------------------------------------
     /**
      * Restricted constructor.
      *
-     * @param zeroChar  the character to use for the digit of zero
-     * @param positiveSignChar  the character to use for the positive sign
-     * @param negativeSignChar  the character to use for the negative sign
-     * @param decimalPointChar  the character to use for the decimal point
+     * @pbrbm zeroChbr  the chbrbcter to use for the digit of zero
+     * @pbrbm positiveSignChbr  the chbrbcter to use for the positive sign
+     * @pbrbm negbtiveSignChbr  the chbrbcter to use for the negbtive sign
+     * @pbrbm decimblPointChbr  the chbrbcter to use for the decimbl point
      */
-    private DecimalStyle(char zeroChar, char positiveSignChar, char negativeSignChar, char decimalPointChar) {
-        this.zeroDigit = zeroChar;
-        this.positiveSign = positiveSignChar;
-        this.negativeSign = negativeSignChar;
-        this.decimalSeparator = decimalPointChar;
+    privbte DecimblStyle(chbr zeroChbr, chbr positiveSignChbr, chbr negbtiveSignChbr, chbr decimblPointChbr) {
+        this.zeroDigit = zeroChbr;
+        this.positiveSign = positiveSignChbr;
+        this.negbtiveSign = negbtiveSignChbr;
+        this.decimblSepbrbtor = decimblPointChbr;
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Gets the character that represents zero.
+     * Gets the chbrbcter thbt represents zero.
      * <p>
-     * The character used to represent digits may vary by culture.
-     * This method specifies the zero character to use, which implies the characters for one to nine.
+     * The chbrbcter used to represent digits mby vbry by culture.
+     * This method specifies the zero chbrbcter to use, which implies the chbrbcters for one to nine.
      *
-     * @return the character for zero
+     * @return the chbrbcter for zero
      */
-    public char getZeroDigit() {
+    public chbr getZeroDigit() {
         return zeroDigit;
     }
 
     /**
-     * Returns a copy of the info with a new character that represents zero.
+     * Returns b copy of the info with b new chbrbcter thbt represents zero.
      * <p>
-     * The character used to represent digits may vary by culture.
-     * This method specifies the zero character to use, which implies the characters for one to nine.
+     * The chbrbcter used to represent digits mby vbry by culture.
+     * This method specifies the zero chbrbcter to use, which implies the chbrbcters for one to nine.
      *
-     * @param zeroDigit  the character for zero
-     * @return  a copy with a new character that represents zero, not null
+     * @pbrbm zeroDigit  the chbrbcter for zero
+     * @return  b copy with b new chbrbcter thbt represents zero, not null
 
      */
-    public DecimalStyle withZeroDigit(char zeroDigit) {
+    public DecimblStyle withZeroDigit(chbr zeroDigit) {
         if (zeroDigit == this.zeroDigit) {
             return this;
         }
-        return new DecimalStyle(zeroDigit, positiveSign, negativeSign, decimalSeparator);
+        return new DecimblStyle(zeroDigit, positiveSign, negbtiveSign, decimblSepbrbtor);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Gets the character that represents the positive sign.
+     * Gets the chbrbcter thbt represents the positive sign.
      * <p>
-     * The character used to represent a positive number may vary by culture.
-     * This method specifies the character to use.
+     * The chbrbcter used to represent b positive number mby vbry by culture.
+     * This method specifies the chbrbcter to use.
      *
-     * @return the character for the positive sign
+     * @return the chbrbcter for the positive sign
      */
-    public char getPositiveSign() {
+    public chbr getPositiveSign() {
         return positiveSign;
     }
 
     /**
-     * Returns a copy of the info with a new character that represents the positive sign.
+     * Returns b copy of the info with b new chbrbcter thbt represents the positive sign.
      * <p>
-     * The character used to represent a positive number may vary by culture.
-     * This method specifies the character to use.
+     * The chbrbcter used to represent b positive number mby vbry by culture.
+     * This method specifies the chbrbcter to use.
      *
-     * @param positiveSign  the character for the positive sign
-     * @return  a copy with a new character that represents the positive sign, not null
+     * @pbrbm positiveSign  the chbrbcter for the positive sign
+     * @return  b copy with b new chbrbcter thbt represents the positive sign, not null
      */
-    public DecimalStyle withPositiveSign(char positiveSign) {
+    public DecimblStyle withPositiveSign(chbr positiveSign) {
         if (positiveSign == this.positiveSign) {
             return this;
         }
-        return new DecimalStyle(zeroDigit, positiveSign, negativeSign, decimalSeparator);
+        return new DecimblStyle(zeroDigit, positiveSign, negbtiveSign, decimblSepbrbtor);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Gets the character that represents the negative sign.
+     * Gets the chbrbcter thbt represents the negbtive sign.
      * <p>
-     * The character used to represent a negative number may vary by culture.
-     * This method specifies the character to use.
+     * The chbrbcter used to represent b negbtive number mby vbry by culture.
+     * This method specifies the chbrbcter to use.
      *
-     * @return the character for the negative sign
+     * @return the chbrbcter for the negbtive sign
      */
-    public char getNegativeSign() {
-        return negativeSign;
+    public chbr getNegbtiveSign() {
+        return negbtiveSign;
     }
 
     /**
-     * Returns a copy of the info with a new character that represents the negative sign.
+     * Returns b copy of the info with b new chbrbcter thbt represents the negbtive sign.
      * <p>
-     * The character used to represent a negative number may vary by culture.
-     * This method specifies the character to use.
+     * The chbrbcter used to represent b negbtive number mby vbry by culture.
+     * This method specifies the chbrbcter to use.
      *
-     * @param negativeSign  the character for the negative sign
-     * @return  a copy with a new character that represents the negative sign, not null
+     * @pbrbm negbtiveSign  the chbrbcter for the negbtive sign
+     * @return  b copy with b new chbrbcter thbt represents the negbtive sign, not null
      */
-    public DecimalStyle withNegativeSign(char negativeSign) {
-        if (negativeSign == this.negativeSign) {
+    public DecimblStyle withNegbtiveSign(chbr negbtiveSign) {
+        if (negbtiveSign == this.negbtiveSign) {
             return this;
         }
-        return new DecimalStyle(zeroDigit, positiveSign, negativeSign, decimalSeparator);
+        return new DecimblStyle(zeroDigit, positiveSign, negbtiveSign, decimblSepbrbtor);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Gets the character that represents the decimal point.
+     * Gets the chbrbcter thbt represents the decimbl point.
      * <p>
-     * The character used to represent a decimal point may vary by culture.
-     * This method specifies the character to use.
+     * The chbrbcter used to represent b decimbl point mby vbry by culture.
+     * This method specifies the chbrbcter to use.
      *
-     * @return the character for the decimal point
+     * @return the chbrbcter for the decimbl point
      */
-    public char getDecimalSeparator() {
-        return decimalSeparator;
+    public chbr getDecimblSepbrbtor() {
+        return decimblSepbrbtor;
     }
 
     /**
-     * Returns a copy of the info with a new character that represents the decimal point.
+     * Returns b copy of the info with b new chbrbcter thbt represents the decimbl point.
      * <p>
-     * The character used to represent a decimal point may vary by culture.
-     * This method specifies the character to use.
+     * The chbrbcter used to represent b decimbl point mby vbry by culture.
+     * This method specifies the chbrbcter to use.
      *
-     * @param decimalSeparator  the character for the decimal point
-     * @return  a copy with a new character that represents the decimal point, not null
+     * @pbrbm decimblSepbrbtor  the chbrbcter for the decimbl point
+     * @return  b copy with b new chbrbcter thbt represents the decimbl point, not null
      */
-    public DecimalStyle withDecimalSeparator(char decimalSeparator) {
-        if (decimalSeparator == this.decimalSeparator) {
+    public DecimblStyle withDecimblSepbrbtor(chbr decimblSepbrbtor) {
+        if (decimblSepbrbtor == this.decimblSepbrbtor) {
             return this;
         }
-        return new DecimalStyle(zeroDigit, positiveSign, negativeSign, decimalSeparator);
+        return new DecimblStyle(zeroDigit, positiveSign, negbtiveSign, decimblSepbrbtor);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Checks whether the character is a digit, based on the currently set zero character.
+     * Checks whether the chbrbcter is b digit, bbsed on the currently set zero chbrbcter.
      *
-     * @param ch  the character to check
-     * @return the value, 0 to 9, of the character, or -1 if not a digit
+     * @pbrbm ch  the chbrbcter to check
+     * @return the vblue, 0 to 9, of the chbrbcter, or -1 if not b digit
      */
-    int convertToDigit(char ch) {
-        int val = ch - zeroDigit;
-        return (val >= 0 && val <= 9) ? val : -1;
+    int convertToDigit(chbr ch) {
+        int vbl = ch - zeroDigit;
+        return (vbl >= 0 && vbl <= 9) ? vbl : -1;
     }
 
     /**
-     * Converts the input numeric text to the internationalized form using the zero character.
+     * Converts the input numeric text to the internbtionblized form using the zero chbrbcter.
      *
-     * @param numericText  the text, consisting of digits 0 to 9, to convert, not null
-     * @return the internationalized text, not null
+     * @pbrbm numericText  the text, consisting of digits 0 to 9, to convert, not null
+     * @return the internbtionblized text, not null
      */
     String convertNumberToI18N(String numericText) {
         if (zeroDigit == '0') {
             return numericText;
         }
         int diff = zeroDigit - '0';
-        char[] array = numericText.toCharArray();
-        for (int i = 0; i < array.length; i++) {
-            array[i] = (char) (array[i] + diff);
+        chbr[] brrby = numericText.toChbrArrby();
+        for (int i = 0; i < brrby.length; i++) {
+            brrby[i] = (chbr) (brrby[i] + diff);
         }
-        return new String(array);
+        return new String(brrby);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Checks if this DecimalStyle is equal to another DecimalStyle.
+     * Checks if this DecimblStyle is equbl to bnother DecimblStyle.
      *
-     * @param obj  the object to check, null returns false
-     * @return true if this is equal to the other date
+     * @pbrbm obj  the object to check, null returns fblse
+     * @return true if this is equbl to the other dbte
      */
     @Override
-    public boolean equals(Object obj) {
+    public boolebn equbls(Object obj) {
         if (this == obj) {
             return true;
         }
-        if (obj instanceof DecimalStyle) {
-            DecimalStyle other = (DecimalStyle) obj;
+        if (obj instbnceof DecimblStyle) {
+            DecimblStyle other = (DecimblStyle) obj;
             return (zeroDigit == other.zeroDigit && positiveSign == other.positiveSign &&
-                    negativeSign == other.negativeSign && decimalSeparator == other.decimalSeparator);
+                    negbtiveSign == other.negbtiveSign && decimblSepbrbtor == other.decimblSepbrbtor);
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * A hash code for this DecimalStyle.
+     * A hbsh code for this DecimblStyle.
      *
-     * @return a suitable hash code
+     * @return b suitbble hbsh code
      */
     @Override
-    public int hashCode() {
-        return zeroDigit + positiveSign + negativeSign + decimalSeparator;
+    public int hbshCode() {
+        return zeroDigit + positiveSign + negbtiveSign + decimblSepbrbtor;
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Returns a string describing this DecimalStyle.
+     * Returns b string describing this DecimblStyle.
      *
-     * @return a string description, not null
+     * @return b string description, not null
      */
     @Override
     public String toString() {
-        return "DecimalStyle[" + zeroDigit + positiveSign + negativeSign + decimalSeparator + "]";
+        return "DecimblStyle[" + zeroDigit + positiveSign + negbtiveSign + decimblSepbrbtor + "]";
     }
 
 }

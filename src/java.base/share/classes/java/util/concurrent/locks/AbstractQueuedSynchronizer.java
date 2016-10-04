@@ -1,497 +1,497 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * Written by Doug Lea with assistance from members of JCP JSR-166
- * Expert Group and released to the public domain, as explained at
- * http://creativecommons.org/publicdomain/zero/1.0/
+ * Written by Doug Leb with bssistbnce from members of JCP JSR-166
+ * Expert Group bnd relebsed to the public dombin, bs explbined bt
+ * http://crebtivecommons.org/publicdombin/zero/1.0/
  */
 
-package java.util.concurrent.locks;
-import java.util.concurrent.TimeUnit;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import sun.misc.Unsafe;
+pbckbge jbvb.util.concurrent.locks;
+import jbvb.util.concurrent.TimeUnit;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collection;
+import jbvb.util.Dbte;
+import sun.misc.Unsbfe;
 
 /**
- * Provides a framework for implementing blocking locks and related
- * synchronizers (semaphores, events, etc) that rely on
- * first-in-first-out (FIFO) wait queues.  This class is designed to
- * be a useful basis for most kinds of synchronizers that rely on a
- * single atomic {@code int} value to represent state. Subclasses
- * must define the protected methods that change this state, and which
- * define what that state means in terms of this object being acquired
- * or released.  Given these, the other methods in this class carry
- * out all queuing and blocking mechanics. Subclasses can maintain
- * other state fields, but only the atomically updated {@code int}
- * value manipulated using methods {@link #getState}, {@link
- * #setState} and {@link #compareAndSetState} is tracked with respect
- * to synchronization.
+ * Provides b frbmework for implementing blocking locks bnd relbted
+ * synchronizers (sembphores, events, etc) thbt rely on
+ * first-in-first-out (FIFO) wbit queues.  This clbss is designed to
+ * be b useful bbsis for most kinds of synchronizers thbt rely on b
+ * single btomic {@code int} vblue to represent stbte. Subclbsses
+ * must define the protected methods thbt chbnge this stbte, bnd which
+ * define whbt thbt stbte mebns in terms of this object being bcquired
+ * or relebsed.  Given these, the other methods in this clbss cbrry
+ * out bll queuing bnd blocking mechbnics. Subclbsses cbn mbintbin
+ * other stbte fields, but only the btomicblly updbted {@code int}
+ * vblue mbnipulbted using methods {@link #getStbte}, {@link
+ * #setStbte} bnd {@link #compbreAndSetStbte} is trbcked with respect
+ * to synchronizbtion.
  *
- * <p>Subclasses should be defined as non-public internal helper
- * classes that are used to implement the synchronization properties
- * of their enclosing class.  Class
- * {@code AbstractQueuedSynchronizer} does not implement any
- * synchronization interface.  Instead it defines methods such as
- * {@link #acquireInterruptibly} that can be invoked as
- * appropriate by concrete locks and related synchronizers to
+ * <p>Subclbsses should be defined bs non-public internbl helper
+ * clbsses thbt bre used to implement the synchronizbtion properties
+ * of their enclosing clbss.  Clbss
+ * {@code AbstrbctQueuedSynchronizer} does not implement bny
+ * synchronizbtion interfbce.  Instebd it defines methods such bs
+ * {@link #bcquireInterruptibly} thbt cbn be invoked bs
+ * bppropribte by concrete locks bnd relbted synchronizers to
  * implement their public methods.
  *
- * <p>This class supports either or both a default <em>exclusive</em>
- * mode and a <em>shared</em> mode. When acquired in exclusive mode,
- * attempted acquires by other threads cannot succeed. Shared mode
- * acquires by multiple threads may (but need not) succeed. This class
- * does not &quot;understand&quot; these differences except in the
- * mechanical sense that when a shared mode acquire succeeds, the next
- * waiting thread (if one exists) must also determine whether it can
- * acquire as well. Threads waiting in the different modes share the
- * same FIFO queue. Usually, implementation subclasses support only
- * one of these modes, but both can come into play for example in a
- * {@link ReadWriteLock}. Subclasses that support only exclusive or
- * only shared modes need not define the methods supporting the unused mode.
+ * <p>This clbss supports either or both b defbult <em>exclusive</em>
+ * mode bnd b <em>shbred</em> mode. When bcquired in exclusive mode,
+ * bttempted bcquires by other threbds cbnnot succeed. Shbred mode
+ * bcquires by multiple threbds mby (but need not) succeed. This clbss
+ * does not &quot;understbnd&quot; these differences except in the
+ * mechbnicbl sense thbt when b shbred mode bcquire succeeds, the next
+ * wbiting threbd (if one exists) must blso determine whether it cbn
+ * bcquire bs well. Threbds wbiting in the different modes shbre the
+ * sbme FIFO queue. Usublly, implementbtion subclbsses support only
+ * one of these modes, but both cbn come into plby for exbmple in b
+ * {@link RebdWriteLock}. Subclbsses thbt support only exclusive or
+ * only shbred modes need not define the methods supporting the unused mode.
  *
- * <p>This class defines a nested {@link ConditionObject} class that
- * can be used as a {@link Condition} implementation by subclasses
+ * <p>This clbss defines b nested {@link ConditionObject} clbss thbt
+ * cbn be used bs b {@link Condition} implementbtion by subclbsses
  * supporting exclusive mode for which method {@link
- * #isHeldExclusively} reports whether synchronization is exclusively
- * held with respect to the current thread, method {@link #release}
- * invoked with the current {@link #getState} value fully releases
- * this object, and {@link #acquire}, given this saved state value,
- * eventually restores this object to its previous acquired state.  No
- * {@code AbstractQueuedSynchronizer} method otherwise creates such a
- * condition, so if this constraint cannot be met, do not use it.  The
- * behavior of {@link ConditionObject} depends of course on the
- * semantics of its synchronizer implementation.
+ * #isHeldExclusively} reports whether synchronizbtion is exclusively
+ * held with respect to the current threbd, method {@link #relebse}
+ * invoked with the current {@link #getStbte} vblue fully relebses
+ * this object, bnd {@link #bcquire}, given this sbved stbte vblue,
+ * eventublly restores this object to its previous bcquired stbte.  No
+ * {@code AbstrbctQueuedSynchronizer} method otherwise crebtes such b
+ * condition, so if this constrbint cbnnot be met, do not use it.  The
+ * behbvior of {@link ConditionObject} depends of course on the
+ * sembntics of its synchronizer implementbtion.
  *
- * <p>This class provides inspection, instrumentation, and monitoring
- * methods for the internal queue, as well as similar methods for
- * condition objects. These can be exported as desired into classes
- * using an {@code AbstractQueuedSynchronizer} for their
- * synchronization mechanics.
+ * <p>This clbss provides inspection, instrumentbtion, bnd monitoring
+ * methods for the internbl queue, bs well bs similbr methods for
+ * condition objects. These cbn be exported bs desired into clbsses
+ * using bn {@code AbstrbctQueuedSynchronizer} for their
+ * synchronizbtion mechbnics.
  *
- * <p>Serialization of this class stores only the underlying atomic
- * integer maintaining state, so deserialized objects have empty
- * thread queues. Typical subclasses requiring serializability will
- * define a {@code readObject} method that restores this to a known
- * initial state upon deserialization.
+ * <p>Seriblizbtion of this clbss stores only the underlying btomic
+ * integer mbintbining stbte, so deseriblized objects hbve empty
+ * threbd queues. Typicbl subclbsses requiring seriblizbbility will
+ * define b {@code rebdObject} method thbt restores this to b known
+ * initibl stbte upon deseriblizbtion.
  *
- * <h3>Usage</h3>
+ * <h3>Usbge</h3>
  *
- * <p>To use this class as the basis of a synchronizer, redefine the
- * following methods, as applicable, by inspecting and/or modifying
- * the synchronization state using {@link #getState}, {@link
- * #setState} and/or {@link #compareAndSetState}:
+ * <p>To use this clbss bs the bbsis of b synchronizer, redefine the
+ * following methods, bs bpplicbble, by inspecting bnd/or modifying
+ * the synchronizbtion stbte using {@link #getStbte}, {@link
+ * #setStbte} bnd/or {@link #compbreAndSetStbte}:
  *
  * <ul>
  * <li> {@link #tryAcquire}
- * <li> {@link #tryRelease}
- * <li> {@link #tryAcquireShared}
- * <li> {@link #tryReleaseShared}
+ * <li> {@link #tryRelebse}
+ * <li> {@link #tryAcquireShbred}
+ * <li> {@link #tryRelebseShbred}
  * <li> {@link #isHeldExclusively}
  * </ul>
  *
- * Each of these methods by default throws {@link
- * UnsupportedOperationException}.  Implementations of these methods
- * must be internally thread-safe, and should in general be short and
+ * Ebch of these methods by defbult throws {@link
+ * UnsupportedOperbtionException}.  Implementbtions of these methods
+ * must be internblly threbd-sbfe, bnd should in generbl be short bnd
  * not block. Defining these methods is the <em>only</em> supported
- * means of using this class. All other methods are declared
- * {@code final} because they cannot be independently varied.
+ * mebns of using this clbss. All other methods bre declbred
+ * {@code finbl} becbuse they cbnnot be independently vbried.
  *
- * <p>You may also find the inherited methods from {@link
- * AbstractOwnableSynchronizer} useful to keep track of the thread
- * owning an exclusive synchronizer.  You are encouraged to use them
- * -- this enables monitoring and diagnostic tools to assist users in
- * determining which threads hold locks.
+ * <p>You mby blso find the inherited methods from {@link
+ * AbstrbctOwnbbleSynchronizer} useful to keep trbck of the threbd
+ * owning bn exclusive synchronizer.  You bre encourbged to use them
+ * -- this enbbles monitoring bnd dibgnostic tools to bssist users in
+ * determining which threbds hold locks.
  *
- * <p>Even though this class is based on an internal FIFO queue, it
- * does not automatically enforce FIFO acquisition policies.  The core
- * of exclusive synchronization takes the form:
+ * <p>Even though this clbss is bbsed on bn internbl FIFO queue, it
+ * does not butombticblly enforce FIFO bcquisition policies.  The core
+ * of exclusive synchronizbtion tbkes the form:
  *
  * <pre>
  * Acquire:
- *     while (!tryAcquire(arg)) {
- *        <em>enqueue thread if it is not already queued</em>;
- *        <em>possibly block current thread</em>;
+ *     while (!tryAcquire(brg)) {
+ *        <em>enqueue threbd if it is not blrebdy queued</em>;
+ *        <em>possibly block current threbd</em>;
  *     }
  *
- * Release:
- *     if (tryRelease(arg))
- *        <em>unblock the first queued thread</em>;
+ * Relebse:
+ *     if (tryRelebse(brg))
+ *        <em>unblock the first queued threbd</em>;
  * </pre>
  *
- * (Shared mode is similar but may involve cascading signals.)
+ * (Shbred mode is similbr but mby involve cbscbding signbls.)
  *
- * <p id="barging">Because checks in acquire are invoked before
- * enqueuing, a newly acquiring thread may <em>barge</em> ahead of
- * others that are blocked and queued.  However, you can, if desired,
- * define {@code tryAcquire} and/or {@code tryAcquireShared} to
- * disable barging by internally invoking one or more of the inspection
- * methods, thereby providing a <em>fair</em> FIFO acquisition order.
- * In particular, most fair synchronizers can define {@code tryAcquire}
- * to return {@code false} if {@link #hasQueuedPredecessors} (a method
- * specifically designed to be used by fair synchronizers) returns
- * {@code true}.  Other variations are possible.
+ * <p id="bbrging">Becbuse checks in bcquire bre invoked before
+ * enqueuing, b newly bcquiring threbd mby <em>bbrge</em> bhebd of
+ * others thbt bre blocked bnd queued.  However, you cbn, if desired,
+ * define {@code tryAcquire} bnd/or {@code tryAcquireShbred} to
+ * disbble bbrging by internblly invoking one or more of the inspection
+ * methods, thereby providing b <em>fbir</em> FIFO bcquisition order.
+ * In pbrticulbr, most fbir synchronizers cbn define {@code tryAcquire}
+ * to return {@code fblse} if {@link #hbsQueuedPredecessors} (b method
+ * specificblly designed to be used by fbir synchronizers) returns
+ * {@code true}.  Other vbribtions bre possible.
  *
- * <p>Throughput and scalability are generally highest for the
- * default barging (also known as <em>greedy</em>,
- * <em>renouncement</em>, and <em>convoy-avoidance</em>) strategy.
- * While this is not guaranteed to be fair or starvation-free, earlier
- * queued threads are allowed to recontend before later queued
- * threads, and each recontention has an unbiased chance to succeed
- * against incoming threads.  Also, while acquires do not
- * &quot;spin&quot; in the usual sense, they may perform multiple
- * invocations of {@code tryAcquire} interspersed with other
- * computations before blocking.  This gives most of the benefits of
- * spins when exclusive synchronization is only briefly held, without
- * most of the liabilities when it isn't. If so desired, you can
- * augment this by preceding calls to acquire methods with
- * "fast-path" checks, possibly prechecking {@link #hasContended}
- * and/or {@link #hasQueuedThreads} to only do so if the synchronizer
+ * <p>Throughput bnd scblbbility bre generblly highest for the
+ * defbult bbrging (blso known bs <em>greedy</em>,
+ * <em>renouncement</em>, bnd <em>convoy-bvoidbnce</em>) strbtegy.
+ * While this is not gubrbnteed to be fbir or stbrvbtion-free, ebrlier
+ * queued threbds bre bllowed to recontend before lbter queued
+ * threbds, bnd ebch recontention hbs bn unbibsed chbnce to succeed
+ * bgbinst incoming threbds.  Also, while bcquires do not
+ * &quot;spin&quot; in the usubl sense, they mby perform multiple
+ * invocbtions of {@code tryAcquire} interspersed with other
+ * computbtions before blocking.  This gives most of the benefits of
+ * spins when exclusive synchronizbtion is only briefly held, without
+ * most of the libbilities when it isn't. If so desired, you cbn
+ * bugment this by preceding cblls to bcquire methods with
+ * "fbst-pbth" checks, possibly prechecking {@link #hbsContended}
+ * bnd/or {@link #hbsQueuedThrebds} to only do so if the synchronizer
  * is likely not to be contended.
  *
- * <p>This class provides an efficient and scalable basis for
- * synchronization in part by specializing its range of use to
- * synchronizers that can rely on {@code int} state, acquire, and
- * release parameters, and an internal FIFO wait queue. When this does
- * not suffice, you can build synchronizers from a lower level using
- * {@link java.util.concurrent.atomic atomic} classes, your own custom
- * {@link java.util.Queue} classes, and {@link LockSupport} blocking
+ * <p>This clbss provides bn efficient bnd scblbble bbsis for
+ * synchronizbtion in pbrt by speciblizing its rbnge of use to
+ * synchronizers thbt cbn rely on {@code int} stbte, bcquire, bnd
+ * relebse pbrbmeters, bnd bn internbl FIFO wbit queue. When this does
+ * not suffice, you cbn build synchronizers from b lower level using
+ * {@link jbvb.util.concurrent.btomic btomic} clbsses, your own custom
+ * {@link jbvb.util.Queue} clbsses, bnd {@link LockSupport} blocking
  * support.
  *
- * <h3>Usage Examples</h3>
+ * <h3>Usbge Exbmples</h3>
  *
- * <p>Here is a non-reentrant mutual exclusion lock class that uses
- * the value zero to represent the unlocked state, and one to
- * represent the locked state. While a non-reentrant lock
+ * <p>Here is b non-reentrbnt mutubl exclusion lock clbss thbt uses
+ * the vblue zero to represent the unlocked stbte, bnd one to
+ * represent the locked stbte. While b non-reentrbnt lock
  * does not strictly require recording of the current owner
- * thread, this class does so anyway to make usage easier to monitor.
- * It also supports conditions and exposes
- * one of the instrumentation methods:
+ * threbd, this clbss does so bnywby to mbke usbge ebsier to monitor.
+ * It blso supports conditions bnd exposes
+ * one of the instrumentbtion methods:
  *
  *  <pre> {@code
- * class Mutex implements Lock, java.io.Serializable {
+ * clbss Mutex implements Lock, jbvb.io.Seriblizbble {
  *
- *   // Our internal helper class
- *   private static class Sync extends AbstractQueuedSynchronizer {
- *     // Reports whether in locked state
- *     protected boolean isHeldExclusively() {
- *       return getState() == 1;
+ *   // Our internbl helper clbss
+ *   privbte stbtic clbss Sync extends AbstrbctQueuedSynchronizer {
+ *     // Reports whether in locked stbte
+ *     protected boolebn isHeldExclusively() {
+ *       return getStbte() == 1;
  *     }
  *
- *     // Acquires the lock if state is zero
- *     public boolean tryAcquire(int acquires) {
- *       assert acquires == 1; // Otherwise unused
- *       if (compareAndSetState(0, 1)) {
- *         setExclusiveOwnerThread(Thread.currentThread());
+ *     // Acquires the lock if stbte is zero
+ *     public boolebn tryAcquire(int bcquires) {
+ *       bssert bcquires == 1; // Otherwise unused
+ *       if (compbreAndSetStbte(0, 1)) {
+ *         setExclusiveOwnerThrebd(Threbd.currentThrebd());
  *         return true;
  *       }
- *       return false;
+ *       return fblse;
  *     }
  *
- *     // Releases the lock by setting state to zero
- *     protected boolean tryRelease(int releases) {
- *       assert releases == 1; // Otherwise unused
- *       if (getState() == 0) throw new IllegalMonitorStateException();
- *       setExclusiveOwnerThread(null);
- *       setState(0);
+ *     // Relebses the lock by setting stbte to zero
+ *     protected boolebn tryRelebse(int relebses) {
+ *       bssert relebses == 1; // Otherwise unused
+ *       if (getStbte() == 0) throw new IllegblMonitorStbteException();
+ *       setExclusiveOwnerThrebd(null);
+ *       setStbte(0);
  *       return true;
  *     }
  *
- *     // Provides a Condition
+ *     // Provides b Condition
  *     Condition newCondition() { return new ConditionObject(); }
  *
- *     // Deserializes properly
- *     private void readObject(ObjectInputStream s)
- *         throws IOException, ClassNotFoundException {
- *       s.defaultReadObject();
- *       setState(0); // reset to unlocked state
+ *     // Deseriblizes properly
+ *     privbte void rebdObject(ObjectInputStrebm s)
+ *         throws IOException, ClbssNotFoundException {
+ *       s.defbultRebdObject();
+ *       setStbte(0); // reset to unlocked stbte
  *     }
  *   }
  *
- *   // The sync object does all the hard work. We just forward to it.
- *   private final Sync sync = new Sync();
+ *   // The sync object does bll the hbrd work. We just forwbrd to it.
+ *   privbte finbl Sync sync = new Sync();
  *
- *   public void lock()                { sync.acquire(1); }
- *   public boolean tryLock()          { return sync.tryAcquire(1); }
- *   public void unlock()              { sync.release(1); }
+ *   public void lock()                { sync.bcquire(1); }
+ *   public boolebn tryLock()          { return sync.tryAcquire(1); }
+ *   public void unlock()              { sync.relebse(1); }
  *   public Condition newCondition()   { return sync.newCondition(); }
- *   public boolean isLocked()         { return sync.isHeldExclusively(); }
- *   public boolean hasQueuedThreads() { return sync.hasQueuedThreads(); }
+ *   public boolebn isLocked()         { return sync.isHeldExclusively(); }
+ *   public boolebn hbsQueuedThrebds() { return sync.hbsQueuedThrebds(); }
  *   public void lockInterruptibly() throws InterruptedException {
- *     sync.acquireInterruptibly(1);
+ *     sync.bcquireInterruptibly(1);
  *   }
- *   public boolean tryLock(long timeout, TimeUnit unit)
+ *   public boolebn tryLock(long timeout, TimeUnit unit)
  *       throws InterruptedException {
- *     return sync.tryAcquireNanos(1, unit.toNanos(timeout));
+ *     return sync.tryAcquireNbnos(1, unit.toNbnos(timeout));
  *   }
  * }}</pre>
  *
- * <p>Here is a latch class that is like a
- * {@link java.util.concurrent.CountDownLatch CountDownLatch}
- * except that it only requires a single {@code signal} to
- * fire. Because a latch is non-exclusive, it uses the {@code shared}
- * acquire and release methods.
+ * <p>Here is b lbtch clbss thbt is like b
+ * {@link jbvb.util.concurrent.CountDownLbtch CountDownLbtch}
+ * except thbt it only requires b single {@code signbl} to
+ * fire. Becbuse b lbtch is non-exclusive, it uses the {@code shbred}
+ * bcquire bnd relebse methods.
  *
  *  <pre> {@code
- * class BooleanLatch {
+ * clbss BoolebnLbtch {
  *
- *   private static class Sync extends AbstractQueuedSynchronizer {
- *     boolean isSignalled() { return getState() != 0; }
+ *   privbte stbtic clbss Sync extends AbstrbctQueuedSynchronizer {
+ *     boolebn isSignblled() { return getStbte() != 0; }
  *
- *     protected int tryAcquireShared(int ignore) {
- *       return isSignalled() ? 1 : -1;
+ *     protected int tryAcquireShbred(int ignore) {
+ *       return isSignblled() ? 1 : -1;
  *     }
  *
- *     protected boolean tryReleaseShared(int ignore) {
- *       setState(1);
+ *     protected boolebn tryRelebseShbred(int ignore) {
+ *       setStbte(1);
  *       return true;
  *     }
  *   }
  *
- *   private final Sync sync = new Sync();
- *   public boolean isSignalled() { return sync.isSignalled(); }
- *   public void signal()         { sync.releaseShared(1); }
- *   public void await() throws InterruptedException {
- *     sync.acquireSharedInterruptibly(1);
+ *   privbte finbl Sync sync = new Sync();
+ *   public boolebn isSignblled() { return sync.isSignblled(); }
+ *   public void signbl()         { sync.relebseShbred(1); }
+ *   public void bwbit() throws InterruptedException {
+ *     sync.bcquireShbredInterruptibly(1);
  *   }
  * }}</pre>
  *
  * @since 1.5
- * @author Doug Lea
+ * @buthor Doug Leb
  */
-public abstract class AbstractQueuedSynchronizer
-    extends AbstractOwnableSynchronizer
-    implements java.io.Serializable {
+public bbstrbct clbss AbstrbctQueuedSynchronizer
+    extends AbstrbctOwnbbleSynchronizer
+    implements jbvb.io.Seriblizbble {
 
-    private static final long serialVersionUID = 7373984972572414691L;
+    privbte stbtic finbl long seriblVersionUID = 7373984972572414691L;
 
     /**
-     * Creates a new {@code AbstractQueuedSynchronizer} instance
-     * with initial synchronization state of zero.
+     * Crebtes b new {@code AbstrbctQueuedSynchronizer} instbnce
+     * with initibl synchronizbtion stbte of zero.
      */
-    protected AbstractQueuedSynchronizer() { }
+    protected AbstrbctQueuedSynchronizer() { }
 
     /**
-     * Wait queue node class.
+     * Wbit queue node clbss.
      *
-     * <p>The wait queue is a variant of a "CLH" (Craig, Landin, and
-     * Hagersten) lock queue. CLH locks are normally used for
-     * spinlocks.  We instead use them for blocking synchronizers, but
-     * use the same basic tactic of holding some of the control
-     * information about a thread in the predecessor of its node.  A
-     * "status" field in each node keeps track of whether a thread
-     * should block.  A node is signalled when its predecessor
-     * releases.  Each node of the queue otherwise serves as a
-     * specific-notification-style monitor holding a single waiting
-     * thread. The status field does NOT control whether threads are
-     * granted locks etc though.  A thread may try to acquire if it is
-     * first in the queue. But being first does not guarantee success;
-     * it only gives the right to contend.  So the currently released
-     * contender thread may need to rewait.
+     * <p>The wbit queue is b vbribnt of b "CLH" (Crbig, Lbndin, bnd
+     * Hbgersten) lock queue. CLH locks bre normblly used for
+     * spinlocks.  We instebd use them for blocking synchronizers, but
+     * use the sbme bbsic tbctic of holding some of the control
+     * informbtion bbout b threbd in the predecessor of its node.  A
+     * "stbtus" field in ebch node keeps trbck of whether b threbd
+     * should block.  A node is signblled when its predecessor
+     * relebses.  Ebch node of the queue otherwise serves bs b
+     * specific-notificbtion-style monitor holding b single wbiting
+     * threbd. The stbtus field does NOT control whether threbds bre
+     * grbnted locks etc though.  A threbd mby try to bcquire if it is
+     * first in the queue. But being first does not gubrbntee success;
+     * it only gives the right to contend.  So the currently relebsed
+     * contender threbd mby need to rewbit.
      *
-     * <p>To enqueue into a CLH lock, you atomically splice it in as new
-     * tail. To dequeue, you just set the head field.
+     * <p>To enqueue into b CLH lock, you btomicblly splice it in bs new
+     * tbil. To dequeue, you just set the hebd field.
      * <pre>
      *      +------+  prev +-----+       +-----+
-     * head |      | <---- |     | <---- |     |  tail
+     * hebd |      | <---- |     | <---- |     |  tbil
      *      +------+       +-----+       +-----+
      * </pre>
      *
-     * <p>Insertion into a CLH queue requires only a single atomic
-     * operation on "tail", so there is a simple atomic point of
-     * demarcation from unqueued to queued. Similarly, dequeuing
-     * involves only updating the "head". However, it takes a bit
-     * more work for nodes to determine who their successors are,
-     * in part to deal with possible cancellation due to timeouts
-     * and interrupts.
+     * <p>Insertion into b CLH queue requires only b single btomic
+     * operbtion on "tbil", so there is b simple btomic point of
+     * dembrcbtion from unqueued to queued. Similbrly, dequeuing
+     * involves only updbting the "hebd". However, it tbkes b bit
+     * more work for nodes to determine who their successors bre,
+     * in pbrt to debl with possible cbncellbtion due to timeouts
+     * bnd interrupts.
      *
-     * <p>The "prev" links (not used in original CLH locks), are mainly
-     * needed to handle cancellation. If a node is cancelled, its
-     * successor is (normally) relinked to a non-cancelled
-     * predecessor. For explanation of similar mechanics in the case
-     * of spin locks, see the papers by Scott and Scherer at
-     * http://www.cs.rochester.edu/u/scott/synchronization/
+     * <p>The "prev" links (not used in originbl CLH locks), bre mbinly
+     * needed to hbndle cbncellbtion. If b node is cbncelled, its
+     * successor is (normblly) relinked to b non-cbncelled
+     * predecessor. For explbnbtion of similbr mechbnics in the cbse
+     * of spin locks, see the pbpers by Scott bnd Scherer bt
+     * http://www.cs.rochester.edu/u/scott/synchronizbtion/
      *
-     * <p>We also use "next" links to implement blocking mechanics.
-     * The thread id for each node is kept in its own node, so a
-     * predecessor signals the next node to wake up by traversing
-     * next link to determine which thread it is.  Determination of
-     * successor must avoid races with newly queued nodes to set
+     * <p>We blso use "next" links to implement blocking mechbnics.
+     * The threbd id for ebch node is kept in its own node, so b
+     * predecessor signbls the next node to wbke up by trbversing
+     * next link to determine which threbd it is.  Determinbtion of
+     * successor must bvoid rbces with newly queued nodes to set
      * the "next" fields of their predecessors.  This is solved
-     * when necessary by checking backwards from the atomically
-     * updated "tail" when a node's successor appears to be null.
-     * (Or, said differently, the next-links are an optimization
-     * so that we don't usually need a backward scan.)
+     * when necessbry by checking bbckwbrds from the btomicblly
+     * updbted "tbil" when b node's successor bppebrs to be null.
+     * (Or, sbid differently, the next-links bre bn optimizbtion
+     * so thbt we don't usublly need b bbckwbrd scbn.)
      *
-     * <p>Cancellation introduces some conservatism to the basic
-     * algorithms.  Since we must poll for cancellation of other
-     * nodes, we can miss noticing whether a cancelled node is
-     * ahead or behind us. This is dealt with by always unparking
-     * successors upon cancellation, allowing them to stabilize on
-     * a new predecessor, unless we can identify an uncancelled
-     * predecessor who will carry this responsibility.
+     * <p>Cbncellbtion introduces some conservbtism to the bbsic
+     * blgorithms.  Since we must poll for cbncellbtion of other
+     * nodes, we cbn miss noticing whether b cbncelled node is
+     * bhebd or behind us. This is deblt with by blwbys unpbrking
+     * successors upon cbncellbtion, bllowing them to stbbilize on
+     * b new predecessor, unless we cbn identify bn uncbncelled
+     * predecessor who will cbrry this responsibility.
      *
-     * <p>CLH queues need a dummy header node to get started. But
-     * we don't create them on construction, because it would be wasted
-     * effort if there is never contention. Instead, the node
-     * is constructed and head and tail pointers are set upon first
+     * <p>CLH queues need b dummy hebder node to get stbrted. But
+     * we don't crebte them on construction, becbuse it would be wbsted
+     * effort if there is never contention. Instebd, the node
+     * is constructed bnd hebd bnd tbil pointers bre set upon first
      * contention.
      *
-     * <p>Threads waiting on Conditions use the same nodes, but
-     * use an additional link. Conditions only need to link nodes
-     * in simple (non-concurrent) linked queues because they are
-     * only accessed when exclusively held.  Upon await, a node is
-     * inserted into a condition queue.  Upon signal, the node is
-     * transferred to the main queue.  A special value of status
-     * field is used to mark which queue a node is on.
+     * <p>Threbds wbiting on Conditions use the sbme nodes, but
+     * use bn bdditionbl link. Conditions only need to link nodes
+     * in simple (non-concurrent) linked queues becbuse they bre
+     * only bccessed when exclusively held.  Upon bwbit, b node is
+     * inserted into b condition queue.  Upon signbl, the node is
+     * trbnsferred to the mbin queue.  A specibl vblue of stbtus
+     * field is used to mbrk which queue b node is on.
      *
-     * <p>Thanks go to Dave Dice, Mark Moir, Victor Luchangco, Bill
-     * Scherer and Michael Scott, along with members of JSR-166
-     * expert group, for helpful ideas, discussions, and critiques
-     * on the design of this class.
+     * <p>Thbnks go to Dbve Dice, Mbrk Moir, Victor Luchbngco, Bill
+     * Scherer bnd Michbel Scott, blong with members of JSR-166
+     * expert group, for helpful idebs, discussions, bnd critiques
+     * on the design of this clbss.
      */
-    static final class Node {
-        /** Marker to indicate a node is waiting in shared mode */
-        static final Node SHARED = new Node();
-        /** Marker to indicate a node is waiting in exclusive mode */
-        static final Node EXCLUSIVE = null;
+    stbtic finbl clbss Node {
+        /** Mbrker to indicbte b node is wbiting in shbred mode */
+        stbtic finbl Node SHARED = new Node();
+        /** Mbrker to indicbte b node is wbiting in exclusive mode */
+        stbtic finbl Node EXCLUSIVE = null;
 
-        /** waitStatus value to indicate thread has cancelled */
-        static final int CANCELLED =  1;
-        /** waitStatus value to indicate successor's thread needs unparking */
-        static final int SIGNAL    = -1;
-        /** waitStatus value to indicate thread is waiting on condition */
-        static final int CONDITION = -2;
+        /** wbitStbtus vblue to indicbte threbd hbs cbncelled */
+        stbtic finbl int CANCELLED =  1;
+        /** wbitStbtus vblue to indicbte successor's threbd needs unpbrking */
+        stbtic finbl int SIGNAL    = -1;
+        /** wbitStbtus vblue to indicbte threbd is wbiting on condition */
+        stbtic finbl int CONDITION = -2;
         /**
-         * waitStatus value to indicate the next acquireShared should
-         * unconditionally propagate
+         * wbitStbtus vblue to indicbte the next bcquireShbred should
+         * unconditionblly propbgbte
          */
-        static final int PROPAGATE = -3;
+        stbtic finbl int PROPAGATE = -3;
 
         /**
-         * Status field, taking on only the values:
+         * Stbtus field, tbking on only the vblues:
          *   SIGNAL:     The successor of this node is (or will soon be)
-         *               blocked (via park), so the current node must
-         *               unpark its successor when it releases or
-         *               cancels. To avoid races, acquire methods must
-         *               first indicate they need a signal,
-         *               then retry the atomic acquire, and then,
-         *               on failure, block.
-         *   CANCELLED:  This node is cancelled due to timeout or interrupt.
-         *               Nodes never leave this state. In particular,
-         *               a thread with cancelled node never again blocks.
-         *   CONDITION:  This node is currently on a condition queue.
-         *               It will not be used as a sync queue node
-         *               until transferred, at which time the status
-         *               will be set to 0. (Use of this value here has
+         *               blocked (vib pbrk), so the current node must
+         *               unpbrk its successor when it relebses or
+         *               cbncels. To bvoid rbces, bcquire methods must
+         *               first indicbte they need b signbl,
+         *               then retry the btomic bcquire, bnd then,
+         *               on fbilure, block.
+         *   CANCELLED:  This node is cbncelled due to timeout or interrupt.
+         *               Nodes never lebve this stbte. In pbrticulbr,
+         *               b threbd with cbncelled node never bgbin blocks.
+         *   CONDITION:  This node is currently on b condition queue.
+         *               It will not be used bs b sync queue node
+         *               until trbnsferred, bt which time the stbtus
+         *               will be set to 0. (Use of this vblue here hbs
          *               nothing to do with the other uses of the
-         *               field, but simplifies mechanics.)
-         *   PROPAGATE:  A releaseShared should be propagated to other
-         *               nodes. This is set (for head node only) in
-         *               doReleaseShared to ensure propagation
-         *               continues, even if other operations have
+         *               field, but simplifies mechbnics.)
+         *   PROPAGATE:  A relebseShbred should be propbgbted to other
+         *               nodes. This is set (for hebd node only) in
+         *               doRelebseShbred to ensure propbgbtion
+         *               continues, even if other operbtions hbve
          *               since intervened.
-         *   0:          None of the above
+         *   0:          None of the bbove
          *
-         * The values are arranged numerically to simplify use.
-         * Non-negative values mean that a node doesn't need to
-         * signal. So, most code doesn't need to check for particular
-         * values, just for sign.
+         * The vblues bre brrbnged numericblly to simplify use.
+         * Non-negbtive vblues mebn thbt b node doesn't need to
+         * signbl. So, most code doesn't need to check for pbrticulbr
+         * vblues, just for sign.
          *
-         * The field is initialized to 0 for normal sync nodes, and
+         * The field is initiblized to 0 for normbl sync nodes, bnd
          * CONDITION for condition nodes.  It is modified using CAS
-         * (or when possible, unconditional volatile writes).
+         * (or when possible, unconditionbl volbtile writes).
          */
-        volatile int waitStatus;
+        volbtile int wbitStbtus;
 
         /**
-         * Link to predecessor node that current node/thread relies on
-         * for checking waitStatus. Assigned during enqueuing, and nulled
-         * out (for sake of GC) only upon dequeuing.  Also, upon
-         * cancellation of a predecessor, we short-circuit while
-         * finding a non-cancelled one, which will always exist
-         * because the head node is never cancelled: A node becomes
-         * head only as a result of successful acquire. A
-         * cancelled thread never succeeds in acquiring, and a thread only
-         * cancels itself, not any other node.
+         * Link to predecessor node thbt current node/threbd relies on
+         * for checking wbitStbtus. Assigned during enqueuing, bnd nulled
+         * out (for sbke of GC) only upon dequeuing.  Also, upon
+         * cbncellbtion of b predecessor, we short-circuit while
+         * finding b non-cbncelled one, which will blwbys exist
+         * becbuse the hebd node is never cbncelled: A node becomes
+         * hebd only bs b result of successful bcquire. A
+         * cbncelled threbd never succeeds in bcquiring, bnd b threbd only
+         * cbncels itself, not bny other node.
          */
-        volatile Node prev;
+        volbtile Node prev;
 
         /**
-         * Link to the successor node that the current node/thread
-         * unparks upon release. Assigned during enqueuing, adjusted
-         * when bypassing cancelled predecessors, and nulled out (for
-         * sake of GC) when dequeued.  The enq operation does not
-         * assign next field of a predecessor until after attachment,
-         * so seeing a null next field does not necessarily mean that
-         * node is at end of queue. However, if a next field appears
-         * to be null, we can scan prev's from the tail to
-         * double-check.  The next field of cancelled nodes is set to
-         * point to the node itself instead of null, to make life
-         * easier for isOnSyncQueue.
+         * Link to the successor node thbt the current node/threbd
+         * unpbrks upon relebse. Assigned during enqueuing, bdjusted
+         * when bypbssing cbncelled predecessors, bnd nulled out (for
+         * sbke of GC) when dequeued.  The enq operbtion does not
+         * bssign next field of b predecessor until bfter bttbchment,
+         * so seeing b null next field does not necessbrily mebn thbt
+         * node is bt end of queue. However, if b next field bppebrs
+         * to be null, we cbn scbn prev's from the tbil to
+         * double-check.  The next field of cbncelled nodes is set to
+         * point to the node itself instebd of null, to mbke life
+         * ebsier for isOnSyncQueue.
          */
-        volatile Node next;
+        volbtile Node next;
 
         /**
-         * The thread that enqueued this node.  Initialized on
-         * construction and nulled out after use.
+         * The threbd thbt enqueued this node.  Initiblized on
+         * construction bnd nulled out bfter use.
          */
-        volatile Thread thread;
+        volbtile Threbd threbd;
 
         /**
-         * Link to next node waiting on condition, or the special
-         * value SHARED.  Because condition queues are accessed only
-         * when holding in exclusive mode, we just need a simple
-         * linked queue to hold nodes while they are waiting on
-         * conditions. They are then transferred to the queue to
-         * re-acquire. And because conditions can only be exclusive,
-         * we save a field by using special value to indicate shared
+         * Link to next node wbiting on condition, or the specibl
+         * vblue SHARED.  Becbuse condition queues bre bccessed only
+         * when holding in exclusive mode, we just need b simple
+         * linked queue to hold nodes while they bre wbiting on
+         * conditions. They bre then trbnsferred to the queue to
+         * re-bcquire. And becbuse conditions cbn only be exclusive,
+         * we sbve b field by using specibl vblue to indicbte shbred
          * mode.
          */
-        Node nextWaiter;
+        Node nextWbiter;
 
         /**
-         * Returns true if node is waiting in shared mode.
+         * Returns true if node is wbiting in shbred mode.
          */
-        final boolean isShared() {
-            return nextWaiter == SHARED;
+        finbl boolebn isShbred() {
+            return nextWbiter == SHARED;
         }
 
         /**
          * Returns previous node, or throws NullPointerException if null.
-         * Use when predecessor cannot be null.  The null check could
+         * Use when predecessor cbnnot be null.  The null check could
          * be elided, but is present to help the VM.
          *
          * @return the predecessor of this node
          */
-        final Node predecessor() throws NullPointerException {
+        finbl Node predecessor() throws NullPointerException {
             Node p = prev;
             if (p == null)
                 throw new NullPointerException();
@@ -499,96 +499,96 @@ public abstract class AbstractQueuedSynchronizer
                 return p;
         }
 
-        Node() {    // Used to establish initial head or SHARED marker
+        Node() {    // Used to estbblish initibl hebd or SHARED mbrker
         }
 
-        Node(Thread thread, Node mode) {     // Used by addWaiter
-            this.nextWaiter = mode;
-            this.thread = thread;
+        Node(Threbd threbd, Node mode) {     // Used by bddWbiter
+            this.nextWbiter = mode;
+            this.threbd = threbd;
         }
 
-        Node(Thread thread, int waitStatus) { // Used by Condition
-            this.waitStatus = waitStatus;
-            this.thread = thread;
+        Node(Threbd threbd, int wbitStbtus) { // Used by Condition
+            this.wbitStbtus = wbitStbtus;
+            this.threbd = threbd;
         }
     }
 
     /**
-     * Head of the wait queue, lazily initialized.  Except for
-     * initialization, it is modified only via method setHead.  Note:
-     * If head exists, its waitStatus is guaranteed not to be
+     * Hebd of the wbit queue, lbzily initiblized.  Except for
+     * initiblizbtion, it is modified only vib method setHebd.  Note:
+     * If hebd exists, its wbitStbtus is gubrbnteed not to be
      * CANCELLED.
      */
-    private transient volatile Node head;
+    privbte trbnsient volbtile Node hebd;
 
     /**
-     * Tail of the wait queue, lazily initialized.  Modified only via
-     * method enq to add new wait node.
+     * Tbil of the wbit queue, lbzily initiblized.  Modified only vib
+     * method enq to bdd new wbit node.
      */
-    private transient volatile Node tail;
+    privbte trbnsient volbtile Node tbil;
 
     /**
-     * The synchronization state.
+     * The synchronizbtion stbte.
      */
-    private volatile int state;
+    privbte volbtile int stbte;
 
     /**
-     * Returns the current value of synchronization state.
-     * This operation has memory semantics of a {@code volatile} read.
-     * @return current state value
+     * Returns the current vblue of synchronizbtion stbte.
+     * This operbtion hbs memory sembntics of b {@code volbtile} rebd.
+     * @return current stbte vblue
      */
-    protected final int getState() {
-        return state;
+    protected finbl int getStbte() {
+        return stbte;
     }
 
     /**
-     * Sets the value of synchronization state.
-     * This operation has memory semantics of a {@code volatile} write.
-     * @param newState the new state value
+     * Sets the vblue of synchronizbtion stbte.
+     * This operbtion hbs memory sembntics of b {@code volbtile} write.
+     * @pbrbm newStbte the new stbte vblue
      */
-    protected final void setState(int newState) {
-        state = newState;
+    protected finbl void setStbte(int newStbte) {
+        stbte = newStbte;
     }
 
     /**
-     * Atomically sets synchronization state to the given updated
-     * value if the current state value equals the expected value.
-     * This operation has memory semantics of a {@code volatile} read
-     * and write.
+     * Atomicblly sets synchronizbtion stbte to the given updbted
+     * vblue if the current stbte vblue equbls the expected vblue.
+     * This operbtion hbs memory sembntics of b {@code volbtile} rebd
+     * bnd write.
      *
-     * @param expect the expected value
-     * @param update the new value
-     * @return {@code true} if successful. False return indicates that the actual
-     *         value was not equal to the expected value.
+     * @pbrbm expect the expected vblue
+     * @pbrbm updbte the new vblue
+     * @return {@code true} if successful. Fblse return indicbtes thbt the bctubl
+     *         vblue wbs not equbl to the expected vblue.
      */
-    protected final boolean compareAndSetState(int expect, int update) {
+    protected finbl boolebn compbreAndSetStbte(int expect, int updbte) {
         // See below for intrinsics setup to support this
-        return unsafe.compareAndSwapInt(this, stateOffset, expect, update);
+        return unsbfe.compbreAndSwbpInt(this, stbteOffset, expect, updbte);
     }
 
     // Queuing utilities
 
     /**
-     * The number of nanoseconds for which it is faster to spin
-     * rather than to use timed park. A rough estimate suffices
+     * The number of nbnoseconds for which it is fbster to spin
+     * rbther thbn to use timed pbrk. A rough estimbte suffices
      * to improve responsiveness with very short timeouts.
      */
-    static final long spinForTimeoutThreshold = 1000L;
+    stbtic finbl long spinForTimeoutThreshold = 1000L;
 
     /**
-     * Inserts node into queue, initializing if necessary. See picture above.
-     * @param node the node to insert
+     * Inserts node into queue, initiblizing if necessbry. See picture bbove.
+     * @pbrbm node the node to insert
      * @return node's predecessor
      */
-    private Node enq(final Node node) {
+    privbte Node enq(finbl Node node) {
         for (;;) {
-            Node t = tail;
-            if (t == null) { // Must initialize
-                if (compareAndSetHead(new Node()))
-                    tail = head;
+            Node t = tbil;
+            if (t == null) { // Must initiblize
+                if (compbreAndSetHebd(new Node()))
+                    tbil = hebd;
             } else {
                 node.prev = t;
-                if (compareAndSetTail(t, node)) {
+                if (compbreAndSetTbil(t, node)) {
                     t.next = node;
                     return t;
                 }
@@ -597,18 +597,18 @@ public abstract class AbstractQueuedSynchronizer
     }
 
     /**
-     * Creates and enqueues node for current thread and given mode.
+     * Crebtes bnd enqueues node for current threbd bnd given mode.
      *
-     * @param mode Node.EXCLUSIVE for exclusive, Node.SHARED for shared
+     * @pbrbm mode Node.EXCLUSIVE for exclusive, Node.SHARED for shbred
      * @return the new node
      */
-    private Node addWaiter(Node mode) {
-        Node node = new Node(Thread.currentThread(), mode);
-        // Try the fast path of enq; backup to full enq on failure
-        Node pred = tail;
+    privbte Node bddWbiter(Node mode) {
+        Node node = new Node(Threbd.currentThrebd(), mode);
+        // Try the fbst pbth of enq; bbckup to full enq on fbilure
+        Node pred = tbil;
         if (pred != null) {
             node.prev = pred;
-            if (compareAndSetTail(pred, node)) {
+            if (compbreAndSetTbil(pred, node)) {
                 pred.next = node;
                 return node;
             }
@@ -618,165 +618,165 @@ public abstract class AbstractQueuedSynchronizer
     }
 
     /**
-     * Sets head of queue to be node, thus dequeuing. Called only by
-     * acquire methods.  Also nulls out unused fields for sake of GC
-     * and to suppress unnecessary signals and traversals.
+     * Sets hebd of queue to be node, thus dequeuing. Cblled only by
+     * bcquire methods.  Also nulls out unused fields for sbke of GC
+     * bnd to suppress unnecessbry signbls bnd trbversbls.
      *
-     * @param node the node
+     * @pbrbm node the node
      */
-    private void setHead(Node node) {
-        head = node;
-        node.thread = null;
+    privbte void setHebd(Node node) {
+        hebd = node;
+        node.threbd = null;
         node.prev = null;
     }
 
     /**
-     * Wakes up node's successor, if one exists.
+     * Wbkes up node's successor, if one exists.
      *
-     * @param node the node
+     * @pbrbm node the node
      */
-    private void unparkSuccessor(Node node) {
+    privbte void unpbrkSuccessor(Node node) {
         /*
-         * If status is negative (i.e., possibly needing signal) try
-         * to clear in anticipation of signalling.  It is OK if this
-         * fails or if status is changed by waiting thread.
+         * If stbtus is negbtive (i.e., possibly needing signbl) try
+         * to clebr in bnticipbtion of signblling.  It is OK if this
+         * fbils or if stbtus is chbnged by wbiting threbd.
          */
-        int ws = node.waitStatus;
+        int ws = node.wbitStbtus;
         if (ws < 0)
-            compareAndSetWaitStatus(node, ws, 0);
+            compbreAndSetWbitStbtus(node, ws, 0);
 
         /*
-         * Thread to unpark is held in successor, which is normally
-         * just the next node.  But if cancelled or apparently null,
-         * traverse backwards from tail to find the actual
-         * non-cancelled successor.
+         * Threbd to unpbrk is held in successor, which is normblly
+         * just the next node.  But if cbncelled or bppbrently null,
+         * trbverse bbckwbrds from tbil to find the bctubl
+         * non-cbncelled successor.
          */
         Node s = node.next;
-        if (s == null || s.waitStatus > 0) {
+        if (s == null || s.wbitStbtus > 0) {
             s = null;
-            for (Node t = tail; t != null && t != node; t = t.prev)
-                if (t.waitStatus <= 0)
+            for (Node t = tbil; t != null && t != node; t = t.prev)
+                if (t.wbitStbtus <= 0)
                     s = t;
         }
         if (s != null)
-            LockSupport.unpark(s.thread);
+            LockSupport.unpbrk(s.threbd);
     }
 
     /**
-     * Release action for shared mode -- signals successor and ensures
-     * propagation. (Note: For exclusive mode, release just amounts
-     * to calling unparkSuccessor of head if it needs signal.)
+     * Relebse bction for shbred mode -- signbls successor bnd ensures
+     * propbgbtion. (Note: For exclusive mode, relebse just bmounts
+     * to cblling unpbrkSuccessor of hebd if it needs signbl.)
      */
-    private void doReleaseShared() {
+    privbte void doRelebseShbred() {
         /*
-         * Ensure that a release propagates, even if there are other
-         * in-progress acquires/releases.  This proceeds in the usual
-         * way of trying to unparkSuccessor of head if it needs
-         * signal. But if it does not, status is set to PROPAGATE to
-         * ensure that upon release, propagation continues.
-         * Additionally, we must loop in case a new node is added
-         * while we are doing this. Also, unlike other uses of
-         * unparkSuccessor, we need to know if CAS to reset status
-         * fails, if so rechecking.
+         * Ensure thbt b relebse propbgbtes, even if there bre other
+         * in-progress bcquires/relebses.  This proceeds in the usubl
+         * wby of trying to unpbrkSuccessor of hebd if it needs
+         * signbl. But if it does not, stbtus is set to PROPAGATE to
+         * ensure thbt upon relebse, propbgbtion continues.
+         * Additionblly, we must loop in cbse b new node is bdded
+         * while we bre doing this. Also, unlike other uses of
+         * unpbrkSuccessor, we need to know if CAS to reset stbtus
+         * fbils, if so rechecking.
          */
         for (;;) {
-            Node h = head;
-            if (h != null && h != tail) {
-                int ws = h.waitStatus;
+            Node h = hebd;
+            if (h != null && h != tbil) {
+                int ws = h.wbitStbtus;
                 if (ws == Node.SIGNAL) {
-                    if (!compareAndSetWaitStatus(h, Node.SIGNAL, 0))
-                        continue;            // loop to recheck cases
-                    unparkSuccessor(h);
+                    if (!compbreAndSetWbitStbtus(h, Node.SIGNAL, 0))
+                        continue;            // loop to recheck cbses
+                    unpbrkSuccessor(h);
                 }
                 else if (ws == 0 &&
-                         !compareAndSetWaitStatus(h, 0, Node.PROPAGATE))
-                    continue;                // loop on failed CAS
+                         !compbreAndSetWbitStbtus(h, 0, Node.PROPAGATE))
+                    continue;                // loop on fbiled CAS
             }
-            if (h == head)                   // loop if head changed
-                break;
+            if (h == hebd)                   // loop if hebd chbnged
+                brebk;
         }
     }
 
     /**
-     * Sets head of queue, and checks if successor may be waiting
-     * in shared mode, if so propagating if either propagate > 0 or
-     * PROPAGATE status was set.
+     * Sets hebd of queue, bnd checks if successor mby be wbiting
+     * in shbred mode, if so propbgbting if either propbgbte > 0 or
+     * PROPAGATE stbtus wbs set.
      *
-     * @param node the node
-     * @param propagate the return value from a tryAcquireShared
+     * @pbrbm node the node
+     * @pbrbm propbgbte the return vblue from b tryAcquireShbred
      */
-    private void setHeadAndPropagate(Node node, int propagate) {
-        Node h = head; // Record old head for check below
-        setHead(node);
+    privbte void setHebdAndPropbgbte(Node node, int propbgbte) {
+        Node h = hebd; // Record old hebd for check below
+        setHebd(node);
         /*
-         * Try to signal next queued node if:
-         *   Propagation was indicated by caller,
-         *     or was recorded (as h.waitStatus either before
-         *     or after setHead) by a previous operation
-         *     (note: this uses sign-check of waitStatus because
-         *      PROPAGATE status may transition to SIGNAL.)
-         * and
-         *   The next node is waiting in shared mode,
-         *     or we don't know, because it appears null
+         * Try to signbl next queued node if:
+         *   Propbgbtion wbs indicbted by cbller,
+         *     or wbs recorded (bs h.wbitStbtus either before
+         *     or bfter setHebd) by b previous operbtion
+         *     (note: this uses sign-check of wbitStbtus becbuse
+         *      PROPAGATE stbtus mby trbnsition to SIGNAL.)
+         * bnd
+         *   The next node is wbiting in shbred mode,
+         *     or we don't know, becbuse it bppebrs null
          *
-         * The conservatism in both of these checks may cause
-         * unnecessary wake-ups, but only when there are multiple
-         * racing acquires/releases, so most need signals now or soon
-         * anyway.
+         * The conservbtism in both of these checks mby cbuse
+         * unnecessbry wbke-ups, but only when there bre multiple
+         * rbcing bcquires/relebses, so most need signbls now or soon
+         * bnywby.
          */
-        if (propagate > 0 || h == null || h.waitStatus < 0 ||
-            (h = head) == null || h.waitStatus < 0) {
+        if (propbgbte > 0 || h == null || h.wbitStbtus < 0 ||
+            (h = hebd) == null || h.wbitStbtus < 0) {
             Node s = node.next;
-            if (s == null || s.isShared())
-                doReleaseShared();
+            if (s == null || s.isShbred())
+                doRelebseShbred();
         }
     }
 
-    // Utilities for various versions of acquire
+    // Utilities for vbrious versions of bcquire
 
     /**
-     * Cancels an ongoing attempt to acquire.
+     * Cbncels bn ongoing bttempt to bcquire.
      *
-     * @param node the node
+     * @pbrbm node the node
      */
-    private void cancelAcquire(Node node) {
+    privbte void cbncelAcquire(Node node) {
         // Ignore if node doesn't exist
         if (node == null)
             return;
 
-        node.thread = null;
+        node.threbd = null;
 
-        // Skip cancelled predecessors
+        // Skip cbncelled predecessors
         Node pred = node.prev;
-        while (pred.waitStatus > 0)
+        while (pred.wbitStbtus > 0)
             node.prev = pred = pred.prev;
 
-        // predNext is the apparent node to unsplice. CASes below will
-        // fail if not, in which case, we lost race vs another cancel
-        // or signal, so no further action is necessary.
+        // predNext is the bppbrent node to unsplice. CASes below will
+        // fbil if not, in which cbse, we lost rbce vs bnother cbncel
+        // or signbl, so no further bction is necessbry.
         Node predNext = pred.next;
 
-        // Can use unconditional write instead of CAS here.
-        // After this atomic step, other Nodes can skip past us.
-        // Before, we are free of interference from other threads.
-        node.waitStatus = Node.CANCELLED;
+        // Cbn use unconditionbl write instebd of CAS here.
+        // After this btomic step, other Nodes cbn skip pbst us.
+        // Before, we bre free of interference from other threbds.
+        node.wbitStbtus = Node.CANCELLED;
 
-        // If we are the tail, remove ourselves.
-        if (node == tail && compareAndSetTail(node, pred)) {
-            compareAndSetNext(pred, predNext, null);
+        // If we bre the tbil, remove ourselves.
+        if (node == tbil && compbreAndSetTbil(node, pred)) {
+            compbreAndSetNext(pred, predNext, null);
         } else {
-            // If successor needs signal, try to set pred's next-link
-            // so it will get one. Otherwise wake it up to propagate.
+            // If successor needs signbl, try to set pred's next-link
+            // so it will get one. Otherwise wbke it up to propbgbte.
             int ws;
-            if (pred != head &&
-                ((ws = pred.waitStatus) == Node.SIGNAL ||
-                 (ws <= 0 && compareAndSetWaitStatus(pred, ws, Node.SIGNAL))) &&
-                pred.thread != null) {
+            if (pred != hebd &&
+                ((ws = pred.wbitStbtus) == Node.SIGNAL ||
+                 (ws <= 0 && compbreAndSetWbitStbtus(pred, ws, Node.SIGNAL))) &&
+                pred.threbd != null) {
                 Node next = node.next;
-                if (next != null && next.waitStatus <= 0)
-                    compareAndSetNext(pred, predNext, next);
+                if (next != null && next.wbitStbtus <= 0)
+                    compbreAndSetNext(pred, predNext, next);
             } else {
-                unparkSuccessor(node);
+                unpbrkSuccessor(node);
             }
 
             node.next = node; // help GC
@@ -784,1142 +784,1142 @@ public abstract class AbstractQueuedSynchronizer
     }
 
     /**
-     * Checks and updates status for a node that failed to acquire.
-     * Returns true if thread should block. This is the main signal
-     * control in all acquire loops.  Requires that pred == node.prev.
+     * Checks bnd updbtes stbtus for b node thbt fbiled to bcquire.
+     * Returns true if threbd should block. This is the mbin signbl
+     * control in bll bcquire loops.  Requires thbt pred == node.prev.
      *
-     * @param pred node's predecessor holding status
-     * @param node the node
-     * @return {@code true} if thread should block
+     * @pbrbm pred node's predecessor holding stbtus
+     * @pbrbm node the node
+     * @return {@code true} if threbd should block
      */
-    private static boolean shouldParkAfterFailedAcquire(Node pred, Node node) {
-        int ws = pred.waitStatus;
+    privbte stbtic boolebn shouldPbrkAfterFbiledAcquire(Node pred, Node node) {
+        int ws = pred.wbitStbtus;
         if (ws == Node.SIGNAL)
             /*
-             * This node has already set status asking a release
-             * to signal it, so it can safely park.
+             * This node hbs blrebdy set stbtus bsking b relebse
+             * to signbl it, so it cbn sbfely pbrk.
              */
             return true;
         if (ws > 0) {
             /*
-             * Predecessor was cancelled. Skip over predecessors and
-             * indicate retry.
+             * Predecessor wbs cbncelled. Skip over predecessors bnd
+             * indicbte retry.
              */
             do {
                 node.prev = pred = pred.prev;
-            } while (pred.waitStatus > 0);
+            } while (pred.wbitStbtus > 0);
             pred.next = node;
         } else {
             /*
-             * waitStatus must be 0 or PROPAGATE.  Indicate that we
-             * need a signal, but don't park yet.  Caller will need to
-             * retry to make sure it cannot acquire before parking.
+             * wbitStbtus must be 0 or PROPAGATE.  Indicbte thbt we
+             * need b signbl, but don't pbrk yet.  Cbller will need to
+             * retry to mbke sure it cbnnot bcquire before pbrking.
              */
-            compareAndSetWaitStatus(pred, ws, Node.SIGNAL);
+            compbreAndSetWbitStbtus(pred, ws, Node.SIGNAL);
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Convenience method to interrupt current thread.
+     * Convenience method to interrupt current threbd.
      */
-    static void selfInterrupt() {
-        Thread.currentThread().interrupt();
+    stbtic void selfInterrupt() {
+        Threbd.currentThrebd().interrupt();
     }
 
     /**
-     * Convenience method to park and then check if interrupted
+     * Convenience method to pbrk bnd then check if interrupted
      *
      * @return {@code true} if interrupted
      */
-    private final boolean parkAndCheckInterrupt() {
-        LockSupport.park(this);
-        return Thread.interrupted();
+    privbte finbl boolebn pbrkAndCheckInterrupt() {
+        LockSupport.pbrk(this);
+        return Threbd.interrupted();
     }
 
     /*
-     * Various flavors of acquire, varying in exclusive/shared and
-     * control modes.  Each is mostly the same, but annoyingly
-     * different.  Only a little bit of factoring is possible due to
-     * interactions of exception mechanics (including ensuring that we
-     * cancel if tryAcquire throws exception) and other control, at
-     * least not without hurting performance too much.
+     * Vbrious flbvors of bcquire, vbrying in exclusive/shbred bnd
+     * control modes.  Ebch is mostly the sbme, but bnnoyingly
+     * different.  Only b little bit of fbctoring is possible due to
+     * interbctions of exception mechbnics (including ensuring thbt we
+     * cbncel if tryAcquire throws exception) bnd other control, bt
+     * lebst not without hurting performbnce too much.
      */
 
     /**
-     * Acquires in exclusive uninterruptible mode for thread already in
-     * queue. Used by condition wait methods as well as acquire.
+     * Acquires in exclusive uninterruptible mode for threbd blrebdy in
+     * queue. Used by condition wbit methods bs well bs bcquire.
      *
-     * @param node the node
-     * @param arg the acquire argument
-     * @return {@code true} if interrupted while waiting
+     * @pbrbm node the node
+     * @pbrbm brg the bcquire brgument
+     * @return {@code true} if interrupted while wbiting
      */
-    final boolean acquireQueued(final Node node, int arg) {
-        boolean failed = true;
+    finbl boolebn bcquireQueued(finbl Node node, int brg) {
+        boolebn fbiled = true;
         try {
-            boolean interrupted = false;
+            boolebn interrupted = fblse;
             for (;;) {
-                final Node p = node.predecessor();
-                if (p == head && tryAcquire(arg)) {
-                    setHead(node);
+                finbl Node p = node.predecessor();
+                if (p == hebd && tryAcquire(brg)) {
+                    setHebd(node);
                     p.next = null; // help GC
-                    failed = false;
+                    fbiled = fblse;
                     return interrupted;
                 }
-                if (shouldParkAfterFailedAcquire(p, node) &&
-                    parkAndCheckInterrupt())
+                if (shouldPbrkAfterFbiledAcquire(p, node) &&
+                    pbrkAndCheckInterrupt())
                     interrupted = true;
             }
-        } finally {
-            if (failed)
-                cancelAcquire(node);
+        } finblly {
+            if (fbiled)
+                cbncelAcquire(node);
         }
     }
 
     /**
      * Acquires in exclusive interruptible mode.
-     * @param arg the acquire argument
+     * @pbrbm brg the bcquire brgument
      */
-    private void doAcquireInterruptibly(int arg)
+    privbte void doAcquireInterruptibly(int brg)
         throws InterruptedException {
-        final Node node = addWaiter(Node.EXCLUSIVE);
-        boolean failed = true;
+        finbl Node node = bddWbiter(Node.EXCLUSIVE);
+        boolebn fbiled = true;
         try {
             for (;;) {
-                final Node p = node.predecessor();
-                if (p == head && tryAcquire(arg)) {
-                    setHead(node);
+                finbl Node p = node.predecessor();
+                if (p == hebd && tryAcquire(brg)) {
+                    setHebd(node);
                     p.next = null; // help GC
-                    failed = false;
+                    fbiled = fblse;
                     return;
                 }
-                if (shouldParkAfterFailedAcquire(p, node) &&
-                    parkAndCheckInterrupt())
+                if (shouldPbrkAfterFbiledAcquire(p, node) &&
+                    pbrkAndCheckInterrupt())
                     throw new InterruptedException();
             }
-        } finally {
-            if (failed)
-                cancelAcquire(node);
+        } finblly {
+            if (fbiled)
+                cbncelAcquire(node);
         }
     }
 
     /**
      * Acquires in exclusive timed mode.
      *
-     * @param arg the acquire argument
-     * @param nanosTimeout max wait time
-     * @return {@code true} if acquired
+     * @pbrbm brg the bcquire brgument
+     * @pbrbm nbnosTimeout mbx wbit time
+     * @return {@code true} if bcquired
      */
-    private boolean doAcquireNanos(int arg, long nanosTimeout)
+    privbte boolebn doAcquireNbnos(int brg, long nbnosTimeout)
             throws InterruptedException {
-        if (nanosTimeout <= 0L)
-            return false;
-        final long deadline = System.nanoTime() + nanosTimeout;
-        final Node node = addWaiter(Node.EXCLUSIVE);
-        boolean failed = true;
+        if (nbnosTimeout <= 0L)
+            return fblse;
+        finbl long debdline = System.nbnoTime() + nbnosTimeout;
+        finbl Node node = bddWbiter(Node.EXCLUSIVE);
+        boolebn fbiled = true;
         try {
             for (;;) {
-                final Node p = node.predecessor();
-                if (p == head && tryAcquire(arg)) {
-                    setHead(node);
+                finbl Node p = node.predecessor();
+                if (p == hebd && tryAcquire(brg)) {
+                    setHebd(node);
                     p.next = null; // help GC
-                    failed = false;
+                    fbiled = fblse;
                     return true;
                 }
-                nanosTimeout = deadline - System.nanoTime();
-                if (nanosTimeout <= 0L)
-                    return false;
-                if (shouldParkAfterFailedAcquire(p, node) &&
-                    nanosTimeout > spinForTimeoutThreshold)
-                    LockSupport.parkNanos(this, nanosTimeout);
-                if (Thread.interrupted())
+                nbnosTimeout = debdline - System.nbnoTime();
+                if (nbnosTimeout <= 0L)
+                    return fblse;
+                if (shouldPbrkAfterFbiledAcquire(p, node) &&
+                    nbnosTimeout > spinForTimeoutThreshold)
+                    LockSupport.pbrkNbnos(this, nbnosTimeout);
+                if (Threbd.interrupted())
                     throw new InterruptedException();
             }
-        } finally {
-            if (failed)
-                cancelAcquire(node);
+        } finblly {
+            if (fbiled)
+                cbncelAcquire(node);
         }
     }
 
     /**
-     * Acquires in shared uninterruptible mode.
-     * @param arg the acquire argument
+     * Acquires in shbred uninterruptible mode.
+     * @pbrbm brg the bcquire brgument
      */
-    private void doAcquireShared(int arg) {
-        final Node node = addWaiter(Node.SHARED);
-        boolean failed = true;
+    privbte void doAcquireShbred(int brg) {
+        finbl Node node = bddWbiter(Node.SHARED);
+        boolebn fbiled = true;
         try {
-            boolean interrupted = false;
+            boolebn interrupted = fblse;
             for (;;) {
-                final Node p = node.predecessor();
-                if (p == head) {
-                    int r = tryAcquireShared(arg);
+                finbl Node p = node.predecessor();
+                if (p == hebd) {
+                    int r = tryAcquireShbred(brg);
                     if (r >= 0) {
-                        setHeadAndPropagate(node, r);
+                        setHebdAndPropbgbte(node, r);
                         p.next = null; // help GC
                         if (interrupted)
                             selfInterrupt();
-                        failed = false;
+                        fbiled = fblse;
                         return;
                     }
                 }
-                if (shouldParkAfterFailedAcquire(p, node) &&
-                    parkAndCheckInterrupt())
+                if (shouldPbrkAfterFbiledAcquire(p, node) &&
+                    pbrkAndCheckInterrupt())
                     interrupted = true;
             }
-        } finally {
-            if (failed)
-                cancelAcquire(node);
+        } finblly {
+            if (fbiled)
+                cbncelAcquire(node);
         }
     }
 
     /**
-     * Acquires in shared interruptible mode.
-     * @param arg the acquire argument
+     * Acquires in shbred interruptible mode.
+     * @pbrbm brg the bcquire brgument
      */
-    private void doAcquireSharedInterruptibly(int arg)
+    privbte void doAcquireShbredInterruptibly(int brg)
         throws InterruptedException {
-        final Node node = addWaiter(Node.SHARED);
-        boolean failed = true;
+        finbl Node node = bddWbiter(Node.SHARED);
+        boolebn fbiled = true;
         try {
             for (;;) {
-                final Node p = node.predecessor();
-                if (p == head) {
-                    int r = tryAcquireShared(arg);
+                finbl Node p = node.predecessor();
+                if (p == hebd) {
+                    int r = tryAcquireShbred(brg);
                     if (r >= 0) {
-                        setHeadAndPropagate(node, r);
+                        setHebdAndPropbgbte(node, r);
                         p.next = null; // help GC
-                        failed = false;
+                        fbiled = fblse;
                         return;
                     }
                 }
-                if (shouldParkAfterFailedAcquire(p, node) &&
-                    parkAndCheckInterrupt())
+                if (shouldPbrkAfterFbiledAcquire(p, node) &&
+                    pbrkAndCheckInterrupt())
                     throw new InterruptedException();
             }
-        } finally {
-            if (failed)
-                cancelAcquire(node);
+        } finblly {
+            if (fbiled)
+                cbncelAcquire(node);
         }
     }
 
     /**
-     * Acquires in shared timed mode.
+     * Acquires in shbred timed mode.
      *
-     * @param arg the acquire argument
-     * @param nanosTimeout max wait time
-     * @return {@code true} if acquired
+     * @pbrbm brg the bcquire brgument
+     * @pbrbm nbnosTimeout mbx wbit time
+     * @return {@code true} if bcquired
      */
-    private boolean doAcquireSharedNanos(int arg, long nanosTimeout)
+    privbte boolebn doAcquireShbredNbnos(int brg, long nbnosTimeout)
             throws InterruptedException {
-        if (nanosTimeout <= 0L)
-            return false;
-        final long deadline = System.nanoTime() + nanosTimeout;
-        final Node node = addWaiter(Node.SHARED);
-        boolean failed = true;
+        if (nbnosTimeout <= 0L)
+            return fblse;
+        finbl long debdline = System.nbnoTime() + nbnosTimeout;
+        finbl Node node = bddWbiter(Node.SHARED);
+        boolebn fbiled = true;
         try {
             for (;;) {
-                final Node p = node.predecessor();
-                if (p == head) {
-                    int r = tryAcquireShared(arg);
+                finbl Node p = node.predecessor();
+                if (p == hebd) {
+                    int r = tryAcquireShbred(brg);
                     if (r >= 0) {
-                        setHeadAndPropagate(node, r);
+                        setHebdAndPropbgbte(node, r);
                         p.next = null; // help GC
-                        failed = false;
+                        fbiled = fblse;
                         return true;
                     }
                 }
-                nanosTimeout = deadline - System.nanoTime();
-                if (nanosTimeout <= 0L)
-                    return false;
-                if (shouldParkAfterFailedAcquire(p, node) &&
-                    nanosTimeout > spinForTimeoutThreshold)
-                    LockSupport.parkNanos(this, nanosTimeout);
-                if (Thread.interrupted())
+                nbnosTimeout = debdline - System.nbnoTime();
+                if (nbnosTimeout <= 0L)
+                    return fblse;
+                if (shouldPbrkAfterFbiledAcquire(p, node) &&
+                    nbnosTimeout > spinForTimeoutThreshold)
+                    LockSupport.pbrkNbnos(this, nbnosTimeout);
+                if (Threbd.interrupted())
                     throw new InterruptedException();
             }
-        } finally {
-            if (failed)
-                cancelAcquire(node);
+        } finblly {
+            if (fbiled)
+                cbncelAcquire(node);
         }
     }
 
-    // Main exported methods
+    // Mbin exported methods
 
     /**
-     * Attempts to acquire in exclusive mode. This method should query
-     * if the state of the object permits it to be acquired in the
-     * exclusive mode, and if so to acquire it.
+     * Attempts to bcquire in exclusive mode. This method should query
+     * if the stbte of the object permits it to be bcquired in the
+     * exclusive mode, bnd if so to bcquire it.
      *
-     * <p>This method is always invoked by the thread performing
-     * acquire.  If this method reports failure, the acquire method
-     * may queue the thread, if it is not already queued, until it is
-     * signalled by a release from some other thread. This can be used
+     * <p>This method is blwbys invoked by the threbd performing
+     * bcquire.  If this method reports fbilure, the bcquire method
+     * mby queue the threbd, if it is not blrebdy queued, until it is
+     * signblled by b relebse from some other threbd. This cbn be used
      * to implement method {@link Lock#tryLock()}.
      *
-     * <p>The default
-     * implementation throws {@link UnsupportedOperationException}.
+     * <p>The defbult
+     * implementbtion throws {@link UnsupportedOperbtionException}.
      *
-     * @param arg the acquire argument. This value is always the one
-     *        passed to an acquire method, or is the value saved on entry
-     *        to a condition wait.  The value is otherwise uninterpreted
-     *        and can represent anything you like.
-     * @return {@code true} if successful. Upon success, this object has
-     *         been acquired.
-     * @throws IllegalMonitorStateException if acquiring would place this
-     *         synchronizer in an illegal state. This exception must be
-     *         thrown in a consistent fashion for synchronization to work
+     * @pbrbm brg the bcquire brgument. This vblue is blwbys the one
+     *        pbssed to bn bcquire method, or is the vblue sbved on entry
+     *        to b condition wbit.  The vblue is otherwise uninterpreted
+     *        bnd cbn represent bnything you like.
+     * @return {@code true} if successful. Upon success, this object hbs
+     *         been bcquired.
+     * @throws IllegblMonitorStbteException if bcquiring would plbce this
+     *         synchronizer in bn illegbl stbte. This exception must be
+     *         thrown in b consistent fbshion for synchronizbtion to work
      *         correctly.
-     * @throws UnsupportedOperationException if exclusive mode is not supported
+     * @throws UnsupportedOperbtionException if exclusive mode is not supported
      */
-    protected boolean tryAcquire(int arg) {
-        throw new UnsupportedOperationException();
+    protected boolebn tryAcquire(int brg) {
+        throw new UnsupportedOperbtionException();
     }
 
     /**
-     * Attempts to set the state to reflect a release in exclusive
+     * Attempts to set the stbte to reflect b relebse in exclusive
      * mode.
      *
-     * <p>This method is always invoked by the thread performing release.
+     * <p>This method is blwbys invoked by the threbd performing relebse.
      *
-     * <p>The default implementation throws
-     * {@link UnsupportedOperationException}.
+     * <p>The defbult implementbtion throws
+     * {@link UnsupportedOperbtionException}.
      *
-     * @param arg the release argument. This value is always the one
-     *        passed to a release method, or the current state value upon
-     *        entry to a condition wait.  The value is otherwise
-     *        uninterpreted and can represent anything you like.
-     * @return {@code true} if this object is now in a fully released
-     *         state, so that any waiting threads may attempt to acquire;
-     *         and {@code false} otherwise.
-     * @throws IllegalMonitorStateException if releasing would place this
-     *         synchronizer in an illegal state. This exception must be
-     *         thrown in a consistent fashion for synchronization to work
+     * @pbrbm brg the relebse brgument. This vblue is blwbys the one
+     *        pbssed to b relebse method, or the current stbte vblue upon
+     *        entry to b condition wbit.  The vblue is otherwise
+     *        uninterpreted bnd cbn represent bnything you like.
+     * @return {@code true} if this object is now in b fully relebsed
+     *         stbte, so thbt bny wbiting threbds mby bttempt to bcquire;
+     *         bnd {@code fblse} otherwise.
+     * @throws IllegblMonitorStbteException if relebsing would plbce this
+     *         synchronizer in bn illegbl stbte. This exception must be
+     *         thrown in b consistent fbshion for synchronizbtion to work
      *         correctly.
-     * @throws UnsupportedOperationException if exclusive mode is not supported
+     * @throws UnsupportedOperbtionException if exclusive mode is not supported
      */
-    protected boolean tryRelease(int arg) {
-        throw new UnsupportedOperationException();
+    protected boolebn tryRelebse(int brg) {
+        throw new UnsupportedOperbtionException();
     }
 
     /**
-     * Attempts to acquire in shared mode. This method should query if
-     * the state of the object permits it to be acquired in the shared
-     * mode, and if so to acquire it.
+     * Attempts to bcquire in shbred mode. This method should query if
+     * the stbte of the object permits it to be bcquired in the shbred
+     * mode, bnd if so to bcquire it.
      *
-     * <p>This method is always invoked by the thread performing
-     * acquire.  If this method reports failure, the acquire method
-     * may queue the thread, if it is not already queued, until it is
-     * signalled by a release from some other thread.
+     * <p>This method is blwbys invoked by the threbd performing
+     * bcquire.  If this method reports fbilure, the bcquire method
+     * mby queue the threbd, if it is not blrebdy queued, until it is
+     * signblled by b relebse from some other threbd.
      *
-     * <p>The default implementation throws {@link
-     * UnsupportedOperationException}.
+     * <p>The defbult implementbtion throws {@link
+     * UnsupportedOperbtionException}.
      *
-     * @param arg the acquire argument. This value is always the one
-     *        passed to an acquire method, or is the value saved on entry
-     *        to a condition wait.  The value is otherwise uninterpreted
-     *        and can represent anything you like.
-     * @return a negative value on failure; zero if acquisition in shared
-     *         mode succeeded but no subsequent shared-mode acquire can
-     *         succeed; and a positive value if acquisition in shared
-     *         mode succeeded and subsequent shared-mode acquires might
-     *         also succeed, in which case a subsequent waiting thread
-     *         must check availability. (Support for three different
-     *         return values enables this method to be used in contexts
-     *         where acquires only sometimes act exclusively.)  Upon
-     *         success, this object has been acquired.
-     * @throws IllegalMonitorStateException if acquiring would place this
-     *         synchronizer in an illegal state. This exception must be
-     *         thrown in a consistent fashion for synchronization to work
+     * @pbrbm brg the bcquire brgument. This vblue is blwbys the one
+     *        pbssed to bn bcquire method, or is the vblue sbved on entry
+     *        to b condition wbit.  The vblue is otherwise uninterpreted
+     *        bnd cbn represent bnything you like.
+     * @return b negbtive vblue on fbilure; zero if bcquisition in shbred
+     *         mode succeeded but no subsequent shbred-mode bcquire cbn
+     *         succeed; bnd b positive vblue if bcquisition in shbred
+     *         mode succeeded bnd subsequent shbred-mode bcquires might
+     *         blso succeed, in which cbse b subsequent wbiting threbd
+     *         must check bvbilbbility. (Support for three different
+     *         return vblues enbbles this method to be used in contexts
+     *         where bcquires only sometimes bct exclusively.)  Upon
+     *         success, this object hbs been bcquired.
+     * @throws IllegblMonitorStbteException if bcquiring would plbce this
+     *         synchronizer in bn illegbl stbte. This exception must be
+     *         thrown in b consistent fbshion for synchronizbtion to work
      *         correctly.
-     * @throws UnsupportedOperationException if shared mode is not supported
+     * @throws UnsupportedOperbtionException if shbred mode is not supported
      */
-    protected int tryAcquireShared(int arg) {
-        throw new UnsupportedOperationException();
+    protected int tryAcquireShbred(int brg) {
+        throw new UnsupportedOperbtionException();
     }
 
     /**
-     * Attempts to set the state to reflect a release in shared mode.
+     * Attempts to set the stbte to reflect b relebse in shbred mode.
      *
-     * <p>This method is always invoked by the thread performing release.
+     * <p>This method is blwbys invoked by the threbd performing relebse.
      *
-     * <p>The default implementation throws
-     * {@link UnsupportedOperationException}.
+     * <p>The defbult implementbtion throws
+     * {@link UnsupportedOperbtionException}.
      *
-     * @param arg the release argument. This value is always the one
-     *        passed to a release method, or the current state value upon
-     *        entry to a condition wait.  The value is otherwise
-     *        uninterpreted and can represent anything you like.
-     * @return {@code true} if this release of shared mode may permit a
-     *         waiting acquire (shared or exclusive) to succeed; and
-     *         {@code false} otherwise
-     * @throws IllegalMonitorStateException if releasing would place this
-     *         synchronizer in an illegal state. This exception must be
-     *         thrown in a consistent fashion for synchronization to work
+     * @pbrbm brg the relebse brgument. This vblue is blwbys the one
+     *        pbssed to b relebse method, or the current stbte vblue upon
+     *        entry to b condition wbit.  The vblue is otherwise
+     *        uninterpreted bnd cbn represent bnything you like.
+     * @return {@code true} if this relebse of shbred mode mby permit b
+     *         wbiting bcquire (shbred or exclusive) to succeed; bnd
+     *         {@code fblse} otherwise
+     * @throws IllegblMonitorStbteException if relebsing would plbce this
+     *         synchronizer in bn illegbl stbte. This exception must be
+     *         thrown in b consistent fbshion for synchronizbtion to work
      *         correctly.
-     * @throws UnsupportedOperationException if shared mode is not supported
+     * @throws UnsupportedOperbtionException if shbred mode is not supported
      */
-    protected boolean tryReleaseShared(int arg) {
-        throw new UnsupportedOperationException();
+    protected boolebn tryRelebseShbred(int brg) {
+        throw new UnsupportedOperbtionException();
     }
 
     /**
-     * Returns {@code true} if synchronization is held exclusively with
-     * respect to the current (calling) thread.  This method is invoked
-     * upon each call to a non-waiting {@link ConditionObject} method.
-     * (Waiting methods instead invoke {@link #release}.)
+     * Returns {@code true} if synchronizbtion is held exclusively with
+     * respect to the current (cblling) threbd.  This method is invoked
+     * upon ebch cbll to b non-wbiting {@link ConditionObject} method.
+     * (Wbiting methods instebd invoke {@link #relebse}.)
      *
-     * <p>The default implementation throws {@link
-     * UnsupportedOperationException}. This method is invoked
-     * internally only within {@link ConditionObject} methods, so need
-     * not be defined if conditions are not used.
+     * <p>The defbult implementbtion throws {@link
+     * UnsupportedOperbtionException}. This method is invoked
+     * internblly only within {@link ConditionObject} methods, so need
+     * not be defined if conditions bre not used.
      *
-     * @return {@code true} if synchronization is held exclusively;
-     *         {@code false} otherwise
-     * @throws UnsupportedOperationException if conditions are not supported
+     * @return {@code true} if synchronizbtion is held exclusively;
+     *         {@code fblse} otherwise
+     * @throws UnsupportedOperbtionException if conditions bre not supported
      */
-    protected boolean isHeldExclusively() {
-        throw new UnsupportedOperationException();
+    protected boolebn isHeldExclusively() {
+        throw new UnsupportedOperbtionException();
     }
 
     /**
      * Acquires in exclusive mode, ignoring interrupts.  Implemented
-     * by invoking at least once {@link #tryAcquire},
-     * returning on success.  Otherwise the thread is queued, possibly
-     * repeatedly blocking and unblocking, invoking {@link
-     * #tryAcquire} until success.  This method can be used
+     * by invoking bt lebst once {@link #tryAcquire},
+     * returning on success.  Otherwise the threbd is queued, possibly
+     * repebtedly blocking bnd unblocking, invoking {@link
+     * #tryAcquire} until success.  This method cbn be used
      * to implement method {@link Lock#lock}.
      *
-     * @param arg the acquire argument.  This value is conveyed to
-     *        {@link #tryAcquire} but is otherwise uninterpreted and
-     *        can represent anything you like.
+     * @pbrbm brg the bcquire brgument.  This vblue is conveyed to
+     *        {@link #tryAcquire} but is otherwise uninterpreted bnd
+     *        cbn represent bnything you like.
      */
-    public final void acquire(int arg) {
-        if (!tryAcquire(arg) &&
-            acquireQueued(addWaiter(Node.EXCLUSIVE), arg))
+    public finbl void bcquire(int brg) {
+        if (!tryAcquire(brg) &&
+            bcquireQueued(bddWbiter(Node.EXCLUSIVE), brg))
             selfInterrupt();
     }
 
     /**
-     * Acquires in exclusive mode, aborting if interrupted.
-     * Implemented by first checking interrupt status, then invoking
-     * at least once {@link #tryAcquire}, returning on
-     * success.  Otherwise the thread is queued, possibly repeatedly
-     * blocking and unblocking, invoking {@link #tryAcquire}
-     * until success or the thread is interrupted.  This method can be
+     * Acquires in exclusive mode, bborting if interrupted.
+     * Implemented by first checking interrupt stbtus, then invoking
+     * bt lebst once {@link #tryAcquire}, returning on
+     * success.  Otherwise the threbd is queued, possibly repebtedly
+     * blocking bnd unblocking, invoking {@link #tryAcquire}
+     * until success or the threbd is interrupted.  This method cbn be
      * used to implement method {@link Lock#lockInterruptibly}.
      *
-     * @param arg the acquire argument.  This value is conveyed to
-     *        {@link #tryAcquire} but is otherwise uninterpreted and
-     *        can represent anything you like.
-     * @throws InterruptedException if the current thread is interrupted
+     * @pbrbm brg the bcquire brgument.  This vblue is conveyed to
+     *        {@link #tryAcquire} but is otherwise uninterpreted bnd
+     *        cbn represent bnything you like.
+     * @throws InterruptedException if the current threbd is interrupted
      */
-    public final void acquireInterruptibly(int arg)
+    public finbl void bcquireInterruptibly(int brg)
             throws InterruptedException {
-        if (Thread.interrupted())
+        if (Threbd.interrupted())
             throw new InterruptedException();
-        if (!tryAcquire(arg))
-            doAcquireInterruptibly(arg);
+        if (!tryAcquire(brg))
+            doAcquireInterruptibly(brg);
     }
 
     /**
-     * Attempts to acquire in exclusive mode, aborting if interrupted,
-     * and failing if the given timeout elapses.  Implemented by first
-     * checking interrupt status, then invoking at least once {@link
-     * #tryAcquire}, returning on success.  Otherwise, the thread is
-     * queued, possibly repeatedly blocking and unblocking, invoking
-     * {@link #tryAcquire} until success or the thread is interrupted
-     * or the timeout elapses.  This method can be used to implement
+     * Attempts to bcquire in exclusive mode, bborting if interrupted,
+     * bnd fbiling if the given timeout elbpses.  Implemented by first
+     * checking interrupt stbtus, then invoking bt lebst once {@link
+     * #tryAcquire}, returning on success.  Otherwise, the threbd is
+     * queued, possibly repebtedly blocking bnd unblocking, invoking
+     * {@link #tryAcquire} until success or the threbd is interrupted
+     * or the timeout elbpses.  This method cbn be used to implement
      * method {@link Lock#tryLock(long, TimeUnit)}.
      *
-     * @param arg the acquire argument.  This value is conveyed to
-     *        {@link #tryAcquire} but is otherwise uninterpreted and
-     *        can represent anything you like.
-     * @param nanosTimeout the maximum number of nanoseconds to wait
-     * @return {@code true} if acquired; {@code false} if timed out
-     * @throws InterruptedException if the current thread is interrupted
+     * @pbrbm brg the bcquire brgument.  This vblue is conveyed to
+     *        {@link #tryAcquire} but is otherwise uninterpreted bnd
+     *        cbn represent bnything you like.
+     * @pbrbm nbnosTimeout the mbximum number of nbnoseconds to wbit
+     * @return {@code true} if bcquired; {@code fblse} if timed out
+     * @throws InterruptedException if the current threbd is interrupted
      */
-    public final boolean tryAcquireNanos(int arg, long nanosTimeout)
+    public finbl boolebn tryAcquireNbnos(int brg, long nbnosTimeout)
             throws InterruptedException {
-        if (Thread.interrupted())
+        if (Threbd.interrupted())
             throw new InterruptedException();
-        return tryAcquire(arg) ||
-            doAcquireNanos(arg, nanosTimeout);
+        return tryAcquire(brg) ||
+            doAcquireNbnos(brg, nbnosTimeout);
     }
 
     /**
-     * Releases in exclusive mode.  Implemented by unblocking one or
-     * more threads if {@link #tryRelease} returns true.
-     * This method can be used to implement method {@link Lock#unlock}.
+     * Relebses in exclusive mode.  Implemented by unblocking one or
+     * more threbds if {@link #tryRelebse} returns true.
+     * This method cbn be used to implement method {@link Lock#unlock}.
      *
-     * @param arg the release argument.  This value is conveyed to
-     *        {@link #tryRelease} but is otherwise uninterpreted and
-     *        can represent anything you like.
-     * @return the value returned from {@link #tryRelease}
+     * @pbrbm brg the relebse brgument.  This vblue is conveyed to
+     *        {@link #tryRelebse} but is otherwise uninterpreted bnd
+     *        cbn represent bnything you like.
+     * @return the vblue returned from {@link #tryRelebse}
      */
-    public final boolean release(int arg) {
-        if (tryRelease(arg)) {
-            Node h = head;
-            if (h != null && h.waitStatus != 0)
-                unparkSuccessor(h);
+    public finbl boolebn relebse(int brg) {
+        if (tryRelebse(brg)) {
+            Node h = hebd;
+            if (h != null && h.wbitStbtus != 0)
+                unpbrkSuccessor(h);
             return true;
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Acquires in shared mode, ignoring interrupts.  Implemented by
-     * first invoking at least once {@link #tryAcquireShared},
-     * returning on success.  Otherwise the thread is queued, possibly
-     * repeatedly blocking and unblocking, invoking {@link
-     * #tryAcquireShared} until success.
+     * Acquires in shbred mode, ignoring interrupts.  Implemented by
+     * first invoking bt lebst once {@link #tryAcquireShbred},
+     * returning on success.  Otherwise the threbd is queued, possibly
+     * repebtedly blocking bnd unblocking, invoking {@link
+     * #tryAcquireShbred} until success.
      *
-     * @param arg the acquire argument.  This value is conveyed to
-     *        {@link #tryAcquireShared} but is otherwise uninterpreted
-     *        and can represent anything you like.
+     * @pbrbm brg the bcquire brgument.  This vblue is conveyed to
+     *        {@link #tryAcquireShbred} but is otherwise uninterpreted
+     *        bnd cbn represent bnything you like.
      */
-    public final void acquireShared(int arg) {
-        if (tryAcquireShared(arg) < 0)
-            doAcquireShared(arg);
+    public finbl void bcquireShbred(int brg) {
+        if (tryAcquireShbred(brg) < 0)
+            doAcquireShbred(brg);
     }
 
     /**
-     * Acquires in shared mode, aborting if interrupted.  Implemented
-     * by first checking interrupt status, then invoking at least once
-     * {@link #tryAcquireShared}, returning on success.  Otherwise the
-     * thread is queued, possibly repeatedly blocking and unblocking,
-     * invoking {@link #tryAcquireShared} until success or the thread
+     * Acquires in shbred mode, bborting if interrupted.  Implemented
+     * by first checking interrupt stbtus, then invoking bt lebst once
+     * {@link #tryAcquireShbred}, returning on success.  Otherwise the
+     * threbd is queued, possibly repebtedly blocking bnd unblocking,
+     * invoking {@link #tryAcquireShbred} until success or the threbd
      * is interrupted.
-     * @param arg the acquire argument.
-     * This value is conveyed to {@link #tryAcquireShared} but is
-     * otherwise uninterpreted and can represent anything
+     * @pbrbm brg the bcquire brgument.
+     * This vblue is conveyed to {@link #tryAcquireShbred} but is
+     * otherwise uninterpreted bnd cbn represent bnything
      * you like.
-     * @throws InterruptedException if the current thread is interrupted
+     * @throws InterruptedException if the current threbd is interrupted
      */
-    public final void acquireSharedInterruptibly(int arg)
+    public finbl void bcquireShbredInterruptibly(int brg)
             throws InterruptedException {
-        if (Thread.interrupted())
+        if (Threbd.interrupted())
             throw new InterruptedException();
-        if (tryAcquireShared(arg) < 0)
-            doAcquireSharedInterruptibly(arg);
+        if (tryAcquireShbred(brg) < 0)
+            doAcquireShbredInterruptibly(brg);
     }
 
     /**
-     * Attempts to acquire in shared mode, aborting if interrupted, and
-     * failing if the given timeout elapses.  Implemented by first
-     * checking interrupt status, then invoking at least once {@link
-     * #tryAcquireShared}, returning on success.  Otherwise, the
-     * thread is queued, possibly repeatedly blocking and unblocking,
-     * invoking {@link #tryAcquireShared} until success or the thread
-     * is interrupted or the timeout elapses.
+     * Attempts to bcquire in shbred mode, bborting if interrupted, bnd
+     * fbiling if the given timeout elbpses.  Implemented by first
+     * checking interrupt stbtus, then invoking bt lebst once {@link
+     * #tryAcquireShbred}, returning on success.  Otherwise, the
+     * threbd is queued, possibly repebtedly blocking bnd unblocking,
+     * invoking {@link #tryAcquireShbred} until success or the threbd
+     * is interrupted or the timeout elbpses.
      *
-     * @param arg the acquire argument.  This value is conveyed to
-     *        {@link #tryAcquireShared} but is otherwise uninterpreted
-     *        and can represent anything you like.
-     * @param nanosTimeout the maximum number of nanoseconds to wait
-     * @return {@code true} if acquired; {@code false} if timed out
-     * @throws InterruptedException if the current thread is interrupted
+     * @pbrbm brg the bcquire brgument.  This vblue is conveyed to
+     *        {@link #tryAcquireShbred} but is otherwise uninterpreted
+     *        bnd cbn represent bnything you like.
+     * @pbrbm nbnosTimeout the mbximum number of nbnoseconds to wbit
+     * @return {@code true} if bcquired; {@code fblse} if timed out
+     * @throws InterruptedException if the current threbd is interrupted
      */
-    public final boolean tryAcquireSharedNanos(int arg, long nanosTimeout)
+    public finbl boolebn tryAcquireShbredNbnos(int brg, long nbnosTimeout)
             throws InterruptedException {
-        if (Thread.interrupted())
+        if (Threbd.interrupted())
             throw new InterruptedException();
-        return tryAcquireShared(arg) >= 0 ||
-            doAcquireSharedNanos(arg, nanosTimeout);
+        return tryAcquireShbred(brg) >= 0 ||
+            doAcquireShbredNbnos(brg, nbnosTimeout);
     }
 
     /**
-     * Releases in shared mode.  Implemented by unblocking one or more
-     * threads if {@link #tryReleaseShared} returns true.
+     * Relebses in shbred mode.  Implemented by unblocking one or more
+     * threbds if {@link #tryRelebseShbred} returns true.
      *
-     * @param arg the release argument.  This value is conveyed to
-     *        {@link #tryReleaseShared} but is otherwise uninterpreted
-     *        and can represent anything you like.
-     * @return the value returned from {@link #tryReleaseShared}
+     * @pbrbm brg the relebse brgument.  This vblue is conveyed to
+     *        {@link #tryRelebseShbred} but is otherwise uninterpreted
+     *        bnd cbn represent bnything you like.
+     * @return the vblue returned from {@link #tryRelebseShbred}
      */
-    public final boolean releaseShared(int arg) {
-        if (tryReleaseShared(arg)) {
-            doReleaseShared();
+    public finbl boolebn relebseShbred(int brg) {
+        if (tryRelebseShbred(brg)) {
+            doRelebseShbred();
             return true;
         }
-        return false;
+        return fblse;
     }
 
     // Queue inspection methods
 
     /**
-     * Queries whether any threads are waiting to acquire. Note that
-     * because cancellations due to interrupts and timeouts may occur
-     * at any time, a {@code true} return does not guarantee that any
-     * other thread will ever acquire.
+     * Queries whether bny threbds bre wbiting to bcquire. Note thbt
+     * becbuse cbncellbtions due to interrupts bnd timeouts mby occur
+     * bt bny time, b {@code true} return does not gubrbntee thbt bny
+     * other threbd will ever bcquire.
      *
-     * <p>In this implementation, this operation returns in
-     * constant time.
+     * <p>In this implementbtion, this operbtion returns in
+     * constbnt time.
      *
-     * @return {@code true} if there may be other threads waiting to acquire
+     * @return {@code true} if there mby be other threbds wbiting to bcquire
      */
-    public final boolean hasQueuedThreads() {
-        return head != tail;
+    public finbl boolebn hbsQueuedThrebds() {
+        return hebd != tbil;
     }
 
     /**
-     * Queries whether any threads have ever contended to acquire this
-     * synchronizer; that is if an acquire method has ever blocked.
+     * Queries whether bny threbds hbve ever contended to bcquire this
+     * synchronizer; thbt is if bn bcquire method hbs ever blocked.
      *
-     * <p>In this implementation, this operation returns in
-     * constant time.
+     * <p>In this implementbtion, this operbtion returns in
+     * constbnt time.
      *
-     * @return {@code true} if there has ever been contention
+     * @return {@code true} if there hbs ever been contention
      */
-    public final boolean hasContended() {
-        return head != null;
+    public finbl boolebn hbsContended() {
+        return hebd != null;
     }
 
     /**
-     * Returns the first (longest-waiting) thread in the queue, or
-     * {@code null} if no threads are currently queued.
+     * Returns the first (longest-wbiting) threbd in the queue, or
+     * {@code null} if no threbds bre currently queued.
      *
-     * <p>In this implementation, this operation normally returns in
-     * constant time, but may iterate upon contention if other threads are
+     * <p>In this implementbtion, this operbtion normblly returns in
+     * constbnt time, but mby iterbte upon contention if other threbds bre
      * concurrently modifying the queue.
      *
-     * @return the first (longest-waiting) thread in the queue, or
-     *         {@code null} if no threads are currently queued
+     * @return the first (longest-wbiting) threbd in the queue, or
+     *         {@code null} if no threbds bre currently queued
      */
-    public final Thread getFirstQueuedThread() {
-        // handle only fast path, else relay
-        return (head == tail) ? null : fullGetFirstQueuedThread();
+    public finbl Threbd getFirstQueuedThrebd() {
+        // hbndle only fbst pbth, else relby
+        return (hebd == tbil) ? null : fullGetFirstQueuedThrebd();
     }
 
     /**
-     * Version of getFirstQueuedThread called when fastpath fails
+     * Version of getFirstQueuedThrebd cblled when fbstpbth fbils
      */
-    private Thread fullGetFirstQueuedThread() {
+    privbte Threbd fullGetFirstQueuedThrebd() {
         /*
-         * The first node is normally head.next. Try to get its
-         * thread field, ensuring consistent reads: If thread
-         * field is nulled out or s.prev is no longer head, then
-         * some other thread(s) concurrently performed setHead in
-         * between some of our reads. We try this twice before
-         * resorting to traversal.
+         * The first node is normblly hebd.next. Try to get its
+         * threbd field, ensuring consistent rebds: If threbd
+         * field is nulled out or s.prev is no longer hebd, then
+         * some other threbd(s) concurrently performed setHebd in
+         * between some of our rebds. We try this twice before
+         * resorting to trbversbl.
          */
         Node h, s;
-        Thread st;
-        if (((h = head) != null && (s = h.next) != null &&
-             s.prev == head && (st = s.thread) != null) ||
-            ((h = head) != null && (s = h.next) != null &&
-             s.prev == head && (st = s.thread) != null))
+        Threbd st;
+        if (((h = hebd) != null && (s = h.next) != null &&
+             s.prev == hebd && (st = s.threbd) != null) ||
+            ((h = hebd) != null && (s = h.next) != null &&
+             s.prev == hebd && (st = s.threbd) != null))
             return st;
 
         /*
-         * Head's next field might not have been set yet, or may have
-         * been unset after setHead. So we must check to see if tail
-         * is actually first node. If not, we continue on, safely
-         * traversing from tail back to head to find first,
-         * guaranteeing termination.
+         * Hebd's next field might not hbve been set yet, or mby hbve
+         * been unset bfter setHebd. So we must check to see if tbil
+         * is bctublly first node. If not, we continue on, sbfely
+         * trbversing from tbil bbck to hebd to find first,
+         * gubrbnteeing terminbtion.
          */
 
-        Node t = tail;
-        Thread firstThread = null;
-        while (t != null && t != head) {
-            Thread tt = t.thread;
+        Node t = tbil;
+        Threbd firstThrebd = null;
+        while (t != null && t != hebd) {
+            Threbd tt = t.threbd;
             if (tt != null)
-                firstThread = tt;
+                firstThrebd = tt;
             t = t.prev;
         }
-        return firstThread;
+        return firstThrebd;
     }
 
     /**
-     * Returns true if the given thread is currently queued.
+     * Returns true if the given threbd is currently queued.
      *
-     * <p>This implementation traverses the queue to determine
-     * presence of the given thread.
+     * <p>This implementbtion trbverses the queue to determine
+     * presence of the given threbd.
      *
-     * @param thread the thread
-     * @return {@code true} if the given thread is on the queue
-     * @throws NullPointerException if the thread is null
+     * @pbrbm threbd the threbd
+     * @return {@code true} if the given threbd is on the queue
+     * @throws NullPointerException if the threbd is null
      */
-    public final boolean isQueued(Thread thread) {
-        if (thread == null)
+    public finbl boolebn isQueued(Threbd threbd) {
+        if (threbd == null)
             throw new NullPointerException();
-        for (Node p = tail; p != null; p = p.prev)
-            if (p.thread == thread)
+        for (Node p = tbil; p != null; p = p.prev)
+            if (p.threbd == threbd)
                 return true;
-        return false;
+        return fblse;
     }
 
     /**
-     * Returns {@code true} if the apparent first queued thread, if one
-     * exists, is waiting in exclusive mode.  If this method returns
-     * {@code true}, and the current thread is attempting to acquire in
-     * shared mode (that is, this method is invoked from {@link
-     * #tryAcquireShared}) then it is guaranteed that the current thread
-     * is not the first queued thread.  Used only as a heuristic in
-     * ReentrantReadWriteLock.
+     * Returns {@code true} if the bppbrent first queued threbd, if one
+     * exists, is wbiting in exclusive mode.  If this method returns
+     * {@code true}, bnd the current threbd is bttempting to bcquire in
+     * shbred mode (thbt is, this method is invoked from {@link
+     * #tryAcquireShbred}) then it is gubrbnteed thbt the current threbd
+     * is not the first queued threbd.  Used only bs b heuristic in
+     * ReentrbntRebdWriteLock.
      */
-    final boolean apparentlyFirstQueuedIsExclusive() {
+    finbl boolebn bppbrentlyFirstQueuedIsExclusive() {
         Node h, s;
-        return (h = head) != null &&
+        return (h = hebd) != null &&
             (s = h.next)  != null &&
-            !s.isShared()         &&
-            s.thread != null;
+            !s.isShbred()         &&
+            s.threbd != null;
     }
 
     /**
-     * Queries whether any threads have been waiting to acquire longer
-     * than the current thread.
+     * Queries whether bny threbds hbve been wbiting to bcquire longer
+     * thbn the current threbd.
      *
-     * <p>An invocation of this method is equivalent to (but may be
-     * more efficient than):
+     * <p>An invocbtion of this method is equivblent to (but mby be
+     * more efficient thbn):
      *  <pre> {@code
-     * getFirstQueuedThread() != Thread.currentThread() &&
-     * hasQueuedThreads()}</pre>
+     * getFirstQueuedThrebd() != Threbd.currentThrebd() &&
+     * hbsQueuedThrebds()}</pre>
      *
-     * <p>Note that because cancellations due to interrupts and
-     * timeouts may occur at any time, a {@code true} return does not
-     * guarantee that some other thread will acquire before the current
-     * thread.  Likewise, it is possible for another thread to win a
-     * race to enqueue after this method has returned {@code false},
+     * <p>Note thbt becbuse cbncellbtions due to interrupts bnd
+     * timeouts mby occur bt bny time, b {@code true} return does not
+     * gubrbntee thbt some other threbd will bcquire before the current
+     * threbd.  Likewise, it is possible for bnother threbd to win b
+     * rbce to enqueue bfter this method hbs returned {@code fblse},
      * due to the queue being empty.
      *
-     * <p>This method is designed to be used by a fair synchronizer to
-     * avoid <a href="AbstractQueuedSynchronizer.html#barging">barging</a>.
-     * Such a synchronizer's {@link #tryAcquire} method should return
-     * {@code false}, and its {@link #tryAcquireShared} method should
-     * return a negative value, if this method returns {@code true}
-     * (unless this is a reentrant acquire).  For example, the {@code
-     * tryAcquire} method for a fair, reentrant, exclusive mode
+     * <p>This method is designed to be used by b fbir synchronizer to
+     * bvoid <b href="AbstrbctQueuedSynchronizer.html#bbrging">bbrging</b>.
+     * Such b synchronizer's {@link #tryAcquire} method should return
+     * {@code fblse}, bnd its {@link #tryAcquireShbred} method should
+     * return b negbtive vblue, if this method returns {@code true}
+     * (unless this is b reentrbnt bcquire).  For exbmple, the {@code
+     * tryAcquire} method for b fbir, reentrbnt, exclusive mode
      * synchronizer might look like this:
      *
      *  <pre> {@code
-     * protected boolean tryAcquire(int arg) {
+     * protected boolebn tryAcquire(int brg) {
      *   if (isHeldExclusively()) {
-     *     // A reentrant acquire; increment hold count
+     *     // A reentrbnt bcquire; increment hold count
      *     return true;
-     *   } else if (hasQueuedPredecessors()) {
-     *     return false;
+     *   } else if (hbsQueuedPredecessors()) {
+     *     return fblse;
      *   } else {
-     *     // try to acquire normally
+     *     // try to bcquire normblly
      *   }
      * }}</pre>
      *
-     * @return {@code true} if there is a queued thread preceding the
-     *         current thread, and {@code false} if the current thread
-     *         is at the head of the queue or the queue is empty
+     * @return {@code true} if there is b queued threbd preceding the
+     *         current threbd, bnd {@code fblse} if the current threbd
+     *         is bt the hebd of the queue or the queue is empty
      * @since 1.7
      */
-    public final boolean hasQueuedPredecessors() {
-        // The correctness of this depends on head being initialized
-        // before tail and on head.next being accurate if the current
-        // thread is first in queue.
-        Node t = tail; // Read fields in reverse initialization order
-        Node h = head;
+    public finbl boolebn hbsQueuedPredecessors() {
+        // The correctness of this depends on hebd being initiblized
+        // before tbil bnd on hebd.next being bccurbte if the current
+        // threbd is first in queue.
+        Node t = tbil; // Rebd fields in reverse initiblizbtion order
+        Node h = hebd;
         Node s;
         return h != t &&
-            ((s = h.next) == null || s.thread != Thread.currentThread());
+            ((s = h.next) == null || s.threbd != Threbd.currentThrebd());
     }
 
 
-    // Instrumentation and monitoring methods
+    // Instrumentbtion bnd monitoring methods
 
     /**
-     * Returns an estimate of the number of threads waiting to
-     * acquire.  The value is only an estimate because the number of
-     * threads may change dynamically while this method traverses
-     * internal data structures.  This method is designed for use in
-     * monitoring system state, not for synchronization
+     * Returns bn estimbte of the number of threbds wbiting to
+     * bcquire.  The vblue is only bn estimbte becbuse the number of
+     * threbds mby chbnge dynbmicblly while this method trbverses
+     * internbl dbtb structures.  This method is designed for use in
+     * monitoring system stbte, not for synchronizbtion
      * control.
      *
-     * @return the estimated number of threads waiting to acquire
+     * @return the estimbted number of threbds wbiting to bcquire
      */
-    public final int getQueueLength() {
+    public finbl int getQueueLength() {
         int n = 0;
-        for (Node p = tail; p != null; p = p.prev) {
-            if (p.thread != null)
+        for (Node p = tbil; p != null; p = p.prev) {
+            if (p.threbd != null)
                 ++n;
         }
         return n;
     }
 
     /**
-     * Returns a collection containing threads that may be waiting to
-     * acquire.  Because the actual set of threads may change
-     * dynamically while constructing this result, the returned
-     * collection is only a best-effort estimate.  The elements of the
-     * returned collection are in no particular order.  This method is
-     * designed to facilitate construction of subclasses that provide
-     * more extensive monitoring facilities.
+     * Returns b collection contbining threbds thbt mby be wbiting to
+     * bcquire.  Becbuse the bctubl set of threbds mby chbnge
+     * dynbmicblly while constructing this result, the returned
+     * collection is only b best-effort estimbte.  The elements of the
+     * returned collection bre in no pbrticulbr order.  This method is
+     * designed to fbcilitbte construction of subclbsses thbt provide
+     * more extensive monitoring fbcilities.
      *
-     * @return the collection of threads
+     * @return the collection of threbds
      */
-    public final Collection<Thread> getQueuedThreads() {
-        ArrayList<Thread> list = new ArrayList<Thread>();
-        for (Node p = tail; p != null; p = p.prev) {
-            Thread t = p.thread;
+    public finbl Collection<Threbd> getQueuedThrebds() {
+        ArrbyList<Threbd> list = new ArrbyList<Threbd>();
+        for (Node p = tbil; p != null; p = p.prev) {
+            Threbd t = p.threbd;
             if (t != null)
-                list.add(t);
+                list.bdd(t);
         }
         return list;
     }
 
     /**
-     * Returns a collection containing threads that may be waiting to
-     * acquire in exclusive mode. This has the same properties
-     * as {@link #getQueuedThreads} except that it only returns
-     * those threads waiting due to an exclusive acquire.
+     * Returns b collection contbining threbds thbt mby be wbiting to
+     * bcquire in exclusive mode. This hbs the sbme properties
+     * bs {@link #getQueuedThrebds} except thbt it only returns
+     * those threbds wbiting due to bn exclusive bcquire.
      *
-     * @return the collection of threads
+     * @return the collection of threbds
      */
-    public final Collection<Thread> getExclusiveQueuedThreads() {
-        ArrayList<Thread> list = new ArrayList<Thread>();
-        for (Node p = tail; p != null; p = p.prev) {
-            if (!p.isShared()) {
-                Thread t = p.thread;
+    public finbl Collection<Threbd> getExclusiveQueuedThrebds() {
+        ArrbyList<Threbd> list = new ArrbyList<Threbd>();
+        for (Node p = tbil; p != null; p = p.prev) {
+            if (!p.isShbred()) {
+                Threbd t = p.threbd;
                 if (t != null)
-                    list.add(t);
+                    list.bdd(t);
             }
         }
         return list;
     }
 
     /**
-     * Returns a collection containing threads that may be waiting to
-     * acquire in shared mode. This has the same properties
-     * as {@link #getQueuedThreads} except that it only returns
-     * those threads waiting due to a shared acquire.
+     * Returns b collection contbining threbds thbt mby be wbiting to
+     * bcquire in shbred mode. This hbs the sbme properties
+     * bs {@link #getQueuedThrebds} except thbt it only returns
+     * those threbds wbiting due to b shbred bcquire.
      *
-     * @return the collection of threads
+     * @return the collection of threbds
      */
-    public final Collection<Thread> getSharedQueuedThreads() {
-        ArrayList<Thread> list = new ArrayList<Thread>();
-        for (Node p = tail; p != null; p = p.prev) {
-            if (p.isShared()) {
-                Thread t = p.thread;
+    public finbl Collection<Threbd> getShbredQueuedThrebds() {
+        ArrbyList<Threbd> list = new ArrbyList<Threbd>();
+        for (Node p = tbil; p != null; p = p.prev) {
+            if (p.isShbred()) {
+                Threbd t = p.threbd;
                 if (t != null)
-                    list.add(t);
+                    list.bdd(t);
             }
         }
         return list;
     }
 
     /**
-     * Returns a string identifying this synchronizer, as well as its state.
-     * The state, in brackets, includes the String {@code "State ="}
-     * followed by the current value of {@link #getState}, and either
+     * Returns b string identifying this synchronizer, bs well bs its stbte.
+     * The stbte, in brbckets, includes the String {@code "Stbte ="}
+     * followed by the current vblue of {@link #getStbte}, bnd either
      * {@code "nonempty"} or {@code "empty"} depending on whether the
      * queue is empty.
      *
-     * @return a string identifying this synchronizer, as well as its state
+     * @return b string identifying this synchronizer, bs well bs its stbte
      */
     public String toString() {
-        int s = getState();
-        String q  = hasQueuedThreads() ? "non" : "";
+        int s = getStbte();
+        String q  = hbsQueuedThrebds() ? "non" : "";
         return super.toString() +
-            "[State = " + s + ", " + q + "empty queue]";
+            "[Stbte = " + s + ", " + q + "empty queue]";
     }
 
 
-    // Internal support methods for Conditions
+    // Internbl support methods for Conditions
 
     /**
-     * Returns true if a node, always one that was initially placed on
-     * a condition queue, is now waiting to reacquire on sync queue.
-     * @param node the node
-     * @return true if is reacquiring
+     * Returns true if b node, blwbys one thbt wbs initiblly plbced on
+     * b condition queue, is now wbiting to rebcquire on sync queue.
+     * @pbrbm node the node
+     * @return true if is rebcquiring
      */
-    final boolean isOnSyncQueue(Node node) {
-        if (node.waitStatus == Node.CONDITION || node.prev == null)
-            return false;
-        if (node.next != null) // If has successor, it must be on queue
+    finbl boolebn isOnSyncQueue(Node node) {
+        if (node.wbitStbtus == Node.CONDITION || node.prev == null)
+            return fblse;
+        if (node.next != null) // If hbs successor, it must be on queue
             return true;
         /*
-         * node.prev can be non-null, but not yet on queue because
-         * the CAS to place it on queue can fail. So we have to
-         * traverse from tail to make sure it actually made it.  It
-         * will always be near the tail in calls to this method, and
-         * unless the CAS failed (which is unlikely), it will be
-         * there, so we hardly ever traverse much.
+         * node.prev cbn be non-null, but not yet on queue becbuse
+         * the CAS to plbce it on queue cbn fbil. So we hbve to
+         * trbverse from tbil to mbke sure it bctublly mbde it.  It
+         * will blwbys be nebr the tbil in cblls to this method, bnd
+         * unless the CAS fbiled (which is unlikely), it will be
+         * there, so we hbrdly ever trbverse much.
          */
-        return findNodeFromTail(node);
+        return findNodeFromTbil(node);
     }
 
     /**
-     * Returns true if node is on sync queue by searching backwards from tail.
-     * Called only when needed by isOnSyncQueue.
+     * Returns true if node is on sync queue by sebrching bbckwbrds from tbil.
+     * Cblled only when needed by isOnSyncQueue.
      * @return true if present
      */
-    private boolean findNodeFromTail(Node node) {
-        Node t = tail;
+    privbte boolebn findNodeFromTbil(Node node) {
+        Node t = tbil;
         for (;;) {
             if (t == node)
                 return true;
             if (t == null)
-                return false;
+                return fblse;
             t = t.prev;
         }
     }
 
     /**
-     * Transfers a node from a condition queue onto sync queue.
+     * Trbnsfers b node from b condition queue onto sync queue.
      * Returns true if successful.
-     * @param node the node
-     * @return true if successfully transferred (else the node was
-     * cancelled before signal)
+     * @pbrbm node the node
+     * @return true if successfully trbnsferred (else the node wbs
+     * cbncelled before signbl)
      */
-    final boolean transferForSignal(Node node) {
+    finbl boolebn trbnsferForSignbl(Node node) {
         /*
-         * If cannot change waitStatus, the node has been cancelled.
+         * If cbnnot chbnge wbitStbtus, the node hbs been cbncelled.
          */
-        if (!compareAndSetWaitStatus(node, Node.CONDITION, 0))
-            return false;
+        if (!compbreAndSetWbitStbtus(node, Node.CONDITION, 0))
+            return fblse;
 
         /*
-         * Splice onto queue and try to set waitStatus of predecessor to
-         * indicate that thread is (probably) waiting. If cancelled or
-         * attempt to set waitStatus fails, wake up to resync (in which
-         * case the waitStatus can be transiently and harmlessly wrong).
+         * Splice onto queue bnd try to set wbitStbtus of predecessor to
+         * indicbte thbt threbd is (probbbly) wbiting. If cbncelled or
+         * bttempt to set wbitStbtus fbils, wbke up to resync (in which
+         * cbse the wbitStbtus cbn be trbnsiently bnd hbrmlessly wrong).
          */
         Node p = enq(node);
-        int ws = p.waitStatus;
-        if (ws > 0 || !compareAndSetWaitStatus(p, ws, Node.SIGNAL))
-            LockSupport.unpark(node.thread);
+        int ws = p.wbitStbtus;
+        if (ws > 0 || !compbreAndSetWbitStbtus(p, ws, Node.SIGNAL))
+            LockSupport.unpbrk(node.threbd);
         return true;
     }
 
     /**
-     * Transfers node, if necessary, to sync queue after a cancelled wait.
-     * Returns true if thread was cancelled before being signalled.
+     * Trbnsfers node, if necessbry, to sync queue bfter b cbncelled wbit.
+     * Returns true if threbd wbs cbncelled before being signblled.
      *
-     * @param node the node
-     * @return true if cancelled before the node was signalled
+     * @pbrbm node the node
+     * @return true if cbncelled before the node wbs signblled
      */
-    final boolean transferAfterCancelledWait(Node node) {
-        if (compareAndSetWaitStatus(node, Node.CONDITION, 0)) {
+    finbl boolebn trbnsferAfterCbncelledWbit(Node node) {
+        if (compbreAndSetWbitStbtus(node, Node.CONDITION, 0)) {
             enq(node);
             return true;
         }
         /*
-         * If we lost out to a signal(), then we can't proceed
-         * until it finishes its enq().  Cancelling during an
-         * incomplete transfer is both rare and transient, so just
+         * If we lost out to b signbl(), then we cbn't proceed
+         * until it finishes its enq().  Cbncelling during bn
+         * incomplete trbnsfer is both rbre bnd trbnsient, so just
          * spin.
          */
         while (!isOnSyncQueue(node))
-            Thread.yield();
-        return false;
+            Threbd.yield();
+        return fblse;
     }
 
     /**
-     * Invokes release with current state value; returns saved state.
-     * Cancels node and throws exception on failure.
-     * @param node the condition node for this wait
-     * @return previous sync state
+     * Invokes relebse with current stbte vblue; returns sbved stbte.
+     * Cbncels node bnd throws exception on fbilure.
+     * @pbrbm node the condition node for this wbit
+     * @return previous sync stbte
      */
-    final int fullyRelease(Node node) {
-        boolean failed = true;
+    finbl int fullyRelebse(Node node) {
+        boolebn fbiled = true;
         try {
-            int savedState = getState();
-            if (release(savedState)) {
-                failed = false;
-                return savedState;
+            int sbvedStbte = getStbte();
+            if (relebse(sbvedStbte)) {
+                fbiled = fblse;
+                return sbvedStbte;
             } else {
-                throw new IllegalMonitorStateException();
+                throw new IllegblMonitorStbteException();
             }
-        } finally {
-            if (failed)
-                node.waitStatus = Node.CANCELLED;
+        } finblly {
+            if (fbiled)
+                node.wbitStbtus = Node.CANCELLED;
         }
     }
 
-    // Instrumentation methods for conditions
+    // Instrumentbtion methods for conditions
 
     /**
      * Queries whether the given ConditionObject
-     * uses this synchronizer as its lock.
+     * uses this synchronizer bs its lock.
      *
-     * @param condition the condition
+     * @pbrbm condition the condition
      * @return {@code true} if owned
      * @throws NullPointerException if the condition is null
      */
-    public final boolean owns(ConditionObject condition) {
+    public finbl boolebn owns(ConditionObject condition) {
         return condition.isOwnedBy(this);
     }
 
     /**
-     * Queries whether any threads are waiting on the given condition
-     * associated with this synchronizer. Note that because timeouts
-     * and interrupts may occur at any time, a {@code true} return
-     * does not guarantee that a future {@code signal} will awaken
-     * any threads.  This method is designed primarily for use in
-     * monitoring of the system state.
+     * Queries whether bny threbds bre wbiting on the given condition
+     * bssocibted with this synchronizer. Note thbt becbuse timeouts
+     * bnd interrupts mby occur bt bny time, b {@code true} return
+     * does not gubrbntee thbt b future {@code signbl} will bwbken
+     * bny threbds.  This method is designed primbrily for use in
+     * monitoring of the system stbte.
      *
-     * @param condition the condition
-     * @return {@code true} if there are any waiting threads
-     * @throws IllegalMonitorStateException if exclusive synchronization
+     * @pbrbm condition the condition
+     * @return {@code true} if there bre bny wbiting threbds
+     * @throws IllegblMonitorStbteException if exclusive synchronizbtion
      *         is not held
-     * @throws IllegalArgumentException if the given condition is
-     *         not associated with this synchronizer
+     * @throws IllegblArgumentException if the given condition is
+     *         not bssocibted with this synchronizer
      * @throws NullPointerException if the condition is null
      */
-    public final boolean hasWaiters(ConditionObject condition) {
+    public finbl boolebn hbsWbiters(ConditionObject condition) {
         if (!owns(condition))
-            throw new IllegalArgumentException("Not owner");
-        return condition.hasWaiters();
+            throw new IllegblArgumentException("Not owner");
+        return condition.hbsWbiters();
     }
 
     /**
-     * Returns an estimate of the number of threads waiting on the
-     * given condition associated with this synchronizer. Note that
-     * because timeouts and interrupts may occur at any time, the
-     * estimate serves only as an upper bound on the actual number of
-     * waiters.  This method is designed for use in monitoring of the
-     * system state, not for synchronization control.
+     * Returns bn estimbte of the number of threbds wbiting on the
+     * given condition bssocibted with this synchronizer. Note thbt
+     * becbuse timeouts bnd interrupts mby occur bt bny time, the
+     * estimbte serves only bs bn upper bound on the bctubl number of
+     * wbiters.  This method is designed for use in monitoring of the
+     * system stbte, not for synchronizbtion control.
      *
-     * @param condition the condition
-     * @return the estimated number of waiting threads
-     * @throws IllegalMonitorStateException if exclusive synchronization
+     * @pbrbm condition the condition
+     * @return the estimbted number of wbiting threbds
+     * @throws IllegblMonitorStbteException if exclusive synchronizbtion
      *         is not held
-     * @throws IllegalArgumentException if the given condition is
-     *         not associated with this synchronizer
+     * @throws IllegblArgumentException if the given condition is
+     *         not bssocibted with this synchronizer
      * @throws NullPointerException if the condition is null
      */
-    public final int getWaitQueueLength(ConditionObject condition) {
+    public finbl int getWbitQueueLength(ConditionObject condition) {
         if (!owns(condition))
-            throw new IllegalArgumentException("Not owner");
-        return condition.getWaitQueueLength();
+            throw new IllegblArgumentException("Not owner");
+        return condition.getWbitQueueLength();
     }
 
     /**
-     * Returns a collection containing those threads that may be
-     * waiting on the given condition associated with this
-     * synchronizer.  Because the actual set of threads may change
-     * dynamically while constructing this result, the returned
-     * collection is only a best-effort estimate. The elements of the
-     * returned collection are in no particular order.
+     * Returns b collection contbining those threbds thbt mby be
+     * wbiting on the given condition bssocibted with this
+     * synchronizer.  Becbuse the bctubl set of threbds mby chbnge
+     * dynbmicblly while constructing this result, the returned
+     * collection is only b best-effort estimbte. The elements of the
+     * returned collection bre in no pbrticulbr order.
      *
-     * @param condition the condition
-     * @return the collection of threads
-     * @throws IllegalMonitorStateException if exclusive synchronization
+     * @pbrbm condition the condition
+     * @return the collection of threbds
+     * @throws IllegblMonitorStbteException if exclusive synchronizbtion
      *         is not held
-     * @throws IllegalArgumentException if the given condition is
-     *         not associated with this synchronizer
+     * @throws IllegblArgumentException if the given condition is
+     *         not bssocibted with this synchronizer
      * @throws NullPointerException if the condition is null
      */
-    public final Collection<Thread> getWaitingThreads(ConditionObject condition) {
+    public finbl Collection<Threbd> getWbitingThrebds(ConditionObject condition) {
         if (!owns(condition))
-            throw new IllegalArgumentException("Not owner");
-        return condition.getWaitingThreads();
+            throw new IllegblArgumentException("Not owner");
+        return condition.getWbitingThrebds();
     }
 
     /**
-     * Condition implementation for a {@link
-     * AbstractQueuedSynchronizer} serving as the basis of a {@link
-     * Lock} implementation.
+     * Condition implementbtion for b {@link
+     * AbstrbctQueuedSynchronizer} serving bs the bbsis of b {@link
+     * Lock} implementbtion.
      *
-     * <p>Method documentation for this class describes mechanics,
-     * not behavioral specifications from the point of view of Lock
-     * and Condition users. Exported versions of this class will in
-     * general need to be accompanied by documentation describing
-     * condition semantics that rely on those of the associated
-     * {@code AbstractQueuedSynchronizer}.
+     * <p>Method documentbtion for this clbss describes mechbnics,
+     * not behbviorbl specificbtions from the point of view of Lock
+     * bnd Condition users. Exported versions of this clbss will in
+     * generbl need to be bccompbnied by documentbtion describing
+     * condition sembntics thbt rely on those of the bssocibted
+     * {@code AbstrbctQueuedSynchronizer}.
      *
-     * <p>This class is Serializable, but all fields are transient,
-     * so deserialized conditions have no waiters.
+     * <p>This clbss is Seriblizbble, but bll fields bre trbnsient,
+     * so deseriblized conditions hbve no wbiters.
      */
-    public class ConditionObject implements Condition, java.io.Serializable {
-        private static final long serialVersionUID = 1173984872572414699L;
+    public clbss ConditionObject implements Condition, jbvb.io.Seriblizbble {
+        privbte stbtic finbl long seriblVersionUID = 1173984872572414699L;
         /** First node of condition queue. */
-        private transient Node firstWaiter;
-        /** Last node of condition queue. */
-        private transient Node lastWaiter;
+        privbte trbnsient Node firstWbiter;
+        /** Lbst node of condition queue. */
+        privbte trbnsient Node lbstWbiter;
 
         /**
-         * Creates a new {@code ConditionObject} instance.
+         * Crebtes b new {@code ConditionObject} instbnce.
          */
         public ConditionObject() { }
 
-        // Internal methods
+        // Internbl methods
 
         /**
-         * Adds a new waiter to wait queue.
-         * @return its new wait node
+         * Adds b new wbiter to wbit queue.
+         * @return its new wbit node
          */
-        private Node addConditionWaiter() {
-            Node t = lastWaiter;
-            // If lastWaiter is cancelled, clean out.
-            if (t != null && t.waitStatus != Node.CONDITION) {
-                unlinkCancelledWaiters();
-                t = lastWaiter;
+        privbte Node bddConditionWbiter() {
+            Node t = lbstWbiter;
+            // If lbstWbiter is cbncelled, clebn out.
+            if (t != null && t.wbitStbtus != Node.CONDITION) {
+                unlinkCbncelledWbiters();
+                t = lbstWbiter;
             }
-            Node node = new Node(Thread.currentThread(), Node.CONDITION);
+            Node node = new Node(Threbd.currentThrebd(), Node.CONDITION);
             if (t == null)
-                firstWaiter = node;
+                firstWbiter = node;
             else
-                t.nextWaiter = node;
-            lastWaiter = node;
+                t.nextWbiter = node;
+            lbstWbiter = node;
             return node;
         }
 
         /**
-         * Removes and transfers nodes until hit non-cancelled one or
-         * null. Split out from signal in part to encourage compilers
-         * to inline the case of no waiters.
-         * @param first (non-null) the first node on condition queue
+         * Removes bnd trbnsfers nodes until hit non-cbncelled one or
+         * null. Split out from signbl in pbrt to encourbge compilers
+         * to inline the cbse of no wbiters.
+         * @pbrbm first (non-null) the first node on condition queue
          */
-        private void doSignal(Node first) {
+        privbte void doSignbl(Node first) {
             do {
-                if ( (firstWaiter = first.nextWaiter) == null)
-                    lastWaiter = null;
-                first.nextWaiter = null;
-            } while (!transferForSignal(first) &&
-                     (first = firstWaiter) != null);
+                if ( (firstWbiter = first.nextWbiter) == null)
+                    lbstWbiter = null;
+                first.nextWbiter = null;
+            } while (!trbnsferForSignbl(first) &&
+                     (first = firstWbiter) != null);
         }
 
         /**
-         * Removes and transfers all nodes.
-         * @param first (non-null) the first node on condition queue
+         * Removes bnd trbnsfers bll nodes.
+         * @pbrbm first (non-null) the first node on condition queue
          */
-        private void doSignalAll(Node first) {
-            lastWaiter = firstWaiter = null;
+        privbte void doSignblAll(Node first) {
+            lbstWbiter = firstWbiter = null;
             do {
-                Node next = first.nextWaiter;
-                first.nextWaiter = null;
-                transferForSignal(first);
+                Node next = first.nextWbiter;
+                first.nextWbiter = null;
+                trbnsferForSignbl(first);
                 first = next;
             } while (first != null);
         }
 
         /**
-         * Unlinks cancelled waiter nodes from condition queue.
-         * Called only while holding lock. This is called when
-         * cancellation occurred during condition wait, and upon
-         * insertion of a new waiter when lastWaiter is seen to have
-         * been cancelled. This method is needed to avoid garbage
-         * retention in the absence of signals. So even though it may
-         * require a full traversal, it comes into play only when
-         * timeouts or cancellations occur in the absence of
-         * signals. It traverses all nodes rather than stopping at a
-         * particular target to unlink all pointers to garbage nodes
-         * without requiring many re-traversals during cancellation
+         * Unlinks cbncelled wbiter nodes from condition queue.
+         * Cblled only while holding lock. This is cblled when
+         * cbncellbtion occurred during condition wbit, bnd upon
+         * insertion of b new wbiter when lbstWbiter is seen to hbve
+         * been cbncelled. This method is needed to bvoid gbrbbge
+         * retention in the bbsence of signbls. So even though it mby
+         * require b full trbversbl, it comes into plby only when
+         * timeouts or cbncellbtions occur in the bbsence of
+         * signbls. It trbverses bll nodes rbther thbn stopping bt b
+         * pbrticulbr tbrget to unlink bll pointers to gbrbbge nodes
+         * without requiring mbny re-trbversbls during cbncellbtion
          * storms.
          */
-        private void unlinkCancelledWaiters() {
-            Node t = firstWaiter;
-            Node trail = null;
+        privbte void unlinkCbncelledWbiters() {
+            Node t = firstWbiter;
+            Node trbil = null;
             while (t != null) {
-                Node next = t.nextWaiter;
-                if (t.waitStatus != Node.CONDITION) {
-                    t.nextWaiter = null;
-                    if (trail == null)
-                        firstWaiter = next;
+                Node next = t.nextWbiter;
+                if (t.wbitStbtus != Node.CONDITION) {
+                    t.nextWbiter = null;
+                    if (trbil == null)
+                        firstWbiter = next;
                     else
-                        trail.nextWaiter = next;
+                        trbil.nextWbiter = next;
                     if (next == null)
-                        lastWaiter = trail;
+                        lbstWbiter = trbil;
                 }
                 else
-                    trail = t;
+                    trbil = t;
                 t = next;
             }
         }
@@ -1927,88 +1927,88 @@ public abstract class AbstractQueuedSynchronizer
         // public methods
 
         /**
-         * Moves the longest-waiting thread, if one exists, from the
-         * wait queue for this condition to the wait queue for the
+         * Moves the longest-wbiting threbd, if one exists, from the
+         * wbit queue for this condition to the wbit queue for the
          * owning lock.
          *
-         * @throws IllegalMonitorStateException if {@link #isHeldExclusively}
-         *         returns {@code false}
+         * @throws IllegblMonitorStbteException if {@link #isHeldExclusively}
+         *         returns {@code fblse}
          */
-        public final void signal() {
+        public finbl void signbl() {
             if (!isHeldExclusively())
-                throw new IllegalMonitorStateException();
-            Node first = firstWaiter;
+                throw new IllegblMonitorStbteException();
+            Node first = firstWbiter;
             if (first != null)
-                doSignal(first);
+                doSignbl(first);
         }
 
         /**
-         * Moves all threads from the wait queue for this condition to
-         * the wait queue for the owning lock.
+         * Moves bll threbds from the wbit queue for this condition to
+         * the wbit queue for the owning lock.
          *
-         * @throws IllegalMonitorStateException if {@link #isHeldExclusively}
-         *         returns {@code false}
+         * @throws IllegblMonitorStbteException if {@link #isHeldExclusively}
+         *         returns {@code fblse}
          */
-        public final void signalAll() {
+        public finbl void signblAll() {
             if (!isHeldExclusively())
-                throw new IllegalMonitorStateException();
-            Node first = firstWaiter;
+                throw new IllegblMonitorStbteException();
+            Node first = firstWbiter;
             if (first != null)
-                doSignalAll(first);
+                doSignblAll(first);
         }
 
         /**
-         * Implements uninterruptible condition wait.
+         * Implements uninterruptible condition wbit.
          * <ol>
-         * <li> Save lock state returned by {@link #getState}.
-         * <li> Invoke {@link #release} with saved state as argument,
-         *      throwing IllegalMonitorStateException if it fails.
-         * <li> Block until signalled.
-         * <li> Reacquire by invoking specialized version of
-         *      {@link #acquire} with saved state as argument.
+         * <li> Sbve lock stbte returned by {@link #getStbte}.
+         * <li> Invoke {@link #relebse} with sbved stbte bs brgument,
+         *      throwing IllegblMonitorStbteException if it fbils.
+         * <li> Block until signblled.
+         * <li> Rebcquire by invoking speciblized version of
+         *      {@link #bcquire} with sbved stbte bs brgument.
          * </ol>
          */
-        public final void awaitUninterruptibly() {
-            Node node = addConditionWaiter();
-            int savedState = fullyRelease(node);
-            boolean interrupted = false;
+        public finbl void bwbitUninterruptibly() {
+            Node node = bddConditionWbiter();
+            int sbvedStbte = fullyRelebse(node);
+            boolebn interrupted = fblse;
             while (!isOnSyncQueue(node)) {
-                LockSupport.park(this);
-                if (Thread.interrupted())
+                LockSupport.pbrk(this);
+                if (Threbd.interrupted())
                     interrupted = true;
             }
-            if (acquireQueued(node, savedState) || interrupted)
+            if (bcquireQueued(node, sbvedStbte) || interrupted)
                 selfInterrupt();
         }
 
         /*
-         * For interruptible waits, we need to track whether to throw
+         * For interruptible wbits, we need to trbck whether to throw
          * InterruptedException, if interrupted while blocked on
-         * condition, versus reinterrupt current thread, if
-         * interrupted while blocked waiting to re-acquire.
+         * condition, versus reinterrupt current threbd, if
+         * interrupted while blocked wbiting to re-bcquire.
          */
 
-        /** Mode meaning to reinterrupt on exit from wait */
-        private static final int REINTERRUPT =  1;
-        /** Mode meaning to throw InterruptedException on exit from wait */
-        private static final int THROW_IE    = -1;
+        /** Mode mebning to reinterrupt on exit from wbit */
+        privbte stbtic finbl int REINTERRUPT =  1;
+        /** Mode mebning to throw InterruptedException on exit from wbit */
+        privbte stbtic finbl int THROW_IE    = -1;
 
         /**
          * Checks for interrupt, returning THROW_IE if interrupted
-         * before signalled, REINTERRUPT if after signalled, or
+         * before signblled, REINTERRUPT if bfter signblled, or
          * 0 if not interrupted.
          */
-        private int checkInterruptWhileWaiting(Node node) {
-            return Thread.interrupted() ?
-                (transferAfterCancelledWait(node) ? THROW_IE : REINTERRUPT) :
+        privbte int checkInterruptWhileWbiting(Node node) {
+            return Threbd.interrupted() ?
+                (trbnsferAfterCbncelledWbit(node) ? THROW_IE : REINTERRUPT) :
                 0;
         }
 
         /**
-         * Throws InterruptedException, reinterrupts current thread, or
+         * Throws InterruptedException, reinterrupts current threbd, or
          * does nothing, depending on mode.
          */
-        private void reportInterruptAfterWait(int interruptMode)
+        privbte void reportInterruptAfterWbit(int interruptMode)
             throws InterruptedException {
             if (interruptMode == THROW_IE)
                 throw new InterruptedException();
@@ -2017,231 +2017,231 @@ public abstract class AbstractQueuedSynchronizer
         }
 
         /**
-         * Implements interruptible condition wait.
+         * Implements interruptible condition wbit.
          * <ol>
-         * <li> If current thread is interrupted, throw InterruptedException.
-         * <li> Save lock state returned by {@link #getState}.
-         * <li> Invoke {@link #release} with saved state as argument,
-         *      throwing IllegalMonitorStateException if it fails.
-         * <li> Block until signalled or interrupted.
-         * <li> Reacquire by invoking specialized version of
-         *      {@link #acquire} with saved state as argument.
+         * <li> If current threbd is interrupted, throw InterruptedException.
+         * <li> Sbve lock stbte returned by {@link #getStbte}.
+         * <li> Invoke {@link #relebse} with sbved stbte bs brgument,
+         *      throwing IllegblMonitorStbteException if it fbils.
+         * <li> Block until signblled or interrupted.
+         * <li> Rebcquire by invoking speciblized version of
+         *      {@link #bcquire} with sbved stbte bs brgument.
          * <li> If interrupted while blocked in step 4, throw InterruptedException.
          * </ol>
          */
-        public final void await() throws InterruptedException {
-            if (Thread.interrupted())
+        public finbl void bwbit() throws InterruptedException {
+            if (Threbd.interrupted())
                 throw new InterruptedException();
-            Node node = addConditionWaiter();
-            int savedState = fullyRelease(node);
+            Node node = bddConditionWbiter();
+            int sbvedStbte = fullyRelebse(node);
             int interruptMode = 0;
             while (!isOnSyncQueue(node)) {
-                LockSupport.park(this);
-                if ((interruptMode = checkInterruptWhileWaiting(node)) != 0)
-                    break;
+                LockSupport.pbrk(this);
+                if ((interruptMode = checkInterruptWhileWbiting(node)) != 0)
+                    brebk;
             }
-            if (acquireQueued(node, savedState) && interruptMode != THROW_IE)
+            if (bcquireQueued(node, sbvedStbte) && interruptMode != THROW_IE)
                 interruptMode = REINTERRUPT;
-            if (node.nextWaiter != null) // clean up if cancelled
-                unlinkCancelledWaiters();
+            if (node.nextWbiter != null) // clebn up if cbncelled
+                unlinkCbncelledWbiters();
             if (interruptMode != 0)
-                reportInterruptAfterWait(interruptMode);
+                reportInterruptAfterWbit(interruptMode);
         }
 
         /**
-         * Implements timed condition wait.
+         * Implements timed condition wbit.
          * <ol>
-         * <li> If current thread is interrupted, throw InterruptedException.
-         * <li> Save lock state returned by {@link #getState}.
-         * <li> Invoke {@link #release} with saved state as argument,
-         *      throwing IllegalMonitorStateException if it fails.
-         * <li> Block until signalled, interrupted, or timed out.
-         * <li> Reacquire by invoking specialized version of
-         *      {@link #acquire} with saved state as argument.
+         * <li> If current threbd is interrupted, throw InterruptedException.
+         * <li> Sbve lock stbte returned by {@link #getStbte}.
+         * <li> Invoke {@link #relebse} with sbved stbte bs brgument,
+         *      throwing IllegblMonitorStbteException if it fbils.
+         * <li> Block until signblled, interrupted, or timed out.
+         * <li> Rebcquire by invoking speciblized version of
+         *      {@link #bcquire} with sbved stbte bs brgument.
          * <li> If interrupted while blocked in step 4, throw InterruptedException.
          * </ol>
          */
-        public final long awaitNanos(long nanosTimeout)
+        public finbl long bwbitNbnos(long nbnosTimeout)
                 throws InterruptedException {
-            if (Thread.interrupted())
+            if (Threbd.interrupted())
                 throw new InterruptedException();
-            Node node = addConditionWaiter();
-            int savedState = fullyRelease(node);
-            final long deadline = System.nanoTime() + nanosTimeout;
+            Node node = bddConditionWbiter();
+            int sbvedStbte = fullyRelebse(node);
+            finbl long debdline = System.nbnoTime() + nbnosTimeout;
             int interruptMode = 0;
             while (!isOnSyncQueue(node)) {
-                if (nanosTimeout <= 0L) {
-                    transferAfterCancelledWait(node);
-                    break;
+                if (nbnosTimeout <= 0L) {
+                    trbnsferAfterCbncelledWbit(node);
+                    brebk;
                 }
-                if (nanosTimeout >= spinForTimeoutThreshold)
-                    LockSupport.parkNanos(this, nanosTimeout);
-                if ((interruptMode = checkInterruptWhileWaiting(node)) != 0)
-                    break;
-                nanosTimeout = deadline - System.nanoTime();
+                if (nbnosTimeout >= spinForTimeoutThreshold)
+                    LockSupport.pbrkNbnos(this, nbnosTimeout);
+                if ((interruptMode = checkInterruptWhileWbiting(node)) != 0)
+                    brebk;
+                nbnosTimeout = debdline - System.nbnoTime();
             }
-            if (acquireQueued(node, savedState) && interruptMode != THROW_IE)
+            if (bcquireQueued(node, sbvedStbte) && interruptMode != THROW_IE)
                 interruptMode = REINTERRUPT;
-            if (node.nextWaiter != null)
-                unlinkCancelledWaiters();
+            if (node.nextWbiter != null)
+                unlinkCbncelledWbiters();
             if (interruptMode != 0)
-                reportInterruptAfterWait(interruptMode);
-            return deadline - System.nanoTime();
+                reportInterruptAfterWbit(interruptMode);
+            return debdline - System.nbnoTime();
         }
 
         /**
-         * Implements absolute timed condition wait.
+         * Implements bbsolute timed condition wbit.
          * <ol>
-         * <li> If current thread is interrupted, throw InterruptedException.
-         * <li> Save lock state returned by {@link #getState}.
-         * <li> Invoke {@link #release} with saved state as argument,
-         *      throwing IllegalMonitorStateException if it fails.
-         * <li> Block until signalled, interrupted, or timed out.
-         * <li> Reacquire by invoking specialized version of
-         *      {@link #acquire} with saved state as argument.
+         * <li> If current threbd is interrupted, throw InterruptedException.
+         * <li> Sbve lock stbte returned by {@link #getStbte}.
+         * <li> Invoke {@link #relebse} with sbved stbte bs brgument,
+         *      throwing IllegblMonitorStbteException if it fbils.
+         * <li> Block until signblled, interrupted, or timed out.
+         * <li> Rebcquire by invoking speciblized version of
+         *      {@link #bcquire} with sbved stbte bs brgument.
          * <li> If interrupted while blocked in step 4, throw InterruptedException.
-         * <li> If timed out while blocked in step 4, return false, else true.
+         * <li> If timed out while blocked in step 4, return fblse, else true.
          * </ol>
          */
-        public final boolean awaitUntil(Date deadline)
+        public finbl boolebn bwbitUntil(Dbte debdline)
                 throws InterruptedException {
-            long abstime = deadline.getTime();
-            if (Thread.interrupted())
+            long bbstime = debdline.getTime();
+            if (Threbd.interrupted())
                 throw new InterruptedException();
-            Node node = addConditionWaiter();
-            int savedState = fullyRelease(node);
-            boolean timedout = false;
+            Node node = bddConditionWbiter();
+            int sbvedStbte = fullyRelebse(node);
+            boolebn timedout = fblse;
             int interruptMode = 0;
             while (!isOnSyncQueue(node)) {
-                if (System.currentTimeMillis() > abstime) {
-                    timedout = transferAfterCancelledWait(node);
-                    break;
+                if (System.currentTimeMillis() > bbstime) {
+                    timedout = trbnsferAfterCbncelledWbit(node);
+                    brebk;
                 }
-                LockSupport.parkUntil(this, abstime);
-                if ((interruptMode = checkInterruptWhileWaiting(node)) != 0)
-                    break;
+                LockSupport.pbrkUntil(this, bbstime);
+                if ((interruptMode = checkInterruptWhileWbiting(node)) != 0)
+                    brebk;
             }
-            if (acquireQueued(node, savedState) && interruptMode != THROW_IE)
+            if (bcquireQueued(node, sbvedStbte) && interruptMode != THROW_IE)
                 interruptMode = REINTERRUPT;
-            if (node.nextWaiter != null)
-                unlinkCancelledWaiters();
+            if (node.nextWbiter != null)
+                unlinkCbncelledWbiters();
             if (interruptMode != 0)
-                reportInterruptAfterWait(interruptMode);
+                reportInterruptAfterWbit(interruptMode);
             return !timedout;
         }
 
         /**
-         * Implements timed condition wait.
+         * Implements timed condition wbit.
          * <ol>
-         * <li> If current thread is interrupted, throw InterruptedException.
-         * <li> Save lock state returned by {@link #getState}.
-         * <li> Invoke {@link #release} with saved state as argument,
-         *      throwing IllegalMonitorStateException if it fails.
-         * <li> Block until signalled, interrupted, or timed out.
-         * <li> Reacquire by invoking specialized version of
-         *      {@link #acquire} with saved state as argument.
+         * <li> If current threbd is interrupted, throw InterruptedException.
+         * <li> Sbve lock stbte returned by {@link #getStbte}.
+         * <li> Invoke {@link #relebse} with sbved stbte bs brgument,
+         *      throwing IllegblMonitorStbteException if it fbils.
+         * <li> Block until signblled, interrupted, or timed out.
+         * <li> Rebcquire by invoking speciblized version of
+         *      {@link #bcquire} with sbved stbte bs brgument.
          * <li> If interrupted while blocked in step 4, throw InterruptedException.
-         * <li> If timed out while blocked in step 4, return false, else true.
+         * <li> If timed out while blocked in step 4, return fblse, else true.
          * </ol>
          */
-        public final boolean await(long time, TimeUnit unit)
+        public finbl boolebn bwbit(long time, TimeUnit unit)
                 throws InterruptedException {
-            long nanosTimeout = unit.toNanos(time);
-            if (Thread.interrupted())
+            long nbnosTimeout = unit.toNbnos(time);
+            if (Threbd.interrupted())
                 throw new InterruptedException();
-            Node node = addConditionWaiter();
-            int savedState = fullyRelease(node);
-            final long deadline = System.nanoTime() + nanosTimeout;
-            boolean timedout = false;
+            Node node = bddConditionWbiter();
+            int sbvedStbte = fullyRelebse(node);
+            finbl long debdline = System.nbnoTime() + nbnosTimeout;
+            boolebn timedout = fblse;
             int interruptMode = 0;
             while (!isOnSyncQueue(node)) {
-                if (nanosTimeout <= 0L) {
-                    timedout = transferAfterCancelledWait(node);
-                    break;
+                if (nbnosTimeout <= 0L) {
+                    timedout = trbnsferAfterCbncelledWbit(node);
+                    brebk;
                 }
-                if (nanosTimeout >= spinForTimeoutThreshold)
-                    LockSupport.parkNanos(this, nanosTimeout);
-                if ((interruptMode = checkInterruptWhileWaiting(node)) != 0)
-                    break;
-                nanosTimeout = deadline - System.nanoTime();
+                if (nbnosTimeout >= spinForTimeoutThreshold)
+                    LockSupport.pbrkNbnos(this, nbnosTimeout);
+                if ((interruptMode = checkInterruptWhileWbiting(node)) != 0)
+                    brebk;
+                nbnosTimeout = debdline - System.nbnoTime();
             }
-            if (acquireQueued(node, savedState) && interruptMode != THROW_IE)
+            if (bcquireQueued(node, sbvedStbte) && interruptMode != THROW_IE)
                 interruptMode = REINTERRUPT;
-            if (node.nextWaiter != null)
-                unlinkCancelledWaiters();
+            if (node.nextWbiter != null)
+                unlinkCbncelledWbiters();
             if (interruptMode != 0)
-                reportInterruptAfterWait(interruptMode);
+                reportInterruptAfterWbit(interruptMode);
             return !timedout;
         }
 
-        //  support for instrumentation
+        //  support for instrumentbtion
 
         /**
-         * Returns true if this condition was created by the given
-         * synchronization object.
+         * Returns true if this condition wbs crebted by the given
+         * synchronizbtion object.
          *
          * @return {@code true} if owned
          */
-        final boolean isOwnedBy(AbstractQueuedSynchronizer sync) {
-            return sync == AbstractQueuedSynchronizer.this;
+        finbl boolebn isOwnedBy(AbstrbctQueuedSynchronizer sync) {
+            return sync == AbstrbctQueuedSynchronizer.this;
         }
 
         /**
-         * Queries whether any threads are waiting on this condition.
-         * Implements {@link AbstractQueuedSynchronizer#hasWaiters(ConditionObject)}.
+         * Queries whether bny threbds bre wbiting on this condition.
+         * Implements {@link AbstrbctQueuedSynchronizer#hbsWbiters(ConditionObject)}.
          *
-         * @return {@code true} if there are any waiting threads
-         * @throws IllegalMonitorStateException if {@link #isHeldExclusively}
-         *         returns {@code false}
+         * @return {@code true} if there bre bny wbiting threbds
+         * @throws IllegblMonitorStbteException if {@link #isHeldExclusively}
+         *         returns {@code fblse}
          */
-        protected final boolean hasWaiters() {
+        protected finbl boolebn hbsWbiters() {
             if (!isHeldExclusively())
-                throw new IllegalMonitorStateException();
-            for (Node w = firstWaiter; w != null; w = w.nextWaiter) {
-                if (w.waitStatus == Node.CONDITION)
+                throw new IllegblMonitorStbteException();
+            for (Node w = firstWbiter; w != null; w = w.nextWbiter) {
+                if (w.wbitStbtus == Node.CONDITION)
                     return true;
             }
-            return false;
+            return fblse;
         }
 
         /**
-         * Returns an estimate of the number of threads waiting on
+         * Returns bn estimbte of the number of threbds wbiting on
          * this condition.
-         * Implements {@link AbstractQueuedSynchronizer#getWaitQueueLength(ConditionObject)}.
+         * Implements {@link AbstrbctQueuedSynchronizer#getWbitQueueLength(ConditionObject)}.
          *
-         * @return the estimated number of waiting threads
-         * @throws IllegalMonitorStateException if {@link #isHeldExclusively}
-         *         returns {@code false}
+         * @return the estimbted number of wbiting threbds
+         * @throws IllegblMonitorStbteException if {@link #isHeldExclusively}
+         *         returns {@code fblse}
          */
-        protected final int getWaitQueueLength() {
+        protected finbl int getWbitQueueLength() {
             if (!isHeldExclusively())
-                throw new IllegalMonitorStateException();
+                throw new IllegblMonitorStbteException();
             int n = 0;
-            for (Node w = firstWaiter; w != null; w = w.nextWaiter) {
-                if (w.waitStatus == Node.CONDITION)
+            for (Node w = firstWbiter; w != null; w = w.nextWbiter) {
+                if (w.wbitStbtus == Node.CONDITION)
                     ++n;
             }
             return n;
         }
 
         /**
-         * Returns a collection containing those threads that may be
-         * waiting on this Condition.
-         * Implements {@link AbstractQueuedSynchronizer#getWaitingThreads(ConditionObject)}.
+         * Returns b collection contbining those threbds thbt mby be
+         * wbiting on this Condition.
+         * Implements {@link AbstrbctQueuedSynchronizer#getWbitingThrebds(ConditionObject)}.
          *
-         * @return the collection of threads
-         * @throws IllegalMonitorStateException if {@link #isHeldExclusively}
-         *         returns {@code false}
+         * @return the collection of threbds
+         * @throws IllegblMonitorStbteException if {@link #isHeldExclusively}
+         *         returns {@code fblse}
          */
-        protected final Collection<Thread> getWaitingThreads() {
+        protected finbl Collection<Threbd> getWbitingThrebds() {
             if (!isHeldExclusively())
-                throw new IllegalMonitorStateException();
-            ArrayList<Thread> list = new ArrayList<Thread>();
-            for (Node w = firstWaiter; w != null; w = w.nextWaiter) {
-                if (w.waitStatus == Node.CONDITION) {
-                    Thread t = w.thread;
+                throw new IllegblMonitorStbteException();
+            ArrbyList<Threbd> list = new ArrbyList<Threbd>();
+            for (Node w = firstWbiter; w != null; w = w.nextWbiter) {
+                if (w.wbitStbtus == Node.CONDITION) {
+                    Threbd t = w.threbd;
                     if (t != null)
-                        list.add(t);
+                        list.bdd(t);
                 }
             }
             return list;
@@ -2249,67 +2249,67 @@ public abstract class AbstractQueuedSynchronizer
     }
 
     /**
-     * Setup to support compareAndSet. We need to natively implement
-     * this here: For the sake of permitting future enhancements, we
-     * cannot explicitly subclass AtomicInteger, which would be
-     * efficient and useful otherwise. So, as the lesser of evils, we
-     * natively implement using hotspot intrinsics API. And while we
-     * are at it, we do the same for other CASable fields (which could
-     * otherwise be done with atomic field updaters).
+     * Setup to support compbreAndSet. We need to nbtively implement
+     * this here: For the sbke of permitting future enhbncements, we
+     * cbnnot explicitly subclbss AtomicInteger, which would be
+     * efficient bnd useful otherwise. So, bs the lesser of evils, we
+     * nbtively implement using hotspot intrinsics API. And while we
+     * bre bt it, we do the sbme for other CASbble fields (which could
+     * otherwise be done with btomic field updbters).
      */
-    private static final Unsafe unsafe = Unsafe.getUnsafe();
-    private static final long stateOffset;
-    private static final long headOffset;
-    private static final long tailOffset;
-    private static final long waitStatusOffset;
-    private static final long nextOffset;
+    privbte stbtic finbl Unsbfe unsbfe = Unsbfe.getUnsbfe();
+    privbte stbtic finbl long stbteOffset;
+    privbte stbtic finbl long hebdOffset;
+    privbte stbtic finbl long tbilOffset;
+    privbte stbtic finbl long wbitStbtusOffset;
+    privbte stbtic finbl long nextOffset;
 
-    static {
+    stbtic {
         try {
-            stateOffset = unsafe.objectFieldOffset
-                (AbstractQueuedSynchronizer.class.getDeclaredField("state"));
-            headOffset = unsafe.objectFieldOffset
-                (AbstractQueuedSynchronizer.class.getDeclaredField("head"));
-            tailOffset = unsafe.objectFieldOffset
-                (AbstractQueuedSynchronizer.class.getDeclaredField("tail"));
-            waitStatusOffset = unsafe.objectFieldOffset
-                (Node.class.getDeclaredField("waitStatus"));
-            nextOffset = unsafe.objectFieldOffset
-                (Node.class.getDeclaredField("next"));
+            stbteOffset = unsbfe.objectFieldOffset
+                (AbstrbctQueuedSynchronizer.clbss.getDeclbredField("stbte"));
+            hebdOffset = unsbfe.objectFieldOffset
+                (AbstrbctQueuedSynchronizer.clbss.getDeclbredField("hebd"));
+            tbilOffset = unsbfe.objectFieldOffset
+                (AbstrbctQueuedSynchronizer.clbss.getDeclbredField("tbil"));
+            wbitStbtusOffset = unsbfe.objectFieldOffset
+                (Node.clbss.getDeclbredField("wbitStbtus"));
+            nextOffset = unsbfe.objectFieldOffset
+                (Node.clbss.getDeclbredField("next"));
 
-        } catch (Exception ex) { throw new Error(ex); }
+        } cbtch (Exception ex) { throw new Error(ex); }
     }
 
     /**
-     * CAS head field. Used only by enq.
+     * CAS hebd field. Used only by enq.
      */
-    private final boolean compareAndSetHead(Node update) {
-        return unsafe.compareAndSwapObject(this, headOffset, null, update);
+    privbte finbl boolebn compbreAndSetHebd(Node updbte) {
+        return unsbfe.compbreAndSwbpObject(this, hebdOffset, null, updbte);
     }
 
     /**
-     * CAS tail field. Used only by enq.
+     * CAS tbil field. Used only by enq.
      */
-    private final boolean compareAndSetTail(Node expect, Node update) {
-        return unsafe.compareAndSwapObject(this, tailOffset, expect, update);
+    privbte finbl boolebn compbreAndSetTbil(Node expect, Node updbte) {
+        return unsbfe.compbreAndSwbpObject(this, tbilOffset, expect, updbte);
     }
 
     /**
-     * CAS waitStatus field of a node.
+     * CAS wbitStbtus field of b node.
      */
-    private static final boolean compareAndSetWaitStatus(Node node,
+    privbte stbtic finbl boolebn compbreAndSetWbitStbtus(Node node,
                                                          int expect,
-                                                         int update) {
-        return unsafe.compareAndSwapInt(node, waitStatusOffset,
-                                        expect, update);
+                                                         int updbte) {
+        return unsbfe.compbreAndSwbpInt(node, wbitStbtusOffset,
+                                        expect, updbte);
     }
 
     /**
-     * CAS next field of a node.
+     * CAS next field of b node.
      */
-    private static final boolean compareAndSetNext(Node node,
+    privbte stbtic finbl boolebn compbreAndSetNext(Node node,
                                                    Node expect,
-                                                   Node update) {
-        return unsafe.compareAndSwapObject(node, nextOffset, expect, update);
+                                                   Node updbte) {
+        return unsbfe.compbreAndSwbpObject(node, nextOffset, expect, updbte);
     }
 }

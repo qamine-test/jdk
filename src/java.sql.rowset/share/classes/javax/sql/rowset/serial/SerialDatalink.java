@@ -1,172 +1,172 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.sql.rowset.serial;
+pbckbge jbvbx.sql.rowset.seribl;
 
-import java.sql.*;
-import java.io.*;
-import java.net.URL;
+import jbvb.sql.*;
+import jbvb.io.*;
+import jbvb.net.URL;
 
 
 /**
- * A serialized mapping in the Java programming language of an SQL
- * <code>DATALINK</code> value. A <code>DATALINK</code> value
- * references a file outside of the underlying data source that the
- * data source manages.
+ * A seriblized mbpping in the Jbvb progrbmming lbngubge of bn SQL
+ * <code>DATALINK</code> vblue. A <code>DATALINK</code> vblue
+ * references b file outside of the underlying dbtb source thbt the
+ * dbtb source mbnbges.
  * <P>
- * <code>RowSet</code> implementations can use the method <code>RowSet.getURL</code>
- * to retrieve a <code>java.net.URL</code> object, which can be used
- * to manipulate the external data.
+ * <code>RowSet</code> implementbtions cbn use the method <code>RowSet.getURL</code>
+ * to retrieve b <code>jbvb.net.URL</code> object, which cbn be used
+ * to mbnipulbte the externbl dbtb.
  * <pre>
- *      java.net.URL url = rowset.getURL(1);
+ *      jbvb.net.URL url = rowset.getURL(1);
  * </pre>
  *
- * <h3> Thread safety </h3>
+ * <h3> Threbd sbfety </h3>
  *
- * A SerialDatalink is not safe for use by multiple concurrent threads.  If a
- * SerialDatalink is to be used by more than one thread then access to the
- * SerialDatalink should be controlled by appropriate synchronization.
+ * A SeriblDbtblink is not sbfe for use by multiple concurrent threbds.  If b
+ * SeriblDbtblink is to be used by more thbn one threbd then bccess to the
+ * SeriblDbtblink should be controlled by bppropribte synchronizbtion.
  *
  * @since 1.5
  */
-public class SerialDatalink implements Serializable, Cloneable {
+public clbss SeriblDbtblink implements Seriblizbble, Clonebble {
 
     /**
-     * The extracted URL field retrieved from the DATALINK field.
-     * @serial
+     * The extrbcted URL field retrieved from the DATALINK field.
+     * @seribl
      */
-    private URL url;
+    privbte URL url;
 
     /**
-     * The SQL type of the elements in this <code>SerialDatalink</code>
-     * object.  The type is expressed as one of the contants from the
-     * class <code>java.sql.Types</code>.
-     * @serial
+     * The SQL type of the elements in this <code>SeriblDbtblink</code>
+     * object.  The type is expressed bs one of the contbnts from the
+     * clbss <code>jbvb.sql.Types</code>.
+     * @seribl
      */
-    private int baseType;
+    privbte int bbseType;
 
     /**
-     * The type name used by the DBMS for the elements in the SQL
-     * <code>DATALINK</code> value that this SerialDatalink object
+     * The type nbme used by the DBMS for the elements in the SQL
+     * <code>DATALINK</code> vblue thbt this SeriblDbtblink object
      * represents.
-     * @serial
+     * @seribl
      */
-    private String baseTypeName;
+    privbte String bbseTypeNbme;
 
     /**
-      * Constructs a new <code>SerialDatalink</code> object from the given
-      * <code>java.net.URL</code> object.
+      * Constructs b new <code>SeriblDbtblink</code> object from the given
+      * <code>jbvb.net.URL</code> object.
       *
-      * @param url the {@code URL} to create the {@code SerialDataLink} from
-      * @throws SerialException if url parameter is a null
+      * @pbrbm url the {@code URL} to crebte the {@code SeriblDbtbLink} from
+      * @throws SeriblException if url pbrbmeter is b null
       */
-    public SerialDatalink(URL url) throws SerialException {
+    public SeriblDbtblink(URL url) throws SeriblException {
         if (url == null) {
-            throw new SerialException("Cannot serialize empty URL instance");
+            throw new SeriblException("Cbnnot seriblize empty URL instbnce");
         }
         this.url = url;
     }
 
     /**
-     * Returns a new URL that is a copy of this <code>SerialDatalink</code>
+     * Returns b new URL thbt is b copy of this <code>SeriblDbtblink</code>
      * object.
      *
-     * @return a copy of this <code>SerialDatalink</code> object as a
-     * <code>URL</code> object in the Java programming language.
-     * @throws SerialException if the <code>URL</code> object cannot be de-serialized
+     * @return b copy of this <code>SeriblDbtblink</code> object bs b
+     * <code>URL</code> object in the Jbvb progrbmming lbngubge.
+     * @throws SeriblException if the <code>URL</code> object cbnnot be de-seriblized
      */
-    public URL getDatalink() throws SerialException {
+    public URL getDbtblink() throws SeriblException {
 
-        URL aURL = null;
+        URL bURL = null;
 
         try {
-            aURL = new URL((this.url).toString());
-        } catch (java.net.MalformedURLException e) {
-            throw new SerialException("MalformedURLException: " + e.getMessage());
+            bURL = new URL((this.url).toString());
+        } cbtch (jbvb.net.MblformedURLException e) {
+            throw new SeriblException("MblformedURLException: " + e.getMessbge());
         }
-        return aURL;
+        return bURL;
     }
 
     /**
-     * Compares this {@code SerialDatalink} to the specified object.
-     * The result is {@code true} if and only if the argument is not
-     * {@code null} and is a {@code SerialDatalink} object whose URL is
-     * identical to this object's URL
+     * Compbres this {@code SeriblDbtblink} to the specified object.
+     * The result is {@code true} if bnd only if the brgument is not
+     * {@code null} bnd is b {@code SeriblDbtblink} object whose URL is
+     * identicbl to this object's URL
      *
-     * @param  obj The object to compare this {@code SerialDatalink} against
+     * @pbrbm  obj The object to compbre this {@code SeriblDbtblink} bgbinst
      *
-     * @return  {@code true} if the given object represents a {@code SerialDatalink}
-     *          equivalent to this SerialDatalink, {@code false} otherwise
+     * @return  {@code true} if the given object represents b {@code SeriblDbtblink}
+     *          equivblent to this SeriblDbtblink, {@code fblse} otherwise
      *
      */
-    public boolean equals(Object obj) {
+    public boolebn equbls(Object obj) {
         if (this == obj) {
             return true;
         }
-        if (obj instanceof SerialDatalink) {
-            SerialDatalink sdl = (SerialDatalink) obj;
-            return url.equals(sdl.url);
+        if (obj instbnceof SeriblDbtblink) {
+            SeriblDbtblink sdl = (SeriblDbtblink) obj;
+            return url.equbls(sdl.url);
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Returns a hash code for this {@code SerialDatalink}. The hash code for a
-     * {@code SerialDatalink} object is taken as the hash code of
+     * Returns b hbsh code for this {@code SeriblDbtblink}. The hbsh code for b
+     * {@code SeriblDbtblink} object is tbken bs the hbsh code of
      * the {@code URL} it stores
      *
-     * @return  a hash code value for this object.
+     * @return  b hbsh code vblue for this object.
      */
-    public int hashCode() {
-        return 31 + url.hashCode();
+    public int hbshCode() {
+        return 31 + url.hbshCode();
     }
 
     /**
-     * Returns a clone of this {@code SerialDatalink}.
+     * Returns b clone of this {@code SeriblDbtblink}.
      *
-     * @return  a clone of this SerialDatalink
+     * @return  b clone of this SeriblDbtblink
      */
     public Object clone() {
         try {
-            SerialDatalink sdl = (SerialDatalink) super.clone();
+            SeriblDbtblink sdl = (SeriblDbtblink) super.clone();
             return sdl;
-        } catch (CloneNotSupportedException ex) {
-            // this shouldn't happen, since we are Cloneable
-            throw new InternalError();
+        } cbtch (CloneNotSupportedException ex) {
+            // this shouldn't hbppen, since we bre Clonebble
+            throw new InternblError();
         }
     }
 
     /**
-     * readObject and writeObject are called to restore the state
-     * of the {@code SerialDatalink}
-     * from a stream. Note: we leverage the default Serialized form
+     * rebdObject bnd writeObject bre cblled to restore the stbte
+     * of the {@code SeriblDbtblink}
+     * from b strebm. Note: we leverbge the defbult Seriblized form
      */
 
     /**
-     * The identifier that assists in the serialization of this
-     *  {@code SerialDatalink} object.
+     * The identifier thbt bssists in the seriblizbtion of this
+     *  {@code SeriblDbtblink} object.
      */
-    static final long serialVersionUID = 2826907821828733626L;
+    stbtic finbl long seriblVersionUID = 2826907821828733626L;
 }

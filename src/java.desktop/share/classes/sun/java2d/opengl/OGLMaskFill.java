@@ -1,75 +1,75 @@
 /*
- * Copyright (c) 2003, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2007, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.java2d.opengl;
+pbckbge sun.jbvb2d.opengl;
 
-import java.awt.Composite;
-import sun.java2d.SunGraphics2D;
-import sun.java2d.loops.GraphicsPrimitive;
-import sun.java2d.loops.GraphicsPrimitiveMgr;
-import sun.java2d.loops.CompositeType;
-import sun.java2d.loops.SurfaceType;
-import sun.java2d.pipe.BufferedMaskFill;
-import static sun.java2d.loops.CompositeType.*;
-import static sun.java2d.loops.SurfaceType.*;
+import jbvb.bwt.Composite;
+import sun.jbvb2d.SunGrbphics2D;
+import sun.jbvb2d.loops.GrbphicsPrimitive;
+import sun.jbvb2d.loops.GrbphicsPrimitiveMgr;
+import sun.jbvb2d.loops.CompositeType;
+import sun.jbvb2d.loops.SurfbceType;
+import sun.jbvb2d.pipe.BufferedMbskFill;
+import stbtic sun.jbvb2d.loops.CompositeType.*;
+import stbtic sun.jbvb2d.loops.SurfbceType.*;
 
-class OGLMaskFill extends BufferedMaskFill {
+clbss OGLMbskFill extends BufferedMbskFill {
 
-    static void register() {
-        GraphicsPrimitive[] primitives = {
-            new OGLMaskFill(AnyColor,                  SrcOver),
-            new OGLMaskFill(OpaqueColor,               SrcNoEa),
-            new OGLMaskFill(GradientPaint,             SrcOver),
-            new OGLMaskFill(OpaqueGradientPaint,       SrcNoEa),
-            new OGLMaskFill(LinearGradientPaint,       SrcOver),
-            new OGLMaskFill(OpaqueLinearGradientPaint, SrcNoEa),
-            new OGLMaskFill(RadialGradientPaint,       SrcOver),
-            new OGLMaskFill(OpaqueRadialGradientPaint, SrcNoEa),
-            new OGLMaskFill(TexturePaint,              SrcOver),
-            new OGLMaskFill(OpaqueTexturePaint,        SrcNoEa),
+    stbtic void register() {
+        GrbphicsPrimitive[] primitives = {
+            new OGLMbskFill(AnyColor,                  SrcOver),
+            new OGLMbskFill(OpbqueColor,               SrcNoEb),
+            new OGLMbskFill(GrbdientPbint,             SrcOver),
+            new OGLMbskFill(OpbqueGrbdientPbint,       SrcNoEb),
+            new OGLMbskFill(LinebrGrbdientPbint,       SrcOver),
+            new OGLMbskFill(OpbqueLinebrGrbdientPbint, SrcNoEb),
+            new OGLMbskFill(RbdiblGrbdientPbint,       SrcOver),
+            new OGLMbskFill(OpbqueRbdiblGrbdientPbint, SrcNoEb),
+            new OGLMbskFill(TexturePbint,              SrcOver),
+            new OGLMbskFill(OpbqueTexturePbint,        SrcNoEb),
         };
-        GraphicsPrimitiveMgr.register(primitives);
+        GrbphicsPrimitiveMgr.register(primitives);
     }
 
-    protected OGLMaskFill(SurfaceType srcType, CompositeType compType) {
-        super(OGLRenderQueue.getInstance(),
-              srcType, compType, OGLSurfaceData.OpenGLSurface);
+    protected OGLMbskFill(SurfbceType srcType, CompositeType compType) {
+        super(OGLRenderQueue.getInstbnce(),
+              srcType, compType, OGLSurfbceDbtb.OpenGLSurfbce);
     }
 
     @Override
-    protected native void maskFill(int x, int y, int w, int h,
-                                   int maskoff, int maskscan, int masklen,
-                                   byte[] mask);
+    protected nbtive void mbskFill(int x, int y, int w, int h,
+                                   int mbskoff, int mbskscbn, int mbsklen,
+                                   byte[] mbsk);
 
     @Override
-    protected void validateContext(SunGraphics2D sg2d,
-                                   Composite comp, int ctxflags)
+    protected void vblidbteContext(SunGrbphics2D sg2d,
+                                   Composite comp, int ctxflbgs)
     {
-        OGLSurfaceData dstData = (OGLSurfaceData)sg2d.surfaceData;
-        OGLContext.validateContext(dstData, dstData,
+        OGLSurfbceDbtb dstDbtb = (OGLSurfbceDbtb)sg2d.surfbceDbtb;
+        OGLContext.vblidbteContext(dstDbtb, dstDbtb,
                                    sg2d.getCompClip(), comp,
-                                   null, sg2d.paint, sg2d, ctxflags);
+                                   null, sg2d.pbint, sg2d, ctxflbgs);
     }
 }

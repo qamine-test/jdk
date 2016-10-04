@@ -1,79 +1,79 @@
 '\" t
-.\"  Copyright (c) 1994, 2013, Oracle and/or its affiliates. All rights reserved.
+.\"  Copyright (c) 1994, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
 .\"
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
-.\" This code is free software; you can redistribute it and/or modify it
-.\" under the terms of the GNU General Public License version 2 only, as
-.\" published by the Free Software Foundation.
+.\" This code is free softwbre; you cbn redistribute it bnd/or modify it
+.\" under the terms of the GNU Generbl Public License version 2 only, bs
+.\" published by the Free Softwbre Foundbtion.
 .\"
-.\" This code is distributed in the hope that it will be useful, but WITHOUT
-.\" ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
-.\" version 2 for more details (a copy is included in the LICENSE file that
-.\" accompanied this code).
+.\" This code is distributed in the hope thbt it will be useful, but WITHOUT
+.\" ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU Generbl Public License
+.\" version 2 for more detbils (b copy is included in the LICENSE file thbt
+.\" bccompbnied this code).
 .\"
-.\" You should have received a copy of the GNU General Public License version
-.\" 2 along with this work; if not, write to the Free Software Foundation,
-.\" Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\" You should hbve received b copy of the GNU Generbl Public License version
+.\" 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+.\" Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 .\"
-.\" Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-.\" or visit www.oracle.com if you need additional information or have any
+.\" Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+.\" or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
 .\" questions.
 .\"
 .\"     Arch: generic
-.\"     Software: JDK 8
-.\"     Date: 21 November 2013
-.\"     SectDesc: Basic Tools
+.\"     Softwbre: JDK 8
+.\"     Dbte: 21 November 2013
+.\"     SectDesc: Bbsic Tools
 .\"     Title: jjs.1
 .\"
 .if n .pl 99999
-.TH jjs 1 "21 November 2013" "JDK 8" "Basic Tools"
+.TH jjs 1 "21 November 2013" "JDK 8" "Bbsic Tools"
 .\" -----------------------------------------------------------------
-.\" * Define some portability stuff
+.\" * Define some portbbility stuff
 .\" -----------------------------------------------------------------
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.\" http://bugs.debian.org/507673
-.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" http://bugs.debibn.org/507673
+.\" http://lists.gnu.org/brchive/html/groff/2009-02/msg00013.html
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.ie \n(.g .ds Aq \(aq
+.ie \n(.g .ds Aq \(bq
 .el       .ds Aq '
 .\" -----------------------------------------------------------------
-.\" * set default formatting
+.\" * set defbult formbtting
 .\" -----------------------------------------------------------------
-.\" disable hyphenation
+.\" disbble hyphenbtion
 .nh
-.\" disable justification (adjust text to left margin only)
-.ad l
+.\" disbble justificbtion (bdjust text to left mbrgin only)
+.bd l
 .\" -----------------------------------------------------------------
 .\" * MAIN CONTENT STARTS HERE *
 .\" -----------------------------------------------------------------
 
 .SH NAME    
-jjs \- Invokes the Nashorn engine\&.
+jjs \- Invokes the Nbshorn engine\&.
 .SH SYNOPSIS    
 .sp     
 .nf     
-\f3\fBjjs\fR [\fIoptions\fR] [\fIscript\-files\fR] [\-\- \fIarguments\fR]\fP
+\f3\fBjjs\fR [\fIoptions\fR] [\fIscript\-files\fR] [\-\- \fIbrguments\fR]\fP
 .fi     
 .sp     
 .TP     
 \fIoptions\fR
-One or more options of the \f3jjs\fR command, separated by spaces\&. For more information, see Options\&.
+One or more options of the \f3jjs\fR commbnd, sepbrbted by spbces\&. For more informbtion, see Options\&.
 .TP     
 \fIscript-files\fR
-One or more script files which you want to interpret using Nashorn, separated by spaces\&. If no files are specified, an interactive shell is started\&.
+One or more script files which you wbnt to interpret using Nbshorn, sepbrbted by spbces\&. If no files bre specified, bn interbctive shell is stbrted\&.
 .TP     
-\fIarguments\fR
-All values after the double hyphen marker (\f3--\fR) are passed through to the script or the interactive shell as arguments\&. These values can be accessed by using the \f3arguments\fR property (see )\&.
+\fIbrguments\fR
+All vblues bfter the double hyphen mbrker (\f3--\fR) bre pbssed through to the script or the interbctive shell bs brguments\&. These vblues cbn be bccessed by using the \f3brguments\fR property (see )\&.
 .SH DESCRIPTION    
-The \f3jjs\fR command-line tool is used to invoke the Nashorn engine\&. You can use it to interpret one or several script files, or to run an interactive shell\&.
+The \f3jjs\fR commbnd-line tool is used to invoke the Nbshorn engine\&. You cbn use it to interpret one or severbl script files, or to run bn interbctive shell\&.
 .SH OPTIONS    
-The options of the \f3jjs\fR command control the conditions under which scripts are interpreted by Nashorn\&.
+The options of the \f3jjs\fR commbnd control the conditions under which scripts bre interpreted by Nbshorn\&.
 .TP
--ccs=\fIsize\fR , --class-cache-size=\fIsize\fR
+-ccs=\fIsize\fR , --clbss-cbche-size=\fIsize\fR
 .br
-Sets the class cache size (in bytes)\&. Append the letter \f3k\fR or \f3K\fR to indicate kilobytes (KB), \f3m\fR or \f3M\fR to indicate megabytes (MB), \f3g\fR or \f3G\fR to indicate gigabytes (GB)\&. By default, the class cache size is set to 50 bytes\&. The following example shows how to set it to 1024 bytes (1 KB):
+Sets the clbss cbche size (in bytes)\&. Append the letter \f3k\fR or \f3K\fR to indicbte kilobytes (KB), \f3m\fR or \f3M\fR to indicbte megbbytes (MB), \f3g\fR or \f3G\fR to indicbte gigbbytes (GB)\&. By defbult, the clbss cbche size is set to 50 bytes\&. The following exbmple shows how to set it to 1024 bytes (1 KB):
 .sp     
 .nf     
 \f3\-css=100\fP
@@ -91,22 +91,22 @@ Sets the class cache size (in bytes)\&. Append the letter \f3k\fR or \f3K\fR to 
 .br
 Compiles the script without running it\&.
 .TP
--cp \fIpath\fR , --classpath \fIpath\fR
+-cp \fIpbth\fR , --clbsspbth \fIpbth\fR
 .br
-Specifies the path to the supporting class files To set multiple paths, the option can be repeated, or you can separate each path with a colon (:)\&.
+Specifies the pbth to the supporting clbss files To set multiple pbths, the option cbn be repebted, or you cbn sepbrbte ebch pbth with b colon (:)\&.
 .TP
--D\fIname\fR=\fIvalue\fR
+-D\fInbme\fR=\fIvblue\fR
 .br
-Sets a system property to be passed to the script by assigning a value to a property name\&. The following example shows how to invoke Nashorn in interactive mode and assign \f3myValue\fR to the property named \f3myKey\fR:
+Sets b system property to be pbssed to the script by bssigning b vblue to b property nbme\&. The following exbmple shows how to invoke Nbshorn in interbctive mode bnd bssign \f3myVblue\fR to the property nbmed \f3myKey\fR:
 .sp     
 .nf     
-\f3>> \fIjjs \-DmyKey=myValue\fR\fP
+\f3>> \fIjjs \-DmyKey=myVblue\fR\fP
 .fi     
 .nf     
-\f3jjs> \fIjava\&.lang\&.System\&.getProperty("myKey")\fR\fP
+\f3jjs> \fIjbvb\&.lbng\&.System\&.getProperty("myKey")\fR\fP
 .fi     
 .nf     
-\f3myValue\fP
+\f3myVblue\fP
 .fi     
 .nf     
 \f3jjs>\fP
@@ -117,61 +117,61 @@ Sets a system property to be passed to the script by assigning a value to a prop
 .sp     
 
 
-This option can be repeated to set multiple properties\&.
+This option cbn be repebted to set multiple properties\&.
 .TP
--d=\fIpath\fR , --dump-debug-dir=\fIpath\fR
+-d=\fIpbth\fR , --dump-debug-dir=\fIpbth\fR
 .br
-Specifies the path to the directory where class files are dumped\&.
+Specifies the pbth to the directory where clbss files bre dumped\&.
 .TP
 --debug-lines
 .br
-Generates a line number table in the class file\&. By default, this option is enabled\&. To disable it, specify \f3--debug-lines=false\fR\&.
+Generbtes b line number tbble in the clbss file\&. By defbult, this option is enbbled\&. To disbble it, specify \f3--debug-lines=fblse\fR\&.
 .TP
---debug-locals
+--debug-locbls
 .br
-Generates a local variable table in the class file\&.
+Generbtes b locbl vbribble tbble in the clbss file\&.
 .TP
 -doe, --dump-on-error
 .br
-Provides a full stack trace when an arror occurs\&. By default, only a brief error message is printed\&.
+Provides b full stbck trbce when bn brror occurs\&. By defbult, only b brief error messbge is printed\&.
 .TP
---early-lvalue-error
+--ebrly-lvblue-error
 .br
-Reports invalid lvalue expressions as early errors (that is, when the code is parsed)\&. By default, this option is enabled\&. To disable it, specify \f3--early-lvalue-error=false\fR\&. When disabled, invalid lvalue expressions will not be reported until the code is executed\&.
+Reports invblid lvblue expressions bs ebrly errors (thbt is, when the code is pbrsed)\&. By defbult, this option is enbbled\&. To disbble it, specify \f3--ebrly-lvblue-error=fblse\fR\&. When disbbled, invblid lvblue expressions will not be reported until the code is executed\&.
 .TP
---empty-statements
+--empty-stbtements
 .br
-Preserves empty statements in the Java abstract syntax tree\&.
+Preserves empty stbtements in the Jbvb bbstrbct syntbx tree\&.
 .TP
 -fv, --fullversion
 .br
-Prints the full Nashorn version string\&.
+Prints the full Nbshorn version string\&.
 .TP
---function-statement-error
+--function-stbtement-error
 .br
-Prints an error message when a function declaration is used as a statement\&.
+Prints bn error messbge when b function declbrbtion is used bs b stbtement\&.
 .TP
---function-statement-warning
+--function-stbtement-wbrning
 .br
-Prints a warning message when a function declaration is used as a statement\&.
+Prints b wbrning messbge when b function declbrbtion is used bs b stbtement\&.
 .TP
 -fx
 .br
-Launches the script as a JavaFX application\&.
+Lbunches the script bs b JbvbFX bpplicbtion\&.
 .TP
 -h, -help
 .br
-Prints the list of options and their descriptions\&.
+Prints the list of options bnd their descriptions\&.
 .TP
 -J\fIoption\fR
 .br
-Passes the specified \f3java\fR launcher option to the JVM\&. The following example shows how to invoke Nashorn in interactive mode and set the maximum memory used by the JVM to 4 GB:
+Pbsses the specified \f3jbvb\fR lbuncher option to the JVM\&. The following exbmple shows how to invoke Nbshorn in interbctive mode bnd set the mbximum memory used by the JVM to 4 GB:
 .sp     
 .nf     
 \f3>> \fIjjs \-J\-Xmx4g\fR\fP
 .fi     
 .nf     
-\f3jjs> \fIjava\&.lang\&.Runtime\&.getRuntime()\&.maxMemory()\fR\fP
+\f3jjs> \fIjbvb\&.lbng\&.Runtime\&.getRuntime()\&.mbxMemory()\fR\fP
 .fi     
 .nf     
 \f33817799680\fP
@@ -185,19 +185,19 @@ Passes the specified \f3java\fR launcher option to the JVM\&. The following exam
 .sp     
 
 
-This option can be repeated to pass multiple \f3java\fR command options\&.
+This option cbn be repebted to pbss multiple \f3jbvb\fR commbnd options\&.
 .TP
---lazy-compilation
+--lbzy-compilbtion
 .br
-Enables lazy code generation strategies (that is, the entire script is not compiled at once)\&. This option is experimental\&.
+Enbbles lbzy code generbtion strbtegies (thbt is, the entire script is not compiled bt once)\&. This option is experimentbl\&.
 .TP
---loader-per-compile
+--lobder-per-compile
 .br
-Creates a new class loader per compile\&. By default, this option is enabled\&. To disable it, specify \f3--loader-per-compile=false\fR\&.
+Crebtes b new clbss lobder per compile\&. By defbult, this option is enbbled\&. To disbble it, specify \f3--lobder-per-compile=fblse\fR\&.
 .TP
 --log=\fIsubsystem\fR:\fIlevel\fR
 .br
-Performs logging at a given level for the specified subsystems\&. You can specify logging levels for multiple subsystems separating them with commas\&. For example:
+Performs logging bt b given level for the specified subsystems\&. You cbn specify logging levels for multiple subsystems sepbrbting them with commbs\&. For exbmple:
 .sp     
 .nf     
 \f3\-\-log=fields:finest,codegen:info\fP
@@ -208,76 +208,76 @@ Performs logging at a given level for the specified subsystems\&. You can specif
 .sp     
 
 .TP
---package=\fIname\fR
+--pbckbge=\fInbme\fR
 .br
-Specifies the package to which generated class files are added\&.
+Specifies the pbckbge to which generbted clbss files bre bdded\&.
 .TP
---parse-only
+--pbrse-only
 .br
-Parses the code without compiling\&.
+Pbrses the code without compiling\&.
 .TP
---print-ast
+--print-bst
 .br
-Prints the abstract syntax tree\&.
+Prints the bbstrbct syntbx tree\&.
 .TP
 --print-code
 .br
 Prints bytecode\&.
 .TP
---print-lower-ast
+--print-lower-bst
 .br
-Prints the lowered abstract syntax tree\&.
+Prints the lowered bbstrbct syntbx tree\&.
 .TP
---print-lower-parse
+--print-lower-pbrse
 .br
-Prints the lowered parse tree\&.
+Prints the lowered pbrse tree\&.
 .TP
 --print-no-newline
 .br
 Forces other \f3--print*\fR options to print the output on one line\&.
 .TP
---print-parse
+--print-pbrse
 .br
-Prints the parse tree\&.
+Prints the pbrse tree\&.
 .TP
 --print-symbols
 .br
-Prints the symbol table\&.
+Prints the symbol tbble\&.
 .TP
--pcs, --profile-callsites
+-pcs, --profile-cbllsites
 .br
-Dumps callsite profile data\&.
+Dumps cbllsite profile dbtb\&.
 .TP
 -scripting
 .br
-Enables shell scripting features\&.
+Enbbles shell scripting febtures\&.
 .TP
---stderr=\fIfilename\fR|\fIstream\fR|\fItty\fR
+--stderr=\fIfilenbme\fR|\fIstrebm\fR|\fItty\fR
 .br
-Redirects the standard error stream to the specified file, stream (for example, to \f3stdout\fR), or text terminal\&.
+Redirects the stbndbrd error strebm to the specified file, strebm (for exbmple, to \f3stdout\fR), or text terminbl\&.
 .TP
---stdout=\fIfilename\fR|\fIstream\fR|\fItty\fR
+--stdout=\fIfilenbme\fR|\fIstrebm\fR|\fItty\fR
 .br
-Redirects the standard output stream to the specified file, stream (for example, to \f3stderr\fR), or text terminal\&.
+Redirects the stbndbrd output strebm to the specified file, strebm (for exbmple, to \f3stderr\fR), or text terminbl\&.
 .TP
 -strict
 .br
-Enables strict mode, which enforces stronger adherence to the standard (ECMAScript Edition 5\&.1), making it easier to detect common coding errors\&.
+Enbbles strict mode, which enforces stronger bdherence to the stbndbrd (ECMAScript Edition 5\&.1), mbking it ebsier to detect common coding errors\&.
 .TP
 -t=\fIzone\fR , -timezone=\fIzone\fR
 .br
-Sets the specified time zone for script execution\&. It overrides the time zone set in the OS and used by the \f3Date\fR object\&.
+Sets the specified time zone for script execution\&. It overrides the time zone set in the OS bnd used by the \f3Dbte\fR object\&.
 .TP
--tcs=\fIparameter\fR , --trace-callsites=\fIparameter\fR
+-tcs=\fIpbrbmeter\fR , --trbce-cbllsites=\fIpbrbmeter\fR
 .br
-Enables callsite trace mode\&. Possible parameters are the following:
+Enbbles cbllsite trbce mode\&. Possible pbrbmeters bre the following:
 .RS     
 .TP     
 miss
-Trace callsite misses\&.
+Trbce cbllsite misses\&.
 .TP     
 enterexit
-Trace callsite enter/exit\&.
+Trbce cbllsite enter/exit\&.
 .TP     
 objects
 Print object properties\&.
@@ -290,13 +290,13 @@ Verifies bytecode before running\&.
 .TP
 -v, -version
 .br
-Prints the Nashorn version string\&.
+Prints the Nbshorn version string\&.
 .TP
 -xhelp
 .br
-Prints extended help for command-line options\&.
+Prints extended help for commbnd-line options\&.
 .SH EXAMPLES    
-\f3Example 1 Running a Script with Nashorn\fR
+\f3Exbmple 1 Running b Script with Nbshorn\fR
 .sp     
 .nf     
 \f3jjs script\&.js\fP
@@ -305,7 +305,7 @@ Prints extended help for command-line options\&.
 \f3\fR
 .fi     
 .sp     
-\f3Example 2 Running Nashorn in Interactive Mode\fR
+\f3Exbmple 2 Running Nbshorn in Interbctive Mode\fR
 .sp     
 .nf     
 \f3>> \fIjjs\fR\fP
@@ -326,16 +326,16 @@ Prints extended help for command-line options\&.
 \f3\fR
 .fi     
 .sp     
-\f3Example 3 Passing Arguments to Nashorn\fR
+\f3Exbmple 3 Pbssing Arguments to Nbshorn\fR
 .sp     
 .nf     
-\f3>> \fIjjs \-\- a b c\fR\fP
+\f3>> \fIjjs \-\- b b c\fR\fP
 .fi     
 .nf     
-\f3jjs> \fIarguments\&.join(", ")\fR\fP
+\f3jjs> \fIbrguments\&.join(", ")\fR\fP
 .fi     
 .nf     
-\f3a, b, c\fP
+\f3b, b, c\fP
 .fi     
 .nf     
 \f3jjs>\fP

@@ -1,187 +1,187 @@
 /*
- * Copyright (c) 2007, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-#include "D3DBadHardware.h"
-#include "D3DPipelineManager.h"
+#include "D3DBbdHbrdwbre.h"
+#include "D3DPipelineMbnbger.h"
 #include "D3DRenderQueue.h"
-#include "WindowsFlags.h"
-#include "awt_Win32GraphicsDevice.h"
+#include "WindowsFlbgs.h"
+#include "bwt_Win32GrbphicsDevice.h"
 
-// state of the adapter prior to initialization
+// stbte of the bdbpter prior to initiblizbtion
 #define CONTEXT_NOT_INITED 0
-// this state is set if adapter initialization had failed
+// this stbte is set if bdbpter initiblizbtion hbd fbiled
 #define CONTEXT_INIT_FAILED (-1)
-// this state is set if adapter was successfully created
+// this stbte is set if bdbpter wbs successfully crebted
 #define CONTEXT_CREATED 1
 
-static BOOL bNoHwCheck = (getenv("J2D_D3D_NO_HWCHECK") != NULL);
+stbtic BOOL bNoHwCheck = (getenv("J2D_D3D_NO_HWCHECK") != NULL);
 
-D3DPipelineManager *D3DPipelineManager::pMgr = NULL;
+D3DPipelineMbnbger *D3DPipelineMbnbger::pMgr = NULL;
 
 
-D3DPipelineManager * D3DPipelineManager::CreateInstance(void)
+D3DPipelineMbnbger * D3DPipelineMbnbger::CrebteInstbnce(void)
 {
-    if (!IsD3DEnabled() ||
-        FAILED((D3DPipelineManager::CheckOSVersion())) ||
-        FAILED((D3DPipelineManager::GDICheckForBadHardware())))
+    if (!IsD3DEnbbled() ||
+        FAILED((D3DPipelineMbnbger::CheckOSVersion())) ||
+        FAILED((D3DPipelineMbnbger::GDICheckForBbdHbrdwbre())))
     {
         return NULL;
     }
 
     if (pMgr == NULL) {
-        pMgr = new D3DPipelineManager();
+        pMgr = new D3DPipelineMbnbger();
         if (FAILED(pMgr->InitD3D())) {
             SAFE_DELETE(pMgr);
         }
     } else {
-        // this should never happen so to be on the safe side do not
-        // use this unexpected pointer, do not try to release it, just null
-        // it out and fail safely
-        J2dRlsTraceLn1(J2D_TRACE_ERROR,
-                       "D3DPPLM::CreateInstance: unexpected instance: 0x%x,"\
-                       " abort.", pMgr);
+        // this should never hbppen so to be on the sbfe side do not
+        // use this unexpected pointer, do not try to relebse it, just null
+        // it out bnd fbil sbfely
+        J2dRlsTrbceLn1(J2D_TRACE_ERROR,
+                       "D3DPPLM::CrebteInstbnce: unexpected instbnce: 0x%x,"\
+                       " bbort.", pMgr);
         pMgr = NULL;
     }
     return pMgr;
 }
 
-void D3DPipelineManager::DeleteInstance()
+void D3DPipelineMbnbger::DeleteInstbnce()
 {
-    J2dTraceLn(J2D_TRACE_INFO, "D3DPPLM::DeleteInstance()");
+    J2dTrbceLn(J2D_TRACE_INFO, "D3DPPLM::DeleteInstbnce()");
     SAFE_DELETE(pMgr);
 }
 
-D3DPipelineManager * D3DPipelineManager::GetInstance(void)
+D3DPipelineMbnbger * D3DPipelineMbnbger::GetInstbnce(void)
 {
     return pMgr;
 }
 
-D3DPipelineManager::D3DPipelineManager(void)
+D3DPipelineMbnbger::D3DPipelineMbnbger(void)
 {
     pd3d9 = NULL;
     hLibD3D9 = NULL;
-    pAdapters = NULL;
-    adapterCount = 0;
-    currentFSFocusAdapter = -1;
-    defaultFocusWindow = 0;
+    pAdbpters = NULL;
+    bdbpterCount = 0;
+    currentFSFocusAdbpter = -1;
+    defbultFocusWindow = 0;
     devType = SelectDeviceType();
 }
 
-D3DPipelineManager::~D3DPipelineManager(void)
+D3DPipelineMbnbger::~D3DPipelineMbnbger(void)
 {
-    J2dTraceLn(J2D_TRACE_INFO, "D3DPPLM::~D3DPipelineManager()");
-    ReleaseD3D();
+    J2dTrbceLn(J2D_TRACE_INFO, "D3DPPLM::~D3DPipelineMbnbger()");
+    RelebseD3D();
 }
 
-HRESULT D3DPipelineManager::ReleaseD3D(void)
+HRESULT D3DPipelineMbnbger::RelebseD3D(void)
 {
-    J2dTraceLn(J2D_TRACE_INFO, "D3DPPLM::ReleaseD3D()");
+    J2dTrbceLn(J2D_TRACE_INFO, "D3DPPLM::RelebseD3D()");
 
-    ReleaseAdapters();
+    RelebseAdbpters();
 
     SAFE_RELEASE(pd3d9);
 
     if (hLibD3D9 != NULL) {
-        ::FreeLibrary(hLibD3D9);
+        ::FreeLibrbry(hLibD3D9);
         hLibD3D9 = NULL;
     }
 
     return S_OK;
 }
 
-// Creates a Direct3D9 object and initializes adapters.
+// Crebtes b Direct3D9 object bnd initiblizes bdbpters.
 // If succeeded, returns S_OK, otherwise returns the error code.
-HRESULT D3DPipelineManager::InitD3D(void)
+HRESULT D3DPipelineMbnbger::InitD3D(void)
 {
-    typedef IDirect3D9 * WINAPI FnDirect3DCreate9(UINT SDKVersion);
+    typedef IDirect3D9 * WINAPI FnDirect3DCrebte9(UINT SDKVersion);
 
-    hLibD3D9 = JDK_LoadSystemLibrary("d3d9.dll");
+    hLibD3D9 = JDK_LobdSystemLibrbry("d3d9.dll");
     if (hLibD3D9 == NULL) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR, "InitD3D: no d3d9.dll");
+        J2dRlsTrbceLn(J2D_TRACE_ERROR, "InitD3D: no d3d9.dll");
         return E_FAIL;
     }
 
-    FnDirect3DCreate9 *d3dcreate9 = NULL;
-    d3dcreate9 = (FnDirect3DCreate9*)
-        ::GetProcAddress(hLibD3D9, "Direct3DCreate9");
-    if (d3dcreate9 == NULL) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR, "InitD3D: no Direct3DCreate9");
-        ::FreeLibrary(hLibD3D9);
+    FnDirect3DCrebte9 *d3dcrebte9 = NULL;
+    d3dcrebte9 = (FnDirect3DCrebte9*)
+        ::GetProcAddress(hLibD3D9, "Direct3DCrebte9");
+    if (d3dcrebte9 == NULL) {
+        J2dRlsTrbceLn(J2D_TRACE_ERROR, "InitD3D: no Direct3DCrebte9");
+        ::FreeLibrbry(hLibD3D9);
         return E_FAIL;
     }
 
-    pd3d9 = d3dcreate9(D3D_SDK_VERSION);
+    pd3d9 = d3dcrebte9(D3D_SDK_VERSION);
     if (pd3d9 == NULL) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-            "InitD3D: unable to create IDirect3D9 object");
-        ::FreeLibrary(hLibD3D9);
+        J2dRlsTrbceLn(J2D_TRACE_ERROR,
+            "InitD3D: unbble to crebte IDirect3D9 object");
+        ::FreeLibrbry(hLibD3D9);
         return E_FAIL;
     }
 
     HRESULT res;
-    if (FAILED(res = InitAdapters())) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR, "InitD3D: failed to init adapters");
-        ReleaseD3D();
+    if (FAILED(res = InitAdbpters())) {
+        J2dRlsTrbceLn(J2D_TRACE_ERROR, "InitD3D: fbiled to init bdbpters");
+        RelebseD3D();
         return res;
     }
 
     return S_OK;
 }
 
-HRESULT D3DPipelineManager::ReleaseAdapters()
+HRESULT D3DPipelineMbnbger::RelebseAdbpters()
 {
-    J2dTraceLn(J2D_TRACE_INFO, "D3DPPLM::ReleaseAdapters()");
+    J2dTrbceLn(J2D_TRACE_INFO, "D3DPPLM::RelebseAdbpters()");
 
-    D3DRQ_ResetCurrentContextAndDestination();
-    if (pAdapters != NULL) {
-        for (UINT i = 0; i < adapterCount; i++) {
-            if (pAdapters[i].pd3dContext != NULL) {
-                delete pAdapters[i].pd3dContext;
+    D3DRQ_ResetCurrentContextAndDestinbtion();
+    if (pAdbpters != NULL) {
+        for (UINT i = 0; i < bdbpterCount; i++) {
+            if (pAdbpters[i].pd3dContext != NULL) {
+                delete pAdbpters[i].pd3dContext;
             }
         }
-        delete[] pAdapters;
-        pAdapters = NULL;
+        delete[] pAdbpters;
+        pAdbpters = NULL;
     }
-    if (defaultFocusWindow != 0) {
-        DestroyWindow(defaultFocusWindow);
-        UnregisterClass(L"D3DFocusWindow", GetModuleHandle(NULL));
-        defaultFocusWindow = 0;
+    if (defbultFocusWindow != 0) {
+        DestroyWindow(defbultFocusWindow);
+        UnregisterClbss(L"D3DFocusWindow", GetModuleHbndle(NULL));
+        defbultFocusWindow = 0;
     }
-    currentFSFocusAdapter = -1;
+    currentFSFocusAdbpter = -1;
     return S_OK;
 }
 
-// static
-void D3DPipelineManager::NotifyAdapterEventListeners(UINT adapter,
+// stbtic
+void D3DPipelineMbnbger::NotifyAdbpterEventListeners(UINT bdbpter,
                                                      jint eventType)
 {
     HMONITOR hMon;
     int gdiScreen;
-    D3DPipelineManager *pMgr;
+    D3DPipelineMbnbger *pMgr;
 
-    // fix for 6946559: if d3d preloading fails jmv may be NULL
+    // fix for 6946559: if d3d prelobding fbils jmv mby be NULL
     if (jvm == NULL) {
         return;
     }
@@ -189,236 +189,236 @@ void D3DPipelineManager::NotifyAdapterEventListeners(UINT adapter,
     JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
     RETURN_IF_NULL(env);
 
-    pMgr = D3DPipelineManager::GetInstance();
+    pMgr = D3DPipelineMbnbger::GetInstbnce();
     RETURN_IF_NULL(pMgr);
-    hMon = pMgr->pd3d9->GetAdapterMonitor(adapter);
+    hMon = pMgr->pd3d9->GetAdbpterMonitor(bdbpter);
 
     /*
-     * If we don't have devices initialized yet, no sense to clear them.
+     * If we don't hbve devices initiblized yet, no sense to clebr them.
      */
-    if (!Devices::GetInstance()){
+    if (!Devices::GetInstbnce()){
          return;
     }
 
-    gdiScreen = AwtWin32GraphicsDevice::GetScreenFromHMONITOR(hMon);
+    gdiScreen = AwtWin32GrbphicsDevice::GetScreenFromHMONITOR(hMon);
 
-    JNU_CallStaticMethodByName(env, NULL,
-        "sun/java2d/pipe/hw/AccelDeviceEventNotifier",
+    JNU_CbllStbticMethodByNbme(env, NULL,
+        "sun/jbvb2d/pipe/hw/AccelDeviceEventNotifier",
         "eventOccured", "(II)V",
         gdiScreen, eventType);
 }
 
-UINT D3DPipelineManager::GetAdapterOrdinalForScreen(jint gdiScreen)
+UINT D3DPipelineMbnbger::GetAdbpterOrdinblForScreen(jint gdiScreen)
 {
-    HMONITOR mHnd = AwtWin32GraphicsDevice::GetMonitor(gdiScreen);
+    HMONITOR mHnd = AwtWin32GrbphicsDevice::GetMonitor(gdiScreen);
     if (mHnd == (HMONITOR)0) {
         return D3DADAPTER_DEFAULT;
     }
-    return GetAdapterOrdinalByHmon((HMONITOR)mHnd);
+    return GetAdbpterOrdinblByHmon((HMONITOR)mHnd);
 }
 
-// static
-HRESULT D3DPipelineManager::HandleAdaptersChange(HMONITOR *pHMONITORs, UINT monNum)
+// stbtic
+HRESULT D3DPipelineMbnbger::HbndleAdbptersChbnge(HMONITOR *pHMONITORs, UINT monNum)
 {
     HRESULT res = S_OK;
     BOOL bResetD3D = FALSE, bFound;
 
-    D3DPipelineManager *pMgr = D3DPipelineManager::GetInstance();
+    D3DPipelineMbnbger *pMgr = D3DPipelineMbnbger::GetInstbnce();
     RETURN_STATUS_IF_NULL(pHMONITORs, E_FAIL);
     if (pMgr == NULL) {
-        // NULL pMgr is valid when the pipeline is not enabled or if it hasn't
-        // been created yet
+        // NULL pMgr is vblid when the pipeline is not enbbled or if it hbsn't
+        // been crebted yet
         return S_OK;
     }
-    RETURN_STATUS_IF_NULL(pMgr->pAdapters, E_FAIL);
+    RETURN_STATUS_IF_NULL(pMgr->pAdbpters, E_FAIL);
     RETURN_STATUS_IF_NULL(pMgr->pd3d9, E_FAIL);
 
-    J2dTraceLn(J2D_TRACE_INFO, "D3DPPLM::HandleAdaptersChange");
+    J2dTrbceLn(J2D_TRACE_INFO, "D3DPPLM::HbndleAdbptersChbnge");
 
-    if (monNum != pMgr->adapterCount) {
-        J2dTraceLn2(J2D_TRACE_VERBOSE,
-                   "  number of adapters changed (old=%d, new=%d)",
-                   pMgr->adapterCount, monNum);
+    if (monNum != pMgr->bdbpterCount) {
+        J2dTrbceLn2(J2D_TRACE_VERBOSE,
+                   "  number of bdbpters chbnged (old=%d, new=%d)",
+                   pMgr->bdbpterCount, monNum);
         bResetD3D = TRUE;
     } else {
-        for (UINT i = 0; i < pMgr->adapterCount; i++) {
-            HMONITOR hMon = pMgr->pd3d9->GetAdapterMonitor(i);
+        for (UINT i = 0; i < pMgr->bdbpterCount; i++) {
+            HMONITOR hMon = pMgr->pd3d9->GetAdbpterMonitor(i);
             if (hMon == (HMONITOR)0x0) {
-                J2dTraceLn1(J2D_TRACE_VERBOSE, "  adapter %d: removed", i);
+                J2dTrbceLn1(J2D_TRACE_VERBOSE, "  bdbpter %d: removed", i);
                 bResetD3D = TRUE;
-                break;
+                brebk;
             }
             bFound = FALSE;
             for (UINT mon = 0; mon < monNum; mon++) {
                 if (pHMONITORs[mon] == hMon) {
-                    J2dTraceLn3(J2D_TRACE_VERBOSE,
-                            "  adapter %d: found hmnd[%d]=0x%x", i, mon, hMon);
+                    J2dTrbceLn3(J2D_TRACE_VERBOSE,
+                            "  bdbpter %d: found hmnd[%d]=0x%x", i, mon, hMon);
                     bFound = TRUE;
-                    break;
+                    brebk;
                 }
             }
             if (!bFound) {
-                J2dTraceLn2(J2D_TRACE_VERBOSE,
-                            "  adapter %d: could not find hmnd=0x%x "\
+                J2dTrbceLn2(J2D_TRACE_VERBOSE,
+                            "  bdbpter %d: could not find hmnd=0x%x "\
                             "in the list of new hmnds", i, hMon);
                 bResetD3D = TRUE;
-                break;
+                brebk;
             }
         }
     }
 
     if (bResetD3D) {
-        J2dTraceLn(J2D_TRACE_VERBOSE, "  adapters changed: resetting d3d");
-        pMgr->ReleaseD3D();
+        J2dTrbceLn(J2D_TRACE_VERBOSE, "  bdbpters chbnged: resetting d3d");
+        pMgr->RelebseD3D();
         res = pMgr->InitD3D();
     }
     return res;
 }
 
-HRESULT D3DPipelineManager::HandleLostDevices()
+HRESULT D3DPipelineMbnbger::HbndleLostDevices()
 {
-    J2dTraceLn(J2D_TRACE_INFO, "D3DPPLM::HandleLostDevices()");
-    BOOL bAllClear = TRUE;
+    J2dTrbceLn(J2D_TRACE_INFO, "D3DPPLM::HbndleLostDevices()");
+    BOOL bAllClebr = TRUE;
 
     HWND hwnd = GetCurrentFocusWindow();
-    if (hwnd != defaultFocusWindow) {
+    if (hwnd != defbultFocusWindow) {
         // we're in full-screen mode
         WINDOWPLACEMENT wp;
         ::ZeroMemory(&wp, sizeof(WINDOWPLACEMENT));
         wp.length = sizeof(WINDOWPLACEMENT);
-        ::GetWindowPlacement(hwnd, &wp);
+        ::GetWindowPlbcement(hwnd, &wp);
 
-        // Only attempt to restore the devices if we're in full-screen mode
-        // and the fs window is active; sleep otherwise.
-        // Restoring a window while minimized causes problems on Vista:
-        // sometimes we restore the window too quickly and it pops up back from
-        // minimized state when the device is restored.
+        // Only bttempt to restore the devices if we're in full-screen mode
+        // bnd the fs window is bctive; sleep otherwise.
+        // Restoring b window while minimized cbuses problems on Vistb:
+        // sometimes we restore the window too quickly bnd it pops up bbck from
+        // minimized stbte when the device is restored.
         //
-        // WARNING: this is a sleep on the Toolkit thread! We may reconsider
-        // this if we find any issues later.
+        // WARNING: this is b sleep on the Toolkit threbd! We mby reconsider
+        // this if we find bny issues lbter.
         if ((wp.showCmd & SW_SHOWMINNOACTIVE) && !(wp.showCmd & SW_SHOWNORMAL)){
-            static DWORD prevCallTime = 0;
-            J2dTraceLn(J2D_TRACE_VERBOSE, "  fs focus window is minimized");
+            stbtic DWORD prevCbllTime = 0;
+            J2dTrbceLn(J2D_TRACE_VERBOSE, "  fs focus window is minimized");
             DWORD currentTime = ::GetTickCount();
-            if ((currentTime - prevCallTime) < 100) {
-                J2dTraceLn(J2D_TRACE_VERBOSE, "  tight loop detected, sleep");
+            if ((currentTime - prevCbllTime) < 100) {
+                J2dTrbceLn(J2D_TRACE_VERBOSE, "  tight loop detected, sleep");
                 ::Sleep(100);
             }
-            prevCallTime = currentTime;
+            prevCbllTime = currentTime;
             return D3DERR_DEVICELOST;
         }
     }
-    if (pAdapters != NULL) {
-        for (UINT i = 0; i < adapterCount; i++) {
-            if (pAdapters[i].pd3dContext != NULL) {
-                J2dTraceLn1(J2D_TRACE_VERBOSE,
-                            "  HandleLostDevices: checking adapter %d", i);
-                D3DContext *d3dc = pAdapters[i].pd3dContext;
+    if (pAdbpters != NULL) {
+        for (UINT i = 0; i < bdbpterCount; i++) {
+            if (pAdbpters[i].pd3dContext != NULL) {
+                J2dTrbceLn1(J2D_TRACE_VERBOSE,
+                            "  HbndleLostDevices: checking bdbpter %d", i);
+                D3DContext *d3dc = pAdbpters[i].pd3dContext;
                 if (FAILED(d3dc->CheckAndResetDevice())) {
-                    bAllClear = FALSE;
+                    bAllClebr = FALSE;
                 }
             }
         }
     }
-    return bAllClear ? S_OK : D3DERR_DEVICELOST;
+    return bAllClebr ? S_OK : D3DERR_DEVICELOST;
 }
 
-HRESULT D3DPipelineManager::InitAdapters()
+HRESULT D3DPipelineMbnbger::InitAdbpters()
 {
     HRESULT res = E_FAIL;
 
-    J2dTraceLn(J2D_TRACE_INFO, "D3DPPLM::InitAdapters()");
-    if (pAdapters != NULL) {
-        ReleaseAdapters();
+    J2dTrbceLn(J2D_TRACE_INFO, "D3DPPLM::InitAdbpters()");
+    if (pAdbpters != NULL) {
+        RelebseAdbpters();
     }
 
-    adapterCount = pd3d9->GetAdapterCount();
-    pAdapters = new D3DAdapter[adapterCount];
-    if (pAdapters == NULL) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR, "InitAdapters: out of memory");
-        adapterCount = 0;
+    bdbpterCount = pd3d9->GetAdbpterCount();
+    pAdbpters = new D3DAdbpter[bdbpterCount];
+    if (pAdbpters == NULL) {
+        J2dRlsTrbceLn(J2D_TRACE_ERROR, "InitAdbpters: out of memory");
+        bdbpterCount = 0;
         return E_FAIL;
     }
-    ZeroMemory(pAdapters, adapterCount * sizeof(D3DAdapter));
+    ZeroMemory(pAdbpters, bdbpterCount * sizeof(D3DAdbpter));
 
-    res = CheckAdaptersInfo();
+    res = CheckAdbptersInfo();
     RETURN_STATUS_IF_FAILED(res);
 
-    currentFSFocusAdapter = -1;
-    if (CreateDefaultFocusWindow() == 0) {
+    currentFSFocusAdbpter = -1;
+    if (CrebteDefbultFocusWindow() == 0) {
         return E_FAIL;
     }
 
     return S_OK;
 }
 
-// static
+// stbtic
 HRESULT
-D3DPipelineManager::CheckOSVersion()
+D3DPipelineMbnbger::CheckOSVersion()
 {
-    // require Windows XP or newer client-class OS
+    // require Windows XP or newer client-clbss OS
     if (IS_WINVER_ATLEAST(5, 1) &&
-        !D3DPPLM_OsVersionMatches(OS_WINSERV_2008R2|OS_WINSERV_2008|
+        !D3DPPLM_OsVersionMbtches(OS_WINSERV_2008R2|OS_WINSERV_2008|
                                   OS_WINSERV_2003))
     {
-        J2dTraceLn(J2D_TRACE_INFO,
-                   "D3DPPLM::CheckOSVersion: Windows XP or newer client-classs"\
-                   " OS detected, passed");
+        J2dTrbceLn(J2D_TRACE_INFO,
+                   "D3DPPLM::CheckOSVersion: Windows XP or newer client-clbsss"\
+                   " OS detected, pbssed");
         return S_OK;
     }
-    J2dRlsTraceLn(J2D_TRACE_ERROR,
-                  "D3DPPLM::CheckOSVersion: Windows 2000 or earlier (or a "\
-                  "server) OS detected, failed");
+    J2dRlsTrbceLn(J2D_TRACE_ERROR,
+                  "D3DPPLM::CheckOSVersion: Windows 2000 or ebrlier (or b "\
+                  "server) OS detected, fbiled");
     if (bNoHwCheck) {
-        J2dRlsTraceLn(J2D_TRACE_WARNING,
-                      "  OS check overridden via J2D_D3D_NO_HWCHECK");
+        J2dRlsTrbceLn(J2D_TRACE_WARNING,
+                      "  OS check overridden vib J2D_D3D_NO_HWCHECK");
         return S_OK;
     }
     return E_FAIL;
 }
 
-// static
+// stbtic
 HRESULT
-D3DPipelineManager::GDICheckForBadHardware()
+D3DPipelineMbnbger::GDICheckForBbdHbrdwbre()
 {
     DISPLAY_DEVICE dd;
     dd.cb = sizeof(DISPLAY_DEVICE);
 
-    int failedDevices = 0;
-    int attachedDevices = 0;
+    int fbiledDevices = 0;
+    int bttbchedDevices = 0;
     int i = 0;
     WCHAR *id;
     WCHAR vendorId[5];
     WCHAR deviceId[5];
     DWORD dwDId, dwVId;
 
-    J2dTraceLn(J2D_TRACE_INFO, "D3DPPLM::GDICheckForBadHardware");
+    J2dTrbceLn(J2D_TRACE_INFO, "D3DPPLM::GDICheckForBbdHbrdwbre");
 
-    // i<20 is to guard against buggy drivers
-    while (EnumDisplayDevices(NULL, i, &dd, 0) && i < 20) {
-        if (dd.StateFlags & DISPLAY_DEVICE_ATTACHED_TO_DESKTOP) {
-            attachedDevices++;
+    // i<20 is to gubrd bgbinst buggy drivers
+    while (EnumDisplbyDevices(NULL, i, &dd, 0) && i < 20) {
+        if (dd.StbteFlbgs & DISPLAY_DEVICE_ATTACHED_TO_DESKTOP) {
+            bttbchedDevices++;
             id = dd.DeviceID;
             if (wcslen(id) > 21) {
                 // get vendor ID
                 wcsncpy(vendorId, id+8, 4);
-                int args1 = swscanf(vendorId, L"%X", &dwVId);
+                int brgs1 = swscbnf(vendorId, L"%X", &dwVId);
 
                 // get device ID
                 wcsncpy(deviceId, id+17, 4);
-                int args2 = swscanf(deviceId, L"%X", &dwDId);
+                int brgs2 = swscbnf(deviceId, L"%X", &dwDId);
 
-                if (args1 == 1 && args2 == 1) {
-                    J2dTraceLn2(J2D_TRACE_VERBOSE,
+                if (brgs1 == 1 && brgs2 == 1) {
+                    J2dTrbceLn2(J2D_TRACE_VERBOSE,
                                 "  device: vendorID=0x%04x, deviceId=0x%04x",
                                 dwVId, dwDId);
-                    // since we don't have a driver version here we will
-                    // just ask to ignore the version for now; bad hw
-                    // entries with specific drivers information will be
-                    // processed later when d3d is initialized and we can
-                    // obtain a driver version
-                    if (FAILED(CheckForBadHardware(dwVId, dwDId, MAX_VERSION))){
-                        failedDevices++;
+                    // since we don't hbve b driver version here we will
+                    // just bsk to ignore the version for now; bbd hw
+                    // entries with specific drivers informbtion will be
+                    // processed lbter when d3d is initiblized bnd we cbn
+                    // obtbin b driver version
+                    if (FAILED(CheckForBbdHbrdwbre(dwVId, dwDId, MAX_VERSION))){
+                        fbiledDevices++;
                     }
                 }
             }
@@ -427,17 +427,17 @@ D3DPipelineManager::GDICheckForBadHardware()
         i++;
     }
 
-    if (failedDevices == attachedDevices) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-            "D3DPPLM::GDICheckForBadHardware: no suitable devices found");
+    if (fbiledDevices == bttbchedDevices) {
+        J2dRlsTrbceLn(J2D_TRACE_ERROR,
+            "D3DPPLM::GDICheckForBbdHbrdwbre: no suitbble devices found");
         return E_FAIL;
     }
 
     return S_OK;
 }
 
-BOOL D3DPPLM_OsVersionMatches(USHORT osInfo) {
-    static USHORT currentOS = OS_UNDEFINED;
+BOOL D3DPPLM_OsVersionMbtches(USHORT osInfo) {
+    stbtic USHORT currentOS = OS_UNDEFINED;
 
     if (currentOS == OS_UNDEFINED) {
         BOOL bVersOk;
@@ -448,55 +448,55 @@ BOOL D3DPPLM_OsVersionMatches(USHORT osInfo) {
 
         bVersOk = GetVersionEx((OSVERSIONINFO *) &osvi);
 
-        J2dRlsTrace(J2D_TRACE_INFO, "[I] OS Version = ");
-        if (bVersOk && osvi.dwPlatformId == VER_PLATFORM_WIN32_NT &&
-            osvi.dwMajorVersion > 4)
+        J2dRlsTrbce(J2D_TRACE_INFO, "[I] OS Version = ");
+        if (bVersOk && osvi.dwPlbtformId == VER_PLATFORM_WIN32_NT &&
+            osvi.dwMbjorVersion > 4)
         {
-            if (osvi.dwMajorVersion >= 6 && osvi.dwMinorVersion == 0) {
+            if (osvi.dwMbjorVersion >= 6 && osvi.dwMinorVersion == 0) {
                 if (osvi.wProductType == VER_NT_WORKSTATION) {
-                    J2dRlsTrace(J2D_TRACE_INFO, "OS_VISTA\n");
+                    J2dRlsTrbce(J2D_TRACE_INFO, "OS_VISTA\n");
                     currentOS = OS_VISTA;
                 } else {
-                    J2dRlsTrace(J2D_TRACE_INFO, "OS_WINSERV_2008\n");
+                    J2dRlsTrbce(J2D_TRACE_INFO, "OS_WINSERV_2008\n");
                     currentOS = OS_WINSERV_2008;
                 }
-            } else if (osvi.dwMajorVersion >= 6 && osvi.dwMinorVersion >= 1) {
+            } else if (osvi.dwMbjorVersion >= 6 && osvi.dwMinorVersion >= 1) {
                 if (osvi.wProductType == VER_NT_WORKSTATION) {
-                    J2dRlsTrace(J2D_TRACE_INFO, "OS_WINDOWS7 or newer\n");
+                    J2dRlsTrbce(J2D_TRACE_INFO, "OS_WINDOWS7 or newer\n");
                     currentOS = OS_WINDOWS7;
                 } else {
-                    J2dRlsTrace(J2D_TRACE_INFO, "OS_WINSERV_2008R2 or newer\n");
+                    J2dRlsTrbce(J2D_TRACE_INFO, "OS_WINSERV_2008R2 or newer\n");
                     currentOS = OS_WINSERV_2008R2;
                 }
-            } else if (osvi.dwMajorVersion == 5 && osvi.dwMinorVersion == 2) {
+            } else if (osvi.dwMbjorVersion == 5 && osvi.dwMinorVersion == 2) {
                 if (osvi.wProductType == VER_NT_WORKSTATION) {
-                    J2dRlsTrace(J2D_TRACE_INFO, "OS_WINXP_64\n");
+                    J2dRlsTrbce(J2D_TRACE_INFO, "OS_WINXP_64\n");
                     currentOS = OS_WINXP_64;
                 } else {
-                    J2dRlsTrace(J2D_TRACE_INFO, "OS_WINSERV_2003\n");
+                    J2dRlsTrbce(J2D_TRACE_INFO, "OS_WINSERV_2003\n");
                     currentOS = OS_WINSERV_2003;
                 }
-            } else if (osvi.dwMajorVersion == 5 && osvi.dwMinorVersion == 1) {
-                J2dRlsTrace(J2D_TRACE_INFO, "OS_WINXP ");
+            } else if (osvi.dwMbjorVersion == 5 && osvi.dwMinorVersion == 1) {
+                J2dRlsTrbce(J2D_TRACE_INFO, "OS_WINXP ");
                 currentOS = OS_WINXP;
-                if (osvi.wSuiteMask & VER_SUITE_PERSONAL) {
-                    J2dRlsTrace(J2D_TRACE_INFO, "Home\n");
+                if (osvi.wSuiteMbsk & VER_SUITE_PERSONAL) {
+                    J2dRlsTrbce(J2D_TRACE_INFO, "Home\n");
                 } else {
-                    J2dRlsTrace(J2D_TRACE_INFO, "Pro\n");
+                    J2dRlsTrbce(J2D_TRACE_INFO, "Pro\n");
                 }
             } else {
-                J2dRlsTrace2(J2D_TRACE_INFO,
-                            "OS_UNKNOWN: dwMajorVersion=%d dwMinorVersion=%d\n",
-                             osvi.dwMajorVersion, osvi.dwMinorVersion);
+                J2dRlsTrbce2(J2D_TRACE_INFO,
+                            "OS_UNKNOWN: dwMbjorVersion=%d dwMinorVersion=%d\n",
+                             osvi.dwMbjorVersion, osvi.dwMinorVersion);
                 currentOS = OS_UNKNOWN;
             }
         } else {
             if (bVersOk) {
-                J2dRlsTrace2(J2D_TRACE_INFO,
-                             "OS_UNKNOWN: dwPlatformId=%d dwMajorVersion=%d\n",
-                             osvi.dwPlatformId, osvi.dwMajorVersion);
+                J2dRlsTrbce2(J2D_TRACE_INFO,
+                             "OS_UNKNOWN: dwPlbtformId=%d dwMbjorVersion=%d\n",
+                             osvi.dwPlbtformId, osvi.dwMbjorVersion);
             } else {
-                J2dRlsTrace(J2D_TRACE_INFO,"OS_UNKNOWN: GetVersionEx failed\n");
+                J2dRlsTrbce(J2D_TRACE_INFO,"OS_UNKNOWN: GetVersionEx fbiled\n");
             }
             currentOS = OS_UNKNOWN;
         }
@@ -504,154 +504,154 @@ BOOL D3DPPLM_OsVersionMatches(USHORT osInfo) {
     return (currentOS & osInfo);
 }
 
-// static
+// stbtic
 HRESULT
-D3DPipelineManager::CheckForBadHardware(DWORD vId, DWORD dId, LONGLONG version)
+D3DPipelineMbnbger::CheckForBbdHbrdwbre(DWORD vId, DWORD dId, LONGLONG version)
 {
     DWORD vendorId, deviceId;
-    UINT adapterInfo = 0;
+    UINT bdbpterInfo = 0;
 
-    J2dTraceLn(J2D_TRACE_INFO, "D3DPPLM::CheckForBadHardware");
+    J2dTrbceLn(J2D_TRACE_INFO, "D3DPPLM::CheckForBbdHbrdwbre");
 
-    while ((vendorId = badHardware[adapterInfo].VendorId) != 0x0000 &&
-           (deviceId = badHardware[adapterInfo].DeviceId) != 0x0000)
+    while ((vendorId = bbdHbrdwbre[bdbpterInfo].VendorId) != 0x0000 &&
+           (deviceId = bbdHbrdwbre[bdbpterInfo].DeviceId) != 0x0000)
     {
         if (vendorId == vId && (deviceId == dId || deviceId == ALL_DEVICEIDS)) {
-            LONGLONG goodVersion = badHardware[adapterInfo].DriverVersion;
-            USHORT osInfo = badHardware[adapterInfo].OsInfo;
-            // the hardware check fails if:
-            // - we have an entry for this OS and
-            // - hardware is bad for all driver versions (NO_VERSION), or
-            //   we have a driver version which is older than the
+            LONGLONG goodVersion = bbdHbrdwbre[bdbpterInfo].DriverVersion;
+            USHORT osInfo = bbdHbrdwbre[bdbpterInfo].OsInfo;
+            // the hbrdwbre check fbils if:
+            // - we hbve bn entry for this OS bnd
+            // - hbrdwbre is bbd for bll driver versions (NO_VERSION), or
+            //   we hbve b driver version which is older thbn the
             //   minimum required for this OS
-            if (D3DPPLM_OsVersionMatches(osInfo) &&
+            if (D3DPPLM_OsVersionMbtches(osInfo) &&
                 (goodVersion == NO_VERSION || version < goodVersion))
             {
-                J2dRlsTraceLn2(J2D_TRACE_ERROR,
-                    "D3DPPLM::CheckForBadHardware: found matching "\
-                    "hardware: VendorId=0x%04x DeviceId=0x%04x",
+                J2dRlsTrbceLn2(J2D_TRACE_ERROR,
+                    "D3DPPLM::CheckForBbdHbrdwbre: found mbtching "\
+                    "hbrdwbre: VendorId=0x%04x DeviceId=0x%04x",
                     vendorId, deviceId);
                 if (goodVersion != NO_VERSION) {
-                    // this was a match by the driver version
+                    // this wbs b mbtch by the driver version
                     LARGE_INTEGER li;
-                    li.QuadPart = goodVersion;
-                    J2dRlsTraceLn(J2D_TRACE_ERROR,
-                                  "  bad driver found, device disabled");
-                    J2dRlsTraceLn4(J2D_TRACE_ERROR,
-                                   "  update your driver to at "\
-                                   "least version %d.%d.%d.%d",
-                                   HIWORD(li.HighPart), LOWORD(li.HighPart),
-                                   HIWORD(li.LowPart),  LOWORD(li.LowPart));
+                    li.QubdPbrt = goodVersion;
+                    J2dRlsTrbceLn(J2D_TRACE_ERROR,
+                                  "  bbd driver found, device disbbled");
+                    J2dRlsTrbceLn4(J2D_TRACE_ERROR,
+                                   "  updbte your driver to bt "\
+                                   "lebst version %d.%d.%d.%d",
+                                   HIWORD(li.HighPbrt), LOWORD(li.HighPbrt),
+                                   HIWORD(li.LowPbrt),  LOWORD(li.LowPbrt));
                 } else {
-                    // this was a match by the device (no good driver for this
+                    // this wbs b mbtch by the device (no good driver for this
                     // device)
-                    J2dRlsTraceLn(J2D_TRACE_ERROR,
-                                  "D3DPPLM::CheckForBadHardware: bad hardware "\
-                                  "found, device disabled");
+                    J2dRlsTrbceLn(J2D_TRACE_ERROR,
+                                  "D3DPPLM::CheckForBbdHbrdwbre: bbd hbrdwbre "\
+                                  "found, device disbbled");
                 }
                 if (!bNoHwCheck) {
                     return D3DERR_INVALIDDEVICE;
                 }
-                J2dRlsTraceLn(J2D_TRACE_WARNING, "  Warning: hw/driver match "\
-                              "overridden (via J2D_D3D_NO_HWCHECK)");
+                J2dRlsTrbceLn(J2D_TRACE_WARNING, "  Wbrning: hw/driver mbtch "\
+                              "overridden (vib J2D_D3D_NO_HWCHECK)");
             }
         }
-        adapterInfo++;
+        bdbpterInfo++;
     }
 
     return S_OK;
 }
 
-HRESULT D3DPipelineManager::CheckAdaptersInfo()
+HRESULT D3DPipelineMbnbger::CheckAdbptersInfo()
 {
-    D3DADAPTER_IDENTIFIER9 aid;
-    UINT failedAdaptersCount = 0;
+    D3DADAPTER_IDENTIFIER9 bid;
+    UINT fbiledAdbptersCount = 0;
 
-    J2dRlsTraceLn(J2D_TRACE_INFO, "CheckAdaptersInfo");
-    J2dRlsTraceLn(J2D_TRACE_INFO, "------------------");
-    for (UINT Adapter = 0; Adapter < adapterCount; Adapter++) {
+    J2dRlsTrbceLn(J2D_TRACE_INFO, "CheckAdbptersInfo");
+    J2dRlsTrbceLn(J2D_TRACE_INFO, "------------------");
+    for (UINT Adbpter = 0; Adbpter < bdbpterCount; Adbpter++) {
 
-        if (FAILED(pd3d9->GetAdapterIdentifier(Adapter, 0, &aid))) {
-            pAdapters[Adapter].state = CONTEXT_INIT_FAILED;
-            failedAdaptersCount++;
+        if (FAILED(pd3d9->GetAdbpterIdentifier(Adbpter, 0, &bid))) {
+            pAdbpters[Adbpter].stbte = CONTEXT_INIT_FAILED;
+            fbiledAdbptersCount++;
             continue;
         }
 
-        J2dRlsTraceLn1(J2D_TRACE_INFO, "Adapter Ordinal  : %d", Adapter);
-        J2dRlsTraceLn1(J2D_TRACE_INFO, "Adapter Handle   : 0x%x",
-                       pd3d9->GetAdapterMonitor(Adapter));
-        J2dRlsTraceLn1(J2D_TRACE_INFO, "Description      : %s",
-                       aid.Description);
-        J2dRlsTraceLn2(J2D_TRACE_INFO, "GDI Name, Driver : %s, %s",
-                       aid.DeviceName, aid.Driver);
-        J2dRlsTraceLn1(J2D_TRACE_INFO, "Vendor Id        : 0x%04x",
-                       aid.VendorId);
-        J2dRlsTraceLn1(J2D_TRACE_INFO, "Device Id        : 0x%04x",
-                       aid.DeviceId);
-        J2dRlsTraceLn1(J2D_TRACE_INFO, "SubSys Id        : 0x%x",
-                       aid.SubSysId);
-        J2dRlsTraceLn4(J2D_TRACE_INFO, "Driver Version   : %d.%d.%d.%d",
-                       HIWORD(aid.DriverVersion.HighPart),
-                       LOWORD(aid.DriverVersion.HighPart),
-                       HIWORD(aid.DriverVersion.LowPart),
-                       LOWORD(aid.DriverVersion.LowPart));
-        J2dRlsTrace3(J2D_TRACE_INFO,
+        J2dRlsTrbceLn1(J2D_TRACE_INFO, "Adbpter Ordinbl  : %d", Adbpter);
+        J2dRlsTrbceLn1(J2D_TRACE_INFO, "Adbpter Hbndle   : 0x%x",
+                       pd3d9->GetAdbpterMonitor(Adbpter));
+        J2dRlsTrbceLn1(J2D_TRACE_INFO, "Description      : %s",
+                       bid.Description);
+        J2dRlsTrbceLn2(J2D_TRACE_INFO, "GDI Nbme, Driver : %s, %s",
+                       bid.DeviceNbme, bid.Driver);
+        J2dRlsTrbceLn1(J2D_TRACE_INFO, "Vendor Id        : 0x%04x",
+                       bid.VendorId);
+        J2dRlsTrbceLn1(J2D_TRACE_INFO, "Device Id        : 0x%04x",
+                       bid.DeviceId);
+        J2dRlsTrbceLn1(J2D_TRACE_INFO, "SubSys Id        : 0x%x",
+                       bid.SubSysId);
+        J2dRlsTrbceLn4(J2D_TRACE_INFO, "Driver Version   : %d.%d.%d.%d",
+                       HIWORD(bid.DriverVersion.HighPbrt),
+                       LOWORD(bid.DriverVersion.HighPbrt),
+                       HIWORD(bid.DriverVersion.LowPbrt),
+                       LOWORD(bid.DriverVersion.LowPbrt));
+        J2dRlsTrbce3(J2D_TRACE_INFO,
                      "[I] GUID             : {%08X-%04X-%04X-",
-                       aid.DeviceIdentifier.Data1,
-                       aid.DeviceIdentifier.Data2,
-                       aid.DeviceIdentifier.Data3);
-        J2dRlsTrace4(J2D_TRACE_INFO, "%02X%02X-%02X%02X",
-                       aid.DeviceIdentifier.Data4[0],
-                       aid.DeviceIdentifier.Data4[1],
-                       aid.DeviceIdentifier.Data4[2],
-                       aid.DeviceIdentifier.Data4[3]);
-        J2dRlsTrace4(J2D_TRACE_INFO, "%02X%02X%02X%02X}\n",
-                       aid.DeviceIdentifier.Data4[4],
-                       aid.DeviceIdentifier.Data4[5],
-                       aid.DeviceIdentifier.Data4[6],
-                       aid.DeviceIdentifier.Data4[7]);
+                       bid.DeviceIdentifier.Dbtb1,
+                       bid.DeviceIdentifier.Dbtb2,
+                       bid.DeviceIdentifier.Dbtb3);
+        J2dRlsTrbce4(J2D_TRACE_INFO, "%02X%02X-%02X%02X",
+                       bid.DeviceIdentifier.Dbtb4[0],
+                       bid.DeviceIdentifier.Dbtb4[1],
+                       bid.DeviceIdentifier.Dbtb4[2],
+                       bid.DeviceIdentifier.Dbtb4[3]);
+        J2dRlsTrbce4(J2D_TRACE_INFO, "%02X%02X%02X%02X}\n",
+                       bid.DeviceIdentifier.Dbtb4[4],
+                       bid.DeviceIdentifier.Dbtb4[5],
+                       bid.DeviceIdentifier.Dbtb4[6],
+                       bid.DeviceIdentifier.Dbtb4[7]);
 
-        if (FAILED(CheckForBadHardware(aid.VendorId, aid.DeviceId,
-                                       aid.DriverVersion.QuadPart)) ||
-            FAILED(CheckDeviceCaps(Adapter))  ||
-            FAILED(D3DEnabledOnAdapter(Adapter)))
+        if (FAILED(CheckForBbdHbrdwbre(bid.VendorId, bid.DeviceId,
+                                       bid.DriverVersion.QubdPbrt)) ||
+            FAILED(CheckDeviceCbps(Adbpter))  ||
+            FAILED(D3DEnbbledOnAdbpter(Adbpter)))
         {
-            pAdapters[Adapter].state = CONTEXT_INIT_FAILED;
-            failedAdaptersCount++;
+            pAdbpters[Adbpter].stbte = CONTEXT_INIT_FAILED;
+            fbiledAdbptersCount++;
         }
-        J2dRlsTraceLn(J2D_TRACE_INFO, "------------------");
+        J2dRlsTrbceLn(J2D_TRACE_INFO, "------------------");
     }
 
-    if (failedAdaptersCount == adapterCount) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-                      "D3DPPLM::CheckAdaptersInfo: no suitable adapters found");
+    if (fbiledAdbptersCount == bdbpterCount) {
+        J2dRlsTrbceLn(J2D_TRACE_ERROR,
+                      "D3DPPLM::CheckAdbptersInfo: no suitbble bdbpters found");
         return E_FAIL;
     }
 
     return S_OK;
 }
 
-D3DDEVTYPE D3DPipelineManager::SelectDeviceType()
+D3DDEVTYPE D3DPipelineMbnbger::SelectDeviceType()
 {
-    char *pRas = getenv("J2D_D3D_RASTERIZER");
+    chbr *pRbs = getenv("J2D_D3D_RASTERIZER");
     D3DDEVTYPE dtype = D3DDEVTYPE_HAL;
-    if (pRas != NULL) {
-        J2dRlsTrace(J2D_TRACE_WARNING, "[W] D3DPPLM::SelectDeviceType: ");
-        if (strncmp(pRas, "ref", 3) == 0 || strncmp(pRas, "rgb", 3) == 0) {
-            J2dRlsTrace(J2D_TRACE_WARNING, "ref rasterizer selected");
+    if (pRbs != NULL) {
+        J2dRlsTrbce(J2D_TRACE_WARNING, "[W] D3DPPLM::SelectDeviceType: ");
+        if (strncmp(pRbs, "ref", 3) == 0 || strncmp(pRbs, "rgb", 3) == 0) {
+            J2dRlsTrbce(J2D_TRACE_WARNING, "ref rbsterizer selected");
             dtype = D3DDEVTYPE_REF;
-        } else if (strncmp(pRas, "hal",3) == 0 || strncmp(pRas, "tnl",3) == 0) {
-            J2dRlsTrace(J2D_TRACE_WARNING, "hal rasterizer selected");
+        } else if (strncmp(pRbs, "hbl",3) == 0 || strncmp(pRbs, "tnl",3) == 0) {
+            J2dRlsTrbce(J2D_TRACE_WARNING, "hbl rbsterizer selected");
             dtype = D3DDEVTYPE_HAL;
-        } else if (strncmp(pRas, "nul", 3) == 0) {
-            J2dRlsTrace(J2D_TRACE_WARNING, "nullref rasterizer selected");
+        } else if (strncmp(pRbs, "nul", 3) == 0) {
+            J2dRlsTrbce(J2D_TRACE_WARNING, "nullref rbsterizer selected");
             dtype = D3DDEVTYPE_NULLREF;
         } else {
-            J2dRlsTrace1(J2D_TRACE_WARNING,
-                "unknown rasterizer: %s, only (ref|hal|nul) "\
-                "supported, hal selected instead", pRas);
+            J2dRlsTrbce1(J2D_TRACE_WARNING,
+                "unknown rbsterizer: %s, only (ref|hbl|nul) "\
+                "supported, hbl selected instebd", pRbs);
         }
-        J2dRlsTrace(J2D_TRACE_WARNING, "\n");
+        J2dRlsTrbce(J2D_TRACE_WARNING, "\n");
     }
     return dtype;
 }
@@ -659,107 +659,107 @@ D3DDEVTYPE D3DPipelineManager::SelectDeviceType()
 #define CHECK_CAP(FLAG, CAP) \
     do {    \
         if (!((FLAG)&CAP)) { \
-            J2dRlsTraceLn2(J2D_TRACE_ERROR, \
-                           "D3DPPLM::CheckDeviceCaps: adapter %d: Failed "\
-                           "(cap %s not supported)", \
-                           adapter, #CAP); \
+            J2dRlsTrbceLn2(J2D_TRACE_ERROR, \
+                           "D3DPPLM::CheckDeviceCbps: bdbpter %d: Fbiled "\
+                           "(cbp %s not supported)", \
+                           bdbpter, #CAP); \
             return E_FAIL; \
         } \
     } while (0)
 
-HRESULT D3DPipelineManager::CheckDeviceCaps(UINT adapter)
+HRESULT D3DPipelineMbnbger::CheckDeviceCbps(UINT bdbpter)
 {
     HRESULT res;
-    D3DCAPS9 d3dCaps;
+    D3DCAPS9 d3dCbps;
 
-    J2dTraceLn(J2D_TRACE_INFO, "D3DPPLM::CheckDeviceCaps");
+    J2dTrbceLn(J2D_TRACE_INFO, "D3DPPLM::CheckDeviceCbps");
 
-    res = pd3d9->GetDeviceCaps(adapter, devType, &d3dCaps);
+    res = pd3d9->GetDeviceCbps(bdbpter, devType, &d3dCbps);
     RETURN_STATUS_IF_FAILED(res);
 
-    CHECK_CAP(d3dCaps.DevCaps, D3DDEVCAPS_DRAWPRIMTLVERTEX);
+    CHECK_CAP(d3dCbps.DevCbps, D3DDEVCAPS_DRAWPRIMTLVERTEX);
 
-    // by requiring hardware tnl we are hoping for better drivers quality
+    // by requiring hbrdwbre tnl we bre hoping for better drivers qublity
     if (!IsD3DForced()) {
-        // fail if not hw tnl unless d3d was forced
-        CHECK_CAP(d3dCaps.DevCaps, D3DDEVCAPS_HWTRANSFORMANDLIGHT);
+        // fbil if not hw tnl unless d3d wbs forced
+        CHECK_CAP(d3dCbps.DevCbps, D3DDEVCAPS_HWTRANSFORMANDLIGHT);
     }
-    if (d3dCaps.DeviceType == D3DDEVTYPE_HAL) {
-        CHECK_CAP(d3dCaps.DevCaps, D3DDEVCAPS_HWRASTERIZATION);
+    if (d3dCbps.DeviceType == D3DDEVTYPE_HAL) {
+        CHECK_CAP(d3dCbps.DevCbps, D3DDEVCAPS_HWRASTERIZATION);
     }
 
-    CHECK_CAP(d3dCaps.RasterCaps, D3DPRASTERCAPS_SCISSORTEST);
+    CHECK_CAP(d3dCbps.RbsterCbps, D3DPRASTERCAPS_SCISSORTEST);
 
-    CHECK_CAP(d3dCaps.Caps3, D3DCAPS3_ALPHA_FULLSCREEN_FLIP_OR_DISCARD);
+    CHECK_CAP(d3dCbps.Cbps3, D3DCAPS3_ALPHA_FULLSCREEN_FLIP_OR_DISCARD);
 
-    CHECK_CAP(d3dCaps.PrimitiveMiscCaps, D3DPMISCCAPS_CULLNONE);
-    CHECK_CAP(d3dCaps.PrimitiveMiscCaps, D3DPMISCCAPS_BLENDOP);
-    CHECK_CAP(d3dCaps.PrimitiveMiscCaps, D3DPMISCCAPS_MASKZ);
+    CHECK_CAP(d3dCbps.PrimitiveMiscCbps, D3DPMISCCAPS_CULLNONE);
+    CHECK_CAP(d3dCbps.PrimitiveMiscCbps, D3DPMISCCAPS_BLENDOP);
+    CHECK_CAP(d3dCbps.PrimitiveMiscCbps, D3DPMISCCAPS_MASKZ);
 
-    CHECK_CAP(d3dCaps.ZCmpCaps, D3DPCMPCAPS_ALWAYS);
-    CHECK_CAP(d3dCaps.ZCmpCaps, D3DPCMPCAPS_LESS);
+    CHECK_CAP(d3dCbps.ZCmpCbps, D3DPCMPCAPS_ALWAYS);
+    CHECK_CAP(d3dCbps.ZCmpCbps, D3DPCMPCAPS_LESS);
 
-    CHECK_CAP(d3dCaps.SrcBlendCaps, D3DPBLENDCAPS_ZERO);
-    CHECK_CAP(d3dCaps.SrcBlendCaps, D3DPBLENDCAPS_ONE);
-    CHECK_CAP(d3dCaps.SrcBlendCaps, D3DPBLENDCAPS_SRCALPHA);
-    CHECK_CAP(d3dCaps.SrcBlendCaps, D3DPBLENDCAPS_DESTALPHA);
-    CHECK_CAP(d3dCaps.SrcBlendCaps, D3DPBLENDCAPS_INVSRCALPHA);
-    CHECK_CAP(d3dCaps.SrcBlendCaps, D3DPBLENDCAPS_INVDESTALPHA);
+    CHECK_CAP(d3dCbps.SrcBlendCbps, D3DPBLENDCAPS_ZERO);
+    CHECK_CAP(d3dCbps.SrcBlendCbps, D3DPBLENDCAPS_ONE);
+    CHECK_CAP(d3dCbps.SrcBlendCbps, D3DPBLENDCAPS_SRCALPHA);
+    CHECK_CAP(d3dCbps.SrcBlendCbps, D3DPBLENDCAPS_DESTALPHA);
+    CHECK_CAP(d3dCbps.SrcBlendCbps, D3DPBLENDCAPS_INVSRCALPHA);
+    CHECK_CAP(d3dCbps.SrcBlendCbps, D3DPBLENDCAPS_INVDESTALPHA);
 
-    CHECK_CAP(d3dCaps.DestBlendCaps, D3DPBLENDCAPS_ZERO);
-    CHECK_CAP(d3dCaps.DestBlendCaps, D3DPBLENDCAPS_ONE);
-    CHECK_CAP(d3dCaps.DestBlendCaps, D3DPBLENDCAPS_SRCALPHA);
-    CHECK_CAP(d3dCaps.DestBlendCaps, D3DPBLENDCAPS_DESTALPHA);
-    CHECK_CAP(d3dCaps.DestBlendCaps, D3DPBLENDCAPS_INVSRCALPHA);
-    CHECK_CAP(d3dCaps.DestBlendCaps, D3DPBLENDCAPS_INVDESTALPHA);
+    CHECK_CAP(d3dCbps.DestBlendCbps, D3DPBLENDCAPS_ZERO);
+    CHECK_CAP(d3dCbps.DestBlendCbps, D3DPBLENDCAPS_ONE);
+    CHECK_CAP(d3dCbps.DestBlendCbps, D3DPBLENDCAPS_SRCALPHA);
+    CHECK_CAP(d3dCbps.DestBlendCbps, D3DPBLENDCAPS_DESTALPHA);
+    CHECK_CAP(d3dCbps.DestBlendCbps, D3DPBLENDCAPS_INVSRCALPHA);
+    CHECK_CAP(d3dCbps.DestBlendCbps, D3DPBLENDCAPS_INVDESTALPHA);
 
-    CHECK_CAP(d3dCaps.TextureAddressCaps, D3DPTADDRESSCAPS_CLAMP);
-    CHECK_CAP(d3dCaps.TextureAddressCaps, D3DPTADDRESSCAPS_WRAP);
+    CHECK_CAP(d3dCbps.TextureAddressCbps, D3DPTADDRESSCAPS_CLAMP);
+    CHECK_CAP(d3dCbps.TextureAddressCbps, D3DPTADDRESSCAPS_WRAP);
 
-    CHECK_CAP(d3dCaps.TextureOpCaps, D3DTEXOPCAPS_MODULATE);
+    CHECK_CAP(d3dCbps.TextureOpCbps, D3DTEXOPCAPS_MODULATE);
 
-    if (d3dCaps.PixelShaderVersion < D3DPS_VERSION(2,0) && !IsD3DForced()) {
-        J2dRlsTraceLn1(J2D_TRACE_ERROR,
-                       "D3DPPLM::CheckDeviceCaps: adapter %d: Failed "\
-                       "(pixel shaders 2.0 required)", adapter);
+    if (d3dCbps.PixelShbderVersion < D3DPS_VERSION(2,0) && !IsD3DForced()) {
+        J2dRlsTrbceLn1(J2D_TRACE_ERROR,
+                       "D3DPPLM::CheckDeviceCbps: bdbpter %d: Fbiled "\
+                       "(pixel shbders 2.0 required)", bdbpter);
         return E_FAIL;
     }
 
-    J2dRlsTraceLn1(J2D_TRACE_INFO,
-                   "D3DPPLM::CheckDeviceCaps: adapter %d: Passed", adapter);
+    J2dRlsTrbceLn1(J2D_TRACE_INFO,
+                   "D3DPPLM::CheckDeviceCbps: bdbpter %d: Pbssed", bdbpter);
     return S_OK;
 }
 
 
-HRESULT D3DPipelineManager::D3DEnabledOnAdapter(UINT adapter)
+HRESULT D3DPipelineMbnbger::D3DEnbbledOnAdbpter(UINT bdbpter)
 {
     HRESULT res;
     D3DDISPLAYMODE dm;
 
-    res = pd3d9->GetAdapterDisplayMode(adapter, &dm);
+    res = pd3d9->GetAdbpterDisplbyMode(bdbpter, &dm);
     RETURN_STATUS_IF_FAILED(res);
 
-    res = pd3d9->CheckDeviceType(adapter, devType, dm.Format, dm.Format, TRUE);
+    res = pd3d9->CheckDeviceType(bdbpter, devType, dm.Formbt, dm.Formbt, TRUE);
     if (FAILED(res)) {
-        J2dRlsTraceLn1(J2D_TRACE_ERROR,
-                "D3DPPLM::D3DEnabledOnAdapter: no " \
-                "suitable d3d device on adapter %d", adapter);
+        J2dRlsTrbceLn1(J2D_TRACE_ERROR,
+                "D3DPPLM::D3DEnbbledOnAdbpter: no " \
+                "suitbble d3d device on bdbpter %d", bdbpter);
     }
 
     return res;
 }
 
-UINT D3DPipelineManager::GetAdapterOrdinalByHmon(HMONITOR hMon)
+UINT D3DPipelineMbnbger::GetAdbpterOrdinblByHmon(HMONITOR hMon)
 {
     UINT ret = D3DADAPTER_DEFAULT;
 
     if (pd3d9 != NULL) {
-        UINT adapterCount = pd3d9->GetAdapterCount();
-        for (UINT adapter = 0; adapter < adapterCount; adapter++) {
-            HMONITOR hm = pd3d9->GetAdapterMonitor(adapter);
+        UINT bdbpterCount = pd3d9->GetAdbpterCount();
+        for (UINT bdbpter = 0; bdbpter < bdbpterCount; bdbpter++) {
+            HMONITOR hm = pd3d9->GetAdbpterMonitor(bdbpter);
             if (hm == hMon) {
-                ret = adapter;
-                break;
+                ret = bdbpter;
+                brebk;
             }
         }
     }
@@ -767,280 +767,280 @@ UINT D3DPipelineManager::GetAdapterOrdinalByHmon(HMONITOR hMon)
 }
 
 D3DFORMAT
-D3DPipelineManager::GetMatchingDepthStencilFormat(UINT adapterOrdinal,
-                                                  D3DFORMAT adapterFormat,
-                                                  D3DFORMAT renderTargetFormat)
+D3DPipelineMbnbger::GetMbtchingDepthStencilFormbt(UINT bdbpterOrdinbl,
+                                                  D3DFORMAT bdbpterFormbt,
+                                                  D3DFORMAT renderTbrgetFormbt)
 {
-    static D3DFORMAT formats[] =
+    stbtic D3DFORMAT formbts[] =
         { D3DFMT_D16, D3DFMT_D32, D3DFMT_D24S8, D3DFMT_D24X8 };
-    D3DFORMAT newFormat = D3DFMT_UNKNOWN;
+    D3DFORMAT newFormbt = D3DFMT_UNKNOWN;
     HRESULT res;
     for (int i = 0; i < 4; i++) {
-        res = pd3d9->CheckDeviceFormat(adapterOrdinal,
-                devType, adapterFormat, D3DUSAGE_DEPTHSTENCIL,
-                D3DRTYPE_SURFACE, formats[i]);
+        res = pd3d9->CheckDeviceFormbt(bdbpterOrdinbl,
+                devType, bdbpterFormbt, D3DUSAGE_DEPTHSTENCIL,
+                D3DRTYPE_SURFACE, formbts[i]);
         if (FAILED(res)) continue;
 
-        res = pd3d9->CheckDepthStencilMatch(adapterOrdinal,
-                devType, adapterFormat, renderTargetFormat, formats[i]);
+        res = pd3d9->CheckDepthStencilMbtch(bdbpterOrdinbl,
+                devType, bdbpterFormbt, renderTbrgetFormbt, formbts[i]);
         if (FAILED(res)) continue;
-        newFormat = formats[i];
-        break;
+        newFormbt = formbts[i];
+        brebk;
     }
-    return newFormat;
+    return newFormbt;
 }
 
-HWND D3DPipelineManager::CreateDefaultFocusWindow()
+HWND D3DPipelineMbnbger::CrebteDefbultFocusWindow()
 {
-    UINT adapterOrdinal = D3DADAPTER_DEFAULT;
+    UINT bdbpterOrdinbl = D3DADAPTER_DEFAULT;
 
-    J2dTraceLn1(J2D_TRACE_INFO,
-                "D3DPPLM::CreateDefaultFocusWindow: adapter=%d",
-                adapterOrdinal);
+    J2dTrbceLn1(J2D_TRACE_INFO,
+                "D3DPPLM::CrebteDefbultFocusWindow: bdbpter=%d",
+                bdbpterOrdinbl);
 
-    if (defaultFocusWindow != 0) {
-        J2dRlsTraceLn(J2D_TRACE_WARNING,
-                      "D3DPPLM::CreateDefaultFocusWindow: "\
-                      "existing default focus window!");
-        return defaultFocusWindow;
+    if (defbultFocusWindow != 0) {
+        J2dRlsTrbceLn(J2D_TRACE_WARNING,
+                      "D3DPPLM::CrebteDefbultFocusWindow: "\
+                      "existing defbult focus window!");
+        return defbultFocusWindow;
     }
 
     WNDCLASS wc;
     ZeroMemory(&wc, sizeof(WNDCLASS));
-    wc.hInstance = GetModuleHandle(NULL);
+    wc.hInstbnce = GetModuleHbndle(NULL);
     wc.lpfnWndProc = DefWindowProc;
-    wc.lpszClassName = L"D3DFocusWindow";
-    if (RegisterClass(&wc) == 0) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-                      "D3DPPLM::CreateDefaultFocusWindow: "\
-                      "error registering window class");
+    wc.lpszClbssNbme = L"D3DFocusWindow";
+    if (RegisterClbss(&wc) == 0) {
+        J2dRlsTrbceLn(J2D_TRACE_ERROR,
+                      "D3DPPLM::CrebteDefbultFocusWindow: "\
+                      "error registering window clbss");
         return 0;
     }
 
     MONITORINFO mi;
     ZeroMemory(&mi, sizeof(MONITORINFO));
     mi.cbSize = sizeof(MONITORINFO);
-    HMONITOR hMon = pd3d9->GetAdapterMonitor(adapterOrdinal);
+    HMONITOR hMon = pd3d9->GetAdbpterMonitor(bdbpterOrdinbl);
     if (hMon == 0 || !GetMonitorInfo(hMon, (LPMONITORINFO)&mi)) {
-        J2dRlsTraceLn1(J2D_TRACE_ERROR,
-            "D3DPPLM::CreateDefaultFocusWindow: "\
-            "error getting monitor info for adapter=%d", adapterOrdinal);
+        J2dRlsTrbceLn1(J2D_TRACE_ERROR,
+            "D3DPPLM::CrebteDefbultFocusWindow: "\
+            "error getting monitor info for bdbpter=%d", bdbpterOrdinbl);
         return 0;
     }
 
-    HWND hWnd = CreateWindow(L"D3DFocusWindow", L"D3DFocusWindow", 0,
+    HWND hWnd = CrebteWindow(L"D3DFocusWindow", L"D3DFocusWindow", 0,
         mi.rcMonitor.left, mi.rcMonitor.top, 1, 1,
-        NULL, NULL, GetModuleHandle(NULL), NULL);
+        NULL, NULL, GetModuleHbndle(NULL), NULL);
     if (hWnd == 0) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-            "D3DPPLM::CreateDefaultFocusWindow: CreateWindow failed");
+        J2dRlsTrbceLn(J2D_TRACE_ERROR,
+            "D3DPPLM::CrebteDefbultFocusWindow: CrebteWindow fbiled");
     } else {
-        J2dTraceLn2(J2D_TRACE_INFO,
-            "  Created default focus window %x for adapter %d",
-            hWnd, adapterOrdinal);
-        defaultFocusWindow = hWnd;
+        J2dTrbceLn2(J2D_TRACE_INFO,
+            "  Crebted defbult focus window %x for bdbpter %d",
+            hWnd, bdbpterOrdinbl);
+        defbultFocusWindow = hWnd;
     }
     return hWnd;
 }
 
-HWND D3DPipelineManager::GetCurrentFocusWindow()
+HWND D3DPipelineMbnbger::GetCurrentFocusWindow()
 {
-    J2dTraceLn(J2D_TRACE_INFO, "D3DPPLM::GetCurrentFocusWindow");
-    if (currentFSFocusAdapter < 0) {
-        J2dTraceLn1(J2D_TRACE_VERBOSE,
-                    "  no fs windows, using default focus window=0x%x",
-                    defaultFocusWindow);
-        return defaultFocusWindow;
+    J2dTrbceLn(J2D_TRACE_INFO, "D3DPPLM::GetCurrentFocusWindow");
+    if (currentFSFocusAdbpter < 0) {
+        J2dTrbceLn1(J2D_TRACE_VERBOSE,
+                    "  no fs windows, using defbult focus window=0x%x",
+                    defbultFocusWindow);
+        return defbultFocusWindow;
     }
-    J2dTraceLn1(J2D_TRACE_VERBOSE, "  using fs window=0x%x",
-                pAdapters[currentFSFocusAdapter].fsFocusWindow);
-    return pAdapters[currentFSFocusAdapter].fsFocusWindow;
+    J2dTrbceLn1(J2D_TRACE_VERBOSE, "  using fs window=0x%x",
+                pAdbpters[currentFSFocusAdbpter].fsFocusWindow);
+    return pAdbpters[currentFSFocusAdbpter].fsFocusWindow;
 }
 
-HWND D3DPipelineManager::SetFSFocusWindow(UINT adapterOrdinal, HWND hWnd)
+HWND D3DPipelineMbnbger::SetFSFocusWindow(UINT bdbpterOrdinbl, HWND hWnd)
 {
-    J2dTraceLn2(J2D_TRACE_INFO,"D3DPPLM::SetFSFocusWindow hwnd=0x%x adapter=%d",
-                hWnd, adapterOrdinal);
+    J2dTrbceLn2(J2D_TRACE_INFO,"D3DPPLM::SetFSFocusWindow hwnd=0x%x bdbpter=%d",
+                hWnd, bdbpterOrdinbl);
 
-    HWND prev = pAdapters[adapterOrdinal].fsFocusWindow;
-    pAdapters[adapterOrdinal].fsFocusWindow = hWnd;
-    if (currentFSFocusAdapter < 0) {
-        J2dTraceLn(J2D_TRACE_VERBOSE, "  first full-screen window");
+    HWND prev = pAdbpters[bdbpterOrdinbl].fsFocusWindow;
+    pAdbpters[bdbpterOrdinbl].fsFocusWindow = hWnd;
+    if (currentFSFocusAdbpter < 0) {
+        J2dTrbceLn(J2D_TRACE_VERBOSE, "  first full-screen window");
         // first fs window
-        currentFSFocusAdapter = adapterOrdinal;
-        // REMIND: we might want to reset the rest of the context here as well
-        // like we do when the an adapter exits fs mode; currently they will
-        // be reset sometime later
+        currentFSFocusAdbpter = bdbpterOrdinbl;
+        // REMIND: we might wbnt to reset the rest of the context here bs well
+        // like we do when the bn bdbpter exits fs mode; currently they will
+        // be reset sometime lbter
     } else {
-        // there's already a fs window
-        if (currentFSFocusAdapter == adapterOrdinal) {
-            // it's current fs window => we're exiting fs mode on this adapter;
-            // look for a new fs focus window
+        // there's blrebdy b fs window
+        if (currentFSFocusAdbpter == bdbpterOrdinbl) {
+            // it's current fs window => we're exiting fs mode on this bdbpter;
+            // look for b new fs focus window
             if (hWnd == 0) {
                 UINT i;
-                currentFSFocusAdapter = -1;
-                for (i = 0; i < adapterCount; i++) {
-                    if (pAdapters[i].fsFocusWindow != 0) {
-                        J2dTraceLn1(J2D_TRACE_VERBOSE,
-                                    "  adapter %d is still in fs mode", i);
-                        currentFSFocusAdapter = i;
-                        break;
+                currentFSFocusAdbpter = -1;
+                for (i = 0; i < bdbpterCount; i++) {
+                    if (pAdbpters[i].fsFocusWindow != 0) {
+                        J2dTrbceLn1(J2D_TRACE_VERBOSE,
+                                    "  bdbpter %d is still in fs mode", i);
+                        currentFSFocusAdbpter = i;
+                        brebk;
                     }
                 }
-                // we have to reset all devices any time current focus device
-                // exits fs mode, and also to prevent some of them being left in
-                // a lost state when the last device exits fs - when non-last
-                // adapters exit fs mode they would not be able to create the
-                // device and will be put in a lost state forever
+                // we hbve to reset bll devices bny time current focus device
+                // exits fs mode, bnd blso to prevent some of them being left in
+                // b lost stbte when the lbst device exits fs - when non-lbst
+                // bdbpters exit fs mode they would not be bble to crebte the
+                // device bnd will be put in b lost stbte forever
                 HRESULT res;
-                J2dTraceLn(J2D_TRACE_VERBOSE,
-                           "  adapter exited full-screen, reset all adapters");
-                for (i = 0; i < adapterCount; i++) {
-                    if (pAdapters[i].pd3dContext != NULL) {
-                        res = pAdapters[i].pd3dContext->ResetContext();
-                        D3DRQ_MarkLostIfNeeded(res,
-                            D3DRQ_GetCurrentDestination());
+                J2dTrbceLn(J2D_TRACE_VERBOSE,
+                           "  bdbpter exited full-screen, reset bll bdbpters");
+                for (i = 0; i < bdbpterCount; i++) {
+                    if (pAdbpters[i].pd3dContext != NULL) {
+                        res = pAdbpters[i].pd3dContext->ResetContext();
+                        D3DRQ_MbrkLostIfNeeded(res,
+                            D3DRQ_GetCurrentDestinbtion());
                     }
                 }
             } else {
-                J2dTraceLn1(J2D_TRACE_WARNING,
+                J2dTrbceLn1(J2D_TRACE_WARNING,
                             "D3DPM::SetFSFocusWindow: setting the fs "\
-                            "window again for adapter %d", adapterOrdinal);
+                            "window bgbin for bdbpter %d", bdbpterOrdinbl);
             }
         }
     }
     return prev;
 }
 
-HRESULT D3DPipelineManager::GetD3DContext(UINT adapterOrdinal,
+HRESULT D3DPipelineMbnbger::GetD3DContext(UINT bdbpterOrdinbl,
                                           D3DContext **ppd3dContext)
 {
-    J2dTraceLn(J2D_TRACE_INFO, "D3DPPLM::GetD3DContext");
+    J2dTrbceLn(J2D_TRACE_INFO, "D3DPPLM::GetD3DContext");
 
     HRESULT res = S_OK;
-    if (adapterOrdinal < 0 || adapterOrdinal >= adapterCount ||
-        pAdapters == NULL ||
-        pAdapters[adapterOrdinal].state == CONTEXT_INIT_FAILED)
+    if (bdbpterOrdinbl < 0 || bdbpterOrdinbl >= bdbpterCount ||
+        pAdbpters == NULL ||
+        pAdbpters[bdbpterOrdinbl].stbte == CONTEXT_INIT_FAILED)
     {
-        J2dRlsTraceLn1(J2D_TRACE_ERROR,
-            "D3DPPLM::GetD3DContext: invalid parameters or "\
-            "failed init for adapter %d", adapterOrdinal);
+        J2dRlsTrbceLn1(J2D_TRACE_ERROR,
+            "D3DPPLM::GetD3DContext: invblid pbrbmeters or "\
+            "fbiled init for bdbpter %d", bdbpterOrdinbl);
         *ppd3dContext = NULL;
         return E_FAIL;
     }
 
-    if (pAdapters[adapterOrdinal].state == CONTEXT_NOT_INITED) {
+    if (pAdbpters[bdbpterOrdinbl].stbte == CONTEXT_NOT_INITED) {
         D3DContext *pCtx = NULL;
 
-        if (pAdapters[adapterOrdinal].pd3dContext != NULL) {
-            J2dTraceLn1(J2D_TRACE_ERROR, "  non-null context in "\
-                        "uninitialized adapter %d", adapterOrdinal);
+        if (pAdbpters[bdbpterOrdinbl].pd3dContext != NULL) {
+            J2dTrbceLn1(J2D_TRACE_ERROR, "  non-null context in "\
+                        "uninitiblized bdbpter %d", bdbpterOrdinbl);
             res = E_FAIL;
         } else {
-            J2dTraceLn1(J2D_TRACE_VERBOSE,
-                        "  initializing context for adapter %d",adapterOrdinal);
+            J2dTrbceLn1(J2D_TRACE_VERBOSE,
+                        "  initiblizing context for bdbpter %d",bdbpterOrdinbl);
 
-            if (SUCCEEDED(res = D3DEnabledOnAdapter(adapterOrdinal))) {
-                res = D3DContext::CreateInstance(pd3d9, adapterOrdinal, &pCtx);
+            if (SUCCEEDED(res = D3DEnbbledOnAdbpter(bdbpterOrdinbl))) {
+                res = D3DContext::CrebteInstbnce(pd3d9, bdbpterOrdinbl, &pCtx);
                 if (FAILED(res)) {
-                    J2dRlsTraceLn1(J2D_TRACE_ERROR,
-                        "D3DPPLM::GetD3DContext: failed to create context "\
-                        "for adapter=%d", adapterOrdinal);
+                    J2dRlsTrbceLn1(J2D_TRACE_ERROR,
+                        "D3DPPLM::GetD3DContext: fbiled to crebte context "\
+                        "for bdbpter=%d", bdbpterOrdinbl);
                 }
             } else {
-                J2dRlsTraceLn1(J2D_TRACE_ERROR,
-                    "D3DPPLM::GetContext: no d3d on adapter %d",adapterOrdinal);
+                J2dRlsTrbceLn1(J2D_TRACE_ERROR,
+                    "D3DPPLM::GetContext: no d3d on bdbpter %d",bdbpterOrdinbl);
             }
         }
-        pAdapters[adapterOrdinal].state =
+        pAdbpters[bdbpterOrdinbl].stbte =
             SUCCEEDED(res) ? CONTEXT_CREATED : CONTEXT_INIT_FAILED;
-        pAdapters[adapterOrdinal].pd3dContext = pCtx;
+        pAdbpters[bdbpterOrdinbl].pd3dContext = pCtx;
     }
-    *ppd3dContext = pAdapters[adapterOrdinal].pd3dContext;
+    *ppd3dContext = pAdbpters[bdbpterOrdinbl].pd3dContext;
     return res;
 }
 
 
 //==============================================================
-// D3DInitializer
+// D3DInitiblizer
 //==============================================================
 
-D3DInitializer D3DInitializer::theInstance;
+D3DInitiblizer D3DInitiblizer::theInstbnce;
 
-D3DInitializer::D3DInitializer()
-    : bComInitialized(false), pAdapterIniters(NULL)
+D3DInitiblizer::D3DInitiblizer()
+    : bComInitiblized(fblse), pAdbpterIniters(NULL)
 {
 }
 
-D3DInitializer::~D3DInitializer()
+D3DInitiblizer::~D3DInitiblizer()
 {
-    if (pAdapterIniters) {
-        delete[] pAdapterIniters;
+    if (pAdbpterIniters) {
+        delete[] pAdbpterIniters;
     }
 }
 
-void D3DInitializer::InitImpl()
+void D3DInitiblizer::InitImpl()
 {
-    J2dRlsTraceLn(J2D_TRACE_INFO, "D3DInitializer::InitImpl");
-    if (SUCCEEDED(::CoInitialize(NULL))) {
-        bComInitialized = true;
+    J2dRlsTrbceLn(J2D_TRACE_INFO, "D3DInitiblizer::InitImpl");
+    if (SUCCEEDED(::CoInitiblize(NULL))) {
+        bComInitiblized = true;
     }
-    D3DPipelineManager *pMgr = D3DPipelineManager::CreateInstance();
+    D3DPipelineMbnbger *pMgr = D3DPipelineMbnbger::CrebteInstbnce();
     if (pMgr != NULL) {
-        // init adapters if we are preloading
-        if (AwtToolkit::GetInstance().GetPreloadThread().OnPreloadThread()) {
-            UINT adapterCount = pMgr->adapterCount;
+        // init bdbpters if we bre prelobding
+        if (AwtToolkit::GetInstbnce().GetPrelobdThrebd().OnPrelobdThrebd()) {
+            UINT bdbpterCount = pMgr->bdbpterCount;
 
-            pAdapterIniters = new D3DAdapterInitializer[adapterCount];
-            for (UINT i=0; i<adapterCount; i++) {
-                pAdapterIniters[i].setAdapter(i);
-                AwtToolkit::GetInstance().GetPreloadThread().AddAction(&pAdapterIniters[i]);
+            pAdbpterIniters = new D3DAdbpterInitiblizer[bdbpterCount];
+            for (UINT i=0; i<bdbpterCount; i++) {
+                pAdbpterIniters[i].setAdbpter(i);
+                AwtToolkit::GetInstbnce().GetPrelobdThrebd().AddAction(&pAdbpterIniters[i]);
             }
         }
     }
 }
 
-void D3DInitializer::CleanImpl(bool reInit)
+void D3DInitiblizer::ClebnImpl(bool reInit)
 {
-    J2dRlsTraceLn1(J2D_TRACE_INFO, "D3DInitializer::CleanImpl (%s)",
-                                    reInit ? "RELAUNCH" : "normal");
-    D3DPipelineManager::DeleteInstance();
-    if (bComInitialized) {
-        CoUninitialize();
+    J2dRlsTrbceLn1(J2D_TRACE_INFO, "D3DInitiblizer::ClebnImpl (%s)",
+                                    reInit ? "RELAUNCH" : "normbl");
+    D3DPipelineMbnbger::DeleteInstbnce();
+    if (bComInitiblized) {
+        CoUninitiblize();
     }
 }
 
 
-void D3DInitializer::D3DAdapterInitializer::InitImpl()
+void D3DInitiblizer::D3DAdbpterInitiblizer::InitImpl()
 {
-    J2dRlsTraceLn1(J2D_TRACE_INFO, "D3DAdapterInitializer::InitImpl(%d) started", adapter);
+    J2dRlsTrbceLn1(J2D_TRACE_INFO, "D3DAdbpterInitiblizer::InitImpl(%d) stbrted", bdbpter);
 
-    D3DPipelineManager *pMgr = D3DPipelineManager::GetInstance();
+    D3DPipelineMbnbger *pMgr = D3DPipelineMbnbger::GetInstbnce();
     if (pMgr == NULL) {
         return;
     }
 
     D3DContext *pd3dContext;
-    pMgr->GetD3DContext(adapter, &pd3dContext);
+    pMgr->GetD3DContext(bdbpter, &pd3dContext);
 
-    J2dRlsTraceLn1(J2D_TRACE_INFO, "D3DAdapterInitializer::InitImpl(%d) finished", adapter);
+    J2dRlsTrbceLn1(J2D_TRACE_INFO, "D3DAdbpterInitiblizer::InitImpl(%d) finished", bdbpter);
 }
 
-void D3DInitializer::D3DAdapterInitializer::CleanImpl(bool reInit)
+void D3DInitiblizer::D3DAdbpterInitiblizer::ClebnImpl(bool reInit)
 {
-    // nothing to do - D3DPipelineManager cleans adapters
+    // nothing to do - D3DPipelineMbnbger clebns bdbpters
 }
 
 
 extern "C" {
 /*
- * Export function to start D3D preloading
- * (called from java/javaw - see src/windows/bin/java-md.c)
+ * Export function to stbrt D3D prelobding
+ * (cblled from jbvb/jbvbw - see src/windows/bin/jbvb-md.c)
  */
-__declspec(dllexport) int preloadD3D()
+__declspec(dllexport) int prelobdD3D()
 {
-    J2dRlsTraceLn(J2D_TRACE_INFO, "AWT warmup: preloadD3D");
-    AwtToolkit::GetInstance().GetPreloadThread().AddAction(&D3DInitializer::GetInstance());
+    J2dRlsTrbceLn(J2D_TRACE_INFO, "AWT wbrmup: prelobdD3D");
+    AwtToolkit::GetInstbnce().GetPrelobdThrebd().AddAction(&D3DInitiblizer::GetInstbnce());
     return 1;
 }
 

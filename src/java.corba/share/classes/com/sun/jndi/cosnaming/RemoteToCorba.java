@@ -1,81 +1,81 @@
 /*
- * Copyright (c) 1999, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jndi.cosnaming;
+pbckbge com.sun.jndi.cosnbming;
 
-import javax.naming.*;
-import javax.naming.spi.StateFactory;
-import java.util.Hashtable;
+import jbvbx.nbming.*;
+import jbvbx.nbming.spi.StbteFbctory;
+import jbvb.util.Hbshtbble;
 
 import org.omg.CORBA.ORB;
 
-import java.rmi.Remote;
-import java.rmi.server.ExportException;
+import jbvb.rmi.Remote;
+import jbvb.rmi.server.ExportException;
 
-import com.sun.jndi.toolkit.corba.CorbaUtils;  // for RMI-IIOP
+import com.sun.jndi.toolkit.corbb.CorbbUtils;  // for RMI-IIOP
 
 /**
-  * StateFactory that turns java.rmi.Remote objects to org.omg.CORBA.Object.
+  * StbteFbctory thbt turns jbvb.rmi.Remote objects to org.omg.CORBA.Object.
   *
-  * @author Rosanna Lee
+  * @buthor Rosbnnb Lee
   */
 
-public class RemoteToCorba implements StateFactory {
-    public RemoteToCorba() {
+public clbss RemoteToCorbb implements StbteFbctory {
+    public RemoteToCorbb() {
     }
 
     /**
-     * Returns the CORBA object for a Remote object.
-     * If input is not a Remote object, or if Remote object uses JRMP, return null.
-     * If the RMI-IIOP library is not available, throw ConfigurationException.
+     * Returns the CORBA object for b Remote object.
+     * If input is not b Remote object, or if Remote object uses JRMP, return null.
+     * If the RMI-IIOP librbry is not bvbilbble, throw ConfigurbtionException.
      *
-     * @param orig The object to turn into a CORBA object. If not Remote,
-     *             or if is a JRMP stub or impl, return null.
-     * @param name Ignored
-     * @param ctx The non-null CNCtx whose ORB to use.
-     * @param env Ignored
+     * @pbrbm orig The object to turn into b CORBA object. If not Remote,
+     *             or if is b JRMP stub or impl, return null.
+     * @pbrbm nbme Ignored
+     * @pbrbm ctx The non-null CNCtx whose ORB to use.
+     * @pbrbm env Ignored
      * @return The CORBA object for <tt>orig</tt> or null.
-     * @exception ConfigurationException If the CORBA object cannot be obtained
-     *    due to configuration problems, for instance, if RMI-IIOP not available.
-     * @exception NamingException If some other problem prevented a CORBA
-     *    object from being obtained from the Remote object.
+     * @exception ConfigurbtionException If the CORBA object cbnnot be obtbined
+     *    due to configurbtion problems, for instbnce, if RMI-IIOP not bvbilbble.
+     * @exception NbmingException If some other problem prevented b CORBA
+     *    object from being obtbined from the Remote object.
      */
-    public Object getStateToBind(Object orig, Name name, Context ctx,
-        Hashtable<?,?> env) throws NamingException {
-        if (orig instanceof org.omg.CORBA.Object) {
-            // Already a CORBA object, just use it
+    public Object getStbteToBind(Object orig, Nbme nbme, Context ctx,
+        Hbshtbble<?,?> env) throws NbmingException {
+        if (orig instbnceof org.omg.CORBA.Object) {
+            // Alrebdy b CORBA object, just use it
             return null;
         }
 
-        if (orig instanceof Remote) {
+        if (orig instbnceof Remote) {
             // Turn remote object into org.omg.CORBA.Object
-            // Returns null if JRMP; let next factory try
-            // CNCtx will eventually throw IllegalArgumentException if
+            // Returns null if JRMP; let next fbctory try
+            // CNCtx will eventublly throw IllegblArgumentException if
             // no CORBA object gotten
-            return CorbaUtils.remoteToCorba((Remote)orig, ((CNCtx)ctx)._orb);
+            return CorbbUtils.remoteToCorbb((Remote)orig, ((CNCtx)ctx)._orb);
         }
-        return null; // pass and let next state factory try
+        return null; // pbss bnd let next stbte fbctory try
     }
 }

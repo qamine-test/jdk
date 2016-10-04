@@ -1,40 +1,40 @@
 /*
- * Copyright (c) 1995, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 #ifndef HEADLESS
 
-#include "awt_p.h"
+#include "bwt_p.h"
 #include <string.h>
-#include "java_awt_Component.h"
-#include "java_awt_Font.h"
-#include "java_awt_FontMetrics.h"
-#include "sun_awt_X11GraphicsEnvironment.h"
+#include "jbvb_bwt_Component.h"
+#include "jbvb_bwt_Font.h"
+#include "jbvb_bwt_FontMetrics.h"
+#include "sun_bwt_X11GrbphicsEnvironment.h"
 
-#include "awt_Font.h"
+#include "bwt_Font.h"
 
-#include "java_awt_Dimension.h"
+#include "jbvb_bwt_Dimension.h"
 #include "multi_font.h"
 #include "Disposer.h"
 #endif /* !HEADLESS */
@@ -42,167 +42,167 @@
 #ifndef HEADLESS
 #include <jni_util.h>
 
-#define defaultXLFD "-*-helvetica-*-*-*-*-12-*-*-*-*-*-iso8859-1"
+#define defbultXLFD "-*-helveticb-*-*-*-*-12-*-*-*-*-*-iso8859-1"
 
 struct FontIDs fontIDs;
-struct PlatformFontIDs platformFontIDs;
+struct PlbtformFontIDs plbtformFontIDs;
 
-static void pDataDisposeMethod(JNIEnv *env, jlong pData);
+stbtic void pDbtbDisposeMethod(JNIEnv *env, jlong pDbtb);
 
 /* #define FONT_DEBUG 2 */
-/* 1- print failures, 2- print all, 3- terminate on failure */
+/* 1- print fbilures, 2- print bll, 3- terminbte on fbilure */
 #if FONT_DEBUG
-static XFontStruct *XLoadQueryFontX(Display *display, char *name)
+stbtic XFontStruct *XLobdQueryFontX(Displby *displby, chbr *nbme)
 {
     XFontStruct *result = NULL;
-    result = XLoadQueryFont(display, name);
+    result = XLobdQueryFont(displby, nbme);
 #if FONT_DEBUG < 2
     if (result == NULL)
 #endif
-        fprintf(stderr, "XLoadQueryFont(\"%s\") -> 0x%x.\n", name, result);
+        fprintf(stderr, "XLobdQueryFont(\"%s\") -> 0x%x.\n", nbme, result);
 #if FONT_DEBUG >= 3
     if (result == NULL)
         exit(-1);
 #endif
     return result;
 }
-#define XLoadQueryFont XLoadQueryFontX
+#define XLobdQueryFont XLobdQueryFontX
 #endif
 #endif /* !HEADLESS */
 
 /*
- * Class:     java_awt_Font
+ * Clbss:     jbvb_bwt_Font
  * Method:    initIDs
- * Signature: ()V
+ * Signbture: ()V
  */
 
-/* This function gets called from the static initializer for Font.java
-   to initialize the fieldIDs for fields that may be accessed from C */
+/* This function gets cblled from the stbtic initiblizer for Font.jbvb
+   to initiblize the fieldIDs for fields thbt mby be bccessed from C */
 
 JNIEXPORT void JNICALL
-Java_java_awt_Font_initIDs
-  (JNIEnv *env, jclass cls)
+Jbvb_jbvb_bwt_Font_initIDs
+  (JNIEnv *env, jclbss cls)
 {
 #ifndef HEADLESS
-    /** We call "NoClientCode" methods because they won't invoke client
-        code on the privileged toolkit thread **/
-    CHECK_NULL(fontIDs.pData = (*env)->GetFieldID(env, cls, "pData", "J"));
+    /** We cbll "NoClientCode" methods becbuse they won't invoke client
+        code on the privileged toolkit threbd **/
+    CHECK_NULL(fontIDs.pDbtb = (*env)->GetFieldID(env, cls, "pDbtb", "J"));
     CHECK_NULL(fontIDs.style = (*env)->GetFieldID(env, cls, "style", "I"));
     CHECK_NULL(fontIDs.size = (*env)->GetFieldID(env, cls, "size", "I"));
     CHECK_NULL(fontIDs.getPeer = (*env)->GetMethodID(env, cls, "getPeer_NoClientCode",
-                                                     "()Ljava/awt/peer/FontPeer;"));
-    CHECK_NULL(fontIDs.getFamily = (*env)->GetMethodID(env, cls, "getFamily_NoClientCode",
-                                                       "()Ljava/lang/String;"));
+                                                     "()Ljbvb/bwt/peer/FontPeer;"));
+    CHECK_NULL(fontIDs.getFbmily = (*env)->GetMethodID(env, cls, "getFbmily_NoClientCode",
+                                                       "()Ljbvb/lbng/String;"));
 #endif /* !HEADLESS */
 }
 
 #ifndef HEADLESS
-/* fieldIDs for FontDescriptor fields that may be accessed from C */
-static struct FontDescriptorIDs {
-    jfieldID nativeName;
-    jfieldID charsetName;
+/* fieldIDs for FontDescriptor fields thbt mby be bccessed from C */
+stbtic struct FontDescriptorIDs {
+    jfieldID nbtiveNbme;
+    jfieldID chbrsetNbme;
 } fontDescriptorIDs;
 #endif /* !HEADLESS */
 
 /*
- * Class:     sun_awt_FontDescriptor
+ * Clbss:     sun_bwt_FontDescriptor
  * Method:    initIDs
- * Signature: ()V
+ * Signbture: ()V
  */
 
-/* This function gets called from the static initializer for
-   FontDescriptor.java to initialize the fieldIDs for fields
-   that may be accessed from C */
+/* This function gets cblled from the stbtic initiblizer for
+   FontDescriptor.jbvb to initiblize the fieldIDs for fields
+   thbt mby be bccessed from C */
 
 JNIEXPORT void JNICALL
-Java_sun_awt_FontDescriptor_initIDs
-  (JNIEnv *env, jclass cls)
+Jbvb_sun_bwt_FontDescriptor_initIDs
+  (JNIEnv *env, jclbss cls)
 {
 #ifndef HEADLESS
-    CHECK_NULL(fontDescriptorIDs.nativeName =
-               (*env)->GetFieldID(env, cls, "nativeName", "Ljava/lang/String;"));
-    CHECK_NULL(fontDescriptorIDs.charsetName =
-               (*env)->GetFieldID(env, cls, "charsetName", "Ljava/lang/String;"));
+    CHECK_NULL(fontDescriptorIDs.nbtiveNbme =
+               (*env)->GetFieldID(env, cls, "nbtiveNbme", "Ljbvb/lbng/String;"));
+    CHECK_NULL(fontDescriptorIDs.chbrsetNbme =
+               (*env)->GetFieldID(env, cls, "chbrsetNbme", "Ljbvb/lbng/String;"));
 #endif /* !HEADLESS */
 }
 
 /*
- * Class:     sun_awt_PlatformFont
+ * Clbss:     sun_bwt_PlbtformFont
  * Method:    initIDs
- * Signature: ()V
+ * Signbture: ()V
  */
 
-/* This function gets called from the static initializer for
-   PlatformFont.java to initialize the fieldIDs for fields
-   that may be accessed from C */
+/* This function gets cblled from the stbtic initiblizer for
+   PlbtformFont.jbvb to initiblize the fieldIDs for fields
+   thbt mby be bccessed from C */
 
 JNIEXPORT void JNICALL
-Java_sun_awt_PlatformFont_initIDs
-  (JNIEnv *env, jclass cls)
+Jbvb_sun_bwt_PlbtformFont_initIDs
+  (JNIEnv *env, jclbss cls)
 {
 #ifndef HEADLESS
-    CHECK_NULL(platformFontIDs.componentFonts =
+    CHECK_NULL(plbtformFontIDs.componentFonts =
                (*env)->GetFieldID(env, cls, "componentFonts",
-                                  "[Lsun/awt/FontDescriptor;"));
-    CHECK_NULL(platformFontIDs.fontConfig =
+                                  "[Lsun/bwt/FontDescriptor;"));
+    CHECK_NULL(plbtformFontIDs.fontConfig =
                (*env)->GetFieldID(env,cls, "fontConfig",
-                                  "Lsun/awt/FontConfiguration;"));
-    CHECK_NULL(platformFontIDs.makeConvertedMultiFontString =
-               (*env)->GetMethodID(env, cls, "makeConvertedMultiFontString",
-                                   "(Ljava/lang/String;)[Ljava/lang/Object;"));
-    CHECK_NULL(platformFontIDs.makeConvertedMultiFontChars =
-               (*env)->GetMethodID(env, cls, "makeConvertedMultiFontChars",
-                                   "([CII)[Ljava/lang/Object;"));
+                                  "Lsun/bwt/FontConfigurbtion;"));
+    CHECK_NULL(plbtformFontIDs.mbkeConvertedMultiFontString =
+               (*env)->GetMethodID(env, cls, "mbkeConvertedMultiFontString",
+                                   "(Ljbvb/lbng/String;)[Ljbvb/lbng/Object;"));
+    CHECK_NULL(plbtformFontIDs.mbkeConvertedMultiFontChbrs =
+               (*env)->GetMethodID(env, cls, "mbkeConvertedMultiFontChbrs",
+                                   "([CII)[Ljbvb/lbng/Object;"));
 #endif /* !HEADLESS */
 }
 
 #ifndef HEADLESS
 XFontStruct *
-loadFont(Display * display, char *name, int32_t pointSize)
+lobdFont(Displby * displby, chbr *nbme, int32_t pointSize)
 {
     XFontStruct *f = NULL;
 
-    /* try the exact xlfd name in font configuration file */
-    f = XLoadQueryFont(display, name);
+    /* try the exbct xlfd nbme in font configurbtion file */
+    f = XLobdQueryFont(displby, nbme);
     if (f != NULL) {
         return f;
     }
 
     /*
-     * try nearly font
+     * try nebrly font
      *
      *  1. specify FAMILY_NAME, WEIGHT_NAME, SLANT, POINT_SIZE,
-     *     CHARSET_REGISTRY and CHARSET_ENCODING.
-     *  2. change POINT_SIZE to PIXEL_SIZE
-     *  3. change FAMILY_NAME to *
-     *  4. specify only PIXEL_SIZE and CHARSET_REGISTRY/ENCODING
-     *  5. change PIXEL_SIZE +1/-1/+2/-2...+4/-4
-     *  6. default font pattern
+     *     CHARSET_REGISTRY bnd CHARSET_ENCODING.
+     *  2. chbnge POINT_SIZE to PIXEL_SIZE
+     *  3. chbnge FAMILY_NAME to *
+     *  4. specify only PIXEL_SIZE bnd CHARSET_REGISTRY/ENCODING
+     *  5. chbnge PIXEL_SIZE +1/-1/+2/-2...+4/-4
+     *  6. defbult font pbttern
      */
     {
         /*
-         * This code assumes the name contains exactly 14 '-' delimiter.
-         * If not use default pattern.
+         * This code bssumes the nbme contbins exbctly 14 '-' delimiter.
+         * If not use defbult pbttern.
          */
         int32_t i, length, pixelSize;
-        Boolean useDefault = FALSE;
+        Boolebn useDefbult = FALSE;
 
-        char buffer[BUFSIZ], buffer2[BUFSIZ];
-        char *family = NULL, *style = NULL, *slant = NULL, *encoding = NULL;
-        char *start = NULL, *end = NULL;
+        chbr buffer[BUFSIZ], buffer2[BUFSIZ];
+        chbr *fbmily = NULL, *style = NULL, *slbnt = NULL, *encoding = NULL;
+        chbr *stbrt = NULL, *end = NULL;
 
-        if (strlen(name) > BUFSIZ - 1) {
-            useDefault = TRUE;
+        if (strlen(nbme) > BUFSIZ - 1) {
+            useDefbult = TRUE;
         } else {
-            strcpy(buffer, name);
+            strcpy(buffer, nbme);
         }
 
 #define NEXT_HYPHEN\
-        start = end + 1;\
-        end = strchr(start, '-');\
+        stbrt = end + 1;\
+        end = strchr(stbrt, '-');\
         if (end == NULL) {\
-                              useDefault = TRUE;\
-        break;\
+                              useDefbult = TRUE;\
+        brebk;\
         }\
         *end = '\0'
 
@@ -214,19 +214,19 @@ loadFont(Display * display, char *name, int32_t pointSize)
 
                  /* set FAMILY_NAME */
                  NEXT_HYPHEN;
-                 family = start;
+                 fbmily = stbrt;
 
                  /* set STYLE_NAME */
                  NEXT_HYPHEN;
-                 style = start;
+                 style = stbrt;
 
                  /* set SLANT */
                  NEXT_HYPHEN;
-                 slant = start;
+                 slbnt = stbrt;
 
                  /* skip SETWIDTH_NAME, ADD_STYLE_NAME, PIXEL_SIZE
                     POINT_SIZE, RESOLUTION_X, RESOLUTION_Y, SPACING
-                    and AVERAGE_WIDTH */
+                    bnd AVERAGE_WIDTH */
                  NEXT_HYPHEN;
                  NEXT_HYPHEN;
                  NEXT_HYPHEN;
@@ -236,75 +236,75 @@ loadFont(Display * display, char *name, int32_t pointSize)
                  NEXT_HYPHEN;
                  NEXT_HYPHEN;
 
-                 /* set CHARSET_REGISTRY and CHARSET_ENCODING */
+                 /* set CHARSET_REGISTRY bnd CHARSET_ENCODING */
                  encoding = end + 1;
              }
              while (0);
 
 #define TRY_LOAD\
-        f = XLoadQueryFont(display, buffer2);\
+        f = XLobdQueryFont(displby, buffer2);\
         if (f != NULL) {\
-                            strcpy(name, buffer2);\
+                            strcpy(nbme, buffer2);\
         return f;\
         }
 
-        if (!useDefault) {
-            char *altstyle = NULL;
+        if (!useDefbult) {
+            chbr *bltstyle = NULL;
 
-            /* Regular is the style for TrueType fonts -- Type1, F3 use roman */
-            if (strcmp(style, "regular") == 0) {
-                altstyle = "roman";
+            /* Regulbr is the style for TrueType fonts -- Type1, F3 use rombn */
+            if (strcmp(style, "regulbr") == 0) {
+                bltstyle = "rombn";
             }
 #if defined(__linux__) || defined(MACOSX)
-            if (!strcmp(family, "lucidasans")) {
-                family = "lucida";
+            if (!strcmp(fbmily, "lucidbsbns")) {
+                fbmily = "lucidb";
             }
 #endif
             /* try 1. */
             jio_snprintf(buffer2, sizeof(buffer2),
                          "-*-%s-%s-%s-*-*-*-%d-*-*-*-*-%s",
-                         family, style, slant, pointSize, encoding);
+                         fbmily, style, slbnt, pointSize, encoding);
             TRY_LOAD;
 
-            if (altstyle != NULL) {
+            if (bltstyle != NULL) {
                 jio_snprintf(buffer2, sizeof(buffer2),
                              "-*-%s-%s-%s-*-*-*-%d-*-*-*-*-%s",
-                             family, altstyle, slant, pointSize, encoding);
+                             fbmily, bltstyle, slbnt, pointSize, encoding);
                 TRY_LOAD;
             }
 
-            /* search bitmap font */
+            /* sebrch bitmbp font */
             pixelSize = pointSize / 10;
 
             /* try 2. */
             jio_snprintf(buffer2, sizeof(buffer2),
                          "-*-%s-%s-%s-*-*-%d-*-*-*-*-*-%s",
-                         family, style, slant, pixelSize, encoding);
+                         fbmily, style, slbnt, pixelSize, encoding);
             TRY_LOAD;
 
-            if (altstyle != NULL) {
+            if (bltstyle != NULL) {
                 jio_snprintf(buffer2, sizeof(buffer2),
                              "-*-%s-%s-%s-*-*-%d-*-*-*-*-*-%s",
-                             family, altstyle, slant, pixelSize, encoding);
+                             fbmily, bltstyle, slbnt, pixelSize, encoding);
                 TRY_LOAD;
             }
 
             /* try 3 */
             jio_snprintf(buffer2, sizeof(buffer2),
                          "-*-*-%s-%s-*-*-%d-*-*-*-*-*-%s",
-                         style, slant, pixelSize, encoding);
+                         style, slbnt, pixelSize, encoding);
             TRY_LOAD;
-            if (altstyle != NULL) {
+            if (bltstyle != NULL) {
                 jio_snprintf(buffer2, sizeof(buffer2),
                              "-*-*-%s-%s-*-*-%d-*-*-*-*-*-%s",
-                             altstyle, slant, pixelSize, encoding);
+                             bltstyle, slbnt, pixelSize, encoding);
                 TRY_LOAD;
             }
 
             /* try 4 */
             jio_snprintf(buffer2, sizeof(buffer2),
                          "-*-*-*-%s-*-*-%d-*-*-*-*-*-%s",
-                         slant, pixelSize, encoding);
+                         slbnt, pixelSize, encoding);
 
             TRY_LOAD;
 
@@ -317,15 +317,15 @@ loadFont(Display * display, char *name, int32_t pointSize)
             /* try 6. */
             for (i = 1; i < 4; i++) {
                 if (pixelSize < i)
-                    break;
+                    brebk;
                 jio_snprintf(buffer2, sizeof(buffer2),
                              "-*-%s-%s-%s-*-*-%d-*-*-*-*-*-%s",
-                             family, style, slant, pixelSize + i, encoding);
+                             fbmily, style, slbnt, pixelSize + i, encoding);
                 TRY_LOAD;
 
                 jio_snprintf(buffer2, sizeof(buffer2),
                              "-*-%s-%s-%s-*-*-%d-*-*-*-*-*-%s",
-                             family, style, slant, pixelSize - i, encoding);
+                             fbmily, style, slbnt, pixelSize - i, encoding);
                 TRY_LOAD;
 
                 jio_snprintf(buffer2, sizeof(buffer2),
@@ -341,287 +341,287 @@ loadFont(Display * display, char *name, int32_t pointSize)
         }
     }
 
-    strcpy(name, defaultXLFD);
-    return XLoadQueryFont(display, defaultXLFD);
+    strcpy(nbme, defbultXLFD);
+    return XLobdQueryFont(displby, defbultXLFD);
 }
 
 /*
- * Hardwired list of mappings for generic font names "Helvetica",
- * "TimesRoman", "Courier", "Dialog", and "DialogInput".
+ * Hbrdwired list of mbppings for generic font nbmes "Helveticb",
+ * "TimesRombn", "Courier", "Diblog", bnd "DiblogInput".
  */
-static char *defaultfontname = "fixed";
-static char *defaultfoundry = "misc";
-static char *anyfoundry = "*";
-static char *anystyle = "*-*";
-static char *isolatin1 = "iso8859-1";
+stbtic chbr *defbultfontnbme = "fixed";
+stbtic chbr *defbultfoundry = "misc";
+stbtic chbr *bnyfoundry = "*";
+stbtic chbr *bnystyle = "*-*";
+stbtic chbr *isolbtin1 = "iso8859-1";
 
-static char *
+stbtic chbr *
 Style(int32_t s)
 {
     switch (s) {
-        case java_awt_Font_ITALIC:
+        cbse jbvb_bwt_Font_ITALIC:
             return "medium-i";
-        case java_awt_Font_BOLD:
+        cbse jbvb_bwt_Font_BOLD:
             return "bold-r";
-        case java_awt_Font_BOLD + java_awt_Font_ITALIC:
+        cbse jbvb_bwt_Font_BOLD + jbvb_bwt_Font_ITALIC:
             return "bold-i";
-        case java_awt_Font_PLAIN:
-        default:
+        cbse jbvb_bwt_Font_PLAIN:
+        defbult:
             return "medium-r";
     }
 }
 
-static int32_t
-awtJNI_FontName(JNIEnv * env, jstring name, char **foundry, char **facename, char **encoding)
+stbtic int32_t
+bwtJNI_FontNbme(JNIEnv * env, jstring nbme, chbr **foundry, chbr **fbcenbme, chbr **encoding)
 {
-    char *cname = NULL;
+    chbr *cnbme = NULL;
 
-    if (JNU_IsNull(env, name)) {
+    if (JNU_IsNull(env, nbme)) {
         return 0;
     }
-    cname = (char *) JNU_GetStringPlatformChars(env, name, NULL);
-    if (cname == NULL) {
-        (*env)->ExceptionClear(env);
-        JNU_ThrowOutOfMemoryError(env, "Could not create font name");
+    cnbme = (chbr *) JNU_GetStringPlbtformChbrs(env, nbme, NULL);
+    if (cnbme == NULL) {
+        (*env)->ExceptionClebr(env);
+        JNU_ThrowOutOfMemoryError(env, "Could not crebte font nbme");
         return 0;
     }
 
-    /* additional default font names */
-    if (strcmp(cname, "serif") == 0) {
-        *foundry = "adobe";
-        *facename = "times";
-        *encoding = isolatin1;
-    } else if (strcmp(cname, "sansserif") == 0) {
-        *foundry = "adobe";
-        *facename = "helvetica";
-        *encoding = isolatin1;
-    } else if (strcmp(cname, "monospaced") == 0) {
-        *foundry = "adobe";
-        *facename = "courier";
-        *encoding = isolatin1;
-    } else if (strcmp(cname, "helvetica") == 0) {
-        *foundry = "adobe";
-        *facename = "helvetica";
-        *encoding = isolatin1;
-    } else if (strcmp(cname, "timesroman") == 0) {
-        *foundry = "adobe";
-        *facename = "times";
-        *encoding = isolatin1;
-    } else if (strcmp(cname, "courier") == 0) {
-        *foundry = "adobe";
-        *facename = "courier";
-        *encoding = isolatin1;
-    } else if (strcmp(cname, "dialog") == 0) {
+    /* bdditionbl defbult font nbmes */
+    if (strcmp(cnbme, "serif") == 0) {
+        *foundry = "bdobe";
+        *fbcenbme = "times";
+        *encoding = isolbtin1;
+    } else if (strcmp(cnbme, "sbnsserif") == 0) {
+        *foundry = "bdobe";
+        *fbcenbme = "helveticb";
+        *encoding = isolbtin1;
+    } else if (strcmp(cnbme, "monospbced") == 0) {
+        *foundry = "bdobe";
+        *fbcenbme = "courier";
+        *encoding = isolbtin1;
+    } else if (strcmp(cnbme, "helveticb") == 0) {
+        *foundry = "bdobe";
+        *fbcenbme = "helveticb";
+        *encoding = isolbtin1;
+    } else if (strcmp(cnbme, "timesrombn") == 0) {
+        *foundry = "bdobe";
+        *fbcenbme = "times";
+        *encoding = isolbtin1;
+    } else if (strcmp(cnbme, "courier") == 0) {
+        *foundry = "bdobe";
+        *fbcenbme = "courier";
+        *encoding = isolbtin1;
+    } else if (strcmp(cnbme, "diblog") == 0) {
         *foundry = "b&h";
-        *facename = "lucida";
-        *encoding = isolatin1;
-    } else if (strcmp(cname, "dialoginput") == 0) {
+        *fbcenbme = "lucidb";
+        *encoding = isolbtin1;
+    } else if (strcmp(cnbme, "dibloginput") == 0) {
         *foundry = "b&h";
-        *facename = "lucidatypewriter";
-        *encoding = isolatin1;
-    } else if (strcmp(cname, "zapfdingbats") == 0) {
+        *fbcenbme = "lucidbtypewriter";
+        *encoding = isolbtin1;
+    } else if (strcmp(cnbme, "zbpfdingbbts") == 0) {
         *foundry = "itc";
-        *facename = "zapfdingbats";
+        *fbcenbme = "zbpfdingbbts";
         *encoding = "*-*";
     } else {
 #ifdef DEBUG
-        jio_fprintf(stderr, "Unknown font: %s\n", cname);
+        jio_fprintf(stderr, "Unknown font: %s\n", cnbme);
 #endif
-        *foundry = defaultfoundry;
-        *facename = defaultfontname;
-        *encoding = isolatin1;
+        *foundry = defbultfoundry;
+        *fbcenbme = defbultfontnbme;
+        *encoding = isolbtin1;
     }
 
-    if (cname != NULL)
-        JNU_ReleaseStringPlatformChars(env, name, (const char *) cname);
+    if (cnbme != NULL)
+        JNU_RelebseStringPlbtformChbrs(env, nbme, (const chbr *) cnbme);
 
     return 1;
 }
 
-struct FontData *
-awtJNI_GetFontData(JNIEnv * env, jobject font, char **errmsg)
+struct FontDbtb *
+bwtJNI_GetFontDbtb(JNIEnv * env, jobject font, chbr **errmsg)
 {
-    /* We are going to create at most 4 outstanding local refs in this
+    /* We bre going to crebte bt most 4 outstbnding locbl refs in this
      * function. */
-    if ((*env)->EnsureLocalCapacity(env, 4) < 0) {
+    if ((*env)->EnsureLocblCbpbcity(env, 4) < 0) {
         return NULL;
     }
 
-    if (!JNU_IsNull(env, font) && awtJNI_IsMultiFont(env, font)) {
+    if (!JNU_IsNull(env, font) && bwtJNI_IsMultiFont(env, font)) {
         JNU_CHECK_EXCEPTION_RETURN(env, NULL);
 
-        struct FontData *fdata = NULL;
+        struct FontDbtb *fdbtb = NULL;
         int32_t i, size;
-        char *fontsetname = NULL;
-        char *nativename = NULL;
-        Boolean doFree = FALSE;
-        jobjectArray componentFonts = NULL;
+        chbr *fontsetnbme = NULL;
+        chbr *nbtivenbme = NULL;
+        Boolebn doFree = FALSE;
+        jobjectArrby componentFonts = NULL;
         jobject peer = NULL;
         jobject fontDescriptor = NULL;
-        jstring fontDescriptorName = NULL;
-        jstring charsetName = NULL;
+        jstring fontDescriptorNbme = NULL;
+        jstring chbrsetNbme = NULL;
 
-        fdata = (struct FontData *) JNU_GetLongFieldAsPtr(env,font,
-                                                         fontIDs.pData);
+        fdbtb = (struct FontDbtb *) JNU_GetLongFieldAsPtr(env,font,
+                                                         fontIDs.pDbtb);
 
-        if (fdata != NULL && fdata->flist != NULL) {
-            return fdata;
+        if (fdbtb != NULL && fdbtb->flist != NULL) {
+            return fdbtb;
         }
         size = (*env)->GetIntField(env, font, fontIDs.size);
-        fdata = (struct FontData *) malloc(sizeof(struct FontData));
+        fdbtb = (struct FontDbtb *) mblloc(sizeof(struct FontDbtb));
 
-        peer = (*env)->CallObjectMethod(env, font, fontIDs.getPeer);
+        peer = (*env)->CbllObjectMethod(env, font, fontIDs.getPeer);
 
         componentFonts =
-          (*env)->GetObjectField(env, peer, platformFontIDs.componentFonts);
+          (*env)->GetObjectField(env, peer, plbtformFontIDs.componentFonts);
         /* We no longer need peer */
-        (*env)->DeleteLocalRef(env, peer);
+        (*env)->DeleteLocblRef(env, peer);
 
-        fdata->charset_num = (*env)->GetArrayLength(env, componentFonts);
+        fdbtb->chbrset_num = (*env)->GetArrbyLength(env, componentFonts);
 
-        fdata->flist = (awtFontList *) malloc(sizeof(awtFontList)
-                                              * fdata->charset_num);
-        fdata->xfont = NULL;
-        for (i = 0; i < fdata->charset_num; i++) {
+        fdbtb->flist = (bwtFontList *) mblloc(sizeof(bwtFontList)
+                                              * fdbtb->chbrset_num);
+        fdbtb->xfont = NULL;
+        for (i = 0; i < fdbtb->chbrset_num; i++) {
             /*
-             * set xlfd name
+             * set xlfd nbme
              */
 
-            fontDescriptor = (*env)->GetObjectArrayElement(env, componentFonts, i);
-            fontDescriptorName =
+            fontDescriptor = (*env)->GetObjectArrbyElement(env, componentFonts, i);
+            fontDescriptorNbme =
               (*env)->GetObjectField(env, fontDescriptor,
-                                     fontDescriptorIDs.nativeName);
+                                     fontDescriptorIDs.nbtiveNbme);
 
-            if (!JNU_IsNull(env, fontDescriptorName)) {
-                nativename = (char *) JNU_GetStringPlatformChars(env, fontDescriptorName, NULL);
-                if (nativename == NULL) {
-                    nativename = "";
+            if (!JNU_IsNull(env, fontDescriptorNbme)) {
+                nbtivenbme = (chbr *) JNU_GetStringPlbtformChbrs(env, fontDescriptorNbme, NULL);
+                if (nbtivenbme == NULL) {
+                    nbtivenbme = "";
                     doFree = FALSE;
                 } else {
                     doFree = TRUE;
                 }
             } else {
-                nativename = "";
+                nbtivenbme = "";
                 doFree = FALSE;
             }
 
-            fdata->flist[i].xlfd = malloc(strlen(nativename)
-                                          + strlen(defaultXLFD));
-            jio_snprintf(fdata->flist[i].xlfd, strlen(nativename) + 10,
-                         nativename, size * 10);
+            fdbtb->flist[i].xlfd = mblloc(strlen(nbtivenbme)
+                                          + strlen(defbultXLFD));
+            jio_snprintf(fdbtb->flist[i].xlfd, strlen(nbtivenbme) + 10,
+                         nbtivenbme, size * 10);
 
-            if (nativename != NULL && doFree)
-                JNU_ReleaseStringPlatformChars(env, fontDescriptorName, (const char *) nativename);
+            if (nbtivenbme != NULL && doFree)
+                JNU_RelebseStringPlbtformChbrs(env, fontDescriptorNbme, (const chbr *) nbtivenbme);
 
             /*
-             * set charset_name
+             * set chbrset_nbme
              */
 
-            charsetName =
+            chbrsetNbme =
               (*env)->GetObjectField(env, fontDescriptor,
-                                     fontDescriptorIDs.charsetName);
+                                     fontDescriptorIDs.chbrsetNbme);
 
-            fdata->flist[i].charset_name = (char *)
-                JNU_GetStringPlatformChars(env, charsetName, NULL);
-            if (fdata->flist[i].charset_name == NULL) {
-                (*env)->ExceptionClear(env);
-                JNU_ThrowOutOfMemoryError(env, "Could not create charset name");
+            fdbtb->flist[i].chbrset_nbme = (chbr *)
+                JNU_GetStringPlbtformChbrs(env, chbrsetNbme, NULL);
+            if (fdbtb->flist[i].chbrset_nbme == NULL) {
+                (*env)->ExceptionClebr(env);
+                JNU_ThrowOutOfMemoryError(env, "Could not crebte chbrset nbme");
                 return NULL;
             }
 
-            /* We are done with the objects. */
-            (*env)->DeleteLocalRef(env, fontDescriptor);
-            (*env)->DeleteLocalRef(env, fontDescriptorName);
-            (*env)->DeleteLocalRef(env, charsetName);
+            /* We bre done with the objects. */
+            (*env)->DeleteLocblRef(env, fontDescriptor);
+            (*env)->DeleteLocblRef(env, fontDescriptorNbme);
+            (*env)->DeleteLocblRef(env, chbrsetNbme);
 
             /*
-             * set load & XFontStruct
+             * set lobd & XFontStruct
              */
-            fdata->flist[i].load = 0;
+            fdbtb->flist[i].lobd = 0;
 
             /*
-             * This appears to be a bogus check.  The actual intent appears
-             * to be to find out whether this is the "base" font in a set,
-             * rather than iso8859_1 explicitly.  Note that iso8859_15 will
-             * and must also pass this test.
+             * This bppebrs to be b bogus check.  The bctubl intent bppebrs
+             * to be to find out whether this is the "bbse" font in b set,
+             * rbther thbn iso8859_1 explicitly.  Note thbt iso8859_15 will
+             * bnd must blso pbss this test.
              */
 
-            if (fdata->xfont == NULL &&
-                strstr(fdata->flist[i].charset_name, "8859_1")) {
-                fdata->flist[i].xfont =
-                    loadFont(awt_display, fdata->flist[i].xlfd, size * 10);
-                if (fdata->flist[i].xfont != NULL) {
-                    fdata->flist[i].load = 1;
-                    fdata->xfont = fdata->flist[i].xfont;
-                    fdata->flist[i].index_length = 1;
+            if (fdbtb->xfont == NULL &&
+                strstr(fdbtb->flist[i].chbrset_nbme, "8859_1")) {
+                fdbtb->flist[i].xfont =
+                    lobdFont(bwt_displby, fdbtb->flist[i].xlfd, size * 10);
+                if (fdbtb->flist[i].xfont != NULL) {
+                    fdbtb->flist[i].lobd = 1;
+                    fdbtb->xfont = fdbtb->flist[i].xfont;
+                    fdbtb->flist[i].index_length = 1;
                 } else {
-                    /* Free any already allocated storage and fonts */
+                    /* Free bny blrebdy bllocbted storbge bnd fonts */
                     int j = i;
                     for (j = 0; j <= i; j++) {
-                        free((void *)fdata->flist[j].xlfd);
-                        JNU_ReleaseStringPlatformChars(env, NULL,
-                            fdata->flist[j].charset_name);
-                        if (fdata->flist[j].load) {
-                            XFreeFont(awt_display, fdata->flist[j].xfont);
+                        free((void *)fdbtb->flist[j].xlfd);
+                        JNU_RelebseStringPlbtformChbrs(env, NULL,
+                            fdbtb->flist[j].chbrset_nbme);
+                        if (fdbtb->flist[j].lobd) {
+                            XFreeFont(bwt_displby, fdbtb->flist[j].xfont);
                         }
                     }
-                    free((void *)fdata->flist);
-                    free((void *)fdata);
+                    free((void *)fdbtb->flist);
+                    free((void *)fdbtb);
 
                     if (errmsg != NULL) {
-                        *errmsg = "java/lang" "NullPointerException";
+                        *errmsg = "jbvb/lbng" "NullPointerException";
                     }
-                    (*env)->DeleteLocalRef(env, componentFonts);
+                    (*env)->DeleteLocblRef(env, componentFonts);
                     return NULL;
                 }
             }
         }
-        (*env)->DeleteLocalRef(env, componentFonts);
+        (*env)->DeleteLocblRef(env, componentFonts);
         /*
-         * XFontSet will create if the peer of TextField/TextArea
-         * are used.
+         * XFontSet will crebte if the peer of TextField/TextAreb
+         * bre used.
          */
-        fdata->xfs = NULL;
+        fdbtb->xfs = NULL;
 
-        JNU_SetLongFieldFromPtr(env,font,fontIDs.pData,fdata);
-        Disposer_AddRecord(env, font, pDataDisposeMethod, ptr_to_jlong(fdata));
-        return fdata;
+        JNU_SetLongFieldFromPtr(env,font,fontIDs.pDbtb,fdbtb);
+        Disposer_AddRecord(env, font, pDbtbDisposeMethod, ptr_to_jlong(fdbtb));
+        return fdbtb;
     } else {
-        Display *display = NULL;
-        struct FontData *fdata = NULL;
-        char fontSpec[1024];
+        Displby *displby = NULL;
+        struct FontDbtb *fdbtb = NULL;
+        chbr fontSpec[1024];
         int32_t height;
         int32_t oheight;
-        int32_t above = 0;              /* tries above height */
+        int32_t bbove = 0;              /* tries bbove height */
         int32_t below = 0;              /* tries below height */
-        char *foundry = NULL;
-        char *name = NULL;
-        char *encoding = NULL;
-        char *style = NULL;
+        chbr *foundry = NULL;
+        chbr *nbme = NULL;
+        chbr *encoding = NULL;
+        chbr *style = NULL;
         XFontStruct *xfont = NULL;
-        jstring family = NULL;
+        jstring fbmily = NULL;
 
         if (JNU_IsNull(env, font)) {
             if (errmsg != NULL) {
-                *errmsg = "java/lang" "NullPointerException";
+                *errmsg = "jbvb/lbng" "NullPointerException";
             }
-            return (struct FontData *) NULL;
+            return (struct FontDbtb *) NULL;
         }
-        display = XDISPLAY;
+        displby = XDISPLAY;
 
-        fdata = (struct FontData *) JNU_GetLongFieldAsPtr(env,font,fontIDs.pData);
-        if (fdata != NULL && fdata->xfont != NULL) {
-            return fdata;
+        fdbtb = (struct FontDbtb *) JNU_GetLongFieldAsPtr(env,font,fontIDs.pDbtb);
+        if (fdbtb != NULL && fdbtb->xfont != NULL) {
+            return fdbtb;
         }
 
-        family = (*env)->CallObjectMethod(env, font, fontIDs.getFamily);
+        fbmily = (*env)->CbllObjectMethod(env, font, fontIDs.getFbmily);
 
-        if (!awtJNI_FontName(env, family, &foundry, &name, &encoding)) {
+        if (!bwtJNI_FontNbme(env, fbmily, &foundry, &nbme, &encoding)) {
             if (errmsg != NULL) {
-                *errmsg = "java/lang" "NullPointerException";
+                *errmsg = "jbvb/lbng" "NullPointerException";
             }
-            (*env)->DeleteLocalRef(env, family);
-            return (struct FontData *) NULL;
+            (*env)->DeleteLocblRef(env, fbmily);
+            return (struct FontDbtb *) NULL;
         }
         style = Style((*env)->GetIntField(env, font, fontIDs.style));
         oheight = height = (*env)->GetIntField(env, font, fontIDs.size);
@@ -629,123 +629,123 @@ awtJNI_GetFontData(JNIEnv * env, jobject font, char **errmsg)
         while (1) {
             jio_snprintf(fontSpec, sizeof(fontSpec), "-%s-%s-%s-*-*-%d-*-*-*-*-*-%s",
                          foundry,
-                         name,
+                         nbme,
                          style,
                          height,
                          encoding);
 
-            /*fprintf(stderr,"LoadFont: %s\n", fontSpec); */
-            xfont = XLoadQueryFont(display, fontSpec);
+            /*fprintf(stderr,"LobdFont: %s\n", fontSpec); */
+            xfont = XLobdQueryFont(displby, fontSpec);
 
-            /* XXX: sometimes XLoadQueryFont returns a bogus font structure */
-            /* with negative ascent. */
-            if (xfont == (Font) NULL || xfont->ascent < 0) {
+            /* XXX: sometimes XLobdQueryFont returns b bogus font structure */
+            /* with negbtive bscent. */
+            if (xfont == (Font) NULL || xfont->bscent < 0) {
                 if (xfont != NULL) {
-                    XFreeFont(display, xfont);
+                    XFreeFont(displby, xfont);
                 }
-                if (foundry != anyfoundry) {  /* Use ptr comparison here, not strcmp */
-                    /* Try any other foundry before messing with the sizes */
-                    foundry = anyfoundry;
+                if (foundry != bnyfoundry) {  /* Use ptr compbrison here, not strcmp */
+                    /* Try bny other foundry before messing with the sizes */
+                    foundry = bnyfoundry;
                     continue;
                 }
-                /* We couldn't find the font. We'll try to find an */
-                /* alternate by searching for heights above and below our */
-                /* preferred height. We try for 4 heights above and below. */
-                /* If we still can't find a font we repeat the algorithm */
-                /* using misc-fixed as the font. If we then fail, then we */
-                /* give up and signal an error. */
-                if (above == below) {
-                    above++;
-                    height = oheight + above;
+                /* We couldn't find the font. We'll try to find bn */
+                /* blternbte by sebrching for heights bbove bnd below our */
+                /* preferred height. We try for 4 heights bbove bnd below. */
+                /* If we still cbn't find b font we repebt the blgorithm */
+                /* using misc-fixed bs the font. If we then fbil, then we */
+                /* give up bnd signbl bn error. */
+                if (bbove == below) {
+                    bbove++;
+                    height = oheight + bbove;
                 } else {
                     below++;
                     if (below > 4) {
-                        if (name != defaultfontname || style != anystyle) {
-                            name = defaultfontname;
-                            foundry = defaultfoundry;
+                        if (nbme != defbultfontnbme || style != bnystyle) {
+                            nbme = defbultfontnbme;
+                            foundry = defbultfoundry;
                             height = oheight;
-                            style = anystyle;
-                            encoding = isolatin1;
-                            above = below = 0;
+                            style = bnystyle;
+                            encoding = isolbtin1;
+                            bbove = below = 0;
                             continue;
                         } else {
                             if (errmsg != NULL) {
-                                *errmsg = "java/io/" "FileNotFoundException";
+                                *errmsg = "jbvb/io/" "FileNotFoundException";
                             }
-                            (*env)->DeleteLocalRef(env, family);
-                            return (struct FontData *) NULL;
+                            (*env)->DeleteLocblRef(env, fbmily);
+                            return (struct FontDbtb *) NULL;
                         }
                     }
                     height = oheight - below;
                 }
                 continue;
             } else {
-                fdata = ZALLOC(FontData);
+                fdbtb = ZALLOC(FontDbtb);
 
-                if (fdata == NULL) {
+                if (fdbtb == NULL) {
                     if (errmsg != NULL) {
-                        *errmsg = "java/lang" "OutOfMemoryError";
+                        *errmsg = "jbvb/lbng" "OutOfMemoryError";
                     }
                 } else {
-                    fdata->xfont = xfont;
-                    JNU_SetLongFieldFromPtr(env,font,fontIDs.pData,fdata);
-                    Disposer_AddRecord(env, font, pDataDisposeMethod,
-                                       ptr_to_jlong(fdata));
+                    fdbtb->xfont = xfont;
+                    JNU_SetLongFieldFromPtr(env,font,fontIDs.pDbtb,fdbtb);
+                    Disposer_AddRecord(env, font, pDbtbDisposeMethod,
+                                       ptr_to_jlong(fdbtb));
                 }
-                (*env)->DeleteLocalRef(env, family);
-                return fdata;
+                (*env)->DeleteLocblRef(env, fbmily);
+                return fdbtb;
             }
         }
-        /* not reached */
+        /* not rebched */
     }
 }
 
 /*
- * Registered with the 2D disposer to be called after the Font is GC'd.
+ * Registered with the 2D disposer to be cblled bfter the Font is GC'd.
  */
-static void pDataDisposeMethod(JNIEnv *env, jlong pData)
+stbtic void pDbtbDisposeMethod(JNIEnv *env, jlong pDbtb)
 {
-    struct FontData *fdata = NULL;
+    struct FontDbtb *fdbtb = NULL;
     int32_t i = 0;
-    Display *display = XDISPLAY;
+    Displby *displby = XDISPLAY;
 
     AWT_LOCK();
-    fdata = (struct FontData *)pData;
+    fdbtb = (struct FontDbtb *)pDbtb;
 
-    if (fdata == NULL) {
+    if (fdbtb == NULL) {
         AWT_UNLOCK();
         return;
     }
 
-    if (fdata->xfs != NULL) {
-        XFreeFontSet(display, fdata->xfs);
+    if (fdbtb->xfs != NULL) {
+        XFreeFontSet(displby, fdbtb->xfs);
     }
 
-    /* AWT fonts are always "multifonts" and probably have been in
-     * all post 1.0 releases, so this test test for multi fonts is
-     * probably not needed, and the singleton xfont is probably never used.
+    /* AWT fonts bre blwbys "multifonts" bnd probbbly hbve been in
+     * bll post 1.0 relebses, so this test test for multi fonts is
+     * probbbly not needed, bnd the singleton xfont is probbbly never used.
      */
-    if (fdata->charset_num > 0) {
-        for (i = 0; i < fdata->charset_num; i++) {
-            free((void *)fdata->flist[i].xlfd);
-            JNU_ReleaseStringPlatformChars(env, NULL,
-                                           fdata->flist[i].charset_name);
-            if (fdata->flist[i].load) {
-                XFreeFont(display, fdata->flist[i].xfont);
+    if (fdbtb->chbrset_num > 0) {
+        for (i = 0; i < fdbtb->chbrset_num; i++) {
+            free((void *)fdbtb->flist[i].xlfd);
+            JNU_RelebseStringPlbtformChbrs(env, NULL,
+                                           fdbtb->flist[i].chbrset_nbme);
+            if (fdbtb->flist[i].lobd) {
+                XFreeFont(displby, fdbtb->flist[i].xfont);
             }
         }
 
-        free((void *)fdata->flist);
+        free((void *)fdbtb->flist);
 
-        /* Don't free fdata->xfont because it is equal to fdata->flist[i].xfont
+        /* Don't free fdbtb->xfont becbuse it is equbl to fdbtb->flist[i].xfont
            for some 'i' */
     } else {
-        if (fdata->xfont != NULL) {
-            XFreeFont(display, fdata->xfont);
+        if (fdbtb->xfont != NULL) {
+            XFreeFont(displby, fdbtb->xfont);
         }
     }
 
-    free((void *)fdata);
+    free((void *)fdbtb);
 
     AWT_UNLOCK();
 }

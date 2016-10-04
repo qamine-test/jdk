@@ -1,152 +1,152 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.plaf.synth;
+pbckbge jbvbx.swing.plbf.synth;
 
-import java.awt.*;
-import java.beans.*;
-import javax.swing.*;
-import javax.swing.plaf.basic.*;
-import sun.swing.DefaultLookup;
+import jbvb.bwt.*;
+import jbvb.bebns.*;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.bbsic.*;
+import sun.swing.DefbultLookup;
 
 /**
- * Synth's SplitPaneDivider.
+ * Synth's SplitPbneDivider.
  *
- * @author Scott Violet
+ * @buthor Scott Violet
  */
-@SuppressWarnings("serial") // Superclass is not serializable across versions
-class SynthSplitPaneDivider extends BasicSplitPaneDivider {
-    public SynthSplitPaneDivider(BasicSplitPaneUI ui) {
+@SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+clbss SynthSplitPbneDivider extends BbsicSplitPbneDivider {
+    public SynthSplitPbneDivider(BbsicSplitPbneUI ui) {
         super(ui);
     }
 
-    protected void setMouseOver(boolean mouseOver) {
+    protected void setMouseOver(boolebn mouseOver) {
         if (isMouseOver() != mouseOver) {
-            repaint();
+            repbint();
         }
         super.setMouseOver(mouseOver);
     }
 
-    public void propertyChange(PropertyChangeEvent e) {
-        super.propertyChange(e);
-        if (e.getSource() == splitPane) {
-            if (e.getPropertyName() == JSplitPane.ORIENTATION_PROPERTY) {
-                if (leftButton instanceof SynthArrowButton) {
+    public void propertyChbnge(PropertyChbngeEvent e) {
+        super.propertyChbnge(e);
+        if (e.getSource() == splitPbne) {
+            if (e.getPropertyNbme() == JSplitPbne.ORIENTATION_PROPERTY) {
+                if (leftButton instbnceof SynthArrowButton) {
                     ((SynthArrowButton)leftButton).setDirection(
-                                       mapDirection(true));
+                                       mbpDirection(true));
                 }
-                if (rightButton instanceof SynthArrowButton) {
+                if (rightButton instbnceof SynthArrowButton) {
                     ((SynthArrowButton)rightButton).setDirection(
-                                       mapDirection(false));
+                                       mbpDirection(fblse));
                 }
             }
         }
     }
 
-    public void paint(Graphics g) {
-        Graphics g2 = g.create();
+    public void pbint(Grbphics g) {
+        Grbphics g2 = g.crebte();
 
-        SynthContext context = ((SynthSplitPaneUI)splitPaneUI).getContext(
-                               splitPane, Region.SPLIT_PANE_DIVIDER);
-        Rectangle bounds = getBounds();
+        SynthContext context = ((SynthSplitPbneUI)splitPbneUI).getContext(
+                               splitPbne, Region.SPLIT_PANE_DIVIDER);
+        Rectbngle bounds = getBounds();
         bounds.x = bounds.y = 0;
-        SynthLookAndFeel.updateSubregion(context, g, bounds);
-        context.getPainter().paintSplitPaneDividerBackground(context,
+        SynthLookAndFeel.updbteSubregion(context, g, bounds);
+        context.getPbinter().pbintSplitPbneDividerBbckground(context,
                           g, 0, 0, bounds.width, bounds.height,
-                          splitPane.getOrientation());
+                          splitPbne.getOrientbtion());
 
-        SynthPainter foreground = null;
+        SynthPbinter foreground = null;
 
-        context.getPainter().paintSplitPaneDividerForeground(context, g, 0, 0,
-                getWidth(), getHeight(), splitPane.getOrientation());
+        context.getPbinter().pbintSplitPbneDividerForeground(context, g, 0, 0,
+                getWidth(), getHeight(), splitPbne.getOrientbtion());
         context.dispose();
 
-        // super.paint(g2);
+        // super.pbint(g2);
         for (int counter = 0; counter < getComponentCount(); counter++) {
             Component child = getComponent(counter);
-            Rectangle childBounds = child.getBounds();
-            Graphics childG = g.create(childBounds.x, childBounds.y,
+            Rectbngle childBounds = child.getBounds();
+            Grbphics childG = g.crebte(childBounds.x, childBounds.y,
                                        childBounds.width, childBounds.height);
-            child.paint(childG);
+            child.pbint(childG);
             childG.dispose();
         }
         g2.dispose();
     }
 
-    private int mapDirection(boolean isLeft) {
+    privbte int mbpDirection(boolebn isLeft) {
         if (isLeft) {
-            if (splitPane.getOrientation() == JSplitPane.HORIZONTAL_SPLIT){
-                return SwingConstants.WEST;
+            if (splitPbne.getOrientbtion() == JSplitPbne.HORIZONTAL_SPLIT){
+                return SwingConstbnts.WEST;
             }
-            return SwingConstants.NORTH;
+            return SwingConstbnts.NORTH;
         }
-        if (splitPane.getOrientation() == JSplitPane.HORIZONTAL_SPLIT){
-            return SwingConstants.EAST;
+        if (splitPbne.getOrientbtion() == JSplitPbne.HORIZONTAL_SPLIT){
+            return SwingConstbnts.EAST;
         }
-        return SwingConstants.SOUTH;
+        return SwingConstbnts.SOUTH;
     }
 
 
     /**
-     * Creates and return an instance of JButton that can be used to
-     * collapse the left component in the split pane.
+     * Crebtes bnd return bn instbnce of JButton thbt cbn be used to
+     * collbpse the left component in the split pbne.
      */
-    protected JButton createLeftOneTouchButton() {
-        SynthArrowButton b = new SynthArrowButton(SwingConstants.NORTH);
+    protected JButton crebteLeftOneTouchButton() {
+        SynthArrowButton b = new SynthArrowButton(SwingConstbnts.NORTH);
         int oneTouchSize = lookupOneTouchSize();
 
-        b.setName("SplitPaneDivider.leftOneTouchButton");
+        b.setNbme("SplitPbneDivider.leftOneTouchButton");
         b.setMinimumSize(new Dimension(oneTouchSize, oneTouchSize));
         b.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-        b.setFocusPainted(false);
-        b.setBorderPainted(false);
-        b.setRequestFocusEnabled(false);
-        b.setDirection(mapDirection(true));
+        b.setFocusPbinted(fblse);
+        b.setBorderPbinted(fblse);
+        b.setRequestFocusEnbbled(fblse);
+        b.setDirection(mbpDirection(true));
         return b;
     }
 
-    private int lookupOneTouchSize() {
-        return DefaultLookup.getInt(splitPaneUI.getSplitPane(), splitPaneUI,
-              "SplitPaneDivider.oneTouchButtonSize", ONE_TOUCH_SIZE);
+    privbte int lookupOneTouchSize() {
+        return DefbultLookup.getInt(splitPbneUI.getSplitPbne(), splitPbneUI,
+              "SplitPbneDivider.oneTouchButtonSize", ONE_TOUCH_SIZE);
     }
 
     /**
-     * Creates and return an instance of JButton that can be used to
-     * collapse the right component in the split pane.
+     * Crebtes bnd return bn instbnce of JButton thbt cbn be used to
+     * collbpse the right component in the split pbne.
      */
-    protected JButton createRightOneTouchButton() {
-        SynthArrowButton b = new SynthArrowButton(SwingConstants.NORTH);
+    protected JButton crebteRightOneTouchButton() {
+        SynthArrowButton b = new SynthArrowButton(SwingConstbnts.NORTH);
         int oneTouchSize = lookupOneTouchSize();
 
-        b.setName("SplitPaneDivider.rightOneTouchButton");
+        b.setNbme("SplitPbneDivider.rightOneTouchButton");
         b.setMinimumSize(new Dimension(oneTouchSize, oneTouchSize));
         b.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-        b.setFocusPainted(false);
-        b.setBorderPainted(false);
-        b.setRequestFocusEnabled(false);
-        b.setDirection(mapDirection(false));
+        b.setFocusPbinted(fblse);
+        b.setBorderPbinted(fblse);
+        b.setRequestFocusEnbbled(fblse);
+        b.setDirection(mbpDirection(fblse));
         return b;
     }
 }

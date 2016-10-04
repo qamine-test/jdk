@@ -1,49 +1,49 @@
 /*
- * Copyright (c) 1998, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * @author Charlton Innovations, Inc.
+ * @buthor Chbrlton Innovbtions, Inc.
  */
 
-package sun.java2d.pipe;
+pbckbge sun.jbvb2d.pipe;
 
-import sun.java2d.SunGraphics2D;
-import java.awt.font.GlyphVector;
-import java.awt.font.TextLayout;
+import sun.jbvb2d.SunGrbphics2D;
+import jbvb.bwt.font.GlyphVector;
+import jbvb.bwt.font.TextLbyout;
 
 /**
- * This interface defines the set of calls that pipeline objects
- * can use to pass on responsibility for drawing various text
- * representations.
+ * This interfbce defines the set of cblls thbt pipeline objects
+ * cbn use to pbss on responsibility for drbwing vbrious text
+ * representbtions.
  */
-public interface TextPipe {
-    public void drawString(SunGraphics2D g2d, String s,
+public interfbce TextPipe {
+    public void drbwString(SunGrbphics2D g2d, String s,
                            double x, double y);
-    public void drawGlyphVector(SunGraphics2D g2d, GlyphVector g,
-                                float x, float y);
-    public void drawChars(SunGraphics2D g2d,
-                          char data[], int offset, int length,
+    public void drbwGlyphVector(SunGrbphics2D g2d, GlyphVector g,
+                                flobt x, flobt y);
+    public void drbwChbrs(SunGrbphics2D g2d,
+                          chbr dbtb[], int offset, int length,
                           int x, int y);
 }

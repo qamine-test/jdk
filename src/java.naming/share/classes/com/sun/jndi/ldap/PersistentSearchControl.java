@@ -1,159 +1,159 @@
 /*
- * Copyright (c) 1999, 2002, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2002, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jndi.ldap;
+pbckbge com.sun.jndi.ldbp;
 
-import java.io.IOException;
+import jbvb.io.IOException;
 
 /**
- * This class implements the LDAPv3 Request Control for the persistent search
- * mechanism as defined in
- * <a href="http://www.ietf.org/internet-drafts/draft-ietf-ldapext-psearch-02.txt">draft-ietf-ldapext-psearch-02.txt</a>.
+ * This clbss implements the LDAPv3 Request Control for the persistent sebrch
+ * mechbnism bs defined in
+ * <b href="http://www.ietf.org/internet-drbfts/drbft-ietf-ldbpext-psebrch-02.txt">drbft-ietf-ldbpext-psebrch-02.txt</b>.
  *
- * The control's value has the following ASN.1 definition:
+ * The control's vblue hbs the following ASN.1 definition:
  * <pre>
  *
- *     PersistentSearch ::= SEQUENCE {
- *         changeTypes INTEGER,
- *         changesOnly BOOLEAN,
+ *     PersistentSebrch ::= SEQUENCE {
+ *         chbngeTypes INTEGER,
+ *         chbngesOnly BOOLEAN,
  *         returnECs BOOLEAN
  *     }
  *
  * </pre>
  *
- * @see EntryChangeResponseControl
- * @author Vincent Ryan
+ * @see EntryChbngeResponseControl
+ * @buthor Vincent Rybn
  */
-final public class PersistentSearchControl extends BasicControl {
+finbl public clbss PersistentSebrchControl extends BbsicControl {
 
     /**
-     * The persistent search control's assigned object identifier
+     * The persistent sebrch control's bssigned object identifier
      * is 2.16.840.1.113730.3.4.3.
      */
-    public static final String OID = "2.16.840.1.113730.3.4.3";
+    public stbtic finbl String OID = "2.16.840.1.113730.3.4.3";
 
     /**
-     * Indicates interest in entries which have been added.
+     * Indicbtes interest in entries which hbve been bdded.
      */
-    public static final int ADD = 1;
+    public stbtic finbl int ADD = 1;
 
     /**
-     * Indicates interest in entries which have been deleted.
+     * Indicbtes interest in entries which hbve been deleted.
      */
-    public static final int DELETE = 2;
+    public stbtic finbl int DELETE = 2;
 
     /**
-     * Indicates interest in entries which have been modified.
+     * Indicbtes interest in entries which hbve been modified.
      */
-    public static final int MODIFY = 4;
+    public stbtic finbl int MODIFY = 4;
 
     /**
-     * Indicates interest in entries which have been renamed.
+     * Indicbtes interest in entries which hbve been renbmed.
      */
-    public static final int RENAME = 8;
+    public stbtic finbl int RENAME = 8;
 
     /**
-     * Indicates interest in entries which have been added, deleted,
-     * modified or renamed.
+     * Indicbtes interest in entries which hbve been bdded, deleted,
+     * modified or renbmed.
      */
-    public static final int ANY = ADD | DELETE | MODIFY | RENAME;
+    public stbtic finbl int ANY = ADD | DELETE | MODIFY | RENAME;
 
     /**
-     * The change types of interest. All changes, by default.
+     * The chbnge types of interest. All chbnges, by defbult.
      *
-     * @serial
+     * @seribl
      */
-    private int changeTypes = ANY;
+    privbte int chbngeTypes = ANY;
 
     /**
-     * Return original entries and changed entries or only changed entries.
+     * Return originbl entries bnd chbnged entries or only chbnged entries.
      *
-     * @serial
+     * @seribl
      */
-    private boolean changesOnly = false;
+    privbte boolebn chbngesOnly = fblse;
 
     /**
-     * Return entry change controls.
+     * Return entry chbnge controls.
      *
-     * @serial
+     * @seribl
      */
-    private boolean returnControls = true;
+    privbte boolebn returnControls = true;
 
-    private static final long serialVersionUID = 6335140491154854116L;
+    privbte stbtic finbl long seriblVersionUID = 6335140491154854116L;
 
     /**
-     * Constructs a persistent search non-critical control.
-     * The original entries, any changed entries (additions,
-     * deletions, modifications or renames) and entry change
-     * controls are requested.
+     * Constructs b persistent sebrch non-criticbl control.
+     * The originbl entries, bny chbnged entries (bdditions,
+     * deletions, modificbtions or renbmes) bnd entry chbnge
+     * controls bre requested.
      *
-     * @exception IOException If a BER encoding error occurs.
+     * @exception IOException If b BER encoding error occurs.
      */
-    public PersistentSearchControl() throws IOException {
+    public PersistentSebrchControl() throws IOException {
         super(OID);
-        super.value = setEncodedValue();
+        super.vblue = setEncodedVblue();
     }
 
     /**
-     * Constructs a persistent search control.
+     * Constructs b persistent sebrch control.
      *
-     * @param   changeTypes     The change types of interest.
-     * @param   changesOnly     Return original entries and changed entries
-     *                          or only the changed entries.
-     * @param   returnControls  Return entry change controls.
-     * @param   criticality     The control's criticality.
-     * @exception IOException If a BER encoding error occurs.
+     * @pbrbm   chbngeTypes     The chbnge types of interest.
+     * @pbrbm   chbngesOnly     Return originbl entries bnd chbnged entries
+     *                          or only the chbnged entries.
+     * @pbrbm   returnControls  Return entry chbnge controls.
+     * @pbrbm   criticblity     The control's criticblity.
+     * @exception IOException If b BER encoding error occurs.
      */
-    public PersistentSearchControl(int changeTypes, boolean changesOnly,
-        boolean returnControls, boolean criticality) throws IOException {
+    public PersistentSebrchControl(int chbngeTypes, boolebn chbngesOnly,
+        boolebn returnControls, boolebn criticblity) throws IOException {
 
-        super(OID, criticality, null);
-        this.changeTypes = changeTypes;
-        this.changesOnly = changesOnly;
+        super(OID, criticblity, null);
+        this.chbngeTypes = chbngeTypes;
+        this.chbngesOnly = chbngesOnly;
         this.returnControls = returnControls;
-        super.value = setEncodedValue();
+        super.vblue = setEncodedVblue();
     }
 
     /*
-     * Sets the ASN.1 BER encoded value of the persistent search control.
-     * The result is the raw BER bytes including the tag and length of
-     * the control's value. It does not include the controls OID or criticality.
+     * Sets the ASN.1 BER encoded vblue of the persistent sebrch control.
+     * The result is the rbw BER bytes including the tbg bnd length of
+     * the control's vblue. It does not include the controls OID or criticblity.
      *
-     * @return A possibly null byte array representing the ASN.1 BER encoded
-     *         value of the LDAP persistent search control.
-     * @exception IOException If a BER encoding error occurs.
+     * @return A possibly null byte brrby representing the ASN.1 BER encoded
+     *         vblue of the LDAP persistent sebrch control.
+     * @exception IOException If b BER encoding error occurs.
      */
-    private byte[] setEncodedValue() throws IOException {
+    privbte byte[] setEncodedVblue() throws IOException {
 
         // build the ASN.1 encoding
         BerEncoder ber = new BerEncoder(32);
 
         ber.beginSeq(Ber.ASN_SEQUENCE | Ber.ASN_CONSTRUCTOR);
-            ber.encodeInt(changeTypes);
-            ber.encodeBoolean(changesOnly);
-            ber.encodeBoolean(returnControls);
+            ber.encodeInt(chbngeTypes);
+            ber.encodeBoolebn(chbngesOnly);
+            ber.encodeBoolebn(returnControls);
         ber.endSeq();
 
         return ber.getTrimmedBuf();

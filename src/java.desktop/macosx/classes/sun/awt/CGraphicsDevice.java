@@ -1,107 +1,107 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt;
+pbckbge sun.bwt;
 
-import java.awt.AWTPermission;
-import java.awt.DisplayMode;
-import java.awt.GraphicsConfiguration;
-import java.awt.GraphicsDevice;
-import java.awt.Insets;
-import java.awt.Window;
-import java.util.Objects;
+import jbvb.bwt.AWTPermission;
+import jbvb.bwt.DisplbyMode;
+import jbvb.bwt.GrbphicsConfigurbtion;
+import jbvb.bwt.GrbphicsDevice;
+import jbvb.bwt.Insets;
+import jbvb.bwt.Window;
+import jbvb.util.Objects;
 
-import sun.java2d.opengl.CGLGraphicsConfig;
+import sun.jbvb2d.opengl.CGLGrbphicsConfig;
 
-public final class CGraphicsDevice extends GraphicsDevice
-        implements DisplayChangedListener {
+public finbl clbss CGrbphicsDevice extends GrbphicsDevice
+        implements DisplbyChbngedListener {
 
     /**
-     * CoreGraphics display ID. This identifier can become non-valid at any time
-     * therefore methods, which is using this id should be ready to it.
+     * CoreGrbphics displby ID. This identifier cbn become non-vblid bt bny time
+     * therefore methods, which is using this id should be rebdy to it.
      */
-    private volatile int displayID;
-    private volatile Insets screenInsets;
-    private volatile double xResolution;
-    private volatile double yResolution;
-    private volatile int scale;
+    privbte volbtile int displbyID;
+    privbte volbtile Insets screenInsets;
+    privbte volbtile double xResolution;
+    privbte volbtile double yResolution;
+    privbte volbtile int scble;
 
-    // Array of all GraphicsConfig instances for this device
-    private final GraphicsConfiguration[] configs;
+    // Arrby of bll GrbphicsConfig instbnces for this device
+    privbte finbl GrbphicsConfigurbtion[] configs;
 
-    // Default config (temporarily hard coded)
-    private final int DEFAULT_CONFIG = 0;
+    // Defbult config (temporbrily hbrd coded)
+    privbte finbl int DEFAULT_CONFIG = 0;
 
-    private static AWTPermission fullScreenExclusivePermission;
+    privbte stbtic AWTPermission fullScreenExclusivePermission;
 
-    // Save/restore DisplayMode for the Full Screen mode
-    private DisplayMode originalMode;
+    // Sbve/restore DisplbyMode for the Full Screen mode
+    privbte DisplbyMode originblMode;
 
-    public CGraphicsDevice(final int displayID) {
-        this.displayID = displayID;
-        configs = new GraphicsConfiguration[] {
-            CGLGraphicsConfig.getConfig(this, 0)
+    public CGrbphicsDevice(finbl int displbyID) {
+        this.displbyID = displbyID;
+        configs = new GrbphicsConfigurbtion[] {
+            CGLGrbphicsConfig.getConfig(this, 0)
         };
     }
 
     /**
-     * Returns CGDirectDisplayID, which is the same id as @"NSScreenNumber" in
+     * Returns CGDirectDisplbyID, which is the sbme id bs @"NSScreenNumber" in
      * NSScreen.
      *
-     * @return CoreGraphics display id.
+     * @return CoreGrbphics displby id.
      */
-    public int getCGDisplayID() {
-        return displayID;
+    public int getCGDisplbyID() {
+        return displbyID;
     }
 
     /**
-     * Return a list of all configurations.
+     * Return b list of bll configurbtions.
      */
     @Override
-    public GraphicsConfiguration[] getConfigurations() {
+    public GrbphicsConfigurbtion[] getConfigurbtions() {
         return configs.clone();
     }
 
     /**
-     * Return the default configuration.
+     * Return the defbult configurbtion.
      */
     @Override
-    public GraphicsConfiguration getDefaultConfiguration() {
+    public GrbphicsConfigurbtion getDefbultConfigurbtion() {
         return configs[DEFAULT_CONFIG];
     }
 
     /**
-     * Return a human-readable screen description.
+     * Return b humbn-rebdbble screen description.
      */
     @Override
     public String getIDstring() {
-        return "Display " + displayID;
+        return "Displby " + displbyID;
     }
 
     /**
-     * Returns the type of the graphics device.
+     * Returns the type of the grbphics device.
      * @see #TYPE_RASTER_SCREEN
      * @see #TYPE_PRINTER
      * @see #TYPE_IMAGE_BUFFER
@@ -123,26 +123,26 @@ public final class CGraphicsDevice extends GraphicsDevice
         return screenInsets;
     }
 
-    public int getScaleFactor() {
-        return scale;
+    public int getScbleFbctor() {
+        return scble;
     }
 
-    public void invalidate(final int defaultDisplayID) {
-        displayID = defaultDisplayID;
+    public void invblidbte(finbl int defbultDisplbyID) {
+        displbyID = defbultDisplbyID;
     }
 
     @Override
-    public void displayChanged() {
-        xResolution = nativeGetXResolution(displayID);
-        yResolution = nativeGetYResolution(displayID);
-        screenInsets = nativeGetScreenInsets(displayID);
-        scale = (int) nativeGetScaleFactor(displayID);
+    public void displbyChbnged() {
+        xResolution = nbtiveGetXResolution(displbyID);
+        yResolution = nbtiveGetYResolution(displbyID);
+        screenInsets = nbtiveGetScreenInsets(displbyID);
+        scble = (int) nbtiveGetScbleFbctor(displbyID);
         //TODO configs/fullscreenWindow/modes?
     }
 
     @Override
-    public void paletteChanged() {
-        // devices do not need to react to this event.
+    public void pbletteChbnged() {
+        // devices do not need to rebct to this event.
     }
 
     /**
@@ -155,22 +155,22 @@ public final class CGraphicsDevice extends GraphicsDevice
             return;
         }
 
-        boolean fsSupported = isFullScreenSupported();
+        boolebn fsSupported = isFullScreenSupported();
 
         if (fsSupported && old != null) {
-            // enter windowed mode and restore original display mode
+            // enter windowed mode bnd restore originbl displby mode
             exitFullScreenExclusive(old);
-            if (originalMode != null) {
-                setDisplayMode(originalMode);
-                originalMode = null;
+            if (originblMode != null) {
+                setDisplbyMode(originblMode);
+                originblMode = null;
             }
         }
 
         super.setFullScreenWindow(w);
 
         if (fsSupported && w != null) {
-            if (isDisplayChangeSupported()) {
-                originalMode = getDisplayMode();
+            if (isDisplbyChbngeSupported()) {
+                originblMode = getDisplbyMode();
             }
             // enter fullscreen mode
             enterFullScreenExclusive(w);
@@ -178,16 +178,16 @@ public final class CGraphicsDevice extends GraphicsDevice
     }
 
     /**
-     * Returns true if this GraphicsDevice supports
-     * full-screen exclusive mode and false otherwise.
+     * Returns true if this GrbphicsDevice supports
+     * full-screen exclusive mode bnd fblse otherwise.
      */
     @Override
-    public boolean isFullScreenSupported() {
+    public boolebn isFullScreenSupported() {
         return isFSExclusiveModeAllowed();
     }
 
-    private static boolean isFSExclusiveModeAllowed() {
-        SecurityManager security = System.getSecurityManager();
+    privbte stbtic boolebn isFSExclusiveModeAllowed() {
+        SecurityMbnbger security = System.getSecurityMbnbger();
         if (security != null) {
             if (fullScreenExclusivePermission == null) {
                 fullScreenExclusivePermission =
@@ -195,40 +195,40 @@ public final class CGraphicsDevice extends GraphicsDevice
             }
             try {
                 security.checkPermission(fullScreenExclusivePermission);
-            } catch (SecurityException e) {
-                return false;
+            } cbtch (SecurityException e) {
+                return fblse;
             }
         }
         return true;
     }
 
-    private static void enterFullScreenExclusive(Window w) {
-        FullScreenCapable peer = (FullScreenCapable)w.getPeer();
+    privbte stbtic void enterFullScreenExclusive(Window w) {
+        FullScreenCbpbble peer = (FullScreenCbpbble)w.getPeer();
         if (peer != null) {
             peer.enterFullScreenMode();
         }
     }
 
-    private static void exitFullScreenExclusive(Window w) {
-        FullScreenCapable peer = (FullScreenCapable)w.getPeer();
+    privbte stbtic void exitFullScreenExclusive(Window w) {
+        FullScreenCbpbble peer = (FullScreenCbpbble)w.getPeer();
         if (peer != null) {
             peer.exitFullScreenMode();
         }
     }
 
     @Override
-    public boolean isDisplayChangeSupported() {
+    public boolebn isDisplbyChbngeSupported() {
         return true;
     }
 
     @Override
-    public void setDisplayMode(final DisplayMode dm) {
+    public void setDisplbyMode(finbl DisplbyMode dm) {
         if (dm == null) {
-            throw new IllegalArgumentException("Invalid display mode");
+            throw new IllegblArgumentException("Invblid displby mode");
         }
-        if (!Objects.equals(dm, getDisplayMode())) {
-            nativeSetDisplayMode(displayID, dm.getWidth(), dm.getHeight(),
-                    dm.getBitDepth(), dm.getRefreshRate());
+        if (!Objects.equbls(dm, getDisplbyMode())) {
+            nbtiveSetDisplbyMode(displbyID, dm.getWidth(), dm.getHeight(),
+                    dm.getBitDepth(), dm.getRefreshRbte());
             if (isFullScreenSupported() && getFullScreenWindow() != null) {
                 getFullScreenWindow().setSize(dm.getWidth(), dm.getHeight());
             }
@@ -236,26 +236,26 @@ public final class CGraphicsDevice extends GraphicsDevice
     }
 
     @Override
-    public DisplayMode getDisplayMode() {
-        return nativeGetDisplayMode(displayID);
+    public DisplbyMode getDisplbyMode() {
+        return nbtiveGetDisplbyMode(displbyID);
     }
 
     @Override
-    public DisplayMode[] getDisplayModes() {
-        return nativeGetDisplayModes(displayID);
+    public DisplbyMode[] getDisplbyModes() {
+        return nbtiveGetDisplbyModes(displbyID);
     }
 
-    private static native double nativeGetScaleFactor(int displayID);
+    privbte stbtic nbtive double nbtiveGetScbleFbctor(int displbyID);
 
-    private static native void nativeSetDisplayMode(int displayID, int w, int h, int bpp, int refrate);
+    privbte stbtic nbtive void nbtiveSetDisplbyMode(int displbyID, int w, int h, int bpp, int refrbte);
 
-    private static native DisplayMode nativeGetDisplayMode(int displayID);
+    privbte stbtic nbtive DisplbyMode nbtiveGetDisplbyMode(int displbyID);
 
-    private static native DisplayMode[] nativeGetDisplayModes(int displayID);
+    privbte stbtic nbtive DisplbyMode[] nbtiveGetDisplbyModes(int displbyID);
 
-    private static native double nativeGetXResolution(int displayID);
+    privbte stbtic nbtive double nbtiveGetXResolution(int displbyID);
 
-    private static native double nativeGetYResolution(int displayID);
+    privbte stbtic nbtive double nbtiveGetYResolution(int displbyID);
 
-    private static native Insets nativeGetScreenInsets(int displayID);
+    privbte stbtic nbtive Insets nbtiveGetScreenInsets(int displbyID);
 }

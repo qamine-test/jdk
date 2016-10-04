@@ -1,69 +1,69 @@
 /*
- * Copyright (c) 2001, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package com.sun.java.swing.plaf.windows;
+pbckbge com.sun.jbvb.swing.plbf.windows;
 
-import javax.swing.JWindow;
-import java.awt.Window;
-import java.awt.Graphics;
+import jbvbx.swing.JWindow;
+import jbvb.bwt.Window;
+import jbvb.bwt.Grbphics;
 
 /**
- * A class which tags a window with a particular semantic usage,
+ * A clbss which tbgs b window with b pbrticulbr sembntic usbge,
  * either tooltip, menu, sub-menu, popup-menu, or comobobox-popup.
- * This is used as a temporary solution for getting native AWT support
- * for transition effects in Windows 98 and Windows 2000.  The native
- * code will interpret the windowType property and automatically
- * implement appropriate animation when the window is shown/hidden.
+ * This is used bs b temporbry solution for getting nbtive AWT support
+ * for trbnsition effects in Windows 98 bnd Windows 2000.  The nbtive
+ * code will interpret the windowType property bnd butombticblly
+ * implement bppropribte bnimbtion when the window is shown/hidden.
  * <p>
- * Note that support for transition effects may be supported with a
- * different mechanism in the future and so this class is
- * package-private and targeted for Swing implementation use only.
+ * Note thbt support for trbnsition effects mby be supported with b
+ * different mechbnism in the future bnd so this clbss is
+ * pbckbge-privbte bnd tbrgeted for Swing implementbtion use only.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases.  The current serialization support is appropriate
- * for short term storage or RMI between applications running the same
- * version of Swing.  A future release of Swing will provide support for
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses.  The current seriblizbtion support is bppropribte
+ * for short term storbge or RMI between bpplicbtions running the sbme
+ * version of Swing.  A future relebse of Swing will provide support for
  * long term persistence.
  *
- * @author Amy Fowler
+ * @buthor Amy Fowler
  */
-@SuppressWarnings("serial") // Superclass is not serializable across versions
-class WindowsPopupWindow extends JWindow {
+@SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+clbss WindowsPopupWindow extends JWindow {
 
-    static final int UNDEFINED_WINDOW_TYPE      = 0;
-    static final int TOOLTIP_WINDOW_TYPE        = 1;
-    static final int MENU_WINDOW_TYPE           = 2;
-    static final int SUBMENU_WINDOW_TYPE        = 3;
-    static final int POPUPMENU_WINDOW_TYPE      = 4;
-    static final int COMBOBOX_POPUP_WINDOW_TYPE = 5;
+    stbtic finbl int UNDEFINED_WINDOW_TYPE      = 0;
+    stbtic finbl int TOOLTIP_WINDOW_TYPE        = 1;
+    stbtic finbl int MENU_WINDOW_TYPE           = 2;
+    stbtic finbl int SUBMENU_WINDOW_TYPE        = 3;
+    stbtic finbl int POPUPMENU_WINDOW_TYPE      = 4;
+    stbtic finbl int COMBOBOX_POPUP_WINDOW_TYPE = 5;
 
-    private int windowType;
+    privbte int windowType;
 
-    WindowsPopupWindow(Window parent) {
-        super(parent);
-        setFocusableWindowState(false);
+    WindowsPopupWindow(Window pbrent) {
+        super(pbrent);
+        setFocusbbleWindowStbte(fblse);
     }
 
     void setWindowType(int type) {
@@ -74,23 +74,23 @@ class WindowsPopupWindow extends JWindow {
         return windowType;
     }
 
-    public void update(Graphics g) {
-        paint(g);
+    public void updbte(Grbphics g) {
+        pbint(g);
     }
 
     public void hide() {
         super.hide();
-        /** We need to call removeNotify() here because hide() does
-         * something only if Component.visible is true. When the app
-         * frame is miniaturized, the parent frame of this frame is
-         * invisible, causing AWT to believe that this frame
-         *  is invisible and causing hide() to do nothing
+        /** We need to cbll removeNotify() here becbuse hide() does
+         * something only if Component.visible is true. When the bpp
+         * frbme is minibturized, the pbrent frbme of this frbme is
+         * invisible, cbusing AWT to believe thbt this frbme
+         *  is invisible bnd cbusing hide() to do nothing
          */
         removeNotify();
     }
 
     public void show() {
         super.show();
-        this.pack();
+        this.pbck();
     }
 }

@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2004, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,23 +30,23 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
 /* ***********************************************************************
  *
- * The source file debug_malloc.c should be included with your sources.
+ * The source file debug_mblloc.c should be included with your sources.
  *
- * The object file debug_malloc.o should be included with your object files.
+ * The object file debug_mblloc.o should be included with your object files.
  *
- *   WARNING: Any memory allocattion from things like memalign(), valloc(),
- *            or any memory not coming from these macros (malloc, realloc,
- *            calloc, and strdup) will fail miserably.
+ *   WARNING: Any memory bllocbttion from things like memblign(), vblloc(),
+ *            or bny memory not coming from these mbcros (mblloc, reblloc,
+ *            cblloc, bnd strdup) will fbil miserbbly.
  *
  * ***********************************************************************
  */
@@ -59,27 +59,27 @@
 #include <stdlib.h>
 #include <string.h>
 
-/* Use THIS_FILE when it is available. */
+/* Use THIS_FILE when it is bvbilbble. */
 #ifndef THIS_FILE
     #define THIS_FILE __FILE__
 #endif
 
-/* The real functions behind the macro curtains. */
+/* The rebl functions behind the mbcro curtbins. */
 
-void           *debug_malloc(size_t, const char *, int);
-void           *debug_realloc(void *, size_t, const char *, int);
-void           *debug_calloc(size_t, size_t, const char *, int);
-char           *debug_strdup(const char *, const char *, int);
-void            debug_free(void *, const char *, int);
+void           *debug_mblloc(size_t, const chbr *, int);
+void           *debug_reblloc(void *, size_t, const chbr *, int);
+void           *debug_cblloc(size_t, size_t, const chbr *, int);
+chbr           *debug_strdup(const chbr *, const chbr *, int);
+void            debug_free(void *, const chbr *, int);
 
 #endif
 
-void            debug_malloc_verify(const char*, int);
-#undef malloc_verify
-#define malloc_verify()     debug_malloc_verify(THIS_FILE, __LINE__)
+void            debug_mblloc_verify(const chbr*, int);
+#undef mblloc_verify
+#define mblloc_verify()     debug_mblloc_verify(THIS_FILE, __LINE__)
 
-void            debug_malloc_police(const char*, int);
-#undef malloc_police
-#define malloc_police()     debug_malloc_police(THIS_FILE, __LINE__)
+void            debug_mblloc_police(const chbr*, int);
+#undef mblloc_police
+#define mblloc_police()     debug_mblloc_police(THIS_FILE, __LINE__)
 
 #endif

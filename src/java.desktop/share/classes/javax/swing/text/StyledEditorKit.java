@@ -1,182 +1,182 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.text;
+pbckbge jbvbx.swing.text;
 
-import java.io.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import javax.swing.event.*;
-import javax.swing.Action;
-import javax.swing.JEditorPane;
-import javax.swing.KeyStroke;
-import javax.swing.UIManager;
+import jbvb.io.*;
+import jbvb.bwt.*;
+import jbvb.bwt.event.ActionEvent;
+import jbvb.bebns.PropertyChbngeEvent;
+import jbvb.bebns.PropertyChbngeListener;
+import jbvbx.swing.event.*;
+import jbvbx.swing.Action;
+import jbvbx.swing.JEditorPbne;
+import jbvbx.swing.KeyStroke;
+import jbvbx.swing.UIMbnbger;
 
 /**
- * This is the set of things needed by a text component
- * to be a reasonably functioning editor for some <em>type</em>
- * of text document.  This implementation provides a default
- * implementation which treats text as styled text and
- * provides a minimal set of actions for editing styled text.
+ * This is the set of things needed by b text component
+ * to be b rebsonbbly functioning editor for some <em>type</em>
+ * of text document.  This implementbtion provides b defbult
+ * implementbtion which trebts text bs styled text bnd
+ * provides b minimbl set of bctions for editing styled text.
  *
- * @author  Timothy Prinzing
+ * @buthor  Timothy Prinzing
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class StyledEditorKit extends DefaultEditorKit {
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public clbss StyledEditorKit extends DefbultEditorKit {
 
     /**
-     * Creates a new EditorKit used for styled documents.
+     * Crebtes b new EditorKit used for styled documents.
      */
     public StyledEditorKit() {
-        createInputAttributeUpdated();
-        createInputAttributes();
+        crebteInputAttributeUpdbted();
+        crebteInputAttributes();
     }
 
     /**
-     * Gets the input attributes for the pane.  When
-     * the caret moves and there is no selection, the
-     * input attributes are automatically mutated to
-     * reflect the character attributes of the current
-     * caret location.  The styled editing actions
-     * use the input attributes to carry out their
-     * actions.
+     * Gets the input bttributes for the pbne.  When
+     * the cbret moves bnd there is no selection, the
+     * input bttributes bre butombticblly mutbted to
+     * reflect the chbrbcter bttributes of the current
+     * cbret locbtion.  The styled editing bctions
+     * use the input bttributes to cbrry out their
+     * bctions.
      *
-     * @return the attribute set
+     * @return the bttribute set
      */
-    public MutableAttributeSet getInputAttributes() {
+    public MutbbleAttributeSet getInputAttributes() {
         return inputAttributes;
     }
 
     /**
      * Fetches the element representing the current
-     * run of character attributes for the caret.
+     * run of chbrbcter bttributes for the cbret.
      *
      * @return the element
      */
-    public Element getCharacterAttributeRun() {
+    public Element getChbrbcterAttributeRun() {
         return currentRun;
     }
 
     // --- EditorKit methods ---------------------------
 
     /**
-     * Fetches the command list for the editor.  This is
-     * the list of commands supported by the superclass
-     * augmented by the collection of commands defined
-     * locally for style operations.
+     * Fetches the commbnd list for the editor.  This is
+     * the list of commbnds supported by the superclbss
+     * bugmented by the collection of commbnds defined
+     * locblly for style operbtions.
      *
-     * @return the command list
+     * @return the commbnd list
      */
     public Action[] getActions() {
-        return TextAction.augmentList(super.getActions(), defaultActions);
+        return TextAction.bugmentList(super.getActions(), defbultActions);
     }
 
     /**
-     * Creates an uninitialized text storage model
-     * that is appropriate for this type of editor.
+     * Crebtes bn uninitiblized text storbge model
+     * thbt is bppropribte for this type of editor.
      *
      * @return the model
      */
-    public Document createDefaultDocument() {
-        return new DefaultStyledDocument();
+    public Document crebteDefbultDocument() {
+        return new DefbultStyledDocument();
     }
 
     /**
-     * Called when the kit is being installed into
-     * a JEditorPane.
+     * Cblled when the kit is being instblled into
+     * b JEditorPbne.
      *
-     * @param c the JEditorPane
+     * @pbrbm c the JEditorPbne
      */
-    public void install(JEditorPane c) {
-        c.addCaretListener(inputAttributeUpdater);
-        c.addPropertyChangeListener(inputAttributeUpdater);
-        Caret caret = c.getCaret();
-        if (caret != null) {
-            inputAttributeUpdater.updateInputAttributes
-                                  (caret.getDot(), caret.getMark(), c);
+    public void instbll(JEditorPbne c) {
+        c.bddCbretListener(inputAttributeUpdbter);
+        c.bddPropertyChbngeListener(inputAttributeUpdbter);
+        Cbret cbret = c.getCbret();
+        if (cbret != null) {
+            inputAttributeUpdbter.updbteInputAttributes
+                                  (cbret.getDot(), cbret.getMbrk(), c);
         }
     }
 
     /**
-     * Called when the kit is being removed from the
-     * JEditorPane.  This is used to unregister any
-     * listeners that were attached.
+     * Cblled when the kit is being removed from the
+     * JEditorPbne.  This is used to unregister bny
+     * listeners thbt were bttbched.
      *
-     * @param c the JEditorPane
+     * @pbrbm c the JEditorPbne
      */
-    public void deinstall(JEditorPane c) {
-        c.removeCaretListener(inputAttributeUpdater);
-        c.removePropertyChangeListener(inputAttributeUpdater);
+    public void deinstbll(JEditorPbne c) {
+        c.removeCbretListener(inputAttributeUpdbter);
+        c.removePropertyChbngeListener(inputAttributeUpdbter);
 
-        // remove references to current document so it can be collected.
+        // remove references to current document so it cbn be collected.
         currentRun = null;
-        currentParagraph = null;
+        currentPbrbgrbph = null;
     }
 
    /**
-     * Fetches a factory that is suitable for producing
-     * views of any models that are produced by this
-     * kit.  This is implemented to return View implementations
+     * Fetches b fbctory thbt is suitbble for producing
+     * views of bny models thbt bre produced by this
+     * kit.  This is implemented to return View implementbtions
      * for the following kinds of elements:
      * <ul>
-     * <li>AbstractDocument.ContentElementName
-     * <li>AbstractDocument.ParagraphElementName
-     * <li>AbstractDocument.SectionElementName
-     * <li>StyleConstants.ComponentElementName
-     * <li>StyleConstants.IconElementName
+     * <li>AbstrbctDocument.ContentElementNbme
+     * <li>AbstrbctDocument.PbrbgrbphElementNbme
+     * <li>AbstrbctDocument.SectionElementNbme
+     * <li>StyleConstbnts.ComponentElementNbme
+     * <li>StyleConstbnts.IconElementNbme
      * </ul>
      *
-     * @return the factory
+     * @return the fbctory
      */
-    public ViewFactory getViewFactory() {
-        return defaultFactory;
+    public ViewFbctory getViewFbctory() {
+        return defbultFbctory;
     }
 
     /**
-     * Creates a copy of the editor kit.
+     * Crebtes b copy of the editor kit.
      *
      * @return the copy
      */
     public Object clone() {
         StyledEditorKit o = (StyledEditorKit)super.clone();
-        o.currentRun = o.currentParagraph = null;
-        o.createInputAttributeUpdated();
-        o.createInputAttributes();
+        o.currentRun = o.currentPbrbgrbph = null;
+        o.crebteInputAttributeUpdbted();
+        o.crebteInputAttributes();
         return o;
     }
 
     /**
-     * Creates the AttributeSet used for the selection.
+     * Crebtes the AttributeSet used for the selection.
      */
-    @SuppressWarnings("serial") // anonymous class
-    private void createInputAttributes() {
+    @SuppressWbrnings("seribl") // bnonymous clbss
+    privbte void crebteInputAttributes() {
         inputAttributes = new SimpleAttributeSet() {
-            public AttributeSet getResolveParent() {
-                return (currentParagraph != null) ?
-                           currentParagraph.getAttributes() : null;
+            public AttributeSet getResolvePbrent() {
+                return (currentPbrbgrbph != null) ?
+                           currentPbrbgrbph.getAttributes() : null;
             }
 
             public Object clone() {
@@ -186,155 +186,155 @@ public class StyledEditorKit extends DefaultEditorKit {
     }
 
     /**
-     * Creates a new <code>AttributeTracker</code>.
+     * Crebtes b new <code>AttributeTrbcker</code>.
      */
-    private void createInputAttributeUpdated() {
-        inputAttributeUpdater = new AttributeTracker();
+    privbte void crebteInputAttributeUpdbted() {
+        inputAttributeUpdbter = new AttributeTrbcker();
     }
 
 
-    private static final ViewFactory defaultFactory = new StyledViewFactory();
+    privbte stbtic finbl ViewFbctory defbultFbctory = new StyledViewFbctory();
 
     Element currentRun;
-    Element currentParagraph;
+    Element currentPbrbgrbph;
 
     /**
-     * This is the set of attributes used to store the
-     * input attributes.
+     * This is the set of bttributes used to store the
+     * input bttributes.
      */
-    MutableAttributeSet inputAttributes;
+    MutbbleAttributeSet inputAttributes;
 
     /**
-     * This listener will be attached to the caret of
-     * the text component that the EditorKit gets installed
-     * into.  This should keep the input attributes updated
-     * for use by the styled actions.
+     * This listener will be bttbched to the cbret of
+     * the text component thbt the EditorKit gets instblled
+     * into.  This should keep the input bttributes updbted
+     * for use by the styled bctions.
      */
-    private AttributeTracker inputAttributeUpdater;
+    privbte AttributeTrbcker inputAttributeUpdbter;
 
     /**
-     * Tracks caret movement and keeps the input attributes set
-     * to reflect the current set of attribute definitions at the
-     * caret position.
-     * <p>This implements PropertyChangeListener to update the
-     * input attributes when the Document changes, as if the Document
-     * changes the attributes will almost certainly change.
+     * Trbcks cbret movement bnd keeps the input bttributes set
+     * to reflect the current set of bttribute definitions bt the
+     * cbret position.
+     * <p>This implements PropertyChbngeListener to updbte the
+     * input bttributes when the Document chbnges, bs if the Document
+     * chbnges the bttributes will blmost certbinly chbnge.
      */
-    @SuppressWarnings("serial") // JDK-implementation class
-    class AttributeTracker implements CaretListener, PropertyChangeListener, Serializable {
+    @SuppressWbrnings("seribl") // JDK-implementbtion clbss
+    clbss AttributeTrbcker implements CbretListener, PropertyChbngeListener, Seriblizbble {
 
         /**
-         * Updates the attributes. <code>dot</code> and <code>mark</code>
-         * mark give the positions of the selection in <code>c</code>.
+         * Updbtes the bttributes. <code>dot</code> bnd <code>mbrk</code>
+         * mbrk give the positions of the selection in <code>c</code>.
          */
-        void updateInputAttributes(int dot, int mark, JTextComponent c) {
-            // EditorKit might not have installed the StyledDocument yet.
-            Document aDoc = c.getDocument();
-            if (!(aDoc instanceof StyledDocument)) {
+        void updbteInputAttributes(int dot, int mbrk, JTextComponent c) {
+            // EditorKit might not hbve instblled the StyledDocument yet.
+            Document bDoc = c.getDocument();
+            if (!(bDoc instbnceof StyledDocument)) {
                 return ;
             }
-            int start = Math.min(dot, mark);
-            // record current character attributes.
-            StyledDocument doc = (StyledDocument)aDoc;
-            // If nothing is selected, get the attributes from the character
-            // before the start of the selection, otherwise get the attributes
-            // from the character element at the start of the selection.
+            int stbrt = Mbth.min(dot, mbrk);
+            // record current chbrbcter bttributes.
+            StyledDocument doc = (StyledDocument)bDoc;
+            // If nothing is selected, get the bttributes from the chbrbcter
+            // before the stbrt of the selection, otherwise get the bttributes
+            // from the chbrbcter element bt the stbrt of the selection.
             Element run;
-            currentParagraph = doc.getParagraphElement(start);
-            if (currentParagraph.getStartOffset() == start || dot != mark) {
-                // Get the attributes from the character at the selection
-                // if in a different paragrah!
-                run = doc.getCharacterElement(start);
+            currentPbrbgrbph = doc.getPbrbgrbphElement(stbrt);
+            if (currentPbrbgrbph.getStbrtOffset() == stbrt || dot != mbrk) {
+                // Get the bttributes from the chbrbcter bt the selection
+                // if in b different pbrbgrbh!
+                run = doc.getChbrbcterElement(stbrt);
             }
             else {
-                run = doc.getCharacterElement(Math.max(start-1, 0));
+                run = doc.getChbrbcterElement(Mbth.mbx(stbrt-1, 0));
             }
             if (run != currentRun) {
                     /*
-                     * PENDING(prinz) All attributes that represent a single
-                     * glyph position and can't be inserted into should be
-                     * removed from the input attributes... this requires
-                     * mixing in an interface to indicate that condition.
-                     * When we can add things again this logic needs to be
+                     * PENDING(prinz) All bttributes thbt represent b single
+                     * glyph position bnd cbn't be inserted into should be
+                     * removed from the input bttributes... this requires
+                     * mixing in bn interfbce to indicbte thbt condition.
+                     * When we cbn bdd things bgbin this logic needs to be
                      * improved!!
                      */
                 currentRun = run;
-                createInputAttributes(currentRun, getInputAttributes());
+                crebteInputAttributes(currentRun, getInputAttributes());
             }
         }
 
-        public void propertyChange(PropertyChangeEvent evt) {
-            Object newValue = evt.getNewValue();
+        public void propertyChbnge(PropertyChbngeEvent evt) {
+            Object newVblue = evt.getNewVblue();
             Object source = evt.getSource();
 
-            if ((source instanceof JTextComponent) &&
-                (newValue instanceof Document)) {
-                // New document will have changed selection to 0,0.
-                updateInputAttributes(0, 0, (JTextComponent)source);
+            if ((source instbnceof JTextComponent) &&
+                (newVblue instbnceof Document)) {
+                // New document will hbve chbnged selection to 0,0.
+                updbteInputAttributes(0, 0, (JTextComponent)source);
             }
         }
 
-        public void caretUpdate(CaretEvent e) {
-            updateInputAttributes(e.getDot(), e.getMark(),
+        public void cbretUpdbte(CbretEvent e) {
+            updbteInputAttributes(e.getDot(), e.getMbrk(),
                                   (JTextComponent)e.getSource());
         }
     }
 
     /**
-     * Copies the key/values in <code>element</code>s AttributeSet into
+     * Copies the key/vblues in <code>element</code>s AttributeSet into
      * <code>set</code>. This does not copy component, icon, or element
-     * names attributes. Subclasses may wish to refine what is and what
-     * isn't copied here. But be sure to first remove all the attributes that
-     * are in <code>set</code>.<p>
-     * This is called anytime the caret moves over a different location.
+     * nbmes bttributes. Subclbsses mby wish to refine whbt is bnd whbt
+     * isn't copied here. But be sure to first remove bll the bttributes thbt
+     * bre in <code>set</code>.<p>
+     * This is cblled bnytime the cbret moves over b different locbtion.
      *
      */
-    protected void createInputAttributes(Element element,
-                                         MutableAttributeSet set) {
+    protected void crebteInputAttributes(Element element,
+                                         MutbbleAttributeSet set) {
         if (element.getAttributes().getAttributeCount() > 0
-            || element.getEndOffset() - element.getStartOffset() > 1
+            || element.getEndOffset() - element.getStbrtOffset() > 1
             || element.getEndOffset() < element.getDocument().getLength()) {
             set.removeAttributes(set);
-            set.addAttributes(element.getAttributes());
-            set.removeAttribute(StyleConstants.ComponentAttribute);
-            set.removeAttribute(StyleConstants.IconAttribute);
-            set.removeAttribute(AbstractDocument.ElementNameAttribute);
-            set.removeAttribute(StyleConstants.ComposedTextAttribute);
+            set.bddAttributes(element.getAttributes());
+            set.removeAttribute(StyleConstbnts.ComponentAttribute);
+            set.removeAttribute(StyleConstbnts.IconAttribute);
+            set.removeAttribute(AbstrbctDocument.ElementNbmeAttribute);
+            set.removeAttribute(StyleConstbnts.ComposedTextAttribute);
         }
     }
 
-    // ---- default ViewFactory implementation ---------------------
+    // ---- defbult ViewFbctory implementbtion ---------------------
 
-    static class StyledViewFactory implements ViewFactory {
+    stbtic clbss StyledViewFbctory implements ViewFbctory {
 
-        public View create(Element elem) {
-            String kind = elem.getName();
+        public View crebte(Element elem) {
+            String kind = elem.getNbme();
             if (kind != null) {
-                if (kind.equals(AbstractDocument.ContentElementName)) {
-                    return new LabelView(elem);
-                } else if (kind.equals(AbstractDocument.ParagraphElementName)) {
-                    return new ParagraphView(elem);
-                } else if (kind.equals(AbstractDocument.SectionElementName)) {
+                if (kind.equbls(AbstrbctDocument.ContentElementNbme)) {
+                    return new LbbelView(elem);
+                } else if (kind.equbls(AbstrbctDocument.PbrbgrbphElementNbme)) {
+                    return new PbrbgrbphView(elem);
+                } else if (kind.equbls(AbstrbctDocument.SectionElementNbme)) {
                     return new BoxView(elem, View.Y_AXIS);
-                } else if (kind.equals(StyleConstants.ComponentElementName)) {
+                } else if (kind.equbls(StyleConstbnts.ComponentElementNbme)) {
                     return new ComponentView(elem);
-                } else if (kind.equals(StyleConstants.IconElementName)) {
+                } else if (kind.equbls(StyleConstbnts.IconElementNbme)) {
                     return new IconView(elem);
                 }
             }
 
-            // default to text display
-            return new LabelView(elem);
+            // defbult to text displby
+            return new LbbelView(elem);
         }
 
     }
 
-    // --- Action implementations ---------------------------------
+    // --- Action implementbtions ---------------------------------
 
-    private static final Action[] defaultActions = {
-        new FontFamilyAction("font-family-SansSerif", "SansSerif"),
-        new FontFamilyAction("font-family-Monospaced", "Monospaced"),
-        new FontFamilyAction("font-family-Serif", "Serif"),
+    privbte stbtic finbl Action[] defbultActions = {
+        new FontFbmilyAction("font-fbmily-SbnsSerif", "SbnsSerif"),
+        new FontFbmilyAction("font-fbmily-Monospbced", "Monospbced"),
+        new FontFbmilyAction("font-fbmily-Serif", "Serif"),
         new FontSizeAction("font-size-8", 8),
         new FontSizeAction("font-size-10", 10),
         new FontSizeAction("font-size-12", 12),
@@ -344,225 +344,225 @@ public class StyledEditorKit extends DefaultEditorKit {
         new FontSizeAction("font-size-24", 24),
         new FontSizeAction("font-size-36", 36),
         new FontSizeAction("font-size-48", 48),
-        new AlignmentAction("left-justify", StyleConstants.ALIGN_LEFT),
-        new AlignmentAction("center-justify", StyleConstants.ALIGN_CENTER),
-        new AlignmentAction("right-justify", StyleConstants.ALIGN_RIGHT),
+        new AlignmentAction("left-justify", StyleConstbnts.ALIGN_LEFT),
+        new AlignmentAction("center-justify", StyleConstbnts.ALIGN_CENTER),
+        new AlignmentAction("right-justify", StyleConstbnts.ALIGN_RIGHT),
         new BoldAction(),
-        new ItalicAction(),
-        new StyledInsertBreakAction(),
+        new ItblicAction(),
+        new StyledInsertBrebkAction(),
         new UnderlineAction()
     };
 
     /**
-     * An action that assumes it's being fired on a JEditorPane
-     * with a StyledEditorKit (or subclass) installed.  This has
-     * some convenience methods for causing character or paragraph
-     * level attribute changes.  The convenience methods will
-     * throw an IllegalArgumentException if the assumption of
-     * a StyledDocument, a JEditorPane, or a StyledEditorKit
-     * fail to be true.
+     * An bction thbt bssumes it's being fired on b JEditorPbne
+     * with b StyledEditorKit (or subclbss) instblled.  This hbs
+     * some convenience methods for cbusing chbrbcter or pbrbgrbph
+     * level bttribute chbnges.  The convenience methods will
+     * throw bn IllegblArgumentException if the bssumption of
+     * b StyledDocument, b JEditorPbne, or b StyledEditorKit
+     * fbil to be true.
      * <p>
-     * The component that gets acted upon by the action
+     * The component thbt gets bcted upon by the bction
      * will be the source of the ActionEvent if the source
-     * can be narrowed to a JEditorPane type.  If the source
-     * can't be narrowed, the most recently focused text
-     * component is changed.  If neither of these are the
-     * case, the action cannot be performed.
+     * cbn be nbrrowed to b JEditorPbne type.  If the source
+     * cbn't be nbrrowed, the most recently focused text
+     * component is chbnged.  If neither of these bre the
+     * cbse, the bction cbnnot be performed.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Seriblized objects of this clbss will not be compbtible with
+     * future Swing relebses. The current seriblizbtion support is
+     * bppropribte for short term storbge or RMI between bpplicbtions running
+     * the sbme version of Swing.  As of 1.4, support for long term storbge
+     * of bll JbvbBebns&trbde;
+     * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+     * Plebse see {@link jbvb.bebns.XMLEncoder}.
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    public abstract static class StyledTextAction extends TextAction {
+    @SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+    public bbstrbct stbtic clbss StyledTextAction extends TextAction {
 
         /**
-         * Creates a new StyledTextAction from a string action name.
+         * Crebtes b new StyledTextAction from b string bction nbme.
          *
-         * @param nm the name of the action
+         * @pbrbm nm the nbme of the bction
          */
         public StyledTextAction(String nm) {
             super(nm);
         }
 
         /**
-         * Gets the target editor for an action.
+         * Gets the tbrget editor for bn bction.
          *
-         * @param e the action event
+         * @pbrbm e the bction event
          * @return the editor
          */
-        protected final JEditorPane getEditor(ActionEvent e) {
+        protected finbl JEditorPbne getEditor(ActionEvent e) {
             JTextComponent tcomp = getTextComponent(e);
-            if (tcomp instanceof JEditorPane) {
-                return (JEditorPane) tcomp;
+            if (tcomp instbnceof JEditorPbne) {
+                return (JEditorPbne) tcomp;
             }
             return null;
         }
 
         /**
-         * Gets the document associated with an editor pane.
+         * Gets the document bssocibted with bn editor pbne.
          *
-         * @param e the editor
+         * @pbrbm e the editor
          * @return the document
-         * @exception IllegalArgumentException for the wrong document type
+         * @exception IllegblArgumentException for the wrong document type
          */
-        protected final StyledDocument getStyledDocument(JEditorPane e) {
+        protected finbl StyledDocument getStyledDocument(JEditorPbne e) {
             Document d = e.getDocument();
-            if (d instanceof StyledDocument) {
+            if (d instbnceof StyledDocument) {
                 return (StyledDocument) d;
             }
-            throw new IllegalArgumentException("document must be StyledDocument");
+            throw new IllegblArgumentException("document must be StyledDocument");
         }
 
         /**
-         * Gets the editor kit associated with an editor pane.
+         * Gets the editor kit bssocibted with bn editor pbne.
          *
-         * @param e the editor pane
+         * @pbrbm e the editor pbne
          * @return the kit
-         * @exception IllegalArgumentException for the wrong document type
+         * @exception IllegblArgumentException for the wrong document type
          */
-        protected final StyledEditorKit getStyledEditorKit(JEditorPane e) {
+        protected finbl StyledEditorKit getStyledEditorKit(JEditorPbne e) {
             EditorKit k = e.getEditorKit();
-            if (k instanceof StyledEditorKit) {
+            if (k instbnceof StyledEditorKit) {
                 return (StyledEditorKit) k;
             }
-            throw new IllegalArgumentException("EditorKit must be StyledEditorKit");
+            throw new IllegblArgumentException("EditorKit must be StyledEditorKit");
         }
 
         /**
-         * Applies the given attributes to character
-         * content.  If there is a selection, the attributes
-         * are applied to the selection range.  If there
-         * is no selection, the attributes are applied to
-         * the input attribute set which defines the attributes
-         * for any new text that gets inserted.
+         * Applies the given bttributes to chbrbcter
+         * content.  If there is b selection, the bttributes
+         * bre bpplied to the selection rbnge.  If there
+         * is no selection, the bttributes bre bpplied to
+         * the input bttribute set which defines the bttributes
+         * for bny new text thbt gets inserted.
          *
-         * @param editor the editor
-         * @param attr the attributes
-         * @param replace   if true, then replace the existing attributes first
+         * @pbrbm editor the editor
+         * @pbrbm bttr the bttributes
+         * @pbrbm replbce   if true, then replbce the existing bttributes first
          */
-        protected final void setCharacterAttributes(JEditorPane editor,
-                                              AttributeSet attr, boolean replace) {
-            int p0 = editor.getSelectionStart();
+        protected finbl void setChbrbcterAttributes(JEditorPbne editor,
+                                              AttributeSet bttr, boolebn replbce) {
+            int p0 = editor.getSelectionStbrt();
             int p1 = editor.getSelectionEnd();
             if (p0 != p1) {
                 StyledDocument doc = getStyledDocument(editor);
-                doc.setCharacterAttributes(p0, p1 - p0, attr, replace);
+                doc.setChbrbcterAttributes(p0, p1 - p0, bttr, replbce);
             }
             StyledEditorKit k = getStyledEditorKit(editor);
-            MutableAttributeSet inputAttributes = k.getInputAttributes();
-            if (replace) {
+            MutbbleAttributeSet inputAttributes = k.getInputAttributes();
+            if (replbce) {
                 inputAttributes.removeAttributes(inputAttributes);
             }
-            inputAttributes.addAttributes(attr);
+            inputAttributes.bddAttributes(bttr);
         }
 
         /**
-         * Applies the given attributes to paragraphs.  If
-         * there is a selection, the attributes are applied
-         * to the paragraphs that intersect the selection.
-         * if there is no selection, the attributes are applied
-         * to the paragraph at the current caret position.
+         * Applies the given bttributes to pbrbgrbphs.  If
+         * there is b selection, the bttributes bre bpplied
+         * to the pbrbgrbphs thbt intersect the selection.
+         * if there is no selection, the bttributes bre bpplied
+         * to the pbrbgrbph bt the current cbret position.
          *
-         * @param editor the editor
-         * @param attr the attributes
-         * @param replace   if true, replace the existing attributes first
+         * @pbrbm editor the editor
+         * @pbrbm bttr the bttributes
+         * @pbrbm replbce   if true, replbce the existing bttributes first
          */
-        protected final void setParagraphAttributes(JEditorPane editor,
-                                           AttributeSet attr, boolean replace) {
-            int p0 = editor.getSelectionStart();
+        protected finbl void setPbrbgrbphAttributes(JEditorPbne editor,
+                                           AttributeSet bttr, boolebn replbce) {
+            int p0 = editor.getSelectionStbrt();
             int p1 = editor.getSelectionEnd();
             StyledDocument doc = getStyledDocument(editor);
-            doc.setParagraphAttributes(p0, p1 - p0, attr, replace);
+            doc.setPbrbgrbphAttributes(p0, p1 - p0, bttr, replbce);
         }
 
     }
 
     /**
-     * An action to set the font family in the associated
-     * JEditorPane.  This will use the family specified as
-     * the command string on the ActionEvent if there is one,
-     * otherwise the family that was initialized with will be used.
+     * An bction to set the font fbmily in the bssocibted
+     * JEditorPbne.  This will use the fbmily specified bs
+     * the commbnd string on the ActionEvent if there is one,
+     * otherwise the fbmily thbt wbs initiblized with will be used.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Seriblized objects of this clbss will not be compbtible with
+     * future Swing relebses. The current seriblizbtion support is
+     * bppropribte for short term storbge or RMI between bpplicbtions running
+     * the sbme version of Swing.  As of 1.4, support for long term storbge
+     * of bll JbvbBebns&trbde;
+     * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+     * Plebse see {@link jbvb.bebns.XMLEncoder}.
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    public static class FontFamilyAction extends StyledTextAction {
+    @SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+    public stbtic clbss FontFbmilyAction extends StyledTextAction {
 
         /**
-         * Creates a new FontFamilyAction.
+         * Crebtes b new FontFbmilyAction.
          *
-         * @param nm the action name
-         * @param family the font family
+         * @pbrbm nm the bction nbme
+         * @pbrbm fbmily the font fbmily
          */
-        public FontFamilyAction(String nm, String family) {
+        public FontFbmilyAction(String nm, String fbmily) {
             super(nm);
-            this.family = family;
+            this.fbmily = fbmily;
         }
 
         /**
-         * Sets the font family.
+         * Sets the font fbmily.
          *
-         * @param e the event
+         * @pbrbm e the event
          */
-        public void actionPerformed(ActionEvent e) {
-            JEditorPane editor = getEditor(e);
+        public void bctionPerformed(ActionEvent e) {
+            JEditorPbne editor = getEditor(e);
             if (editor != null) {
-                String family = this.family;
+                String fbmily = this.fbmily;
                 if ((e != null) && (e.getSource() == editor)) {
-                    String s = e.getActionCommand();
+                    String s = e.getActionCommbnd();
                     if (s != null) {
-                        family = s;
+                        fbmily = s;
                     }
                 }
-                if (family != null) {
-                    MutableAttributeSet attr = new SimpleAttributeSet();
-                    StyleConstants.setFontFamily(attr, family);
-                    setCharacterAttributes(editor, attr, false);
+                if (fbmily != null) {
+                    MutbbleAttributeSet bttr = new SimpleAttributeSet();
+                    StyleConstbnts.setFontFbmily(bttr, fbmily);
+                    setChbrbcterAttributes(editor, bttr, fblse);
                 } else {
-                    UIManager.getLookAndFeel().provideErrorFeedback(editor);
+                    UIMbnbger.getLookAndFeel().provideErrorFeedbbck(editor);
                 }
             }
         }
 
-        private String family;
+        privbte String fbmily;
     }
 
     /**
-     * An action to set the font size in the associated
-     * JEditorPane.  This will use the size specified as
-     * the command string on the ActionEvent if there is one,
-     * otherwise the size that was initialized with will be used.
+     * An bction to set the font size in the bssocibted
+     * JEditorPbne.  This will use the size specified bs
+     * the commbnd string on the ActionEvent if there is one,
+     * otherwise the size thbt wbs initiblized with will be used.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Seriblized objects of this clbss will not be compbtible with
+     * future Swing relebses. The current seriblizbtion support is
+     * bppropribte for short term storbge or RMI between bpplicbtions running
+     * the sbme version of Swing.  As of 1.4, support for long term storbge
+     * of bll JbvbBebns&trbde;
+     * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+     * Plebse see {@link jbvb.bebns.XMLEncoder}.
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    public static class FontSizeAction extends StyledTextAction {
+    @SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+    public stbtic clbss FontSizeAction extends StyledTextAction {
 
         /**
-         * Creates a new FontSizeAction.
+         * Crebtes b new FontSizeAction.
          *
-         * @param nm the action name
-         * @param size the font size
+         * @pbrbm nm the bction nbme
+         * @pbrbm size the font size
          */
         public FontSizeAction(String nm, int size) {
             super(nm);
@@ -572,65 +572,65 @@ public class StyledEditorKit extends DefaultEditorKit {
         /**
          * Sets the font size.
          *
-         * @param e the action event
+         * @pbrbm e the bction event
          */
-        public void actionPerformed(ActionEvent e) {
-            JEditorPane editor = getEditor(e);
+        public void bctionPerformed(ActionEvent e) {
+            JEditorPbne editor = getEditor(e);
             if (editor != null) {
                 int size = this.size;
                 if ((e != null) && (e.getSource() == editor)) {
-                    String s = e.getActionCommand();
+                    String s = e.getActionCommbnd();
                     try {
-                        size = Integer.parseInt(s, 10);
-                    } catch (NumberFormatException nfe) {
+                        size = Integer.pbrseInt(s, 10);
+                    } cbtch (NumberFormbtException nfe) {
                     }
                 }
                 if (size != 0) {
-                    MutableAttributeSet attr = new SimpleAttributeSet();
-                    StyleConstants.setFontSize(attr, size);
-                    setCharacterAttributes(editor, attr, false);
+                    MutbbleAttributeSet bttr = new SimpleAttributeSet();
+                    StyleConstbnts.setFontSize(bttr, size);
+                    setChbrbcterAttributes(editor, bttr, fblse);
                 } else {
-                    UIManager.getLookAndFeel().provideErrorFeedback(editor);
+                    UIMbnbger.getLookAndFeel().provideErrorFeedbbck(editor);
                 }
             }
         }
 
-        private int size;
+        privbte int size;
     }
 
     /**
-     * An action to set foreground color.  This sets the
-     * <code>StyleConstants.Foreground</code> attribute for the
-     * currently selected range of the target JEditorPane.
-     * This is done by calling
-     * <code>StyledDocument.setCharacterAttributes</code>
-     * on the styled document associated with the target
-     * JEditorPane.
+     * An bction to set foreground color.  This sets the
+     * <code>StyleConstbnts.Foreground</code> bttribute for the
+     * currently selected rbnge of the tbrget JEditorPbne.
+     * This is done by cblling
+     * <code>StyledDocument.setChbrbcterAttributes</code>
+     * on the styled document bssocibted with the tbrget
+     * JEditorPbne.
      * <p>
-     * If the target text component is specified as the
-     * source of the ActionEvent and there is a command string,
-     * the command string will be interpreted as the foreground
-     * color.  It will be interpreted by called
-     * <code>Color.decode</code>, and should therefore be
-     * legal input for that method.
+     * If the tbrget text component is specified bs the
+     * source of the ActionEvent bnd there is b commbnd string,
+     * the commbnd string will be interpreted bs the foreground
+     * color.  It will be interpreted by cblled
+     * <code>Color.decode</code>, bnd should therefore be
+     * legbl input for thbt method.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Seriblized objects of this clbss will not be compbtible with
+     * future Swing relebses. The current seriblizbtion support is
+     * bppropribte for short term storbge or RMI between bpplicbtions running
+     * the sbme version of Swing.  As of 1.4, support for long term storbge
+     * of bll JbvbBebns&trbde;
+     * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+     * Plebse see {@link jbvb.bebns.XMLEncoder}.
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    public static class ForegroundAction extends StyledTextAction {
+    @SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+    public stbtic clbss ForegroundAction extends StyledTextAction {
 
         /**
-         * Creates a new ForegroundAction.
+         * Crebtes b new ForegroundAction.
          *
-         * @param nm the action name
-         * @param fg the foreground color
+         * @pbrbm nm the bction nbme
+         * @pbrbm fg the foreground color
          */
         public ForegroundAction(String nm, Color fg) {
             super(nm);
@@ -640,240 +640,240 @@ public class StyledEditorKit extends DefaultEditorKit {
         /**
          * Sets the foreground color.
          *
-         * @param e the action event
+         * @pbrbm e the bction event
          */
-        public void actionPerformed(ActionEvent e) {
-            JEditorPane editor = getEditor(e);
+        public void bctionPerformed(ActionEvent e) {
+            JEditorPbne editor = getEditor(e);
             if (editor != null) {
                 Color fg = this.fg;
                 if ((e != null) && (e.getSource() == editor)) {
-                    String s = e.getActionCommand();
+                    String s = e.getActionCommbnd();
                     try {
                         fg = Color.decode(s);
-                    } catch (NumberFormatException nfe) {
+                    } cbtch (NumberFormbtException nfe) {
                     }
                 }
                 if (fg != null) {
-                    MutableAttributeSet attr = new SimpleAttributeSet();
-                    StyleConstants.setForeground(attr, fg);
-                    setCharacterAttributes(editor, attr, false);
+                    MutbbleAttributeSet bttr = new SimpleAttributeSet();
+                    StyleConstbnts.setForeground(bttr, fg);
+                    setChbrbcterAttributes(editor, bttr, fblse);
                 } else {
-                    UIManager.getLookAndFeel().provideErrorFeedback(editor);
+                    UIMbnbger.getLookAndFeel().provideErrorFeedbbck(editor);
                 }
             }
         }
 
-        private Color fg;
+        privbte Color fg;
     }
 
     /**
-     * An action to set paragraph alignment.  This sets the
-     * <code>StyleConstants.Alignment</code> attribute for the
-     * currently selected range of the target JEditorPane.
-     * This is done by calling
-     * <code>StyledDocument.setParagraphAttributes</code>
-     * on the styled document associated with the target
-     * JEditorPane.
+     * An bction to set pbrbgrbph blignment.  This sets the
+     * <code>StyleConstbnts.Alignment</code> bttribute for the
+     * currently selected rbnge of the tbrget JEditorPbne.
+     * This is done by cblling
+     * <code>StyledDocument.setPbrbgrbphAttributes</code>
+     * on the styled document bssocibted with the tbrget
+     * JEditorPbne.
      * <p>
-     * If the target text component is specified as the
-     * source of the ActionEvent and there is a command string,
-     * the command string will be interpreted as an integer
-     * that should be one of the legal values for the
-     * <code>StyleConstants.Alignment</code> attribute.
+     * If the tbrget text component is specified bs the
+     * source of the ActionEvent bnd there is b commbnd string,
+     * the commbnd string will be interpreted bs bn integer
+     * thbt should be one of the legbl vblues for the
+     * <code>StyleConstbnts.Alignment</code> bttribute.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Seriblized objects of this clbss will not be compbtible with
+     * future Swing relebses. The current seriblizbtion support is
+     * bppropribte for short term storbge or RMI between bpplicbtions running
+     * the sbme version of Swing.  As of 1.4, support for long term storbge
+     * of bll JbvbBebns&trbde;
+     * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+     * Plebse see {@link jbvb.bebns.XMLEncoder}.
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    public static class AlignmentAction extends StyledTextAction {
+    @SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+    public stbtic clbss AlignmentAction extends StyledTextAction {
 
         /**
-         * Creates a new AlignmentAction.
+         * Crebtes b new AlignmentAction.
          *
-         * @param nm the action name
-         * @param a the alignment &gt;= 0
+         * @pbrbm nm the bction nbme
+         * @pbrbm b the blignment &gt;= 0
          */
-        public AlignmentAction(String nm, int a) {
+        public AlignmentAction(String nm, int b) {
             super(nm);
-            this.a = a;
+            this.b = b;
         }
 
         /**
-         * Sets the alignment.
+         * Sets the blignment.
          *
-         * @param e the action event
+         * @pbrbm e the bction event
          */
-        public void actionPerformed(ActionEvent e) {
-            JEditorPane editor = getEditor(e);
+        public void bctionPerformed(ActionEvent e) {
+            JEditorPbne editor = getEditor(e);
             if (editor != null) {
-                int a = this.a;
+                int b = this.b;
                 if ((e != null) && (e.getSource() == editor)) {
-                    String s = e.getActionCommand();
+                    String s = e.getActionCommbnd();
                     try {
-                        a = Integer.parseInt(s, 10);
-                    } catch (NumberFormatException nfe) {
+                        b = Integer.pbrseInt(s, 10);
+                    } cbtch (NumberFormbtException nfe) {
                     }
                 }
-                MutableAttributeSet attr = new SimpleAttributeSet();
-                StyleConstants.setAlignment(attr, a);
-                setParagraphAttributes(editor, attr, false);
+                MutbbleAttributeSet bttr = new SimpleAttributeSet();
+                StyleConstbnts.setAlignment(bttr, b);
+                setPbrbgrbphAttributes(editor, bttr, fblse);
             }
         }
 
-        private int a;
+        privbte int b;
     }
 
     /**
-     * An action to toggle the bold attribute.
+     * An bction to toggle the bold bttribute.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Seriblized objects of this clbss will not be compbtible with
+     * future Swing relebses. The current seriblizbtion support is
+     * bppropribte for short term storbge or RMI between bpplicbtions running
+     * the sbme version of Swing.  As of 1.4, support for long term storbge
+     * of bll JbvbBebns&trbde;
+     * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+     * Plebse see {@link jbvb.bebns.XMLEncoder}.
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    public static class BoldAction extends StyledTextAction {
+    @SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+    public stbtic clbss BoldAction extends StyledTextAction {
 
         /**
-         * Constructs a new BoldAction.
+         * Constructs b new BoldAction.
          */
         public BoldAction() {
             super("font-bold");
         }
 
         /**
-         * Toggles the bold attribute.
+         * Toggles the bold bttribute.
          *
-         * @param e the action event
+         * @pbrbm e the bction event
          */
-        public void actionPerformed(ActionEvent e) {
-            JEditorPane editor = getEditor(e);
+        public void bctionPerformed(ActionEvent e) {
+            JEditorPbne editor = getEditor(e);
             if (editor != null) {
                 StyledEditorKit kit = getStyledEditorKit(editor);
-                MutableAttributeSet attr = kit.getInputAttributes();
-                boolean bold = (StyleConstants.isBold(attr)) ? false : true;
-                SimpleAttributeSet sas = new SimpleAttributeSet();
-                StyleConstants.setBold(sas, bold);
-                setCharacterAttributes(editor, sas, false);
+                MutbbleAttributeSet bttr = kit.getInputAttributes();
+                boolebn bold = (StyleConstbnts.isBold(bttr)) ? fblse : true;
+                SimpleAttributeSet sbs = new SimpleAttributeSet();
+                StyleConstbnts.setBold(sbs, bold);
+                setChbrbcterAttributes(editor, sbs, fblse);
             }
         }
     }
 
     /**
-     * An action to toggle the italic attribute.
+     * An bction to toggle the itblic bttribute.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Seriblized objects of this clbss will not be compbtible with
+     * future Swing relebses. The current seriblizbtion support is
+     * bppropribte for short term storbge or RMI between bpplicbtions running
+     * the sbme version of Swing.  As of 1.4, support for long term storbge
+     * of bll JbvbBebns&trbde;
+     * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+     * Plebse see {@link jbvb.bebns.XMLEncoder}.
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    public static class ItalicAction extends StyledTextAction {
+    @SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+    public stbtic clbss ItblicAction extends StyledTextAction {
 
         /**
-         * Constructs a new ItalicAction.
+         * Constructs b new ItblicAction.
          */
-        public ItalicAction() {
-            super("font-italic");
+        public ItblicAction() {
+            super("font-itblic");
         }
 
         /**
-         * Toggles the italic attribute.
+         * Toggles the itblic bttribute.
          *
-         * @param e the action event
+         * @pbrbm e the bction event
          */
-        public void actionPerformed(ActionEvent e) {
-            JEditorPane editor = getEditor(e);
+        public void bctionPerformed(ActionEvent e) {
+            JEditorPbne editor = getEditor(e);
             if (editor != null) {
                 StyledEditorKit kit = getStyledEditorKit(editor);
-                MutableAttributeSet attr = kit.getInputAttributes();
-                boolean italic = (StyleConstants.isItalic(attr)) ? false : true;
-                SimpleAttributeSet sas = new SimpleAttributeSet();
-                StyleConstants.setItalic(sas, italic);
-                setCharacterAttributes(editor, sas, false);
+                MutbbleAttributeSet bttr = kit.getInputAttributes();
+                boolebn itblic = (StyleConstbnts.isItblic(bttr)) ? fblse : true;
+                SimpleAttributeSet sbs = new SimpleAttributeSet();
+                StyleConstbnts.setItblic(sbs, itblic);
+                setChbrbcterAttributes(editor, sbs, fblse);
             }
         }
     }
 
     /**
-     * An action to toggle the underline attribute.
+     * An bction to toggle the underline bttribute.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Seriblized objects of this clbss will not be compbtible with
+     * future Swing relebses. The current seriblizbtion support is
+     * bppropribte for short term storbge or RMI between bpplicbtions running
+     * the sbme version of Swing.  As of 1.4, support for long term storbge
+     * of bll JbvbBebns&trbde;
+     * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+     * Plebse see {@link jbvb.bebns.XMLEncoder}.
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    public static class UnderlineAction extends StyledTextAction {
+    @SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+    public stbtic clbss UnderlineAction extends StyledTextAction {
 
         /**
-         * Constructs a new UnderlineAction.
+         * Constructs b new UnderlineAction.
          */
         public UnderlineAction() {
             super("font-underline");
         }
 
         /**
-         * Toggles the Underline attribute.
+         * Toggles the Underline bttribute.
          *
-         * @param e the action event
+         * @pbrbm e the bction event
          */
-        public void actionPerformed(ActionEvent e) {
-            JEditorPane editor = getEditor(e);
+        public void bctionPerformed(ActionEvent e) {
+            JEditorPbne editor = getEditor(e);
             if (editor != null) {
                 StyledEditorKit kit = getStyledEditorKit(editor);
-                MutableAttributeSet attr = kit.getInputAttributes();
-                boolean underline = (StyleConstants.isUnderline(attr)) ? false : true;
-                SimpleAttributeSet sas = new SimpleAttributeSet();
-                StyleConstants.setUnderline(sas, underline);
-                setCharacterAttributes(editor, sas, false);
+                MutbbleAttributeSet bttr = kit.getInputAttributes();
+                boolebn underline = (StyleConstbnts.isUnderline(bttr)) ? fblse : true;
+                SimpleAttributeSet sbs = new SimpleAttributeSet();
+                StyleConstbnts.setUnderline(sbs, underline);
+                setChbrbcterAttributes(editor, sbs, fblse);
             }
         }
     }
 
 
     /**
-     * StyledInsertBreakAction has similar behavior to that of
-     * <code>DefaultEditorKit.InsertBreakAction</code>. That is when
-     * its <code>actionPerformed</code> method is invoked, a newline
-     * is inserted. Beyond that, this will reset the input attributes to
-     * what they were before the newline was inserted.
+     * StyledInsertBrebkAction hbs similbr behbvior to thbt of
+     * <code>DefbultEditorKit.InsertBrebkAction</code>. Thbt is when
+     * its <code>bctionPerformed</code> method is invoked, b newline
+     * is inserted. Beyond thbt, this will reset the input bttributes to
+     * whbt they were before the newline wbs inserted.
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    static class StyledInsertBreakAction extends StyledTextAction {
-        private SimpleAttributeSet tempSet;
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    stbtic clbss StyledInsertBrebkAction extends StyledTextAction {
+        privbte SimpleAttributeSet tempSet;
 
-        StyledInsertBreakAction() {
-            super(insertBreakAction);
+        StyledInsertBrebkAction() {
+            super(insertBrebkAction);
         }
 
-        public void actionPerformed(ActionEvent e) {
-            JEditorPane target = getEditor(e);
+        public void bctionPerformed(ActionEvent e) {
+            JEditorPbne tbrget = getEditor(e);
 
-            if (target != null) {
-                if ((!target.isEditable()) || (!target.isEnabled())) {
-                    UIManager.getLookAndFeel().provideErrorFeedback(target);
+            if (tbrget != null) {
+                if ((!tbrget.isEditbble()) || (!tbrget.isEnbbled())) {
+                    UIMbnbger.getLookAndFeel().provideErrorFeedbbck(tbrget);
                     return;
                 }
-                StyledEditorKit sek = getStyledEditorKit(target);
+                StyledEditorKit sek = getStyledEditorKit(tbrget);
 
                 if (tempSet != null) {
                     tempSet.removeAttributes(tempSet);
@@ -881,25 +881,25 @@ public class StyledEditorKit extends DefaultEditorKit {
                 else {
                     tempSet = new SimpleAttributeSet();
                 }
-                tempSet.addAttributes(sek.getInputAttributes());
-                target.replaceSelection("\n");
+                tempSet.bddAttributes(sek.getInputAttributes());
+                tbrget.replbceSelection("\n");
 
-                MutableAttributeSet ia = sek.getInputAttributes();
+                MutbbleAttributeSet ib = sek.getInputAttributes();
 
-                ia.removeAttributes(ia);
-                ia.addAttributes(tempSet);
+                ib.removeAttributes(ib);
+                ib.bddAttributes(tempSet);
                 tempSet.removeAttributes(tempSet);
             }
             else {
-                // See if we are in a JTextComponent.
+                // See if we bre in b JTextComponent.
                 JTextComponent text = getTextComponent(e);
 
                 if (text != null) {
-                    if ((!text.isEditable()) || (!text.isEnabled())) {
-                        UIManager.getLookAndFeel().provideErrorFeedback(target);
+                    if ((!text.isEditbble()) || (!text.isEnbbled())) {
+                        UIMbnbger.getLookAndFeel().provideErrorFeedbbck(tbrget);
                         return;
                     }
-                    text.replaceSelection("\n");
+                    text.replbceSelection("\n");
                 }
             }
         }

@@ -1,45 +1,45 @@
 /*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.tools.jdi;
+pbckbge com.sun.tools.jdi;
 
 import com.sun.jdi.*;
 
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Set;
-import java.lang.ref.SoftReference;
+import jbvb.util.List;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collections;
+import jbvb.util.Set;
+import jbvb.lbng.ref.SoftReference;
 
-final public class InterfaceTypeImpl extends InvokableTypeImpl
-                                     implements InterfaceType {
+finbl public clbss InterfbceTypeImpl extends InvokbbleTypeImpl
+                                     implements InterfbceType {
 
-    private static class IResult implements InvocationResult {
-        final private JDWP.InterfaceType.InvokeMethod rslt;
+    privbte stbtic clbss IResult implements InvocbtionResult {
+        finbl privbte JDWP.InterfbceType.InvokeMethod rslt;
 
-        public IResult(JDWP.InterfaceType.InvokeMethod rslt) {
+        public IResult(JDWP.InterfbceType.InvokeMethod rslt) {
             this.rslt = rslt;
         }
 
@@ -49,95 +49,95 @@ final public class InterfaceTypeImpl extends InvokableTypeImpl
         }
 
         @Override
-        public ValueImpl getResult() {
-            return rslt.returnValue;
+        public VblueImpl getResult() {
+            return rslt.returnVblue;
         }
 
     }
 
-    private SoftReference<List<InterfaceType>> superinterfacesRef = null;
+    privbte SoftReference<List<InterfbceType>> superinterfbcesRef = null;
 
-    protected InterfaceTypeImpl(VirtualMachine aVm,long aRef) {
-        super(aVm, aRef);
+    protected InterfbceTypeImpl(VirtublMbchine bVm,long bRef) {
+        super(bVm, bRef);
     }
 
-    public List<InterfaceType> superinterfaces() {
-        List<InterfaceType> superinterfaces = (superinterfacesRef == null) ? null :
-                                     superinterfacesRef.get();
-        if (superinterfaces == null) {
-            superinterfaces = getInterfaces();
-            superinterfaces = Collections.unmodifiableList(superinterfaces);
-            superinterfacesRef = new SoftReference<List<InterfaceType>>(superinterfaces);
+    public List<InterfbceType> superinterfbces() {
+        List<InterfbceType> superinterfbces = (superinterfbcesRef == null) ? null :
+                                     superinterfbcesRef.get();
+        if (superinterfbces == null) {
+            superinterfbces = getInterfbces();
+            superinterfbces = Collections.unmodifibbleList(superinterfbces);
+            superinterfbcesRef = new SoftReference<List<InterfbceType>>(superinterfbces);
         }
-        return superinterfaces;
+        return superinterfbces;
     }
 
-    public List<InterfaceType> subinterfaces() {
-        List<InterfaceType> subs = new ArrayList<InterfaceType>();
-        for (ReferenceType refType : vm.allClasses()) {
-            if (refType instanceof InterfaceType) {
-                InterfaceType interfaze = (InterfaceType)refType;
-                if (interfaze.isPrepared() && interfaze.superinterfaces().contains(this)) {
-                    subs.add(interfaze);
+    public List<InterfbceType> subinterfbces() {
+        List<InterfbceType> subs = new ArrbyList<InterfbceType>();
+        for (ReferenceType refType : vm.bllClbsses()) {
+            if (refType instbnceof InterfbceType) {
+                InterfbceType interfbze = (InterfbceType)refType;
+                if (interfbze.isPrepbred() && interfbze.superinterfbces().contbins(this)) {
+                    subs.bdd(interfbze);
                 }
             }
         }
         return subs;
     }
 
-    public List<ClassType> implementors() {
-        List<ClassType> implementors = new ArrayList<ClassType>();
-        for (ReferenceType refType : vm.allClasses()) {
-            if (refType instanceof ClassType) {
-                ClassType clazz = (ClassType)refType;
-                if (clazz.isPrepared() && clazz.interfaces().contains(this)) {
-                    implementors.add(clazz);
+    public List<ClbssType> implementors() {
+        List<ClbssType> implementors = new ArrbyList<ClbssType>();
+        for (ReferenceType refType : vm.bllClbsses()) {
+            if (refType instbnceof ClbssType) {
+                ClbssType clbzz = (ClbssType)refType;
+                if (clbzz.isPrepbred() && clbzz.interfbces().contbins(this)) {
+                    implementors.bdd(clbzz);
                 }
             }
         }
         return implementors;
     }
 
-    public boolean isInitialized() {
-        return isPrepared();
+    public boolebn isInitiblized() {
+        return isPrepbred();
     }
 
     public String toString() {
-       return "interface " + name() + " (" + loaderString() + ")";
+       return "interfbce " + nbme() + " (" + lobderString() + ")";
     }
 
     @Override
-    InvocationResult waitForReply(PacketStream stream) throws JDWPException {
-        return new IResult(JDWP.InterfaceType.InvokeMethod.waitForReply(vm, stream));
+    InvocbtionResult wbitForReply(PbcketStrebm strebm) throws JDWPException {
+        return new IResult(JDWP.InterfbceType.InvokeMethod.wbitForReply(vm, strebm));
     }
 
     @Override
-    CommandSender getInvokeMethodSender(final ThreadReferenceImpl thread,
-                                        final MethodImpl method,
-                                        final ValueImpl[] args,
-                                        final int options) {
+    CommbndSender getInvokeMethodSender(finbl ThrebdReferenceImpl threbd,
+                                        finbl MethodImpl method,
+                                        finbl VblueImpl[] brgs,
+                                        finbl int options) {
         return () ->
-            JDWP.InterfaceType.InvokeMethod.enqueueCommand(vm,
-                                                           InterfaceTypeImpl.this,
-                                                           thread,
+            JDWP.InterfbceType.InvokeMethod.enqueueCommbnd(vm,
+                                                           InterfbceTypeImpl.this,
+                                                           threbd,
                                                            method.ref(),
-                                                           args,
+                                                           brgs,
                                                            options);
     }
 
     @Override
-    ClassType superclass() {
+    ClbssType superclbss() {
         return null;
     }
 
     @Override
-    List<InterfaceType> interfaces() {
-        return superinterfaces();
+    List<InterfbceType> interfbces() {
+        return superinterfbces();
     }
 
     @Override
-    boolean canInvoke(Method method) {
-        // method must be directly in this interface
-        return this.equals(method.declaringType());
+    boolebn cbnInvoke(Method method) {
+        // method must be directly in this interfbce
+        return this.equbls(method.declbringType());
     }
 }

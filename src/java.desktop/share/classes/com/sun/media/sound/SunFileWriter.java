@@ -1,65 +1,65 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.media.sound;
+pbckbge com.sun.medib.sound;
 
-import java.io.File;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.IOException;
-import java.io.DataInputStream;
+import jbvb.io.File;
+import jbvb.io.InputStrebm;
+import jbvb.io.OutputStrebm;
+import jbvb.io.IOException;
+import jbvb.io.DbtbInputStrebm;
 
-import javax.sound.sampled.AudioFileFormat;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.spi.AudioFileWriter;
+import jbvbx.sound.sbmpled.AudioFileFormbt;
+import jbvbx.sound.sbmpled.AudioInputStrebm;
+import jbvbx.sound.sbmpled.spi.AudioFileWriter;
 
 
 
 
 /**
- * Abstract File Writer class.
+ * Abstrbct File Writer clbss.
  *
- * @author Jan Borgersen
+ * @buthor Jbn Borgersen
  */
-abstract class SunFileWriter extends AudioFileWriter {
+bbstrbct clbss SunFileWriter extends AudioFileWriter {
 
 
     // buffer size for write
-    protected static final int bufferSize = 16384;
+    protected stbtic finbl int bufferSize = 16384;
 
-    // buffer size for temporary input streams
-    protected static final int bisBufferSize = 4096;
+    // buffer size for temporbry input strebms
+    protected stbtic finbl int bisBufferSize = 4096;
 
 
-    final AudioFileFormat.Type types[];
+    finbl AudioFileFormbt.Type types[];
 
 
     /**
-     * Constructs a new SunParser object.
+     * Constructs b new SunPbrser object.
      */
-    SunFileWriter(AudioFileFormat.Type types[]) {
+    SunFileWriter(AudioFileFormbt.Type types[]) {
         this.types = types;
     }
 
@@ -69,18 +69,18 @@ abstract class SunFileWriter extends AudioFileWriter {
 
     // new, 10.27.99
 
-    public final AudioFileFormat.Type[] getAudioFileTypes(){
-        AudioFileFormat.Type[] localArray = new AudioFileFormat.Type[types.length];
-        System.arraycopy(types, 0, localArray, 0, types.length);
-        return localArray;
+    public finbl AudioFileFormbt.Type[] getAudioFileTypes(){
+        AudioFileFormbt.Type[] locblArrby = new AudioFileFormbt.Type[types.length];
+        System.brrbycopy(types, 0, locblArrby, 0, types.length);
+        return locblArrby;
     }
 
 
-    public abstract AudioFileFormat.Type[] getAudioFileTypes(AudioInputStream stream);
+    public bbstrbct AudioFileFormbt.Type[] getAudioFileTypes(AudioInputStrebm strebm);
 
-    public abstract int write(AudioInputStream stream, AudioFileFormat.Type fileType, OutputStream out) throws IOException;
+    public bbstrbct int write(AudioInputStrebm strebm, AudioFileFormbt.Type fileType, OutputStrebm out) throws IOException;
 
-    public abstract int write(AudioInputStream stream, AudioFileFormat.Type fileType, File out) throws IOException;
+    public bbstrbct int write(AudioInputStrebm strebm, AudioFileFormbt.Type fileType, File out) throws IOException;
 
 
     // HELPER METHODS
@@ -88,18 +88,18 @@ abstract class SunFileWriter extends AudioFileWriter {
 
     /**
      * rllong
-     * Protected helper method to read 64 bits and changing the order of
-     * each bytes.
-     * @param DataInputStream
-     * @return 32 bits swapped value.
+     * Protected helper method to rebd 64 bits bnd chbnging the order of
+     * ebch bytes.
+     * @pbrbm DbtbInputStrebm
+     * @return 32 bits swbpped vblue.
      * @exception IOException
      */
-    final int rllong(DataInputStream dis) throws IOException {
+    finbl int rllong(DbtbInputStrebm dis) throws IOException {
 
         int b1, b2, b3, b4 ;
         int i = 0;
 
-        i = dis.readInt();
+        i = dis.rebdInt();
 
         b1 = ( i & 0xFF ) << 24 ;
         b2 = ( i & 0xFF00 ) << 8;
@@ -113,11 +113,11 @@ abstract class SunFileWriter extends AudioFileWriter {
 
     /**
      * big2little
-     * Protected helper method to swap the order of bytes in a 32 bit int
-     * @param int
-     * @return 32 bits swapped value
+     * Protected helper method to swbp the order of bytes in b 32 bit int
+     * @pbrbm int
+     * @return 32 bits swbpped vblue
      */
-    final int big2little(int i) {
+    finbl int big2little(int i) {
 
         int b1, b2, b3, b4 ;
 
@@ -133,17 +133,17 @@ abstract class SunFileWriter extends AudioFileWriter {
 
     /**
      * rlshort
-     * Protected helper method to read 16 bits value. Swap high with low byte.
-     * @param DataInputStream
-     * @return the swapped value.
+     * Protected helper method to rebd 16 bits vblue. Swbp high with low byte.
+     * @pbrbm DbtbInputStrebm
+     * @return the swbpped vblue.
      * @exception IOException
      */
-    final short rlshort(DataInputStream dis)  throws IOException {
+    finbl short rlshort(DbtbInputStrebm dis)  throws IOException {
 
         short s=0;
         short high, low;
 
-        s = dis.readShort();
+        s = dis.rebdShort();
 
         high = (short)(( s & 0xFF ) << 8) ;
         low = (short)(( s & 0xFF00 ) >>> 8);
@@ -155,11 +155,11 @@ abstract class SunFileWriter extends AudioFileWriter {
 
     /**
      * big2little
-     * Protected helper method to swap the order of bytes in a 16 bit short
-     * @param int
-     * @return 16 bits swapped value
+     * Protected helper method to swbp the order of bytes in b 16 bit short
+     * @pbrbm int
+     * @return 16 bits swbpped vblue
      */
-    final short big2littleShort(short i) {
+    finbl short big2littleShort(short i) {
 
         short high, low;
 
@@ -172,30 +172,30 @@ abstract class SunFileWriter extends AudioFileWriter {
     }
 
     /**
-     * InputStream wrapper class which prevent source stream from being closed.
-     * The class is usefull for use with SequenceInputStream to prevent
-     * closing of the source input streams.
+     * InputStrebm wrbpper clbss which prevent source strebm from being closed.
+     * The clbss is usefull for use with SequenceInputStrebm to prevent
+     * closing of the source input strebms.
      */
-    final class NoCloseInputStream extends InputStream {
-        private final InputStream in;
+    finbl clbss NoCloseInputStrebm extends InputStrebm {
+        privbte finbl InputStrebm in;
 
-        NoCloseInputStream(InputStream in) {
+        NoCloseInputStrebm(InputStrebm in) {
             this.in = in;
         }
 
         @Override
-        public int read() throws IOException {
-            return in.read();
+        public int rebd() throws IOException {
+            return in.rebd();
         }
 
         @Override
-        public int read(byte b[]) throws IOException {
-            return in.read(b);
+        public int rebd(byte b[]) throws IOException {
+            return in.rebd(b);
         }
 
         @Override
-        public int read(byte b[], int off, int len) throws IOException {
-            return in.read(b, off, len);
+        public int rebd(byte b[], int off, int len) throws IOException {
+            return in.rebd(b, off, len);
         }
 
         @Override
@@ -204,18 +204,18 @@ abstract class SunFileWriter extends AudioFileWriter {
         }
 
         @Override
-        public int available() throws IOException {
-            return in.available();
+        public int bvbilbble() throws IOException {
+            return in.bvbilbble();
         }
 
         @Override
         public void close() throws IOException {
-            // don't propagate the call
+            // don't propbgbte the cbll
         }
 
         @Override
-        public void mark(int readlimit) {
-            in.mark(readlimit);
+        public void mbrk(int rebdlimit) {
+            in.mbrk(rebdlimit);
         }
 
         @Override
@@ -224,8 +224,8 @@ abstract class SunFileWriter extends AudioFileWriter {
         }
 
         @Override
-        public boolean markSupported() {
-            return in.markSupported();
+        public boolebn mbrkSupported() {
+            return in.mbrkSupported();
         }
 
     }

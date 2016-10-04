@@ -1,274 +1,274 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.math;
+pbckbge jbvb.mbth;
 
 /**
- * A class used to represent multiprecision integers that makes efficient
- * use of allocated space by allowing a number to occupy only part of
- * an array so that the arrays do not have to be reallocated as often.
- * When performing an operation with many iterations the array used to
- * hold a number is only reallocated when necessary and does not have to
- * be the same size as the number it represents. A mutable number allows
- * calculations to occur on the same number without having to create
- * a new number for every step of the calculation as occurs with
+ * A clbss used to represent multiprecision integers thbt mbkes efficient
+ * use of bllocbted spbce by bllowing b number to occupy only pbrt of
+ * bn brrby so thbt the brrbys do not hbve to be rebllocbted bs often.
+ * When performing bn operbtion with mbny iterbtions the brrby used to
+ * hold b number is only rebllocbted when necessbry bnd does not hbve to
+ * be the sbme size bs the number it represents. A mutbble number bllows
+ * cblculbtions to occur on the sbme number without hbving to crebte
+ * b new number for every step of the cblculbtion bs occurs with
  * BigIntegers.
  *
  * @see     BigInteger
- * @author  Michael McCloskey
- * @author  Timothy Buktu
+ * @buthor  Michbel McCloskey
+ * @buthor  Timothy Buktu
  * @since   1.3
  */
 
-import static java.math.BigDecimal.INFLATED;
-import static java.math.BigInteger.LONG_MASK;
-import java.util.Arrays;
+import stbtic jbvb.mbth.BigDecimbl.INFLATED;
+import stbtic jbvb.mbth.BigInteger.LONG_MASK;
+import jbvb.util.Arrbys;
 
-class MutableBigInteger {
+clbss MutbbleBigInteger {
     /**
-     * Holds the magnitude of this MutableBigInteger in big endian order.
-     * The magnitude may start at an offset into the value array, and it may
-     * end before the length of the value array.
+     * Holds the mbgnitude of this MutbbleBigInteger in big endibn order.
+     * The mbgnitude mby stbrt bt bn offset into the vblue brrby, bnd it mby
+     * end before the length of the vblue brrby.
      */
-    int[] value;
+    int[] vblue;
 
     /**
-     * The number of ints of the value array that are currently used
-     * to hold the magnitude of this MutableBigInteger. The magnitude starts
-     * at an offset and offset + intLen may be less than value.length.
+     * The number of ints of the vblue brrby thbt bre currently used
+     * to hold the mbgnitude of this MutbbleBigInteger. The mbgnitude stbrts
+     * bt bn offset bnd offset + intLen mby be less thbn vblue.length.
      */
     int intLen;
 
     /**
-     * The offset into the value array where the magnitude of this
-     * MutableBigInteger begins.
+     * The offset into the vblue brrby where the mbgnitude of this
+     * MutbbleBigInteger begins.
      */
     int offset = 0;
 
-    // Constants
+    // Constbnts
     /**
-     * MutableBigInteger with one element value array with the value 1. Used by
-     * BigDecimal divideAndRound to increment the quotient. Use this constant
+     * MutbbleBigInteger with one element vblue brrby with the vblue 1. Used by
+     * BigDecimbl divideAndRound to increment the quotient. Use this constbnt
      * only when the method is not going to modify this object.
      */
-    static final MutableBigInteger ONE = new MutableBigInteger(1);
+    stbtic finbl MutbbleBigInteger ONE = new MutbbleBigInteger(1);
 
     /**
-     * The minimum {@code intLen} for cancelling powers of two before
+     * The minimum {@code intLen} for cbncelling powers of two before
      * dividing.
-     * If the number of ints is less than this threshold,
-     * {@code divideKnuth} does not eliminate common powers of two from
-     * the dividend and divisor.
+     * If the number of ints is less thbn this threshold,
+     * {@code divideKnuth} does not eliminbte common powers of two from
+     * the dividend bnd divisor.
      */
-    static final int KNUTH_POW2_THRESH_LEN = 6;
+    stbtic finbl int KNUTH_POW2_THRESH_LEN = 6;
 
     /**
-     * The minimum number of trailing zero ints for cancelling powers of two
+     * The minimum number of trbiling zero ints for cbncelling powers of two
      * before dividing.
-     * If the dividend and divisor don't share at least this many zero ints
-     * at the end, {@code divideKnuth} does not eliminate common powers
-     * of two from the dividend and divisor.
+     * If the dividend bnd divisor don't shbre bt lebst this mbny zero ints
+     * bt the end, {@code divideKnuth} does not eliminbte common powers
+     * of two from the dividend bnd divisor.
      */
-    static final int KNUTH_POW2_THRESH_ZEROS = 3;
+    stbtic finbl int KNUTH_POW2_THRESH_ZEROS = 3;
 
     // Constructors
 
     /**
-     * The default constructor. An empty MutableBigInteger is created with
-     * a one word capacity.
+     * The defbult constructor. An empty MutbbleBigInteger is crebted with
+     * b one word cbpbcity.
      */
-    MutableBigInteger() {
-        value = new int[1];
+    MutbbleBigInteger() {
+        vblue = new int[1];
         intLen = 0;
     }
 
     /**
-     * Construct a new MutableBigInteger with a magnitude specified by
-     * the int val.
+     * Construct b new MutbbleBigInteger with b mbgnitude specified by
+     * the int vbl.
      */
-    MutableBigInteger(int val) {
-        value = new int[1];
+    MutbbleBigInteger(int vbl) {
+        vblue = new int[1];
         intLen = 1;
-        value[0] = val;
+        vblue[0] = vbl;
     }
 
     /**
-     * Construct a new MutableBigInteger with the specified value array
-     * up to the length of the array supplied.
+     * Construct b new MutbbleBigInteger with the specified vblue brrby
+     * up to the length of the brrby supplied.
      */
-    MutableBigInteger(int[] val) {
-        value = val;
-        intLen = val.length;
+    MutbbleBigInteger(int[] vbl) {
+        vblue = vbl;
+        intLen = vbl.length;
     }
 
     /**
-     * Construct a new MutableBigInteger with a magnitude equal to the
+     * Construct b new MutbbleBigInteger with b mbgnitude equbl to the
      * specified BigInteger.
      */
-    MutableBigInteger(BigInteger b) {
-        intLen = b.mag.length;
-        value = Arrays.copyOf(b.mag, intLen);
+    MutbbleBigInteger(BigInteger b) {
+        intLen = b.mbg.length;
+        vblue = Arrbys.copyOf(b.mbg, intLen);
     }
 
     /**
-     * Construct a new MutableBigInteger with a magnitude equal to the
-     * specified MutableBigInteger.
+     * Construct b new MutbbleBigInteger with b mbgnitude equbl to the
+     * specified MutbbleBigInteger.
      */
-    MutableBigInteger(MutableBigInteger val) {
-        intLen = val.intLen;
-        value = Arrays.copyOfRange(val.value, val.offset, val.offset + intLen);
+    MutbbleBigInteger(MutbbleBigInteger vbl) {
+        intLen = vbl.intLen;
+        vblue = Arrbys.copyOfRbnge(vbl.vblue, vbl.offset, vbl.offset + intLen);
     }
 
     /**
-     * Makes this number an {@code n}-int number all of whose bits are ones.
+     * Mbkes this number bn {@code n}-int number bll of whose bits bre ones.
      * Used by Burnikel-Ziegler division.
-     * @param n number of ints in the {@code value} array
-     * @return a number equal to {@code ((1<<(32*n)))-1}
+     * @pbrbm n number of ints in the {@code vblue} brrby
+     * @return b number equbl to {@code ((1<<(32*n)))-1}
      */
-    private void ones(int n) {
-        if (n > value.length)
-            value = new int[n];
-        Arrays.fill(value, -1);
+    privbte void ones(int n) {
+        if (n > vblue.length)
+            vblue = new int[n];
+        Arrbys.fill(vblue, -1);
         offset = 0;
         intLen = n;
     }
 
     /**
-     * Internal helper method to return the magnitude array. The caller is not
-     * supposed to modify the returned array.
+     * Internbl helper method to return the mbgnitude brrby. The cbller is not
+     * supposed to modify the returned brrby.
      */
-    private int[] getMagnitudeArray() {
-        if (offset > 0 || value.length != intLen)
-            return Arrays.copyOfRange(value, offset, offset + intLen);
-        return value;
+    privbte int[] getMbgnitudeArrby() {
+        if (offset > 0 || vblue.length != intLen)
+            return Arrbys.copyOfRbnge(vblue, offset, offset + intLen);
+        return vblue;
     }
 
     /**
-     * Convert this MutableBigInteger to a long value. The caller has to make
-     * sure this MutableBigInteger can be fit into long.
+     * Convert this MutbbleBigInteger to b long vblue. The cbller hbs to mbke
+     * sure this MutbbleBigInteger cbn be fit into long.
      */
-    private long toLong() {
-        assert (intLen <= 2) : "this MutableBigInteger exceeds the range of long";
+    privbte long toLong() {
+        bssert (intLen <= 2) : "this MutbbleBigInteger exceeds the rbnge of long";
         if (intLen == 0)
             return 0;
-        long d = value[offset] & LONG_MASK;
-        return (intLen == 2) ? d << 32 | (value[offset + 1] & LONG_MASK) : d;
+        long d = vblue[offset] & LONG_MASK;
+        return (intLen == 2) ? d << 32 | (vblue[offset + 1] & LONG_MASK) : d;
     }
 
     /**
-     * Convert this MutableBigInteger to a BigInteger object.
+     * Convert this MutbbleBigInteger to b BigInteger object.
      */
     BigInteger toBigInteger(int sign) {
         if (intLen == 0 || sign == 0)
             return BigInteger.ZERO;
-        return new BigInteger(getMagnitudeArray(), sign);
+        return new BigInteger(getMbgnitudeArrby(), sign);
     }
 
     /**
-     * Converts this number to a nonnegative {@code BigInteger}.
+     * Converts this number to b nonnegbtive {@code BigInteger}.
      */
     BigInteger toBigInteger() {
-        normalize();
+        normblize();
         return toBigInteger(isZero() ? 0 : 1);
     }
 
     /**
-     * Convert this MutableBigInteger to BigDecimal object with the specified sign
-     * and scale.
+     * Convert this MutbbleBigInteger to BigDecimbl object with the specified sign
+     * bnd scble.
      */
-    BigDecimal toBigDecimal(int sign, int scale) {
+    BigDecimbl toBigDecimbl(int sign, int scble) {
         if (intLen == 0 || sign == 0)
-            return BigDecimal.zeroValueOf(scale);
-        int[] mag = getMagnitudeArray();
-        int len = mag.length;
-        int d = mag[0];
-        // If this MutableBigInteger can't be fit into long, we need to
-        // make a BigInteger object for the resultant BigDecimal object.
+            return BigDecimbl.zeroVblueOf(scble);
+        int[] mbg = getMbgnitudeArrby();
+        int len = mbg.length;
+        int d = mbg[0];
+        // If this MutbbleBigInteger cbn't be fit into long, we need to
+        // mbke b BigInteger object for the resultbnt BigDecimbl object.
         if (len > 2 || (d < 0 && len == 2))
-            return new BigDecimal(new BigInteger(mag, sign), INFLATED, scale, 0);
+            return new BigDecimbl(new BigInteger(mbg, sign), INFLATED, scble, 0);
         long v = (len == 2) ?
-            ((mag[1] & LONG_MASK) | (d & LONG_MASK) << 32) :
+            ((mbg[1] & LONG_MASK) | (d & LONG_MASK) << 32) :
             d & LONG_MASK;
-        return BigDecimal.valueOf(sign == -1 ? -v : v, scale);
+        return BigDecimbl.vblueOf(sign == -1 ? -v : v, scble);
     }
 
     /**
-     * This is for internal use in converting from a MutableBigInteger
-     * object into a long value given a specified sign.
-     * returns INFLATED if value is not fit into long
+     * This is for internbl use in converting from b MutbbleBigInteger
+     * object into b long vblue given b specified sign.
+     * returns INFLATED if vblue is not fit into long
      */
-    long toCompactValue(int sign) {
+    long toCompbctVblue(int sign) {
         if (intLen == 0 || sign == 0)
             return 0L;
-        int[] mag = getMagnitudeArray();
-        int len = mag.length;
-        int d = mag[0];
-        // If this MutableBigInteger can not be fitted into long, we need to
-        // make a BigInteger object for the resultant BigDecimal object.
+        int[] mbg = getMbgnitudeArrby();
+        int len = mbg.length;
+        int d = mbg[0];
+        // If this MutbbleBigInteger cbn not be fitted into long, we need to
+        // mbke b BigInteger object for the resultbnt BigDecimbl object.
         if (len > 2 || (d < 0 && len == 2))
             return INFLATED;
         long v = (len == 2) ?
-            ((mag[1] & LONG_MASK) | (d & LONG_MASK) << 32) :
+            ((mbg[1] & LONG_MASK) | (d & LONG_MASK) << 32) :
             d & LONG_MASK;
         return sign == -1 ? -v : v;
     }
 
     /**
-     * Clear out a MutableBigInteger for reuse.
+     * Clebr out b MutbbleBigInteger for reuse.
      */
-    void clear() {
+    void clebr() {
         offset = intLen = 0;
-        for (int index=0, n=value.length; index < n; index++)
-            value[index] = 0;
+        for (int index=0, n=vblue.length; index < n; index++)
+            vblue[index] = 0;
     }
 
     /**
-     * Set a MutableBigInteger to zero, removing its offset.
+     * Set b MutbbleBigInteger to zero, removing its offset.
      */
     void reset() {
         offset = intLen = 0;
     }
 
     /**
-     * Compare the magnitude of two MutableBigIntegers. Returns -1, 0 or 1
-     * as this MutableBigInteger is numerically less than, equal to, or
-     * greater than <tt>b</tt>.
+     * Compbre the mbgnitude of two MutbbleBigIntegers. Returns -1, 0 or 1
+     * bs this MutbbleBigInteger is numericblly less thbn, equbl to, or
+     * grebter thbn <tt>b</tt>.
      */
-    final int compare(MutableBigInteger b) {
+    finbl int compbre(MutbbleBigInteger b) {
         int blen = b.intLen;
         if (intLen < blen)
             return -1;
         if (intLen > blen)
            return 1;
 
-        // Add Integer.MIN_VALUE to make the comparison act as unsigned integer
-        // comparison.
-        int[] bval = b.value;
+        // Add Integer.MIN_VALUE to mbke the compbrison bct bs unsigned integer
+        // compbrison.
+        int[] bvbl = b.vblue;
         for (int i = offset, j = b.offset; i < intLen + offset; i++, j++) {
-            int b1 = value[i] + 0x80000000;
-            int b2 = bval[j]  + 0x80000000;
+            int b1 = vblue[i] + 0x80000000;
+            int b2 = bvbl[j]  + 0x80000000;
             if (b1 < b2)
                 return -1;
             if (b1 > b2)
@@ -278,23 +278,23 @@ class MutableBigInteger {
     }
 
     /**
-     * Returns a value equal to what {@code b.leftShift(32*ints); return compare(b);}
-     * would return, but doesn't change the value of {@code b}.
+     * Returns b vblue equbl to whbt {@code b.leftShift(32*ints); return compbre(b);}
+     * would return, but doesn't chbnge the vblue of {@code b}.
      */
-    private int compareShifted(MutableBigInteger b, int ints) {
+    privbte int compbreShifted(MutbbleBigInteger b, int ints) {
         int blen = b.intLen;
-        int alen = intLen - ints;
-        if (alen < blen)
+        int blen = intLen - ints;
+        if (blen < blen)
             return -1;
-        if (alen > blen)
+        if (blen > blen)
            return 1;
 
-        // Add Integer.MIN_VALUE to make the comparison act as unsigned integer
-        // comparison.
-        int[] bval = b.value;
-        for (int i = offset, j = b.offset; i < alen + offset; i++, j++) {
-            int b1 = value[i] + 0x80000000;
-            int b2 = bval[j]  + 0x80000000;
+        // Add Integer.MIN_VALUE to mbke the compbrison bct bs unsigned integer
+        // compbrison.
+        int[] bvbl = b.vblue;
+        for (int i = offset, j = b.offset; i < blen + offset; i++, j++) {
+            int b1 = vblue[i] + 0x80000000;
+            int b2 = bvbl[j]  + 0x80000000;
             if (b1 < b2)
                 return -1;
             if (b1 > b2)
@@ -304,12 +304,12 @@ class MutableBigInteger {
     }
 
     /**
-     * Compare this against half of a MutableBigInteger object (Needed for
-     * remainder tests).
-     * Assumes no leading unnecessary zeros, which holds for results
+     * Compbre this bgbinst hblf of b MutbbleBigInteger object (Needed for
+     * rembinder tests).
+     * Assumes no lebding unnecessbry zeros, which holds for results
      * from divide().
      */
-    final int compareHalf(MutableBigInteger b) {
+    finbl int compbreHblf(MutbbleBigInteger b) {
         int blen = b.intLen;
         int len = intLen;
         if (len <= 0)
@@ -318,84 +318,84 @@ class MutableBigInteger {
             return 1;
         if (len < blen - 1)
             return -1;
-        int[] bval = b.value;
-        int bstart = 0;
-        int carry = 0;
-        // Only 2 cases left:len == blen or len == blen - 1
+        int[] bvbl = b.vblue;
+        int bstbrt = 0;
+        int cbrry = 0;
+        // Only 2 cbses left:len == blen or len == blen - 1
         if (len != blen) { // len == blen - 1
-            if (bval[bstart] == 1) {
-                ++bstart;
-                carry = 0x80000000;
+            if (bvbl[bstbrt] == 1) {
+                ++bstbrt;
+                cbrry = 0x80000000;
             } else
                 return -1;
         }
-        // compare values with right-shifted values of b,
-        // carrying shifted-out bits across words
-        int[] val = value;
-        for (int i = offset, j = bstart; i < len + offset;) {
-            int bv = bval[j++];
-            long hb = ((bv >>> 1) + carry) & LONG_MASK;
-            long v = val[i++] & LONG_MASK;
+        // compbre vblues with right-shifted vblues of b,
+        // cbrrying shifted-out bits bcross words
+        int[] vbl = vblue;
+        for (int i = offset, j = bstbrt; i < len + offset;) {
+            int bv = bvbl[j++];
+            long hb = ((bv >>> 1) + cbrry) & LONG_MASK;
+            long v = vbl[i++] & LONG_MASK;
             if (v != hb)
                 return v < hb ? -1 : 1;
-            carry = (bv & 1) << 31; // carray will be either 0x80000000 or 0
+            cbrry = (bv & 1) << 31; // cbrrby will be either 0x80000000 or 0
         }
-        return carry == 0 ? 0 : -1;
+        return cbrry == 0 ? 0 : -1;
     }
 
     /**
-     * Return the index of the lowest set bit in this MutableBigInteger. If the
-     * magnitude of this MutableBigInteger is zero, -1 is returned.
+     * Return the index of the lowest set bit in this MutbbleBigInteger. If the
+     * mbgnitude of this MutbbleBigInteger is zero, -1 is returned.
      */
-    private final int getLowestSetBit() {
+    privbte finbl int getLowestSetBit() {
         if (intLen == 0)
             return -1;
         int j, b;
-        for (j=intLen-1; (j > 0) && (value[j+offset] == 0); j--)
+        for (j=intLen-1; (j > 0) && (vblue[j+offset] == 0); j--)
             ;
-        b = value[j+offset];
+        b = vblue[j+offset];
         if (b == 0)
             return -1;
-        return ((intLen-1-j)<<5) + Integer.numberOfTrailingZeros(b);
+        return ((intLen-1-j)<<5) + Integer.numberOfTrbilingZeros(b);
     }
 
     /**
-     * Return the int in use in this MutableBigInteger at the specified
-     * index. This method is not used because it is not inlined on all
-     * platforms.
+     * Return the int in use in this MutbbleBigInteger bt the specified
+     * index. This method is not used becbuse it is not inlined on bll
+     * plbtforms.
      */
-    private final int getInt(int index) {
-        return value[offset+index];
+    privbte finbl int getInt(int index) {
+        return vblue[offset+index];
     }
 
     /**
-     * Return a long which is equal to the unsigned value of the int in
-     * use in this MutableBigInteger at the specified index. This method is
-     * not used because it is not inlined on all platforms.
+     * Return b long which is equbl to the unsigned vblue of the int in
+     * use in this MutbbleBigInteger bt the specified index. This method is
+     * not used becbuse it is not inlined on bll plbtforms.
      */
-    private final long getLong(int index) {
-        return value[offset+index] & LONG_MASK;
+    privbte finbl long getLong(int index) {
+        return vblue[offset+index] & LONG_MASK;
     }
 
     /**
-     * Ensure that the MutableBigInteger is in normal form, specifically
-     * making sure that there are no leading zeros, and that if the
-     * magnitude is zero, then intLen is zero.
+     * Ensure thbt the MutbbleBigInteger is in normbl form, specificblly
+     * mbking sure thbt there bre no lebding zeros, bnd thbt if the
+     * mbgnitude is zero, then intLen is zero.
      */
-    final void normalize() {
+    finbl void normblize() {
         if (intLen == 0) {
             offset = 0;
             return;
         }
 
         int index = offset;
-        if (value[index] != 0)
+        if (vblue[index] != 0)
             return;
 
         int indexBound = index+intLen;
         do {
             index++;
-        } while(index < indexBound && value[index] == 0);
+        } while(index < indexBound && vblue[index] == 0);
 
         int numZeros = index - offset;
         intLen -= numZeros;
@@ -403,116 +403,116 @@ class MutableBigInteger {
     }
 
     /**
-     * If this MutableBigInteger cannot hold len words, increase the size
-     * of the value array to len words.
+     * If this MutbbleBigInteger cbnnot hold len words, increbse the size
+     * of the vblue brrby to len words.
      */
-    private final void ensureCapacity(int len) {
-        if (value.length < len) {
-            value = new int[len];
+    privbte finbl void ensureCbpbcity(int len) {
+        if (vblue.length < len) {
+            vblue = new int[len];
             offset = 0;
             intLen = len;
         }
     }
 
     /**
-     * Convert this MutableBigInteger into an int array with no leading
-     * zeros, of a length that is equal to this MutableBigInteger's intLen.
+     * Convert this MutbbleBigInteger into bn int brrby with no lebding
+     * zeros, of b length thbt is equbl to this MutbbleBigInteger's intLen.
      */
-    int[] toIntArray() {
+    int[] toIntArrby() {
         int[] result = new int[intLen];
         for(int i=0; i < intLen; i++)
-            result[i] = value[offset+i];
+            result[i] = vblue[offset+i];
         return result;
     }
 
     /**
-     * Sets the int at index+offset in this MutableBigInteger to val.
-     * This does not get inlined on all platforms so it is not used
-     * as often as originally intended.
+     * Sets the int bt index+offset in this MutbbleBigInteger to vbl.
+     * This does not get inlined on bll plbtforms so it is not used
+     * bs often bs originblly intended.
      */
-    void setInt(int index, int val) {
-        value[offset + index] = val;
+    void setInt(int index, int vbl) {
+        vblue[offset + index] = vbl;
     }
 
     /**
-     * Sets this MutableBigInteger's value array to the specified array.
+     * Sets this MutbbleBigInteger's vblue brrby to the specified brrby.
      * The intLen is set to the specified length.
      */
-    void setValue(int[] val, int length) {
-        value = val;
+    void setVblue(int[] vbl, int length) {
+        vblue = vbl;
         intLen = length;
         offset = 0;
     }
 
     /**
-     * Sets this MutableBigInteger's value array to a copy of the specified
-     * array. The intLen is set to the length of the new array.
+     * Sets this MutbbleBigInteger's vblue brrby to b copy of the specified
+     * brrby. The intLen is set to the length of the new brrby.
      */
-    void copyValue(MutableBigInteger src) {
+    void copyVblue(MutbbleBigInteger src) {
         int len = src.intLen;
-        if (value.length < len)
-            value = new int[len];
-        System.arraycopy(src.value, src.offset, value, 0, len);
+        if (vblue.length < len)
+            vblue = new int[len];
+        System.brrbycopy(src.vblue, src.offset, vblue, 0, len);
         intLen = len;
         offset = 0;
     }
 
     /**
-     * Sets this MutableBigInteger's value array to a copy of the specified
-     * array. The intLen is set to the length of the specified array.
+     * Sets this MutbbleBigInteger's vblue brrby to b copy of the specified
+     * brrby. The intLen is set to the length of the specified brrby.
      */
-    void copyValue(int[] val) {
-        int len = val.length;
-        if (value.length < len)
-            value = new int[len];
-        System.arraycopy(val, 0, value, 0, len);
+    void copyVblue(int[] vbl) {
+        int len = vbl.length;
+        if (vblue.length < len)
+            vblue = new int[len];
+        System.brrbycopy(vbl, 0, vblue, 0, len);
         intLen = len;
         offset = 0;
     }
 
     /**
-     * Returns true iff this MutableBigInteger has a value of one.
+     * Returns true iff this MutbbleBigInteger hbs b vblue of one.
      */
-    boolean isOne() {
-        return (intLen == 1) && (value[offset] == 1);
+    boolebn isOne() {
+        return (intLen == 1) && (vblue[offset] == 1);
     }
 
     /**
-     * Returns true iff this MutableBigInteger has a value of zero.
+     * Returns true iff this MutbbleBigInteger hbs b vblue of zero.
      */
-    boolean isZero() {
+    boolebn isZero() {
         return (intLen == 0);
     }
 
     /**
-     * Returns true iff this MutableBigInteger is even.
+     * Returns true iff this MutbbleBigInteger is even.
      */
-    boolean isEven() {
-        return (intLen == 0) || ((value[offset + intLen - 1] & 1) == 0);
+    boolebn isEven() {
+        return (intLen == 0) || ((vblue[offset + intLen - 1] & 1) == 0);
     }
 
     /**
-     * Returns true iff this MutableBigInteger is odd.
+     * Returns true iff this MutbbleBigInteger is odd.
      */
-    boolean isOdd() {
-        return isZero() ? false : ((value[offset + intLen - 1] & 1) == 1);
+    boolebn isOdd() {
+        return isZero() ? fblse : ((vblue[offset + intLen - 1] & 1) == 1);
     }
 
     /**
-     * Returns true iff this MutableBigInteger is in normal form. A
-     * MutableBigInteger is in normal form if it has no leading zeros
-     * after the offset, and intLen + offset <= value.length.
+     * Returns true iff this MutbbleBigInteger is in normbl form. A
+     * MutbbleBigInteger is in normbl form if it hbs no lebding zeros
+     * bfter the offset, bnd intLen + offset <= vblue.length.
      */
-    boolean isNormal() {
-        if (intLen + offset > value.length)
-            return false;
+    boolebn isNormbl() {
+        if (intLen + offset > vblue.length)
+            return fblse;
         if (intLen == 0)
             return true;
-        return (value[offset] != 0);
+        return (vblue[offset] != 0);
     }
 
     /**
-     * Returns a String representation of this MutableBigInteger in radix 10.
+     * Returns b String representbtion of this MutbbleBigInteger in rbdix 10.
      */
     public String toString() {
         BigInteger b = toBigInteger(1);
@@ -520,9 +520,9 @@ class MutableBigInteger {
     }
 
     /**
-     * Like {@link #rightShift(int)} but {@code n} can be greater than the length of the number.
+     * Like {@link #rightShift(int)} but {@code n} cbn be grebter thbn the length of the number.
      */
-    void safeRightShift(int n) {
+    void sbfeRightShift(int n) {
         if (n/32 >= intLen) {
             reset();
         } else {
@@ -531,8 +531,8 @@ class MutableBigInteger {
     }
 
     /**
-     * Right shift this MutableBigInteger n bits. The MutableBigInteger is left
-     * in normal form.
+     * Right shift this MutbbleBigInteger n bits. The MutbbleBigInteger is left
+     * in normbl form.
      */
     void rightShift(int n) {
         if (intLen == 0)
@@ -542,7 +542,7 @@ class MutableBigInteger {
         this.intLen -= nInts;
         if (nBits == 0)
             return;
-        int bitsInHighWord = BigInteger.bitLengthForInt(value[offset]);
+        int bitsInHighWord = BigInteger.bitLengthForInt(vblue[offset]);
         if (nBits >= bitsInHighWord) {
             this.primitiveLeftShift(32 - nBits);
             this.intLen--;
@@ -552,31 +552,31 @@ class MutableBigInteger {
     }
 
     /**
-     * Like {@link #leftShift(int)} but {@code n} can be zero.
+     * Like {@link #leftShift(int)} but {@code n} cbn be zero.
      */
-    void safeLeftShift(int n) {
+    void sbfeLeftShift(int n) {
         if (n > 0) {
             leftShift(n);
         }
     }
 
     /**
-     * Left shift this MutableBigInteger n bits.
+     * Left shift this MutbbleBigInteger n bits.
      */
     void leftShift(int n) {
         /*
-         * If there is enough storage space in this MutableBigInteger already
-         * the available space will be used. Space to the right of the used
-         * ints in the value array is faster to utilize, so the extra space
-         * will be taken from the right if possible.
+         * If there is enough storbge spbce in this MutbbleBigInteger blrebdy
+         * the bvbilbble spbce will be used. Spbce to the right of the used
+         * ints in the vblue brrby is fbster to utilize, so the extrb spbce
+         * will be tbken from the right if possible.
          */
         if (intLen == 0)
            return;
         int nInts = n >>> 5;
         int nBits = n&0x1F;
-        int bitsInHighWord = BigInteger.bitLengthForInt(value[offset]);
+        int bitsInHighWord = BigInteger.bitLengthForInt(vblue[offset]);
 
-        // If shift can be done without moving words, do so
+        // If shift cbn be done without moving words, do so
         if (n <= (32-bitsInHighWord)) {
             primitiveLeftShift(nBits);
             return;
@@ -585,22 +585,22 @@ class MutableBigInteger {
         int newLen = intLen + nInts +1;
         if (nBits <= (32-bitsInHighWord))
             newLen--;
-        if (value.length < newLen) {
-            // The array must grow
+        if (vblue.length < newLen) {
+            // The brrby must grow
             int[] result = new int[newLen];
             for (int i=0; i < intLen; i++)
-                result[i] = value[offset+i];
-            setValue(result, newLen);
-        } else if (value.length - offset >= newLen) {
-            // Use space on right
+                result[i] = vblue[offset+i];
+            setVblue(result, newLen);
+        } else if (vblue.length - offset >= newLen) {
+            // Use spbce on right
             for(int i=0; i < newLen - intLen; i++)
-                value[offset+intLen+i] = 0;
+                vblue[offset+intLen+i] = 0;
         } else {
-            // Must use space on left
+            // Must use spbce on left
             for (int i=0; i < intLen; i++)
-                value[i] = value[offset+i];
+                vblue[i] = vblue[offset+i];
             for (int i=intLen; i < newLen; i++)
-                value[i] = 0;
+                vblue[i] = 0;
             offset = 0;
         }
         intLen = newLen;
@@ -613,98 +613,98 @@ class MutableBigInteger {
     }
 
     /**
-     * A primitive used for division. This method adds in one multiple of the
-     * divisor a back to the dividend result at a specified offset. It is used
-     * when qhat was estimated too large, and must be adjusted.
+     * A primitive used for division. This method bdds in one multiple of the
+     * divisor b bbck to the dividend result bt b specified offset. It is used
+     * when qhbt wbs estimbted too lbrge, bnd must be bdjusted.
      */
-    private int divadd(int[] a, int[] result, int offset) {
-        long carry = 0;
+    privbte int divbdd(int[] b, int[] result, int offset) {
+        long cbrry = 0;
 
-        for (int j=a.length-1; j >= 0; j--) {
-            long sum = (a[j] & LONG_MASK) +
-                       (result[j+offset] & LONG_MASK) + carry;
+        for (int j=b.length-1; j >= 0; j--) {
+            long sum = (b[j] & LONG_MASK) +
+                       (result[j+offset] & LONG_MASK) + cbrry;
             result[j+offset] = (int)sum;
-            carry = sum >>> 32;
+            cbrry = sum >>> 32;
         }
-        return (int)carry;
+        return (int)cbrry;
     }
 
     /**
-     * This method is used for division. It multiplies an n word input a by one
-     * word input x, and subtracts the n word product from q. This is needed
-     * when subtracting qhat*divisor from dividend.
+     * This method is used for division. It multiplies bn n word input b by one
+     * word input x, bnd subtrbcts the n word product from q. This is needed
+     * when subtrbcting qhbt*divisor from dividend.
      */
-    private int mulsub(int[] q, int[] a, int x, int len, int offset) {
+    privbte int mulsub(int[] q, int[] b, int x, int len, int offset) {
         long xLong = x & LONG_MASK;
-        long carry = 0;
+        long cbrry = 0;
         offset += len;
 
         for (int j=len-1; j >= 0; j--) {
-            long product = (a[j] & LONG_MASK) * xLong + carry;
+            long product = (b[j] & LONG_MASK) * xLong + cbrry;
             long difference = q[offset] - product;
             q[offset--] = (int)difference;
-            carry = (product >>> 32)
+            cbrry = (product >>> 32)
                      + (((difference & LONG_MASK) >
                          (((~(int)product) & LONG_MASK))) ? 1:0);
         }
-        return (int)carry;
+        return (int)cbrry;
     }
 
     /**
-     * The method is the same as mulsun, except the fact that q array is not
-     * updated, the only result of the method is borrow flag.
+     * The method is the sbme bs mulsun, except the fbct thbt q brrby is not
+     * updbted, the only result of the method is borrow flbg.
      */
-    private int mulsubBorrow(int[] q, int[] a, int x, int len, int offset) {
+    privbte int mulsubBorrow(int[] q, int[] b, int x, int len, int offset) {
         long xLong = x & LONG_MASK;
-        long carry = 0;
+        long cbrry = 0;
         offset += len;
         for (int j=len-1; j >= 0; j--) {
-            long product = (a[j] & LONG_MASK) * xLong + carry;
+            long product = (b[j] & LONG_MASK) * xLong + cbrry;
             long difference = q[offset--] - product;
-            carry = (product >>> 32)
+            cbrry = (product >>> 32)
                      + (((difference & LONG_MASK) >
                          (((~(int)product) & LONG_MASK))) ? 1:0);
         }
-        return (int)carry;
+        return (int)cbrry;
     }
 
     /**
-     * Right shift this MutableBigInteger n bits, where n is
-     * less than 32.
-     * Assumes that intLen > 0, n > 0 for speed
+     * Right shift this MutbbleBigInteger n bits, where n is
+     * less thbn 32.
+     * Assumes thbt intLen > 0, n > 0 for speed
      */
-    private final void primitiveRightShift(int n) {
-        int[] val = value;
+    privbte finbl void primitiveRightShift(int n) {
+        int[] vbl = vblue;
         int n2 = 32 - n;
-        for (int i=offset+intLen-1, c=val[i]; i > offset; i--) {
+        for (int i=offset+intLen-1, c=vbl[i]; i > offset; i--) {
             int b = c;
-            c = val[i-1];
-            val[i] = (c << n2) | (b >>> n);
+            c = vbl[i-1];
+            vbl[i] = (c << n2) | (b >>> n);
         }
-        val[offset] >>>= n;
+        vbl[offset] >>>= n;
     }
 
     /**
-     * Left shift this MutableBigInteger n bits, where n is
-     * less than 32.
-     * Assumes that intLen > 0, n > 0 for speed
+     * Left shift this MutbbleBigInteger n bits, where n is
+     * less thbn 32.
+     * Assumes thbt intLen > 0, n > 0 for speed
      */
-    private final void primitiveLeftShift(int n) {
-        int[] val = value;
+    privbte finbl void primitiveLeftShift(int n) {
+        int[] vbl = vblue;
         int n2 = 32 - n;
-        for (int i=offset, c=val[i], m=i+intLen-1; i < m; i++) {
+        for (int i=offset, c=vbl[i], m=i+intLen-1; i < m; i++) {
             int b = c;
-            c = val[i+1];
-            val[i] = (b << n) | (c >>> n2);
+            c = vbl[i+1];
+            vbl[i] = (b << n) | (c >>> n2);
         }
-        val[offset+intLen-1] <<= n;
+        vbl[offset+intLen-1] <<= n;
     }
 
     /**
-     * Returns a {@code BigInteger} equal to the {@code n}
+     * Returns b {@code BigInteger} equbl to the {@code n}
      * low ints of this number.
      */
-    private BigInteger getLower(int n) {
+    privbte BigInteger getLower(int n) {
         if (isZero()) {
             return BigInteger.ZERO;
         } else if (intLen < n) {
@@ -712,17 +712,17 @@ class MutableBigInteger {
         } else {
             // strip zeros
             int len = n;
-            while (len > 0 && value[offset+intLen-len] == 0)
+            while (len > 0 && vblue[offset+intLen-len] == 0)
                 len--;
             int sign = len > 0 ? 1 : 0;
-            return new BigInteger(Arrays.copyOfRange(value, offset+intLen-len, offset+intLen), sign);
+            return new BigInteger(Arrbys.copyOfRbnge(vblue, offset+intLen-len, offset+intLen), sign);
         }
     }
 
     /**
-     * Discards all ints whose index is greater than {@code n}.
+     * Discbrds bll ints whose index is grebter thbn {@code n}.
      */
-    private void keepLower(int n) {
+    privbte void keepLower(int n) {
         if (intLen >= n) {
             offset += intLen - n;
             intLen = n;
@@ -730,408 +730,408 @@ class MutableBigInteger {
     }
 
     /**
-     * Adds the contents of two MutableBigInteger objects.The result
-     * is placed within this MutableBigInteger.
-     * The contents of the addend are not changed.
+     * Adds the contents of two MutbbleBigInteger objects.The result
+     * is plbced within this MutbbleBigInteger.
+     * The contents of the bddend bre not chbnged.
      */
-    void add(MutableBigInteger addend) {
+    void bdd(MutbbleBigInteger bddend) {
         int x = intLen;
-        int y = addend.intLen;
-        int resultLen = (intLen > addend.intLen ? intLen : addend.intLen);
-        int[] result = (value.length < resultLen ? new int[resultLen] : value);
+        int y = bddend.intLen;
+        int resultLen = (intLen > bddend.intLen ? intLen : bddend.intLen);
+        int[] result = (vblue.length < resultLen ? new int[resultLen] : vblue);
 
-        int rstart = result.length-1;
+        int rstbrt = result.length-1;
         long sum;
-        long carry = 0;
+        long cbrry = 0;
 
-        // Add common parts of both numbers
+        // Add common pbrts of both numbers
         while(x > 0 && y > 0) {
             x--; y--;
-            sum = (value[x+offset] & LONG_MASK) +
-                (addend.value[y+addend.offset] & LONG_MASK) + carry;
-            result[rstart--] = (int)sum;
-            carry = sum >>> 32;
+            sum = (vblue[x+offset] & LONG_MASK) +
+                (bddend.vblue[y+bddend.offset] & LONG_MASK) + cbrry;
+            result[rstbrt--] = (int)sum;
+            cbrry = sum >>> 32;
         }
 
-        // Add remainder of the longer number
+        // Add rembinder of the longer number
         while(x > 0) {
             x--;
-            if (carry == 0 && result == value && rstart == (x + offset))
+            if (cbrry == 0 && result == vblue && rstbrt == (x + offset))
                 return;
-            sum = (value[x+offset] & LONG_MASK) + carry;
-            result[rstart--] = (int)sum;
-            carry = sum >>> 32;
+            sum = (vblue[x+offset] & LONG_MASK) + cbrry;
+            result[rstbrt--] = (int)sum;
+            cbrry = sum >>> 32;
         }
         while(y > 0) {
             y--;
-            sum = (addend.value[y+addend.offset] & LONG_MASK) + carry;
-            result[rstart--] = (int)sum;
-            carry = sum >>> 32;
+            sum = (bddend.vblue[y+bddend.offset] & LONG_MASK) + cbrry;
+            result[rstbrt--] = (int)sum;
+            cbrry = sum >>> 32;
         }
 
-        if (carry > 0) { // Result must grow in length
+        if (cbrry > 0) { // Result must grow in length
             resultLen++;
             if (result.length < resultLen) {
                 int temp[] = new int[resultLen];
-                // Result one word longer from carry-out; copy low-order
+                // Result one word longer from cbrry-out; copy low-order
                 // bits into new result.
-                System.arraycopy(result, 0, temp, 1, result.length);
+                System.brrbycopy(result, 0, temp, 1, result.length);
                 temp[0] = 1;
                 result = temp;
             } else {
-                result[rstart--] = 1;
+                result[rstbrt--] = 1;
             }
         }
 
-        value = result;
+        vblue = result;
         intLen = resultLen;
         offset = result.length - resultLen;
     }
 
     /**
-     * Adds the value of {@code addend} shifted {@code n} ints to the left.
-     * Has the same effect as {@code addend.leftShift(32*ints); add(addend);}
-     * but doesn't change the value of {@code addend}.
+     * Adds the vblue of {@code bddend} shifted {@code n} ints to the left.
+     * Hbs the sbme effect bs {@code bddend.leftShift(32*ints); bdd(bddend);}
+     * but doesn't chbnge the vblue of {@code bddend}.
      */
-    void addShifted(MutableBigInteger addend, int n) {
-        if (addend.isZero()) {
+    void bddShifted(MutbbleBigInteger bddend, int n) {
+        if (bddend.isZero()) {
             return;
         }
 
         int x = intLen;
-        int y = addend.intLen + n;
+        int y = bddend.intLen + n;
         int resultLen = (intLen > y ? intLen : y);
-        int[] result = (value.length < resultLen ? new int[resultLen] : value);
+        int[] result = (vblue.length < resultLen ? new int[resultLen] : vblue);
 
-        int rstart = result.length-1;
+        int rstbrt = result.length-1;
         long sum;
-        long carry = 0;
+        long cbrry = 0;
 
-        // Add common parts of both numbers
+        // Add common pbrts of both numbers
         while (x > 0 && y > 0) {
             x--; y--;
-            int bval = y+addend.offset < addend.value.length ? addend.value[y+addend.offset] : 0;
-            sum = (value[x+offset] & LONG_MASK) +
-                (bval & LONG_MASK) + carry;
-            result[rstart--] = (int)sum;
-            carry = sum >>> 32;
+            int bvbl = y+bddend.offset < bddend.vblue.length ? bddend.vblue[y+bddend.offset] : 0;
+            sum = (vblue[x+offset] & LONG_MASK) +
+                (bvbl & LONG_MASK) + cbrry;
+            result[rstbrt--] = (int)sum;
+            cbrry = sum >>> 32;
         }
 
-        // Add remainder of the longer number
+        // Add rembinder of the longer number
         while (x > 0) {
             x--;
-            if (carry == 0 && result == value && rstart == (x + offset)) {
+            if (cbrry == 0 && result == vblue && rstbrt == (x + offset)) {
                 return;
             }
-            sum = (value[x+offset] & LONG_MASK) + carry;
-            result[rstart--] = (int)sum;
-            carry = sum >>> 32;
+            sum = (vblue[x+offset] & LONG_MASK) + cbrry;
+            result[rstbrt--] = (int)sum;
+            cbrry = sum >>> 32;
         }
         while (y > 0) {
             y--;
-            int bval = y+addend.offset < addend.value.length ? addend.value[y+addend.offset] : 0;
-            sum = (bval & LONG_MASK) + carry;
-            result[rstart--] = (int)sum;
-            carry = sum >>> 32;
+            int bvbl = y+bddend.offset < bddend.vblue.length ? bddend.vblue[y+bddend.offset] : 0;
+            sum = (bvbl & LONG_MASK) + cbrry;
+            result[rstbrt--] = (int)sum;
+            cbrry = sum >>> 32;
         }
 
-        if (carry > 0) { // Result must grow in length
+        if (cbrry > 0) { // Result must grow in length
             resultLen++;
             if (result.length < resultLen) {
                 int temp[] = new int[resultLen];
-                // Result one word longer from carry-out; copy low-order
+                // Result one word longer from cbrry-out; copy low-order
                 // bits into new result.
-                System.arraycopy(result, 0, temp, 1, result.length);
+                System.brrbycopy(result, 0, temp, 1, result.length);
                 temp[0] = 1;
                 result = temp;
             } else {
-                result[rstart--] = 1;
+                result[rstbrt--] = 1;
             }
         }
 
-        value = result;
+        vblue = result;
         intLen = resultLen;
         offset = result.length - resultLen;
     }
 
     /**
-     * Like {@link #addShifted(MutableBigInteger, int)} but {@code this.intLen} must
-     * not be greater than {@code n}. In other words, concatenates {@code this}
-     * and {@code addend}.
+     * Like {@link #bddShifted(MutbbleBigInteger, int)} but {@code this.intLen} must
+     * not be grebter thbn {@code n}. In other words, concbtenbtes {@code this}
+     * bnd {@code bddend}.
      */
-    void addDisjoint(MutableBigInteger addend, int n) {
-        if (addend.isZero())
+    void bddDisjoint(MutbbleBigInteger bddend, int n) {
+        if (bddend.isZero())
             return;
 
         int x = intLen;
-        int y = addend.intLen + n;
+        int y = bddend.intLen + n;
         int resultLen = (intLen > y ? intLen : y);
         int[] result;
-        if (value.length < resultLen)
+        if (vblue.length < resultLen)
             result = new int[resultLen];
         else {
-            result = value;
-            Arrays.fill(value, offset+intLen, value.length, 0);
+            result = vblue;
+            Arrbys.fill(vblue, offset+intLen, vblue.length, 0);
         }
 
-        int rstart = result.length-1;
+        int rstbrt = result.length-1;
 
         // copy from this if needed
-        System.arraycopy(value, offset, result, rstart+1-x, x);
+        System.brrbycopy(vblue, offset, result, rstbrt+1-x, x);
         y -= x;
-        rstart -= x;
+        rstbrt -= x;
 
-        int len = Math.min(y, addend.value.length-addend.offset);
-        System.arraycopy(addend.value, addend.offset, result, rstart+1-y, len);
+        int len = Mbth.min(y, bddend.vblue.length-bddend.offset);
+        System.brrbycopy(bddend.vblue, bddend.offset, result, rstbrt+1-y, len);
 
-        // zero the gap
-        for (int i=rstart+1-y+len; i < rstart+1; i++)
+        // zero the gbp
+        for (int i=rstbrt+1-y+len; i < rstbrt+1; i++)
             result[i] = 0;
 
-        value = result;
+        vblue = result;
         intLen = resultLen;
         offset = result.length - resultLen;
     }
 
     /**
-     * Adds the low {@code n} ints of {@code addend}.
+     * Adds the low {@code n} ints of {@code bddend}.
      */
-    void addLower(MutableBigInteger addend, int n) {
-        MutableBigInteger a = new MutableBigInteger(addend);
-        if (a.offset + a.intLen >= n) {
-            a.offset = a.offset + a.intLen - n;
-            a.intLen = n;
+    void bddLower(MutbbleBigInteger bddend, int n) {
+        MutbbleBigInteger b = new MutbbleBigInteger(bddend);
+        if (b.offset + b.intLen >= n) {
+            b.offset = b.offset + b.intLen - n;
+            b.intLen = n;
         }
-        a.normalize();
-        add(a);
+        b.normblize();
+        bdd(b);
     }
 
     /**
-     * Subtracts the smaller of this and b from the larger and places the
-     * result into this MutableBigInteger.
+     * Subtrbcts the smbller of this bnd b from the lbrger bnd plbces the
+     * result into this MutbbleBigInteger.
      */
-    int subtract(MutableBigInteger b) {
-        MutableBigInteger a = this;
+    int subtrbct(MutbbleBigInteger b) {
+        MutbbleBigInteger b = this;
 
-        int[] result = value;
-        int sign = a.compare(b);
+        int[] result = vblue;
+        int sign = b.compbre(b);
 
         if (sign == 0) {
             reset();
             return 0;
         }
         if (sign < 0) {
-            MutableBigInteger tmp = a;
-            a = b;
+            MutbbleBigInteger tmp = b;
+            b = b;
             b = tmp;
         }
 
-        int resultLen = a.intLen;
+        int resultLen = b.intLen;
         if (result.length < resultLen)
             result = new int[resultLen];
 
         long diff = 0;
-        int x = a.intLen;
+        int x = b.intLen;
         int y = b.intLen;
-        int rstart = result.length - 1;
+        int rstbrt = result.length - 1;
 
-        // Subtract common parts of both numbers
+        // Subtrbct common pbrts of both numbers
         while (y > 0) {
             x--; y--;
 
-            diff = (a.value[x+a.offset] & LONG_MASK) -
-                   (b.value[y+b.offset] & LONG_MASK) - ((int)-(diff>>32));
-            result[rstart--] = (int)diff;
+            diff = (b.vblue[x+b.offset] & LONG_MASK) -
+                   (b.vblue[y+b.offset] & LONG_MASK) - ((int)-(diff>>32));
+            result[rstbrt--] = (int)diff;
         }
-        // Subtract remainder of longer number
+        // Subtrbct rembinder of longer number
         while (x > 0) {
             x--;
-            diff = (a.value[x+a.offset] & LONG_MASK) - ((int)-(diff>>32));
-            result[rstart--] = (int)diff;
+            diff = (b.vblue[x+b.offset] & LONG_MASK) - ((int)-(diff>>32));
+            result[rstbrt--] = (int)diff;
         }
 
-        value = result;
+        vblue = result;
         intLen = resultLen;
-        offset = value.length - resultLen;
-        normalize();
+        offset = vblue.length - resultLen;
+        normblize();
         return sign;
     }
 
     /**
-     * Subtracts the smaller of a and b from the larger and places the result
-     * into the larger. Returns 1 if the answer is in a, -1 if in b, 0 if no
-     * operation was performed.
+     * Subtrbcts the smbller of b bnd b from the lbrger bnd plbces the result
+     * into the lbrger. Returns 1 if the bnswer is in b, -1 if in b, 0 if no
+     * operbtion wbs performed.
      */
-    private int difference(MutableBigInteger b) {
-        MutableBigInteger a = this;
-        int sign = a.compare(b);
+    privbte int difference(MutbbleBigInteger b) {
+        MutbbleBigInteger b = this;
+        int sign = b.compbre(b);
         if (sign == 0)
             return 0;
         if (sign < 0) {
-            MutableBigInteger tmp = a;
-            a = b;
+            MutbbleBigInteger tmp = b;
+            b = b;
             b = tmp;
         }
 
         long diff = 0;
-        int x = a.intLen;
+        int x = b.intLen;
         int y = b.intLen;
 
-        // Subtract common parts of both numbers
+        // Subtrbct common pbrts of both numbers
         while (y > 0) {
             x--; y--;
-            diff = (a.value[a.offset+ x] & LONG_MASK) -
-                (b.value[b.offset+ y] & LONG_MASK) - ((int)-(diff>>32));
-            a.value[a.offset+x] = (int)diff;
+            diff = (b.vblue[b.offset+ x] & LONG_MASK) -
+                (b.vblue[b.offset+ y] & LONG_MASK) - ((int)-(diff>>32));
+            b.vblue[b.offset+x] = (int)diff;
         }
-        // Subtract remainder of longer number
+        // Subtrbct rembinder of longer number
         while (x > 0) {
             x--;
-            diff = (a.value[a.offset+ x] & LONG_MASK) - ((int)-(diff>>32));
-            a.value[a.offset+x] = (int)diff;
+            diff = (b.vblue[b.offset+ x] & LONG_MASK) - ((int)-(diff>>32));
+            b.vblue[b.offset+x] = (int)diff;
         }
 
-        a.normalize();
+        b.normblize();
         return sign;
     }
 
     /**
-     * Multiply the contents of two MutableBigInteger objects. The result is
-     * placed into MutableBigInteger z. The contents of y are not changed.
+     * Multiply the contents of two MutbbleBigInteger objects. The result is
+     * plbced into MutbbleBigInteger z. The contents of y bre not chbnged.
      */
-    void multiply(MutableBigInteger y, MutableBigInteger z) {
+    void multiply(MutbbleBigInteger y, MutbbleBigInteger z) {
         int xLen = intLen;
         int yLen = y.intLen;
         int newLen = xLen + yLen;
 
-        // Put z into an appropriate state to receive product
-        if (z.value.length < newLen)
-            z.value = new int[newLen];
+        // Put z into bn bppropribte stbte to receive product
+        if (z.vblue.length < newLen)
+            z.vblue = new int[newLen];
         z.offset = 0;
         z.intLen = newLen;
 
-        // The first iteration is hoisted out of the loop to avoid extra add
-        long carry = 0;
+        // The first iterbtion is hoisted out of the loop to bvoid extrb bdd
+        long cbrry = 0;
         for (int j=yLen-1, k=yLen+xLen-1; j >= 0; j--, k--) {
-                long product = (y.value[j+y.offset] & LONG_MASK) *
-                               (value[xLen-1+offset] & LONG_MASK) + carry;
-                z.value[k] = (int)product;
-                carry = product >>> 32;
+                long product = (y.vblue[j+y.offset] & LONG_MASK) *
+                               (vblue[xLen-1+offset] & LONG_MASK) + cbrry;
+                z.vblue[k] = (int)product;
+                cbrry = product >>> 32;
         }
-        z.value[xLen-1] = (int)carry;
+        z.vblue[xLen-1] = (int)cbrry;
 
-        // Perform the multiplication word by word
+        // Perform the multiplicbtion word by word
         for (int i = xLen-2; i >= 0; i--) {
-            carry = 0;
+            cbrry = 0;
             for (int j=yLen-1, k=yLen+i; j >= 0; j--, k--) {
-                long product = (y.value[j+y.offset] & LONG_MASK) *
-                               (value[i+offset] & LONG_MASK) +
-                               (z.value[k] & LONG_MASK) + carry;
-                z.value[k] = (int)product;
-                carry = product >>> 32;
+                long product = (y.vblue[j+y.offset] & LONG_MASK) *
+                               (vblue[i+offset] & LONG_MASK) +
+                               (z.vblue[k] & LONG_MASK) + cbrry;
+                z.vblue[k] = (int)product;
+                cbrry = product >>> 32;
             }
-            z.value[i] = (int)carry;
+            z.vblue[i] = (int)cbrry;
         }
 
-        // Remove leading zeros from product
-        z.normalize();
+        // Remove lebding zeros from product
+        z.normblize();
     }
 
     /**
-     * Multiply the contents of this MutableBigInteger by the word y. The
-     * result is placed into z.
+     * Multiply the contents of this MutbbleBigInteger by the word y. The
+     * result is plbced into z.
      */
-    void mul(int y, MutableBigInteger z) {
+    void mul(int y, MutbbleBigInteger z) {
         if (y == 1) {
-            z.copyValue(this);
+            z.copyVblue(this);
             return;
         }
 
         if (y == 0) {
-            z.clear();
+            z.clebr();
             return;
         }
 
-        // Perform the multiplication word by word
+        // Perform the multiplicbtion word by word
         long ylong = y & LONG_MASK;
-        int[] zval = (z.value.length < intLen+1 ? new int[intLen + 1]
-                                              : z.value);
-        long carry = 0;
+        int[] zvbl = (z.vblue.length < intLen+1 ? new int[intLen + 1]
+                                              : z.vblue);
+        long cbrry = 0;
         for (int i = intLen-1; i >= 0; i--) {
-            long product = ylong * (value[i+offset] & LONG_MASK) + carry;
-            zval[i+1] = (int)product;
-            carry = product >>> 32;
+            long product = ylong * (vblue[i+offset] & LONG_MASK) + cbrry;
+            zvbl[i+1] = (int)product;
+            cbrry = product >>> 32;
         }
 
-        if (carry == 0) {
+        if (cbrry == 0) {
             z.offset = 1;
             z.intLen = intLen;
         } else {
             z.offset = 0;
             z.intLen = intLen + 1;
-            zval[0] = (int)carry;
+            zvbl[0] = (int)cbrry;
         }
-        z.value = zval;
+        z.vblue = zvbl;
     }
 
      /**
-     * This method is used for division of an n word dividend by a one word
-     * divisor. The quotient is placed into quotient. The one word divisor is
+     * This method is used for division of bn n word dividend by b one word
+     * divisor. The quotient is plbced into quotient. The one word divisor is
      * specified by divisor.
      *
-     * @return the remainder of the division is returned.
+     * @return the rembinder of the division is returned.
      *
      */
-    int divideOneWord(int divisor, MutableBigInteger quotient) {
+    int divideOneWord(int divisor, MutbbleBigInteger quotient) {
         long divisorLong = divisor & LONG_MASK;
 
-        // Special case of one word dividend
+        // Specibl cbse of one word dividend
         if (intLen == 1) {
-            long dividendValue = value[offset] & LONG_MASK;
-            int q = (int) (dividendValue / divisorLong);
-            int r = (int) (dividendValue - q * divisorLong);
-            quotient.value[0] = q;
+            long dividendVblue = vblue[offset] & LONG_MASK;
+            int q = (int) (dividendVblue / divisorLong);
+            int r = (int) (dividendVblue - q * divisorLong);
+            quotient.vblue[0] = q;
             quotient.intLen = (q == 0) ? 0 : 1;
             quotient.offset = 0;
             return r;
         }
 
-        if (quotient.value.length < intLen)
-            quotient.value = new int[intLen];
+        if (quotient.vblue.length < intLen)
+            quotient.vblue = new int[intLen];
         quotient.offset = 0;
         quotient.intLen = intLen;
 
-        // Normalize the divisor
-        int shift = Integer.numberOfLeadingZeros(divisor);
+        // Normblize the divisor
+        int shift = Integer.numberOfLebdingZeros(divisor);
 
-        int rem = value[offset];
+        int rem = vblue[offset];
         long remLong = rem & LONG_MASK;
         if (remLong < divisorLong) {
-            quotient.value[0] = 0;
+            quotient.vblue[0] = 0;
         } else {
-            quotient.value[0] = (int)(remLong / divisorLong);
-            rem = (int) (remLong - (quotient.value[0] * divisorLong));
+            quotient.vblue[0] = (int)(remLong / divisorLong);
+            rem = (int) (remLong - (quotient.vblue[0] * divisorLong));
             remLong = rem & LONG_MASK;
         }
         int xlen = intLen;
         while (--xlen > 0) {
-            long dividendEstimate = (remLong << 32) |
-                    (value[offset + intLen - xlen] & LONG_MASK);
+            long dividendEstimbte = (remLong << 32) |
+                    (vblue[offset + intLen - xlen] & LONG_MASK);
             int q;
-            if (dividendEstimate >= 0) {
-                q = (int) (dividendEstimate / divisorLong);
-                rem = (int) (dividendEstimate - q * divisorLong);
+            if (dividendEstimbte >= 0) {
+                q = (int) (dividendEstimbte / divisorLong);
+                rem = (int) (dividendEstimbte - q * divisorLong);
             } else {
-                long tmp = divWord(dividendEstimate, divisor);
+                long tmp = divWord(dividendEstimbte, divisor);
                 q = (int) (tmp & LONG_MASK);
                 rem = (int) (tmp >>> 32);
             }
-            quotient.value[intLen - xlen] = q;
+            quotient.vblue[intLen - xlen] = q;
             remLong = rem & LONG_MASK;
         }
 
-        quotient.normalize();
-        // Unnormalize
+        quotient.normblize();
+        // Unnormblize
         if (shift > 0)
             return rem % divisor;
         else
@@ -1139,271 +1139,271 @@ class MutableBigInteger {
     }
 
     /**
-     * Calculates the quotient of this div b and places the quotient in the
-     * provided MutableBigInteger objects and the remainder object is returned.
+     * Cblculbtes the quotient of this div b bnd plbces the quotient in the
+     * provided MutbbleBigInteger objects bnd the rembinder object is returned.
      *
      */
-    MutableBigInteger divide(MutableBigInteger b, MutableBigInteger quotient) {
+    MutbbleBigInteger divide(MutbbleBigInteger b, MutbbleBigInteger quotient) {
         return divide(b,quotient,true);
     }
 
-    MutableBigInteger divide(MutableBigInteger b, MutableBigInteger quotient, boolean needRemainder) {
+    MutbbleBigInteger divide(MutbbleBigInteger b, MutbbleBigInteger quotient, boolebn needRembinder) {
         if (b.intLen < BigInteger.BURNIKEL_ZIEGLER_THRESHOLD ||
                 intLen - b.intLen < BigInteger.BURNIKEL_ZIEGLER_OFFSET) {
-            return divideKnuth(b, quotient, needRemainder);
+            return divideKnuth(b, quotient, needRembinder);
         } else {
-            return divideAndRemainderBurnikelZiegler(b, quotient);
+            return divideAndRembinderBurnikelZiegler(b, quotient);
         }
     }
 
     /**
-     * @see #divideKnuth(MutableBigInteger, MutableBigInteger, boolean)
+     * @see #divideKnuth(MutbbleBigInteger, MutbbleBigInteger, boolebn)
      */
-    MutableBigInteger divideKnuth(MutableBigInteger b, MutableBigInteger quotient) {
+    MutbbleBigInteger divideKnuth(MutbbleBigInteger b, MutbbleBigInteger quotient) {
         return divideKnuth(b,quotient,true);
     }
 
     /**
-     * Calculates the quotient of this div b and places the quotient in the
-     * provided MutableBigInteger objects and the remainder object is returned.
+     * Cblculbtes the quotient of this div b bnd plbces the quotient in the
+     * provided MutbbleBigInteger objects bnd the rembinder object is returned.
      *
      * Uses Algorithm D in Knuth section 4.3.1.
-     * Many optimizations to that algorithm have been adapted from the Colin
-     * Plumb C library.
-     * It special cases one word divisors for speed. The content of b is not
-     * changed.
+     * Mbny optimizbtions to thbt blgorithm hbve been bdbpted from the Colin
+     * Plumb C librbry.
+     * It specibl cbses one word divisors for speed. The content of b is not
+     * chbnged.
      *
      */
-    MutableBigInteger divideKnuth(MutableBigInteger b, MutableBigInteger quotient, boolean needRemainder) {
+    MutbbleBigInteger divideKnuth(MutbbleBigInteger b, MutbbleBigInteger quotient, boolebn needRembinder) {
         if (b.intLen == 0)
             throw new ArithmeticException("BigInteger divide by zero");
 
         // Dividend is zero
         if (intLen == 0) {
             quotient.intLen = quotient.offset = 0;
-            return needRemainder ? new MutableBigInteger() : null;
+            return needRembinder ? new MutbbleBigInteger() : null;
         }
 
-        int cmp = compare(b);
-        // Dividend less than divisor
+        int cmp = compbre(b);
+        // Dividend less thbn divisor
         if (cmp < 0) {
             quotient.intLen = quotient.offset = 0;
-            return needRemainder ? new MutableBigInteger(this) : null;
+            return needRembinder ? new MutbbleBigInteger(this) : null;
         }
-        // Dividend equal to divisor
+        // Dividend equbl to divisor
         if (cmp == 0) {
-            quotient.value[0] = quotient.intLen = 1;
+            quotient.vblue[0] = quotient.intLen = 1;
             quotient.offset = 0;
-            return needRemainder ? new MutableBigInteger() : null;
+            return needRembinder ? new MutbbleBigInteger() : null;
         }
 
-        quotient.clear();
-        // Special case one word divisor
+        quotient.clebr();
+        // Specibl cbse one word divisor
         if (b.intLen == 1) {
-            int r = divideOneWord(b.value[b.offset], quotient);
-            if(needRemainder) {
+            int r = divideOneWord(b.vblue[b.offset], quotient);
+            if(needRembinder) {
                 if (r == 0)
-                    return new MutableBigInteger();
-                return new MutableBigInteger(r);
+                    return new MutbbleBigInteger();
+                return new MutbbleBigInteger(r);
             } else {
                 return null;
             }
         }
 
-        // Cancel common powers of two if we're above the KNUTH_POW2_* thresholds
+        // Cbncel common powers of two if we're bbove the KNUTH_POW2_* thresholds
         if (intLen >= KNUTH_POW2_THRESH_LEN) {
-            int trailingZeroBits = Math.min(getLowestSetBit(), b.getLowestSetBit());
-            if (trailingZeroBits >= KNUTH_POW2_THRESH_ZEROS*32) {
-                MutableBigInteger a = new MutableBigInteger(this);
-                b = new MutableBigInteger(b);
-                a.rightShift(trailingZeroBits);
-                b.rightShift(trailingZeroBits);
-                MutableBigInteger r = a.divideKnuth(b, quotient);
-                r.leftShift(trailingZeroBits);
+            int trbilingZeroBits = Mbth.min(getLowestSetBit(), b.getLowestSetBit());
+            if (trbilingZeroBits >= KNUTH_POW2_THRESH_ZEROS*32) {
+                MutbbleBigInteger b = new MutbbleBigInteger(this);
+                b = new MutbbleBigInteger(b);
+                b.rightShift(trbilingZeroBits);
+                b.rightShift(trbilingZeroBits);
+                MutbbleBigInteger r = b.divideKnuth(b, quotient);
+                r.leftShift(trbilingZeroBits);
                 return r;
             }
         }
 
-        return divideMagnitude(b, quotient, needRemainder);
+        return divideMbgnitude(b, quotient, needRembinder);
     }
 
     /**
-     * Computes {@code this/b} and {@code this%b} using the
-     * <a href="http://cr.yp.to/bib/1998/burnikel.ps"> Burnikel-Ziegler algorithm</a>.
-     * This method implements algorithm 3 from pg. 9 of the Burnikel-Ziegler paper.
-     * The parameter beta was chosen to b 2<sup>32</sup> so almost all shifts are
+     * Computes {@code this/b} bnd {@code this%b} using the
+     * <b href="http://cr.yp.to/bib/1998/burnikel.ps"> Burnikel-Ziegler blgorithm</b>.
+     * This method implements blgorithm 3 from pg. 9 of the Burnikel-Ziegler pbper.
+     * The pbrbmeter betb wbs chosen to b 2<sup>32</sup> so blmost bll shifts bre
      * multiples of 32 bits.<br/>
-     * {@code this} and {@code b} must be nonnegative.
-     * @param b the divisor
-     * @param quotient output parameter for {@code this/b}
-     * @return the remainder
+     * {@code this} bnd {@code b} must be nonnegbtive.
+     * @pbrbm b the divisor
+     * @pbrbm quotient output pbrbmeter for {@code this/b}
+     * @return the rembinder
      */
-    MutableBigInteger divideAndRemainderBurnikelZiegler(MutableBigInteger b, MutableBigInteger quotient) {
+    MutbbleBigInteger divideAndRembinderBurnikelZiegler(MutbbleBigInteger b, MutbbleBigInteger quotient) {
         int r = intLen;
         int s = b.intLen;
 
-        // Clear the quotient
+        // Clebr the quotient
         quotient.offset = quotient.intLen = 0;
 
         if (r < s) {
             return this;
         } else {
-            // Unlike Knuth division, we don't check for common powers of two here because
-            // BZ already runs faster if both numbers contain powers of two and cancelling them has no
-            // additional benefit.
+            // Unlike Knuth division, we don't check for common powers of two here becbuse
+            // BZ blrebdy runs fbster if both numbers contbin powers of two bnd cbncelling them hbs no
+            // bdditionbl benefit.
 
             // step 1: let m = min{2^k | (2^k)*BURNIKEL_ZIEGLER_THRESHOLD > s}
-            int m = 1 << (32-Integer.numberOfLeadingZeros(s/BigInteger.BURNIKEL_ZIEGLER_THRESHOLD));
+            int m = 1 << (32-Integer.numberOfLebdingZeros(s/BigInteger.BURNIKEL_ZIEGLER_THRESHOLD));
 
-            int j = (s+m-1) / m;      // step 2a: j = ceil(s/m)
+            int j = (s+m-1) / m;      // step 2b: j = ceil(s/m)
             int n = j * m;            // step 2b: block length in 32-bit units
             long n32 = 32L * n;         // block length in bits
-            int sigma = (int) Math.max(0, n32 - b.bitLength());   // step 3: sigma = max{T | (2^T)*B < beta^n}
-            MutableBigInteger bShifted = new MutableBigInteger(b);
-            bShifted.safeLeftShift(sigma);   // step 4a: shift b so its length is a multiple of n
-            safeLeftShift(sigma);     // step 4b: shift this by the same amount
+            int sigmb = (int) Mbth.mbx(0, n32 - b.bitLength());   // step 3: sigmb = mbx{T | (2^T)*B < betb^n}
+            MutbbleBigInteger bShifted = new MutbbleBigInteger(b);
+            bShifted.sbfeLeftShift(sigmb);   // step 4b: shift b so its length is b multiple of n
+            sbfeLeftShift(sigmb);     // step 4b: shift this by the sbme bmount
 
-            // step 5: t is the number of blocks needed to accommodate this plus one additional bit
+            // step 5: t is the number of blocks needed to bccommodbte this plus one bdditionbl bit
             int t = (int) ((bitLength()+n32) / n32);
             if (t < 2) {
                 t = 2;
             }
 
-            // step 6: conceptually split this into blocks a[t-1], ..., a[0]
-            MutableBigInteger a1 = getBlock(t-1, t, n);   // the most significant block of this
+            // step 6: conceptublly split this into blocks b[t-1], ..., b[0]
+            MutbbleBigInteger b1 = getBlock(t-1, t, n);   // the most significbnt block of this
 
-            // step 7: z[t-2] = [a[t-1], a[t-2]]
-            MutableBigInteger z = getBlock(t-2, t, n);    // the second to most significant block
-            z.addDisjoint(a1, n);   // z[t-2]
+            // step 7: z[t-2] = [b[t-1], b[t-2]]
+            MutbbleBigInteger z = getBlock(t-2, t, n);    // the second to most significbnt block
+            z.bddDisjoint(b1, n);   // z[t-2]
 
             // do schoolbook division on blocks, dividing 2-block numbers by 1-block numbers
-            MutableBigInteger qi = new MutableBigInteger();
-            MutableBigInteger ri;
+            MutbbleBigInteger qi = new MutbbleBigInteger();
+            MutbbleBigInteger ri;
             for (int i=t-2; i > 0; i--) {
-                // step 8a: compute (qi,ri) such that z=b*qi+ri
+                // step 8b: compute (qi,ri) such thbt z=b*qi+ri
                 ri = z.divide2n1n(bShifted, qi);
 
-                // step 8b: z = [ri, a[i-1]]
-                z = getBlock(i-1, t, n);   // a[i-1]
-                z.addDisjoint(ri, n);
-                quotient.addShifted(qi, i*n);   // update q (part of step 9)
+                // step 8b: z = [ri, b[i-1]]
+                z = getBlock(i-1, t, n);   // b[i-1]
+                z.bddDisjoint(ri, n);
+                quotient.bddShifted(qi, i*n);   // updbte q (pbrt of step 9)
             }
-            // final iteration of step 8: do the loop one more time for i=0 but leave z unchanged
+            // finbl iterbtion of step 8: do the loop one more time for i=0 but lebve z unchbnged
             ri = z.divide2n1n(bShifted, qi);
-            quotient.add(qi);
+            quotient.bdd(qi);
 
-            ri.rightShift(sigma);   // step 9: this and b were shifted, so shift back
+            ri.rightShift(sigmb);   // step 9: this bnd b were shifted, so shift bbck
             return ri;
         }
     }
 
     /**
-     * This method implements algorithm 1 from pg. 4 of the Burnikel-Ziegler paper.
-     * It divides a 2n-digit number by a n-digit number.<br/>
-     * The parameter beta is 2<sup>32</sup> so all shifts are multiples of 32 bits.
+     * This method implements blgorithm 1 from pg. 4 of the Burnikel-Ziegler pbper.
+     * It divides b 2n-digit number by b n-digit number.<br/>
+     * The pbrbmeter betb is 2<sup>32</sup> so bll shifts bre multiples of 32 bits.
      * <br/>
-     * {@code this} must be a nonnegative number such that {@code this.bitLength() <= 2*b.bitLength()}
-     * @param b a positive number such that {@code b.bitLength()} is even
-     * @param quotient output parameter for {@code this/b}
+     * {@code this} must be b nonnegbtive number such thbt {@code this.bitLength() <= 2*b.bitLength()}
+     * @pbrbm b b positive number such thbt {@code b.bitLength()} is even
+     * @pbrbm quotient output pbrbmeter for {@code this/b}
      * @return {@code this%b}
      */
-    private MutableBigInteger divide2n1n(MutableBigInteger b, MutableBigInteger quotient) {
+    privbte MutbbleBigInteger divide2n1n(MutbbleBigInteger b, MutbbleBigInteger quotient) {
         int n = b.intLen;
 
-        // step 1: base case
+        // step 1: bbse cbse
         if (n%2 != 0 || n < BigInteger.BURNIKEL_ZIEGLER_THRESHOLD) {
             return divideKnuth(b, quotient);
         }
 
-        // step 2: view this as [a1,a2,a3,a4] where each ai is n/2 ints or less
-        MutableBigInteger aUpper = new MutableBigInteger(this);
-        aUpper.safeRightShift(32*(n/2));   // aUpper = [a1,a2,a3]
-        keepLower(n/2);   // this = a4
+        // step 2: view this bs [b1,b2,b3,b4] where ebch bi is n/2 ints or less
+        MutbbleBigInteger bUpper = new MutbbleBigInteger(this);
+        bUpper.sbfeRightShift(32*(n/2));   // bUpper = [b1,b2,b3]
+        keepLower(n/2);   // this = b4
 
-        // step 3: q1=aUpper/b, r1=aUpper%b
-        MutableBigInteger q1 = new MutableBigInteger();
-        MutableBigInteger r1 = aUpper.divide3n2n(b, q1);
+        // step 3: q1=bUpper/b, r1=bUpper%b
+        MutbbleBigInteger q1 = new MutbbleBigInteger();
+        MutbbleBigInteger r1 = bUpper.divide3n2n(b, q1);
 
         // step 4: quotient=[r1,this]/b, r2=[r1,this]%b
-        addDisjoint(r1, n/2);   // this = [r1,this]
-        MutableBigInteger r2 = divide3n2n(b, quotient);
+        bddDisjoint(r1, n/2);   // this = [r1,this]
+        MutbbleBigInteger r2 = divide3n2n(b, quotient);
 
-        // step 5: let quotient=[q1,quotient] and return r2
-        quotient.addDisjoint(q1, n/2);
+        // step 5: let quotient=[q1,quotient] bnd return r2
+        quotient.bddDisjoint(q1, n/2);
         return r2;
     }
 
     /**
-     * This method implements algorithm 2 from pg. 5 of the Burnikel-Ziegler paper.
-     * It divides a 3n-digit number by a 2n-digit number.<br/>
-     * The parameter beta is 2<sup>32</sup> so all shifts are multiples of 32 bits.<br/>
+     * This method implements blgorithm 2 from pg. 5 of the Burnikel-Ziegler pbper.
+     * It divides b 3n-digit number by b 2n-digit number.<br/>
+     * The pbrbmeter betb is 2<sup>32</sup> so bll shifts bre multiples of 32 bits.<br/>
      * <br/>
-     * {@code this} must be a nonnegative number such that {@code 2*this.bitLength() <= 3*b.bitLength()}
-     * @param quotient output parameter for {@code this/b}
+     * {@code this} must be b nonnegbtive number such thbt {@code 2*this.bitLength() <= 3*b.bitLength()}
+     * @pbrbm quotient output pbrbmeter for {@code this/b}
      * @return {@code this%b}
      */
-    private MutableBigInteger divide3n2n(MutableBigInteger b, MutableBigInteger quotient) {
-        int n = b.intLen / 2;   // half the length of b in ints
+    privbte MutbbleBigInteger divide3n2n(MutbbleBigInteger b, MutbbleBigInteger quotient) {
+        int n = b.intLen / 2;   // hblf the length of b in ints
 
-        // step 1: view this as [a1,a2,a3] where each ai is n ints or less; let a12=[a1,a2]
-        MutableBigInteger a12 = new MutableBigInteger(this);
-        a12.safeRightShift(32*n);
+        // step 1: view this bs [b1,b2,b3] where ebch bi is n ints or less; let b12=[b1,b2]
+        MutbbleBigInteger b12 = new MutbbleBigInteger(this);
+        b12.sbfeRightShift(32*n);
 
-        // step 2: view b as [b1,b2] where each bi is n ints or less
-        MutableBigInteger b1 = new MutableBigInteger(b);
-        b1.safeRightShift(n * 32);
+        // step 2: view b bs [b1,b2] where ebch bi is n ints or less
+        MutbbleBigInteger b1 = new MutbbleBigInteger(b);
+        b1.sbfeRightShift(n * 32);
         BigInteger b2 = b.getLower(n);
 
-        MutableBigInteger r;
-        MutableBigInteger d;
-        if (compareShifted(b, n) < 0) {
-            // step 3a: if a1<b1, let quotient=a12/b1 and r=a12%b1
-            r = a12.divide2n1n(b1, quotient);
+        MutbbleBigInteger r;
+        MutbbleBigInteger d;
+        if (compbreShifted(b, n) < 0) {
+            // step 3b: if b1<b1, let quotient=b12/b1 bnd r=b12%b1
+            r = b12.divide2n1n(b1, quotient);
 
             // step 4: d=quotient*b2
-            d = new MutableBigInteger(quotient.toBigInteger().multiply(b2));
+            d = new MutbbleBigInteger(quotient.toBigInteger().multiply(b2));
         } else {
-            // step 3b: if a1>=b1, let quotient=beta^n-1 and r=a12-b1*2^n+b1
+            // step 3b: if b1>=b1, let quotient=betb^n-1 bnd r=b12-b1*2^n+b1
             quotient.ones(n);
-            a12.add(b1);
+            b12.bdd(b1);
             b1.leftShift(32*n);
-            a12.subtract(b1);
-            r = a12;
+            b12.subtrbct(b1);
+            r = b12;
 
             // step 4: d=quotient*b2=(b2 << 32*n) - b2
-            d = new MutableBigInteger(b2);
+            d = new MutbbleBigInteger(b2);
             d.leftShift(32 * n);
-            d.subtract(new MutableBigInteger(b2));
+            d.subtrbct(new MutbbleBigInteger(b2));
         }
 
-        // step 5: r = r*beta^n + a3 - d (paper says a4)
-        // However, don't subtract d until after the while loop so r doesn't become negative
+        // step 5: r = r*betb^n + b3 - d (pbper sbys b4)
+        // However, don't subtrbct d until bfter the while loop so r doesn't become negbtive
         r.leftShift(32 * n);
-        r.addLower(this, n);
+        r.bddLower(this, n);
 
-        // step 6: add b until r>=d
-        while (r.compare(d) < 0) {
-            r.add(b);
-            quotient.subtract(MutableBigInteger.ONE);
+        // step 6: bdd b until r>=d
+        while (r.compbre(d) < 0) {
+            r.bdd(b);
+            quotient.subtrbct(MutbbleBigInteger.ONE);
         }
-        r.subtract(d);
+        r.subtrbct(d);
 
         return r;
     }
 
     /**
-     * Returns a {@code MutableBigInteger} containing {@code blockLength} ints from
-     * {@code this} number, starting at {@code index*blockLength}.<br/>
+     * Returns b {@code MutbbleBigInteger} contbining {@code blockLength} ints from
+     * {@code this} number, stbrting bt {@code index*blockLength}.<br/>
      * Used by Burnikel-Ziegler division.
-     * @param index the block index
-     * @param numBlocks the total number of blocks in {@code this} number
-     * @param blockLength length of one block in units of 32 bits
+     * @pbrbm index the block index
+     * @pbrbm numBlocks the totbl number of blocks in {@code this} number
+     * @pbrbm blockLength length of one block in units of 32 bits
      * @return
      */
-    private MutableBigInteger getBlock(int index, int numBlocks, int blockLength) {
-        int blockStart = index * blockLength;
-        if (blockStart >= intLen) {
-            return new MutableBigInteger();
+    privbte MutbbleBigInteger getBlock(int index, int numBlocks, int blockLength) {
+        int blockStbrt = index * blockLength;
+        if (blockStbrt >= intLen) {
+            return new MutbbleBigInteger();
         }
 
         int blockEnd;
@@ -1413,28 +1413,28 @@ class MutableBigInteger {
             blockEnd = (index+1) * blockLength;
         }
         if (blockEnd > intLen) {
-            return new MutableBigInteger();
+            return new MutbbleBigInteger();
         }
 
-        int[] newVal = Arrays.copyOfRange(value, offset+intLen-blockEnd, offset+intLen-blockStart);
-        return new MutableBigInteger(newVal);
+        int[] newVbl = Arrbys.copyOfRbnge(vblue, offset+intLen-blockEnd, offset+intLen-blockStbrt);
+        return new MutbbleBigInteger(newVbl);
     }
 
     /** @see BigInteger#bitLength() */
     long bitLength() {
         if (intLen == 0)
             return 0;
-        return intLen*32L - Integer.numberOfLeadingZeros(value[offset]);
+        return intLen*32L - Integer.numberOfLebdingZeros(vblue[offset]);
     }
 
     /**
-     * Internally used  to calculate the quotient of this div v and places the
-     * quotient in the provided MutableBigInteger object and the remainder is
+     * Internblly used  to cblculbte the quotient of this div v bnd plbces the
+     * quotient in the provided MutbbleBigInteger object bnd the rembinder is
      * returned.
      *
-     * @return the remainder of the division will be returned.
+     * @return the rembinder of the division will be returned.
      */
-    long divide(long v, MutableBigInteger quotient) {
+    long divide(long v, MutbbleBigInteger quotient) {
         if (v == 0)
             throw new ArithmeticException("BigInteger divide by zero");
 
@@ -1447,16 +1447,16 @@ class MutableBigInteger {
             v = -v;
 
         int d = (int)(v >>> 32);
-        quotient.clear();
-        // Special case on word divisor
+        quotient.clebr();
+        // Specibl cbse on word divisor
         if (d == 0)
             return divideOneWord((int)v, quotient) & LONG_MASK;
         else {
-            return divideLongMagnitude(v, quotient).toLong();
+            return divideLongMbgnitude(v, quotient).toLong();
         }
     }
 
-    private static void copyAndShift(int[] src, int srcFrom, int srcLen, int[] dst, int dstFrom, int shift) {
+    privbte stbtic void copyAndShift(int[] src, int srcFrom, int srcLen, int[] dst, int dstFrom, int shift) {
         int n2 = 32 - shift;
         int c=src[srcFrom];
         for (int i=0; i < srcLen-1; i++) {
@@ -1468,32 +1468,32 @@ class MutableBigInteger {
     }
 
     /**
-     * Divide this MutableBigInteger by the divisor.
-     * The quotient will be placed into the provided quotient object &
-     * the remainder object is returned.
+     * Divide this MutbbleBigInteger by the divisor.
+     * The quotient will be plbced into the provided quotient object &
+     * the rembinder object is returned.
      */
-    private MutableBigInteger divideMagnitude(MutableBigInteger div,
-                                              MutableBigInteger quotient,
-                                              boolean needRemainder ) {
-        // assert div.intLen > 1
-        // D1 normalize the divisor
-        int shift = Integer.numberOfLeadingZeros(div.value[div.offset]);
-        // Copy divisor value to protect divisor
-        final int dlen = div.intLen;
+    privbte MutbbleBigInteger divideMbgnitude(MutbbleBigInteger div,
+                                              MutbbleBigInteger quotient,
+                                              boolebn needRembinder ) {
+        // bssert div.intLen > 1
+        // D1 normblize the divisor
+        int shift = Integer.numberOfLebdingZeros(div.vblue[div.offset]);
+        // Copy divisor vblue to protect divisor
+        finbl int dlen = div.intLen;
         int[] divisor;
-        MutableBigInteger rem; // Remainder starts as dividend with space for a leading zero
+        MutbbleBigInteger rem; // Rembinder stbrts bs dividend with spbce for b lebding zero
         if (shift > 0) {
             divisor = new int[dlen];
-            copyAndShift(div.value,div.offset,dlen,divisor,0,shift);
-            if (Integer.numberOfLeadingZeros(value[offset]) >= shift) {
-                int[] remarr = new int[intLen + 1];
-                rem = new MutableBigInteger(remarr);
+            copyAndShift(div.vblue,div.offset,dlen,divisor,0,shift);
+            if (Integer.numberOfLebdingZeros(vblue[offset]) >= shift) {
+                int[] rembrr = new int[intLen + 1];
+                rem = new MutbbleBigInteger(rembrr);
                 rem.intLen = intLen;
                 rem.offset = 1;
-                copyAndShift(value,offset,intLen,remarr,1,shift);
+                copyAndShift(vblue,offset,intLen,rembrr,1,shift);
             } else {
-                int[] remarr = new int[intLen + 2];
-                rem = new MutableBigInteger(remarr);
+                int[] rembrr = new int[intLen + 2];
+                rem = new MutbbleBigInteger(rembrr);
                 rem.intLen = intLen+1;
                 rem.offset = 1;
                 int rFrom = offset;
@@ -1501,15 +1501,15 @@ class MutableBigInteger {
                 int n2 = 32 - shift;
                 for (int i=1; i < intLen+1; i++,rFrom++) {
                     int b = c;
-                    c = value[rFrom];
-                    remarr[i] = (b << shift) | (c >>> n2);
+                    c = vblue[rFrom];
+                    rembrr[i] = (b << shift) | (c >>> n2);
                 }
-                remarr[intLen+1] = c << shift;
+                rembrr[intLen+1] = c << shift;
             }
         } else {
-            divisor = Arrays.copyOfRange(div.value, div.offset, div.offset + div.intLen);
-            rem = new MutableBigInteger(new int[intLen + 1]);
-            System.arraycopy(value, offset, rem.value, 1, intLen);
+            divisor = Arrbys.copyOfRbnge(div.vblue, div.offset, div.offset + div.intLen);
+            rem = new MutbbleBigInteger(new int[intLen + 1]);
+            System.brrbycopy(vblue, offset, rem.vblue, 1, intLen);
             rem.intLen = intLen;
             rem.offset = 1;
         }
@@ -1517,19 +1517,19 @@ class MutableBigInteger {
         int nlen = rem.intLen;
 
         // Set the quotient size
-        final int limit = nlen - dlen + 1;
-        if (quotient.value.length < limit) {
-            quotient.value = new int[limit];
+        finbl int limit = nlen - dlen + 1;
+        if (quotient.vblue.length < limit) {
+            quotient.vblue = new int[limit];
             quotient.offset = 0;
         }
         quotient.intLen = limit;
-        int[] q = quotient.value;
+        int[] q = quotient.vblue;
 
 
-        // Must insert leading 0 in rem if its length did not change
+        // Must insert lebding 0 in rem if its length did not chbnge
         if (rem.intLen == nlen) {
             rem.offset = 0;
-            rem.value[0] = 0;
+            rem.vblue[0] = 0;
             rem.intLen++;
         }
 
@@ -1537,174 +1537,174 @@ class MutableBigInteger {
         long dhLong = dh & LONG_MASK;
         int dl = divisor[1];
 
-        // D2 Initialize j
+        // D2 Initiblize j
         for (int j=0; j < limit-1; j++) {
-            // D3 Calculate qhat
-            // estimate qhat
-            int qhat = 0;
+            // D3 Cblculbte qhbt
+            // estimbte qhbt
+            int qhbt = 0;
             int qrem = 0;
-            boolean skipCorrection = false;
-            int nh = rem.value[j+rem.offset];
+            boolebn skipCorrection = fblse;
+            int nh = rem.vblue[j+rem.offset];
             int nh2 = nh + 0x80000000;
-            int nm = rem.value[j+1+rem.offset];
+            int nm = rem.vblue[j+1+rem.offset];
 
             if (nh == dh) {
-                qhat = ~0;
+                qhbt = ~0;
                 qrem = nh + nm;
                 skipCorrection = qrem + 0x80000000 < nh2;
             } else {
                 long nChunk = (((long)nh) << 32) | (nm & LONG_MASK);
                 if (nChunk >= 0) {
-                    qhat = (int) (nChunk / dhLong);
-                    qrem = (int) (nChunk - (qhat * dhLong));
+                    qhbt = (int) (nChunk / dhLong);
+                    qrem = (int) (nChunk - (qhbt * dhLong));
                 } else {
                     long tmp = divWord(nChunk, dh);
-                    qhat = (int) (tmp & LONG_MASK);
+                    qhbt = (int) (tmp & LONG_MASK);
                     qrem = (int) (tmp >>> 32);
                 }
             }
 
-            if (qhat == 0)
+            if (qhbt == 0)
                 continue;
 
-            if (!skipCorrection) { // Correct qhat
-                long nl = rem.value[j+2+rem.offset] & LONG_MASK;
+            if (!skipCorrection) { // Correct qhbt
+                long nl = rem.vblue[j+2+rem.offset] & LONG_MASK;
                 long rs = ((qrem & LONG_MASK) << 32) | nl;
-                long estProduct = (dl & LONG_MASK) * (qhat & LONG_MASK);
+                long estProduct = (dl & LONG_MASK) * (qhbt & LONG_MASK);
 
-                if (unsignedLongCompare(estProduct, rs)) {
-                    qhat--;
+                if (unsignedLongCompbre(estProduct, rs)) {
+                    qhbt--;
                     qrem = (int)((qrem & LONG_MASK) + dhLong);
                     if ((qrem & LONG_MASK) >=  dhLong) {
                         estProduct -= (dl & LONG_MASK);
                         rs = ((qrem & LONG_MASK) << 32) | nl;
-                        if (unsignedLongCompare(estProduct, rs))
-                            qhat--;
+                        if (unsignedLongCompbre(estProduct, rs))
+                            qhbt--;
                     }
                 }
             }
 
-            // D4 Multiply and subtract
-            rem.value[j+rem.offset] = 0;
-            int borrow = mulsub(rem.value, divisor, qhat, dlen, j+rem.offset);
+            // D4 Multiply bnd subtrbct
+            rem.vblue[j+rem.offset] = 0;
+            int borrow = mulsub(rem.vblue, divisor, qhbt, dlen, j+rem.offset);
 
-            // D5 Test remainder
+            // D5 Test rembinder
             if (borrow + 0x80000000 > nh2) {
-                // D6 Add back
-                divadd(divisor, rem.value, j+1+rem.offset);
-                qhat--;
+                // D6 Add bbck
+                divbdd(divisor, rem.vblue, j+1+rem.offset);
+                qhbt--;
             }
 
             // Store the quotient digit
-            q[j] = qhat;
+            q[j] = qhbt;
         } // D7 loop on j
-        // D3 Calculate qhat
-        // estimate qhat
-        int qhat = 0;
+        // D3 Cblculbte qhbt
+        // estimbte qhbt
+        int qhbt = 0;
         int qrem = 0;
-        boolean skipCorrection = false;
-        int nh = rem.value[limit - 1 + rem.offset];
+        boolebn skipCorrection = fblse;
+        int nh = rem.vblue[limit - 1 + rem.offset];
         int nh2 = nh + 0x80000000;
-        int nm = rem.value[limit + rem.offset];
+        int nm = rem.vblue[limit + rem.offset];
 
         if (nh == dh) {
-            qhat = ~0;
+            qhbt = ~0;
             qrem = nh + nm;
             skipCorrection = qrem + 0x80000000 < nh2;
         } else {
             long nChunk = (((long) nh) << 32) | (nm & LONG_MASK);
             if (nChunk >= 0) {
-                qhat = (int) (nChunk / dhLong);
-                qrem = (int) (nChunk - (qhat * dhLong));
+                qhbt = (int) (nChunk / dhLong);
+                qrem = (int) (nChunk - (qhbt * dhLong));
             } else {
                 long tmp = divWord(nChunk, dh);
-                qhat = (int) (tmp & LONG_MASK);
+                qhbt = (int) (tmp & LONG_MASK);
                 qrem = (int) (tmp >>> 32);
             }
         }
-        if (qhat != 0) {
-            if (!skipCorrection) { // Correct qhat
-                long nl = rem.value[limit + 1 + rem.offset] & LONG_MASK;
+        if (qhbt != 0) {
+            if (!skipCorrection) { // Correct qhbt
+                long nl = rem.vblue[limit + 1 + rem.offset] & LONG_MASK;
                 long rs = ((qrem & LONG_MASK) << 32) | nl;
-                long estProduct = (dl & LONG_MASK) * (qhat & LONG_MASK);
+                long estProduct = (dl & LONG_MASK) * (qhbt & LONG_MASK);
 
-                if (unsignedLongCompare(estProduct, rs)) {
-                    qhat--;
+                if (unsignedLongCompbre(estProduct, rs)) {
+                    qhbt--;
                     qrem = (int) ((qrem & LONG_MASK) + dhLong);
                     if ((qrem & LONG_MASK) >= dhLong) {
                         estProduct -= (dl & LONG_MASK);
                         rs = ((qrem & LONG_MASK) << 32) | nl;
-                        if (unsignedLongCompare(estProduct, rs))
-                            qhat--;
+                        if (unsignedLongCompbre(estProduct, rs))
+                            qhbt--;
                     }
                 }
             }
 
 
-            // D4 Multiply and subtract
+            // D4 Multiply bnd subtrbct
             int borrow;
-            rem.value[limit - 1 + rem.offset] = 0;
-            if(needRemainder)
-                borrow = mulsub(rem.value, divisor, qhat, dlen, limit - 1 + rem.offset);
+            rem.vblue[limit - 1 + rem.offset] = 0;
+            if(needRembinder)
+                borrow = mulsub(rem.vblue, divisor, qhbt, dlen, limit - 1 + rem.offset);
             else
-                borrow = mulsubBorrow(rem.value, divisor, qhat, dlen, limit - 1 + rem.offset);
+                borrow = mulsubBorrow(rem.vblue, divisor, qhbt, dlen, limit - 1 + rem.offset);
 
-            // D5 Test remainder
+            // D5 Test rembinder
             if (borrow + 0x80000000 > nh2) {
-                // D6 Add back
-                if(needRemainder)
-                    divadd(divisor, rem.value, limit - 1 + 1 + rem.offset);
-                qhat--;
+                // D6 Add bbck
+                if(needRembinder)
+                    divbdd(divisor, rem.vblue, limit - 1 + 1 + rem.offset);
+                qhbt--;
             }
 
             // Store the quotient digit
-            q[(limit - 1)] = qhat;
+            q[(limit - 1)] = qhbt;
         }
 
 
-        if (needRemainder) {
-            // D8 Unnormalize
+        if (needRembinder) {
+            // D8 Unnormblize
             if (shift > 0)
                 rem.rightShift(shift);
-            rem.normalize();
+            rem.normblize();
         }
-        quotient.normalize();
-        return needRemainder ? rem : null;
+        quotient.normblize();
+        return needRembinder ? rem : null;
     }
 
     /**
-     * Divide this MutableBigInteger by the divisor represented by positive long
-     * value. The quotient will be placed into the provided quotient object &
-     * the remainder object is returned.
+     * Divide this MutbbleBigInteger by the divisor represented by positive long
+     * vblue. The quotient will be plbced into the provided quotient object &
+     * the rembinder object is returned.
      */
-    private MutableBigInteger divideLongMagnitude(long ldivisor, MutableBigInteger quotient) {
-        // Remainder starts as dividend with space for a leading zero
-        MutableBigInteger rem = new MutableBigInteger(new int[intLen + 1]);
-        System.arraycopy(value, offset, rem.value, 1, intLen);
+    privbte MutbbleBigInteger divideLongMbgnitude(long ldivisor, MutbbleBigInteger quotient) {
+        // Rembinder stbrts bs dividend with spbce for b lebding zero
+        MutbbleBigInteger rem = new MutbbleBigInteger(new int[intLen + 1]);
+        System.brrbycopy(vblue, offset, rem.vblue, 1, intLen);
         rem.intLen = intLen;
         rem.offset = 1;
 
         int nlen = rem.intLen;
 
         int limit = nlen - 2 + 1;
-        if (quotient.value.length < limit) {
-            quotient.value = new int[limit];
+        if (quotient.vblue.length < limit) {
+            quotient.vblue = new int[limit];
             quotient.offset = 0;
         }
         quotient.intLen = limit;
-        int[] q = quotient.value;
+        int[] q = quotient.vblue;
 
-        // D1 normalize the divisor
-        int shift = Long.numberOfLeadingZeros(ldivisor);
+        // D1 normblize the divisor
+        int shift = Long.numberOfLebdingZeros(ldivisor);
         if (shift > 0) {
             ldivisor<<=shift;
             rem.leftShift(shift);
         }
 
-        // Must insert leading 0 in rem if its length did not change
+        // Must insert lebding 0 in rem if its length did not chbnge
         if (rem.intLen == nlen) {
             rem.offset = 0;
-            rem.value[0] = 0;
+            rem.vblue[0] = 0;
             rem.intLen++;
         }
 
@@ -1712,133 +1712,133 @@ class MutableBigInteger {
         long dhLong = dh & LONG_MASK;
         int dl = (int)(ldivisor & LONG_MASK);
 
-        // D2 Initialize j
+        // D2 Initiblize j
         for (int j = 0; j < limit; j++) {
-            // D3 Calculate qhat
-            // estimate qhat
-            int qhat = 0;
+            // D3 Cblculbte qhbt
+            // estimbte qhbt
+            int qhbt = 0;
             int qrem = 0;
-            boolean skipCorrection = false;
-            int nh = rem.value[j + rem.offset];
+            boolebn skipCorrection = fblse;
+            int nh = rem.vblue[j + rem.offset];
             int nh2 = nh + 0x80000000;
-            int nm = rem.value[j + 1 + rem.offset];
+            int nm = rem.vblue[j + 1 + rem.offset];
 
             if (nh == dh) {
-                qhat = ~0;
+                qhbt = ~0;
                 qrem = nh + nm;
                 skipCorrection = qrem + 0x80000000 < nh2;
             } else {
                 long nChunk = (((long) nh) << 32) | (nm & LONG_MASK);
                 if (nChunk >= 0) {
-                    qhat = (int) (nChunk / dhLong);
-                    qrem = (int) (nChunk - (qhat * dhLong));
+                    qhbt = (int) (nChunk / dhLong);
+                    qrem = (int) (nChunk - (qhbt * dhLong));
                 } else {
                     long tmp = divWord(nChunk, dh);
-                    qhat =(int)(tmp & LONG_MASK);
+                    qhbt =(int)(tmp & LONG_MASK);
                     qrem = (int)(tmp>>>32);
                 }
             }
 
-            if (qhat == 0)
+            if (qhbt == 0)
                 continue;
 
-            if (!skipCorrection) { // Correct qhat
-                long nl = rem.value[j + 2 + rem.offset] & LONG_MASK;
+            if (!skipCorrection) { // Correct qhbt
+                long nl = rem.vblue[j + 2 + rem.offset] & LONG_MASK;
                 long rs = ((qrem & LONG_MASK) << 32) | nl;
-                long estProduct = (dl & LONG_MASK) * (qhat & LONG_MASK);
+                long estProduct = (dl & LONG_MASK) * (qhbt & LONG_MASK);
 
-                if (unsignedLongCompare(estProduct, rs)) {
-                    qhat--;
+                if (unsignedLongCompbre(estProduct, rs)) {
+                    qhbt--;
                     qrem = (int) ((qrem & LONG_MASK) + dhLong);
                     if ((qrem & LONG_MASK) >= dhLong) {
                         estProduct -= (dl & LONG_MASK);
                         rs = ((qrem & LONG_MASK) << 32) | nl;
-                        if (unsignedLongCompare(estProduct, rs))
-                            qhat--;
+                        if (unsignedLongCompbre(estProduct, rs))
+                            qhbt--;
                     }
                 }
             }
 
-            // D4 Multiply and subtract
-            rem.value[j + rem.offset] = 0;
-            int borrow = mulsubLong(rem.value, dh, dl, qhat,  j + rem.offset);
+            // D4 Multiply bnd subtrbct
+            rem.vblue[j + rem.offset] = 0;
+            int borrow = mulsubLong(rem.vblue, dh, dl, qhbt,  j + rem.offset);
 
-            // D5 Test remainder
+            // D5 Test rembinder
             if (borrow + 0x80000000 > nh2) {
-                // D6 Add back
-                divaddLong(dh,dl, rem.value, j + 1 + rem.offset);
-                qhat--;
+                // D6 Add bbck
+                divbddLong(dh,dl, rem.vblue, j + 1 + rem.offset);
+                qhbt--;
             }
 
             // Store the quotient digit
-            q[j] = qhat;
+            q[j] = qhbt;
         } // D7 loop on j
 
-        // D8 Unnormalize
+        // D8 Unnormblize
         if (shift > 0)
             rem.rightShift(shift);
 
-        quotient.normalize();
-        rem.normalize();
+        quotient.normblize();
+        rem.normblize();
         return rem;
     }
 
     /**
      * A primitive used for division by long.
-     * Specialized version of the method divadd.
-     * dh is a high part of the divisor, dl is a low part
+     * Speciblized version of the method divbdd.
+     * dh is b high pbrt of the divisor, dl is b low pbrt
      */
-    private int divaddLong(int dh, int dl, int[] result, int offset) {
-        long carry = 0;
+    privbte int divbddLong(int dh, int dl, int[] result, int offset) {
+        long cbrry = 0;
 
         long sum = (dl & LONG_MASK) + (result[1+offset] & LONG_MASK);
         result[1+offset] = (int)sum;
 
-        sum = (dh & LONG_MASK) + (result[offset] & LONG_MASK) + carry;
+        sum = (dh & LONG_MASK) + (result[offset] & LONG_MASK) + cbrry;
         result[offset] = (int)sum;
-        carry = sum >>> 32;
-        return (int)carry;
+        cbrry = sum >>> 32;
+        return (int)cbrry;
     }
 
     /**
      * This method is used for division by long.
-     * Specialized version of the method sulsub.
-     * dh is a high part of the divisor, dl is a low part
+     * Speciblized version of the method sulsub.
+     * dh is b high pbrt of the divisor, dl is b low pbrt
      */
-    private int mulsubLong(int[] q, int dh, int dl, int x, int offset) {
+    privbte int mulsubLong(int[] q, int dh, int dl, int x, int offset) {
         long xLong = x & LONG_MASK;
         offset += 2;
         long product = (dl & LONG_MASK) * xLong;
         long difference = q[offset] - product;
         q[offset--] = (int)difference;
-        long carry = (product >>> 32)
+        long cbrry = (product >>> 32)
                  + (((difference & LONG_MASK) >
                      (((~(int)product) & LONG_MASK))) ? 1:0);
-        product = (dh & LONG_MASK) * xLong + carry;
+        product = (dh & LONG_MASK) * xLong + cbrry;
         difference = q[offset] - product;
         q[offset--] = (int)difference;
-        carry = (product >>> 32)
+        cbrry = (product >>> 32)
                  + (((difference & LONG_MASK) >
                      (((~(int)product) & LONG_MASK))) ? 1:0);
-        return (int)carry;
+        return (int)cbrry;
     }
 
     /**
-     * Compare two longs as if they were unsigned.
-     * Returns true iff one is bigger than two.
+     * Compbre two longs bs if they were unsigned.
+     * Returns true iff one is bigger thbn two.
      */
-    private boolean unsignedLongCompare(long one, long two) {
+    privbte boolebn unsignedLongCompbre(long one, long two) {
         return (one+Long.MIN_VALUE) > (two+Long.MIN_VALUE);
     }
 
     /**
-     * This method divides a long quantity by an int to estimate
-     * qhat for two multi precision numbers. It is used when
-     * the signed value of n is less than zero.
-     * Returns long value where high 32 bits contain remainder value and
-     * low 32 bits contain quotient value.
+     * This method divides b long qubntity by bn int to estimbte
+     * qhbt for two multi precision numbers. It is used when
+     * the signed vblue of n is less thbn zero.
+     * Returns long vblue where high 32 bits contbin rembinder vblue bnd
+     * low 32 bits contbin quotient vblue.
      */
-    static long divWord(long n, int d) {
+    stbtic long divWord(long n, int d) {
         long dLong = d & LONG_MASK;
         long r;
         long q;
@@ -1848,11 +1848,11 @@ class MutableBigInteger {
             return (r << 32) | (q & LONG_MASK);
         }
 
-        // Approximate the quotient and remainder
+        // Approximbte the quotient bnd rembinder
         q = (n >>> 1) / (dLong >>> 1);
         r = n - q*dLong;
 
-        // Correct the approximation
+        // Correct the bpproximbtion
         while (r < 0) {
             r += dLong;
             q--;
@@ -1866,33 +1866,33 @@ class MutableBigInteger {
     }
 
     /**
-     * Calculate GCD of this and b. This and b are changed by the computation.
+     * Cblculbte GCD of this bnd b. This bnd b bre chbnged by the computbtion.
      */
-    MutableBigInteger hybridGCD(MutableBigInteger b) {
-        // Use Euclid's algorithm until the numbers are approximately the
-        // same length, then use the binary GCD algorithm to find the GCD.
-        MutableBigInteger a = this;
-        MutableBigInteger q = new MutableBigInteger();
+    MutbbleBigInteger hybridGCD(MutbbleBigInteger b) {
+        // Use Euclid's blgorithm until the numbers bre bpproximbtely the
+        // sbme length, then use the binbry GCD blgorithm to find the GCD.
+        MutbbleBigInteger b = this;
+        MutbbleBigInteger q = new MutbbleBigInteger();
 
         while (b.intLen != 0) {
-            if (Math.abs(a.intLen - b.intLen) < 2)
-                return a.binaryGCD(b);
+            if (Mbth.bbs(b.intLen - b.intLen) < 2)
+                return b.binbryGCD(b);
 
-            MutableBigInteger r = a.divide(b, q);
-            a = b;
+            MutbbleBigInteger r = b.divide(b, q);
+            b = b;
             b = r;
         }
-        return a;
+        return b;
     }
 
     /**
-     * Calculate GCD of this and v.
-     * Assumes that this and v are not zero.
+     * Cblculbte GCD of this bnd v.
+     * Assumes thbt this bnd v bre not zero.
      */
-    private MutableBigInteger binaryGCD(MutableBigInteger v) {
+    privbte MutbbleBigInteger binbryGCD(MutbbleBigInteger v) {
         // Algorithm B from Knuth section 4.5.2
-        MutableBigInteger u = this;
-        MutableBigInteger r = new MutableBigInteger();
+        MutbbleBigInteger u = this;
+        MutbbleBigInteger r = new MutbbleBigInteger();
 
         // step B1
         int s1 = u.getLowestSetBit();
@@ -1904,13 +1904,13 @@ class MutableBigInteger {
         }
 
         // step B2
-        boolean uOdd = (k == s1);
-        MutableBigInteger t = uOdd ? v: u;
+        boolebn uOdd = (k == s1);
+        MutbbleBigInteger t = uOdd ? v: u;
         int tsign = uOdd ? -1 : 1;
 
         int lb;
         while ((lb = t.getLowestSetBit()) >= 0) {
-            // steps B3 and B4
+            // steps B3 bnd B4
             t.rightShift(lb);
             // step B5
             if (tsign > 0)
@@ -1918,12 +1918,12 @@ class MutableBigInteger {
             else
                 v = t;
 
-            // Special case one word numbers
+            // Specibl cbse one word numbers
             if (u.intLen < 2 && v.intLen < 2) {
-                int x = u.value[u.offset];
-                int y = v.value[v.offset];
-                x  = binaryGcd(x, y);
-                r.value[0] = x;
+                int x = u.vblue[u.offset];
+                int y = v.vblue[v.offset];
+                x  = binbryGcd(x, y);
+                r.vblue[0] = x;
                 r.intLen = 1;
                 r.offset = 0;
                 if (k > 0)
@@ -1933,7 +1933,7 @@ class MutableBigInteger {
 
             // step B6
             if ((tsign = u.difference(v)) == 0)
-                break;
+                brebk;
             t = (tsign >= 0) ? u : v;
         }
 
@@ -1943,159 +1943,159 @@ class MutableBigInteger {
     }
 
     /**
-     * Calculate GCD of a and b interpreted as unsigned integers.
+     * Cblculbte GCD of b bnd b interpreted bs unsigned integers.
      */
-    static int binaryGcd(int a, int b) {
+    stbtic int binbryGcd(int b, int b) {
         if (b == 0)
-            return a;
-        if (a == 0)
+            return b;
+        if (b == 0)
             return b;
 
-        // Right shift a & b till their last bits equal to 1.
-        int aZeros = Integer.numberOfTrailingZeros(a);
-        int bZeros = Integer.numberOfTrailingZeros(b);
-        a >>>= aZeros;
+        // Right shift b & b till their lbst bits equbl to 1.
+        int bZeros = Integer.numberOfTrbilingZeros(b);
+        int bZeros = Integer.numberOfTrbilingZeros(b);
+        b >>>= bZeros;
         b >>>= bZeros;
 
-        int t = (aZeros < bZeros ? aZeros : bZeros);
+        int t = (bZeros < bZeros ? bZeros : bZeros);
 
-        while (a != b) {
-            if ((a+0x80000000) > (b+0x80000000)) {  // a > b as unsigned
-                a -= b;
-                a >>>= Integer.numberOfTrailingZeros(a);
+        while (b != b) {
+            if ((b+0x80000000) > (b+0x80000000)) {  // b > b bs unsigned
+                b -= b;
+                b >>>= Integer.numberOfTrbilingZeros(b);
             } else {
-                b -= a;
-                b >>>= Integer.numberOfTrailingZeros(b);
+                b -= b;
+                b >>>= Integer.numberOfTrbilingZeros(b);
             }
         }
-        return a<<t;
+        return b<<t;
     }
 
     /**
-     * Returns the modInverse of this mod p. This and p are not affected by
-     * the operation.
+     * Returns the modInverse of this mod p. This bnd p bre not bffected by
+     * the operbtion.
      */
-    MutableBigInteger mutableModInverse(MutableBigInteger p) {
-        // Modulus is odd, use Schroeppel's algorithm
+    MutbbleBigInteger mutbbleModInverse(MutbbleBigInteger p) {
+        // Modulus is odd, use Schroeppel's blgorithm
         if (p.isOdd())
             return modInverse(p);
 
-        // Base and modulus are even, throw exception
+        // Bbse bnd modulus bre even, throw exception
         if (isEven())
             throw new ArithmeticException("BigInteger not invertible.");
 
-        // Get even part of modulus expressed as a power of 2
+        // Get even pbrt of modulus expressed bs b power of 2
         int powersOf2 = p.getLowestSetBit();
 
-        // Construct odd part of modulus
-        MutableBigInteger oddMod = new MutableBigInteger(p);
+        // Construct odd pbrt of modulus
+        MutbbleBigInteger oddMod = new MutbbleBigInteger(p);
         oddMod.rightShift(powersOf2);
 
         if (oddMod.isOne())
             return modInverseMP2(powersOf2);
 
-        // Calculate 1/a mod oddMod
-        MutableBigInteger oddPart = modInverse(oddMod);
+        // Cblculbte 1/b mod oddMod
+        MutbbleBigInteger oddPbrt = modInverse(oddMod);
 
-        // Calculate 1/a mod evenMod
-        MutableBigInteger evenPart = modInverseMP2(powersOf2);
+        // Cblculbte 1/b mod evenMod
+        MutbbleBigInteger evenPbrt = modInverseMP2(powersOf2);
 
-        // Combine the results using Chinese Remainder Theorem
-        MutableBigInteger y1 = modInverseBP2(oddMod, powersOf2);
-        MutableBigInteger y2 = oddMod.modInverseMP2(powersOf2);
+        // Combine the results using Chinese Rembinder Theorem
+        MutbbleBigInteger y1 = modInverseBP2(oddMod, powersOf2);
+        MutbbleBigInteger y2 = oddMod.modInverseMP2(powersOf2);
 
-        MutableBigInteger temp1 = new MutableBigInteger();
-        MutableBigInteger temp2 = new MutableBigInteger();
-        MutableBigInteger result = new MutableBigInteger();
+        MutbbleBigInteger temp1 = new MutbbleBigInteger();
+        MutbbleBigInteger temp2 = new MutbbleBigInteger();
+        MutbbleBigInteger result = new MutbbleBigInteger();
 
-        oddPart.leftShift(powersOf2);
-        oddPart.multiply(y1, result);
+        oddPbrt.leftShift(powersOf2);
+        oddPbrt.multiply(y1, result);
 
-        evenPart.multiply(oddMod, temp1);
+        evenPbrt.multiply(oddMod, temp1);
         temp1.multiply(y2, temp2);
 
-        result.add(temp2);
+        result.bdd(temp2);
         return result.divide(p, temp1);
     }
 
     /*
-     * Calculate the multiplicative inverse of this mod 2^k.
+     * Cblculbte the multiplicbtive inverse of this mod 2^k.
      */
-    MutableBigInteger modInverseMP2(int k) {
+    MutbbleBigInteger modInverseMP2(int k) {
         if (isEven())
             throw new ArithmeticException("Non-invertible. (GCD != 1)");
 
         if (k > 64)
             return euclidModInverse(k);
 
-        int t = inverseMod32(value[offset+intLen-1]);
+        int t = inverseMod32(vblue[offset+intLen-1]);
 
         if (k < 33) {
             t = (k == 32 ? t : t & ((1 << k) - 1));
-            return new MutableBigInteger(t);
+            return new MutbbleBigInteger(t);
         }
 
-        long pLong = (value[offset+intLen-1] & LONG_MASK);
+        long pLong = (vblue[offset+intLen-1] & LONG_MASK);
         if (intLen > 1)
-            pLong |=  ((long)value[offset+intLen-2] << 32);
+            pLong |=  ((long)vblue[offset+intLen-2] << 32);
         long tLong = t & LONG_MASK;
         tLong = tLong * (2 - pLong * tLong);  // 1 more Newton iter step
         tLong = (k == 64 ? tLong : tLong & ((1L << k) - 1));
 
-        MutableBigInteger result = new MutableBigInteger(new int[2]);
-        result.value[0] = (int)(tLong >>> 32);
-        result.value[1] = (int)tLong;
+        MutbbleBigInteger result = new MutbbleBigInteger(new int[2]);
+        result.vblue[0] = (int)(tLong >>> 32);
+        result.vblue[1] = (int)tLong;
         result.intLen = 2;
-        result.normalize();
+        result.normblize();
         return result;
     }
 
     /**
-     * Returns the multiplicative inverse of val mod 2^32.  Assumes val is odd.
+     * Returns the multiplicbtive inverse of vbl mod 2^32.  Assumes vbl is odd.
      */
-    static int inverseMod32(int val) {
-        // Newton's iteration!
-        int t = val;
-        t *= 2 - val*t;
-        t *= 2 - val*t;
-        t *= 2 - val*t;
-        t *= 2 - val*t;
+    stbtic int inverseMod32(int vbl) {
+        // Newton's iterbtion!
+        int t = vbl;
+        t *= 2 - vbl*t;
+        t *= 2 - vbl*t;
+        t *= 2 - vbl*t;
+        t *= 2 - vbl*t;
         return t;
     }
 
     /**
-     * Calculate the multiplicative inverse of 2^k mod mod, where mod is odd.
+     * Cblculbte the multiplicbtive inverse of 2^k mod mod, where mod is odd.
      */
-    static MutableBigInteger modInverseBP2(MutableBigInteger mod, int k) {
-        // Copy the mod to protect original
-        return fixup(new MutableBigInteger(1), new MutableBigInteger(mod), k);
+    stbtic MutbbleBigInteger modInverseBP2(MutbbleBigInteger mod, int k) {
+        // Copy the mod to protect originbl
+        return fixup(new MutbbleBigInteger(1), new MutbbleBigInteger(mod), k);
     }
 
     /**
-     * Calculate the multiplicative inverse of this mod mod, where mod is odd.
-     * This and mod are not changed by the calculation.
+     * Cblculbte the multiplicbtive inverse of this mod mod, where mod is odd.
+     * This bnd mod bre not chbnged by the cblculbtion.
      *
-     * This method implements an algorithm due to Richard Schroeppel, that uses
-     * the same intermediate representation as Montgomery Reduction
-     * ("Montgomery Form").  The algorithm is described in an unpublished
-     * manuscript entitled "Fast Modular Reciprocals."
+     * This method implements bn blgorithm due to Richbrd Schroeppel, thbt uses
+     * the sbme intermedibte representbtion bs Montgomery Reduction
+     * ("Montgomery Form").  The blgorithm is described in bn unpublished
+     * mbnuscript entitled "Fbst Modulbr Reciprocbls."
      */
-    private MutableBigInteger modInverse(MutableBigInteger mod) {
-        MutableBigInteger p = new MutableBigInteger(mod);
-        MutableBigInteger f = new MutableBigInteger(this);
-        MutableBigInteger g = new MutableBigInteger(p);
-        SignedMutableBigInteger c = new SignedMutableBigInteger(1);
-        SignedMutableBigInteger d = new SignedMutableBigInteger();
-        MutableBigInteger temp = null;
-        SignedMutableBigInteger sTemp = null;
+    privbte MutbbleBigInteger modInverse(MutbbleBigInteger mod) {
+        MutbbleBigInteger p = new MutbbleBigInteger(mod);
+        MutbbleBigInteger f = new MutbbleBigInteger(this);
+        MutbbleBigInteger g = new MutbbleBigInteger(p);
+        SignedMutbbleBigInteger c = new SignedMutbbleBigInteger(1);
+        SignedMutbbleBigInteger d = new SignedMutbbleBigInteger();
+        MutbbleBigInteger temp = null;
+        SignedMutbbleBigInteger sTemp = null;
 
         int k = 0;
         // Right shift f k times until odd, left shift d k times
         if (f.isEven()) {
-            int trailingZeros = f.getLowestSetBit();
-            f.rightShift(trailingZeros);
-            d.leftShift(trailingZeros);
-            k = trailingZeros;
+            int trbilingZeros = f.getLowestSetBit();
+            f.rightShift(trbilingZeros);
+            d.leftShift(trbilingZeros);
+            k = trbilingZeros;
         }
 
         // The Almost Inverse Algorithm
@@ -2104,27 +2104,27 @@ class MutableBigInteger {
             if (f.isZero())
                 throw new ArithmeticException("BigInteger not invertible.");
 
-            // If f < g exchange f, g and c, d
-            if (f.compare(g) < 0) {
+            // If f < g exchbnge f, g bnd c, d
+            if (f.compbre(g) < 0) {
                 temp = f; f = g; g = temp;
                 sTemp = d; d = c; c = sTemp;
             }
 
             // If f == g (mod 4)
-            if (((f.value[f.offset + f.intLen - 1] ^
-                 g.value[g.offset + g.intLen - 1]) & 3) == 0) {
-                f.subtract(g);
-                c.signedSubtract(d);
+            if (((f.vblue[f.offset + f.intLen - 1] ^
+                 g.vblue[g.offset + g.intLen - 1]) & 3) == 0) {
+                f.subtrbct(g);
+                c.signedSubtrbct(d);
             } else { // If f != g (mod 4)
-                f.add(g);
+                f.bdd(g);
                 c.signedAdd(d);
             }
 
             // Right shift f k times until odd, left shift d k times
-            int trailingZeros = f.getLowestSetBit();
-            f.rightShift(trailingZeros);
-            d.leftShift(trailingZeros);
-            k += trailingZeros;
+            int trbilingZeros = f.getLowestSetBit();
+            f.rightShift(trbilingZeros);
+            d.leftShift(trbilingZeros);
+            k += trbilingZeros;
         }
 
         while (c.sign < 0)
@@ -2135,103 +2135,103 @@ class MutableBigInteger {
 
     /**
      * The Fixup Algorithm
-     * Calculates X such that X = C * 2^(-k) (mod P)
-     * Assumes C<P and P is odd.
+     * Cblculbtes X such thbt X = C * 2^(-k) (mod P)
+     * Assumes C<P bnd P is odd.
      */
-    static MutableBigInteger fixup(MutableBigInteger c, MutableBigInteger p,
+    stbtic MutbbleBigInteger fixup(MutbbleBigInteger c, MutbbleBigInteger p,
                                                                       int k) {
-        MutableBigInteger temp = new MutableBigInteger();
-        // Set r to the multiplicative inverse of p mod 2^32
-        int r = -inverseMod32(p.value[p.offset+p.intLen-1]);
+        MutbbleBigInteger temp = new MutbbleBigInteger();
+        // Set r to the multiplicbtive inverse of p mod 2^32
+        int r = -inverseMod32(p.vblue[p.offset+p.intLen-1]);
 
         for (int i=0, numWords = k >> 5; i < numWords; i++) {
             // V = R * c (mod 2^j)
-            int  v = r * c.value[c.offset + c.intLen-1];
+            int  v = r * c.vblue[c.offset + c.intLen-1];
             // c = c + (v * p)
             p.mul(v, temp);
-            c.add(temp);
+            c.bdd(temp);
             // c = c / 2^j
             c.intLen--;
         }
         int numBits = k & 0x1f;
         if (numBits != 0) {
             // V = R * c (mod 2^j)
-            int v = r * c.value[c.offset + c.intLen-1];
+            int v = r * c.vblue[c.offset + c.intLen-1];
             v &= ((1<<numBits) - 1);
             // c = c + (v * p)
             p.mul(v, temp);
-            c.add(temp);
+            c.bdd(temp);
             // c = c / 2^j
             c.rightShift(numBits);
         }
 
-        // In theory, c may be greater than p at this point (Very rare!)
-        while (c.compare(p) >= 0)
-            c.subtract(p);
+        // In theory, c mby be grebter thbn p bt this point (Very rbre!)
+        while (c.compbre(p) >= 0)
+            c.subtrbct(p);
 
         return c;
     }
 
     /**
-     * Uses the extended Euclidean algorithm to compute the modInverse of base
-     * mod a modulus that is a power of 2. The modulus is 2^k.
+     * Uses the extended Euclidebn blgorithm to compute the modInverse of bbse
+     * mod b modulus thbt is b power of 2. The modulus is 2^k.
      */
-    MutableBigInteger euclidModInverse(int k) {
-        MutableBigInteger b = new MutableBigInteger(1);
+    MutbbleBigInteger euclidModInverse(int k) {
+        MutbbleBigInteger b = new MutbbleBigInteger(1);
         b.leftShift(k);
-        MutableBigInteger mod = new MutableBigInteger(b);
+        MutbbleBigInteger mod = new MutbbleBigInteger(b);
 
-        MutableBigInteger a = new MutableBigInteger(this);
-        MutableBigInteger q = new MutableBigInteger();
-        MutableBigInteger r = b.divide(a, q);
+        MutbbleBigInteger b = new MutbbleBigInteger(this);
+        MutbbleBigInteger q = new MutbbleBigInteger();
+        MutbbleBigInteger r = b.divide(b, q);
 
-        MutableBigInteger swapper = b;
-        // swap b & r
+        MutbbleBigInteger swbpper = b;
+        // swbp b & r
         b = r;
-        r = swapper;
+        r = swbpper;
 
-        MutableBigInteger t1 = new MutableBigInteger(q);
-        MutableBigInteger t0 = new MutableBigInteger(1);
-        MutableBigInteger temp = new MutableBigInteger();
+        MutbbleBigInteger t1 = new MutbbleBigInteger(q);
+        MutbbleBigInteger t0 = new MutbbleBigInteger(1);
+        MutbbleBigInteger temp = new MutbbleBigInteger();
 
         while (!b.isOne()) {
-            r = a.divide(b, q);
+            r = b.divide(b, q);
 
             if (r.intLen == 0)
                 throw new ArithmeticException("BigInteger not invertible.");
 
-            swapper = r;
-            a = swapper;
+            swbpper = r;
+            b = swbpper;
 
             if (q.intLen == 1)
-                t1.mul(q.value[q.offset], temp);
+                t1.mul(q.vblue[q.offset], temp);
             else
                 q.multiply(t1, temp);
-            swapper = q;
+            swbpper = q;
             q = temp;
-            temp = swapper;
-            t0.add(q);
+            temp = swbpper;
+            t0.bdd(q);
 
-            if (a.isOne())
+            if (b.isOne())
                 return t0;
 
-            r = b.divide(a, q);
+            r = b.divide(b, q);
 
             if (r.intLen == 0)
                 throw new ArithmeticException("BigInteger not invertible.");
 
-            swapper = b;
+            swbpper = b;
             b =  r;
 
             if (q.intLen == 1)
-                t0.mul(q.value[q.offset], temp);
+                t0.mul(q.vblue[q.offset], temp);
             else
                 q.multiply(t0, temp);
-            swapper = q; q = temp; temp = swapper;
+            swbpper = q; q = temp; temp = swbpper;
 
-            t1.add(q);
+            t1.bdd(q);
         }
-        mod.subtract(t1);
+        mod.subtrbct(t1);
         return mod;
     }
 }

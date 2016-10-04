@@ -1,333 +1,333 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.jgss.krb5;
+pbckbge sun.security.jgss.krb5;
 
 import org.ietf.jgss.*;
 import sun.security.jgss.spi.*;
-import sun.security.krb5.PrincipalName;
+import sun.security.krb5.PrincipblNbme;
 import sun.security.krb5.KrbException;
-import java.io.UnsupportedEncodingException;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.security.Provider;
-import java.util.Locale;
+import jbvb.io.UnsupportedEncodingException;
+import jbvb.net.InetAddress;
+import jbvb.net.UnknownHostException;
+import jbvb.security.Provider;
+import jbvb.util.Locble;
 
 /**
- * Implements the GSSNameSpi for the krb5 mechanism.
+ * Implements the GSSNbmeSpi for the krb5 mechbnism.
  *
- * @author Mayank Upadhyay
+ * @buthor Mbybnk Upbdhyby
  */
-public class Krb5NameElement
-    implements GSSNameSpi {
+public clbss Krb5NbmeElement
+    implements GSSNbmeSpi {
 
-    private PrincipalName krb5PrincipalName;
+    privbte PrincipblNbme krb5PrincipblNbme;
 
-    private String gssNameStr = null;
-    private Oid gssNameType = null;
+    privbte String gssNbmeStr = null;
+    privbte Oid gssNbmeType = null;
 
-    // XXX Move this concept into PrincipalName's asn1Encode() sometime
-    private static String CHAR_ENCODING = "UTF-8";
+    // XXX Move this concept into PrincipblNbme's bsn1Encode() sometime
+    privbte stbtic String CHAR_ENCODING = "UTF-8";
 
-    private Krb5NameElement(PrincipalName principalName,
-                            String gssNameStr,
-                            Oid gssNameType) {
-        this.krb5PrincipalName = principalName;
-        this.gssNameStr = gssNameStr;
-        this.gssNameType = gssNameType;
+    privbte Krb5NbmeElement(PrincipblNbme principblNbme,
+                            String gssNbmeStr,
+                            Oid gssNbmeType) {
+        this.krb5PrincipblNbme = principblNbme;
+        this.gssNbmeStr = gssNbmeStr;
+        this.gssNbmeType = gssNbmeType;
     }
 
     /**
-     * Instantiates a new Krb5NameElement object. Internally it stores the
-     * information provided by the input parameters so that they may later
-     * be used for output when a printable representaion of this name is
-     * needed in GSS-API format rather than in Kerberos format.
+     * Instbntibtes b new Krb5NbmeElement object. Internblly it stores the
+     * informbtion provided by the input pbrbmeters so thbt they mby lbter
+     * be used for output when b printbble representbion of this nbme is
+     * needed in GSS-API formbt rbther thbn in Kerberos formbt.
      *
      */
-    static Krb5NameElement getInstance(String gssNameStr, Oid gssNameType)
+    stbtic Krb5NbmeElement getInstbnce(String gssNbmeStr, Oid gssNbmeType)
         throws GSSException {
 
         /*
-         * A null gssNameType implies that the mechanism default
-         * Krb5MechFactory.NT_GSS_KRB5_PRINCIPAL be used.
+         * A null gssNbmeType implies thbt the mechbnism defbult
+         * Krb5MechFbctory.NT_GSS_KRB5_PRINCIPAL be used.
          */
-        if (gssNameType == null)
-            gssNameType = Krb5MechFactory.NT_GSS_KRB5_PRINCIPAL;
+        if (gssNbmeType == null)
+            gssNbmeType = Krb5MechFbctory.NT_GSS_KRB5_PRINCIPAL;
         else
-            if (!gssNameType.equals(GSSName.NT_USER_NAME) &&
-                !gssNameType.equals(GSSName.NT_HOSTBASED_SERVICE) &&
-                !gssNameType.equals(Krb5MechFactory.NT_GSS_KRB5_PRINCIPAL) &&
-                !gssNameType.equals(GSSName.NT_EXPORT_NAME))
+            if (!gssNbmeType.equbls(GSSNbme.NT_USER_NAME) &&
+                !gssNbmeType.equbls(GSSNbme.NT_HOSTBASED_SERVICE) &&
+                !gssNbmeType.equbls(Krb5MechFbctory.NT_GSS_KRB5_PRINCIPAL) &&
+                !gssNbmeType.equbls(GSSNbme.NT_EXPORT_NAME))
                 throw new GSSException(GSSException.BAD_NAMETYPE, -1,
-                                       gssNameType.toString()
-                                       +" is an unsupported nametype");
+                                       gssNbmeType.toString()
+                                       +" is bn unsupported nbmetype");
 
-        PrincipalName principalName;
+        PrincipblNbme principblNbme;
         try {
 
-            if (gssNameType.equals(GSSName.NT_EXPORT_NAME) ||
-                gssNameType.equals(Krb5MechFactory.NT_GSS_KRB5_PRINCIPAL)) {
-                principalName = new PrincipalName(gssNameStr,
-                                  PrincipalName.KRB_NT_PRINCIPAL);
+            if (gssNbmeType.equbls(GSSNbme.NT_EXPORT_NAME) ||
+                gssNbmeType.equbls(Krb5MechFbctory.NT_GSS_KRB5_PRINCIPAL)) {
+                principblNbme = new PrincipblNbme(gssNbmeStr,
+                                  PrincipblNbme.KRB_NT_PRINCIPAL);
             } else {
 
-                String[] components = getComponents(gssNameStr);
+                String[] components = getComponents(gssNbmeStr);
 
                 /*
-                 * We have forms of GSS name strings that can come in:
+                 * We hbve forms of GSS nbme strings thbt cbn come in:
                  *
-                 * 1. names of the form "foo" with just one
-                 * component. (This might include a "@" but only in escaped
+                 * 1. nbmes of the form "foo" with just one
+                 * component. (This might include b "@" but only in escbped
                  * form like "\@")
-                 * 2. names of the form "foo@bar" with two components
+                 * 2. nbmes of the form "foo@bbr" with two components
                  *
-                 * The nametypes that are accepted are NT_USER_NAME, and
+                 * The nbmetypes thbt bre bccepted bre NT_USER_NAME, bnd
                  * NT_HOSTBASED_SERVICE.
                  */
 
-                if (gssNameType.equals(GSSName.NT_USER_NAME))
-                    principalName = new PrincipalName(gssNameStr,
-                                    PrincipalName.KRB_NT_PRINCIPAL);
+                if (gssNbmeType.equbls(GSSNbme.NT_USER_NAME))
+                    principblNbme = new PrincipblNbme(gssNbmeStr,
+                                    PrincipblNbme.KRB_NT_PRINCIPAL);
                 else {
-                    String hostName = null;
+                    String hostNbme = null;
                     String service = components[0];
                     if (components.length >= 2)
-                        hostName = components[1];
+                        hostNbme = components[1];
 
-                    String principal = getHostBasedInstance(service, hostName);
-                    principalName = new PrincipalName(principal,
-                            PrincipalName.KRB_NT_SRV_HST);
+                    String principbl = getHostBbsedInstbnce(service, hostNbme);
+                    principblNbme = new PrincipblNbme(principbl,
+                            PrincipblNbme.KRB_NT_SRV_HST);
                 }
             }
 
-        } catch (KrbException e) {
-            throw new GSSException(GSSException.BAD_NAME, -1, e.getMessage());
+        } cbtch (KrbException e) {
+            throw new GSSException(GSSException.BAD_NAME, -1, e.getMessbge());
         }
 
-        return new Krb5NameElement(principalName, gssNameStr, gssNameType);
+        return new Krb5NbmeElement(principblNbme, gssNbmeStr, gssNbmeType);
     }
 
-    static Krb5NameElement getInstance(PrincipalName principalName) {
-        return new Krb5NameElement(principalName,
-                                   principalName.getName(),
-                                   Krb5MechFactory.NT_GSS_KRB5_PRINCIPAL);
+    stbtic Krb5NbmeElement getInstbnce(PrincipblNbme principblNbme) {
+        return new Krb5NbmeElement(principblNbme,
+                                   principblNbme.getNbme(),
+                                   Krb5MechFbctory.NT_GSS_KRB5_PRINCIPAL);
     }
 
-    private static String[] getComponents(String gssNameStr)
+    privbte stbtic String[] getComponents(String gssNbmeStr)
         throws GSSException {
 
-        String[] retVal;
+        String[] retVbl;
 
-        // XXX Perhaps provide this parsing code in PrincipalName
+        // XXX Perhbps provide this pbrsing code in PrincipblNbme
 
-        // Look for @ as in service@host
-        // Assumes host name will not have an escaped '@'
-        int separatorPos = gssNameStr.lastIndexOf('@', gssNameStr.length());
+        // Look for @ bs in service@host
+        // Assumes host nbme will not hbve bn escbped '@'
+        int sepbrbtorPos = gssNbmeStr.lbstIndexOf('@', gssNbmeStr.length());
 
-        // Not really a separator if it is escaped. Then this is just part
-        // of the principal name or service name
-        if ((separatorPos > 0) &&
-                (gssNameStr.charAt(separatorPos-1) == '\\')) {
-            // Is the `\` character escaped itself?
-            if ((separatorPos - 2 < 0) ||
-                (gssNameStr.charAt(separatorPos-2) != '\\'))
-                separatorPos = -1;
+        // Not reblly b sepbrbtor if it is escbped. Then this is just pbrt
+        // of the principbl nbme or service nbme
+        if ((sepbrbtorPos > 0) &&
+                (gssNbmeStr.chbrAt(sepbrbtorPos-1) == '\\')) {
+            // Is the `\` chbrbcter escbped itself?
+            if ((sepbrbtorPos - 2 < 0) ||
+                (gssNbmeStr.chbrAt(sepbrbtorPos-2) != '\\'))
+                sepbrbtorPos = -1;
         }
 
-        if (separatorPos > 0) {
-            String serviceName = gssNameStr.substring(0, separatorPos);
-            String hostName = gssNameStr.substring(separatorPos+1);
-            retVal = new String[] { serviceName, hostName};
+        if (sepbrbtorPos > 0) {
+            String serviceNbme = gssNbmeStr.substring(0, sepbrbtorPos);
+            String hostNbme = gssNbmeStr.substring(sepbrbtorPos+1);
+            retVbl = new String[] { serviceNbme, hostNbme};
         } else {
-            retVal = new String[] {gssNameStr};
+            retVbl = new String[] {gssNbmeStr};
         }
 
-        return retVal;
+        return retVbl;
 
     }
 
-    private static String getHostBasedInstance(String serviceName,
-                                               String hostName)
+    privbte stbtic String getHostBbsedInstbnce(String serviceNbme,
+                                               String hostNbme)
         throws GSSException {
-            StringBuffer temp = new StringBuffer(serviceName);
+            StringBuffer temp = new StringBuffer(serviceNbme);
 
             try {
-                // A lack of "@" defaults to the service being on the local
-                // host as per RFC 2743
-                // XXX Move this part into JGSS framework
-                if (hostName == null)
-                    hostName = InetAddress.getLocalHost().getHostName();
+                // A lbck of "@" defbults to the service being on the locbl
+                // host bs per RFC 2743
+                // XXX Move this pbrt into JGSS frbmework
+                if (hostNbme == null)
+                    hostNbme = InetAddress.getLocblHost().getHostNbme();
 
-            } catch (UnknownHostException e) {
-                // use hostname as it is
+            } cbtch (UnknownHostException e) {
+                // use hostnbme bs it is
             }
-            hostName = hostName.toLowerCase(Locale.ENGLISH);
+            hostNbme = hostNbme.toLowerCbse(Locble.ENGLISH);
 
-            temp = temp.append('/').append(hostName);
+            temp = temp.bppend('/').bppend(hostNbme);
             return temp.toString();
     }
 
-    public final PrincipalName getKrb5PrincipalName() {
-        return krb5PrincipalName;
+    public finbl PrincipblNbme getKrb5PrincipblNbme() {
+        return krb5PrincipblNbme;
     }
 
     /**
-     * Equal method for the GSSNameSpi objects.
-     * If either name denotes an anonymous principal, the call should
-     * return false.
+     * Equbl method for the GSSNbmeSpi objects.
+     * If either nbme denotes bn bnonymous principbl, the cbll should
+     * return fblse.
      *
-     * @param name to be compared with
-     * @returns true if they both refer to the same entity, else false
-     * @exception GSSException with major codes of BAD_NAMETYPE,
+     * @pbrbm nbme to be compbred with
+     * @returns true if they both refer to the sbme entity, else fblse
+     * @exception GSSException with mbjor codes of BAD_NAMETYPE,
      *  BAD_NAME, FAILURE
      */
-    public boolean equals(GSSNameSpi other) throws GSSException {
+    public boolebn equbls(GSSNbmeSpi other) throws GSSException {
 
         if (other == this)
             return true;
 
-        if (other instanceof Krb5NameElement) {
-                Krb5NameElement that = (Krb5NameElement) other;
-                return (this.krb5PrincipalName.getName().equals(
-                            that.krb5PrincipalName.getName()));
+        if (other instbnceof Krb5NbmeElement) {
+                Krb5NbmeElement thbt = (Krb5NbmeElement) other;
+                return (this.krb5PrincipblNbme.getNbme().equbls(
+                            thbt.krb5PrincipblNbme.getNbme()));
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Compares this <code>GSSNameSpi</code> object to another Object
-     * that might be a <code>GSSNameSpi</code>. The behaviour is exactly
-     * the same as in {@link #equals(GSSNameSpi) equals} except that
-     * no GSSException is thrown; instead, false will be returned in the
-     * situation where an error occurs.
+     * Compbres this <code>GSSNbmeSpi</code> object to bnother Object
+     * thbt might be b <code>GSSNbmeSpi</code>. The behbviour is exbctly
+     * the sbme bs in {@link #equbls(GSSNbmeSpi) equbls} except thbt
+     * no GSSException is thrown; instebd, fblse will be returned in the
+     * situbtion where bn error occurs.
      *
-     * @param another the object to be compared to
-     * @returns true if they both refer to the same entity, else false
-     * @see #equals(GSSNameSpi)
+     * @pbrbm bnother the object to be compbred to
+     * @returns true if they both refer to the sbme entity, else fblse
+     * @see #equbls(GSSNbmeSpi)
      */
-    public boolean equals(Object another) {
-        if (this == another) {
+    public boolebn equbls(Object bnother) {
+        if (this == bnother) {
             return true;
         }
 
         try {
-            if (another instanceof Krb5NameElement)
-                 return equals((Krb5NameElement) another);
-        } catch (GSSException e) {
+            if (bnother instbnceof Krb5NbmeElement)
+                 return equbls((Krb5NbmeElement) bnother);
+        } cbtch (GSSException e) {
             // ignore exception
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Returns a hashcode value for this GSSNameSpi.
+     * Returns b hbshcode vblue for this GSSNbmeSpi.
      *
-     * @return a hashCode value
+     * @return b hbshCode vblue
      */
-    public int hashCode() {
-        return 37 * 17 + krb5PrincipalName.getName().hashCode();
+    public int hbshCode() {
+        return 37 * 17 + krb5PrincipblNbme.getNbme().hbshCode();
     }
 
 
     /**
-     * Returns the principal name in the form user@REALM or
-     * host/service@REALM but with the following constraints that are
+     * Returns the principbl nbme in the form user@REALM or
+     * host/service@REALM but with the following constrbints thbt bre
      * imposed by RFC 1964:
      * <pre>
-     *  (1) all occurrences of the characters `@`,  `/`, and `\` within
-     *   principal components or realm names shall be quoted with an
-     *   immediately-preceding `\`.
+     *  (1) bll occurrences of the chbrbcters `@`,  `/`, bnd `\` within
+     *   principbl components or reblm nbmes shbll be quoted with bn
+     *   immedibtely-preceding `\`.
      *
-     *   (2) all occurrences of the null, backspace, tab, or newline
-     *   characters within principal components or realm names will be
+     *   (2) bll occurrences of the null, bbckspbce, tbb, or newline
+     *   chbrbcters within principbl components or reblm nbmes will be
      *   represented, respectively, with `\0`, `\b`, `\t`, or `\n`.
      *
-     *   (3) the `\` quoting character shall not be emitted within an
-     *   exported name except to accommodate cases (1) and (2).
+     *   (3) the `\` quoting chbrbcter shbll not be emitted within bn
+     *   exported nbme except to bccommodbte cbses (1) bnd (2).
      * </pre>
      */
     public byte[] export() throws GSSException {
-        // XXX Apply the above constraints.
-        byte[] retVal = null;
+        // XXX Apply the bbove constrbints.
+        byte[] retVbl = null;
         try {
-            retVal = krb5PrincipalName.getName().getBytes(CHAR_ENCODING);
-        } catch (UnsupportedEncodingException e) {
-            // Can't happen
+            retVbl = krb5PrincipblNbme.getNbme().getBytes(CHAR_ENCODING);
+        } cbtch (UnsupportedEncodingException e) {
+            // Cbn't hbppen
         }
-        return retVal;
+        return retVbl;
     }
 
     /**
-     * Get the mechanism type that this NameElement corresponds to.
+     * Get the mechbnism type thbt this NbmeElement corresponds to.
      *
-     * @return the Oid of the mechanism type
+     * @return the Oid of the mechbnism type
      */
-    public Oid getMechanism() {
-        return (Krb5MechFactory.GSS_KRB5_MECH_OID);
+    public Oid getMechbnism() {
+        return (Krb5MechFbctory.GSS_KRB5_MECH_OID);
     }
 
     /**
-     * Returns a string representation for this name. The printed
-     * name type can be obtained by calling getStringNameType().
+     * Returns b string representbtion for this nbme. The printed
+     * nbme type cbn be obtbined by cblling getStringNbmeType().
      *
-     * @return string form of this name
-     * @see #getStringNameType()
+     * @return string form of this nbme
+     * @see #getStringNbmeType()
      * @overrides Object#toString
      */
     public String toString() {
-        return (gssNameStr);
+        return (gssNbmeStr);
         // For testing: return (super.toString());
     }
 
     /**
-     * Returns the name type oid.
+     * Returns the nbme type oid.
      */
-    public Oid getGSSNameType() {
-        return (gssNameType);
+    public Oid getGSSNbmeType() {
+        return (gssNbmeType);
     }
 
     /**
-     * Returns the oid describing the format of the printable name.
+     * Returns the oid describing the formbt of the printbble nbme.
      *
-     * @return the Oid for the format of the printed name
+     * @return the Oid for the formbt of the printed nbme
      */
-    public Oid getStringNameType() {
-        // XXX For NT_EXPORT_NAME return a different name type. Infact,
+    public Oid getStringNbmeType() {
+        // XXX For NT_EXPORT_NAME return b different nbme type. Infbct,
         // don't even store NT_EXPORT_NAME in the cons.
-        return (gssNameType);
+        return (gssNbmeType);
     }
 
     /**
-     * Indicates if this name object represents an Anonymous name.
+     * Indicbtes if this nbme object represents bn Anonymous nbme.
      */
-    public boolean isAnonymousName() {
-        return (gssNameType.equals(GSSName.NT_ANONYMOUS));
+    public boolebn isAnonymousNbme() {
+        return (gssNbmeType.equbls(GSSNbme.NT_ANONYMOUS));
     }
 
     public Provider getProvider() {
-        return Krb5MechFactory.PROVIDER;
+        return Krb5MechFbctory.PROVIDER;
     }
 
 }

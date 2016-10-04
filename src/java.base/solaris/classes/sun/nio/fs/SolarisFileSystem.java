@@ -1,87 +1,87 @@
 /*
- * Copyright (c) 2008, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.nio.fs;
+pbckbge sun.nio.fs;
 
-import java.nio.file.*;
-import java.io.IOException;
-import java.util.*;
-import java.security.AccessController;
-import sun.security.action.GetPropertyAction;
-import static sun.nio.fs.SolarisNativeDispatcher.*;
+import jbvb.nio.file.*;
+import jbvb.io.IOException;
+import jbvb.util.*;
+import jbvb.security.AccessController;
+import sun.security.bction.GetPropertyAction;
+import stbtic sun.nio.fs.SolbrisNbtiveDispbtcher.*;
 
 /**
- * Solaris implementation of FileSystem
+ * Solbris implementbtion of FileSystem
  */
 
-class SolarisFileSystem extends UnixFileSystem {
-    private final boolean hasSolaris11Features;
+clbss SolbrisFileSystem extends UnixFileSystem {
+    privbte finbl boolebn hbsSolbris11Febtures;
 
-    SolarisFileSystem(UnixFileSystemProvider provider, String dir) {
+    SolbrisFileSystem(UnixFileSystemProvider provider, String dir) {
         super(provider, dir);
 
         // check os.version
         String osversion = AccessController
             .doPrivileged(new GetPropertyAction("os.version"));
         String[] vers = Util.split(osversion, '.');
-        assert vers.length >= 2;
-        int majorVersion = Integer.parseInt(vers[0]);
-        int minorVersion = Integer.parseInt(vers[1]);
-        this.hasSolaris11Features =
-            (majorVersion > 5 || (majorVersion == 5 && minorVersion >= 11));
+        bssert vers.length >= 2;
+        int mbjorVersion = Integer.pbrseInt(vers[0]);
+        int minorVersion = Integer.pbrseInt(vers[1]);
+        this.hbsSolbris11Febtures =
+            (mbjorVersion > 5 || (mbjorVersion == 5 && minorVersion >= 11));
     }
 
     @Override
-    boolean isSolaris() {
+    boolebn isSolbris() {
         return true;
     }
 
     @Override
-    public WatchService newWatchService()
+    public WbtchService newWbtchService()
         throws IOException
     {
-        // FEN available since Solaris 11
-        if (hasSolaris11Features) {
-            return new SolarisWatchService(this);
+        // FEN bvbilbble since Solbris 11
+        if (hbsSolbris11Febtures) {
+            return new SolbrisWbtchService(this);
         } else {
-            return new PollingWatchService();
+            return new PollingWbtchService();
         }
     }
 
 
-    // lazy initialization of the list of supported attribute views
-    private static class SupportedFileFileAttributeViewsHolder {
-        static final Set<String> supportedFileAttributeViews =
+    // lbzy initiblizbtion of the list of supported bttribute views
+    privbte stbtic clbss SupportedFileFileAttributeViewsHolder {
+        stbtic finbl Set<String> supportedFileAttributeViews =
             supportedFileAttributeViews();
-        private static Set<String> supportedFileAttributeViews() {
-            Set<String> result = new HashSet<>();
-            result.addAll(standardFileAttributeViews());
-            // additional Solaris-specific views
-            result.add("acl");
-            result.add("user");
-            return Collections.unmodifiableSet(result);
+        privbte stbtic Set<String> supportedFileAttributeViews() {
+            Set<String> result = new HbshSet<>();
+            result.bddAll(stbndbrdFileAttributeViews());
+            // bdditionbl Solbris-specific views
+            result.bdd("bcl");
+            result.bdd("user");
+            return Collections.unmodifibbleSet(result);
         }
     }
 
@@ -92,38 +92,38 @@ class SolarisFileSystem extends UnixFileSystem {
 
     @Override
     void copyNonPosixAttributes(int ofd, int nfd) {
-        SolarisUserDefinedFileAttributeView.copyExtendedAttributes(ofd, nfd);
-        // TDB: copy ACL from source to target
+        SolbrisUserDefinedFileAttributeView.copyExtendedAttributes(ofd, nfd);
+        // TDB: copy ACL from source to tbrget
     }
 
     /**
-     * Returns object to iterate over entries in /etc/mnttab
+     * Returns object to iterbte over entries in /etc/mnttbb
      */
     @Override
-    Iterable<UnixMountEntry> getMountEntries() {
-        ArrayList<UnixMountEntry> entries = new ArrayList<>();
+    Iterbble<UnixMountEntry> getMountEntries() {
+        ArrbyList<UnixMountEntry> entries = new ArrbyList<>();
         try {
-            UnixPath mnttab = new UnixPath(this, "/etc/mnttab");
-            long fp = fopen(mnttab, "r");
+            UnixPbth mnttbb = new UnixPbth(this, "/etc/mnttbb");
+            long fp = fopen(mnttbb, "r");
             try {
                 for (;;) {
                     UnixMountEntry entry = new UnixMountEntry();
                     int res = getextmntent(fp, entry);
                     if (res < 0)
-                        break;
-                    entries.add(entry);
+                        brebk;
+                    entries.bdd(entry);
                 }
-            } finally {
+            } finblly {
                 fclose(fp);
             }
-        } catch (UnixException x) {
-            // nothing we can do
+        } cbtch (UnixException x) {
+            // nothing we cbn do
         }
         return entries;
     }
 
     @Override
     FileStore getFileStore(UnixMountEntry entry) throws IOException {
-        return new SolarisFileStore(this, entry);
+        return new SolbrisFileStore(this, entry);
     }
 }

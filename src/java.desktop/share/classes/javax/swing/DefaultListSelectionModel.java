@@ -1,454 +1,454 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing;
+pbckbge jbvbx.swing;
 
-import java.util.EventListener;
-import java.util.BitSet;
-import java.io.Serializable;
-import java.beans.Transient;
+import jbvb.util.EventListener;
+import jbvb.util.BitSet;
+import jbvb.io.Seriblizbble;
+import jbvb.bebns.Trbnsient;
 
-import javax.swing.event.*;
+import jbvbx.swing.event.*;
 
 
 /**
- * Default data model for list selections.
+ * Defbult dbtb model for list selections.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
- * @author Philip Milne
- * @author Hans Muller
+ * @buthor Philip Milne
+ * @buthor Hbns Muller
  * @see ListSelectionModel
  * @since 1.2
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class DefaultListSelectionModel implements ListSelectionModel, Cloneable, Serializable
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public clbss DefbultListSelectionModel implements ListSelectionModel, Clonebble, Seriblizbble
 {
-    private static final int MIN = -1;
-    private static final int MAX = Integer.MAX_VALUE;
-    private int selectionMode = MULTIPLE_INTERVAL_SELECTION;
-    private int minIndex = MAX;
-    private int maxIndex = MIN;
-    private int anchorIndex = -1;
-    private int leadIndex = -1;
-    private int firstAdjustedIndex = MAX;
-    private int lastAdjustedIndex = MIN;
-    private boolean isAdjusting = false;
+    privbte stbtic finbl int MIN = -1;
+    privbte stbtic finbl int MAX = Integer.MAX_VALUE;
+    privbte int selectionMode = MULTIPLE_INTERVAL_SELECTION;
+    privbte int minIndex = MAX;
+    privbte int mbxIndex = MIN;
+    privbte int bnchorIndex = -1;
+    privbte int lebdIndex = -1;
+    privbte int firstAdjustedIndex = MAX;
+    privbte int lbstAdjustedIndex = MIN;
+    privbte boolebn isAdjusting = fblse;
 
-    private int firstChangedIndex = MAX;
-    private int lastChangedIndex = MIN;
+    privbte int firstChbngedIndex = MAX;
+    privbte int lbstChbngedIndex = MIN;
 
-    private BitSet value = new BitSet(32);
+    privbte BitSet vblue = new BitSet(32);
     protected EventListenerList listenerList = new EventListenerList();
 
-    protected boolean leadAnchorNotificationEnabled = true;
+    protected boolebn lebdAnchorNotificbtionEnbbled = true;
 
     /** {@inheritDoc} */
     public int getMinSelectionIndex() { return isSelectionEmpty() ? -1 : minIndex; }
 
     /** {@inheritDoc} */
-    public int getMaxSelectionIndex() { return maxIndex; }
+    public int getMbxSelectionIndex() { return mbxIndex; }
 
     /** {@inheritDoc} */
-    public boolean getValueIsAdjusting() { return isAdjusting; }
+    public boolebn getVblueIsAdjusting() { return isAdjusting; }
 
     /** {@inheritDoc} */
     public int getSelectionMode() { return selectionMode; }
 
     /**
      * {@inheritDoc}
-     * @throws IllegalArgumentException {@inheritDoc}
+     * @throws IllegblArgumentException {@inheritDoc}
      */
     public void setSelectionMode(int selectionMode) {
         switch (selectionMode) {
-        case SINGLE_SELECTION:
-        case SINGLE_INTERVAL_SELECTION:
-        case MULTIPLE_INTERVAL_SELECTION:
+        cbse SINGLE_SELECTION:
+        cbse SINGLE_INTERVAL_SELECTION:
+        cbse MULTIPLE_INTERVAL_SELECTION:
             this.selectionMode = selectionMode;
-            break;
-        default:
-            throw new IllegalArgumentException("invalid selectionMode");
+            brebk;
+        defbult:
+            throw new IllegblArgumentException("invblid selectionMode");
         }
     }
 
     /** {@inheritDoc} */
-    public boolean isSelectedIndex(int index) {
-        return ((index < minIndex) || (index > maxIndex)) ? false : value.get(index);
+    public boolebn isSelectedIndex(int index) {
+        return ((index < minIndex) || (index > mbxIndex)) ? fblse : vblue.get(index);
     }
 
     /** {@inheritDoc} */
-    public boolean isSelectionEmpty() {
-        return (minIndex > maxIndex);
+    public boolebn isSelectionEmpty() {
+        return (minIndex > mbxIndex);
     }
 
     /** {@inheritDoc} */
-    public void addListSelectionListener(ListSelectionListener l) {
-        listenerList.add(ListSelectionListener.class, l);
+    public void bddListSelectionListener(ListSelectionListener l) {
+        listenerList.bdd(ListSelectionListener.clbss, l);
     }
 
     /** {@inheritDoc} */
     public void removeListSelectionListener(ListSelectionListener l) {
-        listenerList.remove(ListSelectionListener.class, l);
+        listenerList.remove(ListSelectionListener.clbss, l);
     }
 
     /**
-     * Returns an array of all the list selection listeners
-     * registered on this <code>DefaultListSelectionModel</code>.
+     * Returns bn brrby of bll the list selection listeners
+     * registered on this <code>DefbultListSelectionModel</code>.
      *
-     * @return all of this model's <code>ListSelectionListener</code>s
-     *         or an empty
-     *         array if no list selection listeners are currently registered
+     * @return bll of this model's <code>ListSelectionListener</code>s
+     *         or bn empty
+     *         brrby if no list selection listeners bre currently registered
      *
-     * @see #addListSelectionListener
+     * @see #bddListSelectionListener
      * @see #removeListSelectionListener
      *
      * @since 1.4
      */
     public ListSelectionListener[] getListSelectionListeners() {
-        return listenerList.getListeners(ListSelectionListener.class);
+        return listenerList.getListeners(ListSelectionListener.clbss);
     }
 
     /**
-     * Notifies listeners that we have ended a series of adjustments.
+     * Notifies listeners thbt we hbve ended b series of bdjustments.
      */
-    protected void fireValueChanged(boolean isAdjusting) {
-        if (lastChangedIndex == MIN) {
+    protected void fireVblueChbnged(boolebn isAdjusting) {
+        if (lbstChbngedIndex == MIN) {
             return;
         }
-        /* Change the values before sending the event to the
-         * listeners in case the event causes a listener to make
-         * another change to the selection.
+        /* Chbnge the vblues before sending the event to the
+         * listeners in cbse the event cbuses b listener to mbke
+         * bnother chbnge to the selection.
          */
-        int oldFirstChangedIndex = firstChangedIndex;
-        int oldLastChangedIndex = lastChangedIndex;
-        firstChangedIndex = MAX;
-        lastChangedIndex = MIN;
-        fireValueChanged(oldFirstChangedIndex, oldLastChangedIndex, isAdjusting);
+        int oldFirstChbngedIndex = firstChbngedIndex;
+        int oldLbstChbngedIndex = lbstChbngedIndex;
+        firstChbngedIndex = MAX;
+        lbstChbngedIndex = MIN;
+        fireVblueChbnged(oldFirstChbngedIndex, oldLbstChbngedIndex, isAdjusting);
     }
 
 
     /**
-     * Notifies <code>ListSelectionListeners</code> that the value
-     * of the selection, in the closed interval <code>firstIndex</code>,
-     * <code>lastIndex</code>, has changed.
+     * Notifies <code>ListSelectionListeners</code> thbt the vblue
+     * of the selection, in the closed intervbl <code>firstIndex</code>,
+     * <code>lbstIndex</code>, hbs chbnged.
      *
-     * @param firstIndex the first index in the interval
-     * @param lastIndex the last index in the interval
+     * @pbrbm firstIndex the first index in the intervbl
+     * @pbrbm lbstIndex the lbst index in the intervbl
      */
-    protected void fireValueChanged(int firstIndex, int lastIndex) {
-        fireValueChanged(firstIndex, lastIndex, getValueIsAdjusting());
+    protected void fireVblueChbnged(int firstIndex, int lbstIndex) {
+        fireVblueChbnged(firstIndex, lbstIndex, getVblueIsAdjusting());
     }
 
     /**
-     * @param firstIndex the first index in the interval
-     * @param lastIndex the last index in the interval
-     * @param isAdjusting true if this is the final change in a series of
-     *          adjustments
+     * @pbrbm firstIndex the first index in the intervbl
+     * @pbrbm lbstIndex the lbst index in the intervbl
+     * @pbrbm isAdjusting true if this is the finbl chbnge in b series of
+     *          bdjustments
      * @see EventListenerList
      */
-    protected void fireValueChanged(int firstIndex, int lastIndex, boolean isAdjusting)
+    protected void fireVblueChbnged(int firstIndex, int lbstIndex, boolebn isAdjusting)
     {
         Object[] listeners = listenerList.getListenerList();
         ListSelectionEvent e = null;
 
         for (int i = listeners.length - 2; i >= 0; i -= 2) {
-            if (listeners[i] == ListSelectionListener.class) {
+            if (listeners[i] == ListSelectionListener.clbss) {
                 if (e == null) {
-                    e = new ListSelectionEvent(this, firstIndex, lastIndex, isAdjusting);
+                    e = new ListSelectionEvent(this, firstIndex, lbstIndex, isAdjusting);
                 }
-                ((ListSelectionListener)listeners[i+1]).valueChanged(e);
+                ((ListSelectionListener)listeners[i+1]).vblueChbnged(e);
             }
         }
     }
 
-    private void fireValueChanged() {
-        if (lastAdjustedIndex == MIN) {
+    privbte void fireVblueChbnged() {
+        if (lbstAdjustedIndex == MIN) {
             return;
         }
-        /* If getValueAdjusting() is true, (eg. during a drag opereration)
-         * record the bounds of the changes so that, when the drag finishes (and
-         * setValueAdjusting(false) is called) we can post a single event
-         * with bounds covering all of these individual adjustments.
+        /* If getVblueAdjusting() is true, (eg. during b drbg opererbtion)
+         * record the bounds of the chbnges so thbt, when the drbg finishes (bnd
+         * setVblueAdjusting(fblse) is cblled) we cbn post b single event
+         * with bounds covering bll of these individubl bdjustments.
          */
-        if (getValueIsAdjusting()) {
-            firstChangedIndex = Math.min(firstChangedIndex, firstAdjustedIndex);
-            lastChangedIndex = Math.max(lastChangedIndex, lastAdjustedIndex);
+        if (getVblueIsAdjusting()) {
+            firstChbngedIndex = Mbth.min(firstChbngedIndex, firstAdjustedIndex);
+            lbstChbngedIndex = Mbth.mbx(lbstChbngedIndex, lbstAdjustedIndex);
         }
-        /* Change the values before sending the event to the
-         * listeners in case the event causes a listener to make
-         * another change to the selection.
+        /* Chbnge the vblues before sending the event to the
+         * listeners in cbse the event cbuses b listener to mbke
+         * bnother chbnge to the selection.
          */
         int oldFirstAdjustedIndex = firstAdjustedIndex;
-        int oldLastAdjustedIndex = lastAdjustedIndex;
+        int oldLbstAdjustedIndex = lbstAdjustedIndex;
         firstAdjustedIndex = MAX;
-        lastAdjustedIndex = MIN;
+        lbstAdjustedIndex = MIN;
 
-        fireValueChanged(oldFirstAdjustedIndex, oldLastAdjustedIndex);
+        fireVblueChbnged(oldFirstAdjustedIndex, oldLbstAdjustedIndex);
     }
 
     /**
-     * Returns an array of all the objects currently registered as
+     * Returns bn brrby of bll the objects currently registered bs
      * <code><em>Foo</em>Listener</code>s
      * upon this model.
      * <code><em>Foo</em>Listener</code>s
-     * are registered using the <code>add<em>Foo</em>Listener</code> method.
+     * bre registered using the <code>bdd<em>Foo</em>Listener</code> method.
      * <p>
-     * You can specify the <code>listenerType</code> argument
-     * with a class literal, such as <code><em>Foo</em>Listener.class</code>.
-     * For example, you can query a <code>DefaultListSelectionModel</code>
-     * instance <code>m</code>
+     * You cbn specify the <code>listenerType</code> brgument
+     * with b clbss literbl, such bs <code><em>Foo</em>Listener.clbss</code>.
+     * For exbmple, you cbn query b <code>DefbultListSelectionModel</code>
+     * instbnce <code>m</code>
      * for its list selection listeners
      * with the following code:
      *
-     * <pre>ListSelectionListener[] lsls = (ListSelectionListener[])(m.getListeners(ListSelectionListener.class));</pre>
+     * <pre>ListSelectionListener[] lsls = (ListSelectionListener[])(m.getListeners(ListSelectionListener.clbss));</pre>
      *
      * If no such listeners exist,
-     * this method returns an empty array.
+     * this method returns bn empty brrby.
      *
-     * @param <T> the type of {@code EventListener} class being requested
-     * @param listenerType  the type of listeners requested;
-     *          this parameter should specify an interface
-     *          that descends from <code>java.util.EventListener</code>
-     * @return an array of all objects registered as
+     * @pbrbm <T> the type of {@code EventListener} clbss being requested
+     * @pbrbm listenerType  the type of listeners requested;
+     *          this pbrbmeter should specify bn interfbce
+     *          thbt descends from <code>jbvb.util.EventListener</code>
+     * @return bn brrby of bll objects registered bs
      *          <code><em>Foo</em>Listener</code>s
      *          on this model,
-     *          or an empty array if no such
-     *          listeners have been added
-     * @exception ClassCastException if <code>listenerType</code> doesn't
-     *          specify a class or interface that implements
-     *          <code>java.util.EventListener</code>
+     *          or bn empty brrby if no such
+     *          listeners hbve been bdded
+     * @exception ClbssCbstException if <code>listenerType</code> doesn't
+     *          specify b clbss or interfbce thbt implements
+     *          <code>jbvb.util.EventListener</code>
      *
      * @see #getListSelectionListeners
      *
      * @since 1.3
      */
-    public <T extends EventListener> T[] getListeners(Class<T> listenerType) {
+    public <T extends EventListener> T[] getListeners(Clbss<T> listenerType) {
         return listenerList.getListeners(listenerType);
     }
 
-    // Updates first and last change indices
-    private void markAsDirty(int r) {
+    // Updbtes first bnd lbst chbnge indices
+    privbte void mbrkAsDirty(int r) {
         if (r == -1) {
             return;
         }
 
-        firstAdjustedIndex = Math.min(firstAdjustedIndex, r);
-        lastAdjustedIndex =  Math.max(lastAdjustedIndex, r);
+        firstAdjustedIndex = Mbth.min(firstAdjustedIndex, r);
+        lbstAdjustedIndex =  Mbth.mbx(lbstAdjustedIndex, r);
     }
 
-    // Sets the state at this index and update all relevant state.
-    private void set(int r) {
-        if (value.get(r)) {
+    // Sets the stbte bt this index bnd updbte bll relevbnt stbte.
+    privbte void set(int r) {
+        if (vblue.get(r)) {
             return;
         }
-        value.set(r);
-        markAsDirty(r);
+        vblue.set(r);
+        mbrkAsDirty(r);
 
-        // Update minimum and maximum indices
-        minIndex = Math.min(minIndex, r);
-        maxIndex = Math.max(maxIndex, r);
+        // Updbte minimum bnd mbximum indices
+        minIndex = Mbth.min(minIndex, r);
+        mbxIndex = Mbth.mbx(mbxIndex, r);
     }
 
-    // Clears the state at this index and update all relevant state.
-    private void clear(int r) {
-        if (!value.get(r)) {
+    // Clebrs the stbte bt this index bnd updbte bll relevbnt stbte.
+    privbte void clebr(int r) {
+        if (!vblue.get(r)) {
             return;
         }
-        value.clear(r);
-        markAsDirty(r);
+        vblue.clebr(r);
+        mbrkAsDirty(r);
 
-        // Update minimum and maximum indices
+        // Updbte minimum bnd mbximum indices
         /*
-           If (r > minIndex) the minimum has not changed.
-           The case (r < minIndex) is not possible because r'th value was set.
-           We only need to check for the case when lowest entry has been cleared,
-           and in this case we need to search for the first value set above it.
+           If (r > minIndex) the minimum hbs not chbnged.
+           The cbse (r < minIndex) is not possible becbuse r'th vblue wbs set.
+           We only need to check for the cbse when lowest entry hbs been clebred,
+           bnd in this cbse we need to sebrch for the first vblue set bbove it.
         */
         if (r == minIndex) {
-            for(minIndex = minIndex + 1; minIndex <= maxIndex; minIndex++) {
-                if (value.get(minIndex)) {
-                    break;
+            for(minIndex = minIndex + 1; minIndex <= mbxIndex; minIndex++) {
+                if (vblue.get(minIndex)) {
+                    brebk;
                 }
             }
         }
         /*
-           If (r < maxIndex) the maximum has not changed.
-           The case (r > maxIndex) is not possible because r'th value was set.
-           We only need to check for the case when highest entry has been cleared,
-           and in this case we need to search for the first value set below it.
+           If (r < mbxIndex) the mbximum hbs not chbnged.
+           The cbse (r > mbxIndex) is not possible becbuse r'th vblue wbs set.
+           We only need to check for the cbse when highest entry hbs been clebred,
+           bnd in this cbse we need to sebrch for the first vblue set below it.
         */
-        if (r == maxIndex) {
-            for(maxIndex = maxIndex - 1; minIndex <= maxIndex; maxIndex--) {
-                if (value.get(maxIndex)) {
-                    break;
+        if (r == mbxIndex) {
+            for(mbxIndex = mbxIndex - 1; minIndex <= mbxIndex; mbxIndex--) {
+                if (vblue.get(mbxIndex)) {
+                    brebk;
                 }
             }
         }
-        /* Performance note: This method is called from inside a loop in
-           changeSelection() but we will only iterate in the loops
-           above on the basis of one iteration per deselected cell - in total.
-           Ie. the next time this method is called the work of the previous
-           deselection will not be repeated.
+        /* Performbnce note: This method is cblled from inside b loop in
+           chbngeSelection() but we will only iterbte in the loops
+           bbove on the bbsis of one iterbtion per deselected cell - in totbl.
+           Ie. the next time this method is cblled the work of the previous
+           deselection will not be repebted.
 
-           We also don't need to worry about the case when the min and max
-           values are in their unassigned states. This cannot happen because
-           this method's initial check ensures that the selection was not empty
-           and therefore that the minIndex and maxIndex had 'real' values.
+           We blso don't need to worry bbout the cbse when the min bnd mbx
+           vblues bre in their unbssigned stbtes. This cbnnot hbppen becbuse
+           this method's initibl check ensures thbt the selection wbs not empty
+           bnd therefore thbt the minIndex bnd mbxIndex hbd 'rebl' vblues.
 
-           If we have cleared the whole selection, set the minIndex and maxIndex
-           to their cannonical values so that the next set command always works
-           just by using Math.min and Math.max.
+           If we hbve clebred the whole selection, set the minIndex bnd mbxIndex
+           to their cbnnonicbl vblues so thbt the next set commbnd blwbys works
+           just by using Mbth.min bnd Mbth.mbx.
         */
         if (isSelectionEmpty()) {
             minIndex = MAX;
-            maxIndex = MIN;
+            mbxIndex = MIN;
         }
     }
 
     /**
-     * Sets the value of the leadAnchorNotificationEnabled flag.
+     * Sets the vblue of the lebdAnchorNotificbtionEnbbled flbg.
      *
-     * @param flag boolean value for {@code leadAnchorNotificationEnabled}
-     * @see             #isLeadAnchorNotificationEnabled()
+     * @pbrbm flbg boolebn vblue for {@code lebdAnchorNotificbtionEnbbled}
+     * @see             #isLebdAnchorNotificbtionEnbbled()
      */
-    public void setLeadAnchorNotificationEnabled(boolean flag) {
-        leadAnchorNotificationEnabled = flag;
+    public void setLebdAnchorNotificbtionEnbbled(boolebn flbg) {
+        lebdAnchorNotificbtionEnbbled = flbg;
     }
 
     /**
-     * Returns the value of the <code>leadAnchorNotificationEnabled</code> flag.
-     * When <code>leadAnchorNotificationEnabled</code> is true the model
-     * generates notification events with bounds that cover all the changes to
-     * the selection plus the changes to the lead and anchor indices.
-     * Setting the flag to false causes a narrowing of the event's bounds to
-     * include only the elements that have been selected or deselected since
-     * the last change. Either way, the model continues to maintain the lead
-     * and anchor variables internally. The default is true.
+     * Returns the vblue of the <code>lebdAnchorNotificbtionEnbbled</code> flbg.
+     * When <code>lebdAnchorNotificbtionEnbbled</code> is true the model
+     * generbtes notificbtion events with bounds thbt cover bll the chbnges to
+     * the selection plus the chbnges to the lebd bnd bnchor indices.
+     * Setting the flbg to fblse cbuses b nbrrowing of the event's bounds to
+     * include only the elements thbt hbve been selected or deselected since
+     * the lbst chbnge. Either wby, the model continues to mbintbin the lebd
+     * bnd bnchor vbribbles internblly. The defbult is true.
      * <p>
-     * Note: It is possible for the lead or anchor to be changed without a
-     * change to the selection. Notification of these changes is often
-     * important, such as when the new lead or anchor needs to be updated in
-     * the view. Therefore, caution is urged when changing the default value.
+     * Note: It is possible for the lebd or bnchor to be chbnged without b
+     * chbnge to the selection. Notificbtion of these chbnges is often
+     * importbnt, such bs when the new lebd or bnchor needs to be updbted in
+     * the view. Therefore, cbution is urged when chbnging the defbult vblue.
      *
-     * @return  the value of the <code>leadAnchorNotificationEnabled</code> flag
-     * @see             #setLeadAnchorNotificationEnabled(boolean)
+     * @return  the vblue of the <code>lebdAnchorNotificbtionEnbbled</code> flbg
+     * @see             #setLebdAnchorNotificbtionEnbbled(boolebn)
      */
-    public boolean isLeadAnchorNotificationEnabled() {
-        return leadAnchorNotificationEnabled;
+    public boolebn isLebdAnchorNotificbtionEnbbled() {
+        return lebdAnchorNotificbtionEnbbled;
     }
 
-    private void updateLeadAnchorIndices(int anchorIndex, int leadIndex) {
-        if (leadAnchorNotificationEnabled) {
-            if (this.anchorIndex != anchorIndex) {
-                markAsDirty(this.anchorIndex);
-                markAsDirty(anchorIndex);
+    privbte void updbteLebdAnchorIndices(int bnchorIndex, int lebdIndex) {
+        if (lebdAnchorNotificbtionEnbbled) {
+            if (this.bnchorIndex != bnchorIndex) {
+                mbrkAsDirty(this.bnchorIndex);
+                mbrkAsDirty(bnchorIndex);
             }
 
-            if (this.leadIndex != leadIndex) {
-                markAsDirty(this.leadIndex);
-                markAsDirty(leadIndex);
+            if (this.lebdIndex != lebdIndex) {
+                mbrkAsDirty(this.lebdIndex);
+                mbrkAsDirty(lebdIndex);
             }
         }
-        this.anchorIndex = anchorIndex;
-        this.leadIndex = leadIndex;
+        this.bnchorIndex = bnchorIndex;
+        this.lebdIndex = lebdIndex;
     }
 
-    private boolean contains(int a, int b, int i) {
-        return (i >= a) && (i <= b);
+    privbte boolebn contbins(int b, int b, int i) {
+        return (i >= b) && (i <= b);
     }
 
-    private void changeSelection(int clearMin, int clearMax,
-                                 int setMin, int setMax, boolean clearFirst) {
-        for(int i = Math.min(setMin, clearMin); i <= Math.max(setMax, clearMax); i++) {
+    privbte void chbngeSelection(int clebrMin, int clebrMbx,
+                                 int setMin, int setMbx, boolebn clebrFirst) {
+        for(int i = Mbth.min(setMin, clebrMin); i <= Mbth.mbx(setMbx, clebrMbx); i++) {
 
-            boolean shouldClear = contains(clearMin, clearMax, i);
-            boolean shouldSet = contains(setMin, setMax, i);
+            boolebn shouldClebr = contbins(clebrMin, clebrMbx, i);
+            boolebn shouldSet = contbins(setMin, setMbx, i);
 
-            if (shouldSet && shouldClear) {
-                if (clearFirst) {
-                    shouldClear = false;
+            if (shouldSet && shouldClebr) {
+                if (clebrFirst) {
+                    shouldClebr = fblse;
                 }
                 else {
-                    shouldSet = false;
+                    shouldSet = fblse;
                 }
             }
 
             if (shouldSet) {
                 set(i);
             }
-            if (shouldClear) {
-                clear(i);
+            if (shouldClebr) {
+                clebr(i);
             }
         }
-        fireValueChanged();
+        fireVblueChbnged();
     }
 
    /**
-    * Change the selection with the effect of first clearing the values
-    * in the inclusive range [clearMin, clearMax] then setting the values
-    * in the inclusive range [setMin, setMax]. Do this in one pass so
-    * that no values are cleared if they would later be set.
+    * Chbnge the selection with the effect of first clebring the vblues
+    * in the inclusive rbnge [clebrMin, clebrMbx] then setting the vblues
+    * in the inclusive rbnge [setMin, setMbx]. Do this in one pbss so
+    * thbt no vblues bre clebred if they would lbter be set.
     */
-    private void changeSelection(int clearMin, int clearMax, int setMin, int setMax) {
-        changeSelection(clearMin, clearMax, setMin, setMax, true);
+    privbte void chbngeSelection(int clebrMin, int clebrMbx, int setMin, int setMbx) {
+        chbngeSelection(clebrMin, clebrMbx, setMin, setMbx, true);
     }
 
     /** {@inheritDoc} */
-    public void clearSelection() {
-        removeSelectionIntervalImpl(minIndex, maxIndex, false);
+    public void clebrSelection() {
+        removeSelectionIntervblImpl(minIndex, mbxIndex, fblse);
     }
 
     /**
-     * Changes the selection to be between {@code index0} and {@code index1}
-     * inclusive. {@code index0} doesn't have to be less than or equal to
+     * Chbnges the selection to be between {@code index0} bnd {@code index1}
+     * inclusive. {@code index0} doesn't hbve to be less thbn or equbl to
      * {@code index1}.
      * <p>
      * In {@code SINGLE_SELECTION} selection mode, only the second index
      * is used.
      * <p>
-     * If this represents a change to the current selection, then each
-     * {@code ListSelectionListener} is notified of the change.
+     * If this represents b chbnge to the current selection, then ebch
+     * {@code ListSelectionListener} is notified of the chbnge.
      * <p>
-     * If either index is {@code -1}, this method does nothing and returns
-     * without exception. Otherwise, if either index is less than {@code -1},
-     * an {@code IndexOutOfBoundsException} is thrown.
+     * If either index is {@code -1}, this method does nothing bnd returns
+     * without exception. Otherwise, if either index is less thbn {@code -1},
+     * bn {@code IndexOutOfBoundsException} is thrown.
      *
-     * @param index0 one end of the interval.
-     * @param index1 other end of the interval
-     * @throws IndexOutOfBoundsException if either index is less than {@code -1}
-     *         (and neither index is {@code -1})
-     * @see #addListSelectionListener
+     * @pbrbm index0 one end of the intervbl.
+     * @pbrbm index1 other end of the intervbl
+     * @throws IndexOutOfBoundsException if either index is less thbn {@code -1}
+     *         (bnd neither index is {@code -1})
+     * @see #bddListSelectionListener
      */
-    public void setSelectionInterval(int index0, int index1) {
+    public void setSelectionIntervbl(int index0, int index1) {
         if (index0 == -1 || index1 == -1) {
             return;
         }
@@ -457,400 +457,400 @@ public class DefaultListSelectionModel implements ListSelectionModel, Cloneable,
             index0 = index1;
         }
 
-        updateLeadAnchorIndices(index0, index1);
+        updbteLebdAnchorIndices(index0, index1);
 
-        int clearMin = minIndex;
-        int clearMax = maxIndex;
-        int setMin = Math.min(index0, index1);
-        int setMax = Math.max(index0, index1);
-        changeSelection(clearMin, clearMax, setMin, setMax);
+        int clebrMin = minIndex;
+        int clebrMbx = mbxIndex;
+        int setMin = Mbth.min(index0, index1);
+        int setMbx = Mbth.mbx(index0, index1);
+        chbngeSelection(clebrMin, clebrMbx, setMin, setMbx);
     }
 
     /**
-     * Changes the selection to be the set union of the current selection
-     * and the indices between {@code index0} and {@code index1} inclusive.
+     * Chbnges the selection to be the set union of the current selection
+     * bnd the indices between {@code index0} bnd {@code index1} inclusive.
      * <p>
-     * In {@code SINGLE_SELECTION} selection mode, this is equivalent
-     * to calling {@code setSelectionInterval}, and only the second index
+     * In {@code SINGLE_SELECTION} selection mode, this is equivblent
+     * to cblling {@code setSelectionIntervbl}, bnd only the second index
      * is used. In {@code SINGLE_INTERVAL_SELECTION} selection mode, this
-     * method behaves like {@code setSelectionInterval}, unless the given
-     * interval is immediately adjacent to or overlaps the existing selection,
-     * and can therefore be used to grow it.
+     * method behbves like {@code setSelectionIntervbl}, unless the given
+     * intervbl is immedibtely bdjbcent to or overlbps the existing selection,
+     * bnd cbn therefore be used to grow it.
      * <p>
-     * If this represents a change to the current selection, then each
-     * {@code ListSelectionListener} is notified of the change. Note that
-     * {@code index0} doesn't have to be less than or equal to {@code index1}.
+     * If this represents b chbnge to the current selection, then ebch
+     * {@code ListSelectionListener} is notified of the chbnge. Note thbt
+     * {@code index0} doesn't hbve to be less thbn or equbl to {@code index1}.
      * <p>
-     * If either index is {@code -1}, this method does nothing and returns
-     * without exception. Otherwise, if either index is less than {@code -1},
-     * an {@code IndexOutOfBoundsException} is thrown.
+     * If either index is {@code -1}, this method does nothing bnd returns
+     * without exception. Otherwise, if either index is less thbn {@code -1},
+     * bn {@code IndexOutOfBoundsException} is thrown.
      *
-     * @param index0 one end of the interval.
-     * @param index1 other end of the interval
-     * @throws IndexOutOfBoundsException if either index is less than {@code -1}
-     *         (and neither index is {@code -1})
-     * @see #addListSelectionListener
-     * @see #setSelectionInterval
+     * @pbrbm index0 one end of the intervbl.
+     * @pbrbm index1 other end of the intervbl
+     * @throws IndexOutOfBoundsException if either index is less thbn {@code -1}
+     *         (bnd neither index is {@code -1})
+     * @see #bddListSelectionListener
+     * @see #setSelectionIntervbl
      */
-    public void addSelectionInterval(int index0, int index1)
+    public void bddSelectionIntervbl(int index0, int index1)
     {
         if (index0 == -1 || index1 == -1) {
             return;
         }
 
-        // If we only allow a single selection, channel through
-        // setSelectionInterval() to enforce the rule.
+        // If we only bllow b single selection, chbnnel through
+        // setSelectionIntervbl() to enforce the rule.
         if (getSelectionMode() == SINGLE_SELECTION) {
-            setSelectionInterval(index0, index1);
+            setSelectionIntervbl(index0, index1);
             return;
         }
 
-        updateLeadAnchorIndices(index0, index1);
+        updbteLebdAnchorIndices(index0, index1);
 
-        int clearMin = MAX;
-        int clearMax = MIN;
-        int setMin = Math.min(index0, index1);
-        int setMax = Math.max(index0, index1);
+        int clebrMin = MAX;
+        int clebrMbx = MIN;
+        int setMin = Mbth.min(index0, index1);
+        int setMbx = Mbth.mbx(index0, index1);
 
-        // If we only allow a single interval and this would result
-        // in multiple intervals, then set the selection to be just
-        // the new range.
+        // If we only bllow b single intervbl bnd this would result
+        // in multiple intervbls, then set the selection to be just
+        // the new rbnge.
         if (getSelectionMode() == SINGLE_INTERVAL_SELECTION &&
-                (setMax < minIndex - 1 || setMin > maxIndex + 1)) {
+                (setMbx < minIndex - 1 || setMin > mbxIndex + 1)) {
 
-            setSelectionInterval(index0, index1);
+            setSelectionIntervbl(index0, index1);
             return;
         }
 
-        changeSelection(clearMin, clearMax, setMin, setMax);
+        chbngeSelection(clebrMin, clebrMbx, setMin, setMbx);
     }
 
 
     /**
-     * Changes the selection to be the set difference of the current selection
-     * and the indices between {@code index0} and {@code index1} inclusive.
-     * {@code index0} doesn't have to be less than or equal to {@code index1}.
+     * Chbnges the selection to be the set difference of the current selection
+     * bnd the indices between {@code index0} bnd {@code index1} inclusive.
+     * {@code index0} doesn't hbve to be less thbn or equbl to {@code index1}.
      * <p>
-     * In {@code SINGLE_INTERVAL_SELECTION} selection mode, if the removal
-     * would produce two disjoint selections, the removal is extended through
-     * the greater end of the selection. For example, if the selection is
-     * {@code 0-10} and you supply indices {@code 5,6} (in any order) the
+     * In {@code SINGLE_INTERVAL_SELECTION} selection mode, if the removbl
+     * would produce two disjoint selections, the removbl is extended through
+     * the grebter end of the selection. For exbmple, if the selection is
+     * {@code 0-10} bnd you supply indices {@code 5,6} (in bny order) the
      * resulting selection is {@code 0-4}.
      * <p>
-     * If this represents a change to the current selection, then each
-     * {@code ListSelectionListener} is notified of the change.
+     * If this represents b chbnge to the current selection, then ebch
+     * {@code ListSelectionListener} is notified of the chbnge.
      * <p>
-     * If either index is {@code -1}, this method does nothing and returns
-     * without exception. Otherwise, if either index is less than {@code -1},
-     * an {@code IndexOutOfBoundsException} is thrown.
+     * If either index is {@code -1}, this method does nothing bnd returns
+     * without exception. Otherwise, if either index is less thbn {@code -1},
+     * bn {@code IndexOutOfBoundsException} is thrown.
      *
-     * @param index0 one end of the interval
-     * @param index1 other end of the interval
-     * @throws IndexOutOfBoundsException if either index is less than {@code -1}
-     *         (and neither index is {@code -1})
-     * @see #addListSelectionListener
+     * @pbrbm index0 one end of the intervbl
+     * @pbrbm index1 other end of the intervbl
+     * @throws IndexOutOfBoundsException if either index is less thbn {@code -1}
+     *         (bnd neither index is {@code -1})
+     * @see #bddListSelectionListener
      */
-    public void removeSelectionInterval(int index0, int index1)
+    public void removeSelectionIntervbl(int index0, int index1)
     {
-        removeSelectionIntervalImpl(index0, index1, true);
+        removeSelectionIntervblImpl(index0, index1, true);
     }
 
-    // private implementation allowing the selection interval
-    // to be removed without affecting the lead and anchor
-    private void removeSelectionIntervalImpl(int index0, int index1,
-                                             boolean changeLeadAnchor) {
+    // privbte implementbtion bllowing the selection intervbl
+    // to be removed without bffecting the lebd bnd bnchor
+    privbte void removeSelectionIntervblImpl(int index0, int index1,
+                                             boolebn chbngeLebdAnchor) {
 
         if (index0 == -1 || index1 == -1) {
             return;
         }
 
-        if (changeLeadAnchor) {
-            updateLeadAnchorIndices(index0, index1);
+        if (chbngeLebdAnchor) {
+            updbteLebdAnchorIndices(index0, index1);
         }
 
-        int clearMin = Math.min(index0, index1);
-        int clearMax = Math.max(index0, index1);
+        int clebrMin = Mbth.min(index0, index1);
+        int clebrMbx = Mbth.mbx(index0, index1);
         int setMin = MAX;
-        int setMax = MIN;
+        int setMbx = MIN;
 
-        // If the removal would produce to two disjoint selections in a mode
-        // that only allows one, extend the removal to the end of the selection.
+        // If the removbl would produce to two disjoint selections in b mode
+        // thbt only bllows one, extend the removbl to the end of the selection.
         if (getSelectionMode() != MULTIPLE_INTERVAL_SELECTION &&
-               clearMin > minIndex && clearMax < maxIndex) {
-            clearMax = maxIndex;
+               clebrMin > minIndex && clebrMbx < mbxIndex) {
+            clebrMbx = mbxIndex;
         }
 
-        changeSelection(clearMin, clearMax, setMin, setMax);
+        chbngeSelection(clebrMin, clebrMbx, setMin, setMbx);
     }
 
-    private void setState(int index, boolean state) {
-        if (state) {
+    privbte void setStbte(int index, boolebn stbte) {
+        if (stbte) {
             set(index);
         }
         else {
-            clear(index);
+            clebr(index);
         }
     }
 
     /**
-     * Insert length indices beginning before/after index. If the value
-     * at index is itself selected and the selection mode is not
-     * SINGLE_SELECTION, set all of the newly inserted items as selected.
-     * Otherwise leave them unselected. This method is typically
-     * called to sync the selection model with a corresponding change
-     * in the data model.
+     * Insert length indices beginning before/bfter index. If the vblue
+     * bt index is itself selected bnd the selection mode is not
+     * SINGLE_SELECTION, set bll of the newly inserted items bs selected.
+     * Otherwise lebve them unselected. This method is typicblly
+     * cblled to sync the selection model with b corresponding chbnge
+     * in the dbtb model.
      */
-    public void insertIndexInterval(int index, int length, boolean before)
+    public void insertIndexIntervbl(int index, int length, boolebn before)
     {
-        /* The first new index will appear at insMinIndex and the last
-         * one will appear at insMaxIndex
+        /* The first new index will bppebr bt insMinIndex bnd the lbst
+         * one will bppebr bt insMbxIndex
          */
         int insMinIndex = (before) ? index : index + 1;
-        int insMaxIndex = (insMinIndex + length) - 1;
+        int insMbxIndex = (insMinIndex + length) - 1;
 
         /* Right shift the entire bitset by length, beginning with
-         * index-1 if before is true, index+1 if it's false (i.e. with
+         * index-1 if before is true, index+1 if it's fblse (i.e. with
          * insMinIndex).
          */
-        for(int i = maxIndex; i >= insMinIndex; i--) {
-            setState(i + length, value.get(i));
+        for(int i = mbxIndex; i >= insMinIndex; i--) {
+            setStbte(i + length, vblue.get(i));
         }
 
-        /* Initialize the newly inserted indices.
+        /* Initiblize the newly inserted indices.
          */
-        boolean setInsertedValues = ((getSelectionMode() == SINGLE_SELECTION) ?
-                                        false : value.get(index));
-        for(int i = insMinIndex; i <= insMaxIndex; i++) {
-            setState(i, setInsertedValues);
+        boolebn setInsertedVblues = ((getSelectionMode() == SINGLE_SELECTION) ?
+                                        fblse : vblue.get(index));
+        for(int i = insMinIndex; i <= insMbxIndex; i++) {
+            setStbte(i, setInsertedVblues);
         }
 
-        int leadIndex = this.leadIndex;
-        if (leadIndex > index || (before && leadIndex == index)) {
-            leadIndex = this.leadIndex + length;
+        int lebdIndex = this.lebdIndex;
+        if (lebdIndex > index || (before && lebdIndex == index)) {
+            lebdIndex = this.lebdIndex + length;
         }
-        int anchorIndex = this.anchorIndex;
-        if (anchorIndex > index || (before && anchorIndex == index)) {
-            anchorIndex = this.anchorIndex + length;
+        int bnchorIndex = this.bnchorIndex;
+        if (bnchorIndex > index || (before && bnchorIndex == index)) {
+            bnchorIndex = this.bnchorIndex + length;
         }
-        if (leadIndex != this.leadIndex || anchorIndex != this.anchorIndex) {
-            updateLeadAnchorIndices(anchorIndex, leadIndex);
+        if (lebdIndex != this.lebdIndex || bnchorIndex != this.bnchorIndex) {
+            updbteLebdAnchorIndices(bnchorIndex, lebdIndex);
         }
 
-        fireValueChanged();
+        fireVblueChbnged();
     }
 
 
     /**
-     * Remove the indices in the interval index0,index1 (inclusive) from
-     * the selection model.  This is typically called to sync the selection
-     * model width a corresponding change in the data model.  Note
-     * that (as always) index0 need not be &lt;= index1.
+     * Remove the indices in the intervbl index0,index1 (inclusive) from
+     * the selection model.  This is typicblly cblled to sync the selection
+     * model width b corresponding chbnge in the dbtb model.  Note
+     * thbt (bs blwbys) index0 need not be &lt;= index1.
      */
-    public void removeIndexInterval(int index0, int index1)
+    public void removeIndexIntervbl(int index0, int index1)
     {
-        int rmMinIndex = Math.min(index0, index1);
-        int rmMaxIndex = Math.max(index0, index1);
-        int gapLength = (rmMaxIndex - rmMinIndex) + 1;
+        int rmMinIndex = Mbth.min(index0, index1);
+        int rmMbxIndex = Mbth.mbx(index0, index1);
+        int gbpLength = (rmMbxIndex - rmMinIndex) + 1;
 
         /* Shift the entire bitset to the left to close the index0, index1
-         * gap.
+         * gbp.
          */
-        for(int i = rmMinIndex; i <= maxIndex; i++) {
-            setState(i, value.get(i + gapLength));
+        for(int i = rmMinIndex; i <= mbxIndex; i++) {
+            setStbte(i, vblue.get(i + gbpLength));
         }
 
-        int leadIndex = this.leadIndex;
-        if (leadIndex == 0 && rmMinIndex == 0) {
+        int lebdIndex = this.lebdIndex;
+        if (lebdIndex == 0 && rmMinIndex == 0) {
             // do nothing
-        } else if (leadIndex > rmMaxIndex) {
-            leadIndex = this.leadIndex - gapLength;
-        } else if (leadIndex >= rmMinIndex) {
-            leadIndex = rmMinIndex - 1;
+        } else if (lebdIndex > rmMbxIndex) {
+            lebdIndex = this.lebdIndex - gbpLength;
+        } else if (lebdIndex >= rmMinIndex) {
+            lebdIndex = rmMinIndex - 1;
         }
 
-        int anchorIndex = this.anchorIndex;
-        if (anchorIndex == 0 && rmMinIndex == 0) {
+        int bnchorIndex = this.bnchorIndex;
+        if (bnchorIndex == 0 && rmMinIndex == 0) {
             // do nothing
-        } else if (anchorIndex > rmMaxIndex) {
-            anchorIndex = this.anchorIndex - gapLength;
-        } else if (anchorIndex >= rmMinIndex) {
-            anchorIndex = rmMinIndex - 1;
+        } else if (bnchorIndex > rmMbxIndex) {
+            bnchorIndex = this.bnchorIndex - gbpLength;
+        } else if (bnchorIndex >= rmMinIndex) {
+            bnchorIndex = rmMinIndex - 1;
         }
 
-        if (leadIndex != this.leadIndex || anchorIndex != this.anchorIndex) {
-            updateLeadAnchorIndices(anchorIndex, leadIndex);
+        if (lebdIndex != this.lebdIndex || bnchorIndex != this.bnchorIndex) {
+            updbteLebdAnchorIndices(bnchorIndex, lebdIndex);
         }
 
-        fireValueChanged();
+        fireVblueChbnged();
     }
 
 
     /** {@inheritDoc} */
-    public void setValueIsAdjusting(boolean isAdjusting) {
+    public void setVblueIsAdjusting(boolebn isAdjusting) {
         if (isAdjusting != this.isAdjusting) {
             this.isAdjusting = isAdjusting;
-            this.fireValueChanged(isAdjusting);
+            this.fireVblueChbnged(isAdjusting);
         }
     }
 
 
     /**
-     * Returns a string that displays and identifies this
+     * Returns b string thbt displbys bnd identifies this
      * object's properties.
      *
-     * @return a <code>String</code> representation of this object
+     * @return b <code>String</code> representbtion of this object
      */
     public String toString() {
-        String s =  ((getValueIsAdjusting()) ? "~" : "=") + value.toString();
-        return getClass().getName() + " " + Integer.toString(hashCode()) + " " + s;
+        String s =  ((getVblueIsAdjusting()) ? "~" : "=") + vblue.toString();
+        return getClbss().getNbme() + " " + Integer.toString(hbshCode()) + " " + s;
     }
 
     /**
-     * Returns a clone of this selection model with the same selection.
-     * <code>listenerLists</code> are not duplicated.
+     * Returns b clone of this selection model with the sbme selection.
+     * <code>listenerLists</code> bre not duplicbted.
      *
      * @exception CloneNotSupportedException if the selection model does not
-     *    both (a) implement the Cloneable interface and (b) define a
+     *    both (b) implement the Clonebble interfbce bnd (b) define b
      *    <code>clone</code> method.
      */
     public Object clone() throws CloneNotSupportedException {
-        DefaultListSelectionModel clone = (DefaultListSelectionModel)super.clone();
-        clone.value = (BitSet)value.clone();
+        DefbultListSelectionModel clone = (DefbultListSelectionModel)super.clone();
+        clone.vblue = (BitSet)vblue.clone();
         clone.listenerList = new EventListenerList();
         return clone;
     }
 
     /** {@inheritDoc} */
-    @Transient
+    @Trbnsient
     public int getAnchorSelectionIndex() {
-        return anchorIndex;
+        return bnchorIndex;
     }
 
     /** {@inheritDoc} */
-    @Transient
-    public int getLeadSelectionIndex() {
-        return leadIndex;
+    @Trbnsient
+    public int getLebdSelectionIndex() {
+        return lebdIndex;
     }
 
     /**
-     * Set the anchor selection index, leaving all selection values unchanged.
-     * If leadAnchorNotificationEnabled is true, send a notification covering
-     * the old and new anchor cells.
+     * Set the bnchor selection index, lebving bll selection vblues unchbnged.
+     * If lebdAnchorNotificbtionEnbbled is true, send b notificbtion covering
+     * the old bnd new bnchor cells.
      *
      * @see #getAnchorSelectionIndex
-     * @see #setLeadSelectionIndex
+     * @see #setLebdSelectionIndex
      */
-    public void setAnchorSelectionIndex(int anchorIndex) {
-        updateLeadAnchorIndices(anchorIndex, this.leadIndex);
-        fireValueChanged();
+    public void setAnchorSelectionIndex(int bnchorIndex) {
+        updbteLebdAnchorIndices(bnchorIndex, this.lebdIndex);
+        fireVblueChbnged();
     }
 
     /**
-     * Set the lead selection index, leaving all selection values unchanged.
-     * If leadAnchorNotificationEnabled is true, send a notification covering
-     * the old and new lead cells.
+     * Set the lebd selection index, lebving bll selection vblues unchbnged.
+     * If lebdAnchorNotificbtionEnbbled is true, send b notificbtion covering
+     * the old bnd new lebd cells.
      *
-     * @param leadIndex the new lead selection index
+     * @pbrbm lebdIndex the new lebd selection index
      *
      * @see #setAnchorSelectionIndex
-     * @see #setLeadSelectionIndex
-     * @see #getLeadSelectionIndex
+     * @see #setLebdSelectionIndex
+     * @see #getLebdSelectionIndex
      *
      * @since 1.5
      */
-    public void moveLeadSelectionIndex(int leadIndex) {
-        // disallow a -1 lead unless the anchor is already -1
-        if (leadIndex == -1) {
-            if (this.anchorIndex != -1) {
+    public void moveLebdSelectionIndex(int lebdIndex) {
+        // disbllow b -1 lebd unless the bnchor is blrebdy -1
+        if (lebdIndex == -1) {
+            if (this.bnchorIndex != -1) {
                 return;
             }
 
-/* PENDING(shannonh) - The following check is nice, to be consistent with
-                       setLeadSelectionIndex. However, it is not absolutely
-                       necessary: One could work around it by setting the anchor
-                       to something valid, modifying the lead, and then moving
-                       the anchor back to -1. For this reason, there's no sense
-                       in adding it at this time, as that would require
-                       updating the spec and officially committing to it.
+/* PENDING(shbnnonh) - The following check is nice, to be consistent with
+                       setLebdSelectionIndex. However, it is not bbsolutely
+                       necessbry: One could work bround it by setting the bnchor
+                       to something vblid, modifying the lebd, bnd then moving
+                       the bnchor bbck to -1. For this rebson, there's no sense
+                       in bdding it bt this time, bs thbt would require
+                       updbting the spec bnd officiblly committing to it.
 
-        // otherwise, don't do anything if the anchor is -1
-        } else if (this.anchorIndex == -1) {
+        // otherwise, don't do bnything if the bnchor is -1
+        } else if (this.bnchorIndex == -1) {
             return;
 */
 
         }
 
-        updateLeadAnchorIndices(this.anchorIndex, leadIndex);
-        fireValueChanged();
+        updbteLebdAnchorIndices(this.bnchorIndex, lebdIndex);
+        fireVblueChbnged();
     }
 
     /**
-     * Sets the lead selection index, ensuring that values between the
-     * anchor and the new lead are either all selected or all deselected.
-     * If the value at the anchor index is selected, first clear all the
-     * values in the range [anchor, oldLeadIndex], then select all the values
-     * values in the range [anchor, newLeadIndex], where oldLeadIndex is the old
-     * leadIndex and newLeadIndex is the new one.
+     * Sets the lebd selection index, ensuring thbt vblues between the
+     * bnchor bnd the new lebd bre either bll selected or bll deselected.
+     * If the vblue bt the bnchor index is selected, first clebr bll the
+     * vblues in the rbnge [bnchor, oldLebdIndex], then select bll the vblues
+     * vblues in the rbnge [bnchor, newLebdIndex], where oldLebdIndex is the old
+     * lebdIndex bnd newLebdIndex is the new one.
      * <p>
-     * If the value at the anchor index is not selected, do the same thing in
-     * reverse selecting values in the old range and deselecting values in the
+     * If the vblue bt the bnchor index is not selected, do the sbme thing in
+     * reverse selecting vblues in the old rbnge bnd deselecting vblues in the
      * new one.
      * <p>
-     * Generate a single event for this change and notify all listeners.
-     * For the purposes of generating minimal bounds in this event, do the
-     * operation in a single pass; that way the first and last index inside the
-     * ListSelectionEvent that is broadcast will refer to cells that actually
-     * changed value because of this method. If, instead, this operation were
-     * done in two steps the effect on the selection state would be the same
-     * but two events would be generated and the bounds around the changed
-     * values would be wider, including cells that had been first cleared only
-     * to later be set.
+     * Generbte b single event for this chbnge bnd notify bll listeners.
+     * For the purposes of generbting minimbl bounds in this event, do the
+     * operbtion in b single pbss; thbt wby the first bnd lbst index inside the
+     * ListSelectionEvent thbt is brobdcbst will refer to cells thbt bctublly
+     * chbnged vblue becbuse of this method. If, instebd, this operbtion were
+     * done in two steps the effect on the selection stbte would be the sbme
+     * but two events would be generbted bnd the bounds bround the chbnged
+     * vblues would be wider, including cells thbt hbd been first clebred only
+     * to lbter be set.
      * <p>
-     * This method can be used in the <code>mouseDragged</code> method
-     * of a UI class to extend a selection.
+     * This method cbn be used in the <code>mouseDrbgged</code> method
+     * of b UI clbss to extend b selection.
      *
-     * @see #getLeadSelectionIndex
+     * @see #getLebdSelectionIndex
      * @see #setAnchorSelectionIndex
      */
-    public void setLeadSelectionIndex(int leadIndex) {
-        int anchorIndex = this.anchorIndex;
+    public void setLebdSelectionIndex(int lebdIndex) {
+        int bnchorIndex = this.bnchorIndex;
 
-        // only allow a -1 lead if the anchor is already -1
-        if (leadIndex == -1) {
-            if (anchorIndex == -1) {
-                updateLeadAnchorIndices(anchorIndex, leadIndex);
-                fireValueChanged();
+        // only bllow b -1 lebd if the bnchor is blrebdy -1
+        if (lebdIndex == -1) {
+            if (bnchorIndex == -1) {
+                updbteLebdAnchorIndices(bnchorIndex, lebdIndex);
+                fireVblueChbnged();
             }
 
             return;
-        // otherwise, don't do anything if the anchor is -1
-        } else if (anchorIndex == -1) {
+        // otherwise, don't do bnything if the bnchor is -1
+        } else if (bnchorIndex == -1) {
             return;
         }
 
-        if (this.leadIndex == -1) {
-            this.leadIndex = leadIndex;
+        if (this.lebdIndex == -1) {
+            this.lebdIndex = lebdIndex;
         }
 
-        boolean shouldSelect = value.get(this.anchorIndex);
+        boolebn shouldSelect = vblue.get(this.bnchorIndex);
 
         if (getSelectionMode() == SINGLE_SELECTION) {
-            anchorIndex = leadIndex;
+            bnchorIndex = lebdIndex;
             shouldSelect = true;
         }
 
-        int oldMin = Math.min(this.anchorIndex, this.leadIndex);
-        int oldMax = Math.max(this.anchorIndex, this.leadIndex);
-        int newMin = Math.min(anchorIndex, leadIndex);
-        int newMax = Math.max(anchorIndex, leadIndex);
+        int oldMin = Mbth.min(this.bnchorIndex, this.lebdIndex);
+        int oldMbx = Mbth.mbx(this.bnchorIndex, this.lebdIndex);
+        int newMin = Mbth.min(bnchorIndex, lebdIndex);
+        int newMbx = Mbth.mbx(bnchorIndex, lebdIndex);
 
-        updateLeadAnchorIndices(anchorIndex, leadIndex);
+        updbteLebdAnchorIndices(bnchorIndex, lebdIndex);
 
         if (shouldSelect) {
-            changeSelection(oldMin, oldMax, newMin, newMax);
+            chbngeSelection(oldMin, oldMbx, newMin, newMbx);
         }
         else {
-            changeSelection(newMin, newMax, oldMin, oldMax, false);
+            chbngeSelection(newMin, newMbx, oldMin, oldMbx, fblse);
         }
     }
 }

@@ -1,276 +1,276 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.management;
+pbckbge sun.mbnbgement;
 
 import sun.misc.Perf;
-import sun.management.counter.*;
-import sun.management.counter.perf.*;
-import java.nio.ByteBuffer;
-import java.io.IOException;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.util.List;
-import java.util.Arrays;
-import java.util.Collections;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
+import sun.mbnbgement.counter.*;
+import sun.mbnbgement.counter.perf.*;
+import jbvb.nio.ByteBuffer;
+import jbvb.io.IOException;
+import jbvb.net.InetAddress;
+import jbvb.net.UnknownHostException;
+import jbvb.util.List;
+import jbvb.util.Arrbys;
+import jbvb.util.Collections;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
 
 /**
- * Implementation of VMManagement interface that accesses the management
- * attributes and operations locally within the same Java virtual
- * machine.
+ * Implementbtion of VMMbnbgement interfbce thbt bccesses the mbnbgement
+ * bttributes bnd operbtions locblly within the sbme Jbvb virtubl
+ * mbchine.
  */
-class VMManagementImpl implements VMManagement {
+clbss VMMbnbgementImpl implements VMMbnbgement {
 
-    private static String version;
+    privbte stbtic String version;
 
-    private static boolean compTimeMonitoringSupport;
-    private static boolean threadContentionMonitoringSupport;
-    private static boolean currentThreadCpuTimeSupport;
-    private static boolean otherThreadCpuTimeSupport;
-    private static boolean bootClassPathSupport;
-    private static boolean objectMonitorUsageSupport;
-    private static boolean synchronizerUsageSupport;
-    private static boolean threadAllocatedMemorySupport;
-    private static boolean gcNotificationSupport;
-    private static boolean remoteDiagnosticCommandsSupport;
+    privbte stbtic boolebn compTimeMonitoringSupport;
+    privbte stbtic boolebn threbdContentionMonitoringSupport;
+    privbte stbtic boolebn currentThrebdCpuTimeSupport;
+    privbte stbtic boolebn otherThrebdCpuTimeSupport;
+    privbte stbtic boolebn bootClbssPbthSupport;
+    privbte stbtic boolebn objectMonitorUsbgeSupport;
+    privbte stbtic boolebn synchronizerUsbgeSupport;
+    privbte stbtic boolebn threbdAllocbtedMemorySupport;
+    privbte stbtic boolebn gcNotificbtionSupport;
+    privbte stbtic boolebn remoteDibgnosticCommbndsSupport;
 
 
-    static {
+    stbtic {
         version = getVersion0();
         if (version == null) {
-            throw new AssertionError("Invalid Management Version");
+            throw new AssertionError("Invblid Mbnbgement Version");
         }
-        initOptionalSupportFields();
+        initOptionblSupportFields();
     }
-    private native static String getVersion0();
-    private native static void initOptionalSupportFields();
+    privbte nbtive stbtic String getVersion0();
+    privbte nbtive stbtic void initOptionblSupportFields();
 
-    // Optional supports
-    public boolean isCompilationTimeMonitoringSupported() {
+    // Optionbl supports
+    public boolebn isCompilbtionTimeMonitoringSupported() {
         return compTimeMonitoringSupport;
     }
 
-    public boolean isThreadContentionMonitoringSupported() {
-        return threadContentionMonitoringSupport;
+    public boolebn isThrebdContentionMonitoringSupported() {
+        return threbdContentionMonitoringSupport;
     }
 
-    public boolean isCurrentThreadCpuTimeSupported() {
-        return currentThreadCpuTimeSupport;
+    public boolebn isCurrentThrebdCpuTimeSupported() {
+        return currentThrebdCpuTimeSupport;
     }
 
-    public boolean isOtherThreadCpuTimeSupported() {
-        return otherThreadCpuTimeSupport;
+    public boolebn isOtherThrebdCpuTimeSupported() {
+        return otherThrebdCpuTimeSupport;
     }
 
-    public boolean isBootClassPathSupported() {
-        return bootClassPathSupport;
+    public boolebn isBootClbssPbthSupported() {
+        return bootClbssPbthSupport;
     }
 
-    public boolean isObjectMonitorUsageSupported() {
-        return objectMonitorUsageSupport;
+    public boolebn isObjectMonitorUsbgeSupported() {
+        return objectMonitorUsbgeSupport;
     }
 
-    public boolean isSynchronizerUsageSupported() {
-        return synchronizerUsageSupport;
+    public boolebn isSynchronizerUsbgeSupported() {
+        return synchronizerUsbgeSupport;
     }
 
-    public boolean isThreadAllocatedMemorySupported() {
-        return threadAllocatedMemorySupport;
+    public boolebn isThrebdAllocbtedMemorySupported() {
+        return threbdAllocbtedMemorySupport;
     }
 
-    public boolean isGcNotificationSupported() {
-        return gcNotificationSupport;
+    public boolebn isGcNotificbtionSupported() {
+        return gcNotificbtionSupport;
     }
 
-    public boolean isRemoteDiagnosticCommandsSupported() {
-        return remoteDiagnosticCommandsSupport;
+    public boolebn isRemoteDibgnosticCommbndsSupported() {
+        return remoteDibgnosticCommbndsSupport;
     }
 
-    public native boolean isThreadContentionMonitoringEnabled();
-    public native boolean isThreadCpuTimeEnabled();
-    public native boolean isThreadAllocatedMemoryEnabled();
+    public nbtive boolebn isThrebdContentionMonitoringEnbbled();
+    public nbtive boolebn isThrebdCpuTimeEnbbled();
+    public nbtive boolebn isThrebdAllocbtedMemoryEnbbled();
 
-    // Class Loading Subsystem
-    public int    getLoadedClassCount() {
-        long count = getTotalClassCount() - getUnloadedClassCount();
+    // Clbss Lobding Subsystem
+    public int    getLobdedClbssCount() {
+        long count = getTotblClbssCount() - getUnlobdedClbssCount();
         return (int) count;
     }
-    public native long getTotalClassCount();
-    public native long getUnloadedClassCount();
+    public nbtive long getTotblClbssCount();
+    public nbtive long getUnlobdedClbssCount();
 
-    public native boolean getVerboseClass();
+    public nbtive boolebn getVerboseClbss();
 
     // Memory Subsystem
-    public native boolean getVerboseGC();
+    public nbtive boolebn getVerboseGC();
 
     // Runtime Subsystem
-    public String   getManagementVersion() {
+    public String   getMbnbgementVersion() {
         return version;
     }
 
     public String getVmId() {
         int pid = getProcessId();
-        String hostname = "localhost";
+        String hostnbme = "locblhost";
         try {
-            hostname = InetAddress.getLocalHost().getHostName();
-        } catch (UnknownHostException e) {
+            hostnbme = InetAddress.getLocblHost().getHostNbme();
+        } cbtch (UnknownHostException e) {
             // ignore
         }
 
-        return pid + "@" + hostname;
+        return pid + "@" + hostnbme;
     }
-    private native int getProcessId();
+    privbte nbtive int getProcessId();
 
-    public String   getVmName() {
-        return System.getProperty("java.vm.name");
+    public String   getVmNbme() {
+        return System.getProperty("jbvb.vm.nbme");
     }
 
     public String   getVmVendor() {
-        return System.getProperty("java.vm.vendor");
+        return System.getProperty("jbvb.vm.vendor");
     }
     public String   getVmVersion() {
-        return System.getProperty("java.vm.version");
+        return System.getProperty("jbvb.vm.version");
     }
-    public String   getVmSpecName()  {
-        return System.getProperty("java.vm.specification.name");
+    public String   getVmSpecNbme()  {
+        return System.getProperty("jbvb.vm.specificbtion.nbme");
     }
     public String   getVmSpecVendor() {
-        return System.getProperty("java.vm.specification.vendor");
+        return System.getProperty("jbvb.vm.specificbtion.vendor");
     }
     public String   getVmSpecVersion() {
-        return System.getProperty("java.vm.specification.version");
+        return System.getProperty("jbvb.vm.specificbtion.version");
     }
-    public String   getClassPath() {
-        return System.getProperty("java.class.path");
+    public String   getClbssPbth() {
+        return System.getProperty("jbvb.clbss.pbth");
     }
-    public String   getLibraryPath()  {
-        return System.getProperty("java.library.path");
+    public String   getLibrbryPbth()  {
+        return System.getProperty("jbvb.librbry.pbth");
     }
 
-    public String   getBootClassPath( ) {
+    public String   getBootClbssPbth( ) {
         return AccessController.doPrivileged(
-            (PrivilegedAction<String>) () -> System.getProperty("sun.boot.class.path"));
+            (PrivilegedAction<String>) () -> System.getProperty("sun.boot.clbss.pbth"));
     }
 
     public long getUptime() {
         return getUptime0();
     }
 
-    private List<String> vmArgs = null;
+    privbte List<String> vmArgs = null;
     public synchronized List<String> getVmArguments() {
         if (vmArgs == null) {
-            String[] args = getVmArguments0();
-            List<String> l = ((args != null && args.length != 0) ? Arrays.asList(args) :
+            String[] brgs = getVmArguments0();
+            List<String> l = ((brgs != null && brgs.length != 0) ? Arrbys.bsList(brgs) :
                                         Collections.<String>emptyList());
-            vmArgs = Collections.unmodifiableList(l);
+            vmArgs = Collections.unmodifibbleList(l);
         }
         return vmArgs;
     }
-    public native String[] getVmArguments0();
+    public nbtive String[] getVmArguments0();
 
-    public native long getStartupTime();
-    private native long getUptime0();
-    public native int getAvailableProcessors();
+    public nbtive long getStbrtupTime();
+    privbte nbtive long getUptime0();
+    public nbtive int getAvbilbbleProcessors();
 
-    // Compilation Subsystem
-    public String   getCompilerName() {
-        String name =  AccessController.doPrivileged(
+    // Compilbtion Subsystem
+    public String   getCompilerNbme() {
+        String nbme =  AccessController.doPrivileged(
             new PrivilegedAction<String>() {
                 public String run() {
-                    return System.getProperty("sun.management.compiler");
+                    return System.getProperty("sun.mbnbgement.compiler");
                 }
             });
-        return name;
+        return nbme;
     }
-    public native long getTotalCompileTime();
+    public nbtive long getTotblCompileTime();
 
-    // Thread Subsystem
-    public native long getTotalThreadCount();
-    public native int  getLiveThreadCount();
-    public native int  getPeakThreadCount();
-    public native int  getDaemonThreadCount();
+    // Threbd Subsystem
+    public nbtive long getTotblThrebdCount();
+    public nbtive int  getLiveThrebdCount();
+    public nbtive int  getPebkThrebdCount();
+    public nbtive int  getDbemonThrebdCount();
 
-    // Operating System
-    public String getOsName() {
-        return System.getProperty("os.name");
+    // Operbting System
+    public String getOsNbme() {
+        return System.getProperty("os.nbme");
     }
     public String getOsArch() {
-        return System.getProperty("os.arch");
+        return System.getProperty("os.brch");
     }
     public String getOsVersion() {
         return System.getProperty("os.version");
     }
 
     // Hotspot-specific runtime support
-    public native long getSafepointCount();
-    public native long getTotalSafepointTime();
-    public native long getSafepointSyncTime();
-    public native long getTotalApplicationNonStoppedTime();
+    public nbtive long getSbfepointCount();
+    public nbtive long getTotblSbfepointTime();
+    public nbtive long getSbfepointSyncTime();
+    public nbtive long getTotblApplicbtionNonStoppedTime();
 
-    public native long getLoadedClassSize();
-    public native long getUnloadedClassSize();
-    public native long getClassLoadingTime();
-    public native long getMethodDataSize();
-    public native long getInitializedClassCount();
-    public native long getClassInitializationTime();
-    public native long getClassVerificationTime();
+    public nbtive long getLobdedClbssSize();
+    public nbtive long getUnlobdedClbssSize();
+    public nbtive long getClbssLobdingTime();
+    public nbtive long getMethodDbtbSize();
+    public nbtive long getInitiblizedClbssCount();
+    public nbtive long getClbssInitiblizbtionTime();
+    public nbtive long getClbssVerificbtionTime();
 
-    // Performance Counter Support
-    private PerfInstrumentation perfInstr = null;
-    private boolean noPerfData = false;
+    // Performbnce Counter Support
+    privbte PerfInstrumentbtion perfInstr = null;
+    privbte boolebn noPerfDbtb = fblse;
 
-    private synchronized PerfInstrumentation getPerfInstrumentation() {
-        if (noPerfData || perfInstr != null) {
+    privbte synchronized PerfInstrumentbtion getPerfInstrumentbtion() {
+        if (noPerfDbtb || perfInstr != null) {
              return perfInstr;
         }
 
-        // construct PerfInstrumentation object
+        // construct PerfInstrumentbtion object
         Perf perf =  AccessController.doPrivileged(new Perf.GetPerfAction());
         try {
-            ByteBuffer bb = perf.attach(0, "r");
-            if (bb.capacity() == 0) {
-                noPerfData = true;
+            ByteBuffer bb = perf.bttbch(0, "r");
+            if (bb.cbpbcity() == 0) {
+                noPerfDbtb = true;
                 return null;
             }
-            perfInstr = new PerfInstrumentation(bb);
-        } catch (IllegalArgumentException e) {
-            // If the shared memory doesn't exist e.g. if -XX:-UsePerfData
-            // was set
-            noPerfData = true;
-        } catch (IOException e) {
+            perfInstr = new PerfInstrumentbtion(bb);
+        } cbtch (IllegblArgumentException e) {
+            // If the shbred memory doesn't exist e.g. if -XX:-UsePerfDbtb
+            // wbs set
+            noPerfDbtb = true;
+        } cbtch (IOException e) {
             throw new AssertionError(e);
         }
         return perfInstr;
     }
 
-    public List<Counter> getInternalCounters(String pattern) {
-        PerfInstrumentation perf = getPerfInstrumentation();
+    public List<Counter> getInternblCounters(String pbttern) {
+        PerfInstrumentbtion perf = getPerfInstrumentbtion();
         if (perf != null) {
-            return perf.findByPattern(pattern);
+            return perf.findByPbttern(pbttern);
         } else {
             return Collections.emptyList();
         }

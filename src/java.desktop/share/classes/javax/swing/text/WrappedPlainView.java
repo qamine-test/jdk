@@ -1,159 +1,159 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.text;
+pbckbge jbvbx.swing.text;
 
-import java.awt.*;
-import java.lang.ref.SoftReference;
-import javax.swing.event.*;
+import jbvb.bwt.*;
+import jbvb.lbng.ref.SoftReference;
+import jbvbx.swing.event.*;
 
 /**
- * View of plain text (text with only one font and color)
- * that does line-wrapping.  This view expects that its
- * associated element has child elements that represent
- * the lines it should be wrapping.  It is implemented
- * as a vertical box that contains logical line views.
- * The logical line views are nested classes that render
- * the logical line as multiple physical line if the logical
- * line is too wide to fit within the allocation.  The
- * line views draw upon the outer class for its state
+ * View of plbin text (text with only one font bnd color)
+ * thbt does line-wrbpping.  This view expects thbt its
+ * bssocibted element hbs child elements thbt represent
+ * the lines it should be wrbpping.  It is implemented
+ * bs b verticbl box thbt contbins logicbl line views.
+ * The logicbl line views bre nested clbsses thbt render
+ * the logicbl line bs multiple physicbl line if the logicbl
+ * line is too wide to fit within the bllocbtion.  The
+ * line views drbw upon the outer clbss for its stbte
  * to reduce their memory requirements.
  * <p>
- * The line views do all of their rendering through the
- * <code>drawLine</code> method which in turn does all of
- * its rendering through the <code>drawSelectedText</code>
- * and <code>drawUnselectedText</code> methods.  This
- * enables subclasses to easily specialize the rendering
- * without concern for the layout aspects.
+ * The line views do bll of their rendering through the
+ * <code>drbwLine</code> method which in turn does bll of
+ * its rendering through the <code>drbwSelectedText</code>
+ * bnd <code>drbwUnselectedText</code> methods.  This
+ * enbbles subclbsses to ebsily speciblize the rendering
+ * without concern for the lbyout bspects.
  *
- * @author  Timothy Prinzing
+ * @buthor  Timothy Prinzing
  * @see     View
  */
-public class WrappedPlainView extends BoxView implements TabExpander {
+public clbss WrbppedPlbinView extends BoxView implements TbbExpbnder {
 
     /**
-     * Creates a new WrappedPlainView.  Lines will be wrapped
-     * on character boundaries.
+     * Crebtes b new WrbppedPlbinView.  Lines will be wrbpped
+     * on chbrbcter boundbries.
      *
-     * @param elem the element underlying the view
+     * @pbrbm elem the element underlying the view
      */
-    public WrappedPlainView(Element elem) {
-        this(elem, false);
+    public WrbppedPlbinView(Element elem) {
+        this(elem, fblse);
     }
 
     /**
-     * Creates a new WrappedPlainView.  Lines can be wrapped on
-     * either character or word boundaries depending upon the
-     * setting of the wordWrap parameter.
+     * Crebtes b new WrbppedPlbinView.  Lines cbn be wrbpped on
+     * either chbrbcter or word boundbries depending upon the
+     * setting of the wordWrbp pbrbmeter.
      *
-     * @param elem the element underlying the view
-     * @param wordWrap should lines be wrapped on word boundaries?
+     * @pbrbm elem the element underlying the view
+     * @pbrbm wordWrbp should lines be wrbpped on word boundbries?
      */
-    public WrappedPlainView(Element elem, boolean wordWrap) {
+    public WrbppedPlbinView(Element elem, boolebn wordWrbp) {
         super(elem, Y_AXIS);
-        this.wordWrap = wordWrap;
+        this.wordWrbp = wordWrbp;
     }
 
     /**
-     * Returns the tab size set for the document, defaulting to 8.
+     * Returns the tbb size set for the document, defbulting to 8.
      *
-     * @return the tab size
+     * @return the tbb size
      */
-    protected int getTabSize() {
-        Integer i = (Integer) getDocument().getProperty(PlainDocument.tabSizeAttribute);
-        int size = (i != null) ? i.intValue() : 8;
+    protected int getTbbSize() {
+        Integer i = (Integer) getDocument().getProperty(PlbinDocument.tbbSizeAttribute);
+        int size = (i != null) ? i.intVblue() : 8;
         return size;
     }
 
     /**
-     * Renders a line of text, suppressing whitespace at the end
-     * and expanding any tabs.  This is implemented to make calls
-     * to the methods <code>drawUnselectedText</code> and
-     * <code>drawSelectedText</code> so that the way selected and
-     * unselected text are rendered can be customized.
+     * Renders b line of text, suppressing whitespbce bt the end
+     * bnd expbnding bny tbbs.  This is implemented to mbke cblls
+     * to the methods <code>drbwUnselectedText</code> bnd
+     * <code>drbwSelectedText</code> so thbt the wby selected bnd
+     * unselected text bre rendered cbn be customized.
      *
-     * @param p0 the starting document location to use &gt;= 0
-     * @param p1 the ending document location to use &gt;= p1
-     * @param g the graphics context
-     * @param x the starting X position &gt;= 0
-     * @param y the starting Y position &gt;= 0
-     * @see #drawUnselectedText
-     * @see #drawSelectedText
+     * @pbrbm p0 the stbrting document locbtion to use &gt;= 0
+     * @pbrbm p1 the ending document locbtion to use &gt;= p1
+     * @pbrbm g the grbphics context
+     * @pbrbm x the stbrting X position &gt;= 0
+     * @pbrbm y the stbrting Y position &gt;= 0
+     * @see #drbwUnselectedText
+     * @see #drbwSelectedText
      */
-    protected void drawLine(int p0, int p1, Graphics g, int x, int y) {
-        Element lineMap = getElement();
-        Element line = lineMap.getElement(lineMap.getElementIndex(p0));
+    protected void drbwLine(int p0, int p1, Grbphics g, int x, int y) {
+        Element lineMbp = getElement();
+        Element line = lineMbp.getElement(lineMbp.getElementIndex(p0));
         Element elem;
 
         try {
-            if (line.isLeaf()) {
-                 drawText(line, p0, p1, g, x, y);
+            if (line.isLebf()) {
+                 drbwText(line, p0, p1, g, x, y);
             } else {
-                // this line contains the composed text.
+                // this line contbins the composed text.
                 int idx = line.getElementIndex(p0);
-                int lastIdx = line.getElementIndex(p1);
-                for(; idx <= lastIdx; idx++) {
+                int lbstIdx = line.getElementIndex(p1);
+                for(; idx <= lbstIdx; idx++) {
                     elem = line.getElement(idx);
-                    int start = Math.max(elem.getStartOffset(), p0);
-                    int end = Math.min(elem.getEndOffset(), p1);
-                    x = drawText(elem, start, end, g, x, y);
+                    int stbrt = Mbth.mbx(elem.getStbrtOffset(), p0);
+                    int end = Mbth.min(elem.getEndOffset(), p1);
+                    x = drbwText(elem, stbrt, end, g, x, y);
                 }
             }
-        } catch (BadLocationException e) {
-            throw new StateInvariantError("Can't render: " + p0 + "," + p1);
+        } cbtch (BbdLocbtionException e) {
+            throw new StbteInvbribntError("Cbn't render: " + p0 + "," + p1);
         }
     }
 
-    private int drawText(Element elem, int p0, int p1, Graphics g, int x, int y) throws BadLocationException {
-        p1 = Math.min(getDocument().getLength(), p1);
-        AttributeSet attr = elem.getAttributes();
+    privbte int drbwText(Element elem, int p0, int p1, Grbphics g, int x, int y) throws BbdLocbtionException {
+        p1 = Mbth.min(getDocument().getLength(), p1);
+        AttributeSet bttr = elem.getAttributes();
 
-        if (Utilities.isComposedTextAttributeDefined(attr)) {
+        if (Utilities.isComposedTextAttributeDefined(bttr)) {
             g.setColor(unselected);
-            x = Utilities.drawComposedText(this, attr, g, x, y,
-                                        p0-elem.getStartOffset(),
-                                        p1-elem.getStartOffset());
+            x = Utilities.drbwComposedText(this, bttr, g, x, y,
+                                        p0-elem.getStbrtOffset(),
+                                        p1-elem.getStbrtOffset());
         } else {
             if (sel0 == sel1 || selected == unselected) {
                 // no selection, or it is invisible
-                x = drawUnselectedText(g, x, y, p0, p1);
+                x = drbwUnselectedText(g, x, y, p0, p1);
             } else if ((p0 >= sel0 && p0 <= sel1) && (p1 >= sel0 && p1 <= sel1)) {
-                x = drawSelectedText(g, x, y, p0, p1);
+                x = drbwSelectedText(g, x, y, p0, p1);
             } else if (sel0 >= p0 && sel0 <= p1) {
                 if (sel1 >= p0 && sel1 <= p1) {
-                    x = drawUnselectedText(g, x, y, p0, sel0);
-                    x = drawSelectedText(g, x, y, sel0, sel1);
-                    x = drawUnselectedText(g, x, y, sel1, p1);
+                    x = drbwUnselectedText(g, x, y, p0, sel0);
+                    x = drbwSelectedText(g, x, y, sel0, sel1);
+                    x = drbwUnselectedText(g, x, y, sel1, p1);
                 } else {
-                    x = drawUnselectedText(g, x, y, p0, sel0);
-                    x = drawSelectedText(g, x, y, sel0, p1);
+                    x = drbwUnselectedText(g, x, y, p0, sel0);
+                    x = drbwSelectedText(g, x, y, sel0, p1);
                 }
             } else if (sel1 >= p0 && sel1 <= p1) {
-                x = drawSelectedText(g, x, y, p0, sel1);
-                x = drawUnselectedText(g, x, y, sel1, p1);
+                x = drbwSelectedText(g, x, y, p0, sel1);
+                x = drbwUnselectedText(g, x, y, sel1, p1);
             } else {
-                x = drawUnselectedText(g, x, y, p0, p1);
+                x = drbwUnselectedText(g, x, y, p0, p1);
             }
         }
 
@@ -161,60 +161,60 @@ public class WrappedPlainView extends BoxView implements TabExpander {
     }
 
     /**
-     * Renders the given range in the model as normal unselected
+     * Renders the given rbnge in the model bs normbl unselected
      * text.
      *
-     * @param g the graphics context
-     * @param x the starting X coordinate &gt;= 0
-     * @param y the starting Y coordinate &gt;= 0
-     * @param p0 the beginning position in the model &gt;= 0
-     * @param p1 the ending position in the model &gt;= p0
-     * @return the X location of the end of the range &gt;= 0
-     * @exception BadLocationException if the range is invalid
+     * @pbrbm g the grbphics context
+     * @pbrbm x the stbrting X coordinbte &gt;= 0
+     * @pbrbm y the stbrting Y coordinbte &gt;= 0
+     * @pbrbm p0 the beginning position in the model &gt;= 0
+     * @pbrbm p1 the ending position in the model &gt;= p0
+     * @return the X locbtion of the end of the rbnge &gt;= 0
+     * @exception BbdLocbtionException if the rbnge is invblid
      */
-    protected int drawUnselectedText(Graphics g, int x, int y,
-                                     int p0, int p1) throws BadLocationException {
+    protected int drbwUnselectedText(Grbphics g, int x, int y,
+                                     int p0, int p1) throws BbdLocbtionException {
         g.setColor(unselected);
         Document doc = getDocument();
-        Segment segment = SegmentCache.getSharedSegment();
+        Segment segment = SegmentCbche.getShbredSegment();
         doc.getText(p0, p1 - p0, segment);
-        int ret = Utilities.drawTabbedText(this, segment, x, y, g, this, p0);
-        SegmentCache.releaseSharedSegment(segment);
+        int ret = Utilities.drbwTbbbedText(this, segment, x, y, g, this, p0);
+        SegmentCbche.relebseShbredSegment(segment);
         return ret;
     }
 
     /**
-     * Renders the given range in the model as selected text.  This
+     * Renders the given rbnge in the model bs selected text.  This
      * is implemented to render the text in the color specified in
-     * the hosting component.  It assumes the highlighter will render
-     * the selected background.
+     * the hosting component.  It bssumes the highlighter will render
+     * the selected bbckground.
      *
-     * @param g the graphics context
-     * @param x the starting X coordinate &gt;= 0
-     * @param y the starting Y coordinate &gt;= 0
-     * @param p0 the beginning position in the model &gt;= 0
-     * @param p1 the ending position in the model &gt;= p0
-     * @return the location of the end of the range.
-     * @exception BadLocationException if the range is invalid
+     * @pbrbm g the grbphics context
+     * @pbrbm x the stbrting X coordinbte &gt;= 0
+     * @pbrbm y the stbrting Y coordinbte &gt;= 0
+     * @pbrbm p0 the beginning position in the model &gt;= 0
+     * @pbrbm p1 the ending position in the model &gt;= p0
+     * @return the locbtion of the end of the rbnge.
+     * @exception BbdLocbtionException if the rbnge is invblid
      */
-    protected int drawSelectedText(Graphics g, int x,
-                                   int y, int p0, int p1) throws BadLocationException {
+    protected int drbwSelectedText(Grbphics g, int x,
+                                   int y, int p0, int p1) throws BbdLocbtionException {
         g.setColor(selected);
         Document doc = getDocument();
-        Segment segment = SegmentCache.getSharedSegment();
+        Segment segment = SegmentCbche.getShbredSegment();
         doc.getText(p0, p1 - p0, segment);
-        int ret = Utilities.drawTabbedText(this, segment, x, y, g, this, p0);
-        SegmentCache.releaseSharedSegment(segment);
+        int ret = Utilities.drbwTbbbedText(this, segment, x, y, g, this, p0);
+        SegmentCbche.relebseShbredSegment(segment);
         return ret;
     }
 
     /**
-     * Gives access to a buffer that can be used to fetch
-     * text from the associated document.
+     * Gives bccess to b buffer thbt cbn be used to fetch
+     * text from the bssocibted document.
      *
      * @return the buffer
      */
-    protected final Segment getLineBuffer() {
+    protected finbl Segment getLineBuffer() {
         if (lineBuffer == null) {
             lineBuffer = new Segment();
         }
@@ -222,298 +222,298 @@ public class WrappedPlainView extends BoxView implements TabExpander {
     }
 
     /**
-     * This is called by the nested wrapped line
-     * views to determine the break location.  This can
-     * be reimplemented to alter the breaking behavior.
-     * It will either break at word or character boundaries
-     * depending upon the break argument given at
+     * This is cblled by the nested wrbpped line
+     * views to determine the brebk locbtion.  This cbn
+     * be reimplemented to blter the brebking behbvior.
+     * It will either brebk bt word or chbrbcter boundbries
+     * depending upon the brebk brgument given bt
      * construction.
      */
-    protected int calculateBreakPosition(int p0, int p1) {
+    protected int cblculbteBrebkPosition(int p0, int p1) {
         int p;
-        Segment segment = SegmentCache.getSharedSegment();
-        loadText(segment, p0, p1);
+        Segment segment = SegmentCbche.getShbredSegment();
+        lobdText(segment, p0, p1);
         int currentWidth = getWidth();
-        if (wordWrap) {
-            p = p0 + Utilities.getBreakLocation(segment, metrics,
-                                                tabBase, tabBase + currentWidth,
+        if (wordWrbp) {
+            p = p0 + Utilities.getBrebkLocbtion(segment, metrics,
+                                                tbbBbse, tbbBbse + currentWidth,
                                                 this, p0);
         } else {
-            p = p0 + Utilities.getTabbedTextOffset(segment, metrics,
-                                                   tabBase, tabBase + currentWidth,
-                                                   this, p0, false);
+            p = p0 + Utilities.getTbbbedTextOffset(segment, metrics,
+                                                   tbbBbse, tbbBbse + currentWidth,
+                                                   this, p0, fblse);
         }
-        SegmentCache.releaseSharedSegment(segment);
+        SegmentCbche.relebseShbredSegment(segment);
         return p;
     }
 
     /**
-     * Loads all of the children to initialize the view.
-     * This is called by the <code>setParent</code> method.
-     * Subclasses can reimplement this to initialize their
-     * child views in a different manner.  The default
-     * implementation creates a child view for each
+     * Lobds bll of the children to initiblize the view.
+     * This is cblled by the <code>setPbrent</code> method.
+     * Subclbsses cbn reimplement this to initiblize their
+     * child views in b different mbnner.  The defbult
+     * implementbtion crebtes b child view for ebch
      * child element.
      *
-     * @param f the view factory
+     * @pbrbm f the view fbctory
      */
-    protected void loadChildren(ViewFactory f) {
+    protected void lobdChildren(ViewFbctory f) {
         Element e = getElement();
         int n = e.getElementCount();
         if (n > 0) {
-            View[] added = new View[n];
+            View[] bdded = new View[n];
             for (int i = 0; i < n; i++) {
-                added[i] = new WrappedLine(e.getElement(i));
+                bdded[i] = new WrbppedLine(e.getElement(i));
             }
-            replace(0, 0, added);
+            replbce(0, 0, bdded);
         }
     }
 
     /**
-     * Update the child views in response to a
+     * Updbte the child views in response to b
      * document event.
      */
-    void updateChildren(DocumentEvent e, Shape a) {
+    void updbteChildren(DocumentEvent e, Shbpe b) {
         Element elem = getElement();
-        DocumentEvent.ElementChange ec = e.getChange(elem);
+        DocumentEvent.ElementChbnge ec = e.getChbnge(elem);
         if (ec != null) {
-            // the structure of this element changed.
+            // the structure of this element chbnged.
             Element[] removedElems = ec.getChildrenRemoved();
-            Element[] addedElems = ec.getChildrenAdded();
-            View[] added = new View[addedElems.length];
-            for (int i = 0; i < addedElems.length; i++) {
-                added[i] = new WrappedLine(addedElems[i]);
+            Element[] bddedElems = ec.getChildrenAdded();
+            View[] bdded = new View[bddedElems.length];
+            for (int i = 0; i < bddedElems.length; i++) {
+                bdded[i] = new WrbppedLine(bddedElems[i]);
             }
-            replace(ec.getIndex(), removedElems.length, added);
+            replbce(ec.getIndex(), removedElems.length, bdded);
 
-            // should damge a little more intelligently.
-            if (a != null) {
-                preferenceChanged(null, true, true);
-                getContainer().repaint();
+            // should dbmge b little more intelligently.
+            if (b != null) {
+                preferenceChbnged(null, true, true);
+                getContbiner().repbint();
             }
         }
 
-        // update font metrics which may be used by the child views
-        updateMetrics();
+        // updbte font metrics which mby be used by the child views
+        updbteMetrics();
     }
 
     /**
-     * Load the text buffer with the given range
-     * of text.  This is used by the fragments
-     * broken off of this view as well as this
+     * Lobd the text buffer with the given rbnge
+     * of text.  This is used by the frbgments
+     * broken off of this view bs well bs this
      * view itself.
      */
-    final void loadText(Segment segment, int p0, int p1) {
+    finbl void lobdText(Segment segment, int p0, int p1) {
         try {
             Document doc = getDocument();
             doc.getText(p0, p1 - p0, segment);
-        } catch (BadLocationException bl) {
-            throw new StateInvariantError("Can't get line text");
+        } cbtch (BbdLocbtionException bl) {
+            throw new StbteInvbribntError("Cbn't get line text");
         }
     }
 
-    final void updateMetrics() {
-        Component host = getContainer();
+    finbl void updbteMetrics() {
+        Component host = getContbiner();
         Font f = host.getFont();
         metrics = host.getFontMetrics(f);
-        tabSize = getTabSize() * metrics.charWidth('m');
+        tbbSize = getTbbSize() * metrics.chbrWidth('m');
     }
 
-    // --- TabExpander methods ------------------------------------------
+    // --- TbbExpbnder methods ------------------------------------------
 
     /**
-     * Returns the next tab stop position after a given reference position.
-     * This implementation does not support things like centering so it
-     * ignores the tabOffset argument.
+     * Returns the next tbb stop position bfter b given reference position.
+     * This implementbtion does not support things like centering so it
+     * ignores the tbbOffset brgument.
      *
-     * @param x the current position &gt;= 0
-     * @param tabOffset the position within the text stream
-     *   that the tab occurred at &gt;= 0.
-     * @return the tab stop, measured in points &gt;= 0
+     * @pbrbm x the current position &gt;= 0
+     * @pbrbm tbbOffset the position within the text strebm
+     *   thbt the tbb occurred bt &gt;= 0.
+     * @return the tbb stop, mebsured in points &gt;= 0
      */
-    public float nextTabStop(float x, int tabOffset) {
-        if (tabSize == 0)
+    public flobt nextTbbStop(flobt x, int tbbOffset) {
+        if (tbbSize == 0)
             return x;
-        int ntabs = ((int) x - tabBase) / tabSize;
-        return tabBase + ((ntabs + 1) * tabSize);
+        int ntbbs = ((int) x - tbbBbse) / tbbSize;
+        return tbbBbse + ((ntbbs + 1) * tbbSize);
     }
 
 
     // --- View methods -------------------------------------
 
     /**
-     * Renders using the given rendering surface and area
-     * on that surface.  This is implemented to stash the
-     * selection positions, selection colors, and font
+     * Renders using the given rendering surfbce bnd breb
+     * on thbt surfbce.  This is implemented to stbsh the
+     * selection positions, selection colors, bnd font
      * metrics for the nested lines to use.
      *
-     * @param g the rendering surface to use
-     * @param a the allocated region to render into
+     * @pbrbm g the rendering surfbce to use
+     * @pbrbm b the bllocbted region to render into
      *
-     * @see View#paint
+     * @see View#pbint
      */
-    public void paint(Graphics g, Shape a) {
-        Rectangle alloc = (Rectangle) a;
-        tabBase = alloc.x;
-        JTextComponent host = (JTextComponent) getContainer();
-        sel0 = host.getSelectionStart();
+    public void pbint(Grbphics g, Shbpe b) {
+        Rectbngle blloc = (Rectbngle) b;
+        tbbBbse = blloc.x;
+        JTextComponent host = (JTextComponent) getContbiner();
+        sel0 = host.getSelectionStbrt();
         sel1 = host.getSelectionEnd();
-        unselected = (host.isEnabled()) ?
-            host.getForeground() : host.getDisabledTextColor();
-        Caret c = host.getCaret();
+        unselected = (host.isEnbbled()) ?
+            host.getForeground() : host.getDisbbledTextColor();
+        Cbret c = host.getCbret();
         selected = c.isSelectionVisible() && host.getHighlighter() != null ?
                         host.getSelectedTextColor() : unselected;
         g.setFont(host.getFont());
 
-        // superclass paints the children
-        super.paint(g, a);
+        // superclbss pbints the children
+        super.pbint(g, b);
     }
 
     /**
-     * Sets the size of the view.  This should cause
-     * layout of the view along the given axis, if it
-     * has any layout duties.
+     * Sets the size of the view.  This should cbuse
+     * lbyout of the view blong the given bxis, if it
+     * hbs bny lbyout duties.
      *
-     * @param width the width &gt;= 0
-     * @param height the height &gt;= 0
+     * @pbrbm width the width &gt;= 0
+     * @pbrbm height the height &gt;= 0
      */
-    public void setSize(float width, float height) {
-        updateMetrics();
+    public void setSize(flobt width, flobt height) {
+        updbteMetrics();
         if ((int) width != getWidth()) {
-            // invalidate the view itself since the desired widths
-            // of the children will be based upon this views width.
-            preferenceChanged(null, true, true);
-            widthChanging = true;
+            // invblidbte the view itself since the desired widths
+            // of the children will be bbsed upon this views width.
+            preferenceChbnged(null, true, true);
+            widthChbnging = true;
         }
         super.setSize(width, height);
-        widthChanging = false;
+        widthChbnging = fblse;
     }
 
     /**
-     * Determines the preferred span for this view along an
-     * axis.  This is implemented to provide the superclass
-     * behavior after first making sure that the current font
-     * metrics are cached (for the nested lines which use
-     * the metrics to determine the height of the potentially
-     * wrapped lines).
+     * Determines the preferred spbn for this view blong bn
+     * bxis.  This is implemented to provide the superclbss
+     * behbvior bfter first mbking sure thbt the current font
+     * metrics bre cbched (for the nested lines which use
+     * the metrics to determine the height of the potentiblly
+     * wrbpped lines).
      *
-     * @param axis may be either View.X_AXIS or View.Y_AXIS
-     * @return  the span the view would like to be rendered into.
-     *           Typically the view is told to render into the span
-     *           that is returned, although there is no guarantee.
-     *           The parent may choose to resize or break the view.
-     * @see View#getPreferredSpan
+     * @pbrbm bxis mby be either View.X_AXIS or View.Y_AXIS
+     * @return  the spbn the view would like to be rendered into.
+     *           Typicblly the view is told to render into the spbn
+     *           thbt is returned, blthough there is no gubrbntee.
+     *           The pbrent mby choose to resize or brebk the view.
+     * @see View#getPreferredSpbn
      */
-    public float getPreferredSpan(int axis) {
-        updateMetrics();
-        return super.getPreferredSpan(axis);
+    public flobt getPreferredSpbn(int bxis) {
+        updbteMetrics();
+        return super.getPreferredSpbn(bxis);
     }
 
     /**
-     * Determines the minimum span for this view along an
-     * axis.  This is implemented to provide the superclass
-     * behavior after first making sure that the current font
-     * metrics are cached (for the nested lines which use
-     * the metrics to determine the height of the potentially
-     * wrapped lines).
+     * Determines the minimum spbn for this view blong bn
+     * bxis.  This is implemented to provide the superclbss
+     * behbvior bfter first mbking sure thbt the current font
+     * metrics bre cbched (for the nested lines which use
+     * the metrics to determine the height of the potentiblly
+     * wrbpped lines).
      *
-     * @param axis may be either View.X_AXIS or View.Y_AXIS
-     * @return  the span the view would like to be rendered into.
-     *           Typically the view is told to render into the span
-     *           that is returned, although there is no guarantee.
-     *           The parent may choose to resize or break the view.
-     * @see View#getMinimumSpan
+     * @pbrbm bxis mby be either View.X_AXIS or View.Y_AXIS
+     * @return  the spbn the view would like to be rendered into.
+     *           Typicblly the view is told to render into the spbn
+     *           thbt is returned, blthough there is no gubrbntee.
+     *           The pbrent mby choose to resize or brebk the view.
+     * @see View#getMinimumSpbn
      */
-    public float getMinimumSpan(int axis) {
-        updateMetrics();
-        return super.getMinimumSpan(axis);
+    public flobt getMinimumSpbn(int bxis) {
+        updbteMetrics();
+        return super.getMinimumSpbn(bxis);
     }
 
     /**
-     * Determines the maximum span for this view along an
-     * axis.  This is implemented to provide the superclass
-     * behavior after first making sure that the current font
-     * metrics are cached (for the nested lines which use
-     * the metrics to determine the height of the potentially
-     * wrapped lines).
+     * Determines the mbximum spbn for this view blong bn
+     * bxis.  This is implemented to provide the superclbss
+     * behbvior bfter first mbking sure thbt the current font
+     * metrics bre cbched (for the nested lines which use
+     * the metrics to determine the height of the potentiblly
+     * wrbpped lines).
      *
-     * @param axis may be either View.X_AXIS or View.Y_AXIS
-     * @return  the span the view would like to be rendered into.
-     *           Typically the view is told to render into the span
-     *           that is returned, although there is no guarantee.
-     *           The parent may choose to resize or break the view.
-     * @see View#getMaximumSpan
+     * @pbrbm bxis mby be either View.X_AXIS or View.Y_AXIS
+     * @return  the spbn the view would like to be rendered into.
+     *           Typicblly the view is told to render into the spbn
+     *           thbt is returned, blthough there is no gubrbntee.
+     *           The pbrent mby choose to resize or brebk the view.
+     * @see View#getMbximumSpbn
      */
-    public float getMaximumSpan(int axis) {
-        updateMetrics();
-        return super.getMaximumSpan(axis);
+    public flobt getMbximumSpbn(int bxis) {
+        updbteMetrics();
+        return super.getMbximumSpbn(bxis);
     }
 
     /**
-     * Gives notification that something was inserted into the
-     * document in a location that this view is responsible for.
-     * This is implemented to simply update the children.
+     * Gives notificbtion thbt something wbs inserted into the
+     * document in b locbtion thbt this view is responsible for.
+     * This is implemented to simply updbte the children.
      *
-     * @param e the change information from the associated document
-     * @param a the current allocation of the view
-     * @param f the factory to use to rebuild if the view has children
-     * @see View#insertUpdate
+     * @pbrbm e the chbnge informbtion from the bssocibted document
+     * @pbrbm b the current bllocbtion of the view
+     * @pbrbm f the fbctory to use to rebuild if the view hbs children
+     * @see View#insertUpdbte
      */
-    public void insertUpdate(DocumentEvent e, Shape a, ViewFactory f) {
-        updateChildren(e, a);
+    public void insertUpdbte(DocumentEvent e, Shbpe b, ViewFbctory f) {
+        updbteChildren(e, b);
 
-        Rectangle alloc = ((a != null) && isAllocationValid()) ?
-            getInsideAllocation(a) : null;
+        Rectbngle blloc = ((b != null) && isAllocbtionVblid()) ?
+            getInsideAllocbtion(b) : null;
         int pos = e.getOffset();
-        View v = getViewAtPosition(pos, alloc);
+        View v = getViewAtPosition(pos, blloc);
         if (v != null) {
-            v.insertUpdate(e, alloc, f);
+            v.insertUpdbte(e, blloc, f);
         }
     }
 
     /**
-     * Gives notification that something was removed from the
-     * document in a location that this view is responsible for.
-     * This is implemented to simply update the children.
+     * Gives notificbtion thbt something wbs removed from the
+     * document in b locbtion thbt this view is responsible for.
+     * This is implemented to simply updbte the children.
      *
-     * @param e the change information from the associated document
-     * @param a the current allocation of the view
-     * @param f the factory to use to rebuild if the view has children
-     * @see View#removeUpdate
+     * @pbrbm e the chbnge informbtion from the bssocibted document
+     * @pbrbm b the current bllocbtion of the view
+     * @pbrbm f the fbctory to use to rebuild if the view hbs children
+     * @see View#removeUpdbte
      */
-    public void removeUpdate(DocumentEvent e, Shape a, ViewFactory f) {
-        updateChildren(e, a);
+    public void removeUpdbte(DocumentEvent e, Shbpe b, ViewFbctory f) {
+        updbteChildren(e, b);
 
-        Rectangle alloc = ((a != null) && isAllocationValid()) ?
-            getInsideAllocation(a) : null;
+        Rectbngle blloc = ((b != null) && isAllocbtionVblid()) ?
+            getInsideAllocbtion(b) : null;
         int pos = e.getOffset();
-        View v = getViewAtPosition(pos, alloc);
+        View v = getViewAtPosition(pos, blloc);
         if (v != null) {
-            v.removeUpdate(e, alloc, f);
+            v.removeUpdbte(e, blloc, f);
         }
     }
 
     /**
-     * Gives notification from the document that attributes were changed
-     * in a location that this view is responsible for.
+     * Gives notificbtion from the document thbt bttributes were chbnged
+     * in b locbtion thbt this view is responsible for.
      *
-     * @param e the change information from the associated document
-     * @param a the current allocation of the view
-     * @param f the factory to use to rebuild if the view has children
-     * @see View#changedUpdate
+     * @pbrbm e the chbnge informbtion from the bssocibted document
+     * @pbrbm b the current bllocbtion of the view
+     * @pbrbm f the fbctory to use to rebuild if the view hbs children
+     * @see View#chbngedUpdbte
      */
-    public void changedUpdate(DocumentEvent e, Shape a, ViewFactory f) {
-        updateChildren(e, a);
+    public void chbngedUpdbte(DocumentEvent e, Shbpe b, ViewFbctory f) {
+        updbteChildren(e, b);
     }
 
-    // --- variables -------------------------------------------
+    // --- vbribbles -------------------------------------------
 
     FontMetrics metrics;
     Segment lineBuffer;
-    boolean widthChanging;
-    int tabBase;
-    int tabSize;
-    boolean wordWrap;
+    boolebn widthChbnging;
+    int tbbBbse;
+    int tbbSize;
+    boolebn wordWrbp;
 
     int sel0;
     int sel1;
@@ -522,83 +522,83 @@ public class WrappedPlainView extends BoxView implements TabExpander {
 
 
     /**
-     * Simple view of a line that wraps if it doesn't
-     * fit withing the horizontal space allocated.
-     * This class tries to be lightweight by carrying little
-     * state of it's own and sharing the state of the outer class
+     * Simple view of b line thbt wrbps if it doesn't
+     * fit withing the horizontbl spbce bllocbted.
+     * This clbss tries to be lightweight by cbrrying little
+     * stbte of it's own bnd shbring the stbte of the outer clbss
      * with it's sibblings.
      */
-    class WrappedLine extends View {
+    clbss WrbppedLine extends View {
 
-        WrappedLine(Element elem) {
+        WrbppedLine(Element elem) {
             super(elem);
             lineCount = -1;
         }
 
         /**
-         * Determines the preferred span for this view along an
-         * axis.
+         * Determines the preferred spbn for this view blong bn
+         * bxis.
          *
-         * @param axis may be either X_AXIS or Y_AXIS
-         * @return   the span the view would like to be rendered into.
-         *           Typically the view is told to render into the span
-         *           that is returned, although there is no guarantee.
-         *           The parent may choose to resize or break the view.
-         * @see View#getPreferredSpan
+         * @pbrbm bxis mby be either X_AXIS or Y_AXIS
+         * @return   the spbn the view would like to be rendered into.
+         *           Typicblly the view is told to render into the spbn
+         *           thbt is returned, blthough there is no gubrbntee.
+         *           The pbrent mby choose to resize or brebk the view.
+         * @see View#getPreferredSpbn
          */
-        public float getPreferredSpan(int axis) {
-            switch (axis) {
-            case View.X_AXIS:
-                float width = getWidth();
+        public flobt getPreferredSpbn(int bxis) {
+            switch (bxis) {
+            cbse View.X_AXIS:
+                flobt width = getWidth();
                 if (width == Integer.MAX_VALUE) {
-                    // We have been initially set to MAX_VALUE, but we don't
-                    // want this as our preferred.
+                    // We hbve been initiblly set to MAX_VALUE, but we don't
+                    // wbnt this bs our preferred.
                     return 100f;
                 }
                 return width;
-            case View.Y_AXIS:
-                if (lineCount < 0 || widthChanging) {
-                    breakLines(getStartOffset());
+            cbse View.Y_AXIS:
+                if (lineCount < 0 || widthChbnging) {
+                    brebkLines(getStbrtOffset());
                 }
                 return lineCount * metrics.getHeight();
-            default:
-                throw new IllegalArgumentException("Invalid axis: " + axis);
+            defbult:
+                throw new IllegblArgumentException("Invblid bxis: " + bxis);
             }
         }
 
         /**
-         * Renders using the given rendering surface and area on that
-         * surface.  The view may need to do layout and create child
-         * views to enable itself to render into the given allocation.
+         * Renders using the given rendering surfbce bnd breb on thbt
+         * surfbce.  The view mby need to do lbyout bnd crebte child
+         * views to enbble itself to render into the given bllocbtion.
          *
-         * @param g the rendering surface to use
-         * @param a the allocated region to render into
-         * @see View#paint
+         * @pbrbm g the rendering surfbce to use
+         * @pbrbm b the bllocbted region to render into
+         * @see View#pbint
          */
-        public void paint(Graphics g, Shape a) {
-            Rectangle alloc = (Rectangle) a;
-            int y = alloc.y + metrics.getAscent();
-            int x = alloc.x;
+        public void pbint(Grbphics g, Shbpe b) {
+            Rectbngle blloc = (Rectbngle) b;
+            int y = blloc.y + metrics.getAscent();
+            int x = blloc.x;
 
-            JTextComponent host = (JTextComponent)getContainer();
+            JTextComponent host = (JTextComponent)getContbiner();
             Highlighter h = host.getHighlighter();
-            LayeredHighlighter dh = (h instanceof LayeredHighlighter) ?
-                                     (LayeredHighlighter)h : null;
+            LbyeredHighlighter dh = (h instbnceof LbyeredHighlighter) ?
+                                     (LbyeredHighlighter)h : null;
 
-            int start = getStartOffset();
+            int stbrt = getStbrtOffset();
             int end = getEndOffset();
-            int p0 = start;
+            int p0 = stbrt;
             int[] lineEnds = getLineEnds();
             for (int i = 0; i < lineCount; i++) {
                 int p1 = (lineEnds == null) ? end :
-                                             start + lineEnds[i];
+                                             stbrt + lineEnds[i];
                 if (dh != null) {
                     int hOffset = (p1 == end)
                                   ? (p1 - 1)
                                   : p1;
-                    dh.paintLayeredHighlights(g, p0, hOffset, a, host, this);
+                    dh.pbintLbyeredHighlights(g, p0, hOffset, b, host, this);
                 }
-                drawLine(p0, p1, g, x, y);
+                drbwLine(p0, p1, g, x, y);
 
                 p0 = p1;
                 y += metrics.getHeight();
@@ -606,29 +606,29 @@ public class WrappedPlainView extends BoxView implements TabExpander {
         }
 
         /**
-         * Provides a mapping from the document model coordinate space
-         * to the coordinate space of the view mapped to it.
+         * Provides b mbpping from the document model coordinbte spbce
+         * to the coordinbte spbce of the view mbpped to it.
          *
-         * @param pos the position to convert
-         * @param a the allocated region to render into
+         * @pbrbm pos the position to convert
+         * @pbrbm b the bllocbted region to render into
          * @return the bounding box of the given position is returned
-         * @exception BadLocationException  if the given position does not represent a
-         *   valid location in the associated document
+         * @exception BbdLocbtionException  if the given position does not represent b
+         *   vblid locbtion in the bssocibted document
          * @see View#modelToView
          */
-        public Shape modelToView(int pos, Shape a, Position.Bias b)
-                throws BadLocationException {
-            Rectangle alloc = a.getBounds();
-            alloc.height = metrics.getHeight();
-            alloc.width = 1;
+        public Shbpe modelToView(int pos, Shbpe b, Position.Bibs b)
+                throws BbdLocbtionException {
+            Rectbngle blloc = b.getBounds();
+            blloc.height = metrics.getHeight();
+            blloc.width = 1;
 
-            int p0 = getStartOffset();
+            int p0 = getStbrtOffset();
             if (pos < p0 || pos > getEndOffset()) {
-                throw new BadLocationException("Position out of range", pos);
+                throw new BbdLocbtionException("Position out of rbnge", pos);
             }
 
-            int testP = (b == Position.Bias.Forward) ? pos :
-                        Math.max(p0, pos - 1);
+            int testP = (b == Position.Bibs.Forwbrd) ? pos :
+                        Mbth.mbx(p0, pos - 1);
             int line = 0;
             int[] lineEnds = getLineEnds();
             if (lineEnds != null) {
@@ -636,58 +636,58 @@ public class WrappedPlainView extends BoxView implements TabExpander {
                 if (line > 0) {
                     p0 += lineEnds[line - 1];
                 }
-                alloc.y += alloc.height * line;
+                blloc.y += blloc.height * line;
             }
 
             if (pos > p0) {
-                Segment segment = SegmentCache.getSharedSegment();
-                loadText(segment, p0, pos);
-                alloc.x += Utilities.getTabbedTextWidth(segment, metrics,
-                        alloc.x, WrappedPlainView.this, p0);
-                SegmentCache.releaseSharedSegment(segment);
+                Segment segment = SegmentCbche.getShbredSegment();
+                lobdText(segment, p0, pos);
+                blloc.x += Utilities.getTbbbedTextWidth(segment, metrics,
+                        blloc.x, WrbppedPlbinView.this, p0);
+                SegmentCbche.relebseShbredSegment(segment);
             }
-            return alloc;
+            return blloc;
         }
 
         /**
-         * Provides a mapping from the view coordinate space to the logical
-         * coordinate space of the model.
+         * Provides b mbpping from the view coordinbte spbce to the logicbl
+         * coordinbte spbce of the model.
          *
-         * @param fx the X coordinate
-         * @param fy the Y coordinate
-         * @param a the allocated region to render into
-         * @return the location within the model that best represents the
+         * @pbrbm fx the X coordinbte
+         * @pbrbm fy the Y coordinbte
+         * @pbrbm b the bllocbted region to render into
+         * @return the locbtion within the model thbt best represents the
          *  given point in the view
          * @see View#viewToModel
          */
-        public int viewToModel(float fx, float fy, Shape a, Position.Bias[] bias) {
-            // PENDING(prinz) implement bias properly
-            bias[0] = Position.Bias.Forward;
+        public int viewToModel(flobt fx, flobt fy, Shbpe b, Position.Bibs[] bibs) {
+            // PENDING(prinz) implement bibs properly
+            bibs[0] = Position.Bibs.Forwbrd;
 
-            Rectangle alloc = (Rectangle) a;
+            Rectbngle blloc = (Rectbngle) b;
             int x = (int) fx;
             int y = (int) fy;
-            if (y < alloc.y) {
-                // above the area covered by this icon, so the the position
-                // is assumed to be the start of the coverage for this view.
-                return getStartOffset();
-            } else if (y > alloc.y + alloc.height) {
-                // below the area covered by this icon, so the the position
-                // is assumed to be the end of the coverage for this view.
+            if (y < blloc.y) {
+                // bbove the breb covered by this icon, so the the position
+                // is bssumed to be the stbrt of the coverbge for this view.
+                return getStbrtOffset();
+            } else if (y > blloc.y + blloc.height) {
+                // below the breb covered by this icon, so the the position
+                // is bssumed to be the end of the coverbge for this view.
                 return getEndOffset() - 1;
             } else {
-                // positioned within the coverage of this view vertically,
+                // positioned within the coverbge of this view verticblly,
                 // so we figure out which line the point corresponds to.
-                // if the line is greater than the number of lines contained, then
-                // simply use the last line as it represents the last possible place
-                // we can position to.
-                alloc.height = metrics.getHeight();
-                int line = (alloc.height > 0 ?
-                            (y - alloc.y) / alloc.height : lineCount - 1);
+                // if the line is grebter thbn the number of lines contbined, then
+                // simply use the lbst line bs it represents the lbst possible plbce
+                // we cbn position to.
+                blloc.height = metrics.getHeight();
+                int line = (blloc.height > 0 ?
+                            (y - blloc.y) / blloc.height : lineCount - 1);
                 if (line >= lineCount) {
                     return getEndOffset() - 1;
                 } else {
-                    int p0 = getStartOffset();
+                    int p0 = getStbrtOffset();
                     int p1;
                     if (lineCount == 1) {
                         p1 = getEndOffset();
@@ -699,60 +699,60 @@ public class WrappedPlainView extends BoxView implements TabExpander {
                         }
                     }
 
-                    if (x < alloc.x) {
+                    if (x < blloc.x) {
                         // point is to the left of the line
                         return p0;
-                    } else if (x > alloc.x + alloc.width) {
+                    } else if (x > blloc.x + blloc.width) {
                         // point is to the right of the line
                         return p1 - 1;
                     } else {
                         // Determine the offset into the text
-                        Segment segment = SegmentCache.getSharedSegment();
-                        loadText(segment, p0, p1);
-                        int n = Utilities.getTabbedTextOffset(segment, metrics,
-                                                   alloc.x, x,
-                                                   WrappedPlainView.this, p0);
-                        SegmentCache.releaseSharedSegment(segment);
-                        return Math.min(p0 + n, p1 - 1);
+                        Segment segment = SegmentCbche.getShbredSegment();
+                        lobdText(segment, p0, p1);
+                        int n = Utilities.getTbbbedTextOffset(segment, metrics,
+                                                   blloc.x, x,
+                                                   WrbppedPlbinView.this, p0);
+                        SegmentCbche.relebseShbredSegment(segment);
+                        return Mbth.min(p0 + n, p1 - 1);
                     }
                 }
             }
         }
 
-        public void insertUpdate(DocumentEvent e, Shape a, ViewFactory f) {
-            update(e, a);
+        public void insertUpdbte(DocumentEvent e, Shbpe b, ViewFbctory f) {
+            updbte(e, b);
         }
 
-        public void removeUpdate(DocumentEvent e, Shape a, ViewFactory f) {
-            update(e, a);
+        public void removeUpdbte(DocumentEvent e, Shbpe b, ViewFbctory f) {
+            updbte(e, b);
         }
 
-        private void update(DocumentEvent ev, Shape a) {
+        privbte void updbte(DocumentEvent ev, Shbpe b) {
             int oldCount = lineCount;
-            breakLines(ev.getOffset());
+            brebkLines(ev.getOffset());
             if (oldCount != lineCount) {
-                WrappedPlainView.this.preferenceChanged(this, false, true);
-                // have to repaint any views after the receiver.
-                getContainer().repaint();
-            } else if (a != null) {
-                Component c = getContainer();
-                Rectangle alloc = (Rectangle) a;
-                c.repaint(alloc.x, alloc.y, alloc.width, alloc.height);
+                WrbppedPlbinView.this.preferenceChbnged(this, fblse, true);
+                // hbve to repbint bny views bfter the receiver.
+                getContbiner().repbint();
+            } else if (b != null) {
+                Component c = getContbiner();
+                Rectbngle blloc = (Rectbngle) b;
+                c.repbint(blloc.x, blloc.y, blloc.width, blloc.height);
             }
         }
 
         /**
-         * Returns line cache. If the cache was GC'ed, recreates it.
-         * If there's no cache, returns null
+         * Returns line cbche. If the cbche wbs GC'ed, recrebtes it.
+         * If there's no cbche, returns null
          */
-        final int[] getLineEnds() {
-            if (lineCache == null) {
+        finbl int[] getLineEnds() {
+            if (lineCbche == null) {
                 return null;
             } else {
-                int[] lineEnds = lineCache.get();
+                int[] lineEnds = lineCbche.get();
                 if (lineEnds == null) {
-                    // Cache was GC'ed, so rebuild it
-                    return breakLines(getStartOffset());
+                    // Cbche wbs GC'ed, so rebuild it
+                    return brebkLines(getStbrtOffset());
                 } else {
                     return lineEnds;
                 }
@@ -760,73 +760,73 @@ public class WrappedPlainView extends BoxView implements TabExpander {
         }
 
         /**
-         * Creates line cache if text breaks into more than one physical line.
-         * @param startPos position to start breaking from
-         * @return the cache created, ot null if text breaks into one line
+         * Crebtes line cbche if text brebks into more thbn one physicbl line.
+         * @pbrbm stbrtPos position to stbrt brebking from
+         * @return the cbche crebted, ot null if text brebks into one line
          */
-        final int[] breakLines(int startPos) {
-            int[] lineEnds = (lineCache == null) ? null : lineCache.get();
+        finbl int[] brebkLines(int stbrtPos) {
+            int[] lineEnds = (lineCbche == null) ? null : lineCbche.get();
             int[] oldLineEnds = lineEnds;
-            int start = getStartOffset();
+            int stbrt = getStbrtOffset();
             int lineIndex = 0;
             if (lineEnds != null) {
-                lineIndex = findLine(startPos - start);
+                lineIndex = findLine(stbrtPos - stbrt);
                 if (lineIndex > 0) {
                     lineIndex--;
                 }
             }
 
-            int p0 = (lineIndex == 0) ? start : start + lineEnds[lineIndex - 1];
+            int p0 = (lineIndex == 0) ? stbrt : stbrt + lineEnds[lineIndex - 1];
             int p1 = getEndOffset();
             while (p0 < p1) {
-                int p = calculateBreakPosition(p0, p1);
+                int p = cblculbteBrebkPosition(p0, p1);
                 p0 = (p == p0) ? ++p : p;      // 4410243
 
                 if (lineIndex == 0 && p0 >= p1) {
-                    // do not use cache if there's only one line
-                    lineCache = null;
+                    // do not use cbche if there's only one line
+                    lineCbche = null;
                     lineEnds = null;
                     lineIndex = 1;
-                    break;
+                    brebk;
                 } else if (lineEnds == null || lineIndex >= lineEnds.length) {
-                    // we have 2+ lines, and the cache is not big enough
-                    // we try to estimate total number of lines
-                    double growFactor = ((double)(p1 - start) / (p0 - start));
-                    int newSize = (int)Math.ceil((lineIndex + 1) * growFactor);
-                    newSize = Math.max(newSize, lineIndex + 2);
+                    // we hbve 2+ lines, bnd the cbche is not big enough
+                    // we try to estimbte totbl number of lines
+                    double growFbctor = ((double)(p1 - stbrt) / (p0 - stbrt));
+                    int newSize = (int)Mbth.ceil((lineIndex + 1) * growFbctor);
+                    newSize = Mbth.mbx(newSize, lineIndex + 2);
                     int[] tmp = new int[newSize];
                     if (lineEnds != null) {
-                        System.arraycopy(lineEnds, 0, tmp, 0, lineIndex);
+                        System.brrbycopy(lineEnds, 0, tmp, 0, lineIndex);
                     }
                     lineEnds = tmp;
                 }
-                lineEnds[lineIndex++] = p0 - start;
+                lineEnds[lineIndex++] = p0 - stbrt;
             }
 
             lineCount = lineIndex;
             if (lineCount > 1) {
-                // check if the cache is too big
-                int maxCapacity = lineCount + lineCount / 3;
-                if (lineEnds.length > maxCapacity) {
-                    int[] tmp = new int[maxCapacity];
-                    System.arraycopy(lineEnds, 0, tmp, 0, lineCount);
+                // check if the cbche is too big
+                int mbxCbpbcity = lineCount + lineCount / 3;
+                if (lineEnds.length > mbxCbpbcity) {
+                    int[] tmp = new int[mbxCbpbcity];
+                    System.brrbycopy(lineEnds, 0, tmp, 0, lineCount);
                     lineEnds = tmp;
                 }
             }
 
             if (lineEnds != null && lineEnds != oldLineEnds) {
-                lineCache = new SoftReference<int[]>(lineEnds);
+                lineCbche = new SoftReference<int[]>(lineEnds);
             }
             return lineEnds;
         }
 
         /**
-         * Binary search in the cache for line containing specified offset
-         * (which is relative to the beginning of the view). This method
-         * assumes that cache exists.
+         * Binbry sebrch in the cbche for line contbining specified offset
+         * (which is relbtive to the beginning of the view). This method
+         * bssumes thbt cbche exists.
          */
-        private int findLine(int offset) {
-            int[] lineEnds = lineCache.get();
+        privbte int findLine(int offset) {
+            int[] lineEnds = lineCbche.get();
             if (offset < lineEnds[0]) {
                 return 0;
             } else if (offset > lineEnds[lineCount - 1]) {
@@ -836,18 +836,18 @@ public class WrappedPlainView extends BoxView implements TabExpander {
             }
         }
 
-        private int findLine(int[] array, int offset, int min, int max) {
-            if (max - min <= 1) {
-                return max;
+        privbte int findLine(int[] brrby, int offset, int min, int mbx) {
+            if (mbx - min <= 1) {
+                return mbx;
             } else {
-                int mid = (max + min) / 2;
-                return (offset < array[mid]) ?
-                        findLine(array, offset, min, mid) :
-                        findLine(array, offset, mid, max);
+                int mid = (mbx + min) / 2;
+                return (offset < brrby[mid]) ?
+                        findLine(brrby, offset, min, mid) :
+                        findLine(brrby, offset, mid, mbx);
             }
         }
 
         int lineCount;
-        SoftReference<int[]> lineCache = null;
+        SoftReference<int[]> lineCbche = null;
     }
 }

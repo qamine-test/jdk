@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 1995, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -33,125 +33,125 @@
 #include "io_util.h"
 
 /*
- * Platform-specific support for java.lang.Process
+ * Plbtform-specific support for jbvb.lbng.Process
  */
-#include <assert.h>
+#include <bssert.h>
 #include <stddef.h>
 #include <stdlib.h>
 #include <sys/types.h>
 #include <ctype.h>
-#include <sys/wait.h>
-#include <signal.h>
+#include <sys/wbit.h>
+#include <signbl.h>
 #include <string.h>
 
-#if defined(__solaris__) || defined(_ALLBSD_SOURCE) || defined(_AIX)
-#include <spawn.h>
+#if defined(__solbris__) || defined(_ALLBSD_SOURCE) || defined(_AIX)
+#include <spbwn.h>
 #endif
 
 #include "childproc.h"
 
 /*
- * There are 4 possible strategies we might use to "fork":
+ * There bre 4 possible strbtegies we might use to "fork":
  *
- * - fork(2).  Very portable and reliable but subject to
- *   failure due to overcommit (see the documentation on
+ * - fork(2).  Very portbble bnd relibble but subject to
+ *   fbilure due to overcommit (see the documentbtion on
  *   /proc/sys/vm/overcommit_memory in Linux proc(5)).
- *   This is the ancient problem of spurious failure whenever a large
- *   process starts a small subprocess.
+ *   This is the bncient problem of spurious fbilure whenever b lbrge
+ *   process stbrts b smbll subprocess.
  *
- * - vfork().  Using this is scary because all relevant man pages
- *   contain dire warnings, e.g. Linux vfork(2).  But at least it's
- *   documented in the glibc docs and is standardized by XPG4.
+ * - vfork().  Using this is scbry becbuse bll relevbnt mbn pbges
+ *   contbin dire wbrnings, e.g. Linux vfork(2).  But bt lebst it's
+ *   documented in the glibc docs bnd is stbndbrdized by XPG4.
  *   http://www.opengroup.org/onlinepubs/000095399/functions/vfork.html
- *   On Linux, one might think that vfork() would be implemented using
- *   the clone system call with flag CLONE_VFORK, but in fact vfork is
- *   a separate system call (which is a good sign, suggesting that
- *   vfork will continue to be supported at least on Linux).
- *   Another good sign is that glibc implements posix_spawn using
- *   vfork whenever possible.  Note that we cannot use posix_spawn
- *   ourselves because there's no reliable way to close all inherited
+ *   On Linux, one might think thbt vfork() would be implemented using
+ *   the clone system cbll with flbg CLONE_VFORK, but in fbct vfork is
+ *   b sepbrbte system cbll (which is b good sign, suggesting thbt
+ *   vfork will continue to be supported bt lebst on Linux).
+ *   Another good sign is thbt glibc implements posix_spbwn using
+ *   vfork whenever possible.  Note thbt we cbnnot use posix_spbwn
+ *   ourselves becbuse there's no relibble wby to close bll inherited
  *   file descriptors.
  *
- * - clone() with flags CLONE_VM but not CLONE_THREAD.  clone() is
- *   Linux-specific, but this ought to work - at least the glibc
- *   sources contain code to handle different combinations of CLONE_VM
- *   and CLONE_THREAD.  However, when this was implemented, it
- *   appeared to fail on 32-bit i386 (but not 64-bit x86_64) Linux with
- *   the simple program
- *     Runtime.getRuntime().exec("/bin/true").waitFor();
+ * - clone() with flbgs CLONE_VM but not CLONE_THREAD.  clone() is
+ *   Linux-specific, but this ought to work - bt lebst the glibc
+ *   sources contbin code to hbndle different combinbtions of CLONE_VM
+ *   bnd CLONE_THREAD.  However, when this wbs implemented, it
+ *   bppebred to fbil on 32-bit i386 (but not 64-bit x86_64) Linux with
+ *   the simple progrbm
+ *     Runtime.getRuntime().exec("/bin/true").wbitFor();
  *   with:
- *     #  Internal Error (os_linux_x86.cpp:683), pid=19940, tid=2934639536
- *     #  Error: pthread_getattr_np failed with errno = 3 (ESRCH)
- *   We believe this is a glibc bug, reported here:
- *     http://sources.redhat.com/bugzilla/show_bug.cgi?id=10311
- *   but the glibc maintainers closed it as WONTFIX.
+ *     #  Internbl Error (os_linux_x86.cpp:683), pid=19940, tid=2934639536
+ *     #  Error: pthrebd_getbttr_np fbiled with errno = 3 (ESRCH)
+ *   We believe this is b glibc bug, reported here:
+ *     http://sources.redhbt.com/bugzillb/show_bug.cgi?id=10311
+ *   but the glibc mbintbiners closed it bs WONTFIX.
  *
- * - posix_spawn(). While posix_spawn() is a fairly elaborate and
- *   complicated system call, it can't quite do everything that the old
- *   fork()/exec() combination can do, so the only feasible way to do
- *   this, is to use posix_spawn to launch a new helper executable
- *   "jprochelper", which in turn execs the target (after cleaning
- *   up file-descriptors etc.) The end result is the same as before,
- *   a child process linked to the parent in the same way, but it
- *   avoids the problem of duplicating the parent (VM) process
- *   address space temporarily, before launching the target command.
+ * - posix_spbwn(). While posix_spbwn() is b fbirly elbborbte bnd
+ *   complicbted system cbll, it cbn't quite do everything thbt the old
+ *   fork()/exec() combinbtion cbn do, so the only febsible wby to do
+ *   this, is to use posix_spbwn to lbunch b new helper executbble
+ *   "jprochelper", which in turn execs the tbrget (bfter clebning
+ *   up file-descriptors etc.) The end result is the sbme bs before,
+ *   b child process linked to the pbrent in the sbme wby, but it
+ *   bvoids the problem of duplicbting the pbrent (VM) process
+ *   bddress spbce temporbrily, before lbunching the tbrget commbnd.
  *
- * Based on the above analysis, we are currently using vfork() on
- * Linux and spawn() on other Unix systems, but the code to use clone()
- * and fork() remains.
+ * Bbsed on the bbove bnblysis, we bre currently using vfork() on
+ * Linux bnd spbwn() on other Unix systems, but the code to use clone()
+ * bnd fork() rembins.
  */
 
 
-static void
-setSIGCHLDHandler(JNIEnv *env)
+stbtic void
+setSIGCHLDHbndler(JNIEnv *env)
 {
-    /* There is a subtle difference between having the signal handler
-     * for SIGCHLD be SIG_DFL and SIG_IGN.  We cannot obtain process
-     * termination information for child processes if the signal
-     * handler is SIG_IGN.  It must be SIG_DFL.
+    /* There is b subtle difference between hbving the signbl hbndler
+     * for SIGCHLD be SIG_DFL bnd SIG_IGN.  We cbnnot obtbin process
+     * terminbtion informbtion for child processes if the signbl
+     * hbndler is SIG_IGN.  It must be SIG_DFL.
      *
-     * We used to set the SIGCHLD handler only on Linux, but it's
-     * safest to set it unconditionally.
+     * We used to set the SIGCHLD hbndler only on Linux, but it's
+     * sbfest to set it unconditionblly.
      *
-     * Consider what happens if java's parent process sets the SIGCHLD
-     * handler to SIG_IGN.  Normally signal handlers are inherited by
-     * children, but SIGCHLD is a controversial case.  Solaris appears
-     * to always reset it to SIG_DFL, but this behavior may be
-     * non-standard-compliant, and we shouldn't rely on it.
+     * Consider whbt hbppens if jbvb's pbrent process sets the SIGCHLD
+     * hbndler to SIG_IGN.  Normblly signbl hbndlers bre inherited by
+     * children, but SIGCHLD is b controversibl cbse.  Solbris bppebrs
+     * to blwbys reset it to SIG_DFL, but this behbvior mby be
+     * non-stbndbrd-complibnt, bnd we shouldn't rely on it.
      *
      * References:
      * http://www.opengroup.org/onlinepubs/7908799/xsh/exec.html
-     * http://www.pasc.org/interps/unofficial/db/p1003.1/pasc-1003.1-132.html
+     * http://www.pbsc.org/interps/unofficibl/db/p1003.1/pbsc-1003.1-132.html
      */
-    struct sigaction sa;
-    sa.sa_handler = SIG_DFL;
-    sigemptyset(&sa.sa_mask);
-    sa.sa_flags = SA_NOCLDSTOP | SA_RESTART;
-    if (sigaction(SIGCHLD, &sa, NULL) < 0)
-        JNU_ThrowInternalError(env, "Can't set SIGCHLD handler");
+    struct sigbction sb;
+    sb.sb_hbndler = SIG_DFL;
+    sigemptyset(&sb.sb_mbsk);
+    sb.sb_flbgs = SA_NOCLDSTOP | SA_RESTART;
+    if (sigbction(SIGCHLD, &sb, NULL) < 0)
+        JNU_ThrowInternblError(env, "Cbn't set SIGCHLD hbndler");
 }
 
-static void*
-xmalloc(JNIEnv *env, size_t size)
+stbtic void*
+xmblloc(JNIEnv *env, size_t size)
 {
-    void *p = malloc(size);
+    void *p = mblloc(size);
     if (p == NULL)
         JNU_ThrowOutOfMemoryError(env, NULL);
     return p;
 }
 
-#define NEW(type, n) ((type *) xmalloc(env, (n) * sizeof(type)))
+#define NEW(type, n) ((type *) xmblloc(env, (n) * sizeof(type)))
 
 /**
- * If PATH is not defined, the OS provides some default value.
- * Unfortunately, there's no portable way to get this value.
- * Fortunately, it's only needed if the child has PATH while we do not.
+ * If PATH is not defined, the OS provides some defbult vblue.
+ * Unfortunbtely, there's no portbble wby to get this vblue.
+ * Fortunbtely, it's only needed if the child hbs PATH while we do not.
  */
-static const char*
-defaultPath(void)
+stbtic const chbr*
+defbultPbth(void)
 {
-#ifdef __solaris__
-    /* These really are the Solaris defaults! */
+#ifdef __solbris__
+    /* These reblly bre the Solbris defbults! */
     return (geteuid() == 0 || getuid() == 0) ?
         "/usr/xpg4/bin:/usr/ccs/bin:/usr/bin:/opt/SUNWspro/bin:/usr/sbin" :
         "/usr/xpg4/bin:/usr/ccs/bin:/usr/bin:/opt/SUNWspro/bin:";
@@ -160,15 +160,15 @@ defaultPath(void)
 #endif
 }
 
-static const char*
-effectivePath(void)
+stbtic const chbr*
+effectivePbth(void)
 {
-    const char *s = getenv("PATH");
-    return (s != NULL) ? s : defaultPath();
+    const chbr *s = getenv("PATH");
+    return (s != NULL) ? s : defbultPbth();
 }
 
-static int
-countOccurrences(const char *s, char c)
+stbtic int
+countOccurrences(const chbr *s, chbr c)
 {
     int count;
     for (count = 0; *s != '\0'; s++)
@@ -176,140 +176,140 @@ countOccurrences(const char *s, char c)
     return count;
 }
 
-static const char * const *
-effectivePathv(JNIEnv *env)
+stbtic const chbr * const *
+effectivePbthv(JNIEnv *env)
 {
-    char *p;
+    chbr *p;
     int i;
-    const char *path = effectivePath();
-    int count = countOccurrences(path, ':') + 1;
-    size_t pathvsize = sizeof(const char *) * (count+1);
-    size_t pathsize = strlen(path) + 1;
-    const char **pathv = (const char **) xmalloc(env, pathvsize + pathsize);
+    const chbr *pbth = effectivePbth();
+    int count = countOccurrences(pbth, ':') + 1;
+    size_t pbthvsize = sizeof(const chbr *) * (count+1);
+    size_t pbthsize = strlen(pbth) + 1;
+    const chbr **pbthv = (const chbr **) xmblloc(env, pbthvsize + pbthsize);
 
-    if (pathv == NULL)
+    if (pbthv == NULL)
         return NULL;
-    p = (char *) pathv + pathvsize;
-    memcpy(p, path, pathsize);
-    /* split PATH by replacing ':' with NULs; empty components => "." */
+    p = (chbr *) pbthv + pbthvsize;
+    memcpy(p, pbth, pbthsize);
+    /* split PATH by replbcing ':' with NULs; empty components => "." */
     for (i = 0; i < count; i++) {
-        char *q = p + strcspn(p, ":");
-        pathv[i] = (p == q) ? "." : p;
+        chbr *q = p + strcspn(p, ":");
+        pbthv[i] = (p == q) ? "." : p;
         *q = '\0';
         p = q + 1;
     }
-    pathv[count] = NULL;
-    return pathv;
+    pbthv[count] = NULL;
+    return pbthv;
 }
 
 JNIEXPORT void JNICALL
-Java_java_lang_UNIXProcess_init(JNIEnv *env, jclass clazz)
+Jbvb_jbvb_lbng_UNIXProcess_init(JNIEnv *env, jclbss clbzz)
 {
-    parentPathv = effectivePathv(env);
-    CHECK_NULL(parentPathv);
-    setSIGCHLDHandler(env);
+    pbrentPbthv = effectivePbthv(env);
+    CHECK_NULL(pbrentPbthv);
+    setSIGCHLDHbndler(env);
 }
 
 
 #ifndef WIFEXITED
-#define WIFEXITED(status) (((status)&0xFF) == 0)
+#define WIFEXITED(stbtus) (((stbtus)&0xFF) == 0)
 #endif
 
 #ifndef WEXITSTATUS
-#define WEXITSTATUS(status) (((status)>>8)&0xFF)
+#define WEXITSTATUS(stbtus) (((stbtus)>>8)&0xFF)
 #endif
 
 #ifndef WIFSIGNALED
-#define WIFSIGNALED(status) (((status)&0xFF) > 0 && ((status)&0xFF00) == 0)
+#define WIFSIGNALED(stbtus) (((stbtus)&0xFF) > 0 && ((stbtus)&0xFF00) == 0)
 #endif
 
 #ifndef WTERMSIG
-#define WTERMSIG(status) ((status)&0x7F)
+#define WTERMSIG(stbtus) ((stbtus)&0x7F)
 #endif
 
-/* Block until a child process exits and return its exit code.
-   Note, can only be called once for any given pid. */
+/* Block until b child process exits bnd return its exit code.
+   Note, cbn only be cblled once for bny given pid. */
 JNIEXPORT jint JNICALL
-Java_java_lang_UNIXProcess_waitForProcessExit(JNIEnv* env,
+Jbvb_jbvb_lbng_UNIXProcess_wbitForProcessExit(JNIEnv* env,
                                               jobject junk,
                                               jint pid)
 {
-    /* We used to use waitid() on Solaris, waitpid() on Linux, but
-     * waitpid() is more standard, so use it on all POSIX platforms. */
-    int status;
-    /* Wait for the child process to exit.  This returns immediately if
-       the child has already exited. */
-    while (waitpid(pid, &status, 0) < 0) {
+    /* We used to use wbitid() on Solbris, wbitpid() on Linux, but
+     * wbitpid() is more stbndbrd, so use it on bll POSIX plbtforms. */
+    int stbtus;
+    /* Wbit for the child process to exit.  This returns immedibtely if
+       the child hbs blrebdy exited. */
+    while (wbitpid(pid, &stbtus, 0) < 0) {
         switch (errno) {
-        case ECHILD: return 0;
-        case EINTR: break;
-        default: return -1;
+        cbse ECHILD: return 0;
+        cbse EINTR: brebk;
+        defbult: return -1;
         }
     }
 
-    if (WIFEXITED(status)) {
+    if (WIFEXITED(stbtus)) {
         /*
-         * The child exited normally; get its exit code.
+         * The child exited normblly; get its exit code.
          */
-        return WEXITSTATUS(status);
-    } else if (WIFSIGNALED(status)) {
-        /* The child exited because of a signal.
-         * The best value to return is 0x80 + signal number,
-         * because that is what all Unix shells do, and because
-         * it allows callers to distinguish between process exit and
-         * process death by signal.
-         * Unfortunately, the historical behavior on Solaris is to return
-         * the signal number, and we preserve this for compatibility. */
-#ifdef __solaris__
-        return WTERMSIG(status);
+        return WEXITSTATUS(stbtus);
+    } else if (WIFSIGNALED(stbtus)) {
+        /* The child exited becbuse of b signbl.
+         * The best vblue to return is 0x80 + signbl number,
+         * becbuse thbt is whbt bll Unix shells do, bnd becbuse
+         * it bllows cbllers to distinguish between process exit bnd
+         * process debth by signbl.
+         * Unfortunbtely, the historicbl behbvior on Solbris is to return
+         * the signbl number, bnd we preserve this for compbtibility. */
+#ifdef __solbris__
+        return WTERMSIG(stbtus);
 #else
-        return 0x80 + WTERMSIG(status);
+        return 0x80 + WTERMSIG(stbtus);
 #endif
     } else {
         /*
-         * Unknown exit code; pass it through.
+         * Unknown exit code; pbss it through.
          */
-        return status;
+        return stbtus;
     }
 }
 
-static const char *
-getBytes(JNIEnv *env, jbyteArray arr)
+stbtic const chbr *
+getBytes(JNIEnv *env, jbyteArrby brr)
 {
-    return arr == NULL ? NULL :
-        (const char*) (*env)->GetByteArrayElements(env, arr, NULL);
+    return brr == NULL ? NULL :
+        (const chbr*) (*env)->GetByteArrbyElements(env, brr, NULL);
 }
 
-static void
-releaseBytes(JNIEnv *env, jbyteArray arr, const char* parr)
+stbtic void
+relebseBytes(JNIEnv *env, jbyteArrby brr, const chbr* pbrr)
 {
-    if (parr != NULL)
-        (*env)->ReleaseByteArrayElements(env, arr, (jbyte*) parr, JNI_ABORT);
+    if (pbrr != NULL)
+        (*env)->RelebseByteArrbyElements(env, brr, (jbyte*) pbrr, JNI_ABORT);
 }
 
-static void
-throwIOException(JNIEnv *env, int errnum, const char *defaultDetail)
+stbtic void
+throwIOException(JNIEnv *env, int errnum, const chbr *defbultDetbil)
 {
-    static const char * const format = "error=%d, %s";
-    const char *detail = defaultDetail;
-    char *errmsg;
+    stbtic const chbr * const formbt = "error=%d, %s";
+    const chbr *detbil = defbultDetbil;
+    chbr *errmsg;
     jstring s;
 
     if (errnum != 0) {
-        const char *s = strerror(errnum);
+        const chbr *s = strerror(errnum);
         if (strcmp(s, "Unknown error") != 0)
-            detail = s;
+            detbil = s;
     }
-    /* ASCII Decimal representation uses 2.4 times as many bits as binary. */
-    errmsg = NEW(char, strlen(format) + strlen(detail) + 3 * sizeof(errnum));
+    /* ASCII Decimbl representbtion uses 2.4 times bs mbny bits bs binbry. */
+    errmsg = NEW(chbr, strlen(formbt) + strlen(detbil) + 3 * sizeof(errnum));
     if (errmsg == NULL)
         return;
 
-    sprintf(errmsg, format, errnum, detail);
-    s = JNU_NewStringPlatform(env, errmsg);
+    sprintf(errmsg, formbt, errnum, detbil);
+    s = JNU_NewStringPlbtform(env, errmsg);
     if (s != NULL) {
-        jobject x = JNU_NewObjectByName(env, "java/io/IOException",
-                                        "(Ljava/lang/String;)V", s);
+        jobject x = JNU_NewObjectByNbme(env, "jbvb/io/IOException",
+                                        "(Ljbvb/lbng/String;)V", s);
         if (x != NULL)
             (*env)->Throw(env, x);
     }
@@ -318,66 +318,66 @@ throwIOException(JNIEnv *env, int errnum, const char *defaultDetail)
 
 #ifdef DEBUG_PROCESS
 /* Debugging process code is difficult; where to write debug output? */
-static void
-debugPrint(char *format, ...)
+stbtic void
+debugPrint(chbr *formbt, ...)
 {
     FILE *tty = fopen("/dev/tty", "w");
-    va_list ap;
-    va_start(ap, format);
-    vfprintf(tty, format, ap);
-    va_end(ap);
+    vb_list bp;
+    vb_stbrt(bp, formbt);
+    vfprintf(tty, formbt, bp);
+    vb_end(bp);
     fclose(tty);
 }
 #endif /* DEBUG_PROCESS */
 
-static void
+stbtic void
 copyPipe(int from[2], int to[2])
 {
     to[0] = from[0];
     to[1] = from[1];
 }
 
-/* arg is an array of pointers to 0 terminated strings. array is terminated
- * by a null element.
+/* brg is bn brrby of pointers to 0 terminbted strings. brrby is terminbted
+ * by b null element.
  *
- * *nelems and *nbytes receive the number of elements of array (incl 0)
- * and total number of bytes (incl. 0)
- * Note. An empty array will have one null element
- * But if arg is null, then *nelems set to 0, and *nbytes to 0
+ * *nelems bnd *nbytes receive the number of elements of brrby (incl 0)
+ * bnd totbl number of bytes (incl. 0)
+ * Note. An empty brrby will hbve one null element
+ * But if brg is null, then *nelems set to 0, bnd *nbytes to 0
  */
-static void arraysize(const char * const *arg, int *nelems, int *nbytes)
+stbtic void brrbysize(const chbr * const *brg, int *nelems, int *nbytes)
 {
     int i, bytes, count;
-    const char * const *a = arg;
-    char *p;
+    const chbr * const *b = brg;
+    chbr *p;
     int *q;
-    if (arg == 0) {
+    if (brg == 0) {
         *nelems = 0;
         *nbytes = 0;
         return;
     }
-    /* count the array elements and number of bytes */
-    for (count=0, bytes=0; *a != 0; count++, a++) {
-        bytes += strlen(*a)+1;
+    /* count the brrby elements bnd number of bytes */
+    for (count=0, bytes=0; *b != 0; count++, b++) {
+        bytes += strlen(*b)+1;
     }
     *nbytes = bytes;
     *nelems = count+1;
 }
 
-/* copy the strings from arg[] into buf, starting at given offset
+/* copy the strings from brg[] into buf, stbrting bt given offset
  * return new offset to next free byte
  */
-static int copystrings(char *buf, int offset, const char * const *arg) {
-    char *p;
-    const char * const *a;
+stbtic int copystrings(chbr *buf, int offset, const chbr * const *brg) {
+    chbr *p;
+    const chbr * const *b;
     int count=0;
 
-    if (arg == 0) {
+    if (brg == 0) {
         return offset;
     }
-    for (p=buf+offset, a=arg; *a != 0; a++) {
-        int len = strlen(*a) +1;
-        memcpy(p, *a, len);
+    for (p=buf+offset, b=brg; *b != 0; b++) {
+        int len = strlen(*b) +1;
+        memcpy(p, *b, len);
         p += len;
         count += len;
     }
@@ -385,249 +385,249 @@ static int copystrings(char *buf, int offset, const char * const *arg) {
 }
 
 /**
- * We are unusually paranoid; use of clone/vfork is
- * especially likely to tickle gcc/glibc bugs.
+ * We bre unusublly pbrbnoid; use of clone/vfork is
+ * especiblly likely to tickle gcc/glibc bugs.
  */
-#ifdef __attribute_noinline__  /* See: sys/cdefs.h */
-__attribute_noinline__
+#ifdef __bttribute_noinline__  /* See: sys/cdefs.h */
+__bttribute_noinline__
 #endif
 
-#define START_CHILD_USE_CLONE 0  /* clone() currently disabled; see above. */
+#define START_CHILD_USE_CLONE 0  /* clone() currently disbbled; see bbove. */
 
 #ifdef START_CHILD_USE_CLONE
-static pid_t
+stbtic pid_t
 cloneChild(ChildStuff *c) {
 #ifdef __linux__
 #define START_CHILD_CLONE_STACK_SIZE (64 * 1024)
     /*
      * See clone(2).
-     * Instead of worrying about which direction the stack grows, just
-     * allocate twice as much and start the stack in the middle.
+     * Instebd of worrying bbout which direction the stbck grows, just
+     * bllocbte twice bs much bnd stbrt the stbck in the middle.
      */
-    if ((c->clone_stack = malloc(2 * START_CHILD_CLONE_STACK_SIZE)) == NULL)
+    if ((c->clone_stbck = mblloc(2 * START_CHILD_CLONE_STACK_SIZE)) == NULL)
         /* errno will be set to ENOMEM */
         return -1;
     return clone(childProcess,
-                 c->clone_stack + START_CHILD_CLONE_STACK_SIZE,
+                 c->clone_stbck + START_CHILD_CLONE_STACK_SIZE,
                  CLONE_VFORK | CLONE_VM | SIGCHLD, c);
 #else
-/* not available on Solaris / Mac */
-    assert(0);
+/* not bvbilbble on Solbris / Mbc */
+    bssert(0);
     return -1;
 #endif
 }
 #endif
 
-static pid_t
+stbtic pid_t
 vforkChild(ChildStuff *c) {
-    volatile pid_t resultPid;
+    volbtile pid_t resultPid;
 
     /*
-     * We separate the call to vfork into a separate function to make
-     * very sure to keep stack of child from corrupting stack of parent,
-     * as suggested by the scary gcc warning:
-     *  warning: variable 'foo' might be clobbered by 'longjmp' or 'vfork'
+     * We sepbrbte the cbll to vfork into b sepbrbte function to mbke
+     * very sure to keep stbck of child from corrupting stbck of pbrent,
+     * bs suggested by the scbry gcc wbrning:
+     *  wbrning: vbribble 'foo' might be clobbered by 'longjmp' or 'vfork'
      */
     resultPid = vfork();
 
     if (resultPid == 0) {
         childProcess(c);
     }
-    assert(resultPid != 0);  /* childProcess never returns */
+    bssert(resultPid != 0);  /* childProcess never returns */
     return resultPid;
 }
 
-static pid_t
+stbtic pid_t
 forkChild(ChildStuff *c) {
     pid_t resultPid;
 
     /*
-     * From Solaris fork(2): In Solaris 10, a call to fork() is
-     * identical to a call to fork1(); only the calling thread is
-     * replicated in the child process. This is the POSIX-specified
-     * behavior for fork().
+     * From Solbris fork(2): In Solbris 10, b cbll to fork() is
+     * identicbl to b cbll to fork1(); only the cblling threbd is
+     * replicbted in the child process. This is the POSIX-specified
+     * behbvior for fork().
      */
     resultPid = fork();
 
     if (resultPid == 0) {
         childProcess(c);
     }
-    assert(resultPid != 0);  /* childProcess never returns */
+    bssert(resultPid != 0);  /* childProcess never returns */
     return resultPid;
 }
 
-#if defined(__solaris__) || defined(_ALLBSD_SOURCE) || defined(_AIX)
-static pid_t
-spawnChild(JNIEnv *env, jobject process, ChildStuff *c, const char *helperpath) {
+#if defined(__solbris__) || defined(_ALLBSD_SOURCE) || defined(_AIX)
+stbtic pid_t
+spbwnChild(JNIEnv *env, jobject process, ChildStuff *c, const chbr *helperpbth) {
     pid_t resultPid;
-    jboolean isCopy;
-    int i, offset, rval, bufsize, magic;
-    char *buf, buf1[16];
-    char *hlpargs[2];
-    SpawnInfo sp;
+    jboolebn isCopy;
+    int i, offset, rvbl, bufsize, mbgic;
+    chbr *buf, buf1[16];
+    chbr *hlpbrgs[2];
+    SpbwnInfo sp;
 
     /* need to tell helper which fd is for receiving the childstuff
-     * and which fd to send response back on
+     * bnd which fd to send response bbck on
      */
-    snprintf(buf1, sizeof(buf1), "%d:%d", c->childenv[0], c->fail[1]);
-    /* put the fd string as argument to the helper cmd */
-    hlpargs[0] = buf1;
-    hlpargs[1] = 0;
+    snprintf(buf1, sizeof(buf1), "%d:%d", c->childenv[0], c->fbil[1]);
+    /* put the fd string bs brgument to the helper cmd */
+    hlpbrgs[0] = buf1;
+    hlpbrgs[1] = 0;
 
-    /* Following items are sent down the pipe to the helper
-     * after it is spawned.
-     * All strings are null terminated. All arrays of strings
-     * have an empty string for termination.
+    /* Following items bre sent down the pipe to the helper
+     * bfter it is spbwned.
+     * All strings bre null terminbted. All brrbys of strings
+     * hbve bn empty string for terminbtion.
      * - the ChildStuff struct
-     * - the SpawnInfo struct
-     * - the argv strings array
-     * - the envv strings array
+     * - the SpbwnInfo struct
+     * - the brgv strings brrby
+     * - the envv strings brrby
      * - the home directory string
-     * - the parentPath string
-     * - the parentPathv array
+     * - the pbrentPbth string
+     * - the pbrentPbthv brrby
      */
-    /* First calculate the sizes */
-    arraysize(c->argv, &sp.nargv, &sp.argvBytes);
-    bufsize = sp.argvBytes;
-    arraysize(c->envv, &sp.nenvv, &sp.envvBytes);
+    /* First cblculbte the sizes */
+    brrbysize(c->brgv, &sp.nbrgv, &sp.brgvBytes);
+    bufsize = sp.brgvBytes;
+    brrbysize(c->envv, &sp.nenvv, &sp.envvBytes);
     bufsize += sp.envvBytes;
     sp.dirlen = c->pdir == 0 ? 0 : strlen(c->pdir)+1;
     bufsize += sp.dirlen;
-    arraysize(parentPathv, &sp.nparentPathv, &sp.parentPathvBytes);
-    bufsize += sp.parentPathvBytes;
-    /* We need to clear FD_CLOEXEC if set in the fds[].
-     * Files are created FD_CLOEXEC in Java.
-     * Otherwise, they will be closed when the target gets exec'd */
+    brrbysize(pbrentPbthv, &sp.npbrentPbthv, &sp.pbrentPbthvBytes);
+    bufsize += sp.pbrentPbthvBytes;
+    /* We need to clebr FD_CLOEXEC if set in the fds[].
+     * Files bre crebted FD_CLOEXEC in Jbvb.
+     * Otherwise, they will be closed when the tbrget gets exec'd */
     for (i=0; i<3; i++) {
         if (c->fds[i] != -1) {
-            int flags = fcntl(c->fds[i], F_GETFD);
-            if (flags & FD_CLOEXEC) {
-                fcntl(c->fds[i], F_SETFD, flags & (~1));
+            int flbgs = fcntl(c->fds[i], F_GETFD);
+            if (flbgs & FD_CLOEXEC) {
+                fcntl(c->fds[i], F_SETFD, flbgs & (~1));
             }
         }
     }
 
-    rval = posix_spawn(&resultPid, helperpath, 0, 0, (char * const *) hlpargs, environ);
+    rvbl = posix_spbwn(&resultPid, helperpbth, 0, 0, (chbr * const *) hlpbrgs, environ);
 
-    if (rval != 0) {
+    if (rvbl != 0) {
         return -1;
     }
 
-    /* now the lengths are known, copy the data */
-    buf = NEW(char, bufsize);
+    /* now the lengths bre known, copy the dbtb */
+    buf = NEW(chbr, bufsize);
     if (buf == 0) {
         return -1;
     }
-    offset = copystrings(buf, 0, &c->argv[0]);
+    offset = copystrings(buf, 0, &c->brgv[0]);
     offset = copystrings(buf, offset, &c->envv[0]);
     memcpy(buf+offset, c->pdir, sp.dirlen);
     offset += sp.dirlen;
-    offset = copystrings(buf, offset, parentPathv);
-    assert(offset == bufsize);
+    offset = copystrings(buf, offset, pbrentPbthv);
+    bssert(offset == bufsize);
 
-    magic = magicNumber();
+    mbgic = mbgicNumber();
 
-    /* write the two structs and the data buffer */
-    write(c->childenv[1], (char *)&magic, sizeof(magic)); // magic number first
-    write(c->childenv[1], (char *)c, sizeof(*c));
-    write(c->childenv[1], (char *)&sp, sizeof(sp));
+    /* write the two structs bnd the dbtb buffer */
+    write(c->childenv[1], (chbr *)&mbgic, sizeof(mbgic)); // mbgic number first
+    write(c->childenv[1], (chbr *)c, sizeof(*c));
+    write(c->childenv[1], (chbr *)&sp, sizeof(sp));
     write(c->childenv[1], buf, bufsize);
     free(buf);
 
-    /* In this mode an external main() in invoked which calls back into
-     * childProcess() in this file, rather than directly
-     * via the statement below */
+    /* In this mode bn externbl mbin() in invoked which cblls bbck into
+     * childProcess() in this file, rbther thbn directly
+     * vib the stbtement below */
     return resultPid;
 }
 #endif
 
 /*
- * Start a child process running function childProcess.
- * This function only returns in the parent.
+ * Stbrt b child process running function childProcess.
+ * This function only returns in the pbrent.
  */
-static pid_t
-startChild(JNIEnv *env, jobject process, ChildStuff *c, const char *helperpath) {
+stbtic pid_t
+stbrtChild(JNIEnv *env, jobject process, ChildStuff *c, const chbr *helperpbth) {
     switch (c->mode) {
-      case MODE_VFORK:
+      cbse MODE_VFORK:
         return vforkChild(c);
-      case MODE_FORK:
+      cbse MODE_FORK:
         return forkChild(c);
-#if defined(__solaris__) || defined(_ALLBSD_SOURCE) || defined(_AIX)
-      case MODE_POSIX_SPAWN:
-        return spawnChild(env, process, c, helperpath);
+#if defined(__solbris__) || defined(_ALLBSD_SOURCE) || defined(_AIX)
+      cbse MODE_POSIX_SPAWN:
+        return spbwnChild(env, process, c, helperpbth);
 #endif
-      default:
+      defbult:
         return -1;
     }
 }
 
 JNIEXPORT jint JNICALL
-Java_java_lang_UNIXProcess_forkAndExec(JNIEnv *env,
+Jbvb_jbvb_lbng_UNIXProcess_forkAndExec(JNIEnv *env,
                                        jobject process,
                                        jint mode,
-                                       jbyteArray helperpath,
-                                       jbyteArray prog,
-                                       jbyteArray argBlock, jint argc,
-                                       jbyteArray envBlock, jint envc,
-                                       jbyteArray dir,
-                                       jintArray std_fds,
-                                       jboolean redirectErrorStream)
+                                       jbyteArrby helperpbth,
+                                       jbyteArrby prog,
+                                       jbyteArrby brgBlock, jint brgc,
+                                       jbyteArrby envBlock, jint envc,
+                                       jbyteArrby dir,
+                                       jintArrby std_fds,
+                                       jboolebn redirectErrorStrebm)
 {
     int errnum;
     int resultPid = -1;
-    int in[2], out[2], err[2], fail[2], childenv[2];
+    int in[2], out[2], err[2], fbil[2], childenv[2];
     jint *fds = NULL;
-    const char *phelperpath = NULL;
-    const char *pprog = NULL;
-    const char *pargBlock = NULL;
-    const char *penvBlock = NULL;
+    const chbr *phelperpbth = NULL;
+    const chbr *pprog = NULL;
+    const chbr *pbrgBlock = NULL;
+    const chbr *penvBlock = NULL;
     ChildStuff *c;
 
-    in[0] = in[1] = out[0] = out[1] = err[0] = err[1] = fail[0] = fail[1] = -1;
+    in[0] = in[1] = out[0] = out[1] = err[0] = err[1] = fbil[0] = fbil[1] = -1;
     childenv[0] = childenv[1] = -1;
 
     if ((c = NEW(ChildStuff, 1)) == NULL) return -1;
-    c->argv = NULL;
+    c->brgv = NULL;
     c->envv = NULL;
     c->pdir = NULL;
-    c->clone_stack = NULL;
+    c->clone_stbck = NULL;
 
-    /* Convert prog + argBlock into a char ** argv.
-     * Add one word room for expansion of argv for use by
-     * execve_as_traditional_shell_script.
-     * This word is also used when using spawn mode
+    /* Convert prog + brgBlock into b chbr ** brgv.
+     * Add one word room for expbnsion of brgv for use by
+     * execve_bs_trbditionbl_shell_script.
+     * This word is blso used when using spbwn mode
      */
-    assert(prog != NULL && argBlock != NULL);
-    if ((phelperpath = getBytes(env, helperpath))   == NULL) goto Catch;
-    if ((pprog     = getBytes(env, prog))       == NULL) goto Catch;
-    if ((pargBlock = getBytes(env, argBlock))   == NULL) goto Catch;
-    if ((c->argv = NEW(const char *, argc + 3)) == NULL) goto Catch;
-    c->argv[0] = pprog;
-    c->argc = argc + 2;
-    initVectorFromBlock(c->argv+1, pargBlock, argc);
+    bssert(prog != NULL && brgBlock != NULL);
+    if ((phelperpbth = getBytes(env, helperpbth))   == NULL) goto Cbtch;
+    if ((pprog     = getBytes(env, prog))       == NULL) goto Cbtch;
+    if ((pbrgBlock = getBytes(env, brgBlock))   == NULL) goto Cbtch;
+    if ((c->brgv = NEW(const chbr *, brgc + 3)) == NULL) goto Cbtch;
+    c->brgv[0] = pprog;
+    c->brgc = brgc + 2;
+    initVectorFromBlock(c->brgv+1, pbrgBlock, brgc);
 
     if (envBlock != NULL) {
-        /* Convert envBlock into a char ** envv */
-        if ((penvBlock = getBytes(env, envBlock))   == NULL) goto Catch;
-        if ((c->envv = NEW(const char *, envc + 1)) == NULL) goto Catch;
+        /* Convert envBlock into b chbr ** envv */
+        if ((penvBlock = getBytes(env, envBlock))   == NULL) goto Cbtch;
+        if ((c->envv = NEW(const chbr *, envc + 1)) == NULL) goto Cbtch;
         initVectorFromBlock(c->envv, penvBlock, envc);
     }
 
     if (dir != NULL) {
-        if ((c->pdir = getBytes(env, dir)) == NULL) goto Catch;
+        if ((c->pdir = getBytes(env, dir)) == NULL) goto Cbtch;
     }
 
-    assert(std_fds != NULL);
-    fds = (*env)->GetIntArrayElements(env, std_fds, NULL);
-    if (fds == NULL) goto Catch;
+    bssert(std_fds != NULL);
+    fds = (*env)->GetIntArrbyElements(env, std_fds, NULL);
+    if (fds == NULL) goto Cbtch;
 
     if ((fds[0] == -1 && pipe(in)  < 0) ||
         (fds[1] == -1 && pipe(out) < 0) ||
         (fds[2] == -1 && pipe(err) < 0) ||
         (pipe(childenv) < 0) ||
-        (pipe(fail) < 0)) {
-        throwIOException(env, errno, "Bad file descriptor");
-        goto Catch;
+        (pipe(fbil) < 0)) {
+        throwIOException(env, errno, "Bbd file descriptor");
+        goto Cbtch;
     }
     c->fds[0] = fds[0];
     c->fds[1] = fds[1];
@@ -636,87 +636,87 @@ Java_java_lang_UNIXProcess_forkAndExec(JNIEnv *env,
     copyPipe(in,   c->in);
     copyPipe(out,  c->out);
     copyPipe(err,  c->err);
-    copyPipe(fail, c->fail);
+    copyPipe(fbil, c->fbil);
     copyPipe(childenv, c->childenv);
 
-    c->redirectErrorStream = redirectErrorStream;
+    c->redirectErrorStrebm = redirectErrorStrebm;
     c->mode = mode;
 
-    resultPid = startChild(env, process, c, phelperpath);
-    assert(resultPid != 0);
+    resultPid = stbrtChild(env, process, c, phelperpbth);
+    bssert(resultPid != 0);
 
     if (resultPid < 0) {
         switch (c->mode) {
-          case MODE_VFORK:
-            throwIOException(env, errno, "vfork failed");
-            break;
-          case MODE_FORK:
-            throwIOException(env, errno, "fork failed");
-            break;
-          case MODE_POSIX_SPAWN:
-            throwIOException(env, errno, "spawn failed");
-            break;
+          cbse MODE_VFORK:
+            throwIOException(env, errno, "vfork fbiled");
+            brebk;
+          cbse MODE_FORK:
+            throwIOException(env, errno, "fork fbiled");
+            brebk;
+          cbse MODE_POSIX_SPAWN:
+            throwIOException(env, errno, "spbwn fbiled");
+            brebk;
         }
-        goto Catch;
+        goto Cbtch;
     }
-    close(fail[1]); fail[1] = -1; /* See: WhyCantJohnnyExec  (childproc.c)  */
+    close(fbil[1]); fbil[1] = -1; /* See: WhyCbntJohnnyExec  (childproc.c)  */
 
-    switch (readFully(fail[0], &errnum, sizeof(errnum))) {
-    case 0: break; /* Exec succeeded */
-    case sizeof(errnum):
-        waitpid(resultPid, NULL, 0);
-        throwIOException(env, errnum, "Exec failed");
-        goto Catch;
-    default:
-        throwIOException(env, errno, "Read failed");
-        goto Catch;
+    switch (rebdFully(fbil[0], &errnum, sizeof(errnum))) {
+    cbse 0: brebk; /* Exec succeeded */
+    cbse sizeof(errnum):
+        wbitpid(resultPid, NULL, 0);
+        throwIOException(env, errnum, "Exec fbiled");
+        goto Cbtch;
+    defbult:
+        throwIOException(env, errno, "Rebd fbiled");
+        goto Cbtch;
     }
 
     fds[0] = (in [1] != -1) ? in [1] : -1;
     fds[1] = (out[0] != -1) ? out[0] : -1;
     fds[2] = (err[0] != -1) ? err[0] : -1;
 
- Finally:
-    free(c->clone_stack);
+ Finblly:
+    free(c->clone_stbck);
 
-    /* Always clean up the child's side of the pipes */
-    closeSafely(in [0]);
-    closeSafely(out[1]);
-    closeSafely(err[1]);
+    /* Alwbys clebn up the child's side of the pipes */
+    closeSbfely(in [0]);
+    closeSbfely(out[1]);
+    closeSbfely(err[1]);
 
-    /* Always clean up fail and childEnv descriptors */
-    closeSafely(fail[0]);
-    closeSafely(fail[1]);
-    closeSafely(childenv[0]);
-    closeSafely(childenv[1]);
+    /* Alwbys clebn up fbil bnd childEnv descriptors */
+    closeSbfely(fbil[0]);
+    closeSbfely(fbil[1]);
+    closeSbfely(childenv[0]);
+    closeSbfely(childenv[1]);
 
-    releaseBytes(env, prog,     pprog);
-    releaseBytes(env, argBlock, pargBlock);
-    releaseBytes(env, envBlock, penvBlock);
-    releaseBytes(env, dir,      c->pdir);
+    relebseBytes(env, prog,     pprog);
+    relebseBytes(env, brgBlock, pbrgBlock);
+    relebseBytes(env, envBlock, penvBlock);
+    relebseBytes(env, dir,      c->pdir);
 
-    free(c->argv);
+    free(c->brgv);
     free(c->envv);
     free(c);
 
     if (fds != NULL)
-        (*env)->ReleaseIntArrayElements(env, std_fds, fds, 0);
+        (*env)->RelebseIntArrbyElements(env, std_fds, fds, 0);
 
     return resultPid;
 
- Catch:
-    /* Clean up the parent's side of the pipes in case of failure only */
-    closeSafely(in [1]); in[1] = -1;
-    closeSafely(out[0]); out[0] = -1;
-    closeSafely(err[0]); err[0] = -1;
-    goto Finally;
+ Cbtch:
+    /* Clebn up the pbrent's side of the pipes in cbse of fbilure only */
+    closeSbfely(in [1]); in[1] = -1;
+    closeSbfely(out[0]); out[0] = -1;
+    closeSbfely(err[0]); err[0] = -1;
+    goto Finblly;
 }
 
 JNIEXPORT void JNICALL
-Java_java_lang_UNIXProcess_destroyProcess(JNIEnv *env,
+Jbvb_jbvb_lbng_UNIXProcess_destroyProcess(JNIEnv *env,
                                           jobject junk,
                                           jint pid,
-                                          jboolean force)
+                                          jboolebn force)
 {
     int sig = (force == JNI_TRUE) ? SIGKILL : SIGTERM;
     kill(pid, sig);

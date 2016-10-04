@@ -1,506 +1,506 @@
 /*
- * Copyright (c) 2003, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.management.snmp.jvminstr;
+pbckbge sun.mbnbgement.snmp.jvminstr;
 
-// java imports
+// jbvb imports
 //
-import java.util.Map;
+import jbvb.util.Mbp;
 
 // jmx imports
 //
-import com.sun.jmx.snmp.SnmpStatusException;
+import com.sun.jmx.snmp.SnmpStbtusException;
 import com.sun.jmx.snmp.SnmpDefinitions;
 
 // jdmk imports
 //
 
-import java.lang.management.MemoryUsage;
-import java.lang.management.MemoryType;
-import java.lang.management.MemoryPoolMXBean;
+import jbvb.lbng.mbnbgement.MemoryUsbge;
+import jbvb.lbng.mbnbgement.MemoryType;
+import jbvb.lbng.mbnbgement.MemoryPoolMXBebn;
 
-import sun.management.snmp.jvmmib.JvmMemPoolEntryMBean;
-import sun.management.snmp.jvmmib.EnumJvmMemPoolState;
-import sun.management.snmp.jvmmib.EnumJvmMemPoolType;
-import sun.management.snmp.jvmmib.EnumJvmMemPoolThreshdSupport;
-import sun.management.snmp.jvmmib.EnumJvmMemPoolCollectThreshdSupport;
-import sun.management.snmp.util.MibLogger;
-import sun.management.snmp.util.JvmContextFactory;
+import sun.mbnbgement.snmp.jvmmib.JvmMemPoolEntryMBebn;
+import sun.mbnbgement.snmp.jvmmib.EnumJvmMemPoolStbte;
+import sun.mbnbgement.snmp.jvmmib.EnumJvmMemPoolType;
+import sun.mbnbgement.snmp.jvmmib.EnumJvmMemPoolThreshdSupport;
+import sun.mbnbgement.snmp.jvmmib.EnumJvmMemPoolCollectThreshdSupport;
+import sun.mbnbgement.snmp.util.MibLogger;
+import sun.mbnbgement.snmp.util.JvmContextFbctory;
 
 /**
- * The class is used for implementing the "JvmMemPoolEntry" group.
+ * The clbss is used for implementing the "JvmMemPoolEntry" group.
  */
-public class JvmMemPoolEntryImpl implements JvmMemPoolEntryMBean {
+public clbss JvmMemPoolEntryImpl implements JvmMemPoolEntryMBebn {
 
     /**
-     * Variable for storing the value of "JvmMemPoolIndex".
+     * Vbribble for storing the vblue of "JvmMemPoolIndex".
      *
-     * "An index value opaquely computed by the agent which uniquely
-     * identifies a row in the jvmMemPoolTable.
+     * "An index vblue opbquely computed by the bgent which uniquely
+     * identifies b row in the jvmMemPoolTbble.
      * "
      *
      */
-    final protected int jvmMemPoolIndex;
+    finbl protected int jvmMemPoolIndex;
 
 
-    final static String memoryTag = "jvmMemPoolEntry.getUsage";
-    final static String peakMemoryTag = "jvmMemPoolEntry.getPeakUsage";
-    final static String collectMemoryTag =
-        "jvmMemPoolEntry.getCollectionUsage";
-    final static MemoryUsage ZEROS = new MemoryUsage(0,0,0,0);
+    finbl stbtic String memoryTbg = "jvmMemPoolEntry.getUsbge";
+    finbl stbtic String pebkMemoryTbg = "jvmMemPoolEntry.getPebkUsbge";
+    finbl stbtic String collectMemoryTbg =
+        "jvmMemPoolEntry.getCollectionUsbge";
+    finbl stbtic MemoryUsbge ZEROS = new MemoryUsbge(0,0,0,0);
 
-    final String entryMemoryTag;
-    final String entryPeakMemoryTag;
-    final String entryCollectMemoryTag;
+    finbl String entryMemoryTbg;
+    finbl String entryPebkMemoryTbg;
+    finbl String entryCollectMemoryTbg;
 
-    MemoryUsage getMemoryUsage() {
+    MemoryUsbge getMemoryUsbge() {
         try {
-            final Map<Object, Object> m = JvmContextFactory.getUserData();
+            finbl Mbp<Object, Object> m = JvmContextFbctory.getUserDbtb();
 
             if (m != null) {
-                final MemoryUsage cached = (MemoryUsage)
-                    m.get(entryMemoryTag);
-                if (cached != null) {
-                    log.debug("getMemoryUsage",entryMemoryTag+
-                          " found in cache.");
-                    return cached;
+                finbl MemoryUsbge cbched = (MemoryUsbge)
+                    m.get(entryMemoryTbg);
+                if (cbched != null) {
+                    log.debug("getMemoryUsbge",entryMemoryTbg+
+                          " found in cbche.");
+                    return cbched;
                 }
 
-                MemoryUsage u = pool.getUsage();
+                MemoryUsbge u = pool.getUsbge();
                 if (u == null) u = ZEROS;
 
-                m.put(entryMemoryTag,u);
+                m.put(entryMemoryTbg,u);
                 return u;
             }
             // Should never come here.
             // Log error!
-            log.trace("getMemoryUsage", "ERROR: should never come here!");
-            return pool.getUsage();
-        } catch (RuntimeException x) {
-            log.trace("getMemoryUsage",
-                  "Failed to get MemoryUsage: " + x);
-            log.debug("getMemoryUsage",x);
+            log.trbce("getMemoryUsbge", "ERROR: should never come here!");
+            return pool.getUsbge();
+        } cbtch (RuntimeException x) {
+            log.trbce("getMemoryUsbge",
+                  "Fbiled to get MemoryUsbge: " + x);
+            log.debug("getMemoryUsbge",x);
             throw x;
         }
 
     }
 
-    MemoryUsage getPeakMemoryUsage() {
+    MemoryUsbge getPebkMemoryUsbge() {
         try {
-            final Map<Object, Object> m = JvmContextFactory.getUserData();
+            finbl Mbp<Object, Object> m = JvmContextFbctory.getUserDbtb();
 
             if (m != null) {
-                final MemoryUsage cached = (MemoryUsage)
-                    m.get(entryPeakMemoryTag);
-                if (cached != null) {
+                finbl MemoryUsbge cbched = (MemoryUsbge)
+                    m.get(entryPebkMemoryTbg);
+                if (cbched != null) {
                     if (log.isDebugOn())
-                        log.debug("getPeakMemoryUsage",
-                              entryPeakMemoryTag + " found in cache.");
-                    return cached;
+                        log.debug("getPebkMemoryUsbge",
+                              entryPebkMemoryTbg + " found in cbche.");
+                    return cbched;
                 }
 
-                MemoryUsage u = pool.getPeakUsage();
+                MemoryUsbge u = pool.getPebkUsbge();
                 if (u == null) u = ZEROS;
 
-                m.put(entryPeakMemoryTag,u);
+                m.put(entryPebkMemoryTbg,u);
                 return u;
             }
             // Should never come here.
             // Log error!
-            log.trace("getPeakMemoryUsage", "ERROR: should never come here!");
+            log.trbce("getPebkMemoryUsbge", "ERROR: should never come here!");
             return ZEROS;
-        } catch (RuntimeException x) {
-            log.trace("getPeakMemoryUsage",
-                  "Failed to get MemoryUsage: " + x);
-            log.debug("getPeakMemoryUsage",x);
+        } cbtch (RuntimeException x) {
+            log.trbce("getPebkMemoryUsbge",
+                  "Fbiled to get MemoryUsbge: " + x);
+            log.debug("getPebkMemoryUsbge",x);
             throw x;
         }
 
     }
 
-    MemoryUsage getCollectMemoryUsage() {
+    MemoryUsbge getCollectMemoryUsbge() {
         try {
-            final Map<Object, Object> m = JvmContextFactory.getUserData();
+            finbl Mbp<Object, Object> m = JvmContextFbctory.getUserDbtb();
 
             if (m != null) {
-                final MemoryUsage cached = (MemoryUsage)
-                    m.get(entryCollectMemoryTag);
-                if (cached != null) {
+                finbl MemoryUsbge cbched = (MemoryUsbge)
+                    m.get(entryCollectMemoryTbg);
+                if (cbched != null) {
                     if (log.isDebugOn())
-                        log.debug("getCollectMemoryUsage",
-                                  entryCollectMemoryTag + " found in cache.");
-                    return cached;
+                        log.debug("getCollectMemoryUsbge",
+                                  entryCollectMemoryTbg + " found in cbche.");
+                    return cbched;
                 }
 
-                MemoryUsage u = pool.getCollectionUsage();
+                MemoryUsbge u = pool.getCollectionUsbge();
                 if (u == null) u = ZEROS;
 
-                m.put(entryCollectMemoryTag,u);
+                m.put(entryCollectMemoryTbg,u);
                 return u;
             }
             // Should never come here.
             // Log error!
-            log.trace("getCollectMemoryUsage",
+            log.trbce("getCollectMemoryUsbge",
                       "ERROR: should never come here!");
             return ZEROS;
-        } catch (RuntimeException x) {
-            log.trace("getPeakMemoryUsage",
-                  "Failed to get MemoryUsage: " + x);
-            log.debug("getPeakMemoryUsage",x);
+        } cbtch (RuntimeException x) {
+            log.trbce("getPebkMemoryUsbge",
+                  "Fbiled to get MemoryUsbge: " + x);
+            log.debug("getPebkMemoryUsbge",x);
             throw x;
         }
 
     }
 
-    final MemoryPoolMXBean pool;
+    finbl MemoryPoolMXBebn pool;
 
     /**
      * Constructor for the "JvmMemPoolEntry" group.
      */
-    public JvmMemPoolEntryImpl(MemoryPoolMXBean mp, final int index) {
+    public JvmMemPoolEntryImpl(MemoryPoolMXBebn mp, finbl int index) {
         this.pool=mp;
         this.jvmMemPoolIndex = index;
-        this.entryMemoryTag = memoryTag + "." + index;
-        this.entryPeakMemoryTag = peakMemoryTag + "." + index;
-        this.entryCollectMemoryTag = collectMemoryTag + "." + index;
+        this.entryMemoryTbg = memoryTbg + "." + index;
+        this.entryPebkMemoryTbg = pebkMemoryTbg + "." + index;
+        this.entryCollectMemoryTbg = collectMemoryTbg + "." + index;
     }
 
     /**
-     * Getter for the "JvmMemPoolMaxSize" variable.
+     * Getter for the "JvmMemPoolMbxSize" vbribble.
      */
-    public Long getJvmMemPoolMaxSize() throws SnmpStatusException {
-        final long val = getMemoryUsage().getMax();
-        if (val > -1) return  val;
+    public Long getJvmMemPoolMbxSize() throws SnmpStbtusException {
+        finbl long vbl = getMemoryUsbge().getMbx();
+        if (vbl > -1) return  vbl;
         else return JvmMemoryImpl.Long0;
     }
 
     /**
-     * Getter for the "JvmMemPoolUsed" variable.
+     * Getter for the "JvmMemPoolUsed" vbribble.
      */
-    public Long getJvmMemPoolUsed() throws SnmpStatusException {
-        final long val = getMemoryUsage().getUsed();
-        if (val > -1) return  val;
+    public Long getJvmMemPoolUsed() throws SnmpStbtusException {
+        finbl long vbl = getMemoryUsbge().getUsed();
+        if (vbl > -1) return  vbl;
         else return JvmMemoryImpl.Long0;
     }
 
     /**
-     * Getter for the "JvmMemPoolInitSize" variable.
+     * Getter for the "JvmMemPoolInitSize" vbribble.
      */
-    public Long getJvmMemPoolInitSize() throws SnmpStatusException {
-        final long val = getMemoryUsage().getInit();
-        if (val > -1) return  val;
+    public Long getJvmMemPoolInitSize() throws SnmpStbtusException {
+        finbl long vbl = getMemoryUsbge().getInit();
+        if (vbl > -1) return  vbl;
         else return JvmMemoryImpl.Long0;
     }
 
     /**
-     * Getter for the "JvmMemPoolCommitted" variable.
+     * Getter for the "JvmMemPoolCommitted" vbribble.
      */
-    public Long getJvmMemPoolCommitted() throws SnmpStatusException {
-        final long val = getMemoryUsage().getCommitted();
-        if (val > -1) return  val;
+    public Long getJvmMemPoolCommitted() throws SnmpStbtusException {
+        finbl long vbl = getMemoryUsbge().getCommitted();
+        if (vbl > -1) return  vbl;
         else return JvmMemoryImpl.Long0;
     }
 
     /**
-     * Getter for the "JvmMemPoolPeakMaxSize" variable.
+     * Getter for the "JvmMemPoolPebkMbxSize" vbribble.
      */
-    public Long getJvmMemPoolPeakMaxSize() throws SnmpStatusException {
-        final long val = getPeakMemoryUsage().getMax();
-        if (val > -1) return  val;
+    public Long getJvmMemPoolPebkMbxSize() throws SnmpStbtusException {
+        finbl long vbl = getPebkMemoryUsbge().getMbx();
+        if (vbl > -1) return  vbl;
         else return JvmMemoryImpl.Long0;
     }
 
     /**
-     * Getter for the "JvmMemPoolPeakUsed" variable.
+     * Getter for the "JvmMemPoolPebkUsed" vbribble.
      */
-    public Long getJvmMemPoolPeakUsed() throws SnmpStatusException {
-        final long val = getPeakMemoryUsage().getUsed();
-        if (val > -1) return  val;
+    public Long getJvmMemPoolPebkUsed() throws SnmpStbtusException {
+        finbl long vbl = getPebkMemoryUsbge().getUsed();
+        if (vbl > -1) return  vbl;
         else return JvmMemoryImpl.Long0;
     }
 
     /**
-     * Getter for the "JvmMemPoolPeakCommitted" variable.
+     * Getter for the "JvmMemPoolPebkCommitted" vbribble.
      */
-    public Long getJvmMemPoolPeakCommitted() throws SnmpStatusException {
-        final long val = getPeakMemoryUsage().getCommitted();
-        if (val > -1) return  val;
+    public Long getJvmMemPoolPebkCommitted() throws SnmpStbtusException {
+        finbl long vbl = getPebkMemoryUsbge().getCommitted();
+        if (vbl > -1) return  vbl;
         else return JvmMemoryImpl.Long0;
     }
 
     /**
-     * Getter for the "JvmMemPoolCollectMaxSize" variable.
+     * Getter for the "JvmMemPoolCollectMbxSize" vbribble.
      */
-    public Long getJvmMemPoolCollectMaxSize() throws SnmpStatusException {
-        final long val = getCollectMemoryUsage().getMax();
-        if (val > -1) return  val;
+    public Long getJvmMemPoolCollectMbxSize() throws SnmpStbtusException {
+        finbl long vbl = getCollectMemoryUsbge().getMbx();
+        if (vbl > -1) return  vbl;
         else return JvmMemoryImpl.Long0;
     }
 
     /**
-     * Getter for the "JvmMemPoolCollectUsed" variable.
+     * Getter for the "JvmMemPoolCollectUsed" vbribble.
      */
-    public Long getJvmMemPoolCollectUsed() throws SnmpStatusException {
-        final long val = getCollectMemoryUsage().getUsed();
-        if (val > -1) return  val;
+    public Long getJvmMemPoolCollectUsed() throws SnmpStbtusException {
+        finbl long vbl = getCollectMemoryUsbge().getUsed();
+        if (vbl > -1) return  vbl;
         else return JvmMemoryImpl.Long0;
     }
 
     /**
-     * Getter for the "JvmMemPoolCollectCommitted" variable.
+     * Getter for the "JvmMemPoolCollectCommitted" vbribble.
      */
-    public Long getJvmMemPoolCollectCommitted() throws SnmpStatusException {
-        final long val = getCollectMemoryUsage().getCommitted();
-        if (val > -1) return  val;
+    public Long getJvmMemPoolCollectCommitted() throws SnmpStbtusException {
+        finbl long vbl = getCollectMemoryUsbge().getCommitted();
+        if (vbl > -1) return  vbl;
         else return JvmMemoryImpl.Long0;
     }
 
     /**
-     * Getter for the "JvmMemPoolThreshold" variable.
+     * Getter for the "JvmMemPoolThreshold" vbribble.
      */
-    public Long getJvmMemPoolThreshold() throws SnmpStatusException {
-        if (!pool.isUsageThresholdSupported())
+    public Long getJvmMemPoolThreshold() throws SnmpStbtusException {
+        if (!pool.isUsbgeThresholdSupported())
             return JvmMemoryImpl.Long0;
-        final long val = pool.getUsageThreshold();
-        if (val > -1) return  val;
+        finbl long vbl = pool.getUsbgeThreshold();
+        if (vbl > -1) return  vbl;
         else return JvmMemoryImpl.Long0;
     }
 
     /**
-     * Setter for the "JvmMemPoolThreshold" variable.
+     * Setter for the "JvmMemPoolThreshold" vbribble.
      */
-    public void setJvmMemPoolThreshold(Long x) throws SnmpStatusException {
-        final long val = x.longValue();
-        if (val < 0 )
-            throw new SnmpStatusException(SnmpDefinitions.snmpRspWrongValue);
-        // This should never throw an exception has the checks have
-        // already been performed in checkJvmMemPoolThreshold().
+    public void setJvmMemPoolThreshold(Long x) throws SnmpStbtusException {
+        finbl long vbl = x.longVblue();
+        if (vbl < 0 )
+            throw new SnmpStbtusException(SnmpDefinitions.snmpRspWrongVblue);
+        // This should never throw bn exception hbs the checks hbve
+        // blrebdy been performed in checkJvmMemPoolThreshold().
         //
-        pool.setUsageThreshold(val);
+        pool.setUsbgeThreshold(vbl);
     }
 
     /**
-     * Checker for the "JvmMemPoolThreshold" variable.
+     * Checker for the "JvmMemPoolThreshold" vbribble.
      */
-    public void checkJvmMemPoolThreshold(Long x) throws SnmpStatusException {
-        // if threshold is -1, it means that low memory detection is not
+    public void checkJvmMemPoolThreshold(Long x) throws SnmpStbtusException {
+        // if threshold is -1, it mebns thbt low memory detection is not
         // supported.
 
-        if (!pool.isUsageThresholdSupported())
+        if (!pool.isUsbgeThresholdSupported())
             throw new
-                SnmpStatusException(SnmpDefinitions.snmpRspInconsistentValue);
-        final long val = x.longValue();
-        if (val < 0 )
-            throw new SnmpStatusException(SnmpDefinitions.snmpRspWrongValue);
+                SnmpStbtusException(SnmpDefinitions.snmpRspInconsistentVblue);
+        finbl long vbl = x.longVblue();
+        if (vbl < 0 )
+            throw new SnmpStbtusException(SnmpDefinitions.snmpRspWrongVblue);
     }
 
     /**
-     * Getter for the "JvmMemPoolThreshdSupport" variable.
+     * Getter for the "JvmMemPoolThreshdSupport" vbribble.
      */
     public EnumJvmMemPoolThreshdSupport getJvmMemPoolThreshdSupport()
-        throws SnmpStatusException {
-        if (pool.isUsageThresholdSupported())
+        throws SnmpStbtusException {
+        if (pool.isUsbgeThresholdSupported())
             return EnumJvmMemPoolThreshdSupported;
         else
             return EnumJvmMemPoolThreshdUnsupported;
     }
 
     /**
-     * Getter for the "JvmMemPoolThreshdCount" variable.
+     * Getter for the "JvmMemPoolThreshdCount" vbribble.
      */
     public Long getJvmMemPoolThreshdCount()
-        throws SnmpStatusException {
-        if (!pool.isUsageThresholdSupported())
+        throws SnmpStbtusException {
+        if (!pool.isUsbgeThresholdSupported())
             return JvmMemoryImpl.Long0;
-        final long val = pool.getUsageThresholdCount();
-        if (val > -1) return  val;
+        finbl long vbl = pool.getUsbgeThresholdCount();
+        if (vbl > -1) return  vbl;
         else return JvmMemoryImpl.Long0;
     }
 
     /**
-     * Getter for the "JvmMemPoolCollectThreshold" variable.
+     * Getter for the "JvmMemPoolCollectThreshold" vbribble.
      */
-    public Long getJvmMemPoolCollectThreshold() throws SnmpStatusException {
-        if (!pool.isCollectionUsageThresholdSupported())
+    public Long getJvmMemPoolCollectThreshold() throws SnmpStbtusException {
+        if (!pool.isCollectionUsbgeThresholdSupported())
             return JvmMemoryImpl.Long0;
-        final long val = pool.getCollectionUsageThreshold();
-        if (val > -1) return  val;
+        finbl long vbl = pool.getCollectionUsbgeThreshold();
+        if (vbl > -1) return  vbl;
         else return JvmMemoryImpl.Long0;
     }
 
     /**
-     * Setter for the "JvmMemPoolCollectThreshold" variable.
+     * Setter for the "JvmMemPoolCollectThreshold" vbribble.
      */
     public void setJvmMemPoolCollectThreshold(Long x)
-        throws SnmpStatusException {
-        final long val = x.longValue();
-        if (val < 0 )
-            throw new SnmpStatusException(SnmpDefinitions.snmpRspWrongValue);
-        // This should never throw an exception has the checks have
-        // already been performed in checkJvmMemPoolCollectThreshold().
+        throws SnmpStbtusException {
+        finbl long vbl = x.longVblue();
+        if (vbl < 0 )
+            throw new SnmpStbtusException(SnmpDefinitions.snmpRspWrongVblue);
+        // This should never throw bn exception hbs the checks hbve
+        // blrebdy been performed in checkJvmMemPoolCollectThreshold().
         //
-        pool.setCollectionUsageThreshold(val);
+        pool.setCollectionUsbgeThreshold(vbl);
     }
 
     /**
-     * Checker for the "JvmMemPoolCollectThreshold" variable.
+     * Checker for the "JvmMemPoolCollectThreshold" vbribble.
      */
     public void checkJvmMemPoolCollectThreshold(Long x)
-        throws SnmpStatusException {
-        // if threshold is -1, it means that low memory detection is not
+        throws SnmpStbtusException {
+        // if threshold is -1, it mebns thbt low memory detection is not
         // supported.
 
-        if (!pool.isCollectionUsageThresholdSupported())
+        if (!pool.isCollectionUsbgeThresholdSupported())
             throw new
-                SnmpStatusException(SnmpDefinitions.snmpRspInconsistentValue);
-        final long val = x.longValue();
-        if (val < 0 )
-            throw new SnmpStatusException(SnmpDefinitions.snmpRspWrongValue);
+                SnmpStbtusException(SnmpDefinitions.snmpRspInconsistentVblue);
+        finbl long vbl = x.longVblue();
+        if (vbl < 0 )
+            throw new SnmpStbtusException(SnmpDefinitions.snmpRspWrongVblue);
     }
 
     /**
-     * Getter for the "JvmMemPoolThreshdSupport" variable.
+     * Getter for the "JvmMemPoolThreshdSupport" vbribble.
      */
     public EnumJvmMemPoolCollectThreshdSupport
         getJvmMemPoolCollectThreshdSupport()
-        throws SnmpStatusException {
-        if (pool.isCollectionUsageThresholdSupported())
+        throws SnmpStbtusException {
+        if (pool.isCollectionUsbgeThresholdSupported())
             return EnumJvmMemPoolCollectThreshdSupported;
         else
             return EnumJvmMemPoolCollectThreshdUnsupported;
     }
 
     /**
-     * Getter for the "JvmMemPoolCollectThreshdCount" variable.
+     * Getter for the "JvmMemPoolCollectThreshdCount" vbribble.
      */
     public Long getJvmMemPoolCollectThreshdCount()
-        throws SnmpStatusException {
-        if (!pool.isCollectionUsageThresholdSupported())
+        throws SnmpStbtusException {
+        if (!pool.isCollectionUsbgeThresholdSupported())
             return JvmMemoryImpl.Long0;
-        final long val = pool.getCollectionUsageThresholdCount();
-        if (val > -1) return  val;
+        finbl long vbl = pool.getCollectionUsbgeThresholdCount();
+        if (vbl > -1) return  vbl;
         else return JvmMemoryImpl.Long0;
     }
 
-    public static EnumJvmMemPoolType jvmMemPoolType(MemoryType type)
-        throws SnmpStatusException {
-        if (type.equals(MemoryType.HEAP))
-            return  EnumJvmMemPoolTypeHeap;
-        else if (type.equals(MemoryType.NON_HEAP))
-            return EnumJvmMemPoolTypeNonHeap;
-        throw new SnmpStatusException(SnmpStatusException.snmpRspWrongValue);
+    public stbtic EnumJvmMemPoolType jvmMemPoolType(MemoryType type)
+        throws SnmpStbtusException {
+        if (type.equbls(MemoryType.HEAP))
+            return  EnumJvmMemPoolTypeHebp;
+        else if (type.equbls(MemoryType.NON_HEAP))
+            return EnumJvmMemPoolTypeNonHebp;
+        throw new SnmpStbtusException(SnmpStbtusException.snmpRspWrongVblue);
     }
 
     /**
-     * Getter for the "JvmMemPoolType" variable.
+     * Getter for the "JvmMemPoolType" vbribble.
      */
-    public EnumJvmMemPoolType getJvmMemPoolType() throws SnmpStatusException {
+    public EnumJvmMemPoolType getJvmMemPoolType() throws SnmpStbtusException {
         return jvmMemPoolType(pool.getType());
     }
 
     /**
-     * Getter for the "JvmMemPoolName" variable.
+     * Getter for the "JvmMemPoolNbme" vbribble.
      */
-    public String getJvmMemPoolName() throws SnmpStatusException {
-        return JVM_MANAGEMENT_MIB_IMPL.validJavaObjectNameTC(pool.getName());
+    public String getJvmMemPoolNbme() throws SnmpStbtusException {
+        return JVM_MANAGEMENT_MIB_IMPL.vblidJbvbObjectNbmeTC(pool.getNbme());
     }
 
     /**
-     * Getter for the "JvmMemPoolIndex" variable.
+     * Getter for the "JvmMemPoolIndex" vbribble.
      */
-    public Integer getJvmMemPoolIndex() throws SnmpStatusException {
+    public Integer getJvmMemPoolIndex() throws SnmpStbtusException {
         return jvmMemPoolIndex;
     }
 
 
     /**
-     * Getter for the "JvmMemPoolState" variable.
+     * Getter for the "JvmMemPoolStbte" vbribble.
      */
-    public EnumJvmMemPoolState getJvmMemPoolState()
-        throws SnmpStatusException {
-        if (pool.isValid())
-            return JvmMemPoolStateValid;
+    public EnumJvmMemPoolStbte getJvmMemPoolStbte()
+        throws SnmpStbtusException {
+        if (pool.isVblid())
+            return JvmMemPoolStbteVblid;
         else
-            return JvmMemPoolStateInvalid;
+            return JvmMemPoolStbteInvblid;
     }
 
     /**
-     * Getter for the "JvmMemPoolPeakReset" variable.
+     * Getter for the "JvmMemPoolPebkReset" vbribble.
      */
-    public synchronized Long getJvmMemPoolPeakReset()
-        throws SnmpStatusException {
-        return jvmMemPoolPeakReset;
+    public synchronized Long getJvmMemPoolPebkReset()
+        throws SnmpStbtusException {
+        return jvmMemPoolPebkReset;
     }
 
     /**
-     * Setter for the "JvmMemPoolPeakReset" variable.
+     * Setter for the "JvmMemPoolPebkReset" vbribble.
      */
-    public synchronized void setJvmMemPoolPeakReset(Long x)
-        throws SnmpStatusException {
-        final long l = x.longValue();
-        if (l > jvmMemPoolPeakReset) {
-            final long stamp = System.currentTimeMillis();
-            pool.resetPeakUsage();
-            jvmMemPoolPeakReset = stamp;
-            log.debug("setJvmMemPoolPeakReset",
-                      "jvmMemPoolPeakReset="+stamp);
+    public synchronized void setJvmMemPoolPebkReset(Long x)
+        throws SnmpStbtusException {
+        finbl long l = x.longVblue();
+        if (l > jvmMemPoolPebkReset) {
+            finbl long stbmp = System.currentTimeMillis();
+            pool.resetPebkUsbge();
+            jvmMemPoolPebkReset = stbmp;
+            log.debug("setJvmMemPoolPebkReset",
+                      "jvmMemPoolPebkReset="+stbmp);
         }
     }
 
     /**
-     * Checker for the "JvmMemPoolPeakReset" variable.
+     * Checker for the "JvmMemPoolPebkReset" vbribble.
      */
-    public void checkJvmMemPoolPeakReset(Long x) throws SnmpStatusException {
+    public void checkJvmMemPoolPebkReset(Long x) throws SnmpStbtusException {
     }
 
-    /* Last time peak usage was reset */
-    private long jvmMemPoolPeakReset = 0;
+    /* Lbst time pebk usbge wbs reset */
+    privbte long jvmMemPoolPebkReset = 0;
 
-    private final static EnumJvmMemPoolState JvmMemPoolStateValid =
-        new EnumJvmMemPoolState("valid");
-    private final static EnumJvmMemPoolState JvmMemPoolStateInvalid =
-        new EnumJvmMemPoolState("invalid");
+    privbte finbl stbtic EnumJvmMemPoolStbte JvmMemPoolStbteVblid =
+        new EnumJvmMemPoolStbte("vblid");
+    privbte finbl stbtic EnumJvmMemPoolStbte JvmMemPoolStbteInvblid =
+        new EnumJvmMemPoolStbte("invblid");
 
-    private static final EnumJvmMemPoolType EnumJvmMemPoolTypeHeap =
-        new EnumJvmMemPoolType("heap");
-    private static final EnumJvmMemPoolType EnumJvmMemPoolTypeNonHeap =
-        new EnumJvmMemPoolType("nonheap");
+    privbte stbtic finbl EnumJvmMemPoolType EnumJvmMemPoolTypeHebp =
+        new EnumJvmMemPoolType("hebp");
+    privbte stbtic finbl EnumJvmMemPoolType EnumJvmMemPoolTypeNonHebp =
+        new EnumJvmMemPoolType("nonhebp");
 
-    private static final EnumJvmMemPoolThreshdSupport
+    privbte stbtic finbl EnumJvmMemPoolThreshdSupport
         EnumJvmMemPoolThreshdSupported =
         new EnumJvmMemPoolThreshdSupport("supported");
-    private static final EnumJvmMemPoolThreshdSupport
+    privbte stbtic finbl EnumJvmMemPoolThreshdSupport
         EnumJvmMemPoolThreshdUnsupported =
         new EnumJvmMemPoolThreshdSupport("unsupported");
 
-    private static final EnumJvmMemPoolCollectThreshdSupport
+    privbte stbtic finbl EnumJvmMemPoolCollectThreshdSupport
         EnumJvmMemPoolCollectThreshdSupported =
         new EnumJvmMemPoolCollectThreshdSupport("supported");
-    private static final EnumJvmMemPoolCollectThreshdSupport
+    privbte stbtic finbl EnumJvmMemPoolCollectThreshdSupport
         EnumJvmMemPoolCollectThreshdUnsupported=
         new EnumJvmMemPoolCollectThreshdSupport("unsupported");
 
 
-    static final MibLogger log = new MibLogger(JvmMemPoolEntryImpl.class);
+    stbtic finbl MibLogger log = new MibLogger(JvmMemPoolEntryImpl.clbss);
 }

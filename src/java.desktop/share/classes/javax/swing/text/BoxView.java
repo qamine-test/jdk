@@ -1,309 +1,309 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.text;
+pbckbge jbvbx.swing.text;
 
-import java.io.PrintStream;
-import java.util.Vector;
-import java.awt.*;
-import javax.swing.event.DocumentEvent;
-import javax.swing.SizeRequirements;
+import jbvb.io.PrintStrebm;
+import jbvb.util.Vector;
+import jbvb.bwt.*;
+import jbvbx.swing.event.DocumentEvent;
+import jbvbx.swing.SizeRequirements;
 
 /**
- * A view that arranges its children into a box shape by tiling
- * its children along an axis.  The box is somewhat like that
- * found in TeX where there is alignment of the
+ * A view thbt brrbnges its children into b box shbpe by tiling
+ * its children blong bn bxis.  The box is somewhbt like thbt
+ * found in TeX where there is blignment of the
  * children, flexibility of the children is considered, etc.
- * This is a building block that might be useful to represent
- * things like a collection of lines, paragraphs,
- * lists, columns, pages, etc.  The axis along which the children are tiled is
- * considered the major axis.  The orthogonal axis is the minor axis.
+ * This is b building block thbt might be useful to represent
+ * things like b collection of lines, pbrbgrbphs,
+ * lists, columns, pbges, etc.  The bxis blong which the children bre tiled is
+ * considered the mbjor bxis.  The orthogonbl bxis is the minor bxis.
  * <p>
- * Layout for each axis is handled separately by the methods
- * <code>layoutMajorAxis</code> and <code>layoutMinorAxis</code>.
- * Subclasses can change the layout algorithm by
- * reimplementing these methods.    These methods will be called
- * as necessary depending upon whether or not there is cached
- * layout information and the cache is considered
- * valid.  These methods are typically called if the given size
- * along the axis changes, or if <code>layoutChanged</code> is
- * called to force an updated layout.  The <code>layoutChanged</code>
- * method invalidates cached layout information, if there is any.
- * The requirements published to the parent view are calculated by
- * the methods <code>calculateMajorAxisRequirements</code>
- * and  <code>calculateMinorAxisRequirements</code>.
- * If the layout algorithm is changed, these methods will
+ * Lbyout for ebch bxis is hbndled sepbrbtely by the methods
+ * <code>lbyoutMbjorAxis</code> bnd <code>lbyoutMinorAxis</code>.
+ * Subclbsses cbn chbnge the lbyout blgorithm by
+ * reimplementing these methods.    These methods will be cblled
+ * bs necessbry depending upon whether or not there is cbched
+ * lbyout informbtion bnd the cbche is considered
+ * vblid.  These methods bre typicblly cblled if the given size
+ * blong the bxis chbnges, or if <code>lbyoutChbnged</code> is
+ * cblled to force bn updbted lbyout.  The <code>lbyoutChbnged</code>
+ * method invblidbtes cbched lbyout informbtion, if there is bny.
+ * The requirements published to the pbrent view bre cblculbted by
+ * the methods <code>cblculbteMbjorAxisRequirements</code>
+ * bnd  <code>cblculbteMinorAxisRequirements</code>.
+ * If the lbyout blgorithm is chbnged, these methods will
  * likely need to be reimplemented.
  *
- * @author  Timothy Prinzing
+ * @buthor  Timothy Prinzing
  */
-public class BoxView extends CompositeView {
+public clbss BoxView extends CompositeView {
 
     /**
-     * Constructs a <code>BoxView</code>.
+     * Constructs b <code>BoxView</code>.
      *
-     * @param elem the element this view is responsible for
-     * @param axis either <code>View.X_AXIS</code> or <code>View.Y_AXIS</code>
+     * @pbrbm elem the element this view is responsible for
+     * @pbrbm bxis either <code>View.X_AXIS</code> or <code>View.Y_AXIS</code>
      */
-    public BoxView(Element elem, int axis) {
+    public BoxView(Element elem, int bxis) {
         super(elem);
-        tempRect = new Rectangle();
-        this.majorAxis = axis;
+        tempRect = new Rectbngle();
+        this.mbjorAxis = bxis;
 
-        majorOffsets = new int[0];
-        majorSpans = new int[0];
-        majorReqValid = false;
-        majorAllocValid = false;
+        mbjorOffsets = new int[0];
+        mbjorSpbns = new int[0];
+        mbjorReqVblid = fblse;
+        mbjorAllocVblid = fblse;
         minorOffsets = new int[0];
-        minorSpans = new int[0];
-        minorReqValid = false;
-        minorAllocValid = false;
+        minorSpbns = new int[0];
+        minorReqVblid = fblse;
+        minorAllocVblid = fblse;
     }
 
     /**
-     * Fetches the tile axis property.  This is the axis along which
-     * the child views are tiled.
+     * Fetches the tile bxis property.  This is the bxis blong which
+     * the child views bre tiled.
      *
-     * @return the major axis of the box, either
+     * @return the mbjor bxis of the box, either
      *  <code>View.X_AXIS</code> or <code>View.Y_AXIS</code>
      *
      * @since 1.3
      */
     public int getAxis() {
-        return majorAxis;
+        return mbjorAxis;
     }
 
     /**
-     * Sets the tile axis property.  This is the axis along which
-     * the child views are tiled.
+     * Sets the tile bxis property.  This is the bxis blong which
+     * the child views bre tiled.
      *
-     * @param axis either <code>View.X_AXIS</code> or <code>View.Y_AXIS</code>
+     * @pbrbm bxis either <code>View.X_AXIS</code> or <code>View.Y_AXIS</code>
      *
      * @since 1.3
      */
-    public void setAxis(int axis) {
-        boolean axisChanged = (axis != majorAxis);
-        majorAxis = axis;
-        if (axisChanged) {
-            preferenceChanged(null, true, true);
+    public void setAxis(int bxis) {
+        boolebn bxisChbnged = (bxis != mbjorAxis);
+        mbjorAxis = bxis;
+        if (bxisChbnged) {
+            preferenceChbnged(null, true, true);
         }
     }
 
     /**
-     * Invalidates the layout along an axis.  This happens
-     * automatically if the preferences have changed for
-     * any of the child views.  In some cases the layout
-     * may need to be recalculated when the preferences
-     * have not changed.  The layout can be marked as
-     * invalid by calling this method.  The layout will
-     * be updated the next time the <code>setSize</code> method
-     * is called on this view (typically in paint).
+     * Invblidbtes the lbyout blong bn bxis.  This hbppens
+     * butombticblly if the preferences hbve chbnged for
+     * bny of the child views.  In some cbses the lbyout
+     * mby need to be recblculbted when the preferences
+     * hbve not chbnged.  The lbyout cbn be mbrked bs
+     * invblid by cblling this method.  The lbyout will
+     * be updbted the next time the <code>setSize</code> method
+     * is cblled on this view (typicblly in pbint).
      *
-     * @param axis either <code>View.X_AXIS</code> or <code>View.Y_AXIS</code>
+     * @pbrbm bxis either <code>View.X_AXIS</code> or <code>View.Y_AXIS</code>
      *
      * @since 1.3
      */
-    public void layoutChanged(int axis) {
-        if (axis == majorAxis) {
-            majorAllocValid = false;
+    public void lbyoutChbnged(int bxis) {
+        if (bxis == mbjorAxis) {
+            mbjorAllocVblid = fblse;
         } else {
-            minorAllocValid = false;
+            minorAllocVblid = fblse;
         }
     }
 
     /**
-     * Determines if the layout is valid along the given axis.
+     * Determines if the lbyout is vblid blong the given bxis.
      *
-     * @param axis either <code>View.X_AXIS</code> or <code>View.Y_AXIS</code>
+     * @pbrbm bxis either <code>View.X_AXIS</code> or <code>View.Y_AXIS</code>
      *
      * @since 1.4
      */
-    protected boolean isLayoutValid(int axis) {
-        if (axis == majorAxis) {
-            return majorAllocValid;
+    protected boolebn isLbyoutVblid(int bxis) {
+        if (bxis == mbjorAxis) {
+            return mbjorAllocVblid;
         } else {
-            return minorAllocValid;
+            return minorAllocVblid;
         }
     }
 
     /**
-     * Paints a child.  By default
-     * that is all it does, but a subclass can use this to paint
-     * things relative to the child.
+     * Pbints b child.  By defbult
+     * thbt is bll it does, but b subclbss cbn use this to pbint
+     * things relbtive to the child.
      *
-     * @param g the graphics context
-     * @param alloc the allocated region to paint into
-     * @param index the child index, &gt;= 0 &amp;&amp; &lt; getViewCount()
+     * @pbrbm g the grbphics context
+     * @pbrbm blloc the bllocbted region to pbint into
+     * @pbrbm index the child index, &gt;= 0 &bmp;&bmp; &lt; getViewCount()
      */
-    protected void paintChild(Graphics g, Rectangle alloc, int index) {
+    protected void pbintChild(Grbphics g, Rectbngle blloc, int index) {
         View child = getView(index);
-        child.paint(g, alloc);
+        child.pbint(g, blloc);
     }
 
     // --- View methods ---------------------------------------------
 
     /**
-     * Invalidates the layout and resizes the cache of
-     * requests/allocations.  The child allocations can still
-     * be accessed for the old layout, but the new children
-     * will have an offset and span of 0.
+     * Invblidbtes the lbyout bnd resizes the cbche of
+     * requests/bllocbtions.  The child bllocbtions cbn still
+     * be bccessed for the old lbyout, but the new children
+     * will hbve bn offset bnd spbn of 0.
      *
-     * @param index the starting index into the child views to insert
-     *   the new views; this should be a value &gt;= 0 and &lt;= getViewCount
-     * @param length the number of existing child views to remove;
-     *   This should be a value &gt;= 0 and &lt;= (getViewCount() - offset)
-     * @param elems the child views to add; this value can be
-     *   <code>null</code>to indicate no children are being added
+     * @pbrbm index the stbrting index into the child views to insert
+     *   the new views; this should be b vblue &gt;= 0 bnd &lt;= getViewCount
+     * @pbrbm length the number of existing child views to remove;
+     *   This should be b vblue &gt;= 0 bnd &lt;= (getViewCount() - offset)
+     * @pbrbm elems the child views to bdd; this vblue cbn be
+     *   <code>null</code>to indicbte no children bre being bdded
      *   (useful to remove)
      */
-    public void replace(int index, int length, View[] elems) {
-        super.replace(index, length, elems);
+    public void replbce(int index, int length, View[] elems) {
+        super.replbce(index, length, elems);
 
-        // invalidate cache
+        // invblidbte cbche
         int nInserted = (elems != null) ? elems.length : 0;
-        majorOffsets = updateLayoutArray(majorOffsets, index, nInserted);
-        majorSpans = updateLayoutArray(majorSpans, index, nInserted);
-        majorReqValid = false;
-        majorAllocValid = false;
-        minorOffsets = updateLayoutArray(minorOffsets, index, nInserted);
-        minorSpans = updateLayoutArray(minorSpans, index, nInserted);
-        minorReqValid = false;
-        minorAllocValid = false;
+        mbjorOffsets = updbteLbyoutArrby(mbjorOffsets, index, nInserted);
+        mbjorSpbns = updbteLbyoutArrby(mbjorSpbns, index, nInserted);
+        mbjorReqVblid = fblse;
+        mbjorAllocVblid = fblse;
+        minorOffsets = updbteLbyoutArrby(minorOffsets, index, nInserted);
+        minorSpbns = updbteLbyoutArrby(minorSpbns, index, nInserted);
+        minorReqVblid = fblse;
+        minorAllocVblid = fblse;
     }
 
     /**
-     * Resizes the given layout array to match the new number of
-     * child views.  The current number of child views are used to
-     * produce the new array.  The contents of the old array are
-     * inserted into the new array at the appropriate places so that
-     * the old layout information is transferred to the new array.
+     * Resizes the given lbyout brrby to mbtch the new number of
+     * child views.  The current number of child views bre used to
+     * produce the new brrby.  The contents of the old brrby bre
+     * inserted into the new brrby bt the bppropribte plbces so thbt
+     * the old lbyout informbtion is trbnsferred to the new brrby.
      *
-     * @param oldArray the original layout array
-     * @param offset location where new views will be inserted
-     * @param nInserted the number of child views being inserted;
-     *          therefore the number of blank spaces to leave in the
-     *          new array at location <code>offset</code>
-     * @return the new layout array
+     * @pbrbm oldArrby the originbl lbyout brrby
+     * @pbrbm offset locbtion where new views will be inserted
+     * @pbrbm nInserted the number of child views being inserted;
+     *          therefore the number of blbnk spbces to lebve in the
+     *          new brrby bt locbtion <code>offset</code>
+     * @return the new lbyout brrby
      */
-    int[] updateLayoutArray(int[] oldArray, int offset, int nInserted) {
+    int[] updbteLbyoutArrby(int[] oldArrby, int offset, int nInserted) {
         int n = getViewCount();
-        int[] newArray = new int[n];
+        int[] newArrby = new int[n];
 
-        System.arraycopy(oldArray, 0, newArray, 0, offset);
-        System.arraycopy(oldArray, offset,
-                         newArray, offset + nInserted, n - nInserted - offset);
-        return newArray;
+        System.brrbycopy(oldArrby, 0, newArrby, 0, offset);
+        System.brrbycopy(oldArrby, offset,
+                         newArrby, offset + nInserted, n - nInserted - offset);
+        return newArrby;
     }
 
     /**
-     * Forwards the given <code>DocumentEvent</code> to the child views
-     * that need to be notified of the change to the model.
-     * If a child changed its requirements and the allocation
-     * was valid prior to forwarding the portion of the box
-     * from the starting child to the end of the box will
-     * be repainted.
+     * Forwbrds the given <code>DocumentEvent</code> to the child views
+     * thbt need to be notified of the chbnge to the model.
+     * If b child chbnged its requirements bnd the bllocbtion
+     * wbs vblid prior to forwbrding the portion of the box
+     * from the stbrting child to the end of the box will
+     * be repbinted.
      *
-     * @param ec changes to the element this view is responsible
-     *  for (may be <code>null</code> if there were no changes)
-     * @param e the change information from the associated document
-     * @param a the current allocation of the view
-     * @param f the factory to use to rebuild if the view has children
-     * @see #insertUpdate
-     * @see #removeUpdate
-     * @see #changedUpdate
+     * @pbrbm ec chbnges to the element this view is responsible
+     *  for (mby be <code>null</code> if there were no chbnges)
+     * @pbrbm e the chbnge informbtion from the bssocibted document
+     * @pbrbm b the current bllocbtion of the view
+     * @pbrbm f the fbctory to use to rebuild if the view hbs children
+     * @see #insertUpdbte
+     * @see #removeUpdbte
+     * @see #chbngedUpdbte
      * @since 1.3
      */
-    protected void forwardUpdate(DocumentEvent.ElementChange ec,
-                                 DocumentEvent e, Shape a, ViewFactory f) {
-        boolean wasValid = isLayoutValid(majorAxis);
-        super.forwardUpdate(ec, e, a, f);
+    protected void forwbrdUpdbte(DocumentEvent.ElementChbnge ec,
+                                 DocumentEvent e, Shbpe b, ViewFbctory f) {
+        boolebn wbsVblid = isLbyoutVblid(mbjorAxis);
+        super.forwbrdUpdbte(ec, e, b, f);
 
-        // determine if a repaint is needed
-        if (wasValid && (! isLayoutValid(majorAxis))) {
-            // Repaint is needed because one of the tiled children
-            // have changed their span along the major axis.  If there
-            // is a hosting component and an allocated shape we repaint.
-            Component c = getContainer();
-            if ((a != null) && (c != null)) {
+        // determine if b repbint is needed
+        if (wbsVblid && (! isLbyoutVblid(mbjorAxis))) {
+            // Repbint is needed becbuse one of the tiled children
+            // hbve chbnged their spbn blong the mbjor bxis.  If there
+            // is b hosting component bnd bn bllocbted shbpe we repbint.
+            Component c = getContbiner();
+            if ((b != null) && (c != null)) {
                 int pos = e.getOffset();
                 int index = getViewIndexAtPosition(pos);
-                Rectangle alloc = getInsideAllocation(a);
-                if (majorAxis == X_AXIS) {
-                    alloc.x += majorOffsets[index];
-                    alloc.width -= majorOffsets[index];
+                Rectbngle blloc = getInsideAllocbtion(b);
+                if (mbjorAxis == X_AXIS) {
+                    blloc.x += mbjorOffsets[index];
+                    blloc.width -= mbjorOffsets[index];
                 } else {
-                    alloc.y += minorOffsets[index];
-                    alloc.height -= minorOffsets[index];
+                    blloc.y += minorOffsets[index];
+                    blloc.height -= minorOffsets[index];
                 }
-                c.repaint(alloc.x, alloc.y, alloc.width, alloc.height);
+                c.repbint(blloc.x, blloc.y, blloc.width, blloc.height);
             }
         }
     }
 
     /**
-     * This is called by a child to indicate its
-     * preferred span has changed.  This is implemented to
-     * throw away cached layout information so that new
-     * calculations will be done the next time the children
-     * need an allocation.
+     * This is cblled by b child to indicbte its
+     * preferred spbn hbs chbnged.  This is implemented to
+     * throw bwby cbched lbyout informbtion so thbt new
+     * cblculbtions will be done the next time the children
+     * need bn bllocbtion.
      *
-     * @param child the child view
-     * @param width true if the width preference should change
-     * @param height true if the height preference should change
+     * @pbrbm child the child view
+     * @pbrbm width true if the width preference should chbnge
+     * @pbrbm height true if the height preference should chbnge
      */
-    public void preferenceChanged(View child, boolean width, boolean height) {
-        boolean majorChanged = (majorAxis == X_AXIS) ? width : height;
-        boolean minorChanged = (majorAxis == X_AXIS) ? height : width;
-        if (majorChanged) {
-            majorReqValid = false;
-            majorAllocValid = false;
+    public void preferenceChbnged(View child, boolebn width, boolebn height) {
+        boolebn mbjorChbnged = (mbjorAxis == X_AXIS) ? width : height;
+        boolebn minorChbnged = (mbjorAxis == X_AXIS) ? height : width;
+        if (mbjorChbnged) {
+            mbjorReqVblid = fblse;
+            mbjorAllocVblid = fblse;
         }
-        if (minorChanged) {
-            minorReqValid = false;
-            minorAllocValid = false;
+        if (minorChbnged) {
+            minorReqVblid = fblse;
+            minorAllocVblid = fblse;
         }
-        super.preferenceChanged(child, width, height);
+        super.preferenceChbnged(child, width, height);
     }
 
     /**
-     * Gets the resize weight.  A value of 0 or less is not resizable.
+     * Gets the resize weight.  A vblue of 0 or less is not resizbble.
      *
-     * @param axis may be either <code>View.X_AXIS</code> or
+     * @pbrbm bxis mby be either <code>View.X_AXIS</code> or
      *          <code>View.Y_AXIS</code>
      * @return the weight
-     * @exception IllegalArgumentException for an invalid axis
+     * @exception IllegblArgumentException for bn invblid bxis
      */
-    public int getResizeWeight(int axis) {
-        checkRequests(axis);
-        if (axis == majorAxis) {
-            if ((majorRequest.preferred != majorRequest.minimum) ||
-                (majorRequest.preferred != majorRequest.maximum)) {
+    public int getResizeWeight(int bxis) {
+        checkRequests(bxis);
+        if (bxis == mbjorAxis) {
+            if ((mbjorRequest.preferred != mbjorRequest.minimum) ||
+                (mbjorRequest.preferred != mbjorRequest.mbximum)) {
                 return 1;
             }
         } else {
             if ((minorRequest.preferred != minorRequest.minimum) ||
-                (minorRequest.preferred != minorRequest.maximum)) {
+                (minorRequest.preferred != minorRequest.mbximum)) {
                 return 1;
             }
         }
@@ -311,316 +311,316 @@ public class BoxView extends CompositeView {
     }
 
     /**
-     * Sets the size of the view along an axis.  This should cause
-     * layout of the view along the given axis.
+     * Sets the size of the view blong bn bxis.  This should cbuse
+     * lbyout of the view blong the given bxis.
      *
-     * @param axis may be either <code>View.X_AXIS</code> or
+     * @pbrbm bxis mby be either <code>View.X_AXIS</code> or
      *          <code>View.Y_AXIS</code>
-     * @param span the span to layout to >= 0
+     * @pbrbm spbn the spbn to lbyout to >= 0
      */
-    void setSpanOnAxis(int axis, float span) {
-        if (axis == majorAxis) {
-            if (majorSpan != (int) span) {
-                majorAllocValid = false;
+    void setSpbnOnAxis(int bxis, flobt spbn) {
+        if (bxis == mbjorAxis) {
+            if (mbjorSpbn != (int) spbn) {
+                mbjorAllocVblid = fblse;
             }
-            if (! majorAllocValid) {
-                // layout the major axis
-                majorSpan = (int) span;
-                checkRequests(majorAxis);
-                layoutMajorAxis(majorSpan, axis, majorOffsets, majorSpans);
-                majorAllocValid = true;
+            if (! mbjorAllocVblid) {
+                // lbyout the mbjor bxis
+                mbjorSpbn = (int) spbn;
+                checkRequests(mbjorAxis);
+                lbyoutMbjorAxis(mbjorSpbn, bxis, mbjorOffsets, mbjorSpbns);
+                mbjorAllocVblid = true;
 
-                // flush changes to the children
-                updateChildSizes();
+                // flush chbnges to the children
+                updbteChildSizes();
             }
         } else {
-            if (((int) span) != minorSpan) {
-                minorAllocValid = false;
+            if (((int) spbn) != minorSpbn) {
+                minorAllocVblid = fblse;
             }
-            if (! minorAllocValid) {
-                // layout the minor axis
-                minorSpan = (int) span;
-                checkRequests(axis);
-                layoutMinorAxis(minorSpan, axis, minorOffsets, minorSpans);
-                minorAllocValid = true;
+            if (! minorAllocVblid) {
+                // lbyout the minor bxis
+                minorSpbn = (int) spbn;
+                checkRequests(bxis);
+                lbyoutMinorAxis(minorSpbn, bxis, minorOffsets, minorSpbns);
+                minorAllocVblid = true;
 
-                // flush changes to the children
-                updateChildSizes();
+                // flush chbnges to the children
+                updbteChildSizes();
             }
         }
     }
 
     /**
-     * Propagates the current allocations to the child views.
+     * Propbgbtes the current bllocbtions to the child views.
      */
-    void updateChildSizes() {
+    void updbteChildSizes() {
         int n = getViewCount();
-        if (majorAxis == X_AXIS) {
+        if (mbjorAxis == X_AXIS) {
             for (int i = 0; i < n; i++) {
                 View v = getView(i);
-                v.setSize((float) majorSpans[i], (float) minorSpans[i]);
+                v.setSize((flobt) mbjorSpbns[i], (flobt) minorSpbns[i]);
             }
         } else {
             for (int i = 0; i < n; i++) {
                 View v = getView(i);
-                v.setSize((float) minorSpans[i], (float) majorSpans[i]);
+                v.setSize((flobt) minorSpbns[i], (flobt) mbjorSpbns[i]);
             }
         }
     }
 
     /**
-     * Returns the size of the view along an axis.  This is implemented
+     * Returns the size of the view blong bn bxis.  This is implemented
      * to return zero.
      *
-     * @param axis may be either <code>View.X_AXIS</code> or
+     * @pbrbm bxis mby be either <code>View.X_AXIS</code> or
      *          <code>View.Y_AXIS</code>
-     * @return the current span of the view along the given axis, >= 0
+     * @return the current spbn of the view blong the given bxis, >= 0
      */
-    float getSpanOnAxis(int axis) {
-        if (axis == majorAxis) {
-            return majorSpan;
+    flobt getSpbnOnAxis(int bxis) {
+        if (bxis == mbjorAxis) {
+            return mbjorSpbn;
         } else {
-            return minorSpan;
+            return minorSpbn;
         }
     }
 
     /**
-     * Sets the size of the view.  This should cause
-     * layout of the view if the view caches any layout
-     * information.  This is implemented to call the
-     * layout method with the sizes inside of the insets.
+     * Sets the size of the view.  This should cbuse
+     * lbyout of the view if the view cbches bny lbyout
+     * informbtion.  This is implemented to cbll the
+     * lbyout method with the sizes inside of the insets.
      *
-     * @param width the width &gt;= 0
-     * @param height the height &gt;= 0
+     * @pbrbm width the width &gt;= 0
+     * @pbrbm height the height &gt;= 0
      */
-    public void setSize(float width, float height) {
-        layout(Math.max(0, (int)(width - getLeftInset() - getRightInset())),
-               Math.max(0, (int)(height - getTopInset() - getBottomInset())));
+    public void setSize(flobt width, flobt height) {
+        lbyout(Mbth.mbx(0, (int)(width - getLeftInset() - getRightInset())),
+               Mbth.mbx(0, (int)(height - getTopInset() - getBottomInset())));
     }
 
     /**
      * Renders the <code>BoxView</code> using the given
-     * rendering surface and area
-     * on that surface.  Only the children that intersect
-     * the clip bounds of the given <code>Graphics</code>
+     * rendering surfbce bnd breb
+     * on thbt surfbce.  Only the children thbt intersect
+     * the clip bounds of the given <code>Grbphics</code>
      * will be rendered.
      *
-     * @param g the rendering surface to use
-     * @param allocation the allocated region to render into
-     * @see View#paint
+     * @pbrbm g the rendering surfbce to use
+     * @pbrbm bllocbtion the bllocbted region to render into
+     * @see View#pbint
      */
-    public void paint(Graphics g, Shape allocation) {
-        Rectangle alloc = (allocation instanceof Rectangle) ?
-                           (Rectangle)allocation : allocation.getBounds();
+    public void pbint(Grbphics g, Shbpe bllocbtion) {
+        Rectbngle blloc = (bllocbtion instbnceof Rectbngle) ?
+                           (Rectbngle)bllocbtion : bllocbtion.getBounds();
         int n = getViewCount();
-        int x = alloc.x + getLeftInset();
-        int y = alloc.y + getTopInset();
-        Rectangle clip = g.getClipBounds();
+        int x = blloc.x + getLeftInset();
+        int y = blloc.y + getTopInset();
+        Rectbngle clip = g.getClipBounds();
         for (int i = 0; i < n; i++) {
             tempRect.x = x + getOffset(X_AXIS, i);
             tempRect.y = y + getOffset(Y_AXIS, i);
-            tempRect.width = getSpan(X_AXIS, i);
-            tempRect.height = getSpan(Y_AXIS, i);
+            tempRect.width = getSpbn(X_AXIS, i);
+            tempRect.height = getSpbn(Y_AXIS, i);
             int trx0 = tempRect.x, trx1 = trx0 + tempRect.width;
             int try0 = tempRect.y, try1 = try0 + tempRect.height;
             int crx0 = clip.x, crx1 = crx0 + clip.width;
             int cry0 = clip.y, cry1 = cry0 + clip.height;
-            // We should paint views that intersect with clipping region
-            // even if the intersection has no inside points (is a line).
-            // This is needed for supporting views that have zero width, like
-            // views that contain only combining marks.
+            // We should pbint views thbt intersect with clipping region
+            // even if the intersection hbs no inside points (is b line).
+            // This is needed for supporting views thbt hbve zero width, like
+            // views thbt contbin only combining mbrks.
             if ((trx1 >= crx0) && (try1 >= cry0) && (crx1 >= trx0) && (cry1 >= try0)) {
-                paintChild(g, tempRect, i);
+                pbintChild(g, tempRect, i);
             }
         }
     }
 
     /**
-     * Fetches the allocation for the given child view.
-     * This enables finding out where various views
-     * are located.  This is implemented to return
-     * <code>null</code> if the layout is invalid,
-     * otherwise the superclass behavior is executed.
+     * Fetches the bllocbtion for the given child view.
+     * This enbbles finding out where vbrious views
+     * bre locbted.  This is implemented to return
+     * <code>null</code> if the lbyout is invblid,
+     * otherwise the superclbss behbvior is executed.
      *
-     * @param index the index of the child, &gt;= 0 &amp;&amp; &gt; getViewCount()
-     * @param a  the allocation to this view
-     * @return the allocation to the child; or <code>null</code>
-     *          if <code>a</code> is <code>null</code>;
-     *          or <code>null</code> if the layout is invalid
+     * @pbrbm index the index of the child, &gt;= 0 &bmp;&bmp; &gt; getViewCount()
+     * @pbrbm b  the bllocbtion to this view
+     * @return the bllocbtion to the child; or <code>null</code>
+     *          if <code>b</code> is <code>null</code>;
+     *          or <code>null</code> if the lbyout is invblid
      */
-    public Shape getChildAllocation(int index, Shape a) {
-        if (a != null) {
-            Shape ca = super.getChildAllocation(index, a);
-            if ((ca != null) && (! isAllocationValid())) {
-                // The child allocation may not have been set yet.
-                Rectangle r = (ca instanceof Rectangle) ?
-                    (Rectangle) ca : ca.getBounds();
+    public Shbpe getChildAllocbtion(int index, Shbpe b) {
+        if (b != null) {
+            Shbpe cb = super.getChildAllocbtion(index, b);
+            if ((cb != null) && (! isAllocbtionVblid())) {
+                // The child bllocbtion mby not hbve been set yet.
+                Rectbngle r = (cb instbnceof Rectbngle) ?
+                    (Rectbngle) cb : cb.getBounds();
                 if ((r.width == 0) && (r.height == 0)) {
                     return null;
                 }
             }
-            return ca;
+            return cb;
         }
         return null;
     }
 
     /**
-     * Provides a mapping from the document model coordinate space
-     * to the coordinate space of the view mapped to it.  This makes
-     * sure the allocation is valid before calling the superclass.
+     * Provides b mbpping from the document model coordinbte spbce
+     * to the coordinbte spbce of the view mbpped to it.  This mbkes
+     * sure the bllocbtion is vblid before cblling the superclbss.
      *
-     * @param pos the position to convert &gt;= 0
-     * @param a the allocated region to render into
+     * @pbrbm pos the position to convert &gt;= 0
+     * @pbrbm b the bllocbted region to render into
      * @return the bounding box of the given position
-     * @exception BadLocationException  if the given position does
-     *  not represent a valid location in the associated document
+     * @exception BbdLocbtionException  if the given position does
+     *  not represent b vblid locbtion in the bssocibted document
      * @see View#modelToView
      */
-    public Shape modelToView(int pos, Shape a, Position.Bias b) throws BadLocationException {
-        if (! isAllocationValid()) {
-            Rectangle alloc = a.getBounds();
-            setSize(alloc.width, alloc.height);
+    public Shbpe modelToView(int pos, Shbpe b, Position.Bibs b) throws BbdLocbtionException {
+        if (! isAllocbtionVblid()) {
+            Rectbngle blloc = b.getBounds();
+            setSize(blloc.width, blloc.height);
         }
-        return super.modelToView(pos, a, b);
+        return super.modelToView(pos, b, b);
     }
 
     /**
-     * Provides a mapping from the view coordinate space to the logical
-     * coordinate space of the model.
+     * Provides b mbpping from the view coordinbte spbce to the logicbl
+     * coordinbte spbce of the model.
      *
-     * @param x   x coordinate of the view location to convert &gt;= 0
-     * @param y   y coordinate of the view location to convert &gt;= 0
-     * @param a the allocated region to render into
-     * @return the location within the model that best represents the
+     * @pbrbm x   x coordinbte of the view locbtion to convert &gt;= 0
+     * @pbrbm y   y coordinbte of the view locbtion to convert &gt;= 0
+     * @pbrbm b the bllocbted region to render into
+     * @return the locbtion within the model thbt best represents the
      *  given point in the view &gt;= 0
      * @see View#viewToModel
      */
-    public int viewToModel(float x, float y, Shape a, Position.Bias[] bias) {
-        if (! isAllocationValid()) {
-            Rectangle alloc = a.getBounds();
-            setSize(alloc.width, alloc.height);
+    public int viewToModel(flobt x, flobt y, Shbpe b, Position.Bibs[] bibs) {
+        if (! isAllocbtionVblid()) {
+            Rectbngle blloc = b.getBounds();
+            setSize(blloc.width, blloc.height);
         }
-        return super.viewToModel(x, y, a, bias);
+        return super.viewToModel(x, y, b, bibs);
     }
 
     /**
-     * Determines the desired alignment for this view along an
-     * axis.  This is implemented to give the total alignment
-     * needed to position the children with the alignment points
-     * lined up along the axis orthogonal to the axis that is
-     * being tiled.  The axis being tiled will request to be
+     * Determines the desired blignment for this view blong bn
+     * bxis.  This is implemented to give the totbl blignment
+     * needed to position the children with the blignment points
+     * lined up blong the bxis orthogonbl to the bxis thbt is
+     * being tiled.  The bxis being tiled will request to be
      * centered (i.e. 0.5f).
      *
-     * @param axis may be either <code>View.X_AXIS</code>
+     * @pbrbm bxis mby be either <code>View.X_AXIS</code>
      *   or <code>View.Y_AXIS</code>
-     * @return the desired alignment &gt;= 0.0f &amp;&amp; &lt;= 1.0f; this should
-     *   be a value between 0.0 and 1.0 where 0 indicates alignment at the
-     *   origin and 1.0 indicates alignment to the full span
-     *   away from the origin; an alignment of 0.5 would be the
+     * @return the desired blignment &gt;= 0.0f &bmp;&bmp; &lt;= 1.0f; this should
+     *   be b vblue between 0.0 bnd 1.0 where 0 indicbtes blignment bt the
+     *   origin bnd 1.0 indicbtes blignment to the full spbn
+     *   bwby from the origin; bn blignment of 0.5 would be the
      *   center of the view
-     * @exception IllegalArgumentException for an invalid axis
+     * @exception IllegblArgumentException for bn invblid bxis
      */
-    public float getAlignment(int axis) {
-        checkRequests(axis);
-        if (axis == majorAxis) {
-            return majorRequest.alignment;
+    public flobt getAlignment(int bxis) {
+        checkRequests(bxis);
+        if (bxis == mbjorAxis) {
+            return mbjorRequest.blignment;
         } else {
-            return minorRequest.alignment;
+            return minorRequest.blignment;
         }
     }
 
     /**
-     * Determines the preferred span for this view along an
-     * axis.
+     * Determines the preferred spbn for this view blong bn
+     * bxis.
      *
-     * @param axis may be either <code>View.X_AXIS</code>
+     * @pbrbm bxis mby be either <code>View.X_AXIS</code>
      *           or <code>View.Y_AXIS</code>
-     * @return   the span the view would like to be rendered into &gt;= 0;
-     *           typically the view is told to render into the span
-     *           that is returned, although there is no guarantee;
-     *           the parent may choose to resize or break the view
-     * @exception IllegalArgumentException for an invalid axis type
+     * @return   the spbn the view would like to be rendered into &gt;= 0;
+     *           typicblly the view is told to render into the spbn
+     *           thbt is returned, blthough there is no gubrbntee;
+     *           the pbrent mby choose to resize or brebk the view
+     * @exception IllegblArgumentException for bn invblid bxis type
      */
-    public float getPreferredSpan(int axis) {
-        checkRequests(axis);
-        float marginSpan = (axis == X_AXIS) ? getLeftInset() + getRightInset() :
+    public flobt getPreferredSpbn(int bxis) {
+        checkRequests(bxis);
+        flobt mbrginSpbn = (bxis == X_AXIS) ? getLeftInset() + getRightInset() :
             getTopInset() + getBottomInset();
-        if (axis == majorAxis) {
-            return ((float)majorRequest.preferred) + marginSpan;
+        if (bxis == mbjorAxis) {
+            return ((flobt)mbjorRequest.preferred) + mbrginSpbn;
         } else {
-            return ((float)minorRequest.preferred) + marginSpan;
+            return ((flobt)minorRequest.preferred) + mbrginSpbn;
         }
     }
 
     /**
-     * Determines the minimum span for this view along an
-     * axis.
+     * Determines the minimum spbn for this view blong bn
+     * bxis.
      *
-     * @param axis may be either <code>View.X_AXIS</code>
+     * @pbrbm bxis mby be either <code>View.X_AXIS</code>
      *           or <code>View.Y_AXIS</code>
-     * @return  the span the view would like to be rendered into &gt;= 0;
-     *           typically the view is told to render into the span
-     *           that is returned, although there is no guarantee;
-     *           the parent may choose to resize or break the view
-     * @exception IllegalArgumentException for an invalid axis type
+     * @return  the spbn the view would like to be rendered into &gt;= 0;
+     *           typicblly the view is told to render into the spbn
+     *           thbt is returned, blthough there is no gubrbntee;
+     *           the pbrent mby choose to resize or brebk the view
+     * @exception IllegblArgumentException for bn invblid bxis type
      */
-    public float getMinimumSpan(int axis) {
-        checkRequests(axis);
-        float marginSpan = (axis == X_AXIS) ? getLeftInset() + getRightInset() :
+    public flobt getMinimumSpbn(int bxis) {
+        checkRequests(bxis);
+        flobt mbrginSpbn = (bxis == X_AXIS) ? getLeftInset() + getRightInset() :
             getTopInset() + getBottomInset();
-        if (axis == majorAxis) {
-            return ((float)majorRequest.minimum) + marginSpan;
+        if (bxis == mbjorAxis) {
+            return ((flobt)mbjorRequest.minimum) + mbrginSpbn;
         } else {
-            return ((float)minorRequest.minimum) + marginSpan;
+            return ((flobt)minorRequest.minimum) + mbrginSpbn;
         }
     }
 
     /**
-     * Determines the maximum span for this view along an
-     * axis.
+     * Determines the mbximum spbn for this view blong bn
+     * bxis.
      *
-     * @param axis may be either <code>View.X_AXIS</code>
+     * @pbrbm bxis mby be either <code>View.X_AXIS</code>
      *           or <code>View.Y_AXIS</code>
-     * @return   the span the view would like to be rendered into &gt;= 0;
-     *           typically the view is told to render into the span
-     *           that is returned, although there is no guarantee;
-     *           the parent may choose to resize or break the view
-     * @exception IllegalArgumentException for an invalid axis type
+     * @return   the spbn the view would like to be rendered into &gt;= 0;
+     *           typicblly the view is told to render into the spbn
+     *           thbt is returned, blthough there is no gubrbntee;
+     *           the pbrent mby choose to resize or brebk the view
+     * @exception IllegblArgumentException for bn invblid bxis type
      */
-    public float getMaximumSpan(int axis) {
-        checkRequests(axis);
-        float marginSpan = (axis == X_AXIS) ? getLeftInset() + getRightInset() :
+    public flobt getMbximumSpbn(int bxis) {
+        checkRequests(bxis);
+        flobt mbrginSpbn = (bxis == X_AXIS) ? getLeftInset() + getRightInset() :
             getTopInset() + getBottomInset();
-        if (axis == majorAxis) {
-            return ((float)majorRequest.maximum) + marginSpan;
+        if (bxis == mbjorAxis) {
+            return ((flobt)mbjorRequest.mbximum) + mbrginSpbn;
         } else {
-            return ((float)minorRequest.maximum) + marginSpan;
+            return ((flobt)minorRequest.mbximum) + mbrginSpbn;
         }
     }
 
-    // --- local methods ----------------------------------------------------
+    // --- locbl methods ----------------------------------------------------
 
     /**
-     * Are the allocations for the children still
-     * valid?
+     * Are the bllocbtions for the children still
+     * vblid?
      *
-     * @return true if allocations still valid
+     * @return true if bllocbtions still vblid
      */
-    protected boolean isAllocationValid() {
-        return (majorAllocValid && minorAllocValid);
+    protected boolebn isAllocbtionVblid() {
+        return (mbjorAllocVblid && minorAllocVblid);
     }
 
     /**
-     * Determines if a point falls before an allocated region.
+     * Determines if b point fblls before bn bllocbted region.
      *
-     * @param x the X coordinate &gt;= 0
-     * @param y the Y coordinate &gt;= 0
-     * @param innerAlloc the allocated region; this is the area
+     * @pbrbm x the X coordinbte &gt;= 0
+     * @pbrbm y the Y coordinbte &gt;= 0
+     * @pbrbm innerAlloc the bllocbted region; this is the breb
      *   inside of the insets
-     * @return true if the point lies before the region else false
+     * @return true if the point lies before the region else fblse
      */
-    protected boolean isBefore(int x, int y, Rectangle innerAlloc) {
-        if (majorAxis == View.X_AXIS) {
+    protected boolebn isBefore(int x, int y, Rectbngle innerAlloc) {
+        if (mbjorAxis == View.X_AXIS) {
             return (x < innerAlloc.x);
         } else {
             return (y < innerAlloc.y);
@@ -628,16 +628,16 @@ public class BoxView extends CompositeView {
     }
 
     /**
-     * Determines if a point falls after an allocated region.
+     * Determines if b point fblls bfter bn bllocbted region.
      *
-     * @param x the X coordinate &gt;= 0
-     * @param y the Y coordinate &gt;= 0
-     * @param innerAlloc the allocated region; this is the area
+     * @pbrbm x the X coordinbte &gt;= 0
+     * @pbrbm y the Y coordinbte &gt;= 0
+     * @pbrbm innerAlloc the bllocbted region; this is the breb
      *   inside of the insets
-     * @return true if the point lies after the region else false
+     * @return true if the point lies bfter the region else fblse
      */
-    protected boolean isAfter(int x, int y, Rectangle innerAlloc) {
-        if (majorAxis == View.X_AXIS) {
+    protected boolebn isAfter(int x, int y, Rectbngle innerAlloc) {
+        if (mbjorAxis == View.X_AXIS) {
             return (x > (innerAlloc.width + innerAlloc.x));
         } else {
             return (y > (innerAlloc.height + innerAlloc.y));
@@ -645,544 +645,544 @@ public class BoxView extends CompositeView {
     }
 
     /**
-     * Fetches the child view at the given coordinates.
+     * Fetches the child view bt the given coordinbtes.
      *
-     * @param x the X coordinate &gt;= 0
-     * @param y the Y coordinate &gt;= 0
-     * @param alloc the parents inner allocation on entry, which should
-     *   be changed to the child's allocation on exit
+     * @pbrbm x the X coordinbte &gt;= 0
+     * @pbrbm y the Y coordinbte &gt;= 0
+     * @pbrbm blloc the pbrents inner bllocbtion on entry, which should
+     *   be chbnged to the child's bllocbtion on exit
      * @return the view
      */
-    protected View getViewAtPoint(int x, int y, Rectangle alloc) {
+    protected View getViewAtPoint(int x, int y, Rectbngle blloc) {
         int n = getViewCount();
-        if (majorAxis == View.X_AXIS) {
-            if (x < (alloc.x + majorOffsets[0])) {
-                childAllocation(0, alloc);
+        if (mbjorAxis == View.X_AXIS) {
+            if (x < (blloc.x + mbjorOffsets[0])) {
+                childAllocbtion(0, blloc);
                 return getView(0);
             }
             for (int i = 0; i < n; i++) {
-                if (x < (alloc.x + majorOffsets[i])) {
-                    childAllocation(i - 1, alloc);
+                if (x < (blloc.x + mbjorOffsets[i])) {
+                    childAllocbtion(i - 1, blloc);
                     return getView(i - 1);
                 }
             }
-            childAllocation(n - 1, alloc);
+            childAllocbtion(n - 1, blloc);
             return getView(n - 1);
         } else {
-            if (y < (alloc.y + majorOffsets[0])) {
-                childAllocation(0, alloc);
+            if (y < (blloc.y + mbjorOffsets[0])) {
+                childAllocbtion(0, blloc);
                 return getView(0);
             }
             for (int i = 0; i < n; i++) {
-                if (y < (alloc.y + majorOffsets[i])) {
-                    childAllocation(i - 1, alloc);
+                if (y < (blloc.y + mbjorOffsets[i])) {
+                    childAllocbtion(i - 1, blloc);
                     return getView(i - 1);
                 }
             }
-            childAllocation(n - 1, alloc);
+            childAllocbtion(n - 1, blloc);
             return getView(n - 1);
         }
     }
 
     /**
-     * Allocates a region for a child view.
+     * Allocbtes b region for b child view.
      *
-     * @param index the index of the child view to
-     *   allocate, &gt;= 0 &amp;&amp; &lt; getViewCount()
-     * @param alloc the allocated region
+     * @pbrbm index the index of the child view to
+     *   bllocbte, &gt;= 0 &bmp;&bmp; &lt; getViewCount()
+     * @pbrbm blloc the bllocbted region
      */
-    protected void childAllocation(int index, Rectangle alloc) {
-        alloc.x += getOffset(X_AXIS, index);
-        alloc.y += getOffset(Y_AXIS, index);
-        alloc.width = getSpan(X_AXIS, index);
-        alloc.height = getSpan(Y_AXIS, index);
+    protected void childAllocbtion(int index, Rectbngle blloc) {
+        blloc.x += getOffset(X_AXIS, index);
+        blloc.y += getOffset(Y_AXIS, index);
+        blloc.width = getSpbn(X_AXIS, index);
+        blloc.height = getSpbn(Y_AXIS, index);
     }
 
     /**
-     * Perform layout on the box
+     * Perform lbyout on the box
      *
-     * @param width the width (inside of the insets) &gt;= 0
-     * @param height the height (inside of the insets) &gt;= 0
+     * @pbrbm width the width (inside of the insets) &gt;= 0
+     * @pbrbm height the height (inside of the insets) &gt;= 0
      */
-    protected void layout(int width, int height) {
-        setSpanOnAxis(X_AXIS, width);
-        setSpanOnAxis(Y_AXIS, height);
+    protected void lbyout(int width, int height) {
+        setSpbnOnAxis(X_AXIS, width);
+        setSpbnOnAxis(Y_AXIS, height);
     }
 
     /**
-     * Returns the current width of the box.  This is the width that
-     * it was last allocated.
+     * Returns the current width of the box.  This is the width thbt
+     * it wbs lbst bllocbted.
      * @return the current width of the box
      */
     public int getWidth() {
-        int span;
-        if (majorAxis == X_AXIS) {
-            span = majorSpan;
+        int spbn;
+        if (mbjorAxis == X_AXIS) {
+            spbn = mbjorSpbn;
         } else {
-            span = minorSpan;
+            spbn = minorSpbn;
         }
-        span += getLeftInset() - getRightInset();
-        return span;
+        spbn += getLeftInset() - getRightInset();
+        return spbn;
     }
 
     /**
-     * Returns the current height of the box.  This is the height that
-     * it was last allocated.
+     * Returns the current height of the box.  This is the height thbt
+     * it wbs lbst bllocbted.
      * @return the current height of the box
      */
     public int getHeight() {
-        int span;
-        if (majorAxis == Y_AXIS) {
-            span = majorSpan;
+        int spbn;
+        if (mbjorAxis == Y_AXIS) {
+            spbn = mbjorSpbn;
         } else {
-            span = minorSpan;
+            spbn = minorSpbn;
         }
-        span += getTopInset() - getBottomInset();
-        return span;
+        spbn += getTopInset() - getBottomInset();
+        return spbn;
     }
 
     /**
-     * Performs layout for the major axis of the box (i.e. the
-     * axis that it represents). The results of the layout (the
-     * offset and span for each children) are placed in the given
-     * arrays which represent the allocations to the children
-     * along the major axis.
+     * Performs lbyout for the mbjor bxis of the box (i.e. the
+     * bxis thbt it represents). The results of the lbyout (the
+     * offset bnd spbn for ebch children) bre plbced in the given
+     * brrbys which represent the bllocbtions to the children
+     * blong the mbjor bxis.
      *
-     * @param targetSpan the total span given to the view, which
-     *  would be used to layout the children
-     * @param axis the axis being layed out
-     * @param offsets the offsets from the origin of the view for
-     *  each of the child views; this is a return value and is
-     *  filled in by the implementation of this method
-     * @param spans the span of each child view; this is a return
-     *  value and is filled in by the implementation of this method
+     * @pbrbm tbrgetSpbn the totbl spbn given to the view, which
+     *  would be used to lbyout the children
+     * @pbrbm bxis the bxis being lbyed out
+     * @pbrbm offsets the offsets from the origin of the view for
+     *  ebch of the child views; this is b return vblue bnd is
+     *  filled in by the implementbtion of this method
+     * @pbrbm spbns the spbn of ebch child view; this is b return
+     *  vblue bnd is filled in by the implementbtion of this method
      */
-    protected void layoutMajorAxis(int targetSpan, int axis, int[] offsets, int[] spans) {
+    protected void lbyoutMbjorAxis(int tbrgetSpbn, int bxis, int[] offsets, int[] spbns) {
         /*
-         * first pass, calculate the preferred sizes
-         * and the flexibility to adjust the sizes.
+         * first pbss, cblculbte the preferred sizes
+         * bnd the flexibility to bdjust the sizes.
          */
         long preferred = 0;
         int n = getViewCount();
         for (int i = 0; i < n; i++) {
             View v = getView(i);
-            spans[i] = (int) v.getPreferredSpan(axis);
-            preferred += spans[i];
+            spbns[i] = (int) v.getPreferredSpbn(bxis);
+            preferred += spbns[i];
         }
 
         /*
-         * Second pass, expand or contract by as much as possible to reach
-         * the target span.
+         * Second pbss, expbnd or contrbct by bs much bs possible to rebch
+         * the tbrget spbn.
          */
 
-        // determine the adjustment to be made
-        long desiredAdjustment = targetSpan - preferred;
-        float adjustmentFactor = 0.0f;
+        // determine the bdjustment to be mbde
+        long desiredAdjustment = tbrgetSpbn - preferred;
+        flobt bdjustmentFbctor = 0.0f;
         int[] diffs = null;
 
         if (desiredAdjustment != 0) {
-            long totalSpan = 0;
+            long totblSpbn = 0;
             diffs = new int[n];
             for (int i = 0; i < n; i++) {
                 View v = getView(i);
                 int tmp;
                 if (desiredAdjustment < 0) {
-                    tmp = (int)v.getMinimumSpan(axis);
-                    diffs[i] = spans[i] - tmp;
+                    tmp = (int)v.getMinimumSpbn(bxis);
+                    diffs[i] = spbns[i] - tmp;
                 } else {
-                    tmp = (int)v.getMaximumSpan(axis);
-                    diffs[i] = tmp - spans[i];
+                    tmp = (int)v.getMbximumSpbn(bxis);
+                    diffs[i] = tmp - spbns[i];
                 }
-                totalSpan += tmp;
+                totblSpbn += tmp;
             }
 
-            float maximumAdjustment = Math.abs(totalSpan - preferred);
-                adjustmentFactor = desiredAdjustment / maximumAdjustment;
-                adjustmentFactor = Math.min(adjustmentFactor, 1.0f);
-                adjustmentFactor = Math.max(adjustmentFactor, -1.0f);
+            flobt mbximumAdjustment = Mbth.bbs(totblSpbn - preferred);
+                bdjustmentFbctor = desiredAdjustment / mbximumAdjustment;
+                bdjustmentFbctor = Mbth.min(bdjustmentFbctor, 1.0f);
+                bdjustmentFbctor = Mbth.mbx(bdjustmentFbctor, -1.0f);
             }
 
-        // make the adjustments
-        int totalOffset = 0;
+        // mbke the bdjustments
+        int totblOffset = 0;
         for (int i = 0; i < n; i++) {
-            offsets[i] = totalOffset;
+            offsets[i] = totblOffset;
             if (desiredAdjustment != 0) {
-                float adjF = adjustmentFactor * diffs[i];
-                spans[i] += Math.round(adjF);
+                flobt bdjF = bdjustmentFbctor * diffs[i];
+                spbns[i] += Mbth.round(bdjF);
             }
-            totalOffset = (int) Math.min((long) totalOffset + (long) spans[i], Integer.MAX_VALUE);
+            totblOffset = (int) Mbth.min((long) totblOffset + (long) spbns[i], Integer.MAX_VALUE);
         }
     }
 
     /**
-     * Performs layout for the minor axis of the box (i.e. the
-     * axis orthogonal to the axis that it represents). The results
-     * of the layout (the offset and span for each children) are
-     * placed in the given arrays which represent the allocations to
-     * the children along the minor axis.
+     * Performs lbyout for the minor bxis of the box (i.e. the
+     * bxis orthogonbl to the bxis thbt it represents). The results
+     * of the lbyout (the offset bnd spbn for ebch children) bre
+     * plbced in the given brrbys which represent the bllocbtions to
+     * the children blong the minor bxis.
      *
-     * @param targetSpan the total span given to the view, which
-     *  would be used to layout the children
-     * @param axis the axis being layed out
-     * @param offsets the offsets from the origin of the view for
-     *  each of the child views; this is a return value and is
-     *  filled in by the implementation of this method
-     * @param spans the span of each child view; this is a return
-     *  value and is filled in by the implementation of this method
+     * @pbrbm tbrgetSpbn the totbl spbn given to the view, which
+     *  would be used to lbyout the children
+     * @pbrbm bxis the bxis being lbyed out
+     * @pbrbm offsets the offsets from the origin of the view for
+     *  ebch of the child views; this is b return vblue bnd is
+     *  filled in by the implementbtion of this method
+     * @pbrbm spbns the spbn of ebch child view; this is b return
+     *  vblue bnd is filled in by the implementbtion of this method
      */
-    protected void layoutMinorAxis(int targetSpan, int axis, int[] offsets, int[] spans) {
+    protected void lbyoutMinorAxis(int tbrgetSpbn, int bxis, int[] offsets, int[] spbns) {
         int n = getViewCount();
         for (int i = 0; i < n; i++) {
             View v = getView(i);
-            int max = (int) v.getMaximumSpan(axis);
-            if (max < targetSpan) {
-                // can't make the child this wide, align it
-                float align = v.getAlignment(axis);
-                offsets[i] = (int) ((targetSpan - max) * align);
-                spans[i] = max;
+            int mbx = (int) v.getMbximumSpbn(bxis);
+            if (mbx < tbrgetSpbn) {
+                // cbn't mbke the child this wide, blign it
+                flobt blign = v.getAlignment(bxis);
+                offsets[i] = (int) ((tbrgetSpbn - mbx) * blign);
+                spbns[i] = mbx;
             } else {
-                // make it the target width, or as small as it can get.
-                int min = (int)v.getMinimumSpan(axis);
+                // mbke it the tbrget width, or bs smbll bs it cbn get.
+                int min = (int)v.getMinimumSpbn(bxis);
                 offsets[i] = 0;
-                spans[i] = Math.max(min, targetSpan);
+                spbns[i] = Mbth.mbx(min, tbrgetSpbn);
             }
         }
     }
 
     /**
-     * Calculates the size requirements for the major axis
-     * <code>axis</code>.
+     * Cblculbtes the size requirements for the mbjor bxis
+     * <code>bxis</code>.
      *
-     * @param axis the axis being studied
-     * @param r the <code>SizeRequirements</code> object;
-     *          if <code>null</code> one will be created
-     * @return the newly initialized <code>SizeRequirements</code> object
-     * @see javax.swing.SizeRequirements
+     * @pbrbm bxis the bxis being studied
+     * @pbrbm r the <code>SizeRequirements</code> object;
+     *          if <code>null</code> one will be crebted
+     * @return the newly initiblized <code>SizeRequirements</code> object
+     * @see jbvbx.swing.SizeRequirements
      */
-    protected SizeRequirements calculateMajorAxisRequirements(int axis, SizeRequirements r) {
-        // calculate tiled request
-        float min = 0;
-        float pref = 0;
-        float max = 0;
+    protected SizeRequirements cblculbteMbjorAxisRequirements(int bxis, SizeRequirements r) {
+        // cblculbte tiled request
+        flobt min = 0;
+        flobt pref = 0;
+        flobt mbx = 0;
 
         int n = getViewCount();
         for (int i = 0; i < n; i++) {
             View v = getView(i);
-            min += v.getMinimumSpan(axis);
-            pref += v.getPreferredSpan(axis);
-            max += v.getMaximumSpan(axis);
+            min += v.getMinimumSpbn(bxis);
+            pref += v.getPreferredSpbn(bxis);
+            mbx += v.getMbximumSpbn(bxis);
         }
 
         if (r == null) {
             r = new SizeRequirements();
         }
-        r.alignment = 0.5f;
+        r.blignment = 0.5f;
         r.minimum = (int) min;
         r.preferred = (int) pref;
-        r.maximum = (int) max;
+        r.mbximum = (int) mbx;
         return r;
     }
 
     /**
-     * Calculates the size requirements for the minor axis
-     * <code>axis</code>.
+     * Cblculbtes the size requirements for the minor bxis
+     * <code>bxis</code>.
      *
-     * @param axis the axis being studied
-     * @param r the <code>SizeRequirements</code> object;
-     *          if <code>null</code> one will be created
-     * @return the newly initialized <code>SizeRequirements</code> object
-     * @see javax.swing.SizeRequirements
+     * @pbrbm bxis the bxis being studied
+     * @pbrbm r the <code>SizeRequirements</code> object;
+     *          if <code>null</code> one will be crebted
+     * @return the newly initiblized <code>SizeRequirements</code> object
+     * @see jbvbx.swing.SizeRequirements
      */
-    protected SizeRequirements calculateMinorAxisRequirements(int axis, SizeRequirements r) {
+    protected SizeRequirements cblculbteMinorAxisRequirements(int bxis, SizeRequirements r) {
         int min = 0;
         long pref = 0;
-        int max = Integer.MAX_VALUE;
+        int mbx = Integer.MAX_VALUE;
         int n = getViewCount();
         for (int i = 0; i < n; i++) {
             View v = getView(i);
-            min = Math.max((int) v.getMinimumSpan(axis), min);
-            pref = Math.max((int) v.getPreferredSpan(axis), pref);
-            max = Math.max((int) v.getMaximumSpan(axis), max);
+            min = Mbth.mbx((int) v.getMinimumSpbn(bxis), min);
+            pref = Mbth.mbx((int) v.getPreferredSpbn(bxis), pref);
+            mbx = Mbth.mbx((int) v.getMbximumSpbn(bxis), mbx);
         }
 
         if (r == null) {
             r = new SizeRequirements();
-            r.alignment = 0.5f;
+            r.blignment = 0.5f;
         }
         r.preferred = (int) pref;
         r.minimum = min;
-        r.maximum = max;
+        r.mbximum = mbx;
         return r;
     }
 
     /**
-     * Checks the request cache and update if needed.
-     * @param axis the axis being studied
-     * @exception IllegalArgumentException if <code>axis</code> is
+     * Checks the request cbche bnd updbte if needed.
+     * @pbrbm bxis the bxis being studied
+     * @exception IllegblArgumentException if <code>bxis</code> is
      *  neither <code>View.X_AXIS</code> nor <code>View.Y_AXIS</code>
      */
-    void checkRequests(int axis) {
-        if ((axis != X_AXIS) && (axis != Y_AXIS)) {
-            throw new IllegalArgumentException("Invalid axis: " + axis);
+    void checkRequests(int bxis) {
+        if ((bxis != X_AXIS) && (bxis != Y_AXIS)) {
+            throw new IllegblArgumentException("Invblid bxis: " + bxis);
         }
-        if (axis == majorAxis) {
-            if (!majorReqValid) {
-                majorRequest = calculateMajorAxisRequirements(axis,
-                                                              majorRequest);
-                majorReqValid = true;
+        if (bxis == mbjorAxis) {
+            if (!mbjorReqVblid) {
+                mbjorRequest = cblculbteMbjorAxisRequirements(bxis,
+                                                              mbjorRequest);
+                mbjorReqVblid = true;
             }
-        } else if (! minorReqValid) {
-            minorRequest = calculateMinorAxisRequirements(axis, minorRequest);
-            minorReqValid = true;
+        } else if (! minorReqVblid) {
+            minorRequest = cblculbteMinorAxisRequirements(bxis, minorRequest);
+            minorReqVblid = true;
         }
     }
 
     /**
-     * Computes the location and extent of each child view
-     * in this <code>BoxView</code> given the <code>targetSpan</code>,
-     * which is the width (or height) of the region we have to
+     * Computes the locbtion bnd extent of ebch child view
+     * in this <code>BoxView</code> given the <code>tbrgetSpbn</code>,
+     * which is the width (or height) of the region we hbve to
      * work with.
      *
-     * @param targetSpan the total span given to the view, which
-     *  would be used to layout the children
-     * @param axis the axis being studied, either
+     * @pbrbm tbrgetSpbn the totbl spbn given to the view, which
+     *  would be used to lbyout the children
+     * @pbrbm bxis the bxis being studied, either
      *          <code>View.X_AXIS</code> or <code>View.Y_AXIS</code>
-     * @param offsets an empty array filled by this method with
-     *          values specifying the location  of each child view
-     * @param spans  an empty array filled by this method with
-     *          values specifying the extent of each child view
+     * @pbrbm offsets bn empty brrby filled by this method with
+     *          vblues specifying the locbtion  of ebch child view
+     * @pbrbm spbns  bn empty brrby filled by this method with
+     *          vblues specifying the extent of ebch child view
      */
-    protected void baselineLayout(int targetSpan, int axis, int[] offsets, int[] spans) {
-        int totalAscent = (int)(targetSpan * getAlignment(axis));
-        int totalDescent = targetSpan - totalAscent;
+    protected void bbselineLbyout(int tbrgetSpbn, int bxis, int[] offsets, int[] spbns) {
+        int totblAscent = (int)(tbrgetSpbn * getAlignment(bxis));
+        int totblDescent = tbrgetSpbn - totblAscent;
 
         int n = getViewCount();
 
         for (int i = 0; i < n; i++) {
             View v = getView(i);
-            float align = v.getAlignment(axis);
-            float viewSpan;
+            flobt blign = v.getAlignment(bxis);
+            flobt viewSpbn;
 
-            if (v.getResizeWeight(axis) > 0) {
-                // if resizable then resize to the best fit
+            if (v.getResizeWeight(bxis) > 0) {
+                // if resizbble then resize to the best fit
 
-                // the smallest span possible
-                float minSpan = v.getMinimumSpan(axis);
-                // the largest span possible
-                float maxSpan = v.getMaximumSpan(axis);
+                // the smbllest spbn possible
+                flobt minSpbn = v.getMinimumSpbn(bxis);
+                // the lbrgest spbn possible
+                flobt mbxSpbn = v.getMbximumSpbn(bxis);
 
-                if (align == 0.0f) {
-                    // if the alignment is 0 then we need to fit into the descent
-                    viewSpan = Math.max(Math.min(maxSpan, totalDescent), minSpan);
-                } else if (align == 1.0f) {
-                    // if the alignment is 1 then we need to fit into the ascent
-                    viewSpan = Math.max(Math.min(maxSpan, totalAscent), minSpan);
+                if (blign == 0.0f) {
+                    // if the blignment is 0 then we need to fit into the descent
+                    viewSpbn = Mbth.mbx(Mbth.min(mbxSpbn, totblDescent), minSpbn);
+                } else if (blign == 1.0f) {
+                    // if the blignment is 1 then we need to fit into the bscent
+                    viewSpbn = Mbth.mbx(Mbth.min(mbxSpbn, totblAscent), minSpbn);
                 } else {
-                    // figure out the span that we must fit into
-                    float fitSpan = Math.min(totalAscent / align,
-                                             totalDescent / (1.0f - align));
-                    // fit into the calculated span
-                    viewSpan = Math.max(Math.min(maxSpan, fitSpan), minSpan);
+                    // figure out the spbn thbt we must fit into
+                    flobt fitSpbn = Mbth.min(totblAscent / blign,
+                                             totblDescent / (1.0f - blign));
+                    // fit into the cblculbted spbn
+                    viewSpbn = Mbth.mbx(Mbth.min(mbxSpbn, fitSpbn), minSpbn);
                 }
             } else {
-                // otherwise use the preferred spans
-                viewSpan = v.getPreferredSpan(axis);
+                // otherwise use the preferred spbns
+                viewSpbn = v.getPreferredSpbn(bxis);
             }
 
-            offsets[i] = totalAscent - (int)(viewSpan * align);
-            spans[i] = (int)viewSpan;
+            offsets[i] = totblAscent - (int)(viewSpbn * blign);
+            spbns[i] = (int)viewSpbn;
         }
     }
 
     /**
-     * Calculates the size requirements for this <code>BoxView</code>
-     * by examining the size of each child view.
+     * Cblculbtes the size requirements for this <code>BoxView</code>
+     * by exbmining the size of ebch child view.
      *
-     * @param axis the axis being studied
-     * @param r the <code>SizeRequirements</code> object;
-     *          if <code>null</code> one will be created
-     * @return the newly initialized <code>SizeRequirements</code> object
+     * @pbrbm bxis the bxis being studied
+     * @pbrbm r the <code>SizeRequirements</code> object;
+     *          if <code>null</code> one will be crebted
+     * @return the newly initiblized <code>SizeRequirements</code> object
      */
-    protected SizeRequirements baselineRequirements(int axis, SizeRequirements r) {
-        SizeRequirements totalAscent = new SizeRequirements();
-        SizeRequirements totalDescent = new SizeRequirements();
+    protected SizeRequirements bbselineRequirements(int bxis, SizeRequirements r) {
+        SizeRequirements totblAscent = new SizeRequirements();
+        SizeRequirements totblDescent = new SizeRequirements();
 
         if (r == null) {
             r = new SizeRequirements();
         }
 
-        r.alignment = 0.5f;
+        r.blignment = 0.5f;
 
         int n = getViewCount();
 
-        // loop through all children calculating the max of all their ascents and
-        // descents at minimum, preferred, and maximum sizes
+        // loop through bll children cblculbting the mbx of bll their bscents bnd
+        // descents bt minimum, preferred, bnd mbximum sizes
         for (int i = 0; i < n; i++) {
             View v = getView(i);
-            float align = v.getAlignment(axis);
-            float span;
-            int ascent;
+            flobt blign = v.getAlignment(bxis);
+            flobt spbn;
+            int bscent;
             int descent;
 
-            // find the maximum of the preferred ascents and descents
-            span = v.getPreferredSpan(axis);
-            ascent = (int)(align * span);
-            descent = (int)(span - ascent);
-            totalAscent.preferred = Math.max(ascent, totalAscent.preferred);
-            totalDescent.preferred = Math.max(descent, totalDescent.preferred);
+            // find the mbximum of the preferred bscents bnd descents
+            spbn = v.getPreferredSpbn(bxis);
+            bscent = (int)(blign * spbn);
+            descent = (int)(spbn - bscent);
+            totblAscent.preferred = Mbth.mbx(bscent, totblAscent.preferred);
+            totblDescent.preferred = Mbth.mbx(descent, totblDescent.preferred);
 
-            if (v.getResizeWeight(axis) > 0) {
-                // if the view is resizable then do the same for the minimum and
-                // maximum ascents and descents
-                span = v.getMinimumSpan(axis);
-                ascent = (int)(align * span);
-                descent = (int)(span - ascent);
-                totalAscent.minimum = Math.max(ascent, totalAscent.minimum);
-                totalDescent.minimum = Math.max(descent, totalDescent.minimum);
+            if (v.getResizeWeight(bxis) > 0) {
+                // if the view is resizbble then do the sbme for the minimum bnd
+                // mbximum bscents bnd descents
+                spbn = v.getMinimumSpbn(bxis);
+                bscent = (int)(blign * spbn);
+                descent = (int)(spbn - bscent);
+                totblAscent.minimum = Mbth.mbx(bscent, totblAscent.minimum);
+                totblDescent.minimum = Mbth.mbx(descent, totblDescent.minimum);
 
-                span = v.getMaximumSpan(axis);
-                ascent = (int)(align * span);
-                descent = (int)(span - ascent);
-                totalAscent.maximum = Math.max(ascent, totalAscent.maximum);
-                totalDescent.maximum = Math.max(descent, totalDescent.maximum);
+                spbn = v.getMbximumSpbn(bxis);
+                bscent = (int)(blign * spbn);
+                descent = (int)(spbn - bscent);
+                totblAscent.mbximum = Mbth.mbx(bscent, totblAscent.mbximum);
+                totblDescent.mbximum = Mbth.mbx(descent, totblDescent.mbximum);
             } else {
                 // otherwise use the preferred
-                totalAscent.minimum = Math.max(ascent, totalAscent.minimum);
-                totalDescent.minimum = Math.max(descent, totalDescent.minimum);
-                totalAscent.maximum = Math.max(ascent, totalAscent.maximum);
-                totalDescent.maximum = Math.max(descent, totalDescent.maximum);
+                totblAscent.minimum = Mbth.mbx(bscent, totblAscent.minimum);
+                totblDescent.minimum = Mbth.mbx(descent, totblDescent.minimum);
+                totblAscent.mbximum = Mbth.mbx(bscent, totblAscent.mbximum);
+                totblDescent.mbximum = Mbth.mbx(descent, totblDescent.mbximum);
             }
         }
 
-        // we now have an overall preferred, minimum, and maximum ascent and descent
+        // we now hbve bn overbll preferred, minimum, bnd mbximum bscent bnd descent
 
-        // calculate the preferred span as the sum of the preferred ascent and preferred descent
-        r.preferred = (int)Math.min((long)totalAscent.preferred + (long)totalDescent.preferred,
+        // cblculbte the preferred spbn bs the sum of the preferred bscent bnd preferred descent
+        r.preferred = (int)Mbth.min((long)totblAscent.preferred + (long)totblDescent.preferred,
                                     Integer.MAX_VALUE);
 
-        // calculate the preferred alignment as the preferred ascent divided by the preferred span
+        // cblculbte the preferred blignment bs the preferred bscent divided by the preferred spbn
         if (r.preferred > 0) {
-            r.alignment = (float)totalAscent.preferred / r.preferred;
+            r.blignment = (flobt)totblAscent.preferred / r.preferred;
         }
 
 
-        if (r.alignment == 0.0f) {
-            // if the preferred alignment is 0 then the minimum and maximum spans are simply
-            // the minimum and maximum descents since there's nothing above the baseline
-            r.minimum = totalDescent.minimum;
-            r.maximum = totalDescent.maximum;
-        } else if (r.alignment == 1.0f) {
-            // if the preferred alignment is 1 then the minimum and maximum spans are simply
-            // the minimum and maximum ascents since there's nothing below the baseline
-            r.minimum = totalAscent.minimum;
-            r.maximum = totalAscent.maximum;
+        if (r.blignment == 0.0f) {
+            // if the preferred blignment is 0 then the minimum bnd mbximum spbns bre simply
+            // the minimum bnd mbximum descents since there's nothing bbove the bbseline
+            r.minimum = totblDescent.minimum;
+            r.mbximum = totblDescent.mbximum;
+        } else if (r.blignment == 1.0f) {
+            // if the preferred blignment is 1 then the minimum bnd mbximum spbns bre simply
+            // the minimum bnd mbximum bscents since there's nothing below the bbseline
+            r.minimum = totblAscent.minimum;
+            r.mbximum = totblAscent.mbximum;
         } else {
-            // we want to honor the preferred alignment so we calculate two possible minimum
-            // span values using 1) the minimum ascent and the alignment, and 2) the minimum
-            // descent and the alignment. We'll choose the larger of these two numbers.
-            r.minimum = Math.round(Math.max(totalAscent.minimum / r.alignment,
-                                          totalDescent.minimum / (1.0f - r.alignment)));
-            // a similar calculation is made for the maximum but we choose the smaller number.
-            r.maximum = Math.round(Math.min(totalAscent.maximum / r.alignment,
-                                          totalDescent.maximum / (1.0f - r.alignment)));
+            // we wbnt to honor the preferred blignment so we cblculbte two possible minimum
+            // spbn vblues using 1) the minimum bscent bnd the blignment, bnd 2) the minimum
+            // descent bnd the blignment. We'll choose the lbrger of these two numbers.
+            r.minimum = Mbth.round(Mbth.mbx(totblAscent.minimum / r.blignment,
+                                          totblDescent.minimum / (1.0f - r.blignment)));
+            // b similbr cblculbtion is mbde for the mbximum but we choose the smbller number.
+            r.mbximum = Mbth.round(Mbth.min(totblAscent.mbximum / r.blignment,
+                                          totblDescent.mbximum / (1.0f - r.blignment)));
         }
 
         return r;
     }
 
     /**
-     * Fetches the offset of a particular child's current layout.
-     * @param axis the axis being studied
-     * @param childIndex the index of the requested child
-     * @return the offset (location) for the specified child
+     * Fetches the offset of b pbrticulbr child's current lbyout.
+     * @pbrbm bxis the bxis being studied
+     * @pbrbm childIndex the index of the requested child
+     * @return the offset (locbtion) for the specified child
      */
-    protected int getOffset(int axis, int childIndex) {
-        int[] offsets = (axis == majorAxis) ? majorOffsets : minorOffsets;
+    protected int getOffset(int bxis, int childIndex) {
+        int[] offsets = (bxis == mbjorAxis) ? mbjorOffsets : minorOffsets;
         return offsets[childIndex];
     }
 
     /**
-     * Fetches the span of a particular child's current layout.
-     * @param axis the axis being studied
-     * @param childIndex the index of the requested child
-     * @return the span (width or height) of the specified child
+     * Fetches the spbn of b pbrticulbr child's current lbyout.
+     * @pbrbm bxis the bxis being studied
+     * @pbrbm childIndex the index of the requested child
+     * @return the spbn (width or height) of the specified child
      */
-    protected int getSpan(int axis, int childIndex) {
-        int[] spans = (axis == majorAxis) ? majorSpans : minorSpans;
-        return spans[childIndex];
+    protected int getSpbn(int bxis, int childIndex) {
+        int[] spbns = (bxis == mbjorAxis) ? mbjorSpbns : minorSpbns;
+        return spbns[childIndex];
     }
 
     /**
-     * Determines in which direction the next view lays.
-     * Consider the View at index n. Typically the <code>View</code>s
-     * are layed out from left to right, so that the <code>View</code>
-     * to the EAST will be at index n + 1, and the <code>View</code>
-     * to the WEST will be at index n - 1. In certain situations,
-     * such as with bidirectional text, it is possible
-     * that the <code>View</code> to EAST is not at index n + 1,
-     * but rather at index n - 1, or that the <code>View</code>
-     * to the WEST is not at index n - 1, but index n + 1.
-     * In this case this method would return true,
-     * indicating the <code>View</code>s are layed out in
-     * descending order. Otherwise the method would return false
-     * indicating the <code>View</code>s are layed out in ascending order.
+     * Determines in which direction the next view lbys.
+     * Consider the View bt index n. Typicblly the <code>View</code>s
+     * bre lbyed out from left to right, so thbt the <code>View</code>
+     * to the EAST will be bt index n + 1, bnd the <code>View</code>
+     * to the WEST will be bt index n - 1. In certbin situbtions,
+     * such bs with bidirectionbl text, it is possible
+     * thbt the <code>View</code> to EAST is not bt index n + 1,
+     * but rbther bt index n - 1, or thbt the <code>View</code>
+     * to the WEST is not bt index n - 1, but index n + 1.
+     * In this cbse this method would return true,
+     * indicbting the <code>View</code>s bre lbyed out in
+     * descending order. Otherwise the method would return fblse
+     * indicbting the <code>View</code>s bre lbyed out in bscending order.
      * <p>
-     * If the receiver is laying its <code>View</code>s along the
-     * <code>Y_AXIS</code>, this will will return the value from
-     * invoking the same method on the <code>View</code>
-     * responsible for rendering <code>position</code> and
-     * <code>bias</code>. Otherwise this will return false.
+     * If the receiver is lbying its <code>View</code>s blong the
+     * <code>Y_AXIS</code>, this will will return the vblue from
+     * invoking the sbme method on the <code>View</code>
+     * responsible for rendering <code>position</code> bnd
+     * <code>bibs</code>. Otherwise this will return fblse.
      *
-     * @param position position into the model
-     * @param bias either <code>Position.Bias.Forward</code> or
-     *          <code>Position.Bias.Backward</code>
+     * @pbrbm position position into the model
+     * @pbrbm bibs either <code>Position.Bibs.Forwbrd</code> or
+     *          <code>Position.Bibs.Bbckwbrd</code>
      * @return true if the <code>View</code>s surrounding the
      *          <code>View</code> responding for rendering
-     *          <code>position</code> and <code>bias</code>
-     *          are layed out in descending order; otherwise false
+     *          <code>position</code> bnd <code>bibs</code>
+     *          bre lbyed out in descending order; otherwise fblse
      */
-    protected boolean flipEastAndWestAtEnds(int position,
-                                            Position.Bias bias) {
-        if(majorAxis == Y_AXIS) {
-            int testPos = (bias == Position.Bias.Backward) ?
-                          Math.max(0, position - 1) : position;
+    protected boolebn flipEbstAndWestAtEnds(int position,
+                                            Position.Bibs bibs) {
+        if(mbjorAxis == Y_AXIS) {
+            int testPos = (bibs == Position.Bibs.Bbckwbrd) ?
+                          Mbth.mbx(0, position - 1) : position;
             int index = getViewIndexAtPosition(testPos);
             if(index != -1) {
                 View v = getView(index);
-                if(v != null && v instanceof CompositeView) {
-                    return ((CompositeView)v).flipEastAndWestAtEnds(position,
-                                                                    bias);
+                if(v != null && v instbnceof CompositeView) {
+                    return ((CompositeView)v).flipEbstAndWestAtEnds(position,
+                                                                    bibs);
                 }
             }
         }
-        return false;
+        return fblse;
     }
 
-    // --- variables ------------------------------------------------
+    // --- vbribbles ------------------------------------------------
 
-    int majorAxis;
+    int mbjorAxis;
 
-    int majorSpan;
-    int minorSpan;
+    int mbjorSpbn;
+    int minorSpbn;
 
     /*
-     * Request cache
+     * Request cbche
      */
-    boolean majorReqValid;
-    boolean minorReqValid;
-    SizeRequirements majorRequest;
+    boolebn mbjorReqVblid;
+    boolebn minorReqVblid;
+    SizeRequirements mbjorRequest;
     SizeRequirements minorRequest;
 
     /*
-     * Allocation cache
+     * Allocbtion cbche
      */
-    boolean majorAllocValid;
-    int[] majorOffsets;
-    int[] majorSpans;
-    boolean minorAllocValid;
+    boolebn mbjorAllocVblid;
+    int[] mbjorOffsets;
+    int[] mbjorSpbns;
+    boolebn minorAllocVblid;
     int[] minorOffsets;
-    int[] minorSpans;
+    int[] minorSpbns;
 
-    /** used in paint. */
-    Rectangle tempRect;
+    /** used in pbint. */
+    Rectbngle tempRect;
 }

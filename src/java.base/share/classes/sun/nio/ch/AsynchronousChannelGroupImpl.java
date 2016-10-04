@@ -1,208 +1,208 @@
 /*
- * Copyright (c) 2008, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2009, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.nio.ch;
+pbckbge sun.nio.ch;
 
-import java.nio.channels.Channel;
-import java.nio.channels.AsynchronousChannelGroup;
-import java.nio.channels.spi.AsynchronousChannelProvider;
-import java.io.IOException;
-import java.io.FileDescriptor;
-import java.util.Queue;
-import java.util.concurrent.*;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.security.PrivilegedAction;
-import java.security.AccessController;
-import java.security.AccessControlContext;
-import sun.security.action.GetIntegerAction;
+import jbvb.nio.chbnnels.Chbnnel;
+import jbvb.nio.chbnnels.AsynchronousChbnnelGroup;
+import jbvb.nio.chbnnels.spi.AsynchronousChbnnelProvider;
+import jbvb.io.IOException;
+import jbvb.io.FileDescriptor;
+import jbvb.util.Queue;
+import jbvb.util.concurrent.*;
+import jbvb.util.concurrent.btomic.AtomicInteger;
+import jbvb.util.concurrent.btomic.AtomicBoolebn;
+import jbvb.security.PrivilegedAction;
+import jbvb.security.AccessController;
+import jbvb.security.AccessControlContext;
+import sun.security.bction.GetIntegerAction;
 
 /**
- * Base implementation of AsynchronousChannelGroup
+ * Bbse implementbtion of AsynchronousChbnnelGroup
  */
 
-abstract class AsynchronousChannelGroupImpl
-    extends AsynchronousChannelGroup implements Executor
+bbstrbct clbss AsynchronousChbnnelGroupImpl
+    extends AsynchronousChbnnelGroup implements Executor
 {
-    // number of internal threads handling I/O events when using an unbounded
-    // thread pool. Internal threads do not dispatch to completion handlers.
-    private static final int internalThreadCount = AccessController.doPrivileged(
-        new GetIntegerAction("sun.nio.ch.internalThreadPoolSize", 1));
+    // number of internbl threbds hbndling I/O events when using bn unbounded
+    // threbd pool. Internbl threbds do not dispbtch to completion hbndlers.
+    privbte stbtic finbl int internblThrebdCount = AccessController.doPrivileged(
+        new GetIntegerAction("sun.nio.ch.internblThrebdPoolSize", 1));
 
-    // associated thread pool
-    private final ThreadPool pool;
+    // bssocibted threbd pool
+    privbte finbl ThrebdPool pool;
 
-    // number of tasks running (including internal)
-    private final AtomicInteger threadCount = new AtomicInteger();
+    // number of tbsks running (including internbl)
+    privbte finbl AtomicInteger threbdCount = new AtomicInteger();
 
-    // associated Executor for timeouts
-    private ScheduledThreadPoolExecutor timeoutExecutor;
+    // bssocibted Executor for timeouts
+    privbte ScheduledThrebdPoolExecutor timeoutExecutor;
 
-    // task queue for when using a fixed thread pool. In that case, thread
-    // waiting on I/O events must be awokon to poll tasks from this queue.
-    private final Queue<Runnable> taskQueue;
+    // tbsk queue for when using b fixed threbd pool. In thbt cbse, threbd
+    // wbiting on I/O events must be bwokon to poll tbsks from this queue.
+    privbte finbl Queue<Runnbble> tbskQueue;
 
     // group shutdown
-    private final AtomicBoolean shutdown = new AtomicBoolean();
-    private final Object shutdownNowLock = new Object();
-    private volatile boolean terminateInitiated;
+    privbte finbl AtomicBoolebn shutdown = new AtomicBoolebn();
+    privbte finbl Object shutdownNowLock = new Object();
+    privbte volbtile boolebn terminbteInitibted;
 
-    AsynchronousChannelGroupImpl(AsynchronousChannelProvider provider,
-                                 ThreadPool pool)
+    AsynchronousChbnnelGroupImpl(AsynchronousChbnnelProvider provider,
+                                 ThrebdPool pool)
     {
         super(provider);
         this.pool = pool;
 
-        if (pool.isFixedThreadPool()) {
-            taskQueue = new ConcurrentLinkedQueue<Runnable>();
+        if (pool.isFixedThrebdPool()) {
+            tbskQueue = new ConcurrentLinkedQueue<Runnbble>();
         } else {
-            taskQueue = null;   // not used
+            tbskQueue = null;   // not used
         }
 
-        // use default thread factory as thread should not be visible to
-        // application (it doesn't execute completion handlers).
-        this.timeoutExecutor = (ScheduledThreadPoolExecutor)
-            Executors.newScheduledThreadPool(1, ThreadPool.defaultThreadFactory());
-        this.timeoutExecutor.setRemoveOnCancelPolicy(true);
+        // use defbult threbd fbctory bs threbd should not be visible to
+        // bpplicbtion (it doesn't execute completion hbndlers).
+        this.timeoutExecutor = (ScheduledThrebdPoolExecutor)
+            Executors.newScheduledThrebdPool(1, ThrebdPool.defbultThrebdFbctory());
+        this.timeoutExecutor.setRemoveOnCbncelPolicy(true);
     }
 
-    final ExecutorService executor() {
+    finbl ExecutorService executor() {
         return pool.executor();
     }
 
-    final boolean isFixedThreadPool() {
-        return pool.isFixedThreadPool();
+    finbl boolebn isFixedThrebdPool() {
+        return pool.isFixedThrebdPool();
     }
 
-    final int fixedThreadCount() {
-        if (isFixedThreadPool()) {
+    finbl int fixedThrebdCount() {
+        if (isFixedThrebdPool()) {
             return pool.poolSize();
         } else {
-            return pool.poolSize() + internalThreadCount;
+            return pool.poolSize() + internblThrebdCount;
         }
     }
 
-    private Runnable bindToGroup(final Runnable task) {
-        final AsynchronousChannelGroupImpl thisGroup = this;
-        return new Runnable() {
+    privbte Runnbble bindToGroup(finbl Runnbble tbsk) {
+        finbl AsynchronousChbnnelGroupImpl thisGroup = this;
+        return new Runnbble() {
             public void run() {
                 Invoker.bindToGroup(thisGroup);
-                task.run();
+                tbsk.run();
             }
         };
     }
 
-    private void startInternalThread(final Runnable task) {
+    privbte void stbrtInternblThrebd(finbl Runnbble tbsk) {
         AccessController.doPrivileged(new PrivilegedAction<Void>() {
             @Override
             public Void run() {
-                // internal threads should not be visible to application so
-                // cannot use user-supplied thread factory
-                ThreadPool.defaultThreadFactory().newThread(task).start();
+                // internbl threbds should not be visible to bpplicbtion so
+                // cbnnot use user-supplied threbd fbctory
+                ThrebdPool.defbultThrebdFbctory().newThrebd(tbsk).stbrt();
                 return null;
             }
          });
     }
 
-    protected final void startThreads(Runnable task) {
-        if (!isFixedThreadPool()) {
-            for (int i=0; i<internalThreadCount; i++) {
-                startInternalThread(task);
-                threadCount.incrementAndGet();
+    protected finbl void stbrtThrebds(Runnbble tbsk) {
+        if (!isFixedThrebdPool()) {
+            for (int i=0; i<internblThrebdCount; i++) {
+                stbrtInternblThrebd(tbsk);
+                threbdCount.incrementAndGet();
             }
         }
         if (pool.poolSize() > 0) {
-            task = bindToGroup(task);
+            tbsk = bindToGroup(tbsk);
             try {
                 for (int i=0; i<pool.poolSize(); i++) {
-                    pool.executor().execute(task);
-                    threadCount.incrementAndGet();
+                    pool.executor().execute(tbsk);
+                    threbdCount.incrementAndGet();
                 }
-            } catch (RejectedExecutionException  x) {
-                // nothing we can do
+            } cbtch (RejectedExecutionException  x) {
+                // nothing we cbn do
             }
         }
     }
 
-    final int threadCount() {
-        return threadCount.get();
+    finbl int threbdCount() {
+        return threbdCount.get();
     }
 
     /**
-     * Invoked by tasks as they terminate
+     * Invoked by tbsks bs they terminbte
      */
-    final int threadExit(Runnable task, boolean replaceMe) {
-        if (replaceMe) {
+    finbl int threbdExit(Runnbble tbsk, boolebn replbceMe) {
+        if (replbceMe) {
             try {
                 if (Invoker.isBoundToAnyGroup()) {
-                    // submit new task to replace this thread
-                    pool.executor().execute(bindToGroup(task));
+                    // submit new tbsk to replbce this threbd
+                    pool.executor().execute(bindToGroup(tbsk));
                 } else {
-                    // replace internal thread
-                    startInternalThread(task);
+                    // replbce internbl threbd
+                    stbrtInternblThrebd(tbsk);
                 }
-                return threadCount.get();
-            } catch (RejectedExecutionException x) {
-                // unable to replace
+                return threbdCount.get();
+            } cbtch (RejectedExecutionException x) {
+                // unbble to replbce
             }
         }
-        return threadCount.decrementAndGet();
+        return threbdCount.decrementAndGet();
     }
 
     /**
-     * Wakes up a thread waiting for I/O events to execute the given task.
+     * Wbkes up b threbd wbiting for I/O events to execute the given tbsk.
      */
-    abstract void executeOnHandlerTask(Runnable task);
+    bbstrbct void executeOnHbndlerTbsk(Runnbble tbsk);
 
     /**
-     * For a fixed thread pool the task is queued to a thread waiting on I/O
-     * events. For other thread pools we simply submit the task to the thread
+     * For b fixed threbd pool the tbsk is queued to b threbd wbiting on I/O
+     * events. For other threbd pools we simply submit the tbsk to the threbd
      * pool.
      */
-    final void executeOnPooledThread(Runnable task) {
-        if (isFixedThreadPool()) {
-            executeOnHandlerTask(task);
+    finbl void executeOnPooledThrebd(Runnbble tbsk) {
+        if (isFixedThrebdPool()) {
+            executeOnHbndlerTbsk(tbsk);
         } else {
-            pool.executor().execute(bindToGroup(task));
+            pool.executor().execute(bindToGroup(tbsk));
         }
     }
 
-    final void offerTask(Runnable task) {
-        taskQueue.offer(task);
+    finbl void offerTbsk(Runnbble tbsk) {
+        tbskQueue.offer(tbsk);
     }
 
-    final Runnable pollTask() {
-        return (taskQueue == null) ? null : taskQueue.poll();
+    finbl Runnbble pollTbsk() {
+        return (tbskQueue == null) ? null : tbskQueue.poll();
     }
 
-    final Future<?> schedule(Runnable task, long timeout, TimeUnit unit) {
+    finbl Future<?> schedule(Runnbble tbsk, long timeout, TimeUnit unit) {
         try {
-            return timeoutExecutor.schedule(task, timeout, unit);
-        } catch (RejectedExecutionException rej) {
-            if (terminateInitiated) {
-                // no timeout scheduled as group is terminating
+            return timeoutExecutor.schedule(tbsk, timeout, unit);
+        } cbtch (RejectedExecutionException rej) {
+            if (terminbteInitibted) {
+                // no timeout scheduled bs group is terminbting
                 return null;
             }
             throw new AssertionError(rej);
@@ -210,42 +210,42 @@ abstract class AsynchronousChannelGroupImpl
     }
 
     @Override
-    public final boolean isShutdown() {
+    public finbl boolebn isShutdown() {
         return shutdown.get();
     }
 
     @Override
-    public final boolean isTerminated()  {
-        return pool.executor().isTerminated();
+    public finbl boolebn isTerminbted()  {
+        return pool.executor().isTerminbted();
     }
 
     /**
-     * Returns true if there are no channels in the group
+     * Returns true if there bre no chbnnels in the group
      */
-    abstract boolean isEmpty();
+    bbstrbct boolebn isEmpty();
 
     /**
-     * Attaches a foreign channel to this group.
+     * Attbches b foreign chbnnel to this group.
      */
-    abstract Object attachForeignChannel(Channel channel, FileDescriptor fdo)
+    bbstrbct Object bttbchForeignChbnnel(Chbnnel chbnnel, FileDescriptor fdo)
         throws IOException;
 
     /**
-     * Detaches a foreign channel from this group.
+     * Detbches b foreign chbnnel from this group.
      */
-    abstract void detachForeignChannel(Object key);
+    bbstrbct void detbchForeignChbnnel(Object key);
 
     /**
-     * Closes all channels in the group
+     * Closes bll chbnnels in the group
      */
-    abstract void closeAllChannels() throws IOException;
+    bbstrbct void closeAllChbnnels() throws IOException;
 
     /**
-     * Shutdown all tasks waiting for I/O events.
+     * Shutdown bll tbsks wbiting for I/O events.
      */
-    abstract void shutdownHandlerTasks();
+    bbstrbct void shutdownHbndlerTbsks();
 
-    private void shutdownExecutors() {
+    privbte void shutdownExecutors() {
         AccessController.doPrivileged(new PrivilegedAction<Void>() {
             public Void run() {
                 pool.executor().shutdown();
@@ -256,83 +256,83 @@ abstract class AsynchronousChannelGroupImpl
     }
 
     @Override
-    public final void shutdown() {
+    public finbl void shutdown() {
         if (shutdown.getAndSet(true)) {
-            // already shutdown
+            // blrebdy shutdown
             return;
         }
-        // if there are channels in the group then shutdown will continue
-        // when the last channel is closed
+        // if there bre chbnnels in the group then shutdown will continue
+        // when the lbst chbnnel is closed
         if (!isEmpty()) {
             return;
         }
-        // initiate termination (acquire shutdownNowLock to ensure that other
-        // threads invoking shutdownNow will block).
+        // initibte terminbtion (bcquire shutdownNowLock to ensure thbt other
+        // threbds invoking shutdownNow will block).
         synchronized (shutdownNowLock) {
-            if (!terminateInitiated) {
-                terminateInitiated = true;
-                shutdownHandlerTasks();
+            if (!terminbteInitibted) {
+                terminbteInitibted = true;
+                shutdownHbndlerTbsks();
                 shutdownExecutors();
             }
         }
     }
 
     @Override
-    public final void shutdownNow() throws IOException {
+    public finbl void shutdownNow() throws IOException {
         shutdown.set(true);
         synchronized (shutdownNowLock) {
-            if (!terminateInitiated) {
-                terminateInitiated = true;
-                closeAllChannels();
-                shutdownHandlerTasks();
+            if (!terminbteInitibted) {
+                terminbteInitibted = true;
+                closeAllChbnnels();
+                shutdownHbndlerTbsks();
                 shutdownExecutors();
             }
         }
     }
 
     /**
-     * For use by AsynchronousFileChannel to release resources without shutting
-     * down the thread pool.
+     * For use by AsynchronousFileChbnnel to relebse resources without shutting
+     * down the threbd pool.
      */
-    final void detachFromThreadPool() {
+    finbl void detbchFromThrebdPool() {
         if (shutdown.getAndSet(true))
-            throw new AssertionError("Already shutdown");
+            throw new AssertionError("Alrebdy shutdown");
         if (!isEmpty())
             throw new AssertionError("Group not empty");
-        shutdownHandlerTasks();
+        shutdownHbndlerTbsks();
     }
 
     @Override
-    public final boolean awaitTermination(long timeout, TimeUnit unit)
+    public finbl boolebn bwbitTerminbtion(long timeout, TimeUnit unit)
         throws InterruptedException
     {
-        return pool.executor().awaitTermination(timeout, unit);
+        return pool.executor().bwbitTerminbtion(timeout, unit);
     }
 
     /**
-     * Executes the given command on one of the channel group's pooled threads.
+     * Executes the given commbnd on one of the chbnnel group's pooled threbds.
      */
     @Override
-    public final void execute(Runnable task) {
-        SecurityManager sm = System.getSecurityManager();
+    public finbl void execute(Runnbble tbsk) {
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null) {
-            // when a security manager is installed then the user's task
-            // must be run with the current calling context
-            final AccessControlContext acc = AccessController.getContext();
-            final Runnable delegate = task;
-            task = new Runnable() {
+            // when b security mbnbger is instblled then the user's tbsk
+            // must be run with the current cblling context
+            finbl AccessControlContext bcc = AccessController.getContext();
+            finbl Runnbble delegbte = tbsk;
+            tbsk = new Runnbble() {
                 @Override
                 public void run() {
                     AccessController.doPrivileged(new PrivilegedAction<Void>() {
                         @Override
                         public Void run() {
-                            delegate.run();
+                            delegbte.run();
                             return null;
                         }
-                    }, acc);
+                    }, bcc);
                 }
             };
         }
-        executeOnPooledThread(task);
+        executeOnPooledThrebd(tbsk);
     }
 }

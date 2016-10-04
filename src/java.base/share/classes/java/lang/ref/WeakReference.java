@@ -1,71 +1,71 @@
 /*
- * Copyright (c) 1997, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.lang.ref;
+pbckbge jbvb.lbng.ref;
 
 
 /**
- * Weak reference objects, which do not prevent their referents from being
- * made finalizable, finalized, and then reclaimed.  Weak references are most
- * often used to implement canonicalizing mappings.
+ * Webk reference objects, which do not prevent their referents from being
+ * mbde finblizbble, finblized, bnd then reclbimed.  Webk references bre most
+ * often used to implement cbnonicblizing mbppings.
  *
- * <p> Suppose that the garbage collector determines at a certain point in time
- * that an object is <a href="package-summary.html#reachability">weakly
- * reachable</a>.  At that time it will atomically clear all weak references to
- * that object and all weak references to any other weakly-reachable objects
- * from which that object is reachable through a chain of strong and soft
- * references.  At the same time it will declare all of the formerly
- * weakly-reachable objects to be finalizable.  At the same time or at some
- * later time it will enqueue those newly-cleared weak references that are
+ * <p> Suppose thbt the gbrbbge collector determines bt b certbin point in time
+ * thbt bn object is <b href="pbckbge-summbry.html#rebchbbility">webkly
+ * rebchbble</b>.  At thbt time it will btomicblly clebr bll webk references to
+ * thbt object bnd bll webk references to bny other webkly-rebchbble objects
+ * from which thbt object is rebchbble through b chbin of strong bnd soft
+ * references.  At the sbme time it will declbre bll of the formerly
+ * webkly-rebchbble objects to be finblizbble.  At the sbme time or bt some
+ * lbter time it will enqueue those newly-clebred webk references thbt bre
  * registered with reference queues.
  *
- * @author   Mark Reinhold
+ * @buthor   Mbrk Reinhold
  * @since    1.2
  */
 
-public class WeakReference<T> extends Reference<T> {
+public clbss WebkReference<T> extends Reference<T> {
 
     /**
-     * Creates a new weak reference that refers to the given object.  The new
-     * reference is not registered with any queue.
+     * Crebtes b new webk reference thbt refers to the given object.  The new
+     * reference is not registered with bny queue.
      *
-     * @param referent object the new weak reference will refer to
+     * @pbrbm referent object the new webk reference will refer to
      */
-    public WeakReference(T referent) {
+    public WebkReference(T referent) {
         super(referent);
     }
 
     /**
-     * Creates a new weak reference that refers to the given object and is
+     * Crebtes b new webk reference thbt refers to the given object bnd is
      * registered with the given queue.
      *
-     * @param referent object the new weak reference will refer to
-     * @param q the queue with which the reference is to be registered,
-     *          or <tt>null</tt> if registration is not required
+     * @pbrbm referent object the new webk reference will refer to
+     * @pbrbm q the queue with which the reference is to be registered,
+     *          or <tt>null</tt> if registrbtion is not required
      */
-    public WeakReference(T referent, ReferenceQueue<? super T> q) {
+    public WebkReference(T referent, ReferenceQueue<? super T> q) {
         super(referent, q);
     }
 

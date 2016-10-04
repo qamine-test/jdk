@@ -1,37 +1,37 @@
 /*
- * Copyright (c) 2005, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 #ifndef AWT_TRAY_ICON_H
 #define AWT_TRAY_ICON_H
 
-#include "awt_Object.h"
-#include "awt_Component.h"
+#include "bwt_Object.h"
+#include "bwt_Component.h"
 
-#include "java_awt_TrayIcon.h"
-#include "sun_awt_windows_WTrayIconPeer.h"
-#include "java_awt_event_ActionEvent.h"
+#include "jbvb_bwt_TrbyIcon.h"
+#include "sun_bwt_windows_WTrbyIconPeer.h"
+#include "jbvb_bwt_event_ActionEvent.h"
 
 #define TRAY_ICON_X_HOTSPOT 0
 #define TRAY_ICON_Y_HOTSPOT 0
@@ -42,38 +42,38 @@
 #define TRAY_ICON_BALLOON_INFO_MAX_SIZE  256
 
 /************************************************************************
- * AwtTrayIcon class
+ * AwtTrbyIcon clbss
  */
 
-class AwtTrayIcon: public AwtObject {
+clbss AwtTrbyIcon: public AwtObject {
 public:
-    AwtTrayIcon();
-    virtual ~AwtTrayIcon();
+    AwtTrbyIcon();
+    virtubl ~AwtTrbyIcon();
 
-    virtual void Dispose();
+    virtubl void Dispose();
 
-    BOOL SendTrayMessage(DWORD dwMessage);
+    BOOL SendTrbyMessbge(DWORD dwMessbge);
     void LinkObjects(JNIEnv *env, jobject peer);
     void UnlinkObjects();
 
     void InitNID(UINT uID);
 
-    void InitMessage(MSG* msg, UINT message, WPARAM wParam, LPARAM lParam,
+    void InitMessbge(MSG* msg, UINT messbge, WPARAM wPbrbm, LPARAM lPbrbm,
                      int x = 0, int y = 0);
 
     void SendMouseEvent(jint id, jlong when, jint x, jint y, jint modifiers, jint clickCount,
-                        jboolean popupTrigger, jint button = 0, MSG *pMsg = NULL);
+                        jboolebn popupTrigger, jint button = 0, MSG *pMsg = NULL);
     void SendActionEvent(jint id, jlong when, jint modifiers, MSG *pMsg = NULL);
 
-    virtual MsgRouting WmAwtTrayNotify(WPARAM wParam, LPARAM lParam);
-    virtual MsgRouting WmMouseDown(UINT flags, int x, int y, int button);
-    virtual MsgRouting WmMouseUp(UINT flags, int x, int y, int button);
-    virtual MsgRouting WmMouseMove(UINT flags, int x, int y);
-    virtual MsgRouting WmBalloonUserClick(UINT flags, int x, int y);
-    virtual MsgRouting WmKeySelect(UINT flags, int x, int y);
-    virtual MsgRouting WmSelect(UINT flags, int x, int y);
-    virtual MsgRouting WmContextMenu(UINT flags, int x, int y);
-    static MsgRouting WmTaskbarCreated();
+    virtubl MsgRouting WmAwtTrbyNotify(WPARAM wPbrbm, LPARAM lPbrbm);
+    virtubl MsgRouting WmMouseDown(UINT flbgs, int x, int y, int button);
+    virtubl MsgRouting WmMouseUp(UINT flbgs, int x, int y, int button);
+    virtubl MsgRouting WmMouseMove(UINT flbgs, int x, int y);
+    virtubl MsgRouting WmBblloonUserClick(UINT flbgs, int x, int y);
+    virtubl MsgRouting WmKeySelect(UINT flbgs, int x, int y);
+    virtubl MsgRouting WmSelect(UINT flbgs, int x, int y);
+    virtubl MsgRouting WmContextMenu(UINT flbgs, int x, int y);
+    stbtic MsgRouting WmTbskbbrCrebted();
 
     INLINE void SetID(int ID) { m_nid.uID = ID; }
     INLINE int GetID() { return m_nid.uID; }
@@ -84,75 +84,75 @@ public:
     void SetIcon(HICON hIcon);
     INLINE HICON GetIcon() { return m_nid.hIcon; }
 
-    void DisplayMessage(LPCTSTR caption, LPCTSTR text, LPCTSTR msgType);
+    void DisplbyMessbge(LPCTSTR cbption, LPCTSTR text, LPCTSTR msgType);
 
-    // Adds to the head of the list
-    INLINE void AddTrayIconItem(UINT id) {
-        TrayIconListItem* item = new TrayIconListItem(id, this);
-        item->m_next = sm_trayIconList;
-        sm_trayIconList = item;
+    // Adds to the hebd of the list
+    INLINE void AddTrbyIconItem(UINT id) {
+        TrbyIconListItem* item = new TrbyIconListItem(id, this);
+        item->m_next = sm_trbyIconList;
+        sm_trbyIconList = item;
     }
 
-    static AwtTrayIcon* SearchTrayIconItem(UINT id);
-    static void RemoveTrayIconItem(UINT id);
+    stbtic AwtTrbyIcon* SebrchTrbyIconItem(UINT id);
+    stbtic void RemoveTrbyIconItem(UINT id);
 
-    static LPCTSTR GetClassName();
-    static void FillClassInfo(WNDCLASS *lpwc);
-    static void RegisterClass();
-    static void UnregisterClass();
+    stbtic LPCTSTR GetClbssNbme();
+    stbtic void FillClbssInfo(WNDCLASS *lpwc);
+    stbtic void RegisterClbss();
+    stbtic void UnregisterClbss();
 
-    static LRESULT CALLBACK TrayWindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+    stbtic LRESULT CALLBACK TrbyWindowProc(HWND hWnd, UINT uMsg, WPARAM wPbrbm, LPARAM lPbrbm);
 
-    static AwtTrayIcon* Create(jobject self, jobject parent);
+    stbtic AwtTrbyIcon* Crebte(jobject self, jobject pbrent);
 
-    static HWND CreateMessageWindow();
-    static void DestroyMessageWindow();
+    stbtic HWND CrebteMessbgeWindow();
+    stbtic void DestroyMessbgeWindow();
 
-    static HBITMAP CreateBMP(HWND hW,int* imageData,int nSS, int nW, int nH);
+    stbtic HBITMAP CrebteBMP(HWND hW,int* imbgeDbtb,int nSS, int nW, int nH);
 
-    // methods called on Toolkit thread
-    static void _SetToolTip(void *param);
-    static void _SetIcon(void *param);
-    static void _UpdateIcon(void *param);
-    static void _DisplayMessage(void *param);
+    // methods cblled on Toolkit threbd
+    stbtic void _SetToolTip(void *pbrbm);
+    stbtic void _SetIcon(void *pbrbm);
+    stbtic void _UpdbteIcon(void *pbrbm);
+    stbtic void _DisplbyMessbge(void *pbrbm);
 
     /*
-     * java.awt.TrayIcon fields
+     * jbvb.bwt.TrbyIcon fields
      */
-    static jfieldID idID;
-    static jfieldID actionCommandID;
+    stbtic jfieldID idID;
+    stbtic jfieldID bctionCommbndID;
 
     // ************************
 
-    static HWND sm_msgWindow;
-    static int sm_instCount;
+    stbtic HWND sm_msgWindow;
+    stbtic int sm_instCount;
 
-private:
+privbte:
     NOTIFYICONDATA m_nid;
 
-    /* A bitmask keeps the button's numbers as MK_LBUTTON, MK_MBUTTON, MK_RBUTTON
-     * which are allowed to
-     * generate the CLICK event after the RELEASE has happened.
-     * There are conditions that must be true for that sending CLICK event:
-     * 1) button was initially PRESSED
-     * 2) no movement or drag has happened until RELEASE
+    /* A bitmbsk keeps the button's numbers bs MK_LBUTTON, MK_MBUTTON, MK_RBUTTON
+     * which bre bllowed to
+     * generbte the CLICK event bfter the RELEASE hbs hbppened.
+     * There bre conditions thbt must be true for thbt sending CLICK event:
+     * 1) button wbs initiblly PRESSED
+     * 2) no movement or drbg hbs hbppened until RELEASE
     */
     UINT m_mouseButtonClickAllowed;
 
-    class TrayIconListItem {
+    clbss TrbyIconListItem {
       public:
-        TrayIconListItem(UINT id, AwtTrayIcon* trayIcon) {
+        TrbyIconListItem(UINT id, AwtTrbyIcon* trbyIcon) {
             m_ID = id;
-            m_trayIcon = trayIcon;
+            m_trbyIcon = trbyIcon;
             m_next = NULL;
         }
         UINT m_ID;
-        AwtTrayIcon* m_trayIcon;
-        TrayIconListItem* m_next;
+        AwtTrbyIcon* m_trbyIcon;
+        TrbyIconListItem* m_next;
     };
 
 public:
-    static TrayIconListItem* sm_trayIconList;
+    stbtic TrbyIconListItem* sm_trbyIconList;
 };
 
 #endif /* AWT_TRAY_ICON_H */

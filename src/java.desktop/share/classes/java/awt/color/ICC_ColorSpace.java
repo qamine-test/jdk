@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -27,149 +27,149 @@
  **********************************************************************
  **********************************************************************
  **********************************************************************
- *** COPYRIGHT (c) Eastman Kodak Company, 1997                      ***
- *** As  an unpublished  work pursuant to Title 17 of the United    ***
- *** States Code.  All rights reserved.                             ***
+ *** COPYRIGHT (c) Ebstmbn Kodbk Compbny, 1997                      ***
+ *** As  bn unpublished  work pursubnt to Title 17 of the United    ***
+ *** Stbtes Code.  All rights reserved.                             ***
  **********************************************************************
  **********************************************************************
  **********************************************************************/
 
-package java.awt.color;
+pbckbge jbvb.bwt.color;
 
-import sun.java2d.cmm.ColorTransform;
-import sun.java2d.cmm.CMSManager;
-import sun.java2d.cmm.PCMM;
+import sun.jbvb2d.cmm.ColorTrbnsform;
+import sun.jbvb2d.cmm.CMSMbnbger;
+import sun.jbvb2d.cmm.PCMM;
 
 
 /**
  *
- * The ICC_ColorSpace class is an implementation of the abstract
- * ColorSpace class.  This representation of
- * device independent and device dependent color spaces is based on the
- * International Color Consortium Specification ICC.1:2001-12, File Format for
+ * The ICC_ColorSpbce clbss is bn implementbtion of the bbstrbct
+ * ColorSpbce clbss.  This representbtion of
+ * device independent bnd device dependent color spbces is bbsed on the
+ * Internbtionbl Color Consortium Specificbtion ICC.1:2001-12, File Formbt for
  * Color Profiles (see <A href="http://www.color.org">http://www.color.org</A>).
  * <p>
- * Typically, a Color or ColorModel would be associated with an ICC
- * Profile which is either an input, display, or output profile (see
- * the ICC specification).  There are other types of ICC Profiles, e.g.
- * abstract profiles, device link profiles, and named color profiles,
- * which do not contain information appropriate for representing the color
- * space of a color, image, or device (see ICC_Profile).
- * Attempting to create an ICC_ColorSpace object from an inappropriate ICC
- * Profile is an error.
+ * Typicblly, b Color or ColorModel would be bssocibted with bn ICC
+ * Profile which is either bn input, displby, or output profile (see
+ * the ICC specificbtion).  There bre other types of ICC Profiles, e.g.
+ * bbstrbct profiles, device link profiles, bnd nbmed color profiles,
+ * which do not contbin informbtion bppropribte for representing the color
+ * spbce of b color, imbge, or device (see ICC_Profile).
+ * Attempting to crebte bn ICC_ColorSpbce object from bn inbppropribte ICC
+ * Profile is bn error.
  * <p>
- * ICC Profiles represent transformations from the color space of
- * the profile (e.g. a monitor) to a Profile Connection Space (PCS).
- * Profiles of interest for tagging images or colors have a
+ * ICC Profiles represent trbnsformbtions from the color spbce of
+ * the profile (e.g. b monitor) to b Profile Connection Spbce (PCS).
+ * Profiles of interest for tbgging imbges or colors hbve b
  * PCS which is one of the device independent
- * spaces (one CIEXYZ space and two CIELab spaces) defined in the
- * ICC Profile Format Specification.  Most profiles of interest
- * either have invertible transformations or explicitly specify
- * transformations going both directions.  Should an ICC_ColorSpace
- * object be used in a way requiring a conversion from PCS to
- * the profile's native space and there is inadequate data to
- * correctly perform the conversion, the ICC_ColorSpace object will
- * produce output in the specified type of color space (e.g. TYPE_RGB,
- * TYPE_CMYK, etc.), but the specific color values of the output data
+ * spbces (one CIEXYZ spbce bnd two CIELbb spbces) defined in the
+ * ICC Profile Formbt Specificbtion.  Most profiles of interest
+ * either hbve invertible trbnsformbtions or explicitly specify
+ * trbnsformbtions going both directions.  Should bn ICC_ColorSpbce
+ * object be used in b wby requiring b conversion from PCS to
+ * the profile's nbtive spbce bnd there is inbdequbte dbtb to
+ * correctly perform the conversion, the ICC_ColorSpbce object will
+ * produce output in the specified type of color spbce (e.g. TYPE_RGB,
+ * TYPE_CMYK, etc.), but the specific color vblues of the output dbtb
  * will be undefined.
  * <p>
- * The details of this class are not important for simple applets,
- * which draw in a default color space or manipulate and display
- * imported images with a known color space.  At most, such applets
- * would need to get one of the default color spaces via
- * ColorSpace.getInstance().
- * @see ColorSpace
+ * The detbils of this clbss bre not importbnt for simple bpplets,
+ * which drbw in b defbult color spbce or mbnipulbte bnd displby
+ * imported imbges with b known color spbce.  At most, such bpplets
+ * would need to get one of the defbult color spbces vib
+ * ColorSpbce.getInstbnce().
+ * @see ColorSpbce
  * @see ICC_Profile
  */
 
 
 
-public class ICC_ColorSpace extends ColorSpace {
+public clbss ICC_ColorSpbce extends ColorSpbce {
 
-    static final long serialVersionUID = 3455889114070431483L;
+    stbtic finbl long seriblVersionUID = 3455889114070431483L;
 
-    private ICC_Profile    thisProfile;
-    private float[] minVal;
-    private float[] maxVal;
-    private float[] diffMinMax;
-    private float[] invDiffMinMax;
-    private boolean needScaleInit = true;
+    privbte ICC_Profile    thisProfile;
+    privbte flobt[] minVbl;
+    privbte flobt[] mbxVbl;
+    privbte flobt[] diffMinMbx;
+    privbte flobt[] invDiffMinMbx;
+    privbte boolebn needScbleInit = true;
 
-    // {to,from}{RGB,CIEXYZ} methods create and cache these when needed
-    private transient ColorTransform this2srgb;
-    private transient ColorTransform srgb2this;
-    private transient ColorTransform this2xyz;
-    private transient ColorTransform xyz2this;
+    // {to,from}{RGB,CIEXYZ} methods crebte bnd cbche these when needed
+    privbte trbnsient ColorTrbnsform this2srgb;
+    privbte trbnsient ColorTrbnsform srgb2this;
+    privbte trbnsient ColorTrbnsform this2xyz;
+    privbte trbnsient ColorTrbnsform xyz2this;
 
 
     /**
-    * Constructs a new ICC_ColorSpace from an ICC_Profile object.
-    * @param profile the specified ICC_Profile object
-    * @exception IllegalArgumentException if profile is inappropriate for
-    *            representing a ColorSpace.
+    * Constructs b new ICC_ColorSpbce from bn ICC_Profile object.
+    * @pbrbm profile the specified ICC_Profile object
+    * @exception IllegblArgumentException if profile is inbppropribte for
+    *            representing b ColorSpbce.
     */
-    public ICC_ColorSpace (ICC_Profile profile) {
-        super (profile.getColorSpaceType(), profile.getNumComponents());
+    public ICC_ColorSpbce (ICC_Profile profile) {
+        super (profile.getColorSpbceType(), profile.getNumComponents());
 
-        int profileClass = profile.getProfileClass();
+        int profileClbss = profile.getProfileClbss();
 
         /* REMIND - is NAMEDCOLOR OK? */
-        if ((profileClass != ICC_Profile.CLASS_INPUT) &&
-            (profileClass != ICC_Profile.CLASS_DISPLAY) &&
-            (profileClass != ICC_Profile.CLASS_OUTPUT) &&
-            (profileClass != ICC_Profile.CLASS_COLORSPACECONVERSION) &&
-            (profileClass != ICC_Profile.CLASS_NAMEDCOLOR) &&
-            (profileClass != ICC_Profile.CLASS_ABSTRACT)) {
-            throw new IllegalArgumentException("Invalid profile type");
+        if ((profileClbss != ICC_Profile.CLASS_INPUT) &&
+            (profileClbss != ICC_Profile.CLASS_DISPLAY) &&
+            (profileClbss != ICC_Profile.CLASS_OUTPUT) &&
+            (profileClbss != ICC_Profile.CLASS_COLORSPACECONVERSION) &&
+            (profileClbss != ICC_Profile.CLASS_NAMEDCOLOR) &&
+            (profileClbss != ICC_Profile.CLASS_ABSTRACT)) {
+            throw new IllegblArgumentException("Invblid profile type");
         }
 
         thisProfile = profile;
-        setMinMax();
+        setMinMbx();
     }
 
     /**
-    * Returns the ICC_Profile for this ICC_ColorSpace.
-    * @return the ICC_Profile for this ICC_ColorSpace.
+    * Returns the ICC_Profile for this ICC_ColorSpbce.
+    * @return the ICC_Profile for this ICC_ColorSpbce.
     */
     public ICC_Profile getProfile() {
         return thisProfile;
     }
 
     /**
-     * Transforms a color value assumed to be in this ColorSpace
-     * into a value in the default CS_sRGB color space.
+     * Trbnsforms b color vblue bssumed to be in this ColorSpbce
+     * into b vblue in the defbult CS_sRGB color spbce.
      * <p>
-     * This method transforms color values using algorithms designed
-     * to produce the best perceptual match between input and output
-     * colors.  In order to do colorimetric conversion of color values,
+     * This method trbnsforms color vblues using blgorithms designed
+     * to produce the best perceptubl mbtch between input bnd output
+     * colors.  In order to do colorimetric conversion of color vblues,
      * you should use the <code>toCIEXYZ</code>
-     * method of this color space to first convert from the input
-     * color space to the CS_CIEXYZ color space, and then use the
-     * <code>fromCIEXYZ</code> method of the CS_sRGB color space to
-     * convert from CS_CIEXYZ to the output color space.
-     * See {@link #toCIEXYZ(float[]) toCIEXYZ} and
-     * {@link #fromCIEXYZ(float[]) fromCIEXYZ} for further information.
+     * method of this color spbce to first convert from the input
+     * color spbce to the CS_CIEXYZ color spbce, bnd then use the
+     * <code>fromCIEXYZ</code> method of the CS_sRGB color spbce to
+     * convert from CS_CIEXYZ to the output color spbce.
+     * See {@link #toCIEXYZ(flobt[]) toCIEXYZ} bnd
+     * {@link #fromCIEXYZ(flobt[]) fromCIEXYZ} for further informbtion.
      *
-     * @param colorvalue a float array with length of at least the number
-     *      of components in this ColorSpace.
-     * @return a float array of length 3.
-     * @throws ArrayIndexOutOfBoundsException if array length is not
-     * at least the number of components in this ColorSpace.
+     * @pbrbm colorvblue b flobt brrby with length of bt lebst the number
+     *      of components in this ColorSpbce.
+     * @return b flobt brrby of length 3.
+     * @throws ArrbyIndexOutOfBoundsException if brrby length is not
+     * bt lebst the number of components in this ColorSpbce.
      */
-    public float[]    toRGB (float[] colorvalue) {
+    public flobt[]    toRGB (flobt[] colorvblue) {
 
         if (this2srgb == null) {
-            ColorTransform[] transformList = new ColorTransform [2];
-            ICC_ColorSpace srgbCS =
-                (ICC_ColorSpace) ColorSpace.getInstance (CS_sRGB);
-            PCMM mdl = CMSManager.getModule();
-            transformList[0] = mdl.createTransform(
-                thisProfile, ColorTransform.Any, ColorTransform.In);
-            transformList[1] = mdl.createTransform(
-                srgbCS.getProfile(), ColorTransform.Any, ColorTransform.Out);
-            this2srgb = mdl.createTransform(transformList);
-            if (needScaleInit) {
-                setComponentScaling();
+            ColorTrbnsform[] trbnsformList = new ColorTrbnsform [2];
+            ICC_ColorSpbce srgbCS =
+                (ICC_ColorSpbce) ColorSpbce.getInstbnce (CS_sRGB);
+            PCMM mdl = CMSMbnbger.getModule();
+            trbnsformList[0] = mdl.crebteTrbnsform(
+                thisProfile, ColorTrbnsform.Any, ColorTrbnsform.In);
+            trbnsformList[1] = mdl.crebteTrbnsform(
+                srgbCS.getProfile(), ColorTrbnsform.Any, ColorTrbnsform.Out);
+            this2srgb = mdl.crebteTrbnsform(trbnsformList);
+            if (needScbleInit) {
+                setComponentScbling();
             }
         }
 
@@ -177,138 +177,138 @@ public class ICC_ColorSpace extends ColorSpace {
         short tmp[] = new short[nc];
         for (int i = 0; i < nc; i++) {
             tmp[i] = (short)
-                ((colorvalue[i] - minVal[i]) * invDiffMinMax[i] + 0.5f);
+                ((colorvblue[i] - minVbl[i]) * invDiffMinMbx[i] + 0.5f);
         }
         tmp = this2srgb.colorConvert(tmp, null);
-        float[] result = new float [3];
+        flobt[] result = new flobt [3];
         for (int i = 0; i < 3; i++) {
-            result[i] = ((float) (tmp[i] & 0xffff)) / 65535.0f;
+            result[i] = ((flobt) (tmp[i] & 0xffff)) / 65535.0f;
         }
         return result;
     }
 
     /**
-     * Transforms a color value assumed to be in the default CS_sRGB
-     * color space into this ColorSpace.
+     * Trbnsforms b color vblue bssumed to be in the defbult CS_sRGB
+     * color spbce into this ColorSpbce.
      * <p>
-     * This method transforms color values using algorithms designed
-     * to produce the best perceptual match between input and output
-     * colors.  In order to do colorimetric conversion of color values,
+     * This method trbnsforms color vblues using blgorithms designed
+     * to produce the best perceptubl mbtch between input bnd output
+     * colors.  In order to do colorimetric conversion of color vblues,
      * you should use the <code>toCIEXYZ</code>
-     * method of the CS_sRGB color space to first convert from the input
-     * color space to the CS_CIEXYZ color space, and then use the
-     * <code>fromCIEXYZ</code> method of this color space to
-     * convert from CS_CIEXYZ to the output color space.
-     * See {@link #toCIEXYZ(float[]) toCIEXYZ} and
-     * {@link #fromCIEXYZ(float[]) fromCIEXYZ} for further information.
+     * method of the CS_sRGB color spbce to first convert from the input
+     * color spbce to the CS_CIEXYZ color spbce, bnd then use the
+     * <code>fromCIEXYZ</code> method of this color spbce to
+     * convert from CS_CIEXYZ to the output color spbce.
+     * See {@link #toCIEXYZ(flobt[]) toCIEXYZ} bnd
+     * {@link #fromCIEXYZ(flobt[]) fromCIEXYZ} for further informbtion.
      *
-     * @param rgbvalue a float array with length of at least 3.
-     * @return a float array with length equal to the number of
-     *       components in this ColorSpace.
-     * @throws ArrayIndexOutOfBoundsException if array length is not
-     * at least 3.
+     * @pbrbm rgbvblue b flobt brrby with length of bt lebst 3.
+     * @return b flobt brrby with length equbl to the number of
+     *       components in this ColorSpbce.
+     * @throws ArrbyIndexOutOfBoundsException if brrby length is not
+     * bt lebst 3.
      */
-    public float[]    fromRGB(float[] rgbvalue) {
+    public flobt[]    fromRGB(flobt[] rgbvblue) {
 
         if (srgb2this == null) {
-            ColorTransform[] transformList = new ColorTransform [2];
-            ICC_ColorSpace srgbCS =
-                (ICC_ColorSpace) ColorSpace.getInstance (CS_sRGB);
-            PCMM mdl = CMSManager.getModule();
-            transformList[0] = mdl.createTransform(
-                srgbCS.getProfile(), ColorTransform.Any, ColorTransform.In);
-            transformList[1] = mdl.createTransform(
-                thisProfile, ColorTransform.Any, ColorTransform.Out);
-            srgb2this = mdl.createTransform(transformList);
-            if (needScaleInit) {
-                setComponentScaling();
+            ColorTrbnsform[] trbnsformList = new ColorTrbnsform [2];
+            ICC_ColorSpbce srgbCS =
+                (ICC_ColorSpbce) ColorSpbce.getInstbnce (CS_sRGB);
+            PCMM mdl = CMSMbnbger.getModule();
+            trbnsformList[0] = mdl.crebteTrbnsform(
+                srgbCS.getProfile(), ColorTrbnsform.Any, ColorTrbnsform.In);
+            trbnsformList[1] = mdl.crebteTrbnsform(
+                thisProfile, ColorTrbnsform.Any, ColorTrbnsform.Out);
+            srgb2this = mdl.crebteTrbnsform(trbnsformList);
+            if (needScbleInit) {
+                setComponentScbling();
             }
         }
 
         short tmp[] = new short[3];
         for (int i = 0; i < 3; i++) {
-            tmp[i] = (short) ((rgbvalue[i] * 65535.0f) + 0.5f);
+            tmp[i] = (short) ((rgbvblue[i] * 65535.0f) + 0.5f);
         }
         tmp = srgb2this.colorConvert(tmp, null);
         int nc = this.getNumComponents();
-        float[] result = new float [nc];
+        flobt[] result = new flobt [nc];
         for (int i = 0; i < nc; i++) {
-            result[i] = (((float) (tmp[i] & 0xffff)) / 65535.0f) *
-                        diffMinMax[i] + minVal[i];
+            result[i] = (((flobt) (tmp[i] & 0xffff)) / 65535.0f) *
+                        diffMinMbx[i] + minVbl[i];
         }
         return result;
     }
 
 
     /**
-     * Transforms a color value assumed to be in this ColorSpace
-     * into the CS_CIEXYZ conversion color space.
+     * Trbnsforms b color vblue bssumed to be in this ColorSpbce
+     * into the CS_CIEXYZ conversion color spbce.
      * <p>
-     * This method transforms color values using relative colorimetry,
-     * as defined by the ICC Specification.  This
-     * means that the XYZ values returned by this method are represented
-     * relative to the D50 white point of the CS_CIEXYZ color space.
-     * This representation is useful in a two-step color conversion
-     * process in which colors are transformed from an input color
-     * space to CS_CIEXYZ and then to an output color space.  This
-     * representation is not the same as the XYZ values that would
-     * be measured from the given color value by a colorimeter.
-     * A further transformation is necessary to compute the XYZ values
-     * that would be measured using current CIE recommended practices.
-     * The paragraphs below explain this in more detail.
+     * This method trbnsforms color vblues using relbtive colorimetry,
+     * bs defined by the ICC Specificbtion.  This
+     * mebns thbt the XYZ vblues returned by this method bre represented
+     * relbtive to the D50 white point of the CS_CIEXYZ color spbce.
+     * This representbtion is useful in b two-step color conversion
+     * process in which colors bre trbnsformed from bn input color
+     * spbce to CS_CIEXYZ bnd then to bn output color spbce.  This
+     * representbtion is not the sbme bs the XYZ vblues thbt would
+     * be mebsured from the given color vblue by b colorimeter.
+     * A further trbnsformbtion is necessbry to compute the XYZ vblues
+     * thbt would be mebsured using current CIE recommended prbctices.
+     * The pbrbgrbphs below explbin this in more detbil.
      * <p>
-     * The ICC standard uses a device independent color space (DICS) as the
-     * mechanism for converting color from one device to another device.  In
-     * this architecture, colors are converted from the source device's color
-     * space to the ICC DICS and then from the ICC DICS to the destination
-     * device's color space.  The ICC standard defines device profiles which
-     * contain transforms which will convert between a device's color space
-     * and the ICC DICS.  The overall conversion of colors from a source
-     * device to colors of a destination device is done by connecting the
-     * device-to-DICS transform of the profile for the source device to the
-     * DICS-to-device transform of the profile for the destination device.
-     * For this reason, the ICC DICS is commonly referred to as the profile
-     * connection space (PCS).  The color space used in the methods
-     * toCIEXYZ and fromCIEXYZ is the CIEXYZ PCS defined by the ICC
-     * Specification.  This is also the color space represented by
-     * ColorSpace.CS_CIEXYZ.
+     * The ICC stbndbrd uses b device independent color spbce (DICS) bs the
+     * mechbnism for converting color from one device to bnother device.  In
+     * this brchitecture, colors bre converted from the source device's color
+     * spbce to the ICC DICS bnd then from the ICC DICS to the destinbtion
+     * device's color spbce.  The ICC stbndbrd defines device profiles which
+     * contbin trbnsforms which will convert between b device's color spbce
+     * bnd the ICC DICS.  The overbll conversion of colors from b source
+     * device to colors of b destinbtion device is done by connecting the
+     * device-to-DICS trbnsform of the profile for the source device to the
+     * DICS-to-device trbnsform of the profile for the destinbtion device.
+     * For this rebson, the ICC DICS is commonly referred to bs the profile
+     * connection spbce (PCS).  The color spbce used in the methods
+     * toCIEXYZ bnd fromCIEXYZ is the CIEXYZ PCS defined by the ICC
+     * Specificbtion.  This is blso the color spbce represented by
+     * ColorSpbce.CS_CIEXYZ.
      * <p>
-     * The XYZ values of a color are often represented as relative to some
-     * white point, so the actual meaning of the XYZ values cannot be known
-     * without knowing the white point of those values.  This is known as
-     * relative colorimetry.  The PCS uses a white point of D50, so the XYZ
-     * values of the PCS are relative to D50.  For example, white in the PCS
-     * will have the XYZ values of D50, which is defined to be X=.9642,
-     * Y=1.000, and Z=0.8249.  This white point is commonly used for graphic
-     * arts applications, but others are often used in other applications.
+     * The XYZ vblues of b color bre often represented bs relbtive to some
+     * white point, so the bctubl mebning of the XYZ vblues cbnnot be known
+     * without knowing the white point of those vblues.  This is known bs
+     * relbtive colorimetry.  The PCS uses b white point of D50, so the XYZ
+     * vblues of the PCS bre relbtive to D50.  For exbmple, white in the PCS
+     * will hbve the XYZ vblues of D50, which is defined to be X=.9642,
+     * Y=1.000, bnd Z=0.8249.  This white point is commonly used for grbphic
+     * brts bpplicbtions, but others bre often used in other bpplicbtions.
      * <p>
-     * To quantify the color characteristics of a device such as a printer
-     * or monitor, measurements of XYZ values for particular device colors
-     * are typically made.  For purposes of this discussion, the term
-     * device XYZ values is used to mean the XYZ values that would be
-     * measured from device colors using current CIE recommended practices.
+     * To qubntify the color chbrbcteristics of b device such bs b printer
+     * or monitor, mebsurements of XYZ vblues for pbrticulbr device colors
+     * bre typicblly mbde.  For purposes of this discussion, the term
+     * device XYZ vblues is used to mebn the XYZ vblues thbt would be
+     * mebsured from device colors using current CIE recommended prbctices.
      * <p>
-     * Converting between device XYZ values and the PCS XYZ values returned
+     * Converting between device XYZ vblues bnd the PCS XYZ vblues returned
      * by this method corresponds to converting between the device's color
-     * space, as represented by CIE colorimetric values, and the PCS.  There
-     * are many factors involved in this process, some of which are quite
-     * subtle.  The most important, however, is the adjustment made to account
-     * for differences between the device's white point and the white point of
-     * the PCS.  There are many techniques for doing this and it is the
-     * subject of much current research and controversy.  Some commonly used
-     * methods are XYZ scaling, the von Kries transform, and the Bradford
-     * transform.  The proper method to use depends upon each particular
-     * application.
+     * spbce, bs represented by CIE colorimetric vblues, bnd the PCS.  There
+     * bre mbny fbctors involved in this process, some of which bre quite
+     * subtle.  The most importbnt, however, is the bdjustment mbde to bccount
+     * for differences between the device's white point bnd the white point of
+     * the PCS.  There bre mbny techniques for doing this bnd it is the
+     * subject of much current resebrch bnd controversy.  Some commonly used
+     * methods bre XYZ scbling, the von Kries trbnsform, bnd the Brbdford
+     * trbnsform.  The proper method to use depends upon ebch pbrticulbr
+     * bpplicbtion.
      * <p>
-     * The simplest method is XYZ scaling.  In this method each device XYZ
-     * value is  converted to a PCS XYZ value by multiplying it by the ratio
+     * The simplest method is XYZ scbling.  In this method ebch device XYZ
+     * vblue is  converted to b PCS XYZ vblue by multiplying it by the rbtio
      * of the PCS white point (D50) to the device white point.
      * <pre>
      *
-     * Xd, Yd, Zd are the device XYZ values
-     * Xdw, Ydw, Zdw are the device XYZ white point values
-     * Xp, Yp, Zp are the PCS XYZ values
-     * Xd50, Yd50, Zd50 are the PCS XYZ white point values
+     * Xd, Yd, Zd bre the device XYZ vblues
+     * Xdw, Ydw, Zdw bre the device XYZ white point vblues
+     * Xp, Yp, Zp bre the PCS XYZ vblues
+     * Xd50, Yd50, Zd50 bre the PCS XYZ white point vblues
      *
      * Xp = Xd * (Xd50 / Xdw)
      * Yp = Yd * (Yd50 / Ydw)
@@ -317,7 +317,7 @@ public class ICC_ColorSpace extends ColorSpace {
      * </pre>
      * <p>
      * Conversion from the PCS to the device would be done by inverting these
-     * equations:
+     * equbtions:
      * <pre>
      *
      * Xd = Xp * (Xdw / Xd50)
@@ -326,43 +326,43 @@ public class ICC_ColorSpace extends ColorSpace {
      *
      * </pre>
      * <p>
-     * Note that the media white point tag in an ICC profile is not the same
-     * as the device white point.  The media white point tag is expressed in
-     * PCS values and is used to represent the difference between the XYZ of
-     * device illuminant and the XYZ of the device media when measured under
-     * that illuminant.  The device white point is expressed as the device
-     * XYZ values corresponding to white displayed on the device.  For
-     * example, displaying the RGB color (1.0, 1.0, 1.0) on an sRGB device
-     * will result in a measured device XYZ value of D65.  This will not
-     * be the same as the media white point tag XYZ value in the ICC
-     * profile for an sRGB device.
+     * Note thbt the medib white point tbg in bn ICC profile is not the sbme
+     * bs the device white point.  The medib white point tbg is expressed in
+     * PCS vblues bnd is used to represent the difference between the XYZ of
+     * device illuminbnt bnd the XYZ of the device medib when mebsured under
+     * thbt illuminbnt.  The device white point is expressed bs the device
+     * XYZ vblues corresponding to white displbyed on the device.  For
+     * exbmple, displbying the RGB color (1.0, 1.0, 1.0) on bn sRGB device
+     * will result in b mebsured device XYZ vblue of D65.  This will not
+     * be the sbme bs the medib white point tbg XYZ vblue in the ICC
+     * profile for bn sRGB device.
      *
-     * @param colorvalue a float array with length of at least the number
-     *        of components in this ColorSpace.
-     * @return a float array of length 3.
-     * @throws ArrayIndexOutOfBoundsException if array length is not
-     * at least the number of components in this ColorSpace.
+     * @pbrbm colorvblue b flobt brrby with length of bt lebst the number
+     *        of components in this ColorSpbce.
+     * @return b flobt brrby of length 3.
+     * @throws ArrbyIndexOutOfBoundsException if brrby length is not
+     * bt lebst the number of components in this ColorSpbce.
      */
-    public float[]    toCIEXYZ(float[] colorvalue) {
+    public flobt[]    toCIEXYZ(flobt[] colorvblue) {
 
         if (this2xyz == null) {
-            ColorTransform[] transformList = new ColorTransform [2];
-            ICC_ColorSpace xyzCS =
-                (ICC_ColorSpace) ColorSpace.getInstance (CS_CIEXYZ);
-            PCMM mdl = CMSManager.getModule();
+            ColorTrbnsform[] trbnsformList = new ColorTrbnsform [2];
+            ICC_ColorSpbce xyzCS =
+                (ICC_ColorSpbce) ColorSpbce.getInstbnce (CS_CIEXYZ);
+            PCMM mdl = CMSMbnbger.getModule();
             try {
-                transformList[0] = mdl.createTransform(
-                    thisProfile, ICC_Profile.icRelativeColorimetric,
-                    ColorTransform.In);
-            } catch (CMMException e) {
-                transformList[0] = mdl.createTransform(
-                    thisProfile, ColorTransform.Any, ColorTransform.In);
+                trbnsformList[0] = mdl.crebteTrbnsform(
+                    thisProfile, ICC_Profile.icRelbtiveColorimetric,
+                    ColorTrbnsform.In);
+            } cbtch (CMMException e) {
+                trbnsformList[0] = mdl.crebteTrbnsform(
+                    thisProfile, ColorTrbnsform.Any, ColorTrbnsform.In);
             }
-            transformList[1] = mdl.createTransform(
-                xyzCS.getProfile(), ColorTransform.Any, ColorTransform.Out);
-            this2xyz = mdl.createTransform (transformList);
-            if (needScaleInit) {
-                setComponentScaling();
+            trbnsformList[1] = mdl.crebteTrbnsform(
+                xyzCS.getProfile(), ColorTrbnsform.Any, ColorTrbnsform.Out);
+            this2xyz = mdl.crebteTrbnsform (trbnsformList);
+            if (needScbleInit) {
+                setComponentScbling();
             }
         }
 
@@ -370,89 +370,89 @@ public class ICC_ColorSpace extends ColorSpace {
         short tmp[] = new short[nc];
         for (int i = 0; i < nc; i++) {
             tmp[i] = (short)
-                ((colorvalue[i] - minVal[i]) * invDiffMinMax[i] + 0.5f);
+                ((colorvblue[i] - minVbl[i]) * invDiffMinMbx[i] + 0.5f);
         }
         tmp = this2xyz.colorConvert(tmp, null);
-        float ALMOST_TWO = 1.0f + (32767.0f / 32768.0f);
-        // For CIEXYZ, min = 0.0, max = ALMOST_TWO for all components
-        float[] result = new float [3];
+        flobt ALMOST_TWO = 1.0f + (32767.0f / 32768.0f);
+        // For CIEXYZ, min = 0.0, mbx = ALMOST_TWO for bll components
+        flobt[] result = new flobt [3];
         for (int i = 0; i < 3; i++) {
-            result[i] = (((float) (tmp[i] & 0xffff)) / 65535.0f) * ALMOST_TWO;
+            result[i] = (((flobt) (tmp[i] & 0xffff)) / 65535.0f) * ALMOST_TWO;
         }
         return result;
     }
 
 
     /**
-     * Transforms a color value assumed to be in the CS_CIEXYZ conversion
-     * color space into this ColorSpace.
+     * Trbnsforms b color vblue bssumed to be in the CS_CIEXYZ conversion
+     * color spbce into this ColorSpbce.
      * <p>
-     * This method transforms color values using relative colorimetry,
-     * as defined by the ICC Specification.  This
-     * means that the XYZ argument values taken by this method are represented
-     * relative to the D50 white point of the CS_CIEXYZ color space.
-     * This representation is useful in a two-step color conversion
-     * process in which colors are transformed from an input color
-     * space to CS_CIEXYZ and then to an output color space.  The color
-     * values returned by this method are not those that would produce
-     * the XYZ value passed to the method when measured by a colorimeter.
-     * If you have XYZ values corresponding to measurements made using
-     * current CIE recommended practices, they must be converted to D50
-     * relative values before being passed to this method.
-     * The paragraphs below explain this in more detail.
+     * This method trbnsforms color vblues using relbtive colorimetry,
+     * bs defined by the ICC Specificbtion.  This
+     * mebns thbt the XYZ brgument vblues tbken by this method bre represented
+     * relbtive to the D50 white point of the CS_CIEXYZ color spbce.
+     * This representbtion is useful in b two-step color conversion
+     * process in which colors bre trbnsformed from bn input color
+     * spbce to CS_CIEXYZ bnd then to bn output color spbce.  The color
+     * vblues returned by this method bre not those thbt would produce
+     * the XYZ vblue pbssed to the method when mebsured by b colorimeter.
+     * If you hbve XYZ vblues corresponding to mebsurements mbde using
+     * current CIE recommended prbctices, they must be converted to D50
+     * relbtive vblues before being pbssed to this method.
+     * The pbrbgrbphs below explbin this in more detbil.
      * <p>
-     * The ICC standard uses a device independent color space (DICS) as the
-     * mechanism for converting color from one device to another device.  In
-     * this architecture, colors are converted from the source device's color
-     * space to the ICC DICS and then from the ICC DICS to the destination
-     * device's color space.  The ICC standard defines device profiles which
-     * contain transforms which will convert between a device's color space
-     * and the ICC DICS.  The overall conversion of colors from a source
-     * device to colors of a destination device is done by connecting the
-     * device-to-DICS transform of the profile for the source device to the
-     * DICS-to-device transform of the profile for the destination device.
-     * For this reason, the ICC DICS is commonly referred to as the profile
-     * connection space (PCS).  The color space used in the methods
-     * toCIEXYZ and fromCIEXYZ is the CIEXYZ PCS defined by the ICC
-     * Specification.  This is also the color space represented by
-     * ColorSpace.CS_CIEXYZ.
+     * The ICC stbndbrd uses b device independent color spbce (DICS) bs the
+     * mechbnism for converting color from one device to bnother device.  In
+     * this brchitecture, colors bre converted from the source device's color
+     * spbce to the ICC DICS bnd then from the ICC DICS to the destinbtion
+     * device's color spbce.  The ICC stbndbrd defines device profiles which
+     * contbin trbnsforms which will convert between b device's color spbce
+     * bnd the ICC DICS.  The overbll conversion of colors from b source
+     * device to colors of b destinbtion device is done by connecting the
+     * device-to-DICS trbnsform of the profile for the source device to the
+     * DICS-to-device trbnsform of the profile for the destinbtion device.
+     * For this rebson, the ICC DICS is commonly referred to bs the profile
+     * connection spbce (PCS).  The color spbce used in the methods
+     * toCIEXYZ bnd fromCIEXYZ is the CIEXYZ PCS defined by the ICC
+     * Specificbtion.  This is blso the color spbce represented by
+     * ColorSpbce.CS_CIEXYZ.
      * <p>
-     * The XYZ values of a color are often represented as relative to some
-     * white point, so the actual meaning of the XYZ values cannot be known
-     * without knowing the white point of those values.  This is known as
-     * relative colorimetry.  The PCS uses a white point of D50, so the XYZ
-     * values of the PCS are relative to D50.  For example, white in the PCS
-     * will have the XYZ values of D50, which is defined to be X=.9642,
-     * Y=1.000, and Z=0.8249.  This white point is commonly used for graphic
-     * arts applications, but others are often used in other applications.
+     * The XYZ vblues of b color bre often represented bs relbtive to some
+     * white point, so the bctubl mebning of the XYZ vblues cbnnot be known
+     * without knowing the white point of those vblues.  This is known bs
+     * relbtive colorimetry.  The PCS uses b white point of D50, so the XYZ
+     * vblues of the PCS bre relbtive to D50.  For exbmple, white in the PCS
+     * will hbve the XYZ vblues of D50, which is defined to be X=.9642,
+     * Y=1.000, bnd Z=0.8249.  This white point is commonly used for grbphic
+     * brts bpplicbtions, but others bre often used in other bpplicbtions.
      * <p>
-     * To quantify the color characteristics of a device such as a printer
-     * or monitor, measurements of XYZ values for particular device colors
-     * are typically made.  For purposes of this discussion, the term
-     * device XYZ values is used to mean the XYZ values that would be
-     * measured from device colors using current CIE recommended practices.
+     * To qubntify the color chbrbcteristics of b device such bs b printer
+     * or monitor, mebsurements of XYZ vblues for pbrticulbr device colors
+     * bre typicblly mbde.  For purposes of this discussion, the term
+     * device XYZ vblues is used to mebn the XYZ vblues thbt would be
+     * mebsured from device colors using current CIE recommended prbctices.
      * <p>
-     * Converting between device XYZ values and the PCS XYZ values taken as
-     * arguments by this method corresponds to converting between the device's
-     * color space, as represented by CIE colorimetric values, and the PCS.
-     * There are many factors involved in this process, some of which are quite
-     * subtle.  The most important, however, is the adjustment made to account
-     * for differences between the device's white point and the white point of
-     * the PCS.  There are many techniques for doing this and it is the
-     * subject of much current research and controversy.  Some commonly used
-     * methods are XYZ scaling, the von Kries transform, and the Bradford
-     * transform.  The proper method to use depends upon each particular
-     * application.
+     * Converting between device XYZ vblues bnd the PCS XYZ vblues tbken bs
+     * brguments by this method corresponds to converting between the device's
+     * color spbce, bs represented by CIE colorimetric vblues, bnd the PCS.
+     * There bre mbny fbctors involved in this process, some of which bre quite
+     * subtle.  The most importbnt, however, is the bdjustment mbde to bccount
+     * for differences between the device's white point bnd the white point of
+     * the PCS.  There bre mbny techniques for doing this bnd it is the
+     * subject of much current resebrch bnd controversy.  Some commonly used
+     * methods bre XYZ scbling, the von Kries trbnsform, bnd the Brbdford
+     * trbnsform.  The proper method to use depends upon ebch pbrticulbr
+     * bpplicbtion.
      * <p>
-     * The simplest method is XYZ scaling.  In this method each device XYZ
-     * value is  converted to a PCS XYZ value by multiplying it by the ratio
+     * The simplest method is XYZ scbling.  In this method ebch device XYZ
+     * vblue is  converted to b PCS XYZ vblue by multiplying it by the rbtio
      * of the PCS white point (D50) to the device white point.
      * <pre>
      *
-     * Xd, Yd, Zd are the device XYZ values
-     * Xdw, Ydw, Zdw are the device XYZ white point values
-     * Xp, Yp, Zp are the PCS XYZ values
-     * Xd50, Yd50, Zd50 are the PCS XYZ white point values
+     * Xd, Yd, Zd bre the device XYZ vblues
+     * Xdw, Ydw, Zdw bre the device XYZ white point vblues
+     * Xp, Yp, Zp bre the PCS XYZ vblues
+     * Xd50, Yd50, Zd50 bre the PCS XYZ white point vblues
      *
      * Xp = Xd * (Xd50 / Xdw)
      * Yp = Yd * (Yd50 / Ydw)
@@ -461,7 +461,7 @@ public class ICC_ColorSpace extends ColorSpace {
      * </pre>
      * <p>
      * Conversion from the PCS to the device would be done by inverting these
-     * equations:
+     * equbtions:
      * <pre>
      *
      * Xd = Xp * (Xdw / Xd50)
@@ -470,146 +470,146 @@ public class ICC_ColorSpace extends ColorSpace {
      *
      * </pre>
      * <p>
-     * Note that the media white point tag in an ICC profile is not the same
-     * as the device white point.  The media white point tag is expressed in
-     * PCS values and is used to represent the difference between the XYZ of
-     * device illuminant and the XYZ of the device media when measured under
-     * that illuminant.  The device white point is expressed as the device
-     * XYZ values corresponding to white displayed on the device.  For
-     * example, displaying the RGB color (1.0, 1.0, 1.0) on an sRGB device
-     * will result in a measured device XYZ value of D65.  This will not
-     * be the same as the media white point tag XYZ value in the ICC
-     * profile for an sRGB device.
+     * Note thbt the medib white point tbg in bn ICC profile is not the sbme
+     * bs the device white point.  The medib white point tbg is expressed in
+     * PCS vblues bnd is used to represent the difference between the XYZ of
+     * device illuminbnt bnd the XYZ of the device medib when mebsured under
+     * thbt illuminbnt.  The device white point is expressed bs the device
+     * XYZ vblues corresponding to white displbyed on the device.  For
+     * exbmple, displbying the RGB color (1.0, 1.0, 1.0) on bn sRGB device
+     * will result in b mebsured device XYZ vblue of D65.  This will not
+     * be the sbme bs the medib white point tbg XYZ vblue in the ICC
+     * profile for bn sRGB device.
      *
-     * @param colorvalue a float array with length of at least 3.
-     * @return a float array with length equal to the number of
-     *         components in this ColorSpace.
-     * @throws ArrayIndexOutOfBoundsException if array length is not
-     * at least 3.
+     * @pbrbm colorvblue b flobt brrby with length of bt lebst 3.
+     * @return b flobt brrby with length equbl to the number of
+     *         components in this ColorSpbce.
+     * @throws ArrbyIndexOutOfBoundsException if brrby length is not
+     * bt lebst 3.
      */
-    public float[]    fromCIEXYZ(float[] colorvalue) {
+    public flobt[]    fromCIEXYZ(flobt[] colorvblue) {
 
         if (xyz2this == null) {
-            ColorTransform[] transformList = new ColorTransform [2];
-            ICC_ColorSpace xyzCS =
-                (ICC_ColorSpace) ColorSpace.getInstance (CS_CIEXYZ);
-            PCMM mdl = CMSManager.getModule();
-            transformList[0] = mdl.createTransform (
-                xyzCS.getProfile(), ColorTransform.Any, ColorTransform.In);
+            ColorTrbnsform[] trbnsformList = new ColorTrbnsform [2];
+            ICC_ColorSpbce xyzCS =
+                (ICC_ColorSpbce) ColorSpbce.getInstbnce (CS_CIEXYZ);
+            PCMM mdl = CMSMbnbger.getModule();
+            trbnsformList[0] = mdl.crebteTrbnsform (
+                xyzCS.getProfile(), ColorTrbnsform.Any, ColorTrbnsform.In);
             try {
-                transformList[1] = mdl.createTransform(
-                    thisProfile, ICC_Profile.icRelativeColorimetric,
-                    ColorTransform.Out);
-            } catch (CMMException e) {
-                transformList[1] = CMSManager.getModule().createTransform(
-                thisProfile, ColorTransform.Any, ColorTransform.Out);
+                trbnsformList[1] = mdl.crebteTrbnsform(
+                    thisProfile, ICC_Profile.icRelbtiveColorimetric,
+                    ColorTrbnsform.Out);
+            } cbtch (CMMException e) {
+                trbnsformList[1] = CMSMbnbger.getModule().crebteTrbnsform(
+                thisProfile, ColorTrbnsform.Any, ColorTrbnsform.Out);
             }
-            xyz2this = mdl.createTransform(transformList);
-            if (needScaleInit) {
-                setComponentScaling();
+            xyz2this = mdl.crebteTrbnsform(trbnsformList);
+            if (needScbleInit) {
+                setComponentScbling();
             }
         }
 
         short tmp[] = new short[3];
-        float ALMOST_TWO = 1.0f + (32767.0f / 32768.0f);
-        float factor = 65535.0f / ALMOST_TWO;
-        // For CIEXYZ, min = 0.0, max = ALMOST_TWO for all components
+        flobt ALMOST_TWO = 1.0f + (32767.0f / 32768.0f);
+        flobt fbctor = 65535.0f / ALMOST_TWO;
+        // For CIEXYZ, min = 0.0, mbx = ALMOST_TWO for bll components
         for (int i = 0; i < 3; i++) {
-            tmp[i] = (short) ((colorvalue[i] * factor) + 0.5f);
+            tmp[i] = (short) ((colorvblue[i] * fbctor) + 0.5f);
         }
         tmp = xyz2this.colorConvert(tmp, null);
         int nc = this.getNumComponents();
-        float[] result = new float [nc];
+        flobt[] result = new flobt [nc];
         for (int i = 0; i < nc; i++) {
-            result[i] = (((float) (tmp[i] & 0xffff)) / 65535.0f) *
-                        diffMinMax[i] + minVal[i];
+            result[i] = (((flobt) (tmp[i] & 0xffff)) / 65535.0f) *
+                        diffMinMbx[i] + minVbl[i];
         }
         return result;
     }
 
     /**
-     * Returns the minimum normalized color component value for the
-     * specified component.  For TYPE_XYZ spaces, this method returns
-     * minimum values of 0.0 for all components.  For TYPE_Lab spaces,
-     * this method returns 0.0 for L and -128.0 for a and b components.
-     * This is consistent with the encoding of the XYZ and Lab Profile
-     * Connection Spaces in the ICC specification.  For all other types, this
-     * method returns 0.0 for all components.  When using an ICC_ColorSpace
-     * with a profile that requires different minimum component values,
-     * it is necessary to subclass this class and override this method.
-     * @param component The component index.
-     * @return The minimum normalized component value.
-     * @throws IllegalArgumentException if component is less than 0 or
-     *         greater than numComponents - 1.
+     * Returns the minimum normblized color component vblue for the
+     * specified component.  For TYPE_XYZ spbces, this method returns
+     * minimum vblues of 0.0 for bll components.  For TYPE_Lbb spbces,
+     * this method returns 0.0 for L bnd -128.0 for b bnd b components.
+     * This is consistent with the encoding of the XYZ bnd Lbb Profile
+     * Connection Spbces in the ICC specificbtion.  For bll other types, this
+     * method returns 0.0 for bll components.  When using bn ICC_ColorSpbce
+     * with b profile thbt requires different minimum component vblues,
+     * it is necessbry to subclbss this clbss bnd override this method.
+     * @pbrbm component The component index.
+     * @return The minimum normblized component vblue.
+     * @throws IllegblArgumentException if component is less thbn 0 or
+     *         grebter thbn numComponents - 1.
      * @since 1.4
      */
-    public float getMinValue(int component) {
+    public flobt getMinVblue(int component) {
         if ((component < 0) || (component > this.getNumComponents() - 1)) {
-            throw new IllegalArgumentException(
-                "Component index out of range: + component");
+            throw new IllegblArgumentException(
+                "Component index out of rbnge: + component");
         }
-        return minVal[component];
+        return minVbl[component];
     }
 
     /**
-     * Returns the maximum normalized color component value for the
-     * specified component.  For TYPE_XYZ spaces, this method returns
-     * maximum values of 1.0 + (32767.0 / 32768.0) for all components.
-     * For TYPE_Lab spaces,
-     * this method returns 100.0 for L and 127.0 for a and b components.
-     * This is consistent with the encoding of the XYZ and Lab Profile
-     * Connection Spaces in the ICC specification.  For all other types, this
-     * method returns 1.0 for all components.  When using an ICC_ColorSpace
-     * with a profile that requires different maximum component values,
-     * it is necessary to subclass this class and override this method.
-     * @param component The component index.
-     * @return The maximum normalized component value.
-     * @throws IllegalArgumentException if component is less than 0 or
-     *         greater than numComponents - 1.
+     * Returns the mbximum normblized color component vblue for the
+     * specified component.  For TYPE_XYZ spbces, this method returns
+     * mbximum vblues of 1.0 + (32767.0 / 32768.0) for bll components.
+     * For TYPE_Lbb spbces,
+     * this method returns 100.0 for L bnd 127.0 for b bnd b components.
+     * This is consistent with the encoding of the XYZ bnd Lbb Profile
+     * Connection Spbces in the ICC specificbtion.  For bll other types, this
+     * method returns 1.0 for bll components.  When using bn ICC_ColorSpbce
+     * with b profile thbt requires different mbximum component vblues,
+     * it is necessbry to subclbss this clbss bnd override this method.
+     * @pbrbm component The component index.
+     * @return The mbximum normblized component vblue.
+     * @throws IllegblArgumentException if component is less thbn 0 or
+     *         grebter thbn numComponents - 1.
      * @since 1.4
      */
-    public float getMaxValue(int component) {
+    public flobt getMbxVblue(int component) {
         if ((component < 0) || (component > this.getNumComponents() - 1)) {
-            throw new IllegalArgumentException(
-                "Component index out of range: + component");
+            throw new IllegblArgumentException(
+                "Component index out of rbnge: + component");
         }
-        return maxVal[component];
+        return mbxVbl[component];
     }
 
-    private void setMinMax() {
+    privbte void setMinMbx() {
         int nc = this.getNumComponents();
         int type = this.getType();
-        minVal = new float[nc];
-        maxVal = new float[nc];
-        if (type == ColorSpace.TYPE_Lab) {
-            minVal[0] = 0.0f;    // L
-            maxVal[0] = 100.0f;
-            minVal[1] = -128.0f; // a
-            maxVal[1] = 127.0f;
-            minVal[2] = -128.0f; // b
-            maxVal[2] = 127.0f;
-        } else if (type == ColorSpace.TYPE_XYZ) {
-            minVal[0] = minVal[1] = minVal[2] = 0.0f; // X, Y, Z
-            maxVal[0] = maxVal[1] = maxVal[2] = 1.0f + (32767.0f/ 32768.0f);
+        minVbl = new flobt[nc];
+        mbxVbl = new flobt[nc];
+        if (type == ColorSpbce.TYPE_Lbb) {
+            minVbl[0] = 0.0f;    // L
+            mbxVbl[0] = 100.0f;
+            minVbl[1] = -128.0f; // b
+            mbxVbl[1] = 127.0f;
+            minVbl[2] = -128.0f; // b
+            mbxVbl[2] = 127.0f;
+        } else if (type == ColorSpbce.TYPE_XYZ) {
+            minVbl[0] = minVbl[1] = minVbl[2] = 0.0f; // X, Y, Z
+            mbxVbl[0] = mbxVbl[1] = mbxVbl[2] = 1.0f + (32767.0f/ 32768.0f);
         } else {
             for (int i = 0; i < nc; i++) {
-                minVal[i] = 0.0f;
-                maxVal[i] = 1.0f;
+                minVbl[i] = 0.0f;
+                mbxVbl[i] = 1.0f;
             }
         }
     }
 
-    private void setComponentScaling() {
+    privbte void setComponentScbling() {
         int nc = this.getNumComponents();
-        diffMinMax = new float[nc];
-        invDiffMinMax = new float[nc];
+        diffMinMbx = new flobt[nc];
+        invDiffMinMbx = new flobt[nc];
         for (int i = 0; i < nc; i++) {
-            minVal[i] = this.getMinValue(i); // in case getMinVal is overridden
-            maxVal[i] = this.getMaxValue(i); // in case getMaxVal is overridden
-            diffMinMax[i] = maxVal[i] - minVal[i];
-            invDiffMinMax[i] = 65535.0f / diffMinMax[i];
+            minVbl[i] = this.getMinVblue(i); // in cbse getMinVbl is overridden
+            mbxVbl[i] = this.getMbxVblue(i); // in cbse getMbxVbl is overridden
+            diffMinMbx[i] = mbxVbl[i] - minVbl[i];
+            invDiffMinMbx[i] = 65535.0f / diffMinMbx[i];
         }
-        needScaleInit = false;
+        needScbleInit = fblse;
     }
 
 }

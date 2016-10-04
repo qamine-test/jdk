@@ -1,110 +1,110 @@
 /*
- * Copyright (c) 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.nio.fs;
+pbckbge sun.nio.fs;
 
-import java.nio.file.*;
-import java.nio.file.spi.FileSystemProvider;
-import java.io.IOException;
-import java.util.Map;
+import jbvb.nio.file.*;
+import jbvb.nio.file.spi.FileSystemProvider;
+import jbvb.io.IOException;
+import jbvb.util.Mbp;
 
 /**
- * Base implementation class of FileSystemProvider
+ * Bbse implementbtion clbss of FileSystemProvider
  */
 
-abstract class AbstractFileSystemProvider extends FileSystemProvider {
-    protected AbstractFileSystemProvider() { }
+bbstrbct clbss AbstrbctFileSystemProvider extends FileSystemProvider {
+    protected AbstrbctFileSystemProvider() { }
 
     /**
-     * Splits the given attribute name into the name of an attribute view and
-     * the attribute. If the attribute view is not identified then it assumed
-     * to be "basic".
+     * Splits the given bttribute nbme into the nbme of bn bttribute view bnd
+     * the bttribute. If the bttribute view is not identified then it bssumed
+     * to be "bbsic".
      */
-    private static String[] split(String attribute) {
+    privbte stbtic String[] split(String bttribute) {
         String[] s = new String[2];
-        int pos = attribute.indexOf(':');
+        int pos = bttribute.indexOf(':');
         if (pos == -1) {
-            s[0] = "basic";
-            s[1] = attribute;
+            s[0] = "bbsic";
+            s[1] = bttribute;
         } else {
-            s[0] = attribute.substring(0, pos++);
-            s[1] = (pos == attribute.length()) ? "" : attribute.substring(pos);
+            s[0] = bttribute.substring(0, pos++);
+            s[1] = (pos == bttribute.length()) ? "" : bttribute.substring(pos);
         }
         return s;
     }
 
     /**
-     * Gets a DynamicFileAttributeView by name. Returns {@code null} if the
-     * view is not available.
+     * Gets b DynbmicFileAttributeView by nbme. Returns {@code null} if the
+     * view is not bvbilbble.
      */
-    abstract DynamicFileAttributeView getFileAttributeView(Path file,
-                                                           String name,
+    bbstrbct DynbmicFileAttributeView getFileAttributeView(Pbth file,
+                                                           String nbme,
                                                            LinkOption... options);
 
     @Override
-    public final void setAttribute(Path file,
-                                   String attribute,
-                                   Object value,
+    public finbl void setAttribute(Pbth file,
+                                   String bttribute,
+                                   Object vblue,
                                    LinkOption... options)
         throws IOException
     {
-        String[] s = split(attribute);
+        String[] s = split(bttribute);
         if (s[0].length() == 0)
-            throw new IllegalArgumentException(attribute);
-        DynamicFileAttributeView view = getFileAttributeView(file, s[0], options);
+            throw new IllegblArgumentException(bttribute);
+        DynbmicFileAttributeView view = getFileAttributeView(file, s[0], options);
         if (view == null)
-            throw new UnsupportedOperationException("View '" + s[0] + "' not available");
-        view.setAttribute(s[1], value);
+            throw new UnsupportedOperbtionException("View '" + s[0] + "' not bvbilbble");
+        view.setAttribute(s[1], vblue);
     }
 
     @Override
-    public final Map<String,Object> readAttributes(Path file, String attributes, LinkOption... options)
+    public finbl Mbp<String,Object> rebdAttributes(Pbth file, String bttributes, LinkOption... options)
         throws IOException
     {
-        String[] s = split(attributes);
+        String[] s = split(bttributes);
         if (s[0].length() == 0)
-            throw new IllegalArgumentException(attributes);
-        DynamicFileAttributeView view = getFileAttributeView(file, s[0], options);
+            throw new IllegblArgumentException(bttributes);
+        DynbmicFileAttributeView view = getFileAttributeView(file, s[0], options);
         if (view == null)
-            throw new UnsupportedOperationException("View '" + s[0] + "' not available");
-        return view.readAttributes(s[1].split(","));
+            throw new UnsupportedOperbtionException("View '" + s[0] + "' not bvbilbble");
+        return view.rebdAttributes(s[1].split(","));
     }
 
     /**
-     * Deletes a file. The {@code failIfNotExists} parameters determines if an
+     * Deletes b file. The {@code fbilIfNotExists} pbrbmeters determines if bn
      * {@code IOException} is thrown when the file does not exist.
      */
-    abstract boolean implDelete(Path file, boolean failIfNotExists) throws IOException;
+    bbstrbct boolebn implDelete(Pbth file, boolebn fbilIfNotExists) throws IOException;
 
     @Override
-    public final void delete(Path file) throws IOException {
+    public finbl void delete(Pbth file) throws IOException {
         implDelete(file, true);
     }
 
     @Override
-    public final boolean deleteIfExists(Path file) throws IOException {
-        return implDelete(file, false);
+    public finbl boolebn deleteIfExists(Pbth file) throws IOException {
+        return implDelete(file, fblse);
     }
 }

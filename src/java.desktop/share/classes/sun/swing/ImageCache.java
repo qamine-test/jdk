@@ -1,165 +1,165 @@
 /*
- * Copyright (c) 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.swing;
+pbckbge sun.swing;
 
-import java.awt.GraphicsConfiguration;
-import java.awt.Image;
-import java.lang.ref.SoftReference;
-import java.util.Iterator;
-import java.util.LinkedList;
+import jbvb.bwt.GrbphicsConfigurbtion;
+import jbvb.bwt.Imbge;
+import jbvb.lbng.ref.SoftReference;
+import jbvb.util.Iterbtor;
+import jbvb.util.LinkedList;
 
 /**
- * Cache is used to cache an image based on a set of arguments.
+ * Cbche is used to cbche bn imbge bbsed on b set of brguments.
  */
-public class ImageCache {
-    // Maximum number of entries to cache
-    private int maxCount;
+public clbss ImbgeCbche {
+    // Mbximum number of entries to cbche
+    privbte int mbxCount;
     // The entries.
-    final private LinkedList<SoftReference<Entry>> entries;
+    finbl privbte LinkedList<SoftReference<Entry>> entries;
 
-    public ImageCache(int maxCount) {
-        this.maxCount = maxCount;
+    public ImbgeCbche(int mbxCount) {
+        this.mbxCount = mbxCount;
         entries = new LinkedList<SoftReference<Entry>>();
     }
 
-    void setMaxCount(int maxCount) {
-        this.maxCount = maxCount;
+    void setMbxCount(int mbxCount) {
+        this.mbxCount = mbxCount;
     }
 
     public void flush() {
-        entries.clear();
+        entries.clebr();
     }
 
-    private Entry getEntry(Object key, GraphicsConfiguration config,
-                           int w, int h, Object[] args) {
+    privbte Entry getEntry(Object key, GrbphicsConfigurbtion config,
+                           int w, int h, Object[] brgs) {
         Entry entry;
-        Iterator<SoftReference<Entry>> iter = entries.listIterator();
-        while (iter.hasNext()) {
+        Iterbtor<SoftReference<Entry>> iter = entries.listIterbtor();
+        while (iter.hbsNext()) {
             SoftReference<Entry> ref = iter.next();
             entry = ref.get();
             if (entry == null) {
-                // SoftReference was invalidated, remove the entry
+                // SoftReference wbs invblidbted, remove the entry
                 iter.remove();
             }
-            else if (entry.equals(config, w, h, args)) {
-                // Put most recently used entries at the head
+            else if (entry.equbls(config, w, h, brgs)) {
+                // Put most recently used entries bt the hebd
                 iter.remove();
-                entries.addFirst(ref);
+                entries.bddFirst(ref);
                 return entry;
             }
         }
         // Entry doesn't exist
-        entry = new Entry(config, w, h, args);
-        if (entries.size() >= maxCount) {
-            entries.removeLast();
+        entry = new Entry(config, w, h, brgs);
+        if (entries.size() >= mbxCount) {
+            entries.removeLbst();
         }
-        entries.addFirst(new SoftReference<Entry>(entry));
+        entries.bddFirst(new SoftReference<Entry>(entry));
         return entry;
     }
 
     /**
-     * Returns the cached Image, or null, for the specified arguments.
+     * Returns the cbched Imbge, or null, for the specified brguments.
      */
-    public Image getImage(Object key, GraphicsConfiguration config,
-            int w, int h, Object[] args) {
-        Entry entry = getEntry(key, config, w, h, args);
-        return entry.getImage();
+    public Imbge getImbge(Object key, GrbphicsConfigurbtion config,
+            int w, int h, Object[] brgs) {
+        Entry entry = getEntry(key, config, w, h, brgs);
+        return entry.getImbge();
     }
 
     /**
-     * Sets the cached image for the specified constraints.
+     * Sets the cbched imbge for the specified constrbints.
      */
-    public void setImage(Object key, GraphicsConfiguration config,
-            int w, int h, Object[] args, Image image) {
-        Entry entry = getEntry(key, config, w, h, args);
-        entry.setImage(image);
+    public void setImbge(Object key, GrbphicsConfigurbtion config,
+            int w, int h, Object[] brgs, Imbge imbge) {
+        Entry entry = getEntry(key, config, w, h, brgs);
+        entry.setImbge(imbge);
     }
 
 
     /**
-     * Caches set of arguments and Image.
+     * Cbches set of brguments bnd Imbge.
      */
-    private static class Entry {
-        final private GraphicsConfiguration config;
-        final private int w;
-        final private int h;
-        final private Object[] args;
-        private Image image;
+    privbte stbtic clbss Entry {
+        finbl privbte GrbphicsConfigurbtion config;
+        finbl privbte int w;
+        finbl privbte int h;
+        finbl privbte Object[] brgs;
+        privbte Imbge imbge;
 
-        Entry(GraphicsConfiguration config, int w, int h, Object[] args) {
+        Entry(GrbphicsConfigurbtion config, int w, int h, Object[] brgs) {
             this.config = config;
-            this.args = args;
+            this.brgs = brgs;
             this.w = w;
             this.h = h;
         }
 
-        public void setImage(Image image) {
-            this.image = image;
+        public void setImbge(Imbge imbge) {
+            this.imbge = imbge;
         }
 
-        public Image getImage() {
-            return image;
+        public Imbge getImbge() {
+            return imbge;
         }
 
         public String toString() {
-            String value = super.toString() +
-                    "[ graphicsConfig=" + config +
-                    ", image=" + image +
+            String vblue = super.toString() +
+                    "[ grbphicsConfig=" + config +
+                    ", imbge=" + imbge +
                     ", w=" + w + ", h=" + h;
-            if (args != null) {
-                for (int counter = 0; counter < args.length; counter++) {
-                    value += ", " + args[counter];
+            if (brgs != null) {
+                for (int counter = 0; counter < brgs.length; counter++) {
+                    vblue += ", " + brgs[counter];
                 }
             }
-            value += "]";
-            return value;
+            vblue += "]";
+            return vblue;
         }
 
-        public boolean equals(GraphicsConfiguration config,
-                 int w, int h, Object[] args) {
+        public boolebn equbls(GrbphicsConfigurbtion config,
+                 int w, int h, Object[] brgs) {
             if (this.w == w && this.h == h &&
-                    ((this.config != null && this.config.equals(config)) ||
+                    ((this.config != null && this.config.equbls(config)) ||
                     (this.config == null && config == null))) {
-                if (this.args == null && args == null) {
+                if (this.brgs == null && brgs == null) {
                     return true;
                 }
-                if (this.args != null && args != null &&
-                        this.args.length == args.length) {
-                    for (int counter = args.length - 1; counter >= 0;
+                if (this.brgs != null && brgs != null &&
+                        this.brgs.length == brgs.length) {
+                    for (int counter = brgs.length - 1; counter >= 0;
                     counter--) {
-                        Object a1 = this.args[counter];
-                        Object a2 = args[counter];
-                        if ((a1 == null && a2 != null) ||
-                                (a1 != null && !a1.equals(a2))) {
-                            return false;
+                        Object b1 = this.brgs[counter];
+                        Object b2 = brgs[counter];
+                        if ((b1 == null && b2 != null) ||
+                                (b1 != null && !b1.equbls(b2))) {
+                            return fblse;
                         }
                     }
                     return true;
                 }
             }
-            return false;
+            return fblse;
         }
     }
 }

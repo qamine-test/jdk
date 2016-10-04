@@ -1,364 +1,364 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.imageio;
+pbckbge jbvbx.imbgeio;
 
-import java.awt.image.BufferedImage;
-import java.awt.image.RenderedImage;
-import java.io.File;
-import java.io.FilePermission;
-import java.io.InputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.lang.reflect.Method;
-import java.net.URL;
-import java.security.AccessController;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
-import java.util.Set;
-import javax.imageio.spi.IIORegistry;
-import javax.imageio.spi.ImageReaderSpi;
-import javax.imageio.spi.ImageReaderWriterSpi;
-import javax.imageio.spi.ImageWriterSpi;
-import javax.imageio.spi.ImageInputStreamSpi;
-import javax.imageio.spi.ImageOutputStreamSpi;
-import javax.imageio.spi.ImageTranscoderSpi;
-import javax.imageio.spi.ServiceRegistry;
-import javax.imageio.stream.ImageInputStream;
-import javax.imageio.stream.ImageOutputStream;
-import sun.awt.AppContext;
-import sun.security.action.GetPropertyAction;
+import jbvb.bwt.imbge.BufferedImbge;
+import jbvb.bwt.imbge.RenderedImbge;
+import jbvb.io.File;
+import jbvb.io.FilePermission;
+import jbvb.io.InputStrebm;
+import jbvb.io.IOException;
+import jbvb.io.OutputStrebm;
+import jbvb.lbng.reflect.Method;
+import jbvb.net.URL;
+import jbvb.security.AccessController;
+import jbvb.util.Arrbys;
+import jbvb.util.Collections;
+import jbvb.util.HbshSet;
+import jbvb.util.Iterbtor;
+import jbvb.util.NoSuchElementException;
+import jbvb.util.Set;
+import jbvbx.imbgeio.spi.IIORegistry;
+import jbvbx.imbgeio.spi.ImbgeRebderSpi;
+import jbvbx.imbgeio.spi.ImbgeRebderWriterSpi;
+import jbvbx.imbgeio.spi.ImbgeWriterSpi;
+import jbvbx.imbgeio.spi.ImbgeInputStrebmSpi;
+import jbvbx.imbgeio.spi.ImbgeOutputStrebmSpi;
+import jbvbx.imbgeio.spi.ImbgeTrbnscoderSpi;
+import jbvbx.imbgeio.spi.ServiceRegistry;
+import jbvbx.imbgeio.strebm.ImbgeInputStrebm;
+import jbvbx.imbgeio.strebm.ImbgeOutputStrebm;
+import sun.bwt.AppContext;
+import sun.security.bction.GetPropertyAction;
 
 /**
- * A class containing static convenience methods for locating
- * <code>ImageReader</code>s and <code>ImageWriter</code>s, and
- * performing simple encoding and decoding.
+ * A clbss contbining stbtic convenience methods for locbting
+ * <code>ImbgeRebder</code>s bnd <code>ImbgeWriter</code>s, bnd
+ * performing simple encoding bnd decoding.
  *
  */
-public final class ImageIO {
+public finbl clbss ImbgeIO {
 
-    private static final IIORegistry theRegistry =
-        IIORegistry.getDefaultInstance();
+    privbte stbtic finbl IIORegistry theRegistry =
+        IIORegistry.getDefbultInstbnce();
 
     /**
-     * Constructor is private to prevent instantiation.
+     * Constructor is privbte to prevent instbntibtion.
      */
-    private ImageIO() {}
+    privbte ImbgeIO() {}
 
     /**
-     * Scans for plug-ins on the application class path,
-     * loads their service provider classes, and registers a service
-     * provider instance for each one found with the
+     * Scbns for plug-ins on the bpplicbtion clbss pbth,
+     * lobds their service provider clbsses, bnd registers b service
+     * provider instbnce for ebch one found with the
      * <code>IIORegistry</code>.
      *
-     * <p>This method is needed because the application class path can
-     * theoretically change, or additional plug-ins may become available.
-     * Rather than re-scanning the classpath on every invocation of the
-     * API, the class path is scanned automatically only on the first
-     * invocation. Clients can call this method to prompt a re-scan.
-     * Thus this method need only be invoked by sophisticated applications
-     * which dynamically make new plug-ins available at runtime.
+     * <p>This method is needed becbuse the bpplicbtion clbss pbth cbn
+     * theoreticblly chbnge, or bdditionbl plug-ins mby become bvbilbble.
+     * Rbther thbn re-scbnning the clbsspbth on every invocbtion of the
+     * API, the clbss pbth is scbnned butombticblly only on the first
+     * invocbtion. Clients cbn cbll this method to prompt b re-scbn.
+     * Thus this method need only be invoked by sophisticbted bpplicbtions
+     * which dynbmicblly mbke new plug-ins bvbilbble bt runtime.
      *
      * <p> The <code>getResources</code> method of the context
-     * <code>ClassLoader</code> is used locate JAR files containing
-     * files named
-     * <code>META-INF/services/javax.imageio.spi.</code><i>classname</i>,
-     * where <i>classname</i> is one of <code>ImageReaderSpi</code>,
-     * <code>ImageWriterSpi</code>, <code>ImageTranscoderSpi</code>,
-     * <code>ImageInputStreamSpi</code>, or
-     * <code>ImageOutputStreamSpi</code>, along the application class
-     * path.
+     * <code>ClbssLobder</code> is used locbte JAR files contbining
+     * files nbmed
+     * <code>META-INF/services/jbvbx.imbgeio.spi.</code><i>clbssnbme</i>,
+     * where <i>clbssnbme</i> is one of <code>ImbgeRebderSpi</code>,
+     * <code>ImbgeWriterSpi</code>, <code>ImbgeTrbnscoderSpi</code>,
+     * <code>ImbgeInputStrebmSpi</code>, or
+     * <code>ImbgeOutputStrebmSpi</code>, blong the bpplicbtion clbss
+     * pbth.
      *
-     * <p> The contents of the located files indicate the names of
-     * actual implementation classes which implement the
-     * aforementioned service provider interfaces; the default class
-     * loader is then used to load each of these classes and to
-     * instantiate an instance of each class, which is then placed
-     * into the registry for later retrieval.
+     * <p> The contents of the locbted files indicbte the nbmes of
+     * bctubl implementbtion clbsses which implement the
+     * bforementioned service provider interfbces; the defbult clbss
+     * lobder is then used to lobd ebch of these clbsses bnd to
+     * instbntibte bn instbnce of ebch clbss, which is then plbced
+     * into the registry for lbter retrievbl.
      *
-     * <p> The exact set of locations searched depends on the
-     * implementation of the Java runtime environment.
+     * <p> The exbct set of locbtions sebrched depends on the
+     * implementbtion of the Jbvb runtime environment.
      *
-     * @see ClassLoader#getResources
+     * @see ClbssLobder#getResources
      */
-    public static void scanForPlugins() {
-        theRegistry.registerApplicationClasspathSpis();
+    public stbtic void scbnForPlugins() {
+        theRegistry.registerApplicbtionClbsspbthSpis();
     }
 
-    // ImageInputStreams
+    // ImbgeInputStrebms
 
     /**
-     * A class to hold information about caching.  Each
-     * <code>ThreadGroup</code> will have its own copy
-     * via the <code>AppContext</code> mechanism.
+     * A clbss to hold informbtion bbout cbching.  Ebch
+     * <code>ThrebdGroup</code> will hbve its own copy
+     * vib the <code>AppContext</code> mechbnism.
      */
-    static class CacheInfo {
-        boolean useCache = true;
-        File cacheDirectory = null;
-        Boolean hasPermission = null;
+    stbtic clbss CbcheInfo {
+        boolebn useCbche = true;
+        File cbcheDirectory = null;
+        Boolebn hbsPermission = null;
 
-        public CacheInfo() {}
+        public CbcheInfo() {}
 
-        public boolean getUseCache() {
-            return useCache;
+        public boolebn getUseCbche() {
+            return useCbche;
         }
 
-        public void setUseCache(boolean useCache) {
-            this.useCache = useCache;
+        public void setUseCbche(boolebn useCbche) {
+            this.useCbche = useCbche;
         }
 
-        public File getCacheDirectory() {
-            return cacheDirectory;
+        public File getCbcheDirectory() {
+            return cbcheDirectory;
         }
 
-        public void setCacheDirectory(File cacheDirectory) {
-            this.cacheDirectory = cacheDirectory;
+        public void setCbcheDirectory(File cbcheDirectory) {
+            this.cbcheDirectory = cbcheDirectory;
         }
 
-        public Boolean getHasPermission() {
-            return hasPermission;
+        public Boolebn getHbsPermission() {
+            return hbsPermission;
         }
 
-        public void setHasPermission(Boolean hasPermission) {
-            this.hasPermission = hasPermission;
+        public void setHbsPermission(Boolebn hbsPermission) {
+            this.hbsPermission = hbsPermission;
         }
     }
 
     /**
-     * Returns the <code>CacheInfo</code> object associated with this
-     * <code>ThreadGroup</code>.
+     * Returns the <code>CbcheInfo</code> object bssocibted with this
+     * <code>ThrebdGroup</code>.
      */
-    private static synchronized CacheInfo getCacheInfo() {
+    privbte stbtic synchronized CbcheInfo getCbcheInfo() {
         AppContext context = AppContext.getAppContext();
-        CacheInfo info = (CacheInfo)context.get(CacheInfo.class);
+        CbcheInfo info = (CbcheInfo)context.get(CbcheInfo.clbss);
         if (info == null) {
-            info = new CacheInfo();
-            context.put(CacheInfo.class, info);
+            info = new CbcheInfo();
+            context.put(CbcheInfo.clbss, info);
         }
         return info;
     }
 
     /**
-     * Returns the default temporary (cache) directory as defined by the
-     * java.io.tmpdir system property.
+     * Returns the defbult temporbry (cbche) directory bs defined by the
+     * jbvb.io.tmpdir system property.
      */
-    private static String getTempDir() {
-        GetPropertyAction a = new GetPropertyAction("java.io.tmpdir");
-        return AccessController.doPrivileged(a);
+    privbte stbtic String getTempDir() {
+        GetPropertyAction b = new GetPropertyAction("jbvb.io.tmpdir");
+        return AccessController.doPrivileged(b);
     }
 
     /**
-     * Determines whether the caller has write access to the cache
-     * directory, stores the result in the <code>CacheInfo</code> object,
-     * and returns the decision.  This method helps to prevent mysterious
-     * SecurityExceptions to be thrown when this convenience class is used
-     * in an applet, for example.
+     * Determines whether the cbller hbs write bccess to the cbche
+     * directory, stores the result in the <code>CbcheInfo</code> object,
+     * bnd returns the decision.  This method helps to prevent mysterious
+     * SecurityExceptions to be thrown when this convenience clbss is used
+     * in bn bpplet, for exbmple.
      */
-    private static boolean hasCachePermission() {
-        Boolean hasPermission = getCacheInfo().getHasPermission();
+    privbte stbtic boolebn hbsCbchePermission() {
+        Boolebn hbsPermission = getCbcheInfo().getHbsPermission();
 
-        if (hasPermission != null) {
-            return hasPermission.booleanValue();
+        if (hbsPermission != null) {
+            return hbsPermission.boolebnVblue();
         } else {
             try {
-                SecurityManager security = System.getSecurityManager();
+                SecurityMbnbger security = System.getSecurityMbnbger();
                 if (security != null) {
-                    File cachedir = getCacheDirectory();
-                    String cachepath;
+                    File cbchedir = getCbcheDirectory();
+                    String cbchepbth;
 
-                    if (cachedir != null) {
-                        cachepath = cachedir.getPath();
+                    if (cbchedir != null) {
+                        cbchepbth = cbchedir.getPbth();
                     } else {
-                        cachepath = getTempDir();
+                        cbchepbth = getTempDir();
 
-                        if (cachepath == null || cachepath.isEmpty()) {
-                            getCacheInfo().setHasPermission(Boolean.FALSE);
-                            return false;
+                        if (cbchepbth == null || cbchepbth.isEmpty()) {
+                            getCbcheInfo().setHbsPermission(Boolebn.FALSE);
+                            return fblse;
                         }
                     }
 
-                    // we have to check whether we can read, write,
-                    // and delete cache files.
-                    // So, compose cache file path and check it.
-                    String filepath = cachepath;
-                    if (!filepath.endsWith(File.separator)) {
-                        filepath += File.separator;
+                    // we hbve to check whether we cbn rebd, write,
+                    // bnd delete cbche files.
+                    // So, compose cbche file pbth bnd check it.
+                    String filepbth = cbchepbth;
+                    if (!filepbth.endsWith(File.sepbrbtor)) {
+                        filepbth += File.sepbrbtor;
                     }
-                    filepath += "*";
+                    filepbth += "*";
 
-                    security.checkPermission(new FilePermission(filepath, "read, write, delete"));
+                    security.checkPermission(new FilePermission(filepbth, "rebd, write, delete"));
                 }
-            } catch (SecurityException e) {
-                getCacheInfo().setHasPermission(Boolean.FALSE);
-                return false;
+            } cbtch (SecurityException e) {
+                getCbcheInfo().setHbsPermission(Boolebn.FALSE);
+                return fblse;
             }
 
-            getCacheInfo().setHasPermission(Boolean.TRUE);
+            getCbcheInfo().setHbsPermission(Boolebn.TRUE);
             return true;
         }
     }
 
     /**
-     * Sets a flag indicating whether a disk-based cache file should
-     * be used when creating <code>ImageInputStream</code>s and
-     * <code>ImageOutputStream</code>s.
+     * Sets b flbg indicbting whether b disk-bbsed cbche file should
+     * be used when crebting <code>ImbgeInputStrebm</code>s bnd
+     * <code>ImbgeOutputStrebm</code>s.
      *
-     * <p> When reading from a standard <code>InputStream</code>, it
-     * may be necessary to save previously read information in a cache
-     * since the underlying stream does not allow data to be re-read.
-     * Similarly, when writing to a standard
-     * <code>OutputStream</code>, a cache may be used to allow a
-     * previously written value to be changed before flushing it to
-     * the final destination.
+     * <p> When rebding from b stbndbrd <code>InputStrebm</code>, it
+     * mby be necessbry to sbve previously rebd informbtion in b cbche
+     * since the underlying strebm does not bllow dbtb to be re-rebd.
+     * Similbrly, when writing to b stbndbrd
+     * <code>OutputStrebm</code>, b cbche mby be used to bllow b
+     * previously written vblue to be chbnged before flushing it to
+     * the finbl destinbtion.
      *
-     * <p> The cache may reside in main memory or on disk.  Setting
-     * this flag to <code>false</code> disallows the use of disk for
-     * future streams, which may be advantageous when working with
-     * small images, as the overhead of creating and destroying files
+     * <p> The cbche mby reside in mbin memory or on disk.  Setting
+     * this flbg to <code>fblse</code> disbllows the use of disk for
+     * future strebms, which mby be bdvbntbgeous when working with
+     * smbll imbges, bs the overhebd of crebting bnd destroying files
      * is removed.
      *
-     * <p> On startup, the value is set to <code>true</code>.
+     * <p> On stbrtup, the vblue is set to <code>true</code>.
      *
-     * @param useCache a <code>boolean</code> indicating whether a
-     * cache file should be used, in cases where it is optional.
+     * @pbrbm useCbche b <code>boolebn</code> indicbting whether b
+     * cbche file should be used, in cbses where it is optionbl.
      *
-     * @see #getUseCache
+     * @see #getUseCbche
      */
-    public static void setUseCache(boolean useCache) {
-        getCacheInfo().setUseCache(useCache);
+    public stbtic void setUseCbche(boolebn useCbche) {
+        getCbcheInfo().setUseCbche(useCbche);
     }
 
     /**
-     * Returns the current value set by <code>setUseCache</code>, or
-     * <code>true</code> if no explicit setting has been made.
+     * Returns the current vblue set by <code>setUseCbche</code>, or
+     * <code>true</code> if no explicit setting hbs been mbde.
      *
-     * @return true if a disk-based cache may be used for
-     * <code>ImageInputStream</code>s and
-     * <code>ImageOutputStream</code>s.
+     * @return true if b disk-bbsed cbche mby be used for
+     * <code>ImbgeInputStrebm</code>s bnd
+     * <code>ImbgeOutputStrebm</code>s.
      *
-     * @see #setUseCache
+     * @see #setUseCbche
      */
-    public static boolean getUseCache() {
-        return getCacheInfo().getUseCache();
+    public stbtic boolebn getUseCbche() {
+        return getCbcheInfo().getUseCbche();
     }
 
     /**
-     * Sets the directory where cache files are to be created.  A
-     * value of <code>null</code> indicates that the system-dependent
-     * default temporary-file directory is to be used.  If
-     * <code>getUseCache</code> returns false, this value is ignored.
+     * Sets the directory where cbche files bre to be crebted.  A
+     * vblue of <code>null</code> indicbtes thbt the system-dependent
+     * defbult temporbry-file directory is to be used.  If
+     * <code>getUseCbche</code> returns fblse, this vblue is ignored.
      *
-     * @param cacheDirectory a <code>File</code> specifying a directory.
+     * @pbrbm cbcheDirectory b <code>File</code> specifying b directory.
      *
-     * @see File#createTempFile(String, String, File)
+     * @see File#crebteTempFile(String, String, File)
      *
-     * @exception SecurityException if the security manager denies
-     * access to the directory.
-     * @exception IllegalArgumentException if <code>cacheDir</code> is
-     * non-<code>null</code> but is not a directory.
+     * @exception SecurityException if the security mbnbger denies
+     * bccess to the directory.
+     * @exception IllegblArgumentException if <code>cbcheDir</code> is
+     * non-<code>null</code> but is not b directory.
      *
-     * @see #getCacheDirectory
+     * @see #getCbcheDirectory
      */
-    public static void setCacheDirectory(File cacheDirectory) {
-        if ((cacheDirectory != null) && !(cacheDirectory.isDirectory())) {
-            throw new IllegalArgumentException("Not a directory!");
+    public stbtic void setCbcheDirectory(File cbcheDirectory) {
+        if ((cbcheDirectory != null) && !(cbcheDirectory.isDirectory())) {
+            throw new IllegblArgumentException("Not b directory!");
         }
-        getCacheInfo().setCacheDirectory(cacheDirectory);
-        getCacheInfo().setHasPermission(null);
+        getCbcheInfo().setCbcheDirectory(cbcheDirectory);
+        getCbcheInfo().setHbsPermission(null);
     }
 
     /**
-     * Returns the current value set by
-     * <code>setCacheDirectory</code>, or <code>null</code> if no
-     * explicit setting has been made.
+     * Returns the current vblue set by
+     * <code>setCbcheDirectory</code>, or <code>null</code> if no
+     * explicit setting hbs been mbde.
      *
-     * @return a <code>File</code> indicating the directory where
-     * cache files will be created, or <code>null</code> to indicate
-     * the system-dependent default temporary-file directory.
+     * @return b <code>File</code> indicbting the directory where
+     * cbche files will be crebted, or <code>null</code> to indicbte
+     * the system-dependent defbult temporbry-file directory.
      *
-     * @see #setCacheDirectory
+     * @see #setCbcheDirectory
      */
-    public static File getCacheDirectory() {
-        return getCacheInfo().getCacheDirectory();
+    public stbtic File getCbcheDirectory() {
+        return getCbcheInfo().getCbcheDirectory();
     }
 
     /**
-     * Returns an <code>ImageInputStream</code> that will take its
+     * Returns bn <code>ImbgeInputStrebm</code> thbt will tbke its
      * input from the given <code>Object</code>.  The set of
-     * <code>ImageInputStreamSpi</code>s registered with the
-     * <code>IIORegistry</code> class is queried and the first one
-     * that is able to take input from the supplied object is used to
-     * create the returned <code>ImageInputStream</code>.  If no
-     * suitable <code>ImageInputStreamSpi</code> exists,
+     * <code>ImbgeInputStrebmSpi</code>s registered with the
+     * <code>IIORegistry</code> clbss is queried bnd the first one
+     * thbt is bble to tbke input from the supplied object is used to
+     * crebte the returned <code>ImbgeInputStrebm</code>.  If no
+     * suitbble <code>ImbgeInputStrebmSpi</code> exists,
      * <code>null</code> is returned.
      *
-     * <p> The current cache settings from <code>getUseCache</code>and
-     * <code>getCacheDirectory</code> will be used to control caching.
+     * <p> The current cbche settings from <code>getUseCbche</code>bnd
+     * <code>getCbcheDirectory</code> will be used to control cbching.
      *
-     * @param input an <code>Object</code> to be used as an input
-     * source, such as a <code>File</code>, readable
-     * <code>RandomAccessFile</code>, or <code>InputStream</code>.
+     * @pbrbm input bn <code>Object</code> to be used bs bn input
+     * source, such bs b <code>File</code>, rebdbble
+     * <code>RbndomAccessFile</code>, or <code>InputStrebm</code>.
      *
-     * @return an <code>ImageInputStream</code>, or <code>null</code>.
+     * @return bn <code>ImbgeInputStrebm</code>, or <code>null</code>.
      *
-     * @exception IllegalArgumentException if <code>input</code>
+     * @exception IllegblArgumentException if <code>input</code>
      * is <code>null</code>.
-     * @exception IOException if a cache file is needed but cannot be
-     * created.
+     * @exception IOException if b cbche file is needed but cbnnot be
+     * crebted.
      *
-     * @see javax.imageio.spi.ImageInputStreamSpi
+     * @see jbvbx.imbgeio.spi.ImbgeInputStrebmSpi
      */
-    public static ImageInputStream createImageInputStream(Object input)
+    public stbtic ImbgeInputStrebm crebteImbgeInputStrebm(Object input)
         throws IOException {
         if (input == null) {
-            throw new IllegalArgumentException("input == null!");
+            throw new IllegblArgumentException("input == null!");
         }
 
-        Iterator<ImageInputStreamSpi> iter;
-        // Ensure category is present
+        Iterbtor<ImbgeInputStrebmSpi> iter;
+        // Ensure cbtegory is present
         try {
-            iter = theRegistry.getServiceProviders(ImageInputStreamSpi.class,
+            iter = theRegistry.getServiceProviders(ImbgeInputStrebmSpi.clbss,
                                                    true);
-        } catch (IllegalArgumentException e) {
+        } cbtch (IllegblArgumentException e) {
             return null;
         }
 
-        boolean usecache = getUseCache() && hasCachePermission();
+        boolebn usecbche = getUseCbche() && hbsCbchePermission();
 
-        while (iter.hasNext()) {
-            ImageInputStreamSpi spi = iter.next();
-            if (spi.getInputClass().isInstance(input)) {
+        while (iter.hbsNext()) {
+            ImbgeInputStrebmSpi spi = iter.next();
+            if (spi.getInputClbss().isInstbnce(input)) {
                 try {
-                    return spi.createInputStreamInstance(input,
-                                                         usecache,
-                                                         getCacheDirectory());
-                } catch (IOException e) {
-                    throw new IIOException("Can't create cache file!", e);
+                    return spi.crebteInputStrebmInstbnce(input,
+                                                         usecbche,
+                                                         getCbcheDirectory());
+                } cbtch (IOException e) {
+                    throw new IIOException("Cbn't crebte cbche file!", e);
                 }
             }
         }
@@ -366,61 +366,61 @@ public final class ImageIO {
         return null;
     }
 
-    // ImageOutputStreams
+    // ImbgeOutputStrebms
 
     /**
-     * Returns an <code>ImageOutputStream</code> that will send its
+     * Returns bn <code>ImbgeOutputStrebm</code> thbt will send its
      * output to the given <code>Object</code>.  The set of
-     * <code>ImageOutputStreamSpi</code>s registered with the
-     * <code>IIORegistry</code> class is queried and the first one
-     * that is able to send output from the supplied object is used to
-     * create the returned <code>ImageOutputStream</code>.  If no
-     * suitable <code>ImageOutputStreamSpi</code> exists,
+     * <code>ImbgeOutputStrebmSpi</code>s registered with the
+     * <code>IIORegistry</code> clbss is queried bnd the first one
+     * thbt is bble to send output from the supplied object is used to
+     * crebte the returned <code>ImbgeOutputStrebm</code>.  If no
+     * suitbble <code>ImbgeOutputStrebmSpi</code> exists,
      * <code>null</code> is returned.
      *
-     * <p> The current cache settings from <code>getUseCache</code>and
-     * <code>getCacheDirectory</code> will be used to control caching.
+     * <p> The current cbche settings from <code>getUseCbche</code>bnd
+     * <code>getCbcheDirectory</code> will be used to control cbching.
      *
-     * @param output an <code>Object</code> to be used as an output
-     * destination, such as a <code>File</code>, writable
-     * <code>RandomAccessFile</code>, or <code>OutputStream</code>.
+     * @pbrbm output bn <code>Object</code> to be used bs bn output
+     * destinbtion, such bs b <code>File</code>, writbble
+     * <code>RbndomAccessFile</code>, or <code>OutputStrebm</code>.
      *
-     * @return an <code>ImageOutputStream</code>, or
+     * @return bn <code>ImbgeOutputStrebm</code>, or
      * <code>null</code>.
      *
-     * @exception IllegalArgumentException if <code>output</code> is
+     * @exception IllegblArgumentException if <code>output</code> is
      * <code>null</code>.
-     * @exception IOException if a cache file is needed but cannot be
-     * created.
+     * @exception IOException if b cbche file is needed but cbnnot be
+     * crebted.
      *
-     * @see javax.imageio.spi.ImageOutputStreamSpi
+     * @see jbvbx.imbgeio.spi.ImbgeOutputStrebmSpi
      */
-    public static ImageOutputStream createImageOutputStream(Object output)
+    public stbtic ImbgeOutputStrebm crebteImbgeOutputStrebm(Object output)
         throws IOException {
         if (output == null) {
-            throw new IllegalArgumentException("output == null!");
+            throw new IllegblArgumentException("output == null!");
         }
 
-        Iterator<ImageOutputStreamSpi> iter;
-        // Ensure category is present
+        Iterbtor<ImbgeOutputStrebmSpi> iter;
+        // Ensure cbtegory is present
         try {
-            iter = theRegistry.getServiceProviders(ImageOutputStreamSpi.class,
+            iter = theRegistry.getServiceProviders(ImbgeOutputStrebmSpi.clbss,
                                                    true);
-        } catch (IllegalArgumentException e) {
+        } cbtch (IllegblArgumentException e) {
             return null;
         }
 
-        boolean usecache = getUseCache() && hasCachePermission();
+        boolebn usecbche = getUseCbche() && hbsCbchePermission();
 
-        while (iter.hasNext()) {
-            ImageOutputStreamSpi spi = iter.next();
-            if (spi.getOutputClass().isInstance(output)) {
+        while (iter.hbsNext()) {
+            ImbgeOutputStrebmSpi spi = iter.next();
+            if (spi.getOutputClbss().isInstbnce(output)) {
                 try {
-                    return spi.createOutputStreamInstance(output,
-                                                          usecache,
-                                                          getCacheDirectory());
-                } catch (IOException e) {
-                    throw new IIOException("Can't create cache file!", e);
+                    return spi.crebteOutputStrebmInstbnce(output,
+                                                          usecbche,
+                                                          getCbcheDirectory());
+                } cbtch (IOException e) {
+                    throw new IIOException("Cbn't crebte cbche file!", e);
                 }
             }
         }
@@ -428,675 +428,675 @@ public final class ImageIO {
         return null;
     }
 
-    private static enum SpiInfo {
+    privbte stbtic enum SpiInfo {
         FORMAT_NAMES {
             @Override
-            String[] info(ImageReaderWriterSpi spi) {
-                return spi.getFormatNames();
+            String[] info(ImbgeRebderWriterSpi spi) {
+                return spi.getFormbtNbmes();
             }
         },
         MIME_TYPES {
             @Override
-            String[] info(ImageReaderWriterSpi spi) {
+            String[] info(ImbgeRebderWriterSpi spi) {
                 return spi.getMIMETypes();
             }
         },
         FILE_SUFFIXES {
             @Override
-            String[] info(ImageReaderWriterSpi spi) {
+            String[] info(ImbgeRebderWriterSpi spi) {
                 return spi.getFileSuffixes();
             }
         };
 
-        abstract String[] info(ImageReaderWriterSpi spi);
+        bbstrbct String[] info(ImbgeRebderWriterSpi spi);
     }
 
-    private static <S extends ImageReaderWriterSpi>
-        String[] getReaderWriterInfo(Class<S> spiClass, SpiInfo spiInfo)
+    privbte stbtic <S extends ImbgeRebderWriterSpi>
+        String[] getRebderWriterInfo(Clbss<S> spiClbss, SpiInfo spiInfo)
     {
-        // Ensure category is present
-        Iterator<S> iter;
+        // Ensure cbtegory is present
+        Iterbtor<S> iter;
         try {
-            iter = theRegistry.getServiceProviders(spiClass, true);
-        } catch (IllegalArgumentException e) {
+            iter = theRegistry.getServiceProviders(spiClbss, true);
+        } cbtch (IllegblArgumentException e) {
             return new String[0];
         }
 
-        HashSet<String> s = new HashSet<String>();
-        while (iter.hasNext()) {
-            ImageReaderWriterSpi spi = iter.next();
-            Collections.addAll(s, spiInfo.info(spi));
+        HbshSet<String> s = new HbshSet<String>();
+        while (iter.hbsNext()) {
+            ImbgeRebderWriterSpi spi = iter.next();
+            Collections.bddAll(s, spiInfo.info(spi));
         }
 
-        return s.toArray(new String[s.size()]);
+        return s.toArrby(new String[s.size()]);
     }
 
-    // Readers
+    // Rebders
 
     /**
-     * Returns an array of <code>String</code>s listing all of the
-     * informal format names understood by the current set of registered
-     * readers.
+     * Returns bn brrby of <code>String</code>s listing bll of the
+     * informbl formbt nbmes understood by the current set of registered
+     * rebders.
      *
-     * @return an array of <code>String</code>s.
+     * @return bn brrby of <code>String</code>s.
      */
-    public static String[] getReaderFormatNames() {
-        return getReaderWriterInfo(ImageReaderSpi.class,
+    public stbtic String[] getRebderFormbtNbmes() {
+        return getRebderWriterInfo(ImbgeRebderSpi.clbss,
                                    SpiInfo.FORMAT_NAMES);
     }
 
     /**
-     * Returns an array of <code>String</code>s listing all of the
+     * Returns bn brrby of <code>String</code>s listing bll of the
      * MIME types understood by the current set of registered
-     * readers.
+     * rebders.
      *
-     * @return an array of <code>String</code>s.
+     * @return bn brrby of <code>String</code>s.
      */
-    public static String[] getReaderMIMETypes() {
-        return getReaderWriterInfo(ImageReaderSpi.class,
+    public stbtic String[] getRebderMIMETypes() {
+        return getRebderWriterInfo(ImbgeRebderSpi.clbss,
                                    SpiInfo.MIME_TYPES);
     }
 
     /**
-     * Returns an array of <code>String</code>s listing all of the
-     * file suffixes associated with the formats understood
-     * by the current set of registered readers.
+     * Returns bn brrby of <code>String</code>s listing bll of the
+     * file suffixes bssocibted with the formbts understood
+     * by the current set of registered rebders.
      *
-     * @return an array of <code>String</code>s.
+     * @return bn brrby of <code>String</code>s.
      * @since 1.6
      */
-    public static String[] getReaderFileSuffixes() {
-        return getReaderWriterInfo(ImageReaderSpi.class,
+    public stbtic String[] getRebderFileSuffixes() {
+        return getRebderWriterInfo(ImbgeRebderSpi.clbss,
                                    SpiInfo.FILE_SUFFIXES);
     }
 
-    static class ImageReaderIterator implements Iterator<ImageReader> {
-        // Contains ImageReaderSpis
-        private Iterator<ImageReaderSpi> iter;
+    stbtic clbss ImbgeRebderIterbtor implements Iterbtor<ImbgeRebder> {
+        // Contbins ImbgeRebderSpis
+        privbte Iterbtor<ImbgeRebderSpi> iter;
 
-        public ImageReaderIterator(Iterator<ImageReaderSpi> iter) {
+        public ImbgeRebderIterbtor(Iterbtor<ImbgeRebderSpi> iter) {
             this.iter = iter;
         }
 
-        public boolean hasNext() {
-            return iter.hasNext();
+        public boolebn hbsNext() {
+            return iter.hbsNext();
         }
 
-        public ImageReader next() {
-            ImageReaderSpi spi = null;
+        public ImbgeRebder next() {
+            ImbgeRebderSpi spi = null;
             try {
                 spi = iter.next();
-                return spi.createReaderInstance();
-            } catch (IOException e) {
-                // Deregister the spi in this case, but only as
-                // an ImageReaderSpi
-                theRegistry.deregisterServiceProvider(spi, ImageReaderSpi.class);
+                return spi.crebteRebderInstbnce();
+            } cbtch (IOException e) {
+                // Deregister the spi in this cbse, but only bs
+                // bn ImbgeRebderSpi
+                theRegistry.deregisterServiceProvider(spi, ImbgeRebderSpi.clbss);
             }
             return null;
         }
 
         public void remove() {
-            throw new UnsupportedOperationException();
+            throw new UnsupportedOperbtionException();
         }
     }
 
-    static class CanDecodeInputFilter
+    stbtic clbss CbnDecodeInputFilter
         implements ServiceRegistry.Filter {
 
         Object input;
 
-        public CanDecodeInputFilter(Object input) {
+        public CbnDecodeInputFilter(Object input) {
             this.input = input;
         }
 
-        public boolean filter(Object elt) {
+        public boolebn filter(Object elt) {
             try {
-                ImageReaderSpi spi = (ImageReaderSpi)elt;
-                ImageInputStream stream = null;
-                if (input instanceof ImageInputStream) {
-                    stream = (ImageInputStream)input;
+                ImbgeRebderSpi spi = (ImbgeRebderSpi)elt;
+                ImbgeInputStrebm strebm = null;
+                if (input instbnceof ImbgeInputStrebm) {
+                    strebm = (ImbgeInputStrebm)input;
                 }
 
-                // Perform mark/reset as a defensive measure
-                // even though plug-ins are supposed to take
-                // care of it.
-                boolean canDecode = false;
-                if (stream != null) {
-                    stream.mark();
+                // Perform mbrk/reset bs b defensive mebsure
+                // even though plug-ins bre supposed to tbke
+                // cbre of it.
+                boolebn cbnDecode = fblse;
+                if (strebm != null) {
+                    strebm.mbrk();
                 }
-                canDecode = spi.canDecodeInput(input);
-                if (stream != null) {
-                    stream.reset();
+                cbnDecode = spi.cbnDecodeInput(input);
+                if (strebm != null) {
+                    strebm.reset();
                 }
 
-                return canDecode;
-            } catch (IOException e) {
-                return false;
+                return cbnDecode;
+            } cbtch (IOException e) {
+                return fblse;
             }
         }
     }
 
-    static class CanEncodeImageAndFormatFilter
+    stbtic clbss CbnEncodeImbgeAndFormbtFilter
         implements ServiceRegistry.Filter {
 
-        ImageTypeSpecifier type;
-        String formatName;
+        ImbgeTypeSpecifier type;
+        String formbtNbme;
 
-        public CanEncodeImageAndFormatFilter(ImageTypeSpecifier type,
-                                             String formatName) {
+        public CbnEncodeImbgeAndFormbtFilter(ImbgeTypeSpecifier type,
+                                             String formbtNbme) {
             this.type = type;
-            this.formatName = formatName;
+            this.formbtNbme = formbtNbme;
         }
 
-        public boolean filter(Object elt) {
-            ImageWriterSpi spi = (ImageWriterSpi)elt;
-            return Arrays.asList(spi.getFormatNames()).contains(formatName) &&
-                spi.canEncodeImage(type);
+        public boolebn filter(Object elt) {
+            ImbgeWriterSpi spi = (ImbgeWriterSpi)elt;
+            return Arrbys.bsList(spi.getFormbtNbmes()).contbins(formbtNbme) &&
+                spi.cbnEncodeImbge(type);
         }
     }
 
-    static class ContainsFilter
+    stbtic clbss ContbinsFilter
         implements ServiceRegistry.Filter {
 
         Method method;
-        String name;
+        String nbme;
 
-        // method returns an array of Strings
-        public ContainsFilter(Method method,
-                              String name) {
+        // method returns bn brrby of Strings
+        public ContbinsFilter(Method method,
+                              String nbme) {
             this.method = method;
-            this.name = name;
+            this.nbme = nbme;
         }
 
-        public boolean filter(Object elt) {
+        public boolebn filter(Object elt) {
             try {
-                return contains((String[])method.invoke(elt), name);
-            } catch (Exception e) {
-                return false;
+                return contbins((String[])method.invoke(elt), nbme);
+            } cbtch (Exception e) {
+                return fblse;
             }
         }
     }
 
     /**
-     * Returns an <code>Iterator</code> containing all currently
-     * registered <code>ImageReader</code>s that claim to be able to
-     * decode the supplied <code>Object</code>, typically an
-     * <code>ImageInputStream</code>.
+     * Returns bn <code>Iterbtor</code> contbining bll currently
+     * registered <code>ImbgeRebder</code>s thbt clbim to be bble to
+     * decode the supplied <code>Object</code>, typicblly bn
+     * <code>ImbgeInputStrebm</code>.
      *
-     * <p> The stream position is left at its prior position upon
+     * <p> The strebm position is left bt its prior position upon
      * exit from this method.
      *
-     * @param input an <code>ImageInputStream</code> or other
-     * <code>Object</code> containing encoded image data.
+     * @pbrbm input bn <code>ImbgeInputStrebm</code> or other
+     * <code>Object</code> contbining encoded imbge dbtb.
      *
-     * @return an <code>Iterator</code> containing <code>ImageReader</code>s.
+     * @return bn <code>Iterbtor</code> contbining <code>ImbgeRebder</code>s.
      *
-     * @exception IllegalArgumentException if <code>input</code> is
+     * @exception IllegblArgumentException if <code>input</code> is
      * <code>null</code>.
      *
-     * @see javax.imageio.spi.ImageReaderSpi#canDecodeInput
+     * @see jbvbx.imbgeio.spi.ImbgeRebderSpi#cbnDecodeInput
      */
-    public static Iterator<ImageReader> getImageReaders(Object input) {
+    public stbtic Iterbtor<ImbgeRebder> getImbgeRebders(Object input) {
         if (input == null) {
-            throw new IllegalArgumentException("input == null!");
+            throw new IllegblArgumentException("input == null!");
         }
-        Iterator<ImageReaderSpi> iter;
-        // Ensure category is present
+        Iterbtor<ImbgeRebderSpi> iter;
+        // Ensure cbtegory is present
         try {
-            iter = theRegistry.getServiceProviders(ImageReaderSpi.class,
-                                              new CanDecodeInputFilter(input),
+            iter = theRegistry.getServiceProviders(ImbgeRebderSpi.clbss,
+                                              new CbnDecodeInputFilter(input),
                                               true);
-        } catch (IllegalArgumentException e) {
-            return Collections.emptyIterator();
+        } cbtch (IllegblArgumentException e) {
+            return Collections.emptyIterbtor();
         }
 
-        return new ImageReaderIterator(iter);
+        return new ImbgeRebderIterbtor(iter);
     }
 
-    private static Method readerFormatNamesMethod;
-    private static Method readerFileSuffixesMethod;
-    private static Method readerMIMETypesMethod;
-    private static Method writerFormatNamesMethod;
-    private static Method writerFileSuffixesMethod;
-    private static Method writerMIMETypesMethod;
+    privbte stbtic Method rebderFormbtNbmesMethod;
+    privbte stbtic Method rebderFileSuffixesMethod;
+    privbte stbtic Method rebderMIMETypesMethod;
+    privbte stbtic Method writerFormbtNbmesMethod;
+    privbte stbtic Method writerFileSuffixesMethod;
+    privbte stbtic Method writerMIMETypesMethod;
 
-    static {
+    stbtic {
         try {
-            readerFormatNamesMethod =
-                ImageReaderSpi.class.getMethod("getFormatNames");
-            readerFileSuffixesMethod =
-                ImageReaderSpi.class.getMethod("getFileSuffixes");
-            readerMIMETypesMethod =
-                ImageReaderSpi.class.getMethod("getMIMETypes");
+            rebderFormbtNbmesMethod =
+                ImbgeRebderSpi.clbss.getMethod("getFormbtNbmes");
+            rebderFileSuffixesMethod =
+                ImbgeRebderSpi.clbss.getMethod("getFileSuffixes");
+            rebderMIMETypesMethod =
+                ImbgeRebderSpi.clbss.getMethod("getMIMETypes");
 
-            writerFormatNamesMethod =
-                ImageWriterSpi.class.getMethod("getFormatNames");
+            writerFormbtNbmesMethod =
+                ImbgeWriterSpi.clbss.getMethod("getFormbtNbmes");
             writerFileSuffixesMethod =
-                ImageWriterSpi.class.getMethod("getFileSuffixes");
+                ImbgeWriterSpi.clbss.getMethod("getFileSuffixes");
             writerMIMETypesMethod =
-                ImageWriterSpi.class.getMethod("getMIMETypes");
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
+                ImbgeWriterSpi.clbss.getMethod("getMIMETypes");
+        } cbtch (NoSuchMethodException e) {
+            e.printStbckTrbce();
         }
     }
 
     /**
-     * Returns an <code>Iterator</code> containing all currently
-     * registered <code>ImageReader</code>s that claim to be able to
-     * decode the named format.
+     * Returns bn <code>Iterbtor</code> contbining bll currently
+     * registered <code>ImbgeRebder</code>s thbt clbim to be bble to
+     * decode the nbmed formbt.
      *
-     * @param formatName a <code>String</code> containing the informal
-     * name of a format (<i>e.g.</i>, "jpeg" or "tiff".
+     * @pbrbm formbtNbme b <code>String</code> contbining the informbl
+     * nbme of b formbt (<i>e.g.</i>, "jpeg" or "tiff".
      *
-     * @return an <code>Iterator</code> containing
-     * <code>ImageReader</code>s.
+     * @return bn <code>Iterbtor</code> contbining
+     * <code>ImbgeRebder</code>s.
      *
-     * @exception IllegalArgumentException if <code>formatName</code>
+     * @exception IllegblArgumentException if <code>formbtNbme</code>
      * is <code>null</code>.
      *
-     * @see javax.imageio.spi.ImageReaderSpi#getFormatNames
+     * @see jbvbx.imbgeio.spi.ImbgeRebderSpi#getFormbtNbmes
      */
-    public static Iterator<ImageReader>
-        getImageReadersByFormatName(String formatName)
+    public stbtic Iterbtor<ImbgeRebder>
+        getImbgeRebdersByFormbtNbme(String formbtNbme)
     {
-        if (formatName == null) {
-            throw new IllegalArgumentException("formatName == null!");
+        if (formbtNbme == null) {
+            throw new IllegblArgumentException("formbtNbme == null!");
         }
-        Iterator<ImageReaderSpi> iter;
-        // Ensure category is present
+        Iterbtor<ImbgeRebderSpi> iter;
+        // Ensure cbtegory is present
         try {
-            iter = theRegistry.getServiceProviders(ImageReaderSpi.class,
-                                    new ContainsFilter(readerFormatNamesMethod,
-                                                       formatName),
+            iter = theRegistry.getServiceProviders(ImbgeRebderSpi.clbss,
+                                    new ContbinsFilter(rebderFormbtNbmesMethod,
+                                                       formbtNbme),
                                                 true);
-        } catch (IllegalArgumentException e) {
-            return Collections.emptyIterator();
+        } cbtch (IllegblArgumentException e) {
+            return Collections.emptyIterbtor();
         }
-        return new ImageReaderIterator(iter);
+        return new ImbgeRebderIterbtor(iter);
     }
 
     /**
-     * Returns an <code>Iterator</code> containing all currently
-     * registered <code>ImageReader</code>s that claim to be able to
+     * Returns bn <code>Iterbtor</code> contbining bll currently
+     * registered <code>ImbgeRebder</code>s thbt clbim to be bble to
      * decode files with the given suffix.
      *
-     * @param fileSuffix a <code>String</code> containing a file
+     * @pbrbm fileSuffix b <code>String</code> contbining b file
      * suffix (<i>e.g.</i>, "jpg" or "tiff").
      *
-     * @return an <code>Iterator</code> containing
-     * <code>ImageReader</code>s.
+     * @return bn <code>Iterbtor</code> contbining
+     * <code>ImbgeRebder</code>s.
      *
-     * @exception IllegalArgumentException if <code>fileSuffix</code>
+     * @exception IllegblArgumentException if <code>fileSuffix</code>
      * is <code>null</code>.
      *
-     * @see javax.imageio.spi.ImageReaderSpi#getFileSuffixes
+     * @see jbvbx.imbgeio.spi.ImbgeRebderSpi#getFileSuffixes
      */
-    public static Iterator<ImageReader>
-        getImageReadersBySuffix(String fileSuffix)
+    public stbtic Iterbtor<ImbgeRebder>
+        getImbgeRebdersBySuffix(String fileSuffix)
     {
         if (fileSuffix == null) {
-            throw new IllegalArgumentException("fileSuffix == null!");
+            throw new IllegblArgumentException("fileSuffix == null!");
         }
-        // Ensure category is present
-        Iterator<ImageReaderSpi> iter;
+        // Ensure cbtegory is present
+        Iterbtor<ImbgeRebderSpi> iter;
         try {
-            iter = theRegistry.getServiceProviders(ImageReaderSpi.class,
-                                   new ContainsFilter(readerFileSuffixesMethod,
+            iter = theRegistry.getServiceProviders(ImbgeRebderSpi.clbss,
+                                   new ContbinsFilter(rebderFileSuffixesMethod,
                                                       fileSuffix),
                                               true);
-        } catch (IllegalArgumentException e) {
-            return Collections.emptyIterator();
+        } cbtch (IllegblArgumentException e) {
+            return Collections.emptyIterbtor();
         }
-        return new ImageReaderIterator(iter);
+        return new ImbgeRebderIterbtor(iter);
     }
 
     /**
-     * Returns an <code>Iterator</code> containing all currently
-     * registered <code>ImageReader</code>s that claim to be able to
+     * Returns bn <code>Iterbtor</code> contbining bll currently
+     * registered <code>ImbgeRebder</code>s thbt clbim to be bble to
      * decode files with the given MIME type.
      *
-     * @param MIMEType a <code>String</code> containing a file
-     * suffix (<i>e.g.</i>, "image/jpeg" or "image/x-bmp").
+     * @pbrbm MIMEType b <code>String</code> contbining b file
+     * suffix (<i>e.g.</i>, "imbge/jpeg" or "imbge/x-bmp").
      *
-     * @return an <code>Iterator</code> containing
-     * <code>ImageReader</code>s.
+     * @return bn <code>Iterbtor</code> contbining
+     * <code>ImbgeRebder</code>s.
      *
-     * @exception IllegalArgumentException if <code>MIMEType</code> is
+     * @exception IllegblArgumentException if <code>MIMEType</code> is
      * <code>null</code>.
      *
-     * @see javax.imageio.spi.ImageReaderSpi#getMIMETypes
+     * @see jbvbx.imbgeio.spi.ImbgeRebderSpi#getMIMETypes
      */
-    public static Iterator<ImageReader>
-        getImageReadersByMIMEType(String MIMEType)
+    public stbtic Iterbtor<ImbgeRebder>
+        getImbgeRebdersByMIMEType(String MIMEType)
     {
         if (MIMEType == null) {
-            throw new IllegalArgumentException("MIMEType == null!");
+            throw new IllegblArgumentException("MIMEType == null!");
         }
-        // Ensure category is present
-        Iterator<ImageReaderSpi> iter;
+        // Ensure cbtegory is present
+        Iterbtor<ImbgeRebderSpi> iter;
         try {
-            iter = theRegistry.getServiceProviders(ImageReaderSpi.class,
-                                      new ContainsFilter(readerMIMETypesMethod,
+            iter = theRegistry.getServiceProviders(ImbgeRebderSpi.clbss,
+                                      new ContbinsFilter(rebderMIMETypesMethod,
                                                          MIMEType),
                                               true);
-        } catch (IllegalArgumentException e) {
-            return Collections.emptyIterator();
+        } cbtch (IllegblArgumentException e) {
+            return Collections.emptyIterbtor();
         }
-        return new ImageReaderIterator(iter);
+        return new ImbgeRebderIterbtor(iter);
     }
 
     // Writers
 
     /**
-     * Returns an array of <code>String</code>s listing all of the
-     * informal format names understood by the current set of registered
+     * Returns bn brrby of <code>String</code>s listing bll of the
+     * informbl formbt nbmes understood by the current set of registered
      * writers.
      *
-     * @return an array of <code>String</code>s.
+     * @return bn brrby of <code>String</code>s.
      */
-    public static String[] getWriterFormatNames() {
-        return getReaderWriterInfo(ImageWriterSpi.class,
+    public stbtic String[] getWriterFormbtNbmes() {
+        return getRebderWriterInfo(ImbgeWriterSpi.clbss,
                                    SpiInfo.FORMAT_NAMES);
     }
 
     /**
-     * Returns an array of <code>String</code>s listing all of the
+     * Returns bn brrby of <code>String</code>s listing bll of the
      * MIME types understood by the current set of registered
      * writers.
      *
-     * @return an array of <code>String</code>s.
+     * @return bn brrby of <code>String</code>s.
      */
-    public static String[] getWriterMIMETypes() {
-        return getReaderWriterInfo(ImageWriterSpi.class,
+    public stbtic String[] getWriterMIMETypes() {
+        return getRebderWriterInfo(ImbgeWriterSpi.clbss,
                                    SpiInfo.MIME_TYPES);
     }
 
     /**
-     * Returns an array of <code>String</code>s listing all of the
-     * file suffixes associated with the formats understood
+     * Returns bn brrby of <code>String</code>s listing bll of the
+     * file suffixes bssocibted with the formbts understood
      * by the current set of registered writers.
      *
-     * @return an array of <code>String</code>s.
+     * @return bn brrby of <code>String</code>s.
      * @since 1.6
      */
-    public static String[] getWriterFileSuffixes() {
-        return getReaderWriterInfo(ImageWriterSpi.class,
+    public stbtic String[] getWriterFileSuffixes() {
+        return getRebderWriterInfo(ImbgeWriterSpi.clbss,
                                    SpiInfo.FILE_SUFFIXES);
     }
 
-    static class ImageWriterIterator implements Iterator<ImageWriter> {
-        // Contains ImageWriterSpis
-        private Iterator<ImageWriterSpi> iter;
+    stbtic clbss ImbgeWriterIterbtor implements Iterbtor<ImbgeWriter> {
+        // Contbins ImbgeWriterSpis
+        privbte Iterbtor<ImbgeWriterSpi> iter;
 
-        public ImageWriterIterator(Iterator<ImageWriterSpi> iter) {
+        public ImbgeWriterIterbtor(Iterbtor<ImbgeWriterSpi> iter) {
             this.iter = iter;
         }
 
-        public boolean hasNext() {
-            return iter.hasNext();
+        public boolebn hbsNext() {
+            return iter.hbsNext();
         }
 
-        public ImageWriter next() {
-            ImageWriterSpi spi = null;
+        public ImbgeWriter next() {
+            ImbgeWriterSpi spi = null;
             try {
                 spi = iter.next();
-                return spi.createWriterInstance();
-            } catch (IOException e) {
-                // Deregister the spi in this case, but only as a writerSpi
-                theRegistry.deregisterServiceProvider(spi, ImageWriterSpi.class);
+                return spi.crebteWriterInstbnce();
+            } cbtch (IOException e) {
+                // Deregister the spi in this cbse, but only bs b writerSpi
+                theRegistry.deregisterServiceProvider(spi, ImbgeWriterSpi.clbss);
             }
             return null;
         }
 
         public void remove() {
-            throw new UnsupportedOperationException();
+            throw new UnsupportedOperbtionException();
         }
     }
 
-    private static boolean contains(String[] names, String name) {
-        for (int i = 0; i < names.length; i++) {
-            if (name.equalsIgnoreCase(names[i])) {
+    privbte stbtic boolebn contbins(String[] nbmes, String nbme) {
+        for (int i = 0; i < nbmes.length; i++) {
+            if (nbme.equblsIgnoreCbse(nbmes[i])) {
                 return true;
             }
         }
 
-        return false;
+        return fblse;
     }
 
     /**
-     * Returns an <code>Iterator</code> containing all currently
-     * registered <code>ImageWriter</code>s that claim to be able to
-     * encode the named format.
+     * Returns bn <code>Iterbtor</code> contbining bll currently
+     * registered <code>ImbgeWriter</code>s thbt clbim to be bble to
+     * encode the nbmed formbt.
      *
-     * @param formatName a <code>String</code> containing the informal
-     * name of a format (<i>e.g.</i>, "jpeg" or "tiff".
+     * @pbrbm formbtNbme b <code>String</code> contbining the informbl
+     * nbme of b formbt (<i>e.g.</i>, "jpeg" or "tiff".
      *
-     * @return an <code>Iterator</code> containing
-     * <code>ImageWriter</code>s.
+     * @return bn <code>Iterbtor</code> contbining
+     * <code>ImbgeWriter</code>s.
      *
-     * @exception IllegalArgumentException if <code>formatName</code> is
+     * @exception IllegblArgumentException if <code>formbtNbme</code> is
      * <code>null</code>.
      *
-     * @see javax.imageio.spi.ImageWriterSpi#getFormatNames
+     * @see jbvbx.imbgeio.spi.ImbgeWriterSpi#getFormbtNbmes
      */
-    public static Iterator<ImageWriter>
-        getImageWritersByFormatName(String formatName)
+    public stbtic Iterbtor<ImbgeWriter>
+        getImbgeWritersByFormbtNbme(String formbtNbme)
     {
-        if (formatName == null) {
-            throw new IllegalArgumentException("formatName == null!");
+        if (formbtNbme == null) {
+            throw new IllegblArgumentException("formbtNbme == null!");
         }
-        Iterator<ImageWriterSpi> iter;
-        // Ensure category is present
+        Iterbtor<ImbgeWriterSpi> iter;
+        // Ensure cbtegory is present
         try {
-            iter = theRegistry.getServiceProviders(ImageWriterSpi.class,
-                                    new ContainsFilter(writerFormatNamesMethod,
-                                                       formatName),
+            iter = theRegistry.getServiceProviders(ImbgeWriterSpi.clbss,
+                                    new ContbinsFilter(writerFormbtNbmesMethod,
+                                                       formbtNbme),
                                             true);
-        } catch (IllegalArgumentException e) {
-            return Collections.emptyIterator();
+        } cbtch (IllegblArgumentException e) {
+            return Collections.emptyIterbtor();
         }
-        return new ImageWriterIterator(iter);
+        return new ImbgeWriterIterbtor(iter);
     }
 
     /**
-     * Returns an <code>Iterator</code> containing all currently
-     * registered <code>ImageWriter</code>s that claim to be able to
+     * Returns bn <code>Iterbtor</code> contbining bll currently
+     * registered <code>ImbgeWriter</code>s thbt clbim to be bble to
      * encode files with the given suffix.
      *
-     * @param fileSuffix a <code>String</code> containing a file
+     * @pbrbm fileSuffix b <code>String</code> contbining b file
      * suffix (<i>e.g.</i>, "jpg" or "tiff").
      *
-     * @return an <code>Iterator</code> containing <code>ImageWriter</code>s.
+     * @return bn <code>Iterbtor</code> contbining <code>ImbgeWriter</code>s.
      *
-     * @exception IllegalArgumentException if <code>fileSuffix</code> is
+     * @exception IllegblArgumentException if <code>fileSuffix</code> is
      * <code>null</code>.
      *
-     * @see javax.imageio.spi.ImageWriterSpi#getFileSuffixes
+     * @see jbvbx.imbgeio.spi.ImbgeWriterSpi#getFileSuffixes
      */
-    public static Iterator<ImageWriter>
-        getImageWritersBySuffix(String fileSuffix)
+    public stbtic Iterbtor<ImbgeWriter>
+        getImbgeWritersBySuffix(String fileSuffix)
     {
         if (fileSuffix == null) {
-            throw new IllegalArgumentException("fileSuffix == null!");
+            throw new IllegblArgumentException("fileSuffix == null!");
         }
-        Iterator<ImageWriterSpi> iter;
-        // Ensure category is present
+        Iterbtor<ImbgeWriterSpi> iter;
+        // Ensure cbtegory is present
         try {
-            iter = theRegistry.getServiceProviders(ImageWriterSpi.class,
-                                   new ContainsFilter(writerFileSuffixesMethod,
+            iter = theRegistry.getServiceProviders(ImbgeWriterSpi.clbss,
+                                   new ContbinsFilter(writerFileSuffixesMethod,
                                                       fileSuffix),
                                             true);
-        } catch (IllegalArgumentException e) {
-            return Collections.emptyIterator();
+        } cbtch (IllegblArgumentException e) {
+            return Collections.emptyIterbtor();
         }
-        return new ImageWriterIterator(iter);
+        return new ImbgeWriterIterbtor(iter);
     }
 
     /**
-     * Returns an <code>Iterator</code> containing all currently
-     * registered <code>ImageWriter</code>s that claim to be able to
+     * Returns bn <code>Iterbtor</code> contbining bll currently
+     * registered <code>ImbgeWriter</code>s thbt clbim to be bble to
      * encode files with the given MIME type.
      *
-     * @param MIMEType a <code>String</code> containing a file
-     * suffix (<i>e.g.</i>, "image/jpeg" or "image/x-bmp").
+     * @pbrbm MIMEType b <code>String</code> contbining b file
+     * suffix (<i>e.g.</i>, "imbge/jpeg" or "imbge/x-bmp").
      *
-     * @return an <code>Iterator</code> containing <code>ImageWriter</code>s.
+     * @return bn <code>Iterbtor</code> contbining <code>ImbgeWriter</code>s.
      *
-     * @exception IllegalArgumentException if <code>MIMEType</code> is
+     * @exception IllegblArgumentException if <code>MIMEType</code> is
      * <code>null</code>.
      *
-     * @see javax.imageio.spi.ImageWriterSpi#getMIMETypes
+     * @see jbvbx.imbgeio.spi.ImbgeWriterSpi#getMIMETypes
      */
-    public static Iterator<ImageWriter>
-        getImageWritersByMIMEType(String MIMEType)
+    public stbtic Iterbtor<ImbgeWriter>
+        getImbgeWritersByMIMEType(String MIMEType)
     {
         if (MIMEType == null) {
-            throw new IllegalArgumentException("MIMEType == null!");
+            throw new IllegblArgumentException("MIMEType == null!");
         }
-        Iterator<ImageWriterSpi> iter;
-        // Ensure category is present
+        Iterbtor<ImbgeWriterSpi> iter;
+        // Ensure cbtegory is present
         try {
-            iter = theRegistry.getServiceProviders(ImageWriterSpi.class,
-                                      new ContainsFilter(writerMIMETypesMethod,
+            iter = theRegistry.getServiceProviders(ImbgeWriterSpi.clbss,
+                                      new ContbinsFilter(writerMIMETypesMethod,
                                                          MIMEType),
                                             true);
-        } catch (IllegalArgumentException e) {
-            return Collections.emptyIterator();
+        } cbtch (IllegblArgumentException e) {
+            return Collections.emptyIterbtor();
         }
-        return new ImageWriterIterator(iter);
+        return new ImbgeWriterIterbtor(iter);
     }
 
     /**
-     * Returns an <code>ImageWriter</code>corresponding to the given
-     * <code>ImageReader</code>, if there is one, or <code>null</code>
-     * if the plug-in for this <code>ImageReader</code> does not
-     * specify a corresponding <code>ImageWriter</code>, or if the
-     * given <code>ImageReader</code> is not registered.  This
-     * mechanism may be used to obtain an <code>ImageWriter</code>
-     * that will understand the internal structure of non-pixel
-     * metadata (as encoded by <code>IIOMetadata</code> objects)
-     * generated by the <code>ImageReader</code>.  By obtaining this
-     * data from the <code>ImageReader</code> and passing it on to the
-     * <code>ImageWriter</code> obtained with this method, a client
-     * program can read an image, modify it in some way, and write it
-     * back out preserving all metadata, without having to understand
-     * anything about the structure of the metadata, or even about
-     * the image format.  Note that this method returns the
+     * Returns bn <code>ImbgeWriter</code>corresponding to the given
+     * <code>ImbgeRebder</code>, if there is one, or <code>null</code>
+     * if the plug-in for this <code>ImbgeRebder</code> does not
+     * specify b corresponding <code>ImbgeWriter</code>, or if the
+     * given <code>ImbgeRebder</code> is not registered.  This
+     * mechbnism mby be used to obtbin bn <code>ImbgeWriter</code>
+     * thbt will understbnd the internbl structure of non-pixel
+     * metbdbtb (bs encoded by <code>IIOMetbdbtb</code> objects)
+     * generbted by the <code>ImbgeRebder</code>.  By obtbining this
+     * dbtb from the <code>ImbgeRebder</code> bnd pbssing it on to the
+     * <code>ImbgeWriter</code> obtbined with this method, b client
+     * progrbm cbn rebd bn imbge, modify it in some wby, bnd write it
+     * bbck out preserving bll metbdbtb, without hbving to understbnd
+     * bnything bbout the structure of the metbdbtb, or even bbout
+     * the imbge formbt.  Note thbt this method returns the
      * "preferred" writer, which is the first in the list returned by
-     * <code>javax.imageio.spi.ImageReaderSpi.getImageWriterSpiNames()</code>.
+     * <code>jbvbx.imbgeio.spi.ImbgeRebderSpi.getImbgeWriterSpiNbmes()</code>.
      *
-     * @param reader an instance of a registered <code>ImageReader</code>.
+     * @pbrbm rebder bn instbnce of b registered <code>ImbgeRebder</code>.
      *
-     * @return an <code>ImageWriter</code>, or null.
+     * @return bn <code>ImbgeWriter</code>, or null.
      *
-     * @exception IllegalArgumentException if <code>reader</code> is
+     * @exception IllegblArgumentException if <code>rebder</code> is
      * <code>null</code>.
      *
-     * @see #getImageReader(ImageWriter)
-     * @see javax.imageio.spi.ImageReaderSpi#getImageWriterSpiNames()
+     * @see #getImbgeRebder(ImbgeWriter)
+     * @see jbvbx.imbgeio.spi.ImbgeRebderSpi#getImbgeWriterSpiNbmes()
      */
-    public static ImageWriter getImageWriter(ImageReader reader) {
-        if (reader == null) {
-            throw new IllegalArgumentException("reader == null!");
+    public stbtic ImbgeWriter getImbgeWriter(ImbgeRebder rebder) {
+        if (rebder == null) {
+            throw new IllegblArgumentException("rebder == null!");
         }
 
-        ImageReaderSpi readerSpi = reader.getOriginatingProvider();
-        if (readerSpi == null) {
-            Iterator<ImageReaderSpi> readerSpiIter;
-            // Ensure category is present
+        ImbgeRebderSpi rebderSpi = rebder.getOriginbtingProvider();
+        if (rebderSpi == null) {
+            Iterbtor<ImbgeRebderSpi> rebderSpiIter;
+            // Ensure cbtegory is present
             try {
-                readerSpiIter =
-                    theRegistry.getServiceProviders(ImageReaderSpi.class,
-                                                    false);
-            } catch (IllegalArgumentException e) {
+                rebderSpiIter =
+                    theRegistry.getServiceProviders(ImbgeRebderSpi.clbss,
+                                                    fblse);
+            } cbtch (IllegblArgumentException e) {
                 return null;
             }
 
-            while (readerSpiIter.hasNext()) {
-                ImageReaderSpi temp = readerSpiIter.next();
-                if (temp.isOwnReader(reader)) {
-                    readerSpi = temp;
-                    break;
+            while (rebderSpiIter.hbsNext()) {
+                ImbgeRebderSpi temp = rebderSpiIter.next();
+                if (temp.isOwnRebder(rebder)) {
+                    rebderSpi = temp;
+                    brebk;
                 }
             }
-            if (readerSpi == null) {
+            if (rebderSpi == null) {
                 return null;
             }
         }
 
-        String[] writerNames = readerSpi.getImageWriterSpiNames();
-        if (writerNames == null) {
+        String[] writerNbmes = rebderSpi.getImbgeWriterSpiNbmes();
+        if (writerNbmes == null) {
             return null;
         }
 
-        Class<?> writerSpiClass = null;
+        Clbss<?> writerSpiClbss = null;
         try {
-            writerSpiClass = Class.forName(writerNames[0], true,
-                                           ClassLoader.getSystemClassLoader());
-        } catch (ClassNotFoundException e) {
+            writerSpiClbss = Clbss.forNbme(writerNbmes[0], true,
+                                           ClbssLobder.getSystemClbssLobder());
+        } cbtch (ClbssNotFoundException e) {
             return null;
         }
 
-        ImageWriterSpi writerSpi = (ImageWriterSpi)
-            theRegistry.getServiceProviderByClass(writerSpiClass);
+        ImbgeWriterSpi writerSpi = (ImbgeWriterSpi)
+            theRegistry.getServiceProviderByClbss(writerSpiClbss);
         if (writerSpi == null) {
             return null;
         }
 
         try {
-            return writerSpi.createWriterInstance();
-        } catch (IOException e) {
-            // Deregister the spi in this case, but only as a writerSpi
+            return writerSpi.crebteWriterInstbnce();
+        } cbtch (IOException e) {
+            // Deregister the spi in this cbse, but only bs b writerSpi
             theRegistry.deregisterServiceProvider(writerSpi,
-                                                  ImageWriterSpi.class);
+                                                  ImbgeWriterSpi.clbss);
             return null;
         }
     }
 
     /**
-     * Returns an <code>ImageReader</code>corresponding to the given
-     * <code>ImageWriter</code>, if there is one, or <code>null</code>
-     * if the plug-in for this <code>ImageWriter</code> does not
-     * specify a corresponding <code>ImageReader</code>, or if the
-     * given <code>ImageWriter</code> is not registered.  This method
-     * is provided principally for symmetry with
-     * <code>getImageWriter(ImageReader)</code>.  Note that this
-     * method returns the "preferred" reader, which is the first in
+     * Returns bn <code>ImbgeRebder</code>corresponding to the given
+     * <code>ImbgeWriter</code>, if there is one, or <code>null</code>
+     * if the plug-in for this <code>ImbgeWriter</code> does not
+     * specify b corresponding <code>ImbgeRebder</code>, or if the
+     * given <code>ImbgeWriter</code> is not registered.  This method
+     * is provided principblly for symmetry with
+     * <code>getImbgeWriter(ImbgeRebder)</code>.  Note thbt this
+     * method returns the "preferred" rebder, which is the first in
      * the list returned by
-     * javax.imageio.spi.ImageWriterSpi.<code>getImageReaderSpiNames()</code>.
+     * jbvbx.imbgeio.spi.ImbgeWriterSpi.<code>getImbgeRebderSpiNbmes()</code>.
      *
-     * @param writer an instance of a registered <code>ImageWriter</code>.
+     * @pbrbm writer bn instbnce of b registered <code>ImbgeWriter</code>.
      *
-     * @return an <code>ImageReader</code>, or null.
+     * @return bn <code>ImbgeRebder</code>, or null.
      *
-     * @exception IllegalArgumentException if <code>writer</code> is
+     * @exception IllegblArgumentException if <code>writer</code> is
      * <code>null</code>.
      *
-     * @see #getImageWriter(ImageReader)
-     * @see javax.imageio.spi.ImageWriterSpi#getImageReaderSpiNames()
+     * @see #getImbgeWriter(ImbgeRebder)
+     * @see jbvbx.imbgeio.spi.ImbgeWriterSpi#getImbgeRebderSpiNbmes()
      */
-    public static ImageReader getImageReader(ImageWriter writer) {
+    public stbtic ImbgeRebder getImbgeRebder(ImbgeWriter writer) {
         if (writer == null) {
-            throw new IllegalArgumentException("writer == null!");
+            throw new IllegblArgumentException("writer == null!");
         }
 
-        ImageWriterSpi writerSpi = writer.getOriginatingProvider();
+        ImbgeWriterSpi writerSpi = writer.getOriginbtingProvider();
         if (writerSpi == null) {
-            Iterator<ImageWriterSpi> writerSpiIter;
-            // Ensure category is present
+            Iterbtor<ImbgeWriterSpi> writerSpiIter;
+            // Ensure cbtegory is present
             try {
                 writerSpiIter =
-                    theRegistry.getServiceProviders(ImageWriterSpi.class,
-                                                    false);
-            } catch (IllegalArgumentException e) {
+                    theRegistry.getServiceProviders(ImbgeWriterSpi.clbss,
+                                                    fblse);
+            } cbtch (IllegblArgumentException e) {
                 return null;
             }
 
-            while (writerSpiIter.hasNext()) {
-                ImageWriterSpi temp = writerSpiIter.next();
+            while (writerSpiIter.hbsNext()) {
+                ImbgeWriterSpi temp = writerSpiIter.next();
                 if (temp.isOwnWriter(writer)) {
                     writerSpi = temp;
-                    break;
+                    brebk;
                 }
             }
             if (writerSpi == null) {
@@ -1104,495 +1104,495 @@ public final class ImageIO {
             }
         }
 
-        String[] readerNames = writerSpi.getImageReaderSpiNames();
-        if (readerNames == null) {
+        String[] rebderNbmes = writerSpi.getImbgeRebderSpiNbmes();
+        if (rebderNbmes == null) {
             return null;
         }
 
-        Class<?> readerSpiClass = null;
+        Clbss<?> rebderSpiClbss = null;
         try {
-            readerSpiClass = Class.forName(readerNames[0], true,
-                                           ClassLoader.getSystemClassLoader());
-        } catch (ClassNotFoundException e) {
+            rebderSpiClbss = Clbss.forNbme(rebderNbmes[0], true,
+                                           ClbssLobder.getSystemClbssLobder());
+        } cbtch (ClbssNotFoundException e) {
             return null;
         }
 
-        ImageReaderSpi readerSpi = (ImageReaderSpi)
-            theRegistry.getServiceProviderByClass(readerSpiClass);
-        if (readerSpi == null) {
+        ImbgeRebderSpi rebderSpi = (ImbgeRebderSpi)
+            theRegistry.getServiceProviderByClbss(rebderSpiClbss);
+        if (rebderSpi == null) {
             return null;
         }
 
         try {
-            return readerSpi.createReaderInstance();
-        } catch (IOException e) {
-            // Deregister the spi in this case, but only as a readerSpi
-            theRegistry.deregisterServiceProvider(readerSpi,
-                                                  ImageReaderSpi.class);
+            return rebderSpi.crebteRebderInstbnce();
+        } cbtch (IOException e) {
+            // Deregister the spi in this cbse, but only bs b rebderSpi
+            theRegistry.deregisterServiceProvider(rebderSpi,
+                                                  ImbgeRebderSpi.clbss);
             return null;
         }
     }
 
     /**
-     * Returns an <code>Iterator</code> containing all currently
-     * registered <code>ImageWriter</code>s that claim to be able to
-     * encode images of the given layout (specified using an
-     * <code>ImageTypeSpecifier</code>) in the given format.
+     * Returns bn <code>Iterbtor</code> contbining bll currently
+     * registered <code>ImbgeWriter</code>s thbt clbim to be bble to
+     * encode imbges of the given lbyout (specified using bn
+     * <code>ImbgeTypeSpecifier</code>) in the given formbt.
      *
-     * @param type an <code>ImageTypeSpecifier</code> indicating the
-     * layout of the image to be written.
-     * @param formatName the informal name of the <code>format</code>.
+     * @pbrbm type bn <code>ImbgeTypeSpecifier</code> indicbting the
+     * lbyout of the imbge to be written.
+     * @pbrbm formbtNbme the informbl nbme of the <code>formbt</code>.
      *
-     * @return an <code>Iterator</code> containing <code>ImageWriter</code>s.
+     * @return bn <code>Iterbtor</code> contbining <code>ImbgeWriter</code>s.
      *
-     * @exception IllegalArgumentException if any parameter is
+     * @exception IllegblArgumentException if bny pbrbmeter is
      * <code>null</code>.
      *
-     * @see javax.imageio.spi.ImageWriterSpi#canEncodeImage(ImageTypeSpecifier)
+     * @see jbvbx.imbgeio.spi.ImbgeWriterSpi#cbnEncodeImbge(ImbgeTypeSpecifier)
      */
-    public static Iterator<ImageWriter>
-        getImageWriters(ImageTypeSpecifier type, String formatName)
+    public stbtic Iterbtor<ImbgeWriter>
+        getImbgeWriters(ImbgeTypeSpecifier type, String formbtNbme)
     {
         if (type == null) {
-            throw new IllegalArgumentException("type == null!");
+            throw new IllegblArgumentException("type == null!");
         }
-        if (formatName == null) {
-            throw new IllegalArgumentException("formatName == null!");
+        if (formbtNbme == null) {
+            throw new IllegblArgumentException("formbtNbme == null!");
         }
 
-        Iterator<ImageWriterSpi> iter;
-        // Ensure category is present
+        Iterbtor<ImbgeWriterSpi> iter;
+        // Ensure cbtegory is present
         try {
-            iter = theRegistry.getServiceProviders(ImageWriterSpi.class,
-                                 new CanEncodeImageAndFormatFilter(type,
-                                                                   formatName),
+            iter = theRegistry.getServiceProviders(ImbgeWriterSpi.clbss,
+                                 new CbnEncodeImbgeAndFormbtFilter(type,
+                                                                   formbtNbme),
                                             true);
-        } catch (IllegalArgumentException e) {
-            return Collections.emptyIterator();
+        } cbtch (IllegblArgumentException e) {
+            return Collections.emptyIterbtor();
         }
 
-        return new ImageWriterIterator(iter);
+        return new ImbgeWriterIterbtor(iter);
     }
 
-    static class ImageTranscoderIterator
-        implements Iterator<ImageTranscoder>
+    stbtic clbss ImbgeTrbnscoderIterbtor
+        implements Iterbtor<ImbgeTrbnscoder>
     {
-        // Contains ImageTranscoderSpis
-        public Iterator<ImageTranscoderSpi> iter;
+        // Contbins ImbgeTrbnscoderSpis
+        public Iterbtor<ImbgeTrbnscoderSpi> iter;
 
-        public ImageTranscoderIterator(Iterator<ImageTranscoderSpi> iter) {
+        public ImbgeTrbnscoderIterbtor(Iterbtor<ImbgeTrbnscoderSpi> iter) {
             this.iter = iter;
         }
 
-        public boolean hasNext() {
-            return iter.hasNext();
+        public boolebn hbsNext() {
+            return iter.hbsNext();
         }
 
-        public ImageTranscoder next() {
-            ImageTranscoderSpi spi = null;
+        public ImbgeTrbnscoder next() {
+            ImbgeTrbnscoderSpi spi = null;
             spi = iter.next();
-            return spi.createTranscoderInstance();
+            return spi.crebteTrbnscoderInstbnce();
         }
 
         public void remove() {
-            throw new UnsupportedOperationException();
+            throw new UnsupportedOperbtionException();
         }
     }
 
-    static class TranscoderFilter
+    stbtic clbss TrbnscoderFilter
         implements ServiceRegistry.Filter {
 
-        String readerSpiName;
-        String writerSpiName;
+        String rebderSpiNbme;
+        String writerSpiNbme;
 
-        public TranscoderFilter(ImageReaderSpi readerSpi,
-                                ImageWriterSpi writerSpi) {
-            this.readerSpiName = readerSpi.getClass().getName();
-            this.writerSpiName = writerSpi.getClass().getName();
+        public TrbnscoderFilter(ImbgeRebderSpi rebderSpi,
+                                ImbgeWriterSpi writerSpi) {
+            this.rebderSpiNbme = rebderSpi.getClbss().getNbme();
+            this.writerSpiNbme = writerSpi.getClbss().getNbme();
         }
 
-        public boolean filter(Object elt) {
-            ImageTranscoderSpi spi = (ImageTranscoderSpi)elt;
-            String readerName = spi.getReaderServiceProviderName();
-            String writerName = spi.getWriterServiceProviderName();
-            return (readerName.equals(readerSpiName) &&
-                    writerName.equals(writerSpiName));
+        public boolebn filter(Object elt) {
+            ImbgeTrbnscoderSpi spi = (ImbgeTrbnscoderSpi)elt;
+            String rebderNbme = spi.getRebderServiceProviderNbme();
+            String writerNbme = spi.getWriterServiceProviderNbme();
+            return (rebderNbme.equbls(rebderSpiNbme) &&
+                    writerNbme.equbls(writerSpiNbme));
         }
     }
 
     /**
-     * Returns an <code>Iterator</code> containing all currently
-     * registered <code>ImageTranscoder</code>s that claim to be
-     * able to transcode between the metadata of the given
-     * <code>ImageReader</code> and <code>ImageWriter</code>.
+     * Returns bn <code>Iterbtor</code> contbining bll currently
+     * registered <code>ImbgeTrbnscoder</code>s thbt clbim to be
+     * bble to trbnscode between the metbdbtb of the given
+     * <code>ImbgeRebder</code> bnd <code>ImbgeWriter</code>.
      *
-     * @param reader an <code>ImageReader</code>.
-     * @param writer an <code>ImageWriter</code>.
+     * @pbrbm rebder bn <code>ImbgeRebder</code>.
+     * @pbrbm writer bn <code>ImbgeWriter</code>.
      *
-     * @return an <code>Iterator</code> containing
-     * <code>ImageTranscoder</code>s.
+     * @return bn <code>Iterbtor</code> contbining
+     * <code>ImbgeTrbnscoder</code>s.
      *
-     * @exception IllegalArgumentException if <code>reader</code> or
+     * @exception IllegblArgumentException if <code>rebder</code> or
      * <code>writer</code> is <code>null</code>.
      */
-    public static Iterator<ImageTranscoder>
-        getImageTranscoders(ImageReader reader, ImageWriter writer)
+    public stbtic Iterbtor<ImbgeTrbnscoder>
+        getImbgeTrbnscoders(ImbgeRebder rebder, ImbgeWriter writer)
     {
-        if (reader == null) {
-            throw new IllegalArgumentException("reader == null!");
+        if (rebder == null) {
+            throw new IllegblArgumentException("rebder == null!");
         }
         if (writer == null) {
-            throw new IllegalArgumentException("writer == null!");
+            throw new IllegblArgumentException("writer == null!");
         }
-        ImageReaderSpi readerSpi = reader.getOriginatingProvider();
-        ImageWriterSpi writerSpi = writer.getOriginatingProvider();
+        ImbgeRebderSpi rebderSpi = rebder.getOriginbtingProvider();
+        ImbgeWriterSpi writerSpi = writer.getOriginbtingProvider();
         ServiceRegistry.Filter filter =
-            new TranscoderFilter(readerSpi, writerSpi);
+            new TrbnscoderFilter(rebderSpi, writerSpi);
 
-        Iterator<ImageTranscoderSpi> iter;
-        // Ensure category is present
+        Iterbtor<ImbgeTrbnscoderSpi> iter;
+        // Ensure cbtegory is present
         try {
-            iter = theRegistry.getServiceProviders(ImageTranscoderSpi.class,
+            iter = theRegistry.getServiceProviders(ImbgeTrbnscoderSpi.clbss,
                                             filter, true);
-        } catch (IllegalArgumentException e) {
-            return Collections.emptyIterator();
+        } cbtch (IllegblArgumentException e) {
+            return Collections.emptyIterbtor();
         }
-        return new ImageTranscoderIterator(iter);
+        return new ImbgeTrbnscoderIterbtor(iter);
     }
 
     // All-in-one methods
 
     /**
-     * Returns a <code>BufferedImage</code> as the result of decoding
-     * a supplied <code>File</code> with an <code>ImageReader</code>
-     * chosen automatically from among those currently registered.
-     * The <code>File</code> is wrapped in an
-     * <code>ImageInputStream</code>.  If no registered
-     * <code>ImageReader</code> claims to be able to read the
-     * resulting stream, <code>null</code> is returned.
+     * Returns b <code>BufferedImbge</code> bs the result of decoding
+     * b supplied <code>File</code> with bn <code>ImbgeRebder</code>
+     * chosen butombticblly from bmong those currently registered.
+     * The <code>File</code> is wrbpped in bn
+     * <code>ImbgeInputStrebm</code>.  If no registered
+     * <code>ImbgeRebder</code> clbims to be bble to rebd the
+     * resulting strebm, <code>null</code> is returned.
      *
-     * <p> The current cache settings from <code>getUseCache</code>and
-     * <code>getCacheDirectory</code> will be used to control caching in the
-     * <code>ImageInputStream</code> that is created.
+     * <p> The current cbche settings from <code>getUseCbche</code>bnd
+     * <code>getCbcheDirectory</code> will be used to control cbching in the
+     * <code>ImbgeInputStrebm</code> thbt is crebted.
      *
-     * <p> Note that there is no <code>read</code> method that takes a
-     * filename as a <code>String</code>; use this method instead after
-     * creating a <code>File</code> from the filename.
+     * <p> Note thbt there is no <code>rebd</code> method thbt tbkes b
+     * filenbme bs b <code>String</code>; use this method instebd bfter
+     * crebting b <code>File</code> from the filenbme.
      *
-     * <p> This method does not attempt to locate
-     * <code>ImageReader</code>s that can read directly from a
-     * <code>File</code>; that may be accomplished using
-     * <code>IIORegistry</code> and <code>ImageReaderSpi</code>.
+     * <p> This method does not bttempt to locbte
+     * <code>ImbgeRebder</code>s thbt cbn rebd directly from b
+     * <code>File</code>; thbt mby be bccomplished using
+     * <code>IIORegistry</code> bnd <code>ImbgeRebderSpi</code>.
      *
-     * @param input a <code>File</code> to read from.
+     * @pbrbm input b <code>File</code> to rebd from.
      *
-     * @return a <code>BufferedImage</code> containing the decoded
+     * @return b <code>BufferedImbge</code> contbining the decoded
      * contents of the input, or <code>null</code>.
      *
-     * @exception IllegalArgumentException if <code>input</code> is
+     * @exception IllegblArgumentException if <code>input</code> is
      * <code>null</code>.
-     * @exception IOException if an error occurs during reading.
+     * @exception IOException if bn error occurs during rebding.
      */
-    public static BufferedImage read(File input) throws IOException {
+    public stbtic BufferedImbge rebd(File input) throws IOException {
         if (input == null) {
-            throw new IllegalArgumentException("input == null!");
+            throw new IllegblArgumentException("input == null!");
         }
-        if (!input.canRead()) {
-            throw new IIOException("Can't read input file!");
+        if (!input.cbnRebd()) {
+            throw new IIOException("Cbn't rebd input file!");
         }
 
-        ImageInputStream stream = createImageInputStream(input);
-        if (stream == null) {
-            throw new IIOException("Can't create an ImageInputStream!");
+        ImbgeInputStrebm strebm = crebteImbgeInputStrebm(input);
+        if (strebm == null) {
+            throw new IIOException("Cbn't crebte bn ImbgeInputStrebm!");
         }
-        BufferedImage bi = read(stream);
+        BufferedImbge bi = rebd(strebm);
         if (bi == null) {
-            stream.close();
+            strebm.close();
         }
         return bi;
     }
 
     /**
-     * Returns a <code>BufferedImage</code> as the result of decoding
-     * a supplied <code>InputStream</code> with an <code>ImageReader</code>
-     * chosen automatically from among those currently registered.
-     * The <code>InputStream</code> is wrapped in an
-     * <code>ImageInputStream</code>.  If no registered
-     * <code>ImageReader</code> claims to be able to read the
-     * resulting stream, <code>null</code> is returned.
+     * Returns b <code>BufferedImbge</code> bs the result of decoding
+     * b supplied <code>InputStrebm</code> with bn <code>ImbgeRebder</code>
+     * chosen butombticblly from bmong those currently registered.
+     * The <code>InputStrebm</code> is wrbpped in bn
+     * <code>ImbgeInputStrebm</code>.  If no registered
+     * <code>ImbgeRebder</code> clbims to be bble to rebd the
+     * resulting strebm, <code>null</code> is returned.
      *
-     * <p> The current cache settings from <code>getUseCache</code>and
-     * <code>getCacheDirectory</code> will be used to control caching in the
-     * <code>ImageInputStream</code> that is created.
+     * <p> The current cbche settings from <code>getUseCbche</code>bnd
+     * <code>getCbcheDirectory</code> will be used to control cbching in the
+     * <code>ImbgeInputStrebm</code> thbt is crebted.
      *
-     * <p> This method does not attempt to locate
-     * <code>ImageReader</code>s that can read directly from an
-     * <code>InputStream</code>; that may be accomplished using
-     * <code>IIORegistry</code> and <code>ImageReaderSpi</code>.
+     * <p> This method does not bttempt to locbte
+     * <code>ImbgeRebder</code>s thbt cbn rebd directly from bn
+     * <code>InputStrebm</code>; thbt mby be bccomplished using
+     * <code>IIORegistry</code> bnd <code>ImbgeRebderSpi</code>.
      *
      * <p> This method <em>does not</em> close the provided
-     * <code>InputStream</code> after the read operation has completed;
-     * it is the responsibility of the caller to close the stream, if desired.
+     * <code>InputStrebm</code> bfter the rebd operbtion hbs completed;
+     * it is the responsibility of the cbller to close the strebm, if desired.
      *
-     * @param input an <code>InputStream</code> to read from.
+     * @pbrbm input bn <code>InputStrebm</code> to rebd from.
      *
-     * @return a <code>BufferedImage</code> containing the decoded
+     * @return b <code>BufferedImbge</code> contbining the decoded
      * contents of the input, or <code>null</code>.
      *
-     * @exception IllegalArgumentException if <code>input</code> is
+     * @exception IllegblArgumentException if <code>input</code> is
      * <code>null</code>.
-     * @exception IOException if an error occurs during reading.
+     * @exception IOException if bn error occurs during rebding.
      */
-    public static BufferedImage read(InputStream input) throws IOException {
+    public stbtic BufferedImbge rebd(InputStrebm input) throws IOException {
         if (input == null) {
-            throw new IllegalArgumentException("input == null!");
+            throw new IllegblArgumentException("input == null!");
         }
 
-        ImageInputStream stream = createImageInputStream(input);
-        BufferedImage bi = read(stream);
+        ImbgeInputStrebm strebm = crebteImbgeInputStrebm(input);
+        BufferedImbge bi = rebd(strebm);
         if (bi == null) {
-            stream.close();
+            strebm.close();
         }
         return bi;
     }
 
     /**
-     * Returns a <code>BufferedImage</code> as the result of decoding
-     * a supplied <code>URL</code> with an <code>ImageReader</code>
-     * chosen automatically from among those currently registered.  An
-     * <code>InputStream</code> is obtained from the <code>URL</code>,
-     * which is wrapped in an <code>ImageInputStream</code>.  If no
-     * registered <code>ImageReader</code> claims to be able to read
-     * the resulting stream, <code>null</code> is returned.
+     * Returns b <code>BufferedImbge</code> bs the result of decoding
+     * b supplied <code>URL</code> with bn <code>ImbgeRebder</code>
+     * chosen butombticblly from bmong those currently registered.  An
+     * <code>InputStrebm</code> is obtbined from the <code>URL</code>,
+     * which is wrbpped in bn <code>ImbgeInputStrebm</code>.  If no
+     * registered <code>ImbgeRebder</code> clbims to be bble to rebd
+     * the resulting strebm, <code>null</code> is returned.
      *
-     * <p> The current cache settings from <code>getUseCache</code>and
-     * <code>getCacheDirectory</code> will be used to control caching in the
-     * <code>ImageInputStream</code> that is created.
+     * <p> The current cbche settings from <code>getUseCbche</code>bnd
+     * <code>getCbcheDirectory</code> will be used to control cbching in the
+     * <code>ImbgeInputStrebm</code> thbt is crebted.
      *
-     * <p> This method does not attempt to locate
-     * <code>ImageReader</code>s that can read directly from a
-     * <code>URL</code>; that may be accomplished using
-     * <code>IIORegistry</code> and <code>ImageReaderSpi</code>.
+     * <p> This method does not bttempt to locbte
+     * <code>ImbgeRebder</code>s thbt cbn rebd directly from b
+     * <code>URL</code>; thbt mby be bccomplished using
+     * <code>IIORegistry</code> bnd <code>ImbgeRebderSpi</code>.
      *
-     * @param input a <code>URL</code> to read from.
+     * @pbrbm input b <code>URL</code> to rebd from.
      *
-     * @return a <code>BufferedImage</code> containing the decoded
+     * @return b <code>BufferedImbge</code> contbining the decoded
      * contents of the input, or <code>null</code>.
      *
-     * @exception IllegalArgumentException if <code>input</code> is
+     * @exception IllegblArgumentException if <code>input</code> is
      * <code>null</code>.
-     * @exception IOException if an error occurs during reading.
+     * @exception IOException if bn error occurs during rebding.
      */
-    public static BufferedImage read(URL input) throws IOException {
+    public stbtic BufferedImbge rebd(URL input) throws IOException {
         if (input == null) {
-            throw new IllegalArgumentException("input == null!");
+            throw new IllegblArgumentException("input == null!");
         }
 
-        InputStream istream = null;
+        InputStrebm istrebm = null;
         try {
-            istream = input.openStream();
-        } catch (IOException e) {
-            throw new IIOException("Can't get input stream from URL!", e);
+            istrebm = input.openStrebm();
+        } cbtch (IOException e) {
+            throw new IIOException("Cbn't get input strebm from URL!", e);
         }
-        ImageInputStream stream = createImageInputStream(istream);
-        BufferedImage bi;
+        ImbgeInputStrebm strebm = crebteImbgeInputStrebm(istrebm);
+        BufferedImbge bi;
         try {
-            bi = read(stream);
+            bi = rebd(strebm);
             if (bi == null) {
-                stream.close();
+                strebm.close();
             }
-        } finally {
-            istream.close();
+        } finblly {
+            istrebm.close();
         }
         return bi;
     }
 
     /**
-     * Returns a <code>BufferedImage</code> as the result of decoding
-     * a supplied <code>ImageInputStream</code> with an
-     * <code>ImageReader</code> chosen automatically from among those
+     * Returns b <code>BufferedImbge</code> bs the result of decoding
+     * b supplied <code>ImbgeInputStrebm</code> with bn
+     * <code>ImbgeRebder</code> chosen butombticblly from bmong those
      * currently registered.  If no registered
-     * <code>ImageReader</code> claims to be able to read the stream,
+     * <code>ImbgeRebder</code> clbims to be bble to rebd the strebm,
      * <code>null</code> is returned.
      *
-     * <p> Unlike most other methods in this class, this method <em>does</em>
-     * close the provided <code>ImageInputStream</code> after the read
-     * operation has completed, unless <code>null</code> is returned,
-     * in which case this method <em>does not</em> close the stream.
+     * <p> Unlike most other methods in this clbss, this method <em>does</em>
+     * close the provided <code>ImbgeInputStrebm</code> bfter the rebd
+     * operbtion hbs completed, unless <code>null</code> is returned,
+     * in which cbse this method <em>does not</em> close the strebm.
      *
-     * @param stream an <code>ImageInputStream</code> to read from.
+     * @pbrbm strebm bn <code>ImbgeInputStrebm</code> to rebd from.
      *
-     * @return a <code>BufferedImage</code> containing the decoded
+     * @return b <code>BufferedImbge</code> contbining the decoded
      * contents of the input, or <code>null</code>.
      *
-     * @exception IllegalArgumentException if <code>stream</code> is
+     * @exception IllegblArgumentException if <code>strebm</code> is
      * <code>null</code>.
-     * @exception IOException if an error occurs during reading.
+     * @exception IOException if bn error occurs during rebding.
      */
-    public static BufferedImage read(ImageInputStream stream)
+    public stbtic BufferedImbge rebd(ImbgeInputStrebm strebm)
         throws IOException {
-        if (stream == null) {
-            throw new IllegalArgumentException("stream == null!");
+        if (strebm == null) {
+            throw new IllegblArgumentException("strebm == null!");
         }
 
-        Iterator<ImageReader> iter = getImageReaders(stream);
-        if (!iter.hasNext()) {
+        Iterbtor<ImbgeRebder> iter = getImbgeRebders(strebm);
+        if (!iter.hbsNext()) {
             return null;
         }
 
-        ImageReader reader = iter.next();
-        ImageReadParam param = reader.getDefaultReadParam();
-        reader.setInput(stream, true, true);
-        BufferedImage bi;
+        ImbgeRebder rebder = iter.next();
+        ImbgeRebdPbrbm pbrbm = rebder.getDefbultRebdPbrbm();
+        rebder.setInput(strebm, true, true);
+        BufferedImbge bi;
         try {
-            bi = reader.read(0, param);
-        } finally {
-            reader.dispose();
-            stream.close();
+            bi = rebder.rebd(0, pbrbm);
+        } finblly {
+            rebder.dispose();
+            strebm.close();
         }
         return bi;
     }
 
     /**
-     * Writes an image using the an arbitrary <code>ImageWriter</code>
-     * that supports the given format to an
-     * <code>ImageOutputStream</code>.  The image is written to the
-     * <code>ImageOutputStream</code> starting at the current stream
-     * pointer, overwriting existing stream data from that point
-     * forward, if present.
+     * Writes bn imbge using the bn brbitrbry <code>ImbgeWriter</code>
+     * thbt supports the given formbt to bn
+     * <code>ImbgeOutputStrebm</code>.  The imbge is written to the
+     * <code>ImbgeOutputStrebm</code> stbrting bt the current strebm
+     * pointer, overwriting existing strebm dbtb from thbt point
+     * forwbrd, if present.
      *
      * <p> This method <em>does not</em> close the provided
-     * <code>ImageOutputStream</code> after the write operation has completed;
-     * it is the responsibility of the caller to close the stream, if desired.
+     * <code>ImbgeOutputStrebm</code> bfter the write operbtion hbs completed;
+     * it is the responsibility of the cbller to close the strebm, if desired.
      *
-     * @param im a <code>RenderedImage</code> to be written.
-     * @param formatName a <code>String</code> containing the informal
-     * name of the format.
-     * @param output an <code>ImageOutputStream</code> to be written to.
+     * @pbrbm im b <code>RenderedImbge</code> to be written.
+     * @pbrbm formbtNbme b <code>String</code> contbining the informbl
+     * nbme of the formbt.
+     * @pbrbm output bn <code>ImbgeOutputStrebm</code> to be written to.
      *
-     * @return <code>false</code> if no appropriate writer is found.
+     * @return <code>fblse</code> if no bppropribte writer is found.
      *
-     * @exception IllegalArgumentException if any parameter is
+     * @exception IllegblArgumentException if bny pbrbmeter is
      * <code>null</code>.
-     * @exception IOException if an error occurs during writing.
+     * @exception IOException if bn error occurs during writing.
      */
-    public static boolean write(RenderedImage im,
-                                String formatName,
-                                ImageOutputStream output) throws IOException {
+    public stbtic boolebn write(RenderedImbge im,
+                                String formbtNbme,
+                                ImbgeOutputStrebm output) throws IOException {
         if (im == null) {
-            throw new IllegalArgumentException("im == null!");
+            throw new IllegblArgumentException("im == null!");
         }
-        if (formatName == null) {
-            throw new IllegalArgumentException("formatName == null!");
+        if (formbtNbme == null) {
+            throw new IllegblArgumentException("formbtNbme == null!");
         }
         if (output == null) {
-            throw new IllegalArgumentException("output == null!");
+            throw new IllegblArgumentException("output == null!");
         }
 
-        return doWrite(im, getWriter(im, formatName), output);
+        return doWrite(im, getWriter(im, formbtNbme), output);
     }
 
     /**
-     * Writes an image using an arbitrary <code>ImageWriter</code>
-     * that supports the given format to a <code>File</code>.  If
-     * there is already a <code>File</code> present, its contents are
-     * discarded.
+     * Writes bn imbge using bn brbitrbry <code>ImbgeWriter</code>
+     * thbt supports the given formbt to b <code>File</code>.  If
+     * there is blrebdy b <code>File</code> present, its contents bre
+     * discbrded.
      *
-     * @param im a <code>RenderedImage</code> to be written.
-     * @param formatName a <code>String</code> containing the informal
-     * name of the format.
-     * @param output a <code>File</code> to be written to.
+     * @pbrbm im b <code>RenderedImbge</code> to be written.
+     * @pbrbm formbtNbme b <code>String</code> contbining the informbl
+     * nbme of the formbt.
+     * @pbrbm output b <code>File</code> to be written to.
      *
-     * @return <code>false</code> if no appropriate writer is found.
+     * @return <code>fblse</code> if no bppropribte writer is found.
      *
-     * @exception IllegalArgumentException if any parameter is
+     * @exception IllegblArgumentException if bny pbrbmeter is
      * <code>null</code>.
-     * @exception IOException if an error occurs during writing.
+     * @exception IOException if bn error occurs during writing.
      */
-    public static boolean write(RenderedImage im,
-                                String formatName,
+    public stbtic boolebn write(RenderedImbge im,
+                                String formbtNbme,
                                 File output) throws IOException {
         if (output == null) {
-            throw new IllegalArgumentException("output == null!");
+            throw new IllegblArgumentException("output == null!");
         }
-        ImageOutputStream stream = null;
+        ImbgeOutputStrebm strebm = null;
 
-        ImageWriter writer = getWriter(im, formatName);
+        ImbgeWriter writer = getWriter(im, formbtNbme);
         if (writer == null) {
-            /* Do not make changes in the file system if we have
-             * no appropriate writer.
+            /* Do not mbke chbnges in the file system if we hbve
+             * no bppropribte writer.
              */
-            return false;
+            return fblse;
         }
 
         try {
             output.delete();
-            stream = createImageOutputStream(output);
-        } catch (IOException e) {
-            throw new IIOException("Can't create output stream!", e);
+            strebm = crebteImbgeOutputStrebm(output);
+        } cbtch (IOException e) {
+            throw new IIOException("Cbn't crebte output strebm!", e);
         }
 
         try {
-            return doWrite(im, writer, stream);
-        } finally {
-            stream.close();
+            return doWrite(im, writer, strebm);
+        } finblly {
+            strebm.close();
         }
     }
 
     /**
-     * Writes an image using an arbitrary <code>ImageWriter</code>
-     * that supports the given format to an <code>OutputStream</code>.
+     * Writes bn imbge using bn brbitrbry <code>ImbgeWriter</code>
+     * thbt supports the given formbt to bn <code>OutputStrebm</code>.
      *
      * <p> This method <em>does not</em> close the provided
-     * <code>OutputStream</code> after the write operation has completed;
-     * it is the responsibility of the caller to close the stream, if desired.
+     * <code>OutputStrebm</code> bfter the write operbtion hbs completed;
+     * it is the responsibility of the cbller to close the strebm, if desired.
      *
-     * <p> The current cache settings from <code>getUseCache</code>and
-     * <code>getCacheDirectory</code> will be used to control caching.
+     * <p> The current cbche settings from <code>getUseCbche</code>bnd
+     * <code>getCbcheDirectory</code> will be used to control cbching.
      *
-     * @param im a <code>RenderedImage</code> to be written.
-     * @param formatName a <code>String</code> containing the informal
-     * name of the format.
-     * @param output an <code>OutputStream</code> to be written to.
+     * @pbrbm im b <code>RenderedImbge</code> to be written.
+     * @pbrbm formbtNbme b <code>String</code> contbining the informbl
+     * nbme of the formbt.
+     * @pbrbm output bn <code>OutputStrebm</code> to be written to.
      *
-     * @return <code>false</code> if no appropriate writer is found.
+     * @return <code>fblse</code> if no bppropribte writer is found.
      *
-     * @exception IllegalArgumentException if any parameter is
+     * @exception IllegblArgumentException if bny pbrbmeter is
      * <code>null</code>.
-     * @exception IOException if an error occurs during writing.
+     * @exception IOException if bn error occurs during writing.
      */
-    public static boolean write(RenderedImage im,
-                                String formatName,
-                                OutputStream output) throws IOException {
+    public stbtic boolebn write(RenderedImbge im,
+                                String formbtNbme,
+                                OutputStrebm output) throws IOException {
         if (output == null) {
-            throw new IllegalArgumentException("output == null!");
+            throw new IllegblArgumentException("output == null!");
         }
-        ImageOutputStream stream = null;
+        ImbgeOutputStrebm strebm = null;
         try {
-            stream = createImageOutputStream(output);
-        } catch (IOException e) {
-            throw new IIOException("Can't create output stream!", e);
+            strebm = crebteImbgeOutputStrebm(output);
+        } cbtch (IOException e) {
+            throw new IIOException("Cbn't crebte output strebm!", e);
         }
 
         try {
-            return doWrite(im, getWriter(im, formatName), stream);
-        } finally {
-            stream.close();
+            return doWrite(im, getWriter(im, formbtNbme), strebm);
+        } finblly {
+            strebm.close();
         }
     }
 
     /**
-     * Returns <code>ImageWriter</code> instance according to given
-     * rendered image and image format or <code>null</code> if there
-     * is no appropriate writer.
+     * Returns <code>ImbgeWriter</code> instbnce bccording to given
+     * rendered imbge bnd imbge formbt or <code>null</code> if there
+     * is no bppropribte writer.
      */
-    private static ImageWriter getWriter(RenderedImage im,
-                                         String formatName) {
-        ImageTypeSpecifier type =
-            ImageTypeSpecifier.createFromRenderedImage(im);
-        Iterator<ImageWriter> iter = getImageWriters(type, formatName);
+    privbte stbtic ImbgeWriter getWriter(RenderedImbge im,
+                                         String formbtNbme) {
+        ImbgeTypeSpecifier type =
+            ImbgeTypeSpecifier.crebteFromRenderedImbge(im);
+        Iterbtor<ImbgeWriter> iter = getImbgeWriters(type, formbtNbme);
 
-        if (iter.hasNext()) {
+        if (iter.hbsNext()) {
             return iter.next();
         } else {
             return null;
@@ -1600,17 +1600,17 @@ public final class ImageIO {
     }
 
     /**
-     * Writes image to output stream  using given image writer.
+     * Writes imbge to output strebm  using given imbge writer.
      */
-    private static boolean doWrite(RenderedImage im, ImageWriter writer,
-                                 ImageOutputStream output) throws IOException {
+    privbte stbtic boolebn doWrite(RenderedImbge im, ImbgeWriter writer,
+                                 ImbgeOutputStrebm output) throws IOException {
         if (writer == null) {
-            return false;
+            return fblse;
         }
         writer.setOutput(output);
         try {
             writer.write(im);
-        } finally {
+        } finblly {
             writer.dispose();
             output.flush();
         }

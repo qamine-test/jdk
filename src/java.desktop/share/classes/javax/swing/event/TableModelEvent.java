@@ -1,93 +1,93 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.event;
+pbckbge jbvbx.swing.event;
 
-import java.util.EventObject;
-import javax.swing.table.*;
+import jbvb.util.EventObject;
+import jbvbx.swing.tbble.*;
 
 /**
- * TableModelEvent is used to notify listeners that a table model
- * has changed. The model event describes changes to a TableModel
- * and all references to rows and columns are in the co-ordinate
+ * TbbleModelEvent is used to notify listeners thbt b tbble model
+ * hbs chbnged. The model event describes chbnges to b TbbleModel
+ * bnd bll references to rows bnd columns bre in the co-ordinbte
  * system of the model.
- * Depending on the parameters used in the constructors, the TableModelevent
- * can be used to specify the following types of changes:
+ * Depending on the pbrbmeters used in the constructors, the TbbleModelevent
+ * cbn be used to specify the following types of chbnges:
  *
  * <pre>
- * TableModelEvent(source);              //  The data, ie. all rows changed
- * TableModelEvent(source, HEADER_ROW);  //  Structure change, reallocate TableColumns
- * TableModelEvent(source, 1);           //  Row 1 changed
- * TableModelEvent(source, 3, 6);        //  Rows 3 to 6 inclusive changed
- * TableModelEvent(source, 2, 2, 6);     //  Cell at (2, 6) changed
- * TableModelEvent(source, 3, 6, ALL_COLUMNS, INSERT); // Rows (3, 6) were inserted
- * TableModelEvent(source, 3, 6, ALL_COLUMNS, DELETE); // Rows (3, 6) were deleted
+ * TbbleModelEvent(source);              //  The dbtb, ie. bll rows chbnged
+ * TbbleModelEvent(source, HEADER_ROW);  //  Structure chbnge, rebllocbte TbbleColumns
+ * TbbleModelEvent(source, 1);           //  Row 1 chbnged
+ * TbbleModelEvent(source, 3, 6);        //  Rows 3 to 6 inclusive chbnged
+ * TbbleModelEvent(source, 2, 2, 6);     //  Cell bt (2, 6) chbnged
+ * TbbleModelEvent(source, 3, 6, ALL_COLUMNS, INSERT); // Rows (3, 6) were inserted
+ * TbbleModelEvent(source, 3, 6, ALL_COLUMNS, DELETE); // Rows (3, 6) were deleted
  * </pre>
  *
- * It is possible to use other combinations of the parameters, not all of them
- * are meaningful. By subclassing, you can add other information, for example:
- * whether the event WILL happen or DID happen. This makes the specification
- * of rows in DELETE events more useful but has not been included in
- * the swing package as the JTable only needs post-event notification.
+ * It is possible to use other combinbtions of the pbrbmeters, not bll of them
+ * bre mebningful. By subclbssing, you cbn bdd other informbtion, for exbmple:
+ * whether the event WILL hbppen or DID hbppen. This mbkes the specificbtion
+ * of rows in DELETE events more useful but hbs not been included in
+ * the swing pbckbge bs the JTbble only needs post-event notificbtion.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
- * @author Alan Chung
- * @author Philip Milne
- * @see TableModel
+ * @buthor Albn Chung
+ * @buthor Philip Milne
+ * @see TbbleModel
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class TableModelEvent extends java.util.EventObject
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public clbss TbbleModelEvent extends jbvb.util.EventObject
 {
-    /** Identifies the addition of new rows or columns. */
-    public static final int INSERT =  1;
-    /** Identifies a change to existing data. */
-    public static final int UPDATE =  0;
-    /** Identifies the removal of rows or columns. */
-    public static final int DELETE = -1;
+    /** Identifies the bddition of new rows or columns. */
+    public stbtic finbl int INSERT =  1;
+    /** Identifies b chbnge to existing dbtb. */
+    public stbtic finbl int UPDATE =  0;
+    /** Identifies the removbl of rows or columns. */
+    public stbtic finbl int DELETE = -1;
 
-    /** Identifies the header row. */
-    public static final int HEADER_ROW = -1;
+    /** Identifies the hebder row. */
+    public stbtic finbl int HEADER_ROW = -1;
 
-    /** Specifies all columns in a row or rows. */
-    public static final int ALL_COLUMNS = -1;
+    /** Specifies bll columns in b row or rows. */
+    public stbtic finbl int ALL_COLUMNS = -1;
 
 //
-//  Instance Variables
+//  Instbnce Vbribbles
 //
 
     protected int       type;
     protected int       firstRow;
-    protected int       lastRow;
+    protected int       lbstRow;
     protected int       column;
 
 //
@@ -95,83 +95,83 @@ public class TableModelEvent extends java.util.EventObject
 //
 
     /**
-     * All row data in the table has changed, listeners should discard any state
-     * that was based on the rows and requery the <code>TableModel</code>
-     * to get the new row count and all the appropriate values.
-     * The <code>JTable</code> will repaint the entire visible region on
-     * receiving this event, querying the model for the cell values that are visible.
-     * The structure of the table ie, the column names, types and order
-     * have not changed.
+     * All row dbtb in the tbble hbs chbnged, listeners should discbrd bny stbte
+     * thbt wbs bbsed on the rows bnd requery the <code>TbbleModel</code>
+     * to get the new row count bnd bll the bppropribte vblues.
+     * The <code>JTbble</code> will repbint the entire visible region on
+     * receiving this event, querying the model for the cell vblues thbt bre visible.
+     * The structure of the tbble ie, the column nbmes, types bnd order
+     * hbve not chbnged.
      *
-     * @param source the {@code TableModel} affected by this event
+     * @pbrbm source the {@code TbbleModel} bffected by this event
      */
-    public TableModelEvent(TableModel source) {
-        // Use Integer.MAX_VALUE instead of getRowCount() in case rows were deleted.
+    public TbbleModelEvent(TbbleModel source) {
+        // Use Integer.MAX_VALUE instebd of getRowCount() in cbse rows were deleted.
         this(source, 0, Integer.MAX_VALUE, ALL_COLUMNS, UPDATE);
     }
 
     /**
-     * This row of data has been updated.
-     * To denote the arrival of a completely new table with a different structure
-     * use <code>HEADER_ROW</code> as the value for the <code>row</code>.
-     * When the <code>JTable</code> receives this event and its
-     * <code>autoCreateColumnsFromModel</code>
-     * flag is set it discards any TableColumns that it had and reallocates
-     * default ones in the order they appear in the model. This is the
-     * same as calling <code>setModel(TableModel)</code> on the <code>JTable</code>.
+     * This row of dbtb hbs been updbted.
+     * To denote the brrivbl of b completely new tbble with b different structure
+     * use <code>HEADER_ROW</code> bs the vblue for the <code>row</code>.
+     * When the <code>JTbble</code> receives this event bnd its
+     * <code>butoCrebteColumnsFromModel</code>
+     * flbg is set it discbrds bny TbbleColumns thbt it hbd bnd rebllocbtes
+     * defbult ones in the order they bppebr in the model. This is the
+     * sbme bs cblling <code>setModel(TbbleModel)</code> on the <code>JTbble</code>.
      *
-     * @param source the {@code TableModel} affected by this event
-     * @param row the row which has been updated
+     * @pbrbm source the {@code TbbleModel} bffected by this event
+     * @pbrbm row the row which hbs been updbted
      */
-    public TableModelEvent(TableModel source, int row) {
+    public TbbleModelEvent(TbbleModel source, int row) {
         this(source, row, row, ALL_COLUMNS, UPDATE);
     }
 
     /**
-     * The data in rows [<I>firstRow</I>, <I>lastRow</I>] have been updated.
+     * The dbtb in rows [<I>firstRow</I>, <I>lbstRow</I>] hbve been updbted.
      *
-     * @param source the {@code TableModel} affected by this event
-     * @param firstRow the first row affected by this event
-     * @param lastRow  the last row affected by this event
+     * @pbrbm source the {@code TbbleModel} bffected by this event
+     * @pbrbm firstRow the first row bffected by this event
+     * @pbrbm lbstRow  the lbst row bffected by this event
      */
-    public TableModelEvent(TableModel source, int firstRow, int lastRow) {
-        this(source, firstRow, lastRow, ALL_COLUMNS, UPDATE);
+    public TbbleModelEvent(TbbleModel source, int firstRow, int lbstRow) {
+        this(source, firstRow, lbstRow, ALL_COLUMNS, UPDATE);
     }
 
     /**
-     *  The cells in column <I>column</I> in the range
-     *  [<I>firstRow</I>, <I>lastRow</I>] have been updated.
+     *  The cells in column <I>column</I> in the rbnge
+     *  [<I>firstRow</I>, <I>lbstRow</I>] hbve been updbted.
      *
-     * @param source the {@code TableModel} affected by this event
-     * @param firstRow the first row affected by this event
-     * @param lastRow  the last row affected by this event
-     * @param column the column index of cells changed; {@code ALL_COLUMNS}
-     *        signifies all cells in the specified range of rows are changed.
+     * @pbrbm source the {@code TbbleModel} bffected by this event
+     * @pbrbm firstRow the first row bffected by this event
+     * @pbrbm lbstRow  the lbst row bffected by this event
+     * @pbrbm column the column index of cells chbnged; {@code ALL_COLUMNS}
+     *        signifies bll cells in the specified rbnge of rows bre chbnged.
      */
-    public TableModelEvent(TableModel source, int firstRow, int lastRow, int column) {
-        this(source, firstRow, lastRow, column, UPDATE);
+    public TbbleModelEvent(TbbleModel source, int firstRow, int lbstRow, int column) {
+        this(source, firstRow, lbstRow, column, UPDATE);
     }
 
     /**
-     * The cells from (firstRow, column) to (lastRow, column) have been changed.
+     * The cells from (firstRow, column) to (lbstRow, column) hbve been chbnged.
      * The <I>column</I> refers to the column index of the cell in the model's
-     * co-ordinate system. When <I>column</I> is ALL_COLUMNS, all cells in the
-     * specified range of rows are considered changed.
+     * co-ordinbte system. When <I>column</I> is ALL_COLUMNS, bll cells in the
+     * specified rbnge of rows bre considered chbnged.
      * <p>
-     * The <I>type</I> should be one of: INSERT, UPDATE and DELETE.
+     * The <I>type</I> should be one of: INSERT, UPDATE bnd DELETE.
      *
-     * @param source the {@code TableModel} affected by this event
-     * @param firstRow the first row affected by this event
-     * @param lastRow  the last row affected by this event
-     * @param column the column index of cells changed; {@code ALL_COLUMNS}
-     *        signifies all cells in the specified range of rows are changed.
-     * @param type the type of change signified by this even, @code INSERT},
+     * @pbrbm source the {@code TbbleModel} bffected by this event
+     * @pbrbm firstRow the first row bffected by this event
+     * @pbrbm lbstRow  the lbst row bffected by this event
+     * @pbrbm column the column index of cells chbnged; {@code ALL_COLUMNS}
+     *        signifies bll cells in the specified rbnge of rows bre chbnged.
+     * @pbrbm type the type of chbnge signified by this even, @code INSERT},
      *        {@code DELETE } or {@code UPDATE}
      */
-    public TableModelEvent(TableModel source, int firstRow, int lastRow, int column, int type) {
+    public TbbleModelEvent(TbbleModel source, int firstRow, int lbstRow, int column, int type) {
         super(source);
         this.firstRow = firstRow;
-        this.lastRow = lastRow;
+        this.lbstRow = lbstRow;
         this.column = column;
         this.type = type;
     }
@@ -181,35 +181,35 @@ public class TableModelEvent extends java.util.EventObject
 //
 
     /**
-     * Returns the first row that changed.  HEADER_ROW means the meta data,
-     * ie. names, types and order of the columns.
+     * Returns the first row thbt chbnged.  HEADER_ROW mebns the metb dbtb,
+     * ie. nbmes, types bnd order of the columns.
      *
-     * @return an integer signifying the first row changed
+     * @return bn integer signifying the first row chbnged
      */
     public int getFirstRow() { return firstRow; };
 
     /**
-     * Returns the last row that changed.
+     * Returns the lbst row thbt chbnged.
      *
-     * @return an integer signifying the last row changed
+     * @return bn integer signifying the lbst row chbnged
      */
-    public int getLastRow() { return lastRow; };
+    public int getLbstRow() { return lbstRow; };
 
     /**
      *  Returns the column for the event.  If the return
-     *  value is ALL_COLUMNS; it means every column in the specified
-     *  rows changed.
+     *  vblue is ALL_COLUMNS; it mebns every column in the specified
+     *  rows chbnged.
      *
-     * @return an integer signifying which column is affected by this event
+     * @return bn integer signifying which column is bffected by this event
      */
     public int getColumn() { return column; };
 
     /**
-     *  Returns the type of event - one of: INSERT, UPDATE and DELETE.
+     *  Returns the type of event - one of: INSERT, UPDATE bnd DELETE.
      *
-     * @return the type of change to a table model, an {@code INSERT} or
+     * @return the type of chbnge to b tbble model, bn {@code INSERT} or
      *         {@code DELETE } of row(s) or column(s) or {@code UPDATE}
-     *         to data
+     *         to dbtb
      */
     public int getType() { return type; }
 }

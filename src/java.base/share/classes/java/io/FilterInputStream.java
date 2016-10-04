@@ -1,150 +1,150 @@
 /*
- * Copyright (c) 1994, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1994, 2010, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.io;
+pbckbge jbvb.io;
 
 /**
- * A <code>FilterInputStream</code> contains
- * some other input stream, which it uses as
- * its  basic source of data, possibly transforming
- * the data along the way or providing  additional
- * functionality. The class <code>FilterInputStream</code>
- * itself simply overrides all  methods of
- * <code>InputStream</code> with versions that
- * pass all requests to the contained  input
- * stream. Subclasses of <code>FilterInputStream</code>
- * may further override some of  these methods
- * and may also provide additional methods
- * and fields.
+ * A <code>FilterInputStrebm</code> contbins
+ * some other input strebm, which it uses bs
+ * its  bbsic source of dbtb, possibly trbnsforming
+ * the dbtb blong the wby or providing  bdditionbl
+ * functionblity. The clbss <code>FilterInputStrebm</code>
+ * itself simply overrides bll  methods of
+ * <code>InputStrebm</code> with versions thbt
+ * pbss bll requests to the contbined  input
+ * strebm. Subclbsses of <code>FilterInputStrebm</code>
+ * mby further override some of  these methods
+ * bnd mby blso provide bdditionbl methods
+ * bnd fields.
  *
- * @author  Jonathan Payne
+ * @buthor  Jonbthbn Pbyne
  * @since   1.0
  */
 public
-class FilterInputStream extends InputStream {
+clbss FilterInputStrebm extends InputStrebm {
     /**
-     * The input stream to be filtered.
+     * The input strebm to be filtered.
      */
-    protected volatile InputStream in;
+    protected volbtile InputStrebm in;
 
     /**
-     * Creates a <code>FilterInputStream</code>
-     * by assigning the  argument <code>in</code>
-     * to the field <code>this.in</code> so as
-     * to remember it for later use.
+     * Crebtes b <code>FilterInputStrebm</code>
+     * by bssigning the  brgument <code>in</code>
+     * to the field <code>this.in</code> so bs
+     * to remember it for lbter use.
      *
-     * @param   in   the underlying input stream, or <code>null</code> if
-     *          this instance is to be created without an underlying stream.
+     * @pbrbm   in   the underlying input strebm, or <code>null</code> if
+     *          this instbnce is to be crebted without bn underlying strebm.
      */
-    protected FilterInputStream(InputStream in) {
+    protected FilterInputStrebm(InputStrebm in) {
         this.in = in;
     }
 
     /**
-     * Reads the next byte of data from this input stream. The value
-     * byte is returned as an <code>int</code> in the range
-     * <code>0</code> to <code>255</code>. If no byte is available
-     * because the end of the stream has been reached, the value
-     * <code>-1</code> is returned. This method blocks until input data
-     * is available, the end of the stream is detected, or an exception
+     * Rebds the next byte of dbtb from this input strebm. The vblue
+     * byte is returned bs bn <code>int</code> in the rbnge
+     * <code>0</code> to <code>255</code>. If no byte is bvbilbble
+     * becbuse the end of the strebm hbs been rebched, the vblue
+     * <code>-1</code> is returned. This method blocks until input dbtb
+     * is bvbilbble, the end of the strebm is detected, or bn exception
      * is thrown.
      * <p>
      * This method
-     * simply performs <code>in.read()</code> and returns the result.
+     * simply performs <code>in.rebd()</code> bnd returns the result.
      *
-     * @return     the next byte of data, or <code>-1</code> if the end of the
-     *             stream is reached.
-     * @exception  IOException  if an I/O error occurs.
-     * @see        java.io.FilterInputStream#in
+     * @return     the next byte of dbtb, or <code>-1</code> if the end of the
+     *             strebm is rebched.
+     * @exception  IOException  if bn I/O error occurs.
+     * @see        jbvb.io.FilterInputStrebm#in
      */
-    public int read() throws IOException {
-        return in.read();
+    public int rebd() throws IOException {
+        return in.rebd();
     }
 
     /**
-     * Reads up to <code>byte.length</code> bytes of data from this
-     * input stream into an array of bytes. This method blocks until some
-     * input is available.
+     * Rebds up to <code>byte.length</code> bytes of dbtb from this
+     * input strebm into bn brrby of bytes. This method blocks until some
+     * input is bvbilbble.
      * <p>
-     * This method simply performs the call
-     * <code>read(b, 0, b.length)</code> and returns
-     * the  result. It is important that it does
-     * <i>not</i> do <code>in.read(b)</code> instead;
-     * certain subclasses of  <code>FilterInputStream</code>
-     * depend on the implementation strategy actually
+     * This method simply performs the cbll
+     * <code>rebd(b, 0, b.length)</code> bnd returns
+     * the  result. It is importbnt thbt it does
+     * <i>not</i> do <code>in.rebd(b)</code> instebd;
+     * certbin subclbsses of  <code>FilterInputStrebm</code>
+     * depend on the implementbtion strbtegy bctublly
      * used.
      *
-     * @param      b   the buffer into which the data is read.
-     * @return     the total number of bytes read into the buffer, or
-     *             <code>-1</code> if there is no more data because the end of
-     *             the stream has been reached.
-     * @exception  IOException  if an I/O error occurs.
-     * @see        java.io.FilterInputStream#read(byte[], int, int)
+     * @pbrbm      b   the buffer into which the dbtb is rebd.
+     * @return     the totbl number of bytes rebd into the buffer, or
+     *             <code>-1</code> if there is no more dbtb becbuse the end of
+     *             the strebm hbs been rebched.
+     * @exception  IOException  if bn I/O error occurs.
+     * @see        jbvb.io.FilterInputStrebm#rebd(byte[], int, int)
      */
-    public int read(byte b[]) throws IOException {
-        return read(b, 0, b.length);
+    public int rebd(byte b[]) throws IOException {
+        return rebd(b, 0, b.length);
     }
 
     /**
-     * Reads up to <code>len</code> bytes of data from this input stream
-     * into an array of bytes. If <code>len</code> is not zero, the method
-     * blocks until some input is available; otherwise, no
-     * bytes are read and <code>0</code> is returned.
+     * Rebds up to <code>len</code> bytes of dbtb from this input strebm
+     * into bn brrby of bytes. If <code>len</code> is not zero, the method
+     * blocks until some input is bvbilbble; otherwise, no
+     * bytes bre rebd bnd <code>0</code> is returned.
      * <p>
-     * This method simply performs <code>in.read(b, off, len)</code>
-     * and returns the result.
+     * This method simply performs <code>in.rebd(b, off, len)</code>
+     * bnd returns the result.
      *
-     * @param      b     the buffer into which the data is read.
-     * @param      off   the start offset in the destination array <code>b</code>
-     * @param      len   the maximum number of bytes read.
-     * @return     the total number of bytes read into the buffer, or
-     *             <code>-1</code> if there is no more data because the end of
-     *             the stream has been reached.
+     * @pbrbm      b     the buffer into which the dbtb is rebd.
+     * @pbrbm      off   the stbrt offset in the destinbtion brrby <code>b</code>
+     * @pbrbm      len   the mbximum number of bytes rebd.
+     * @return     the totbl number of bytes rebd into the buffer, or
+     *             <code>-1</code> if there is no more dbtb becbuse the end of
+     *             the strebm hbs been rebched.
      * @exception  NullPointerException If <code>b</code> is <code>null</code>.
-     * @exception  IndexOutOfBoundsException If <code>off</code> is negative,
-     * <code>len</code> is negative, or <code>len</code> is greater than
+     * @exception  IndexOutOfBoundsException If <code>off</code> is negbtive,
+     * <code>len</code> is negbtive, or <code>len</code> is grebter thbn
      * <code>b.length - off</code>
-     * @exception  IOException  if an I/O error occurs.
-     * @see        java.io.FilterInputStream#in
+     * @exception  IOException  if bn I/O error occurs.
+     * @see        jbvb.io.FilterInputStrebm#in
      */
-    public int read(byte b[], int off, int len) throws IOException {
-        return in.read(b, off, len);
+    public int rebd(byte b[], int off, int len) throws IOException {
+        return in.rebd(b, off, len);
     }
 
     /**
-     * Skips over and discards <code>n</code> bytes of data from the
-     * input stream. The <code>skip</code> method may, for a variety of
-     * reasons, end up skipping over some smaller number of bytes,
-     * possibly <code>0</code>. The actual number of bytes skipped is
+     * Skips over bnd discbrds <code>n</code> bytes of dbtb from the
+     * input strebm. The <code>skip</code> method mby, for b vbriety of
+     * rebsons, end up skipping over some smbller number of bytes,
+     * possibly <code>0</code>. The bctubl number of bytes skipped is
      * returned.
      * <p>
      * This method simply performs <code>in.skip(n)</code>.
      *
-     * @param      n   the number of bytes to be skipped.
-     * @return     the actual number of bytes skipped.
-     * @exception  IOException  if the stream does not support seek,
+     * @pbrbm      n   the number of bytes to be skipped.
+     * @return     the bctubl number of bytes skipped.
+     * @exception  IOException  if the strebm does not support seek,
      *                          or if some other I/O error occurs.
      */
     public long skip(long n) throws IOException {
@@ -152,94 +152,94 @@ class FilterInputStream extends InputStream {
     }
 
     /**
-     * Returns an estimate of the number of bytes that can be read (or
-     * skipped over) from this input stream without blocking by the next
-     * caller of a method for this input stream. The next caller might be
-     * the same thread or another thread.  A single read or skip of this
-     * many bytes will not block, but may read or skip fewer bytes.
+     * Returns bn estimbte of the number of bytes thbt cbn be rebd (or
+     * skipped over) from this input strebm without blocking by the next
+     * cbller of b method for this input strebm. The next cbller might be
+     * the sbme threbd or bnother threbd.  A single rebd or skip of this
+     * mbny bytes will not block, but mby rebd or skip fewer bytes.
      * <p>
-     * This method returns the result of {@link #in in}.available().
+     * This method returns the result of {@link #in in}.bvbilbble().
      *
-     * @return     an estimate of the number of bytes that can be read (or skipped
-     *             over) from this input stream without blocking.
-     * @exception  IOException  if an I/O error occurs.
+     * @return     bn estimbte of the number of bytes thbt cbn be rebd (or skipped
+     *             over) from this input strebm without blocking.
+     * @exception  IOException  if bn I/O error occurs.
      */
-    public int available() throws IOException {
-        return in.available();
+    public int bvbilbble() throws IOException {
+        return in.bvbilbble();
     }
 
     /**
-     * Closes this input stream and releases any system resources
-     * associated with the stream.
+     * Closes this input strebm bnd relebses bny system resources
+     * bssocibted with the strebm.
      * This
      * method simply performs <code>in.close()</code>.
      *
-     * @exception  IOException  if an I/O error occurs.
-     * @see        java.io.FilterInputStream#in
+     * @exception  IOException  if bn I/O error occurs.
+     * @see        jbvb.io.FilterInputStrebm#in
      */
     public void close() throws IOException {
         in.close();
     }
 
     /**
-     * Marks the current position in this input stream. A subsequent
-     * call to the <code>reset</code> method repositions this stream at
-     * the last marked position so that subsequent reads re-read the same bytes.
+     * Mbrks the current position in this input strebm. A subsequent
+     * cbll to the <code>reset</code> method repositions this strebm bt
+     * the lbst mbrked position so thbt subsequent rebds re-rebd the sbme bytes.
      * <p>
-     * The <code>readlimit</code> argument tells this input stream to
-     * allow that many bytes to be read before the mark position gets
-     * invalidated.
+     * The <code>rebdlimit</code> brgument tells this input strebm to
+     * bllow thbt mbny bytes to be rebd before the mbrk position gets
+     * invblidbted.
      * <p>
-     * This method simply performs <code>in.mark(readlimit)</code>.
+     * This method simply performs <code>in.mbrk(rebdlimit)</code>.
      *
-     * @param   readlimit   the maximum limit of bytes that can be read before
-     *                      the mark position becomes invalid.
-     * @see     java.io.FilterInputStream#in
-     * @see     java.io.FilterInputStream#reset()
+     * @pbrbm   rebdlimit   the mbximum limit of bytes thbt cbn be rebd before
+     *                      the mbrk position becomes invblid.
+     * @see     jbvb.io.FilterInputStrebm#in
+     * @see     jbvb.io.FilterInputStrebm#reset()
      */
-    public synchronized void mark(int readlimit) {
-        in.mark(readlimit);
+    public synchronized void mbrk(int rebdlimit) {
+        in.mbrk(rebdlimit);
     }
 
     /**
-     * Repositions this stream to the position at the time the
-     * <code>mark</code> method was last called on this input stream.
+     * Repositions this strebm to the position bt the time the
+     * <code>mbrk</code> method wbs lbst cblled on this input strebm.
      * <p>
      * This method
      * simply performs <code>in.reset()</code>.
      * <p>
-     * Stream marks are intended to be used in
-     * situations where you need to read ahead a little to see what's in
-     * the stream. Often this is most easily done by invoking some
-     * general parser. If the stream is of the type handled by the
-     * parse, it just chugs along happily. If the stream is not of
-     * that type, the parser should toss an exception when it fails.
-     * If this happens within readlimit bytes, it allows the outer
-     * code to reset the stream and try another parser.
+     * Strebm mbrks bre intended to be used in
+     * situbtions where you need to rebd bhebd b little to see whbt's in
+     * the strebm. Often this is most ebsily done by invoking some
+     * generbl pbrser. If the strebm is of the type hbndled by the
+     * pbrse, it just chugs blong hbppily. If the strebm is not of
+     * thbt type, the pbrser should toss bn exception when it fbils.
+     * If this hbppens within rebdlimit bytes, it bllows the outer
+     * code to reset the strebm bnd try bnother pbrser.
      *
-     * @exception  IOException  if the stream has not been marked or if the
-     *               mark has been invalidated.
-     * @see        java.io.FilterInputStream#in
-     * @see        java.io.FilterInputStream#mark(int)
+     * @exception  IOException  if the strebm hbs not been mbrked or if the
+     *               mbrk hbs been invblidbted.
+     * @see        jbvb.io.FilterInputStrebm#in
+     * @see        jbvb.io.FilterInputStrebm#mbrk(int)
      */
     public synchronized void reset() throws IOException {
         in.reset();
     }
 
     /**
-     * Tests if this input stream supports the <code>mark</code>
-     * and <code>reset</code> methods.
+     * Tests if this input strebm supports the <code>mbrk</code>
+     * bnd <code>reset</code> methods.
      * This method
-     * simply performs <code>in.markSupported()</code>.
+     * simply performs <code>in.mbrkSupported()</code>.
      *
-     * @return  <code>true</code> if this stream type supports the
-     *          <code>mark</code> and <code>reset</code> method;
-     *          <code>false</code> otherwise.
-     * @see     java.io.FilterInputStream#in
-     * @see     java.io.InputStream#mark(int)
-     * @see     java.io.InputStream#reset()
+     * @return  <code>true</code> if this strebm type supports the
+     *          <code>mbrk</code> bnd <code>reset</code> method;
+     *          <code>fblse</code> otherwise.
+     * @see     jbvb.io.FilterInputStrebm#in
+     * @see     jbvb.io.InputStrebm#mbrk(int)
+     * @see     jbvb.io.InputStrebm#reset()
      */
-    public boolean markSupported() {
-        return in.markSupported();
+    public boolebn mbrkSupported() {
+        return in.mbrkSupported();
     }
 }

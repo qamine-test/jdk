@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 2007, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -45,8 +45,8 @@
 #define X_PPC           8
 
 // **********************************
-// Make sure you set X_PLATFORM and X_ARCH defines correctly.
-// Everything depends upon this flag being setup correctly.
+// Mbke sure you set X_PLATFORM bnd X_ARCH defines correctly.
+// Everything depends upon this flbg being setup correctly.
 // **********************************
 
 #if (X_PLATFORM == X_MACOSX) && !defined(X_ARCH)
@@ -59,7 +59,7 @@
 #endif
 
 #if (!defined(X_PLATFORM) || !defined(X_ARCH))
-#error "You need to define X_PLATFORM and X_ARCH outside of the source. Use the types above."
+#error "You need to define X_PLATFORM bnd X_ARCH outside of the source. Use the types bbove."
 #endif
 
 
@@ -77,13 +77,13 @@
 
 
 /*
-* These types are defined elsewhere for newer 32/64-bit Windows
-* header files, but not on Solaris/Linux (X_PLATFORM != X_WINDOWS)
+* These types bre defined elsewhere for newer 32/64-bit Windows
+* hebder files, but not on Solbris/Linux (X_PLATFORM != X_WINDOWS)
 */
 #if (X_PLATFORM != X_WINDOWS)
 
-typedef unsigned char           UINT8;
-typedef char                    INT8;
+typedef unsigned chbr           UINT8;
+typedef chbr                    INT8;
 typedef short                   INT16;
 typedef unsigned short          UINT16;
 #ifdef _LP64
@@ -105,8 +105,8 @@ typedef long                    INT_PTR;
 #endif /* X_PLATFORM != X_WINDOWS */
 
 
-typedef unsigned char   UBYTE;
-typedef char            SBYTE;
+typedef unsigned chbr   UBYTE;
+typedef chbr            SBYTE;
 
 
 #undef TRUE

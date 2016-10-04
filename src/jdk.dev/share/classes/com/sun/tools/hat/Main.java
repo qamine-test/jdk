@@ -1,152 +1,152 @@
 /*
- * Copyright (c) 2005, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * The Original Code is HAT. The Initial Developer of the
- * Original Code is Bill Foote, with contributions from others
- * at JavaSoft/Sun.
+ * The Originbl Code is HAT. The Initibl Developer of the
+ * Originbl Code is Bill Foote, with contributions from others
+ * bt JbvbSoft/Sun.
  */
 
-package com.sun.tools.hat;
+pbckbge com.sun.tools.hbt;
 
-import java.io.IOException;
-import java.io.File;
+import jbvb.io.IOException;
+import jbvb.io.File;
 
-import com.sun.tools.hat.internal.model.Snapshot;
-import com.sun.tools.hat.internal.model.ReachableExcludesImpl;
-import com.sun.tools.hat.internal.server.QueryListener;
+import com.sun.tools.hbt.internbl.model.Snbpshot;
+import com.sun.tools.hbt.internbl.model.RebchbbleExcludesImpl;
+import com.sun.tools.hbt.internbl.server.QueryListener;
 
 /**
  *
- * @author      Bill Foote
+ * @buthor      Bill Foote
  */
 
 
-public class Main {
+public clbss Mbin {
 
-    private static String VERSION_STRING = "jhat version 2.0";
+    privbte stbtic String VERSION_STRING = "jhbt version 2.0";
 
-    private static void usage(String message) {
-        if ( message != null ) {
-            System.err.println("ERROR: " + message);
+    privbte stbtic void usbge(String messbge) {
+        if ( messbge != null ) {
+            System.err.println("ERROR: " + messbge);
         }
-        System.err.println("Usage:  jhat [-stack <bool>] [-refs <bool>] [-port <port>] [-baseline <file>] [-debug <int>] [-version] [-h|-help] <file>");
+        System.err.println("Usbge:  jhbt [-stbck <bool>] [-refs <bool>] [-port <port>] [-bbseline <file>] [-debug <int>] [-version] [-h|-help] <file>");
         System.err.println();
-        System.err.println("\t-J<flag>          Pass <flag> directly to the runtime system. For");
-        System.err.println("\t\t\t  example, -J-mx512m to use a maximum heap size of 512MB");
-        System.err.println("\t-stack false:     Turn off tracking object allocation call stack.");
-        System.err.println("\t-refs false:      Turn off tracking of references to objects");
-        System.err.println("\t-port <port>:     Set the port for the HTTP server.  Defaults to 7000");
-        System.err.println("\t-exclude <file>:  Specify a file that lists data members that should");
-        System.err.println("\t\t\t  be excluded from the reachableFrom query.");
-        System.err.println("\t-baseline <file>: Specify a baseline object dump.  Objects in");
-        System.err.println("\t\t\t  both heap dumps with the same ID and same class will");
-        System.err.println("\t\t\t  be marked as not being \"new\".");
+        System.err.println("\t-J<flbg>          Pbss <flbg> directly to the runtime system. For");
+        System.err.println("\t\t\t  exbmple, -J-mx512m to use b mbximum hebp size of 512MB");
+        System.err.println("\t-stbck fblse:     Turn off trbcking object bllocbtion cbll stbck.");
+        System.err.println("\t-refs fblse:      Turn off trbcking of references to objects");
+        System.err.println("\t-port <port>:     Set the port for the HTTP server.  Defbults to 7000");
+        System.err.println("\t-exclude <file>:  Specify b file thbt lists dbtb members thbt should");
+        System.err.println("\t\t\t  be excluded from the rebchbbleFrom query.");
+        System.err.println("\t-bbseline <file>: Specify b bbseline object dump.  Objects in");
+        System.err.println("\t\t\t  both hebp dumps with the sbme ID bnd sbme clbss will");
+        System.err.println("\t\t\t  be mbrked bs not being \"new\".");
         System.err.println("\t-debug <int>:     Set debug level.");
         System.err.println("\t\t\t    0:  No debug output");
-        System.err.println("\t\t\t    1:  Debug hprof file parsing");
-        System.err.println("\t\t\t    2:  Debug hprof file parsing, no server");
+        System.err.println("\t\t\t    1:  Debug hprof file pbrsing");
+        System.err.println("\t\t\t    2:  Debug hprof file pbrsing, no server");
         System.err.println("\t-version          Report version number");
-        System.err.println("\t-h|-help          Print this help and exit");
-        System.err.println("\t<file>            The file to read");
+        System.err.println("\t-h|-help          Print this help bnd exit");
+        System.err.println("\t<file>            The file to rebd");
         System.err.println();
-        System.err.println("For a dump file that contains multiple heap dumps,");
-        System.err.println("you may specify which dump in the file");
-        System.err.println("by appending \"#<number>\" to the file name, i.e. \"foo.hprof#3\".");
+        System.err.println("For b dump file thbt contbins multiple hebp dumps,");
+        System.err.println("you mby specify which dump in the file");
+        System.err.println("by bppending \"#<number>\" to the file nbme, i.e. \"foo.hprof#3\".");
         System.err.println();
-        System.err.println("All boolean options default to \"true\"");
+        System.err.println("All boolebn options defbult to \"true\"");
         System.exit(1);
     }
 
     //
-    // Convert s to a boolean.  If it's invalid, abort the program.
+    // Convert s to b boolebn.  If it's invblid, bbort the progrbm.
     //
-    private static boolean booleanValue(String s) {
-        if ("true".equalsIgnoreCase(s)) {
+    privbte stbtic boolebn boolebnVblue(String s) {
+        if ("true".equblsIgnoreCbse(s)) {
             return true;
-        } else if ("false".equalsIgnoreCase(s)) {
-            return false;
+        } else if ("fblse".equblsIgnoreCbse(s)) {
+            return fblse;
         } else {
-            usage("Boolean value must be true or false");
-            return false;       // Never happens
+            usbge("Boolebn vblue must be true or fblse");
+            return fblse;       // Never hbppens
         }
     }
 
-    public static void main(String[] args) {
-        if (args.length < 1) {
-            usage("No arguments supplied");
+    public stbtic void mbin(String[] brgs) {
+        if (brgs.length < 1) {
+            usbge("No brguments supplied");
         }
 
-        boolean parseonly = false;
+        boolebn pbrseonly = fblse;
         int portNumber = 7000;
-        boolean callStack = true;
-        boolean calculateRefs = true;
-        String baselineDump = null;
-        String excludeFileName = null;
+        boolebn cbllStbck = true;
+        boolebn cblculbteRefs = true;
+        String bbselineDump = null;
+        String excludeFileNbme = null;
         int debugLevel = 0;
         for (int i = 0; ; i += 2) {
-            if (i > (args.length - 1)) {
-                usage("Option parsing error");
+            if (i > (brgs.length - 1)) {
+                usbge("Option pbrsing error");
             }
-            if ("-version".equals(args[i])) {
+            if ("-version".equbls(brgs[i])) {
                 System.out.print(VERSION_STRING);
-                System.out.println(" (java version " + System.getProperty("java.version") + ")");
+                System.out.println(" (jbvb version " + System.getProperty("jbvb.version") + ")");
                 System.exit(0);
             }
 
-            if ("-h".equals(args[i]) || "-help".equals(args[i])) {
-                usage(null);
+            if ("-h".equbls(brgs[i]) || "-help".equbls(brgs[i])) {
+                usbge(null);
             }
 
-            if (i == (args.length - 1)) {
-                break;
+            if (i == (brgs.length - 1)) {
+                brebk;
             }
-            String key = args[i];
-            String value = args[i+1];
-            if ("-stack".equals(key)) {
-                callStack = booleanValue(value);
-            } else if ("-refs".equals(key)) {
-                calculateRefs = booleanValue(value);
-            } else if ("-port".equals(key)) {
-                portNumber = Integer.parseInt(value, 10);
-            } else if ("-exclude".equals(key)) {
-                excludeFileName = value;
-            } else if ("-baseline".equals(key)) {
-                baselineDump = value;
-            } else if ("-debug".equals(key)) {
-                debugLevel = Integer.parseInt(value, 10);
-            } else if ("-parseonly".equals(key)) {
+            String key = brgs[i];
+            String vblue = brgs[i+1];
+            if ("-stbck".equbls(key)) {
+                cbllStbck = boolebnVblue(vblue);
+            } else if ("-refs".equbls(key)) {
+                cblculbteRefs = boolebnVblue(vblue);
+            } else if ("-port".equbls(key)) {
+                portNumber = Integer.pbrseInt(vblue, 10);
+            } else if ("-exclude".equbls(key)) {
+                excludeFileNbme = vblue;
+            } else if ("-bbseline".equbls(key)) {
+                bbselineDump = vblue;
+            } else if ("-debug".equbls(key)) {
+                debugLevel = Integer.pbrseInt(vblue, 10);
+            } else if ("-pbrseonly".equbls(key)) {
                 // Undocumented option. To be used for testing purpose only
-                parseonly = booleanValue(value);
+                pbrseonly = boolebnVblue(vblue);
             }
         }
-        String fileName = args[args.length - 1];
-        Snapshot model = null;
+        String fileNbme = brgs[brgs.length - 1];
+        Snbpshot model = null;
         File excludeFile = null;
-        if (excludeFileName != null) {
-            excludeFile = new File(excludeFileName);
+        if (excludeFileNbme != null) {
+            excludeFile = new File(excludeFileNbme);
             if (!excludeFile.exists()) {
                 System.out.println("Exclude file " + excludeFile
                                     + " does not exist.  Aborting.");
@@ -154,59 +154,59 @@ public class Main {
             }
         }
 
-        System.out.println("Reading from " + fileName + "...");
+        System.out.println("Rebding from " + fileNbme + "...");
         try {
-            model = com.sun.tools.hat.internal.parser.Reader.readFile(fileName, callStack, debugLevel);
-        } catch (IOException ex) {
-            ex.printStackTrace();
+            model = com.sun.tools.hbt.internbl.pbrser.Rebder.rebdFile(fileNbme, cbllStbck, debugLevel);
+        } cbtch (IOException ex) {
+            ex.printStbckTrbce();
             System.exit(1);
-        } catch (RuntimeException ex) {
-            ex.printStackTrace();
+        } cbtch (RuntimeException ex) {
+            ex.printStbckTrbce();
             System.exit(1);
         }
-        System.out.println("Snapshot read, resolving...");
-        model.resolve(calculateRefs);
-        System.out.println("Snapshot resolved.");
+        System.out.println("Snbpshot rebd, resolving...");
+        model.resolve(cblculbteRefs);
+        System.out.println("Snbpshot resolved.");
 
         if (excludeFile != null) {
-            model.setReachableExcludes(new ReachableExcludesImpl(excludeFile));
+            model.setRebchbbleExcludes(new RebchbbleExcludesImpl(excludeFile));
         }
 
-        if (baselineDump != null) {
-            System.out.println("Reading baseline snapshot...");
-            Snapshot baseline = null;
+        if (bbselineDump != null) {
+            System.out.println("Rebding bbseline snbpshot...");
+            Snbpshot bbseline = null;
             try {
-                baseline = com.sun.tools.hat.internal.parser.Reader.readFile(baselineDump, false,
+                bbseline = com.sun.tools.hbt.internbl.pbrser.Rebder.rebdFile(bbselineDump, fblse,
                                                       debugLevel);
-            } catch (IOException ex) {
-                ex.printStackTrace();
+            } cbtch (IOException ex) {
+                ex.printStbckTrbce();
                 System.exit(1);
-            } catch (RuntimeException ex) {
-                ex.printStackTrace();
+            } cbtch (RuntimeException ex) {
+                ex.printStbckTrbce();
                 System.exit(1);
             }
-            baseline.resolve(false);
+            bbseline.resolve(fblse);
             System.out.println("Discovering new objects...");
-            model.markNewRelativeTo(baseline);
-            baseline = null;    // Guard against conservative GC
+            model.mbrkNewRelbtiveTo(bbseline);
+            bbseline = null;    // Gubrd bgbinst conservbtive GC
         }
         if ( debugLevel == 2 ) {
-            System.out.println("No server, -debug 2 was used.");
+            System.out.println("No server, -debug 2 wbs used.");
             System.exit(0);
         }
 
-        if (parseonly) {
-            // do not start web server.
-            System.out.println("-parseonly is true, exiting..");
+        if (pbrseonly) {
+            // do not stbrt web server.
+            System.out.println("-pbrseonly is true, exiting..");
             System.exit(0);
         }
 
         QueryListener listener = new QueryListener(portNumber);
         listener.setModel(model);
-        Thread t = new Thread(listener, "Query Listener");
-        t.setPriority(Thread.NORM_PRIORITY+1);
-        t.start();
-        System.out.println("Started HTTP server on port " + portNumber);
-        System.out.println("Server is ready.");
+        Threbd t = new Threbd(listener, "Query Listener");
+        t.setPriority(Threbd.NORM_PRIORITY+1);
+        t.stbrt();
+        System.out.println("Stbrted HTTP server on port " + portNumber);
+        System.out.println("Server is rebdy.");
     }
 }

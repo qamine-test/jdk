@@ -1,86 +1,86 @@
 /*
- * Copyright (c) 2002, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2010, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
  */
 
-package sun.nio.cs.ext;
+pbckbge sun.nio.cs.ext;
 
-import java.nio.ByteBuffer;
-import java.nio.CharBuffer;
-import java.nio.charset.Charset;
-import java.nio.charset.CharsetDecoder;
-import java.nio.charset.CharsetEncoder;
-import java.nio.charset.CoderResult;
-import sun.nio.cs.Surrogate;
+import jbvb.nio.ByteBuffer;
+import jbvb.nio.ChbrBuffer;
+import jbvb.nio.chbrset.Chbrset;
+import jbvb.nio.chbrset.ChbrsetDecoder;
+import jbvb.nio.chbrset.ChbrsetEncoder;
+import jbvb.nio.chbrset.CoderResult;
+import sun.nio.cs.Surrogbte;
 
-abstract class ISO2022
-    extends Charset
+bbstrbct clbss ISO2022
+    extends Chbrset
 {
 
-    private static final byte ISO_ESC = 0x1b;
-    private static final byte ISO_SI = 0x0f;
-    private static final byte ISO_SO = 0x0e;
-    private static final byte ISO_SS2_7 = 0x4e;
-    private static final byte ISO_SS3_7 = 0x4f;
-    private static final byte MSB = (byte)0x80;
-    private static final char REPLACE_CHAR = '\uFFFD';
-    private static final byte minDesignatorLength = 3;
+    privbte stbtic finbl byte ISO_ESC = 0x1b;
+    privbte stbtic finbl byte ISO_SI = 0x0f;
+    privbte stbtic finbl byte ISO_SO = 0x0e;
+    privbte stbtic finbl byte ISO_SS2_7 = 0x4e;
+    privbte stbtic finbl byte ISO_SS3_7 = 0x4f;
+    privbte stbtic finbl byte MSB = (byte)0x80;
+    privbte stbtic finbl chbr REPLACE_CHAR = '\uFFFD';
+    privbte stbtic finbl byte minDesignbtorLength = 3;
 
-    public ISO2022(String csname, String[] aliases) {
-        super(csname, aliases);
+    public ISO2022(String csnbme, String[] blibses) {
+        super(csnbme, blibses);
     }
 
-    public CharsetDecoder newDecoder() {
+    public ChbrsetDecoder newDecoder() {
         return new Decoder(this);
     }
 
-    public CharsetEncoder newEncoder() {
+    public ChbrsetEncoder newEncoder() {
         return new Encoder(this);
     }
 
-    protected static class Decoder extends CharsetDecoder {
+    protected stbtic clbss Decoder extends ChbrsetDecoder {
 
-        // Value to be filled by subclass
+        // Vblue to be filled by subclbss
         protected byte SODesig[][];
         protected byte SS2Desig[][] = null;
         protected byte SS3Desig[][] = null;
 
-        protected CharsetDecoder SODecoder[];
-        protected CharsetDecoder SS2Decoder[] = null;
-        protected CharsetDecoder SS3Decoder[] = null;
+        protected ChbrsetDecoder SODecoder[];
+        protected ChbrsetDecoder SS2Decoder[] = null;
+        protected ChbrsetDecoder SS3Decoder[] = null;
 
-        private static final byte SOFlag = 0;
-        private static final byte SS2Flag = 1;
-        private static final byte SS3Flag = 2;
+        privbte stbtic finbl byte SOFlbg = 0;
+        privbte stbtic finbl byte SS2Flbg = 1;
+        privbte stbtic finbl byte SS3Flbg = 2;
 
-        private int curSODes, curSS2Des, curSS3Des;
-        private boolean shiftout;
-        private CharsetDecoder tmpDecoder[];
+        privbte int curSODes, curSS2Des, curSS3Des;
+        privbte boolebn shiftout;
+        privbte ChbrsetDecoder tmpDecoder[];
 
-        protected Decoder(Charset cs) {
+        protected Decoder(Chbrset cs) {
             super(cs, 1.0f, 1.0f);
         }
 
@@ -88,51 +88,51 @@ abstract class ISO2022
             curSODes = 0;
             curSS2Des = 0;
             curSS3Des = 0;
-            shiftout = false;
+            shiftout = fblse;
         }
 
-        private char decode(byte byte1, byte byte2, byte shiftFlag)
+        privbte chbr decode(byte byte1, byte byte2, byte shiftFlbg)
         {
             byte1 |= MSB;
             byte2 |= MSB;
 
             byte[] tmpByte = { byte1,byte2 };
-            char[] tmpChar = new char[1];
+            chbr[] tmpChbr = new chbr[1];
             int     i = 0,
                     tmpIndex = 0;
 
-            switch(shiftFlag) {
-            case SOFlag:
+            switch(shiftFlbg) {
+            cbse SOFlbg:
                 tmpIndex = curSODes;
                 tmpDecoder = SODecoder;
-                break;
-            case SS2Flag:
+                brebk;
+            cbse SS2Flbg:
                 tmpIndex = curSS2Des;
                 tmpDecoder = SS2Decoder;
-                break;
-            case SS3Flag:
+                brebk;
+            cbse SS3Flbg:
                 tmpIndex = curSS3Des;
                 tmpDecoder = SS3Decoder;
-                break;
+                brebk;
             }
 
             if (tmpDecoder != null) {
                 for(i = 0; i < tmpDecoder.length; i++) {
                     if(tmpIndex == i) {
                         try {
-                            ByteBuffer bb = ByteBuffer.wrap(tmpByte,0,2);
-                            CharBuffer cc = CharBuffer.wrap(tmpChar,0,1);
+                            ByteBuffer bb = ByteBuffer.wrbp(tmpByte,0,2);
+                            ChbrBuffer cc = ChbrBuffer.wrbp(tmpChbr,0,1);
                             tmpDecoder[i].decode(bb, cc, true);
                             cc.flip();
                             return cc.get();
-                        } catch (Exception e) {}
+                        } cbtch (Exception e) {}
                     }
                 }
             }
             return REPLACE_CHAR;
         }
 
-        private int findDesig(byte[] in, int sp, int sl, byte[][] desigs) {
+        privbte int findDesig(byte[] in, int sp, int sl, byte[][] desigs) {
             if (desigs == null) return -1;
             int i = 0;
             while (i < desigs.length) {
@@ -147,13 +147,13 @@ abstract class ISO2022
             return -1;
         }
 
-        private int findDesigBuf(ByteBuffer in, byte[][] desigs) {
+        privbte int findDesigBuf(ByteBuffer in, byte[][] desigs) {
             if (desigs == null) return -1;
             int i = 0;
             while (i < desigs.length) {
-                if (desigs[i] != null && in.remaining() >= desigs[i].length) {
+                if (desigs[i] != null && in.rembining() >= desigs[i].length) {
                     int j = 0;
-                    in.mark();
+                    in.mbrk();
                     while (j < desigs[i].length && in.get() == desigs[i][j]) { j++; }
                     if (j == desigs[i].length)
                         return i;
@@ -164,284 +164,284 @@ abstract class ISO2022
             return -1;
         }
 
-        private CoderResult decodeArrayLoop(ByteBuffer src,
-                                            CharBuffer dst)
+        privbte CoderResult decodeArrbyLoop(ByteBuffer src,
+                                            ChbrBuffer dst)
         {
-            byte[] sa = src.array();
-            int sp = src.arrayOffset() + src.position();
-            int sl = src.arrayOffset() + src.limit();
-            assert (sp <= sl);
+            byte[] sb = src.brrby();
+            int sp = src.brrbyOffset() + src.position();
+            int sl = src.brrbyOffset() + src.limit();
+            bssert (sp <= sl);
             sp = (sp <= sl ? sp : sl);
 
-            char[] da = dst.array();
-            int dp = dst.arrayOffset() + dst.position();
-            int dl = dst.arrayOffset() + dst.limit();
-            assert (dp <= dl);
+            chbr[] db = dst.brrby();
+            int dp = dst.brrbyOffset() + dst.position();
+            int dl = dst.brrbyOffset() + dst.limit();
+            bssert (dp <= dl);
             dp = (dp <= dl ? dp : dl);
 
             int b1 = 0, b2 = 0, b3 = 0;
 
             try {
                 while (sp < sl) {
-                    b1 = sa[sp] & 0xff;
+                    b1 = sb[sp] & 0xff;
                     int inputSize = 1;
                     switch (b1) {
-                        case ISO_SO:
+                        cbse ISO_SO:
                             shiftout = true;
                             inputSize = 1;
-                            break;
-                        case ISO_SI:
-                            shiftout = false;
+                            brebk;
+                        cbse ISO_SI:
+                            shiftout = fblse;
                             inputSize = 1;
-                            break;
-                        case ISO_ESC:
-                            if (sl - sp - 1 < minDesignatorLength)
+                            brebk;
+                        cbse ISO_ESC:
+                            if (sl - sp - 1 < minDesignbtorLength)
                                 return CoderResult.UNDERFLOW;
 
-                            int desig = findDesig(sa, sp + 1, sl, SODesig);
+                            int desig = findDesig(sb, sp + 1, sl, SODesig);
                             if (desig != -1) {
                                 curSODes = desig;
                                 inputSize = SODesig[desig].length + 1;
-                                break;
+                                brebk;
                             }
-                            desig = findDesig(sa, sp + 1, sl, SS2Desig);
+                            desig = findDesig(sb, sp + 1, sl, SS2Desig);
                             if (desig != -1) {
                                 curSS2Des = desig;
                                 inputSize = SS2Desig[desig].length + 1;
-                                break;
+                                brebk;
                             }
-                            desig = findDesig(sa, sp + 1, sl, SS3Desig);
+                            desig = findDesig(sb, sp + 1, sl, SS3Desig);
                             if (desig != -1) {
                                 curSS3Des = desig;
                                 inputSize = SS3Desig[desig].length + 1;
-                                break;
+                                brebk;
                             }
                             if (sl - sp < 2)
                                 return CoderResult.UNDERFLOW;
-                            b1 = sa[sp + 1];
+                            b1 = sb[sp + 1];
                             switch(b1) {
-                            case ISO_SS2_7:
+                            cbse ISO_SS2_7:
                                 if (sl - sp < 4)
                                     return CoderResult.UNDERFLOW;
-                                b2 = sa[sp +2];
-                                b3 = sa[sp +3];
+                                b2 = sb[sp +2];
+                                b3 = sb[sp +3];
                                 if (dl - dp <1)
                                     return CoderResult.OVERFLOW;
-                                da[dp] = decode((byte)b2,
+                                db[dp] = decode((byte)b2,
                                                 (byte)b3,
-                                                SS2Flag);
+                                                SS2Flbg);
                                 dp++;
                                 inputSize = 4;
-                                break;
-                            case ISO_SS3_7:
+                                brebk;
+                            cbse ISO_SS3_7:
                                 if (sl - sp < 4)
                                     return CoderResult.UNDERFLOW;
-                                b2 = sa[sp + 2];
-                                b3 = sa[sp + 3];
+                                b2 = sb[sp + 2];
+                                b3 = sb[sp + 3];
                                 if (dl - dp <1)
                                     return CoderResult.OVERFLOW;
-                                da[dp] = decode((byte)b2,
+                                db[dp] = decode((byte)b2,
                                                 (byte)b3,
-                                                SS3Flag);
+                                                SS3Flbg);
                                 dp++;
                                 inputSize = 4;
-                                break;
-                            default:
-                                return CoderResult.malformedForLength(2);
+                                brebk;
+                            defbult:
+                                return CoderResult.mblformedForLength(2);
                             }
-                            break;
-                        default:
+                            brebk;
+                        defbult:
                             if (dl - dp < 1)
                                 return CoderResult.OVERFLOW;
                             if (!shiftout) {
-                                da[dp++]=(char)(sa[sp] & 0xff);
+                                db[dp++]=(chbr)(sb[sp] & 0xff);
                             } else {
                                 if (dl - dp < 1)
                                     return CoderResult.OVERFLOW;
                                 if (sl - sp < 2)
                                     return CoderResult.UNDERFLOW;
-                                b2 = sa[sp+1] & 0xff;
-                                da[dp++] = decode((byte)b1,
+                                b2 = sb[sp+1] & 0xff;
+                                db[dp++] = decode((byte)b1,
                                                   (byte)b2,
-                                                   SOFlag);
+                                                   SOFlbg);
                                 inputSize = 2;
                             }
-                            break;
+                            brebk;
                     }
                     sp += inputSize;
                 }
                 return CoderResult.UNDERFLOW;
-            } finally {
-                src.position(sp - src.arrayOffset());
-                dst.position(dp - dst.arrayOffset());
+            } finblly {
+                src.position(sp - src.brrbyOffset());
+                dst.position(dp - dst.brrbyOffset());
             }
         }
 
-        private CoderResult decodeBufferLoop(ByteBuffer src,
-                                             CharBuffer dst)
+        privbte CoderResult decodeBufferLoop(ByteBuffer src,
+                                             ChbrBuffer dst)
         {
-            int mark = src.position();
+            int mbrk = src.position();
             int b1 = 0, b2 = 0, b3 = 0;
 
             try {
-                while (src.hasRemaining()) {
+                while (src.hbsRembining()) {
                     b1 = src.get();
                     int inputSize = 1;
                     switch (b1) {
-                        case ISO_SO:
+                        cbse ISO_SO:
                             shiftout = true;
-                            break;
-                        case ISO_SI:
-                            shiftout = false;
-                            break;
-                        case ISO_ESC:
-                            if (src.remaining() < minDesignatorLength)
+                            brebk;
+                        cbse ISO_SI:
+                            shiftout = fblse;
+                            brebk;
+                        cbse ISO_ESC:
+                            if (src.rembining() < minDesignbtorLength)
                                 return CoderResult.UNDERFLOW;
 
                             int desig = findDesigBuf(src, SODesig);
                             if (desig != -1) {
                                 curSODes = desig;
                                 inputSize = SODesig[desig].length + 1;
-                                break;
+                                brebk;
                             }
                             desig = findDesigBuf(src, SS2Desig);
                             if (desig != -1) {
                                 curSS2Des = desig;
                                 inputSize = SS2Desig[desig].length + 1;
-                                break;
+                                brebk;
                             }
                             desig = findDesigBuf(src, SS3Desig);
                             if (desig != -1) {
                                 curSS3Des = desig;
                                 inputSize = SS3Desig[desig].length + 1;
-                                break;
+                                brebk;
                             }
 
-                            if (src.remaining() < 1)
+                            if (src.rembining() < 1)
                                 return CoderResult.UNDERFLOW;
                             b1 = src.get();
                             switch(b1) {
-                                case ISO_SS2_7:
-                                    if (src.remaining() < 2)
+                                cbse ISO_SS2_7:
+                                    if (src.rembining() < 2)
                                         return CoderResult.UNDERFLOW;
                                     b2 = src.get();
                                     b3 = src.get();
-                                    if (dst.remaining() < 1)
+                                    if (dst.rembining() < 1)
                                         return CoderResult.OVERFLOW;
                                     dst.put(decode((byte)b2,
                                                    (byte)b3,
-                                                   SS2Flag));
+                                                   SS2Flbg));
                                     inputSize = 4;
-                                    break;
-                                case ISO_SS3_7:
-                                    if (src.remaining() < 2)
+                                    brebk;
+                                cbse ISO_SS3_7:
+                                    if (src.rembining() < 2)
                                         return CoderResult.UNDERFLOW;
                                     b2 = src.get();
                                     b3 = src.get();
-                                    if (dst.remaining() < 1)
+                                    if (dst.rembining() < 1)
                                         return CoderResult.OVERFLOW;
                                     dst.put(decode((byte)b2,
                                                    (byte)b3,
-                                                   SS3Flag));
+                                                   SS3Flbg));
                                     inputSize = 4;
-                                    break;
-                                default:
-                                    return CoderResult.malformedForLength(2);
+                                    brebk;
+                                defbult:
+                                    return CoderResult.mblformedForLength(2);
                             }
-                            break;
-                        default:
-                            if (dst.remaining() < 1)
+                            brebk;
+                        defbult:
+                            if (dst.rembining() < 1)
                                 return CoderResult.OVERFLOW;
                             if (!shiftout) {
-                                dst.put((char)(b1 & 0xff));
+                                dst.put((chbr)(b1 & 0xff));
                             } else {
-                                if (dst.remaining() < 1)
+                                if (dst.rembining() < 1)
                                     return CoderResult.OVERFLOW;
-                                if (src.remaining() < 1)
+                                if (src.rembining() < 1)
                                     return CoderResult.UNDERFLOW;
                                 b2 = src.get() & 0xff;
                                 dst.put(decode((byte)b1,
                                                       (byte)b2,
-                                                        SOFlag));
+                                                        SOFlbg));
                                 inputSize = 2;
                             }
-                            break;
+                            brebk;
                     }
-                    mark += inputSize;
+                    mbrk += inputSize;
                 }
                 return CoderResult.UNDERFLOW;
-            } catch (Exception e) { e.printStackTrace(); return CoderResult.OVERFLOW; }
-            finally {
-                src.position(mark);
+            } cbtch (Exception e) { e.printStbckTrbce(); return CoderResult.OVERFLOW; }
+            finblly {
+                src.position(mbrk);
             }
         }
 
         protected CoderResult decodeLoop(ByteBuffer src,
-                                         CharBuffer dst)
+                                         ChbrBuffer dst)
         {
-            if (src.hasArray() && dst.hasArray())
-                return decodeArrayLoop(src, dst);
+            if (src.hbsArrby() && dst.hbsArrby())
+                return decodeArrbyLoop(src, dst);
             else
                 return decodeBufferLoop(src, dst);
         }
     }
 
-    protected static class Encoder extends CharsetEncoder {
-        private final Surrogate.Parser sgp = new Surrogate.Parser();
-        public static final byte SS2 = (byte)0x8e;
-        public static final byte PLANE2 = (byte)0xA2;
-        public static final byte PLANE3 = (byte)0xA3;
-        private final byte MSB = (byte)0x80;
+    protected stbtic clbss Encoder extends ChbrsetEncoder {
+        privbte finbl Surrogbte.Pbrser sgp = new Surrogbte.Pbrser();
+        public stbtic finbl byte SS2 = (byte)0x8e;
+        public stbtic finbl byte PLANE2 = (byte)0xA2;
+        public stbtic finbl byte PLANE3 = (byte)0xA3;
+        privbte finbl byte MSB = (byte)0x80;
 
-        protected final byte maximumDesignatorLength = 4;
+        protected finbl byte mbximumDesignbtorLength = 4;
 
         protected String SODesig,
                          SS2Desig = null,
                          SS3Desig = null;
 
-        protected CharsetEncoder ISOEncoder;
+        protected ChbrsetEncoder ISOEncoder;
 
-        private boolean shiftout = false;
-        private boolean SODesDefined = false;
-        private boolean SS2DesDefined = false;
-        private boolean SS3DesDefined = false;
+        privbte boolebn shiftout = fblse;
+        privbte boolebn SODesDefined = fblse;
+        privbte boolebn SS2DesDefined = fblse;
+        privbte boolebn SS3DesDefined = fblse;
 
-        private boolean newshiftout = false;
-        private boolean newSODesDefined = false;
-        private boolean newSS2DesDefined = false;
-        private boolean newSS3DesDefined = false;
+        privbte boolebn newshiftout = fblse;
+        privbte boolebn newSODesDefined = fblse;
+        privbte boolebn newSS2DesDefined = fblse;
+        privbte boolebn newSS3DesDefined = fblse;
 
-        protected Encoder(Charset cs) {
+        protected Encoder(Chbrset cs) {
             super(cs, 4.0f, 8.0f);
         }
 
-        public boolean canEncode(char c) {
-            return (ISOEncoder.canEncode(c));
+        public boolebn cbnEncode(chbr c) {
+            return (ISOEncoder.cbnEncode(c));
         }
 
         protected void implReset() {
-            shiftout = false;
-            SODesDefined = false;
-            SS2DesDefined = false;
-            SS3DesDefined = false;
+            shiftout = fblse;
+            SODesDefined = fblse;
+            SS2DesDefined = fblse;
+            SS3DesDefined = fblse;
         }
 
-        private int unicodeToNative(char unicode, byte ebyte[])
+        privbte int unicodeToNbtive(chbr unicode, byte ebyte[])
         {
             int index = 0;
             byte        tmpByte[];
-            char        convChar[] = {unicode};
+            chbr        convChbr[] = {unicode};
             byte        convByte[] = new byte[4];
             int         converted;
 
             try{
-                CharBuffer cc = CharBuffer.wrap(convChar);
-                ByteBuffer bb = ByteBuffer.allocate(4);
+                ChbrBuffer cc = ChbrBuffer.wrbp(convChbr);
+                ByteBuffer bb = ByteBuffer.bllocbte(4);
                 ISOEncoder.encode(cc, bb, true);
                 bb.flip();
-                converted = bb.remaining();
+                converted = bb.rembining();
                 bb.get(convByte,0,converted);
-            } catch(Exception e) {
+            } cbtch(Exception e) {
                 return -1;
             }
 
@@ -450,7 +450,7 @@ abstract class ISO2022
                     newSODesDefined = true;
                     ebyte[0] = ISO_ESC;
                     tmpByte = SODesig.getBytes();
-                    System.arraycopy(tmpByte,0,ebyte,1,tmpByte.length);
+                    System.brrbycopy(tmpByte,0,ebyte,1,tmpByte.length);
                     index = tmpByte.length+1;
                 }
                 if (!shiftout) {
@@ -466,7 +466,7 @@ abstract class ISO2022
                             newSS2DesDefined = true;
                             ebyte[0] = ISO_ESC;
                             tmpByte = SS2Desig.getBytes();
-                            System.arraycopy(tmpByte, 0, ebyte, 1, tmpByte.length);
+                            System.brrbycopy(tmpByte, 0, ebyte, 1, tmpByte.length);
                             index = tmpByte.length+1;
                         }
                         ebyte[index++] = ISO_ESC;
@@ -478,7 +478,7 @@ abstract class ISO2022
                             newSS3DesDefined = true;
                             ebyte[0] = ISO_ESC;
                             tmpByte = SS3Desig.getBytes();
-                            System.arraycopy(tmpByte, 0, ebyte, 1, tmpByte.length);
+                            System.brrbycopy(tmpByte, 0, ebyte, 1, tmpByte.length);
                             index = tmpByte.length+1;
                         }
                         ebyte[index++] = ISO_ESC;
@@ -491,18 +491,18 @@ abstract class ISO2022
             return index;
         }
 
-        private CoderResult encodeArrayLoop(CharBuffer src,
+        privbte CoderResult encodeArrbyLoop(ChbrBuffer src,
                                             ByteBuffer dst)
         {
-            char[] sa = src.array();
-            int sp = src.arrayOffset() + src.position();
-            int sl = src.arrayOffset() + src.limit();
-            assert (sp <= sl);
+            chbr[] sb = src.brrby();
+            int sp = src.brrbyOffset() + src.position();
+            int sl = src.brrbyOffset() + src.limit();
+            bssert (sp <= sl);
             sp = (sp <= sl ? sp : sl);
-            byte[] da = dst.array();
-            int dp = dst.arrayOffset() + dst.position();
-            int dl = dst.arrayOffset() + dst.limit();
-            assert (dp <= dl);
+            byte[] db = dst.brrby();
+            int dp = dst.brrbyOffset() + dst.position();
+            int dl = dst.brrbyOffset() + dst.limit();
+            bssert (dp <= dl);
             dp = (dp <= dl ? dp : dl);
 
             int outputSize = 0;
@@ -514,16 +514,16 @@ abstract class ISO2022
 
             try {
                 while (sp < sl) {
-                    char c = sa[sp];
-                    if (Character.isSurrogate(c)) {
-                        if (sgp.parse(c, sa, sp, sl) < 0)
+                    chbr c = sb[sp];
+                    if (Chbrbcter.isSurrogbte(c)) {
+                        if (sgp.pbrse(c, sb, sp, sl) < 0)
                             return sgp.error();
-                        return sgp.unmappableResult();
+                        return sgp.unmbppbbleResult();
                     }
 
                     if (c < 0x80) {     // ASCII
                         if (shiftout){
-                            newshiftout = false;
+                            newshiftout = fblse;
                             outputSize = 2;
                             outputByte[0] = ISO_SI;
                             outputByte[1] = (byte)(c & 0x7f);
@@ -531,22 +531,22 @@ abstract class ISO2022
                             outputSize = 1;
                             outputByte[0] = (byte)(c & 0x7f);
                         }
-                        if(sa[sp] == '\n'){
-                            newSODesDefined = false;
-                            newSS2DesDefined = false;
-                            newSS3DesDefined = false;
+                        if(sb[sp] == '\n'){
+                            newSODesDefined = fblse;
+                            newSS2DesDefined = fblse;
+                            newSS3DesDefined = fblse;
                         }
                     } else {
-                        outputSize = unicodeToNative(c, outputByte);
+                        outputSize = unicodeToNbtive(c, outputByte);
                         if (outputSize == 0) {
-                            return CoderResult.unmappableForLength(1);
+                            return CoderResult.unmbppbbleForLength(1);
                         }
                     }
                     if (dl - dp < outputSize)
                         return CoderResult.OVERFLOW;
 
                     for (int i = 0; i < outputSize; i++)
-                        da[dp++] = outputByte[i];
+                        db[dp++] = outputByte[i];
                     sp++;
                     shiftout = newshiftout;
                     SODesDefined = newSODesDefined;
@@ -554,14 +554,14 @@ abstract class ISO2022
                     SS3DesDefined = newSS3DesDefined;
                 }
                 return CoderResult.UNDERFLOW;
-             } finally {
-                src.position(sp - src.arrayOffset());
-                dst.position(dp - dst.arrayOffset());
+             } finblly {
+                src.position(sp - src.brrbyOffset());
+                dst.position(dp - dst.brrbyOffset());
              }
         }
 
 
-        private CoderResult encodeBufferLoop(CharBuffer src,
+        privbte CoderResult encodeBufferLoop(ChbrBuffer src,
                                              ByteBuffer dst)
         {
             int outputSize = 0;
@@ -571,59 +571,59 @@ abstract class ISO2022
             newSODesDefined = SODesDefined;
             newSS2DesDefined = SS2DesDefined;
             newSS3DesDefined = SS3DesDefined;
-            int mark = src.position();
+            int mbrk = src.position();
 
             try {
-                while (src.hasRemaining()) {
-                    char inputChar = src.get();
-                    if (Character.isSurrogate(inputChar)) {
-                        if (sgp.parse(inputChar, src) < 0)
+                while (src.hbsRembining()) {
+                    chbr inputChbr = src.get();
+                    if (Chbrbcter.isSurrogbte(inputChbr)) {
+                        if (sgp.pbrse(inputChbr, src) < 0)
                             return sgp.error();
-                        return sgp.unmappableResult();
+                        return sgp.unmbppbbleResult();
                     }
-                    if (inputChar < 0x80) {     // ASCII
+                    if (inputChbr < 0x80) {     // ASCII
                         if (shiftout){
-                            newshiftout = false;
+                            newshiftout = fblse;
                             outputSize = 2;
                             outputByte[0] = ISO_SI;
-                            outputByte[1] = (byte)(inputChar & 0x7f);
+                            outputByte[1] = (byte)(inputChbr & 0x7f);
                         } else {
                             outputSize = 1;
-                            outputByte[0] = (byte)(inputChar & 0x7f);
+                            outputByte[0] = (byte)(inputChbr & 0x7f);
                         }
-                        if(inputChar == '\n'){
-                            newSODesDefined = false;
-                            newSS2DesDefined = false;
-                            newSS3DesDefined = false;
+                        if(inputChbr == '\n'){
+                            newSODesDefined = fblse;
+                            newSS2DesDefined = fblse;
+                            newSS3DesDefined = fblse;
                         }
                     } else {
-                        outputSize = unicodeToNative(inputChar, outputByte);
+                        outputSize = unicodeToNbtive(inputChbr, outputByte);
                         if (outputSize == 0) {
-                            return CoderResult.unmappableForLength(1);
+                            return CoderResult.unmbppbbleForLength(1);
                         }
                     }
 
-                    if (dst.remaining() < outputSize)
+                    if (dst.rembining() < outputSize)
                         return CoderResult.OVERFLOW;
                     for (int i = 0; i < outputSize; i++)
                         dst.put(outputByte[i]);
-                    mark++;
+                    mbrk++;
                     shiftout = newshiftout;
                     SODesDefined = newSODesDefined;
                     SS2DesDefined = newSS2DesDefined;
                     SS3DesDefined = newSS3DesDefined;
                 }
                 return CoderResult.UNDERFLOW;
-            } finally {
-                src.position(mark);
+            } finblly {
+                src.position(mbrk);
             }
         }
 
-        protected CoderResult encodeLoop(CharBuffer src,
+        protected CoderResult encodeLoop(ChbrBuffer src,
                                          ByteBuffer dst)
         {
-            if (src.hasArray() && dst.hasArray())
-                return encodeArrayLoop(src, dst);
+            if (src.hbsArrby() && dst.hbsArrby())
+                return encodeArrbyLoop(src, dst);
             else
                 return encodeBufferLoop(src, dst);
         }

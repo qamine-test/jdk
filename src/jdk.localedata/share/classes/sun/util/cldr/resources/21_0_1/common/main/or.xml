@@ -3,543 +3,543 @@
 <ldml>
 	<identity>
 		<version number="$Revision: 6546 $"/>
-		<generation date="$Date: 2012-02-08 03:32:35 +0900 (Wed, 08 Feb 2012) $"/>
-		<language type="or"/>
+		<generbtion dbte="$Dbte: 2012-02-08 03:32:35 +0900 (Wed, 08 Feb 2012) $"/>
+		<lbngubge type="or"/>
 	</identity>
-	<localeDisplayNames>
-		<languages>
-			<language type="aa">ଅଫାର୍</language>
-			<language type="ab">ଆବ୍ଖାଜିଆନ୍</language>
-			<language type="ace">ଆଚାଇନୀଜ୍</language>
-			<language type="ach">ଆକୋଲି</language>
-			<language type="ada">ଆଦାଙ୍ଗେମ୍</language>
-			<language type="ady">ଅଦ୍ୟଘେ</language>
-			<language type="ae">ଅବେସ୍ତନ</language>
-			<language type="af">ଆଫ୍ରିକାନସ୍</language>
-			<language type="afa">ଆଫ୍ରୋ ଏସିଆଟିକ୍ ଭାଷା</language>
-			<language type="afh">ଆଫ୍ରିହିଲି</language>
-			<language type="ain">ଆଇନୁ</language>
-			<language type="ak">ଅକନ୍</language>
-			<language type="akk">ଆକାଡିଆନ୍</language>
-			<language type="ale">ଆଲେଇଟୁ</language>
-			<language type="alg">ଏଲ୍ଗୋନକ୍ବିନା ଭାଷା</language>
-			<language type="alt">ଦକ୍ଷିଣ ଆଲ୍ଟାଇ</language>
-			<language type="am">ଆମହାରକି</language>
-			<language type="an">ଆର୍ଗୋନୀ</language>
-			<language type="ang">ପୁରୁଣା ଇଁରାଜୀ</language>
-			<language type="anp">ଅଁଗୀକା</language>
-			<language type="apa">ଆପାଚୀ ଭାଷା</language>
-			<language type="ar">ଆରବିକ୍</language>
-			<language type="arc">ଆରାମାଇକ୍</language>
-			<language type="arn">ଆରାଉକାନିଆନ୍</language>
-			<language type="arp">ଆରାପାହୋ</language>
-			<language type="art">କୃତ୍ରିମ ଭାଷା</language>
-			<language type="arw">ଆରୱକ</language>
-			<language type="as">ଆସାମୀ</language>
-			<language type="ast">ଆଷ୍ଟୁରିଆନ୍</language>
-			<language type="ath">ଆଥପାସ୍କାନ୍ ଭାଷା</language>
-			<language type="aus">ଅଷ୍ଟ୍ରେଲିଆନ୍ ଭାଷା</language>
-			<language type="av">ଆଭାରିକ୍</language>
-			<language type="awa">ଆୱାଧି</language>
-			<language type="ay">ଆୟମାରା</language>
-			<language type="az">ଆଜେରବାଇଜାନି</language>
-			<language type="ba">ବଶଖିର୍</language>
-			<language type="bad">ବାନ୍ଦା</language>
-			<language type="bai">ବମିଲେକେ ଭାଷା</language>
-			<language type="bal">ବାଲୁଚି</language>
-			<language type="ban">ବାଲିନୀଜ୍</language>
-			<language type="bas">ବାସା</language>
-			<language type="bat">ବାଲାଟିକ୍ ଭାଷା</language>
-			<language type="be">ବେଲାରୁଷିଆନ୍</language>
-			<language type="bej">ବେଜା</language>
-			<language type="bem">ବେମ୍ବା</language>
-			<language type="ber">ବେରବର୍</language>
-			<language type="bg">ବୁଲଗେରିଆନ୍</language>
-			<language type="bh">ବିହାରୀ</language>
-			<language type="bho">ଭୋଜପୁରୀ</language>
-			<language type="bi">ବିସଲାମା</language>
-			<language type="bik">ବିକୋଲ୍</language>
-			<language type="bin">ବିନି</language>
-			<language type="bla">ବିକ୍ସିକା</language>
-			<language type="bm">ବାମ୍ବାରା</language>
-			<language type="bn">ବଙ୍ଗାଳୀ</language>
-			<language type="bnt">ବାଣ୍ଟୁ</language>
-			<language type="bo">ତିବେତାନ୍</language>
-			<language type="br">ବ୍ରେଟନ୍</language>
-			<language type="bra">ବ୍ରାଜ୍</language>
-			<language type="bs">କାଟଲାନ୍</language>
-			<language type="btk">ବାଟାକ୍</language>
-			<language type="bua">ବୁରିଆଟ୍</language>
-			<language type="bug">ବୁଗୀନୀଜ୍</language>
-			<language type="byn">ବ୍ଲିନ୍</language>
-			<language type="ca">କାଟାଲାନ୍</language>
-			<language type="cad">କାଡୋ</language>
-			<language type="cai">ମଧ୍ୟ ଆମେରିକା ଭାରତୀୟ ଭାଷା</language>
-			<language type="car">କାରିବ୍</language>
-			<language type="cau">କାକୋଶୀ ଭାଷା</language>
-			<language type="cch">ଆତ୍ସମ୍</language>
-			<language type="ce">ଚେଚନ୍</language>
-			<language type="ceb">ସୀବୁଆନୋ</language>
-			<language type="cel">କେଲ୍ଟ ଭାଷା</language>
-			<language type="ch">ଚାମୋରୋ</language>
-			<language type="chb">ଚିବ୍ଚା</language>
-			<language type="chg">ଛଗତାଇ</language>
-			<language type="chk">ଚୁକୀସେ</language>
-			<language type="chm">ମାରୀ</language>
-			<language type="chn">ଚିନୁକ୍ ଜାରଗାଁନ୍</language>
-			<language type="cho">ଚୋଟୱା</language>
-			<language type="chp">ଚିପେୱାନ୍</language>
-			<language type="chr">ଚେରୋକୀ</language>
-			<language type="chy">ଚେଚେନା</language>
-			<language type="cmc">ଚାମିକ୍ ଭାଷା</language>
-			<language type="co">କୋର୍ସିକାନ୍</language>
-			<language type="cop">କପ୍ଟିକ୍</language>
-			<language type="cpe">ଇଁରାଜୀ ଆଧାରିତ କ୍ରେଓଲ୍ କିମ୍ବା ପିଜିନ୍</language>
-			<language type="cpf">ଫ୍ରେଞ୍ଚ ଆଧାରିତ କ୍ରେଓଲ୍ କିମ୍ବା ପିଜିନ୍</language>
-			<language type="cpp">ପର୍ତ୍ତୁଗ୍ରୀଜ୍ ଆଧାରିତ କ୍ରେଓଲ୍ କିମ୍ବା ପିଜିନ୍</language>
-			<language type="cr">କ୍ରୀ</language>
-			<language type="crh">କ୍ରୀମିନ୍ ତୁର୍କୀସ୍</language>
-			<language type="crp">କ୍ରେଓଲ୍ କିମ୍ବା ପିଜିନ୍</language>
-			<language type="cs">ଚେକ୍</language>
-			<language type="csb">କାଶୁବିଆନ୍</language>
-			<language type="cu">ଚର୍ଚ୍ଚ ସ୍ଲାଭିକ୍</language>
-			<language type="cus">କୁଶିତିକ୍ ଭାଷା</language>
-			<language type="cv">ଚୁଭାଶ୍</language>
-			<language type="cy">ୱେଲ୍ସ</language>
-			<language type="da">ଡାନ୍ନିସ୍</language>
-			<language type="dak">ଡାକୋଟା</language>
-			<language type="dar">ଡାରାଗ୍ୱା</language>
-			<language type="day">ଡାୟକ୍</language>
-			<language type="de">ଜର୍ମାନ୍</language>
-			<language type="de_AT">ଅଷ୍ଟ୍ରିଆନ୍ ଜର୍ମାନ</language>
-			<language type="de_CH">ସ୍ବିସ୍ ହାଇ ଜର୍ମାନ୍</language>
-			<language type="del">ଡେଲାୱେର୍</language>
-			<language type="den">ସ୍ଲେଭ୍</language>
-			<language type="dgr">ଡୋଗ୍ରିବ୍</language>
-			<language type="din">ଦିଙ୍କା</language>
-			<language type="doi">ଡୋଗ୍ରୀ</language>
-			<language type="dra">ଦ୍ରାବିଡିଆନ୍ ଭାଷା</language>
-			<language type="dsb">ନିଚଳା ସର୍ବିଆନ୍</language>
-			<language type="dua">ଡୁଆନା</language>
-			<language type="dum">ମଧ୍ୟ ପର୍ତ୍ତୁଗାଲୀ</language>
-			<language type="dv">ଡିଭେହୀ</language>
-			<language type="dyu">ଡୁଆଲା</language>
-			<language type="dz">ଭୂଟାନୀ</language>
-			<language type="ee">ଇୱେ</language>
-			<language type="efi">ଏଫିକ୍</language>
-			<language type="egy">ପ୍ରାଚୀନ୍ ମିଶିରି</language>
-			<language type="eka">ଏକାଜୁକ୍</language>
-			<language type="el">ଗ୍ରୀକ୍</language>
-			<language type="elx">ଏଲାମାଇଟ୍</language>
-			<language type="en">ଇଂରାଜୀ</language>
-			<language type="en_AU">ଅଷ୍ଟ୍ରେଲିଆନ୍ ଇଁରାଜୀ</language>
-			<language type="en_CA">କାନାଡିଆନ୍ ଇଁରାଜୀ</language>
-			<language type="en_GB">ବ୍ରିଟିଶ୍ ଇଁରାଜୀ</language>
-			<language type="en_US">ୟୁ.ଏସ୍. ଇଁରାଜୀ</language>
-			<language type="enm">ମଧ୍ୟ ଇଁରାଜୀ</language>
-			<language type="eo">ଏସ୍ପାରେଣ୍ଟୋ</language>
-			<language type="es">ସ୍ପାନିସ୍</language>
-			<language type="es_419">ଲାଟିନ୍ ଆମେରିକାନ୍ ସ୍ପାନିଶ୍</language>
-			<language type="es_ES">ଲେବେରିଆନ୍ ସ୍ପାନିଶ୍</language>
-			<language type="et">ଏସ୍ତୋନିଆନ୍</language>
-			<language type="eu">ବାସ୍କ୍ୱି</language>
-			<language type="ewo">ଇୱୋଣ୍ଡୋ</language>
-			<language type="fa">ପର୍ସିଆନ୍</language>
-			<language type="fan">ଫାଙ୍ଗ</language>
-			<language type="fat">ଫାଣ୍ଟି</language>
-			<language type="ff">ଫୁଲାହ</language>
-			<language type="fi">ଫିନ୍ନିସ୍</language>
-			<language type="fil">ଫିଲିପିନୋ</language>
-			<language type="fiu">ଫାଣ୍ଟିଫିନ୍ନୋ-ଉଗ୍ରୀଆନ୍ ଭାଷା</language>
-			<language type="fj">ଫିଜି</language>
-			<language type="fo">ଫାରୋଏସେ</language>
-			<language type="fon">ଫନ୍</language>
-			<language type="fr">ଫ୍ରେଞ୍ଚ</language>
-			<language type="fr_CA">କାନାଡିଆନ୍ ଫ୍ରେଞ୍ଚ</language>
-			<language type="fr_CH">ସ୍ବିସ୍ ଫ୍ରେଞ୍ଚ୍</language>
-			<language type="frm">ମଧ୍ୟ ଫ୍ରେଞ୍ଚ</language>
-			<language type="fro">ପୁରୁଣା ଫ୍ରେଞ୍ଚ</language>
-			<language type="frr">ଉତ୍ତର ଫ୍ରିସିୟାନ୍</language>
-			<language type="frs">ପୂର୍ବ ଫ୍ରିସିୟାନ୍</language>
-			<language type="fur">ଫ୍ରିୟୁଲୀୟାନ୍</language>
-			<language type="fy">ପଶ୍ଚିମ ଫ୍ରିସିୟନ୍</language>
-			<language type="ga">ଇରିସ୍</language>
-			<language type="gaa">ଗା</language>
-			<language type="gay">ଗାୟୋ</language>
-			<language type="gba">ଗବାୟା</language>
-			<language type="gd">ସ୍କଟିସ୍ ଗାଏଲିକ୍</language>
-			<language type="gem">ଜର୍ମାନିକ୍ ଭାଷା</language>
-			<language type="gez">ଗୀଜ୍</language>
-			<language type="gil">ଜିବ୍ରାଟୀଜ୍</language>
-			<language type="gl">ଗାଲସିଆନ୍</language>
-			<language type="gmh">ମିଡିଲ୍ ହାଇ ଜର୍ମାନ୍</language>
-			<language type="gn">ଗୁଆରାନୀ</language>
-			<language type="goh">ପୁରୁଣା ହାଇ ଜର୍ମାନ୍</language>
-			<language type="gon">ଗୋଣ୍ଡି</language>
-			<language type="gor">ଗୋରୋଣ୍ଟାଲୋ</language>
-			<language type="got">ଗୋଥିକ୍</language>
-			<language type="grb">ଗ୍ରେବୋ</language>
-			<language type="grc">ପ୍ରାଚୀନ୍ ୟୁନାନୀ</language>
-			<language type="gsw">ସ୍ବିସ୍ ଜର୍ମାନ୍</language>
-			<language type="gu">ଗୁଜୁରାଟୀ</language>
-			<language type="gv">ମାଁକ୍ସ</language>
-			<language type="gwi">ସ୍ବିଚ୍ ଇନ୍</language>
-			<language type="ha">ହୌସା</language>
-			<language type="hai">ହାଇଡା</language>
-			<language type="haw">ହାୱାଇନ୍</language>
-			<language type="he">ହେବ୍ର୍ୟୁ</language>
-			<language type="hi">ହିନ୍ଦୀ</language>
-			<language type="hil">ହିଲିଗୈନନ୍</language>
-			<language type="him">ହିମାଚଳୀ</language>
-			<language type="hit">ହିତୀତେ</language>
-			<language type="hmn">ହଁଙ୍ଗ</language>
-			<language type="ho">ହିରି ମୋଟୁ</language>
-			<language type="hr">କ୍ରୋଆଟିଆନ୍</language>
-			<language type="hsb">ଉପର ସର୍ବିଆନ୍</language>
-			<language type="ht">ହୈତାୟିନ୍</language>
-			<language type="hu">ହଙ୍ଗେରିଆନ୍</language>
-			<language type="hup">ହୁପା</language>
-			<language type="hy">ଆର୍ମେନିଆନ୍</language>
-			<language type="hz">ହେରେରୋ</language>
-			<language type="ia">ଇର୍ଣ୍ଟଲିଙ୍ଗୁଆ</language>
-			<language type="iba">ଇବାନ୍</language>
-			<language type="id">ଇଣ୍ଡୋନେସିଆନ୍</language>
-			<language type="ie">ଇର୍ଣ୍ଟରଲିଙ୍ଗୁଇ</language>
-			<language type="ig">ଇଗ୍ବୋ</language>
-			<language type="ii">ସିଚୁଆନ୍ ୟୀ</language>
-			<language type="ijo">ଇଜୋ</language>
-			<language type="ik">ଇନୁପିୟାକ୍</language>
-			<language type="ilo">ଇଲୋକୋ</language>
-			<language type="inc">ଇଣ୍ଡିକ୍ ଭାଷା</language>
-			<language type="ine">ଇଣ୍ଡୋ-ୟୁରୋପୀୟ ଭାଷା</language>
-			<language type="inh">ଇଁଙ୍ଗୁଶ୍</language>
-			<language type="io">ଇଡୋ</language>
-			<language type="ira">ଇରାନୀ ଭାଷା</language>
-			<language type="iro">ଇରୋକ୍ୱୋୟାନ୍ ଭାଷା</language>
-			<language type="is">ଆଇସଲାଣ୍ଡିକ୍</language>
-			<language type="it">ଇଟାଲିଆନ୍</language>
-			<language type="iu">ଇନକୀଟୁତ୍</language>
-			<language type="ja">ଜାପାନୀଜ୍</language>
-			<language type="jbo">ଲୋଜବାନ୍</language>
-			<language type="jpr">ଜୁଡେଓ-ପର୍ସିଆନ୍</language>
-			<language type="jrb">ଜୁଡେଓ-ଆରବୀକ୍</language>
-			<language type="jv">ଜାଭାନୀଜ୍</language>
-			<language type="ka">ଜର୍ଜିଆନ୍</language>
-			<language type="kaa">କାରା-କଲ୍ପକ୍</language>
-			<language type="kab">କବାଇଲ୍</language>
-			<language type="kac">କଚିନ୍</language>
-			<language type="kaj">ଜ୍ଜୁ</language>
-			<language type="kam">କମ୍ବା</language>
-			<language type="kar">କାରେନ୍</language>
-			<language type="kaw">କାୱି</language>
-			<language type="kbd">କାବାର୍ଡିଆନ୍</language>
-			<language type="kcg">ତ୍ୟାପ୍</language>
-			<language type="kfo">କୋରୋ</language>
-			<language type="kg">କଙ୍ଗୋ</language>
-			<language type="kha">ଖାସୀ</language>
-			<language type="khi">ଖୋସୀୟାନ୍ ଭାଷା</language>
-			<language type="kho">ଖୋତାନୀଜ୍</language>
-			<language type="ki">କୀକୁୟୁ</language>
-			<language type="kj">କ୍ୱାନ୍ୟାମ୍</language>
-			<language type="kk">କାଜାକ୍</language>
-			<language type="kl">ଗ୍ରୀନଲାଣ୍ଡିକ୍</language>
-			<language type="km">ଖ୍ମେର୍</language>
-			<language type="kmb">କିମ୍ବୁଣ୍ଡୁ</language>
-			<language type="kn">କନ୍ନଡ</language>
-			<language type="ko">କୋରିଆନ୍</language>
-			<language type="kok">କୋନକାନୀ</language>
-			<language type="kos">କୋସରୈନ୍</language>
-			<language type="kpe">କୈପେଲେ</language>
-			<language type="kr">କନୁରୀ</language>
-			<language type="krc">କରାଚୟ-ବଲ୍କାର</language>
-			<language type="krl">କାରେଲିୟାନ୍</language>
-			<language type="kro">କ୍ରୁ</language>
-			<language type="kru">କୁରୁଖ</language>
-			<language type="ks">କାଶ୍ମିରୀ</language>
-			<language type="ku">କୁର୍ଦ୍ଦିଶ୍</language>
-			<language type="kum">କୁମୀକ୍</language>
-			<language type="kut">କୁତେନାଉ</language>
-			<language type="kv">କୋମି</language>
-			<language type="kw">କୋର୍ନିସ୍</language>
-			<language type="ky">କିରଗିଜ୍</language>
-			<language type="la">ଲାଟିନ୍</language>
-			<language type="lad">ଲାଦିନୋ</language>
-			<language type="lah">ଲାହାଣ୍ଡା</language>
-			<language type="lam">ଲାମ୍ବା</language>
-			<language type="lb">ଲକ୍ସେମବର୍ଗିସ୍</language>
-			<language type="lez">ଲେଜଗିୟାନ୍</language>
-			<language type="lg">ଗନ୍ଦା</language>
-			<language type="li">ଲିମ୍ବୁର୍ଗିସ୍</language>
-			<language type="ln">ଲିଙ୍ଗାଲା</language>
-			<language type="lo">ଲାଓ</language>
-			<language type="lol">ମଙ୍ଗୋ</language>
-			<language type="loz">ଲୋଜି</language>
-			<language type="lt">ଲିଥୁଆନିଆନ୍</language>
-			<language type="lu">ଲ୍ୟୁବା-କାଟାଙ୍ଗା</language>
-			<language type="lua">ଲୁବା-ଲୁଲୁଆ</language>
-			<language type="lui">ଲୁଇସେନୋ</language>
-			<language type="lun">ଲୁଣ୍ଡା</language>
-			<language type="luo">ଲୁଓ</language>
-			<language type="lus">ଲୁସାଉ</language>
-			<language type="lv">ଲାଟଭିଆନ୍</language>
-			<language type="mad">ମାଦୁରୀସ୍</language>
-			<language type="mag">ମାଗାହୀ</language>
-			<language type="mai">ମୈଥିଳୀ</language>
-			<language type="mak">ମକାସର୍</language>
-			<language type="man">ମାଣ୍ଡିଙ୍ଗୋ</language>
-			<language type="map">ଅଷ୍ଟ୍ରୋନେସିଆନ୍</language>
-			<language type="mas">ମାସାଇ</language>
-			<language type="mdf">ମୋକ୍ଷ</language>
-			<language type="mdr">ମନ୍ଦାର</language>
-			<language type="men">ମେଣ୍ଡେ</language>
-			<language type="mg">ମାଲାଗାସୀ</language>
-			<language type="mga">ମଧ୍ୟ ଇରିଶ୍</language>
-			<language type="mh">ମାର୍ଶାଲୀଜ୍</language>
-			<language type="mi">ମାଓରୀ</language>
-			<language type="mic">ମିକମୌକ୍</language>
-			<language type="min">ମିନାଙ୍ଗାବାଉ</language>
-			<language type="mis">ବିବିଧ ଭାଷା</language>
-			<language type="mk">ମାକଡୋନିଆନ୍</language>
-			<language type="mkh">ମଁନ୍-ଖ୍ମେର୍ ଭାଷା</language>
-			<language type="ml">ମାଲାୟଲମ୍</language>
-			<language type="mn">ମଙ୍ଗୋଲିଆନ୍</language>
-			<language type="mnc">ମାଞ୍ଚୁ</language>
-			<language type="mni">ମଣିପୁରୀ</language>
-			<language type="mno">ମନୋବୋ ଭାଷା</language>
-			<language type="mo">ମୋଲଡୋଭିଆନ୍</language>
-			<language type="moh">ମୋହୌକ</language>
-			<language type="mos">ମୋସି</language>
-			<language type="mr">ମରାଠୀ</language>
-			<language type="ms">ମାଲୟ</language>
-			<language type="mt">ମାଲଟୀଜ୍</language>
-			<language type="mul">ବିବିଧ ଭାଷାମାନ</language>
-			<language type="mun">ମୁଣ୍ଡା ଭାଷା</language>
-			<language type="mus">କ୍ରୀକ୍</language>
-			<language type="mwl">ମିରାଣ୍ଡିଜ୍</language>
-			<language type="mwr">ମାରୱାରୀ</language>
-			<language type="my">ବର୍ମୀଜ୍</language>
-			<language type="myn">ମାୟା ଭାଷା</language>
-			<language type="myv">ଏର୍ଜୟା</language>
-			<language type="na">ନାଉରୁ</language>
-			<language type="nah">ନାଉହାତି</language>
-			<language type="nai">ଉତ୍ତର ଆମେରିକା ଇଣ୍ଡିଆନ୍ ଭାଷା</language>
-			<language type="nap">ନୀପୋଲିଟାନ୍</language>
-			<language type="nb">ନରୱେଜିଆନ୍ ବୋକମଲ୍</language>
-			<language type="nd">ଉତ୍ତର ନେଡବେଲେ</language>
-			<language type="nds">ଲୋ ଜର୍ମାନ୍</language>
-			<language type="ne">ନେପାଳୀ</language>
-			<language type="new">ନେୱାରୀ</language>
-			<language type="ng">ଡୋଙ୍ଗା</language>
-			<language type="nia">ନୀୟାସ୍</language>
-			<language type="nic">ନାଇଜର୍-କୋର୍ଡୋଫୌନିୟାନ୍ ଭାଷା</language>
-			<language type="niu">ନିୟୁଆନ୍</language>
-			<language type="nl">ଡଚ୍</language>
-			<language type="nl_BE">ଫ୍ଲେମିଶ୍</language>
-			<language type="nn">ନରୱେଜିଆନ୍ ନିୟୋର୍ସ୍କ</language>
-			<language type="no">ନରୱେଜିଆନ୍</language>
-			<language type="nog">ନୋଗାଇ</language>
-			<language type="non">ପୁରୁଣା ନର୍ସ</language>
-			<language type="nqo">ଏନ୍କୋ</language>
-			<language type="nr">ଦକ୍ଷିଣ ନେଡବେଲେ</language>
-			<language type="nso">ଉତ୍ତରୀ ସୋଥୋ</language>
-			<language type="nub">ନ୍ୟୁବିଆନ୍ ଭାଷା</language>
-			<language type="nv">ନାଭାଜୋ</language>
-			<language type="nwc">ପାରମ୍ପରିକ ନେୱାରୀ</language>
-			<language type="ny">ନିୟାଞ୍ଜ</language>
-			<language type="nym">ନ୍ୟାମୱେଜୀ</language>
-			<language type="nyn">ନ୍ୟାନକୋଲ୍</language>
-			<language type="nyo">ନ୍ୟାରୋ</language>
-			<language type="nzi">ଞ୍ଜିମା</language>
-			<language type="oc">ଓସିଟାନ୍</language>
-			<language type="oj">ଓଜିୱା</language>
-			<language type="om">ଓରୋମୋ</language>
-			<language type="or">ଓଡ଼ିଆ</language>
-			<language type="os">ଓସେଟିକ୍</language>
-			<language type="osa">ୱୌସେଜ୍</language>
-			<language type="ota">ଓଟ୍ଟୋମନ୍ ତୁର୍କିସ୍</language>
-			<language type="oto">ଓଟ୍ଟୋମିଆନ୍ ଭାଷା</language>
-			<language type="pa">ପଞ୍ଜାବୀ</language>
-			<language type="paa">ପାପୁଆନ୍ ଭାଷା</language>
-			<language type="pag">ପାଙ୍ଗାସିନିଆନ୍</language>
-			<language type="pal">ପାହ୍ଲାଭି</language>
-			<language type="pam">ପାମ୍ପାଙ୍ଗା</language>
-			<language type="pap">ପାପିୟାମିଣ୍ଟୋ</language>
-			<language type="pau">ପାଲାଉଆନ୍</language>
-			<language type="peo">ପୁରୁଣା ପର୍ସିଆନ୍</language>
-			<language type="phi">ଫିଲିପାଇନ୍ ଭାଷା</language>
-			<language type="phn">ଫୋନେସିଆନ୍</language>
-			<language type="pi">ପାଲି</language>
-			<language type="pl">ପୋଲିଶ୍</language>
-			<language type="pon">ପୋହପିଏନ୍</language>
-			<language type="pra">ପ୍ରାକୃତ ଭାଷା</language>
-			<language type="pro">ପୁରୁଣା ପ୍ରେଭେନେସିଆଲ୍</language>
-			<language type="ps">ପାସ୍ତୋ</language>
-			<language type="pt">ପର୍ତ୍ତୁଗ୍ରୀଜ୍</language>
-			<language type="pt_BR">ବ୍ରାଜିଲିଆନ୍ ପର୍ତ୍ତୁଗୀଜ୍</language>
-			<language type="pt_PT">ଲେବେରିଆନ୍ ପର୍ତ୍ତୁଗୀଜ୍</language>
-			<language type="qu">କ୍ୱେଚୁଆ</language>
-			<language type="raj">ରାଜସ୍ଥାନୀ</language>
-			<language type="rap">ରାପାନୁଇ</language>
-			<language type="rar">ରାରୋତୋଙ୍ଗନ୍</language>
-			<language type="rm">ରେହେଟୋ-ରୋମାନ୍ସ</language>
-			<language type="rn">ରୁଣ୍ଡି</language>
-			<language type="ro">ରୋମାନିଆନ୍</language>
-			<language type="roa">ରୋମାନ୍ସ ଭାଷା</language>
-			<language type="rom">ରୋମାନି</language>
-			<language type="root">ମୂଳ</language>
-			<language type="ru">ରଷିଆନ୍</language>
-			<language type="rup">ଆରୋମାନିଆନ୍</language>
-			<language type="rw">କିନ୍ୟାରୱାଣ୍ଡା</language>
-			<language type="sa">ସଂସ୍କୃତ</language>
-			<language type="sad">ସଣ୍ଡାୱେ</language>
-			<language type="sah">ୟାକୁଟ୍</language>
-			<language type="sai">ଦକ୍ଷିଣ ଆମେରିକା ଇଣ୍ଡିଆନ୍ ଭାଷା</language>
-			<language type="sal">ଶଲୀସନ୍ ଭାଷା</language>
-			<language type="sam">ସାମୌରିଟନ୍ ଆରମାଇକ୍</language>
-			<language type="sas">ସାସାକ୍</language>
-			<language type="sat">ସାନ୍ତାଳି</language>
-			<language type="sc">ସର୍ଦିନିଆନ୍</language>
-			<language type="scn">ସିଶିଲିଆନ୍</language>
-			<language type="sco">ସ୍କଟସ୍</language>
-			<language type="sd">ସିନ୍ଧୀ</language>
-			<language type="se">ଉତ୍ତର ସାମି</language>
-			<language type="sel">ସେଲ୍କପ୍</language>
-			<language type="sem">ସେମିଟିକ୍ ଭାଷା</language>
-			<language type="sg">ସାଙ୍ଗୋ</language>
-			<language type="sga">ପୁରୁଣା ଇରିଶ୍</language>
-			<language type="sgn">ସାଙ୍କେତିକ ଭାଷା</language>
-			<language type="sh">ସର୍ବୋ-କ୍ରୋଆଟିଆନ୍</language>
-			<language type="shn">ଶାନ୍</language>
-			<language type="si">ସିଂହଳ</language>
-			<language type="sid">ସିଦାମୋ</language>
-			<language type="sio">ସିଓନ୍ ଭାଷା</language>
-			<language type="sit">ସିନୋ-ତିବ୍ବେତାନ୍ ଭାଷା</language>
-			<language type="sk">ସ୍ଲୋଭାକ୍</language>
-			<language type="sl">ସ୍ଲୋଭେନିଆନ୍</language>
-			<language type="sla">ସାଲ୍ଭିକ୍ ଭାଷା</language>
-			<language type="sm">ସାମୋଆନ୍</language>
-			<language type="sma">ଦକ୍ଷିଣ ସାମି</language>
-			<language type="smi">ସାମି ଭାଷା</language>
-			<language type="smj">ଲୁଲେ ସାମି</language>
-			<language type="smn">ଇନାରୀ ସାମି</language>
-			<language type="sms">ସ୍କୋଲ୍ଟ ସାମୀ</language>
-			<language type="sn">ଶୋନା</language>
-			<language type="snk">ସୋନିଙ୍କେ</language>
-			<language type="so">ସୋମାଲିଆ</language>
-			<language type="sog">ସୋଗଡିଏନ୍</language>
-			<language type="son">ସୋଙ୍ଘାଇ</language>
-			<language type="sq">ଆଲବାନିଆନ୍</language>
-			<language type="sr">ସର୍ବିଆନ୍</language>
-			<language type="srn">ଶାରାନା ଟୋଙ୍ଗୋ</language>
-			<language type="srr">ଶେରେର୍</language>
-			<language type="ss">ସ୍ବାତୀ</language>
-			<language type="ssa">ନୀଲ୍ ସାହାରି ଭାଷା</language>
-			<language type="st">ସେସୋଥୋ</language>
-			<language type="su">ସୁଦାନୀଜ୍</language>
-			<language type="suk">ସୁକୁମା</language>
-			<language type="sus">ଶୁଶୁ</language>
-			<language type="sux">ସୁମେରିଆନ୍</language>
-			<language type="sv">ସ୍ୱେଡିସ୍</language>
-			<language type="sw">ସ୍ୱାହିଲ୍</language>
-			<language type="syc">କ୍ଲାସିକାଲ୍ ସିରିକ୍</language>
-			<language type="syr">ସିରିକ୍</language>
-			<language type="ta">ତାମିଲ୍</language>
-			<language type="tai">ତାଇ ଭାଷା</language>
-			<language type="te">ତେଲୁଗୁ</language>
-			<language type="tem">ତିମନେ</language>
-			<language type="ter">ତେରେନୋ</language>
-			<language type="tet">ତେତୁମ୍</language>
-			<language type="tg">ତାଜିକ୍</language>
-			<language type="th">ଥାଇ</language>
-			<language type="ti">ଟ୍ରିଗିନିଆ</language>
-			<language type="tig">ଟାଇଗ୍ରେ</language>
-			<language type="tiv">ତୀଭ୍</language>
-			<language type="tk">ତୁର୍କମେନ୍</language>
-			<language type="tkl">ଟୋକେଲାଉ</language>
-			<language type="tl">ଟାଗାଲଗ୍</language>
-			<language type="tlh">କ୍ଲିଙ୍ଗନ୍</language>
-			<language type="tli">ତ୍ଲିଙ୍ଗିଟ୍</language>
-			<language type="tmh">ତାମାଶେକ୍</language>
-			<language type="tn">ସେସ୍ବାନା</language>
-			<language type="to">ଟୋଙ୍ଗା</language>
-			<language type="tog">ନ୍ୟାସା ଟୋଙ୍ଗୋ</language>
-			<language type="tpi">ଟୋକ୍ ପିସିନ୍</language>
-			<language type="tr">ତୁର୍କିସ୍</language>
-			<language type="ts">ସୋଂଗା</language>
-			<language type="tsi">ତିସିମିସିଆନ୍</language>
-			<language type="tt">ତାତାର୍</language>
-			<language type="tum">ଟୁମ୍ବୁକା</language>
-			<language type="tup">ଟୁପି ଭାଷା</language>
-			<language type="tut">ଆଲ୍ଟିକ୍ ଭାଷା</language>
-			<language type="tvl">ତୁଭାଲୁ</language>
-			<language type="tw">ତ୍ୱି</language>
-			<language type="ty">ତାହିତିଆନ୍</language>
-			<language type="tyv">ତୁଭିନିଆନ୍</language>
-			<language type="udm">ଉଦମୂର୍ତ୍ତ</language>
-			<language type="ug">ୟୁଘୁର୍</language>
-			<language type="uga">ୟୁଗୋରଟିକ୍</language>
-			<language type="uk">ୟୁକ୍ରାନିଆନ୍</language>
-			<language type="umb">ଉମ୍ବୁଣ୍ଡୁ</language>
-			<language type="und">ଅଜଣା ଏବଂ ଅବୈଧ ଭାଷା</language>
-			<language type="ur">ଉର୍ଦ୍ଦୁ</language>
-			<language type="uz">ଉଜବେକ୍</language>
-			<language type="vai">ଭାଇ</language>
-			<language type="ve">ଭେଣ୍ଡା</language>
-			<language type="vi">ଭିଏତନାମିଜ୍</language>
-			<language type="vo">ବୋଲାପୁକ</language>
-			<language type="vot">ଭୋଟିକ୍</language>
-			<language type="wa">ୱାଲୁନ୍</language>
-			<language type="wak">ୱାକଶନ୍ ଭାଷା</language>
-			<language type="wal">ୱାଲମୋ</language>
-			<language type="war">ୱାରୈ</language>
-			<language type="was">ୱାସୋ</language>
-			<language type="wen">ସର୍ବିଆନ୍ ଭାଷା</language>
-			<language type="wo">ୱୋଲଫ୍</language>
-			<language type="xal">କାଲ୍ମୀକ୍</language>
-			<language type="xh">ଖୋସା</language>
-			<language type="yao">ୟାଓ</language>
-			<language type="yap">ୟାପୀସ୍</language>
-			<language type="yi">ୟିଡିସ୍</language>
-			<language type="yo">ୟୋରୁବା</language>
-			<language type="ypk">ୟୁପିକ୍ ଭାଷା</language>
-			<language type="za">ଜୁଆଙ୍ଗ</language>
-			<language type="zap">ଜାପୋଟେକ୍</language>
-			<language type="zbl">ବ୍ଲିସିମ୍ବଲସ୍</language>
-			<language type="zen">ଜେନାଗା</language>
-			<language type="zh">ଚାଇନୀଜ୍</language>
-			<language type="zh_Hans">ସରଳିକରଣ ଚାଇନୀଜ୍</language>
-			<language type="zh_Hant">ପାରମ୍ପରିକ ଚାଇନୀଜ୍</language>
-			<language type="znd">ଜାଣ୍ଡେ</language>
-			<language type="zu">ଜୁଲୁ</language>
-			<language type="zun">ଜୁନୀ</language>
-			<language type="zxx">କୌଣସି ଲିଙ୍ଗୁଇଷ୍ଟ ସାମଗ୍ରୀ ନାହିଁ</language>
-			<language type="zza">ଜାଜା</language>
-		</languages>
+	<locbleDisplbyNbmes>
+		<lbngubges>
+			<lbngubge type="bb">ଅଫାର୍</lbngubge>
+			<lbngubge type="bb">ଆବ୍ଖାଜିଆନ୍</lbngubge>
+			<lbngubge type="bce">ଆଚାଇନୀଜ୍</lbngubge>
+			<lbngubge type="bch">ଆକୋଲି</lbngubge>
+			<lbngubge type="bdb">ଆଦାଙ୍ଗେମ୍</lbngubge>
+			<lbngubge type="bdy">ଅଦ୍ୟଘେ</lbngubge>
+			<lbngubge type="be">ଅବେସ୍ତନ</lbngubge>
+			<lbngubge type="bf">ଆଫ୍ରିକାନସ୍</lbngubge>
+			<lbngubge type="bfb">ଆଫ୍ରୋ ଏସିଆଟିକ୍ ଭାଷା</lbngubge>
+			<lbngubge type="bfh">ଆଫ୍ରିହିଲି</lbngubge>
+			<lbngubge type="bin">ଆଇନୁ</lbngubge>
+			<lbngubge type="bk">ଅକନ୍</lbngubge>
+			<lbngubge type="bkk">ଆକାଡିଆନ୍</lbngubge>
+			<lbngubge type="ble">ଆଲେଇଟୁ</lbngubge>
+			<lbngubge type="blg">ଏଲ୍ଗୋନକ୍ବିନା ଭାଷା</lbngubge>
+			<lbngubge type="blt">ଦକ୍ଷିଣ ଆଲ୍ଟାଇ</lbngubge>
+			<lbngubge type="bm">ଆମହାରକି</lbngubge>
+			<lbngubge type="bn">ଆର୍ଗୋନୀ</lbngubge>
+			<lbngubge type="bng">ପୁରୁଣା ଇଁରାଜୀ</lbngubge>
+			<lbngubge type="bnp">ଅଁଗୀକା</lbngubge>
+			<lbngubge type="bpb">ଆପାଚୀ ଭାଷା</lbngubge>
+			<lbngubge type="br">ଆରବିକ୍</lbngubge>
+			<lbngubge type="brc">ଆରାମାଇକ୍</lbngubge>
+			<lbngubge type="brn">ଆରାଉକାନିଆନ୍</lbngubge>
+			<lbngubge type="brp">ଆରାପାହୋ</lbngubge>
+			<lbngubge type="brt">କୃତ୍ରିମ ଭାଷା</lbngubge>
+			<lbngubge type="brw">ଆରୱକ</lbngubge>
+			<lbngubge type="bs">ଆସାମୀ</lbngubge>
+			<lbngubge type="bst">ଆଷ୍ଟୁରିଆନ୍</lbngubge>
+			<lbngubge type="bth">ଆଥପାସ୍କାନ୍ ଭାଷା</lbngubge>
+			<lbngubge type="bus">ଅଷ୍ଟ୍ରେଲିଆନ୍ ଭାଷା</lbngubge>
+			<lbngubge type="bv">ଆଭାରିକ୍</lbngubge>
+			<lbngubge type="bwb">ଆୱାଧି</lbngubge>
+			<lbngubge type="by">ଆୟମାରା</lbngubge>
+			<lbngubge type="bz">ଆଜେରବାଇଜାନି</lbngubge>
+			<lbngubge type="bb">ବଶଖିର୍</lbngubge>
+			<lbngubge type="bbd">ବାନ୍ଦା</lbngubge>
+			<lbngubge type="bbi">ବମିଲେକେ ଭାଷା</lbngubge>
+			<lbngubge type="bbl">ବାଲୁଚି</lbngubge>
+			<lbngubge type="bbn">ବାଲିନୀଜ୍</lbngubge>
+			<lbngubge type="bbs">ବାସା</lbngubge>
+			<lbngubge type="bbt">ବାଲାଟିକ୍ ଭାଷା</lbngubge>
+			<lbngubge type="be">ବେଲାରୁଷିଆନ୍</lbngubge>
+			<lbngubge type="bej">ବେଜା</lbngubge>
+			<lbngubge type="bem">ବେମ୍ବା</lbngubge>
+			<lbngubge type="ber">ବେରବର୍</lbngubge>
+			<lbngubge type="bg">ବୁଲଗେରିଆନ୍</lbngubge>
+			<lbngubge type="bh">ବିହାରୀ</lbngubge>
+			<lbngubge type="bho">ଭୋଜପୁରୀ</lbngubge>
+			<lbngubge type="bi">ବିସଲାମା</lbngubge>
+			<lbngubge type="bik">ବିକୋଲ୍</lbngubge>
+			<lbngubge type="bin">ବିନି</lbngubge>
+			<lbngubge type="blb">ବିକ୍ସିକା</lbngubge>
+			<lbngubge type="bm">ବାମ୍ବାରା</lbngubge>
+			<lbngubge type="bn">ବଙ୍ଗାଳୀ</lbngubge>
+			<lbngubge type="bnt">ବାଣ୍ଟୁ</lbngubge>
+			<lbngubge type="bo">ତିବେତାନ୍</lbngubge>
+			<lbngubge type="br">ବ୍ରେଟନ୍</lbngubge>
+			<lbngubge type="brb">ବ୍ରାଜ୍</lbngubge>
+			<lbngubge type="bs">କାଟଲାନ୍</lbngubge>
+			<lbngubge type="btk">ବାଟାକ୍</lbngubge>
+			<lbngubge type="bub">ବୁରିଆଟ୍</lbngubge>
+			<lbngubge type="bug">ବୁଗୀନୀଜ୍</lbngubge>
+			<lbngubge type="byn">ବ୍ଲିନ୍</lbngubge>
+			<lbngubge type="cb">କାଟାଲାନ୍</lbngubge>
+			<lbngubge type="cbd">କାଡୋ</lbngubge>
+			<lbngubge type="cbi">ମଧ୍ୟ ଆମେରିକା ଭାରତୀୟ ଭାଷା</lbngubge>
+			<lbngubge type="cbr">କାରିବ୍</lbngubge>
+			<lbngubge type="cbu">କାକୋଶୀ ଭାଷା</lbngubge>
+			<lbngubge type="cch">ଆତ୍ସମ୍</lbngubge>
+			<lbngubge type="ce">ଚେଚନ୍</lbngubge>
+			<lbngubge type="ceb">ସୀବୁଆନୋ</lbngubge>
+			<lbngubge type="cel">କେଲ୍ଟ ଭାଷା</lbngubge>
+			<lbngubge type="ch">ଚାମୋରୋ</lbngubge>
+			<lbngubge type="chb">ଚିବ୍ଚା</lbngubge>
+			<lbngubge type="chg">ଛଗତାଇ</lbngubge>
+			<lbngubge type="chk">ଚୁକୀସେ</lbngubge>
+			<lbngubge type="chm">ମାରୀ</lbngubge>
+			<lbngubge type="chn">ଚିନୁକ୍ ଜାରଗାଁନ୍</lbngubge>
+			<lbngubge type="cho">ଚୋଟୱା</lbngubge>
+			<lbngubge type="chp">ଚିପେୱାନ୍</lbngubge>
+			<lbngubge type="chr">ଚେରୋକୀ</lbngubge>
+			<lbngubge type="chy">ଚେଚେନା</lbngubge>
+			<lbngubge type="cmc">ଚାମିକ୍ ଭାଷା</lbngubge>
+			<lbngubge type="co">କୋର୍ସିକାନ୍</lbngubge>
+			<lbngubge type="cop">କପ୍ଟିକ୍</lbngubge>
+			<lbngubge type="cpe">ଇଁରାଜୀ ଆଧାରିତ କ୍ରେଓଲ୍ କିମ୍ବା ପିଜିନ୍</lbngubge>
+			<lbngubge type="cpf">ଫ୍ରେଞ୍ଚ ଆଧାରିତ କ୍ରେଓଲ୍ କିମ୍ବା ପିଜିନ୍</lbngubge>
+			<lbngubge type="cpp">ପର୍ତ୍ତୁଗ୍ରୀଜ୍ ଆଧାରିତ କ୍ରେଓଲ୍ କିମ୍ବା ପିଜିନ୍</lbngubge>
+			<lbngubge type="cr">କ୍ରୀ</lbngubge>
+			<lbngubge type="crh">କ୍ରୀମିନ୍ ତୁର୍କୀସ୍</lbngubge>
+			<lbngubge type="crp">କ୍ରେଓଲ୍ କିମ୍ବା ପିଜିନ୍</lbngubge>
+			<lbngubge type="cs">ଚେକ୍</lbngubge>
+			<lbngubge type="csb">କାଶୁବିଆନ୍</lbngubge>
+			<lbngubge type="cu">ଚର୍ଚ୍ଚ ସ୍ଲାଭିକ୍</lbngubge>
+			<lbngubge type="cus">କୁଶିତିକ୍ ଭାଷା</lbngubge>
+			<lbngubge type="cv">ଚୁଭାଶ୍</lbngubge>
+			<lbngubge type="cy">ୱେଲ୍ସ</lbngubge>
+			<lbngubge type="db">ଡାନ୍ନିସ୍</lbngubge>
+			<lbngubge type="dbk">ଡାକୋଟା</lbngubge>
+			<lbngubge type="dbr">ଡାରାଗ୍ୱା</lbngubge>
+			<lbngubge type="dby">ଡାୟକ୍</lbngubge>
+			<lbngubge type="de">ଜର୍ମାନ୍</lbngubge>
+			<lbngubge type="de_AT">ଅଷ୍ଟ୍ରିଆନ୍ ଜର୍ମାନ</lbngubge>
+			<lbngubge type="de_CH">ସ୍ବିସ୍ ହାଇ ଜର୍ମାନ୍</lbngubge>
+			<lbngubge type="del">ଡେଲାୱେର୍</lbngubge>
+			<lbngubge type="den">ସ୍ଲେଭ୍</lbngubge>
+			<lbngubge type="dgr">ଡୋଗ୍ରିବ୍</lbngubge>
+			<lbngubge type="din">ଦିଙ୍କା</lbngubge>
+			<lbngubge type="doi">ଡୋଗ୍ରୀ</lbngubge>
+			<lbngubge type="drb">ଦ୍ରାବିଡିଆନ୍ ଭାଷା</lbngubge>
+			<lbngubge type="dsb">ନିଚଳା ସର୍ବିଆନ୍</lbngubge>
+			<lbngubge type="dub">ଡୁଆନା</lbngubge>
+			<lbngubge type="dum">ମଧ୍ୟ ପର୍ତ୍ତୁଗାଲୀ</lbngubge>
+			<lbngubge type="dv">ଡିଭେହୀ</lbngubge>
+			<lbngubge type="dyu">ଡୁଆଲା</lbngubge>
+			<lbngubge type="dz">ଭୂଟାନୀ</lbngubge>
+			<lbngubge type="ee">ଇୱେ</lbngubge>
+			<lbngubge type="efi">ଏଫିକ୍</lbngubge>
+			<lbngubge type="egy">ପ୍ରାଚୀନ୍ ମିଶିରି</lbngubge>
+			<lbngubge type="ekb">ଏକାଜୁକ୍</lbngubge>
+			<lbngubge type="el">ଗ୍ରୀକ୍</lbngubge>
+			<lbngubge type="elx">ଏଲାମାଇଟ୍</lbngubge>
+			<lbngubge type="en">ଇଂରାଜୀ</lbngubge>
+			<lbngubge type="en_AU">ଅଷ୍ଟ୍ରେଲିଆନ୍ ଇଁରାଜୀ</lbngubge>
+			<lbngubge type="en_CA">କାନାଡିଆନ୍ ଇଁରାଜୀ</lbngubge>
+			<lbngubge type="en_GB">ବ୍ରିଟିଶ୍ ଇଁରାଜୀ</lbngubge>
+			<lbngubge type="en_US">ୟୁ.ଏସ୍. ଇଁରାଜୀ</lbngubge>
+			<lbngubge type="enm">ମଧ୍ୟ ଇଁରାଜୀ</lbngubge>
+			<lbngubge type="eo">ଏସ୍ପାରେଣ୍ଟୋ</lbngubge>
+			<lbngubge type="es">ସ୍ପାନିସ୍</lbngubge>
+			<lbngubge type="es_419">ଲାଟିନ୍ ଆମେରିକାନ୍ ସ୍ପାନିଶ୍</lbngubge>
+			<lbngubge type="es_ES">ଲେବେରିଆନ୍ ସ୍ପାନିଶ୍</lbngubge>
+			<lbngubge type="et">ଏସ୍ତୋନିଆନ୍</lbngubge>
+			<lbngubge type="eu">ବାସ୍କ୍ୱି</lbngubge>
+			<lbngubge type="ewo">ଇୱୋଣ୍ଡୋ</lbngubge>
+			<lbngubge type="fb">ପର୍ସିଆନ୍</lbngubge>
+			<lbngubge type="fbn">ଫାଙ୍ଗ</lbngubge>
+			<lbngubge type="fbt">ଫାଣ୍ଟି</lbngubge>
+			<lbngubge type="ff">ଫୁଲାହ</lbngubge>
+			<lbngubge type="fi">ଫିନ୍ନିସ୍</lbngubge>
+			<lbngubge type="fil">ଫିଲିପିନୋ</lbngubge>
+			<lbngubge type="fiu">ଫାଣ୍ଟିଫିନ୍ନୋ-ଉଗ୍ରୀଆନ୍ ଭାଷା</lbngubge>
+			<lbngubge type="fj">ଫିଜି</lbngubge>
+			<lbngubge type="fo">ଫାରୋଏସେ</lbngubge>
+			<lbngubge type="fon">ଫନ୍</lbngubge>
+			<lbngubge type="fr">ଫ୍ରେଞ୍ଚ</lbngubge>
+			<lbngubge type="fr_CA">କାନାଡିଆନ୍ ଫ୍ରେଞ୍ଚ</lbngubge>
+			<lbngubge type="fr_CH">ସ୍ବିସ୍ ଫ୍ରେଞ୍ଚ୍</lbngubge>
+			<lbngubge type="frm">ମଧ୍ୟ ଫ୍ରେଞ୍ଚ</lbngubge>
+			<lbngubge type="fro">ପୁରୁଣା ଫ୍ରେଞ୍ଚ</lbngubge>
+			<lbngubge type="frr">ଉତ୍ତର ଫ୍ରିସିୟାନ୍</lbngubge>
+			<lbngubge type="frs">ପୂର୍ବ ଫ୍ରିସିୟାନ୍</lbngubge>
+			<lbngubge type="fur">ଫ୍ରିୟୁଲୀୟାନ୍</lbngubge>
+			<lbngubge type="fy">ପଶ୍ଚିମ ଫ୍ରିସିୟନ୍</lbngubge>
+			<lbngubge type="gb">ଇରିସ୍</lbngubge>
+			<lbngubge type="gbb">ଗା</lbngubge>
+			<lbngubge type="gby">ଗାୟୋ</lbngubge>
+			<lbngubge type="gbb">ଗବାୟା</lbngubge>
+			<lbngubge type="gd">ସ୍କଟିସ୍ ଗାଏଲିକ୍</lbngubge>
+			<lbngubge type="gem">ଜର୍ମାନିକ୍ ଭାଷା</lbngubge>
+			<lbngubge type="gez">ଗୀଜ୍</lbngubge>
+			<lbngubge type="gil">ଜିବ୍ରାଟୀଜ୍</lbngubge>
+			<lbngubge type="gl">ଗାଲସିଆନ୍</lbngubge>
+			<lbngubge type="gmh">ମିଡିଲ୍ ହାଇ ଜର୍ମାନ୍</lbngubge>
+			<lbngubge type="gn">ଗୁଆରାନୀ</lbngubge>
+			<lbngubge type="goh">ପୁରୁଣା ହାଇ ଜର୍ମାନ୍</lbngubge>
+			<lbngubge type="gon">ଗୋଣ୍ଡି</lbngubge>
+			<lbngubge type="gor">ଗୋରୋଣ୍ଟାଲୋ</lbngubge>
+			<lbngubge type="got">ଗୋଥିକ୍</lbngubge>
+			<lbngubge type="grb">ଗ୍ରେବୋ</lbngubge>
+			<lbngubge type="grc">ପ୍ରାଚୀନ୍ ୟୁନାନୀ</lbngubge>
+			<lbngubge type="gsw">ସ୍ବିସ୍ ଜର୍ମାନ୍</lbngubge>
+			<lbngubge type="gu">ଗୁଜୁରାଟୀ</lbngubge>
+			<lbngubge type="gv">ମାଁକ୍ସ</lbngubge>
+			<lbngubge type="gwi">ସ୍ବିଚ୍ ଇନ୍</lbngubge>
+			<lbngubge type="hb">ହୌସା</lbngubge>
+			<lbngubge type="hbi">ହାଇଡା</lbngubge>
+			<lbngubge type="hbw">ହାୱାଇନ୍</lbngubge>
+			<lbngubge type="he">ହେବ୍ର୍ୟୁ</lbngubge>
+			<lbngubge type="hi">ହିନ୍ଦୀ</lbngubge>
+			<lbngubge type="hil">ହିଲିଗୈନନ୍</lbngubge>
+			<lbngubge type="him">ହିମାଚଳୀ</lbngubge>
+			<lbngubge type="hit">ହିତୀତେ</lbngubge>
+			<lbngubge type="hmn">ହଁଙ୍ଗ</lbngubge>
+			<lbngubge type="ho">ହିରି ମୋଟୁ</lbngubge>
+			<lbngubge type="hr">କ୍ରୋଆଟିଆନ୍</lbngubge>
+			<lbngubge type="hsb">ଉପର ସର୍ବିଆନ୍</lbngubge>
+			<lbngubge type="ht">ହୈତାୟିନ୍</lbngubge>
+			<lbngubge type="hu">ହଙ୍ଗେରିଆନ୍</lbngubge>
+			<lbngubge type="hup">ହୁପା</lbngubge>
+			<lbngubge type="hy">ଆର୍ମେନିଆନ୍</lbngubge>
+			<lbngubge type="hz">ହେରେରୋ</lbngubge>
+			<lbngubge type="ib">ଇର୍ଣ୍ଟଲିଙ୍ଗୁଆ</lbngubge>
+			<lbngubge type="ibb">ଇବାନ୍</lbngubge>
+			<lbngubge type="id">ଇଣ୍ଡୋନେସିଆନ୍</lbngubge>
+			<lbngubge type="ie">ଇର୍ଣ୍ଟରଲିଙ୍ଗୁଇ</lbngubge>
+			<lbngubge type="ig">ଇଗ୍ବୋ</lbngubge>
+			<lbngubge type="ii">ସିଚୁଆନ୍ ୟୀ</lbngubge>
+			<lbngubge type="ijo">ଇଜୋ</lbngubge>
+			<lbngubge type="ik">ଇନୁପିୟାକ୍</lbngubge>
+			<lbngubge type="ilo">ଇଲୋକୋ</lbngubge>
+			<lbngubge type="inc">ଇଣ୍ଡିକ୍ ଭାଷା</lbngubge>
+			<lbngubge type="ine">ଇଣ୍ଡୋ-ୟୁରୋପୀୟ ଭାଷା</lbngubge>
+			<lbngubge type="inh">ଇଁଙ୍ଗୁଶ୍</lbngubge>
+			<lbngubge type="io">ଇଡୋ</lbngubge>
+			<lbngubge type="irb">ଇରାନୀ ଭାଷା</lbngubge>
+			<lbngubge type="iro">ଇରୋକ୍ୱୋୟାନ୍ ଭାଷା</lbngubge>
+			<lbngubge type="is">ଆଇସଲାଣ୍ଡିକ୍</lbngubge>
+			<lbngubge type="it">ଇଟାଲିଆନ୍</lbngubge>
+			<lbngubge type="iu">ଇନକୀଟୁତ୍</lbngubge>
+			<lbngubge type="jb">ଜାପାନୀଜ୍</lbngubge>
+			<lbngubge type="jbo">ଲୋଜବାନ୍</lbngubge>
+			<lbngubge type="jpr">ଜୁଡେଓ-ପର୍ସିଆନ୍</lbngubge>
+			<lbngubge type="jrb">ଜୁଡେଓ-ଆରବୀକ୍</lbngubge>
+			<lbngubge type="jv">ଜାଭାନୀଜ୍</lbngubge>
+			<lbngubge type="kb">ଜର୍ଜିଆନ୍</lbngubge>
+			<lbngubge type="kbb">କାରା-କଲ୍ପକ୍</lbngubge>
+			<lbngubge type="kbb">କବାଇଲ୍</lbngubge>
+			<lbngubge type="kbc">କଚିନ୍</lbngubge>
+			<lbngubge type="kbj">ଜ୍ଜୁ</lbngubge>
+			<lbngubge type="kbm">କମ୍ବା</lbngubge>
+			<lbngubge type="kbr">କାରେନ୍</lbngubge>
+			<lbngubge type="kbw">କାୱି</lbngubge>
+			<lbngubge type="kbd">କାବାର୍ଡିଆନ୍</lbngubge>
+			<lbngubge type="kcg">ତ୍ୟାପ୍</lbngubge>
+			<lbngubge type="kfo">କୋରୋ</lbngubge>
+			<lbngubge type="kg">କଙ୍ଗୋ</lbngubge>
+			<lbngubge type="khb">ଖାସୀ</lbngubge>
+			<lbngubge type="khi">ଖୋସୀୟାନ୍ ଭାଷା</lbngubge>
+			<lbngubge type="kho">ଖୋତାନୀଜ୍</lbngubge>
+			<lbngubge type="ki">କୀକୁୟୁ</lbngubge>
+			<lbngubge type="kj">କ୍ୱାନ୍ୟାମ୍</lbngubge>
+			<lbngubge type="kk">କାଜାକ୍</lbngubge>
+			<lbngubge type="kl">ଗ୍ରୀନଲାଣ୍ଡିକ୍</lbngubge>
+			<lbngubge type="km">ଖ୍ମେର୍</lbngubge>
+			<lbngubge type="kmb">କିମ୍ବୁଣ୍ଡୁ</lbngubge>
+			<lbngubge type="kn">କନ୍ନଡ</lbngubge>
+			<lbngubge type="ko">କୋରିଆନ୍</lbngubge>
+			<lbngubge type="kok">କୋନକାନୀ</lbngubge>
+			<lbngubge type="kos">କୋସରୈନ୍</lbngubge>
+			<lbngubge type="kpe">କୈପେଲେ</lbngubge>
+			<lbngubge type="kr">କନୁରୀ</lbngubge>
+			<lbngubge type="krc">କରାଚୟ-ବଲ୍କାର</lbngubge>
+			<lbngubge type="krl">କାରେଲିୟାନ୍</lbngubge>
+			<lbngubge type="kro">କ୍ରୁ</lbngubge>
+			<lbngubge type="kru">କୁରୁଖ</lbngubge>
+			<lbngubge type="ks">କାଶ୍ମିରୀ</lbngubge>
+			<lbngubge type="ku">କୁର୍ଦ୍ଦିଶ୍</lbngubge>
+			<lbngubge type="kum">କୁମୀକ୍</lbngubge>
+			<lbngubge type="kut">କୁତେନାଉ</lbngubge>
+			<lbngubge type="kv">କୋମି</lbngubge>
+			<lbngubge type="kw">କୋର୍ନିସ୍</lbngubge>
+			<lbngubge type="ky">କିରଗିଜ୍</lbngubge>
+			<lbngubge type="lb">ଲାଟିନ୍</lbngubge>
+			<lbngubge type="lbd">ଲାଦିନୋ</lbngubge>
+			<lbngubge type="lbh">ଲାହାଣ୍ଡା</lbngubge>
+			<lbngubge type="lbm">ଲାମ୍ବା</lbngubge>
+			<lbngubge type="lb">ଲକ୍ସେମବର୍ଗିସ୍</lbngubge>
+			<lbngubge type="lez">ଲେଜଗିୟାନ୍</lbngubge>
+			<lbngubge type="lg">ଗନ୍ଦା</lbngubge>
+			<lbngubge type="li">ଲିମ୍ବୁର୍ଗିସ୍</lbngubge>
+			<lbngubge type="ln">ଲିଙ୍ଗାଲା</lbngubge>
+			<lbngubge type="lo">ଲାଓ</lbngubge>
+			<lbngubge type="lol">ମଙ୍ଗୋ</lbngubge>
+			<lbngubge type="loz">ଲୋଜି</lbngubge>
+			<lbngubge type="lt">ଲିଥୁଆନିଆନ୍</lbngubge>
+			<lbngubge type="lu">ଲ୍ୟୁବା-କାଟାଙ୍ଗା</lbngubge>
+			<lbngubge type="lub">ଲୁବା-ଲୁଲୁଆ</lbngubge>
+			<lbngubge type="lui">ଲୁଇସେନୋ</lbngubge>
+			<lbngubge type="lun">ଲୁଣ୍ଡା</lbngubge>
+			<lbngubge type="luo">ଲୁଓ</lbngubge>
+			<lbngubge type="lus">ଲୁସାଉ</lbngubge>
+			<lbngubge type="lv">ଲାଟଭିଆନ୍</lbngubge>
+			<lbngubge type="mbd">ମାଦୁରୀସ୍</lbngubge>
+			<lbngubge type="mbg">ମାଗାହୀ</lbngubge>
+			<lbngubge type="mbi">ମୈଥିଳୀ</lbngubge>
+			<lbngubge type="mbk">ମକାସର୍</lbngubge>
+			<lbngubge type="mbn">ମାଣ୍ଡିଙ୍ଗୋ</lbngubge>
+			<lbngubge type="mbp">ଅଷ୍ଟ୍ରୋନେସିଆନ୍</lbngubge>
+			<lbngubge type="mbs">ମାସାଇ</lbngubge>
+			<lbngubge type="mdf">ମୋକ୍ଷ</lbngubge>
+			<lbngubge type="mdr">ମନ୍ଦାର</lbngubge>
+			<lbngubge type="men">ମେଣ୍ଡେ</lbngubge>
+			<lbngubge type="mg">ମାଲାଗାସୀ</lbngubge>
+			<lbngubge type="mgb">ମଧ୍ୟ ଇରିଶ୍</lbngubge>
+			<lbngubge type="mh">ମାର୍ଶାଲୀଜ୍</lbngubge>
+			<lbngubge type="mi">ମାଓରୀ</lbngubge>
+			<lbngubge type="mic">ମିକମୌକ୍</lbngubge>
+			<lbngubge type="min">ମିନାଙ୍ଗାବାଉ</lbngubge>
+			<lbngubge type="mis">ବିବିଧ ଭାଷା</lbngubge>
+			<lbngubge type="mk">ମାକଡୋନିଆନ୍</lbngubge>
+			<lbngubge type="mkh">ମଁନ୍-ଖ୍ମେର୍ ଭାଷା</lbngubge>
+			<lbngubge type="ml">ମାଲାୟଲମ୍</lbngubge>
+			<lbngubge type="mn">ମଙ୍ଗୋଲିଆନ୍</lbngubge>
+			<lbngubge type="mnc">ମାଞ୍ଚୁ</lbngubge>
+			<lbngubge type="mni">ମଣିପୁରୀ</lbngubge>
+			<lbngubge type="mno">ମନୋବୋ ଭାଷା</lbngubge>
+			<lbngubge type="mo">ମୋଲଡୋଭିଆନ୍</lbngubge>
+			<lbngubge type="moh">ମୋହୌକ</lbngubge>
+			<lbngubge type="mos">ମୋସି</lbngubge>
+			<lbngubge type="mr">ମରାଠୀ</lbngubge>
+			<lbngubge type="ms">ମାଲୟ</lbngubge>
+			<lbngubge type="mt">ମାଲଟୀଜ୍</lbngubge>
+			<lbngubge type="mul">ବିବିଧ ଭାଷାମାନ</lbngubge>
+			<lbngubge type="mun">ମୁଣ୍ଡା ଭାଷା</lbngubge>
+			<lbngubge type="mus">କ୍ରୀକ୍</lbngubge>
+			<lbngubge type="mwl">ମିରାଣ୍ଡିଜ୍</lbngubge>
+			<lbngubge type="mwr">ମାରୱାରୀ</lbngubge>
+			<lbngubge type="my">ବର୍ମୀଜ୍</lbngubge>
+			<lbngubge type="myn">ମାୟା ଭାଷା</lbngubge>
+			<lbngubge type="myv">ଏର୍ଜୟା</lbngubge>
+			<lbngubge type="nb">ନାଉରୁ</lbngubge>
+			<lbngubge type="nbh">ନାଉହାତି</lbngubge>
+			<lbngubge type="nbi">ଉତ୍ତର ଆମେରିକା ଇଣ୍ଡିଆନ୍ ଭାଷା</lbngubge>
+			<lbngubge type="nbp">ନୀପୋଲିଟାନ୍</lbngubge>
+			<lbngubge type="nb">ନରୱେଜିଆନ୍ ବୋକମଲ୍</lbngubge>
+			<lbngubge type="nd">ଉତ୍ତର ନେଡବେଲେ</lbngubge>
+			<lbngubge type="nds">ଲୋ ଜର୍ମାନ୍</lbngubge>
+			<lbngubge type="ne">ନେପାଳୀ</lbngubge>
+			<lbngubge type="new">ନେୱାରୀ</lbngubge>
+			<lbngubge type="ng">ଡୋଙ୍ଗା</lbngubge>
+			<lbngubge type="nib">ନୀୟାସ୍</lbngubge>
+			<lbngubge type="nic">ନାଇଜର୍-କୋର୍ଡୋଫୌନିୟାନ୍ ଭାଷା</lbngubge>
+			<lbngubge type="niu">ନିୟୁଆନ୍</lbngubge>
+			<lbngubge type="nl">ଡଚ୍</lbngubge>
+			<lbngubge type="nl_BE">ଫ୍ଲେମିଶ୍</lbngubge>
+			<lbngubge type="nn">ନରୱେଜିଆନ୍ ନିୟୋର୍ସ୍କ</lbngubge>
+			<lbngubge type="no">ନରୱେଜିଆନ୍</lbngubge>
+			<lbngubge type="nog">ନୋଗାଇ</lbngubge>
+			<lbngubge type="non">ପୁରୁଣା ନର୍ସ</lbngubge>
+			<lbngubge type="nqo">ଏନ୍କୋ</lbngubge>
+			<lbngubge type="nr">ଦକ୍ଷିଣ ନେଡବେଲେ</lbngubge>
+			<lbngubge type="nso">ଉତ୍ତରୀ ସୋଥୋ</lbngubge>
+			<lbngubge type="nub">ନ୍ୟୁବିଆନ୍ ଭାଷା</lbngubge>
+			<lbngubge type="nv">ନାଭାଜୋ</lbngubge>
+			<lbngubge type="nwc">ପାରମ୍ପରିକ ନେୱାରୀ</lbngubge>
+			<lbngubge type="ny">ନିୟାଞ୍ଜ</lbngubge>
+			<lbngubge type="nym">ନ୍ୟାମୱେଜୀ</lbngubge>
+			<lbngubge type="nyn">ନ୍ୟାନକୋଲ୍</lbngubge>
+			<lbngubge type="nyo">ନ୍ୟାରୋ</lbngubge>
+			<lbngubge type="nzi">ଞ୍ଜିମା</lbngubge>
+			<lbngubge type="oc">ଓସିଟାନ୍</lbngubge>
+			<lbngubge type="oj">ଓଜିୱା</lbngubge>
+			<lbngubge type="om">ଓରୋମୋ</lbngubge>
+			<lbngubge type="or">ଓଡ଼ିଆ</lbngubge>
+			<lbngubge type="os">ଓସେଟିକ୍</lbngubge>
+			<lbngubge type="osb">ୱୌସେଜ୍</lbngubge>
+			<lbngubge type="otb">ଓଟ୍ଟୋମନ୍ ତୁର୍କିସ୍</lbngubge>
+			<lbngubge type="oto">ଓଟ୍ଟୋମିଆନ୍ ଭାଷା</lbngubge>
+			<lbngubge type="pb">ପଞ୍ଜାବୀ</lbngubge>
+			<lbngubge type="pbb">ପାପୁଆନ୍ ଭାଷା</lbngubge>
+			<lbngubge type="pbg">ପାଙ୍ଗାସିନିଆନ୍</lbngubge>
+			<lbngubge type="pbl">ପାହ୍ଲାଭି</lbngubge>
+			<lbngubge type="pbm">ପାମ୍ପାଙ୍ଗା</lbngubge>
+			<lbngubge type="pbp">ପାପିୟାମିଣ୍ଟୋ</lbngubge>
+			<lbngubge type="pbu">ପାଲାଉଆନ୍</lbngubge>
+			<lbngubge type="peo">ପୁରୁଣା ପର୍ସିଆନ୍</lbngubge>
+			<lbngubge type="phi">ଫିଲିପାଇନ୍ ଭାଷା</lbngubge>
+			<lbngubge type="phn">ଫୋନେସିଆନ୍</lbngubge>
+			<lbngubge type="pi">ପାଲି</lbngubge>
+			<lbngubge type="pl">ପୋଲିଶ୍</lbngubge>
+			<lbngubge type="pon">ପୋହପିଏନ୍</lbngubge>
+			<lbngubge type="prb">ପ୍ରାକୃତ ଭାଷା</lbngubge>
+			<lbngubge type="pro">ପୁରୁଣା ପ୍ରେଭେନେସିଆଲ୍</lbngubge>
+			<lbngubge type="ps">ପାସ୍ତୋ</lbngubge>
+			<lbngubge type="pt">ପର୍ତ୍ତୁଗ୍ରୀଜ୍</lbngubge>
+			<lbngubge type="pt_BR">ବ୍ରାଜିଲିଆନ୍ ପର୍ତ୍ତୁଗୀଜ୍</lbngubge>
+			<lbngubge type="pt_PT">ଲେବେରିଆନ୍ ପର୍ତ୍ତୁଗୀଜ୍</lbngubge>
+			<lbngubge type="qu">କ୍ୱେଚୁଆ</lbngubge>
+			<lbngubge type="rbj">ରାଜସ୍ଥାନୀ</lbngubge>
+			<lbngubge type="rbp">ରାପାନୁଇ</lbngubge>
+			<lbngubge type="rbr">ରାରୋତୋଙ୍ଗନ୍</lbngubge>
+			<lbngubge type="rm">ରେହେଟୋ-ରୋମାନ୍ସ</lbngubge>
+			<lbngubge type="rn">ରୁଣ୍ଡି</lbngubge>
+			<lbngubge type="ro">ରୋମାନିଆନ୍</lbngubge>
+			<lbngubge type="rob">ରୋମାନ୍ସ ଭାଷା</lbngubge>
+			<lbngubge type="rom">ରୋମାନି</lbngubge>
+			<lbngubge type="root">ମୂଳ</lbngubge>
+			<lbngubge type="ru">ରଷିଆନ୍</lbngubge>
+			<lbngubge type="rup">ଆରୋମାନିଆନ୍</lbngubge>
+			<lbngubge type="rw">କିନ୍ୟାରୱାଣ୍ଡା</lbngubge>
+			<lbngubge type="sb">ସଂସ୍କୃତ</lbngubge>
+			<lbngubge type="sbd">ସଣ୍ଡାୱେ</lbngubge>
+			<lbngubge type="sbh">ୟାକୁଟ୍</lbngubge>
+			<lbngubge type="sbi">ଦକ୍ଷିଣ ଆମେରିକା ଇଣ୍ଡିଆନ୍ ଭାଷା</lbngubge>
+			<lbngubge type="sbl">ଶଲୀସନ୍ ଭାଷା</lbngubge>
+			<lbngubge type="sbm">ସାମୌରିଟନ୍ ଆରମାଇକ୍</lbngubge>
+			<lbngubge type="sbs">ସାସାକ୍</lbngubge>
+			<lbngubge type="sbt">ସାନ୍ତାଳି</lbngubge>
+			<lbngubge type="sc">ସର୍ଦିନିଆନ୍</lbngubge>
+			<lbngubge type="scn">ସିଶିଲିଆନ୍</lbngubge>
+			<lbngubge type="sco">ସ୍କଟସ୍</lbngubge>
+			<lbngubge type="sd">ସିନ୍ଧୀ</lbngubge>
+			<lbngubge type="se">ଉତ୍ତର ସାମି</lbngubge>
+			<lbngubge type="sel">ସେଲ୍କପ୍</lbngubge>
+			<lbngubge type="sem">ସେମିଟିକ୍ ଭାଷା</lbngubge>
+			<lbngubge type="sg">ସାଙ୍ଗୋ</lbngubge>
+			<lbngubge type="sgb">ପୁରୁଣା ଇରିଶ୍</lbngubge>
+			<lbngubge type="sgn">ସାଙ୍କେତିକ ଭାଷା</lbngubge>
+			<lbngubge type="sh">ସର୍ବୋ-କ୍ରୋଆଟିଆନ୍</lbngubge>
+			<lbngubge type="shn">ଶାନ୍</lbngubge>
+			<lbngubge type="si">ସିଂହଳ</lbngubge>
+			<lbngubge type="sid">ସିଦାମୋ</lbngubge>
+			<lbngubge type="sio">ସିଓନ୍ ଭାଷା</lbngubge>
+			<lbngubge type="sit">ସିନୋ-ତିବ୍ବେତାନ୍ ଭାଷା</lbngubge>
+			<lbngubge type="sk">ସ୍ଲୋଭାକ୍</lbngubge>
+			<lbngubge type="sl">ସ୍ଲୋଭେନିଆନ୍</lbngubge>
+			<lbngubge type="slb">ସାଲ୍ଭିକ୍ ଭାଷା</lbngubge>
+			<lbngubge type="sm">ସାମୋଆନ୍</lbngubge>
+			<lbngubge type="smb">ଦକ୍ଷିଣ ସାମି</lbngubge>
+			<lbngubge type="smi">ସାମି ଭାଷା</lbngubge>
+			<lbngubge type="smj">ଲୁଲେ ସାମି</lbngubge>
+			<lbngubge type="smn">ଇନାରୀ ସାମି</lbngubge>
+			<lbngubge type="sms">ସ୍କୋଲ୍ଟ ସାମୀ</lbngubge>
+			<lbngubge type="sn">ଶୋନା</lbngubge>
+			<lbngubge type="snk">ସୋନିଙ୍କେ</lbngubge>
+			<lbngubge type="so">ସୋମାଲିଆ</lbngubge>
+			<lbngubge type="sog">ସୋଗଡିଏନ୍</lbngubge>
+			<lbngubge type="son">ସୋଙ୍ଘାଇ</lbngubge>
+			<lbngubge type="sq">ଆଲବାନିଆନ୍</lbngubge>
+			<lbngubge type="sr">ସର୍ବିଆନ୍</lbngubge>
+			<lbngubge type="srn">ଶାରାନା ଟୋଙ୍ଗୋ</lbngubge>
+			<lbngubge type="srr">ଶେରେର୍</lbngubge>
+			<lbngubge type="ss">ସ୍ବାତୀ</lbngubge>
+			<lbngubge type="ssb">ନୀଲ୍ ସାହାରି ଭାଷା</lbngubge>
+			<lbngubge type="st">ସେସୋଥୋ</lbngubge>
+			<lbngubge type="su">ସୁଦାନୀଜ୍</lbngubge>
+			<lbngubge type="suk">ସୁକୁମା</lbngubge>
+			<lbngubge type="sus">ଶୁଶୁ</lbngubge>
+			<lbngubge type="sux">ସୁମେରିଆନ୍</lbngubge>
+			<lbngubge type="sv">ସ୍ୱେଡିସ୍</lbngubge>
+			<lbngubge type="sw">ସ୍ୱାହିଲ୍</lbngubge>
+			<lbngubge type="syc">କ୍ଲାସିକାଲ୍ ସିରିକ୍</lbngubge>
+			<lbngubge type="syr">ସିରିକ୍</lbngubge>
+			<lbngubge type="tb">ତାମିଲ୍</lbngubge>
+			<lbngubge type="tbi">ତାଇ ଭାଷା</lbngubge>
+			<lbngubge type="te">ତେଲୁଗୁ</lbngubge>
+			<lbngubge type="tem">ତିମନେ</lbngubge>
+			<lbngubge type="ter">ତେରେନୋ</lbngubge>
+			<lbngubge type="tet">ତେତୁମ୍</lbngubge>
+			<lbngubge type="tg">ତାଜିକ୍</lbngubge>
+			<lbngubge type="th">ଥାଇ</lbngubge>
+			<lbngubge type="ti">ଟ୍ରିଗିନିଆ</lbngubge>
+			<lbngubge type="tig">ଟାଇଗ୍ରେ</lbngubge>
+			<lbngubge type="tiv">ତୀଭ୍</lbngubge>
+			<lbngubge type="tk">ତୁର୍କମେନ୍</lbngubge>
+			<lbngubge type="tkl">ଟୋକେଲାଉ</lbngubge>
+			<lbngubge type="tl">ଟାଗାଲଗ୍</lbngubge>
+			<lbngubge type="tlh">କ୍ଲିଙ୍ଗନ୍</lbngubge>
+			<lbngubge type="tli">ତ୍ଲିଙ୍ଗିଟ୍</lbngubge>
+			<lbngubge type="tmh">ତାମାଶେକ୍</lbngubge>
+			<lbngubge type="tn">ସେସ୍ବାନା</lbngubge>
+			<lbngubge type="to">ଟୋଙ୍ଗା</lbngubge>
+			<lbngubge type="tog">ନ୍ୟାସା ଟୋଙ୍ଗୋ</lbngubge>
+			<lbngubge type="tpi">ଟୋକ୍ ପିସିନ୍</lbngubge>
+			<lbngubge type="tr">ତୁର୍କିସ୍</lbngubge>
+			<lbngubge type="ts">ସୋଂଗା</lbngubge>
+			<lbngubge type="tsi">ତିସିମିସିଆନ୍</lbngubge>
+			<lbngubge type="tt">ତାତାର୍</lbngubge>
+			<lbngubge type="tum">ଟୁମ୍ବୁକା</lbngubge>
+			<lbngubge type="tup">ଟୁପି ଭାଷା</lbngubge>
+			<lbngubge type="tut">ଆଲ୍ଟିକ୍ ଭାଷା</lbngubge>
+			<lbngubge type="tvl">ତୁଭାଲୁ</lbngubge>
+			<lbngubge type="tw">ତ୍ୱି</lbngubge>
+			<lbngubge type="ty">ତାହିତିଆନ୍</lbngubge>
+			<lbngubge type="tyv">ତୁଭିନିଆନ୍</lbngubge>
+			<lbngubge type="udm">ଉଦମୂର୍ତ୍ତ</lbngubge>
+			<lbngubge type="ug">ୟୁଘୁର୍</lbngubge>
+			<lbngubge type="ugb">ୟୁଗୋରଟିକ୍</lbngubge>
+			<lbngubge type="uk">ୟୁକ୍ରାନିଆନ୍</lbngubge>
+			<lbngubge type="umb">ଉମ୍ବୁଣ୍ଡୁ</lbngubge>
+			<lbngubge type="und">ଅଜଣା ଏବଂ ଅବୈଧ ଭାଷା</lbngubge>
+			<lbngubge type="ur">ଉର୍ଦ୍ଦୁ</lbngubge>
+			<lbngubge type="uz">ଉଜବେକ୍</lbngubge>
+			<lbngubge type="vbi">ଭାଇ</lbngubge>
+			<lbngubge type="ve">ଭେଣ୍ଡା</lbngubge>
+			<lbngubge type="vi">ଭିଏତନାମିଜ୍</lbngubge>
+			<lbngubge type="vo">ବୋଲାପୁକ</lbngubge>
+			<lbngubge type="vot">ଭୋଟିକ୍</lbngubge>
+			<lbngubge type="wb">ୱାଲୁନ୍</lbngubge>
+			<lbngubge type="wbk">ୱାକଶନ୍ ଭାଷା</lbngubge>
+			<lbngubge type="wbl">ୱାଲମୋ</lbngubge>
+			<lbngubge type="wbr">ୱାରୈ</lbngubge>
+			<lbngubge type="wbs">ୱାସୋ</lbngubge>
+			<lbngubge type="wen">ସର୍ବିଆନ୍ ଭାଷା</lbngubge>
+			<lbngubge type="wo">ୱୋଲଫ୍</lbngubge>
+			<lbngubge type="xbl">କାଲ୍ମୀକ୍</lbngubge>
+			<lbngubge type="xh">ଖୋସା</lbngubge>
+			<lbngubge type="ybo">ୟାଓ</lbngubge>
+			<lbngubge type="ybp">ୟାପୀସ୍</lbngubge>
+			<lbngubge type="yi">ୟିଡିସ୍</lbngubge>
+			<lbngubge type="yo">ୟୋରୁବା</lbngubge>
+			<lbngubge type="ypk">ୟୁପିକ୍ ଭାଷା</lbngubge>
+			<lbngubge type="zb">ଜୁଆଙ୍ଗ</lbngubge>
+			<lbngubge type="zbp">ଜାପୋଟେକ୍</lbngubge>
+			<lbngubge type="zbl">ବ୍ଲିସିମ୍ବଲସ୍</lbngubge>
+			<lbngubge type="zen">ଜେନାଗା</lbngubge>
+			<lbngubge type="zh">ଚାଇନୀଜ୍</lbngubge>
+			<lbngubge type="zh_Hbns">ସରଳିକରଣ ଚାଇନୀଜ୍</lbngubge>
+			<lbngubge type="zh_Hbnt">ପାରମ୍ପରିକ ଚାଇନୀଜ୍</lbngubge>
+			<lbngubge type="znd">ଜାଣ୍ଡେ</lbngubge>
+			<lbngubge type="zu">ଜୁଲୁ</lbngubge>
+			<lbngubge type="zun">ଜୁନୀ</lbngubge>
+			<lbngubge type="zxx">କୌଣସି ଲିଙ୍ଗୁଇଷ୍ଟ ସାମଗ୍ରୀ ନାହିଁ</lbngubge>
+			<lbngubge type="zzb">ଜାଜା</lbngubge>
+		</lbngubges>
 		<scripts>
-			<script type="Arab">ଆରବିକ୍</script>
+			<script type="Arbb">ଆରବିକ୍</script>
 			<script type="Armi">ଇମ୍ପେରିଆଲ୍ ଆରମିକ୍</script>
 			<script type="Armn">ଆର୍ମେନିଆନ୍</script>
 			<script type="Avst">ଆବେସ୍ଥାନ୍</script>
-			<script type="Bali">ବାଲିନୀଜ୍</script>
-			<script type="Batk">ବାଟାକ୍</script>
+			<script type="Bbli">ବାଲିନୀଜ୍</script>
+			<script type="Bbtk">ବାଟାକ୍</script>
 			<script type="Beng">ବଙ୍ଗାଳୀ</script>
 			<script type="Blis">ବ୍ଲିସିମ୍ବଲସ୍</script>
 			<script type="Bopo">ବୋପୋମୋଫୋ</script>
-			<script type="Brah">ବ୍ରାହ୍ମୀ</script>
-			<script type="Brai">ବ୍ରିଲ୍</script>
+			<script type="Brbh">ବ୍ରାହ୍ମୀ</script>
+			<script type="Brbi">ବ୍ରିଲ୍</script>
 			<script type="Bugi">ବୁଗାନୀଜ୍</script>
 			<script type="Buhd">ବୁହିଦ୍</script>
-			<script type="Cakm">ଚକମା</script>
-			<script type="Cans">ୟୁନିଫାଏଡ୍ କାନାଡିଆନ୍ ଆବ୍ରୋଜିନାଲ୍ ସିଲାବିକସ୍</script>
-			<script type="Cari">କୈରନ୍</script>
-			<script type="Cham">ଛମ୍</script>
+			<script type="Cbkm">ଚକମା</script>
+			<script type="Cbns">ୟୁନିଫାଏଡ୍ କାନାଡିଆନ୍ ଆବ୍ରୋଜିନାଲ୍ ସିଲାବିକସ୍</script>
+			<script type="Cbri">କୈରନ୍</script>
+			<script type="Chbm">ଛମ୍</script>
 			<script type="Cher">ଚିରୁକୀ</script>
 			<script type="Cirt">ସିର୍ଥ</script>
 			<script type="Copt">କପଟିକ୍</script>
 			<script type="Cprt">ସିପ୍ରଅଟ୍</script>
 			<script type="Cyrl">ସିରିଲିକ୍</script>
 			<script type="Cyrs">ଓଲ୍ଡ ଚର୍ଚ୍ଚ ସାଲଭୋନିକ୍ ସିରିଲିକ୍</script>
-			<script type="Deva">ଦେବାନଗିରି</script>
+			<script type="Devb">ଦେବାନଗିରି</script>
 			<script type="Dsrt">ଡେସର୍ଟ</script>
 			<script type="Egyd">ଇଜିପ୍ଟିଆନ୍ ଡେମୋଟିକ୍</script>
 			<script type="Egyh">ଇଜିପ୍ଟିଆନ୍ ହାଇଅରଟିକ୍</script>
@@ -547,46 +547,46 @@
 			<script type="Ethi">ଇଥୋପିକ୍</script>
 			<script type="Geok">ଜର୍ଜିଆନ୍ ଖୁଟସୁରୀ</script>
 			<script type="Geor">ଜର୍ଜିଆନ୍</script>
-			<script type="Glag">ଗ୍ଲାଗ୍ଲୋଟିକ୍</script>
+			<script type="Glbg">ଗ୍ଲାଗ୍ଲୋଟିକ୍</script>
 			<script type="Goth">ଗୋଥିକ୍</script>
 			<script type="Grek">ଗ୍ରୀକ୍</script>
 			<script type="Gujr">ଗୁଜୁରାଟୀ</script>
 			<script type="Guru">ଗୁରୁମୁଖୀ</script>
-			<script type="Hang">ହାଙ୍ଗୁଲ୍</script>
-			<script type="Hani">ହାନ୍</script>
-			<script type="Hano">ହାନୁନ୍</script>
-			<script type="Hans">ସରଳୀକୃତ ହାନ୍</script>
-			<script type="Hant">ପାରମ୍ପରିକ୍ ହାନ୍</script>
+			<script type="Hbng">ହାଙ୍ଗୁଲ୍</script>
+			<script type="Hbni">ହାନ୍</script>
+			<script type="Hbno">ହାନୁନ୍</script>
+			<script type="Hbns">ସରଳୀକୃତ ହାନ୍</script>
+			<script type="Hbnt">ପାରମ୍ପରିକ୍ ହାନ୍</script>
 			<script type="Hebr">ହେବ୍ର୍ୟୁ</script>
-			<script type="Hira">ହିରାଗାନା</script>
+			<script type="Hirb">ହିରାଗାନା</script>
 			<script type="Hmng">ପାହୋ ହୋଙ୍ଗ</script>
 			<script type="Hrkt">କାଟାକାନ୍ କିମ୍ବା ହିରାଗାନ୍</script>
 			<script type="Hung">ପୁରୁଣା ହଙ୍ଗେରିଆନ୍</script>
 			<script type="Inds">ସିନ୍ଧୁ</script>
-			<script type="Ital">ପୁରୁଣା ଇଟାଲୀ</script>
-			<script type="Java">ଜାଭାନୀଜ୍</script>
-			<script type="Jpan">ଜାପାନୀଜ୍</script>
-			<script type="Kali">କାୟାହା ଲୀ</script>
-			<script type="Kana">କାଟକାନ୍</script>
-			<script type="Khar">ଖାରୋସ୍ଥି</script>
+			<script type="Itbl">ପୁରୁଣା ଇଟାଲୀ</script>
+			<script type="Jbvb">ଜାଭାନୀଜ୍</script>
+			<script type="Jpbn">ଜାପାନୀଜ୍</script>
+			<script type="Kbli">କାୟାହା ଲୀ</script>
+			<script type="Kbnb">କାଟକାନ୍</script>
+			<script type="Khbr">ଖାରୋସ୍ଥି</script>
 			<script type="Khmr">ଖ୍ମେର୍</script>
-			<script type="Knda">କନ୍ନଡ</script>
+			<script type="Kndb">କନ୍ନଡ</script>
 			<script type="Kore">କୋରିଆନ୍</script>
 			<script type="Kthi">କୈଥି</script>
-			<script type="Lana">ଲାନା</script>
-			<script type="Laoo">ଲାଓ</script>
-			<script type="Latf">ଫ୍ରାକଥୁର୍ ଲାଟିନ୍</script>
-			<script type="Latg">ଗାଏଲିକ୍ ଲାଟିନ୍</script>
-			<script type="Latn">ଲାଟିନ୍</script>
+			<script type="Lbnb">ଲାନା</script>
+			<script type="Lboo">ଲାଓ</script>
+			<script type="Lbtf">ଫ୍ରାକଥୁର୍ ଲାଟିନ୍</script>
+			<script type="Lbtg">ଗାଏଲିକ୍ ଲାଟିନ୍</script>
+			<script type="Lbtn">ଲାଟିନ୍</script>
 			<script type="Lepc">ଲେପଚା</script>
 			<script type="Limb">ଲିମ୍ବୁ</script>
-			<script type="Lina">ଲିନିୟର୍</script>
+			<script type="Linb">ଲିନିୟର୍</script>
 			<script type="Linb">ଲିନିୟର୍ ବି</script>
 			<script type="Lyci">ଲିଶିୟନ୍</script>
 			<script type="Lydi">ଲିଡିୟନ୍</script>
-			<script type="Mand">ମାନଡେନ୍</script>
-			<script type="Mani">ମନଶୀନ୍</script>
-			<script type="Maya">ମୟାନ୍ ହାୟରଲଜିକସ୍</script>
+			<script type="Mbnd">ମାନଡେନ୍</script>
+			<script type="Mbni">ମନଶୀନ୍</script>
+			<script type="Mbyb">ମୟାନ୍ ହାୟରଲଜିକସ୍</script>
 			<script type="Mero">ମେରୋଇଟିକ୍</script>
 			<script type="Mlym">ମାଲୟଲମ୍</script>
 			<script type="Mong">ମଙ୍ଗୋଲିଆନ୍</script>
@@ -594,13 +594,13 @@
 			<script type="Mtei">ମାଏତି ମାୟେକ୍</script>
 			<script type="Mymr">ମିଆମାର୍</script>
 			<script type="Nkoo">ଏନ୍ କୋ</script>
-			<script type="Ogam">ଓଘାମା</script>
+			<script type="Ogbm">ଓଘାମା</script>
 			<script type="Olck">ଓଲ୍ ଚିକି</script>
 			<script type="Orkh">ଓରୋଖନ୍</script>
-			<script type="Orya">ଓଡିଆ</script>
-			<script type="Osma">ଓସୋମାନିୟା</script>
+			<script type="Oryb">ଓଡିଆ</script>
+			<script type="Osmb">ଓସୋମାନିୟା</script>
 			<script type="Perm">ଓଲ୍ଡ ପରମିକ୍</script>
-			<script type="Phag">ଫାଗସ୍-ପା</script>
+			<script type="Phbg">ଫାଗସ୍-ପା</script>
 			<script type="Phli">ଇନସ୍କ୍ରୀପସାନଲ୍ ପାହାଲାୱୀ</script>
 			<script type="Phlp">ସ୍ଲାଟର୍ ପାହାଲାୱୀ</script>
 			<script type="Phlv">ବୁକ୍ ପାହାଲାୱୀ</script>
@@ -610,11 +610,11 @@
 			<script type="Rjng">ରେଜାଙ୍ଗ</script>
 			<script type="Roro">ରୋଙ୍ଗୋରୋଙ୍ଗୋ</script>
 			<script type="Runr">ରନିକ୍</script>
-			<script type="Samr">ସମୌରିଟନ୍</script>
-			<script type="Sara">ସାରାତି</script>
-			<script type="Saur">ସୌରାଷ୍ଟ୍ର</script>
+			<script type="Sbmr">ସମୌରିଟନ୍</script>
+			<script type="Sbrb">ସାରାତି</script>
+			<script type="Sbur">ସୌରାଷ୍ଟ୍ର</script>
 			<script type="Sgnw">ସାଙ୍କେତିକ ଲିଖ</script>
-			<script type="Shaw">ସାବିୟାନ୍</script>
+			<script type="Shbw">ସାବିୟାନ୍</script>
 			<script type="Sinh">ସିଂହଳ</script>
 			<script type="Sund">ସୁଦାନୀଜ୍</script>
 			<script type="Sylo">ସୀଲିତୋ ନଗରୀ</script>
@@ -622,20 +622,20 @@
 			<script type="Syre">ଏଷ୍ଟ୍ରାଙ୍ଗେଲୋ ସିରିକ୍</script>
 			<script type="Syrj">ୱେଷ୍ଟର୍ନ ସିରିକ୍</script>
 			<script type="Syrn">ଇଷ୍ଟର୍ନ ସିରିକ୍</script>
-			<script type="Tagb">ତଗବାନ୍ୱା</script>
-			<script type="Tale">ତାଇ ଲେ</script>
-			<script type="Talu">ନୂତନ ତାଇ ଲୁଏ</script>
-			<script type="Taml">ତାମିଲ୍</script>
-			<script type="Tavt">ତାଇ ଭିଏତ୍</script>
+			<script type="Tbgb">ତଗବାନ୍ୱା</script>
+			<script type="Tble">ତାଇ ଲେ</script>
+			<script type="Tblu">ନୂତନ ତାଇ ଲୁଏ</script>
+			<script type="Tbml">ତାମିଲ୍</script>
+			<script type="Tbvt">ତାଇ ଭିଏତ୍</script>
 			<script type="Telu">ତେଲୁଗୁ</script>
 			<script type="Teng">ତେଙ୍ଗୱାର୍</script>
 			<script type="Tfng">ତିଫିଙ୍ଘା</script>
 			<script type="Tglg">ଟାଗାଲୋଗ୍</script>
-			<script type="Thaa">ଥାନା</script>
-			<script type="Thai">ଥାଇ</script>
+			<script type="Thbb">ଥାନା</script>
+			<script type="Thbi">ଥାଇ</script>
 			<script type="Tibt">ତିବେତାନ୍</script>
-			<script type="Ugar">ୟୁଗାରିଟିକ୍</script>
-			<script type="Vaii">ୱାଇ</script>
+			<script type="Ugbr">ୟୁଗାରିଟିକ୍</script>
+			<script type="Vbii">ୱାଇ</script>
 			<script type="Visp">ଭିଜିବଲ୍ ସ୍ପିଚ୍</script>
 			<script type="Xpeo">ପୁରୁଣା ଫରାସୀ</script>
 			<script type="Xsux">ସୁମେରୋ-ଆକ୍କାଡିଆନ୍ ସୁନିଫର୍ମ</script>
@@ -929,17 +929,17 @@
 			<territory type="ZW">ଜିମ୍ବାୱେ</territory>
 			<territory type="ZZ">ଅଜଣା କିମ୍ବା ଅବୈଧ ପ୍ରଦେଶ</territory>
 		</territories>
-	</localeDisplayNames>
-	<characters>
-		<exemplarCharacters>[\u0B3C ଅ ଆ ଇ ଈ ଉ ଊ ଋ ଏ ଐ ଓ ଔ \u0B01 ଂ ଃ କ ଖ ଗ ଘ ଙ ଚ ଛ ଜ ଝ ଞ ଟ ଠ ଡ {ଡ\u0B3C} ଢ {ଢ\u0B3C} ଣ ତ ଥ ଦ ଧ ନ ପ ଫ ବ ଭ ମ ଯ ୟ ର ଲ ଳ ଵ ୱ ଶ ଷ ସ ହ ା \u0B3F ୀ \u0B41 \u0B42 \u0B43 େ ୈ ୋ ୌ \u0B4D]</exemplarCharacters>
-		<exemplarCharacters type="auxiliary">[\u200C\u200D]</exemplarCharacters>
-		<exemplarCharacters type="index" draft="contributed">[ଅ ଆ ଇ ଈ ଉ ଊ ଋ ଏ ଐ ଓ ଔ କ ଖ ଗ ଘ ଙ ଚ ଛ ଜ ଝ ଞ ଟ ଠ ଡ ଢ ଣ ତ ଥ ଦ ଧ ନ ପ ଫ ବ ଭ ମ ଯ ର ଲ ଳ ଶ ଷ ସ ହ {କ\u0B4Dଷ}]</exemplarCharacters>
-	</characters>
-	<dates>
-		<calendars>
-			<calendar type="gregorian">
+	</locbleDisplbyNbmes>
+	<chbrbcters>
+		<exemplbrChbrbcters>[\u0B3C ଅ ଆ ଇ ଈ ଉ ଊ ଋ ଏ ଐ ଓ ଔ \u0B01 ଂ ଃ କ ଖ ଗ ଘ ଙ ଚ ଛ ଜ ଝ ଞ ଟ ଠ ଡ {ଡ\u0B3C} ଢ {ଢ\u0B3C} ଣ ତ ଥ ଦ ଧ ନ ପ ଫ ବ ଭ ମ ଯ ୟ ର ଲ ଳ ଵ ୱ ଶ ଷ ସ ହ ା \u0B3F ୀ \u0B41 \u0B42 \u0B43 େ ୈ ୋ ୌ \u0B4D]</exemplbrChbrbcters>
+		<exemplbrChbrbcters type="buxilibry">[\u200C\u200D]</exemplbrChbrbcters>
+		<exemplbrChbrbcters type="index" drbft="contributed">[ଅ ଆ ଇ ଈ ଉ ଊ ଋ ଏ ଐ ଓ ଔ କ ଖ ଗ ଘ ଙ ଚ ଛ ଜ ଝ ଞ ଟ ଠ ଡ ଢ ଣ ତ ଥ ଦ ଧ ନ ପ ଫ ବ ଭ ମ ଯ ର ଲ ଳ ଶ ଷ ସ ହ {କ\u0B4Dଷ}]</exemplbrChbrbcters>
+	</chbrbcters>
+	<dbtes>
+		<cblendbrs>
+			<cblendbr type="gregoribn">
 				<months>
-					<monthContext type="format">
+					<monthContext type="formbt">
 						<monthWidth type="wide">
 							<month type="1">ଜାନୁଆରୀ</month>
 							<month type="2">ଫେବ୍ରୁୟାରୀ</month>
@@ -955,8 +955,8 @@
 							<month type="12">ଡିସେମ୍ବର</month>
 						</monthWidth>
 					</monthContext>
-					<monthContext type="stand-alone">
-						<monthWidth type="narrow">
+					<monthContext type="stbnd-blone">
+						<monthWidth type="nbrrow">
 							<month type="1">ଜା</month>
 							<month type="2">ଫେ</month>
 							<month type="3">ମା</month>
@@ -972,156 +972,156 @@
 						</monthWidth>
 					</monthContext>
 				</months>
-				<days>
-					<dayContext type="format">
-						<dayWidth type="abbreviated">
-							<day type="sun">ରବି</day>
-							<day type="mon">ସୋମ</day>
-							<day type="tue">ମଙ୍ଗଳ</day>
-							<day type="wed">ବୁଧ</day>
-							<day type="thu">ଗୁରୁ</day>
-							<day type="fri">ଶୁକ୍ର</day>
-							<day type="sat">ଶନି</day>
-						</dayWidth>
-						<dayWidth type="wide">
-							<day type="sun">ରବିବାର</day>
-							<day type="mon">ସୋମବାର</day>
-							<day type="tue">ମଙ୍ଗଳବାର</day>
-							<day type="wed">ବୁଧବାର</day>
-							<day type="thu">ଗୁରୁବାର</day>
-							<day type="fri">ଶୁକ୍ରବାର</day>
-							<day type="sat">ଶନିବାର</day>
-						</dayWidth>
-					</dayContext>
-					<dayContext type="stand-alone">
-						<dayWidth type="narrow">
-							<day type="sun">ର</day>
-							<day type="mon">ସୋ</day>
-							<day type="tue">ମ</day>
-							<day type="wed">ବୁ</day>
-							<day type="thu">ଗୁ</day>
-							<day type="fri">ଶୁ</day>
-							<day type="sat">ଶ</day>
-						</dayWidth>
-					</dayContext>
-				</days>
-				<dayPeriods>
-					<dayPeriodContext type="format">
-						<dayPeriodWidth type="wide">
-							<dayPeriod type="am">am</dayPeriod>
-							<dayPeriod type="pm">pm</dayPeriod>
-						</dayPeriodWidth>
-					</dayPeriodContext>
-				</dayPeriods>
-				<dateFormats>
-					<dateFormatLength type="full">
-						<dateFormat>
-							<pattern>EEEE, d MMMM y</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="long">
-						<dateFormat>
-							<pattern>d MMMM y</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="medium">
-						<dateFormat>
-							<pattern>d MMM y</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="short">
-						<dateFormat>
-							<pattern>d-M-yy</pattern>
-						</dateFormat>
-					</dateFormatLength>
-				</dateFormats>
-				<timeFormats>
-					<timeFormatLength type="full">
-						<timeFormat>
-							<pattern>h:mm:ss a zzzz</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="long">
-						<timeFormat>
-							<pattern>h:mm:ss a z</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="medium">
-						<timeFormat>
-							<pattern>h:mm:ss a</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="short">
-						<timeFormat>
-							<pattern>h:mm a</pattern>
-						</timeFormat>
-					</timeFormatLength>
-				</timeFormats>
-				<dateTimeFormats>
-					<availableFormats>
-						<dateFormatItem id="MMdd">dd-MM</dateFormatItem>
-						<dateFormatItem id="MMMMd">MMMM d</dateFormatItem>
-						<dateFormatItem id="yyQ">Q yy</dateFormatItem>
-						<dateFormatItem id="yyyyMM">MM-yyyy</dateFormatItem>
-						<dateFormatItem id="yyyyMMMM">MMMM y</dateFormatItem>
-					</availableFormats>
-				</dateTimeFormats>
-			</calendar>
-		</calendars>
-		<timeZoneNames>
-			<metazone type="Christmas">
+				<dbys>
+					<dbyContext type="formbt">
+						<dbyWidth type="bbbrevibted">
+							<dby type="sun">ରବି</dby>
+							<dby type="mon">ସୋମ</dby>
+							<dby type="tue">ମଙ୍ଗଳ</dby>
+							<dby type="wed">ବୁଧ</dby>
+							<dby type="thu">ଗୁରୁ</dby>
+							<dby type="fri">ଶୁକ୍ର</dby>
+							<dby type="sbt">ଶନି</dby>
+						</dbyWidth>
+						<dbyWidth type="wide">
+							<dby type="sun">ରବିବାର</dby>
+							<dby type="mon">ସୋମବାର</dby>
+							<dby type="tue">ମଙ୍ଗଳବାର</dby>
+							<dby type="wed">ବୁଧବାର</dby>
+							<dby type="thu">ଗୁରୁବାର</dby>
+							<dby type="fri">ଶୁକ୍ରବାର</dby>
+							<dby type="sbt">ଶନିବାର</dby>
+						</dbyWidth>
+					</dbyContext>
+					<dbyContext type="stbnd-blone">
+						<dbyWidth type="nbrrow">
+							<dby type="sun">ର</dby>
+							<dby type="mon">ସୋ</dby>
+							<dby type="tue">ମ</dby>
+							<dby type="wed">ବୁ</dby>
+							<dby type="thu">ଗୁ</dby>
+							<dby type="fri">ଶୁ</dby>
+							<dby type="sbt">ଶ</dby>
+						</dbyWidth>
+					</dbyContext>
+				</dbys>
+				<dbyPeriods>
+					<dbyPeriodContext type="formbt">
+						<dbyPeriodWidth type="wide">
+							<dbyPeriod type="bm">bm</dbyPeriod>
+							<dbyPeriod type="pm">pm</dbyPeriod>
+						</dbyPeriodWidth>
+					</dbyPeriodContext>
+				</dbyPeriods>
+				<dbteFormbts>
+					<dbteFormbtLength type="full">
+						<dbteFormbt>
+							<pbttern>EEEE, d MMMM y</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+					<dbteFormbtLength type="long">
+						<dbteFormbt>
+							<pbttern>d MMMM y</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+					<dbteFormbtLength type="medium">
+						<dbteFormbt>
+							<pbttern>d MMM y</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+					<dbteFormbtLength type="short">
+						<dbteFormbt>
+							<pbttern>d-M-yy</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+				</dbteFormbts>
+				<timeFormbts>
+					<timeFormbtLength type="full">
+						<timeFormbt>
+							<pbttern>h:mm:ss b zzzz</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+					<timeFormbtLength type="long">
+						<timeFormbt>
+							<pbttern>h:mm:ss b z</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+					<timeFormbtLength type="medium">
+						<timeFormbt>
+							<pbttern>h:mm:ss b</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+					<timeFormbtLength type="short">
+						<timeFormbt>
+							<pbttern>h:mm b</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+				</timeFormbts>
+				<dbteTimeFormbts>
+					<bvbilbbleFormbts>
+						<dbteFormbtItem id="MMdd">dd-MM</dbteFormbtItem>
+						<dbteFormbtItem id="MMMMd">MMMM d</dbteFormbtItem>
+						<dbteFormbtItem id="yyQ">Q yy</dbteFormbtItem>
+						<dbteFormbtItem id="yyyyMM">MM-yyyy</dbteFormbtItem>
+						<dbteFormbtItem id="yyyyMMMM">MMMM y</dbteFormbtItem>
+					</bvbilbbleFormbts>
+				</dbteTimeFormbts>
+			</cblendbr>
+		</cblendbrs>
+		<timeZoneNbmes>
+			<metbzone type="Christmbs">
 				<long>
-					<standard>ଖ୍ରୀଷ୍ଟମାସ ଆଇଲ୍ୟାଣ୍ଡ ସମୟ</standard>
+					<stbndbrd>ଖ୍ରୀଷ୍ଟମାସ ଆଇଲ୍ୟାଣ୍ଡ ସମୟ</stbndbrd>
 				</long>
-			</metazone>
-			<metazone type="India">
+			</metbzone>
+			<metbzone type="Indib">
 				<short>
-					<standard>IST</standard>
+					<stbndbrd>IST</stbndbrd>
 				</short>
-			</metazone>
-		</timeZoneNames>
-	</dates>
+			</metbzone>
+		</timeZoneNbmes>
+	</dbtes>
 	<numbers>
-		<defaultNumberingSystem>latn</defaultNumberingSystem>
+		<defbultNumberingSystem>lbtn</defbultNumberingSystem>
 		<otherNumberingSystems>
-			<native>orya</native>
+			<nbtive>oryb</nbtive>
 		</otherNumberingSystems>
-		<symbols numberSystem="latn">
-			<decimal>.</decimal>
+		<symbols numberSystem="lbtn">
+			<decimbl>.</decimbl>
 			<group>,</group>
 		</symbols>
-		<decimalFormats numberSystem="latn">
-			<decimalFormatLength>
-				<decimalFormat>
-					<pattern>#,##,##0.###</pattern>
-				</decimalFormat>
-			</decimalFormatLength>
-		</decimalFormats>
-		<percentFormats numberSystem="latn">
-			<percentFormatLength>
-				<percentFormat>
-					<pattern>#,##,##0%</pattern>
-				</percentFormat>
-			</percentFormatLength>
-		</percentFormats>
-		<currencyFormats numberSystem="latn">
-			<currencyFormatLength>
-				<currencyFormat>
-					<pattern>¤ #,##,##0.00</pattern>
-				</currencyFormat>
-			</currencyFormatLength>
-		</currencyFormats>
+		<decimblFormbts numberSystem="lbtn">
+			<decimblFormbtLength>
+				<decimblFormbt>
+					<pbttern>#,##,##0.###</pbttern>
+				</decimblFormbt>
+			</decimblFormbtLength>
+		</decimblFormbts>
+		<percentFormbts numberSystem="lbtn">
+			<percentFormbtLength>
+				<percentFormbt>
+					<pbttern>#,##,##0%</pbttern>
+				</percentFormbt>
+			</percentFormbtLength>
+		</percentFormbts>
+		<currencyFormbts numberSystem="lbtn">
+			<currencyFormbtLength>
+				<currencyFormbt>
+					<pbttern>¤ #,##,##0.00</pbttern>
+				</currencyFormbt>
+			</currencyFormbtLength>
+		</currencyFormbts>
 		<currencies>
 			<currency type="INR">
-				<displayName>ଟଙକା</displayName>
+				<displbyNbme>ଟଙକା</displbyNbme>
 			</currency>
 		</currencies>
 	</numbers>
 	<posix>
-		<messages>
+		<messbges>
 			<yesstr>ହଁ</yesstr>
 			<nostr>ନା</nostr>
-		</messages>
+		</messbges>
 	</posix>
 </ldml>
 

@@ -1,265 +1,265 @@
 /*
- * Copyright (c) 1995, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.awt;
+pbckbge jbvb.bwt;
 
-import java.util.Vector;
-import java.util.Locale;
-import java.util.EventListener;
-import java.awt.peer.ListPeer;
-import java.awt.event.*;
-import java.io.ObjectOutputStream;
-import java.io.ObjectInputStream;
-import java.io.IOException;
-import javax.accessibility.*;
+import jbvb.util.Vector;
+import jbvb.util.Locble;
+import jbvb.util.EventListener;
+import jbvb.bwt.peer.ListPeer;
+import jbvb.bwt.event.*;
+import jbvb.io.ObjectOutputStrebm;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.IOException;
+import jbvbx.bccessibility.*;
 
 
 /**
- * The <code>List</code> component presents the user with a
- * scrolling list of text items. The list can be set up so that
- * the user can choose either one item or multiple items.
+ * The <code>List</code> component presents the user with b
+ * scrolling list of text items. The list cbn be set up so thbt
+ * the user cbn choose either one item or multiple items.
  * <p>
- * For example, the code&nbsp;.&nbsp;.&nbsp;.
+ * For exbmple, the code&nbsp;.&nbsp;.&nbsp;.
  *
  * <hr><blockquote><pre>
- * List lst = new List(4, false);
- * lst.add("Mercury");
- * lst.add("Venus");
- * lst.add("Earth");
- * lst.add("JavaSoft");
- * lst.add("Mars");
- * lst.add("Jupiter");
- * lst.add("Saturn");
- * lst.add("Uranus");
- * lst.add("Neptune");
- * lst.add("Pluto");
- * cnt.add(lst);
+ * List lst = new List(4, fblse);
+ * lst.bdd("Mercury");
+ * lst.bdd("Venus");
+ * lst.bdd("Ebrth");
+ * lst.bdd("JbvbSoft");
+ * lst.bdd("Mbrs");
+ * lst.bdd("Jupiter");
+ * lst.bdd("Sbturn");
+ * lst.bdd("Urbnus");
+ * lst.bdd("Neptune");
+ * lst.bdd("Pluto");
+ * cnt.bdd(lst);
  * </pre></blockquote><hr>
  * <p>
- * where <code>cnt</code> is a container, produces the following
+ * where <code>cnt</code> is b contbiner, produces the following
  * scrolling list:
  * <p>
  * <img src="doc-files/List-1.gif"
- * alt="Shows a list containing: Venus, Earth, JavaSoft, and Mars. Javasoft is selected." style="float:center; margin: 7px 10px;">
+ * blt="Shows b list contbining: Venus, Ebrth, JbvbSoft, bnd Mbrs. Jbvbsoft is selected." style="flobt:center; mbrgin: 7px 10px;">
  * <p>
- * If the List allows multiple selections, then clicking on
- * an item that is already selected deselects it. In the preceding
- * example, only one item from the scrolling list can be selected
- * at a time, since the second argument when creating the new scrolling
- * list is <code>false</code>. If the List does not allow multiple
- * selections, selecting an item causes any other selected item
+ * If the List bllows multiple selections, then clicking on
+ * bn item thbt is blrebdy selected deselects it. In the preceding
+ * exbmple, only one item from the scrolling list cbn be selected
+ * bt b time, since the second brgument when crebting the new scrolling
+ * list is <code>fblse</code>. If the List does not bllow multiple
+ * selections, selecting bn item cbuses bny other selected item
  * to be deselected.
  * <p>
- * Note that the list in the example shown was created with four visible
- * rows.  Once the list has been created, the number of visible rows
- * cannot be changed.  A default <code>List</code> is created with
- * four rows, so that <code>lst = new List()</code> is equivalent to
- * <code>list = new List(4, false)</code>.
+ * Note thbt the list in the exbmple shown wbs crebted with four visible
+ * rows.  Once the list hbs been crebted, the number of visible rows
+ * cbnnot be chbnged.  A defbult <code>List</code> is crebted with
+ * four rows, so thbt <code>lst = new List()</code> is equivblent to
+ * <code>list = new List(4, fblse)</code>.
  * <p>
- * Beginning with Java&nbsp;1.1, the Abstract Window Toolkit
- * sends the <code>List</code> object all mouse, keyboard, and focus events
- * that occur over it. (The old AWT event model is being maintained
- * only for backwards compatibility, and its use is discouraged.)
+ * Beginning with Jbvb&nbsp;1.1, the Abstrbct Window Toolkit
+ * sends the <code>List</code> object bll mouse, keybobrd, bnd focus events
+ * thbt occur over it. (The old AWT event model is being mbintbined
+ * only for bbckwbrds compbtibility, bnd its use is discourbged.)
  * <p>
- * When an item is selected or deselected by the user, AWT sends an instance
+ * When bn item is selected or deselected by the user, AWT sends bn instbnce
  * of <code>ItemEvent</code> to the list.
- * When the user double-clicks on an item in a scrolling list,
- * AWT sends an instance of <code>ActionEvent</code> to the
- * list following the item event. AWT also generates an action event
- * when the user presses the return key while an item in the
+ * When the user double-clicks on bn item in b scrolling list,
+ * AWT sends bn instbnce of <code>ActionEvent</code> to the
+ * list following the item event. AWT blso generbtes bn bction event
+ * when the user presses the return key while bn item in the
  * list is selected.
  * <p>
- * If an application wants to perform some action based on an item
- * in this list being selected or activated by the user, it should implement
+ * If bn bpplicbtion wbnts to perform some bction bbsed on bn item
+ * in this list being selected or bctivbted by the user, it should implement
  * <code>ItemListener</code> or <code>ActionListener</code>
- * as appropriate and register the new listener to receive
+ * bs bppropribte bnd register the new listener to receive
  * events from this list.
  * <p>
- * For multiple-selection scrolling lists, it is considered a better
- * user interface to use an external gesture (such as clicking on a
- * button) to trigger the action.
- * @author      Sami Shaio
- * @see         java.awt.event.ItemEvent
- * @see         java.awt.event.ItemListener
- * @see         java.awt.event.ActionEvent
- * @see         java.awt.event.ActionListener
+ * For multiple-selection scrolling lists, it is considered b better
+ * user interfbce to use bn externbl gesture (such bs clicking on b
+ * button) to trigger the bction.
+ * @buthor      Sbmi Shbio
+ * @see         jbvb.bwt.event.ItemEvent
+ * @see         jbvb.bwt.event.ItemListener
+ * @see         jbvb.bwt.event.ActionEvent
+ * @see         jbvb.bwt.event.ActionListener
  * @since       1.0
  */
-public class List extends Component implements ItemSelectable, Accessible {
+public clbss List extends Component implements ItemSelectbble, Accessible {
     /**
-     * A vector created to contain items which will become
-     * part of the List Component.
+     * A vector crebted to contbin items which will become
+     * pbrt of the List Component.
      *
-     * @serial
-     * @see #addItem(String)
+     * @seribl
+     * @see #bddItem(String)
      * @see #getItem(int)
      */
     Vector<String>      items = new Vector<>();
 
     /**
      * This field will represent the number of visible rows in the
-     * <code>List</code> Component.  It is specified only once, and
-     * that is when the list component is actually
-     * created.  It will never change.
+     * <code>List</code> Component.  It is specified only once, bnd
+     * thbt is when the list component is bctublly
+     * crebted.  It will never chbnge.
      *
-     * @serial
+     * @seribl
      * @see #getRows()
      */
     int         rows = 0;
 
     /**
-     * <code>multipleMode</code> is a variable that will
-     * be set to <code>true</code> if a list component is to be set to
-     * multiple selection mode, that is where the user can
-     * select more than one item in a list at one time.
-     * <code>multipleMode</code> will be set to false if the
-     * list component is set to single selection, that is where
-     * the user can only select one item on the list at any
+     * <code>multipleMode</code> is b vbribble thbt will
+     * be set to <code>true</code> if b list component is to be set to
+     * multiple selection mode, thbt is where the user cbn
+     * select more thbn one item in b list bt one time.
+     * <code>multipleMode</code> will be set to fblse if the
+     * list component is set to single selection, thbt is where
+     * the user cbn only select one item on the list bt bny
      * one time.
      *
-     * @serial
+     * @seribl
      * @see #isMultipleMode()
-     * @see #setMultipleMode(boolean)
+     * @see #setMultipleMode(boolebn)
      */
-    boolean     multipleMode = false;
+    boolebn     multipleMode = fblse;
 
     /**
-     * <code>selected</code> is an array that will contain
-     * the indices of items that have been selected.
+     * <code>selected</code> is bn brrby thbt will contbin
+     * the indices of items thbt hbve been selected.
      *
-     * @serial
+     * @seribl
      * @see #getSelectedIndexes()
      * @see #getSelectedIndex()
      */
     int         selected[] = new int[0];
 
     /**
-     * This variable contains the value that will be used
-     * when trying to make a particular list item visible.
+     * This vbribble contbins the vblue thbt will be used
+     * when trying to mbke b pbrticulbr list item visible.
      *
-     * @serial
-     * @see #makeVisible(int)
+     * @seribl
+     * @see #mbkeVisible(int)
      */
     int         visibleIndex = -1;
 
-    transient ActionListener actionListener;
-    transient ItemListener itemListener;
+    trbnsient ActionListener bctionListener;
+    trbnsient ItemListener itemListener;
 
-    private static final String base = "list";
-    private static int nameCounter = 0;
+    privbte stbtic finbl String bbse = "list";
+    privbte stbtic int nbmeCounter = 0;
 
     /*
-     * JDK 1.1 serialVersionUID
+     * JDK 1.1 seriblVersionUID
      */
-     private static final long serialVersionUID = -3304312411574666869L;
+     privbte stbtic finbl long seriblVersionUID = -3304312411574666869L;
 
     /**
-     * Creates a new scrolling list.
-     * By default, there are four visible lines and multiple selections are
-     * not allowed.  Note that this is a convenience method for
-     * <code>List(0, false)</code>.  Also note that the number of visible
-     * lines in the list cannot be changed after it has been created.
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
+     * Crebtes b new scrolling list.
+     * By defbult, there bre four visible lines bnd multiple selections bre
+     * not bllowed.  Note thbt this is b convenience method for
+     * <code>List(0, fblse)</code>.  Also note thbt the number of visible
+     * lines in the list cbnnot be chbnged bfter it hbs been crebted.
+     * @exception HebdlessException if GrbphicsEnvironment.isHebdless()
      * returns true.
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
      */
-    public List() throws HeadlessException {
-        this(0, false);
+    public List() throws HebdlessException {
+        this(0, fblse);
     }
 
     /**
-     * Creates a new scrolling list initialized with the specified
-     * number of visible lines. By default, multiple selections are
-     * not allowed.  Note that this is a convenience method for
-     * <code>List(rows, false)</code>.  Also note that the number
-     * of visible rows in the list cannot be changed after it has
-     * been created.
-     * @param       rows the number of items to show.
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
+     * Crebtes b new scrolling list initiblized with the specified
+     * number of visible lines. By defbult, multiple selections bre
+     * not bllowed.  Note thbt this is b convenience method for
+     * <code>List(rows, fblse)</code>.  Also note thbt the number
+     * of visible rows in the list cbnnot be chbnged bfter it hbs
+     * been crebted.
+     * @pbrbm       rows the number of items to show.
+     * @exception HebdlessException if GrbphicsEnvironment.isHebdless()
      * returns true.
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
      * @since       1.1
      */
-    public List(int rows) throws HeadlessException {
-        this(rows, false);
+    public List(int rows) throws HebdlessException {
+        this(rows, fblse);
     }
 
     /**
-     * The default number of visible rows is 4.  A list with
-     * zero rows is unusable and unsightly.
+     * The defbult number of visible rows is 4.  A list with
+     * zero rows is unusbble bnd unsightly.
      */
-    final static int    DEFAULT_VISIBLE_ROWS = 4;
+    finbl stbtic int    DEFAULT_VISIBLE_ROWS = 4;
 
     /**
-     * Creates a new scrolling list initialized to display the specified
-     * number of rows. Note that if zero rows are specified, then
-     * the list will be created with a default of four rows.
-     * Also note that the number of visible rows in the list cannot
-     * be changed after it has been created.
-     * If the value of <code>multipleMode</code> is
-     * <code>true</code>, then the user can select multiple items from
-     * the list. If it is <code>false</code>, only one item at a time
-     * can be selected.
-     * @param       rows   the number of items to show.
-     * @param       multipleMode   if <code>true</code>,
-     *                     then multiple selections are allowed;
-     *                     otherwise, only one item can be selected at a time.
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
+     * Crebtes b new scrolling list initiblized to displby the specified
+     * number of rows. Note thbt if zero rows bre specified, then
+     * the list will be crebted with b defbult of four rows.
+     * Also note thbt the number of visible rows in the list cbnnot
+     * be chbnged bfter it hbs been crebted.
+     * If the vblue of <code>multipleMode</code> is
+     * <code>true</code>, then the user cbn select multiple items from
+     * the list. If it is <code>fblse</code>, only one item bt b time
+     * cbn be selected.
+     * @pbrbm       rows   the number of items to show.
+     * @pbrbm       multipleMode   if <code>true</code>,
+     *                     then multiple selections bre bllowed;
+     *                     otherwise, only one item cbn be selected bt b time.
+     * @exception HebdlessException if GrbphicsEnvironment.isHebdless()
      * returns true.
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
      */
-    public List(int rows, boolean multipleMode) throws HeadlessException {
-        GraphicsEnvironment.checkHeadless();
+    public List(int rows, boolebn multipleMode) throws HebdlessException {
+        GrbphicsEnvironment.checkHebdless();
         this.rows = (rows != 0) ? rows : DEFAULT_VISIBLE_ROWS;
         this.multipleMode = multipleMode;
     }
 
     /**
-     * Construct a name for this component.  Called by
-     * <code>getName</code> when the name is <code>null</code>.
+     * Construct b nbme for this component.  Cblled by
+     * <code>getNbme</code> when the nbme is <code>null</code>.
      */
-    String constructComponentName() {
-        synchronized (List.class) {
-            return base + nameCounter++;
+    String constructComponentNbme() {
+        synchronized (List.clbss) {
+            return bbse + nbmeCounter++;
         }
     }
 
     /**
-     * Creates the peer for the list.  The peer allows us to modify the
-     * list's appearance without changing its functionality.
+     * Crebtes the peer for the list.  The peer bllows us to modify the
+     * list's bppebrbnce without chbnging its functionblity.
      */
-    public void addNotify() {
+    public void bddNotify() {
         synchronized (getTreeLock()) {
             if (peer == null)
-                peer = getToolkit().createList(this);
-            super.addNotify();
+                peer = getToolkit().crebteList(this);
+            super.bddNotify();
         }
     }
 
     /**
-     * Removes the peer for this list.  The peer allows us to modify the
-     * list's appearance without changing its functionality.
+     * Removes the peer for this list.  The peer bllows us to modify the
+     * list's bppebrbnce without chbnging its functionblity.
      */
     public void removeNotify() {
         synchronized (getTreeLock()) {
@@ -285,36 +285,36 @@ public class List extends Component implements ItemSelectable, Accessible {
      * Returns the number of items in the list.
      *
      * @return the number of items in the list
-     * @deprecated As of JDK version 1.1,
-     * replaced by <code>getItemCount()</code>.
+     * @deprecbted As of JDK version 1.1,
+     * replbced by <code>getItemCount()</code>.
      */
-    @Deprecated
+    @Deprecbted
     public int countItems() {
         return items.size();
     }
 
     /**
-     * Gets the item associated with the specified index.
-     * @return       an item that is associated with
+     * Gets the item bssocibted with the specified index.
+     * @return       bn item thbt is bssocibted with
      *                    the specified index
-     * @param        index the position of the item
+     * @pbrbm        index the position of the item
      * @see          #getItemCount
      */
     public String getItem(int index) {
         return getItemImpl(index);
     }
 
-    // NOTE: This method may be called by privileged threads.
-    //       We implement this functionality in a package-private method
-    //       to insure that it cannot be overridden by client subclasses.
+    // NOTE: This method mby be cblled by privileged threbds.
+    //       We implement this functionblity in b pbckbge-privbte method
+    //       to insure thbt it cbnnot be overridden by client subclbsses.
     //       DO NOT INVOKE CLIENT CODE ON THIS THREAD!
-    final String getItemImpl(int index) {
+    finbl String getItemImpl(int index) {
         return items.elementAt(index);
     }
 
     /**
      * Gets the items in the list.
-     * @return       a string array containing items of the list
+     * @return       b string brrby contbining items of the list
      * @see          #select
      * @see          #deselect
      * @see          #isIndexSelected
@@ -328,51 +328,51 @@ public class List extends Component implements ItemSelectable, Accessible {
 
     /**
      * Adds the specified item to the end of scrolling list.
-     * @param item the item to be added
+     * @pbrbm item the item to be bdded
      * @since 1.1
      */
-    public void add(String item) {
-        addItem(item);
+    public void bdd(String item) {
+        bddItem(item);
     }
 
     /**
      * Adds the specified item to the end of the list.
      *
-     * @param  item the item to be added
-     * @deprecated replaced by <code>add(String)</code>.
+     * @pbrbm  item the item to be bdded
+     * @deprecbted replbced by <code>bdd(String)</code>.
      */
-    @Deprecated
-    public void addItem(String item) {
-        addItem(item, -1);
+    @Deprecbted
+    public void bddItem(String item) {
+        bddItem(item, -1);
     }
 
     /**
      * Adds the specified item to the the scrolling list
-     * at the position indicated by the index.  The index is
-     * zero-based.  If the value of the index is less than zero,
-     * or if the value of the index is greater than or equal to
-     * the number of items in the list, then the item is added
+     * bt the position indicbted by the index.  The index is
+     * zero-bbsed.  If the vblue of the index is less thbn zero,
+     * or if the vblue of the index is grebter thbn or equbl to
+     * the number of items in the list, then the item is bdded
      * to the end of the list.
-     * @param       item   the item to be added;
-     *              if this parameter is <code>null</code> then the item is
-     *              treated as an empty string, <code>""</code>
-     * @param       index  the position at which to add the item
+     * @pbrbm       item   the item to be bdded;
+     *              if this pbrbmeter is <code>null</code> then the item is
+     *              trebted bs bn empty string, <code>""</code>
+     * @pbrbm       index  the position bt which to bdd the item
      * @since       1.1
      */
-    public void add(String item, int index) {
-        addItem(item, index);
+    public void bdd(String item, int index) {
+        bddItem(item, index);
     }
 
     /**
      * Adds the specified item to the the list
-     * at the position indicated by the index.
+     * bt the position indicbted by the index.
      *
-     * @param  item the item to be added
-     * @param  index the position at which to add the item
-     * @deprecated replaced by <code>add(String, int)</code>.
+     * @pbrbm  item the item to be bdded
+     * @pbrbm  index the position bt which to bdd the item
+     * @deprecbted replbced by <code>bdd(String, int)</code>.
      */
-    @Deprecated
-    public synchronized void addItem(String item, int index) {
+    @Deprecbted
+    public synchronized void bddItem(String item, int index) {
         if (index < -1 || index >= items.size()) {
             index = -1;
         }
@@ -382,46 +382,46 @@ public class List extends Component implements ItemSelectable, Accessible {
         }
 
         if (index == -1) {
-            items.addElement(item);
+            items.bddElement(item);
         } else {
             items.insertElementAt(item, index);
         }
 
         ListPeer peer = (ListPeer)this.peer;
         if (peer != null) {
-            peer.add(item, index);
+            peer.bdd(item, index);
         }
     }
 
     /**
-     * Replaces the item at the specified index in the scrolling list
+     * Replbces the item bt the specified index in the scrolling list
      * with the new string.
-     * @param       newValue   a new string to replace an existing item
-     * @param       index      the position of the item to replace
-     * @exception ArrayIndexOutOfBoundsException if <code>index</code>
-     *          is out of range
+     * @pbrbm       newVblue   b new string to replbce bn existing item
+     * @pbrbm       index      the position of the item to replbce
+     * @exception ArrbyIndexOutOfBoundsException if <code>index</code>
+     *          is out of rbnge
      */
-    public synchronized void replaceItem(String newValue, int index) {
+    public synchronized void replbceItem(String newVblue, int index) {
         remove(index);
-        add(newValue, index);
+        bdd(newVblue, index);
     }
 
     /**
-     * Removes all items from this list.
+     * Removes bll items from this list.
      * @see #remove
      * @see #delItems
      * @since 1.1
      */
     public void removeAll() {
-        clear();
+        clebr();
     }
 
     /**
-     * @deprecated As of JDK version 1.1,
-     * replaced by <code>removeAll()</code>.
+     * @deprecbted As of JDK version 1.1,
+     * replbced by <code>removeAll()</code>.
      */
-    @Deprecated
-    public synchronized void clear() {
+    @Deprecbted
+    public synchronized void clebr() {
         ListPeer peer = (ListPeer)this.peer;
         if (peer != null) {
             peer.removeAll();
@@ -431,18 +431,18 @@ public class List extends Component implements ItemSelectable, Accessible {
     }
 
     /**
-     * Removes the first occurrence of an item from the list.
-     * If the specified item is selected, and is the only selected
-     * item in the list, the list is set to have no selection.
-     * @param        item  the item to remove from the list
-     * @exception    IllegalArgumentException
+     * Removes the first occurrence of bn item from the list.
+     * If the specified item is selected, bnd is the only selected
+     * item in the list, the list is set to hbve no selection.
+     * @pbrbm        item  the item to remove from the list
+     * @exception    IllegblArgumentException
      *                     if the item doesn't exist in the list
      * @since        1.1
      */
     public synchronized void remove(String item) {
         int index = items.indexOf(item);
         if (index < 0) {
-            throw new IllegalArgumentException("item " + item +
+            throw new IllegblArgumentException("item " + item +
                                                " not found in list");
         } else {
             remove(index);
@@ -450,29 +450,29 @@ public class List extends Component implements ItemSelectable, Accessible {
     }
 
     /**
-     * Removes the item at the specified position
+     * Removes the item bt the specified position
      * from this scrolling list.
-     * If the item with the specified position is selected, and is the
-     * only selected item in the list, the list is set to have no selection.
-     * @param      position   the index of the item to delete
-     * @see        #add(String, int)
+     * If the item with the specified position is selected, bnd is the
+     * only selected item in the list, the list is set to hbve no selection.
+     * @pbrbm      position   the index of the item to delete
+     * @see        #bdd(String, int)
      * @since      1.1
-     * @exception    ArrayIndexOutOfBoundsException
-     *               if the <code>position</code> is less than 0 or
-     *               greater than <code>getItemCount()-1</code>
+     * @exception    ArrbyIndexOutOfBoundsException
+     *               if the <code>position</code> is less thbn 0 or
+     *               grebter thbn <code>getItemCount()-1</code>
      */
     public void remove(int position) {
         delItem(position);
     }
 
     /**
-     * Removes the item at the specified position.
+     * Removes the item bt the specified position.
      *
-     * @param  position the index of the item to delete
-     * @deprecated replaced by <code>remove(String)</code>
-     *             and <code>remove(int)</code>.
+     * @pbrbm  position the index of the item to delete
+     * @deprecbted replbced by <code>remove(String)</code>
+     *             bnd <code>remove(int)</code>.
      */
-    @Deprecated
+    @Deprecbted
     public void delItem(int position) {
         delItems(position, position);
     }
@@ -481,7 +481,7 @@ public class List extends Component implements ItemSelectable, Accessible {
      * Gets the index of the selected item on the list,
      *
      * @return        the index of the selected item;
-     *                if no item is selected, or if multiple items are
+     *                if no item is selected, or if multiple items bre
      *                selected, <code>-1</code> is returned.
      * @see           #select
      * @see           #deselect
@@ -495,8 +495,8 @@ public class List extends Component implements ItemSelectable, Accessible {
     /**
      * Gets the selected indexes on the list.
      *
-     * @return        an array of the selected indexes on this scrolling list;
-     *                if no item is selected, a zero-length array is returned.
+     * @return        bn brrby of the selected indexes on this scrolling list;
+     *                if no item is selected, b zero-length brrby is returned.
      * @see           #select
      * @see           #deselect
      * @see           #isIndexSelected
@@ -513,7 +513,7 @@ public class List extends Component implements ItemSelectable, Accessible {
      * Gets the selected item on this scrolling list.
      *
      * @return        the selected item on the list;
-     *                if no item is selected, or if multiple items are
+     *                if no item is selected, or if multiple items bre
      *                selected, <code>null</code> is returned.
      * @see           #select
      * @see           #deselect
@@ -527,8 +527,8 @@ public class List extends Component implements ItemSelectable, Accessible {
     /**
      * Gets the selected items on this scrolling list.
      *
-     * @return        an array of the selected items on this scrolling list;
-     *                if no item is selected, a zero-length array is returned.
+     * @return        bn brrby of the selected items on this scrolling list;
+     *                if no item is selected, b zero-length brrby is returned.
      * @see           #select
      * @see           #deselect
      * @see           #isIndexSelected
@@ -543,40 +543,40 @@ public class List extends Component implements ItemSelectable, Accessible {
     }
 
     /**
-     * Gets the selected items on this scrolling list in an array of Objects.
-     * @return        an array of <code>Object</code>s representing the
+     * Gets the selected items on this scrolling list in bn brrby of Objects.
+     * @return        bn brrby of <code>Object</code>s representing the
      *                selected items on this scrolling list;
-     *                if no item is selected, a zero-length array is returned.
+     *                if no item is selected, b zero-length brrby is returned.
      * @see #getSelectedItems
-     * @see ItemSelectable
+     * @see ItemSelectbble
      */
     public Object[] getSelectedObjects() {
         return getSelectedItems();
     }
 
     /**
-     * Selects the item at the specified index in the scrolling list.
+     * Selects the item bt the specified index in the scrolling list.
      *<p>
-     * Note that passing out of range parameters is invalid,
-     * and will result in unspecified behavior.
+     * Note thbt pbssing out of rbnge pbrbmeters is invblid,
+     * bnd will result in unspecified behbvior.
      *
-     * <p>Note that this method should be primarily used to
-     * initially select an item in this component.
-     * Programmatically calling this method will <i>not</i> trigger
-     * an <code>ItemEvent</code>.  The only way to trigger an
-     * <code>ItemEvent</code> is by user interaction.
+     * <p>Note thbt this method should be primbrily used to
+     * initiblly select bn item in this component.
+     * Progrbmmbticblly cblling this method will <i>not</i> trigger
+     * bn <code>ItemEvent</code>.  The only wby to trigger bn
+     * <code>ItemEvent</code> is by user interbction.
      *
-     * @param        index the position of the item to select
+     * @pbrbm        index the position of the item to select
      * @see          #getSelectedItem
      * @see          #deselect
      * @see          #isIndexSelected
      */
     public void select(int index) {
-        // Bug #4059614: select can't be synchronized while calling the peer,
-        // because it is called from the Window Thread.  It is sufficient to
-        // synchronize the code that manipulates 'selected' except for the
-        // case where the peer changes.  To handle this case, we simply
-        // repeat the selection process.
+        // Bug #4059614: select cbn't be synchronized while cblling the peer,
+        // becbuse it is cblled from the Window Threbd.  It is sufficient to
+        // synchronize the code thbt mbnipulbtes 'selected' except for the
+        // cbse where the peer chbnges.  To hbndle this cbse, we simply
+        // repebt the selection process.
 
         ListPeer peer;
         do {
@@ -588,22 +588,22 @@ public class List extends Component implements ItemSelectable, Accessible {
 
             synchronized(this)
             {
-                boolean alreadySelected = false;
+                boolebn blrebdySelected = fblse;
 
                 for (int i = 0 ; i < selected.length ; i++) {
                     if (selected[i] == index) {
-                        alreadySelected = true;
-                        break;
+                        blrebdySelected = true;
+                        brebk;
                     }
                 }
 
-                if (!alreadySelected) {
+                if (!blrebdySelected) {
                     if (!multipleMode) {
                         selected = new int[1];
                         selected[0] = index;
                     } else {
                         int newsel[] = new int[selected.length + 1];
-                        System.arraycopy(selected, 0, newsel, 0,
+                        System.brrbycopy(selected, 0, newsel, 0,
                                          selected.length);
                         newsel[selected.length] = index;
                         selected = newsel;
@@ -614,14 +614,14 @@ public class List extends Component implements ItemSelectable, Accessible {
     }
 
     /**
-     * Deselects the item at the specified index.
+     * Deselects the item bt the specified index.
      * <p>
-     * Note that passing out of range parameters is invalid,
-     * and will result in unspecified behavior.
+     * Note thbt pbssing out of rbnge pbrbmeters is invblid,
+     * bnd will result in unspecified behbvior.
      * <p>
-     * If the item at the specified index is not selected,
-     * then the operation is ignored.
-     * @param        index the position of the item to deselect
+     * If the item bt the specified index is not selected,
+     * then the operbtion is ignored.
+     * @pbrbm        index the position of the item to deselect
      * @see          #select
      * @see          #getSelectedItem
      * @see          #isIndexSelected
@@ -637,8 +637,8 @@ public class List extends Component implements ItemSelectable, Accessible {
         for (int i = 0 ; i < selected.length ; i++) {
             if (selected[i] == index) {
                 int newsel[] = new int[selected.length - 1];
-                System.arraycopy(selected, 0, newsel, 0, i);
-                System.arraycopy(selected, i+1, newsel, i, selected.length - (i+1));
+                System.brrbycopy(selected, 0, newsel, 0, i);
+                System.brrbycopy(selected, i+1, newsel, i, selected.length - (i+1));
                 selected = newsel;
                 return;
             }
@@ -648,40 +648,40 @@ public class List extends Component implements ItemSelectable, Accessible {
     /**
      * Determines if the specified item in this scrolling list is
      * selected.
-     * @param      index   the item to be checked
-     * @return     <code>true</code> if the specified item has been
-     *                       selected; <code>false</code> otherwise
+     * @pbrbm      index   the item to be checked
+     * @return     <code>true</code> if the specified item hbs been
+     *                       selected; <code>fblse</code> otherwise
      * @see        #select
      * @see        #deselect
      * @since      1.1
      */
-    public boolean isIndexSelected(int index) {
+    public boolebn isIndexSelected(int index) {
         return isSelected(index);
     }
 
     /**
      * Determines if the specified item in the list is selected.
      *
-     * @param  index specifies the item to be checked
-     * @return {@code true} if the item is selected; otherwise {@code false}
-     * @deprecated As of JDK version 1.1,
-     * replaced by <code>isIndexSelected(int)</code>.
+     * @pbrbm  index specifies the item to be checked
+     * @return {@code true} if the item is selected; otherwise {@code fblse}
+     * @deprecbted As of JDK version 1.1,
+     * replbced by <code>isIndexSelected(int)</code>.
      */
-    @Deprecated
-    public boolean isSelected(int index) {
+    @Deprecbted
+    public boolebn isSelected(int index) {
         int sel[] = getSelectedIndexes();
         for (int i = 0 ; i < sel.length ; i++) {
             if (sel[i] == index) {
                 return true;
             }
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Gets the number of visible lines in this list.  Note that
-     * once the <code>List</code> has been created, this number
-     * will never change.
+     * Gets the number of visible lines in this list.  Note thbt
+     * once the <code>List</code> hbs been crebted, this number
+     * will never chbnge.
      * @return     the number of visible lines in this scrolling list
      */
     public int getRows() {
@@ -689,57 +689,57 @@ public class List extends Component implements ItemSelectable, Accessible {
     }
 
     /**
-     * Determines whether this list allows multiple selections.
+     * Determines whether this list bllows multiple selections.
      *
-     * @return     <code>true</code> if this list allows multiple
-     *                 selections; otherwise, <code>false</code>
+     * @return     <code>true</code> if this list bllows multiple
+     *                 selections; otherwise, <code>fblse</code>
      * @see        #setMultipleMode
      * @since      1.1
      */
-    public boolean isMultipleMode() {
-        return allowsMultipleSelections();
+    public boolebn isMultipleMode() {
+        return bllowsMultipleSelections();
     }
 
     /**
-     * Determines whether this list allows multiple selections.
+     * Determines whether this list bllows multiple selections.
      *
-     * @return {@code true} if this list allows multiple
-     *         selections; otherwise {@code false}
-     * @deprecated As of JDK version 1.1,
-     * replaced by <code>isMultipleMode()</code>.
+     * @return {@code true} if this list bllows multiple
+     *         selections; otherwise {@code fblse}
+     * @deprecbted As of JDK version 1.1,
+     * replbced by <code>isMultipleMode()</code>.
      */
-    @Deprecated
-    public boolean allowsMultipleSelections() {
+    @Deprecbted
+    public boolebn bllowsMultipleSelections() {
         return multipleMode;
     }
 
     /**
-     * Sets the flag that determines whether this list
-     * allows multiple selections.
-     * When the selection mode is changed from multiple-selection to
-     * single-selection, the selected items change as follows:
-     * If a selected item has the location cursor, only that
-     * item will remain selected.  If no selected item has the
-     * location cursor, all items will be deselected.
-     * @param       b   if <code>true</code> then multiple selections
-     *                      are allowed; otherwise, only one item from
-     *                      the list can be selected at once
+     * Sets the flbg thbt determines whether this list
+     * bllows multiple selections.
+     * When the selection mode is chbnged from multiple-selection to
+     * single-selection, the selected items chbnge bs follows:
+     * If b selected item hbs the locbtion cursor, only thbt
+     * item will rembin selected.  If no selected item hbs the
+     * locbtion cursor, bll items will be deselected.
+     * @pbrbm       b   if <code>true</code> then multiple selections
+     *                      bre bllowed; otherwise, only one item from
+     *                      the list cbn be selected bt once
      * @see         #isMultipleMode
      * @since       1.1
      */
-    public void setMultipleMode(boolean b) {
+    public void setMultipleMode(boolebn b) {
         setMultipleSelections(b);
     }
 
     /**
-     * Enables or disables multiple selection mode for this list.
+     * Enbbles or disbbles multiple selection mode for this list.
      *
-     * @param  b {@code true} to enable multiple mode, {@code false} otherwise
-     * @deprecated As of JDK version 1.1,
-     * replaced by <code>setMultipleMode(boolean)</code>.
+     * @pbrbm  b {@code true} to enbble multiple mode, {@code fblse} otherwise
+     * @deprecbted As of JDK version 1.1,
+     * replbced by <code>setMultipleMode(boolebn)</code>.
      */
-    @Deprecated
-    public synchronized void setMultipleSelections(boolean b) {
+    @Deprecbted
+    public synchronized void setMultipleSelections(boolebn b) {
         if (b != multipleMode) {
             multipleMode = b;
             ListPeer peer = (ListPeer)this.peer;
@@ -750,35 +750,35 @@ public class List extends Component implements ItemSelectable, Accessible {
     }
 
     /**
-     * Gets the index of the item that was last made visible by
-     * the method <code>makeVisible</code>.
-     * @return      the index of the item that was last made visible
-     * @see         #makeVisible
+     * Gets the index of the item thbt wbs lbst mbde visible by
+     * the method <code>mbkeVisible</code>.
+     * @return      the index of the item thbt wbs lbst mbde visible
+     * @see         #mbkeVisible
      */
     public int getVisibleIndex() {
         return visibleIndex;
     }
 
     /**
-     * Makes the item at the specified index visible.
-     * @param       index    the position of the item
+     * Mbkes the item bt the specified index visible.
+     * @pbrbm       index    the position of the item
      * @see         #getVisibleIndex
      */
-    public synchronized void makeVisible(int index) {
+    public synchronized void mbkeVisible(int index) {
         visibleIndex = index;
         ListPeer peer = (ListPeer)this.peer;
         if (peer != null) {
-            peer.makeVisible(index);
+            peer.mbkeVisible(index);
         }
     }
 
     /**
-     * Gets the preferred dimensions for a list with the specified
+     * Gets the preferred dimensions for b list with the specified
      * number of rows.
-     * @param      rows    number of rows in the list
-     * @return     the preferred dimensions for displaying this scrolling list
-     *             given that the specified number of rows must be visible
-     * @see        java.awt.Component#getPreferredSize
+     * @pbrbm      rows    number of rows in the list
+     * @return     the preferred dimensions for displbying this scrolling list
+     *             given thbt the specified number of rows must be visible
+     * @see        jbvb.bwt.Component#getPreferredSize
      * @since      1.1
      */
     public Dimension getPreferredSize(int rows) {
@@ -787,14 +787,14 @@ public class List extends Component implements ItemSelectable, Accessible {
 
     /**
      * Returns the preferred size of this component
-     * assuming it has the specified number of rows.
+     * bssuming it hbs the specified number of rows.
      *
-     * @param  rows the number of rows
-     * @return the preferred dimensions for displaying this list
-     * @deprecated As of JDK version 1.1,
-     * replaced by <code>getPreferredSize(int)</code>.
+     * @pbrbm  rows the number of rows
+     * @return the preferred dimensions for displbying this list
+     * @deprecbted As of JDK version 1.1,
+     * replbced by <code>getPreferredSize(int)</code>.
      */
-    @Deprecated
+    @Deprecbted
     public Dimension preferredSize(int rows) {
         synchronized (getTreeLock()) {
             ListPeer peer = (ListPeer)this.peer;
@@ -806,8 +806,8 @@ public class List extends Component implements ItemSelectable, Accessible {
 
     /**
      * Gets the preferred size of this scrolling list.
-     * @return     the preferred dimensions for displaying this scrolling list
-     * @see        java.awt.Component#getPreferredSize
+     * @return     the preferred dimensions for displbying this scrolling list
+     * @see        jbvb.bwt.Component#getPreferredSize
      * @since      1.1
      */
     public Dimension getPreferredSize() {
@@ -815,10 +815,10 @@ public class List extends Component implements ItemSelectable, Accessible {
     }
 
     /**
-     * @deprecated As of JDK version 1.1,
-     * replaced by <code>getPreferredSize()</code>.
+     * @deprecbted As of JDK version 1.1,
+     * replbced by <code>getPreferredSize()</code>.
      */
-    @Deprecated
+    @Deprecbted
     public Dimension preferredSize() {
         synchronized (getTreeLock()) {
             return (rows > 0) ?
@@ -828,12 +828,12 @@ public class List extends Component implements ItemSelectable, Accessible {
     }
 
     /**
-     * Gets the minimum dimensions for a list with the specified
+     * Gets the minimum dimensions for b list with the specified
      * number of rows.
-     * @param      rows    number of rows in the list
-     * @return     the minimum dimensions for displaying this scrolling list
-     *             given that the specified number of rows must be visible
-     * @see        java.awt.Component#getMinimumSize
+     * @pbrbm      rows    number of rows in the list
+     * @return     the minimum dimensions for displbying this scrolling list
+     *             given thbt the specified number of rows must be visible
+     * @see        jbvb.bwt.Component#getMinimumSize
      * @since      1.1
      */
     public Dimension getMinimumSize(int rows) {
@@ -844,12 +844,12 @@ public class List extends Component implements ItemSelectable, Accessible {
      * Returns the minimum dimensions for the list
      * with the specified number of rows.
      *
-     * @param  rows the number of rows in the list
-     * @return the minimum dimensions for displaying this list
-     * @deprecated As of JDK version 1.1,
-     * replaced by <code>getMinimumSize(int)</code>.
+     * @pbrbm  rows the number of rows in the list
+     * @return the minimum dimensions for displbying this list
+     * @deprecbted As of JDK version 1.1,
+     * replbced by <code>getMinimumSize(int)</code>.
      */
-    @Deprecated
+    @Deprecbted
     public Dimension minimumSize(int rows) {
         synchronized (getTreeLock()) {
             ListPeer peer = (ListPeer)this.peer;
@@ -862,8 +862,8 @@ public class List extends Component implements ItemSelectable, Accessible {
     /**
      * Determines the minimum size of this scrolling list.
      * @return       the minimum dimensions needed
-     *                        to display this scrolling list
-     * @see          java.awt.Component#getMinimumSize()
+     *                        to displby this scrolling list
+     * @see          jbvb.bwt.Component#getMinimumSize()
      * @since        1.1
      */
     public Dimension getMinimumSize() {
@@ -871,10 +871,10 @@ public class List extends Component implements ItemSelectable, Accessible {
     }
 
     /**
-     * @deprecated As of JDK version 1.1,
-     * replaced by <code>getMinimumSize()</code>.
+     * @deprecbted As of JDK version 1.1,
+     * replbced by <code>getMinimumSize()</code>.
      */
-    @Deprecated
+    @Deprecbted
     public Dimension minimumSize() {
         synchronized (getTreeLock()) {
             return (rows > 0) ? minimumSize(rows) : super.minimumSize();
@@ -883,227 +883,227 @@ public class List extends Component implements ItemSelectable, Accessible {
 
     /**
      * Adds the specified item listener to receive item events from
-     * this list.  Item events are sent in response to user input, but not
-     * in response to calls to <code>select</code> or <code>deselect</code>.
+     * this list.  Item events bre sent in response to user input, but not
+     * in response to cblls to <code>select</code> or <code>deselect</code>.
      * If listener <code>l</code> is <code>null</code>,
-     * no exception is thrown and no action is performed.
-     * <p>Refer to <a href="doc-files/AWTThreadIssues.html#ListenersThreads"
-     * >AWT Threading Issues</a> for details on AWT's threading model.
+     * no exception is thrown bnd no bction is performed.
+     * <p>Refer to <b href="doc-files/AWTThrebdIssues.html#ListenersThrebds"
+     * >AWT Threbding Issues</b> for detbils on AWT's threbding model.
      *
-     * @param         l the item listener
+     * @pbrbm         l the item listener
      * @see           #removeItemListener
      * @see           #getItemListeners
      * @see           #select
      * @see           #deselect
-     * @see           java.awt.event.ItemEvent
-     * @see           java.awt.event.ItemListener
+     * @see           jbvb.bwt.event.ItemEvent
+     * @see           jbvb.bwt.event.ItemListener
      * @since         1.1
      */
-    public synchronized void addItemListener(ItemListener l) {
+    public synchronized void bddItemListener(ItemListener l) {
         if (l == null) {
             return;
         }
-        itemListener = AWTEventMulticaster.add(itemListener, l);
+        itemListener = AWTEventMulticbster.bdd(itemListener, l);
         newEventsOnly = true;
     }
 
     /**
-     * Removes the specified item listener so that it no longer
+     * Removes the specified item listener so thbt it no longer
      * receives item events from this list.
      * If listener <code>l</code> is <code>null</code>,
-     * no exception is thrown and no action is performed.
-     * <p>Refer to <a href="doc-files/AWTThreadIssues.html#ListenersThreads"
-     * >AWT Threading Issues</a> for details on AWT's threading model.
+     * no exception is thrown bnd no bction is performed.
+     * <p>Refer to <b href="doc-files/AWTThrebdIssues.html#ListenersThrebds"
+     * >AWT Threbding Issues</b> for detbils on AWT's threbding model.
      *
-     * @param           l the item listener
-     * @see             #addItemListener
+     * @pbrbm           l the item listener
+     * @see             #bddItemListener
      * @see             #getItemListeners
-     * @see             java.awt.event.ItemEvent
-     * @see             java.awt.event.ItemListener
+     * @see             jbvb.bwt.event.ItemEvent
+     * @see             jbvb.bwt.event.ItemListener
      * @since           1.1
      */
     public synchronized void removeItemListener(ItemListener l) {
         if (l == null) {
             return;
         }
-        itemListener = AWTEventMulticaster.remove(itemListener, l);
+        itemListener = AWTEventMulticbster.remove(itemListener, l);
     }
 
     /**
-     * Returns an array of all the item listeners
+     * Returns bn brrby of bll the item listeners
      * registered on this list.
      *
-     * @return all of this list's <code>ItemListener</code>s
-     *         or an empty array if no item
-     *         listeners are currently registered
+     * @return bll of this list's <code>ItemListener</code>s
+     *         or bn empty brrby if no item
+     *         listeners bre currently registered
      *
-     * @see             #addItemListener
+     * @see             #bddItemListener
      * @see             #removeItemListener
-     * @see             java.awt.event.ItemEvent
-     * @see             java.awt.event.ItemListener
+     * @see             jbvb.bwt.event.ItemEvent
+     * @see             jbvb.bwt.event.ItemListener
      * @since 1.4
      */
     public synchronized ItemListener[] getItemListeners() {
-        return getListeners(ItemListener.class);
+        return getListeners(ItemListener.clbss);
     }
 
     /**
-     * Adds the specified action listener to receive action events from
-     * this list. Action events occur when a user double-clicks
-     * on a list item or types Enter when the list has the keyboard
+     * Adds the specified bction listener to receive bction events from
+     * this list. Action events occur when b user double-clicks
+     * on b list item or types Enter when the list hbs the keybobrd
      * focus.
      * <p>
      * If listener <code>l</code> is <code>null</code>,
-     * no exception is thrown and no action is performed.
-     * <p>Refer to <a href="doc-files/AWTThreadIssues.html#ListenersThreads"
-     * >AWT Threading Issues</a> for details on AWT's threading model.
+     * no exception is thrown bnd no bction is performed.
+     * <p>Refer to <b href="doc-files/AWTThrebdIssues.html#ListenersThrebds"
+     * >AWT Threbding Issues</b> for detbils on AWT's threbding model.
      *
-     * @param         l the action listener
+     * @pbrbm         l the bction listener
      * @see           #removeActionListener
      * @see           #getActionListeners
-     * @see           java.awt.event.ActionEvent
-     * @see           java.awt.event.ActionListener
+     * @see           jbvb.bwt.event.ActionEvent
+     * @see           jbvb.bwt.event.ActionListener
      * @since         1.1
      */
-    public synchronized void addActionListener(ActionListener l) {
+    public synchronized void bddActionListener(ActionListener l) {
         if (l == null) {
             return;
         }
-        actionListener = AWTEventMulticaster.add(actionListener, l);
+        bctionListener = AWTEventMulticbster.bdd(bctionListener, l);
         newEventsOnly = true;
     }
 
     /**
-     * Removes the specified action listener so that it no longer
-     * receives action events from this list. Action events
-     * occur when a user double-clicks on a list item.
+     * Removes the specified bction listener so thbt it no longer
+     * receives bction events from this list. Action events
+     * occur when b user double-clicks on b list item.
      * If listener <code>l</code> is <code>null</code>,
-     * no exception is thrown and no action is performed.
-     * <p>Refer to <a href="doc-files/AWTThreadIssues.html#ListenersThreads"
-     * >AWT Threading Issues</a> for details on AWT's threading model.
+     * no exception is thrown bnd no bction is performed.
+     * <p>Refer to <b href="doc-files/AWTThrebdIssues.html#ListenersThrebds"
+     * >AWT Threbding Issues</b> for detbils on AWT's threbding model.
      *
-     * @param           l     the action listener
-     * @see             #addActionListener
+     * @pbrbm           l     the bction listener
+     * @see             #bddActionListener
      * @see             #getActionListeners
-     * @see             java.awt.event.ActionEvent
-     * @see             java.awt.event.ActionListener
+     * @see             jbvb.bwt.event.ActionEvent
+     * @see             jbvb.bwt.event.ActionListener
      * @since           1.1
      */
     public synchronized void removeActionListener(ActionListener l) {
         if (l == null) {
             return;
         }
-        actionListener = AWTEventMulticaster.remove(actionListener, l);
+        bctionListener = AWTEventMulticbster.remove(bctionListener, l);
     }
 
     /**
-     * Returns an array of all the action listeners
+     * Returns bn brrby of bll the bction listeners
      * registered on this list.
      *
-     * @return all of this list's <code>ActionListener</code>s
-     *         or an empty array if no action
-     *         listeners are currently registered
+     * @return bll of this list's <code>ActionListener</code>s
+     *         or bn empty brrby if no bction
+     *         listeners bre currently registered
      *
-     * @see             #addActionListener
+     * @see             #bddActionListener
      * @see             #removeActionListener
-     * @see             java.awt.event.ActionEvent
-     * @see             java.awt.event.ActionListener
+     * @see             jbvb.bwt.event.ActionEvent
+     * @see             jbvb.bwt.event.ActionListener
      * @since 1.4
      */
     public synchronized ActionListener[] getActionListeners() {
-        return getListeners(ActionListener.class);
+        return getListeners(ActionListener.clbss);
     }
 
     /**
-     * Returns an array of all the objects currently registered
-     * as <code><em>Foo</em>Listener</code>s
+     * Returns bn brrby of bll the objects currently registered
+     * bs <code><em>Foo</em>Listener</code>s
      * upon this <code>List</code>.
-     * <code><em>Foo</em>Listener</code>s are registered using the
-     * <code>add<em>Foo</em>Listener</code> method.
+     * <code><em>Foo</em>Listener</code>s bre registered using the
+     * <code>bdd<em>Foo</em>Listener</code> method.
      *
      * <p>
-     * You can specify the <code>listenerType</code> argument
-     * with a class literal, such as
-     * <code><em>Foo</em>Listener.class</code>.
-     * For example, you can query a
+     * You cbn specify the <code>listenerType</code> brgument
+     * with b clbss literbl, such bs
+     * <code><em>Foo</em>Listener.clbss</code>.
+     * For exbmple, you cbn query b
      * <code>List</code> <code>l</code>
      * for its item listeners with the following code:
      *
-     * <pre>ItemListener[] ils = (ItemListener[])(l.getListeners(ItemListener.class));</pre>
+     * <pre>ItemListener[] ils = (ItemListener[])(l.getListeners(ItemListener.clbss));</pre>
      *
-     * If no such listeners exist, this method returns an empty array.
+     * If no such listeners exist, this method returns bn empty brrby.
      *
-     * @param listenerType the type of listeners requested; this parameter
-     *          should specify an interface that descends from
-     *          <code>java.util.EventListener</code>
-     * @return an array of all objects registered as
+     * @pbrbm listenerType the type of listeners requested; this pbrbmeter
+     *          should specify bn interfbce thbt descends from
+     *          <code>jbvb.util.EventListener</code>
+     * @return bn brrby of bll objects registered bs
      *          <code><em>Foo</em>Listener</code>s on this list,
-     *          or an empty array if no such
-     *          listeners have been added
-     * @exception ClassCastException if <code>listenerType</code>
-     *          doesn't specify a class or interface that implements
-     *          <code>java.util.EventListener</code>
+     *          or bn empty brrby if no such
+     *          listeners hbve been bdded
+     * @exception ClbssCbstException if <code>listenerType</code>
+     *          doesn't specify b clbss or interfbce thbt implements
+     *          <code>jbvb.util.EventListener</code>
      *
      * @see #getItemListeners
      * @since 1.3
      */
-    public <T extends EventListener> T[] getListeners(Class<T> listenerType) {
+    public <T extends EventListener> T[] getListeners(Clbss<T> listenerType) {
         EventListener l = null;
-        if  (listenerType == ActionListener.class) {
-            l = actionListener;
-        } else if  (listenerType == ItemListener.class) {
+        if  (listenerType == ActionListener.clbss) {
+            l = bctionListener;
+        } else if  (listenerType == ItemListener.clbss) {
             l = itemListener;
         } else {
             return super.getListeners(listenerType);
         }
-        return AWTEventMulticaster.getListeners(l, listenerType);
+        return AWTEventMulticbster.getListeners(l, listenerType);
     }
 
-    // REMIND: remove when filtering is done at lower level
-    boolean eventEnabled(AWTEvent e) {
+    // REMIND: remove when filtering is done bt lower level
+    boolebn eventEnbbled(AWTEvent e) {
         switch(e.id) {
-          case ActionEvent.ACTION_PERFORMED:
-            if ((eventMask & AWTEvent.ACTION_EVENT_MASK) != 0 ||
-                actionListener != null) {
+          cbse ActionEvent.ACTION_PERFORMED:
+            if ((eventMbsk & AWTEvent.ACTION_EVENT_MASK) != 0 ||
+                bctionListener != null) {
                 return true;
             }
-            return false;
-          case ItemEvent.ITEM_STATE_CHANGED:
-            if ((eventMask & AWTEvent.ITEM_EVENT_MASK) != 0 ||
+            return fblse;
+          cbse ItemEvent.ITEM_STATE_CHANGED:
+            if ((eventMbsk & AWTEvent.ITEM_EVENT_MASK) != 0 ||
                 itemListener != null) {
                 return true;
             }
-            return false;
-          default:
-            break;
+            return fblse;
+          defbult:
+            brebk;
         }
-        return super.eventEnabled(e);
+        return super.eventEnbbled(e);
     }
 
     /**
-     * Processes events on this scrolling list. If an event is
-     * an instance of <code>ItemEvent</code>, it invokes the
+     * Processes events on this scrolling list. If bn event is
+     * bn instbnce of <code>ItemEvent</code>, it invokes the
      * <code>processItemEvent</code> method. Else, if the
-     * event is an instance of <code>ActionEvent</code>,
+     * event is bn instbnce of <code>ActionEvent</code>,
      * it invokes <code>processActionEvent</code>.
-     * If the event is not an item event or an action event,
-     * it invokes <code>processEvent</code> on the superclass.
-     * <p>Note that if the event parameter is <code>null</code>
-     * the behavior is unspecified and may result in an
+     * If the event is not bn item event or bn bction event,
+     * it invokes <code>processEvent</code> on the superclbss.
+     * <p>Note thbt if the event pbrbmeter is <code>null</code>
+     * the behbvior is unspecified bnd mby result in bn
      * exception.
      *
-     * @param        e the event
-     * @see          java.awt.event.ActionEvent
-     * @see          java.awt.event.ItemEvent
+     * @pbrbm        e the event
+     * @see          jbvb.bwt.event.ActionEvent
+     * @see          jbvb.bwt.event.ItemEvent
      * @see          #processActionEvent
      * @see          #processItemEvent
      * @since        1.1
      */
     protected void processEvent(AWTEvent e) {
-        if (e instanceof ItemEvent) {
+        if (e instbnceof ItemEvent) {
             processItemEvent((ItemEvent)e);
             return;
-        } else if (e instanceof ActionEvent) {
+        } else if (e instbnceof ActionEvent) {
             processActionEvent((ActionEvent)e);
             return;
         }
@@ -1112,134 +1112,134 @@ public class List extends Component implements ItemSelectable, Accessible {
 
     /**
      * Processes item events occurring on this list by
-     * dispatching them to any registered
+     * dispbtching them to bny registered
      * <code>ItemListener</code> objects.
      * <p>
-     * This method is not called unless item events are
-     * enabled for this component. Item events are enabled
+     * This method is not cblled unless item events bre
+     * enbbled for this component. Item events bre enbbled
      * when one of the following occurs:
      * <ul>
      * <li>An <code>ItemListener</code> object is registered
-     * via <code>addItemListener</code>.
-     * <li>Item events are enabled via <code>enableEvents</code>.
+     * vib <code>bddItemListener</code>.
+     * <li>Item events bre enbbled vib <code>enbbleEvents</code>.
      * </ul>
-     * <p>Note that if the event parameter is <code>null</code>
-     * the behavior is unspecified and may result in an
+     * <p>Note thbt if the event pbrbmeter is <code>null</code>
+     * the behbvior is unspecified bnd mby result in bn
      * exception.
      *
-     * @param       e the item event
-     * @see         java.awt.event.ItemEvent
-     * @see         java.awt.event.ItemListener
-     * @see         #addItemListener
-     * @see         java.awt.Component#enableEvents
+     * @pbrbm       e the item event
+     * @see         jbvb.bwt.event.ItemEvent
+     * @see         jbvb.bwt.event.ItemListener
+     * @see         #bddItemListener
+     * @see         jbvb.bwt.Component#enbbleEvents
      * @since       1.1
      */
     protected void processItemEvent(ItemEvent e) {
         ItemListener listener = itemListener;
         if (listener != null) {
-            listener.itemStateChanged(e);
+            listener.itemStbteChbnged(e);
         }
     }
 
     /**
-     * Processes action events occurring on this component
-     * by dispatching them to any registered
+     * Processes bction events occurring on this component
+     * by dispbtching them to bny registered
      * <code>ActionListener</code> objects.
      * <p>
-     * This method is not called unless action events are
-     * enabled for this component. Action events are enabled
+     * This method is not cblled unless bction events bre
+     * enbbled for this component. Action events bre enbbled
      * when one of the following occurs:
      * <ul>
      * <li>An <code>ActionListener</code> object is registered
-     * via <code>addActionListener</code>.
-     * <li>Action events are enabled via <code>enableEvents</code>.
+     * vib <code>bddActionListener</code>.
+     * <li>Action events bre enbbled vib <code>enbbleEvents</code>.
      * </ul>
-     * <p>Note that if the event parameter is <code>null</code>
-     * the behavior is unspecified and may result in an
+     * <p>Note thbt if the event pbrbmeter is <code>null</code>
+     * the behbvior is unspecified bnd mby result in bn
      * exception.
      *
-     * @param       e the action event
-     * @see         java.awt.event.ActionEvent
-     * @see         java.awt.event.ActionListener
-     * @see         #addActionListener
-     * @see         java.awt.Component#enableEvents
+     * @pbrbm       e the bction event
+     * @see         jbvb.bwt.event.ActionEvent
+     * @see         jbvb.bwt.event.ActionListener
+     * @see         #bddActionListener
+     * @see         jbvb.bwt.Component#enbbleEvents
      * @since       1.1
      */
     protected void processActionEvent(ActionEvent e) {
-        ActionListener listener = actionListener;
+        ActionListener listener = bctionListener;
         if (listener != null) {
-            listener.actionPerformed(e);
+            listener.bctionPerformed(e);
         }
     }
 
     /**
-     * Returns the parameter string representing the state of this
+     * Returns the pbrbmeter string representing the stbte of this
      * scrolling list. This string is useful for debugging.
-     * @return    the parameter string of this scrolling list
+     * @return    the pbrbmeter string of this scrolling list
      */
-    protected String paramString() {
-        return super.paramString() + ",selected=" + getSelectedItem();
+    protected String pbrbmString() {
+        return super.pbrbmString() + ",selected=" + getSelectedItem();
     }
 
     /**
-     * Deletes the list items in the specified index range.
+     * Deletes the list items in the specified index rbnge.
      *
-     * @param  start the beginning index of the range to delete
-     * @param  end the ending index of the range to delete
-     * @deprecated As of JDK version 1.1,
+     * @pbrbm  stbrt the beginning index of the rbnge to delete
+     * @pbrbm  end the ending index of the rbnge to delete
+     * @deprecbted As of JDK version 1.1,
      * Not for public use in the future.
-     * This method is expected to be retained only as a package
-     * private method.
+     * This method is expected to be retbined only bs b pbckbge
+     * privbte method.
      */
-    @Deprecated
-    public synchronized void delItems(int start, int end) {
-        for (int i = end; i >= start; i--) {
+    @Deprecbted
+    public synchronized void delItems(int stbrt, int end) {
+        for (int i = end; i >= stbrt; i--) {
             items.removeElementAt(i);
         }
         ListPeer peer = (ListPeer)this.peer;
         if (peer != null) {
-            peer.delItems(start, end);
+            peer.delItems(stbrt, end);
         }
     }
 
     /*
-     * Serialization support.  Since the value of the selected
-     * field isn't necessarily up to date, we sync it up with the
-     * peer before serializing.
+     * Seriblizbtion support.  Since the vblue of the selected
+     * field isn't necessbrily up to dbte, we sync it up with the
+     * peer before seriblizing.
      */
 
     /**
      * The <code>List</code> component's
-     * Serialized Data Version.
+     * Seriblized Dbtb Version.
      *
-     * @serial
+     * @seribl
      */
-    private int listSerializedDataVersion = 1;
+    privbte int listSeriblizedDbtbVersion = 1;
 
     /**
-     * Writes default serializable fields to stream.  Writes
-     * a list of serializable <code>ItemListeners</code>
-     * and <code>ActionListeners</code> as optional data.
-     * The non-serializable listeners are detected and
-     * no attempt is made to serialize them.
+     * Writes defbult seriblizbble fields to strebm.  Writes
+     * b list of seriblizbble <code>ItemListeners</code>
+     * bnd <code>ActionListeners</code> bs optionbl dbtb.
+     * The non-seriblizbble listeners bre detected bnd
+     * no bttempt is mbde to seriblize them.
      *
-     * @serialData <code>null</code> terminated sequence of 0
-     *  or more pairs; the pair consists of a <code>String</code>
-     *  and an <code>Object</code>; the <code>String</code>
-     *  indicates the type of object and is one of the
+     * @seriblDbtb <code>null</code> terminbted sequence of 0
+     *  or more pbirs; the pbir consists of b <code>String</code>
+     *  bnd bn <code>Object</code>; the <code>String</code>
+     *  indicbtes the type of object bnd is one of the
      *  following:
-     *  <code>itemListenerK</code> indicating an
+     *  <code>itemListenerK</code> indicbting bn
      *    <code>ItemListener</code> object;
-     *  <code>actionListenerK</code> indicating an
+     *  <code>bctionListenerK</code> indicbting bn
      *    <code>ActionListener</code> object
      *
-     * @param s the <code>ObjectOutputStream</code> to write
-     * @see AWTEventMulticaster#save(ObjectOutputStream, String, EventListener)
-     * @see java.awt.Component#itemListenerK
-     * @see java.awt.Component#actionListenerK
-     * @see #readObject(ObjectInputStream)
+     * @pbrbm s the <code>ObjectOutputStrebm</code> to write
+     * @see AWTEventMulticbster#sbve(ObjectOutputStrebm, String, EventListener)
+     * @see jbvb.bwt.Component#itemListenerK
+     * @see jbvb.bwt.Component#bctionListenerK
+     * @see #rebdObject(ObjectInputStrebm)
      */
-    private void writeObject(ObjectOutputStream s)
+    privbte void writeObject(ObjectOutputStrebm s)
       throws IOException
     {
       synchronized (this) {
@@ -1248,48 +1248,48 @@ public class List extends Component implements ItemSelectable, Accessible {
           selected = peer.getSelectedIndexes();
         }
       }
-      s.defaultWriteObject();
+      s.defbultWriteObject();
 
-      AWTEventMulticaster.save(s, itemListenerK, itemListener);
-      AWTEventMulticaster.save(s, actionListenerK, actionListener);
+      AWTEventMulticbster.sbve(s, itemListenerK, itemListener);
+      AWTEventMulticbster.sbve(s, bctionListenerK, bctionListener);
       s.writeObject(null);
     }
 
     /**
-     * Reads the <code>ObjectInputStream</code> and if it
-     * isn't <code>null</code> adds a listener to receive
-     * both item events and action events (as specified
-     * by the key stored in the stream) fired by the
+     * Rebds the <code>ObjectInputStrebm</code> bnd if it
+     * isn't <code>null</code> bdds b listener to receive
+     * both item events bnd bction events (bs specified
+     * by the key stored in the strebm) fired by the
      * <code>List</code>.
-     * Unrecognized keys or values will be ignored.
+     * Unrecognized keys or vblues will be ignored.
      *
-     * @param s the <code>ObjectInputStream</code> to write
-     * @exception HeadlessException if
-     *   <code>GraphicsEnvironment.isHeadless</code> returns
+     * @pbrbm s the <code>ObjectInputStrebm</code> to write
+     * @exception HebdlessException if
+     *   <code>GrbphicsEnvironment.isHebdless</code> returns
      *   <code>true</code>
      * @see #removeItemListener(ItemListener)
-     * @see #addItemListener(ItemListener)
-     * @see java.awt.GraphicsEnvironment#isHeadless
-     * @see #writeObject(ObjectOutputStream)
+     * @see #bddItemListener(ItemListener)
+     * @see jbvb.bwt.GrbphicsEnvironment#isHebdless
+     * @see #writeObject(ObjectOutputStrebm)
      */
-    private void readObject(ObjectInputStream s)
-      throws ClassNotFoundException, IOException, HeadlessException
+    privbte void rebdObject(ObjectInputStrebm s)
+      throws ClbssNotFoundException, IOException, HebdlessException
     {
-      GraphicsEnvironment.checkHeadless();
-      s.defaultReadObject();
+      GrbphicsEnvironment.checkHebdless();
+      s.defbultRebdObject();
 
       Object keyOrNull;
-      while(null != (keyOrNull = s.readObject())) {
+      while(null != (keyOrNull = s.rebdObject())) {
         String key = ((String)keyOrNull).intern();
 
         if (itemListenerK == key)
-          addItemListener((ItemListener)(s.readObject()));
+          bddItemListener((ItemListener)(s.rebdObject()));
 
-        else if (actionListenerK == key)
-          addActionListener((ActionListener)(s.readObject()));
+        else if (bctionListenerK == key)
+          bddActionListener((ActionListener)(s.rebdObject()));
 
-        else // skip value for unrecognized key
-          s.readObject();
+        else // skip vblue for unrecognized key
+          s.rebdObject();
       }
     }
 
@@ -1300,70 +1300,70 @@ public class List extends Component implements ItemSelectable, Accessible {
 
 
     /**
-     * Gets the <code>AccessibleContext</code> associated with this
+     * Gets the <code>AccessibleContext</code> bssocibted with this
      * <code>List</code>. For lists, the <code>AccessibleContext</code>
-     * takes the form of an <code>AccessibleAWTList</code>.
-     * A new <code>AccessibleAWTList</code> instance is created, if necessary.
+     * tbkes the form of bn <code>AccessibleAWTList</code>.
+     * A new <code>AccessibleAWTList</code> instbnce is crebted, if necessbry.
      *
-     * @return an <code>AccessibleAWTList</code> that serves as the
+     * @return bn <code>AccessibleAWTList</code> thbt serves bs the
      *         <code>AccessibleContext</code> of this <code>List</code>
      * @since 1.3
      */
     public AccessibleContext getAccessibleContext() {
-        if (accessibleContext == null) {
-            accessibleContext = new AccessibleAWTList();
+        if (bccessibleContext == null) {
+            bccessibleContext = new AccessibleAWTList();
         }
-        return accessibleContext;
+        return bccessibleContext;
     }
 
     /**
-     * This class implements accessibility support for the
-     * <code>List</code> class.  It provides an implementation of the
-     * Java Accessibility API appropriate to list user-interface elements.
+     * This clbss implements bccessibility support for the
+     * <code>List</code> clbss.  It provides bn implementbtion of the
+     * Jbvb Accessibility API bppropribte to list user-interfbce elements.
      * @since 1.3
      */
-    protected class AccessibleAWTList extends AccessibleAWTComponent
+    protected clbss AccessibleAWTList extends AccessibleAWTComponent
         implements AccessibleSelection, ItemListener, ActionListener
     {
         /*
-         * JDK 1.3 serialVersionUID
+         * JDK 1.3 seriblVersionUID
          */
-        private static final long serialVersionUID = 7924617370136012829L;
+        privbte stbtic finbl long seriblVersionUID = 7924617370136012829L;
 
         /**
          * Constructs new {@code AccessibleAWTList}
          */
         public AccessibleAWTList() {
             super();
-            List.this.addActionListener(this);
-            List.this.addItemListener(this);
+            List.this.bddActionListener(this);
+            List.this.bddItemListener(this);
         }
 
-        public void actionPerformed(ActionEvent event)  {
+        public void bctionPerformed(ActionEvent event)  {
         }
 
-        public void itemStateChanged(ItemEvent event)  {
+        public void itemStbteChbnged(ItemEvent event)  {
         }
 
         /**
-         * Get the state set of this object.
+         * Get the stbte set of this object.
          *
-         * @return an instance of AccessibleState containing the current state
+         * @return bn instbnce of AccessibleStbte contbining the current stbte
          * of the object
-         * @see AccessibleState
+         * @see AccessibleStbte
          */
-        public AccessibleStateSet getAccessibleStateSet() {
-            AccessibleStateSet states = super.getAccessibleStateSet();
+        public AccessibleStbteSet getAccessibleStbteSet() {
+            AccessibleStbteSet stbtes = super.getAccessibleStbteSet();
             if (List.this.isMultipleMode())  {
-                states.add(AccessibleState.MULTISELECTABLE);
+                stbtes.bdd(AccessibleStbte.MULTISELECTABLE);
             }
-            return states;
+            return stbtes;
         }
 
         /**
          * Get the role of this object.
          *
-         * @return an instance of AccessibleRole describing the role of the
+         * @return bn instbnce of AccessibleRole describing the role of the
          * object
          * @see AccessibleRole
          */
@@ -1372,21 +1372,21 @@ public class List extends Component implements ItemSelectable, Accessible {
         }
 
         /**
-         * Returns the Accessible child contained at the local coordinate
+         * Returns the Accessible child contbined bt the locbl coordinbte
          * Point, if one exists.
          *
-         * @return the Accessible at the specified location, if it exists
+         * @return the Accessible bt the specified locbtion, if it exists
          */
         public Accessible getAccessibleAt(Point p) {
             return null; // fredxFIXME Not implemented yet
         }
 
         /**
-         * Returns the number of accessible children in the object.  If all
-         * of the children of this object implement Accessible, than this
+         * Returns the number of bccessible children in the object.  If bll
+         * of the children of this object implement Accessible, thbn this
          * method should return the number of children of this object.
          *
-         * @return the number of accessible children in the object.
+         * @return the number of bccessible children in the object.
          */
         public int getAccessibleChildrenCount() {
             return List.this.getItemCount();
@@ -1395,7 +1395,7 @@ public class List extends Component implements ItemSelectable, Accessible {
         /**
          * Return the nth Accessible child of the object.
          *
-         * @param i zero-based index of child
+         * @pbrbm i zero-bbsed index of child
          * @return the nth Accessible child of the object
          */
         public Accessible getAccessibleChild(int i) {
@@ -1409,10 +1409,10 @@ public class List extends Component implements ItemSelectable, Accessible {
         }
 
         /**
-         * Get the AccessibleSelection associated with this object.  In the
-         * implementation of the Java Accessibility API for this class,
+         * Get the AccessibleSelection bssocibted with this object.  In the
+         * implementbtion of the Jbvb Accessibility API for this clbss,
          * return this object, which is responsible for implementing the
-         * AccessibleSelection interface on behalf of itself.
+         * AccessibleSelection interfbce on behblf of itself.
          *
          * @return this object
          */
@@ -1424,7 +1424,7 @@ public class List extends Component implements ItemSelectable, Accessible {
 
         /**
          * Returns the number of items currently selected.
-         * If no items are selected, the return value will be 0.
+         * If no items bre selected, the return vblue will be 0.
          *
          * @return the number of items currently selected.
          */
@@ -1433,13 +1433,13 @@ public class List extends Component implements ItemSelectable, Accessible {
          }
 
         /**
-         * Returns an Accessible representing the specified selected item
-         * in the object.  If there isn't a selection, or there are
-         * fewer items selected than the integer passed in, the return
-         * value will be null.
+         * Returns bn Accessible representing the specified selected item
+         * in the object.  If there isn't b selection, or there bre
+         * fewer items selected thbn the integer pbssed in, the return
+         * vblue will be null.
          *
-         * @param i the zero-based index of selected items
-         * @return an Accessible containing the selected item
+         * @pbrbm i the zero-bbsed index of selected items
+         * @return bn Accessible contbining the selected item
          */
          public Accessible getAccessibleSelection(int i) {
              synchronized(List.this)  {
@@ -1455,43 +1455,43 @@ public class List extends Component implements ItemSelectable, Accessible {
         /**
          * Returns true if the current child of this object is selected.
          *
-         * @param i the zero-based index of the child in this Accessible
+         * @pbrbm i the zero-bbsed index of the child in this Accessible
          * object.
          * @see AccessibleContext#getAccessibleChild
          */
-        public boolean isAccessibleChildSelected(int i) {
+        public boolebn isAccessibleChildSelected(int i) {
             return List.this.isIndexSelected(i);
         }
 
         /**
          * Adds the specified selected item in the object to the object's
          * selection.  If the object supports multiple selections,
-         * the specified item is added to any existing selection, otherwise
-         * it replaces any existing selection in the object.  If the
-         * specified item is already selected, this method has no effect.
+         * the specified item is bdded to bny existing selection, otherwise
+         * it replbces bny existing selection in the object.  If the
+         * specified item is blrebdy selected, this method hbs no effect.
          *
-         * @param i the zero-based index of selectable items
+         * @pbrbm i the zero-bbsed index of selectbble items
          */
-         public void addAccessibleSelection(int i) {
+         public void bddAccessibleSelection(int i) {
              List.this.select(i);
          }
 
         /**
          * Removes the specified selected item in the object from the object's
          * selection.  If the specified item isn't currently selected, this
-         * method has no effect.
+         * method hbs no effect.
          *
-         * @param i the zero-based index of selectable items
+         * @pbrbm i the zero-bbsed index of selectbble items
          */
          public void removeAccessibleSelection(int i) {
              List.this.deselect(i);
          }
 
         /**
-         * Clears the selection in the object, so that nothing in the
+         * Clebrs the selection in the object, so thbt nothing in the
          * object is selected.
          */
-         public void clearAccessibleSelection() {
+         public void clebrAccessibleSelection() {
              synchronized(List.this)  {
                  int selectedIndexes[] = List.this.getSelectedIndexes();
                  if (selectedIndexes == null)
@@ -1503,7 +1503,7 @@ public class List extends Component implements ItemSelectable, Accessible {
          }
 
         /**
-         * Causes every selected item in the object to be selected
+         * Cbuses every selected item in the object to be selected
          * if the object supports multiple selections.
          */
          public void selectAllAccessibleSelection() {
@@ -1515,36 +1515,36 @@ public class List extends Component implements ItemSelectable, Accessible {
          }
 
        /**
-        * This class implements accessibility support for
-        * List children.  It provides an implementation of the
-        * Java Accessibility API appropriate to list children
-        * user-interface elements.
+        * This clbss implements bccessibility support for
+        * List children.  It provides bn implementbtion of the
+        * Jbvb Accessibility API bppropribte to list children
+        * user-interfbce elements.
         * @since 1.3
         */
-        protected class AccessibleAWTListChild extends AccessibleAWTComponent
+        protected clbss AccessibleAWTListChild extends AccessibleAWTComponent
             implements Accessible
         {
             /*
-             * JDK 1.3 serialVersionUID
+             * JDK 1.3 seriblVersionUID
              */
-            private static final long serialVersionUID = 4412022926028300317L;
+            privbte stbtic finbl long seriblVersionUID = 4412022926028300317L;
 
         // [[[FIXME]]] need to finish implementing this!!!
 
-            private List parent;
-            private int  indexInParent;
+            privbte List pbrent;
+            privbte int  indexInPbrent;
 
             /**
              * Constructs new {@code AccessibleAWTListChild} with the given
-             * parent {@code List} and 0-based index of this object in the parent.
+             * pbrent {@code List} bnd 0-bbsed index of this object in the pbrent.
              *
-             * @param  parent the parent {@code List}
-             * @param  indexInParent the index in the parent
+             * @pbrbm  pbrent the pbrent {@code List}
+             * @pbrbm  indexInPbrent the index in the pbrent
              */
-            public AccessibleAWTListChild(List parent, int indexInParent)  {
-                this.parent = parent;
-                this.setAccessibleParent(parent);
-                this.indexInParent = indexInParent;
+            public AccessibleAWTListChild(List pbrent, int indexInPbrent)  {
+                this.pbrent = pbrent;
+                this.setAccessiblePbrent(pbrent);
+                this.indexInPbrent = indexInPbrent;
             }
 
             //
@@ -1552,8 +1552,8 @@ public class List extends Component implements ItemSelectable, Accessible {
             //
           /**
            * Gets the AccessibleContext for this object.  In the
-           * implementation of the Java Accessibility API for this class,
-           * return this object, which acts as its own AccessibleContext.
+           * implementbtion of the Jbvb Accessibility API for this clbss,
+           * return this object, which bcts bs its own AccessibleContext.
            *
            * @return this object
            */
@@ -1568,7 +1568,7 @@ public class List extends Component implements ItemSelectable, Accessible {
             /**
              * Get the role of this object.
              *
-             * @return an instance of AccessibleRole describing the role of
+             * @return bn instbnce of AccessibleRole describing the role of
              * the object
              * @see AccessibleRole
              */
@@ -1577,103 +1577,103 @@ public class List extends Component implements ItemSelectable, Accessible {
             }
 
             /**
-             * Get the state set of this object.  The AccessibleStateSet of an
-             * object is composed of a set of unique AccessibleState's.  A
-             * change in the AccessibleStateSet of an object will cause a
-             * PropertyChangeEvent to be fired for the
+             * Get the stbte set of this object.  The AccessibleStbteSet of bn
+             * object is composed of b set of unique AccessibleStbte's.  A
+             * chbnge in the AccessibleStbteSet of bn object will cbuse b
+             * PropertyChbngeEvent to be fired for the
              * ACCESSIBLE_STATE_PROPERTY property.
              *
-             * @return an instance of AccessibleStateSet containing the
-             * current state set of the object
-             * @see AccessibleStateSet
-             * @see AccessibleState
-             * @see #addPropertyChangeListener
+             * @return bn instbnce of AccessibleStbteSet contbining the
+             * current stbte set of the object
+             * @see AccessibleStbteSet
+             * @see AccessibleStbte
+             * @see #bddPropertyChbngeListener
              */
-            public AccessibleStateSet getAccessibleStateSet() {
-                AccessibleStateSet states = super.getAccessibleStateSet();
-                if (parent.isIndexSelected(indexInParent)) {
-                    states.add(AccessibleState.SELECTED);
+            public AccessibleStbteSet getAccessibleStbteSet() {
+                AccessibleStbteSet stbtes = super.getAccessibleStbteSet();
+                if (pbrent.isIndexSelected(indexInPbrent)) {
+                    stbtes.bdd(AccessibleStbte.SELECTED);
                 }
-                return states;
+                return stbtes;
             }
 
             /**
-             * Gets the locale of the component. If the component does not
-             * have a locale, then the locale of its parent is returned.
+             * Gets the locble of the component. If the component does not
+             * hbve b locble, then the locble of its pbrent is returned.
              *
-             * @return This component's locale.  If this component does not have
-             * a locale, the locale of its parent is returned.
+             * @return This component's locble.  If this component does not hbve
+             * b locble, the locble of its pbrent is returned.
              *
-             * @exception IllegalComponentStateException
-             * If the Component does not have its own locale and has not yet
-             * been added to a containment hierarchy such that the locale can
-             * be determined from the containing parent.
+             * @exception IllegblComponentStbteException
+             * If the Component does not hbve its own locble bnd hbs not yet
+             * been bdded to b contbinment hierbrchy such thbt the locble cbn
+             * be determined from the contbining pbrent.
              */
-            public Locale getLocale() {
-                return parent.getLocale();
+            public Locble getLocble() {
+                return pbrent.getLocble();
             }
 
             /**
-             * Get the 0-based index of this object in its accessible parent.
+             * Get the 0-bbsed index of this object in its bccessible pbrent.
              *
-             * @return the 0-based index of this object in its parent; -1 if
-             * this object does not have an accessible parent.
+             * @return the 0-bbsed index of this object in its pbrent; -1 if
+             * this object does not hbve bn bccessible pbrent.
              *
-             * @see #getAccessibleParent
+             * @see #getAccessiblePbrent
              * @see #getAccessibleChildrenCount
              * @see #getAccessibleChild
              */
-            public int getAccessibleIndexInParent() {
-                return indexInParent;
+            public int getAccessibleIndexInPbrent() {
+                return indexInPbrent;
             }
 
             /**
-             * Returns the number of accessible children of the object.
+             * Returns the number of bccessible children of the object.
              *
-             * @return the number of accessible children of the object.
+             * @return the number of bccessible children of the object.
              */
             public int getAccessibleChildrenCount() {
-                return 0;       // list elements can't have children
+                return 0;       // list elements cbn't hbve children
             }
 
             /**
              * Return the specified Accessible child of the object.  The
-             * Accessible children of an Accessible object are zero-based,
-             * so the first child of an Accessible child is at index 0, the
-             * second child is at index 1, and so on.
+             * Accessible children of bn Accessible object bre zero-bbsed,
+             * so the first child of bn Accessible child is bt index 0, the
+             * second child is bt index 1, bnd so on.
              *
-             * @param i zero-based index of child
+             * @pbrbm i zero-bbsed index of child
              * @return the Accessible child of the object
              * @see #getAccessibleChildrenCount
              */
             public Accessible getAccessibleChild(int i) {
-                return null;    // list elements can't have children
+                return null;    // list elements cbn't hbve children
             }
 
 
             //
-            // AccessibleComponent delegatation to parent List
+            // AccessibleComponent delegbtbtion to pbrent List
             //
 
             /**
-             * Get the background color of this object.
+             * Get the bbckground color of this object.
              *
-             * @return the background color, if supported, of the object;
+             * @return the bbckground color, if supported, of the object;
              * otherwise, null
-             * @see #setBackground
+             * @see #setBbckground
              */
-            public Color getBackground() {
-                return parent.getBackground();
+            public Color getBbckground() {
+                return pbrent.getBbckground();
             }
 
             /**
-             * Set the background color of this object.
+             * Set the bbckground color of this object.
              *
-             * @param c the new Color for the background
-             * @see #setBackground
+             * @pbrbm c the new Color for the bbckground
+             * @see #setBbckground
              */
-            public void setBackground(Color c) {
-                parent.setBackground(c);
+            public void setBbckground(Color c) {
+                pbrent.setBbckground(c);
             }
 
             /**
@@ -1684,17 +1684,17 @@ public class List extends Component implements ItemSelectable, Accessible {
              * @see #setForeground
              */
             public Color getForeground() {
-                return parent.getForeground();
+                return pbrent.getForeground();
             }
 
             /**
              * Set the foreground color of this object.
              *
-             * @param c the new Color for the foreground
+             * @pbrbm c the new Color for the foreground
              * @see #getForeground
              */
             public void setForeground(Color c) {
-                parent.setForeground(c);
+                pbrent.setForeground(c);
             }
 
             /**
@@ -1704,20 +1704,20 @@ public class List extends Component implements ItemSelectable, Accessible {
              * @see #setCursor
              */
             public Cursor getCursor() {
-                return parent.getCursor();
+                return pbrent.getCursor();
             }
 
             /**
              * Set the Cursor of this object.
              * <p>
-             * The method may have no visual effect if the Java platform
-             * implementation and/or the native system do not support
-             * changing the mouse cursor shape.
-             * @param cursor the new Cursor for the object
+             * The method mby hbve no visubl effect if the Jbvb plbtform
+             * implementbtion bnd/or the nbtive system do not support
+             * chbnging the mouse cursor shbpe.
+             * @pbrbm cursor the new Cursor for the object
              * @see #getCursor
              */
             public void setCursor(Cursor cursor) {
-                parent.setCursor(cursor);
+                pbrent.setCursor(cursor);
             }
 
             /**
@@ -1727,190 +1727,190 @@ public class List extends Component implements ItemSelectable, Accessible {
              * @see #setFont
              */
             public Font getFont() {
-                return parent.getFont();
+                return pbrent.getFont();
             }
 
             /**
              * Set the Font of this object.
              *
-             * @param f the new Font for the object
+             * @pbrbm f the new Font for the object
              * @see #getFont
              */
             public void setFont(Font f) {
-                parent.setFont(f);
+                pbrent.setFont(f);
             }
 
             /**
              * Get the FontMetrics of this object.
              *
-             * @param f the Font
+             * @pbrbm f the Font
              * @return the FontMetrics, if supported, the object; otherwise, null
              * @see #getFont
              */
             public FontMetrics getFontMetrics(Font f) {
-                return parent.getFontMetrics(f);
+                return pbrent.getFontMetrics(f);
             }
 
             /**
-             * Determine if the object is enabled.  Objects that are enabled
-             * will also have the AccessibleState.ENABLED state set in their
-             * AccessibleStateSet.
+             * Determine if the object is enbbled.  Objects thbt bre enbbled
+             * will blso hbve the AccessibleStbte.ENABLED stbte set in their
+             * AccessibleStbteSet.
              *
-             * @return true if object is enabled; otherwise, false
-             * @see #setEnabled
-             * @see AccessibleContext#getAccessibleStateSet
-             * @see AccessibleState#ENABLED
-             * @see AccessibleStateSet
+             * @return true if object is enbbled; otherwise, fblse
+             * @see #setEnbbled
+             * @see AccessibleContext#getAccessibleStbteSet
+             * @see AccessibleStbte#ENABLED
+             * @see AccessibleStbteSet
              */
-            public boolean isEnabled() {
-                return parent.isEnabled();
+            public boolebn isEnbbled() {
+                return pbrent.isEnbbled();
             }
 
             /**
-             * Set the enabled state of the object.
+             * Set the enbbled stbte of the object.
              *
-             * @param b if true, enables this object; otherwise, disables it
-             * @see #isEnabled
+             * @pbrbm b if true, enbbles this object; otherwise, disbbles it
+             * @see #isEnbbled
              */
-            public void setEnabled(boolean b) {
-                parent.setEnabled(b);
+            public void setEnbbled(boolebn b) {
+                pbrent.setEnbbled(b);
             }
 
             /**
-             * Determine if the object is visible.  Note: this means that the
-             * object intends to be visible; however, it may not be
-             * showing on the screen because one of the objects that this object
-             * is contained by is currently not visible.  To determine if an
+             * Determine if the object is visible.  Note: this mebns thbt the
+             * object intends to be visible; however, it mby not be
+             * showing on the screen becbuse one of the objects thbt this object
+             * is contbined by is currently not visible.  To determine if bn
              * object is showing on the screen, use isShowing().
-             * <p>Objects that are visible will also have the
-             * AccessibleState.VISIBLE state set in their AccessibleStateSet.
+             * <p>Objects thbt bre visible will blso hbve the
+             * AccessibleStbte.VISIBLE stbte set in their AccessibleStbteSet.
              *
-             * @return true if object is visible; otherwise, false
+             * @return true if object is visible; otherwise, fblse
              * @see #setVisible
-             * @see AccessibleContext#getAccessibleStateSet
-             * @see AccessibleState#VISIBLE
-             * @see AccessibleStateSet
+             * @see AccessibleContext#getAccessibleStbteSet
+             * @see AccessibleStbte#VISIBLE
+             * @see AccessibleStbteSet
              */
-            public boolean isVisible() {
+            public boolebn isVisible() {
                 // [[[FIXME]]] needs to work like isShowing() below
-                return false;
-                // return parent.isVisible();
+                return fblse;
+                // return pbrent.isVisible();
             }
 
             /**
-             * Set the visible state of the object.
+             * Set the visible stbte of the object.
              *
-             * @param b if true, shows this object; otherwise, hides it
+             * @pbrbm b if true, shows this object; otherwise, hides it
              * @see #isVisible
              */
-            public void setVisible(boolean b) {
-                // [[[FIXME]]] should scroll to item to make it show!
-                parent.setVisible(b);
+            public void setVisible(boolebn b) {
+                // [[[FIXME]]] should scroll to item to mbke it show!
+                pbrent.setVisible(b);
             }
 
             /**
              * Determine if the object is showing.  This is determined by
-             * checking the visibility of the object and visibility of the
-             * object ancestors.
+             * checking the visibility of the object bnd visibility of the
+             * object bncestors.
              * Note: this will return true even if the object is obscured
-             * by another (for example, it to object is underneath a menu
-             * that was pulled down).
+             * by bnother (for exbmple, it to object is undernebth b menu
+             * thbt wbs pulled down).
              *
-             * @return true if object is showing; otherwise, false
+             * @return true if object is showing; otherwise, fblse
              */
-            public boolean isShowing() {
+            public boolebn isShowing() {
                 // [[[FIXME]]] only if it's showing!!!
-                return false;
-                // return parent.isShowing();
+                return fblse;
+                // return pbrent.isShowing();
             }
 
             /**
              * Checks whether the specified point is within this object's
-             * bounds, where the point's x and y coordinates are defined to
-             * be relative to the coordinate system of the object.
+             * bounds, where the point's x bnd y coordinbtes bre defined to
+             * be relbtive to the coordinbte system of the object.
              *
-             * @param p the Point relative to the coordinate system of the
+             * @pbrbm p the Point relbtive to the coordinbte system of the
              * object
-             * @return true if object contains Point; otherwise false
+             * @return true if object contbins Point; otherwise fblse
              * @see #getBounds
              */
-            public boolean contains(Point p) {
+            public boolebn contbins(Point p) {
                 // [[[FIXME]]] - only if p is within the list element!!!
-                return false;
-                // return parent.contains(p);
+                return fblse;
+                // return pbrent.contbins(p);
             }
 
             /**
-             * Returns the location of the object on the screen.
+             * Returns the locbtion of the object on the screen.
              *
-             * @return location of object on screen; null if this object
+             * @return locbtion of object on screen; null if this object
              * is not on the screen
              * @see #getBounds
-             * @see #getLocation
+             * @see #getLocbtion
              */
-            public Point getLocationOnScreen() {
+            public Point getLocbtionOnScreen() {
                 // [[[FIXME]]] sigh
                 return null;
             }
 
             /**
-             * Gets the location of the object relative to the parent in the
-             * form of a point specifying the object's top-left corner in the
-             * screen's coordinate space.
+             * Gets the locbtion of the object relbtive to the pbrent in the
+             * form of b point specifying the object's top-left corner in the
+             * screen's coordinbte spbce.
              *
-             * @return An instance of Point representing the top-left corner of
-             * the objects's bounds in the coordinate space of the screen; null
-             * if this object or its parent are not on the screen
+             * @return An instbnce of Point representing the top-left corner of
+             * the objects's bounds in the coordinbte spbce of the screen; null
+             * if this object or its pbrent bre not on the screen
              * @see #getBounds
-             * @see #getLocationOnScreen
+             * @see #getLocbtionOnScreen
              */
-            public Point getLocation() {
+            public Point getLocbtion() {
                 // [[[FIXME]]]
                 return null;
             }
 
             /**
-             * Sets the location of the object relative to the parent.
-             * @param p the new position for the top-left corner
-             * @see #getLocation
+             * Sets the locbtion of the object relbtive to the pbrent.
+             * @pbrbm p the new position for the top-left corner
+             * @see #getLocbtion
              */
-            public void setLocation(Point p) {
-                // [[[FIXME]]] maybe - can simply return as no-op
+            public void setLocbtion(Point p) {
+                // [[[FIXME]]] mbybe - cbn simply return bs no-op
             }
 
             /**
-             * Gets the bounds of this object in the form of a Rectangle object.
-             * The bounds specify this object's width, height, and location
-             * relative to its parent.
+             * Gets the bounds of this object in the form of b Rectbngle object.
+             * The bounds specify this object's width, height, bnd locbtion
+             * relbtive to its pbrent.
              *
-             * @return A rectangle indicating this component's bounds; null if
+             * @return A rectbngle indicbting this component's bounds; null if
              * this object is not on the screen.
-             * @see #contains
+             * @see #contbins
              */
-            public Rectangle getBounds() {
+            public Rectbngle getBounds() {
                 // [[[FIXME]]]
                 return null;
             }
 
             /**
-             * Sets the bounds of this object in the form of a Rectangle
-             * object.  The bounds specify this object's width, height, and
-             * location relative to its parent.
+             * Sets the bounds of this object in the form of b Rectbngle
+             * object.  The bounds specify this object's width, height, bnd
+             * locbtion relbtive to its pbrent.
              *
-             * @param r rectangle indicating this component's bounds
+             * @pbrbm r rectbngle indicbting this component's bounds
              * @see #getBounds
              */
-            public void setBounds(Rectangle r) {
+            public void setBounds(Rectbngle r) {
                 // no-op; not supported
             }
 
             /**
-             * Returns the size of this object in the form of a Dimension
-             * object.  The height field of the Dimension object contains this
-             * objects's height, and the width field of the Dimension object
-             * contains this object's width.
+             * Returns the size of this object in the form of b Dimension
+             * object.  The height field of the Dimension object contbins this
+             * objects's height, bnd the width field of the Dimension object
+             * contbins this object's width.
              *
-             * @return A Dimension object that indicates the size of this
+             * @return A Dimension object thbt indicbtes the size of this
              * component; null if this object is not on the screen
              * @see #setSize
              */
@@ -1920,9 +1920,9 @@ public class List extends Component implements ItemSelectable, Accessible {
             }
 
             /**
-             * Resizes this object so that it has width and height.
+             * Resizes this object so thbt it hbs width bnd height.
              *
-             * @param d - The dimension specifying the new size of the object.
+             * @pbrbm d - The dimension specifying the new size of the object.
              * @see #getSize
              */
             public void setSize(Dimension d) {
@@ -1931,69 +1931,69 @@ public class List extends Component implements ItemSelectable, Accessible {
 
             /**
              * Returns the <code>Accessible</code> child, if one exists,
-             * contained at the local coordinate <code>Point</code>.
+             * contbined bt the locbl coordinbte <code>Point</code>.
              *
-             * @param p the point relative to the coordinate system of this
+             * @pbrbm p the point relbtive to the coordinbte system of this
              *     object
              * @return the <code>Accessible</code>, if it exists,
-             *     at the specified location; otherwise <code>null</code>
+             *     bt the specified locbtion; otherwise <code>null</code>
              */
             public Accessible getAccessibleAt(Point p) {
-                return null;    // object cannot have children!
+                return null;    // object cbnnot hbve children!
             }
 
             /**
-             * Returns whether this object can accept focus or not.   Objects
-             * that can accept focus will also have the
-             * <code>AccessibleState.FOCUSABLE</code> state set in their
-             * <code>AccessibleStateSet</code>.
+             * Returns whether this object cbn bccept focus or not.   Objects
+             * thbt cbn bccept focus will blso hbve the
+             * <code>AccessibleStbte.FOCUSABLE</code> stbte set in their
+             * <code>AccessibleStbteSet</code>.
              *
-             * @return true if object can accept focus; otherwise false
-             * @see AccessibleContext#getAccessibleStateSet
-             * @see AccessibleState#FOCUSABLE
-             * @see AccessibleState#FOCUSED
-             * @see AccessibleStateSet
+             * @return true if object cbn bccept focus; otherwise fblse
+             * @see AccessibleContext#getAccessibleStbteSet
+             * @see AccessibleStbte#FOCUSABLE
+             * @see AccessibleStbte#FOCUSED
+             * @see AccessibleStbteSet
              */
-            public boolean isFocusTraversable() {
-                return false;   // list element cannot receive focus!
+            public boolebn isFocusTrbversbble() {
+                return fblse;   // list element cbnnot receive focus!
             }
 
             /**
-             * Requests focus for this object.  If this object cannot accept
-             * focus, nothing will happen.  Otherwise, the object will attempt
-             * to take focus.
-             * @see #isFocusTraversable
+             * Requests focus for this object.  If this object cbnnot bccept
+             * focus, nothing will hbppen.  Otherwise, the object will bttempt
+             * to tbke focus.
+             * @see #isFocusTrbversbble
              */
             public void requestFocus() {
-                // nothing to do; a no-op
+                // nothing to do; b no-op
             }
 
             /**
              * Adds the specified focus listener to receive focus events from
              * this component.
              *
-             * @param l the focus listener
+             * @pbrbm l the focus listener
              * @see #removeFocusListener
              */
-            public void addFocusListener(FocusListener l) {
-                // nothing to do; a no-op
+            public void bddFocusListener(FocusListener l) {
+                // nothing to do; b no-op
             }
 
             /**
              * Removes the specified focus listener so it no longer receives
              * focus events from this component.
              *
-             * @param l the focus listener
-             * @see #addFocusListener
+             * @pbrbm l the focus listener
+             * @see #bddFocusListener
              */
             public void removeFocusListener(FocusListener l) {
-                // nothing to do; a no-op
+                // nothing to do; b no-op
             }
 
 
 
-        } // inner class AccessibleAWTListChild
+        } // inner clbss AccessibleAWTListChild
 
-    } // inner class AccessibleAWTList
+    } // inner clbss AccessibleAWTList
 
 }

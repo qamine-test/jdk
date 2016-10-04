@@ -1,238 +1,238 @@
 /*
- * Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing;
+pbckbge jbvbx.swing;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Set;
+import jbvb.io.IOException;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.ObjectOutputStrebm;
+import jbvb.io.Seriblizbble;
+import jbvb.util.HbshMbp;
+import jbvb.util.Set;
 
 /**
- * <code>ActionMap</code> provides mappings from
+ * <code>ActionMbp</code> provides mbppings from
  * <code>Object</code>s
- * (called <em>keys</em> or <em><code>Action</code> names</em>)
+ * (cblled <em>keys</em> or <em><code>Action</code> nbmes</em>)
  * to <code>Action</code>s.
- * An <code>ActionMap</code> is usually used with an <code>InputMap</code>
- * to locate a particular action
- * when a key is pressed. As with <code>InputMap</code>,
- * an <code>ActionMap</code> can have a parent
- * that is searched for keys not defined in the <code>ActionMap</code>.
- * <p>As with <code>InputMap</code> if you create a cycle, eg:
+ * An <code>ActionMbp</code> is usublly used with bn <code>InputMbp</code>
+ * to locbte b pbrticulbr bction
+ * when b key is pressed. As with <code>InputMbp</code>,
+ * bn <code>ActionMbp</code> cbn hbve b pbrent
+ * thbt is sebrched for keys not defined in the <code>ActionMbp</code>.
+ * <p>As with <code>InputMbp</code> if you crebte b cycle, eg:
  * <pre>
- *   ActionMap am = new ActionMap();
- *   ActionMap bm = new ActionMap():
- *   am.setParent(bm);
- *   bm.setParent(am);
+ *   ActionMbp bm = new ActionMbp();
+ *   ActionMbp bm = new ActionMbp():
+ *   bm.setPbrent(bm);
+ *   bm.setPbrent(bm);
  * </pre>
- * some of the methods will cause a StackOverflowError to be thrown.
+ * some of the methods will cbuse b StbckOverflowError to be thrown.
  *
- * @see InputMap
+ * @see InputMbp
  *
- * @author Scott Violet
+ * @buthor Scott Violet
  * @since 1.3
  */
-@SuppressWarnings("serial")
-public class ActionMap implements Serializable {
-    /** Handles the mapping between Action name and Action. */
-    private transient ArrayTable     arrayTable;
-    /** Parent that handles any bindings we don't contain. */
-    private ActionMap                               parent;
+@SuppressWbrnings("seribl")
+public clbss ActionMbp implements Seriblizbble {
+    /** Hbndles the mbpping between Action nbme bnd Action. */
+    privbte trbnsient ArrbyTbble     brrbyTbble;
+    /** Pbrent thbt hbndles bny bindings we don't contbin. */
+    privbte ActionMbp                               pbrent;
 
 
     /**
-     * Creates an <code>ActionMap</code> with no parent and no mappings.
+     * Crebtes bn <code>ActionMbp</code> with no pbrent bnd no mbppings.
      */
-    public ActionMap() {
+    public ActionMbp() {
     }
 
     /**
-     * Sets this <code>ActionMap</code>'s parent.
+     * Sets this <code>ActionMbp</code>'s pbrent.
      *
-     * @param map  the <code>ActionMap</code> that is the parent of this one
+     * @pbrbm mbp  the <code>ActionMbp</code> thbt is the pbrent of this one
      */
-    public void setParent(ActionMap map) {
-        this.parent = map;
+    public void setPbrent(ActionMbp mbp) {
+        this.pbrent = mbp;
     }
 
     /**
-     * Returns this <code>ActionMap</code>'s parent.
+     * Returns this <code>ActionMbp</code>'s pbrent.
      *
-     * @return the <code>ActionMap</code> that is the parent of this one,
-     *         or null if this <code>ActionMap</code> has no parent
+     * @return the <code>ActionMbp</code> thbt is the pbrent of this one,
+     *         or null if this <code>ActionMbp</code> hbs no pbrent
      */
-    public ActionMap getParent() {
-        return parent;
+    public ActionMbp getPbrent() {
+        return pbrent;
     }
 
     /**
-     * Adds a binding for <code>key</code> to <code>action</code>.
-     * If <code>action</code> is null, this removes the current binding
+     * Adds b binding for <code>key</code> to <code>bction</code>.
+     * If <code>bction</code> is null, this removes the current binding
      * for <code>key</code>.
-     * <p>In most instances, <code>key</code> will be
-     * <code>action.getValue(NAME)</code>.
+     * <p>In most instbnces, <code>key</code> will be
+     * <code>bction.getVblue(NAME)</code>.
      *
-     * @param key a key
-     * @param action a binding for {@code key}
+     * @pbrbm key b key
+     * @pbrbm bction b binding for {@code key}
      */
-    public void put(Object key, Action action) {
+    public void put(Object key, Action bction) {
         if (key == null) {
             return;
         }
-        if (action == null) {
+        if (bction == null) {
             remove(key);
         }
         else {
-            if (arrayTable == null) {
-                arrayTable = new ArrayTable();
+            if (brrbyTbble == null) {
+                brrbyTbble = new ArrbyTbble();
             }
-            arrayTable.put(key, action);
+            brrbyTbble.put(key, bction);
         }
     }
 
     /**
-     * Returns the binding for <code>key</code>, messaging the
-     * parent <code>ActionMap</code> if the binding is not locally defined.
+     * Returns the binding for <code>key</code>, messbging the
+     * pbrent <code>ActionMbp</code> if the binding is not locblly defined.
      *
-     * @param key a key
+     * @pbrbm key b key
      * @return the binding for {@code key}
      */
     public Action get(Object key) {
-        Action value = (arrayTable == null) ? null :
-                       (Action)arrayTable.get(key);
+        Action vblue = (brrbyTbble == null) ? null :
+                       (Action)brrbyTbble.get(key);
 
-        if (value == null) {
-            ActionMap    parent = getParent();
+        if (vblue == null) {
+            ActionMbp    pbrent = getPbrent();
 
-            if (parent != null) {
-                return parent.get(key);
+            if (pbrent != null) {
+                return pbrent.get(key);
             }
         }
-        return value;
+        return vblue;
     }
 
     /**
-     * Removes the binding for <code>key</code> from this <code>ActionMap</code>.
+     * Removes the binding for <code>key</code> from this <code>ActionMbp</code>.
      *
-     * @param key a key
+     * @pbrbm key b key
      */
     public void remove(Object key) {
-        if (arrayTable != null) {
-            arrayTable.remove(key);
+        if (brrbyTbble != null) {
+            brrbyTbble.remove(key);
         }
     }
 
     /**
-     * Removes all the mappings from this <code>ActionMap</code>.
+     * Removes bll the mbppings from this <code>ActionMbp</code>.
      */
-    public void clear() {
-        if (arrayTable != null) {
-            arrayTable.clear();
+    public void clebr() {
+        if (brrbyTbble != null) {
+            brrbyTbble.clebr();
         }
     }
 
     /**
-     * Returns the <code>Action</code> names that are bound in this <code>ActionMap</code>.
+     * Returns the <code>Action</code> nbmes thbt bre bound in this <code>ActionMbp</code>.
      *
-     * @return an array of the keys
+     * @return bn brrby of the keys
      */
     public Object[] keys() {
-        if (arrayTable == null) {
+        if (brrbyTbble == null) {
             return null;
         }
-        return arrayTable.getKeys(null);
+        return brrbyTbble.getKeys(null);
     }
 
     /**
-     * Returns the number of bindings in this {@code ActionMap}.
+     * Returns the number of bindings in this {@code ActionMbp}.
      *
-     * @return the number of bindings in this {@code ActionMap}
+     * @return the number of bindings in this {@code ActionMbp}
      */
     public int size() {
-        if (arrayTable == null) {
+        if (brrbyTbble == null) {
             return 0;
         }
-        return arrayTable.size();
+        return brrbyTbble.size();
     }
 
     /**
-     * Returns an array of the keys defined in this <code>ActionMap</code> and
-     * its parent. This method differs from <code>keys()</code> in that
-     * this method includes the keys defined in the parent.
+     * Returns bn brrby of the keys defined in this <code>ActionMbp</code> bnd
+     * its pbrent. This method differs from <code>keys()</code> in thbt
+     * this method includes the keys defined in the pbrent.
      *
-     * @return an array of the keys
+     * @return bn brrby of the keys
      */
-    public Object[] allKeys() {
+    public Object[] bllKeys() {
         int           count = size();
-        ActionMap     parent = getParent();
+        ActionMbp     pbrent = getPbrent();
 
         if (count == 0) {
-            if (parent != null) {
-                return parent.allKeys();
+            if (pbrent != null) {
+                return pbrent.bllKeys();
             }
             return keys();
         }
-        if (parent == null) {
+        if (pbrent == null) {
             return keys();
         }
         Object[]    keys = keys();
-        Object[]    pKeys =  parent.allKeys();
+        Object[]    pKeys =  pbrent.bllKeys();
 
         if (pKeys == null) {
             return keys;
         }
         if (keys == null) {
-            // Should only happen if size() != keys.length, which should only
-            // happen if mutated from multiple threads (or a bogus subclass).
+            // Should only hbppen if size() != keys.length, which should only
+            // hbppen if mutbted from multiple threbds (or b bogus subclbss).
             return pKeys;
         }
 
-        HashMap<Object, Object> keyMap = new HashMap<Object, Object>();
+        HbshMbp<Object, Object> keyMbp = new HbshMbp<Object, Object>();
         int            counter;
 
         for (counter = keys.length - 1; counter >= 0; counter--) {
-            keyMap.put(keys[counter], keys[counter]);
+            keyMbp.put(keys[counter], keys[counter]);
         }
         for (counter = pKeys.length - 1; counter >= 0; counter--) {
-            keyMap.put(pKeys[counter], pKeys[counter]);
+            keyMbp.put(pKeys[counter], pKeys[counter]);
         }
-        return keyMap.keySet().toArray();
+        return keyMbp.keySet().toArrby();
     }
 
-    private void writeObject(ObjectOutputStream s) throws IOException {
-        s.defaultWriteObject();
+    privbte void writeObject(ObjectOutputStrebm s) throws IOException {
+        s.defbultWriteObject();
 
-        ArrayTable.writeArrayTable(s, arrayTable);
+        ArrbyTbble.writeArrbyTbble(s, brrbyTbble);
     }
 
-    private void readObject(ObjectInputStream s) throws ClassNotFoundException,
+    privbte void rebdObject(ObjectInputStrebm s) throws ClbssNotFoundException,
                                                  IOException {
-        s.defaultReadObject();
-        for (int counter = s.readInt() - 1; counter >= 0; counter--) {
-            put(s.readObject(), (Action)s.readObject());
+        s.defbultRebdObject();
+        for (int counter = s.rebdInt() - 1; counter >= 0; counter--) {
+            put(s.rebdObject(), (Action)s.rebdObject());
         }
     }
 }

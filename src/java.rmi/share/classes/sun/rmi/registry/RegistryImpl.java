@@ -1,380 +1,380 @@
 /*
- * Copyright (c) 1996, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.rmi.registry;
+pbckbge sun.rmi.registry;
 
-import java.util.Enumeration;
-import java.util.Hashtable;
-import java.util.MissingResourceException;
-import java.util.ResourceBundle;
-import java.io.FilePermission;
-import java.io.IOException;
-import java.net.*;
-import java.rmi.*;
-import java.rmi.server.ObjID;
-import java.rmi.server.RemoteServer;
-import java.rmi.server.ServerNotActiveException;
-import java.rmi.registry.Registry;
-import java.rmi.server.RMIClientSocketFactory;
-import java.rmi.server.RMIServerSocketFactory;
-import java.security.AccessControlContext;
-import java.security.AccessController;
-import java.security.CodeSource;
-import java.security.Policy;
-import java.security.PrivilegedActionException;
-import java.security.PrivilegedExceptionAction;
-import java.security.PermissionCollection;
-import java.security.Permissions;
-import java.security.ProtectionDomain;
-import java.text.MessageFormat;
-import sun.rmi.server.LoaderHandler;
-import sun.rmi.server.UnicastServerRef;
-import sun.rmi.server.UnicastServerRef2;
-import sun.rmi.transport.LiveRef;
-import sun.rmi.transport.ObjectTable;
-import sun.rmi.transport.Target;
+import jbvb.util.Enumerbtion;
+import jbvb.util.Hbshtbble;
+import jbvb.util.MissingResourceException;
+import jbvb.util.ResourceBundle;
+import jbvb.io.FilePermission;
+import jbvb.io.IOException;
+import jbvb.net.*;
+import jbvb.rmi.*;
+import jbvb.rmi.server.ObjID;
+import jbvb.rmi.server.RemoteServer;
+import jbvb.rmi.server.ServerNotActiveException;
+import jbvb.rmi.registry.Registry;
+import jbvb.rmi.server.RMIClientSocketFbctory;
+import jbvb.rmi.server.RMIServerSocketFbctory;
+import jbvb.security.AccessControlContext;
+import jbvb.security.AccessController;
+import jbvb.security.CodeSource;
+import jbvb.security.Policy;
+import jbvb.security.PrivilegedActionException;
+import jbvb.security.PrivilegedExceptionAction;
+import jbvb.security.PermissionCollection;
+import jbvb.security.Permissions;
+import jbvb.security.ProtectionDombin;
+import jbvb.text.MessbgeFormbt;
+import sun.rmi.server.LobderHbndler;
+import sun.rmi.server.UnicbstServerRef;
+import sun.rmi.server.UnicbstServerRef2;
+import sun.rmi.trbnsport.LiveRef;
+import sun.rmi.trbnsport.ObjectTbble;
+import sun.rmi.trbnsport.Tbrget;
 
 /**
- * A "registry" exists on every node that allows RMI connections to
- * servers on that node.  The registry on a particular node contains a
- * transient database that maps names to remote objects.  When the
- * node boots, the registry database is empty.  The names stored in the
- * registry are pure and are not parsed.  A service storing itself in
- * the registry may want to prefix its name of the service by a package
- * name (although not required), to reduce name collisions in the
+ * A "registry" exists on every node thbt bllows RMI connections to
+ * servers on thbt node.  The registry on b pbrticulbr node contbins b
+ * trbnsient dbtbbbse thbt mbps nbmes to remote objects.  When the
+ * node boots, the registry dbtbbbse is empty.  The nbmes stored in the
+ * registry bre pure bnd bre not pbrsed.  A service storing itself in
+ * the registry mby wbnt to prefix its nbme of the service by b pbckbge
+ * nbme (blthough not required), to reduce nbme collisions in the
  * registry.
  *
- * The LocateRegistry class is used to obtain registry for different hosts.
+ * The LocbteRegistry clbss is used to obtbin registry for different hosts.
  *
- * @see java.rmi.registry.LocateRegistry
+ * @see jbvb.rmi.registry.LocbteRegistry
  */
-public class RegistryImpl extends java.rmi.server.RemoteServer
+public clbss RegistryImpl extends jbvb.rmi.server.RemoteServer
         implements Registry
 {
 
-    /* indicate compatibility with JDK 1.1.x version of class */
-    private static final long serialVersionUID = 4666870661827494597L;
-    private Hashtable<String, Remote> bindings
-        = new Hashtable<>(101);
-    private static Hashtable<InetAddress, InetAddress> allowedAccessCache
-        = new Hashtable<>(3);
-    private static RegistryImpl registry;
-    private static ObjID id = new ObjID(ObjID.REGISTRY_ID);
+    /* indicbte compbtibility with JDK 1.1.x version of clbss */
+    privbte stbtic finbl long seriblVersionUID = 4666870661827494597L;
+    privbte Hbshtbble<String, Remote> bindings
+        = new Hbshtbble<>(101);
+    privbte stbtic Hbshtbble<InetAddress, InetAddress> bllowedAccessCbche
+        = new Hbshtbble<>(3);
+    privbte stbtic RegistryImpl registry;
+    privbte stbtic ObjID id = new ObjID(ObjID.REGISTRY_ID);
 
-    private static ResourceBundle resources = null;
+    privbte stbtic ResourceBundle resources = null;
 
     /**
-     * Construct a new RegistryImpl on the specified port with the
-     * given custom socket factory pair.
+     * Construct b new RegistryImpl on the specified port with the
+     * given custom socket fbctory pbir.
      */
     public RegistryImpl(int port,
-                        RMIClientSocketFactory csf,
-                        RMIServerSocketFactory ssf)
+                        RMIClientSocketFbctory csf,
+                        RMIServerSocketFbctory ssf)
         throws RemoteException
     {
-        if (port == Registry.REGISTRY_PORT && System.getSecurityManager() != null) {
-            // grant permission for default port only.
+        if (port == Registry.REGISTRY_PORT && System.getSecurityMbnbger() != null) {
+            // grbnt permission for defbult port only.
             try {
                 AccessController.doPrivileged(new PrivilegedExceptionAction<Void>() {
                     public Void run() throws RemoteException {
                         LiveRef lref = new LiveRef(id, port, csf, ssf);
-                        setup(new UnicastServerRef2(lref));
+                        setup(new UnicbstServerRef2(lref));
                         return null;
                     }
-                }, null, new SocketPermission("localhost:"+port, "listen,accept"));
-            } catch (PrivilegedActionException pae) {
-                throw (RemoteException)pae.getException();
+                }, null, new SocketPermission("locblhost:"+port, "listen,bccept"));
+            } cbtch (PrivilegedActionException pbe) {
+                throw (RemoteException)pbe.getException();
             }
         } else {
             LiveRef lref = new LiveRef(id, port, csf, ssf);
-            setup(new UnicastServerRef2(lref));
+            setup(new UnicbstServerRef2(lref));
         }
     }
 
     /**
-     * Construct a new RegistryImpl on the specified port.
+     * Construct b new RegistryImpl on the specified port.
      */
     public RegistryImpl(int port)
         throws RemoteException
     {
-        if (port == Registry.REGISTRY_PORT && System.getSecurityManager() != null) {
-            // grant permission for default port only.
+        if (port == Registry.REGISTRY_PORT && System.getSecurityMbnbger() != null) {
+            // grbnt permission for defbult port only.
             try {
                 AccessController.doPrivileged(new PrivilegedExceptionAction<Void>() {
                     public Void run() throws RemoteException {
                         LiveRef lref = new LiveRef(id, port);
-                        setup(new UnicastServerRef(lref));
+                        setup(new UnicbstServerRef(lref));
                         return null;
                     }
-                }, null, new SocketPermission("localhost:"+port, "listen,accept"));
-            } catch (PrivilegedActionException pae) {
-                throw (RemoteException)pae.getException();
+                }, null, new SocketPermission("locblhost:"+port, "listen,bccept"));
+            } cbtch (PrivilegedActionException pbe) {
+                throw (RemoteException)pbe.getException();
             }
         } else {
             LiveRef lref = new LiveRef(id, port);
-            setup(new UnicastServerRef(lref));
+            setup(new UnicbstServerRef(lref));
         }
     }
 
     /*
-     * Create the export the object using the parameter
+     * Crebte the export the object using the pbrbmeter
      * <code>uref</code>
      */
-    private void setup(UnicastServerRef uref)
+    privbte void setup(UnicbstServerRef uref)
         throws RemoteException
     {
-        /* Server ref must be created and assigned before remote
-         * object 'this' can be exported.
+        /* Server ref must be crebted bnd bssigned before remote
+         * object 'this' cbn be exported.
          */
         ref = uref;
         uref.exportObject(this, null, true);
     }
 
     /**
-     * Returns the remote object for specified name in the registry.
-     * @exception RemoteException If remote operation failed.
-     * @exception NotBound If name is not currently bound.
+     * Returns the remote object for specified nbme in the registry.
+     * @exception RemoteException If remote operbtion fbiled.
+     * @exception NotBound If nbme is not currently bound.
      */
-    public Remote lookup(String name)
+    public Remote lookup(String nbme)
         throws RemoteException, NotBoundException
     {
         synchronized (bindings) {
-            Remote obj = bindings.get(name);
+            Remote obj = bindings.get(nbme);
             if (obj == null)
-                throw new NotBoundException(name);
+                throw new NotBoundException(nbme);
             return obj;
         }
     }
 
     /**
-     * Binds the name to the specified remote object.
-     * @exception RemoteException If remote operation failed.
-     * @exception AlreadyBoundException If name is already bound.
+     * Binds the nbme to the specified remote object.
+     * @exception RemoteException If remote operbtion fbiled.
+     * @exception AlrebdyBoundException If nbme is blrebdy bound.
      */
-    public void bind(String name, Remote obj)
-        throws RemoteException, AlreadyBoundException, AccessException
+    public void bind(String nbme, Remote obj)
+        throws RemoteException, AlrebdyBoundException, AccessException
     {
         checkAccess("Registry.bind");
         synchronized (bindings) {
-            Remote curr = bindings.get(name);
+            Remote curr = bindings.get(nbme);
             if (curr != null)
-                throw new AlreadyBoundException(name);
-            bindings.put(name, obj);
+                throw new AlrebdyBoundException(nbme);
+            bindings.put(nbme, obj);
         }
     }
 
     /**
-     * Unbind the name.
-     * @exception RemoteException If remote operation failed.
-     * @exception NotBound If name is not currently bound.
+     * Unbind the nbme.
+     * @exception RemoteException If remote operbtion fbiled.
+     * @exception NotBound If nbme is not currently bound.
      */
-    public void unbind(String name)
+    public void unbind(String nbme)
         throws RemoteException, NotBoundException, AccessException
     {
         checkAccess("Registry.unbind");
         synchronized (bindings) {
-            Remote obj = bindings.get(name);
+            Remote obj = bindings.get(nbme);
             if (obj == null)
-                throw new NotBoundException(name);
-            bindings.remove(name);
+                throw new NotBoundException(nbme);
+            bindings.remove(nbme);
         }
     }
 
     /**
-     * Rebind the name to a new object, replaces any existing binding.
-     * @exception RemoteException If remote operation failed.
+     * Rebind the nbme to b new object, replbces bny existing binding.
+     * @exception RemoteException If remote operbtion fbiled.
      */
-    public void rebind(String name, Remote obj)
+    public void rebind(String nbme, Remote obj)
         throws RemoteException, AccessException
     {
         checkAccess("Registry.rebind");
-        bindings.put(name, obj);
+        bindings.put(nbme, obj);
     }
 
     /**
-     * Returns an enumeration of the names in the registry.
-     * @exception RemoteException If remote operation failed.
+     * Returns bn enumerbtion of the nbmes in the registry.
+     * @exception RemoteException If remote operbtion fbiled.
      */
     public String[] list()
         throws RemoteException
     {
-        String[] names;
+        String[] nbmes;
         synchronized (bindings) {
             int i = bindings.size();
-            names = new String[i];
-            Enumeration<String> enum_ = bindings.keys();
+            nbmes = new String[i];
+            Enumerbtion<String> enum_ = bindings.keys();
             while ((--i) >= 0)
-                names[i] = enum_.nextElement();
+                nbmes[i] = enum_.nextElement();
         }
-        return names;
+        return nbmes;
     }
 
     /**
-     * Check that the caller has access to perform indicated operation.
-     * The client must be on same the same host as this server.
+     * Check thbt the cbller hbs bccess to perform indicbted operbtion.
+     * The client must be on sbme the sbme host bs this server.
      */
-    public static void checkAccess(String op) throws AccessException {
+    public stbtic void checkAccess(String op) throws AccessException {
 
         try {
             /*
-             * Get client host that this registry operation was made from.
+             * Get client host thbt this registry operbtion wbs mbde from.
              */
-            final String clientHostName = getClientHost();
+            finbl String clientHostNbme = getClientHost();
             InetAddress clientHost;
 
             try {
-                clientHost = java.security.AccessController.doPrivileged(
-                    new java.security.PrivilegedExceptionAction<InetAddress>() {
+                clientHost = jbvb.security.AccessController.doPrivileged(
+                    new jbvb.security.PrivilegedExceptionAction<InetAddress>() {
                         public InetAddress run()
-                            throws java.net.UnknownHostException
+                            throws jbvb.net.UnknownHostException
                         {
-                            return InetAddress.getByName(clientHostName);
+                            return InetAddress.getByNbme(clientHostNbme);
                         }
                     });
-            } catch (PrivilegedActionException pae) {
-                throw (java.net.UnknownHostException) pae.getException();
+            } cbtch (PrivilegedActionException pbe) {
+                throw (jbvb.net.UnknownHostException) pbe.getException();
             }
 
-            // if client not yet seen, make sure client allowed access
-            if (allowedAccessCache.get(clientHost) == null) {
+            // if client not yet seen, mbke sure client bllowed bccess
+            if (bllowedAccessCbche.get(clientHost) == null) {
 
-                if (clientHost.isAnyLocalAddress()) {
+                if (clientHost.isAnyLocblAddress()) {
                     throw new AccessException(
-                        "Registry." + op + " disallowed; origin unknown");
+                        "Registry." + op + " disbllowed; origin unknown");
                 }
 
                 try {
-                    final InetAddress finalClientHost = clientHost;
+                    finbl InetAddress finblClientHost = clientHost;
 
-                    java.security.AccessController.doPrivileged(
-                        new java.security.PrivilegedExceptionAction<Void>() {
-                            public Void run() throws java.io.IOException {
+                    jbvb.security.AccessController.doPrivileged(
+                        new jbvb.security.PrivilegedExceptionAction<Void>() {
+                            public Void run() throws jbvb.io.IOException {
                                 /*
-                                 * if a ServerSocket can be bound to the client's
-                                 * address then that address must be local
+                                 * if b ServerSocket cbn be bound to the client's
+                                 * bddress then thbt bddress must be locbl
                                  */
-                                (new ServerSocket(0, 10, finalClientHost)).close();
-                                allowedAccessCache.put(finalClientHost,
-                                                       finalClientHost);
+                                (new ServerSocket(0, 10, finblClientHost)).close();
+                                bllowedAccessCbche.put(finblClientHost,
+                                                       finblClientHost);
                                 return null;
                             }
                     });
-                } catch (PrivilegedActionException pae) {
-                    // must have been an IOException
+                } cbtch (PrivilegedActionException pbe) {
+                    // must hbve been bn IOException
 
                     throw new AccessException(
-                        "Registry." + op + " disallowed; origin " +
-                        clientHost + " is non-local host");
+                        "Registry." + op + " disbllowed; origin " +
+                        clientHost + " is non-locbl host");
                 }
             }
-        } catch (ServerNotActiveException ex) {
+        } cbtch (ServerNotActiveException ex) {
             /*
-             * Local call from this VM: allow access.
+             * Locbl cbll from this VM: bllow bccess.
              */
-        } catch (java.net.UnknownHostException ex) {
+        } cbtch (jbvb.net.UnknownHostException ex) {
             throw new AccessException("Registry." + op +
-                                      " disallowed; origin is unknown host");
+                                      " disbllowed; origin is unknown host");
         }
     }
 
-    public static ObjID getID() {
+    public stbtic ObjID getID() {
         return id;
     }
 
     /**
-     * Retrieves text resources from the locale-specific properties file.
+     * Retrieves text resources from the locble-specific properties file.
      */
-    private static String getTextResource(String key) {
+    privbte stbtic String getTextResource(String key) {
         if (resources == null) {
             try {
                 resources = ResourceBundle.getBundle(
                     "sun.rmi.registry.resources.rmiregistry");
-            } catch (MissingResourceException mre) {
+            } cbtch (MissingResourceException mre) {
             }
             if (resources == null) {
-                // throwing an Error is a bit extreme, methinks
+                // throwing bn Error is b bit extreme, methinks
                 return ("[missing resource file: " + key + "]");
             }
         }
 
-        String val = null;
+        String vbl = null;
         try {
-            val = resources.getString(key);
-        } catch (MissingResourceException mre) {
+            vbl = resources.getString(key);
+        } cbtch (MissingResourceException mre) {
         }
 
-        if (val == null) {
+        if (vbl == null) {
             return ("[missing resource: " + key + "]");
         } else {
-            return (val);
+            return (vbl);
         }
     }
 
     /**
-     * Main program to start a registry. <br>
-     * The port number can be specified on the command line.
+     * Mbin progrbm to stbrt b registry. <br>
+     * The port number cbn be specified on the commbnd line.
      */
-    public static void main(String args[])
+    public stbtic void mbin(String brgs[])
     {
-        // Create and install the security manager if one is not installed
-        // already.
-        if (System.getSecurityManager() == null) {
-            System.setSecurityManager(new RMISecurityManager());
+        // Crebte bnd instbll the security mbnbger if one is not instblled
+        // blrebdy.
+        if (System.getSecurityMbnbger() == null) {
+            System.setSecurityMbnbger(new RMISecurityMbnbger());
         }
 
         try {
             /*
-             * Fix bugid 4147561: When JDK tools are executed, the value of
-             * the CLASSPATH environment variable for the shell in which they
-             * were invoked is no longer incorporated into the application
-             * class path; CLASSPATH's only effect is to be the value of the
-             * system property "env.class.path".  To preserve the previous
-             * (JDK1.1 and JDK1.2beta3) behavior of this tool, however, its
-             * CLASSPATH should still be considered when resolving classes
-             * being unmarshalled.  To effect this old behavior, a class
-             * loader that loads from the file path specified in the
-             * "env.class.path" property is created and set to be the context
-             * class loader before the remote object is exported.
+             * Fix bugid 4147561: When JDK tools bre executed, the vblue of
+             * the CLASSPATH environment vbribble for the shell in which they
+             * were invoked is no longer incorporbted into the bpplicbtion
+             * clbss pbth; CLASSPATH's only effect is to be the vblue of the
+             * system property "env.clbss.pbth".  To preserve the previous
+             * (JDK1.1 bnd JDK1.2betb3) behbvior of this tool, however, its
+             * CLASSPATH should still be considered when resolving clbsses
+             * being unmbrshblled.  To effect this old behbvior, b clbss
+             * lobder thbt lobds from the file pbth specified in the
+             * "env.clbss.pbth" property is crebted bnd set to be the context
+             * clbss lobder before the remote object is exported.
              */
-            String envcp = System.getProperty("env.class.path");
+            String envcp = System.getProperty("env.clbss.pbth");
             if (envcp == null) {
-                envcp = ".";            // preserve old default behavior
+                envcp = ".";            // preserve old defbult behbvior
             }
-            URL[] urls = sun.misc.URLClassPath.pathToURLs(envcp);
-            ClassLoader cl = new URLClassLoader(urls);
+            URL[] urls = sun.misc.URLClbssPbth.pbthToURLs(envcp);
+            ClbssLobder cl = new URLClbssLobder(urls);
 
             /*
-             * Fix bugid 4242317: Classes defined by this class loader should
-             * be annotated with the value of the "java.rmi.server.codebase"
+             * Fix bugid 4242317: Clbsses defined by this clbss lobder should
+             * be bnnotbted with the vblue of the "jbvb.rmi.server.codebbse"
              * property, not the "file:" URLs for the CLASSPATH elements.
              */
-            sun.rmi.server.LoaderHandler.registerCodebaseLoader(cl);
+            sun.rmi.server.LobderHbndler.registerCodebbseLobder(cl);
 
-            Thread.currentThread().setContextClassLoader(cl);
+            Threbd.currentThrebd().setContextClbssLobder(cl);
 
-            final int regPort = (args.length >= 1) ? Integer.parseInt(args[0])
+            finbl int regPort = (brgs.length >= 1) ? Integer.pbrseInt(brgs[0])
                                                    : Registry.REGISTRY_PORT;
             try {
                 registry = AccessController.doPrivileged(
@@ -383,43 +383,43 @@ public class RegistryImpl extends java.rmi.server.RemoteServer
                             return new RegistryImpl(regPort);
                         }
                     }, getAccessControlContext(regPort));
-            } catch (PrivilegedActionException ex) {
+            } cbtch (PrivilegedActionException ex) {
                 throw (RemoteException) ex.getException();
             }
 
             // prevent registry from exiting
             while (true) {
                 try {
-                    Thread.sleep(Long.MAX_VALUE);
-                } catch (InterruptedException e) {
+                    Threbd.sleep(Long.MAX_VALUE);
+                } cbtch (InterruptedException e) {
                 }
             }
-        } catch (NumberFormatException e) {
-            System.err.println(MessageFormat.format(
-                getTextResource("rmiregistry.port.badnumber"),
-                args[0] ));
-            System.err.println(MessageFormat.format(
-                getTextResource("rmiregistry.usage"),
+        } cbtch (NumberFormbtException e) {
+            System.err.println(MessbgeFormbt.formbt(
+                getTextResource("rmiregistry.port.bbdnumber"),
+                brgs[0] ));
+            System.err.println(MessbgeFormbt.formbt(
+                getTextResource("rmiregistry.usbge"),
                 "rmiregistry" ));
-        } catch (Exception e) {
-            e.printStackTrace();
+        } cbtch (Exception e) {
+            e.printStbckTrbce();
         }
         System.exit(1);
     }
 
     /**
-     * Generates an AccessControlContext with minimal permissions.
-     * The approach used here is taken from the similar method
-     * getAccessControlContext() in the sun.applet.AppletPanel class.
+     * Generbtes bn AccessControlContext with minimbl permissions.
+     * The bpprobch used here is tbken from the similbr method
+     * getAccessControlContext() in the sun.bpplet.AppletPbnel clbss.
      */
-    private static AccessControlContext getAccessControlContext(int port) {
-        // begin with permissions granted to all code in current policy
+    privbte stbtic AccessControlContext getAccessControlContext(int port) {
+        // begin with permissions grbnted to bll code in current policy
         PermissionCollection perms = AccessController.doPrivileged(
-            new java.security.PrivilegedAction<PermissionCollection>() {
+            new jbvb.security.PrivilegedAction<PermissionCollection>() {
                 public PermissionCollection run() {
                     CodeSource codesource = new CodeSource(null,
-                        (java.security.cert.Certificate[]) null);
-                    Policy p = java.security.Policy.getPolicy();
+                        (jbvb.security.cert.Certificbte[]) null);
+                    Policy p = jbvb.security.Policy.getPolicy();
                     if (p != null) {
                         return p.getPermissions(codesource);
                     } else {
@@ -429,25 +429,25 @@ public class RegistryImpl extends java.rmi.server.RemoteServer
             });
 
         /*
-         * Anyone can connect to the registry and the registry can connect
-         * to and possibly download stubs from anywhere. Downloaded stubs and
-         * related classes themselves are more tightly limited by RMI.
+         * Anyone cbn connect to the registry bnd the registry cbn connect
+         * to bnd possibly downlobd stubs from bnywhere. Downlobded stubs bnd
+         * relbted clbsses themselves bre more tightly limited by RMI.
          */
-        perms.add(new SocketPermission("*", "connect,accept"));
-        perms.add(new SocketPermission("localhost:"+port, "listen,accept"));
+        perms.bdd(new SocketPermission("*", "connect,bccept"));
+        perms.bdd(new SocketPermission("locblhost:"+port, "listen,bccept"));
 
-        perms.add(new RuntimePermission("accessClassInPackage.sun.jvmstat.*"));
-        perms.add(new RuntimePermission("accessClassInPackage.sun.jvm.hotspot.*"));
+        perms.bdd(new RuntimePermission("bccessClbssInPbckbge.sun.jvmstbt.*"));
+        perms.bdd(new RuntimePermission("bccessClbssInPbckbge.sun.jvm.hotspot.*"));
 
-        perms.add(new FilePermission("<<ALL FILES>>", "read"));
+        perms.bdd(new FilePermission("<<ALL FILES>>", "rebd"));
 
         /*
-         * Create an AccessControlContext that consists of a single
-         * protection domain with only the permissions calculated above.
+         * Crebte bn AccessControlContext thbt consists of b single
+         * protection dombin with only the permissions cblculbted bbove.
          */
-        ProtectionDomain pd = new ProtectionDomain(
+        ProtectionDombin pd = new ProtectionDombin(
             new CodeSource(null,
-                (java.security.cert.Certificate[]) null), perms);
-        return new AccessControlContext(new ProtectionDomain[] { pd });
+                (jbvb.security.cert.Certificbte[]) null), perms);
+        return new AccessControlContext(new ProtectionDombin[] { pd });
     }
 }

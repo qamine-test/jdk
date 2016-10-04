@@ -1,58 +1,58 @@
 /*
- * Copyright (c) 2013, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.apple.laf;
+pbckbge com.bpple.lbf;
 
 import sun.swing.SwingUtilities2;
 
-import javax.swing.*;
-import java.awt.*;
+import jbvbx.swing.*;
+import jbvb.bwt.*;
 
-@SuppressWarnings("serial") // Superclass is not serializable across versions
-class AquaComboBoxRendererInternal<E> extends JLabel implements ListCellRenderer<E> {
-    final JComboBox<?> fComboBox;
-    boolean fSelected;
-    boolean fChecked;
-    boolean fInList;
-    boolean fEditable;
-    boolean fDrawCheckedItem = true;
+@SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+clbss AqubComboBoxRendererInternbl<E> extends JLbbel implements ListCellRenderer<E> {
+    finbl JComboBox<?> fComboBox;
+    boolebn fSelected;
+    boolebn fChecked;
+    boolebn fInList;
+    boolebn fEditbble;
+    boolebn fDrbwCheckedItem = true;
 
-    // Provides space for a checkbox, and is translucent
-    public AquaComboBoxRendererInternal(final JComboBox<?> comboBox) {
+    // Provides spbce for b checkbox, bnd is trbnslucent
+    public AqubComboBoxRendererInternbl(finbl JComboBox<?> comboBox) {
         super();
         fComboBox = comboBox;
     }
 
-    // Don't include checkIcon space, because this is also used for button size calculations
-    // - the popup-size calc will get checkIcon space from getInsets
+    // Don't include checkIcon spbce, becbuse this is blso used for button size cblculbtions
+    // - the popup-size cblc will get checkIcon spbce from getInsets
     public Dimension getPreferredSize() {
-        // From BasicComboBoxRenderer - trick to avoid zero-height items
-        final Dimension size;
+        // From BbsicComboBoxRenderer - trick to bvoid zero-height items
+        finbl Dimension size;
 
-        final String text = getText();
-        if ((text == null) || ("".equals(text))) {
+        finbl String text = getText();
+        if ((text == null) || ("".equbls(text))) {
             setText(" ");
             size = super.getPreferredSize();
             setText("");
@@ -62,67 +62,67 @@ class AquaComboBoxRendererInternal<E> extends JLabel implements ListCellRenderer
         return size;
     }
 
-    // Don't paint the border here, it gets painted by the UI
-    protected void paintBorder(final Graphics g) {
+    // Don't pbint the border here, it gets pbinted by the UI
+    protected void pbintBorder(finbl Grbphics g) {
 
     }
 
-    public int getBaseline(int width, int height) {
-        return super.getBaseline(width, height) - 1;
+    public int getBbseline(int width, int height) {
+        return super.getBbseline(width, height) - 1;
     }
 
-    // Really means is the one with the mouse over it
-    public Component getListCellRendererComponent(final JList<? extends E> list,
-                                                  final E value, int index,
-                                                  final boolean isSelected,
-                                                  final boolean cellHasFocus) {
-        fInList = (index >= 0); // When the button wants the item painted, it passes in -1
+    // Reblly mebns is the one with the mouse over it
+    public Component getListCellRendererComponent(finbl JList<? extends E> list,
+                                                  finbl E vblue, int index,
+                                                  finbl boolebn isSelected,
+                                                  finbl boolebn cellHbsFocus) {
+        fInList = (index >= 0); // When the button wbnts the item pbinted, it pbsses in -1
         fSelected = isSelected;
         if (index < 0) {
             index = fComboBox.getSelectedIndex();
         }
 
-        // changed this to not ask for selected index but directly compare the current item and selected item
-        // different from basic because basic has no concept of checked, just has the last one selected,
-        // and the user changes selection. We have selection and a check mark.
-        // we used to call fComboBox.getSelectedIndex which ends up being a very bad call for large checkboxes
-        // it does a linear compare of every object in the checkbox until it finds the selected one, so if
-        // we have a 5000 element list we will 5000 * (selected index) .equals() of objects.
-        // See Radar #3141307
+        // chbnged this to not bsk for selected index but directly compbre the current item bnd selected item
+        // different from bbsic becbuse bbsic hbs no concept of checked, just hbs the lbst one selected,
+        // bnd the user chbnges selection. We hbve selection bnd b check mbrk.
+        // we used to cbll fComboBox.getSelectedIndex which ends up being b very bbd cbll for lbrge checkboxes
+        // it does b linebr compbre of every object in the checkbox until it finds the selected one, so if
+        // we hbve b 5000 element list we will 5000 * (selected index) .equbls() of objects.
+        // See Rbdbr #3141307
 
-        // Fix for Radar # 3204287 where we ask for an item at a negative index!
+        // Fix for Rbdbr # 3204287 where we bsk for bn item bt b negbtive index!
         if (index >= 0) {
-            final Object item = fComboBox.getItemAt(index);
-            fChecked = fInList && item != null && item.equals(fComboBox.getSelectedItem());
+            finbl Object item = fComboBox.getItemAt(index);
+            fChecked = fInList && item != null && item.equbls(fComboBox.getSelectedItem());
         } else {
-            fChecked = false;
+            fChecked = fblse;
         }
 
-        fEditable = fComboBox.isEditable();
+        fEditbble = fComboBox.isEditbble();
         if (isSelected) {
-            if (fEditable) {
-                setBackground(UIManager.getColor("List.selectionBackground"));
-                setForeground(UIManager.getColor("List.selectionForeground"));
+            if (fEditbble) {
+                setBbckground(UIMbnbger.getColor("List.selectionBbckground"));
+                setForeground(UIMbnbger.getColor("List.selectionForeground"));
             } else {
-                setBackground(list.getSelectionBackground());
+                setBbckground(list.getSelectionBbckground());
                 setForeground(list.getSelectionForeground());
             }
         } else {
-            if (fEditable) {
-                setBackground(UIManager.getColor("List.background"));
-                setForeground(UIManager.getColor("List.foreground"));
+            if (fEditbble) {
+                setBbckground(UIMbnbger.getColor("List.bbckground"));
+                setForeground(UIMbnbger.getColor("List.foreground"));
             } else {
-                setBackground(list.getBackground());
+                setBbckground(list.getBbckground());
                 setForeground(list.getForeground());
             }
         }
 
         setFont(list.getFont());
 
-        if (value instanceof Icon) {
-            setIcon((Icon)value);
+        if (vblue instbnceof Icon) {
+            setIcon((Icon)vblue);
         } else {
-            setText((value == null) ? " " : value.toString());
+            setText((vblue == null) ? " " : vblue.toString());
         }
         return this;
     }
@@ -132,30 +132,30 @@ class AquaComboBoxRendererInternal<E> extends JLabel implements ListCellRenderer
         insets.top = 1;
         insets.bottom = 1;
         insets.right = 5;
-        insets.left = (fInList && !fEditable ? 16 + 7 : 5);
+        insets.left = (fInList && !fEditbble ? 16 + 7 : 5);
         return insets;
     }
 
-    protected void setDrawCheckedItem(final boolean drawCheckedItem) {
-        this.fDrawCheckedItem = drawCheckedItem;
+    protected void setDrbwCheckedItem(finbl boolebn drbwCheckedItem) {
+        this.fDrbwCheckedItem = drbwCheckedItem;
     }
 
-    // Paint this component, and a checkbox if it's the selected item and not in the button
-    protected void paintComponent(final Graphics g) {
+    // Pbint this component, bnd b checkbox if it's the selected item bnd not in the button
+    protected void pbintComponent(finbl Grbphics g) {
         if (fInList) {
-            if (fSelected && !fEditable) {
-                AquaMenuPainter.instance().paintSelectedMenuItemBackground(g, getWidth(), getHeight());
+            if (fSelected && !fEditbble) {
+                AqubMenuPbinter.instbnce().pbintSelectedMenuItemBbckground(g, getWidth(), getHeight());
             } else {
-                g.setColor(getBackground());
+                g.setColor(getBbckground());
                 g.fillRect(0, 0, getWidth(), getHeight());
             }
 
-            if (fChecked && !fEditable && fDrawCheckedItem) {
-                final int y = getHeight() - 4;
+            if (fChecked && !fEditbble && fDrbwCheckedItem) {
+                finbl int y = getHeight() - 4;
                 g.setColor(getForeground());
-                SwingUtilities2.drawString(fComboBox, g, "\u2713", 6, y);
+                SwingUtilities2.drbwString(fComboBox, g, "\u2713", 6, y);
             }
         }
-        super.paintComponent(g);
+        super.pbintComponent(g);
     }
 }

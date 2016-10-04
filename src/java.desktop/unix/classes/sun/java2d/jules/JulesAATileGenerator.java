@@ -1,96 +1,96 @@
 /*
- * Copyright (c) 2010, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.java2d.jules;
+pbckbge sun.jbvb2d.jules;
 
-import java.awt.*;
-import java.awt.geom.*;
-import java.util.concurrent.*;
-import sun.java2d.pipe.*;
-import sun.java2d.xr.*;
+import jbvb.bwt.*;
+import jbvb.bwt.geom.*;
+import jbvb.util.concurrent.*;
+import sun.jbvb2d.pipe.*;
+import sun.jbvb2d.xr.*;
 
-public class JulesAATileGenerator implements AATileGenerator {
-    /* Threading stuff */
-    final static ExecutorService rasterThreadPool =
-                                          Executors.newCachedThreadPool();
-    final static int CPU_CNT = Runtime.getRuntime().availableProcessors();
+public clbss JulesAATileGenerbtor implements AATileGenerbtor {
+    /* Threbding stuff */
+    finbl stbtic ExecutorService rbsterThrebdPool =
+                                          Executors.newCbchedThrebdPool();
+    finbl stbtic int CPU_CNT = Runtime.getRuntime().bvbilbbleProcessors();
 
-    final static boolean ENABLE_THREADING = false;
-    final static int THREAD_MIN = 16;
-    final static int THREAD_BEGIN = 16;
+    finbl stbtic boolebn ENABLE_THREADING = fblse;
+    finbl stbtic int THREAD_MIN = 16;
+    finbl stbtic int THREAD_BEGIN = 16;
 
-    IdleTileCache tileCache;
+    IdleTileCbche tileCbche;
     TileWorker worker;
-    boolean threaded = false;
-    int rasterTileCnt;
+    boolebn threbded = fblse;
+    int rbsterTileCnt;
 
     /* Tiling */
-    final static int TILE_SIZE = 32;
-    final static int TILE_SIZE_FP = 32 << 16;
+    finbl stbtic int TILE_SIZE = 32;
+    finbl stbtic int TILE_SIZE_FP = 32 << 16;
     int left, right, top, bottom, width, height;
     int leftFP, topFP;
     int tileCnt, tilesX, tilesY;
     int currTilePos = 0;
-    TrapezoidList traps;
-    TileTrapContainer[] tiledTrapArray;
-    JulesTile mainTile;
+    TrbpezoidList trbps;
+    TileTrbpContbiner[] tiledTrbpArrby;
+    JulesTile mbinTile;
 
-    public JulesAATileGenerator(Shape s, AffineTransform at, Region clip,
-                                BasicStroke bs, boolean thin,
-                                boolean normalize, int[] bbox) {
-        JulesPathBuf buf = new JulesPathBuf();
+    public JulesAATileGenerbtor(Shbpe s, AffineTrbnsform bt, Region clip,
+                                BbsicStroke bs, boolebn thin,
+                                boolebn normblize, int[] bbox) {
+        JulesPbthBuf buf = new JulesPbthBuf();
 
         if (bs == null) {
-            traps = buf.tesselateFill(s, at, clip);
+            trbps = buf.tesselbteFill(s, bt, clip);
         } else {
-            traps = buf.tesselateStroke(s, bs, thin, false, true, at, clip);
+            trbps = buf.tesselbteStroke(s, bs, thin, fblse, true, bt, clip);
         }
 
-        calculateArea(bbox);
-        bucketSortTraps();
-        calculateTypicalAlpha();
+        cblculbteAreb(bbox);
+        bucketSortTrbps();
+        cblculbteTypicblAlphb();
 
-        threaded = ENABLE_THREADING &&
-                   rasterTileCnt >= THREAD_MIN && CPU_CNT >= 2;
-        if (threaded) {
-            tileCache = new IdleTileCache();
-            worker = new TileWorker(this, THREAD_BEGIN, tileCache);
-            rasterThreadPool.execute(worker);
+        threbded = ENABLE_THREADING &&
+                   rbsterTileCnt >= THREAD_MIN && CPU_CNT >= 2;
+        if (threbded) {
+            tileCbche = new IdleTileCbche();
+            worker = new TileWorker(this, THREAD_BEGIN, tileCbche);
+            rbsterThrebdPool.execute(worker);
         }
 
-        mainTile = new JulesTile();
+        mbinTile = new JulesTile();
     }
 
-    private static native long
-        rasterizeTrapezoidsNative(long pixmanImagePtr, int[] traps,
-                                  int[] trapPos, int trapCnt,
+    privbte stbtic nbtive long
+        rbsterizeTrbpezoidsNbtive(long pixmbnImbgePtr, int[] trbps,
+                                  int[] trbpPos, int trbpCnt,
                                   byte[] buffer, int xOff, int yOff);
 
-    private static native void freePixmanImgPtr(long pixmanImgPtr);
+    privbte stbtic nbtive void freePixmbnImgPtr(long pixmbnImgPtr);
 
-    private void calculateArea(int[] bbox) {
+    privbte void cblculbteAreb(int[] bbox) {
         tilesX = 0;
         tilesY = 0;
         tileCnt = 0;
@@ -99,11 +99,11 @@ public class JulesAATileGenerator implements AATileGenerator {
         bbox[2] = 0;
         bbox[3] = 0;
 
-        if (traps.getSize() > 0) {
-            left = traps.getLeft();
-            right = traps.getRight();
-            top = traps.getTop();
-            bottom = traps.getBottom();
+        if (trbps.getSize() > 0) {
+            left = trbps.getLeft();
+            right = trbps.getRight();
+            top = trbps.getTop();
+            bottom = trbps.getBottom();
             leftFP = left << 16;
             topFP = top << 16;
 
@@ -116,194 +116,194 @@ public class JulesAATileGenerator implements AATileGenerator {
             height = bottom - top;
 
             if (width > 0 && height > 0) {
-                tilesX = (int) Math.ceil(((double) width) / TILE_SIZE);
-                tilesY = (int) Math.ceil(((double) height) / TILE_SIZE);
+                tilesX = (int) Mbth.ceil(((double) width) / TILE_SIZE);
+                tilesY = (int) Mbth.ceil(((double) height) / TILE_SIZE);
                 tileCnt = tilesY * tilesX;
-                tiledTrapArray = new TileTrapContainer[tileCnt];
+                tiledTrbpArrby = new TileTrbpContbiner[tileCnt];
             } else {
-                // If there is no area touched by the traps, don't
+                // If there is no breb touched by the trbps, don't
                 // render them.
-                traps.setSize(0);
+                trbps.setSize(0);
             }
         }
     }
 
 
-    private void bucketSortTraps() {
+    privbte void bucketSortTrbps() {
 
-        for (int i = 0; i < traps.getSize(); i++) {
-            int top = traps.getTop(i) - XRUtils.XDoubleToFixed(this.top);
-            int bottom = traps.getBottom(i) - topFP;
-            int p1xLeft = traps.getP1XLeft(i) - leftFP;
-            int p2xLeft = traps.getP2XLeft(i) - leftFP;
-            int p1xRight = traps.getP1XRight(i) - leftFP;
-            int p2xRight = traps.getP2XRight(i) - leftFP;
+        for (int i = 0; i < trbps.getSize(); i++) {
+            int top = trbps.getTop(i) - XRUtils.XDoubleToFixed(this.top);
+            int bottom = trbps.getBottom(i) - topFP;
+            int p1xLeft = trbps.getP1XLeft(i) - leftFP;
+            int p2xLeft = trbps.getP2XLeft(i) - leftFP;
+            int p1xRight = trbps.getP1XRight(i) - leftFP;
+            int p2xRight = trbps.getP2XRight(i) - leftFP;
 
-            int minLeft = Math.min(p1xLeft, p2xLeft);
-            int maxRight = Math.max(p1xRight, p2xRight);
+            int minLeft = Mbth.min(p1xLeft, p2xLeft);
+            int mbxRight = Mbth.mbx(p1xRight, p2xRight);
 
-            maxRight = maxRight > 0 ? maxRight - 1 : maxRight;
+            mbxRight = mbxRight > 0 ? mbxRight - 1 : mbxRight;
             bottom = bottom > 0 ? bottom - 1 : bottom;
 
-            int startTileY = top / TILE_SIZE_FP;
+            int stbrtTileY = top / TILE_SIZE_FP;
             int endTileY = bottom / TILE_SIZE_FP;
-            int startTileX = minLeft / TILE_SIZE_FP;
-            int endTileX = maxRight / TILE_SIZE_FP;
+            int stbrtTileX = minLeft / TILE_SIZE_FP;
+            int endTileX = mbxRight / TILE_SIZE_FP;
 
-            for (int n = startTileY; n <= endTileY; n++) {
+            for (int n = stbrtTileY; n <= endTileY; n++) {
 
-                for (int m = startTileX; m <= endTileX; m++) {
-                    int trapArrayPos = n * tilesX + m;
-                    TileTrapContainer trapTileList = tiledTrapArray[trapArrayPos];
-                    if (trapTileList == null) {
-                        trapTileList = new TileTrapContainer(new GrowableIntArray(1, 16));
-                        tiledTrapArray[trapArrayPos] = trapTileList;
+                for (int m = stbrtTileX; m <= endTileX; m++) {
+                    int trbpArrbyPos = n * tilesX + m;
+                    TileTrbpContbiner trbpTileList = tiledTrbpArrby[trbpArrbyPos];
+                    if (trbpTileList == null) {
+                        trbpTileList = new TileTrbpContbiner(new GrowbbleIntArrby(1, 16));
+                        tiledTrbpArrby[trbpArrbyPos] = trbpTileList;
                     }
 
-                    trapTileList.getTraps().addInt(i);
+                    trbpTileList.getTrbps().bddInt(i);
                 }
             }
         }
     }
 
-    public void getAlpha(byte[] tileBuffer, int offset, int rowstride) {
+    public void getAlphb(byte[] tileBuffer, int offset, int rowstride) {
         JulesTile tile = null;
 
-        if (threaded) {
-            tile = worker.getPreRasterizedTile(currTilePos);
+        if (threbded) {
+            tile = worker.getPreRbsterizedTile(currTilePos);
         }
 
         if (tile != null) {
-            System.arraycopy(tile.getImgBuffer(), 0,
+            System.brrbycopy(tile.getImgBuffer(), 0,
                              tileBuffer, 0, tileBuffer.length);
-            tileCache.releaseTile(tile);
+            tileCbche.relebseTile(tile);
         } else {
-            mainTile.setImgBuffer(tileBuffer);
-            rasterizeTile(currTilePos, mainTile);
+            mbinTile.setImgBuffer(tileBuffer);
+            rbsterizeTile(currTilePos, mbinTile);
         }
 
         nextTile();
     }
 
-    public void calculateTypicalAlpha() {
-        rasterTileCnt = 0;
+    public void cblculbteTypicblAlphb() {
+        rbsterTileCnt = 0;
 
         for (int index = 0; index < tileCnt; index++) {
 
-            TileTrapContainer trapCont = tiledTrapArray[index];
-            if (trapCont != null) {
-                GrowableIntArray trapList = trapCont.getTraps();
+            TileTrbpContbiner trbpCont = tiledTrbpArrby[index];
+            if (trbpCont != null) {
+                GrowbbleIntArrby trbpList = trbpCont.getTrbps();
 
-                int tileAlpha = 127;
-                if (trapList == null || trapList.getSize() == 0) {
-                    tileAlpha = 0;
-                } else if (doTrapsCoverTile(trapList, index)) {
-                    tileAlpha = 0xff;
+                int tileAlphb = 127;
+                if (trbpList == null || trbpList.getSize() == 0) {
+                    tileAlphb = 0;
+                } else if (doTrbpsCoverTile(trbpList, index)) {
+                    tileAlphb = 0xff;
                 }
 
-                if (tileAlpha == 127 || tileAlpha == 0xff) {
-                    rasterTileCnt++;
+                if (tileAlphb == 127 || tileAlphb == 0xff) {
+                    rbsterTileCnt++;
                 }
 
-                trapCont.setTileAlpha(tileAlpha);
+                trbpCont.setTileAlphb(tileAlphb);
             }
         }
     }
 
     /*
-     * Optimization for large fills. Foutunatly cairo does generate an y-sorted
-     * list of trapezoids. This makes it quite simple to check whether a tile is
-     * fully covered by traps by: - Checking whether the tile is fully covered by
-     * traps vertically (trap 2 starts where trap 1 ended) - Checking whether all
-     * traps cover the tile horizontally This also works, when a single tile
+     * Optimizbtion for lbrge fills. Foutunbtly cbiro does generbte bn y-sorted
+     * list of trbpezoids. This mbkes it quite simple to check whether b tile is
+     * fully covered by trbps by: - Checking whether the tile is fully covered by
+     * trbps verticblly (trbp 2 stbrts where trbp 1 ended) - Checking whether bll
+     * trbps cover the tile horizontblly This blso works, when b single tile
      * coveres the whole tile.
      */
-    protected boolean doTrapsCoverTile(GrowableIntArray trapList, int tileIndex) {
+    protected boolebn doTrbpsCoverTile(GrowbbleIntArrby trbpList, int tileIndex) {
 
-        // Don't bother optimizing tiles with lots of traps, usually it won't
-        // succeed anyway.
-        if (trapList.getSize() > TILE_SIZE) {
-            return false;
+        // Don't bother optimizing tiles with lots of trbps, usublly it won't
+        // succeed bnywby.
+        if (trbpList.getSize() > TILE_SIZE) {
+            return fblse;
         }
 
-        int tileStartX = getXPos(tileIndex) * TILE_SIZE_FP + leftFP;
-        int tileStartY = getYPos(tileIndex) * TILE_SIZE_FP + topFP;
-        int tileEndX = tileStartX + TILE_SIZE_FP;
-        int tileEndY = tileStartY + TILE_SIZE_FP;
+        int tileStbrtX = getXPos(tileIndex) * TILE_SIZE_FP + leftFP;
+        int tileStbrtY = getYPos(tileIndex) * TILE_SIZE_FP + topFP;
+        int tileEndX = tileStbrtX + TILE_SIZE_FP;
+        int tileEndY = tileStbrtY + TILE_SIZE_FP;
 
-        // Check whether first tile covers the beginning of the tile vertically
-        int firstTop = traps.getTop(trapList.getInt(0));
-        int firstBottom = traps.getBottom(trapList.getInt(0));
-        if (firstTop > tileStartY || firstBottom < tileStartY) {
-            return false;
+        // Check whether first tile covers the beginning of the tile verticblly
+        int firstTop = trbps.getTop(trbpList.getInt(0));
+        int firstBottom = trbps.getBottom(trbpList.getInt(0));
+        if (firstTop > tileStbrtY || firstBottom < tileStbrtY) {
+            return fblse;
         }
 
-        // Initialize lastBottom with top, in order to pass the checks for the
-        // first iteration
-        int lastBottom = firstTop;
+        // Initiblize lbstBottom with top, in order to pbss the checks for the
+        // first iterbtion
+        int lbstBottom = firstTop;
 
-        for (int i = 0; i < trapList.getSize(); i++) {
-            int trapPos = trapList.getInt(i);
-            if (traps.getP1XLeft(trapPos) > tileStartX ||
-                traps.getP2XLeft(trapPos) > tileStartX ||
-                traps.getP1XRight(trapPos) < tileEndX  ||
-                traps.getP2XRight(trapPos) < tileEndX  ||
-                 traps.getTop(trapPos) != lastBottom)
+        for (int i = 0; i < trbpList.getSize(); i++) {
+            int trbpPos = trbpList.getInt(i);
+            if (trbps.getP1XLeft(trbpPos) > tileStbrtX ||
+                trbps.getP2XLeft(trbpPos) > tileStbrtX ||
+                trbps.getP1XRight(trbpPos) < tileEndX  ||
+                trbps.getP2XRight(trbpPos) < tileEndX  ||
+                 trbps.getTop(trbpPos) != lbstBottom)
             {
-                return false;
+                return fblse;
             }
-            lastBottom = traps.getBottom(trapPos);
+            lbstBottom = trbps.getBottom(trbpPos);
         }
 
-        // When the last trap covered the tileEnd vertically, the tile is fully
+        // When the lbst trbp covered the tileEnd verticblly, the tile is fully
         // covered
-        return lastBottom >= tileEndY;
+        return lbstBottom >= tileEndY;
     }
 
-    public int getTypicalAlpha() {
-        if (tiledTrapArray[currTilePos] == null) {
+    public int getTypicblAlphb() {
+        if (tiledTrbpArrby[currTilePos] == null) {
             return 0;
         } else {
-            return tiledTrapArray[currTilePos].getTileAlpha();
+            return tiledTrbpArrby[currTilePos].getTileAlphb();
         }
     }
 
     public void dispose() {
-        freePixmanImgPtr(mainTile.getPixmanImgPtr());
+        freePixmbnImgPtr(mbinTile.getPixmbnImgPtr());
 
-        if (threaded) {
-            tileCache.disposeConsumerResources();
+        if (threbded) {
+            tileCbche.disposeConsumerResources();
             worker.disposeConsumerResources();
         }
     }
 
-    protected JulesTile rasterizeTile(int tileIndex, JulesTile tile) {
+    protected JulesTile rbsterizeTile(int tileIndex, JulesTile tile) {
         int tileOffsetX = left + getXPos(tileIndex) * TILE_SIZE;
         int tileOffsetY = top + getYPos(tileIndex) * TILE_SIZE;
-        TileTrapContainer trapCont = tiledTrapArray[tileIndex];
-        GrowableIntArray trapList = trapCont.getTraps();
+        TileTrbpContbiner trbpCont = tiledTrbpArrby[tileIndex];
+        GrowbbleIntArrby trbpList = trbpCont.getTrbps();
 
-        if (trapCont.getTileAlpha() == 127) {
-            long pixmanImgPtr =
-                 rasterizeTrapezoidsNative(tile.getPixmanImgPtr(),
-                                           traps.getTrapArray(),
-                                           trapList.getArray(),
-                                           trapList.getSize(),
+        if (trbpCont.getTileAlphb() == 127) {
+            long pixmbnImgPtr =
+                 rbsterizeTrbpezoidsNbtive(tile.getPixmbnImgPtr(),
+                                           trbps.getTrbpArrby(),
+                                           trbpList.getArrby(),
+                                           trbpList.getSize(),
                                            tile.getImgBuffer(),
                                            tileOffsetX, tileOffsetY);
-            tile.setPixmanImgPtr(pixmanImgPtr);
+            tile.setPixmbnImgPtr(pixmbnImgPtr);
         }
 
         tile.setTilePos(tileIndex);
         return tile;
     }
 
-    protected int getXPos(int arrayPos) {
-        return arrayPos % tilesX;
+    protected int getXPos(int brrbyPos) {
+        return brrbyPos % tilesX;
     }
 
-    protected int getYPos(int arrayPos) {
-        return arrayPos / tilesX;
+    protected int getYPos(int brrbyPos) {
+        return brrbyPos / tilesX;
     }
 
     public void nextTile() {
@@ -322,7 +322,7 @@ public class JulesAATileGenerator implements AATileGenerator {
         return tileCnt;
     }
 
-    public TileTrapContainer getTrapContainer(int index) {
-        return tiledTrapArray[index];
+    public TileTrbpContbiner getTrbpContbiner(int index) {
+        return tiledTrbpArrby[index];
     }
 }

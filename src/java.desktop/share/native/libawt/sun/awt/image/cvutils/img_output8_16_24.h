@@ -1,85 +1,85 @@
 /*
- * Copyright (c) 1996, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file contains macro definitions for the Storing category of
- * the macros used by the generic scaleloop function.
+ * This file contbins mbcro definitions for the Storing cbtegory of
+ * the mbcros used by the generic scbleloop function.
  *
- * This implementation can store 8-bit or 16-bit pixels into an array
- * of bytes or shorts such that the pixel for (srcX, srcY) is stored at
- * index (srcOff + srcY * srcScan + srcX) in the array.
+ * This implementbtion cbn store 8-bit or 16-bit pixels into bn brrby
+ * of bytes or shorts such thbt the pixel for (srcX, srcY) is stored bt
+ * index (srcOff + srcY * srcScbn + srcX) in the brrby.
  *
- * This implementation can also store 24-bit pixels into an array of bytes
- * as three consecutive bytes such that the pixel for (srcX, srcY) is
- * stored at indices (srcOff + srcY * srcScan + srcX * 3 + C) in the
- * array, where C == 0 for the blue component, 1 for the green component,
- * and 2 for the red component.
+ * This implementbtion cbn blso store 24-bit pixels into bn brrby of bytes
+ * bs three consecutive bytes such thbt the pixel for (srcX, srcY) is
+ * stored bt indices (srcOff + srcY * srcScbn + srcX * 3 + C) in the
+ * brrby, where C == 0 for the blue component, 1 for the green component,
+ * bnd 2 for the red component.
  */
 
-#define DeclareOutputVars                               \
+#define DeclbreOutputVbrs                               \
     pixptr dstP;                                        \
     int pixsz;
 
-#define InitOutput(cvdata, clrdata, dstX, dstY)                 \
+#define InitOutput(cvdbtb, clrdbtb, dstX, dstY)                 \
     do {                                                        \
-        switch (clrdata->bitsperpixel) {                        \
-        case 8: pixsz = 1; break;                               \
-        case 16: pixsz = 2; break;                              \
-        case 24: pixsz = 3; break;                              \
-        default:                                                \
-            SignalError(0, JAVAPKG "InternalError",             \
+        switch (clrdbtb->bitsperpixel) {                        \
+        cbse 8: pixsz = 1; brebk;                               \
+        cbse 16: pixsz = 2; brebk;                              \
+        cbse 24: pixsz = 3; brebk;                              \
+        defbult:                                                \
+            SignblError(0, JAVAPKG "InternblError",             \
                         "unsupported screen depth");            \
             return SCALEFAILURE;                                \
         }                                                       \
-        img_check(pixsz != 2 || (ScanBytes(cvdata) & 1) == 0);  \
-        dstP.vp = cvdata->outbuf;                               \
-        dstP.bp += dstY * ScanBytes(cvdata) + dstX * pixsz;     \
+        img_check(pixsz != 2 || (ScbnBytes(cvdbtb) & 1) == 0);  \
+        dstP.vp = cvdbtb->outbuf;                               \
+        dstP.bp += dstY * ScbnBytes(cvdbtb) + dstX * pixsz;     \
     } while (0)
 
 #define PutPixelInc(pixel, red, green, blue)                    \
     do {                                                        \
         switch (pixsz) {                                        \
-        case 1:                                                 \
-            *dstP.bp++ = ((unsigned char) pixel);               \
-            break;                                              \
-        case 2:                                                 \
+        cbse 1:                                                 \
+            *dstP.bp++ = ((unsigned chbr) pixel);               \
+            brebk;                                              \
+        cbse 2:                                                 \
             *dstP.sp++ = ((unsigned short) pixel);              \
-            break;                                              \
-        case 3:                                                 \
+            brebk;                                              \
+        cbse 3:                                                 \
             *dstP.bp++ = blue;                                  \
             *dstP.bp++ = green;                                 \
             *dstP.bp++ = red;                                   \
-            break;                                              \
+            brebk;                                              \
         }                                                       \
     } while (0)
 
-#define EndOutputRow(cvdata, dstY, dstX1, dstX2)                \
+#define EndOutputRow(cvdbtb, dstY, dstX1, dstX2)                \
     do {                                                        \
-        SendRow(cvdata, dstY, dstX1, dstX2);                    \
-        dstP.bp += ScanBytes(cvdata) - (dstX2 - dstX1) * pixsz; \
+        SendRow(cvdbtb, dstY, dstX1, dstX2);                    \
+        dstP.bp += ScbnBytes(cvdbtb) - (dstX2 - dstX1) * pixsz; \
     } while (0)
 
-#define EndOutputRect(cvdata, dstX1, dstY1, dstX2, dstY2)       \
-    SendBuffer(cvdata, dstX1, dstY1, dstX2, dstY2)
+#define EndOutputRect(cvdbtb, dstX1, dstY1, dstX2, dstY2)       \
+    SendBuffer(cvdbtb, dstX1, dstY1, dstX2, dstY2)

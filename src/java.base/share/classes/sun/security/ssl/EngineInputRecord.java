@@ -1,63 +1,63 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package sun.security.ssl;
+pbckbge sun.security.ssl;
 
-import java.io.*;
-import java.nio.*;
-import javax.net.ssl.*;
-import javax.crypto.BadPaddingException;
+import jbvb.io.*;
+import jbvb.nio.*;
+import jbvbx.net.ssl.*;
+import jbvbx.crypto.BbdPbddingException;
 import sun.misc.HexDumpEncoder;
 
 
 /**
- * Wrapper class around InputRecord.
+ * Wrbpper clbss bround InputRecord.
  *
- * Application data is kept external to the InputRecord,
- * but handshake data (alert/change_cipher_spec/handshake) will
- * be kept internally in the ByteArrayInputStream.
+ * Applicbtion dbtb is kept externbl to the InputRecord,
+ * but hbndshbke dbtb (blert/chbnge_cipher_spec/hbndshbke) will
+ * be kept internblly in the ByteArrbyInputStrebm.
  *
- * @author Brad Wetmore
+ * @buthor Brbd Wetmore
  */
-final class EngineInputRecord extends InputRecord {
+finbl clbss EngineInputRecord extends InputRecord {
 
-    private SSLEngineImpl engine;
+    privbte SSLEngineImpl engine;
 
     /*
-     * A dummy ByteBuffer we'll pass back even when the data
-     * is stored internally.  It'll never actually be used.
+     * A dummy ByteBuffer we'll pbss bbck even when the dbtb
+     * is stored internblly.  It'll never bctublly be used.
      */
-    static private ByteBuffer tmpBB = ByteBuffer.allocate(0);
+    stbtic privbte ByteBuffer tmpBB = ByteBuffer.bllocbte(0);
 
     /*
-     * Flag to tell whether the last read/parsed data resides
-     * internal in the ByteArrayInputStream, or in the external
+     * Flbg to tell whether the lbst rebd/pbrsed dbtb resides
+     * internbl in the ByteArrbyInputStrebm, or in the externbl
      * buffers.
      */
-    private boolean internalData;
+    privbte boolebn internblDbtb;
 
     EngineInputRecord(SSLEngineImpl engine) {
         super();
@@ -66,26 +66,26 @@ final class EngineInputRecord extends InputRecord {
 
     @Override
     byte contentType() {
-        if (internalData) {
+        if (internblDbtb) {
             return super.contentType();
         } else {
-            return ct_application_data;
+            return ct_bpplicbtion_dbtb;
         }
     }
 
     /*
-     * Check if there is enough inbound data in the ByteBuffer
-     * to make a inbound packet.  Look for both SSLv2 and SSLv3.
+     * Check if there is enough inbound dbtb in the ByteBuffer
+     * to mbke b inbound pbcket.  Look for both SSLv2 bnd SSLv3.
      *
-     * @return -1 if there are not enough bytes to tell (small header),
+     * @return -1 if there bre not enough bytes to tell (smbll hebder),
      */
-    int bytesInCompletePacket(ByteBuffer buf) throws SSLException {
+    int bytesInCompletePbcket(ByteBuffer buf) throws SSLException {
 
         /*
          * SSLv2 length field is in bytes 0/1
          * SSLv3/TLS length field is in bytes 3/4
          */
-        if (buf.remaining() < 5) {
+        if (buf.rembining() < 5) {
             return -1;
         }
 
@@ -95,51 +95,51 @@ final class EngineInputRecord extends InputRecord {
         int len = 0;
 
         /*
-         * If we have already verified previous packets, we can
-         * ignore the verifications steps, and jump right to the
-         * determination.  Otherwise, try one last hueristic to
+         * If we hbve blrebdy verified previous pbckets, we cbn
+         * ignore the verificbtions steps, bnd jump right to the
+         * determinbtion.  Otherwise, try one lbst hueristic to
          * see if it's SSL/TLS.
          */
-        if (formatVerified ||
-                (byteZero == ct_handshake) ||
-                (byteZero == ct_alert)) {
+        if (formbtVerified ||
+                (byteZero == ct_hbndshbke) ||
+                (byteZero == ct_blert)) {
             /*
-             * Last sanity check that it's not a wild record
+             * Lbst sbnity check thbt it's not b wild record
              */
             ProtocolVersion recordVersion =
-                ProtocolVersion.valueOf(buf.get(pos + 1), buf.get(pos + 2));
+                ProtocolVersion.vblueOf(buf.get(pos + 1), buf.get(pos + 2));
 
             // check the record version
-            checkRecordVersion(recordVersion, false);
+            checkRecordVersion(recordVersion, fblse);
 
             /*
-             * Reasonably sure this is a V3, disable further checks.
-             * We can't do the same in the v2 check below, because
-             * read still needs to parse/handle the v2 clientHello.
+             * Rebsonbbly sure this is b V3, disbble further checks.
+             * We cbn't do the sbme in the v2 check below, becbuse
+             * rebd still needs to pbrse/hbndle the v2 clientHello.
              */
-            formatVerified = true;
+            formbtVerified = true;
 
             /*
-             * One of the SSLv3/TLS message types.
+             * One of the SSLv3/TLS messbge types.
              */
             len = ((buf.get(pos + 3) & 0xff) << 8) +
-                (buf.get(pos + 4) & 0xff) + headerSize;
+                (buf.get(pos + 4) & 0xff) + hebderSize;
 
         } else {
             /*
              * Must be SSLv2 or something unknown.
              * Check if it's short (2 bytes) or
-             * long (3) header.
+             * long (3) hebder.
              *
-             * Internals can warn about unsupported SSLv2
+             * Internbls cbn wbrn bbout unsupported SSLv2
              */
-            boolean isShort = ((byteZero & 0x80) != 0);
+            boolebn isShort = ((byteZero & 0x80) != 0);
 
             if (isShort &&
                     ((buf.get(pos + 2) == 1) || buf.get(pos + 2) == 4)) {
 
                 ProtocolVersion recordVersion =
-                    ProtocolVersion.valueOf(buf.get(pos + 3), buf.get(pos + 4));
+                    ProtocolVersion.vblueOf(buf.get(pos + 3), buf.get(pos + 4));
 
                 // check the record version
                 checkRecordVersion(recordVersion, true);
@@ -147,14 +147,14 @@ final class EngineInputRecord extends InputRecord {
                 /*
                  * Client or Server Hello
                  */
-                int mask = (isShort ? 0x7f : 0x3f);
-                len = ((byteZero & mask) << 8) + (buf.get(pos + 1) & 0xff) +
+                int mbsk = (isShort ? 0x7f : 0x3f);
+                len = ((byteZero & mbsk) << 8) + (buf.get(pos + 1) & 0xff) +
                     (isShort ? 2 : 3);
 
             } else {
                 // Gobblygook!
                 throw new SSLException(
-                    "Unrecognized SSL message, plaintext connection?");
+                    "Unrecognized SSL messbge, plbintext connection?");
             }
         }
 
@@ -162,117 +162,117 @@ final class EngineInputRecord extends InputRecord {
     }
 
     /*
-     * Pass the data down if it's internally cached, otherwise
+     * Pbss the dbtb down if it's internblly cbched, otherwise
      * do it here.
      *
-     * If internal data, data is decrypted internally.
+     * If internbl dbtb, dbtb is decrypted internblly.
      *
-     * If external data(app), return a new ByteBuffer with data to
+     * If externbl dbtb(bpp), return b new ByteBuffer with dbtb to
      * process.
      */
-    ByteBuffer decrypt(Authenticator authenticator,
-            CipherBox box, ByteBuffer bb) throws BadPaddingException {
+    ByteBuffer decrypt(Authenticbtor buthenticbtor,
+            CipherBox box, ByteBuffer bb) throws BbdPbddingException {
 
-        if (internalData) {
-            decrypt(authenticator, box);   // MAC is checked during decryption
+        if (internblDbtb) {
+            decrypt(buthenticbtor, box);   // MAC is checked during decryption
             return tmpBB;
         }
 
-        BadPaddingException reservedBPE = null;
-        int tagLen =
-            (authenticator instanceof MAC) ? ((MAC)authenticator).MAClen() : 0;
-        int cipheredLength = bb.remaining();
+        BbdPbddingException reservedBPE = null;
+        int tbgLen =
+            (buthenticbtor instbnceof MAC) ? ((MAC)buthenticbtor).MAClen() : 0;
+        int cipheredLength = bb.rembining();
 
         if (!box.isNullCipher()) {
             try {
-                // apply explicit nonce for AEAD/CBC cipher suites if needed
+                // bpply explicit nonce for AEAD/CBC cipher suites if needed
                 int nonceSize =
-                    box.applyExplicitNonce(authenticator, contentType(), bb);
+                    box.bpplyExplicitNonce(buthenticbtor, contentType(), bb);
 
                 // decrypt the content
                 if (box.isAEADMode()) {
                     // DON'T encrypt the nonce_explicit for AEAD mode
                     bb.position(bb.position() + nonceSize);
-                }   // The explicit IV for CBC mode can be decrypted.
+                }   // The explicit IV for CBC mode cbn be decrypted.
 
-                // Note that the CipherBox.decrypt() does not change
-                // the capacity of the buffer.
-                box.decrypt(bb, tagLen);
-                bb.position(nonceSize); // We don't actually remove the nonce.
-            } catch (BadPaddingException bpe) {
-                // RFC 2246 states that decryption_failed should be used
-                // for this purpose. However, that allows certain attacks,
-                // so we just send bad record MAC. We also need to make
-                // sure to always check the MAC to avoid a timing attack
-                // for the same issue. See paper by Vaudenay et al and the
-                // update in RFC 4346/5246.
+                // Note thbt the CipherBox.decrypt() does not chbnge
+                // the cbpbcity of the buffer.
+                box.decrypt(bb, tbgLen);
+                bb.position(nonceSize); // We don't bctublly remove the nonce.
+            } cbtch (BbdPbddingException bpe) {
+                // RFC 2246 stbtes thbt decryption_fbiled should be used
+                // for this purpose. However, thbt bllows certbin bttbcks,
+                // so we just send bbd record MAC. We blso need to mbke
+                // sure to blwbys check the MAC to bvoid b timing bttbck
+                // for the sbme issue. See pbper by Vbudenby et bl bnd the
+                // updbte in RFC 4346/5246.
                 //
-                // Failover to message authentication code checking.
+                // Fbilover to messbge buthenticbtion code checking.
                 reservedBPE = bpe;
             }
         }
 
-        // Requires message authentication code for null, stream and block
+        // Requires messbge buthenticbtion code for null, strebm bnd block
         // cipher suites.
-        if ((authenticator instanceof MAC) && (tagLen != 0)) {
-            MAC signer = (MAC)authenticator;
-            int macOffset = bb.limit() - tagLen;
+        if ((buthenticbtor instbnceof MAC) && (tbgLen != 0)) {
+            MAC signer = (MAC)buthenticbtor;
+            int mbcOffset = bb.limit() - tbgLen;
 
-            // Note that although it is not necessary, we run the same MAC
-            // computation and comparison on the payload for both stream
-            // cipher and CBC block cipher.
-            if (bb.remaining() < tagLen) {
-                // negative data length, something is wrong
+            // Note thbt blthough it is not necessbry, we run the sbme MAC
+            // computbtion bnd compbrison on the pbylobd for both strebm
+            // cipher bnd CBC block cipher.
+            if (bb.rembining() < tbgLen) {
+                // negbtive dbtb length, something is wrong
                 if (reservedBPE == null) {
-                    reservedBPE = new BadPaddingException("bad record");
+                    reservedBPE = new BbdPbddingException("bbd record");
                 }
 
                 // set offset of the dummy MAC
-                macOffset = cipheredLength - tagLen;
+                mbcOffset = cipheredLength - tbgLen;
                 bb.limit(cipheredLength);
             }
 
-            // Run MAC computation and comparison on the payload.
-            if (checkMacTags(contentType(), bb, signer, false)) {
+            // Run MAC computbtion bnd compbrison on the pbylobd.
+            if (checkMbcTbgs(contentType(), bb, signer, fblse)) {
                 if (reservedBPE == null) {
-                    reservedBPE = new BadPaddingException("bad record MAC");
+                    reservedBPE = new BbdPbddingException("bbd record MAC");
                 }
             }
 
-            // Run MAC computation and comparison on the remainder.
+            // Run MAC computbtion bnd compbrison on the rembinder.
             //
-            // It is only necessary for CBC block cipher.  It is used to get a
-            // constant time of MAC computation and comparison on each record.
+            // It is only necessbry for CBC block cipher.  It is used to get b
+            // constbnt time of MAC computbtion bnd compbrison on ebch record.
             if (box.isCBCMode()) {
-                int remainingLen = calculateRemainingLen(
-                                        signer, cipheredLength, macOffset);
+                int rembiningLen = cblculbteRembiningLen(
+                                        signer, cipheredLength, mbcOffset);
 
-                // NOTE: here we use the InputRecord.buf because I did not find
-                // an effective way to work on ByteBuffer when its capacity is
-                // less than remainingLen.
+                // NOTE: here we use the InputRecord.buf becbuse I did not find
+                // bn effective wby to work on ByteBuffer when its cbpbcity is
+                // less thbn rembiningLen.
 
-                // NOTE: remainingLen may be bigger (less than 1 block of the
-                // hash algorithm of the MAC) than the cipheredLength. However,
-                // We won't need to worry about it because we always use a
-                // maximum buffer for every record.  We need a change here if
-                // we use small buffer size in the future.
-                if (remainingLen > buf.length) {
-                    // unlikely to happen, just a placehold
+                // NOTE: rembiningLen mby be bigger (less thbn 1 block of the
+                // hbsh blgorithm of the MAC) thbn the cipheredLength. However,
+                // We won't need to worry bbout it becbuse we blwbys use b
+                // mbximum buffer for every record.  We need b chbnge here if
+                // we use smbll buffer size in the future.
+                if (rembiningLen > buf.length) {
+                    // unlikely to hbppen, just b plbcehold
                     throw new RuntimeException(
-                        "Internal buffer capacity error");
+                        "Internbl buffer cbpbcity error");
                 }
 
-                // Won't need to worry about the result on the remainder. And
-                // then we won't need to worry about what's actual data to
-                // check MAC tag on.  We start the check from the header of the
-                // buffer so that we don't need to construct a new byte buffer.
-                checkMacTags(contentType(), buf, 0, remainingLen, signer, true);
+                // Won't need to worry bbout the result on the rembinder. And
+                // then we won't need to worry bbout whbt's bctubl dbtb to
+                // check MAC tbg on.  We stbrt the check from the hebder of the
+                // buffer so thbt we don't need to construct b new byte buffer.
+                checkMbcTbgs(contentType(), buf, 0, rembiningLen, signer, true);
             }
 
-            bb.limit(macOffset);
+            bb.limit(mbcOffset);
         }
 
-        // Is it a failover?
+        // Is it b fbilover?
         if (reservedBPE != null) {
             throw reservedBPE;
         }
@@ -281,55 +281,55 @@ final class EngineInputRecord extends InputRecord {
     }
 
     /*
-     * Run MAC computation and comparison
+     * Run MAC computbtion bnd compbrison
      *
-     * Please DON'T change the content of the ByteBuffer parameter!
+     * Plebse DON'T chbnge the content of the ByteBuffer pbrbmeter!
      */
-    private static boolean checkMacTags(byte contentType, ByteBuffer bb,
-            MAC signer, boolean isSimulated) {
+    privbte stbtic boolebn checkMbcTbgs(byte contentType, ByteBuffer bb,
+            MAC signer, boolebn isSimulbted) {
 
         int position = bb.position();
-        int tagLen = signer.MAClen();
+        int tbgLen = signer.MAClen();
         int lim = bb.limit();
-        int macData = lim - tagLen;
+        int mbcDbtb = lim - tbgLen;
 
-        bb.limit(macData);
-        byte[] hash = signer.compute(contentType, bb, isSimulated);
-        if (hash == null || tagLen != hash.length) {
-            // Something is wrong with MAC implementation.
-            throw new RuntimeException("Internal MAC error");
+        bb.limit(mbcDbtb);
+        byte[] hbsh = signer.compute(contentType, bb, isSimulbted);
+        if (hbsh == null || tbgLen != hbsh.length) {
+            // Something is wrong with MAC implementbtion.
+            throw new RuntimeException("Internbl MAC error");
         }
 
-        bb.position(macData);
+        bb.position(mbcDbtb);
         bb.limit(lim);
         try {
-            int[] results = compareMacTags(bb, hash);
+            int[] results = compbreMbcTbgs(bb, hbsh);
             return (results[0] != 0);
-        } finally {
-            // reset to the data
+        } finblly {
+            // reset to the dbtb
             bb.position(position);
-            bb.limit(macData);
+            bb.limit(mbcDbtb);
         }
     }
 
     /*
-     * A constant-time comparison of the MAC tags.
+     * A constbnt-time compbrison of the MAC tbgs.
      *
-     * Please DON'T change the content of the ByteBuffer parameter!
+     * Plebse DON'T chbnge the content of the ByteBuffer pbrbmeter!
      */
-    private static int[] compareMacTags(ByteBuffer bb, byte[] tag) {
+    privbte stbtic int[] compbreMbcTbgs(ByteBuffer bb, byte[] tbg) {
 
-        // An array of hits is used to prevent Hotspot optimization for
-        // the purpose of a constant-time check.
-        int[] results = {0, 0};     // {missed #, matched #}
+        // An brrby of hits is used to prevent Hotspot optimizbtion for
+        // the purpose of b constbnt-time check.
+        int[] results = {0, 0};     // {missed #, mbtched #}
 
-        // The caller ensures there are enough bytes available in the buffer.
-        // So we won't need to check the remaining of the buffer.
-        for (int i = 0; i < tag.length; i++) {
-            if (bb.get() != tag[i]) {
-                results[0]++;       // mismatched bytes
+        // The cbller ensures there bre enough bytes bvbilbble in the buffer.
+        // So we won't need to check the rembining of the buffer.
+        for (int i = 0; i < tbg.length; i++) {
+            if (bb.get() != tbg[i]) {
+                results[0]++;       // mismbtched bytes
             } else {
-                results[1]++;       // matched bytes
+                results[1]++;       // mbtched bytes
             }
         }
 
@@ -337,87 +337,87 @@ final class EngineInputRecord extends InputRecord {
     }
 
     /*
-     * Override the actual write below.  We do things this way to be
-     * consistent with InputRecord.  InputRecord may try to write out
-     * data to the peer, and *then* throw an Exception.  This forces
-     * data to be generated/output before the exception is ever
-     * generated.
+     * Override the bctubl write below.  We do things this wby to be
+     * consistent with InputRecord.  InputRecord mby try to write out
+     * dbtb to the peer, bnd *then* throw bn Exception.  This forces
+     * dbtb to be generbted/output before the exception is ever
+     * generbted.
      */
     @Override
-    void writeBuffer(OutputStream s, byte [] buf, int off, int len)
+    void writeBuffer(OutputStrebm s, byte [] buf, int off, int len)
             throws IOException {
         /*
-         * Copy data out of buffer, it's ready to go.
+         * Copy dbtb out of buffer, it's rebdy to go.
          */
         ByteBuffer netBB = (ByteBuffer)
-            (ByteBuffer.allocate(len).put(buf, 0, len).flip());
-        engine.writer.putOutboundDataSync(netBB);
+            (ByteBuffer.bllocbte(len).put(buf, 0, len).flip());
+        engine.writer.putOutboundDbtbSync(netBB);
     }
 
     /*
-     * Delineate or read a complete packet from src.
+     * Delinebte or rebd b complete pbcket from src.
      *
-     * If internal data (hs, alert, ccs), the data is read and
-     * stored internally.
+     * If internbl dbtb (hs, blert, ccs), the dbtb is rebd bnd
+     * stored internblly.
      *
-     * If external data (app), return a new ByteBuffer which points
-     * to the data to process.
+     * If externbl dbtb (bpp), return b new ByteBuffer which points
+     * to the dbtb to process.
      */
-    ByteBuffer read(ByteBuffer srcBB) throws IOException {
+    ByteBuffer rebd(ByteBuffer srcBB) throws IOException {
         /*
-         * Could have a src == null/dst == null check here,
-         * but that was already checked by SSLEngine.unwrap before
-         * ever attempting to read.
+         * Could hbve b src == null/dst == null check here,
+         * but thbt wbs blrebdy checked by SSLEngine.unwrbp before
+         * ever bttempting to rebd.
          */
 
         /*
-         * If we have anything besides application data,
-         * or if we haven't even done the initial v2 verification,
+         * If we hbve bnything besides bpplicbtion dbtb,
+         * or if we hbven't even done the initibl v2 verificbtion,
          * we send this down to be processed by the underlying
-         * internal cache.
+         * internbl cbche.
          */
-        if (!formatVerified ||
-                (srcBB.get(srcBB.position()) != ct_application_data)) {
-            internalData = true;
-            read(new ByteBufferInputStream(srcBB), (OutputStream) null);
+        if (!formbtVerified ||
+                (srcBB.get(srcBB.position()) != ct_bpplicbtion_dbtb)) {
+            internblDbtb = true;
+            rebd(new ByteBufferInputStrebm(srcBB), (OutputStrebm) null);
             return tmpBB;
         }
 
-        internalData = false;
+        internblDbtb = fblse;
 
         int srcPos = srcBB.position();
         int srcLim = srcBB.limit();
 
-        ProtocolVersion recordVersion = ProtocolVersion.valueOf(
+        ProtocolVersion recordVersion = ProtocolVersion.vblueOf(
                 srcBB.get(srcPos + 1), srcBB.get(srcPos + 2));
 
         // check the record version
-        checkRecordVersion(recordVersion, false);
+        checkRecordVersion(recordVersion, fblse);
 
         /*
-         * It's really application data.  How much to consume?
-         * Jump over the header.
+         * It's reblly bpplicbtion dbtb.  How much to consume?
+         * Jump over the hebder.
          */
-        int len = bytesInCompletePacket(srcBB);
-        assert(len > 0);
+        int len = bytesInCompletePbcket(srcBB);
+        bssert(len > 0);
 
-        if (debug != null && Debug.isOn("packet")) {
+        if (debug != null && Debug.isOn("pbcket")) {
             try {
                 HexDumpEncoder hd = new HexDumpEncoder();
-                ByteBuffer bb = srcBB.duplicate();  // Use copy of BB
+                ByteBuffer bb = srcBB.duplicbte();  // Use copy of BB
                 bb.limit(srcPos + len);
 
-                System.out.println("[Raw read (bb)]: length = " + len);
+                System.out.println("[Rbw rebd (bb)]: length = " + len);
                 hd.encodeBuffer(bb, System.out);
-            } catch (IOException e) { }
+            } cbtch (IOException e) { }
         }
 
-        // Demarcate past header to end of packet.
-        srcBB.position(srcPos + headerSize);
+        // Dembrcbte pbst hebder to end of pbcket.
+        srcBB.position(srcPos + hebderSize);
         srcBB.limit(srcPos + len);
 
-        // Protect remainder of buffer, create slice to actually
-        // operate on.
+        // Protect rembinder of buffer, crebte slice to bctublly
+        // operbte on.
         ByteBuffer bb = srcBB.slice();
 
         srcBB.position(srcBB.limit());

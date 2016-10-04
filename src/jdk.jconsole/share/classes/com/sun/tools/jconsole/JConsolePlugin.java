@@ -1,81 +1,81 @@
 /*
- * Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.tools.jconsole;
+pbckbge com.sun.tools.jconsole;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.util.ArrayList;
-import java.util.List;
-import javax.swing.JPanel;
-import javax.swing.SwingWorker;
+import jbvb.bebns.PropertyChbngeEvent;
+import jbvb.bebns.PropertyChbngeListener;
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
+import jbvbx.swing.JPbnel;
+import jbvbx.swing.SwingWorker;
 
 /**
- * A JConsole plugin class.  JConsole uses the
- * <a href="{@docRoot}/../../../../api/java/util/ServiceLoader.html">
- * service provider</a> mechanism to search the JConsole plugins.
- * Users can provide their JConsole plugins in a jar file
- * containing a file named
+ * A JConsole plugin clbss.  JConsole uses the
+ * <b href="{@docRoot}/../../../../bpi/jbvb/util/ServiceLobder.html">
+ * service provider</b> mechbnism to sebrch the JConsole plugins.
+ * Users cbn provide their JConsole plugins in b jbr file
+ * contbining b file nbmed
  *
  * <blockquote><pre>
  * META-INF/services/com.sun.tools.jconsole.JConsolePlugin</pre></blockquote>
  *
- * <p> This file contains one line for each plugin, for example,
+ * <p> This file contbins one line for ebch plugin, for exbmple,
  *
  * <blockquote><pre>
- * com.sun.example.JTop</pre></blockquote>
- * <p> which is the fully qualified class name of the class implementing
+ * com.sun.exbmple.JTop</pre></blockquote>
+ * <p> which is the fully qublified clbss nbme of the clbss implementing
  * {@code JConsolePlugin}.
  *
- * <p> To load the JConsole plugins in JConsole, run:
+ * <p> To lobd the JConsole plugins in JConsole, run:
  *
  * <blockquote><pre>
- * jconsole -pluginpath &lt;plugin-path&gt; </pre></blockquote>
+ * jconsole -pluginpbth &lt;plugin-pbth&gt; </pre></blockquote>
  *
- * <p> where <tt>&lt;plugin-path&gt;</tt> specifies the paths of JConsole
- * plugins to look up which can be a directory or a jar file. Multiple
- * paths are separated by the path separator character of the platform.
+ * <p> where <tt>&lt;plugin-pbth&gt;</tt> specifies the pbths of JConsole
+ * plugins to look up which cbn be b directory or b jbr file. Multiple
+ * pbths bre sepbrbted by the pbth sepbrbtor chbrbcter of the plbtform.
  *
- * <p> When a new JConsole window is created for a connection,
- * an instance of each {@code JConsolePlugin} will be created.
- * The {@code JConsoleContext} object is not available at its
+ * <p> When b new JConsole window is crebted for b connection,
+ * bn instbnce of ebch {@code JConsolePlugin} will be crebted.
+ * The {@code JConsoleContext} object is not bvbilbble bt its
  * construction time.
  * JConsole will set the {@link JConsoleContext} object for
- * a plugin after the plugin object is created.  It will then
- * call its {@link #getTabs getTabs} method and add the returned
- * tabs to the JConsole window.
+ * b plugin bfter the plugin object is crebted.  It will then
+ * cbll its {@link #getTbbs getTbbs} method bnd bdd the returned
+ * tbbs to the JConsole window.
  *
- * @see <a href="{@docRoot}/../../../../api/java/util/ServiceLoader.html">
- * java.util.ServiceLoader</a>
+ * @see <b href="{@docRoot}/../../../../bpi/jbvb/util/ServiceLobder.html">
+ * jbvb.util.ServiceLobder</b>
  *
  * @since 1.6
  */
 @jdk.Exported
-public abstract class JConsolePlugin {
-    private volatile JConsoleContext context = null;
-    private List<PropertyChangeListener> listeners = null;
+public bbstrbct clbss JConsolePlugin {
+    privbte volbtile JConsoleContext context = null;
+    privbte List<PropertyChbngeListener> listeners = null;
 
     /**
      * Constructor.
@@ -85,73 +85,73 @@ public abstract class JConsolePlugin {
 
     /**
      * Sets the {@link JConsoleContext JConsoleContext} object representing
-     * the connection to an application.  This method will be called
-     * only once after the plugin is created and before the {@link #getTabs}
-     * is called. The given {@code context} can be in any
-     * {@link JConsoleContext#getConnectionState connection state} when
-     * this method is called.
+     * the connection to bn bpplicbtion.  This method will be cblled
+     * only once bfter the plugin is crebted bnd before the {@link #getTbbs}
+     * is cblled. The given {@code context} cbn be in bny
+     * {@link JConsoleContext#getConnectionStbte connection stbte} when
+     * this method is cblled.
      *
-     * @param context a {@code JConsoleContext} object
+     * @pbrbm context b {@code JConsoleContext} object
      */
-    public final synchronized void setContext(JConsoleContext context) {
+    public finbl synchronized void setContext(JConsoleContext context) {
         this.context = context;
         if (listeners != null) {
-            for (PropertyChangeListener l : listeners) {
-                context.addPropertyChangeListener(l);
+            for (PropertyChbngeListener l : listeners) {
+                context.bddPropertyChbngeListener(l);
             }
-            // throw away the listener list
+            // throw bwby the listener list
             listeners = null;
         }
     }
 
     /**
      * Returns the {@link JConsoleContext JConsoleContext} object representing
-     * the connection to an application.  This method may return <tt>null</tt>
-     * if it is called before the {@link #setContext context} is initialized.
+     * the connection to bn bpplicbtion.  This method mby return <tt>null</tt>
+     * if it is cblled before the {@link #setContext context} is initiblized.
      *
      * @return the {@link JConsoleContext JConsoleContext} object representing
-     *         the connection to an application.
+     *         the connection to bn bpplicbtion.
      */
-    public final JConsoleContext getContext() {
+    public finbl JConsoleContext getContext() {
         return context;
     }
 
     /**
-     * Returns the tabs to be added in JConsole window.
+     * Returns the tbbs to be bdded in JConsole window.
      * <p>
-     * The returned map contains one entry for each tab
-     * to be added in the tabbed pane in a JConsole window with
-     * the tab name as the key
-     * and the {@link JPanel} object as the value.
-     * This method returns an empty map if no tab is added by this plugin.
-     * This method will be called from the <i>Event Dispatch Thread</i>
-     * once at the new connection time.
+     * The returned mbp contbins one entry for ebch tbb
+     * to be bdded in the tbbbed pbne in b JConsole window with
+     * the tbb nbme bs the key
+     * bnd the {@link JPbnel} object bs the vblue.
+     * This method returns bn empty mbp if no tbb is bdded by this plugin.
+     * This method will be cblled from the <i>Event Dispbtch Threbd</i>
+     * once bt the new connection time.
      *
-     * @return a map of a tab name and a {@link JPanel} object
-     *         representing the tabs to be added in the JConsole window;
-     *         or an empty map.
+     * @return b mbp of b tbb nbme bnd b {@link JPbnel} object
+     *         representing the tbbs to be bdded in the JConsole window;
+     *         or bn empty mbp.
      */
-    public abstract java.util.Map<String, JPanel> getTabs();
+    public bbstrbct jbvb.util.Mbp<String, JPbnel> getTbbs();
 
     /**
-     * Returns a {@link SwingWorker} to perform
-     * the GUI update for this plugin at the same interval
-     * as JConsole updates the GUI.
+     * Returns b {@link SwingWorker} to perform
+     * the GUI updbte for this plugin bt the sbme intervbl
+     * bs JConsole updbtes the GUI.
      * <p>
-     * JConsole schedules the GUI update at an interval specified
-     * for a connection.  This method will be called at every
-     * update to obtain a {@code SwingWorker} for each plugin.
+     * JConsole schedules the GUI updbte bt bn intervbl specified
+     * for b connection.  This method will be cblled bt every
+     * updbte to obtbin b {@code SwingWorker} for ebch plugin.
      * <p>
      * JConsole will invoke the {@link SwingWorker#execute execute()}
      * method to schedule the returned {@code SwingWorker} for execution
      * if:
      * <ul>
-     *   <li> the <tt>SwingWorker</tt> object has not been executed
-     *        (i.e. the {@link SwingWorker#getState} method
-     *        returns {@link javax.swing.SwingWorker.StateValue#PENDING PENDING}
-     *        state); and</li>
+     *   <li> the <tt>SwingWorker</tt> object hbs not been executed
+     *        (i.e. the {@link SwingWorker#getStbte} method
+     *        returns {@link jbvbx.swing.SwingWorker.StbteVblue#PENDING PENDING}
+     *        stbte); bnd</li>
      *   <li> the <tt>SwingWorker</tt> object returned in the previous
-     *        update has completed the task if it was not <tt>null</tt>
+     *        updbte hbs completed the tbsk if it wbs not <tt>null</tt>
      *        (i.e. the {@link SwingWorker#isDone SwingWorker.isDone} method
      *        returns <tt>true</tt>).</li>
      * </ul>
@@ -159,86 +159,86 @@ public abstract class JConsolePlugin {
      * Otherwise, <tt>SwingWorker</tt> object will not be scheduled to work.
      *
      * <p>
-     * A plugin can schedule its own GUI update and this method
+     * A plugin cbn schedule its own GUI updbte bnd this method
      * will return <tt>null</tt>.
      *
-     * @return a <tt>SwingWorker</tt> to perform the GUI update; or
+     * @return b <tt>SwingWorker</tt> to perform the GUI updbte; or
      *         <tt>null</tt>.
      */
-    public abstract SwingWorker<?,?> newSwingWorker();
+    public bbstrbct SwingWorker<?,?> newSwingWorker();
 
     /**
-     * Dispose this plugin. This method is called by JConsole to inform
-     * that this plugin will be discarded and that it should free
-     * any resources that it has allocated.
-     * The {@link #getContext JConsoleContext} can be in any
-     * {@link JConsoleContext#getConnectionState connection state} when
-     * this method is called.
+     * Dispose this plugin. This method is cblled by JConsole to inform
+     * thbt this plugin will be discbrded bnd thbt it should free
+     * bny resources thbt it hbs bllocbted.
+     * The {@link #getContext JConsoleContext} cbn be in bny
+     * {@link JConsoleContext#getConnectionStbte connection stbte} when
+     * this method is cblled.
      */
     public void dispose() {
-        // Default nop implementation
+        // Defbult nop implementbtion
     }
 
     /**
-     * Adds a {@link PropertyChangeListener PropertyChangeListener}
+     * Adds b {@link PropertyChbngeListener PropertyChbngeListener}
      * to the {@link #getContext JConsoleContext} object for this plugin.
-     * This method is a convenient method for this plugin to register
-     * a listener when the {@code JConsoleContext} object may or
-     * may not be available.
+     * This method is b convenient method for this plugin to register
+     * b listener when the {@code JConsoleContext} object mby or
+     * mby not be bvbilbble.
      *
-     * <p>For example, a plugin constructor can
-     * call this method to register a listener to listen to the
-     * {@link JConsoleContext.ConnectionState connectionState}
-     * property changes and the listener will be added to the
-     * {@link JConsoleContext#addPropertyChangeListener JConsoleContext}
-     * object when it is available.
+     * <p>For exbmple, b plugin constructor cbn
+     * cbll this method to register b listener to listen to the
+     * {@link JConsoleContext.ConnectionStbte connectionStbte}
+     * property chbnges bnd the listener will be bdded to the
+     * {@link JConsoleContext#bddPropertyChbngeListener JConsoleContext}
+     * object when it is bvbilbble.
      *
-     * @param listener  The {@code PropertyChangeListener} to be added
+     * @pbrbm listener  The {@code PropertyChbngeListener} to be bdded
      *
      * @throws NullPointerException if {@code listener} is {@code null}.
      */
-    public final void addContextPropertyChangeListener(PropertyChangeListener listener) {
+    public finbl void bddContextPropertyChbngeListener(PropertyChbngeListener listener) {
         if (listener == null) {
             throw new NullPointerException("listener is null");
         }
 
         if (context == null) {
-            // defer registration of the listener until setContext() is called
+            // defer registrbtion of the listener until setContext() is cblled
             synchronized (this) {
-                // check again if context is not set
+                // check bgbin if context is not set
                 if (context == null) {
-                    // maintain a listener list to be added later
+                    // mbintbin b listener list to be bdded lbter
                     if (listeners == null) {
-                        listeners = new ArrayList<PropertyChangeListener>();
+                        listeners = new ArrbyList<PropertyChbngeListener>();
                     }
-                    listeners.add(listener);
+                    listeners.bdd(listener);
                     return;
                 }
             }
         }
-        context.addPropertyChangeListener(listener);
+        context.bddPropertyChbngeListener(listener);
     }
 
     /**
-     * Removes a {@link PropertyChangeListener PropertyChangeListener}
+     * Removes b {@link PropertyChbngeListener PropertyChbngeListener}
      * from the listener list of the {@link #getContext JConsoleContext}
      * object for this plugin.
-     * If {@code listener} was never added, no exception is
-     * thrown and no action is taken.
+     * If {@code listener} wbs never bdded, no exception is
+     * thrown bnd no bction is tbken.
      *
-     * @param listener the {@code PropertyChangeListener} to be removed
+     * @pbrbm listener the {@code PropertyChbngeListener} to be removed
      *
      * @throws NullPointerException if {@code listener} is {@code null}.
      */
-    public final void removeContextPropertyChangeListener(PropertyChangeListener listener) {
+    public finbl void removeContextPropertyChbngeListener(PropertyChbngeListener listener) {
         if (listener == null) {
             throw new NullPointerException("listener is null");
         }
 
         if (context == null) {
-            // defer registration of the listener until setContext() is called
+            // defer registrbtion of the listener until setContext() is cblled
             synchronized (this) {
-                // check again if context is not set
+                // check bgbin if context is not set
                 if (context == null) {
                     if (listeners != null) {
                         listeners.remove(listener);
@@ -247,6 +247,6 @@ public abstract class JConsolePlugin {
                 }
             }
         }
-        context.removePropertyChangeListener(listener);
+        context.removePropertyChbngeListener(listener);
     }
 }

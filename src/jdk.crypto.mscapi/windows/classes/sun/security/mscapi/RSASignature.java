@@ -1,49 +1,49 @@
 /*
- * Copyright (c) 2005, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.mscapi;
+pbckbge sun.security.mscbpi;
 
-import java.nio.ByteBuffer;
-import java.security.PublicKey;
-import java.security.PrivateKey;
-import java.security.InvalidKeyException;
-import java.security.InvalidParameterException;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
-import java.security.ProviderException;
-import java.security.MessageDigest;
-import java.security.SignatureException;
-import java.math.BigInteger;
+import jbvb.nio.ByteBuffer;
+import jbvb.security.PublicKey;
+import jbvb.security.PrivbteKey;
+import jbvb.security.InvblidKeyException;
+import jbvb.security.InvblidPbrbmeterException;
+import jbvb.security.KeyStoreException;
+import jbvb.security.NoSuchAlgorithmException;
+import jbvb.security.ProviderException;
+import jbvb.security.MessbgeDigest;
+import jbvb.security.SignbtureException;
+import jbvb.mbth.BigInteger;
 
-import sun.security.rsa.RSAKeyFactory;
+import sun.security.rsb.RSAKeyFbctory;
 
 /**
- * RSA signature implementation. Supports RSA signing using PKCS#1 v1.5 padding.
+ * RSA signbture implementbtion. Supports RSA signing using PKCS#1 v1.5 pbdding.
  *
- * Objects should be instantiated by calling Signature.getInstance() using the
- * following algorithm names:
+ * Objects should be instbntibted by cblling Signbture.getInstbnce() using the
+ * following blgorithm nbmes:
  *
  *  . "NONEwithRSA"
  *  . "SHA1withRSA"
@@ -53,74 +53,74 @@ import sun.security.rsa.RSAKeyFactory;
  *  . "MD5withRSA"
  *  . "MD2withRSA"
  *
- * NOTE: RSA keys must be at least 512 bits long.
+ * NOTE: RSA keys must be bt lebst 512 bits long.
  *
- * NOTE: NONEwithRSA must be supplied with a pre-computed message digest.
- *       Only the following digest algorithms are supported: MD5, SHA-1,
- *       SHA-256, SHA-384, SHA-512 and a special-purpose digest
- *       algorithm which is a concatenation of SHA-1 and MD5 digests.
+ * NOTE: NONEwithRSA must be supplied with b pre-computed messbge digest.
+ *       Only the following digest blgorithms bre supported: MD5, SHA-1,
+ *       SHA-256, SHA-384, SHA-512 bnd b specibl-purpose digest
+ *       blgorithm which is b concbtenbtion of SHA-1 bnd MD5 digests.
  *
  * @since   1.6
- * @author  Stanley Man-Kit Ho
+ * @buthor  Stbnley Mbn-Kit Ho
  */
-abstract class RSASignature extends java.security.SignatureSpi
+bbstrbct clbss RSASignbture extends jbvb.security.SignbtureSpi
 {
-    // message digest implementation we use
-    private final MessageDigest messageDigest;
+    // messbge digest implementbtion we use
+    privbte finbl MessbgeDigest messbgeDigest;
 
-    // message digest name
-    private String messageDigestAlgorithm;
+    // messbge digest nbme
+    privbte String messbgeDigestAlgorithm;
 
-    // flag indicating whether the digest has been reset
-    private boolean needsReset;
+    // flbg indicbting whether the digest hbs been reset
+    privbte boolebn needsReset;
 
     // the signing key
-    private Key privateKey = null;
+    privbte Key privbteKey = null;
 
-    // the verification key
-    private Key publicKey = null;
+    // the verificbtion key
+    privbte Key publicKey = null;
 
     /**
-     * Constructs a new RSASignature. Used by Raw subclass.
+     * Constructs b new RSASignbture. Used by Rbw subclbss.
      */
-    RSASignature() {
-        messageDigest = null;
-        messageDigestAlgorithm = null;
+    RSASignbture() {
+        messbgeDigest = null;
+        messbgeDigestAlgorithm = null;
     }
 
     /**
-     * Constructs a new RSASignature. Used by subclasses.
+     * Constructs b new RSASignbture. Used by subclbsses.
      */
-    RSASignature(String digestName) {
+    RSASignbture(String digestNbme) {
 
         try {
-            messageDigest = MessageDigest.getInstance(digestName);
-            // Get the digest's canonical name
-            messageDigestAlgorithm = messageDigest.getAlgorithm();
+            messbgeDigest = MessbgeDigest.getInstbnce(digestNbme);
+            // Get the digest's cbnonicbl nbme
+            messbgeDigestAlgorithm = messbgeDigest.getAlgorithm();
 
-        } catch (NoSuchAlgorithmException e) {
+        } cbtch (NoSuchAlgorithmException e) {
            throw new ProviderException(e);
         }
 
-        needsReset = false;
+        needsReset = fblse;
     }
 
-    // Nested class for NONEwithRSA signatures
-    public static final class Raw extends RSASignature {
+    // Nested clbss for NONEwithRSA signbtures
+    public stbtic finbl clbss Rbw extends RSASignbture {
 
         // the longest supported digest is 512 bits (SHA-512)
-        private static final int RAW_RSA_MAX = 64;
+        privbte stbtic finbl int RAW_RSA_MAX = 64;
 
-        private final byte[] precomputedDigest;
-        private int offset = 0;
+        privbte finbl byte[] precomputedDigest;
+        privbte int offset = 0;
 
-        public Raw() {
+        public Rbw() {
             precomputedDigest = new byte[RAW_RSA_MAX];
         }
 
-        // Stores the precomputed message digest value.
+        // Stores the precomputed messbge digest vblue.
         @Override
-        protected void engineUpdate(byte b) throws SignatureException {
+        protected void engineUpdbte(byte b) throws SignbtureException {
             if (offset >= precomputedDigest.length) {
                 offset = RAW_RSA_MAX + 1;
                 return;
@@ -128,22 +128,22 @@ abstract class RSASignature extends java.security.SignatureSpi
             precomputedDigest[offset++] = b;
         }
 
-        // Stores the precomputed message digest value.
+        // Stores the precomputed messbge digest vblue.
         @Override
-        protected void engineUpdate(byte[] b, int off, int len)
-                throws SignatureException {
+        protected void engineUpdbte(byte[] b, int off, int len)
+                throws SignbtureException {
             if (offset + len > precomputedDigest.length) {
                 offset = RAW_RSA_MAX + 1;
                 return;
             }
-            System.arraycopy(b, off, precomputedDigest, offset, len);
+            System.brrbycopy(b, off, precomputedDigest, offset, len);
             offset += len;
         }
 
-        // Stores the precomputed message digest value.
+        // Stores the precomputed messbge digest vblue.
         @Override
-        protected void engineUpdate(ByteBuffer byteBuffer) {
-            int len = byteBuffer.remaining();
+        protected void engineUpdbte(ByteBuffer byteBuffer) {
+            int len = byteBuffer.rembining();
             if (len <= 0) {
                 return;
             }
@@ -160,365 +160,365 @@ abstract class RSASignature extends java.security.SignatureSpi
             offset = 0;
         }
 
-        // Returns the precomputed message digest value.
+        // Returns the precomputed messbge digest vblue.
         @Override
-        protected byte[] getDigestValue() throws SignatureException {
+        protected byte[] getDigestVblue() throws SignbtureException {
             if (offset > RAW_RSA_MAX) {
-                throw new SignatureException("Message digest is too long");
+                throw new SignbtureException("Messbge digest is too long");
             }
 
-            // Determine the digest algorithm from the digest length
+            // Determine the digest blgorithm from the digest length
             if (offset == 20) {
-                setDigestName("SHA1");
+                setDigestNbme("SHA1");
             } else if (offset == 36) {
-                setDigestName("SHA1+MD5");
+                setDigestNbme("SHA1+MD5");
             } else if (offset == 32) {
-                setDigestName("SHA-256");
+                setDigestNbme("SHA-256");
             } else if (offset == 48) {
-                setDigestName("SHA-384");
+                setDigestNbme("SHA-384");
             } else if (offset == 64) {
-                setDigestName("SHA-512");
+                setDigestNbme("SHA-512");
             } else if (offset == 16) {
-                setDigestName("MD5");
+                setDigestNbme("MD5");
             } else {
-                throw new SignatureException(
-                    "Message digest length is not supported");
+                throw new SignbtureException(
+                    "Messbge digest length is not supported");
             }
 
             byte[] result = new byte[offset];
-            System.arraycopy(precomputedDigest, 0, result, 0, offset);
+            System.brrbycopy(precomputedDigest, 0, result, 0, offset);
             offset = 0;
 
             return result;
         }
     }
 
-    public static final class SHA1 extends RSASignature {
+    public stbtic finbl clbss SHA1 extends RSASignbture {
         public SHA1() {
             super("SHA1");
         }
     }
 
-    public static final class SHA256 extends RSASignature {
+    public stbtic finbl clbss SHA256 extends RSASignbture {
         public SHA256() {
             super("SHA-256");
         }
     }
 
-    public static final class SHA384 extends RSASignature {
+    public stbtic finbl clbss SHA384 extends RSASignbture {
         public SHA384() {
             super("SHA-384");
         }
     }
 
-    public static final class SHA512 extends RSASignature {
+    public stbtic finbl clbss SHA512 extends RSASignbture {
         public SHA512() {
             super("SHA-512");
         }
     }
 
-    public static final class MD5 extends RSASignature {
+    public stbtic finbl clbss MD5 extends RSASignbture {
         public MD5() {
             super("MD5");
         }
     }
 
-    public static final class MD2 extends RSASignature {
+    public stbtic finbl clbss MD2 extends RSASignbture {
         public MD2() {
             super("MD2");
         }
     }
 
-    // initialize for signing. See JCA doc
+    // initiblize for signing. See JCA doc
     protected void engineInitVerify(PublicKey key)
-        throws InvalidKeyException
+        throws InvblidKeyException
     {
-        // This signature accepts only RSAPublicKey
-        if ((key instanceof java.security.interfaces.RSAPublicKey) == false) {
-            throw new InvalidKeyException("Key type not supported");
+        // This signbture bccepts only RSAPublicKey
+        if ((key instbnceof jbvb.security.interfbces.RSAPublicKey) == fblse) {
+            throw new InvblidKeyException("Key type not supported");
         }
 
-        java.security.interfaces.RSAPublicKey rsaKey =
-            (java.security.interfaces.RSAPublicKey) key;
+        jbvb.security.interfbces.RSAPublicKey rsbKey =
+            (jbvb.security.interfbces.RSAPublicKey) key;
 
-        if ((key instanceof sun.security.mscapi.RSAPublicKey) == false) {
+        if ((key instbnceof sun.security.mscbpi.RSAPublicKey) == fblse) {
 
-            // convert key to MSCAPI format
+            // convert key to MSCAPI formbt
 
-            BigInteger modulus = rsaKey.getModulus();
-            BigInteger exponent =  rsaKey.getPublicExponent();
+            BigInteger modulus = rsbKey.getModulus();
+            BigInteger exponent =  rsbKey.getPublicExponent();
 
-            // Check against the local and global values to make sure
-            // the sizes are ok.  Round up to the nearest byte.
-            RSAKeyFactory.checkKeyLengths(((modulus.bitLength() + 7) & ~7),
-                exponent, -1, RSAKeyPairGenerator.KEY_SIZE_MAX);
+            // Check bgbinst the locbl bnd globbl vblues to mbke sure
+            // the sizes bre ok.  Round up to the nebrest byte.
+            RSAKeyFbctory.checkKeyLengths(((modulus.bitLength() + 7) & ~7),
+                exponent, -1, RSAKeyPbirGenerbtor.KEY_SIZE_MAX);
 
-            byte[] modulusBytes = modulus.toByteArray();
-            byte[] exponentBytes = exponent.toByteArray();
+            byte[] modulusBytes = modulus.toByteArrby();
+            byte[] exponentBytes = exponent.toByteArrby();
 
             // Adjust key length due to sign bit
             int keyBitLength = (modulusBytes[0] == 0)
                 ? (modulusBytes.length - 1) * 8
                 : modulusBytes.length * 8;
 
-            byte[] keyBlob = generatePublicKeyBlob(
+            byte[] keyBlob = generbtePublicKeyBlob(
                 keyBitLength, modulusBytes, exponentBytes);
 
             try {
                 publicKey = importPublicKey(keyBlob, keyBitLength);
 
-            } catch (KeyStoreException e) {
-                throw new InvalidKeyException(e);
+            } cbtch (KeyStoreException e) {
+                throw new InvblidKeyException(e);
             }
 
         } else {
-            publicKey = (sun.security.mscapi.RSAPublicKey) key;
+            publicKey = (sun.security.mscbpi.RSAPublicKey) key;
         }
 
-        this.privateKey = null;
+        this.privbteKey = null;
         resetDigest();
     }
 
-    // initialize for signing. See JCA doc
-    protected void engineInitSign(PrivateKey key) throws InvalidKeyException
+    // initiblize for signing. See JCA doc
+    protected void engineInitSign(PrivbteKey key) throws InvblidKeyException
     {
-        // This signature accepts only RSAPrivateKey
-        if ((key instanceof sun.security.mscapi.RSAPrivateKey) == false) {
-            throw new InvalidKeyException("Key type not supported");
+        // This signbture bccepts only RSAPrivbteKey
+        if ((key instbnceof sun.security.mscbpi.RSAPrivbteKey) == fblse) {
+            throw new InvblidKeyException("Key type not supported");
         }
-        privateKey = (sun.security.mscapi.RSAPrivateKey) key;
+        privbteKey = (sun.security.mscbpi.RSAPrivbteKey) key;
 
-        // Check against the local and global values to make sure
-        // the sizes are ok.  Round up to nearest byte.
-        RSAKeyFactory.checkKeyLengths(((privateKey.length() + 7) & ~7),
-            null, RSAKeyPairGenerator.KEY_SIZE_MIN,
-            RSAKeyPairGenerator.KEY_SIZE_MAX);
+        // Check bgbinst the locbl bnd globbl vblues to mbke sure
+        // the sizes bre ok.  Round up to nebrest byte.
+        RSAKeyFbctory.checkKeyLengths(((privbteKey.length() + 7) & ~7),
+            null, RSAKeyPbirGenerbtor.KEY_SIZE_MIN,
+            RSAKeyPbirGenerbtor.KEY_SIZE_MAX);
 
         this.publicKey = null;
         resetDigest();
     }
 
     /**
-     * Resets the message digest if needed.
+     * Resets the messbge digest if needed.
      */
     protected void resetDigest() {
         if (needsReset) {
-            messageDigest.reset();
-            needsReset = false;
+            messbgeDigest.reset();
+            needsReset = fblse;
         }
     }
 
-    protected byte[] getDigestValue() throws SignatureException {
-        needsReset = false;
-        return messageDigest.digest();
+    protected byte[] getDigestVblue() throws SignbtureException {
+        needsReset = fblse;
+        return messbgeDigest.digest();
     }
 
-    protected void setDigestName(String name) {
-        messageDigestAlgorithm = name;
+    protected void setDigestNbme(String nbme) {
+        messbgeDigestAlgorithm = nbme;
     }
 
     /**
-     * Updates the data to be signed or verified
+     * Updbtes the dbtb to be signed or verified
      * using the specified byte.
      *
-     * @param b the byte to use for the update.
+     * @pbrbm b the byte to use for the updbte.
      *
-     * @exception SignatureException if the engine is not initialized
+     * @exception SignbtureException if the engine is not initiblized
      * properly.
      */
-    protected void engineUpdate(byte b) throws SignatureException
+    protected void engineUpdbte(byte b) throws SignbtureException
     {
-        messageDigest.update(b);
+        messbgeDigest.updbte(b);
         needsReset = true;
     }
 
     /**
-     * Updates the data to be signed or verified, using the
-     * specified array of bytes, starting at the specified offset.
+     * Updbtes the dbtb to be signed or verified, using the
+     * specified brrby of bytes, stbrting bt the specified offset.
      *
-     * @param b the array of bytes
-     * @param off the offset to start from in the array of bytes
-     * @param len the number of bytes to use, starting at offset
+     * @pbrbm b the brrby of bytes
+     * @pbrbm off the offset to stbrt from in the brrby of bytes
+     * @pbrbm len the number of bytes to use, stbrting bt offset
      *
-     * @exception SignatureException if the engine is not initialized
+     * @exception SignbtureException if the engine is not initiblized
      * properly
      */
-    protected void engineUpdate(byte[] b, int off, int len)
-        throws SignatureException
+    protected void engineUpdbte(byte[] b, int off, int len)
+        throws SignbtureException
     {
-        messageDigest.update(b, off, len);
+        messbgeDigest.updbte(b, off, len);
         needsReset = true;
     }
 
     /**
-     * Updates the data to be signed or verified, using the
+     * Updbtes the dbtb to be signed or verified, using the
      * specified ByteBuffer.
      *
-     * @param input the ByteBuffer
+     * @pbrbm input the ByteBuffer
      */
-    protected void engineUpdate(ByteBuffer input)
+    protected void engineUpdbte(ByteBuffer input)
     {
-        messageDigest.update(input);
+        messbgeDigest.updbte(input);
         needsReset = true;
     }
 
     /**
-     * Returns the signature bytes of all the data
-     * updated so far.
-     * The format of the signature depends on the underlying
-     * signature scheme.
+     * Returns the signbture bytes of bll the dbtb
+     * updbted so fbr.
+     * The formbt of the signbture depends on the underlying
+     * signbture scheme.
      *
-     * @return the signature bytes of the signing operation's result.
+     * @return the signbture bytes of the signing operbtion's result.
      *
-     * @exception SignatureException if the engine is not
-     * initialized properly or if this signature algorithm is unable to
-     * process the input data provided.
+     * @exception SignbtureException if the engine is not
+     * initiblized properly or if this signbture blgorithm is unbble to
+     * process the input dbtb provided.
      */
-    protected byte[] engineSign() throws SignatureException {
+    protected byte[] engineSign() throws SignbtureException {
 
-        byte[] hash = getDigestValue();
+        byte[] hbsh = getDigestVblue();
 
-        // Omit the hash OID when generating a Raw signature
-        boolean noHashOID = this instanceof Raw;
+        // Omit the hbsh OID when generbting b Rbw signbture
+        boolebn noHbshOID = this instbnceof Rbw;
 
-        // Sign hash using MS Crypto APIs
+        // Sign hbsh using MS Crypto APIs
 
-        byte[] result = signHash(noHashOID, hash, hash.length,
-            messageDigestAlgorithm, privateKey.getHCryptProvider(),
-            privateKey.getHCryptKey());
+        byte[] result = signHbsh(noHbshOID, hbsh, hbsh.length,
+            messbgeDigestAlgorithm, privbteKey.getHCryptProvider(),
+            privbteKey.getHCryptKey());
 
-        // Convert signature array from little endian to big endian
-        return convertEndianArray(result);
+        // Convert signbture brrby from little endibn to big endibn
+        return convertEndibnArrby(result);
     }
 
     /**
-     * Convert array from big endian to little endian, or vice versa.
+     * Convert brrby from big endibn to little endibn, or vice versb.
      */
-    private byte[] convertEndianArray(byte[] byteArray)
+    privbte byte[] convertEndibnArrby(byte[] byteArrby)
     {
-        if (byteArray == null || byteArray.length == 0)
-            return byteArray;
+        if (byteArrby == null || byteArrby.length == 0)
+            return byteArrby;
 
-        byte [] retval = new byte[byteArray.length];
+        byte [] retvbl = new byte[byteArrby.length];
 
-        // make it big endian
-        for (int i=0;i < byteArray.length;i++)
-            retval[i] = byteArray[byteArray.length - i - 1];
+        // mbke it big endibn
+        for (int i=0;i < byteArrby.length;i++)
+            retvbl[i] = byteArrby[byteArrby.length - i - 1];
 
-        return retval;
+        return retvbl;
     }
 
     /**
-     * Sign hash using Microsoft Crypto API with HCRYPTKEY.
-     * The returned data is in little-endian.
+     * Sign hbsh using Microsoft Crypto API with HCRYPTKEY.
+     * The returned dbtb is in little-endibn.
      */
-    private native static byte[] signHash(boolean noHashOID, byte[] hash,
-        int hashSize, String hashAlgorithm, long hCryptProv, long hCryptKey)
-            throws SignatureException;
+    privbte nbtive stbtic byte[] signHbsh(boolebn noHbshOID, byte[] hbsh,
+        int hbshSize, String hbshAlgorithm, long hCryptProv, long hCryptKey)
+            throws SignbtureException;
 
     /**
-     * Verify a signed hash using Microsoft Crypto API with HCRYPTKEY.
+     * Verify b signed hbsh using Microsoft Crypto API with HCRYPTKEY.
      */
-    private native static boolean verifySignedHash(byte[] hash, int hashSize,
-        String hashAlgorithm, byte[] signature, int signatureSize,
-        long hCryptProv, long hCryptKey) throws SignatureException;
+    privbte nbtive stbtic boolebn verifySignedHbsh(byte[] hbsh, int hbshSize,
+        String hbshAlgorithm, byte[] signbture, int signbtureSize,
+        long hCryptProv, long hCryptKey) throws SignbtureException;
 
     /**
-     * Verifies the passed-in signature.
+     * Verifies the pbssed-in signbture.
      *
-     * @param sigBytes the signature bytes to be verified.
+     * @pbrbm sigBytes the signbture bytes to be verified.
      *
-     * @return true if the signature was verified, false if not.
+     * @return true if the signbture wbs verified, fblse if not.
      *
-     * @exception SignatureException if the engine is not
-     * initialized properly, the passed-in signature is improperly
-     * encoded or of the wrong type, if this signature algorithm is unable to
-     * process the input data provided, etc.
+     * @exception SignbtureException if the engine is not
+     * initiblized properly, the pbssed-in signbture is improperly
+     * encoded or of the wrong type, if this signbture blgorithm is unbble to
+     * process the input dbtb provided, etc.
      */
-    protected boolean engineVerify(byte[] sigBytes)
-        throws SignatureException
+    protected boolebn engineVerify(byte[] sigBytes)
+        throws SignbtureException
     {
-        byte[] hash = getDigestValue();
+        byte[] hbsh = getDigestVblue();
 
-        return verifySignedHash(hash, hash.length,
-            messageDigestAlgorithm, convertEndianArray(sigBytes),
+        return verifySignedHbsh(hbsh, hbsh.length,
+            messbgeDigestAlgorithm, convertEndibnArrby(sigBytes),
             sigBytes.length, publicKey.getHCryptProvider(),
             publicKey.getHCryptKey());
     }
 
     /**
-     * Sets the specified algorithm parameter to the specified
-     * value. This method supplies a general-purpose mechanism through
-     * which it is possible to set the various parameters of this object.
-     * A parameter may be any settable parameter for the algorithm, such as
-     * a parameter size, or a source of random bits for signature generation
-     * (if appropriate), or an indication of whether or not to perform
-     * a specific but optional computation. A uniform algorithm-specific
-     * naming scheme for each parameter is desirable but left unspecified
-     * at this time.
+     * Sets the specified blgorithm pbrbmeter to the specified
+     * vblue. This method supplies b generbl-purpose mechbnism through
+     * which it is possible to set the vbrious pbrbmeters of this object.
+     * A pbrbmeter mby be bny settbble pbrbmeter for the blgorithm, such bs
+     * b pbrbmeter size, or b source of rbndom bits for signbture generbtion
+     * (if bppropribte), or bn indicbtion of whether or not to perform
+     * b specific but optionbl computbtion. A uniform blgorithm-specific
+     * nbming scheme for ebch pbrbmeter is desirbble but left unspecified
+     * bt this time.
      *
-     * @param param the string identifier of the parameter.
+     * @pbrbm pbrbm the string identifier of the pbrbmeter.
      *
-     * @param value the parameter value.
+     * @pbrbm vblue the pbrbmeter vblue.
      *
-     * @exception InvalidParameterException if <code>param</code> is an
-     * invalid parameter for this signature algorithm engine,
-     * the parameter is already set
-     * and cannot be set again, a security exception occurs, and so on.
+     * @exception InvblidPbrbmeterException if <code>pbrbm</code> is bn
+     * invblid pbrbmeter for this signbture blgorithm engine,
+     * the pbrbmeter is blrebdy set
+     * bnd cbnnot be set bgbin, b security exception occurs, bnd so on.
      *
-     * @deprecated Replaced by {@link
-     * #engineSetParameter(java.security.spec.AlgorithmParameterSpec)
-     * engineSetParameter}.
+     * @deprecbted Replbced by {@link
+     * #engineSetPbrbmeter(jbvb.security.spec.AlgorithmPbrbmeterSpec)
+     * engineSetPbrbmeter}.
      */
-    @Deprecated
-    protected void engineSetParameter(String param, Object value)
-        throws InvalidParameterException
+    @Deprecbted
+    protected void engineSetPbrbmeter(String pbrbm, Object vblue)
+        throws InvblidPbrbmeterException
     {
-        throw new InvalidParameterException("Parameter not supported");
+        throw new InvblidPbrbmeterException("Pbrbmeter not supported");
     }
 
 
     /**
-     * Gets the value of the specified algorithm parameter.
-     * This method supplies a general-purpose mechanism through which it
-     * is possible to get the various parameters of this object. A parameter
-     * may be any settable parameter for the algorithm, such as a parameter
-     * size, or  a source of random bits for signature generation (if
-     * appropriate), or an indication of whether or not to perform a
-     * specific but optional computation. A uniform algorithm-specific
-     * naming scheme for each parameter is desirable but left unspecified
-     * at this time.
+     * Gets the vblue of the specified blgorithm pbrbmeter.
+     * This method supplies b generbl-purpose mechbnism through which it
+     * is possible to get the vbrious pbrbmeters of this object. A pbrbmeter
+     * mby be bny settbble pbrbmeter for the blgorithm, such bs b pbrbmeter
+     * size, or  b source of rbndom bits for signbture generbtion (if
+     * bppropribte), or bn indicbtion of whether or not to perform b
+     * specific but optionbl computbtion. A uniform blgorithm-specific
+     * nbming scheme for ebch pbrbmeter is desirbble but left unspecified
+     * bt this time.
      *
-     * @param param the string name of the parameter.
+     * @pbrbm pbrbm the string nbme of the pbrbmeter.
      *
-     * @return the object that represents the parameter value, or null if
+     * @return the object thbt represents the pbrbmeter vblue, or null if
      * there is none.
      *
-     * @exception InvalidParameterException if <code>param</code> is an
-     * invalid parameter for this engine, or another exception occurs while
-     * trying to get this parameter.
+     * @exception InvblidPbrbmeterException if <code>pbrbm</code> is bn
+     * invblid pbrbmeter for this engine, or bnother exception occurs while
+     * trying to get this pbrbmeter.
      *
-     * @deprecated
+     * @deprecbted
      */
-    @Deprecated
-    protected Object engineGetParameter(String param)
-        throws InvalidParameterException
+    @Deprecbted
+    protected Object engineGetPbrbmeter(String pbrbm)
+        throws InvblidPbrbmeterException
     {
-        throw new InvalidParameterException("Parameter not supported");
+        throw new InvblidPbrbmeterException("Pbrbmeter not supported");
     }
 
     /**
-     * Generates a public-key BLOB from a key's components.
+     * Generbtes b public-key BLOB from b key's components.
      */
     // used by RSACipher
-    static native byte[] generatePublicKeyBlob(
+    stbtic nbtive byte[] generbtePublicKeyBlob(
         int keyBitLength, byte[] modulus, byte[] publicExponent)
-            throws InvalidKeyException;
+            throws InvblidKeyException;
 
     /**
-     * Imports a public-key BLOB.
+     * Imports b public-key BLOB.
      */
     // used by RSACipher
-    static native RSAPublicKey importPublicKey(byte[] keyBlob, int keySize)
+    stbtic nbtive RSAPublicKey importPublicKey(byte[] keyBlob, int keySize)
         throws KeyStoreException;
 }

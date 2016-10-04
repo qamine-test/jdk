@@ -1,24 +1,24 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  *
  */
@@ -30,7 +30,7 @@
  * WARNING: THIS FILE IS MACHINE GENERATED. DO NOT HAND EDIT IT UNLESS
  * YOU REALLY KNOW WHAT YOU'RE DOING.
  *
- * Generated on: 11/01/2011 04:08:09 PM PDT
+ * Generbted on: 11/01/2011 04:08:09 PM PDT
  */
 
 #ifndef __LESCRIPTS_H
@@ -40,230 +40,230 @@
 
 /**
  * \file
- * \brief C++ API: Constants for Unicode script values
+ * \brief C++ API: Constbnts for Unicode script vblues
  */
 
 U_NAMESPACE_BEGIN
 
 /**
- * Constants for Unicode script values, generated using
- * ICU4J's <code>UScript</code> class.
+ * Constbnts for Unicode script vblues, generbted using
+ * ICU4J's <code>UScript</code> clbss.
  *
- * @stable ICU 2.2
+ * @stbble ICU 2.2
  */
 
 enum ScriptCodes {
     zyyyScriptCode =  0,
     zinhScriptCode =  1,
-    qaaiScriptCode = zinhScriptCode,  /* manually added alias, for API stability */
-    arabScriptCode =  2,
-    armnScriptCode =  3,
+    qbbiScriptCode = zinhScriptCode,  /* mbnublly bdded blibs, for API stbbility */
+    brbbScriptCode =  2,
+    brmnScriptCode =  3,
     bengScriptCode =  4,
     bopoScriptCode =  5,
     cherScriptCode =  6,
     coptScriptCode =  7,
     cyrlScriptCode =  8,
     dsrtScriptCode =  9,
-    devaScriptCode = 10,
+    devbScriptCode = 10,
     ethiScriptCode = 11,
     georScriptCode = 12,
     gothScriptCode = 13,
     grekScriptCode = 14,
     gujrScriptCode = 15,
     guruScriptCode = 16,
-    haniScriptCode = 17,
-    hangScriptCode = 18,
+    hbniScriptCode = 17,
+    hbngScriptCode = 18,
     hebrScriptCode = 19,
-    hiraScriptCode = 20,
-    kndaScriptCode = 21,
-    kanaScriptCode = 22,
+    hirbScriptCode = 20,
+    kndbScriptCode = 21,
+    kbnbScriptCode = 22,
     khmrScriptCode = 23,
-    laooScriptCode = 24,
-    latnScriptCode = 25,
+    lbooScriptCode = 24,
+    lbtnScriptCode = 25,
     mlymScriptCode = 26,
     mongScriptCode = 27,
     mymrScriptCode = 28,
-    ogamScriptCode = 29,
-    italScriptCode = 30,
-    oryaScriptCode = 31,
+    ogbmScriptCode = 29,
+    itblScriptCode = 30,
+    orybScriptCode = 31,
     runrScriptCode = 32,
     sinhScriptCode = 33,
     syrcScriptCode = 34,
-    tamlScriptCode = 35,
+    tbmlScriptCode = 35,
     teluScriptCode = 36,
-    thaaScriptCode = 37,
-    thaiScriptCode = 38,
+    thbbScriptCode = 37,
+    thbiScriptCode = 38,
     tibtScriptCode = 39,
 /**
- * @stable ICU 2.6
+ * @stbble ICU 2.6
  */
 
-    cansScriptCode = 40,
+    cbnsScriptCode = 40,
 /**
- * @stable ICU 2.2
+ * @stbble ICU 2.2
  */
 
     yiiiScriptCode = 41,
     tglgScriptCode = 42,
-    hanoScriptCode = 43,
+    hbnoScriptCode = 43,
     buhdScriptCode = 44,
-    tagbScriptCode = 45,
+    tbgbScriptCode = 45,
 /**
- * @stable ICU 2.6
+ * @stbble ICU 2.6
  */
 
-    braiScriptCode = 46,
+    brbiScriptCode = 46,
     cprtScriptCode = 47,
     limbScriptCode = 48,
     linbScriptCode = 49,
-    osmaScriptCode = 50,
-    shawScriptCode = 51,
-    taleScriptCode = 52,
-    ugarScriptCode = 53,
+    osmbScriptCode = 50,
+    shbwScriptCode = 51,
+    tbleScriptCode = 52,
+    ugbrScriptCode = 53,
 /**
- * @stable ICU 3.0
+ * @stbble ICU 3.0
  */
 
     hrktScriptCode = 54,
 /**
- * @stable ICU 3.4
+ * @stbble ICU 3.4
  */
 
     bugiScriptCode = 55,
-    glagScriptCode = 56,
-    kharScriptCode = 57,
+    glbgScriptCode = 56,
+    khbrScriptCode = 57,
     syloScriptCode = 58,
-    taluScriptCode = 59,
+    tbluScriptCode = 59,
     tfngScriptCode = 60,
     xpeoScriptCode = 61,
 /**
- * @stable ICU 3.6
+ * @stbble ICU 3.6
  */
 
-    baliScriptCode = 62,
-    batkScriptCode = 63,
+    bbliScriptCode = 62,
+    bbtkScriptCode = 63,
     blisScriptCode = 64,
-    brahScriptCode = 65,
-    chamScriptCode = 66,
+    brbhScriptCode = 65,
+    chbmScriptCode = 66,
     cirtScriptCode = 67,
     cyrsScriptCode = 68,
     egydScriptCode = 69,
     egyhScriptCode = 70,
     egypScriptCode = 71,
     geokScriptCode = 72,
-    hansScriptCode = 73,
-    hantScriptCode = 74,
+    hbnsScriptCode = 73,
+    hbntScriptCode = 74,
     hmngScriptCode = 75,
     hungScriptCode = 76,
     indsScriptCode = 77,
-    javaScriptCode = 78,
-    kaliScriptCode = 79,
-    latfScriptCode = 80,
-    latgScriptCode = 81,
+    jbvbScriptCode = 78,
+    kbliScriptCode = 79,
+    lbtfScriptCode = 80,
+    lbtgScriptCode = 81,
     lepcScriptCode = 82,
-    linaScriptCode = 83,
-    mandScriptCode = 84,
-    mayaScriptCode = 85,
+    linbScriptCode = 83,
+    mbndScriptCode = 84,
+    mbybScriptCode = 85,
     meroScriptCode = 86,
     nkooScriptCode = 87,
     orkhScriptCode = 88,
     permScriptCode = 89,
-    phagScriptCode = 90,
+    phbgScriptCode = 90,
     phnxScriptCode = 91,
     plrdScriptCode = 92,
     roroScriptCode = 93,
-    saraScriptCode = 94,
+    sbrbScriptCode = 94,
     syreScriptCode = 95,
     syrjScriptCode = 96,
     syrnScriptCode = 97,
     tengScriptCode = 98,
-    vaiiScriptCode = 99,
+    vbiiScriptCode = 99,
     vispScriptCode = 100,
     xsuxScriptCode = 101,
     zxxxScriptCode = 102,
     zzzzScriptCode = 103,
 /**
- * @stable ICU 3.8
+ * @stbble ICU 3.8
  */
 
-    cariScriptCode = 104,
-    jpanScriptCode = 105,
-    lanaScriptCode = 106,
+    cbriScriptCode = 104,
+    jpbnScriptCode = 105,
+    lbnbScriptCode = 106,
     lyciScriptCode = 107,
     lydiScriptCode = 108,
     olckScriptCode = 109,
     rjngScriptCode = 110,
-    saurScriptCode = 111,
+    sburScriptCode = 111,
     sgnwScriptCode = 112,
     sundScriptCode = 113,
     moonScriptCode = 114,
     mteiScriptCode = 115,
 /**
- * @stable ICU 4.0
+ * @stbble ICU 4.0
  */
 
-    armiScriptCode = 116,
-    avstScriptCode = 117,
-    cakmScriptCode = 118,
+    brmiScriptCode = 116,
+    bvstScriptCode = 117,
+    cbkmScriptCode = 118,
     koreScriptCode = 119,
     kthiScriptCode = 120,
-    maniScriptCode = 121,
+    mbniScriptCode = 121,
     phliScriptCode = 122,
     phlpScriptCode = 123,
     phlvScriptCode = 124,
     prtiScriptCode = 125,
-    samrScriptCode = 126,
-    tavtScriptCode = 127,
+    sbmrScriptCode = 126,
+    tbvtScriptCode = 127,
     zmthScriptCode = 128,
     zsymScriptCode = 129,
 /**
- * @stable ICU 4.4
+ * @stbble ICU 4.4
  */
 
-    bamuScriptCode = 130,
+    bbmuScriptCode = 130,
     lisuScriptCode = 131,
     nkgbScriptCode = 132,
-    sarbScriptCode = 133,
+    sbrbScriptCode = 133,
 /**
- * @stable ICU 4.6
+ * @stbble ICU 4.6
  */
 
-    bassScriptCode = 134,
+    bbssScriptCode = 134,
     duplScriptCode = 135,
-    elbaScriptCode = 136,
-    granScriptCode = 137,
+    elbbScriptCode = 136,
+    grbnScriptCode = 137,
     kpelScriptCode = 138,
-    lomaScriptCode = 139,
+    lombScriptCode = 139,
     mendScriptCode = 140,
     mercScriptCode = 141,
-    narbScriptCode = 142,
-    nbatScriptCode = 143,
-    palmScriptCode = 144,
+    nbrbScriptCode = 142,
+    nbbtScriptCode = 143,
+    pblmScriptCode = 144,
     sindScriptCode = 145,
-    waraScriptCode = 146,
+    wbrbScriptCode = 146,
 /**
- * @stable ICU 4.8
+ * @stbble ICU 4.8
  */
 
-    afakScriptCode = 147,
+    bfbkScriptCode = 147,
     jurcScriptCode = 148,
     mrooScriptCode = 149,
     nshuScriptCode = 150,
     shrdScriptCode = 151,
-    soraScriptCode = 152,
-    takrScriptCode = 153,
-    tangScriptCode = 154,
+    sorbScriptCode = 152,
+    tbkrScriptCode = 153,
+    tbngScriptCode = 154,
     woleScriptCode = 155,
 /**
- * @stable ICU 49
+ * @stbble ICU 49
  */
 
-    hluwScriptCode = 156, /* bump to match current ICU */
+    hluwScriptCode = 156, /* bump to mbtch current ICU */
     khojScriptCode = 157,
     tirhScriptCode = 158,
 
 /**
- * @stable ICU 2.2
+ * @stbble ICU 2.2
  */
     scriptCodeCount
 };

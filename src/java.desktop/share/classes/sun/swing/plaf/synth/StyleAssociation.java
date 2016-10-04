@@ -1,131 +1,131 @@
 /*
- * Copyright (c) 2003, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2004, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.swing.plaf.synth;
+pbckbge sun.swing.plbf.synth;
 
-import javax.swing.plaf.synth.*;
-import java.util.*;
-import java.util.regex.*;
+import jbvbx.swing.plbf.synth.*;
+import jbvb.util.*;
+import jbvb.util.regex.*;
 
 /**
- * <b>WARNING:</b> This class is an implementation detail and is only
- * public so that it can be used by two packages. You should NOT consider
+ * <b>WARNING:</b> This clbss is bn implementbtion detbil bnd is only
+ * public so thbt it cbn be used by two pbckbges. You should NOT consider
  * this public API.
  * <p>
- * StyleAssociation is used to lookup a style for a particular
+ * StyleAssocibtion is used to lookup b style for b pbrticulbr
  * component (or region).
  *
- * @author Scott Violet
+ * @buthor Scott Violet
  */
-public class StyleAssociation {
+public clbss StyleAssocibtion {
     /**
      * The style
      */
-    private SynthStyle _style;
+    privbte SynthStyle _style;
 
     /**
-     * Pattern used for matching.
+     * Pbttern used for mbtching.
      */
-    private Pattern _pattern;
+    privbte Pbttern _pbttern;
     /**
-     * Matcher used for testing if path matches that of pattern.
+     * Mbtcher used for testing if pbth mbtches thbt of pbttern.
      */
-    private Matcher _matcher;
+    privbte Mbtcher _mbtcher;
 
     /**
-     * Identifier for this association.
+     * Identifier for this bssocibtion.
      */
-    private int _id;
+    privbte int _id;
 
 
     /**
-     * Returns a StyleAssociation that can be used to determine if
-     * a particular string matches the returned association.
+     * Returns b StyleAssocibtion thbt cbn be used to determine if
+     * b pbrticulbr string mbtches the returned bssocibtion.
      */
-    public static StyleAssociation createStyleAssociation(
+    public stbtic StyleAssocibtion crebteStyleAssocibtion(
         String text, SynthStyle style)
-        throws PatternSyntaxException {
-        return createStyleAssociation(text, style, 0);
+        throws PbtternSyntbxException {
+        return crebteStyleAssocibtion(text, style, 0);
     }
 
     /**
-     * Returns a StyleAssociation that can be used to determine if
-     * a particular string matches the returned association.
+     * Returns b StyleAssocibtion thbt cbn be used to determine if
+     * b pbrticulbr string mbtches the returned bssocibtion.
      */
-    public static StyleAssociation createStyleAssociation(
+    public stbtic StyleAssocibtion crebteStyleAssocibtion(
         String text, SynthStyle style, int id)
-        throws PatternSyntaxException {
-        return new StyleAssociation(text, style, id);
+        throws PbtternSyntbxException {
+        return new StyleAssocibtion(text, style, id);
     }
 
 
-    private StyleAssociation(String text, SynthStyle style, int id)
-                 throws PatternSyntaxException {
+    privbte StyleAssocibtion(String text, SynthStyle style, int id)
+                 throws PbtternSyntbxException {
         _style = style;
-        _pattern = Pattern.compile(text);
+        _pbttern = Pbttern.compile(text);
         _id = id;
     }
 
     /**
-     * Returns the developer specified identifier for this association, will
-     * be <code>0</code> if an identifier was not specified when this
-     * <code>StyleAssociation</code> was created.
+     * Returns the developer specified identifier for this bssocibtion, will
+     * be <code>0</code> if bn identifier wbs not specified when this
+     * <code>StyleAssocibtion</code> wbs crebted.
      */
     public int getID() {
         return _id;
     }
 
     /**
-     * Returns true if this <code>StyleAssociation</code> matches the
-     * passed in CharSequence.
+     * Returns true if this <code>StyleAssocibtion</code> mbtches the
+     * pbssed in ChbrSequence.
      *
-     * @return true if this <code>StyleAssociation</code> matches the
-     * passed in CharSequence.if this StyleAssociation.
+     * @return true if this <code>StyleAssocibtion</code> mbtches the
+     * pbssed in ChbrSequence.if this StyleAssocibtion.
      */
-    public synchronized boolean matches(CharSequence path) {
-        if (_matcher == null) {
-            _matcher = _pattern.matcher(path);
+    public synchronized boolebn mbtches(ChbrSequence pbth) {
+        if (_mbtcher == null) {
+            _mbtcher = _pbttern.mbtcher(pbth);
         }
         else {
-            _matcher.reset(path);
+            _mbtcher.reset(pbth);
         }
-        return _matcher.matches();
+        return _mbtcher.mbtches();
     }
 
     /**
-     * Returns the text used in matching the string.
+     * Returns the text used in mbtching the string.
      *
-     * @return the text used in matching the string.
+     * @return the text used in mbtching the string.
      */
     public String getText() {
-        return _pattern.pattern();
+        return _pbttern.pbttern();
     }
 
     /**
-     * Returns the style this association is mapped to.
+     * Returns the style this bssocibtion is mbpped to.
      *
-     * @return the style this association is mapped to.
+     * @return the style this bssocibtion is mbpped to.
      */
     public SynthStyle getStyle() {
         return _style;

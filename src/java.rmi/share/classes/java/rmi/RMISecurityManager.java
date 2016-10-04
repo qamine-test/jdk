@@ -1,67 +1,67 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.rmi;
+pbckbge jbvb.rmi;
 
-import java.security.*;
+import jbvb.security.*;
 
 /**
- * {@code RMISecurityManager} implements a policy identical to the policy
- * implemented by {@link SecurityManager}. RMI applications
- * should use the {@code SecurityManager} class or another appropriate
- * {@code SecurityManager} implementation instead of this class. RMI's class
- * loader will download classes from remote locations only if a security
- * manager has been set.
+ * {@code RMISecurityMbnbger} implements b policy identicbl to the policy
+ * implemented by {@link SecurityMbnbger}. RMI bpplicbtions
+ * should use the {@code SecurityMbnbger} clbss or bnother bppropribte
+ * {@code SecurityMbnbger} implementbtion instebd of this clbss. RMI's clbss
+ * lobder will downlobd clbsses from remote locbtions only if b security
+ * mbnbger hbs been set.
  *
  * @implNote
- * <p>Applets typically run in a container that already has a security
- * manager, so there is generally no need for applets to set a security
- * manager. If you have a standalone application, you might need to set a
- * {@code SecurityManager} in order to enable class downloading. This can be
- * done by adding the following to your code. (It needs to be executed before
- * RMI can download code from remote hosts, so it most likely needs to appear
- * in the {@code main} method of your application.)
+ * <p>Applets typicblly run in b contbiner thbt blrebdy hbs b security
+ * mbnbger, so there is generblly no need for bpplets to set b security
+ * mbnbger. If you hbve b stbndblone bpplicbtion, you might need to set b
+ * {@code SecurityMbnbger} in order to enbble clbss downlobding. This cbn be
+ * done by bdding the following to your code. (It needs to be executed before
+ * RMI cbn downlobd code from remote hosts, so it most likely needs to bppebr
+ * in the {@code mbin} method of your bpplicbtion.)
  *
  * <pre>{@code
- *    if (System.getSecurityManager() == null) {
- *        System.setSecurityManager(new SecurityManager());
+ *    if (System.getSecurityMbnbger() == null) {
+ *        System.setSecurityMbnbger(new SecurityMbnbger());
  *    }
  * }</pre>
  *
- * @author  Roger Riggs
- * @author  Peter Jones
+ * @buthor  Roger Riggs
+ * @buthor  Peter Jones
  * @since 1.1
- * @deprecated Use {@link SecurityManager} instead.
+ * @deprecbted Use {@link SecurityMbnbger} instebd.
  */
-@Deprecated
-public class RMISecurityManager extends SecurityManager {
+@Deprecbted
+public clbss RMISecurityMbnbger extends SecurityMbnbger {
 
     /**
-     * Constructs a new {@code RMISecurityManager}.
+     * Constructs b new {@code RMISecurityMbnbger}.
      * @since 1.1
      */
-    public RMISecurityManager() {
+    public RMISecurityMbnbger() {
     }
 }

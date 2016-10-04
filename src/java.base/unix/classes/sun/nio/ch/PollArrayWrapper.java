@@ -1,35 +1,35 @@
 /*
- * Copyright (c) 2001, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.nio.ch;
+pbckbge sun.nio.ch;
 
 import sun.misc.*;
 
 
 /**
- * Manipulates a native array of pollfd structs on Solaris:
+ * Mbnipulbtes b nbtive brrby of pollfd structs on Solbris:
  *
  * typedef struct pollfd {
  *    int fd;
@@ -37,20 +37,20 @@ import sun.misc.*;
  *    short revents;
  * } pollfd_t;
  *
- * @author Mike McCloskey
+ * @buthor Mike McCloskey
  * @since 1.4
  */
 
-public class PollArrayWrapper extends AbstractPollArrayWrapper {
+public clbss PollArrbyWrbpper extends AbstrbctPollArrbyWrbpper {
 
     // File descriptor to write for interrupt
     int interruptFD;
 
-    PollArrayWrapper(int newSize) {
+    PollArrbyWrbpper(int newSize) {
         newSize = (newSize + 1) * SIZE_POLLFD;
-        pollArray = new AllocatedNativeObject(newSize, false);
-        pollArrayAddress = pollArray.address();
-        totalChannels = 1;
+        pollArrby = new AllocbtedNbtiveObject(newSize, fblse);
+        pollArrbyAddress = pollArrby.bddress();
+        totblChbnnels = 1;
     }
 
     void initInterrupt(int fd0, int fd1) {
@@ -60,59 +60,59 @@ public class PollArrayWrapper extends AbstractPollArrayWrapper {
         putReventOps(0, 0);
     }
 
-    void release(int i) {
+    void relebse(int i) {
         return;
     }
 
     void free() {
-        pollArray.free();
+        pollArrby.free();
     }
 
     /**
-     * Prepare another pollfd struct for use.
+     * Prepbre bnother pollfd struct for use.
      */
-    void addEntry(SelChImpl sc) {
-        putDescriptor(totalChannels, IOUtil.fdVal(sc.getFD()));
-        putEventOps(totalChannels, 0);
-        putReventOps(totalChannels, 0);
-        totalChannels++;
+    void bddEntry(SelChImpl sc) {
+        putDescriptor(totblChbnnels, IOUtil.fdVbl(sc.getFD()));
+        putEventOps(totblChbnnels, 0);
+        putReventOps(totblChbnnels, 0);
+        totblChbnnels++;
     }
 
     /**
-     * Writes the pollfd entry from the source wrapper at the source index
-     * over the entry in the target wrapper at the target index. The source
-     * array remains unchanged unless the source array and the target are
-     * the same array.
+     * Writes the pollfd entry from the source wrbpper bt the source index
+     * over the entry in the tbrget wrbpper bt the tbrget index. The source
+     * brrby rembins unchbnged unless the source brrby bnd the tbrget bre
+     * the sbme brrby.
      */
-    static void replaceEntry(PollArrayWrapper source, int sindex,
-                      PollArrayWrapper target, int tindex) {
-        target.putDescriptor(tindex, source.getDescriptor(sindex));
-        target.putEventOps(tindex, source.getEventOps(sindex));
-        target.putReventOps(tindex, source.getReventOps(sindex));
+    stbtic void replbceEntry(PollArrbyWrbpper source, int sindex,
+                      PollArrbyWrbpper tbrget, int tindex) {
+        tbrget.putDescriptor(tindex, source.getDescriptor(sindex));
+        tbrget.putEventOps(tindex, source.getEventOps(sindex));
+        tbrget.putReventOps(tindex, source.getReventOps(sindex));
     }
 
     /**
-     * Grows the pollfd array to a size that will accommodate newSize
+     * Grows the pollfd brrby to b size thbt will bccommodbte newSize
      * pollfd entries. This method does no checking of the newSize
-     * to determine if it is in fact bigger than the old size: it
-     * always reallocates an array of the new size.
+     * to determine if it is in fbct bigger thbn the old size: it
+     * blwbys rebllocbtes bn brrby of the new size.
      */
     void grow(int newSize) {
-        // create new array
-        PollArrayWrapper temp = new PollArrayWrapper(newSize);
+        // crebte new brrby
+        PollArrbyWrbpper temp = new PollArrbyWrbpper(newSize);
 
         // Copy over existing entries
-        for (int i=0; i<totalChannels; i++)
-            replaceEntry(this, i, temp, i);
+        for (int i=0; i<totblChbnnels; i++)
+            replbceEntry(this, i, temp, i);
 
-        // Swap new array into pollArray field
-        pollArray.free();
-        pollArray = temp.pollArray;
-        pollArrayAddress = pollArray.address();
+        // Swbp new brrby into pollArrby field
+        pollArrby.free();
+        pollArrby = temp.pollArrby;
+        pollArrbyAddress = pollArrby.bddress();
     }
 
     int poll(int numfds, int offset, long timeout) {
-        return poll0(pollArrayAddress + (offset * SIZE_POLLFD),
+        return poll0(pollArrbyAddress + (offset * SIZE_POLLFD),
                      numfds, timeout);
     }
 
@@ -120,11 +120,11 @@ public class PollArrayWrapper extends AbstractPollArrayWrapper {
         interrupt(interruptFD);
     }
 
-    private native int poll0(long pollAddress, int numfds, long timeout);
+    privbte nbtive int poll0(long pollAddress, int numfds, long timeout);
 
-    private static native void interrupt(int fd);
+    privbte stbtic nbtive void interrupt(int fd);
 
-    static {
-        IOUtil.load();
+    stbtic {
+        IOUtil.lobd();
     }
 }

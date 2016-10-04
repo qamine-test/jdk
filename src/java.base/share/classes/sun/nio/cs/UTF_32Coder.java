@@ -1,55 +1,55 @@
 /*
- * Copyright (c) 2005, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2010, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.nio.cs;
+pbckbge sun.nio.cs;
 
-import java.nio.ByteBuffer;
-import java.nio.CharBuffer;
-import java.nio.charset.Charset;
-import java.nio.charset.CoderResult;
-import java.nio.charset.CharsetDecoder;
-import java.nio.charset.CharsetEncoder;
+import jbvb.nio.ByteBuffer;
+import jbvb.nio.ChbrBuffer;
+import jbvb.nio.chbrset.Chbrset;
+import jbvb.nio.chbrset.CoderResult;
+import jbvb.nio.chbrset.ChbrsetDecoder;
+import jbvb.nio.chbrset.ChbrsetEncoder;
 
-class UTF_32Coder {
-    protected static final int BOM_BIG = 0xFEFF;
-    protected static final int BOM_LITTLE = 0xFFFE0000;
-    protected static final int NONE = 0;
-    protected static final int BIG = 1;
-    protected static final int LITTLE = 2;
+clbss UTF_32Coder {
+    protected stbtic finbl int BOM_BIG = 0xFEFF;
+    protected stbtic finbl int BOM_LITTLE = 0xFFFE0000;
+    protected stbtic finbl int NONE = 0;
+    protected stbtic finbl int BIG = 1;
+    protected stbtic finbl int LITTLE = 2;
 
-    protected static class Decoder extends CharsetDecoder {
-        private int currentBO;
-        private int expectedBO;
+    protected stbtic clbss Decoder extends ChbrsetDecoder {
+        privbte int currentBO;
+        privbte int expectedBO;
 
-        protected Decoder(Charset cs, int bo) {
+        protected Decoder(Chbrset cs, int bo) {
             super(cs, 0.25f, 1.0f);
             this.expectedBO = bo;
             this.currentBO = NONE;
         }
 
-        private int getCP(ByteBuffer src) {
+        privbte int getCP(ByteBuffer src) {
             return (currentBO==BIG)
               ?(((src.get() & 0xff) << 24) |
                 ((src.get() & 0xff) << 16) |
@@ -61,10 +61,10 @@ class UTF_32Coder {
                 ((src.get() & 0xff) << 24));
         }
 
-        protected CoderResult decodeLoop(ByteBuffer src, CharBuffer dst) {
-            if (src.remaining() < 4)
+        protected CoderResult decodeLoop(ByteBuffer src, ChbrBuffer dst) {
+            if (src.rembining() < 4)
                 return CoderResult.UNDERFLOW;
-            int mark = src.position();
+            int mbrk = src.position();
             int cp;
             try {
                 if (currentBO == NONE) {
@@ -74,38 +74,38 @@ class UTF_32Coder {
                          (src.get() & 0xff);
                     if (cp == BOM_BIG && expectedBO != LITTLE) {
                         currentBO = BIG;
-                        mark += 4;
+                        mbrk += 4;
                     } else if (cp == BOM_LITTLE && expectedBO != BIG) {
                         currentBO = LITTLE;
-                        mark += 4;
+                        mbrk += 4;
                     } else {
                         if (expectedBO == NONE)
                             currentBO = BIG;
                         else
                             currentBO = expectedBO;
-                        src.position(mark);
+                        src.position(mbrk);
                     }
                 }
-                while (src.remaining() >= 4) {
+                while (src.rembining() >= 4) {
                     cp = getCP(src);
-                    if (Character.isBmpCodePoint(cp)) {
-                        if (!dst.hasRemaining())
+                    if (Chbrbcter.isBmpCodePoint(cp)) {
+                        if (!dst.hbsRembining())
                             return CoderResult.OVERFLOW;
-                        mark += 4;
-                        dst.put((char) cp);
-                    } else if (Character.isValidCodePoint(cp)) {
-                        if (dst.remaining() < 2)
+                        mbrk += 4;
+                        dst.put((chbr) cp);
+                    } else if (Chbrbcter.isVblidCodePoint(cp)) {
+                        if (dst.rembining() < 2)
                             return CoderResult.OVERFLOW;
-                        mark += 4;
-                        dst.put(Character.highSurrogate(cp));
-                        dst.put(Character.lowSurrogate(cp));
+                        mbrk += 4;
+                        dst.put(Chbrbcter.highSurrogbte(cp));
+                        dst.put(Chbrbcter.lowSurrogbte(cp));
                     } else {
-                        return CoderResult.malformedForLength(4);
+                        return CoderResult.mblformedForLength(4);
                     }
                 }
                 return CoderResult.UNDERFLOW;
-            } finally {
-                src.position(mark);
+            } finblly {
+                src.position(mbrk);
             }
         }
         protected void implReset() {
@@ -113,10 +113,10 @@ class UTF_32Coder {
         }
     }
 
-    protected static class Encoder extends CharsetEncoder {
-        private boolean doBOM = false;
-        private boolean doneBOM = true;
-        private int byteOrder;
+    protected stbtic clbss Encoder extends ChbrsetEncoder {
+        privbte boolebn doBOM = fblse;
+        privbte boolebn doneBOM = true;
+        privbte int byteOrder;
 
         protected void put(int cp, ByteBuffer dst) {
             if (byteOrder==BIG) {
@@ -132,7 +132,7 @@ class UTF_32Coder {
             }
         }
 
-        protected Encoder(Charset cs, int byteOrder, boolean doBOM) {
+        protected Encoder(Chbrset cs, int byteOrder, boolebn doBOM) {
             super(cs, 4.0f,
                   doBOM?8.0f:4.0f,
                   (byteOrder==BIG)?new byte[]{(byte)0, (byte)0, (byte)0xff, (byte)0xfd}
@@ -142,42 +142,42 @@ class UTF_32Coder {
             this.doneBOM = !doBOM;
         }
 
-        protected CoderResult encodeLoop(CharBuffer src, ByteBuffer dst) {
-            int mark = src.position();
-            if (!doneBOM && src.hasRemaining()) {
-                if (dst.remaining() < 4)
+        protected CoderResult encodeLoop(ChbrBuffer src, ByteBuffer dst) {
+            int mbrk = src.position();
+            if (!doneBOM && src.hbsRembining()) {
+                if (dst.rembining() < 4)
                     return CoderResult.OVERFLOW;
                 put(BOM_BIG, dst);
                 doneBOM = true;
             }
             try {
-                while (src.hasRemaining()) {
-                    char c = src.get();
-                    if (!Character.isSurrogate(c)) {
-                        if (dst.remaining() < 4)
+                while (src.hbsRembining()) {
+                    chbr c = src.get();
+                    if (!Chbrbcter.isSurrogbte(c)) {
+                        if (dst.rembining() < 4)
                             return CoderResult.OVERFLOW;
-                        mark++;
+                        mbrk++;
                         put(c, dst);
-                    } else if (Character.isHighSurrogate(c)) {
-                        if (!src.hasRemaining())
+                    } else if (Chbrbcter.isHighSurrogbte(c)) {
+                        if (!src.hbsRembining())
                             return CoderResult.UNDERFLOW;
-                        char low = src.get();
-                        if (Character.isLowSurrogate(low)) {
-                            if (dst.remaining() < 4)
+                        chbr low = src.get();
+                        if (Chbrbcter.isLowSurrogbte(low)) {
+                            if (dst.rembining() < 4)
                                 return CoderResult.OVERFLOW;
-                            mark += 2;
-                            put(Character.toCodePoint(c, low), dst);
+                            mbrk += 2;
+                            put(Chbrbcter.toCodePoint(c, low), dst);
                         } else {
-                            return CoderResult.malformedForLength(1);
+                            return CoderResult.mblformedForLength(1);
                         }
                     } else {
-                        // assert Character.isLowSurrogate(c);
-                        return CoderResult.malformedForLength(1);
+                        // bssert Chbrbcter.isLowSurrogbte(c);
+                        return CoderResult.mblformedForLength(1);
                     }
                 }
                 return CoderResult.UNDERFLOW;
-            } finally {
-                src.position(mark);
+            } finblly {
+                src.position(mbrk);
             }
         }
 

@@ -1,79 +1,79 @@
 /*
- * Copyright (c) 1997, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.ssl;
+pbckbge sun.security.ssl;
 
-import java.io.IOException;
-import java.net.InetAddress;
-import java.net.ServerSocket;
+import jbvb.io.IOException;
+import jbvb.net.InetAddress;
+import jbvb.net.ServerSocket;
 
-import javax.net.ssl.SSLServerSocketFactory;
+import jbvbx.net.ssl.SSLServerSocketFbctory;
 
 /**
- * This class creates SSL server sockets.
+ * This clbss crebtes SSL server sockets.
  *
- * @author David Brownell
+ * @buthor Dbvid Brownell
  */
-final
-public class SSLServerSocketFactoryImpl extends SSLServerSocketFactory
+finbl
+public clbss SSLServerSocketFbctoryImpl extends SSLServerSocketFbctory
 {
-    private static final int DEFAULT_BACKLOG = 50;
-    private SSLContextImpl context;
+    privbte stbtic finbl int DEFAULT_BACKLOG = 50;
+    privbte SSLContextImpl context;
 
 
     /**
-     * Constructor used to instantiate the default factory. This method is
-     * only called if the old "ssl.ServerSocketFactory.provider" property in the
-     * java.security file is set.
+     * Constructor used to instbntibte the defbult fbctory. This method is
+     * only cblled if the old "ssl.ServerSocketFbctory.provider" property in the
+     * jbvb.security file is set.
      */
-    public SSLServerSocketFactoryImpl() throws Exception {
-        this.context = SSLContextImpl.DefaultSSLContext.getDefaultImpl();
+    public SSLServerSocketFbctoryImpl() throws Exception {
+        this.context = SSLContextImpl.DefbultSSLContext.getDefbultImpl();
     }
 
     /**
-     * Called from SSLContextImpl's getSSLServerSocketFactory().
+     * Cblled from SSLContextImpl's getSSLServerSocketFbctory().
      */
-    SSLServerSocketFactoryImpl (SSLContextImpl context)
+    SSLServerSocketFbctoryImpl (SSLContextImpl context)
     {
         this.context = context;
     }
 
     /**
-     * Returns an unbound server socket.
+     * Returns bn unbound server socket.
      *
      * @return the unbound socket
-     * @throws IOException if the socket cannot be created
-     * @see java.net.Socket#bind(java.net.SocketAddress)
+     * @throws IOException if the socket cbnnot be crebted
+     * @see jbvb.net.Socket#bind(jbvb.net.SocketAddress)
      */
     @Override
-    public ServerSocket createServerSocket() throws IOException {
+    public ServerSocket crebteServerSocket() throws IOException {
         return new SSLServerSocketImpl(context);
     }
 
     @Override
-    public ServerSocket createServerSocket (int port)
+    public ServerSocket crebteServerSocket (int port)
     throws IOException
     {
         return new SSLServerSocketImpl (port, DEFAULT_BACKLOG, context);
@@ -81,45 +81,45 @@ public class SSLServerSocketFactoryImpl extends SSLServerSocketFactory
 
 
     @Override
-    public ServerSocket createServerSocket (int port, int backlog)
+    public ServerSocket crebteServerSocket (int port, int bbcklog)
     throws IOException
     {
-        return new SSLServerSocketImpl (port, backlog, context);
+        return new SSLServerSocketImpl (port, bbcklog, context);
     }
 
     @Override
     public ServerSocket
-    createServerSocket (int port, int backlog, InetAddress ifAddress)
+    crebteServerSocket (int port, int bbcklog, InetAddress ifAddress)
     throws IOException
     {
-        return new SSLServerSocketImpl (port, backlog, ifAddress, context);
+        return new SSLServerSocketImpl (port, bbcklog, ifAddress, context);
     }
 
     /**
-     * Returns the subset of the supported cipher suites which are
-     * enabled by default.  These cipher suites all provide a minimum
-     * quality of service whereby the server authenticates itself
-     * (preventing person-in-the-middle attacks) and where traffic
-     * is encrypted to provide confidentiality.
+     * Returns the subset of the supported cipher suites which bre
+     * enbbled by defbult.  These cipher suites bll provide b minimum
+     * qublity of service whereby the server buthenticbtes itself
+     * (preventing person-in-the-middle bttbcks) bnd where trbffic
+     * is encrypted to provide confidentiblity.
      */
     @Override
-    public String[] getDefaultCipherSuites() {
-        return context.getDefaultCipherSuiteList(true).toStringArray();
+    public String[] getDefbultCipherSuites() {
+        return context.getDefbultCipherSuiteList(true).toStringArrby();
     }
 
     /**
-     * Returns the names of the cipher suites which could be enabled for use
-     * on an SSL connection.  Normally, only a subset of these will actually
-     * be enabled by default, since this list may include cipher suites which
-     * do not support the mutual authentication of servers and clients, or
-     * which do not protect data confidentiality.  Servers may also need
-     * certain kinds of certificates to use certain cipher suites.
+     * Returns the nbmes of the cipher suites which could be enbbled for use
+     * on bn SSL connection.  Normblly, only b subset of these will bctublly
+     * be enbbled by defbult, since this list mby include cipher suites which
+     * do not support the mutubl buthenticbtion of servers bnd clients, or
+     * which do not protect dbtb confidentiblity.  Servers mby blso need
+     * certbin kinds of certificbtes to use certbin cipher suites.
      *
-     * @return an array of cipher suite names
+     * @return bn brrby of cipher suite nbmes
      */
     @Override
     public String[] getSupportedCipherSuites() {
-        return context.getSupportedCipherSuiteList().toStringArray();
+        return context.getSupportedCipherSuiteList().toStringArrby();
     }
 
 }

@@ -5,167 +5,167 @@
 /*
  * jfdctflt.c
  *
- * Copyright (C) 1994-1996, Thomas G. Lane.
- * This file is part of the Independent JPEG Group's software.
- * For conditions of distribution and use, see the accompanying README file.
+ * Copyright (C) 1994-1996, Thombs G. Lbne.
+ * This file is pbrt of the Independent JPEG Group's softwbre.
+ * For conditions of distribution bnd use, see the bccompbnying README file.
  *
- * This file contains a floating-point implementation of the
- * forward DCT (Discrete Cosine Transform).
+ * This file contbins b flobting-point implementbtion of the
+ * forwbrd DCT (Discrete Cosine Trbnsform).
  *
- * This implementation should be more accurate than either of the integer
- * DCT implementations.  However, it may not give the same results on all
- * machines because of differences in roundoff behavior.  Speed will depend
- * on the hardware's floating point capacity.
+ * This implementbtion should be more bccurbte thbn either of the integer
+ * DCT implementbtions.  However, it mby not give the sbme results on bll
+ * mbchines becbuse of differences in roundoff behbvior.  Speed will depend
+ * on the hbrdwbre's flobting point cbpbcity.
  *
- * A 2-D DCT can be done by 1-D DCT on each row followed by 1-D DCT
- * on each column.  Direct algorithms are also available, but they are
- * much more complex and seem not to be any faster when reduced to code.
+ * A 2-D DCT cbn be done by 1-D DCT on ebch row followed by 1-D DCT
+ * on ebch column.  Direct blgorithms bre blso bvbilbble, but they bre
+ * much more complex bnd seem not to be bny fbster when reduced to code.
  *
- * This implementation is based on Arai, Agui, and Nakajima's algorithm for
- * scaled DCT.  Their original paper (Trans. IEICE E-71(11):1095) is in
- * Japanese, but the algorithm is described in the Pennebaker & Mitchell
+ * This implementbtion is bbsed on Arbi, Agui, bnd Nbkbjimb's blgorithm for
+ * scbled DCT.  Their originbl pbper (Trbns. IEICE E-71(11):1095) is in
+ * Jbpbnese, but the blgorithm is described in the Pennebbker & Mitchell
  * JPEG textbook (see REFERENCES section in file README).  The following code
- * is based directly on figure 4-8 in P&M.
- * While an 8-point DCT cannot be done in less than 11 multiplies, it is
- * possible to arrange the computation so that many of the multiplies are
- * simple scalings of the final outputs.  These multiplies can then be
- * folded into the multiplications or divisions by the JPEG quantization
- * table entries.  The AA&N method leaves only 5 multiplies and 29 adds
+ * is bbsed directly on figure 4-8 in P&M.
+ * While bn 8-point DCT cbnnot be done in less thbn 11 multiplies, it is
+ * possible to brrbnge the computbtion so thbt mbny of the multiplies bre
+ * simple scblings of the finbl outputs.  These multiplies cbn then be
+ * folded into the multiplicbtions or divisions by the JPEG qubntizbtion
+ * tbble entries.  The AA&N method lebves only 5 multiplies bnd 29 bdds
  * to be done in the DCT itself.
- * The primary disadvantage of this method is that with a fixed-point
- * implementation, accuracy is lost due to imprecise representation of the
- * scaled quantization values.  However, that problem does not arise if
- * we use floating point arithmetic.
+ * The primbry disbdvbntbge of this method is thbt with b fixed-point
+ * implementbtion, bccurbcy is lost due to imprecise representbtion of the
+ * scbled qubntizbtion vblues.  However, thbt problem does not brise if
+ * we use flobting point brithmetic.
  */
 
 #define JPEG_INTERNALS
 #include "jinclude.h"
 #include "jpeglib.h"
-#include "jdct.h"               /* Private declarations for DCT subsystem */
+#include "jdct.h"               /* Privbte declbrbtions for DCT subsystem */
 
 #ifdef DCT_FLOAT_SUPPORTED
 
 
 /*
- * This module is specialized to the case DCTSIZE = 8.
+ * This module is speciblized to the cbse DCTSIZE = 8.
  */
 
 #if DCTSIZE != 8
-  Sorry, this code only copes with 8x8 DCTs. /* deliberate syntax err */
+  Sorry, this code only copes with 8x8 DCTs. /* deliberbte syntbx err */
 #endif
 
 
 /*
- * Perform the forward DCT on one block of samples.
+ * Perform the forwbrd DCT on one block of sbmples.
  */
 
 GLOBAL(void)
-jpeg_fdct_float (FAST_FLOAT * data)
+jpeg_fdct_flobt (FAST_FLOAT * dbtb)
 {
   FAST_FLOAT tmp0, tmp1, tmp2, tmp3, tmp4, tmp5, tmp6, tmp7;
   FAST_FLOAT tmp10, tmp11, tmp12, tmp13;
   FAST_FLOAT z1, z2, z3, z4, z5, z11, z13;
-  FAST_FLOAT *dataptr;
+  FAST_FLOAT *dbtbptr;
   int ctr;
 
-  /* Pass 1: process rows. */
+  /* Pbss 1: process rows. */
 
-  dataptr = data;
+  dbtbptr = dbtb;
   for (ctr = DCTSIZE-1; ctr >= 0; ctr--) {
-    tmp0 = dataptr[0] + dataptr[7];
-    tmp7 = dataptr[0] - dataptr[7];
-    tmp1 = dataptr[1] + dataptr[6];
-    tmp6 = dataptr[1] - dataptr[6];
-    tmp2 = dataptr[2] + dataptr[5];
-    tmp5 = dataptr[2] - dataptr[5];
-    tmp3 = dataptr[3] + dataptr[4];
-    tmp4 = dataptr[3] - dataptr[4];
+    tmp0 = dbtbptr[0] + dbtbptr[7];
+    tmp7 = dbtbptr[0] - dbtbptr[7];
+    tmp1 = dbtbptr[1] + dbtbptr[6];
+    tmp6 = dbtbptr[1] - dbtbptr[6];
+    tmp2 = dbtbptr[2] + dbtbptr[5];
+    tmp5 = dbtbptr[2] - dbtbptr[5];
+    tmp3 = dbtbptr[3] + dbtbptr[4];
+    tmp4 = dbtbptr[3] - dbtbptr[4];
 
-    /* Even part */
+    /* Even pbrt */
 
-    tmp10 = tmp0 + tmp3;        /* phase 2 */
+    tmp10 = tmp0 + tmp3;        /* phbse 2 */
     tmp13 = tmp0 - tmp3;
     tmp11 = tmp1 + tmp2;
     tmp12 = tmp1 - tmp2;
 
-    dataptr[0] = tmp10 + tmp11; /* phase 3 */
-    dataptr[4] = tmp10 - tmp11;
+    dbtbptr[0] = tmp10 + tmp11; /* phbse 3 */
+    dbtbptr[4] = tmp10 - tmp11;
 
     z1 = (tmp12 + tmp13) * ((FAST_FLOAT) 0.707106781); /* c4 */
-    dataptr[2] = tmp13 + z1;    /* phase 5 */
-    dataptr[6] = tmp13 - z1;
+    dbtbptr[2] = tmp13 + z1;    /* phbse 5 */
+    dbtbptr[6] = tmp13 - z1;
 
-    /* Odd part */
+    /* Odd pbrt */
 
-    tmp10 = tmp4 + tmp5;        /* phase 2 */
+    tmp10 = tmp4 + tmp5;        /* phbse 2 */
     tmp11 = tmp5 + tmp6;
     tmp12 = tmp6 + tmp7;
 
-    /* The rotator is modified from fig 4-8 to avoid extra negations. */
+    /* The rotbtor is modified from fig 4-8 to bvoid extrb negbtions. */
     z5 = (tmp10 - tmp12) * ((FAST_FLOAT) 0.382683433); /* c6 */
     z2 = ((FAST_FLOAT) 0.541196100) * tmp10 + z5; /* c2-c6 */
     z4 = ((FAST_FLOAT) 1.306562965) * tmp12 + z5; /* c2+c6 */
     z3 = tmp11 * ((FAST_FLOAT) 0.707106781); /* c4 */
 
-    z11 = tmp7 + z3;            /* phase 5 */
+    z11 = tmp7 + z3;            /* phbse 5 */
     z13 = tmp7 - z3;
 
-    dataptr[5] = z13 + z2;      /* phase 6 */
-    dataptr[3] = z13 - z2;
-    dataptr[1] = z11 + z4;
-    dataptr[7] = z11 - z4;
+    dbtbptr[5] = z13 + z2;      /* phbse 6 */
+    dbtbptr[3] = z13 - z2;
+    dbtbptr[1] = z11 + z4;
+    dbtbptr[7] = z11 - z4;
 
-    dataptr += DCTSIZE;         /* advance pointer to next row */
+    dbtbptr += DCTSIZE;         /* bdvbnce pointer to next row */
   }
 
-  /* Pass 2: process columns. */
+  /* Pbss 2: process columns. */
 
-  dataptr = data;
+  dbtbptr = dbtb;
   for (ctr = DCTSIZE-1; ctr >= 0; ctr--) {
-    tmp0 = dataptr[DCTSIZE*0] + dataptr[DCTSIZE*7];
-    tmp7 = dataptr[DCTSIZE*0] - dataptr[DCTSIZE*7];
-    tmp1 = dataptr[DCTSIZE*1] + dataptr[DCTSIZE*6];
-    tmp6 = dataptr[DCTSIZE*1] - dataptr[DCTSIZE*6];
-    tmp2 = dataptr[DCTSIZE*2] + dataptr[DCTSIZE*5];
-    tmp5 = dataptr[DCTSIZE*2] - dataptr[DCTSIZE*5];
-    tmp3 = dataptr[DCTSIZE*3] + dataptr[DCTSIZE*4];
-    tmp4 = dataptr[DCTSIZE*3] - dataptr[DCTSIZE*4];
+    tmp0 = dbtbptr[DCTSIZE*0] + dbtbptr[DCTSIZE*7];
+    tmp7 = dbtbptr[DCTSIZE*0] - dbtbptr[DCTSIZE*7];
+    tmp1 = dbtbptr[DCTSIZE*1] + dbtbptr[DCTSIZE*6];
+    tmp6 = dbtbptr[DCTSIZE*1] - dbtbptr[DCTSIZE*6];
+    tmp2 = dbtbptr[DCTSIZE*2] + dbtbptr[DCTSIZE*5];
+    tmp5 = dbtbptr[DCTSIZE*2] - dbtbptr[DCTSIZE*5];
+    tmp3 = dbtbptr[DCTSIZE*3] + dbtbptr[DCTSIZE*4];
+    tmp4 = dbtbptr[DCTSIZE*3] - dbtbptr[DCTSIZE*4];
 
-    /* Even part */
+    /* Even pbrt */
 
-    tmp10 = tmp0 + tmp3;        /* phase 2 */
+    tmp10 = tmp0 + tmp3;        /* phbse 2 */
     tmp13 = tmp0 - tmp3;
     tmp11 = tmp1 + tmp2;
     tmp12 = tmp1 - tmp2;
 
-    dataptr[DCTSIZE*0] = tmp10 + tmp11; /* phase 3 */
-    dataptr[DCTSIZE*4] = tmp10 - tmp11;
+    dbtbptr[DCTSIZE*0] = tmp10 + tmp11; /* phbse 3 */
+    dbtbptr[DCTSIZE*4] = tmp10 - tmp11;
 
     z1 = (tmp12 + tmp13) * ((FAST_FLOAT) 0.707106781); /* c4 */
-    dataptr[DCTSIZE*2] = tmp13 + z1; /* phase 5 */
-    dataptr[DCTSIZE*6] = tmp13 - z1;
+    dbtbptr[DCTSIZE*2] = tmp13 + z1; /* phbse 5 */
+    dbtbptr[DCTSIZE*6] = tmp13 - z1;
 
-    /* Odd part */
+    /* Odd pbrt */
 
-    tmp10 = tmp4 + tmp5;        /* phase 2 */
+    tmp10 = tmp4 + tmp5;        /* phbse 2 */
     tmp11 = tmp5 + tmp6;
     tmp12 = tmp6 + tmp7;
 
-    /* The rotator is modified from fig 4-8 to avoid extra negations. */
+    /* The rotbtor is modified from fig 4-8 to bvoid extrb negbtions. */
     z5 = (tmp10 - tmp12) * ((FAST_FLOAT) 0.382683433); /* c6 */
     z2 = ((FAST_FLOAT) 0.541196100) * tmp10 + z5; /* c2-c6 */
     z4 = ((FAST_FLOAT) 1.306562965) * tmp12 + z5; /* c2+c6 */
     z3 = tmp11 * ((FAST_FLOAT) 0.707106781); /* c4 */
 
-    z11 = tmp7 + z3;            /* phase 5 */
+    z11 = tmp7 + z3;            /* phbse 5 */
     z13 = tmp7 - z3;
 
-    dataptr[DCTSIZE*5] = z13 + z2; /* phase 6 */
-    dataptr[DCTSIZE*3] = z13 - z2;
-    dataptr[DCTSIZE*1] = z11 + z4;
-    dataptr[DCTSIZE*7] = z11 - z4;
+    dbtbptr[DCTSIZE*5] = z13 + z2; /* phbse 6 */
+    dbtbptr[DCTSIZE*3] = z13 - z2;
+    dbtbptr[DCTSIZE*1] = z11 + z4;
+    dbtbptr[DCTSIZE*7] = z11 - z4;
 
-    dataptr++;                  /* advance pointer to next column */
+    dbtbptr++;                  /* bdvbnce pointer to next column */
   }
 }
 

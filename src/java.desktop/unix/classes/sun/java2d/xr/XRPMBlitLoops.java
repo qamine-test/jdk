@@ -1,407 +1,407 @@
 /*
- * Copyright (c) 2010, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.java2d.xr;
+pbckbge sun.jbvb2d.xr;
 
-import sun.awt.SunToolkit;
-import sun.awt.image.*;
-import sun.java2d.loops.*;
-import sun.java2d.pipe.*;
-import sun.java2d.*;
-import java.awt.*;
-import java.awt.geom.*;
-import java.lang.ref.*;
+import sun.bwt.SunToolkit;
+import sun.bwt.imbge.*;
+import sun.jbvb2d.loops.*;
+import sun.jbvb2d.pipe.*;
+import sun.jbvb2d.*;
+import jbvb.bwt.*;
+import jbvb.bwt.geom.*;
+import jbvb.lbng.ref.*;
 
-public class XRPMBlitLoops {
+public clbss XRPMBlitLoops {
 
-    static WeakReference<SunVolatileImage> argbTmpPM = new WeakReference<SunVolatileImage>(null);
-    static WeakReference<SunVolatileImage> rgbTmpPM = new WeakReference<SunVolatileImage>(null);
+    stbtic WebkReference<SunVolbtileImbge> brgbTmpPM = new WebkReference<SunVolbtileImbge>(null);
+    stbtic WebkReference<SunVolbtileImbge> rgbTmpPM = new WebkReference<SunVolbtileImbge>(null);
 
     public XRPMBlitLoops() {
     }
 
-    public static void register() {
-        GraphicsPrimitive[] primitives = { new XRPMBlit(XRSurfaceData.IntRgbX11, XRSurfaceData.IntRgbX11),
-                new XRPMBlit(XRSurfaceData.IntRgbX11, XRSurfaceData.IntArgbPreX11),
-                new XRPMBlit(XRSurfaceData.IntArgbPreX11, XRSurfaceData.IntRgbX11),
-                new XRPMBlit(XRSurfaceData.IntArgbPreX11, XRSurfaceData.IntArgbPreX11),
+    public stbtic void register() {
+        GrbphicsPrimitive[] primitives = { new XRPMBlit(XRSurfbceDbtb.IntRgbX11, XRSurfbceDbtb.IntRgbX11),
+                new XRPMBlit(XRSurfbceDbtb.IntRgbX11, XRSurfbceDbtb.IntArgbPreX11),
+                new XRPMBlit(XRSurfbceDbtb.IntArgbPreX11, XRSurfbceDbtb.IntRgbX11),
+                new XRPMBlit(XRSurfbceDbtb.IntArgbPreX11, XRSurfbceDbtb.IntArgbPreX11),
 
-                new XRPMScaledBlit(XRSurfaceData.IntRgbX11, XRSurfaceData.IntRgbX11),
-                new XRPMScaledBlit(XRSurfaceData.IntRgbX11, XRSurfaceData.IntArgbPreX11),
-                new XRPMScaledBlit(XRSurfaceData.IntArgbPreX11, XRSurfaceData.IntRgbX11),
-                new XRPMScaledBlit(XRSurfaceData.IntArgbPreX11, XRSurfaceData.IntArgbPreX11),
+                new XRPMScbledBlit(XRSurfbceDbtb.IntRgbX11, XRSurfbceDbtb.IntRgbX11),
+                new XRPMScbledBlit(XRSurfbceDbtb.IntRgbX11, XRSurfbceDbtb.IntArgbPreX11),
+                new XRPMScbledBlit(XRSurfbceDbtb.IntArgbPreX11, XRSurfbceDbtb.IntRgbX11),
+                new XRPMScbledBlit(XRSurfbceDbtb.IntArgbPreX11, XRSurfbceDbtb.IntArgbPreX11),
 
-                new XRPMTransformedBlit(XRSurfaceData.IntRgbX11, XRSurfaceData.IntRgbX11),
-                new XRPMTransformedBlit(XRSurfaceData.IntRgbX11, XRSurfaceData.IntArgbPreX11),
-                new XRPMTransformedBlit(XRSurfaceData.IntArgbPreX11, XRSurfaceData.IntRgbX11),
-                new XRPMTransformedBlit(XRSurfaceData.IntArgbPreX11, XRSurfaceData.IntArgbPreX11),
+                new XRPMTrbnsformedBlit(XRSurfbceDbtb.IntRgbX11, XRSurfbceDbtb.IntRgbX11),
+                new XRPMTrbnsformedBlit(XRSurfbceDbtb.IntRgbX11, XRSurfbceDbtb.IntArgbPreX11),
+                new XRPMTrbnsformedBlit(XRSurfbceDbtb.IntArgbPreX11, XRSurfbceDbtb.IntRgbX11),
+                new XRPMTrbnsformedBlit(XRSurfbceDbtb.IntArgbPreX11, XRSurfbceDbtb.IntArgbPreX11),
 
-                /* SW -> Surface Blits */
-                new XrSwToPMBlit(SurfaceType.IntArgb, XRSurfaceData.IntRgbX11),
-                new XrSwToPMBlit(SurfaceType.IntRgb, XRSurfaceData.IntRgbX11),
-                new XrSwToPMBlit(SurfaceType.IntBgr, XRSurfaceData.IntRgbX11),
-                new XrSwToPMBlit(SurfaceType.ThreeByteBgr, XRSurfaceData.IntRgbX11),
-                new XrSwToPMBlit(SurfaceType.Ushort565Rgb, XRSurfaceData.IntRgbX11),
-                new XrSwToPMBlit(SurfaceType.Ushort555Rgb, XRSurfaceData.IntRgbX11),
-                new XrSwToPMBlit(SurfaceType.ByteIndexed, XRSurfaceData.IntRgbX11),
+                /* SW -> Surfbce Blits */
+                new XrSwToPMBlit(SurfbceType.IntArgb, XRSurfbceDbtb.IntRgbX11),
+                new XrSwToPMBlit(SurfbceType.IntRgb, XRSurfbceDbtb.IntRgbX11),
+                new XrSwToPMBlit(SurfbceType.IntBgr, XRSurfbceDbtb.IntRgbX11),
+                new XrSwToPMBlit(SurfbceType.ThreeByteBgr, XRSurfbceDbtb.IntRgbX11),
+                new XrSwToPMBlit(SurfbceType.Ushort565Rgb, XRSurfbceDbtb.IntRgbX11),
+                new XrSwToPMBlit(SurfbceType.Ushort555Rgb, XRSurfbceDbtb.IntRgbX11),
+                new XrSwToPMBlit(SurfbceType.ByteIndexed, XRSurfbceDbtb.IntRgbX11),
 
-                new XrSwToPMBlit(SurfaceType.IntArgb, XRSurfaceData.IntArgbPreX11),
-                new XrSwToPMBlit(SurfaceType.IntRgb, XRSurfaceData.IntArgbPreX11),
-                new XrSwToPMBlit(SurfaceType.IntBgr, XRSurfaceData.IntArgbPreX11),
-                new XrSwToPMBlit(SurfaceType.ThreeByteBgr, XRSurfaceData.IntArgbPreX11),
-                new XrSwToPMBlit(SurfaceType.Ushort565Rgb, XRSurfaceData.IntArgbPreX11),
-                new XrSwToPMBlit(SurfaceType.Ushort555Rgb, XRSurfaceData.IntArgbPreX11),
-                new XrSwToPMBlit(SurfaceType.ByteIndexed, XRSurfaceData.IntArgbPreX11),
+                new XrSwToPMBlit(SurfbceType.IntArgb, XRSurfbceDbtb.IntArgbPreX11),
+                new XrSwToPMBlit(SurfbceType.IntRgb, XRSurfbceDbtb.IntArgbPreX11),
+                new XrSwToPMBlit(SurfbceType.IntBgr, XRSurfbceDbtb.IntArgbPreX11),
+                new XrSwToPMBlit(SurfbceType.ThreeByteBgr, XRSurfbceDbtb.IntArgbPreX11),
+                new XrSwToPMBlit(SurfbceType.Ushort565Rgb, XRSurfbceDbtb.IntArgbPreX11),
+                new XrSwToPMBlit(SurfbceType.Ushort555Rgb, XRSurfbceDbtb.IntArgbPreX11),
+                new XrSwToPMBlit(SurfbceType.ByteIndexed, XRSurfbceDbtb.IntArgbPreX11),
 
-                /* SW->Surface Scales */
-                new XrSwToPMScaledBlit(SurfaceType.IntArgb, XRSurfaceData.IntRgbX11),
-                new XrSwToPMScaledBlit(SurfaceType.IntRgb, XRSurfaceData.IntRgbX11),
-                new XrSwToPMScaledBlit(SurfaceType.IntBgr, XRSurfaceData.IntRgbX11),
-                new XrSwToPMScaledBlit(SurfaceType.ThreeByteBgr, XRSurfaceData.IntRgbX11),
-                new XrSwToPMScaledBlit(SurfaceType.Ushort565Rgb, XRSurfaceData.IntRgbX11),
-                new XrSwToPMScaledBlit(SurfaceType.Ushort555Rgb, XRSurfaceData.IntRgbX11),
-                new XrSwToPMScaledBlit(SurfaceType.ByteIndexed, XRSurfaceData.IntRgbX11),
+                /* SW->Surfbce Scbles */
+                new XrSwToPMScbledBlit(SurfbceType.IntArgb, XRSurfbceDbtb.IntRgbX11),
+                new XrSwToPMScbledBlit(SurfbceType.IntRgb, XRSurfbceDbtb.IntRgbX11),
+                new XrSwToPMScbledBlit(SurfbceType.IntBgr, XRSurfbceDbtb.IntRgbX11),
+                new XrSwToPMScbledBlit(SurfbceType.ThreeByteBgr, XRSurfbceDbtb.IntRgbX11),
+                new XrSwToPMScbledBlit(SurfbceType.Ushort565Rgb, XRSurfbceDbtb.IntRgbX11),
+                new XrSwToPMScbledBlit(SurfbceType.Ushort555Rgb, XRSurfbceDbtb.IntRgbX11),
+                new XrSwToPMScbledBlit(SurfbceType.ByteIndexed, XRSurfbceDbtb.IntRgbX11),
 
-                new XrSwToPMScaledBlit(SurfaceType.IntArgb, XRSurfaceData.IntArgbPreX11),
-                new XrSwToPMScaledBlit(SurfaceType.IntRgb, XRSurfaceData.IntArgbPreX11),
-                new XrSwToPMScaledBlit(SurfaceType.IntBgr, XRSurfaceData.IntArgbPreX11),
-                new XrSwToPMScaledBlit(SurfaceType.ThreeByteBgr, XRSurfaceData.IntArgbPreX11),
-                new XrSwToPMScaledBlit(SurfaceType.Ushort565Rgb, XRSurfaceData.IntArgbPreX11),
-                new XrSwToPMScaledBlit(SurfaceType.Ushort555Rgb, XRSurfaceData.IntArgbPreX11),
-                new XrSwToPMScaledBlit(SurfaceType.ByteIndexed, XRSurfaceData.IntArgbPreX11),
+                new XrSwToPMScbledBlit(SurfbceType.IntArgb, XRSurfbceDbtb.IntArgbPreX11),
+                new XrSwToPMScbledBlit(SurfbceType.IntRgb, XRSurfbceDbtb.IntArgbPreX11),
+                new XrSwToPMScbledBlit(SurfbceType.IntBgr, XRSurfbceDbtb.IntArgbPreX11),
+                new XrSwToPMScbledBlit(SurfbceType.ThreeByteBgr, XRSurfbceDbtb.IntArgbPreX11),
+                new XrSwToPMScbledBlit(SurfbceType.Ushort565Rgb, XRSurfbceDbtb.IntArgbPreX11),
+                new XrSwToPMScbledBlit(SurfbceType.Ushort555Rgb, XRSurfbceDbtb.IntArgbPreX11),
+                new XrSwToPMScbledBlit(SurfbceType.ByteIndexed, XRSurfbceDbtb.IntArgbPreX11),
 
-                /* SW->Surface Transforms */
-                new XrSwToPMTransformedBlit(SurfaceType.IntArgb, XRSurfaceData.IntRgbX11),
-                new XrSwToPMTransformedBlit(SurfaceType.IntRgb, XRSurfaceData.IntRgbX11),
-                new XrSwToPMTransformedBlit(SurfaceType.IntBgr, XRSurfaceData.IntRgbX11),
-                new XrSwToPMTransformedBlit(SurfaceType.ThreeByteBgr, XRSurfaceData.IntRgbX11),
-                new XrSwToPMTransformedBlit(SurfaceType.Ushort565Rgb, XRSurfaceData.IntRgbX11),
-                new XrSwToPMTransformedBlit(SurfaceType.Ushort555Rgb, XRSurfaceData.IntRgbX11),
-                new XrSwToPMTransformedBlit(SurfaceType.ByteIndexed, XRSurfaceData.IntRgbX11),
+                /* SW->Surfbce Trbnsforms */
+                new XrSwToPMTrbnsformedBlit(SurfbceType.IntArgb, XRSurfbceDbtb.IntRgbX11),
+                new XrSwToPMTrbnsformedBlit(SurfbceType.IntRgb, XRSurfbceDbtb.IntRgbX11),
+                new XrSwToPMTrbnsformedBlit(SurfbceType.IntBgr, XRSurfbceDbtb.IntRgbX11),
+                new XrSwToPMTrbnsformedBlit(SurfbceType.ThreeByteBgr, XRSurfbceDbtb.IntRgbX11),
+                new XrSwToPMTrbnsformedBlit(SurfbceType.Ushort565Rgb, XRSurfbceDbtb.IntRgbX11),
+                new XrSwToPMTrbnsformedBlit(SurfbceType.Ushort555Rgb, XRSurfbceDbtb.IntRgbX11),
+                new XrSwToPMTrbnsformedBlit(SurfbceType.ByteIndexed, XRSurfbceDbtb.IntRgbX11),
 
-                new XrSwToPMTransformedBlit(SurfaceType.IntArgb, XRSurfaceData.IntArgbPreX11),
-                new XrSwToPMTransformedBlit(SurfaceType.IntRgb, XRSurfaceData.IntArgbPreX11),
-                new XrSwToPMTransformedBlit(SurfaceType.IntBgr, XRSurfaceData.IntArgbPreX11),
-                new XrSwToPMTransformedBlit(SurfaceType.ThreeByteBgr, XRSurfaceData.IntArgbPreX11),
-                new XrSwToPMTransformedBlit(SurfaceType.Ushort565Rgb, XRSurfaceData.IntArgbPreX11),
-                new XrSwToPMTransformedBlit(SurfaceType.Ushort555Rgb, XRSurfaceData.IntArgbPreX11),
-                new XrSwToPMTransformedBlit(SurfaceType.ByteIndexed, XRSurfaceData.IntArgbPreX11), };
-        GraphicsPrimitiveMgr.register(primitives);
+                new XrSwToPMTrbnsformedBlit(SurfbceType.IntArgb, XRSurfbceDbtb.IntArgbPreX11),
+                new XrSwToPMTrbnsformedBlit(SurfbceType.IntRgb, XRSurfbceDbtb.IntArgbPreX11),
+                new XrSwToPMTrbnsformedBlit(SurfbceType.IntBgr, XRSurfbceDbtb.IntArgbPreX11),
+                new XrSwToPMTrbnsformedBlit(SurfbceType.ThreeByteBgr, XRSurfbceDbtb.IntArgbPreX11),
+                new XrSwToPMTrbnsformedBlit(SurfbceType.Ushort565Rgb, XRSurfbceDbtb.IntArgbPreX11),
+                new XrSwToPMTrbnsformedBlit(SurfbceType.Ushort555Rgb, XRSurfbceDbtb.IntArgbPreX11),
+                new XrSwToPMTrbnsformedBlit(SurfbceType.ByteIndexed, XRSurfbceDbtb.IntArgbPreX11), };
+        GrbphicsPrimitiveMgr.register(primitives);
     }
 
     /**
-     * Caches a SW surface using a temporary pixmap. The pixmap is held by a WeakReference,
-     *  allowing it to shrink again after some time.
+     * Cbches b SW surfbce using b temporbry pixmbp. The pixmbp is held by b WebkReference,
+     *  bllowing it to shrink bgbin bfter some time.
      */
-    protected static XRSurfaceData cacheToTmpSurface(SurfaceData src, XRSurfaceData dst, int w, int h, int sx, int sy) {
-        SunVolatileImage vImg;
-        SurfaceType vImgSurfaceType;
+    protected stbtic XRSurfbceDbtb cbcheToTmpSurfbce(SurfbceDbtb src, XRSurfbceDbtb dst, int w, int h, int sx, int sy) {
+        SunVolbtileImbge vImg;
+        SurfbceType vImgSurfbceType;
 
-        if (src.getTransparency() == Transparency.OPAQUE) {
+        if (src.getTrbnspbrency() == Trbnspbrency.OPAQUE) {
             vImg = rgbTmpPM.get();
-            vImgSurfaceType = SurfaceType.IntRgb;
+            vImgSurfbceType = SurfbceType.IntRgb;
         } else {
-            vImg = argbTmpPM.get();
-            vImgSurfaceType = SurfaceType.IntArgbPre;
+            vImg = brgbTmpPM.get();
+            vImgSurfbceType = SurfbceType.IntArgbPre;
         }
 
         if (vImg == null || vImg.getWidth() < w || vImg.getHeight() < h) {
             if (vImg != null) {
                 vImg.flush();
             }
-            vImg = (SunVolatileImage) dst.getGraphicsConfig().createCompatibleVolatileImage(w, h, src.getTransparency());
-            vImg.setAccelerationPriority(1.0f);
+            vImg = (SunVolbtileImbge) dst.getGrbphicsConfig().crebteCompbtibleVolbtileImbge(w, h, src.getTrbnspbrency());
+            vImg.setAccelerbtionPriority(1.0f);
 
-            if (src.getTransparency() == SurfaceData.OPAQUE) {
-                rgbTmpPM = new WeakReference<SunVolatileImage>(vImg);
+            if (src.getTrbnspbrency() == SurfbceDbtb.OPAQUE) {
+                rgbTmpPM = new WebkReference<SunVolbtileImbge>(vImg);
             } else {
-                argbTmpPM = new WeakReference<SunVolatileImage>(vImg);
+                brgbTmpPM = new WebkReference<SunVolbtileImbge>(vImg);
             }
         }
 
-        Blit swToSurfaceBlit = Blit.getFromCache(src.getSurfaceType(), CompositeType.SrcNoEa, vImgSurfaceType);
-        XRSurfaceData vImgSurface = (XRSurfaceData) vImg.getDestSurface();
-        swToSurfaceBlit.Blit(src, vImgSurface, AlphaComposite.Src, null,
+        Blit swToSurfbceBlit = Blit.getFromCbche(src.getSurfbceType(), CompositeType.SrcNoEb, vImgSurfbceType);
+        XRSurfbceDbtb vImgSurfbce = (XRSurfbceDbtb) vImg.getDestSurfbce();
+        swToSurfbceBlit.Blit(src, vImgSurfbce, AlphbComposite.Src, null,
                              sx, sy, 0, 0, w, h);
 
-        return vImgSurface;
+        return vImgSurfbce;
     }
 }
 
-class XRPMBlit extends Blit {
-    public XRPMBlit(SurfaceType srcType, SurfaceType dstType) {
-        super(srcType, CompositeType.AnyAlpha, dstType);
+clbss XRPMBlit extends Blit {
+    public XRPMBlit(SurfbceType srcType, SurfbceType dstType) {
+        super(srcType, CompositeType.AnyAlphb, dstType);
     }
 
-    public void Blit(SurfaceData src, SurfaceData dst, Composite comp, Region clip, int sx, int sy, int dx, int dy, int w, int h) {
+    public void Blit(SurfbceDbtb src, SurfbceDbtb dst, Composite comp, Region clip, int sx, int sy, int dx, int dy, int w, int h) {
         try {
-            SunToolkit.awtLock();
+            SunToolkit.bwtLock();
 
-            XRSurfaceData x11sdDst = (XRSurfaceData) dst;
-            x11sdDst.validateAsDestination(null, clip);
-            XRSurfaceData x11sdSrc = (XRSurfaceData) src;
-            x11sdSrc.validateAsSource(null, XRUtils.RepeatNone, XRUtils.FAST);
+            XRSurfbceDbtb x11sdDst = (XRSurfbceDbtb) dst;
+            x11sdDst.vblidbteAsDestinbtion(null, clip);
+            XRSurfbceDbtb x11sdSrc = (XRSurfbceDbtb) src;
+            x11sdSrc.vblidbteAsSource(null, XRUtils.RepebtNone, XRUtils.FAST);
 
-            x11sdDst.maskBuffer.validateCompositeState(comp, null, null, null);
+            x11sdDst.mbskBuffer.vblidbteCompositeStbte(comp, null, null, null);
 
-            x11sdDst.maskBuffer.compositeBlit(x11sdSrc, x11sdDst, sx, sy, dx, dy, w, h);
-        } finally {
-            SunToolkit.awtUnlock();
+            x11sdDst.mbskBuffer.compositeBlit(x11sdSrc, x11sdDst, sx, sy, dx, dy, w, h);
+        } finblly {
+            SunToolkit.bwtUnlock();
         }
     }
 }
 
-class XRPMScaledBlit extends ScaledBlit {
-    public XRPMScaledBlit(SurfaceType srcType, SurfaceType dstType) {
-        super(srcType, CompositeType.AnyAlpha, dstType);
+clbss XRPMScbledBlit extends ScbledBlit {
+    public XRPMScbledBlit(SurfbceType srcType, SurfbceType dstType) {
+        super(srcType, CompositeType.AnyAlphb, dstType);
     }
 
-    @SuppressWarnings("cast")
-    public void Scale(SurfaceData src, SurfaceData dst, Composite comp, Region clip, int sx1, int sy1, int sx2, int sy2, double dx1, double dy1,
+    @SuppressWbrnings("cbst")
+    public void Scble(SurfbceDbtb src, SurfbceDbtb dst, Composite comp, Region clip, int sx1, int sy1, int sx2, int sy2, double dx1, double dy1,
             double dx2, double dy2) {
         try {
-            SunToolkit.awtLock();
+            SunToolkit.bwtLock();
 
-            XRSurfaceData x11sdDst = (XRSurfaceData) dst;
-            x11sdDst.validateAsDestination(null, clip);
-            XRSurfaceData x11sdSrc = (XRSurfaceData) src;
-            x11sdDst.maskBuffer.validateCompositeState(comp, null, null, null);
+            XRSurfbceDbtb x11sdDst = (XRSurfbceDbtb) dst;
+            x11sdDst.vblidbteAsDestinbtion(null, clip);
+            XRSurfbceDbtb x11sdSrc = (XRSurfbceDbtb) src;
+            x11sdDst.mbskBuffer.vblidbteCompositeStbte(comp, null, null, null);
 
-            double xScale = (dx2 - dx1) / (sx2 - sx1);
-            double yScale = (dy2 - dy1) / (sy2 - sy1);
+            double xScble = (dx2 - dx1) / (sx2 - sx1);
+            double yScble = (dy2 - dy1) / (sy2 - sy1);
 
-            sx1 *= xScale;
-            sx2 *= xScale;
-            sy1 *= yScale;
-            sy2 *= yScale;
+            sx1 *= xScble;
+            sx2 *= xScble;
+            sy1 *= yScble;
+            sy2 *= yScble;
 
-            dx1 = Math.ceil(dx1 - 0.5);
-            dy1 = Math.ceil(dy1 - 0.5);
-            dx2 = Math.ceil(dx2 - 0.5);
-            dy2 = Math.ceil(dy2 - 0.5);
+            dx1 = Mbth.ceil(dx1 - 0.5);
+            dy1 = Mbth.ceil(dy1 - 0.5);
+            dx2 = Mbth.ceil(dx2 - 0.5);
+            dy2 = Mbth.ceil(dy2 - 0.5);
 
-            AffineTransform xForm = AffineTransform.getScaleInstance(1 / xScale, 1 / yScale);
+            AffineTrbnsform xForm = AffineTrbnsform.getScbleInstbnce(1 / xScble, 1 / yScble);
 
-            x11sdSrc.validateAsSource(xForm, XRUtils.RepeatNone, XRUtils.FAST);
-            x11sdDst.maskBuffer.compositeBlit(x11sdSrc, x11sdDst, (int) sx1, (int) sy1, (int) dx1, (int) dy1, (int) (dx2 - dx1), (int) (dy2 - dy1));
-        } finally {
-            SunToolkit.awtUnlock();
+            x11sdSrc.vblidbteAsSource(xForm, XRUtils.RepebtNone, XRUtils.FAST);
+            x11sdDst.mbskBuffer.compositeBlit(x11sdSrc, x11sdDst, (int) sx1, (int) sy1, (int) dx1, (int) dy1, (int) (dx2 - dx1), (int) (dy2 - dy1));
+        } finblly {
+            SunToolkit.bwtUnlock();
         }
     }
 }
 
 /**
- * Called also if scale+transform is set
+ * Cblled blso if scble+trbnsform is set
  *
- * @author Clemens Eisserer
+ * @buthor Clemens Eisserer
  */
-class XRPMTransformedBlit extends TransformBlit {
-    final Rectangle compositeBounds = new Rectangle();
-    final double[] srcCoords = new double[8];
-    final double[] dstCoords = new double[8];
+clbss XRPMTrbnsformedBlit extends TrbnsformBlit {
+    finbl Rectbngle compositeBounds = new Rectbngle();
+    finbl double[] srcCoords = new double[8];
+    finbl double[] dstCoords = new double[8];
 
-    public XRPMTransformedBlit(SurfaceType srcType, SurfaceType dstType) {
-        super(srcType, CompositeType.AnyAlpha, dstType);
+    public XRPMTrbnsformedBlit(SurfbceType srcType, SurfbceType dstType) {
+        super(srcType, CompositeType.AnyAlphb, dstType);
     }
 
     /*
-     * Calculates the composition-rectangle required for transformed blits.
-     * For composite operations where the composition-rectangle defines
-     * the modified destination area, coordinates are rounded.
-     * Otherwise the composition window rectangle is sized large enough
-     * to not clip away any pixels.
+     * Cblculbtes the composition-rectbngle required for trbnsformed blits.
+     * For composite operbtions where the composition-rectbngle defines
+     * the modified destinbtion breb, coordinbtes bre rounded.
+     * Otherwise the composition window rectbngle is sized lbrge enough
+     * to not clip bwby bny pixels.
      */
-    protected void adjustCompositeBounds(boolean isQuadrantRotated, AffineTransform tr,
+    protected void bdjustCompositeBounds(boolebn isQubdrbntRotbted, AffineTrbnsform tr,
             int dstx, int dsty, int width, int height) {
         srcCoords[0] = dstx;
         srcCoords[1] = dsty;
         srcCoords[2] = dstx + width;
         srcCoords[3] = dsty + height;
 
-        double minX, minY, maxX, maxY;
-        if (isQuadrantRotated) {
-            tr.transform(srcCoords, 0, dstCoords, 0, 2);
+        double minX, minY, mbxX, mbxY;
+        if (isQubdrbntRotbted) {
+            tr.trbnsform(srcCoords, 0, dstCoords, 0, 2);
 
-            minX = Math.min(dstCoords[0], dstCoords[2]);
-            minY = Math.min(dstCoords[1], dstCoords[3]);
-            maxX = Math.max(dstCoords[0], dstCoords[2]);
-            maxY = Math.max(dstCoords[1], dstCoords[3]);
+            minX = Mbth.min(dstCoords[0], dstCoords[2]);
+            minY = Mbth.min(dstCoords[1], dstCoords[3]);
+            mbxX = Mbth.mbx(dstCoords[0], dstCoords[2]);
+            mbxY = Mbth.mbx(dstCoords[1], dstCoords[3]);
 
-            minX = Math.ceil(minX - 0.5);
-            minY = Math.ceil(minY - 0.5);
-            maxX = Math.ceil(maxX - 0.5);
-            maxY = Math.ceil(maxY - 0.5);
+            minX = Mbth.ceil(minX - 0.5);
+            minY = Mbth.ceil(minY - 0.5);
+            mbxX = Mbth.ceil(mbxX - 0.5);
+            mbxY = Mbth.ceil(mbxY - 0.5);
         } else {
             srcCoords[4] = dstx;
             srcCoords[5] = dsty + height;
             srcCoords[6] = dstx + width;
             srcCoords[7] = dsty;
 
-            tr.transform(srcCoords, 0, dstCoords, 0, 4);
+            tr.trbnsform(srcCoords, 0, dstCoords, 0, 4);
 
-            minX = Math.min(dstCoords[0], Math.min(dstCoords[2], Math.min(dstCoords[4], dstCoords[6])));
-            minY = Math.min(dstCoords[1], Math.min(dstCoords[3], Math.min(dstCoords[5], dstCoords[7])));
-            maxX = Math.max(dstCoords[0], Math.max(dstCoords[2], Math.max(dstCoords[4], dstCoords[6])));
-            maxY = Math.max(dstCoords[1], Math.max(dstCoords[3], Math.max(dstCoords[5], dstCoords[7])));
+            minX = Mbth.min(dstCoords[0], Mbth.min(dstCoords[2], Mbth.min(dstCoords[4], dstCoords[6])));
+            minY = Mbth.min(dstCoords[1], Mbth.min(dstCoords[3], Mbth.min(dstCoords[5], dstCoords[7])));
+            mbxX = Mbth.mbx(dstCoords[0], Mbth.mbx(dstCoords[2], Mbth.mbx(dstCoords[4], dstCoords[6])));
+            mbxY = Mbth.mbx(dstCoords[1], Mbth.mbx(dstCoords[3], Mbth.mbx(dstCoords[5], dstCoords[7])));
 
-            minX = Math.floor(minX);
-            minY = Math.floor(minY);
-            maxX = Math.ceil(maxX);
-            maxY = Math.ceil(maxY);
+            minX = Mbth.floor(minX);
+            minY = Mbth.floor(minY);
+            mbxX = Mbth.ceil(mbxX);
+            mbxY = Mbth.ceil(mbxY);
         }
 
         compositeBounds.x = (int) minX;
         compositeBounds.y = (int) minY;
-        compositeBounds.width = (int) (maxX - minX);
-        compositeBounds.height = (int) (maxY - minY);
+        compositeBounds.width = (int) (mbxX - minX);
+        compositeBounds.height = (int) (mbxY - minY);
     }
 
-    public void Transform(SurfaceData src, SurfaceData dst, Composite comp, Region clip, AffineTransform xform,
+    public void Trbnsform(SurfbceDbtb src, SurfbceDbtb dst, Composite comp, Region clip, AffineTrbnsform xform,
             int hint, int srcx, int srcy, int dstx, int dsty, int width, int height) {
         try {
-            SunToolkit.awtLock();
+            SunToolkit.bwtLock();
 
-            XRSurfaceData x11sdDst = (XRSurfaceData) dst;
-            XRSurfaceData x11sdSrc = (XRSurfaceData) src;
-            XRCompositeManager xrMgr = XRCompositeManager.getInstance(x11sdSrc);
+            XRSurfbceDbtb x11sdDst = (XRSurfbceDbtb) dst;
+            XRSurfbceDbtb x11sdSrc = (XRSurfbceDbtb) src;
+            XRCompositeMbnbger xrMgr = XRCompositeMbnbger.getInstbnce(x11sdSrc);
 
-            float extraAlpha = ((AlphaComposite) comp).getAlpha();
-            int filter = XRUtils.ATransOpToXRQuality(hint);
-            boolean isQuadrantRotated = XRUtils.isTransformQuadrantRotated(xform);
+            flobt extrbAlphb = ((AlphbComposite) comp).getAlphb();
+            int filter = XRUtils.ATrbnsOpToXRQublity(hint);
+            boolebn isQubdrbntRotbted = XRUtils.isTrbnsformQubdrbntRotbted(xform);
 
-            adjustCompositeBounds(isQuadrantRotated, xform, dstx, dsty, width, height);
+            bdjustCompositeBounds(isQubdrbntRotbted, xform, dstx, dsty, width, height);
 
-            x11sdDst.validateAsDestination(null, clip);
-            x11sdDst.maskBuffer.validateCompositeState(comp, null, null, null);
+            x11sdDst.vblidbteAsDestinbtion(null, clip);
+            x11sdDst.mbskBuffer.vblidbteCompositeStbte(comp, null, null, null);
 
-            AffineTransform trx = AffineTransform.getTranslateInstance(-compositeBounds.x, -compositeBounds.y);
-            trx.concatenate(xform);
-            AffineTransform maskTX = (AffineTransform) trx.clone();
-            trx.translate(-srcx, -srcy);
+            AffineTrbnsform trx = AffineTrbnsform.getTrbnslbteInstbnce(-compositeBounds.x, -compositeBounds.y);
+            trx.concbtenbte(xform);
+            AffineTrbnsform mbskTX = (AffineTrbnsform) trx.clone();
+            trx.trbnslbte(-srcx, -srcy);
 
             try {
                 trx.invert();
-            } catch (NoninvertibleTransformException ex) {
+            } cbtch (NoninvertibleTrbnsformException ex) {
                 trx.setToIdentity();
             }
 
-            if (filter != XRUtils.FAST && (!isQuadrantRotated || extraAlpha != 1.0f)) {
-                XRMaskImage mask = x11sdSrc.maskBuffer.getMaskImage();
+            if (filter != XRUtils.FAST && (!isQubdrbntRotbted || extrbAlphb != 1.0f)) {
+                XRMbskImbge mbsk = x11sdSrc.mbskBuffer.getMbskImbge();
 
-                // For quadrant-transformed blits geometry is not stored inside the mask
-                // therefore we can use a repeating 1x1 mask for applying extra alpha.
-                int maskPicture = isQuadrantRotated ? xrMgr.getExtraAlphaMask()
-                        : mask.prepareBlitMask(x11sdDst, maskTX, width, height);
+                // For qubdrbnt-trbnsformed blits geometry is not stored inside the mbsk
+                // therefore we cbn use b repebting 1x1 mbsk for bpplying extrb blphb.
+                int mbskPicture = isQubdrbntRotbted ? xrMgr.getExtrbAlphbMbsk()
+                        : mbsk.prepbreBlitMbsk(x11sdDst, mbskTX, width, height);
 
-                x11sdSrc.validateAsSource(trx, XRUtils.RepeatPad, filter);
-                x11sdDst.maskBuffer.con.renderComposite(xrMgr.getCompRule(), x11sdSrc.picture,
-                        maskPicture, x11sdDst.picture, 0, 0, 0, 0, compositeBounds.x, compositeBounds.y,
+                x11sdSrc.vblidbteAsSource(trx, XRUtils.RepebtPbd, filter);
+                x11sdDst.mbskBuffer.con.renderComposite(xrMgr.getCompRule(), x11sdSrc.picture,
+                        mbskPicture, x11sdDst.picture, 0, 0, 0, 0, compositeBounds.x, compositeBounds.y,
                         compositeBounds.width, compositeBounds.height);
             } else {
-                int repeat = filter == XRUtils.FAST ? XRUtils.RepeatNone : XRUtils.RepeatPad;
+                int repebt = filter == XRUtils.FAST ? XRUtils.RepebtNone : XRUtils.RepebtPbd;
 
-                x11sdSrc.validateAsSource(trx, repeat, filter);
+                x11sdSrc.vblidbteAsSource(trx, repebt, filter);
 
-                // compositeBlit takes care of extra alpha
-                x11sdDst.maskBuffer.compositeBlit(x11sdSrc, x11sdDst, 0, 0, compositeBounds.x,
+                // compositeBlit tbkes cbre of extrb blphb
+                x11sdDst.mbskBuffer.compositeBlit(x11sdSrc, x11sdDst, 0, 0, compositeBounds.x,
                         compositeBounds.y, compositeBounds.width, compositeBounds.height);
             }
-        } finally {
-            SunToolkit.awtUnlock();
+        } finblly {
+            SunToolkit.bwtUnlock();
         }
     }
 }
 
-class XrSwToPMBlit extends Blit {
-    Blit pmToSurfaceBlit;
+clbss XrSwToPMBlit extends Blit {
+    Blit pmToSurfbceBlit;
 
-    XrSwToPMBlit(SurfaceType srcType, SurfaceType dstType) {
-        super(srcType, CompositeType.AnyAlpha, dstType);
-        pmToSurfaceBlit = new XRPMBlit(dstType, dstType);
+    XrSwToPMBlit(SurfbceType srcType, SurfbceType dstType) {
+        super(srcType, CompositeType.AnyAlphb, dstType);
+        pmToSurfbceBlit = new XRPMBlit(dstType, dstType);
     }
 
-    public void Blit(SurfaceData src, SurfaceData dst, Composite comp, Region clip, int sx, int sy, int dx, int dy, int w, int h) {
-        // If the blit is write-only (putimge), no need for a temporary VI.
-        if (CompositeType.SrcOverNoEa.equals(comp) && (src.getTransparency() == Transparency.OPAQUE)) {
-            Blit opaqueSwToSurfaceBlit = Blit.getFromCache(src.getSurfaceType(), CompositeType.SrcNoEa, dst.getSurfaceType());
-            opaqueSwToSurfaceBlit.Blit(src, dst, comp, clip, sx, sy, dx, dy, w, h);
+    public void Blit(SurfbceDbtb src, SurfbceDbtb dst, Composite comp, Region clip, int sx, int sy, int dx, int dy, int w, int h) {
+        // If the blit is write-only (putimge), no need for b temporbry VI.
+        if (CompositeType.SrcOverNoEb.equbls(comp) && (src.getTrbnspbrency() == Trbnspbrency.OPAQUE)) {
+            Blit opbqueSwToSurfbceBlit = Blit.getFromCbche(src.getSurfbceType(), CompositeType.SrcNoEb, dst.getSurfbceType());
+            opbqueSwToSurfbceBlit.Blit(src, dst, comp, clip, sx, sy, dx, dy, w, h);
         } else {
             try {
-                SunToolkit.awtLock();
+                SunToolkit.bwtLock();
 
-                XRSurfaceData vImgSurface = XRPMBlitLoops.cacheToTmpSurface(src, (XRSurfaceData) dst, w, h, sx, sy);
-                pmToSurfaceBlit.Blit(vImgSurface, dst, comp, clip, 0, 0, dx, dy, w, h);
-            } finally {
-                SunToolkit.awtUnlock();
+                XRSurfbceDbtb vImgSurfbce = XRPMBlitLoops.cbcheToTmpSurfbce(src, (XRSurfbceDbtb) dst, w, h, sx, sy);
+                pmToSurfbceBlit.Blit(vImgSurfbce, dst, comp, clip, 0, 0, dx, dy, w, h);
+            } finblly {
+                SunToolkit.bwtUnlock();
             }
         }
     }
 }
 
-class XrSwToPMScaledBlit extends ScaledBlit {
-    ScaledBlit pmToSurfaceBlit;
+clbss XrSwToPMScbledBlit extends ScbledBlit {
+    ScbledBlit pmToSurfbceBlit;
 
-    XrSwToPMScaledBlit(SurfaceType srcType, SurfaceType dstType) {
-        super(srcType, CompositeType.AnyAlpha, dstType);
-        pmToSurfaceBlit = new XRPMScaledBlit(dstType, dstType);
+    XrSwToPMScbledBlit(SurfbceType srcType, SurfbceType dstType) {
+        super(srcType, CompositeType.AnyAlphb, dstType);
+        pmToSurfbceBlit = new XRPMScbledBlit(dstType, dstType);
     }
 
-    public void Scale(SurfaceData src, SurfaceData dst, Composite comp, Region clip, int sx1, int sy1, int sx2, int sy2, double dx1, double dy1,
+    public void Scble(SurfbceDbtb src, SurfbceDbtb dst, Composite comp, Region clip, int sx1, int sy1, int sx2, int sy2, double dx1, double dy1,
             double dx2, double dy2) {
         {
             int w = sx2 - sx1;
             int h = sy2 - sy1;
 
             try {
-                SunToolkit.awtLock();
-                XRSurfaceData vImgSurface = XRPMBlitLoops.cacheToTmpSurface(src, (XRSurfaceData) dst, w, h, sx1, sy1);
-                pmToSurfaceBlit.Scale(vImgSurface, dst, comp, clip, 0, 0, w, h, dx1, dy1, dx2, dy2);
-            } finally {
-                SunToolkit.awtUnlock();
+                SunToolkit.bwtLock();
+                XRSurfbceDbtb vImgSurfbce = XRPMBlitLoops.cbcheToTmpSurfbce(src, (XRSurfbceDbtb) dst, w, h, sx1, sy1);
+                pmToSurfbceBlit.Scble(vImgSurfbce, dst, comp, clip, 0, 0, w, h, dx1, dy1, dx2, dy2);
+            } finblly {
+                SunToolkit.bwtUnlock();
             }
         }
     }
 }
 
-class XrSwToPMTransformedBlit extends TransformBlit {
-    TransformBlit pmToSurfaceBlit;
+clbss XrSwToPMTrbnsformedBlit extends TrbnsformBlit {
+    TrbnsformBlit pmToSurfbceBlit;
 
-    XrSwToPMTransformedBlit(SurfaceType srcType, SurfaceType dstType) {
-        super(srcType, CompositeType.AnyAlpha, dstType);
-        pmToSurfaceBlit = new XRPMTransformedBlit(dstType, dstType);
+    XrSwToPMTrbnsformedBlit(SurfbceType srcType, SurfbceType dstType) {
+        super(srcType, CompositeType.AnyAlphb, dstType);
+        pmToSurfbceBlit = new XRPMTrbnsformedBlit(dstType, dstType);
     }
 
-    public void Transform(SurfaceData src, SurfaceData dst, Composite comp, Region clip, AffineTransform xform, int hint, int sx, int sy, int dstx,
+    public void Trbnsform(SurfbceDbtb src, SurfbceDbtb dst, Composite comp, Region clip, AffineTrbnsform xform, int hint, int sx, int sy, int dstx,
             int dsty, int w, int h) {
         try {
-            SunToolkit.awtLock();
+            SunToolkit.bwtLock();
 
-            XRSurfaceData vImgSurface = XRPMBlitLoops.cacheToTmpSurface(src, (XRSurfaceData) dst, w, h, sx, sy);
-            pmToSurfaceBlit.Transform(vImgSurface, dst, comp, clip, xform, hint, 0, 0, dstx, dsty, w, h);
-        } finally {
-            SunToolkit.awtUnlock();
+            XRSurfbceDbtb vImgSurfbce = XRPMBlitLoops.cbcheToTmpSurfbce(src, (XRSurfbceDbtb) dst, w, h, sx, sy);
+            pmToSurfbceBlit.Trbnsform(vImgSurfbce, dst, comp, clip, xform, hint, 0, 0, dstx, dsty, w, h);
+        } finblly {
+            SunToolkit.bwtUnlock();
         }
     }
 }

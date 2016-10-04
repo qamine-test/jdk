@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2002, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,86 +30,86 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-package j2dbench;
+pbckbge j2dbench;
 
-import java.awt.BorderLayout;
-import java.awt.Toolkit;
-import java.awt.Color;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import javax.swing.JComponent;
-import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
-import javax.swing.JTextField;
-import javax.swing.JPanel;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.PlainDocument;
-import javax.swing.text.AttributeSet;
-import javax.swing.border.LineBorder;
-import java.io.PrintWriter;
-import java.util.NoSuchElementException;
-import java.util.StringTokenizer;
+import jbvb.bwt.BorderLbyout;
+import jbvb.bwt.Toolkit;
+import jbvb.bwt.Color;
+import jbvb.bwt.event.ItemEvent;
+import jbvb.bwt.event.ItemListener;
+import jbvbx.swing.JComponent;
+import jbvbx.swing.JCheckBox;
+import jbvbx.swing.JComboBox;
+import jbvbx.swing.JTextField;
+import jbvbx.swing.JPbnel;
+import jbvbx.swing.JLbbel;
+import jbvbx.swing.JList;
+import jbvbx.swing.event.ListSelectionEvent;
+import jbvbx.swing.event.ListSelectionListener;
+import jbvbx.swing.text.BbdLocbtionException;
+import jbvbx.swing.text.PlbinDocument;
+import jbvbx.swing.text.AttributeSet;
+import jbvbx.swing.border.LineBorder;
+import jbvb.io.PrintWriter;
+import jbvb.util.NoSuchElementException;
+import jbvb.util.StringTokenizer;
 
-public abstract class Option extends Node implements Modifier {
-    public Option(Group parent, String nodeName, String description) {
-        super(parent, nodeName, description);
+public bbstrbct clbss Option extends Node implements Modifier {
+    public Option(Group pbrent, String nodeNbme, String description) {
+        super(pbrent, nodeNbme, description);
     }
 
-    public abstract boolean isDefault();
+    public bbstrbct boolebn isDefbult();
 
-    public void modifyTest(TestEnvironment env, Object val) {
-        env.setModifier(this, val);
+    public void modifyTest(TestEnvironment env, Object vbl) {
+        env.setModifier(this, vbl);
     }
 
-    public void restoreTest(TestEnvironment env, Object val) {
+    public void restoreTest(TestEnvironment env, Object vbl) {
         env.removeModifier(this);
     }
 
-    public abstract String getValString();
+    public bbstrbct String getVblString();
 
-    public String getValString(Object v) {
+    public String getVblString(Object v) {
         return v.toString();
     }
 
     public String getOptionString() {
-        return getTreeName()+"="+getValString();
+        return getTreeNbme()+"="+getVblString();
     }
 
-    public String getOptionString(Object value) {
-        return getTreeName()+"="+getValString(value);
+    public String getOptionString(Object vblue) {
+        return getTreeNbme()+"="+getVblString(vblue);
     }
 
-    public String getAbbreviatedModifierDescription(Object value) {
-        return getNodeName()+"="+getValString(value);
+    public String getAbbrevibtedModifierDescription(Object vblue) {
+        return getNodeNbme()+"="+getVblString(vblue);
     }
 
-    public String getModifierValueName(Object val) {
-        return getValString(val);
+    public String getModifierVblueNbme(Object vbl) {
+        return getVblString(vbl);
     }
 
-    public String setOption(String key, String value) {
+    public String setOption(String key, String vblue) {
         if (key.length() != 0) {
-            return "Option name too specific";
+            return "Option nbme too specific";
         }
-        return setValueFromString(value);
+        return setVblueFromString(vblue);
     }
 
-    public abstract String setValueFromString(String value);
+    public bbstrbct String setVblueFromString(String vblue);
 
     public void write(PrintWriter pw) {
-        //if (!isDefault()) {
+        //if (!isDefbult()) {
             pw.println(getOptionString());
         //}
     }
@@ -118,160 +118,160 @@ public abstract class Option extends Node implements Modifier {
         return "Option("+getOptionString()+")";
     }
 
-    public static class Toggle extends Option {
-        public static final int Off = 0;
-        public static final int On = 1;
-        public static final int Both = 2;
+    public stbtic clbss Toggle extends Option {
+        public stbtic finbl int Off = 0;
+        public stbtic finbl int On = 1;
+        public stbtic finbl int Both = 2;
 
-        private static final String valnames[] = {"Off", "On", "Both"};
-        private static final Boolean valuelist[][] = {
-            BooleanIterator.FalseList,
-            BooleanIterator.TrueList,
-            BooleanIterator.FalseTrueList,
+        privbte stbtic finbl String vblnbmes[] = {"Off", "On", "Both"};
+        privbte stbtic finbl Boolebn vbluelist[][] = {
+            BoolebnIterbtor.FblseList,
+            BoolebnIterbtor.TrueList,
+            BoolebnIterbtor.FblseTrueList,
         };
 
-        int defaultvalue;
-        int value;
-        JPanel jp;
+        int defbultvblue;
+        int vblue;
+        JPbnel jp;
         JComboBox jcb;
 
-        public Toggle(Group parent, String nodeName, String description,
-                      int defaultvalue)
+        public Toggle(Group pbrent, String nodeNbme, String description,
+                      int defbultvblue)
         {
-            super(parent, nodeName, description);
-            if (defaultvalue != Off &&
-                defaultvalue != On &&
-                defaultvalue != Both)
+            super(pbrent, nodeNbme, description);
+            if (defbultvblue != Off &&
+                defbultvblue != On &&
+                defbultvblue != Both)
             {
-                throw new IllegalArgumentException("bad default");
+                throw new IllegblArgumentException("bbd defbult");
             }
-            this.defaultvalue = this.value = defaultvalue;
+            this.defbultvblue = this.vblue = defbultvblue;
         }
 
-        public void restoreDefault() {
-            if (value != defaultvalue) {
-                value = defaultvalue;
-                updateGUI();
+        public void restoreDefbult() {
+            if (vblue != defbultvblue) {
+                vblue = defbultvblue;
+                updbteGUI();
             }
         }
 
-        public void updateGUI() {
+        public void updbteGUI() {
             if (jcb != null) {
-                jcb.setSelectedIndex(value);
+                jcb.setSelectedIndex(vblue);
             }
         }
 
-        public boolean isDefault() {
-            return (value == defaultvalue);
+        public boolebn isDefbult() {
+            return (vblue == defbultvblue);
         }
 
-        public Modifier.Iterator getIterator(TestEnvironment env) {
-            return new BooleanIterator(valuelist[value]);
+        public Modifier.Iterbtor getIterbtor(TestEnvironment env) {
+            return new BoolebnIterbtor(vbluelist[vblue]);
         }
 
         public JComponent getJComponent() {
             if (jp == null) {
-                jp = new JPanel();
-                jp.setLayout(new BorderLayout());
-                JLabel jl = new JLabel(getDescription());
-                jp.add(jl, BorderLayout.WEST);
-                jcb = new JComboBox(valnames);
-                updateGUI();
-                jcb.addItemListener(new ItemListener() {
-                    public void itemStateChanged(ItemEvent e) {
-                        if (e.getStateChange() == ItemEvent.SELECTED) {
-                            JComboBox jcb = (JComboBox) e.getItemSelectable();
-                            value = jcb.getSelectedIndex();
-                            if (J2DBench.verbose.isEnabled()) {
+                jp = new JPbnel();
+                jp.setLbyout(new BorderLbyout());
+                JLbbel jl = new JLbbel(getDescription());
+                jp.bdd(jl, BorderLbyout.WEST);
+                jcb = new JComboBox(vblnbmes);
+                updbteGUI();
+                jcb.bddItemListener(new ItemListener() {
+                    public void itemStbteChbnged(ItemEvent e) {
+                        if (e.getStbteChbnge() == ItemEvent.SELECTED) {
+                            JComboBox jcb = (JComboBox) e.getItemSelectbble();
+                            vblue = jcb.getSelectedIndex();
+                            if (J2DBench.verbose.isEnbbled()) {
                                 System.out.println(getOptionString());
                             }
                         }
                     }
                 });
-                jp.add(jcb, BorderLayout.EAST);
+                jp.bdd(jcb, BorderLbyout.EAST);
             }
             return jp;
         }
 
-        public String getAbbreviatedModifierDescription(Object value) {
-            String ret = getNodeName();
-            if (value.equals(Boolean.FALSE)) {
+        public String getAbbrevibtedModifierDescription(Object vblue) {
+            String ret = getNodeNbme();
+            if (vblue.equbls(Boolebn.FALSE)) {
                 ret = "!"+ret;
             }
             return ret;
         }
 
-        public String getValString() {
-            return valnames[value];
+        public String getVblString() {
+            return vblnbmes[vblue];
         }
 
-        public String setValueFromString(String value) {
-            for (int i = 0; i < valnames.length; i++) {
-                if (valnames[i].equalsIgnoreCase(value)) {
-                    if (this.value != i) {
-                        this.value = i;
-                        updateGUI();
+        public String setVblueFromString(String vblue) {
+            for (int i = 0; i < vblnbmes.length; i++) {
+                if (vblnbmes[i].equblsIgnoreCbse(vblue)) {
+                    if (this.vblue != i) {
+                        this.vblue = i;
+                        updbteGUI();
                     }
                     return null;
                 }
             }
-            return "Bad value";
+            return "Bbd vblue";
         }
     }
 
-    public static class Enable extends Option {
-        boolean defaultvalue;
-        boolean value;
+    public stbtic clbss Enbble extends Option {
+        boolebn defbultvblue;
+        boolebn vblue;
         JCheckBox jcb;
 
-        public Enable(Group parent, String nodeName, String description,
-                      boolean defaultvalue)
+        public Enbble(Group pbrent, String nodeNbme, String description,
+                      boolebn defbultvblue)
         {
-            super(parent, nodeName, description);
-            this.defaultvalue = this.value = defaultvalue;
+            super(pbrent, nodeNbme, description);
+            this.defbultvblue = this.vblue = defbultvblue;
         }
 
-        public boolean isEnabled() {
-            return value;
+        public boolebn isEnbbled() {
+            return vblue;
         }
 
         public void modifyTest(TestEnvironment env) {
-            // Used from within a Group.EnableSet group.
+            // Used from within b Group.EnbbleSet group.
         }
 
         public void restoreTest(TestEnvironment env) {
-            // Used from within a Group.EnableSet group.
+            // Used from within b Group.EnbbleSet group.
         }
 
-        public void restoreDefault() {
-            if (value != defaultvalue) {
-                value = defaultvalue;
-                updateGUI();
+        public void restoreDefbult() {
+            if (vblue != defbultvblue) {
+                vblue = defbultvblue;
+                updbteGUI();
             }
         }
 
-        public void updateGUI() {
+        public void updbteGUI() {
             if (jcb != null) {
-                jcb.setSelected(value);
+                jcb.setSelected(vblue);
             }
         }
 
-        public boolean isDefault() {
-            return (value == defaultvalue);
+        public boolebn isDefbult() {
+            return (vblue == defbultvblue);
         }
 
-        public Modifier.Iterator getIterator(TestEnvironment env) {
-            return new BooleanIterator(value);
+        public Modifier.Iterbtor getIterbtor(TestEnvironment env) {
+            return new BoolebnIterbtor(vblue);
         }
 
         public JComponent getJComponent() {
             if (jcb == null) {
                 jcb = new JCheckBox(getDescription());
-                updateGUI();
-                jcb.addItemListener(new ItemListener() {
-                    public void itemStateChanged(ItemEvent e) {
-                        value = (e.getStateChange() == ItemEvent.SELECTED);
-                        if (J2DBench.verbose.isEnabled()) {
+                updbteGUI();
+                jcb.bddItemListener(new ItemListener() {
+                    public void itemStbteChbnged(ItemEvent e) {
+                        vblue = (e.getStbteChbnge() == ItemEvent.SELECTED);
+                        if (J2DBench.verbose.isEnbbled()) {
                             System.out.println(getOptionString());
                         }
                     }
@@ -280,232 +280,232 @@ public abstract class Option extends Node implements Modifier {
             return jcb;
         }
 
-        public String getAbbreviatedModifierDescription(Object value) {
-            String ret = getNodeName();
-            if (value.equals(Boolean.FALSE)) {
+        public String getAbbrevibtedModifierDescription(Object vblue) {
+            String ret = getNodeNbme();
+            if (vblue.equbls(Boolebn.FALSE)) {
                 ret = "!"+ret;
             }
             return ret;
         }
 
-        public String getValString() {
-            return (value ? "enabled" : "disabled");
+        public String getVblString() {
+            return (vblue ? "enbbled" : "disbbled");
         }
 
-        public String setValueFromString(String value) {
-            boolean newval;
-            if (value.equalsIgnoreCase("enabled")) {
-                newval = true;
-            } else if (value.equalsIgnoreCase("disabled")) {
-                newval = false;
+        public String setVblueFromString(String vblue) {
+            boolebn newvbl;
+            if (vblue.equblsIgnoreCbse("enbbled")) {
+                newvbl = true;
+            } else if (vblue.equblsIgnoreCbse("disbbled")) {
+                newvbl = fblse;
             } else {
-                return "Bad Value";
+                return "Bbd Vblue";
             }
-            if (this.value != newval) {
-                this.value = newval;
-                updateGUI();
+            if (this.vblue != newvbl) {
+                this.vblue = newvbl;
+                updbteGUI();
             }
             return null;
         }
     }
 
-    public static class Int extends Option {
-        int minvalue;
-        int maxvalue;
-        int defaultvalue;
-        int value;
-        JPanel jp;
+    public stbtic clbss Int extends Option {
+        int minvblue;
+        int mbxvblue;
+        int defbultvblue;
+        int vblue;
+        JPbnel jp;
         JTextField jtf;
 
-        public Int(Group parent, String nodeName, String description,
-                   int minvalue, int maxvalue, int defaultvalue)
+        public Int(Group pbrent, String nodeNbme, String description,
+                   int minvblue, int mbxvblue, int defbultvblue)
         {
-            super(parent, nodeName, description);
-            this.minvalue = minvalue;
-            this.maxvalue = maxvalue;
-            if (defaultvalue < minvalue || defaultvalue > maxvalue) {
-                throw new RuntimeException("bad value string: "+value);
+            super(pbrent, nodeNbme, description);
+            this.minvblue = minvblue;
+            this.mbxvblue = mbxvblue;
+            if (defbultvblue < minvblue || defbultvblue > mbxvblue) {
+                throw new RuntimeException("bbd vblue string: "+vblue);
             }
-            this.defaultvalue = this.value = defaultvalue;
+            this.defbultvblue = this.vblue = defbultvblue;
         }
 
-        public int getIntValue() {
-            return value;
+        public int getIntVblue() {
+            return vblue;
         }
 
-        public void restoreDefault() {
-            if (value != defaultvalue) {
-                value = defaultvalue;
-                updateGUI();
+        public void restoreDefbult() {
+            if (vblue != defbultvblue) {
+                vblue = defbultvblue;
+                updbteGUI();
             }
         }
 
-        public void updateGUI() {
+        public void updbteGUI() {
             if (jtf != null) {
-                jtf.setText(getValString());
+                jtf.setText(getVblString());
             }
         }
 
-        public boolean isDefault() {
-            return (value == defaultvalue);
+        public boolebn isDefbult() {
+            return (vblue == defbultvblue);
         }
 
-        public Modifier.Iterator getIterator(TestEnvironment env) {
-            return new SwitchIterator(new Object[] { new Integer(value) }, 1);
+        public Modifier.Iterbtor getIterbtor(TestEnvironment env) {
+            return new SwitchIterbtor(new Object[] { new Integer(vblue) }, 1);
         }
 
         public JComponent getJComponent() {
             if (jp == null) {
-                jp = new JPanel();
-                jp.setLayout(new BorderLayout());
-                jp.add(new JLabel(getDescription()), BorderLayout.WEST);
+                jp = new JPbnel();
+                jp.setLbyout(new BorderLbyout());
+                jp.bdd(new JLbbel(getDescription()), BorderLbyout.WEST);
                 jtf = new JTextField(10);
-                updateGUI();
-                jtf.setDocument(new PlainDocument() {
+                updbteGUI();
+                jtf.setDocument(new PlbinDocument() {
                     public void insertString(int offs, String str,
-                                             AttributeSet a)
-                        throws BadLocationException
+                                             AttributeSet b)
+                        throws BbdLocbtionException
                     {
                         if (str == null) {
                             return;
                         }
                         for (int i = 0; i < str.length(); i++) {
-                            char c = str.charAt(i);
+                            chbr c = str.chbrAt(i);
                             if (c < '0' || c > '9') {
-                                Toolkit.getDefaultToolkit().beep();
+                                Toolkit.getDefbultToolkit().beep();
                                 return;
                             }
                         }
                         String oldstr = jtf.getText();
-                        super.insertString(offs, str, a);
+                        super.insertString(offs, str, b);
                         str = jtf.getText();
-                        if (setValueFromString(str) == null) {
-                            if (J2DBench.verbose.isEnabled()) {
+                        if (setVblueFromString(str) == null) {
+                            if (J2DBench.verbose.isEnbbled()) {
                                 System.out.println(getOptionString());
                             }
                         } else {
                             super.remove(0, super.getLength());
                             super.insertString(0, oldstr, null);
-                            Toolkit.getDefaultToolkit().beep();
+                            Toolkit.getDefbultToolkit().beep();
                         }
                     }
                 });
-                jtf.setText(getValString());
-                jp.add(jtf, BorderLayout.EAST);
+                jtf.setText(getVblString());
+                jp.bdd(jtf, BorderLbyout.EAST);
             }
             return jp;
         }
 
-        public String getValString() {
-            return Integer.toString(value);
+        public String getVblString() {
+            return Integer.toString(vblue);
         }
 
-        public String setValueFromString(String value) {
-            int val;
+        public String setVblueFromString(String vblue) {
+            int vbl;
             try {
-                val = Integer.parseInt(value);
-            } catch (NumberFormatException e) {
-                return "Value not an integer ("+value+")";
+                vbl = Integer.pbrseInt(vblue);
+            } cbtch (NumberFormbtException e) {
+                return "Vblue not bn integer ("+vblue+")";
             }
-            if (val < minvalue || val > maxvalue) {
-                return "Value out of range";
+            if (vbl < minvblue || vbl > mbxvblue) {
+                return "Vblue out of rbnge";
             }
-            if (this.value != val) {
-                this.value = val;
-                updateGUI();
+            if (this.vblue != vbl) {
+                this.vblue = vbl;
+                updbteGUI();
             }
             return null;
         }
     }
 
-    public static class ObjectList extends Option {
+    public stbtic clbss ObjectList extends Option {
         int size;
-        String optionnames[];
-        Object optionvalues[];
-        String abbrevnames[];
-        String descnames[];
-        int defaultenabled;
-        int enabled;
-        JPanel jp;
+        String optionnbmes[];
+        Object optionvblues[];
+        String bbbrevnbmes[];
+        String descnbmes[];
+        int defbultenbbled;
+        int enbbled;
+        JPbnel jp;
         JList jlist;
         int numrows;
 
-        public ObjectList(Group parent, String nodeName, String description,
-                          String optionnames[],
-                          Object optionvalues[],
-                          String abbrevnames[],
-                          String descnames[],
-                          int defaultenabled)
+        public ObjectList(Group pbrent, String nodeNbme, String description,
+                          String optionnbmes[],
+                          Object optionvblues[],
+                          String bbbrevnbmes[],
+                          String descnbmes[],
+                          int defbultenbbled)
         {
-            this(parent, nodeName, description,
-                 Math.min(Math.min(optionnames.length,
-                                   optionvalues.length),
-                          Math.min(abbrevnames.length,
-                                   descnames.length)),
-                 optionnames, optionvalues,
-                 abbrevnames, descnames, defaultenabled);
+            this(pbrent, nodeNbme, description,
+                 Mbth.min(Mbth.min(optionnbmes.length,
+                                   optionvblues.length),
+                          Mbth.min(bbbrevnbmes.length,
+                                   descnbmes.length)),
+                 optionnbmes, optionvblues,
+                 bbbrevnbmes, descnbmes, defbultenbbled);
         }
 
-        public ObjectList(Group parent, String nodeName, String description,
+        public ObjectList(Group pbrent, String nodeNbme, String description,
                           int size,
-                          String optionnames[],
-                          Object optionvalues[],
-                          String abbrevnames[],
-                          String descnames[],
-                          int defaultenabled)
+                          String optionnbmes[],
+                          Object optionvblues[],
+                          String bbbrevnbmes[],
+                          String descnbmes[],
+                          int defbultenbbled)
         {
-            super(parent, nodeName, description);
+            super(pbrent, nodeNbme, description);
             this.size = size;
-            this.optionnames = trim(optionnames, size);
-            this.optionvalues = trim(optionvalues, size);
-            this.abbrevnames = trim(abbrevnames, size);
-            this.descnames = trim(descnames, size);
-            this.enabled = this.defaultenabled = defaultenabled;
+            this.optionnbmes = trim(optionnbmes, size);
+            this.optionvblues = trim(optionvblues, size);
+            this.bbbrevnbmes = trim(bbbrevnbmes, size);
+            this.descnbmes = trim(descnbmes, size);
+            this.enbbled = this.defbultenbbled = defbultenbbled;
         }
 
-        private static String[] trim(String list[], int size) {
+        privbte stbtic String[] trim(String list[], int size) {
             if (list.length == size) {
                 return list;
             }
             String newlist[] = new String[size];
-            System.arraycopy(list, 0, newlist, 0, size);
+            System.brrbycopy(list, 0, newlist, 0, size);
             return newlist;
         }
 
-        private static Object[] trim(Object list[], int size) {
+        privbte stbtic Object[] trim(Object list[], int size) {
             if (list.length == size) {
                 return list;
             }
             Object newlist[] = new Object[size];
-            System.arraycopy(list, 0, newlist, 0, size);
+            System.brrbycopy(list, 0, newlist, 0, size);
             return newlist;
         }
 
-        public void restoreDefault() {
-            if (enabled != defaultenabled) {
-                enabled = defaultenabled;
-                updateGUI();
+        public void restoreDefbult() {
+            if (enbbled != defbultenbbled) {
+                enbbled = defbultenbbled;
+                updbteGUI();
             }
         }
 
-        public void updateGUI() {
+        public void updbteGUI() {
             if (jlist != null) {
-                int enabled = this.enabled;
-                jlist.clearSelection();
+                int enbbled = this.enbbled;
+                jlist.clebrSelection();
                 for (int curindex = 0; curindex < size; curindex++) {
-                    if ((enabled & (1 << curindex)) != 0) {
-                        jlist.addSelectionInterval(curindex, curindex);
+                    if ((enbbled & (1 << curindex)) != 0) {
+                        jlist.bddSelectionIntervbl(curindex, curindex);
                     }
                 }
             }
         }
 
-        public boolean isDefault() {
-            return (enabled == defaultenabled);
+        public boolebn isDefbult() {
+            return (enbbled == defbultenbbled);
         }
 
-        public Modifier.Iterator getIterator(TestEnvironment env) {
-            return new SwitchIterator(optionvalues, enabled);
+        public Modifier.Iterbtor getIterbtor(TestEnvironment env) {
+            return new SwitchIterbtor(optionvblues, enbbled);
         }
 
         public void setNumRows(int numrows) {
@@ -514,310 +514,310 @@ public abstract class Option extends Node implements Modifier {
 
         public JComponent getJComponent() {
             if (jp == null) {
-                jp = new JPanel();
-                jp.setLayout(new BorderLayout());
-                jp.add(new JLabel(getDescription()), BorderLayout.WEST);
-                jlist = new JList(descnames);
+                jp = new JPbnel();
+                jp.setLbyout(new BorderLbyout());
+                jp.bdd(new JLbbel(getDescription()), BorderLbyout.WEST);
+                jlist = new JList(descnbmes);
                 if (numrows > 0) {
                     try {
-                        jlist.setLayoutOrientation(JList.VERTICAL_WRAP);
-                    } catch (NoSuchMethodError e) {
+                        jlist.setLbyoutOrientbtion(JList.VERTICAL_WRAP);
+                    } cbtch (NoSuchMethodError e) {
                     }
                     jlist.setVisibleRowCount(numrows);
                 }
-                jlist.setBorder(new LineBorder(Color.black, 2));
-                updateGUI();
-                jlist.addListSelectionListener(new ListSelectionListener() {
-                    public void valueChanged(ListSelectionEvent e) {
-                        int flags = 0;
+                jlist.setBorder(new LineBorder(Color.blbck, 2));
+                updbteGUI();
+                jlist.bddListSelectionListener(new ListSelectionListener() {
+                    public void vblueChbnged(ListSelectionEvent e) {
+                        int flbgs = 0;
                         for (int curindex = 0; curindex < size; curindex++) {
                             JList list = (JList) e.getSource();
                             if (list.isSelectedIndex(curindex)) {
-                                flags |= (1 << curindex);
+                                flbgs |= (1 << curindex);
                             }
                         }
-                        enabled = flags;
-                        if (J2DBench.verbose.isEnabled()) {
+                        enbbled = flbgs;
+                        if (J2DBench.verbose.isEnbbled()) {
                             System.out.println(getOptionString());
                         }
                     }
                 });
-                jp.add(jlist, BorderLayout.EAST);
+                jp.bdd(jlist, BorderLbyout.EAST);
             }
             return jp;
         }
 
-        public String getValString() {
+        public String getVblString() {
             StringBuffer sb = new StringBuffer();
             for (int i = 0; i < size; i++) {
-                if ((enabled & (1 << i)) != 0) {
+                if ((enbbled & (1 << i)) != 0) {
                     if (sb.length() > 0) {
-                        sb.append(',');
+                        sb.bppend(',');
                     }
-                    sb.append(optionnames[i]);
+                    sb.bppend(optionnbmes[i]);
                 }
             }
             return sb.toString();
         }
 
-        int findValueIndex(Object value) {
+        int findVblueIndex(Object vblue) {
             for (int i = 0; i < size; i++) {
-                if (optionvalues[i] == value) {
+                if (optionvblues[i] == vblue) {
                     return i;
                 }
             }
             return -1;
         }
 
-        public String getValString(Object value) {
-            return optionnames[findValueIndex(value)];
+        public String getVblString(Object vblue) {
+            return optionnbmes[findVblueIndex(vblue)];
         }
 
-        public String getAbbreviatedModifierDescription(Object value) {
-            return abbrevnames[findValueIndex(value)];
+        public String getAbbrevibtedModifierDescription(Object vblue) {
+            return bbbrevnbmes[findVblueIndex(vblue)];
         }
 
-        public String setValueFromString(String value) {
-            int enabled = 0;
-            StringTokenizer st = new StringTokenizer(value, ",");
-            while (st.hasMoreTokens()) {
+        public String setVblueFromString(String vblue) {
+            int enbbled = 0;
+            StringTokenizer st = new StringTokenizer(vblue, ",");
+            while (st.hbsMoreTokens()) {
                 String s = st.nextToken();
                 try {
                     for (int i = 0; i < size; i++) {
-                        if (optionnames[i].equals(s)) {
-                            enabled |= (1 << i);
+                        if (optionnbmes[i].equbls(s)) {
+                            enbbled |= (1 << i);
                             s = null;
-                            break;
+                            brebk;
                         }
                     }
-                } catch (NumberFormatException e) {
+                } cbtch (NumberFormbtException e) {
                 }
                 if (s != null) {
-                    return "Bad value in list ("+s+")";
+                    return "Bbd vblue in list ("+s+")";
                 }
             }
-            this.enabled = enabled;
-            updateGUI();
+            this.enbbled = enbbled;
+            updbteGUI();
             return null;
         }
     }
 
-    public static class IntList extends ObjectList {
-        public IntList(Group parent, String nodeName, String description,
-                       int values[], String abbrevnames[], String descnames[],
-                       int defaultenabled)
+    public stbtic clbss IntList extends ObjectList {
+        public IntList(Group pbrent, String nodeNbme, String description,
+                       int vblues[], String bbbrevnbmes[], String descnbmes[],
+                       int defbultenbbled)
         {
-            super(parent, nodeName, description,
-                  makeNames(values), makeValues(values),
-                  abbrevnames, descnames, defaultenabled);
+            super(pbrent, nodeNbme, description,
+                  mbkeNbmes(vblues), mbkeVblues(vblues),
+                  bbbrevnbmes, descnbmes, defbultenbbled);
         }
 
-        private static String[] makeNames(int intvalues[]) {
-            String names[] = new String[intvalues.length];
-            for (int i = 0; i < intvalues.length; i++) {
-                names[i] = Integer.toString(intvalues[i]);
+        privbte stbtic String[] mbkeNbmes(int intvblues[]) {
+            String nbmes[] = new String[intvblues.length];
+            for (int i = 0; i < intvblues.length; i++) {
+                nbmes[i] = Integer.toString(intvblues[i]);
             }
-            return names;
+            return nbmes;
         }
 
-        private static Object[] makeValues(int intvalues[]) {
-            Object values[] = new Object[intvalues.length];
-            for (int i = 0; i < intvalues.length; i++) {
-                values[i] = new Integer(intvalues[i]);
+        privbte stbtic Object[] mbkeVblues(int intvblues[]) {
+            Object vblues[] = new Object[intvblues.length];
+            for (int i = 0; i < intvblues.length; i++) {
+                vblues[i] = new Integer(intvblues[i]);
             }
-            return values;
+            return vblues;
         }
     }
 
-    public static class ObjectChoice extends Option {
+    public stbtic clbss ObjectChoice extends Option {
          int size;
-         String optionnames[];
-         Object optionvalues[];
-         String abbrevnames[];
-         String descnames[];
-         int defaultselected;
+         String optionnbmes[];
+         Object optionvblues[];
+         String bbbrevnbmes[];
+         String descnbmes[];
+         int defbultselected;
          int selected;
-         JPanel jp;
+         JPbnel jp;
          JComboBox jcombo;
 
-         public ObjectChoice(Group parent, String nodeName, String description,
-                             String optionnames[],
-                             Object optionvalues[],
-                             String abbrevnames[],
-                             String descnames[],
-                             int defaultselected)
+         public ObjectChoice(Group pbrent, String nodeNbme, String description,
+                             String optionnbmes[],
+                             Object optionvblues[],
+                             String bbbrevnbmes[],
+                             String descnbmes[],
+                             int defbultselected)
          {
-             this(parent, nodeName, description,
-                  Math.min(Math.min(optionnames.length,
-                                    optionvalues.length),
-                           Math.min(abbrevnames.length,
-                                    descnames.length)),
-                  optionnames, optionvalues,
-                  abbrevnames, descnames, defaultselected);
+             this(pbrent, nodeNbme, description,
+                  Mbth.min(Mbth.min(optionnbmes.length,
+                                    optionvblues.length),
+                           Mbth.min(bbbrevnbmes.length,
+                                    descnbmes.length)),
+                  optionnbmes, optionvblues,
+                  bbbrevnbmes, descnbmes, defbultselected);
          }
 
-         public ObjectChoice(Group parent, String nodeName, String description,
+         public ObjectChoice(Group pbrent, String nodeNbme, String description,
                              int size,
-                             String optionnames[],
-                             Object optionvalues[],
-                             String abbrevnames[],
-                             String descnames[],
-                             int defaultselected)
+                             String optionnbmes[],
+                             Object optionvblues[],
+                             String bbbrevnbmes[],
+                             String descnbmes[],
+                             int defbultselected)
          {
-             super(parent, nodeName, description);
+             super(pbrent, nodeNbme, description);
              this.size = size;
-             this.optionnames = trim(optionnames, size);
-             this.optionvalues = trim(optionvalues, size);
-             this.abbrevnames = trim(abbrevnames, size);
-             this.descnames = trim(descnames, size);
-             this.selected = this.defaultselected = defaultselected;
+             this.optionnbmes = trim(optionnbmes, size);
+             this.optionvblues = trim(optionvblues, size);
+             this.bbbrevnbmes = trim(bbbrevnbmes, size);
+             this.descnbmes = trim(descnbmes, size);
+             this.selected = this.defbultselected = defbultselected;
          }
 
-         private static String[] trim(String list[], int size) {
+         privbte stbtic String[] trim(String list[], int size) {
              if (list.length == size) {
                  return list;
              }
              String newlist[] = new String[size];
-             System.arraycopy(list, 0, newlist, 0, size);
+             System.brrbycopy(list, 0, newlist, 0, size);
              return newlist;
          }
 
-         private static Object[] trim(Object list[], int size) {
+         privbte stbtic Object[] trim(Object list[], int size) {
              if (list.length == size) {
                  return list;
              }
              Object newlist[] = new Object[size];
-             System.arraycopy(list, 0, newlist, 0, size);
+             System.brrbycopy(list, 0, newlist, 0, size);
              return newlist;
          }
 
-         public void restoreDefault() {
-             if (selected != defaultselected) {
-                 selected = defaultselected;
-                 updateGUI();
+         public void restoreDefbult() {
+             if (selected != defbultselected) {
+                 selected = defbultselected;
+                 updbteGUI();
              }
          }
 
-         public void updateGUI() {
+         public void updbteGUI() {
              if (jcombo != null) {
                  jcombo.setSelectedIndex(this.selected);
              }
          }
 
-         public boolean isDefault() {
-             return (selected == defaultselected);
+         public boolebn isDefbult() {
+             return (selected == defbultselected);
          }
 
-         public Modifier.Iterator getIterator(TestEnvironment env) {
-             return new SwitchIterator(optionvalues, 1 << selected);
+         public Modifier.Iterbtor getIterbtor(TestEnvironment env) {
+             return new SwitchIterbtor(optionvblues, 1 << selected);
          }
 
          public JComponent getJComponent() {
              if (jp == null) {
-                 jp = new JPanel();
-                 jp.setLayout(new BorderLayout());
-                 jp.add(new JLabel(getDescription()), BorderLayout.WEST);
-                 jcombo = new JComboBox(descnames);
-                 updateGUI();
-                 jcombo.addItemListener(new ItemListener() {
-                     public void itemStateChanged(ItemEvent e) {
-                         if (e.getStateChange() == ItemEvent.SELECTED) {
+                 jp = new JPbnel();
+                 jp.setLbyout(new BorderLbyout());
+                 jp.bdd(new JLbbel(getDescription()), BorderLbyout.WEST);
+                 jcombo = new JComboBox(descnbmes);
+                 updbteGUI();
+                 jcombo.bddItemListener(new ItemListener() {
+                     public void itemStbteChbnged(ItemEvent e) {
+                         if (e.getStbteChbnge() == ItemEvent.SELECTED) {
                              selected = jcombo.getSelectedIndex();
-                             if (J2DBench.verbose.isEnabled()) {
+                             if (J2DBench.verbose.isEnbbled()) {
                                  System.out.println(getOptionString());
                              }
                          }
                      }
                  });
-                 jp.add(jcombo, BorderLayout.EAST);
+                 jp.bdd(jcombo, BorderLbyout.EAST);
              }
              return jp;
          }
 
-         public Object getValue() {
-             return optionvalues[selected];
+         public Object getVblue() {
+             return optionvblues[selected];
          }
 
-         public int getIntValue() {
-             return ((Integer) optionvalues[selected]).intValue();
+         public int getIntVblue() {
+             return ((Integer) optionvblues[selected]).intVblue();
          }
 
-         public boolean getBooleanValue() {
-             return ((Boolean) optionvalues[selected]).booleanValue();
+         public boolebn getBoolebnVblue() {
+             return ((Boolebn) optionvblues[selected]).boolebnVblue();
          }
 
-         public String getValString() {
-             return optionnames[selected];
+         public String getVblString() {
+             return optionnbmes[selected];
          }
 
-         int findValueIndex(Object value) {
+         int findVblueIndex(Object vblue) {
              for (int i = 0; i < size; i++) {
-                 if (optionvalues[i] == value) {
+                 if (optionvblues[i] == vblue) {
                      return i;
                  }
              }
              return -1;
          }
 
-         public String getValString(Object value) {
-             return optionnames[findValueIndex(value)];
+         public String getVblString(Object vblue) {
+             return optionnbmes[findVblueIndex(vblue)];
          }
 
-         public String getAbbreviatedModifierDescription(Object value) {
-             return abbrevnames[findValueIndex(value)];
+         public String getAbbrevibtedModifierDescription(Object vblue) {
+             return bbbrevnbmes[findVblueIndex(vblue)];
          }
 
-         public String setValue(int v) {
-             return setValue(new Integer(v));
+         public String setVblue(int v) {
+             return setVblue(new Integer(v));
          }
 
-         public String setValue(boolean v) {
-             return setValue(new Boolean(v));
+         public String setVblue(boolebn v) {
+             return setVblue(new Boolebn(v));
          }
 
-         public String setValue(Object value) {
+         public String setVblue(Object vblue) {
              for (int i = 0; i < size; i++) {
-                 if (optionvalues[i].equals(value)) {
+                 if (optionvblues[i].equbls(vblue)) {
                      this.selected = i;
-                     updateGUI();
+                     updbteGUI();
                      return null;
                  }
              }
-             return "Bad value";
+             return "Bbd vblue";
          }
 
-         public String setValueFromString(String value) {
+         public String setVblueFromString(String vblue) {
              for (int i = 0; i < size; i++) {
-                 if (optionnames[i].equals(value)) {
+                 if (optionnbmes[i].equbls(vblue)) {
                      this.selected = i;
-                     updateGUI();
+                     updbteGUI();
                      return null;
                  }
              }
-             return "Bad value";
+             return "Bbd vblue";
          }
     }
 
-    public static class BooleanIterator implements Modifier.Iterator {
-        private Boolean list[];
-        private int index;
+    public stbtic clbss BoolebnIterbtor implements Modifier.Iterbtor {
+        privbte Boolebn list[];
+        privbte int index;
 
-        public static final Boolean FalseList[] = { Boolean.FALSE };
-        public static final Boolean TrueList[] = { Boolean.TRUE };
-        public static final Boolean
-            FalseTrueList[] = { Boolean.FALSE, Boolean.TRUE };
-        public static final Boolean
-            TrueFalseList[] = { Boolean.TRUE, Boolean.FALSE };
+        public stbtic finbl Boolebn FblseList[] = { Boolebn.FALSE };
+        public stbtic finbl Boolebn TrueList[] = { Boolebn.TRUE };
+        public stbtic finbl Boolebn
+            FblseTrueList[] = { Boolebn.FALSE, Boolebn.TRUE };
+        public stbtic finbl Boolebn
+            TrueFblseList[] = { Boolebn.TRUE, Boolebn.FALSE };
 
-        public BooleanIterator(boolean v) {
-            this(v ? TrueList : FalseList);
+        public BoolebnIterbtor(boolebn v) {
+            this(v ? TrueList : FblseList);
         }
 
-        public BooleanIterator(Boolean list[]) {
+        public BoolebnIterbtor(Boolebn list[]) {
             this.list = list;
         }
 
-        public boolean hasNext() {
+        public boolebn hbsNext() {
             return (index < list.length);
         }
 
@@ -829,26 +829,26 @@ public abstract class Option extends Node implements Modifier {
         }
 
         public void remove() {
-            throw new UnsupportedOperationException();
+            throw new UnsupportedOperbtionException();
         }
     }
 
-    public static class SwitchIterator implements Modifier.Iterator {
-        private Object list[];
-        private int enabled;
-        private int index;
+    public stbtic clbss SwitchIterbtor implements Modifier.Iterbtor {
+        privbte Object list[];
+        privbte int enbbled;
+        privbte int index;
 
-        public SwitchIterator(Object[] list, int enabled) {
+        public SwitchIterbtor(Object[] list, int enbbled) {
             this.list = list;
-            this.enabled = enabled;
+            this.enbbled = enbbled;
         }
 
-        public boolean hasNext() {
-            return ((1 << index) <= enabled);
+        public boolebn hbsNext() {
+            return ((1 << index) <= enbbled);
         }
 
         public Object next() {
-            while ((enabled & (1 << index)) == 0) {
+            while ((enbbled & (1 << index)) == 0) {
                 index++;
                 if (index >= list.length) {
                     throw new NoSuchElementException();
@@ -858,7 +858,7 @@ public abstract class Option extends Node implements Modifier {
         }
 
         public void remove() {
-            throw new UnsupportedOperationException();
+            throw new UnsupportedOperbtionException();
         }
     }
 }

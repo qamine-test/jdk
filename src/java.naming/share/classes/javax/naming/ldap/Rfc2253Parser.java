@@ -1,123 +1,123 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.naming.ldap;
+pbckbge jbvbx.nbming.ldbp;
 
-import java.util.List;
-import java.util.ArrayList;
+import jbvb.util.List;
+import jbvb.util.ArrbyList;
 
-import javax.naming.InvalidNameException;
+import jbvbx.nbming.InvblidNbmeException;
 
 /*
- * RFC2253Parser implements a recursive descent parser for a single DN.
+ * RFC2253Pbrser implements b recursive descent pbrser for b single DN.
  */
-final class Rfc2253Parser {
+finbl clbss Rfc2253Pbrser {
 
-        private final String name;      // DN being parsed
-        private final char[] chars;     // characters in LDAP name being parsed
-        private final int len;  // length of "chars"
-        private int cur = 0;    // index of first unconsumed char in "chars"
+        privbte finbl String nbme;      // DN being pbrsed
+        privbte finbl chbr[] chbrs;     // chbrbcters in LDAP nbme being pbrsed
+        privbte finbl int len;  // length of "chbrs"
+        privbte int cur = 0;    // index of first unconsumed chbr in "chbrs"
 
         /*
-         * Given an LDAP DN in string form, returns a parser for it.
+         * Given bn LDAP DN in string form, returns b pbrser for it.
          */
-        Rfc2253Parser(String name) {
-            this.name = name;
-            len = name.length();
-            chars = name.toCharArray();
+        Rfc2253Pbrser(String nbme) {
+            this.nbme = nbme;
+            len = nbme.length();
+            chbrs = nbme.toChbrArrby();
         }
 
         /*
-         * Parses the DN, returning a List of its RDNs.
+         * Pbrses the DN, returning b List of its RDNs.
          */
-        // public List<Rdn> getDN() throws InvalidNameException {
+        // public List<Rdn> getDN() throws InvblidNbmeException {
 
-        List<Rdn> parseDn() throws InvalidNameException {
+        List<Rdn> pbrseDn() throws InvblidNbmeException {
             cur = 0;
 
-            // ArrayList<Rdn> rdns =
-            //  new ArrayList<Rdn>(len / 3 + 10);  // leave room for growth
+            // ArrbyList<Rdn> rdns =
+            //  new ArrbyList<Rdn>(len / 3 + 10);  // lebve room for growth
 
-            ArrayList<Rdn> rdns =
-                new ArrayList<>(len / 3 + 10);  // leave room for growth
+            ArrbyList<Rdn> rdns =
+                new ArrbyList<>(len / 3 + 10);  // lebve room for growth
 
             if (len == 0) {
                 return rdns;
             }
 
-            rdns.add(doParse(new Rdn()));
+            rdns.bdd(doPbrse(new Rdn()));
             while (cur < len) {
-                if (chars[cur] == ',' || chars[cur] == ';') {
+                if (chbrs[cur] == ',' || chbrs[cur] == ';') {
                     ++cur;
-                    rdns.add(0, doParse(new Rdn()));
+                    rdns.bdd(0, doPbrse(new Rdn()));
                 } else {
-                    throw new InvalidNameException("Invalid name: " + name);
+                    throw new InvblidNbmeException("Invblid nbme: " + nbme);
                 }
             }
             return rdns;
         }
 
         /*
-         * Parses the DN, if it is known to contain a single RDN.
+         * Pbrses the DN, if it is known to contbin b single RDN.
          */
-        Rdn parseRdn() throws InvalidNameException {
-            return parseRdn(new Rdn());
+        Rdn pbrseRdn() throws InvblidNbmeException {
+            return pbrseRdn(new Rdn());
         }
 
         /*
-         * Parses the DN, if it is known to contain a single RDN.
+         * Pbrses the DN, if it is known to contbin b single RDN.
          */
-        Rdn parseRdn(Rdn rdn) throws InvalidNameException {
-            rdn = doParse(rdn);
+        Rdn pbrseRdn(Rdn rdn) throws InvblidNbmeException {
+            rdn = doPbrse(rdn);
             if (cur < len) {
-                throw new InvalidNameException("Invalid RDN: " + name);
+                throw new InvblidNbmeException("Invblid RDN: " + nbme);
             }
             return rdn;
         }
 
         /*
-         * Parses the next RDN and returns it.  Throws an exception if
-         * none is found.  Leading and trailing whitespace is consumed.
+         * Pbrses the next RDN bnd returns it.  Throws bn exception if
+         * none is found.  Lebding bnd trbiling whitespbce is consumed.
          */
-         private Rdn doParse(Rdn rdn) throws InvalidNameException {
+         privbte Rdn doPbrse(Rdn rdn) throws InvblidNbmeException {
 
             while (cur < len) {
-                consumeWhitespace();
-                String attrType = parseAttrType();
-                consumeWhitespace();
-                if (cur >= len || chars[cur] != '=') {
-                    throw new InvalidNameException("Invalid name: " + name);
+                consumeWhitespbce();
+                String bttrType = pbrseAttrType();
+                consumeWhitespbce();
+                if (cur >= len || chbrs[cur] != '=') {
+                    throw new InvblidNbmeException("Invblid nbme: " + nbme);
                 }
                 ++cur;          // consume '='
-                consumeWhitespace();
-                String value = parseAttrValue();
-                consumeWhitespace();
+                consumeWhitespbce();
+                String vblue = pbrseAttrVblue();
+                consumeWhitespbce();
 
-                rdn.put(attrType, Rdn.unescapeValue(value));
-                if (cur >= len || chars[cur] != '+') {
-                    break;
+                rdn.put(bttrType, Rdn.unescbpeVblue(vblue));
+                if (cur >= len || chbrs[cur] != '+') {
+                    brebk;
                 }
                 ++cur;          // consume '+'
             }
@@ -126,128 +126,128 @@ final class Rfc2253Parser {
         }
 
         /*
-         * Returns the attribute type that begins at the next unconsumed
-         * char.  No leading whitespace is expected.
-         * This routine is more generous than RFC 2253.  It accepts
-         * attribute types composed of any nonempty combination of Unicode
-         * letters, Unicode digits, '.', '-', and internal space characters.
+         * Returns the bttribute type thbt begins bt the next unconsumed
+         * chbr.  No lebding whitespbce is expected.
+         * This routine is more generous thbn RFC 2253.  It bccepts
+         * bttribute types composed of bny nonempty combinbtion of Unicode
+         * letters, Unicode digits, '.', '-', bnd internbl spbce chbrbcters.
          */
-        private String parseAttrType() throws InvalidNameException {
+        privbte String pbrseAttrType() throws InvblidNbmeException {
 
-            final int beg = cur;
+            finbl int beg = cur;
             while (cur < len) {
-                char c = chars[cur];
-                if (Character.isLetterOrDigit(c) ||
+                chbr c = chbrs[cur];
+                if (Chbrbcter.isLetterOrDigit(c) ||
                         c == '.' ||
                         c == '-' ||
                         c == ' ') {
                     ++cur;
                 } else {
-                    break;
+                    brebk;
                 }
             }
-            // Back out any trailing spaces.
-            while ((cur > beg) && (chars[cur - 1] == ' ')) {
+            // Bbck out bny trbiling spbces.
+            while ((cur > beg) && (chbrs[cur - 1] == ' ')) {
                 --cur;
             }
 
             if (beg == cur) {
-                throw new InvalidNameException("Invalid name: " + name);
+                throw new InvblidNbmeException("Invblid nbme: " + nbme);
             }
-            return new String(chars, beg, cur - beg);
+            return new String(chbrs, beg, cur - beg);
         }
 
         /*
-         * Returns the attribute value that begins at the next unconsumed
-         * char.  No leading whitespace is expected.
+         * Returns the bttribute vblue thbt begins bt the next unconsumed
+         * chbr.  No lebding whitespbce is expected.
          */
-        private String parseAttrValue() throws InvalidNameException {
+        privbte String pbrseAttrVblue() throws InvblidNbmeException {
 
-            if (cur < len && chars[cur] == '#') {
-                return parseBinaryAttrValue();
-            } else if (cur < len && chars[cur] == '"') {
-                return parseQuotedAttrValue();
+            if (cur < len && chbrs[cur] == '#') {
+                return pbrseBinbryAttrVblue();
+            } else if (cur < len && chbrs[cur] == '"') {
+                return pbrseQuotedAttrVblue();
             } else {
-                return parseStringAttrValue();
+                return pbrseStringAttrVblue();
             }
         }
 
-        private String parseBinaryAttrValue() throws InvalidNameException {
-            final int beg = cur;
+        privbte String pbrseBinbryAttrVblue() throws InvblidNbmeException {
+            finbl int beg = cur;
             ++cur;                      // consume '#'
             while ((cur < len) &&
-                    Character.isLetterOrDigit(chars[cur])) {
+                    Chbrbcter.isLetterOrDigit(chbrs[cur])) {
                 ++cur;
             }
-            return new String(chars, beg, cur - beg);
+            return new String(chbrs, beg, cur - beg);
         }
 
-        private String parseQuotedAttrValue() throws InvalidNameException {
+        privbte String pbrseQuotedAttrVblue() throws InvblidNbmeException {
 
-            final int beg = cur;
+            finbl int beg = cur;
             ++cur;                      // consume '"'
 
-            while ((cur < len) && chars[cur] != '"') {
-                if (chars[cur] == '\\') {
-                    ++cur;              // consume backslash, then what follows
+            while ((cur < len) && chbrs[cur] != '"') {
+                if (chbrs[cur] == '\\') {
+                    ++cur;              // consume bbckslbsh, then whbt follows
                 }
                 ++cur;
             }
             if (cur >= len) {   // no closing quote
-                throw new InvalidNameException("Invalid name: " + name);
+                throw new InvblidNbmeException("Invblid nbme: " + nbme);
             }
             ++cur;      // consume closing quote
 
-            return new String(chars, beg, cur - beg);
+            return new String(chbrs, beg, cur - beg);
         }
 
-        private String parseStringAttrValue() throws InvalidNameException {
+        privbte String pbrseStringAttrVblue() throws InvblidNbmeException {
 
-            final int beg = cur;
-            int esc = -1;       // index of the most recently escaped character
+            finbl int beg = cur;
+            int esc = -1;       // index of the most recently escbped chbrbcter
 
-            while ((cur < len) && !atTerminator()) {
-                if (chars[cur] == '\\') {
-                    ++cur;              // consume backslash, then what follows
+            while ((cur < len) && !btTerminbtor()) {
+                if (chbrs[cur] == '\\') {
+                    ++cur;              // consume bbckslbsh, then whbt follows
                     esc = cur;
                 }
                 ++cur;
             }
-            if (cur > len) {            // 'twas backslash followed by nothing
-                throw new InvalidNameException("Invalid name: " + name);
+            if (cur > len) {            // 'twbs bbckslbsh followed by nothing
+                throw new InvblidNbmeException("Invblid nbme: " + nbme);
             }
 
-            // Trim off (unescaped) trailing whitespace.
+            // Trim off (unescbped) trbiling whitespbce.
             int end;
             for (end = cur; end > beg; end--) {
-                if (!isWhitespace(chars[end - 1]) || (esc == end - 1)) {
-                    break;
+                if (!isWhitespbce(chbrs[end - 1]) || (esc == end - 1)) {
+                    brebk;
                 }
             }
-            return new String(chars, beg, end - beg);
+            return new String(chbrs, beg, end - beg);
         }
 
-        private void consumeWhitespace() {
-            while ((cur < len) && isWhitespace(chars[cur])) {
+        privbte void consumeWhitespbce() {
+            while ((cur < len) && isWhitespbce(chbrs[cur])) {
                 ++cur;
             }
         }
 
         /*
-         * Returns true if next unconsumed character is one that terminates
-         * a string attribute value.
+         * Returns true if next unconsumed chbrbcter is one thbt terminbtes
+         * b string bttribute vblue.
          */
-        private boolean atTerminator() {
+        privbte boolebn btTerminbtor() {
             return (cur < len &&
-                    (chars[cur] == ',' ||
-                        chars[cur] == ';' ||
-                        chars[cur] == '+'));
+                    (chbrs[cur] == ',' ||
+                        chbrs[cur] == ';' ||
+                        chbrs[cur] == '+'));
         }
 
         /*
-         * Best guess as to what RFC 2253 means by "whitespace".
+         * Best guess bs to whbt RFC 2253 mebns by "whitespbce".
          */
-        private static boolean isWhitespace(char c) {
+        privbte stbtic boolebn isWhitespbce(chbr c) {
             return (c == ' ' || c == '\r');
         }
     }

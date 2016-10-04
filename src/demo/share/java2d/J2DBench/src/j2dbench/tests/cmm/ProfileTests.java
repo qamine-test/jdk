@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,37 +30,37 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
-package j2dbench.tests.cmm;
+pbckbge j2dbench.tests.cmm;
 
 import j2dbench.Group;
 import j2dbench.Result;
 import j2dbench.TestEnvironment;
-import java.awt.color.ColorSpace;
-import java.awt.color.ICC_ColorSpace;
-import java.awt.color.ICC_Profile;
+import jbvb.bwt.color.ColorSpbce;
+import jbvb.bwt.color.ICC_ColorSpbce;
+import jbvb.bwt.color.ICC_Profile;
 
-public class ProfileTests extends CMMTests {
+public clbss ProfileTests extends CMMTests {
 
-    protected static Group profileRoot;
+    protected stbtic Group profileRoot;
 
-    public static void init() {
-        profileRoot = new Group(cmmRoot, "profiles", "Profile Handling Benchmarks");
+    public stbtic void init() {
+        profileRoot = new Group(cmmRoot, "profiles", "Profile Hbndling Benchmbrks");
 
-        new ReadHeaderTest();
+        new RebdHebderTest();
         new GetNumComponentsTest();
     }
 
-    protected ProfileTests(Group parent, String nodeName, String description) {
-        super(parent, nodeName, description);
+    protected ProfileTests(Group pbrent, String nodeNbme, String description) {
+        super(pbrent, nodeNbme, description);
     }
 
-    protected static class Context {
+    protected stbtic clbss Context {
 
         ICC_Profile profile;
         TestEnvironment env;
@@ -75,39 +75,39 @@ public class ProfileTests extends CMMTests {
 
     @Override
     public Object initTest(TestEnvironment env, Result res) {
-        ICC_ColorSpace cs = (ICC_ColorSpace) getColorSpace(env);
+        ICC_ColorSpbce cs = (ICC_ColorSpbce) getColorSpbce(env);
         return new Context(cs.getProfile(), env, res);
     }
 
     @Override
-    public void cleanupTest(TestEnvironment env, Object o) {
+    public void clebnupTest(TestEnvironment env, Object o) {
     }
 
-    private static class ReadHeaderTest extends ProfileTests {
+    privbte stbtic clbss RebdHebderTest extends ProfileTests {
 
-        public ReadHeaderTest() {
+        public RebdHebderTest() {
             super(profileRoot,
-                    "getHeader",
-                    "getData(icSigHead)");
+                    "getHebder",
+                    "getDbtb(icSigHebd)");
         }
 
         @Override
         public void runTest(Object ctx, int numReps) {
-            final Context ictx = (Context) ctx;
-            final ICC_Profile profile = ictx.profile;
+            finbl Context ictx = (Context) ctx;
+            finbl ICC_Profile profile = ictx.profile;
 
-            byte[] data = null;
+            byte[] dbtb = null;
             do {
                 try {
-                    data = profile.getData(ICC_Profile.icSigHead);
-                } catch (Exception e) {
-                    e.printStackTrace();
+                    dbtb = profile.getDbtb(ICC_Profile.icSigHebd);
+                } cbtch (Exception e) {
+                    e.printStbckTrbce();
                 }
             } while (--numReps >= 0);
         }
     }
 
-    private static class GetNumComponentsTest extends ProfileTests {
+    privbte stbtic clbss GetNumComponentsTest extends ProfileTests {
 
         public GetNumComponentsTest() {
             super(profileRoot,
@@ -117,14 +117,14 @@ public class ProfileTests extends CMMTests {
 
         @Override
         public void runTest(Object ctx, int numReps) {
-            final Context ictx = (Context) ctx;
-            final ICC_Profile profile = ictx.profile;
+            finbl Context ictx = (Context) ctx;
+            finbl ICC_Profile profile = ictx.profile;
 
             do {
                 try {
                     int num = profile.getNumComponents();
-                } catch (Exception e) {
-                    e.printStackTrace();
+                } cbtch (Exception e) {
+                    e.printStbckTrbce();
                 }
             } while (--numReps >= 0);
         }

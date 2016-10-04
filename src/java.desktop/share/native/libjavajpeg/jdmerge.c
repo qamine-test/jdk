@@ -5,35 +5,35 @@
 /*
  * jdmerge.c
  *
- * Copyright (C) 1994-1996, Thomas G. Lane.
- * This file is part of the Independent JPEG Group's software.
- * For conditions of distribution and use, see the accompanying README file.
+ * Copyright (C) 1994-1996, Thombs G. Lbne.
+ * This file is pbrt of the Independent JPEG Group's softwbre.
+ * For conditions of distribution bnd use, see the bccompbnying README file.
  *
- * This file contains code for merged upsampling/color conversion.
+ * This file contbins code for merged upsbmpling/color conversion.
  *
- * This file combines functions from jdsample.c and jdcolor.c;
- * read those files first to understand what's going on.
+ * This file combines functions from jdsbmple.c bnd jdcolor.c;
+ * rebd those files first to understbnd whbt's going on.
  *
- * When the chroma components are to be upsampled by simple replication
- * (ie, box filtering), we can save some work in color conversion by
- * calculating all the output pixels corresponding to a pair of chroma
- * samples at one time.  In the conversion equations
+ * When the chromb components bre to be upsbmpled by simple replicbtion
+ * (ie, box filtering), we cbn sbve some work in color conversion by
+ * cblculbting bll the output pixels corresponding to b pbir of chromb
+ * sbmples bt one time.  In the conversion equbtions
  *      R = Y           + K1 * Cr
  *      G = Y + K2 * Cb + K3 * Cr
  *      B = Y + K4 * Cb
- * only the Y term varies among the group of pixels corresponding to a pair
- * of chroma samples, so the rest of the terms can be calculated just once.
- * At typical sampling ratios, this eliminates half or three-quarters of the
- * multiplications needed for color conversion.
+ * only the Y term vbries bmong the group of pixels corresponding to b pbir
+ * of chromb sbmples, so the rest of the terms cbn be cblculbted just once.
+ * At typicbl sbmpling rbtios, this eliminbtes hblf or three-qubrters of the
+ * multiplicbtions needed for color conversion.
  *
- * This file currently provides implementations for the following cases:
+ * This file currently provides implementbtions for the following cbses:
  *      YCbCr => RGB color conversion only.
- *      Sampling ratios of 2h1v or 2h2v.
- *      No scaling needed at upsample time.
- *      Corner-aligned (non-CCIR601) sampling alignment.
- * Other special cases could be added, but in most applications these are
- * the only common cases.  (For uncommon cases we fall back on the more
- * general code in jdsample.c and jdcolor.c.)
+ *      Sbmpling rbtios of 2h1v or 2h2v.
+ *      No scbling needed bt upsbmple time.
+ *      Corner-bligned (non-CCIR601) sbmpling blignment.
+ * Other specibl cbses could be bdded, but in most bpplicbtions these bre
+ * the only common cbses.  (For uncommon cbses we fbll bbck on the more
+ * generbl code in jdsbmple.c bnd jdcolor.c.)
  */
 
 #define JPEG_INTERNALS
@@ -43,168 +43,168 @@
 #ifdef UPSAMPLE_MERGING_SUPPORTED
 
 
-/* Private subobject */
+/* Privbte subobject */
 
 typedef struct {
-  struct jpeg_upsampler pub;    /* public fields */
+  struct jpeg_upsbmpler pub;    /* public fields */
 
-  /* Pointer to routine to do actual upsampling/conversion of one row group */
+  /* Pointer to routine to do bctubl upsbmpling/conversion of one row group */
   JMETHOD(void, upmethod, (j_decompress_ptr cinfo,
                            JSAMPIMAGE input_buf, JDIMENSION in_row_group_ctr,
                            JSAMPARRAY output_buf));
 
-  /* Private state for YCC->RGB conversion */
-  int * Cr_r_tab;               /* => table for Cr to R conversion */
-  int * Cb_b_tab;               /* => table for Cb to B conversion */
-  INT32 * Cr_g_tab;             /* => table for Cr to G conversion */
-  INT32 * Cb_g_tab;             /* => table for Cb to G conversion */
+  /* Privbte stbte for YCC->RGB conversion */
+  int * Cr_r_tbb;               /* => tbble for Cr to R conversion */
+  int * Cb_b_tbb;               /* => tbble for Cb to B conversion */
+  INT32 * Cr_g_tbb;             /* => tbble for Cr to G conversion */
+  INT32 * Cb_g_tbb;             /* => tbble for Cb to G conversion */
 
-  /* For 2:1 vertical sampling, we produce two output rows at a time.
-   * We need a "spare" row buffer to hold the second output row if the
-   * application provides just a one-row buffer; we also use the spare
-   * to discard the dummy last row if the image height is odd.
+  /* For 2:1 verticbl sbmpling, we produce two output rows bt b time.
+   * We need b "spbre" row buffer to hold the second output row if the
+   * bpplicbtion provides just b one-row buffer; we blso use the spbre
+   * to discbrd the dummy lbst row if the imbge height is odd.
    */
-  JSAMPROW spare_row;
-  boolean spare_full;           /* T if spare buffer is occupied */
+  JSAMPROW spbre_row;
+  boolebn spbre_full;           /* T if spbre buffer is occupied */
 
-  JDIMENSION out_row_width;     /* samples per output row */
-  JDIMENSION rows_to_go;        /* counts rows remaining in image */
-} my_upsampler;
+  JDIMENSION out_row_width;     /* sbmples per output row */
+  JDIMENSION rows_to_go;        /* counts rows rembining in imbge */
+} my_upsbmpler;
 
-typedef my_upsampler * my_upsample_ptr;
+typedef my_upsbmpler * my_upsbmple_ptr;
 
-#define SCALEBITS       16      /* speediest right-shift on some machines */
+#define SCALEBITS       16      /* speediest right-shift on some mbchines */
 #define ONE_HALF        ((INT32) 1 << (SCALEBITS-1))
 #define FIX(x)          ((INT32) ((x) * (1L<<SCALEBITS) + 0.5))
 
 
 /*
- * Initialize tables for YCC->RGB colorspace conversion.
- * This is taken directly from jdcolor.c; see that file for more info.
+ * Initiblize tbbles for YCC->RGB colorspbce conversion.
+ * This is tbken directly from jdcolor.c; see thbt file for more info.
  */
 
 LOCAL(void)
-build_ycc_rgb_table (j_decompress_ptr cinfo)
+build_ycc_rgb_tbble (j_decompress_ptr cinfo)
 {
-  my_upsample_ptr upsample = (my_upsample_ptr) cinfo->upsample;
+  my_upsbmple_ptr upsbmple = (my_upsbmple_ptr) cinfo->upsbmple;
   int i;
   INT32 x;
   SHIFT_TEMPS
 
-  upsample->Cr_r_tab = (int *)
-    (*cinfo->mem->alloc_small) ((j_common_ptr) cinfo, JPOOL_IMAGE,
+  upsbmple->Cr_r_tbb = (int *)
+    (*cinfo->mem->blloc_smbll) ((j_common_ptr) cinfo, JPOOL_IMAGE,
                                 (MAXJSAMPLE+1) * SIZEOF(int));
-  upsample->Cb_b_tab = (int *)
-    (*cinfo->mem->alloc_small) ((j_common_ptr) cinfo, JPOOL_IMAGE,
+  upsbmple->Cb_b_tbb = (int *)
+    (*cinfo->mem->blloc_smbll) ((j_common_ptr) cinfo, JPOOL_IMAGE,
                                 (MAXJSAMPLE+1) * SIZEOF(int));
-  upsample->Cr_g_tab = (INT32 *)
-    (*cinfo->mem->alloc_small) ((j_common_ptr) cinfo, JPOOL_IMAGE,
+  upsbmple->Cr_g_tbb = (INT32 *)
+    (*cinfo->mem->blloc_smbll) ((j_common_ptr) cinfo, JPOOL_IMAGE,
                                 (MAXJSAMPLE+1) * SIZEOF(INT32));
-  upsample->Cb_g_tab = (INT32 *)
-    (*cinfo->mem->alloc_small) ((j_common_ptr) cinfo, JPOOL_IMAGE,
+  upsbmple->Cb_g_tbb = (INT32 *)
+    (*cinfo->mem->blloc_smbll) ((j_common_ptr) cinfo, JPOOL_IMAGE,
                                 (MAXJSAMPLE+1) * SIZEOF(INT32));
 
   for (i = 0, x = -CENTERJSAMPLE; i <= MAXJSAMPLE; i++, x++) {
-    /* i is the actual input pixel value, in the range 0..MAXJSAMPLE */
-    /* The Cb or Cr value we are thinking of is x = i - CENTERJSAMPLE */
-    /* Cr=>R value is nearest int to 1.40200 * x */
-    upsample->Cr_r_tab[i] = (int)
+    /* i is the bctubl input pixel vblue, in the rbnge 0..MAXJSAMPLE */
+    /* The Cb or Cr vblue we bre thinking of is x = i - CENTERJSAMPLE */
+    /* Cr=>R vblue is nebrest int to 1.40200 * x */
+    upsbmple->Cr_r_tbb[i] = (int)
                     RIGHT_SHIFT(FIX(1.40200) * x + ONE_HALF, SCALEBITS);
-    /* Cb=>B value is nearest int to 1.77200 * x */
-    upsample->Cb_b_tab[i] = (int)
+    /* Cb=>B vblue is nebrest int to 1.77200 * x */
+    upsbmple->Cb_b_tbb[i] = (int)
                     RIGHT_SHIFT(FIX(1.77200) * x + ONE_HALF, SCALEBITS);
-    /* Cr=>G value is scaled-up -0.71414 * x */
-    upsample->Cr_g_tab[i] = (- FIX(0.71414)) * x;
-    /* Cb=>G value is scaled-up -0.34414 * x */
-    /* We also add in ONE_HALF so that need not do it in inner loop */
-    upsample->Cb_g_tab[i] = (- FIX(0.34414)) * x + ONE_HALF;
+    /* Cr=>G vblue is scbled-up -0.71414 * x */
+    upsbmple->Cr_g_tbb[i] = (- FIX(0.71414)) * x;
+    /* Cb=>G vblue is scbled-up -0.34414 * x */
+    /* We blso bdd in ONE_HALF so thbt need not do it in inner loop */
+    upsbmple->Cb_g_tbb[i] = (- FIX(0.34414)) * x + ONE_HALF;
   }
 }
 
 
 /*
- * Initialize for an upsampling pass.
+ * Initiblize for bn upsbmpling pbss.
  */
 
 METHODDEF(void)
-start_pass_merged_upsample (j_decompress_ptr cinfo)
+stbrt_pbss_merged_upsbmple (j_decompress_ptr cinfo)
 {
-  my_upsample_ptr upsample = (my_upsample_ptr) cinfo->upsample;
+  my_upsbmple_ptr upsbmple = (my_upsbmple_ptr) cinfo->upsbmple;
 
-  /* Mark the spare buffer empty */
-  upsample->spare_full = FALSE;
-  /* Initialize total-height counter for detecting bottom of image */
-  upsample->rows_to_go = cinfo->output_height;
+  /* Mbrk the spbre buffer empty */
+  upsbmple->spbre_full = FALSE;
+  /* Initiblize totbl-height counter for detecting bottom of imbge */
+  upsbmple->rows_to_go = cinfo->output_height;
 }
 
 
 /*
- * Control routine to do upsampling (and color conversion).
+ * Control routine to do upsbmpling (bnd color conversion).
  *
- * The control routine just handles the row buffering considerations.
+ * The control routine just hbndles the row buffering considerbtions.
  */
 
 METHODDEF(void)
-merged_2v_upsample (j_decompress_ptr cinfo,
+merged_2v_upsbmple (j_decompress_ptr cinfo,
                     JSAMPIMAGE input_buf, JDIMENSION *in_row_group_ctr,
-                    JDIMENSION in_row_groups_avail,
+                    JDIMENSION in_row_groups_bvbil,
                     JSAMPARRAY output_buf, JDIMENSION *out_row_ctr,
-                    JDIMENSION out_rows_avail)
-/* 2:1 vertical sampling case: may need a spare row. */
+                    JDIMENSION out_rows_bvbil)
+/* 2:1 verticbl sbmpling cbse: mby need b spbre row. */
 {
-  my_upsample_ptr upsample = (my_upsample_ptr) cinfo->upsample;
+  my_upsbmple_ptr upsbmple = (my_upsbmple_ptr) cinfo->upsbmple;
   JSAMPROW work_ptrs[2];
-  JDIMENSION num_rows;          /* number of rows returned to caller */
+  JDIMENSION num_rows;          /* number of rows returned to cbller */
 
-  if (upsample->spare_full) {
-    /* If we have a spare row saved from a previous cycle, just return it. */
-    jcopy_sample_rows(& upsample->spare_row, 0, output_buf + *out_row_ctr, 0,
-                      1, upsample->out_row_width);
+  if (upsbmple->spbre_full) {
+    /* If we hbve b spbre row sbved from b previous cycle, just return it. */
+    jcopy_sbmple_rows(& upsbmple->spbre_row, 0, output_buf + *out_row_ctr, 0,
+                      1, upsbmple->out_row_width);
     num_rows = 1;
-    upsample->spare_full = FALSE;
+    upsbmple->spbre_full = FALSE;
   } else {
-    /* Figure number of rows to return to caller. */
+    /* Figure number of rows to return to cbller. */
     num_rows = 2;
-    /* Not more than the distance to the end of the image. */
-    if (num_rows > upsample->rows_to_go)
-      num_rows = upsample->rows_to_go;
-    /* And not more than what the client can accept: */
-    out_rows_avail -= *out_row_ctr;
-    if (num_rows > out_rows_avail)
-      num_rows = out_rows_avail;
-    /* Create output pointer array for upsampler. */
+    /* Not more thbn the distbnce to the end of the imbge. */
+    if (num_rows > upsbmple->rows_to_go)
+      num_rows = upsbmple->rows_to_go;
+    /* And not more thbn whbt the client cbn bccept: */
+    out_rows_bvbil -= *out_row_ctr;
+    if (num_rows > out_rows_bvbil)
+      num_rows = out_rows_bvbil;
+    /* Crebte output pointer brrby for upsbmpler. */
     work_ptrs[0] = output_buf[*out_row_ctr];
     if (num_rows > 1) {
       work_ptrs[1] = output_buf[*out_row_ctr + 1];
     } else {
-      work_ptrs[1] = upsample->spare_row;
-      upsample->spare_full = TRUE;
+      work_ptrs[1] = upsbmple->spbre_row;
+      upsbmple->spbre_full = TRUE;
     }
-    /* Now do the upsampling. */
-    (*upsample->upmethod) (cinfo, input_buf, *in_row_group_ctr, work_ptrs);
+    /* Now do the upsbmpling. */
+    (*upsbmple->upmethod) (cinfo, input_buf, *in_row_group_ctr, work_ptrs);
   }
 
   /* Adjust counts */
   *out_row_ctr += num_rows;
-  upsample->rows_to_go -= num_rows;
-  /* When the buffer is emptied, declare this input row group consumed */
-  if (! upsample->spare_full)
+  upsbmple->rows_to_go -= num_rows;
+  /* When the buffer is emptied, declbre this input row group consumed */
+  if (! upsbmple->spbre_full)
     (*in_row_group_ctr)++;
 }
 
 
 METHODDEF(void)
-merged_1v_upsample (j_decompress_ptr cinfo,
+merged_1v_upsbmple (j_decompress_ptr cinfo,
                     JSAMPIMAGE input_buf, JDIMENSION *in_row_group_ctr,
-                    JDIMENSION in_row_groups_avail,
+                    JDIMENSION in_row_groups_bvbil,
                     JSAMPARRAY output_buf, JDIMENSION *out_row_ctr,
-                    JDIMENSION out_rows_avail)
-/* 1:1 vertical sampling case: much easier, never need a spare row. */
+                    JDIMENSION out_rows_bvbil)
+/* 1:1 verticbl sbmpling cbse: much ebsier, never need b spbre row. */
 {
-  my_upsample_ptr upsample = (my_upsample_ptr) cinfo->upsample;
+  my_upsbmple_ptr upsbmple = (my_upsbmple_ptr) cinfo->upsbmple;
 
-  /* Just do the upsampling. */
-  (*upsample->upmethod) (cinfo, input_buf, *in_row_group_ctr,
+  /* Just do the upsbmpling. */
+  (*upsbmple->upmethod) (cinfo, input_buf, *in_row_group_ctr,
                          output_buf + *out_row_ctr);
   /* Adjust counts */
   (*out_row_ctr)++;
@@ -213,98 +213,98 @@ merged_1v_upsample (j_decompress_ptr cinfo,
 
 
 /*
- * These are the routines invoked by the control routines to do
- * the actual upsampling/conversion.  One row group is processed per call.
+ * These bre the routines invoked by the control routines to do
+ * the bctubl upsbmpling/conversion.  One row group is processed per cbll.
  *
- * Note: since we may be writing directly into application-supplied buffers,
- * we have to be honest about the output width; we can't assume the buffer
- * has been rounded up to an even width.
+ * Note: since we mby be writing directly into bpplicbtion-supplied buffers,
+ * we hbve to be honest bbout the output width; we cbn't bssume the buffer
+ * hbs been rounded up to bn even width.
  */
 
 
 /*
- * Upsample and color convert for the case of 2:1 horizontal and 1:1 vertical.
+ * Upsbmple bnd color convert for the cbse of 2:1 horizontbl bnd 1:1 verticbl.
  */
 
 METHODDEF(void)
-h2v1_merged_upsample (j_decompress_ptr cinfo,
+h2v1_merged_upsbmple (j_decompress_ptr cinfo,
                       JSAMPIMAGE input_buf, JDIMENSION in_row_group_ctr,
                       JSAMPARRAY output_buf)
 {
-  my_upsample_ptr upsample = (my_upsample_ptr) cinfo->upsample;
+  my_upsbmple_ptr upsbmple = (my_upsbmple_ptr) cinfo->upsbmple;
   register int y, cred, cgreen, cblue;
   int cb, cr;
   register JSAMPROW outptr;
   JSAMPROW inptr0, inptr1, inptr2;
   JDIMENSION col;
   /* copy these pointers into registers if possible */
-  register JSAMPLE * range_limit = cinfo->sample_range_limit;
-  int * Crrtab = upsample->Cr_r_tab;
-  int * Cbbtab = upsample->Cb_b_tab;
-  INT32 * Crgtab = upsample->Cr_g_tab;
-  INT32 * Cbgtab = upsample->Cb_g_tab;
+  register JSAMPLE * rbnge_limit = cinfo->sbmple_rbnge_limit;
+  int * Crrtbb = upsbmple->Cr_r_tbb;
+  int * Cbbtbb = upsbmple->Cb_b_tbb;
+  INT32 * Crgtbb = upsbmple->Cr_g_tbb;
+  INT32 * Cbgtbb = upsbmple->Cb_g_tbb;
   SHIFT_TEMPS
 
   inptr0 = input_buf[0][in_row_group_ctr];
   inptr1 = input_buf[1][in_row_group_ctr];
   inptr2 = input_buf[2][in_row_group_ctr];
   outptr = output_buf[0];
-  /* Loop for each pair of output pixels */
+  /* Loop for ebch pbir of output pixels */
   for (col = cinfo->output_width >> 1; col > 0; col--) {
-    /* Do the chroma part of the calculation */
+    /* Do the chromb pbrt of the cblculbtion */
     cb = GETJSAMPLE(*inptr1++);
     cr = GETJSAMPLE(*inptr2++);
-    cred = Crrtab[cr];
-    cgreen = (int) RIGHT_SHIFT(Cbgtab[cb] + Crgtab[cr], SCALEBITS);
-    cblue = Cbbtab[cb];
-    /* Fetch 2 Y values and emit 2 pixels */
+    cred = Crrtbb[cr];
+    cgreen = (int) RIGHT_SHIFT(Cbgtbb[cb] + Crgtbb[cr], SCALEBITS);
+    cblue = Cbbtbb[cb];
+    /* Fetch 2 Y vblues bnd emit 2 pixels */
     y  = GETJSAMPLE(*inptr0++);
-    outptr[RGB_RED] =   range_limit[y + cred];
-    outptr[RGB_GREEN] = range_limit[y + cgreen];
-    outptr[RGB_BLUE] =  range_limit[y + cblue];
+    outptr[RGB_RED] =   rbnge_limit[y + cred];
+    outptr[RGB_GREEN] = rbnge_limit[y + cgreen];
+    outptr[RGB_BLUE] =  rbnge_limit[y + cblue];
     outptr += RGB_PIXELSIZE;
     y  = GETJSAMPLE(*inptr0++);
-    outptr[RGB_RED] =   range_limit[y + cred];
-    outptr[RGB_GREEN] = range_limit[y + cgreen];
-    outptr[RGB_BLUE] =  range_limit[y + cblue];
+    outptr[RGB_RED] =   rbnge_limit[y + cred];
+    outptr[RGB_GREEN] = rbnge_limit[y + cgreen];
+    outptr[RGB_BLUE] =  rbnge_limit[y + cblue];
     outptr += RGB_PIXELSIZE;
   }
-  /* If image width is odd, do the last output column separately */
+  /* If imbge width is odd, do the lbst output column sepbrbtely */
   if (cinfo->output_width & 1) {
     cb = GETJSAMPLE(*inptr1);
     cr = GETJSAMPLE(*inptr2);
-    cred = Crrtab[cr];
-    cgreen = (int) RIGHT_SHIFT(Cbgtab[cb] + Crgtab[cr], SCALEBITS);
-    cblue = Cbbtab[cb];
+    cred = Crrtbb[cr];
+    cgreen = (int) RIGHT_SHIFT(Cbgtbb[cb] + Crgtbb[cr], SCALEBITS);
+    cblue = Cbbtbb[cb];
     y  = GETJSAMPLE(*inptr0);
-    outptr[RGB_RED] =   range_limit[y + cred];
-    outptr[RGB_GREEN] = range_limit[y + cgreen];
-    outptr[RGB_BLUE] =  range_limit[y + cblue];
+    outptr[RGB_RED] =   rbnge_limit[y + cred];
+    outptr[RGB_GREEN] = rbnge_limit[y + cgreen];
+    outptr[RGB_BLUE] =  rbnge_limit[y + cblue];
   }
 }
 
 
 /*
- * Upsample and color convert for the case of 2:1 horizontal and 2:1 vertical.
+ * Upsbmple bnd color convert for the cbse of 2:1 horizontbl bnd 2:1 verticbl.
  */
 
 METHODDEF(void)
-h2v2_merged_upsample (j_decompress_ptr cinfo,
+h2v2_merged_upsbmple (j_decompress_ptr cinfo,
                       JSAMPIMAGE input_buf, JDIMENSION in_row_group_ctr,
                       JSAMPARRAY output_buf)
 {
-  my_upsample_ptr upsample = (my_upsample_ptr) cinfo->upsample;
+  my_upsbmple_ptr upsbmple = (my_upsbmple_ptr) cinfo->upsbmple;
   register int y, cred, cgreen, cblue;
   int cb, cr;
   register JSAMPROW outptr0, outptr1;
   JSAMPROW inptr00, inptr01, inptr1, inptr2;
   JDIMENSION col;
   /* copy these pointers into registers if possible */
-  register JSAMPLE * range_limit = cinfo->sample_range_limit;
-  int * Crrtab = upsample->Cr_r_tab;
-  int * Cbbtab = upsample->Cb_b_tab;
-  INT32 * Crgtab = upsample->Cr_g_tab;
-  INT32 * Cbgtab = upsample->Cb_g_tab;
+  register JSAMPLE * rbnge_limit = cinfo->sbmple_rbnge_limit;
+  int * Crrtbb = upsbmple->Cr_r_tbb;
+  int * Cbbtbb = upsbmple->Cb_b_tbb;
+  INT32 * Crgtbb = upsbmple->Cr_g_tbb;
+  INT32 * Cbgtbb = upsbmple->Cb_g_tbb;
   SHIFT_TEMPS
 
   inptr00 = input_buf[0][in_row_group_ctr*2];
@@ -313,92 +313,92 @@ h2v2_merged_upsample (j_decompress_ptr cinfo,
   inptr2 = input_buf[2][in_row_group_ctr];
   outptr0 = output_buf[0];
   outptr1 = output_buf[1];
-  /* Loop for each group of output pixels */
+  /* Loop for ebch group of output pixels */
   for (col = cinfo->output_width >> 1; col > 0; col--) {
-    /* Do the chroma part of the calculation */
+    /* Do the chromb pbrt of the cblculbtion */
     cb = GETJSAMPLE(*inptr1++);
     cr = GETJSAMPLE(*inptr2++);
-    cred = Crrtab[cr];
-    cgreen = (int) RIGHT_SHIFT(Cbgtab[cb] + Crgtab[cr], SCALEBITS);
-    cblue = Cbbtab[cb];
-    /* Fetch 4 Y values and emit 4 pixels */
+    cred = Crrtbb[cr];
+    cgreen = (int) RIGHT_SHIFT(Cbgtbb[cb] + Crgtbb[cr], SCALEBITS);
+    cblue = Cbbtbb[cb];
+    /* Fetch 4 Y vblues bnd emit 4 pixels */
     y  = GETJSAMPLE(*inptr00++);
-    outptr0[RGB_RED] =   range_limit[y + cred];
-    outptr0[RGB_GREEN] = range_limit[y + cgreen];
-    outptr0[RGB_BLUE] =  range_limit[y + cblue];
+    outptr0[RGB_RED] =   rbnge_limit[y + cred];
+    outptr0[RGB_GREEN] = rbnge_limit[y + cgreen];
+    outptr0[RGB_BLUE] =  rbnge_limit[y + cblue];
     outptr0 += RGB_PIXELSIZE;
     y  = GETJSAMPLE(*inptr00++);
-    outptr0[RGB_RED] =   range_limit[y + cred];
-    outptr0[RGB_GREEN] = range_limit[y + cgreen];
-    outptr0[RGB_BLUE] =  range_limit[y + cblue];
+    outptr0[RGB_RED] =   rbnge_limit[y + cred];
+    outptr0[RGB_GREEN] = rbnge_limit[y + cgreen];
+    outptr0[RGB_BLUE] =  rbnge_limit[y + cblue];
     outptr0 += RGB_PIXELSIZE;
     y  = GETJSAMPLE(*inptr01++);
-    outptr1[RGB_RED] =   range_limit[y + cred];
-    outptr1[RGB_GREEN] = range_limit[y + cgreen];
-    outptr1[RGB_BLUE] =  range_limit[y + cblue];
+    outptr1[RGB_RED] =   rbnge_limit[y + cred];
+    outptr1[RGB_GREEN] = rbnge_limit[y + cgreen];
+    outptr1[RGB_BLUE] =  rbnge_limit[y + cblue];
     outptr1 += RGB_PIXELSIZE;
     y  = GETJSAMPLE(*inptr01++);
-    outptr1[RGB_RED] =   range_limit[y + cred];
-    outptr1[RGB_GREEN] = range_limit[y + cgreen];
-    outptr1[RGB_BLUE] =  range_limit[y + cblue];
+    outptr1[RGB_RED] =   rbnge_limit[y + cred];
+    outptr1[RGB_GREEN] = rbnge_limit[y + cgreen];
+    outptr1[RGB_BLUE] =  rbnge_limit[y + cblue];
     outptr1 += RGB_PIXELSIZE;
   }
-  /* If image width is odd, do the last output column separately */
+  /* If imbge width is odd, do the lbst output column sepbrbtely */
   if (cinfo->output_width & 1) {
     cb = GETJSAMPLE(*inptr1);
     cr = GETJSAMPLE(*inptr2);
-    cred = Crrtab[cr];
-    cgreen = (int) RIGHT_SHIFT(Cbgtab[cb] + Crgtab[cr], SCALEBITS);
-    cblue = Cbbtab[cb];
+    cred = Crrtbb[cr];
+    cgreen = (int) RIGHT_SHIFT(Cbgtbb[cb] + Crgtbb[cr], SCALEBITS);
+    cblue = Cbbtbb[cb];
     y  = GETJSAMPLE(*inptr00);
-    outptr0[RGB_RED] =   range_limit[y + cred];
-    outptr0[RGB_GREEN] = range_limit[y + cgreen];
-    outptr0[RGB_BLUE] =  range_limit[y + cblue];
+    outptr0[RGB_RED] =   rbnge_limit[y + cred];
+    outptr0[RGB_GREEN] = rbnge_limit[y + cgreen];
+    outptr0[RGB_BLUE] =  rbnge_limit[y + cblue];
     y  = GETJSAMPLE(*inptr01);
-    outptr1[RGB_RED] =   range_limit[y + cred];
-    outptr1[RGB_GREEN] = range_limit[y + cgreen];
-    outptr1[RGB_BLUE] =  range_limit[y + cblue];
+    outptr1[RGB_RED] =   rbnge_limit[y + cred];
+    outptr1[RGB_GREEN] = rbnge_limit[y + cgreen];
+    outptr1[RGB_BLUE] =  rbnge_limit[y + cblue];
   }
 }
 
 
 /*
- * Module initialization routine for merged upsampling/color conversion.
+ * Module initiblizbtion routine for merged upsbmpling/color conversion.
  *
- * NB: this is called under the conditions determined by use_merged_upsample()
- * in jdmaster.c.  That routine MUST correspond to the actual capabilities
- * of this module; no safety checks are made here.
+ * NB: this is cblled under the conditions determined by use_merged_upsbmple()
+ * in jdmbster.c.  Thbt routine MUST correspond to the bctubl cbpbbilities
+ * of this module; no sbfety checks bre mbde here.
  */
 
 GLOBAL(void)
-jinit_merged_upsampler (j_decompress_ptr cinfo)
+jinit_merged_upsbmpler (j_decompress_ptr cinfo)
 {
-  my_upsample_ptr upsample;
+  my_upsbmple_ptr upsbmple;
 
-  upsample = (my_upsample_ptr)
-    (*cinfo->mem->alloc_small) ((j_common_ptr) cinfo, JPOOL_IMAGE,
-                                SIZEOF(my_upsampler));
-  cinfo->upsample = (struct jpeg_upsampler *) upsample;
-  upsample->pub.start_pass = start_pass_merged_upsample;
-  upsample->pub.need_context_rows = FALSE;
+  upsbmple = (my_upsbmple_ptr)
+    (*cinfo->mem->blloc_smbll) ((j_common_ptr) cinfo, JPOOL_IMAGE,
+                                SIZEOF(my_upsbmpler));
+  cinfo->upsbmple = (struct jpeg_upsbmpler *) upsbmple;
+  upsbmple->pub.stbrt_pbss = stbrt_pbss_merged_upsbmple;
+  upsbmple->pub.need_context_rows = FALSE;
 
-  upsample->out_row_width = cinfo->output_width * cinfo->out_color_components;
+  upsbmple->out_row_width = cinfo->output_width * cinfo->out_color_components;
 
-  if (cinfo->max_v_samp_factor == 2) {
-    upsample->pub.upsample = merged_2v_upsample;
-    upsample->upmethod = h2v2_merged_upsample;
-    /* Allocate a spare row buffer */
-    upsample->spare_row = (JSAMPROW)
-      (*cinfo->mem->alloc_large) ((j_common_ptr) cinfo, JPOOL_IMAGE,
-                (size_t) (upsample->out_row_width * SIZEOF(JSAMPLE)));
+  if (cinfo->mbx_v_sbmp_fbctor == 2) {
+    upsbmple->pub.upsbmple = merged_2v_upsbmple;
+    upsbmple->upmethod = h2v2_merged_upsbmple;
+    /* Allocbte b spbre row buffer */
+    upsbmple->spbre_row = (JSAMPROW)
+      (*cinfo->mem->blloc_lbrge) ((j_common_ptr) cinfo, JPOOL_IMAGE,
+                (size_t) (upsbmple->out_row_width * SIZEOF(JSAMPLE)));
   } else {
-    upsample->pub.upsample = merged_1v_upsample;
-    upsample->upmethod = h2v1_merged_upsample;
-    /* No spare row needed */
-    upsample->spare_row = NULL;
+    upsbmple->pub.upsbmple = merged_1v_upsbmple;
+    upsbmple->upmethod = h2v1_merged_upsbmple;
+    /* No spbre row needed */
+    upsbmple->spbre_row = NULL;
   }
 
-  build_ycc_rgb_table(cinfo);
+  build_ycc_rgb_tbble(cinfo);
 }
 
 #endif /* UPSAMPLE_MERGING_SUPPORTED */

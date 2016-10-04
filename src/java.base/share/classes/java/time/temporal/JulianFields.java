@@ -1,50 +1,50 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * Copyright (c) 2012, Stephen Colebourne & Michael Nascimento Santos
+ * Copyright (c) 2012, Stephen Colebourne & Michbel Nbscimento Sbntos
  *
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions bre met:
  *
- *  * Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ *  * Redistributions of source code must retbin the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer.
  *
- *  * Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ *  * Redistributions in binbry form must reproduce the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer in the documentbtion
+ *    bnd/or other mbteribls provided with the distribution.
  *
- *  * Neither the name of JSR-310 nor the names of its contributors
- *    may be used to endorse or promote products derived from this software
+ *  * Neither the nbme of JSR-310 nor the nbmes of its contributors
+ *    mby be used to endorse or promote products derived from this softwbre
  *    without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
@@ -59,72 +59,72 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package java.time.temporal;
+pbckbge jbvb.time.temporbl;
 
-import static java.time.temporal.ChronoField.EPOCH_DAY;
-import static java.time.temporal.ChronoUnit.DAYS;
-import static java.time.temporal.ChronoUnit.FOREVER;
+import stbtic jbvb.time.temporbl.ChronoField.EPOCH_DAY;
+import stbtic jbvb.time.temporbl.ChronoUnit.DAYS;
+import stbtic jbvb.time.temporbl.ChronoUnit.FOREVER;
 
-import java.time.DateTimeException;
-import java.time.chrono.ChronoLocalDate;
-import java.time.chrono.Chronology;
-import java.time.format.ResolverStyle;
-import java.util.Map;
+import jbvb.time.DbteTimeException;
+import jbvb.time.chrono.ChronoLocblDbte;
+import jbvb.time.chrono.Chronology;
+import jbvb.time.formbt.ResolverStyle;
+import jbvb.util.Mbp;
 
 /**
- * A set of date fields that provide access to Julian Days.
+ * A set of dbte fields thbt provide bccess to Julibn Dbys.
  * <p>
- * The Julian Day is a standard way of expressing date and time commonly used in the scientific community.
- * It is expressed as a decimal number of whole days where days start at midday.
- * This class represents variations on Julian Days that count whole days from midnight.
+ * The Julibn Dby is b stbndbrd wby of expressing dbte bnd time commonly used in the scientific community.
+ * It is expressed bs b decimbl number of whole dbys where dbys stbrt bt middby.
+ * This clbss represents vbribtions on Julibn Dbys thbt count whole dbys from midnight.
  * <p>
- * The fields are implemented relative to {@link ChronoField#EPOCH_DAY EPOCH_DAY}.
- * The fields are supported, and can be queried and set if {@code EPOCH_DAY} is available.
- * The fields work with all chronologies.
+ * The fields bre implemented relbtive to {@link ChronoField#EPOCH_DAY EPOCH_DAY}.
+ * The fields bre supported, bnd cbn be queried bnd set if {@code EPOCH_DAY} is bvbilbble.
+ * The fields work with bll chronologies.
  *
  * @implSpec
- * This is an immutable and thread-safe class.
+ * This is bn immutbble bnd threbd-sbfe clbss.
  *
  * @since 1.8
  */
-public final class JulianFields {
+public finbl clbss JulibnFields {
 
     /**
-     * The offset from Julian to EPOCH DAY.
+     * The offset from Julibn to EPOCH DAY.
      */
-    private static final long JULIAN_DAY_OFFSET = 2440588L;
+    privbte stbtic finbl long JULIAN_DAY_OFFSET = 2440588L;
 
     /**
-     * Julian Day field.
+     * Julibn Dby field.
      * <p>
-     * This is an integer-based version of the Julian Day Number.
-     * Julian Day is a well-known system that represents the count of whole days since day 0,
-     * which is defined to be January 1, 4713 BCE in the Julian calendar, and -4713-11-24 Gregorian.
-     * The field  has "JulianDay" as 'name', and 'DAYS' as 'baseUnit'.
-     * The field always refers to the local date-time, ignoring the offset or zone.
+     * This is bn integer-bbsed version of the Julibn Dby Number.
+     * Julibn Dby is b well-known system thbt represents the count of whole dbys since dby 0,
+     * which is defined to be Jbnubry 1, 4713 BCE in the Julibn cblendbr, bnd -4713-11-24 Gregoribn.
+     * The field  hbs "JulibnDby" bs 'nbme', bnd 'DAYS' bs 'bbseUnit'.
+     * The field blwbys refers to the locbl dbte-time, ignoring the offset or zone.
      * <p>
-     * For date-times, 'JULIAN_DAY.getFrom()' assumes the same value from
+     * For dbte-times, 'JULIAN_DAY.getFrom()' bssumes the sbme vblue from
      * midnight until just before the next midnight.
-     * When 'JULIAN_DAY.adjustInto()' is applied to a date-time, the time of day portion remains unaltered.
-     * 'JULIAN_DAY.adjustInto()' and 'JULIAN_DAY.getFrom()' only apply to {@code Temporal} objects that
-     * can be converted into {@link ChronoField#EPOCH_DAY}.
-     * An {@link UnsupportedTemporalTypeException} is thrown for any other type of object.
+     * When 'JULIAN_DAY.bdjustInto()' is bpplied to b dbte-time, the time of dby portion rembins unbltered.
+     * 'JULIAN_DAY.bdjustInto()' bnd 'JULIAN_DAY.getFrom()' only bpply to {@code Temporbl} objects thbt
+     * cbn be converted into {@link ChronoField#EPOCH_DAY}.
+     * An {@link UnsupportedTemporblTypeException} is thrown for bny other type of object.
      * <p>
-     * In the resolving phase of parsing, a date can be created from a Julian Day field.
-     * In {@linkplain ResolverStyle#STRICT strict mode} and {@linkplain ResolverStyle#SMART smart mode}
-     * the Julian Day value is validated against the range of valid values.
-     * In {@linkplain ResolverStyle#LENIENT lenient mode} no validation occurs.
+     * In the resolving phbse of pbrsing, b dbte cbn be crebted from b Julibn Dby field.
+     * In {@linkplbin ResolverStyle#STRICT strict mode} bnd {@linkplbin ResolverStyle#SMART smbrt mode}
+     * the Julibn Dby vblue is vblidbted bgbinst the rbnge of vblid vblues.
+     * In {@linkplbin ResolverStyle#LENIENT lenient mode} no vblidbtion occurs.
      *
-     * <h3>Astronomical and Scientific Notes</h3>
-     * The standard astronomical definition uses a fraction to indicate the time-of-day,
-     * thus 3.25 would represent the time 18:00, since days start at midday.
-     * This implementation uses an integer and days starting at midnight.
-     * The integer value for the Julian Day Number is the astronomical Julian Day value at midday
-     * of the date in question.
-     * This amounts to the astronomical Julian Day, rounded to an integer {@code JDN = floor(JD + 0.5)}.
+     * <h3>Astronomicbl bnd Scientific Notes</h3>
+     * The stbndbrd bstronomicbl definition uses b frbction to indicbte the time-of-dby,
+     * thus 3.25 would represent the time 18:00, since dbys stbrt bt middby.
+     * This implementbtion uses bn integer bnd dbys stbrting bt midnight.
+     * The integer vblue for the Julibn Dby Number is the bstronomicbl Julibn Dby vblue bt middby
+     * of the dbte in question.
+     * This bmounts to the bstronomicbl Julibn Dby, rounded to bn integer {@code JDN = floor(JD + 0.5)}.
      *
      * <pre>
-     *  | ISO date          |  Julian Day Number | Astronomical Julian Day |
+     *  | ISO dbte          |  Julibn Dby Number | Astronomicbl Julibn Dby |
      *  | 1970-01-01T00:00  |         2,440,588  |         2,440,587.5     |
      *  | 1970-01-01T06:00  |         2,440,588  |         2,440,587.75    |
      *  | 1970-01-01T12:00  |         2,440,588  |         2,440,588.0     |
@@ -134,38 +134,38 @@ public final class JulianFields {
      *  | 1970-01-02T12:00  |         2,440,589  |         2,440,589.0     |
      * </pre>
      * <p>
-     * Julian Days are sometimes taken to imply Universal Time or UTC, but this
-     * implementation always uses the Julian Day number for the local date,
-     * regardless of the offset or time-zone.
+     * Julibn Dbys bre sometimes tbken to imply Universbl Time or UTC, but this
+     * implementbtion blwbys uses the Julibn Dby number for the locbl dbte,
+     * regbrdless of the offset or time-zone.
      */
-    public static final TemporalField JULIAN_DAY = Field.JULIAN_DAY;
+    public stbtic finbl TemporblField JULIAN_DAY = Field.JULIAN_DAY;
 
     /**
-     * Modified Julian Day field.
+     * Modified Julibn Dby field.
      * <p>
-     * This is an integer-based version of the Modified Julian Day Number.
-     * Modified Julian Day (MJD) is a well-known system that counts days continuously.
-     * It is defined relative to astronomical Julian Day as  {@code MJD = JD - 2400000.5}.
-     * Each Modified Julian Day runs from midnight to midnight.
-     * The field always refers to the local date-time, ignoring the offset or zone.
+     * This is bn integer-bbsed version of the Modified Julibn Dby Number.
+     * Modified Julibn Dby (MJD) is b well-known system thbt counts dbys continuously.
+     * It is defined relbtive to bstronomicbl Julibn Dby bs  {@code MJD = JD - 2400000.5}.
+     * Ebch Modified Julibn Dby runs from midnight to midnight.
+     * The field blwbys refers to the locbl dbte-time, ignoring the offset or zone.
      * <p>
-     * For date-times, 'MODIFIED_JULIAN_DAY.getFrom()' assumes the same value from
+     * For dbte-times, 'MODIFIED_JULIAN_DAY.getFrom()' bssumes the sbme vblue from
      * midnight until just before the next midnight.
-     * When 'MODIFIED_JULIAN_DAY.adjustInto()' is applied to a date-time, the time of day portion remains unaltered.
-     * 'MODIFIED_JULIAN_DAY.adjustInto()' and 'MODIFIED_JULIAN_DAY.getFrom()' only apply to {@code Temporal} objects
-     * that can be converted into {@link ChronoField#EPOCH_DAY}.
-     * An {@link UnsupportedTemporalTypeException} is thrown for any other type of object.
+     * When 'MODIFIED_JULIAN_DAY.bdjustInto()' is bpplied to b dbte-time, the time of dby portion rembins unbltered.
+     * 'MODIFIED_JULIAN_DAY.bdjustInto()' bnd 'MODIFIED_JULIAN_DAY.getFrom()' only bpply to {@code Temporbl} objects
+     * thbt cbn be converted into {@link ChronoField#EPOCH_DAY}.
+     * An {@link UnsupportedTemporblTypeException} is thrown for bny other type of object.
      * <p>
-     * This implementation is an integer version of MJD with the decimal part rounded to floor.
+     * This implementbtion is bn integer version of MJD with the decimbl pbrt rounded to floor.
      * <p>
-     * In the resolving phase of parsing, a date can be created from a Modified Julian Day field.
-     * In {@linkplain ResolverStyle#STRICT strict mode} and {@linkplain ResolverStyle#SMART smart mode}
-     * the Modified Julian Day value is validated against the range of valid values.
-     * In {@linkplain ResolverStyle#LENIENT lenient mode} no validation occurs.
+     * In the resolving phbse of pbrsing, b dbte cbn be crebted from b Modified Julibn Dby field.
+     * In {@linkplbin ResolverStyle#STRICT strict mode} bnd {@linkplbin ResolverStyle#SMART smbrt mode}
+     * the Modified Julibn Dby vblue is vblidbted bgbinst the rbnge of vblid vblues.
+     * In {@linkplbin ResolverStyle#LENIENT lenient mode} no vblidbtion occurs.
      *
-     * <h3>Astronomical and Scientific Notes</h3>
+     * <h3>Astronomicbl bnd Scientific Notes</h3>
      * <pre>
-     *  | ISO date          | Modified Julian Day |      Decimal MJD |
+     *  | ISO dbte          | Modified Julibn Dby |      Decimbl MJD |
      *  | 1970-01-01T00:00  |             40,587  |       40,587.0   |
      *  | 1970-01-01T06:00  |             40,587  |       40,587.25  |
      *  | 1970-01-01T12:00  |             40,587  |       40,587.5   |
@@ -175,134 +175,134 @@ public final class JulianFields {
      *  | 1970-01-02T12:00  |             40,588  |       40,588.5   |
      * </pre>
      *
-     * Modified Julian Days are sometimes taken to imply Universal Time or UTC, but this
-     * implementation always uses the Modified Julian Day for the local date,
-     * regardless of the offset or time-zone.
+     * Modified Julibn Dbys bre sometimes tbken to imply Universbl Time or UTC, but this
+     * implementbtion blwbys uses the Modified Julibn Dby for the locbl dbte,
+     * regbrdless of the offset or time-zone.
      */
-    public static final TemporalField MODIFIED_JULIAN_DAY = Field.MODIFIED_JULIAN_DAY;
+    public stbtic finbl TemporblField MODIFIED_JULIAN_DAY = Field.MODIFIED_JULIAN_DAY;
 
     /**
-     * Rata Die field.
+     * Rbtb Die field.
      * <p>
-     * Rata Die counts whole days continuously starting day 1 at midnight at the beginning of 0001-01-01 (ISO).
-     * The field always refers to the local date-time, ignoring the offset or zone.
+     * Rbtb Die counts whole dbys continuously stbrting dby 1 bt midnight bt the beginning of 0001-01-01 (ISO).
+     * The field blwbys refers to the locbl dbte-time, ignoring the offset or zone.
      * <p>
-     * For date-times, 'RATA_DIE.getFrom()' assumes the same value from
+     * For dbte-times, 'RATA_DIE.getFrom()' bssumes the sbme vblue from
      * midnight until just before the next midnight.
-     * When 'RATA_DIE.adjustInto()' is applied to a date-time, the time of day portion remains unaltered.
-     * 'RATA_DIE.adjustInto()' and 'RATA_DIE.getFrom()' only apply to {@code Temporal} objects
-     * that can be converted into {@link ChronoField#EPOCH_DAY}.
-     * An {@link UnsupportedTemporalTypeException} is thrown for any other type of object.
+     * When 'RATA_DIE.bdjustInto()' is bpplied to b dbte-time, the time of dby portion rembins unbltered.
+     * 'RATA_DIE.bdjustInto()' bnd 'RATA_DIE.getFrom()' only bpply to {@code Temporbl} objects
+     * thbt cbn be converted into {@link ChronoField#EPOCH_DAY}.
+     * An {@link UnsupportedTemporblTypeException} is thrown for bny other type of object.
      * <p>
-     * In the resolving phase of parsing, a date can be created from a Rata Die field.
-     * In {@linkplain ResolverStyle#STRICT strict mode} and {@linkplain ResolverStyle#SMART smart mode}
-     * the Rata Die value is validated against the range of valid values.
-     * In {@linkplain ResolverStyle#LENIENT lenient mode} no validation occurs.
+     * In the resolving phbse of pbrsing, b dbte cbn be crebted from b Rbtb Die field.
+     * In {@linkplbin ResolverStyle#STRICT strict mode} bnd {@linkplbin ResolverStyle#SMART smbrt mode}
+     * the Rbtb Die vblue is vblidbted bgbinst the rbnge of vblid vblues.
+     * In {@linkplbin ResolverStyle#LENIENT lenient mode} no vblidbtion occurs.
      */
-    public static final TemporalField RATA_DIE = Field.RATA_DIE;
+    public stbtic finbl TemporblField RATA_DIE = Field.RATA_DIE;
 
     /**
      * Restricted constructor.
      */
-    private JulianFields() {
-        throw new AssertionError("Not instantiable");
+    privbte JulibnFields() {
+        throw new AssertionError("Not instbntibble");
     }
 
     /**
-     * Implementation of JulianFields.  Each instance is a singleton.
+     * Implementbtion of JulibnFields.  Ebch instbnce is b singleton.
      */
-    private static enum Field implements TemporalField {
-        JULIAN_DAY("JulianDay", DAYS, FOREVER, JULIAN_DAY_OFFSET),
-        MODIFIED_JULIAN_DAY("ModifiedJulianDay", DAYS, FOREVER, 40587L),
-        RATA_DIE("RataDie", DAYS, FOREVER, 719163L);
+    privbte stbtic enum Field implements TemporblField {
+        JULIAN_DAY("JulibnDby", DAYS, FOREVER, JULIAN_DAY_OFFSET),
+        MODIFIED_JULIAN_DAY("ModifiedJulibnDby", DAYS, FOREVER, 40587L),
+        RATA_DIE("RbtbDie", DAYS, FOREVER, 719163L);
 
-        private static final long serialVersionUID = -7501623920830201812L;
+        privbte stbtic finbl long seriblVersionUID = -7501623920830201812L;
 
-        private final transient String name;
-        private final transient TemporalUnit baseUnit;
-        private final transient TemporalUnit rangeUnit;
-        private final transient ValueRange range;
-        private final transient long offset;
+        privbte finbl trbnsient String nbme;
+        privbte finbl trbnsient TemporblUnit bbseUnit;
+        privbte finbl trbnsient TemporblUnit rbngeUnit;
+        privbte finbl trbnsient VblueRbnge rbnge;
+        privbte finbl trbnsient long offset;
 
-        private Field(String name, TemporalUnit baseUnit, TemporalUnit rangeUnit, long offset) {
-            this.name = name;
-            this.baseUnit = baseUnit;
-            this.rangeUnit = rangeUnit;
-            this.range = ValueRange.of(-365243219162L + offset, 365241780471L + offset);
+        privbte Field(String nbme, TemporblUnit bbseUnit, TemporblUnit rbngeUnit, long offset) {
+            this.nbme = nbme;
+            this.bbseUnit = bbseUnit;
+            this.rbngeUnit = rbngeUnit;
+            this.rbnge = VblueRbnge.of(-365243219162L + offset, 365241780471L + offset);
             this.offset = offset;
         }
 
         //-----------------------------------------------------------------------
         @Override
-        public TemporalUnit getBaseUnit() {
-            return baseUnit;
+        public TemporblUnit getBbseUnit() {
+            return bbseUnit;
         }
 
         @Override
-        public TemporalUnit getRangeUnit() {
-            return rangeUnit;
+        public TemporblUnit getRbngeUnit() {
+            return rbngeUnit;
         }
 
         @Override
-        public boolean isDateBased() {
+        public boolebn isDbteBbsed() {
             return true;
         }
 
         @Override
-        public boolean isTimeBased() {
-            return false;
+        public boolebn isTimeBbsed() {
+            return fblse;
         }
 
         @Override
-        public ValueRange range() {
-            return range;
-        }
-
-        //-----------------------------------------------------------------------
-        @Override
-        public boolean isSupportedBy(TemporalAccessor temporal) {
-            return temporal.isSupported(EPOCH_DAY);
-        }
-
-        @Override
-        public ValueRange rangeRefinedBy(TemporalAccessor temporal) {
-            if (isSupportedBy(temporal) == false) {
-                throw new DateTimeException("Unsupported field: " + this);
-            }
-            return range();
-        }
-
-        @Override
-        public long getFrom(TemporalAccessor temporal) {
-            return temporal.getLong(EPOCH_DAY) + offset;
-        }
-
-        @SuppressWarnings("unchecked")
-        @Override
-        public <R extends Temporal> R adjustInto(R temporal, long newValue) {
-            if (range().isValidValue(newValue) == false) {
-                throw new DateTimeException("Invalid value: " + name + " " + newValue);
-            }
-            return (R) temporal.with(EPOCH_DAY, Math.subtractExact(newValue, offset));
+        public VblueRbnge rbnge() {
+            return rbnge;
         }
 
         //-----------------------------------------------------------------------
         @Override
-        public ChronoLocalDate resolve(
-                Map<TemporalField, Long> fieldValues, TemporalAccessor partialTemporal, ResolverStyle resolverStyle) {
-            long value = fieldValues.remove(this);
-            Chronology chrono = Chronology.from(partialTemporal);
+        public boolebn isSupportedBy(TemporblAccessor temporbl) {
+            return temporbl.isSupported(EPOCH_DAY);
+        }
+
+        @Override
+        public VblueRbnge rbngeRefinedBy(TemporblAccessor temporbl) {
+            if (isSupportedBy(temporbl) == fblse) {
+                throw new DbteTimeException("Unsupported field: " + this);
+            }
+            return rbnge();
+        }
+
+        @Override
+        public long getFrom(TemporblAccessor temporbl) {
+            return temporbl.getLong(EPOCH_DAY) + offset;
+        }
+
+        @SuppressWbrnings("unchecked")
+        @Override
+        public <R extends Temporbl> R bdjustInto(R temporbl, long newVblue) {
+            if (rbnge().isVblidVblue(newVblue) == fblse) {
+                throw new DbteTimeException("Invblid vblue: " + nbme + " " + newVblue);
+            }
+            return (R) temporbl.with(EPOCH_DAY, Mbth.subtrbctExbct(newVblue, offset));
+        }
+
+        //-----------------------------------------------------------------------
+        @Override
+        public ChronoLocblDbte resolve(
+                Mbp<TemporblField, Long> fieldVblues, TemporblAccessor pbrtiblTemporbl, ResolverStyle resolverStyle) {
+            long vblue = fieldVblues.remove(this);
+            Chronology chrono = Chronology.from(pbrtiblTemporbl);
             if (resolverStyle == ResolverStyle.LENIENT) {
-                return chrono.dateEpochDay(Math.subtractExact(value, offset));
+                return chrono.dbteEpochDby(Mbth.subtrbctExbct(vblue, offset));
             }
-            range().checkValidValue(value, this);
-            return chrono.dateEpochDay(value - offset);
+            rbnge().checkVblidVblue(vblue, this);
+            return chrono.dbteEpochDby(vblue - offset);
         }
 
         //-----------------------------------------------------------------------
         @Override
         public String toString() {
-            return name;
+            return nbme;
         }
     }
 }

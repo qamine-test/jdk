@@ -1,79 +1,79 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.security.auth.callback;
+pbckbge jbvbx.security.buth.cbllbbck;
 
-import java.util.Locale;
+import jbvb.util.Locble;
 
 /**
- * <p> Underlying security services instantiate and pass a
- * {@code LanguageCallback} to the {@code handle}
- * method of a {@code CallbackHandler} to retrieve the {@code Locale}
- * used for localizing text.
+ * <p> Underlying security services instbntibte bnd pbss b
+ * {@code LbngubgeCbllbbck} to the {@code hbndle}
+ * method of b {@code CbllbbckHbndler} to retrieve the {@code Locble}
+ * used for locblizing text.
  *
- * @see javax.security.auth.callback.CallbackHandler
+ * @see jbvbx.security.buth.cbllbbck.CbllbbckHbndler
  */
-public class LanguageCallback implements Callback, java.io.Serializable {
+public clbss LbngubgeCbllbbck implements Cbllbbck, jbvb.io.Seriblizbble {
 
-    private static final long serialVersionUID = 2019050433478903213L;
+    privbte stbtic finbl long seriblVersionUID = 2019050433478903213L;
 
     /**
-     * @serial
+     * @seribl
      * @since 1.4
      */
-    private Locale locale;
+    privbte Locble locble;
 
     /**
-     * Construct a {@code LanguageCallback}.
+     * Construct b {@code LbngubgeCbllbbck}.
      */
-    public LanguageCallback() { }
+    public LbngubgeCbllbbck() { }
 
     /**
-     * Set the retrieved {@code Locale}.
+     * Set the retrieved {@code Locble}.
      *
      * <p>
      *
-     * @param locale the retrieved {@code Locale}.
+     * @pbrbm locble the retrieved {@code Locble}.
      *
-     * @see #getLocale
+     * @see #getLocble
      */
-    public void setLocale(Locale locale) {
-        this.locale = locale;
+    public void setLocble(Locble locble) {
+        this.locble = locble;
     }
 
     /**
-     * Get the retrieved {@code Locale}.
+     * Get the retrieved {@code Locble}.
      *
      * <p>
      *
-     * @return the retrieved {@code Locale}, or null
-     *          if no {@code Locale} could be retrieved.
+     * @return the retrieved {@code Locble}, or null
+     *          if no {@code Locble} could be retrieved.
      *
-     * @see #setLocale
+     * @see #setLocble
      */
-    public Locale getLocale() {
-        return locale;
+    public Locble getLocble() {
+        return locble;
     }
 }

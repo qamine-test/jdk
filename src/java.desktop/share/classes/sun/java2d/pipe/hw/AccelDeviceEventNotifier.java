@@ -1,162 +1,162 @@
 /*
- * Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.java2d.pipe.hw;
+pbckbge sun.jbvb2d.pipe.hw;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
-import java.lang.annotation.Native;
+import jbvb.util.Collections;
+import jbvb.util.HbshMbp;
+import jbvb.util.Iterbtor;
+import jbvb.util.Mbp;
+import jbvb.util.Set;
+import jbvb.lbng.bnnotbtion.Nbtive;
 
 
 /**
- * This class is used to notify listeners about accelerated device's
- * events such as device reset or dispose that are about to occur.
+ * This clbss is used to notify listeners bbout bccelerbted device's
+ * events such bs device reset or dispose thbt bre bbout to occur.
  */
-public class AccelDeviceEventNotifier {
+public clbss AccelDeviceEventNotifier {
 
-    private static AccelDeviceEventNotifier theInstance;
+    privbte stbtic AccelDeviceEventNotifier theInstbnce;
 
     /**
-     * A device is about to be reset. The listeners have to release all
-     * resources associated with the device which are required for the device
+     * A device is bbout to be reset. The listeners hbve to relebse bll
+     * resources bssocibted with the device which bre required for the device
      * to be reset.
      */
-    @Native public static final int DEVICE_RESET = 0;
+    @Nbtive public stbtic finbl int DEVICE_RESET = 0;
 
     /**
-     * A device is about to be disposed. The listeners have to release all
-     * resources associated with the device.
+     * A device is bbout to be disposed. The listeners hbve to relebse bll
+     * resources bssocibted with the device.
      */
-    @Native public static final int DEVICE_DISPOSED = 1;
+    @Nbtive public stbtic finbl int DEVICE_DISPOSED = 1;
 
-    private final Map<AccelDeviceEventListener, Integer> listeners;
+    privbte finbl Mbp<AccelDeviceEventListener, Integer> listeners;
 
-    private AccelDeviceEventNotifier() {
-        listeners = Collections.synchronizedMap(
-            new HashMap<AccelDeviceEventListener, Integer>(1));
+    privbte AccelDeviceEventNotifier() {
+        listeners = Collections.synchronizedMbp(
+            new HbshMbp<AccelDeviceEventListener, Integer>(1));
     }
 
     /**
-     * Returns a singleton of AccelDeviceEventNotifier if it exists. If the
-     * passed boolean is false and singleton doesn't exist yet, null is
-     * returned. If the passed boolean is {@code true} and singleton doesn't
-     * exist it will be created and returned.
+     * Returns b singleton of AccelDeviceEventNotifier if it exists. If the
+     * pbssed boolebn is fblse bnd singleton doesn't exist yet, null is
+     * returned. If the pbssed boolebn is {@code true} bnd singleton doesn't
+     * exist it will be crebted bnd returned.
      *
-     * @param create whether to create a singleton instance if doesn't yet
+     * @pbrbm crebte whether to crebte b singleton instbnce if doesn't yet
      * exist
-     * @return a singleton instance or null
+     * @return b singleton instbnce or null
      */
-    private static synchronized
-        AccelDeviceEventNotifier getInstance(boolean create)
+    privbte stbtic synchronized
+        AccelDeviceEventNotifier getInstbnce(boolebn crebte)
     {
-        if (theInstance == null && create) {
-            theInstance = new AccelDeviceEventNotifier();
+        if (theInstbnce == null && crebte) {
+            theInstbnce = new AccelDeviceEventNotifier();
         }
-        return theInstance;
+        return theInstbnce;
     }
 
     /**
-     * Called to indicate that a device event had occurred.
-     * If a singleton exists, the listeners (those associated with
+     * Cblled to indicbte thbt b device event hbd occurred.
+     * If b singleton exists, the listeners (those bssocibted with
      * the device) will be notified.
      *
-     * @param screen a screen number of the device which is a source of
+     * @pbrbm screen b screen number of the device which is b source of
      * the event
-     * @param eventType a type of the event
+     * @pbrbm eventType b type of the event
      * @see #DEVICE_DISPOSED
      * @see #DEVICE_RESET
      */
-    public static final void eventOccured(int screen, int eventType) {
-        AccelDeviceEventNotifier notifier = getInstance(false);
+    public stbtic finbl void eventOccured(int screen, int eventType) {
+        AccelDeviceEventNotifier notifier = getInstbnce(fblse);
         if (notifier != null) {
             notifier.notifyListeners(eventType, screen);
         }
     }
 
     /**
-     * Adds the listener associated with a device on particular screen.
+     * Adds the listener bssocibted with b device on pbrticulbr screen.
      *
-     * Note: the listener must be removed as otherwise it will forever
+     * Note: the listener must be removed bs otherwise it will forever
      * be referenced by the notifier.
      *
-     * @param l the listener
-     * @param screen the screen number indicating which device the listener is
+     * @pbrbm l the listener
+     * @pbrbm screen the screen number indicbting which device the listener is
      * interested in.
      */
-    public static final void addListener(AccelDeviceEventListener l,int screen){
-        getInstance(true).add(l, screen);
+    public stbtic finbl void bddListener(AccelDeviceEventListener l,int screen){
+        getInstbnce(true).bdd(l, screen);
     }
 
     /**
      * Removes the listener.
      *
-     * @param l the listener
+     * @pbrbm l the listener
      */
-    public static final void removeListener(AccelDeviceEventListener l) {
-        getInstance(true).remove(l);
+    public stbtic finbl void removeListener(AccelDeviceEventListener l) {
+        getInstbnce(true).remove(l);
     }
 
-    private final void add(AccelDeviceEventListener theListener, int screen) {
+    privbte finbl void bdd(AccelDeviceEventListener theListener, int screen) {
         listeners.put(theListener, screen);
     }
-    private final void remove(AccelDeviceEventListener theListener) {
+    privbte finbl void remove(AccelDeviceEventListener theListener) {
         listeners.remove(theListener);
     }
 
     /**
-     * Notifies the listeners associated with the screen's device about the
+     * Notifies the listeners bssocibted with the screen's device bbout the
      * event.
      *
-     * Implementation note: the current list of listeners is first duplicated
-     * which allows the listeners to remove themselves during the iteration.
+     * Implementbtion note: the current list of listeners is first duplicbted
+     * which bllows the listeners to remove themselves during the iterbtion.
      *
-     * @param screen a screen number with which the device which is a source of
-     * the event is associated with
-     * @param eventType a type of the event
+     * @pbrbm screen b screen number with which the device which is b source of
+     * the event is bssocibted with
+     * @pbrbm eventType b type of the event
      * @see #DEVICE_DISPOSED
      * @see #DEVICE_RESET
      */
-    private final void notifyListeners(int deviceEventType, int screen) {
-        HashMap<AccelDeviceEventListener, Integer> listClone;
+    privbte finbl void notifyListeners(int deviceEventType, int screen) {
+        HbshMbp<AccelDeviceEventListener, Integer> listClone;
         Set<AccelDeviceEventListener> cloneSet;
 
         synchronized(listeners) {
             listClone =
-                new HashMap<AccelDeviceEventListener, Integer>(listeners);
+                new HbshMbp<AccelDeviceEventListener, Integer>(listeners);
         }
 
         cloneSet = listClone.keySet();
-        Iterator<AccelDeviceEventListener> itr = cloneSet.iterator();
-        while (itr.hasNext()) {
+        Iterbtor<AccelDeviceEventListener> itr = cloneSet.iterbtor();
+        while (itr.hbsNext()) {
             AccelDeviceEventListener current = itr.next();
             Integer i = listClone.get(current);
-            // only notify listeners which are interested in this device
-            if (i != null && i.intValue() != screen) {
+            // only notify listeners which bre interested in this device
+            if (i != null && i.intVblue() != screen) {
                 continue;
             }
             if (deviceEventType == DEVICE_RESET) {

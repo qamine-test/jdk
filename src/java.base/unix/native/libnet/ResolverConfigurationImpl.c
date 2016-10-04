@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 2002, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -28,7 +28,7 @@
 #include <unistd.h>
 #include <errno.h>
 
-#ifdef __solaris__
+#ifdef __solbris__
 #include <sys/systeminfo.h>
 #include <strings.h>
 #endif
@@ -45,20 +45,20 @@
 
 
 /*
- * Class:     sun_net_dns_ResolverConfgurationImpl
- * Method:    localDomain0
- * Signature: ()Ljava/lang/String;
+ * Clbss:     sun_net_dns_ResolverConfgurbtionImpl
+ * Method:    locblDombin0
+ * Signbture: ()Ljbvb/lbng/String;
  */
 JNIEXPORT jstring JNICALL
-Java_sun_net_dns_ResolverConfigurationImpl_localDomain0(JNIEnv *env, jclass cls)
+Jbvb_sun_net_dns_ResolverConfigurbtionImpl_locblDombin0(JNIEnv *env, jclbss cls)
 {
     /*
-     * On Solaris the LOCALDOMAIN environment variable has absolute
+     * On Solbris the LOCALDOMAIN environment vbribble hbs bbsolute
      * priority.
      */
-#ifdef __solaris__
+#ifdef __solbris__
     {
-        char *cp = getenv("LOCALDOMAIN");
+        chbr *cp = getenv("LOCALDOMAIN");
         if (cp != NULL) {
             jstring s = (*env)->NewStringUTF(env, cp);
             return s;
@@ -69,30 +69,30 @@ Java_sun_net_dns_ResolverConfigurationImpl_localDomain0(JNIEnv *env, jclass cls)
 }
 
 /*
- * Class:     sun_net_dns_ResolverConfgurationImpl
- * Method:    loadConfig0
- * Signature: ()Ljava/lang/String;
+ * Clbss:     sun_net_dns_ResolverConfgurbtionImpl
+ * Method:    lobdConfig0
+ * Signbture: ()Ljbvb/lbng/String;
  */
 JNIEXPORT jstring JNICALL
-Java_sun_net_dns_ResolverConfigurationImpl_fallbackDomain0(JNIEnv *env, jclass cls)
+Jbvb_sun_net_dns_ResolverConfigurbtionImpl_fbllbbckDombin0(JNIEnv *env, jclbss cls)
 {
-    char buf[MAXDNAME];
+    chbr buf[MAXDNAME];
 
     /*
-     * On Solaris if domain or search directives aren't specified
-     * in /etc/resolv.conf then sysinfo or gethostname is used to
-     * determine the domain name.
+     * On Solbris if dombin or sebrch directives bren't specified
+     * in /etc/resolv.conf then sysinfo or gethostnbme is used to
+     * determine the dombin nbme.
      *
-     * On Linux if domain or search directives aren't specified
-     * then gethostname is used.
+     * On Linux if dombin or sebrch directives bren't specified
+     * then gethostnbme is used.
      */
 
-#ifdef __solaris__
+#ifdef __solbris__
     {
         int ret = sysinfo(SI_SRPC_DOMAIN, buf, sizeof(buf));
 
         if ((ret > 0) && (ret<sizeof(buf))) {
-            char *cp;
+            chbr *cp;
             jstring s;
 
             if (buf[0] == '+') {
@@ -109,10 +109,10 @@ Java_sun_net_dns_ResolverConfigurationImpl_fallbackDomain0(JNIEnv *env, jclass c
     }
 #endif
 
-    if (gethostname(buf, sizeof(buf)) == 0) {
-        char *cp;
+    if (gethostnbme(buf, sizeof(buf)) == 0) {
+        chbr *cp;
 
-        /* gethostname doesn't null terminate if insufficient space */
+        /* gethostnbme doesn't null terminbte if insufficient spbce */
         buf[sizeof(buf)-1] = '\0';
 
         cp = strchr(buf, '.');

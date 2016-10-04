@@ -1,324 +1,324 @@
 /*
- * Copyright (c) 2005, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt;
+pbckbge jbvb.bwt;
 
-import java.awt.event.*;
-import java.awt.peer.TrayIconPeer;
-import sun.awt.AppContext;
-import sun.awt.SunToolkit;
-import sun.awt.AWTAccessor;
-import sun.awt.HeadlessToolkit;
-import java.util.EventObject;
-import java.security.AccessControlContext;
-import java.security.AccessController;
+import jbvb.bwt.event.*;
+import jbvb.bwt.peer.TrbyIconPeer;
+import sun.bwt.AppContext;
+import sun.bwt.SunToolkit;
+import sun.bwt.AWTAccessor;
+import sun.bwt.HebdlessToolkit;
+import jbvb.util.EventObject;
+import jbvb.security.AccessControlContext;
+import jbvb.security.AccessController;
 
 /**
- * A <code>TrayIcon</code> object represents a tray icon that can be
- * added to the {@link SystemTray system tray}. A
- * <code>TrayIcon</code> can have a tooltip (text), an image, a popup
- * menu, and a set of listeners associated with it.
+ * A <code>TrbyIcon</code> object represents b trby icon thbt cbn be
+ * bdded to the {@link SystemTrby system trby}. A
+ * <code>TrbyIcon</code> cbn hbve b tooltip (text), bn imbge, b popup
+ * menu, bnd b set of listeners bssocibted with it.
  *
- * <p>A <code>TrayIcon</code> can generate various {@link MouseEvent
- * MouseEvents} and supports adding corresponding listeners to receive
- * notification of these events.  <code>TrayIcon</code> processes some
- * of the events by itself.  For example, by default, when the
- * right-mouse click is performed on the <code>TrayIcon</code> it
- * displays the specified popup menu.  When the mouse hovers
- * over the <code>TrayIcon</code> the tooltip is displayed.
+ * <p>A <code>TrbyIcon</code> cbn generbte vbrious {@link MouseEvent
+ * MouseEvents} bnd supports bdding corresponding listeners to receive
+ * notificbtion of these events.  <code>TrbyIcon</code> processes some
+ * of the events by itself.  For exbmple, by defbult, when the
+ * right-mouse click is performed on the <code>TrbyIcon</code> it
+ * displbys the specified popup menu.  When the mouse hovers
+ * over the <code>TrbyIcon</code> the tooltip is displbyed.
  *
  * <p><strong>Note:</strong> When the <code>MouseEvent</code> is
- * dispatched to its registered listeners its <code>component</code>
+ * dispbtched to its registered listeners its <code>component</code>
  * property will be set to <code>null</code>.  (See {@link
- * java.awt.event.ComponentEvent#getComponent}) The
+ * jbvb.bwt.event.ComponentEvent#getComponent}) The
  * <code>source</code> property will be set to this
- * <code>TrayIcon</code>. (See {@link
- * java.util.EventObject#getSource})
+ * <code>TrbyIcon</code>. (See {@link
+ * jbvb.util.EventObject#getSource})
  *
- * <p><b>Note:</b> A well-behaved {@link TrayIcon} implementation
- * will assign different gestures to showing a popup menu and
- * selecting a tray icon.
+ * <p><b>Note:</b> A well-behbved {@link TrbyIcon} implementbtion
+ * will bssign different gestures to showing b popup menu bnd
+ * selecting b trby icon.
  *
- * <p>A <code>TrayIcon</code> can generate an {@link ActionEvent
- * ActionEvent}.  On some platforms, this occurs when the user selects
- * the tray icon using either the mouse or keyboard.
+ * <p>A <code>TrbyIcon</code> cbn generbte bn {@link ActionEvent
+ * ActionEvent}.  On some plbtforms, this occurs when the user selects
+ * the trby icon using either the mouse or keybobrd.
  *
- * <p>If a SecurityManager is installed, the AWTPermission
- * {@code accessSystemTray} must be granted in order to create
- * a {@code TrayIcon}. Otherwise the constructor will throw a
+ * <p>If b SecurityMbnbger is instblled, the AWTPermission
+ * {@code bccessSystemTrby} must be grbnted in order to crebte
+ * b {@code TrbyIcon}. Otherwise the constructor will throw b
  * SecurityException.
  *
- * <p> See the {@link SystemTray} class overview for an example on how
- * to use the <code>TrayIcon</code> API.
+ * <p> See the {@link SystemTrby} clbss overview for bn exbmple on how
+ * to use the <code>TrbyIcon</code> API.
  *
  * @since 1.6
- * @see SystemTray#add
- * @see java.awt.event.ComponentEvent#getComponent
- * @see java.util.EventObject#getSource
+ * @see SystemTrby#bdd
+ * @see jbvb.bwt.event.ComponentEvent#getComponent
+ * @see jbvb.util.EventObject#getSource
  *
- * @author Bino George
- * @author Denis Mikhalkin
- * @author Sharon Zakhour
- * @author Anton Tarasov
+ * @buthor Bino George
+ * @buthor Denis Mikhblkin
+ * @buthor Shbron Zbkhour
+ * @buthor Anton Tbrbsov
  */
-public class TrayIcon {
+public clbss TrbyIcon {
 
-    private Image image;
-    private String tooltip;
-    private PopupMenu popup;
-    private boolean autosize;
-    private int id;
-    private String actionCommand;
+    privbte Imbge imbge;
+    privbte String tooltip;
+    privbte PopupMenu popup;
+    privbte boolebn butosize;
+    privbte int id;
+    privbte String bctionCommbnd;
 
-    transient private TrayIconPeer peer;
+    trbnsient privbte TrbyIconPeer peer;
 
-    transient MouseListener mouseListener;
-    transient MouseMotionListener mouseMotionListener;
-    transient ActionListener actionListener;
+    trbnsient MouseListener mouseListener;
+    trbnsient MouseMotionListener mouseMotionListener;
+    trbnsient ActionListener bctionListener;
 
     /*
-     * The tray icon's AccessControlContext.
+     * The trby icon's AccessControlContext.
      *
-     * Unlike the acc in Component, this field is made final
-     * because TrayIcon is not serializable.
+     * Unlike the bcc in Component, this field is mbde finbl
+     * becbuse TrbyIcon is not seriblizbble.
      */
-    private final AccessControlContext acc = AccessController.getContext();
+    privbte finbl AccessControlContext bcc = AccessController.getContext();
 
     /*
-     * Returns the acc this tray icon was constructed with.
+     * Returns the bcc this trby icon wbs constructed with.
      */
-    final AccessControlContext getAccessControlContext() {
-        if (acc == null) {
-            throw new SecurityException("TrayIcon is missing AccessControlContext");
+    finbl AccessControlContext getAccessControlContext() {
+        if (bcc == null) {
+            throw new SecurityException("TrbyIcon is missing AccessControlContext");
         }
-        return acc;
+        return bcc;
     }
 
-    static {
-        Toolkit.loadLibraries();
-        if (!GraphicsEnvironment.isHeadless()) {
+    stbtic {
+        Toolkit.lobdLibrbries();
+        if (!GrbphicsEnvironment.isHebdless()) {
             initIDs();
         }
 
-        AWTAccessor.setTrayIconAccessor(
-            new AWTAccessor.TrayIconAccessor() {
-                public void addNotify(TrayIcon trayIcon) throws AWTException {
-                    trayIcon.addNotify();
+        AWTAccessor.setTrbyIconAccessor(
+            new AWTAccessor.TrbyIconAccessor() {
+                public void bddNotify(TrbyIcon trbyIcon) throws AWTException {
+                    trbyIcon.bddNotify();
                 }
-                public void removeNotify(TrayIcon trayIcon) {
-                    trayIcon.removeNotify();
+                public void removeNotify(TrbyIcon trbyIcon) {
+                    trbyIcon.removeNotify();
                 }
             });
     }
 
-    private TrayIcon()
-      throws UnsupportedOperationException, HeadlessException, SecurityException
+    privbte TrbyIcon()
+      throws UnsupportedOperbtionException, HebdlessException, SecurityException
     {
-        SystemTray.checkSystemTrayAllowed();
-        if (GraphicsEnvironment.isHeadless()) {
-            throw new HeadlessException();
+        SystemTrby.checkSystemTrbyAllowed();
+        if (GrbphicsEnvironment.isHebdless()) {
+            throw new HebdlessException();
         }
-        if (!SystemTray.isSupported()) {
-            throw new UnsupportedOperationException();
+        if (!SystemTrby.isSupported()) {
+            throw new UnsupportedOperbtionException();
         }
-        SunToolkit.insertTargetMapping(this, AppContext.getAppContext());
+        SunToolkit.insertTbrgetMbpping(this, AppContext.getAppContext());
     }
 
     /**
-     * Creates a <code>TrayIcon</code> with the specified image.
+     * Crebtes b <code>TrbyIcon</code> with the specified imbge.
      *
-     * @param image the <code>Image</code> to be used
-     * @throws IllegalArgumentException if <code>image</code> is
+     * @pbrbm imbge the <code>Imbge</code> to be used
+     * @throws IllegblArgumentException if <code>imbge</code> is
      * <code>null</code>
-     * @throws UnsupportedOperationException if the system tray isn't
-     * supported by the current platform
-     * @throws HeadlessException if
-     * {@code GraphicsEnvironment.isHeadless()} returns {@code true}
-     * @throws SecurityException if {@code accessSystemTray} permission
-     * is not granted
-     * @see SystemTray#add(TrayIcon)
-     * @see TrayIcon#TrayIcon(Image, String, PopupMenu)
-     * @see TrayIcon#TrayIcon(Image, String)
-     * @see SecurityManager#checkPermission
+     * @throws UnsupportedOperbtionException if the system trby isn't
+     * supported by the current plbtform
+     * @throws HebdlessException if
+     * {@code GrbphicsEnvironment.isHebdless()} returns {@code true}
+     * @throws SecurityException if {@code bccessSystemTrby} permission
+     * is not grbnted
+     * @see SystemTrby#bdd(TrbyIcon)
+     * @see TrbyIcon#TrbyIcon(Imbge, String, PopupMenu)
+     * @see TrbyIcon#TrbyIcon(Imbge, String)
+     * @see SecurityMbnbger#checkPermission
      * @see AWTPermission
      */
-    public TrayIcon(Image image) {
+    public TrbyIcon(Imbge imbge) {
         this();
-        if (image == null) {
-            throw new IllegalArgumentException("creating TrayIcon with null Image");
+        if (imbge == null) {
+            throw new IllegblArgumentException("crebting TrbyIcon with null Imbge");
         }
-        setImage(image);
+        setImbge(imbge);
     }
 
     /**
-     * Creates a <code>TrayIcon</code> with the specified image and
+     * Crebtes b <code>TrbyIcon</code> with the specified imbge bnd
      * tooltip text.
      *
-     * @param image the <code>Image</code> to be used
-     * @param tooltip the string to be used as tooltip text; if the
-     * value is <code>null</code> no tooltip is shown
-     * @throws IllegalArgumentException if <code>image</code> is
+     * @pbrbm imbge the <code>Imbge</code> to be used
+     * @pbrbm tooltip the string to be used bs tooltip text; if the
+     * vblue is <code>null</code> no tooltip is shown
+     * @throws IllegblArgumentException if <code>imbge</code> is
      * <code>null</code>
-     * @throws UnsupportedOperationException if the system tray isn't
-     * supported by the current platform
-     * @throws HeadlessException if
-     * {@code GraphicsEnvironment.isHeadless()} returns {@code true}
-     * @throws SecurityException if {@code accessSystemTray} permission
-     * is not granted
-     * @see SystemTray#add(TrayIcon)
-     * @see TrayIcon#TrayIcon(Image)
-     * @see TrayIcon#TrayIcon(Image, String, PopupMenu)
-     * @see SecurityManager#checkPermission
+     * @throws UnsupportedOperbtionException if the system trby isn't
+     * supported by the current plbtform
+     * @throws HebdlessException if
+     * {@code GrbphicsEnvironment.isHebdless()} returns {@code true}
+     * @throws SecurityException if {@code bccessSystemTrby} permission
+     * is not grbnted
+     * @see SystemTrby#bdd(TrbyIcon)
+     * @see TrbyIcon#TrbyIcon(Imbge)
+     * @see TrbyIcon#TrbyIcon(Imbge, String, PopupMenu)
+     * @see SecurityMbnbger#checkPermission
      * @see AWTPermission
      */
-    public TrayIcon(Image image, String tooltip) {
-        this(image);
+    public TrbyIcon(Imbge imbge, String tooltip) {
+        this(imbge);
         setToolTip(tooltip);
     }
 
     /**
-     * Creates a <code>TrayIcon</code> with the specified image,
-     * tooltip and popup menu.
+     * Crebtes b <code>TrbyIcon</code> with the specified imbge,
+     * tooltip bnd popup menu.
      *
-     * @param image the <code>Image</code> to be used
-     * @param tooltip the string to be used as tooltip text; if the
-     * value is <code>null</code> no tooltip is shown
-     * @param popup the menu to be used for the tray icon's popup
-     * menu; if the value is <code>null</code> no popup menu is shown
-     * @throws IllegalArgumentException if <code>image</code> is <code>null</code>
-     * @throws UnsupportedOperationException if the system tray isn't
-     * supported by the current platform
-     * @throws HeadlessException if
-     * {@code GraphicsEnvironment.isHeadless()} returns {@code true}
-     * @throws SecurityException if {@code accessSystemTray} permission
-     * is not granted
-     * @see SystemTray#add(TrayIcon)
-     * @see TrayIcon#TrayIcon(Image, String)
-     * @see TrayIcon#TrayIcon(Image)
+     * @pbrbm imbge the <code>Imbge</code> to be used
+     * @pbrbm tooltip the string to be used bs tooltip text; if the
+     * vblue is <code>null</code> no tooltip is shown
+     * @pbrbm popup the menu to be used for the trby icon's popup
+     * menu; if the vblue is <code>null</code> no popup menu is shown
+     * @throws IllegblArgumentException if <code>imbge</code> is <code>null</code>
+     * @throws UnsupportedOperbtionException if the system trby isn't
+     * supported by the current plbtform
+     * @throws HebdlessException if
+     * {@code GrbphicsEnvironment.isHebdless()} returns {@code true}
+     * @throws SecurityException if {@code bccessSystemTrby} permission
+     * is not grbnted
+     * @see SystemTrby#bdd(TrbyIcon)
+     * @see TrbyIcon#TrbyIcon(Imbge, String)
+     * @see TrbyIcon#TrbyIcon(Imbge)
      * @see PopupMenu
      * @see MouseListener
-     * @see #addMouseListener(MouseListener)
-     * @see SecurityManager#checkPermission
+     * @see #bddMouseListener(MouseListener)
+     * @see SecurityMbnbger#checkPermission
      * @see AWTPermission
      */
-    public TrayIcon(Image image, String tooltip, PopupMenu popup) {
-        this(image, tooltip);
+    public TrbyIcon(Imbge imbge, String tooltip, PopupMenu popup) {
+        this(imbge, tooltip);
         setPopupMenu(popup);
     }
 
     /**
-     * Sets the image for this <code>TrayIcon</code>.  The previous
-     * tray icon image is discarded without calling the {@link
-     * java.awt.Image#flush} method &#8212; you will need to call it
-     * manually.
+     * Sets the imbge for this <code>TrbyIcon</code>.  The previous
+     * trby icon imbge is discbrded without cblling the {@link
+     * jbvb.bwt.Imbge#flush} method &#8212; you will need to cbll it
+     * mbnublly.
      *
-     * <p> If the image represents an animated image, it will be
-     * animated automatically.
+     * <p> If the imbge represents bn bnimbted imbge, it will be
+     * bnimbted butombticblly.
      *
-     * <p> See the {@link #setImageAutoSize(boolean)} property for
-     * details on the size of the displayed image.
+     * <p> See the {@link #setImbgeAutoSize(boolebn)} property for
+     * detbils on the size of the displbyed imbge.
      *
-     * <p> Calling this method with the same image that is currently
-     * being used has no effect.
+     * <p> Cblling this method with the sbme imbge thbt is currently
+     * being used hbs no effect.
      *
-     * @throws NullPointerException if <code>image</code> is <code>null</code>
-     * @param image the non-null <code>Image</code> to be used
-     * @see #getImage
-     * @see Image
-     * @see SystemTray#add(TrayIcon)
-     * @see TrayIcon#TrayIcon(Image, String)
+     * @throws NullPointerException if <code>imbge</code> is <code>null</code>
+     * @pbrbm imbge the non-null <code>Imbge</code> to be used
+     * @see #getImbge
+     * @see Imbge
+     * @see SystemTrby#bdd(TrbyIcon)
+     * @see TrbyIcon#TrbyIcon(Imbge, String)
      */
-    public void setImage(Image image) {
-        if (image == null) {
-            throw new NullPointerException("setting null Image");
+    public void setImbge(Imbge imbge) {
+        if (imbge == null) {
+            throw new NullPointerException("setting null Imbge");
         }
-        this.image = image;
+        this.imbge = imbge;
 
-        TrayIconPeer peer = this.peer;
+        TrbyIconPeer peer = this.peer;
         if (peer != null) {
-            peer.updateImage();
+            peer.updbteImbge();
         }
     }
 
     /**
-     * Returns the current image used for this <code>TrayIcon</code>.
+     * Returns the current imbge used for this <code>TrbyIcon</code>.
      *
-     * @return the image
-     * @see #setImage(Image)
-     * @see Image
+     * @return the imbge
+     * @see #setImbge(Imbge)
+     * @see Imbge
      */
-    public Image getImage() {
-        return image;
+    public Imbge getImbge() {
+        return imbge;
     }
 
     /**
-     * Sets the popup menu for this <code>TrayIcon</code>.  If
+     * Sets the popup menu for this <code>TrbyIcon</code>.  If
      * <code>popup</code> is <code>null</code>, no popup menu will be
-     * associated with this <code>TrayIcon</code>.
+     * bssocibted with this <code>TrbyIcon</code>.
      *
-     * <p>Note that this <code>popup</code> must not be added to any
-     * parent before or after it is set on the tray icon.  If you add
-     * it to some parent, the <code>popup</code> may be removed from
-     * that parent.
+     * <p>Note thbt this <code>popup</code> must not be bdded to bny
+     * pbrent before or bfter it is set on the trby icon.  If you bdd
+     * it to some pbrent, the <code>popup</code> mby be removed from
+     * thbt pbrent.
      *
-     * <p>The {@code popup} can be set on one {@code TrayIcon} only.
-     * Setting the same popup on multiple {@code TrayIcon}s will cause
-     * an {@code IllegalArgumentException}.
+     * <p>The {@code popup} cbn be set on one {@code TrbyIcon} only.
+     * Setting the sbme popup on multiple {@code TrbyIcon}s will cbuse
+     * bn {@code IllegblArgumentException}.
      *
-     * <p><strong>Note:</strong> Some platforms may not support
+     * <p><strong>Note:</strong> Some plbtforms mby not support
      * showing the user-specified popup menu component when the user
-     * right-clicks the tray icon.  In this situation, either no menu
-     * will be displayed or, on some systems, a native version of the
-     * menu may be displayed.
+     * right-clicks the trby icon.  In this situbtion, either no menu
+     * will be displbyed or, on some systems, b nbtive version of the
+     * menu mby be displbyed.
      *
-     * @throws IllegalArgumentException if the {@code popup} is already
-     * set for another {@code TrayIcon}
-     * @param popup a <code>PopupMenu</code> or <code>null</code> to
-     * remove any popup menu
+     * @throws IllegblArgumentException if the {@code popup} is blrebdy
+     * set for bnother {@code TrbyIcon}
+     * @pbrbm popup b <code>PopupMenu</code> or <code>null</code> to
+     * remove bny popup menu
      * @see #getPopupMenu
      */
     public void setPopupMenu(PopupMenu popup) {
         if (popup == this.popup) {
             return;
         }
-        synchronized (TrayIcon.class) {
+        synchronized (TrbyIcon.clbss) {
             if (popup != null) {
-                if (popup.isTrayIconPopup) {
-                    throw new IllegalArgumentException("the PopupMenu is already set for another TrayIcon");
+                if (popup.isTrbyIconPopup) {
+                    throw new IllegblArgumentException("the PopupMenu is blrebdy set for bnother TrbyIcon");
                 }
-                popup.isTrayIconPopup = true;
+                popup.isTrbyIconPopup = true;
             }
             if (this.popup != null) {
-                this.popup.isTrayIconPopup = false;
+                this.popup.isTrbyIconPopup = fblse;
             }
             this.popup = popup;
         }
     }
 
     /**
-     * Returns the popup menu associated with this <code>TrayIcon</code>.
+     * Returns the popup menu bssocibted with this <code>TrbyIcon</code>.
      *
      * @return the popup menu or <code>null</code> if none exists
      * @see #setPopupMenu(PopupMenu)
@@ -328,30 +328,30 @@ public class TrayIcon {
     }
 
     /**
-     * Sets the tooltip string for this <code>TrayIcon</code>. The
-     * tooltip is displayed automatically when the mouse hovers over
-     * the icon.  Setting the tooltip to <code>null</code> removes any
+     * Sets the tooltip string for this <code>TrbyIcon</code>. The
+     * tooltip is displbyed butombticblly when the mouse hovers over
+     * the icon.  Setting the tooltip to <code>null</code> removes bny
      * tooltip text.
      *
-     * When displayed, the tooltip string may be truncated on some platforms;
-     * the number of characters that may be displayed is platform-dependent.
+     * When displbyed, the tooltip string mby be truncbted on some plbtforms;
+     * the number of chbrbcters thbt mby be displbyed is plbtform-dependent.
      *
-     * @param tooltip the string for the tooltip; if the value is
+     * @pbrbm tooltip the string for the tooltip; if the vblue is
      * <code>null</code> no tooltip is shown
      * @see #getToolTip
      */
     public void setToolTip(String tooltip) {
         this.tooltip = tooltip;
 
-        TrayIconPeer peer = this.peer;
+        TrbyIconPeer peer = this.peer;
         if (peer != null) {
             peer.setToolTip(tooltip);
         }
     }
 
     /**
-     * Returns the tooltip string associated with this
-     * <code>TrayIcon</code>.
+     * Returns the tooltip string bssocibted with this
+     * <code>TrbyIcon</code>.
      *
      * @return the tooltip string or <code>null</code> if none exists
      * @see #setToolTip(String)
@@ -361,336 +361,336 @@ public class TrayIcon {
     }
 
     /**
-     * Sets the auto-size property.  Auto-size determines whether the
-     * tray image is automatically sized to fit the space allocated
-     * for the image on the tray.  By default, the auto-size property
-     * is set to <code>false</code>.
+     * Sets the buto-size property.  Auto-size determines whether the
+     * trby imbge is butombticblly sized to fit the spbce bllocbted
+     * for the imbge on the trby.  By defbult, the buto-size property
+     * is set to <code>fblse</code>.
      *
-     * <p> If auto-size is <code>false</code>, and the image size
-     * doesn't match the tray icon space, the image is painted as-is
-     * inside that space &#8212; if larger than the allocated space, it will
+     * <p> If buto-size is <code>fblse</code>, bnd the imbge size
+     * doesn't mbtch the trby icon spbce, the imbge is pbinted bs-is
+     * inside thbt spbce &#8212; if lbrger thbn the bllocbted spbce, it will
      * be cropped.
      *
-     * <p> If auto-size is <code>true</code>, the image is stretched or shrunk to
-     * fit the tray icon space.
+     * <p> If buto-size is <code>true</code>, the imbge is stretched or shrunk to
+     * fit the trby icon spbce.
      *
-     * @param autosize <code>true</code> to auto-size the image,
-     * <code>false</code> otherwise
-     * @see #isImageAutoSize
+     * @pbrbm butosize <code>true</code> to buto-size the imbge,
+     * <code>fblse</code> otherwise
+     * @see #isImbgeAutoSize
      */
-    public void setImageAutoSize(boolean autosize) {
-        this.autosize = autosize;
+    public void setImbgeAutoSize(boolebn butosize) {
+        this.butosize = butosize;
 
-        TrayIconPeer peer = this.peer;
+        TrbyIconPeer peer = this.peer;
         if (peer != null) {
-            peer.updateImage();
+            peer.updbteImbge();
         }
     }
 
     /**
-     * Returns the value of the auto-size property.
+     * Returns the vblue of the buto-size property.
      *
-     * @return <code>true</code> if the image will be auto-sized,
-     * <code>false</code> otherwise
-     * @see #setImageAutoSize(boolean)
+     * @return <code>true</code> if the imbge will be buto-sized,
+     * <code>fblse</code> otherwise
+     * @see #setImbgeAutoSize(boolebn)
      */
-    public boolean isImageAutoSize() {
-        return autosize;
+    public boolebn isImbgeAutoSize() {
+        return butosize;
     }
 
     /**
      * Adds the specified mouse listener to receive mouse events from
-     * this <code>TrayIcon</code>.  Calling this method with a
-     * <code>null</code> value has no effect.
+     * this <code>TrbyIcon</code>.  Cblling this method with b
+     * <code>null</code> vblue hbs no effect.
      *
-     * <p><b>Note</b>: The {@code MouseEvent}'s coordinates (received
-     * from the {@code TrayIcon}) are relative to the screen, not the
-     * {@code TrayIcon}.
+     * <p><b>Note</b>: The {@code MouseEvent}'s coordinbtes (received
+     * from the {@code TrbyIcon}) bre relbtive to the screen, not the
+     * {@code TrbyIcon}.
      *
-     * <p> <b>Note: </b>The <code>MOUSE_ENTERED</code> and
-     * <code>MOUSE_EXITED</code> mouse events are not supported.
-     * <p>Refer to <a href="doc-files/AWTThreadIssues.html#ListenersThreads"
-     * >AWT Threading Issues</a> for details on AWT's threading model.
+     * <p> <b>Note: </b>The <code>MOUSE_ENTERED</code> bnd
+     * <code>MOUSE_EXITED</code> mouse events bre not supported.
+     * <p>Refer to <b href="doc-files/AWTThrebdIssues.html#ListenersThrebds"
+     * >AWT Threbding Issues</b> for detbils on AWT's threbding model.
      *
-     * @param    listener the mouse listener
-     * @see      java.awt.event.MouseEvent
-     * @see      java.awt.event.MouseListener
+     * @pbrbm    listener the mouse listener
+     * @see      jbvb.bwt.event.MouseEvent
+     * @see      jbvb.bwt.event.MouseListener
      * @see      #removeMouseListener(MouseListener)
      * @see      #getMouseListeners
      */
-    public synchronized void addMouseListener(MouseListener listener) {
+    public synchronized void bddMouseListener(MouseListener listener) {
         if (listener == null) {
             return;
         }
-        mouseListener = AWTEventMulticaster.add(mouseListener, listener);
+        mouseListener = AWTEventMulticbster.bdd(mouseListener, listener);
     }
 
     /**
-     * Removes the specified mouse listener.  Calling this method with
-     * <code>null</code> or an invalid value has no effect.
-     * <p>Refer to <a href="doc-files/AWTThreadIssues.html#ListenersThreads"
-     * >AWT Threading Issues</a> for details on AWT's threading model.
+     * Removes the specified mouse listener.  Cblling this method with
+     * <code>null</code> or bn invblid vblue hbs no effect.
+     * <p>Refer to <b href="doc-files/AWTThrebdIssues.html#ListenersThrebds"
+     * >AWT Threbding Issues</b> for detbils on AWT's threbding model.
      *
-     * @param    listener   the mouse listener
-     * @see      java.awt.event.MouseEvent
-     * @see      java.awt.event.MouseListener
-     * @see      #addMouseListener(MouseListener)
+     * @pbrbm    listener   the mouse listener
+     * @see      jbvb.bwt.event.MouseEvent
+     * @see      jbvb.bwt.event.MouseListener
+     * @see      #bddMouseListener(MouseListener)
      * @see      #getMouseListeners
      */
     public synchronized void removeMouseListener(MouseListener listener) {
         if (listener == null) {
             return;
         }
-        mouseListener = AWTEventMulticaster.remove(mouseListener, listener);
+        mouseListener = AWTEventMulticbster.remove(mouseListener, listener);
     }
 
     /**
-     * Returns an array of all the mouse listeners
-     * registered on this <code>TrayIcon</code>.
+     * Returns bn brrby of bll the mouse listeners
+     * registered on this <code>TrbyIcon</code>.
      *
-     * @return all of the <code>MouseListeners</code> registered on
-     * this <code>TrayIcon</code> or an empty array if no mouse
-     * listeners are currently registered
+     * @return bll of the <code>MouseListeners</code> registered on
+     * this <code>TrbyIcon</code> or bn empty brrby if no mouse
+     * listeners bre currently registered
      *
-     * @see      #addMouseListener(MouseListener)
+     * @see      #bddMouseListener(MouseListener)
      * @see      #removeMouseListener(MouseListener)
-     * @see      java.awt.event.MouseListener
+     * @see      jbvb.bwt.event.MouseListener
      */
     public synchronized MouseListener[] getMouseListeners() {
-        return AWTEventMulticaster.getListeners(mouseListener, MouseListener.class);
+        return AWTEventMulticbster.getListeners(mouseListener, MouseListener.clbss);
     }
 
     /**
      * Adds the specified mouse listener to receive mouse-motion
-     * events from this <code>TrayIcon</code>.  Calling this method
-     * with a <code>null</code> value has no effect.
+     * events from this <code>TrbyIcon</code>.  Cblling this method
+     * with b <code>null</code> vblue hbs no effect.
      *
-     * <p><b>Note</b>: The {@code MouseEvent}'s coordinates (received
-     * from the {@code TrayIcon}) are relative to the screen, not the
-     * {@code TrayIcon}.
+     * <p><b>Note</b>: The {@code MouseEvent}'s coordinbtes (received
+     * from the {@code TrbyIcon}) bre relbtive to the screen, not the
+     * {@code TrbyIcon}.
      *
      * <p> <b>Note: </b>The <code>MOUSE_DRAGGED</code> mouse event is not supported.
-     * <p>Refer to <a href="doc-files/AWTThreadIssues.html#ListenersThreads"
-     * >AWT Threading Issues</a> for details on AWT's threading model.
+     * <p>Refer to <b href="doc-files/AWTThrebdIssues.html#ListenersThrebds"
+     * >AWT Threbding Issues</b> for detbils on AWT's threbding model.
      *
-     * @param    listener   the mouse listener
-     * @see      java.awt.event.MouseEvent
-     * @see      java.awt.event.MouseMotionListener
+     * @pbrbm    listener   the mouse listener
+     * @see      jbvb.bwt.event.MouseEvent
+     * @see      jbvb.bwt.event.MouseMotionListener
      * @see      #removeMouseMotionListener(MouseMotionListener)
      * @see      #getMouseMotionListeners
      */
-    public synchronized void addMouseMotionListener(MouseMotionListener listener) {
+    public synchronized void bddMouseMotionListener(MouseMotionListener listener) {
         if (listener == null) {
             return;
         }
-        mouseMotionListener = AWTEventMulticaster.add(mouseMotionListener, listener);
+        mouseMotionListener = AWTEventMulticbster.bdd(mouseMotionListener, listener);
     }
 
     /**
-     * Removes the specified mouse-motion listener.  Calling this method with
-     * <code>null</code> or an invalid value has no effect.
-     * <p>Refer to <a href="doc-files/AWTThreadIssues.html#ListenersThreads"
-     * >AWT Threading Issues</a> for details on AWT's threading model.
+     * Removes the specified mouse-motion listener.  Cblling this method with
+     * <code>null</code> or bn invblid vblue hbs no effect.
+     * <p>Refer to <b href="doc-files/AWTThrebdIssues.html#ListenersThrebds"
+     * >AWT Threbding Issues</b> for detbils on AWT's threbding model.
      *
-     * @param    listener   the mouse listener
-     * @see      java.awt.event.MouseEvent
-     * @see      java.awt.event.MouseMotionListener
-     * @see      #addMouseMotionListener(MouseMotionListener)
+     * @pbrbm    listener   the mouse listener
+     * @see      jbvb.bwt.event.MouseEvent
+     * @see      jbvb.bwt.event.MouseMotionListener
+     * @see      #bddMouseMotionListener(MouseMotionListener)
      * @see      #getMouseMotionListeners
      */
     public synchronized void removeMouseMotionListener(MouseMotionListener listener) {
         if (listener == null) {
             return;
         }
-        mouseMotionListener = AWTEventMulticaster.remove(mouseMotionListener, listener);
+        mouseMotionListener = AWTEventMulticbster.remove(mouseMotionListener, listener);
     }
 
     /**
-     * Returns an array of all the mouse-motion listeners
-     * registered on this <code>TrayIcon</code>.
+     * Returns bn brrby of bll the mouse-motion listeners
+     * registered on this <code>TrbyIcon</code>.
      *
-     * @return all of the <code>MouseInputListeners</code> registered on
-     * this <code>TrayIcon</code> or an empty array if no mouse
-     * listeners are currently registered
+     * @return bll of the <code>MouseInputListeners</code> registered on
+     * this <code>TrbyIcon</code> or bn empty brrby if no mouse
+     * listeners bre currently registered
      *
-     * @see      #addMouseMotionListener(MouseMotionListener)
+     * @see      #bddMouseMotionListener(MouseMotionListener)
      * @see      #removeMouseMotionListener(MouseMotionListener)
-     * @see      java.awt.event.MouseMotionListener
+     * @see      jbvb.bwt.event.MouseMotionListener
      */
     public synchronized MouseMotionListener[] getMouseMotionListeners() {
-        return AWTEventMulticaster.getListeners(mouseMotionListener, MouseMotionListener.class);
+        return AWTEventMulticbster.getListeners(mouseMotionListener, MouseMotionListener.clbss);
     }
 
     /**
-     * Returns the command name of the action event fired by this tray icon.
+     * Returns the commbnd nbme of the bction event fired by this trby icon.
      *
-     * @return the action command name, or <code>null</code> if none exists
-     * @see #addActionListener(ActionListener)
-     * @see #setActionCommand(String)
+     * @return the bction commbnd nbme, or <code>null</code> if none exists
+     * @see #bddActionListener(ActionListener)
+     * @see #setActionCommbnd(String)
      */
-    public String getActionCommand() {
-        return actionCommand;
+    public String getActionCommbnd() {
+        return bctionCommbnd;
     }
 
     /**
-     * Sets the command name for the action event fired by this tray
-     * icon.  By default, this action command is set to
+     * Sets the commbnd nbme for the bction event fired by this trby
+     * icon.  By defbult, this bction commbnd is set to
      * <code>null</code>.
      *
-     * @param command  a string used to set the tray icon's
-     *                 action command.
-     * @see java.awt.event.ActionEvent
-     * @see #addActionListener(ActionListener)
-     * @see #getActionCommand
+     * @pbrbm commbnd  b string used to set the trby icon's
+     *                 bction commbnd.
+     * @see jbvb.bwt.event.ActionEvent
+     * @see #bddActionListener(ActionListener)
+     * @see #getActionCommbnd
      */
-    public void setActionCommand(String command) {
-        actionCommand = command;
+    public void setActionCommbnd(String commbnd) {
+        bctionCommbnd = commbnd;
     }
 
     /**
-     * Adds the specified action listener to receive
-     * <code>ActionEvent</code>s from this <code>TrayIcon</code>.
-     * Action events usually occur when a user selects the tray icon,
-     * using either the mouse or keyboard.  The conditions in which
-     * action events are generated are platform-dependent.
+     * Adds the specified bction listener to receive
+     * <code>ActionEvent</code>s from this <code>TrbyIcon</code>.
+     * Action events usublly occur when b user selects the trby icon,
+     * using either the mouse or keybobrd.  The conditions in which
+     * bction events bre generbted bre plbtform-dependent.
      *
-     * <p>Calling this method with a <code>null</code> value has no
+     * <p>Cblling this method with b <code>null</code> vblue hbs no
      * effect.
-     * <p>Refer to <a href="doc-files/AWTThreadIssues.html#ListenersThreads"
-     * >AWT Threading Issues</a> for details on AWT's threading model.
+     * <p>Refer to <b href="doc-files/AWTThrebdIssues.html#ListenersThrebds"
+     * >AWT Threbding Issues</b> for detbils on AWT's threbding model.
      *
-     * @param         listener the action listener
+     * @pbrbm         listener the bction listener
      * @see           #removeActionListener
      * @see           #getActionListeners
-     * @see           java.awt.event.ActionListener
-     * @see #setActionCommand(String)
+     * @see           jbvb.bwt.event.ActionListener
+     * @see #setActionCommbnd(String)
      */
-    public synchronized void addActionListener(ActionListener listener) {
+    public synchronized void bddActionListener(ActionListener listener) {
         if (listener == null) {
             return;
         }
-        actionListener = AWTEventMulticaster.add(actionListener, listener);
+        bctionListener = AWTEventMulticbster.bdd(bctionListener, listener);
     }
 
     /**
-     * Removes the specified action listener.  Calling this method with
-     * <code>null</code> or an invalid value has no effect.
-     * <p>Refer to <a href="doc-files/AWTThreadIssues.html#ListenersThreads"
-     * >AWT Threading Issues</a> for details on AWT's threading model.
+     * Removes the specified bction listener.  Cblling this method with
+     * <code>null</code> or bn invblid vblue hbs no effect.
+     * <p>Refer to <b href="doc-files/AWTThrebdIssues.html#ListenersThrebds"
+     * >AWT Threbding Issues</b> for detbils on AWT's threbding model.
      *
-     * @param    listener   the action listener
-     * @see      java.awt.event.ActionEvent
-     * @see      java.awt.event.ActionListener
-     * @see      #addActionListener(ActionListener)
+     * @pbrbm    listener   the bction listener
+     * @see      jbvb.bwt.event.ActionEvent
+     * @see      jbvb.bwt.event.ActionListener
+     * @see      #bddActionListener(ActionListener)
      * @see      #getActionListeners
-     * @see #setActionCommand(String)
+     * @see #setActionCommbnd(String)
      */
     public synchronized void removeActionListener(ActionListener listener) {
         if (listener == null) {
             return;
         }
-        actionListener = AWTEventMulticaster.remove(actionListener, listener);
+        bctionListener = AWTEventMulticbster.remove(bctionListener, listener);
     }
 
     /**
-     * Returns an array of all the action listeners
-     * registered on this <code>TrayIcon</code>.
+     * Returns bn brrby of bll the bction listeners
+     * registered on this <code>TrbyIcon</code>.
      *
-     * @return all of the <code>ActionListeners</code> registered on
-     * this <code>TrayIcon</code> or an empty array if no action
-     * listeners are currently registered
+     * @return bll of the <code>ActionListeners</code> registered on
+     * this <code>TrbyIcon</code> or bn empty brrby if no bction
+     * listeners bre currently registered
      *
-     * @see      #addActionListener(ActionListener)
+     * @see      #bddActionListener(ActionListener)
      * @see      #removeActionListener(ActionListener)
-     * @see      java.awt.event.ActionListener
+     * @see      jbvb.bwt.event.ActionListener
      */
     public synchronized ActionListener[] getActionListeners() {
-        return AWTEventMulticaster.getListeners(actionListener, ActionListener.class);
+        return AWTEventMulticbster.getListeners(bctionListener, ActionListener.clbss);
     }
 
     /**
-     * The message type determines which icon will be displayed in the
-     * caption of the message, and a possible system sound a message
-     * may generate upon showing.
+     * The messbge type determines which icon will be displbyed in the
+     * cbption of the messbge, bnd b possible system sound b messbge
+     * mby generbte upon showing.
      *
-     * @see TrayIcon
-     * @see TrayIcon#displayMessage(String, String, MessageType)
+     * @see TrbyIcon
+     * @see TrbyIcon#displbyMessbge(String, String, MessbgeType)
      * @since 1.6
      */
-    public enum MessageType {
-        /** An error message */
+    public enum MessbgeType {
+        /** An error messbge */
         ERROR,
-        /** A warning message */
+        /** A wbrning messbge */
         WARNING,
-        /** An information message */
+        /** An informbtion messbge */
         INFO,
-        /** Simple message */
+        /** Simple messbge */
         NONE
     };
 
     /**
-     * Displays a popup message near the tray icon.  The message will
-     * disappear after a time or if the user clicks on it.  Clicking
-     * on the message may trigger an {@code ActionEvent}.
+     * Displbys b popup messbge nebr the trby icon.  The messbge will
+     * disbppebr bfter b time or if the user clicks on it.  Clicking
+     * on the messbge mby trigger bn {@code ActionEvent}.
      *
-     * <p>Either the caption or the text may be <code>null</code>, but an
-     * <code>NullPointerException</code> is thrown if both are
+     * <p>Either the cbption or the text mby be <code>null</code>, but bn
+     * <code>NullPointerException</code> is thrown if both bre
      * <code>null</code>.
      *
-     * When displayed, the caption or text strings may be truncated on
-     * some platforms; the number of characters that may be displayed is
-     * platform-dependent.
+     * When displbyed, the cbption or text strings mby be truncbted on
+     * some plbtforms; the number of chbrbcters thbt mby be displbyed is
+     * plbtform-dependent.
      *
-     * <p><strong>Note:</strong> Some platforms may not support
-     * showing a message.
+     * <p><strong>Note:</strong> Some plbtforms mby not support
+     * showing b messbge.
      *
-     * @param caption the caption displayed above the text, usually in
-     * bold; may be <code>null</code>
-     * @param text the text displayed for the particular message; may be
+     * @pbrbm cbption the cbption displbyed bbove the text, usublly in
+     * bold; mby be <code>null</code>
+     * @pbrbm text the text displbyed for the pbrticulbr messbge; mby be
      * <code>null</code>
-     * @param messageType an enum indicating the message type
-     * @throws NullPointerException if both <code>caption</code>
-     * and <code>text</code> are <code>null</code>
+     * @pbrbm messbgeType bn enum indicbting the messbge type
+     * @throws NullPointerException if both <code>cbption</code>
+     * bnd <code>text</code> bre <code>null</code>
      */
-    public void displayMessage(String caption, String text, MessageType messageType) {
-        if (caption == null && text == null) {
-            throw new NullPointerException("displaying the message with both caption and text being null");
+    public void displbyMessbge(String cbption, String text, MessbgeType messbgeType) {
+        if (cbption == null && text == null) {
+            throw new NullPointerException("displbying the messbge with both cbption bnd text being null");
         }
 
-        TrayIconPeer peer = this.peer;
+        TrbyIconPeer peer = this.peer;
         if (peer != null) {
-            peer.displayMessage(caption, text, messageType.name());
+            peer.displbyMessbge(cbption, text, messbgeType.nbme());
         }
     }
 
     /**
-     * Returns the size, in pixels, of the space that the tray icon
-     * occupies in the system tray.  For the tray icon that is not yet
-     * added to the system tray, the returned size is equal to the
-     * result of the {@link SystemTray#getTrayIconSize}.
+     * Returns the size, in pixels, of the spbce thbt the trby icon
+     * occupies in the system trby.  For the trby icon thbt is not yet
+     * bdded to the system trby, the returned size is equbl to the
+     * result of the {@link SystemTrby#getTrbyIconSize}.
      *
-     * @return the size of the tray icon, in pixels
-     * @see TrayIcon#setImageAutoSize(boolean)
-     * @see java.awt.Image
-     * @see TrayIcon#getSize()
+     * @return the size of the trby icon, in pixels
+     * @see TrbyIcon#setImbgeAutoSize(boolebn)
+     * @see jbvb.bwt.Imbge
+     * @see TrbyIcon#getSize()
      */
     public Dimension getSize() {
-        return SystemTray.getSystemTray().getTrayIconSize();
+        return SystemTrby.getSystemTrby().getTrbyIconSize();
     }
 
     // ****************************************************************
     // ****************************************************************
 
-    void addNotify()
+    void bddNotify()
       throws AWTException
     {
         synchronized (this) {
             if (peer == null) {
-                Toolkit toolkit = Toolkit.getDefaultToolkit();
-                if (toolkit instanceof SunToolkit) {
-                    peer = ((SunToolkit)Toolkit.getDefaultToolkit()).createTrayIcon(this);
-                } else if (toolkit instanceof HeadlessToolkit) {
-                    peer = ((HeadlessToolkit)Toolkit.getDefaultToolkit()).createTrayIcon(this);
+                Toolkit toolkit = Toolkit.getDefbultToolkit();
+                if (toolkit instbnceof SunToolkit) {
+                    peer = ((SunToolkit)Toolkit.getDefbultToolkit()).crebteTrbyIcon(this);
+                } else if (toolkit instbnceof HebdlessToolkit) {
+                    peer = ((HebdlessToolkit)Toolkit.getDefbultToolkit()).crebteTrbyIcon(this);
                 }
             }
         }
@@ -698,7 +698,7 @@ public class TrayIcon {
     }
 
     void removeNotify() {
-        TrayIconPeer p = null;
+        TrbyIconPeer p = null;
         synchronized (this) {
             p = peer;
             peer = null;
@@ -716,27 +716,27 @@ public class TrayIcon {
         return id;
     }
 
-    void dispatchEvent(AWTEvent e) {
+    void dispbtchEvent(AWTEvent e) {
         EventQueue.setCurrentEventAndMostRecentTime(e);
-        Toolkit.getDefaultToolkit().notifyAWTEventListeners(e);
+        Toolkit.getDefbultToolkit().notifyAWTEventListeners(e);
         processEvent(e);
     }
 
     void processEvent(AWTEvent e) {
-        if (e instanceof MouseEvent) {
+        if (e instbnceof MouseEvent) {
             switch(e.getID()) {
-            case MouseEvent.MOUSE_PRESSED:
-            case MouseEvent.MOUSE_RELEASED:
-            case MouseEvent.MOUSE_CLICKED:
+            cbse MouseEvent.MOUSE_PRESSED:
+            cbse MouseEvent.MOUSE_RELEASED:
+            cbse MouseEvent.MOUSE_CLICKED:
                 processMouseEvent((MouseEvent)e);
-                break;
-            case MouseEvent.MOUSE_MOVED:
+                brebk;
+            cbse MouseEvent.MOUSE_MOVED:
                 processMouseMotionEvent((MouseEvent)e);
-                break;
-            default:
+                brebk;
+            defbult:
                 return;
             }
-        } else if (e instanceof ActionEvent) {
+        } else if (e instbnceof ActionEvent) {
             processActionEvent((ActionEvent)e);
         }
     }
@@ -747,16 +747,16 @@ public class TrayIcon {
         if (listener != null) {
             int id = e.getID();
             switch(id) {
-            case MouseEvent.MOUSE_PRESSED:
+            cbse MouseEvent.MOUSE_PRESSED:
                 listener.mousePressed(e);
-                break;
-            case MouseEvent.MOUSE_RELEASED:
-                listener.mouseReleased(e);
-                break;
-            case MouseEvent.MOUSE_CLICKED:
+                brebk;
+            cbse MouseEvent.MOUSE_RELEASED:
+                listener.mouseRelebsed(e);
+                brebk;
+            cbse MouseEvent.MOUSE_CLICKED:
                 listener.mouseClicked(e);
-                break;
-            default:
+                brebk;
+            defbult:
                 return;
             }
         }
@@ -772,11 +772,11 @@ public class TrayIcon {
     }
 
     void processActionEvent(ActionEvent e) {
-        ActionListener listener = actionListener;
+        ActionListener listener = bctionListener;
         if (listener != null) {
-            listener.actionPerformed(e);
+            listener.bctionPerformed(e);
         }
     }
 
-    private static native void initIDs();
+    privbte stbtic nbtive void initIDs();
 }

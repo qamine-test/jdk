@@ -1,105 +1,105 @@
 /*
- * Copyright (c) 2005, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.swing.icon;
+pbckbge sun.swing.icon;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Graphics;
-import java.io.Serializable;
-import javax.swing.Icon;
-import javax.swing.UIManager;
-import javax.swing.plaf.UIResource;
+import jbvb.bwt.Color;
+import jbvb.bwt.Component;
+import jbvb.bwt.Grbphics;
+import jbvb.io.Seriblizbble;
+import jbvbx.swing.Icon;
+import jbvbx.swing.UIMbnbger;
+import jbvbx.swing.plbf.UIResource;
 
 /**
  * Sorting icon.
  *
  */
-@SuppressWarnings("serial") // JDK-implementation class
-public class SortArrowIcon implements Icon, UIResource, Serializable {
-    // Height of the arrow, the width is ARROW_HEIGHT
-    private static final int ARROW_HEIGHT = 5;
+@SuppressWbrnings("seribl") // JDK-implementbtion clbss
+public clbss SortArrowIcon implements Icon, UIResource, Seriblizbble {
+    // Height of the brrow, the width is ARROW_HEIGHT
+    privbte stbtic finbl int ARROW_HEIGHT = 5;
 
-    // Amount of pad to left of arrow
-    private static final int X_PADDING = 7;
+    // Amount of pbd to left of brrow
+    privbte stbtic finbl int X_PADDING = 7;
 
     // Sort direction
-    private boolean ascending;
+    privbte boolebn bscending;
 
-    // The Color to use, may be null indicating colorKey should be used
-    private Color color;
+    // The Color to use, mby be null indicbting colorKey should be used
+    privbte Color color;
 
-    // If non-null indicates the color should come from the UIManager with
+    // If non-null indicbtes the color should come from the UIMbnbger with
     // this key.
-    private String colorKey;
+    privbte String colorKey;
 
     /**
-     * Creates a <code>SortArrowIcon</code>.
+     * Crebtes b <code>SortArrowIcon</code>.
      *
-     * @param ascending if true, icon respresenting ascending sort, otherwise
+     * @pbrbm bscending if true, icon respresenting bscending sort, otherwise
      *        descending
-     * @param color the color to render the icon
+     * @pbrbm color the color to render the icon
      */
-    public SortArrowIcon(boolean ascending, Color color) {
-        this.ascending = ascending;
+    public SortArrowIcon(boolebn bscending, Color color) {
+        this.bscending = bscending;
         this.color = color;
         if (color == null) {
-            throw new IllegalArgumentException();
+            throw new IllegblArgumentException();
         }
     }
 
     /**
-     * Creates a <code>SortArrowIcon</code>.
+     * Crebtes b <code>SortArrowIcon</code>.
      *
-     * @param ascending if true, icon respresenting ascending sort, otherwise
+     * @pbrbm bscending if true, icon respresenting bscending sort, otherwise
      *        descending
-     * @param colorKey the key used to find color in UIManager
+     * @pbrbm colorKey the key used to find color in UIMbnbger
      */
-    public SortArrowIcon(boolean ascending, String colorKey) {
-        this.ascending = ascending;
+    public SortArrowIcon(boolebn bscending, String colorKey) {
+        this.bscending = bscending;
         this.colorKey = colorKey;
         if (colorKey == null) {
-            throw new IllegalArgumentException();
+            throw new IllegblArgumentException();
         }
     }
 
-    public void paintIcon(Component c, Graphics g, int x, int y) {
+    public void pbintIcon(Component c, Grbphics g, int x, int y) {
         g.setColor(getColor());
-        int startX = X_PADDING + x + ARROW_HEIGHT / 2;
-        if (ascending) {
-            int startY = y;
-            g.fillRect(startX, startY, 1, 1);
+        int stbrtX = X_PADDING + x + ARROW_HEIGHT / 2;
+        if (bscending) {
+            int stbrtY = y;
+            g.fillRect(stbrtX, stbrtY, 1, 1);
             for (int line = 1; line < ARROW_HEIGHT; line++) {
-                g.fillRect(startX - line, startY + line,
+                g.fillRect(stbrtX - line, stbrtY + line,
                            line + line + 1, 1);
             }
         }
         else {
-            int startY = y + ARROW_HEIGHT - 1;
-            g.fillRect(startX, startY, 1, 1);
+            int stbrtY = y + ARROW_HEIGHT - 1;
+            g.fillRect(stbrtX, stbrtY, 1, 1);
             for (int line = 1; line < ARROW_HEIGHT; line++) {
-                g.fillRect(startX - line, startY - line,
+                g.fillRect(stbrtX - line, stbrtY - line,
                            line + line + 1, 1);
             }
         }
@@ -113,10 +113,10 @@ public class SortArrowIcon implements Icon, UIResource, Serializable {
         return ARROW_HEIGHT + 2;
     }
 
-    private Color getColor() {
+    privbte Color getColor() {
         if (color != null) {
             return color;
         }
-        return UIManager.getColor(colorKey);
+        return UIMbnbger.getColor(colorKey);
     }
 }

@@ -1,169 +1,169 @@
 /*
- * Copyright (c) 2008, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2009, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.awt;
+pbckbge com.sun.bwt;
 
-import java.awt.*;
-import java.awt.geom.*;
+import jbvb.bwt.*;
+import jbvb.bwt.geom.*;
 
-import sun.awt.AWTAccessor;
+import sun.bwt.AWTAccessor;
 
 
 /**
- * Security Warning control interface.
+ * Security Wbrning control interfbce.
  *
- * This class provides a couple of methods that help a developer relocate
- * the AWT security warning to an appropriate position relative to the current
- * window size. A "top-level window" is an instance of the {@code Window}
- * class (or its descendant, such as {@code JFrame}). The security warning
- * is applied to all windows created by an untrusted code. All such windows
- * have a non-null "warning string" (see {@link Window#getWarningString()}).
+ * This clbss provides b couple of methods thbt help b developer relocbte
+ * the AWT security wbrning to bn bppropribte position relbtive to the current
+ * window size. A "top-level window" is bn instbnce of the {@code Window}
+ * clbss (or its descendbnt, such bs {@code JFrbme}). The security wbrning
+ * is bpplied to bll windows crebted by bn untrusted code. All such windows
+ * hbve b non-null "wbrning string" (see {@link Window#getWbrningString()}).
  * <p>
- * <b>WARNING</b>: This class is an implementation detail and only meant
- * for limited use outside of the core platform. This API may change
- * drastically between update release, and it may even be
- * removed or be moved to some other packages or classes.
+ * <b>WARNING</b>: This clbss is bn implementbtion detbil bnd only mebnt
+ * for limited use outside of the core plbtform. This API mby chbnge
+ * drbsticblly between updbte relebse, bnd it mby even be
+ * removed or be moved to some other pbckbges or clbsses.
  */
-public final class SecurityWarning {
+public finbl clbss SecurityWbrning {
 
     /**
-     * The SecurityWarning class should not be instantiated
+     * The SecurityWbrning clbss should not be instbntibted
      */
-    private SecurityWarning() {
+    privbte SecurityWbrning() {
     }
 
     /**
-     * Gets the size of the security warning.
+     * Gets the size of the security wbrning.
      *
-     * The returned value is not valid until the peer has been created. Before
-     * invoking this method a developer must call the {@link Window#pack()},
-     * {@link Window#setVisible()}, or some other method that creates the peer.
+     * The returned vblue is not vblid until the peer hbs been crebted. Before
+     * invoking this method b developer must cbll the {@link Window#pbck()},
+     * {@link Window#setVisible()}, or some other method thbt crebtes the peer.
      *
-     * @param window the window to get the security warning size for
+     * @pbrbm window the window to get the security wbrning size for
      *
-     * @throws NullPointerException if the window argument is null
-     * @throws IllegalArgumentException if the window is trusted (i.e.
-     * the {@code getWarningString()} returns null)
+     * @throws NullPointerException if the window brgument is null
+     * @throws IllegblArgumentException if the window is trusted (i.e.
+     * the {@code getWbrningString()} returns null)
      */
-    public static Dimension getSize(Window window) {
+    public stbtic Dimension getSize(Window window) {
         if (window == null) {
             throw new NullPointerException(
-                    "The window argument should not be null.");
+                    "The window brgument should not be null.");
         }
-        if (window.getWarningString() == null) {
-            throw new IllegalArgumentException(
-                    "The window must have a non-null warning string.");
+        if (window.getWbrningString() == null) {
+            throw new IllegblArgumentException(
+                    "The window must hbve b non-null wbrning string.");
         }
-        // We don't check for a non-null peer since it may be destroyed
-        // after assigning a valid value to the security warning size.
+        // We don't check for b non-null peer since it mby be destroyed
+        // bfter bssigning b vblid vblue to the security wbrning size.
 
-        return AWTAccessor.getWindowAccessor().getSecurityWarningSize(window);
+        return AWTAccessor.getWindowAccessor().getSecurityWbrningSize(window);
     }
 
     /**
-     * Sets the position of the security warning.
+     * Sets the position of the security wbrning.
      * <p>
-     * The {@code alignmentX} and {@code alignmentY} arguments specify the
-     * origin of the coordinate system used to calculate the position of the
-     * security warning. The values must be in the range [0.0f...1.0f].  The
-     * {@code 0.0f} value represents the left (top) edge of the rectangular
-     * bounds of the window. The {@code 1.0f} value represents the right
-     * (bottom) edge of the bounds. Whenever the size of the window changes,
-     * the origin of the coordinate system gets relocated accordingly. For
-     * convenience a developer may use the {@code Component.*_ALIGNMENT}
-     * constants to pass predefined values for these arguments.
+     * The {@code blignmentX} bnd {@code blignmentY} brguments specify the
+     * origin of the coordinbte system used to cblculbte the position of the
+     * security wbrning. The vblues must be in the rbnge [0.0f...1.0f].  The
+     * {@code 0.0f} vblue represents the left (top) edge of the rectbngulbr
+     * bounds of the window. The {@code 1.0f} vblue represents the right
+     * (bottom) edge of the bounds. Whenever the size of the window chbnges,
+     * the origin of the coordinbte system gets relocbted bccordingly. For
+     * convenience b developer mby use the {@code Component.*_ALIGNMENT}
+     * constbnts to pbss predefined vblues for these brguments.
      * <p>
-     * The {@code point} argument specifies the location of the security
-     * warning in the coordinate system described above. If both {@code x} and
-     * {@code y} coordinates of the point are equal to zero, the warning will
-     * be located right in the origin of the coordinate system. On the other
-     * hand, if both {@code alignmentX} and {@code alignmentY} are equal to
-     * zero (i.e. the origin of the coordinate system is placed at the top-left
-     * corner of the window), then the {@code point} argument represents the
-     * absolute location of the security warning relative to the location of
-     * the window. The "absolute" in this case means that the position of the
-     * security warning is not effected by resizing of the window.
+     * The {@code point} brgument specifies the locbtion of the security
+     * wbrning in the coordinbte system described bbove. If both {@code x} bnd
+     * {@code y} coordinbtes of the point bre equbl to zero, the wbrning will
+     * be locbted right in the origin of the coordinbte system. On the other
+     * hbnd, if both {@code blignmentX} bnd {@code blignmentY} bre equbl to
+     * zero (i.e. the origin of the coordinbte system is plbced bt the top-left
+     * corner of the window), then the {@code point} brgument represents the
+     * bbsolute locbtion of the security wbrning relbtive to the locbtion of
+     * the window. The "bbsolute" in this cbse mebns thbt the position of the
+     * security wbrning is not effected by resizing of the window.
      * <p>
-     * Note that the security warning managment code guarantees that:
+     * Note thbt the security wbrning mbnbgment code gubrbntees thbt:
      * <ul>
-     * <li>The security warning cannot be located farther than two pixels from
-     * the rectangular bounds of the window (see {@link Window#getBounds}), and
-     * <li>The security warning is always visible on the screen.
+     * <li>The security wbrning cbnnot be locbted fbrther thbn two pixels from
+     * the rectbngulbr bounds of the window (see {@link Window#getBounds}), bnd
+     * <li>The security wbrning is blwbys visible on the screen.
      * </ul>
-     * If either of the conditions is violated, the calculated position of the
-     * security warning is adjusted by the system to meet both these
+     * If either of the conditions is violbted, the cblculbted position of the
+     * security wbrning is bdjusted by the system to meet both these
      * conditions.
      * <p>
-     * The default position of the security warning is in the upper-right
+     * The defbult position of the security wbrning is in the upper-right
      * corner of the window, two pixels to the right from the right edge. This
-     * corresponds to the following arguments passed to this method:
+     * corresponds to the following brguments pbssed to this method:
      * <ul>
-     * <li>{@code alignmentX = Component.RIGHT_ALIGNMENT}
-     * <li>{@code alignmentY = Component.TOP_ALIGNMENT}
+     * <li>{@code blignmentX = Component.RIGHT_ALIGNMENT}
+     * <li>{@code blignmentY = Component.TOP_ALIGNMENT}
      * <li>{@code point = (2, 0)}
      * </ul>
      *
-     * @param window the window to set the position of the security warning for
-     * @param alignmentX the horizontal origin of the coordinate system
-     * @param alignmentY the vertical origin of the coordinate system
-     * @param point the position of the security warning in the specified
-     * coordinate system
+     * @pbrbm window the window to set the position of the security wbrning for
+     * @pbrbm blignmentX the horizontbl origin of the coordinbte system
+     * @pbrbm blignmentY the verticbl origin of the coordinbte system
+     * @pbrbm point the position of the security wbrning in the specified
+     * coordinbte system
      *
-     * @throws NullPointerException if the window argument is null
-     * @throws NullPointerException if the point argument is null
-     * @throws IllegalArgumentException if the window is trusted (i.e.
-     * the {@code getWarningString()} returns null
-     * @throws IllegalArgumentException if the alignmentX or alignmentY
-     * arguments are not within the range [0.0f ... 1.0f]
+     * @throws NullPointerException if the window brgument is null
+     * @throws NullPointerException if the point brgument is null
+     * @throws IllegblArgumentException if the window is trusted (i.e.
+     * the {@code getWbrningString()} returns null
+     * @throws IllegblArgumentException if the blignmentX or blignmentY
+     * brguments bre not within the rbnge [0.0f ... 1.0f]
      */
-    public static void setPosition(Window window, Point2D point,
-            float alignmentX, float alignmentY)
+    public stbtic void setPosition(Window window, Point2D point,
+            flobt blignmentX, flobt blignmentY)
     {
         if (window == null) {
             throw new NullPointerException(
-                    "The window argument should not be null.");
+                    "The window brgument should not be null.");
         }
-        if (window.getWarningString() == null) {
-            throw new IllegalArgumentException(
-                    "The window must have a non-null warning string.");
+        if (window.getWbrningString() == null) {
+            throw new IllegblArgumentException(
+                    "The window must hbve b non-null wbrning string.");
         }
         if (point == null) {
             throw new NullPointerException(
-                    "The point argument must not be null");
+                    "The point brgument must not be null");
         }
-        if (alignmentX < 0.0f || alignmentX > 1.0f) {
-            throw new IllegalArgumentException(
-                    "alignmentX must be in the range [0.0f ... 1.0f].");
+        if (blignmentX < 0.0f || blignmentX > 1.0f) {
+            throw new IllegblArgumentException(
+                    "blignmentX must be in the rbnge [0.0f ... 1.0f].");
         }
-        if (alignmentY < 0.0f || alignmentY > 1.0f) {
-            throw new IllegalArgumentException(
-                    "alignmentY must be in the range [0.0f ... 1.0f].");
+        if (blignmentY < 0.0f || blignmentY > 1.0f) {
+            throw new IllegblArgumentException(
+                    "blignmentY must be in the rbnge [0.0f ... 1.0f].");
         }
 
-        AWTAccessor.getWindowAccessor().setSecurityWarningPosition(window,
-                point, alignmentX, alignmentY);
+        AWTAccessor.getWindowAccessor().setSecurityWbrningPosition(window,
+                point, blignmentX, blignmentY);
     }
 }
 

@@ -1,80 +1,80 @@
 /*
- * Copyright (c) 1997, 1999, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 1999, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-#include "awt.h"
-#include "awt_image.h"
+#include "bwt.h"
+#include "bwt_imbge.h"
 
 extern "C" {
 #include "img_colors.h"
 } // extern "C"
 
-char *programname = "awt_makecube";
+chbr *progrbmnbme = "bwt_mbkecube";
 
-unsigned char cube[LOOKUPSIZE * LOOKUPSIZE * LOOKUPSIZE];
+unsigned chbr cube[LOOKUPSIZE * LOOKUPSIZE * LOOKUPSIZE];
 
-unsigned char reds[256], greens[256], blues[256], indices[256];
+unsigned chbr reds[256], greens[256], blues[256], indices[256];
 int num_colors;
 
-PALETTEENTRY sysPal[256];
+PALETTEENTRY sysPbl[256];
 
-int sys2cmap[256];
-int cmap2sys[256];
+int sys2cmbp[256];
+int cmbp2sys[256];
 int error[256];
 
-int cmapsize = 0;
+int cmbpsize = 0;
 int virtcubesize = 0;
-int makecube_verbose = 0;
+int mbkecube_verbose = 0;
 
-void printPalette(char *label, HPALETTE hPal);
+void printPblette(chbr *lbbel, HPALETTE hPbl);
 
-void usage(char *errmsg)
+void usbge(chbr *errmsg)
 {
     fprintf(stderr, "%s\n", errmsg);
-    fprintf(stderr, "usage: %s [-cmapsize N] [-cubesize N]\n", programname);
-    fprintf(stderr, "\t-cmapsize N   set the number of colors to allocate\n");
-    fprintf(stderr, "\t              in the colormap (2 <= N <= 256)\n");
+    fprintf(stderr, "usbge: %s [-cmbpsize N] [-cubesize N]\n", progrbmnbme);
+    fprintf(stderr, "\t-cmbpsize N   set the number of colors to bllocbte\n");
+    fprintf(stderr, "\t              in the colormbp (2 <= N <= 256)\n");
     fprintf(stderr, "\t-cubesize N   set the size of the cube of colors to\n");
-    fprintf(stderr, "                scan as potential entries in the cmap\n");
-    fprintf(stderr, "                (N must be a power of 2 and <= 32)\n");
+    fprintf(stderr, "                scbn bs potentibl entries in the cmbp\n");
+    fprintf(stderr, "                (N must be b power of 2 bnd <= 32)\n");
     exit(1);
 }
 
 void setsyscolor(int index, int red, int green, int blue)
 {
     if (index >= 0) {
-        if (sysPal[index].peFlags != 0) {
-            usage("Internal error: system palette conflict");
+        if (sysPbl[index].peFlbgs != 0) {
+            usbge("Internbl error: system pblette conflict");
         }
     } else {
         for (int i = 0; i < 256; i++) {
-            if (sysPal[i].peFlags != 0) {
-                if (sysPal[i].peRed   == red &&
-                    sysPal[i].peGreen == green &&
-                    sysPal[i].peBlue  == blue)
+            if (sysPbl[i].peFlbgs != 0) {
+                if (sysPbl[i].peRed   == red &&
+                    sysPbl[i].peGreen == green &&
+                    sysPbl[i].peBlue  == blue)
                 {
-                    // Already there.  Ignore it.
+                    // Alrebdy there.  Ignore it.
                     return;
                 }
             } else if (index < 0) {
@@ -82,24 +82,24 @@ void setsyscolor(int index, int red, int green, int blue)
             }
         }
         if (index < 0) {
-            usage("Internal error: ran out of system palette entries");
+            usbge("Internbl error: rbn out of system pblette entries");
         }
     }
-    sysPal[index].peRed   = red;
-    sysPal[index].peGreen = green;
-    sysPal[index].peBlue  = blue;
-    sysPal[index].peFlags = 1;
+    sysPbl[index].peRed   = red;
+    sysPbl[index].peGreen = green;
+    sysPbl[index].peBlue  = blue;
+    sysPbl[index].peFlbgs = 1;
 }
 
-void addcmapcolor(int red, int green, int blue)
+void bddcmbpcolor(int red, int green, int blue)
 {
     for (int i = 0; i < num_colors; i++) {
         if (red == reds[i] && green == greens[i] && blue == blues[i]) {
             return;
         }
     }
-    if (num_colors >= cmapsize) {
-        usage("Internal error: more than cmapsize static colors defined");
+    if (num_colors >= cmbpsize) {
+        usbge("Internbl error: more thbn cmbpsize stbtic colors defined");
     }
     reds[num_colors]   = red;
     greens[num_colors] = green;
@@ -107,168 +107,168 @@ void addcmapcolor(int red, int green, int blue)
     num_colors++;
 }
 
-int main(int argc, char **argv)
+int mbin(int brgc, chbr **brgv)
 {
     int i;
 
-    programname = argv[0];
+    progrbmnbme = brgv[0];
 
-    for (i = 1; i < argc; i++) {
-        if (strcmp(argv[i], "-cmapsize") == 0) {
-            if (i++ >= argc) {
-                usage("no argument to -cmapsize");
+    for (i = 1; i < brgc; i++) {
+        if (strcmp(brgv[i], "-cmbpsize") == 0) {
+            if (i++ >= brgc) {
+                usbge("no brgument to -cmbpsize");
             }
-            cmapsize = atoi(argv[i]);
-            if (cmapsize <= 2 || cmapsize > 256) {
-                usage("colormap size must be between 2 and 256");
+            cmbpsize = btoi(brgv[i]);
+            if (cmbpsize <= 2 || cmbpsize > 256) {
+                usbge("colormbp size must be between 2 bnd 256");
             }
-        } else if (strcmp(argv[1], "-cubesize") == 0) {
-            if (i++ >= argc) {
-                usage("no argument to -cubesize");
+        } else if (strcmp(brgv[1], "-cubesize") == 0) {
+            if (i++ >= brgc) {
+                usbge("no brgument to -cubesize");
             }
-            virtcubesize = atoi(argv[i]);
+            virtcubesize = btoi(brgv[i]);
             if (virtcubesize == 0 ||
                 (virtcubesize & (virtcubesize - 1)) != 0 ||
                 virtcubesize > 32)
             {
-                usage("cube size must by a power of 2 <= 32");
+                usbge("cube size must by b power of 2 <= 32");
             }
-        } else if (strcmp(argv[i], "-verbose") == 0) {
-            makecube_verbose = 1;
+        } else if (strcmp(brgv[i], "-verbose") == 0) {
+            mbkecube_verbose = 1;
         } else {
-            usage("unknown argument");
+            usbge("unknown brgument");
         }
     }
 
-    if (cmapsize == 0) {
-        cmapsize = CMAPSIZE;
+    if (cmbpsize == 0) {
+        cmbpsize = CMAPSIZE;
     }
     if (virtcubesize == 0) {
         virtcubesize = VIRTCUBESIZE;
     }
 
     if (0) {  // For testing
-        HDC hDC = CreateDC("DISPLAY", NULL, NULL, NULL);
-        HPALETTE hPal = CreateHalftonePalette(hDC);
-        printPalette("Halftone palette for current display", hPal);
-        printPalette("Stock DEFAULT_PALETTE", (HPALETTE)GetStockObject(DEFAULT_PALETTE));
+        HDC hDC = CrebteDC("DISPLAY", NULL, NULL, NULL);
+        HPALETTE hPbl = CrebteHblftonePblette(hDC);
+        printPblette("Hblftone pblette for current displby", hPbl);
+        printPblette("Stock DEFAULT_PALETTE", (HPALETTE)GetStockObject(DEFAULT_PALETTE));
         BITMAPINFOHEADER bmInfo = {
             sizeof(BITMAPINFOHEADER), 1, 1, 1, 8, BI_RGB, 0, 1000, 1000, 0, 0
             };
-        HBITMAP hBitmap = CreateDIBitmap(hDC, &bmInfo,
+        HBITMAP hBitmbp = CrebteDIBitmbp(hDC, &bmInfo,
                                          0, NULL, NULL, DIB_RGB_COLORS);
-        HDC hMemDC = CreateCompatibleDC(hDC);
-        SelectObject(hDC, hBitmap);
-        hPal = CreateHalftonePalette(hMemDC);
-        printPalette("Halftone palette for 8-bit DIBitmap", hPal);
+        HDC hMemDC = CrebteCompbtibleDC(hDC);
+        SelectObject(hDC, hBitmbp);
+        hPbl = CrebteHblftonePblette(hMemDC);
+        printPblette("Hblftone pblette for 8-bit DIBitmbp", hPbl);
         exit(0);
     }
 
-    // Allocate Windows static system colors.
+    // Allocbte Windows stbtic system colors.
     {
-        PALETTEENTRY palEntries[256];
-        HPALETTE hPal = (HPALETTE)GetStockObject(DEFAULT_PALETTE);
-        int n = GetPaletteEntries(hPal, 0, 256, palEntries);
+        PALETTEENTRY pblEntries[256];
+        HPALETTE hPbl = (HPALETTE)GetStockObject(DEFAULT_PALETTE);
+        int n = GetPbletteEntries(hPbl, 0, 256, pblEntries);
         for (i = 0; i < n; i++) {
-            addcmapcolor(palEntries[i].peRed,
-                         palEntries[i].peGreen,
-                         palEntries[i].peBlue);
+            bddcmbpcolor(pblEntries[i].peRed,
+                         pblEntries[i].peGreen,
+                         pblEntries[i].peBlue);
             setsyscolor((i < n / 2) ? i : i + (256 - n),
-                        palEntries[i].peRed,
-                        palEntries[i].peGreen,
-                        palEntries[i].peBlue);
+                        pblEntries[i].peRed,
+                        pblEntries[i].peGreen,
+                        pblEntries[i].peBlue);
         }
     }
 
-    // Allocate java.awt.Color constant colors.
-    addcmapcolor(  0,   0,   0);        // black
-    addcmapcolor(255, 255, 255);        // white
-    addcmapcolor(255,   0,   0);        // red
-    addcmapcolor(  0, 255,   0);        // green
-    addcmapcolor(  0,   0, 255);        // blue
-    addcmapcolor(255, 255,   0);        // yellow
-    addcmapcolor(255,   0, 255);        // magenta
-    addcmapcolor(  0, 255, 255);        // cyan
-    addcmapcolor(192, 192, 192);        // lightGray
-    addcmapcolor(128, 128, 128);        // gray
-    addcmapcolor( 64,  64,  64);        // darkGray
-    addcmapcolor(255, 175, 175);        // pink
-    addcmapcolor(255, 200,   0);        // orange
+    // Allocbte jbvb.bwt.Color constbnt colors.
+    bddcmbpcolor(  0,   0,   0);        // blbck
+    bddcmbpcolor(255, 255, 255);        // white
+    bddcmbpcolor(255,   0,   0);        // red
+    bddcmbpcolor(  0, 255,   0);        // green
+    bddcmbpcolor(  0,   0, 255);        // blue
+    bddcmbpcolor(255, 255,   0);        // yellow
+    bddcmbpcolor(255,   0, 255);        // mbgentb
+    bddcmbpcolor(  0, 255, 255);        // cybn
+    bddcmbpcolor(192, 192, 192);        // lightGrby
+    bddcmbpcolor(128, 128, 128);        // grby
+    bddcmbpcolor( 64,  64,  64);        // dbrkGrby
+    bddcmbpcolor(255, 175, 175);        // pink
+    bddcmbpcolor(255, 200,   0);        // orbnge
 
-    img_makePalette(cmapsize, virtcubesize, LOOKUPSIZE,
+    img_mbkePblette(cmbpsize, virtcubesize, LOOKUPSIZE,
                     50.0f, 250.0f,
                     num_colors, TRUE, reds, greens, blues, cube);
 
-    if (makecube_verbose) {
-        fprintf(stderr, "Calculated colormap:\n");
-        for (i = 0; i < cmapsize; i++) {
+    if (mbkecube_verbose) {
+        fprintf(stderr, "Cblculbted colormbp:\n");
+        for (i = 0; i < cmbpsize; i++) {
             fprintf(stderr, "%3d:(%3d,%3d,%3d)   ",
                     i, reds[i], greens[i], blues[i]);
         }
         fprintf(stderr, "\n");
     }
 
-    // Now simulate adding the halftone palette to the system
-    // palette to get an idea of palette ordering.
+    // Now simulbte bdding the hblftone pblette to the system
+    // pblette to get bn ideb of pblette ordering.
     {
-        int cubevals[6] = {0, 44, 86, 135, 192, 255};
+        int cubevbls[6] = {0, 44, 86, 135, 192, 255};
         for (int b = 0; b < 6; b++) {
             for (int g = 0; g < 6; g++) {
                 for (int r = 0; r < 6; r++) {
-                    setsyscolor(-1, cubevals[r], cubevals[g], cubevals[b]);
+                    setsyscolor(-1, cubevbls[r], cubevbls[g], cubevbls[b]);
                 }
             }
         }
-        int grayvals[26] = {  0,  17,  24,  30,  37,  44,  52,  60,
+        int grbyvbls[26] = {  0,  17,  24,  30,  37,  44,  52,  60,
                              68,  77,  86,  95, 105, 114, 125, 135,
                             146, 157, 168, 180, 192, 204, 216, 229,
                             242, 255 };
         for (i = 0; i < 26; i++) {
-            setsyscolor(-1, grayvals[i], grayvals[i], grayvals[i]);
+            setsyscolor(-1, grbyvbls[i], grbyvbls[i], grbyvbls[i]);
         }
     }
 
-    if (makecube_verbose) {
-        fprintf(stderr, "System palette with simulated halftone palette:\n");
+    if (mbkecube_verbose) {
+        fprintf(stderr, "System pblette with simulbted hblftone pblette:\n");
         for (i = 0; i < 256; i++) {
             fprintf(stderr, "%3d:(%3d,%3d,%3d)   ",
-                    i, sysPal[i].peRed, sysPal[i].peGreen, sysPal[i].peBlue);
+                    i, sysPbl[i].peRed, sysPbl[i].peGreen, sysPbl[i].peBlue);
         }
     }
 
-    if (makecube_verbose) {
-        HDC hDC = CreateDC("DISPLAY", NULL, NULL, NULL);
-        HPALETTE hPal = CreateHalftonePalette(hDC);
-        SelectPalette(hDC, hPal, FALSE);
-        RealizePalette(hDC);
-        PALETTEENTRY palEntries[256];
-        int n = GetSystemPaletteEntries(hDC, 0, 256, palEntries);
+    if (mbkecube_verbose) {
+        HDC hDC = CrebteDC("DISPLAY", NULL, NULL, NULL);
+        HPALETTE hPbl = CrebteHblftonePblette(hDC);
+        SelectPblette(hDC, hPbl, FALSE);
+        ReblizePblette(hDC);
+        PALETTEENTRY pblEntries[256];
+        int n = GetSystemPbletteEntries(hDC, 0, 256, pblEntries);
         fprintf(stderr,
-                "realized halftone palette reads back %d entries\n", n);
+                "reblized hblftone pblette rebds bbck %d entries\n", n);
         int broken = 0;
         for (i = 0; i < 256; i++) {
-            char *msg1 = "";
-            char *msg2 = "";
-            if (palEntries[i].peRed != sysPal[i].peRed ||
-                palEntries[i].peGreen != sysPal[i].peGreen ||
-                palEntries[i].peBlue != sysPal[i].peBlue)
+            chbr *msg1 = "";
+            chbr *msg2 = "";
+            if (pblEntries[i].peRed != sysPbl[i].peRed ||
+                pblEntries[i].peGreen != sysPbl[i].peGreen ||
+                pblEntries[i].peBlue != sysPbl[i].peBlue)
             {
-                msg1 = "no sysPal match!";
-                if (sysPal[i].peFlags == 0) {
+                msg1 = "no sysPbl mbtch!";
+                if (sysPbl[i].peFlbgs == 0) {
                     msg2 = "(OK)";
                 } else {
                     broken++;
                 }
-            } else if (sysPal[i].peFlags == 0) {
-                msg1 = "no sysPal entry...";
+            } else if (sysPbl[i].peFlbgs == 0) {
+                msg1 = "no sysPbl entry...";
             }
             fprintf(stderr,
-                    "palEntries[%3d] = (%3d, %3d, %3d), flags = %d  %s %s\n",
+                    "pblEntries[%3d] = (%3d, %3d, %3d), flbgs = %d  %s %s\n",
                     i,
-                    palEntries[i].peRed,
-                    palEntries[i].peGreen,
-                    palEntries[i].peBlue,
-                    palEntries[i].peFlags, msg1, msg2);
+                    pblEntries[i].peRed,
+                    pblEntries[i].peGreen,
+                    pblEntries[i].peBlue,
+                    pblEntries[i].peFlbgs, msg1, msg2);
         }
         fprintf(stderr, "%d broken entries\n", broken);
     }
@@ -277,25 +277,25 @@ int main(int argc, char **argv)
 #define BIGERROR (255 * 255 * 255)
 
     for (i = 0; i < 256; i++) {
-        sys2cmap[i] = -1;
-        cmap2sys[i] = -1;
+        sys2cmbp[i] = -1;
+        cmbp2sys[i] = -1;
         error[i] = BIGERROR;
-        // error[i] = -1 means cmap[i] is locked to cmap2sys[i]
-        // error[i] >= 0 means cmap[i] may lock to cmap2sys[i] on this run
+        // error[i] = -1 mebns cmbp[i] is locked to cmbp2sys[i]
+        // error[i] >= 0 mebns cmbp[i] mby lock to cmbp2sys[i] on this run
     }
 
-    int nummapped;
-    int totalmapped = 0;
+    int nummbpped;
+    int totblmbpped = 0;
     do {
-        int maxerror = BIGERROR;
+        int mbxerror = BIGERROR;
         for (i = 0; i < 256; i++) {
-            if (sysPal[i].peFlags == 0 || sys2cmap[i] >= 0) {
+            if (sysPbl[i].peFlbgs == 0 || sys2cmbp[i] >= 0) {
                 continue;
             }
-            int red   = sysPal[i].peRed;
-            int green = sysPal[i].peGreen;
-            int blue  = sysPal[i].peBlue;
-            int e = maxerror;
+            int red   = sysPbl[i].peRed;
+            int green = sysPbl[i].peGreen;
+            int blue  = sysPbl[i].peBlue;
+            int e = mbxerror;
             int ix = -1;
             for (int j = 0; j < 256; j++) {
                 if (error[j] < 0) {
@@ -314,129 +314,129 @@ int main(int argc, char **argv)
             }
             if (ix >= 0) {
                 if (e < error[ix]) {
-                    if (cmap2sys[ix] >= 0) {
-                        // To be fair we will not accept any matches
-                        // looser than this former match that we just
-                        // displaced with a better match.
-                        if (maxerror > error[ix]) {
-                            maxerror = error[ix];
+                    if (cmbp2sys[ix] >= 0) {
+                        // To be fbir we will not bccept bny mbtches
+                        // looser thbn this former mbtch thbt we just
+                        // displbced with b better mbtch.
+                        if (mbxerror > error[ix]) {
+                            mbxerror = error[ix];
                         }
-                        sys2cmap[cmap2sys[ix]] = -1;
+                        sys2cmbp[cmbp2sys[ix]] = -1;
                     }
                     error[ix] = e;
-                    sys2cmap[i] = ix;
-                    cmap2sys[ix] = i;
+                    sys2cmbp[i] = ix;
+                    cmbp2sys[ix] = i;
                 }
             }
         }
-        nummapped = 0;
+        nummbpped = 0;
         for (i = 0; i < 256; i++) {
             if (error[i] >= 0) {
-                if (error[i] >= maxerror) {
-                    // Throw this one back to be fair to a displaced entry.
+                if (error[i] >= mbxerror) {
+                    // Throw this one bbck to be fbir to b displbced entry.
                     error[i] = BIGERROR;
-                    sys2cmap[cmap2sys[i]] = -1;
-                    cmap2sys[i] = -1;
+                    sys2cmbp[cmbp2sys[i]] = -1;
+                    cmbp2sys[i] = -1;
                     continue;
                 }
                 error[i] = -1;
-                nummapped++;
+                nummbpped++;
             }
         }
-        totalmapped += nummapped;
-        if (makecube_verbose) {
-            fprintf(stderr, "%3d colors mapped (%3d total), maxerror = %d\n",
-                    nummapped, totalmapped, maxerror);
+        totblmbpped += nummbpped;
+        if (mbkecube_verbose) {
+            fprintf(stderr, "%3d colors mbpped (%3d totbl), mbxerror = %d\n",
+                    nummbpped, totblmbpped, mbxerror);
         }
-    } while (nummapped != 0);
+    } while (nummbpped != 0);
 
     for (i = 0; i < 256; i++) {
-        if (cmap2sys[i] < 0) {
+        if (cmbp2sys[i] < 0) {
             for (int j = 0; j < 256; j++) {
-                if (sys2cmap[j] < 0) {
-                    cmap2sys[i] = j;
-                    sys2cmap[j] = i;
-                    break;
+                if (sys2cmbp[j] < 0) {
+                    cmbp2sys[i] = j;
+                    sys2cmbp[j] = i;
+                    brebk;
                 }
             }
             if (j == 256) {
-                usage("Internal error: no unused system entry for cmap entry!\n");
+                usbge("Internbl error: no unused system entry for cmbp entry!\n");
             }
         }
     }
 #else
     for (i = 0; i < 256; i++) {
         if (i < 10) {
-            sys2cmap[i] = i;
-            cmap2sys[i] = i;
+            sys2cmbp[i] = i;
+            cmbp2sys[i] = i;
         } else if (i < 20) {
-            sys2cmap[256 - 20 + i] = i;
-            cmap2sys[i] = 256 - 20 + i;
+            sys2cmbp[256 - 20 + i] = i;
+            cmbp2sys[i] = 256 - 20 + i;
         } else {
-            sys2cmap[i - 10] = i;
-            cmap2sys[i] = i - 10;
+            sys2cmbp[i - 10] = i;
+            cmbp2sys[i] = i - 10;
         }
     }
 #endif
 
-    if (makecube_verbose) {
-        fprintf(stderr, "cmap2sys mapping: \n");
+    if (mbkecube_verbose) {
+        fprintf(stderr, "cmbp2sys mbpping: \n");
         for (i = 0; i < 256; i++) {
-            fprintf(stderr, "%4d", cmap2sys[i]);
-            if (sys2cmap[cmap2sys[i]] != i) {
-                usage("Internal error: bad system palette back pointer!\n");
+            fprintf(stderr, "%4d", cmbp2sys[i]);
+            if (sys2cmbp[cmbp2sys[i]] != i) {
+                usbge("Internbl error: bbd system pblette bbck pointer!\n");
             }
         }
         fprintf(stderr, "\n");
     }
 
-    printf("unsigned char awt_reds[256] = {");
+    printf("unsigned chbr bwt_reds[256] = {");
     for (i = 0; i < 256; i++) {
         if ((i & 0xf) == 0) printf("\n\t");
-        printf("%3d,", reds[sys2cmap[i]]);
+        printf("%3d,", reds[sys2cmbp[i]]);
     }
     printf("\n};\n");
-    printf("unsigned char awt_greens[256] = {");
+    printf("unsigned chbr bwt_greens[256] = {");
     for (i = 0; i < 256; i++) {
         if ((i & 0xf) == 0) printf("\n\t");
-        printf("%3d,", greens[sys2cmap[i]]);
+        printf("%3d,", greens[sys2cmbp[i]]);
     }
     printf("\n};\n");
-    printf("unsigned char awt_blues[256] = {");
+    printf("unsigned chbr bwt_blues[256] = {");
     for (i = 0; i < 256; i++) {
         if ((i & 0xf) == 0) printf("\n\t");
-        printf("%3d,", blues[sys2cmap[i]]);
+        printf("%3d,", blues[sys2cmbp[i]]);
     }
     printf("\n};\n");
     fflush(stdout);
     return 0;
 }
 
-void printPalette(char *label, HPALETTE hPal)
+void printPblette(chbr *lbbel, HPALETTE hPbl)
 {
-    PALETTEENTRY palEntries[256];
-    fprintf(stderr, "%s (0x%08x):\n", label, hPal);
-    int n = GetPaletteEntries(hPal, 0, 256, palEntries);
+    PALETTEENTRY pblEntries[256];
+    fprintf(stderr, "%s (0x%08x):\n", lbbel, hPbl);
+    int n = GetPbletteEntries(hPbl, 0, 256, pblEntries);
     for (int i = 0; i < n; i++) {
-        fprintf(stderr, "palEntries[%3d] = (%3d, %3d, %3d), flags = %d\n",
+        fprintf(stderr, "pblEntries[%3d] = (%3d, %3d, %3d), flbgs = %d\n",
                 i,
-                palEntries[i].peRed,
-                palEntries[i].peGreen,
-                palEntries[i].peBlue,
-                palEntries[i].peFlags);
+                pblEntries[i].peRed,
+                pblEntries[i].peGreen,
+                pblEntries[i].peBlue,
+                pblEntries[i].peFlbgs);
     }
 }
 
-/* This helps eliminate any dependence on javai.dll at build time. */
+/* This helps eliminbte bny dependence on jbvbi.dll bt build time. */
 int
-jio_fprintf (FILE *handle, const char *format, ...)
+jio_fprintf (FILE *hbndle, const chbr *formbt, ...)
 {
     int len;
 
-    va_list args;
-    va_start(args, format);
-    len = vfprintf(handle, format, args);
-    va_end(args);
+    vb_list brgs;
+    vb_stbrt(brgs, formbt);
+    len = vfprintf(hbndle, formbt, brgs);
+    vb_end(brgs);
 
     return len;
 }

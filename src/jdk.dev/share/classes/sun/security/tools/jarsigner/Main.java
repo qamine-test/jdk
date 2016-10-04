@@ -1,276 +1,276 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.tools.jarsigner;
+pbckbge sun.security.tools.jbrsigner;
 
-import java.io.*;
-import java.util.*;
-import java.util.zip.*;
-import java.util.jar.*;
-import java.math.BigInteger;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.text.Collator;
-import java.text.MessageFormat;
-import java.security.cert.Certificate;
-import java.security.cert.X509Certificate;
-import java.security.cert.CertificateException;
-import java.security.*;
-import java.lang.reflect.Constructor;
+import jbvb.io.*;
+import jbvb.util.*;
+import jbvb.util.zip.*;
+import jbvb.util.jbr.*;
+import jbvb.mbth.BigInteger;
+import jbvb.net.URI;
+import jbvb.net.URISyntbxException;
+import jbvb.text.Collbtor;
+import jbvb.text.MessbgeFormbt;
+import jbvb.security.cert.Certificbte;
+import jbvb.security.cert.X509Certificbte;
+import jbvb.security.cert.CertificbteException;
+import jbvb.security.*;
+import jbvb.lbng.reflect.Constructor;
 
-import com.sun.jarsigner.ContentSigner;
-import com.sun.jarsigner.ContentSignerParameters;
-import java.net.SocketTimeoutException;
-import java.net.URL;
-import java.net.URLClassLoader;
-import java.security.cert.CertPath;
-import java.security.cert.CertPathValidator;
-import java.security.cert.CertificateExpiredException;
-import java.security.cert.CertificateFactory;
-import java.security.cert.CertificateNotYetValidException;
-import java.security.cert.PKIXParameters;
-import java.security.cert.TrustAnchor;
-import java.util.Map.Entry;
+import com.sun.jbrsigner.ContentSigner;
+import com.sun.jbrsigner.ContentSignerPbrbmeters;
+import jbvb.net.SocketTimeoutException;
+import jbvb.net.URL;
+import jbvb.net.URLClbssLobder;
+import jbvb.security.cert.CertPbth;
+import jbvb.security.cert.CertPbthVblidbtor;
+import jbvb.security.cert.CertificbteExpiredException;
+import jbvb.security.cert.CertificbteFbctory;
+import jbvb.security.cert.CertificbteNotYetVblidException;
+import jbvb.security.cert.PKIXPbrbmeters;
+import jbvb.security.cert.TrustAnchor;
+import jbvb.util.Mbp.Entry;
 import sun.security.tools.KeyStoreUtil;
-import sun.security.tools.PathList;
+import sun.security.tools.PbthList;
 import sun.security.x509.*;
 import sun.security.util.*;
-import java.util.Base64;
+import jbvb.util.Bbse64;
 
 
 /**
- * <p>The jarsigner utility.
+ * <p>The jbrsigner utility.
  *
- * The exit codes for the main method are:
+ * The exit codes for the mbin method bre:
  *
  * 0: success
- * 1: any error that the jar cannot be signed or verified, including:
- *      keystore loading error
- *      TSP communication error
- *      jarsigner command line error...
+ * 1: bny error thbt the jbr cbnnot be signed or verified, including:
+ *      keystore lobding error
+ *      TSP communicbtion error
+ *      jbrsigner commbnd line error...
  * otherwise: error codes from -strict
  *
- * @author Roland Schemers
- * @author Jan Luehe
+ * @buthor Rolbnd Schemers
+ * @buthor Jbn Luehe
  */
 
-public class Main {
+public clbss Mbin {
 
     // for i18n
-    private static final java.util.ResourceBundle rb =
-        java.util.ResourceBundle.getBundle
-        ("sun.security.tools.jarsigner.Resources");
-    private static final Collator collator = Collator.getInstance();
-    static {
-        // this is for case insensitive string comparisions
-        collator.setStrength(Collator.PRIMARY);
+    privbte stbtic finbl jbvb.util.ResourceBundle rb =
+        jbvb.util.ResourceBundle.getBundle
+        ("sun.security.tools.jbrsigner.Resources");
+    privbte stbtic finbl Collbtor collbtor = Collbtor.getInstbnce();
+    stbtic {
+        // this is for cbse insensitive string compbrisions
+        collbtor.setStrength(Collbtor.PRIMARY);
     }
 
-    private static final String META_INF = "META-INF/";
+    privbte stbtic finbl String META_INF = "META-INF/";
 
-    private static final Class<?>[] PARAM_STRING = { String.class };
+    privbte stbtic finbl Clbss<?>[] PARAM_STRING = { String.clbss };
 
-    private static final String NONE = "NONE";
-    private static final String P11KEYSTORE = "PKCS11";
+    privbte stbtic finbl String NONE = "NONE";
+    privbte stbtic finbl String P11KEYSTORE = "PKCS11";
 
-    private static final long SIX_MONTHS = 180*24*60*60*1000L; //milliseconds
+    privbte stbtic finbl long SIX_MONTHS = 180*24*60*60*1000L; //milliseconds
 
     // Attention:
-    // This is the entry that get launched by the security tool jarsigner.
-    public static void main(String args[]) throws Exception {
-        Main js = new Main();
-        js.run(args);
+    // This is the entry thbt get lbunched by the security tool jbrsigner.
+    public stbtic void mbin(String brgs[]) throws Exception {
+        Mbin js = new Mbin();
+        js.run(brgs);
     }
 
-    static final String VERSION = "1.0";
+    stbtic finbl String VERSION = "1.0";
 
-    static final int IN_KEYSTORE = 0x01;        // signer is in keystore
-    static final int IN_SCOPE = 0x02;
-    static final int NOT_ALIAS = 0x04;          // alias list is NOT empty and
-                                                // signer is not in alias list
-    static final int SIGNED_BY_ALIAS = 0x08;    // signer is in alias list
+    stbtic finbl int IN_KEYSTORE = 0x01;        // signer is in keystore
+    stbtic finbl int IN_SCOPE = 0x02;
+    stbtic finbl int NOT_ALIAS = 0x04;          // blibs list is NOT empty bnd
+                                                // signer is not in blibs list
+    stbtic finbl int SIGNED_BY_ALIAS = 0x08;    // signer is in blibs list
 
-    X509Certificate[] certChain;    // signer's cert chain (when composing)
-    PrivateKey privateKey;          // private key
+    X509Certificbte[] certChbin;    // signer's cert chbin (when composing)
+    PrivbteKey privbteKey;          // privbte key
     KeyStore store;                 // the keystore specified by -keystore
-                                    // or the default keystore, never null
+                                    // or the defbult keystore, never null
 
     String keystore; // key store file
-    boolean nullStream = false; // null keystore input stream (NONE)
-    boolean token = false; // token-based keystore
-    String jarfile;  // jar files to sign or verify
-    String alias;    // alias to sign jar with
-    List<String> ckaliases = new ArrayList<>(); // aliases in -verify
-    char[] storepass; // keystore password
-    boolean protectedPath; // protected authentication path
+    boolebn nullStrebm = fblse; // null keystore input strebm (NONE)
+    boolebn token = fblse; // token-bbsed keystore
+    String jbrfile;  // jbr files to sign or verify
+    String blibs;    // blibs to sign jbr with
+    List<String> ckblibses = new ArrbyList<>(); // blibses in -verify
+    chbr[] storepbss; // keystore pbssword
+    boolebn protectedPbth; // protected buthenticbtion pbth
     String storetype; // keystore type
-    String providerName; // provider name
+    String providerNbme; // provider nbme
     Vector<String> providers = null; // list of providers
-    // arguments for provider constructors
-    HashMap<String,String> providerArgs = new HashMap<>();
-    char[] keypass; // private key password
-    String sigfile; // name of .SF file
-    String sigalg; // name of signature algorithm
-    String digestalg = "SHA-256"; // name of digest algorithm
-    String signedjar; // output filename
-    String tsaUrl; // location of the Timestamping Authority
-    String tsaAlias; // alias for the Timestamping Authority's certificate
-    String altCertChain; // file to read alternative cert chain from
+    // brguments for provider constructors
+    HbshMbp<String,String> providerArgs = new HbshMbp<>();
+    chbr[] keypbss; // privbte key pbssword
+    String sigfile; // nbme of .SF file
+    String sigblg; // nbme of signbture blgorithm
+    String digestblg = "SHA-256"; // nbme of digest blgorithm
+    String signedjbr; // output filenbme
+    String tsbUrl; // locbtion of the Timestbmping Authority
+    String tsbAlibs; // blibs for the Timestbmping Authority's certificbte
+    String bltCertChbin; // file to rebd blternbtive cert chbin from
     String tSAPolicyID;
     String tSADigestAlg = "SHA-256";
-    boolean verify = false; // verify the jar
+    boolebn verify = fblse; // verify the jbr
     String verbose = null; // verbose output when signing/verifying
-    boolean showcerts = false; // show certs when verifying
-    boolean debug = false; // debug
-    boolean signManifest = true; // "sign" the whole manifest
-    boolean externalSF = true; // leave the .SF out of the PKCS7 block
-    boolean strict = false;  // treat warnings as error
+    boolebn showcerts = fblse; // show certs when verifying
+    boolebn debug = fblse; // debug
+    boolebn signMbnifest = true; // "sign" the whole mbnifest
+    boolebn externblSF = true; // lebve the .SF out of the PKCS7 block
+    boolebn strict = fblse;  // trebt wbrnings bs error
 
-    // read zip entry raw bytes
-    private ByteArrayOutputStream baos = new ByteArrayOutputStream(2048);
-    private byte[] buffer = new byte[8192];
-    private ContentSigner signingMechanism = null;
-    private String altSignerClass = null;
-    private String altSignerClasspath = null;
-    private ZipFile zipFile = null;
+    // rebd zip entry rbw bytes
+    privbte ByteArrbyOutputStrebm bbos = new ByteArrbyOutputStrebm(2048);
+    privbte byte[] buffer = new byte[8192];
+    privbte ContentSigner signingMechbnism = null;
+    privbte String bltSignerClbss = null;
+    privbte String bltSignerClbsspbth = null;
+    privbte ZipFile zipFile = null;
 
-    // Informational warnings
-    private boolean hasExpiringCert = false;
-    private boolean noTimestamp = false;
-    private Date expireDate = new Date(0L);     // used in noTimestamp warning
+    // Informbtionbl wbrnings
+    privbte boolebn hbsExpiringCert = fblse;
+    privbte boolebn noTimestbmp = fblse;
+    privbte Dbte expireDbte = new Dbte(0L);     // used in noTimestbmp wbrning
 
-    // Severe warnings
-    private boolean hasExpiredCert = false;
-    private boolean notYetValidCert = false;
-    private boolean chainNotValidated = false;
-    private boolean notSignedByAlias = false;
-    private boolean aliasNotInStore = false;
-    private boolean hasUnsignedEntry = false;
-    private boolean badKeyUsage = false;
-    private boolean badExtendedKeyUsage = false;
-    private boolean badNetscapeCertType = false;
+    // Severe wbrnings
+    privbte boolebn hbsExpiredCert = fblse;
+    privbte boolebn notYetVblidCert = fblse;
+    privbte boolebn chbinNotVblidbted = fblse;
+    privbte boolebn notSignedByAlibs = fblse;
+    privbte boolebn blibsNotInStore = fblse;
+    privbte boolebn hbsUnsignedEntry = fblse;
+    privbte boolebn bbdKeyUsbge = fblse;
+    privbte boolebn bbdExtendedKeyUsbge = fblse;
+    privbte boolebn bbdNetscbpeCertType = fblse;
 
-    CertificateFactory certificateFactory;
-    CertPathValidator validator;
-    PKIXParameters pkixParameters;
+    CertificbteFbctory certificbteFbctory;
+    CertPbthVblidbtor vblidbtor;
+    PKIXPbrbmeters pkixPbrbmeters;
 
-    public void run(String args[]) {
+    public void run(String brgs[]) {
         try {
-            args = parseArgs(args);
+            brgs = pbrseArgs(brgs);
 
-            // Try to load and install the specified providers
+            // Try to lobd bnd instbll the specified providers
             if (providers != null) {
-                ClassLoader cl = ClassLoader.getSystemClassLoader();
-                Enumeration<String> e = providers.elements();
-                while (e.hasMoreElements()) {
-                    String provName = e.nextElement();
-                    Class<?> provClass;
+                ClbssLobder cl = ClbssLobder.getSystemClbssLobder();
+                Enumerbtion<String> e = providers.elements();
+                while (e.hbsMoreElements()) {
+                    String provNbme = e.nextElement();
+                    Clbss<?> provClbss;
                     if (cl != null) {
-                        provClass = cl.loadClass(provName);
+                        provClbss = cl.lobdClbss(provNbme);
                     } else {
-                        provClass = Class.forName(provName);
+                        provClbss = Clbss.forNbme(provNbme);
                     }
 
-                    String provArg = providerArgs.get(provName);
+                    String provArg = providerArgs.get(provNbme);
                     Object obj;
                     if (provArg == null) {
-                        obj = provClass.newInstance();
+                        obj = provClbss.newInstbnce();
                     } else {
                         Constructor<?> c =
-                                provClass.getConstructor(PARAM_STRING);
-                        obj = c.newInstance(provArg);
+                                provClbss.getConstructor(PARAM_STRING);
+                        obj = c.newInstbnce(provArg);
                     }
 
-                    if (!(obj instanceof Provider)) {
-                        MessageFormat form = new MessageFormat(rb.getString
-                            ("provName.not.a.provider"));
-                        Object[] source = {provName};
-                        throw new Exception(form.format(source));
+                    if (!(obj instbnceof Provider)) {
+                        MessbgeFormbt form = new MessbgeFormbt(rb.getString
+                            ("provNbme.not.b.provider"));
+                        Object[] source = {provNbme};
+                        throw new Exception(form.formbt(source));
                     }
-                    Security.addProvider((Provider)obj);
+                    Security.bddProvider((Provider)obj);
                 }
             }
 
             if (verify) {
                 try {
-                    loadKeyStore(keystore, false);
-                } catch (Exception e) {
-                    if ((keystore != null) || (storepass != null)) {
-                        System.out.println(rb.getString("jarsigner.error.") +
-                                        e.getMessage());
+                    lobdKeyStore(keystore, fblse);
+                } cbtch (Exception e) {
+                    if ((keystore != null) || (storepbss != null)) {
+                        System.out.println(rb.getString("jbrsigner.error.") +
+                                        e.getMessbge());
                         System.exit(1);
                     }
                 }
                 /*              if (debug) {
-                    SignatureFileVerifier.setDebug(true);
-                    ManifestEntryVerifier.setDebug(true);
+                    SignbtureFileVerifier.setDebug(true);
+                    MbnifestEntryVerifier.setDebug(true);
                 }
                 */
-                verifyJar(jarfile);
+                verifyJbr(jbrfile);
             } else {
-                loadKeyStore(keystore, true);
-                getAliasInfo(alias);
+                lobdKeyStore(keystore, true);
+                getAlibsInfo(blibs);
 
-                // load the alternative signing mechanism
-                if (altSignerClass != null) {
-                    signingMechanism = loadSigningMechanism(altSignerClass,
-                        altSignerClasspath);
+                // lobd the blternbtive signing mechbnism
+                if (bltSignerClbss != null) {
+                    signingMechbnism = lobdSigningMechbnism(bltSignerClbss,
+                        bltSignerClbsspbth);
                 }
-                signJar(jarfile, alias, args);
+                signJbr(jbrfile, blibs, brgs);
             }
-        } catch (Exception e) {
-            System.out.println(rb.getString("jarsigner.error.") + e);
+        } cbtch (Exception e) {
+            System.out.println(rb.getString("jbrsigner.error.") + e);
             if (debug) {
-                e.printStackTrace();
+                e.printStbckTrbce();
             }
             System.exit(1);
-        } finally {
-            // zero-out private key password
-            if (keypass != null) {
-                Arrays.fill(keypass, ' ');
-                keypass = null;
+        } finblly {
+            // zero-out privbte key pbssword
+            if (keypbss != null) {
+                Arrbys.fill(keypbss, ' ');
+                keypbss = null;
             }
-            // zero-out keystore password
-            if (storepass != null) {
-                Arrays.fill(storepass, ' ');
-                storepass = null;
+            // zero-out keystore pbssword
+            if (storepbss != null) {
+                Arrbys.fill(storepbss, ' ');
+                storepbss = null;
             }
         }
 
         if (strict) {
             int exitCode = 0;
-            if (chainNotValidated || hasExpiredCert || notYetValidCert) {
+            if (chbinNotVblidbted || hbsExpiredCert || notYetVblidCert) {
                 exitCode |= 4;
             }
-            if (badKeyUsage || badExtendedKeyUsage || badNetscapeCertType) {
+            if (bbdKeyUsbge || bbdExtendedKeyUsbge || bbdNetscbpeCertType) {
                 exitCode |= 8;
             }
-            if (hasUnsignedEntry) {
+            if (hbsUnsignedEntry) {
                 exitCode |= 16;
             }
-            if (notSignedByAlias || aliasNotInStore) {
+            if (notSignedByAlibs || blibsNotInStore) {
                 exitCode |= 32;
             }
             if (exitCode != 0) {
@@ -280,185 +280,185 @@ public class Main {
     }
 
     /*
-     * Parse command line arguments.
+     * Pbrse commbnd line brguments.
      */
-    String[] parseArgs(String args[]) throws Exception {
-        /* parse flags */
+    String[] pbrseArgs(String brgs[]) throws Exception {
+        /* pbrse flbgs */
         int n = 0;
 
-        if (args.length == 0) fullusage();
+        if (brgs.length == 0) fullusbge();
 
         String confFile = null;
-        String command = "-sign";
-        for (n=0; n < args.length; n++) {
-            if (collator.compare(args[n], "-verify") == 0) {
-                command = "-verify";
-            } else if (collator.compare(args[n], "-conf") == 0) {
-                if (n == args.length - 1) {
-                    usageNoArg();
+        String commbnd = "-sign";
+        for (n=0; n < brgs.length; n++) {
+            if (collbtor.compbre(brgs[n], "-verify") == 0) {
+                commbnd = "-verify";
+            } else if (collbtor.compbre(brgs[n], "-conf") == 0) {
+                if (n == brgs.length - 1) {
+                    usbgeNoArg();
                 }
-                confFile = args[++n];
+                confFile = brgs[++n];
             }
         }
 
         if (confFile != null) {
-            args = KeyStoreUtil.expandArgs(
-                    "jarsigner", confFile, command, null, args);
+            brgs = KeyStoreUtil.expbndArgs(
+                    "jbrsigner", confFile, commbnd, null, brgs);
         }
 
-        debug = Arrays.stream(args).anyMatch(
-                x -> collator.compare(x, "-debug") == 0);
+        debug = Arrbys.strebm(brgs).bnyMbtch(
+                x -> collbtor.compbre(x, "-debug") == 0);
 
         if (debug) {
-            // No need to localize debug output
-            System.out.println("Command line args: " +
-                    Arrays.toString(args));
+            // No need to locblize debug output
+            System.out.println("Commbnd line brgs: " +
+                    Arrbys.toString(brgs));
         }
 
-        for (n=0; n < args.length; n++) {
+        for (n=0; n < brgs.length; n++) {
 
-            String flags = args[n];
+            String flbgs = brgs[n];
             String modifier = null;
 
-            if (flags.startsWith("-")) {
-                int pos = flags.indexOf(':');
+            if (flbgs.stbrtsWith("-")) {
+                int pos = flbgs.indexOf(':');
                 if (pos > 0) {
-                    modifier = flags.substring(pos+1);
-                    flags = flags.substring(0, pos);
+                    modifier = flbgs.substring(pos+1);
+                    flbgs = flbgs.substring(0, pos);
                 }
             }
 
-            if (!flags.startsWith("-")) {
-                if (jarfile == null) {
-                    jarfile = flags;
+            if (!flbgs.stbrtsWith("-")) {
+                if (jbrfile == null) {
+                    jbrfile = flbgs;
                 } else {
-                    alias = flags;
-                    ckaliases.add(alias);
+                    blibs = flbgs;
+                    ckblibses.bdd(blibs);
                 }
-            } else if (collator.compare(flags, "-conf") == 0) {
-                if (++n == args.length) usageNoArg();
-            } else if (collator.compare(flags, "-keystore") == 0) {
-                if (++n == args.length) usageNoArg();
-                keystore = args[n];
-            } else if (collator.compare(flags, "-storepass") ==0) {
-                if (++n == args.length) usageNoArg();
-                storepass = getPass(modifier, args[n]);
-            } else if (collator.compare(flags, "-storetype") ==0) {
-                if (++n == args.length) usageNoArg();
-                storetype = args[n];
-            } else if (collator.compare(flags, "-providerName") ==0) {
-                if (++n == args.length) usageNoArg();
-                providerName = args[n];
-            } else if ((collator.compare(flags, "-provider") == 0) ||
-                        (collator.compare(flags, "-providerClass") == 0)) {
-                if (++n == args.length) usageNoArg();
+            } else if (collbtor.compbre(flbgs, "-conf") == 0) {
+                if (++n == brgs.length) usbgeNoArg();
+            } else if (collbtor.compbre(flbgs, "-keystore") == 0) {
+                if (++n == brgs.length) usbgeNoArg();
+                keystore = brgs[n];
+            } else if (collbtor.compbre(flbgs, "-storepbss") ==0) {
+                if (++n == brgs.length) usbgeNoArg();
+                storepbss = getPbss(modifier, brgs[n]);
+            } else if (collbtor.compbre(flbgs, "-storetype") ==0) {
+                if (++n == brgs.length) usbgeNoArg();
+                storetype = brgs[n];
+            } else if (collbtor.compbre(flbgs, "-providerNbme") ==0) {
+                if (++n == brgs.length) usbgeNoArg();
+                providerNbme = brgs[n];
+            } else if ((collbtor.compbre(flbgs, "-provider") == 0) ||
+                        (collbtor.compbre(flbgs, "-providerClbss") == 0)) {
+                if (++n == brgs.length) usbgeNoArg();
                 if (providers == null) {
                     providers = new Vector<String>(3);
                 }
-                providers.add(args[n]);
+                providers.bdd(brgs[n]);
 
-                if (args.length > (n+1)) {
-                    flags = args[n+1];
-                    if (collator.compare(flags, "-providerArg") == 0) {
-                        if (args.length == (n+2)) usageNoArg();
-                        providerArgs.put(args[n], args[n+2]);
+                if (brgs.length > (n+1)) {
+                    flbgs = brgs[n+1];
+                    if (collbtor.compbre(flbgs, "-providerArg") == 0) {
+                        if (brgs.length == (n+2)) usbgeNoArg();
+                        providerArgs.put(brgs[n], brgs[n+2]);
                         n += 2;
                     }
                 }
-            } else if (collator.compare(flags, "-protected") ==0) {
-                protectedPath = true;
-            } else if (collator.compare(flags, "-certchain") ==0) {
-                if (++n == args.length) usageNoArg();
-                altCertChain = args[n];
-            } else if (collator.compare(flags, "-tsapolicyid") ==0) {
-                if (++n == args.length) usageNoArg();
-                tSAPolicyID = args[n];
-            } else if (collator.compare(flags, "-tsadigestalg") ==0) {
-                if (++n == args.length) usageNoArg();
-                tSADigestAlg = args[n];
-            } else if (collator.compare(flags, "-debug") ==0) {
-                // Already processed
-            } else if (collator.compare(flags, "-keypass") ==0) {
-                if (++n == args.length) usageNoArg();
-                keypass = getPass(modifier, args[n]);
-            } else if (collator.compare(flags, "-sigfile") ==0) {
-                if (++n == args.length) usageNoArg();
-                sigfile = args[n];
-            } else if (collator.compare(flags, "-signedjar") ==0) {
-                if (++n == args.length) usageNoArg();
-                signedjar = args[n];
-            } else if (collator.compare(flags, "-tsa") ==0) {
-                if (++n == args.length) usageNoArg();
-                tsaUrl = args[n];
-            } else if (collator.compare(flags, "-tsacert") ==0) {
-                if (++n == args.length) usageNoArg();
-                tsaAlias = args[n];
-            } else if (collator.compare(flags, "-altsigner") ==0) {
-                if (++n == args.length) usageNoArg();
-                altSignerClass = args[n];
-            } else if (collator.compare(flags, "-altsignerpath") ==0) {
-                if (++n == args.length) usageNoArg();
-                altSignerClasspath = args[n];
-            } else if (collator.compare(flags, "-sectionsonly") ==0) {
-                signManifest = false;
-            } else if (collator.compare(flags, "-internalsf") ==0) {
-                externalSF = false;
-            } else if (collator.compare(flags, "-verify") ==0) {
+            } else if (collbtor.compbre(flbgs, "-protected") ==0) {
+                protectedPbth = true;
+            } else if (collbtor.compbre(flbgs, "-certchbin") ==0) {
+                if (++n == brgs.length) usbgeNoArg();
+                bltCertChbin = brgs[n];
+            } else if (collbtor.compbre(flbgs, "-tsbpolicyid") ==0) {
+                if (++n == brgs.length) usbgeNoArg();
+                tSAPolicyID = brgs[n];
+            } else if (collbtor.compbre(flbgs, "-tsbdigestblg") ==0) {
+                if (++n == brgs.length) usbgeNoArg();
+                tSADigestAlg = brgs[n];
+            } else if (collbtor.compbre(flbgs, "-debug") ==0) {
+                // Alrebdy processed
+            } else if (collbtor.compbre(flbgs, "-keypbss") ==0) {
+                if (++n == brgs.length) usbgeNoArg();
+                keypbss = getPbss(modifier, brgs[n]);
+            } else if (collbtor.compbre(flbgs, "-sigfile") ==0) {
+                if (++n == brgs.length) usbgeNoArg();
+                sigfile = brgs[n];
+            } else if (collbtor.compbre(flbgs, "-signedjbr") ==0) {
+                if (++n == brgs.length) usbgeNoArg();
+                signedjbr = brgs[n];
+            } else if (collbtor.compbre(flbgs, "-tsb") ==0) {
+                if (++n == brgs.length) usbgeNoArg();
+                tsbUrl = brgs[n];
+            } else if (collbtor.compbre(flbgs, "-tsbcert") ==0) {
+                if (++n == brgs.length) usbgeNoArg();
+                tsbAlibs = brgs[n];
+            } else if (collbtor.compbre(flbgs, "-bltsigner") ==0) {
+                if (++n == brgs.length) usbgeNoArg();
+                bltSignerClbss = brgs[n];
+            } else if (collbtor.compbre(flbgs, "-bltsignerpbth") ==0) {
+                if (++n == brgs.length) usbgeNoArg();
+                bltSignerClbsspbth = brgs[n];
+            } else if (collbtor.compbre(flbgs, "-sectionsonly") ==0) {
+                signMbnifest = fblse;
+            } else if (collbtor.compbre(flbgs, "-internblsf") ==0) {
+                externblSF = fblse;
+            } else if (collbtor.compbre(flbgs, "-verify") ==0) {
                 verify = true;
-            } else if (collator.compare(flags, "-verbose") ==0) {
-                verbose = (modifier != null) ? modifier : "all";
-            } else if (collator.compare(flags, "-sigalg") ==0) {
-                if (++n == args.length) usageNoArg();
-                sigalg = args[n];
-            } else if (collator.compare(flags, "-digestalg") ==0) {
-                if (++n == args.length) usageNoArg();
-                digestalg = args[n];
-            } else if (collator.compare(flags, "-certs") ==0) {
+            } else if (collbtor.compbre(flbgs, "-verbose") ==0) {
+                verbose = (modifier != null) ? modifier : "bll";
+            } else if (collbtor.compbre(flbgs, "-sigblg") ==0) {
+                if (++n == brgs.length) usbgeNoArg();
+                sigblg = brgs[n];
+            } else if (collbtor.compbre(flbgs, "-digestblg") ==0) {
+                if (++n == brgs.length) usbgeNoArg();
+                digestblg = brgs[n];
+            } else if (collbtor.compbre(flbgs, "-certs") ==0) {
                 showcerts = true;
-            } else if (collator.compare(flags, "-strict") ==0) {
+            } else if (collbtor.compbre(flbgs, "-strict") ==0) {
                 strict = true;
-            } else if (collator.compare(flags, "-h") == 0 ||
-                        collator.compare(flags, "-help") == 0) {
-                fullusage();
+            } else if (collbtor.compbre(flbgs, "-h") == 0 ||
+                        collbtor.compbre(flbgs, "-help") == 0) {
+                fullusbge();
             } else {
                 System.err.println(
-                        rb.getString("Illegal.option.") + flags);
-                usage();
+                        rb.getString("Illegbl.option.") + flbgs);
+                usbge();
             }
         }
 
-        // -certs must always be specified with -verbose
-        if (verbose == null) showcerts = false;
+        // -certs must blwbys be specified with -verbose
+        if (verbose == null) showcerts = fblse;
 
-        if (jarfile == null) {
-            System.err.println(rb.getString("Please.specify.jarfile.name"));
-            usage();
+        if (jbrfile == null) {
+            System.err.println(rb.getString("Plebse.specify.jbrfile.nbme"));
+            usbge();
         }
-        if (!verify && alias == null) {
-            System.err.println(rb.getString("Please.specify.alias.name"));
-            usage();
+        if (!verify && blibs == null) {
+            System.err.println(rb.getString("Plebse.specify.blibs.nbme"));
+            usbge();
         }
-        if (!verify && ckaliases.size() > 1) {
-            System.err.println(rb.getString("Only.one.alias.can.be.specified"));
-            usage();
+        if (!verify && ckblibses.size() > 1) {
+            System.err.println(rb.getString("Only.one.blibs.cbn.be.specified"));
+            usbge();
         }
 
         if (storetype == null) {
-            storetype = KeyStore.getDefaultType();
+            storetype = KeyStore.getDefbultType();
         }
-        storetype = KeyStoreUtil.niceStoreTypeName(storetype);
+        storetype = KeyStoreUtil.niceStoreTypeNbme(storetype);
 
         try {
-            if (signedjar != null && new File(signedjar).getCanonicalPath().equals(
-                    new File(jarfile).getCanonicalPath())) {
-                signedjar = null;
+            if (signedjbr != null && new File(signedjbr).getCbnonicblPbth().equbls(
+                    new File(jbrfile).getCbnonicblPbth())) {
+                signedjbr = null;
             }
-        } catch (IOException ioe) {
+        } cbtch (IOException ioe) {
             // File system error?
             // Just ignore it.
         }
 
-        if (P11KEYSTORE.equalsIgnoreCase(storetype) ||
+        if (P11KEYSTORE.equblsIgnoreCbse(storetype) ||
                 KeyStoreUtil.isWindowsKeyStore(storetype)) {
             token = true;
             if (keystore == null) {
@@ -466,305 +466,305 @@ public class Main {
             }
         }
 
-        if (NONE.equals(keystore)) {
-            nullStream = true;
+        if (NONE.equbls(keystore)) {
+            nullStrebm = true;
         }
 
-        if (token && !nullStream) {
-            System.err.println(MessageFormat.format(rb.getString
+        if (token && !nullStrebm) {
+            System.err.println(MessbgeFormbt.formbt(rb.getString
                 (".keystore.must.be.NONE.if.storetype.is.{0}"), storetype));
-            usage();
+            usbge();
         }
 
-        if (token && keypass != null) {
-            System.err.println(MessageFormat.format(rb.getString
-                (".keypass.can.not.be.specified.if.storetype.is.{0}"), storetype));
-            usage();
+        if (token && keypbss != null) {
+            System.err.println(MessbgeFormbt.formbt(rb.getString
+                (".keypbss.cbn.not.be.specified.if.storetype.is.{0}"), storetype));
+            usbge();
         }
 
-        if (protectedPath) {
-            if (storepass != null || keypass != null) {
+        if (protectedPbth) {
+            if (storepbss != null || keypbss != null) {
                 System.err.println(rb.getString
-                        ("If.protected.is.specified.then.storepass.and.keypass.must.not.be.specified"));
-                usage();
+                        ("If.protected.is.specified.then.storepbss.bnd.keypbss.must.not.be.specified"));
+                usbge();
             }
         }
         if (KeyStoreUtil.isWindowsKeyStore(storetype)) {
-            if (storepass != null || keypass != null) {
+            if (storepbss != null || keypbss != null) {
                 System.err.println(rb.getString
-                        ("If.keystore.is.not.password.protected.then.storepass.and.keypass.must.not.be.specified"));
-                usage();
+                        ("If.keystore.is.not.pbssword.protected.then.storepbss.bnd.keypbss.must.not.be.specified"));
+                usbge();
             }
         }
-        return args;
+        return brgs;
     }
 
-    static char[] getPass(String modifier, String arg) {
-        char[] output = KeyStoreUtil.getPassWithModifier(modifier, arg, rb);
+    stbtic chbr[] getPbss(String modifier, String brg) {
+        chbr[] output = KeyStoreUtil.getPbssWithModifier(modifier, brg, rb);
         if (output != null) return output;
-        usage();
-        return null;    // Useless, usage() already exit
+        usbge();
+        return null;    // Useless, usbge() blrebdy exit
     }
 
-    static void usageNoArg() {
-        System.out.println(rb.getString("Option.lacks.argument"));
-        usage();
+    stbtic void usbgeNoArg() {
+        System.out.println(rb.getString("Option.lbcks.brgument"));
+        usbge();
     }
 
-    static void usage() {
+    stbtic void usbge() {
         System.out.println();
-        System.out.println(rb.getString("Please.type.jarsigner.help.for.usage"));
+        System.out.println(rb.getString("Plebse.type.jbrsigner.help.for.usbge"));
         System.exit(1);
     }
 
-    static void fullusage() {
+    stbtic void fullusbge() {
         System.out.println(rb.getString
-                ("Usage.jarsigner.options.jar.file.alias"));
+                ("Usbge.jbrsigner.options.jbr.file.blibs"));
         System.out.println(rb.getString
-                (".jarsigner.verify.options.jar.file.alias."));
+                (".jbrsigner.verify.options.jbr.file.blibs."));
         System.out.println();
         System.out.println(rb.getString
-                (".keystore.url.keystore.location"));
+                (".keystore.url.keystore.locbtion"));
         System.out.println();
         System.out.println(rb.getString
-                (".storepass.password.password.for.keystore.integrity"));
+                (".storepbss.pbssword.pbssword.for.keystore.integrity"));
         System.out.println();
         System.out.println(rb.getString
                 (".storetype.type.keystore.type"));
         System.out.println();
         System.out.println(rb.getString
-                (".keypass.password.password.for.private.key.if.different."));
+                (".keypbss.pbssword.pbssword.for.privbte.key.if.different."));
         System.out.println();
         System.out.println(rb.getString
-                (".certchain.file.name.of.alternative.certchain.file"));
+                (".certchbin.file.nbme.of.blternbtive.certchbin.file"));
         System.out.println();
         System.out.println(rb.getString
-                (".sigfile.file.name.of.SF.DSA.file"));
+                (".sigfile.file.nbme.of.SF.DSA.file"));
         System.out.println();
         System.out.println(rb.getString
-                (".signedjar.file.name.of.signed.JAR.file"));
+                (".signedjbr.file.nbme.of.signed.JAR.file"));
         System.out.println();
         System.out.println(rb.getString
-                (".digestalg.algorithm.name.of.digest.algorithm"));
+                (".digestblg.blgorithm.nbme.of.digest.blgorithm"));
         System.out.println();
         System.out.println(rb.getString
-                (".sigalg.algorithm.name.of.signature.algorithm"));
+                (".sigblg.blgorithm.nbme.of.signbture.blgorithm"));
         System.out.println();
         System.out.println(rb.getString
-                (".verify.verify.a.signed.JAR.file"));
+                (".verify.verify.b.signed.JAR.file"));
         System.out.println();
         System.out.println(rb.getString
                 (".verbose.suboptions.verbose.output.when.signing.verifying."));
         System.out.println(rb.getString
-                (".suboptions.can.be.all.grouped.or.summary"));
+                (".suboptions.cbn.be.bll.grouped.or.summbry"));
         System.out.println();
         System.out.println(rb.getString
-                (".certs.display.certificates.when.verbose.and.verifying"));
+                (".certs.displby.certificbtes.when.verbose.bnd.verifying"));
         System.out.println();
         System.out.println(rb.getString
-                (".tsa.url.location.of.the.Timestamping.Authority"));
+                (".tsb.url.locbtion.of.the.Timestbmping.Authority"));
         System.out.println();
         System.out.println(rb.getString
-                (".tsacert.alias.public.key.certificate.for.Timestamping.Authority"));
+                (".tsbcert.blibs.public.key.certificbte.for.Timestbmping.Authority"));
         System.out.println();
         System.out.println(rb.getString
-                (".tsapolicyid.tsapolicyid.for.Timestamping.Authority"));
+                (".tsbpolicyid.tsbpolicyid.for.Timestbmping.Authority"));
         System.out.println();
         System.out.println(rb.getString
-                (".tsadigestalg.algorithm.of.digest.data.in.timestamping.request"));
+                (".tsbdigestblg.blgorithm.of.digest.dbtb.in.timestbmping.request"));
         System.out.println();
         System.out.println(rb.getString
-                (".altsigner.class.class.name.of.an.alternative.signing.mechanism"));
+                (".bltsigner.clbss.clbss.nbme.of.bn.blternbtive.signing.mechbnism"));
         System.out.println();
         System.out.println(rb.getString
-                (".altsignerpath.pathlist.location.of.an.alternative.signing.mechanism"));
+                (".bltsignerpbth.pbthlist.locbtion.of.bn.blternbtive.signing.mechbnism"));
         System.out.println();
         System.out.println(rb.getString
-                (".internalsf.include.the.SF.file.inside.the.signature.block"));
+                (".internblsf.include.the.SF.file.inside.the.signbture.block"));
         System.out.println();
         System.out.println(rb.getString
-                (".sectionsonly.don.t.compute.hash.of.entire.manifest"));
+                (".sectionsonly.don.t.compute.hbsh.of.entire.mbnifest"));
         System.out.println();
         System.out.println(rb.getString
-                (".protected.keystore.has.protected.authentication.path"));
+                (".protected.keystore.hbs.protected.buthenticbtion.pbth"));
         System.out.println();
         System.out.println(rb.getString
-                (".providerName.name.provider.name"));
+                (".providerNbme.nbme.provider.nbme"));
         System.out.println();
         System.out.println(rb.getString
-                (".providerClass.class.name.of.cryptographic.service.provider.s"));
+                (".providerClbss.clbss.nbme.of.cryptogrbphic.service.provider.s"));
         System.out.println(rb.getString
-                (".providerArg.arg.master.class.file.and.constructor.argument"));
+                (".providerArg.brg.mbster.clbss.file.bnd.constructor.brgument"));
         System.out.println();
         System.out.println(rb.getString
-                (".strict.treat.warnings.as.errors"));
+                (".strict.trebt.wbrnings.bs.errors"));
         System.out.println();
         System.out.println(rb.getString
-                (".conf.url.specify.a.pre.configured.options.file"));
+                (".conf.url.specify.b.pre.configured.options.file"));
         System.out.println();
 
         System.exit(0);
     }
 
-    void verifyJar(String jarName)
+    void verifyJbr(String jbrNbme)
         throws Exception
     {
-        boolean anySigned = false;  // if there exists entry inside jar signed
-        JarFile jf = null;
+        boolebn bnySigned = fblse;  // if there exists entry inside jbr signed
+        JbrFile jf = null;
 
         try {
-            jf = new JarFile(jarName, true);
-            Vector<JarEntry> entriesVec = new Vector<>();
+            jf = new JbrFile(jbrNbme, true);
+            Vector<JbrEntry> entriesVec = new Vector<>();
             byte[] buffer = new byte[8192];
 
-            Enumeration<JarEntry> entries = jf.entries();
-            while (entries.hasMoreElements()) {
-                JarEntry je = entries.nextElement();
-                entriesVec.addElement(je);
-                InputStream is = null;
+            Enumerbtion<JbrEntry> entries = jf.entries();
+            while (entries.hbsMoreElements()) {
+                JbrEntry je = entries.nextElement();
+                entriesVec.bddElement(je);
+                InputStrebm is = null;
                 try {
-                    is = jf.getInputStream(je);
+                    is = jf.getInputStrebm(je);
                     int n;
-                    while ((n = is.read(buffer, 0, buffer.length)) != -1) {
-                        // we just read. this will throw a SecurityException
-                        // if  a signature/digest check fails.
+                    while ((n = is.rebd(buffer, 0, buffer.length)) != -1) {
+                        // we just rebd. this will throw b SecurityException
+                        // if  b signbture/digest check fbils.
                     }
-                } finally {
+                } finblly {
                     if (is != null) {
                         is.close();
                     }
                 }
             }
 
-            Manifest man = jf.getManifest();
+            Mbnifest mbn = jf.getMbnifest();
 
-            // The map to record display info, only used when -verbose provided
+            // The mbp to record displby info, only used when -verbose provided
             //      key: signer info string
-            //      value: the list of files with common key
-            Map<String,List<String>> output = new LinkedHashMap<>();
+            //      vblue: the list of files with common key
+            Mbp<String,List<String>> output = new LinkedHbshMbp<>();
 
-            if (man != null) {
+            if (mbn != null) {
                 if (verbose != null) System.out.println();
-                Enumeration<JarEntry> e = entriesVec.elements();
+                Enumerbtion<JbrEntry> e = entriesVec.elements();
 
-                String tab = rb.getString("6SPACE");
+                String tbb = rb.getString("6SPACE");
 
-                while (e.hasMoreElements()) {
-                    JarEntry je = e.nextElement();
-                    String name = je.getName();
+                while (e.hbsMoreElements()) {
+                    JbrEntry je = e.nextElement();
+                    String nbme = je.getNbme();
                     CodeSigner[] signers = je.getCodeSigners();
-                    boolean isSigned = (signers != null);
-                    anySigned |= isSigned;
-                    hasUnsignedEntry |= !je.isDirectory() && !isSigned
-                                        && !signatureRelated(name);
+                    boolebn isSigned = (signers != null);
+                    bnySigned |= isSigned;
+                    hbsUnsignedEntry |= !je.isDirectory() && !isSigned
+                                        && !signbtureRelbted(nbme);
 
                     int inStoreOrScope = inKeyStore(signers);
 
-                    boolean inStore = (inStoreOrScope & IN_KEYSTORE) != 0;
-                    boolean inScope = (inStoreOrScope & IN_SCOPE) != 0;
+                    boolebn inStore = (inStoreOrScope & IN_KEYSTORE) != 0;
+                    boolebn inScope = (inStoreOrScope & IN_SCOPE) != 0;
 
-                    notSignedByAlias |= (inStoreOrScope & NOT_ALIAS) != 0;
+                    notSignedByAlibs |= (inStoreOrScope & NOT_ALIAS) != 0;
                     if (keystore != null) {
-                        aliasNotInStore |= isSigned && (!inStore && !inScope);
+                        blibsNotInStore |= isSigned && (!inStore && !inScope);
                     }
 
                     // Only used when -verbose provided
                     StringBuffer sb = null;
                     if (verbose != null) {
                         sb = new StringBuffer();
-                        boolean inManifest =
-                            ((man.getAttributes(name) != null) ||
-                             (man.getAttributes("./"+name) != null) ||
-                             (man.getAttributes("/"+name) != null));
-                        sb.append(
+                        boolebn inMbnifest =
+                            ((mbn.getAttributes(nbme) != null) ||
+                             (mbn.getAttributes("./"+nbme) != null) ||
+                             (mbn.getAttributes("/"+nbme) != null));
+                        sb.bppend(
                           (isSigned ? rb.getString("s") : rb.getString("SPACE")) +
-                          (inManifest ? rb.getString("m") : rb.getString("SPACE")) +
+                          (inMbnifest ? rb.getString("m") : rb.getString("SPACE")) +
                           (inStore ? rb.getString("k") : rb.getString("SPACE")) +
                           (inScope ? rb.getString("i") : rb.getString("SPACE")) +
                           ((inStoreOrScope & NOT_ALIAS) != 0 ?"X":" ") +
                           rb.getString("SPACE"));
-                        sb.append("|");
+                        sb.bppend("|");
                     }
 
-                    // When -certs provided, display info has extra empty
-                    // lines at the beginning and end.
+                    // When -certs provided, displby info hbs extrb empty
+                    // lines bt the beginning bnd end.
                     if (isSigned) {
-                        if (showcerts) sb.append('\n');
+                        if (showcerts) sb.bppend('\n');
                         for (CodeSigner signer: signers) {
-                            // signerInfo() must be called even if -verbose
-                            // not provided. The method updates various
-                            // warning flags.
-                            String si = signerInfo(signer, tab);
+                            // signerInfo() must be cblled even if -verbose
+                            // not provided. The method updbtes vbrious
+                            // wbrning flbgs.
+                            String si = signerInfo(signer, tbb);
                             if (showcerts) {
-                                sb.append(si);
-                                sb.append('\n');
+                                sb.bppend(si);
+                                sb.bppend('\n');
                             }
                         }
-                    } else if (showcerts && !verbose.equals("all")) {
-                        // Print no info for unsigned entries when -verbose:all,
-                        // to be consistent with old behavior.
-                        if (signatureRelated(name)) {
-                            sb.append("\n" + tab + rb.getString(
-                                    ".Signature.related.entries.") + "\n\n");
+                    } else if (showcerts && !verbose.equbls("bll")) {
+                        // Print no info for unsigned entries when -verbose:bll,
+                        // to be consistent with old behbvior.
+                        if (signbtureRelbted(nbme)) {
+                            sb.bppend("\n" + tbb + rb.getString(
+                                    ".Signbture.relbted.entries.") + "\n\n");
                         } else {
-                            sb.append("\n" + tab + rb.getString(
+                            sb.bppend("\n" + tbb + rb.getString(
                                     ".Unsigned.entries.") + "\n\n");
                         }
                     }
 
                     if (verbose != null) {
-                        String label = sb.toString();
-                        if (signatureRelated(name)) {
-                            // Entries inside META-INF and other unsigned
-                            // entries are grouped separately.
-                            label = "-" + label;
+                        String lbbel = sb.toString();
+                        if (signbtureRelbted(nbme)) {
+                            // Entries inside META-INF bnd other unsigned
+                            // entries bre grouped sepbrbtely.
+                            lbbel = "-" + lbbel;
                         }
 
-                        // The label finally contains 2 parts separated by '|':
-                        // The legend displayed before the entry names, and
+                        // The lbbel finblly contbins 2 pbrts sepbrbted by '|':
+                        // The legend displbyed before the entry nbmes, bnd
                         // the cert info (if -certs specified).
 
-                        if (!output.containsKey(label)) {
-                            output.put(label, new ArrayList<String>());
+                        if (!output.contbinsKey(lbbel)) {
+                            output.put(lbbel, new ArrbyList<String>());
                         }
 
                         StringBuilder fb = new StringBuilder();
                         String s = Long.toString(je.getSize());
                         for (int i = 6 - s.length(); i > 0; --i) {
-                            fb.append(' ');
+                            fb.bppend(' ');
                         }
-                        fb.append(s).append(' ').
-                                append(new Date(je.getTime()).toString());
-                        fb.append(' ').append(name);
+                        fb.bppend(s).bppend(' ').
+                                bppend(new Dbte(je.getTime()).toString());
+                        fb.bppend(' ').bppend(nbme);
 
-                        output.get(label).add(fb.toString());
+                        output.get(lbbel).bdd(fb.toString());
                     }
                 }
             }
             if (verbose != null) {
                 for (Entry<String,List<String>> s: output.entrySet()) {
-                    List<String> files = s.getValue();
+                    List<String> files = s.getVblue();
                     String key = s.getKey();
-                    if (key.charAt(0) == '-') { // the signature-related group
+                    if (key.chbrAt(0) == '-') { // the signbture-relbted group
                         key = key.substring(1);
                     }
                     int pipe = key.indexOf('|');
-                    if (verbose.equals("all")) {
+                    if (verbose.equbls("bll")) {
                         for (String f: files) {
                             System.out.println(key.substring(0, pipe) + f);
                             System.out.printf(key.substring(pipe+1));
                         }
                     } else {
-                        if (verbose.equals("grouped")) {
+                        if (verbose.equbls("grouped")) {
                             for (String f: files) {
                                 System.out.println(key.substring(0, pipe) + f);
                             }
-                        } else if (verbose.equals("summary")) {
+                        } else if (verbose.equbls("summbry")) {
                             System.out.print(key.substring(0, pipe));
                             if (files.size() > 1) {
                                 System.out.println(files.get(0) + " " +
-                                        String.format(rb.getString(
-                                        ".and.d.more."), files.size()-1));
+                                        String.formbt(rb.getString(
+                                        ".bnd.d.more."), files.size()-1));
                             } else {
                                 System.out.println(files.get(0));
                             }
@@ -774,119 +774,119 @@ public class Main {
                 }
                 System.out.println();
                 System.out.println(rb.getString(
-                    ".s.signature.was.verified."));
+                    ".s.signbture.wbs.verified."));
                 System.out.println(rb.getString(
-                    ".m.entry.is.listed.in.manifest"));
+                    ".m.entry.is.listed.in.mbnifest"));
                 System.out.println(rb.getString(
-                    ".k.at.least.one.certificate.was.found.in.keystore"));
+                    ".k.bt.lebst.one.certificbte.wbs.found.in.keystore"));
                 System.out.println(rb.getString(
-                    ".i.at.least.one.certificate.was.found.in.identity.scope"));
-                if (ckaliases.size() > 0) {
+                    ".i.bt.lebst.one.certificbte.wbs.found.in.identity.scope"));
+                if (ckblibses.size() > 0) {
                     System.out.println(rb.getString(
-                        ".X.not.signed.by.specified.alias.es."));
+                        ".X.not.signed.by.specified.blibs.es."));
                 }
                 System.out.println();
             }
-            if (man == null)
-                System.out.println(rb.getString("no.manifest."));
+            if (mbn == null)
+                System.out.println(rb.getString("no.mbnifest."));
 
-            if (!anySigned) {
+            if (!bnySigned) {
                 System.out.println(rb.getString(
-                      "jar.is.unsigned.signatures.missing.or.not.parsable."));
+                      "jbr.is.unsigned.signbtures.missing.or.not.pbrsbble."));
             } else {
-                boolean warningAppeared = false;
-                boolean errorAppeared = false;
-                if (badKeyUsage || badExtendedKeyUsage || badNetscapeCertType ||
-                        notYetValidCert || chainNotValidated || hasExpiredCert ||
-                        hasUnsignedEntry ||
-                        aliasNotInStore || notSignedByAlias) {
+                boolebn wbrningAppebred = fblse;
+                boolebn errorAppebred = fblse;
+                if (bbdKeyUsbge || bbdExtendedKeyUsbge || bbdNetscbpeCertType ||
+                        notYetVblidCert || chbinNotVblidbted || hbsExpiredCert ||
+                        hbsUnsignedEntry ||
+                        blibsNotInStore || notSignedByAlibs) {
 
                     if (strict) {
-                        System.out.println(rb.getString("jar.verified.with.signer.errors."));
+                        System.out.println(rb.getString("jbr.verified.with.signer.errors."));
                         System.out.println();
                         System.out.println(rb.getString("Error."));
-                        errorAppeared = true;
+                        errorAppebred = true;
                     } else {
-                        System.out.println(rb.getString("jar.verified."));
+                        System.out.println(rb.getString("jbr.verified."));
                         System.out.println();
-                        System.out.println(rb.getString("Warning."));
-                        warningAppeared = true;
+                        System.out.println(rb.getString("Wbrning."));
+                        wbrningAppebred = true;
                     }
 
-                    if (badKeyUsage) {
+                    if (bbdKeyUsbge) {
                         System.out.println(
-                            rb.getString("This.jar.contains.entries.whose.signer.certificate.s.KeyUsage.extension.doesn.t.allow.code.signing."));
+                            rb.getString("This.jbr.contbins.entries.whose.signer.certificbte.s.KeyUsbge.extension.doesn.t.bllow.code.signing."));
                     }
 
-                    if (badExtendedKeyUsage) {
+                    if (bbdExtendedKeyUsbge) {
                         System.out.println(
-                            rb.getString("This.jar.contains.entries.whose.signer.certificate.s.ExtendedKeyUsage.extension.doesn.t.allow.code.signing."));
+                            rb.getString("This.jbr.contbins.entries.whose.signer.certificbte.s.ExtendedKeyUsbge.extension.doesn.t.bllow.code.signing."));
                     }
 
-                    if (badNetscapeCertType) {
+                    if (bbdNetscbpeCertType) {
                         System.out.println(
-                            rb.getString("This.jar.contains.entries.whose.signer.certificate.s.NetscapeCertType.extension.doesn.t.allow.code.signing."));
+                            rb.getString("This.jbr.contbins.entries.whose.signer.certificbte.s.NetscbpeCertType.extension.doesn.t.bllow.code.signing."));
                     }
 
-                    if (hasUnsignedEntry) {
+                    if (hbsUnsignedEntry) {
                         System.out.println(rb.getString(
-                            "This.jar.contains.unsigned.entries.which.have.not.been.integrity.checked."));
+                            "This.jbr.contbins.unsigned.entries.which.hbve.not.been.integrity.checked."));
                     }
-                    if (hasExpiredCert) {
+                    if (hbsExpiredCert) {
                         System.out.println(rb.getString(
-                            "This.jar.contains.entries.whose.signer.certificate.has.expired."));
+                            "This.jbr.contbins.entries.whose.signer.certificbte.hbs.expired."));
                     }
-                    if (notYetValidCert) {
+                    if (notYetVblidCert) {
                         System.out.println(rb.getString(
-                            "This.jar.contains.entries.whose.signer.certificate.is.not.yet.valid."));
+                            "This.jbr.contbins.entries.whose.signer.certificbte.is.not.yet.vblid."));
                     }
 
-                    if (chainNotValidated) {
+                    if (chbinNotVblidbted) {
                         System.out.println(
-                                rb.getString("This.jar.contains.entries.whose.certificate.chain.is.not.validated."));
+                                rb.getString("This.jbr.contbins.entries.whose.certificbte.chbin.is.not.vblidbted."));
                     }
 
-                    if (notSignedByAlias) {
+                    if (notSignedByAlibs) {
                         System.out.println(
-                                rb.getString("This.jar.contains.signed.entries.which.is.not.signed.by.the.specified.alias.es."));
+                                rb.getString("This.jbr.contbins.signed.entries.which.is.not.signed.by.the.specified.blibs.es."));
                     }
 
-                    if (aliasNotInStore) {
-                        System.out.println(rb.getString("This.jar.contains.signed.entries.that.s.not.signed.by.alias.in.this.keystore."));
+                    if (blibsNotInStore) {
+                        System.out.println(rb.getString("This.jbr.contbins.signed.entries.thbt.s.not.signed.by.blibs.in.this.keystore."));
                     }
                 } else {
-                    System.out.println(rb.getString("jar.verified."));
+                    System.out.println(rb.getString("jbr.verified."));
                 }
-                if (hasExpiringCert || noTimestamp) {
-                    if (!warningAppeared) {
+                if (hbsExpiringCert || noTimestbmp) {
+                    if (!wbrningAppebred) {
                         System.out.println();
-                        System.out.println(rb.getString("Warning."));
-                        warningAppeared = true;
+                        System.out.println(rb.getString("Wbrning."));
+                        wbrningAppebred = true;
                     }
-                    if (hasExpiringCert) {
+                    if (hbsExpiringCert) {
                         System.out.println(rb.getString(
-                                "This.jar.contains.entries.whose.signer.certificate.will.expire.within.six.months."));
+                                "This.jbr.contbins.entries.whose.signer.certificbte.will.expire.within.six.months."));
                     }
-                    if (noTimestamp) {
+                    if (noTimestbmp) {
                         System.out.println(
-                                String.format(rb.getString("no.timestamp.verifying"), expireDate));
+                                String.formbt(rb.getString("no.timestbmp.verifying"), expireDbte));
                     }
                 }
-                if (warningAppeared || errorAppeared) {
+                if (wbrningAppebred || errorAppebred) {
                     if (! (verbose != null && showcerts)) {
                         System.out.println();
                         System.out.println(rb.getString(
-                                "Re.run.with.the.verbose.and.certs.options.for.more.details."));
+                                "Re.run.with.the.verbose.bnd.certs.options.for.more.detbils."));
                     }
                 }
             }
             return;
-        } catch (Exception e) {
-            System.out.println(rb.getString("jarsigner.") + e);
+        } cbtch (Exception e) {
+            System.out.println(rb.getString("jbrsigner.") + e);
             if (debug) {
-                e.printStackTrace();
+                e.printStbckTrbce();
             }
-        } finally { // close the resource
+        } finblly { // close the resource
             if (jf != null) {
                 jf.close();
             }
@@ -895,113 +895,113 @@ public class Main {
         System.exit(1);
     }
 
-    private static MessageFormat validityTimeForm = null;
-    private static MessageFormat notYetTimeForm = null;
-    private static MessageFormat expiredTimeForm = null;
-    private static MessageFormat expiringTimeForm = null;
+    privbte stbtic MessbgeFormbt vblidityTimeForm = null;
+    privbte stbtic MessbgeFormbt notYetTimeForm = null;
+    privbte stbtic MessbgeFormbt expiredTimeForm = null;
+    privbte stbtic MessbgeFormbt expiringTimeForm = null;
 
     /*
-     * Display some details about a certificate:
+     * Displby some detbils bbout b certificbte:
      *
-     * [<tab>] <cert-type> [", " <subject-DN>] [" (" <keystore-entry-alias> ")"]
-     * [<validity-period> | <expiry-warning>]
+     * [<tbb>] <cert-type> [", " <subject-DN>] [" (" <keystore-entry-blibs> ")"]
+     * [<vblidity-period> | <expiry-wbrning>]
      *
-     * Note: no newline character at the end
+     * Note: no newline chbrbcter bt the end
      */
-    String printCert(String tab, Certificate c, boolean checkValidityPeriod,
-        Date timestamp, boolean checkUsage) {
+    String printCert(String tbb, Certificbte c, boolebn checkVblidityPeriod,
+        Dbte timestbmp, boolebn checkUsbge) {
 
         StringBuilder certStr = new StringBuilder();
-        String space = rb.getString("SPACE");
-        X509Certificate x509Cert = null;
+        String spbce = rb.getString("SPACE");
+        X509Certificbte x509Cert = null;
 
-        if (c instanceof X509Certificate) {
-            x509Cert = (X509Certificate) c;
-            certStr.append(tab).append(x509Cert.getType())
-                .append(rb.getString("COMMA"))
-                .append(x509Cert.getSubjectDN().getName());
+        if (c instbnceof X509Certificbte) {
+            x509Cert = (X509Certificbte) c;
+            certStr.bppend(tbb).bppend(x509Cert.getType())
+                .bppend(rb.getString("COMMA"))
+                .bppend(x509Cert.getSubjectDN().getNbme());
         } else {
-            certStr.append(tab).append(c.getType());
+            certStr.bppend(tbb).bppend(c.getType());
         }
 
-        String alias = storeHash.get(c);
-        if (alias != null) {
-            certStr.append(space).append(alias);
+        String blibs = storeHbsh.get(c);
+        if (blibs != null) {
+            certStr.bppend(spbce).bppend(blibs);
         }
 
-        if (checkValidityPeriod && x509Cert != null) {
+        if (checkVblidityPeriod && x509Cert != null) {
 
-            certStr.append("\n").append(tab).append("[");
-            Date notAfter = x509Cert.getNotAfter();
+            certStr.bppend("\n").bppend(tbb).bppend("[");
+            Dbte notAfter = x509Cert.getNotAfter();
             try {
-                boolean printValidity = true;
-                if (timestamp == null) {
-                    if (expireDate.getTime() == 0 || expireDate.after(notAfter)) {
-                        expireDate = notAfter;
+                boolebn printVblidity = true;
+                if (timestbmp == null) {
+                    if (expireDbte.getTime() == 0 || expireDbte.bfter(notAfter)) {
+                        expireDbte = notAfter;
                     }
-                    x509Cert.checkValidity();
+                    x509Cert.checkVblidity();
                     // test if cert will expire within six months
                     if (notAfter.getTime() < System.currentTimeMillis() + SIX_MONTHS) {
-                        hasExpiringCert = true;
+                        hbsExpiringCert = true;
                         if (expiringTimeForm == null) {
-                            expiringTimeForm = new MessageFormat(
-                                rb.getString("certificate.will.expire.on"));
+                            expiringTimeForm = new MessbgeFormbt(
+                                rb.getString("certificbte.will.expire.on"));
                         }
                         Object[] source = { notAfter };
-                        certStr.append(expiringTimeForm.format(source));
-                        printValidity = false;
+                        certStr.bppend(expiringTimeForm.formbt(source));
+                        printVblidity = fblse;
                     }
                 } else {
-                    x509Cert.checkValidity(timestamp);
+                    x509Cert.checkVblidity(timestbmp);
                 }
-                if (printValidity) {
-                    if (validityTimeForm == null) {
-                        validityTimeForm = new MessageFormat(
-                            rb.getString("certificate.is.valid.from"));
+                if (printVblidity) {
+                    if (vblidityTimeForm == null) {
+                        vblidityTimeForm = new MessbgeFormbt(
+                            rb.getString("certificbte.is.vblid.from"));
                     }
                     Object[] source = { x509Cert.getNotBefore(), notAfter };
-                    certStr.append(validityTimeForm.format(source));
+                    certStr.bppend(vblidityTimeForm.formbt(source));
                 }
-            } catch (CertificateExpiredException cee) {
-                hasExpiredCert = true;
+            } cbtch (CertificbteExpiredException cee) {
+                hbsExpiredCert = true;
 
                 if (expiredTimeForm == null) {
-                    expiredTimeForm = new MessageFormat(
-                        rb.getString("certificate.expired.on"));
+                    expiredTimeForm = new MessbgeFormbt(
+                        rb.getString("certificbte.expired.on"));
                 }
                 Object[] source = { notAfter };
-                certStr.append(expiredTimeForm.format(source));
+                certStr.bppend(expiredTimeForm.formbt(source));
 
-            } catch (CertificateNotYetValidException cnyve) {
-                notYetValidCert = true;
+            } cbtch (CertificbteNotYetVblidException cnyve) {
+                notYetVblidCert = true;
 
                 if (notYetTimeForm == null) {
-                    notYetTimeForm = new MessageFormat(
-                        rb.getString("certificate.is.not.valid.until"));
+                    notYetTimeForm = new MessbgeFormbt(
+                        rb.getString("certificbte.is.not.vblid.until"));
                 }
                 Object[] source = { x509Cert.getNotBefore() };
-                certStr.append(notYetTimeForm.format(source));
+                certStr.bppend(notYetTimeForm.formbt(source));
             }
-            certStr.append("]");
+            certStr.bppend("]");
 
-            if (checkUsage) {
-                boolean[] bad = new boolean[3];
-                checkCertUsage(x509Cert, bad);
-                if (bad[0] || bad[1] || bad[2]) {
+            if (checkUsbge) {
+                boolebn[] bbd = new boolebn[3];
+                checkCertUsbge(x509Cert, bbd);
+                if (bbd[0] || bbd[1] || bbd[2]) {
                     String x = "";
-                    if (bad[0]) {
-                        x ="KeyUsage";
+                    if (bbd[0]) {
+                        x ="KeyUsbge";
                     }
-                    if (bad[1]) {
+                    if (bbd[1]) {
                         if (x.length() > 0) x = x + ", ";
-                        x = x + "ExtendedKeyUsage";
+                        x = x + "ExtendedKeyUsbge";
                     }
-                    if (bad[2]) {
+                    if (bbd[2]) {
                         if (x.length() > 0) x = x + ", ";
-                        x = x + "NetscapeCertType";
+                        x = x + "NetscbpeCertType";
                     }
-                    certStr.append("\n").append(tab)
-                        .append(MessageFormat.format(rb.getString(
+                    certStr.bppend("\n").bppend(tbb)
+                        .bppend(MessbgeFormbt.formbt(rb.getString(
                         ".{0}.extension.does.not.support.code.signing."), x));
                 }
             }
@@ -1009,64 +1009,64 @@ public class Main {
         return certStr.toString();
     }
 
-    private static MessageFormat signTimeForm = null;
+    privbte stbtic MessbgeFormbt signTimeForm = null;
 
-    private String printTimestamp(String tab, Timestamp timestamp) {
+    privbte String printTimestbmp(String tbb, Timestbmp timestbmp) {
 
         if (signTimeForm == null) {
             signTimeForm =
-                new MessageFormat(rb.getString("entry.was.signed.on"));
+                new MessbgeFormbt(rb.getString("entry.wbs.signed.on"));
         }
-        Object[] source = { timestamp.getTimestamp() };
+        Object[] source = { timestbmp.getTimestbmp() };
 
-        return new StringBuilder().append(tab).append("[")
-            .append(signTimeForm.format(source)).append("]").toString();
+        return new StringBuilder().bppend(tbb).bppend("[")
+            .bppend(signTimeForm.formbt(source)).bppend("]").toString();
     }
 
-    private Map<CodeSigner,Integer> cacheForInKS = new IdentityHashMap<>();
+    privbte Mbp<CodeSigner,Integer> cbcheForInKS = new IdentityHbshMbp<>();
 
-    private int inKeyStoreForOneSigner(CodeSigner signer) {
-        if (cacheForInKS.containsKey(signer)) {
-            return cacheForInKS.get(signer);
+    privbte int inKeyStoreForOneSigner(CodeSigner signer) {
+        if (cbcheForInKS.contbinsKey(signer)) {
+            return cbcheForInKS.get(signer);
         }
 
-        boolean found = false;
+        boolebn found = fblse;
         int result = 0;
-        List<? extends Certificate> certs = signer.getSignerCertPath().getCertificates();
-        for (Certificate c : certs) {
-            String alias = storeHash.get(c);
-            if (alias != null) {
-                if (alias.startsWith("(")) {
+        List<? extends Certificbte> certs = signer.getSignerCertPbth().getCertificbtes();
+        for (Certificbte c : certs) {
+            String blibs = storeHbsh.get(c);
+            if (blibs != null) {
+                if (blibs.stbrtsWith("(")) {
                     result |= IN_KEYSTORE;
-                } else if (alias.startsWith("[")) {
+                } else if (blibs.stbrtsWith("[")) {
                     result |= IN_SCOPE;
                 }
-                if (ckaliases.contains(alias.substring(1, alias.length() - 1))) {
+                if (ckblibses.contbins(blibs.substring(1, blibs.length() - 1))) {
                     result |= SIGNED_BY_ALIAS;
                 }
             } else {
                 if (store != null) {
                     try {
-                        alias = store.getCertificateAlias(c);
-                    } catch (KeyStoreException kse) {
-                        // never happens, because keystore has been loaded
+                        blibs = store.getCertificbteAlibs(c);
+                    } cbtch (KeyStoreException kse) {
+                        // never hbppens, becbuse keystore hbs been lobded
                     }
-                    if (alias != null) {
-                        storeHash.put(c, "(" + alias + ")");
+                    if (blibs != null) {
+                        storeHbsh.put(c, "(" + blibs + ")");
                         found = true;
                         result |= IN_KEYSTORE;
                     }
                 }
-                if (ckaliases.contains(alias)) {
+                if (ckblibses.contbins(blibs)) {
                     result |= SIGNED_BY_ALIAS;
                 }
             }
         }
-        cacheForInKS.put(signer, result);
+        cbcheForInKS.put(signer, result);
         return result;
     }
 
-    Hashtable<Certificate, String> storeHash = new Hashtable<>();
+    Hbshtbble<Certificbte, String> storeHbsh = new Hbshtbble<>();
 
     int inKeyStore(CodeSigner[] signers) {
 
@@ -1079,341 +1079,341 @@ public class Main {
             int result = inKeyStoreForOneSigner(signer);
             output |= result;
         }
-        if (ckaliases.size() > 0 && (output & SIGNED_BY_ALIAS) == 0) {
+        if (ckblibses.size() > 0 && (output & SIGNED_BY_ALIAS) == 0) {
             output |= NOT_ALIAS;
         }
         return output;
     }
 
-    void signJar(String jarName, String alias, String[] args)
+    void signJbr(String jbrNbme, String blibs, String[] brgs)
         throws Exception {
-        boolean aliasUsed = false;
-        X509Certificate tsaCert = null;
+        boolebn blibsUsed = fblse;
+        X509Certificbte tsbCert = null;
 
         if (sigfile == null) {
-            sigfile = alias;
-            aliasUsed = true;
+            sigfile = blibs;
+            blibsUsed = true;
         }
 
         if (sigfile.length() > 8) {
-            sigfile = sigfile.substring(0, 8).toUpperCase(Locale.ENGLISH);
+            sigfile = sigfile.substring(0, 8).toUpperCbse(Locble.ENGLISH);
         } else {
-            sigfile = sigfile.toUpperCase(Locale.ENGLISH);
+            sigfile = sigfile.toUpperCbse(Locble.ENGLISH);
         }
 
         StringBuilder tmpSigFile = new StringBuilder(sigfile.length());
         for (int j = 0; j < sigfile.length(); j++) {
-            char c = sigfile.charAt(j);
+            chbr c = sigfile.chbrAt(j);
             if (!
                 ((c>= 'A' && c<= 'Z') ||
                 (c>= '0' && c<= '9') ||
                 (c == '-') ||
                 (c == '_'))) {
-                if (aliasUsed) {
-                    // convert illegal characters from the alias to be _'s
+                if (blibsUsed) {
+                    // convert illegbl chbrbcters from the blibs to be _'s
                     c = '_';
                 } else {
                  throw new
                    RuntimeException(rb.getString
-                        ("signature.filename.must.consist.of.the.following.characters.A.Z.0.9.or."));
+                        ("signbture.filenbme.must.consist.of.the.following.chbrbcters.A.Z.0.9.or."));
                 }
             }
-            tmpSigFile.append(c);
+            tmpSigFile.bppend(c);
         }
 
         sigfile = tmpSigFile.toString();
 
-        String tmpJarName;
-        if (signedjar == null) tmpJarName = jarName+".sig";
-        else tmpJarName = signedjar;
+        String tmpJbrNbme;
+        if (signedjbr == null) tmpJbrNbme = jbrNbme+".sig";
+        else tmpJbrNbme = signedjbr;
 
-        File jarFile = new File(jarName);
-        File signedJarFile = new File(tmpJarName);
+        File jbrFile = new File(jbrNbme);
+        File signedJbrFile = new File(tmpJbrNbme);
 
-        // Open the jar (zip) file
+        // Open the jbr (zip) file
         try {
-            zipFile = new ZipFile(jarName);
-        } catch (IOException ioe) {
-            error(rb.getString("unable.to.open.jar.file.")+jarName, ioe);
+            zipFile = new ZipFile(jbrNbme);
+        } cbtch (IOException ioe) {
+            error(rb.getString("unbble.to.open.jbr.file.")+jbrNbme, ioe);
         }
 
-        FileOutputStream fos = null;
+        FileOutputStrebm fos = null;
         try {
-            fos = new FileOutputStream(signedJarFile);
-        } catch (IOException ioe) {
-            error(rb.getString("unable.to.create.")+tmpJarName, ioe);
+            fos = new FileOutputStrebm(signedJbrFile);
+        } cbtch (IOException ioe) {
+            error(rb.getString("unbble.to.crebte.")+tmpJbrNbme, ioe);
         }
 
-        PrintStream ps = new PrintStream(fos);
-        ZipOutputStream zos = new ZipOutputStream(ps);
+        PrintStrebm ps = new PrintStrebm(fos);
+        ZipOutputStrebm zos = new ZipOutputStrebm(ps);
 
-        /* First guess at what they might be - we don't xclude RSA ones. */
-        String sfFilename = (META_INF + sigfile + ".SF").toUpperCase(Locale.ENGLISH);
-        String bkFilename = (META_INF + sigfile + ".DSA").toUpperCase(Locale.ENGLISH);
+        /* First guess bt whbt they might be - we don't xclude RSA ones. */
+        String sfFilenbme = (META_INF + sigfile + ".SF").toUpperCbse(Locble.ENGLISH);
+        String bkFilenbme = (META_INF + sigfile + ".DSA").toUpperCbse(Locble.ENGLISH);
 
-        Manifest manifest = new Manifest();
-        Map<String,Attributes> mfEntries = manifest.getEntries();
+        Mbnifest mbnifest = new Mbnifest();
+        Mbp<String,Attributes> mfEntries = mbnifest.getEntries();
 
-        // The Attributes of manifest before updating
+        // The Attributes of mbnifest before updbting
         Attributes oldAttr = null;
 
-        boolean mfModified = false;
-        boolean mfCreated = false;
-        byte[] mfRawBytes = null;
+        boolebn mfModified = fblse;
+        boolebn mfCrebted = fblse;
+        byte[] mfRbwBytes = null;
 
         try {
-            MessageDigest digests[] = { MessageDigest.getInstance(digestalg) };
+            MessbgeDigest digests[] = { MessbgeDigest.getInstbnce(digestblg) };
 
-            // Check if manifest exists
+            // Check if mbnifest exists
             ZipEntry mfFile;
-            if ((mfFile = getManifestFile(zipFile)) != null) {
-                // Manifest exists. Read its raw bytes.
-                mfRawBytes = getBytes(zipFile, mfFile);
-                manifest.read(new ByteArrayInputStream(mfRawBytes));
-                oldAttr = (Attributes)(manifest.getMainAttributes().clone());
+            if ((mfFile = getMbnifestFile(zipFile)) != null) {
+                // Mbnifest exists. Rebd its rbw bytes.
+                mfRbwBytes = getBytes(zipFile, mfFile);
+                mbnifest.rebd(new ByteArrbyInputStrebm(mfRbwBytes));
+                oldAttr = (Attributes)(mbnifest.getMbinAttributes().clone());
             } else {
-                // Create new manifest
-                Attributes mattr = manifest.getMainAttributes();
-                mattr.putValue(Attributes.Name.MANIFEST_VERSION.toString(),
+                // Crebte new mbnifest
+                Attributes mbttr = mbnifest.getMbinAttributes();
+                mbttr.putVblue(Attributes.Nbme.MANIFEST_VERSION.toString(),
                                "1.0");
-                String javaVendor = System.getProperty("java.vendor");
-                String jdkVersion = System.getProperty("java.version");
-                mattr.putValue("Created-By", jdkVersion + " (" +javaVendor
+                String jbvbVendor = System.getProperty("jbvb.vendor");
+                String jdkVersion = System.getProperty("jbvb.version");
+                mbttr.putVblue("Crebted-By", jdkVersion + " (" +jbvbVendor
                                + ")");
-                mfFile = new ZipEntry(JarFile.MANIFEST_NAME);
-                mfCreated = true;
+                mfFile = new ZipEntry(JbrFile.MANIFEST_NAME);
+                mfCrebted = true;
             }
 
             /*
-             * For each entry in jar
-             * (except for signature-related META-INF entries),
+             * For ebch entry in jbr
+             * (except for signbture-relbted META-INF entries),
              * do the following:
              *
-             * - if entry is not contained in manifest, add it to manifest;
-             * - if entry is contained in manifest, calculate its hash and
-             *   compare it with the one in the manifest; if they are
-             *   different, replace the hash in the manifest with the newly
-             *   generated one. (This may invalidate existing signatures!)
+             * - if entry is not contbined in mbnifest, bdd it to mbnifest;
+             * - if entry is contbined in mbnifest, cblculbte its hbsh bnd
+             *   compbre it with the one in the mbnifest; if they bre
+             *   different, replbce the hbsh in the mbnifest with the newly
+             *   generbted one. (This mby invblidbte existing signbtures!)
              */
             Vector<ZipEntry> mfFiles = new Vector<>();
 
-            boolean wasSigned = false;
+            boolebn wbsSigned = fblse;
 
-            for (Enumeration<? extends ZipEntry> enum_=zipFile.entries();
-                        enum_.hasMoreElements();) {
+            for (Enumerbtion<? extends ZipEntry> enum_=zipFile.entries();
+                        enum_.hbsMoreElements();) {
                 ZipEntry ze = enum_.nextElement();
 
-                if (ze.getName().startsWith(META_INF)) {
-                    // Store META-INF files in vector, so they can be written
+                if (ze.getNbme().stbrtsWith(META_INF)) {
+                    // Store META-INF files in vector, so they cbn be written
                     // out first
-                    mfFiles.addElement(ze);
+                    mfFiles.bddElement(ze);
 
-                    if (SignatureFileVerifier.isBlockOrSF(
-                            ze.getName().toUpperCase(Locale.ENGLISH))) {
-                        wasSigned = true;
+                    if (SignbtureFileVerifier.isBlockOrSF(
+                            ze.getNbme().toUpperCbse(Locble.ENGLISH))) {
+                        wbsSigned = true;
                     }
 
-                    if (signatureRelated(ze.getName())) {
-                        // ignore signature-related and manifest files
+                    if (signbtureRelbted(ze.getNbme())) {
+                        // ignore signbture-relbted bnd mbnifest files
                         continue;
                     }
                 }
 
-                if (manifest.getAttributes(ze.getName()) != null) {
-                    // jar entry is contained in manifest, check and
-                    // possibly update its digest attributes
-                    if (updateDigests(ze, zipFile, digests,
-                                      manifest) == true) {
+                if (mbnifest.getAttributes(ze.getNbme()) != null) {
+                    // jbr entry is contbined in mbnifest, check bnd
+                    // possibly updbte its digest bttributes
+                    if (updbteDigests(ze, zipFile, digests,
+                                      mbnifest) == true) {
                         mfModified = true;
                     }
                 } else if (!ze.isDirectory()) {
-                    // Add entry to manifest
-                    Attributes attrs = getDigestAttributes(ze, zipFile,
+                    // Add entry to mbnifest
+                    Attributes bttrs = getDigestAttributes(ze, zipFile,
                                                            digests);
-                    mfEntries.put(ze.getName(), attrs);
+                    mfEntries.put(ze.getNbme(), bttrs);
                     mfModified = true;
                 }
             }
 
-            // Recalculate the manifest raw bytes if necessary
+            // Recblculbte the mbnifest rbw bytes if necessbry
             if (mfModified) {
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                manifest.write(baos);
-                if (wasSigned) {
-                    byte[] newBytes = baos.toByteArray();
-                    if (mfRawBytes != null
-                            && oldAttr.equals(manifest.getMainAttributes())) {
+                ByteArrbyOutputStrebm bbos = new ByteArrbyOutputStrebm();
+                mbnifest.write(bbos);
+                if (wbsSigned) {
+                    byte[] newBytes = bbos.toByteArrby();
+                    if (mfRbwBytes != null
+                            && oldAttr.equbls(mbnifest.getMbinAttributes())) {
 
                         /*
                          * Note:
                          *
-                         * The Attributes object is based on HashMap and can handle
-                         * continuation columns. Therefore, even if the contents are
-                         * not changed (in a Map view), the bytes that it write()
-                         * may be different from the original bytes that it read()
-                         * from. Since the signature on the main attributes is based
-                         * on raw bytes, we must retain the exact bytes.
+                         * The Attributes object is bbsed on HbshMbp bnd cbn hbndle
+                         * continubtion columns. Therefore, even if the contents bre
+                         * not chbnged (in b Mbp view), the bytes thbt it write()
+                         * mby be different from the originbl bytes thbt it rebd()
+                         * from. Since the signbture on the mbin bttributes is bbsed
+                         * on rbw bytes, we must retbin the exbct bytes.
                          */
 
-                        int newPos = findHeaderEnd(newBytes);
-                        int oldPos = findHeaderEnd(mfRawBytes);
+                        int newPos = findHebderEnd(newBytes);
+                        int oldPos = findHebderEnd(mfRbwBytes);
 
                         if (newPos == oldPos) {
-                            System.arraycopy(mfRawBytes, 0, newBytes, 0, oldPos);
+                            System.brrbycopy(mfRbwBytes, 0, newBytes, 0, oldPos);
                         } else {
-                            // cat oldHead newTail > newBytes
-                            byte[] lastBytes = new byte[oldPos +
+                            // cbt oldHebd newTbil > newBytes
+                            byte[] lbstBytes = new byte[oldPos +
                                     newBytes.length - newPos];
-                            System.arraycopy(mfRawBytes, 0, lastBytes, 0, oldPos);
-                            System.arraycopy(newBytes, newPos, lastBytes, oldPos,
+                            System.brrbycopy(mfRbwBytes, 0, lbstBytes, 0, oldPos);
+                            System.brrbycopy(newBytes, newPos, lbstBytes, oldPos,
                                     newBytes.length - newPos);
-                            newBytes = lastBytes;
+                            newBytes = lbstBytes;
                         }
                     }
-                    mfRawBytes = newBytes;
+                    mfRbwBytes = newBytes;
                 } else {
-                    mfRawBytes = baos.toByteArray();
+                    mfRbwBytes = bbos.toByteArrby();
                 }
             }
 
-            // Write out the manifest
+            // Write out the mbnifest
             if (mfModified) {
-                // manifest file has new length
-                mfFile = new ZipEntry(JarFile.MANIFEST_NAME);
+                // mbnifest file hbs new length
+                mfFile = new ZipEntry(JbrFile.MANIFEST_NAME);
             }
             if (verbose != null) {
-                if (mfCreated) {
-                    System.out.println(rb.getString(".adding.") +
-                                        mfFile.getName());
+                if (mfCrebted) {
+                    System.out.println(rb.getString(".bdding.") +
+                                        mfFile.getNbme());
                 } else if (mfModified) {
-                    System.out.println(rb.getString(".updating.") +
-                                        mfFile.getName());
+                    System.out.println(rb.getString(".updbting.") +
+                                        mfFile.getNbme());
                 }
             }
             zos.putNextEntry(mfFile);
-            zos.write(mfRawBytes);
+            zos.write(mfRbwBytes);
 
-            // Calculate SignatureFile (".SF") and SignatureBlockFile
-            ManifestDigester manDig = new ManifestDigester(mfRawBytes);
-            SignatureFile sf = new SignatureFile(digests, manifest, manDig,
-                                                 sigfile, signManifest);
+            // Cblculbte SignbtureFile (".SF") bnd SignbtureBlockFile
+            MbnifestDigester mbnDig = new MbnifestDigester(mfRbwBytes);
+            SignbtureFile sf = new SignbtureFile(digests, mbnifest, mbnDig,
+                                                 sigfile, signMbnifest);
 
-            if (tsaAlias != null) {
-                tsaCert = getTsaCert(tsaAlias);
+            if (tsbAlibs != null) {
+                tsbCert = getTsbCert(tsbAlibs);
             }
 
-            if (tsaUrl == null && tsaCert == null) {
-                noTimestamp = true;
+            if (tsbUrl == null && tsbCert == null) {
+                noTimestbmp = true;
             }
 
-            SignatureFile.Block block = null;
+            SignbtureFile.Block block = null;
 
             try {
                 block =
-                    sf.generateBlock(privateKey, sigalg, certChain,
-                        externalSF, tsaUrl, tsaCert, tSAPolicyID, tSADigestAlg,
-                        signingMechanism, args, zipFile);
-            } catch (SocketTimeoutException e) {
-                // Provide a helpful message when TSA is beyond a firewall
-                error(rb.getString("unable.to.sign.jar.") +
-                rb.getString("no.response.from.the.Timestamping.Authority.") +
-                "\n  -J-Dhttp.proxyHost=<hostname>" +
+                    sf.generbteBlock(privbteKey, sigblg, certChbin,
+                        externblSF, tsbUrl, tsbCert, tSAPolicyID, tSADigestAlg,
+                        signingMechbnism, brgs, zipFile);
+            } cbtch (SocketTimeoutException e) {
+                // Provide b helpful messbge when TSA is beyond b firewbll
+                error(rb.getString("unbble.to.sign.jbr.") +
+                rb.getString("no.response.from.the.Timestbmping.Authority.") +
+                "\n  -J-Dhttp.proxyHost=<hostnbme>" +
                 "\n  -J-Dhttp.proxyPort=<portnumber>\n" +
                 rb.getString("or") +
-                "\n  -J-Dhttps.proxyHost=<hostname> " +
+                "\n  -J-Dhttps.proxyHost=<hostnbme> " +
                 "\n  -J-Dhttps.proxyPort=<portnumber> ", e);
             }
 
-            sfFilename = sf.getMetaName();
-            bkFilename = block.getMetaName();
+            sfFilenbme = sf.getMetbNbme();
+            bkFilenbme = block.getMetbNbme();
 
-            ZipEntry sfFile = new ZipEntry(sfFilename);
-            ZipEntry bkFile = new ZipEntry(bkFilename);
+            ZipEntry sfFile = new ZipEntry(sfFilenbme);
+            ZipEntry bkFile = new ZipEntry(bkFilenbme);
 
             long time = System.currentTimeMillis();
             sfFile.setTime(time);
             bkFile.setTime(time);
 
-            // signature file
+            // signbture file
             zos.putNextEntry(sfFile);
             sf.write(zos);
             if (verbose != null) {
-                if (zipFile.getEntry(sfFilename) != null) {
-                    System.out.println(rb.getString(".updating.") +
-                                sfFilename);
+                if (zipFile.getEntry(sfFilenbme) != null) {
+                    System.out.println(rb.getString(".updbting.") +
+                                sfFilenbme);
                 } else {
-                    System.out.println(rb.getString(".adding.") +
-                                sfFilename);
+                    System.out.println(rb.getString(".bdding.") +
+                                sfFilenbme);
                 }
             }
 
             if (verbose != null) {
-                if (tsaUrl != null || tsaCert != null) {
+                if (tsbUrl != null || tsbCert != null) {
                     System.out.println(
-                        rb.getString("requesting.a.signature.timestamp"));
+                        rb.getString("requesting.b.signbture.timestbmp"));
                 }
-                if (tsaUrl != null) {
-                    System.out.println(rb.getString("TSA.location.") + tsaUrl);
+                if (tsbUrl != null) {
+                    System.out.println(rb.getString("TSA.locbtion.") + tsbUrl);
                 }
-                if (tsaCert != null) {
-                    URI tsaURI = TimestampedSigner.getTimestampingURI(tsaCert);
-                    if (tsaURI != null) {
-                        System.out.println(rb.getString("TSA.location.") +
-                            tsaURI);
+                if (tsbCert != null) {
+                    URI tsbURI = TimestbmpedSigner.getTimestbmpingURI(tsbCert);
+                    if (tsbURI != null) {
+                        System.out.println(rb.getString("TSA.locbtion.") +
+                            tsbURI);
                     }
-                    System.out.println(rb.getString("TSA.certificate.") +
-                        printCert("", tsaCert, false, null, false));
+                    System.out.println(rb.getString("TSA.certificbte.") +
+                        printCert("", tsbCert, fblse, null, fblse));
                 }
-                if (signingMechanism != null) {
+                if (signingMechbnism != null) {
                     System.out.println(
-                        rb.getString("using.an.alternative.signing.mechanism"));
+                        rb.getString("using.bn.blternbtive.signing.mechbnism"));
                 }
             }
 
-            // signature block file
+            // signbture block file
             zos.putNextEntry(bkFile);
             block.write(zos);
             if (verbose != null) {
-                if (zipFile.getEntry(bkFilename) != null) {
-                    System.out.println(rb.getString(".updating.") +
-                        bkFilename);
+                if (zipFile.getEntry(bkFilenbme) != null) {
+                    System.out.println(rb.getString(".updbting.") +
+                        bkFilenbme);
                 } else {
-                    System.out.println(rb.getString(".adding.") +
-                        bkFilename);
+                    System.out.println(rb.getString(".bdding.") +
+                        bkFilenbme);
                 }
             }
 
-            // Write out all other META-INF files that we stored in the
+            // Write out bll other META-INF files thbt we stored in the
             // vector
             for (int i=0; i<mfFiles.size(); i++) {
                 ZipEntry ze = mfFiles.elementAt(i);
-                if (!ze.getName().equalsIgnoreCase(JarFile.MANIFEST_NAME)
-                    && !ze.getName().equalsIgnoreCase(sfFilename)
-                    && !ze.getName().equalsIgnoreCase(bkFilename)) {
+                if (!ze.getNbme().equblsIgnoreCbse(JbrFile.MANIFEST_NAME)
+                    && !ze.getNbme().equblsIgnoreCbse(sfFilenbme)
+                    && !ze.getNbme().equblsIgnoreCbse(bkFilenbme)) {
                     writeEntry(zipFile, zos, ze);
                 }
             }
 
-            // Write out all other files
-            for (Enumeration<? extends ZipEntry> enum_=zipFile.entries();
-                        enum_.hasMoreElements();) {
+            // Write out bll other files
+            for (Enumerbtion<? extends ZipEntry> enum_=zipFile.entries();
+                        enum_.hbsMoreElements();) {
                 ZipEntry ze = enum_.nextElement();
 
-                if (!ze.getName().startsWith(META_INF)) {
+                if (!ze.getNbme().stbrtsWith(META_INF)) {
                     if (verbose != null) {
-                        if (manifest.getAttributes(ze.getName()) != null)
+                        if (mbnifest.getAttributes(ze.getNbme()) != null)
                           System.out.println(rb.getString(".signing.") +
-                                ze.getName());
+                                ze.getNbme());
                         else
-                          System.out.println(rb.getString(".adding.") +
-                                ze.getName());
+                          System.out.println(rb.getString(".bdding.") +
+                                ze.getNbme());
                     }
                     writeEntry(zipFile, zos, ze);
                 }
             }
-        } catch(IOException ioe) {
-            error(rb.getString("unable.to.sign.jar.")+ioe, ioe);
-        } finally {
+        } cbtch(IOException ioe) {
+            error(rb.getString("unbble.to.sign.jbr.")+ioe, ioe);
+        } finblly {
             // close the resouces
             if (zipFile != null) {
                 zipFile.close();
@@ -1425,133 +1425,133 @@ public class Main {
             }
         }
 
-        // no IOException thrown in the follow try clause, so disable
-        // the try clause.
+        // no IOException thrown in the follow try clbuse, so disbble
+        // the try clbuse.
         // try {
-            if (signedjar == null) {
-                // attempt an atomic rename. If that fails,
-                // rename the original jar file, then the signed
-                // one, then delete the original.
-                if (!signedJarFile.renameTo(jarFile)) {
-                    File origJar = new File(jarName+".orig");
+            if (signedjbr == null) {
+                // bttempt bn btomic renbme. If thbt fbils,
+                // renbme the originbl jbr file, then the signed
+                // one, then delete the originbl.
+                if (!signedJbrFile.renbmeTo(jbrFile)) {
+                    File origJbr = new File(jbrNbme+".orig");
 
-                    if (jarFile.renameTo(origJar)) {
-                        if (signedJarFile.renameTo(jarFile)) {
-                            origJar.delete();
+                    if (jbrFile.renbmeTo(origJbr)) {
+                        if (signedJbrFile.renbmeTo(jbrFile)) {
+                            origJbr.delete();
                         } else {
-                            MessageFormat form = new MessageFormat(rb.getString
-                        ("attempt.to.rename.signedJarFile.to.jarFile.failed"));
-                            Object[] source = {signedJarFile, jarFile};
-                            error(form.format(source));
+                            MessbgeFormbt form = new MessbgeFormbt(rb.getString
+                        ("bttempt.to.renbme.signedJbrFile.to.jbrFile.fbiled"));
+                            Object[] source = {signedJbrFile, jbrFile};
+                            error(form.formbt(source));
                         }
                     } else {
-                        MessageFormat form = new MessageFormat(rb.getString
-                            ("attempt.to.rename.jarFile.to.origJar.failed"));
-                        Object[] source = {jarFile, origJar};
-                        error(form.format(source));
+                        MessbgeFormbt form = new MessbgeFormbt(rb.getString
+                            ("bttempt.to.renbme.jbrFile.to.origJbr.fbiled"));
+                        Object[] source = {jbrFile, origJbr};
+                        error(form.formbt(source));
                     }
                 }
             }
 
-            boolean warningAppeared = false;
-            if (badKeyUsage || badExtendedKeyUsage || badNetscapeCertType ||
-                    notYetValidCert || chainNotValidated || hasExpiredCert) {
+            boolebn wbrningAppebred = fblse;
+            if (bbdKeyUsbge || bbdExtendedKeyUsbge || bbdNetscbpeCertType ||
+                    notYetVblidCert || chbinNotVblidbted || hbsExpiredCert) {
                 if (strict) {
-                    System.out.println(rb.getString("jar.signed.with.signer.errors."));
+                    System.out.println(rb.getString("jbr.signed.with.signer.errors."));
                     System.out.println();
                     System.out.println(rb.getString("Error."));
                 } else {
-                    System.out.println(rb.getString("jar.signed."));
+                    System.out.println(rb.getString("jbr.signed."));
                     System.out.println();
-                    System.out.println(rb.getString("Warning."));
-                    warningAppeared = true;
+                    System.out.println(rb.getString("Wbrning."));
+                    wbrningAppebred = true;
                 }
 
-                if (badKeyUsage) {
+                if (bbdKeyUsbge) {
                     System.out.println(
-                        rb.getString("The.signer.certificate.s.KeyUsage.extension.doesn.t.allow.code.signing."));
+                        rb.getString("The.signer.certificbte.s.KeyUsbge.extension.doesn.t.bllow.code.signing."));
                 }
 
-                if (badExtendedKeyUsage) {
+                if (bbdExtendedKeyUsbge) {
                     System.out.println(
-                        rb.getString("The.signer.certificate.s.ExtendedKeyUsage.extension.doesn.t.allow.code.signing."));
+                        rb.getString("The.signer.certificbte.s.ExtendedKeyUsbge.extension.doesn.t.bllow.code.signing."));
                 }
 
-                if (badNetscapeCertType) {
+                if (bbdNetscbpeCertType) {
                     System.out.println(
-                        rb.getString("The.signer.certificate.s.NetscapeCertType.extension.doesn.t.allow.code.signing."));
+                        rb.getString("The.signer.certificbte.s.NetscbpeCertType.extension.doesn.t.bllow.code.signing."));
                 }
 
-                if (hasExpiredCert) {
+                if (hbsExpiredCert) {
                     System.out.println(
-                        rb.getString("The.signer.certificate.has.expired."));
-                } else if (notYetValidCert) {
+                        rb.getString("The.signer.certificbte.hbs.expired."));
+                } else if (notYetVblidCert) {
                     System.out.println(
-                        rb.getString("The.signer.certificate.is.not.yet.valid."));
+                        rb.getString("The.signer.certificbte.is.not.yet.vblid."));
                 }
 
-                if (chainNotValidated) {
+                if (chbinNotVblidbted) {
                     System.out.println(
-                            rb.getString("The.signer.s.certificate.chain.is.not.validated."));
+                            rb.getString("The.signer.s.certificbte.chbin.is.not.vblidbted."));
                 }
             } else {
-                System.out.println(rb.getString("jar.signed."));
+                System.out.println(rb.getString("jbr.signed."));
             }
-            if (hasExpiringCert || noTimestamp) {
-                if (!warningAppeared) {
+            if (hbsExpiringCert || noTimestbmp) {
+                if (!wbrningAppebred) {
                     System.out.println();
-                    System.out.println(rb.getString("Warning."));
+                    System.out.println(rb.getString("Wbrning."));
                 }
 
-                if (hasExpiringCert) {
+                if (hbsExpiringCert) {
                     System.out.println(
-                            rb.getString("The.signer.certificate.will.expire.within.six.months."));
+                            rb.getString("The.signer.certificbte.will.expire.within.six.months."));
                 }
 
-                if (noTimestamp) {
+                if (noTimestbmp) {
                     System.out.println(
-                            String.format(rb.getString("no.timestamp.signing"), expireDate));
+                            String.formbt(rb.getString("no.timestbmp.signing"), expireDbte));
                 }
             }
 
-        // no IOException thrown in the above try clause, so disable
-        // the catch clause.
-        // } catch(IOException ioe) {
-        //     error(rb.getString("unable.to.sign.jar.")+ioe, ioe);
+        // no IOException thrown in the bbove try clbuse, so disbble
+        // the cbtch clbuse.
+        // } cbtch(IOException ioe) {
+        //     error(rb.getString("unbble.to.sign.jbr.")+ioe, ioe);
         // }
     }
 
     /**
-     * Find the length of header inside bs. The header is a multiple (>=0)
-     * lines of attributes plus an empty line. The empty line is included
-     * in the header.
+     * Find the length of hebder inside bs. The hebder is b multiple (>=0)
+     * lines of bttributes plus bn empty line. The empty line is included
+     * in the hebder.
      */
-    @SuppressWarnings("fallthrough")
-    private int findHeaderEnd(byte[] bs) {
-        // Initial state true to deal with empty header
-        boolean newline = true;     // just met a newline
+    @SuppressWbrnings("fbllthrough")
+    privbte int findHebderEnd(byte[] bs) {
+        // Initibl stbte true to debl with empty hebder
+        boolebn newline = true;     // just met b newline
         int len = bs.length;
         for (int i=0; i<len; i++) {
             switch (bs[i]) {
-                case '\r':
+                cbse '\r':
                     if (i < len - 1 && bs[i+1] == '\n') i++;
-                    // fallthrough
-                case '\n':
+                    // fbllthrough
+                cbse '\n':
                     if (newline) return i+1;    //+1 to get length
                     newline = true;
-                    break;
-                default:
-                    newline = false;
+                    brebk;
+                defbult:
+                    newline = fblse;
             }
         }
-        // If header end is not found, it means the MANIFEST.MF has only
-        // the main attributes section and it does not end with 2 newlines.
-        // Returns the whole length so that it can be completely replaced.
+        // If hebder end is not found, it mebns the MANIFEST.MF hbs only
+        // the mbin bttributes section bnd it does not end with 2 newlines.
+        // Returns the whole length so thbt it cbn be completely replbced.
         return len;
     }
 
     /**
-     * signature-related files include:
+     * signbture-relbted files include:
      * . META-INF/MANIFEST.MF
      * . META-INF/SIG-*
      * . META-INF/*.SF
@@ -1559,69 +1559,69 @@ public class Main {
      * . META-INF/*.RSA
      * . META-INF/*.EC
      */
-    private boolean signatureRelated(String name) {
-        return SignatureFileVerifier.isSigningRelated(name);
+    privbte boolebn signbtureRelbted(String nbme) {
+        return SignbtureFileVerifier.isSigningRelbted(nbme);
     }
 
-    Map<CodeSigner,String> cacheForSignerInfo = new IdentityHashMap<>();
+    Mbp<CodeSigner,String> cbcheForSignerInfo = new IdentityHbshMbp<>();
 
     /**
-     * Returns a string of singer info, with a newline at the end
+     * Returns b string of singer info, with b newline bt the end
      */
-    private String signerInfo(CodeSigner signer, String tab) {
-        if (cacheForSignerInfo.containsKey(signer)) {
-            return cacheForSignerInfo.get(signer);
+    privbte String signerInfo(CodeSigner signer, String tbb) {
+        if (cbcheForSignerInfo.contbinsKey(signer)) {
+            return cbcheForSignerInfo.get(signer);
         }
         StringBuilder sb = new StringBuilder();
-        List<? extends Certificate> certs = signer.getSignerCertPath().getCertificates();
-        // display the signature timestamp, if present
-        Date timestamp;
-        Timestamp ts = signer.getTimestamp();
+        List<? extends Certificbte> certs = signer.getSignerCertPbth().getCertificbtes();
+        // displby the signbture timestbmp, if present
+        Dbte timestbmp;
+        Timestbmp ts = signer.getTimestbmp();
         if (ts != null) {
-            sb.append(printTimestamp(tab, ts));
-            sb.append('\n');
-            timestamp = ts.getTimestamp();
+            sb.bppend(printTimestbmp(tbb, ts));
+            sb.bppend('\n');
+            timestbmp = ts.getTimestbmp();
         } else {
-            timestamp = null;
-            noTimestamp = true;
+            timestbmp = null;
+            noTimestbmp = true;
         }
-        // display the certificate(sb). The first one is end-entity cert and
-        // its KeyUsage should be checked.
-        boolean first = true;
-        for (Certificate c : certs) {
-            sb.append(printCert(tab, c, true, timestamp, first));
-            sb.append('\n');
-            first = false;
+        // displby the certificbte(sb). The first one is end-entity cert bnd
+        // its KeyUsbge should be checked.
+        boolebn first = true;
+        for (Certificbte c : certs) {
+            sb.bppend(printCert(tbb, c, true, timestbmp, first));
+            sb.bppend('\n');
+            first = fblse;
         }
         try {
-            validateCertChain(certs);
-        } catch (Exception e) {
+            vblidbteCertChbin(certs);
+        } cbtch (Exception e) {
             if (debug) {
-                e.printStackTrace();
+                e.printStbckTrbce();
             }
-            if (e.getCause() != null &&
-                    (e.getCause() instanceof CertificateExpiredException ||
-                     e.getCause() instanceof CertificateNotYetValidException)) {
-                // No more warning, we alreay have hasExpiredCert or notYetValidCert
+            if (e.getCbuse() != null &&
+                    (e.getCbuse() instbnceof CertificbteExpiredException ||
+                     e.getCbuse() instbnceof CertificbteNotYetVblidException)) {
+                // No more wbrning, we blreby hbve hbsExpiredCert or notYetVblidCert
             } else {
-                chainNotValidated = true;
-                sb.append(tab + rb.getString(".CertPath.not.validated.") +
-                        e.getLocalizedMessage() + "]\n");   // TODO
+                chbinNotVblidbted = true;
+                sb.bppend(tbb + rb.getString(".CertPbth.not.vblidbted.") +
+                        e.getLocblizedMessbge() + "]\n");   // TODO
             }
         }
         String result = sb.toString();
-        cacheForSignerInfo.put(signer, result);
+        cbcheForSignerInfo.put(signer, result);
         return result;
     }
 
-    private void writeEntry(ZipFile zf, ZipOutputStream os, ZipEntry ze)
+    privbte void writeEntry(ZipFile zf, ZipOutputStrebm os, ZipEntry ze)
     throws IOException
     {
-        ZipEntry ze2 = new ZipEntry(ze.getName());
+        ZipEntry ze2 = new ZipEntry(ze.getNbme());
         ze2.setMethod(ze.getMethod());
         ze2.setTime(ze.getTime());
         ze2.setComment(ze.getComment());
-        ze2.setExtra(ze.getExtra());
+        ze2.setExtrb(ze.getExtrb());
         if (ze.getMethod() == ZipEntry.STORED) {
             ze2.setSize(ze.getSize());
             ze2.setCrc(ze.getCrc());
@@ -1631,418 +1631,418 @@ public class Main {
     }
 
     /**
-     * Writes all the bytes for a given entry to the specified output stream.
+     * Writes bll the bytes for b given entry to the specified output strebm.
      */
-    private synchronized void writeBytes
-        (ZipFile zf, ZipEntry ze, ZipOutputStream os) throws IOException {
+    privbte synchronized void writeBytes
+        (ZipFile zf, ZipEntry ze, ZipOutputStrebm os) throws IOException {
         int n;
 
-        InputStream is = null;
+        InputStrebm is = null;
         try {
-            is = zf.getInputStream(ze);
+            is = zf.getInputStrebm(ze);
             long left = ze.getSize();
 
-            while((left > 0) && (n = is.read(buffer, 0, buffer.length)) != -1) {
+            while((left > 0) && (n = is.rebd(buffer, 0, buffer.length)) != -1) {
                 os.write(buffer, 0, n);
                 left -= n;
             }
-        } finally {
+        } finblly {
             if (is != null) {
                 is.close();
             }
         }
     }
 
-    void loadKeyStore(String keyStoreName, boolean prompt) {
+    void lobdKeyStore(String keyStoreNbme, boolebn prompt) {
 
-        if (!nullStream && keyStoreName == null) {
-            keyStoreName = System.getProperty("user.home") + File.separator
+        if (!nullStrebm && keyStoreNbme == null) {
+            keyStoreNbme = System.getProperty("user.home") + File.sepbrbtor
                 + ".keystore";
         }
 
         try {
 
-            certificateFactory = CertificateFactory.getInstance("X.509");
-            validator = CertPathValidator.getInstance("PKIX");
-            Set<TrustAnchor> tas = new HashSet<>();
+            certificbteFbctory = CertificbteFbctory.getInstbnce("X.509");
+            vblidbtor = CertPbthVblidbtor.getInstbnce("PKIX");
+            Set<TrustAnchor> tbs = new HbshSet<>();
             try {
-                KeyStore caks = KeyStoreUtil.getCacertsKeyStore();
-                if (caks != null) {
-                    Enumeration<String> aliases = caks.aliases();
-                    while (aliases.hasMoreElements()) {
-                        String a = aliases.nextElement();
+                KeyStore cbks = KeyStoreUtil.getCbcertsKeyStore();
+                if (cbks != null) {
+                    Enumerbtion<String> blibses = cbks.blibses();
+                    while (blibses.hbsMoreElements()) {
+                        String b = blibses.nextElement();
                         try {
-                            tas.add(new TrustAnchor((X509Certificate)caks.getCertificate(a), null));
-                        } catch (Exception e2) {
-                            // ignore, when a SecretkeyEntry does not include a cert
+                            tbs.bdd(new TrustAnchor((X509Certificbte)cbks.getCertificbte(b), null));
+                        } cbtch (Exception e2) {
+                            // ignore, when b SecretkeyEntry does not include b cert
                         }
                     }
                 }
-            } catch (Exception e) {
-                // Ignore, if cacerts cannot be loaded
+            } cbtch (Exception e) {
+                // Ignore, if cbcerts cbnnot be lobded
             }
 
-            if (providerName == null) {
-                store = KeyStore.getInstance(storetype);
+            if (providerNbme == null) {
+                store = KeyStore.getInstbnce(storetype);
             } else {
-                store = KeyStore.getInstance(storetype, providerName);
+                store = KeyStore.getInstbnce(storetype, providerNbme);
             }
 
-            // Get pass phrase
-            // XXX need to disable echo; on UNIX, call getpass(char *prompt)Z
-            // and on NT call ??
-            if (token && storepass == null && !protectedPath
+            // Get pbss phrbse
+            // XXX need to disbble echo; on UNIX, cbll getpbss(chbr *prompt)Z
+            // bnd on NT cbll ??
+            if (token && storepbss == null && !protectedPbth
                     && !KeyStoreUtil.isWindowsKeyStore(storetype)) {
-                storepass = getPass
-                        (rb.getString("Enter.Passphrase.for.keystore."));
-            } else if (!token && storepass == null && prompt) {
-                storepass = getPass
-                        (rb.getString("Enter.Passphrase.for.keystore."));
+                storepbss = getPbss
+                        (rb.getString("Enter.Pbssphrbse.for.keystore."));
+            } else if (!token && storepbss == null && prompt) {
+                storepbss = getPbss
+                        (rb.getString("Enter.Pbssphrbse.for.keystore."));
             }
 
             try {
-                if (nullStream) {
-                    store.load(null, storepass);
+                if (nullStrebm) {
+                    store.lobd(null, storepbss);
                 } else {
-                    keyStoreName = keyStoreName.replace(File.separatorChar, '/');
+                    keyStoreNbme = keyStoreNbme.replbce(File.sepbrbtorChbr, '/');
                     URL url = null;
                     try {
-                        url = new URL(keyStoreName);
-                    } catch (java.net.MalformedURLException e) {
-                        // try as file
-                        url = new File(keyStoreName).toURI().toURL();
+                        url = new URL(keyStoreNbme);
+                    } cbtch (jbvb.net.MblformedURLException e) {
+                        // try bs file
+                        url = new File(keyStoreNbme).toURI().toURL();
                     }
-                    InputStream is = null;
+                    InputStrebm is = null;
                     try {
-                        is = url.openStream();
-                        store.load(is, storepass);
-                    } finally {
+                        is = url.openStrebm();
+                        store.lobd(is, storepbss);
+                    } finblly {
                         if (is != null) {
                             is.close();
                         }
                     }
                 }
-                Enumeration<String> aliases = store.aliases();
-                while (aliases.hasMoreElements()) {
-                    String a = aliases.nextElement();
+                Enumerbtion<String> blibses = store.blibses();
+                while (blibses.hbsMoreElements()) {
+                    String b = blibses.nextElement();
                     try {
-                        X509Certificate c = (X509Certificate)store.getCertificate(a);
-                        // Only add TrustedCertificateEntry and self-signed
-                        // PrivateKeyEntry
-                        if (store.isCertificateEntry(a) ||
-                                c.getSubjectDN().equals(c.getIssuerDN())) {
-                            tas.add(new TrustAnchor(c, null));
+                        X509Certificbte c = (X509Certificbte)store.getCertificbte(b);
+                        // Only bdd TrustedCertificbteEntry bnd self-signed
+                        // PrivbteKeyEntry
+                        if (store.isCertificbteEntry(b) ||
+                                c.getSubjectDN().equbls(c.getIssuerDN())) {
+                            tbs.bdd(new TrustAnchor(c, null));
                         }
-                    } catch (Exception e2) {
-                        // ignore, when a SecretkeyEntry does not include a cert
+                    } cbtch (Exception e2) {
+                        // ignore, when b SecretkeyEntry does not include b cert
                     }
                 }
-            } finally {
+            } finblly {
                 try {
-                    pkixParameters = new PKIXParameters(tas);
-                    pkixParameters.setRevocationEnabled(false);
-                } catch (InvalidAlgorithmParameterException ex) {
-                    // Only if tas is empty
+                    pkixPbrbmeters = new PKIXPbrbmeters(tbs);
+                    pkixPbrbmeters.setRevocbtionEnbbled(fblse);
+                } cbtch (InvblidAlgorithmPbrbmeterException ex) {
+                    // Only if tbs is empty
                 }
             }
-        } catch (IOException ioe) {
-            throw new RuntimeException(rb.getString("keystore.load.") +
-                                        ioe.getMessage());
-        } catch (java.security.cert.CertificateException ce) {
-            throw new RuntimeException(rb.getString("certificate.exception.") +
-                                        ce.getMessage());
-        } catch (NoSuchProviderException pe) {
-            throw new RuntimeException(rb.getString("keystore.load.") +
-                                        pe.getMessage());
-        } catch (NoSuchAlgorithmException nsae) {
-            throw new RuntimeException(rb.getString("keystore.load.") +
-                                        nsae.getMessage());
-        } catch (KeyStoreException kse) {
+        } cbtch (IOException ioe) {
+            throw new RuntimeException(rb.getString("keystore.lobd.") +
+                                        ioe.getMessbge());
+        } cbtch (jbvb.security.cert.CertificbteException ce) {
+            throw new RuntimeException(rb.getString("certificbte.exception.") +
+                                        ce.getMessbge());
+        } cbtch (NoSuchProviderException pe) {
+            throw new RuntimeException(rb.getString("keystore.lobd.") +
+                                        pe.getMessbge());
+        } cbtch (NoSuchAlgorithmException nsbe) {
+            throw new RuntimeException(rb.getString("keystore.lobd.") +
+                                        nsbe.getMessbge());
+        } cbtch (KeyStoreException kse) {
             throw new RuntimeException
-                (rb.getString("unable.to.instantiate.keystore.class.") +
-                kse.getMessage());
+                (rb.getString("unbble.to.instbntibte.keystore.clbss.") +
+                kse.getMessbge());
         }
     }
 
-    X509Certificate getTsaCert(String alias) {
+    X509Certificbte getTsbCert(String blibs) {
 
-        java.security.cert.Certificate cs = null;
+        jbvb.security.cert.Certificbte cs = null;
 
         try {
-            cs = store.getCertificate(alias);
-        } catch (KeyStoreException kse) {
-            // this never happens, because keystore has been loaded
+            cs = store.getCertificbte(blibs);
+        } cbtch (KeyStoreException kse) {
+            // this never hbppens, becbuse keystore hbs been lobded
         }
-        if (cs == null || (!(cs instanceof X509Certificate))) {
-            MessageFormat form = new MessageFormat(rb.getString
-                ("Certificate.not.found.for.alias.alias.must.reference.a.valid.KeyStore.entry.containing.an.X.509.public.key.certificate.for.the"));
-            Object[] source = {alias, alias};
-            error(form.format(source));
+        if (cs == null || (!(cs instbnceof X509Certificbte))) {
+            MessbgeFormbt form = new MessbgeFormbt(rb.getString
+                ("Certificbte.not.found.for.blibs.blibs.must.reference.b.vblid.KeyStore.entry.contbining.bn.X.509.public.key.certificbte.for.the"));
+            Object[] source = {blibs, blibs};
+            error(form.formbt(source));
         }
-        return (X509Certificate) cs;
+        return (X509Certificbte) cs;
     }
 
     /**
-     * Check if userCert is designed to be a code signer
-     * @param userCert the certificate to be examined
-     * @param bad 3 booleans to show if the KeyUsage, ExtendedKeyUsage,
-     *            NetscapeCertType has codeSigning flag turned on.
-     *            If null, the class field badKeyUsage, badExtendedKeyUsage,
-     *            badNetscapeCertType will be set.
+     * Check if userCert is designed to be b code signer
+     * @pbrbm userCert the certificbte to be exbmined
+     * @pbrbm bbd 3 boolebns to show if the KeyUsbge, ExtendedKeyUsbge,
+     *            NetscbpeCertType hbs codeSigning flbg turned on.
+     *            If null, the clbss field bbdKeyUsbge, bbdExtendedKeyUsbge,
+     *            bbdNetscbpeCertType will be set.
      */
-    void checkCertUsage(X509Certificate userCert, boolean[] bad) {
+    void checkCertUsbge(X509Certificbte userCert, boolebn[] bbd) {
 
-        // Can act as a signer?
-        // 1. if KeyUsage, then [0:digitalSignature] or
-        //    [1:nonRepudiation] should be true
-        // 2. if ExtendedKeyUsage, then should contains ANY or CODE_SIGNING
-        // 3. if NetscapeCertType, then should contains OBJECT_SIGNING
+        // Cbn bct bs b signer?
+        // 1. if KeyUsbge, then [0:digitblSignbture] or
+        //    [1:nonRepudibtion] should be true
+        // 2. if ExtendedKeyUsbge, then should contbins ANY or CODE_SIGNING
+        // 3. if NetscbpeCertType, then should contbins OBJECT_SIGNING
         // 1,2,3 must be true
 
-        if (bad != null) {
-            bad[0] = bad[1] = bad[2] = false;
+        if (bbd != null) {
+            bbd[0] = bbd[1] = bbd[2] = fblse;
         }
 
-        boolean[] keyUsage = userCert.getKeyUsage();
-        if (keyUsage != null) {
-            keyUsage = Arrays.copyOf(keyUsage, 9);
-            if (!keyUsage[0] && !keyUsage[1]) {
-                if (bad != null) {
-                    bad[0] = true;
-                    badKeyUsage = true;
+        boolebn[] keyUsbge = userCert.getKeyUsbge();
+        if (keyUsbge != null) {
+            keyUsbge = Arrbys.copyOf(keyUsbge, 9);
+            if (!keyUsbge[0] && !keyUsbge[1]) {
+                if (bbd != null) {
+                    bbd[0] = true;
+                    bbdKeyUsbge = true;
                 }
             }
         }
 
         try {
-            List<String> xKeyUsage = userCert.getExtendedKeyUsage();
-            if (xKeyUsage != null) {
-                if (!xKeyUsage.contains("2.5.29.37.0") // anyExtendedKeyUsage
-                        && !xKeyUsage.contains("1.3.6.1.5.5.7.3.3")) {  // codeSigning
-                    if (bad != null) {
-                        bad[1] = true;
-                        badExtendedKeyUsage = true;
+            List<String> xKeyUsbge = userCert.getExtendedKeyUsbge();
+            if (xKeyUsbge != null) {
+                if (!xKeyUsbge.contbins("2.5.29.37.0") // bnyExtendedKeyUsbge
+                        && !xKeyUsbge.contbins("1.3.6.1.5.5.7.3.3")) {  // codeSigning
+                    if (bbd != null) {
+                        bbd[1] = true;
+                        bbdExtendedKeyUsbge = true;
                     }
                 }
             }
-        } catch (java.security.cert.CertificateParsingException e) {
-            // shouldn't happen
+        } cbtch (jbvb.security.cert.CertificbtePbrsingException e) {
+            // shouldn't hbppen
         }
 
         try {
             // OID_NETSCAPE_CERT_TYPE
-            byte[] netscapeEx = userCert.getExtensionValue
+            byte[] netscbpeEx = userCert.getExtensionVblue
                     ("2.16.840.1.113730.1.1");
-            if (netscapeEx != null) {
-                DerInputStream in = new DerInputStream(netscapeEx);
+            if (netscbpeEx != null) {
+                DerInputStrebm in = new DerInputStrebm(netscbpeEx);
                 byte[] encoded = in.getOctetString();
-                encoded = new DerValue(encoded).getUnalignedBitString()
-                        .toByteArray();
+                encoded = new DerVblue(encoded).getUnblignedBitString()
+                        .toByteArrby();
 
-                NetscapeCertTypeExtension extn =
-                        new NetscapeCertTypeExtension(encoded);
+                NetscbpeCertTypeExtension extn =
+                        new NetscbpeCertTypeExtension(encoded);
 
-                Boolean val = extn.get(NetscapeCertTypeExtension.OBJECT_SIGNING);
-                if (!val) {
-                    if (bad != null) {
-                        bad[2] = true;
-                        badNetscapeCertType = true;
+                Boolebn vbl = extn.get(NetscbpeCertTypeExtension.OBJECT_SIGNING);
+                if (!vbl) {
+                    if (bbd != null) {
+                        bbd[2] = true;
+                        bbdNetscbpeCertType = true;
                     }
                 }
             }
-        } catch (IOException e) {
+        } cbtch (IOException e) {
             //
         }
     }
 
-    void getAliasInfo(String alias) {
+    void getAlibsInfo(String blibs) {
 
         Key key = null;
 
         try {
-            java.security.cert.Certificate[] cs = null;
-            if (altCertChain != null) {
-                try (FileInputStream fis = new FileInputStream(altCertChain)) {
-                    cs = CertificateFactory.getInstance("X.509").
-                            generateCertificates(fis).
-                            toArray(new Certificate[0]);
-                } catch (FileNotFoundException ex) {
-                    error(rb.getString("File.specified.by.certchain.does.not.exist"));
-                } catch (CertificateException | IOException ex) {
-                    error(rb.getString("Cannot.restore.certchain.from.file.specified"));
+            jbvb.security.cert.Certificbte[] cs = null;
+            if (bltCertChbin != null) {
+                try (FileInputStrebm fis = new FileInputStrebm(bltCertChbin)) {
+                    cs = CertificbteFbctory.getInstbnce("X.509").
+                            generbteCertificbtes(fis).
+                            toArrby(new Certificbte[0]);
+                } cbtch (FileNotFoundException ex) {
+                    error(rb.getString("File.specified.by.certchbin.does.not.exist"));
+                } cbtch (CertificbteException | IOException ex) {
+                    error(rb.getString("Cbnnot.restore.certchbin.from.file.specified"));
                 }
             } else {
                 try {
-                    cs = store.getCertificateChain(alias);
-                } catch (KeyStoreException kse) {
-                    // this never happens, because keystore has been loaded
+                    cs = store.getCertificbteChbin(blibs);
+                } cbtch (KeyStoreException kse) {
+                    // this never hbppens, becbuse keystore hbs been lobded
                 }
             }
             if (cs == null || cs.length == 0) {
-                if (altCertChain != null) {
+                if (bltCertChbin != null) {
                     error(rb.getString
-                            ("Certificate.chain.not.found.in.the.file.specified."));
+                            ("Certificbte.chbin.not.found.in.the.file.specified."));
                 } else {
-                    MessageFormat form = new MessageFormat(rb.getString
-                        ("Certificate.chain.not.found.for.alias.alias.must.reference.a.valid.KeyStore.key.entry.containing.a.private.key.and"));
-                    Object[] source = {alias, alias};
-                    error(form.format(source));
+                    MessbgeFormbt form = new MessbgeFormbt(rb.getString
+                        ("Certificbte.chbin.not.found.for.blibs.blibs.must.reference.b.vblid.KeyStore.key.entry.contbining.b.privbte.key.bnd"));
+                    Object[] source = {blibs, blibs};
+                    error(form.formbt(source));
                 }
             }
 
-            certChain = new X509Certificate[cs.length];
+            certChbin = new X509Certificbte[cs.length];
             for (int i=0; i<cs.length; i++) {
-                if (!(cs[i] instanceof X509Certificate)) {
+                if (!(cs[i] instbnceof X509Certificbte)) {
                     error(rb.getString
-                        ("found.non.X.509.certificate.in.signer.s.chain"));
+                        ("found.non.X.509.certificbte.in.signer.s.chbin"));
                 }
-                certChain[i] = (X509Certificate)cs[i];
+                certChbin[i] = (X509Certificbte)cs[i];
             }
 
-            // We don't meant to print anything, the next call
-            // checks validity and keyUsage etc
-            printCert("", certChain[0], true, null, true);
+            // We don't mebnt to print bnything, the next cbll
+            // checks vblidity bnd keyUsbge etc
+            printCert("", certChbin[0], true, null, true);
 
             try {
-                validateCertChain(Arrays.asList(certChain));
-            } catch (Exception e) {
+                vblidbteCertChbin(Arrbys.bsList(certChbin));
+            } cbtch (Exception e) {
                 if (debug) {
-                    e.printStackTrace();
+                    e.printStbckTrbce();
                 }
-                if (e.getCause() != null &&
-                        (e.getCause() instanceof CertificateExpiredException ||
-                        e.getCause() instanceof CertificateNotYetValidException)) {
-                    // No more warning, we alreay have hasExpiredCert or notYetValidCert
+                if (e.getCbuse() != null &&
+                        (e.getCbuse() instbnceof CertificbteExpiredException ||
+                        e.getCbuse() instbnceof CertificbteNotYetVblidException)) {
+                    // No more wbrning, we blreby hbve hbsExpiredCert or notYetVblidCert
                 } else {
-                    chainNotValidated = true;
+                    chbinNotVblidbted = true;
                 }
             }
 
             try {
-                if (!token && keypass == null)
-                    key = store.getKey(alias, storepass);
+                if (!token && keypbss == null)
+                    key = store.getKey(blibs, storepbss);
                 else
-                    key = store.getKey(alias, keypass);
-            } catch (UnrecoverableKeyException e) {
+                    key = store.getKey(blibs, keypbss);
+            } cbtch (UnrecoverbbleKeyException e) {
                 if (token) {
                     throw e;
-                } else if (keypass == null) {
-                    // Did not work out, so prompt user for key password
-                    MessageFormat form = new MessageFormat(rb.getString
-                        ("Enter.key.password.for.alias."));
-                    Object[] source = {alias};
-                    keypass = getPass(form.format(source));
-                    key = store.getKey(alias, keypass);
+                } else if (keypbss == null) {
+                    // Did not work out, so prompt user for key pbssword
+                    MessbgeFormbt form = new MessbgeFormbt(rb.getString
+                        ("Enter.key.pbssword.for.blibs."));
+                    Object[] source = {blibs};
+                    keypbss = getPbss(form.formbt(source));
+                    key = store.getKey(blibs, keypbss);
                 }
             }
-        } catch (NoSuchAlgorithmException e) {
-            error(e.getMessage());
-        } catch (UnrecoverableKeyException e) {
-            error(rb.getString("unable.to.recover.key.from.keystore"));
-        } catch (KeyStoreException kse) {
-            // this never happens, because keystore has been loaded
+        } cbtch (NoSuchAlgorithmException e) {
+            error(e.getMessbge());
+        } cbtch (UnrecoverbbleKeyException e) {
+            error(rb.getString("unbble.to.recover.key.from.keystore"));
+        } cbtch (KeyStoreException kse) {
+            // this never hbppens, becbuse keystore hbs been lobded
         }
 
-        if (!(key instanceof PrivateKey)) {
-            MessageFormat form = new MessageFormat(rb.getString
-                ("key.associated.with.alias.not.a.private.key"));
-            Object[] source = {alias};
-            error(form.format(source));
+        if (!(key instbnceof PrivbteKey)) {
+            MessbgeFormbt form = new MessbgeFormbt(rb.getString
+                ("key.bssocibted.with.blibs.not.b.privbte.key"));
+            Object[] source = {blibs};
+            error(form.formbt(source));
         } else {
-            privateKey = (PrivateKey)key;
+            privbteKey = (PrivbteKey)key;
         }
     }
 
-    void error(String message)
+    void error(String messbge)
     {
-        System.out.println(rb.getString("jarsigner.")+message);
+        System.out.println(rb.getString("jbrsigner.")+messbge);
         System.exit(1);
     }
 
 
-    void error(String message, Exception e)
+    void error(String messbge, Exception e)
     {
-        System.out.println(rb.getString("jarsigner.")+message);
+        System.out.println(rb.getString("jbrsigner.")+messbge);
         if (debug) {
-            e.printStackTrace();
+            e.printStbckTrbce();
         }
         System.exit(1);
     }
 
-    void validateCertChain(List<? extends Certificate> certs) throws Exception {
+    void vblidbteCertChbin(List<? extends Certificbte> certs) throws Exception {
         int cpLen = 0;
         out: for (; cpLen<certs.size(); cpLen++) {
-            for (TrustAnchor ta: pkixParameters.getTrustAnchors()) {
-                if (ta.getTrustedCert().equals(certs.get(cpLen))) {
-                    break out;
+            for (TrustAnchor tb: pkixPbrbmeters.getTrustAnchors()) {
+                if (tb.getTrustedCert().equbls(certs.get(cpLen))) {
+                    brebk out;
                 }
             }
         }
         if (cpLen > 0) {
-            CertPath cp = certificateFactory.generateCertPath(
+            CertPbth cp = certificbteFbctory.generbteCertPbth(
                     (cpLen == certs.size())? certs: certs.subList(0, cpLen));
-            validator.validate(cp, pkixParameters);
+            vblidbtor.vblidbte(cp, pkixPbrbmeters);
         }
     }
 
-    char[] getPass(String prompt)
+    chbr[] getPbss(String prompt)
     {
         System.err.print(prompt);
         System.err.flush();
         try {
-            char[] pass = Password.readPassword(System.in);
+            chbr[] pbss = Pbssword.rebdPbssword(System.in);
 
-            if (pass == null) {
-                error(rb.getString("you.must.enter.key.password"));
+            if (pbss == null) {
+                error(rb.getString("you.must.enter.key.pbssword"));
             } else {
-                return pass;
+                return pbss;
             }
-        } catch (IOException ioe) {
-            error(rb.getString("unable.to.read.password.")+ioe.getMessage());
+        } cbtch (IOException ioe) {
+            error(rb.getString("unbble.to.rebd.pbssword.")+ioe.getMessbge());
         }
-        // this shouldn't happen
+        // this shouldn't hbppen
         return null;
     }
 
     /*
-     * Reads all the bytes for a given zip entry.
+     * Rebds bll the bytes for b given zip entry.
      */
-    private synchronized byte[] getBytes(ZipFile zf,
+    privbte synchronized byte[] getBytes(ZipFile zf,
                                          ZipEntry ze) throws IOException {
         int n;
 
-        InputStream is = null;
+        InputStrebm is = null;
         try {
-            is = zf.getInputStream(ze);
-            baos.reset();
+            is = zf.getInputStrebm(ze);
+            bbos.reset();
             long left = ze.getSize();
 
-            while((left > 0) && (n = is.read(buffer, 0, buffer.length)) != -1) {
-                baos.write(buffer, 0, n);
+            while((left > 0) && (n = is.rebd(buffer, 0, buffer.length)) != -1) {
+                bbos.write(buffer, 0, n);
                 left -= n;
             }
-        } finally {
+        } finblly {
             if (is != null) {
                 is.close();
             }
         }
 
-        return baos.toByteArray();
+        return bbos.toByteArrby();
     }
 
     /*
-     * Returns manifest entry from given jar file, or null if given jar file
-     * does not have a manifest entry.
+     * Returns mbnifest entry from given jbr file, or null if given jbr file
+     * does not hbve b mbnifest entry.
      */
-    private ZipEntry getManifestFile(ZipFile zf) {
-        ZipEntry ze = zf.getEntry(JarFile.MANIFEST_NAME);
+    privbte ZipEntry getMbnifestFile(ZipFile zf) {
+        ZipEntry ze = zf.getEntry(JbrFile.MANIFEST_NAME);
         if (ze == null) {
-            // Check all entries for matching name
-            Enumeration<? extends ZipEntry> enum_ = zf.entries();
-            while (enum_.hasMoreElements() && ze == null) {
+            // Check bll entries for mbtching nbme
+            Enumerbtion<? extends ZipEntry> enum_ = zf.entries();
+            while (enum_.hbsMoreElements() && ze == null) {
                 ze = enum_.nextElement();
-                if (!JarFile.MANIFEST_NAME.equalsIgnoreCase
-                    (ze.getName())) {
+                if (!JbrFile.MANIFEST_NAME.equblsIgnoreCbse
+                    (ze.getNbme())) {
                     ze = null;
                 }
             }
@@ -2051,393 +2051,393 @@ public class Main {
     }
 
     /*
-     * Computes the digests of a zip entry, and returns them as an array
-     * of base64-encoded strings.
+     * Computes the digests of b zip entry, bnd returns them bs bn brrby
+     * of bbse64-encoded strings.
      */
-    private synchronized String[] getDigests(ZipEntry ze, ZipFile zf,
-                                             MessageDigest[] digests)
+    privbte synchronized String[] getDigests(ZipEntry ze, ZipFile zf,
+                                             MessbgeDigest[] digests)
         throws IOException {
 
         int n, i;
-        InputStream is = null;
+        InputStrebm is = null;
         try {
-            is = zf.getInputStream(ze);
+            is = zf.getInputStrebm(ze);
             long left = ze.getSize();
             while((left > 0)
-                && (n = is.read(buffer, 0, buffer.length)) != -1) {
+                && (n = is.rebd(buffer, 0, buffer.length)) != -1) {
                 for (i=0; i<digests.length; i++) {
-                    digests[i].update(buffer, 0, n);
+                    digests[i].updbte(buffer, 0, n);
                 }
                 left -= n;
             }
-        } finally {
+        } finblly {
             if (is != null) {
                 is.close();
             }
         }
 
         // complete the digests
-        String[] base64Digests = new String[digests.length];
+        String[] bbse64Digests = new String[digests.length];
         for (i=0; i<digests.length; i++) {
-            base64Digests[i] = Base64.getEncoder().encodeToString(digests[i].digest());
+            bbse64Digests[i] = Bbse64.getEncoder().encodeToString(digests[i].digest());
         }
-        return base64Digests;
+        return bbse64Digests;
     }
 
     /*
-     * Computes the digests of a zip entry, and returns them as a list of
-     * attributes
+     * Computes the digests of b zip entry, bnd returns them bs b list of
+     * bttributes
      */
-    private Attributes getDigestAttributes(ZipEntry ze, ZipFile zf,
-                                           MessageDigest[] digests)
+    privbte Attributes getDigestAttributes(ZipEntry ze, ZipFile zf,
+                                           MessbgeDigest[] digests)
         throws IOException {
 
-        String[] base64Digests = getDigests(ze, zf, digests);
-        Attributes attrs = new Attributes();
+        String[] bbse64Digests = getDigests(ze, zf, digests);
+        Attributes bttrs = new Attributes();
 
         for (int i=0; i<digests.length; i++) {
-            attrs.putValue(digests[i].getAlgorithm()+"-Digest",
-                           base64Digests[i]);
+            bttrs.putVblue(digests[i].getAlgorithm()+"-Digest",
+                           bbse64Digests[i]);
         }
-        return attrs;
+        return bttrs;
     }
 
     /*
-     * Updates the digest attributes of a manifest entry, by adding or
-     * replacing digest values.
-     * A digest value is added if the manifest entry does not contain a digest
-     * for that particular algorithm.
-     * A digest value is replaced if it is obsolete.
+     * Updbtes the digest bttributes of b mbnifest entry, by bdding or
+     * replbcing digest vblues.
+     * A digest vblue is bdded if the mbnifest entry does not contbin b digest
+     * for thbt pbrticulbr blgorithm.
+     * A digest vblue is replbced if it is obsolete.
      *
-     * Returns true if the manifest entry has been changed, and false
+     * Returns true if the mbnifest entry hbs been chbnged, bnd fblse
      * otherwise.
      */
-    private boolean updateDigests(ZipEntry ze, ZipFile zf,
-                                  MessageDigest[] digests,
-                                  Manifest mf) throws IOException {
-        boolean update = false;
+    privbte boolebn updbteDigests(ZipEntry ze, ZipFile zf,
+                                  MessbgeDigest[] digests,
+                                  Mbnifest mf) throws IOException {
+        boolebn updbte = fblse;
 
-        Attributes attrs = mf.getAttributes(ze.getName());
-        String[] base64Digests = getDigests(ze, zf, digests);
+        Attributes bttrs = mf.getAttributes(ze.getNbme());
+        String[] bbse64Digests = getDigests(ze, zf, digests);
 
         for (int i=0; i<digests.length; i++) {
-            // The entry name to be written into attrs
-            String name = null;
+            // The entry nbme to be written into bttrs
+            String nbme = null;
             try {
-                // Find if the digest already exists
-                AlgorithmId aid = AlgorithmId.get(digests[i].getAlgorithm());
-                for (Object key: attrs.keySet()) {
-                    if (key instanceof Attributes.Name) {
-                        String n = ((Attributes.Name)key).toString();
-                        if (n.toUpperCase(Locale.ENGLISH).endsWith("-DIGEST")) {
+                // Find if the digest blrebdy exists
+                AlgorithmId bid = AlgorithmId.get(digests[i].getAlgorithm());
+                for (Object key: bttrs.keySet()) {
+                    if (key instbnceof Attributes.Nbme) {
+                        String n = ((Attributes.Nbme)key).toString();
+                        if (n.toUpperCbse(Locble.ENGLISH).endsWith("-DIGEST")) {
                             String tmp = n.substring(0, n.length() - 7);
-                            if (AlgorithmId.get(tmp).equals(aid)) {
-                                name = n;
-                                break;
+                            if (AlgorithmId.get(tmp).equbls(bid)) {
+                                nbme = n;
+                                brebk;
                             }
                         }
                     }
                 }
-            } catch (NoSuchAlgorithmException nsae) {
+            } cbtch (NoSuchAlgorithmException nsbe) {
                 // Ignored. Writing new digest entry.
             }
 
-            if (name == null) {
-                name = digests[i].getAlgorithm()+"-Digest";
-                attrs.putValue(name, base64Digests[i]);
-                update=true;
+            if (nbme == null) {
+                nbme = digests[i].getAlgorithm()+"-Digest";
+                bttrs.putVblue(nbme, bbse64Digests[i]);
+                updbte=true;
             } else {
-                // compare digests, and replace the one in the manifest
-                // if they are different
-                String mfDigest = attrs.getValue(name);
-                if (!mfDigest.equalsIgnoreCase(base64Digests[i])) {
-                    attrs.putValue(name, base64Digests[i]);
-                    update=true;
+                // compbre digests, bnd replbce the one in the mbnifest
+                // if they bre different
+                String mfDigest = bttrs.getVblue(nbme);
+                if (!mfDigest.equblsIgnoreCbse(bbse64Digests[i])) {
+                    bttrs.putVblue(nbme, bbse64Digests[i]);
+                    updbte=true;
                 }
             }
         }
-        return update;
+        return updbte;
     }
 
     /*
-     * Try to load the specified signing mechanism.
-     * The URL class loader is used.
+     * Try to lobd the specified signing mechbnism.
+     * The URL clbss lobder is used.
      */
-    private ContentSigner loadSigningMechanism(String signerClassName,
-        String signerClassPath) throws Exception {
+    privbte ContentSigner lobdSigningMechbnism(String signerClbssNbme,
+        String signerClbssPbth) throws Exception {
 
-        // construct class loader
-        String cpString = null;   // make sure env.class.path defaults to dot
+        // construct clbss lobder
+        String cpString = null;   // mbke sure env.clbss.pbth defbults to dot
 
         // do prepends to get correct ordering
-        cpString = PathList.appendPath(System.getProperty("env.class.path"), cpString);
-        cpString = PathList.appendPath(System.getProperty("java.class.path"), cpString);
-        cpString = PathList.appendPath(signerClassPath, cpString);
-        URL[] urls = PathList.pathToURLs(cpString);
-        ClassLoader appClassLoader = new URLClassLoader(urls);
+        cpString = PbthList.bppendPbth(System.getProperty("env.clbss.pbth"), cpString);
+        cpString = PbthList.bppendPbth(System.getProperty("jbvb.clbss.pbth"), cpString);
+        cpString = PbthList.bppendPbth(signerClbssPbth, cpString);
+        URL[] urls = PbthList.pbthToURLs(cpString);
+        ClbssLobder bppClbssLobder = new URLClbssLobder(urls);
 
-        // attempt to find signer
-        Class<?> signerClass = appClassLoader.loadClass(signerClassName);
+        // bttempt to find signer
+        Clbss<?> signerClbss = bppClbssLobder.lobdClbss(signerClbssNbme);
 
-        // Check that it implements ContentSigner
-        Object signer = signerClass.newInstance();
-        if (!(signer instanceof ContentSigner)) {
-            MessageFormat form = new MessageFormat(
-                rb.getString("signerClass.is.not.a.signing.mechanism"));
-            Object[] source = {signerClass.getName()};
-            throw new IllegalArgumentException(form.format(source));
+        // Check thbt it implements ContentSigner
+        Object signer = signerClbss.newInstbnce();
+        if (!(signer instbnceof ContentSigner)) {
+            MessbgeFormbt form = new MessbgeFormbt(
+                rb.getString("signerClbss.is.not.b.signing.mechbnism"));
+            Object[] source = {signerClbss.getNbme()};
+            throw new IllegblArgumentException(form.formbt(source));
         }
         return (ContentSigner)signer;
     }
 }
 
-class SignatureFile {
+clbss SignbtureFile {
 
-    /** SignatureFile */
-    Manifest sf;
+    /** SignbtureFile */
+    Mbnifest sf;
 
-    /** .SF base name */
-    String baseName;
+    /** .SF bbse nbme */
+    String bbseNbme;
 
-    public SignatureFile(MessageDigest digests[],
-                         Manifest mf,
-                         ManifestDigester md,
-                         String baseName,
-                         boolean signManifest)
+    public SignbtureFile(MessbgeDigest digests[],
+                         Mbnifest mf,
+                         MbnifestDigester md,
+                         String bbseNbme,
+                         boolebn signMbnifest)
 
     {
-        this.baseName = baseName;
+        this.bbseNbme = bbseNbme;
 
-        String version = System.getProperty("java.version");
-        String javaVendor = System.getProperty("java.vendor");
+        String version = System.getProperty("jbvb.version");
+        String jbvbVendor = System.getProperty("jbvb.vendor");
 
-        sf = new Manifest();
-        Attributes mattr = sf.getMainAttributes();
+        sf = new Mbnifest();
+        Attributes mbttr = sf.getMbinAttributes();
 
-        mattr.putValue(Attributes.Name.SIGNATURE_VERSION.toString(), "1.0");
-        mattr.putValue("Created-By", version + " (" + javaVendor + ")");
+        mbttr.putVblue(Attributes.Nbme.SIGNATURE_VERSION.toString(), "1.0");
+        mbttr.putVblue("Crebted-By", version + " (" + jbvbVendor + ")");
 
-        if (signManifest) {
-            // sign the whole manifest
+        if (signMbnifest) {
+            // sign the whole mbnifest
             for (int i=0; i < digests.length; i++) {
-                mattr.putValue(digests[i].getAlgorithm()+"-Digest-Manifest",
-                               Base64.getEncoder().encodeToString(md.manifestDigest(digests[i])));
+                mbttr.putVblue(digests[i].getAlgorithm()+"-Digest-Mbnifest",
+                               Bbse64.getEncoder().encodeToString(md.mbnifestDigest(digests[i])));
             }
         }
 
-        // create digest of the manifest main attributes
-        ManifestDigester.Entry mde =
-                md.get(ManifestDigester.MF_MAIN_ATTRS, false);
+        // crebte digest of the mbnifest mbin bttributes
+        MbnifestDigester.Entry mde =
+                md.get(MbnifestDigester.MF_MAIN_ATTRS, fblse);
         if (mde != null) {
             for (int i=0; i < digests.length; i++) {
-                mattr.putValue(digests[i].getAlgorithm() +
-                        "-Digest-" + ManifestDigester.MF_MAIN_ATTRS,
-                        Base64.getEncoder().encodeToString(mde.digest(digests[i])));
+                mbttr.putVblue(digests[i].getAlgorithm() +
+                        "-Digest-" + MbnifestDigester.MF_MAIN_ATTRS,
+                        Bbse64.getEncoder().encodeToString(mde.digest(digests[i])));
             }
         } else {
-            throw new IllegalStateException
-                ("ManifestDigester failed to create " +
-                "Manifest-Main-Attribute entry");
+            throw new IllegblStbteException
+                ("MbnifestDigester fbiled to crebte " +
+                "Mbnifest-Mbin-Attribute entry");
         }
 
-        /* go through the manifest entries and create the digests */
+        /* go through the mbnifest entries bnd crebte the digests */
 
-        Map<String,Attributes> entries = sf.getEntries();
-        Iterator<Map.Entry<String,Attributes>> mit =
-                                mf.getEntries().entrySet().iterator();
-        while(mit.hasNext()) {
-            Map.Entry<String,Attributes> e = mit.next();
-            String name = e.getKey();
-            mde = md.get(name, false);
+        Mbp<String,Attributes> entries = sf.getEntries();
+        Iterbtor<Mbp.Entry<String,Attributes>> mit =
+                                mf.getEntries().entrySet().iterbtor();
+        while(mit.hbsNext()) {
+            Mbp.Entry<String,Attributes> e = mit.next();
+            String nbme = e.getKey();
+            mde = md.get(nbme, fblse);
             if (mde != null) {
-                Attributes attr = new Attributes();
+                Attributes bttr = new Attributes();
                 for (int i=0; i < digests.length; i++) {
-                    attr.putValue(digests[i].getAlgorithm()+"-Digest",
-                                  Base64.getEncoder().encodeToString(mde.digest(digests[i])));
+                    bttr.putVblue(digests[i].getAlgorithm()+"-Digest",
+                                  Bbse64.getEncoder().encodeToString(mde.digest(digests[i])));
                 }
-                entries.put(name, attr);
+                entries.put(nbme, bttr);
             }
         }
     }
 
     /**
-     * Writes the SignatureFile to the specified OutputStream.
+     * Writes the SignbtureFile to the specified OutputStrebm.
      *
-     * @param out the output stream
-     * @exception IOException if an I/O error has occurred
+     * @pbrbm out the output strebm
+     * @exception IOException if bn I/O error hbs occurred
      */
 
-    public void write(OutputStream out) throws IOException
+    public void write(OutputStrebm out) throws IOException
     {
         sf.write(out);
     }
 
     /**
-     * get .SF file name
+     * get .SF file nbme
      */
-    public String getMetaName()
+    public String getMetbNbme()
     {
-        return "META-INF/"+ baseName + ".SF";
+        return "META-INF/"+ bbseNbme + ".SF";
     }
 
     /**
-     * get base file name
+     * get bbse file nbme
      */
-    public String getBaseName()
+    public String getBbseNbme()
     {
-        return baseName;
+        return bbseNbme;
     }
 
     /*
-     * Generate a signed data block.
-     * If a URL or a certificate (containing a URL) for a Timestamping
-     * Authority is supplied then a signature timestamp is generated and
-     * inserted into the signed data block.
+     * Generbte b signed dbtb block.
+     * If b URL or b certificbte (contbining b URL) for b Timestbmping
+     * Authority is supplied then b signbture timestbmp is generbted bnd
+     * inserted into the signed dbtb block.
      *
-     * @param sigalg signature algorithm to use, or null to use default
-     * @param tsaUrl The location of the Timestamping Authority. If null
-     *               then no timestamp is requested.
-     * @param tsaCert The certificate for the Timestamping Authority. If null
-     *               then no timestamp is requested.
-     * @param signingMechanism The signing mechanism to use.
-     * @param args The command-line arguments to jarsigner.
-     * @param zipFile The original source Zip file.
+     * @pbrbm sigblg signbture blgorithm to use, or null to use defbult
+     * @pbrbm tsbUrl The locbtion of the Timestbmping Authority. If null
+     *               then no timestbmp is requested.
+     * @pbrbm tsbCert The certificbte for the Timestbmping Authority. If null
+     *               then no timestbmp is requested.
+     * @pbrbm signingMechbnism The signing mechbnism to use.
+     * @pbrbm brgs The commbnd-line brguments to jbrsigner.
+     * @pbrbm zipFile The originbl source Zip file.
      */
-    public Block generateBlock(PrivateKey privateKey,
-                               String sigalg,
-                               X509Certificate[] certChain,
-                               boolean externalSF, String tsaUrl,
-                               X509Certificate tsaCert,
+    public Block generbteBlock(PrivbteKey privbteKey,
+                               String sigblg,
+                               X509Certificbte[] certChbin,
+                               boolebn externblSF, String tsbUrl,
+                               X509Certificbte tsbCert,
                                String tSAPolicyID,
                                String tSADigestAlg,
-                               ContentSigner signingMechanism,
-                               String[] args, ZipFile zipFile)
-        throws NoSuchAlgorithmException, InvalidKeyException, IOException,
-            SignatureException, CertificateException
+                               ContentSigner signingMechbnism,
+                               String[] brgs, ZipFile zipFile)
+        throws NoSuchAlgorithmException, InvblidKeyException, IOException,
+            SignbtureException, CertificbteException
     {
-        return new Block(this, privateKey, sigalg, certChain, externalSF,
-                tsaUrl, tsaCert, tSAPolicyID, tSADigestAlg, signingMechanism, args, zipFile);
+        return new Block(this, privbteKey, sigblg, certChbin, externblSF,
+                tsbUrl, tsbCert, tSAPolicyID, tSADigestAlg, signingMechbnism, brgs, zipFile);
     }
 
 
-    public static class Block {
+    public stbtic clbss Block {
 
-        private byte[] block;
-        private String blockFileName;
+        privbte byte[] block;
+        privbte String blockFileNbme;
 
         /*
-         * Construct a new signature block.
+         * Construct b new signbture block.
          */
-        Block(SignatureFile sfg, PrivateKey privateKey, String sigalg,
-            X509Certificate[] certChain, boolean externalSF, String tsaUrl,
-            X509Certificate tsaCert, String tSAPolicyID, String tSADigestAlg,
-            ContentSigner signingMechanism, String[] args, ZipFile zipFile)
-            throws NoSuchAlgorithmException, InvalidKeyException, IOException,
-            SignatureException, CertificateException {
+        Block(SignbtureFile sfg, PrivbteKey privbteKey, String sigblg,
+            X509Certificbte[] certChbin, boolebn externblSF, String tsbUrl,
+            X509Certificbte tsbCert, String tSAPolicyID, String tSADigestAlg,
+            ContentSigner signingMechbnism, String[] brgs, ZipFile zipFile)
+            throws NoSuchAlgorithmException, InvblidKeyException, IOException,
+            SignbtureException, CertificbteException {
 
-            Principal issuerName = certChain[0].getIssuerDN();
-            if (!(issuerName instanceof X500Name)) {
-                // must extract the original encoded form of DN for subsequent
-                // name comparison checks (converting to a String and back to
-                // an encoded DN could cause the types of String attribute
-                // values to be changed)
+            Principbl issuerNbme = certChbin[0].getIssuerDN();
+            if (!(issuerNbme instbnceof X500Nbme)) {
+                // must extrbct the originbl encoded form of DN for subsequent
+                // nbme compbrison checks (converting to b String bnd bbck to
+                // bn encoded DN could cbuse the types of String bttribute
+                // vblues to be chbnged)
                 X509CertInfo tbsCert = new
-                    X509CertInfo(certChain[0].getTBSCertificate());
-                issuerName = (Principal)
+                    X509CertInfo(certChbin[0].getTBSCertificbte());
+                issuerNbme = (Principbl)
                     tbsCert.get(X509CertInfo.ISSUER + "." +
                                 X509CertInfo.DN_NAME);
                 }
-            BigInteger serial = certChain[0].getSerialNumber();
+            BigInteger seribl = certChbin[0].getSeriblNumber();
 
-            String signatureAlgorithm;
-            String keyAlgorithm = privateKey.getAlgorithm();
+            String signbtureAlgorithm;
+            String keyAlgorithm = privbteKey.getAlgorithm();
             /*
-             * If no signature algorithm was specified, we choose a
-             * default that is compatible with the private key algorithm.
+             * If no signbture blgorithm wbs specified, we choose b
+             * defbult thbt is compbtible with the privbte key blgorithm.
              */
-            if (sigalg == null) {
+            if (sigblg == null) {
 
-                if (keyAlgorithm.equalsIgnoreCase("DSA"))
-                    signatureAlgorithm = "SHA1withDSA";
-                else if (keyAlgorithm.equalsIgnoreCase("RSA"))
-                    signatureAlgorithm = "SHA256withRSA";
-                else if (keyAlgorithm.equalsIgnoreCase("EC"))
-                    signatureAlgorithm = "SHA256withECDSA";
+                if (keyAlgorithm.equblsIgnoreCbse("DSA"))
+                    signbtureAlgorithm = "SHA1withDSA";
+                else if (keyAlgorithm.equblsIgnoreCbse("RSA"))
+                    signbtureAlgorithm = "SHA256withRSA";
+                else if (keyAlgorithm.equblsIgnoreCbse("EC"))
+                    signbtureAlgorithm = "SHA256withECDSA";
                 else
-                    throw new RuntimeException("private key is not a DSA or "
+                    throw new RuntimeException("privbte key is not b DSA or "
                                                + "RSA key");
             } else {
-                signatureAlgorithm = sigalg;
+                signbtureAlgorithm = sigblg;
             }
 
-            // check common invalid key/signature algorithm combinations
-            String sigAlgUpperCase = signatureAlgorithm.toUpperCase(Locale.ENGLISH);
-            if ((sigAlgUpperCase.endsWith("WITHRSA") &&
-                !keyAlgorithm.equalsIgnoreCase("RSA")) ||
-                (sigAlgUpperCase.endsWith("WITHECDSA") &&
-                !keyAlgorithm.equalsIgnoreCase("EC")) ||
-                (sigAlgUpperCase.endsWith("WITHDSA") &&
-                !keyAlgorithm.equalsIgnoreCase("DSA"))) {
-                throw new SignatureException
-                    ("private key algorithm is not compatible with signature algorithm");
+            // check common invblid key/signbture blgorithm combinbtions
+            String sigAlgUpperCbse = signbtureAlgorithm.toUpperCbse(Locble.ENGLISH);
+            if ((sigAlgUpperCbse.endsWith("WITHRSA") &&
+                !keyAlgorithm.equblsIgnoreCbse("RSA")) ||
+                (sigAlgUpperCbse.endsWith("WITHECDSA") &&
+                !keyAlgorithm.equblsIgnoreCbse("EC")) ||
+                (sigAlgUpperCbse.endsWith("WITHDSA") &&
+                !keyAlgorithm.equblsIgnoreCbse("DSA"))) {
+                throw new SignbtureException
+                    ("privbte key blgorithm is not compbtible with signbture blgorithm");
             }
 
-            blockFileName = "META-INF/"+sfg.getBaseName()+"."+keyAlgorithm;
+            blockFileNbme = "META-INF/"+sfg.getBbseNbme()+"."+keyAlgorithm;
 
-            AlgorithmId sigAlg = AlgorithmId.get(signatureAlgorithm);
+            AlgorithmId sigAlg = AlgorithmId.get(signbtureAlgorithm);
             AlgorithmId digEncrAlg = AlgorithmId.get(keyAlgorithm);
 
-            Signature sig = Signature.getInstance(signatureAlgorithm);
-            sig.initSign(privateKey);
+            Signbture sig = Signbture.getInstbnce(signbtureAlgorithm);
+            sig.initSign(privbteKey);
 
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            sfg.write(baos);
+            ByteArrbyOutputStrebm bbos = new ByteArrbyOutputStrebm();
+            sfg.write(bbos);
 
-            byte[] content = baos.toByteArray();
+            byte[] content = bbos.toByteArrby();
 
-            sig.update(content);
-            byte[] signature = sig.sign();
+            sig.updbte(content);
+            byte[] signbture = sig.sign();
 
-            // Timestamp the signature and generate the signature block file
-            if (signingMechanism == null) {
-                signingMechanism = new TimestampedSigner();
+            // Timestbmp the signbture bnd generbte the signbture block file
+            if (signingMechbnism == null) {
+                signingMechbnism = new TimestbmpedSigner();
             }
-            URI tsaUri = null;
+            URI tsbUri = null;
             try {
-                if (tsaUrl != null) {
-                    tsaUri = new URI(tsaUrl);
+                if (tsbUrl != null) {
+                    tsbUri = new URI(tsbUrl);
                 }
-            } catch (URISyntaxException e) {
+            } cbtch (URISyntbxException e) {
                 throw new IOException(e);
             }
 
-            // Assemble parameters for the signing mechanism
-            ContentSignerParameters params =
-                new JarSignerParameters(args, tsaUri, tsaCert, tSAPolicyID,
-                        tSADigestAlg, signature,
-                    signatureAlgorithm, certChain, content, zipFile);
+            // Assemble pbrbmeters for the signing mechbnism
+            ContentSignerPbrbmeters pbrbms =
+                new JbrSignerPbrbmeters(brgs, tsbUri, tsbCert, tSAPolicyID,
+                        tSADigestAlg, signbture,
+                    signbtureAlgorithm, certChbin, content, zipFile);
 
-            // Generate the signature block
-            block = signingMechanism.generateSignedData(
-                    params, externalSF, (tsaUrl != null || tsaCert != null));
+            // Generbte the signbture block
+            block = signingMechbnism.generbteSignedDbtb(
+                    pbrbms, externblSF, (tsbUrl != null || tsbCert != null));
         }
 
         /*
-         * get block file name.
+         * get block file nbme.
          */
-        public String getMetaName()
+        public String getMetbNbme()
         {
-            return blockFileName;
+            return blockFileNbme;
         }
 
         /**
-         * Writes the block file to the specified OutputStream.
+         * Writes the block file to the specified OutputStrebm.
          *
-         * @param out the output stream
-         * @exception IOException if an I/O error has occurred
+         * @pbrbm out the output strebm
+         * @exception IOException if bn I/O error hbs occurred
          */
 
-        public void write(OutputStream out) throws IOException
+        public void write(OutputStrebm out) throws IOException
         {
             out.write(block);
         }
@@ -2446,71 +2446,71 @@ class SignatureFile {
 
 
 /*
- * This object encapsulates the parameters used to perform content signing.
+ * This object encbpsulbtes the pbrbmeters used to perform content signing.
  */
-class JarSignerParameters implements ContentSignerParameters {
+clbss JbrSignerPbrbmeters implements ContentSignerPbrbmeters {
 
-    private String[] args;
-    private URI tsa;
-    private X509Certificate tsaCertificate;
-    private byte[] signature;
-    private String signatureAlgorithm;
-    private X509Certificate[] signerCertificateChain;
-    private byte[] content;
-    private ZipFile source;
-    private String tSAPolicyID;
-    private String tSADigestAlg;
+    privbte String[] brgs;
+    privbte URI tsb;
+    privbte X509Certificbte tsbCertificbte;
+    privbte byte[] signbture;
+    privbte String signbtureAlgorithm;
+    privbte X509Certificbte[] signerCertificbteChbin;
+    privbte byte[] content;
+    privbte ZipFile source;
+    privbte String tSAPolicyID;
+    privbte String tSADigestAlg;
 
     /**
-     * Create a new object.
+     * Crebte b new object.
      */
-    JarSignerParameters(String[] args, URI tsa, X509Certificate tsaCertificate,
+    JbrSignerPbrbmeters(String[] brgs, URI tsb, X509Certificbte tsbCertificbte,
         String tSAPolicyID, String tSADigestAlg,
-        byte[] signature, String signatureAlgorithm,
-        X509Certificate[] signerCertificateChain, byte[] content,
+        byte[] signbture, String signbtureAlgorithm,
+        X509Certificbte[] signerCertificbteChbin, byte[] content,
         ZipFile source) {
 
-        if (signature == null || signatureAlgorithm == null ||
-            signerCertificateChain == null || tSADigestAlg == null) {
+        if (signbture == null || signbtureAlgorithm == null ||
+            signerCertificbteChbin == null || tSADigestAlg == null) {
             throw new NullPointerException();
         }
-        this.args = args;
-        this.tsa = tsa;
-        this.tsaCertificate = tsaCertificate;
+        this.brgs = brgs;
+        this.tsb = tsb;
+        this.tsbCertificbte = tsbCertificbte;
         this.tSAPolicyID = tSAPolicyID;
         this.tSADigestAlg = tSADigestAlg;
-        this.signature = signature;
-        this.signatureAlgorithm = signatureAlgorithm;
-        this.signerCertificateChain = signerCertificateChain;
+        this.signbture = signbture;
+        this.signbtureAlgorithm = signbtureAlgorithm;
+        this.signerCertificbteChbin = signerCertificbteChbin;
         this.content = content;
         this.source = source;
     }
 
     /**
-     * Retrieves the command-line arguments.
+     * Retrieves the commbnd-line brguments.
      *
-     * @return The command-line arguments. May be null.
+     * @return The commbnd-line brguments. Mby be null.
      */
-    public String[] getCommandLine() {
-        return args;
+    public String[] getCommbndLine() {
+        return brgs;
     }
 
     /**
-     * Retrieves the identifier for a Timestamping Authority (TSA).
+     * Retrieves the identifier for b Timestbmping Authority (TSA).
      *
-     * @return The TSA identifier. May be null.
+     * @return The TSA identifier. Mby be null.
      */
-    public URI getTimestampingAuthority() {
-        return tsa;
+    public URI getTimestbmpingAuthority() {
+        return tsb;
     }
 
     /**
-     * Retrieves the certificate for a Timestamping Authority (TSA).
+     * Retrieves the certificbte for b Timestbmping Authority (TSA).
      *
-     * @return The TSA certificate. May be null.
+     * @return The TSA certificbte. Mby be null.
      */
-    public X509Certificate getTimestampingAuthorityCertificate() {
-        return tsaCertificate;
+    public X509Certificbte getTimestbmpingAuthorityCertificbte() {
+        return tsbCertificbte;
     }
 
     public String getTSAPolicyID() {
@@ -2522,45 +2522,45 @@ class JarSignerParameters implements ContentSignerParameters {
     }
 
     /**
-     * Retrieves the signature.
+     * Retrieves the signbture.
      *
-     * @return The non-null signature bytes.
+     * @return The non-null signbture bytes.
      */
-    public byte[] getSignature() {
-        return signature;
+    public byte[] getSignbture() {
+        return signbture;
     }
 
     /**
-     * Retrieves the name of the signature algorithm.
+     * Retrieves the nbme of the signbture blgorithm.
      *
-     * @return The non-null string name of the signature algorithm.
+     * @return The non-null string nbme of the signbture blgorithm.
      */
-    public String getSignatureAlgorithm() {
-        return signatureAlgorithm;
+    public String getSignbtureAlgorithm() {
+        return signbtureAlgorithm;
     }
 
     /**
-     * Retrieves the signer's X.509 certificate chain.
+     * Retrieves the signer's X.509 certificbte chbin.
      *
-     * @return The non-null array of X.509 public-key certificates.
+     * @return The non-null brrby of X.509 public-key certificbtes.
      */
-    public X509Certificate[] getSignerCertificateChain() {
-        return signerCertificateChain;
+    public X509Certificbte[] getSignerCertificbteChbin() {
+        return signerCertificbteChbin;
     }
 
     /**
-     * Retrieves the content that was signed.
+     * Retrieves the content thbt wbs signed.
      *
-     * @return The content bytes. May be null.
+     * @return The content bytes. Mby be null.
      */
     public byte[] getContent() {
         return content;
     }
 
     /**
-     * Retrieves the original source ZIP file before it was signed.
+     * Retrieves the originbl source ZIP file before it wbs signed.
      *
-     * @return The original ZIP file. May be null.
+     * @return The originbl ZIP file. Mby be null.
      */
     public ZipFile getSource() {
         return source;

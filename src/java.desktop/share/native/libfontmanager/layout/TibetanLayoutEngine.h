@@ -1,24 +1,24 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  *
  */
@@ -27,14 +27,14 @@
  *
  * (C) Copyright IBM Corp. 1998-2010 - All Rights Reserved
  *
- * Developed at DIT - Government of Bhutan
+ * Developed bt DIT - Government of Bhutbn
  *
- * Contact person: Pema Geyleg - <pema_geyleg@druknet.bt>
+ * Contbct person: Pemb Geyleg - <pemb_geyleg@druknet.bt>
  *
- * This file is a modification of the ICU file KhmerReordering.cpp
- * by Jens Herden and Javier Sola who have given all their possible rights to IBM and the Governement of Bhutan
- * A first module for Dzongkha was developed by Karunakar under Panlocalisation funding.
- * Assistance for this module has been received from Namgay Thinley, Christopher Fynn and Javier Sola
+ * This file is b modificbtion of the ICU file KhmerReordering.cpp
+ * by Jens Herden bnd Jbvier Solb who hbve given bll their possible rights to IBM bnd the Governement of Bhutbn
+ * A first module for Dzongkhb wbs developed by Kbrunbkbr under Pbnlocblisbtion funding.
+ * Assistbnce for this module hbs been received from Nbmgby Thinley, Christopher Fynn bnd Jbvier Solb
  *
  */
 
@@ -42,112 +42,112 @@
 #define __TIBETANLAYOUTENGINE_H
 
 // #include "LETypes.h"
-// #include "LEFontInstance.h"
+// #include "LEFontInstbnce.h"
 // #include "LEGlyphFilter.h"
-// #include "LayoutEngine.h"
-// #include "OpenTypeLayoutEngine.h"
+// #include "LbyoutEngine.h"
+// #include "OpenTypeLbyoutEngine.h"
 
-// #include "GlyphSubstitutionTables.h"
-// #include "GlyphDefinitionTables.h"
-// #include "GlyphPositioningTables.h"
+// #include "GlyphSubstitutionTbbles.h"
+// #include "GlyphDefinitionTbbles.h"
+// #include "GlyphPositioningTbbles.h"
 
 U_NAMESPACE_BEGIN
 
-// class MPreFixups;
-// class LEGlyphStorage;
+// clbss MPreFixups;
+// clbss LEGlyphStorbge;
 
 /**
- * This class implements OpenType layout for Dzongkha and Tibetan OpenType fonts
+ * This clbss implements OpenType lbyout for Dzongkhb bnd Tibetbn OpenType fonts
  *
- * @internal
+ * @internbl
  */
-class TibetanOpenTypeLayoutEngine : public OpenTypeLayoutEngine
+clbss TibetbnOpenTypeLbyoutEngine : public OpenTypeLbyoutEngine
 {
 public:
     /**
-     * This is the main constructor. It constructs an instance of TibetanOpenTypeLayoutEngine for
-     * a particular font, script and language. It takes the GSUB table as a parameter since
-     * LayoutEngine::layoutEngineFactory has to read the GSUB table to know that it has an
-     * Tibetan OpenType font.
+     * This is the mbin constructor. It constructs bn instbnce of TibetbnOpenTypeLbyoutEngine for
+     * b pbrticulbr font, script bnd lbngubge. It tbkes the GSUB tbble bs b pbrbmeter since
+     * LbyoutEngine::lbyoutEngineFbctory hbs to rebd the GSUB tbble to know thbt it hbs bn
+     * Tibetbn OpenType font.
      *
-     * @param fontInstance - the font
-     * @param scriptCode - the script
-     * @param langaugeCode - the language
-     * @param gsubTable - the GSUB table
-     * @param success - set to an error code if the operation fails
+     * @pbrbm fontInstbnce - the font
+     * @pbrbm scriptCode - the script
+     * @pbrbm lbngbugeCode - the lbngubge
+     * @pbrbm gsubTbble - the GSUB tbble
+     * @pbrbm success - set to bn error code if the operbtion fbils
      *
-     * @see LayoutEngine::layoutEngineFactory
-     * @see OpenTypeLayoutEngine
-     * @see ScriptAndLangaugeTags.h for script and language codes
+     * @see LbyoutEngine::lbyoutEngineFbctory
+     * @see OpenTypeLbyoutEngine
+     * @see ScriptAndLbngbugeTbgs.h for script bnd lbngubge codes
      *
-     * @internal
+     * @internbl
      */
-    TibetanOpenTypeLayoutEngine(const LEFontInstance *fontInstance, le_int32 scriptCode, le_int32 languageCode,
-                            le_int32 typoFlags, const LEReferenceTo<GlyphSubstitutionTableHeader> &gsubTable, LEErrorCode &success);
+    TibetbnOpenTypeLbyoutEngine(const LEFontInstbnce *fontInstbnce, le_int32 scriptCode, le_int32 lbngubgeCode,
+                            le_int32 typoFlbgs, const LEReferenceTo<GlyphSubstitutionTbbleHebder> &gsubTbble, LEErrorCode &success);
 
     /**
-     * This constructor is used when the font requires a "canned" GSUB table which can't be known
-     * until after this constructor has been invoked.
+     * This constructor is used when the font requires b "cbnned" GSUB tbble which cbn't be known
+     * until bfter this constructor hbs been invoked.
      *
-     * @param fontInstance - the font
-     * @param scriptCode - the script
-     * @param langaugeCode - the language
-     * @param success - set to an error code if the operation fails
+     * @pbrbm fontInstbnce - the font
+     * @pbrbm scriptCode - the script
+     * @pbrbm lbngbugeCode - the lbngubge
+     * @pbrbm success - set to bn error code if the operbtion fbils
      *
-     * @see OpenTypeLayoutEngine
-     * @see ScriptAndLangaugeTags.h for script and language codes
+     * @see OpenTypeLbyoutEngine
+     * @see ScriptAndLbngbugeTbgs.h for script bnd lbngubge codes
      *
-     * @internal
+     * @internbl
      */
-    TibetanOpenTypeLayoutEngine(const LEFontInstance *fontInstance, le_int32 scriptCode, le_int32 languageCode,
-                                le_int32 typoFlags, LEErrorCode &success);
+    TibetbnOpenTypeLbyoutEngine(const LEFontInstbnce *fontInstbnce, le_int32 scriptCode, le_int32 lbngubgeCode,
+                                le_int32 typoFlbgs, LEErrorCode &success);
 
     /**
-     * The destructor, virtual for correct polymorphic invocation.
+     * The destructor, virtubl for correct polymorphic invocbtion.
      *
-     * @internal
+     * @internbl
      */
-   virtual ~TibetanOpenTypeLayoutEngine();
+   virtubl ~TibetbnOpenTypeLbyoutEngine();
 
     /**
-     * ICU "poor man's RTTI", returns a UClassID for the actual class.
+     * ICU "poor mbn's RTTI", returns b UClbssID for the bctubl clbss.
      *
-     * @internal ICU 3.6
+     * @internbl ICU 3.6
      */
-    virtual UClassID getDynamicClassID() const;
+    virtubl UClbssID getDynbmicClbssID() const;
 
     /**
-     * ICU "poor man's RTTI", returns a UClassID for this class.
+     * ICU "poor mbn's RTTI", returns b UClbssID for this clbss.
      *
-     * @internal ICU 3.6
+     * @internbl ICU 3.6
      */
-    static UClassID getStaticClassID();
+    stbtic UClbssID getStbticClbssID();
 
 protected:
 
     /**
-     * This method does Tibetan OpenType character processing. It assigns the OpenType feature
-     * tags to the characters, and may generate output characters which have been reordered.
-     * It may also split some vowels, resulting in more output characters than input characters.
+     * This method does Tibetbn OpenType chbrbcter processing. It bssigns the OpenType febture
+     * tbgs to the chbrbcters, bnd mby generbte output chbrbcters which hbve been reordered.
+     * It mby blso split some vowels, resulting in more output chbrbcters thbn input chbrbcters.
      *
-     * Input parameters:
-     * @param chars - the input character context
-     * @param offset - the index of the first character to process
-     * @param count - the number of characters to process
-     * @param max - the number of characters in the input context
-     * @param rightToLeft - <code>TRUE</code> if the characters are in a right to left directional run
-     * @param glyphStorage - the glyph storage object. The glyph and character index arrays will be set.
-     *                       the auxillary data array will be set to the feature tags.
+     * Input pbrbmeters:
+     * @pbrbm chbrs - the input chbrbcter context
+     * @pbrbm offset - the index of the first chbrbcter to process
+     * @pbrbm count - the number of chbrbcters to process
+     * @pbrbm mbx - the number of chbrbcters in the input context
+     * @pbrbm rightToLeft - <code>TRUE</code> if the chbrbcters bre in b right to left directionbl run
+     * @pbrbm glyphStorbge - the glyph storbge object. The glyph bnd chbrbcter index brrbys will be set.
+     *                       the buxillbry dbtb brrby will be set to the febture tbgs.
      *
-     * Output parameters:
-     * @param success - set to an error code if the operation fails
+     * Output pbrbmeters:
+     * @pbrbm success - set to bn error code if the operbtion fbils
      *
-     * @return the output character count
+     * @return the output chbrbcter count
      *
-     * @internal
+     * @internbl
      */
-    virtual le_int32 characterProcessing(const LEUnicode chars[], le_int32 offset, le_int32 count, le_int32 max, le_bool rightToLeft,
-            LEUnicode *&outChars, LEGlyphStorage &glyphStorage, LEErrorCode &success);
+    virtubl le_int32 chbrbcterProcessing(const LEUnicode chbrs[], le_int32 offset, le_int32 count, le_int32 mbx, le_bool rightToLeft,
+            LEUnicode *&outChbrs, LEGlyphStorbge &glyphStorbge, LEErrorCode &success);
 
 };
 

@@ -1,217 +1,217 @@
 /*
- * Copyright (c) 2008, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2009, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.nio.fs;
+pbckbge sun.nio.fs;
 
-import java.util.regex.PatternSyntaxException;
+import jbvb.util.regex.PbtternSyntbxException;
 
-public class Globs {
-    private Globs() { }
+public clbss Globs {
+    privbte Globs() { }
 
-    private static final String regexMetaChars = ".^$+{[]|()";
-    private static final String globMetaChars = "\\*?[{";
+    privbte stbtic finbl String regexMetbChbrs = ".^$+{[]|()";
+    privbte stbtic finbl String globMetbChbrs = "\\*?[{";
 
-    private static boolean isRegexMeta(char c) {
-        return regexMetaChars.indexOf(c) != -1;
+    privbte stbtic boolebn isRegexMetb(chbr c) {
+        return regexMetbChbrs.indexOf(c) != -1;
     }
 
-    private static boolean isGlobMeta(char c) {
-        return globMetaChars.indexOf(c) != -1;
+    privbte stbtic boolebn isGlobMetb(chbr c) {
+        return globMetbChbrs.indexOf(c) != -1;
     }
-    private static char EOL = 0;  //TBD
+    privbte stbtic chbr EOL = 0;  //TBD
 
-    private static char next(String glob, int i) {
+    privbte stbtic chbr next(String glob, int i) {
         if (i < glob.length()) {
-            return glob.charAt(i);
+            return glob.chbrAt(i);
         }
         return EOL;
     }
 
     /**
-     * Creates a regex pattern from the given glob expression.
+     * Crebtes b regex pbttern from the given glob expression.
      *
-     * @throws  PatternSyntaxException
+     * @throws  PbtternSyntbxException
      */
-    private static String toRegexPattern(String globPattern, boolean isDos) {
-        boolean inGroup = false;
+    privbte stbtic String toRegexPbttern(String globPbttern, boolebn isDos) {
+        boolebn inGroup = fblse;
         StringBuilder regex = new StringBuilder("^");
 
         int i = 0;
-        while (i < globPattern.length()) {
-            char c = globPattern.charAt(i++);
+        while (i < globPbttern.length()) {
+            chbr c = globPbttern.chbrAt(i++);
             switch (c) {
-                case '\\':
-                    // escape special characters
-                    if (i == globPattern.length()) {
-                        throw new PatternSyntaxException("No character to escape",
-                                globPattern, i - 1);
+                cbse '\\':
+                    // escbpe specibl chbrbcters
+                    if (i == globPbttern.length()) {
+                        throw new PbtternSyntbxException("No chbrbcter to escbpe",
+                                globPbttern, i - 1);
                     }
-                    char next = globPattern.charAt(i++);
-                    if (isGlobMeta(next) || isRegexMeta(next)) {
-                        regex.append('\\');
+                    chbr next = globPbttern.chbrAt(i++);
+                    if (isGlobMetb(next) || isRegexMetb(next)) {
+                        regex.bppend('\\');
                     }
-                    regex.append(next);
-                    break;
-                case '/':
+                    regex.bppend(next);
+                    brebk;
+                cbse '/':
                     if (isDos) {
-                        regex.append("\\\\");
+                        regex.bppend("\\\\");
                     } else {
-                        regex.append(c);
+                        regex.bppend(c);
                     }
-                    break;
-                case '[':
-                    // don't match name separator in class
+                    brebk;
+                cbse '[':
+                    // don't mbtch nbme sepbrbtor in clbss
                     if (isDos) {
-                        regex.append("[[^\\\\]&&[");
+                        regex.bppend("[[^\\\\]&&[");
                     } else {
-                        regex.append("[[^/]&&[");
+                        regex.bppend("[[^/]&&[");
                     }
-                    if (next(globPattern, i) == '^') {
-                        // escape the regex negation char if it appears
-                        regex.append("\\^");
+                    if (next(globPbttern, i) == '^') {
+                        // escbpe the regex negbtion chbr if it bppebrs
+                        regex.bppend("\\^");
                         i++;
                     } else {
-                        // negation
-                        if (next(globPattern, i) == '!') {
-                            regex.append('^');
+                        // negbtion
+                        if (next(globPbttern, i) == '!') {
+                            regex.bppend('^');
                             i++;
                         }
-                        // hyphen allowed at start
-                        if (next(globPattern, i) == '-') {
-                            regex.append('-');
+                        // hyphen bllowed bt stbrt
+                        if (next(globPbttern, i) == '-') {
+                            regex.bppend('-');
                             i++;
                         }
                     }
-                    boolean hasRangeStart = false;
-                    char last = 0;
-                    while (i < globPattern.length()) {
-                        c = globPattern.charAt(i++);
+                    boolebn hbsRbngeStbrt = fblse;
+                    chbr lbst = 0;
+                    while (i < globPbttern.length()) {
+                        c = globPbttern.chbrAt(i++);
                         if (c == ']') {
-                            break;
+                            brebk;
                         }
                         if (c == '/' || (isDos && c == '\\')) {
-                            throw new PatternSyntaxException("Explicit 'name separator' in class",
-                                    globPattern, i - 1);
+                            throw new PbtternSyntbxException("Explicit 'nbme sepbrbtor' in clbss",
+                                    globPbttern, i - 1);
                         }
-                        // TBD: how to specify ']' in a class?
+                        // TBD: how to specify ']' in b clbss?
                         if (c == '\\' || c == '[' ||
-                                c == '&' && next(globPattern, i) == '&') {
-                            // escape '\', '[' or "&&" for regex class
-                            regex.append('\\');
+                                c == '&' && next(globPbttern, i) == '&') {
+                            // escbpe '\', '[' or "&&" for regex clbss
+                            regex.bppend('\\');
                         }
-                        regex.append(c);
+                        regex.bppend(c);
 
                         if (c == '-') {
-                            if (!hasRangeStart) {
-                                throw new PatternSyntaxException("Invalid range",
-                                        globPattern, i - 1);
+                            if (!hbsRbngeStbrt) {
+                                throw new PbtternSyntbxException("Invblid rbnge",
+                                        globPbttern, i - 1);
                             }
-                            if ((c = next(globPattern, i++)) == EOL || c == ']') {
-                                break;
+                            if ((c = next(globPbttern, i++)) == EOL || c == ']') {
+                                brebk;
                             }
-                            if (c < last) {
-                                throw new PatternSyntaxException("Invalid range",
-                                        globPattern, i - 3);
+                            if (c < lbst) {
+                                throw new PbtternSyntbxException("Invblid rbnge",
+                                        globPbttern, i - 3);
                             }
-                            regex.append(c);
-                            hasRangeStart = false;
+                            regex.bppend(c);
+                            hbsRbngeStbrt = fblse;
                         } else {
-                            hasRangeStart = true;
-                            last = c;
+                            hbsRbngeStbrt = true;
+                            lbst = c;
                         }
                     }
                     if (c != ']') {
-                        throw new PatternSyntaxException("Missing ']", globPattern, i - 1);
+                        throw new PbtternSyntbxException("Missing ']", globPbttern, i - 1);
                     }
-                    regex.append("]]");
-                    break;
-                case '{':
+                    regex.bppend("]]");
+                    brebk;
+                cbse '{':
                     if (inGroup) {
-                        throw new PatternSyntaxException("Cannot nest groups",
-                                globPattern, i - 1);
+                        throw new PbtternSyntbxException("Cbnnot nest groups",
+                                globPbttern, i - 1);
                     }
-                    regex.append("(?:(?:");
+                    regex.bppend("(?:(?:");
                     inGroup = true;
-                    break;
-                case '}':
+                    brebk;
+                cbse '}':
                     if (inGroup) {
-                        regex.append("))");
-                        inGroup = false;
+                        regex.bppend("))");
+                        inGroup = fblse;
                     } else {
-                        regex.append('}');
+                        regex.bppend('}');
                     }
-                    break;
-                case ',':
+                    brebk;
+                cbse ',':
                     if (inGroup) {
-                        regex.append(")|(?:");
+                        regex.bppend(")|(?:");
                     } else {
-                        regex.append(',');
+                        regex.bppend(',');
                     }
-                    break;
-                case '*':
-                    if (next(globPattern, i) == '*') {
-                        // crosses directory boundaries
-                        regex.append(".*");
+                    brebk;
+                cbse '*':
+                    if (next(globPbttern, i) == '*') {
+                        // crosses directory boundbries
+                        regex.bppend(".*");
                         i++;
                     } else {
-                        // within directory boundary
+                        // within directory boundbry
                         if (isDos) {
-                            regex.append("[^\\\\]*");
+                            regex.bppend("[^\\\\]*");
                         } else {
-                            regex.append("[^/]*");
+                            regex.bppend("[^/]*");
                         }
                     }
-                    break;
-                case '?':
+                    brebk;
+                cbse '?':
                    if (isDos) {
-                       regex.append("[^\\\\]");
+                       regex.bppend("[^\\\\]");
                    } else {
-                       regex.append("[^/]");
+                       regex.bppend("[^/]");
                    }
-                   break;
+                   brebk;
 
-                default:
-                    if (isRegexMeta(c)) {
-                        regex.append('\\');
+                defbult:
+                    if (isRegexMetb(c)) {
+                        regex.bppend('\\');
                     }
-                    regex.append(c);
+                    regex.bppend(c);
             }
         }
 
         if (inGroup) {
-            throw new PatternSyntaxException("Missing '}", globPattern, i - 1);
+            throw new PbtternSyntbxException("Missing '}", globPbttern, i - 1);
         }
 
-        return regex.append('$').toString();
+        return regex.bppend('$').toString();
     }
 
-    static String toUnixRegexPattern(String globPattern) {
-        return toRegexPattern(globPattern, false);
+    stbtic String toUnixRegexPbttern(String globPbttern) {
+        return toRegexPbttern(globPbttern, fblse);
     }
 
-    static String toWindowsRegexPattern(String globPattern) {
-        return toRegexPattern(globPattern, true);
+    stbtic String toWindowsRegexPbttern(String globPbttern) {
+        return toRegexPbttern(globPbttern, true);
     }
 }

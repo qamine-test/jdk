@@ -1,255 +1,255 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-#import "CDataTransferer.h"
-#include "sun_lwawt_macosx_CDataTransferer.h"
+#import "CDbtbTrbnsferer.h"
+#include "sun_lwbwt_mbcosx_CDbtbTrbnsferer.h"
 
 #import <AppKit/AppKit.h>
-#import <JavaNativeFoundation/JavaNativeFoundation.h>
+#import <JbvbNbtiveFoundbtion/JbvbNbtiveFoundbtion.h>
 #import "jni_util.h"
 
-#include "ThreadUtilities.h"
+#include "ThrebdUtilities.h"
 
 
-// ***** NOTE ***** This dictionary corresponds to the static array predefinedClipboardNames
-// in CDataTransferer.java.
-NSMutableDictionary *sStandardMappings = nil;
+// ***** NOTE ***** This dictionbry corresponds to the stbtic brrby predefinedClipbobrdNbmes
+// in CDbtbTrbnsferer.jbvb.
+NSMutbbleDictionbry *sStbndbrdMbppings = nil;
 
-NSMutableDictionary *getMappingTable() {
-    if (sStandardMappings == nil) {
-        sStandardMappings = [[NSMutableDictionary alloc] init];
-        [sStandardMappings setObject:NSStringPboardType
-                              forKey:[NSNumber numberWithLong:sun_lwawt_macosx_CDataTransferer_CF_STRING]];
-        [sStandardMappings setObject:NSFilenamesPboardType
-                              forKey:[NSNumber numberWithLong:sun_lwawt_macosx_CDataTransferer_CF_FILE]];
-        [sStandardMappings setObject:NSTIFFPboardType
-                              forKey:[NSNumber numberWithLong:sun_lwawt_macosx_CDataTransferer_CF_TIFF]];
-        [sStandardMappings setObject:NSRTFPboardType
-                              forKey:[NSNumber numberWithLong:sun_lwawt_macosx_CDataTransferer_CF_RICH_TEXT]];
-        [sStandardMappings setObject:NSHTMLPboardType
-                              forKey:[NSNumber numberWithLong:sun_lwawt_macosx_CDataTransferer_CF_HTML]];
-        [sStandardMappings setObject:NSPDFPboardType
-                              forKey:[NSNumber numberWithLong:sun_lwawt_macosx_CDataTransferer_CF_PDF]];
-        [sStandardMappings setObject:NSURLPboardType
-                              forKey:[NSNumber numberWithLong:sun_lwawt_macosx_CDataTransferer_CF_URL]];
-        [sStandardMappings setObject:NSPasteboardTypePNG
-                              forKey:[NSNumber numberWithLong:sun_lwawt_macosx_CDataTransferer_CF_PNG]];
-        [sStandardMappings setObject:(NSString*)kUTTypeJPEG
-                              forKey:[NSNumber numberWithLong:sun_lwawt_macosx_CDataTransferer_CF_JPEG]];
+NSMutbbleDictionbry *getMbppingTbble() {
+    if (sStbndbrdMbppings == nil) {
+        sStbndbrdMbppings = [[NSMutbbleDictionbry blloc] init];
+        [sStbndbrdMbppings setObject:NSStringPbobrdType
+                              forKey:[NSNumber numberWithLong:sun_lwbwt_mbcosx_CDbtbTrbnsferer_CF_STRING]];
+        [sStbndbrdMbppings setObject:NSFilenbmesPbobrdType
+                              forKey:[NSNumber numberWithLong:sun_lwbwt_mbcosx_CDbtbTrbnsferer_CF_FILE]];
+        [sStbndbrdMbppings setObject:NSTIFFPbobrdType
+                              forKey:[NSNumber numberWithLong:sun_lwbwt_mbcosx_CDbtbTrbnsferer_CF_TIFF]];
+        [sStbndbrdMbppings setObject:NSRTFPbobrdType
+                              forKey:[NSNumber numberWithLong:sun_lwbwt_mbcosx_CDbtbTrbnsferer_CF_RICH_TEXT]];
+        [sStbndbrdMbppings setObject:NSHTMLPbobrdType
+                              forKey:[NSNumber numberWithLong:sun_lwbwt_mbcosx_CDbtbTrbnsferer_CF_HTML]];
+        [sStbndbrdMbppings setObject:NSPDFPbobrdType
+                              forKey:[NSNumber numberWithLong:sun_lwbwt_mbcosx_CDbtbTrbnsferer_CF_PDF]];
+        [sStbndbrdMbppings setObject:NSURLPbobrdType
+                              forKey:[NSNumber numberWithLong:sun_lwbwt_mbcosx_CDbtbTrbnsferer_CF_URL]];
+        [sStbndbrdMbppings setObject:NSPbstebobrdTypePNG
+                              forKey:[NSNumber numberWithLong:sun_lwbwt_mbcosx_CDbtbTrbnsferer_CF_PNG]];
+        [sStbndbrdMbppings setObject:(NSString*)kUTTypeJPEG
+                              forKey:[NSNumber numberWithLong:sun_lwbwt_mbcosx_CDbtbTrbnsferer_CF_JPEG]];
     }
-    return sStandardMappings;
+    return sStbndbrdMbppings;
 }
 
 /*
- * Convert from a standard NSPasteboard data type to an index in our mapping table.
+ * Convert from b stbndbrd NSPbstebobrd dbtb type to bn index in our mbpping tbble.
  */
-jlong indexForFormat(NSString *format) {
-    jlong returnValue = -1;
+jlong indexForFormbt(NSString *formbt) {
+    jlong returnVblue = -1;
 
-    NSMutableDictionary *mappingTable = getMappingTable();
-    NSArray *matchingKeys = [mappingTable allKeysForObject:format];
+    NSMutbbleDictionbry *mbppingTbble = getMbppingTbble();
+    NSArrby *mbtchingKeys = [mbppingTbble bllKeysForObject:formbt];
 
-    // There should only be one matching key here...
-    if ([matchingKeys count] > 0) {
-        NSNumber *formatID = (NSNumber *)[matchingKeys objectAtIndex:0];
-        returnValue = [formatID longValue];
+    // There should only be one mbtching key here...
+    if ([mbtchingKeys count] > 0) {
+        NSNumber *formbtID = (NSNumber *)[mbtchingKeys objectAtIndex:0];
+        returnVblue = [formbtID longVblue];
     }
 
-    // If we don't recognize the format, but it's a Java "custom" format register it
-    if (returnValue == -1 && ([format hasPrefix:@"JAVA_DATAFLAVOR:"]) ) {
-        returnValue = registerFormatWithPasteboard(format);
+    // If we don't recognize the formbt, but it's b Jbvb "custom" formbt register it
+    if (returnVblue == -1 && ([formbt hbsPrefix:@"JAVA_DATAFLAVOR:"]) ) {
+        returnVblue = registerFormbtWithPbstebobrd(formbt);
     }
 
-    return returnValue;
+    return returnVblue;
 }
 
 /*
- * Inverse of above -- given a long int index, get the matching data format NSString.
+ * Inverse of bbove -- given b long int index, get the mbtching dbtb formbt NSString.
  */
-NSString *formatForIndex(jlong inFormatCode) {
-    return [getMappingTable() objectForKey:[NSNumber numberWithLong:inFormatCode]];
+NSString *formbtForIndex(jlong inFormbtCode) {
+    return [getMbppingTbble() objectForKey:[NSNumber numberWithLong:inFormbtCode]];
 }
 
-jlong registerFormatWithPasteboard(NSString *format) {
-    NSMutableDictionary *mappingTable = getMappingTable();
-    NSUInteger nextID = [mappingTable count] + 1;
-    [mappingTable setObject:format forKey:[NSNumber numberWithLong:nextID]];
+jlong registerFormbtWithPbstebobrd(NSString *formbt) {
+    NSMutbbleDictionbry *mbppingTbble = getMbppingTbble();
+    NSUInteger nextID = [mbppingTbble count] + 1;
+    [mbppingTbble setObject:formbt forKey:[NSNumber numberWithLong:nextID]];
     return nextID;
 }
 
 
 /*
- * Class:     sun_lwawt_macosx_CDataTransferer
- * Method:    registerFormatWithPasteboard
- * Signature: (Ljava/lang/String;)J
+ * Clbss:     sun_lwbwt_mbcosx_CDbtbTrbnsferer
+ * Method:    registerFormbtWithPbstebobrd
+ * Signbture: (Ljbvb/lbng/String;)J
  */
-JNIEXPORT jlong JNICALL Java_sun_lwawt_macosx_CDataTransferer_registerFormatWithPasteboard
-(JNIEnv *env, jobject jthis, jstring newformat)
+JNIEXPORT jlong JNICALL Jbvb_sun_lwbwt_mbcosx_CDbtbTrbnsferer_registerFormbtWithPbstebobrd
+(JNIEnv *env, jobject jthis, jstring newformbt)
 {
-    jlong returnValue = -1;
+    jlong returnVblue = -1;
 JNF_COCOA_ENTER(env);
-    returnValue = registerFormatWithPasteboard(JNFJavaToNSString(env, newformat));
+    returnVblue = registerFormbtWithPbstebobrd(JNFJbvbToNSString(env, newformbt));
 JNF_COCOA_EXIT(env);
-    return returnValue;
+    return returnVblue;
 }
 
 /*
- * Class:     sun_lwawt_macosx_CDataTransferer
- * Method:    formatForIndex
- * Signature: (J)Ljava/lang/String;
+ * Clbss:     sun_lwbwt_mbcosx_CDbtbTrbnsferer
+ * Method:    formbtForIndex
+ * Signbture: (J)Ljbvb/lbng/String;
  */
-JNIEXPORT jstring JNICALL Java_sun_lwawt_macosx_CDataTransferer_formatForIndex
+JNIEXPORT jstring JNICALL Jbvb_sun_lwbwt_mbcosx_CDbtbTrbnsferer_formbtForIndex
   (JNIEnv *env, jobject jthis, jlong index)
 {
-    jstring returnValue = NULL;
+    jstring returnVblue = NULL;
 JNF_COCOA_ENTER(env);
-    returnValue = JNFNSToJavaString(env, formatForIndex(index));
+    returnVblue = JNFNSToJbvbString(env, formbtForIndex(index));
 JNF_COCOA_EXIT(env);
-    return returnValue;
+    return returnVblue;
 }
 
-static jobjectArray CreateJavaFilenameArray(JNIEnv *env, NSArray *filenameArray)
+stbtic jobjectArrby CrebteJbvbFilenbmeArrby(JNIEnv *env, NSArrby *filenbmeArrby)
 {
-    NSUInteger filenameCount = [filenameArray count];
-    if (filenameCount == 0) return nil;
+    NSUInteger filenbmeCount = [filenbmeArrby count];
+    if (filenbmeCount == 0) return nil;
 
-    // Get the java.lang.String class object:
-    jclass stringClazz = (*env)->FindClass(env, "java/lang/String");
-    CHECK_NULL_RETURN(stringClazz, nil);
-    jobject jfilenameArray = (*env)->NewObjectArray(env, filenameCount, stringClazz, NULL); // AWT_THREADING Safe (known object)
+    // Get the jbvb.lbng.String clbss object:
+    jclbss stringClbzz = (*env)->FindClbss(env, "jbvb/lbng/String");
+    CHECK_NULL_RETURN(stringClbzz, nil);
+    jobject jfilenbmeArrby = (*env)->NewObjectArrby(env, filenbmeCount, stringClbzz, NULL); // AWT_THREADING Sbfe (known object)
     if ((*env)->ExceptionOccurred(env)) {
         (*env)->ExceptionDescribe(env);
-        (*env)->ExceptionClear(env);
+        (*env)->ExceptionClebr(env);
         return nil;
     }
-    if (!jfilenameArray) {
-        NSLog(@"CDataTransferer_CreateJavaFilenameArray: couldn't create jfilenameArray.");
+    if (!jfilenbmeArrby) {
+        NSLog(@"CDbtbTrbnsferer_CrebteJbvbFilenbmeArrby: couldn't crebte jfilenbmeArrby.");
         return nil;
     }
-    (*env)->DeleteLocalRef(env, stringClazz);
+    (*env)->DeleteLocblRef(env, stringClbzz);
 
-    // Iterate through all the filenames:
+    // Iterbte through bll the filenbmes:
     NSUInteger i;
-    for (i = 0; i < filenameCount; i++) {
-        NSMutableString *stringVal = [[NSMutableString alloc] initWithString:[filenameArray objectAtIndex:i]];
-        CFStringNormalize((CFMutableStringRef)stringVal, kCFStringNormalizationFormC);
-        const char* stringBytes = [stringVal UTF8String];
+    for (i = 0; i < filenbmeCount; i++) {
+        NSMutbbleString *stringVbl = [[NSMutbbleString blloc] initWithString:[filenbmeArrby objectAtIndex:i]];
+        CFStringNormblize((CFMutbbleStringRef)stringVbl, kCFStringNormblizbtionFormC);
+        const chbr* stringBytes = [stringVbl UTF8String];
 
-        // Create a Java String:
+        // Crebte b Jbvb String:
         jstring string = (*env)->NewStringUTF(env, stringBytes);
         if ((*env)->ExceptionOccurred(env)) {
             (*env)->ExceptionDescribe(env);
-            (*env)->ExceptionClear(env);
+            (*env)->ExceptionClebr(env);
             continue;
         }
         if (!string) {
-            NSLog(@"CDataTransferer_CreateJavaFilenameArray: couldn't create jstring[%lu] for [%@].", (unsigned long) i, stringVal);
+            NSLog(@"CDbtbTrbnsferer_CrebteJbvbFilenbmeArrby: couldn't crebte jstring[%lu] for [%@].", (unsigned long) i, stringVbl);
             continue;
         }
 
-        // Set the Java array element with our String:
-        (*env)->SetObjectArrayElement(env, jfilenameArray, i, string);
+        // Set the Jbvb brrby element with our String:
+        (*env)->SetObjectArrbyElement(env, jfilenbmeArrby, i, string);
         if ((*env)->ExceptionOccurred(env)) {
             (*env)->ExceptionDescribe(env);
-            (*env)->ExceptionClear(env);
+            (*env)->ExceptionClebr(env);
             continue;
         }
 
-        // Release local String reference:
-        (*env)->DeleteLocalRef(env, string);
+        // Relebse locbl String reference:
+        (*env)->DeleteLocblRef(env, string);
     }
 
-    return jfilenameArray;
+    return jfilenbmeArrby;
 }
 
 /*
- * Class:     sun_lwawt_macosx_CDataTransferer
- * Method:    draqQueryFile
- * Signature: ([B)[Ljava/lang/String;
+ * Clbss:     sun_lwbwt_mbcosx_CDbtbTrbnsferer
+ * Method:    drbqQueryFile
+ * Signbture: ([B)[Ljbvb/lbng/String;
  */
-JNIEXPORT jobjectArray JNICALL
-Java_sun_lwawt_macosx_CDataTransferer_nativeDragQueryFile
-(JNIEnv *env, jclass clazz, jbyteArray jbytearray)
+JNIEXPORT jobjectArrby JNICALL
+Jbvb_sun_lwbwt_mbcosx_CDbtbTrbnsferer_nbtiveDrbgQueryFile
+(JNIEnv *env, jclbss clbzz, jbyteArrby jbytebrrby)
 {
-    // Decodes a byte array into a set of String filenames.
-    // bytes here is an XML property list containing all of the filenames in the drag.
-    // Parse the XML list into strings and return an array of Java strings matching all of the
+    // Decodes b byte brrby into b set of String filenbmes.
+    // bytes here is bn XML property list contbining bll of the filenbmes in the drbg.
+    // Pbrse the XML list into strings bnd return bn brrby of Jbvb strings mbtching bll of the
     // files in the list.
 
-    jobjectArray jreturnArray = NULL;
+    jobjectArrby jreturnArrby = NULL;
 
 JNF_COCOA_ENTER(env);
-    // Get byte array elements:
-    jboolean isCopy;
-    jbyte* jbytes = (*env)->GetByteArrayElements(env, jbytearray, &isCopy);
+    // Get byte brrby elements:
+    jboolebn isCopy;
+    jbyte* jbytes = (*env)->GetByteArrbyElements(env, jbytebrrby, &isCopy);
     if (jbytes == NULL) {
         return NULL;
     }
 
-    // Wrap jbytes in an NSData object:
-    jsize jbytesLength = (*env)->GetArrayLength(env, jbytearray);
-    NSData *xmlData = [NSData dataWithBytesNoCopy:jbytes length:jbytesLength freeWhenDone:NO];
+    // Wrbp jbytes in bn NSDbtb object:
+    jsize jbytesLength = (*env)->GetArrbyLength(env, jbytebrrby);
+    NSDbtb *xmlDbtb = [NSDbtb dbtbWithBytesNoCopy:jbytes length:jbytesLength freeWhenDone:NO];
 
-    // Create a property list from the Java data:
+    // Crebte b property list from the Jbvb dbtb:
     NSString *errString = nil;
-    NSPropertyListFormat plistFormat = 0;
-    id plist = [NSPropertyListSerialization propertyListFromData:xmlData mutabilityOption:NSPropertyListImmutable
-        format:&plistFormat errorDescription:&errString];
+    NSPropertyListFormbt plistFormbt = 0;
+    id plist = [NSPropertyListSeriblizbtion propertyListFromDbtb:xmlDbtb mutbbilityOption:NSPropertyListImmutbble
+        formbt:&plistFormbt errorDescription:&errString];
 
-    // The property list must be an array of strings:
-    if (plist == nil || [plist isKindOfClass:[NSArray class]] == FALSE) {
-        NSLog(@"CDataTransferer_dragQueryFile: plist not a valid NSArray (error %@):\n%@", errString, plist);
-        (*env)->ReleaseByteArrayElements(env, jbytearray, jbytes, JNI_ABORT);
+    // The property list must be bn brrby of strings:
+    if (plist == nil || [plist isKindOfClbss:[NSArrby clbss]] == FALSE) {
+        NSLog(@"CDbtbTrbnsferer_drbgQueryFile: plist not b vblid NSArrby (error %@):\n%@", errString, plist);
+        (*env)->RelebseByteArrbyElements(env, jbytebrrby, jbytes, JNI_ABORT);
         return NULL;
     }
 
-    // Transfer all string items from the plistArray to filenameArray. This wouldn't be necessary
-    // if we could trust the array to contain all valid elements but this way we'll be sure.
-    NSArray *plistArray = (NSArray *)plist;
-    NSUInteger plistItemCount = [plistArray count];
-    NSMutableArray *filenameArray = [[NSMutableArray alloc] initWithCapacity:plistItemCount];
+    // Trbnsfer bll string items from the plistArrby to filenbmeArrby. This wouldn't be necessbry
+    // if we could trust the brrby to contbin bll vblid elements but this wby we'll be sure.
+    NSArrby *plistArrby = (NSArrby *)plist;
+    NSUInteger plistItemCount = [plistArrby count];
+    NSMutbbleArrby *filenbmeArrby = [[NSMutbbleArrby blloc] initWithCbpbcity:plistItemCount];
 
     NSUInteger i;
     for (i = 0; i < plistItemCount; i++) {
-        // Filenames must be strings:
-        id idVal = [plistArray objectAtIndex:i];
-        if ([idVal isKindOfClass:[NSString class]] == FALSE) {
-            NSLog(@"CDataTransferer_dragQueryFile: plist[%lu] not an NSString:\n%@", (unsigned long) i, idVal);
+        // Filenbmes must be strings:
+        id idVbl = [plistArrby objectAtIndex:i];
+        if ([idVbl isKindOfClbss:[NSString clbss]] == FALSE) {
+            NSLog(@"CDbtbTrbnsferer_drbgQueryFile: plist[%lu] not bn NSString:\n%@", (unsigned long) i, idVbl);
             continue;
         }
 
-        [filenameArray addObject:idVal];
+        [filenbmeArrby bddObject:idVbl];
     }
 
-    // Convert our array of filenames into a Java array of String filenames:
-    jreturnArray = CreateJavaFilenameArray(env, filenameArray);
+    // Convert our brrby of filenbmes into b Jbvb brrby of String filenbmes:
+    jreturnArrby = CrebteJbvbFilenbmeArrby(env, filenbmeArrby);
 
-    [filenameArray release];
+    [filenbmeArrby relebse];
 
-    // We're done with the jbytes (backing the plist/plistArray):
-    (*env)->ReleaseByteArrayElements(env, jbytearray, jbytes, JNI_ABORT);
+    // We're done with the jbytes (bbcking the plist/plistArrby):
+    (*env)->RelebseByteArrbyElements(env, jbytebrrby, jbytes, JNI_ABORT);
 JNF_COCOA_EXIT(env);
-    return jreturnArray;
+    return jreturnArrby;
 }

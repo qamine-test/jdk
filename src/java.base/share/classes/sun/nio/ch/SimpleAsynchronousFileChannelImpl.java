@@ -1,100 +1,100 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.nio.ch;
+pbckbge sun.nio.ch;
 
-import java.nio.channels.*;
-import java.util.concurrent.*;
-import java.nio.ByteBuffer;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.io.FileDescriptor;
-import java.io.IOException;
+import jbvb.nio.chbnnels.*;
+import jbvb.util.concurrent.*;
+import jbvb.nio.ByteBuffer;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import jbvb.io.FileDescriptor;
+import jbvb.io.IOException;
 
 /**
- * "Portable" implementation of AsynchronousFileChannel for use on operating
- * systems that don't support asynchronous file I/O.
+ * "Portbble" implementbtion of AsynchronousFileChbnnel for use on operbting
+ * systems thbt don't support bsynchronous file I/O.
  */
 
-public class SimpleAsynchronousFileChannelImpl
-    extends AsynchronousFileChannelImpl
+public clbss SimpleAsynchronousFileChbnnelImpl
+    extends AsynchronousFileChbnnelImpl
 {
-    // lazy initialization of default thread pool for file I/O
-    private static class DefaultExecutorHolder {
-        static final ExecutorService defaultExecutor =
-            ThreadPool.createDefault().executor();
+    // lbzy initiblizbtion of defbult threbd pool for file I/O
+    privbte stbtic clbss DefbultExecutorHolder {
+        stbtic finbl ExecutorService defbultExecutor =
+            ThrebdPool.crebteDefbult().executor();
     }
 
-    // Used to make native read and write calls
-    private static final FileDispatcher nd = new FileDispatcherImpl();
+    // Used to mbke nbtive rebd bnd write cblls
+    privbte stbtic finbl FileDispbtcher nd = new FileDispbtcherImpl();
 
-    // Thread-safe set of IDs of native threads, for signalling
-    private final NativeThreadSet threads = new NativeThreadSet(2);
+    // Threbd-sbfe set of IDs of nbtive threbds, for signblling
+    privbte finbl NbtiveThrebdSet threbds = new NbtiveThrebdSet(2);
 
 
-    SimpleAsynchronousFileChannelImpl(FileDescriptor fdObj,
-                                      boolean reading,
-                                      boolean writing,
+    SimpleAsynchronousFileChbnnelImpl(FileDescriptor fdObj,
+                                      boolebn rebding,
+                                      boolebn writing,
                                       ExecutorService executor)
     {
-        super(fdObj, reading, writing, executor);
+        super(fdObj, rebding, writing, executor);
     }
 
-    public static AsynchronousFileChannel open(FileDescriptor fdo,
-                                               boolean reading,
-                                               boolean writing,
-                                               ThreadPool pool)
+    public stbtic AsynchronousFileChbnnel open(FileDescriptor fdo,
+                                               boolebn rebding,
+                                               boolebn writing,
+                                               ThrebdPool pool)
     {
-        // Executor is either default or based on pool parameters
+        // Executor is either defbult or bbsed on pool pbrbmeters
         ExecutorService executor = (pool == null) ?
-            DefaultExecutorHolder.defaultExecutor : pool.executor();
-        return new SimpleAsynchronousFileChannelImpl(fdo, reading, writing, executor);
+            DefbultExecutorHolder.defbultExecutor : pool.executor();
+        return new SimpleAsynchronousFileChbnnelImpl(fdo, rebding, writing, executor);
     }
 
     @Override
     public void close() throws IOException {
-        // mark channel as closed
+        // mbrk chbnnel bs closed
         synchronized (fdObj) {
             if (closed)
-                return;     // already closed
+                return;     // blrebdy closed
             closed = true;
-            // from this point on, if another thread invokes the begin() method
-            // then it will throw ClosedChannelException
+            // from this point on, if bnother threbd invokes the begin() method
+            // then it will throw ClosedChbnnelException
         }
 
-        // Invalidate and release any locks that we still hold
-        invalidateAllLocks();
+        // Invblidbte bnd relebse bny locks thbt we still hold
+        invblidbteAllLocks();
 
-        // signal any threads blocked on this channel
-        threads.signalAndWait();
+        // signbl bny threbds blocked on this chbnnel
+        threbds.signblAndWbit();
 
-        // wait until all async I/O operations have completely gracefully
+        // wbit until bll bsync I/O operbtions hbve completely grbcefully
         closeLock.writeLock().lock();
         try {
             // do nothing
-        } finally {
+        } finblly {
             closeLock.writeLock().unlock();
         }
 
@@ -104,293 +104,293 @@ public class SimpleAsynchronousFileChannelImpl
 
     @Override
     public long size() throws IOException {
-        int ti = threads.add();
+        int ti = threbds.bdd();
         try {
             long n = 0L;
             try {
                 begin();
                 do {
                     n = nd.size(fdObj);
-                } while ((n == IOStatus.INTERRUPTED) && isOpen());
+                } while ((n == IOStbtus.INTERRUPTED) && isOpen());
                 return n;
-            } finally {
+            } finblly {
                 end(n >= 0L);
             }
-        } finally {
-            threads.remove(ti);
+        } finblly {
+            threbds.remove(ti);
         }
     }
 
     @Override
-    public AsynchronousFileChannel truncate(long size) throws IOException {
+    public AsynchronousFileChbnnel truncbte(long size) throws IOException {
         if (size < 0L)
-            throw new IllegalArgumentException("Negative size");
+            throw new IllegblArgumentException("Negbtive size");
         if (!writing)
-            throw new NonWritableChannelException();
-        int ti = threads.add();
+            throw new NonWritbbleChbnnelException();
+        int ti = threbds.bdd();
         try {
             long n = 0L;
             try {
                 begin();
                 do {
                     n = nd.size(fdObj);
-                } while ((n == IOStatus.INTERRUPTED) && isOpen());
+                } while ((n == IOStbtus.INTERRUPTED) && isOpen());
 
-                // truncate file if 'size' less than current size
+                // truncbte file if 'size' less thbn current size
                 if (size < n && isOpen()) {
                     do {
-                        n = nd.truncate(fdObj, size);
-                    } while ((n == IOStatus.INTERRUPTED) && isOpen());
+                        n = nd.truncbte(fdObj, size);
+                    } while ((n == IOStbtus.INTERRUPTED) && isOpen());
                 }
                 return this;
-            } finally {
+            } finblly {
                 end(n > 0);
             }
-        } finally {
-            threads.remove(ti);
+        } finblly {
+            threbds.remove(ti);
         }
     }
 
     @Override
-    public void force(boolean metaData) throws IOException {
-        int ti = threads.add();
+    public void force(boolebn metbDbtb) throws IOException {
+        int ti = threbds.bdd();
         try {
             int n = 0;
             try {
                 begin();
                 do {
-                    n = nd.force(fdObj, metaData);
-                } while ((n == IOStatus.INTERRUPTED) && isOpen());
-            } finally {
+                    n = nd.force(fdObj, metbDbtb);
+                } while ((n == IOStbtus.INTERRUPTED) && isOpen());
+            } finblly {
                 end(n >= 0);
             }
-        } finally {
-            threads.remove(ti);
+        } finblly {
+            threbds.remove(ti);
         }
     }
 
     @Override
-    <A> Future<FileLock> implLock(final long position,
-                                  final long size,
-                                  final boolean shared,
-                                  final A attachment,
-                                  final CompletionHandler<FileLock,? super A> handler)
+    <A> Future<FileLock> implLock(finbl long position,
+                                  finbl long size,
+                                  finbl boolebn shbred,
+                                  finbl A bttbchment,
+                                  finbl CompletionHbndler<FileLock,? super A> hbndler)
     {
-        if (shared && !reading)
-            throw new NonReadableChannelException();
-        if (!shared && !writing)
-            throw new NonWritableChannelException();
+        if (shbred && !rebding)
+            throw new NonRebdbbleChbnnelException();
+        if (!shbred && !writing)
+            throw new NonWritbbleChbnnelException();
 
-        // add to lock table
-        final FileLockImpl fli = addToFileLockTable(position, size, shared);
+        // bdd to lock tbble
+        finbl FileLockImpl fli = bddToFileLockTbble(position, size, shbred);
         if (fli == null) {
-            Throwable exc = new ClosedChannelException();
-            if (handler == null)
-                return CompletedFuture.withFailure(exc);
-            Invoker.invokeIndirectly(handler, attachment, null, exc, executor);
+            Throwbble exc = new ClosedChbnnelException();
+            if (hbndler == null)
+                return CompletedFuture.withFbilure(exc);
+            Invoker.invokeIndirectly(hbndler, bttbchment, null, exc, executor);
             return null;
         }
 
-        final PendingFuture<FileLock,A> result = (handler == null) ?
+        finbl PendingFuture<FileLock,A> result = (hbndler == null) ?
             new PendingFuture<FileLock,A>(this) : null;
-        Runnable task = new Runnable() {
+        Runnbble tbsk = new Runnbble() {
             public void run() {
-                Throwable exc = null;
+                Throwbble exc = null;
 
-                int ti = threads.add();
+                int ti = threbds.bdd();
                 try {
                     int n;
                     try {
                         begin();
                         do {
-                            n = nd.lock(fdObj, true, position, size, shared);
-                        } while ((n == FileDispatcher.INTERRUPTED) && isOpen());
-                        if (n != FileDispatcher.LOCKED || !isOpen()) {
+                            n = nd.lock(fdObj, true, position, size, shbred);
+                        } while ((n == FileDispbtcher.INTERRUPTED) && isOpen());
+                        if (n != FileDispbtcher.LOCKED || !isOpen()) {
                             throw new AsynchronousCloseException();
                         }
-                    } catch (IOException x) {
-                        removeFromFileLockTable(fli);
+                    } cbtch (IOException x) {
+                        removeFromFileLockTbble(fli);
                         if (!isOpen())
                             x = new AsynchronousCloseException();
                         exc = x;
-                    } finally {
+                    } finblly {
                         end();
                     }
-                } finally {
-                    threads.remove(ti);
+                } finblly {
+                    threbds.remove(ti);
                 }
-                if (handler == null) {
+                if (hbndler == null) {
                     result.setResult(fli, exc);
                 } else {
-                    Invoker.invokeUnchecked(handler, attachment, fli, exc);
+                    Invoker.invokeUnchecked(hbndler, bttbchment, fli, exc);
                 }
             }
         };
-        boolean executed = false;
+        boolebn executed = fblse;
         try {
-            executor.execute(task);
+            executor.execute(tbsk);
             executed = true;
-        } finally {
+        } finblly {
             if (!executed) {
-                // rollback
-                removeFromFileLockTable(fli);
+                // rollbbck
+                removeFromFileLockTbble(fli);
             }
         }
         return result;
     }
 
     @Override
-    public FileLock tryLock(long position, long size, boolean shared)
+    public FileLock tryLock(long position, long size, boolebn shbred)
         throws IOException
     {
-        if (shared && !reading)
-            throw new NonReadableChannelException();
-        if (!shared && !writing)
-            throw new NonWritableChannelException();
+        if (shbred && !rebding)
+            throw new NonRebdbbleChbnnelException();
+        if (!shbred && !writing)
+            throw new NonWritbbleChbnnelException();
 
-        // add to lock table
-        FileLockImpl fli = addToFileLockTable(position, size, shared);
+        // bdd to lock tbble
+        FileLockImpl fli = bddToFileLockTbble(position, size, shbred);
         if (fli == null)
-            throw new ClosedChannelException();
+            throw new ClosedChbnnelException();
 
-        int ti = threads.add();
-        boolean gotLock = false;
+        int ti = threbds.bdd();
+        boolebn gotLock = fblse;
         try {
             begin();
             int n;
             do {
-                n = nd.lock(fdObj, false, position, size, shared);
-            } while ((n == FileDispatcher.INTERRUPTED) && isOpen());
-            if (n == FileDispatcher.LOCKED && isOpen()) {
+                n = nd.lock(fdObj, fblse, position, size, shbred);
+            } while ((n == FileDispbtcher.INTERRUPTED) && isOpen());
+            if (n == FileDispbtcher.LOCKED && isOpen()) {
                 gotLock = true;
-                return fli;    // lock acquired
+                return fli;    // lock bcquired
             }
-            if (n == FileDispatcher.NO_LOCK)
+            if (n == FileDispbtcher.NO_LOCK)
                 return null;    // locked by someone else
-            if (n == FileDispatcher.INTERRUPTED)
+            if (n == FileDispbtcher.INTERRUPTED)
                 throw new AsynchronousCloseException();
             // should not get here
             throw new AssertionError();
-        } finally {
+        } finblly {
             if (!gotLock)
-                removeFromFileLockTable(fli);
+                removeFromFileLockTbble(fli);
             end();
-            threads.remove(ti);
+            threbds.remove(ti);
         }
     }
 
     @Override
-    protected void implRelease(FileLockImpl fli) throws IOException {
-        nd.release(fdObj, fli.position(), fli.size());
+    protected void implRelebse(FileLockImpl fli) throws IOException {
+        nd.relebse(fdObj, fli.position(), fli.size());
     }
 
     @Override
-    <A> Future<Integer> implRead(final ByteBuffer dst,
-                                 final long position,
-                                 final A attachment,
-                                 final CompletionHandler<Integer,? super A> handler)
+    <A> Future<Integer> implRebd(finbl ByteBuffer dst,
+                                 finbl long position,
+                                 finbl A bttbchment,
+                                 finbl CompletionHbndler<Integer,? super A> hbndler)
     {
         if (position < 0)
-            throw new IllegalArgumentException("Negative position");
-        if (!reading)
-            throw new NonReadableChannelException();
-        if (dst.isReadOnly())
-            throw new IllegalArgumentException("Read-only buffer");
+            throw new IllegblArgumentException("Negbtive position");
+        if (!rebding)
+            throw new NonRebdbbleChbnnelException();
+        if (dst.isRebdOnly())
+            throw new IllegblArgumentException("Rebd-only buffer");
 
-        // complete immediately if channel closed or no space remaining
-        if (!isOpen() || (dst.remaining() == 0)) {
-            Throwable exc = (isOpen()) ? null : new ClosedChannelException();
-            if (handler == null)
+        // complete immedibtely if chbnnel closed or no spbce rembining
+        if (!isOpen() || (dst.rembining() == 0)) {
+            Throwbble exc = (isOpen()) ? null : new ClosedChbnnelException();
+            if (hbndler == null)
                 return CompletedFuture.withResult(0, exc);
-            Invoker.invokeIndirectly(handler, attachment, 0, exc, executor);
+            Invoker.invokeIndirectly(hbndler, bttbchment, 0, exc, executor);
             return null;
         }
 
-        final PendingFuture<Integer,A> result = (handler == null) ?
+        finbl PendingFuture<Integer,A> result = (hbndler == null) ?
             new PendingFuture<Integer,A>(this) : null;
-        Runnable task = new Runnable() {
+        Runnbble tbsk = new Runnbble() {
             public void run() {
                 int n = 0;
-                Throwable exc = null;
+                Throwbble exc = null;
 
-                int ti = threads.add();
+                int ti = threbds.bdd();
                 try {
                     begin();
                     do {
-                        n = IOUtil.read(fdObj, dst, position, nd);
-                    } while ((n == IOStatus.INTERRUPTED) && isOpen());
+                        n = IOUtil.rebd(fdObj, dst, position, nd);
+                    } while ((n == IOStbtus.INTERRUPTED) && isOpen());
                     if (n < 0 && !isOpen())
                         throw new AsynchronousCloseException();
-                } catch (IOException x) {
+                } cbtch (IOException x) {
                     if (!isOpen())
                         x = new AsynchronousCloseException();
                     exc = x;
-                } finally {
+                } finblly {
                     end();
-                    threads.remove(ti);
+                    threbds.remove(ti);
                 }
-                if (handler == null) {
+                if (hbndler == null) {
                     result.setResult(n, exc);
                 } else {
-                    Invoker.invokeUnchecked(handler, attachment, n, exc);
+                    Invoker.invokeUnchecked(hbndler, bttbchment, n, exc);
                 }
             }
         };
-        executor.execute(task);
+        executor.execute(tbsk);
         return result;
     }
 
     @Override
-    <A> Future<Integer> implWrite(final ByteBuffer src,
-                                  final long position,
-                                  final A attachment,
-                                  final CompletionHandler<Integer,? super A> handler)
+    <A> Future<Integer> implWrite(finbl ByteBuffer src,
+                                  finbl long position,
+                                  finbl A bttbchment,
+                                  finbl CompletionHbndler<Integer,? super A> hbndler)
     {
         if (position < 0)
-            throw new IllegalArgumentException("Negative position");
+            throw new IllegblArgumentException("Negbtive position");
         if (!writing)
-            throw new NonWritableChannelException();
+            throw new NonWritbbleChbnnelException();
 
-        // complete immediately if channel is closed or no bytes remaining
-        if (!isOpen() || (src.remaining() == 0)) {
-            Throwable exc = (isOpen()) ? null : new ClosedChannelException();
-            if (handler == null)
+        // complete immedibtely if chbnnel is closed or no bytes rembining
+        if (!isOpen() || (src.rembining() == 0)) {
+            Throwbble exc = (isOpen()) ? null : new ClosedChbnnelException();
+            if (hbndler == null)
                 return CompletedFuture.withResult(0, exc);
-            Invoker.invokeIndirectly(handler, attachment, 0, exc, executor);
+            Invoker.invokeIndirectly(hbndler, bttbchment, 0, exc, executor);
             return null;
         }
 
-        final PendingFuture<Integer,A> result = (handler == null) ?
+        finbl PendingFuture<Integer,A> result = (hbndler == null) ?
             new PendingFuture<Integer,A>(this) : null;
-        Runnable task = new Runnable() {
+        Runnbble tbsk = new Runnbble() {
             public void run() {
                 int n = 0;
-                Throwable exc = null;
+                Throwbble exc = null;
 
-                int ti = threads.add();
+                int ti = threbds.bdd();
                 try {
                     begin();
                     do {
                         n = IOUtil.write(fdObj, src, position, nd);
-                    } while ((n == IOStatus.INTERRUPTED) && isOpen());
+                    } while ((n == IOStbtus.INTERRUPTED) && isOpen());
                     if (n < 0 && !isOpen())
                         throw new AsynchronousCloseException();
-                } catch (IOException x) {
+                } cbtch (IOException x) {
                     if (!isOpen())
                         x = new AsynchronousCloseException();
                     exc = x;
-                } finally {
+                } finblly {
                     end();
-                    threads.remove(ti);
+                    threbds.remove(ti);
                 }
-                if (handler == null) {
+                if (hbndler == null) {
                     result.setResult(n, exc);
                 } else {
-                    Invoker.invokeUnchecked(handler, attachment, n, exc);
+                    Invoker.invokeUnchecked(hbndler, bttbchment, n, exc);
                 }
             }
         };
-        executor.execute(task);
+        executor.execute(tbsk);
         return result;
     }
 }

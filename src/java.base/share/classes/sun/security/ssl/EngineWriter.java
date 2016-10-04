@@ -1,92 +1,92 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.ssl;
+pbckbge sun.security.ssl;
 
-import java.io.IOException;
-import java.nio.ByteBuffer;
-import java.util.LinkedList;
-import javax.net.ssl.SSLEngineResult.HandshakeStatus;
+import jbvb.io.IOException;
+import jbvb.nio.ByteBuffer;
+import jbvb.util.LinkedList;
+import jbvbx.net.ssl.SSLEngineResult.HbndshbkeStbtus;
 import sun.misc.HexDumpEncoder;
 
 /**
- * A class to help abstract away SSLEngine writing synchronization.
+ * A clbss to help bbstrbct bwby SSLEngine writing synchronizbtion.
  */
-final class EngineWriter {
+finbl clbss EngineWriter {
 
     /*
-     * Outgoing handshake Data waiting for a ride is stored here.
-     * Normal application data is written directly into the outbound
-     * buffer, but handshake data can be written out at any time,
-     * so we have buffer it somewhere.
+     * Outgoing hbndshbke Dbtb wbiting for b ride is stored here.
+     * Normbl bpplicbtion dbtb is written directly into the outbound
+     * buffer, but hbndshbke dbtb cbn be written out bt bny time,
+     * so we hbve buffer it somewhere.
      *
-     * When wrap is called, we first check to see if there is
-     * any data waiting, then if we're in a data transfer state,
-     * we try to write app data.
+     * When wrbp is cblled, we first check to see if there is
+     * bny dbtb wbiting, then if we're in b dbtb trbnsfer stbte,
+     * we try to write bpp dbtb.
      *
-     * This will contain either ByteBuffers, or the marker
-     * HandshakeStatus.FINISHED to signify that a handshake just completed.
+     * This will contbin either ByteBuffers, or the mbrker
+     * HbndshbkeStbtus.FINISHED to signify thbt b hbndshbke just completed.
      */
-    private LinkedList<Object> outboundList;
+    privbte LinkedList<Object> outboundList;
 
-    private boolean outboundClosed = false;
+    privbte boolebn outboundClosed = fblse;
 
-    /* Class and subclass dynamic debugging support */
-    private static final Debug debug = Debug.getInstance("ssl");
+    /* Clbss bnd subclbss dynbmic debugging support */
+    privbte stbtic finbl Debug debug = Debug.getInstbnce("ssl");
 
     EngineWriter() {
         outboundList = new LinkedList<Object>();
     }
 
     /*
-     * Upper levels assured us we had room for at least one packet of data.
-     * As per the SSLEngine spec, we only return one SSL packets worth of
-     * data.
+     * Upper levels bssured us we hbd room for bt lebst one pbcket of dbtb.
+     * As per the SSLEngine spec, we only return one SSL pbckets worth of
+     * dbtb.
      */
-    private HandshakeStatus getOutboundData(ByteBuffer dstBB) {
+    privbte HbndshbkeStbtus getOutboundDbtb(ByteBuffer dstBB) {
 
         Object msg = outboundList.removeFirst();
-        assert(msg instanceof ByteBuffer);
+        bssert(msg instbnceof ByteBuffer);
 
         ByteBuffer bbIn = (ByteBuffer) msg;
-        assert(dstBB.remaining() >= bbIn.remaining());
+        bssert(dstBB.rembining() >= bbIn.rembining());
 
         dstBB.put(bbIn);
 
         /*
-         * If we have more data in the queue, it's either
-         * a finished message, or an indication that we need
-         * to call wrap again.
+         * If we hbve more dbtb in the queue, it's either
+         * b finished messbge, or bn indicbtion thbt we need
+         * to cbll wrbp bgbin.
          */
-        if (hasOutboundDataInternal()) {
+        if (hbsOutboundDbtbInternbl()) {
             msg = outboundList.getFirst();
-            if (msg == HandshakeStatus.FINISHED) {
-                outboundList.removeFirst();     // consume the message
-                return HandshakeStatus.FINISHED;
+            if (msg == HbndshbkeStbtus.FINISHED) {
+                outboundList.removeFirst();     // consume the messbge
+                return HbndshbkeStbtus.FINISHED;
             } else {
-                return HandshakeStatus.NEED_WRAP;
+                return HbndshbkeStbtus.NEED_WRAP;
             }
         } else {
             return null;
@@ -94,147 +94,147 @@ final class EngineWriter {
     }
 
     /*
-     * Properly orders the output of the data written to the wrap call.
-     * This is only handshake data, application data goes through the
+     * Properly orders the output of the dbtb written to the wrbp cbll.
+     * This is only hbndshbke dbtb, bpplicbtion dbtb goes through the
      * other writeRecord.
      */
     synchronized void writeRecord(EngineOutputRecord outputRecord,
-            Authenticator authenticator,
+            Authenticbtor buthenticbtor,
             CipherBox writeCipher) throws IOException {
 
         /*
          * Only output if we're still open.
          */
         if (outboundClosed) {
-            throw new IOException("writer side was already closed.");
+            throw new IOException("writer side wbs blrebdy closed.");
         }
 
-        outputRecord.write(authenticator, writeCipher);
+        outputRecord.write(buthenticbtor, writeCipher);
 
         /*
-         * Did our handshakers notify that we just sent the
-         * Finished message?
+         * Did our hbndshbkers notify thbt we just sent the
+         * Finished messbge?
          *
-         * Add an "I'm finished" message to the queue.
+         * Add bn "I'm finished" messbge to the queue.
          */
         if (outputRecord.isFinishedMsg()) {
-            outboundList.addLast(HandshakeStatus.FINISHED);
+            outboundList.bddLbst(HbndshbkeStbtus.FINISHED);
         }
     }
 
     /*
-     * Output the packet info.
+     * Output the pbcket info.
      */
-    private void dumpPacket(EngineArgs ea, boolean hsData) {
+    privbte void dumpPbcket(EngineArgs eb, boolebn hsDbtb) {
         try {
             HexDumpEncoder hd = new HexDumpEncoder();
 
-            ByteBuffer bb = ea.netData.duplicate();
+            ByteBuffer bb = eb.netDbtb.duplicbte();
 
             int pos = bb.position();
-            bb.position(pos - ea.deltaNet());
+            bb.position(pos - eb.deltbNet());
             bb.limit(pos);
 
-            System.out.println("[Raw write" +
-                (hsData ? "" : " (bb)") + "]: length = " +
-                bb.remaining());
+            System.out.println("[Rbw write" +
+                (hsDbtb ? "" : " (bb)") + "]: length = " +
+                bb.rembining());
             hd.encodeBuffer(bb, System.out);
-        } catch (IOException e) { }
+        } cbtch (IOException e) { }
     }
 
     /*
-     * Properly orders the output of the data written to the wrap call.
-     * Only app data goes through here, handshake data goes through
+     * Properly orders the output of the dbtb written to the wrbp cbll.
+     * Only bpp dbtb goes through here, hbndshbke dbtb goes through
      * the other writeRecord.
      *
-     * Shouldn't expect to have an IOException here.
+     * Shouldn't expect to hbve bn IOException here.
      *
-     * Return any determined status.
+     * Return bny determined stbtus.
      */
-    synchronized HandshakeStatus writeRecord(
-            EngineOutputRecord outputRecord, EngineArgs ea,
-            Authenticator authenticator,
+    synchronized HbndshbkeStbtus writeRecord(
+            EngineOutputRecord outputRecord, EngineArgs eb,
+            Authenticbtor buthenticbtor,
             CipherBox writeCipher) throws IOException {
 
         /*
-         * If we have data ready to go, output this first before
-         * trying to consume app data.
+         * If we hbve dbtb rebdy to go, output this first before
+         * trying to consume bpp dbtb.
          */
-        if (hasOutboundDataInternal()) {
-            HandshakeStatus hss = getOutboundData(ea.netData);
+        if (hbsOutboundDbtbInternbl()) {
+            HbndshbkeStbtus hss = getOutboundDbtb(eb.netDbtb);
 
-            if (debug != null && Debug.isOn("packet")) {
+            if (debug != null && Debug.isOn("pbcket")) {
                 /*
-                 * We could have put the dump in
-                 * OutputRecord.write(OutputStream), but let's actually
-                 * output when it's actually output by the SSLEngine.
+                 * We could hbve put the dump in
+                 * OutputRecord.write(OutputStrebm), but let's bctublly
+                 * output when it's bctublly output by the SSLEngine.
                  */
-                dumpPacket(ea, true);
+                dumpPbcket(eb, true);
             }
 
             return hss;
         }
 
         /*
-         * If we are closed, no more app data can be output.
-         * Only existing handshake data (above) can be obtained.
+         * If we bre closed, no more bpp dbtb cbn be output.
+         * Only existing hbndshbke dbtb (bbove) cbn be obtbined.
          */
         if (outboundClosed) {
-            throw new IOException("The write side was already closed");
+            throw new IOException("The write side wbs blrebdy closed");
         }
 
-        outputRecord.write(ea, authenticator, writeCipher);
+        outputRecord.write(eb, buthenticbtor, writeCipher);
 
-        if (debug != null && Debug.isOn("packet")) {
-            dumpPacket(ea, false);
+        if (debug != null && Debug.isOn("pbcket")) {
+            dumpPbcket(eb, fblse);
         }
 
         /*
-         * No way new outbound handshake data got here if we're
+         * No wby new outbound hbndshbke dbtb got here if we're
          * locked properly.
          *
-         * We don't have any status we can return.
+         * We don't hbve bny stbtus we cbn return.
          */
         return null;
     }
 
     /*
-     * We already hold "this" lock, this is the callback from the
-     * outputRecord.write() above.  We already know this
-     * writer can accept more data (outboundClosed == false),
-     * and the closure is sync'd.
+     * We blrebdy hold "this" lock, this is the cbllbbck from the
+     * outputRecord.write() bbove.  We blrebdy know this
+     * writer cbn bccept more dbtb (outboundClosed == fblse),
+     * bnd the closure is sync'd.
      */
-    void putOutboundData(ByteBuffer bytes) {
-        outboundList.addLast(bytes);
+    void putOutboundDbtb(ByteBuffer bytes) {
+        outboundList.bddLbst(bytes);
     }
 
     /*
-     * This is for the really rare case that someone is writing from
-     * the *InputRecord* before we know what to do with it.
+     * This is for the reblly rbre cbse thbt someone is writing from
+     * the *InputRecord* before we know whbt to do with it.
      */
-    synchronized void putOutboundDataSync(ByteBuffer bytes)
+    synchronized void putOutboundDbtbSync(ByteBuffer bytes)
             throws IOException {
 
         if (outboundClosed) {
-            throw new IOException("Write side already closed");
+            throw new IOException("Write side blrebdy closed");
         }
 
-        outboundList.addLast(bytes);
+        outboundList.bddLbst(bytes);
     }
 
     /*
-     * Non-synch'd version of this method, called by internals
+     * Non-synch'd version of this method, cblled by internbls
      */
-    private boolean hasOutboundDataInternal() {
+    privbte boolebn hbsOutboundDbtbInternbl() {
         return (outboundList.size() != 0);
     }
 
-    synchronized boolean hasOutboundData() {
-        return hasOutboundDataInternal();
+    synchronized boolebn hbsOutboundDbtb() {
+        return hbsOutboundDbtbInternbl();
     }
 
-    synchronized boolean isOutboundDone() {
-        return outboundClosed && !hasOutboundDataInternal();
+    synchronized boolebn isOutboundDone() {
+        return outboundClosed && !hbsOutboundDbtbInternbl();
     }
 
     synchronized void closeOutbound() {

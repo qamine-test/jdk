@@ -1,174 +1,174 @@
 /*
- * Copyright (c) 2003, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.management.snmp.jvminstr;
+pbckbge sun.mbnbgement.snmp.jvminstr;
 
-// java imports
+// jbvb imports
 //
-import java.io.Serializable;
+import jbvb.io.Seriblizbble;
 
 // jmx imports
 //
-import javax.management.MBeanServer;
+import jbvbx.mbnbgement.MBebnServer;
 import com.sun.jmx.snmp.SnmpCounter;
 import com.sun.jmx.snmp.SnmpCounter64;
-import com.sun.jmx.snmp.SnmpGauge;
+import com.sun.jmx.snmp.SnmpGbuge;
 import com.sun.jmx.snmp.SnmpInt;
 import com.sun.jmx.snmp.SnmpUnsignedInt;
 import com.sun.jmx.snmp.SnmpIpAddress;
 import com.sun.jmx.snmp.SnmpTimeticks;
-import com.sun.jmx.snmp.SnmpOpaque;
+import com.sun.jmx.snmp.SnmpOpbque;
 import com.sun.jmx.snmp.SnmpString;
 import com.sun.jmx.snmp.SnmpStringFixed;
 import com.sun.jmx.snmp.SnmpOid;
 import com.sun.jmx.snmp.SnmpNull;
-import com.sun.jmx.snmp.SnmpValue;
-import com.sun.jmx.snmp.SnmpVarBind;
-import com.sun.jmx.snmp.SnmpStatusException;
+import com.sun.jmx.snmp.SnmpVblue;
+import com.sun.jmx.snmp.SnmpVbrBind;
+import com.sun.jmx.snmp.SnmpStbtusException;
 
 // jdmk imports
 //
-import com.sun.jmx.snmp.agent.SnmpMib;
-import com.sun.jmx.snmp.agent.SnmpMibGroup;
-import com.sun.jmx.snmp.agent.SnmpStandardObjectServer;
-import com.sun.jmx.snmp.agent.SnmpStandardMetaServer;
-import com.sun.jmx.snmp.agent.SnmpMibSubRequest;
-import com.sun.jmx.snmp.agent.SnmpMibTable;
-import com.sun.jmx.snmp.EnumRowStatus;
+import com.sun.jmx.snmp.bgent.SnmpMib;
+import com.sun.jmx.snmp.bgent.SnmpMibGroup;
+import com.sun.jmx.snmp.bgent.SnmpStbndbrdObjectServer;
+import com.sun.jmx.snmp.bgent.SnmpStbndbrdMetbServer;
+import com.sun.jmx.snmp.bgent.SnmpMibSubRequest;
+import com.sun.jmx.snmp.bgent.SnmpMibTbble;
+import com.sun.jmx.snmp.EnumRowStbtus;
 
-import sun.management.snmp.jvmmib.JvmRuntimeMeta;
-import sun.management.snmp.jvmmib.JvmRTInputArgsTableMeta;
-import sun.management.snmp.jvmmib.JvmRTClassPathTableMeta;
-import sun.management.snmp.jvmmib.JvmRTBootClassPathTableMeta;
-import sun.management.snmp.jvmmib.JvmRTLibraryPathTableMeta;
+import sun.mbnbgement.snmp.jvmmib.JvmRuntimeMetb;
+import sun.mbnbgement.snmp.jvmmib.JvmRTInputArgsTbbleMetb;
+import sun.mbnbgement.snmp.jvmmib.JvmRTClbssPbthTbbleMetb;
+import sun.mbnbgement.snmp.jvmmib.JvmRTBootClbssPbthTbbleMetb;
+import sun.mbnbgement.snmp.jvmmib.JvmRTLibrbryPbthTbbleMetb;
 
 /**
- * The class is used for representing SNMP metadata for the "JvmRuntime" group.
+ * The clbss is used for representing SNMP metbdbtb for the "JvmRuntime" group.
  */
-public class JvmRuntimeMetaImpl extends JvmRuntimeMeta {
+public clbss JvmRuntimeMetbImpl extends JvmRuntimeMetb {
 
-     static final long serialVersionUID = -6570428414857608618L;
+     stbtic finbl long seriblVersionUID = -6570428414857608618L;
     /**
-     * Constructor for the metadata associated to "JvmRuntime".
+     * Constructor for the metbdbtb bssocibted to "JvmRuntime".
      */
-    public JvmRuntimeMetaImpl(SnmpMib myMib,
-                              SnmpStandardObjectServer objserv) {
+    public JvmRuntimeMetbImpl(SnmpMib myMib,
+                              SnmpStbndbrdObjectServer objserv) {
         super(myMib, objserv);
     }
 
     /**
-     * Factory method for "JvmRTInputArgsTable" table metadata class.
+     * Fbctory method for "JvmRTInputArgsTbble" tbble metbdbtb clbss.
      *
-     * You can redefine this method if you need to replace the default
-     * generated metadata class with your own customized class.
+     * You cbn redefine this method if you need to replbce the defbult
+     * generbted metbdbtb clbss with your own customized clbss.
      *
-     * @param tableName Name of the table object ("JvmRTInputArgsTable")
-     * @param groupName Name of the group to which this table belong
+     * @pbrbm tbbleNbme Nbme of the tbble object ("JvmRTInputArgsTbble")
+     * @pbrbm groupNbme Nbme of the group to which this tbble belong
      *        ("JvmRuntime")
-     * @param mib The SnmpMib object in which this table is registered
-     * @param server MBeanServer for this table entries (may be null)
+     * @pbrbm mib The SnmpMib object in which this tbble is registered
+     * @pbrbm server MBebnServer for this tbble entries (mby be null)
      *
-     * @return An instance of the metadata class generated for the
-     *         "JvmRTInputArgsTable" table (JvmRTInputArgsTableMeta)
+     * @return An instbnce of the metbdbtb clbss generbted for the
+     *         "JvmRTInputArgsTbble" tbble (JvmRTInputArgsTbbleMetb)
      *
      **/
-    protected JvmRTInputArgsTableMeta
-        createJvmRTInputArgsTableMetaNode(String tableName, String groupName,
-                                          SnmpMib mib, MBeanServer server)  {
-        return new JvmRTInputArgsTableMetaImpl(mib, objectserver);
+    protected JvmRTInputArgsTbbleMetb
+        crebteJvmRTInputArgsTbbleMetbNode(String tbbleNbme, String groupNbme,
+                                          SnmpMib mib, MBebnServer server)  {
+        return new JvmRTInputArgsTbbleMetbImpl(mib, objectserver);
     }
 
     /**
-     * Factory method for "JvmRTLibraryPathTable" table metadata class.
+     * Fbctory method for "JvmRTLibrbryPbthTbble" tbble metbdbtb clbss.
      *
-     * You can redefine this method if you need to replace the default
-     * generated metadata class with your own customized class.
+     * You cbn redefine this method if you need to replbce the defbult
+     * generbted metbdbtb clbss with your own customized clbss.
      *
-     * @param tableName Name of the table object ("JvmRTLibraryPathTable")
-     * @param groupName Name of the group to which this table belong
+     * @pbrbm tbbleNbme Nbme of the tbble object ("JvmRTLibrbryPbthTbble")
+     * @pbrbm groupNbme Nbme of the group to which this tbble belong
      *        ("JvmRuntime")
-     * @param mib The SnmpMib object in which this table is registered
-     * @param server MBeanServer for this table entries (may be null)
+     * @pbrbm mib The SnmpMib object in which this tbble is registered
+     * @pbrbm server MBebnServer for this tbble entries (mby be null)
      *
-     * @return An instance of the metadata class generated for the
-     *         "JvmRTLibraryPathTable" table (JvmRTLibraryPathTableMeta)
+     * @return An instbnce of the metbdbtb clbss generbted for the
+     *         "JvmRTLibrbryPbthTbble" tbble (JvmRTLibrbryPbthTbbleMetb)
      *
      **/
-    protected JvmRTLibraryPathTableMeta
-        createJvmRTLibraryPathTableMetaNode(String tableName,
-                                            String groupName,
+    protected JvmRTLibrbryPbthTbbleMetb
+        crebteJvmRTLibrbryPbthTbbleMetbNode(String tbbleNbme,
+                                            String groupNbme,
                                             SnmpMib mib,
-                                            MBeanServer server)  {
-        return new JvmRTLibraryPathTableMetaImpl(mib, objectserver);
+                                            MBebnServer server)  {
+        return new JvmRTLibrbryPbthTbbleMetbImpl(mib, objectserver);
     }
 
 
     /**
-     * Factory method for "JvmRTClassPathTable" table metadata class.
+     * Fbctory method for "JvmRTClbssPbthTbble" tbble metbdbtb clbss.
      *
-     * You can redefine this method if you need to replace the default
-     * generated metadata class with your own customized class.
+     * You cbn redefine this method if you need to replbce the defbult
+     * generbted metbdbtb clbss with your own customized clbss.
      *
-     * @param tableName Name of the table object ("JvmRTClassPathTable")
-     * @param groupName Name of the group to which this table belong
+     * @pbrbm tbbleNbme Nbme of the tbble object ("JvmRTClbssPbthTbble")
+     * @pbrbm groupNbme Nbme of the group to which this tbble belong
      *        ("JvmRuntime")
-     * @param mib The SnmpMib object in which this table is registered
-     * @param server MBeanServer for this table entries (may be null)
+     * @pbrbm mib The SnmpMib object in which this tbble is registered
+     * @pbrbm server MBebnServer for this tbble entries (mby be null)
      *
-     * @return An instance of the metadata class generated for the
-     *         "JvmRTClassPathTable" table (JvmRTClassPathTableMeta)
+     * @return An instbnce of the metbdbtb clbss generbted for the
+     *         "JvmRTClbssPbthTbble" tbble (JvmRTClbssPbthTbbleMetb)
      *
      **/
-    protected JvmRTClassPathTableMeta
-        createJvmRTClassPathTableMetaNode(String tableName, String groupName,
-                                          SnmpMib mib, MBeanServer server)  {
-        return new JvmRTClassPathTableMetaImpl(mib, objectserver);
+    protected JvmRTClbssPbthTbbleMetb
+        crebteJvmRTClbssPbthTbbleMetbNode(String tbbleNbme, String groupNbme,
+                                          SnmpMib mib, MBebnServer server)  {
+        return new JvmRTClbssPbthTbbleMetbImpl(mib, objectserver);
     }
 
 
     /**
-     * Factory method for "JvmRTBootClassPathTable" table metadata class.
+     * Fbctory method for "JvmRTBootClbssPbthTbble" tbble metbdbtb clbss.
      *
-     * You can redefine this method if you need to replace the default
-     * generated metadata class with your own customized class.
+     * You cbn redefine this method if you need to replbce the defbult
+     * generbted metbdbtb clbss with your own customized clbss.
      *
-     * @param tableName Name of the table object ("JvmRTBootClassPathTable")
-     * @param groupName Name of the group to which this table belong
+     * @pbrbm tbbleNbme Nbme of the tbble object ("JvmRTBootClbssPbthTbble")
+     * @pbrbm groupNbme Nbme of the group to which this tbble belong
      *        ("JvmRuntime")
-     * @param mib The SnmpMib object in which this table is registered
-     * @param server MBeanServer for this table entries (may be null)
+     * @pbrbm mib The SnmpMib object in which this tbble is registered
+     * @pbrbm server MBebnServer for this tbble entries (mby be null)
      *
-     * @return An instance of the metadata class generated for the
-     *         "JvmRTBootClassPathTable" table (JvmRTBootClassPathTableMeta)
+     * @return An instbnce of the metbdbtb clbss generbted for the
+     *         "JvmRTBootClbssPbthTbble" tbble (JvmRTBootClbssPbthTbbleMetb)
      *
      **/
-    protected JvmRTBootClassPathTableMeta
-        createJvmRTBootClassPathTableMetaNode(String tableName,
-                                              String groupName,
+    protected JvmRTBootClbssPbthTbbleMetb
+        crebteJvmRTBootClbssPbthTbbleMetbNode(String tbbleNbme,
+                                              String groupNbme,
                                               SnmpMib mib,
-                                              MBeanServer server)  {
-        return new JvmRTBootClassPathTableMetaImpl(mib, objectserver);
+                                              MBebnServer server)  {
+        return new JvmRTBootClbssPbthTbbleMetbImpl(mib, objectserver);
     }
 
 

@@ -1,82 +1,82 @@
 /*
- * Copyright (c) 1994, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1994, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.lang;
+pbckbge jbvb.lbng;
 
 /**
- * Thrown to indicate that the application has attempted to convert
- * a string to one of the numeric types, but that the string does not
- * have the appropriate format.
+ * Thrown to indicbte thbt the bpplicbtion hbs bttempted to convert
+ * b string to one of the numeric types, but thbt the string does not
+ * hbve the bppropribte formbt.
  *
- * @author  unascribed
- * @see     java.lang.Integer#parseInt(String)
+ * @buthor  unbscribed
+ * @see     jbvb.lbng.Integer#pbrseInt(String)
  * @since   1.0
  */
 public
-class NumberFormatException extends IllegalArgumentException {
-    static final long serialVersionUID = -2848938806368998894L;
+clbss NumberFormbtException extends IllegblArgumentException {
+    stbtic finbl long seriblVersionUID = -2848938806368998894L;
 
     /**
-     * Constructs a <code>NumberFormatException</code> with no detail message.
+     * Constructs b <code>NumberFormbtException</code> with no detbil messbge.
      */
-    public NumberFormatException () {
+    public NumberFormbtException () {
         super();
     }
 
     /**
-     * Constructs a <code>NumberFormatException</code> with the
-     * specified detail message.
+     * Constructs b <code>NumberFormbtException</code> with the
+     * specified detbil messbge.
      *
-     * @param   s   the detail message.
+     * @pbrbm   s   the detbil messbge.
      */
-    public NumberFormatException (String s) {
+    public NumberFormbtException (String s) {
         super (s);
     }
 
     /**
-     * Factory method for making a {@code NumberFormatException}
-     * given the specified input which caused the error.
+     * Fbctory method for mbking b {@code NumberFormbtException}
+     * given the specified input which cbused the error.
      *
-     * @param   s   the input causing the error
+     * @pbrbm   s   the input cbusing the error
      */
-    static NumberFormatException forInputString(String s) {
-        return new NumberFormatException("For input string: \"" + s + "\"");
+    stbtic NumberFormbtException forInputString(String s) {
+        return new NumberFormbtException("For input string: \"" + s + "\"");
     }
 
     /**
-     * Factory method for making a {@code NumberFormatException}
-     * given the specified input which caused the error.
+     * Fbctory method for mbking b {@code NumberFormbtException}
+     * given the specified input which cbused the error.
      *
-     * @param   s   the input causing the error
-     * @param   beginIndex   the beginning index, inclusive.
-     * @param   endIndex     the ending index, exclusive.
-     * @param   errorIndex   the index of the first error in s
+     * @pbrbm   s   the input cbusing the error
+     * @pbrbm   beginIndex   the beginning index, inclusive.
+     * @pbrbm   endIndex     the ending index, exclusive.
+     * @pbrbm   errorIndex   the index of the first error in s
      */
-    static NumberFormatException forCharSequence(CharSequence s,
+    stbtic NumberFormbtException forChbrSequence(ChbrSequence s,
             int beginIndex, int endIndex, int errorIndex) {
-        return new NumberFormatException("Error at index "
+        return new NumberFormbtException("Error bt index "
                 + (errorIndex - beginIndex) + " in: \""
                 + s.subSequence(beginIndex, endIndex) + "\"");
     }

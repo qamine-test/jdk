@@ -1,144 +1,144 @@
 /*
- * Copyright (c) 2006, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package com.sun.beans.editors;
+pbckbge com.sun.bebns.editors;
 
-import java.awt.Component;
-import java.awt.Graphics;
-import java.awt.Rectangle;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyEditor;
-import java.util.ArrayList;
-import java.util.List;
+import jbvb.bwt.Component;
+import jbvb.bwt.Grbphics;
+import jbvb.bwt.Rectbngle;
+import jbvb.bebns.PropertyChbngeEvent;
+import jbvb.bebns.PropertyChbngeListener;
+import jbvb.bebns.PropertyEditor;
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
 
 /**
- * Property editor for java.lang.Enum subclasses.
+ * Property editor for jbvb.lbng.Enum subclbsses.
  *
  * @see PropertyEditor
  *
  * @since 1.7
  *
- * @author Sergey A. Malenkov
+ * @buthor Sergey A. Mblenkov
  */
-public final class EnumEditor implements PropertyEditor {
-    private final List<PropertyChangeListener> listeners = new ArrayList<PropertyChangeListener>();
+public finbl clbss EnumEditor implements PropertyEditor {
+    privbte finbl List<PropertyChbngeListener> listeners = new ArrbyList<PropertyChbngeListener>();
 
-    @SuppressWarnings("rawtypes")
-    private final Class<? extends Enum> type;
-    private final String[] tags;
+    @SuppressWbrnings("rbwtypes")
+    privbte finbl Clbss<? extends Enum> type;
+    privbte finbl String[] tbgs;
 
-    private Object value;
+    privbte Object vblue;
 
-    public EnumEditor(Class<?> type) {
-        Object[] values = type.getEnumConstants();
-        if ( values == null ) {
-            throw new IllegalArgumentException( "Unsupported " + type );
+    public EnumEditor(Clbss<?> type) {
+        Object[] vblues = type.getEnumConstbnts();
+        if ( vblues == null ) {
+            throw new IllegblArgumentException( "Unsupported " + type );
         }
-        this.type = type.asSubclass(java.lang.Enum.class);
-        this.tags = new String[values.length];
-        for ( int i = 0; i < values.length; i++ ) {
-            this.tags[i] = ( ( Enum )values[i] ).name();
+        this.type = type.bsSubclbss(jbvb.lbng.Enum.clbss);
+        this.tbgs = new String[vblues.length];
+        for ( int i = 0; i < vblues.length; i++ ) {
+            this.tbgs[i] = ( ( Enum )vblues[i] ).nbme();
         }
     }
 
-    public Object getValue() {
-        return this.value;
+    public Object getVblue() {
+        return this.vblue;
     }
 
-    public void setValue( Object value ) {
-        if ( ( value != null ) && !this.type.isInstance( value ) ) {
-            throw new IllegalArgumentException( "Unsupported value: " + value );
+    public void setVblue( Object vblue ) {
+        if ( ( vblue != null ) && !this.type.isInstbnce( vblue ) ) {
+            throw new IllegblArgumentException( "Unsupported vblue: " + vblue );
         }
-        Object oldValue;
-        PropertyChangeListener[] listeners;
+        Object oldVblue;
+        PropertyChbngeListener[] listeners;
         synchronized ( this.listeners ) {
-            oldValue = this.value;
-            this.value = value;
+            oldVblue = this.vblue;
+            this.vblue = vblue;
 
-            if ( ( value == null ) ? oldValue == null : value.equals( oldValue ) ) {
-                return; // do not fire event if value is not changed
+            if ( ( vblue == null ) ? oldVblue == null : vblue.equbls( oldVblue ) ) {
+                return; // do not fire event if vblue is not chbnged
             }
             int size = this.listeners.size();
             if ( size == 0 ) {
-                return; // do not fire event if there are no any listener
+                return; // do not fire event if there bre no bny listener
             }
-            listeners = this.listeners.toArray( new PropertyChangeListener[size] );
+            listeners = this.listeners.toArrby( new PropertyChbngeListener[size] );
         }
-        PropertyChangeEvent event = new PropertyChangeEvent( this, null, oldValue, value );
-        for ( PropertyChangeListener listener : listeners ) {
-            listener.propertyChange( event );
+        PropertyChbngeEvent event = new PropertyChbngeEvent( this, null, oldVblue, vblue );
+        for ( PropertyChbngeListener listener : listeners ) {
+            listener.propertyChbnge( event );
         }
     }
 
     public String getAsText() {
-        return ( this.value != null )
-                ? ( ( Enum )this.value ).name()
+        return ( this.vblue != null )
+                ? ( ( Enum )this.vblue ).nbme()
                 : null;
     }
 
     public void setAsText( String text ) {
-        @SuppressWarnings("unchecked")
+        @SuppressWbrnings("unchecked")
         Object tmp = ( text != null )
-            ? Enum.valueOf( (Class)this.type, text )
+            ? Enum.vblueOf( (Clbss)this.type, text )
             : null;
-        setValue(tmp);
+        setVblue(tmp);
     }
 
-    public String[] getTags() {
-        return this.tags.clone();
+    public String[] getTbgs() {
+        return this.tbgs.clone();
     }
 
-    public String getJavaInitializationString() {
-        String name = getAsText();
-        return ( name != null )
-                ? this.type.getName() + '.' + name
+    public String getJbvbInitiblizbtionString() {
+        String nbme = getAsText();
+        return ( nbme != null )
+                ? this.type.getNbme() + '.' + nbme
                 : "null";
     }
 
-    public boolean isPaintable() {
-        return false;
+    public boolebn isPbintbble() {
+        return fblse;
     }
 
-    public void paintValue( Graphics gfx, Rectangle box ) {
+    public void pbintVblue( Grbphics gfx, Rectbngle box ) {
     }
 
-    public boolean supportsCustomEditor() {
-        return false;
+    public boolebn supportsCustomEditor() {
+        return fblse;
     }
 
     public Component getCustomEditor() {
         return null;
     }
 
-    public void addPropertyChangeListener( PropertyChangeListener listener ) {
+    public void bddPropertyChbngeListener( PropertyChbngeListener listener ) {
         synchronized ( this.listeners ) {
-            this.listeners.add( listener );
+            this.listeners.bdd( listener );
         }
     }
 
-    public void removePropertyChangeListener( PropertyChangeListener listener ) {
+    public void removePropertyChbngeListener( PropertyChbngeListener listener ) {
         synchronized ( this.listeners ) {
             this.listeners.remove( listener );
         }

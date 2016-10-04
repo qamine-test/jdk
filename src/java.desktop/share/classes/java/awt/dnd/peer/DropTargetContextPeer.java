@@ -1,109 +1,109 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt.dnd.peer;
+pbckbge jbvb.bwt.dnd.peer;
 
-import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.Transferable;
-import java.awt.dnd.DropTarget;
-import java.awt.dnd.InvalidDnDOperationException;
+import jbvb.bwt.dbtbtrbnsfer.DbtbFlbvor;
+import jbvb.bwt.dbtbtrbnsfer.Trbnsferbble;
+import jbvb.bwt.dnd.DropTbrget;
+import jbvb.bwt.dnd.InvblidDnDOperbtionException;
 
 /**
  * <p>
- * This interface is exposed by the underlying window system platform to
- * enable control of platform DnD operations
+ * This interfbce is exposed by the underlying window system plbtform to
+ * enbble control of plbtform DnD operbtions
  * </p>
  *
  * @since 1.2
  *
  */
 
-public interface DropTargetContextPeer {
+public interfbce DropTbrgetContextPeer {
 
     /**
-     * update the peer's notion of the Target's actions
-     * @param actions the actions
+     * updbte the peer's notion of the Tbrget's bctions
+     * @pbrbm bctions the bctions
      */
 
-    void setTargetActions(int actions);
+    void setTbrgetActions(int bctions);
 
     /**
-     * get the current Target actions
-     * @return the current Target actions
+     * get the current Tbrget bctions
+     * @return the current Tbrget bctions
      */
 
-    int getTargetActions();
+    int getTbrgetActions();
 
     /**
-     * get the DropTarget associated with this peer
-     * @return the DropTarget associated with this peer
+     * get the DropTbrget bssocibted with this peer
+     * @return the DropTbrget bssocibted with this peer
      */
 
-    DropTarget getDropTarget();
+    DropTbrget getDropTbrget();
 
     /**
-     * get the (remote) DataFlavors from the peer
-     * @return the (remote) DataFlavors from the peer
+     * get the (remote) DbtbFlbvors from the peer
+     * @return the (remote) DbtbFlbvors from the peer
      */
 
-    DataFlavor[] getTransferDataFlavors();
+    DbtbFlbvor[] getTrbnsferDbtbFlbvors();
 
     /**
-     * get an input stream to the remote data
-     * @return an input stream to the remote data
+     * get bn input strebm to the remote dbtb
+     * @return bn input strebm to the remote dbtb
      */
 
-    Transferable getTransferable() throws InvalidDnDOperationException;
+    Trbnsferbble getTrbnsferbble() throws InvblidDnDOperbtionException;
 
     /**
-     * Return whether or not the DragSource Transferable is in the
-     * same JVM as the Target.
-     * @return if the DragSource Transferable is in the same JVM as the Target
+     * Return whether or not the DrbgSource Trbnsferbble is in the
+     * sbme JVM bs the Tbrget.
+     * @return if the DrbgSource Trbnsferbble is in the sbme JVM bs the Tbrget
      */
 
-    boolean isTransferableJVMLocal();
+    boolebn isTrbnsferbbleJVMLocbl();
 
     /**
-     * accept the Drag
-     * @param dragAction the drag action
+     * bccept the Drbg
+     * @pbrbm drbgAction the drbg bction
      */
 
-    void acceptDrag(int dragAction);
+    void bcceptDrbg(int drbgAction);
 
     /**
-     * reject the Drag
+     * reject the Drbg
      */
 
-    void rejectDrag();
+    void rejectDrbg();
 
     /**
-     * accept the Drop
-     * @param dropAction the drop action
+     * bccept the Drop
+     * @pbrbm dropAction the drop bction
      */
 
-    void acceptDrop(int dropAction);
+    void bcceptDrop(int dropAction);
 
     /**
      * reject the Drop
@@ -112,10 +112,10 @@ public interface DropTargetContextPeer {
     void rejectDrop();
 
     /**
-     * signal complete
-     * @param success the signal
+     * signbl complete
+     * @pbrbm success the signbl
      */
 
-    void dropComplete(boolean success);
+    void dropComplete(boolebn success);
 
 }

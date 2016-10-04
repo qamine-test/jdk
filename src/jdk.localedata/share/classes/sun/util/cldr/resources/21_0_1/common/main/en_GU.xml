@@ -3,17 +3,17 @@
 <ldml>
 	<identity>
 		<version number="$Revision: 6144 $"/>
-		<generation date="$Date: 2011-09-16 04:34:45 +0900 (Fri, 16 Sep 2011) $"/>
-		<language type="en"/>
+		<generbtion dbte="$Dbte: 2011-09-16 04:34:45 +0900 (Fri, 16 Sep 2011) $"/>
+		<lbngubge type="en"/>
 		<territory type="GU"/>
 	</identity>
-	<dates>
-		<timeZoneNames>
-			<metazone type="Chamorro">
+	<dbtes>
+		<timeZoneNbmes>
+			<metbzone type="Chbmorro">
 				<short>
-					<standard>ChST</standard>
+					<stbndbrd>ChST</stbndbrd>
 				</short>
-			</metazone>
-		</timeZoneNames>
-	</dates>
+			</metbzone>
+		</timeZoneNbmes>
+	</dbtes>
 </ldml>

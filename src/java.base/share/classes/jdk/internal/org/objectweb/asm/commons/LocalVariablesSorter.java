@@ -1,48 +1,48 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * ASM: a very small and fast Java bytecode manipulation framework
- * Copyright (c) 2000-2011 INRIA, France Telecom
+ * ASM: b very smbll bnd fbst Jbvb bytecode mbnipulbtion frbmework
+ * Copyright (c) 2000-2011 INRIA, Frbnce Telecom
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- * 3. Neither the name of the copyright holders nor the names of its
- *    contributors may be used to endorse or promote products derived from
- *    this software without specific prior written permission.
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
+ * 1. Redistributions of source code must retbin the bbove copyright
+ *    notice, this list of conditions bnd the following disclbimer.
+ * 2. Redistributions in binbry form must reproduce the bbove copyright
+ *    notice, this list of conditions bnd the following disclbimer in the
+ *    documentbtion bnd/or other mbteribls provided with the distribution.
+ * 3. Neither the nbme of the copyright holders nor the nbmes of its
+ *    contributors mby be used to endorse or promote products derived from
+ *    this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -56,196 +56,196 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
-package jdk.internal.org.objectweb.asm.commons;
+pbckbge jdk.internbl.org.objectweb.bsm.commons;
 
-import jdk.internal.org.objectweb.asm.AnnotationVisitor;
-import jdk.internal.org.objectweb.asm.Label;
-import jdk.internal.org.objectweb.asm.MethodVisitor;
-import jdk.internal.org.objectweb.asm.Opcodes;
-import jdk.internal.org.objectweb.asm.Type;
-import jdk.internal.org.objectweb.asm.TypePath;
+import jdk.internbl.org.objectweb.bsm.AnnotbtionVisitor;
+import jdk.internbl.org.objectweb.bsm.Lbbel;
+import jdk.internbl.org.objectweb.bsm.MethodVisitor;
+import jdk.internbl.org.objectweb.bsm.Opcodes;
+import jdk.internbl.org.objectweb.bsm.Type;
+import jdk.internbl.org.objectweb.bsm.TypePbth;
 
 /**
- * A {@link MethodVisitor} that renumbers local variables in their order of
- * appearance. This adapter allows one to easily add new local variables to a
- * method. It may be used by inheriting from this class, but the preferred way
- * of using it is via delegation: the next visitor in the chain can indeed add
- * new locals when needed by calling {@link #newLocal} on this adapter (this
- * requires a reference back to this {@link LocalVariablesSorter}).
+ * A {@link MethodVisitor} thbt renumbers locbl vbribbles in their order of
+ * bppebrbnce. This bdbpter bllows one to ebsily bdd new locbl vbribbles to b
+ * method. It mby be used by inheriting from this clbss, but the preferred wby
+ * of using it is vib delegbtion: the next visitor in the chbin cbn indeed bdd
+ * new locbls when needed by cblling {@link #newLocbl} on this bdbpter (this
+ * requires b reference bbck to this {@link LocblVbribblesSorter}).
  *
- * @author Chris Nokleberg
- * @author Eugene Kuleshov
- * @author Eric Bruneton
+ * @buthor Chris Nokleberg
+ * @buthor Eugene Kuleshov
+ * @buthor Eric Bruneton
  */
-public class LocalVariablesSorter extends MethodVisitor {
+public clbss LocblVbribblesSorter extends MethodVisitor {
 
-    private static final Type OBJECT_TYPE = Type
-            .getObjectType("java/lang/Object");
+    privbte stbtic finbl Type OBJECT_TYPE = Type
+            .getObjectType("jbvb/lbng/Object");
 
     /**
-     * Mapping from old to new local variable indexes. A local variable at index
-     * i of size 1 is remapped to 'mapping[2*i]', while a local variable at
-     * index i of size 2 is remapped to 'mapping[2*i+1]'.
+     * Mbpping from old to new locbl vbribble indexes. A locbl vbribble bt index
+     * i of size 1 is rembpped to 'mbpping[2*i]', while b locbl vbribble bt
+     * index i of size 2 is rembpped to 'mbpping[2*i+1]'.
      */
-    private int[] mapping = new int[40];
+    privbte int[] mbpping = new int[40];
 
     /**
-     * Array used to store stack map local variable types after remapping.
+     * Arrby used to store stbck mbp locbl vbribble types bfter rembpping.
      */
-    private Object[] newLocals = new Object[20];
+    privbte Object[] newLocbls = new Object[20];
 
     /**
-     * Index of the first local variable, after formal parameters.
+     * Index of the first locbl vbribble, bfter formbl pbrbmeters.
      */
-    protected final int firstLocal;
+    protected finbl int firstLocbl;
 
     /**
-     * Index of the next local variable to be created by {@link #newLocal}.
+     * Index of the next locbl vbribble to be crebted by {@link #newLocbl}.
      */
-    protected int nextLocal;
+    protected int nextLocbl;
 
     /**
-     * Indicates if at least one local variable has moved due to remapping.
+     * Indicbtes if bt lebst one locbl vbribble hbs moved due to rembpping.
      */
-    private boolean changed;
+    privbte boolebn chbnged;
 
     /**
-     * Creates a new {@link LocalVariablesSorter}. <i>Subclasses must not use
-     * this constructor</i>. Instead, they must use the
-     * {@link #LocalVariablesSorter(int, int, String, MethodVisitor)} version.
+     * Crebtes b new {@link LocblVbribblesSorter}. <i>Subclbsses must not use
+     * this constructor</i>. Instebd, they must use the
+     * {@link #LocblVbribblesSorter(int, int, String, MethodVisitor)} version.
      *
-     * @param access
-     *            access flags of the adapted method.
-     * @param desc
+     * @pbrbm bccess
+     *            bccess flbgs of the bdbpted method.
+     * @pbrbm desc
      *            the method's descriptor (see {@link Type Type}).
-     * @param mv
-     *            the method visitor to which this adapter delegates calls.
-     * @throws IllegalStateException
-     *             If a subclass calls this constructor.
+     * @pbrbm mv
+     *            the method visitor to which this bdbpter delegbtes cblls.
+     * @throws IllegblStbteException
+     *             If b subclbss cblls this constructor.
      */
-    public LocalVariablesSorter(final int access, final String desc,
-            final MethodVisitor mv) {
-        this(Opcodes.ASM5, access, desc, mv);
-        if (getClass() != LocalVariablesSorter.class) {
-            throw new IllegalStateException();
+    public LocblVbribblesSorter(finbl int bccess, finbl String desc,
+            finbl MethodVisitor mv) {
+        this(Opcodes.ASM5, bccess, desc, mv);
+        if (getClbss() != LocblVbribblesSorter.clbss) {
+            throw new IllegblStbteException();
         }
     }
 
     /**
-     * Creates a new {@link LocalVariablesSorter}.
+     * Crebtes b new {@link LocblVbribblesSorter}.
      *
-     * @param api
+     * @pbrbm bpi
      *            the ASM API version implemented by this visitor. Must be one
      *            of {@link Opcodes#ASM4} or {@link Opcodes#ASM5}.
-     * @param access
-     *            access flags of the adapted method.
-     * @param desc
+     * @pbrbm bccess
+     *            bccess flbgs of the bdbpted method.
+     * @pbrbm desc
      *            the method's descriptor (see {@link Type Type}).
-     * @param mv
-     *            the method visitor to which this adapter delegates calls.
+     * @pbrbm mv
+     *            the method visitor to which this bdbpter delegbtes cblls.
      */
-    protected LocalVariablesSorter(final int api, final int access,
-            final String desc, final MethodVisitor mv) {
-        super(api, mv);
-        Type[] args = Type.getArgumentTypes(desc);
-        nextLocal = (Opcodes.ACC_STATIC & access) == 0 ? 1 : 0;
-        for (int i = 0; i < args.length; i++) {
-            nextLocal += args[i].getSize();
+    protected LocblVbribblesSorter(finbl int bpi, finbl int bccess,
+            finbl String desc, finbl MethodVisitor mv) {
+        super(bpi, mv);
+        Type[] brgs = Type.getArgumentTypes(desc);
+        nextLocbl = (Opcodes.ACC_STATIC & bccess) == 0 ? 1 : 0;
+        for (int i = 0; i < brgs.length; i++) {
+            nextLocbl += brgs[i].getSize();
         }
-        firstLocal = nextLocal;
+        firstLocbl = nextLocbl;
     }
 
     @Override
-    public void visitVarInsn(final int opcode, final int var) {
+    public void visitVbrInsn(finbl int opcode, finbl int vbr) {
         Type type;
         switch (opcode) {
-        case Opcodes.LLOAD:
-        case Opcodes.LSTORE:
+        cbse Opcodes.LLOAD:
+        cbse Opcodes.LSTORE:
             type = Type.LONG_TYPE;
-            break;
+            brebk;
 
-        case Opcodes.DLOAD:
-        case Opcodes.DSTORE:
+        cbse Opcodes.DLOAD:
+        cbse Opcodes.DSTORE:
             type = Type.DOUBLE_TYPE;
-            break;
+            brebk;
 
-        case Opcodes.FLOAD:
-        case Opcodes.FSTORE:
+        cbse Opcodes.FLOAD:
+        cbse Opcodes.FSTORE:
             type = Type.FLOAT_TYPE;
-            break;
+            brebk;
 
-        case Opcodes.ILOAD:
-        case Opcodes.ISTORE:
+        cbse Opcodes.ILOAD:
+        cbse Opcodes.ISTORE:
             type = Type.INT_TYPE;
-            break;
+            brebk;
 
-        default:
-            // case Opcodes.ALOAD:
-            // case Opcodes.ASTORE:
-            // case RET:
+        defbult:
+            // cbse Opcodes.ALOAD:
+            // cbse Opcodes.ASTORE:
+            // cbse RET:
             type = OBJECT_TYPE;
-            break;
+            brebk;
         }
-        mv.visitVarInsn(opcode, remap(var, type));
+        mv.visitVbrInsn(opcode, rembp(vbr, type));
     }
 
     @Override
-    public void visitIincInsn(final int var, final int increment) {
-        mv.visitIincInsn(remap(var, Type.INT_TYPE), increment);
+    public void visitIincInsn(finbl int vbr, finbl int increment) {
+        mv.visitIincInsn(rembp(vbr, Type.INT_TYPE), increment);
     }
 
     @Override
-    public void visitMaxs(final int maxStack, final int maxLocals) {
-        mv.visitMaxs(maxStack, nextLocal);
+    public void visitMbxs(finbl int mbxStbck, finbl int mbxLocbls) {
+        mv.visitMbxs(mbxStbck, nextLocbl);
     }
 
     @Override
-    public void visitLocalVariable(final String name, final String desc,
-            final String signature, final Label start, final Label end,
-            final int index) {
-        int newIndex = remap(index, Type.getType(desc));
-        mv.visitLocalVariable(name, desc, signature, start, end, newIndex);
+    public void visitLocblVbribble(finbl String nbme, finbl String desc,
+            finbl String signbture, finbl Lbbel stbrt, finbl Lbbel end,
+            finbl int index) {
+        int newIndex = rembp(index, Type.getType(desc));
+        mv.visitLocblVbribble(nbme, desc, signbture, stbrt, end, newIndex);
     }
 
     @Override
-    public AnnotationVisitor visitLocalVariableAnnotation(int typeRef,
-            TypePath typePath, Label[] start, Label[] end, int[] index,
-            String desc, boolean visible) {
+    public AnnotbtionVisitor visitLocblVbribbleAnnotbtion(int typeRef,
+            TypePbth typePbth, Lbbel[] stbrt, Lbbel[] end, int[] index,
+            String desc, boolebn visible) {
         Type t = Type.getType(desc);
         int[] newIndex = new int[index.length];
         for (int i = 0; i < newIndex.length; ++i) {
-            newIndex[i] = remap(index[i], t);
+            newIndex[i] = rembp(index[i], t);
         }
-        return mv.visitLocalVariableAnnotation(typeRef, typePath, start, end,
+        return mv.visitLocblVbribbleAnnotbtion(typeRef, typePbth, stbrt, end,
                 newIndex, desc, visible);
     }
 
     @Override
-    public void visitFrame(final int type, final int nLocal,
-            final Object[] local, final int nStack, final Object[] stack) {
-        if (type != Opcodes.F_NEW) { // uncompressed frame
-            throw new IllegalStateException(
-                    "ClassReader.accept() should be called with EXPAND_FRAMES flag");
+    public void visitFrbme(finbl int type, finbl int nLocbl,
+            finbl Object[] locbl, finbl int nStbck, finbl Object[] stbck) {
+        if (type != Opcodes.F_NEW) { // uncompressed frbme
+            throw new IllegblStbteException(
+                    "ClbssRebder.bccept() should be cblled with EXPAND_FRAMES flbg");
         }
 
-        if (!changed) { // optimization for the case where mapping = identity
-            mv.visitFrame(type, nLocal, local, nStack, stack);
+        if (!chbnged) { // optimizbtion for the cbse where mbpping = identity
+            mv.visitFrbme(type, nLocbl, locbl, nStbck, stbck);
             return;
         }
 
-        // creates a copy of newLocals
-        Object[] oldLocals = new Object[newLocals.length];
-        System.arraycopy(newLocals, 0, oldLocals, 0, oldLocals.length);
+        // crebtes b copy of newLocbls
+        Object[] oldLocbls = new Object[newLocbls.length];
+        System.brrbycopy(newLocbls, 0, oldLocbls, 0, oldLocbls.length);
 
-        updateNewLocals(newLocals);
+        updbteNewLocbls(newLocbls);
 
-        // copies types from 'local' to 'newLocals'
-        // 'newLocals' already contains the variables added with 'newLocal'
+        // copies types from 'locbl' to 'newLocbls'
+        // 'newLocbls' blrebdy contbins the vbribbles bdded with 'newLocbl'
 
-        int index = 0; // old local variable index
-        int number = 0; // old local variable number
-        for (; number < nLocal; ++number) {
-            Object t = local[number];
+        int index = 0; // old locbl vbribble index
+        int number = 0; // old locbl vbribble number
+        for (; number < nLocbl; ++number) {
+            Object t = locbl[number];
             int size = t == Opcodes.LONG || t == Opcodes.DOUBLE ? 2 : 1;
             if (t != Opcodes.TOP) {
                 Type typ = OBJECT_TYPE;
@@ -257,154 +257,154 @@ public class LocalVariablesSorter extends MethodVisitor {
                     typ = Type.LONG_TYPE;
                 } else if (t == Opcodes.DOUBLE) {
                     typ = Type.DOUBLE_TYPE;
-                } else if (t instanceof String) {
+                } else if (t instbnceof String) {
                     typ = Type.getObjectType((String) t);
                 }
-                setFrameLocal(remap(index, typ), t);
+                setFrbmeLocbl(rembp(index, typ), t);
             }
             index += size;
         }
 
-        // removes TOP after long and double types as well as trailing TOPs
+        // removes TOP bfter long bnd double types bs well bs trbiling TOPs
 
         index = 0;
         number = 0;
-        for (int i = 0; index < newLocals.length; ++i) {
-            Object t = newLocals[index++];
+        for (int i = 0; index < newLocbls.length; ++i) {
+            Object t = newLocbls[index++];
             if (t != null && t != Opcodes.TOP) {
-                newLocals[i] = t;
+                newLocbls[i] = t;
                 number = i + 1;
                 if (t == Opcodes.LONG || t == Opcodes.DOUBLE) {
                     index += 1;
                 }
             } else {
-                newLocals[i] = Opcodes.TOP;
+                newLocbls[i] = Opcodes.TOP;
             }
         }
 
-        // visits remapped frame
-        mv.visitFrame(type, number, newLocals, nStack, stack);
+        // visits rembpped frbme
+        mv.visitFrbme(type, number, newLocbls, nStbck, stbck);
 
-        // restores original value of 'newLocals'
-        newLocals = oldLocals;
+        // restores originbl vblue of 'newLocbls'
+        newLocbls = oldLocbls;
     }
 
     // -------------
 
     /**
-     * Creates a new local variable of the given type.
+     * Crebtes b new locbl vbribble of the given type.
      *
-     * @param type
-     *            the type of the local variable to be created.
-     * @return the identifier of the newly created local variable.
+     * @pbrbm type
+     *            the type of the locbl vbribble to be crebted.
+     * @return the identifier of the newly crebted locbl vbribble.
      */
-    public int newLocal(final Type type) {
+    public int newLocbl(finbl Type type) {
         Object t;
         switch (type.getSort()) {
-        case Type.BOOLEAN:
-        case Type.CHAR:
-        case Type.BYTE:
-        case Type.SHORT:
-        case Type.INT:
+        cbse Type.BOOLEAN:
+        cbse Type.CHAR:
+        cbse Type.BYTE:
+        cbse Type.SHORT:
+        cbse Type.INT:
             t = Opcodes.INTEGER;
-            break;
-        case Type.FLOAT:
+            brebk;
+        cbse Type.FLOAT:
             t = Opcodes.FLOAT;
-            break;
-        case Type.LONG:
+            brebk;
+        cbse Type.LONG:
             t = Opcodes.LONG;
-            break;
-        case Type.DOUBLE:
+            brebk;
+        cbse Type.DOUBLE:
             t = Opcodes.DOUBLE;
-            break;
-        case Type.ARRAY:
+            brebk;
+        cbse Type.ARRAY:
             t = type.getDescriptor();
-            break;
-        // case Type.OBJECT:
-        default:
-            t = type.getInternalName();
-            break;
+            brebk;
+        // cbse Type.OBJECT:
+        defbult:
+            t = type.getInternblNbme();
+            brebk;
         }
-        int local = newLocalMapping(type);
-        setLocalType(local, type);
-        setFrameLocal(local, t);
-        changed = true;
-        return local;
+        int locbl = newLocblMbpping(type);
+        setLocblType(locbl, type);
+        setFrbmeLocbl(locbl, t);
+        chbnged = true;
+        return locbl;
     }
 
     /**
-     * Notifies subclasses that a new stack map frame is being visited. The
-     * array argument contains the stack map frame types corresponding to the
-     * local variables added with {@link #newLocal}. This method can update
-     * these types in place for the stack map frame being visited. The default
-     * implementation of this method does nothing, i.e. a local variable added
-     * with {@link #newLocal} will have the same type in all stack map frames.
-     * But this behavior is not always the desired one, for instance if a local
-     * variable is added in the middle of a try/catch block: the frame for the
-     * exception handler should have a TOP type for this new local.
+     * Notifies subclbsses thbt b new stbck mbp frbme is being visited. The
+     * brrby brgument contbins the stbck mbp frbme types corresponding to the
+     * locbl vbribbles bdded with {@link #newLocbl}. This method cbn updbte
+     * these types in plbce for the stbck mbp frbme being visited. The defbult
+     * implementbtion of this method does nothing, i.e. b locbl vbribble bdded
+     * with {@link #newLocbl} will hbve the sbme type in bll stbck mbp frbmes.
+     * But this behbvior is not blwbys the desired one, for instbnce if b locbl
+     * vbribble is bdded in the middle of b try/cbtch block: the frbme for the
+     * exception hbndler should hbve b TOP type for this new locbl.
      *
-     * @param newLocals
-     *            the stack map frame types corresponding to the local variables
-     *            added with {@link #newLocal} (and null for the others). The
-     *            format of this array is the same as in
-     *            {@link MethodVisitor#visitFrame}, except that long and double
-     *            types use two slots. The types for the current stack map frame
-     *            must be updated in place in this array.
+     * @pbrbm newLocbls
+     *            the stbck mbp frbme types corresponding to the locbl vbribbles
+     *            bdded with {@link #newLocbl} (bnd null for the others). The
+     *            formbt of this brrby is the sbme bs in
+     *            {@link MethodVisitor#visitFrbme}, except thbt long bnd double
+     *            types use two slots. The types for the current stbck mbp frbme
+     *            must be updbted in plbce in this brrby.
      */
-    protected void updateNewLocals(Object[] newLocals) {
+    protected void updbteNewLocbls(Object[] newLocbls) {
     }
 
     /**
-     * Notifies subclasses that a local variable has been added or remapped. The
-     * default implementation of this method does nothing.
+     * Notifies subclbsses thbt b locbl vbribble hbs been bdded or rembpped. The
+     * defbult implementbtion of this method does nothing.
      *
-     * @param local
-     *            a local variable identifier, as returned by {@link #newLocal
-     *            newLocal()}.
-     * @param type
-     *            the type of the value being stored in the local variable.
+     * @pbrbm locbl
+     *            b locbl vbribble identifier, bs returned by {@link #newLocbl
+     *            newLocbl()}.
+     * @pbrbm type
+     *            the type of the vblue being stored in the locbl vbribble.
      */
-    protected void setLocalType(final int local, final Type type) {
+    protected void setLocblType(finbl int locbl, finbl Type type) {
     }
 
-    private void setFrameLocal(final int local, final Object type) {
-        int l = newLocals.length;
-        if (local >= l) {
-            Object[] a = new Object[Math.max(2 * l, local + 1)];
-            System.arraycopy(newLocals, 0, a, 0, l);
-            newLocals = a;
+    privbte void setFrbmeLocbl(finbl int locbl, finbl Object type) {
+        int l = newLocbls.length;
+        if (locbl >= l) {
+            Object[] b = new Object[Mbth.mbx(2 * l, locbl + 1)];
+            System.brrbycopy(newLocbls, 0, b, 0, l);
+            newLocbls = b;
         }
-        newLocals[local] = type;
+        newLocbls[locbl] = type;
     }
 
-    private int remap(final int var, final Type type) {
-        if (var + type.getSize() <= firstLocal) {
-            return var;
+    privbte int rembp(finbl int vbr, finbl Type type) {
+        if (vbr + type.getSize() <= firstLocbl) {
+            return vbr;
         }
-        int key = 2 * var + type.getSize() - 1;
-        int size = mapping.length;
+        int key = 2 * vbr + type.getSize() - 1;
+        int size = mbpping.length;
         if (key >= size) {
-            int[] newMapping = new int[Math.max(2 * size, key + 1)];
-            System.arraycopy(mapping, 0, newMapping, 0, size);
-            mapping = newMapping;
+            int[] newMbpping = new int[Mbth.mbx(2 * size, key + 1)];
+            System.brrbycopy(mbpping, 0, newMbpping, 0, size);
+            mbpping = newMbpping;
         }
-        int value = mapping[key];
-        if (value == 0) {
-            value = newLocalMapping(type);
-            setLocalType(value, type);
-            mapping[key] = value + 1;
+        int vblue = mbpping[key];
+        if (vblue == 0) {
+            vblue = newLocblMbpping(type);
+            setLocblType(vblue, type);
+            mbpping[key] = vblue + 1;
         } else {
-            value--;
+            vblue--;
         }
-        if (value != var) {
-            changed = true;
+        if (vblue != vbr) {
+            chbnged = true;
         }
-        return value;
+        return vblue;
     }
 
-    protected int newLocalMapping(final Type type) {
-        int local = nextLocal;
-        nextLocal += type.getSize();
-        return local;
+    protected int newLocblMbpping(finbl Type type) {
+        int locbl = nextLocbl;
+        nextLocbl += type.getSize();
+        return locbl;
     }
 }

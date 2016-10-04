@@ -1,199 +1,199 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.pkcs;
+pbckbge sun.security.pkcs;
 
-import java.io.*;
-import java.util.Properties;
-import java.math.*;
-import java.security.Key;
-import java.security.KeyRep;
-import java.security.PrivateKey;
-import java.security.KeyFactory;
-import java.security.Security;
-import java.security.Provider;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
-import java.security.spec.PKCS8EncodedKeySpec;
+import jbvb.io.*;
+import jbvb.util.Properties;
+import jbvb.mbth.*;
+import jbvb.security.Key;
+import jbvb.security.KeyRep;
+import jbvb.security.PrivbteKey;
+import jbvb.security.KeyFbctory;
+import jbvb.security.Security;
+import jbvb.security.Provider;
+import jbvb.security.InvblidKeyException;
+import jbvb.security.NoSuchAlgorithmException;
+import jbvb.security.spec.InvblidKeySpecException;
+import jbvb.security.spec.PKCS8EncodedKeySpec;
 
 import sun.misc.HexDumpEncoder;
 import sun.security.x509.*;
 import sun.security.util.*;
 
 /**
- * Holds a PKCS#8 key, for example a private key
+ * Holds b PKCS#8 key, for exbmple b privbte key
  *
- * @author Dave Brownell
- * @author Benjamin Renaud
+ * @buthor Dbve Brownell
+ * @buthor Benjbmin Renbud
  */
-public class PKCS8Key implements PrivateKey {
+public clbss PKCS8Key implements PrivbteKey {
 
-    /** use serialVersionUID from JDK 1.1. for interoperability */
-    private static final long serialVersionUID = -3836890099307167124L;
+    /** use seriblVersionUID from JDK 1.1. for interoperbbility */
+    privbte stbtic finbl long seriblVersionUID = -3836890099307167124L;
 
-    /* The algorithm information (name, parameters, etc). */
-    protected AlgorithmId algid;
+    /* The blgorithm informbtion (nbme, pbrbmeters, etc). */
+    protected AlgorithmId blgid;
 
-    /* The key bytes, without the algorithm information */
+    /* The key bytes, without the blgorithm informbtion */
     protected byte[] key;
 
     /* The encoded for the key. */
     protected byte[] encodedKey;
 
     /* The version for this key */
-    public static final BigInteger version = BigInteger.ZERO;
+    public stbtic finbl BigInteger version = BigInteger.ZERO;
 
     /**
-     * Default constructor.  The key constructed must have its key
-     * and algorithm initialized before it may be used, for example
+     * Defbult constructor.  The key constructed must hbve its key
+     * bnd blgorithm initiblized before it mby be used, for exbmple
      * by using <code>decode</code>.
      */
     public PKCS8Key() { }
 
     /*
-     * Build and initialize as a "default" key.  All PKCS#8 key
-     * data is stored and transmitted losslessly, but no knowledge
-     * about this particular algorithm is available.
+     * Build bnd initiblize bs b "defbult" key.  All PKCS#8 key
+     * dbtb is stored bnd trbnsmitted losslessly, but no knowledge
+     * bbout this pbrticulbr blgorithm is bvbilbble.
      */
-    private PKCS8Key (AlgorithmId algid, byte key [])
-    throws InvalidKeyException {
-        this.algid = algid;
+    privbte PKCS8Key (AlgorithmId blgid, byte key [])
+    throws InvblidKeyException {
+        this.blgid = blgid;
         this.key = key;
         encode();
     }
 
     /*
-     * Binary backwards compatibility. New uses should call parseKey().
+     * Binbry bbckwbrds compbtibility. New uses should cbll pbrseKey().
      */
-    public static PKCS8Key parse (DerValue in) throws IOException {
-        PrivateKey key;
+    public stbtic PKCS8Key pbrse (DerVblue in) throws IOException {
+        PrivbteKey key;
 
-        key = parseKey(in);
-        if (key instanceof PKCS8Key)
+        key = pbrseKey(in);
+        if (key instbnceof PKCS8Key)
             return (PKCS8Key)key;
 
         throw new IOException("Provider did not return PKCS8Key");
     }
 
     /**
-     * Construct PKCS#8 subject public key from a DER value.  If
-     * the runtime environment is configured with a specific class for
-     * this kind of key, a subclass is returned.  Otherwise, a generic
+     * Construct PKCS#8 subject public key from b DER vblue.  If
+     * the runtime environment is configured with b specific clbss for
+     * this kind of key, b subclbss is returned.  Otherwise, b generic
      * PKCS8Key object is returned.
      *
-     * <P>This mechanism gurantees that keys (and algorithms) may be
-     * freely manipulated and transferred, without risk of losing
-     * information.  Also, when a key (or algorithm) needs some special
-     * handling, that specific need can be accomodated.
+     * <P>This mechbnism gurbntees thbt keys (bnd blgorithms) mby be
+     * freely mbnipulbted bnd trbnsferred, without risk of losing
+     * informbtion.  Also, when b key (or blgorithm) needs some specibl
+     * hbndling, thbt specific need cbn be bccomodbted.
      *
-     * @param in the DER-encoded SubjectPublicKeyInfo value
-     * @exception IOException on data format errors
+     * @pbrbm in the DER-encoded SubjectPublicKeyInfo vblue
+     * @exception IOException on dbtb formbt errors
      */
-    public static PrivateKey parseKey (DerValue in) throws IOException
+    public stbtic PrivbteKey pbrseKey (DerVblue in) throws IOException
     {
-        AlgorithmId algorithm;
-        PrivateKey privKey;
+        AlgorithmId blgorithm;
+        PrivbteKey privKey;
 
-        if (in.tag != DerValue.tag_Sequence)
-            throw new IOException ("corrupt private key");
+        if (in.tbg != DerVblue.tbg_Sequence)
+            throw new IOException ("corrupt privbte key");
 
-        BigInteger parsedVersion = in.data.getBigInteger();
-        if (!version.equals(parsedVersion)) {
-            throw new IOException("version mismatch: (supported: " +
+        BigInteger pbrsedVersion = in.dbtb.getBigInteger();
+        if (!version.equbls(pbrsedVersion)) {
+            throw new IOException("version mismbtch: (supported: " +
                                   Debug.toHexString(version) +
-                                  ", parsed: " +
-                                  Debug.toHexString(parsedVersion));
+                                  ", pbrsed: " +
+                                  Debug.toHexString(pbrsedVersion));
         }
 
-        algorithm = AlgorithmId.parse (in.data.getDerValue ());
+        blgorithm = AlgorithmId.pbrse (in.dbtb.getDerVblue ());
 
         try {
-            privKey = buildPKCS8Key (algorithm, in.data.getOctetString ());
+            privKey = buildPKCS8Key (blgorithm, in.dbtb.getOctetString ());
 
-        } catch (InvalidKeyException e) {
-            throw new IOException("corrupt private key");
+        } cbtch (InvblidKeyException e) {
+            throw new IOException("corrupt privbte key");
         }
 
-        if (in.data.available () != 0)
-            throw new IOException ("excess private key");
+        if (in.dbtb.bvbilbble () != 0)
+            throw new IOException ("excess privbte key");
         return privKey;
     }
 
     /**
-     * Parse the key bits.  This may be redefined by subclasses to take
-     * advantage of structure within the key.  For example, RSA public
-     * keys encapsulate two unsigned integers (modulus and exponent) as
-     * DER values within the <code>key</code> bits; Diffie-Hellman and
-     * DSS/DSA keys encapsulate a single unsigned integer.
+     * Pbrse the key bits.  This mby be redefined by subclbsses to tbke
+     * bdvbntbge of structure within the key.  For exbmple, RSA public
+     * keys encbpsulbte two unsigned integers (modulus bnd exponent) bs
+     * DER vblues within the <code>key</code> bits; Diffie-Hellmbn bnd
+     * DSS/DSA keys encbpsulbte b single unsigned integer.
      *
-     * <P>This function is called when creating PKCS#8 SubjectPublicKeyInfo
-     * values using the PKCS8Key member functions, such as <code>parse</code>
-     * and <code>decode</code>.
+     * <P>This function is cblled when crebting PKCS#8 SubjectPublicKeyInfo
+     * vblues using the PKCS8Key member functions, such bs <code>pbrse</code>
+     * bnd <code>decode</code>.
      *
-     * @exception IOException if a parsing error occurs.
-     * @exception InvalidKeyException if the key encoding is invalid.
+     * @exception IOException if b pbrsing error occurs.
+     * @exception InvblidKeyException if the key encoding is invblid.
      */
-    protected void parseKeyBits () throws IOException, InvalidKeyException {
+    protected void pbrseKeyBits () throws IOException, InvblidKeyException {
         encode();
     }
 
     /*
-     * Factory interface, building the kind of key associated with this
-     * specific algorithm ID or else returning this generic base class.
-     * See the description above.
+     * Fbctory interfbce, building the kind of key bssocibted with this
+     * specific blgorithm ID or else returning this generic bbse clbss.
+     * See the description bbove.
      */
-    static PrivateKey buildPKCS8Key (AlgorithmId algid, byte[] key)
-    throws IOException, InvalidKeyException
+    stbtic PrivbteKey buildPKCS8Key (AlgorithmId blgid, byte[] key)
+    throws IOException, InvblidKeyException
     {
         /*
-         * Use the algid and key parameters to produce the ASN.1 encoding
-         * of the key, which will then be used as the input to the
-         * key factory.
+         * Use the blgid bnd key pbrbmeters to produce the ASN.1 encoding
+         * of the key, which will then be used bs the input to the
+         * key fbctory.
          */
-        DerOutputStream pkcs8EncodedKeyStream = new DerOutputStream();
-        encode(pkcs8EncodedKeyStream, algid, key);
+        DerOutputStrebm pkcs8EncodedKeyStrebm = new DerOutputStrebm();
+        encode(pkcs8EncodedKeyStrebm, blgid, key);
         PKCS8EncodedKeySpec pkcs8KeySpec
-            = new PKCS8EncodedKeySpec(pkcs8EncodedKeyStream.toByteArray());
+            = new PKCS8EncodedKeySpec(pkcs8EncodedKeyStrebm.toByteArrby());
 
         try {
-            // Instantiate the key factory of the appropriate algorithm
-            KeyFactory keyFac = KeyFactory.getInstance(algid.getName());
+            // Instbntibte the key fbctory of the bppropribte blgorithm
+            KeyFbctory keyFbc = KeyFbctory.getInstbnce(blgid.getNbme());
 
-            // Generate the private key
-            return keyFac.generatePrivate(pkcs8KeySpec);
-        } catch (NoSuchAlgorithmException e) {
-            // Return generic PKCS8Key with opaque key data (see below)
-        } catch (InvalidKeySpecException e) {
-            // Return generic PKCS8Key with opaque key data (see below)
+            // Generbte the privbte key
+            return keyFbc.generbtePrivbte(pkcs8KeySpec);
+        } cbtch (NoSuchAlgorithmException e) {
+            // Return generic PKCS8Key with opbque key dbtb (see below)
+        } cbtch (InvblidKeySpecException e) {
+            // Return generic PKCS8Key with opbque key dbtb (see below)
         }
 
         /*
-         * Try again using JDK1.1-style for backwards compatibility.
+         * Try bgbin using JDK1.1-style for bbckwbrds compbtibility.
          */
-        String classname = "";
+        String clbssnbme = "";
         try {
             Properties props;
             String keytype;
@@ -201,213 +201,213 @@ public class PKCS8Key implements PrivateKey {
 
             sunProvider = Security.getProvider("SUN");
             if (sunProvider == null)
-                throw new InstantiationException();
-            classname = sunProvider.getProperty("PrivateKey.PKCS#8." +
-              algid.getName());
-            if (classname == null) {
-                throw new InstantiationException();
+                throw new InstbntibtionException();
+            clbssnbme = sunProvider.getProperty("PrivbteKey.PKCS#8." +
+              blgid.getNbme());
+            if (clbssnbme == null) {
+                throw new InstbntibtionException();
             }
 
-            Class<?> keyClass = null;
+            Clbss<?> keyClbss = null;
             try {
-                keyClass = Class.forName(classname);
-            } catch (ClassNotFoundException e) {
-                ClassLoader cl = ClassLoader.getSystemClassLoader();
+                keyClbss = Clbss.forNbme(clbssnbme);
+            } cbtch (ClbssNotFoundException e) {
+                ClbssLobder cl = ClbssLobder.getSystemClbssLobder();
                 if (cl != null) {
-                    keyClass = cl.loadClass(classname);
+                    keyClbss = cl.lobdClbss(clbssnbme);
                 }
             }
 
             Object      inst = null;
             PKCS8Key    result;
 
-            if (keyClass != null)
-                inst = keyClass.newInstance();
-            if (inst instanceof PKCS8Key) {
+            if (keyClbss != null)
+                inst = keyClbss.newInstbnce();
+            if (inst instbnceof PKCS8Key) {
                 result = (PKCS8Key) inst;
-                result.algid = algid;
+                result.blgid = blgid;
                 result.key = key;
-                result.parseKeyBits();
+                result.pbrseKeyBits();
                 return result;
             }
-        } catch (ClassNotFoundException e) {
-        } catch (InstantiationException e) {
-        } catch (IllegalAccessException e) {
-            // this should not happen.
-            throw new IOException (classname + " [internal error]");
+        } cbtch (ClbssNotFoundException e) {
+        } cbtch (InstbntibtionException e) {
+        } cbtch (IllegblAccessException e) {
+            // this should not hbppen.
+            throw new IOException (clbssnbme + " [internbl error]");
         }
 
         PKCS8Key result = new PKCS8Key();
-        result.algid = algid;
+        result.blgid = blgid;
         result.key = key;
         return result;
     }
 
     /**
-     * Returns the algorithm to be used with this key.
+     * Returns the blgorithm to be used with this key.
      */
     public String getAlgorithm() {
-        return algid.getName();
+        return blgid.getNbme();
     }
 
     /**
-     * Returns the algorithm ID to be used with this key.
+     * Returns the blgorithm ID to be used with this key.
      */
-    public AlgorithmId  getAlgorithmId () { return algid; }
+    public AlgorithmId  getAlgorithmId () { return blgid; }
 
     /**
-     * PKCS#8 sequence on the DER output stream.
+     * PKCS#8 sequence on the DER output strebm.
      */
-    public final void encode(DerOutputStream out) throws IOException
+    public finbl void encode(DerOutputStrebm out) throws IOException
     {
-        encode(out, this.algid, this.key);
+        encode(out, this.blgid, this.key);
     }
 
     /**
-     * Returns the DER-encoded form of the key as a byte array.
+     * Returns the DER-encoded form of the key bs b byte brrby.
      */
     public synchronized byte[] getEncoded() {
         byte[] result = null;
         try {
             result = encode();
-        } catch (InvalidKeyException e) {
+        } cbtch (InvblidKeyException e) {
         }
         return result;
     }
 
     /**
-     * Returns the format for this key: "PKCS#8"
+     * Returns the formbt for this key: "PKCS#8"
      */
-    public String getFormat() {
+    public String getFormbt() {
         return "PKCS#8";
     }
 
     /**
-     * Returns the DER-encoded form of the key as a byte array.
+     * Returns the DER-encoded form of the key bs b byte brrby.
      *
-     * @exception InvalidKeyException if an encoding error occurs.
+     * @exception InvblidKeyException if bn encoding error occurs.
      */
-    public byte[] encode() throws InvalidKeyException {
+    public byte[] encode() throws InvblidKeyException {
         if (encodedKey == null) {
             try {
-                DerOutputStream out;
+                DerOutputStrebm out;
 
-                out = new DerOutputStream ();
+                out = new DerOutputStrebm ();
                 encode (out);
-                encodedKey = out.toByteArray();
+                encodedKey = out.toByteArrby();
 
-            } catch (IOException e) {
-                throw new InvalidKeyException ("IOException : " +
-                                               e.getMessage());
+            } cbtch (IOException e) {
+                throw new InvblidKeyException ("IOException : " +
+                                               e.getMessbge());
             }
         }
         return encodedKey.clone();
     }
 
     /**
-     * Initialize an PKCS8Key object from an input stream.  The data
-     * on that input stream must be encoded using DER, obeying the
-     * PKCS#8 format: a sequence consisting of a version, an algorithm
-     * ID and a bit string which holds the key.  (That bit string is
-     * often used to encapsulate another DER encoded sequence.)
+     * Initiblize bn PKCS8Key object from bn input strebm.  The dbtb
+     * on thbt input strebm must be encoded using DER, obeying the
+     * PKCS#8 formbt: b sequence consisting of b version, bn blgorithm
+     * ID bnd b bit string which holds the key.  (Thbt bit string is
+     * often used to encbpsulbte bnother DER encoded sequence.)
      *
-     * <P>Subclasses should not normally redefine this method; they should
-     * instead provide a <code>parseKeyBits</code> method to parse any
+     * <P>Subclbsses should not normblly redefine this method; they should
+     * instebd provide b <code>pbrseKeyBits</code> method to pbrse bny
      * fields inside the <code>key</code> member.
      *
-     * @param in an input stream with a DER-encoded PKCS#8
-     * SubjectPublicKeyInfo value
+     * @pbrbm in bn input strebm with b DER-encoded PKCS#8
+     * SubjectPublicKeyInfo vblue
      *
-     * @exception InvalidKeyException if a parsing error occurs.
+     * @exception InvblidKeyException if b pbrsing error occurs.
      */
-    public void decode(InputStream in) throws InvalidKeyException
+    public void decode(InputStrebm in) throws InvblidKeyException
     {
-        DerValue        val;
+        DerVblue        vbl;
 
         try {
-            val = new DerValue (in);
-            if (val.tag != DerValue.tag_Sequence)
-                throw new InvalidKeyException ("invalid key format");
+            vbl = new DerVblue (in);
+            if (vbl.tbg != DerVblue.tbg_Sequence)
+                throw new InvblidKeyException ("invblid key formbt");
 
 
-            BigInteger version = val.data.getBigInteger();
-            if (!version.equals(PKCS8Key.version)) {
-                throw new IOException("version mismatch: (supported: " +
+            BigInteger version = vbl.dbtb.getBigInteger();
+            if (!version.equbls(PKCS8Key.version)) {
+                throw new IOException("version mismbtch: (supported: " +
                                       Debug.toHexString(PKCS8Key.version) +
-                                      ", parsed: " +
+                                      ", pbrsed: " +
                                       Debug.toHexString(version));
             }
-            algid = AlgorithmId.parse (val.data.getDerValue ());
-            key = val.data.getOctetString ();
-            parseKeyBits ();
+            blgid = AlgorithmId.pbrse (vbl.dbtb.getDerVblue ());
+            key = vbl.dbtb.getOctetString ();
+            pbrseKeyBits ();
 
-            if (val.data.available () != 0)  {
-                // OPTIONAL attributes not supported yet
+            if (vbl.dbtb.bvbilbble () != 0)  {
+                // OPTIONAL bttributes not supported yet
             }
 
-        } catch (IOException e) {
-            // e.printStackTrace ();
-            throw new InvalidKeyException("IOException : " +
-                                          e.getMessage());
+        } cbtch (IOException e) {
+            // e.printStbckTrbce ();
+            throw new InvblidKeyException("IOException : " +
+                                          e.getMessbge());
         }
     }
 
-    public void decode(byte[] encodedKey) throws InvalidKeyException {
-        decode(new ByteArrayInputStream(encodedKey));
+    public void decode(byte[] encodedKey) throws InvblidKeyException {
+        decode(new ByteArrbyInputStrebm(encodedKey));
     }
 
-    protected Object writeReplace() throws java.io.ObjectStreamException {
+    protected Object writeReplbce() throws jbvb.io.ObjectStrebmException {
         return new KeyRep(KeyRep.Type.PRIVATE,
                         getAlgorithm(),
-                        getFormat(),
+                        getFormbt(),
                         getEncoded());
     }
 
     /**
-     * Serialization read ... PKCS#8 keys serialize as
-     * themselves, and they're parsed when they get read back.
+     * Seriblizbtion rebd ... PKCS#8 keys seriblize bs
+     * themselves, bnd they're pbrsed when they get rebd bbck.
      */
-    private void readObject (ObjectInputStream stream)
+    privbte void rebdObject (ObjectInputStrebm strebm)
     throws IOException {
 
         try {
-            decode(stream);
+            decode(strebm);
 
-        } catch (InvalidKeyException e) {
-            e.printStackTrace();
-            throw new IOException("deserialized key is invalid: " +
-                                  e.getMessage());
+        } cbtch (InvblidKeyException e) {
+            e.printStbckTrbce();
+            throw new IOException("deseriblized key is invblid: " +
+                                  e.getMessbge());
         }
     }
 
     /*
-     * Produce PKCS#8 encoding from algorithm id and key material.
+     * Produce PKCS#8 encoding from blgorithm id bnd key mbteribl.
      */
-    static void encode(DerOutputStream out, AlgorithmId algid, byte[] key)
+    stbtic void encode(DerOutputStrebm out, AlgorithmId blgid, byte[] key)
         throws IOException {
-            DerOutputStream tmp = new DerOutputStream();
+            DerOutputStrebm tmp = new DerOutputStrebm();
             tmp.putInteger(version);
-            algid.encode(tmp);
+            blgid.encode(tmp);
             tmp.putOctetString(key);
-            out.write(DerValue.tag_Sequence, tmp);
+            out.write(DerVblue.tbg_Sequence, tmp);
     }
 
     /**
-     * Compares two private keys. This returns false if the object with which
-     * to compare is not of type <code>Key</code>.
-     * Otherwise, the encoding of this key object is compared with the
+     * Compbres two privbte keys. This returns fblse if the object with which
+     * to compbre is not of type <code>Key</code>.
+     * Otherwise, the encoding of this key object is compbred with the
      * encoding of the given key object.
      *
-     * @param object the object with which to compare
-     * @return <code>true</code> if this key has the same encoding as the
-     * object argument; <code>false</code> otherwise.
+     * @pbrbm object the object with which to compbre
+     * @return <code>true</code> if this key hbs the sbme encoding bs the
+     * object brgument; <code>fblse</code> otherwise.
      */
-    public boolean equals(Object object) {
+    public boolebn equbls(Object object) {
         if (this == object) {
             return true;
         }
 
-        if (object instanceof Key) {
+        if (object instbnceof Key) {
 
             // this encoding
             byte[] b1;
@@ -417,35 +417,35 @@ public class PKCS8Key implements PrivateKey {
                 b1 = getEncoded();
             }
 
-            // that encoding
+            // thbt encoding
             byte[] b2 = ((Key)object).getEncoded();
 
-            // do the comparison
+            // do the compbrison
             int i;
             if (b1.length != b2.length)
-                return false;
+                return fblse;
             for (i = 0; i < b1.length; i++) {
                 if (b1[i] != b2[i]) {
-                    return false;
+                    return fblse;
                 }
             }
             return true;
         }
 
-        return false;
+        return fblse;
     }
 
     /**
-     * Calculates a hash code value for this object. Objects
-     * which are equal will also have the same hashcode.
+     * Cblculbtes b hbsh code vblue for this object. Objects
+     * which bre equbl will blso hbve the sbme hbshcode.
      */
-    public int hashCode() {
-        int retval = 0;
+    public int hbshCode() {
+        int retvbl = 0;
         byte[] b1 = getEncoded();
 
         for (int i = 1; i < b1.length; i++) {
-            retval += b1[i] * i;
+            retvbl += b1[i] * i;
         }
-        return(retval);
+        return(retvbl);
     }
 }

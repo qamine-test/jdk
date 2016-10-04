@@ -1,153 +1,153 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.misc;
+pbckbge sun.misc;
 
-import java.lang.ref.SoftReference;
-import java.lang.ref.ReferenceQueue;
+import jbvb.lbng.ref.SoftReference;
+import jbvb.lbng.ref.ReferenceQueue;
 
-import java.util.Iterator;
-import java.util.Map;
-import java.util.AbstractMap;
-import java.util.HashMap;
-import java.util.Set;
-import java.util.AbstractSet;
-import java.util.NoSuchElementException;
+import jbvb.util.Iterbtor;
+import jbvb.util.Mbp;
+import jbvb.util.AbstrbctMbp;
+import jbvb.util.HbshMbp;
+import jbvb.util.Set;
+import jbvb.util.AbstrbctSet;
+import jbvb.util.NoSuchElementException;
 
 
 /**
- * A memory-sensitive implementation of the <code>Map</code> interface.
+ * A memory-sensitive implementbtion of the <code>Mbp</code> interfbce.
  *
- * <p> A <code>SoftCache</code> object uses {@link java.lang.ref.SoftReference
- * soft references} to implement a memory-sensitive hash map.  If the garbage
- * collector determines at a certain point in time that a value object in a
- * <code>SoftCache</code> entry is no longer strongly reachable, then it may
- * remove that entry in order to release the memory occupied by the value
- * object.  All <code>SoftCache</code> objects are guaranteed to be completely
- * cleared before the virtual machine will throw an
- * <code>OutOfMemoryError</code>.  Because of this automatic clearing feature,
- * the behavior of this class is somewhat different from that of other
- * <code>Map</code> implementations.
+ * <p> A <code>SoftCbche</code> object uses {@link jbvb.lbng.ref.SoftReference
+ * soft references} to implement b memory-sensitive hbsh mbp.  If the gbrbbge
+ * collector determines bt b certbin point in time thbt b vblue object in b
+ * <code>SoftCbche</code> entry is no longer strongly rebchbble, then it mby
+ * remove thbt entry in order to relebse the memory occupied by the vblue
+ * object.  All <code>SoftCbche</code> objects bre gubrbnteed to be completely
+ * clebred before the virtubl mbchine will throw bn
+ * <code>OutOfMemoryError</code>.  Becbuse of this butombtic clebring febture,
+ * the behbvior of this clbss is somewhbt different from thbt of other
+ * <code>Mbp</code> implementbtions.
  *
- * <p> Both null values and the null key are supported.  This class has the
- * same performance characteristics as the <code>HashMap</code> class, and has
- * the same efficiency parameters of <em>initial capacity</em> and <em>load
- * factor</em>.
+ * <p> Both null vblues bnd the null key bre supported.  This clbss hbs the
+ * sbme performbnce chbrbcteristics bs the <code>HbshMbp</code> clbss, bnd hbs
+ * the sbme efficiency pbrbmeters of <em>initibl cbpbcity</em> bnd <em>lobd
+ * fbctor</em>.
  *
- * <p> Like most collection classes, this class is not synchronized.  A
- * synchronized <code>SoftCache</code> may be constructed using the
- * <code>Collections.synchronizedMap</code> method.
+ * <p> Like most collection clbsses, this clbss is not synchronized.  A
+ * synchronized <code>SoftCbche</code> mby be constructed using the
+ * <code>Collections.synchronizedMbp</code> method.
  *
- * <p> In typical usage this class will be subclassed and the <code>fill</code>
- * method will be overridden.  When the <code>get</code> method is invoked on a
- * key for which there is no mapping in the cache, it will in turn invoke the
- * <code>fill</code> method on that key in an attempt to construct a
- * corresponding value.  If the <code>fill</code> method returns such a value
- * then the cache will be updated and the new value will be returned.  Thus,
- * for example, a simple URL-content cache can be constructed as follows:
+ * <p> In typicbl usbge this clbss will be subclbssed bnd the <code>fill</code>
+ * method will be overridden.  When the <code>get</code> method is invoked on b
+ * key for which there is no mbpping in the cbche, it will in turn invoke the
+ * <code>fill</code> method on thbt key in bn bttempt to construct b
+ * corresponding vblue.  If the <code>fill</code> method returns such b vblue
+ * then the cbche will be updbted bnd the new vblue will be returned.  Thus,
+ * for exbmple, b simple URL-content cbche cbn be constructed bs follows:
  *
  * <pre>
- *     public class URLCache extends SoftCache {
+ *     public clbss URLCbche extends SoftCbche {
  *         protected Object fill(Object key) {
  *             return ((URL)key).getContent();
  *         }
  *     }
  * </pre>
  *
- * <p> The behavior of the <code>SoftCache</code> class depends in part upon
- * the actions of the garbage collector, so several familiar (though not
- * required) <code>Map</code> invariants do not hold for this class.  <p>
- * Because entries are removed from a <code>SoftCache</code> in response to
- * dynamic advice from the garbage collector, a <code>SoftCache</code> may
- * behave as though an unknown thread is silently removing entries.  In
- * particular, even if you synchronize on a <code>SoftCache</code> instance and
- * invoke none of its mutator methods, it is possible for the <code>size</code>
- * method to return smaller values over time, for the <code>isEmpty</code>
- * method to return <code>false</code> and then <code>true</code>, for the
- * <code>containsKey</code> method to return <code>true</code> and later
- * <code>false</code> for a given key, for the <code>get</code> method to
- * return a value for a given key but later return <code>null</code>, for the
- * <code>put</code> method to return <code>null</code> and the
- * <code>remove</code> method to return <code>false</code> for a key that
- * previously appeared to be in the map, and for successive examinations of the
- * key set, the value set, and the entry set to yield successively smaller
+ * <p> The behbvior of the <code>SoftCbche</code> clbss depends in pbrt upon
+ * the bctions of the gbrbbge collector, so severbl fbmilibr (though not
+ * required) <code>Mbp</code> invbribnts do not hold for this clbss.  <p>
+ * Becbuse entries bre removed from b <code>SoftCbche</code> in response to
+ * dynbmic bdvice from the gbrbbge collector, b <code>SoftCbche</code> mby
+ * behbve bs though bn unknown threbd is silently removing entries.  In
+ * pbrticulbr, even if you synchronize on b <code>SoftCbche</code> instbnce bnd
+ * invoke none of its mutbtor methods, it is possible for the <code>size</code>
+ * method to return smbller vblues over time, for the <code>isEmpty</code>
+ * method to return <code>fblse</code> bnd then <code>true</code>, for the
+ * <code>contbinsKey</code> method to return <code>true</code> bnd lbter
+ * <code>fblse</code> for b given key, for the <code>get</code> method to
+ * return b vblue for b given key but lbter return <code>null</code>, for the
+ * <code>put</code> method to return <code>null</code> bnd the
+ * <code>remove</code> method to return <code>fblse</code> for b key thbt
+ * previously bppebred to be in the mbp, bnd for successive exbminbtions of the
+ * key set, the vblue set, bnd the entry set to yield successively smbller
  * numbers of elements.
  *
- * @author      Mark Reinhold
+ * @buthor      Mbrk Reinhold
  * @since       1.2
- * @see         java.util.HashMap
- * @see         java.lang.ref.SoftReference
- * @deprecated No direct replacement; {@link java.util.WeakHashMap}
- * addresses a related by different use-case.
+ * @see         jbvb.util.HbshMbp
+ * @see         jbvb.lbng.ref.SoftReference
+ * @deprecbted No direct replbcement; {@link jbvb.util.WebkHbshMbp}
+ * bddresses b relbted by different use-cbse.
  */
 
-@Deprecated
-public class SoftCache extends AbstractMap<Object, Object> implements Map<Object, Object> {
+@Deprecbted
+public clbss SoftCbche extends AbstrbctMbp<Object, Object> implements Mbp<Object, Object> {
 
-    /* The basic idea of this implementation is to maintain an internal HashMap
-       that maps keys to soft references whose referents are the keys' values;
-       the various accessor methods dereference these soft references before
-       returning values.  Because we don't have access to the innards of the
-       HashMap, each soft reference must contain the key that maps to it so
-       that the processQueue method can remove keys whose values have been
-       discarded.  Thus the HashMap actually maps keys to instances of the
-       ValueCell class, which is a simple extension of the SoftReference class.
+    /* The bbsic ideb of this implementbtion is to mbintbin bn internbl HbshMbp
+       thbt mbps keys to soft references whose referents bre the keys' vblues;
+       the vbrious bccessor methods dereference these soft references before
+       returning vblues.  Becbuse we don't hbve bccess to the innbrds of the
+       HbshMbp, ebch soft reference must contbin the key thbt mbps to it so
+       thbt the processQueue method cbn remove keys whose vblues hbve been
+       discbrded.  Thus the HbshMbp bctublly mbps keys to instbnces of the
+       VblueCell clbss, which is b simple extension of the SoftReference clbss.
      */
 
 
-    static private class ValueCell extends SoftReference<Object> {
-        static private Object INVALID_KEY = new Object();
-        static private int dropped = 0;
-        private Object key;
+    stbtic privbte clbss VblueCell extends SoftReference<Object> {
+        stbtic privbte Object INVALID_KEY = new Object();
+        stbtic privbte int dropped = 0;
+        privbte Object key;
 
-        private ValueCell(Object key, Object value, ReferenceQueue<Object> queue) {
-            super(value, queue);
+        privbte VblueCell(Object key, Object vblue, ReferenceQueue<Object> queue) {
+            super(vblue, queue);
             this.key = key;
         }
 
-        private static ValueCell create(Object key, Object value,
+        privbte stbtic VblueCell crebte(Object key, Object vblue,
                                         ReferenceQueue<Object> queue)
         {
-            if (value == null) return null;
-            return new ValueCell(key, value, queue);
+            if (vblue == null) return null;
+            return new VblueCell(key, vblue, queue);
         }
 
-        private static Object strip(Object val, boolean drop) {
-            if (val == null) return null;
-            ValueCell vc = (ValueCell)val;
+        privbte stbtic Object strip(Object vbl, boolebn drop) {
+            if (vbl == null) return null;
+            VblueCell vc = (VblueCell)vbl;
             Object o = vc.get();
             if (drop) vc.drop();
             return o;
         }
 
-        private boolean isValid() {
+        privbte boolebn isVblid() {
             return (key != INVALID_KEY);
         }
 
-        private void drop() {
-            super.clear();
+        privbte void drop() {
+            super.clebr();
             key = INVALID_KEY;
             dropped++;
         }
@@ -155,23 +155,23 @@ public class SoftCache extends AbstractMap<Object, Object> implements Map<Object
     }
 
 
-    /* Hash table mapping keys to ValueCells */
-    private Map<Object, Object> hash;
+    /* Hbsh tbble mbpping keys to VblueCells */
+    privbte Mbp<Object, Object> hbsh;
 
-    /* Reference queue for cleared ValueCells */
-    private ReferenceQueue<Object> queue = new ReferenceQueue<>();
+    /* Reference queue for clebred VblueCells */
+    privbte ReferenceQueue<Object> queue = new ReferenceQueue<>();
 
 
-    /* Process any ValueCells that have been cleared and enqueued by the
-       garbage collector.  This method should be invoked once by each public
-       mutator in this class.  We don't invoke this method in public accessors
-       because that can lead to surprising ConcurrentModificationExceptions.
+    /* Process bny VblueCells thbt hbve been clebred bnd enqueued by the
+       gbrbbge collector.  This method should be invoked once by ebch public
+       mutbtor in this clbss.  We don't invoke this method in public bccessors
+       becbuse thbt cbn lebd to surprising ConcurrentModificbtionExceptions.
      */
-    private void processQueue() {
-        ValueCell vc;
-        while ((vc = (ValueCell)queue.poll()) != null) {
-            if (vc.isValid()) hash.remove(vc.key);
-            else ValueCell.dropped--;
+    privbte void processQueue() {
+        VblueCell vc;
+        while ((vc = (VblueCell)queue.poll()) != null) {
+            if (vc.isVblid()) hbsh.remove(vc.key);
+            else VblueCell.dropped--;
         }
     }
 
@@ -179,88 +179,88 @@ public class SoftCache extends AbstractMap<Object, Object> implements Map<Object
     /* -- Constructors -- */
 
     /**
-     * Construct a new, empty <code>SoftCache</code> with the given
-     * initial capacity and the given load factor.
+     * Construct b new, empty <code>SoftCbche</code> with the given
+     * initibl cbpbcity bnd the given lobd fbctor.
      *
-     * @param  initialCapacity  The initial capacity of the cache
+     * @pbrbm  initiblCbpbcity  The initibl cbpbcity of the cbche
      *
-     * @param  loadFactor       A number between 0.0 and 1.0
+     * @pbrbm  lobdFbctor       A number between 0.0 bnd 1.0
      *
-     * @throws IllegalArgumentException  If the initial capacity is less than
-     *                                   or equal to zero, or if the load
-     *                                   factor is less than zero
+     * @throws IllegblArgumentException  If the initibl cbpbcity is less thbn
+     *                                   or equbl to zero, or if the lobd
+     *                                   fbctor is less thbn zero
      */
-    public SoftCache(int initialCapacity, float loadFactor) {
-        hash = new HashMap<>(initialCapacity, loadFactor);
+    public SoftCbche(int initiblCbpbcity, flobt lobdFbctor) {
+        hbsh = new HbshMbp<>(initiblCbpbcity, lobdFbctor);
     }
 
     /**
-     * Construct a new, empty <code>SoftCache</code> with the given
-     * initial capacity and the default load factor.
+     * Construct b new, empty <code>SoftCbche</code> with the given
+     * initibl cbpbcity bnd the defbult lobd fbctor.
      *
-     * @param  initialCapacity  The initial capacity of the cache
+     * @pbrbm  initiblCbpbcity  The initibl cbpbcity of the cbche
      *
-     * @throws IllegalArgumentException  If the initial capacity is less than
-     *                                   or equal to zero
+     * @throws IllegblArgumentException  If the initibl cbpbcity is less thbn
+     *                                   or equbl to zero
      */
-    public SoftCache(int initialCapacity) {
-        hash = new HashMap<>(initialCapacity);
+    public SoftCbche(int initiblCbpbcity) {
+        hbsh = new HbshMbp<>(initiblCbpbcity);
     }
 
     /**
-     * Construct a new, empty <code>SoftCache</code> with the default
-     * capacity and the default load factor.
+     * Construct b new, empty <code>SoftCbche</code> with the defbult
+     * cbpbcity bnd the defbult lobd fbctor.
      */
-    public SoftCache() {
-        hash = new HashMap<>();
+    public SoftCbche() {
+        hbsh = new HbshMbp<>();
     }
 
 
     /* -- Simple queries -- */
 
     /**
-     * Return the number of key-value mappings in this cache.  The time
-     * required by this operation is linear in the size of the map.
+     * Return the number of key-vblue mbppings in this cbche.  The time
+     * required by this operbtion is linebr in the size of the mbp.
      */
     public int size() {
         return entrySet().size();
     }
 
     /**
-     * Return <code>true</code> if this cache contains no key-value mappings.
+     * Return <code>true</code> if this cbche contbins no key-vblue mbppings.
      */
-    public boolean isEmpty() {
+    public boolebn isEmpty() {
         return entrySet().isEmpty();
     }
 
     /**
-     * Return <code>true</code> if this cache contains a mapping for the
-     * specified key.  If there is no mapping for the key, this method will not
-     * attempt to construct one by invoking the <code>fill</code> method.
+     * Return <code>true</code> if this cbche contbins b mbpping for the
+     * specified key.  If there is no mbpping for the key, this method will not
+     * bttempt to construct one by invoking the <code>fill</code> method.
      *
-     * @param   key   The key whose presence in the cache is to be tested
+     * @pbrbm   key   The key whose presence in the cbche is to be tested
      */
-    public boolean containsKey(Object key) {
-        return ValueCell.strip(hash.get(key), false) != null;
+    public boolebn contbinsKey(Object key) {
+        return VblueCell.strip(hbsh.get(key), fblse) != null;
     }
 
 
-    /* -- Lookup and modification operations -- */
+    /* -- Lookup bnd modificbtion operbtions -- */
 
     /**
-     * Create a value object for the given <code>key</code>.  This method is
+     * Crebte b vblue object for the given <code>key</code>.  This method is
      * invoked by the <code>get</code> method when there is no entry for
-     * <code>key</code>.  If this method returns a non-<code>null</code> value,
-     * then the cache will be updated to map <code>key</code> to that value,
-     * and that value will be returned by the <code>get</code> method.
+     * <code>key</code>.  If this method returns b non-<code>null</code> vblue,
+     * then the cbche will be updbted to mbp <code>key</code> to thbt vblue,
+     * bnd thbt vblue will be returned by the <code>get</code> method.
      *
-     * <p> The default implementation of this method simply returns
-     * <code>null</code> for every <code>key</code> value.  A subclass may
-     * override this method to provide more useful behavior.
+     * <p> The defbult implementbtion of this method simply returns
+     * <code>null</code> for every <code>key</code> vblue.  A subclbss mby
+     * override this method to provide more useful behbvior.
      *
-     * @param  key  The key for which a value is to be computed
+     * @pbrbm  key  The key for which b vblue is to be computed
      *
-     * @return      A value for <code>key</code>, or <code>null</code> if one
+     * @return      A vblue for <code>key</code>, or <code>null</code> if one
      *              could not be computed
      * @see #get
      */
@@ -269,154 +269,154 @@ public class SoftCache extends AbstractMap<Object, Object> implements Map<Object
     }
 
     /**
-     * Return the value to which this cache maps the specified
-     * <code>key</code>.  If the cache does not presently contain a value for
-     * this key, then invoke the <code>fill</code> method in an attempt to
-     * compute such a value.  If that method returns a non-<code>null</code>
-     * value, then update the cache and return the new value.  Otherwise,
+     * Return the vblue to which this cbche mbps the specified
+     * <code>key</code>.  If the cbche does not presently contbin b vblue for
+     * this key, then invoke the <code>fill</code> method in bn bttempt to
+     * compute such b vblue.  If thbt method returns b non-<code>null</code>
+     * vblue, then updbte the cbche bnd return the new vblue.  Otherwise,
      * return <code>null</code>.
      *
-     * <p> Note that because this method may update the cache, it is considered
-     * a mutator and may cause <code>ConcurrentModificationException</code>s to
-     * be thrown if invoked while an iterator is in use.
+     * <p> Note thbt becbuse this method mby updbte the cbche, it is considered
+     * b mutbtor bnd mby cbuse <code>ConcurrentModificbtionException</code>s to
+     * be thrown if invoked while bn iterbtor is in use.
      *
-     * @param  key  The key whose associated value, if any, is to be returned
+     * @pbrbm  key  The key whose bssocibted vblue, if bny, is to be returned
      *
      * @see #fill
      */
     public Object get(Object key) {
         processQueue();
-        Object v = hash.get(key);
+        Object v = hbsh.get(key);
         if (v == null) {
             v = fill(key);
             if (v != null) {
-                hash.put(key, ValueCell.create(key, v, queue));
+                hbsh.put(key, VblueCell.crebte(key, v, queue));
                 return v;
             }
         }
-        return ValueCell.strip(v, false);
+        return VblueCell.strip(v, fblse);
     }
 
     /**
-     * Update this cache so that the given <code>key</code> maps to the given
-     * <code>value</code>.  If the cache previously contained a mapping for
-     * <code>key</code> then that mapping is replaced and the old value is
+     * Updbte this cbche so thbt the given <code>key</code> mbps to the given
+     * <code>vblue</code>.  If the cbche previously contbined b mbpping for
+     * <code>key</code> then thbt mbpping is replbced bnd the old vblue is
      * returned.
      *
-     * @param  key    The key that is to be mapped to the given
-     *                <code>value</code>
-     * @param  value  The value to which the given <code>key</code> is to be
-     *                mapped
+     * @pbrbm  key    The key thbt is to be mbpped to the given
+     *                <code>vblue</code>
+     * @pbrbm  vblue  The vblue to which the given <code>key</code> is to be
+     *                mbpped
      *
-     * @return  The previous value to which this key was mapped, or
-     *          <code>null</code> if there was no mapping for the key
+     * @return  The previous vblue to which this key wbs mbpped, or
+     *          <code>null</code> if there wbs no mbpping for the key
      */
-    public Object put(Object key, Object value) {
+    public Object put(Object key, Object vblue) {
         processQueue();
-        ValueCell vc = ValueCell.create(key, value, queue);
-        return ValueCell.strip(hash.put(key, vc), true);
+        VblueCell vc = VblueCell.crebte(key, vblue, queue);
+        return VblueCell.strip(hbsh.put(key, vc), true);
     }
 
     /**
-     * Remove the mapping for the given <code>key</code> from this cache, if
+     * Remove the mbpping for the given <code>key</code> from this cbche, if
      * present.
      *
-     * @param  key  The key whose mapping is to be removed
+     * @pbrbm  key  The key whose mbpping is to be removed
      *
-     * @return  The value to which this key was mapped, or <code>null</code> if
-     *          there was no mapping for the key
+     * @return  The vblue to which this key wbs mbpped, or <code>null</code> if
+     *          there wbs no mbpping for the key
      */
     public Object remove(Object key) {
         processQueue();
-        return ValueCell.strip(hash.remove(key), true);
+        return VblueCell.strip(hbsh.remove(key), true);
     }
 
     /**
-     * Remove all mappings from this cache.
+     * Remove bll mbppings from this cbche.
      */
-    public void clear() {
+    public void clebr() {
         processQueue();
-        hash.clear();
+        hbsh.clebr();
     }
 
 
     /* -- Views -- */
 
-    private static boolean valEquals(Object o1, Object o2) {
-        return (o1 == null) ? (o2 == null) : o1.equals(o2);
+    privbte stbtic boolebn vblEqubls(Object o1, Object o2) {
+        return (o1 == null) ? (o2 == null) : o1.equbls(o2);
     }
 
 
-    /* Internal class for entries.
-       Because it uses SoftCache.this.queue, this class cannot be static.
+    /* Internbl clbss for entries.
+       Becbuse it uses SoftCbche.this.queue, this clbss cbnnot be stbtic.
      */
-    private class Entry implements Map.Entry<Object, Object> {
-        private Map.Entry<Object, Object> ent;
-        private Object value;   /* Strong reference to value, to prevent the GC
-                                   from flushing the value while this Entry
+    privbte clbss Entry implements Mbp.Entry<Object, Object> {
+        privbte Mbp.Entry<Object, Object> ent;
+        privbte Object vblue;   /* Strong reference to vblue, to prevent the GC
+                                   from flushing the vblue while this Entry
                                    exists */
 
-        Entry(Map.Entry<Object, Object> ent, Object value) {
+        Entry(Mbp.Entry<Object, Object> ent, Object vblue) {
             this.ent = ent;
-            this.value = value;
+            this.vblue = vblue;
         }
 
         public Object getKey() {
             return ent.getKey();
         }
 
-        public Object getValue() {
-            return value;
+        public Object getVblue() {
+            return vblue;
         }
 
-        public Object setValue(Object value) {
-            return ent.setValue(ValueCell.create(ent.getKey(), value, queue));
+        public Object setVblue(Object vblue) {
+            return ent.setVblue(VblueCell.crebte(ent.getKey(), vblue, queue));
         }
 
-        @SuppressWarnings("unchecked")
-        public boolean equals(Object o) {
-            if (! (o instanceof Map.Entry)) return false;
-            Map.Entry<Object, Object> e = (Map.Entry<Object, Object>)o;
-            return (valEquals(ent.getKey(), e.getKey())
-                    && valEquals(value, e.getValue()));
+        @SuppressWbrnings("unchecked")
+        public boolebn equbls(Object o) {
+            if (! (o instbnceof Mbp.Entry)) return fblse;
+            Mbp.Entry<Object, Object> e = (Mbp.Entry<Object, Object>)o;
+            return (vblEqubls(ent.getKey(), e.getKey())
+                    && vblEqubls(vblue, e.getVblue()));
         }
 
-        public int hashCode() {
+        public int hbshCode() {
             Object k;
-            return ((((k = getKey()) == null) ? 0 : k.hashCode())
-                    ^ ((value == null) ? 0 : value.hashCode()));
+            return ((((k = getKey()) == null) ? 0 : k.hbshCode())
+                    ^ ((vblue == null) ? 0 : vblue.hbshCode()));
         }
 
     }
 
 
-    /* Internal class for entry sets */
-    private class EntrySet extends AbstractSet<Map.Entry<Object, Object>> {
-        Set<Map.Entry<Object, Object>> hashEntries = hash.entrySet();
+    /* Internbl clbss for entry sets */
+    privbte clbss EntrySet extends AbstrbctSet<Mbp.Entry<Object, Object>> {
+        Set<Mbp.Entry<Object, Object>> hbshEntries = hbsh.entrySet();
 
-        public Iterator<Map.Entry<Object, Object>> iterator() {
+        public Iterbtor<Mbp.Entry<Object, Object>> iterbtor() {
 
-            return new Iterator<Map.Entry<Object, Object>>() {
-                Iterator<Map.Entry<Object, Object>> hashIterator = hashEntries.iterator();
+            return new Iterbtor<Mbp.Entry<Object, Object>>() {
+                Iterbtor<Mbp.Entry<Object, Object>> hbshIterbtor = hbshEntries.iterbtor();
                 Entry next = null;
 
-                public boolean hasNext() {
-                    while (hashIterator.hasNext()) {
-                        Map.Entry<Object, Object> ent = hashIterator.next();
-                        ValueCell vc = (ValueCell)ent.getValue();
+                public boolebn hbsNext() {
+                    while (hbshIterbtor.hbsNext()) {
+                        Mbp.Entry<Object, Object> ent = hbshIterbtor.next();
+                        VblueCell vc = (VblueCell)ent.getVblue();
                         Object v = null;
                         if ((vc != null) && ((v = vc.get()) == null)) {
-                            /* Value has been flushed by GC */
+                            /* Vblue hbs been flushed by GC */
                             continue;
                         }
                         next = new Entry(ent, v);
                         return true;
                     }
-                    return false;
+                    return fblse;
                 }
 
-                public Map.Entry<Object, Object> next() {
-                    if ((next == null) && !hasNext())
+                public Mbp.Entry<Object, Object> next() {
+                    if ((next == null) && !hbsNext())
                         throw new NoSuchElementException();
                     Entry e = next;
                     next = null;
@@ -424,37 +424,37 @@ public class SoftCache extends AbstractMap<Object, Object> implements Map<Object
                 }
 
                 public void remove() {
-                    hashIterator.remove();
+                    hbshIterbtor.remove();
                 }
 
             };
         }
 
-        public boolean isEmpty() {
-            return !(iterator().hasNext());
+        public boolebn isEmpty() {
+            return !(iterbtor().hbsNext());
         }
 
         public int size() {
             int j = 0;
-            for (Iterator<Map.Entry<Object, Object>> i = iterator(); i.hasNext(); i.next()) j++;
+            for (Iterbtor<Mbp.Entry<Object, Object>> i = iterbtor(); i.hbsNext(); i.next()) j++;
             return j;
         }
 
-        public boolean remove(Object o) {
+        public boolebn remove(Object o) {
             processQueue();
-            if (o instanceof Entry) return hashEntries.remove(((Entry)o).ent);
-            else return false;
+            if (o instbnceof Entry) return hbshEntries.remove(((Entry)o).ent);
+            else return fblse;
         }
 
     }
 
 
-    private Set<Map.Entry<Object, Object>> entrySet = null;
+    privbte Set<Mbp.Entry<Object, Object>> entrySet = null;
 
     /**
-     * Return a <code>Set</code> view of the mappings in this cache.
+     * Return b <code>Set</code> view of the mbppings in this cbche.
      */
-    public Set<Map.Entry<Object, Object>> entrySet() {
+    public Set<Mbp.Entry<Object, Object>> entrySet() {
         if (entrySet == null) entrySet = new EntrySet();
         return entrySet;
     }

@@ -3,95 +3,95 @@
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Licensed to the Apbche Softwbre Foundbtion (ASF) under one
+ * or more contributor license bgreements. See the NOTICE file
+ * distributed with this work for bdditionbl informbtion
+ * regbrding copyright ownership. The ASF licenses this file
+ * to you under the Apbche License, Version 2.0 (the
+ * "License"); you mby not use this file except in complibnce
+ * with the License. You mby obtbin b copy of the License bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.bpbche.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unless required by bpplicbble lbw or bgreed to in writing,
+ * softwbre distributed under the License is distributed on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
+ * specific lbngubge governing permissions bnd limitbtions
  * under the License.
  */
-package com.sun.org.apache.xml.internal.security.keys.content.keyvalues;
+pbckbge com.sun.org.bpbche.xml.internbl.security.keys.content.keyvblues;
 
-import java.math.BigInteger;
-import java.security.Key;
-import java.security.KeyFactory;
-import java.security.NoSuchAlgorithmException;
-import java.security.PublicKey;
-import java.security.interfaces.DSAPublicKey;
-import java.security.spec.DSAPublicKeySpec;
-import java.security.spec.InvalidKeySpecException;
+import jbvb.mbth.BigInteger;
+import jbvb.security.Key;
+import jbvb.security.KeyFbctory;
+import jbvb.security.NoSuchAlgorithmException;
+import jbvb.security.PublicKey;
+import jbvb.security.interfbces.DSAPublicKey;
+import jbvb.security.spec.DSAPublicKeySpec;
+import jbvb.security.spec.InvblidKeySpecException;
 
-import com.sun.org.apache.xml.internal.security.exceptions.XMLSecurityException;
-import com.sun.org.apache.xml.internal.security.utils.Constants;
-import com.sun.org.apache.xml.internal.security.utils.I18n;
-import com.sun.org.apache.xml.internal.security.utils.SignatureElementProxy;
-import com.sun.org.apache.xml.internal.security.utils.XMLUtils;
+import com.sun.org.bpbche.xml.internbl.security.exceptions.XMLSecurityException;
+import com.sun.org.bpbche.xml.internbl.security.utils.Constbnts;
+import com.sun.org.bpbche.xml.internbl.security.utils.I18n;
+import com.sun.org.bpbche.xml.internbl.security.utils.SignbtureElementProxy;
+import com.sun.org.bpbche.xml.internbl.security.utils.XMLUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-public class DSAKeyValue extends SignatureElementProxy implements KeyValueContent {
+public clbss DSAKeyVblue extends SignbtureElementProxy implements KeyVblueContent {
 
     /**
-     * Constructor DSAKeyValue
+     * Constructor DSAKeyVblue
      *
-     * @param element
-     * @param baseURI
+     * @pbrbm element
+     * @pbrbm bbseURI
      * @throws XMLSecurityException
      */
-    public DSAKeyValue(Element element, String baseURI) throws XMLSecurityException {
-        super(element, baseURI);
+    public DSAKeyVblue(Element element, String bbseURI) throws XMLSecurityException {
+        super(element, bbseURI);
     }
 
     /**
-     * Constructor DSAKeyValue
+     * Constructor DSAKeyVblue
      *
-     * @param doc
-     * @param P
-     * @param Q
-     * @param G
-     * @param Y
+     * @pbrbm doc
+     * @pbrbm P
+     * @pbrbm Q
+     * @pbrbm G
+     * @pbrbm Y
      */
-    public DSAKeyValue(Document doc, BigInteger P, BigInteger Q, BigInteger G, BigInteger Y) {
+    public DSAKeyVblue(Document doc, BigInteger P, BigInteger Q, BigInteger G, BigInteger Y) {
         super(doc);
 
-        XMLUtils.addReturnToElement(this.constructionElement);
-        this.addBigIntegerElement(P, Constants._TAG_P);
-        this.addBigIntegerElement(Q, Constants._TAG_Q);
-        this.addBigIntegerElement(G, Constants._TAG_G);
-        this.addBigIntegerElement(Y, Constants._TAG_Y);
+        XMLUtils.bddReturnToElement(this.constructionElement);
+        this.bddBigIntegerElement(P, Constbnts._TAG_P);
+        this.bddBigIntegerElement(Q, Constbnts._TAG_Q);
+        this.bddBigIntegerElement(G, Constbnts._TAG_G);
+        this.bddBigIntegerElement(Y, Constbnts._TAG_Y);
     }
 
     /**
-     * Constructor DSAKeyValue
+     * Constructor DSAKeyVblue
      *
-     * @param doc
-     * @param key
-     * @throws IllegalArgumentException
+     * @pbrbm doc
+     * @pbrbm key
+     * @throws IllegblArgumentException
      */
-    public DSAKeyValue(Document doc, Key key) throws IllegalArgumentException {
+    public DSAKeyVblue(Document doc, Key key) throws IllegblArgumentException {
         super(doc);
 
-        XMLUtils.addReturnToElement(this.constructionElement);
+        XMLUtils.bddReturnToElement(this.constructionElement);
 
-        if (key instanceof java.security.interfaces.DSAPublicKey) {
-            this.addBigIntegerElement(((DSAPublicKey) key).getParams().getP(), Constants._TAG_P);
-            this.addBigIntegerElement(((DSAPublicKey) key).getParams().getQ(), Constants._TAG_Q);
-            this.addBigIntegerElement(((DSAPublicKey) key).getParams().getG(), Constants._TAG_G);
-            this.addBigIntegerElement(((DSAPublicKey) key).getY(), Constants._TAG_Y);
+        if (key instbnceof jbvb.security.interfbces.DSAPublicKey) {
+            this.bddBigIntegerElement(((DSAPublicKey) key).getPbrbms().getP(), Constbnts._TAG_P);
+            this.bddBigIntegerElement(((DSAPublicKey) key).getPbrbms().getQ(), Constbnts._TAG_Q);
+            this.bddBigIntegerElement(((DSAPublicKey) key).getPbrbms().getG(), Constbnts._TAG_G);
+            this.bddBigIntegerElement(((DSAPublicKey) key).getY(), Constbnts._TAG_Y);
         } else {
-            Object exArgs[] = { Constants._TAG_DSAKEYVALUE, key.getClass().getName() };
+            Object exArgs[] = { Constbnts._TAG_DSAKEYVALUE, key.getClbss().getNbme() };
 
-            throw new IllegalArgumentException(I18n.translate("KeyValue.IllegalArgument", exArgs));
+            throw new IllegblArgumentException(I18n.trbnslbte("KeyVblue.IllegblArgument", exArgs));
         }
     }
 
@@ -101,31 +101,31 @@ public class DSAKeyValue extends SignatureElementProxy implements KeyValueConten
             DSAPublicKeySpec pkspec =
                 new DSAPublicKeySpec(
                     this.getBigIntegerFromChildElement(
-                        Constants._TAG_Y, Constants.SignatureSpecNS
+                        Constbnts._TAG_Y, Constbnts.SignbtureSpecNS
                     ),
                     this.getBigIntegerFromChildElement(
-                        Constants._TAG_P, Constants.SignatureSpecNS
+                        Constbnts._TAG_P, Constbnts.SignbtureSpecNS
                     ),
                     this.getBigIntegerFromChildElement(
-                        Constants._TAG_Q, Constants.SignatureSpecNS
+                        Constbnts._TAG_Q, Constbnts.SignbtureSpecNS
                     ),
                     this.getBigIntegerFromChildElement(
-                        Constants._TAG_G, Constants.SignatureSpecNS
+                        Constbnts._TAG_G, Constbnts.SignbtureSpecNS
                     )
                 );
-            KeyFactory dsaFactory = KeyFactory.getInstance("DSA");
-            PublicKey pk = dsaFactory.generatePublic(pkspec);
+            KeyFbctory dsbFbctory = KeyFbctory.getInstbnce("DSA");
+            PublicKey pk = dsbFbctory.generbtePublic(pkspec);
 
             return pk;
-        } catch (NoSuchAlgorithmException ex) {
+        } cbtch (NoSuchAlgorithmException ex) {
             throw new XMLSecurityException("empty", ex);
-        } catch (InvalidKeySpecException ex) {
+        } cbtch (InvblidKeySpecException ex) {
             throw new XMLSecurityException("empty", ex);
         }
     }
 
     /** @inheritDoc */
-    public String getBaseLocalName() {
-        return Constants._TAG_DSAKEYVALUE;
+    public String getBbseLocblNbme() {
+        return Constbnts._TAG_DSAKEYVALUE;
     }
 }

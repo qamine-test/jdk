@@ -1,24 +1,24 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  *
  */
@@ -36,544 +36,544 @@
 #include "LETypes.h"
 /**
  * \file
- * \brief C++ API: Layout Engine Font Instance object
+ * \brief C++ API: Lbyout Engine Font Instbnce object
  */
 
 U_NAMESPACE_BEGIN
 
 /**
- * Instances of this class are used by <code>LEFontInstance::mapCharsToGlyphs</code> and
- * <code>LEFontInstance::mapCharToGlyph</code> to adjust character codes before the character
- * to glyph mapping process. Examples of this are filtering out control characters
- * and character mirroring - replacing a character which has both a left and a right
- * hand form with the opposite form.
+ * Instbnces of this clbss bre used by <code>LEFontInstbnce::mbpChbrsToGlyphs</code> bnd
+ * <code>LEFontInstbnce::mbpChbrToGlyph</code> to bdjust chbrbcter codes before the chbrbcter
+ * to glyph mbpping process. Exbmples of this bre filtering out control chbrbcters
+ * bnd chbrbcter mirroring - replbcing b chbrbcter which hbs both b left bnd b right
+ * hbnd form with the opposite form.
  *
- * @stable ICU 3.2
+ * @stbble ICU 3.2
  */
-class LECharMapper /* not : public UObject because this is an interface/mixin class */
+clbss LEChbrMbpper /* not : public UObject becbuse this is bn interfbce/mixin clbss */
 {
 public:
     /**
      * Destructor.
-     * @stable ICU 3.2
+     * @stbble ICU 3.2
      */
-    virtual ~LECharMapper();
+    virtubl ~LEChbrMbpper();
 
     /**
-     * This method does the adjustments.
+     * This method does the bdjustments.
      *
-     * @param ch - the input character
+     * @pbrbm ch - the input chbrbcter
      *
-     * @return the adjusted character
+     * @return the bdjusted chbrbcter
      *
-     * @stable ICU 2.8
+     * @stbble ICU 2.8
      */
-    virtual LEUnicode32 mapChar(LEUnicode32 ch) const = 0;
+    virtubl LEUnicode32 mbpChbr(LEUnicode32 ch) const = 0;
 };
 
 /**
- * This is a forward reference to the class which holds the per-glyph
- * storage.
+ * This is b forwbrd reference to the clbss which holds the per-glyph
+ * storbge.
  *
- * @stable ICU 3.0
+ * @stbble ICU 3.0
  */
-class LEGlyphStorage;
+clbss LEGlyphStorbge;
 
 /**
- * This is a virtual base class that serves as the interface between a LayoutEngine
- * and the platform font environment. It allows a LayoutEngine to access font tables, do
- * character to glyph mapping, and obtain metrics information without knowing any platform
- * specific details. There are also a few utility methods for converting between points,
- * pixels and funits. (font design units)
+ * This is b virtubl bbse clbss thbt serves bs the interfbce between b LbyoutEngine
+ * bnd the plbtform font environment. It bllows b LbyoutEngine to bccess font tbbles, do
+ * chbrbcter to glyph mbpping, bnd obtbin metrics informbtion without knowing bny plbtform
+ * specific detbils. There bre blso b few utility methods for converting between points,
+ * pixels bnd funits. (font design units)
  *
- * An instance of an <code>LEFontInstance</code> represents a font at a particular point
- * size. Each instance can represent either a single physical font, or a composite font.
- * A composite font is a collection of physical fonts, each of which contains a subset of
- * the characters contained in the composite font.
+ * An instbnce of bn <code>LEFontInstbnce</code> represents b font bt b pbrticulbr point
+ * size. Ebch instbnce cbn represent either b single physicbl font, or b composite font.
+ * A composite font is b collection of physicbl fonts, ebch of which contbins b subset of
+ * the chbrbcters contbined in the composite font.
  *
- * Note: with the exception of <code>getSubFont</code>, the methods in this class only
- * make sense for a physical font. If you have an <code>LEFontInstance</code> which
- * represents a composite font you should only call the methods below which have
- * an <code>LEGlyphID</code>, an <code>LEUnicode</code> or an <code>LEUnicode32</code>
- * as one of the arguments because these can be used to select a particular subfont.
+ * Note: with the exception of <code>getSubFont</code>, the methods in this clbss only
+ * mbke sense for b physicbl font. If you hbve bn <code>LEFontInstbnce</code> which
+ * represents b composite font you should only cbll the methods below which hbve
+ * bn <code>LEGlyphID</code>, bn <code>LEUnicode</code> or bn <code>LEUnicode32</code>
+ * bs one of the brguments becbuse these cbn be used to select b pbrticulbr subfont.
  *
- * Subclasses which implement composite fonts should supply an implementation of these
- * methods with some default behavior such as returning constant values, or using the
- * values from the first subfont.
+ * Subclbsses which implement composite fonts should supply bn implementbtion of these
+ * methods with some defbult behbvior such bs returning constbnt vblues, or using the
+ * vblues from the first subfont.
  *
- * @stable ICU 3.0
+ * @stbble ICU 3.0
  */
-class U_LAYOUT_API LEFontInstance : public UObject
+clbss U_LAYOUT_API LEFontInstbnce : public UObject
 {
 public:
 
     /**
-     * This virtual destructor is here so that the subclass
-     * destructors can be invoked through the base class.
+     * This virtubl destructor is here so thbt the subclbss
+     * destructors cbn be invoked through the bbse clbss.
      *
-     * @stable ICU 2.8
+     * @stbble ICU 2.8
      */
-    virtual ~LEFontInstance();
+    virtubl ~LEFontInstbnce();
 
     /**
-     * Get a physical font which can render the given text. For composite fonts,
-     * if there is no single physical font which can render all of the text,
-     * return a physical font which can render an initial substring of the text,
-     * and set the <code>offset</code> parameter to the end of that substring.
+     * Get b physicbl font which cbn render the given text. For composite fonts,
+     * if there is no single physicbl font which cbn render bll of the text,
+     * return b physicbl font which cbn render bn initibl substring of the text,
+     * bnd set the <code>offset</code> pbrbmeter to the end of thbt substring.
      *
-     * Internally, the LayoutEngine works with runs of text all in the same
-     * font and script, so it is best to call this method with text which is
-     * in a single script, passing the script code in as a hint. If you don't
-     * know the script of the text, you can use zero, which is the script code
-     * for characters used in more than one script.
+     * Internblly, the LbyoutEngine works with runs of text bll in the sbme
+     * font bnd script, so it is best to cbll this method with text which is
+     * in b single script, pbssing the script code in bs b hint. If you don't
+     * know the script of the text, you cbn use zero, which is the script code
+     * for chbrbcters used in more thbn one script.
      *
-     * The default implementation of this method is intended for instances of
-     * <code>LEFontInstance</code> which represent a physical font. It returns
-     * <code>this</code> and indicates that the entire string can be rendered.
+     * The defbult implementbtion of this method is intended for instbnces of
+     * <code>LEFontInstbnce</code> which represent b physicbl font. It returns
+     * <code>this</code> bnd indicbtes thbt the entire string cbn be rendered.
      *
-     * This method will return a valid <code>LEFontInstance</code> unless you
-     * have passed illegal parameters, or an internal error has been encountered.
-     * For composite fonts, it may return the warning <code>LE_NO_SUBFONT_WARNING</code>
-     * to indicate that the returned font may not be able to render all of
-     * the text. Whenever a valid font is returned, the <code>offset</code> parameter
-     * will be advanced by at least one.
+     * This method will return b vblid <code>LEFontInstbnce</code> unless you
+     * hbve pbssed illegbl pbrbmeters, or bn internbl error hbs been encountered.
+     * For composite fonts, it mby return the wbrning <code>LE_NO_SUBFONT_WARNING</code>
+     * to indicbte thbt the returned font mby not be bble to render bll of
+     * the text. Whenever b vblid font is returned, the <code>offset</code> pbrbmeter
+     * will be bdvbnced by bt lebst one.
      *
-     * Subclasses which implement composite fonts must override this method.
-     * Where it makes sense, they should use the script code as a hint to render
-     * characters from the COMMON script in the font which is used for the given
-     * script. For example, if the input text is a series of Arabic words separated
-     * by spaces, and the script code passed in is <code>arabScriptCode</code> you
-     * should return the font used for Arabic characters for all of the input text,
-     * including the spaces. If, on the other hand, the input text contains characters
-     * which cannot be rendered by the font used for Arabic characters, but which can
-     * be rendered by another font, you should return that font for those characters.
+     * Subclbsses which implement composite fonts must override this method.
+     * Where it mbkes sense, they should use the script code bs b hint to render
+     * chbrbcters from the COMMON script in the font which is used for the given
+     * script. For exbmple, if the input text is b series of Arbbic words sepbrbted
+     * by spbces, bnd the script code pbssed in is <code>brbbScriptCode</code> you
+     * should return the font used for Arbbic chbrbcters for bll of the input text,
+     * including the spbces. If, on the other hbnd, the input text contbins chbrbcters
+     * which cbnnot be rendered by the font used for Arbbic chbrbcters, but which cbn
+     * be rendered by bnother font, you should return thbt font for those chbrbcters.
      *
-     * @param chars   - the array of Unicode characters.
-     * @param offset  - a pointer to the starting offset in the text. On exit this
-     *                  will be set the the limit offset of the text which can be
+     * @pbrbm chbrs   - the brrby of Unicode chbrbcters.
+     * @pbrbm offset  - b pointer to the stbrting offset in the text. On exit this
+     *                  will be set the the limit offset of the text which cbn be
      *                  rendered using the returned font.
-     * @param limit   - the limit offset for the input text.
-     * @param script  - the script hint.
-     * @param success - set to an error code if the arguments are illegal, or no font
-     *                  can be returned for some reason. May also be set to
+     * @pbrbm limit   - the limit offset for the input text.
+     * @pbrbm script  - the script hint.
+     * @pbrbm success - set to bn error code if the brguments bre illegbl, or no font
+     *                  cbn be returned for some rebson. Mby blso be set to
      *                  <code>LE_NO_SUBFONT_WARNING</code> if the subfont which
-     *                  was returned cannot render all of the text.
+     *                  wbs returned cbnnot render bll of the text.
      *
-     * @return an <code>LEFontInstance</code> for the sub font which can render the characters, or
-     *         <code>NULL</code> if there is an error.
+     * @return bn <code>LEFontInstbnce</code> for the sub font which cbn render the chbrbcters, or
+     *         <code>NULL</code> if there is bn error.
      *
      * @see LEScripts.h
      *
-     * @stable ICU 3.2
+     * @stbble ICU 3.2
      */
-    virtual const LEFontInstance *getSubFont(const LEUnicode chars[], le_int32 *offset, le_int32 limit, le_int32 script, LEErrorCode &success) const;
+    virtubl const LEFontInstbnce *getSubFont(const LEUnicode chbrs[], le_int32 *offset, le_int32 limit, le_int32 script, LEErrorCode &success) const;
 
     //
-    // Font file access
+    // Font file bccess
     //
 
     /**
-     * This method reads a table from the font. Note that in general,
-     * it only makes sense to call this method on an <code>LEFontInstance</code>
-     * which represents a physical font - i.e. one which has been returned by
-     * <code>getSubFont()</code>. This is because each subfont in a composite font
-     * will have different tables, and there's no way to know which subfont to access.
+     * This method rebds b tbble from the font. Note thbt in generbl,
+     * it only mbkes sense to cbll this method on bn <code>LEFontInstbnce</code>
+     * which represents b physicbl font - i.e. one which hbs been returned by
+     * <code>getSubFont()</code>. This is becbuse ebch subfont in b composite font
+     * will hbve different tbbles, bnd there's no wby to know which subfont to bccess.
      *
-     * Subclasses which represent composite fonts should always return <code>NULL</code>.
+     * Subclbsses which represent composite fonts should blwbys return <code>NULL</code>.
      *
-     * Note that implementing this function does not allow for range checking.
-     * Subclasses that desire the safety of range checking must implement the
-     * variation which has a length parameter.
+     * Note thbt implementing this function does not bllow for rbnge checking.
+     * Subclbsses thbt desire the sbfety of rbnge checking must implement the
+     * vbribtion which hbs b length pbrbmeter.
      *
-     * @param tableTag - the four byte table tag. (e.g. 'cmap')
+     * @pbrbm tbbleTbg - the four byte tbble tbg. (e.g. 'cmbp')
      *
-     * @return the address of the table in memory, or <code>NULL</code>
-     *         if the table doesn't exist.
+     * @return the bddress of the tbble in memory, or <code>NULL</code>
+     *         if the tbble doesn't exist.
      *
-     * @stable ICU 2.8
+     * @stbble ICU 2.8
      */
-    virtual const void *getFontTable(LETag tableTag) const = 0;
+    virtubl const void *getFontTbble(LETbg tbbleTbg) const = 0;
 
     /**
-     * This method reads a table from the font. Note that in general,
-     * it only makes sense to call this method on an <code>LEFontInstance</code>
-     * which represents a physical font - i.e. one which has been returned by
-     * <code>getSubFont()</code>. This is because each subfont in a composite font
-     * will have different tables, and there's no way to know which subfont to access.
+     * This method rebds b tbble from the font. Note thbt in generbl,
+     * it only mbkes sense to cbll this method on bn <code>LEFontInstbnce</code>
+     * which represents b physicbl font - i.e. one which hbs been returned by
+     * <code>getSubFont()</code>. This is becbuse ebch subfont in b composite font
+     * will hbve different tbbles, bnd there's no wby to know which subfont to bccess.
      *
-     * Subclasses which represent composite fonts should always return <code>NULL</code>.
+     * Subclbsses which represent composite fonts should blwbys return <code>NULL</code>.
      *
-     * This version sets a length, for range checking.
-     * Note that range checking can only be accomplished if this function is
-     * implemented in subclasses.
+     * This version sets b length, for rbnge checking.
+     * Note thbt rbnge checking cbn only be bccomplished if this function is
+     * implemented in subclbsses.
      *
-     * @param tableTag - the four byte table tag. (e.g. 'cmap')
-     * @param length - ignored on entry, on exit will be the length of the table if known, or -1 if unknown.
-     * @return the address of the table in memory, or <code>NULL</code>
-     *         if the table doesn't exist.
-     * @internal
+     * @pbrbm tbbleTbg - the four byte tbble tbg. (e.g. 'cmbp')
+     * @pbrbm length - ignored on entry, on exit will be the length of the tbble if known, or -1 if unknown.
+     * @return the bddress of the tbble in memory, or <code>NULL</code>
+     *         if the tbble doesn't exist.
+     * @internbl
      */
-    virtual const void* getFontTable(LETag tableTag, size_t &length) const { length=-1; return getFontTable(tableTag); }  /* -1 = unknown length */
+    virtubl const void* getFontTbble(LETbg tbbleTbg, size_t &length) const { length=-1; return getFontTbble(tbbleTbg); }  /* -1 = unknown length */
 
-    virtual void *getKernPairs() const = 0;
-    virtual void  setKernPairs(void *pairs) const = 0;
+    virtubl void *getKernPbirs() const = 0;
+    virtubl void  setKernPbirs(void *pbirs) const = 0;
 
     /**
-     * This method is used to determine if the font can
-     * render the given character. This can usually be done
-     * by looking the character up in the font's character
-     * to glyph mapping.
+     * This method is used to determine if the font cbn
+     * render the given chbrbcter. This cbn usublly be done
+     * by looking the chbrbcter up in the font's chbrbcter
+     * to glyph mbpping.
      *
-     * The default implementation of this method will return
-     * <code>TRUE</code> if <code>mapCharToGlyph(ch)</code>
-     * returns a non-zero value.
+     * The defbult implementbtion of this method will return
+     * <code>TRUE</code> if <code>mbpChbrToGlyph(ch)</code>
+     * returns b non-zero vblue.
      *
-     * @param ch - the character to be tested
+     * @pbrbm ch - the chbrbcter to be tested
      *
-     * @return <code>TRUE</code> if the font can render ch.
+     * @return <code>TRUE</code> if the font cbn render ch.
      *
-     * @stable ICU 3.2
+     * @stbble ICU 3.2
      */
-    virtual le_bool canDisplay(LEUnicode32 ch) const;
+    virtubl le_bool cbnDisplby(LEUnicode32 ch) const;
 
     /**
      * This method returns the number of design units in
-     * the font's EM square.
+     * the font's EM squbre.
      *
      * @return the number of design units pre EM.
      *
-     * @stable ICU 2.8
+     * @stbble ICU 2.8
      */
-    virtual le_int32 getUnitsPerEM() const = 0;
+    virtubl le_int32 getUnitsPerEM() const = 0;
 
     /**
-     * This method maps an array of character codes to an array of glyph
-     * indices, using the font's character to glyph map.
+     * This method mbps bn brrby of chbrbcter codes to bn brrby of glyph
+     * indices, using the font's chbrbcter to glyph mbp.
      *
-     * The default implementation iterates over all of the characters and calls
-     * <code>mapCharToGlyph(ch, mapper)</code> on each one. It also handles surrogate
-     * characters, storing the glyph ID for the high surrogate, and a deleted glyph (0xFFFF)
-     * for the low surrogate.
+     * The defbult implementbtion iterbtes over bll of the chbrbcters bnd cblls
+     * <code>mbpChbrToGlyph(ch, mbpper)</code> on ebch one. It blso hbndles surrogbte
+     * chbrbcters, storing the glyph ID for the high surrogbte, bnd b deleted glyph (0xFFFF)
+     * for the low surrogbte.
      *
-     * Most sublcasses will not need to implement this method.
+     * Most sublcbsses will not need to implement this method.
      *
-     * @param chars - the character array
-     * @param offset - the index of the first character
-     * @param count - the number of characters
-     * @param reverse - if <code>TRUE</code>, store the glyph indices in reverse order.
-     * @param mapper - the character mapper.
-     * @param filterZeroWidth - <code>TRUE</code> if ZWJ / ZWNJ characters should map to a glyph w/ no contours.
-     * @param glyphStorage - the object which contains the output glyph array
+     * @pbrbm chbrs - the chbrbcter brrby
+     * @pbrbm offset - the index of the first chbrbcter
+     * @pbrbm count - the number of chbrbcters
+     * @pbrbm reverse - if <code>TRUE</code>, store the glyph indices in reverse order.
+     * @pbrbm mbpper - the chbrbcter mbpper.
+     * @pbrbm filterZeroWidth - <code>TRUE</code> if ZWJ / ZWNJ chbrbcters should mbp to b glyph w/ no contours.
+     * @pbrbm glyphStorbge - the object which contbins the output glyph brrby
      *
-     * @see LECharMapper
+     * @see LEChbrMbpper
      *
-     * @stable ICU 3.6
+     * @stbble ICU 3.6
      */
-    virtual void mapCharsToGlyphs(const LEUnicode chars[], le_int32 offset, le_int32 count, le_bool reverse, const LECharMapper *mapper, le_bool filterZeroWidth, LEGlyphStorage &glyphStorage) const;
+    virtubl void mbpChbrsToGlyphs(const LEUnicode chbrs[], le_int32 offset, le_int32 count, le_bool reverse, const LEChbrMbpper *mbpper, le_bool filterZeroWidth, LEGlyphStorbge &glyphStorbge) const;
 
     /**
-     * This method maps a single character to a glyph index, using the
-     * font's character to glyph map. The default implementation of this
-     * method calls the mapper, and then calls <code>mapCharToGlyph(mappedCh)</code>.
+     * This method mbps b single chbrbcter to b glyph index, using the
+     * font's chbrbcter to glyph mbp. The defbult implementbtion of this
+     * method cblls the mbpper, bnd then cblls <code>mbpChbrToGlyph(mbppedCh)</code>.
      *
-     * @param ch - the character
-     * @param mapper - the character mapper
-     * @param filterZeroWidth - <code>TRUE</code> if ZWJ / ZWNJ characters should map to a glyph w/ no contours.
+     * @pbrbm ch - the chbrbcter
+     * @pbrbm mbpper - the chbrbcter mbpper
+     * @pbrbm filterZeroWidth - <code>TRUE</code> if ZWJ / ZWNJ chbrbcters should mbp to b glyph w/ no contours.
      *
      * @return the glyph index
      *
-     * @see LECharMapper
+     * @see LEChbrMbpper
      *
-     * @stable ICU 3.6
+     * @stbble ICU 3.6
      */
-    virtual LEGlyphID mapCharToGlyph(LEUnicode32 ch, const LECharMapper *mapper, le_bool filterZeroWidth) const;
+    virtubl LEGlyphID mbpChbrToGlyph(LEUnicode32 ch, const LEChbrMbpper *mbpper, le_bool filterZeroWidth) const;
 
     /**
-     * This method maps a single character to a glyph index, using the
-     * font's character to glyph map. The default implementation of this
-     * method calls the mapper, and then calls <code>mapCharToGlyph(mappedCh)</code>.
+     * This method mbps b single chbrbcter to b glyph index, using the
+     * font's chbrbcter to glyph mbp. The defbult implementbtion of this
+     * method cblls the mbpper, bnd then cblls <code>mbpChbrToGlyph(mbppedCh)</code>.
      *
-     * @param ch - the character
-     * @param mapper - the character mapper
+     * @pbrbm ch - the chbrbcter
+     * @pbrbm mbpper - the chbrbcter mbpper
      *
      * @return the glyph index
      *
-     * @see LECharMapper
+     * @see LEChbrMbpper
      *
-     * @stable ICU 3.2
+     * @stbble ICU 3.2
      */
-    virtual LEGlyphID mapCharToGlyph(LEUnicode32 ch, const LECharMapper *mapper) const;
+    virtubl LEGlyphID mbpChbrToGlyph(LEUnicode32 ch, const LEChbrMbpper *mbpper) const;
 
     /**
-     * This method maps a single character to a glyph index, using the
-     * font's character to glyph map. There is no default implementation
-     * of this method because it requires information about the platform
-     * font implementation.
+     * This method mbps b single chbrbcter to b glyph index, using the
+     * font's chbrbcter to glyph mbp. There is no defbult implementbtion
+     * of this method becbuse it requires informbtion bbout the plbtform
+     * font implementbtion.
      *
-     * @param ch - the character
+     * @pbrbm ch - the chbrbcter
      *
      * @return the glyph index
      *
-     * @stable ICU 3.2
+     * @stbble ICU 3.2
      */
-    virtual LEGlyphID mapCharToGlyph(LEUnicode32 ch) const = 0;
+    virtubl LEGlyphID mbpChbrToGlyph(LEUnicode32 ch) const = 0;
 
     //
     // Metrics
     //
 
     /**
-     * This method gets the X and Y advance of a particular glyph, in pixels.
+     * This method gets the X bnd Y bdvbnce of b pbrticulbr glyph, in pixels.
      *
-     * @param glyph - the glyph index
-     * @param advance - the X and Y pixel values will be stored here
+     * @pbrbm glyph - the glyph index
+     * @pbrbm bdvbnce - the X bnd Y pixel vblues will be stored here
      *
-     * @stable ICU 3.2
+     * @stbble ICU 3.2
      */
-    virtual void getGlyphAdvance(LEGlyphID glyph, LEPoint &advance) const = 0;
+    virtubl void getGlyphAdvbnce(LEGlyphID glyph, LEPoint &bdvbnce) const = 0;
 
-    virtual void getKerningAdjustment(LEPoint &adjustment) const = 0;
+    virtubl void getKerningAdjustment(LEPoint &bdjustment) const = 0;
 
     /**
-     * This method gets the hinted X and Y pixel coordinates of a particular
+     * This method gets the hinted X bnd Y pixel coordinbtes of b pbrticulbr
      * point in the outline of the given glyph.
      *
-     * @param glyph - the glyph index
-     * @param pointNumber - the number of the point
-     * @param point - the point's X and Y pixel values will be stored here
+     * @pbrbm glyph - the glyph index
+     * @pbrbm pointNumber - the number of the point
+     * @pbrbm point - the point's X bnd Y pixel vblues will be stored here
      *
-     * @return <code>TRUE</code> if the point coordinates could be stored.
+     * @return <code>TRUE</code> if the point coordinbtes could be stored.
      *
-     * @stable ICU 2.8
+     * @stbble ICU 2.8
      */
-    virtual le_bool getGlyphPoint(LEGlyphID glyph, le_int32 pointNumber, LEPoint &point) const = 0;
+    virtubl le_bool getGlyphPoint(LEGlyphID glyph, le_int32 pointNumber, LEPoint &point) const = 0;
 
     /**
-     * This method returns the width of the font's EM square
+     * This method returns the width of the font's EM squbre
      * in pixels.
      *
-     * @return the pixel width of the EM square
+     * @return the pixel width of the EM squbre
      *
-     * @stable ICU 2.8
+     * @stbble ICU 2.8
      */
-    virtual float getXPixelsPerEm() const = 0;
+    virtubl flobt getXPixelsPerEm() const = 0;
 
     /**
-     * This method returns the height of the font's EM square
+     * This method returns the height of the font's EM squbre
      * in pixels.
      *
-     * @return the pixel height of the EM square
+     * @return the pixel height of the EM squbre
      *
-     * @stable ICU 2.8
+     * @stbble ICU 2.8
      */
-    virtual float getYPixelsPerEm() const = 0;
+    virtubl flobt getYPixelsPerEm() const = 0;
 
     /**
      * This method converts font design units in the
      * X direction to points.
      *
-     * @param xUnits - design units in the X direction
+     * @pbrbm xUnits - design units in the X direction
      *
      * @return points in the X direction
      *
-     * @stable ICU 3.2
+     * @stbble ICU 3.2
      */
-    virtual float xUnitsToPoints(float xUnits) const;
+    virtubl flobt xUnitsToPoints(flobt xUnits) const;
 
     /**
      * This method converts font design units in the
      * Y direction to points.
      *
-     * @param yUnits - design units in the Y direction
+     * @pbrbm yUnits - design units in the Y direction
      *
      * @return points in the Y direction
      *
-     * @stable ICU 3.2
+     * @stbble ICU 3.2
      */
-    virtual float yUnitsToPoints(float yUnits) const;
+    virtubl flobt yUnitsToPoints(flobt yUnits) const;
 
     /**
      * This method converts font design units to points.
      *
-     * @param units - X and Y design units
-     * @param points - set to X and Y points
+     * @pbrbm units - X bnd Y design units
+     * @pbrbm points - set to X bnd Y points
      *
-     * @stable ICU 3.2
+     * @stbble ICU 3.2
      */
-    virtual void unitsToPoints(LEPoint &units, LEPoint &points) const;
+    virtubl void unitsToPoints(LEPoint &units, LEPoint &points) const;
 
     /**
      * This method converts pixels in the
      * X direction to font design units.
      *
-     * @param xPixels - pixels in the X direction
+     * @pbrbm xPixels - pixels in the X direction
      *
      * @return font design units in the X direction
      *
-     * @stable ICU 3.2
+     * @stbble ICU 3.2
      */
-    virtual float xPixelsToUnits(float xPixels) const;
+    virtubl flobt xPixelsToUnits(flobt xPixels) const;
 
     /**
      * This method converts pixels in the
      * Y direction to font design units.
      *
-     * @param yPixels - pixels in the Y direction
+     * @pbrbm yPixels - pixels in the Y direction
      *
      * @return font design units in the Y direction
      *
-     * @stable ICU 3.2
+     * @stbble ICU 3.2
      */
-    virtual float yPixelsToUnits(float yPixels) const;
+    virtubl flobt yPixelsToUnits(flobt yPixels) const;
 
     /**
      * This method converts pixels to font design units.
      *
-     * @param pixels - X and Y pixel
-     * @param units - set to X and Y font design units
+     * @pbrbm pixels - X bnd Y pixel
+     * @pbrbm units - set to X bnd Y font design units
      *
-     * @stable ICU 3.2
+     * @stbble ICU 3.2
      */
-    virtual void pixelsToUnits(LEPoint &pixels, LEPoint &units) const;
+    virtubl void pixelsToUnits(LEPoint &pixels, LEPoint &units) const;
 
     /**
-     * Get the X scale factor from the font's transform. The default
-     * implementation of <code>transformFunits()</code> will call this method.
+     * Get the X scble fbctor from the font's trbnsform. The defbult
+     * implementbtion of <code>trbnsformFunits()</code> will cbll this method.
      *
-     * @return the X scale factor.
+     * @return the X scble fbctor.
      *
      *
-     * @see transformFunits
+     * @see trbnsformFunits
      *
-     * @stable ICU 3.2
+     * @stbble ICU 3.2
      */
-    virtual float getScaleFactorX() const = 0;
+    virtubl flobt getScbleFbctorX() const = 0;
 
     /**
-     * Get the Y scale factor from the font's transform. The default
-     * implementation of <code>transformFunits()</code> will call this method.
+     * Get the Y scble fbctor from the font's trbnsform. The defbult
+     * implementbtion of <code>trbnsformFunits()</code> will cbll this method.
      *
-     * @return the Yscale factor.
+     * @return the Yscble fbctor.
      *
-     * @see transformFunits
+     * @see trbnsformFunits
      *
-     * @stable ICU 3.2
+     * @stbble ICU 3.2
      */
-    virtual float getScaleFactorY() const = 0;
+    virtubl flobt getScbleFbctorY() const = 0;
 
     /**
-     * This method transforms an X, Y point in font design units to a
-     * pixel coordinate, applying the font's transform. The default
-     * implementation of this method calls <code>getScaleFactorX()</code>
-     * and <code>getScaleFactorY()</code>.
+     * This method trbnsforms bn X, Y point in font design units to b
+     * pixel coordinbte, bpplying the font's trbnsform. The defbult
+     * implementbtion of this method cblls <code>getScbleFbctorX()</code>
+     * bnd <code>getScbleFbctorY()</code>.
      *
-     * @param xFunits - the X coordinate in font design units
-     * @param yFunits - the Y coordinate in font design units
-     * @param pixels - the tranformed co-ordinate in pixels
+     * @pbrbm xFunits - the X coordinbte in font design units
+     * @pbrbm yFunits - the Y coordinbte in font design units
+     * @pbrbm pixels - the trbnformed co-ordinbte in pixels
      *
-     * @see getScaleFactorX
-     * @see getScaleFactorY
+     * @see getScbleFbctorX
+     * @see getScbleFbctorY
      *
-     * @stable ICU 3.2
+     * @stbble ICU 3.2
      */
-    virtual void transformFunits(float xFunits, float yFunits, LEPoint &pixels) const;
+    virtubl void trbnsformFunits(flobt xFunits, flobt yFunits, LEPoint &pixels) const;
 
     /**
-     * This is a convenience method used to convert
-     * values in a 16.16 fixed point format to floating point.
+     * This is b convenience method used to convert
+     * vblues in b 16.16 fixed point formbt to flobting point.
      *
-     * @param fixed - the fixed point value
+     * @pbrbm fixed - the fixed point vblue
      *
-     * @return the floating point value
+     * @return the flobting point vblue
      *
-     * @stable ICU 2.8
+     * @stbble ICU 2.8
      */
-    static inline float fixedToFloat(le_int32 fixed);
+    stbtic inline flobt fixedToFlobt(le_int32 fixed);
 
     /**
-     * This is a convenience method used to convert
-     * floating point values to 16.16 fixed point format.
+     * This is b convenience method used to convert
+     * flobting point vblues to 16.16 fixed point formbt.
      *
-     * @param theFloat - the floating point value
+     * @pbrbm theFlobt - the flobting point vblue
      *
-     * @return the fixed point value
+     * @return the fixed point vblue
      *
-     * @stable ICU 2.8
+     * @stbble ICU 2.8
      */
-    static inline le_int32 floatToFixed(float theFloat);
+    stbtic inline le_int32 flobtToFixed(flobt theFlobt);
 
     //
-    // These methods won't ever be called by the LayoutEngine,
-    // but are useful for clients of <code>LEFontInstance</code> who
+    // These methods won't ever be cblled by the LbyoutEngine,
+    // but bre useful for clients of <code>LEFontInstbnce</code> who
     // need to render text.
     //
 
     /**
-     * Get the font's ascent.
+     * Get the font's bscent.
      *
-     * @return the font's ascent, in points. This value
-     * will always be positive.
+     * @return the font's bscent, in points. This vblue
+     * will blwbys be positive.
      *
-     * @stable ICU 3.2
+     * @stbble ICU 3.2
      */
-    virtual le_int32 getAscent() const = 0;
+    virtubl le_int32 getAscent() const = 0;
 
     /**
      * Get the font's descent.
      *
-     * @return the font's descent, in points. This value
-     * will always be positive.
+     * @return the font's descent, in points. This vblue
+     * will blwbys be positive.
      *
-     * @stable ICU 3.2
+     * @stbble ICU 3.2
      */
-    virtual le_int32 getDescent() const = 0;
+    virtubl le_int32 getDescent() const = 0;
 
     /**
-     * Get the font's leading.
+     * Get the font's lebding.
      *
-     * @return the font's leading, in points. This value
-     * will always be positive.
+     * @return the font's lebding, in points. This vblue
+     * will blwbys be positive.
      *
-     * @stable ICU 3.2
+     * @stbble ICU 3.2
      */
-    virtual le_int32 getLeading() const = 0;
+    virtubl le_int32 getLebding() const = 0;
 
     /**
-     * Get the line height required to display text in
-     * this font. The default implementation of this method
-     * returns the sum of the ascent, descent, and leading.
+     * Get the line height required to displby text in
+     * this font. The defbult implementbtion of this method
+     * returns the sum of the bscent, descent, bnd lebding.
      *
-     * @return the line height, in points. This vaule will
-     * always be positive.
+     * @return the line height, in points. This vbule will
+     * blwbys be positive.
      *
-     * @stable ICU 3.2
+     * @stbble ICU 3.2
      */
-    virtual le_int32 getLineHeight() const;
+    virtubl le_int32 getLineHeight() const;
 
     /**
-     * ICU "poor man's RTTI", returns a UClassID for the actual class.
+     * ICU "poor mbn's RTTI", returns b UClbssID for the bctubl clbss.
      *
-     * @stable ICU 3.2
+     * @stbble ICU 3.2
      */
-    virtual UClassID getDynamicClassID() const;
+    virtubl UClbssID getDynbmicClbssID() const;
 
     /**
-     * ICU "poor man's RTTI", returns a UClassID for this class.
+     * ICU "poor mbn's RTTI", returns b UClbssID for this clbss.
      *
-     * @stable ICU 3.2
+     * @stbble ICU 3.2
      */
-    static UClassID getStaticClassID();
+    stbtic UClbssID getStbticClbssID();
 
 };
 
-inline float LEFontInstance::fixedToFloat(le_int32 fixed)
+inline flobt LEFontInstbnce::fixedToFlobt(le_int32 fixed)
 {
-    return (float) (fixed / 65536.0);
+    return (flobt) (fixed / 65536.0);
 }
 
-inline le_int32 LEFontInstance::floatToFixed(float theFloat)
+inline le_int32 LEFontInstbnce::flobtToFixed(flobt theFlobt)
 {
-    return (le_int32) (theFloat * 65536.0);
+    return (le_int32) (theFlobt * 65536.0);
 }
 
 U_NAMESPACE_END

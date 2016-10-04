@@ -1,186 +1,186 @@
 /*
- * Copyright (c) 1995, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt.image;
+pbckbge jbvb.bwt.imbge;
 
-import java.util.Hashtable;
-import java.awt.image.ImageProducer;
-import java.awt.image.ImageConsumer;
-import java.awt.image.ColorModel;
-import java.awt.Image;
+import jbvb.util.Hbshtbble;
+import jbvb.bwt.imbge.ImbgeProducer;
+import jbvb.bwt.imbge.ImbgeConsumer;
+import jbvb.bwt.imbge.ColorModel;
+import jbvb.bwt.Imbge;
 
 /**
- * The PixelGrabber class implements an ImageConsumer which can be attached
- * to an Image or ImageProducer object to retrieve a subset of the pixels
- * in that image.  Here is an example:
+ * The PixelGrbbber clbss implements bn ImbgeConsumer which cbn be bttbched
+ * to bn Imbge or ImbgeProducer object to retrieve b subset of the pixels
+ * in thbt imbge.  Here is bn exbmple:
  * <pre>{@code
  *
- * public void handlesinglepixel(int x, int y, int pixel) {
- *      int alpha = (pixel >> 24) & 0xff;
+ * public void hbndlesinglepixel(int x, int y, int pixel) {
+ *      int blphb = (pixel >> 24) & 0xff;
  *      int red   = (pixel >> 16) & 0xff;
  *      int green = (pixel >>  8) & 0xff;
  *      int blue  = (pixel      ) & 0xff;
- *      // Deal with the pixel as necessary...
+ *      // Debl with the pixel bs necessbry...
  * }
  *
- * public void handlepixels(Image img, int x, int y, int w, int h) {
+ * public void hbndlepixels(Imbge img, int x, int y, int w, int h) {
  *      int[] pixels = new int[w * h];
- *      PixelGrabber pg = new PixelGrabber(img, x, y, w, h, pixels, 0, w);
+ *      PixelGrbbber pg = new PixelGrbbber(img, x, y, w, h, pixels, 0, w);
  *      try {
- *          pg.grabPixels();
- *      } catch (InterruptedException e) {
- *          System.err.println("interrupted waiting for pixels!");
+ *          pg.grbbPixels();
+ *      } cbtch (InterruptedException e) {
+ *          System.err.println("interrupted wbiting for pixels!");
  *          return;
  *      }
- *      if ((pg.getStatus() & ImageObserver.ABORT) != 0) {
- *          System.err.println("image fetch aborted or errored");
+ *      if ((pg.getStbtus() & ImbgeObserver.ABORT) != 0) {
+ *          System.err.println("imbge fetch bborted or errored");
  *          return;
  *      }
  *      for (int j = 0; j < h; j++) {
  *          for (int i = 0; i < w; i++) {
- *              handlesinglepixel(x+i, y+j, pixels[j * w + i]);
+ *              hbndlesinglepixel(x+i, y+j, pixels[j * w + i]);
  *          }
  *      }
  * }
  *
  * }</pre>
  *
- * @see ColorModel#getRGBdefault
+ * @see ColorModel#getRGBdefbult
  *
- * @author      Jim Graham
+ * @buthor      Jim Grbhbm
  */
-public class PixelGrabber implements ImageConsumer {
-    ImageProducer producer;
+public clbss PixelGrbbber implements ImbgeConsumer {
+    ImbgeProducer producer;
 
     int dstX;
     int dstY;
     int dstW;
     int dstH;
 
-    ColorModel imageModel;
+    ColorModel imbgeModel;
     byte[] bytePixels;
     int[] intPixels;
     int dstOff;
-    int dstScan;
+    int dstScbn;
 
-    private boolean grabbing;
-    private int flags;
+    privbte boolebn grbbbing;
+    privbte int flbgs;
 
-    private static final int GRABBEDBITS = (ImageObserver.FRAMEBITS
-                                            | ImageObserver.ALLBITS);
-    private static final int DONEBITS = (GRABBEDBITS
-                                         | ImageObserver.ERROR);
+    privbte stbtic finbl int GRABBEDBITS = (ImbgeObserver.FRAMEBITS
+                                            | ImbgeObserver.ALLBITS);
+    privbte stbtic finbl int DONEBITS = (GRABBEDBITS
+                                         | ImbgeObserver.ERROR);
 
     /**
-     * Create a PixelGrabber object to grab the (x, y, w, h) rectangular
-     * section of pixels from the specified image into the given array.
-     * The pixels are stored into the array in the default RGB ColorModel.
-     * The RGB data for pixel (i, j) where (i, j) is inside the rectangle
-     * (x, y, w, h) is stored in the array at
-     * <tt>pix[(j - y) * scansize + (i - x) + off]</tt>.
-     * @see ColorModel#getRGBdefault
-     * @param img the image to retrieve pixels from
-     * @param x the x coordinate of the upper left corner of the rectangle
-     * of pixels to retrieve from the image, relative to the default
-     * (unscaled) size of the image
-     * @param y the y coordinate of the upper left corner of the rectangle
-     * of pixels to retrieve from the image
-     * @param w the width of the rectangle of pixels to retrieve
-     * @param h the height of the rectangle of pixels to retrieve
-     * @param pix the array of integers which are to be used to hold the
-     * RGB pixels retrieved from the image
-     * @param off the offset into the array of where to store the first pixel
-     * @param scansize the distance from one row of pixels to the next in
-     * the array
+     * Crebte b PixelGrbbber object to grbb the (x, y, w, h) rectbngulbr
+     * section of pixels from the specified imbge into the given brrby.
+     * The pixels bre stored into the brrby in the defbult RGB ColorModel.
+     * The RGB dbtb for pixel (i, j) where (i, j) is inside the rectbngle
+     * (x, y, w, h) is stored in the brrby bt
+     * <tt>pix[(j - y) * scbnsize + (i - x) + off]</tt>.
+     * @see ColorModel#getRGBdefbult
+     * @pbrbm img the imbge to retrieve pixels from
+     * @pbrbm x the x coordinbte of the upper left corner of the rectbngle
+     * of pixels to retrieve from the imbge, relbtive to the defbult
+     * (unscbled) size of the imbge
+     * @pbrbm y the y coordinbte of the upper left corner of the rectbngle
+     * of pixels to retrieve from the imbge
+     * @pbrbm w the width of the rectbngle of pixels to retrieve
+     * @pbrbm h the height of the rectbngle of pixels to retrieve
+     * @pbrbm pix the brrby of integers which bre to be used to hold the
+     * RGB pixels retrieved from the imbge
+     * @pbrbm off the offset into the brrby of where to store the first pixel
+     * @pbrbm scbnsize the distbnce from one row of pixels to the next in
+     * the brrby
      */
-    public PixelGrabber(Image img, int x, int y, int w, int h,
-                        int[] pix, int off, int scansize) {
-        this(img.getSource(), x, y, w, h, pix, off, scansize);
+    public PixelGrbbber(Imbge img, int x, int y, int w, int h,
+                        int[] pix, int off, int scbnsize) {
+        this(img.getSource(), x, y, w, h, pix, off, scbnsize);
     }
 
     /**
-     * Create a PixelGrabber object to grab the (x, y, w, h) rectangular
-     * section of pixels from the image produced by the specified
-     * ImageProducer into the given array.
-     * The pixels are stored into the array in the default RGB ColorModel.
-     * The RGB data for pixel (i, j) where (i, j) is inside the rectangle
-     * (x, y, w, h) is stored in the array at
-     * <tt>pix[(j - y) * scansize + (i - x) + off]</tt>.
-     * @param ip the <code>ImageProducer</code> that produces the
-     * image from which to retrieve pixels
-     * @param x the x coordinate of the upper left corner of the rectangle
-     * of pixels to retrieve from the image, relative to the default
-     * (unscaled) size of the image
-     * @param y the y coordinate of the upper left corner of the rectangle
-     * of pixels to retrieve from the image
-     * @param w the width of the rectangle of pixels to retrieve
-     * @param h the height of the rectangle of pixels to retrieve
-     * @param pix the array of integers which are to be used to hold the
-     * RGB pixels retrieved from the image
-     * @param off the offset into the array of where to store the first pixel
-     * @param scansize the distance from one row of pixels to the next in
-     * the array
-     * @see ColorModel#getRGBdefault
+     * Crebte b PixelGrbbber object to grbb the (x, y, w, h) rectbngulbr
+     * section of pixels from the imbge produced by the specified
+     * ImbgeProducer into the given brrby.
+     * The pixels bre stored into the brrby in the defbult RGB ColorModel.
+     * The RGB dbtb for pixel (i, j) where (i, j) is inside the rectbngle
+     * (x, y, w, h) is stored in the brrby bt
+     * <tt>pix[(j - y) * scbnsize + (i - x) + off]</tt>.
+     * @pbrbm ip the <code>ImbgeProducer</code> thbt produces the
+     * imbge from which to retrieve pixels
+     * @pbrbm x the x coordinbte of the upper left corner of the rectbngle
+     * of pixels to retrieve from the imbge, relbtive to the defbult
+     * (unscbled) size of the imbge
+     * @pbrbm y the y coordinbte of the upper left corner of the rectbngle
+     * of pixels to retrieve from the imbge
+     * @pbrbm w the width of the rectbngle of pixels to retrieve
+     * @pbrbm h the height of the rectbngle of pixels to retrieve
+     * @pbrbm pix the brrby of integers which bre to be used to hold the
+     * RGB pixels retrieved from the imbge
+     * @pbrbm off the offset into the brrby of where to store the first pixel
+     * @pbrbm scbnsize the distbnce from one row of pixels to the next in
+     * the brrby
+     * @see ColorModel#getRGBdefbult
      */
-    public PixelGrabber(ImageProducer ip, int x, int y, int w, int h,
-                        int[] pix, int off, int scansize) {
+    public PixelGrbbber(ImbgeProducer ip, int x, int y, int w, int h,
+                        int[] pix, int off, int scbnsize) {
         producer = ip;
         dstX = x;
         dstY = y;
         dstW = w;
         dstH = h;
         dstOff = off;
-        dstScan = scansize;
+        dstScbn = scbnsize;
         intPixels = pix;
-        imageModel = ColorModel.getRGBdefault();
+        imbgeModel = ColorModel.getRGBdefbult();
     }
 
     /**
-     * Create a PixelGrabber object to grab the (x, y, w, h) rectangular
-     * section of pixels from the specified image.  The pixels are
-     * accumulated in the original ColorModel if the same ColorModel
-     * is used for every call to setPixels, otherwise the pixels are
-     * accumulated in the default RGB ColorModel.  If the forceRGB
-     * parameter is true, then the pixels will be accumulated in the
-     * default RGB ColorModel anyway.  A buffer is allocated by the
-     * PixelGrabber to hold the pixels in either case.  If {@code (w < 0)} or
-     * {@code (h < 0)}, then they will default to the remaining width and
-     * height of the source data when that information is delivered.
-     * @param img the image to retrieve the image data from
-     * @param x the x coordinate of the upper left corner of the rectangle
-     * of pixels to retrieve from the image, relative to the default
-     * (unscaled) size of the image
-     * @param y the y coordinate of the upper left corner of the rectangle
-     * of pixels to retrieve from the image
-     * @param w the width of the rectangle of pixels to retrieve
-     * @param h the height of the rectangle of pixels to retrieve
-     * @param forceRGB true if the pixels should always be converted to
-     * the default RGB ColorModel
+     * Crebte b PixelGrbbber object to grbb the (x, y, w, h) rectbngulbr
+     * section of pixels from the specified imbge.  The pixels bre
+     * bccumulbted in the originbl ColorModel if the sbme ColorModel
+     * is used for every cbll to setPixels, otherwise the pixels bre
+     * bccumulbted in the defbult RGB ColorModel.  If the forceRGB
+     * pbrbmeter is true, then the pixels will be bccumulbted in the
+     * defbult RGB ColorModel bnywby.  A buffer is bllocbted by the
+     * PixelGrbbber to hold the pixels in either cbse.  If {@code (w < 0)} or
+     * {@code (h < 0)}, then they will defbult to the rembining width bnd
+     * height of the source dbtb when thbt informbtion is delivered.
+     * @pbrbm img the imbge to retrieve the imbge dbtb from
+     * @pbrbm x the x coordinbte of the upper left corner of the rectbngle
+     * of pixels to retrieve from the imbge, relbtive to the defbult
+     * (unscbled) size of the imbge
+     * @pbrbm y the y coordinbte of the upper left corner of the rectbngle
+     * of pixels to retrieve from the imbge
+     * @pbrbm w the width of the rectbngle of pixels to retrieve
+     * @pbrbm h the height of the rectbngle of pixels to retrieve
+     * @pbrbm forceRGB true if the pixels should blwbys be converted to
+     * the defbult RGB ColorModel
      */
-    public PixelGrabber(Image img, int x, int y, int w, int h,
-                        boolean forceRGB)
+    public PixelGrbbber(Imbge img, int x, int y, int w, int h,
+                        boolebn forceRGB)
     {
         producer = img.getSource();
         dstX = x;
@@ -188,139 +188,139 @@ public class PixelGrabber implements ImageConsumer {
         dstW = w;
         dstH = h;
         if (forceRGB) {
-            imageModel = ColorModel.getRGBdefault();
+            imbgeModel = ColorModel.getRGBdefbult();
         }
     }
 
     /**
-     * Request the PixelGrabber to start fetching the pixels.
+     * Request the PixelGrbbber to stbrt fetching the pixels.
      */
-    public synchronized void startGrabbing() {
-        if ((flags & DONEBITS) != 0) {
+    public synchronized void stbrtGrbbbing() {
+        if ((flbgs & DONEBITS) != 0) {
             return;
         }
-        if (!grabbing) {
-            grabbing = true;
-            flags &= ~(ImageObserver.ABORT);
-            producer.startProduction(this);
+        if (!grbbbing) {
+            grbbbing = true;
+            flbgs &= ~(ImbgeObserver.ABORT);
+            producer.stbrtProduction(this);
         }
     }
 
     /**
-     * Request the PixelGrabber to abort the image fetch.
+     * Request the PixelGrbbber to bbort the imbge fetch.
      */
-    public synchronized void abortGrabbing() {
-        imageComplete(IMAGEABORTED);
+    public synchronized void bbortGrbbbing() {
+        imbgeComplete(IMAGEABORTED);
     }
 
     /**
-     * Request the Image or ImageProducer to start delivering pixels and
-     * wait for all of the pixels in the rectangle of interest to be
+     * Request the Imbge or ImbgeProducer to stbrt delivering pixels bnd
+     * wbit for bll of the pixels in the rectbngle of interest to be
      * delivered.
-     * @return true if the pixels were successfully grabbed, false on
-     * abort, error or timeout
+     * @return true if the pixels were successfully grbbbed, fblse on
+     * bbort, error or timeout
      * @exception InterruptedException
-     *            Another thread has interrupted this thread.
+     *            Another threbd hbs interrupted this threbd.
      */
-    public boolean grabPixels() throws InterruptedException {
-        return grabPixels(0);
+    public boolebn grbbPixels() throws InterruptedException {
+        return grbbPixels(0);
     }
 
     /**
-     * Request the Image or ImageProducer to start delivering pixels and
-     * wait for all of the pixels in the rectangle of interest to be
-     * delivered or until the specified timeout has elapsed.  This method
-     * behaves in the following ways, depending on the value of
+     * Request the Imbge or ImbgeProducer to stbrt delivering pixels bnd
+     * wbit for bll of the pixels in the rectbngle of interest to be
+     * delivered or until the specified timeout hbs elbpsed.  This method
+     * behbves in the following wbys, depending on the vblue of
      * <code>ms</code>:
      * <ul>
-     * <li> If {@code ms == 0}, waits until all pixels are delivered
-     * <li> If {@code ms > 0}, waits until all pixels are delivered
-     * as timeout expires.
-     * <li> If {@code ms < 0}, returns <code>true</code> if all pixels
-     * are grabbed, <code>false</code> otherwise and does not wait.
+     * <li> If {@code ms == 0}, wbits until bll pixels bre delivered
+     * <li> If {@code ms > 0}, wbits until bll pixels bre delivered
+     * bs timeout expires.
+     * <li> If {@code ms < 0}, returns <code>true</code> if bll pixels
+     * bre grbbbed, <code>fblse</code> otherwise bnd does not wbit.
      * </ul>
-     * @param ms the number of milliseconds to wait for the image pixels
-     * to arrive before timing out
-     * @return true if the pixels were successfully grabbed, false on
-     * abort, error or timeout
+     * @pbrbm ms the number of milliseconds to wbit for the imbge pixels
+     * to brrive before timing out
+     * @return true if the pixels were successfully grbbbed, fblse on
+     * bbort, error or timeout
      * @exception InterruptedException
-     *            Another thread has interrupted this thread.
+     *            Another threbd hbs interrupted this threbd.
      */
-    public synchronized boolean grabPixels(long ms)
+    public synchronized boolebn grbbPixels(long ms)
         throws InterruptedException
     {
-        if ((flags & DONEBITS) != 0) {
-            return (flags & GRABBEDBITS) != 0;
+        if ((flbgs & DONEBITS) != 0) {
+            return (flbgs & GRABBEDBITS) != 0;
         }
         long end = ms + System.currentTimeMillis();
-        if (!grabbing) {
-            grabbing = true;
-            flags &= ~(ImageObserver.ABORT);
-            producer.startProduction(this);
+        if (!grbbbing) {
+            grbbbing = true;
+            flbgs &= ~(ImbgeObserver.ABORT);
+            producer.stbrtProduction(this);
         }
-        while (grabbing) {
+        while (grbbbing) {
             long timeout;
             if (ms == 0) {
                 timeout = 0;
             } else {
                 timeout = end - System.currentTimeMillis();
                 if (timeout <= 0) {
-                    break;
+                    brebk;
                 }
             }
-            wait(timeout);
+            wbit(timeout);
         }
-        return (flags & GRABBEDBITS) != 0;
+        return (flbgs & GRABBEDBITS) != 0;
     }
 
     /**
-     * Return the status of the pixels.  The ImageObserver flags
-     * representing the available pixel information are returned.
-     * @return the bitwise OR of all relevant ImageObserver flags
-     * @see ImageObserver
+     * Return the stbtus of the pixels.  The ImbgeObserver flbgs
+     * representing the bvbilbble pixel informbtion bre returned.
+     * @return the bitwise OR of bll relevbnt ImbgeObserver flbgs
+     * @see ImbgeObserver
      */
-    public synchronized int getStatus() {
-        return flags;
+    public synchronized int getStbtus() {
+        return flbgs;
     }
 
     /**
-     * Get the width of the pixel buffer (after adjusting for image width).
-     * If no width was specified for the rectangle of pixels to grab then
-     * then this information will only be available after the image has
+     * Get the width of the pixel buffer (bfter bdjusting for imbge width).
+     * If no width wbs specified for the rectbngle of pixels to grbb then
+     * then this informbtion will only be bvbilbble bfter the imbge hbs
      * delivered the dimensions.
-     * @return the final width used for the pixel buffer or -1 if the width
+     * @return the finbl width used for the pixel buffer or -1 if the width
      * is not yet known
-     * @see #getStatus
+     * @see #getStbtus
      */
     public synchronized int getWidth() {
         return (dstW < 0) ? -1 : dstW;
     }
 
     /**
-     * Get the height of the pixel buffer (after adjusting for image height).
-     * If no width was specified for the rectangle of pixels to grab then
-     * then this information will only be available after the image has
+     * Get the height of the pixel buffer (bfter bdjusting for imbge height).
+     * If no width wbs specified for the rectbngle of pixels to grbb then
+     * then this informbtion will only be bvbilbble bfter the imbge hbs
      * delivered the dimensions.
-     * @return the final height used for the pixel buffer or -1 if the height
+     * @return the finbl height used for the pixel buffer or -1 if the height
      * is not yet known
-     * @see #getStatus
+     * @see #getStbtus
      */
     public synchronized int getHeight() {
         return (dstH < 0) ? -1 : dstH;
     }
 
     /**
-     * Get the pixel buffer.  If the PixelGrabber was not constructed
-     * with an explicit pixel buffer to hold the pixels then this method
-     * will return null until the size and format of the image data is
+     * Get the pixel buffer.  If the PixelGrbbber wbs not constructed
+     * with bn explicit pixel buffer to hold the pixels then this method
+     * will return null until the size bnd formbt of the imbge dbtb is
      * known.
-     * Since the PixelGrabber may fall back on accumulating the data
-     * in the default RGB ColorModel at any time if the source image
-     * uses more than one ColorModel to deliver the data, the array
-     * object returned by this method may change over time until the
-     * image grab is complete.
-     * @return either a byte array or an int array
-     * @see #getStatus
+     * Since the PixelGrbbber mby fbll bbck on bccumulbting the dbtb
+     * in the defbult RGB ColorModel bt bny time if the source imbge
+     * uses more thbn one ColorModel to deliver the dbtb, the brrby
+     * object returned by this method mby chbnge over time until the
+     * imbge grbb is complete.
+     * @return either b byte brrby or bn int brrby
+     * @see #getStbtus
      * @see #setPixels(int, int, int, int, ColorModel, byte[], int, int)
      * @see #setPixels(int, int, int, int, ColorModel, int[], int, int)
      */
@@ -331,37 +331,37 @@ public class PixelGrabber implements ImageConsumer {
     }
 
     /**
-     * Get the ColorModel for the pixels stored in the array.  If the
-     * PixelGrabber was constructed with an explicit pixel buffer then
-     * this method will always return the default RGB ColorModel,
-     * otherwise it may return null until the ColorModel used by the
-     * ImageProducer is known.
-     * Since the PixelGrabber may fall back on accumulating the data
-     * in the default RGB ColorModel at any time if the source image
-     * uses more than one ColorModel to deliver the data, the ColorModel
-     * object returned by this method may change over time until the
-     * image grab is complete and may not reflect any of the ColorModel
-     * objects that was used by the ImageProducer to deliver the pixels.
+     * Get the ColorModel for the pixels stored in the brrby.  If the
+     * PixelGrbbber wbs constructed with bn explicit pixel buffer then
+     * this method will blwbys return the defbult RGB ColorModel,
+     * otherwise it mby return null until the ColorModel used by the
+     * ImbgeProducer is known.
+     * Since the PixelGrbbber mby fbll bbck on bccumulbting the dbtb
+     * in the defbult RGB ColorModel bt bny time if the source imbge
+     * uses more thbn one ColorModel to deliver the dbtb, the ColorModel
+     * object returned by this method mby chbnge over time until the
+     * imbge grbb is complete bnd mby not reflect bny of the ColorModel
+     * objects thbt wbs used by the ImbgeProducer to deliver the pixels.
      * @return the ColorModel object used for storing the pixels
-     * @see #getStatus
-     * @see ColorModel#getRGBdefault
+     * @see #getStbtus
+     * @see ColorModel#getRGBdefbult
      * @see #setColorModel(ColorModel)
      */
     public synchronized ColorModel getColorModel() {
-        return imageModel;
+        return imbgeModel;
     }
 
     /**
-     * The setDimensions method is part of the ImageConsumer API which
-     * this class must implement to retrieve the pixels.
+     * The setDimensions method is pbrt of the ImbgeConsumer API which
+     * this clbss must implement to retrieve the pixels.
      * <p>
-     * Note: This method is intended to be called by the ImageProducer
-     * of the Image whose pixels are being grabbed.  Developers using
-     * this class to retrieve pixels from an image should avoid calling
-     * this method directly since that operation could result in problems
+     * Note: This method is intended to be cblled by the ImbgeProducer
+     * of the Imbge whose pixels bre being grbbbed.  Developers using
+     * this clbss to retrieve pixels from bn imbge should bvoid cblling
+     * this method directly since thbt operbtion could result in problems
      * with retrieving the requested pixels.
-     * @param width the width of the dimension
-     * @param height the height of the dimension
+     * @pbrbm width the width of the dimension
+     * @pbrbm height the height of the dimension
      */
     public void setDimensions(int width, int height) {
         if (dstW < 0) {
@@ -371,112 +371,112 @@ public class PixelGrabber implements ImageConsumer {
             dstH = height - dstY;
         }
         if (dstW <= 0 || dstH <= 0) {
-            imageComplete(STATICIMAGEDONE);
+            imbgeComplete(STATICIMAGEDONE);
         } else if (intPixels == null &&
-                   imageModel == ColorModel.getRGBdefault()) {
+                   imbgeModel == ColorModel.getRGBdefbult()) {
             intPixels = new int[dstW * dstH];
-            dstScan = dstW;
+            dstScbn = dstW;
             dstOff = 0;
         }
-        flags |= (ImageObserver.WIDTH | ImageObserver.HEIGHT);
+        flbgs |= (ImbgeObserver.WIDTH | ImbgeObserver.HEIGHT);
     }
 
     /**
-     * The setHints method is part of the ImageConsumer API which
-     * this class must implement to retrieve the pixels.
+     * The setHints method is pbrt of the ImbgeConsumer API which
+     * this clbss must implement to retrieve the pixels.
      * <p>
-     * Note: This method is intended to be called by the ImageProducer
-     * of the Image whose pixels are being grabbed.  Developers using
-     * this class to retrieve pixels from an image should avoid calling
-     * this method directly since that operation could result in problems
+     * Note: This method is intended to be cblled by the ImbgeProducer
+     * of the Imbge whose pixels bre being grbbbed.  Developers using
+     * this clbss to retrieve pixels from bn imbge should bvoid cblling
+     * this method directly since thbt operbtion could result in problems
      * with retrieving the requested pixels.
-     * @param hints a set of hints used to process the pixels
+     * @pbrbm hints b set of hints used to process the pixels
      */
     public void setHints(int hints) {
         return;
     }
 
     /**
-     * The setProperties method is part of the ImageConsumer API which
-     * this class must implement to retrieve the pixels.
+     * The setProperties method is pbrt of the ImbgeConsumer API which
+     * this clbss must implement to retrieve the pixels.
      * <p>
-     * Note: This method is intended to be called by the ImageProducer
-     * of the Image whose pixels are being grabbed.  Developers using
-     * this class to retrieve pixels from an image should avoid calling
-     * this method directly since that operation could result in problems
+     * Note: This method is intended to be cblled by the ImbgeProducer
+     * of the Imbge whose pixels bre being grbbbed.  Developers using
+     * this clbss to retrieve pixels from bn imbge should bvoid cblling
+     * this method directly since thbt operbtion could result in problems
      * with retrieving the requested pixels.
-     * @param props the list of properties
+     * @pbrbm props the list of properties
      */
-    public void setProperties(Hashtable<?,?> props) {
+    public void setProperties(Hbshtbble<?,?> props) {
         return;
     }
 
     /**
-     * The setColorModel method is part of the ImageConsumer API which
-     * this class must implement to retrieve the pixels.
+     * The setColorModel method is pbrt of the ImbgeConsumer API which
+     * this clbss must implement to retrieve the pixels.
      * <p>
-     * Note: This method is intended to be called by the ImageProducer
-     * of the Image whose pixels are being grabbed.  Developers using
-     * this class to retrieve pixels from an image should avoid calling
-     * this method directly since that operation could result in problems
+     * Note: This method is intended to be cblled by the ImbgeProducer
+     * of the Imbge whose pixels bre being grbbbed.  Developers using
+     * this clbss to retrieve pixels from bn imbge should bvoid cblling
+     * this method directly since thbt operbtion could result in problems
      * with retrieving the requested pixels.
-     * @param model the specified <code>ColorModel</code>
+     * @pbrbm model the specified <code>ColorModel</code>
      * @see #getColorModel
      */
     public void setColorModel(ColorModel model) {
         return;
     }
 
-    private void convertToRGB() {
+    privbte void convertToRGB() {
         int size = dstW * dstH;
         int newpixels[] = new int[size];
         if (bytePixels != null) {
             for (int i = 0; i < size; i++) {
-                newpixels[i] = imageModel.getRGB(bytePixels[i] & 0xff);
+                newpixels[i] = imbgeModel.getRGB(bytePixels[i] & 0xff);
             }
         } else if (intPixels != null) {
             for (int i = 0; i < size; i++) {
-                newpixels[i] = imageModel.getRGB(intPixels[i]);
+                newpixels[i] = imbgeModel.getRGB(intPixels[i]);
             }
         }
         bytePixels = null;
         intPixels = newpixels;
-        dstScan = dstW;
+        dstScbn = dstW;
         dstOff = 0;
-        imageModel = ColorModel.getRGBdefault();
+        imbgeModel = ColorModel.getRGBdefbult();
     }
 
     /**
-     * The setPixels method is part of the ImageConsumer API which
-     * this class must implement to retrieve the pixels.
+     * The setPixels method is pbrt of the ImbgeConsumer API which
+     * this clbss must implement to retrieve the pixels.
      * <p>
-     * Note: This method is intended to be called by the ImageProducer
-     * of the Image whose pixels are being grabbed.  Developers using
-     * this class to retrieve pixels from an image should avoid calling
-     * this method directly since that operation could result in problems
+     * Note: This method is intended to be cblled by the ImbgeProducer
+     * of the Imbge whose pixels bre being grbbbed.  Developers using
+     * this clbss to retrieve pixels from bn imbge should bvoid cblling
+     * this method directly since thbt operbtion could result in problems
      * with retrieving the requested pixels.
-     * @param srcX the X coordinate of the upper-left corner
-     *        of the area of pixels to be set
-     * @param srcY the Y coordinate of the upper-left corner
-     *        of the area of pixels to be set
-     * @param srcW the width of the area of pixels
-     * @param srcH the height of the area of pixels
-     * @param model the specified <code>ColorModel</code>
-     * @param pixels the array of pixels
-     * @param srcOff the offset into the pixels array
-     * @param srcScan the distance from one row of pixels to the next
-     *        in the pixels array
+     * @pbrbm srcX the X coordinbte of the upper-left corner
+     *        of the breb of pixels to be set
+     * @pbrbm srcY the Y coordinbte of the upper-left corner
+     *        of the breb of pixels to be set
+     * @pbrbm srcW the width of the breb of pixels
+     * @pbrbm srcH the height of the breb of pixels
+     * @pbrbm model the specified <code>ColorModel</code>
+     * @pbrbm pixels the brrby of pixels
+     * @pbrbm srcOff the offset into the pixels brrby
+     * @pbrbm srcScbn the distbnce from one row of pixels to the next
+     *        in the pixels brrby
      * @see #getPixels
      */
     public void setPixels(int srcX, int srcY, int srcW, int srcH,
                           ColorModel model,
-                          byte pixels[], int srcOff, int srcScan) {
+                          byte pixels[], int srcOff, int srcScbn) {
         if (srcY < dstY) {
             int diff = dstY - srcY;
             if (diff >= srcH) {
                 return;
             }
-            srcOff += srcScan * diff;
+            srcOff += srcScbn * diff;
             srcY += diff;
             srcH -= diff;
         }
@@ -501,27 +501,27 @@ public class PixelGrabber implements ImageConsumer {
                 return;
             }
         }
-        int dstPtr = dstOff + (srcY - dstY) * dstScan + (srcX - dstX);
+        int dstPtr = dstOff + (srcY - dstY) * dstScbn + (srcX - dstX);
         if (intPixels == null) {
             if (bytePixels == null) {
                 bytePixels = new byte[dstW * dstH];
-                dstScan = dstW;
+                dstScbn = dstW;
                 dstOff = 0;
-                imageModel = model;
-            } else if (imageModel != model) {
+                imbgeModel = model;
+            } else if (imbgeModel != model) {
                 convertToRGB();
             }
             if (bytePixels != null) {
                 for (int h = srcH; h > 0; h--) {
-                    System.arraycopy(pixels, srcOff, bytePixels, dstPtr, srcW);
-                    srcOff += srcScan;
-                    dstPtr += dstScan;
+                    System.brrbycopy(pixels, srcOff, bytePixels, dstPtr, srcW);
+                    srcOff += srcScbn;
+                    dstPtr += dstScbn;
                 }
             }
         }
         if (intPixels != null) {
-            int dstRem = dstScan - srcW;
-            int srcRem = srcScan - srcW;
+            int dstRem = dstScbn - srcW;
+            int srcRem = srcScbn - srcW;
             for (int h = srcH; h > 0; h--) {
                 for (int w = srcW; w > 0; w--) {
                     intPixels[dstPtr++] = model.getRGB(pixels[srcOff++]&0xff);
@@ -530,40 +530,40 @@ public class PixelGrabber implements ImageConsumer {
                 dstPtr += dstRem;
             }
         }
-        flags |= ImageObserver.SOMEBITS;
+        flbgs |= ImbgeObserver.SOMEBITS;
     }
 
     /**
-     * The setPixels method is part of the ImageConsumer API which
-     * this class must implement to retrieve the pixels.
+     * The setPixels method is pbrt of the ImbgeConsumer API which
+     * this clbss must implement to retrieve the pixels.
      * <p>
-     * Note: This method is intended to be called by the ImageProducer
-     * of the Image whose pixels are being grabbed.  Developers using
-     * this class to retrieve pixels from an image should avoid calling
-     * this method directly since that operation could result in problems
+     * Note: This method is intended to be cblled by the ImbgeProducer
+     * of the Imbge whose pixels bre being grbbbed.  Developers using
+     * this clbss to retrieve pixels from bn imbge should bvoid cblling
+     * this method directly since thbt operbtion could result in problems
      * with retrieving the requested pixels.
-     * @param srcX the X coordinate of the upper-left corner
-     *        of the area of pixels to be set
-     * @param srcY the Y coordinate of the upper-left corner
-     *        of the area of pixels to be set
-     * @param srcW the width of the area of pixels
-     * @param srcH the height of the area of pixels
-     * @param model the specified <code>ColorModel</code>
-     * @param pixels the array of pixels
-     * @param srcOff the offset into the pixels array
-     * @param srcScan the distance from one row of pixels to the next
-     *        in the pixels array
+     * @pbrbm srcX the X coordinbte of the upper-left corner
+     *        of the breb of pixels to be set
+     * @pbrbm srcY the Y coordinbte of the upper-left corner
+     *        of the breb of pixels to be set
+     * @pbrbm srcW the width of the breb of pixels
+     * @pbrbm srcH the height of the breb of pixels
+     * @pbrbm model the specified <code>ColorModel</code>
+     * @pbrbm pixels the brrby of pixels
+     * @pbrbm srcOff the offset into the pixels brrby
+     * @pbrbm srcScbn the distbnce from one row of pixels to the next
+     *        in the pixels brrby
      * @see #getPixels
      */
     public void setPixels(int srcX, int srcY, int srcW, int srcH,
                           ColorModel model,
-                          int pixels[], int srcOff, int srcScan) {
+                          int pixels[], int srcOff, int srcScbn) {
         if (srcY < dstY) {
             int diff = dstY - srcY;
             if (diff >= srcH) {
                 return;
             }
-            srcOff += srcScan * diff;
+            srcOff += srcScbn * diff;
             srcY += diff;
             srcH -= diff;
         }
@@ -591,26 +591,26 @@ public class PixelGrabber implements ImageConsumer {
         if (intPixels == null) {
             if (bytePixels == null) {
                 intPixels = new int[dstW * dstH];
-                dstScan = dstW;
+                dstScbn = dstW;
                 dstOff = 0;
-                imageModel = model;
+                imbgeModel = model;
             } else {
                 convertToRGB();
             }
         }
-        int dstPtr = dstOff + (srcY - dstY) * dstScan + (srcX - dstX);
-        if (imageModel == model) {
+        int dstPtr = dstOff + (srcY - dstY) * dstScbn + (srcX - dstX);
+        if (imbgeModel == model) {
             for (int h = srcH; h > 0; h--) {
-                System.arraycopy(pixels, srcOff, intPixels, dstPtr, srcW);
-                srcOff += srcScan;
-                dstPtr += dstScan;
+                System.brrbycopy(pixels, srcOff, intPixels, dstPtr, srcW);
+                srcOff += srcScbn;
+                dstPtr += dstScbn;
             }
         } else {
-            if (imageModel != ColorModel.getRGBdefault()) {
+            if (imbgeModel != ColorModel.getRGBdefbult()) {
                 convertToRGB();
             }
-            int dstRem = dstScan - srcW;
-            int srcRem = srcScan - srcW;
+            int dstRem = dstScbn - srcW;
+            int srcRem = srcScbn - srcW;
             for (int h = srcH; h > 0; h--) {
                 for (int w = srcW; w > 0; w--) {
                     intPixels[dstPtr++] = model.getRGB(pixels[srcOff++]);
@@ -619,54 +619,54 @@ public class PixelGrabber implements ImageConsumer {
                 dstPtr += dstRem;
             }
         }
-        flags |= ImageObserver.SOMEBITS;
+        flbgs |= ImbgeObserver.SOMEBITS;
     }
 
     /**
-     * The imageComplete method is part of the ImageConsumer API which
-     * this class must implement to retrieve the pixels.
+     * The imbgeComplete method is pbrt of the ImbgeConsumer API which
+     * this clbss must implement to retrieve the pixels.
      * <p>
-     * Note: This method is intended to be called by the ImageProducer
-     * of the Image whose pixels are being grabbed.  Developers using
-     * this class to retrieve pixels from an image should avoid calling
-     * this method directly since that operation could result in problems
+     * Note: This method is intended to be cblled by the ImbgeProducer
+     * of the Imbge whose pixels bre being grbbbed.  Developers using
+     * this clbss to retrieve pixels from bn imbge should bvoid cblling
+     * this method directly since thbt operbtion could result in problems
      * with retrieving the requested pixels.
-     * @param status the status of image loading
+     * @pbrbm stbtus the stbtus of imbge lobding
      */
-    public synchronized void imageComplete(int status) {
-        grabbing = false;
-        switch (status) {
-        default:
-        case IMAGEERROR:
-            flags |= ImageObserver.ERROR | ImageObserver.ABORT;
-            break;
-        case IMAGEABORTED:
-            flags |= ImageObserver.ABORT;
-            break;
-        case STATICIMAGEDONE:
-            flags |= ImageObserver.ALLBITS;
-            break;
-        case SINGLEFRAMEDONE:
-            flags |= ImageObserver.FRAMEBITS;
-            break;
+    public synchronized void imbgeComplete(int stbtus) {
+        grbbbing = fblse;
+        switch (stbtus) {
+        defbult:
+        cbse IMAGEERROR:
+            flbgs |= ImbgeObserver.ERROR | ImbgeObserver.ABORT;
+            brebk;
+        cbse IMAGEABORTED:
+            flbgs |= ImbgeObserver.ABORT;
+            brebk;
+        cbse STATICIMAGEDONE:
+            flbgs |= ImbgeObserver.ALLBITS;
+            brebk;
+        cbse SINGLEFRAMEDONE:
+            flbgs |= ImbgeObserver.FRAMEBITS;
+            brebk;
         }
         producer.removeConsumer(this);
         notifyAll();
     }
 
     /**
-     * Returns the status of the pixels.  The ImageObserver flags
-     * representing the available pixel information are returned.
-     * This method and {@link #getStatus() getStatus} have the
-     * same implementation, but <code>getStatus</code> is the
-     * preferred method because it conforms to the convention of
-     * naming information-retrieval methods with the form
+     * Returns the stbtus of the pixels.  The ImbgeObserver flbgs
+     * representing the bvbilbble pixel informbtion bre returned.
+     * This method bnd {@link #getStbtus() getStbtus} hbve the
+     * sbme implementbtion, but <code>getStbtus</code> is the
+     * preferred method becbuse it conforms to the convention of
+     * nbming informbtion-retrievbl methods with the form
      * "getXXX".
-     * @return the bitwise OR of all relevant ImageObserver flags
-     * @see ImageObserver
-     * @see #getStatus()
+     * @return the bitwise OR of bll relevbnt ImbgeObserver flbgs
+     * @see ImbgeObserver
+     * @see #getStbtus()
      */
-    public synchronized int status() {
-        return flags;
+    public synchronized int stbtus() {
+        return flbgs;
     }
 }

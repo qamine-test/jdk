@@ -1,296 +1,296 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.sql.rowset.serial;
+pbckbge jbvbx.sql.rowset.seribl;
 
-import java.sql.*;
-import java.io.*;
-import java.util.Map;
-import java.net.URL;
-import java.util.Arrays;
+import jbvb.sql.*;
+import jbvb.io.*;
+import jbvb.util.Mbp;
+import jbvb.net.URL;
+import jbvb.util.Arrbys;
 
 
 /**
- * A serialized version of an <code>Array</code>
- * object, which is the mapping in the Java programming language of an SQL
- * <code>ARRAY</code> value.
+ * A seriblized version of bn <code>Arrby</code>
+ * object, which is the mbpping in the Jbvb progrbmming lbngubge of bn SQL
+ * <code>ARRAY</code> vblue.
  * <P>
- * The <code>SerialArray</code> class provides a constructor for creating
- * a <code>SerialArray</code> instance from an <code>Array</code> object,
- * methods for getting the base type and the SQL name for the base type, and
- * methods for copying all or part of a <code>SerialArray</code> object.
+ * The <code>SeriblArrby</code> clbss provides b constructor for crebting
+ * b <code>SeriblArrby</code> instbnce from bn <code>Arrby</code> object,
+ * methods for getting the bbse type bnd the SQL nbme for the bbse type, bnd
+ * methods for copying bll or pbrt of b <code>SeriblArrby</code> object.
  * <P>
  *
- * Note: In order for this class to function correctly, a connection to the
- * data source
- * must be available in order for the SQL <code>Array</code> object to be
- * materialized (have all of its elements brought to the client server)
- * if necessary. At this time, logical pointers to the data in the data source,
- * such as locators, are not currently supported.
+ * Note: In order for this clbss to function correctly, b connection to the
+ * dbtb source
+ * must be bvbilbble in order for the SQL <code>Arrby</code> object to be
+ * mbteriblized (hbve bll of its elements brought to the client server)
+ * if necessbry. At this time, logicbl pointers to the dbtb in the dbtb source,
+ * such bs locbtors, bre not currently supported.
  *
- * <h3> Thread safety </h3>
+ * <h3> Threbd sbfety </h3>
  *
- * A SerialArray is not safe for use by multiple concurrent threads.  If a
- * SerialArray is to be used by more than one thread then access to the
- * SerialArray should be controlled by appropriate synchronization.
+ * A SeriblArrby is not sbfe for use by multiple concurrent threbds.  If b
+ * SeriblArrby is to be used by more thbn one threbd then bccess to the
+ * SeriblArrby should be controlled by bppropribte synchronizbtion.
  *
  * @since 1.5
  */
-public class SerialArray implements Array, Serializable, Cloneable {
+public clbss SeriblArrby implements Arrby, Seriblizbble, Clonebble {
 
     /**
-     * A serialized array in which each element is an <code>Object</code>
-     * in the Java programming language that represents an element
-     * in the SQL <code>ARRAY</code> value.
-     * @serial
+     * A seriblized brrby in which ebch element is bn <code>Object</code>
+     * in the Jbvb progrbmming lbngubge thbt represents bn element
+     * in the SQL <code>ARRAY</code> vblue.
+     * @seribl
      */
-    private Object[] elements;
+    privbte Object[] elements;
 
     /**
-     * The SQL type of the elements in this <code>SerialArray</code> object.  The
-     * type is expressed as one of the constants from the class
-     * <code>java.sql.Types</code>.
-     * @serial
+     * The SQL type of the elements in this <code>SeriblArrby</code> object.  The
+     * type is expressed bs one of the constbnts from the clbss
+     * <code>jbvb.sql.Types</code>.
+     * @seribl
      */
-    private int baseType;
+    privbte int bbseType;
 
     /**
-     * The type name used by the DBMS for the elements in the SQL <code>ARRAY</code>
-     * value that this <code>SerialArray</code> object represents.
-     * @serial
+     * The type nbme used by the DBMS for the elements in the SQL <code>ARRAY</code>
+     * vblue thbt this <code>SeriblArrby</code> object represents.
+     * @seribl
      */
-    private String baseTypeName;
+    privbte String bbseTypeNbme;
 
     /**
-     * The number of elements in this <code>SerialArray</code> object, which
-     * is also the number of elements in the SQL <code>ARRAY</code> value
-     * that this <code>SerialArray</code> object represents.
-     * @serial
+     * The number of elements in this <code>SeriblArrby</code> object, which
+     * is blso the number of elements in the SQL <code>ARRAY</code> vblue
+     * thbt this <code>SeriblArrby</code> object represents.
+     * @seribl
      */
-    private int len;
+    privbte int len;
 
     /**
-     * Constructs a new <code>SerialArray</code> object from the given
-     * <code>Array</code> object, using the given type map for the custom
-     * mapping of each element when the elements are SQL UDTs.
+     * Constructs b new <code>SeriblArrby</code> object from the given
+     * <code>Arrby</code> object, using the given type mbp for the custom
+     * mbpping of ebch element when the elements bre SQL UDTs.
      * <P>
-     * This method does custom mapping if the array elements are a UDT
-     * and the given type map has an entry for that UDT.
-     * Custom mapping is recursive,
-     * meaning that if, for instance, an element of an SQL structured type
-     * is an SQL structured type that itself has an element that is an SQL
-     * structured type, each structured type that has a custom mapping will be
-     * mapped according to the given type map.
+     * This method does custom mbpping if the brrby elements bre b UDT
+     * bnd the given type mbp hbs bn entry for thbt UDT.
+     * Custom mbpping is recursive,
+     * mebning thbt if, for instbnce, bn element of bn SQL structured type
+     * is bn SQL structured type thbt itself hbs bn element thbt is bn SQL
+     * structured type, ebch structured type thbt hbs b custom mbpping will be
+     * mbpped bccording to the given type mbp.
      * <P>
-     * The new <code>SerialArray</code>
-     * object contains the same elements as the <code>Array</code> object
-     * from which it is built, except when the base type is the SQL type
+     * The new <code>SeriblArrby</code>
+     * object contbins the sbme elements bs the <code>Arrby</code> object
+     * from which it is built, except when the bbse type is the SQL type
      * <code>STRUCT</code>, <code>ARRAY</code>, <code>BLOB</code>,
      * <code>CLOB</code>, <code>DATALINK</code> or <code>JAVA_OBJECT</code>.
-     * In this case, each element in the new
-     * <code>SerialArray</code> object is the appropriate serialized form,
-     * that is, a <code>SerialStruct</code>, <code>SerialArray</code>,
-     * <code>SerialBlob</code>, <code>SerialClob</code>,
-     * <code>SerialDatalink</code>, or <code>SerialJavaObject</code> object.
+     * In this cbse, ebch element in the new
+     * <code>SeriblArrby</code> object is the bppropribte seriblized form,
+     * thbt is, b <code>SeriblStruct</code>, <code>SeriblArrby</code>,
+     * <code>SeriblBlob</code>, <code>SeriblClob</code>,
+     * <code>SeriblDbtblink</code>, or <code>SeriblJbvbObject</code> object.
      * <P>
-     * Note: (1) The <code>Array</code> object from which a <code>SerialArray</code>
-     * object is created must have materialized the SQL <code>ARRAY</code> value's
-     * data on the client before it is passed to the constructor.  Otherwise,
-     * the new <code>SerialArray</code> object will contain no data.
+     * Note: (1) The <code>Arrby</code> object from which b <code>SeriblArrby</code>
+     * object is crebted must hbve mbteriblized the SQL <code>ARRAY</code> vblue's
+     * dbtb on the client before it is pbssed to the constructor.  Otherwise,
+     * the new <code>SeriblArrby</code> object will contbin no dbtb.
      * <p>
-     * Note: (2) If the <code>Array</code> contains <code>java.sql.Types.JAVA_OBJECT</code>
-     * types, the <code>SerialJavaObject</code> constructor is called where checks
-     * are made to ensure this object is serializable.
+     * Note: (2) If the <code>Arrby</code> contbins <code>jbvb.sql.Types.JAVA_OBJECT</code>
+     * types, the <code>SeriblJbvbObject</code> constructor is cblled where checks
+     * bre mbde to ensure this object is seriblizbble.
      * <p>
-     * Note: (3) The <code>Array</code> object supplied to this constructor cannot
-     * return <code>null</code> for any <code>Array.getArray()</code> methods.
-     * <code>SerialArray</code> cannot serialize null array values.
+     * Note: (3) The <code>Arrby</code> object supplied to this constructor cbnnot
+     * return <code>null</code> for bny <code>Arrby.getArrby()</code> methods.
+     * <code>SeriblArrby</code> cbnnot seriblize null brrby vblues.
      *
      *
-     * @param array the <code>Array</code> object to be serialized
-     * @param map a <code>java.util.Map</code> object in which
-     *        each entry consists of 1) a <code>String</code> object
-     *        giving the fully qualified name of a UDT (an SQL structured type or
-     *        distinct type) and 2) the
-     *        <code>Class</code> object for the <code>SQLData</code> implementation
-     *        that defines how the UDT is to be mapped. The <i>map</i>
-     *        parameter does not have any effect for <code>Blob</code>,
+     * @pbrbm brrby the <code>Arrby</code> object to be seriblized
+     * @pbrbm mbp b <code>jbvb.util.Mbp</code> object in which
+     *        ebch entry consists of 1) b <code>String</code> object
+     *        giving the fully qublified nbme of b UDT (bn SQL structured type or
+     *        distinct type) bnd 2) the
+     *        <code>Clbss</code> object for the <code>SQLDbtb</code> implementbtion
+     *        thbt defines how the UDT is to be mbpped. The <i>mbp</i>
+     *        pbrbmeter does not hbve bny effect for <code>Blob</code>,
      *        <code>Clob</code>, <code>DATALINK</code>, or
      *        <code>JAVA_OBJECT</code> types.
-     * @throws SerialException if an error occurs serializing the
-     *        <code>Array</code> object
-     * @throws SQLException if a database access error occurs or if the
-     *        <i>array</i> or the <i>map</i> values are <code>null</code>
+     * @throws SeriblException if bn error occurs seriblizing the
+     *        <code>Arrby</code> object
+     * @throws SQLException if b dbtbbbse bccess error occurs or if the
+     *        <i>brrby</i> or the <i>mbp</i> vblues bre <code>null</code>
      */
-     public SerialArray(Array array, Map<String,Class<?>> map)
-         throws SerialException, SQLException
+     public SeriblArrby(Arrby brrby, Mbp<String,Clbss<?>> mbp)
+         throws SeriblException, SQLException
      {
 
-        if ((array == null) || (map == null)) {
-            throw new SQLException("Cannot instantiate a SerialArray " +
-            "object with null parameters");
+        if ((brrby == null) || (mbp == null)) {
+            throw new SQLException("Cbnnot instbntibte b SeriblArrby " +
+            "object with null pbrbmeters");
         }
 
-        if ((elements = (Object[])array.getArray()) == null) {
-             throw new SQLException("Invalid Array object. Calls to Array.getArray() " +
-                 "return null value which cannot be serialized");
+        if ((elements = (Object[])brrby.getArrby()) == null) {
+             throw new SQLException("Invblid Arrby object. Cblls to Arrby.getArrby() " +
+                 "return null vblue which cbnnot be seriblized");
          }
 
-        elements = (Object[])array.getArray(map);
-        baseType = array.getBaseType();
-        baseTypeName = array.getBaseTypeName();
+        elements = (Object[])brrby.getArrby(mbp);
+        bbseType = brrby.getBbseType();
+        bbseTypeNbme = brrby.getBbseTypeNbme();
         len = elements.length;
 
-        switch (baseType) {
-            case java.sql.Types.STRUCT:
+        switch (bbseType) {
+            cbse jbvb.sql.Types.STRUCT:
                 for (int i = 0; i < len; i++) {
-                    elements[i] = new SerialStruct((Struct)elements[i], map);
+                    elements[i] = new SeriblStruct((Struct)elements[i], mbp);
                 }
-            break;
+            brebk;
 
-            case java.sql.Types.ARRAY:
+            cbse jbvb.sql.Types.ARRAY:
                 for (int i = 0; i < len; i++) {
-                    elements[i] = new SerialArray((Array)elements[i], map);
+                    elements[i] = new SeriblArrby((Arrby)elements[i], mbp);
                 }
-            break;
+            brebk;
 
-            case java.sql.Types.BLOB:
+            cbse jbvb.sql.Types.BLOB:
             for (int i = 0; i < len; i++) {
-                elements[i] = new SerialBlob((Blob)elements[i]);
+                elements[i] = new SeriblBlob((Blob)elements[i]);
             }
-            break;
+            brebk;
 
-            case java.sql.Types.CLOB:
+            cbse jbvb.sql.Types.CLOB:
                 for (int i = 0; i < len; i++) {
-                    elements[i] = new SerialClob((Clob)elements[i]);
+                    elements[i] = new SeriblClob((Clob)elements[i]);
                 }
-            break;
+            brebk;
 
-            case java.sql.Types.DATALINK:
+            cbse jbvb.sql.Types.DATALINK:
                 for (int i = 0; i < len; i++) {
-                    elements[i] = new SerialDatalink((URL)elements[i]);
+                    elements[i] = new SeriblDbtblink((URL)elements[i]);
                 }
-            break;
+            brebk;
 
-            case java.sql.Types.JAVA_OBJECT:
+            cbse jbvb.sql.Types.JAVA_OBJECT:
                 for (int i = 0; i < len; i++) {
-                elements[i] = new SerialJavaObject(elements[i]);
+                elements[i] = new SeriblJbvbObject(elements[i]);
             }
         }
   }
 
     /**
-     * This method frees the {@code SeriableArray} object and releases the
-     * resources that it holds. The object is invalid once the {@code free}
-     * method is called. <p> If {@code free} is called multiple times, the
-     * subsequent calls to {@code free} are treated as a no-op. </P>
+     * This method frees the {@code SeribbleArrby} object bnd relebses the
+     * resources thbt it holds. The object is invblid once the {@code free}
+     * method is cblled. <p> If {@code free} is cblled multiple times, the
+     * subsequent cblls to {@code free} bre trebted bs b no-op. </P>
      *
-     * @throws SQLException if an error occurs releasing the SerialArray's resources
+     * @throws SQLException if bn error occurs relebsing the SeriblArrby's resources
      * @since 1.6
      */
     public void free() throws SQLException {
         if (elements != null) {
             elements = null;
-            baseTypeName= null;
+            bbseTypeNbme= null;
         }
     }
 
     /**
-     * Constructs a new <code>SerialArray</code> object from the given
-     * <code>Array</code> object.
+     * Constructs b new <code>SeriblArrby</code> object from the given
+     * <code>Arrby</code> object.
      * <P>
-     * This constructor does not do custom mapping.  If the base type of the array
-     * is an SQL structured type and custom mapping is desired, the constructor
-     * <code>SerialArray(Array array, Map map)</code> should be used.
+     * This constructor does not do custom mbpping.  If the bbse type of the brrby
+     * is bn SQL structured type bnd custom mbpping is desired, the constructor
+     * <code>SeriblArrby(Arrby brrby, Mbp mbp)</code> should be used.
      * <P>
-     * The new <code>SerialArray</code>
-     * object contains the same elements as the <code>Array</code> object
-     * from which it is built, except when the base type is the SQL type
+     * The new <code>SeriblArrby</code>
+     * object contbins the sbme elements bs the <code>Arrby</code> object
+     * from which it is built, except when the bbse type is the SQL type
      * <code>BLOB</code>,
      * <code>CLOB</code>, <code>DATALINK</code> or <code>JAVA_OBJECT</code>.
-     * In this case, each element in the new
-     * <code>SerialArray</code> object is the appropriate serialized form,
-     * that is, a <code>SerialBlob</code>, <code>SerialClob</code>,
-     * <code>SerialDatalink</code>, or <code>SerialJavaObject</code> object.
+     * In this cbse, ebch element in the new
+     * <code>SeriblArrby</code> object is the bppropribte seriblized form,
+     * thbt is, b <code>SeriblBlob</code>, <code>SeriblClob</code>,
+     * <code>SeriblDbtblink</code>, or <code>SeriblJbvbObject</code> object.
      * <P>
-     * Note: (1) The <code>Array</code> object from which a <code>SerialArray</code>
-     * object is created must have materialized the SQL <code>ARRAY</code> value's
-     * data on the client before it is passed to the constructor.  Otherwise,
-     * the new <code>SerialArray</code> object will contain no data.
+     * Note: (1) The <code>Arrby</code> object from which b <code>SeriblArrby</code>
+     * object is crebted must hbve mbteriblized the SQL <code>ARRAY</code> vblue's
+     * dbtb on the client before it is pbssed to the constructor.  Otherwise,
+     * the new <code>SeriblArrby</code> object will contbin no dbtb.
      * <p>
-     * Note: (2) The <code>Array</code> object supplied to this constructor cannot
-     * return <code>null</code> for any <code>Array.getArray()</code> methods.
-     * <code>SerialArray</code> cannot serialize <code>null</code> array values.
+     * Note: (2) The <code>Arrby</code> object supplied to this constructor cbnnot
+     * return <code>null</code> for bny <code>Arrby.getArrby()</code> methods.
+     * <code>SeriblArrby</code> cbnnot seriblize <code>null</code> brrby vblues.
      *
-     * @param array the <code>Array</code> object to be serialized
-     * @throws SerialException if an error occurs serializing the
-     *     <code>Array</code> object
-     * @throws SQLException if a database access error occurs or the
-     *     <i>array</i> parameter is <code>null</code>.
+     * @pbrbm brrby the <code>Arrby</code> object to be seriblized
+     * @throws SeriblException if bn error occurs seriblizing the
+     *     <code>Arrby</code> object
+     * @throws SQLException if b dbtbbbse bccess error occurs or the
+     *     <i>brrby</i> pbrbmeter is <code>null</code>.
      */
-     public SerialArray(Array array) throws SerialException, SQLException {
-         if (array == null) {
-             throw new SQLException("Cannot instantiate a SerialArray " +
-                 "object with a null Array object");
+     public SeriblArrby(Arrby brrby) throws SeriblException, SQLException {
+         if (brrby == null) {
+             throw new SQLException("Cbnnot instbntibte b SeriblArrby " +
+                 "object with b null Arrby object");
          }
 
-         if ((elements = (Object[])array.getArray()) == null) {
-             throw new SQLException("Invalid Array object. Calls to Array.getArray() " +
-                 "return null value which cannot be serialized");
+         if ((elements = (Object[])brrby.getArrby()) == null) {
+             throw new SQLException("Invblid Arrby object. Cblls to Arrby.getArrby() " +
+                 "return null vblue which cbnnot be seriblized");
          }
 
-         //elements = (Object[])array.getArray();
-         baseType = array.getBaseType();
-         baseTypeName = array.getBaseTypeName();
+         //elements = (Object[])brrby.getArrby();
+         bbseType = brrby.getBbseType();
+         bbseTypeNbme = brrby.getBbseTypeNbme();
          len = elements.length;
 
-        switch (baseType) {
+        switch (bbseType) {
 
-        case java.sql.Types.BLOB:
+        cbse jbvb.sql.Types.BLOB:
             for (int i = 0; i < len; i++) {
-                elements[i] = new SerialBlob((Blob)elements[i]);
+                elements[i] = new SeriblBlob((Blob)elements[i]);
             }
-            break;
+            brebk;
 
-        case java.sql.Types.CLOB:
+        cbse jbvb.sql.Types.CLOB:
             for (int i = 0; i < len; i++) {
-                elements[i] = new SerialClob((Clob)elements[i]);
+                elements[i] = new SeriblClob((Clob)elements[i]);
             }
-            break;
+            brebk;
 
-        case java.sql.Types.DATALINK:
+        cbse jbvb.sql.Types.DATALINK:
             for (int i = 0; i < len; i++) {
-                elements[i] = new SerialDatalink((URL)elements[i]);
+                elements[i] = new SeriblDbtblink((URL)elements[i]);
             }
-            break;
+            brebk;
 
-        case java.sql.Types.JAVA_OBJECT:
+        cbse jbvb.sql.Types.JAVA_OBJECT:
             for (int i = 0; i < len; i++) {
-                elements[i] = new SerialJavaObject(elements[i]);
+                elements[i] = new SeriblJbvbObject(elements[i]);
             }
-            break;
+            brebk;
 
         }
 
@@ -298,364 +298,364 @@ public class SerialArray implements Array, Serializable, Cloneable {
     }
 
     /**
-     * Returns a new array that is a copy of this <code>SerialArray</code>
+     * Returns b new brrby thbt is b copy of this <code>SeriblArrby</code>
      * object.
      *
-     * @return a copy of this <code>SerialArray</code> object as an
-     *         <code>Object</code> in the Java programming language
-     * @throws SerialException if an error occurs;
-     * if {@code free} had previously been called on this object
+     * @return b copy of this <code>SeriblArrby</code> object bs bn
+     *         <code>Object</code> in the Jbvb progrbmming lbngubge
+     * @throws SeriblException if bn error occurs;
+     * if {@code free} hbd previously been cblled on this object
      */
-    public Object getArray() throws SerialException {
-        isValid();
+    public Object getArrby() throws SeriblException {
+        isVblid();
         Object dst = new Object[len];
-        System.arraycopy((Object)elements, 0, dst, 0, len);
+        System.brrbycopy((Object)elements, 0, dst, 0, len);
         return dst;
     }
 
- //[if an error occurstype map used??]
+ //[if bn error occurstype mbp used??]
     /**
-     * Returns a new array that is a copy of this <code>SerialArray</code>
-     * object, using the given type map for the custom
-     * mapping of each element when the elements are SQL UDTs.
+     * Returns b new brrby thbt is b copy of this <code>SeriblArrby</code>
+     * object, using the given type mbp for the custom
+     * mbpping of ebch element when the elements bre SQL UDTs.
      * <P>
-     * This method does custom mapping if the array elements are a UDT
-     * and the given type map has an entry for that UDT.
-     * Custom mapping is recursive,
-     * meaning that if, for instance, an element of an SQL structured type
-     * is an SQL structured type that itself has an element that is an SQL
-     * structured type, each structured type that has a custom mapping will be
-     * mapped according to the given type map.
+     * This method does custom mbpping if the brrby elements bre b UDT
+     * bnd the given type mbp hbs bn entry for thbt UDT.
+     * Custom mbpping is recursive,
+     * mebning thbt if, for instbnce, bn element of bn SQL structured type
+     * is bn SQL structured type thbt itself hbs bn element thbt is bn SQL
+     * structured type, ebch structured type thbt hbs b custom mbpping will be
+     * mbpped bccording to the given type mbp.
      *
-     * @param map a <code>java.util.Map</code> object in which
-     *        each entry consists of 1) a <code>String</code> object
-     *        giving the fully qualified name of a UDT and 2) the
-     *        <code>Class</code> object for the <code>SQLData</code> implementation
-     *        that defines how the UDT is to be mapped
-     * @return a copy of this <code>SerialArray</code> object as an
-     *         <code>Object</code> in the Java programming language
-     * @throws SerialException if an error occurs;
-     * if {@code free} had previously been called on this object
+     * @pbrbm mbp b <code>jbvb.util.Mbp</code> object in which
+     *        ebch entry consists of 1) b <code>String</code> object
+     *        giving the fully qublified nbme of b UDT bnd 2) the
+     *        <code>Clbss</code> object for the <code>SQLDbtb</code> implementbtion
+     *        thbt defines how the UDT is to be mbpped
+     * @return b copy of this <code>SeriblArrby</code> object bs bn
+     *         <code>Object</code> in the Jbvb progrbmming lbngubge
+     * @throws SeriblException if bn error occurs;
+     * if {@code free} hbd previously been cblled on this object
      */
-    public Object getArray(Map<String, Class<?>> map) throws SerialException {
-        isValid();
+    public Object getArrby(Mbp<String, Clbss<?>> mbp) throws SeriblException {
+        isVblid();
         Object dst[] = new Object[len];
-        System.arraycopy((Object)elements, 0, dst, 0, len);
+        System.brrbycopy((Object)elements, 0, dst, 0, len);
         return dst;
     }
 
     /**
-     * Returns a new array that is a copy of a slice
-     * of this <code>SerialArray</code> object, starting with the
-     * element at the given index and containing the given number
+     * Returns b new brrby thbt is b copy of b slice
+     * of this <code>SeriblArrby</code> object, stbrting with the
+     * element bt the given index bnd contbining the given number
      * of consecutive elements.
      *
-     * @param index the index into this <code>SerialArray</code> object
+     * @pbrbm index the index into this <code>SeriblArrby</code> object
      *              of the first element to be copied;
      *              the index of the first element is <code>0</code>
-     * @param count the number of consecutive elements to be copied, starting
-     *              at the given index
-     * @return a copy of the designated elements in this <code>SerialArray</code>
-     *         object as an <code>Object</code> in the Java programming language
-     * @throws SerialException if an error occurs;
-     * if {@code free} had previously been called on this object
+     * @pbrbm count the number of consecutive elements to be copied, stbrting
+     *              bt the given index
+     * @return b copy of the designbted elements in this <code>SeriblArrby</code>
+     *         object bs bn <code>Object</code> in the Jbvb progrbmming lbngubge
+     * @throws SeriblException if bn error occurs;
+     * if {@code free} hbd previously been cblled on this object
      */
-    public Object getArray(long index, int count) throws SerialException {
-        isValid();
+    public Object getArrby(long index, int count) throws SeriblException {
+        isVblid();
         Object dst = new Object[count];
-        System.arraycopy((Object)elements, (int)index, dst, 0, count);
+        System.brrbycopy((Object)elements, (int)index, dst, 0, count);
         return dst;
     }
 
     /**
-     * Returns a new array that is a copy of a slice
-     * of this <code>SerialArray</code> object, starting with the
-     * element at the given index and containing the given number
+     * Returns b new brrby thbt is b copy of b slice
+     * of this <code>SeriblArrby</code> object, stbrting with the
+     * element bt the given index bnd contbining the given number
      * of consecutive elements.
      * <P>
-     * This method does custom mapping if the array elements are a UDT
-     * and the given type map has an entry for that UDT.
-     * Custom mapping is recursive,
-     * meaning that if, for instance, an element of an SQL structured type
-     * is an SQL structured type that itself has an element that is an SQL
-     * structured type, each structured type that has a custom mapping will be
-     * mapped according to the given type map.
+     * This method does custom mbpping if the brrby elements bre b UDT
+     * bnd the given type mbp hbs bn entry for thbt UDT.
+     * Custom mbpping is recursive,
+     * mebning thbt if, for instbnce, bn element of bn SQL structured type
+     * is bn SQL structured type thbt itself hbs bn element thbt is bn SQL
+     * structured type, ebch structured type thbt hbs b custom mbpping will be
+     * mbpped bccording to the given type mbp.
      *
-     * @param index the index into this <code>SerialArray</code> object
+     * @pbrbm index the index into this <code>SeriblArrby</code> object
      *              of the first element to be copied; the index of the
-     *              first element in the array is <code>0</code>
-     * @param count the number of consecutive elements to be copied, starting
-     *              at the given index
-     * @param map a <code>java.util.Map</code> object in which
-     *        each entry consists of 1) a <code>String</code> object
-     *        giving the fully qualified name of a UDT and 2) the
-     *        <code>Class</code> object for the <code>SQLData</code> implementation
-     *        that defines how the UDT is to be mapped
-     * @return a copy of the designated elements in this <code>SerialArray</code>
-     *         object as an <code>Object</code> in the Java programming language
-     * @throws SerialException if an error occurs;
-     * if {@code free} had previously been called on this object
+     *              first element in the brrby is <code>0</code>
+     * @pbrbm count the number of consecutive elements to be copied, stbrting
+     *              bt the given index
+     * @pbrbm mbp b <code>jbvb.util.Mbp</code> object in which
+     *        ebch entry consists of 1) b <code>String</code> object
+     *        giving the fully qublified nbme of b UDT bnd 2) the
+     *        <code>Clbss</code> object for the <code>SQLDbtb</code> implementbtion
+     *        thbt defines how the UDT is to be mbpped
+     * @return b copy of the designbted elements in this <code>SeriblArrby</code>
+     *         object bs bn <code>Object</code> in the Jbvb progrbmming lbngubge
+     * @throws SeriblException if bn error occurs;
+     * if {@code free} hbd previously been cblled on this object
      */
-    public Object getArray(long index, int count, Map<String,Class<?>> map)
-        throws SerialException
+    public Object getArrby(long index, int count, Mbp<String,Clbss<?>> mbp)
+        throws SeriblException
     {
-        isValid();
+        isVblid();
         Object dst = new Object[count];
-        System.arraycopy((Object)elements, (int)index, dst, 0, count);
+        System.brrbycopy((Object)elements, (int)index, dst, 0, count);
         return dst;
     }
 
     /**
-     * Retrieves the SQL type of the elements in this <code>SerialArray</code>
-     * object.  The <code>int</code> returned is one of the constants in the class
-     * <code>java.sql.Types</code>.
+     * Retrieves the SQL type of the elements in this <code>SeriblArrby</code>
+     * object.  The <code>int</code> returned is one of the constbnts in the clbss
+     * <code>jbvb.sql.Types</code>.
      *
-     * @return one of the constants in <code>java.sql.Types</code>, indicating
-     *         the SQL type of the elements in this <code>SerialArray</code> object
-     * @throws SerialException if an error occurs;
-     * if {@code free} had previously been called on this object
+     * @return one of the constbnts in <code>jbvb.sql.Types</code>, indicbting
+     *         the SQL type of the elements in this <code>SeriblArrby</code> object
+     * @throws SeriblException if bn error occurs;
+     * if {@code free} hbd previously been cblled on this object
      */
-    public int getBaseType() throws SerialException {
-        isValid();
-        return baseType;
+    public int getBbseType() throws SeriblException {
+        isVblid();
+        return bbseType;
     }
 
     /**
-     * Retrieves the DBMS-specific type name for the elements in this
-     * <code>SerialArray</code> object.
+     * Retrieves the DBMS-specific type nbme for the elements in this
+     * <code>SeriblArrby</code> object.
      *
-     * @return the SQL type name used by the DBMS for the base type of this
-     *         <code>SerialArray</code> object
-     * @throws SerialException if an error occurs;
-     * if {@code free} had previously been called on this object
+     * @return the SQL type nbme used by the DBMS for the bbse type of this
+     *         <code>SeriblArrby</code> object
+     * @throws SeriblException if bn error occurs;
+     * if {@code free} hbd previously been cblled on this object
      */
-    public String getBaseTypeName() throws SerialException {
-        isValid();
-        return baseTypeName;
+    public String getBbseTypeNbme() throws SeriblException {
+        isVblid();
+        return bbseTypeNbme;
     }
 
     /**
-     * Retrieves a <code>ResultSet</code> object holding the elements of
-     * the subarray that starts at
-     * index <i>index</i> and contains up to <i>count</i> successive elements.
-     * This method uses the connection's type map to map the elements of
-     * the array if the map contains
-     * an entry for the base type. Otherwise, the standard mapping is used.
+     * Retrieves b <code>ResultSet</code> object holding the elements of
+     * the subbrrby thbt stbrts bt
+     * index <i>index</i> bnd contbins up to <i>count</i> successive elements.
+     * This method uses the connection's type mbp to mbp the elements of
+     * the brrby if the mbp contbins
+     * bn entry for the bbse type. Otherwise, the stbndbrd mbpping is used.
      *
-     * @param index the index into this <code>SerialArray</code> object
+     * @pbrbm index the index into this <code>SeriblArrby</code> object
      *         of the first element to be copied; the index of the
-     *         first element in the array is <code>0</code>
-     * @param count the number of consecutive elements to be copied, starting
-     *         at the given index
-     * @return a <code>ResultSet</code> object containing the designated
-     *         elements in this <code>SerialArray</code> object, with a
-     *         separate row for each element
-     * @throws SerialException if called with the cause set to
-     *         {@code UnsupportedOperationException}
+     *         first element in the brrby is <code>0</code>
+     * @pbrbm count the number of consecutive elements to be copied, stbrting
+     *         bt the given index
+     * @return b <code>ResultSet</code> object contbining the designbted
+     *         elements in this <code>SeriblArrby</code> object, with b
+     *         sepbrbte row for ebch element
+     * @throws SeriblException if cblled with the cbuse set to
+     *         {@code UnsupportedOperbtionException}
      */
-    public ResultSet getResultSet(long index, int count) throws SerialException {
-        SerialException se = new SerialException();
-        se.initCause(new UnsupportedOperationException());
+    public ResultSet getResultSet(long index, int count) throws SeriblException {
+        SeriblException se = new SeriblException();
+        se.initCbuse(new UnsupportedOperbtionException());
         throw  se;
     }
 
     /**
      *
-     * Retrieves a <code>ResultSet</code> object that contains all of
+     * Retrieves b <code>ResultSet</code> object thbt contbins bll of
      * the elements of the SQL <code>ARRAY</code>
-     * value represented by this <code>SerialArray</code> object. This method uses
-     * the specified map for type map customizations unless the base type of the
-     * array does not match a user-defined type (UDT) in <i>map</i>, in
-     * which case it uses the
-     * standard mapping. This version of the method <code>getResultSet</code>
-     * uses either the given type map or the standard mapping; it never uses the
-     * type map associated with the connection.
+     * vblue represented by this <code>SeriblArrby</code> object. This method uses
+     * the specified mbp for type mbp customizbtions unless the bbse type of the
+     * brrby does not mbtch b user-defined type (UDT) in <i>mbp</i>, in
+     * which cbse it uses the
+     * stbndbrd mbpping. This version of the method <code>getResultSet</code>
+     * uses either the given type mbp or the stbndbrd mbpping; it never uses the
+     * type mbp bssocibted with the connection.
      *
-     * @param map a <code>java.util.Map</code> object in which
-     *        each entry consists of 1) a <code>String</code> object
-     *        giving the fully qualified name of a UDT and 2) the
-     *        <code>Class</code> object for the <code>SQLData</code> implementation
-     *        that defines how the UDT is to be mapped
-     * @return a <code>ResultSet</code> object containing all of the
-     *         elements in this <code>SerialArray</code> object, with a
-     *         separate row for each element
-     * @throws SerialException if called with the cause set to
-     *         {@code UnsupportedOperationException}
+     * @pbrbm mbp b <code>jbvb.util.Mbp</code> object in which
+     *        ebch entry consists of 1) b <code>String</code> object
+     *        giving the fully qublified nbme of b UDT bnd 2) the
+     *        <code>Clbss</code> object for the <code>SQLDbtb</code> implementbtion
+     *        thbt defines how the UDT is to be mbpped
+     * @return b <code>ResultSet</code> object contbining bll of the
+     *         elements in this <code>SeriblArrby</code> object, with b
+     *         sepbrbte row for ebch element
+     * @throws SeriblException if cblled with the cbuse set to
+     *         {@code UnsupportedOperbtionException}
      */
-    public ResultSet getResultSet(Map<String, Class<?>> map)
-        throws SerialException
+    public ResultSet getResultSet(Mbp<String, Clbss<?>> mbp)
+        throws SeriblException
     {
-        SerialException se = new SerialException();
-        se.initCause(new UnsupportedOperationException());
+        SeriblException se = new SeriblException();
+        se.initCbuse(new UnsupportedOperbtionException());
         throw  se;
     }
 
     /**
-     * Retrieves a <code>ResultSet</code> object that contains all of
-     * the elements in the <code>ARRAY</code> value that this
-     * <code>SerialArray</code> object represents.
-     * If appropriate, the elements of the array are mapped using the connection's
-     * type map; otherwise, the standard mapping is used.
+     * Retrieves b <code>ResultSet</code> object thbt contbins bll of
+     * the elements in the <code>ARRAY</code> vblue thbt this
+     * <code>SeriblArrby</code> object represents.
+     * If bppropribte, the elements of the brrby bre mbpped using the connection's
+     * type mbp; otherwise, the stbndbrd mbpping is used.
      *
-     * @return a <code>ResultSet</code> object containing all of the
-     *         elements in this <code>SerialArray</code> object, with a
-     *         separate row for each element
-     * @throws SerialException if called with the cause set to
-     *         {@code UnsupportedOperationException}
+     * @return b <code>ResultSet</code> object contbining bll of the
+     *         elements in this <code>SeriblArrby</code> object, with b
+     *         sepbrbte row for ebch element
+     * @throws SeriblException if cblled with the cbuse set to
+     *         {@code UnsupportedOperbtionException}
      */
-    public ResultSet getResultSet() throws SerialException {
-        SerialException se = new SerialException();
-        se.initCause(new UnsupportedOperationException());
+    public ResultSet getResultSet() throws SeriblException {
+        SeriblException se = new SeriblException();
+        se.initCbuse(new UnsupportedOperbtionException());
         throw  se;
     }
 
 
     /**
-     * Retrieves a result set holding the elements of the subarray that starts at
-     * Retrieves a <code>ResultSet</code> object that contains a subarray of the
-     * elements in this <code>SerialArray</code> object, starting at
-     * index <i>index</i> and containing up to <i>count</i> successive
+     * Retrieves b result set holding the elements of the subbrrby thbt stbrts bt
+     * Retrieves b <code>ResultSet</code> object thbt contbins b subbrrby of the
+     * elements in this <code>SeriblArrby</code> object, stbrting bt
+     * index <i>index</i> bnd contbining up to <i>count</i> successive
      * elements. This method uses
-     * the specified map for type map customizations unless the base type of the
-     * array does not match a user-defined type (UDT) in <i>map</i>, in
-     * which case it uses the
-     * standard mapping. This version of the method <code>getResultSet</code> uses
-     * either the given type map or the standard mapping; it never uses the type
-     * map associated with the connection.
+     * the specified mbp for type mbp customizbtions unless the bbse type of the
+     * brrby does not mbtch b user-defined type (UDT) in <i>mbp</i>, in
+     * which cbse it uses the
+     * stbndbrd mbpping. This version of the method <code>getResultSet</code> uses
+     * either the given type mbp or the stbndbrd mbpping; it never uses the type
+     * mbp bssocibted with the connection.
      *
-     * @param index the index into this <code>SerialArray</code> object
+     * @pbrbm index the index into this <code>SeriblArrby</code> object
      *              of the first element to be copied; the index of the
-     *              first element in the array is <code>0</code>
-     * @param count the number of consecutive elements to be copied, starting
-     *              at the given index
-     * @param map a <code>java.util.Map</code> object in which
-     *        each entry consists of 1) a <code>String</code> object
-     *        giving the fully qualified name of a UDT and 2) the
-     *        <code>Class</code> object for the <code>SQLData</code> implementation
-     *        that defines how the UDT is to be mapped
-     * @return a <code>ResultSet</code> object containing the designated
-     *         elements in this <code>SerialArray</code> object, with a
-     *         separate row for each element
-     * @throws SerialException if called with the cause set to
-     *         {@code UnsupportedOperationException}
+     *              first element in the brrby is <code>0</code>
+     * @pbrbm count the number of consecutive elements to be copied, stbrting
+     *              bt the given index
+     * @pbrbm mbp b <code>jbvb.util.Mbp</code> object in which
+     *        ebch entry consists of 1) b <code>String</code> object
+     *        giving the fully qublified nbme of b UDT bnd 2) the
+     *        <code>Clbss</code> object for the <code>SQLDbtb</code> implementbtion
+     *        thbt defines how the UDT is to be mbpped
+     * @return b <code>ResultSet</code> object contbining the designbted
+     *         elements in this <code>SeriblArrby</code> object, with b
+     *         sepbrbte row for ebch element
+     * @throws SeriblException if cblled with the cbuse set to
+     *         {@code UnsupportedOperbtionException}
      */
     public ResultSet getResultSet(long index, int count,
-                                  Map<String,Class<?>> map)
-        throws SerialException
+                                  Mbp<String,Clbss<?>> mbp)
+        throws SeriblException
     {
-        SerialException se = new SerialException();
-        se.initCause(new UnsupportedOperationException());
+        SeriblException se = new SeriblException();
+        se.initCbuse(new UnsupportedOperbtionException());
         throw  se;
     }
 
 
     /**
-     * Compares this SerialArray to the specified object.  The result is {@code
-     * true} if and only if the argument is not {@code null} and is a {@code
-     * SerialArray} object whose elements are identical to this object's elements
+     * Compbres this SeriblArrby to the specified object.  The result is {@code
+     * true} if bnd only if the brgument is not {@code null} bnd is b {@code
+     * SeriblArrby} object whose elements bre identicbl to this object's elements
      *
-     * @param  obj The object to compare this {@code SerialArray} against
+     * @pbrbm  obj The object to compbre this {@code SeriblArrby} bgbinst
      *
-     * @return  {@code true} if the given object represents a {@code SerialArray}
-     *          equivalent to this SerialArray, {@code false} otherwise
+     * @return  {@code true} if the given object represents b {@code SeriblArrby}
+     *          equivblent to this SeriblArrby, {@code fblse} otherwise
      *
      */
-    public boolean equals(Object obj) {
+    public boolebn equbls(Object obj) {
         if (this == obj) {
             return true;
         }
 
-        if (obj instanceof SerialArray) {
-            SerialArray sa = (SerialArray)obj;
-            return baseType == sa.baseType &&
-                    baseTypeName.equals(sa.baseTypeName) &&
-                    Arrays.equals(elements, sa.elements);
+        if (obj instbnceof SeriblArrby) {
+            SeriblArrby sb = (SeriblArrby)obj;
+            return bbseType == sb.bbseType &&
+                    bbseTypeNbme.equbls(sb.bbseTypeNbme) &&
+                    Arrbys.equbls(elements, sb.elements);
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Returns a hash code for this SerialArray. The hash code for a
-     * {@code SerialArray} object is computed using the hash codes
-     * of the elements of the  {@code SerialArray} object
+     * Returns b hbsh code for this SeriblArrby. The hbsh code for b
+     * {@code SeriblArrby} object is computed using the hbsh codes
+     * of the elements of the  {@code SeriblArrby} object
      *
-     * @return  a hash code value for this object.
+     * @return  b hbsh code vblue for this object.
      */
-    public int hashCode() {
-        return (((31 + Arrays.hashCode(elements)) * 31 + len)  * 31 +
-                baseType) * 31 + baseTypeName.hashCode();
+    public int hbshCode() {
+        return (((31 + Arrbys.hbshCode(elements)) * 31 + len)  * 31 +
+                bbseType) * 31 + bbseTypeNbme.hbshCode();
     }
 
     /**
-     * Returns a clone of this {@code SerialArray}. The copy will contain a
-     * reference to a clone of the underlying objects array, not a reference
-     * to the original underlying object array of this {@code SerialArray} object.
+     * Returns b clone of this {@code SeriblArrby}. The copy will contbin b
+     * reference to b clone of the underlying objects brrby, not b reference
+     * to the originbl underlying object brrby of this {@code SeriblArrby} object.
      *
-     * @return a clone of this SerialArray
+     * @return b clone of this SeriblArrby
      */
     public Object clone() {
         try {
-            SerialArray sa = (SerialArray) super.clone();
-            sa.elements = (elements != null) ? Arrays.copyOf(elements, len) : null;
-            return sa;
-        } catch (CloneNotSupportedException ex) {
-            // this shouldn't happen, since we are Cloneable
-            throw new InternalError();
+            SeriblArrby sb = (SeriblArrby) super.clone();
+            sb.elements = (elements != null) ? Arrbys.copyOf(elements, len) : null;
+            return sb;
+        } cbtch (CloneNotSupportedException ex) {
+            // this shouldn't hbppen, since we bre Clonebble
+            throw new InternblError();
         }
 
     }
 
     /**
-     * readObject is called to restore the state of the {@code SerialArray} from
-     * a stream.
+     * rebdObject is cblled to restore the stbte of the {@code SeriblArrby} from
+     * b strebm.
      */
-    private void readObject(ObjectInputStream s)
-            throws IOException, ClassNotFoundException {
+    privbte void rebdObject(ObjectInputStrebm s)
+            throws IOException, ClbssNotFoundException {
 
-       ObjectInputStream.GetField fields = s.readFields();
+       ObjectInputStrebm.GetField fields = s.rebdFields();
        Object[] tmp = (Object[])fields.get("elements", null);
        if (tmp == null)
-           throw new InvalidObjectException("elements is null and should not be!");
+           throw new InvblidObjectException("elements is null bnd should not be!");
        elements = tmp.clone();
        len = fields.get("len", 0);
        if(elements.length != len)
-           throw new InvalidObjectException("elements is not the expected size");
+           throw new InvblidObjectException("elements is not the expected size");
 
-       baseType = fields.get("baseType", 0);
-       baseTypeName = (String)fields.get("baseTypeName", null);
+       bbseType = fields.get("bbseType", 0);
+       bbseTypeNbme = (String)fields.get("bbseTypeNbme", null);
     }
 
     /**
-     * writeObject is called to save the state of the {@code SerialArray}
-     * to a stream.
+     * writeObject is cblled to sbve the stbte of the {@code SeriblArrby}
+     * to b strebm.
      */
-    private void writeObject(ObjectOutputStream s)
-            throws IOException, ClassNotFoundException {
+    privbte void writeObject(ObjectOutputStrebm s)
+            throws IOException, ClbssNotFoundException {
 
-        ObjectOutputStream.PutField fields = s.putFields();
+        ObjectOutputStrebm.PutField fields = s.putFields();
         fields.put("elements", elements);
         fields.put("len", len);
-        fields.put("baseType", baseType);
-        fields.put("baseTypeName", baseTypeName);
+        fields.put("bbseType", bbseType);
+        fields.put("bbseTypeNbme", bbseTypeNbme);
         s.writeFields();
     }
 
     /**
-     * Check to see if this object had previously had its {@code free} method
-     * called
+     * Check to see if this object hbd previously hbd its {@code free} method
+     * cblled
      *
-     * @throws SerialException
+     * @throws SeriblException
      */
-    private void isValid() throws SerialException {
+    privbte void isVblid() throws SeriblException {
         if (elements == null) {
-            throw new SerialException("Error: You cannot call a method on a "
-                    + "SerialArray instance once free() has been called.");
+            throw new SeriblException("Error: You cbnnot cbll b method on b "
+                    + "SeriblArrby instbnce once free() hbs been cblled.");
         }
     }
 
     /**
-     * The identifier that assists in the serialization of this <code>SerialArray</code>
+     * The identifier thbt bssists in the seriblizbtion of this <code>SeriblArrby</code>
      * object.
      */
-    static final long serialVersionUID = -8466174297270688520L;
+    stbtic finbl long seriblVersionUID = -8466174297270688520L;
 }

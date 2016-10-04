@@ -1,414 +1,414 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt;
+pbckbge jbvb.bwt;
 
-import java.awt.geom.AffineTransform;
-import java.awt.geom.PathIterator;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
+import jbvb.bwt.geom.AffineTrbnsform;
+import jbvb.bwt.geom.PbthIterbtor;
+import jbvb.bwt.geom.Point2D;
+import jbvb.bwt.geom.Rectbngle2D;
 
 /**
- * The <code>Shape</code> interface provides definitions for objects
- * that represent some form of geometric shape.  The <code>Shape</code>
- * is described by a {@link PathIterator} object, which can express the
- * outline of the <code>Shape</code> as well as a rule for determining
- * how the outline divides the 2D plane into interior and exterior
- * points.  Each <code>Shape</code> object provides callbacks to get the
+ * The <code>Shbpe</code> interfbce provides definitions for objects
+ * thbt represent some form of geometric shbpe.  The <code>Shbpe</code>
+ * is described by b {@link PbthIterbtor} object, which cbn express the
+ * outline of the <code>Shbpe</code> bs well bs b rule for determining
+ * how the outline divides the 2D plbne into interior bnd exterior
+ * points.  Ebch <code>Shbpe</code> object provides cbllbbcks to get the
  * bounding box of the geometry, determine whether points or
- * rectangles lie partly or entirely within the interior
- * of the <code>Shape</code>, and retrieve a <code>PathIterator</code>
- * object that describes the trajectory path of the <code>Shape</code>
+ * rectbngles lie pbrtly or entirely within the interior
+ * of the <code>Shbpe</code>, bnd retrieve b <code>PbthIterbtor</code>
+ * object thbt describes the trbjectory pbth of the <code>Shbpe</code>
  * outline.
  * <p>
- * <a name="def_insideness"><b>Definition of insideness:</b></a>
- * A point is considered to lie inside a
- * <code>Shape</code> if and only if:
+ * <b nbme="def_insideness"><b>Definition of insideness:</b></b>
+ * A point is considered to lie inside b
+ * <code>Shbpe</code> if bnd only if:
  * <ul>
  * <li> it lies completely
- * inside the<code>Shape</code> boundary <i>or</i>
+ * inside the<code>Shbpe</code> boundbry <i>or</i>
  * <li>
- * it lies exactly on the <code>Shape</code> boundary <i>and</i> the
- * space immediately adjacent to the
- * point in the increasing <code>X</code> direction is
- * entirely inside the boundary <i>or</i>
+ * it lies exbctly on the <code>Shbpe</code> boundbry <i>bnd</i> the
+ * spbce immedibtely bdjbcent to the
+ * point in the increbsing <code>X</code> direction is
+ * entirely inside the boundbry <i>or</i>
  * <li>
- * it lies exactly on a horizontal boundary segment <b>and</b> the
- * space immediately adjacent to the point in the
- * increasing <code>Y</code> direction is inside the boundary.
+ * it lies exbctly on b horizontbl boundbry segment <b>bnd</b> the
+ * spbce immedibtely bdjbcent to the point in the
+ * increbsing <code>Y</code> direction is inside the boundbry.
  * </ul>
- * <p>The <code>contains</code> and <code>intersects</code> methods
- * consider the interior of a <code>Shape</code> to be the area it
- * encloses as if it were filled.  This means that these methods
+ * <p>The <code>contbins</code> bnd <code>intersects</code> methods
+ * consider the interior of b <code>Shbpe</code> to be the breb it
+ * encloses bs if it were filled.  This mebns thbt these methods
  * consider
- * unclosed shapes to be implicitly closed for the purpose of
- * determining if a shape contains or intersects a rectangle or if a
- * shape contains a point.
+ * unclosed shbpes to be implicitly closed for the purpose of
+ * determining if b shbpe contbins or intersects b rectbngle or if b
+ * shbpe contbins b point.
  *
- * @see java.awt.geom.PathIterator
- * @see java.awt.geom.AffineTransform
- * @see java.awt.geom.FlatteningPathIterator
- * @see java.awt.geom.GeneralPath
+ * @see jbvb.bwt.geom.PbthIterbtor
+ * @see jbvb.bwt.geom.AffineTrbnsform
+ * @see jbvb.bwt.geom.FlbtteningPbthIterbtor
+ * @see jbvb.bwt.geom.GenerblPbth
  *
- * @author Jim Graham
+ * @buthor Jim Grbhbm
  * @since 1.2
  */
-public interface Shape {
+public interfbce Shbpe {
     /**
-     * Returns an integer {@link Rectangle} that completely encloses the
-     * <code>Shape</code>.  Note that there is no guarantee that the
-     * returned <code>Rectangle</code> is the smallest bounding box that
-     * encloses the <code>Shape</code>, only that the <code>Shape</code>
-     * lies entirely within the indicated  <code>Rectangle</code>.  The
-     * returned <code>Rectangle</code> might also fail to completely
-     * enclose the <code>Shape</code> if the <code>Shape</code> overflows
-     * the limited range of the integer data type.  The
-     * <code>getBounds2D</code> method generally returns a
-     * tighter bounding box due to its greater flexibility in
-     * representation.
+     * Returns bn integer {@link Rectbngle} thbt completely encloses the
+     * <code>Shbpe</code>.  Note thbt there is no gubrbntee thbt the
+     * returned <code>Rectbngle</code> is the smbllest bounding box thbt
+     * encloses the <code>Shbpe</code>, only thbt the <code>Shbpe</code>
+     * lies entirely within the indicbted  <code>Rectbngle</code>.  The
+     * returned <code>Rectbngle</code> might blso fbil to completely
+     * enclose the <code>Shbpe</code> if the <code>Shbpe</code> overflows
+     * the limited rbnge of the integer dbtb type.  The
+     * <code>getBounds2D</code> method generblly returns b
+     * tighter bounding box due to its grebter flexibility in
+     * representbtion.
      *
      * <p>
-     * Note that the <a href="{@docRoot}/java/awt/Shape.html#def_insideness">
-     * definition of insideness</a> can lead to situations where points
-     * on the defining outline of the {@code shape} may not be considered
-     * contained in the returned {@code bounds} object, but only in cases
-     * where those points are also not considered contained in the original
-     * {@code shape}.
+     * Note thbt the <b href="{@docRoot}/jbvb/bwt/Shbpe.html#def_insideness">
+     * definition of insideness</b> cbn lebd to situbtions where points
+     * on the defining outline of the {@code shbpe} mby not be considered
+     * contbined in the returned {@code bounds} object, but only in cbses
+     * where those points bre blso not considered contbined in the originbl
+     * {@code shbpe}.
      * </p>
      * <p>
-     * If a {@code point} is inside the {@code shape} according to the
-     * {@link #contains(double x, double y) contains(point)} method, then
-     * it must be inside the returned {@code Rectangle} bounds object
-     * according to the {@link #contains(double x, double y) contains(point)}
-     * method of the {@code bounds}. Specifically:
+     * If b {@code point} is inside the {@code shbpe} bccording to the
+     * {@link #contbins(double x, double y) contbins(point)} method, then
+     * it must be inside the returned {@code Rectbngle} bounds object
+     * bccording to the {@link #contbins(double x, double y) contbins(point)}
+     * method of the {@code bounds}. Specificblly:
      * </p>
      * <p>
-     *  {@code shape.contains(x,y)} requires {@code bounds.contains(x,y)}
+     *  {@code shbpe.contbins(x,y)} requires {@code bounds.contbins(x,y)}
      * </p>
      * <p>
-     * If a {@code point} is not inside the {@code shape}, then it might
-     * still be contained in the {@code bounds} object:
+     * If b {@code point} is not inside the {@code shbpe}, then it might
+     * still be contbined in the {@code bounds} object:
      * </p>
      * <p>
-     *  {@code bounds.contains(x,y)} does not imply {@code shape.contains(x,y)}
+     *  {@code bounds.contbins(x,y)} does not imply {@code shbpe.contbins(x,y)}
      * </p>
-     * @return an integer <code>Rectangle</code> that completely encloses
-     *                 the <code>Shape</code>.
+     * @return bn integer <code>Rectbngle</code> thbt completely encloses
+     *                 the <code>Shbpe</code>.
      * @see #getBounds2D
      * @since 1.2
      */
-    public Rectangle getBounds();
+    public Rectbngle getBounds();
 
     /**
-     * Returns a high precision and more accurate bounding box of
-     * the <code>Shape</code> than the <code>getBounds</code> method.
-     * Note that there is no guarantee that the returned
-     * {@link Rectangle2D} is the smallest bounding box that encloses
-     * the <code>Shape</code>, only that the <code>Shape</code> lies
-     * entirely within the indicated <code>Rectangle2D</code>.  The
-     * bounding box returned by this method is usually tighter than that
-     * returned by the <code>getBounds</code> method and never fails due
-     * to overflow problems since the return value can be an instance of
-     * the <code>Rectangle2D</code> that uses double precision values to
+     * Returns b high precision bnd more bccurbte bounding box of
+     * the <code>Shbpe</code> thbn the <code>getBounds</code> method.
+     * Note thbt there is no gubrbntee thbt the returned
+     * {@link Rectbngle2D} is the smbllest bounding box thbt encloses
+     * the <code>Shbpe</code>, only thbt the <code>Shbpe</code> lies
+     * entirely within the indicbted <code>Rectbngle2D</code>.  The
+     * bounding box returned by this method is usublly tighter thbn thbt
+     * returned by the <code>getBounds</code> method bnd never fbils due
+     * to overflow problems since the return vblue cbn be bn instbnce of
+     * the <code>Rectbngle2D</code> thbt uses double precision vblues to
      * store the dimensions.
      *
      * <p>
-     * Note that the <a href="{@docRoot}/java/awt/Shape.html#def_insideness">
-     * definition of insideness</a> can lead to situations where points
-     * on the defining outline of the {@code shape} may not be considered
-     * contained in the returned {@code bounds} object, but only in cases
-     * where those points are also not considered contained in the original
-     * {@code shape}.
+     * Note thbt the <b href="{@docRoot}/jbvb/bwt/Shbpe.html#def_insideness">
+     * definition of insideness</b> cbn lebd to situbtions where points
+     * on the defining outline of the {@code shbpe} mby not be considered
+     * contbined in the returned {@code bounds} object, but only in cbses
+     * where those points bre blso not considered contbined in the originbl
+     * {@code shbpe}.
      * </p>
      * <p>
-     * If a {@code point} is inside the {@code shape} according to the
-     * {@link #contains(Point2D p) contains(point)} method, then it must
-     * be inside the returned {@code Rectangle2D} bounds object according
-     * to the {@link #contains(Point2D p) contains(point)} method of the
-     * {@code bounds}. Specifically:
+     * If b {@code point} is inside the {@code shbpe} bccording to the
+     * {@link #contbins(Point2D p) contbins(point)} method, then it must
+     * be inside the returned {@code Rectbngle2D} bounds object bccording
+     * to the {@link #contbins(Point2D p) contbins(point)} method of the
+     * {@code bounds}. Specificblly:
      * </p>
      * <p>
-     *  {@code shape.contains(p)} requires {@code bounds.contains(p)}
+     *  {@code shbpe.contbins(p)} requires {@code bounds.contbins(p)}
      * </p>
      * <p>
-     * If a {@code point} is not inside the {@code shape}, then it might
-     * still be contained in the {@code bounds} object:
+     * If b {@code point} is not inside the {@code shbpe}, then it might
+     * still be contbined in the {@code bounds} object:
      * </p>
      * <p>
-     *  {@code bounds.contains(p)} does not imply {@code shape.contains(p)}
+     *  {@code bounds.contbins(p)} does not imply {@code shbpe.contbins(p)}
      * </p>
-     * @return an instance of <code>Rectangle2D</code> that is a
-     *                 high-precision bounding box of the <code>Shape</code>.
+     * @return bn instbnce of <code>Rectbngle2D</code> thbt is b
+     *                 high-precision bounding box of the <code>Shbpe</code>.
      * @see #getBounds
      * @since 1.2
      */
-    public Rectangle2D getBounds2D();
+    public Rectbngle2D getBounds2D();
 
     /**
-     * Tests if the specified coordinates are inside the boundary of the
-     * <code>Shape</code>, as described by the
-     * <a href="{@docRoot}/java/awt/Shape.html#def_insideness">
-     * definition of insideness</a>.
-     * @param x the specified X coordinate to be tested
-     * @param y the specified Y coordinate to be tested
-     * @return <code>true</code> if the specified coordinates are inside
-     *         the <code>Shape</code> boundary; <code>false</code>
+     * Tests if the specified coordinbtes bre inside the boundbry of the
+     * <code>Shbpe</code>, bs described by the
+     * <b href="{@docRoot}/jbvb/bwt/Shbpe.html#def_insideness">
+     * definition of insideness</b>.
+     * @pbrbm x the specified X coordinbte to be tested
+     * @pbrbm y the specified Y coordinbte to be tested
+     * @return <code>true</code> if the specified coordinbtes bre inside
+     *         the <code>Shbpe</code> boundbry; <code>fblse</code>
      *         otherwise.
      * @since 1.2
      */
-    public boolean contains(double x, double y);
+    public boolebn contbins(double x, double y);
 
     /**
-     * Tests if a specified {@link Point2D} is inside the boundary
-     * of the <code>Shape</code>, as described by the
-     * <a href="{@docRoot}/java/awt/Shape.html#def_insideness">
-     * definition of insideness</a>.
-     * @param p the specified <code>Point2D</code> to be tested
+     * Tests if b specified {@link Point2D} is inside the boundbry
+     * of the <code>Shbpe</code>, bs described by the
+     * <b href="{@docRoot}/jbvb/bwt/Shbpe.html#def_insideness">
+     * definition of insideness</b>.
+     * @pbrbm p the specified <code>Point2D</code> to be tested
      * @return <code>true</code> if the specified <code>Point2D</code> is
-     *          inside the boundary of the <code>Shape</code>;
-     *          <code>false</code> otherwise.
+     *          inside the boundbry of the <code>Shbpe</code>;
+     *          <code>fblse</code> otherwise.
      * @since 1.2
      */
-    public boolean contains(Point2D p);
+    public boolebn contbins(Point2D p);
 
     /**
-     * Tests if the interior of the <code>Shape</code> intersects the
-     * interior of a specified rectangular area.
-     * The rectangular area is considered to intersect the <code>Shape</code>
-     * if any point is contained in both the interior of the
-     * <code>Shape</code> and the specified rectangular area.
+     * Tests if the interior of the <code>Shbpe</code> intersects the
+     * interior of b specified rectbngulbr breb.
+     * The rectbngulbr breb is considered to intersect the <code>Shbpe</code>
+     * if bny point is contbined in both the interior of the
+     * <code>Shbpe</code> bnd the specified rectbngulbr breb.
      * <p>
-     * The {@code Shape.intersects()} method allows a {@code Shape}
-     * implementation to conservatively return {@code true} when:
+     * The {@code Shbpe.intersects()} method bllows b {@code Shbpe}
+     * implementbtion to conservbtively return {@code true} when:
      * <ul>
      * <li>
-     * there is a high probability that the rectangular area and the
-     * <code>Shape</code> intersect, but
+     * there is b high probbbility thbt the rectbngulbr breb bnd the
+     * <code>Shbpe</code> intersect, but
      * <li>
-     * the calculations to accurately determine this intersection
-     * are prohibitively expensive.
+     * the cblculbtions to bccurbtely determine this intersection
+     * bre prohibitively expensive.
      * </ul>
-     * This means that for some {@code Shapes} this method might
-     * return {@code true} even though the rectangular area does not
-     * intersect the {@code Shape}.
-     * The {@link java.awt.geom.Area Area} class performs
-     * more accurate computations of geometric intersection than most
-     * {@code Shape} objects and therefore can be used if a more precise
-     * answer is required.
+     * This mebns thbt for some {@code Shbpes} this method might
+     * return {@code true} even though the rectbngulbr breb does not
+     * intersect the {@code Shbpe}.
+     * The {@link jbvb.bwt.geom.Areb Areb} clbss performs
+     * more bccurbte computbtions of geometric intersection thbn most
+     * {@code Shbpe} objects bnd therefore cbn be used if b more precise
+     * bnswer is required.
      *
-     * @param x the X coordinate of the upper-left corner
-     *          of the specified rectangular area
-     * @param y the Y coordinate of the upper-left corner
-     *          of the specified rectangular area
-     * @param w the width of the specified rectangular area
-     * @param h the height of the specified rectangular area
-     * @return <code>true</code> if the interior of the <code>Shape</code> and
-     *          the interior of the rectangular area intersect, or are
-     *          both highly likely to intersect and intersection calculations
-     *          would be too expensive to perform; <code>false</code> otherwise.
-     * @see java.awt.geom.Area
+     * @pbrbm x the X coordinbte of the upper-left corner
+     *          of the specified rectbngulbr breb
+     * @pbrbm y the Y coordinbte of the upper-left corner
+     *          of the specified rectbngulbr breb
+     * @pbrbm w the width of the specified rectbngulbr breb
+     * @pbrbm h the height of the specified rectbngulbr breb
+     * @return <code>true</code> if the interior of the <code>Shbpe</code> bnd
+     *          the interior of the rectbngulbr breb intersect, or bre
+     *          both highly likely to intersect bnd intersection cblculbtions
+     *          would be too expensive to perform; <code>fblse</code> otherwise.
+     * @see jbvb.bwt.geom.Areb
      * @since 1.2
      */
-    public boolean intersects(double x, double y, double w, double h);
+    public boolebn intersects(double x, double y, double w, double h);
 
     /**
-     * Tests if the interior of the <code>Shape</code> intersects the
-     * interior of a specified <code>Rectangle2D</code>.
-     * The {@code Shape.intersects()} method allows a {@code Shape}
-     * implementation to conservatively return {@code true} when:
+     * Tests if the interior of the <code>Shbpe</code> intersects the
+     * interior of b specified <code>Rectbngle2D</code>.
+     * The {@code Shbpe.intersects()} method bllows b {@code Shbpe}
+     * implementbtion to conservbtively return {@code true} when:
      * <ul>
      * <li>
-     * there is a high probability that the <code>Rectangle2D</code> and the
-     * <code>Shape</code> intersect, but
+     * there is b high probbbility thbt the <code>Rectbngle2D</code> bnd the
+     * <code>Shbpe</code> intersect, but
      * <li>
-     * the calculations to accurately determine this intersection
-     * are prohibitively expensive.
+     * the cblculbtions to bccurbtely determine this intersection
+     * bre prohibitively expensive.
      * </ul>
-     * This means that for some {@code Shapes} this method might
-     * return {@code true} even though the {@code Rectangle2D} does not
-     * intersect the {@code Shape}.
-     * The {@link java.awt.geom.Area Area} class performs
-     * more accurate computations of geometric intersection than most
-     * {@code Shape} objects and therefore can be used if a more precise
-     * answer is required.
+     * This mebns thbt for some {@code Shbpes} this method might
+     * return {@code true} even though the {@code Rectbngle2D} does not
+     * intersect the {@code Shbpe}.
+     * The {@link jbvb.bwt.geom.Areb Areb} clbss performs
+     * more bccurbte computbtions of geometric intersection thbn most
+     * {@code Shbpe} objects bnd therefore cbn be used if b more precise
+     * bnswer is required.
      *
-     * @param r the specified <code>Rectangle2D</code>
-     * @return <code>true</code> if the interior of the <code>Shape</code> and
-     *          the interior of the specified <code>Rectangle2D</code>
-     *          intersect, or are both highly likely to intersect and intersection
-     *          calculations would be too expensive to perform; <code>false</code>
+     * @pbrbm r the specified <code>Rectbngle2D</code>
+     * @return <code>true</code> if the interior of the <code>Shbpe</code> bnd
+     *          the interior of the specified <code>Rectbngle2D</code>
+     *          intersect, or bre both highly likely to intersect bnd intersection
+     *          cblculbtions would be too expensive to perform; <code>fblse</code>
      *          otherwise.
      * @see #intersects(double, double, double, double)
      * @since 1.2
      */
-    public boolean intersects(Rectangle2D r);
+    public boolebn intersects(Rectbngle2D r);
 
     /**
-     * Tests if the interior of the <code>Shape</code> entirely contains
-     * the specified rectangular area.  All coordinates that lie inside
-     * the rectangular area must lie within the <code>Shape</code> for the
-     * entire rectangular area to be considered contained within the
-     * <code>Shape</code>.
+     * Tests if the interior of the <code>Shbpe</code> entirely contbins
+     * the specified rectbngulbr breb.  All coordinbtes thbt lie inside
+     * the rectbngulbr breb must lie within the <code>Shbpe</code> for the
+     * entire rectbngulbr breb to be considered contbined within the
+     * <code>Shbpe</code>.
      * <p>
-     * The {@code Shape.contains()} method allows a {@code Shape}
-     * implementation to conservatively return {@code false} when:
+     * The {@code Shbpe.contbins()} method bllows b {@code Shbpe}
+     * implementbtion to conservbtively return {@code fblse} when:
      * <ul>
      * <li>
-     * the <code>intersect</code> method returns <code>true</code> and
+     * the <code>intersect</code> method returns <code>true</code> bnd
      * <li>
-     * the calculations to determine whether or not the
-     * <code>Shape</code> entirely contains the rectangular area are
+     * the cblculbtions to determine whether or not the
+     * <code>Shbpe</code> entirely contbins the rectbngulbr breb bre
      * prohibitively expensive.
      * </ul>
-     * This means that for some {@code Shapes} this method might
-     * return {@code false} even though the {@code Shape} contains
-     * the rectangular area.
-     * The {@link java.awt.geom.Area Area} class performs
-     * more accurate geometric computations than most
-     * {@code Shape} objects and therefore can be used if a more precise
-     * answer is required.
+     * This mebns thbt for some {@code Shbpes} this method might
+     * return {@code fblse} even though the {@code Shbpe} contbins
+     * the rectbngulbr breb.
+     * The {@link jbvb.bwt.geom.Areb Areb} clbss performs
+     * more bccurbte geometric computbtions thbn most
+     * {@code Shbpe} objects bnd therefore cbn be used if b more precise
+     * bnswer is required.
      *
-     * @param x the X coordinate of the upper-left corner
-     *          of the specified rectangular area
-     * @param y the Y coordinate of the upper-left corner
-     *          of the specified rectangular area
-     * @param w the width of the specified rectangular area
-     * @param h the height of the specified rectangular area
-     * @return <code>true</code> if the interior of the <code>Shape</code>
-     *          entirely contains the specified rectangular area;
-     *          <code>false</code> otherwise or, if the <code>Shape</code>
-     *          contains the rectangular area and the
+     * @pbrbm x the X coordinbte of the upper-left corner
+     *          of the specified rectbngulbr breb
+     * @pbrbm y the Y coordinbte of the upper-left corner
+     *          of the specified rectbngulbr breb
+     * @pbrbm w the width of the specified rectbngulbr breb
+     * @pbrbm h the height of the specified rectbngulbr breb
+     * @return <code>true</code> if the interior of the <code>Shbpe</code>
+     *          entirely contbins the specified rectbngulbr breb;
+     *          <code>fblse</code> otherwise or, if the <code>Shbpe</code>
+     *          contbins the rectbngulbr breb bnd the
      *          <code>intersects</code> method returns <code>true</code>
-     *          and the containment calculations would be too expensive to
+     *          bnd the contbinment cblculbtions would be too expensive to
      *          perform.
-     * @see java.awt.geom.Area
+     * @see jbvb.bwt.geom.Areb
      * @see #intersects
      * @since 1.2
      */
-    public boolean contains(double x, double y, double w, double h);
+    public boolebn contbins(double x, double y, double w, double h);
 
     /**
-     * Tests if the interior of the <code>Shape</code> entirely contains the
-     * specified <code>Rectangle2D</code>.
-     * The {@code Shape.contains()} method allows a {@code Shape}
-     * implementation to conservatively return {@code false} when:
+     * Tests if the interior of the <code>Shbpe</code> entirely contbins the
+     * specified <code>Rectbngle2D</code>.
+     * The {@code Shbpe.contbins()} method bllows b {@code Shbpe}
+     * implementbtion to conservbtively return {@code fblse} when:
      * <ul>
      * <li>
-     * the <code>intersect</code> method returns <code>true</code> and
+     * the <code>intersect</code> method returns <code>true</code> bnd
      * <li>
-     * the calculations to determine whether or not the
-     * <code>Shape</code> entirely contains the <code>Rectangle2D</code>
-     * are prohibitively expensive.
+     * the cblculbtions to determine whether or not the
+     * <code>Shbpe</code> entirely contbins the <code>Rectbngle2D</code>
+     * bre prohibitively expensive.
      * </ul>
-     * This means that for some {@code Shapes} this method might
-     * return {@code false} even though the {@code Shape} contains
-     * the {@code Rectangle2D}.
-     * The {@link java.awt.geom.Area Area} class performs
-     * more accurate geometric computations than most
-     * {@code Shape} objects and therefore can be used if a more precise
-     * answer is required.
+     * This mebns thbt for some {@code Shbpes} this method might
+     * return {@code fblse} even though the {@code Shbpe} contbins
+     * the {@code Rectbngle2D}.
+     * The {@link jbvb.bwt.geom.Areb Areb} clbss performs
+     * more bccurbte geometric computbtions thbn most
+     * {@code Shbpe} objects bnd therefore cbn be used if b more precise
+     * bnswer is required.
      *
-     * @param r The specified <code>Rectangle2D</code>
-     * @return <code>true</code> if the interior of the <code>Shape</code>
-     *          entirely contains the <code>Rectangle2D</code>;
-     *          <code>false</code> otherwise or, if the <code>Shape</code>
-     *          contains the <code>Rectangle2D</code> and the
+     * @pbrbm r The specified <code>Rectbngle2D</code>
+     * @return <code>true</code> if the interior of the <code>Shbpe</code>
+     *          entirely contbins the <code>Rectbngle2D</code>;
+     *          <code>fblse</code> otherwise or, if the <code>Shbpe</code>
+     *          contbins the <code>Rectbngle2D</code> bnd the
      *          <code>intersects</code> method returns <code>true</code>
-     *          and the containment calculations would be too expensive to
+     *          bnd the contbinment cblculbtions would be too expensive to
      *          perform.
-     * @see #contains(double, double, double, double)
+     * @see #contbins(double, double, double, double)
      * @since 1.2
      */
-    public boolean contains(Rectangle2D r);
+    public boolebn contbins(Rectbngle2D r);
 
     /**
-     * Returns an iterator object that iterates along the
-     * <code>Shape</code> boundary and provides access to the geometry of the
-     * <code>Shape</code> outline.  If an optional {@link AffineTransform}
-     * is specified, the coordinates returned in the iteration are
-     * transformed accordingly.
+     * Returns bn iterbtor object thbt iterbtes blong the
+     * <code>Shbpe</code> boundbry bnd provides bccess to the geometry of the
+     * <code>Shbpe</code> outline.  If bn optionbl {@link AffineTrbnsform}
+     * is specified, the coordinbtes returned in the iterbtion bre
+     * trbnsformed bccordingly.
      * <p>
-     * Each call to this method returns a fresh <code>PathIterator</code>
-     * object that traverses the geometry of the <code>Shape</code> object
-     * independently from any other <code>PathIterator</code> objects in use
-     * at the same time.
+     * Ebch cbll to this method returns b fresh <code>PbthIterbtor</code>
+     * object thbt trbverses the geometry of the <code>Shbpe</code> object
+     * independently from bny other <code>PbthIterbtor</code> objects in use
+     * bt the sbme time.
      * <p>
-     * It is recommended, but not guaranteed, that objects
-     * implementing the <code>Shape</code> interface isolate iterations
-     * that are in process from any changes that might occur to the original
-     * object's geometry during such iterations.
+     * It is recommended, but not gubrbnteed, thbt objects
+     * implementing the <code>Shbpe</code> interfbce isolbte iterbtions
+     * thbt bre in process from bny chbnges thbt might occur to the originbl
+     * object's geometry during such iterbtions.
      *
-     * @param at an optional <code>AffineTransform</code> to be applied to the
-     *          coordinates as they are returned in the iteration, or
-     *          <code>null</code> if untransformed coordinates are desired
-     * @return a new <code>PathIterator</code> object, which independently
-     *          traverses the geometry of the <code>Shape</code>.
+     * @pbrbm bt bn optionbl <code>AffineTrbnsform</code> to be bpplied to the
+     *          coordinbtes bs they bre returned in the iterbtion, or
+     *          <code>null</code> if untrbnsformed coordinbtes bre desired
+     * @return b new <code>PbthIterbtor</code> object, which independently
+     *          trbverses the geometry of the <code>Shbpe</code>.
      * @since 1.2
      */
-    public PathIterator getPathIterator(AffineTransform at);
+    public PbthIterbtor getPbthIterbtor(AffineTrbnsform bt);
 
     /**
-     * Returns an iterator object that iterates along the <code>Shape</code>
-     * boundary and provides access to a flattened view of the
-     * <code>Shape</code> outline geometry.
+     * Returns bn iterbtor object thbt iterbtes blong the <code>Shbpe</code>
+     * boundbry bnd provides bccess to b flbttened view of the
+     * <code>Shbpe</code> outline geometry.
      * <p>
-     * Only SEG_MOVETO, SEG_LINETO, and SEG_CLOSE point types are
-     * returned by the iterator.
+     * Only SEG_MOVETO, SEG_LINETO, bnd SEG_CLOSE point types bre
+     * returned by the iterbtor.
      * <p>
-     * If an optional <code>AffineTransform</code> is specified,
-     * the coordinates returned in the iteration are transformed
-     * accordingly.
+     * If bn optionbl <code>AffineTrbnsform</code> is specified,
+     * the coordinbtes returned in the iterbtion bre trbnsformed
+     * bccordingly.
      * <p>
-     * The amount of subdivision of the curved segments is controlled
-     * by the <code>flatness</code> parameter, which specifies the
-     * maximum distance that any point on the unflattened transformed
-     * curve can deviate from the returned flattened path segments.
-     * Note that a limit on the accuracy of the flattened path might be
-     * silently imposed, causing very small flattening parameters to be
-     * treated as larger values.  This limit, if there is one, is
-     * defined by the particular implementation that is used.
+     * The bmount of subdivision of the curved segments is controlled
+     * by the <code>flbtness</code> pbrbmeter, which specifies the
+     * mbximum distbnce thbt bny point on the unflbttened trbnsformed
+     * curve cbn devibte from the returned flbttened pbth segments.
+     * Note thbt b limit on the bccurbcy of the flbttened pbth might be
+     * silently imposed, cbusing very smbll flbttening pbrbmeters to be
+     * trebted bs lbrger vblues.  This limit, if there is one, is
+     * defined by the pbrticulbr implementbtion thbt is used.
      * <p>
-     * Each call to this method returns a fresh <code>PathIterator</code>
-     * object that traverses the <code>Shape</code> object geometry
-     * independently from any other <code>PathIterator</code> objects in use at
-     * the same time.
+     * Ebch cbll to this method returns b fresh <code>PbthIterbtor</code>
+     * object thbt trbverses the <code>Shbpe</code> object geometry
+     * independently from bny other <code>PbthIterbtor</code> objects in use bt
+     * the sbme time.
      * <p>
-     * It is recommended, but not guaranteed, that objects
-     * implementing the <code>Shape</code> interface isolate iterations
-     * that are in process from any changes that might occur to the original
-     * object's geometry during such iterations.
+     * It is recommended, but not gubrbnteed, thbt objects
+     * implementing the <code>Shbpe</code> interfbce isolbte iterbtions
+     * thbt bre in process from bny chbnges thbt might occur to the originbl
+     * object's geometry during such iterbtions.
      *
-     * @param at an optional <code>AffineTransform</code> to be applied to the
-     *          coordinates as they are returned in the iteration, or
-     *          <code>null</code> if untransformed coordinates are desired
-     * @param flatness the maximum distance that the line segments used to
-     *          approximate the curved segments are allowed to deviate
-     *          from any point on the original curve
-     * @return a new <code>PathIterator</code> that independently traverses
-     *         a flattened view of the geometry of the  <code>Shape</code>.
+     * @pbrbm bt bn optionbl <code>AffineTrbnsform</code> to be bpplied to the
+     *          coordinbtes bs they bre returned in the iterbtion, or
+     *          <code>null</code> if untrbnsformed coordinbtes bre desired
+     * @pbrbm flbtness the mbximum distbnce thbt the line segments used to
+     *          bpproximbte the curved segments bre bllowed to devibte
+     *          from bny point on the originbl curve
+     * @return b new <code>PbthIterbtor</code> thbt independently trbverses
+     *         b flbttened view of the geometry of the  <code>Shbpe</code>.
      * @since 1.2
      */
-    public PathIterator getPathIterator(AffineTransform at, double flatness);
+    public PbthIterbtor getPbthIterbtor(AffineTrbnsform bt, double flbtness);
 }

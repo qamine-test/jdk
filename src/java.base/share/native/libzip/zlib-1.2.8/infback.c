@@ -1,76 +1,76 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-/* infback.c -- inflate using a call-back interface
- * Copyright (C) 1995-2011 Mark Adler
- * For conditions of distribution and use, see copyright notice in zlib.h
+/* infbbck.c -- inflbte using b cbll-bbck interfbce
+ * Copyright (C) 1995-2011 Mbrk Adler
+ * For conditions of distribution bnd use, see copyright notice in zlib.h
  */
 
 /*
-   This code is largely copied from inflate.c.  Normally either infback.o or
-   inflate.o would be linked into an application--not both.  The interface
-   with inffast.c is retained so that optimized assembler-coded versions of
-   inflate_fast() can be used with either inflate.c or infback.c.
+   This code is lbrgely copied from inflbte.c.  Normblly either infbbck.o or
+   inflbte.o would be linked into bn bpplicbtion--not both.  The interfbce
+   with inffbst.c is retbined so thbt optimized bssembler-coded versions of
+   inflbte_fbst() cbn be used with either inflbte.c or infbbck.c.
  */
 
 #include "zutil.h"
 #include "inftrees.h"
-#include "inflate.h"
-#include "inffast.h"
+#include "inflbte.h"
+#include "inffbst.h"
 
 /* function prototypes */
-local void fixedtables OF((struct inflate_state FAR *state));
+locbl void fixedtbbles OF((struct inflbte_stbte FAR *stbte));
 
 /*
-   strm provides memory allocation functions in zalloc and zfree, or
-   Z_NULL to use the library memory allocation functions.
+   strm provides memory bllocbtion functions in zblloc bnd zfree, or
+   Z_NULL to use the librbry memory bllocbtion functions.
 
-   windowBits is in the range 8..15, and window is a user-supplied
-   window and output buffer that is 2**windowBits bytes.
+   windowBits is in the rbnge 8..15, bnd window is b user-supplied
+   window bnd output buffer thbt is 2**windowBits bytes.
  */
-int ZEXPORT inflateBackInit_(strm, windowBits, window, version, stream_size)
-z_streamp strm;
+int ZEXPORT inflbteBbckInit_(strm, windowBits, window, version, strebm_size)
+z_strebmp strm;
 int windowBits;
-unsigned char FAR *window;
-const char *version;
-int stream_size;
+unsigned chbr FAR *window;
+const chbr *version;
+int strebm_size;
 {
-    struct inflate_state FAR *state;
+    struct inflbte_stbte FAR *stbte;
 
     if (version == Z_NULL || version[0] != ZLIB_VERSION[0] ||
-        stream_size != (int)(sizeof(z_stream)))
+        strebm_size != (int)(sizeof(z_strebm)))
         return Z_VERSION_ERROR;
     if (strm == Z_NULL || window == Z_NULL ||
         windowBits < 8 || windowBits > 15)
         return Z_STREAM_ERROR;
-    strm->msg = Z_NULL;                 /* in case we return an error */
-    if (strm->zalloc == (alloc_func)0) {
+    strm->msg = Z_NULL;                 /* in cbse we return bn error */
+    if (strm->zblloc == (blloc_func)0) {
 #ifdef Z_SOLO
         return Z_STREAM_ERROR;
 #else
-        strm->zalloc = zcalloc;
-        strm->opaque = (voidpf)0;
+        strm->zblloc = zcblloc;
+        strm->opbque = (voidpf)0;
 #endif
     }
     if (strm->zfree == (free_func)0)
@@ -79,60 +79,60 @@ int stream_size;
 #else
     strm->zfree = zcfree;
 #endif
-    state = (struct inflate_state FAR *)ZALLOC(strm, 1,
-                                               sizeof(struct inflate_state));
-    if (state == Z_NULL) return Z_MEM_ERROR;
-    Tracev((stderr, "inflate: allocated\n"));
-    strm->state = (struct internal_state FAR *)state;
-    state->dmax = 32768U;
-    state->wbits = windowBits;
-    state->wsize = 1U << windowBits;
-    state->window = window;
-    state->wnext = 0;
-    state->whave = 0;
+    stbte = (struct inflbte_stbte FAR *)ZALLOC(strm, 1,
+                                               sizeof(struct inflbte_stbte));
+    if (stbte == Z_NULL) return Z_MEM_ERROR;
+    Trbcev((stderr, "inflbte: bllocbted\n"));
+    strm->stbte = (struct internbl_stbte FAR *)stbte;
+    stbte->dmbx = 32768U;
+    stbte->wbits = windowBits;
+    stbte->wsize = 1U << windowBits;
+    stbte->window = window;
+    stbte->wnext = 0;
+    stbte->whbve = 0;
     return Z_OK;
 }
 
 /*
-   Return state with length and distance decoding tables and index sizes set to
-   fixed code decoding.  Normally this returns fixed tables from inffixed.h.
-   If BUILDFIXED is defined, then instead this routine builds the tables the
-   first time it's called, and returns those tables the first time and
-   thereafter.  This reduces the size of the code by about 2K bytes, in
-   exchange for a little execution time.  However, BUILDFIXED should not be
-   used for threaded applications, since the rewriting of the tables and virgin
-   may not be thread-safe.
+   Return stbte with length bnd distbnce decoding tbbles bnd index sizes set to
+   fixed code decoding.  Normblly this returns fixed tbbles from inffixed.h.
+   If BUILDFIXED is defined, then instebd this routine builds the tbbles the
+   first time it's cblled, bnd returns those tbbles the first time bnd
+   therebfter.  This reduces the size of the code by bbout 2K bytes, in
+   exchbnge for b little execution time.  However, BUILDFIXED should not be
+   used for threbded bpplicbtions, since the rewriting of the tbbles bnd virgin
+   mby not be threbd-sbfe.
  */
-local void fixedtables(state)
-struct inflate_state FAR *state;
+locbl void fixedtbbles(stbte)
+struct inflbte_stbte FAR *stbte;
 {
 #ifdef BUILDFIXED
-    static int virgin = 1;
-    static code *lenfix, *distfix;
-    static code fixed[544];
+    stbtic int virgin = 1;
+    stbtic code *lenfix, *distfix;
+    stbtic code fixed[544];
 
-    /* build fixed huffman tables if first call (may not be thread safe) */
+    /* build fixed huffmbn tbbles if first cbll (mby not be threbd sbfe) */
     if (virgin) {
         unsigned sym, bits;
-        static code *next;
+        stbtic code *next;
 
-        /* literal/length table */
+        /* literbl/length tbble */
         sym = 0;
-        while (sym < 144) state->lens[sym++] = 8;
-        while (sym < 256) state->lens[sym++] = 9;
-        while (sym < 280) state->lens[sym++] = 7;
-        while (sym < 288) state->lens[sym++] = 8;
+        while (sym < 144) stbte->lens[sym++] = 8;
+        while (sym < 256) stbte->lens[sym++] = 9;
+        while (sym < 280) stbte->lens[sym++] = 7;
+        while (sym < 288) stbte->lens[sym++] = 8;
         next = fixed;
         lenfix = next;
         bits = 9;
-        inflate_table(LENS, state->lens, 288, &(next), &(bits), state->work);
+        inflbte_tbble(LENS, stbte->lens, 288, &(next), &(bits), stbte->work);
 
-        /* distance table */
+        /* distbnce tbble */
         sym = 0;
-        while (sym < 32) state->lens[sym++] = 5;
+        while (sym < 32) stbte->lens[sym++] = 5;
         distfix = next;
         bits = 5;
-        inflate_table(DISTS, state->lens, 32, &(next), &(bits), state->work);
+        inflbte_tbble(DISTS, stbte->lens, 32, &(next), &(bits), stbte->work);
 
         /* do this just once */
         virgin = 0;
@@ -140,310 +140,310 @@ struct inflate_state FAR *state;
 #else /* !BUILDFIXED */
 #   include "inffixed.h"
 #endif /* BUILDFIXED */
-    state->lencode = lenfix;
-    state->lenbits = 9;
-    state->distcode = distfix;
-    state->distbits = 5;
+    stbte->lencode = lenfix;
+    stbte->lenbits = 9;
+    stbte->distcode = distfix;
+    stbte->distbits = 5;
 }
 
-/* Macros for inflateBack(): */
+/* Mbcros for inflbteBbck(): */
 
-/* Load returned state from inflate_fast() */
+/* Lobd returned stbte from inflbte_fbst() */
 #define LOAD() \
     do { \
         put = strm->next_out; \
-        left = strm->avail_out; \
+        left = strm->bvbil_out; \
         next = strm->next_in; \
-        have = strm->avail_in; \
-        hold = state->hold; \
-        bits = state->bits; \
+        hbve = strm->bvbil_in; \
+        hold = stbte->hold; \
+        bits = stbte->bits; \
     } while (0)
 
-/* Set state from registers for inflate_fast() */
+/* Set stbte from registers for inflbte_fbst() */
 #define RESTORE() \
     do { \
         strm->next_out = put; \
-        strm->avail_out = left; \
+        strm->bvbil_out = left; \
         strm->next_in = next; \
-        strm->avail_in = have; \
-        state->hold = hold; \
-        state->bits = bits; \
+        strm->bvbil_in = hbve; \
+        stbte->hold = hold; \
+        stbte->bits = bits; \
     } while (0)
 
-/* Clear the input bit accumulator */
+/* Clebr the input bit bccumulbtor */
 #define INITBITS() \
     do { \
         hold = 0; \
         bits = 0; \
     } while (0)
 
-/* Assure that some input is available.  If input is requested, but denied,
-   then return a Z_BUF_ERROR from inflateBack(). */
+/* Assure thbt some input is bvbilbble.  If input is requested, but denied,
+   then return b Z_BUF_ERROR from inflbteBbck(). */
 #define PULL() \
     do { \
-        if (have == 0) { \
-            have = in(in_desc, &next); \
-            if (have == 0) { \
+        if (hbve == 0) { \
+            hbve = in(in_desc, &next); \
+            if (hbve == 0) { \
                 next = Z_NULL; \
                 ret = Z_BUF_ERROR; \
-                goto inf_leave; \
+                goto inf_lebve; \
             } \
         } \
     } while (0)
 
-/* Get a byte of input into the bit accumulator, or return from inflateBack()
-   with an error if there is no input available. */
+/* Get b byte of input into the bit bccumulbtor, or return from inflbteBbck()
+   with bn error if there is no input bvbilbble. */
 #define PULLBYTE() \
     do { \
         PULL(); \
-        have--; \
+        hbve--; \
         hold += (unsigned long)(*next++) << bits; \
         bits += 8; \
     } while (0)
 
-/* Assure that there are at least n bits in the bit accumulator.  If there is
-   not enough available input to do that, then return from inflateBack() with
-   an error. */
+/* Assure thbt there bre bt lebst n bits in the bit bccumulbtor.  If there is
+   not enough bvbilbble input to do thbt, then return from inflbteBbck() with
+   bn error. */
 #define NEEDBITS(n) \
     do { \
         while (bits < (unsigned)(n)) \
             PULLBYTE(); \
     } while (0)
 
-/* Return the low n bits of the bit accumulator (n < 16) */
+/* Return the low n bits of the bit bccumulbtor (n < 16) */
 #define BITS(n) \
     ((unsigned)hold & ((1U << (n)) - 1))
 
-/* Remove n bits from the bit accumulator */
+/* Remove n bits from the bit bccumulbtor */
 #define DROPBITS(n) \
     do { \
         hold >>= (n); \
         bits -= (unsigned)(n); \
     } while (0)
 
-/* Remove zero to seven bits as needed to go to a byte boundary */
+/* Remove zero to seven bits bs needed to go to b byte boundbry */
 #define BYTEBITS() \
     do { \
         hold >>= bits & 7; \
         bits -= bits & 7; \
     } while (0)
 
-/* Assure that some output space is available, by writing out the window
-   if it's full.  If the write fails, return from inflateBack() with a
+/* Assure thbt some output spbce is bvbilbble, by writing out the window
+   if it's full.  If the write fbils, return from inflbteBbck() with b
    Z_BUF_ERROR. */
 #define ROOM() \
     do { \
         if (left == 0) { \
-            put = state->window; \
-            left = state->wsize; \
-            state->whave = left; \
+            put = stbte->window; \
+            left = stbte->wsize; \
+            stbte->whbve = left; \
             if (out(out_desc, put, left)) { \
                 ret = Z_BUF_ERROR; \
-                goto inf_leave; \
+                goto inf_lebve; \
             } \
         } \
     } while (0)
 
 /*
-   strm provides the memory allocation functions and window buffer on input,
-   and provides information on the unused input on return.  For Z_DATA_ERROR
-   returns, strm will also provide an error message.
+   strm provides the memory bllocbtion functions bnd window buffer on input,
+   bnd provides informbtion on the unused input on return.  For Z_DATA_ERROR
+   returns, strm will blso provide bn error messbge.
 
-   in() and out() are the call-back input and output functions.  When
-   inflateBack() needs more input, it calls in().  When inflateBack() has
-   filled the window with output, or when it completes with data in the
-   window, it calls out() to write out the data.  The application must not
-   change the provided input until in() is called again or inflateBack()
-   returns.  The application must not change the window/output buffer until
-   inflateBack() returns.
+   in() bnd out() bre the cbll-bbck input bnd output functions.  When
+   inflbteBbck() needs more input, it cblls in().  When inflbteBbck() hbs
+   filled the window with output, or when it completes with dbtb in the
+   window, it cblls out() to write out the dbtb.  The bpplicbtion must not
+   chbnge the provided input until in() is cblled bgbin or inflbteBbck()
+   returns.  The bpplicbtion must not chbnge the window/output buffer until
+   inflbteBbck() returns.
 
-   in() and out() are called with a descriptor parameter provided in the
-   inflateBack() call.  This parameter can be a structure that provides the
-   information required to do the read or write, as well as accumulated
-   information on the input and output such as totals and check values.
+   in() bnd out() bre cblled with b descriptor pbrbmeter provided in the
+   inflbteBbck() cbll.  This pbrbmeter cbn be b structure thbt provides the
+   informbtion required to do the rebd or write, bs well bs bccumulbted
+   informbtion on the input bnd output such bs totbls bnd check vblues.
 
-   in() should return zero on failure.  out() should return non-zero on
-   failure.  If either in() or out() fails, than inflateBack() returns a
-   Z_BUF_ERROR.  strm->next_in can be checked for Z_NULL to see whether it
-   was in() or out() that caused in the error.  Otherwise,  inflateBack()
-   returns Z_STREAM_END on success, Z_DATA_ERROR for an deflate format
-   error, or Z_MEM_ERROR if it could not allocate memory for the state.
-   inflateBack() can also return Z_STREAM_ERROR if the input parameters
-   are not correct, i.e. strm is Z_NULL or the state was not initialized.
+   in() should return zero on fbilure.  out() should return non-zero on
+   fbilure.  If either in() or out() fbils, thbn inflbteBbck() returns b
+   Z_BUF_ERROR.  strm->next_in cbn be checked for Z_NULL to see whether it
+   wbs in() or out() thbt cbused in the error.  Otherwise,  inflbteBbck()
+   returns Z_STREAM_END on success, Z_DATA_ERROR for bn deflbte formbt
+   error, or Z_MEM_ERROR if it could not bllocbte memory for the stbte.
+   inflbteBbck() cbn blso return Z_STREAM_ERROR if the input pbrbmeters
+   bre not correct, i.e. strm is Z_NULL or the stbte wbs not initiblized.
  */
-int ZEXPORT inflateBack(strm, in, in_desc, out, out_desc)
-z_streamp strm;
+int ZEXPORT inflbteBbck(strm, in, in_desc, out, out_desc)
+z_strebmp strm;
 in_func in;
 void FAR *in_desc;
 out_func out;
 void FAR *out_desc;
 {
-    struct inflate_state FAR *state;
-    z_const unsigned char FAR *next;    /* next input */
-    unsigned char FAR *put;     /* next output */
-    unsigned have, left;        /* available input and output */
+    struct inflbte_stbte FAR *stbte;
+    z_const unsigned chbr FAR *next;    /* next input */
+    unsigned chbr FAR *put;     /* next output */
+    unsigned hbve, left;        /* bvbilbble input bnd output */
     unsigned long hold;         /* bit buffer */
     unsigned bits;              /* bits in bit buffer */
-    unsigned copy;              /* number of stored or match bytes to copy */
-    unsigned char FAR *from;    /* where to copy match bytes from */
-    code here;                  /* current decoding table entry */
-    code last;                  /* parent table entry */
-    unsigned len;               /* length to copy for repeats, bits to drop */
+    unsigned copy;              /* number of stored or mbtch bytes to copy */
+    unsigned chbr FAR *from;    /* where to copy mbtch bytes from */
+    code here;                  /* current decoding tbble entry */
+    code lbst;                  /* pbrent tbble entry */
+    unsigned len;               /* length to copy for repebts, bits to drop */
     int ret;                    /* return code */
-    static const unsigned short order[19] = /* permutation of code lengths */
+    stbtic const unsigned short order[19] = /* permutbtion of code lengths */
         {16, 17, 18, 0, 8, 7, 9, 6, 10, 5, 11, 4, 12, 3, 13, 2, 14, 1, 15};
 
-    /* Check that the strm exists and that the state was initialized */
-    if (strm == Z_NULL || strm->state == Z_NULL)
+    /* Check thbt the strm exists bnd thbt the stbte wbs initiblized */
+    if (strm == Z_NULL || strm->stbte == Z_NULL)
         return Z_STREAM_ERROR;
-    state = (struct inflate_state FAR *)strm->state;
+    stbte = (struct inflbte_stbte FAR *)strm->stbte;
 
-    /* Reset the state */
+    /* Reset the stbte */
     strm->msg = Z_NULL;
-    state->mode = TYPE;
-    state->last = 0;
-    state->whave = 0;
+    stbte->mode = TYPE;
+    stbte->lbst = 0;
+    stbte->whbve = 0;
     next = strm->next_in;
-    have = next != Z_NULL ? strm->avail_in : 0;
+    hbve = next != Z_NULL ? strm->bvbil_in : 0;
     hold = 0;
     bits = 0;
-    put = state->window;
-    left = state->wsize;
+    put = stbte->window;
+    left = stbte->wsize;
 
-    /* Inflate until end of block marked as last */
+    /* Inflbte until end of block mbrked bs lbst */
     for (;;)
-        switch (state->mode) {
-        case TYPE:
-            /* determine and dispatch block type */
-            if (state->last) {
+        switch (stbte->mode) {
+        cbse TYPE:
+            /* determine bnd dispbtch block type */
+            if (stbte->lbst) {
                 BYTEBITS();
-                state->mode = DONE;
-                break;
+                stbte->mode = DONE;
+                brebk;
             }
             NEEDBITS(3);
-            state->last = BITS(1);
+            stbte->lbst = BITS(1);
             DROPBITS(1);
             switch (BITS(2)) {
-            case 0:                             /* stored block */
-                Tracev((stderr, "inflate:     stored block%s\n",
-                        state->last ? " (last)" : ""));
-                state->mode = STORED;
-                break;
-            case 1:                             /* fixed block */
-                fixedtables(state);
-                Tracev((stderr, "inflate:     fixed codes block%s\n",
-                        state->last ? " (last)" : ""));
-                state->mode = LEN;              /* decode codes */
-                break;
-            case 2:                             /* dynamic block */
-                Tracev((stderr, "inflate:     dynamic codes block%s\n",
-                        state->last ? " (last)" : ""));
-                state->mode = TABLE;
-                break;
-            case 3:
-                strm->msg = (char *)"invalid block type";
-                state->mode = BAD;
+            cbse 0:                             /* stored block */
+                Trbcev((stderr, "inflbte:     stored block%s\n",
+                        stbte->lbst ? " (lbst)" : ""));
+                stbte->mode = STORED;
+                brebk;
+            cbse 1:                             /* fixed block */
+                fixedtbbles(stbte);
+                Trbcev((stderr, "inflbte:     fixed codes block%s\n",
+                        stbte->lbst ? " (lbst)" : ""));
+                stbte->mode = LEN;              /* decode codes */
+                brebk;
+            cbse 2:                             /* dynbmic block */
+                Trbcev((stderr, "inflbte:     dynbmic codes block%s\n",
+                        stbte->lbst ? " (lbst)" : ""));
+                stbte->mode = TABLE;
+                brebk;
+            cbse 3:
+                strm->msg = (chbr *)"invblid block type";
+                stbte->mode = BAD;
             }
             DROPBITS(2);
-            break;
+            brebk;
 
-        case STORED:
-            /* get and verify stored block length */
-            BYTEBITS();                         /* go to byte boundary */
+        cbse STORED:
+            /* get bnd verify stored block length */
+            BYTEBITS();                         /* go to byte boundbry */
             NEEDBITS(32);
             if ((hold & 0xffff) != ((hold >> 16) ^ 0xffff)) {
-                strm->msg = (char *)"invalid stored block lengths";
-                state->mode = BAD;
-                break;
+                strm->msg = (chbr *)"invblid stored block lengths";
+                stbte->mode = BAD;
+                brebk;
             }
-            state->length = (unsigned)hold & 0xffff;
-            Tracev((stderr, "inflate:       stored length %u\n",
-                    state->length));
+            stbte->length = (unsigned)hold & 0xffff;
+            Trbcev((stderr, "inflbte:       stored length %u\n",
+                    stbte->length));
             INITBITS();
 
             /* copy stored block from input to output */
-            while (state->length != 0) {
-                copy = state->length;
+            while (stbte->length != 0) {
+                copy = stbte->length;
                 PULL();
                 ROOM();
-                if (copy > have) copy = have;
+                if (copy > hbve) copy = hbve;
                 if (copy > left) copy = left;
                 zmemcpy(put, next, copy);
-                have -= copy;
+                hbve -= copy;
                 next += copy;
                 left -= copy;
                 put += copy;
-                state->length -= copy;
+                stbte->length -= copy;
             }
-            Tracev((stderr, "inflate:       stored end\n"));
-            state->mode = TYPE;
-            break;
+            Trbcev((stderr, "inflbte:       stored end\n"));
+            stbte->mode = TYPE;
+            brebk;
 
-        case TABLE:
-            /* get dynamic table entries descriptor */
+        cbse TABLE:
+            /* get dynbmic tbble entries descriptor */
             NEEDBITS(14);
-            state->nlen = BITS(5) + 257;
+            stbte->nlen = BITS(5) + 257;
             DROPBITS(5);
-            state->ndist = BITS(5) + 1;
+            stbte->ndist = BITS(5) + 1;
             DROPBITS(5);
-            state->ncode = BITS(4) + 4;
+            stbte->ncode = BITS(4) + 4;
             DROPBITS(4);
 #ifndef PKZIP_BUG_WORKAROUND
-            if (state->nlen > 286 || state->ndist > 30) {
-                strm->msg = (char *)"too many length or distance symbols";
-                state->mode = BAD;
-                break;
+            if (stbte->nlen > 286 || stbte->ndist > 30) {
+                strm->msg = (chbr *)"too mbny length or distbnce symbols";
+                stbte->mode = BAD;
+                brebk;
             }
 #endif
-            Tracev((stderr, "inflate:       table sizes ok\n"));
+            Trbcev((stderr, "inflbte:       tbble sizes ok\n"));
 
-            /* get code length code lengths (not a typo) */
-            state->have = 0;
-            while (state->have < state->ncode) {
+            /* get code length code lengths (not b typo) */
+            stbte->hbve = 0;
+            while (stbte->hbve < stbte->ncode) {
                 NEEDBITS(3);
-                state->lens[order[state->have++]] = (unsigned short)BITS(3);
+                stbte->lens[order[stbte->hbve++]] = (unsigned short)BITS(3);
                 DROPBITS(3);
             }
-            while (state->have < 19)
-                state->lens[order[state->have++]] = 0;
-            state->next = state->codes;
-            state->lencode = (code const FAR *)(state->next);
-            state->lenbits = 7;
-            ret = inflate_table(CODES, state->lens, 19, &(state->next),
-                                &(state->lenbits), state->work);
+            while (stbte->hbve < 19)
+                stbte->lens[order[stbte->hbve++]] = 0;
+            stbte->next = stbte->codes;
+            stbte->lencode = (code const FAR *)(stbte->next);
+            stbte->lenbits = 7;
+            ret = inflbte_tbble(CODES, stbte->lens, 19, &(stbte->next),
+                                &(stbte->lenbits), stbte->work);
             if (ret) {
-                strm->msg = (char *)"invalid code lengths set";
-                state->mode = BAD;
-                break;
+                strm->msg = (chbr *)"invblid code lengths set";
+                stbte->mode = BAD;
+                brebk;
             }
-            Tracev((stderr, "inflate:       code lengths ok\n"));
+            Trbcev((stderr, "inflbte:       code lengths ok\n"));
 
-            /* get length and distance code code lengths */
-            state->have = 0;
-            while (state->have < state->nlen + state->ndist) {
+            /* get length bnd distbnce code code lengths */
+            stbte->hbve = 0;
+            while (stbte->hbve < stbte->nlen + stbte->ndist) {
                 for (;;) {
-                    here = state->lencode[BITS(state->lenbits)];
-                    if ((unsigned)(here.bits) <= bits) break;
+                    here = stbte->lencode[BITS(stbte->lenbits)];
+                    if ((unsigned)(here.bits) <= bits) brebk;
                     PULLBYTE();
                 }
-                if (here.val < 16) {
+                if (here.vbl < 16) {
                     DROPBITS(here.bits);
-                    state->lens[state->have++] = here.val;
+                    stbte->lens[stbte->hbve++] = here.vbl;
                 }
                 else {
-                    if (here.val == 16) {
+                    if (here.vbl == 16) {
                         NEEDBITS(here.bits + 2);
                         DROPBITS(here.bits);
-                        if (state->have == 0) {
-                            strm->msg = (char *)"invalid bit length repeat";
-                            state->mode = BAD;
-                            break;
+                        if (stbte->hbve == 0) {
+                            strm->msg = (chbr *)"invblid bit length repebt";
+                            stbte->mode = BAD;
+                            brebk;
                         }
-                        len = (unsigned)(state->lens[state->have - 1]);
+                        len = (unsigned)(stbte->lens[stbte->hbve - 1]);
                         copy = 3 + BITS(2);
                         DROPBITS(2);
                     }
-                    else if (here.val == 17) {
+                    else if (here.vbl == 17) {
                         NEEDBITS(here.bits + 3);
                         DROPBITS(here.bits);
                         len = 0;
@@ -457,208 +457,208 @@ void FAR *out_desc;
                         copy = 11 + BITS(7);
                         DROPBITS(7);
                     }
-                    if (state->have + copy > state->nlen + state->ndist) {
-                        strm->msg = (char *)"invalid bit length repeat";
-                        state->mode = BAD;
-                        break;
+                    if (stbte->hbve + copy > stbte->nlen + stbte->ndist) {
+                        strm->msg = (chbr *)"invblid bit length repebt";
+                        stbte->mode = BAD;
+                        brebk;
                     }
                     while (copy--)
-                        state->lens[state->have++] = (unsigned short)len;
+                        stbte->lens[stbte->hbve++] = (unsigned short)len;
                 }
             }
 
-            /* handle error breaks in while */
-            if (state->mode == BAD) break;
+            /* hbndle error brebks in while */
+            if (stbte->mode == BAD) brebk;
 
-            /* check for end-of-block code (better have one) */
-            if (state->lens[256] == 0) {
-                strm->msg = (char *)"invalid code -- missing end-of-block";
-                state->mode = BAD;
-                break;
+            /* check for end-of-block code (better hbve one) */
+            if (stbte->lens[256] == 0) {
+                strm->msg = (chbr *)"invblid code -- missing end-of-block";
+                stbte->mode = BAD;
+                brebk;
             }
 
-            /* build code tables -- note: do not change the lenbits or distbits
-               values here (9 and 6) without reading the comments in inftrees.h
-               concerning the ENOUGH constants, which depend on those values */
-            state->next = state->codes;
-            state->lencode = (code const FAR *)(state->next);
-            state->lenbits = 9;
-            ret = inflate_table(LENS, state->lens, state->nlen, &(state->next),
-                                &(state->lenbits), state->work);
+            /* build code tbbles -- note: do not chbnge the lenbits or distbits
+               vblues here (9 bnd 6) without rebding the comments in inftrees.h
+               concerning the ENOUGH constbnts, which depend on those vblues */
+            stbte->next = stbte->codes;
+            stbte->lencode = (code const FAR *)(stbte->next);
+            stbte->lenbits = 9;
+            ret = inflbte_tbble(LENS, stbte->lens, stbte->nlen, &(stbte->next),
+                                &(stbte->lenbits), stbte->work);
             if (ret) {
-                strm->msg = (char *)"invalid literal/lengths set";
-                state->mode = BAD;
-                break;
+                strm->msg = (chbr *)"invblid literbl/lengths set";
+                stbte->mode = BAD;
+                brebk;
             }
-            state->distcode = (code const FAR *)(state->next);
-            state->distbits = 6;
-            ret = inflate_table(DISTS, state->lens + state->nlen, state->ndist,
-                            &(state->next), &(state->distbits), state->work);
+            stbte->distcode = (code const FAR *)(stbte->next);
+            stbte->distbits = 6;
+            ret = inflbte_tbble(DISTS, stbte->lens + stbte->nlen, stbte->ndist,
+                            &(stbte->next), &(stbte->distbits), stbte->work);
             if (ret) {
-                strm->msg = (char *)"invalid distances set";
-                state->mode = BAD;
-                break;
+                strm->msg = (chbr *)"invblid distbnces set";
+                stbte->mode = BAD;
+                brebk;
             }
-            Tracev((stderr, "inflate:       codes ok\n"));
-            state->mode = LEN;
+            Trbcev((stderr, "inflbte:       codes ok\n"));
+            stbte->mode = LEN;
 
-        case LEN:
-            /* use inflate_fast() if we have enough input and output */
-            if (have >= 6 && left >= 258) {
+        cbse LEN:
+            /* use inflbte_fbst() if we hbve enough input bnd output */
+            if (hbve >= 6 && left >= 258) {
                 RESTORE();
-                if (state->whave < state->wsize)
-                    state->whave = state->wsize - left;
-                inflate_fast(strm, state->wsize);
+                if (stbte->whbve < stbte->wsize)
+                    stbte->whbve = stbte->wsize - left;
+                inflbte_fbst(strm, stbte->wsize);
                 LOAD();
-                break;
+                brebk;
             }
 
-            /* get a literal, length, or end-of-block code */
+            /* get b literbl, length, or end-of-block code */
             for (;;) {
-                here = state->lencode[BITS(state->lenbits)];
-                if ((unsigned)(here.bits) <= bits) break;
+                here = stbte->lencode[BITS(stbte->lenbits)];
+                if ((unsigned)(here.bits) <= bits) brebk;
                 PULLBYTE();
             }
             if (here.op && (here.op & 0xf0) == 0) {
-                last = here;
+                lbst = here;
                 for (;;) {
-                    here = state->lencode[last.val +
-                            (BITS(last.bits + last.op) >> last.bits)];
-                    if ((unsigned)(last.bits + here.bits) <= bits) break;
+                    here = stbte->lencode[lbst.vbl +
+                            (BITS(lbst.bits + lbst.op) >> lbst.bits)];
+                    if ((unsigned)(lbst.bits + here.bits) <= bits) brebk;
                     PULLBYTE();
                 }
-                DROPBITS(last.bits);
+                DROPBITS(lbst.bits);
             }
             DROPBITS(here.bits);
-            state->length = (unsigned)here.val;
+            stbte->length = (unsigned)here.vbl;
 
-            /* process literal */
+            /* process literbl */
             if (here.op == 0) {
-                Tracevv((stderr, here.val >= 0x20 && here.val < 0x7f ?
-                        "inflate:         literal '%c'\n" :
-                        "inflate:         literal 0x%02x\n", here.val));
+                Trbcevv((stderr, here.vbl >= 0x20 && here.vbl < 0x7f ?
+                        "inflbte:         literbl '%c'\n" :
+                        "inflbte:         literbl 0x%02x\n", here.vbl));
                 ROOM();
-                *put++ = (unsigned char)(state->length);
+                *put++ = (unsigned chbr)(stbte->length);
                 left--;
-                state->mode = LEN;
-                break;
+                stbte->mode = LEN;
+                brebk;
             }
 
             /* process end of block */
             if (here.op & 32) {
-                Tracevv((stderr, "inflate:         end of block\n"));
-                state->mode = TYPE;
-                break;
+                Trbcevv((stderr, "inflbte:         end of block\n"));
+                stbte->mode = TYPE;
+                brebk;
             }
 
-            /* invalid code */
+            /* invblid code */
             if (here.op & 64) {
-                strm->msg = (char *)"invalid literal/length code";
-                state->mode = BAD;
-                break;
+                strm->msg = (chbr *)"invblid literbl/length code";
+                stbte->mode = BAD;
+                brebk;
             }
 
-            /* length code -- get extra bits, if any */
-            state->extra = (unsigned)(here.op) & 15;
-            if (state->extra != 0) {
-                NEEDBITS(state->extra);
-                state->length += BITS(state->extra);
-                DROPBITS(state->extra);
+            /* length code -- get extrb bits, if bny */
+            stbte->extrb = (unsigned)(here.op) & 15;
+            if (stbte->extrb != 0) {
+                NEEDBITS(stbte->extrb);
+                stbte->length += BITS(stbte->extrb);
+                DROPBITS(stbte->extrb);
             }
-            Tracevv((stderr, "inflate:         length %u\n", state->length));
+            Trbcevv((stderr, "inflbte:         length %u\n", stbte->length));
 
-            /* get distance code */
+            /* get distbnce code */
             for (;;) {
-                here = state->distcode[BITS(state->distbits)];
-                if ((unsigned)(here.bits) <= bits) break;
+                here = stbte->distcode[BITS(stbte->distbits)];
+                if ((unsigned)(here.bits) <= bits) brebk;
                 PULLBYTE();
             }
             if ((here.op & 0xf0) == 0) {
-                last = here;
+                lbst = here;
                 for (;;) {
-                    here = state->distcode[last.val +
-                            (BITS(last.bits + last.op) >> last.bits)];
-                    if ((unsigned)(last.bits + here.bits) <= bits) break;
+                    here = stbte->distcode[lbst.vbl +
+                            (BITS(lbst.bits + lbst.op) >> lbst.bits)];
+                    if ((unsigned)(lbst.bits + here.bits) <= bits) brebk;
                     PULLBYTE();
                 }
-                DROPBITS(last.bits);
+                DROPBITS(lbst.bits);
             }
             DROPBITS(here.bits);
             if (here.op & 64) {
-                strm->msg = (char *)"invalid distance code";
-                state->mode = BAD;
-                break;
+                strm->msg = (chbr *)"invblid distbnce code";
+                stbte->mode = BAD;
+                brebk;
             }
-            state->offset = (unsigned)here.val;
+            stbte->offset = (unsigned)here.vbl;
 
-            /* get distance extra bits, if any */
-            state->extra = (unsigned)(here.op) & 15;
-            if (state->extra != 0) {
-                NEEDBITS(state->extra);
-                state->offset += BITS(state->extra);
-                DROPBITS(state->extra);
+            /* get distbnce extrb bits, if bny */
+            stbte->extrb = (unsigned)(here.op) & 15;
+            if (stbte->extrb != 0) {
+                NEEDBITS(stbte->extrb);
+                stbte->offset += BITS(stbte->extrb);
+                DROPBITS(stbte->extrb);
             }
-            if (state->offset > state->wsize - (state->whave < state->wsize ?
+            if (stbte->offset > stbte->wsize - (stbte->whbve < stbte->wsize ?
                                                 left : 0)) {
-                strm->msg = (char *)"invalid distance too far back";
-                state->mode = BAD;
-                break;
+                strm->msg = (chbr *)"invblid distbnce too fbr bbck";
+                stbte->mode = BAD;
+                brebk;
             }
-            Tracevv((stderr, "inflate:         distance %u\n", state->offset));
+            Trbcevv((stderr, "inflbte:         distbnce %u\n", stbte->offset));
 
-            /* copy match from window to output */
+            /* copy mbtch from window to output */
             do {
                 ROOM();
-                copy = state->wsize - state->offset;
+                copy = stbte->wsize - stbte->offset;
                 if (copy < left) {
                     from = put + copy;
                     copy = left - copy;
                 }
                 else {
-                    from = put - state->offset;
+                    from = put - stbte->offset;
                     copy = left;
                 }
-                if (copy > state->length) copy = state->length;
-                state->length -= copy;
+                if (copy > stbte->length) copy = stbte->length;
+                stbte->length -= copy;
                 left -= copy;
                 do {
                     *put++ = *from++;
                 } while (--copy);
-            } while (state->length != 0);
-            break;
+            } while (stbte->length != 0);
+            brebk;
 
-        case DONE:
-            /* inflate stream terminated properly -- write leftover output */
+        cbse DONE:
+            /* inflbte strebm terminbted properly -- write leftover output */
             ret = Z_STREAM_END;
-            if (left < state->wsize) {
-                if (out(out_desc, state->window, state->wsize - left))
+            if (left < stbte->wsize) {
+                if (out(out_desc, stbte->window, stbte->wsize - left))
                     ret = Z_BUF_ERROR;
             }
-            goto inf_leave;
+            goto inf_lebve;
 
-        case BAD:
+        cbse BAD:
             ret = Z_DATA_ERROR;
-            goto inf_leave;
+            goto inf_lebve;
 
-        default:                /* can't happen, but makes compilers happy */
+        defbult:                /* cbn't hbppen, but mbkes compilers hbppy */
             ret = Z_STREAM_ERROR;
-            goto inf_leave;
+            goto inf_lebve;
         }
 
     /* Return unused input */
-  inf_leave:
+  inf_lebve:
     strm->next_in = next;
-    strm->avail_in = have;
+    strm->bvbil_in = hbve;
     return ret;
 }
 
-int ZEXPORT inflateBackEnd(strm)
-z_streamp strm;
+int ZEXPORT inflbteBbckEnd(strm)
+z_strebmp strm;
 {
-    if (strm == Z_NULL || strm->state == Z_NULL || strm->zfree == (free_func)0)
+    if (strm == Z_NULL || strm->stbte == Z_NULL || strm->zfree == (free_func)0)
         return Z_STREAM_ERROR;
-    ZFREE(strm, strm->state);
-    strm->state = Z_NULL;
-    Tracev((stderr, "inflate: end\n"));
+    ZFREE(strm, strm->stbte);
+    strm->stbte = Z_NULL;
+    Trbcev((stderr, "inflbte: end\n"));
     return Z_OK;
 }

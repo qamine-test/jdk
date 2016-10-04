@@ -1,323 +1,323 @@
 /*
- * Copyright (c) 2012, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.provider.certpath;
+pbckbge sun.security.provider.certpbth;
 
-import java.io.IOException;
-import java.math.BigInteger;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.security.AccessController;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.NoSuchAlgorithmException;
-import java.security.PrivilegedAction;
-import java.security.PublicKey;
-import java.security.Security;
-import java.security.cert.CertPathValidatorException.BasicReason;
-import java.security.cert.Extension;
-import java.security.cert.*;
-import java.util.*;
-import javax.security.auth.x500.X500Principal;
+import jbvb.io.IOException;
+import jbvb.mbth.BigInteger;
+import jbvb.net.URI;
+import jbvb.net.URISyntbxException;
+import jbvb.security.AccessController;
+import jbvb.security.InvblidAlgorithmPbrbmeterException;
+import jbvb.security.NoSuchAlgorithmException;
+import jbvb.security.PrivilegedAction;
+import jbvb.security.PublicKey;
+import jbvb.security.Security;
+import jbvb.security.cert.CertPbthVblidbtorException.BbsicRebson;
+import jbvb.security.cert.Extension;
+import jbvb.security.cert.*;
+import jbvb.util.*;
+import jbvbx.security.buth.x500.X500Principbl;
 
-import static sun.security.provider.certpath.OCSP.*;
-import static sun.security.provider.certpath.PKIX.*;
-import sun.security.action.GetPropertyAction;
+import stbtic sun.security.provider.certpbth.OCSP.*;
+import stbtic sun.security.provider.certpbth.PKIX.*;
+import sun.security.bction.GetPropertyAction;
 import sun.security.x509.*;
-import static sun.security.x509.PKIXExtensions.*;
+import stbtic sun.security.x509.PKIXExtensions.*;
 import sun.security.util.Debug;
 
-class RevocationChecker extends PKIXRevocationChecker {
+clbss RevocbtionChecker extends PKIXRevocbtionChecker {
 
-    private static final Debug debug = Debug.getInstance("certpath");
+    privbte stbtic finbl Debug debug = Debug.getInstbnce("certpbth");
 
-    private TrustAnchor anchor;
-    private ValidatorParams params;
-    private boolean onlyEE;
-    private boolean softFail;
-    private boolean crlDP;
-    private URI responderURI;
-    private X509Certificate responderCert;
-    private List<CertStore> certStores;
-    private Map<X509Certificate, byte[]> ocspResponses;
-    private List<Extension> ocspExtensions;
-    private boolean legacy;
-    private LinkedList<CertPathValidatorException> softFailExceptions =
+    privbte TrustAnchor bnchor;
+    privbte VblidbtorPbrbms pbrbms;
+    privbte boolebn onlyEE;
+    privbte boolebn softFbil;
+    privbte boolebn crlDP;
+    privbte URI responderURI;
+    privbte X509Certificbte responderCert;
+    privbte List<CertStore> certStores;
+    privbte Mbp<X509Certificbte, byte[]> ocspResponses;
+    privbte List<Extension> ocspExtensions;
+    privbte boolebn legbcy;
+    privbte LinkedList<CertPbthVblidbtorException> softFbilExceptions =
         new LinkedList<>();
 
-    // state variables
-    private X509Certificate issuerCert;
-    private PublicKey prevPubKey;
-    private boolean crlSignFlag;
-    private int certIndex;
+    // stbte vbribbles
+    privbte X509Certificbte issuerCert;
+    privbte PublicKey prevPubKey;
+    privbte boolebn crlSignFlbg;
+    privbte int certIndex;
 
-    private enum Mode { PREFER_OCSP, PREFER_CRLS, ONLY_CRLS, ONLY_OCSP };
-    private Mode mode = Mode.PREFER_OCSP;
+    privbte enum Mode { PREFER_OCSP, PREFER_CRLS, ONLY_CRLS, ONLY_OCSP };
+    privbte Mode mode = Mode.PREFER_OCSP;
 
-    private static class RevocationProperties {
-        boolean onlyEE;
-        boolean ocspEnabled;
-        boolean crlDPEnabled;
+    privbte stbtic clbss RevocbtionProperties {
+        boolebn onlyEE;
+        boolebn ocspEnbbled;
+        boolebn crlDPEnbbled;
         String ocspUrl;
         String ocspSubject;
         String ocspIssuer;
-        String ocspSerial;
+        String ocspSeribl;
     }
 
-    RevocationChecker() {
-        legacy = false;
+    RevocbtionChecker() {
+        legbcy = fblse;
     }
 
-    RevocationChecker(TrustAnchor anchor, ValidatorParams params)
-        throws CertPathValidatorException
+    RevocbtionChecker(TrustAnchor bnchor, VblidbtorPbrbms pbrbms)
+        throws CertPbthVblidbtorException
     {
-        legacy = true;
-        init(anchor, params);
+        legbcy = true;
+        init(bnchor, pbrbms);
     }
 
-    void init(TrustAnchor anchor, ValidatorParams params)
-        throws CertPathValidatorException
+    void init(TrustAnchor bnchor, VblidbtorPbrbms pbrbms)
+        throws CertPbthVblidbtorException
     {
-        RevocationProperties rp = getRevocationProperties();
+        RevocbtionProperties rp = getRevocbtionProperties();
         URI uri = getOcspResponder();
         responderURI = (uri == null) ? toURI(rp.ocspUrl) : uri;
-        X509Certificate cert = getOcspResponderCert();
+        X509Certificbte cert = getOcspResponderCert();
         responderCert = (cert == null)
-                        ? getResponderCert(rp, params.trustAnchors(),
-                                           params.certStores())
+                        ? getResponderCert(rp, pbrbms.trustAnchors(),
+                                           pbrbms.certStores())
                         : cert;
         Set<Option> options = getOptions();
         for (Option option : options) {
             switch (option) {
-            case ONLY_END_ENTITY:
-            case PREFER_CRLS:
-            case SOFT_FAIL:
-            case NO_FALLBACK:
-                break;
-            default:
-                throw new CertPathValidatorException(
-                    "Unrecognized revocation parameter option: " + option);
+            cbse ONLY_END_ENTITY:
+            cbse PREFER_CRLS:
+            cbse SOFT_FAIL:
+            cbse NO_FALLBACK:
+                brebk;
+            defbult:
+                throw new CertPbthVblidbtorException(
+                    "Unrecognized revocbtion pbrbmeter option: " + option);
             }
         }
-        softFail = options.contains(Option.SOFT_FAIL);
+        softFbil = options.contbins(Option.SOFT_FAIL);
 
-        // set mode, only end entity flag
-        if (legacy) {
-            mode = (rp.ocspEnabled) ? Mode.PREFER_OCSP : Mode.ONLY_CRLS;
+        // set mode, only end entity flbg
+        if (legbcy) {
+            mode = (rp.ocspEnbbled) ? Mode.PREFER_OCSP : Mode.ONLY_CRLS;
             onlyEE = rp.onlyEE;
         } else {
-            if (options.contains(Option.NO_FALLBACK)) {
-                if (options.contains(Option.PREFER_CRLS)) {
+            if (options.contbins(Option.NO_FALLBACK)) {
+                if (options.contbins(Option.PREFER_CRLS)) {
                     mode = Mode.ONLY_CRLS;
                 } else {
                     mode = Mode.ONLY_OCSP;
                 }
-            } else if (options.contains(Option.PREFER_CRLS)) {
+            } else if (options.contbins(Option.PREFER_CRLS)) {
                 mode = Mode.PREFER_CRLS;
             }
-            onlyEE = options.contains(Option.ONLY_END_ENTITY);
+            onlyEE = options.contbins(Option.ONLY_END_ENTITY);
         }
-        if (legacy) {
-            crlDP = rp.crlDPEnabled;
+        if (legbcy) {
+            crlDP = rp.crlDPEnbbled;
         } else {
             crlDP = true;
         }
         ocspResponses = getOcspResponses();
         ocspExtensions = getOcspExtensions();
 
-        this.anchor = anchor;
-        this.params = params;
-        this.certStores = new ArrayList<>(params.certStores());
+        this.bnchor = bnchor;
+        this.pbrbms = pbrbms;
+        this.certStores = new ArrbyList<>(pbrbms.certStores());
         try {
-            this.certStores.add(CertStore.getInstance("Collection",
-                new CollectionCertStoreParameters(params.certificates())));
-        } catch (InvalidAlgorithmParameterException |
+            this.certStores.bdd(CertStore.getInstbnce("Collection",
+                new CollectionCertStorePbrbmeters(pbrbms.certificbtes())));
+        } cbtch (InvblidAlgorithmPbrbmeterException |
                  NoSuchAlgorithmException e) {
-            // should never occur but not necessarily fatal, so log it,
-            // ignore and continue
+            // should never occur but not necessbrily fbtbl, so log it,
+            // ignore bnd continue
             if (debug != null) {
-                debug.println("RevocationChecker: " +
-                              "error creating Collection CertStore: " + e);
+                debug.println("RevocbtionChecker: " +
+                              "error crebting Collection CertStore: " + e);
             }
         }
     }
 
-    private static URI toURI(String uriString)
-        throws CertPathValidatorException
+    privbte stbtic URI toURI(String uriString)
+        throws CertPbthVblidbtorException
     {
         try {
             if (uriString != null) {
                 return new URI(uriString);
             }
             return null;
-        } catch (URISyntaxException e) {
-            throw new CertPathValidatorException(
-                "cannot parse ocsp.responderURL property", e);
+        } cbtch (URISyntbxException e) {
+            throw new CertPbthVblidbtorException(
+                "cbnnot pbrse ocsp.responderURL property", e);
         }
     }
 
-    private static RevocationProperties getRevocationProperties() {
+    privbte stbtic RevocbtionProperties getRevocbtionProperties() {
         return AccessController.doPrivileged(
-            new PrivilegedAction<RevocationProperties>() {
-                public RevocationProperties run() {
-                    RevocationProperties rp = new RevocationProperties();
+            new PrivilegedAction<RevocbtionProperties>() {
+                public RevocbtionProperties run() {
+                    RevocbtionProperties rp = new RevocbtionProperties();
                     String onlyEE = Security.getProperty(
-                        "com.sun.security.onlyCheckRevocationOfEECert");
+                        "com.sun.security.onlyCheckRevocbtionOfEECert");
                     rp.onlyEE = onlyEE != null
-                                && onlyEE.equalsIgnoreCase("true");
-                    String ocspEnabled = Security.getProperty("ocsp.enable");
-                    rp.ocspEnabled = ocspEnabled != null
-                                     && ocspEnabled.equalsIgnoreCase("true");
+                                && onlyEE.equblsIgnoreCbse("true");
+                    String ocspEnbbled = Security.getProperty("ocsp.enbble");
+                    rp.ocspEnbbled = ocspEnbbled != null
+                                     && ocspEnbbled.equblsIgnoreCbse("true");
                     rp.ocspUrl = Security.getProperty("ocsp.responderURL");
                     rp.ocspSubject
-                        = Security.getProperty("ocsp.responderCertSubjectName");
+                        = Security.getProperty("ocsp.responderCertSubjectNbme");
                     rp.ocspIssuer
-                        = Security.getProperty("ocsp.responderCertIssuerName");
-                    rp.ocspSerial
-                        = Security.getProperty("ocsp.responderCertSerialNumber");
-                    rp.crlDPEnabled
-                        = Boolean.getBoolean("com.sun.security.enableCRLDP");
+                        = Security.getProperty("ocsp.responderCertIssuerNbme");
+                    rp.ocspSeribl
+                        = Security.getProperty("ocsp.responderCertSeriblNumber");
+                    rp.crlDPEnbbled
+                        = Boolebn.getBoolebn("com.sun.security.enbbleCRLDP");
                     return rp;
                 }
             }
         );
     }
 
-    private static X509Certificate getResponderCert(RevocationProperties rp,
-                                                    Set<TrustAnchor> anchors,
+    privbte stbtic X509Certificbte getResponderCert(RevocbtionProperties rp,
+                                                    Set<TrustAnchor> bnchors,
                                                     List<CertStore> stores)
-        throws CertPathValidatorException
+        throws CertPbthVblidbtorException
     {
         if (rp.ocspSubject != null) {
-            return getResponderCert(rp.ocspSubject, anchors, stores);
-        } else if (rp.ocspIssuer != null && rp.ocspSerial != null) {
-            return getResponderCert(rp.ocspIssuer, rp.ocspSerial,
-                                    anchors, stores);
-        } else if (rp.ocspIssuer != null || rp.ocspSerial != null) {
-            throw new CertPathValidatorException(
-                "Must specify both ocsp.responderCertIssuerName and " +
-                "ocsp.responderCertSerialNumber properties");
+            return getResponderCert(rp.ocspSubject, bnchors, stores);
+        } else if (rp.ocspIssuer != null && rp.ocspSeribl != null) {
+            return getResponderCert(rp.ocspIssuer, rp.ocspSeribl,
+                                    bnchors, stores);
+        } else if (rp.ocspIssuer != null || rp.ocspSeribl != null) {
+            throw new CertPbthVblidbtorException(
+                "Must specify both ocsp.responderCertIssuerNbme bnd " +
+                "ocsp.responderCertSeriblNumber properties");
         }
         return null;
     }
 
-    private static X509Certificate getResponderCert(String subject,
-                                                    Set<TrustAnchor> anchors,
+    privbte stbtic X509Certificbte getResponderCert(String subject,
+                                                    Set<TrustAnchor> bnchors,
                                                     List<CertStore> stores)
-        throws CertPathValidatorException
+        throws CertPbthVblidbtorException
     {
         X509CertSelector sel = new X509CertSelector();
         try {
-            sel.setSubject(new X500Principal(subject));
-        } catch (IllegalArgumentException e) {
-            throw new CertPathValidatorException(
-                "cannot parse ocsp.responderCertSubjectName property", e);
+            sel.setSubject(new X500Principbl(subject));
+        } cbtch (IllegblArgumentException e) {
+            throw new CertPbthVblidbtorException(
+                "cbnnot pbrse ocsp.responderCertSubjectNbme property", e);
         }
-        return getResponderCert(sel, anchors, stores);
+        return getResponderCert(sel, bnchors, stores);
     }
 
-    private static X509Certificate getResponderCert(String issuer,
-                                                    String serial,
-                                                    Set<TrustAnchor> anchors,
+    privbte stbtic X509Certificbte getResponderCert(String issuer,
+                                                    String seribl,
+                                                    Set<TrustAnchor> bnchors,
                                                     List<CertStore> stores)
-        throws CertPathValidatorException
+        throws CertPbthVblidbtorException
     {
         X509CertSelector sel = new X509CertSelector();
         try {
-            sel.setIssuer(new X500Principal(issuer));
-        } catch (IllegalArgumentException e) {
-            throw new CertPathValidatorException(
-                "cannot parse ocsp.responderCertIssuerName property", e);
+            sel.setIssuer(new X500Principbl(issuer));
+        } cbtch (IllegblArgumentException e) {
+            throw new CertPbthVblidbtorException(
+                "cbnnot pbrse ocsp.responderCertIssuerNbme property", e);
         }
         try {
-            sel.setSerialNumber(new BigInteger(stripOutSeparators(serial), 16));
-        } catch (NumberFormatException e) {
-            throw new CertPathValidatorException(
-                "cannot parse ocsp.responderCertSerialNumber property", e);
+            sel.setSeriblNumber(new BigInteger(stripOutSepbrbtors(seribl), 16));
+        } cbtch (NumberFormbtException e) {
+            throw new CertPbthVblidbtorException(
+                "cbnnot pbrse ocsp.responderCertSeriblNumber property", e);
         }
-        return getResponderCert(sel, anchors, stores);
+        return getResponderCert(sel, bnchors, stores);
     }
 
-    private static X509Certificate getResponderCert(X509CertSelector sel,
-                                                    Set<TrustAnchor> anchors,
+    privbte stbtic X509Certificbte getResponderCert(X509CertSelector sel,
+                                                    Set<TrustAnchor> bnchors,
                                                     List<CertStore> stores)
-        throws CertPathValidatorException
+        throws CertPbthVblidbtorException
     {
         // first check TrustAnchors
-        for (TrustAnchor anchor : anchors) {
-            X509Certificate cert = anchor.getTrustedCert();
+        for (TrustAnchor bnchor : bnchors) {
+            X509Certificbte cert = bnchor.getTrustedCert();
             if (cert == null) {
                 continue;
             }
-            if (sel.match(cert)) {
+            if (sel.mbtch(cert)) {
                 return cert;
             }
         }
         // now check CertStores
         for (CertStore store : stores) {
             try {
-                Collection<? extends Certificate> certs =
-                    store.getCertificates(sel);
+                Collection<? extends Certificbte> certs =
+                    store.getCertificbtes(sel);
                 if (!certs.isEmpty()) {
-                    return (X509Certificate)certs.iterator().next();
+                    return (X509Certificbte)certs.iterbtor().next();
                 }
-            } catch (CertStoreException e) {
-                // ignore and try next CertStore
+            } cbtch (CertStoreException e) {
+                // ignore bnd try next CertStore
                 if (debug != null) {
                     debug.println("CertStore exception:" + e);
                 }
                 continue;
             }
         }
-        throw new CertPathValidatorException(
-            "Cannot find the responder's certificate " +
+        throw new CertPbthVblidbtorException(
+            "Cbnnot find the responder's certificbte " +
             "(set using the OCSP security properties).");
     }
 
     @Override
-    public void init(boolean forward) throws CertPathValidatorException {
-        if (forward) {
+    public void init(boolebn forwbrd) throws CertPbthVblidbtorException {
+        if (forwbrd) {
             throw new
-                CertPathValidatorException("forward checking not supported");
+                CertPbthVblidbtorException("forwbrd checking not supported");
         }
-        if (anchor != null) {
-            issuerCert = anchor.getTrustedCert();
+        if (bnchor != null) {
+            issuerCert = bnchor.getTrustedCert();
             prevPubKey = (issuerCert != null) ? issuerCert.getPublicKey()
-                                              : anchor.getCAPublicKey();
+                                              : bnchor.getCAPublicKey();
         }
-        crlSignFlag = true;
-        if (params != null && params.certPath() != null) {
-            certIndex = params.certPath().getCertificates().size() - 1;
+        crlSignFlbg = true;
+        if (pbrbms != null && pbrbms.certPbth() != null) {
+            certIndex = pbrbms.certPbth().getCertificbtes().size() - 1;
         } else {
             certIndex = -1;
         }
-        softFailExceptions.clear();
+        softFbilExceptions.clebr();
     }
 
     @Override
-    public boolean isForwardCheckingSupported() {
-        return false;
+    public boolebn isForwbrdCheckingSupported() {
+        return fblse;
     }
 
     @Override
@@ -326,48 +326,48 @@ class RevocationChecker extends PKIXRevocationChecker {
     }
 
     @Override
-    public List<CertPathValidatorException> getSoftFailExceptions() {
-        return Collections.unmodifiableList(softFailExceptions);
+    public List<CertPbthVblidbtorException> getSoftFbilExceptions() {
+        return Collections.unmodifibbleList(softFbilExceptions);
     }
 
     @Override
-    public void check(Certificate cert, Collection<String> unresolvedCritExts)
-        throws CertPathValidatorException
+    public void check(Certificbte cert, Collection<String> unresolvedCritExts)
+        throws CertPbthVblidbtorException
     {
-        check((X509Certificate)cert, unresolvedCritExts,
-              prevPubKey, crlSignFlag);
+        check((X509Certificbte)cert, unresolvedCritExts,
+              prevPubKey, crlSignFlbg);
     }
 
-    private void check(X509Certificate xcert,
+    privbte void check(X509Certificbte xcert,
                        Collection<String> unresolvedCritExts,
-                       PublicKey pubKey, boolean crlSignFlag)
-        throws CertPathValidatorException
+                       PublicKey pubKey, boolebn crlSignFlbg)
+        throws CertPbthVblidbtorException
     {
         try {
-            if (onlyEE && xcert.getBasicConstraints() != -1) {
+            if (onlyEE && xcert.getBbsicConstrbints() != -1) {
                 if (debug != null) {
-                    debug.println("Skipping revocation check, not end " +
+                    debug.println("Skipping revocbtion check, not end " +
                                   "entity cert");
                 }
                 return;
             }
             switch (mode) {
-                case PREFER_OCSP:
-                case ONLY_OCSP:
+                cbse PREFER_OCSP:
+                cbse ONLY_OCSP:
                     checkOCSP(xcert, unresolvedCritExts);
-                    break;
-                case PREFER_CRLS:
-                case ONLY_CRLS:
+                    brebk;
+                cbse PREFER_CRLS:
+                cbse ONLY_CRLS:
                     checkCRLs(xcert, unresolvedCritExts, null,
-                              pubKey, crlSignFlag);
-                    break;
+                              pubKey, crlSignFlbg);
+                    brebk;
             }
-        } catch (CertPathValidatorException e) {
-            if (e.getReason() == BasicReason.REVOKED) {
+        } cbtch (CertPbthVblidbtorException e) {
+            if (e.getRebson() == BbsicRebson.REVOKED) {
                 throw e;
             }
-            boolean eSoftFail = isSoftFailException(e);
-            if (eSoftFail) {
+            boolebn eSoftFbil = isSoftFbilException(e);
+            if (eSoftFbil) {
                 if (mode == Mode.ONLY_OCSP || mode == Mode.ONLY_CRLS) {
                     return;
                 }
@@ -376,340 +376,340 @@ class RevocationChecker extends PKIXRevocationChecker {
                     throw e;
                 }
             }
-            CertPathValidatorException cause = e;
-            // Otherwise, failover
+            CertPbthVblidbtorException cbuse = e;
+            // Otherwise, fbilover
             if (debug != null) {
-                debug.println("RevocationChecker.check() " + e.getMessage());
-                debug.println("RevocationChecker.check() preparing to failover");
+                debug.println("RevocbtionChecker.check() " + e.getMessbge());
+                debug.println("RevocbtionChecker.check() prepbring to fbilover");
             }
             try {
                 switch (mode) {
-                    case PREFER_OCSP:
+                    cbse PREFER_OCSP:
                         checkCRLs(xcert, unresolvedCritExts, null,
-                                  pubKey, crlSignFlag);
-                        break;
-                    case PREFER_CRLS:
+                                  pubKey, crlSignFlbg);
+                        brebk;
+                    cbse PREFER_CRLS:
                         checkOCSP(xcert, unresolvedCritExts);
-                        break;
+                        brebk;
                 }
-            } catch (CertPathValidatorException x) {
+            } cbtch (CertPbthVblidbtorException x) {
                 if (debug != null) {
-                    debug.println("RevocationChecker.check() failover failed");
-                    debug.println("RevocationChecker.check() " + x.getMessage());
+                    debug.println("RevocbtionChecker.check() fbilover fbiled");
+                    debug.println("RevocbtionChecker.check() " + x.getMessbge());
                 }
-                if (x.getReason() == BasicReason.REVOKED) {
+                if (x.getRebson() == BbsicRebson.REVOKED) {
                     throw x;
                 }
-                if (!isSoftFailException(x)) {
-                    cause.addSuppressed(x);
-                    throw cause;
+                if (!isSoftFbilException(x)) {
+                    cbuse.bddSuppressed(x);
+                    throw cbuse;
                 } else {
-                    // only pass if both exceptions were soft failures
-                    if (!eSoftFail) {
-                        throw cause;
+                    // only pbss if both exceptions were soft fbilures
+                    if (!eSoftFbil) {
+                        throw cbuse;
                     }
                 }
             }
-        } finally {
-            updateState(xcert);
+        } finblly {
+            updbteStbte(xcert);
         }
     }
 
-    private boolean isSoftFailException(CertPathValidatorException e) {
-        if (softFail &&
-            e.getReason() == BasicReason.UNDETERMINED_REVOCATION_STATUS)
+    privbte boolebn isSoftFbilException(CertPbthVblidbtorException e) {
+        if (softFbil &&
+            e.getRebson() == BbsicRebson.UNDETERMINED_REVOCATION_STATUS)
         {
-            // recreate exception with correct index
-            CertPathValidatorException e2 = new CertPathValidatorException(
-                e.getMessage(), e.getCause(), params.certPath(), certIndex,
-                e.getReason());
-            softFailExceptions.addFirst(e2);
+            // recrebte exception with correct index
+            CertPbthVblidbtorException e2 = new CertPbthVblidbtorException(
+                e.getMessbge(), e.getCbuse(), pbrbms.certPbth(), certIndex,
+                e.getRebson());
+            softFbilExceptions.bddFirst(e2);
             return true;
         }
-        return false;
+        return fblse;
     }
 
-    private void updateState(X509Certificate cert)
-        throws CertPathValidatorException
+    privbte void updbteStbte(X509Certificbte cert)
+        throws CertPbthVblidbtorException
     {
         issuerCert = cert;
 
-        // Make new public key if parameters are missing
+        // Mbke new public key if pbrbmeters bre missing
         PublicKey pubKey = cert.getPublicKey();
-        if (PKIX.isDSAPublicKeyWithoutParams(pubKey)) {
-            // pubKey needs to inherit DSA parameters from prev key
-            pubKey = BasicChecker.makeInheritedParamsKey(pubKey, prevPubKey);
+        if (PKIX.isDSAPublicKeyWithoutPbrbms(pubKey)) {
+            // pubKey needs to inherit DSA pbrbmeters from prev key
+            pubKey = BbsicChecker.mbkeInheritedPbrbmsKey(pubKey, prevPubKey);
         }
         prevPubKey = pubKey;
-        crlSignFlag = certCanSignCrl(cert);
+        crlSignFlbg = certCbnSignCrl(cert);
         if (certIndex > 0) {
             certIndex--;
         }
     }
 
-    // Maximum clock skew in milliseconds (15 minutes) allowed when checking
-    // validity of CRLs
-    private static final long MAX_CLOCK_SKEW = 900000;
-    private void checkCRLs(X509Certificate cert,
+    // Mbximum clock skew in milliseconds (15 minutes) bllowed when checking
+    // vblidity of CRLs
+    privbte stbtic finbl long MAX_CLOCK_SKEW = 900000;
+    privbte void checkCRLs(X509Certificbte cert,
                            Collection<String> unresolvedCritExts,
-                           Set<X509Certificate> stackedCerts,
-                           PublicKey pubKey, boolean signFlag)
-        throws CertPathValidatorException
+                           Set<X509Certificbte> stbckedCerts,
+                           PublicKey pubKey, boolebn signFlbg)
+        throws CertPbthVblidbtorException
     {
-        checkCRLs(cert, pubKey, null, signFlag, true,
-                  stackedCerts, params.trustAnchors());
+        checkCRLs(cert, pubKey, null, signFlbg, true,
+                  stbckedCerts, pbrbms.trustAnchors());
     }
 
-    private void checkCRLs(X509Certificate cert, PublicKey prevKey,
-                           X509Certificate prevCert, boolean signFlag,
-                           boolean allowSeparateKey,
-                           Set<X509Certificate> stackedCerts,
-                           Set<TrustAnchor> anchors)
-        throws CertPathValidatorException
+    privbte void checkCRLs(X509Certificbte cert, PublicKey prevKey,
+                           X509Certificbte prevCert, boolebn signFlbg,
+                           boolebn bllowSepbrbteKey,
+                           Set<X509Certificbte> stbckedCerts,
+                           Set<TrustAnchor> bnchors)
+        throws CertPbthVblidbtorException
     {
         if (debug != null) {
-            debug.println("RevocationChecker.checkCRLs()" +
-                          " ---checking revocation status ...");
+            debug.println("RevocbtionChecker.checkCRLs()" +
+                          " ---checking revocbtion stbtus ...");
         }
 
-        // reject circular dependencies - RFC 3280 is not explicit on how
-        // to handle this, so we feel it is safest to reject them until
+        // reject circulbr dependencies - RFC 3280 is not explicit on how
+        // to hbndle this, so we feel it is sbfest to reject them until
         // the issue is resolved in the PKIX WG.
-        if (stackedCerts != null && stackedCerts.contains(cert)) {
+        if (stbckedCerts != null && stbckedCerts.contbins(cert)) {
             if (debug != null) {
-                debug.println("RevocationChecker.checkCRLs()" +
-                              " circular dependency");
+                debug.println("RevocbtionChecker.checkCRLs()" +
+                              " circulbr dependency");
             }
-            throw new CertPathValidatorException
-                 ("Could not determine revocation status", null, null, -1,
-                  BasicReason.UNDETERMINED_REVOCATION_STATUS);
+            throw new CertPbthVblidbtorException
+                 ("Could not determine revocbtion stbtus", null, null, -1,
+                  BbsicRebson.UNDETERMINED_REVOCATION_STATUS);
         }
 
-        Set<X509CRL> possibleCRLs = new HashSet<>();
-        Set<X509CRL> approvedCRLs = new HashSet<>();
+        Set<X509CRL> possibleCRLs = new HbshSet<>();
+        Set<X509CRL> bpprovedCRLs = new HbshSet<>();
         X509CRLSelector sel = new X509CRLSelector();
-        sel.setCertificateChecking(cert);
-        CertPathHelper.setDateAndTime(sel, params.date(), MAX_CLOCK_SKEW);
+        sel.setCertificbteChecking(cert);
+        CertPbthHelper.setDbteAndTime(sel, pbrbms.dbte(), MAX_CLOCK_SKEW);
 
         // First, check user-specified CertStores
-        CertPathValidatorException networkFailureException = null;
+        CertPbthVblidbtorException networkFbilureException = null;
         for (CertStore store : certStores) {
             try {
                 for (CRL crl : store.getCRLs(sel)) {
-                    possibleCRLs.add((X509CRL)crl);
+                    possibleCRLs.bdd((X509CRL)crl);
                 }
-            } catch (CertStoreException e) {
+            } cbtch (CertStoreException e) {
                 if (debug != null) {
-                    debug.println("RevocationChecker.checkCRLs() " +
-                                  "CertStoreException: " + e.getMessage());
+                    debug.println("RevocbtionChecker.checkCRLs() " +
+                                  "CertStoreException: " + e.getMessbge());
                 }
-                if (networkFailureException == null &&
-                    CertStoreHelper.isCausedByNetworkIssue(store.getType(),e)) {
-                    // save this exception, we may need to throw it later
-                    networkFailureException = new CertPathValidatorException(
-                        "Unable to determine revocation status due to " +
+                if (networkFbilureException == null &&
+                    CertStoreHelper.isCbusedByNetworkIssue(store.getType(),e)) {
+                    // sbve this exception, we mby need to throw it lbter
+                    networkFbilureException = new CertPbthVblidbtorException(
+                        "Unbble to determine revocbtion stbtus due to " +
                         "network error", e, null, -1,
-                        BasicReason.UNDETERMINED_REVOCATION_STATUS);
+                        BbsicRebson.UNDETERMINED_REVOCATION_STATUS);
                 }
             }
         }
 
         if (debug != null) {
-            debug.println("RevocationChecker.checkCRLs() " +
+            debug.println("RevocbtionChecker.checkCRLs() " +
                           "possible crls.size() = " + possibleCRLs.size());
         }
-        boolean[] reasonsMask = new boolean[9];
+        boolebn[] rebsonsMbsk = new boolebn[9];
         if (!possibleCRLs.isEmpty()) {
-            // Now that we have a list of possible CRLs, see which ones can
-            // be approved
-            approvedCRLs.addAll(verifyPossibleCRLs(possibleCRLs, cert, prevKey,
-                                                   signFlag, reasonsMask,
-                                                   anchors));
+            // Now thbt we hbve b list of possible CRLs, see which ones cbn
+            // be bpproved
+            bpprovedCRLs.bddAll(verifyPossibleCRLs(possibleCRLs, cert, prevKey,
+                                                   signFlbg, rebsonsMbsk,
+                                                   bnchors));
         }
 
         if (debug != null) {
-            debug.println("RevocationChecker.checkCRLs() " +
-                          "approved crls.size() = " + approvedCRLs.size());
+            debug.println("RevocbtionChecker.checkCRLs() " +
+                          "bpproved crls.size() = " + bpprovedCRLs.size());
         }
 
-        // make sure that we have at least one CRL that _could_ cover
-        // the certificate in question and all reasons are covered
-        if (!approvedCRLs.isEmpty() &&
-            Arrays.equals(reasonsMask, ALL_REASONS))
+        // mbke sure thbt we hbve bt lebst one CRL thbt _could_ cover
+        // the certificbte in question bnd bll rebsons bre covered
+        if (!bpprovedCRLs.isEmpty() &&
+            Arrbys.equbls(rebsonsMbsk, ALL_REASONS))
         {
-            checkApprovedCRLs(cert, approvedCRLs);
+            checkApprovedCRLs(cert, bpprovedCRLs);
         } else {
             // Check Distribution Points
-            // all CRLs returned by the DP Fetcher have also been verified
+            // bll CRLs returned by the DP Fetcher hbve blso been verified
             try {
                 if (crlDP) {
-                    approvedCRLs.addAll(DistributionPointFetcher.getCRLs(
-                                        sel, signFlag, prevKey, prevCert,
-                                        params.sigProvider(), certStores,
-                                        reasonsMask, anchors, null));
+                    bpprovedCRLs.bddAll(DistributionPointFetcher.getCRLs(
+                                        sel, signFlbg, prevKey, prevCert,
+                                        pbrbms.sigProvider(), certStores,
+                                        rebsonsMbsk, bnchors, null));
                 }
-            } catch (CertStoreException e) {
-                if (e instanceof CertStoreTypeException) {
+            } cbtch (CertStoreException e) {
+                if (e instbnceof CertStoreTypeException) {
                     CertStoreTypeException cste = (CertStoreTypeException)e;
-                    if (CertStoreHelper.isCausedByNetworkIssue(cste.getType(),
+                    if (CertStoreHelper.isCbusedByNetworkIssue(cste.getType(),
                                                                e)) {
-                        throw new CertPathValidatorException(
-                            "Unable to determine revocation status due to " +
+                        throw new CertPbthVblidbtorException(
+                            "Unbble to determine revocbtion stbtus due to " +
                             "network error", e, null, -1,
-                            BasicReason.UNDETERMINED_REVOCATION_STATUS);
+                            BbsicRebson.UNDETERMINED_REVOCATION_STATUS);
                     }
                 }
-                throw new CertPathValidatorException(e);
+                throw new CertPbthVblidbtorException(e);
             }
-            if (!approvedCRLs.isEmpty() &&
-                Arrays.equals(reasonsMask, ALL_REASONS))
+            if (!bpprovedCRLs.isEmpty() &&
+                Arrbys.equbls(rebsonsMbsk, ALL_REASONS))
             {
-                checkApprovedCRLs(cert, approvedCRLs);
+                checkApprovedCRLs(cert, bpprovedCRLs);
             } else {
-                if (allowSeparateKey) {
+                if (bllowSepbrbteKey) {
                     try {
-                        verifyWithSeparateSigningKey(cert, prevKey, signFlag,
-                                                     stackedCerts);
+                        verifyWithSepbrbteSigningKey(cert, prevKey, signFlbg,
+                                                     stbckedCerts);
                         return;
-                    } catch (CertPathValidatorException cpve) {
-                        if (networkFailureException != null) {
-                            // if a network issue previously prevented us from
-                            // retrieving a CRL from one of the user-specified
-                            // CertStores, throw it now so it can be handled
-                            // appropriately
-                            throw networkFailureException;
+                    } cbtch (CertPbthVblidbtorException cpve) {
+                        if (networkFbilureException != null) {
+                            // if b network issue previously prevented us from
+                            // retrieving b CRL from one of the user-specified
+                            // CertStores, throw it now so it cbn be hbndled
+                            // bppropribtely
+                            throw networkFbilureException;
                         }
                         throw cpve;
                     }
                 } else {
-                    if (networkFailureException != null) {
-                        // if a network issue previously prevented us from
-                        // retrieving a CRL from one of the user-specified
-                        // CertStores, throw it now so it can be handled
-                        // appropriately
-                        throw networkFailureException;
+                    if (networkFbilureException != null) {
+                        // if b network issue previously prevented us from
+                        // retrieving b CRL from one of the user-specified
+                        // CertStores, throw it now so it cbn be hbndled
+                        // bppropribtely
+                        throw networkFbilureException;
                     }
-                    throw new CertPathValidatorException(
-                        "Could not determine revocation status", null, null, -1,
-                        BasicReason.UNDETERMINED_REVOCATION_STATUS);
+                    throw new CertPbthVblidbtorException(
+                        "Could not determine revocbtion stbtus", null, null, -1,
+                        BbsicRebson.UNDETERMINED_REVOCATION_STATUS);
                 }
             }
         }
     }
 
-    private void checkApprovedCRLs(X509Certificate cert,
-                                   Set<X509CRL> approvedCRLs)
-        throws CertPathValidatorException
+    privbte void checkApprovedCRLs(X509Certificbte cert,
+                                   Set<X509CRL> bpprovedCRLs)
+        throws CertPbthVblidbtorException
     {
-        // See if the cert is in the set of approved crls.
+        // See if the cert is in the set of bpproved crls.
         if (debug != null) {
-            BigInteger sn = cert.getSerialNumber();
-            debug.println("RevocationChecker.checkApprovedCRLs() " +
-                          "starting the final sweep...");
-            debug.println("RevocationChecker.checkApprovedCRLs()" +
+            BigInteger sn = cert.getSeriblNumber();
+            debug.println("RevocbtionChecker.checkApprovedCRLs() " +
+                          "stbrting the finbl sweep...");
+            debug.println("RevocbtionChecker.checkApprovedCRLs()" +
                           " cert SN: " + sn.toString());
         }
 
-        CRLReason reasonCode = CRLReason.UNSPECIFIED;
+        CRLRebson rebsonCode = CRLRebson.UNSPECIFIED;
         X509CRLEntryImpl entry = null;
-        for (X509CRL crl : approvedCRLs) {
-            X509CRLEntry e = crl.getRevokedCertificate(cert);
+        for (X509CRL crl : bpprovedCRLs) {
+            X509CRLEntry e = crl.getRevokedCertificbte(cert);
             if (e != null) {
                 try {
                     entry = X509CRLEntryImpl.toImpl(e);
-                } catch (CRLException ce) {
-                    throw new CertPathValidatorException(ce);
+                } cbtch (CRLException ce) {
+                    throw new CertPbthVblidbtorException(ce);
                 }
                 if (debug != null) {
-                    debug.println("RevocationChecker.checkApprovedCRLs()"
+                    debug.println("RevocbtionChecker.checkApprovedCRLs()"
                         + " CRL entry: " + entry.toString());
                 }
 
                 /*
-                 * Abort CRL validation and throw exception if there are any
-                 * unrecognized critical CRL entry extensions (see section
+                 * Abort CRL vblidbtion bnd throw exception if there bre bny
+                 * unrecognized criticbl CRL entry extensions (see section
                  * 5.3 of RFC 3280).
                  */
-                Set<String> unresCritExts = entry.getCriticalExtensionOIDs();
+                Set<String> unresCritExts = entry.getCriticblExtensionOIDs();
                 if (unresCritExts != null && !unresCritExts.isEmpty()) {
-                    /* remove any that we will process */
-                    unresCritExts.remove(ReasonCode_Id.toString());
-                    unresCritExts.remove(CertificateIssuer_Id.toString());
+                    /* remove bny thbt we will process */
+                    unresCritExts.remove(RebsonCode_Id.toString());
+                    unresCritExts.remove(CertificbteIssuer_Id.toString());
                     if (!unresCritExts.isEmpty()) {
-                        throw new CertPathValidatorException(
-                            "Unrecognized critical extension(s) in revoked " +
+                        throw new CertPbthVblidbtorException(
+                            "Unrecognized criticbl extension(s) in revoked " +
                             "CRL entry");
                     }
                 }
 
-                reasonCode = entry.getRevocationReason();
-                if (reasonCode == null) {
-                    reasonCode = CRLReason.UNSPECIFIED;
+                rebsonCode = entry.getRevocbtionRebson();
+                if (rebsonCode == null) {
+                    rebsonCode = CRLRebson.UNSPECIFIED;
                 }
-                Date revocationDate = entry.getRevocationDate();
-                if (revocationDate.before(params.date())) {
-                    Throwable t = new CertificateRevokedException(
-                        revocationDate, reasonCode,
-                        crl.getIssuerX500Principal(), entry.getExtensions());
-                    throw new CertPathValidatorException(
-                        t.getMessage(), t, null, -1, BasicReason.REVOKED);
+                Dbte revocbtionDbte = entry.getRevocbtionDbte();
+                if (revocbtionDbte.before(pbrbms.dbte())) {
+                    Throwbble t = new CertificbteRevokedException(
+                        revocbtionDbte, rebsonCode,
+                        crl.getIssuerX500Principbl(), entry.getExtensions());
+                    throw new CertPbthVblidbtorException(
+                        t.getMessbge(), t, null, -1, BbsicRebson.REVOKED);
                 }
             }
         }
     }
 
-    private void checkOCSP(X509Certificate cert,
+    privbte void checkOCSP(X509Certificbte cert,
                            Collection<String> unresolvedCritExts)
-        throws CertPathValidatorException
+        throws CertPbthVblidbtorException
     {
         X509CertImpl currCert = null;
         try {
             currCert = X509CertImpl.toImpl(cert);
-        } catch (CertificateException ce) {
-            throw new CertPathValidatorException(ce);
+        } cbtch (CertificbteException ce) {
+            throw new CertPbthVblidbtorException(ce);
         }
 
-        // The algorithm constraints of the OCSP trusted responder certificate
-        // does not need to be checked in this code. The constraints will be
-        // checked when the responder's certificate is validated.
+        // The blgorithm constrbints of the OCSP trusted responder certificbte
+        // does not need to be checked in this code. The constrbints will be
+        // checked when the responder's certificbte is vblidbted.
 
         OCSPResponse response = null;
         CertId certId = null;
         try {
             if (issuerCert != null) {
                 certId = new CertId(issuerCert,
-                                    currCert.getSerialNumberObject());
+                                    currCert.getSeriblNumberObject());
             } else {
-                // must be an anchor name and key
-                certId = new CertId(anchor.getCA(), anchor.getCAPublicKey(),
-                                    currCert.getSerialNumberObject());
+                // must be bn bnchor nbme bnd key
+                certId = new CertId(bnchor.getCA(), bnchor.getCAPublicKey(),
+                                    currCert.getSeriblNumberObject());
             }
 
-            // check if there is a cached OCSP response available
+            // check if there is b cbched OCSP response bvbilbble
             byte[] responseBytes = ocspResponses.get(cert);
             if (responseBytes != null) {
                 if (debug != null) {
-                    debug.println("Found cached OCSP response");
+                    debug.println("Found cbched OCSP response");
                 }
                 response = new OCSPResponse(responseBytes);
 
                 // verify the response
                 byte[] nonce = null;
                 for (Extension ext : ocspExtensions) {
-                    if (ext.getId().equals("1.3.6.1.5.5.7.48.1.2")) {
-                        nonce = ext.getValue();
+                    if (ext.getId().equbls("1.3.6.1.5.5.7.48.1.2")) {
+                        nonce = ext.getVblue();
                     }
                 }
                 response.verify(Collections.singletonList(certId), issuerCert,
-                                responderCert, params.date(), nonce);
+                                responderCert, pbrbms.dbte(), nonce);
 
             } else {
                 URI responderURI = (this.responderURI != null)
                                    ? this.responderURI
                                    : OCSP.getResponderURI(currCert);
                 if (responderURI == null) {
-                    throw new CertPathValidatorException(
-                        "Certificate does not specify OCSP responder", null,
+                    throw new CertPbthVblidbtorException(
+                        "Certificbte does not specify OCSP responder", null,
                         null, -1);
                 }
 
@@ -717,446 +717,446 @@ class RevocationChecker extends PKIXRevocationChecker {
                                       responderURI, issuerCert, responderCert,
                                       null, ocspExtensions);
             }
-        } catch (IOException e) {
-            throw new CertPathValidatorException(
-                "Unable to determine revocation status due to network error",
-                e, null, -1, BasicReason.UNDETERMINED_REVOCATION_STATUS);
+        } cbtch (IOException e) {
+            throw new CertPbthVblidbtorException(
+                "Unbble to determine revocbtion stbtus due to network error",
+                e, null, -1, BbsicRebson.UNDETERMINED_REVOCATION_STATUS);
         }
 
-        RevocationStatus rs =
-            (RevocationStatus)response.getSingleResponse(certId);
-        RevocationStatus.CertStatus certStatus = rs.getCertStatus();
-        if (certStatus == RevocationStatus.CertStatus.REVOKED) {
-            Date revocationTime = rs.getRevocationTime();
-            if (revocationTime.before(params.date())) {
-                Throwable t = new CertificateRevokedException(
-                    revocationTime, rs.getRevocationReason(),
-                    response.getSignerCertificate().getSubjectX500Principal(),
+        RevocbtionStbtus rs =
+            (RevocbtionStbtus)response.getSingleResponse(certId);
+        RevocbtionStbtus.CertStbtus certStbtus = rs.getCertStbtus();
+        if (certStbtus == RevocbtionStbtus.CertStbtus.REVOKED) {
+            Dbte revocbtionTime = rs.getRevocbtionTime();
+            if (revocbtionTime.before(pbrbms.dbte())) {
+                Throwbble t = new CertificbteRevokedException(
+                    revocbtionTime, rs.getRevocbtionRebson(),
+                    response.getSignerCertificbte().getSubjectX500Principbl(),
                     rs.getSingleExtensions());
-                throw new CertPathValidatorException(t.getMessage(), t, null,
-                                                     -1, BasicReason.REVOKED);
+                throw new CertPbthVblidbtorException(t.getMessbge(), t, null,
+                                                     -1, BbsicRebson.REVOKED);
             }
-        } else if (certStatus == RevocationStatus.CertStatus.UNKNOWN) {
-            throw new CertPathValidatorException(
-                "Certificate's revocation status is unknown", null,
-                params.certPath(), -1,
-                BasicReason.UNDETERMINED_REVOCATION_STATUS);
+        } else if (certStbtus == RevocbtionStbtus.CertStbtus.UNKNOWN) {
+            throw new CertPbthVblidbtorException(
+                "Certificbte's revocbtion stbtus is unknown", null,
+                pbrbms.certPbth(), -1,
+                BbsicRebson.UNDETERMINED_REVOCATION_STATUS);
         }
     }
 
     /*
-     * Removes any non-hexadecimal characters from a string.
+     * Removes bny non-hexbdecimbl chbrbcters from b string.
      */
-    private static final String HEX_DIGITS = "0123456789ABCDEFabcdef";
-    private static String stripOutSeparators(String value) {
-        char[] chars = value.toCharArray();
+    privbte stbtic finbl String HEX_DIGITS = "0123456789ABCDEFbbcdef";
+    privbte stbtic String stripOutSepbrbtors(String vblue) {
+        chbr[] chbrs = vblue.toChbrArrby();
         StringBuilder hexNumber = new StringBuilder();
-        for (int i = 0; i < chars.length; i++) {
-            if (HEX_DIGITS.indexOf(chars[i]) != -1) {
-                hexNumber.append(chars[i]);
+        for (int i = 0; i < chbrs.length; i++) {
+            if (HEX_DIGITS.indexOf(chbrs[i]) != -1) {
+                hexNumber.bppend(chbrs[i]);
             }
         }
         return hexNumber.toString();
     }
 
     /**
-     * Checks that a cert can be used to verify a CRL.
+     * Checks thbt b cert cbn be used to verify b CRL.
      *
-     * @param cert an X509Certificate to check
-     * @return a boolean specifying if the cert is allowed to vouch for the
-     *         validity of a CRL
+     * @pbrbm cert bn X509Certificbte to check
+     * @return b boolebn specifying if the cert is bllowed to vouch for the
+     *         vblidity of b CRL
      */
-    static boolean certCanSignCrl(X509Certificate cert) {
-        // if the cert doesn't include the key usage ext, or
-        // the key usage ext asserts cRLSigning, return true,
-        // otherwise return false.
-        boolean[] keyUsage = cert.getKeyUsage();
-        if (keyUsage != null) {
-            return keyUsage[6];
+    stbtic boolebn certCbnSignCrl(X509Certificbte cert) {
+        // if the cert doesn't include the key usbge ext, or
+        // the key usbge ext bsserts cRLSigning, return true,
+        // otherwise return fblse.
+        boolebn[] keyUsbge = cert.getKeyUsbge();
+        if (keyUsbge != null) {
+            return keyUsbge[6];
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Internal method that verifies a set of possible_crls,
-     * and sees if each is approved, based on the cert.
+     * Internbl method thbt verifies b set of possible_crls,
+     * bnd sees if ebch is bpproved, bbsed on the cert.
      *
-     * @param crls a set of possible CRLs to test for acceptability
-     * @param cert the certificate whose revocation status is being checked
-     * @param signFlag <code>true</code> if prevKey was trusted to sign CRLs
-     * @param prevKey the public key of the issuer of cert
-     * @param reasonsMask the reason code mask
-     * @param trustAnchors a <code>Set</code> of <code>TrustAnchor</code>s>
-     * @return a collection of approved crls (or an empty collection)
+     * @pbrbm crls b set of possible CRLs to test for bcceptbbility
+     * @pbrbm cert the certificbte whose revocbtion stbtus is being checked
+     * @pbrbm signFlbg <code>true</code> if prevKey wbs trusted to sign CRLs
+     * @pbrbm prevKey the public key of the issuer of cert
+     * @pbrbm rebsonsMbsk the rebson code mbsk
+     * @pbrbm trustAnchors b <code>Set</code> of <code>TrustAnchor</code>s>
+     * @return b collection of bpproved crls (or bn empty collection)
      */
-    private static final boolean[] ALL_REASONS =
+    privbte stbtic finbl boolebn[] ALL_REASONS =
         {true, true, true, true, true, true, true, true, true};
-    private Collection<X509CRL> verifyPossibleCRLs(Set<X509CRL> crls,
-                                                   X509Certificate cert,
+    privbte Collection<X509CRL> verifyPossibleCRLs(Set<X509CRL> crls,
+                                                   X509Certificbte cert,
                                                    PublicKey prevKey,
-                                                   boolean signFlag,
-                                                   boolean[] reasonsMask,
-                                                   Set<TrustAnchor> anchors)
-        throws CertPathValidatorException
+                                                   boolebn signFlbg,
+                                                   boolebn[] rebsonsMbsk,
+                                                   Set<TrustAnchor> bnchors)
+        throws CertPbthVblidbtorException
     {
         try {
             X509CertImpl certImpl = X509CertImpl.toImpl(cert);
             if (debug != null) {
-                debug.println("RevocationChecker.verifyPossibleCRLs: " +
+                debug.println("RevocbtionChecker.verifyPossibleCRLs: " +
                               "Checking CRLDPs for "
-                              + certImpl.getSubjectX500Principal());
+                              + certImpl.getSubjectX500Principbl());
             }
             CRLDistributionPointsExtension ext =
                 certImpl.getCRLDistributionPointsExtension();
             List<DistributionPoint> points = null;
             if (ext == null) {
-                // assume a DP with reasons and CRLIssuer fields omitted
-                // and a DP name of the cert issuer.
-                // TODO add issuerAltName too
-                X500Name certIssuer = (X500Name)certImpl.getIssuerDN();
+                // bssume b DP with rebsons bnd CRLIssuer fields omitted
+                // bnd b DP nbme of the cert issuer.
+                // TODO bdd issuerAltNbme too
+                X500Nbme certIssuer = (X500Nbme)certImpl.getIssuerDN();
                 DistributionPoint point = new DistributionPoint(
-                     new GeneralNames().add(new GeneralName(certIssuer)),
+                     new GenerblNbmes().bdd(new GenerblNbme(certIssuer)),
                      null, null);
                 points = Collections.singletonList(point);
             } else {
                 points = ext.get(CRLDistributionPointsExtension.POINTS);
             }
-            Set<X509CRL> results = new HashSet<>();
+            Set<X509CRL> results = new HbshSet<>();
             for (DistributionPoint point : points) {
                 for (X509CRL crl : crls) {
                     if (DistributionPointFetcher.verifyCRL(
-                            certImpl, point, crl, reasonsMask, signFlag,
-                            prevKey, null, params.sigProvider(), anchors,
-                            certStores, params.date()))
+                            certImpl, point, crl, rebsonsMbsk, signFlbg,
+                            prevKey, null, pbrbms.sigProvider(), bnchors,
+                            certStores, pbrbms.dbte()))
                     {
-                        results.add(crl);
+                        results.bdd(crl);
                     }
                 }
-                if (Arrays.equals(reasonsMask, ALL_REASONS))
-                    break;
+                if (Arrbys.equbls(rebsonsMbsk, ALL_REASONS))
+                    brebk;
             }
             return results;
-        } catch (CertificateException | CRLException | IOException e) {
+        } cbtch (CertificbteException | CRLException | IOException e) {
             if (debug != null) {
-                debug.println("Exception while verifying CRL: "+e.getMessage());
-                e.printStackTrace();
+                debug.println("Exception while verifying CRL: "+e.getMessbge());
+                e.printStbckTrbce();
             }
             return Collections.emptySet();
         }
     }
 
     /**
-     * We have a cert whose revocation status couldn't be verified by
-     * a CRL issued by the cert that issued the CRL. See if we can
-     * find a valid CRL issued by a separate key that can verify the
-     * revocation status of this certificate.
+     * We hbve b cert whose revocbtion stbtus couldn't be verified by
+     * b CRL issued by the cert thbt issued the CRL. See if we cbn
+     * find b vblid CRL issued by b sepbrbte key thbt cbn verify the
+     * revocbtion stbtus of this certificbte.
      * <p>
-     * Note that this does not provide support for indirect CRLs,
-     * only CRLs signed with a different key (but the same issuer
-     * name) as the certificate being checked.
+     * Note thbt this does not provide support for indirect CRLs,
+     * only CRLs signed with b different key (but the sbme issuer
+     * nbme) bs the certificbte being checked.
      *
-     * @param currCert the <code>X509Certificate</code> to be checked
-     * @param prevKey the <code>PublicKey</code> that failed
-     * @param signFlag <code>true</code> if that key was trusted to sign CRLs
-     * @param stackedCerts a <code>Set</code> of <code>X509Certificate</code>s>
-     *                     whose revocation status depends on the
-     *                     non-revoked status of this cert. To avoid
-     *                     circular dependencies, we assume they're
-     *                     revoked while checking the revocation
-     *                     status of this cert.
-     * @throws CertPathValidatorException if the cert's revocation status
-     *         cannot be verified successfully with another key
+     * @pbrbm currCert the <code>X509Certificbte</code> to be checked
+     * @pbrbm prevKey the <code>PublicKey</code> thbt fbiled
+     * @pbrbm signFlbg <code>true</code> if thbt key wbs trusted to sign CRLs
+     * @pbrbm stbckedCerts b <code>Set</code> of <code>X509Certificbte</code>s>
+     *                     whose revocbtion stbtus depends on the
+     *                     non-revoked stbtus of this cert. To bvoid
+     *                     circulbr dependencies, we bssume they're
+     *                     revoked while checking the revocbtion
+     *                     stbtus of this cert.
+     * @throws CertPbthVblidbtorException if the cert's revocbtion stbtus
+     *         cbnnot be verified successfully with bnother key
      */
-    private void verifyWithSeparateSigningKey(X509Certificate cert,
+    privbte void verifyWithSepbrbteSigningKey(X509Certificbte cert,
                                               PublicKey prevKey,
-                                              boolean signFlag,
-                                              Set<X509Certificate> stackedCerts)
-        throws CertPathValidatorException
+                                              boolebn signFlbg,
+                                              Set<X509Certificbte> stbckedCerts)
+        throws CertPbthVblidbtorException
     {
-        String msg = "revocation status";
+        String msg = "revocbtion stbtus";
         if (debug != null) {
             debug.println(
-                "RevocationChecker.verifyWithSeparateSigningKey()" +
+                "RevocbtionChecker.verifyWithSepbrbteSigningKey()" +
                 " ---checking " + msg + "...");
         }
 
-        // reject circular dependencies - RFC 3280 is not explicit on how
-        // to handle this, so we feel it is safest to reject them until
+        // reject circulbr dependencies - RFC 3280 is not explicit on how
+        // to hbndle this, so we feel it is sbfest to reject them until
         // the issue is resolved in the PKIX WG.
-        if ((stackedCerts != null) && stackedCerts.contains(cert)) {
+        if ((stbckedCerts != null) && stbckedCerts.contbins(cert)) {
             if (debug != null) {
                 debug.println(
-                    "RevocationChecker.verifyWithSeparateSigningKey()" +
-                    " circular dependency");
+                    "RevocbtionChecker.verifyWithSepbrbteSigningKey()" +
+                    " circulbr dependency");
             }
-            throw new CertPathValidatorException
-                ("Could not determine revocation status", null, null, -1,
-                 BasicReason.UNDETERMINED_REVOCATION_STATUS);
+            throw new CertPbthVblidbtorException
+                ("Could not determine revocbtion stbtus", null, null, -1,
+                 BbsicRebson.UNDETERMINED_REVOCATION_STATUS);
         }
 
-        // Try to find another key that might be able to sign
+        // Try to find bnother key thbt might be bble to sign
         // CRLs vouching for this cert.
-        // If prevKey wasn't trusted, maybe we just didn't have the right
-        // path to it. Don't rule that key out.
-        if (!signFlag) {
-            buildToNewKey(cert, null, stackedCerts);
+        // If prevKey wbsn't trusted, mbybe we just didn't hbve the right
+        // pbth to it. Don't rule thbt key out.
+        if (!signFlbg) {
+            buildToNewKey(cert, null, stbckedCerts);
         } else {
-            buildToNewKey(cert, prevKey, stackedCerts);
+            buildToNewKey(cert, prevKey, stbckedCerts);
         }
     }
 
     /**
-     * Tries to find a CertPath that establishes a key that can be
-     * used to verify the revocation status of a given certificate.
-     * Ignores keys that have previously been tried. Throws a
-     * CertPathValidatorException if no such key could be found.
+     * Tries to find b CertPbth thbt estbblishes b key thbt cbn be
+     * used to verify the revocbtion stbtus of b given certificbte.
+     * Ignores keys thbt hbve previously been tried. Throws b
+     * CertPbthVblidbtorException if no such key could be found.
      *
-     * @param currCert the <code>X509Certificate</code> to be checked
-     * @param prevKey the <code>PublicKey</code> of the certificate whose key
-     *    cannot be used to vouch for the CRL and should be ignored
-     * @param stackedCerts a <code>Set</code> of <code>X509Certificate</code>s>
-     *                     whose revocation status depends on the
-     *                     establishment of this path.
-     * @throws CertPathValidatorException on failure
+     * @pbrbm currCert the <code>X509Certificbte</code> to be checked
+     * @pbrbm prevKey the <code>PublicKey</code> of the certificbte whose key
+     *    cbnnot be used to vouch for the CRL bnd should be ignored
+     * @pbrbm stbckedCerts b <code>Set</code> of <code>X509Certificbte</code>s>
+     *                     whose revocbtion stbtus depends on the
+     *                     estbblishment of this pbth.
+     * @throws CertPbthVblidbtorException on fbilure
      */
-    private static final boolean [] CRL_SIGN_USAGE =
-        { false, false, false, false, false, false, true };
-    private void buildToNewKey(X509Certificate currCert,
+    privbte stbtic finbl boolebn [] CRL_SIGN_USAGE =
+        { fblse, fblse, fblse, fblse, fblse, fblse, true };
+    privbte void buildToNewKey(X509Certificbte currCert,
                                PublicKey prevKey,
-                               Set<X509Certificate> stackedCerts)
-        throws CertPathValidatorException
+                               Set<X509Certificbte> stbckedCerts)
+        throws CertPbthVblidbtorException
     {
 
         if (debug != null) {
-            debug.println("RevocationChecker.buildToNewKey()" +
-                          " starting work");
+            debug.println("RevocbtionChecker.buildToNewKey()" +
+                          " stbrting work");
         }
-        Set<PublicKey> badKeys = new HashSet<>();
+        Set<PublicKey> bbdKeys = new HbshSet<>();
         if (prevKey != null) {
-            badKeys.add(prevKey);
+            bbdKeys.bdd(prevKey);
         }
-        X509CertSelector certSel = new RejectKeySelector(badKeys);
-        certSel.setSubject(currCert.getIssuerX500Principal());
-        certSel.setKeyUsage(CRL_SIGN_USAGE);
+        X509CertSelector certSel = new RejectKeySelector(bbdKeys);
+        certSel.setSubject(currCert.getIssuerX500Principbl());
+        certSel.setKeyUsbge(CRL_SIGN_USAGE);
 
-        Set<TrustAnchor> newAnchors = anchor == null ?
-                                      params.trustAnchors() :
-                                      Collections.singleton(anchor);
+        Set<TrustAnchor> newAnchors = bnchor == null ?
+                                      pbrbms.trustAnchors() :
+                                      Collections.singleton(bnchor);
 
-        PKIXBuilderParameters builderParams;
+        PKIXBuilderPbrbmeters builderPbrbms;
         try {
-            builderParams = new PKIXBuilderParameters(newAnchors, certSel);
-        } catch (InvalidAlgorithmParameterException iape) {
-            throw new RuntimeException(iape); // should never occur
+            builderPbrbms = new PKIXBuilderPbrbmeters(newAnchors, certSel);
+        } cbtch (InvblidAlgorithmPbrbmeterException ibpe) {
+            throw new RuntimeException(ibpe); // should never occur
         }
-        builderParams.setInitialPolicies(params.initialPolicies());
-        builderParams.setCertStores(certStores);
-        builderParams.setExplicitPolicyRequired
-            (params.explicitPolicyRequired());
-        builderParams.setPolicyMappingInhibited
-            (params.policyMappingInhibited());
-        builderParams.setAnyPolicyInhibited(params.anyPolicyInhibited());
-        // Policy qualifiers must be rejected, since we don't have
-        // any way to convey them back to the application.
-        // That's the default, so no need to write code.
-        builderParams.setDate(params.date());
-        // CertPathCheckers need to be cloned to start from fresh state
-        builderParams.setCertPathCheckers(
-            params.getPKIXParameters().getCertPathCheckers());
-        builderParams.setSigProvider(params.sigProvider());
+        builderPbrbms.setInitiblPolicies(pbrbms.initiblPolicies());
+        builderPbrbms.setCertStores(certStores);
+        builderPbrbms.setExplicitPolicyRequired
+            (pbrbms.explicitPolicyRequired());
+        builderPbrbms.setPolicyMbppingInhibited
+            (pbrbms.policyMbppingInhibited());
+        builderPbrbms.setAnyPolicyInhibited(pbrbms.bnyPolicyInhibited());
+        // Policy qublifiers must be rejected, since we don't hbve
+        // bny wby to convey them bbck to the bpplicbtion.
+        // Thbt's the defbult, so no need to write code.
+        builderPbrbms.setDbte(pbrbms.dbte());
+        // CertPbthCheckers need to be cloned to stbrt from fresh stbte
+        builderPbrbms.setCertPbthCheckers(
+            pbrbms.getPKIXPbrbmeters().getCertPbthCheckers());
+        builderPbrbms.setSigProvider(pbrbms.sigProvider());
 
-        // Skip revocation during this build to detect circular
-        // references. But check revocation afterwards, using the
-        // key (or any other that works).
-        builderParams.setRevocationEnabled(false);
+        // Skip revocbtion during this build to detect circulbr
+        // references. But check revocbtion bfterwbrds, using the
+        // key (or bny other thbt works).
+        builderPbrbms.setRevocbtionEnbbled(fblse);
 
-        // check for AuthorityInformationAccess extension
+        // check for AuthorityInformbtionAccess extension
         if (Builder.USE_AIA == true) {
             X509CertImpl currCertImpl = null;
             try {
                 currCertImpl = X509CertImpl.toImpl(currCert);
-            } catch (CertificateException ce) {
+            } cbtch (CertificbteException ce) {
                 // ignore but log it
                 if (debug != null) {
-                    debug.println("RevocationChecker.buildToNewKey: " +
+                    debug.println("RevocbtionChecker.buildToNewKey: " +
                                   "error decoding cert: " + ce);
                 }
             }
-            AuthorityInfoAccessExtension aiaExt = null;
+            AuthorityInfoAccessExtension bibExt = null;
             if (currCertImpl != null) {
-                aiaExt = currCertImpl.getAuthorityInfoAccessExtension();
+                bibExt = currCertImpl.getAuthorityInfoAccessExtension();
             }
-            if (aiaExt != null) {
-                List<AccessDescription> adList = aiaExt.getAccessDescriptions();
-                if (adList != null) {
-                    for (AccessDescription ad : adList) {
-                        CertStore cs = URICertStore.getInstance(ad);
+            if (bibExt != null) {
+                List<AccessDescription> bdList = bibExt.getAccessDescriptions();
+                if (bdList != null) {
+                    for (AccessDescription bd : bdList) {
+                        CertStore cs = URICertStore.getInstbnce(bd);
                         if (cs != null) {
                             if (debug != null) {
-                                debug.println("adding AIAext CertStore");
+                                debug.println("bdding AIAext CertStore");
                             }
-                            builderParams.addCertStore(cs);
+                            builderPbrbms.bddCertStore(cs);
                         }
                     }
                 }
             }
         }
 
-        CertPathBuilder builder = null;
+        CertPbthBuilder builder = null;
         try {
-            builder = CertPathBuilder.getInstance("PKIX");
-        } catch (NoSuchAlgorithmException nsae) {
-            throw new CertPathValidatorException(nsae);
+            builder = CertPbthBuilder.getInstbnce("PKIX");
+        } cbtch (NoSuchAlgorithmException nsbe) {
+            throw new CertPbthVblidbtorException(nsbe);
         }
         while (true) {
             try {
                 if (debug != null) {
-                    debug.println("RevocationChecker.buildToNewKey()" +
-                                  " about to try build ...");
+                    debug.println("RevocbtionChecker.buildToNewKey()" +
+                                  " bbout to try build ...");
                 }
-                PKIXCertPathBuilderResult cpbr =
-                    (PKIXCertPathBuilderResult)builder.build(builderParams);
+                PKIXCertPbthBuilderResult cpbr =
+                    (PKIXCertPbthBuilderResult)builder.build(builderPbrbms);
 
                 if (debug != null) {
-                    debug.println("RevocationChecker.buildToNewKey()" +
-                                  " about to check revocation ...");
+                    debug.println("RevocbtionChecker.buildToNewKey()" +
+                                  " bbout to check revocbtion ...");
                 }
-                // Now check revocation of all certs in path, assuming that
-                // the stackedCerts are revoked.
-                if (stackedCerts == null) {
-                    stackedCerts = new HashSet<X509Certificate>();
+                // Now check revocbtion of bll certs in pbth, bssuming thbt
+                // the stbckedCerts bre revoked.
+                if (stbckedCerts == null) {
+                    stbckedCerts = new HbshSet<X509Certificbte>();
                 }
-                stackedCerts.add(currCert);
-                TrustAnchor ta = cpbr.getTrustAnchor();
-                PublicKey prevKey2 = ta.getCAPublicKey();
+                stbckedCerts.bdd(currCert);
+                TrustAnchor tb = cpbr.getTrustAnchor();
+                PublicKey prevKey2 = tb.getCAPublicKey();
                 if (prevKey2 == null) {
-                    prevKey2 = ta.getTrustedCert().getPublicKey();
+                    prevKey2 = tb.getTrustedCert().getPublicKey();
                 }
-                boolean signFlag = true;
-                List<? extends Certificate> cpList =
-                    cpbr.getCertPath().getCertificates();
+                boolebn signFlbg = true;
+                List<? extends Certificbte> cpList =
+                    cpbr.getCertPbth().getCertificbtes();
                 if (cpList.isEmpty()) {
                     return;
                 }
                 try {
                     for (int i = cpList.size()-1; i >= 0; i-- ) {
-                        X509Certificate cert = (X509Certificate)cpList.get(i);
+                        X509Certificbte cert = (X509Certificbte)cpList.get(i);
 
                         if (debug != null) {
-                            debug.println("RevocationChecker.buildToNewKey()"
+                            debug.println("RevocbtionChecker.buildToNewKey()"
                                           + " index " + i + " checking "
                                           + cert);
                         }
-                        checkCRLs(cert, prevKey2, null, signFlag, true,
-                                  stackedCerts, newAnchors);
-                        signFlag = certCanSignCrl(cert);
+                        checkCRLs(cert, prevKey2, null, signFlbg, true,
+                                  stbckedCerts, newAnchors);
+                        signFlbg = certCbnSignCrl(cert);
                         prevKey2 = cert.getPublicKey();
                     }
-                } catch (CertPathValidatorException cpve) {
-                    // ignore it and try to get another key
-                    badKeys.add(cpbr.getPublicKey());
+                } cbtch (CertPbthVblidbtorException cpve) {
+                    // ignore it bnd try to get bnother key
+                    bbdKeys.bdd(cpbr.getPublicKey());
                     continue;
                 }
 
                 if (debug != null) {
-                    debug.println("RevocationChecker.buildToNewKey()" +
+                    debug.println("RevocbtionChecker.buildToNewKey()" +
                                   " got key " + cpbr.getPublicKey());
                 }
-                // Now check revocation on the current cert using that key and
-                // the corresponding certificate.
-                // If it doesn't check out, try to find a different key.
-                // And if we can't find a key, then return false.
+                // Now check revocbtion on the current cert using thbt key bnd
+                // the corresponding certificbte.
+                // If it doesn't check out, try to find b different key.
+                // And if we cbn't find b key, then return fblse.
                 PublicKey newKey = cpbr.getPublicKey();
                 try {
-                    checkCRLs(currCert, newKey, (X509Certificate) cpList.get(0),
-                              true, false, null, params.trustAnchors());
-                    // If that passed, the cert is OK!
+                    checkCRLs(currCert, newKey, (X509Certificbte) cpList.get(0),
+                              true, fblse, null, pbrbms.trustAnchors());
+                    // If thbt pbssed, the cert is OK!
                     return;
-                } catch (CertPathValidatorException cpve) {
+                } cbtch (CertPbthVblidbtorException cpve) {
                     // If it is revoked, rethrow exception
-                    if (cpve.getReason() == BasicReason.REVOKED) {
+                    if (cpve.getRebson() == BbsicRebson.REVOKED) {
                         throw cpve;
                     }
-                    // Otherwise, ignore the exception and
-                    // try to get another key.
+                    // Otherwise, ignore the exception bnd
+                    // try to get bnother key.
                 }
-                badKeys.add(newKey);
-            } catch (InvalidAlgorithmParameterException iape) {
-                throw new CertPathValidatorException(iape);
-            } catch (CertPathBuilderException cpbe) {
-                throw new CertPathValidatorException
-                    ("Could not determine revocation status", null, null,
-                     -1, BasicReason.UNDETERMINED_REVOCATION_STATUS);
+                bbdKeys.bdd(newKey);
+            } cbtch (InvblidAlgorithmPbrbmeterException ibpe) {
+                throw new CertPbthVblidbtorException(ibpe);
+            } cbtch (CertPbthBuilderException cpbe) {
+                throw new CertPbthVblidbtorException
+                    ("Could not determine revocbtion stbtus", null, null,
+                     -1, BbsicRebson.UNDETERMINED_REVOCATION_STATUS);
             }
         }
     }
 
     @Override
-    public RevocationChecker clone() {
-        RevocationChecker copy = (RevocationChecker)super.clone();
-        // we don't deep-copy the exceptions, but that is ok because they
-        // are never modified after they are instantiated
-        copy.softFailExceptions = new LinkedList<>(softFailExceptions);
+    public RevocbtionChecker clone() {
+        RevocbtionChecker copy = (RevocbtionChecker)super.clone();
+        // we don't deep-copy the exceptions, but thbt is ok becbuse they
+        // bre never modified bfter they bre instbntibted
+        copy.softFbilExceptions = new LinkedList<>(softFbilExceptions);
         return copy;
     }
 
     /*
-     * This inner class extends the X509CertSelector to add an additional
-     * check to make sure the subject public key isn't on a particular list.
-     * This class is used by buildToNewKey() to make sure the builder doesn't
-     * end up with a CertPath to a public key that has already been rejected.
+     * This inner clbss extends the X509CertSelector to bdd bn bdditionbl
+     * check to mbke sure the subject public key isn't on b pbrticulbr list.
+     * This clbss is used by buildToNewKey() to mbke sure the builder doesn't
+     * end up with b CertPbth to b public key thbt hbs blrebdy been rejected.
      */
-    private static class RejectKeySelector extends X509CertSelector {
-        private final Set<PublicKey> badKeySet;
+    privbte stbtic clbss RejectKeySelector extends X509CertSelector {
+        privbte finbl Set<PublicKey> bbdKeySet;
 
         /**
-         * Creates a new <code>RejectKeySelector</code>.
+         * Crebtes b new <code>RejectKeySelector</code>.
          *
-         * @param badPublicKeys a <code>Set</code> of
-         *                      <code>PublicKey</code>s that
+         * @pbrbm bbdPublicKeys b <code>Set</code> of
+         *                      <code>PublicKey</code>s thbt
          *                      should be rejected (or <code>null</code>
          *                      if no such check should be done)
          */
-        RejectKeySelector(Set<PublicKey> badPublicKeys) {
-            this.badKeySet = badPublicKeys;
+        RejectKeySelector(Set<PublicKey> bbdPublicKeys) {
+            this.bbdKeySet = bbdPublicKeys;
         }
 
         /**
-         * Decides whether a <code>Certificate</code> should be selected.
+         * Decides whether b <code>Certificbte</code> should be selected.
          *
-         * @param cert the <code>Certificate</code> to be checked
-         * @return <code>true</code> if the <code>Certificate</code> should be
-         *         selected, <code>false</code> otherwise
+         * @pbrbm cert the <code>Certificbte</code> to be checked
+         * @return <code>true</code> if the <code>Certificbte</code> should be
+         *         selected, <code>fblse</code> otherwise
          */
         @Override
-        public boolean match(Certificate cert) {
-            if (!super.match(cert))
-                return(false);
+        public boolebn mbtch(Certificbte cert) {
+            if (!super.mbtch(cert))
+                return(fblse);
 
-            if (badKeySet.contains(cert.getPublicKey())) {
+            if (bbdKeySet.contbins(cert.getPublicKey())) {
                 if (debug != null)
-                    debug.println("RejectKeySelector.match: bad key");
-                return false;
+                    debug.println("RejectKeySelector.mbtch: bbd key");
+                return fblse;
             }
 
             if (debug != null)
-                debug.println("RejectKeySelector.match: returning true");
+                debug.println("RejectKeySelector.mbtch: returning true");
             return true;
         }
 
         /**
-         * Return a printable representation of the <code>CertSelector</code>.
+         * Return b printbble representbtion of the <code>CertSelector</code>.
          *
-         * @return a <code>String</code> describing the contents of the
+         * @return b <code>String</code> describing the contents of the
          *         <code>CertSelector</code>
          */
         @Override
         public String toString() {
             StringBuilder sb = new StringBuilder();
-            sb.append("RejectKeySelector: [\n");
-            sb.append(super.toString());
-            sb.append(badKeySet);
-            sb.append("]");
+            sb.bppend("RejectKeySelector: [\n");
+            sb.bppend(super.toString());
+            sb.bppend(bbdKeySet);
+            sb.bppend("]");
             return sb.toString();
         }
     }

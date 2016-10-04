@@ -1,84 +1,84 @@
 /*
- * Copyright (c) 1996, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 #define _JNI_IMPLEMENTATION_
 
-#include "awt.h"
-#include "awt_DrawingSurface.h"
-#include "awt_Component.h"
+#include "bwt.h"
+#include "bwt_DrbwingSurfbce.h"
+#include "bwt_Component.h"
 
-jclass jawtVImgClass;
-jclass jawtComponentClass;
-jfieldID jawtPDataID;
-jfieldID jawtSDataID;
-jfieldID jawtSMgrID;
+jclbss jbwtVImgClbss;
+jclbss jbwtComponentClbss;
+jfieldID jbwtPDbtbID;
+jfieldID jbwtSDbtbID;
+jfieldID jbwtSMgrID;
 
 
 /* DSI */
 
-jint JAWTDrawingSurfaceInfo::Init(JAWTDrawingSurface* parent)
+jint JAWTDrbwingSurfbceInfo::Init(JAWTDrbwingSurfbce* pbrent)
 {
     TRY;
 
-    JNIEnv* env = parent->env;
-    jobject target = parent->target;
-    if (JNU_IsNull(env, target)) {
-        DTRACE_PRINTLN("NULL target");
+    JNIEnv* env = pbrent->env;
+    jobject tbrget = pbrent->tbrget;
+    if (JNU_IsNull(env, tbrget)) {
+        DTRACE_PRINTLN("NULL tbrget");
         return JAWT_LOCK_ERROR;
     }
-    HWND newHwnd = AwtComponent::GetHWnd(env, target);
+    HWND newHwnd = AwtComponent::GetHWnd(env, tbrget);
     if (!::IsWindow(newHwnd)) {
-        DTRACE_PRINTLN("Bad HWND");
+        DTRACE_PRINTLN("Bbd HWND");
         return JAWT_LOCK_ERROR;
     }
-    jint retval = 0;
-    platformInfo = this;
-    ds = parent;
-    bounds.x = env->GetIntField(target, AwtComponent::xID);
-    bounds.y = env->GetIntField(target, AwtComponent::yID);
-    bounds.width = env->GetIntField(target, AwtComponent::widthID);
-    bounds.height = env->GetIntField(target, AwtComponent::heightID);
+    jint retvbl = 0;
+    plbtformInfo = this;
+    ds = pbrent;
+    bounds.x = env->GetIntField(tbrget, AwtComponent::xID);
+    bounds.y = env->GetIntField(tbrget, AwtComponent::yID);
+    bounds.width = env->GetIntField(tbrget, AwtComponent::widthID);
+    bounds.height = env->GetIntField(tbrget, AwtComponent::heightID);
     if (hwnd != newHwnd) {
         if (hwnd != NULL) {
-            ::ReleaseDC(hwnd, hdc);
-            retval = JAWT_LOCK_SURFACE_CHANGED;
+            ::RelebseDC(hwnd, hdc);
+            retvbl = JAWT_LOCK_SURFACE_CHANGED;
         }
         hwnd = newHwnd;
         hdc = ::GetDCEx(hwnd, NULL, DCX_CACHE|DCX_CLIPCHILDREN|DCX_CLIPSIBLINGS);
     }
     clipSize = 1;
     clip = &bounds;
-    int screen = AwtWin32GraphicsDevice::DeviceIndexForWindow(hwnd);
-    hpalette = AwtWin32GraphicsDevice::GetPalette(screen);
+    int screen = AwtWin32GrbphicsDevice::DeviceIndexForWindow(hwnd);
+    hpblette = AwtWin32GrbphicsDevice::GetPblette(screen);
 
-    return retval;
+    return retvbl;
 
     CATCH_BAD_ALLOC_RET(JAWT_LOCK_ERROR);
 }
 
-jint JAWTOffscreenDrawingSurfaceInfo::Init(JAWTOffscreenDrawingSurface* parent)
+jint JAWTOffscreenDrbwingSurfbceInfo::Init(JAWTOffscreenDrbwingSurfbce* pbrent)
 {
     TRY;
 
@@ -87,178 +87,178 @@ jint JAWTOffscreenDrawingSurfaceInfo::Init(JAWTOffscreenDrawingSurface* parent)
     CATCH_BAD_ALLOC_RET(JAWT_LOCK_ERROR);
 }
 
-/* Drawing Surface */
+/* Drbwing Surfbce */
 
-JAWTDrawingSurface::JAWTDrawingSurface(JNIEnv* pEnv, jobject rTarget)
+JAWTDrbwingSurfbce::JAWTDrbwingSurfbce(JNIEnv* pEnv, jobject rTbrget)
 {
     TRY_NO_VERIFY;
 
     env = pEnv;
-    target = env->NewGlobalRef(rTarget);
-    Lock = LockSurface;
-    GetDrawingSurfaceInfo = GetDSI;
-    FreeDrawingSurfaceInfo = FreeDSI;
-    Unlock = UnlockSurface;
+    tbrget = env->NewGlobblRef(rTbrget);
+    Lock = LockSurfbce;
+    GetDrbwingSurfbceInfo = GetDSI;
+    FreeDrbwingSurfbceInfo = FreeDSI;
+    Unlock = UnlockSurfbce;
     info.hwnd = NULL;
     info.hdc = NULL;
-    info.hpalette = NULL;
+    info.hpblette = NULL;
 
     CATCH_BAD_ALLOC;
 }
 
-JAWTDrawingSurface::~JAWTDrawingSurface()
+JAWTDrbwingSurfbce::~JAWTDrbwingSurfbce()
 {
     TRY_NO_VERIFY;
 
-    env->DeleteGlobalRef(target);
+    env->DeleteGlobblRef(tbrget);
 
     CATCH_BAD_ALLOC;
 }
 
-JAWT_DrawingSurfaceInfo* JNICALL JAWTDrawingSurface::GetDSI
-    (JAWT_DrawingSurface* ds)
+JAWT_DrbwingSurfbceInfo* JNICALL JAWTDrbwingSurfbce::GetDSI
+    (JAWT_DrbwingSurfbce* ds)
 {
     TRY;
 
     if (ds == NULL) {
-        DTRACE_PRINTLN("Drawing Surface is NULL");
+        DTRACE_PRINTLN("Drbwing Surfbce is NULL");
         return NULL;
     }
-    JAWTDrawingSurface* pds = static_cast<JAWTDrawingSurface*>(ds);
+    JAWTDrbwingSurfbce* pds = stbtic_cbst<JAWTDrbwingSurfbce*>(ds);
     return &(pds->info);
 
     CATCH_BAD_ALLOC_RET(NULL);
 }
 
-void JNICALL JAWTDrawingSurface::FreeDSI
-    (JAWT_DrawingSurfaceInfo* dsi)
+void JNICALL JAWTDrbwingSurfbce::FreeDSI
+    (JAWT_DrbwingSurfbceInfo* dsi)
 {
     TRY_NO_VERIFY;
 
-    DASSERTMSG(dsi != NULL, "Drawing Surface Info is NULL\n");
+    DASSERTMSG(dsi != NULL, "Drbwing Surfbce Info is NULL\n");
 
-    JAWTDrawingSurfaceInfo* jdsi = static_cast<JAWTDrawingSurfaceInfo*>(dsi);
+    JAWTDrbwingSurfbceInfo* jdsi = stbtic_cbst<JAWTDrbwingSurfbceInfo*>(dsi);
 
-    ::ReleaseDC(jdsi->hwnd, jdsi->hdc);
+    ::RelebseDC(jdsi->hwnd, jdsi->hdc);
 
     CATCH_BAD_ALLOC;
 }
 
-jint JNICALL JAWTDrawingSurface::LockSurface
-    (JAWT_DrawingSurface* ds)
+jint JNICALL JAWTDrbwingSurfbce::LockSurfbce
+    (JAWT_DrbwingSurfbce* ds)
 {
     TRY;
 
     if (ds == NULL) {
-        DTRACE_PRINTLN("Drawing Surface is NULL");
+        DTRACE_PRINTLN("Drbwing Surfbce is NULL");
         return JAWT_LOCK_ERROR;
     }
-    JAWTDrawingSurface* pds = static_cast<JAWTDrawingSurface*>(ds);
-    jint val = pds->info.Init(pds);
-    if ((val & JAWT_LOCK_ERROR) != 0) {
-        return val;
+    JAWTDrbwingSurfbce* pds = stbtic_cbst<JAWTDrbwingSurfbce*>(ds);
+    jint vbl = pds->info.Init(pds);
+    if ((vbl & JAWT_LOCK_ERROR) != 0) {
+        return vbl;
     }
-    val = AwtComponent::GetDrawState(pds->info.hwnd);
-    AwtComponent::SetDrawState(pds->info.hwnd, 0);
-    return val;
+    vbl = AwtComponent::GetDrbwStbte(pds->info.hwnd);
+    AwtComponent::SetDrbwStbte(pds->info.hwnd, 0);
+    return vbl;
 
     CATCH_BAD_ALLOC_RET(JAWT_LOCK_ERROR);
 }
 
-void JNICALL JAWTDrawingSurface::UnlockSurface
-    (JAWT_DrawingSurface* ds)
+void JNICALL JAWTDrbwingSurfbce::UnlockSurfbce
+    (JAWT_DrbwingSurfbce* ds)
 {
     TRY_NO_VERIFY;
 
     if (ds == NULL) {
-        DTRACE_PRINTLN("Drawing Surface is NULL");
+        DTRACE_PRINTLN("Drbwing Surfbce is NULL");
         return;
     }
-    JAWTDrawingSurface* pds = static_cast<JAWTDrawingSurface*>(ds);
+    JAWTDrbwingSurfbce* pds = stbtic_cbst<JAWTDrbwingSurfbce*>(ds);
 
     CATCH_BAD_ALLOC;
 }
 
-JAWTOffscreenDrawingSurface::JAWTOffscreenDrawingSurface(JNIEnv* pEnv,
-                                                         jobject rTarget)
+JAWTOffscreenDrbwingSurfbce::JAWTOffscreenDrbwingSurfbce(JNIEnv* pEnv,
+                                                         jobject rTbrget)
 {
     TRY_NO_VERIFY;
     env = pEnv;
-    target = env->NewGlobalRef(rTarget);
-    Lock = LockSurface;
-    GetDrawingSurfaceInfo = GetDSI;
-    FreeDrawingSurfaceInfo = FreeDSI;
-    Unlock = UnlockSurface;
-    info.dxSurface = NULL;
-    info.dx7Surface = NULL;
+    tbrget = env->NewGlobblRef(rTbrget);
+    Lock = LockSurfbce;
+    GetDrbwingSurfbceInfo = GetDSI;
+    FreeDrbwingSurfbceInfo = FreeDSI;
+    Unlock = UnlockSurfbce;
+    info.dxSurfbce = NULL;
+    info.dx7Surfbce = NULL;
 
     CATCH_BAD_ALLOC;
 }
 
-JAWTOffscreenDrawingSurface::~JAWTOffscreenDrawingSurface()
+JAWTOffscreenDrbwingSurfbce::~JAWTOffscreenDrbwingSurfbce()
 {
-    env->DeleteGlobalRef(target);
+    env->DeleteGlobblRef(tbrget);
 }
 
-JAWT_DrawingSurfaceInfo* JNICALL JAWTOffscreenDrawingSurface::GetDSI
-    (JAWT_DrawingSurface* ds)
+JAWT_DrbwingSurfbceInfo* JNICALL JAWTOffscreenDrbwingSurfbce::GetDSI
+    (JAWT_DrbwingSurfbce* ds)
 {
     TRY;
 
     if (ds == NULL) {
-        DTRACE_PRINTLN("Drawing Surface is NULL");
+        DTRACE_PRINTLN("Drbwing Surfbce is NULL");
         return NULL;
     }
-    JAWTOffscreenDrawingSurface* pds =
-        static_cast<JAWTOffscreenDrawingSurface*>(ds);
+    JAWTOffscreenDrbwingSurfbce* pds =
+        stbtic_cbst<JAWTOffscreenDrbwingSurfbce*>(ds);
     return &(pds->info);
 
     CATCH_BAD_ALLOC_RET(NULL);
 }
 
-void JNICALL JAWTOffscreenDrawingSurface::FreeDSI
-    (JAWT_DrawingSurfaceInfo* dsi)
+void JNICALL JAWTOffscreenDrbwingSurfbce::FreeDSI
+    (JAWT_DrbwingSurfbceInfo* dsi)
 {
 }
 
-jint JNICALL JAWTOffscreenDrawingSurface::LockSurface
-    (JAWT_DrawingSurface* ds)
+jint JNICALL JAWTOffscreenDrbwingSurfbce::LockSurfbce
+    (JAWT_DrbwingSurfbce* ds)
 {
     return JAWT_LOCK_ERROR;
 }
 
-void JNICALL JAWTOffscreenDrawingSurface::UnlockSurface
-    (JAWT_DrawingSurface* ds)
+void JNICALL JAWTOffscreenDrbwingSurfbce::UnlockSurfbce
+    (JAWT_DrbwingSurfbce* ds)
 {
 }
 
 /* C exports */
 
-extern "C" JNIEXPORT JAWT_DrawingSurface* JNICALL DSGetDrawingSurface
-    (JNIEnv* env, jobject target)
+extern "C" JNIEXPORT JAWT_DrbwingSurfbce* JNICALL DSGetDrbwingSurfbce
+    (JNIEnv* env, jobject tbrget)
 {
     TRY;
 
-    // See if the target component is a java.awt.Component
-    if (env->IsInstanceOf(target, jawtComponentClass)) {
-        return new JAWTDrawingSurface(env, target);
+    // See if the tbrget component is b jbvb.bwt.Component
+    if (env->IsInstbnceOf(tbrget, jbwtComponentClbss)) {
+        return new JAWTDrbwingSurfbce(env, tbrget);
     }
 
-    DTRACE_PRINTLN("GetDrawingSurface target must be a Component");
+    DTRACE_PRINTLN("GetDrbwingSurfbce tbrget must be b Component");
     return NULL;
 
     CATCH_BAD_ALLOC_RET(NULL);
 }
 
-extern "C" JNIEXPORT void JNICALL DSFreeDrawingSurface
-    (JAWT_DrawingSurface* ds)
+extern "C" JNIEXPORT void JNICALL DSFreeDrbwingSurfbce
+    (JAWT_DrbwingSurfbce* ds)
 {
     TRY_NO_VERIFY;
 
     if (ds == NULL) {
-        DTRACE_PRINTLN("Drawing Surface is NULL");
+        DTRACE_PRINTLN("Drbwing Surfbce is NULL");
     }
-    delete static_cast<JAWTDrawingSurface*>(ds);
+    delete stbtic_cbst<JAWTDrbwingSurfbce*>(ds);
 
     CATCH_BAD_ALLOC;
 }

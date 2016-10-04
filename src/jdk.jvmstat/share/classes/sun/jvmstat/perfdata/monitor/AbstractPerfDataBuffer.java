@@ -1,211 +1,211 @@
 /*
- * Copyright (c) 2004, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.jvmstat.perfdata.monitor;
+pbckbge sun.jvmstbt.perfdbtb.monitor;
 
 import sun.misc.Perf;
-import sun.jvmstat.monitor.*;
-import java.util.*;
-import java.io.*;
-import java.lang.reflect.*;
-import java.nio.ByteBuffer;
+import sun.jvmstbt.monitor.*;
+import jbvb.util.*;
+import jbvb.io.*;
+import jbvb.lbng.reflect.*;
+import jbvb.nio.ByteBuffer;
 
 /**
- * Abstraction for the HotSpot PerfData instrumentation buffer. This class
- * is responsible for acquiring access to the instrumentation buffer for
- * a target HotSpot Java Virtual Machine and providing method level access
+ * Abstrbction for the HotSpot PerfDbtb instrumentbtion buffer. This clbss
+ * is responsible for bcquiring bccess to the instrumentbtion buffer for
+ * b tbrget HotSpot Jbvb Virtubl Mbchine bnd providing method level bccess
  * to its contents.
  *
- * @author Brian Doherty
+ * @buthor Bribn Doherty
  * @since 1.5
  */
-public abstract class AbstractPerfDataBuffer {
+public bbstrbct clbss AbstrbctPerfDbtbBuffer {
 
     /**
-     * Reference to the concrete instance created by the
-     * {@link #createPerfDataBuffer} method.
+     * Reference to the concrete instbnce crebted by the
+     * {@link #crebtePerfDbtbBuffer} method.
      */
-    protected PerfDataBufferImpl impl;
+    protected PerfDbtbBufferImpl impl;
 
     /**
-     * Get the Local Java Virtual Machine Identifier, or <em>lvmid</em>
-     * for the target JVM associated with this instrumentation buffer.
+     * Get the Locbl Jbvb Virtubl Mbchine Identifier, or <em>lvmid</em>
+     * for the tbrget JVM bssocibted with this instrumentbtion buffer.
      *
      * @return int - the lvmid
      */
-    public int getLocalVmId() {
-        return impl.getLocalVmId();
+    public int getLocblVmId() {
+        return impl.getLocblVmId();
     }
 
     /**
-     * Get a copy of the raw instrumentation data.
-     * This method is used to get a copy of the current bytes in the
-     * instrumentation buffer. It is generally used for transporting
+     * Get b copy of the rbw instrumentbtion dbtb.
+     * This method is used to get b copy of the current bytes in the
+     * instrumentbtion buffer. It is generblly used for trbnsporting
      * those bytes over the network.
      *
-     * @return byte[] - a copy of the bytes in the instrumentation buffer.
+     * @return byte[] - b copy of the bytes in the instrumentbtion buffer.
      */
     public byte[] getBytes() {
         return impl.getBytes();
     }
 
     /**
-     * Get the capacity of the instrumentation buffer.
+     * Get the cbpbcity of the instrumentbtion buffer.
      *
-     * @return int - the capacity, or size, of the instrumentation buffer.
+     * @return int - the cbpbcity, or size, of the instrumentbtion buffer.
      */
-    public int getCapacity() {
-        return impl.getCapacity();
+    public int getCbpbcity() {
+        return impl.getCbpbcity();
     }
 
     /**
-     * Find a named Instrumentation object.
+     * Find b nbmed Instrumentbtion object.
      *
-     * This method will look for the named instrumentation object in the
-     * instrumentation exported by this Java Virtual Machine. If an
-     * instrumentation object with the given name exists, a Monitor interface
-     * to that object will be return. Otherwise, the method returns
+     * This method will look for the nbmed instrumentbtion object in the
+     * instrumentbtion exported by this Jbvb Virtubl Mbchine. If bn
+     * instrumentbtion object with the given nbme exists, b Monitor interfbce
+     * to thbt object will be return. Otherwise, the method returns
      * <tt>null</tt>.
      *
-     * @param name the name of the Instrumentation object to find.
-     * @return Monitor - the {@link Monitor} object that can be used to
-     *                   monitor the the named instrumentation object, or
-     *                   <tt>null</tt> if the named object doesn't exist.
-     * @throws MonitorException Thrown if an error occurs while communicating
-     *                          with the target Java Virtual Machine.
+     * @pbrbm nbme the nbme of the Instrumentbtion object to find.
+     * @return Monitor - the {@link Monitor} object thbt cbn be used to
+     *                   monitor the the nbmed instrumentbtion object, or
+     *                   <tt>null</tt> if the nbmed object doesn't exist.
+     * @throws MonitorException Thrown if bn error occurs while communicbting
+     *                          with the tbrget Jbvb Virtubl Mbchine.
      */
-    public Monitor findByName(String name) throws MonitorException {
-        return impl.findByName(name);
+    public Monitor findByNbme(String nbme) throws MonitorException {
+        return impl.findByNbme(nbme);
     }
 
     /**
-     * Find all Instrumentation objects with names matching the given pattern.
+     * Find bll Instrumentbtion objects with nbmes mbtching the given pbttern.
      *
-     * This method returns a {@link List} of Monitor objects such that
-     * the name of each object matches the given pattern.
+     * This method returns b {@link List} of Monitor objects such thbt
+     * the nbme of ebch object mbtches the given pbttern.
      *
-     * @param patternString  a string containing a pattern as described in
-     *                       {@link java.util.regex.Pattern}.
-     * @return List<Monitor> - a List of {@link Monitor} objects that can be used to
-     *                monitor the instrumentation objects whose names match
-     *                the given pattern. If no instrumentation objects have`
-     *                names matching the given pattern, then an empty List
+     * @pbrbm pbtternString  b string contbining b pbttern bs described in
+     *                       {@link jbvb.util.regex.Pbttern}.
+     * @return List<Monitor> - b List of {@link Monitor} objects thbt cbn be used to
+     *                monitor the instrumentbtion objects whose nbmes mbtch
+     *                the given pbttern. If no instrumentbtion objects hbve`
+     *                nbmes mbtching the given pbttern, then bn empty List
      *                is returned.
-     * @throws MonitorException Thrown if an error occurs while communicating
-     *                          with the target Java Virtual Machine.
-     * @see java.util.regex.Pattern
+     * @throws MonitorException Thrown if bn error occurs while communicbting
+     *                          with the tbrget Jbvb Virtubl Mbchine.
+     * @see jbvb.util.regex.Pbttern
      */
-    public List<Monitor> findByPattern(String patternString) throws MonitorException {
-        return impl.findByPattern(patternString);
+    public List<Monitor> findByPbttern(String pbtternString) throws MonitorException {
+        return impl.findByPbttern(pbtternString);
     }
 
     /**
-     * Get a list of the inserted and removed monitors since last called.
+     * Get b list of the inserted bnd removed monitors since lbst cblled.
      *
-     * @return MonitorStatus - the status of available Monitors for the
-     *                         target Java Virtual Machine.
-     * @throws MonitorException Thrown if communications errors occur
-     *                          while communicating with the target.
+     * @return MonitorStbtus - the stbtus of bvbilbble Monitors for the
+     *                         tbrget Jbvb Virtubl Mbchine.
+     * @throws MonitorException Thrown if communicbtions errors occur
+     *                          while communicbting with the tbrget.
      */
-    public MonitorStatus getMonitorStatus() throws MonitorException {
-        return impl.getMonitorStatus();
+    public MonitorStbtus getMonitorStbtus() throws MonitorException {
+        return impl.getMonitorStbtus();
     }
 
     /**
-     * Get the ByteBuffer containing the instrumentation data.
+     * Get the ByteBuffer contbining the instrumentbtion dbtb.
      *
-     * @return ByteBuffer - a ByteBuffer object that refers to the
-     *                      instrumentation data.
+     * @return ByteBuffer - b ByteBuffer object thbt refers to the
+     *                      instrumentbtion dbtb.
      */
     public ByteBuffer getByteBuffer() {
         return impl.getByteBuffer();
     }
 
     /**
-     * Create the perfdata instrumentation buffer for the given lvmid
-     * using the given ByteBuffer object as the source of the instrumentation
-     * data. This method parses the instrumentation buffer header to determine
-     * key characteristics of the instrumentation buffer and then dynamically
-     * loads the appropriate class to handle the particular instrumentation
+     * Crebte the perfdbtb instrumentbtion buffer for the given lvmid
+     * using the given ByteBuffer object bs the source of the instrumentbtion
+     * dbtb. This method pbrses the instrumentbtion buffer hebder to determine
+     * key chbrbcteristics of the instrumentbtion buffer bnd then dynbmicblly
+     * lobds the bppropribte clbss to hbndle the pbrticulbr instrumentbtion
      * version.
      *
-     * @param bb the ByteBuffer that references the instrumentation data.
-     * @param lvmid the Local Java Virtual Machine identifier for this
-     *              instrumentation buffer.
+     * @pbrbm bb the ByteBuffer thbt references the instrumentbtion dbtb.
+     * @pbrbm lvmid the Locbl Jbvb Virtubl Mbchine identifier for this
+     *              instrumentbtion buffer.
      *
      * @throws MonitorException
      */
-    protected void createPerfDataBuffer(ByteBuffer bb, int lvmid)
+    protected void crebtePerfDbtbBuffer(ByteBuffer bb, int lvmid)
                    throws MonitorException {
-        int majorVersion = AbstractPerfDataBufferPrologue.getMajorVersion(bb);
-        int minorVersion = AbstractPerfDataBufferPrologue.getMinorVersion(bb);
+        int mbjorVersion = AbstrbctPerfDbtbBufferPrologue.getMbjorVersion(bb);
+        int minorVersion = AbstrbctPerfDbtbBufferPrologue.getMinorVersion(bb);
 
-        // instantiate the version specific class
-        String classname = "sun.jvmstat.perfdata.monitor.v"
-                           + majorVersion + "_" + minorVersion
-                           + ".PerfDataBuffer";
+        // instbntibte the version specific clbss
+        String clbssnbme = "sun.jvmstbt.perfdbtb.monitor.v"
+                           + mbjorVersion + "_" + minorVersion
+                           + ".PerfDbtbBuffer";
 
         try {
-            Class<?> implClass = Class.forName(classname);
-            Constructor<?> cons = implClass.getConstructor(new Class<?>[] {
-                    Class.forName("java.nio.ByteBuffer"),
+            Clbss<?> implClbss = Clbss.forNbme(clbssnbme);
+            Constructor<?> cons = implClbss.getConstructor(new Clbss<?>[] {
+                    Clbss.forNbme("jbvb.nio.ByteBuffer"),
                     Integer.TYPE
             });
 
-            impl = (PerfDataBufferImpl)cons.newInstance(new Object[] {
+            impl = (PerfDbtbBufferImpl)cons.newInstbnce(new Object[] {
                      bb, lvmid
             });
 
-        } catch (ClassNotFoundException e) {
-            // from Class.forName();
-            throw new IllegalArgumentException(
-                    "Could not find " + classname + ": " + e.getMessage(), e);
+        } cbtch (ClbssNotFoundException e) {
+            // from Clbss.forNbme();
+            throw new IllegblArgumentException(
+                    "Could not find " + clbssnbme + ": " + e.getMessbge(), e);
 
-        } catch (NoSuchMethodException e) {
-            // from Class.getConstructor();
-            throw new IllegalArgumentException(
-                    "Expected constructor missing in " + classname + ": "
-                    + e.getMessage(), e);
+        } cbtch (NoSuchMethodException e) {
+            // from Clbss.getConstructor();
+            throw new IllegblArgumentException(
+                    "Expected constructor missing in " + clbssnbme + ": "
+                    + e.getMessbge(), e);
 
-        } catch (IllegalAccessException e) {
-            // from Constructor.newInstance()
-            throw new IllegalArgumentException(
-                   "Unexpected constructor access in " + classname + ": "
-                   + e.getMessage(), e);
+        } cbtch (IllegblAccessException e) {
+            // from Constructor.newInstbnce()
+            throw new IllegblArgumentException(
+                   "Unexpected constructor bccess in " + clbssnbme + ": "
+                   + e.getMessbge(), e);
 
-        } catch (InstantiationException e) {
-            throw new IllegalArgumentException(
-                    classname + "is abstract: " + e.getMessage(), e);
+        } cbtch (InstbntibtionException e) {
+            throw new IllegblArgumentException(
+                    clbssnbme + "is bbstrbct: " + e.getMessbge(), e);
 
-        } catch (InvocationTargetException e) {
-            Throwable cause = e.getCause();
-            if (cause instanceof MonitorException) {
-                throw (MonitorException)cause;
+        } cbtch (InvocbtionTbrgetException e) {
+            Throwbble cbuse = e.getCbuse();
+            if (cbuse instbnceof MonitorException) {
+                throw (MonitorException)cbuse;
             }
             throw new RuntimeException("Unexpected exception: "
-                                       + e.getMessage() , e);
+                                       + e.getMessbge() , e);
         }
     }
 }

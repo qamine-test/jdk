@@ -1,97 +1,97 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.text.html;
+pbckbge jbvbx.swing.text.html;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.io.*;
-import java.net.MalformedURLException;
-import java.net.URL;
-import javax.swing.text.*;
-import javax.swing.*;
-import javax.swing.border.*;
-import javax.swing.event.*;
-import java.util.*;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvb.io.*;
+import jbvb.net.MblformedURLException;
+import jbvb.net.URL;
+import jbvbx.swing.text.*;
+import jbvbx.swing.*;
+import jbvbx.swing.border.*;
+import jbvbx.swing.event.*;
+import jbvb.util.*;
 
 /**
- * CommentView subclasses HiddenTagView to contain a JTextArea showing
- * a comment. When the textarea is edited the comment is
- * reset. As this inherits from EditableView if the JTextComponent is
- * not editable, the textarea will not be visible.
+ * CommentView subclbsses HiddenTbgView to contbin b JTextAreb showing
+ * b comment. When the textbreb is edited the comment is
+ * reset. As this inherits from EditbbleView if the JTextComponent is
+ * not editbble, the textbreb will not be visible.
  *
- * @author  Scott Violet
+ * @buthor  Scott Violet
  */
-class CommentView extends HiddenTagView {
+clbss CommentView extends HiddenTbgView {
     CommentView(Element e) {
         super(e);
     }
 
-    protected Component createComponent() {
-        Container host = getContainer();
-        if (host != null && !((JTextComponent)host).isEditable()) {
+    protected Component crebteComponent() {
+        Contbiner host = getContbiner();
+        if (host != null && !((JTextComponent)host).isEditbble()) {
             return null;
         }
-        JTextArea ta = new JTextArea(getRepresentedText());
+        JTextAreb tb = new JTextAreb(getRepresentedText());
         Document doc = getDocument();
         Font font;
-        if (doc instanceof StyledDocument) {
+        if (doc instbnceof StyledDocument) {
             font = ((StyledDocument)doc).getFont(getAttributes());
-            ta.setFont(font);
+            tb.setFont(font);
         }
         else {
-            font = ta.getFont();
+            font = tb.getFont();
         }
-        updateYAlign(font);
-        ta.setBorder(CBorder);
-        ta.getDocument().addDocumentListener(this);
-        ta.setFocusable(isVisible());
-        return ta;
+        updbteYAlign(font);
+        tb.setBorder(CBorder);
+        tb.getDocument().bddDocumentListener(this);
+        tb.setFocusbble(isVisible());
+        return tb;
     }
 
     void resetBorder() {
     }
 
     /**
-     * This is subclassed to put the text on the Comment attribute of
+     * This is subclbssed to put the text on the Comment bttribute of
      * the Element's AttributeSet.
      */
-    void _updateModelFromText() {
+    void _updbteModelFromText() {
         JTextComponent textC = getTextComponent();
         Document doc = getDocument();
         if (textC != null && doc != null) {
             String text = textC.getText();
-            SimpleAttributeSet sas = new SimpleAttributeSet();
+            SimpleAttributeSet sbs = new SimpleAttributeSet();
             isSettingAttributes = true;
             try {
-                sas.addAttribute(HTML.Attribute.COMMENT, text);
-                ((StyledDocument)doc).setCharacterAttributes
-                    (getStartOffset(), getEndOffset() -
-                     getStartOffset(), sas, false);
+                sbs.bddAttribute(HTML.Attribute.COMMENT, text);
+                ((StyledDocument)doc).setChbrbcterAttributes
+                    (getStbrtOffset(), getEndOffset() -
+                     getStbrtOffset(), sbs, fblse);
             }
-            finally {
-                isSettingAttributes = false;
+            finblly {
+                isSettingAttributes = fblse;
             }
         }
     }
@@ -101,42 +101,42 @@ class CommentView extends HiddenTagView {
     }
 
     String getRepresentedText() {
-        AttributeSet as = getElement().getAttributes();
-        if (as != null) {
-            Object comment = as.getAttribute(HTML.Attribute.COMMENT);
-            if (comment instanceof String) {
+        AttributeSet bs = getElement().getAttributes();
+        if (bs != null) {
+            Object comment = bs.getAttribute(HTML.Attribute.COMMENT);
+            if (comment instbnceof String) {
                 return (String)comment;
             }
         }
         return "";
     }
 
-    static final Border CBorder = new CommentBorder();
-    static final int commentPadding = 3;
-    static final int commentPaddingD = commentPadding * 3;
+    stbtic finbl Border CBorder = new CommentBorder();
+    stbtic finbl int commentPbdding = 3;
+    stbtic finbl int commentPbddingD = commentPbdding * 3;
 
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    static class CommentBorder extends LineBorder {
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    stbtic clbss CommentBorder extends LineBorder {
         CommentBorder() {
-            super(Color.black, 1);
+            super(Color.blbck, 1);
         }
 
-        public void paintBorder(Component c, Graphics g, int x, int y,
+        public void pbintBorder(Component c, Grbphics g, int x, int y,
                                 int width, int height) {
-            super.paintBorder(c, g, x + commentPadding, y,
-                              width - commentPaddingD, height);
+            super.pbintBorder(c, g, x + commentPbdding, y,
+                              width - commentPbddingD, height);
         }
 
         public Insets getBorderInsets(Component c, Insets insets) {
             Insets retI = super.getBorderInsets(c, insets);
 
-            retI.left += commentPadding;
-            retI.right += commentPadding;
+            retI.left += commentPbdding;
+            retI.right += commentPbdding;
             return retI;
         }
 
-        public boolean isBorderOpaque() {
-            return false;
+        public boolebn isBorderOpbque() {
+            return fblse;
         }
-    } // End of class CommentView.CommentBorder
+    } // End of clbss CommentView.CommentBorder
 } // End of CommentView

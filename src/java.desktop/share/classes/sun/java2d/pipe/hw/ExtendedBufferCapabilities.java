@@ -1,154 +1,154 @@
 /*
- * Copyright (c) 2007, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.java2d.pipe.hw;
+pbckbge sun.jbvb2d.pipe.hw;
 
-import java.awt.BufferCapabilities;
-import java.awt.ImageCapabilities;
+import jbvb.bwt.BufferCbpbbilities;
+import jbvb.bwt.ImbgeCbpbbilities;
 
 /**
- * Provides extended BufferStrategy capabilities, allowing to specify
- * the type of vertical refresh synchronization for a buffer strategy.
+ * Provides extended BufferStrbtegy cbpbbilities, bllowing to specify
+ * the type of verticbl refresh synchronizbtion for b buffer strbtegy.
  *
- * This BS capability is always page flipping because v-sync is only relevant
- * to flipping buffer strategies.
+ * This BS cbpbbility is blwbys pbge flipping becbuse v-sync is only relevbnt
+ * to flipping buffer strbtegies.
  *
- * Note that asking for a v-synced BS doesn't necessarily guarantee that it will
- * be v-synced since the vsync capability may be disabled in the driver, or
- * there may be other restriction (like a number of v-synced buffer strategies
- * allowed per vm). Because of this {@code createBufferStrategy} doesn't
- * throw {@code AWTException} when a v-synced BS could not be created when
+ * Note thbt bsking for b v-synced BS doesn't necessbrily gubrbntee thbt it will
+ * be v-synced since the vsync cbpbbility mby be disbbled in the driver, or
+ * there mby be other restriction (like b number of v-synced buffer strbtegies
+ * bllowed per vm). Becbuse of this {@code crebteBufferStrbtegy} doesn't
+ * throw {@code AWTException} when b v-synced BS could not be crebted when
  * requested.
  *
- * @see java.awt.Canvas#createBufferStrategy(int, BufferCapabilities)
- * @see java.awt.Window#createBufferStrategy(int, BufferCapabilities)
+ * @see jbvb.bwt.Cbnvbs#crebteBufferStrbtegy(int, BufferCbpbbilities)
+ * @see jbvb.bwt.Window#crebteBufferStrbtegy(int, BufferCbpbbilities)
  */
-public class ExtendedBufferCapabilities extends BufferCapabilities {
+public clbss ExtendedBufferCbpbbilities extends BufferCbpbbilities {
 
     /**
-     * Type of synchronization on vertical retrace.
+     * Type of synchronizbtion on verticbl retrbce.
      */
-    public static enum VSyncType {
+    public stbtic enum VSyncType {
         /**
-         * Use the default v-sync mode appropriate for given BufferStrategy
-         * and situation.
+         * Use the defbult v-sync mode bppropribte for given BufferStrbtegy
+         * bnd situbtion.
          */
         VSYNC_DEFAULT(0),
 
         /**
-         * Synchronize flip on vertical retrace.
+         * Synchronize flip on verticbl retrbce.
          */
         VSYNC_ON(1),
 
         /**
-         * Do not synchronize flip on vertical retrace.
+         * Do not synchronize flip on verticbl retrbce.
          */
         VSYNC_OFF(2);
 
         /**
-         * Used to identify the v-sync type (independent of the constants
-         * order as opposed to {@code ordinal()}).
+         * Used to identify the v-sync type (independent of the constbnts
+         * order bs opposed to {@code ordinbl()}).
          */
         public int id() {
             return id;
         }
 
-        private VSyncType(int id) {
+        privbte VSyncType(int id) {
             this.id = id;
         }
-        private int id;
+        privbte int id;
     }
 
-    private VSyncType vsync;
+    privbte VSyncType vsync;
 
     /**
-     * Creates an ExtendedBufferCapabilities object with front/back/flip caps
-     * from the passed cap, and VSYNC_DEFAULT v-sync mode.
+     * Crebtes bn ExtendedBufferCbpbbilities object with front/bbck/flip cbps
+     * from the pbssed cbp, bnd VSYNC_DEFAULT v-sync mode.
      */
-    public ExtendedBufferCapabilities(BufferCapabilities caps) {
-        super(caps.getFrontBufferCapabilities(),
-              caps.getBackBufferCapabilities(),
-              caps.getFlipContents());
+    public ExtendedBufferCbpbbilities(BufferCbpbbilities cbps) {
+        super(cbps.getFrontBufferCbpbbilities(),
+              cbps.getBbckBufferCbpbbilities(),
+              cbps.getFlipContents());
 
         this.vsync = VSyncType.VSYNC_DEFAULT;
     }
 
     /**
-     * Creates an ExtendedBufferCapabilities instance with front/back/flip caps
-     * from the passed caps, and VSYNC_DEFAULT v-sync mode.
+     * Crebtes bn ExtendedBufferCbpbbilities instbnce with front/bbck/flip cbps
+     * from the pbssed cbps, bnd VSYNC_DEFAULT v-sync mode.
      */
-    public ExtendedBufferCapabilities(ImageCapabilities front,
-                                      ImageCapabilities back, FlipContents flip)
+    public ExtendedBufferCbpbbilities(ImbgeCbpbbilities front,
+                                      ImbgeCbpbbilities bbck, FlipContents flip)
     {
-        super(front, back, flip);
+        super(front, bbck, flip);
 
         this.vsync = VSyncType.VSYNC_DEFAULT;
     }
 
     /**
-     * Creates an ExtendedBufferCapabilities instance with front/back/flip caps
-     * from the passed image/flip caps, and the v-sync type.
+     * Crebtes bn ExtendedBufferCbpbbilities instbnce with front/bbck/flip cbps
+     * from the pbssed imbge/flip cbps, bnd the v-sync type.
      */
-    public ExtendedBufferCapabilities(ImageCapabilities front,
-                                      ImageCapabilities back, FlipContents flip,
+    public ExtendedBufferCbpbbilities(ImbgeCbpbbilities front,
+                                      ImbgeCbpbbilities bbck, FlipContents flip,
                                       VSyncType t)
     {
-        super(front, back, flip);
+        super(front, bbck, flip);
 
         this.vsync = t;
     }
 
     /**
-     * Creates an ExtendedBufferCapabilities instance with front/back/flip caps
-     * from the passed cap, and the passed v-sync mode.
+     * Crebtes bn ExtendedBufferCbpbbilities instbnce with front/bbck/flip cbps
+     * from the pbssed cbp, bnd the pbssed v-sync mode.
      */
-    public ExtendedBufferCapabilities(BufferCapabilities caps, VSyncType t) {
-        super(caps.getFrontBufferCapabilities(),
-              caps.getBackBufferCapabilities(),
-              caps.getFlipContents());
+    public ExtendedBufferCbpbbilities(BufferCbpbbilities cbps, VSyncType t) {
+        super(cbps.getFrontBufferCbpbbilities(),
+              cbps.getBbckBufferCbpbbilities(),
+              cbps.getFlipContents());
 
         this.vsync = t;
     }
 
     /**
-     * Creates an ExtendedBufferCapabilities instance with front/back/flip caps
-     * from the object, and passed v-sync mode.
+     * Crebtes bn ExtendedBufferCbpbbilities instbnce with front/bbck/flip cbps
+     * from the object, bnd pbssed v-sync mode.
      */
-    public ExtendedBufferCapabilities derive(VSyncType t) {
-        return new ExtendedBufferCapabilities(this, t);
+    public ExtendedBufferCbpbbilities derive(VSyncType t) {
+        return new ExtendedBufferCbpbbilities(this, t);
     }
 
     /**
-     * Returns the type of v-sync requested by this capabilities instance.
+     * Returns the type of v-sync requested by this cbpbbilities instbnce.
      */
     public VSyncType getVSync() {
         return vsync;
     }
 
     @Override
-    public final boolean isPageFlipping() {
+    public finbl boolebn isPbgeFlipping() {
         return true;
     }
 }

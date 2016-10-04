@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 1997, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,54 +30,54 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
 
 /**
- * In a chain of data manipulators some behaviour is common. TableMap
- * provides most of this behavour and can be subclassed by filters
- * that only need to override a handful of specific methods. TableMap
- * implements TableModel by routing all requests to its model, and
- * TableModelListener by routing all events to its listeners. Inserting
- * a TableMap which has not been subclassed into a chain of table filters
- * should have no effect.
+ * In b chbin of dbtb mbnipulbtors some behbviour is common. TbbleMbp
+ * provides most of this behbvour bnd cbn be subclbssed by filters
+ * thbt only need to override b hbndful of specific methods. TbbleMbp
+ * implements TbbleModel by routing bll requests to its model, bnd
+ * TbbleModelListener by routing bll events to its listeners. Inserting
+ * b TbbleMbp which hbs not been subclbssed into b chbin of tbble filters
+ * should hbve no effect.
  *
- * @author Philip Milne
+ * @buthor Philip Milne
  */
-import javax.swing.table.*;
-import javax.swing.event.TableModelListener;
-import javax.swing.event.TableModelEvent;
+import jbvbx.swing.tbble.*;
+import jbvbx.swing.event.TbbleModelListener;
+import jbvbx.swing.event.TbbleModelEvent;
 
 
-@SuppressWarnings("serial")
-public class TableMap extends AbstractTableModel implements TableModelListener {
+@SuppressWbrnings("seribl")
+public clbss TbbleMbp extends AbstrbctTbbleModel implements TbbleModelListener {
 
-    protected TableModel model;
+    protected TbbleModel model;
 
-    public TableModel getModel() {
+    public TbbleModel getModel() {
         return model;
     }
 
-    public void setModel(TableModel model) {
+    public void setModel(TbbleModel model) {
         this.model = model;
-        model.addTableModelListener(this);
+        model.bddTbbleModelListener(this);
     }
 
-    // By default, Implement TableModel by forwarding all messages
+    // By defbult, Implement TbbleModel by forwbrding bll messbges
     // to the model.
-    public Object getValueAt(int aRow, int aColumn) {
-        return model.getValueAt(aRow, aColumn);
+    public Object getVblueAt(int bRow, int bColumn) {
+        return model.getVblueAt(bRow, bColumn);
     }
 
     @Override
-    public void setValueAt(Object aValue, int aRow, int aColumn) {
-        model.setValueAt(aValue, aRow, aColumn);
+    public void setVblueAt(Object bVblue, int bRow, int bColumn) {
+        model.setVblueAt(bVblue, bRow, bColumn);
     }
 
     public int getRowCount() {
@@ -89,25 +89,25 @@ public class TableMap extends AbstractTableModel implements TableModelListener {
     }
 
     @Override
-    public String getColumnName(int aColumn) {
-        return model.getColumnName(aColumn);
+    public String getColumnNbme(int bColumn) {
+        return model.getColumnNbme(bColumn);
     }
 
     @Override
-    public Class getColumnClass(int aColumn) {
-        return model.getColumnClass(aColumn);
+    public Clbss getColumnClbss(int bColumn) {
+        return model.getColumnClbss(bColumn);
     }
 
     @Override
-    public boolean isCellEditable(int row, int column) {
-        return model.isCellEditable(row, column);
+    public boolebn isCellEditbble(int row, int column) {
+        return model.isCellEditbble(row, column);
     }
 //
-// Implementation of the TableModelListener interface,
+// Implementbtion of the TbbleModelListener interfbce,
 //
 
-    // By default forward all events to all the listeners.
-    public void tableChanged(TableModelEvent e) {
-        fireTableChanged(e);
+    // By defbult forwbrd bll events to bll the listeners.
+    public void tbbleChbnged(TbbleModelEvent e) {
+        fireTbbleChbnged(e);
     }
 }

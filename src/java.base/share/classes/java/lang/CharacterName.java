@@ -1,74 +1,74 @@
 /*
- * Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.lang;
+pbckbge jbvb.lbng;
 
-import java.io.DataInputStream;
-import java.io.InputStream;
-import java.lang.ref.SoftReference;
-import java.util.Arrays;
-import java.util.zip.InflaterInputStream;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
+import jbvb.io.DbtbInputStrebm;
+import jbvb.io.InputStrebm;
+import jbvb.lbng.ref.SoftReference;
+import jbvb.util.Arrbys;
+import jbvb.util.zip.InflbterInputStrebm;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
 
-class CharacterName {
+clbss ChbrbcterNbme {
 
-    private static SoftReference<byte[]> refStrPool;
-    private static int[][] lookup;
+    privbte stbtic SoftReference<byte[]> refStrPool;
+    privbte stbtic int[][] lookup;
 
-    private static synchronized byte[] initNamePool() {
+    privbte stbtic synchronized byte[] initNbmePool() {
         byte[] strPool = null;
         if (refStrPool != null && (strPool = refStrPool.get()) != null)
             return strPool;
-        DataInputStream dis = null;
+        DbtbInputStrebm dis = null;
         try {
-            dis = new DataInputStream(new InflaterInputStream(
-                AccessController.doPrivileged(new PrivilegedAction<InputStream>()
+            dis = new DbtbInputStrebm(new InflbterInputStrebm(
+                AccessController.doPrivileged(new PrivilegedAction<InputStrebm>()
                 {
-                    public InputStream run() {
-                        return getClass().getResourceAsStream("uniName.dat");
+                    public InputStrebm run() {
+                        return getClbss().getResourceAsStrebm("uniNbme.dbt");
                     }
                 })));
 
-            lookup = new int[(Character.MAX_CODE_POINT + 1) >> 8][];
-            int total = dis.readInt();
-            int cpEnd = dis.readInt();
-            byte ba[] = new byte[cpEnd];
-            dis.readFully(ba);
+            lookup = new int[(Chbrbcter.MAX_CODE_POINT + 1) >> 8][];
+            int totbl = dis.rebdInt();
+            int cpEnd = dis.rebdInt();
+            byte bb[] = new byte[cpEnd];
+            dis.rebdFully(bb);
 
-            int nameOff = 0;
+            int nbmeOff = 0;
             int cpOff = 0;
             int cp = 0;
             do {
-                int len = ba[cpOff++] & 0xff;
+                int len = bb[cpOff++] & 0xff;
                 if (len == 0) {
-                    len = ba[cpOff++] & 0xff;
-                    // always big-endian
-                    cp = ((ba[cpOff++] & 0xff) << 16) |
-                         ((ba[cpOff++] & 0xff) <<  8) |
-                         ((ba[cpOff++] & 0xff));
+                    len = bb[cpOff++] & 0xff;
+                    // blwbys big-endibn
+                    cp = ((bb[cpOff++] & 0xff) << 16) |
+                         ((bb[cpOff++] & 0xff) <<  8) |
+                         ((bb[cpOff++] & 0xff));
                 }  else {
                     cp++;
                 }
@@ -76,32 +76,32 @@ class CharacterName {
                 if (lookup[hi] == null) {
                     lookup[hi] = new int[0x100];
                 }
-                lookup[hi][cp&0xff] = (nameOff << 8) | len;
-                nameOff += len;
+                lookup[hi][cp&0xff] = (nbmeOff << 8) | len;
+                nbmeOff += len;
             } while (cpOff < cpEnd);
-            strPool = new byte[total - cpEnd];
-            dis.readFully(strPool);
+            strPool = new byte[totbl - cpEnd];
+            dis.rebdFully(strPool);
             refStrPool = new SoftReference<>(strPool);
-        } catch (Exception x) {
-            throw new InternalError(x.getMessage(), x);
-        } finally {
+        } cbtch (Exception x) {
+            throw new InternblError(x.getMessbge(), x);
+        } finblly {
             try {
                 if (dis != null)
                     dis.close();
-            } catch (Exception xx) {}
+            } cbtch (Exception xx) {}
         }
         return strPool;
     }
 
-    public static String get(int cp) {
+    public stbtic String get(int cp) {
         byte[] strPool = null;
         if (refStrPool == null || (strPool = refStrPool.get()) == null)
-            strPool = initNamePool();
+            strPool = initNbmePool();
         int off = 0;
         if (lookup[cp>>8] == null ||
             (off = lookup[cp>>8][cp&0xff]) == 0)
             return null;
-        @SuppressWarnings("deprecation")
+        @SuppressWbrnings("deprecbtion")
         String result = new String(strPool, 0, off >>> 8, off & 0xff);  // ASCII
         return result;
     }

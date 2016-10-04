@@ -1,35 +1,35 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  */
 
-/* Copyright  (c) 2002 Graz University of Technology. All rights reserved.
+/* Copyright  (c) 2002 Grbz University of Technology. All rights reserved.
  *
- * Redistribution and use in  source and binary forms, with or without
- * modification, are permitted  provided that the following conditions are met:
+ * Redistribution bnd use in  source bnd binbry forms, with or without
+ * modificbtion, bre permitted  provided thbt the following conditions bre met:
  *
- * 1. Redistributions of  source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ * 1. Redistributions of  source code must retbin the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer.
  *
- * 2. Redistributions in  binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ * 2. Redistributions in  binbry form must reproduce the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer in the documentbtion
+ *    bnd/or other mbteribls provided with the distribution.
  *
- * 3. The end-user documentation included with the redistribution, if any, must
- *    include the following acknowledgment:
+ * 3. The end-user documentbtion included with the redistribution, if bny, must
+ *    include the following bcknowledgment:
  *
- *    "This product includes software developed by IAIK of Graz University of
+ *    "This product includes softwbre developed by IAIK of Grbz University of
  *     Technology."
  *
- *    Alternately, this acknowledgment may appear in the software itself, if
- *    and wherever such third-party acknowledgments normally appear.
+ *    Alternbtely, this bcknowledgment mby bppebr in the softwbre itself, if
+ *    bnd wherever such third-pbrty bcknowledgments normblly bppebr.
  *
- * 4. The names "Graz University of Technology" and "IAIK of Graz University of
+ * 4. The nbmes "Grbz University of Technology" bnd "IAIK of Grbz University of
  *    Technology" must not be used to endorse or promote products derived from
- *    this software without prior written permission.
+ *    this softwbre without prior written permission.
  *
- * 5. Products derived from this software may not be called
- *    "IAIK PKCS Wrapper", nor may "IAIK" appear in their name, without prior
- *    written permission of Graz University of Technology.
+ * 5. Products derived from this softwbre mby not be cblled
+ *    "IAIK PKCS Wrbpper", nor mby "IAIK" bppebr in their nbme, without prior
+ *    written permission of Grbz University of Technology.
  *
  *  THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESSED OR IMPLIED
  *  WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
@@ -45,1516 +45,1516 @@
  *  POSSIBILITY  OF SUCH DAMAGE.
  */
 
-package sun.security.pkcs11.wrapper;
+pbckbge sun.security.pkcs11.wrbpper;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.*;
+import jbvb.io.File;
+import jbvb.io.IOException;
+import jbvb.util.*;
 
-import java.security.AccessController;
-import java.security.PrivilegedAction;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
 
-import static sun.security.pkcs11.wrapper.PKCS11Constants.*;
+import stbtic sun.security.pkcs11.wrbpper.PKCS11Constbnts.*;
 
 /**
- * This is the default implementation of the PKCS11 interface. IT connects to
- * the pkcs11wrapper.dll file, which is the native part of this library.
- * The strange and awkward looking initialization was chosen to avoid calling
- * loadLibrary from a static initialization block, because this would complicate
- * the use in applets.
+ * This is the defbult implementbtion of the PKCS11 interfbce. IT connects to
+ * the pkcs11wrbpper.dll file, which is the nbtive pbrt of this librbry.
+ * The strbnge bnd bwkwbrd looking initiblizbtion wbs chosen to bvoid cblling
+ * lobdLibrbry from b stbtic initiblizbtion block, becbuse this would complicbte
+ * the use in bpplets.
  *
- * @author Karl Scheibelhofer <Karl.Scheibelhofer@iaik.at>
- * @author Martin Schlaeffer <schlaeff@sbox.tugraz.at>
- * @invariants (pkcs11ModulePath_ <> null)
+ * @buthor Kbrl Scheibelhofer <Kbrl.Scheibelhofer@ibik.bt>
+ * @buthor Mbrtin Schlbeffer <schlbeff@sbox.tugrbz.bt>
+ * @invbribnts (pkcs11ModulePbth_ <> null)
  */
-public class PKCS11 {
+public clbss PKCS11 {
 
     /**
-     * The name of the native part of the wrapper; i.e. the filename without
+     * The nbme of the nbtive pbrt of the wrbpper; i.e. the filenbme without
      * the extension (e.g. ".DLL" or ".so").
      */
-    private static final String PKCS11_WRAPPER = "j2pkcs11";
+    privbte stbtic finbl String PKCS11_WRAPPER = "j2pkcs11";
 
-    static {
-        // cannot use LoadLibraryAction because that would make the native
-        // library available to the bootclassloader, but we run in the
-        // extension classloader.
+    stbtic {
+        // cbnnot use LobdLibrbryAction becbuse thbt would mbke the nbtive
+        // librbry bvbilbble to the bootclbsslobder, but we run in the
+        // extension clbsslobder.
         AccessController.doPrivileged(new PrivilegedAction<Object>() {
             public Object run() {
-                System.loadLibrary(PKCS11_WRAPPER);
+                System.lobdLibrbry(PKCS11_WRAPPER);
                 return null;
             }
         });
-        initializeLibrary();
+        initiblizeLibrbry();
     }
 
-    public static void loadNative() {
-        // dummy method that can be called to make sure the native
-        // portion has been loaded. actual loading happens in the
-        // static initializer, hence this method is empty.
+    public stbtic void lobdNbtive() {
+        // dummy method thbt cbn be cblled to mbke sure the nbtive
+        // portion hbs been lobded. bctubl lobding hbppens in the
+        // stbtic initiblizer, hence this method is empty.
     }
 
     /**
      * The PKCS#11 module to connect to. This is the PKCS#11 driver of the token;
      * e.g. pk2priv.dll.
      */
-    private final String pkcs11ModulePath;
+    privbte finbl String pkcs11ModulePbth;
 
-    private long pNativeData;
+    privbte long pNbtiveDbtb;
 
     /**
-     * This method does the initialization of the native library. It is called
-     * exactly once for this class.
+     * This method does the initiblizbtion of the nbtive librbry. It is cblled
+     * exbctly once for this clbss.
      *
      * @preconditions
      * @postconditions
      */
-    private static native void initializeLibrary();
+    privbte stbtic nbtive void initiblizeLibrbry();
 
     // XXX
     /**
-     * This method does the finalization of the native library. It is called
-     * exactly once for this class. The library uses this method for a clean-up
-     * of any resources.
+     * This method does the finblizbtion of the nbtive librbry. It is cblled
+     * exbctly once for this clbss. The librbry uses this method for b clebn-up
+     * of bny resources.
      *
      * @preconditions
      * @postconditions
      */
-    private static native void finalizeLibrary();
+    privbte stbtic nbtive void finblizeLibrbry();
 
-    private static final Map<String,PKCS11> moduleMap =
-        new HashMap<String,PKCS11>();
+    privbte stbtic finbl Mbp<String,PKCS11> moduleMbp =
+        new HbshMbp<String,PKCS11>();
 
     /**
-     * Connects to the PKCS#11 driver given. The filename must contain the
-     * path, if the driver is not in the system's search path.
+     * Connects to the PKCS#11 driver given. The filenbme must contbin the
+     * pbth, if the driver is not in the system's sebrch pbth.
      *
-     * @param pkcs11ModulePath the PKCS#11 library path
-     * @preconditions (pkcs11ModulePath <> null)
+     * @pbrbm pkcs11ModulePbth the PKCS#11 librbry pbth
+     * @preconditions (pkcs11ModulePbth <> null)
      * @postconditions
      */
-    PKCS11(String pkcs11ModulePath, String functionListName)
+    PKCS11(String pkcs11ModulePbth, String functionListNbme)
             throws IOException {
-        connect(pkcs11ModulePath, functionListName);
-        this.pkcs11ModulePath = pkcs11ModulePath;
+        connect(pkcs11ModulePbth, functionListNbme);
+        this.pkcs11ModulePbth = pkcs11ModulePbth;
     }
 
-    public static synchronized PKCS11 getInstance(String pkcs11ModulePath,
+    public stbtic synchronized PKCS11 getInstbnce(String pkcs11ModulePbth,
             String functionList, CK_C_INITIALIZE_ARGS pInitArgs,
-            boolean omitInitialize) throws IOException, PKCS11Exception {
-        // we may only call C_Initialize once per native .so/.dll
-        // so keep a cache using the (non-canonicalized!) path
-        PKCS11 pkcs11 = moduleMap.get(pkcs11ModulePath);
+            boolebn omitInitiblize) throws IOException, PKCS11Exception {
+        // we mby only cbll C_Initiblize once per nbtive .so/.dll
+        // so keep b cbche using the (non-cbnonicblized!) pbth
+        PKCS11 pkcs11 = moduleMbp.get(pkcs11ModulePbth);
         if (pkcs11 == null) {
             if ((pInitArgs != null)
-                    && ((pInitArgs.flags & CKF_OS_LOCKING_OK) != 0)) {
-                pkcs11 = new PKCS11(pkcs11ModulePath, functionList);
+                    && ((pInitArgs.flbgs & CKF_OS_LOCKING_OK) != 0)) {
+                pkcs11 = new PKCS11(pkcs11ModulePbth, functionList);
             } else {
-                pkcs11 = new SynchronizedPKCS11(pkcs11ModulePath, functionList);
+                pkcs11 = new SynchronizedPKCS11(pkcs11ModulePbth, functionList);
             }
-            if (omitInitialize == false) {
+            if (omitInitiblize == fblse) {
                 try {
-                    pkcs11.C_Initialize(pInitArgs);
-                } catch (PKCS11Exception e) {
-                    // ignore already-initialized error code
-                    // rethrow all other errors
+                    pkcs11.C_Initiblize(pInitArgs);
+                } cbtch (PKCS11Exception e) {
+                    // ignore blrebdy-initiblized error code
+                    // rethrow bll other errors
                     if (e.getErrorCode() != CKR_CRYPTOKI_ALREADY_INITIALIZED) {
                         throw e;
                     }
                 }
             }
-            moduleMap.put(pkcs11ModulePath, pkcs11);
+            moduleMbp.put(pkcs11ModulePbth, pkcs11);
         }
         return pkcs11;
     }
 
     /**
-     * Connects this object to the specified PKCS#11 library. This method is for
-     * internal use only.
-     * Declared private, because incorrect handling may result in errors in the
-     * native part.
+     * Connects this object to the specified PKCS#11 librbry. This method is for
+     * internbl use only.
+     * Declbred privbte, becbuse incorrect hbndling mby result in errors in the
+     * nbtive pbrt.
      *
-     * @param pkcs11ModulePath The PKCS#11 library path.
-     * @preconditions (pkcs11ModulePath <> null)
+     * @pbrbm pkcs11ModulePbth The PKCS#11 librbry pbth.
+     * @preconditions (pkcs11ModulePbth <> null)
      * @postconditions
      */
-    private native void connect(String pkcs11ModulePath, String functionListName)
+    privbte nbtive void connect(String pkcs11ModulePbth, String functionListNbme)
             throws IOException;
 
     /**
-     * Disconnects the PKCS#11 library from this object. After calling this
-     * method, this object is no longer connected to a native PKCS#11 module
-     * and any subsequent calls to C_ methods will fail. This method is for
-     * internal use only.
-     * Declared private, because incorrect handling may result in errors in the
-     * native part.
+     * Disconnects the PKCS#11 librbry from this object. After cblling this
+     * method, this object is no longer connected to b nbtive PKCS#11 module
+     * bnd bny subsequent cblls to C_ methods will fbil. This method is for
+     * internbl use only.
+     * Declbred privbte, becbuse incorrect hbndling mby result in errors in the
+     * nbtive pbrt.
      *
      * @preconditions
      * @postconditions
      */
-    private native void disconnect();
+    privbte nbtive void disconnect();
 
 
-    // Implementation of PKCS11 methods delegated to native pkcs11wrapper library
+    // Implementbtion of PKCS11 methods delegbted to nbtive pkcs11wrbpper librbry
 
 /* *****************************************************************************
- * General-purpose
+ * Generbl-purpose
  ******************************************************************************/
 
     /**
-     * C_Initialize initializes the Cryptoki library.
-     * (General-purpose)
+     * C_Initiblize initiblizes the Cryptoki librbry.
+     * (Generbl-purpose)
      *
-     * @param pInitArgs if pInitArgs is not NULL it gets casted to
-     *         CK_C_INITIALIZE_ARGS_PTR and dereferenced
-     *         (PKCS#11 param: CK_VOID_PTR pInitArgs)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
+     * @pbrbm pInitArgs if pInitArgs is not NULL it gets cbsted to
+     *         CK_C_INITIALIZE_ARGS_PTR bnd dereferenced
+     *         (PKCS#11 pbrbm: CK_VOID_PTR pInitArgs)
+     * @exception PKCS11Exception If function returns other vblue thbn CKR_OK.
      * @preconditions
      * @postconditions
      */
-    native void C_Initialize(Object pInitArgs) throws PKCS11Exception;
+    nbtive void C_Initiblize(Object pInitArgs) throws PKCS11Exception;
 
     /**
-     * C_Finalize indicates that an application is done with the
-     * Cryptoki library
-     * (General-purpose)
+     * C_Finblize indicbtes thbt bn bpplicbtion is done with the
+     * Cryptoki librbry
+     * (Generbl-purpose)
      *
-     * @param pReserved is reserved. Should be NULL_PTR
-     *         (PKCS#11 param: CK_VOID_PTR pReserved)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
+     * @pbrbm pReserved is reserved. Should be NULL_PTR
+     *         (PKCS#11 pbrbm: CK_VOID_PTR pReserved)
+     * @exception PKCS11Exception If function returns other vblue thbn CKR_OK.
      * @preconditions (pReserved == null)
      * @postconditions
      */
-    public native void C_Finalize(Object pReserved) throws PKCS11Exception;
+    public nbtive void C_Finblize(Object pReserved) throws PKCS11Exception;
 
 
     /**
-     * C_GetInfo returns general information about Cryptoki.
-     * (General-purpose)
+     * C_GetInfo returns generbl informbtion bbout Cryptoki.
+     * (Generbl-purpose)
      *
-     * @return the information.
-     *         (PKCS#11 param: CK_INFO_PTR pInfo)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
+     * @return the informbtion.
+     *         (PKCS#11 pbrbm: CK_INFO_PTR pInfo)
+     * @exception PKCS11Exception If function returns other vblue thbn CKR_OK.
      * @preconditions
      * @postconditions (result <> null)
      */
-    public native CK_INFO C_GetInfo() throws PKCS11Exception;
+    public nbtive CK_INFO C_GetInfo() throws PKCS11Exception;
 
 
 /* *****************************************************************************
- * Slot and token management
+ * Slot bnd token mbnbgement
  ******************************************************************************/
 
     /**
-     * C_GetSlotList obtains a list of slots in the system.
-     * (Slot and token management)
+     * C_GetSlotList obtbins b list of slots in the system.
+     * (Slot bnd token mbnbgement)
      *
-     * @param tokenPresent if true only Slot IDs with a token are returned
-     *         (PKCS#11 param: CK_BBOOL tokenPresent)
-     * @return a long array of slot IDs and number of Slot IDs
-     *         (PKCS#11 param: CK_SLOT_ID_PTR pSlotList, CK_ULONG_PTR pulCount)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
+     * @pbrbm tokenPresent if true only Slot IDs with b token bre returned
+     *         (PKCS#11 pbrbm: CK_BBOOL tokenPresent)
+     * @return b long brrby of slot IDs bnd number of Slot IDs
+     *         (PKCS#11 pbrbm: CK_SLOT_ID_PTR pSlotList, CK_ULONG_PTR pulCount)
+     * @exception PKCS11Exception If function returns other vblue thbn CKR_OK.
      * @preconditions
      * @postconditions (result <> null)
      */
-    public native long[] C_GetSlotList(boolean tokenPresent)
+    public nbtive long[] C_GetSlotList(boolebn tokenPresent)
             throws PKCS11Exception;
 
 
     /**
-     * C_GetSlotInfo obtains information about a particular slot in
+     * C_GetSlotInfo obtbins informbtion bbout b pbrticulbr slot in
      * the system.
-     * (Slot and token management)
+     * (Slot bnd token mbnbgement)
      *
-     * @param slotID the ID of the slot
-     *         (PKCS#11 param: CK_SLOT_ID slotID)
-     * @return the slot information
-     *         (PKCS#11 param: CK_SLOT_INFO_PTR pInfo)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
+     * @pbrbm slotID the ID of the slot
+     *         (PKCS#11 pbrbm: CK_SLOT_ID slotID)
+     * @return the slot informbtion
+     *         (PKCS#11 pbrbm: CK_SLOT_INFO_PTR pInfo)
+     * @exception PKCS11Exception If function returns other vblue thbn CKR_OK.
      * @preconditions
      * @postconditions (result <> null)
      */
-    public native CK_SLOT_INFO C_GetSlotInfo(long slotID) throws PKCS11Exception;
+    public nbtive CK_SLOT_INFO C_GetSlotInfo(long slotID) throws PKCS11Exception;
 
 
     /**
-     * C_GetTokenInfo obtains information about a particular token
+     * C_GetTokenInfo obtbins informbtion bbout b pbrticulbr token
      * in the system.
-     * (Slot and token management)
+     * (Slot bnd token mbnbgement)
      *
-     * @param slotID ID of the token's slot
-     *         (PKCS#11 param: CK_SLOT_ID slotID)
-     * @return the token information
-     *         (PKCS#11 param: CK_TOKEN_INFO_PTR pInfo)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
+     * @pbrbm slotID ID of the token's slot
+     *         (PKCS#11 pbrbm: CK_SLOT_ID slotID)
+     * @return the token informbtion
+     *         (PKCS#11 pbrbm: CK_TOKEN_INFO_PTR pInfo)
+     * @exception PKCS11Exception If function returns other vblue thbn CKR_OK.
      * @preconditions
      * @postconditions (result <> null)
      */
-    public native CK_TOKEN_INFO C_GetTokenInfo(long slotID)
+    public nbtive CK_TOKEN_INFO C_GetTokenInfo(long slotID)
             throws PKCS11Exception;
 
 
     /**
-     * C_GetMechanismList obtains a list of mechanism types
-     * supported by a token.
-     * (Slot and token management)
+     * C_GetMechbnismList obtbins b list of mechbnism types
+     * supported by b token.
+     * (Slot bnd token mbnbgement)
      *
-     * @param slotID ID of the token's slot
-     *         (PKCS#11 param: CK_SLOT_ID slotID)
-     * @return a long array of mechanism types and number of mechanism types
-     *         (PKCS#11 param: CK_MECHANISM_TYPE_PTR pMechanismList,
+     * @pbrbm slotID ID of the token's slot
+     *         (PKCS#11 pbrbm: CK_SLOT_ID slotID)
+     * @return b long brrby of mechbnism types bnd number of mechbnism types
+     *         (PKCS#11 pbrbm: CK_MECHANISM_TYPE_PTR pMechbnismList,
      *                         CK_ULONG_PTR pulCount)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
+     * @exception PKCS11Exception If function returns other vblue thbn CKR_OK.
      * @preconditions
      * @postconditions (result <> null)
      */
-    public native long[] C_GetMechanismList(long slotID) throws PKCS11Exception;
+    public nbtive long[] C_GetMechbnismList(long slotID) throws PKCS11Exception;
 
 
     /**
-     * C_GetMechanismInfo obtains information about a particular
-     * mechanism possibly supported by a token.
-     * (Slot and token management)
+     * C_GetMechbnismInfo obtbins informbtion bbout b pbrticulbr
+     * mechbnism possibly supported by b token.
+     * (Slot bnd token mbnbgement)
      *
-     * @param slotID ID of the token's slot
-     *         (PKCS#11 param: CK_SLOT_ID slotID)
-     * @param type type of mechanism
-     *         (PKCS#11 param: CK_MECHANISM_TYPE type)
-     * @return the mechanism info
-     *         (PKCS#11 param: CK_MECHANISM_INFO_PTR pInfo)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
+     * @pbrbm slotID ID of the token's slot
+     *         (PKCS#11 pbrbm: CK_SLOT_ID slotID)
+     * @pbrbm type type of mechbnism
+     *         (PKCS#11 pbrbm: CK_MECHANISM_TYPE type)
+     * @return the mechbnism info
+     *         (PKCS#11 pbrbm: CK_MECHANISM_INFO_PTR pInfo)
+     * @exception PKCS11Exception If function returns other vblue thbn CKR_OK.
      * @preconditions
      * @postconditions (result <> null)
      */
-    public native CK_MECHANISM_INFO C_GetMechanismInfo(long slotID, long type)
+    public nbtive CK_MECHANISM_INFO C_GetMechbnismInfo(long slotID, long type)
             throws PKCS11Exception;
 
 
     /**
-     * C_InitToken initializes a token.
-     * (Slot and token management)
+     * C_InitToken initiblizes b token.
+     * (Slot bnd token mbnbgement)
      *
-     * @param slotID ID of the token's slot
-     *         (PKCS#11 param: CK_SLOT_ID slotID)
-     * @param pPin the SO's initial PIN and the length in bytes of the PIN
-     *         (PKCS#11 param: CK_CHAR_PTR pPin, CK_ULONG ulPinLen)
-     * @param pLabel 32-byte token label (blank padded)
-     *         (PKCS#11 param: CK_UTF8CHAR_PTR pLabel)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
+     * @pbrbm slotID ID of the token's slot
+     *         (PKCS#11 pbrbm: CK_SLOT_ID slotID)
+     * @pbrbm pPin the SO's initibl PIN bnd the length in bytes of the PIN
+     *         (PKCS#11 pbrbm: CK_CHAR_PTR pPin, CK_ULONG ulPinLen)
+     * @pbrbm pLbbel 32-byte token lbbel (blbnk pbdded)
+     *         (PKCS#11 pbrbm: CK_UTF8CHAR_PTR pLbbel)
+     * @exception PKCS11Exception If function returns other vblue thbn CKR_OK.
      * @preconditions
      * @postconditions
      */
-//    public native void C_InitToken(long slotID, char[] pPin, char[] pLabel)
+//    public nbtive void C_InitToken(long slotID, chbr[] pPin, chbr[] pLbbel)
 //            throws PKCS11Exception;
 
 
     /**
-     * C_InitPIN initializes the normal user's PIN.
-     * (Slot and token management)
+     * C_InitPIN initiblizes the normbl user's PIN.
+     * (Slot bnd token mbnbgement)
      *
-     * @param hSession the session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @param pPin the normal user's PIN and the length in bytes of the PIN
-     *         (PKCS#11 param: CK_CHAR_PTR pPin, CK_ULONG ulPinLen)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
+     * @pbrbm hSession the session's hbndle
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSession)
+     * @pbrbm pPin the normbl user's PIN bnd the length in bytes of the PIN
+     *         (PKCS#11 pbrbm: CK_CHAR_PTR pPin, CK_ULONG ulPinLen)
+     * @exception PKCS11Exception If function returns other vblue thbn CKR_OK.
      * @preconditions
      * @postconditions
      */
-//    public native void C_InitPIN(long hSession, char[] pPin)
+//    public nbtive void C_InitPIN(long hSession, chbr[] pPin)
 //            throws PKCS11Exception;
 
 
     /**
      * C_SetPIN modifies the PIN of the user who is logged in.
-     * (Slot and token management)
+     * (Slot bnd token mbnbgement)
      *
-     * @param hSession the session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @param pOldPin the old PIN and the length of the old PIN
-     *         (PKCS#11 param: CK_CHAR_PTR pOldPin, CK_ULONG ulOldLen)
-     * @param pNewPin the new PIN and the length of the new PIN
-     *         (PKCS#11 param: CK_CHAR_PTR pNewPin, CK_ULONG ulNewLen)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
+     * @pbrbm hSession the session's hbndle
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSession)
+     * @pbrbm pOldPin the old PIN bnd the length of the old PIN
+     *         (PKCS#11 pbrbm: CK_CHAR_PTR pOldPin, CK_ULONG ulOldLen)
+     * @pbrbm pNewPin the new PIN bnd the length of the new PIN
+     *         (PKCS#11 pbrbm: CK_CHAR_PTR pNewPin, CK_ULONG ulNewLen)
+     * @exception PKCS11Exception If function returns other vblue thbn CKR_OK.
      * @preconditions
      * @postconditions
      */
-//    public native void C_SetPIN(long hSession, char[] pOldPin, char[] pNewPin)
+//    public nbtive void C_SetPIN(long hSession, chbr[] pOldPin, chbr[] pNewPin)
 //            throws PKCS11Exception;
 
 
 
 /* *****************************************************************************
- * Session management
+ * Session mbnbgement
  ******************************************************************************/
 
     /**
-     * C_OpenSession opens a session between an application and a
+     * C_OpenSession opens b session between bn bpplicbtion bnd b
      * token.
-     * (Session management)
+     * (Session mbnbgement)
      *
-     * @param slotID the slot's ID
-     *         (PKCS#11 param: CK_SLOT_ID slotID)
-     * @param flags of CK_SESSION_INFO
-     *         (PKCS#11 param: CK_FLAGS flags)
-     * @param pApplication passed to callback
-     *         (PKCS#11 param: CK_VOID_PTR pApplication)
-     * @param Notify the callback function
-     *         (PKCS#11 param: CK_NOTIFY Notify)
-     * @return the session handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE_PTR phSession)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
+     * @pbrbm slotID the slot's ID
+     *         (PKCS#11 pbrbm: CK_SLOT_ID slotID)
+     * @pbrbm flbgs of CK_SESSION_INFO
+     *         (PKCS#11 pbrbm: CK_FLAGS flbgs)
+     * @pbrbm pApplicbtion pbssed to cbllbbck
+     *         (PKCS#11 pbrbm: CK_VOID_PTR pApplicbtion)
+     * @pbrbm Notify the cbllbbck function
+     *         (PKCS#11 pbrbm: CK_NOTIFY Notify)
+     * @return the session hbndle
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE_PTR phSession)
+     * @exception PKCS11Exception If function returns other vblue thbn CKR_OK.
      * @preconditions
      * @postconditions
      */
-    public native long C_OpenSession(long slotID, long flags,
-            Object pApplication, CK_NOTIFY Notify) throws PKCS11Exception;
+    public nbtive long C_OpenSession(long slotID, long flbgs,
+            Object pApplicbtion, CK_NOTIFY Notify) throws PKCS11Exception;
 
 
     /**
-     * C_CloseSession closes a session between an application and a
+     * C_CloseSession closes b session between bn bpplicbtion bnd b
      * token.
-     * (Session management)
+     * (Session mbnbgement)
      *
-     * @param hSession the session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
+     * @pbrbm hSession the session's hbndle
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSession)
+     * @exception PKCS11Exception If function returns other vblue thbn CKR_OK.
      * @preconditions
      * @postconditions
      */
-    public native void C_CloseSession(long hSession) throws PKCS11Exception;
+    public nbtive void C_CloseSession(long hSession) throws PKCS11Exception;
 
 
     /**
-     * C_CloseAllSessions closes all sessions with a token.
-     * (Session management)
+     * C_CloseAllSessions closes bll sessions with b token.
+     * (Session mbnbgement)
      *
-     * @param slotID the ID of the token's slot
-     *         (PKCS#11 param: CK_SLOT_ID slotID)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
+     * @pbrbm slotID the ID of the token's slot
+     *         (PKCS#11 pbrbm: CK_SLOT_ID slotID)
+     * @exception PKCS11Exception If function returns other vblue thbn CKR_OK.
      * @preconditions
      * @postconditions
      */
-//    public native void C_CloseAllSessions(long slotID) throws PKCS11Exception;
+//    public nbtive void C_CloseAllSessions(long slotID) throws PKCS11Exception;
 
 
     /**
-     * C_GetSessionInfo obtains information about the session.
-     * (Session management)
+     * C_GetSessionInfo obtbins informbtion bbout the session.
+     * (Session mbnbgement)
      *
-     * @param hSession the session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
+     * @pbrbm hSession the session's hbndle
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSession)
      * @return the session info
-     *         (PKCS#11 param: CK_SESSION_INFO_PTR pInfo)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
+     *         (PKCS#11 pbrbm: CK_SESSION_INFO_PTR pInfo)
+     * @exception PKCS11Exception If function returns other vblue thbn CKR_OK.
      * @preconditions
      * @postconditions (result <> null)
      */
-    public native CK_SESSION_INFO C_GetSessionInfo(long hSession)
+    public nbtive CK_SESSION_INFO C_GetSessionInfo(long hSession)
             throws PKCS11Exception;
 
 
     /**
-     * C_GetOperationState obtains the state of the cryptographic operation
-     * in a session.
-     * (Session management)
+     * C_GetOperbtionStbte obtbins the stbte of the cryptogrbphic operbtion
+     * in b session.
+     * (Session mbnbgement)
      *
-     * @param hSession session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @return the state and the state length
-     *         (PKCS#11 param: CK_BYTE_PTR pOperationState,
-     *                         CK_ULONG_PTR pulOperationStateLen)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
+     * @pbrbm hSession session's hbndle
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSession)
+     * @return the stbte bnd the stbte length
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pOperbtionStbte,
+     *                         CK_ULONG_PTR pulOperbtionStbteLen)
+     * @exception PKCS11Exception If function returns other vblue thbn CKR_OK.
      * @preconditions
      * @postconditions (result <> null)
      */
-    public native byte[] C_GetOperationState(long hSession)
+    public nbtive byte[] C_GetOperbtionStbte(long hSession)
             throws PKCS11Exception;
 
 
     /**
-     * C_SetOperationState restores the state of the cryptographic
-     * operation in a session.
-     * (Session management)
+     * C_SetOperbtionStbte restores the stbte of the cryptogrbphic
+     * operbtion in b session.
+     * (Session mbnbgement)
      *
-     * @param hSession session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @param pOperationState the state and the state length
-     *         (PKCS#11 param: CK_BYTE_PTR pOperationState,
-     *                         CK_ULONG ulOperationStateLen)
-     * @param hEncryptionKey en/decryption key
-     *         (PKCS#11 param: CK_OBJECT_HANDLE hEncryptionKey)
-     * @param hAuthenticationKey sign/verify key
-     *         (PKCS#11 param: CK_OBJECT_HANDLE hAuthenticationKey)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
+     * @pbrbm hSession session's hbndle
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSession)
+     * @pbrbm pOperbtionStbte the stbte bnd the stbte length
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pOperbtionStbte,
+     *                         CK_ULONG ulOperbtionStbteLen)
+     * @pbrbm hEncryptionKey en/decryption key
+     *         (PKCS#11 pbrbm: CK_OBJECT_HANDLE hEncryptionKey)
+     * @pbrbm hAuthenticbtionKey sign/verify key
+     *         (PKCS#11 pbrbm: CK_OBJECT_HANDLE hAuthenticbtionKey)
+     * @exception PKCS11Exception If function returns other vblue thbn CKR_OK.
      * @preconditions
      * @postconditions
      */
-    public native void C_SetOperationState(long hSession, byte[] pOperationState,
-            long hEncryptionKey, long hAuthenticationKey) throws PKCS11Exception;
+    public nbtive void C_SetOperbtionStbte(long hSession, byte[] pOperbtionStbte,
+            long hEncryptionKey, long hAuthenticbtionKey) throws PKCS11Exception;
 
 
     /**
-     * C_Login logs a user into a token.
-     * (Session management)
+     * C_Login logs b user into b token.
+     * (Session mbnbgement)
      *
-     * @param hSession the session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @param userType the user type
-     *         (PKCS#11 param: CK_USER_TYPE userType)
-     * @param pPin the user's PIN and the length of the PIN
-     *         (PKCS#11 param: CK_CHAR_PTR pPin, CK_ULONG ulPinLen)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
+     * @pbrbm hSession the session's hbndle
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSession)
+     * @pbrbm userType the user type
+     *         (PKCS#11 pbrbm: CK_USER_TYPE userType)
+     * @pbrbm pPin the user's PIN bnd the length of the PIN
+     *         (PKCS#11 pbrbm: CK_CHAR_PTR pPin, CK_ULONG ulPinLen)
+     * @exception PKCS11Exception If function returns other vblue thbn CKR_OK.
      * @preconditions
      * @postconditions
      */
-    public native void C_Login(long hSession, long userType, char[] pPin)
+    public nbtive void C_Login(long hSession, long userType, chbr[] pPin)
             throws PKCS11Exception;
 
 
     /**
-     * C_Logout logs a user out from a token.
-     * (Session management)
+     * C_Logout logs b user out from b token.
+     * (Session mbnbgement)
      *
-     * @param hSession the session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
+     * @pbrbm hSession the session's hbndle
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSession)
+     * @exception PKCS11Exception If function returns other vblue thbn CKR_OK.
      * @preconditions
      * @postconditions
      */
-    public native void C_Logout(long hSession) throws PKCS11Exception;
+    public nbtive void C_Logout(long hSession) throws PKCS11Exception;
 
 
 
 /* *****************************************************************************
- * Object management
+ * Object mbnbgement
  ******************************************************************************/
 
     /**
-     * C_CreateObject creates a new object.
-     * (Object management)
+     * C_CrebteObject crebtes b new object.
+     * (Object mbnbgement)
      *
-     * @param hSession the session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @param pTemplate the object's template and number of attributes in
-     *         template
-     *         (PKCS#11 param: CK_ATTRIBUTE_PTR pTemplate, CK_ULONG ulCount)
-     * @return the object's handle
-     *         (PKCS#11 param: CK_OBJECT_HANDLE_PTR phObject)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
+     * @pbrbm hSession the session's hbndle
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSession)
+     * @pbrbm pTemplbte the object's templbte bnd number of bttributes in
+     *         templbte
+     *         (PKCS#11 pbrbm: CK_ATTRIBUTE_PTR pTemplbte, CK_ULONG ulCount)
+     * @return the object's hbndle
+     *         (PKCS#11 pbrbm: CK_OBJECT_HANDLE_PTR phObject)
+     * @exception PKCS11Exception If function returns other vblue thbn CKR_OK.
      * @preconditions
      * @postconditions
      */
-    public native long C_CreateObject(long hSession, CK_ATTRIBUTE[] pTemplate)
+    public nbtive long C_CrebteObject(long hSession, CK_ATTRIBUTE[] pTemplbte)
             throws PKCS11Exception;
 
 
     /**
-     * C_CopyObject copies an object, creating a new object for the
+     * C_CopyObject copies bn object, crebting b new object for the
      * copy.
-     * (Object management)
+     * (Object mbnbgement)
      *
-     * @param hSession the session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @param hObject the object's handle
-     *         (PKCS#11 param: CK_OBJECT_HANDLE hObject)
-     * @param pTemplate the template for the new object and number of attributes
-     *         in template
-     *         (PKCS#11 param: CK_ATTRIBUTE_PTR pTemplate, CK_ULONG ulCount)
-     * @return the handle of the copy
-     *         (PKCS#11 param: CK_OBJECT_HANDLE_PTR phNewObject)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
+     * @pbrbm hSession the session's hbndle
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSession)
+     * @pbrbm hObject the object's hbndle
+     *         (PKCS#11 pbrbm: CK_OBJECT_HANDLE hObject)
+     * @pbrbm pTemplbte the templbte for the new object bnd number of bttributes
+     *         in templbte
+     *         (PKCS#11 pbrbm: CK_ATTRIBUTE_PTR pTemplbte, CK_ULONG ulCount)
+     * @return the hbndle of the copy
+     *         (PKCS#11 pbrbm: CK_OBJECT_HANDLE_PTR phNewObject)
+     * @exception PKCS11Exception If function returns other vblue thbn CKR_OK.
      * @preconditions
      * @postconditions
      */
-    public native long C_CopyObject(long hSession, long hObject,
-            CK_ATTRIBUTE[] pTemplate) throws PKCS11Exception;
+    public nbtive long C_CopyObject(long hSession, long hObject,
+            CK_ATTRIBUTE[] pTemplbte) throws PKCS11Exception;
 
 
     /**
-     * C_DestroyObject destroys an object.
-     * (Object management)
+     * C_DestroyObject destroys bn object.
+     * (Object mbnbgement)
      *
-     * @param hSession the session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @param hObject the object's handle
-     *         (PKCS#11 param: CK_OBJECT_HANDLE hObject)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
+     * @pbrbm hSession the session's hbndle
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSession)
+     * @pbrbm hObject the object's hbndle
+     *         (PKCS#11 pbrbm: CK_OBJECT_HANDLE hObject)
+     * @exception PKCS11Exception If function returns other vblue thbn CKR_OK.
      * @preconditions
      * @postconditions
      */
-    public native void C_DestroyObject(long hSession, long hObject)
+    public nbtive void C_DestroyObject(long hSession, long hObject)
             throws PKCS11Exception;
 
 
     /**
-     * C_GetObjectSize gets the size of an object in bytes.
-     * (Object management)
+     * C_GetObjectSize gets the size of bn object in bytes.
+     * (Object mbnbgement)
      *
-     * @param hSession the session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @param hObject the object's handle
-     *         (PKCS#11 param: CK_OBJECT_HANDLE hObject)
+     * @pbrbm hSession the session's hbndle
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSession)
+     * @pbrbm hObject the object's hbndle
+     *         (PKCS#11 pbrbm: CK_OBJECT_HANDLE hObject)
      * @return the size of the object
-     *         (PKCS#11 param: CK_ULONG_PTR pulSize)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
+     *         (PKCS#11 pbrbm: CK_ULONG_PTR pulSize)
+     * @exception PKCS11Exception If function returns other vblue thbn CKR_OK.
      * @preconditions
      * @postconditions
      */
-//    public native long C_GetObjectSize(long hSession, long hObject)
+//    public nbtive long C_GetObjectSize(long hSession, long hObject)
 //            throws PKCS11Exception;
 
 
     /**
-     * C_GetAttributeValue obtains the value of one or more object
-     * attributes. The template attributes also receive the values.
-     * (Object management)
-     * note: in PKCS#11 pTemplate and the result template are the same
+     * C_GetAttributeVblue obtbins the vblue of one or more object
+     * bttributes. The templbte bttributes blso receive the vblues.
+     * (Object mbnbgement)
+     * note: in PKCS#11 pTemplbte bnd the result templbte bre the sbme
      *
-     * @param hSession the session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @param hObject the object's handle
-     *         (PKCS#11 param: CK_OBJECT_HANDLE hObject)
-     * @param pTemplate specifies the attributes and number of attributes to get
-     *                  The template attributes also receive the values.
-     *         (PKCS#11 param: CK_ATTRIBUTE_PTR pTemplate, CK_ULONG ulCount)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
-     * @preconditions (pTemplate <> null)
+     * @pbrbm hSession the session's hbndle
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSession)
+     * @pbrbm hObject the object's hbndle
+     *         (PKCS#11 pbrbm: CK_OBJECT_HANDLE hObject)
+     * @pbrbm pTemplbte specifies the bttributes bnd number of bttributes to get
+     *                  The templbte bttributes blso receive the vblues.
+     *         (PKCS#11 pbrbm: CK_ATTRIBUTE_PTR pTemplbte, CK_ULONG ulCount)
+     * @exception PKCS11Exception If function returns other vblue thbn CKR_OK.
+     * @preconditions (pTemplbte <> null)
      * @postconditions (result <> null)
      */
-    public native void C_GetAttributeValue(long hSession, long hObject,
-            CK_ATTRIBUTE[] pTemplate) throws PKCS11Exception;
+    public nbtive void C_GetAttributeVblue(long hSession, long hObject,
+            CK_ATTRIBUTE[] pTemplbte) throws PKCS11Exception;
 
 
     /**
-     * C_SetAttributeValue modifies the value of one or more object
-     * attributes
-     * (Object management)
+     * C_SetAttributeVblue modifies the vblue of one or more object
+     * bttributes
+     * (Object mbnbgement)
      *
-     * @param hSession the session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @param hObject the object's handle
-     *         (PKCS#11 param: CK_OBJECT_HANDLE hObject)
-     * @param pTemplate specifies the attributes and values to get; number of
-     *         attributes in the template
-     *         (PKCS#11 param: CK_ATTRIBUTE_PTR pTemplate, CK_ULONG ulCount)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
-     * @preconditions (pTemplate <> null)
+     * @pbrbm hSession the session's hbndle
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSession)
+     * @pbrbm hObject the object's hbndle
+     *         (PKCS#11 pbrbm: CK_OBJECT_HANDLE hObject)
+     * @pbrbm pTemplbte specifies the bttributes bnd vblues to get; number of
+     *         bttributes in the templbte
+     *         (PKCS#11 pbrbm: CK_ATTRIBUTE_PTR pTemplbte, CK_ULONG ulCount)
+     * @exception PKCS11Exception If function returns other vblue thbn CKR_OK.
+     * @preconditions (pTemplbte <> null)
      * @postconditions
      */
-    public native void C_SetAttributeValue(long hSession, long hObject,
-            CK_ATTRIBUTE[] pTemplate) throws PKCS11Exception;
+    public nbtive void C_SetAttributeVblue(long hSession, long hObject,
+            CK_ATTRIBUTE[] pTemplbte) throws PKCS11Exception;
 
 
     /**
-     * C_FindObjectsInit initializes a search for token and session
-     * objects that match a template.
-     * (Object management)
+     * C_FindObjectsInit initiblizes b sebrch for token bnd session
+     * objects thbt mbtch b templbte.
+     * (Object mbnbgement)
      *
-     * @param hSession the session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @param pTemplate the object's attribute values to match and the number of
-     *         attributes in search template
-     *         (PKCS#11 param: CK_ATTRIBUTE_PTR pTemplate, CK_ULONG ulCount)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
+     * @pbrbm hSession the session's hbndle
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSession)
+     * @pbrbm pTemplbte the object's bttribute vblues to mbtch bnd the number of
+     *         bttributes in sebrch templbte
+     *         (PKCS#11 pbrbm: CK_ATTRIBUTE_PTR pTemplbte, CK_ULONG ulCount)
+     * @exception PKCS11Exception If function returns other vblue thbn CKR_OK.
      * @preconditions
      * @postconditions
      */
-    public native void C_FindObjectsInit(long hSession, CK_ATTRIBUTE[] pTemplate)
+    public nbtive void C_FindObjectsInit(long hSession, CK_ATTRIBUTE[] pTemplbte)
             throws PKCS11Exception;
 
 
     /**
-     * C_FindObjects continues a search for token and session
-     * objects that match a template, obtaining additional object
-     * handles.
-     * (Object management)
+     * C_FindObjects continues b sebrch for token bnd session
+     * objects thbt mbtch b templbte, obtbining bdditionbl object
+     * hbndles.
+     * (Object mbnbgement)
      *
-     * @param hSession the session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @param ulMaxObjectCount the max. object handles to get
-     *         (PKCS#11 param: CK_ULONG ulMaxObjectCount)
-     * @return the object's handles and the actual number of objects returned
-     *         (PKCS#11 param: CK_ULONG_PTR pulObjectCount)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
+     * @pbrbm hSession the session's hbndle
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSession)
+     * @pbrbm ulMbxObjectCount the mbx. object hbndles to get
+     *         (PKCS#11 pbrbm: CK_ULONG ulMbxObjectCount)
+     * @return the object's hbndles bnd the bctubl number of objects returned
+     *         (PKCS#11 pbrbm: CK_ULONG_PTR pulObjectCount)
+     * @exception PKCS11Exception If function returns other vblue thbn CKR_OK.
      * @preconditions
      * @postconditions (result <> null)
      */
-    public native long[] C_FindObjects(long hSession, long ulMaxObjectCount)
+    public nbtive long[] C_FindObjects(long hSession, long ulMbxObjectCount)
             throws PKCS11Exception;
 
 
     /**
-     * C_FindObjectsFinal finishes a search for token and session
+     * C_FindObjectsFinbl finishes b sebrch for token bnd session
      * objects.
-     * (Object management)
+     * (Object mbnbgement)
      *
-     * @param hSession the session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
+     * @pbrbm hSession the session's hbndle
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSession)
+     * @exception PKCS11Exception If function returns other vblue thbn CKR_OK.
      * @preconditions
      * @postconditions
      */
-    public native void C_FindObjectsFinal(long hSession) throws PKCS11Exception;
+    public nbtive void C_FindObjectsFinbl(long hSession) throws PKCS11Exception;
 
 
 
 /* *****************************************************************************
- * Encryption and decryption
+ * Encryption bnd decryption
  ******************************************************************************/
 
     /**
-     * C_EncryptInit initializes an encryption operation.
-     * (Encryption and decryption)
+     * C_EncryptInit initiblizes bn encryption operbtion.
+     * (Encryption bnd decryption)
      *
-     * @param hSession the session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @param pMechanism the encryption mechanism
-     *         (PKCS#11 param: CK_MECHANISM_PTR pMechanism)
-     * @param hKey the handle of the encryption key
-     *         (PKCS#11 param: CK_OBJECT_HANDLE hKey)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
+     * @pbrbm hSession the session's hbndle
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSession)
+     * @pbrbm pMechbnism the encryption mechbnism
+     *         (PKCS#11 pbrbm: CK_MECHANISM_PTR pMechbnism)
+     * @pbrbm hKey the hbndle of the encryption key
+     *         (PKCS#11 pbrbm: CK_OBJECT_HANDLE hKey)
+     * @exception PKCS11Exception If function returns other vblue thbn CKR_OK.
      * @preconditions
      * @postconditions
      */
-    public native void C_EncryptInit(long hSession, CK_MECHANISM pMechanism,
+    public nbtive void C_EncryptInit(long hSession, CK_MECHANISM pMechbnism,
             long hKey) throws PKCS11Exception;
 
 
     /**
-     * C_Encrypt encrypts single-part data.
-     * (Encryption and decryption)
+     * C_Encrypt encrypts single-pbrt dbtb.
+     * (Encryption bnd decryption)
      *
-     * @param hSession the session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @param pData the data to get encrypted and the data's length
-     *         (PKCS#11 param: CK_BYTE_PTR pData, CK_ULONG ulDataLen)
-     * @return the encrypted data and the encrypted data's length
-     *         (PKCS#11 param: CK_BYTE_PTR pEncryptedData,
-     *                         CK_ULONG_PTR pulEncryptedDataLen)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
-     * @preconditions (pData <> null)
+     * @pbrbm hSession the session's hbndle
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSession)
+     * @pbrbm pDbtb the dbtb to get encrypted bnd the dbtb's length
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pDbtb, CK_ULONG ulDbtbLen)
+     * @return the encrypted dbtb bnd the encrypted dbtb's length
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pEncryptedDbtb,
+     *                         CK_ULONG_PTR pulEncryptedDbtbLen)
+     * @exception PKCS11Exception If function returns other vblue thbn CKR_OK.
+     * @preconditions (pDbtb <> null)
      * @postconditions (result <> null)
      */
-    public native int C_Encrypt(long hSession, byte[] in, int inOfs, int inLen,
+    public nbtive int C_Encrypt(long hSession, byte[] in, int inOfs, int inLen,
             byte[] out, int outOfs, int outLen) throws PKCS11Exception;
 
 
     /**
-     * C_EncryptUpdate continues a multiple-part encryption
-     * operation.
-     * (Encryption and decryption)
+     * C_EncryptUpdbte continues b multiple-pbrt encryption
+     * operbtion.
+     * (Encryption bnd decryption)
      *
-     * @param hSession the session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @param pPart the data part to get encrypted and the data part's length
-     *         (PKCS#11 param: CK_BYTE_PTR pPart, CK_ULONG ulPartLen)
-     * @return the encrypted data part and the encrypted data part's length
-     *         (PKCS#11 param: CK_BYTE_PTR pEncryptedPart,
-                             CK_ULONG_PTR pulEncryptedPartLen)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
-     * @preconditions (pPart <> null)
+     * @pbrbm hSession the session's hbndle
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSession)
+     * @pbrbm pPbrt the dbtb pbrt to get encrypted bnd the dbtb pbrt's length
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pPbrt, CK_ULONG ulPbrtLen)
+     * @return the encrypted dbtb pbrt bnd the encrypted dbtb pbrt's length
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pEncryptedPbrt,
+                             CK_ULONG_PTR pulEncryptedPbrtLen)
+     * @exception PKCS11Exception If function returns other vblue thbn CKR_OK.
+     * @preconditions (pPbrt <> null)
      * @postconditions
      */
-    public native int C_EncryptUpdate(long hSession, long directIn, byte[] in,
+    public nbtive int C_EncryptUpdbte(long hSession, long directIn, byte[] in,
             int inOfs, int inLen, long directOut, byte[] out, int outOfs,
             int outLen) throws PKCS11Exception;
 
 
     /**
-     * C_EncryptFinal finishes a multiple-part encryption
-     * operation.
-     * (Encryption and decryption)
+     * C_EncryptFinbl finishes b multiple-pbrt encryption
+     * operbtion.
+     * (Encryption bnd decryption)
      *
-     * @param hSession the session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @return the last encrypted data part and the last data part's length
-     *         (PKCS#11 param: CK_BYTE_PTR pLastEncryptedPart,
-                             CK_ULONG_PTR pulLastEncryptedPartLen)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
+     * @pbrbm hSession the session's hbndle
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSession)
+     * @return the lbst encrypted dbtb pbrt bnd the lbst dbtb pbrt's length
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pLbstEncryptedPbrt,
+                             CK_ULONG_PTR pulLbstEncryptedPbrtLen)
+     * @exception PKCS11Exception If function returns other vblue thbn CKR_OK.
      * @preconditions
      * @postconditions (result <> null)
      */
-    public native int C_EncryptFinal(long hSession, long directOut, byte[] out,
+    public nbtive int C_EncryptFinbl(long hSession, long directOut, byte[] out,
             int outOfs, int outLen) throws PKCS11Exception;
 
 
     /**
-     * C_DecryptInit initializes a decryption operation.
-     * (Encryption and decryption)
+     * C_DecryptInit initiblizes b decryption operbtion.
+     * (Encryption bnd decryption)
      *
-     * @param hSession the session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @param pMechanism the decryption mechanism
-     *         (PKCS#11 param: CK_MECHANISM_PTR pMechanism)
-     * @param hKey the handle of the decryption key
-     *         (PKCS#11 param: CK_OBJECT_HANDLE hKey)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
+     * @pbrbm hSession the session's hbndle
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSession)
+     * @pbrbm pMechbnism the decryption mechbnism
+     *         (PKCS#11 pbrbm: CK_MECHANISM_PTR pMechbnism)
+     * @pbrbm hKey the hbndle of the decryption key
+     *         (PKCS#11 pbrbm: CK_OBJECT_HANDLE hKey)
+     * @exception PKCS11Exception If function returns other vblue thbn CKR_OK.
      * @preconditions
      * @postconditions
      */
-    public native void C_DecryptInit(long hSession, CK_MECHANISM pMechanism,
+    public nbtive void C_DecryptInit(long hSession, CK_MECHANISM pMechbnism,
             long hKey) throws PKCS11Exception;
 
 
     /**
-     * C_Decrypt decrypts encrypted data in a single part.
-     * (Encryption and decryption)
+     * C_Decrypt decrypts encrypted dbtb in b single pbrt.
+     * (Encryption bnd decryption)
      *
-     * @param hSession the session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @param pEncryptedData the encrypted data to get decrypted and the
-     *         encrypted data's length
-     *         (PKCS#11 param: CK_BYTE_PTR pEncryptedData,
-     *                         CK_ULONG ulEncryptedDataLen)
-     * @return the decrypted data and the data's length
-     *         (PKCS#11 param: CK_BYTE_PTR pData, CK_ULONG_PTR pulDataLen)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
-     * @preconditions (pEncryptedPart <> null)
+     * @pbrbm hSession the session's hbndle
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSession)
+     * @pbrbm pEncryptedDbtb the encrypted dbtb to get decrypted bnd the
+     *         encrypted dbtb's length
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pEncryptedDbtb,
+     *                         CK_ULONG ulEncryptedDbtbLen)
+     * @return the decrypted dbtb bnd the dbtb's length
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pDbtb, CK_ULONG_PTR pulDbtbLen)
+     * @exception PKCS11Exception If function returns other vblue thbn CKR_OK.
+     * @preconditions (pEncryptedPbrt <> null)
      * @postconditions (result <> null)
      */
-    public native int C_Decrypt(long hSession, byte[] in, int inOfs, int inLen,
+    public nbtive int C_Decrypt(long hSession, byte[] in, int inOfs, int inLen,
             byte[] out, int outOfs, int outLen) throws PKCS11Exception;
 
 
     /**
-     * C_DecryptUpdate continues a multiple-part decryption
-     * operation.
-     * (Encryption and decryption)
+     * C_DecryptUpdbte continues b multiple-pbrt decryption
+     * operbtion.
+     * (Encryption bnd decryption)
      *
-     * @param hSession the session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @param pEncryptedPart the encrypted data part to get decrypted and the
-     *         encrypted data part's length
-     *         (PKCS#11 param: CK_BYTE_PTR pEncryptedPart,
-     *                         CK_ULONG ulEncryptedPartLen)
-     * @return the decrypted data part and the data part's length
-     *         (PKCS#11 param: CK_BYTE_PTR pPart, CK_ULONG_PTR pulPartLen)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
-     * @preconditions (pEncryptedPart <> null)
+     * @pbrbm hSession the session's hbndle
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSession)
+     * @pbrbm pEncryptedPbrt the encrypted dbtb pbrt to get decrypted bnd the
+     *         encrypted dbtb pbrt's length
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pEncryptedPbrt,
+     *                         CK_ULONG ulEncryptedPbrtLen)
+     * @return the decrypted dbtb pbrt bnd the dbtb pbrt's length
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pPbrt, CK_ULONG_PTR pulPbrtLen)
+     * @exception PKCS11Exception If function returns other vblue thbn CKR_OK.
+     * @preconditions (pEncryptedPbrt <> null)
      * @postconditions
      */
-    public native int C_DecryptUpdate(long hSession, long directIn, byte[] in,
+    public nbtive int C_DecryptUpdbte(long hSession, long directIn, byte[] in,
             int inOfs, int inLen, long directOut, byte[] out, int outOfs,
             int outLen) throws PKCS11Exception;
 
 
     /**
-     * C_DecryptFinal finishes a multiple-part decryption
-     * operation.
-     * (Encryption and decryption)
+     * C_DecryptFinbl finishes b multiple-pbrt decryption
+     * operbtion.
+     * (Encryption bnd decryption)
      *
-     * @param hSession the session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @return the last decrypted data part and the last data part's length
-     *         (PKCS#11 param: CK_BYTE_PTR pLastPart,
-     *                         CK_ULONG_PTR pulLastPartLen)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
+     * @pbrbm hSession the session's hbndle
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSession)
+     * @return the lbst decrypted dbtb pbrt bnd the lbst dbtb pbrt's length
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pLbstPbrt,
+     *                         CK_ULONG_PTR pulLbstPbrtLen)
+     * @exception PKCS11Exception If function returns other vblue thbn CKR_OK.
      * @preconditions
      * @postconditions (result <> null)
      */
-    public native int C_DecryptFinal(long hSession, long directOut, byte[] out,
+    public nbtive int C_DecryptFinbl(long hSession, long directOut, byte[] out,
             int outOfs, int outLen) throws PKCS11Exception;
 
 
 
 /* *****************************************************************************
- * Message digesting
+ * Messbge digesting
  ******************************************************************************/
 
     /**
-     * C_DigestInit initializes a message-digesting operation.
-     * (Message digesting)
+     * C_DigestInit initiblizes b messbge-digesting operbtion.
+     * (Messbge digesting)
      *
-     * @param hSession the session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @param pMechanism the digesting mechanism
-     *         (PKCS#11 param: CK_MECHANISM_PTR pMechanism)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
+     * @pbrbm hSession the session's hbndle
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSession)
+     * @pbrbm pMechbnism the digesting mechbnism
+     *         (PKCS#11 pbrbm: CK_MECHANISM_PTR pMechbnism)
+     * @exception PKCS11Exception If function returns other vblue thbn CKR_OK.
      * @preconditions
      * @postconditions
      */
-    public native void C_DigestInit(long hSession, CK_MECHANISM pMechanism)
+    public nbtive void C_DigestInit(long hSession, CK_MECHANISM pMechbnism)
             throws PKCS11Exception;
 
 
-    // note that C_DigestSingle does not exist in PKCS#11
-    // we combined the C_DigestInit and C_Digest into a single function
-    // to save on Java<->C transitions and save 5-10% on small digests
-    // this made the C_Digest method redundant, it has been removed
+    // note thbt C_DigestSingle does not exist in PKCS#11
+    // we combined the C_DigestInit bnd C_Digest into b single function
+    // to sbve on Jbvb<->C trbnsitions bnd sbve 5-10% on smbll digests
+    // this mbde the C_Digest method redundbnt, it hbs been removed
     /**
-     * C_Digest digests data in a single part.
-     * (Message digesting)
+     * C_Digest digests dbtb in b single pbrt.
+     * (Messbge digesting)
      *
-     * @param hSession the session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @param data the data to get digested and the data's length
-     *         (PKCS#11 param: CK_BYTE_PTR pData, CK_ULONG ulDataLen)
-     * @return the message digest and the length of the message digest
-     *         (PKCS#11 param: CK_BYTE_PTR pDigest, CK_ULONG_PTR pulDigestLen)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
-     * @preconditions (data <> null)
+     * @pbrbm hSession the session's hbndle
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSession)
+     * @pbrbm dbtb the dbtb to get digested bnd the dbtb's length
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pDbtb, CK_ULONG ulDbtbLen)
+     * @return the messbge digest bnd the length of the messbge digest
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pDigest, CK_ULONG_PTR pulDigestLen)
+     * @exception PKCS11Exception If function returns other vblue thbn CKR_OK.
+     * @preconditions (dbtb <> null)
      * @postconditions (result <> null)
      */
-    public native int C_DigestSingle(long hSession, CK_MECHANISM pMechanism,
+    public nbtive int C_DigestSingle(long hSession, CK_MECHANISM pMechbnism,
             byte[] in, int inOfs, int inLen, byte[] digest, int digestOfs,
             int digestLen) throws PKCS11Exception;
 
 
     /**
-     * C_DigestUpdate continues a multiple-part message-digesting
-     * operation.
-     * (Message digesting)
+     * C_DigestUpdbte continues b multiple-pbrt messbge-digesting
+     * operbtion.
+     * (Messbge digesting)
      *
-     * @param hSession the session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @param pPart the data to get digested and the data's length
-     *         (PKCS#11 param: CK_BYTE_PTR pPart, CK_ULONG ulPartLen)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
-     * @preconditions (pPart <> null)
+     * @pbrbm hSession the session's hbndle
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSession)
+     * @pbrbm pPbrt the dbtb to get digested bnd the dbtb's length
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pPbrt, CK_ULONG ulPbrtLen)
+     * @exception PKCS11Exception If function returns other vblue thbn CKR_OK.
+     * @preconditions (pPbrt <> null)
      * @postconditions
      */
-    public native void C_DigestUpdate(long hSession, long directIn, byte[] in,
+    public nbtive void C_DigestUpdbte(long hSession, long directIn, byte[] in,
             int inOfs, int inLen) throws PKCS11Exception;
 
 
     /**
-     * C_DigestKey continues a multi-part message-digesting
-     * operation, by digesting the value of a secret key as part of
-     * the data already digested.
-     * (Message digesting)
+     * C_DigestKey continues b multi-pbrt messbge-digesting
+     * operbtion, by digesting the vblue of b secret key bs pbrt of
+     * the dbtb blrebdy digested.
+     * (Messbge digesting)
      *
-     * @param hSession the session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @param hKey the handle of the secret key to be digested
-     *         (PKCS#11 param: CK_OBJECT_HANDLE hKey)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
+     * @pbrbm hSession the session's hbndle
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSession)
+     * @pbrbm hKey the hbndle of the secret key to be digested
+     *         (PKCS#11 pbrbm: CK_OBJECT_HANDLE hKey)
+     * @exception PKCS11Exception If function returns other vblue thbn CKR_OK.
      * @preconditions
      * @postconditions
      */
-    public native void C_DigestKey(long hSession, long hKey)
+    public nbtive void C_DigestKey(long hSession, long hKey)
             throws PKCS11Exception;
 
 
     /**
-     * C_DigestFinal finishes a multiple-part message-digesting
-     * operation.
-     * (Message digesting)
+     * C_DigestFinbl finishes b multiple-pbrt messbge-digesting
+     * operbtion.
+     * (Messbge digesting)
      *
-     * @param hSession the session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @return the message digest and the length of the message digest
-     *         (PKCS#11 param: CK_BYTE_PTR pDigest, CK_ULONG_PTR pulDigestLen)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
+     * @pbrbm hSession the session's hbndle
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSession)
+     * @return the messbge digest bnd the length of the messbge digest
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pDigest, CK_ULONG_PTR pulDigestLen)
+     * @exception PKCS11Exception If function returns other vblue thbn CKR_OK.
      * @preconditions
      * @postconditions (result <> null)
      */
-    public native int C_DigestFinal(long hSession, byte[] pDigest, int digestOfs,
+    public nbtive int C_DigestFinbl(long hSession, byte[] pDigest, int digestOfs,
             int digestLen) throws PKCS11Exception;
 
 
 
 /* *****************************************************************************
- * Signing and MACing
+ * Signing bnd MACing
  ******************************************************************************/
 
     /**
-     * C_SignInit initializes a signature (private key encryption)
-     * operation, where the signature is (will be) an appendix to
-     * the data, and plaintext cannot be recovered from the
-     * signature.
-     * (Signing and MACing)
+     * C_SignInit initiblizes b signbture (privbte key encryption)
+     * operbtion, where the signbture is (will be) bn bppendix to
+     * the dbtb, bnd plbintext cbnnot be recovered from the
+     * signbture.
+     * (Signing bnd MACing)
      *
-     * @param hSession the session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @param pMechanism the signature mechanism
-     *         (PKCS#11 param: CK_MECHANISM_PTR pMechanism)
-     * @param hKey the handle of the signature key
-     *         (PKCS#11 param: CK_OBJECT_HANDLE hKey)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
+     * @pbrbm hSession the session's hbndle
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSession)
+     * @pbrbm pMechbnism the signbture mechbnism
+     *         (PKCS#11 pbrbm: CK_MECHANISM_PTR pMechbnism)
+     * @pbrbm hKey the hbndle of the signbture key
+     *         (PKCS#11 pbrbm: CK_OBJECT_HANDLE hKey)
+     * @exception PKCS11Exception If function returns other vblue thbn CKR_OK.
      * @preconditions
      * @postconditions
      */
-    public native void C_SignInit(long hSession, CK_MECHANISM pMechanism,
+    public nbtive void C_SignInit(long hSession, CK_MECHANISM pMechbnism,
             long hKey) throws PKCS11Exception;
 
 
     /**
-     * C_Sign signs (encrypts with private key) data in a single
-     * part, where the signature is (will be) an appendix to the
-     * data, and plaintext cannot be recovered from the signature.
-     * (Signing and MACing)
+     * C_Sign signs (encrypts with privbte key) dbtb in b single
+     * pbrt, where the signbture is (will be) bn bppendix to the
+     * dbtb, bnd plbintext cbnnot be recovered from the signbture.
+     * (Signing bnd MACing)
      *
-     * @param hSession the session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @param pData the data to sign and the data's length
-     *         (PKCS#11 param: CK_BYTE_PTR pData, CK_ULONG ulDataLen)
-     * @return the signature and the signature's length
-     *         (PKCS#11 param: CK_BYTE_PTR pSignature,
-     *                         CK_ULONG_PTR pulSignatureLen)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
-     * @preconditions (pData <> null)
+     * @pbrbm hSession the session's hbndle
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSession)
+     * @pbrbm pDbtb the dbtb to sign bnd the dbtb's length
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pDbtb, CK_ULONG ulDbtbLen)
+     * @return the signbture bnd the signbture's length
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pSignbture,
+     *                         CK_ULONG_PTR pulSignbtureLen)
+     * @exception PKCS11Exception If function returns other vblue thbn CKR_OK.
+     * @preconditions (pDbtb <> null)
      * @postconditions (result <> null)
      */
-    public native byte[] C_Sign(long hSession, byte[] pData)
+    public nbtive byte[] C_Sign(long hSession, byte[] pDbtb)
             throws PKCS11Exception;
 
 
     /**
-     * C_SignUpdate continues a multiple-part signature operation,
-     * where the signature is (will be) an appendix to the data,
-     * and plaintext cannot be recovered from the signature.
-     * (Signing and MACing)
+     * C_SignUpdbte continues b multiple-pbrt signbture operbtion,
+     * where the signbture is (will be) bn bppendix to the dbtb,
+     * bnd plbintext cbnnot be recovered from the signbture.
+     * (Signing bnd MACing)
      *
-     * @param hSession the session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @param pPart the data part to sign and the data part's length
-     *         (PKCS#11 param: CK_BYTE_PTR pPart, CK_ULONG ulPartLen)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
-     * @preconditions (pPart <> null)
+     * @pbrbm hSession the session's hbndle
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSession)
+     * @pbrbm pPbrt the dbtb pbrt to sign bnd the dbtb pbrt's length
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pPbrt, CK_ULONG ulPbrtLen)
+     * @exception PKCS11Exception If function returns other vblue thbn CKR_OK.
+     * @preconditions (pPbrt <> null)
      * @postconditions
      */
-    public native void C_SignUpdate(long hSession, long directIn, byte[] in,
+    public nbtive void C_SignUpdbte(long hSession, long directIn, byte[] in,
             int inOfs, int inLen) throws PKCS11Exception;
 
 
     /**
-     * C_SignFinal finishes a multiple-part signature operation,
-     * returning the signature.
-     * (Signing and MACing)
+     * C_SignFinbl finishes b multiple-pbrt signbture operbtion,
+     * returning the signbture.
+     * (Signing bnd MACing)
      *
-     * @param hSession the session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @return the signature and the signature's length
-     *         (PKCS#11 param: CK_BYTE_PTR pSignature,
-     *                         CK_ULONG_PTR pulSignatureLen)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
+     * @pbrbm hSession the session's hbndle
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSession)
+     * @return the signbture bnd the signbture's length
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pSignbture,
+     *                         CK_ULONG_PTR pulSignbtureLen)
+     * @exception PKCS11Exception If function returns other vblue thbn CKR_OK.
      * @preconditions
      * @postconditions (result <> null)
      */
-    public native byte[] C_SignFinal(long hSession, int expectedLen)
+    public nbtive byte[] C_SignFinbl(long hSession, int expectedLen)
             throws PKCS11Exception;
 
 
     /**
-     * C_SignRecoverInit initializes a signature operation, where
-     * the data can be recovered from the signature.
-     * (Signing and MACing)
+     * C_SignRecoverInit initiblizes b signbture operbtion, where
+     * the dbtb cbn be recovered from the signbture.
+     * (Signing bnd MACing)
      *
-     * @param hSession the session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @param pMechanism the signature mechanism
-     *         (PKCS#11 param: CK_MECHANISM_PTR pMechanism)
-     * @param hKey the handle of the signature key
-     *         (PKCS#11 param: CK_OBJECT_HANDLE hKey)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
+     * @pbrbm hSession the session's hbndle
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSession)
+     * @pbrbm pMechbnism the signbture mechbnism
+     *         (PKCS#11 pbrbm: CK_MECHANISM_PTR pMechbnism)
+     * @pbrbm hKey the hbndle of the signbture key
+     *         (PKCS#11 pbrbm: CK_OBJECT_HANDLE hKey)
+     * @exception PKCS11Exception If function returns other vblue thbn CKR_OK.
      * @preconditions
      * @postconditions
      */
-    public native void C_SignRecoverInit(long hSession, CK_MECHANISM pMechanism,
+    public nbtive void C_SignRecoverInit(long hSession, CK_MECHANISM pMechbnism,
             long hKey) throws PKCS11Exception;
 
 
     /**
-     * C_SignRecover signs data in a single operation, where the
-     * data can be recovered from the signature.
-     * (Signing and MACing)
+     * C_SignRecover signs dbtb in b single operbtion, where the
+     * dbtb cbn be recovered from the signbture.
+     * (Signing bnd MACing)
      *
-     * @param hSession the session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @param pData the data to sign and the data's length
-     *         (PKCS#11 param: CK_BYTE_PTR pData, CK_ULONG ulDataLen)
-     * @return the signature and the signature's length
-     *         (PKCS#11 param: CK_BYTE_PTR pSignature,
-     *                         CK_ULONG_PTR pulSignatureLen)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
-     * @preconditions (pData <> null)
+     * @pbrbm hSession the session's hbndle
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSession)
+     * @pbrbm pDbtb the dbtb to sign bnd the dbtb's length
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pDbtb, CK_ULONG ulDbtbLen)
+     * @return the signbture bnd the signbture's length
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pSignbture,
+     *                         CK_ULONG_PTR pulSignbtureLen)
+     * @exception PKCS11Exception If function returns other vblue thbn CKR_OK.
+     * @preconditions (pDbtb <> null)
      * @postconditions (result <> null)
      */
-    public native int C_SignRecover(long hSession, byte[] in, int inOfs,
+    public nbtive int C_SignRecover(long hSession, byte[] in, int inOfs,
             int inLen, byte[] out, int outOufs, int outLen)
             throws PKCS11Exception;
 
 
 
 /* *****************************************************************************
- * Verifying signatures and MACs
+ * Verifying signbtures bnd MACs
  ******************************************************************************/
 
     /**
-     * C_VerifyInit initializes a verification operation, where the
-     * signature is an appendix to the data, and plaintext cannot
-     * cannot be recovered from the signature (e.g. DSA).
-     * (Signing and MACing)
+     * C_VerifyInit initiblizes b verificbtion operbtion, where the
+     * signbture is bn bppendix to the dbtb, bnd plbintext cbnnot
+     * cbnnot be recovered from the signbture (e.g. DSA).
+     * (Signing bnd MACing)
      *
-     * @param hSession the session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @param pMechanism the verification mechanism
-     *         (PKCS#11 param: CK_MECHANISM_PTR pMechanism)
-     * @param hKey the handle of the verification key
-     *         (PKCS#11 param: CK_OBJECT_HANDLE hKey)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
+     * @pbrbm hSession the session's hbndle
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSession)
+     * @pbrbm pMechbnism the verificbtion mechbnism
+     *         (PKCS#11 pbrbm: CK_MECHANISM_PTR pMechbnism)
+     * @pbrbm hKey the hbndle of the verificbtion key
+     *         (PKCS#11 pbrbm: CK_OBJECT_HANDLE hKey)
+     * @exception PKCS11Exception If function returns other vblue thbn CKR_OK.
      * @preconditions
      * @postconditions
      */
-    public native void C_VerifyInit(long hSession, CK_MECHANISM pMechanism,
+    public nbtive void C_VerifyInit(long hSession, CK_MECHANISM pMechbnism,
             long hKey) throws PKCS11Exception;
 
 
     /**
-     * C_Verify verifies a signature in a single-part operation,
-     * where the signature is an appendix to the data, and plaintext
-     * cannot be recovered from the signature.
-     * (Signing and MACing)
+     * C_Verify verifies b signbture in b single-pbrt operbtion,
+     * where the signbture is bn bppendix to the dbtb, bnd plbintext
+     * cbnnot be recovered from the signbture.
+     * (Signing bnd MACing)
      *
-     * @param hSession the session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @param pData the signed data and the signed data's length
-     *         (PKCS#11 param: CK_BYTE_PTR pData, CK_ULONG ulDataLen)
-     * @param pSignature the signature to verify and the signature's length
-     *         (PKCS#11 param: CK_BYTE_PTR pSignature, CK_ULONG ulSignatureLen)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
-     * @preconditions (pData <> null) and (pSignature <> null)
+     * @pbrbm hSession the session's hbndle
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSession)
+     * @pbrbm pDbtb the signed dbtb bnd the signed dbtb's length
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pDbtb, CK_ULONG ulDbtbLen)
+     * @pbrbm pSignbture the signbture to verify bnd the signbture's length
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pSignbture, CK_ULONG ulSignbtureLen)
+     * @exception PKCS11Exception If function returns other vblue thbn CKR_OK.
+     * @preconditions (pDbtb <> null) bnd (pSignbture <> null)
      * @postconditions
      */
-    public native void C_Verify(long hSession, byte[] pData, byte[] pSignature)
+    public nbtive void C_Verify(long hSession, byte[] pDbtb, byte[] pSignbture)
             throws PKCS11Exception;
 
 
     /**
-     * C_VerifyUpdate continues a multiple-part verification
-     * operation, where the signature is an appendix to the data,
-     * and plaintext cannot be recovered from the signature.
-     * (Signing and MACing)
+     * C_VerifyUpdbte continues b multiple-pbrt verificbtion
+     * operbtion, where the signbture is bn bppendix to the dbtb,
+     * bnd plbintext cbnnot be recovered from the signbture.
+     * (Signing bnd MACing)
      *
-     * @param hSession the session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @param pPart the signed data part and the signed data part's length
-     *         (PKCS#11 param: CK_BYTE_PTR pPart, CK_ULONG ulPartLen)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
-     * @preconditions (pPart <> null)
+     * @pbrbm hSession the session's hbndle
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSession)
+     * @pbrbm pPbrt the signed dbtb pbrt bnd the signed dbtb pbrt's length
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pPbrt, CK_ULONG ulPbrtLen)
+     * @exception PKCS11Exception If function returns other vblue thbn CKR_OK.
+     * @preconditions (pPbrt <> null)
      * @postconditions
      */
-    public native void C_VerifyUpdate(long hSession, long directIn, byte[] in,
+    public nbtive void C_VerifyUpdbte(long hSession, long directIn, byte[] in,
             int inOfs, int inLen) throws PKCS11Exception;
 
 
     /**
-     * C_VerifyFinal finishes a multiple-part verification
-     * operation, checking the signature.
-     * (Signing and MACing)
+     * C_VerifyFinbl finishes b multiple-pbrt verificbtion
+     * operbtion, checking the signbture.
+     * (Signing bnd MACing)
      *
-     * @param hSession the session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @param pSignature the signature to verify and the signature's length
-     *         (PKCS#11 param: CK_BYTE_PTR pSignature, CK_ULONG ulSignatureLen)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
-     * @preconditions (pSignature <> null)
+     * @pbrbm hSession the session's hbndle
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSession)
+     * @pbrbm pSignbture the signbture to verify bnd the signbture's length
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pSignbture, CK_ULONG ulSignbtureLen)
+     * @exception PKCS11Exception If function returns other vblue thbn CKR_OK.
+     * @preconditions (pSignbture <> null)
      * @postconditions
      */
-    public native void C_VerifyFinal(long hSession, byte[] pSignature)
+    public nbtive void C_VerifyFinbl(long hSession, byte[] pSignbture)
             throws PKCS11Exception;
 
 
     /**
-     * C_VerifyRecoverInit initializes a signature verification
-     * operation, where the data is recovered from the signature.
-     * (Signing and MACing)
+     * C_VerifyRecoverInit initiblizes b signbture verificbtion
+     * operbtion, where the dbtb is recovered from the signbture.
+     * (Signing bnd MACing)
      *
-     * @param hSession the session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @param pMechanism the verification mechanism
-     *         (PKCS#11 param: CK_MECHANISM_PTR pMechanism)
-     * @param hKey the handle of the verification key
-     *         (PKCS#11 param: CK_OBJECT_HANDLE hKey)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
+     * @pbrbm hSession the session's hbndle
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSession)
+     * @pbrbm pMechbnism the verificbtion mechbnism
+     *         (PKCS#11 pbrbm: CK_MECHANISM_PTR pMechbnism)
+     * @pbrbm hKey the hbndle of the verificbtion key
+     *         (PKCS#11 pbrbm: CK_OBJECT_HANDLE hKey)
+     * @exception PKCS11Exception If function returns other vblue thbn CKR_OK.
      * @preconditions
      * @postconditions
      */
-    public native void C_VerifyRecoverInit(long hSession,
-            CK_MECHANISM pMechanism, long hKey) throws PKCS11Exception;
+    public nbtive void C_VerifyRecoverInit(long hSession,
+            CK_MECHANISM pMechbnism, long hKey) throws PKCS11Exception;
 
 
     /**
-     * C_VerifyRecover verifies a signature in a single-part
-     * operation, where the data is recovered from the signature.
-     * (Signing and MACing)
+     * C_VerifyRecover verifies b signbture in b single-pbrt
+     * operbtion, where the dbtb is recovered from the signbture.
+     * (Signing bnd MACing)
      *
-     * @param hSession the session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @param pSignature the signature to verify and the signature's length
-     *         (PKCS#11 param: CK_BYTE_PTR pSignature, CK_ULONG ulSignatureLen)
-     * @return the recovered data and the recovered data's length
-     *         (PKCS#11 param: CK_BYTE_PTR pData, CK_ULONG_PTR pulDataLen)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
-     * @preconditions (pSignature <> null)
+     * @pbrbm hSession the session's hbndle
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSession)
+     * @pbrbm pSignbture the signbture to verify bnd the signbture's length
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pSignbture, CK_ULONG ulSignbtureLen)
+     * @return the recovered dbtb bnd the recovered dbtb's length
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pDbtb, CK_ULONG_PTR pulDbtbLen)
+     * @exception PKCS11Exception If function returns other vblue thbn CKR_OK.
+     * @preconditions (pSignbture <> null)
      * @postconditions (result <> null)
      */
-    public native int C_VerifyRecover(long hSession, byte[] in, int inOfs,
+    public nbtive int C_VerifyRecover(long hSession, byte[] in, int inOfs,
             int inLen, byte[] out, int outOufs, int outLen)
             throws PKCS11Exception;
 
 
 
 /* *****************************************************************************
- * Dual-function cryptographic operations
+ * Dubl-function cryptogrbphic operbtions
  ******************************************************************************/
 
     /**
-     * C_DigestEncryptUpdate continues a multiple-part digesting
-     * and encryption operation.
-     * (Dual-function cryptographic operations)
+     * C_DigestEncryptUpdbte continues b multiple-pbrt digesting
+     * bnd encryption operbtion.
+     * (Dubl-function cryptogrbphic operbtions)
      *
-     * @param hSession the session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @param pPart the data part to digest and to encrypt and the data's length
-     *         (PKCS#11 param: CK_BYTE_PTR pPart, CK_ULONG ulPartLen)
-     * @return the digested and encrypted data part and the data part's length
-     *         (PKCS#11 param: CK_BYTE_PTR pEncryptedPart,
-     *                         CK_ULONG_PTR pulEncryptedPartLen)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
-     * @preconditions (pPart <> null)
+     * @pbrbm hSession the session's hbndle
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSession)
+     * @pbrbm pPbrt the dbtb pbrt to digest bnd to encrypt bnd the dbtb's length
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pPbrt, CK_ULONG ulPbrtLen)
+     * @return the digested bnd encrypted dbtb pbrt bnd the dbtb pbrt's length
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pEncryptedPbrt,
+     *                         CK_ULONG_PTR pulEncryptedPbrtLen)
+     * @exception PKCS11Exception If function returns other vblue thbn CKR_OK.
+     * @preconditions (pPbrt <> null)
      * @postconditions
      */
-//    public native byte[] C_DigestEncryptUpdate(long hSession, byte[] pPart)
+//    public nbtive byte[] C_DigestEncryptUpdbte(long hSession, byte[] pPbrt)
 //            throws PKCS11Exception;
 
 
     /**
-     * C_DecryptDigestUpdate continues a multiple-part decryption and
-     * digesting operation.
-     * (Dual-function cryptographic operations)
+     * C_DecryptDigestUpdbte continues b multiple-pbrt decryption bnd
+     * digesting operbtion.
+     * (Dubl-function cryptogrbphic operbtions)
      *
-     * @param hSession the session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @param pEncryptedPart the encrypted data part to decrypt and to digest
-     *         and encrypted data part's length
-     *         (PKCS#11 param: CK_BYTE_PTR pEncryptedPart,
-     *                         CK_ULONG ulEncryptedPartLen)
-     * @return the decrypted and digested data part and the data part's length
-     *         (PKCS#11 param: CK_BYTE_PTR pPart, CK_ULONG_PTR pulPartLen)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
-     * @preconditions (pEncryptedPart <> null)
+     * @pbrbm hSession the session's hbndle
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSession)
+     * @pbrbm pEncryptedPbrt the encrypted dbtb pbrt to decrypt bnd to digest
+     *         bnd encrypted dbtb pbrt's length
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pEncryptedPbrt,
+     *                         CK_ULONG ulEncryptedPbrtLen)
+     * @return the decrypted bnd digested dbtb pbrt bnd the dbtb pbrt's length
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pPbrt, CK_ULONG_PTR pulPbrtLen)
+     * @exception PKCS11Exception If function returns other vblue thbn CKR_OK.
+     * @preconditions (pEncryptedPbrt <> null)
      * @postconditions
      */
-//    public native byte[] C_DecryptDigestUpdate(long hSession,
-//            byte[] pEncryptedPart) throws PKCS11Exception;
+//    public nbtive byte[] C_DecryptDigestUpdbte(long hSession,
+//            byte[] pEncryptedPbrt) throws PKCS11Exception;
 
 
     /**
-     * C_SignEncryptUpdate continues a multiple-part signing and
-     * encryption operation.
-     * (Dual-function cryptographic operations)
+     * C_SignEncryptUpdbte continues b multiple-pbrt signing bnd
+     * encryption operbtion.
+     * (Dubl-function cryptogrbphic operbtions)
      *
-     * @param hSession the session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @param pPart the data part to sign and to encrypt and the data part's
+     * @pbrbm hSession the session's hbndle
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSession)
+     * @pbrbm pPbrt the dbtb pbrt to sign bnd to encrypt bnd the dbtb pbrt's
      *         length
-     *         (PKCS#11 param: CK_BYTE_PTR pPart, CK_ULONG ulPartLen)
-     * @return the signed and encrypted data part and the data part's length
-     *         (PKCS#11 param: CK_BYTE_PTR pEncryptedPart,
-     *                         CK_ULONG_PTR pulEncryptedPartLen)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
-     * @preconditions (pPart <> null)
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pPbrt, CK_ULONG ulPbrtLen)
+     * @return the signed bnd encrypted dbtb pbrt bnd the dbtb pbrt's length
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pEncryptedPbrt,
+     *                         CK_ULONG_PTR pulEncryptedPbrtLen)
+     * @exception PKCS11Exception If function returns other vblue thbn CKR_OK.
+     * @preconditions (pPbrt <> null)
      * @postconditions
      */
-//    public native byte[] C_SignEncryptUpdate(long hSession, byte[] pPart)
+//    public nbtive byte[] C_SignEncryptUpdbte(long hSession, byte[] pPbrt)
 //            throws PKCS11Exception;
 
 
     /**
-     * C_DecryptVerifyUpdate continues a multiple-part decryption and
-     * verify operation.
-     * (Dual-function cryptographic operations)
+     * C_DecryptVerifyUpdbte continues b multiple-pbrt decryption bnd
+     * verify operbtion.
+     * (Dubl-function cryptogrbphic operbtions)
      *
-     * @param hSession the session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @param pEncryptedPart the encrypted data part to decrypt and to verify
-     *         and the data part's length
-     *         (PKCS#11 param: CK_BYTE_PTR pEncryptedPart,
-     *                         CK_ULONG ulEncryptedPartLen)
-     * @return the decrypted and verified data part and the data part's length
-     *         (PKCS#11 param: CK_BYTE_PTR pPart, CK_ULONG_PTR pulPartLen)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
-     * @preconditions (pEncryptedPart <> null)
+     * @pbrbm hSession the session's hbndle
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSession)
+     * @pbrbm pEncryptedPbrt the encrypted dbtb pbrt to decrypt bnd to verify
+     *         bnd the dbtb pbrt's length
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pEncryptedPbrt,
+     *                         CK_ULONG ulEncryptedPbrtLen)
+     * @return the decrypted bnd verified dbtb pbrt bnd the dbtb pbrt's length
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pPbrt, CK_ULONG_PTR pulPbrtLen)
+     * @exception PKCS11Exception If function returns other vblue thbn CKR_OK.
+     * @preconditions (pEncryptedPbrt <> null)
      * @postconditions
      */
-//    public native byte[] C_DecryptVerifyUpdate(long hSession,
-//            byte[] pEncryptedPart) throws PKCS11Exception;
+//    public nbtive byte[] C_DecryptVerifyUpdbte(long hSession,
+//            byte[] pEncryptedPbrt) throws PKCS11Exception;
 
 
 
 /* *****************************************************************************
- * Key management
+ * Key mbnbgement
  ******************************************************************************/
 
     /**
-     * C_GenerateKey generates a secret key, creating a new key
+     * C_GenerbteKey generbtes b secret key, crebting b new key
      * object.
-     * (Key management)
+     * (Key mbnbgement)
      *
-     * @param hSession the session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @param pMechanism the key generation mechanism
-     *         (PKCS#11 param: CK_MECHANISM_PTR pMechanism)
-     * @param pTemplate the template for the new key and the number of
-     *         attributes in the template
-     *         (PKCS#11 param: CK_ATTRIBUTE_PTR pTemplate, CK_ULONG ulCount)
-     * @return the handle of the new key
-     *         (PKCS#11 param: CK_OBJECT_HANDLE_PTR phKey)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
+     * @pbrbm hSession the session's hbndle
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSession)
+     * @pbrbm pMechbnism the key generbtion mechbnism
+     *         (PKCS#11 pbrbm: CK_MECHANISM_PTR pMechbnism)
+     * @pbrbm pTemplbte the templbte for the new key bnd the number of
+     *         bttributes in the templbte
+     *         (PKCS#11 pbrbm: CK_ATTRIBUTE_PTR pTemplbte, CK_ULONG ulCount)
+     * @return the hbndle of the new key
+     *         (PKCS#11 pbrbm: CK_OBJECT_HANDLE_PTR phKey)
+     * @exception PKCS11Exception If function returns other vblue thbn CKR_OK.
      * @preconditions
      * @postconditions
      */
-    public native long C_GenerateKey(long hSession, CK_MECHANISM pMechanism,
-            CK_ATTRIBUTE[] pTemplate) throws PKCS11Exception;
+    public nbtive long C_GenerbteKey(long hSession, CK_MECHANISM pMechbnism,
+            CK_ATTRIBUTE[] pTemplbte) throws PKCS11Exception;
 
 
     /**
-     * C_GenerateKeyPair generates a public-key/private-key pair,
-     * creating new key objects.
-     * (Key management)
+     * C_GenerbteKeyPbir generbtes b public-key/privbte-key pbir,
+     * crebting new key objects.
+     * (Key mbnbgement)
      *
-     * @param hSession the session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @param pMechanism the key generation mechanism
-     *         (PKCS#11 param: CK_MECHANISM_PTR pMechanism)
-     * @param pPublicKeyTemplate the template for the new public key and the
-     *         number of attributes in the template
-     *         (PKCS#11 param: CK_ATTRIBUTE_PTR pPublicKeyTemplate,
+     * @pbrbm hSession the session's hbndle
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSession)
+     * @pbrbm pMechbnism the key generbtion mechbnism
+     *         (PKCS#11 pbrbm: CK_MECHANISM_PTR pMechbnism)
+     * @pbrbm pPublicKeyTemplbte the templbte for the new public key bnd the
+     *         number of bttributes in the templbte
+     *         (PKCS#11 pbrbm: CK_ATTRIBUTE_PTR pPublicKeyTemplbte,
      *                         CK_ULONG ulPublicKeyAttributeCount)
-     * @param pPrivateKeyTemplate the template for the new private key and the
-     *         number of attributes in the template
-     *         (PKCS#11 param: CK_ATTRIBUTE_PTR pPrivateKeyTemplate
-     *                         CK_ULONG ulPrivateKeyAttributeCount)
-     * @return a long array with exactly two elements and the public key handle
-     *         as the first element and the private key handle as the second
+     * @pbrbm pPrivbteKeyTemplbte the templbte for the new privbte key bnd the
+     *         number of bttributes in the templbte
+     *         (PKCS#11 pbrbm: CK_ATTRIBUTE_PTR pPrivbteKeyTemplbte
+     *                         CK_ULONG ulPrivbteKeyAttributeCount)
+     * @return b long brrby with exbctly two elements bnd the public key hbndle
+     *         bs the first element bnd the privbte key hbndle bs the second
      *         element
-     *         (PKCS#11 param: CK_OBJECT_HANDLE_PTR phPublicKey,
-     *                         CK_OBJECT_HANDLE_PTR phPrivateKey)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
-     * @preconditions (pMechanism <> null)
-     * @postconditions (result <> null) and (result.length == 2)
+     *         (PKCS#11 pbrbm: CK_OBJECT_HANDLE_PTR phPublicKey,
+     *                         CK_OBJECT_HANDLE_PTR phPrivbteKey)
+     * @exception PKCS11Exception If function returns other vblue thbn CKR_OK.
+     * @preconditions (pMechbnism <> null)
+     * @postconditions (result <> null) bnd (result.length == 2)
      */
-    public native long[] C_GenerateKeyPair(long hSession,
-            CK_MECHANISM pMechanism, CK_ATTRIBUTE[] pPublicKeyTemplate,
-            CK_ATTRIBUTE[] pPrivateKeyTemplate) throws PKCS11Exception;
+    public nbtive long[] C_GenerbteKeyPbir(long hSession,
+            CK_MECHANISM pMechbnism, CK_ATTRIBUTE[] pPublicKeyTemplbte,
+            CK_ATTRIBUTE[] pPrivbteKeyTemplbte) throws PKCS11Exception;
 
 
 
     /**
-     * C_WrapKey wraps (i.e., encrypts) a key.
-     * (Key management)
+     * C_WrbpKey wrbps (i.e., encrypts) b key.
+     * (Key mbnbgement)
      *
-     * @param hSession the session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @param pMechanism the wrapping mechanism
-     *         (PKCS#11 param: CK_MECHANISM_PTR pMechanism)
-     * @param hWrappingKey the handle of the wrapping key
-     *         (PKCS#11 param: CK_OBJECT_HANDLE hWrappingKey)
-     * @param hKey the handle of the key to be wrapped
-     *         (PKCS#11 param: CK_OBJECT_HANDLE hKey)
-     * @return the wrapped key and the length of the wrapped key
-     *         (PKCS#11 param: CK_BYTE_PTR pWrappedKey,
-     *                         CK_ULONG_PTR pulWrappedKeyLen)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
+     * @pbrbm hSession the session's hbndle
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSession)
+     * @pbrbm pMechbnism the wrbpping mechbnism
+     *         (PKCS#11 pbrbm: CK_MECHANISM_PTR pMechbnism)
+     * @pbrbm hWrbppingKey the hbndle of the wrbpping key
+     *         (PKCS#11 pbrbm: CK_OBJECT_HANDLE hWrbppingKey)
+     * @pbrbm hKey the hbndle of the key to be wrbpped
+     *         (PKCS#11 pbrbm: CK_OBJECT_HANDLE hKey)
+     * @return the wrbpped key bnd the length of the wrbpped key
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pWrbppedKey,
+     *                         CK_ULONG_PTR pulWrbppedKeyLen)
+     * @exception PKCS11Exception If function returns other vblue thbn CKR_OK.
      * @preconditions
      * @postconditions (result <> null)
      */
-    public native byte[] C_WrapKey(long hSession, CK_MECHANISM pMechanism,
-            long hWrappingKey, long hKey) throws PKCS11Exception;
+    public nbtive byte[] C_WrbpKey(long hSession, CK_MECHANISM pMechbnism,
+            long hWrbppingKey, long hKey) throws PKCS11Exception;
 
 
     /**
-     * C_UnwrapKey unwraps (decrypts) a wrapped key, creating a new
+     * C_UnwrbpKey unwrbps (decrypts) b wrbpped key, crebting b new
      * key object.
-     * (Key management)
+     * (Key mbnbgement)
      *
-     * @param hSession the session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @param pMechanism the unwrapping mechanism
-     *         (PKCS#11 param: CK_MECHANISM_PTR pMechanism)
-     * @param hUnwrappingKey the handle of the unwrapping key
-     *         (PKCS#11 param: CK_OBJECT_HANDLE hUnwrappingKey)
-     * @param pWrappedKey the wrapped key to unwrap and the wrapped key's length
-     *         (PKCS#11 param: CK_BYTE_PTR pWrappedKey, CK_ULONG ulWrappedKeyLen)
-     * @param pTemplate the template for the new key and the number of
-     *         attributes in the template
-     *         (PKCS#11 param: CK_ATTRIBUTE_PTR pTemplate, CK_ULONG ulCount)
-     * @return the handle of the unwrapped key
-     *         (PKCS#11 param: CK_OBJECT_HANDLE_PTR phKey)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
-     * @preconditions (pWrappedKey <> null)
+     * @pbrbm hSession the session's hbndle
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSession)
+     * @pbrbm pMechbnism the unwrbpping mechbnism
+     *         (PKCS#11 pbrbm: CK_MECHANISM_PTR pMechbnism)
+     * @pbrbm hUnwrbppingKey the hbndle of the unwrbpping key
+     *         (PKCS#11 pbrbm: CK_OBJECT_HANDLE hUnwrbppingKey)
+     * @pbrbm pWrbppedKey the wrbpped key to unwrbp bnd the wrbpped key's length
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pWrbppedKey, CK_ULONG ulWrbppedKeyLen)
+     * @pbrbm pTemplbte the templbte for the new key bnd the number of
+     *         bttributes in the templbte
+     *         (PKCS#11 pbrbm: CK_ATTRIBUTE_PTR pTemplbte, CK_ULONG ulCount)
+     * @return the hbndle of the unwrbpped key
+     *         (PKCS#11 pbrbm: CK_OBJECT_HANDLE_PTR phKey)
+     * @exception PKCS11Exception If function returns other vblue thbn CKR_OK.
+     * @preconditions (pWrbppedKey <> null)
      * @postconditions
      */
-    public native long C_UnwrapKey(long hSession, CK_MECHANISM pMechanism,
-            long hUnwrappingKey, byte[] pWrappedKey, CK_ATTRIBUTE[] pTemplate)
+    public nbtive long C_UnwrbpKey(long hSession, CK_MECHANISM pMechbnism,
+            long hUnwrbppingKey, byte[] pWrbppedKey, CK_ATTRIBUTE[] pTemplbte)
             throws PKCS11Exception;
 
 
     /**
-     * C_DeriveKey derives a key from a base key, creating a new key
+     * C_DeriveKey derives b key from b bbse key, crebting b new key
      * object.
-     * (Key management)
+     * (Key mbnbgement)
      *
-     * @param hSession the session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @param pMechanism the key derivation mechanism
-     *         (PKCS#11 param: CK_MECHANISM_PTR pMechanism)
-     * @param hBaseKey the handle of the base key
-     *         (PKCS#11 param: CK_OBJECT_HANDLE hBaseKey)
-     * @param pTemplate the template for the new key and the number of
-     *         attributes in the template
-     *         (PKCS#11 param: CK_ATTRIBUTE_PTR pTemplate, CK_ULONG ulCount)
-     * @return the handle of the derived key
-     *         (PKCS#11 param: CK_OBJECT_HANDLE_PTR phKey)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
+     * @pbrbm hSession the session's hbndle
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSession)
+     * @pbrbm pMechbnism the key derivbtion mechbnism
+     *         (PKCS#11 pbrbm: CK_MECHANISM_PTR pMechbnism)
+     * @pbrbm hBbseKey the hbndle of the bbse key
+     *         (PKCS#11 pbrbm: CK_OBJECT_HANDLE hBbseKey)
+     * @pbrbm pTemplbte the templbte for the new key bnd the number of
+     *         bttributes in the templbte
+     *         (PKCS#11 pbrbm: CK_ATTRIBUTE_PTR pTemplbte, CK_ULONG ulCount)
+     * @return the hbndle of the derived key
+     *         (PKCS#11 pbrbm: CK_OBJECT_HANDLE_PTR phKey)
+     * @exception PKCS11Exception If function returns other vblue thbn CKR_OK.
      * @preconditions
      * @postconditions
      */
-    public native long C_DeriveKey(long hSession, CK_MECHANISM pMechanism,
-            long hBaseKey, CK_ATTRIBUTE[] pTemplate) throws PKCS11Exception;
+    public nbtive long C_DeriveKey(long hSession, CK_MECHANISM pMechbnism,
+            long hBbseKey, CK_ATTRIBUTE[] pTemplbte) throws PKCS11Exception;
 
 
 
 /* *****************************************************************************
- * Random number generation
+ * Rbndom number generbtion
  ******************************************************************************/
 
     /**
-     * C_SeedRandom mixes additional seed material into the token's
-     * random number generator.
-     * (Random number generation)
+     * C_SeedRbndom mixes bdditionbl seed mbteribl into the token's
+     * rbndom number generbtor.
+     * (Rbndom number generbtion)
      *
-     * @param hSession the session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @param pSeed the seed material and the seed material's length
-     *         (PKCS#11 param: CK_BYTE_PTR pSeed, CK_ULONG ulSeedLen)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
+     * @pbrbm hSession the session's hbndle
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSession)
+     * @pbrbm pSeed the seed mbteribl bnd the seed mbteribl's length
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pSeed, CK_ULONG ulSeedLen)
+     * @exception PKCS11Exception If function returns other vblue thbn CKR_OK.
      * @preconditions (pSeed <> null)
      * @postconditions
      */
-    public native void C_SeedRandom(long hSession, byte[] pSeed)
+    public nbtive void C_SeedRbndom(long hSession, byte[] pSeed)
             throws PKCS11Exception;
 
 
     /**
-     * C_GenerateRandom generates random data.
-     * (Random number generation)
+     * C_GenerbteRbndom generbtes rbndom dbtb.
+     * (Rbndom number generbtion)
      *
-     * @param hSession the session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @param RandomData receives the random data and the length of RandomData
-     *         is the length of random data to be generated
-     *         (PKCS#11 param: CK_BYTE_PTR pRandomData, CK_ULONG ulRandomLen)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
-     * @preconditions (randomData <> null)
+     * @pbrbm hSession the session's hbndle
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSession)
+     * @pbrbm RbndomDbtb receives the rbndom dbtb bnd the length of RbndomDbtb
+     *         is the length of rbndom dbtb to be generbted
+     *         (PKCS#11 pbrbm: CK_BYTE_PTR pRbndomDbtb, CK_ULONG ulRbndomLen)
+     * @exception PKCS11Exception If function returns other vblue thbn CKR_OK.
+     * @preconditions (rbndomDbtb <> null)
      * @postconditions
      */
-    public native void C_GenerateRandom(long hSession, byte[] randomData)
+    public nbtive void C_GenerbteRbndom(long hSession, byte[] rbndomDbtb)
             throws PKCS11Exception;
 
 
 
 /* *****************************************************************************
- * Parallel function management
+ * Pbrbllel function mbnbgement
  ******************************************************************************/
 
     /**
-     * C_GetFunctionStatus is a legacy function; it obtains an
-     * updated status of a function running in parallel with an
-     * application.
-     * (Parallel function management)
+     * C_GetFunctionStbtus is b legbcy function; it obtbins bn
+     * updbted stbtus of b function running in pbrbllel with bn
+     * bpplicbtion.
+     * (Pbrbllel function mbnbgement)
      *
-     * @param hSession the session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
+     * @pbrbm hSession the session's hbndle
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSession)
+     * @exception PKCS11Exception If function returns other vblue thbn CKR_OK.
      * @preconditions
      * @postconditions
      */
-//    public native void C_GetFunctionStatus(long hSession)
+//    public nbtive void C_GetFunctionStbtus(long hSession)
 //            throws PKCS11Exception;
 
 
     /**
-     * C_CancelFunction is a legacy function; it cancels a function
-     * running in parallel.
-     * (Parallel function management)
+     * C_CbncelFunction is b legbcy function; it cbncels b function
+     * running in pbrbllel.
+     * (Pbrbllel function mbnbgement)
      *
-     * @param hSession the session's handle
-     *         (PKCS#11 param: CK_SESSION_HANDLE hSession)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
+     * @pbrbm hSession the session's hbndle
+     *         (PKCS#11 pbrbm: CK_SESSION_HANDLE hSession)
+     * @exception PKCS11Exception If function returns other vblue thbn CKR_OK.
      * @preconditions
      * @postconditions
      */
-//    public native void C_CancelFunction(long hSession) throws PKCS11Exception;
+//    public nbtive void C_CbncelFunction(long hSession) throws PKCS11Exception;
 
 
 
 /* *****************************************************************************
- * Functions added in for Cryptoki Version 2.01 or later
+ * Functions bdded in for Cryptoki Version 2.01 or lbter
  ******************************************************************************/
 
     /**
-     * C_WaitForSlotEvent waits for a slot event (token insertion,
-     * removal, etc.) to occur.
-     * (General-purpose)
+     * C_WbitForSlotEvent wbits for b slot event (token insertion,
+     * removbl, etc.) to occur.
+     * (Generbl-purpose)
      *
-     * @param flags blocking/nonblocking flag
-     *         (PKCS#11 param: CK_FLAGS flags)
-     * @param pReserved reserved. Should be null
-     *         (PKCS#11 param: CK_VOID_PTR pReserved)
+     * @pbrbm flbgs blocking/nonblocking flbg
+     *         (PKCS#11 pbrbm: CK_FLAGS flbgs)
+     * @pbrbm pReserved reserved. Should be null
+     *         (PKCS#11 pbrbm: CK_VOID_PTR pReserved)
      * @return the slot ID where the event occurred
-     *         (PKCS#11 param: CK_SLOT_ID_PTR pSlot)
-     * @exception PKCS11Exception If function returns other value than CKR_OK.
+     *         (PKCS#11 pbrbm: CK_SLOT_ID_PTR pSlot)
+     * @exception PKCS11Exception If function returns other vblue thbn CKR_OK.
      * @preconditions (pRserved == null)
      * @postconditions
      */
-//    public native long C_WaitForSlotEvent(long flags, Object pRserved)
+//    public nbtive long C_WbitForSlotEvent(long flbgs, Object pRserved)
 //            throws PKCS11Exception;
 
     /**
-     * Returns the string representation of this object.
+     * Returns the string representbtion of this object.
      *
-     * @return The string representation of object
+     * @return The string representbtion of object
      */
     public String toString() {
-        return "Module name: " + pkcs11ModulePath;
+        return "Module nbme: " + pkcs11ModulePbth;
     }
 
     /**
-     * Calls disconnect() to cleanup the native part of the wrapper. Once this
-     * method is called, this object cannot be used any longer. Any subsequent
-     * call to a C_* method will result in a runtime exception.
+     * Cblls disconnect() to clebnup the nbtive pbrt of the wrbpper. Once this
+     * method is cblled, this object cbnnot be used bny longer. Any subsequent
+     * cbll to b C_* method will result in b runtime exception.
      *
-     * @exception Throwable If finalization fails.
+     * @exception Throwbble If finblizbtion fbils.
      */
-    protected void finalize() throws Throwable {
+    protected void finblize() throws Throwbble {
         disconnect();
     }
 
-// PKCS11 subclass that has all methods synchronized and delegating to the
-// parent. Used for tokens that only support single threaded access
-static class SynchronizedPKCS11 extends PKCS11 {
+// PKCS11 subclbss thbt hbs bll methods synchronized bnd delegbting to the
+// pbrent. Used for tokens thbt only support single threbded bccess
+stbtic clbss SynchronizedPKCS11 extends PKCS11 {
 
-    SynchronizedPKCS11(String pkcs11ModulePath, String functionListName)
+    SynchronizedPKCS11(String pkcs11ModulePbth, String functionListNbme)
             throws IOException {
-        super(pkcs11ModulePath, functionListName);
+        super(pkcs11ModulePbth, functionListNbme);
     }
 
-    synchronized void C_Initialize(Object pInitArgs) throws PKCS11Exception {
-        super.C_Initialize(pInitArgs);
+    synchronized void C_Initiblize(Object pInitArgs) throws PKCS11Exception {
+        super.C_Initiblize(pInitArgs);
     }
 
-    public synchronized void C_Finalize(Object pReserved)
+    public synchronized void C_Finblize(Object pReserved)
             throws PKCS11Exception {
-        super.C_Finalize(pReserved);
+        super.C_Finblize(pReserved);
     }
 
     public synchronized CK_INFO C_GetInfo() throws PKCS11Exception {
         return super.C_GetInfo();
     }
 
-    public synchronized long[] C_GetSlotList(boolean tokenPresent)
+    public synchronized long[] C_GetSlotList(boolebn tokenPresent)
             throws PKCS11Exception {
         return super.C_GetSlotList(tokenPresent);
     }
@@ -1569,19 +1569,19 @@ static class SynchronizedPKCS11 extends PKCS11 {
         return super.C_GetTokenInfo(slotID);
     }
 
-    public synchronized long[] C_GetMechanismList(long slotID)
+    public synchronized long[] C_GetMechbnismList(long slotID)
             throws PKCS11Exception {
-        return super.C_GetMechanismList(slotID);
+        return super.C_GetMechbnismList(slotID);
     }
 
-    public synchronized CK_MECHANISM_INFO C_GetMechanismInfo(long slotID,
+    public synchronized CK_MECHANISM_INFO C_GetMechbnismInfo(long slotID,
             long type) throws PKCS11Exception {
-        return super.C_GetMechanismInfo(slotID, type);
+        return super.C_GetMechbnismInfo(slotID, type);
     }
 
-    public synchronized long C_OpenSession(long slotID, long flags,
-            Object pApplication, CK_NOTIFY Notify) throws PKCS11Exception {
-        return super.C_OpenSession(slotID, flags, pApplication, Notify);
+    public synchronized long C_OpenSession(long slotID, long flbgs,
+            Object pApplicbtion, CK_NOTIFY Notify) throws PKCS11Exception {
+        return super.C_OpenSession(slotID, flbgs, pApplicbtion, Notify);
     }
 
     public synchronized void C_CloseSession(long hSession)
@@ -1594,7 +1594,7 @@ static class SynchronizedPKCS11 extends PKCS11 {
         return super.C_GetSessionInfo(hSession);
     }
 
-    public synchronized void C_Login(long hSession, long userType, char[] pPin)
+    public synchronized void C_Login(long hSession, long userType, chbr[] pPin)
             throws PKCS11Exception {
         super.C_Login(hSession, userType, pPin);
     }
@@ -1603,14 +1603,14 @@ static class SynchronizedPKCS11 extends PKCS11 {
         super.C_Logout(hSession);
     }
 
-    public synchronized long C_CreateObject(long hSession,
-            CK_ATTRIBUTE[] pTemplate) throws PKCS11Exception {
-        return super.C_CreateObject(hSession, pTemplate);
+    public synchronized long C_CrebteObject(long hSession,
+            CK_ATTRIBUTE[] pTemplbte) throws PKCS11Exception {
+        return super.C_CrebteObject(hSession, pTemplbte);
     }
 
     public synchronized long C_CopyObject(long hSession, long hObject,
-            CK_ATTRIBUTE[] pTemplate) throws PKCS11Exception {
-        return super.C_CopyObject(hSession, hObject, pTemplate);
+            CK_ATTRIBUTE[] pTemplbte) throws PKCS11Exception {
+        return super.C_CopyObject(hSession, hObject, pTemplbte);
     }
 
     public synchronized void C_DestroyObject(long hSession, long hObject)
@@ -1618,34 +1618,34 @@ static class SynchronizedPKCS11 extends PKCS11 {
         super.C_DestroyObject(hSession, hObject);
     }
 
-    public synchronized void C_GetAttributeValue(long hSession, long hObject,
-            CK_ATTRIBUTE[] pTemplate) throws PKCS11Exception {
-        super.C_GetAttributeValue(hSession, hObject, pTemplate);
+    public synchronized void C_GetAttributeVblue(long hSession, long hObject,
+            CK_ATTRIBUTE[] pTemplbte) throws PKCS11Exception {
+        super.C_GetAttributeVblue(hSession, hObject, pTemplbte);
     }
 
-    public synchronized void C_SetAttributeValue(long hSession, long hObject,
-            CK_ATTRIBUTE[] pTemplate) throws PKCS11Exception {
-        super.C_SetAttributeValue(hSession, hObject, pTemplate);
+    public synchronized void C_SetAttributeVblue(long hSession, long hObject,
+            CK_ATTRIBUTE[] pTemplbte) throws PKCS11Exception {
+        super.C_SetAttributeVblue(hSession, hObject, pTemplbte);
     }
 
     public synchronized void C_FindObjectsInit(long hSession,
-            CK_ATTRIBUTE[] pTemplate) throws PKCS11Exception {
-        super.C_FindObjectsInit(hSession, pTemplate);
+            CK_ATTRIBUTE[] pTemplbte) throws PKCS11Exception {
+        super.C_FindObjectsInit(hSession, pTemplbte);
     }
 
     public synchronized long[] C_FindObjects(long hSession,
-            long ulMaxObjectCount) throws PKCS11Exception {
-        return super.C_FindObjects(hSession, ulMaxObjectCount);
+            long ulMbxObjectCount) throws PKCS11Exception {
+        return super.C_FindObjects(hSession, ulMbxObjectCount);
     }
 
-    public synchronized void C_FindObjectsFinal(long hSession)
+    public synchronized void C_FindObjectsFinbl(long hSession)
             throws PKCS11Exception {
-        super.C_FindObjectsFinal(hSession);
+        super.C_FindObjectsFinbl(hSession);
     }
 
     public synchronized void C_EncryptInit(long hSession,
-            CK_MECHANISM pMechanism, long hKey) throws PKCS11Exception {
-        super.C_EncryptInit(hSession, pMechanism, hKey);
+            CK_MECHANISM pMechbnism, long hKey) throws PKCS11Exception {
+        super.C_EncryptInit(hSession, pMechbnism, hKey);
     }
 
     public synchronized int C_Encrypt(long hSession, byte[] in, int inOfs,
@@ -1654,21 +1654,21 @@ static class SynchronizedPKCS11 extends PKCS11 {
         return super.C_Encrypt(hSession, in, inOfs, inLen, out, outOfs, outLen);
     }
 
-    public synchronized int C_EncryptUpdate(long hSession, long directIn,
+    public synchronized int C_EncryptUpdbte(long hSession, long directIn,
             byte[] in, int inOfs, int inLen, long directOut, byte[] out,
             int outOfs, int outLen) throws PKCS11Exception {
-        return super.C_EncryptUpdate(hSession, directIn, in, inOfs, inLen,
+        return super.C_EncryptUpdbte(hSession, directIn, in, inOfs, inLen,
                 directOut, out, outOfs, outLen);
     }
 
-    public synchronized int C_EncryptFinal(long hSession, long directOut,
+    public synchronized int C_EncryptFinbl(long hSession, long directOut,
             byte[] out, int outOfs, int outLen) throws PKCS11Exception {
-        return super.C_EncryptFinal(hSession, directOut, out, outOfs, outLen);
+        return super.C_EncryptFinbl(hSession, directOut, out, outOfs, outLen);
     }
 
     public synchronized void C_DecryptInit(long hSession,
-            CK_MECHANISM pMechanism, long hKey) throws PKCS11Exception {
-        super.C_DecryptInit(hSession, pMechanism, hKey);
+            CK_MECHANISM pMechbnism, long hKey) throws PKCS11Exception {
+        super.C_DecryptInit(hSession, pMechbnism, hKey);
     }
 
     public synchronized int C_Decrypt(long hSession, byte[] in, int inOfs,
@@ -1677,33 +1677,33 @@ static class SynchronizedPKCS11 extends PKCS11 {
         return super.C_Decrypt(hSession, in, inOfs, inLen, out, outOfs, outLen);
     }
 
-    public synchronized int C_DecryptUpdate(long hSession, long directIn,
+    public synchronized int C_DecryptUpdbte(long hSession, long directIn,
             byte[] in, int inOfs, int inLen, long directOut, byte[] out,
             int outOfs, int outLen) throws PKCS11Exception {
-        return super.C_DecryptUpdate(hSession, directIn, in, inOfs, inLen,
+        return super.C_DecryptUpdbte(hSession, directIn, in, inOfs, inLen,
                 directOut, out, outOfs, outLen);
     }
 
-    public synchronized int C_DecryptFinal(long hSession, long directOut,
+    public synchronized int C_DecryptFinbl(long hSession, long directOut,
             byte[] out, int outOfs, int outLen) throws PKCS11Exception {
-        return super.C_DecryptFinal(hSession, directOut, out, outOfs, outLen);
+        return super.C_DecryptFinbl(hSession, directOut, out, outOfs, outLen);
     }
 
-    public synchronized void C_DigestInit(long hSession, CK_MECHANISM pMechanism)
+    public synchronized void C_DigestInit(long hSession, CK_MECHANISM pMechbnism)
             throws PKCS11Exception {
-        super.C_DigestInit(hSession, pMechanism);
+        super.C_DigestInit(hSession, pMechbnism);
     }
 
     public synchronized int C_DigestSingle(long hSession,
-            CK_MECHANISM pMechanism, byte[] in, int inOfs, int inLen,
+            CK_MECHANISM pMechbnism, byte[] in, int inOfs, int inLen,
             byte[] digest, int digestOfs, int digestLen) throws PKCS11Exception {
-        return super.C_DigestSingle(hSession, pMechanism, in, inOfs, inLen,
+        return super.C_DigestSingle(hSession, pMechbnism, in, inOfs, inLen,
                 digest, digestOfs, digestLen);
     }
 
-    public synchronized void C_DigestUpdate(long hSession, long directIn,
+    public synchronized void C_DigestUpdbte(long hSession, long directIn,
             byte[] in, int inOfs, int inLen) throws PKCS11Exception {
-        super.C_DigestUpdate(hSession, directIn, in, inOfs, inLen);
+        super.C_DigestUpdbte(hSession, directIn, in, inOfs, inLen);
     }
 
     public synchronized void C_DigestKey(long hSession, long hKey)
@@ -1711,34 +1711,34 @@ static class SynchronizedPKCS11 extends PKCS11 {
         super.C_DigestKey(hSession, hKey);
     }
 
-    public synchronized int C_DigestFinal(long hSession, byte[] pDigest,
+    public synchronized int C_DigestFinbl(long hSession, byte[] pDigest,
             int digestOfs, int digestLen) throws PKCS11Exception {
-        return super.C_DigestFinal(hSession, pDigest, digestOfs, digestLen);
+        return super.C_DigestFinbl(hSession, pDigest, digestOfs, digestLen);
     }
 
-    public synchronized void C_SignInit(long hSession, CK_MECHANISM pMechanism,
+    public synchronized void C_SignInit(long hSession, CK_MECHANISM pMechbnism,
             long hKey) throws PKCS11Exception {
-        super.C_SignInit(hSession, pMechanism, hKey);
+        super.C_SignInit(hSession, pMechbnism, hKey);
     }
 
-    public synchronized byte[] C_Sign(long hSession, byte[] pData)
+    public synchronized byte[] C_Sign(long hSession, byte[] pDbtb)
             throws PKCS11Exception {
-        return super.C_Sign(hSession, pData);
+        return super.C_Sign(hSession, pDbtb);
     }
 
-    public synchronized void C_SignUpdate(long hSession, long directIn,
+    public synchronized void C_SignUpdbte(long hSession, long directIn,
             byte[] in, int inOfs, int inLen) throws PKCS11Exception {
-        super.C_SignUpdate(hSession, directIn, in, inOfs, inLen);
+        super.C_SignUpdbte(hSession, directIn, in, inOfs, inLen);
     }
 
-    public synchronized byte[] C_SignFinal(long hSession, int expectedLen)
+    public synchronized byte[] C_SignFinbl(long hSession, int expectedLen)
             throws PKCS11Exception {
-        return super.C_SignFinal(hSession, expectedLen);
+        return super.C_SignFinbl(hSession, expectedLen);
     }
 
     public synchronized void C_SignRecoverInit(long hSession,
-            CK_MECHANISM pMechanism, long hKey) throws PKCS11Exception {
-        super.C_SignRecoverInit(hSession, pMechanism, hKey);
+            CK_MECHANISM pMechbnism, long hKey) throws PKCS11Exception {
+        super.C_SignRecoverInit(hSession, pMechbnism, hKey);
     }
 
     public synchronized int C_SignRecover(long hSession, byte[] in, int inOfs,
@@ -1748,29 +1748,29 @@ static class SynchronizedPKCS11 extends PKCS11 {
                 outLen);
     }
 
-    public synchronized void C_VerifyInit(long hSession, CK_MECHANISM pMechanism,
+    public synchronized void C_VerifyInit(long hSession, CK_MECHANISM pMechbnism,
             long hKey) throws PKCS11Exception {
-        super.C_VerifyInit(hSession, pMechanism, hKey);
+        super.C_VerifyInit(hSession, pMechbnism, hKey);
     }
 
-    public synchronized void C_Verify(long hSession, byte[] pData,
-            byte[] pSignature) throws PKCS11Exception {
-        super.C_Verify(hSession, pData, pSignature);
+    public synchronized void C_Verify(long hSession, byte[] pDbtb,
+            byte[] pSignbture) throws PKCS11Exception {
+        super.C_Verify(hSession, pDbtb, pSignbture);
     }
 
-    public synchronized void C_VerifyUpdate(long hSession, long directIn,
+    public synchronized void C_VerifyUpdbte(long hSession, long directIn,
             byte[] in, int inOfs, int inLen) throws PKCS11Exception {
-        super.C_VerifyUpdate(hSession, directIn, in, inOfs, inLen);
+        super.C_VerifyUpdbte(hSession, directIn, in, inOfs, inLen);
     }
 
-    public synchronized void C_VerifyFinal(long hSession, byte[] pSignature)
+    public synchronized void C_VerifyFinbl(long hSession, byte[] pSignbture)
             throws PKCS11Exception {
-        super.C_VerifyFinal(hSession, pSignature);
+        super.C_VerifyFinbl(hSession, pSignbture);
     }
 
     public synchronized void C_VerifyRecoverInit(long hSession,
-            CK_MECHANISM pMechanism, long hKey) throws PKCS11Exception {
-        super.C_VerifyRecoverInit(hSession, pMechanism, hKey);
+            CK_MECHANISM pMechbnism, long hKey) throws PKCS11Exception {
+        super.C_VerifyRecoverInit(hSession, pMechbnism, hKey);
     }
 
     public synchronized int C_VerifyRecover(long hSession, byte[] in, int inOfs,
@@ -1780,45 +1780,45 @@ static class SynchronizedPKCS11 extends PKCS11 {
                 outLen);
     }
 
-    public synchronized long C_GenerateKey(long hSession,
-            CK_MECHANISM pMechanism, CK_ATTRIBUTE[] pTemplate)
+    public synchronized long C_GenerbteKey(long hSession,
+            CK_MECHANISM pMechbnism, CK_ATTRIBUTE[] pTemplbte)
             throws PKCS11Exception {
-        return super.C_GenerateKey(hSession, pMechanism, pTemplate);
+        return super.C_GenerbteKey(hSession, pMechbnism, pTemplbte);
     }
 
-    public synchronized long[] C_GenerateKeyPair(long hSession,
-            CK_MECHANISM pMechanism, CK_ATTRIBUTE[] pPublicKeyTemplate,
-            CK_ATTRIBUTE[] pPrivateKeyTemplate)
+    public synchronized long[] C_GenerbteKeyPbir(long hSession,
+            CK_MECHANISM pMechbnism, CK_ATTRIBUTE[] pPublicKeyTemplbte,
+            CK_ATTRIBUTE[] pPrivbteKeyTemplbte)
             throws PKCS11Exception {
-        return super.C_GenerateKeyPair(hSession, pMechanism, pPublicKeyTemplate,
-                pPrivateKeyTemplate);
+        return super.C_GenerbteKeyPbir(hSession, pMechbnism, pPublicKeyTemplbte,
+                pPrivbteKeyTemplbte);
     }
 
-    public synchronized byte[] C_WrapKey(long hSession, CK_MECHANISM pMechanism,
-            long hWrappingKey, long hKey) throws PKCS11Exception {
-        return super.C_WrapKey(hSession, pMechanism, hWrappingKey, hKey);
+    public synchronized byte[] C_WrbpKey(long hSession, CK_MECHANISM pMechbnism,
+            long hWrbppingKey, long hKey) throws PKCS11Exception {
+        return super.C_WrbpKey(hSession, pMechbnism, hWrbppingKey, hKey);
     }
 
-    public synchronized long C_UnwrapKey(long hSession, CK_MECHANISM pMechanism,
-            long hUnwrappingKey, byte[] pWrappedKey, CK_ATTRIBUTE[] pTemplate)
+    public synchronized long C_UnwrbpKey(long hSession, CK_MECHANISM pMechbnism,
+            long hUnwrbppingKey, byte[] pWrbppedKey, CK_ATTRIBUTE[] pTemplbte)
             throws PKCS11Exception {
-        return super.C_UnwrapKey(hSession, pMechanism, hUnwrappingKey,
-                pWrappedKey, pTemplate);
+        return super.C_UnwrbpKey(hSession, pMechbnism, hUnwrbppingKey,
+                pWrbppedKey, pTemplbte);
     }
 
-    public synchronized long C_DeriveKey(long hSession, CK_MECHANISM pMechanism,
-    long hBaseKey, CK_ATTRIBUTE[] pTemplate) throws PKCS11Exception {
-        return super.C_DeriveKey(hSession, pMechanism, hBaseKey, pTemplate);
+    public synchronized long C_DeriveKey(long hSession, CK_MECHANISM pMechbnism,
+    long hBbseKey, CK_ATTRIBUTE[] pTemplbte) throws PKCS11Exception {
+        return super.C_DeriveKey(hSession, pMechbnism, hBbseKey, pTemplbte);
     }
 
-    public synchronized void C_SeedRandom(long hSession, byte[] pSeed)
+    public synchronized void C_SeedRbndom(long hSession, byte[] pSeed)
             throws PKCS11Exception {
-        super.C_SeedRandom(hSession, pSeed);
+        super.C_SeedRbndom(hSession, pSeed);
     }
 
-    public synchronized void C_GenerateRandom(long hSession, byte[] randomData)
+    public synchronized void C_GenerbteRbndom(long hSession, byte[] rbndomDbtb)
             throws PKCS11Exception {
-        super.C_GenerateRandom(hSession, randomData);
+        super.C_GenerbteRbndom(hSession, rbndomDbtb);
     }
 }
 }

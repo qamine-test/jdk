@@ -1,235 +1,235 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.provider.certpath;
+pbckbge sun.security.provider.certpbth;
 
-import java.io.IOException;
-import java.math.BigInteger;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.security.PublicKey;
-import java.security.cert.X509Certificate;
-import java.util.Arrays;
-import javax.security.auth.x500.X500Principal;
+import jbvb.io.IOException;
+import jbvb.mbth.BigInteger;
+import jbvb.security.MessbgeDigest;
+import jbvb.security.NoSuchAlgorithmException;
+import jbvb.security.PublicKey;
+import jbvb.security.cert.X509Certificbte;
+import jbvb.util.Arrbys;
+import jbvbx.security.buth.x500.X500Principbl;
 import sun.misc.HexDumpEncoder;
 import sun.security.x509.*;
 import sun.security.util.*;
 
 /**
- * This class corresponds to the CertId field in OCSP Request
- * and the OCSP Response. The ASN.1 definition for CertID is defined
- * in RFC 2560 as:
+ * This clbss corresponds to the CertId field in OCSP Request
+ * bnd the OCSP Response. The ASN.1 definition for CertID is defined
+ * in RFC 2560 bs:
  * <pre>
  *
  * CertID          ::=     SEQUENCE {
- *      hashAlgorithm       AlgorithmIdentifier,
- *      issuerNameHash      OCTET STRING, -- Hash of Issuer's DN
- *      issuerKeyHash       OCTET STRING, -- Hash of Issuers public key
- *      serialNumber        CertificateSerialNumber
+ *      hbshAlgorithm       AlgorithmIdentifier,
+ *      issuerNbmeHbsh      OCTET STRING, -- Hbsh of Issuer's DN
+ *      issuerKeyHbsh       OCTET STRING, -- Hbsh of Issuers public key
+ *      seriblNumber        CertificbteSeriblNumber
  *      }
  *
  * </pre>
  *
- * @author      Ram Marti
+ * @buthor      Rbm Mbrti
  */
 
-public class CertId {
+public clbss CertId {
 
-    private static final boolean debug = false;
-    private static final AlgorithmId SHA1_ALGID
+    privbte stbtic finbl boolebn debug = fblse;
+    privbte stbtic finbl AlgorithmId SHA1_ALGID
         = new AlgorithmId(AlgorithmId.SHA_oid);
-    private final AlgorithmId hashAlgId;
-    private final byte[] issuerNameHash;
-    private final byte[] issuerKeyHash;
-    private final SerialNumber certSerialNumber;
-    private int myhash = -1; // hashcode for this CertId
+    privbte finbl AlgorithmId hbshAlgId;
+    privbte finbl byte[] issuerNbmeHbsh;
+    privbte finbl byte[] issuerKeyHbsh;
+    privbte finbl SeriblNumber certSeriblNumber;
+    privbte int myhbsh = -1; // hbshcode for this CertId
 
     /**
-     * Creates a CertId. The hash algorithm used is SHA-1.
+     * Crebtes b CertId. The hbsh blgorithm used is SHA-1.
      */
-    public CertId(X509Certificate issuerCert, SerialNumber serialNumber)
+    public CertId(X509Certificbte issuerCert, SeriblNumber seriblNumber)
         throws IOException {
 
-        this(issuerCert.getSubjectX500Principal(),
-             issuerCert.getPublicKey(), serialNumber);
+        this(issuerCert.getSubjectX500Principbl(),
+             issuerCert.getPublicKey(), seriblNumber);
     }
 
-    public CertId(X500Principal issuerName, PublicKey issuerKey,
-                  SerialNumber serialNumber) throws IOException {
+    public CertId(X500Principbl issuerNbme, PublicKey issuerKey,
+                  SeriblNumber seriblNumber) throws IOException {
 
-        // compute issuerNameHash
-        MessageDigest md = null;
+        // compute issuerNbmeHbsh
+        MessbgeDigest md = null;
         try {
-            md = MessageDigest.getInstance("SHA1");
-        } catch (NoSuchAlgorithmException nsae) {
-            throw new IOException("Unable to create CertId", nsae);
+            md = MessbgeDigest.getInstbnce("SHA1");
+        } cbtch (NoSuchAlgorithmException nsbe) {
+            throw new IOException("Unbble to crebte CertId", nsbe);
         }
-        hashAlgId = SHA1_ALGID;
-        md.update(issuerName.getEncoded());
-        issuerNameHash = md.digest();
+        hbshAlgId = SHA1_ALGID;
+        md.updbte(issuerNbme.getEncoded());
+        issuerNbmeHbsh = md.digest();
 
-        // compute issuerKeyHash (remove the tag and length)
+        // compute issuerKeyHbsh (remove the tbg bnd length)
         byte[] pubKey = issuerKey.getEncoded();
-        DerValue val = new DerValue(pubKey);
-        DerValue[] seq = new DerValue[2];
-        seq[0] = val.data.getDerValue(); // AlgorithmID
-        seq[1] = val.data.getDerValue(); // Key
+        DerVblue vbl = new DerVblue(pubKey);
+        DerVblue[] seq = new DerVblue[2];
+        seq[0] = vbl.dbtb.getDerVblue(); // AlgorithmID
+        seq[1] = vbl.dbtb.getDerVblue(); // Key
         byte[] keyBytes = seq[1].getBitString();
-        md.update(keyBytes);
-        issuerKeyHash = md.digest();
-        certSerialNumber = serialNumber;
+        md.updbte(keyBytes);
+        issuerKeyHbsh = md.digest();
+        certSeriblNumber = seriblNumber;
 
         if (debug) {
             HexDumpEncoder encoder = new HexDumpEncoder();
-            System.out.println("Issuer Name is " + issuerName);
-            System.out.println("issuerNameHash is " +
-                encoder.encodeBuffer(issuerNameHash));
-            System.out.println("issuerKeyHash is " +
-                encoder.encodeBuffer(issuerKeyHash));
-            System.out.println("SerialNumber is " + serialNumber.getNumber());
+            System.out.println("Issuer Nbme is " + issuerNbme);
+            System.out.println("issuerNbmeHbsh is " +
+                encoder.encodeBuffer(issuerNbmeHbsh));
+            System.out.println("issuerKeyHbsh is " +
+                encoder.encodeBuffer(issuerKeyHbsh));
+            System.out.println("SeriblNumber is " + seriblNumber.getNumber());
         }
     }
 
     /**
-     * Creates a CertId from its ASN.1 DER encoding.
+     * Crebtes b CertId from its ASN.1 DER encoding.
      */
-    public CertId(DerInputStream derIn) throws IOException {
-        hashAlgId = AlgorithmId.parse(derIn.getDerValue());
-        issuerNameHash = derIn.getOctetString();
-        issuerKeyHash = derIn.getOctetString();
-        certSerialNumber = new SerialNumber(derIn);
+    public CertId(DerInputStrebm derIn) throws IOException {
+        hbshAlgId = AlgorithmId.pbrse(derIn.getDerVblue());
+        issuerNbmeHbsh = derIn.getOctetString();
+        issuerKeyHbsh = derIn.getOctetString();
+        certSeriblNumber = new SeriblNumber(derIn);
     }
 
     /**
-     * Return the hash algorithm identifier.
+     * Return the hbsh blgorithm identifier.
      */
-    public AlgorithmId getHashAlgorithm() {
-        return hashAlgId;
+    public AlgorithmId getHbshAlgorithm() {
+        return hbshAlgId;
     }
 
     /**
-     * Return the hash value for the issuer name.
+     * Return the hbsh vblue for the issuer nbme.
      */
-    public byte[] getIssuerNameHash() {
-        return issuerNameHash;
+    public byte[] getIssuerNbmeHbsh() {
+        return issuerNbmeHbsh;
     }
 
     /**
-     * Return the hash value for the issuer key.
+     * Return the hbsh vblue for the issuer key.
      */
-    public byte[] getIssuerKeyHash() {
-        return issuerKeyHash;
+    public byte[] getIssuerKeyHbsh() {
+        return issuerKeyHbsh;
     }
 
     /**
-     * Return the serial number.
+     * Return the seribl number.
      */
-    public BigInteger getSerialNumber() {
-        return certSerialNumber.getNumber();
+    public BigInteger getSeriblNumber() {
+        return certSeriblNumber.getNumber();
     }
 
     /**
      * Encode the CertId using ASN.1 DER.
-     * The hash algorithm used is SHA-1.
+     * The hbsh blgorithm used is SHA-1.
      */
-    public void encode(DerOutputStream out) throws IOException {
+    public void encode(DerOutputStrebm out) throws IOException {
 
-        DerOutputStream tmp = new DerOutputStream();
-        hashAlgId.encode(tmp);
-        tmp.putOctetString(issuerNameHash);
-        tmp.putOctetString(issuerKeyHash);
-        certSerialNumber.encode(tmp);
-        out.write(DerValue.tag_Sequence, tmp);
+        DerOutputStrebm tmp = new DerOutputStrebm();
+        hbshAlgId.encode(tmp);
+        tmp.putOctetString(issuerNbmeHbsh);
+        tmp.putOctetString(issuerKeyHbsh);
+        certSeriblNumber.encode(tmp);
+        out.write(DerVblue.tbg_Sequence, tmp);
 
         if (debug) {
             HexDumpEncoder encoder = new HexDumpEncoder();
             System.out.println("Encoded certId is " +
-                encoder.encode(out.toByteArray()));
+                encoder.encode(out.toByteArrby()));
         }
     }
 
    /**
-     * Returns a hashcode value for this CertId.
+     * Returns b hbshcode vblue for this CertId.
      *
-     * @return the hashcode value.
+     * @return the hbshcode vblue.
      */
-    @Override public int hashCode() {
-        if (myhash == -1) {
-            myhash = hashAlgId.hashCode();
-            for (int i = 0; i < issuerNameHash.length; i++) {
-                myhash += issuerNameHash[i] * i;
+    @Override public int hbshCode() {
+        if (myhbsh == -1) {
+            myhbsh = hbshAlgId.hbshCode();
+            for (int i = 0; i < issuerNbmeHbsh.length; i++) {
+                myhbsh += issuerNbmeHbsh[i] * i;
             }
-            for (int i = 0; i < issuerKeyHash.length; i++) {
-                myhash += issuerKeyHash[i] * i;
+            for (int i = 0; i < issuerKeyHbsh.length; i++) {
+                myhbsh += issuerKeyHbsh[i] * i;
             }
-            myhash += certSerialNumber.getNumber().hashCode();
+            myhbsh += certSeriblNumber.getNumber().hbshCode();
         }
-        return myhash;
+        return myhbsh;
     }
 
     /**
-     * Compares this CertId for equality with the specified
-     * object. Two CertId objects are considered equal if their hash algorithms,
-     * their issuer name and issuer key hash values and their serial numbers
-     * are equal.
+     * Compbres this CertId for equblity with the specified
+     * object. Two CertId objects bre considered equbl if their hbsh blgorithms,
+     * their issuer nbme bnd issuer key hbsh vblues bnd their seribl numbers
+     * bre equbl.
      *
-     * @param other the object to test for equality with this object.
-     * @return true if the objects are considered equal, false otherwise.
+     * @pbrbm other the object to test for equblity with this object.
+     * @return true if the objects bre considered equbl, fblse otherwise.
      */
-    @Override public boolean equals(Object other) {
+    @Override public boolebn equbls(Object other) {
         if (this == other) {
             return true;
         }
-        if (other == null || (!(other instanceof CertId))) {
-            return false;
+        if (other == null || (!(other instbnceof CertId))) {
+            return fblse;
         }
 
-        CertId that = (CertId) other;
-        if (hashAlgId.equals(that.getHashAlgorithm()) &&
-            Arrays.equals(issuerNameHash, that.getIssuerNameHash()) &&
-            Arrays.equals(issuerKeyHash, that.getIssuerKeyHash()) &&
-            certSerialNumber.getNumber().equals(that.getSerialNumber())) {
+        CertId thbt = (CertId) other;
+        if (hbshAlgId.equbls(thbt.getHbshAlgorithm()) &&
+            Arrbys.equbls(issuerNbmeHbsh, thbt.getIssuerNbmeHbsh()) &&
+            Arrbys.equbls(issuerKeyHbsh, thbt.getIssuerKeyHbsh()) &&
+            certSeriblNumber.getNumber().equbls(thbt.getSeriblNumber())) {
             return true;
         } else {
-            return false;
+            return fblse;
         }
     }
 
     /**
-     * Create a string representation of the CertId.
+     * Crebte b string representbtion of the CertId.
      */
     @Override public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("CertId \n");
-        sb.append("Algorithm: " + hashAlgId.toString() +"\n");
-        sb.append("issuerNameHash \n");
+        sb.bppend("CertId \n");
+        sb.bppend("Algorithm: " + hbshAlgId.toString() +"\n");
+        sb.bppend("issuerNbmeHbsh \n");
         HexDumpEncoder encoder = new HexDumpEncoder();
-        sb.append(encoder.encode(issuerNameHash));
-        sb.append("\nissuerKeyHash: \n");
-        sb.append(encoder.encode(issuerKeyHash));
-        sb.append("\n" +  certSerialNumber.toString());
+        sb.bppend(encoder.encode(issuerNbmeHbsh));
+        sb.bppend("\nissuerKeyHbsh: \n");
+        sb.bppend(encoder.encode(issuerKeyHbsh));
+        sb.bppend("\n" +  certSeriblNumber.toString());
         return sb.toString();
     }
 }

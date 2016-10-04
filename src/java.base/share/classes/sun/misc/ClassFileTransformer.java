@@ -1,79 +1,79 @@
 /*
- * Copyright (c) 2001, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.misc;
+pbckbge sun.misc;
 
-import java.util.ArrayList;
-import java.util.List;
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
 
 /**
- * This is an abstract base class originally intended to be called by
- * {@code java.lang.ClassLoader} when {@code ClassFormatError} is
- * thrown inside {@code defineClass()}. It is no longer hooked into
- * {@code ClassLoader} and will be removed in a future release.
+ * This is bn bbstrbct bbse clbss originblly intended to be cblled by
+ * {@code jbvb.lbng.ClbssLobder} when {@code ClbssFormbtError} is
+ * thrown inside {@code defineClbss()}. It is no longer hooked into
+ * {@code ClbssLobder} bnd will be removed in b future relebse.
  *
- * @author      Stanley Man-Kit Ho
+ * @buthor      Stbnley Mbn-Kit Ho
  */
 
-@Deprecated
-public abstract class ClassFileTransformer {
+@Deprecbted
+public bbstrbct clbss ClbssFileTrbnsformer {
 
-    private static final List<ClassFileTransformer> transformers
-        = new ArrayList<ClassFileTransformer>();
+    privbte stbtic finbl List<ClbssFileTrbnsformer> trbnsformers
+        = new ArrbyList<ClbssFileTrbnsformer>();
 
     /**
-     * Add the class file transformer object.
+     * Add the clbss file trbnsformer object.
      *
-     * @param t Class file transformer instance
+     * @pbrbm t Clbss file trbnsformer instbnce
      */
-    public static void add(ClassFileTransformer t) {
-        synchronized (transformers) {
-            transformers.add(t);
+    public stbtic void bdd(ClbssFileTrbnsformer t) {
+        synchronized (trbnsformers) {
+            trbnsformers.bdd(t);
         }
     }
 
     /**
-     * Get the array of ClassFileTransformer object.
+     * Get the brrby of ClbssFileTrbnsformer object.
      *
-     * @return ClassFileTransformer object array
+     * @return ClbssFileTrbnsformer object brrby
      */
-    public static ClassFileTransformer[] getTransformers() {
-        synchronized (transformers) {
-            ClassFileTransformer[] result = new ClassFileTransformer[transformers.size()];
-            return transformers.toArray(result);
+    public stbtic ClbssFileTrbnsformer[] getTrbnsformers() {
+        synchronized (trbnsformers) {
+            ClbssFileTrbnsformer[] result = new ClbssFileTrbnsformer[trbnsformers.size()];
+            return trbnsformers.toArrby(result);
         }
     }
 
 
     /**
-     * Transform a byte array from one to the other.
+     * Trbnsform b byte brrby from one to the other.
      *
-     * @param b Byte array
-     * @param off Offset
-     * @param len Length of byte array
-     * @return Transformed byte array
+     * @pbrbm b Byte brrby
+     * @pbrbm off Offset
+     * @pbrbm len Length of byte brrby
+     * @return Trbnsformed byte brrby
      */
-    public abstract byte[] transform(byte[] b, int off, int len)
-        throws ClassFormatError;
+    public bbstrbct byte[] trbnsform(byte[] b, int off, int len)
+        throws ClbssFormbtError;
 }

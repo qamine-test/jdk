@@ -1,54 +1,54 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.font;
+pbckbge sun.font;
 
-import java.awt.Font;
-import java.awt.font.GlyphVector;
-import java.awt.font.FontRenderContext;
-import sun.java2d.loops.FontInfo;
+import jbvb.bwt.Font;
+import jbvb.bwt.font.GlyphVector;
+import jbvb.bwt.font.FontRenderContext;
+import sun.jbvb2d.loops.FontInfo;
 
 /*
- * This class represents a list of actual renderable glyphs.
- * It can be constructed from a number of text sources, representing
- * the various ways in which a programmer can ask a Graphics2D object
- * to render some text.  Once constructed, it provides a way of iterating
- * through the device metrics and graybits of the individual glyphs that
+ * This clbss represents b list of bctubl renderbble glyphs.
+ * It cbn be constructed from b number of text sources, representing
+ * the vbrious wbys in which b progrbmmer cbn bsk b Grbphics2D object
+ * to render some text.  Once constructed, it provides b wby of iterbting
+ * through the device metrics bnd grbybits of the individubl glyphs thbt
  * need to be rendered to the screen.
  *
- * Note that this class holds pointers to native data which must be
- * disposed.  It is not marked as finalizable since it is intended
- * to be very lightweight and finalization is a comparitively expensive
- * procedure.  The caller must specifically use try{} finally{} to
- * manually ensure that the object is disposed after use, otherwise
- * native data structures might be leaked.
+ * Note thbt this clbss holds pointers to nbtive dbtb which must be
+ * disposed.  It is not mbrked bs finblizbble since it is intended
+ * to be very lightweight bnd finblizbtion is b compbritively expensive
+ * procedure.  The cbller must specificblly use try{} finblly{} to
+ * mbnublly ensure thbt the object is disposed bfter use, otherwise
+ * nbtive dbtb structures might be lebked.
  *
- * Here is a code sample for using this class:
+ * Here is b code sbmple for using this clbss:
  *
- * public void drawString(String str, FontInfo info, float x, float y) {
- *     GlyphList gl = GlyphList.getInstance();
+ * public void drbwString(String str, FontInfo info, flobt x, flobt y) {
+ *     GlyphList gl = GlyphList.getInstbnce();
  *     try {
  *         gl.setFromString(info, str, x, y);
  *         int strbounds[] = gl.getBounds();
@@ -56,7 +56,7 @@ import sun.java2d.loops.FontInfo;
  *         for (int i = 0; i < numglyphs; i++) {
  *             gl.setGlyphIndex(i);
  *             int metrics[] = gl.getMetrics();
- *             byte bits[] = gl.getGrayBits();
+ *             byte bits[] = gl.getGrbyBits();
  *             int glyphx = metrics[0];
  *             int glyphy = metrics[1];
  *             int glyphw = metrics[2];
@@ -66,248 +66,248 @@ import sun.java2d.loops.FontInfo;
  *                 for (int i = 0; i < glyphw; i++) {
  *                     int dx = glyphx + i;
  *                     int dy = glyphy + j;
- *                     int alpha = bits[off++];
- *                     drawPixel(alpha, dx, dy);
+ *                     int blphb = bits[off++];
+ *                     drbwPixel(blphb, dx, dy);
  *                 }
  *             }
  *         }
- *     } finally {
+ *     } finblly {
  *         gl.dispose();
  *     }
  * }
  */
-public final class GlyphList {
-    private static final int MINGRAYLENGTH = 1024;
-    private static final int MAXGRAYLENGTH = 8192;
-    private static final int DEFAULT_LENGTH = 32;
+public finbl clbss GlyphList {
+    privbte stbtic finbl int MINGRAYLENGTH = 1024;
+    privbte stbtic finbl int MAXGRAYLENGTH = 8192;
+    privbte stbtic finbl int DEFAULT_LENGTH = 32;
 
     int glyphindex;
     int metrics[];
-    byte graybits[];
+    byte grbybits[];
 
-    /* A reference to the strike is needed for the case when the GlyphList
-     * may be added to a queue for batch processing, (e.g. OpenGL) and we need
-     * to be completely certain that the strike is still valid when the glyphs
-     * images are later referenced.  This does mean that if such code discards
-     * GlyphList and places only the data it contains on the queue, that the
-     * strike needs to be part of that data held by a strong reference.
-     * In the cases of drawString() and drawChars(), this is a single strike,
-     * although it may be a composite strike.  In the case of
-     * drawGlyphVector() it may be a single strike, or a list of strikes.
+    /* A reference to the strike is needed for the cbse when the GlyphList
+     * mby be bdded to b queue for bbtch processing, (e.g. OpenGL) bnd we need
+     * to be completely certbin thbt the strike is still vblid when the glyphs
+     * imbges bre lbter referenced.  This does mebn thbt if such code discbrds
+     * GlyphList bnd plbces only the dbtb it contbins on the queue, thbt the
+     * strike needs to be pbrt of thbt dbtb held by b strong reference.
+     * In the cbses of drbwString() bnd drbwChbrs(), this is b single strike,
+     * blthough it mby be b composite strike.  In the cbse of
+     * drbwGlyphVector() it mby be b single strike, or b list of strikes.
      */
     Object strikelist; // hold multiple strikes during rendering of complex gv
 
-    /* In normal usage, the same GlyphList will get recycled, so
-     * it makes sense to allocate arrays that will get reused along with
-     * it, rather than generating garbage. Garbage will be generated only
-     * in MP envts where multiple threads are executing. Throughput should
-     * still be higher in those cases.
+    /* In normbl usbge, the sbme GlyphList will get recycled, so
+     * it mbkes sense to bllocbte brrbys thbt will get reused blong with
+     * it, rbther thbn generbting gbrbbge. Gbrbbge will be generbted only
+     * in MP envts where multiple threbds bre executing. Throughput should
+     * still be higher in those cbses.
      */
     int len = 0;
-    int maxLen = 0;
-    int maxPosLen = 0;
-    int glyphData[];
-    char chData[];
-    long images[];
-    float positions[];
-    float x, y;
-    float gposx, gposy;
-    boolean usePositions;
+    int mbxLen = 0;
+    int mbxPosLen = 0;
+    int glyphDbtb[];
+    chbr chDbtb[];
+    long imbges[];
+    flobt positions[];
+    flobt x, y;
+    flobt gposx, gposy;
+    boolebn usePositions;
 
-    /* lcdRGBOrder is used only by LCD text rendering. Its here because
-     * the Graphics may have a different hint value than the one used
-     * by a GlyphVector, so it has to be stored here - and is obtained
-     * from the right FontInfo. Another approach would have been to have
-     * install a separate pipe for that case but that's a lot of extra
-     * code when a simple boolean will suffice. The overhead to non-LCD
-     * text is a redundant boolean assign per call.
+    /* lcdRGBOrder is used only by LCD text rendering. Its here becbuse
+     * the Grbphics mby hbve b different hint vblue thbn the one used
+     * by b GlyphVector, so it hbs to be stored here - bnd is obtbined
+     * from the right FontInfo. Another bpprobch would hbve been to hbve
+     * instbll b sepbrbte pipe for thbt cbse but thbt's b lot of extrb
+     * code when b simple boolebn will suffice. The overhebd to non-LCD
+     * text is b redundbnt boolebn bssign per cbll.
      */
-    boolean lcdRGBOrder;
+    boolebn lcdRGBOrder;
 
     /*
-     * lcdSubPixPos is used only by LCD text rendering. Its here because
-     * the Graphics may have a different hint value than the one used
-     * by a GlyphVector, so it has to be stored here - and is obtained
-     * from the right FontInfo. Its also needed by the code which
-     * calculates glyph positions which already needs to access this
-     * GlyphList and would otherwise need the FontInfo.
-     * This is true only if LCD text and fractional metrics hints
-     * are selected on the graphics.
-     * When this is true and the glyph positions as determined by the
-     * advances are non-integral, it requests adjustment of the positions.
-     * Setting this for surfaces which do not support it through accelerated
-     * loops may cause a slow-down as software loops are invoked instead.
+     * lcdSubPixPos is used only by LCD text rendering. Its here becbuse
+     * the Grbphics mby hbve b different hint vblue thbn the one used
+     * by b GlyphVector, so it hbs to be stored here - bnd is obtbined
+     * from the right FontInfo. Its blso needed by the code which
+     * cblculbtes glyph positions which blrebdy needs to bccess this
+     * GlyphList bnd would otherwise need the FontInfo.
+     * This is true only if LCD text bnd frbctionbl metrics hints
+     * bre selected on the grbphics.
+     * When this is true bnd the glyph positions bs determined by the
+     * bdvbnces bre non-integrbl, it requests bdjustment of the positions.
+     * Setting this for surfbces which do not support it through bccelerbted
+     * loops mby cbuse b slow-down bs softwbre loops bre invoked instebd.
      */
-    boolean lcdSubPixPos;
+    boolebn lcdSubPixPos;
 
-    /* This scheme creates a singleton GlyphList which is checked out
-     * for use. Callers who find its checked out create one that after use
-     * is discarded. This means that in a MT-rendering environment,
-     * there's no need to synchronise except for that one instance.
-     * Fewer threads will then need to synchronise, perhaps helping
-     * throughput on a MP system. If for some reason the reusable
-     * GlyphList is checked out for a long time (or never returned?) then
-     * we would end up always creating new ones. That situation should not
-     * occur and if it did, it would just lead to some extra garbage being
-     * created.
+    /* This scheme crebtes b singleton GlyphList which is checked out
+     * for use. Cbllers who find its checked out crebte one thbt bfter use
+     * is discbrded. This mebns thbt in b MT-rendering environment,
+     * there's no need to synchronise except for thbt one instbnce.
+     * Fewer threbds will then need to synchronise, perhbps helping
+     * throughput on b MP system. If for some rebson the reusbble
+     * GlyphList is checked out for b long time (or never returned?) then
+     * we would end up blwbys crebting new ones. Thbt situbtion should not
+     * occur bnd if it did, it would just lebd to some extrb gbrbbge being
+     * crebted.
      */
-    private static GlyphList reusableGL = new GlyphList();
-    private static boolean inUse;
+    privbte stbtic GlyphList reusbbleGL = new GlyphList();
+    privbte stbtic boolebn inUse;
 
 
-    void ensureCapacity(int len) {
-      /* Note len must not be -ve! only setFromChars should be capable
-       * of passing down a -ve len, and this guards against it.
+    void ensureCbpbcity(int len) {
+      /* Note len must not be -ve! only setFromChbrs should be cbpbble
+       * of pbssing down b -ve len, bnd this gubrds bgbinst it.
        */
         if (len < 0) {
           len = 0;
         }
-        if (usePositions && len > maxPosLen) {
-            positions = new float[len * 2 + 2];
-            maxPosLen = len;
+        if (usePositions && len > mbxPosLen) {
+            positions = new flobt[len * 2 + 2];
+            mbxPosLen = len;
         }
 
-        if (maxLen == 0 || len > maxLen) {
-            glyphData = new int[len];
-            chData = new char[len];
-            images = new long[len];
-            maxLen = len;
+        if (mbxLen == 0 || len > mbxLen) {
+            glyphDbtb = new int[len];
+            chDbtb = new chbr[len];
+            imbges = new long[len];
+            mbxLen = len;
         }
     }
 
-    private GlyphList() {
-//         ensureCapacity(DEFAULT_LENGTH);
+    privbte GlyphList() {
+//         ensureCbpbcity(DEFAULT_LENGTH);
     }
 
-//     private GlyphList(int arraylen) {
-//          ensureCapacity(arraylen);
+//     privbte GlyphList(int brrbylen) {
+//          ensureCbpbcity(brrbylen);
 //     }
 
-    public static GlyphList getInstance() {
-        /* The following heuristic is that if the reusable instance is
-         * in use, it probably still will be in a micro-second, so avoid
-         * synchronising on the class and just allocate a new instance.
-         * The cost is one extra boolean test for the normal case, and some
-         * small number of cases where we allocate an extra object when
-         * in fact the reusable one would be freed very soon.
+    public stbtic GlyphList getInstbnce() {
+        /* The following heuristic is thbt if the reusbble instbnce is
+         * in use, it probbbly still will be in b micro-second, so bvoid
+         * synchronising on the clbss bnd just bllocbte b new instbnce.
+         * The cost is one extrb boolebn test for the normbl cbse, bnd some
+         * smbll number of cbses where we bllocbte bn extrb object when
+         * in fbct the reusbble one would be freed very soon.
          */
         if (inUse) {
             return new GlyphList();
         } else {
-            synchronized(GlyphList.class) {
+            synchronized(GlyphList.clbss) {
                 if (inUse) {
                     return new GlyphList();
                 } else {
                     inUse = true;
-                    return reusableGL;
+                    return reusbbleGL;
                 }
             }
         }
     }
 
-    /* In some cases the caller may be able to estimate the size of
-     * array needed, and it will usually be long enough. This avoids
-     * the unnecessary reallocation that occurs if our default
-     * values are too small. This is useful because this object
-     * will be discarded so the re-allocation overhead is high.
+    /* In some cbses the cbller mby be bble to estimbte the size of
+     * brrby needed, bnd it will usublly be long enough. This bvoids
+     * the unnecessbry rebllocbtion thbt occurs if our defbult
+     * vblues bre too smbll. This is useful becbuse this object
+     * will be discbrded so the re-bllocbtion overhebd is high.
      */
-//     public static GlyphList getInstance(int sz) {
+//     public stbtic GlyphList getInstbnce(int sz) {
 //      if (inUse) {
 //          return new GlyphList(sz);
 //      } else {
-//          synchronized(GlyphList.class) {
+//          synchronized(GlyphList.clbss) {
 //              if (inUse) {
 //                  return new GlyphList();
 //              } else {
 //                  inUse = true;
-//                  return reusableGL;
+//                  return reusbbleGL;
 //              }
 //          }
 //      }
 //     }
 
-    /* GlyphList is in an invalid state until setFrom* method is called.
-     * After obtaining a new GlyphList it is the caller's responsibility
-     * that one of these methods is executed before handing off the
+    /* GlyphList is in bn invblid stbte until setFrom* method is cblled.
+     * After obtbining b new GlyphList it is the cbller's responsibility
+     * thbt one of these methods is executed before hbnding off the
      * GlyphList
      */
 
-    public boolean setFromString(FontInfo info, String str, float x, float y) {
+    public boolebn setFromString(FontInfo info, String str, flobt x, flobt y) {
         this.x = x;
         this.y = y;
         this.strikelist = info.fontStrike;
         this.lcdRGBOrder = info.lcdRGBOrder;
         this.lcdSubPixPos = info.lcdSubPixPos;
         len = str.length();
-        ensureCapacity(len);
-        str.getChars(0, len, chData, 0);
-        return mapChars(info, len);
+        ensureCbpbcity(len);
+        str.getChbrs(0, len, chDbtb, 0);
+        return mbpChbrs(info, len);
     }
 
-    public boolean setFromChars(FontInfo info, char[] chars, int off, int alen,
-                                float x, float y) {
+    public boolebn setFromChbrs(FontInfo info, chbr[] chbrs, int off, int blen,
+                                flobt x, flobt y) {
         this.x = x;
         this.y = y;
         this.strikelist = info.fontStrike;
         this.lcdRGBOrder = info.lcdRGBOrder;
         this.lcdSubPixPos = info.lcdSubPixPos;
-        len = alen;
-        if (alen < 0) {
+        len = blen;
+        if (blen < 0) {
             len = 0;
         } else {
-            len = alen;
+            len = blen;
         }
-        ensureCapacity(len);
-        System.arraycopy(chars, off, chData, 0, len);
-        return mapChars(info, len);
+        ensureCbpbcity(len);
+        System.brrbycopy(chbrs, off, chDbtb, 0, len);
+        return mbpChbrs(info, len);
     }
 
-    private final boolean mapChars(FontInfo info, int len) {
-        /* REMIND.Is it worthwhile for the iteration to convert
-         * chars to glyph ids to directly map to images?
+    privbte finbl boolebn mbpChbrs(FontInfo info, int len) {
+        /* REMIND.Is it worthwhile for the iterbtion to convert
+         * chbrs to glyph ids to directly mbp to imbges?
          */
-        if (info.font2D.getMapper().charsToGlyphsNS(len, chData, glyphData)) {
-            return false;
+        if (info.font2D.getMbpper().chbrsToGlyphsNS(len, chDbtb, glyphDbtb)) {
+            return fblse;
         }
-        info.fontStrike.getGlyphImagePtrs(glyphData, images, len);
+        info.fontStrike.getGlyphImbgePtrs(glyphDbtb, imbges, len);
         glyphindex = -1;
         return true;
     }
 
 
     public void setFromGlyphVector(FontInfo info, GlyphVector gv,
-                                   float x, float y) {
+                                   flobt x, flobt y) {
         this.x = x;
         this.y = y;
         this.lcdRGBOrder = info.lcdRGBOrder;
         this.lcdSubPixPos = info.lcdSubPixPos;
-        /* A GV may be rendered in different Graphics. It is possible it is
-         * used for one case where LCD text is available, and another where
-         * it is not. Pass in the "info". to ensure get a suitable one.
+        /* A GV mby be rendered in different Grbphics. It is possible it is
+         * used for one cbse where LCD text is bvbilbble, bnd bnother where
+         * it is not. Pbss in the "info". to ensure get b suitbble one.
          */
-        StandardGlyphVector sgv = StandardGlyphVector.getStandardGV(gv, info);
-        // call before ensureCapacity :-
+        StbndbrdGlyphVector sgv = StbndbrdGlyphVector.getStbndbrdGV(gv, info);
+        // cbll before ensureCbpbcity :-
         usePositions = sgv.needsPositions(info.devTx);
         len = sgv.getNumGlyphs();
-        ensureCapacity(len);
-        strikelist = sgv.setupGlyphImages(images,
+        ensureCbpbcity(len);
+        strikelist = sgv.setupGlyphImbges(imbges,
                                           usePositions ? positions : null,
                                           info.devTx);
         glyphindex = -1;
     }
 
     public int[] getBounds() {
-        /* We co-opt the 5 element array that holds per glyph metrics in order
-         * to return the bounds. So a caller must copy the data out of the
-         * array before calling any other methods on this GlyphList
+        /* We co-opt the 5 element brrby thbt holds per glyph metrics in order
+         * to return the bounds. So b cbller must copy the dbtb out of the
+         * brrby before cblling bny other methods on this GlyphList
          */
         if (glyphindex >= 0) {
-            throw new InternalError("calling getBounds after setGlyphIndex");
+            throw new InternblError("cblling getBounds bfter setGlyphIndex");
         }
         if (metrics == null) {
             metrics = new int[5];
         }
-        /* gposx and gposy are used to accumulate the advance.
+        /* gposx bnd gposy bre used to bccumulbte the bdvbnce.
          * Add 0.5f for consistent rounding to pixel position. */
         gposx = x + 0.5f;
         gposy = y + 0.5f;
@@ -315,88 +315,88 @@ public final class GlyphList {
         return metrics;
     }
 
-    /* This method now assumes "state", so must be called 0->len
-     * The metrics it returns are accumulated on the fly
-     * So it could be renamed "nextGlyph()".
-     * Note that a laid out GlyphVector which has assigned glyph positions
-     * doesn't have this stricture..
+    /* This method now bssumes "stbte", so must be cblled 0->len
+     * The metrics it returns bre bccumulbted on the fly
+     * So it could be renbmed "nextGlyph()".
+     * Note thbt b lbid out GlyphVector which hbs bssigned glyph positions
+     * doesn't hbve this stricture..
      */
     public void setGlyphIndex(int i) {
         glyphindex = i;
-        float gx =
-            StrikeCache.unsafe.getFloat(images[i]+StrikeCache.topLeftXOffset);
-        float gy =
-            StrikeCache.unsafe.getFloat(images[i]+StrikeCache.topLeftYOffset);
+        flobt gx =
+            StrikeCbche.unsbfe.getFlobt(imbges[i]+StrikeCbche.topLeftXOffset);
+        flobt gy =
+            StrikeCbche.unsbfe.getFlobt(imbges[i]+StrikeCbche.topLeftYOffset);
 
         if (usePositions) {
-            metrics[0] = (int)Math.floor(positions[(i<<1)]   + gposx + gx);
-            metrics[1] = (int)Math.floor(positions[(i<<1)+1] + gposy + gy);
+            metrics[0] = (int)Mbth.floor(positions[(i<<1)]   + gposx + gx);
+            metrics[1] = (int)Mbth.floor(positions[(i<<1)+1] + gposy + gy);
         } else {
-            metrics[0] = (int)Math.floor(gposx + gx);
-            metrics[1] = (int)Math.floor(gposy + gy);
-            /* gposx and gposy are used to accumulate the advance */
-            gposx += StrikeCache.unsafe.getFloat
-                (images[i]+StrikeCache.xAdvanceOffset);
-            gposy += StrikeCache.unsafe.getFloat
-                (images[i]+StrikeCache.yAdvanceOffset);
+            metrics[0] = (int)Mbth.floor(gposx + gx);
+            metrics[1] = (int)Mbth.floor(gposy + gy);
+            /* gposx bnd gposy bre used to bccumulbte the bdvbnce */
+            gposx += StrikeCbche.unsbfe.getFlobt
+                (imbges[i]+StrikeCbche.xAdvbnceOffset);
+            gposy += StrikeCbche.unsbfe.getFlobt
+                (imbges[i]+StrikeCbche.yAdvbnceOffset);
         }
         metrics[2] =
-            StrikeCache.unsafe.getChar(images[i]+StrikeCache.widthOffset);
+            StrikeCbche.unsbfe.getChbr(imbges[i]+StrikeCbche.widthOffset);
         metrics[3] =
-            StrikeCache.unsafe.getChar(images[i]+StrikeCache.heightOffset);
+            StrikeCbche.unsbfe.getChbr(imbges[i]+StrikeCbche.heightOffset);
         metrics[4] =
-            StrikeCache.unsafe.getChar(images[i]+StrikeCache.rowBytesOffset);
+            StrikeCbche.unsbfe.getChbr(imbges[i]+StrikeCbche.rowBytesOffset);
     }
 
     public int[] getMetrics() {
         return metrics;
     }
 
-    public byte[] getGrayBits() {
+    public byte[] getGrbyBits() {
         int len = metrics[4] * metrics[3];
-        if (graybits == null) {
-            graybits = new byte[Math.max(len, MINGRAYLENGTH)];
+        if (grbybits == null) {
+            grbybits = new byte[Mbth.mbx(len, MINGRAYLENGTH)];
         } else {
-            if (len > graybits.length) {
-                graybits = new byte[len];
+            if (len > grbybits.length) {
+                grbybits = new byte[len];
             }
         }
-        long pixelDataAddress =
-            StrikeCache.unsafe.getAddress(images[glyphindex] +
-                                          StrikeCache.pixelDataOffset);
+        long pixelDbtbAddress =
+            StrikeCbche.unsbfe.getAddress(imbges[glyphindex] +
+                                          StrikeCbche.pixelDbtbOffset);
 
-        if (pixelDataAddress == 0L) {
-            return graybits;
+        if (pixelDbtbAddress == 0L) {
+            return grbybits;
         }
-        /* unsafe is supposed to be fast, but I doubt if this loop can beat
-         * a native call which does a getPrimitiveArrayCritical and a
-         * memcpy for the typical amount of image data (30-150 bytes)
-         * Consider a native method if there is a performance problem (which
-         * I haven't seen so far).
+        /* unsbfe is supposed to be fbst, but I doubt if this loop cbn bebt
+         * b nbtive cbll which does b getPrimitiveArrbyCriticbl bnd b
+         * memcpy for the typicbl bmount of imbge dbtb (30-150 bytes)
+         * Consider b nbtive method if there is b performbnce problem (which
+         * I hbven't seen so fbr).
          */
         for (int i=0; i<len; i++) {
-            graybits[i] = StrikeCache.unsafe.getByte(pixelDataAddress+i);
+            grbybits[i] = StrikeCbche.unsbfe.getByte(pixelDbtbAddress+i);
         }
-        return graybits;
+        return grbybits;
     }
 
-    public long[] getImages() {
-        return images;
+    public long[] getImbges() {
+        return imbges;
     }
 
-    public boolean usePositions() {
+    public boolebn usePositions() {
         return usePositions;
     }
 
-    public float[] getPositions() {
+    public flobt[] getPositions() {
         return positions;
     }
 
-    public float getX() {
+    public flobt getX() {
         return x;
     }
 
-    public float getY() {
+    public flobt getY() {
         return y;
     }
 
@@ -404,74 +404,74 @@ public final class GlyphList {
         return strikelist;
     }
 
-    public boolean isSubPixPos() {
+    public boolebn isSubPixPos() {
         return lcdSubPixPos;
     }
 
-    public boolean isRGBOrder() {
+    public boolebn isRGBOrder() {
         return lcdRGBOrder;
     }
 
-    /* There's a reference equality test overhead here, but it allows us
-     * to avoid synchronizing for GL's that will just be GC'd. This
+    /* There's b reference equblity test overhebd here, but it bllows us
+     * to bvoid synchronizing for GL's thbt will just be GC'd. This
      * helps MP throughput.
      */
     public void dispose() {
-        if (this == reusableGL) {
-            if (graybits != null && graybits.length > MAXGRAYLENGTH) {
-                graybits = null;
+        if (this == reusbbleGL) {
+            if (grbybits != null && grbybits.length > MAXGRAYLENGTH) {
+                grbybits = null;
             }
-            usePositions = false;
+            usePositions = fblse;
             strikelist = null; // remove reference to the strike list
-            inUse = false;
+            inUse = fblse;
         }
     }
 
-    /* The value here is for use by the rendering engine as it reflects
-     * the number of glyphs in the array to be blitted. Surrogates pairs
-     * may have two slots (the second of these being a dummy entry of the
-     * invisible glyph), whereas an application client would expect only
-     * one glyph. In other words don't propagate this value up to client code.
+    /* The vblue here is for use by the rendering engine bs it reflects
+     * the number of glyphs in the brrby to be blitted. Surrogbtes pbirs
+     * mby hbve two slots (the second of these being b dummy entry of the
+     * invisible glyph), wherebs bn bpplicbtion client would expect only
+     * one glyph. In other words don't propbgbte this vblue up to client code.
      *
-     * {dlf} an application client should have _no_ expectations about the
-     * number of glyphs per char.  This ultimately depends on the font
-     * technology and layout process used, which in general clients will
-     * know nothing about.
+     * {dlf} bn bpplicbtion client should hbve _no_ expectbtions bbout the
+     * number of glyphs per chbr.  This ultimbtely depends on the font
+     * technology bnd lbyout process used, which in generbl clients will
+     * know nothing bbout.
      */
     public int getNumGlyphs() {
         return len;
     }
 
-    /* We re-do all this work as we iterate through the glyphs
-     * but it seems unavoidable without re-working the Java TextRenderers.
+    /* We re-do bll this work bs we iterbte through the glyphs
+     * but it seems unbvoidbble without re-working the Jbvb TextRenderers.
      */
-    private void fillBounds(int[] bounds) {
-        /* Faster to access local variables in the for loop? */
-        int xOffset = StrikeCache.topLeftXOffset;
-        int yOffset = StrikeCache.topLeftYOffset;
-        int wOffset = StrikeCache.widthOffset;
-        int hOffset = StrikeCache.heightOffset;
-        int xAdvOffset = StrikeCache.xAdvanceOffset;
-        int yAdvOffset = StrikeCache.yAdvanceOffset;
+    privbte void fillBounds(int[] bounds) {
+        /* Fbster to bccess locbl vbribbles in the for loop? */
+        int xOffset = StrikeCbche.topLeftXOffset;
+        int yOffset = StrikeCbche.topLeftYOffset;
+        int wOffset = StrikeCbche.widthOffset;
+        int hOffset = StrikeCbche.heightOffset;
+        int xAdvOffset = StrikeCbche.xAdvbnceOffset;
+        int yAdvOffset = StrikeCbche.yAdvbnceOffset;
 
         if (len == 0) {
             bounds[0] = bounds[1] = bounds[2] = bounds[3] = 0;
             return;
         }
-        float bx0, by0, bx1, by1;
-        bx0 = by0 = Float.POSITIVE_INFINITY;
-        bx1 = by1 = Float.NEGATIVE_INFINITY;
+        flobt bx0, by0, bx1, by1;
+        bx0 = by0 = Flobt.POSITIVE_INFINITY;
+        bx1 = by1 = Flobt.NEGATIVE_INFINITY;
 
         int posIndex = 0;
-        float glx = x + 0.5f;
-        float gly = y + 0.5f;
-        char gw, gh;
-        float gx, gy, gx0, gy0, gx1, gy1;
+        flobt glx = x + 0.5f;
+        flobt gly = y + 0.5f;
+        chbr gw, gh;
+        flobt gx, gy, gx0, gy0, gx1, gy1;
         for (int i=0; i<len; i++) {
-            gx = StrikeCache.unsafe.getFloat(images[i]+xOffset);
-            gy = StrikeCache.unsafe.getFloat(images[i]+yOffset);
-            gw = StrikeCache.unsafe.getChar(images[i]+wOffset);
-            gh = StrikeCache.unsafe.getChar(images[i]+hOffset);
+            gx = StrikeCbche.unsbfe.getFlobt(imbges[i]+xOffset);
+            gy = StrikeCbche.unsbfe.getFlobt(imbges[i]+yOffset);
+            gw = StrikeCbche.unsbfe.getChbr(imbges[i]+wOffset);
+            gh = StrikeCbche.unsbfe.getChbr(imbges[i]+hOffset);
 
             if (usePositions) {
                 gx0 = positions[posIndex++] + gx + glx;
@@ -479,8 +479,8 @@ public final class GlyphList {
             } else {
                 gx0 = glx + gx;
                 gy0 = gly + gy;
-                glx += StrikeCache.unsafe.getFloat(images[i]+xAdvOffset);
-                gly += StrikeCache.unsafe.getFloat(images[i]+yAdvOffset);
+                glx += StrikeCbche.unsbfe.getFlobt(imbges[i]+xAdvOffset);
+                gly += StrikeCbche.unsbfe.getFlobt(imbges[i]+yAdvOffset);
             }
             gx1 = gx0 + gw;
             gy1 = gy0 + gh;
@@ -489,12 +489,12 @@ public final class GlyphList {
             if (bx1 < gx1) bx1 = gx1;
             if (by1 < gy1) by1 = gy1;
         }
-        /* floor is safe and correct because all glyph widths, heights
-         * and offsets are integers
+        /* floor is sbfe bnd correct becbuse bll glyph widths, heights
+         * bnd offsets bre integers
          */
-        bounds[0] = (int)Math.floor(bx0);
-        bounds[1] = (int)Math.floor(by0);
-        bounds[2] = (int)Math.floor(bx1);
-        bounds[3] = (int)Math.floor(by1);
+        bounds[0] = (int)Mbth.floor(bx0);
+        bounds[1] = (int)Mbth.floor(by0);
+        bounds[2] = (int)Mbth.floor(bx1);
+        bounds[3] = (int)Mbth.floor(by1);
     }
 }

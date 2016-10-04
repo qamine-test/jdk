@@ -1,49 +1,49 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.apple.eawt;
+pbckbge com.bpple.ebwt;
 
 /**
- * The strategy use to shut down the application, if Sudden Termination is not enabled.
+ * The strbtegy use to shut down the bpplicbtion, if Sudden Terminbtion is not enbbled.
  *
- * @see Application#setQuitHandler(QuitHandler)
- * @see Application#setQuitStrategy(QuitStrategy)
- * @see Application#enableSuddenTermination()
- * @see Application#disableSuddenTermination()
+ * @see Applicbtion#setQuitHbndler(QuitHbndler)
+ * @see Applicbtion#setQuitStrbtegy(QuitStrbtegy)
+ * @see Applicbtion#enbbleSuddenTerminbtion()
+ * @see Applicbtion#disbbleSuddenTerminbtion()
  *
- * @since Java for Mac OS X 10.6 Update 3
- * @since Java for Mac OS X 10.5 Update 8
+ * @since Jbvb for Mbc OS X 10.6 Updbte 3
+ * @since Jbvb for Mbc OS X 10.5 Updbte 8
  */
-public enum QuitStrategy {
+public enum QuitStrbtegy {
     /**
-     * Shuts down the application by calling <code>System.exit(0)</code>. This is the default strategy.
+     * Shuts down the bpplicbtion by cblling <code>System.exit(0)</code>. This is the defbult strbtegy.
      */
     SYSTEM_EXIT_0,
 
     /**
-     * Shuts down the application by closing each window from back-to-front.
+     * Shuts down the bpplicbtion by closing ebch window from bbck-to-front.
      */
     CLOSE_ALL_WINDOWS
 }

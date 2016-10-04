@@ -1,315 +1,315 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.util;
+pbckbge jbvb.util;
 
-import java.security.*;
+import jbvb.security.*;
 
-import sun.misc.JavaLangAccess;
-import sun.misc.SharedSecrets;
+import sun.misc.JbvbLbngAccess;
+import sun.misc.ShbredSecrets;
 
 /**
- * A class that represents an immutable universally unique identifier (UUID).
- * A UUID represents a 128-bit value.
+ * A clbss thbt represents bn immutbble universblly unique identifier (UUID).
+ * A UUID represents b 128-bit vblue.
  *
- * <p> There exist different variants of these global identifiers.  The methods
- * of this class are for manipulating the Leach-Salz variant, although the
- * constructors allow the creation of any variant of UUID (described below).
+ * <p> There exist different vbribnts of these globbl identifiers.  The methods
+ * of this clbss bre for mbnipulbting the Lebch-Sblz vbribnt, blthough the
+ * constructors bllow the crebtion of bny vbribnt of UUID (described below).
  *
- * <p> The layout of a variant 2 (Leach-Salz) UUID is as follows:
+ * <p> The lbyout of b vbribnt 2 (Lebch-Sblz) UUID is bs follows:
  *
- * The most significant long consists of the following unsigned fields:
+ * The most significbnt long consists of the following unsigned fields:
  * <pre>
  * 0xFFFFFFFF00000000 time_low
  * 0x00000000FFFF0000 time_mid
  * 0x000000000000F000 version
  * 0x0000000000000FFF time_hi
  * </pre>
- * The least significant long consists of the following unsigned fields:
+ * The lebst significbnt long consists of the following unsigned fields:
  * <pre>
- * 0xC000000000000000 variant
+ * 0xC000000000000000 vbribnt
  * 0x3FFF000000000000 clock_seq
  * 0x0000FFFFFFFFFFFF node
  * </pre>
  *
- * <p> The variant field contains a value which identifies the layout of the
- * {@code UUID}.  The bit layout described above is valid only for a {@code
- * UUID} with a variant value of 2, which indicates the Leach-Salz variant.
+ * <p> The vbribnt field contbins b vblue which identifies the lbyout of the
+ * {@code UUID}.  The bit lbyout described bbove is vblid only for b {@code
+ * UUID} with b vbribnt vblue of 2, which indicbtes the Lebch-Sblz vbribnt.
  *
- * <p> The version field holds a value that describes the type of this {@code
- * UUID}.  There are four different basic types of UUIDs: time-based, DCE
- * security, name-based, and randomly generated UUIDs.  These types have a
- * version value of 1, 2, 3 and 4, respectively.
+ * <p> The version field holds b vblue thbt describes the type of this {@code
+ * UUID}.  There bre four different bbsic types of UUIDs: time-bbsed, DCE
+ * security, nbme-bbsed, bnd rbndomly generbted UUIDs.  These types hbve b
+ * version vblue of 1, 2, 3 bnd 4, respectively.
  *
- * <p> For more information including algorithms used to create {@code UUID}s,
- * see <a href="http://www.ietf.org/rfc/rfc4122.txt"> <i>RFC&nbsp;4122: A
- * Universally Unique IDentifier (UUID) URN Namespace</i></a>, section 4.2
- * &quot;Algorithms for Creating a Time-Based UUID&quot;.
+ * <p> For more informbtion including blgorithms used to crebte {@code UUID}s,
+ * see <b href="http://www.ietf.org/rfc/rfc4122.txt"> <i>RFC&nbsp;4122: A
+ * Universblly Unique IDentifier (UUID) URN Nbmespbce</i></b>, section 4.2
+ * &quot;Algorithms for Crebting b Time-Bbsed UUID&quot;.
  *
  * @since   1.5
  */
-public final class UUID implements java.io.Serializable, Comparable<UUID> {
+public finbl clbss UUID implements jbvb.io.Seriblizbble, Compbrbble<UUID> {
 
     /**
-     * Explicit serialVersionUID for interoperability.
+     * Explicit seriblVersionUID for interoperbbility.
      */
-    private static final long serialVersionUID = -4856846361193249489L;
+    privbte stbtic finbl long seriblVersionUID = -4856846361193249489L;
 
     /*
-     * The most significant 64 bits of this UUID.
+     * The most significbnt 64 bits of this UUID.
      *
-     * @serial
+     * @seribl
      */
-    private final long mostSigBits;
+    privbte finbl long mostSigBits;
 
     /*
-     * The least significant 64 bits of this UUID.
+     * The lebst significbnt 64 bits of this UUID.
      *
-     * @serial
+     * @seribl
      */
-    private final long leastSigBits;
+    privbte finbl long lebstSigBits;
 
-    private static final JavaLangAccess jla = SharedSecrets.getJavaLangAccess();
+    privbte stbtic finbl JbvbLbngAccess jlb = ShbredSecrets.getJbvbLbngAccess();
 
     /*
-     * The random number generator used by this class to create random
-     * based UUIDs. In a holder class to defer initialization until needed.
+     * The rbndom number generbtor used by this clbss to crebte rbndom
+     * bbsed UUIDs. In b holder clbss to defer initiblizbtion until needed.
      */
-    private static class Holder {
-        static final SecureRandom numberGenerator = new SecureRandom();
+    privbte stbtic clbss Holder {
+        stbtic finbl SecureRbndom numberGenerbtor = new SecureRbndom();
     }
 
-    // Constructors and Factories
+    // Constructors bnd Fbctories
 
     /*
-     * Private constructor which uses a byte array to construct the new UUID.
+     * Privbte constructor which uses b byte brrby to construct the new UUID.
      */
-    private UUID(byte[] data) {
+    privbte UUID(byte[] dbtb) {
         long msb = 0;
         long lsb = 0;
-        assert data.length == 16 : "data must be 16 bytes in length";
+        bssert dbtb.length == 16 : "dbtb must be 16 bytes in length";
         for (int i=0; i<8; i++)
-            msb = (msb << 8) | (data[i] & 0xff);
+            msb = (msb << 8) | (dbtb[i] & 0xff);
         for (int i=8; i<16; i++)
-            lsb = (lsb << 8) | (data[i] & 0xff);
+            lsb = (lsb << 8) | (dbtb[i] & 0xff);
         this.mostSigBits = msb;
-        this.leastSigBits = lsb;
+        this.lebstSigBits = lsb;
     }
 
     /**
-     * Constructs a new {@code UUID} using the specified data.  {@code
-     * mostSigBits} is used for the most significant 64 bits of the {@code
-     * UUID} and {@code leastSigBits} becomes the least significant 64 bits of
+     * Constructs b new {@code UUID} using the specified dbtb.  {@code
+     * mostSigBits} is used for the most significbnt 64 bits of the {@code
+     * UUID} bnd {@code lebstSigBits} becomes the lebst significbnt 64 bits of
      * the {@code UUID}.
      *
-     * @param  mostSigBits
-     *         The most significant bits of the {@code UUID}
+     * @pbrbm  mostSigBits
+     *         The most significbnt bits of the {@code UUID}
      *
-     * @param  leastSigBits
-     *         The least significant bits of the {@code UUID}
+     * @pbrbm  lebstSigBits
+     *         The lebst significbnt bits of the {@code UUID}
      */
-    public UUID(long mostSigBits, long leastSigBits) {
+    public UUID(long mostSigBits, long lebstSigBits) {
         this.mostSigBits = mostSigBits;
-        this.leastSigBits = leastSigBits;
+        this.lebstSigBits = lebstSigBits;
     }
 
     /**
-     * Static factory to retrieve a type 4 (pseudo randomly generated) UUID.
+     * Stbtic fbctory to retrieve b type 4 (pseudo rbndomly generbted) UUID.
      *
-     * The {@code UUID} is generated using a cryptographically strong pseudo
-     * random number generator.
+     * The {@code UUID} is generbted using b cryptogrbphicblly strong pseudo
+     * rbndom number generbtor.
      *
-     * @return  A randomly generated {@code UUID}
+     * @return  A rbndomly generbted {@code UUID}
      */
-    public static UUID randomUUID() {
-        SecureRandom ng = Holder.numberGenerator;
+    public stbtic UUID rbndomUUID() {
+        SecureRbndom ng = Holder.numberGenerbtor;
 
-        byte[] randomBytes = new byte[16];
-        ng.nextBytes(randomBytes);
-        randomBytes[6]  &= 0x0f;  /* clear version        */
-        randomBytes[6]  |= 0x40;  /* set to version 4     */
-        randomBytes[8]  &= 0x3f;  /* clear variant        */
-        randomBytes[8]  |= 0x80;  /* set to IETF variant  */
-        return new UUID(randomBytes);
+        byte[] rbndomBytes = new byte[16];
+        ng.nextBytes(rbndomBytes);
+        rbndomBytes[6]  &= 0x0f;  /* clebr version        */
+        rbndomBytes[6]  |= 0x40;  /* set to version 4     */
+        rbndomBytes[8]  &= 0x3f;  /* clebr vbribnt        */
+        rbndomBytes[8]  |= 0x80;  /* set to IETF vbribnt  */
+        return new UUID(rbndomBytes);
     }
 
     /**
-     * Static factory to retrieve a type 3 (name based) {@code UUID} based on
-     * the specified byte array.
+     * Stbtic fbctory to retrieve b type 3 (nbme bbsed) {@code UUID} bbsed on
+     * the specified byte brrby.
      *
-     * @param  name
-     *         A byte array to be used to construct a {@code UUID}
+     * @pbrbm  nbme
+     *         A byte brrby to be used to construct b {@code UUID}
      *
-     * @return  A {@code UUID} generated from the specified array
+     * @return  A {@code UUID} generbted from the specified brrby
      */
-    public static UUID nameUUIDFromBytes(byte[] name) {
-        MessageDigest md;
+    public stbtic UUID nbmeUUIDFromBytes(byte[] nbme) {
+        MessbgeDigest md;
         try {
-            md = MessageDigest.getInstance("MD5");
-        } catch (NoSuchAlgorithmException nsae) {
-            throw new InternalError("MD5 not supported", nsae);
+            md = MessbgeDigest.getInstbnce("MD5");
+        } cbtch (NoSuchAlgorithmException nsbe) {
+            throw new InternblError("MD5 not supported", nsbe);
         }
-        byte[] md5Bytes = md.digest(name);
-        md5Bytes[6]  &= 0x0f;  /* clear version        */
+        byte[] md5Bytes = md.digest(nbme);
+        md5Bytes[6]  &= 0x0f;  /* clebr version        */
         md5Bytes[6]  |= 0x30;  /* set to version 3     */
-        md5Bytes[8]  &= 0x3f;  /* clear variant        */
-        md5Bytes[8]  |= 0x80;  /* set to IETF variant  */
+        md5Bytes[8]  &= 0x3f;  /* clebr vbribnt        */
+        md5Bytes[8]  |= 0x80;  /* set to IETF vbribnt  */
         return new UUID(md5Bytes);
     }
 
     /**
-     * Creates a {@code UUID} from the string standard representation as
+     * Crebtes b {@code UUID} from the string stbndbrd representbtion bs
      * described in the {@link #toString} method.
      *
-     * @param  name
-     *         A string that specifies a {@code UUID}
+     * @pbrbm  nbme
+     *         A string thbt specifies b {@code UUID}
      *
-     * @return  A {@code UUID} with the specified value
+     * @return  A {@code UUID} with the specified vblue
      *
-     * @throws  IllegalArgumentException
-     *          If name does not conform to the string representation as
+     * @throws  IllegblArgumentException
+     *          If nbme does not conform to the string representbtion bs
      *          described in {@link #toString}
      *
      */
-    public static UUID fromString(String name) {
-        if (name.length() > 36) {
-            throw new IllegalArgumentException("UUID string too large");
+    public stbtic UUID fromString(String nbme) {
+        if (nbme.length() > 36) {
+            throw new IllegblArgumentException("UUID string too lbrge");
         }
 
-        int dash1 = name.indexOf('-', 0);
-        int dash2 = name.indexOf('-', dash1 + 1);
-        int dash3 = name.indexOf('-', dash2 + 1);
-        int dash4 = name.indexOf('-', dash3 + 1);
-        int dash5 = name.indexOf('-', dash4 + 1);
+        int dbsh1 = nbme.indexOf('-', 0);
+        int dbsh2 = nbme.indexOf('-', dbsh1 + 1);
+        int dbsh3 = nbme.indexOf('-', dbsh2 + 1);
+        int dbsh4 = nbme.indexOf('-', dbsh3 + 1);
+        int dbsh5 = nbme.indexOf('-', dbsh4 + 1);
 
-        // For any valid input, dash1 through dash4 will be positive and dash5
-        // negative, but it's enough to check dash4 and dash5:
-        // - if dash1 is -1, dash4 will be -1
-        // - if dash1 is positive but dash2 is -1, dash4 will be -1
-        // - if dash1 and dash2 is positive, dash3 will be -1, dash4 will be
-        //   positive, but so will dash5
-        if (dash4 < 0 || dash5 >= 0) {
-            throw new IllegalArgumentException("Invalid UUID string: " + name);
+        // For bny vblid input, dbsh1 through dbsh4 will be positive bnd dbsh5
+        // negbtive, but it's enough to check dbsh4 bnd dbsh5:
+        // - if dbsh1 is -1, dbsh4 will be -1
+        // - if dbsh1 is positive but dbsh2 is -1, dbsh4 will be -1
+        // - if dbsh1 bnd dbsh2 is positive, dbsh3 will be -1, dbsh4 will be
+        //   positive, but so will dbsh5
+        if (dbsh4 < 0 || dbsh5 >= 0) {
+            throw new IllegblArgumentException("Invblid UUID string: " + nbme);
         }
 
-        long mostSigBits = Long.parseLong(name, 16, 0, dash1) & 0xffffffffL;
+        long mostSigBits = Long.pbrseLong(nbme, 16, 0, dbsh1) & 0xffffffffL;
         mostSigBits <<= 16;
-        mostSigBits |= Long.parseLong(name, 16, dash1 + 1, dash2) & 0xffffL;
+        mostSigBits |= Long.pbrseLong(nbme, 16, dbsh1 + 1, dbsh2) & 0xffffL;
         mostSigBits <<= 16;
-        mostSigBits |= Long.parseLong(name, 16, dash2 + 1, dash3) & 0xffffL;
+        mostSigBits |= Long.pbrseLong(nbme, 16, dbsh2 + 1, dbsh3) & 0xffffL;
 
-        long leastSigBits = Long.parseLong(name, 16, dash3 + 1, dash4) & 0xffffL;
-        leastSigBits <<= 48;
-        leastSigBits |= Long.parseLong(name, 16, dash4 + 1) & 0xffffffffffffL;
+        long lebstSigBits = Long.pbrseLong(nbme, 16, dbsh3 + 1, dbsh4) & 0xffffL;
+        lebstSigBits <<= 48;
+        lebstSigBits |= Long.pbrseLong(nbme, 16, dbsh4 + 1) & 0xffffffffffffL;
 
-        return new UUID(mostSigBits, leastSigBits);
+        return new UUID(mostSigBits, lebstSigBits);
     }
 
     // Field Accessor Methods
 
     /**
-     * Returns the least significant 64 bits of this UUID's 128 bit value.
+     * Returns the lebst significbnt 64 bits of this UUID's 128 bit vblue.
      *
-     * @return  The least significant 64 bits of this UUID's 128 bit value
+     * @return  The lebst significbnt 64 bits of this UUID's 128 bit vblue
      */
-    public long getLeastSignificantBits() {
-        return leastSigBits;
+    public long getLebstSignificbntBits() {
+        return lebstSigBits;
     }
 
     /**
-     * Returns the most significant 64 bits of this UUID's 128 bit value.
+     * Returns the most significbnt 64 bits of this UUID's 128 bit vblue.
      *
-     * @return  The most significant 64 bits of this UUID's 128 bit value
+     * @return  The most significbnt 64 bits of this UUID's 128 bit vblue
      */
-    public long getMostSignificantBits() {
+    public long getMostSignificbntBits() {
         return mostSigBits;
     }
 
     /**
-     * The version number associated with this {@code UUID}.  The version
-     * number describes how this {@code UUID} was generated.
+     * The version number bssocibted with this {@code UUID}.  The version
+     * number describes how this {@code UUID} wbs generbted.
      *
-     * The version number has the following meaning:
+     * The version number hbs the following mebning:
      * <ul>
-     * <li>1    Time-based UUID
+     * <li>1    Time-bbsed UUID
      * <li>2    DCE security UUID
-     * <li>3    Name-based UUID
-     * <li>4    Randomly generated UUID
+     * <li>3    Nbme-bbsed UUID
+     * <li>4    Rbndomly generbted UUID
      * </ul>
      *
      * @return  The version number of this {@code UUID}
      */
     public int version() {
-        // Version is bits masked by 0x000000000000F000 in MS long
+        // Version is bits mbsked by 0x000000000000F000 in MS long
         return (int)((mostSigBits >> 12) & 0x0f);
     }
 
     /**
-     * The variant number associated with this {@code UUID}.  The variant
-     * number describes the layout of the {@code UUID}.
+     * The vbribnt number bssocibted with this {@code UUID}.  The vbribnt
+     * number describes the lbyout of the {@code UUID}.
      *
-     * The variant number has the following meaning:
+     * The vbribnt number hbs the following mebning:
      * <ul>
-     * <li>0    Reserved for NCS backward compatibility
-     * <li>2    <a href="http://www.ietf.org/rfc/rfc4122.txt">IETF&nbsp;RFC&nbsp;4122</a>
-     * (Leach-Salz), used by this class
-     * <li>6    Reserved, Microsoft Corporation backward compatibility
+     * <li>0    Reserved for NCS bbckwbrd compbtibility
+     * <li>2    <b href="http://www.ietf.org/rfc/rfc4122.txt">IETF&nbsp;RFC&nbsp;4122</b>
+     * (Lebch-Sblz), used by this clbss
+     * <li>6    Reserved, Microsoft Corporbtion bbckwbrd compbtibility
      * <li>7    Reserved for future definition
      * </ul>
      *
-     * @return  The variant number of this {@code UUID}
+     * @return  The vbribnt number of this {@code UUID}
      */
-    public int variant() {
-        // This field is composed of a varying number of bits.
-        // 0    -    -    Reserved for NCS backward compatibility
-        // 1    0    -    The IETF aka Leach-Salz variant (used by this class)
-        // 1    1    0    Reserved, Microsoft backward compatibility
+    public int vbribnt() {
+        // This field is composed of b vbrying number of bits.
+        // 0    -    -    Reserved for NCS bbckwbrd compbtibility
+        // 1    0    -    The IETF bkb Lebch-Sblz vbribnt (used by this clbss)
+        // 1    1    0    Reserved, Microsoft bbckwbrd compbtibility
         // 1    1    1    Reserved for future definition.
-        return (int) ((leastSigBits >>> (64 - (leastSigBits >>> 62)))
-                      & (leastSigBits >> 63));
+        return (int) ((lebstSigBits >>> (64 - (lebstSigBits >>> 62)))
+                      & (lebstSigBits >> 63));
     }
 
     /**
-     * The timestamp value associated with this UUID.
+     * The timestbmp vblue bssocibted with this UUID.
      *
-     * <p> The 60 bit timestamp value is constructed from the time_low,
-     * time_mid, and time_hi fields of this {@code UUID}.  The resulting
-     * timestamp is measured in 100-nanosecond units since midnight,
+     * <p> The 60 bit timestbmp vblue is constructed from the time_low,
+     * time_mid, bnd time_hi fields of this {@code UUID}.  The resulting
+     * timestbmp is mebsured in 100-nbnosecond units since midnight,
      * October 15, 1582 UTC.
      *
-     * <p> The timestamp value is only meaningful in a time-based UUID, which
-     * has version type 1.  If this {@code UUID} is not a time-based UUID then
-     * this method throws UnsupportedOperationException.
+     * <p> The timestbmp vblue is only mebningful in b time-bbsed UUID, which
+     * hbs version type 1.  If this {@code UUID} is not b time-bbsed UUID then
+     * this method throws UnsupportedOperbtionException.
      *
-     * @throws UnsupportedOperationException
-     *         If this UUID is not a version 1 UUID
-     * @return The timestamp of this {@code UUID}.
+     * @throws UnsupportedOperbtionException
+     *         If this UUID is not b version 1 UUID
+     * @return The timestbmp of this {@code UUID}.
      */
-    public long timestamp() {
+    public long timestbmp() {
         if (version() != 1) {
-            throw new UnsupportedOperationException("Not a time-based UUID");
+            throw new UnsupportedOperbtionException("Not b time-bbsed UUID");
         }
 
         return (mostSigBits & 0x0FFFL) << 48
@@ -318,146 +318,146 @@ public final class UUID implements java.io.Serializable, Comparable<UUID> {
     }
 
     /**
-     * The clock sequence value associated with this UUID.
+     * The clock sequence vblue bssocibted with this UUID.
      *
-     * <p> The 14 bit clock sequence value is constructed from the clock
+     * <p> The 14 bit clock sequence vblue is constructed from the clock
      * sequence field of this UUID.  The clock sequence field is used to
-     * guarantee temporal uniqueness in a time-based UUID.
+     * gubrbntee temporbl uniqueness in b time-bbsed UUID.
      *
-     * <p> The {@code clockSequence} value is only meaningful in a time-based
-     * UUID, which has version type 1.  If this UUID is not a time-based UUID
-     * then this method throws UnsupportedOperationException.
+     * <p> The {@code clockSequence} vblue is only mebningful in b time-bbsed
+     * UUID, which hbs version type 1.  If this UUID is not b time-bbsed UUID
+     * then this method throws UnsupportedOperbtionException.
      *
      * @return  The clock sequence of this {@code UUID}
      *
-     * @throws  UnsupportedOperationException
-     *          If this UUID is not a version 1 UUID
+     * @throws  UnsupportedOperbtionException
+     *          If this UUID is not b version 1 UUID
      */
     public int clockSequence() {
         if (version() != 1) {
-            throw new UnsupportedOperationException("Not a time-based UUID");
+            throw new UnsupportedOperbtionException("Not b time-bbsed UUID");
         }
 
-        return (int)((leastSigBits & 0x3FFF000000000000L) >>> 48);
+        return (int)((lebstSigBits & 0x3FFF000000000000L) >>> 48);
     }
 
     /**
-     * The node value associated with this UUID.
+     * The node vblue bssocibted with this UUID.
      *
-     * <p> The 48 bit node value is constructed from the node field of this
-     * UUID.  This field is intended to hold the IEEE 802 address of the machine
-     * that generated this UUID to guarantee spatial uniqueness.
+     * <p> The 48 bit node vblue is constructed from the node field of this
+     * UUID.  This field is intended to hold the IEEE 802 bddress of the mbchine
+     * thbt generbted this UUID to gubrbntee spbtibl uniqueness.
      *
-     * <p> The node value is only meaningful in a time-based UUID, which has
-     * version type 1.  If this UUID is not a time-based UUID then this method
-     * throws UnsupportedOperationException.
+     * <p> The node vblue is only mebningful in b time-bbsed UUID, which hbs
+     * version type 1.  If this UUID is not b time-bbsed UUID then this method
+     * throws UnsupportedOperbtionException.
      *
-     * @return  The node value of this {@code UUID}
+     * @return  The node vblue of this {@code UUID}
      *
-     * @throws  UnsupportedOperationException
-     *          If this UUID is not a version 1 UUID
+     * @throws  UnsupportedOperbtionException
+     *          If this UUID is not b version 1 UUID
      */
     public long node() {
         if (version() != 1) {
-            throw new UnsupportedOperationException("Not a time-based UUID");
+            throw new UnsupportedOperbtionException("Not b time-bbsed UUID");
         }
 
-        return leastSigBits & 0x0000FFFFFFFFFFFFL;
+        return lebstSigBits & 0x0000FFFFFFFFFFFFL;
     }
 
     // Object Inherited Methods
 
     /**
-     * Returns a {@code String} object representing this {@code UUID}.
+     * Returns b {@code String} object representing this {@code UUID}.
      *
-     * <p> The UUID string representation is as described by this BNF:
+     * <p> The UUID string representbtion is bs described by this BNF:
      * <blockquote><pre>
      * {@code
      * UUID                   = <time_low> "-" <time_mid> "-"
-     *                          <time_high_and_version> "-"
-     *                          <variant_and_sequence> "-"
+     *                          <time_high_bnd_version> "-"
+     *                          <vbribnt_bnd_sequence> "-"
      *                          <node>
      * time_low               = 4*<hexOctet>
      * time_mid               = 2*<hexOctet>
-     * time_high_and_version  = 2*<hexOctet>
-     * variant_and_sequence   = 2*<hexOctet>
+     * time_high_bnd_version  = 2*<hexOctet>
+     * vbribnt_bnd_sequence   = 2*<hexOctet>
      * node                   = 6*<hexOctet>
      * hexOctet               = <hexDigit><hexDigit>
      * hexDigit               =
      *       "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
-     *       | "a" | "b" | "c" | "d" | "e" | "f"
+     *       | "b" | "b" | "c" | "d" | "e" | "f"
      *       | "A" | "B" | "C" | "D" | "E" | "F"
      * }</pre></blockquote>
      *
-     * @return  A string representation of this {@code UUID}
+     * @return  A string representbtion of this {@code UUID}
      */
     public String toString() {
-        char[] chars = new char[36];
-        jla.formatUnsignedLong(mostSigBits >> 32, 4, chars, 0, 8);
-        chars[8] = '-';
-        jla.formatUnsignedLong(mostSigBits >> 16, 4, chars, 9, 4);
-        chars[13] = '-';
-        jla.formatUnsignedLong(mostSigBits, 4, chars, 14, 4);
-        chars[18] = '-';
-        jla.formatUnsignedLong(leastSigBits >> 48, 4, chars, 19, 4);
-        chars[23] = '-';
-        jla.formatUnsignedLong(leastSigBits, 4, chars, 24, 12);
-        return jla.newStringUnsafe(chars);
+        chbr[] chbrs = new chbr[36];
+        jlb.formbtUnsignedLong(mostSigBits >> 32, 4, chbrs, 0, 8);
+        chbrs[8] = '-';
+        jlb.formbtUnsignedLong(mostSigBits >> 16, 4, chbrs, 9, 4);
+        chbrs[13] = '-';
+        jlb.formbtUnsignedLong(mostSigBits, 4, chbrs, 14, 4);
+        chbrs[18] = '-';
+        jlb.formbtUnsignedLong(lebstSigBits >> 48, 4, chbrs, 19, 4);
+        chbrs[23] = '-';
+        jlb.formbtUnsignedLong(lebstSigBits, 4, chbrs, 24, 12);
+        return jlb.newStringUnsbfe(chbrs);
     }
 
     /**
-     * Returns a hash code for this {@code UUID}.
+     * Returns b hbsh code for this {@code UUID}.
      *
-     * @return  A hash code value for this {@code UUID}
+     * @return  A hbsh code vblue for this {@code UUID}
      */
-    public int hashCode() {
-        long hilo = mostSigBits ^ leastSigBits;
+    public int hbshCode() {
+        long hilo = mostSigBits ^ lebstSigBits;
         return ((int)(hilo >> 32)) ^ (int) hilo;
     }
 
     /**
-     * Compares this object to the specified object.  The result is {@code
-     * true} if and only if the argument is not {@code null}, is a {@code UUID}
-     * object, has the same variant, and contains the same value, bit for bit,
-     * as this {@code UUID}.
+     * Compbres this object to the specified object.  The result is {@code
+     * true} if bnd only if the brgument is not {@code null}, is b {@code UUID}
+     * object, hbs the sbme vbribnt, bnd contbins the sbme vblue, bit for bit,
+     * bs this {@code UUID}.
      *
-     * @param  obj
-     *         The object to be compared
+     * @pbrbm  obj
+     *         The object to be compbred
      *
-     * @return  {@code true} if the objects are the same; {@code false}
+     * @return  {@code true} if the objects bre the sbme; {@code fblse}
      *          otherwise
      */
-    public boolean equals(Object obj) {
-        if ((null == obj) || (obj.getClass() != UUID.class))
-            return false;
+    public boolebn equbls(Object obj) {
+        if ((null == obj) || (obj.getClbss() != UUID.clbss))
+            return fblse;
         UUID id = (UUID)obj;
         return (mostSigBits == id.mostSigBits &&
-                leastSigBits == id.leastSigBits);
+                lebstSigBits == id.lebstSigBits);
     }
 
-    // Comparison Operations
+    // Compbrison Operbtions
 
     /**
-     * Compares this UUID with the specified UUID.
+     * Compbres this UUID with the specified UUID.
      *
-     * <p> The first of two UUIDs is greater than the second if the most
-     * significant field in which the UUIDs differ is greater for the first
+     * <p> The first of two UUIDs is grebter thbn the second if the most
+     * significbnt field in which the UUIDs differ is grebter for the first
      * UUID.
      *
-     * @param  val
-     *         {@code UUID} to which this {@code UUID} is to be compared
+     * @pbrbm  vbl
+     *         {@code UUID} to which this {@code UUID} is to be compbred
      *
-     * @return  -1, 0 or 1 as this {@code UUID} is less than, equal to, or
-     *          greater than {@code val}
+     * @return  -1, 0 or 1 bs this {@code UUID} is less thbn, equbl to, or
+     *          grebter thbn {@code vbl}
      *
      */
-    public int compareTo(UUID val) {
-        // The ordering is intentionally set up so that the UUIDs
-        // can simply be numerically compared as two numbers
-        return (this.mostSigBits < val.mostSigBits ? -1 :
-                (this.mostSigBits > val.mostSigBits ? 1 :
-                 (this.leastSigBits < val.leastSigBits ? -1 :
-                  (this.leastSigBits > val.leastSigBits ? 1 :
+    public int compbreTo(UUID vbl) {
+        // The ordering is intentionblly set up so thbt the UUIDs
+        // cbn simply be numericblly compbred bs two numbers
+        return (this.mostSigBits < vbl.mostSigBits ? -1 :
+                (this.mostSigBits > vbl.mostSigBits ? 1 :
+                 (this.lebstSigBits < vbl.lebstSigBits ? -1 :
+                  (this.lebstSigBits > vbl.lebstSigBits ? 1 :
                    0))));
     }
 }

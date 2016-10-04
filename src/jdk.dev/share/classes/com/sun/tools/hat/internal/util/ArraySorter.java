@@ -1,110 +1,110 @@
 /*
- * Copyright (c) 1997, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
 /*
- * The Original Code is HAT. The Initial Developer of the
- * Original Code is Bill Foote, with contributions from others
- * at JavaSoft/Sun.
+ * The Originbl Code is HAT. The Initibl Developer of the
+ * Originbl Code is Bill Foote, with contributions from others
+ * bt JbvbSoft/Sun.
  */
 
-package com.sun.tools.hat.internal.util;
-import java.util.*;
+pbckbge com.sun.tools.hbt.internbl.util;
+import jbvb.util.*;
 
 /**
- * A singleton utility class that sorts an array of objects.
+ * A singleton utility clbss thbt sorts bn brrby of objects.
  * <p>
  * Use:
  * <pre>
  *
- *  Stuff[] arr = ...;
- *  ArraySorter.sort(arr, new Comparer() {
- *      public int compare(Object lhs, Object rhs) {
- *          return ((String) lhs).compareTo((String) rhs);
+ *  Stuff[] brr = ...;
+ *  ArrbySorter.sort(brr, new Compbrer() {
+ *      public int compbre(Object lhs, Object rhs) {
+ *          return ((String) lhs).compbreTo((String) rhs);
  *      }
  *  });
  * </pre>
  *
- * @author      Bill Foote
+ * @buthor      Bill Foote
  */
 
-public class ArraySorter {
+public clbss ArrbySorter {
 
     /**
-     * Sort the given array, using c for comparison
+     * Sort the given brrby, using c for compbrison
     **/
-    static public void sort(Object[] arr, Comparer c)  {
-        quickSort(arr, c, 0, arr.length-1);
+    stbtic public void sort(Object[] brr, Compbrer c)  {
+        quickSort(brr, c, 0, brr.length-1);
     }
 
 
     /**
-     * Sort an array of strings, using String.compareTo()
+     * Sort bn brrby of strings, using String.compbreTo()
     **/
-    static public void sortArrayOfStrings(Object[] arr) {
-        sort(arr, new Comparer() {
-            public int compare(Object lhs, Object rhs) {
-                return ((String) lhs).compareTo((String) rhs);
+    stbtic public void sortArrbyOfStrings(Object[] brr) {
+        sort(brr, new Compbrer() {
+            public int compbre(Object lhs, Object rhs) {
+                return ((String) lhs).compbreTo((String) rhs);
             }
         });
     }
 
 
-    static private void swap(Object[] arr, int a, int b) {
-        Object tmp = arr[a];
-        arr[a] = arr[b];
-        arr[b] = tmp;
+    stbtic privbte void swbp(Object[] brr, int b, int b) {
+        Object tmp = brr[b];
+        brr[b] = brr[b];
+        brr[b] = tmp;
     }
 
     //
-    // Sorts arr between from and to, inclusive.  This is a quick, off-the-top-
-    // of-my-head quicksort:  I haven't put any thought into optimizing it.
-    // I _did_ put thought into making sure it's safe (it will always
-    // terminate).  Worst-case it's O(n^2), but it will usually run in
-    // in O(n log n).  It's well-behaved if the list is already sorted,
-    // or nearly so.
+    // Sorts brr between from bnd to, inclusive.  This is b quick, off-the-top-
+    // of-my-hebd quicksort:  I hbven't put bny thought into optimizing it.
+    // I _did_ put thought into mbking sure it's sbfe (it will blwbys
+    // terminbte).  Worst-cbse it's O(n^2), but it will usublly run in
+    // in O(n log n).  It's well-behbved if the list is blrebdy sorted,
+    // or nebrly so.
     //
-    static private void quickSort(Object[] arr, Comparer c, int from, int to) {
+    stbtic privbte void quickSort(Object[] brr, Compbrer c, int from, int to) {
         if (to <= from)
             return;
         int mid = (from + to) / 2;
         if (mid != from)
-            swap(arr, mid, from);
-        Object pivot = arr[from];   // Simple-minded, but reasonable
+            swbp(brr, mid, from);
+        Object pivot = brr[from];   // Simple-minded, but rebsonbble
         int highestBelowPivot = from - 1;
         int low = from+1;
         int high = to;
-            // We now move low and high toward each other, maintaining the
-            // invariants:
-            //      arr[i] <= pivot    for all i < low
-            //      arr[i] > pivot     for all i > high
-            // As long as these invariants hold, and every iteration makes
-            // progress, we are safe.
+            // We now move low bnd high towbrd ebch other, mbintbining the
+            // invbribnts:
+            //      brr[i] <= pivot    for bll i < low
+            //      brr[i] > pivot     for bll i > high
+            // As long bs these invbribnts hold, bnd every iterbtion mbkes
+            // progress, we bre sbfe.
         while (low <= high) {
-            int cmp = c.compare(arr[low], pivot);
-            if (cmp <= 0) {   // arr[low] <= pivot
+            int cmp = c.compbre(brr[low], pivot);
+            if (cmp <= 0) {   // brr[low] <= pivot
                 if (cmp < 0) {
                     highestBelowPivot = low;
                 }
@@ -112,20 +112,20 @@ public class ArraySorter {
             } else {
                 int c2;
                 for (;;) {
-                        // arr[high] > pivot:
-                    c2 = c.compare(arr[high], pivot);
+                        // brr[high] > pivot:
+                    c2 = c.compbre(brr[high], pivot);
                     if (c2 > 0) {
                         high--;
                         if (low > high) {
-                            break;
+                            brebk;
                         }
                     } else {
-                        break;
+                        brebk;
                     }
                 }
                 // At this point, low is never == high, BTW
                 if (low <= high) {
-                    swap(arr, low, high);
+                    swbp(brr, low, high);
                     if (c2 < 0) {
                         highestBelowPivot = low;
                     }
@@ -136,12 +136,12 @@ public class ArraySorter {
         }
         // At this point, low == high+1
         // Now we just need to sort from from..highestBelowPivot
-        // and from high+1..to
+        // bnd from high+1..to
         if (highestBelowPivot > from) {
-            // pivot == pivot, so ensure algorithm terminates
-            swap(arr, from, highestBelowPivot);
-            quickSort(arr, c, from, highestBelowPivot-1);
+            // pivot == pivot, so ensure blgorithm terminbtes
+            swbp(brr, from, highestBelowPivot);
+            quickSort(brr, c, from, highestBelowPivot-1);
         }
-        quickSort(arr, c, high+1, to);
+        quickSort(brr, c, high+1, to);
     }
 }

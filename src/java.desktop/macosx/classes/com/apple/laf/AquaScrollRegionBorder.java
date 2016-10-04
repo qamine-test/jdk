@@ -1,72 +1,72 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.apple.laf;
+pbckbge com.bpple.lbf;
 
-import java.awt.Component;
-import java.awt.Graphics;
+import jbvb.bwt.Component;
+import jbvb.bwt.Grbphics;
 
-import javax.swing.JComponent;
+import jbvbx.swing.JComponent;
 
-import apple.laf.JRSUIState;
-import apple.laf.JRSUIConstants.Focused;
-import apple.laf.JRSUIConstants.State;
-import apple.laf.JRSUIConstants.Widget;
+import bpple.lbf.JRSUIStbte;
+import bpple.lbf.JRSUIConstbnts.Focused;
+import bpple.lbf.JRSUIConstbnts.Stbte;
+import bpple.lbf.JRSUIConstbnts.Widget;
 
-import com.apple.laf.AquaUtilControlSize.SizeDescriptor;
-import com.apple.laf.AquaUtilControlSize.SizeVariant;
-import com.apple.laf.AquaUtils.RecyclableSingletonFromDefaultConstructor;
+import com.bpple.lbf.AqubUtilControlSize.SizeDescriptor;
+import com.bpple.lbf.AqubUtilControlSize.SizeVbribnt;
+import com.bpple.lbf.AqubUtils.RecyclbbleSingletonFromDefbultConstructor;
 
-public class AquaScrollRegionBorder extends AquaBorder {
-    static final RecyclableSingletonFromDefaultConstructor<AquaScrollRegionBorder> instance = new RecyclableSingletonFromDefaultConstructor<AquaScrollRegionBorder>(AquaScrollRegionBorder.class);
+public clbss AqubScrollRegionBorder extends AqubBorder {
+    stbtic finbl RecyclbbleSingletonFromDefbultConstructor<AqubScrollRegionBorder> instbnce = new RecyclbbleSingletonFromDefbultConstructor<AqubScrollRegionBorder>(AqubScrollRegionBorder.clbss);
 
-    public static AquaScrollRegionBorder getScrollRegionBorder() {
-        return instance.get();
+    public stbtic AqubScrollRegionBorder getScrollRegionBorder() {
+        return instbnce.get();
     }
 
-    public AquaScrollRegionBorder() {
-        super(new SizeDescriptor(new SizeVariant().alterMargins(2, 2, 2, 2)));
+    public AqubScrollRegionBorder() {
+        super(new SizeDescriptor(new SizeVbribnt().blterMbrgins(2, 2, 2, 2)));
     }
 
     @Override
-    protected AquaPainter<? extends JRSUIState> createPainter() {
-        JRSUIState state =  JRSUIState.getInstance();
-        state.set(Widget.FRAME_LIST_BOX);
-        return AquaPainter.<JRSUIState>create(state, 7, 7, 3, 3, 3, 3);
+    protected AqubPbinter<? extends JRSUIStbte> crebtePbinter() {
+        JRSUIStbte stbte =  JRSUIStbte.getInstbnce();
+        stbte.set(Widget.FRAME_LIST_BOX);
+        return AqubPbinter.<JRSUIStbte>crebte(stbte, 7, 7, 3, 3, 3, 3);
     }
 
-    public void paintBorder(final Component c, final Graphics g, final int x, final int y, final int width, final int height) {
-        final State state = getState((JComponent)c);
-        painter.state.set(state);
-        painter.state.set(isFocused(c) && state == State.ACTIVE ? Focused.YES : Focused.NO);
-        painter.paint(g, c, x, y, width, height);
+    public void pbintBorder(finbl Component c, finbl Grbphics g, finbl int x, finbl int y, finbl int width, finbl int height) {
+        finbl Stbte stbte = getStbte((JComponent)c);
+        pbinter.stbte.set(stbte);
+        pbinter.stbte.set(isFocused(c) && stbte == Stbte.ACTIVE ? Focused.YES : Focused.NO);
+        pbinter.pbint(g, c, x, y, width, height);
     }
 
-    protected State getState(final JComponent c) {
-        if (!AquaFocusHandler.isActive(c)) return State.INACTIVE;
-        if (!c.isEnabled()) return State.DISABLED;
-        return State.ACTIVE;
+    protected Stbte getStbte(finbl JComponent c) {
+        if (!AqubFocusHbndler.isActive(c)) return Stbte.INACTIVE;
+        if (!c.isEnbbled()) return Stbte.DISABLED;
+        return Stbte.ACTIVE;
     }
 }

@@ -1,58 +1,58 @@
 /*
- * Copyright (c) 1994, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1994, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.net;
+pbckbge sun.net;
 
-import java.io.*;
-import java.util.Vector;
+import jbvb.io.*;
+import jbvb.util.Vector;
 
 /**
- * This class implements that basic intefaces of transfer protocols.
- * It is used by subclasses implementing specific protocols.
+ * This clbss implements thbt bbsic intefbces of trbnsfer protocols.
+ * It is used by subclbsses implementing specific protocols.
  *
- * @author      Jonathan Payne
+ * @buthor      Jonbthbn Pbyne
  * @see         sun.net.ftp.FtpClient
  * @see         sun.net.nntp.NntpClient
  */
 
-public class TransferProtocolClient extends NetworkClient {
-    static final boolean debug = false;
+public clbss TrbnsferProtocolClient extends NetworkClient {
+    stbtic finbl boolebn debug = fblse;
 
-    /** Array of strings (usually 1 entry) for the last reply
+    /** Arrby of strings (usublly 1 entry) for the lbst reply
         from the server. */
     protected Vector<String> serverResponse = new Vector<>(1);
 
-    /** code for last reply */
-    protected int       lastReplyCode;
+    /** code for lbst reply */
+    protected int       lbstReplyCode;
 
 
     /**
-     * Pulls the response from the server and returns the code as a
-     * number. Returns -1 on failure.
+     * Pulls the response from the server bnd returns the code bs b
+     * number. Returns -1 on fbilure.
      */
-    public int readServerResponse() throws IOException {
+    public int rebdServerResponse() throws IOException {
         StringBuilder   replyBuf = new StringBuilder(32);
         int             c;
         int             continuingCode = -1;
@@ -61,14 +61,14 @@ public class TransferProtocolClient extends NetworkClient {
 
         serverResponse.setSize(0);
         while (true) {
-            while ((c = serverInput.read()) != -1) {
+            while ((c = serverInput.rebd()) != -1) {
                 if (c == '\r') {
-                    if ((c = serverInput.read()) != '\n')
-                        replyBuf.append('\r');
+                    if ((c = serverInput.rebd()) != '\n')
+                        replyBuf.bppend('\r');
                 }
-                replyBuf.append((char)c);
+                replyBuf.bppend((chbr)c);
                 if (c == '\n')
-                    break;
+                    brebk;
             }
             response = replyBuf.toString();
             replyBuf.setLength(0);
@@ -80,38 +80,38 @@ public class TransferProtocolClient extends NetworkClient {
                 code = -1;
             } else {
                 try {
-                    code = Integer.parseInt(response.substring(0, 3));
-                } catch (NumberFormatException e) {
+                    code = Integer.pbrseInt(response.substring(0, 3));
+                } cbtch (NumberFormbtException e) {
                     code = -1;
-                } catch (StringIndexOutOfBoundsException e) {
-                    /* this line doesn't contain a response code, so
+                } cbtch (StringIndexOutOfBoundsException e) {
+                    /* this line doesn't contbin b response code, so
                        we just completely ignore it */
                     continue;
                 }
             }
-            serverResponse.addElement(response);
+            serverResponse.bddElement(response);
             if (continuingCode != -1) {
-                /* we've seen a XXX- sequence */
+                /* we've seen b XXX- sequence */
                 if (code != continuingCode ||
-                    (response.length() >= 4 && response.charAt(3) == '-')) {
+                    (response.length() >= 4 && response.chbrAt(3) == '-')) {
                     continue;
                 } else {
                     /* seen the end of code sequence */
                     continuingCode = -1;
-                    break;
+                    brebk;
                 }
-            } else if (response.length() >= 4 && response.charAt(3) == '-') {
+            } else if (response.length() >= 4 && response.chbrAt(3) == '-') {
                 continuingCode = code;
                 continue;
             } else {
-                break;
+                brebk;
             }
         }
 
-        return lastReplyCode = code;
+        return lbstReplyCode = code;
     }
 
-    /** Sends command <i>cmd</i> to the server. */
+    /** Sends commbnd <i>cmd</i> to the server. */
     public void sendServer(String cmd) {
         serverOutput.print(cmd);
         if (debug) {
@@ -119,21 +119,21 @@ public class TransferProtocolClient extends NetworkClient {
         }
     }
 
-    /** converts the server response into a string. */
+    /** converts the server response into b string. */
     public String getResponseString() {
         return serverResponse.elementAt(0);
     }
 
-    /** Returns all server response strings. */
+    /** Returns bll server response strings. */
     public Vector<String> getResponseStrings() {
         return serverResponse;
     }
 
-    /** standard constructor to host <i>host</i>, port <i>port</i>. */
-    public TransferProtocolClient(String host, int port) throws IOException {
+    /** stbndbrd constructor to host <i>host</i>, port <i>port</i>. */
+    public TrbnsferProtocolClient(String host, int port) throws IOException {
         super(host, port);
     }
 
-    /** creates an uninitialized instance of this class. */
-    public TransferProtocolClient() {}
+    /** crebtes bn uninitiblized instbnce of this clbss. */
+    public TrbnsferProtocolClient() {}
 }

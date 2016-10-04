@@ -1,218 +1,218 @@
 /*
- * Copyright (c) 2001, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.imageio.plugins.png;
+pbckbge com.sun.imbgeio.plugins.png;
 
-import java.util.ListResourceBundle;
+import jbvb.util.ListResourceBundle;
 
-public class PNGMetadataFormatResources extends ListResourceBundle {
+public clbss PNGMetbdbtbFormbtResources extends ListResourceBundle {
 
-    public PNGMetadataFormatResources() {}
+    public PNGMetbdbtbFormbtResources() {}
 
     protected Object[][] getContents() {
         return new Object[][] {
 
-        // Node name, followed by description
-        { "IHDR", "The IHDR chunk, containing the header" },
-        { "PLTE", "The PLTE chunk, containing the palette" },
-        { "PLTEEntry", "A palette entry" },
-        { "bKGD", "The bKGD chunk, containing the background color" },
-        { "bKGD_RGB", "An RGB background color, for RGB and RGBAlpha images" },
-        { "bKGD_Grayscale",
-          "A grayscale background color, for Gray and GrayAlpha images" },
-        { "bKGD_Palette", "A background palette index" },
-        { "cHRM", "The cHRM chunk, containing color calibration" },
-        { "gAMA", "The gAMA chunk, containing the image gamma" },
-        { "hIST", "The hIST chunk, containing histogram information " },
-        { "hISTEntry", "A histogram entry" },
-        { "iCCP", "The iCCP chunk, containing an ICC color profile" },
-        { "iTXt", "The iTXt chunk, containing internationalized text" },
-        { "iTXtEntry", "A localized text entry" },
+        // Node nbme, followed by description
+        { "IHDR", "The IHDR chunk, contbining the hebder" },
+        { "PLTE", "The PLTE chunk, contbining the pblette" },
+        { "PLTEEntry", "A pblette entry" },
+        { "bKGD", "The bKGD chunk, contbining the bbckground color" },
+        { "bKGD_RGB", "An RGB bbckground color, for RGB bnd RGBAlphb imbges" },
+        { "bKGD_Grbyscble",
+          "A grbyscble bbckground color, for Grby bnd GrbyAlphb imbges" },
+        { "bKGD_Pblette", "A bbckground pblette index" },
+        { "cHRM", "The cHRM chunk, contbining color cblibrbtion" },
+        { "gAMA", "The gAMA chunk, contbining the imbge gbmmb" },
+        { "hIST", "The hIST chunk, contbining histogrbm informbtion " },
+        { "hISTEntry", "A histogrbm entry" },
+        { "iCCP", "The iCCP chunk, contbining bn ICC color profile" },
+        { "iTXt", "The iTXt chunk, contbining internbtionblized text" },
+        { "iTXtEntry", "A locblized text entry" },
         { "pHYS",
-          "The pHYS chunk, containing the pixel size and aspect ratio" },
-        { "sBIT", "The sBIT chunk, containing significant bit information" },
-        { "sBIT_Grayscale", "Significant bit information for gray samples" },
-        { "sBIT_GrayAlpha",
-          "Significant bit information for gray and alpha samples" },
-        { "sBIT_RGB", "Significant bit information for RGB samples" },
-        { "sBIT_RGBAlpha", "Significant bit information for RGBA samples" },
-        { "sBIT_Palette",
-          "Significant bit information for RGB palette entries" },
-        { "sPLT", "The sPLT chunk, containing a suggested palette" },
-        { "sPLTEntry", "A suggested palette entry" },
-        { "sRGB", "The sRGB chunk, containing rendering intent information" },
-        { "tEXt", "The tEXt chunk, containing text" },
+          "The pHYS chunk, contbining the pixel size bnd bspect rbtio" },
+        { "sBIT", "The sBIT chunk, contbining significbnt bit informbtion" },
+        { "sBIT_Grbyscble", "Significbnt bit informbtion for grby sbmples" },
+        { "sBIT_GrbyAlphb",
+          "Significbnt bit informbtion for grby bnd blphb sbmples" },
+        { "sBIT_RGB", "Significbnt bit informbtion for RGB sbmples" },
+        { "sBIT_RGBAlphb", "Significbnt bit informbtion for RGBA sbmples" },
+        { "sBIT_Pblette",
+          "Significbnt bit informbtion for RGB pblette entries" },
+        { "sPLT", "The sPLT chunk, contbining b suggested pblette" },
+        { "sPLTEntry", "A suggested pblette entry" },
+        { "sRGB", "The sRGB chunk, contbining rendering intent informbtion" },
+        { "tEXt", "The tEXt chunk, contbining text" },
         { "tEXtEntry", "A text entry" },
-        { "tIME", "The tIME chunk, containing the image modification time" },
-        { "tRNS", "The tRNS chunk, containing transparency information" },
-        { "tRNS_Grayscale",
-          "A grayscale value that should be considered transparent" },
+        { "tIME", "The tIME chunk, contbining the imbge modificbtion time" },
+        { "tRNS", "The tRNS chunk, contbining trbnspbrency informbtion" },
+        { "tRNS_Grbyscble",
+          "A grbyscble vblue thbt should be considered trbnspbrent" },
         { "tRNS_RGB",
-          "An RGB value that should be considered transparent" },
-        { "tRNS_Palette",
-          "A palette index that should be considered transparent" },
-        { "zTXt", "The zTXt chunk, containing compressed text" },
+          "An RGB vblue thbt should be considered trbnspbrent" },
+        { "tRNS_Pblette",
+          "A pblette index thbt should be considered trbnspbrent" },
+        { "zTXt", "The zTXt chunk, contbining compressed text" },
         { "zTXtEntry", "A compressed text entry" },
         { "UnknownChunks", "A set of unknown chunks" },
-        { "UnknownChunk", "Unknown chunk data stored as a byte array" },
+        { "UnknownChunk", "Unknown chunk dbtb stored bs b byte brrby" },
 
-        // Node name + "/" + AttributeName, followed by description
-        { "IHDR/width", "The width of the image in pixels" },
-        { "IHDR/height", "The height of the image in pixels" },
-        { "IHDR/bitDepth", "The bit depth of the image samples" },
-        { "IHDR/colorType", "The color type of the image" },
+        // Node nbme + "/" + AttributeNbme, followed by description
+        { "IHDR/width", "The width of the imbge in pixels" },
+        { "IHDR/height", "The height of the imbge in pixels" },
+        { "IHDR/bitDepth", "The bit depth of the imbge sbmples" },
+        { "IHDR/colorType", "The color type of the imbge" },
         { "IHDR/compressionMethod",
-"The compression used for image data, always \"deflate\"" },
+"The compression used for imbge dbtb, blwbys \"deflbte\"" },
         { "IHDR/filterMethod",
-"The filtering method used for compression, always \"adaptive\"" },
-        { "IHDR/interlaceMethod",
-          "The interlacing method, \"none\" or \"adam7\"" },
+"The filtering method used for compression, blwbys \"bdbptive\"" },
+        { "IHDR/interlbceMethod",
+          "The interlbcing method, \"none\" or \"bdbm7\"" },
 
-        { "PLTEEntry/index", "The index of a palette entry" },
-        { "PLTEEntry/red", "The red value of a palette entry" },
-        { "PLTEEntry/green", "The green value of a palette entry" },
-        { "PLTEEntry/blue", "The blue value of a palette entry" },
+        { "PLTEEntry/index", "The index of b pblette entry" },
+        { "PLTEEntry/red", "The red vblue of b pblette entry" },
+        { "PLTEEntry/green", "The green vblue of b pblette entry" },
+        { "PLTEEntry/blue", "The blue vblue of b pblette entry" },
 
-        { "bKGD_Grayscale/gray", "A gray value to be used as a background" },
-        { "bKGD_RGB/red", "A red value to be used as a background" },
-        { "bKGD_RGB/green", "A green value to be used as a background" },
-        { "bKGD_RGB/blue", "A blue value to be used as a background" },
-        { "bKGD_Palette/index", "A palette index to be used as a background" },
+        { "bKGD_Grbyscble/grby", "A grby vblue to be used bs b bbckground" },
+        { "bKGD_RGB/red", "A red vblue to be used bs b bbckground" },
+        { "bKGD_RGB/green", "A green vblue to be used bs b bbckground" },
+        { "bKGD_RGB/blue", "A blue vblue to be used bs b bbckground" },
+        { "bKGD_Pblette/index", "A pblette index to be used bs b bbckground" },
 
         { "cHRM/whitePointX",
-              "The CIE x coordinate of the white point, multiplied by 1e5" },
+              "The CIE x coordinbte of the white point, multiplied by 1e5" },
         { "cHRM/whitePointY",
-              "The CIE y coordinate of the white point, multiplied by 1e5" },
+              "The CIE y coordinbte of the white point, multiplied by 1e5" },
         { "cHRM/redX",
-              "The CIE x coordinate of the red primary, multiplied by 1e5" },
+              "The CIE x coordinbte of the red primbry, multiplied by 1e5" },
         { "cHRM/redY",
-              "The CIE y coordinate of the red primary, multiplied by 1e5" },
+              "The CIE y coordinbte of the red primbry, multiplied by 1e5" },
         { "cHRM/greenX",
-              "The CIE x coordinate of the green primary, multiplied by 1e5" },
+              "The CIE x coordinbte of the green primbry, multiplied by 1e5" },
         { "cHRM/greenY",
-              "The CIE y coordinate of the green primary, multiplied by 1e5" },
+              "The CIE y coordinbte of the green primbry, multiplied by 1e5" },
         { "cHRM/blueX",
-              "The CIE x coordinate of the blue primary, multiplied by 1e5" },
+              "The CIE x coordinbte of the blue primbry, multiplied by 1e5" },
         { "cHRM/blueY",
-              "The CIE y coordinate of the blue primary, multiplied by 1e5" },
+              "The CIE y coordinbte of the blue primbry, multiplied by 1e5" },
 
-        { "gAMA/value",
-              "The image gamma, multiplied by 1e5" },
+        { "gAMA/vblue",
+              "The imbge gbmmb, multiplied by 1e5" },
 
-        { "hISTEntry/index", "The palette index of this histogram entry" },
-        { "hISTEntry/value", "The frequency of this histogram entry" },
+        { "hISTEntry/index", "The pblette index of this histogrbm entry" },
+        { "hISTEntry/vblue", "The frequency of this histogrbm entry" },
 
-        { "iCCP/profileName", "The name of this ICC profile" },
+        { "iCCP/profileNbme", "The nbme of this ICC profile" },
         { "iCCP/compressionMethod",
               "The compression method used to store this ICC profile" },
 
         { "iTXtEntry/keyword", "The keyword" },
         { "iTXtEntry/compressionMethod",
               "The compression method used to store this iTXt entry" },
-        { "iTXtEntry/languageTag",
-              "The ISO tag describing the language this iTXt entry" },
-        { "iTXtEntry/translatedKeyword",
-              "The translated keyword for iTXt entry" },
+        { "iTXtEntry/lbngubgeTbg",
+              "The ISO tbg describing the lbngubge this iTXt entry" },
+        { "iTXtEntry/trbnslbtedKeyword",
+              "The trbnslbted keyword for iTXt entry" },
         { "iTXtEntry/text",
-              "The localized text" },
+              "The locblized text" },
 
         { "pHYS/pixelsPerUnitXAxis",
-            "The number of horizontal pixels per unit, multiplied by 1e5" },
+            "The number of horizontbl pixels per unit, multiplied by 1e5" },
         { "pHYS/pixelsPerUnitYAxis",
-            "The number of vertical pixels per unit, multiplied by 1e5" },
+            "The number of verticbl pixels per unit, multiplied by 1e5" },
         { "pHYS/unitSpecifier",
             "The unit specifier for this chunk (i.e., meters)" },
 
-        { "sBIT_Grayscale/gray",
-            "The number of significant bits of the gray samples" },
-        { "sBIT_GrayAlpha/gray",
-            "The number of significant bits of the gray samples" },
-        { "sBIT_GrayAlpha/alpha",
-            "The number of significant bits of the alpha samples" },
+        { "sBIT_Grbyscble/grby",
+            "The number of significbnt bits of the grby sbmples" },
+        { "sBIT_GrbyAlphb/grby",
+            "The number of significbnt bits of the grby sbmples" },
+        { "sBIT_GrbyAlphb/blphb",
+            "The number of significbnt bits of the blphb sbmples" },
         { "sBIT_RGB/red",
-            "The number of significant bits of the red samples" },
+            "The number of significbnt bits of the red sbmples" },
         { "sBIT_RGB/green",
-            "The number of significant bits of the green samples" },
+            "The number of significbnt bits of the green sbmples" },
         { "sBIT_RGB/blue",
-            "The number of significant bits of the blue samples" },
-        { "sBIT_RGBAlpha/red",
-            "The number of significant bits of the red samples" },
-        { "sBIT_RGBAlpha/green",
-            "The number of significant bits of the green samples" },
-        { "sBIT_RGBAlpha/blue",
-            "The number of significant bits of the blue samples" },
-        { "sBIT_RGBAlpha/alpha",
-            "The number of significant bits of the alpha samples" },
-        { "sBIT_Palette/red",
-            "The number of significant bits of the red palette entries" },
-        { "sBIT_Palette/green",
-            "The number of significant bits of the green palette entries" },
-        { "sBIT_Palette/blue",
-            "The number of significant bits of the blue palette entries" },
+            "The number of significbnt bits of the blue sbmples" },
+        { "sBIT_RGBAlphb/red",
+            "The number of significbnt bits of the red sbmples" },
+        { "sBIT_RGBAlphb/green",
+            "The number of significbnt bits of the green sbmples" },
+        { "sBIT_RGBAlphb/blue",
+            "The number of significbnt bits of the blue sbmples" },
+        { "sBIT_RGBAlphb/blphb",
+            "The number of significbnt bits of the blphb sbmples" },
+        { "sBIT_Pblette/red",
+            "The number of significbnt bits of the red pblette entries" },
+        { "sBIT_Pblette/green",
+            "The number of significbnt bits of the green pblette entries" },
+        { "sBIT_Pblette/blue",
+            "The number of significbnt bits of the blue pblette entries" },
 
-        { "sPLTEntry/index", "The index of a suggested palette entry" },
-        { "sPLTEntry/red", "The red value of a suggested palette entry" },
-        { "sPLTEntry/green", "The green value of a suggested palette entry" },
-        { "sPLTEntry/blue", "The blue value of a suggested palette entry" },
-        { "sPLTEntry/alpha", "The blue value of a suggested palette entry" },
+        { "sPLTEntry/index", "The index of b suggested pblette entry" },
+        { "sPLTEntry/red", "The red vblue of b suggested pblette entry" },
+        { "sPLTEntry/green", "The green vblue of b suggested pblette entry" },
+        { "sPLTEntry/blue", "The blue vblue of b suggested pblette entry" },
+        { "sPLTEntry/blphb", "The blue vblue of b suggested pblette entry" },
 
         { "sRGB/renderingIntent", "The rendering intent" },
 
         { "tEXtEntry/keyword", "The keyword" },
-        { "tEXtEntry/value", "The text" },
+        { "tEXtEntry/vblue", "The text" },
 
-        { "tIME/year", "The year when the image was last modified" },
+        { "tIME/yebr", "The yebr when the imbge wbs lbst modified" },
         { "tIME/month",
-          "The month when the image was last modified, 1 = January" },
-        { "tIME/day",
-          "The day of the month when the image was last modified" },
+          "The month when the imbge wbs lbst modified, 1 = Jbnubry" },
+        { "tIME/dby",
+          "The dby of the month when the imbge wbs lbst modified" },
         { "tIME/hour",
-          "The hour when the image was last modified" },
+          "The hour when the imbge wbs lbst modified" },
         { "tIME/minute",
-          "The minute when the image was last modified" },
+          "The minute when the imbge wbs lbst modified" },
         { "tIME/second",
-          "The second when the image was last modified, 60 = leap second" },
+          "The second when the imbge wbs lbst modified, 60 = lebp second" },
 
-        { "tRNS_Grayscale/gray",
-          "The gray value to be considered transparent" },
+        { "tRNS_Grbyscble/grby",
+          "The grby vblue to be considered trbnspbrent" },
         { "tRNS_RGB/red",
-          "The red value to be considered transparent" },
+          "The red vblue to be considered trbnspbrent" },
         { "tRNS_RGB/green",
-          "The green value to be considered transparent" },
+          "The green vblue to be considered trbnspbrent" },
         { "tRNS_RGB/blue",
-          "The blure value to be considered transparent" },
-        { "tRNS_Palette/index",
-          "A palette index to be considered transparent" },
-        { "tRNS_Palette/alpha",
-          "The transparency associated with the palette entry" },
+          "The blure vblue to be considered trbnspbrent" },
+        { "tRNS_Pblette/index",
+          "A pblette index to be considered trbnspbrent" },
+        { "tRNS_Pblette/blphb",
+          "The trbnspbrency bssocibted with the pblette entry" },
 
         { "zTXtEntry/keyword", "The keyword" },
         { "zTXtEntry/compressionMethod", "The compression method" },
         { "zTXtEntry/text", "The compressed text" },
 
-        { "UnknownChunk/type", "The 4-character type of the unknown chunk" }
+        { "UnknownChunk/type", "The 4-chbrbcter type of the unknown chunk" }
 
         };
     }

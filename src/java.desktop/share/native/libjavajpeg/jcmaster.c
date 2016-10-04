@@ -3,16 +3,16 @@
  * DO NOT REMOVE OR ALTER!
  */
 /*
- * jcmaster.c
+ * jcmbster.c
  *
- * Copyright (C) 1991-1997, Thomas G. Lane.
- * This file is part of the Independent JPEG Group's software.
- * For conditions of distribution and use, see the accompanying README file.
+ * Copyright (C) 1991-1997, Thombs G. Lbne.
+ * This file is pbrt of the Independent JPEG Group's softwbre.
+ * For conditions of distribution bnd use, see the bccompbnying README file.
  *
- * This file contains master control logic for the JPEG compressor.
- * These routines are concerned with parameter validation, initial setup,
- * and inter-pass control (determining the number of passes and the work
- * to be done in each pass).
+ * This file contbins mbster control logic for the JPEG compressor.
+ * These routines bre concerned with pbrbmeter vblidbtion, initibl setup,
+ * bnd inter-pbss control (determining the number of pbsses bnd the work
+ * to be done in ebch pbss).
  */
 
 #define JPEG_INTERNALS
@@ -20,146 +20,146 @@
 #include "jpeglib.h"
 
 
-/* Private state */
+/* Privbte stbte */
 
 typedef enum {
-        main_pass,              /* input data, also do first output step */
-        huff_opt_pass,          /* Huffman code optimization pass */
-        output_pass             /* data output pass */
-} c_pass_type;
+        mbin_pbss,              /* input dbtb, blso do first output step */
+        huff_opt_pbss,          /* Huffmbn code optimizbtion pbss */
+        output_pbss             /* dbtb output pbss */
+} c_pbss_type;
 
 typedef struct {
-  struct jpeg_comp_master pub;  /* public fields */
+  struct jpeg_comp_mbster pub;  /* public fields */
 
-  c_pass_type pass_type;        /* the type of the current pass */
+  c_pbss_type pbss_type;        /* the type of the current pbss */
 
-  int pass_number;              /* # of passes completed */
-  int total_passes;             /* total # of passes needed */
+  int pbss_number;              /* # of pbsses completed */
+  int totbl_pbsses;             /* totbl # of pbsses needed */
 
-  int scan_number;              /* current index in scan_info[] */
-} my_comp_master;
+  int scbn_number;              /* current index in scbn_info[] */
+} my_comp_mbster;
 
-typedef my_comp_master * my_master_ptr;
+typedef my_comp_mbster * my_mbster_ptr;
 
 
 /*
- * Support routines that do various essential calculations.
+ * Support routines thbt do vbrious essentibl cblculbtions.
  */
 
 LOCAL(void)
-initial_setup (j_compress_ptr cinfo)
-/* Do computations that are needed before master selection phase */
+initibl_setup (j_compress_ptr cinfo)
+/* Do computbtions thbt bre needed before mbster selection phbse */
 {
   int ci;
   jpeg_component_info *compptr;
-  long samplesperrow;
-  JDIMENSION jd_samplesperrow;
+  long sbmplesperrow;
+  JDIMENSION jd_sbmplesperrow;
 
-  /* Sanity check on image dimensions */
-  if (cinfo->image_height <= 0 || cinfo->image_width <= 0
+  /* Sbnity check on imbge dimensions */
+  if (cinfo->imbge_height <= 0 || cinfo->imbge_width <= 0
       || cinfo->num_components <= 0 || cinfo->input_components <= 0)
     ERREXIT(cinfo, JERR_EMPTY_IMAGE);
 
-  /* Make sure image isn't bigger than I can handle */
-  if ((long) cinfo->image_height > (long) JPEG_MAX_DIMENSION ||
-      (long) cinfo->image_width > (long) JPEG_MAX_DIMENSION)
+  /* Mbke sure imbge isn't bigger thbn I cbn hbndle */
+  if ((long) cinfo->imbge_height > (long) JPEG_MAX_DIMENSION ||
+      (long) cinfo->imbge_width > (long) JPEG_MAX_DIMENSION)
     ERREXIT1(cinfo, JERR_IMAGE_TOO_BIG, (unsigned int) JPEG_MAX_DIMENSION);
 
-  /* Width of an input scanline must be representable as JDIMENSION. */
-  samplesperrow = (long) cinfo->image_width * (long) cinfo->input_components;
-  jd_samplesperrow = (JDIMENSION) samplesperrow;
-  if ((long) jd_samplesperrow != samplesperrow)
+  /* Width of bn input scbnline must be representbble bs JDIMENSION. */
+  sbmplesperrow = (long) cinfo->imbge_width * (long) cinfo->input_components;
+  jd_sbmplesperrow = (JDIMENSION) sbmplesperrow;
+  if ((long) jd_sbmplesperrow != sbmplesperrow)
     ERREXIT(cinfo, JERR_WIDTH_OVERFLOW);
 
-  /* For now, precision must match compiled-in value... */
-  if (cinfo->data_precision != BITS_IN_JSAMPLE)
-    ERREXIT1(cinfo, JERR_BAD_PRECISION, cinfo->data_precision);
+  /* For now, precision must mbtch compiled-in vblue... */
+  if (cinfo->dbtb_precision != BITS_IN_JSAMPLE)
+    ERREXIT1(cinfo, JERR_BAD_PRECISION, cinfo->dbtb_precision);
 
-  /* Check that number of components won't exceed internal array sizes */
+  /* Check thbt number of components won't exceed internbl brrby sizes */
   if (cinfo->num_components > MAX_COMPONENTS)
     ERREXIT2(cinfo, JERR_COMPONENT_COUNT, cinfo->num_components,
              MAX_COMPONENTS);
 
-  /* Compute maximum sampling factors; check factor validity */
-  cinfo->max_h_samp_factor = 1;
-  cinfo->max_v_samp_factor = 1;
+  /* Compute mbximum sbmpling fbctors; check fbctor vblidity */
+  cinfo->mbx_h_sbmp_fbctor = 1;
+  cinfo->mbx_v_sbmp_fbctor = 1;
   for (ci = 0, compptr = cinfo->comp_info; ci < cinfo->num_components;
        ci++, compptr++) {
-    if (compptr->h_samp_factor<=0 || compptr->h_samp_factor>MAX_SAMP_FACTOR ||
-        compptr->v_samp_factor<=0 || compptr->v_samp_factor>MAX_SAMP_FACTOR)
+    if (compptr->h_sbmp_fbctor<=0 || compptr->h_sbmp_fbctor>MAX_SAMP_FACTOR ||
+        compptr->v_sbmp_fbctor<=0 || compptr->v_sbmp_fbctor>MAX_SAMP_FACTOR)
       ERREXIT(cinfo, JERR_BAD_SAMPLING);
-    cinfo->max_h_samp_factor = MAX(cinfo->max_h_samp_factor,
-                                   compptr->h_samp_factor);
-    cinfo->max_v_samp_factor = MAX(cinfo->max_v_samp_factor,
-                                   compptr->v_samp_factor);
+    cinfo->mbx_h_sbmp_fbctor = MAX(cinfo->mbx_h_sbmp_fbctor,
+                                   compptr->h_sbmp_fbctor);
+    cinfo->mbx_v_sbmp_fbctor = MAX(cinfo->mbx_v_sbmp_fbctor,
+                                   compptr->v_sbmp_fbctor);
   }
 
   /* Compute dimensions of components */
   for (ci = 0, compptr = cinfo->comp_info; ci < cinfo->num_components;
        ci++, compptr++) {
-    /* Fill in the correct component_index value; don't rely on application */
+    /* Fill in the correct component_index vblue; don't rely on bpplicbtion */
     compptr->component_index = ci;
-    /* For compression, we never do DCT scaling. */
-    compptr->DCT_scaled_size = DCTSIZE;
+    /* For compression, we never do DCT scbling. */
+    compptr->DCT_scbled_size = DCTSIZE;
     /* Size in DCT blocks */
     compptr->width_in_blocks = (JDIMENSION)
-      jdiv_round_up((long) cinfo->image_width * (long) compptr->h_samp_factor,
-                    (long) (cinfo->max_h_samp_factor * DCTSIZE));
+      jdiv_round_up((long) cinfo->imbge_width * (long) compptr->h_sbmp_fbctor,
+                    (long) (cinfo->mbx_h_sbmp_fbctor * DCTSIZE));
     compptr->height_in_blocks = (JDIMENSION)
-      jdiv_round_up((long) cinfo->image_height * (long) compptr->v_samp_factor,
-                    (long) (cinfo->max_v_samp_factor * DCTSIZE));
-    /* Size in samples */
-    compptr->downsampled_width = (JDIMENSION)
-      jdiv_round_up((long) cinfo->image_width * (long) compptr->h_samp_factor,
-                    (long) cinfo->max_h_samp_factor);
-    compptr->downsampled_height = (JDIMENSION)
-      jdiv_round_up((long) cinfo->image_height * (long) compptr->v_samp_factor,
-                    (long) cinfo->max_v_samp_factor);
-    /* Mark component needed (this flag isn't actually used for compression) */
+      jdiv_round_up((long) cinfo->imbge_height * (long) compptr->v_sbmp_fbctor,
+                    (long) (cinfo->mbx_v_sbmp_fbctor * DCTSIZE));
+    /* Size in sbmples */
+    compptr->downsbmpled_width = (JDIMENSION)
+      jdiv_round_up((long) cinfo->imbge_width * (long) compptr->h_sbmp_fbctor,
+                    (long) cinfo->mbx_h_sbmp_fbctor);
+    compptr->downsbmpled_height = (JDIMENSION)
+      jdiv_round_up((long) cinfo->imbge_height * (long) compptr->v_sbmp_fbctor,
+                    (long) cinfo->mbx_v_sbmp_fbctor);
+    /* Mbrk component needed (this flbg isn't bctublly used for compression) */
     compptr->component_needed = TRUE;
   }
 
-  /* Compute number of fully interleaved MCU rows (number of times that
-   * main controller will call coefficient controller).
+  /* Compute number of fully interlebved MCU rows (number of times thbt
+   * mbin controller will cbll coefficient controller).
    */
-  cinfo->total_iMCU_rows = (JDIMENSION)
-    jdiv_round_up((long) cinfo->image_height,
-                  (long) (cinfo->max_v_samp_factor*DCTSIZE));
+  cinfo->totbl_iMCU_rows = (JDIMENSION)
+    jdiv_round_up((long) cinfo->imbge_height,
+                  (long) (cinfo->mbx_v_sbmp_fbctor*DCTSIZE));
 }
 
 
 #ifdef C_MULTISCAN_FILES_SUPPORTED
 
 LOCAL(void)
-validate_script (j_compress_ptr cinfo)
-/* Verify that the scan script in cinfo->scan_info[] is valid; also
- * determine whether it uses progressive JPEG, and set cinfo->progressive_mode.
+vblidbte_script (j_compress_ptr cinfo)
+/* Verify thbt the scbn script in cinfo->scbn_info[] is vblid; blso
+ * determine whether it uses progressive JPEG, bnd set cinfo->progressive_mode.
  */
 {
-  const jpeg_scan_info * scanptr;
-  int scanno, ncomps, ci, coefi, thisi;
+  const jpeg_scbn_info * scbnptr;
+  int scbnno, ncomps, ci, coefi, thisi;
   int Ss, Se, Ah, Al;
-  boolean component_sent[MAX_COMPONENTS];
+  boolebn component_sent[MAX_COMPONENTS];
 #ifdef C_PROGRESSIVE_SUPPORTED
-  int * last_bitpos_ptr;
-  int last_bitpos[MAX_COMPONENTS][DCTSIZE2];
-  /* -1 until that coefficient has been seen; then last Al for it */
+  int * lbst_bitpos_ptr;
+  int lbst_bitpos[MAX_COMPONENTS][DCTSIZE2];
+  /* -1 until thbt coefficient hbs been seen; then lbst Al for it */
 #endif
 
-  if (cinfo->num_scans <= 0)
+  if (cinfo->num_scbns <= 0)
     ERREXIT1(cinfo, JERR_BAD_SCAN_SCRIPT, 0);
 
-  /* For sequential JPEG, all scans must have Ss=0, Se=DCTSIZE2-1;
-   * for progressive JPEG, no scan can have this.
+  /* For sequentibl JPEG, bll scbns must hbve Ss=0, Se=DCTSIZE2-1;
+   * for progressive JPEG, no scbn cbn hbve this.
    */
-  scanptr = cinfo->scan_info;
-  if (scanptr->Ss != 0 || scanptr->Se != DCTSIZE2-1) {
+  scbnptr = cinfo->scbn_info;
+  if (scbnptr->Ss != 0 || scbnptr->Se != DCTSIZE2-1) {
 #ifdef C_PROGRESSIVE_SUPPORTED
     cinfo->progressive_mode = TRUE;
-    last_bitpos_ptr = & last_bitpos[0][0];
+    lbst_bitpos_ptr = & lbst_bitpos[0][0];
     for (ci = 0; ci < cinfo->num_components; ci++)
       for (coefi = 0; coefi < DCTSIZE2; coefi++)
-        *last_bitpos_ptr++ = -1;
+        *lbst_bitpos_ptr++ = -1;
 #else
     ERREXIT(cinfo, JERR_NOT_COMPILED);
 #endif
@@ -169,32 +169,32 @@ validate_script (j_compress_ptr cinfo)
       component_sent[ci] = FALSE;
   }
 
-  for (scanno = 1; scanno <= cinfo->num_scans; scanptr++, scanno++) {
-    /* Validate component indexes */
-    ncomps = scanptr->comps_in_scan;
+  for (scbnno = 1; scbnno <= cinfo->num_scbns; scbnptr++, scbnno++) {
+    /* Vblidbte component indexes */
+    ncomps = scbnptr->comps_in_scbn;
     if (ncomps <= 0 || ncomps > MAX_COMPS_IN_SCAN)
       ERREXIT2(cinfo, JERR_COMPONENT_COUNT, ncomps, MAX_COMPS_IN_SCAN);
     for (ci = 0; ci < ncomps; ci++) {
-      thisi = scanptr->component_index[ci];
+      thisi = scbnptr->component_index[ci];
       if (thisi < 0 || thisi >= cinfo->num_components)
-        ERREXIT1(cinfo, JERR_BAD_SCAN_SCRIPT, scanno);
-      /* Components must appear in SOF order within each scan */
-      if (ci > 0 && thisi <= scanptr->component_index[ci-1])
-        ERREXIT1(cinfo, JERR_BAD_SCAN_SCRIPT, scanno);
+        ERREXIT1(cinfo, JERR_BAD_SCAN_SCRIPT, scbnno);
+      /* Components must bppebr in SOF order within ebch scbn */
+      if (ci > 0 && thisi <= scbnptr->component_index[ci-1])
+        ERREXIT1(cinfo, JERR_BAD_SCAN_SCRIPT, scbnno);
     }
-    /* Validate progression parameters */
-    Ss = scanptr->Ss;
-    Se = scanptr->Se;
-    Ah = scanptr->Ah;
-    Al = scanptr->Al;
+    /* Vblidbte progression pbrbmeters */
+    Ss = scbnptr->Ss;
+    Se = scbnptr->Se;
+    Ah = scbnptr->Ah;
+    Al = scbnptr->Al;
     if (cinfo->progressive_mode) {
 #ifdef C_PROGRESSIVE_SUPPORTED
-      /* The JPEG spec simply gives the ranges 0..13 for Ah and Al, but that
-       * seems wrong: the upper bound ought to depend on data precision.
-       * Perhaps they really meant 0..N+1 for N-bit precision.
-       * Here we allow 0..10 for 8-bit data; Al larger than 10 results in
-       * out-of-range reconstructed DC values during the first DC scan,
-       * which might cause problems for some decoders.
+      /* The JPEG spec simply gives the rbnges 0..13 for Ah bnd Al, but thbt
+       * seems wrong: the upper bound ought to depend on dbtb precision.
+       * Perhbps they reblly mebnt 0..N+1 for N-bit precision.
+       * Here we bllow 0..10 for 8-bit dbtb; Al lbrger thbn 10 results in
+       * out-of-rbnge reconstructed DC vblues during the first DC scbn,
+       * which might cbuse problems for some decoders.
        */
 #if BITS_IN_JSAMPLE == 8
 #define MAX_AH_AL 10
@@ -203,56 +203,56 @@ validate_script (j_compress_ptr cinfo)
 #endif
       if (Ss < 0 || Ss >= DCTSIZE2 || Se < Ss || Se >= DCTSIZE2 ||
           Ah < 0 || Ah > MAX_AH_AL || Al < 0 || Al > MAX_AH_AL)
-        ERREXIT1(cinfo, JERR_BAD_PROG_SCRIPT, scanno);
+        ERREXIT1(cinfo, JERR_BAD_PROG_SCRIPT, scbnno);
       if (Ss == 0) {
-        if (Se != 0)            /* DC and AC together not OK */
-          ERREXIT1(cinfo, JERR_BAD_PROG_SCRIPT, scanno);
+        if (Se != 0)            /* DC bnd AC together not OK */
+          ERREXIT1(cinfo, JERR_BAD_PROG_SCRIPT, scbnno);
       } else {
-        if (ncomps != 1)        /* AC scans must be for only one component */
-          ERREXIT1(cinfo, JERR_BAD_PROG_SCRIPT, scanno);
+        if (ncomps != 1)        /* AC scbns must be for only one component */
+          ERREXIT1(cinfo, JERR_BAD_PROG_SCRIPT, scbnno);
       }
       for (ci = 0; ci < ncomps; ci++) {
-        last_bitpos_ptr = & last_bitpos[scanptr->component_index[ci]][0];
-        if (Ss != 0 && last_bitpos_ptr[0] < 0) /* AC without prior DC scan */
-          ERREXIT1(cinfo, JERR_BAD_PROG_SCRIPT, scanno);
+        lbst_bitpos_ptr = & lbst_bitpos[scbnptr->component_index[ci]][0];
+        if (Ss != 0 && lbst_bitpos_ptr[0] < 0) /* AC without prior DC scbn */
+          ERREXIT1(cinfo, JERR_BAD_PROG_SCRIPT, scbnno);
         for (coefi = Ss; coefi <= Se; coefi++) {
-          if (last_bitpos_ptr[coefi] < 0) {
-            /* first scan of this coefficient */
+          if (lbst_bitpos_ptr[coefi] < 0) {
+            /* first scbn of this coefficient */
             if (Ah != 0)
-              ERREXIT1(cinfo, JERR_BAD_PROG_SCRIPT, scanno);
+              ERREXIT1(cinfo, JERR_BAD_PROG_SCRIPT, scbnno);
           } else {
-            /* not first scan */
-            if (Ah != last_bitpos_ptr[coefi] || Al != Ah-1)
-              ERREXIT1(cinfo, JERR_BAD_PROG_SCRIPT, scanno);
+            /* not first scbn */
+            if (Ah != lbst_bitpos_ptr[coefi] || Al != Ah-1)
+              ERREXIT1(cinfo, JERR_BAD_PROG_SCRIPT, scbnno);
           }
-          last_bitpos_ptr[coefi] = Al;
+          lbst_bitpos_ptr[coefi] = Al;
         }
       }
 #endif
     } else {
-      /* For sequential JPEG, all progression parameters must be these: */
+      /* For sequentibl JPEG, bll progression pbrbmeters must be these: */
       if (Ss != 0 || Se != DCTSIZE2-1 || Ah != 0 || Al != 0)
-        ERREXIT1(cinfo, JERR_BAD_PROG_SCRIPT, scanno);
-      /* Make sure components are not sent twice */
+        ERREXIT1(cinfo, JERR_BAD_PROG_SCRIPT, scbnno);
+      /* Mbke sure components bre not sent twice */
       for (ci = 0; ci < ncomps; ci++) {
-        thisi = scanptr->component_index[ci];
+        thisi = scbnptr->component_index[ci];
         if (component_sent[thisi])
-          ERREXIT1(cinfo, JERR_BAD_SCAN_SCRIPT, scanno);
+          ERREXIT1(cinfo, JERR_BAD_SCAN_SCRIPT, scbnno);
         component_sent[thisi] = TRUE;
       }
     }
   }
 
-  /* Now verify that everything got sent. */
+  /* Now verify thbt everything got sent. */
   if (cinfo->progressive_mode) {
 #ifdef C_PROGRESSIVE_SUPPORTED
-    /* For progressive mode, we only check that at least some DC data
-     * got sent for each component; the spec does not require that all bits
-     * of all coefficients be transmitted.  Would it be wiser to enforce
-     * transmission of all coefficient bits??
+    /* For progressive mode, we only check thbt bt lebst some DC dbtb
+     * got sent for ebch component; the spec does not require thbt bll bits
+     * of bll coefficients be trbnsmitted.  Would it be wiser to enforce
+     * trbnsmission of bll coefficient bits??
      */
     for (ci = 0; ci < cinfo->num_components; ci++) {
-      if (last_bitpos[ci][0] < 0)
+      if (lbst_bitpos[ci][0] < 0)
         ERREXIT(cinfo, JERR_MISSING_DATA);
     }
 #endif
@@ -268,35 +268,35 @@ validate_script (j_compress_ptr cinfo)
 
 
 LOCAL(void)
-select_scan_parameters (j_compress_ptr cinfo)
-/* Set up the scan parameters for the current scan */
+select_scbn_pbrbmeters (j_compress_ptr cinfo)
+/* Set up the scbn pbrbmeters for the current scbn */
 {
   int ci;
 
 #ifdef C_MULTISCAN_FILES_SUPPORTED
-  if (cinfo->scan_info != NULL) {
-    /* Prepare for current scan --- the script is already validated */
-    my_master_ptr master = (my_master_ptr) cinfo->master;
-    const jpeg_scan_info * scanptr = cinfo->scan_info + master->scan_number;
+  if (cinfo->scbn_info != NULL) {
+    /* Prepbre for current scbn --- the script is blrebdy vblidbted */
+    my_mbster_ptr mbster = (my_mbster_ptr) cinfo->mbster;
+    const jpeg_scbn_info * scbnptr = cinfo->scbn_info + mbster->scbn_number;
 
-    cinfo->comps_in_scan = scanptr->comps_in_scan;
-    for (ci = 0; ci < scanptr->comps_in_scan; ci++) {
+    cinfo->comps_in_scbn = scbnptr->comps_in_scbn;
+    for (ci = 0; ci < scbnptr->comps_in_scbn; ci++) {
       cinfo->cur_comp_info[ci] =
-        &cinfo->comp_info[scanptr->component_index[ci]];
+        &cinfo->comp_info[scbnptr->component_index[ci]];
     }
-    cinfo->Ss = scanptr->Ss;
-    cinfo->Se = scanptr->Se;
-    cinfo->Ah = scanptr->Ah;
-    cinfo->Al = scanptr->Al;
+    cinfo->Ss = scbnptr->Ss;
+    cinfo->Se = scbnptr->Se;
+    cinfo->Ah = scbnptr->Ah;
+    cinfo->Al = scbnptr->Al;
   }
   else
 #endif
   {
-    /* Prepare for single sequential-JPEG scan containing all components */
+    /* Prepbre for single sequentibl-JPEG scbn contbining bll components */
     if (cinfo->num_components > MAX_COMPS_IN_SCAN)
       ERREXIT2(cinfo, JERR_COMPONENT_COUNT, cinfo->num_components,
                MAX_COMPS_IN_SCAN);
-    cinfo->comps_in_scan = cinfo->num_components;
+    cinfo->comps_in_scbn = cinfo->num_components;
     for (ci = 0; ci < cinfo->num_components; ci++) {
       cinfo->cur_comp_info[ci] = &cinfo->comp_info[ci];
     }
@@ -309,71 +309,71 @@ select_scan_parameters (j_compress_ptr cinfo)
 
 
 LOCAL(void)
-per_scan_setup (j_compress_ptr cinfo)
-/* Do computations that are needed before processing a JPEG scan */
-/* cinfo->comps_in_scan and cinfo->cur_comp_info[] are already set */
+per_scbn_setup (j_compress_ptr cinfo)
+/* Do computbtions thbt bre needed before processing b JPEG scbn */
+/* cinfo->comps_in_scbn bnd cinfo->cur_comp_info[] bre blrebdy set */
 {
   int ci, mcublks, tmp;
   jpeg_component_info *compptr;
 
-  if (cinfo->comps_in_scan == 1) {
+  if (cinfo->comps_in_scbn == 1) {
 
-    /* Noninterleaved (single-component) scan */
+    /* Noninterlebved (single-component) scbn */
     compptr = cinfo->cur_comp_info[0];
 
-    /* Overall image size in MCUs */
+    /* Overbll imbge size in MCUs */
     cinfo->MCUs_per_row = compptr->width_in_blocks;
-    cinfo->MCU_rows_in_scan = compptr->height_in_blocks;
+    cinfo->MCU_rows_in_scbn = compptr->height_in_blocks;
 
-    /* For noninterleaved scan, always one block per MCU */
+    /* For noninterlebved scbn, blwbys one block per MCU */
     compptr->MCU_width = 1;
     compptr->MCU_height = 1;
     compptr->MCU_blocks = 1;
-    compptr->MCU_sample_width = DCTSIZE;
-    compptr->last_col_width = 1;
-    /* For noninterleaved scans, it is convenient to define last_row_height
-     * as the number of block rows present in the last iMCU row.
+    compptr->MCU_sbmple_width = DCTSIZE;
+    compptr->lbst_col_width = 1;
+    /* For noninterlebved scbns, it is convenient to define lbst_row_height
+     * bs the number of block rows present in the lbst iMCU row.
      */
-    tmp = (int) (compptr->height_in_blocks % compptr->v_samp_factor);
-    if (tmp == 0) tmp = compptr->v_samp_factor;
-    compptr->last_row_height = tmp;
+    tmp = (int) (compptr->height_in_blocks % compptr->v_sbmp_fbctor);
+    if (tmp == 0) tmp = compptr->v_sbmp_fbctor;
+    compptr->lbst_row_height = tmp;
 
-    /* Prepare array describing MCU composition */
+    /* Prepbre brrby describing MCU composition */
     cinfo->blocks_in_MCU = 1;
     cinfo->MCU_membership[0] = 0;
 
   } else {
 
-    /* Interleaved (multi-component) scan */
-    if (cinfo->comps_in_scan <= 0 || cinfo->comps_in_scan > MAX_COMPS_IN_SCAN)
-      ERREXIT2(cinfo, JERR_COMPONENT_COUNT, cinfo->comps_in_scan,
+    /* Interlebved (multi-component) scbn */
+    if (cinfo->comps_in_scbn <= 0 || cinfo->comps_in_scbn > MAX_COMPS_IN_SCAN)
+      ERREXIT2(cinfo, JERR_COMPONENT_COUNT, cinfo->comps_in_scbn,
                MAX_COMPS_IN_SCAN);
 
-    /* Overall image size in MCUs */
+    /* Overbll imbge size in MCUs */
     cinfo->MCUs_per_row = (JDIMENSION)
-      jdiv_round_up((long) cinfo->image_width,
-                    (long) (cinfo->max_h_samp_factor*DCTSIZE));
-    cinfo->MCU_rows_in_scan = (JDIMENSION)
-      jdiv_round_up((long) cinfo->image_height,
-                    (long) (cinfo->max_v_samp_factor*DCTSIZE));
+      jdiv_round_up((long) cinfo->imbge_width,
+                    (long) (cinfo->mbx_h_sbmp_fbctor*DCTSIZE));
+    cinfo->MCU_rows_in_scbn = (JDIMENSION)
+      jdiv_round_up((long) cinfo->imbge_height,
+                    (long) (cinfo->mbx_v_sbmp_fbctor*DCTSIZE));
 
     cinfo->blocks_in_MCU = 0;
 
-    for (ci = 0; ci < cinfo->comps_in_scan; ci++) {
+    for (ci = 0; ci < cinfo->comps_in_scbn; ci++) {
       compptr = cinfo->cur_comp_info[ci];
-      /* Sampling factors give # of blocks of component in each MCU */
-      compptr->MCU_width = compptr->h_samp_factor;
-      compptr->MCU_height = compptr->v_samp_factor;
+      /* Sbmpling fbctors give # of blocks of component in ebch MCU */
+      compptr->MCU_width = compptr->h_sbmp_fbctor;
+      compptr->MCU_height = compptr->v_sbmp_fbctor;
       compptr->MCU_blocks = compptr->MCU_width * compptr->MCU_height;
-      compptr->MCU_sample_width = compptr->MCU_width * DCTSIZE;
-      /* Figure number of non-dummy blocks in last MCU column & row */
+      compptr->MCU_sbmple_width = compptr->MCU_width * DCTSIZE;
+      /* Figure number of non-dummy blocks in lbst MCU column & row */
       tmp = (int) (compptr->width_in_blocks % compptr->MCU_width);
       if (tmp == 0) tmp = compptr->MCU_width;
-      compptr->last_col_width = tmp;
+      compptr->lbst_col_width = tmp;
       tmp = (int) (compptr->height_in_blocks % compptr->MCU_height);
       if (tmp == 0) tmp = compptr->MCU_height;
-      compptr->last_row_height = tmp;
-      /* Prepare array describing MCU composition */
+      compptr->lbst_row_height = tmp;
+      /* Prepbre brrby describing MCU composition */
       mcublks = compptr->MCU_blocks;
       if (cinfo->blocks_in_MCU + mcublks > C_MAX_BLOCKS_IN_MCU)
         ERREXIT(cinfo, JERR_BAD_MCU_SIZE);
@@ -384,211 +384,211 @@ per_scan_setup (j_compress_ptr cinfo)
 
   }
 
-  /* Convert restart specified in rows to actual MCU count. */
-  /* Note that count must fit in 16 bits, so we provide limiting. */
-  if (cinfo->restart_in_rows > 0) {
-    long nominal = (long) cinfo->restart_in_rows * (long) cinfo->MCUs_per_row;
-    cinfo->restart_interval = (unsigned int) MIN(nominal, 65535L);
+  /* Convert restbrt specified in rows to bctubl MCU count. */
+  /* Note thbt count must fit in 16 bits, so we provide limiting. */
+  if (cinfo->restbrt_in_rows > 0) {
+    long nominbl = (long) cinfo->restbrt_in_rows * (long) cinfo->MCUs_per_row;
+    cinfo->restbrt_intervbl = (unsigned int) MIN(nominbl, 65535L);
   }
 }
 
 
 /*
- * Per-pass setup.
- * This is called at the beginning of each pass.  We determine which modules
- * will be active during this pass and give them appropriate start_pass calls.
- * We also set is_last_pass to indicate whether any more passes will be
+ * Per-pbss setup.
+ * This is cblled bt the beginning of ebch pbss.  We determine which modules
+ * will be bctive during this pbss bnd give them bppropribte stbrt_pbss cblls.
+ * We blso set is_lbst_pbss to indicbte whether bny more pbsses will be
  * required.
  */
 
 METHODDEF(void)
-prepare_for_pass (j_compress_ptr cinfo)
+prepbre_for_pbss (j_compress_ptr cinfo)
 {
-  my_master_ptr master = (my_master_ptr) cinfo->master;
+  my_mbster_ptr mbster = (my_mbster_ptr) cinfo->mbster;
 
-  switch (master->pass_type) {
-  case main_pass:
-    /* Initial pass: will collect input data, and do either Huffman
-     * optimization or data output for the first scan.
+  switch (mbster->pbss_type) {
+  cbse mbin_pbss:
+    /* Initibl pbss: will collect input dbtb, bnd do either Huffmbn
+     * optimizbtion or dbtb output for the first scbn.
      */
-    select_scan_parameters(cinfo);
-    per_scan_setup(cinfo);
-    if (! cinfo->raw_data_in) {
-      (*cinfo->cconvert->start_pass) (cinfo);
-      (*cinfo->downsample->start_pass) (cinfo);
-      (*cinfo->prep->start_pass) (cinfo, JBUF_PASS_THRU);
+    select_scbn_pbrbmeters(cinfo);
+    per_scbn_setup(cinfo);
+    if (! cinfo->rbw_dbtb_in) {
+      (*cinfo->cconvert->stbrt_pbss) (cinfo);
+      (*cinfo->downsbmple->stbrt_pbss) (cinfo);
+      (*cinfo->prep->stbrt_pbss) (cinfo, JBUF_PASS_THRU);
     }
-    (*cinfo->fdct->start_pass) (cinfo);
-    (*cinfo->entropy->start_pass) (cinfo, cinfo->optimize_coding);
-    (*cinfo->coef->start_pass) (cinfo,
-                                (master->total_passes > 1 ?
+    (*cinfo->fdct->stbrt_pbss) (cinfo);
+    (*cinfo->entropy->stbrt_pbss) (cinfo, cinfo->optimize_coding);
+    (*cinfo->coef->stbrt_pbss) (cinfo,
+                                (mbster->totbl_pbsses > 1 ?
                                  JBUF_SAVE_AND_PASS : JBUF_PASS_THRU));
-    (*cinfo->main->start_pass) (cinfo, JBUF_PASS_THRU);
+    (*cinfo->mbin->stbrt_pbss) (cinfo, JBUF_PASS_THRU);
     if (cinfo->optimize_coding) {
-      /* No immediate data output; postpone writing frame/scan headers */
-      master->pub.call_pass_startup = FALSE;
+      /* No immedibte dbtb output; postpone writing frbme/scbn hebders */
+      mbster->pub.cbll_pbss_stbrtup = FALSE;
     } else {
-      /* Will write frame/scan headers at first jpeg_write_scanlines call */
-      master->pub.call_pass_startup = TRUE;
+      /* Will write frbme/scbn hebders bt first jpeg_write_scbnlines cbll */
+      mbster->pub.cbll_pbss_stbrtup = TRUE;
     }
-    break;
+    brebk;
 #ifdef ENTROPY_OPT_SUPPORTED
-  case huff_opt_pass:
-    /* Do Huffman optimization for a scan after the first one. */
-    select_scan_parameters(cinfo);
-    per_scan_setup(cinfo);
-    if (cinfo->Ss != 0 || cinfo->Ah == 0 || cinfo->arith_code) {
-      (*cinfo->entropy->start_pass) (cinfo, TRUE);
-      (*cinfo->coef->start_pass) (cinfo, JBUF_CRANK_DEST);
-      master->pub.call_pass_startup = FALSE;
-      break;
+  cbse huff_opt_pbss:
+    /* Do Huffmbn optimizbtion for b scbn bfter the first one. */
+    select_scbn_pbrbmeters(cinfo);
+    per_scbn_setup(cinfo);
+    if (cinfo->Ss != 0 || cinfo->Ah == 0 || cinfo->brith_code) {
+      (*cinfo->entropy->stbrt_pbss) (cinfo, TRUE);
+      (*cinfo->coef->stbrt_pbss) (cinfo, JBUF_CRANK_DEST);
+      mbster->pub.cbll_pbss_stbrtup = FALSE;
+      brebk;
     }
-    /* Special case: Huffman DC refinement scans need no Huffman table
-     * and therefore we can skip the optimization pass for them.
+    /* Specibl cbse: Huffmbn DC refinement scbns need no Huffmbn tbble
+     * bnd therefore we cbn skip the optimizbtion pbss for them.
      */
-    master->pass_type = output_pass;
-    master->pass_number++;
+    mbster->pbss_type = output_pbss;
+    mbster->pbss_number++;
     /*FALLTHROUGH*/
 #endif
-  case output_pass:
-    /* Do a data-output pass. */
-    /* We need not repeat per-scan setup if prior optimization pass did it. */
+  cbse output_pbss:
+    /* Do b dbtb-output pbss. */
+    /* We need not repebt per-scbn setup if prior optimizbtion pbss did it. */
     if (! cinfo->optimize_coding) {
-      select_scan_parameters(cinfo);
-      per_scan_setup(cinfo);
+      select_scbn_pbrbmeters(cinfo);
+      per_scbn_setup(cinfo);
     }
-    (*cinfo->entropy->start_pass) (cinfo, FALSE);
-    (*cinfo->coef->start_pass) (cinfo, JBUF_CRANK_DEST);
-    /* We emit frame/scan headers now */
-    if (master->scan_number == 0)
-      (*cinfo->marker->write_frame_header) (cinfo);
-    (*cinfo->marker->write_scan_header) (cinfo);
-    master->pub.call_pass_startup = FALSE;
-    break;
-  default:
+    (*cinfo->entropy->stbrt_pbss) (cinfo, FALSE);
+    (*cinfo->coef->stbrt_pbss) (cinfo, JBUF_CRANK_DEST);
+    /* We emit frbme/scbn hebders now */
+    if (mbster->scbn_number == 0)
+      (*cinfo->mbrker->write_frbme_hebder) (cinfo);
+    (*cinfo->mbrker->write_scbn_hebder) (cinfo);
+    mbster->pub.cbll_pbss_stbrtup = FALSE;
+    brebk;
+  defbult:
     ERREXIT(cinfo, JERR_NOT_COMPILED);
   }
 
-  master->pub.is_last_pass = (master->pass_number == master->total_passes-1);
+  mbster->pub.is_lbst_pbss = (mbster->pbss_number == mbster->totbl_pbsses-1);
 
-  /* Set up progress monitor's pass info if present */
+  /* Set up progress monitor's pbss info if present */
   if (cinfo->progress != NULL) {
-    cinfo->progress->completed_passes = master->pass_number;
-    cinfo->progress->total_passes = master->total_passes;
+    cinfo->progress->completed_pbsses = mbster->pbss_number;
+    cinfo->progress->totbl_pbsses = mbster->totbl_pbsses;
   }
 }
 
 
 /*
- * Special start-of-pass hook.
- * This is called by jpeg_write_scanlines if call_pass_startup is TRUE.
- * In single-pass processing, we need this hook because we don't want to
- * write frame/scan headers during jpeg_start_compress; we want to let the
- * application write COM markers etc. between jpeg_start_compress and the
- * jpeg_write_scanlines loop.
- * In multi-pass processing, this routine is not used.
+ * Specibl stbrt-of-pbss hook.
+ * This is cblled by jpeg_write_scbnlines if cbll_pbss_stbrtup is TRUE.
+ * In single-pbss processing, we need this hook becbuse we don't wbnt to
+ * write frbme/scbn hebders during jpeg_stbrt_compress; we wbnt to let the
+ * bpplicbtion write COM mbrkers etc. between jpeg_stbrt_compress bnd the
+ * jpeg_write_scbnlines loop.
+ * In multi-pbss processing, this routine is not used.
  */
 
 METHODDEF(void)
-pass_startup (j_compress_ptr cinfo)
+pbss_stbrtup (j_compress_ptr cinfo)
 {
-  cinfo->master->call_pass_startup = FALSE; /* reset flag so call only once */
+  cinfo->mbster->cbll_pbss_stbrtup = FALSE; /* reset flbg so cbll only once */
 
-  (*cinfo->marker->write_frame_header) (cinfo);
-  (*cinfo->marker->write_scan_header) (cinfo);
+  (*cinfo->mbrker->write_frbme_hebder) (cinfo);
+  (*cinfo->mbrker->write_scbn_hebder) (cinfo);
 }
 
 
 /*
- * Finish up at end of pass.
+ * Finish up bt end of pbss.
  */
 
 METHODDEF(void)
-finish_pass_master (j_compress_ptr cinfo)
+finish_pbss_mbster (j_compress_ptr cinfo)
 {
-  my_master_ptr master = (my_master_ptr) cinfo->master;
+  my_mbster_ptr mbster = (my_mbster_ptr) cinfo->mbster;
 
-  /* The entropy coder always needs an end-of-pass call,
-   * either to analyze statistics or to flush its output buffer.
+  /* The entropy coder blwbys needs bn end-of-pbss cbll,
+   * either to bnblyze stbtistics or to flush its output buffer.
    */
-  (*cinfo->entropy->finish_pass) (cinfo);
+  (*cinfo->entropy->finish_pbss) (cinfo);
 
-  /* Update state for next pass */
-  switch (master->pass_type) {
-  case main_pass:
-    /* next pass is either output of scan 0 (after optimization)
-     * or output of scan 1 (if no optimization).
+  /* Updbte stbte for next pbss */
+  switch (mbster->pbss_type) {
+  cbse mbin_pbss:
+    /* next pbss is either output of scbn 0 (bfter optimizbtion)
+     * or output of scbn 1 (if no optimizbtion).
      */
-    master->pass_type = output_pass;
+    mbster->pbss_type = output_pbss;
     if (! cinfo->optimize_coding)
-      master->scan_number++;
-    break;
-  case huff_opt_pass:
-    /* next pass is always output of current scan */
-    master->pass_type = output_pass;
-    break;
-  case output_pass:
-    /* next pass is either optimization or output of next scan */
+      mbster->scbn_number++;
+    brebk;
+  cbse huff_opt_pbss:
+    /* next pbss is blwbys output of current scbn */
+    mbster->pbss_type = output_pbss;
+    brebk;
+  cbse output_pbss:
+    /* next pbss is either optimizbtion or output of next scbn */
     if (cinfo->optimize_coding)
-      master->pass_type = huff_opt_pass;
-    master->scan_number++;
-    break;
+      mbster->pbss_type = huff_opt_pbss;
+    mbster->scbn_number++;
+    brebk;
   }
 
-  master->pass_number++;
+  mbster->pbss_number++;
 }
 
 
 /*
- * Initialize master compression control.
+ * Initiblize mbster compression control.
  */
 
 GLOBAL(void)
-jinit_c_master_control (j_compress_ptr cinfo, boolean transcode_only)
+jinit_c_mbster_control (j_compress_ptr cinfo, boolebn trbnscode_only)
 {
-  my_master_ptr master;
+  my_mbster_ptr mbster;
 
-  master = (my_master_ptr)
-      (*cinfo->mem->alloc_small) ((j_common_ptr) cinfo, JPOOL_IMAGE,
-                                  SIZEOF(my_comp_master));
-  cinfo->master = (struct jpeg_comp_master *) master;
-  master->pub.prepare_for_pass = prepare_for_pass;
-  master->pub.pass_startup = pass_startup;
-  master->pub.finish_pass = finish_pass_master;
-  master->pub.is_last_pass = FALSE;
+  mbster = (my_mbster_ptr)
+      (*cinfo->mem->blloc_smbll) ((j_common_ptr) cinfo, JPOOL_IMAGE,
+                                  SIZEOF(my_comp_mbster));
+  cinfo->mbster = (struct jpeg_comp_mbster *) mbster;
+  mbster->pub.prepbre_for_pbss = prepbre_for_pbss;
+  mbster->pub.pbss_stbrtup = pbss_stbrtup;
+  mbster->pub.finish_pbss = finish_pbss_mbster;
+  mbster->pub.is_lbst_pbss = FALSE;
 
-  /* Validate parameters, determine derived values */
-  initial_setup(cinfo);
+  /* Vblidbte pbrbmeters, determine derived vblues */
+  initibl_setup(cinfo);
 
-  if (cinfo->scan_info != NULL) {
+  if (cinfo->scbn_info != NULL) {
 #ifdef C_MULTISCAN_FILES_SUPPORTED
-    validate_script(cinfo);
+    vblidbte_script(cinfo);
 #else
     ERREXIT(cinfo, JERR_NOT_COMPILED);
 #endif
   } else {
     cinfo->progressive_mode = FALSE;
-    cinfo->num_scans = 1;
+    cinfo->num_scbns = 1;
   }
 
   if (cinfo->progressive_mode)  /*  TEMPORARY HACK ??? */
-    cinfo->optimize_coding = TRUE; /* assume default tables no good for progressive mode */
+    cinfo->optimize_coding = TRUE; /* bssume defbult tbbles no good for progressive mode */
 
-  /* Initialize my private state */
-  if (transcode_only) {
-    /* no main pass in transcoding */
+  /* Initiblize my privbte stbte */
+  if (trbnscode_only) {
+    /* no mbin pbss in trbnscoding */
     if (cinfo->optimize_coding)
-      master->pass_type = huff_opt_pass;
+      mbster->pbss_type = huff_opt_pbss;
     else
-      master->pass_type = output_pass;
+      mbster->pbss_type = output_pbss;
   } else {
-    /* for normal compression, first pass is always this type: */
-    master->pass_type = main_pass;
+    /* for normbl compression, first pbss is blwbys this type: */
+    mbster->pbss_type = mbin_pbss;
   }
-  master->scan_number = 0;
-  master->pass_number = 0;
+  mbster->scbn_number = 0;
+  mbster->pbss_number = 0;
   if (cinfo->optimize_coding)
-    master->total_passes = cinfo->num_scans * 2;
+    mbster->totbl_pbsses = cinfo->num_scbns * 2;
   else
-    master->total_passes = cinfo->num_scans;
+    mbster->totbl_pbsses = cinfo->num_scbns;
 }

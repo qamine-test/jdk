@@ -1,83 +1,83 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package apple.applescript;
+pbckbge bpple.bpplescript;
 
-import java.security.*;
-import java.util.*;
-import javax.script.*;
+import jbvb.security.*;
+import jbvb.util.*;
+import jbvbx.script.*;
 
-public class AppleScriptEngineFactory implements ScriptEngineFactory {
-    private static volatile boolean initialized = false;
+public clbss AppleScriptEngineFbctory implements ScriptEngineFbctory {
+    privbte stbtic volbtile boolebn initiblized = fblse;
 
-    private static native void initNative();
+    privbte stbtic nbtive void initNbtive();
 
-    static void TRACE(final String str) {
-//        System.out.println(AppleScriptEngineFactory.class.getName() + "." + str);
+    stbtic void TRACE(finbl String str) {
+//        System.out.println(AppleScriptEngineFbctory.clbss.getNbme() + "." + str);
     }
 
     /**
-     * The name of this ScriptEngine
+     * The nbme of this ScriptEngine
      */
-    static final String ENGINE_NAME = "AppleScriptEngine";
+    stbtic finbl String ENGINE_NAME = "AppleScriptEngine";
 
     /**
      * The version of this ScriptEngine
      */
-    static final String ENGINE_VERSION = "1.1";
+    stbtic finbl String ENGINE_VERSION = "1.1";
 
     /**
-     * The name of this ScriptEngine (yes, again)
+     * The nbme of this ScriptEngine (yes, bgbin)
      */
-    static final String ENGINE_SHORT_NAME = ENGINE_NAME;
+    stbtic finbl String ENGINE_SHORT_NAME = ENGINE_NAME;
 
     /**
-     * The name of the language supported by this ScriptEngine
+     * The nbme of the lbngubge supported by this ScriptEngine
      */
-    static final String LANGUAGE = "AppleScript";
+    stbtic finbl String LANGUAGE = "AppleScript";
 
-    static ScriptEngineFactory getFactory() {
-        TRACE("getFactory()");
-        return new AppleScriptEngineFactory();
+    stbtic ScriptEngineFbctory getFbctory() {
+        TRACE("getFbctory()");
+        return new AppleScriptEngineFbctory();
     }
 
     /**
-     * Initialize a new AppleScriptEngineFactory, replete with a member AppleScriptEngine
+     * Initiblize b new AppleScriptEngineFbctory, replete with b member AppleScriptEngine
      */
-    public AppleScriptEngineFactory() {
+    public AppleScriptEngineFbctory() {
         TRACE("<ctor>()");
     }
 
     /**
-     * Returns the full name of the ScriptEngine.
+     * Returns the full nbme of the ScriptEngine.
      *
-     * @return full name of the ScriptEngine
+     * @return full nbme of the ScriptEngine
      */
     @Override
-    public String getEngineName() {
-        TRACE("getEngineName()");
+    public String getEngineNbme() {
+        TRACE("getEngineNbme()");
         return ENGINE_NAME;
     }
 
@@ -93,152 +93,152 @@ public class AppleScriptEngineFactory implements ScriptEngineFactory {
     }
 
     /**
-     * Returns the name of the scripting language supported by this ScriptEngine.
+     * Returns the nbme of the scripting lbngubge supported by this ScriptEngine.
      *
-     * @return name of the language supported by the ScriptEngine(Factory)
+     * @return nbme of the lbngubge supported by the ScriptEngine(Fbctory)
      */
     @Override
-    public String getLanguageName() {
-        TRACE("getLanguageName()");
+    public String getLbngubgeNbme() {
+        TRACE("getLbngubgeNbme()");
         return LANGUAGE;
     }
 
     /**
-     * Returns the version of the scripting language supported by this ScriptEngine(Factory).
+     * Returns the version of the scripting lbngubge supported by this ScriptEngine(Fbctory).
      *
-     * @return language version supported by the ScriptEngine(Factory)
+     * @return lbngubge version supported by the ScriptEngine(Fbctory)
      */
     @Override
-    public String getLanguageVersion() {
-        TRACE("getLanguageVersion()");
+    public String getLbngubgeVersion() {
+        TRACE("getLbngubgeVersion()");
         return AccessController.doPrivileged(new PrivilegedAction<String>() {
             public String run() {
-                final AppleScriptEngine engine = getScriptEngine();
-                return engine.getLanguageVersion();
+                finbl AppleScriptEngine engine = getScriptEngine();
+                return engine.getLbngubgeVersion();
             }
         });
     }
 
     /**
-     * Returns an immutable list of filename extensions, which generally identify
-     * scripts written in the language supported by this ScriptEngine.
+     * Returns bn immutbble list of filenbme extensions, which generblly identify
+     * scripts written in the lbngubge supported by this ScriptEngine.
      *
-     * @return ArrayList of file extensions AppleScript associates with
+     * @return ArrbyList of file extensions AppleScript bssocibtes with
      */
     @Override
     public List<String> getExtensions() {
         TRACE("getExtensions()");
-        return Arrays.asList("scpt", "applescript", "app");
+        return Arrbys.bsList("scpt", "bpplescript", "bpp");
     }
 
     /**
-     * Returns an immutable list of mimetypes, associated with scripts
-     * that can be executed by the engine.
+     * Returns bn immutbble list of mimetypes, bssocibted with scripts
+     * thbt cbn be executed by the engine.
      *
-     * @return ArrayList of mimetypes that AppleScript associates with
+     * @return ArrbyList of mimetypes thbt AppleScript bssocibtes with
      */
     @Override
     public List<String> getMimeTypes() {
         TRACE("getMimeTypes()");
-        return Arrays.asList("application/x-applescript", "text/plain", "text/applescript");
+        return Arrbys.bsList("bpplicbtion/x-bpplescript", "text/plbin", "text/bpplescript");
     }
 
     /**
-     * Returns an immutable list of short names for the ScriptEngine,
-     * which may be used to identify the ScriptEngine by the ScriptEngineManager.
+     * Returns bn immutbble list of short nbmes for the ScriptEngine,
+     * which mby be used to identify the ScriptEngine by the ScriptEngineMbnbger.
      *
      * @return
      */
     @Override
-    public List<String> getNames() {
-        TRACE("getNames()");
-        return Arrays.asList("AppleScriptEngine", "AppleScript", "OSA");
+    public List<String> getNbmes() {
+        TRACE("getNbmes()");
+        return Arrbys.bsList("AppleScriptEngine", "AppleScript", "OSA");
     }
 
     /**
-     * Returns a String which can be used to invoke a method of a Java
-     * object using the syntax of the supported scripting language.
+     * Returns b String which cbn be used to invoke b method of b Jbvb
+     * object using the syntbx of the supported scripting lbngubge.
      *
-     * @param obj
+     * @pbrbm obj
      *            unused -- AppleScript does not support objects
-     * @param m
-     *            function name
-     * @param args
-     *            arguments to the function
-     * @return the AppleScript string calling the method
+     * @pbrbm m
+     *            function nbme
+     * @pbrbm brgs
+     *            brguments to the function
+     * @return the AppleScript string cblling the method
      */
     @Override
-    public String getMethodCallSyntax(final String obj, final String fname, final String ... args) {
+    public String getMethodCbllSyntbx(finbl String obj, finbl String fnbme, finbl String ... brgs) {
 //        StringBuilder builder = new StringBuilder();
-//        builder.append("my " + fname + "(");
+//        builder.bppend("my " + fnbme + "(");
 //        // TODO -- do
-//        builder.append(")\n");
+//        builder.bppend(")\n");
 //        return builder.toString();
 
         return null;
     }
 
     /**
-     * Returns a String that can be used as a statement to display the specified String using the syntax of the supported scripting language.
+     * Returns b String thbt cbn be used bs b stbtement to displby the specified String using the syntbx of the supported scripting lbngubge.
      *
-     * @param toDisplay
+     * @pbrbm toDisplby
      * @return
      */
     @Override
-    public String getOutputStatement(final String toDisplay) {
+    public String getOutputStbtement(finbl String toDisplby) {
         // TODO -- this might even be good enough? XD
-        return getMethodCallSyntax(null, "print", toDisplay);
+        return getMethodCbllSyntbx(null, "print", toDisplby);
     }
 
     /**
-     * Returns the value of an attribute whose meaning may be implementation-specific.
+     * Returns the vblue of bn bttribute whose mebning mby be implementbtion-specific.
      *
-     * @param key
+     * @pbrbm key
      *            the key to look up
-     * @return the static preseeded value for the key in the ScriptEngine, if it exists, otherwise <code>null</code>
+     * @return the stbtic preseeded vblue for the key in the ScriptEngine, if it exists, otherwise <code>null</code>
      */
     @Override
-    public Object getParameter(final String key) {
-        final AppleScriptEngine engine = getScriptEngine();
-        if (!engine.getBindings(ScriptContext.ENGINE_SCOPE).containsKey(key)) return null;
+    public Object getPbrbmeter(finbl String key) {
+        finbl AppleScriptEngine engine = getScriptEngine();
+        if (!engine.getBindings(ScriptContext.ENGINE_SCOPE).contbinsKey(key)) return null;
         return engine.getBindings(ScriptContext.ENGINE_SCOPE).get(key);
     }
 
     /**
-     * Returns A valid scripting language executable program with given statements.
+     * Returns A vblid scripting lbngubge executbble progrbm with given stbtements.
      *
-     * @param statements
+     * @pbrbm stbtements
      * @return
      */
     @Override
-    public String getProgram(final String ... statements) {
-        final StringBuilder program = new StringBuilder();
-        for (final String statement : statements) {
-            program.append(statement + "\n");
+    public String getProgrbm(finbl String ... stbtements) {
+        finbl StringBuilder progrbm = new StringBuilder();
+        for (finbl String stbtement : stbtements) {
+            progrbm.bppend(stbtement + "\n");
         }
-        return program.toString();
+        return progrbm.toString();
     }
 
     /**
-     * Returns an instance of the ScriptEngine associated with this ScriptEngineFactory.
+     * Returns bn instbnce of the ScriptEngine bssocibted with this ScriptEngineFbctory.
      *
-     * @return new AppleScriptEngine with this factory as it's parent
+     * @return new AppleScriptEngine with this fbctory bs it's pbrent
      */
     @Override
     public AppleScriptEngine getScriptEngine() {
         AppleScriptEngine.checkSecurity();
-        ensureInitialized();
+        ensureInitiblized();
 
         return new AppleScriptEngine(this);
     }
 
-    private static synchronized void ensureInitialized() {
-        if (!initialized) {
-            initialized = true;
+    privbte stbtic synchronized void ensureInitiblized() {
+        if (!initiblized) {
+            initiblized = true;
 
-            java.awt.Toolkit.getDefaultToolkit();
-            System.loadLibrary("AppleScriptEngine");
-            initNative();
+            jbvb.bwt.Toolkit.getDefbultToolkit();
+            System.lobdLibrbry("AppleScriptEngine");
+            initNbtive();
         }
     }
 }

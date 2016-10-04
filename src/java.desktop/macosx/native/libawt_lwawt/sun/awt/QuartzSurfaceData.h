@@ -1,145 +1,145 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-#import "SurfaceData.h"
-#import "BufImgSurfaceData.h"
+#import "SurfbceDbtb.h"
+#import "BufImgSurfbceDbtb.h"
 #import "AWTFont.h"
-#import <Cocoa/Cocoa.h>
+#import <Cocob/Cocob.h>
 
-// these flags are not defined on Tiger on PPC, so we need to make them a no-op
-#if !defined(kCGBitmapByteOrder32Host)
-#define kCGBitmapByteOrder32Host 0
+// these flbgs bre not defined on Tiger on PPC, so we need to mbke them b no-op
+#if !defined(kCGBitmbpByteOrder32Host)
+#define kCGBitmbpByteOrder32Host 0
 #endif
-#if !defined(kCGBitmapByteOrder16Host)
-#define kCGBitmapByteOrder16Host 0
+#if !defined(kCGBitmbpByteOrder16Host)
+#define kCGBitmbpByteOrder16Host 0
 #endif
 
-// NOTE : Modify the printSurfaceDataDiagnostics API if you change this enum
+// NOTE : Modify the printSurfbceDbtbDibgnostics API if you chbnge this enum
 enum SDRenderType
 {
     SD_Nothing,
     SD_Stroke,
     SD_Fill,
     SD_EOFill,
-    SD_Shade,
-    SD_Pattern,
-    SD_Image,
+    SD_Shbde,
+    SD_Pbttern,
+    SD_Imbge,
     SD_Text,
-    SD_CopyArea,
+    SD_CopyAreb,
     SD_Queue,
-    SD_External
+    SD_Externbl
 };
 typedef enum SDRenderType SDRenderType;
 
-struct _stateShadingInfo
+struct _stbteShbdingInfo
 {
-    CGPoint    start;
+    CGPoint    stbrt;
     CGPoint    end;
-    CGFloat    colors[8];
+    CGFlobt    colors[8];
     BOOL    cyclic;
-    CGFloat    length; // of the total segment (used by the cyclic gradient)
-    CGFloat    period; // of the cycle (used by the cyclic gradient)
-    CGFloat    offset; // of the cycle from the start (used by the cyclic gradient)
+    CGFlobt    length; // of the totbl segment (used by the cyclic grbdient)
+    CGFlobt    period; // of the cycle (used by the cyclic grbdient)
+    CGFlobt    offset; // of the cycle from the stbrt (used by the cyclic grbdient)
 };
-typedef struct _stateShadingInfo StateShadingInfo;
+typedef struct _stbteShbdingInfo StbteShbdingInfo;
 
-struct _statePatternInfo
+struct _stbtePbtternInfo
 {
-    CGFloat    tx;
-    CGFloat    ty;
-    CGFloat    sx;
-    CGFloat    sy;
+    CGFlobt    tx;
+    CGFlobt    ty;
+    CGFlobt    sx;
+    CGFlobt    sy;
     jint    width;
     jint    height;
-    jobject    sdata;
+    jobject    sdbtb;
 };
-typedef struct _statePatternInfo StatePatternInfo;
+typedef struct _stbtePbtternInfo StbtePbtternInfo;
 
-struct _stateGraphicsInfo
+struct _stbteGrbphicsInfo
 {
-    BOOL                adjustedLineWidth;
-    BOOL                adjustedAntialias;
-    BOOL                antialiased;
-    jint                interpolation;
+    BOOL                bdjustedLineWidth;
+    BOOL                bdjustedAntiblibs;
+    BOOL                bntiblibsed;
+    jint                interpolbtion;
     BOOL                simpleColor;
     BOOL                simpleStroke;
-    CGAffineTransform    ctm;
-    CGFloat                offsetX;
-    CGFloat                offsetY;
-    struct CGPoint*        batchedLines;
-    UInt32                batchedLinesCount;
+    CGAffineTrbnsform    ctm;
+    CGFlobt                offsetX;
+    CGFlobt                offsetY;
+    struct CGPoint*        bbtchedLines;
+    UInt32                bbtchedLinesCount;
 };
-typedef struct _stateGraphicsInfo StateGraphicsInfo;
+typedef struct _stbteGrbphicsInfo StbteGrbphicsInfo;
 
-typedef struct _QuartzSDOps QuartzSDOps;
-typedef void BeginContextFunc(JNIEnv *env, QuartzSDOps *qsdo, SDRenderType renderType);
-typedef void FinishContextFunc(JNIEnv *env, QuartzSDOps *qsdo);
-struct _QuartzSDOps
+typedef struct _QubrtzSDOps QubrtzSDOps;
+typedef void BeginContextFunc(JNIEnv *env, QubrtzSDOps *qsdo, SDRenderType renderType);
+typedef void FinishContextFunc(JNIEnv *env, QubrtzSDOps *qsdo);
+struct _QubrtzSDOps
 {
     BufImgSDOps                sdo; // must be the first entry!
 
-    BeginContextFunc*        BeginSurface;        // used to set graphics states (clip, color, stroke, etc...)
-    FinishContextFunc*        FinishSurface;        // used to finish drawing primitives
+    BeginContextFunc*        BeginSurfbce;        // used to set grbphics stbtes (clip, color, stroke, etc...)
+    FinishContextFunc*        FinishSurfbce;        // used to finish drbwing primitives
     BOOL                    newContext;
     CGContextRef            cgRef;
 
-    jint*                    javaGraphicsStates;
-    jobject                    javaGraphicsStatesObjects;
+    jint*                    jbvbGrbphicsStbtes;
+    jobject                    jbvbGrbphicsStbtesObjects;
 
     SDRenderType            renderType;
 
-    // rdar://problem/5214320
-    // Gradient/Texture fills of Java GeneralPath don't respect the even odd winding rule (quartz pipeline).
-    BOOL                    isEvenOddFill;        // Tracks whether the original render type passed into
+    // rdbr://problem/5214320
+    // Grbdient/Texture fills of Jbvb GenerblPbth don't respect the even odd winding rule (qubrtz pipeline).
+    BOOL                    isEvenOddFill;        // Trbcks whether the originbl render type pbssed into
                                                 // SetUpCGContext(...) is SD_EOFILL.
-                                                // The reason for this field is because SetUpCGContext(...) can
-                                                // change the render type after calling SetUpPaint(...), and right
-                                                // after that, the possibly new render type is then assigned into
+                                                // The rebson for this field is becbuse SetUpCGContext(...) cbn
+                                                // chbnge the render type bfter cblling SetUpPbint(...), bnd right
+                                                // bfter thbt, the possibly new render type is then bssigned into
                                                 // qsdo->renderType.  Sigh!!!
-                                                // This field is potentially used within CompleteCGContext(...) or
-                                                // its callees.
+                                                // This field is potentiblly used within CompleteCGContext(...) or
+                                                // its cbllees.
 
-    StateShadingInfo*        shadingInfo;        // tracks shading and its parameters
-    StatePatternInfo*        patternInfo;        // tracks pattern and its parameters
-    StateGraphicsInfo        graphicsStateInfo;    // tracks other graphics state
+    StbteShbdingInfo*        shbdingInfo;        // trbcks shbding bnd its pbrbmeters
+    StbtePbtternInfo*        pbtternInfo;        // trbcks pbttern bnd its pbrbmeters
+    StbteGrbphicsInfo        grbphicsStbteInfo;    // trbcks other grbphics stbte
 
-    BOOL  syncContentsToLayer;    // should changed pixels be synced to a CALayer
-    CGRect updateRect;     // used by the layer synchronization code to track update rects.
+    BOOL  syncContentsToLbyer;    // should chbnged pixels be synced to b CALbyer
+    CGRect updbteRect;     // used by the lbyer synchronizbtion code to trbck updbte rects.
 };
 
-void SetUpCGContext(JNIEnv *env, QuartzSDOps *qsdo, SDRenderType renderType);
-SDRenderType DoShapeUsingCG(CGContextRef cgRef, jint *types, jfloat *coords, jint numtypes, BOOL fill, CGFloat offsetX, CGFloat offsetY);
-SDRenderType SetUpPaint(JNIEnv *env, QuartzSDOps *qsdo, SDRenderType renderType);
-void CompleteCGContext(JNIEnv *env, QuartzSDOps *qsdo);
+void SetUpCGContext(JNIEnv *env, QubrtzSDOps *qsdo, SDRenderType renderType);
+SDRenderType DoShbpeUsingCG(CGContextRef cgRef, jint *types, jflobt *coords, jint numtypes, BOOL fill, CGFlobt offsetX, CGFlobt offsetY);
+SDRenderType SetUpPbint(JNIEnv *env, QubrtzSDOps *qsdo, SDRenderType renderType);
+void CompleteCGContext(JNIEnv *env, QubrtzSDOps *qsdo);
 
-NSColor* ByteParametersToNSColor(JNIEnv* env, jint *javaGraphicsStates, NSColor* defColor);
+NSColor* BytePbrbmetersToNSColor(JNIEnv* env, jint *jbvbGrbphicsStbtes, NSColor* defColor);
 
 #define JNF_COCOA_RENDERER_EXIT(env) \
-} @catch(NSException *localException) { \
-    qsdo->FinishSurface(env, qsdo); \
-    [JNFException throwToJava:env exception:localException]; \
+} @cbtch(NSException *locblException) { \
+    qsdo->FinishSurfbce(env, qsdo); \
+    [JNFException throwToJbvb:env exception:locblException]; \
 } \
-        if (_token) JNFNativeMethodExit(_token); \
+        if (_token) JNFNbtiveMethodExit(_token); \
 }

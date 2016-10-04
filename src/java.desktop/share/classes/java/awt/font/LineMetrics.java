@@ -1,143 +1,143 @@
 /*
- * Copyright (c) 1998, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt.font;
+pbckbge jbvb.bwt.font;
 
 /**
-* The <code>LineMetrics</code> class allows access to the
-* metrics needed to layout characters along a line
-* and to layout of a set of lines.  A <code>LineMetrics</code>
-* object encapsulates the measurement information associated
-* with a run of text.
+* The <code>LineMetrics</code> clbss bllows bccess to the
+* metrics needed to lbyout chbrbcters blong b line
+* bnd to lbyout of b set of lines.  A <code>LineMetrics</code>
+* object encbpsulbtes the mebsurement informbtion bssocibted
+* with b run of text.
 * <p>
-* Fonts can have different metrics for different ranges of
-* characters.  The <code>getLineMetrics</code> methods of
-* {@link java.awt.Font Font} take some text as an argument
-* and return a <code>LineMetrics</code> object describing the
-* metrics of the initial number of characters in that text, as
-* returned by {@link #getNumChars}.
+* Fonts cbn hbve different metrics for different rbnges of
+* chbrbcters.  The <code>getLineMetrics</code> methods of
+* {@link jbvb.bwt.Font Font} tbke some text bs bn brgument
+* bnd return b <code>LineMetrics</code> object describing the
+* metrics of the initibl number of chbrbcters in thbt text, bs
+* returned by {@link #getNumChbrs}.
 */
 
 
-public abstract class LineMetrics {
+public bbstrbct clbss LineMetrics {
 
 
     /**
-     * Returns the number of characters (<code>char</code> values) in the text whose
-     * metrics are encapsulated by this <code>LineMetrics</code>
+     * Returns the number of chbrbcters (<code>chbr</code> vblues) in the text whose
+     * metrics bre encbpsulbted by this <code>LineMetrics</code>
      * object.
-     * @return the number of characters (<code>char</code> values) in the text with which
-     *         this <code>LineMetrics</code> was created.
+     * @return the number of chbrbcters (<code>chbr</code> vblues) in the text with which
+     *         this <code>LineMetrics</code> wbs crebted.
      */
-    public abstract int getNumChars();
+    public bbstrbct int getNumChbrs();
 
     /**
-     * Returns the ascent of the text.  The ascent
-     * is the distance from the baseline
-     * to the ascender line.  The ascent usually represents the
-     * the height of the capital letters of the text.  Some characters
-     * can extend above the ascender line.
-     * @return the ascent of the text.
+     * Returns the bscent of the text.  The bscent
+     * is the distbnce from the bbseline
+     * to the bscender line.  The bscent usublly represents the
+     * the height of the cbpitbl letters of the text.  Some chbrbcters
+     * cbn extend bbove the bscender line.
+     * @return the bscent of the text.
      */
-    public abstract float getAscent();
+    public bbstrbct flobt getAscent();
 
     /**
      * Returns the descent of the text.  The descent
-     * is the distance from the baseline
-     * to the descender line.  The descent usually represents
-     * the distance to the bottom of lower case letters like
-     * 'p'.  Some characters can extend below the descender
+     * is the distbnce from the bbseline
+     * to the descender line.  The descent usublly represents
+     * the distbnce to the bottom of lower cbse letters like
+     * 'p'.  Some chbrbcters cbn extend below the descender
      * line.
      * @return the descent of the text.
      */
-    public abstract float getDescent();
+    public bbstrbct flobt getDescent();
 
     /**
-     * Returns the leading of the text. The
-     * leading is the recommended
-     * distance from the bottom of the descender line to the
+     * Returns the lebding of the text. The
+     * lebding is the recommended
+     * distbnce from the bottom of the descender line to the
      * top of the next line.
-     * @return the leading of the text.
+     * @return the lebding of the text.
      */
-    public abstract float getLeading();
+    public bbstrbct flobt getLebding();
 
     /**
      * Returns the height of the text.  The
-     * height is equal to the sum of the ascent, the
-     * descent and the leading.
+     * height is equbl to the sum of the bscent, the
+     * descent bnd the lebding.
      * @return the height of the text.
      */
-    public abstract float getHeight();
+    public bbstrbct flobt getHeight();
 
     /**
-     * Returns the baseline index of the text.
+     * Returns the bbseline index of the text.
      * The index is one of
-     * {@link java.awt.Font#ROMAN_BASELINE ROMAN_BASELINE},
-     * {@link java.awt.Font#CENTER_BASELINE CENTER_BASELINE},
-     * {@link java.awt.Font#HANGING_BASELINE HANGING_BASELINE}.
-     * @return the baseline of the text.
+     * {@link jbvb.bwt.Font#ROMAN_BASELINE ROMAN_BASELINE},
+     * {@link jbvb.bwt.Font#CENTER_BASELINE CENTER_BASELINE},
+     * {@link jbvb.bwt.Font#HANGING_BASELINE HANGING_BASELINE}.
+     * @return the bbseline of the text.
      */
-    public abstract int getBaselineIndex();
+    public bbstrbct int getBbselineIndex();
 
     /**
-     * Returns the baseline offsets of the text,
-     * relative to the baseline of the text.  The
-     * offsets are indexed by baseline index.  For
-     * example, if the baseline index is
+     * Returns the bbseline offsets of the text,
+     * relbtive to the bbseline of the text.  The
+     * offsets bre indexed by bbseline index.  For
+     * exbmple, if the bbseline index is
      * <code>CENTER_BASELINE</code> then
-     * <code>offsets[HANGING_BASELINE]</code> is usually
-     * negative, <code>offsets[CENTER_BASELINE]</code>
-     * is zero, and <code>offsets[ROMAN_BASELINE]</code>
-     * is usually positive.
-     * @return the baseline offsets of the text.
+     * <code>offsets[HANGING_BASELINE]</code> is usublly
+     * negbtive, <code>offsets[CENTER_BASELINE]</code>
+     * is zero, bnd <code>offsets[ROMAN_BASELINE]</code>
+     * is usublly positive.
+     * @return the bbseline offsets of the text.
      */
-    public abstract float[] getBaselineOffsets();
+    public bbstrbct flobt[] getBbselineOffsets();
 
     /**
      * Returns the position of the strike-through line
-     * relative to the baseline.
+     * relbtive to the bbseline.
      * @return the position of the strike-through line.
      */
-    public abstract float getStrikethroughOffset();
+    public bbstrbct flobt getStrikethroughOffset();
 
     /**
      * Returns the thickness of the strike-through line.
      * @return the thickness of the strike-through line.
      */
-    public abstract float getStrikethroughThickness();
+    public bbstrbct flobt getStrikethroughThickness();
 
     /**
-     * Returns the position of the underline relative to
-     * the baseline.
+     * Returns the position of the underline relbtive to
+     * the bbseline.
      * @return the position of the underline.
      */
-    public abstract float getUnderlineOffset();
+    public bbstrbct flobt getUnderlineOffset();
 
     /**
      * Returns the thickness of the underline.
      * @return the thickness of the underline.
      */
-    public abstract float getUnderlineThickness();
+    public bbstrbct flobt getUnderlineThickness();
 }

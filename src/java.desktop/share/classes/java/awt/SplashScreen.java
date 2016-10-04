@@ -1,422 +1,422 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.awt;
+pbckbge jbvb.bwt;
 
-import java.io.IOException;
-import java.awt.image.*;
-import java.net.URL;
-import java.net.URLConnection;
-import java.io.File;
-import sun.util.logging.PlatformLogger;
-import sun.awt.image.SunWritableRaster;
+import jbvb.io.IOException;
+import jbvb.bwt.imbge.*;
+import jbvb.net.URL;
+import jbvb.net.URLConnection;
+import jbvb.io.File;
+import sun.util.logging.PlbtformLogger;
+import sun.bwt.imbge.SunWritbbleRbster;
 
 /**
- * The splash screen can be displayed at application startup, before the
- * Java Virtual Machine (JVM) starts. The splash screen is displayed as an
- * undecorated window containing an image. You can use GIF, JPEG, or PNG files
- * for the image. Animation is supported for the GIF format, while transparency
- * is supported both for GIF and PNG.  The window is positioned at the center
+ * The splbsh screen cbn be displbyed bt bpplicbtion stbrtup, before the
+ * Jbvb Virtubl Mbchine (JVM) stbrts. The splbsh screen is displbyed bs bn
+ * undecorbted window contbining bn imbge. You cbn use GIF, JPEG, or PNG files
+ * for the imbge. Animbtion is supported for the GIF formbt, while trbnspbrency
+ * is supported both for GIF bnd PNG.  The window is positioned bt the center
  * of the screen. The position on multi-monitor systems is not specified. It is
- * platform and implementation dependent.  The splash screen window is closed
- * automatically as soon as the first window is displayed by Swing/AWT (may be
- * also closed manually using the Java API, see below).
+ * plbtform bnd implementbtion dependent.  The splbsh screen window is closed
+ * butombticblly bs soon bs the first window is displbyed by Swing/AWT (mby be
+ * blso closed mbnublly using the Jbvb API, see below).
  * <P>
- * If your application is packaged in a jar file, you can use the
- * "SplashScreen-Image" option in a manifest file to show a splash screen.
- * Place the image in the jar archive and specify the path in the option.
- * The path should not have a leading slash.
+ * If your bpplicbtion is pbckbged in b jbr file, you cbn use the
+ * "SplbshScreen-Imbge" option in b mbnifest file to show b splbsh screen.
+ * Plbce the imbge in the jbr brchive bnd specify the pbth in the option.
+ * The pbth should not hbve b lebding slbsh.
  * <BR>
- * For example, in the <code>manifest.mf</code> file:
+ * For exbmple, in the <code>mbnifest.mf</code> file:
  * <PRE>
- * Manifest-Version: 1.0
- * Main-Class: Test
- * SplashScreen-Image: filename.gif
+ * Mbnifest-Version: 1.0
+ * Mbin-Clbss: Test
+ * SplbshScreen-Imbge: filenbme.gif
  * </PRE>
  * <P>
- * If the Java implementation provides the command-line interface and you run
- * your application by using the command line or a shortcut, use the Java
- * application launcher option to show a splash screen. The Oracle reference
- * implementation allows you to specify the splash screen image location with
- * the {@code -splash:} option.
+ * If the Jbvb implementbtion provides the commbnd-line interfbce bnd you run
+ * your bpplicbtion by using the commbnd line or b shortcut, use the Jbvb
+ * bpplicbtion lbuncher option to show b splbsh screen. The Orbcle reference
+ * implementbtion bllows you to specify the splbsh screen imbge locbtion with
+ * the {@code -splbsh:} option.
  * <BR>
- * For example:
+ * For exbmple:
  * <PRE>
- * java -splash:filename.gif Test
+ * jbvb -splbsh:filenbme.gif Test
  * </PRE>
- * The command line interface has higher precedence over the manifest
+ * The commbnd line interfbce hbs higher precedence over the mbnifest
  * setting.
  * <p>
- * The splash screen will be displayed as faithfully as possible to present the
- * whole splash screen image given the limitations of the target platform and
- * display.
+ * The splbsh screen will be displbyed bs fbithfully bs possible to present the
+ * whole splbsh screen imbge given the limitbtions of the tbrget plbtform bnd
+ * displby.
  * <p>
- * It is implied that the specified image is presented on the screen "as is",
- * i.e. preserving the exact color values as specified in the image file. Under
- * certain circumstances, though, the presented image may differ, e.g. when
- * applying color dithering to present a 32 bits per pixel (bpp) image on a 16
- * or 8 bpp screen. The native platform display configuration may also affect
- * the colors of the displayed image (e.g.  color profiles, etc.)
+ * It is implied thbt the specified imbge is presented on the screen "bs is",
+ * i.e. preserving the exbct color vblues bs specified in the imbge file. Under
+ * certbin circumstbnces, though, the presented imbge mby differ, e.g. when
+ * bpplying color dithering to present b 32 bits per pixel (bpp) imbge on b 16
+ * or 8 bpp screen. The nbtive plbtform displby configurbtion mby blso bffect
+ * the colors of the displbyed imbge (e.g.  color profiles, etc.)
  * <p>
- * The {@code SplashScreen} class provides the API for controlling the splash
- * screen. This class may be used to close the splash screen, change the splash
- * screen image, get the splash screen native window position/size, and paint
- * in the splash screen. It cannot be used to create the splash screen. You
- * should use the options provided by the Java implementation for that.
+ * The {@code SplbshScreen} clbss provides the API for controlling the splbsh
+ * screen. This clbss mby be used to close the splbsh screen, chbnge the splbsh
+ * screen imbge, get the splbsh screen nbtive window position/size, bnd pbint
+ * in the splbsh screen. It cbnnot be used to crebte the splbsh screen. You
+ * should use the options provided by the Jbvb implementbtion for thbt.
  * <p>
- * This class cannot be instantiated. Only a single instance of this class
- * can exist, and it may be obtained by using the {@link #getSplashScreen()}
- * static method. In case the splash screen has not been created at
- * application startup via the command line or manifest file option,
- * the <code>getSplashScreen</code> method returns <code>null</code>.
+ * This clbss cbnnot be instbntibted. Only b single instbnce of this clbss
+ * cbn exist, bnd it mby be obtbined by using the {@link #getSplbshScreen()}
+ * stbtic method. In cbse the splbsh screen hbs not been crebted bt
+ * bpplicbtion stbrtup vib the commbnd line or mbnifest file option,
+ * the <code>getSplbshScreen</code> method returns <code>null</code>.
  *
- * @author Oleg Semenov
+ * @buthor Oleg Semenov
  * @since 1.6
  */
-public final class SplashScreen {
+public finbl clbss SplbshScreen {
 
-    SplashScreen(long ptr) { // non-public constructor
-        splashPtr = ptr;
+    SplbshScreen(long ptr) { // non-public constructor
+        splbshPtr = ptr;
     }
 
     /**
-     * Returns the {@code SplashScreen} object used for
-     * Java startup splash screen control on systems that support display.
+     * Returns the {@code SplbshScreen} object used for
+     * Jbvb stbrtup splbsh screen control on systems thbt support displby.
      *
-     * @throws UnsupportedOperationException if the splash screen feature is not
+     * @throws UnsupportedOperbtionException if the splbsh screen febture is not
      *         supported by the current toolkit
-     * @throws HeadlessException if {@code GraphicsEnvironment.isHeadless()}
+     * @throws HebdlessException if {@code GrbphicsEnvironment.isHebdless()}
      *         returns true
-     * @return the {@link SplashScreen} instance, or <code>null</code> if there is
-     *         none or it has already been closed
+     * @return the {@link SplbshScreen} instbnce, or <code>null</code> if there is
+     *         none or it hbs blrebdy been closed
      */
-    public static  SplashScreen getSplashScreen() {
-        synchronized (SplashScreen.class) {
-            if (GraphicsEnvironment.isHeadless()) {
-                throw new HeadlessException();
+    public stbtic  SplbshScreen getSplbshScreen() {
+        synchronized (SplbshScreen.clbss) {
+            if (GrbphicsEnvironment.isHebdless()) {
+                throw new HebdlessException();
             }
-            // SplashScreen class is now a singleton
-            if (!wasClosed && theInstance == null) {
-                java.security.AccessController.doPrivileged(
-                    new java.security.PrivilegedAction<Void>() {
+            // SplbshScreen clbss is now b singleton
+            if (!wbsClosed && theInstbnce == null) {
+                jbvb.security.AccessController.doPrivileged(
+                    new jbvb.security.PrivilegedAction<Void>() {
                         public Void run() {
-                            System.loadLibrary("splashscreen");
+                            System.lobdLibrbry("splbshscreen");
                             return null;
                         }
                     });
-                long ptr = _getInstance();
+                long ptr = _getInstbnce();
                 if (ptr != 0 && _isVisible(ptr)) {
-                    theInstance = new SplashScreen(ptr);
+                    theInstbnce = new SplbshScreen(ptr);
                 }
             }
-            return theInstance;
+            return theInstbnce;
         }
     }
 
     /**
-     * Changes the splash screen image. The new image is loaded from the
-     * specified URL; GIF, JPEG and PNG image formats are supported.
-     * The method returns after the image has finished loading and the window
-     * has been updated.
-     * The splash screen window is resized according to the size of
-     * the image and is centered on the screen.
+     * Chbnges the splbsh screen imbge. The new imbge is lobded from the
+     * specified URL; GIF, JPEG bnd PNG imbge formbts bre supported.
+     * The method returns bfter the imbge hbs finished lobding bnd the window
+     * hbs been updbted.
+     * The splbsh screen window is resized bccording to the size of
+     * the imbge bnd is centered on the screen.
      *
-     * @param imageURL the non-<code>null</code> URL for the new
-     *        splash screen image
-     * @throws NullPointerException if {@code imageURL} is <code>null</code>
-     * @throws IOException if there was an error while loading the image
-     * @throws IllegalStateException if the splash screen has already been
+     * @pbrbm imbgeURL the non-<code>null</code> URL for the new
+     *        splbsh screen imbge
+     * @throws NullPointerException if {@code imbgeURL} is <code>null</code>
+     * @throws IOException if there wbs bn error while lobding the imbge
+     * @throws IllegblStbteException if the splbsh screen hbs blrebdy been
      *         closed
      */
-    public void setImageURL(URL imageURL) throws NullPointerException, IOException, IllegalStateException {
+    public void setImbgeURL(URL imbgeURL) throws NullPointerException, IOException, IllegblStbteException {
         checkVisible();
-        URLConnection connection = imageURL.openConnection();
+        URLConnection connection = imbgeURL.openConnection();
         connection.connect();
         int length = connection.getContentLength();
-        java.io.InputStream stream = connection.getInputStream();
+        jbvb.io.InputStrebm strebm = connection.getInputStrebm();
         byte[] buf = new byte[length];
         int off = 0;
         while(true) {
-            // check for available data
-            int available = stream.available();
-            if (available <= 0) {
-                // no data available... well, let's try reading one byte
-                // we'll see what happens then
-                available = 1;
+            // check for bvbilbble dbtb
+            int bvbilbble = strebm.bvbilbble();
+            if (bvbilbble <= 0) {
+                // no dbtb bvbilbble... well, let's try rebding one byte
+                // we'll see whbt hbppens then
+                bvbilbble = 1;
             }
-            // check for enough room in buffer, realloc if needed
-            // the buffer always grows in size 2x minimum
-            if (off + available > length) {
+            // check for enough room in buffer, reblloc if needed
+            // the buffer blwbys grows in size 2x minimum
+            if (off + bvbilbble > length) {
                 length = off*2;
-                if (off + available > length) {
-                    length = available+off;
+                if (off + bvbilbble > length) {
+                    length = bvbilbble+off;
                 }
                 byte[] oldBuf = buf;
                 buf = new byte[length];
-                System.arraycopy(oldBuf, 0, buf, 0, off);
+                System.brrbycopy(oldBuf, 0, buf, 0, off);
             }
-            // now read the data
-            int result = stream.read(buf, off, available);
+            // now rebd the dbtb
+            int result = strebm.rebd(buf, off, bvbilbble);
             if (result < 0) {
-                break;
+                brebk;
             }
             off += result;
         }
-        synchronized(SplashScreen.class) {
+        synchronized(SplbshScreen.clbss) {
             checkVisible();
-            if (!_setImageData(splashPtr, buf)) {
-                throw new IOException("Bad image format or i/o error when loading image");
+            if (!_setImbgeDbtb(splbshPtr, buf)) {
+                throw new IOException("Bbd imbge formbt or i/o error when lobding imbge");
             }
-            this.imageURL = imageURL;
+            this.imbgeURL = imbgeURL;
         }
     }
 
-    private void checkVisible() {
+    privbte void checkVisible() {
         if (!isVisible()) {
-            throw new IllegalStateException("no splash screen available");
+            throw new IllegblStbteException("no splbsh screen bvbilbble");
         }
     }
     /**
-     * Returns the current splash screen image.
+     * Returns the current splbsh screen imbge.
      *
-     * @return URL for the current splash screen image file
-     * @throws IllegalStateException if the splash screen has already been closed
+     * @return URL for the current splbsh screen imbge file
+     * @throws IllegblStbteException if the splbsh screen hbs blrebdy been closed
      */
-    public URL getImageURL() throws IllegalStateException {
-        synchronized (SplashScreen.class) {
+    public URL getImbgeURL() throws IllegblStbteException {
+        synchronized (SplbshScreen.clbss) {
             checkVisible();
-            if (imageURL == null) {
+            if (imbgeURL == null) {
                 try {
-                    String fileName = _getImageFileName(splashPtr);
-                    String jarName = _getImageJarName(splashPtr);
-                    if (fileName != null) {
-                        if (jarName != null) {
-                            imageURL = new URL("jar:"+(new File(jarName).toURL().toString())+"!/"+fileName);
+                    String fileNbme = _getImbgeFileNbme(splbshPtr);
+                    String jbrNbme = _getImbgeJbrNbme(splbshPtr);
+                    if (fileNbme != null) {
+                        if (jbrNbme != null) {
+                            imbgeURL = new URL("jbr:"+(new File(jbrNbme).toURL().toString())+"!/"+fileNbme);
                         } else {
-                            imageURL = new File(fileName).toURL();
+                            imbgeURL = new File(fileNbme).toURL();
                         }
                     }
                 }
-                catch(java.net.MalformedURLException e) {
-                    if (log.isLoggable(PlatformLogger.Level.FINE)) {
-                        log.fine("MalformedURLException caught in the getImageURL() method", e);
+                cbtch(jbvb.net.MblformedURLException e) {
+                    if (log.isLoggbble(PlbtformLogger.Level.FINE)) {
+                        log.fine("MblformedURLException cbught in the getImbgeURL() method", e);
                     }
                 }
             }
-            return imageURL;
+            return imbgeURL;
         }
     }
 
     /**
-     * Returns the bounds of the splash screen window as a {@link Rectangle}.
-     * This may be useful if, for example, you want to replace the splash
-     * screen with your window at the same location.
+     * Returns the bounds of the splbsh screen window bs b {@link Rectbngle}.
+     * This mby be useful if, for exbmple, you wbnt to replbce the splbsh
+     * screen with your window bt the sbme locbtion.
      * <p>
-     * You cannot control the size or position of the splash screen.
-     * The splash screen size is adjusted automatically when the image changes.
+     * You cbnnot control the size or position of the splbsh screen.
+     * The splbsh screen size is bdjusted butombticblly when the imbge chbnges.
      * <p>
-     * The image may contain transparent areas, and thus the reported bounds may
-     * be larger than the visible splash screen image on the screen.
+     * The imbge mby contbin trbnspbrent brebs, bnd thus the reported bounds mby
+     * be lbrger thbn the visible splbsh screen imbge on the screen.
      *
-     * @return a {@code Rectangle} containing the splash screen bounds
-     * @throws IllegalStateException if the splash screen has already been closed
+     * @return b {@code Rectbngle} contbining the splbsh screen bounds
+     * @throws IllegblStbteException if the splbsh screen hbs blrebdy been closed
      */
-    public Rectangle getBounds() throws IllegalStateException {
-        synchronized (SplashScreen.class) {
+    public Rectbngle getBounds() throws IllegblStbteException {
+        synchronized (SplbshScreen.clbss) {
             checkVisible();
-            float scale = _getScaleFactor(splashPtr);
-            Rectangle bounds = _getBounds(splashPtr);
-            assert scale > 0;
-            if (scale > 0 && scale != 1) {
-                bounds.setSize((int) (bounds.getWidth() / scale),
-                        (int) (bounds.getWidth() / scale));
+            flobt scble = _getScbleFbctor(splbshPtr);
+            Rectbngle bounds = _getBounds(splbshPtr);
+            bssert scble > 0;
+            if (scble > 0 && scble != 1) {
+                bounds.setSize((int) (bounds.getWidth() / scble),
+                        (int) (bounds.getWidth() / scble));
             }
             return bounds;
         }
     }
 
     /**
-     * Returns the size of the splash screen window as a {@link Dimension}.
-     * This may be useful if, for example,
-     * you want to draw on the splash screen overlay surface.
+     * Returns the size of the splbsh screen window bs b {@link Dimension}.
+     * This mby be useful if, for exbmple,
+     * you wbnt to drbw on the splbsh screen overlby surfbce.
      * <p>
-     * You cannot control the size or position of the splash screen.
-     * The splash screen size is adjusted automatically when the image changes.
+     * You cbnnot control the size or position of the splbsh screen.
+     * The splbsh screen size is bdjusted butombticblly when the imbge chbnges.
      * <p>
-     * The image may contain transparent areas, and thus the reported size may
-     * be larger than the visible splash screen image on the screen.
+     * The imbge mby contbin trbnspbrent brebs, bnd thus the reported size mby
+     * be lbrger thbn the visible splbsh screen imbge on the screen.
      *
-     * @return a {@link Dimension} object indicating the splash screen size
-     * @throws IllegalStateException if the splash screen has already been closed
+     * @return b {@link Dimension} object indicbting the splbsh screen size
+     * @throws IllegblStbteException if the splbsh screen hbs blrebdy been closed
      */
-    public Dimension getSize() throws IllegalStateException {
+    public Dimension getSize() throws IllegblStbteException {
         return getBounds().getSize();
     }
 
     /**
-     * Creates a graphics context (as a {@link Graphics2D} object) for the splash
-     * screen overlay image, which allows you to draw over the splash screen.
-     * Note that you do not draw on the main image but on the image that is
-     * displayed over the main image using alpha blending. Also note that drawing
-     * on the overlay image does not necessarily update the contents of splash
-     * screen window. You should call {@code update()} on the
-     * <code>SplashScreen</code> when you want the splash screen to be
-     * updated immediately.
+     * Crebtes b grbphics context (bs b {@link Grbphics2D} object) for the splbsh
+     * screen overlby imbge, which bllows you to drbw over the splbsh screen.
+     * Note thbt you do not drbw on the mbin imbge but on the imbge thbt is
+     * displbyed over the mbin imbge using blphb blending. Also note thbt drbwing
+     * on the overlby imbge does not necessbrily updbte the contents of splbsh
+     * screen window. You should cbll {@code updbte()} on the
+     * <code>SplbshScreen</code> when you wbnt the splbsh screen to be
+     * updbted immedibtely.
      * <p>
-     * The pixel (0, 0) in the coordinate space of the graphics context
-     * corresponds to the origin of the splash screen native window bounds (see
+     * The pixel (0, 0) in the coordinbte spbce of the grbphics context
+     * corresponds to the origin of the splbsh screen nbtive window bounds (see
      * {@link #getBounds()}).
      *
-     * @return graphics context for the splash screen overlay surface
-     * @throws IllegalStateException if the splash screen has already been closed
+     * @return grbphics context for the splbsh screen overlby surfbce
+     * @throws IllegblStbteException if the splbsh screen hbs blrebdy been closed
      */
-    public Graphics2D createGraphics() throws IllegalStateException {
-        synchronized (SplashScreen.class) {
-            if (image==null) {
-                // get unscaled splash image size
-                Dimension dim = _getBounds(splashPtr).getSize();
-                image = new BufferedImage(dim.width, dim.height,
-                        BufferedImage.TYPE_INT_ARGB);
+    public Grbphics2D crebteGrbphics() throws IllegblStbteException {
+        synchronized (SplbshScreen.clbss) {
+            if (imbge==null) {
+                // get unscbled splbsh imbge size
+                Dimension dim = _getBounds(splbshPtr).getSize();
+                imbge = new BufferedImbge(dim.width, dim.height,
+                        BufferedImbge.TYPE_INT_ARGB);
             }
-            float scale = _getScaleFactor(splashPtr);
-            Graphics2D g = image.createGraphics();
-            assert (scale > 0);
-            if (scale <= 0) {
-                scale = 1;
+            flobt scble = _getScbleFbctor(splbshPtr);
+            Grbphics2D g = imbge.crebteGrbphics();
+            bssert (scble > 0);
+            if (scble <= 0) {
+                scble = 1;
             }
-            g.scale(scale, scale);
+            g.scble(scble, scble);
             return g;
         }
     }
 
     /**
-     * Updates the splash window with current contents of the overlay image.
+     * Updbtes the splbsh window with current contents of the overlby imbge.
      *
-     * @throws IllegalStateException if the overlay image does not exist;
-     *         for example, if {@code createGraphics} has never been called,
-     *         or if the splash screen has already been closed
+     * @throws IllegblStbteException if the overlby imbge does not exist;
+     *         for exbmple, if {@code crebteGrbphics} hbs never been cblled,
+     *         or if the splbsh screen hbs blrebdy been closed
      */
-    public void update() throws IllegalStateException {
-        BufferedImage image;
-        synchronized (SplashScreen.class) {
+    public void updbte() throws IllegblStbteException {
+        BufferedImbge imbge;
+        synchronized (SplbshScreen.clbss) {
             checkVisible();
-            image = this.image;
+            imbge = this.imbge;
         }
-        if (image == null) {
-            throw new IllegalStateException("no overlay image available");
+        if (imbge == null) {
+            throw new IllegblStbteException("no overlby imbge bvbilbble");
         }
-        DataBuffer buf = image.getRaster().getDataBuffer();
-        if (!(buf instanceof DataBufferInt)) {
-            throw new AssertionError("Overlay image DataBuffer is of invalid type == "+buf.getClass().getName());
+        DbtbBuffer buf = imbge.getRbster().getDbtbBuffer();
+        if (!(buf instbnceof DbtbBufferInt)) {
+            throw new AssertionError("Overlby imbge DbtbBuffer is of invblid type == "+buf.getClbss().getNbme());
         }
-        int numBanks = buf.getNumBanks();
-        if (numBanks!=1) {
-            throw new AssertionError("Invalid number of banks =="+numBanks+" in overlay image DataBuffer");
+        int numBbnks = buf.getNumBbnks();
+        if (numBbnks!=1) {
+            throw new AssertionError("Invblid number of bbnks =="+numBbnks+" in overlby imbge DbtbBuffer");
         }
-        if (!(image.getSampleModel() instanceof SinglePixelPackedSampleModel)) {
-            throw new AssertionError("Overlay image has invalid sample model == "+image.getSampleModel().getClass().getName());
+        if (!(imbge.getSbmpleModel() instbnceof SinglePixelPbckedSbmpleModel)) {
+            throw new AssertionError("Overlby imbge hbs invblid sbmple model == "+imbge.getSbmpleModel().getClbss().getNbme());
         }
-        SinglePixelPackedSampleModel sm = (SinglePixelPackedSampleModel)image.getSampleModel();
-        int scanlineStride = sm.getScanlineStride();
-        Rectangle rect = image.getRaster().getBounds();
-        // Note that we steal the data array here, but just for reading
-        // so we do not need to mark the DataBuffer dirty...
-        int[] data = SunWritableRaster.stealData((DataBufferInt)buf, 0);
-        synchronized(SplashScreen.class) {
+        SinglePixelPbckedSbmpleModel sm = (SinglePixelPbckedSbmpleModel)imbge.getSbmpleModel();
+        int scbnlineStride = sm.getScbnlineStride();
+        Rectbngle rect = imbge.getRbster().getBounds();
+        // Note thbt we stebl the dbtb brrby here, but just for rebding
+        // so we do not need to mbrk the DbtbBuffer dirty...
+        int[] dbtb = SunWritbbleRbster.steblDbtb((DbtbBufferInt)buf, 0);
+        synchronized(SplbshScreen.clbss) {
             checkVisible();
-            _update(splashPtr, data, rect.x, rect.y, rect.width, rect.height, scanlineStride);
+            _updbte(splbshPtr, dbtb, rect.x, rect.y, rect.width, rect.height, scbnlineStride);
         }
     }
 
     /**
-     * Hides the splash screen, closes the window, and releases all associated
+     * Hides the splbsh screen, closes the window, bnd relebses bll bssocibted
      * resources.
      *
-     * @throws IllegalStateException if the splash screen has already been closed
+     * @throws IllegblStbteException if the splbsh screen hbs blrebdy been closed
      */
-    public void close() throws IllegalStateException {
-        synchronized (SplashScreen.class) {
+    public void close() throws IllegblStbteException {
+        synchronized (SplbshScreen.clbss) {
             checkVisible();
-            _close(splashPtr);
-            image = null;
-            SplashScreen.markClosed();
+            _close(splbshPtr);
+            imbge = null;
+            SplbshScreen.mbrkClosed();
         }
     }
 
-    static void markClosed() {
-        synchronized (SplashScreen.class) {
-            wasClosed = true;
-            theInstance = null;
+    stbtic void mbrkClosed() {
+        synchronized (SplbshScreen.clbss) {
+            wbsClosed = true;
+            theInstbnce = null;
         }
     }
 
 
     /**
-     * Determines whether the splash screen is visible. The splash screen may
-     * be hidden using {@link #close()}, it is also hidden automatically when
-     * the first AWT/Swing window is made visible.
+     * Determines whether the splbsh screen is visible. The splbsh screen mby
+     * be hidden using {@link #close()}, it is blso hidden butombticblly when
+     * the first AWT/Swing window is mbde visible.
      * <p>
-     * Note that the native platform may delay presenting the splash screen
-     * native window on the screen. The return value of {@code true} for this
-     * method only guarantees that the conditions to hide the splash screen
-     * window have not occurred yet.
+     * Note thbt the nbtive plbtform mby delby presenting the splbsh screen
+     * nbtive window on the screen. The return vblue of {@code true} for this
+     * method only gubrbntees thbt the conditions to hide the splbsh screen
+     * window hbve not occurred yet.
      *
-     * @return true if the splash screen is visible (has not been closed yet),
-     *         false otherwise
+     * @return true if the splbsh screen is visible (hbs not been closed yet),
+     *         fblse otherwise
      */
-    public boolean isVisible() {
-        synchronized (SplashScreen.class) {
-            return !wasClosed && _isVisible(splashPtr);
+    public boolebn isVisible() {
+        synchronized (SplbshScreen.clbss) {
+            return !wbsClosed && _isVisible(splbshPtr);
         }
     }
 
-    private BufferedImage image; // overlay image
+    privbte BufferedImbge imbge; // overlby imbge
 
-    private final long splashPtr; // pointer to native Splash structure
-    private static boolean wasClosed = false;
+    privbte finbl long splbshPtr; // pointer to nbtive Splbsh structure
+    privbte stbtic boolebn wbsClosed = fblse;
 
-    private URL imageURL;
+    privbte URL imbgeURL;
 
     /**
-     * The instance reference for the singleton.
-     * (<code>null</code> if no instance exists yet.)
+     * The instbnce reference for the singleton.
+     * (<code>null</code> if no instbnce exists yet.)
      *
-     * @see #getSplashScreen
+     * @see #getSplbshScreen
      * @see #close
      */
-    private static SplashScreen theInstance = null;
+    privbte stbtic SplbshScreen theInstbnce = null;
 
-    private static final PlatformLogger log = PlatformLogger.getLogger("java.awt.SplashScreen");
+    privbte stbtic finbl PlbtformLogger log = PlbtformLogger.getLogger("jbvb.bwt.SplbshScreen");
 
-    private native static void _update(long splashPtr, int[] data, int x, int y, int width, int height, int scanlineStride);
-    private native static boolean _isVisible(long splashPtr);
-    private native static Rectangle _getBounds(long splashPtr);
-    private native static long _getInstance();
-    private native static void _close(long splashPtr);
-    private native static String _getImageFileName(long splashPtr);
-    private native static String _getImageJarName(long SplashPtr);
-    private native static boolean _setImageData(long SplashPtr, byte[] data);
-    private native static float _getScaleFactor(long SplashPtr);
+    privbte nbtive stbtic void _updbte(long splbshPtr, int[] dbtb, int x, int y, int width, int height, int scbnlineStride);
+    privbte nbtive stbtic boolebn _isVisible(long splbshPtr);
+    privbte nbtive stbtic Rectbngle _getBounds(long splbshPtr);
+    privbte nbtive stbtic long _getInstbnce();
+    privbte nbtive stbtic void _close(long splbshPtr);
+    privbte nbtive stbtic String _getImbgeFileNbme(long splbshPtr);
+    privbte nbtive stbtic String _getImbgeJbrNbme(long SplbshPtr);
+    privbte nbtive stbtic boolebn _setImbgeDbtb(long SplbshPtr, byte[] dbtb);
+    privbte nbtive stbtic flobt _getScbleFbctor(long SplbshPtr);
 
 };

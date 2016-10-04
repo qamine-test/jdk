@@ -1,214 +1,214 @@
 /*
- * Copyright (c) 2005, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jmx.mbeanserver;
+pbckbge com.sun.jmx.mbebnserver;
 
-import java.security.AccessController;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import javax.management.AttributeNotFoundException;
-import javax.management.InvalidAttributeValueException;
-import javax.management.MBeanException;
-import javax.management.MBeanInfo;
-import javax.management.ReflectionException;
+import jbvb.security.AccessController;
+import jbvb.util.Arrbys;
+import jbvb.util.Collections;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvbx.mbnbgement.AttributeNotFoundException;
+import jbvbx.mbnbgement.InvblidAttributeVblueException;
+import jbvbx.mbnbgement.MBebnException;
+import jbvbx.mbnbgement.MBebnInfo;
+import jbvbx.mbnbgement.ReflectionException;
 
-import static com.sun.jmx.mbeanserver.Util.*;
+import stbtic com.sun.jmx.mbebnserver.Util.*;
 
 /**
- * Per-MBean-interface behavior.  A single instance of this class can be shared
- * by all MBeans of the same kind (Standard MBean or MXBean) that have the same
- * MBean interface.
+ * Per-MBebn-interfbce behbvior.  A single instbnce of this clbss cbn be shbred
+ * by bll MBebns of the sbme kind (Stbndbrd MBebn or MXBebn) thbt hbve the sbme
+ * MBebn interfbce.
  *
  * @since 1.6
  */
-final class PerInterface<M> {
-    PerInterface(Class<?> mbeanInterface, MBeanIntrospector<M> introspector,
-                 MBeanAnalyzer<M> analyzer, MBeanInfo mbeanInfo) {
-        this.mbeanInterface = mbeanInterface;
+finbl clbss PerInterfbce<M> {
+    PerInterfbce(Clbss<?> mbebnInterfbce, MBebnIntrospector<M> introspector,
+                 MBebnAnblyzer<M> bnblyzer, MBebnInfo mbebnInfo) {
+        this.mbebnInterfbce = mbebnInterfbce;
         this.introspector = introspector;
-        this.mbeanInfo = mbeanInfo;
-        analyzer.visit(new InitMaps());
+        this.mbebnInfo = mbebnInfo;
+        bnblyzer.visit(new InitMbps());
     }
 
-    Class<?> getMBeanInterface() {
-        return mbeanInterface;
+    Clbss<?> getMBebnInterfbce() {
+        return mbebnInterfbce;
     }
 
-    MBeanInfo getMBeanInfo() {
-        return mbeanInfo;
+    MBebnInfo getMBebnInfo() {
+        return mbebnInfo;
     }
 
-    boolean isMXBean() {
-        return introspector.isMXBean();
+    boolebn isMXBebn() {
+        return introspector.isMXBebn();
     }
 
-    Object getAttribute(Object resource, String attribute, Object cookie)
+    Object getAttribute(Object resource, String bttribute, Object cookie)
             throws AttributeNotFoundException,
-                   MBeanException,
+                   MBebnException,
                    ReflectionException {
 
-        final M cm = getters.get(attribute);
+        finbl M cm = getters.get(bttribute);
         if (cm == null) {
-            final String msg;
-            if (setters.containsKey(attribute))
-                msg = "Write-only attribute: " + attribute;
+            finbl String msg;
+            if (setters.contbinsKey(bttribute))
+                msg = "Write-only bttribute: " + bttribute;
             else
-                msg = "No such attribute: " + attribute;
+                msg = "No such bttribute: " + bttribute;
             throw new AttributeNotFoundException(msg);
         }
         return introspector.invokeM(cm, resource, (Object[]) null, cookie);
     }
 
-    void setAttribute(Object resource, String attribute, Object value,
+    void setAttribute(Object resource, String bttribute, Object vblue,
                       Object cookie)
             throws AttributeNotFoundException,
-                   InvalidAttributeValueException,
-                   MBeanException,
+                   InvblidAttributeVblueException,
+                   MBebnException,
                    ReflectionException {
 
-        final M cm = setters.get(attribute);
+        finbl M cm = setters.get(bttribute);
         if (cm == null) {
-            final String msg;
-            if (getters.containsKey(attribute))
-                msg = "Read-only attribute: " + attribute;
+            finbl String msg;
+            if (getters.contbinsKey(bttribute))
+                msg = "Rebd-only bttribute: " + bttribute;
             else
-                msg = "No such attribute: " + attribute;
+                msg = "No such bttribute: " + bttribute;
             throw new AttributeNotFoundException(msg);
         }
-        introspector.invokeSetter(attribute, cm, resource, value, cookie);
+        introspector.invokeSetter(bttribute, cm, resource, vblue, cookie);
     }
 
-    Object invoke(Object resource, String operation, Object[] params,
-                  String[] signature, Object cookie)
-            throws MBeanException, ReflectionException {
+    Object invoke(Object resource, String operbtion, Object[] pbrbms,
+                  String[] signbture, Object cookie)
+            throws MBebnException, ReflectionException {
 
-        final List<MethodAndSig> list = ops.get(operation);
+        finbl List<MethodAndSig> list = ops.get(operbtion);
         if (list == null) {
-            final String msg = "No such operation: " + operation;
-            return noSuchMethod(msg, resource, operation, params, signature,
+            finbl String msg = "No such operbtion: " + operbtion;
+            return noSuchMethod(msg, resource, operbtion, pbrbms, signbture,
                                 cookie);
         }
-        if (signature == null)
-            signature = new String[0];
+        if (signbture == null)
+            signbture = new String[0];
         MethodAndSig found = null;
-        for (MethodAndSig mas : list) {
-            if (Arrays.equals(mas.signature, signature)) {
-                found = mas;
-                break;
+        for (MethodAndSig mbs : list) {
+            if (Arrbys.equbls(mbs.signbture, signbture)) {
+                found = mbs;
+                brebk;
             }
         }
         if (found == null) {
-            final String badSig = sigString(signature);
-            final String msg;
-            if (list.size() == 1) {  // helpful exception message
-                msg = "Signature mismatch for operation " + operation +
-                        ": " + badSig + " should be " +
-                        sigString(list.get(0).signature);
+            finbl String bbdSig = sigString(signbture);
+            finbl String msg;
+            if (list.size() == 1) {  // helpful exception messbge
+                msg = "Signbture mismbtch for operbtion " + operbtion +
+                        ": " + bbdSig + " should be " +
+                        sigString(list.get(0).signbture);
             } else {
-                msg = "Operation " + operation + " exists but not with " +
-                        "this signature: " + badSig;
+                msg = "Operbtion " + operbtion + " exists but not with " +
+                        "this signbture: " + bbdSig;
             }
-            return noSuchMethod(msg, resource, operation, params, signature,
+            return noSuchMethod(msg, resource, operbtion, pbrbms, signbture,
                                 cookie);
         }
-        return introspector.invokeM(found.method, resource, params, cookie);
+        return introspector.invokeM(found.method, resource, pbrbms, cookie);
     }
 
     /*
-     * This method is called when invoke doesn't find the named method.
-     * Before throwing an exception, we check to see whether the
-     * jmx.invoke.getters property is set, and if so whether the method
-     * being invoked might be a getter or a setter.  If so we invoke it
-     * and return the result.  This is for compatibility
-     * with code based on JMX RI 1.0 or 1.1 which allowed invoking getters
-     * and setters.  It is *not* recommended that new code use this feature.
+     * This method is cblled when invoke doesn't find the nbmed method.
+     * Before throwing bn exception, we check to see whether the
+     * jmx.invoke.getters property is set, bnd if so whether the method
+     * being invoked might be b getter or b setter.  If so we invoke it
+     * bnd return the result.  This is for compbtibility
+     * with code bbsed on JMX RI 1.0 or 1.1 which bllowed invoking getters
+     * bnd setters.  It is *not* recommended thbt new code use this febture.
      *
-     * Since this method is either going to throw an exception or use
-     * functionality that is strongly discouraged, we consider that its
-     * performance is not very important.
+     * Since this method is either going to throw bn exception or use
+     * functionblity thbt is strongly discourbged, we consider thbt its
+     * performbnce is not very importbnt.
      *
-     * A simpler way to implement the functionality would be to add the getters
-     * and setters to the operations map when jmx.invoke.getters is set.
-     * However, that means that the property is consulted when an MBean
-     * interface is being introspected and not thereafter.  Previously,
-     * the property was consulted on every invocation.  So this simpler
-     * implementation could potentially break code that sets and unsets
-     * the property at different times.
+     * A simpler wby to implement the functionblity would be to bdd the getters
+     * bnd setters to the operbtions mbp when jmx.invoke.getters is set.
+     * However, thbt mebns thbt the property is consulted when bn MBebn
+     * interfbce is being introspected bnd not therebfter.  Previously,
+     * the property wbs consulted on every invocbtion.  So this simpler
+     * implementbtion could potentiblly brebk code thbt sets bnd unsets
+     * the property bt different times.
      */
-    private Object noSuchMethod(String msg, Object resource, String operation,
-                                Object[] params, String[] signature,
+    privbte Object noSuchMethod(String msg, Object resource, String operbtion,
+                                Object[] pbrbms, String[] signbture,
                                 Object cookie)
-            throws MBeanException, ReflectionException {
+            throws MBebnException, ReflectionException {
 
-        // Construct the exception that we will probably throw
-        final NoSuchMethodException nsme =
-            new NoSuchMethodException(operation + sigString(signature));
-        final ReflectionException exception =
+        // Construct the exception thbt we will probbbly throw
+        finbl NoSuchMethodException nsme =
+            new NoSuchMethodException(operbtion + sigString(signbture));
+        finbl ReflectionException exception =
             new ReflectionException(nsme, msg);
 
-        if (introspector.isMXBean())
-            throw exception; // No compatibility requirement here
+        if (introspector.isMXBebn())
+            throw exception; // No compbtibility requirement here
 
-        // Is the compatibility property set?
-        GetPropertyAction act = new GetPropertyAction("jmx.invoke.getters");
+        // Is the compbtibility property set?
+        GetPropertyAction bct = new GetPropertyAction("jmx.invoke.getters");
         String invokeGettersS;
         try {
-            invokeGettersS = AccessController.doPrivileged(act);
-        } catch (Exception e) {
-            // We don't expect an exception here but if we get one then
-            // we'll simply assume that the property is not set.
+            invokeGettersS = AccessController.doPrivileged(bct);
+        } cbtch (Exception e) {
+            // We don't expect bn exception here but if we get one then
+            // we'll simply bssume thbt the property is not set.
             invokeGettersS = null;
         }
         if (invokeGettersS == null)
             throw exception;
 
         int rest = 0;
-        Map<String, M> methods = null;
-        if (signature == null || signature.length == 0) {
-            if (operation.startsWith("get"))
+        Mbp<String, M> methods = null;
+        if (signbture == null || signbture.length == 0) {
+            if (operbtion.stbrtsWith("get"))
                 rest = 3;
-            else if (operation.startsWith("is"))
+            else if (operbtion.stbrtsWith("is"))
                 rest = 2;
             if (rest != 0)
                 methods = getters;
-        } else if (signature.length == 1 &&
-                   operation.startsWith("set")) {
+        } else if (signbture.length == 1 &&
+                   operbtion.stbrtsWith("set")) {
             rest = 3;
             methods = setters;
         }
 
         if (rest != 0) {
-            String attrName = operation.substring(rest);
-            M method = methods.get(attrName);
-            if (method != null && introspector.getName(method).equals(operation)) {
-                String[] msig = introspector.getSignature(method);
-                if ((signature == null && msig.length == 0) ||
-                        Arrays.equals(signature, msig)) {
-                    return introspector.invokeM(method, resource, params, cookie);
+            String bttrNbme = operbtion.substring(rest);
+            M method = methods.get(bttrNbme);
+            if (method != null && introspector.getNbme(method).equbls(operbtion)) {
+                String[] msig = introspector.getSignbture(method);
+                if ((signbture == null && msig.length == 0) ||
+                        Arrbys.equbls(signbture, msig)) {
+                    return introspector.invokeM(method, resource, pbrbms, cookie);
                 }
             }
         }
@@ -216,65 +216,65 @@ final class PerInterface<M> {
         throw exception;
     }
 
-    private String sigString(String[] signature) {
+    privbte String sigString(String[] signbture) {
         StringBuilder b = new StringBuilder("(");
-        if (signature != null) {
-            for (String s : signature) {
+        if (signbture != null) {
+            for (String s : signbture) {
                 if (b.length() > 1)
-                    b.append(", ");
-                b.append(s);
+                    b.bppend(", ");
+                b.bppend(s);
             }
         }
-        return b.append(")").toString();
+        return b.bppend(")").toString();
     }
 
     /**
-     * Visitor that sets up the method maps (operations, getters, setters).
+     * Visitor thbt sets up the method mbps (operbtions, getters, setters).
      */
-    private class InitMaps implements MBeanAnalyzer.MBeanVisitor<M> {
-        public void visitAttribute(String attributeName,
+    privbte clbss InitMbps implements MBebnAnblyzer.MBebnVisitor<M> {
+        public void visitAttribute(String bttributeNbme,
                                    M getter,
                                    M setter) {
             if (getter != null) {
                 introspector.checkMethod(getter);
-                final Object old = getters.put(attributeName, getter);
-                assert(old == null);
+                finbl Object old = getters.put(bttributeNbme, getter);
+                bssert(old == null);
             }
             if (setter != null) {
                 introspector.checkMethod(setter);
-                final Object old = setters.put(attributeName, setter);
-                assert(old == null);
+                finbl Object old = setters.put(bttributeNbme, setter);
+                bssert(old == null);
             }
         }
 
-        public void visitOperation(String operationName,
-                                   M operation) {
-            introspector.checkMethod(operation);
-            final String[] sig = introspector.getSignature(operation);
-            final MethodAndSig mas = new MethodAndSig();
-            mas.method = operation;
-            mas.signature = sig;
-            List<MethodAndSig> list = ops.get(operationName);
+        public void visitOperbtion(String operbtionNbme,
+                                   M operbtion) {
+            introspector.checkMethod(operbtion);
+            finbl String[] sig = introspector.getSignbture(operbtion);
+            finbl MethodAndSig mbs = new MethodAndSig();
+            mbs.method = operbtion;
+            mbs.signbture = sig;
+            List<MethodAndSig> list = ops.get(operbtionNbme);
             if (list == null)
-                list = Collections.singletonList(mas);
+                list = Collections.singletonList(mbs);
             else {
                 if (list.size() == 1)
                     list = newList(list);
-                list.add(mas);
+                list.bdd(mbs);
             }
-            ops.put(operationName, list);
+            ops.put(operbtionNbme, list);
         }
     }
 
-    private class MethodAndSig {
+    privbte clbss MethodAndSig {
         M method;
-        String[] signature;
+        String[] signbture;
     }
 
-    private final Class<?> mbeanInterface;
-    private final MBeanIntrospector<M> introspector;
-    private final MBeanInfo mbeanInfo;
-    private final Map<String, M> getters = newMap();
-    private final Map<String, M> setters = newMap();
-    private final Map<String, List<MethodAndSig>> ops = newMap();
+    privbte finbl Clbss<?> mbebnInterfbce;
+    privbte finbl MBebnIntrospector<M> introspector;
+    privbte finbl MBebnInfo mbebnInfo;
+    privbte finbl Mbp<String, M> getters = newMbp();
+    privbte finbl Mbp<String, M> setters = newMbp();
+    privbte finbl Mbp<String, List<MethodAndSig>> ops = newMbp();
 }

@@ -1,150 +1,150 @@
 /*
- * Copyright (c) 1998, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2007, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.crypto;
+pbckbge jbvbx.crypto;
 
-import java.security.*;
-import java.security.spec.*;
+import jbvb.security.*;
+import jbvb.security.spec.*;
 
-import java.nio.ByteBuffer;
+import jbvb.nio.ByteBuffer;
 
 /**
- * This class defines the <i>Service Provider Interface</i> (<b>SPI</b>)
- * for the <code>Mac</code> class.
- * All the abstract methods in this class must be implemented by each
- * cryptographic service provider who wishes to supply the implementation
- * of a particular MAC algorithm.
+ * This clbss defines the <i>Service Provider Interfbce</i> (<b>SPI</b>)
+ * for the <code>Mbc</code> clbss.
+ * All the bbstrbct methods in this clbss must be implemented by ebch
+ * cryptogrbphic service provider who wishes to supply the implementbtion
+ * of b pbrticulbr MAC blgorithm.
  *
- * <p> Implementations are free to implement the Cloneable interface.
+ * <p> Implementbtions bre free to implement the Clonebble interfbce.
  *
- * @author Jan Luehe
+ * @buthor Jbn Luehe
  *
  * @since 1.4
  */
 
-public abstract class MacSpi {
+public bbstrbct clbss MbcSpi {
 
     /**
      * Returns the length of the MAC in bytes.
      *
      * @return the MAC length in bytes.
      */
-    protected abstract int engineGetMacLength();
+    protected bbstrbct int engineGetMbcLength();
 
     /**
-     * Initializes the MAC with the given (secret) key and algorithm
-     * parameters.
+     * Initiblizes the MAC with the given (secret) key bnd blgorithm
+     * pbrbmeters.
      *
-     * @param key the (secret) key.
-     * @param params the algorithm parameters.
+     * @pbrbm key the (secret) key.
+     * @pbrbm pbrbms the blgorithm pbrbmeters.
      *
-     * @exception InvalidKeyException if the given key is inappropriate for
-     * initializing this MAC.
-     * @exception InvalidAlgorithmParameterException if the given algorithm
-     * parameters are inappropriate for this MAC.
+     * @exception InvblidKeyException if the given key is inbppropribte for
+     * initiblizing this MAC.
+     * @exception InvblidAlgorithmPbrbmeterException if the given blgorithm
+     * pbrbmeters bre inbppropribte for this MAC.
      */
-    protected abstract void engineInit(Key key,
-                                       AlgorithmParameterSpec params)
-        throws InvalidKeyException, InvalidAlgorithmParameterException ;
+    protected bbstrbct void engineInit(Key key,
+                                       AlgorithmPbrbmeterSpec pbrbms)
+        throws InvblidKeyException, InvblidAlgorithmPbrbmeterException ;
 
     /**
      * Processes the given byte.
      *
-     * @param input the input byte to be processed.
+     * @pbrbm input the input byte to be processed.
      */
-    protected abstract void engineUpdate(byte input);
+    protected bbstrbct void engineUpdbte(byte input);
 
     /**
      * Processes the first <code>len</code> bytes in <code>input</code>,
-     * starting at <code>offset</code> inclusive.
+     * stbrting bt <code>offset</code> inclusive.
      *
-     * @param input the input buffer.
-     * @param offset the offset in <code>input</code> where the input starts.
-     * @param len the number of bytes to process.
+     * @pbrbm input the input buffer.
+     * @pbrbm offset the offset in <code>input</code> where the input stbrts.
+     * @pbrbm len the number of bytes to process.
      */
-    protected abstract void engineUpdate(byte[] input, int offset, int len);
+    protected bbstrbct void engineUpdbte(byte[] input, int offset, int len);
 
     /**
-     * Processes <code>input.remaining()</code> bytes in the ByteBuffer
-     * <code>input</code>, starting at <code>input.position()</code>.
-     * Upon return, the buffer's position will be equal to its limit;
-     * its limit will not have changed.
+     * Processes <code>input.rembining()</code> bytes in the ByteBuffer
+     * <code>input</code>, stbrting bt <code>input.position()</code>.
+     * Upon return, the buffer's position will be equbl to its limit;
+     * its limit will not hbve chbnged.
      *
-     * <p>Subclasses should consider overriding this method if they can
-     * process ByteBuffers more efficiently than byte arrays.
+     * <p>Subclbsses should consider overriding this method if they cbn
+     * process ByteBuffers more efficiently thbn byte brrbys.
      *
-     * @param input the ByteBuffer
+     * @pbrbm input the ByteBuffer
      * @since 1.5
      */
-    protected void engineUpdate(ByteBuffer input) {
-        if (input.hasRemaining() == false) {
+    protected void engineUpdbte(ByteBuffer input) {
+        if (input.hbsRembining() == fblse) {
             return;
         }
-        if (input.hasArray()) {
-            byte[] b = input.array();
-            int ofs = input.arrayOffset();
+        if (input.hbsArrby()) {
+            byte[] b = input.brrby();
+            int ofs = input.brrbyOffset();
             int pos = input.position();
             int lim = input.limit();
-            engineUpdate(b, ofs + pos, lim - pos);
+            engineUpdbte(b, ofs + pos, lim - pos);
             input.position(lim);
         } else {
-            int len = input.remaining();
-            byte[] b = new byte[CipherSpi.getTempArraySize(len)];
+            int len = input.rembining();
+            byte[] b = new byte[CipherSpi.getTempArrbySize(len)];
             while (len > 0) {
-                int chunk = Math.min(len, b.length);
+                int chunk = Mbth.min(len, b.length);
                 input.get(b, 0, chunk);
-                engineUpdate(b, 0, chunk);
+                engineUpdbte(b, 0, chunk);
                 len -= chunk;
             }
         }
     }
 
     /**
-     * Completes the MAC computation and resets the MAC for further use,
-     * maintaining the secret key that the MAC was initialized with.
+     * Completes the MAC computbtion bnd resets the MAC for further use,
+     * mbintbining the secret key thbt the MAC wbs initiblized with.
      *
      * @return the MAC result.
      */
-    protected abstract byte[] engineDoFinal();
+    protected bbstrbct byte[] engineDoFinbl();
 
     /**
-     * Resets the MAC for further use, maintaining the secret key that the
-     * MAC was initialized with.
+     * Resets the MAC for further use, mbintbining the secret key thbt the
+     * MAC wbs initiblized with.
      */
-    protected abstract void engineReset();
+    protected bbstrbct void engineReset();
 
     /**
-     * Returns a clone if the implementation is cloneable.
+     * Returns b clone if the implementbtion is clonebble.
      *
-     * @return a clone if the implementation is cloneable.
+     * @return b clone if the implementbtion is clonebble.
      *
-     * @exception CloneNotSupportedException if this is called
-     * on an implementation that does not support <code>Cloneable</code>.
+     * @exception CloneNotSupportedException if this is cblled
+     * on bn implementbtion thbt does not support <code>Clonebble</code>.
      */
     public Object clone() throws CloneNotSupportedException {
-        if (this instanceof Cloneable) {
+        if (this instbnceof Clonebble) {
             return super.clone();
         } else {
             throw new CloneNotSupportedException();

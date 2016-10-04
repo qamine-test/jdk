@@ -1,35 +1,35 @@
 /*
- * Copyright (c) 2003, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  */
 
-/* Copyright  (c) 2002 Graz University of Technology. All rights reserved.
+/* Copyright  (c) 2002 Grbz University of Technology. All rights reserved.
  *
- * Redistribution and use in  source and binary forms, with or without
- * modification, are permitted  provided that the following conditions are met:
+ * Redistribution bnd use in  source bnd binbry forms, with or without
+ * modificbtion, bre permitted  provided thbt the following conditions bre met:
  *
- * 1. Redistributions of  source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ * 1. Redistributions of  source code must retbin the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer.
  *
- * 2. Redistributions in  binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ * 2. Redistributions in  binbry form must reproduce the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer in the documentbtion
+ *    bnd/or other mbteribls provided with the distribution.
  *
- * 3. The end-user documentation included with the redistribution, if any, must
- *    include the following acknowledgment:
+ * 3. The end-user documentbtion included with the redistribution, if bny, must
+ *    include the following bcknowledgment:
  *
- *    "This product includes software developed by IAIK of Graz University of
+ *    "This product includes softwbre developed by IAIK of Grbz University of
  *     Technology."
  *
- *    Alternately, this acknowledgment may appear in the software itself, if
- *    and wherever such third-party acknowledgments normally appear.
+ *    Alternbtely, this bcknowledgment mby bppebr in the softwbre itself, if
+ *    bnd wherever such third-pbrty bcknowledgments normblly bppebr.
  *
- * 4. The names "Graz University of Technology" and "IAIK of Graz University of
+ * 4. The nbmes "Grbz University of Technology" bnd "IAIK of Grbz University of
  *    Technology" must not be used to endorse or promote products derived from
- *    this software without prior written permission.
+ *    this softwbre without prior written permission.
  *
- * 5. Products derived from this software may not be called
- *    "IAIK PKCS Wrapper", nor may "IAIK" appear in their name, without prior
- *    written permission of Graz University of Technology.
+ * 5. Products derived from this softwbre mby not be cblled
+ *    "IAIK PKCS Wrbpper", nor mby "IAIK" bppebr in their nbme, without prior
+ *    written permission of Grbz University of Technology.
  *
  *  THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESSED OR IMPLIED
  *  WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
@@ -45,79 +45,79 @@
  *  POSSIBILITY  OF SUCH DAMAGE.
  */
 
-package sun.security.pkcs11.wrapper;
+pbckbge sun.security.pkcs11.wrbpper;
 
-import java.math.BigInteger;
+import jbvb.mbth.BigInteger;
 
-import static sun.security.pkcs11.wrapper.PKCS11Constants.*;
+import stbtic sun.security.pkcs11.wrbpper.PKCS11Constbnts.*;
 
 /**
- * class CK_ATTRIBUTE includes the type, value and length of an attribute.<p>
+ * clbss CK_ATTRIBUTE includes the type, vblue bnd length of bn bttribute.<p>
  * <B>PKCS#11 structure:</B>
  * <PRE>
  * typedef struct CK_ATTRIBUTE {&nbsp;&nbsp;
  *   CK_ATTRIBUTE_TYPE type;&nbsp;&nbsp;
- *   CK_VOID_PTR pValue;&nbsp;&nbsp;
- *   CK_ULONG ulValueLen;
+ *   CK_VOID_PTR pVblue;&nbsp;&nbsp;
+ *   CK_ULONG ulVblueLen;
  * } CK_ATTRIBUTE;
  * </PRE>
  *
- * @author Karl Scheibelhofer <Karl.Scheibelhofer@iaik.at>
- * @author Martin Schlaeffer <schlaeff@sbox.tugraz.at>
+ * @buthor Kbrl Scheibelhofer <Kbrl.Scheibelhofer@ibik.bt>
+ * @buthor Mbrtin Schlbeffer <schlbeff@sbox.tugrbz.bt>
  */
-public class CK_ATTRIBUTE {
+public clbss CK_ATTRIBUTE {
 
-    // common attributes
-    // NOTE that CK_ATTRIBUTE is a mutable classes but these attributes
-    // *MUST NEVER* be modified, e.g. by using them in a
-    // C_GetAttributeValue() call!
+    // common bttributes
+    // NOTE thbt CK_ATTRIBUTE is b mutbble clbsses but these bttributes
+    // *MUST NEVER* be modified, e.g. by using them in b
+    // C_GetAttributeVblue() cbll!
 
-    public final static CK_ATTRIBUTE TOKEN_FALSE =
-                                    new CK_ATTRIBUTE(CKA_TOKEN, false);
+    public finbl stbtic CK_ATTRIBUTE TOKEN_FALSE =
+                                    new CK_ATTRIBUTE(CKA_TOKEN, fblse);
 
-    public final static CK_ATTRIBUTE SENSITIVE_FALSE =
-                                    new CK_ATTRIBUTE(CKA_SENSITIVE, false);
+    public finbl stbtic CK_ATTRIBUTE SENSITIVE_FALSE =
+                                    new CK_ATTRIBUTE(CKA_SENSITIVE, fblse);
 
-    public final static CK_ATTRIBUTE EXTRACTABLE_TRUE =
+    public finbl stbtic CK_ATTRIBUTE EXTRACTABLE_TRUE =
                                     new CK_ATTRIBUTE(CKA_EXTRACTABLE, true);
 
-    public final static CK_ATTRIBUTE ENCRYPT_TRUE =
+    public finbl stbtic CK_ATTRIBUTE ENCRYPT_TRUE =
                                     new CK_ATTRIBUTE(CKA_ENCRYPT, true);
 
-    public final static CK_ATTRIBUTE DECRYPT_TRUE =
+    public finbl stbtic CK_ATTRIBUTE DECRYPT_TRUE =
                                     new CK_ATTRIBUTE(CKA_DECRYPT, true);
 
-    public final static CK_ATTRIBUTE WRAP_TRUE =
+    public finbl stbtic CK_ATTRIBUTE WRAP_TRUE =
                                     new CK_ATTRIBUTE(CKA_WRAP, true);
 
-    public final static CK_ATTRIBUTE UNWRAP_TRUE =
+    public finbl stbtic CK_ATTRIBUTE UNWRAP_TRUE =
                                     new CK_ATTRIBUTE(CKA_UNWRAP, true);
 
-    public final static CK_ATTRIBUTE SIGN_TRUE =
+    public finbl stbtic CK_ATTRIBUTE SIGN_TRUE =
                                     new CK_ATTRIBUTE(CKA_SIGN, true);
 
-    public final static CK_ATTRIBUTE VERIFY_TRUE =
+    public finbl stbtic CK_ATTRIBUTE VERIFY_TRUE =
                                     new CK_ATTRIBUTE(CKA_VERIFY, true);
 
-    public final static CK_ATTRIBUTE SIGN_RECOVER_TRUE =
+    public finbl stbtic CK_ATTRIBUTE SIGN_RECOVER_TRUE =
                                     new CK_ATTRIBUTE(CKA_SIGN_RECOVER, true);
 
-    public final static CK_ATTRIBUTE VERIFY_RECOVER_TRUE =
+    public finbl stbtic CK_ATTRIBUTE VERIFY_RECOVER_TRUE =
                                     new CK_ATTRIBUTE(CKA_VERIFY_RECOVER, true);
 
-    public final static CK_ATTRIBUTE DERIVE_TRUE =
+    public finbl stbtic CK_ATTRIBUTE DERIVE_TRUE =
                                     new CK_ATTRIBUTE(CKA_DERIVE, true);
 
-    public final static CK_ATTRIBUTE ENCRYPT_NULL =
+    public finbl stbtic CK_ATTRIBUTE ENCRYPT_NULL =
                                     new CK_ATTRIBUTE(CKA_ENCRYPT);
 
-    public final static CK_ATTRIBUTE DECRYPT_NULL =
+    public finbl stbtic CK_ATTRIBUTE DECRYPT_NULL =
                                     new CK_ATTRIBUTE(CKA_DECRYPT);
 
-    public final static CK_ATTRIBUTE WRAP_NULL =
+    public finbl stbtic CK_ATTRIBUTE WRAP_NULL =
                                     new CK_ATTRIBUTE(CKA_WRAP);
 
-    public final static CK_ATTRIBUTE UNWRAP_NULL =
+    public finbl stbtic CK_ATTRIBUTE UNWRAP_NULL =
                                     new CK_ATTRIBUTE(CKA_UNWRAP);
 
     public CK_ATTRIBUTE() {
@@ -128,61 +128,61 @@ public class CK_ATTRIBUTE {
         this.type = type;
     }
 
-    public CK_ATTRIBUTE(long type, Object pValue) {
+    public CK_ATTRIBUTE(long type, Object pVblue) {
         this.type = type;
-        this.pValue = pValue;
+        this.pVblue = pVblue;
     }
 
-    public CK_ATTRIBUTE(long type, boolean value) {
+    public CK_ATTRIBUTE(long type, boolebn vblue) {
         this.type = type;
-        this.pValue = Boolean.valueOf(value);
+        this.pVblue = Boolebn.vblueOf(vblue);
     }
 
-    public CK_ATTRIBUTE(long type, long value) {
+    public CK_ATTRIBUTE(long type, long vblue) {
         this.type = type;
-        this.pValue = Long.valueOf(value);
+        this.pVblue = Long.vblueOf(vblue);
     }
 
-    public CK_ATTRIBUTE(long type, BigInteger value) {
+    public CK_ATTRIBUTE(long type, BigInteger vblue) {
         this.type = type;
-        this.pValue = sun.security.pkcs11.P11Util.getMagnitude(value);
+        this.pVblue = sun.security.pkcs11.P11Util.getMbgnitude(vblue);
     }
 
     public BigInteger getBigInteger() {
-        if (pValue instanceof byte[] == false) {
-            throw new RuntimeException("Not a byte[]");
+        if (pVblue instbnceof byte[] == fblse) {
+            throw new RuntimeException("Not b byte[]");
         }
-        return new BigInteger(1, (byte[])pValue);
+        return new BigInteger(1, (byte[])pVblue);
     }
 
-    public boolean getBoolean() {
-        if (pValue instanceof Boolean == false) {
+    public boolebn getBoolebn() {
+        if (pVblue instbnceof Boolebn == fblse) {
             throw new RuntimeException
-                ("Not a Boolean: " + pValue.getClass().getName());
+                ("Not b Boolebn: " + pVblue.getClbss().getNbme());
         }
-        return ((Boolean)pValue).booleanValue();
+        return ((Boolebn)pVblue).boolebnVblue();
     }
 
-    public char[] getCharArray() {
-        if (pValue instanceof char[] == false) {
-            throw new RuntimeException("Not a char[]");
+    public chbr[] getChbrArrby() {
+        if (pVblue instbnceof chbr[] == fblse) {
+            throw new RuntimeException("Not b chbr[]");
         }
-        return (char[])pValue;
+        return (chbr[])pVblue;
     }
 
-    public byte[] getByteArray() {
-        if (pValue instanceof byte[] == false) {
-            throw new RuntimeException("Not a byte[]");
+    public byte[] getByteArrby() {
+        if (pVblue instbnceof byte[] == fblse) {
+            throw new RuntimeException("Not b byte[]");
         }
-        return (byte[])pValue;
+        return (byte[])pVblue;
     }
 
     public long getLong() {
-        if (pValue instanceof Long == false) {
+        if (pVblue instbnceof Long == fblse) {
             throw new RuntimeException
-                ("Not a Long: " + pValue.getClass().getName());
+                ("Not b Long: " + pVblue.getClbss().getNbme());
         }
-        return ((Long)pValue).longValue();
+        return ((Long)pVblue).longVblue();
     }
 
     /**
@@ -196,31 +196,31 @@ public class CK_ATTRIBUTE {
     /**
      * <B>PKCS#11:</B>
      * <PRE>
-     *   CK_VOID_PTR pValue;
-     *   CK_ULONG ulValueLen;
+     *   CK_VOID_PTR pVblue;
+     *   CK_ULONG ulVblueLen;
      * </PRE>
      */
-    public Object pValue;
+    public Object pVblue;
 
     /**
-     * Returns the string representation of CK_ATTRIBUTE.
+     * Returns the string representbtion of CK_ATTRIBUTE.
      *
-     * @return the string representation of CK_ATTRIBUTE
+     * @return the string representbtion of CK_ATTRIBUTE
      */
     public String toString() {
-        String prefix = Functions.getAttributeName(type) + " = ";
+        String prefix = Functions.getAttributeNbme(type) + " = ";
         if (type == CKA_CLASS) {
-            return prefix + Functions.getObjectClassName(getLong());
+            return prefix + Functions.getObjectClbssNbme(getLong());
         } else if (type == CKA_KEY_TYPE) {
-            return prefix + Functions.getKeyName(getLong());
+            return prefix + Functions.getKeyNbme(getLong());
         } else {
             String s;
-            if (pValue instanceof char[]) {
-                s = new String((char[])pValue);
-            } else if (pValue instanceof byte[]) {
-                s = Functions.toHexString((byte[])pValue);
+            if (pVblue instbnceof chbr[]) {
+                s = new String((chbr[])pVblue);
+            } else if (pVblue instbnceof byte[]) {
+                s = Functions.toHexString((byte[])pVblue);
             } else {
-                s = String.valueOf(pValue);
+                s = String.vblueOf(pVblue);
             }
             return prefix + s;
         }

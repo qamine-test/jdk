@@ -1,184 +1,184 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package javax.management.openmbean;
+pbckbge jbvbx.mbnbgement.openmbebn;
 
 
-// java import
+// jbvb import
 //
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collections;
+import jbvb.util.Iterbtor;
+import jbvb.util.List;
 
 // jmx import
 //
 
 
 /**
- * The <code>TabularType</code> class is the <i> open type</i> class
- * whose instances describe the types of {@link TabularData TabularData} values.
+ * The <code>TbbulbrType</code> clbss is the <i> open type</i> clbss
+ * whose instbnces describe the types of {@link TbbulbrDbtb TbbulbrDbtb} vblues.
  *
  * @since 1.5
  */
-public class TabularType extends OpenType<TabularData> {
+public clbss TbbulbrType extends OpenType<TbbulbrDbtb> {
 
-    /* Serial version */
-    static final long serialVersionUID = 6554071860220659261L;
+    /* Seribl version */
+    stbtic finbl long seriblVersionUID = 6554071860220659261L;
 
 
     /**
-     * @serial The composite type of rows
+     * @seribl The composite type of rows
      */
-    private CompositeType  rowType;
+    privbte CompositeType  rowType;
 
     /**
-     * @serial The items used to index each row element, kept in the order the user gave
-     *         This is an unmodifiable {@link ArrayList}
+     * @seribl The items used to index ebch row element, kept in the order the user gbve
+     *         This is bn unmodifibble {@link ArrbyList}
      */
-    private List<String> indexNames;
+    privbte List<String> indexNbmes;
 
 
-    private transient Integer myHashCode = null; // As this instance is immutable, these two values
-    private transient String  myToString = null; // need only be calculated once.
+    privbte trbnsient Integer myHbshCode = null; // As this instbnce is immutbble, these two vblues
+    privbte trbnsient String  myToString = null; // need only be cblculbted once.
 
 
     /* *** Constructor *** */
 
     /**
-     * Constructs a <code>TabularType</code> instance, checking for the validity of the given parameters.
-     * The validity constraints are described below for each parameter.
+     * Constructs b <code>TbbulbrType</code> instbnce, checking for the vblidity of the given pbrbmeters.
+     * The vblidity constrbints bre described below for ebch pbrbmeter.
      * <p>
-     * The Java class name of tabular data values this tabular type represents
-     * (ie the class name returned by the {@link OpenType#getClassName() getClassName} method)
-     * is set to the string value returned by <code>TabularData.class.getName()</code>.
+     * The Jbvb clbss nbme of tbbulbr dbtb vblues this tbbulbr type represents
+     * (ie the clbss nbme returned by the {@link OpenType#getClbssNbme() getClbssNbme} method)
+     * is set to the string vblue returned by <code>TbbulbrDbtb.clbss.getNbme()</code>.
      *
-     * @param  typeName  The name given to the tabular type this instance represents; cannot be a null or empty string.
+     * @pbrbm  typeNbme  The nbme given to the tbbulbr type this instbnce represents; cbnnot be b null or empty string.
      * <br>&nbsp;
-     * @param  description  The human readable description of the tabular type this instance represents;
-     *                      cannot be a null or empty string.
+     * @pbrbm  description  The humbn rebdbble description of the tbbulbr type this instbnce represents;
+     *                      cbnnot be b null or empty string.
      * <br>&nbsp;
-     * @param  rowType  The type of the row elements of tabular data values described by this tabular type instance;
-     *                  cannot be null.
+     * @pbrbm  rowType  The type of the row elements of tbbulbr dbtb vblues described by this tbbulbr type instbnce;
+     *                  cbnnot be null.
      * <br>&nbsp;
-     * @param  indexNames  The names of the items the values of which are used to uniquely index each row element in the
-     *                     tabular data values described by this tabular type instance;
-     *                     cannot be null or empty. Each element should be an item name defined in <var>rowType</var>
-     *                     (no null or empty string allowed).
-     *                     It is important to note that the <b>order</b> of the item names in <var>indexNames</var>
-     *                     is used by the methods {@link TabularData#get(java.lang.Object[]) get} and
-     *                     {@link TabularData#remove(java.lang.Object[]) remove} of class
-     *                     <code>TabularData</code> to match their array of values parameter to items.
+     * @pbrbm  indexNbmes  The nbmes of the items the vblues of which bre used to uniquely index ebch row element in the
+     *                     tbbulbr dbtb vblues described by this tbbulbr type instbnce;
+     *                     cbnnot be null or empty. Ebch element should be bn item nbme defined in <vbr>rowType</vbr>
+     *                     (no null or empty string bllowed).
+     *                     It is importbnt to note thbt the <b>order</b> of the item nbmes in <vbr>indexNbmes</vbr>
+     *                     is used by the methods {@link TbbulbrDbtb#get(jbvb.lbng.Object[]) get} bnd
+     *                     {@link TbbulbrDbtb#remove(jbvb.lbng.Object[]) remove} of clbss
+     *                     <code>TbbulbrDbtb</code> to mbtch their brrby of vblues pbrbmeter to items.
      * <br>&nbsp;
-     * @throws IllegalArgumentException  if <var>rowType</var> is null,
-     *                                   or <var>indexNames</var> is a null or empty array,
-     *                                   or an element in <var>indexNames</var> is a null or empty string,
-     *                                   or <var>typeName</var> or <var>description</var> is a null or empty string.
+     * @throws IllegblArgumentException  if <vbr>rowType</vbr> is null,
+     *                                   or <vbr>indexNbmes</vbr> is b null or empty brrby,
+     *                                   or bn element in <vbr>indexNbmes</vbr> is b null or empty string,
+     *                                   or <vbr>typeNbme</vbr> or <vbr>description</vbr> is b null or empty string.
      * <br>&nbsp;
-     * @throws OpenDataException  if an element's value of <var>indexNames</var>
-     *                            is not an item name defined in <var>rowType</var>.
+     * @throws OpenDbtbException  if bn element's vblue of <vbr>indexNbmes</vbr>
+     *                            is not bn item nbme defined in <vbr>rowType</vbr>.
      */
-    public TabularType(String         typeName,
+    public TbbulbrType(String         typeNbme,
                        String         description,
                        CompositeType  rowType,
-                       String[]       indexNames) throws OpenDataException {
+                       String[]       indexNbmes) throws OpenDbtbException {
 
-        // Check and initialize state defined by parent.
+        // Check bnd initiblize stbte defined by pbrent.
         //
-        super(TabularData.class.getName(), typeName, description, false);
+        super(TbbulbrDbtb.clbss.getNbme(), typeNbme, description, fblse);
 
         // Check rowType is not null
         //
         if (rowType == null) {
-            throw new IllegalArgumentException("Argument rowType cannot be null.");
+            throw new IllegblArgumentException("Argument rowType cbnnot be null.");
         }
 
-        // Check indexNames is neither null nor empty and does not contain any null element or empty string
+        // Check indexNbmes is neither null nor empty bnd does not contbin bny null element or empty string
         //
-        checkForNullElement(indexNames, "indexNames");
-        checkForEmptyString(indexNames, "indexNames");
+        checkForNullElement(indexNbmes, "indexNbmes");
+        checkForEmptyString(indexNbmes, "indexNbmes");
 
-        // Check all indexNames values are valid item names for rowType
+        // Check bll indexNbmes vblues bre vblid item nbmes for rowType
         //
-        for (int i=0; i<indexNames.length; i++) {
-            if ( ! rowType.containsKey(indexNames[i]) ) {
-                throw new OpenDataException("Argument's element value indexNames["+ i +"]=\""+ indexNames[i] +
-                                            "\" is not a valid item name for rowType.");
+        for (int i=0; i<indexNbmes.length; i++) {
+            if ( ! rowType.contbinsKey(indexNbmes[i]) ) {
+                throw new OpenDbtbException("Argument's element vblue indexNbmes["+ i +"]=\""+ indexNbmes[i] +
+                                            "\" is not b vblid item nbme for rowType.");
             }
         }
 
-        // initialize rowType
+        // initiblize rowType
         //
         this.rowType    = rowType;
 
-        // initialize indexNames (copy content so that subsequent
-        // modifs to the array referenced by the indexNames parameter
-        // have no impact)
+        // initiblize indexNbmes (copy content so thbt subsequent
+        // modifs to the brrby referenced by the indexNbmes pbrbmeter
+        // hbve no impbct)
         //
-        List<String> tmpList = new ArrayList<String>(indexNames.length + 1);
-        for (int i=0; i<indexNames.length; i++) {
-            tmpList.add(indexNames[i]);
+        List<String> tmpList = new ArrbyList<String>(indexNbmes.length + 1);
+        for (int i=0; i<indexNbmes.length; i++) {
+            tmpList.bdd(indexNbmes[i]);
         }
-        this.indexNames = Collections.unmodifiableList(tmpList);
+        this.indexNbmes = Collections.unmodifibbleList(tmpList);
     }
 
     /**
-     * Checks that Object[] arg is neither null nor empty (ie length==0)
-     * and that it does not contain any null element.
+     * Checks thbt Object[] brg is neither null nor empty (ie length==0)
+     * bnd thbt it does not contbin bny null element.
      */
-    private static void checkForNullElement(Object[] arg, String argName) {
-        if ( (arg == null) || (arg.length == 0) ) {
-            throw new IllegalArgumentException("Argument "+ argName +"[] cannot be null or empty.");
+    privbte stbtic void checkForNullElement(Object[] brg, String brgNbme) {
+        if ( (brg == null) || (brg.length == 0) ) {
+            throw new IllegblArgumentException("Argument "+ brgNbme +"[] cbnnot be null or empty.");
         }
-        for (int i=0; i<arg.length; i++) {
-            if (arg[i] == null) {
-                throw new IllegalArgumentException("Argument's element "+ argName +"["+ i +"] cannot be null.");
+        for (int i=0; i<brg.length; i++) {
+            if (brg[i] == null) {
+                throw new IllegblArgumentException("Argument's element "+ brgNbme +"["+ i +"] cbnnot be null.");
             }
         }
     }
 
     /**
-     * Checks that String[] does not contain any empty (or blank characters only) string.
+     * Checks thbt String[] does not contbin bny empty (or blbnk chbrbcters only) string.
      */
-    private static void checkForEmptyString(String[] arg, String argName) {
-        for (int i=0; i<arg.length; i++) {
-            if (arg[i].trim().equals("")) {
-                throw new IllegalArgumentException("Argument's element "+ argName +"["+ i +"] cannot be an empty string.");
+    privbte stbtic void checkForEmptyString(String[] brg, String brgNbme) {
+        for (int i=0; i<brg.length; i++) {
+            if (brg[i].trim().equbls("")) {
+                throw new IllegblArgumentException("Argument's element "+ brgNbme +"["+ i +"] cbnnot be bn empty string.");
             }
         }
     }
 
 
-    /* *** Tabular type specific information methods *** */
+    /* *** Tbbulbr type specific informbtion methods *** */
 
     /**
-     * Returns the type of the row elements of tabular data values
-     * described by this <code>TabularType</code> instance.
+     * Returns the type of the row elements of tbbulbr dbtb vblues
+     * described by this <code>TbbulbrType</code> instbnce.
      *
-     * @return the type of each row.
+     * @return the type of ebch row.
      */
     public CompositeType getRowType() {
 
@@ -186,193 +186,193 @@ public class TabularType extends OpenType<TabularData> {
     }
 
     /**
-     * <p>Returns, in the same order as was given to this instance's
-     * constructor, an unmodifiable List of the names of the items the
-     * values of which are used to uniquely index each row element of
-     * tabular data values described by this <code>TabularType</code>
-     * instance.</p>
+     * <p>Returns, in the sbme order bs wbs given to this instbnce's
+     * constructor, bn unmodifibble List of the nbmes of the items the
+     * vblues of which bre used to uniquely index ebch row element of
+     * tbbulbr dbtb vblues described by this <code>TbbulbrType</code>
+     * instbnce.</p>
      *
-     * @return a List of String representing the names of the index
+     * @return b List of String representing the nbmes of the index
      * items.
      *
      */
-    public List<String> getIndexNames() {
+    public List<String> getIndexNbmes() {
 
-        return indexNames;
+        return indexNbmes;
     }
 
     /**
-     * Tests whether <var>obj</var> is a value which could be
-     * described by this <code>TabularType</code> instance.
+     * Tests whether <vbr>obj</vbr> is b vblue which could be
+     * described by this <code>TbbulbrType</code> instbnce.
      *
-     * <p>If <var>obj</var> is null or is not an instance of
-     * <code>javax.management.openmbean.TabularData</code>,
-     * <code>isValue</code> returns <code>false</code>.</p>
+     * <p>If <vbr>obj</vbr> is null or is not bn instbnce of
+     * <code>jbvbx.mbnbgement.openmbebn.TbbulbrDbtb</code>,
+     * <code>isVblue</code> returns <code>fblse</code>.</p>
      *
-     * <p>If <var>obj</var> is an instance of
-     * <code>javax.management.openmbean.TabularData</code>, say {@code
-     * td}, the result is true if this {@code TabularType} is
-     * <em>assignable from</em> {@link TabularData#getTabularType()
-     * td.getTabularType()}, as defined in {@link
-     * CompositeType#isValue CompositeType.isValue}.</p>
+     * <p>If <vbr>obj</vbr> is bn instbnce of
+     * <code>jbvbx.mbnbgement.openmbebn.TbbulbrDbtb</code>, sby {@code
+     * td}, the result is true if this {@code TbbulbrType} is
+     * <em>bssignbble from</em> {@link TbbulbrDbtb#getTbbulbrType()
+     * td.getTbbulbrType()}, bs defined in {@link
+     * CompositeType#isVblue CompositeType.isVblue}.</p>
      *
-     * @param obj the value whose open type is to be tested for
-     * compatibility with this <code>TabularType</code> instance.
+     * @pbrbm obj the vblue whose open type is to be tested for
+     * compbtibility with this <code>TbbulbrType</code> instbnce.
      *
-     * @return <code>true</code> if <var>obj</var> is a value for this
-     * tabular type, <code>false</code> otherwise.
+     * @return <code>true</code> if <vbr>obj</vbr> is b vblue for this
+     * tbbulbr type, <code>fblse</code> otherwise.
      */
-    public boolean isValue(Object obj) {
+    public boolebn isVblue(Object obj) {
 
-        // if obj is null or not a TabularData, return false
+        // if obj is null or not b TbbulbrDbtb, return fblse
         //
-        if (!(obj instanceof TabularData))
-            return false;
+        if (!(obj instbnceof TbbulbrDbtb))
+            return fblse;
 
-        // if obj is not a TabularData, return false
+        // if obj is not b TbbulbrDbtb, return fblse
         //
-        TabularData value = (TabularData) obj;
-        TabularType valueType = value.getTabularType();
-        return isAssignableFrom(valueType);
+        TbbulbrDbtb vblue = (TbbulbrDbtb) obj;
+        TbbulbrType vblueType = vblue.getTbbulbrType();
+        return isAssignbbleFrom(vblueType);
     }
 
     @Override
-    boolean isAssignableFrom(OpenType<?> ot) {
-        if (!(ot instanceof TabularType))
-            return false;
-        TabularType tt = (TabularType) ot;
-        if (!getTypeName().equals(tt.getTypeName()) ||
-                !getIndexNames().equals(tt.getIndexNames()))
-            return false;
-        return getRowType().isAssignableFrom(tt.getRowType());
+    boolebn isAssignbbleFrom(OpenType<?> ot) {
+        if (!(ot instbnceof TbbulbrType))
+            return fblse;
+        TbbulbrType tt = (TbbulbrType) ot;
+        if (!getTypeNbme().equbls(tt.getTypeNbme()) ||
+                !getIndexNbmes().equbls(tt.getIndexNbmes()))
+            return fblse;
+        return getRowType().isAssignbbleFrom(tt.getRowType());
     }
 
 
-    /* *** Methods overriden from class Object *** */
+    /* *** Methods overriden from clbss Object *** */
 
     /**
-     * Compares the specified <code>obj</code> parameter with this <code>TabularType</code> instance for equality.
+     * Compbres the specified <code>obj</code> pbrbmeter with this <code>TbbulbrType</code> instbnce for equblity.
      * <p>
-     * Two <code>TabularType</code> instances are equal if and only if all of the following statements are true:
+     * Two <code>TbbulbrType</code> instbnces bre equbl if bnd only if bll of the following stbtements bre true:
      * <ul>
-     * <li>their type names are equal</li>
-     * <li>their row types are equal</li>
-     * <li>they use the same index names, in the same order</li>
+     * <li>their type nbmes bre equbl</li>
+     * <li>their row types bre equbl</li>
+     * <li>they use the sbme index nbmes, in the sbme order</li>
      * </ul>
      * <br>&nbsp;
-     * @param  obj  the object to be compared for equality with this <code>TabularType</code> instance;
-     *              if <var>obj</var> is <code>null</code>, <code>equals</code> returns <code>false</code>.
+     * @pbrbm  obj  the object to be compbred for equblity with this <code>TbbulbrType</code> instbnce;
+     *              if <vbr>obj</vbr> is <code>null</code>, <code>equbls</code> returns <code>fblse</code>.
      *
-     * @return  <code>true</code> if the specified object is equal to this <code>TabularType</code> instance.
+     * @return  <code>true</code> if the specified object is equbl to this <code>TbbulbrType</code> instbnce.
      */
-    public boolean equals(Object obj) {
+    public boolebn equbls(Object obj) {
 
-        // if obj is null, return false
+        // if obj is null, return fblse
         //
         if (obj == null) {
-            return false;
+            return fblse;
         }
 
-        // if obj is not a TabularType, return false
+        // if obj is not b TbbulbrType, return fblse
         //
-        TabularType other;
+        TbbulbrType other;
         try {
-            other = (TabularType) obj;
-        } catch (ClassCastException e) {
-            return false;
+            other = (TbbulbrType) obj;
+        } cbtch (ClbssCbstException e) {
+            return fblse;
         }
 
-        // Now, really test for equality between this TabularType instance and the other:
+        // Now, reblly test for equblity between this TbbulbrType instbnce bnd the other:
         //
 
-        // their names should be equal
-        if ( ! this.getTypeName().equals(other.getTypeName()) ) {
-            return false;
+        // their nbmes should be equbl
+        if ( ! this.getTypeNbme().equbls(other.getTypeNbme()) ) {
+            return fblse;
         }
 
-        // their row types should be equal
-        if ( ! this.rowType.equals(other.rowType) ) {
-            return false;
+        // their row types should be equbl
+        if ( ! this.rowType.equbls(other.rowType) ) {
+            return fblse;
         }
 
-        // their index names should be equal and in the same order (ensured by List.equals())
-        if ( ! this.indexNames.equals(other.indexNames) ) {
-            return false;
+        // their index nbmes should be equbl bnd in the sbme order (ensured by List.equbls())
+        if ( ! this.indexNbmes.equbls(other.indexNbmes) ) {
+            return fblse;
         }
 
-        // All tests for equality were successfull
+        // All tests for equblity were successfull
         //
         return true;
     }
 
     /**
-     * Returns the hash code value for this <code>TabularType</code> instance.
+     * Returns the hbsh code vblue for this <code>TbbulbrType</code> instbnce.
      * <p>
-     * The hash code of a <code>TabularType</code> instance is the sum of the hash codes
-     * of all elements of information used in <code>equals</code> comparisons
-     * (ie: name, row type, index names).
-     * This ensures that <code> t1.equals(t2) </code> implies that <code> t1.hashCode()==t2.hashCode() </code>
-     * for any two <code>TabularType</code> instances <code>t1</code> and <code>t2</code>,
-     * as required by the general contract of the method
-     * {@link Object#hashCode() Object.hashCode()}.
+     * The hbsh code of b <code>TbbulbrType</code> instbnce is the sum of the hbsh codes
+     * of bll elements of informbtion used in <code>equbls</code> compbrisons
+     * (ie: nbme, row type, index nbmes).
+     * This ensures thbt <code> t1.equbls(t2) </code> implies thbt <code> t1.hbshCode()==t2.hbshCode() </code>
+     * for bny two <code>TbbulbrType</code> instbnces <code>t1</code> bnd <code>t2</code>,
+     * bs required by the generbl contrbct of the method
+     * {@link Object#hbshCode() Object.hbshCode()}.
      * <p>
-     * As <code>TabularType</code> instances are immutable, the hash code for this instance is calculated once,
-     * on the first call to <code>hashCode</code>, and then the same value is returned for subsequent calls.
+     * As <code>TbbulbrType</code> instbnces bre immutbble, the hbsh code for this instbnce is cblculbted once,
+     * on the first cbll to <code>hbshCode</code>, bnd then the sbme vblue is returned for subsequent cblls.
      *
-     * @return  the hash code value for this <code>TabularType</code> instance
+     * @return  the hbsh code vblue for this <code>TbbulbrType</code> instbnce
      */
-    public int hashCode() {
+    public int hbshCode() {
 
-        // Calculate the hash code value if it has not yet been done (ie 1st call to hashCode())
+        // Cblculbte the hbsh code vblue if it hbs not yet been done (ie 1st cbll to hbshCode())
         //
-        if (myHashCode == null) {
-            int value = 0;
-            value += this.getTypeName().hashCode();
-            value += this.rowType.hashCode();
-            for (String index : indexNames)
-                value += index.hashCode();
-            myHashCode = Integer.valueOf(value);
+        if (myHbshCode == null) {
+            int vblue = 0;
+            vblue += this.getTypeNbme().hbshCode();
+            vblue += this.rowType.hbshCode();
+            for (String index : indexNbmes)
+                vblue += index.hbshCode();
+            myHbshCode = Integer.vblueOf(vblue);
         }
 
-        // return always the same hash code for this instance (immutable)
+        // return blwbys the sbme hbsh code for this instbnce (immutbble)
         //
-        return myHashCode.intValue();
+        return myHbshCode.intVblue();
     }
 
     /**
-     * Returns a string representation of this <code>TabularType</code> instance.
+     * Returns b string representbtion of this <code>TbbulbrType</code> instbnce.
      * <p>
-     * The string representation consists of the name of this class (ie <code>javax.management.openmbean.TabularType</code>),
-     * the type name for this instance, the row type string representation of this instance,
-     * and the index names of this instance.
+     * The string representbtion consists of the nbme of this clbss (ie <code>jbvbx.mbnbgement.openmbebn.TbbulbrType</code>),
+     * the type nbme for this instbnce, the row type string representbtion of this instbnce,
+     * bnd the index nbmes of this instbnce.
      * <p>
-     * As <code>TabularType</code> instances are immutable, the string representation for this instance is calculated once,
-     * on the first call to <code>toString</code>, and then the same value is returned for subsequent calls.
+     * As <code>TbbulbrType</code> instbnces bre immutbble, the string representbtion for this instbnce is cblculbted once,
+     * on the first cbll to <code>toString</code>, bnd then the sbme vblue is returned for subsequent cblls.
      *
-     * @return  a string representation of this <code>TabularType</code> instance
+     * @return  b string representbtion of this <code>TbbulbrType</code> instbnce
      */
     public String toString() {
 
-        // Calculate the string representation if it has not yet been done (ie 1st call to toString())
+        // Cblculbte the string representbtion if it hbs not yet been done (ie 1st cbll to toString())
         //
         if (myToString == null) {
-            final StringBuilder result = new StringBuilder()
-                .append(this.getClass().getName())
-                .append("(name=")
-                .append(getTypeName())
-                .append(",rowType=")
-                .append(rowType.toString())
-                .append(",indexNames=(");
+            finbl StringBuilder result = new StringBuilder()
+                .bppend(this.getClbss().getNbme())
+                .bppend("(nbme=")
+                .bppend(getTypeNbme())
+                .bppend(",rowType=")
+                .bppend(rowType.toString())
+                .bppend(",indexNbmes=(");
             String sep = "";
-            for (String index : indexNames) {
-                result.append(sep).append(index);
+            for (String index : indexNbmes) {
+                result.bppend(sep).bppend(index);
                 sep = ",";
             }
-            result.append("))");
+            result.bppend("))");
             myToString = result.toString();
         }
 
-        // return always the same string representation for this instance (immutable)
+        // return blwbys the sbme string representbtion for this instbnce (immutbble)
         //
         return myToString;
     }

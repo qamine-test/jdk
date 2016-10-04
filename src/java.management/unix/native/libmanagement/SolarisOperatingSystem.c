@@ -1,30 +1,30 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 #include <fcntl.h>
-#include <kstat.h>
+#include <kstbt.h>
 #include <procfs.h>
 #include <unistd.h>
 #include <stdlib.h>
@@ -32,27 +32,27 @@
 #include <string.h>
 #include <sys/sysinfo.h>
 #include <sys/lwp.h>
-#include <pthread.h>
+#include <pthrebd.h>
 #include <utmpx.h>
 #include <dlfcn.h>
-#include <sys/loadavg.h>
+#include <sys/lobdbvg.h>
 #include <jni.h>
 #include "jvm.h"
-#include "sun_management_OperatingSystemImpl.h"
+#include "sun_mbnbgement_OperbtingSystemImpl.h"
 
 typedef struct {
-    kstat_t *kstat;
-    uint64_t  last_idle;
-    uint64_t  last_total;
-    double  last_ratio;
-} cpuload_t;
+    kstbt_t *kstbt;
+    uint64_t  lbst_idle;
+    uint64_t  lbst_totbl;
+    double  lbst_rbtio;
+} cpulobd_t;
 
-static cpuload_t   *cpu_loads = NULL;
-static unsigned int num_cpus;
-static kstat_ctl_t *kstat_ctrl = NULL;
+stbtic cpulobd_t   *cpu_lobds = NULL;
+stbtic unsigned int num_cpus;
+stbtic kstbt_ctl_t *kstbt_ctrl = NULL;
 
-static void map_cpu_kstat_counters() {
-    kstat_t     *kstat;
+stbtic void mbp_cpu_kstbt_counters() {
+    kstbt_t     *kstbt;
     int          i;
 
     // Get number of CPU(s)
@@ -60,165 +60,165 @@ static void map_cpu_kstat_counters() {
         num_cpus = 1;
     }
 
-    // Data structure for saving CPU load
-    if ((cpu_loads = calloc(num_cpus,sizeof(cpuload_t))) == NULL) {
+    // Dbtb structure for sbving CPU lobd
+    if ((cpu_lobds = cblloc(num_cpus,sizeof(cpulobd_t))) == NULL) {
         return;
     }
 
-    // Get kstat cpu_stat counters for every CPU
-    // (loop over kstat to find our cpu_stat(s)
+    // Get kstbt cpu_stbt counters for every CPU
+    // (loop over kstbt to find our cpu_stbt(s)
     i = 0;
-    for (kstat = kstat_ctrl->kc_chain; kstat != NULL; kstat = kstat->ks_next) {
-        if (strncmp(kstat->ks_module, "cpu_stat", 8) == 0) {
+    for (kstbt = kstbt_ctrl->kc_chbin; kstbt != NULL; kstbt = kstbt->ks_next) {
+        if (strncmp(kstbt->ks_module, "cpu_stbt", 8) == 0) {
 
-            if (kstat_read(kstat_ctrl, kstat, NULL) == -1) {
-            // Failed to initialize kstat for this CPU so ignore it
+            if (kstbt_rebd(kstbt_ctrl, kstbt, NULL) == -1) {
+            // Fbiled to initiblize kstbt for this CPU so ignore it
             continue;
             }
 
             if (i == num_cpus) {
-            // Found more cpu_stats than reported CPUs
-            break;
+            // Found more cpu_stbts thbn reported CPUs
+            brebk;
             }
 
-            cpu_loads[i++].kstat = kstat;
+            cpu_lobds[i++].kstbt = kstbt;
         }
     }
 }
 
-static int init_cpu_kstat_counters() {
-    static int initialized = 0;
+stbtic int init_cpu_kstbt_counters() {
+    stbtic int initiblized = 0;
 
     // Concurrence in this method is prevented by the lock in
-    // the calling method get_cpu_load();
-    if(!initialized) {
-        if ((kstat_ctrl = kstat_open()) != NULL) {
-            map_cpu_kstat_counters();
-            initialized = 1;
+    // the cblling method get_cpu_lobd();
+    if(!initiblized) {
+        if ((kstbt_ctrl = kstbt_open()) != NULL) {
+            mbp_cpu_kstbt_counters();
+            initiblized = 1;
         }
     }
-    return initialized ? 0 : -1;
+    return initiblized ? 0 : -1;
 }
 
-static void update_cpu_kstat_counters() {
-    if(kstat_chain_update(kstat_ctrl) != 0) {
-        free(cpu_loads);
-        map_cpu_kstat_counters();
+stbtic void updbte_cpu_kstbt_counters() {
+    if(kstbt_chbin_updbte(kstbt_ctrl) != 0) {
+        free(cpu_lobds);
+        mbp_cpu_kstbt_counters();
     }
 }
 
-int read_cpustat(cpuload_t *load, cpu_stat_t *cpu_stat) {
-    if (load->kstat == NULL) {
-        // no handle.
+int rebd_cpustbt(cpulobd_t *lobd, cpu_stbt_t *cpu_stbt) {
+    if (lobd->kstbt == NULL) {
+        // no hbndle.
         return -1;
     }
-    if (kstat_read(kstat_ctrl, load->kstat, cpu_stat) == -1) {
-        //  disabling for now, a kstat chain update is likely to happen next time
-        load->kstat = NULL;
+    if (kstbt_rebd(kstbt_ctrl, lobd->kstbt, cpu_stbt) == -1) {
+        //  disbbling for now, b kstbt chbin updbte is likely to hbppen next time
+        lobd->kstbt = NULL;
         return -1;
     }
     return 0;
 }
 
-double get_single_cpu_load(unsigned int n) {
-    cpuload_t  *load;
-    cpu_stat_t  cpu_stat;
-    uint_t     *usage;
+double get_single_cpu_lobd(unsigned int n) {
+    cpulobd_t  *lobd;
+    cpu_stbt_t  cpu_stbt;
+    uint_t     *usbge;
     uint64_t          c_idle;
-    uint64_t          c_total;
+    uint64_t          c_totbl;
     uint64_t          d_idle;
-    uint64_t          d_total;
+    uint64_t          d_totbl;
     int           i;
 
     if (n >= num_cpus) {
         return -1.0;
     }
 
-    load = &cpu_loads[n];
-    if (read_cpustat(load, &cpu_stat) < 0) {
+    lobd = &cpu_lobds[n];
+    if (rebd_cpustbt(lobd, &cpu_stbt) < 0) {
         return -1.0;
     }
 
-    usage   = cpu_stat.cpu_sysinfo.cpu;
-    c_idle  = usage[CPU_IDLE];
+    usbge   = cpu_stbt.cpu_sysinfo.cpu;
+    c_idle  = usbge[CPU_IDLE];
 
-    for (c_total = 0, i = 0; i < CPU_STATES; i++) {
-        c_total += usage[i];
+    for (c_totbl = 0, i = 0; i < CPU_STATES; i++) {
+        c_totbl += usbge[i];
     }
 
-    // Calculate diff against previous snapshot
-    d_idle  = c_idle - load->last_idle;
-    d_total = c_total - load->last_total;
+    // Cblculbte diff bgbinst previous snbpshot
+    d_idle  = c_idle - lobd->lbst_idle;
+    d_totbl = c_totbl - lobd->lbst_totbl;
 
-    /** update if weve moved */
-    if (d_total > 0) {
-        // Save current values for next time around
-        load->last_idle  = c_idle;
-        load->last_total = c_total;
-        load->last_ratio = (double) (d_total - d_idle) / d_total;
+    /** updbte if weve moved */
+    if (d_totbl > 0) {
+        // Sbve current vblues for next time bround
+        lobd->lbst_idle  = c_idle;
+        lobd->lbst_totbl = c_totbl;
+        lobd->lbst_rbtio = (double) (d_totbl - d_idle) / d_totbl;
     }
 
-    return load->last_ratio;
+    return lobd->lbst_rbtio;
 }
 
-int get_info(const char *path, void *info, size_t s, off_t o) {
+int get_info(const chbr *pbth, void *info, size_t s, off_t o) {
     int fd;
     int ret = 0;
-    if ((fd = open(path, O_RDONLY)) < 0) {
+    if ((fd = open(pbth, O_RDONLY)) < 0) {
         return -1;
     }
-    if (pread(fd, info, s, o) != s) {
+    if (prebd(fd, info, s, o) != s) {
         ret = -1;
     }
     close(fd);
     return ret;
 }
 
-#define MIN(a, b)           ((a < b) ? a : b)
+#define MIN(b, b)           ((b < b) ? b : b)
 
-static pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
+stbtic pthrebd_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
 
 /**
- * Return the cpu load (0-1) for proc number 'which' (or average all if which == -1)
+ * Return the cpu lobd (0-1) for proc number 'which' (or bverbge bll if which == -1)
  */
-double  get_cpu_load(int which) {
-    double load =.0;
+double  get_cpu_lobd(int which) {
+    double lobd =.0;
 
-    pthread_mutex_lock(&lock);
-    if(init_cpu_kstat_counters()==0) {
+    pthrebd_mutex_lock(&lock);
+    if(init_cpu_kstbt_counters()==0) {
 
-        update_cpu_kstat_counters();
+        updbte_cpu_kstbt_counters();
 
         if (which == -1) {
             unsigned int i;
             double       t;
 
             for (t = .0, i = 0; i < num_cpus; i++) {
-                t += get_single_cpu_load(i);
+                t += get_single_cpu_lobd(i);
             }
 
-            // Cap total systemload to 1.0
-            load = MIN((t / num_cpus), 1.0);
+            // Cbp totbl systemlobd to 1.0
+            lobd = MIN((t / num_cpus), 1.0);
         } else {
-            load = MIN(get_single_cpu_load(which), 1.0);
+            lobd = MIN(get_single_cpu_lobd(which), 1.0);
         }
     } else {
-        load = -1.0;
+        lobd = -1.0;
     }
-    pthread_mutex_unlock(&lock);
+    pthrebd_mutex_unlock(&lock);
 
-    return load;
+    return lobd;
 }
 
 /**
- * Return the cpu load (0-1) for the current process (i.e the JVM)
- * or -1.0 if the get_info() call failed
+ * Return the cpu lobd (0-1) for the current process (i.e the JVM)
+ * or -1.0 if the get_info() cbll fbiled
  */
-double get_process_load(void) {
+double get_process_lobd(void) {
     psinfo_t info;
 
-    // Get the percentage of "recent cpu usage" from all the lwp:s in the JVM:s
-    // process. This is returned as a value between 0.0 and 1.0 multiplied by 0x8000.
+    // Get the percentbge of "recent cpu usbge" from bll the lwp:s in the JVM:s
+    // process. This is returned bs b vblue between 0.0 bnd 1.0 multiplied by 0x8000.
     if (get_info("/proc/self/psinfo",&info.pr_pctcpu, sizeof(info.pr_pctcpu), offsetof(psinfo_t, pr_pctcpu)) == 0) {
         return (double) info.pr_pctcpu / 0x8000;
     }
@@ -226,16 +226,16 @@ double get_process_load(void) {
 }
 
 JNIEXPORT jdouble JNICALL
-Java_sun_management_OperatingSystemImpl_getSystemCpuLoad0
+Jbvb_sun_mbnbgement_OperbtingSystemImpl_getSystemCpuLobd0
 (JNIEnv *env, jobject dummy)
 {
-    return get_cpu_load(-1);
+    return get_cpu_lobd(-1);
 }
 
 JNIEXPORT jdouble JNICALL
-Java_sun_management_OperatingSystemImpl_getProcessCpuLoad0
+Jbvb_sun_mbnbgement_OperbtingSystemImpl_getProcessCpuLobd0
 (JNIEnv *env, jobject dummy)
 {
-    return get_process_load();
+    return get_process_lobd();
 }
 

@@ -1,265 +1,265 @@
 /*
- * Copyright (c) 2002, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.awt.X11;
+pbckbge sun.bwt.X11;
 
-import java.awt.*;
-import java.awt.event.InputEvent;
-import java.awt.event.MouseEvent;
-import java.awt.event.KeyEvent;
-import java.awt.datatransfer.Clipboard;
-import java.awt.dnd.DragSource;
-import java.awt.dnd.DragGestureListener;
-import java.awt.dnd.DragGestureEvent;
-import java.awt.dnd.DragGestureRecognizer;
-import java.awt.dnd.MouseDragGestureRecognizer;
-import java.awt.dnd.InvalidDnDOperationException;
-import java.awt.dnd.peer.DragSourceContextPeer;
-import java.awt.font.TextAttribute;
-import java.awt.im.InputMethodHighlight;
-import java.awt.im.spi.InputMethodDescriptor;
-import java.awt.image.ColorModel;
-import java.awt.peer.*;
-import java.beans.PropertyChangeListener;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.util.*;
-import javax.swing.LookAndFeel;
-import javax.swing.UIDefaults;
-import sun.awt.*;
-import sun.awt.datatransfer.DataTransferer;
-import sun.font.FontConfigManager;
-import sun.java2d.SunGraphicsEnvironment;
+import jbvb.bwt.*;
+import jbvb.bwt.event.InputEvent;
+import jbvb.bwt.event.MouseEvent;
+import jbvb.bwt.event.KeyEvent;
+import jbvb.bwt.dbtbtrbnsfer.Clipbobrd;
+import jbvb.bwt.dnd.DrbgSource;
+import jbvb.bwt.dnd.DrbgGestureListener;
+import jbvb.bwt.dnd.DrbgGestureEvent;
+import jbvb.bwt.dnd.DrbgGestureRecognizer;
+import jbvb.bwt.dnd.MouseDrbgGestureRecognizer;
+import jbvb.bwt.dnd.InvblidDnDOperbtionException;
+import jbvb.bwt.dnd.peer.DrbgSourceContextPeer;
+import jbvb.bwt.font.TextAttribute;
+import jbvb.bwt.im.InputMethodHighlight;
+import jbvb.bwt.im.spi.InputMethodDescriptor;
+import jbvb.bwt.imbge.ColorModel;
+import jbvb.bwt.peer.*;
+import jbvb.bebns.PropertyChbngeListener;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import jbvb.util.*;
+import jbvbx.swing.LookAndFeel;
+import jbvbx.swing.UIDefbults;
+import sun.bwt.*;
+import sun.bwt.dbtbtrbnsfer.DbtbTrbnsferer;
+import sun.font.FontConfigMbnbger;
+import sun.jbvb2d.SunGrbphicsEnvironment;
 import sun.misc.*;
-import sun.awt.util.ThreadGroupUtils;
+import sun.bwt.util.ThrebdGroupUtils;
 import sun.print.PrintJob2D;
-import sun.security.action.GetPropertyAction;
-import sun.security.action.GetBooleanAction;
-import sun.util.logging.PlatformLogger;
+import sun.security.bction.GetPropertyAction;
+import sun.security.bction.GetBoolebnAction;
+import sun.util.logging.PlbtformLogger;
 
-public final class XToolkit extends UNIXToolkit implements Runnable {
-    private static final PlatformLogger log = PlatformLogger.getLogger("sun.awt.X11.XToolkit");
-    private static final PlatformLogger eventLog = PlatformLogger.getLogger("sun.awt.X11.event.XToolkit");
-    private static final PlatformLogger timeoutTaskLog = PlatformLogger.getLogger("sun.awt.X11.timeoutTask.XToolkit");
-    private static final PlatformLogger keyEventLog = PlatformLogger.getLogger("sun.awt.X11.kye.XToolkit");
-    private static final PlatformLogger backingStoreLog = PlatformLogger.getLogger("sun.awt.X11.backingStore.XToolkit");
+public finbl clbss XToolkit extends UNIXToolkit implements Runnbble {
+    privbte stbtic finbl PlbtformLogger log = PlbtformLogger.getLogger("sun.bwt.X11.XToolkit");
+    privbte stbtic finbl PlbtformLogger eventLog = PlbtformLogger.getLogger("sun.bwt.X11.event.XToolkit");
+    privbte stbtic finbl PlbtformLogger timeoutTbskLog = PlbtformLogger.getLogger("sun.bwt.X11.timeoutTbsk.XToolkit");
+    privbte stbtic finbl PlbtformLogger keyEventLog = PlbtformLogger.getLogger("sun.bwt.X11.kye.XToolkit");
+    privbte stbtic finbl PlbtformLogger bbckingStoreLog = PlbtformLogger.getLogger("sun.bwt.X11.bbckingStore.XToolkit");
 
-    //There is 400 ms is set by default on Windows and 500 by default on KDE and GNOME.
-    //We use the same hardcoded constant.
-    private final static int AWT_MULTICLICK_DEFAULT_TIME = 500;
+    //There is 400 ms is set by defbult on Windows bnd 500 by defbult on KDE bnd GNOME.
+    //We use the sbme hbrdcoded constbnt.
+    privbte finbl stbtic int AWT_MULTICLICK_DEFAULT_TIME = 500;
 
-    static final boolean PRIMARY_LOOP = false;
-    static final boolean SECONDARY_LOOP = true;
+    stbtic finbl boolebn PRIMARY_LOOP = fblse;
+    stbtic finbl boolebn SECONDARY_LOOP = true;
 
-    private static String awtAppClassName = null;
+    privbte stbtic String bwtAppClbssNbme = null;
 
-    // the system clipboard - CLIPBOARD selection
-    XClipboard clipboard;
+    // the system clipbobrd - CLIPBOARD selection
+    XClipbobrd clipbobrd;
     // the system selection - PRIMARY selection
-    XClipboard selection;
+    XClipbobrd selection;
 
-    // Dynamic Layout Resize client code setting
-    protected static boolean dynamicLayoutSetting = false;
+    // Dynbmic Lbyout Resize client code setting
+    protected stbtic boolebn dynbmicLbyoutSetting = fblse;
 
-    //Is it allowed to generate events assigned to extra mouse buttons.
-    //Set to true by default.
-    private static boolean areExtraMouseButtonsEnabled = true;
+    //Is it bllowed to generbte events bssigned to extrb mouse buttons.
+    //Set to true by defbult.
+    privbte stbtic boolebn breExtrbMouseButtonsEnbbled = true;
 
     /**
-     * True when the x settings have been loaded.
+     * True when the x settings hbve been lobded.
      */
-    private boolean loadedXSettings;
+    privbte boolebn lobdedXSettings;
 
     /**
-    * XSETTINGS for the default screen.
+    * XSETTINGS for the defbult screen.
      * <p>
      */
-    private XSettings xs;
+    privbte XSettings xs;
 
-    private FontConfigManager fcManager = new FontConfigManager();
+    privbte FontConfigMbnbger fcMbnbger = new FontConfigMbnbger();
 
-    static int arrowCursor;
-    static TreeMap<Long, XBaseWindow> winMap = new TreeMap<>();
-    static HashMap<Object, Object> specialPeerMap = new HashMap<>();
-    static HashMap<Long, Collection<XEventDispatcher>> winToDispatcher = new HashMap<>();
-    private static long _display;
-    static UIDefaults uidefaults;
-    static X11GraphicsEnvironment localEnv;
-    static X11GraphicsDevice device;
-    static final X11GraphicsConfig config;
-    static int awt_multiclick_time;
-    static boolean securityWarningEnabled;
+    stbtic int brrowCursor;
+    stbtic TreeMbp<Long, XBbseWindow> winMbp = new TreeMbp<>();
+    stbtic HbshMbp<Object, Object> speciblPeerMbp = new HbshMbp<>();
+    stbtic HbshMbp<Long, Collection<XEventDispbtcher>> winToDispbtcher = new HbshMbp<>();
+    privbte stbtic long _displby;
+    stbtic UIDefbults uidefbults;
+    stbtic X11GrbphicsEnvironment locblEnv;
+    stbtic X11GrbphicsDevice device;
+    stbtic finbl X11GrbphicsConfig config;
+    stbtic int bwt_multiclick_time;
+    stbtic boolebn securityWbrningEnbbled;
 
-    private static volatile int screenWidth = -1, screenHeight = -1; // Dimensions of default screen
-    static long awt_defaultFg; // Pixel
-    private static XMouseInfoPeer xPeer;
+    privbte stbtic volbtile int screenWidth = -1, screenHeight = -1; // Dimensions of defbult screen
+    stbtic long bwt_defbultFg; // Pixel
+    privbte stbtic XMouseInfoPeer xPeer;
 
-    static {
-        initSecurityWarning();
-        if (GraphicsEnvironment.isHeadless()) {
+    stbtic {
+        initSecurityWbrning();
+        if (GrbphicsEnvironment.isHebdless()) {
             config = null;
         } else {
-            localEnv = (X11GraphicsEnvironment) GraphicsEnvironment
-                .getLocalGraphicsEnvironment();
-            device = (X11GraphicsDevice) localEnv.getDefaultScreenDevice();
-            config = (X11GraphicsConfig) (device.getDefaultConfiguration());
+            locblEnv = (X11GrbphicsEnvironment) GrbphicsEnvironment
+                .getLocblGrbphicsEnvironment();
+            device = (X11GrbphicsDevice) locblEnv.getDefbultScreenDevice();
+            config = (X11GrbphicsConfig) (device.getDefbultConfigurbtion());
             if (device != null) {
-                _display = device.getDisplay();
+                _displby = device.getDisplby();
             }
-            setupModifierMap();
+            setupModifierMbp();
             initIDs();
-            setBackingStoreType();
+            setBbckingStoreType();
         }
     }
 
     /*
-     * Return (potentially) platform specific display timeout for the
-     * tray icon
+     * Return (potentiblly) plbtform specific displby timeout for the
+     * trby icon
      */
-    static native long getTrayIconDisplayTimeout();
+    stbtic nbtive long getTrbyIconDisplbyTimeout();
 
-    private native static void initIDs();
-    native static void waitForEvents(long nextTaskTime);
-    static Thread toolkitThread;
-    static boolean isToolkitThread() {
-        return Thread.currentThread() == toolkitThread;
+    privbte nbtive stbtic void initIDs();
+    nbtive stbtic void wbitForEvents(long nextTbskTime);
+    stbtic Threbd toolkitThrebd;
+    stbtic boolebn isToolkitThrebd() {
+        return Threbd.currentThrebd() == toolkitThrebd;
     }
 
-    static void initSecurityWarning() {
-        // Enable warning only for internal builds
+    stbtic void initSecurityWbrning() {
+        // Enbble wbrning only for internbl builds
         String runtime = AccessController.doPrivileged(
-                             new GetPropertyAction("java.runtime.version"));
-        securityWarningEnabled = (runtime != null && runtime.contains("internal"));
+                             new GetPropertyAction("jbvb.runtime.version"));
+        securityWbrningEnbbled = (runtime != null && runtime.contbins("internbl"));
     }
 
-    static boolean isSecurityWarningEnabled() {
-        return securityWarningEnabled;
+    stbtic boolebn isSecurityWbrningEnbbled() {
+        return securityWbrningEnbbled;
     }
 
-    static native void awt_output_flush();
+    stbtic nbtive void bwt_output_flush();
 
-    static final void  awtFUnlock() {
-        awtUnlock();
-        awt_output_flush();
+    stbtic finbl void  bwtFUnlock() {
+        bwtUnlock();
+        bwt_output_flush();
     }
 
 
-    public native void nativeLoadSystemColors(int[] systemColors);
+    public nbtive void nbtiveLobdSystemColors(int[] systemColors);
 
-    static UIDefaults getUIDefaults() {
-        if (uidefaults == null) {
-            initUIDefaults();
+    stbtic UIDefbults getUIDefbults() {
+        if (uidefbults == null) {
+            initUIDefbults();
         }
-        return uidefaults;
+        return uidefbults;
     }
 
-    public void loadSystemColors(int[] systemColors) {
-        nativeLoadSystemColors(systemColors);
-        MotifColorUtilities.loadSystemColors(systemColors);
+    public void lobdSystemColors(int[] systemColors) {
+        nbtiveLobdSystemColors(systemColors);
+        MotifColorUtilities.lobdSystemColors(systemColors);
     }
 
 
 
-    static void initUIDefaults() {
+    stbtic void initUIDefbults() {
         try {
-            // Load Defaults from MotifLookAndFeel
+            // Lobd Defbults from MotifLookAndFeel
 
-            // This dummy load is necessary to get SystemColor initialized. !!!!!!
+            // This dummy lobd is necessbry to get SystemColor initiblized. !!!!!!
             Color c = SystemColor.text;
 
             LookAndFeel lnf = new XAWTLookAndFeel();
-            uidefaults = lnf.getDefaults();
+            uidefbults = lnf.getDefbults();
         }
-        catch (Exception e)
+        cbtch (Exception e)
         {
-            e.printStackTrace();
+            e.printStbckTrbce();
         }
     }
 
-    static Object displayLock = new Object();
+    stbtic Object displbyLock = new Object();
 
-    public static long getDisplay() {
-        return _display;
+    public stbtic long getDisplby() {
+        return _displby;
     }
 
-    public static long getDefaultRootWindow() {
-        awtLock();
+    public stbtic long getDefbultRootWindow() {
+        bwtLock();
         try {
-            long res = XlibWrapper.RootWindow(XToolkit.getDisplay(),
-                XlibWrapper.DefaultScreen(XToolkit.getDisplay()));
+            long res = XlibWrbpper.RootWindow(XToolkit.getDisplby(),
+                XlibWrbpper.DefbultScreen(XToolkit.getDisplby()));
 
             if (res == 0) {
-               throw new IllegalStateException("Root window must not be null");
+               throw new IllegblStbteException("Root window must not be null");
             }
             return res;
-        } finally {
-            awtUnlock();
+        } finblly {
+            bwtUnlock();
         }
     }
 
     void init() {
-        awtLock();
+        bwtLock();
         try {
-            XlibWrapper.XSupportsLocale();
-            if (XlibWrapper.XSetLocaleModifiers("") == null) {
-                log.finer("X locale modifiers are not supported, using default");
+            XlibWrbpper.XSupportsLocble();
+            if (XlibWrbpper.XSetLocbleModifiers("") == null) {
+                log.finer("X locble modifiers bre not supported, using defbult");
             }
             tryXKB();
 
-            AwtScreenData defaultScreen = new AwtScreenData(XToolkit.getDefaultScreenData());
-            awt_defaultFg = defaultScreen.get_blackpixel();
+            AwtScreenDbtb defbultScreen = new AwtScreenDbtb(XToolkit.getDefbultScreenDbtb());
+            bwt_defbultFg = defbultScreen.get_blbckpixel();
 
-            arrowCursor = XlibWrapper.XCreateFontCursor(XToolkit.getDisplay(),
-                XCursorFontConstants.XC_arrow);
-            areExtraMouseButtonsEnabled = Boolean.parseBoolean(System.getProperty("sun.awt.enableExtraMouseButtons", "true"));
-            //set system property if not yet assigned
-            System.setProperty("sun.awt.enableExtraMouseButtons", ""+areExtraMouseButtonsEnabled);
+            brrowCursor = XlibWrbpper.XCrebteFontCursor(XToolkit.getDisplby(),
+                XCursorFontConstbnts.XC_brrow);
+            breExtrbMouseButtonsEnbbled = Boolebn.pbrseBoolebn(System.getProperty("sun.bwt.enbbleExtrbMouseButtons", "true"));
+            //set system property if not yet bssigned
+            System.setProperty("sun.bwt.enbbleExtrbMouseButtons", ""+breExtrbMouseButtonsEnbbled);
 
-            // Detect display mode changes
-            XlibWrapper.XSelectInput(XToolkit.getDisplay(), XToolkit.getDefaultRootWindow(), XConstants.StructureNotifyMask);
-            XToolkit.addEventDispatcher(XToolkit.getDefaultRootWindow(), new XEventDispatcher() {
+            // Detect displby mode chbnges
+            XlibWrbpper.XSelectInput(XToolkit.getDisplby(), XToolkit.getDefbultRootWindow(), XConstbnts.StructureNotifyMbsk);
+            XToolkit.bddEventDispbtcher(XToolkit.getDefbultRootWindow(), new XEventDispbtcher() {
                 @Override
-                public void dispatchEvent(XEvent ev) {
-                    if (ev.get_type() == XConstants.ConfigureNotify) {
-                        awtUnlock();
+                public void dispbtchEvent(XEvent ev) {
+                    if (ev.get_type() == XConstbnts.ConfigureNotify) {
+                        bwtUnlock();
                         try {
-                            ((X11GraphicsEnvironment)GraphicsEnvironment.
-                             getLocalGraphicsEnvironment()).
-                                displayChanged();
-                        } finally {
-                            awtLock();
+                            ((X11GrbphicsEnvironment)GrbphicsEnvironment.
+                             getLocblGrbphicsEnvironment()).
+                                displbyChbnged();
+                        } finblly {
+                            bwtLock();
                         }
                     }
                 }
             });
-        } finally {
-            awtUnlock();
+        } finblly {
+            bwtUnlock();
         }
-        PrivilegedAction<Void> a = () -> {
-            Thread shutdownThread = new Thread(ThreadGroupUtils.getRootThreadGroup(), "XToolkt-Shutdown-Thread") {
+        PrivilegedAction<Void> b = () -> {
+            Threbd shutdownThrebd = new Threbd(ThrebdGroupUtils.getRootThrebdGroup(), "XToolkt-Shutdown-Threbd") {
                     public void run() {
-                        XSystemTrayPeer peer = XSystemTrayPeer.getPeerInstance();
+                        XSystemTrbyPeer peer = XSystemTrbyPeer.getPeerInstbnce();
                         if (peer != null) {
                             peer.dispose();
                         }
@@ -267,198 +267,198 @@ public final class XToolkit extends UNIXToolkit implements Runnable {
                             ((XAWTXSettings)xs).dispose();
                         }
                         freeXKB();
-                        if (log.isLoggable(PlatformLogger.Level.FINE)) {
+                        if (log.isLoggbble(PlbtformLogger.Level.FINE)) {
                             dumpPeers();
                         }
                     }
                 };
-            shutdownThread.setContextClassLoader(null);
-            Runtime.getRuntime().addShutdownHook(shutdownThread);
+            shutdownThrebd.setContextClbssLobder(null);
+            Runtime.getRuntime().bddShutdownHook(shutdownThrebd);
             return null;
         };
-        AccessController.doPrivileged(a);
+        AccessController.doPrivileged(b);
     }
 
-    static String getCorrectXIDString(String val) {
-        if (val != null) {
-            return val.replace('.', '-');
+    stbtic String getCorrectXIDString(String vbl) {
+        if (vbl != null) {
+            return vbl.replbce('.', '-');
         } else {
-            return val;
+            return vbl;
         }
     }
 
-    static native String getEnv(String key);
+    stbtic nbtive String getEnv(String key);
 
 
-    static String getAWTAppClassName() {
-        return awtAppClassName;
+    stbtic String getAWTAppClbssNbme() {
+        return bwtAppClbssNbme;
     }
 
     public XToolkit() {
         super();
-        if (PerformanceLogger.loggingEnabled()) {
-            PerformanceLogger.setTime("XToolkit construction");
+        if (PerformbnceLogger.loggingEnbbled()) {
+            PerformbnceLogger.setTime("XToolkit construction");
         }
 
-        if (!GraphicsEnvironment.isHeadless()) {
-            String mainClassName = null;
+        if (!GrbphicsEnvironment.isHebdless()) {
+            String mbinClbssNbme = null;
 
-            StackTraceElement trace[] = (new Throwable()).getStackTrace();
-            int bottom = trace.length - 1;
+            StbckTrbceElement trbce[] = (new Throwbble()).getStbckTrbce();
+            int bottom = trbce.length - 1;
             if (bottom >= 0) {
-                mainClassName = trace[bottom].getClassName();
+                mbinClbssNbme = trbce[bottom].getClbssNbme();
             }
-            if (mainClassName == null || mainClassName.equals("")) {
-                mainClassName = "AWT";
+            if (mbinClbssNbme == null || mbinClbssNbme.equbls("")) {
+                mbinClbssNbme = "AWT";
             }
-            awtAppClassName = getCorrectXIDString(mainClassName);
+            bwtAppClbssNbme = getCorrectXIDString(mbinClbssNbme);
 
             init();
             XWM.init();
 
-            toolkitThread = AccessController.doPrivileged((PrivilegedAction<Thread>) () -> {
-                Thread thread = new Thread(ThreadGroupUtils.getRootThreadGroup(), XToolkit.this, "AWT-XAWT");
-                thread.setContextClassLoader(null);
-                thread.setPriority(Thread.NORM_PRIORITY + 1);
-                thread.setDaemon(true);
-                return thread;
+            toolkitThrebd = AccessController.doPrivileged((PrivilegedAction<Threbd>) () -> {
+                Threbd threbd = new Threbd(ThrebdGroupUtils.getRootThrebdGroup(), XToolkit.this, "AWT-XAWT");
+                threbd.setContextClbssLobder(null);
+                threbd.setPriority(Threbd.NORM_PRIORITY + 1);
+                threbd.setDbemon(true);
+                return threbd;
             });
-            toolkitThread.start();
+            toolkitThrebd.stbrt();
         }
     }
 
-    public ButtonPeer createButton(Button target) {
-        ButtonPeer peer = new XButtonPeer(target);
-        targetCreatedPeer(target, peer);
+    public ButtonPeer crebteButton(Button tbrget) {
+        ButtonPeer peer = new XButtonPeer(tbrget);
+        tbrgetCrebtedPeer(tbrget, peer);
         return peer;
     }
 
-    public FramePeer createLightweightFrame(LightweightFrame target) {
-        FramePeer peer = new XLightweightFramePeer(target);
-        targetCreatedPeer(target, peer);
+    public FrbmePeer crebteLightweightFrbme(LightweightFrbme tbrget) {
+        FrbmePeer peer = new XLightweightFrbmePeer(tbrget);
+        tbrgetCrebtedPeer(tbrget, peer);
         return peer;
     }
 
-    public FramePeer createFrame(Frame target) {
-        FramePeer peer = new XFramePeer(target);
-        targetCreatedPeer(target, peer);
+    public FrbmePeer crebteFrbme(Frbme tbrget) {
+        FrbmePeer peer = new XFrbmePeer(tbrget);
+        tbrgetCrebtedPeer(tbrget, peer);
         return peer;
     }
 
-    static void addToWinMap(long window, XBaseWindow xwin)
+    stbtic void bddToWinMbp(long window, XBbseWindow xwin)
     {
-        synchronized(winMap) {
-            winMap.put(Long.valueOf(window),xwin);
+        synchronized(winMbp) {
+            winMbp.put(Long.vblueOf(window),xwin);
         }
     }
 
-    static void removeFromWinMap(long window, XBaseWindow xwin) {
-        synchronized(winMap) {
-            winMap.remove(Long.valueOf(window));
+    stbtic void removeFromWinMbp(long window, XBbseWindow xwin) {
+        synchronized(winMbp) {
+            winMbp.remove(Long.vblueOf(window));
         }
     }
-    static XBaseWindow windowToXWindow(long window) {
-        synchronized(winMap) {
-            return winMap.get(Long.valueOf(window));
+    stbtic XBbseWindow windowToXWindow(long window) {
+        synchronized(winMbp) {
+            return winMbp.get(Long.vblueOf(window));
         }
     }
 
-    static void addEventDispatcher(long window, XEventDispatcher dispatcher) {
-        synchronized(winToDispatcher) {
-            Long key = Long.valueOf(window);
-            Collection<XEventDispatcher> dispatchers = winToDispatcher.get(key);
-            if (dispatchers == null) {
-                dispatchers = new Vector<>();
-                winToDispatcher.put(key, dispatchers);
+    stbtic void bddEventDispbtcher(long window, XEventDispbtcher dispbtcher) {
+        synchronized(winToDispbtcher) {
+            Long key = Long.vblueOf(window);
+            Collection<XEventDispbtcher> dispbtchers = winToDispbtcher.get(key);
+            if (dispbtchers == null) {
+                dispbtchers = new Vector<>();
+                winToDispbtcher.put(key, dispbtchers);
             }
-            dispatchers.add(dispatcher);
+            dispbtchers.bdd(dispbtcher);
         }
     }
-    static void removeEventDispatcher(long window, XEventDispatcher dispatcher) {
-        synchronized(winToDispatcher) {
-            Long key = Long.valueOf(window);
-            Collection<XEventDispatcher> dispatchers = winToDispatcher.get(key);
-            if (dispatchers != null) {
-                dispatchers.remove(dispatcher);
+    stbtic void removeEventDispbtcher(long window, XEventDispbtcher dispbtcher) {
+        synchronized(winToDispbtcher) {
+            Long key = Long.vblueOf(window);
+            Collection<XEventDispbtcher> dispbtchers = winToDispbtcher.get(key);
+            if (dispbtchers != null) {
+                dispbtchers.remove(dispbtcher);
             }
         }
     }
 
-    private Point lastCursorPos;
+    privbte Point lbstCursorPos;
 
     /**
-     * Returns whether there is last remembered cursor position.  The
+     * Returns whether there is lbst remembered cursor position.  The
      * position is remembered from X mouse events on our peers.  The
      * position is stored in <code>p</code>.
-     * @return true, if there is remembered last cursor position,
-     * false otherwise
+     * @return true, if there is remembered lbst cursor position,
+     * fblse otherwise
      */
-    boolean getLastCursorPos(Point p) {
-        awtLock();
+    boolebn getLbstCursorPos(Point p) {
+        bwtLock();
         try {
-            if (lastCursorPos == null) {
-                return false;
+            if (lbstCursorPos == null) {
+                return fblse;
             }
-            p.setLocation(lastCursorPos);
+            p.setLocbtion(lbstCursorPos);
             return true;
-        } finally {
-            awtUnlock();
+        } finblly {
+            bwtUnlock();
         }
     }
 
-    private void processGlobalMotionEvent(XEvent e) {
-        // Only our windows guaranteely generate MotionNotify, so we
-        // should track enter/leave, to catch the moment when to
+    privbte void processGlobblMotionEvent(XEvent e) {
+        // Only our windows gubrbnteely generbte MotionNotify, so we
+        // should trbck enter/lebve, to cbtch the moment when to
         // switch to XQueryPointer
-        if (e.get_type() == XConstants.MotionNotify) {
+        if (e.get_type() == XConstbnts.MotionNotify) {
             XMotionEvent ev = e.get_xmotion();
-            awtLock();
+            bwtLock();
             try {
-                if (lastCursorPos == null) {
-                    lastCursorPos = new Point(ev.get_x_root(), ev.get_y_root());
+                if (lbstCursorPos == null) {
+                    lbstCursorPos = new Point(ev.get_x_root(), ev.get_y_root());
                 } else {
-                    lastCursorPos.setLocation(ev.get_x_root(), ev.get_y_root());
+                    lbstCursorPos.setLocbtion(ev.get_x_root(), ev.get_y_root());
                 }
-            } finally {
-                awtUnlock();
+            } finblly {
+                bwtUnlock();
             }
-        } else if (e.get_type() == XConstants.LeaveNotify) {
-            // Leave from our window
-            awtLock();
+        } else if (e.get_type() == XConstbnts.LebveNotify) {
+            // Lebve from our window
+            bwtLock();
             try {
-                lastCursorPos = null;
-            } finally {
-                awtUnlock();
+                lbstCursorPos = null;
+            } finblly {
+                bwtUnlock();
             }
-        } else if (e.get_type() == XConstants.EnterNotify) {
-            // Entrance into our window
+        } else if (e.get_type() == XConstbnts.EnterNotify) {
+            // Entrbnce into our window
             XCrossingEvent ev = e.get_xcrossing();
-            awtLock();
+            bwtLock();
             try {
-                if (lastCursorPos == null) {
-                    lastCursorPos = new Point(ev.get_x_root(), ev.get_y_root());
+                if (lbstCursorPos == null) {
+                    lbstCursorPos = new Point(ev.get_x_root(), ev.get_y_root());
                 } else {
-                    lastCursorPos.setLocation(ev.get_x_root(), ev.get_y_root());
+                    lbstCursorPos.setLocbtion(ev.get_x_root(), ev.get_y_root());
                 }
-            } finally {
-                awtUnlock();
+            } finblly {
+                bwtUnlock();
             }
         }
     }
 
-    public interface XEventListener {
+    public interfbce XEventListener {
         public void eventProcessed(XEvent e);
     }
 
-    private Collection<XEventListener> listeners = new LinkedList<XEventListener>();
+    privbte Collection<XEventListener> listeners = new LinkedList<XEventListener>();
 
-    public void addXEventListener(XEventListener listener) {
+    public void bddXEventListener(XEventListener listener) {
         synchronized (listeners) {
-            listeners.add(listener);
+            listeners.bdd(listener);
         }
     }
 
-    private void notifyListeners(XEvent xev) {
+    privbte void notifyListeners(XEvent xev) {
         synchronized (listeners) {
             if (listeners.size() == 0) return;
 
@@ -467,123 +467,123 @@ public final class XToolkit extends UNIXToolkit implements Runnable {
                 for (XEventListener listener : listeners) {
                     listener.eventProcessed(copy);
                 }
-            } finally {
+            } finblly {
                 copy.dispose();
             }
         }
     }
 
-    private void dispatchEvent(XEvent ev) {
-        final XAnyEvent xany = ev.get_xany();
+    privbte void dispbtchEvent(XEvent ev) {
+        finbl XAnyEvent xbny = ev.get_xbny();
 
-        if (windowToXWindow(xany.get_window()) != null &&
-             (ev.get_type() == XConstants.MotionNotify || ev.get_type() == XConstants.EnterNotify || ev.get_type() == XConstants.LeaveNotify))
+        if (windowToXWindow(xbny.get_window()) != null &&
+             (ev.get_type() == XConstbnts.MotionNotify || ev.get_type() == XConstbnts.EnterNotify || ev.get_type() == XConstbnts.LebveNotify))
         {
-            processGlobalMotionEvent(ev);
+            processGlobblMotionEvent(ev);
         }
 
-        if( ev.get_type() == XConstants.MappingNotify ) {
+        if( ev.get_type() == XConstbnts.MbppingNotify ) {
             // The 'window' field in this event is unused.
-            // This application itself does nothing to initiate such an event
-            // (no calls of XChangeKeyboardMapping etc.).
-            // SunRay server sends this event to the application once on every
-            // keyboard (not just layout) change which means, quite seldom.
-            XlibWrapper.XRefreshKeyboardMapping(ev.pData);
-            resetKeyboardSniffer();
-            setupModifierMap();
+            // This bpplicbtion itself does nothing to initibte such bn event
+            // (no cblls of XChbngeKeybobrdMbpping etc.).
+            // SunRby server sends this event to the bpplicbtion once on every
+            // keybobrd (not just lbyout) chbnge which mebns, quite seldom.
+            XlibWrbpper.XRefreshKeybobrdMbpping(ev.pDbtb);
+            resetKeybobrdSniffer();
+            setupModifierMbp();
         }
-        XBaseWindow.dispatchToWindow(ev);
+        XBbseWindow.dispbtchToWindow(ev);
 
-        Collection<XEventDispatcher> dispatchers = null;
-        synchronized(winToDispatcher) {
-            Long key = Long.valueOf(xany.get_window());
-            dispatchers = winToDispatcher.get(key);
-            if (dispatchers != null) { // Clone it to avoid synchronization during dispatching
-                dispatchers = new Vector<>(dispatchers);
+        Collection<XEventDispbtcher> dispbtchers = null;
+        synchronized(winToDispbtcher) {
+            Long key = Long.vblueOf(xbny.get_window());
+            dispbtchers = winToDispbtcher.get(key);
+            if (dispbtchers != null) { // Clone it to bvoid synchronizbtion during dispbtching
+                dispbtchers = new Vector<>(dispbtchers);
             }
         }
-        if (dispatchers != null) {
-            Iterator<XEventDispatcher> iter = dispatchers.iterator();
-            while (iter.hasNext()) {
-                XEventDispatcher disp = iter.next();
-                disp.dispatchEvent(ev);
+        if (dispbtchers != null) {
+            Iterbtor<XEventDispbtcher> iter = dispbtchers.iterbtor();
+            while (iter.hbsNext()) {
+                XEventDispbtcher disp = iter.next();
+                disp.dispbtchEvent(ev);
             }
         }
         notifyListeners(ev);
     }
 
-    static void processException(Throwable thr) {
-        if (log.isLoggable(PlatformLogger.Level.WARNING)) {
-            log.warning("Exception on Toolkit thread", thr);
+    stbtic void processException(Throwbble thr) {
+        if (log.isLoggbble(PlbtformLogger.Level.WARNING)) {
+            log.wbrning("Exception on Toolkit threbd", thr);
         }
     }
 
-    static native void awt_toolkit_init();
+    stbtic nbtive void bwt_toolkit_init();
 
     public void run() {
-        awt_toolkit_init();
+        bwt_toolkit_init();
         run(PRIMARY_LOOP);
     }
 
-    public void run(boolean loop)
+    public void run(boolebn loop)
     {
         XEvent ev = new XEvent();
         while(true) {
-            // Fix for 6829923: we should gracefully handle toolkit thread interruption
-            if (Thread.currentThread().isInterrupted()) {
+            // Fix for 6829923: we should grbcefully hbndle toolkit threbd interruption
+            if (Threbd.currentThrebd().isInterrupted()) {
                 // We expect interruption from the AppContext.dispose() method only.
-                // If the thread is interrupted from another place, let's skip it
-                // for compatibility reasons. Probably some time later we'll remove
-                // the check for AppContext.isDisposed() and will unconditionally
-                // break the loop here.
+                // If the threbd is interrupted from bnother plbce, let's skip it
+                // for compbtibility rebsons. Probbbly some time lbter we'll remove
+                // the check for AppContext.isDisposed() bnd will unconditionblly
+                // brebk the loop here.
                 if (AppContext.getAppContext().isDisposed()) {
-                    break;
+                    brebk;
                 }
             }
-            awtLock();
+            bwtLock();
             try {
                 if (loop == SECONDARY_LOOP) {
-                    // In the secondary loop we may have already acquired awt_lock
-                    // several times, so waitForEvents() might be unable to release
-                    // the awt_lock and this causes lock up.
-                    // For now, we just avoid waitForEvents in the secondary loop.
-                    if (!XlibWrapper.XNextSecondaryLoopEvent(getDisplay(),ev.pData)) {
-                        break;
+                    // In the secondbry loop we mby hbve blrebdy bcquired bwt_lock
+                    // severbl times, so wbitForEvents() might be unbble to relebse
+                    // the bwt_lock bnd this cbuses lock up.
+                    // For now, we just bvoid wbitForEvents in the secondbry loop.
+                    if (!XlibWrbpper.XNextSecondbryLoopEvent(getDisplby(),ev.pDbtb)) {
+                        brebk;
                     }
                 } else {
-                    callTimeoutTasks();
-                    // If no events are queued, waitForEvents() causes calls to
-                    // awtUnlock(), awtJNI_ThreadYield, poll, awtLock(),
+                    cbllTimeoutTbsks();
+                    // If no events bre queued, wbitForEvents() cbuses cblls to
+                    // bwtUnlock(), bwtJNI_ThrebdYield, poll, bwtLock(),
                     // so it spends most of its time in poll, without holding the lock.
-                    while ((XlibWrapper.XEventsQueued(getDisplay(), XConstants.QueuedAfterReading) == 0) &&
-                           (XlibWrapper.XEventsQueued(getDisplay(), XConstants.QueuedAfterFlush) == 0)) {
-                        callTimeoutTasks();
-                        waitForEvents(getNextTaskTime());
+                    while ((XlibWrbpper.XEventsQueued(getDisplby(), XConstbnts.QueuedAfterRebding) == 0) &&
+                           (XlibWrbpper.XEventsQueued(getDisplby(), XConstbnts.QueuedAfterFlush) == 0)) {
+                        cbllTimeoutTbsks();
+                        wbitForEvents(getNextTbskTime());
                     }
-                    XlibWrapper.XNextEvent(getDisplay(),ev.pData);
+                    XlibWrbpper.XNextEvent(getDisplby(),ev.pDbtb);
                 }
 
-                if (ev.get_type() != XConstants.NoExpose) {
+                if (ev.get_type() != XConstbnts.NoExpose) {
                     eventNumber++;
                 }
-                if (awt_UseXKB_Calls && ev.get_type() ==  awt_XKBBaseEventCode) {
-                    processXkbChanges(ev);
+                if (bwt_UseXKB_Cblls && ev.get_type() ==  bwt_XKBBbseEventCode) {
+                    processXkbChbnges(ev);
                 }
 
-                if (XDropTargetEventProcessor.processEvent(ev) ||
-                    XDragSourceContextPeer.processEvent(ev)) {
+                if (XDropTbrgetEventProcessor.processEvent(ev) ||
+                    XDrbgSourceContextPeer.processEvent(ev)) {
                     continue;
                 }
 
-                if (eventLog.isLoggable(PlatformLogger.Level.FINER)) {
+                if (eventLog.isLoggbble(PlbtformLogger.Level.FINER)) {
                     eventLog.finer("{0}", ev);
                 }
 
                 // Check if input method consumes the event
                 long w = 0;
-                if (windowToXWindow(ev.get_xany().get_window()) != null) {
+                if (windowToXWindow(ev.get_xbny().get_window()) != null) {
                     Component owner =
-                        XKeyboardFocusManagerPeer.getInstance().getCurrentFocusOwner();
+                        XKeybobrdFocusMbnbgerPeer.getInstbnce().getCurrentFocusOwner();
                     if (owner != null) {
                         XWindow ownerWindow = (XWindow) AWTAccessor.getComponentAccessor().getPeer(owner);
                         if (ownerWindow != null) {
@@ -591,230 +591,230 @@ public final class XToolkit extends UNIXToolkit implements Runnable {
                         }
                     }
                 }
-                if( keyEventLog.isLoggable(PlatformLogger.Level.FINE) && (ev.get_type() == XConstants.KeyPress || ev.get_type() == XConstants.KeyRelease) ) {
+                if( keyEventLog.isLoggbble(PlbtformLogger.Level.FINE) && (ev.get_type() == XConstbnts.KeyPress || ev.get_type() == XConstbnts.KeyRelebse) ) {
                     keyEventLog.fine("before XFilterEvent:"+ev);
                 }
-                if (XlibWrapper.XFilterEvent(ev.getPData(), w)) {
+                if (XlibWrbpper.XFilterEvent(ev.getPDbtb(), w)) {
                     continue;
                 }
-                if( keyEventLog.isLoggable(PlatformLogger.Level.FINE) && (ev.get_type() == XConstants.KeyPress || ev.get_type() == XConstants.KeyRelease) ) {
-                    keyEventLog.fine("after XFilterEvent:"+ev); // IS THIS CORRECT?
+                if( keyEventLog.isLoggbble(PlbtformLogger.Level.FINE) && (ev.get_type() == XConstbnts.KeyPress || ev.get_type() == XConstbnts.KeyRelebse) ) {
+                    keyEventLog.fine("bfter XFilterEvent:"+ev); // IS THIS CORRECT?
                 }
 
-                dispatchEvent(ev);
-            } catch (ThreadDeath td) {
-                XBaseWindow.ungrabInput();
+                dispbtchEvent(ev);
+            } cbtch (ThrebdDebth td) {
+                XBbseWindow.ungrbbInput();
                 return;
-            } catch (Throwable thr) {
-                XBaseWindow.ungrabInput();
+            } cbtch (Throwbble thr) {
+                XBbseWindow.ungrbbInput();
                 processException(thr);
-            } finally {
-                awtUnlock();
+            } finblly {
+                bwtUnlock();
             }
         }
     }
 
-    static {
-        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-        if (ge instanceof SunGraphicsEnvironment) {
-            ((SunGraphicsEnvironment)ge).addDisplayChangedListener(
-                new DisplayChangedListener() {
+    stbtic {
+        GrbphicsEnvironment ge = GrbphicsEnvironment.getLocblGrbphicsEnvironment();
+        if (ge instbnceof SunGrbphicsEnvironment) {
+            ((SunGrbphicsEnvironment)ge).bddDisplbyChbngedListener(
+                new DisplbyChbngedListener() {
                     @Override
-                    public void displayChanged() {
-                        // 7045370: Reset the cached values
+                    public void displbyChbnged() {
+                        // 7045370: Reset the cbched vblues
                         XToolkit.screenWidth = -1;
                         XToolkit.screenHeight = -1;
                     }
 
                     @Override
-                    public void paletteChanged() {}
+                    public void pbletteChbnged() {}
             });
         }
     }
 
-    private static void initScreenSize() {
+    privbte stbtic void initScreenSize() {
         if (screenWidth == -1 || screenHeight == -1) {
-            awtLock();
+            bwtLock();
             try {
-                XWindowAttributes pattr = new XWindowAttributes();
+                XWindowAttributes pbttr = new XWindowAttributes();
                 try {
-                    XlibWrapper.XGetWindowAttributes(XToolkit.getDisplay(), XToolkit.getDefaultRootWindow(), pattr.pData);
-                    screenWidth  = pattr.get_width();
-                    screenHeight = pattr.get_height();
-                } finally {
-                    pattr.dispose();
+                    XlibWrbpper.XGetWindowAttributes(XToolkit.getDisplby(), XToolkit.getDefbultRootWindow(), pbttr.pDbtb);
+                    screenWidth  = pbttr.get_width();
+                    screenHeight = pbttr.get_height();
+                } finblly {
+                    pbttr.dispose();
                 }
-            } finally {
-                awtUnlock();
+            } finblly {
+                bwtUnlock();
             }
         }
     }
 
-    static int getDefaultScreenWidth() {
+    stbtic int getDefbultScreenWidth() {
         initScreenSize();
         return screenWidth;
     }
 
-    static int getDefaultScreenHeight() {
+    stbtic int getDefbultScreenHeight() {
         initScreenSize();
         return screenHeight;
     }
 
     protected int getScreenWidth() {
-        return getDefaultScreenWidth();
+        return getDefbultScreenWidth();
     }
 
     protected int getScreenHeight() {
-        return getDefaultScreenHeight();
+        return getDefbultScreenHeight();
     }
 
-    private static Rectangle getWorkArea(long root)
+    privbte stbtic Rectbngle getWorkAreb(long root)
     {
         XAtom XA_NET_WORKAREA = XAtom.get("_NET_WORKAREA");
 
-        long native_ptr = Native.allocateLongArray(4);
+        long nbtive_ptr = Nbtive.bllocbteLongArrby(4);
         try
         {
-            boolean workareaPresent = XA_NET_WORKAREA.getAtomData(root,
-                XAtom.XA_CARDINAL, native_ptr, 4);
-            if (workareaPresent)
+            boolebn workbrebPresent = XA_NET_WORKAREA.getAtomDbtb(root,
+                XAtom.XA_CARDINAL, nbtive_ptr, 4);
+            if (workbrebPresent)
             {
-                int rootX = (int)Native.getLong(native_ptr, 0);
-                int rootY = (int)Native.getLong(native_ptr, 1);
-                int rootWidth = (int)Native.getLong(native_ptr, 2);
-                int rootHeight = (int)Native.getLong(native_ptr, 3);
+                int rootX = (int)Nbtive.getLong(nbtive_ptr, 0);
+                int rootY = (int)Nbtive.getLong(nbtive_ptr, 1);
+                int rootWidth = (int)Nbtive.getLong(nbtive_ptr, 2);
+                int rootHeight = (int)Nbtive.getLong(nbtive_ptr, 3);
 
-                return new Rectangle(rootX, rootY, rootWidth, rootHeight);
+                return new Rectbngle(rootX, rootY, rootWidth, rootHeight);
             }
         }
-        finally
+        finblly
         {
-            XlibWrapper.unsafe.freeMemory(native_ptr);
+            XlibWrbpper.unsbfe.freeMemory(nbtive_ptr);
         }
 
         return null;
     }
 
     /*
-     * If we're running in non-Xinerama environment and the current
-     * window manager supports _NET protocol then the screen insets
-     * are calculated using _NET_WM_WORKAREA property of the root
+     * If we're running in non-Xinerbmb environment bnd the current
+     * window mbnbger supports _NET protocol then the screen insets
+     * bre cblculbted using _NET_WM_WORKAREA property of the root
      * window.
-     * Otherwise, i. e. if Xinerama is on or _NET_WM_WORKAREA is
-     * not set, we try to calculate the insets ourselves using
-     * getScreenInsetsManually method.
+     * Otherwise, i. e. if Xinerbmb is on or _NET_WM_WORKAREA is
+     * not set, we try to cblculbte the insets ourselves using
+     * getScreenInsetsMbnublly method.
      */
-    public Insets getScreenInsets(GraphicsConfiguration gc)
+    public Insets getScreenInsets(GrbphicsConfigurbtion gc)
     {
         XNETProtocol netProto = XWM.getWM().getNETProtocol();
-        if ((netProto == null) || !netProto.active())
+        if ((netProto == null) || !netProto.bctive())
         {
             return super.getScreenInsets(gc);
         }
 
-        XToolkit.awtLock();
+        XToolkit.bwtLock();
         try
         {
-            X11GraphicsConfig x11gc = (X11GraphicsConfig)gc;
-            X11GraphicsDevice x11gd = (X11GraphicsDevice)x11gc.getDevice();
+            X11GrbphicsConfig x11gc = (X11GrbphicsConfig)gc;
+            X11GrbphicsDevice x11gd = (X11GrbphicsDevice)x11gc.getDevice();
             long root = XlibUtil.getRootWindow(x11gd.getScreen());
-            Rectangle rootBounds = XlibUtil.getWindowGeometry(root);
+            Rectbngle rootBounds = XlibUtil.getWindowGeometry(root);
 
-            X11GraphicsEnvironment x11ge = (X11GraphicsEnvironment)
-                GraphicsEnvironment.getLocalGraphicsEnvironment();
-            if (!x11ge.runningXinerama())
+            X11GrbphicsEnvironment x11ge = (X11GrbphicsEnvironment)
+                GrbphicsEnvironment.getLocblGrbphicsEnvironment();
+            if (!x11ge.runningXinerbmb())
             {
-                Rectangle workArea = XToolkit.getWorkArea(root);
-                if (workArea != null)
+                Rectbngle workAreb = XToolkit.getWorkAreb(root);
+                if (workAreb != null)
                 {
-                    return new Insets(workArea.y,
-                                      workArea.x,
-                                      rootBounds.height - workArea.height - workArea.y,
-                                      rootBounds.width - workArea.width - workArea.x);
+                    return new Insets(workAreb.y,
+                                      workAreb.x,
+                                      rootBounds.height - workAreb.height - workAreb.y,
+                                      rootBounds.width - workAreb.width - workAreb.x);
                 }
             }
 
-            return getScreenInsetsManually(root, rootBounds, gc.getBounds());
+            return getScreenInsetsMbnublly(root, rootBounds, gc.getBounds());
         }
-        finally
+        finblly
         {
-            XToolkit.awtUnlock();
+            XToolkit.bwtUnlock();
         }
     }
 
     /*
-     * Manual calculation of screen insets: get all the windows with
-     * _NET_WM_STRUT/_NET_WM_STRUT_PARTIAL hints and add these
-     * hints' values to screen insets.
+     * Mbnubl cblculbtion of screen insets: get bll the windows with
+     * _NET_WM_STRUT/_NET_WM_STRUT_PARTIAL hints bnd bdd these
+     * hints' vblues to screen insets.
      *
-     * This method should be called under XToolkit.awtLock()
+     * This method should be cblled under XToolkit.bwtLock()
      */
-    private Insets getScreenInsetsManually(long root, Rectangle rootBounds, Rectangle screenBounds)
+    privbte Insets getScreenInsetsMbnublly(long root, Rectbngle rootBounds, Rectbngle screenBounds)
     {
         /*
-         * During the manual calculation of screen insets we iterate
-         * all the X windows hierarchy starting from root window. This
-         * constant is the max level inspected in this hierarchy.
-         * 3 is a heuristic value: I suppose any the toolbar-like
-         * window is a child of either root or desktop window.
+         * During the mbnubl cblculbtion of screen insets we iterbte
+         * bll the X windows hierbrchy stbrting from root window. This
+         * constbnt is the mbx level inspected in this hierbrchy.
+         * 3 is b heuristic vblue: I suppose bny the toolbbr-like
+         * window is b child of either root or desktop window.
          */
-        final int MAX_NESTED_LEVEL = 3;
+        finbl int MAX_NESTED_LEVEL = 3;
 
         XAtom XA_NET_WM_STRUT = XAtom.get("_NET_WM_STRUT");
         XAtom XA_NET_WM_STRUT_PARTIAL = XAtom.get("_NET_WM_STRUT_PARTIAL");
 
         Insets insets = new Insets(0, 0, 0, 0);
 
-        java.util.List<Object> search = new LinkedList<>();
-        search.add(root);
-        search.add(0);
-        while (!search.isEmpty())
+        jbvb.util.List<Object> sebrch = new LinkedList<>();
+        sebrch.bdd(root);
+        sebrch.bdd(0);
+        while (!sebrch.isEmpty())
         {
-            long window = (Long)search.remove(0);
-            int windowLevel = (Integer)search.remove(0);
+            long window = (Long)sebrch.remove(0);
+            int windowLevel = (Integer)sebrch.remove(0);
 
             /*
-             * Note that most of the modern window managers unmap
-             * application window if it is iconified. Thus, any
+             * Note thbt most of the modern window mbnbgers unmbp
+             * bpplicbtion window if it is iconified. Thus, bny
              * _NET_WM_STRUT[_PARTIAL] hints for iconified windows
-             * are not included to the screen insets.
+             * bre not included to the screen insets.
              */
-            if (XlibUtil.getWindowMapState(window) == XConstants.IsUnmapped)
+            if (XlibUtil.getWindowMbpStbte(window) == XConstbnts.IsUnmbpped)
             {
                 continue;
             }
 
-            long native_ptr = Native.allocateLongArray(4);
+            long nbtive_ptr = Nbtive.bllocbteLongArrby(4);
             try
             {
-                // first, check if _NET_WM_STRUT or _NET_WM_STRUT_PARTIAL are present
-                // if both are set on the window, _NET_WM_STRUT_PARTIAL is used (see _NET spec)
-                boolean strutPresent = XA_NET_WM_STRUT_PARTIAL.getAtomData(window, XAtom.XA_CARDINAL, native_ptr, 4);
+                // first, check if _NET_WM_STRUT or _NET_WM_STRUT_PARTIAL bre present
+                // if both bre set on the window, _NET_WM_STRUT_PARTIAL is used (see _NET spec)
+                boolebn strutPresent = XA_NET_WM_STRUT_PARTIAL.getAtomDbtb(window, XAtom.XA_CARDINAL, nbtive_ptr, 4);
                 if (!strutPresent)
                 {
-                    strutPresent = XA_NET_WM_STRUT.getAtomData(window, XAtom.XA_CARDINAL, native_ptr, 4);
+                    strutPresent = XA_NET_WM_STRUT.getAtomDbtb(window, XAtom.XA_CARDINAL, nbtive_ptr, 4);
                 }
                 if (strutPresent)
                 {
-                    // second, verify that window is located on the proper screen
-                    Rectangle windowBounds = XlibUtil.getWindowGeometry(window);
+                    // second, verify thbt window is locbted on the proper screen
+                    Rectbngle windowBounds = XlibUtil.getWindowGeometry(window);
                     if (windowLevel > 1)
                     {
-                        windowBounds = XlibUtil.translateCoordinates(window, root, windowBounds);
+                        windowBounds = XlibUtil.trbnslbteCoordinbtes(window, root, windowBounds);
                     }
-                    // if _NET_WM_STRUT_PARTIAL is present, we should use its values to detect
-                    // if the struts area intersects with screenBounds, however some window
-                    // managers don't set this hint correctly, so we just get intersection with windowBounds
+                    // if _NET_WM_STRUT_PARTIAL is present, we should use its vblues to detect
+                    // if the struts breb intersects with screenBounds, however some window
+                    // mbnbgers don't set this hint correctly, so we just get intersection with windowBounds
                     if (windowBounds != null && windowBounds.intersects(screenBounds))
                     {
-                        int left = (int)Native.getLong(native_ptr, 0);
-                        int right = (int)Native.getLong(native_ptr, 1);
-                        int top = (int)Native.getLong(native_ptr, 2);
-                        int bottom = (int)Native.getLong(native_ptr, 3);
+                        int left = (int)Nbtive.getLong(nbtive_ptr, 0);
+                        int right = (int)Nbtive.getLong(nbtive_ptr, 1);
+                        int top = (int)Nbtive.getLong(nbtive_ptr, 2);
+                        int bottom = (int)Nbtive.getLong(nbtive_ptr, 3);
 
                         /*
-                         * struts could be relative to root window bounds, so
-                         * make them relative to the screen bounds in this case
+                         * struts could be relbtive to root window bounds, so
+                         * mbke them relbtive to the screen bounds in this cbse
                          */
                         left = rootBounds.x + left > screenBounds.x ?
                                 rootBounds.x + left - screenBounds.x : 0;
@@ -829,16 +829,16 @@ public final class XToolkit extends UNIXToolkit implements Runnable {
                                 screenBounds.y + screenBounds.height -
                                 (rootBounds.y + rootBounds.height - bottom) : 0;
 
-                        insets.left = Math.max(left, insets.left);
-                        insets.right = Math.max(right, insets.right);
-                        insets.top = Math.max(top, insets.top);
-                        insets.bottom = Math.max(bottom, insets.bottom);
+                        insets.left = Mbth.mbx(left, insets.left);
+                        insets.right = Mbth.mbx(right, insets.right);
+                        insets.top = Mbth.mbx(top, insets.top);
+                        insets.bottom = Mbth.mbx(bottom, insets.bottom);
                     }
                 }
             }
-            finally
+            finblly
             {
-                XlibWrapper.unsafe.freeMemory(native_ptr);
+                XlibWrbpper.unsbfe.freeMemory(nbtive_ptr);
             }
 
             if (windowLevel < MAX_NESTED_LEVEL)
@@ -846,8 +846,8 @@ public final class XToolkit extends UNIXToolkit implements Runnable {
                 Set<Long> children = XlibUtil.getChildWindows(window);
                 for (long child : children)
                 {
-                    search.add(child);
-                    search.add(windowLevel + 1);
+                    sebrch.bdd(child);
+                    sebrch.bdd(windowLevel + 1);
                 }
             }
         }
@@ -856,225 +856,225 @@ public final class XToolkit extends UNIXToolkit implements Runnable {
     }
 
     /*
-     * The current implementation of disabling background erasing for
-     * canvases is that we don't set any native background color
-     * (with XSetWindowBackground) for the canvas window. However,
+     * The current implementbtion of disbbling bbckground erbsing for
+     * cbnvbses is thbt we don't set bny nbtive bbckground color
+     * (with XSetWindowBbckground) for the cbnvbs window. However,
      * this color is set in the peer constructor - see
-     * XWindow.postInit() for details. That's why this method from
-     * SunToolkit is not overridden in XToolkit: it's too late to
-     * disable background erasing :(
+     * XWindow.postInit() for detbils. Thbt's why this method from
+     * SunToolkit is not overridden in XToolkit: it's too lbte to
+     * disbble bbckground erbsing :(
      */
     /*
     @Override
-    public void disableBackgroundErase(Canvas canvas) {
-        XCanvasPeer peer = (XCanvasPeer)canvas.getPeer();
+    public void disbbleBbckgroundErbse(Cbnvbs cbnvbs) {
+        XCbnvbsPeer peer = (XCbnvbsPeer)cbnvbs.getPeer();
         if (peer == null) {
-            throw new IllegalStateException("Canvas must have a valid peer");
+            throw new IllegblStbteException("Cbnvbs must hbve b vblid peer");
         }
-        peer.disableBackgroundErase();
+        peer.disbbleBbckgroundErbse();
     }
     */
 
     // Need this for XMenuItemPeer.
-    protected static final Object targetToPeer(Object target) {
+    protected stbtic finbl Object tbrgetToPeer(Object tbrget) {
         Object p=null;
-        if (target != null && !GraphicsEnvironment.isHeadless()) {
-            p = specialPeerMap.get(target);
+        if (tbrget != null && !GrbphicsEnvironment.isHebdless()) {
+            p = speciblPeerMbp.get(tbrget);
         }
         if (p != null) return p;
         else
-            return SunToolkit.targetToPeer(target);
+            return SunToolkit.tbrgetToPeer(tbrget);
     }
 
     // Need this for XMenuItemPeer.
-    protected static final void targetDisposedPeer(Object target, Object peer) {
-        SunToolkit.targetDisposedPeer(target, peer);
+    protected stbtic finbl void tbrgetDisposedPeer(Object tbrget, Object peer) {
+        SunToolkit.tbrgetDisposedPeer(tbrget, peer);
     }
 
-    public RobotPeer createRobot(Robot target, GraphicsDevice screen) {
-        return new XRobotPeer(screen.getDefaultConfiguration());
+    public RobotPeer crebteRobot(Robot tbrget, GrbphicsDevice screen) {
+        return new XRobotPeer(screen.getDefbultConfigurbtion());
     }
 
 
   /*
-     * On X, support for dynamic layout on resizing is governed by the
-     * window manager.  If the window manager supports it, it happens
-     * automatically.  The setter method for this property is
-     * irrelevant on X.
+     * On X, support for dynbmic lbyout on resizing is governed by the
+     * window mbnbger.  If the window mbnbger supports it, it hbppens
+     * butombticblly.  The setter method for this property is
+     * irrelevbnt on X.
      */
-    public void setDynamicLayout(boolean b) {
-        dynamicLayoutSetting = b;
+    public void setDynbmicLbyout(boolebn b) {
+        dynbmicLbyoutSetting = b;
     }
 
-    protected boolean isDynamicLayoutSet() {
-        return dynamicLayoutSetting;
+    protected boolebn isDynbmicLbyoutSet() {
+        return dynbmicLbyoutSetting;
     }
 
-    /* Called from isDynamicLayoutActive() and from
-     * lazilyLoadDynamicLayoutSupportedProperty()
+    /* Cblled from isDynbmicLbyoutActive() bnd from
+     * lbzilyLobdDynbmicLbyoutSupportedProperty()
      */
-    protected boolean isDynamicLayoutSupported() {
-        return XWM.getWM().supportsDynamicLayout();
+    protected boolebn isDynbmicLbyoutSupported() {
+        return XWM.getWM().supportsDynbmicLbyout();
     }
 
-    public boolean isDynamicLayoutActive() {
-        return isDynamicLayoutSupported();
+    public boolebn isDynbmicLbyoutActive() {
+        return isDynbmicLbyoutSupported();
     }
 
 
-    public FontPeer getFontPeer(String name, int style){
-        return new XFontPeer(name, style);
+    public FontPeer getFontPeer(String nbme, int style){
+        return new XFontPeer(nbme, style);
     }
 
-    public DragSourceContextPeer createDragSourceContextPeer(DragGestureEvent dge) throws InvalidDnDOperationException {
-        return XDragSourceContextPeer.createDragSourceContextPeer(dge);
+    public DrbgSourceContextPeer crebteDrbgSourceContextPeer(DrbgGestureEvent dge) throws InvblidDnDOperbtionException {
+        return XDrbgSourceContextPeer.crebteDrbgSourceContextPeer(dge);
     }
 
-    @SuppressWarnings("unchecked")
-    public <T extends DragGestureRecognizer> T
-    createDragGestureRecognizer(Class<T> recognizerClass,
-                    DragSource ds,
+    @SuppressWbrnings("unchecked")
+    public <T extends DrbgGestureRecognizer> T
+    crebteDrbgGestureRecognizer(Clbss<T> recognizerClbss,
+                    DrbgSource ds,
                     Component c,
                     int srcActions,
-                    DragGestureListener dgl)
+                    DrbgGestureListener dgl)
     {
-        if (MouseDragGestureRecognizer.class.equals(recognizerClass))
-            return (T)new XMouseDragGestureRecognizer(ds, c, srcActions, dgl);
+        if (MouseDrbgGestureRecognizer.clbss.equbls(recognizerClbss))
+            return (T)new XMouseDrbgGestureRecognizer(ds, c, srcActions, dgl);
         else
             return null;
     }
 
-    public CheckboxMenuItemPeer createCheckboxMenuItem(CheckboxMenuItem target) {
-        XCheckboxMenuItemPeer peer = new XCheckboxMenuItemPeer(target);
-        //vb157120: looks like we don't need to map menu items
-        //in new menus implementation
-        //targetCreatedPeer(target, peer);
+    public CheckboxMenuItemPeer crebteCheckboxMenuItem(CheckboxMenuItem tbrget) {
+        XCheckboxMenuItemPeer peer = new XCheckboxMenuItemPeer(tbrget);
+        //vb157120: looks like we don't need to mbp menu items
+        //in new menus implementbtion
+        //tbrgetCrebtedPeer(tbrget, peer);
         return peer;
     }
 
-    public MenuItemPeer createMenuItem(MenuItem target) {
-        XMenuItemPeer peer = new XMenuItemPeer(target);
-        //vb157120: looks like we don't need to map menu items
-        //in new menus implementation
-        //targetCreatedPeer(target, peer);
+    public MenuItemPeer crebteMenuItem(MenuItem tbrget) {
+        XMenuItemPeer peer = new XMenuItemPeer(tbrget);
+        //vb157120: looks like we don't need to mbp menu items
+        //in new menus implementbtion
+        //tbrgetCrebtedPeer(tbrget, peer);
         return peer;
     }
 
-    public TextFieldPeer createTextField(TextField target) {
-        TextFieldPeer  peer = new XTextFieldPeer(target);
-        targetCreatedPeer(target, peer);
+    public TextFieldPeer crebteTextField(TextField tbrget) {
+        TextFieldPeer  peer = new XTextFieldPeer(tbrget);
+        tbrgetCrebtedPeer(tbrget, peer);
         return peer;
     }
 
-    public LabelPeer createLabel(Label target) {
-        LabelPeer  peer = new XLabelPeer(target);
-        targetCreatedPeer(target, peer);
+    public LbbelPeer crebteLbbel(Lbbel tbrget) {
+        LbbelPeer  peer = new XLbbelPeer(tbrget);
+        tbrgetCrebtedPeer(tbrget, peer);
         return peer;
     }
 
-    public ListPeer createList(java.awt.List target) {
-        ListPeer peer = new XListPeer(target);
-        targetCreatedPeer(target, peer);
+    public ListPeer crebteList(jbvb.bwt.List tbrget) {
+        ListPeer peer = new XListPeer(tbrget);
+        tbrgetCrebtedPeer(tbrget, peer);
         return peer;
     }
 
-    public CheckboxPeer createCheckbox(Checkbox target) {
-        CheckboxPeer peer = new XCheckboxPeer(target);
-        targetCreatedPeer(target, peer);
+    public CheckboxPeer crebteCheckbox(Checkbox tbrget) {
+        CheckboxPeer peer = new XCheckboxPeer(tbrget);
+        tbrgetCrebtedPeer(tbrget, peer);
         return peer;
     }
 
-    public ScrollbarPeer createScrollbar(Scrollbar target) {
-        XScrollbarPeer peer = new XScrollbarPeer(target);
-        targetCreatedPeer(target, peer);
+    public ScrollbbrPeer crebteScrollbbr(Scrollbbr tbrget) {
+        XScrollbbrPeer peer = new XScrollbbrPeer(tbrget);
+        tbrgetCrebtedPeer(tbrget, peer);
         return peer;
     }
 
-    public ScrollPanePeer createScrollPane(ScrollPane target) {
-        XScrollPanePeer peer = new XScrollPanePeer(target);
-        targetCreatedPeer(target, peer);
+    public ScrollPbnePeer crebteScrollPbne(ScrollPbne tbrget) {
+        XScrollPbnePeer peer = new XScrollPbnePeer(tbrget);
+        tbrgetCrebtedPeer(tbrget, peer);
         return peer;
     }
 
-    public TextAreaPeer createTextArea(TextArea target) {
-        TextAreaPeer peer = new XTextAreaPeer(target);
-        targetCreatedPeer(target, peer);
+    public TextArebPeer crebteTextAreb(TextAreb tbrget) {
+        TextArebPeer peer = new XTextArebPeer(tbrget);
+        tbrgetCrebtedPeer(tbrget, peer);
         return peer;
     }
 
-    public ChoicePeer createChoice(Choice target) {
-        XChoicePeer peer = new XChoicePeer(target);
-        targetCreatedPeer(target, peer);
+    public ChoicePeer crebteChoice(Choice tbrget) {
+        XChoicePeer peer = new XChoicePeer(tbrget);
+        tbrgetCrebtedPeer(tbrget, peer);
         return peer;
     }
 
-    public CanvasPeer createCanvas(Canvas target) {
-        XCanvasPeer peer = (isXEmbedServerRequested() ? new XEmbedCanvasPeer(target) : new XCanvasPeer(target));
-        targetCreatedPeer(target, peer);
+    public CbnvbsPeer crebteCbnvbs(Cbnvbs tbrget) {
+        XCbnvbsPeer peer = (isXEmbedServerRequested() ? new XEmbedCbnvbsPeer(tbrget) : new XCbnvbsPeer(tbrget));
+        tbrgetCrebtedPeer(tbrget, peer);
         return peer;
     }
 
-    public PanelPeer createPanel(Panel target) {
-        PanelPeer peer = new XPanelPeer(target);
-        targetCreatedPeer(target, peer);
+    public PbnelPeer crebtePbnel(Pbnel tbrget) {
+        PbnelPeer peer = new XPbnelPeer(tbrget);
+        tbrgetCrebtedPeer(tbrget, peer);
         return peer;
     }
 
-    public WindowPeer createWindow(Window target) {
-        WindowPeer peer = new XWindowPeer(target);
-        targetCreatedPeer(target, peer);
+    public WindowPeer crebteWindow(Window tbrget) {
+        WindowPeer peer = new XWindowPeer(tbrget);
+        tbrgetCrebtedPeer(tbrget, peer);
         return peer;
     }
 
-    public DialogPeer createDialog(Dialog target) {
-        DialogPeer peer = new XDialogPeer(target);
-        targetCreatedPeer(target, peer);
+    public DiblogPeer crebteDiblog(Diblog tbrget) {
+        DiblogPeer peer = new XDiblogPeer(tbrget);
+        tbrgetCrebtedPeer(tbrget, peer);
         return peer;
     }
 
-    private static Boolean sunAwtDisableGtkFileDialogs = null;
+    privbte stbtic Boolebn sunAwtDisbbleGtkFileDiblogs = null;
 
     /**
-     * Returns the value of "sun.awt.disableGtkFileDialogs" property. Default
-     * value is {@code false}.
+     * Returns the vblue of "sun.bwt.disbbleGtkFileDiblogs" property. Defbult
+     * vblue is {@code fblse}.
      */
-    public synchronized static boolean getSunAwtDisableGtkFileDialogs() {
-        if (sunAwtDisableGtkFileDialogs == null) {
-            sunAwtDisableGtkFileDialogs = AccessController.doPrivileged(
-                                              new GetBooleanAction("sun.awt.disableGtkFileDialogs"));
+    public synchronized stbtic boolebn getSunAwtDisbbleGtkFileDiblogs() {
+        if (sunAwtDisbbleGtkFileDiblogs == null) {
+            sunAwtDisbbleGtkFileDiblogs = AccessController.doPrivileged(
+                                              new GetBoolebnAction("sun.bwt.disbbleGtkFileDiblogs"));
         }
-        return sunAwtDisableGtkFileDialogs.booleanValue();
+        return sunAwtDisbbleGtkFileDiblogs.boolebnVblue();
     }
 
-    public FileDialogPeer createFileDialog(FileDialog target) {
-        FileDialogPeer peer = null;
-        // The current GtkFileChooser is available from GTK+ 2.4
-        if (!getSunAwtDisableGtkFileDialogs() && checkGtkVersion(2, 4, 0)) {
-            peer = new GtkFileDialogPeer(target);
+    public FileDiblogPeer crebteFileDiblog(FileDiblog tbrget) {
+        FileDiblogPeer peer = null;
+        // The current GtkFileChooser is bvbilbble from GTK+ 2.4
+        if (!getSunAwtDisbbleGtkFileDiblogs() && checkGtkVersion(2, 4, 0)) {
+            peer = new GtkFileDiblogPeer(tbrget);
         } else {
-            peer = new XFileDialogPeer(target);
+            peer = new XFileDiblogPeer(tbrget);
         }
-        targetCreatedPeer(target, peer);
+        tbrgetCrebtedPeer(tbrget, peer);
         return peer;
     }
 
-    public MenuBarPeer createMenuBar(MenuBar target) {
-        XMenuBarPeer peer = new XMenuBarPeer(target);
-        targetCreatedPeer(target, peer);
+    public MenuBbrPeer crebteMenuBbr(MenuBbr tbrget) {
+        XMenuBbrPeer peer = new XMenuBbrPeer(tbrget);
+        tbrgetCrebtedPeer(tbrget, peer);
         return peer;
     }
 
-    public MenuPeer createMenu(Menu target) {
-        XMenuPeer peer = new XMenuPeer(target);
-        //vb157120: looks like we don't need to map menu items
-        //in new menus implementation
-        //targetCreatedPeer(target, peer);
+    public MenuPeer crebteMenu(Menu tbrget) {
+        XMenuPeer peer = new XMenuPeer(tbrget);
+        //vb157120: looks like we don't need to mbp menu items
+        //in new menus implementbtion
+        //tbrgetCrebtedPeer(tbrget, peer);
         return peer;
     }
 
-    public PopupMenuPeer createPopupMenu(PopupMenu target) {
-        XPopupMenuPeer peer = new XPopupMenuPeer(target);
-        targetCreatedPeer(target, peer);
+    public PopupMenuPeer crebtePopupMenu(PopupMenu tbrget) {
+        XPopupMenuPeer peer = new XPopupMenuPeer(tbrget);
+        tbrgetCrebtedPeer(tbrget, peer);
         return peer;
     }
 
@@ -1085,55 +1085,55 @@ public final class XToolkit extends UNIXToolkit implements Runnable {
         return xPeer;
     }
 
-    public XEmbeddedFramePeer createEmbeddedFrame(XEmbeddedFrame target)
+    public XEmbeddedFrbmePeer crebteEmbeddedFrbme(XEmbeddedFrbme tbrget)
     {
-        XEmbeddedFramePeer peer = new XEmbeddedFramePeer(target);
-        targetCreatedPeer(target, peer);
+        XEmbeddedFrbmePeer peer = new XEmbeddedFrbmePeer(tbrget);
+        tbrgetCrebtedPeer(tbrget, peer);
         return peer;
     }
 
-    XEmbedChildProxyPeer createEmbedProxy(XEmbedChildProxy target) {
-        XEmbedChildProxyPeer peer = new XEmbedChildProxyPeer(target);
-        targetCreatedPeer(target, peer);
+    XEmbedChildProxyPeer crebteEmbedProxy(XEmbedChildProxy tbrget) {
+        XEmbedChildProxyPeer peer = new XEmbedChildProxyPeer(tbrget);
+        tbrgetCrebtedPeer(tbrget, peer);
         return peer;
     }
 
-    public KeyboardFocusManagerPeer getKeyboardFocusManagerPeer() throws HeadlessException {
-        return XKeyboardFocusManagerPeer.getInstance();
+    public KeybobrdFocusMbnbgerPeer getKeybobrdFocusMbnbgerPeer() throws HebdlessException {
+        return XKeybobrdFocusMbnbgerPeer.getInstbnce();
     }
 
     /**
-     * Returns a new custom cursor.
+     * Returns b new custom cursor.
      */
-    public Cursor createCustomCursor(Image cursor, Point hotSpot, String name)
+    public Cursor crebteCustomCursor(Imbge cursor, Point hotSpot, String nbme)
       throws IndexOutOfBoundsException {
-        return new XCustomCursor(cursor, hotSpot, name);
+        return new XCustomCursor(cursor, hotSpot, nbme);
     }
 
-    public TrayIconPeer createTrayIcon(TrayIcon target)
-      throws HeadlessException, AWTException
+    public TrbyIconPeer crebteTrbyIcon(TrbyIcon tbrget)
+      throws HebdlessException, AWTException
     {
-        TrayIconPeer peer = new XTrayIconPeer(target);
-        targetCreatedPeer(target, peer);
+        TrbyIconPeer peer = new XTrbyIconPeer(tbrget);
+        tbrgetCrebtedPeer(tbrget, peer);
         return peer;
     }
 
-    public SystemTrayPeer createSystemTray(SystemTray target) throws HeadlessException {
-        SystemTrayPeer peer = new XSystemTrayPeer(target);
+    public SystemTrbyPeer crebteSystemTrby(SystemTrby tbrget) throws HebdlessException {
+        SystemTrbyPeer peer = new XSystemTrbyPeer(tbrget);
         return peer;
     }
 
-    public boolean isTraySupported() {
-        XSystemTrayPeer peer = XSystemTrayPeer.getPeerInstance();
+    public boolebn isTrbySupported() {
+        XSystemTrbyPeer peer = XSystemTrbyPeer.getPeerInstbnce();
         if (peer != null) {
-            return peer.isAvailable();
+            return peer.isAvbilbble();
         }
-        return false;
+        return fblse;
     }
 
     @Override
-    public DataTransferer getDataTransferer() {
-        return XDataTransferer.getInstanceImpl();
+    public DbtbTrbnsferer getDbtbTrbnsferer() {
+        return XDbtbTrbnsferer.getInstbnceImpl();
     }
 
     /**
@@ -1141,128 +1141,128 @@ public final class XToolkit extends UNIXToolkit implements Runnable {
      */
     public Dimension getBestCursorSize(int preferredWidth, int preferredHeight) {
         return XCustomCursor.getBestCursorSize(
-                                               java.lang.Math.max(1,preferredWidth), java.lang.Math.max(1,preferredHeight));
+                                               jbvb.lbng.Mbth.mbx(1,preferredWidth), jbvb.lbng.Mbth.mbx(1,preferredHeight));
     }
 
 
-    public int getMaximumCursorColors() {
-        return 2;  // Black and white.
+    public int getMbximumCursorColors() {
+        return 2;  // Blbck bnd white.
     }
 
-    public Map<TextAttribute, ?> mapInputMethodHighlight( InputMethodHighlight highlight) {
-        return XInputMethod.mapInputMethodHighlight(highlight);
+    public Mbp<TextAttribute, ?> mbpInputMethodHighlight( InputMethodHighlight highlight) {
+        return XInputMethod.mbpInputMethodHighlight(highlight);
     }
     @Override
-    public boolean getLockingKeyState(int key) {
+    public boolebn getLockingKeyStbte(int key) {
         if (! (key == KeyEvent.VK_CAPS_LOCK || key == KeyEvent.VK_NUM_LOCK ||
                key == KeyEvent.VK_SCROLL_LOCK || key == KeyEvent.VK_KANA_LOCK)) {
-            throw new IllegalArgumentException("invalid key for Toolkit.getLockingKeyState");
+            throw new IllegblArgumentException("invblid key for Toolkit.getLockingKeyStbte");
         }
-        awtLock();
+        bwtLock();
         try {
-            return getModifierState( key );
-        } finally {
-            awtUnlock();
+            return getModifierStbte( key );
+        } finblly {
+            bwtUnlock();
         }
     }
 
-    public  Clipboard getSystemClipboard() {
-        SecurityManager security = System.getSecurityManager();
+    public  Clipbobrd getSystemClipbobrd() {
+        SecurityMbnbger security = System.getSecurityMbnbger();
         if (security != null) {
             security.checkPermission(AWTPermissions.ACCESS_CLIPBOARD_PERMISSION);
         }
         synchronized (this) {
-            if (clipboard == null) {
-                clipboard = new XClipboard("System", "CLIPBOARD");
+            if (clipbobrd == null) {
+                clipbobrd = new XClipbobrd("System", "CLIPBOARD");
             }
         }
-        return clipboard;
+        return clipbobrd;
     }
 
-    public Clipboard getSystemSelection() {
-        SecurityManager security = System.getSecurityManager();
+    public Clipbobrd getSystemSelection() {
+        SecurityMbnbger security = System.getSecurityMbnbger();
         if (security != null) {
             security.checkPermission(AWTPermissions.ACCESS_CLIPBOARD_PERMISSION);
         }
         synchronized (this) {
             if (selection == null) {
-                selection = new XClipboard("Selection", "PRIMARY");
+                selection = new XClipbobrd("Selection", "PRIMARY");
             }
         }
         return selection;
     }
 
     public void beep() {
-        awtLock();
+        bwtLock();
         try {
-            XlibWrapper.XBell(getDisplay(), 0);
-            XlibWrapper.XFlush(getDisplay());
-        } finally {
-            awtUnlock();
+            XlibWrbpper.XBell(getDisplby(), 0);
+            XlibWrbpper.XFlush(getDisplby());
+        } finblly {
+            bwtUnlock();
         }
     }
 
-    public PrintJob getPrintJob(final Frame frame, final String doctitle,
-                                final Properties props) {
+    public PrintJob getPrintJob(finbl Frbme frbme, finbl String doctitle,
+                                finbl Properties props) {
 
-        if (frame == null) {
-            throw new NullPointerException("frame must not be null");
+        if (frbme == null) {
+            throw new NullPointerException("frbme must not be null");
         }
 
-        PrintJob2D printJob = new PrintJob2D(frame, doctitle, props);
+        PrintJob2D printJob = new PrintJob2D(frbme, doctitle, props);
 
-        if (printJob.printDialog() == false) {
+        if (printJob.printDiblog() == fblse) {
             printJob = null;
         }
         return printJob;
     }
 
-    public PrintJob getPrintJob(final Frame frame, final String doctitle,
-                final JobAttributes jobAttributes,
-                final PageAttributes pageAttributes)
+    public PrintJob getPrintJob(finbl Frbme frbme, finbl String doctitle,
+                finbl JobAttributes jobAttributes,
+                finbl PbgeAttributes pbgeAttributes)
     {
-        if (frame == null) {
-            throw new NullPointerException("frame must not be null");
+        if (frbme == null) {
+            throw new NullPointerException("frbme must not be null");
         }
 
-        PrintJob2D printJob = new PrintJob2D(frame, doctitle,
-                                             jobAttributes, pageAttributes);
+        PrintJob2D printJob = new PrintJob2D(frbme, doctitle,
+                                             jobAttributes, pbgeAttributes);
 
-        if (printJob.printDialog() == false) {
+        if (printJob.printDiblog() == fblse) {
             printJob = null;
         }
 
         return printJob;
     }
 
-    static void XSync() {
-        awtLock();
+    stbtic void XSync() {
+        bwtLock();
         try {
-            XlibWrapper.XSync(getDisplay(),0);
-        } finally {
-            awtUnlock();
+            XlibWrbpper.XSync(getDisplby(),0);
+        } finblly {
+            bwtUnlock();
         }
     }
 
     public int getScreenResolution() {
-        long display = getDisplay();
-        awtLock();
+        long displby = getDisplby();
+        bwtLock();
         try {
-            return (int) ((XlibWrapper.DisplayWidth(display,
-                XlibWrapper.DefaultScreen(display)) * 25.4) /
-                    XlibWrapper.DisplayWidthMM(display,
-                XlibWrapper.DefaultScreen(display)));
-        } finally {
-            awtUnlock();
+            return (int) ((XlibWrbpper.DisplbyWidth(displby,
+                XlibWrbpper.DefbultScreen(displby)) * 25.4) /
+                    XlibWrbpper.DisplbyWidthMM(displby,
+                XlibWrbpper.DefbultScreen(displby)));
+        } finblly {
+            bwtUnlock();
         }
     }
 
-    static native long getDefaultXColormap();
-    static native long getDefaultScreenData();
+    stbtic nbtive long getDefbultXColormbp();
+    stbtic nbtive long getDefbultScreenDbtb();
 
-    static ColorModel screenmodel;
+    stbtic ColorModel screenmodel;
 
-    static ColorModel getStaticColorModel() {
+    stbtic ColorModel getStbticColorModel() {
         if (screenmodel == null) {
             screenmodel = config.getColorModel ();
         }
@@ -1270,289 +1270,289 @@ public final class XToolkit extends UNIXToolkit implements Runnable {
     }
 
     public ColorModel getColorModel() {
-        return getStaticColorModel();
+        return getStbticColorModel();
     }
 
     /**
-     * Returns a new input method adapter descriptor for native input methods.
+     * Returns b new input method bdbpter descriptor for nbtive input methods.
      */
-    public InputMethodDescriptor getInputMethodAdapterDescriptor() throws AWTException {
+    public InputMethodDescriptor getInputMethodAdbpterDescriptor() throws AWTException {
         return new XInputMethodDescriptor();
     }
 
     /**
-     * Returns whether enableInputMethods should be set to true for peered
-     * TextComponent instances on this platform. True by default.
+     * Returns whether enbbleInputMethods should be set to true for peered
+     * TextComponent instbnces on this plbtform. True by defbult.
      */
     @Override
-    public boolean enableInputMethodsForTextComponent() {
+    public boolebn enbbleInputMethodsForTextComponent() {
         return true;
     }
 
-    static int getMultiClickTime() {
-        if (awt_multiclick_time == 0) {
-            initializeMultiClickTime();
+    stbtic int getMultiClickTime() {
+        if (bwt_multiclick_time == 0) {
+            initiblizeMultiClickTime();
         }
-        return awt_multiclick_time;
+        return bwt_multiclick_time;
     }
-    static void initializeMultiClickTime() {
-        awtLock();
+    stbtic void initiblizeMultiClickTime() {
+        bwtLock();
         try {
             try {
-                String multiclick_time_query = XlibWrapper.XGetDefault(XToolkit.getDisplay(), "*", "multiClickTime");
+                String multiclick_time_query = XlibWrbpper.XGetDefbult(XToolkit.getDisplby(), "*", "multiClickTime");
                 if (multiclick_time_query != null) {
-                    awt_multiclick_time = (int)Long.parseLong(multiclick_time_query);
+                    bwt_multiclick_time = (int)Long.pbrseLong(multiclick_time_query);
                 } else {
-                    multiclick_time_query = XlibWrapper.XGetDefault(XToolkit.getDisplay(),
+                    multiclick_time_query = XlibWrbpper.XGetDefbult(XToolkit.getDisplby(),
                                                                     "OpenWindows", "MultiClickTimeout");
                     if (multiclick_time_query != null) {
                         /* Note: OpenWindows.MultiClickTimeout is in tenths of
-                           a second, so we need to multiply by 100 to convert to
+                           b second, so we need to multiply by 100 to convert to
                            milliseconds */
-                        awt_multiclick_time = (int)Long.parseLong(multiclick_time_query) * 100;
+                        bwt_multiclick_time = (int)Long.pbrseLong(multiclick_time_query) * 100;
                     } else {
-                        awt_multiclick_time = AWT_MULTICLICK_DEFAULT_TIME;
+                        bwt_multiclick_time = AWT_MULTICLICK_DEFAULT_TIME;
                     }
                 }
-            } catch (NumberFormatException nf) {
-                awt_multiclick_time = AWT_MULTICLICK_DEFAULT_TIME;
-            } catch (NullPointerException npe) {
-                awt_multiclick_time = AWT_MULTICLICK_DEFAULT_TIME;
+            } cbtch (NumberFormbtException nf) {
+                bwt_multiclick_time = AWT_MULTICLICK_DEFAULT_TIME;
+            } cbtch (NullPointerException npe) {
+                bwt_multiclick_time = AWT_MULTICLICK_DEFAULT_TIME;
             }
-        } finally {
-            awtUnlock();
+        } finblly {
+            bwtUnlock();
         }
-        if (awt_multiclick_time == 0) {
-            awt_multiclick_time = AWT_MULTICLICK_DEFAULT_TIME;
+        if (bwt_multiclick_time == 0) {
+            bwt_multiclick_time = AWT_MULTICLICK_DEFAULT_TIME;
         }
     }
 
-    public boolean isFrameStateSupported(int state)
-      throws HeadlessException
+    public boolebn isFrbmeStbteSupported(int stbte)
+      throws HebdlessException
     {
-        if (state == Frame.NORMAL || state == Frame.ICONIFIED) {
+        if (stbte == Frbme.NORMAL || stbte == Frbme.ICONIFIED) {
             return true;
         } else {
-            return XWM.getWM().supportsExtendedState(state);
+            return XWM.getWM().supportsExtendedStbte(stbte);
         }
     }
 
-    static void dumpPeers() {
-        if (log.isLoggable(PlatformLogger.Level.FINE)) {
-            log.fine("Mapped windows:");
-            winMap.forEach((k, v) -> {
+    stbtic void dumpPeers() {
+        if (log.isLoggbble(PlbtformLogger.Level.FINE)) {
+            log.fine("Mbpped windows:");
+            winMbp.forEbch((k, v) -> {
                 log.fine(k + "->" + v);
-                if (v instanceof XComponentPeer) {
-                    Component target = (Component)((XComponentPeer)v).getTarget();
-                    log.fine("\ttarget: " + target);
+                if (v instbnceof XComponentPeer) {
+                    Component tbrget = (Component)((XComponentPeer)v).getTbrget();
+                    log.fine("\ttbrget: " + tbrget);
                 }
             });
 
             SunToolkit.dumpPeers(log);
 
-            log.fine("Mapped special peers:");
-            specialPeerMap.forEach((k, v) -> {
+            log.fine("Mbpped specibl peers:");
+            speciblPeerMbp.forEbch((k, v) -> {
                 log.fine(k + "->" + v);
             });
 
-            log.fine("Mapped dispatchers:");
-            winToDispatcher.forEach((k, v) -> {
+            log.fine("Mbpped dispbtchers:");
+            winToDispbtcher.forEbch((k, v) -> {
                 log.fine(k + "->" + v);
             });
         }
     }
 
-    /* Protected with awt_lock. */
-    private static boolean initialized;
-    private static boolean timeStampUpdated;
-    private static long timeStamp;
+    /* Protected with bwt_lock. */
+    privbte stbtic boolebn initiblized;
+    privbte stbtic boolebn timeStbmpUpdbted;
+    privbte stbtic long timeStbmp;
 
-    private static final XEventDispatcher timeFetcher =
-    new XEventDispatcher() {
-            public void dispatchEvent(XEvent ev) {
+    privbte stbtic finbl XEventDispbtcher timeFetcher =
+    new XEventDispbtcher() {
+            public void dispbtchEvent(XEvent ev) {
                 switch (ev.get_type()) {
-                  case XConstants.PropertyNotify:
+                  cbse XConstbnts.PropertyNotify:
                       XPropertyEvent xpe = ev.get_xproperty();
 
-                      awtLock();
+                      bwtLock();
                       try {
-                          timeStamp = xpe.get_time();
-                          timeStampUpdated = true;
-                          awtLockNotifyAll();
-                      } finally {
-                          awtUnlock();
+                          timeStbmp = xpe.get_time();
+                          timeStbmpUpdbted = true;
+                          bwtLockNotifyAll();
+                      } finblly {
+                          bwtUnlock();
                       }
 
-                      break;
+                      brebk;
                 }
             }
         };
 
-    private static XAtom _XA_JAVA_TIME_PROPERTY_ATOM;
+    privbte stbtic XAtom _XA_JAVA_TIME_PROPERTY_ATOM;
 
-    static long getCurrentServerTime() {
-        awtLock();
+    stbtic long getCurrentServerTime() {
+        bwtLock();
         try {
             try {
-                if (!initialized) {
-                    XToolkit.addEventDispatcher(XBaseWindow.getXAWTRootWindow().getWindow(),
+                if (!initiblized) {
+                    XToolkit.bddEventDispbtcher(XBbseWindow.getXAWTRootWindow().getWindow(),
                                                 timeFetcher);
                     _XA_JAVA_TIME_PROPERTY_ATOM = XAtom.get("_SUNW_JAVA_AWT_TIME");
-                    initialized = true;
+                    initiblized = true;
                 }
-                timeStampUpdated = false;
-                XlibWrapper.XChangeProperty(XToolkit.getDisplay(),
-                                            XBaseWindow.getXAWTRootWindow().getWindow(),
+                timeStbmpUpdbted = fblse;
+                XlibWrbpper.XChbngeProperty(XToolkit.getDisplby(),
+                                            XBbseWindow.getXAWTRootWindow().getWindow(),
                                             _XA_JAVA_TIME_PROPERTY_ATOM.getAtom(), XAtom.XA_ATOM, 32,
-                                            XConstants.PropModeAppend,
+                                            XConstbnts.PropModeAppend,
                                             0, 0);
-                XlibWrapper.XFlush(XToolkit.getDisplay());
+                XlibWrbpper.XFlush(XToolkit.getDisplby());
 
-                if (isToolkitThread()) {
+                if (isToolkitThrebd()) {
                     XEvent event = new XEvent();
                     try {
-                        XlibWrapper.XWindowEvent(XToolkit.getDisplay(),
-                                                 XBaseWindow.getXAWTRootWindow().getWindow(),
-                                                 XConstants.PropertyChangeMask,
-                                                 event.pData);
-                        timeFetcher.dispatchEvent(event);
+                        XlibWrbpper.XWindowEvent(XToolkit.getDisplby(),
+                                                 XBbseWindow.getXAWTRootWindow().getWindow(),
+                                                 XConstbnts.PropertyChbngeMbsk,
+                                                 event.pDbtb);
+                        timeFetcher.dispbtchEvent(event);
                     }
-                    finally {
+                    finblly {
                         event.dispose();
                     }
                 }
                 else {
-                    while (!timeStampUpdated) {
-                        awtLockWait();
+                    while (!timeStbmpUpdbted) {
+                        bwtLockWbit();
                     }
                 }
-            } catch (InterruptedException ie) {
-            // Note: the returned timeStamp can be incorrect in this case.
-                if (log.isLoggable(PlatformLogger.Level.FINE)) {
-                    log.fine("Catched exception, timeStamp may not be correct (ie = " + ie + ")");
+            } cbtch (InterruptedException ie) {
+            // Note: the returned timeStbmp cbn be incorrect in this cbse.
+                if (log.isLoggbble(PlbtformLogger.Level.FINE)) {
+                    log.fine("Cbtched exception, timeStbmp mby not be correct (ie = " + ie + ")");
                 }
             }
-        } finally {
-            awtUnlock();
+        } finblly {
+            bwtUnlock();
         }
-        return timeStamp;
+        return timeStbmp;
     }
-    protected void initializeDesktopProperties() {
-        desktopProperties.put("DnD.Autoscroll.initialDelay",
-                              Integer.valueOf(50));
-        desktopProperties.put("DnD.Autoscroll.interval",
-                              Integer.valueOf(50));
+    protected void initiblizeDesktopProperties() {
+        desktopProperties.put("DnD.Autoscroll.initiblDelby",
+                              Integer.vblueOf(50));
+        desktopProperties.put("DnD.Autoscroll.intervbl",
+                              Integer.vblueOf(50));
         desktopProperties.put("DnD.Autoscroll.cursorHysteresis",
-                              Integer.valueOf(5));
-        desktopProperties.put("Shell.shellFolderManager",
-                              "sun.awt.shell.ShellFolderManager");
-        // Don't want to call getMultiClickTime() if we are headless
-        if (!GraphicsEnvironment.isHeadless()) {
-            desktopProperties.put("awt.multiClickInterval",
-                                  Integer.valueOf(getMultiClickTime()));
-            desktopProperties.put("awt.mouse.numButtons",
-                                  Integer.valueOf(getNumberOfButtons()));
+                              Integer.vblueOf(5));
+        desktopProperties.put("Shell.shellFolderMbnbger",
+                              "sun.bwt.shell.ShellFolderMbnbger");
+        // Don't wbnt to cbll getMultiClickTime() if we bre hebdless
+        if (!GrbphicsEnvironment.isHebdless()) {
+            desktopProperties.put("bwt.multiClickIntervbl",
+                                  Integer.vblueOf(getMultiClickTime()));
+            desktopProperties.put("bwt.mouse.numButtons",
+                                  Integer.vblueOf(getNumberOfButtons()));
         }
     }
 
     /**
-     * This method runs through the XPointer and XExtendedPointer array.
-     * XExtendedPointer has priority because on some systems XPointer
-     * (which is assigned to the virtual pointer) reports the maximum
-     * capabilities of the mouse pointer (i.e. 32 physical buttons).
+     * This method runs through the XPointer bnd XExtendedPointer brrby.
+     * XExtendedPointer hbs priority becbuse on some systems XPointer
+     * (which is bssigned to the virtubl pointer) reports the mbximum
+     * cbpbbilities of the mouse pointer (i.e. 32 physicbl buttons).
      */
-    private native int getNumberOfButtonsImpl();
+    privbte nbtive int getNumberOfButtonsImpl();
 
     @Override
     public int getNumberOfButtons(){
-        awtLock();
+        bwtLock();
         try {
             if (numberOfButtons == 0) {
                 numberOfButtons = getNumberOfButtonsImpl();
                 numberOfButtons = (numberOfButtons > MAX_BUTTONS_SUPPORTED)? MAX_BUTTONS_SUPPORTED : numberOfButtons;
-                //4th and 5th buttons are for wheel and shouldn't be reported as buttons.
-                //If we have more than 3 physical buttons and a wheel, we report N-2 buttons.
-                //If we have 3 physical buttons and a wheel, we report 3 buttons.
-                //If we have 1,2,3 physical buttons, we report it as is i.e. 1,2 or 3 respectively.
+                //4th bnd 5th buttons bre for wheel bnd shouldn't be reported bs buttons.
+                //If we hbve more thbn 3 physicbl buttons bnd b wheel, we report N-2 buttons.
+                //If we hbve 3 physicbl buttons bnd b wheel, we report 3 buttons.
+                //If we hbve 1,2,3 physicbl buttons, we report it bs is i.e. 1,2 or 3 respectively.
                 if (numberOfButtons >=5) {
                     numberOfButtons -= 2;
                 } else if (numberOfButtons == 4 || numberOfButtons ==5){
                     numberOfButtons = 3;
                 }
             }
-            //Assume don't have to re-query the number again and again.
+            //Assume don't hbve to re-query the number bgbin bnd bgbin.
             return numberOfButtons;
-        } finally {
-            awtUnlock();
+        } finblly {
+            bwtUnlock();
         }
     }
 
-    static int getNumberOfButtonsForMask() {
-        return Math.min(XConstants.MAX_BUTTONS, ((SunToolkit) (Toolkit.getDefaultToolkit())).getNumberOfButtons());
+    stbtic int getNumberOfButtonsForMbsk() {
+        return Mbth.min(XConstbnts.MAX_BUTTONS, ((SunToolkit) (Toolkit.getDefbultToolkit())).getNumberOfButtons());
     }
 
-    private final static String prefix  = "DnD.Cursor.";
-    private final static String postfix = ".32x32";
-    private static final String dndPrefix  = "DnD.";
+    privbte finbl stbtic String prefix  = "DnD.Cursor.";
+    privbte finbl stbtic String postfix = ".32x32";
+    privbte stbtic finbl String dndPrefix  = "DnD.";
 
-    protected Object lazilyLoadDesktopProperty(String name) {
-        if (name.startsWith(prefix)) {
-            String cursorName = name.substring(prefix.length(), name.length()) + postfix;
+    protected Object lbzilyLobdDesktopProperty(String nbme) {
+        if (nbme.stbrtsWith(prefix)) {
+            String cursorNbme = nbme.substring(prefix.length(), nbme.length()) + postfix;
 
             try {
-                return Cursor.getSystemCustomCursor(cursorName);
-            } catch (AWTException awte) {
-                throw new RuntimeException("cannot load system cursor: " + cursorName, awte);
+                return Cursor.getSystemCustomCursor(cursorNbme);
+            } cbtch (AWTException bwte) {
+                throw new RuntimeException("cbnnot lobd system cursor: " + cursorNbme, bwte);
             }
         }
 
-        if (name.equals("awt.dynamicLayoutSupported")) {
-            return  Boolean.valueOf(isDynamicLayoutSupported());
+        if (nbme.equbls("bwt.dynbmicLbyoutSupported")) {
+            return  Boolebn.vblueOf(isDynbmicLbyoutSupported());
         }
 
-        if (initXSettingsIfNeeded(name)) {
-            return desktopProperties.get(name);
+        if (initXSettingsIfNeeded(nbme)) {
+            return desktopProperties.get(nbme);
         }
 
-        return super.lazilyLoadDesktopProperty(name);
+        return super.lbzilyLobdDesktopProperty(nbme);
     }
 
-    public synchronized void addPropertyChangeListener(String name, PropertyChangeListener pcl) {
-        if (name == null) {
-            // See JavaDoc for the Toolkit.addPropertyChangeListener() method
+    public synchronized void bddPropertyChbngeListener(String nbme, PropertyChbngeListener pcl) {
+        if (nbme == null) {
+            // See JbvbDoc for the Toolkit.bddPropertyChbngeListener() method
             return;
         }
-        initXSettingsIfNeeded(name);
-        super.addPropertyChangeListener(name, pcl);
+        initXSettingsIfNeeded(nbme);
+        super.bddPropertyChbngeListener(nbme, pcl);
     }
 
     /**
-     * Initializes XAWTXSettings if a property for a given property name is provided by
-     * XSettings and they are not initialized yet.
+     * Initiblizes XAWTXSettings if b property for b given property nbme is provided by
+     * XSettings bnd they bre not initiblized yet.
      *
-     * @return true if the method has initialized XAWTXSettings.
+     * @return true if the method hbs initiblized XAWTXSettings.
      */
-    private boolean initXSettingsIfNeeded(final String propName) {
-        if (!loadedXSettings &&
-            (propName.startsWith("gnome.") ||
-             propName.equals(SunToolkit.DESKTOPFONTHINTS) ||
-             propName.startsWith(dndPrefix)))
+    privbte boolebn initXSettingsIfNeeded(finbl String propNbme) {
+        if (!lobdedXSettings &&
+            (propNbme.stbrtsWith("gnome.") ||
+             propNbme.equbls(SunToolkit.DESKTOPFONTHINTS) ||
+             propNbme.stbrtsWith(dndPrefix)))
         {
-            loadedXSettings = true;
-            if (!GraphicsEnvironment.isHeadless()) {
-                loadXSettings();
+            lobdedXSettings = true;
+            if (!GrbphicsEnvironment.isHebdless()) {
+                lobdXSettings();
                 /* If no desktop font hint could be retrieved, check for
-                 * KDE running KWin and retrieve settings from fontconfig.
-                 * If that isn't found let SunToolkit will see if there's a
-                 * system property set by a user.
+                 * KDE running KWin bnd retrieve settings from fontconfig.
+                 * If thbt isn't found let SunToolkit will see if there's b
+                 * system property set by b user.
                  */
                 if (desktopProperties.get(SunToolkit.DESKTOPFONTHINTS) == null) {
                     if (XWM.isKDE2()) {
-                        Object hint = FontConfigManager.getFontConfigAAHint();
+                        Object hint = FontConfigMbnbger.getFontConfigAAHint();
                         if (hint != null) {
-                            /* set the fontconfig/KDE property so that
+                            /* set the fontconfig/KDE property so thbt
                              * getDesktopHints() below will see it
-                             * and set the public property.
+                             * bnd set the public property.
                              */
                             desktopProperties.put(UNIXToolkit.FONTCONFIGAAHINT,
                                                   hint);
@@ -1565,927 +1565,927 @@ public final class XToolkit extends UNIXToolkit implements Runnable {
                 return true;
             }
         }
-        return false;
+        return fblse;
     }
 
-    private void loadXSettings() {
+    privbte void lobdXSettings() {
        xs = new XAWTXSettings();
     }
 
     /**
-     * Callback from the native side indicating some, or all, of the
-     * desktop properties have changed and need to be reloaded.
-     * <code>data</code> is the byte array directly from the x server and
-     * may be in little endian format.
+     * Cbllbbck from the nbtive side indicbting some, or bll, of the
+     * desktop properties hbve chbnged bnd need to be relobded.
+     * <code>dbtb</code> is the byte brrby directly from the x server bnd
+     * mby be in little endibn formbt.
      * <p>
-     * NB: This could be called from any thread if triggered by
-     * <code>loadXSettings</code>.  It is called from the System EDT
-     * if triggered by an XSETTINGS change.
+     * NB: This could be cblled from bny threbd if triggered by
+     * <code>lobdXSettings</code>.  It is cblled from the System EDT
+     * if triggered by bn XSETTINGS chbnge.
      */
-    void parseXSettings(int screen_XXX_ignored,Map<String, Object> updatedSettings) {
+    void pbrseXSettings(int screen_XXX_ignored,Mbp<String, Object> updbtedSettings) {
 
-        if (updatedSettings == null || updatedSettings.isEmpty()) {
+        if (updbtedSettings == null || updbtedSettings.isEmpty()) {
             return;
         }
 
-        Iterator<Map.Entry<String, Object>> i = updatedSettings.entrySet().iterator();
-        while (i.hasNext()) {
-            Map.Entry<String, Object> e = i.next();
-            String name = e.getKey();
+        Iterbtor<Mbp.Entry<String, Object>> i = updbtedSettings.entrySet().iterbtor();
+        while (i.hbsNext()) {
+            Mbp.Entry<String, Object> e = i.next();
+            String nbme = e.getKey();
 
-            name = "gnome." + name;
-            setDesktopProperty(name, e.getValue());
-            if (log.isLoggable(PlatformLogger.Level.FINE)) {
-                log.fine("name = " + name + " value = " + e.getValue());
+            nbme = "gnome." + nbme;
+            setDesktopProperty(nbme, e.getVblue());
+            if (log.isLoggbble(PlbtformLogger.Level.FINE)) {
+                log.fine("nbme = " + nbme + " vblue = " + e.getVblue());
             }
 
-            // XXX: we probably want to do something smarter.  In
-            // particular, "Net" properties are of interest to the
+            // XXX: we probbbly wbnt to do something smbrter.  In
+            // pbrticulbr, "Net" properties bre of interest to the
             // "core" AWT itself.  E.g.
             //
-            // Net/DndDragThreshold -> ???
-            // Net/DoubleClickTime  -> awt.multiClickInterval
+            // Net/DndDrbgThreshold -> ???
+            // Net/DoubleClickTime  -> bwt.multiClickIntervbl
         }
 
         setDesktopProperty(SunToolkit.DESKTOPFONTHINTS,
                            SunToolkit.getDesktopFontHints());
 
-        Integer dragThreshold = null;
+        Integer drbgThreshold = null;
         synchronized (this) {
-            dragThreshold = (Integer)desktopProperties.get("gnome.Net/DndDragThreshold");
+            drbgThreshold = (Integer)desktopProperties.get("gnome.Net/DndDrbgThreshold");
         }
-        if (dragThreshold != null) {
-            setDesktopProperty("DnD.gestureMotionThreshold", dragThreshold);
+        if (drbgThreshold != null) {
+            setDesktopProperty("DnD.gestureMotionThreshold", drbgThreshold);
         }
 
     }
 
 
 
-    static int altMask;
-    static int metaMask;
-    static int numLockMask;
-    static int modeSwitchMask;
-    static int modLockIsShiftLock;
+    stbtic int bltMbsk;
+    stbtic int metbMbsk;
+    stbtic int numLockMbsk;
+    stbtic int modeSwitchMbsk;
+    stbtic int modLockIsShiftLock;
 
-    /* Like XKeysymToKeycode, but ensures that keysym is the primary
+    /* Like XKeysymToKeycode, but ensures thbt keysym is the primbry
     * symbol on the keycode returned.  Returns zero otherwise.
     */
-    static int keysymToPrimaryKeycode(long sym) {
-        awtLock();
+    stbtic int keysymToPrimbryKeycode(long sym) {
+        bwtLock();
         try {
-            int code = XlibWrapper.XKeysymToKeycode(getDisplay(), sym);
+            int code = XlibWrbpper.XKeysymToKeycode(getDisplby(), sym);
             if (code == 0) {
                 return 0;
             }
-            long primary = XlibWrapper.XKeycodeToKeysym(getDisplay(), code, 0);
-            if (sym != primary) {
+            long primbry = XlibWrbpper.XKeycodeToKeysym(getDisplby(), code, 0);
+            if (sym != primbry) {
                 return 0;
             }
             return code;
-        } finally {
-            awtUnlock();
+        } finblly {
+            bwtUnlock();
         }
     }
-    static boolean getModifierState( int jkc ) {
-        int iKeyMask = 0;
-        long ks = XKeysym.javaKeycode2Keysym( jkc );
-        int  kc = XlibWrapper.XKeysymToKeycode(getDisplay(), ks);
+    stbtic boolebn getModifierStbte( int jkc ) {
+        int iKeyMbsk = 0;
+        long ks = XKeysym.jbvbKeycode2Keysym( jkc );
+        int  kc = XlibWrbpper.XKeysymToKeycode(getDisplby(), ks);
         if (kc == 0) {
-            return false;
+            return fblse;
         }
-        awtLock();
+        bwtLock();
         try {
-            XModifierKeymap modmap = new XModifierKeymap(
-                 XlibWrapper.XGetModifierMapping(getDisplay()));
+            XModifierKeymbp modmbp = new XModifierKeymbp(
+                 XlibWrbpper.XGetModifierMbpping(getDisplby()));
 
-            int nkeys = modmap.get_max_keypermod();
+            int nkeys = modmbp.get_mbx_keypermod();
 
-            long map_ptr = modmap.get_modifiermap();
+            long mbp_ptr = modmbp.get_modifiermbp();
             for( int k = 0; k < 8; k++ ) {
                 for (int i = 0; i < nkeys; ++i) {
-                    int keycode = Native.getUByte(map_ptr, k * nkeys + i);
+                    int keycode = Nbtive.getUByte(mbp_ptr, k * nkeys + i);
                     if (keycode == 0) {
                         continue; // ignore zero keycode
                     }
                     if (kc == keycode) {
-                        iKeyMask = 1 << k;
-                        break;
+                        iKeyMbsk = 1 << k;
+                        brebk;
                     }
                 }
-                if( iKeyMask != 0 ) {
-                    break;
+                if( iKeyMbsk != 0 ) {
+                    brebk;
                 }
             }
-            XlibWrapper.XFreeModifiermap(modmap.pData);
-            if (iKeyMask == 0 ) {
-                return false;
+            XlibWrbpper.XFreeModifiermbp(modmbp.pDbtb);
+            if (iKeyMbsk == 0 ) {
+                return fblse;
             }
-            // Now we know to which modifier is assigned the keycode
-            // correspondent to the keysym correspondent to the java
-            // keycode. We are going to check a state of this modifier.
-            // If a modifier is a weird one, we cannot help it.
+            // Now we know to which modifier is bssigned the keycode
+            // correspondent to the keysym correspondent to the jbvb
+            // keycode. We bre going to check b stbte of this modifier.
+            // If b modifier is b weird one, we cbnnot help it.
             long window = 0;
             try{
-                // get any application window
-                window = winMap.firstKey().longValue();
-            }catch(NoSuchElementException nex) {
+                // get bny bpplicbtion window
+                window = winMbp.firstKey().longVblue();
+            }cbtch(NoSuchElementException nex) {
                 // get root window
-                window = getDefaultRootWindow();
+                window = getDefbultRootWindow();
             }
-            boolean res = XlibWrapper.XQueryPointer(getDisplay(), window,
-                                            XlibWrapper.larg1, //root
-                                            XlibWrapper.larg2, //child
-                                            XlibWrapper.larg3, //root_x
-                                            XlibWrapper.larg4, //root_y
-                                            XlibWrapper.larg5, //child_x
-                                            XlibWrapper.larg6, //child_y
-                                            XlibWrapper.larg7);//mask
-            int mask = Native.getInt(XlibWrapper.larg7);
-            return ((mask & iKeyMask) != 0);
-        } finally {
-            awtUnlock();
+            boolebn res = XlibWrbpper.XQueryPointer(getDisplby(), window,
+                                            XlibWrbpper.lbrg1, //root
+                                            XlibWrbpper.lbrg2, //child
+                                            XlibWrbpper.lbrg3, //root_x
+                                            XlibWrbpper.lbrg4, //root_y
+                                            XlibWrbpper.lbrg5, //child_x
+                                            XlibWrbpper.lbrg6, //child_y
+                                            XlibWrbpper.lbrg7);//mbsk
+            int mbsk = Nbtive.getInt(XlibWrbpper.lbrg7);
+            return ((mbsk & iKeyMbsk) != 0);
+        } finblly {
+            bwtUnlock();
         }
     }
 
-    /* Assign meaning - alt, meta, etc. - to X modifiers mod1 ... mod5.
-     * Only consider primary symbols on keycodes attached to modifiers.
+    /* Assign mebning - blt, metb, etc. - to X modifiers mod1 ... mod5.
+     * Only consider primbry symbols on keycodes bttbched to modifiers.
      */
-    static void setupModifierMap() {
-        final int metaL = keysymToPrimaryKeycode(XKeySymConstants.XK_Meta_L);
-        final int metaR = keysymToPrimaryKeycode(XKeySymConstants.XK_Meta_R);
-        final int altL = keysymToPrimaryKeycode(XKeySymConstants.XK_Alt_L);
-        final int altR = keysymToPrimaryKeycode(XKeySymConstants.XK_Alt_R);
-        final int numLock = keysymToPrimaryKeycode(XKeySymConstants.XK_Num_Lock);
-        final int modeSwitch = keysymToPrimaryKeycode(XKeySymConstants.XK_Mode_switch);
-        final int shiftLock = keysymToPrimaryKeycode(XKeySymConstants.XK_Shift_Lock);
-        final int capsLock  = keysymToPrimaryKeycode(XKeySymConstants.XK_Caps_Lock);
+    stbtic void setupModifierMbp() {
+        finbl int metbL = keysymToPrimbryKeycode(XKeySymConstbnts.XK_Metb_L);
+        finbl int metbR = keysymToPrimbryKeycode(XKeySymConstbnts.XK_Metb_R);
+        finbl int bltL = keysymToPrimbryKeycode(XKeySymConstbnts.XK_Alt_L);
+        finbl int bltR = keysymToPrimbryKeycode(XKeySymConstbnts.XK_Alt_R);
+        finbl int numLock = keysymToPrimbryKeycode(XKeySymConstbnts.XK_Num_Lock);
+        finbl int modeSwitch = keysymToPrimbryKeycode(XKeySymConstbnts.XK_Mode_switch);
+        finbl int shiftLock = keysymToPrimbryKeycode(XKeySymConstbnts.XK_Shift_Lock);
+        finbl int cbpsLock  = keysymToPrimbryKeycode(XKeySymConstbnts.XK_Cbps_Lock);
 
-        final int modmask[] = { XConstants.ShiftMask, XConstants.LockMask, XConstants.ControlMask, XConstants.Mod1Mask,
-            XConstants.Mod2Mask, XConstants.Mod3Mask, XConstants.Mod4Mask, XConstants.Mod5Mask };
+        finbl int modmbsk[] = { XConstbnts.ShiftMbsk, XConstbnts.LockMbsk, XConstbnts.ControlMbsk, XConstbnts.Mod1Mbsk,
+            XConstbnts.Mod2Mbsk, XConstbnts.Mod3Mbsk, XConstbnts.Mod4Mbsk, XConstbnts.Mod5Mbsk };
 
-        log.fine("In setupModifierMap");
-        awtLock();
+        log.fine("In setupModifierMbp");
+        bwtLock();
         try {
-            XModifierKeymap modmap = new XModifierKeymap(
-                 XlibWrapper.XGetModifierMapping(getDisplay()));
+            XModifierKeymbp modmbp = new XModifierKeymbp(
+                 XlibWrbpper.XGetModifierMbpping(getDisplby()));
 
-            int nkeys = modmap.get_max_keypermod();
+            int nkeys = modmbp.get_mbx_keypermod();
 
-            long map_ptr = modmap.get_modifiermap();
+            long mbp_ptr = modmbp.get_modifiermbp();
 
-            for (int modn = XConstants.Mod1MapIndex;
-                 modn <= XConstants.Mod5MapIndex;
+            for (int modn = XConstbnts.Mod1MbpIndex;
+                 modn <= XConstbnts.Mod5MbpIndex;
                  ++modn)
             {
                 for (int i = 0; i < nkeys; ++i) {
-                    /* for each keycode attached to this modifier */
-                    int keycode = Native.getUByte(map_ptr, modn * nkeys + i);
+                    /* for ebch keycode bttbched to this modifier */
+                    int keycode = Nbtive.getUByte(mbp_ptr, modn * nkeys + i);
 
                     if (keycode == 0) {
-                        break;
+                        brebk;
                     }
-                    if (metaMask == 0 &&
-                        (keycode == metaL || keycode == metaR))
+                    if (metbMbsk == 0 &&
+                        (keycode == metbL || keycode == metbR))
                     {
-                        metaMask = modmask[modn];
-                        break;
+                        metbMbsk = modmbsk[modn];
+                        brebk;
                     }
-                    if (altMask == 0 && (keycode == altL || keycode == altR)) {
-                        altMask = modmask[modn];
-                        break;
+                    if (bltMbsk == 0 && (keycode == bltL || keycode == bltR)) {
+                        bltMbsk = modmbsk[modn];
+                        brebk;
                     }
-                    if (numLockMask == 0 && keycode == numLock) {
-                        numLockMask = modmask[modn];
-                        break;
+                    if (numLockMbsk == 0 && keycode == numLock) {
+                        numLockMbsk = modmbsk[modn];
+                        brebk;
                     }
-                    if (modeSwitchMask == 0 && keycode == modeSwitch) {
-                        modeSwitchMask = modmask[modn];
-                        break;
+                    if (modeSwitchMbsk == 0 && keycode == modeSwitch) {
+                        modeSwitchMbsk = modmbsk[modn];
+                        brebk;
                     }
                     continue;
                 }
             }
             modLockIsShiftLock = 0;
             for (int j = 0; j < nkeys; ++j) {
-                int keycode = Native.getUByte(map_ptr, XConstants.LockMapIndex * nkeys + j);
+                int keycode = Nbtive.getUByte(mbp_ptr, XConstbnts.LockMbpIndex * nkeys + j);
                 if (keycode == 0) {
-                    break;
+                    brebk;
                 }
                 if (keycode == shiftLock) {
                     modLockIsShiftLock = 1;
-                    break;
+                    brebk;
                 }
-                if (keycode == capsLock) {
-                    break;
+                if (keycode == cbpsLock) {
+                    brebk;
                 }
             }
-            XlibWrapper.XFreeModifiermap(modmap.pData);
-        } finally {
-            awtUnlock();
+            XlibWrbpper.XFreeModifiermbp(modmbp.pDbtb);
+        } finblly {
+            bwtUnlock();
         }
-        if (log.isLoggable(PlatformLogger.Level.FINE)) {
-            log.fine("metaMask = " + metaMask);
-            log.fine("altMask = " + altMask);
-            log.fine("numLockMask = " + numLockMask);
-            log.fine("modeSwitchMask = " + modeSwitchMask);
+        if (log.isLoggbble(PlbtformLogger.Level.FINE)) {
+            log.fine("metbMbsk = " + metbMbsk);
+            log.fine("bltMbsk = " + bltMbsk);
+            log.fine("numLockMbsk = " + numLockMbsk);
+            log.fine("modeSwitchMbsk = " + modeSwitchMbsk);
             log.fine("modLockIsShiftLock = " + modLockIsShiftLock);
         }
     }
 
 
-    private static SortedMap<Long, java.util.List<Runnable>> timeoutTasks;
+    privbte stbtic SortedMbp<Long, jbvb.util.List<Runnbble>> timeoutTbsks;
 
     /**
-     * Removed the task from the list of waiting-to-be called tasks.
-     * If the task has been scheduled several times removes only first one.
+     * Removed the tbsk from the list of wbiting-to-be cblled tbsks.
+     * If the tbsk hbs been scheduled severbl times removes only first one.
      */
-    static void remove(Runnable task) {
-        if (task == null) {
-            throw new NullPointerException("task is null");
+    stbtic void remove(Runnbble tbsk) {
+        if (tbsk == null) {
+            throw new NullPointerException("tbsk is null");
         }
-        awtLock();
+        bwtLock();
         try {
-            if (timeoutTaskLog.isLoggable(PlatformLogger.Level.FINER)) {
-                timeoutTaskLog.finer("Removing task " + task);
+            if (timeoutTbskLog.isLoggbble(PlbtformLogger.Level.FINER)) {
+                timeoutTbskLog.finer("Removing tbsk " + tbsk);
             }
-            if (timeoutTasks == null) {
-                if (timeoutTaskLog.isLoggable(PlatformLogger.Level.FINER)) {
-                    timeoutTaskLog.finer("Task is not scheduled");
+            if (timeoutTbsks == null) {
+                if (timeoutTbskLog.isLoggbble(PlbtformLogger.Level.FINER)) {
+                    timeoutTbskLog.finer("Tbsk is not scheduled");
                 }
                 return;
             }
-            Collection<java.util.List<Runnable>> values = timeoutTasks.values();
-            Iterator<java.util.List<Runnable>> iter = values.iterator();
-            while (iter.hasNext()) {
-                java.util.List<Runnable> list = iter.next();
-                boolean removed = false;
-                if (list.contains(task)) {
-                    list.remove(task);
+            Collection<jbvb.util.List<Runnbble>> vblues = timeoutTbsks.vblues();
+            Iterbtor<jbvb.util.List<Runnbble>> iter = vblues.iterbtor();
+            while (iter.hbsNext()) {
+                jbvb.util.List<Runnbble> list = iter.next();
+                boolebn removed = fblse;
+                if (list.contbins(tbsk)) {
+                    list.remove(tbsk);
                     if (list.isEmpty()) {
                         iter.remove();
                     }
-                    break;
+                    brebk;
                 }
             }
-        } finally {
-            awtUnlock();
+        } finblly {
+            bwtUnlock();
         }
     }
 
-    static native void wakeup_poll();
+    stbtic nbtive void wbkeup_poll();
 
     /**
-     * Registers a Runnable which <code>run()</code> method will be called
-     * once on the toolkit thread when a specified interval of time elapses.
+     * Registers b Runnbble which <code>run()</code> method will be cblled
+     * once on the toolkit threbd when b specified intervbl of time elbpses.
      *
-     * @param task a Runnable which <code>run</code> method will be called
-     *        on the toolkit thread when <code>interval</code> milliseconds
-     *        elapse
-     * @param interval an interal in milliseconds
+     * @pbrbm tbsk b Runnbble which <code>run</code> method will be cblled
+     *        on the toolkit threbd when <code>intervbl</code> milliseconds
+     *        elbpse
+     * @pbrbm intervbl bn interbl in milliseconds
      *
-     * @throws NullPointerException if <code>task</code> is <code>null</code>
-     * @throws IllegalArgumentException if <code>interval</code> is not positive
+     * @throws NullPointerException if <code>tbsk</code> is <code>null</code>
+     * @throws IllegblArgumentException if <code>intervbl</code> is not positive
      */
-    static void schedule(Runnable task, long interval) {
-        if (task == null) {
-            throw new NullPointerException("task is null");
+    stbtic void schedule(Runnbble tbsk, long intervbl) {
+        if (tbsk == null) {
+            throw new NullPointerException("tbsk is null");
         }
-        if (interval <= 0) {
-            throw new IllegalArgumentException("interval " + interval + " is not positive");
+        if (intervbl <= 0) {
+            throw new IllegblArgumentException("intervbl " + intervbl + " is not positive");
         }
 
-        awtLock();
+        bwtLock();
         try {
-            if (timeoutTaskLog.isLoggable(PlatformLogger.Level.FINER)) {
-                timeoutTaskLog.finer("XToolkit.schedule(): current time={0}" +
-                                     ";  interval={1}" +
-                                     ";  task being added={2}" + ";  tasks before addition={3}",
-                                     Long.valueOf(System.currentTimeMillis()), Long.valueOf(interval), task, timeoutTasks);
+            if (timeoutTbskLog.isLoggbble(PlbtformLogger.Level.FINER)) {
+                timeoutTbskLog.finer("XToolkit.schedule(): current time={0}" +
+                                     ";  intervbl={1}" +
+                                     ";  tbsk being bdded={2}" + ";  tbsks before bddition={3}",
+                                     Long.vblueOf(System.currentTimeMillis()), Long.vblueOf(intervbl), tbsk, timeoutTbsks);
             }
 
-            if (timeoutTasks == null) {
-                timeoutTasks = new TreeMap<>();
+            if (timeoutTbsks == null) {
+                timeoutTbsks = new TreeMbp<>();
             }
 
-            Long time = Long.valueOf(System.currentTimeMillis() + interval);
-            java.util.List<Runnable> tasks = timeoutTasks.get(time);
-            if (tasks == null) {
-                tasks = new ArrayList<>(1);
-                timeoutTasks.put(time, tasks);
+            Long time = Long.vblueOf(System.currentTimeMillis() + intervbl);
+            jbvb.util.List<Runnbble> tbsks = timeoutTbsks.get(time);
+            if (tbsks == null) {
+                tbsks = new ArrbyList<>(1);
+                timeoutTbsks.put(time, tbsks);
             }
-            tasks.add(task);
+            tbsks.bdd(tbsk);
 
 
-            if (timeoutTasks.get(timeoutTasks.firstKey()) == tasks && tasks.size() == 1) {
-                // Added task became first task - poll won't know
-                // about it so we need to wake it up
-                wakeup_poll();
+            if (timeoutTbsks.get(timeoutTbsks.firstKey()) == tbsks && tbsks.size() == 1) {
+                // Added tbsk becbme first tbsk - poll won't know
+                // bbout it so we need to wbke it up
+                wbkeup_poll();
             }
-        }  finally {
-            awtUnlock();
+        }  finblly {
+            bwtUnlock();
         }
     }
 
-    private long getNextTaskTime() {
-        awtLock();
+    privbte long getNextTbskTime() {
+        bwtLock();
         try {
-            if (timeoutTasks == null || timeoutTasks.isEmpty()) {
+            if (timeoutTbsks == null || timeoutTbsks.isEmpty()) {
                 return -1L;
             }
-            return timeoutTasks.firstKey();
-        } finally {
-            awtUnlock();
+            return timeoutTbsks.firstKey();
+        } finblly {
+            bwtUnlock();
         }
     }
 
     /**
-     * Executes mature timeout tasks registered with schedule().
-     * Called from run() under awtLock.
+     * Executes mbture timeout tbsks registered with schedule().
+     * Cblled from run() under bwtLock.
      */
-    private static void callTimeoutTasks() {
-        if (timeoutTaskLog.isLoggable(PlatformLogger.Level.FINER)) {
-            timeoutTaskLog.finer("XToolkit.callTimeoutTasks(): current time={0}" +
-                                 ";  tasks={1}", Long.valueOf(System.currentTimeMillis()), timeoutTasks);
+    privbte stbtic void cbllTimeoutTbsks() {
+        if (timeoutTbskLog.isLoggbble(PlbtformLogger.Level.FINER)) {
+            timeoutTbskLog.finer("XToolkit.cbllTimeoutTbsks(): current time={0}" +
+                                 ";  tbsks={1}", Long.vblueOf(System.currentTimeMillis()), timeoutTbsks);
         }
 
-        if (timeoutTasks == null || timeoutTasks.isEmpty()) {
+        if (timeoutTbsks == null || timeoutTbsks.isEmpty()) {
             return;
         }
 
-        Long currentTime = Long.valueOf(System.currentTimeMillis());
-        Long time = timeoutTasks.firstKey();
+        Long currentTime = Long.vblueOf(System.currentTimeMillis());
+        Long time = timeoutTbsks.firstKey();
 
-        while (time.compareTo(currentTime) <= 0) {
-            java.util.List<Runnable> tasks = timeoutTasks.remove(time);
+        while (time.compbreTo(currentTime) <= 0) {
+            jbvb.util.List<Runnbble> tbsks = timeoutTbsks.remove(time);
 
-            for (Iterator<Runnable> iter = tasks.iterator(); iter.hasNext();) {
-                Runnable task = iter.next();
+            for (Iterbtor<Runnbble> iter = tbsks.iterbtor(); iter.hbsNext();) {
+                Runnbble tbsk = iter.next();
 
-                if (timeoutTaskLog.isLoggable(PlatformLogger.Level.FINER)) {
-                    timeoutTaskLog.finer("XToolkit.callTimeoutTasks(): current time={0}" +
-                                         ";  about to run task={1}", Long.valueOf(currentTime), task);
+                if (timeoutTbskLog.isLoggbble(PlbtformLogger.Level.FINER)) {
+                    timeoutTbskLog.finer("XToolkit.cbllTimeoutTbsks(): current time={0}" +
+                                         ";  bbout to run tbsk={1}", Long.vblueOf(currentTime), tbsk);
                 }
 
                 try {
-                    task.run();
-                } catch (ThreadDeath td) {
+                    tbsk.run();
+                } cbtch (ThrebdDebth td) {
                     throw td;
-                } catch (Throwable thr) {
+                } cbtch (Throwbble thr) {
                     processException(thr);
                 }
             }
 
-            if (timeoutTasks.isEmpty()) {
-                break;
+            if (timeoutTbsks.isEmpty()) {
+                brebk;
             }
-            time = timeoutTasks.firstKey();
+            time = timeoutTbsks.firstKey();
         }
     }
 
-    static long getAwtDefaultFg() {
-        return awt_defaultFg;
+    stbtic long getAwtDefbultFg() {
+        return bwt_defbultFg;
     }
 
-    static boolean isLeftMouseButton(MouseEvent me) {
+    stbtic boolebn isLeftMouseButton(MouseEvent me) {
         switch (me.getID()) {
-          case MouseEvent.MOUSE_PRESSED:
-          case MouseEvent.MOUSE_RELEASED:
+          cbse MouseEvent.MOUSE_PRESSED:
+          cbse MouseEvent.MOUSE_RELEASED:
               return (me.getButton() == MouseEvent.BUTTON1);
-          case MouseEvent.MOUSE_ENTERED:
-          case MouseEvent.MOUSE_EXITED:
-          case MouseEvent.MOUSE_CLICKED:
-          case MouseEvent.MOUSE_DRAGGED:
+          cbse MouseEvent.MOUSE_ENTERED:
+          cbse MouseEvent.MOUSE_EXITED:
+          cbse MouseEvent.MOUSE_CLICKED:
+          cbse MouseEvent.MOUSE_DRAGGED:
               return ((me.getModifiersEx() & InputEvent.BUTTON1_DOWN_MASK) != 0);
         }
-        return false;
+        return fblse;
     }
 
-    static boolean isRightMouseButton(MouseEvent me) {
-        int numButtons = ((Integer)getDefaultToolkit().getDesktopProperty("awt.mouse.numButtons")).intValue();
+    stbtic boolebn isRightMouseButton(MouseEvent me) {
+        int numButtons = ((Integer)getDefbultToolkit().getDesktopProperty("bwt.mouse.numButtons")).intVblue();
         switch (me.getID()) {
-          case MouseEvent.MOUSE_PRESSED:
-          case MouseEvent.MOUSE_RELEASED:
+          cbse MouseEvent.MOUSE_PRESSED:
+          cbse MouseEvent.MOUSE_RELEASED:
               return ((numButtons == 2 && me.getButton() == MouseEvent.BUTTON2) ||
                        (numButtons > 2 && me.getButton() == MouseEvent.BUTTON3));
-          case MouseEvent.MOUSE_ENTERED:
-          case MouseEvent.MOUSE_EXITED:
-          case MouseEvent.MOUSE_CLICKED:
-          case MouseEvent.MOUSE_DRAGGED:
+          cbse MouseEvent.MOUSE_ENTERED:
+          cbse MouseEvent.MOUSE_EXITED:
+          cbse MouseEvent.MOUSE_CLICKED:
+          cbse MouseEvent.MOUSE_DRAGGED:
               return ((numButtons == 2 && (me.getModifiersEx() & InputEvent.BUTTON2_DOWN_MASK) != 0) ||
                       (numButtons > 2 && (me.getModifiersEx() & InputEvent.BUTTON3_DOWN_MASK) != 0));
         }
-        return false;
+        return fblse;
     }
 
-    static long reset_time_utc;
-    static final long WRAP_TIME_MILLIS = 0x00000000FFFFFFFFL;
+    stbtic long reset_time_utc;
+    stbtic finbl long WRAP_TIME_MILLIS = 0x00000000FFFFFFFFL;
 
     /*
      * This function converts between the X server time (number of milliseconds
-     * since the last server reset) and the UTC time for the 'when' field of an
-     * InputEvent (or another event type with a timestamp).
+     * since the lbst server reset) bnd the UTC time for the 'when' field of bn
+     * InputEvent (or bnother event type with b timestbmp).
      */
-    static long nowMillisUTC_offset(long server_offset) {
-        // ported from awt_util.c
+    stbtic long nowMillisUTC_offset(long server_offset) {
+        // ported from bwt_util.c
         /*
-         * Because Time is of type 'unsigned long', it is possible that Time will
-         * never wrap when using 64-bit Xlib. However, if a 64-bit client
-         * connects to a 32-bit server, I suspect the values will still wrap. So
-         * we should not attempt to remove the wrap checking even if _LP64 is
+         * Becbuse Time is of type 'unsigned long', it is possible thbt Time will
+         * never wrbp when using 64-bit Xlib. However, if b 64-bit client
+         * connects to b 32-bit server, I suspect the vblues will still wrbp. So
+         * we should not bttempt to remove the wrbp checking even if _LP64 is
          * true.
          */
 
         long current_time_utc = System.currentTimeMillis();
-        if (log.isLoggable(PlatformLogger.Level.FINER)) {
+        if (log.isLoggbble(PlbtformLogger.Level.FINER)) {
             log.finer("reset_time=" + reset_time_utc + ", current_time=" + current_time_utc
-                      + ", server_offset=" + server_offset + ", wrap_time=" + WRAP_TIME_MILLIS);
+                      + ", server_offset=" + server_offset + ", wrbp_time=" + WRAP_TIME_MILLIS);
         }
 
         if ((current_time_utc - reset_time_utc) > WRAP_TIME_MILLIS) {
             reset_time_utc = System.currentTimeMillis() - getCurrentServerTime();
         }
 
-        if (log.isLoggable(PlatformLogger.Level.FINER)) {
+        if (log.isLoggbble(PlbtformLogger.Level.FINER)) {
             log.finer("result = " + (reset_time_utc + server_offset));
         }
         return reset_time_utc + server_offset;
     }
 
     /**
-     * @see sun.awt.SunToolkit#needsXEmbedImpl
+     * @see sun.bwt.SunToolkit#needsXEmbedImpl
      */
-    protected boolean needsXEmbedImpl() {
-        // XToolkit implements supports for XEmbed-client protocol and
+    protected boolebn needsXEmbedImpl() {
+        // XToolkit implements supports for XEmbed-client protocol bnd
         // requires the supports from the embedding host for it to work.
         return true;
     }
 
-    public boolean isModalityTypeSupported(Dialog.ModalityType modalityType) {
-        return (modalityType == null) ||
-               (modalityType == Dialog.ModalityType.MODELESS) ||
-               (modalityType == Dialog.ModalityType.DOCUMENT_MODAL) ||
-               (modalityType == Dialog.ModalityType.APPLICATION_MODAL) ||
-               (modalityType == Dialog.ModalityType.TOOLKIT_MODAL);
+    public boolebn isModblityTypeSupported(Diblog.ModblityType modblityType) {
+        return (modblityType == null) ||
+               (modblityType == Diblog.ModblityType.MODELESS) ||
+               (modblityType == Diblog.ModblityType.DOCUMENT_MODAL) ||
+               (modblityType == Diblog.ModblityType.APPLICATION_MODAL) ||
+               (modblityType == Diblog.ModblityType.TOOLKIT_MODAL);
     }
 
-    public boolean isModalExclusionTypeSupported(Dialog.ModalExclusionType exclusionType) {
+    public boolebn isModblExclusionTypeSupported(Diblog.ModblExclusionType exclusionType) {
         return (exclusionType == null) ||
-               (exclusionType == Dialog.ModalExclusionType.NO_EXCLUDE) ||
-               (exclusionType == Dialog.ModalExclusionType.APPLICATION_EXCLUDE) ||
-               (exclusionType == Dialog.ModalExclusionType.TOOLKIT_EXCLUDE);
+               (exclusionType == Diblog.ModblExclusionType.NO_EXCLUDE) ||
+               (exclusionType == Diblog.ModblExclusionType.APPLICATION_EXCLUDE) ||
+               (exclusionType == Diblog.ModblExclusionType.TOOLKIT_EXCLUDE);
     }
 
-    static EventQueue getEventQueue(Object target) {
-        AppContext appContext = targetToAppContext(target);
-        if (appContext != null) {
-            return (EventQueue)appContext.get(AppContext.EVENT_QUEUE_KEY);
+    stbtic EventQueue getEventQueue(Object tbrget) {
+        AppContext bppContext = tbrgetToAppContext(tbrget);
+        if (bppContext != null) {
+            return (EventQueue)bppContext.get(AppContext.EVENT_QUEUE_KEY);
         }
         return null;
     }
 
-    static void removeSourceEvents(EventQueue queue,
+    stbtic void removeSourceEvents(EventQueue queue,
                                    Object source,
-                                   boolean removeAllEvents) {
+                                   boolebn removeAllEvents) {
         AWTAccessor.getEventQueueAccessor()
             .removeSourceEvents(queue, source, removeAllEvents);
     }
 
-    public boolean isAlwaysOnTopSupported() {
-        for (XLayerProtocol proto : XWM.getWM().getProtocols(XLayerProtocol.class)) {
-            if (proto.supportsLayer(XLayerProtocol.LAYER_ALWAYS_ON_TOP)) {
+    public boolebn isAlwbysOnTopSupported() {
+        for (XLbyerProtocol proto : XWM.getWM().getProtocols(XLbyerProtocol.clbss)) {
+            if (proto.supportsLbyer(XLbyerProtocol.LAYER_ALWAYS_ON_TOP)) {
                 return true;
             }
         }
-        return false;
+        return fblse;
     }
 
-    public boolean useBufferPerWindow() {
-        return XToolkit.getBackingStoreType() == XConstants.NotUseful;
+    public boolebn useBufferPerWindow() {
+        return XToolkit.getBbckingStoreType() == XConstbnts.NotUseful;
     }
 
     /**
-     * Returns one of XConstants: NotUseful, WhenMapped or Always.
-     * If backing store is not available on at least one screen, or
-     * java2d uses DGA(which conflicts with backing store) on at least one screen,
-     * or the string system property "sun.awt.backingStore" is neither "Always"
-     * nor "WhenMapped", then the method returns XConstants.NotUseful.
-     * Otherwise, if the system property "sun.awt.backingStore" is "WhenMapped",
-     * then the method returns XConstants.WhenMapped.
-     * Otherwise (i.e., if the system property "sun.awt.backingStore" is "Always"),
-     * the method returns XConstants.Always.
+     * Returns one of XConstbnts: NotUseful, WhenMbpped or Alwbys.
+     * If bbcking store is not bvbilbble on bt lebst one screen, or
+     * jbvb2d uses DGA(which conflicts with bbcking store) on bt lebst one screen,
+     * or the string system property "sun.bwt.bbckingStore" is neither "Alwbys"
+     * nor "WhenMbpped", then the method returns XConstbnts.NotUseful.
+     * Otherwise, if the system property "sun.bwt.bbckingStore" is "WhenMbpped",
+     * then the method returns XConstbnts.WhenMbpped.
+     * Otherwise (i.e., if the system property "sun.bwt.bbckingStore" is "Alwbys"),
+     * the method returns XConstbnts.Alwbys.
      */
-    static int getBackingStoreType() {
-        return backingStoreType;
+    stbtic int getBbckingStoreType() {
+        return bbckingStoreType;
     }
 
-    private static void setBackingStoreType() {
+    privbte stbtic void setBbckingStoreType() {
         String prop = AccessController.doPrivileged(
-                new sun.security.action.GetPropertyAction("sun.awt.backingStore"));
+                new sun.security.bction.GetPropertyAction("sun.bwt.bbckingStore"));
 
         if (prop == null) {
-            backingStoreType = XConstants.NotUseful;
-            if (backingStoreLog.isLoggable(PlatformLogger.Level.CONFIG)) {
-                backingStoreLog.config("The system property sun.awt.backingStore is not set" +
-                                       ", by default backingStore=NotUseful");
+            bbckingStoreType = XConstbnts.NotUseful;
+            if (bbckingStoreLog.isLoggbble(PlbtformLogger.Level.CONFIG)) {
+                bbckingStoreLog.config("The system property sun.bwt.bbckingStore is not set" +
+                                       ", by defbult bbckingStore=NotUseful");
             }
             return;
         }
 
-        if (backingStoreLog.isLoggable(PlatformLogger.Level.CONFIG)) {
-            backingStoreLog.config("The system property sun.awt.backingStore is " + prop);
+        if (bbckingStoreLog.isLoggbble(PlbtformLogger.Level.CONFIG)) {
+            bbckingStoreLog.config("The system property sun.bwt.bbckingStore is " + prop);
         }
-        prop = prop.toLowerCase();
-        if (prop.equals("always")) {
-            backingStoreType = XConstants.Always;
-        } else if (prop.equals("whenmapped")) {
-            backingStoreType = XConstants.WhenMapped;
+        prop = prop.toLowerCbse();
+        if (prop.equbls("blwbys")) {
+            bbckingStoreType = XConstbnts.Alwbys;
+        } else if (prop.equbls("whenmbpped")) {
+            bbckingStoreType = XConstbnts.WhenMbpped;
         } else {
-            backingStoreType = XConstants.NotUseful;
+            bbckingStoreType = XConstbnts.NotUseful;
         }
 
-        if (backingStoreLog.isLoggable(PlatformLogger.Level.CONFIG)) {
-            backingStoreLog.config("backingStore(as provided by the system property)=" +
-                                   ( backingStoreType == XConstants.NotUseful ? "NotUseful"
-                                     : backingStoreType == XConstants.WhenMapped ?
-                                     "WhenMapped" : "Always") );
+        if (bbckingStoreLog.isLoggbble(PlbtformLogger.Level.CONFIG)) {
+            bbckingStoreLog.config("bbckingStore(bs provided by the system property)=" +
+                                   ( bbckingStoreType == XConstbnts.NotUseful ? "NotUseful"
+                                     : bbckingStoreType == XConstbnts.WhenMbpped ?
+                                     "WhenMbpped" : "Alwbys") );
         }
 
-        if (sun.java2d.x11.X11SurfaceData.isDgaAvailable()) {
-            backingStoreType = XConstants.NotUseful;
+        if (sun.jbvb2d.x11.X11SurfbceDbtb.isDgbAvbilbble()) {
+            bbckingStoreType = XConstbnts.NotUseful;
 
-            if (backingStoreLog.isLoggable(PlatformLogger.Level.CONFIG)) {
-                backingStoreLog.config("DGA is available, backingStore=NotUseful");
+            if (bbckingStoreLog.isLoggbble(PlbtformLogger.Level.CONFIG)) {
+                bbckingStoreLog.config("DGA is bvbilbble, bbckingStore=NotUseful");
             }
 
             return;
         }
 
-        awtLock();
+        bwtLock();
         try {
-            int screenCount = XlibWrapper.ScreenCount(getDisplay());
+            int screenCount = XlibWrbpper.ScreenCount(getDisplby());
             for (int i = 0; i < screenCount; i++) {
-                if (XlibWrapper.DoesBackingStore(XlibWrapper.ScreenOfDisplay(getDisplay(), i))
-                        == XConstants.NotUseful) {
-                    backingStoreType = XConstants.NotUseful;
+                if (XlibWrbpper.DoesBbckingStore(XlibWrbpper.ScreenOfDisplby(getDisplby(), i))
+                        == XConstbnts.NotUseful) {
+                    bbckingStoreType = XConstbnts.NotUseful;
 
-                    if (backingStoreLog.isLoggable(PlatformLogger.Level.CONFIG)) {
-                        backingStoreLog.config("Backing store is not available on the screen " +
-                                               i + ", backingStore=NotUseful");
+                    if (bbckingStoreLog.isLoggbble(PlbtformLogger.Level.CONFIG)) {
+                        bbckingStoreLog.config("Bbcking store is not bvbilbble on the screen " +
+                                               i + ", bbckingStore=NotUseful");
                     }
 
                     return;
                 }
             }
-        } finally {
-            awtUnlock();
+        } finblly {
+            bwtUnlock();
         }
     }
 
     /**
-     * One of XConstants: NotUseful, WhenMapped or Always.
+     * One of XConstbnts: NotUseful, WhenMbpped or Alwbys.
      */
-    private static int backingStoreType;
+    privbte stbtic int bbckingStoreType;
 
-    static final int XSUN_KP_BEHAVIOR = 1;
-    static final int XORG_KP_BEHAVIOR = 2;
-    static final int    IS_SUN_KEYBOARD = 1;
-    static final int IS_NONSUN_KEYBOARD = 2;
-    static final int    IS_KANA_KEYBOARD = 1;
-    static final int IS_NONKANA_KEYBOARD = 2;
+    stbtic finbl int XSUN_KP_BEHAVIOR = 1;
+    stbtic finbl int XORG_KP_BEHAVIOR = 2;
+    stbtic finbl int    IS_SUN_KEYBOARD = 1;
+    stbtic finbl int IS_NONSUN_KEYBOARD = 2;
+    stbtic finbl int    IS_KANA_KEYBOARD = 1;
+    stbtic finbl int IS_NONKANA_KEYBOARD = 2;
 
 
-    static int     awt_IsXsunKPBehavior = 0;
-    static boolean awt_UseXKB         = false;
-    static boolean awt_UseXKB_Calls   = false;
-    static int     awt_XKBBaseEventCode = 0;
-    static int     awt_XKBEffectiveGroup = 0; // so far, I don't use it leaving all calculations
-                                              // to XkbTranslateKeyCode
-    static long    awt_XKBDescPtr     = 0;
+    stbtic int     bwt_IsXsunKPBehbvior = 0;
+    stbtic boolebn bwt_UseXKB         = fblse;
+    stbtic boolebn bwt_UseXKB_Cblls   = fblse;
+    stbtic int     bwt_XKBBbseEventCode = 0;
+    stbtic int     bwt_XKBEffectiveGroup = 0; // so fbr, I don't use it lebving bll cblculbtions
+                                              // to XkbTrbnslbteKeyCode
+    stbtic long    bwt_XKBDescPtr     = 0;
 
     /**
-     * Check for Xsun convention regarding numpad keys.
-     * Xsun and some other servers (i.e. derived from Xsun)
-     * under certain conditions process numpad keys unlike Xorg.
+     * Check for Xsun convention regbrding numpbd keys.
+     * Xsun bnd some other servers (i.e. derived from Xsun)
+     * under certbin conditions process numpbd keys unlike Xorg.
      */
-    static boolean isXsunKPBehavior() {
-        awtLock();
+    stbtic boolebn isXsunKPBehbvior() {
+        bwtLock();
         try {
-            if( awt_IsXsunKPBehavior == 0 ) {
-                if( XlibWrapper.IsXsunKPBehavior(getDisplay()) ) {
-                    awt_IsXsunKPBehavior = XSUN_KP_BEHAVIOR;
+            if( bwt_IsXsunKPBehbvior == 0 ) {
+                if( XlibWrbpper.IsXsunKPBehbvior(getDisplby()) ) {
+                    bwt_IsXsunKPBehbvior = XSUN_KP_BEHAVIOR;
                 }else{
-                    awt_IsXsunKPBehavior = XORG_KP_BEHAVIOR;
+                    bwt_IsXsunKPBehbvior = XORG_KP_BEHAVIOR;
                 }
             }
-            return awt_IsXsunKPBehavior == XSUN_KP_BEHAVIOR ? true : false;
-        } finally {
-            awtUnlock();
+            return bwt_IsXsunKPBehbvior == XSUN_KP_BEHAVIOR ? true : fblse;
+        } finblly {
+            bwtUnlock();
         }
     }
 
-    static int  sunOrNotKeyboard = 0;
-    static int kanaOrNotKeyboard = 0;
-    static void resetKeyboardSniffer() {
-        sunOrNotKeyboard  = 0;
-        kanaOrNotKeyboard = 0;
+    stbtic int  sunOrNotKeybobrd = 0;
+    stbtic int kbnbOrNotKeybobrd = 0;
+    stbtic void resetKeybobrdSniffer() {
+        sunOrNotKeybobrd  = 0;
+        kbnbOrNotKeybobrd = 0;
     }
-    static boolean isSunKeyboard() {
-        if( sunOrNotKeyboard == 0 ) {
-            if( XlibWrapper.IsSunKeyboard( getDisplay() )) {
-                sunOrNotKeyboard = IS_SUN_KEYBOARD;
+    stbtic boolebn isSunKeybobrd() {
+        if( sunOrNotKeybobrd == 0 ) {
+            if( XlibWrbpper.IsSunKeybobrd( getDisplby() )) {
+                sunOrNotKeybobrd = IS_SUN_KEYBOARD;
             }else{
-                sunOrNotKeyboard = IS_NONSUN_KEYBOARD;
+                sunOrNotKeybobrd = IS_NONSUN_KEYBOARD;
             }
         }
-        return (sunOrNotKeyboard == IS_SUN_KEYBOARD);
+        return (sunOrNotKeybobrd == IS_SUN_KEYBOARD);
     }
-    static boolean isKanaKeyboard() {
-        if( kanaOrNotKeyboard == 0 ) {
-            if( XlibWrapper.IsKanaKeyboard( getDisplay() )) {
-                kanaOrNotKeyboard = IS_KANA_KEYBOARD;
+    stbtic boolebn isKbnbKeybobrd() {
+        if( kbnbOrNotKeybobrd == 0 ) {
+            if( XlibWrbpper.IsKbnbKeybobrd( getDisplby() )) {
+                kbnbOrNotKeybobrd = IS_KANA_KEYBOARD;
             }else{
-                kanaOrNotKeyboard = IS_NONKANA_KEYBOARD;
+                kbnbOrNotKeybobrd = IS_NONKANA_KEYBOARD;
             }
         }
-        return (kanaOrNotKeyboard == IS_KANA_KEYBOARD);
+        return (kbnbOrNotKeybobrd == IS_KANA_KEYBOARD);
     }
-    static boolean isXKBenabled() {
-        awtLock();
+    stbtic boolebn isXKBenbbled() {
+        bwtLock();
         try {
-            return awt_UseXKB;
-        } finally {
-            awtUnlock();
+            return bwt_UseXKB;
+        } finblly {
+            bwtUnlock();
         }
     }
 
     /**
       Query XKEYBOARD extension.
-      If possible, initialize xkb library.
+      If possible, initiblize xkb librbry.
     */
-    static boolean tryXKB() {
-        awtLock();
+    stbtic boolebn tryXKB() {
+        bwtLock();
         try {
-            String name = "XKEYBOARD";
-            // First, if there is extension at all.
-            awt_UseXKB = XlibWrapper.XQueryExtension( getDisplay(), name, XlibWrapper.larg1, XlibWrapper.larg2, XlibWrapper.larg3);
-            if( awt_UseXKB ) {
-                // There is a keyboard extension. Check if a client library is compatible.
-                // If not, don't use xkb calls.
-                // In this case we still may be Xkb-capable application.
-                awt_UseXKB_Calls = XlibWrapper.XkbLibraryVersion( XlibWrapper.larg1, XlibWrapper.larg2);
-                if( awt_UseXKB_Calls ) {
-                    awt_UseXKB_Calls = XlibWrapper.XkbQueryExtension( getDisplay(),  XlibWrapper.larg1, XlibWrapper.larg2,
-                                     XlibWrapper.larg3, XlibWrapper.larg4, XlibWrapper.larg5);
-                    if( awt_UseXKB_Calls ) {
-                        awt_XKBBaseEventCode = Native.getInt(XlibWrapper.larg2);
-                        XlibWrapper.XkbSelectEvents (getDisplay(),
-                                         XConstants.XkbUseCoreKbd,
-                                         XConstants.XkbNewKeyboardNotifyMask |
-                                                 XConstants.XkbMapNotifyMask ,//|
-                                                 //XConstants.XkbStateNotifyMask,
-                                         XConstants.XkbNewKeyboardNotifyMask |
-                                                 XConstants.XkbMapNotifyMask );//|
-                                                 //XConstants.XkbStateNotifyMask);
+            String nbme = "XKEYBOARD";
+            // First, if there is extension bt bll.
+            bwt_UseXKB = XlibWrbpper.XQueryExtension( getDisplby(), nbme, XlibWrbpper.lbrg1, XlibWrbpper.lbrg2, XlibWrbpper.lbrg3);
+            if( bwt_UseXKB ) {
+                // There is b keybobrd extension. Check if b client librbry is compbtible.
+                // If not, don't use xkb cblls.
+                // In this cbse we still mby be Xkb-cbpbble bpplicbtion.
+                bwt_UseXKB_Cblls = XlibWrbpper.XkbLibrbryVersion( XlibWrbpper.lbrg1, XlibWrbpper.lbrg2);
+                if( bwt_UseXKB_Cblls ) {
+                    bwt_UseXKB_Cblls = XlibWrbpper.XkbQueryExtension( getDisplby(),  XlibWrbpper.lbrg1, XlibWrbpper.lbrg2,
+                                     XlibWrbpper.lbrg3, XlibWrbpper.lbrg4, XlibWrbpper.lbrg5);
+                    if( bwt_UseXKB_Cblls ) {
+                        bwt_XKBBbseEventCode = Nbtive.getInt(XlibWrbpper.lbrg2);
+                        XlibWrbpper.XkbSelectEvents (getDisplby(),
+                                         XConstbnts.XkbUseCoreKbd,
+                                         XConstbnts.XkbNewKeybobrdNotifyMbsk |
+                                                 XConstbnts.XkbMbpNotifyMbsk ,//|
+                                                 //XConstbnts.XkbStbteNotifyMbsk,
+                                         XConstbnts.XkbNewKeybobrdNotifyMbsk |
+                                                 XConstbnts.XkbMbpNotifyMbsk );//|
+                                                 //XConstbnts.XkbStbteNotifyMbsk);
 
-                        XlibWrapper.XkbSelectEventDetails(getDisplay(), XConstants.XkbUseCoreKbd,
-                                                     XConstants.XkbStateNotify,
-                                                     XConstants.XkbGroupStateMask,
-                                                     XConstants.XkbGroupStateMask);
-                                                     //XXX ? XkbGroupLockMask last, XkbAllStateComponentsMask before last?
-                        awt_XKBDescPtr = XlibWrapper.XkbGetMap(getDisplay(),
-                                                     XConstants.XkbKeyTypesMask    |
-                                                     XConstants.XkbKeySymsMask     |
-                                                     XConstants.XkbModifierMapMask |
-                                                     XConstants.XkbVirtualModsMask,
-                                                     XConstants.XkbUseCoreKbd);
+                        XlibWrbpper.XkbSelectEventDetbils(getDisplby(), XConstbnts.XkbUseCoreKbd,
+                                                     XConstbnts.XkbStbteNotify,
+                                                     XConstbnts.XkbGroupStbteMbsk,
+                                                     XConstbnts.XkbGroupStbteMbsk);
+                                                     //XXX ? XkbGroupLockMbsk lbst, XkbAllStbteComponentsMbsk before lbst?
+                        bwt_XKBDescPtr = XlibWrbpper.XkbGetMbp(getDisplby(),
+                                                     XConstbnts.XkbKeyTypesMbsk    |
+                                                     XConstbnts.XkbKeySymsMbsk     |
+                                                     XConstbnts.XkbModifierMbpMbsk |
+                                                     XConstbnts.XkbVirtublModsMbsk,
+                                                     XConstbnts.XkbUseCoreKbd);
 
-                        XlibWrapper.XkbSetDetectableAutoRepeat(getDisplay(), true);
+                        XlibWrbpper.XkbSetDetectbbleAutoRepebt(getDisplby(), true);
                     }
                 }
             }
-            return awt_UseXKB;
-        } finally {
-            awtUnlock();
+            return bwt_UseXKB;
+        } finblly {
+            bwtUnlock();
         }
     }
-    static boolean canUseXKBCalls() {
-        awtLock();
+    stbtic boolebn cbnUseXKBCblls() {
+        bwtLock();
         try {
-            return awt_UseXKB_Calls;
-        } finally {
-            awtUnlock();
+            return bwt_UseXKB_Cblls;
+        } finblly {
+            bwtUnlock();
         }
     }
-    static int getXKBEffectiveGroup() {
-        awtLock();
+    stbtic int getXKBEffectiveGroup() {
+        bwtLock();
         try {
-            return awt_XKBEffectiveGroup;
-        } finally {
-            awtUnlock();
+            return bwt_XKBEffectiveGroup;
+        } finblly {
+            bwtUnlock();
         }
     }
-    static int getXKBBaseEventCode() {
-        awtLock();
+    stbtic int getXKBBbseEventCode() {
+        bwtLock();
         try {
-            return awt_XKBBaseEventCode;
-        } finally {
-            awtUnlock();
+            return bwt_XKBBbseEventCode;
+        } finblly {
+            bwtUnlock();
         }
     }
-    static long getXKBKbdDesc() {
-        awtLock();
+    stbtic long getXKBKbdDesc() {
+        bwtLock();
         try {
-            return awt_XKBDescPtr;
-        } finally {
-            awtUnlock();
+            return bwt_XKBDescPtr;
+        } finblly {
+            bwtUnlock();
         }
     }
     void freeXKB() {
-        awtLock();
+        bwtLock();
         try {
-            if (awt_UseXKB_Calls && awt_XKBDescPtr != 0) {
-                XlibWrapper.XkbFreeKeyboard(awt_XKBDescPtr, 0xFF, true);
-                awt_XKBDescPtr = 0;
+            if (bwt_UseXKB_Cblls && bwt_XKBDescPtr != 0) {
+                XlibWrbpper.XkbFreeKeybobrd(bwt_XKBDescPtr, 0xFF, true);
+                bwt_XKBDescPtr = 0;
             }
-        } finally {
-            awtUnlock();
+        } finblly {
+            bwtUnlock();
         }
     }
-    private void processXkbChanges(XEvent ev) {
-        // mapping change --> refresh kbd map
-        // state change --> get a new effective group; do I really need it
-        //  or that should be left for XkbTranslateKeyCode?
-        XkbEvent xke = new XkbEvent( ev.getPData() );
-        int xkb_type = xke.get_any().get_xkb_type();
+    privbte void processXkbChbnges(XEvent ev) {
+        // mbpping chbnge --> refresh kbd mbp
+        // stbte chbnge --> get b new effective group; do I reblly need it
+        //  or thbt should be left for XkbTrbnslbteKeyCode?
+        XkbEvent xke = new XkbEvent( ev.getPDbtb() );
+        int xkb_type = xke.get_bny().get_xkb_type();
         switch( xkb_type ) {
-            case XConstants.XkbNewKeyboardNotify :
-                 if( awt_XKBDescPtr != 0 ) {
+            cbse XConstbnts.XkbNewKeybobrdNotify :
+                 if( bwt_XKBDescPtr != 0 ) {
                      freeXKB();
                  }
-                 awt_XKBDescPtr = XlibWrapper.XkbGetMap(getDisplay(),
-                                              XConstants.XkbKeyTypesMask    |
-                                              XConstants.XkbKeySymsMask     |
-                                              XConstants.XkbModifierMapMask |
-                                              XConstants.XkbVirtualModsMask,
-                                              XConstants.XkbUseCoreKbd);
-                 //System.out.println("XkbNewKeyboard:"+(xke.get_new_kbd()));
-                 break;
-            case XConstants.XkbMapNotify :
-                 //TODO: provide a simple unit test.
-                 XlibWrapper.XkbGetUpdatedMap(getDisplay(),
-                                              XConstants.XkbKeyTypesMask    |
-                                              XConstants.XkbKeySymsMask     |
-                                              XConstants.XkbModifierMapMask |
-                                              XConstants.XkbVirtualModsMask,
-                                              awt_XKBDescPtr);
-                 //System.out.println("XkbMap:"+(xke.get_map()));
-                 break;
-            case XConstants.XkbStateNotify :
-                 // May use it later e.g. to obtain an effective group etc.
-                 //System.out.println("XkbState:"+(xke.get_state()));
-                 break;
-            default:
+                 bwt_XKBDescPtr = XlibWrbpper.XkbGetMbp(getDisplby(),
+                                              XConstbnts.XkbKeyTypesMbsk    |
+                                              XConstbnts.XkbKeySymsMbsk     |
+                                              XConstbnts.XkbModifierMbpMbsk |
+                                              XConstbnts.XkbVirtublModsMbsk,
+                                              XConstbnts.XkbUseCoreKbd);
+                 //System.out.println("XkbNewKeybobrd:"+(xke.get_new_kbd()));
+                 brebk;
+            cbse XConstbnts.XkbMbpNotify :
+                 //TODO: provide b simple unit test.
+                 XlibWrbpper.XkbGetUpdbtedMbp(getDisplby(),
+                                              XConstbnts.XkbKeyTypesMbsk    |
+                                              XConstbnts.XkbKeySymsMbsk     |
+                                              XConstbnts.XkbModifierMbpMbsk |
+                                              XConstbnts.XkbVirtublModsMbsk,
+                                              bwt_XKBDescPtr);
+                 //System.out.println("XkbMbp:"+(xke.get_mbp()));
+                 brebk;
+            cbse XConstbnts.XkbStbteNotify :
+                 // Mby use it lbter e.g. to obtbin bn effective group etc.
+                 //System.out.println("XkbStbte:"+(xke.get_stbte()));
+                 brebk;
+            defbult:
                  //System.out.println("XkbEvent of xkb_type "+xkb_type);
-                 break;
+                 brebk;
         }
     }
 
-    private static long eventNumber;
-    public static long getEventNumber() {
-        awtLock();
+    privbte stbtic long eventNumber;
+    public stbtic long getEventNumber() {
+        bwtLock();
         try {
             return eventNumber;
-        } finally {
-            awtUnlock();
+        } finblly {
+            bwtUnlock();
         }
     }
 
-    private static XEventDispatcher oops_waiter;
-    private static boolean oops_updated;
-    private static boolean oops_move;
+    privbte stbtic XEventDispbtcher oops_wbiter;
+    privbte stbtic boolebn oops_updbted;
+    privbte stbtic boolebn oops_move;
 
     /**
      * @inheritDoc
      */
-    protected boolean syncNativeQueue(final long timeout) {
-        XBaseWindow win = XBaseWindow.getXAWTRootWindow();
+    protected boolebn syncNbtiveQueue(finbl long timeout) {
+        XBbseWindow win = XBbseWindow.getXAWTRootWindow();
 
-        if (oops_waiter == null) {
-            oops_waiter = new XEventDispatcher() {
-                    public void dispatchEvent(XEvent e) {
-                        if (e.get_type() == XConstants.ConfigureNotify) {
-                            // OOPS ConfigureNotify event catched
-                            oops_updated = true;
-                            awtLockNotifyAll();
+        if (oops_wbiter == null) {
+            oops_wbiter = new XEventDispbtcher() {
+                    public void dispbtchEvent(XEvent e) {
+                        if (e.get_type() == XConstbnts.ConfigureNotify) {
+                            // OOPS ConfigureNotify event cbtched
+                            oops_updbted = true;
+                            bwtLockNotifyAll();
                         }
                     }
                 };
         }
 
-        awtLock();
+        bwtLock();
         try {
-            addEventDispatcher(win.getWindow(), oops_waiter);
+            bddEventDispbtcher(win.getWindow(), oops_wbiter);
 
-            oops_updated = false;
+            oops_updbted = fblse;
             long event_number = getEventNumber();
-            // Generate OOPS ConfigureNotify event
-            XlibWrapper.XMoveWindow(getDisplay(), win.getWindow(), oops_move ? 0 : 1, 0);
-            // Change win position each time to avoid system optimization
+            // Generbte OOPS ConfigureNotify event
+            XlibWrbpper.XMoveWindow(getDisplby(), win.getWindow(), oops_move ? 0 : 1, 0);
+            // Chbnge win position ebch time to bvoid system optimizbtion
             oops_move = !oops_move;
             XSync();
 
-            eventLog.finer("Generated OOPS ConfigureNotify event");
+            eventLog.finer("Generbted OOPS ConfigureNotify event");
 
-            long start = System.currentTimeMillis();
-            while (!oops_updated) {
+            long stbrt = System.currentTimeMillis();
+            while (!oops_updbted) {
                 try {
-                    // Wait for OOPS ConfigureNotify event
-                    awtLockWait(timeout);
-                } catch (InterruptedException e) {
+                    // Wbit for OOPS ConfigureNotify event
+                    bwtLockWbit(timeout);
+                } cbtch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
-                // This "while" is a protection from spurious
-                // wake-ups.  However, we shouldn't wait for too long
-                if ((System.currentTimeMillis() - start > timeout) && timeout >= 0) {
-                    throw new OperationTimedOut(Long.toString(System.currentTimeMillis() - start));
+                // This "while" is b protection from spurious
+                // wbke-ups.  However, we shouldn't wbit for too long
+                if ((System.currentTimeMillis() - stbrt > timeout) && timeout >= 0) {
+                    throw new OperbtionTimedOut(Long.toString(System.currentTimeMillis() - stbrt));
                 }
             }
-            // Don't take into account OOPS ConfigureNotify event
+            // Don't tbke into bccount OOPS ConfigureNotify event
             return getEventNumber() - event_number > 1;
-        } finally {
-            removeEventDispatcher(win.getWindow(), oops_waiter);
-            eventLog.finer("Exiting syncNativeQueue");
-            awtUnlock();
+        } finblly {
+            removeEventDispbtcher(win.getWindow(), oops_wbiter);
+            eventLog.finer("Exiting syncNbtiveQueue");
+            bwtUnlock();
         }
     }
-    public void grab(Window w) {
+    public void grbb(Window w) {
         if (w.getPeer() != null) {
-            ((XWindowPeer)w.getPeer()).setGrab(true);
+            ((XWindowPeer)w.getPeer()).setGrbb(true);
         }
     }
 
-    public void ungrab(Window w) {
+    public void ungrbb(Window w) {
         if (w.getPeer() != null) {
-           ((XWindowPeer)w.getPeer()).setGrab(false);
+           ((XWindowPeer)w.getPeer()).setGrbb(fblse);
         }
     }
     /**
-     * Returns if the java.awt.Desktop class is supported on the current
+     * Returns if the jbvb.bwt.Desktop clbss is supported on the current
      * desktop.
      * <p>
-     * The methods of java.awt.Desktop class are supported on the Gnome desktop.
-     * Check if the running desktop is Gnome by checking the window manager.
+     * The methods of jbvb.bwt.Desktop clbss bre supported on the Gnome desktop.
+     * Check if the running desktop is Gnome by checking the window mbnbger.
      */
-    public boolean isDesktopSupported(){
+    public boolebn isDesktopSupported(){
         return XDesktopPeer.isDesktopSupported();
     }
 
-    public DesktopPeer createDesktopPeer(Desktop target){
+    public DesktopPeer crebteDesktopPeer(Desktop tbrget){
         return new XDesktopPeer();
     }
 
-    public boolean areExtraMouseButtonsEnabled() throws HeadlessException {
-        return areExtraMouseButtonsEnabled;
+    public boolebn breExtrbMouseButtonsEnbbled() throws HebdlessException {
+        return breExtrbMouseButtonsEnbbled;
     }
 
     @Override
-    public boolean isWindowOpacitySupported() {
+    public boolebn isWindowOpbcitySupported() {
         XNETProtocol net_protocol = XWM.getWM().getNETProtocol();
 
         if (net_protocol == null) {
-            return false;
+            return fblse;
         }
 
-        return net_protocol.doOpacityProtocol();
+        return net_protocol.doOpbcityProtocol();
     }
 
     @Override
-    public boolean isWindowShapingSupported() {
-        return XlibUtil.isShapingSupported();
+    public boolebn isWindowShbpingSupported() {
+        return XlibUtil.isShbpingSupported();
     }
 
     @Override
-    public boolean isWindowTranslucencySupported() {
-        //NOTE: it may not be supported. The actual check is being performed
-        //      at com.sun.awt.AWTUtilities(). In X11 we need to check
-        //      whether there's any translucency-capable GC available.
+    public boolebn isWindowTrbnslucencySupported() {
+        //NOTE: it mby not be supported. The bctubl check is being performed
+        //      bt com.sun.bwt.AWTUtilities(). In X11 we need to check
+        //      whether there's bny trbnslucency-cbpbble GC bvbilbble.
         return true;
     }
 
     @Override
-    public boolean isTranslucencyCapable(GraphicsConfiguration gc) {
-        if (!(gc instanceof X11GraphicsConfig)) {
-            return false;
+    public boolebn isTrbnslucencyCbpbble(GrbphicsConfigurbtion gc) {
+        if (!(gc instbnceof X11GrbphicsConfig)) {
+            return fblse;
         }
-        return ((X11GraphicsConfig)gc).isTranslucencyCapable();
+        return ((X11GrbphicsConfig)gc).isTrbnslucencyCbpbble();
     }
 
     /**
-     * Returns the value of "sun.awt.disablegrab" property. Default
-     * value is {@code false}.
+     * Returns the vblue of "sun.bwt.disbblegrbb" property. Defbult
+     * vblue is {@code fblse}.
      */
-    public static boolean getSunAwtDisableGrab() {
-        return AccessController.doPrivileged(new GetBooleanAction("sun.awt.disablegrab"));
+    public stbtic boolebn getSunAwtDisbbleGrbb() {
+        return AccessController.doPrivileged(new GetBoolebnAction("sun.bwt.disbblegrbb"));
     }
 }

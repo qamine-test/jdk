@@ -1,185 +1,185 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package com.sun.beans.finder;
+pbckbge com.sun.bebns.finder;
 
-import com.sun.beans.TypeResolver;
-import com.sun.beans.util.Cache;
+import com.sun.bebns.TypeResolver;
+import com.sun.bebns.util.Cbche;
 
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-import java.util.Arrays;
+import jbvb.lbng.reflect.Method;
+import jbvb.lbng.reflect.Modifier;
+import jbvb.lbng.reflect.PbrbmeterizedType;
+import jbvb.lbng.reflect.Type;
+import jbvb.util.Arrbys;
 
-import static com.sun.beans.util.Cache.Kind.SOFT;
-import static sun.reflect.misc.ReflectUtil.isPackageAccessible;
+import stbtic com.sun.bebns.util.Cbche.Kind.SOFT;
+import stbtic sun.reflect.misc.ReflectUtil.isPbckbgeAccessible;
 
 /**
- * This utility class provides {@code static} methods
- * to find a public method with specified name and parameter types
- * in specified class.
+ * This utility clbss provides {@code stbtic} methods
+ * to find b public method with specified nbme bnd pbrbmeter types
+ * in specified clbss.
  *
  * @since 1.7
  *
- * @author Sergey A. Malenkov
+ * @buthor Sergey A. Mblenkov
  */
-public final class MethodFinder extends AbstractFinder<Method> {
-    private static final Cache<Signature, Method> CACHE = new Cache<Signature, Method>(SOFT, SOFT) {
+public finbl clbss MethodFinder extends AbstrbctFinder<Method> {
+    privbte stbtic finbl Cbche<Signbture, Method> CACHE = new Cbche<Signbture, Method>(SOFT, SOFT) {
         @Override
-        public Method create(Signature signature) {
+        public Method crebte(Signbture signbture) {
             try {
-                MethodFinder finder = new MethodFinder(signature.getName(), signature.getArgs());
-                return findAccessibleMethod(finder.find(signature.getType().getMethods()));
+                MethodFinder finder = new MethodFinder(signbture.getNbme(), signbture.getArgs());
+                return findAccessibleMethod(finder.find(signbture.getType().getMethods()));
             }
-            catch (Exception exception) {
-                throw new SignatureException(exception);
+            cbtch (Exception exception) {
+                throw new SignbtureException(exception);
             }
         }
     };
 
     /**
-     * Finds public method (static or non-static)
-     * that is accessible from public class.
+     * Finds public method (stbtic or non-stbtic)
+     * thbt is bccessible from public clbss.
      *
-     * @param type  the class that can have method
-     * @param name  the name of method to find
-     * @param args  parameter types that is used to find method
-     * @return object that represents found method
+     * @pbrbm type  the clbss thbt cbn hbve method
+     * @pbrbm nbme  the nbme of method to find
+     * @pbrbm brgs  pbrbmeter types thbt is used to find method
+     * @return object thbt represents found method
      * @throws NoSuchMethodException if method could not be found
-     *                               or some methods are found
+     *                               or some methods bre found
      */
-    public static Method findMethod(Class<?> type, String name, Class<?>...args) throws NoSuchMethodException {
-        if (name == null) {
-            throw new IllegalArgumentException("Method name is not set");
+    public stbtic Method findMethod(Clbss<?> type, String nbme, Clbss<?>...brgs) throws NoSuchMethodException {
+        if (nbme == null) {
+            throw new IllegblArgumentException("Method nbme is not set");
         }
-        PrimitiveWrapperMap.replacePrimitivesWithWrappers(args);
-        Signature signature = new Signature(type, name, args);
+        PrimitiveWrbpperMbp.replbcePrimitivesWithWrbppers(brgs);
+        Signbture signbture = new Signbture(type, nbme, brgs);
 
         try {
-            Method method = CACHE.get(signature);
-            return (method == null) || isPackageAccessible(method.getDeclaringClass()) ? method : CACHE.create(signature);
+            Method method = CACHE.get(signbture);
+            return (method == null) || isPbckbgeAccessible(method.getDeclbringClbss()) ? method : CACHE.crebte(signbture);
         }
-        catch (SignatureException exception) {
-            throw exception.toNoSuchMethodException("Method '" + name + "' is not found");
+        cbtch (SignbtureException exception) {
+            throw exception.toNoSuchMethodException("Method '" + nbme + "' is not found");
         }
     }
 
     /**
-     * Finds public non-static method
-     * that is accessible from public class.
+     * Finds public non-stbtic method
+     * thbt is bccessible from public clbss.
      *
-     * @param type  the class that can have method
-     * @param name  the name of method to find
-     * @param args  parameter types that is used to find method
-     * @return object that represents found method
+     * @pbrbm type  the clbss thbt cbn hbve method
+     * @pbrbm nbme  the nbme of method to find
+     * @pbrbm brgs  pbrbmeter types thbt is used to find method
+     * @return object thbt represents found method
      * @throws NoSuchMethodException if method could not be found
-     *                               or some methods are found
+     *                               or some methods bre found
      */
-    public static Method findInstanceMethod(Class<?> type, String name, Class<?>... args) throws NoSuchMethodException {
-        Method method = findMethod(type, name, args);
-        if (Modifier.isStatic(method.getModifiers())) {
-            throw new NoSuchMethodException("Method '" + name + "' is static");
+    public stbtic Method findInstbnceMethod(Clbss<?> type, String nbme, Clbss<?>... brgs) throws NoSuchMethodException {
+        Method method = findMethod(type, nbme, brgs);
+        if (Modifier.isStbtic(method.getModifiers())) {
+            throw new NoSuchMethodException("Method '" + nbme + "' is stbtic");
         }
         return method;
     }
 
     /**
-     * Finds public static method
-     * that is accessible from public class.
+     * Finds public stbtic method
+     * thbt is bccessible from public clbss.
      *
-     * @param type  the class that can have method
-     * @param name  the name of method to find
-     * @param args  parameter types that is used to find method
-     * @return object that represents found method
+     * @pbrbm type  the clbss thbt cbn hbve method
+     * @pbrbm nbme  the nbme of method to find
+     * @pbrbm brgs  pbrbmeter types thbt is used to find method
+     * @return object thbt represents found method
      * @throws NoSuchMethodException if method could not be found
-     *                               or some methods are found
+     *                               or some methods bre found
      */
-    public static Method findStaticMethod(Class<?> type, String name, Class<?>...args) throws NoSuchMethodException {
-        Method method = findMethod(type, name, args);
-        if (!Modifier.isStatic(method.getModifiers())) {
-            throw new NoSuchMethodException("Method '" + name + "' is not static");
+    public stbtic Method findStbticMethod(Clbss<?> type, String nbme, Clbss<?>...brgs) throws NoSuchMethodException {
+        Method method = findMethod(type, nbme, brgs);
+        if (!Modifier.isStbtic(method.getModifiers())) {
+            throw new NoSuchMethodException("Method '" + nbme + "' is not stbtic");
         }
         return method;
     }
 
     /**
-     * Finds method that is accessible from public class or interface through class hierarchy.
+     * Finds method thbt is bccessible from public clbss or interfbce through clbss hierbrchy.
      *
-     * @param method  object that represents found method
-     * @return object that represents accessible method
-     * @throws NoSuchMethodException if method is not accessible or is not found
-     *                               in specified superclass or interface
+     * @pbrbm method  object thbt represents found method
+     * @return object thbt represents bccessible method
+     * @throws NoSuchMethodException if method is not bccessible or is not found
+     *                               in specified superclbss or interfbce
      */
-    public static Method findAccessibleMethod(Method method) throws NoSuchMethodException {
-        Class<?> type = method.getDeclaringClass();
-        if (Modifier.isPublic(type.getModifiers()) && isPackageAccessible(type)) {
+    public stbtic Method findAccessibleMethod(Method method) throws NoSuchMethodException {
+        Clbss<?> type = method.getDeclbringClbss();
+        if (Modifier.isPublic(type.getModifiers()) && isPbckbgeAccessible(type)) {
             return method;
         }
-        if (Modifier.isStatic(method.getModifiers())) {
-            throw new NoSuchMethodException("Method '" + method.getName() + "' is not accessible");
+        if (Modifier.isStbtic(method.getModifiers())) {
+            throw new NoSuchMethodException("Method '" + method.getNbme() + "' is not bccessible");
         }
-        for (Type generic : type.getGenericInterfaces()) {
+        for (Type generic : type.getGenericInterfbces()) {
             try {
                 return findAccessibleMethod(method, generic);
             }
-            catch (NoSuchMethodException exception) {
-                // try to find in superclass or another interface
+            cbtch (NoSuchMethodException exception) {
+                // try to find in superclbss or bnother interfbce
             }
         }
-        return findAccessibleMethod(method, type.getGenericSuperclass());
+        return findAccessibleMethod(method, type.getGenericSuperclbss());
     }
 
     /**
-     * Finds method that accessible from specified class.
+     * Finds method thbt bccessible from specified clbss.
      *
-     * @param method  object that represents found method
-     * @param generic generic type that is used to find accessible method
-     * @return object that represents accessible method
-     * @throws NoSuchMethodException if method is not accessible or is not found
-     *                               in specified superclass or interface
+     * @pbrbm method  object thbt represents found method
+     * @pbrbm generic generic type thbt is used to find bccessible method
+     * @return object thbt represents bccessible method
+     * @throws NoSuchMethodException if method is not bccessible or is not found
+     *                               in specified superclbss or interfbce
      */
-    private static Method findAccessibleMethod(Method method, Type generic) throws NoSuchMethodException {
-        String name = method.getName();
-        Class<?>[] params = method.getParameterTypes();
-        if (generic instanceof Class) {
-            Class<?> type = (Class<?>) generic;
-            return findAccessibleMethod(type.getMethod(name, params));
+    privbte stbtic Method findAccessibleMethod(Method method, Type generic) throws NoSuchMethodException {
+        String nbme = method.getNbme();
+        Clbss<?>[] pbrbms = method.getPbrbmeterTypes();
+        if (generic instbnceof Clbss) {
+            Clbss<?> type = (Clbss<?>) generic;
+            return findAccessibleMethod(type.getMethod(nbme, pbrbms));
         }
-        if (generic instanceof ParameterizedType) {
-            ParameterizedType pt = (ParameterizedType) generic;
-            Class<?> type = (Class<?>) pt.getRawType();
+        if (generic instbnceof PbrbmeterizedType) {
+            PbrbmeterizedType pt = (PbrbmeterizedType) generic;
+            Clbss<?> type = (Clbss<?>) pt.getRbwType();
             for (Method m : type.getMethods()) {
-                if (m.getName().equals(name)) {
-                    Class<?>[] pts = m.getParameterTypes();
-                    if (pts.length == params.length) {
-                        if (Arrays.equals(params, pts)) {
+                if (m.getNbme().equbls(nbme)) {
+                    Clbss<?>[] pts = m.getPbrbmeterTypes();
+                    if (pts.length == pbrbms.length) {
+                        if (Arrbys.equbls(pbrbms, pts)) {
                             return findAccessibleMethod(m);
                         }
-                        Type[] gpts = m.getGenericParameterTypes();
-                        if (params.length == gpts.length) {
-                            if (Arrays.equals(params, TypeResolver.erase(TypeResolver.resolve(pt, gpts)))) {
+                        Type[] gpts = m.getGenericPbrbmeterTypes();
+                        if (pbrbms.length == gpts.length) {
+                            if (Arrbys.equbls(pbrbms, TypeResolver.erbse(TypeResolver.resolve(pt, gpts)))) {
                                 return findAccessibleMethod(m);
                             }
                         }
@@ -187,34 +187,34 @@ public final class MethodFinder extends AbstractFinder<Method> {
                 }
             }
         }
-        throw new NoSuchMethodException("Method '" + name + "' is not accessible");
+        throw new NoSuchMethodException("Method '" + nbme + "' is not bccessible");
     }
 
 
-    private final String name;
+    privbte finbl String nbme;
 
     /**
-     * Creates method finder with specified array of parameter types.
+     * Crebtes method finder with specified brrby of pbrbmeter types.
      *
-     * @param name  the name of method to find
-     * @param args  the array of parameter types
+     * @pbrbm nbme  the nbme of method to find
+     * @pbrbm brgs  the brrby of pbrbmeter types
      */
-    private MethodFinder(String name, Class<?>[] args) {
-        super(args);
-        this.name = name;
+    privbte MethodFinder(String nbme, Clbss<?>[] brgs) {
+        super(brgs);
+        this.nbme = nbme;
     }
 
     /**
-     * Checks validness of the method.
-     * The valid method should be public and
-     * should have the specified name.
+     * Checks vblidness of the method.
+     * The vblid method should be public bnd
+     * should hbve the specified nbme.
      *
-     * @param method  the object that represents method
-     * @return {@code true} if the method is valid,
-     *         {@code false} otherwise
+     * @pbrbm method  the object thbt represents method
+     * @return {@code true} if the method is vblid,
+     *         {@code fblse} otherwise
      */
     @Override
-    protected boolean isValid(Method method) {
-        return super.isValid(method) && method.getName().equals(this.name);
+    protected boolebn isVblid(Method method) {
+        return super.isVblid(method) && method.getNbme().equbls(this.nbme);
     }
 }

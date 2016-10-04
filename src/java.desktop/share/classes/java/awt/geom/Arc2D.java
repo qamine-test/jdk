@@ -1,216 +1,216 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt.geom;
+pbckbge jbvb.bwt.geom;
 
-import java.io.Serializable;
+import jbvb.io.Seriblizbble;
 
 /**
- * <CODE>Arc2D</CODE> is the abstract superclass for all objects that
- * store a 2D arc defined by a framing rectangle,
- * start angle, angular extent (length of the arc), and a closure type
+ * <CODE>Arc2D</CODE> is the bbstrbct superclbss for bll objects thbt
+ * store b 2D brc defined by b frbming rectbngle,
+ * stbrt bngle, bngulbr extent (length of the brc), bnd b closure type
  * (<CODE>OPEN</CODE>, <CODE>CHORD</CODE>, or <CODE>PIE</CODE>).
  * <p>
- * <a name="inscribes">
- * The arc is a partial section of a full ellipse which
- * inscribes the framing rectangle of its parent</a> {@link RectangularShape}.
+ * <b nbme="inscribes">
+ * The brc is b pbrtibl section of b full ellipse which
+ * inscribes the frbming rectbngle of its pbrent</b> {@link RectbngulbrShbpe}.
  *
- * <a name="angles">
- * The angles are specified relative to the non-square
- * framing rectangle such that 45 degrees always falls on the line from
- * the center of the ellipse to the upper right corner of the framing
- * rectangle.
- * As a result, if the framing rectangle is noticeably longer along one
- * axis than the other, the angles to the start and end of the arc segment
- * will be skewed farther along the longer axis of the frame.
- * </a>
+ * <b nbme="bngles">
+ * The bngles bre specified relbtive to the non-squbre
+ * frbming rectbngle such thbt 45 degrees blwbys fblls on the line from
+ * the center of the ellipse to the upper right corner of the frbming
+ * rectbngle.
+ * As b result, if the frbming rectbngle is noticebbly longer blong one
+ * bxis thbn the other, the bngles to the stbrt bnd end of the brc segment
+ * will be skewed fbrther blong the longer bxis of the frbme.
+ * </b>
  * <p>
- * The actual storage representation of the coordinates is left to
- * the subclass.
+ * The bctubl storbge representbtion of the coordinbtes is left to
+ * the subclbss.
  *
- * @author      Jim Graham
+ * @buthor      Jim Grbhbm
  * @since 1.2
  */
-public abstract class Arc2D extends RectangularShape {
+public bbstrbct clbss Arc2D extends RectbngulbrShbpe {
 
     /**
-     * The closure type for an open arc with no path segments
-     * connecting the two ends of the arc segment.
+     * The closure type for bn open brc with no pbth segments
+     * connecting the two ends of the brc segment.
      * @since 1.2
      */
-    public final static int OPEN = 0;
+    public finbl stbtic int OPEN = 0;
 
     /**
-     * The closure type for an arc closed by drawing a straight
-     * line segment from the start of the arc segment to the end of the
-     * arc segment.
+     * The closure type for bn brc closed by drbwing b strbight
+     * line segment from the stbrt of the brc segment to the end of the
+     * brc segment.
      * @since 1.2
      */
-    public final static int CHORD = 1;
+    public finbl stbtic int CHORD = 1;
 
     /**
-     * The closure type for an arc closed by drawing straight line
-     * segments from the start of the arc segment to the center
-     * of the full ellipse and from that point to the end of the arc segment.
+     * The closure type for bn brc closed by drbwing strbight line
+     * segments from the stbrt of the brc segment to the center
+     * of the full ellipse bnd from thbt point to the end of the brc segment.
      * @since 1.2
      */
-    public final static int PIE = 2;
+    public finbl stbtic int PIE = 2;
 
     /**
-     * This class defines an arc specified in {@code float} precision.
+     * This clbss defines bn brc specified in {@code flobt} precision.
      * @since 1.2
      */
-    public static class Float extends Arc2D implements Serializable {
+    public stbtic clbss Flobt extends Arc2D implements Seriblizbble {
         /**
-         * The X coordinate of the upper-left corner of the framing
-         * rectangle of the arc.
+         * The X coordinbte of the upper-left corner of the frbming
+         * rectbngle of the brc.
          * @since 1.2
-         * @serial
+         * @seribl
          */
-        public float x;
+        public flobt x;
 
         /**
-         * The Y coordinate of the upper-left corner of the framing
-         * rectangle of the arc.
+         * The Y coordinbte of the upper-left corner of the frbming
+         * rectbngle of the brc.
          * @since 1.2
-         * @serial
+         * @seribl
          */
-        public float y;
+        public flobt y;
 
         /**
-         * The overall width of the full ellipse of which this arc is
-         * a partial section (not considering the
-         * angular extents).
+         * The overbll width of the full ellipse of which this brc is
+         * b pbrtibl section (not considering the
+         * bngulbr extents).
          * @since 1.2
-         * @serial
+         * @seribl
          */
-        public float width;
+        public flobt width;
 
         /**
-         * The overall height of the full ellipse of which this arc is
-         * a partial section (not considering the
-         * angular extents).
+         * The overbll height of the full ellipse of which this brc is
+         * b pbrtibl section (not considering the
+         * bngulbr extents).
          * @since 1.2
-         * @serial
+         * @seribl
          */
-        public float height;
+        public flobt height;
 
         /**
-         * The starting angle of the arc in degrees.
+         * The stbrting bngle of the brc in degrees.
          * @since 1.2
-         * @serial
+         * @seribl
          */
-        public float start;
+        public flobt stbrt;
 
         /**
-         * The angular extent of the arc in degrees.
+         * The bngulbr extent of the brc in degrees.
          * @since 1.2
-         * @serial
+         * @seribl
          */
-        public float extent;
+        public flobt extent;
 
         /**
-         * Constructs a new OPEN arc, initialized to location (0, 0),
-         * size (0, 0), angular extents (start = 0, extent = 0).
+         * Constructs b new OPEN brc, initiblized to locbtion (0, 0),
+         * size (0, 0), bngulbr extents (stbrt = 0, extent = 0).
          * @since 1.2
          */
-        public Float() {
+        public Flobt() {
             super(OPEN);
         }
 
         /**
-         * Constructs a new arc, initialized to location (0, 0),
-         * size (0, 0), angular extents (start = 0, extent = 0), and
+         * Constructs b new brc, initiblized to locbtion (0, 0),
+         * size (0, 0), bngulbr extents (stbrt = 0, extent = 0), bnd
          * the specified closure type.
          *
-         * @param type The closure type for the arc:
+         * @pbrbm type The closure type for the brc:
          * {@link #OPEN}, {@link #CHORD}, or {@link #PIE}.
          * @since 1.2
          */
-        public Float(int type) {
+        public Flobt(int type) {
             super(type);
         }
 
         /**
-         * Constructs a new arc, initialized to the specified location,
-         * size, angular extents, and closure type.
+         * Constructs b new brc, initiblized to the specified locbtion,
+         * size, bngulbr extents, bnd closure type.
          *
-         * @param x The X coordinate of the upper-left corner of
-         *          the arc's framing rectangle.
-         * @param y The Y coordinate of the upper-left corner of
-         *          the arc's framing rectangle.
-         * @param w The overall width of the full ellipse of which
-         *          this arc is a partial section.
-         * @param h The overall height of the full ellipse of which this
-         *          arc is a partial section.
-         * @param start The starting angle of the arc in degrees.
-         * @param extent The angular extent of the arc in degrees.
-         * @param type The closure type for the arc:
+         * @pbrbm x The X coordinbte of the upper-left corner of
+         *          the brc's frbming rectbngle.
+         * @pbrbm y The Y coordinbte of the upper-left corner of
+         *          the brc's frbming rectbngle.
+         * @pbrbm w The overbll width of the full ellipse of which
+         *          this brc is b pbrtibl section.
+         * @pbrbm h The overbll height of the full ellipse of which this
+         *          brc is b pbrtibl section.
+         * @pbrbm stbrt The stbrting bngle of the brc in degrees.
+         * @pbrbm extent The bngulbr extent of the brc in degrees.
+         * @pbrbm type The closure type for the brc:
          * {@link #OPEN}, {@link #CHORD}, or {@link #PIE}.
          * @since 1.2
          */
-        public Float(float x, float y, float w, float h,
-                     float start, float extent, int type) {
+        public Flobt(flobt x, flobt y, flobt w, flobt h,
+                     flobt stbrt, flobt extent, int type) {
             super(type);
             this.x = x;
             this.y = y;
             this.width = w;
             this.height = h;
-            this.start = start;
+            this.stbrt = stbrt;
             this.extent = extent;
         }
 
         /**
-         * Constructs a new arc, initialized to the specified location,
-         * size, angular extents, and closure type.
+         * Constructs b new brc, initiblized to the specified locbtion,
+         * size, bngulbr extents, bnd closure type.
          *
-         * @param ellipseBounds The framing rectangle that defines the
-         * outer boundary of the full ellipse of which this arc is a
-         * partial section.
-         * @param start The starting angle of the arc in degrees.
-         * @param extent The angular extent of the arc in degrees.
-         * @param type The closure type for the arc:
+         * @pbrbm ellipseBounds The frbming rectbngle thbt defines the
+         * outer boundbry of the full ellipse of which this brc is b
+         * pbrtibl section.
+         * @pbrbm stbrt The stbrting bngle of the brc in degrees.
+         * @pbrbm extent The bngulbr extent of the brc in degrees.
+         * @pbrbm type The closure type for the brc:
          * {@link #OPEN}, {@link #CHORD}, or {@link #PIE}.
          * @since 1.2
          */
-        public Float(Rectangle2D ellipseBounds,
-                     float start, float extent, int type) {
+        public Flobt(Rectbngle2D ellipseBounds,
+                     flobt stbrt, flobt extent, int type) {
             super(type);
-            this.x = (float) ellipseBounds.getX();
-            this.y = (float) ellipseBounds.getY();
-            this.width = (float) ellipseBounds.getWidth();
-            this.height = (float) ellipseBounds.getHeight();
-            this.start = start;
+            this.x = (flobt) ellipseBounds.getX();
+            this.y = (flobt) ellipseBounds.getY();
+            this.width = (flobt) ellipseBounds.getWidth();
+            this.height = (flobt) ellipseBounds.getHeight();
+            this.stbrt = stbrt;
             this.extent = extent;
         }
 
         /**
          * {@inheritDoc}
-         * Note that the arc
-         * <a href="Arc2D.html#inscribes">partially inscribes</a>
-         * the framing rectangle of this {@code RectangularShape}.
+         * Note thbt the brc
+         * <b href="Arc2D.html#inscribes">pbrtiblly inscribes</b>
+         * the frbming rectbngle of this {@code RectbngulbrShbpe}.
          *
          * @since 1.2
          */
@@ -220,9 +220,9 @@ public abstract class Arc2D extends RectangularShape {
 
         /**
          * {@inheritDoc}
-         * Note that the arc
-         * <a href="Arc2D.html#inscribes">partially inscribes</a>
-         * the framing rectangle of this {@code RectangularShape}.
+         * Note thbt the brc
+         * <b href="Arc2D.html#inscribes">pbrtiblly inscribes</b>
+         * the frbming rectbngle of this {@code RectbngulbrShbpe}.
          *
          * @since 1.2
          */
@@ -232,9 +232,9 @@ public abstract class Arc2D extends RectangularShape {
 
         /**
          * {@inheritDoc}
-         * Note that the arc
-         * <a href="Arc2D.html#inscribes">partially inscribes</a>
-         * the framing rectangle of this {@code RectangularShape}.
+         * Note thbt the brc
+         * <b href="Arc2D.html#inscribes">pbrtiblly inscribes</b>
+         * the frbming rectbngle of this {@code RectbngulbrShbpe}.
          *
          * @since 1.2
          */
@@ -244,9 +244,9 @@ public abstract class Arc2D extends RectangularShape {
 
         /**
          * {@inheritDoc}
-         * Note that the arc
-         * <a href="Arc2D.html#inscribes">partially inscribes</a>
-         * the framing rectangle of this {@code RectangularShape}.
+         * Note thbt the brc
+         * <b href="Arc2D.html#inscribes">pbrtiblly inscribes</b>
+         * the frbming rectbngle of this {@code RectbngulbrShbpe}.
          *
          * @since 1.2
          */
@@ -258,8 +258,8 @@ public abstract class Arc2D extends RectangularShape {
          * {@inheritDoc}
          * @since 1.2
          */
-        public double getAngleStart() {
-            return (double) start;
+        public double getAngleStbrt() {
+            return (double) stbrt;
         }
 
         /**
@@ -274,7 +274,7 @@ public abstract class Arc2D extends RectangularShape {
          * {@inheritDoc}
          * @since 1.2
          */
-        public boolean isEmpty() {
+        public boolebn isEmpty() {
             return (width <= 0.0 || height <= 0.0);
         }
 
@@ -283,150 +283,150 @@ public abstract class Arc2D extends RectangularShape {
          * @since 1.2
          */
         public void setArc(double x, double y, double w, double h,
-                           double angSt, double angExt, int closure) {
+                           double bngSt, double bngExt, int closure) {
             this.setArcType(closure);
-            this.x = (float) x;
-            this.y = (float) y;
-            this.width = (float) w;
-            this.height = (float) h;
-            this.start = (float) angSt;
-            this.extent = (float) angExt;
+            this.x = (flobt) x;
+            this.y = (flobt) y;
+            this.width = (flobt) w;
+            this.height = (flobt) h;
+            this.stbrt = (flobt) bngSt;
+            this.extent = (flobt) bngExt;
         }
 
         /**
          * {@inheritDoc}
          * @since 1.2
          */
-        public void setAngleStart(double angSt) {
-            this.start = (float) angSt;
+        public void setAngleStbrt(double bngSt) {
+            this.stbrt = (flobt) bngSt;
         }
 
         /**
          * {@inheritDoc}
          * @since 1.2
          */
-        public void setAngleExtent(double angExt) {
-            this.extent = (float) angExt;
+        public void setAngleExtent(double bngExt) {
+            this.extent = (flobt) bngExt;
         }
 
         /**
          * {@inheritDoc}
          * @since 1.2
          */
-        protected Rectangle2D makeBounds(double x, double y,
+        protected Rectbngle2D mbkeBounds(double x, double y,
                                          double w, double h) {
-            return new Rectangle2D.Float((float) x, (float) y,
-                                         (float) w, (float) h);
+            return new Rectbngle2D.Flobt((flobt) x, (flobt) y,
+                                         (flobt) w, (flobt) h);
         }
 
         /*
-         * JDK 1.6 serialVersionUID
+         * JDK 1.6 seriblVersionUID
          */
-        private static final long serialVersionUID = 9130893014586380278L;
+        privbte stbtic finbl long seriblVersionUID = 9130893014586380278L;
 
         /**
-         * Writes the default serializable fields to the
-         * <code>ObjectOutputStream</code> followed by a byte
-         * indicating the arc type of this <code>Arc2D</code>
-         * instance.
+         * Writes the defbult seriblizbble fields to the
+         * <code>ObjectOutputStrebm</code> followed by b byte
+         * indicbting the brc type of this <code>Arc2D</code>
+         * instbnce.
          *
-         * @serialData
+         * @seriblDbtb
          * <ol>
-         * <li>The default serializable fields.
+         * <li>The defbult seriblizbble fields.
          * <li>
-         * followed by a <code>byte</code> indicating the arc type
+         * followed by b <code>byte</code> indicbting the brc type
          * {@link #OPEN}, {@link #CHORD}, or {@link #PIE}.
          * </ol>
          */
-        private void writeObject(java.io.ObjectOutputStream s)
-            throws java.io.IOException
+        privbte void writeObject(jbvb.io.ObjectOutputStrebm s)
+            throws jbvb.io.IOException
         {
-            s.defaultWriteObject();
+            s.defbultWriteObject();
 
             s.writeByte(getArcType());
         }
 
         /**
-         * Reads the default serializable fields from the
-         * <code>ObjectInputStream</code> followed by a byte
-         * indicating the arc type of this <code>Arc2D</code>
-         * instance.
+         * Rebds the defbult seriblizbble fields from the
+         * <code>ObjectInputStrebm</code> followed by b byte
+         * indicbting the brc type of this <code>Arc2D</code>
+         * instbnce.
          *
-         * @serialData
+         * @seriblDbtb
          * <ol>
-         * <li>The default serializable fields.
+         * <li>The defbult seriblizbble fields.
          * <li>
-         * followed by a <code>byte</code> indicating the arc type
+         * followed by b <code>byte</code> indicbting the brc type
          * {@link #OPEN}, {@link #CHORD}, or {@link #PIE}.
          * </ol>
          */
-        private void readObject(java.io.ObjectInputStream s)
-            throws java.lang.ClassNotFoundException, java.io.IOException
+        privbte void rebdObject(jbvb.io.ObjectInputStrebm s)
+            throws jbvb.lbng.ClbssNotFoundException, jbvb.io.IOException
         {
-            s.defaultReadObject();
+            s.defbultRebdObject();
 
             try {
-                setArcType(s.readByte());
-            } catch (IllegalArgumentException iae) {
-                throw new java.io.InvalidObjectException(iae.getMessage());
+                setArcType(s.rebdByte());
+            } cbtch (IllegblArgumentException ibe) {
+                throw new jbvb.io.InvblidObjectException(ibe.getMessbge());
             }
         }
     }
 
     /**
-     * This class defines an arc specified in {@code double} precision.
+     * This clbss defines bn brc specified in {@code double} precision.
      * @since 1.2
      */
-    public static class Double extends Arc2D implements Serializable {
+    public stbtic clbss Double extends Arc2D implements Seriblizbble {
         /**
-         * The X coordinate of the upper-left corner of the framing
-         * rectangle of the arc.
+         * The X coordinbte of the upper-left corner of the frbming
+         * rectbngle of the brc.
          * @since 1.2
-         * @serial
+         * @seribl
          */
         public double x;
 
         /**
-         * The Y coordinate of the upper-left corner of the framing
-         * rectangle of the arc.
+         * The Y coordinbte of the upper-left corner of the frbming
+         * rectbngle of the brc.
          * @since 1.2
-         * @serial
+         * @seribl
          */
         public double y;
 
         /**
-         * The overall width of the full ellipse of which this arc is
-         * a partial section (not considering the angular extents).
+         * The overbll width of the full ellipse of which this brc is
+         * b pbrtibl section (not considering the bngulbr extents).
          * @since 1.2
-         * @serial
+         * @seribl
          */
         public double width;
 
         /**
-         * The overall height of the full ellipse of which this arc is
-         * a partial section (not considering the angular extents).
+         * The overbll height of the full ellipse of which this brc is
+         * b pbrtibl section (not considering the bngulbr extents).
          * @since 1.2
-         * @serial
+         * @seribl
          */
         public double height;
 
         /**
-         * The starting angle of the arc in degrees.
+         * The stbrting bngle of the brc in degrees.
          * @since 1.2
-         * @serial
+         * @seribl
          */
-        public double start;
+        public double stbrt;
 
         /**
-         * The angular extent of the arc in degrees.
+         * The bngulbr extent of the brc in degrees.
          * @since 1.2
-         * @serial
+         * @seribl
          */
         public double extent;
 
         /**
-         * Constructs a new OPEN arc, initialized to location (0, 0),
-         * size (0, 0), angular extents (start = 0, extent = 0).
+         * Constructs b new OPEN brc, initiblized to locbtion (0, 0),
+         * size (0, 0), bngulbr extents (stbrt = 0, extent = 0).
          * @since 1.2
          */
         public Double() {
@@ -434,11 +434,11 @@ public abstract class Arc2D extends RectangularShape {
         }
 
         /**
-         * Constructs a new arc, initialized to location (0, 0),
-         * size (0, 0), angular extents (start = 0, extent = 0), and
+         * Constructs b new brc, initiblized to locbtion (0, 0),
+         * size (0, 0), bngulbr extents (stbrt = 0, extent = 0), bnd
          * the specified closure type.
          *
-         * @param type The closure type for the arc:
+         * @pbrbm type The closure type for the brc:
          * {@link #OPEN}, {@link #CHORD}, or {@link #PIE}.
          * @since 1.2
          */
@@ -447,63 +447,63 @@ public abstract class Arc2D extends RectangularShape {
         }
 
         /**
-         * Constructs a new arc, initialized to the specified location,
-         * size, angular extents, and closure type.
+         * Constructs b new brc, initiblized to the specified locbtion,
+         * size, bngulbr extents, bnd closure type.
          *
-         * @param x The X coordinate of the upper-left corner
-         *          of the arc's framing rectangle.
-         * @param y The Y coordinate of the upper-left corner
-         *          of the arc's framing rectangle.
-         * @param w The overall width of the full ellipse of which this
-         *          arc is a partial section.
-         * @param h The overall height of the full ellipse of which this
-         *          arc is a partial section.
-         * @param start The starting angle of the arc in degrees.
-         * @param extent The angular extent of the arc in degrees.
-         * @param type The closure type for the arc:
+         * @pbrbm x The X coordinbte of the upper-left corner
+         *          of the brc's frbming rectbngle.
+         * @pbrbm y The Y coordinbte of the upper-left corner
+         *          of the brc's frbming rectbngle.
+         * @pbrbm w The overbll width of the full ellipse of which this
+         *          brc is b pbrtibl section.
+         * @pbrbm h The overbll height of the full ellipse of which this
+         *          brc is b pbrtibl section.
+         * @pbrbm stbrt The stbrting bngle of the brc in degrees.
+         * @pbrbm extent The bngulbr extent of the brc in degrees.
+         * @pbrbm type The closure type for the brc:
          * {@link #OPEN}, {@link #CHORD}, or {@link #PIE}.
          * @since 1.2
          */
         public Double(double x, double y, double w, double h,
-                      double start, double extent, int type) {
+                      double stbrt, double extent, int type) {
             super(type);
             this.x = x;
             this.y = y;
             this.width = w;
             this.height = h;
-            this.start = start;
+            this.stbrt = stbrt;
             this.extent = extent;
         }
 
         /**
-         * Constructs a new arc, initialized to the specified location,
-         * size, angular extents, and closure type.
+         * Constructs b new brc, initiblized to the specified locbtion,
+         * size, bngulbr extents, bnd closure type.
          *
-         * @param ellipseBounds The framing rectangle that defines the
-         * outer boundary of the full ellipse of which this arc is a
-         * partial section.
-         * @param start The starting angle of the arc in degrees.
-         * @param extent The angular extent of the arc in degrees.
-         * @param type The closure type for the arc:
+         * @pbrbm ellipseBounds The frbming rectbngle thbt defines the
+         * outer boundbry of the full ellipse of which this brc is b
+         * pbrtibl section.
+         * @pbrbm stbrt The stbrting bngle of the brc in degrees.
+         * @pbrbm extent The bngulbr extent of the brc in degrees.
+         * @pbrbm type The closure type for the brc:
          * {@link #OPEN}, {@link #CHORD}, or {@link #PIE}.
          * @since 1.2
          */
-        public Double(Rectangle2D ellipseBounds,
-                      double start, double extent, int type) {
+        public Double(Rectbngle2D ellipseBounds,
+                      double stbrt, double extent, int type) {
             super(type);
             this.x = ellipseBounds.getX();
             this.y = ellipseBounds.getY();
             this.width = ellipseBounds.getWidth();
             this.height = ellipseBounds.getHeight();
-            this.start = start;
+            this.stbrt = stbrt;
             this.extent = extent;
         }
 
         /**
          * {@inheritDoc}
-         * Note that the arc
-         * <a href="Arc2D.html#inscribes">partially inscribes</a>
-         * the framing rectangle of this {@code RectangularShape}.
+         * Note thbt the brc
+         * <b href="Arc2D.html#inscribes">pbrtiblly inscribes</b>
+         * the frbming rectbngle of this {@code RectbngulbrShbpe}.
          *
          * @since 1.2
          */
@@ -513,9 +513,9 @@ public abstract class Arc2D extends RectangularShape {
 
         /**
          * {@inheritDoc}
-         * Note that the arc
-         * <a href="Arc2D.html#inscribes">partially inscribes</a>
-         * the framing rectangle of this {@code RectangularShape}.
+         * Note thbt the brc
+         * <b href="Arc2D.html#inscribes">pbrtiblly inscribes</b>
+         * the frbming rectbngle of this {@code RectbngulbrShbpe}.
          *
          * @since 1.2
          */
@@ -525,9 +525,9 @@ public abstract class Arc2D extends RectangularShape {
 
         /**
          * {@inheritDoc}
-         * Note that the arc
-         * <a href="Arc2D.html#inscribes">partially inscribes</a>
-         * the framing rectangle of this {@code RectangularShape}.
+         * Note thbt the brc
+         * <b href="Arc2D.html#inscribes">pbrtiblly inscribes</b>
+         * the frbming rectbngle of this {@code RectbngulbrShbpe}.
          *
          * @since 1.2
          */
@@ -537,9 +537,9 @@ public abstract class Arc2D extends RectangularShape {
 
         /**
          * {@inheritDoc}
-         * Note that the arc
-         * <a href="Arc2D.html#inscribes">partially inscribes</a>
-         * the framing rectangle of this {@code RectangularShape}.
+         * Note thbt the brc
+         * <b href="Arc2D.html#inscribes">pbrtiblly inscribes</b>
+         * the frbming rectbngle of this {@code RectbngulbrShbpe}.
          *
          * @since 1.2
          */
@@ -551,8 +551,8 @@ public abstract class Arc2D extends RectangularShape {
          * {@inheritDoc}
          * @since 1.2
          */
-        public double getAngleStart() {
-            return start;
+        public double getAngleStbrt() {
+            return stbrt;
         }
 
         /**
@@ -567,7 +567,7 @@ public abstract class Arc2D extends RectangularShape {
          * {@inheritDoc}
          * @since 1.2
          */
-        public boolean isEmpty() {
+        public boolebn isEmpty() {
             return (width <= 0.0 || height <= 0.0);
         }
 
@@ -576,126 +576,126 @@ public abstract class Arc2D extends RectangularShape {
          * @since 1.2
          */
         public void setArc(double x, double y, double w, double h,
-                           double angSt, double angExt, int closure) {
+                           double bngSt, double bngExt, int closure) {
             this.setArcType(closure);
             this.x = x;
             this.y = y;
             this.width = w;
             this.height = h;
-            this.start = angSt;
-            this.extent = angExt;
+            this.stbrt = bngSt;
+            this.extent = bngExt;
         }
 
         /**
          * {@inheritDoc}
          * @since 1.2
          */
-        public void setAngleStart(double angSt) {
-            this.start = angSt;
+        public void setAngleStbrt(double bngSt) {
+            this.stbrt = bngSt;
         }
 
         /**
          * {@inheritDoc}
          * @since 1.2
          */
-        public void setAngleExtent(double angExt) {
-            this.extent = angExt;
+        public void setAngleExtent(double bngExt) {
+            this.extent = bngExt;
         }
 
         /**
          * {@inheritDoc}
          * @since 1.2
          */
-        protected Rectangle2D makeBounds(double x, double y,
+        protected Rectbngle2D mbkeBounds(double x, double y,
                                          double w, double h) {
-            return new Rectangle2D.Double(x, y, w, h);
+            return new Rectbngle2D.Double(x, y, w, h);
         }
 
         /*
-         * JDK 1.6 serialVersionUID
+         * JDK 1.6 seriblVersionUID
          */
-        private static final long serialVersionUID = 728264085846882001L;
+        privbte stbtic finbl long seriblVersionUID = 728264085846882001L;
 
         /**
-         * Writes the default serializable fields to the
-         * <code>ObjectOutputStream</code> followed by a byte
-         * indicating the arc type of this <code>Arc2D</code>
-         * instance.
+         * Writes the defbult seriblizbble fields to the
+         * <code>ObjectOutputStrebm</code> followed by b byte
+         * indicbting the brc type of this <code>Arc2D</code>
+         * instbnce.
          *
-         * @serialData
+         * @seriblDbtb
          * <ol>
-         * <li>The default serializable fields.
+         * <li>The defbult seriblizbble fields.
          * <li>
-         * followed by a <code>byte</code> indicating the arc type
+         * followed by b <code>byte</code> indicbting the brc type
          * {@link #OPEN}, {@link #CHORD}, or {@link #PIE}.
          * </ol>
          */
-        private void writeObject(java.io.ObjectOutputStream s)
-            throws java.io.IOException
+        privbte void writeObject(jbvb.io.ObjectOutputStrebm s)
+            throws jbvb.io.IOException
         {
-            s.defaultWriteObject();
+            s.defbultWriteObject();
 
             s.writeByte(getArcType());
         }
 
         /**
-         * Reads the default serializable fields from the
-         * <code>ObjectInputStream</code> followed by a byte
-         * indicating the arc type of this <code>Arc2D</code>
-         * instance.
+         * Rebds the defbult seriblizbble fields from the
+         * <code>ObjectInputStrebm</code> followed by b byte
+         * indicbting the brc type of this <code>Arc2D</code>
+         * instbnce.
          *
-         * @serialData
+         * @seriblDbtb
          * <ol>
-         * <li>The default serializable fields.
+         * <li>The defbult seriblizbble fields.
          * <li>
-         * followed by a <code>byte</code> indicating the arc type
+         * followed by b <code>byte</code> indicbting the brc type
          * {@link #OPEN}, {@link #CHORD}, or {@link #PIE}.
          * </ol>
          */
-        private void readObject(java.io.ObjectInputStream s)
-            throws java.lang.ClassNotFoundException, java.io.IOException
+        privbte void rebdObject(jbvb.io.ObjectInputStrebm s)
+            throws jbvb.lbng.ClbssNotFoundException, jbvb.io.IOException
         {
-            s.defaultReadObject();
+            s.defbultRebdObject();
 
             try {
-                setArcType(s.readByte());
-            } catch (IllegalArgumentException iae) {
-                throw new java.io.InvalidObjectException(iae.getMessage());
+                setArcType(s.rebdByte());
+            } cbtch (IllegblArgumentException ibe) {
+                throw new jbvb.io.InvblidObjectException(ibe.getMessbge());
             }
         }
     }
 
-    private int type;
+    privbte int type;
 
     /**
-     * This is an abstract class that cannot be instantiated directly.
-     * Type-specific implementation subclasses are available for
-     * instantiation and provide a number of formats for storing
-     * the information necessary to satisfy the various accessor
+     * This is bn bbstrbct clbss thbt cbnnot be instbntibted directly.
+     * Type-specific implementbtion subclbsses bre bvbilbble for
+     * instbntibtion bnd provide b number of formbts for storing
+     * the informbtion necessbry to sbtisfy the vbrious bccessor
      * methods below.
      * <p>
-     * This constructor creates an object with a default closure
-     * type of {@link #OPEN}.  It is provided only to enable
-     * serialization of subclasses.
+     * This constructor crebtes bn object with b defbult closure
+     * type of {@link #OPEN}.  It is provided only to enbble
+     * seriblizbtion of subclbsses.
      *
-     * @see java.awt.geom.Arc2D.Float
-     * @see java.awt.geom.Arc2D.Double
+     * @see jbvb.bwt.geom.Arc2D.Flobt
+     * @see jbvb.bwt.geom.Arc2D.Double
      */
     protected Arc2D() {
         this(OPEN);
     }
 
     /**
-     * This is an abstract class that cannot be instantiated directly.
-     * Type-specific implementation subclasses are available for
-     * instantiation and provide a number of formats for storing
-     * the information necessary to satisfy the various accessor
+     * This is bn bbstrbct clbss thbt cbnnot be instbntibted directly.
+     * Type-specific implementbtion subclbsses bre bvbilbble for
+     * instbntibtion bnd provide b number of formbts for storing
+     * the informbtion necessbry to sbtisfy the vbrious bccessor
      * methods below.
      *
-     * @param type The closure type of this arc:
+     * @pbrbm type The closure type of this brc:
      * {@link #OPEN}, {@link #CHORD}, or {@link #PIE}.
-     * @see java.awt.geom.Arc2D.Float
-     * @see java.awt.geom.Arc2D.Double
+     * @see jbvb.bwt.geom.Arc2D.Flobt
+     * @see jbvb.bwt.geom.Arc2D.Double
      * @since 1.2
      */
     protected Arc2D(int type) {
@@ -703,30 +703,30 @@ public abstract class Arc2D extends RectangularShape {
     }
 
     /**
-     * Returns the starting angle of the arc.
+     * Returns the stbrting bngle of the brc.
      *
-     * @return A double value that represents the starting angle
-     * of the arc in degrees.
-     * @see #setAngleStart
+     * @return A double vblue thbt represents the stbrting bngle
+     * of the brc in degrees.
+     * @see #setAngleStbrt
      * @since 1.2
      */
-    public abstract double getAngleStart();
+    public bbstrbct double getAngleStbrt();
 
     /**
-     * Returns the angular extent of the arc.
+     * Returns the bngulbr extent of the brc.
      *
-     * @return A double value that represents the angular extent
-     * of the arc in degrees.
+     * @return A double vblue thbt represents the bngulbr extent
+     * of the brc in degrees.
      * @see #setAngleExtent
      * @since 1.2
      */
-    public abstract double getAngleExtent();
+    public bbstrbct double getAngleExtent();
 
     /**
-     * Returns the arc closure type of the arc: {@link #OPEN},
+     * Returns the brc closure type of the brc: {@link #OPEN},
      * {@link #CHORD}, or {@link #PIE}.
-     * @return One of the integer constant closure types defined
-     * in this class.
+     * @return One of the integer constbnt closure types defined
+     * in this clbss.
      * @see #setArcType
      * @since 1.2
      */
@@ -735,231 +735,231 @@ public abstract class Arc2D extends RectangularShape {
     }
 
     /**
-     * Returns the starting point of the arc.  This point is the
-     * intersection of the ray from the center defined by the
-     * starting angle and the elliptical boundary of the arc.
+     * Returns the stbrting point of the brc.  This point is the
+     * intersection of the rby from the center defined by the
+     * stbrting bngle bnd the ellipticbl boundbry of the brc.
      *
      * @return A <CODE>Point2D</CODE> object representing the
-     * x,y coordinates of the starting point of the arc.
+     * x,y coordinbtes of the stbrting point of the brc.
      * @since 1.2
      */
-    public Point2D getStartPoint() {
-        double angle = Math.toRadians(-getAngleStart());
-        double x = getX() + (Math.cos(angle) * 0.5 + 0.5) * getWidth();
-        double y = getY() + (Math.sin(angle) * 0.5 + 0.5) * getHeight();
+    public Point2D getStbrtPoint() {
+        double bngle = Mbth.toRbdibns(-getAngleStbrt());
+        double x = getX() + (Mbth.cos(bngle) * 0.5 + 0.5) * getWidth();
+        double y = getY() + (Mbth.sin(bngle) * 0.5 + 0.5) * getHeight();
         return new Point2D.Double(x, y);
     }
 
     /**
-     * Returns the ending point of the arc.  This point is the
-     * intersection of the ray from the center defined by the
-     * starting angle plus the angular extent of the arc and the
-     * elliptical boundary of the arc.
+     * Returns the ending point of the brc.  This point is the
+     * intersection of the rby from the center defined by the
+     * stbrting bngle plus the bngulbr extent of the brc bnd the
+     * ellipticbl boundbry of the brc.
      *
      * @return A <CODE>Point2D</CODE> object representing the
-     * x,y coordinates  of the ending point of the arc.
+     * x,y coordinbtes  of the ending point of the brc.
      * @since 1.2
      */
     public Point2D getEndPoint() {
-        double angle = Math.toRadians(-getAngleStart() - getAngleExtent());
-        double x = getX() + (Math.cos(angle) * 0.5 + 0.5) * getWidth();
-        double y = getY() + (Math.sin(angle) * 0.5 + 0.5) * getHeight();
+        double bngle = Mbth.toRbdibns(-getAngleStbrt() - getAngleExtent());
+        double x = getX() + (Mbth.cos(bngle) * 0.5 + 0.5) * getWidth();
+        double y = getY() + (Mbth.sin(bngle) * 0.5 + 0.5) * getHeight();
         return new Point2D.Double(x, y);
     }
 
     /**
-     * Sets the location, size, angular extents, and closure type of
-     * this arc to the specified double values.
+     * Sets the locbtion, size, bngulbr extents, bnd closure type of
+     * this brc to the specified double vblues.
      *
-     * @param x The X coordinate of the upper-left corner of the arc.
-     * @param y The Y coordinate of the upper-left corner of the arc.
-     * @param w The overall width of the full ellipse of which
-     *          this arc is a partial section.
-     * @param h The overall height of the full ellipse of which
-     *          this arc is a partial section.
-     * @param angSt The starting angle of the arc in degrees.
-     * @param angExt The angular extent of the arc in degrees.
-     * @param closure The closure type for the arc:
+     * @pbrbm x The X coordinbte of the upper-left corner of the brc.
+     * @pbrbm y The Y coordinbte of the upper-left corner of the brc.
+     * @pbrbm w The overbll width of the full ellipse of which
+     *          this brc is b pbrtibl section.
+     * @pbrbm h The overbll height of the full ellipse of which
+     *          this brc is b pbrtibl section.
+     * @pbrbm bngSt The stbrting bngle of the brc in degrees.
+     * @pbrbm bngExt The bngulbr extent of the brc in degrees.
+     * @pbrbm closure The closure type for the brc:
      * {@link #OPEN}, {@link #CHORD}, or {@link #PIE}.
      * @since 1.2
      */
-    public abstract void setArc(double x, double y, double w, double h,
-                                double angSt, double angExt, int closure);
+    public bbstrbct void setArc(double x, double y, double w, double h,
+                                double bngSt, double bngExt, int closure);
 
     /**
-     * Sets the location, size, angular extents, and closure type of
-     * this arc to the specified values.
+     * Sets the locbtion, size, bngulbr extents, bnd closure type of
+     * this brc to the specified vblues.
      *
-     * @param loc The <CODE>Point2D</CODE> representing the coordinates of
-     * the upper-left corner of the arc.
-     * @param size The <CODE>Dimension2D</CODE> representing the width
-     * and height of the full ellipse of which this arc is
-     * a partial section.
-     * @param angSt The starting angle of the arc in degrees.
-     * @param angExt The angular extent of the arc in degrees.
-     * @param closure The closure type for the arc:
+     * @pbrbm loc The <CODE>Point2D</CODE> representing the coordinbtes of
+     * the upper-left corner of the brc.
+     * @pbrbm size The <CODE>Dimension2D</CODE> representing the width
+     * bnd height of the full ellipse of which this brc is
+     * b pbrtibl section.
+     * @pbrbm bngSt The stbrting bngle of the brc in degrees.
+     * @pbrbm bngExt The bngulbr extent of the brc in degrees.
+     * @pbrbm closure The closure type for the brc:
      * {@link #OPEN}, {@link #CHORD}, or {@link #PIE}.
      * @since 1.2
      */
     public void setArc(Point2D loc, Dimension2D size,
-                       double angSt, double angExt, int closure) {
+                       double bngSt, double bngExt, int closure) {
         setArc(loc.getX(), loc.getY(), size.getWidth(), size.getHeight(),
-               angSt, angExt, closure);
+               bngSt, bngExt, closure);
     }
 
     /**
-     * Sets the location, size, angular extents, and closure type of
-     * this arc to the specified values.
+     * Sets the locbtion, size, bngulbr extents, bnd closure type of
+     * this brc to the specified vblues.
      *
-     * @param rect The framing rectangle that defines the
-     * outer boundary of the full ellipse of which this arc is a
-     * partial section.
-     * @param angSt The starting angle of the arc in degrees.
-     * @param angExt The angular extent of the arc in degrees.
-     * @param closure The closure type for the arc:
+     * @pbrbm rect The frbming rectbngle thbt defines the
+     * outer boundbry of the full ellipse of which this brc is b
+     * pbrtibl section.
+     * @pbrbm bngSt The stbrting bngle of the brc in degrees.
+     * @pbrbm bngExt The bngulbr extent of the brc in degrees.
+     * @pbrbm closure The closure type for the brc:
      * {@link #OPEN}, {@link #CHORD}, or {@link #PIE}.
      * @since 1.2
      */
-    public void setArc(Rectangle2D rect, double angSt, double angExt,
+    public void setArc(Rectbngle2D rect, double bngSt, double bngExt,
                        int closure) {
         setArc(rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight(),
-               angSt, angExt, closure);
+               bngSt, bngExt, closure);
     }
 
     /**
-     * Sets this arc to be the same as the specified arc.
+     * Sets this brc to be the sbme bs the specified brc.
      *
-     * @param a The <CODE>Arc2D</CODE> to use to set the arc's values.
+     * @pbrbm b The <CODE>Arc2D</CODE> to use to set the brc's vblues.
      * @since 1.2
      */
-    public void setArc(Arc2D a) {
-        setArc(a.getX(), a.getY(), a.getWidth(), a.getHeight(),
-               a.getAngleStart(), a.getAngleExtent(), a.type);
+    public void setArc(Arc2D b) {
+        setArc(b.getX(), b.getY(), b.getWidth(), b.getHeight(),
+               b.getAngleStbrt(), b.getAngleExtent(), b.type);
     }
 
     /**
-     * Sets the position, bounds, angular extents, and closure type of
-     * this arc to the specified values. The arc is defined by a center
-     * point and a radius rather than a framing rectangle for the full ellipse.
+     * Sets the position, bounds, bngulbr extents, bnd closure type of
+     * this brc to the specified vblues. The brc is defined by b center
+     * point bnd b rbdius rbther thbn b frbming rectbngle for the full ellipse.
      *
-     * @param x The X coordinate of the center of the arc.
-     * @param y The Y coordinate of the center of the arc.
-     * @param radius The radius of the arc.
-     * @param angSt The starting angle of the arc in degrees.
-     * @param angExt The angular extent of the arc in degrees.
-     * @param closure The closure type for the arc:
+     * @pbrbm x The X coordinbte of the center of the brc.
+     * @pbrbm y The Y coordinbte of the center of the brc.
+     * @pbrbm rbdius The rbdius of the brc.
+     * @pbrbm bngSt The stbrting bngle of the brc in degrees.
+     * @pbrbm bngExt The bngulbr extent of the brc in degrees.
+     * @pbrbm closure The closure type for the brc:
      * {@link #OPEN}, {@link #CHORD}, or {@link #PIE}.
      * @since 1.2
      */
-    public void setArcByCenter(double x, double y, double radius,
-                               double angSt, double angExt, int closure) {
-        setArc(x - radius, y - radius, radius * 2.0, radius * 2.0,
-               angSt, angExt, closure);
+    public void setArcByCenter(double x, double y, double rbdius,
+                               double bngSt, double bngExt, int closure) {
+        setArc(x - rbdius, y - rbdius, rbdius * 2.0, rbdius * 2.0,
+               bngSt, bngExt, closure);
     }
 
     /**
-     * Sets the position, bounds, and angular extents of this arc to the
-     * specified value. The starting angle of the arc is tangent to the
-     * line specified by points (p1, p2), the ending angle is tangent to
-     * the line specified by points (p2, p3), and the arc has the
-     * specified radius.
+     * Sets the position, bounds, bnd bngulbr extents of this brc to the
+     * specified vblue. The stbrting bngle of the brc is tbngent to the
+     * line specified by points (p1, p2), the ending bngle is tbngent to
+     * the line specified by points (p2, p3), bnd the brc hbs the
+     * specified rbdius.
      *
-     * @param p1 The first point that defines the arc. The starting
-     * angle of the arc is tangent to the line specified by points (p1, p2).
-     * @param p2 The second point that defines the arc. The starting
-     * angle of the arc is tangent to the line specified by points (p1, p2).
-     * The ending angle of the arc is tangent to the line specified by
+     * @pbrbm p1 The first point thbt defines the brc. The stbrting
+     * bngle of the brc is tbngent to the line specified by points (p1, p2).
+     * @pbrbm p2 The second point thbt defines the brc. The stbrting
+     * bngle of the brc is tbngent to the line specified by points (p1, p2).
+     * The ending bngle of the brc is tbngent to the line specified by
      * points (p2, p3).
-     * @param p3 The third point that defines the arc. The ending angle
-     * of the arc is tangent to the line specified by points (p2, p3).
-     * @param radius The radius of the arc.
+     * @pbrbm p3 The third point thbt defines the brc. The ending bngle
+     * of the brc is tbngent to the line specified by points (p2, p3).
+     * @pbrbm rbdius The rbdius of the brc.
      * @since 1.2
      */
-    public void setArcByTangent(Point2D p1, Point2D p2, Point2D p3,
-                                double radius) {
-        double ang1 = Math.atan2(p1.getY() - p2.getY(),
+    public void setArcByTbngent(Point2D p1, Point2D p2, Point2D p3,
+                                double rbdius) {
+        double bng1 = Mbth.btbn2(p1.getY() - p2.getY(),
                                  p1.getX() - p2.getX());
-        double ang2 = Math.atan2(p3.getY() - p2.getY(),
+        double bng2 = Mbth.btbn2(p3.getY() - p2.getY(),
                                  p3.getX() - p2.getX());
-        double diff = ang2 - ang1;
-        if (diff > Math.PI) {
-            ang2 -= Math.PI * 2.0;
-        } else if (diff < -Math.PI) {
-            ang2 += Math.PI * 2.0;
+        double diff = bng2 - bng1;
+        if (diff > Mbth.PI) {
+            bng2 -= Mbth.PI * 2.0;
+        } else if (diff < -Mbth.PI) {
+            bng2 += Mbth.PI * 2.0;
         }
-        double bisect = (ang1 + ang2) / 2.0;
-        double theta = Math.abs(ang2 - bisect);
-        double dist = radius / Math.sin(theta);
-        double x = p2.getX() + dist * Math.cos(bisect);
-        double y = p2.getY() + dist * Math.sin(bisect);
+        double bisect = (bng1 + bng2) / 2.0;
+        double thetb = Mbth.bbs(bng2 - bisect);
+        double dist = rbdius / Mbth.sin(thetb);
+        double x = p2.getX() + dist * Mbth.cos(bisect);
+        double y = p2.getY() + dist * Mbth.sin(bisect);
         // REMIND: This needs some work...
-        if (ang1 < ang2) {
-            ang1 -= Math.PI / 2.0;
-            ang2 += Math.PI / 2.0;
+        if (bng1 < bng2) {
+            bng1 -= Mbth.PI / 2.0;
+            bng2 += Mbth.PI / 2.0;
         } else {
-            ang1 += Math.PI / 2.0;
-            ang2 -= Math.PI / 2.0;
+            bng1 += Mbth.PI / 2.0;
+            bng2 -= Mbth.PI / 2.0;
         }
-        ang1 = Math.toDegrees(-ang1);
-        ang2 = Math.toDegrees(-ang2);
-        diff = ang2 - ang1;
+        bng1 = Mbth.toDegrees(-bng1);
+        bng2 = Mbth.toDegrees(-bng2);
+        diff = bng2 - bng1;
         if (diff < 0) {
             diff += 360;
         } else {
             diff -= 360;
         }
-        setArcByCenter(x, y, radius, ang1, diff, type);
+        setArcByCenter(x, y, rbdius, bng1, diff, type);
     }
 
     /**
-     * Sets the starting angle of this arc to the specified double
-     * value.
+     * Sets the stbrting bngle of this brc to the specified double
+     * vblue.
      *
-     * @param angSt The starting angle of the arc in degrees.
-     * @see #getAngleStart
+     * @pbrbm bngSt The stbrting bngle of the brc in degrees.
+     * @see #getAngleStbrt
      * @since 1.2
      */
-    public abstract void setAngleStart(double angSt);
+    public bbstrbct void setAngleStbrt(double bngSt);
 
     /**
-     * Sets the angular extent of this arc to the specified double
-     * value.
+     * Sets the bngulbr extent of this brc to the specified double
+     * vblue.
      *
-     * @param angExt The angular extent of the arc in degrees.
+     * @pbrbm bngExt The bngulbr extent of the brc in degrees.
      * @see #getAngleExtent
      * @since 1.2
      */
-    public abstract void setAngleExtent(double angExt);
+    public bbstrbct void setAngleExtent(double bngExt);
 
     /**
-     * Sets the starting angle of this arc to the angle that the
-     * specified point defines relative to the center of this arc.
-     * The angular extent of the arc will remain the same.
+     * Sets the stbrting bngle of this brc to the bngle thbt the
+     * specified point defines relbtive to the center of this brc.
+     * The bngulbr extent of the brc will rembin the sbme.
      *
-     * @param p The <CODE>Point2D</CODE> that defines the starting angle.
-     * @see #getAngleStart
+     * @pbrbm p The <CODE>Point2D</CODE> thbt defines the stbrting bngle.
+     * @see #getAngleStbrt
      * @since 1.2
      */
-    public void setAngleStart(Point2D p) {
-        // Bias the dx and dy by the height and width of the oval.
+    public void setAngleStbrt(Point2D p) {
+        // Bibs the dx bnd dy by the height bnd width of the ovbl.
         double dx = getHeight() * (p.getX() - getCenterX());
         double dy = getWidth() * (p.getY() - getCenterY());
-        setAngleStart(-Math.toDegrees(Math.atan2(dy, dx)));
+        setAngleStbrt(-Mbth.toDegrees(Mbth.btbn2(dy, dx)));
     }
 
     /**
-     * Sets the starting angle and angular extent of this arc using two
-     * sets of coordinates. The first set of coordinates is used to
-     * determine the angle of the starting point relative to the arc's
-     * center. The second set of coordinates is used to determine the
-     * angle of the end point relative to the arc's center.
-     * The arc will always be non-empty and extend counterclockwise
-     * from the first point around to the second point.
+     * Sets the stbrting bngle bnd bngulbr extent of this brc using two
+     * sets of coordinbtes. The first set of coordinbtes is used to
+     * determine the bngle of the stbrting point relbtive to the brc's
+     * center. The second set of coordinbtes is used to determine the
+     * bngle of the end point relbtive to the brc's center.
+     * The brc will blwbys be non-empty bnd extend counterclockwise
+     * from the first point bround to the second point.
      *
-     * @param x1 The X coordinate of the arc's starting point.
-     * @param y1 The Y coordinate of the arc's starting point.
-     * @param x2 The X coordinate of the arc's ending point.
-     * @param y2 The Y coordinate of the arc's ending point.
+     * @pbrbm x1 The X coordinbte of the brc's stbrting point.
+     * @pbrbm y1 The Y coordinbte of the brc's stbrting point.
+     * @pbrbm x2 The X coordinbte of the brc's ending point.
+     * @pbrbm y2 The Y coordinbte of the brc's ending point.
      * @since 1.2
      */
     public void setAngles(double x1, double y1, double x2, double y2) {
@@ -967,31 +967,31 @@ public abstract class Arc2D extends RectangularShape {
         double y = getCenterY();
         double w = getWidth();
         double h = getHeight();
-        // Note: reversing the Y equations negates the angle to adjust
-        // for the upside down coordinate system.
-        // Also we should bias atans by the height and width of the oval.
-        double ang1 = Math.atan2(w * (y - y1), h * (x1 - x));
-        double ang2 = Math.atan2(w * (y - y2), h * (x2 - x));
-        ang2 -= ang1;
-        if (ang2 <= 0.0) {
-            ang2 += Math.PI * 2.0;
+        // Note: reversing the Y equbtions negbtes the bngle to bdjust
+        // for the upside down coordinbte system.
+        // Also we should bibs btbns by the height bnd width of the ovbl.
+        double bng1 = Mbth.btbn2(w * (y - y1), h * (x1 - x));
+        double bng2 = Mbth.btbn2(w * (y - y2), h * (x2 - x));
+        bng2 -= bng1;
+        if (bng2 <= 0.0) {
+            bng2 += Mbth.PI * 2.0;
         }
-        setAngleStart(Math.toDegrees(ang1));
-        setAngleExtent(Math.toDegrees(ang2));
+        setAngleStbrt(Mbth.toDegrees(bng1));
+        setAngleExtent(Mbth.toDegrees(bng2));
     }
 
     /**
-     * Sets the starting angle and angular extent of this arc using
-     * two points. The first point is used to determine the angle of
-     * the starting point relative to the arc's center.
-     * The second point is used to determine the angle of the end point
-     * relative to the arc's center.
-     * The arc will always be non-empty and extend counterclockwise
-     * from the first point around to the second point.
+     * Sets the stbrting bngle bnd bngulbr extent of this brc using
+     * two points. The first point is used to determine the bngle of
+     * the stbrting point relbtive to the brc's center.
+     * The second point is used to determine the bngle of the end point
+     * relbtive to the brc's center.
+     * The brc will blwbys be non-empty bnd extend counterclockwise
+     * from the first point bround to the second point.
      *
-     * @param p1 The <CODE>Point2D</CODE> that defines the arc's
-     * starting point.
-     * @param p2 The <CODE>Point2D</CODE> that defines the arc's
+     * @pbrbm p1 The <CODE>Point2D</CODE> thbt defines the brc's
+     * stbrting point.
+     * @pbrbm p2 The <CODE>Point2D</CODE> thbt defines the brc's
      * ending point.
      * @since 1.2
      */
@@ -1000,56 +1000,56 @@ public abstract class Arc2D extends RectangularShape {
     }
 
     /**
-     * Sets the closure type of this arc to the specified value:
+     * Sets the closure type of this brc to the specified vblue:
      * <CODE>OPEN</CODE>, <CODE>CHORD</CODE>, or <CODE>PIE</CODE>.
      *
-     * @param type The integer constant that represents the closure
-     * type of this arc: {@link #OPEN}, {@link #CHORD}, or
+     * @pbrbm type The integer constbnt thbt represents the closure
+     * type of this brc: {@link #OPEN}, {@link #CHORD}, or
      * {@link #PIE}.
      *
-     * @throws IllegalArgumentException if <code>type</code> is not
+     * @throws IllegblArgumentException if <code>type</code> is not
      * 0, 1, or 2.+
      * @see #getArcType
      * @since 1.2
      */
     public void setArcType(int type) {
         if (type < OPEN || type > PIE) {
-            throw new IllegalArgumentException("invalid type for Arc: "+type);
+            throw new IllegblArgumentException("invblid type for Arc: "+type);
         }
         this.type = type;
     }
 
     /**
      * {@inheritDoc}
-     * Note that the arc
-     * <a href="Arc2D.html#inscribes">partially inscribes</a>
-     * the framing rectangle of this {@code RectangularShape}.
+     * Note thbt the brc
+     * <b href="Arc2D.html#inscribes">pbrtiblly inscribes</b>
+     * the frbming rectbngle of this {@code RectbngulbrShbpe}.
      *
      * @since 1.2
      */
-    public void setFrame(double x, double y, double w, double h) {
-        setArc(x, y, w, h, getAngleStart(), getAngleExtent(), type);
+    public void setFrbme(double x, double y, double w, double h) {
+        setArc(x, y, w, h, getAngleStbrt(), getAngleExtent(), type);
     }
 
     /**
-     * Returns the high-precision framing rectangle of the arc.  The framing
-     * rectangle contains only the part of this <code>Arc2D</code> that is
-     * in between the starting and ending angles and contains the pie
-     * wedge, if this <code>Arc2D</code> has a <code>PIE</code> closure type.
+     * Returns the high-precision frbming rectbngle of the brc.  The frbming
+     * rectbngle contbins only the pbrt of this <code>Arc2D</code> thbt is
+     * in between the stbrting bnd ending bngles bnd contbins the pie
+     * wedge, if this <code>Arc2D</code> hbs b <code>PIE</code> closure type.
      * <p>
      * This method differs from the
-     * {@link RectangularShape#getBounds() getBounds} in that the
+     * {@link RectbngulbrShbpe#getBounds() getBounds} in thbt the
      * <code>getBounds</code> method only returns the bounds of the
      * enclosing ellipse of this <code>Arc2D</code> without considering
-     * the starting and ending angles of this <code>Arc2D</code>.
+     * the stbrting bnd ending bngles of this <code>Arc2D</code>.
      *
-     * @return the <CODE>Rectangle2D</CODE> that represents the arc's
-     * framing rectangle.
+     * @return the <CODE>Rectbngle2D</CODE> thbt represents the brc's
+     * frbming rectbngle.
      * @since 1.2
      */
-    public Rectangle2D getBounds2D() {
+    public Rectbngle2D getBounds2D() {
         if (isEmpty()) {
-            return makeBounds(getX(), getY(), getWidth(), getHeight());
+            return mbkeBounds(getX(), getY(), getWidth(), getHeight());
         }
         double x1, y1, x2, y2;
         if (getArcType() == PIE) {
@@ -1058,28 +1058,28 @@ public abstract class Arc2D extends RectangularShape {
             x1 = y1 = 1.0;
             x2 = y2 = -1.0;
         }
-        double angle = 0.0;
+        double bngle = 0.0;
         for (int i = 0; i < 6; i++) {
             if (i < 4) {
-                // 0-3 are the four quadrants
-                angle += 90.0;
-                if (!containsAngle(angle)) {
+                // 0-3 bre the four qubdrbnts
+                bngle += 90.0;
+                if (!contbinsAngle(bngle)) {
                     continue;
                 }
             } else if (i == 4) {
-                // 4 is start angle
-                angle = getAngleStart();
+                // 4 is stbrt bngle
+                bngle = getAngleStbrt();
             } else {
-                // 5 is end angle
-                angle += getAngleExtent();
+                // 5 is end bngle
+                bngle += getAngleExtent();
             }
-            double rads = Math.toRadians(-angle);
-            double xe = Math.cos(rads);
-            double ye = Math.sin(rads);
-            x1 = Math.min(x1, xe);
-            y1 = Math.min(y1, ye);
-            x2 = Math.max(x2, xe);
-            y2 = Math.max(y2, ye);
+            double rbds = Mbth.toRbdibns(-bngle);
+            double xe = Mbth.cos(rbds);
+            double ye = Mbth.sin(rbds);
+            x1 = Mbth.min(x1, xe);
+            y1 = Mbth.min(y1, ye);
+            x2 = Mbth.mbx(x2, xe);
+            y2 = Mbth.mbx(y2, ye);
         }
         double w = getWidth();
         double h = getHeight();
@@ -1087,191 +1087,191 @@ public abstract class Arc2D extends RectangularShape {
         y2 = (y2 - y1) * 0.5 * h;
         x1 = getX() + (x1 * 0.5 + 0.5) * w;
         y1 = getY() + (y1 * 0.5 + 0.5) * h;
-        return makeBounds(x1, y1, x2, y2);
+        return mbkeBounds(x1, y1, x2, y2);
     }
 
     /**
-     * Constructs a <code>Rectangle2D</code> of the appropriate precision
-     * to hold the parameters calculated to be the framing rectangle
-     * of this arc.
+     * Constructs b <code>Rectbngle2D</code> of the bppropribte precision
+     * to hold the pbrbmeters cblculbted to be the frbming rectbngle
+     * of this brc.
      *
-     * @param x The X coordinate of the upper-left corner of the
-     * framing rectangle.
-     * @param y The Y coordinate of the upper-left corner of the
-     * framing rectangle.
-     * @param w The width of the framing rectangle.
-     * @param h The height of the framing rectangle.
-     * @return a <code>Rectangle2D</code> that is the framing rectangle
-     *     of this arc.
+     * @pbrbm x The X coordinbte of the upper-left corner of the
+     * frbming rectbngle.
+     * @pbrbm y The Y coordinbte of the upper-left corner of the
+     * frbming rectbngle.
+     * @pbrbm w The width of the frbming rectbngle.
+     * @pbrbm h The height of the frbming rectbngle.
+     * @return b <code>Rectbngle2D</code> thbt is the frbming rectbngle
+     *     of this brc.
      * @since 1.2
      */
-    protected abstract Rectangle2D makeBounds(double x, double y,
+    protected bbstrbct Rectbngle2D mbkeBounds(double x, double y,
                                               double w, double h);
 
     /*
-     * Normalizes the specified angle into the range -180 to 180.
+     * Normblizes the specified bngle into the rbnge -180 to 180.
      */
-    static double normalizeDegrees(double angle) {
-        if (angle > 180.0) {
-            if (angle <= (180.0 + 360.0)) {
-                angle = angle - 360.0;
+    stbtic double normblizeDegrees(double bngle) {
+        if (bngle > 180.0) {
+            if (bngle <= (180.0 + 360.0)) {
+                bngle = bngle - 360.0;
             } else {
-                angle = Math.IEEEremainder(angle, 360.0);
-                // IEEEremainder can return -180 here for some input values...
-                if (angle == -180.0) {
-                    angle = 180.0;
+                bngle = Mbth.IEEErembinder(bngle, 360.0);
+                // IEEErembinder cbn return -180 here for some input vblues...
+                if (bngle == -180.0) {
+                    bngle = 180.0;
                 }
             }
-        } else if (angle <= -180.0) {
-            if (angle > (-180.0 - 360.0)) {
-                angle = angle + 360.0;
+        } else if (bngle <= -180.0) {
+            if (bngle > (-180.0 - 360.0)) {
+                bngle = bngle + 360.0;
             } else {
-                angle = Math.IEEEremainder(angle, 360.0);
-                // IEEEremainder can return -180 here for some input values...
-                if (angle == -180.0) {
-                    angle = 180.0;
+                bngle = Mbth.IEEErembinder(bngle, 360.0);
+                // IEEErembinder cbn return -180 here for some input vblues...
+                if (bngle == -180.0) {
+                    bngle = 180.0;
                 }
             }
         }
-        return angle;
+        return bngle;
     }
 
     /**
-     * Determines whether or not the specified angle is within the
-     * angular extents of the arc.
+     * Determines whether or not the specified bngle is within the
+     * bngulbr extents of the brc.
      *
-     * @param angle The angle to test.
+     * @pbrbm bngle The bngle to test.
      *
-     * @return <CODE>true</CODE> if the arc contains the angle,
-     * <CODE>false</CODE> if the arc doesn't contain the angle.
+     * @return <CODE>true</CODE> if the brc contbins the bngle,
+     * <CODE>fblse</CODE> if the brc doesn't contbin the bngle.
      * @since 1.2
      */
-    public boolean containsAngle(double angle) {
-        double angExt = getAngleExtent();
-        boolean backwards = (angExt < 0.0);
-        if (backwards) {
-            angExt = -angExt;
+    public boolebn contbinsAngle(double bngle) {
+        double bngExt = getAngleExtent();
+        boolebn bbckwbrds = (bngExt < 0.0);
+        if (bbckwbrds) {
+            bngExt = -bngExt;
         }
-        if (angExt >= 360.0) {
+        if (bngExt >= 360.0) {
             return true;
         }
-        angle = normalizeDegrees(angle) - normalizeDegrees(getAngleStart());
-        if (backwards) {
-            angle = -angle;
+        bngle = normblizeDegrees(bngle) - normblizeDegrees(getAngleStbrt());
+        if (bbckwbrds) {
+            bngle = -bngle;
         }
-        if (angle < 0.0) {
-            angle += 360.0;
+        if (bngle < 0.0) {
+            bngle += 360.0;
         }
 
 
-        return (angle >= 0.0) && (angle < angExt);
+        return (bngle >= 0.0) && (bngle < bngExt);
     }
 
     /**
-     * Determines whether or not the specified point is inside the boundary
-     * of the arc.
+     * Determines whether or not the specified point is inside the boundbry
+     * of the brc.
      *
-     * @param x The X coordinate of the point to test.
-     * @param y The Y coordinate of the point to test.
+     * @pbrbm x The X coordinbte of the point to test.
+     * @pbrbm y The Y coordinbte of the point to test.
      *
      * @return <CODE>true</CODE> if the point lies within the bound of
-     * the arc, <CODE>false</CODE> if the point lies outside of the
-     * arc's bounds.
+     * the brc, <CODE>fblse</CODE> if the point lies outside of the
+     * brc's bounds.
      * @since 1.2
      */
-    public boolean contains(double x, double y) {
-        // Normalize the coordinates compared to the ellipse
-        // having a center at 0,0 and a radius of 0.5.
+    public boolebn contbins(double x, double y) {
+        // Normblize the coordinbtes compbred to the ellipse
+        // hbving b center bt 0,0 bnd b rbdius of 0.5.
         double ellw = getWidth();
         if (ellw <= 0.0) {
-            return false;
+            return fblse;
         }
         double normx = (x - getX()) / ellw - 0.5;
         double ellh = getHeight();
         if (ellh <= 0.0) {
-            return false;
+            return fblse;
         }
         double normy = (y - getY()) / ellh - 0.5;
         double distSq = (normx * normx + normy * normy);
         if (distSq >= 0.25) {
-            return false;
+            return fblse;
         }
-        double angExt = Math.abs(getAngleExtent());
-        if (angExt >= 360.0) {
+        double bngExt = Mbth.bbs(getAngleExtent());
+        if (bngExt >= 360.0) {
             return true;
         }
-        boolean inarc = containsAngle(-Math.toDegrees(Math.atan2(normy,
+        boolebn inbrc = contbinsAngle(-Mbth.toDegrees(Mbth.btbn2(normy,
                                                                  normx)));
         if (type == PIE) {
-            return inarc;
+            return inbrc;
         }
-        // CHORD and OPEN behave the same way
-        if (inarc) {
-            if (angExt >= 180.0) {
+        // CHORD bnd OPEN behbve the sbme wby
+        if (inbrc) {
+            if (bngExt >= 180.0) {
                 return true;
             }
-            // point must be outside the "pie triangle"
+            // point must be outside the "pie tribngle"
         } else {
-            if (angExt <= 180.0) {
-                return false;
+            if (bngExt <= 180.0) {
+                return fblse;
             }
-            // point must be inside the "pie triangle"
+            // point must be inside the "pie tribngle"
         }
-        // The point is inside the pie triangle iff it is on the same
-        // side of the line connecting the ends of the arc as the center.
-        double angle = Math.toRadians(-getAngleStart());
-        double x1 = Math.cos(angle);
-        double y1 = Math.sin(angle);
-        angle += Math.toRadians(-getAngleExtent());
-        double x2 = Math.cos(angle);
-        double y2 = Math.sin(angle);
-        boolean inside = (Line2D.relativeCCW(x1, y1, x2, y2, 2*normx, 2*normy) *
-                          Line2D.relativeCCW(x1, y1, x2, y2, 0, 0) >= 0);
-        return inarc ? !inside : inside;
+        // The point is inside the pie tribngle iff it is on the sbme
+        // side of the line connecting the ends of the brc bs the center.
+        double bngle = Mbth.toRbdibns(-getAngleStbrt());
+        double x1 = Mbth.cos(bngle);
+        double y1 = Mbth.sin(bngle);
+        bngle += Mbth.toRbdibns(-getAngleExtent());
+        double x2 = Mbth.cos(bngle);
+        double y2 = Mbth.sin(bngle);
+        boolebn inside = (Line2D.relbtiveCCW(x1, y1, x2, y2, 2*normx, 2*normy) *
+                          Line2D.relbtiveCCW(x1, y1, x2, y2, 0, 0) >= 0);
+        return inbrc ? !inside : inside;
     }
 
     /**
-     * Determines whether or not the interior of the arc intersects
-     * the interior of the specified rectangle.
+     * Determines whether or not the interior of the brc intersects
+     * the interior of the specified rectbngle.
      *
-     * @param x The X coordinate of the rectangle's upper-left corner.
-     * @param y The Y coordinate of the rectangle's upper-left corner.
-     * @param w The width of the rectangle.
-     * @param h The height of the rectangle.
+     * @pbrbm x The X coordinbte of the rectbngle's upper-left corner.
+     * @pbrbm y The Y coordinbte of the rectbngle's upper-left corner.
+     * @pbrbm w The width of the rectbngle.
+     * @pbrbm h The height of the rectbngle.
      *
-     * @return <CODE>true</CODE> if the arc intersects the rectangle,
-     * <CODE>false</CODE> if the arc doesn't intersect the rectangle.
+     * @return <CODE>true</CODE> if the brc intersects the rectbngle,
+     * <CODE>fblse</CODE> if the brc doesn't intersect the rectbngle.
      * @since 1.2
      */
-    public boolean intersects(double x, double y, double w, double h) {
+    public boolebn intersects(double x, double y, double w, double h) {
 
-        double aw = getWidth();
-        double ah = getHeight();
+        double bw = getWidth();
+        double bh = getHeight();
 
-        if ( w <= 0 || h <= 0 || aw <= 0 || ah <= 0 ) {
-            return false;
+        if ( w <= 0 || h <= 0 || bw <= 0 || bh <= 0 ) {
+            return fblse;
         }
         double ext = getAngleExtent();
         if (ext == 0) {
-            return false;
+            return fblse;
         }
 
-        double ax  = getX();
-        double ay  = getY();
-        double axw = ax + aw;
-        double ayh = ay + ah;
+        double bx  = getX();
+        double by  = getY();
+        double bxw = bx + bw;
+        double byh = by + bh;
         double xw  = x + w;
         double yh  = y + h;
 
         // check bbox
-        if (x >= axw || y >= ayh || xw <= ax || yh <= ay) {
-            return false;
+        if (x >= bxw || y >= byh || xw <= bx || yh <= by) {
+            return fblse;
         }
 
-        // extract necessary data
-        double axc = getCenterX();
-        double ayc = getCenterY();
-        Point2D sp = getStartPoint();
+        // extrbct necessbry dbtb
+        double bxc = getCenterX();
+        double byc = getCenterY();
+        Point2D sp = getStbrtPoint();
         Point2D ep = getEndPoint();
         double sx = sp.getX();
         double sy = sp.getY();
@@ -1279,196 +1279,196 @@ public abstract class Arc2D extends RectangularShape {
         double ey = ep.getY();
 
         /*
-         * Try to catch rectangles that intersect arc in areas
-         * outside of rectagle with left top corner coordinates
-         * (min(center x, start point x, end point x),
-         *  min(center y, start point y, end point y))
-         * and rigth bottom corner coordinates
-         * (max(center x, start point x, end point x),
-         *  max(center y, start point y, end point y)).
-         * So we'll check axis segments outside of rectangle above.
+         * Try to cbtch rectbngles thbt intersect brc in brebs
+         * outside of rectbgle with left top corner coordinbtes
+         * (min(center x, stbrt point x, end point x),
+         *  min(center y, stbrt point y, end point y))
+         * bnd rigth bottom corner coordinbtes
+         * (mbx(center x, stbrt point x, end point x),
+         *  mbx(center y, stbrt point y, end point y)).
+         * So we'll check bxis segments outside of rectbngle bbove.
          */
-        if (ayc >= y && ayc <= yh) { // 0 and 180
-            if ((sx < xw && ex < xw && axc < xw &&
-                 axw > x && containsAngle(0)) ||
-                (sx > x && ex > x && axc > x &&
-                 ax < xw && containsAngle(180))) {
+        if (byc >= y && byc <= yh) { // 0 bnd 180
+            if ((sx < xw && ex < xw && bxc < xw &&
+                 bxw > x && contbinsAngle(0)) ||
+                (sx > x && ex > x && bxc > x &&
+                 bx < xw && contbinsAngle(180))) {
                 return true;
             }
         }
-        if (axc >= x && axc <= xw) { // 90 and 270
-            if ((sy > y && ey > y && ayc > y &&
-                 ay < yh && containsAngle(90)) ||
-                (sy < yh && ey < yh && ayc < yh &&
-                 ayh > y && containsAngle(270))) {
+        if (bxc >= x && bxc <= xw) { // 90 bnd 270
+            if ((sy > y && ey > y && byc > y &&
+                 by < yh && contbinsAngle(90)) ||
+                (sy < yh && ey < yh && byc < yh &&
+                 byh > y && contbinsAngle(270))) {
                 return true;
             }
         }
 
         /*
          * For PIE we should check intersection with pie slices;
-         * also we should do the same for arcs with extent is greater
-         * than 180, because we should cover case of rectangle, which
-         * situated between center of arc and chord, but does not
+         * blso we should do the sbme for brcs with extent is grebter
+         * thbn 180, becbuse we should cover cbse of rectbngle, which
+         * situbted between center of brc bnd chord, but does not
          * intersect the chord.
          */
-        Rectangle2D rect = new Rectangle2D.Double(x, y, w, h);
-        if (type == PIE || Math.abs(ext) > 180) {
+        Rectbngle2D rect = new Rectbngle2D.Double(x, y, w, h);
+        if (type == PIE || Mbth.bbs(ext) > 180) {
             // for PIE: try to find intersections with pie slices
-            if (rect.intersectsLine(axc, ayc, sx, sy) ||
-                rect.intersectsLine(axc, ayc, ex, ey)) {
+            if (rect.intersectsLine(bxc, byc, sx, sy) ||
+                rect.intersectsLine(bxc, byc, ex, ey)) {
                 return true;
             }
         } else {
-            // for CHORD and OPEN: try to find intersections with chord
+            // for CHORD bnd OPEN: try to find intersections with chord
             if (rect.intersectsLine(sx, sy, ex, ey)) {
                 return true;
             }
         }
 
-        // finally check the rectangle corners inside the arc
-        if (contains(x, y) || contains(x + w, y) ||
-            contains(x, y + h) || contains(x + w, y + h)) {
+        // finblly check the rectbngle corners inside the brc
+        if (contbins(x, y) || contbins(x + w, y) ||
+            contbins(x, y + h) || contbins(x + w, y + h)) {
             return true;
         }
 
-        return false;
+        return fblse;
     }
 
     /**
-     * Determines whether or not the interior of the arc entirely contains
-     * the specified rectangle.
+     * Determines whether or not the interior of the brc entirely contbins
+     * the specified rectbngle.
      *
-     * @param x The X coordinate of the rectangle's upper-left corner.
-     * @param y The Y coordinate of the rectangle's upper-left corner.
-     * @param w The width of the rectangle.
-     * @param h The height of the rectangle.
+     * @pbrbm x The X coordinbte of the rectbngle's upper-left corner.
+     * @pbrbm y The Y coordinbte of the rectbngle's upper-left corner.
+     * @pbrbm w The width of the rectbngle.
+     * @pbrbm h The height of the rectbngle.
      *
-     * @return <CODE>true</CODE> if the arc contains the rectangle,
-     * <CODE>false</CODE> if the arc doesn't contain the rectangle.
+     * @return <CODE>true</CODE> if the brc contbins the rectbngle,
+     * <CODE>fblse</CODE> if the brc doesn't contbin the rectbngle.
      * @since 1.2
      */
-    public boolean contains(double x, double y, double w, double h) {
-        return contains(x, y, w, h, null);
+    public boolebn contbins(double x, double y, double w, double h) {
+        return contbins(x, y, w, h, null);
     }
 
     /**
-     * Determines whether or not the interior of the arc entirely contains
-     * the specified rectangle.
+     * Determines whether or not the interior of the brc entirely contbins
+     * the specified rectbngle.
      *
-     * @param r The <CODE>Rectangle2D</CODE> to test.
+     * @pbrbm r The <CODE>Rectbngle2D</CODE> to test.
      *
-     * @return <CODE>true</CODE> if the arc contains the rectangle,
-     * <CODE>false</CODE> if the arc doesn't contain the rectangle.
+     * @return <CODE>true</CODE> if the brc contbins the rectbngle,
+     * <CODE>fblse</CODE> if the brc doesn't contbin the rectbngle.
      * @since 1.2
      */
-    public boolean contains(Rectangle2D r) {
-        return contains(r.getX(), r.getY(), r.getWidth(), r.getHeight(), r);
+    public boolebn contbins(Rectbngle2D r) {
+        return contbins(r.getX(), r.getY(), r.getWidth(), r.getHeight(), r);
     }
 
-    private boolean contains(double x, double y, double w, double h,
-                             Rectangle2D origrect) {
-        if (!(contains(x, y) &&
-              contains(x + w, y) &&
-              contains(x, y + h) &&
-              contains(x + w, y + h))) {
-            return false;
+    privbte boolebn contbins(double x, double y, double w, double h,
+                             Rectbngle2D origrect) {
+        if (!(contbins(x, y) &&
+              contbins(x + w, y) &&
+              contbins(x, y + h) &&
+              contbins(x + w, y + h))) {
+            return fblse;
         }
-        // If the shape is convex then we have done all the testing
-        // we need.  Only PIE arcs can be concave and then only if
-        // the angular extents are greater than 180 degrees.
-        if (type != PIE || Math.abs(getAngleExtent()) <= 180.0) {
+        // If the shbpe is convex then we hbve done bll the testing
+        // we need.  Only PIE brcs cbn be concbve bnd then only if
+        // the bngulbr extents bre grebter thbn 180 degrees.
+        if (type != PIE || Mbth.bbs(getAngleExtent()) <= 180.0) {
             return true;
         }
-        // For a PIE shape we have an additional test for the case where
-        // the angular extents are greater than 180 degrees and all four
-        // rectangular corners are inside the shape but one of the
-        // rectangle edges spans across the "missing wedge" of the arc.
-        // We can test for this case by checking if the rectangle intersects
-        // either of the pie angle segments.
+        // For b PIE shbpe we hbve bn bdditionbl test for the cbse where
+        // the bngulbr extents bre grebter thbn 180 degrees bnd bll four
+        // rectbngulbr corners bre inside the shbpe but one of the
+        // rectbngle edges spbns bcross the "missing wedge" of the brc.
+        // We cbn test for this cbse by checking if the rectbngle intersects
+        // either of the pie bngle segments.
         if (origrect == null) {
-            origrect = new Rectangle2D.Double(x, y, w, h);
+            origrect = new Rectbngle2D.Double(x, y, w, h);
         }
-        double halfW = getWidth() / 2.0;
-        double halfH = getHeight() / 2.0;
-        double xc = getX() + halfW;
-        double yc = getY() + halfH;
-        double angle = Math.toRadians(-getAngleStart());
-        double xe = xc + halfW * Math.cos(angle);
-        double ye = yc + halfH * Math.sin(angle);
+        double hblfW = getWidth() / 2.0;
+        double hblfH = getHeight() / 2.0;
+        double xc = getX() + hblfW;
+        double yc = getY() + hblfH;
+        double bngle = Mbth.toRbdibns(-getAngleStbrt());
+        double xe = xc + hblfW * Mbth.cos(bngle);
+        double ye = yc + hblfH * Mbth.sin(bngle);
         if (origrect.intersectsLine(xc, yc, xe, ye)) {
-            return false;
+            return fblse;
         }
-        angle += Math.toRadians(-getAngleExtent());
-        xe = xc + halfW * Math.cos(angle);
-        ye = yc + halfH * Math.sin(angle);
+        bngle += Mbth.toRbdibns(-getAngleExtent());
+        xe = xc + hblfW * Mbth.cos(bngle);
+        ye = yc + hblfH * Mbth.sin(bngle);
         return !origrect.intersectsLine(xc, yc, xe, ye);
     }
 
     /**
-     * Returns an iteration object that defines the boundary of the
-     * arc.
-     * This iterator is multithread safe.
-     * <code>Arc2D</code> guarantees that
-     * modifications to the geometry of the arc
-     * do not affect any iterations of that geometry that
-     * are already in process.
+     * Returns bn iterbtion object thbt defines the boundbry of the
+     * brc.
+     * This iterbtor is multithrebd sbfe.
+     * <code>Arc2D</code> gubrbntees thbt
+     * modificbtions to the geometry of the brc
+     * do not bffect bny iterbtions of thbt geometry thbt
+     * bre blrebdy in process.
      *
-     * @param at an optional <CODE>AffineTransform</CODE> to be applied
-     * to the coordinates as they are returned in the iteration, or null
-     * if the untransformed coordinates are desired.
+     * @pbrbm bt bn optionbl <CODE>AffineTrbnsform</CODE> to be bpplied
+     * to the coordinbtes bs they bre returned in the iterbtion, or null
+     * if the untrbnsformed coordinbtes bre desired.
      *
-     * @return A <CODE>PathIterator</CODE> that defines the arc's boundary.
+     * @return A <CODE>PbthIterbtor</CODE> thbt defines the brc's boundbry.
      * @since 1.2
      */
-    public PathIterator getPathIterator(AffineTransform at) {
-        return new ArcIterator(this, at);
+    public PbthIterbtor getPbthIterbtor(AffineTrbnsform bt) {
+        return new ArcIterbtor(this, bt);
     }
 
     /**
-     * Returns the hashcode for this <code>Arc2D</code>.
-     * @return the hashcode for this <code>Arc2D</code>.
+     * Returns the hbshcode for this <code>Arc2D</code>.
+     * @return the hbshcode for this <code>Arc2D</code>.
      * @since 1.6
      */
-    public int hashCode() {
-        long bits = java.lang.Double.doubleToLongBits(getX());
-        bits += java.lang.Double.doubleToLongBits(getY()) * 37;
-        bits += java.lang.Double.doubleToLongBits(getWidth()) * 43;
-        bits += java.lang.Double.doubleToLongBits(getHeight()) * 47;
-        bits += java.lang.Double.doubleToLongBits(getAngleStart()) * 53;
-        bits += java.lang.Double.doubleToLongBits(getAngleExtent()) * 59;
+    public int hbshCode() {
+        long bits = jbvb.lbng.Double.doubleToLongBits(getX());
+        bits += jbvb.lbng.Double.doubleToLongBits(getY()) * 37;
+        bits += jbvb.lbng.Double.doubleToLongBits(getWidth()) * 43;
+        bits += jbvb.lbng.Double.doubleToLongBits(getHeight()) * 47;
+        bits += jbvb.lbng.Double.doubleToLongBits(getAngleStbrt()) * 53;
+        bits += jbvb.lbng.Double.doubleToLongBits(getAngleExtent()) * 59;
         bits += getArcType() * 61;
         return (((int) bits) ^ ((int) (bits >> 32)));
     }
 
     /**
      * Determines whether or not the specified <code>Object</code> is
-     * equal to this <code>Arc2D</code>.  The specified
-     * <code>Object</code> is equal to this <code>Arc2D</code>
-     * if it is an instance of <code>Arc2D</code> and if its
-     * location, size, arc extents and type are the same as this
+     * equbl to this <code>Arc2D</code>.  The specified
+     * <code>Object</code> is equbl to this <code>Arc2D</code>
+     * if it is bn instbnce of <code>Arc2D</code> bnd if its
+     * locbtion, size, brc extents bnd type bre the sbme bs this
      * <code>Arc2D</code>.
-     * @param obj  an <code>Object</code> to be compared with this
+     * @pbrbm obj  bn <code>Object</code> to be compbred with this
      *             <code>Arc2D</code>.
-     * @return  <code>true</code> if <code>obj</code> is an instance
-     *          of <code>Arc2D</code> and has the same values;
-     *          <code>false</code> otherwise.
+     * @return  <code>true</code> if <code>obj</code> is bn instbnce
+     *          of <code>Arc2D</code> bnd hbs the sbme vblues;
+     *          <code>fblse</code> otherwise.
      * @since 1.6
      */
-    public boolean equals(Object obj) {
+    public boolebn equbls(Object obj) {
         if (obj == this) {
             return true;
         }
-        if (obj instanceof Arc2D) {
-            Arc2D a2d = (Arc2D) obj;
-            return ((getX() == a2d.getX()) &&
-                    (getY() == a2d.getY()) &&
-                    (getWidth() == a2d.getWidth()) &&
-                    (getHeight() == a2d.getHeight()) &&
-                    (getAngleStart() == a2d.getAngleStart()) &&
-                    (getAngleExtent() == a2d.getAngleExtent()) &&
-                    (getArcType() == a2d.getArcType()));
+        if (obj instbnceof Arc2D) {
+            Arc2D b2d = (Arc2D) obj;
+            return ((getX() == b2d.getX()) &&
+                    (getY() == b2d.getY()) &&
+                    (getWidth() == b2d.getWidth()) &&
+                    (getHeight() == b2d.getHeight()) &&
+                    (getAngleStbrt() == b2d.getAngleStbrt()) &&
+                    (getAngleExtent() == b2d.getAngleExtent()) &&
+                    (getArcType() == b2d.getArcType()));
         }
-        return false;
+        return fblse;
     }
 }

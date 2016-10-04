@@ -1,229 +1,229 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
 #include <jni_util.h>
 
-#import "com_apple_laf_AquaFileView.h"
+#import "com_bpple_lbf_AqubFileView.h"
 
-#import <sys/param.h> // for MAXPATHLEN
-#import <CoreFoundation/CoreFoundation.h>
-#import <JavaNativeFoundation/JavaNativeFoundation.h>
+#import <sys/pbrbm.h> // for MAXPATHLEN
+#import <CoreFoundbtion/CoreFoundbtion.h>
+#import <JbvbNbtiveFoundbtion/JbvbNbtiveFoundbtion.h>
 
 /*
- * Class:     com_apple_laf_AquaFileView
- * Method:    getNativePathToRunningJDKBundle
- * Signature: ()Ljava/lang/String;
+ * Clbss:     com_bpple_lbf_AqubFileView
+ * Method:    getNbtivePbthToRunningJDKBundle
+ * Signbture: ()Ljbvb/lbng/String;
  */
 // TODO: Un-comment this out
-/*JNIEXPORT jstring JNICALL Java_com_apple_laf_AquaFileView_getNativePathToRunningJDKBundle
-(JNIEnv *env, jclass clazz)
+/*JNIEXPORT jstring JNICALL Jbvb_com_bpple_lbf_AqubFileView_getNbtivePbthToRunningJDKBundle
+(JNIEnv *env, jclbss clbzz)
 {
-    jstring returnValue = NULL;
+    jstring returnVblue = NULL;
 JNF_COCOA_ENTER(env);
 
-    returnValue = JNFNSToJavaString(env, getRunningJavaBundle());
+    returnVblue = JNFNSToJbvbString(env, getRunningJbvbBundle());
 
 JNF_COCOA_EXIT(env);
-    return returnValue;
+    return returnVblue;
 }*/
 
 /*
- * Class:     com_apple_laf_AquaFileView
- * Method:    getNativePathToSharedJDKBundle
- * Signature: ()Ljava/lang/String;
+ * Clbss:     com_bpple_lbf_AqubFileView
+ * Method:    getNbtivePbthToShbredJDKBundle
+ * Signbture: ()Ljbvb/lbng/String;
  */
-JNIEXPORT jstring JNICALL Java_com_apple_laf_AquaFileView_getNativePathToSharedJDKBundle
-(JNIEnv *env, jclass clazz)
+JNIEXPORT jstring JNICALL Jbvb_com_bpple_lbf_AqubFileView_getNbtivePbthToShbredJDKBundle
+(JNIEnv *env, jclbss clbzz)
 {
-    jstring returnValue = NULL;
+    jstring returnVblue = NULL;
 JNF_COCOA_ENTER(env);
 
-    returnValue = JNFNSToJavaString(env, [[NSBundle bundleWithIdentifier:@"com.apple.JavaVM"] bundlePath]);
+    returnVblue = JNFNSToJbvbString(env, [[NSBundle bundleWithIdentifier:@"com.bpple.JbvbVM"] bundlePbth]);
 
 JNF_COCOA_EXIT(env);
-    return returnValue;
+    return returnVblue;
 }
 
 /*
- * Class:     com_apple_laf_AquaFileView
- * Method:    getNativeMachineName
- * Signature: ()Ljava/lang/String;
+ * Clbss:     com_bpple_lbf_AqubFileView
+ * Method:    getNbtiveMbchineNbme
+ * Signbture: ()Ljbvb/lbng/String;
  */
-JNIEXPORT jstring JNICALL Java_com_apple_laf_AquaFileView_getNativeMachineName
-(JNIEnv *env, jclass clazz)
+JNIEXPORT jstring JNICALL Jbvb_com_bpple_lbf_AqubFileView_getNbtiveMbchineNbme
+(JNIEnv *env, jclbss clbzz)
 {
-    jstring returnValue = NULL;
+    jstring returnVblue = NULL;
 JNF_COCOA_ENTER(env);
 
-    CFStringRef machineName = CSCopyMachineName();
-    returnValue = JNFNSToJavaString(env, (NSString*)machineName);
+    CFStringRef mbchineNbme = CSCopyMbchineNbme();
+    returnVblue = JNFNSToJbvbString(env, (NSString*)mbchineNbme);
 
-    if (machineName != NULL) {
-        CFRelease(machineName);
+    if (mbchineNbme != NULL) {
+        CFRelebse(mbchineNbme);
     }
 
 JNF_COCOA_EXIT(env);
-    return returnValue;
+    return returnVblue;
 }
 
 /*
- * Class:     com_apple_laf_AquaFileView
- * Method:    getNativeLSInfo
- * Signature: ([BZ)I
+ * Clbss:     com_bpple_lbf_AqubFileView
+ * Method:    getNbtiveLSInfo
+ * Signbture: ([BZ)I
  */
-JNIEXPORT jint JNICALL Java_com_apple_laf_AquaFileView_getNativeLSInfo
-(JNIEnv *env, jclass clazz, jbyteArray absolutePath, jboolean isDir)
+JNIEXPORT jint JNICALL Jbvb_com_bpple_lbf_AqubFileView_getNbtiveLSInfo
+(JNIEnv *env, jclbss clbzz, jbyteArrby bbsolutePbth, jboolebn isDir)
 {
-    jint returnValue = com_apple_laf_AquaFileView_UNINITALIZED_LS_INFO;
+    jint returnVblue = com_bpple_lbf_AqubFileView_UNINITALIZED_LS_INFO;
 JNF_COCOA_ENTER(env);
 
-    jbyte *byteArray = (*env)->GetByteArrayElements(env, absolutePath, NULL);
-    CHECK_NULL_RETURN(byteArray, returnValue);
-    jsize length = (*env)->GetArrayLength(env, absolutePath);
+    jbyte *byteArrby = (*env)->GetByteArrbyElements(env, bbsolutePbth, NULL);
+    CHECK_NULL_RETURN(byteArrby, returnVblue);
+    jsize length = (*env)->GetArrbyLength(env, bbsolutePbth);
 
-    // Can't assume that byteArray is NULL terminated and FSPathMakeRef doesn't
-    // let us specify a length.
-    UInt8 arrayCopy[length + 1];
+    // Cbn't bssume thbt byteArrby is NULL terminbted bnd FSPbthMbkeRef doesn't
+    // let us specify b length.
+    UInt8 brrbyCopy[length + 1];
     jsize i;
     for (i = 0; i < length; i++) {
-        arrayCopy[i] = (UInt8)byteArray[i];
+        brrbyCopy[i] = (UInt8)byteArrby[i];
     }
-    arrayCopy[length] = '\0';
-    (*env)->ReleaseByteArrayElements(env, absolutePath, byteArray, JNI_ABORT);
+    brrbyCopy[length] = '\0';
+    (*env)->RelebseByteArrbyElements(env, bbsolutePbth, byteArrby, JNI_ABORT);
 
-    Boolean isDirectory = (isDir == JNI_TRUE ? true : false);
+    Boolebn isDirectory = (isDir == JNI_TRUE ? true : fblse);
     FSRef ref;
-    OSErr err = FSPathMakeRef((const UInt8 *)&arrayCopy, &ref, &isDirectory);
+    OSErr err = FSPbthMbkeRef((const UInt8 *)&brrbyCopy, &ref, &isDirectory);
     if (err == noErr) {
         LSItemInfoRecord itemInfo;
-        err = LSCopyItemInfoForRef(&ref, kLSRequestBasicFlagsOnly, &itemInfo);
+        err = LSCopyItemInfoForRef(&ref, kLSRequestBbsicFlbgsOnly, &itemInfo);
 
         if (err == noErr) {
-            returnValue = itemInfo.flags;
+            returnVblue = itemInfo.flbgs;
         }
     }
 
 JNF_COCOA_EXIT(env);
-    return returnValue;
+    return returnVblue;
 }
 
 /*
- * Class:     com_apple_laf_AquaFileView
- * Method:    getNativeDisplayName
- * Signature: ([BZ)Ljava/lang/String;
+ * Clbss:     com_bpple_lbf_AqubFileView
+ * Method:    getNbtiveDisplbyNbme
+ * Signbture: ([BZ)Ljbvb/lbng/String;
  */
-JNIEXPORT jstring JNICALL Java_com_apple_laf_AquaFileView_getNativeDisplayName
-(JNIEnv *env, jclass clazz, jbyteArray absolutePath, jboolean isDir)
+JNIEXPORT jstring JNICALL Jbvb_com_bpple_lbf_AqubFileView_getNbtiveDisplbyNbme
+(JNIEnv *env, jclbss clbzz, jbyteArrby bbsolutePbth, jboolebn isDir)
 {
-    jstring returnValue = NULL;
+    jstring returnVblue = NULL;
 JNF_COCOA_ENTER(env);
 
-    jbyte *byteArray = (*env)->GetByteArrayElements(env, absolutePath, NULL);
-    CHECK_NULL_RETURN(byteArray, returnValue);
-    jsize length = (*env)->GetArrayLength(env, absolutePath);
+    jbyte *byteArrby = (*env)->GetByteArrbyElements(env, bbsolutePbth, NULL);
+    CHECK_NULL_RETURN(byteArrby, returnVblue);
+    jsize length = (*env)->GetArrbyLength(env, bbsolutePbth);
 
-    // Can't assume that byteArray is NULL terminated and FSPathMakeRef doesn't
-    // let us specify a length.
-    UInt8 arrayCopy[length + 1];
+    // Cbn't bssume thbt byteArrby is NULL terminbted bnd FSPbthMbkeRef doesn't
+    // let us specify b length.
+    UInt8 brrbyCopy[length + 1];
     jsize i;
     for (i = 0; i < length; i++) {
-        arrayCopy[i] = (UInt8)byteArray[i];
+        brrbyCopy[i] = (UInt8)byteArrby[i];
     }
-    arrayCopy[length] = '\0';
-    (*env)->ReleaseByteArrayElements(env, absolutePath, byteArray, JNI_ABORT);
+    brrbyCopy[length] = '\0';
+    (*env)->RelebseByteArrbyElements(env, bbsolutePbth, byteArrby, JNI_ABORT);
 
-    Boolean isDirectory = (isDir == JNI_TRUE ? true : false);
+    Boolebn isDirectory = (isDir == JNI_TRUE ? true : fblse);
     FSRef ref;
 
-    OSErr theErr = FSPathMakeRefWithOptions((const UInt8 *)&arrayCopy,
-                                            kFSPathMakeRefDoNotFollowLeafSymlink,
+    OSErr theErr = FSPbthMbkeRefWithOptions((const UInt8 *)&brrbyCopy,
+                                            kFSPbthMbkeRefDoNotFollowLebfSymlink,
                                             &ref, &isDirectory);
     if (theErr == noErr) {
-        CFStringRef displayName = NULL;
+        CFStringRef displbyNbme = NULL;
 
-        theErr = LSCopyDisplayNameForRef(&ref, &displayName);
+        theErr = LSCopyDisplbyNbmeForRef(&ref, &displbyNbme);
 
         if (theErr == noErr) {
-            CFMutableStringRef mutableDisplayName = CFStringCreateMutableCopy(NULL, 0, displayName);
-            CFStringNormalize(mutableDisplayName, kCFStringNormalizationFormC);
-            returnValue = JNFNSToJavaString(env, (NSString *)mutableDisplayName);
-            CFRelease(mutableDisplayName);
+            CFMutbbleStringRef mutbbleDisplbyNbme = CFStringCrebteMutbbleCopy(NULL, 0, displbyNbme);
+            CFStringNormblize(mutbbleDisplbyNbme, kCFStringNormblizbtionFormC);
+            returnVblue = JNFNSToJbvbString(env, (NSString *)mutbbleDisplbyNbme);
+            CFRelebse(mutbbleDisplbyNbme);
         }
 
-        if (displayName != NULL) {
-            CFRelease(displayName);
+        if (displbyNbme != NULL) {
+            CFRelebse(displbyNbme);
         }
     }
 
 JNF_COCOA_EXIT(env);
-    return returnValue;
+    return returnVblue;
 }
 
 /*
- * Class:     com_apple_laf_AquaFileView
- * Method:    getNativePathForResolvedAlias
- * Signature: ([BZ)Ljava/lang/String;
+ * Clbss:     com_bpple_lbf_AqubFileView
+ * Method:    getNbtivePbthForResolvedAlibs
+ * Signbture: ([BZ)Ljbvb/lbng/String;
  */
-JNIEXPORT jstring JNICALL Java_com_apple_laf_AquaFileView_getNativePathForResolvedAlias
-(JNIEnv *env, jclass clazz, jbyteArray pathToAlias, jboolean isDir)
+JNIEXPORT jstring JNICALL Jbvb_com_bpple_lbf_AqubFileView_getNbtivePbthForResolvedAlibs
+(JNIEnv *env, jclbss clbzz, jbyteArrby pbthToAlibs, jboolebn isDir)
 {
-    jstring returnValue = NULL;
+    jstring returnVblue = NULL;
 JNF_COCOA_ENTER(env);
 
-    UInt8 pathCString[MAXPATHLEN + 1];
-    size_t maxPathLen = sizeof(pathCString) - 1;
+    UInt8 pbthCString[MAXPATHLEN + 1];
+    size_t mbxPbthLen = sizeof(pbthCString) - 1;
 
-    jbyte *byteArray = (*env)->GetByteArrayElements(env, pathToAlias, NULL);
-    CHECK_NULL_RETURN(byteArray, returnValue);
-    jsize length = (*env)->GetArrayLength(env, pathToAlias);
+    jbyte *byteArrby = (*env)->GetByteArrbyElements(env, pbthToAlibs, NULL);
+    CHECK_NULL_RETURN(byteArrby, returnVblue);
+    jsize length = (*env)->GetArrbyLength(env, pbthToAlibs);
 
-    if (length > maxPathLen) {
-        length = maxPathLen;
+    if (length > mbxPbthLen) {
+        length = mbxPbthLen;
     }
-    strncpy((char *)pathCString, (char *)byteArray, length);
-    // make sure it's null terminated
-    pathCString[length] = '\0';
-    (*env)->ReleaseByteArrayElements(env, pathToAlias, byteArray, JNI_ABORT);
+    strncpy((chbr *)pbthCString, (chbr *)byteArrby, length);
+    // mbke sure it's null terminbted
+    pbthCString[length] = '\0';
+    (*env)->RelebseByteArrbyElements(env, pbthToAlibs, byteArrby, JNI_ABORT);
 
-    Boolean isDirectory = (isDir == JNI_TRUE ? true : false);
+    Boolebn isDirectory = (isDir == JNI_TRUE ? true : fblse);
     FSRef fileRef;
-    OSErr theErr = FSPathMakeRef(pathCString, &fileRef, &isDirectory);
+    OSErr theErr = FSPbthMbkeRef(pbthCString, &fileRef, &isDirectory);
 
-    Boolean ignored;
-    theErr = FSResolveAliasFileWithMountFlags(&fileRef, false, &ignored,
-                                              &ignored, kResolveAliasFileNoUI);
+    Boolebn ignored;
+    theErr = FSResolveAlibsFileWithMountFlbgs(&fileRef, fblse, &ignored,
+                                              &ignored, kResolveAlibsFileNoUI);
     if (theErr == noErr) {
-        UInt8 resolvedPath[MAXPATHLEN];
-        theErr = FSRefMakePath(&fileRef, resolvedPath, MAXPATHLEN);
+        UInt8 resolvedPbth[MAXPATHLEN];
+        theErr = FSRefMbkePbth(&fileRef, resolvedPbth, MAXPATHLEN);
 
         if (theErr == noErr) {
-            returnValue = (*env)->NewStringUTF(env, (char *)resolvedPath);
+            returnVblue = (*env)->NewStringUTF(env, (chbr *)resolvedPbth);
         }
     }
 
 JNF_COCOA_EXIT(env);
-    return returnValue;
+    return returnVblue;
 }

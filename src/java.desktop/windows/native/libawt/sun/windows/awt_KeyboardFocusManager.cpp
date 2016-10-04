@@ -1,41 +1,41 @@
 /*
- * Copyright (c) 2000, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2009, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-#include "awt.h"
-#include "awt_Component.h"
-#include "awt_Toolkit.h"
-#include <java_awt_KeyboardFocusManager.h>
+#include "bwt.h"
+#include "bwt_Component.h"
+#include "bwt_Toolkit.h"
+#include <jbvb_bwt_KeybobrdFocusMbnbger.h>
 #include <jni.h>
 
-static jobject getNativeFocusState(JNIEnv *env, void*(*ftn)()) {
-    jobject gFocusState = (jobject)AwtToolkit::GetInstance().SyncCall(ftn);
+stbtic jobject getNbtiveFocusStbte(JNIEnv *env, void*(*ftn)()) {
+    jobject gFocusStbte = (jobject)AwtToolkit::GetInstbnce().SyncCbll(ftn);
 
-    if (gFocusState != NULL) {
-        jobject lFocusState = env->NewLocalRef(gFocusState);
-        env->DeleteGlobalRef(gFocusState);
-        return lFocusState;
+    if (gFocusStbte != NULL) {
+        jobject lFocusStbte = env->NewLocblRef(gFocusStbte);
+        env->DeleteGlobblRef(gFocusStbte);
+        return lFocusStbte;
     }
     return NULL;
 }
@@ -43,64 +43,64 @@ static jobject getNativeFocusState(JNIEnv *env, void*(*ftn)()) {
 extern "C" {
 
 /*
- * Class:     java_awt_KeyboardFocusManager
+ * Clbss:     jbvb_bwt_KeybobrdFocusMbnbger
  * Method:    initIDs
- * Signature: ()V
+ * Signbture: ()V
  */
 JNIEXPORT void JNICALL
-Java_java_awt_KeyboardFocusManager_initIDs
-    (JNIEnv *env, jclass cls)
+Jbvb_jbvb_bwt_KeybobrdFocusMbnbger_initIDs
+    (JNIEnv *env, jclbss cls)
 {
 }
 
 /*
- * Class:     sun_awt_windows_WKeyboardFocusManagerPeer
- * Method:    setNativeFocusOwner
- * Signature: (Lsun/awt/windows/WComponentPeer)
+ * Clbss:     sun_bwt_windows_WKeybobrdFocusMbnbgerPeer
+ * Method:    setNbtiveFocusOwner
+ * Signbture: (Lsun/bwt/windows/WComponentPeer)
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WKeyboardFocusManagerPeer_setNativeFocusOwner
-    (JNIEnv *env, jclass cls, jobject compPeer)
+Jbvb_sun_bwt_windows_WKeybobrdFocusMbnbgerPeer_setNbtiveFocusOwner
+    (JNIEnv *env, jclbss cls, jobject compPeer)
 {
     TRY;
 
-    jobject peerGlobalRef = env->NewGlobalRef(compPeer);
+    jobject peerGlobblRef = env->NewGlobblRef(compPeer);
 
-    AwtToolkit::GetInstance().SyncCall(AwtComponent::SetNativeFocusOwner,
-                                       (void*)peerGlobalRef);
-    // peerGlobalRef is deleted in SetNativeFocusOwner
+    AwtToolkit::GetInstbnce().SyncCbll(AwtComponent::SetNbtiveFocusOwner,
+                                       (void*)peerGlobblRef);
+    // peerGlobblRef is deleted in SetNbtiveFocusOwner
 
     CATCH_BAD_ALLOC;
 }
 
 /*
- * Class:     sun_awt_windows_WKeyboardFocusManagerPeer
- * Method:    getNativeFocusOwner
- * Signature: (Lsun/awt/windows/WComponentPeer)
+ * Clbss:     sun_bwt_windows_WKeybobrdFocusMbnbgerPeer
+ * Method:    getNbtiveFocusOwner
+ * Signbture: (Lsun/bwt/windows/WComponentPeer)
  */
 JNIEXPORT jobject JNICALL
-Java_sun_awt_windows_WKeyboardFocusManagerPeer_getNativeFocusOwner
-    (JNIEnv *env, jclass cls)
+Jbvb_sun_bwt_windows_WKeybobrdFocusMbnbgerPeer_getNbtiveFocusOwner
+    (JNIEnv *env, jclbss cls)
 {
     TRY;
 
-    return getNativeFocusState(env, AwtComponent::GetNativeFocusOwner);
+    return getNbtiveFocusStbte(env, AwtComponent::GetNbtiveFocusOwner);
 
     CATCH_BAD_ALLOC_RET(NULL);
 }
 
 /*
- * Class:     sun_awt_windows_WKeyboardFocusManagerPeer
- * Method:    getNativeFocusedWindow
- * Signature: ()Ljava/awt/Window;
+ * Clbss:     sun_bwt_windows_WKeybobrdFocusMbnbgerPeer
+ * Method:    getNbtiveFocusedWindow
+ * Signbture: ()Ljbvb/bwt/Window;
  */
 JNIEXPORT jobject JNICALL
-Java_sun_awt_windows_WKeyboardFocusManagerPeer_getNativeFocusedWindow
-    (JNIEnv *env, jclass cls)
+Jbvb_sun_bwt_windows_WKeybobrdFocusMbnbgerPeer_getNbtiveFocusedWindow
+    (JNIEnv *env, jclbss cls)
 {
     TRY;
 
-    return getNativeFocusState(env, AwtComponent::GetNativeFocusedWindow);
+    return getNbtiveFocusStbte(env, AwtComponent::GetNbtiveFocusedWindow);
 
     CATCH_BAD_ALLOC_RET(NULL);
 }

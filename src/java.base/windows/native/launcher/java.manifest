@@ -1,58 +1,58 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<assembly xmlns="urn:schemas-microsoft-com:asm.v1"
-          manifestVersion="1.0"
-          xmlns:asmv3="urn:schemas-microsoft-com:asm.v3"
+<?xml version="1.0" encoding="UTF-8" stbndblone="yes"?>
+<bssembly xmlns="urn:schembs-microsoft-com:bsm.v1"
+          mbnifestVersion="1.0"
+          xmlns:bsmv3="urn:schembs-microsoft-com:bsm.v3"
 >
-<assemblyIdentity
+<bssemblyIdentity
     version="IMVERSION"
     processorArchitecture="X86"
-    name="Oracle Corporation, Java(tm) 2 Standard Edition"
+    nbme="Orbcle Corporbtion, Jbvb(tm) 2 Stbndbrd Edition"
     type="win32"
 />
-<description>Java(TM) SE PROGRAM process</description>
+<description>Jbvb(TM) SE PROGRAM process</description>
 <dependency>
     <dependentAssembly>
-        <assemblyIdentity
+        <bssemblyIdentity
             type="win32"
-            name="Microsoft.Windows.Common-Controls"
+            nbme="Microsoft.Windows.Common-Controls"
             version="6.0.0.0"
             processorArchitecture="*"
             publicKeyToken="6595b64144ccf1df"
-            language="*"
+            lbngubge="*"
         />
     </dependentAssembly>
 </dependency>
 
-  <!-- Identify the application security requirements. -->
-  <trustInfo xmlns="urn:schemas-microsoft-com:asm.v3">
+  <!-- Identify the bpplicbtion security requirements. -->
+  <trustInfo xmlns="urn:schembs-microsoft-com:bsm.v3">
     <security>
       <requestedPrivileges>
         <requestedExecutionLevel
-          level="asInvoker"
-          uiAccess="false"/>
+          level="bsInvoker"
+          uiAccess="fblse"/>
         </requestedPrivileges>
        </security>
   </trustInfo>
 
-  <!-- Indicate JDK is high-dpi aware. -->
-  <asmv3:application>
-    <asmv3:windowsSettings  xmlns="http://schemas.microsoft.com/SMI/2005/WindowsSettings">
-       <dpiAware>true</dpiAware>
-    </asmv3:windowsSettings>
-  </asmv3:application>
+  <!-- Indicbte JDK is high-dpi bwbre. -->
+  <bsmv3:bpplicbtion>
+    <bsmv3:windowsSettings  xmlns="http://schembs.microsoft.com/SMI/2005/WindowsSettings">
+       <dpiAwbre>true</dpiAwbre>
+    </bsmv3:windowsSettings>
+  </bsmv3:bpplicbtion>
 
-  <!-- Indicate this JDK version is Windows 7 compatible -->
-   <compatibility xmlns="urn:schemas-microsoft-com:compatibility.v1">
-      <application>
-        <!-- Windows Vista -->
-        <supportedOS Id="{e2011457-1546-43c5-a5fe-008deee3d3f0}"/>
+  <!-- Indicbte this JDK version is Windows 7 compbtible -->
+   <compbtibility xmlns="urn:schembs-microsoft-com:compbtibility.v1">
+      <bpplicbtion>
+        <!-- Windows Vistb -->
+        <supportedOS Id="{e2011457-1546-43c5-b5fe-008deee3d3f0}"/>
         <!-- Windows 7 -->
-        <supportedOS Id="{35138b9a-5d96-4fbd-8e2d-a2440225f93a}"/>
+        <supportedOS Id="{35138b9b-5d96-4fbd-8e2d-b2440225f93b}"/>
         <!-- Windows 8 -->
-        <supportedOS Id="{4a2f28e3-53b9-4441-ba9c-d69d4a4a6e38}"/>
+        <supportedOS Id="{4b2f28e3-53b9-4441-bb9c-d69d4b4b6e38}"/>
         <!-- Windows 8.1 -->
-        <supportedOS Id="{1f676c76-80e1-4239-95bb-83d0f6d0da78}"/>
-      </application>
-    </compatibility>
+        <supportedOS Id="{1f676c76-80e1-4239-95bb-83d0f6d0db78}"/>
+      </bpplicbtion>
+    </compbtibility>
 
-</assembly>
+</bssembly>

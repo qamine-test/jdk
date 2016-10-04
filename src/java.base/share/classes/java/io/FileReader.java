@@ -1,85 +1,85 @@
 /*
- * Copyright (c) 1996, 2001, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2001, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.io;
+pbckbge jbvb.io;
 
 
 /**
- * Convenience class for reading character files.  The constructors of this
- * class assume that the default character encoding and the default byte-buffer
- * size are appropriate.  To specify these values yourself, construct an
- * InputStreamReader on a FileInputStream.
+ * Convenience clbss for rebding chbrbcter files.  The constructors of this
+ * clbss bssume thbt the defbult chbrbcter encoding bnd the defbult byte-buffer
+ * size bre bppropribte.  To specify these vblues yourself, construct bn
+ * InputStrebmRebder on b FileInputStrebm.
  *
- * <p><code>FileReader</code> is meant for reading streams of characters.
- * For reading streams of raw bytes, consider using a
- * <code>FileInputStream</code>.
+ * <p><code>FileRebder</code> is mebnt for rebding strebms of chbrbcters.
+ * For rebding strebms of rbw bytes, consider using b
+ * <code>FileInputStrebm</code>.
  *
- * @see InputStreamReader
- * @see FileInputStream
+ * @see InputStrebmRebder
+ * @see FileInputStrebm
  *
- * @author      Mark Reinhold
+ * @buthor      Mbrk Reinhold
  * @since       1.1
  */
-public class FileReader extends InputStreamReader {
+public clbss FileRebder extends InputStrebmRebder {
 
    /**
-    * Creates a new <tt>FileReader</tt>, given the name of the
-    * file to read from.
+    * Crebtes b new <tt>FileRebder</tt>, given the nbme of the
+    * file to rebd from.
     *
-    * @param fileName the name of the file to read from
-    * @exception  FileNotFoundException  if the named file does not exist,
-    *                   is a directory rather than a regular file,
-    *                   or for some other reason cannot be opened for
-    *                   reading.
+    * @pbrbm fileNbme the nbme of the file to rebd from
+    * @exception  FileNotFoundException  if the nbmed file does not exist,
+    *                   is b directory rbther thbn b regulbr file,
+    *                   or for some other rebson cbnnot be opened for
+    *                   rebding.
     */
-    public FileReader(String fileName) throws FileNotFoundException {
-        super(new FileInputStream(fileName));
+    public FileRebder(String fileNbme) throws FileNotFoundException {
+        super(new FileInputStrebm(fileNbme));
     }
 
    /**
-    * Creates a new <tt>FileReader</tt>, given the <tt>File</tt>
-    * to read from.
+    * Crebtes b new <tt>FileRebder</tt>, given the <tt>File</tt>
+    * to rebd from.
     *
-    * @param file the <tt>File</tt> to read from
+    * @pbrbm file the <tt>File</tt> to rebd from
     * @exception  FileNotFoundException  if the file does not exist,
-    *                   is a directory rather than a regular file,
-    *                   or for some other reason cannot be opened for
-    *                   reading.
+    *                   is b directory rbther thbn b regulbr file,
+    *                   or for some other rebson cbnnot be opened for
+    *                   rebding.
     */
-    public FileReader(File file) throws FileNotFoundException {
-        super(new FileInputStream(file));
+    public FileRebder(File file) throws FileNotFoundException {
+        super(new FileInputStrebm(file));
     }
 
    /**
-    * Creates a new <tt>FileReader</tt>, given the
-    * <tt>FileDescriptor</tt> to read from.
+    * Crebtes b new <tt>FileRebder</tt>, given the
+    * <tt>FileDescriptor</tt> to rebd from.
     *
-    * @param fd the FileDescriptor to read from
+    * @pbrbm fd the FileDescriptor to rebd from
     */
-    public FileReader(FileDescriptor fd) {
-        super(new FileInputStream(fd));
+    public FileRebder(FileDescriptor fd) {
+        super(new FileInputStrebm(fd));
     }
 
 }

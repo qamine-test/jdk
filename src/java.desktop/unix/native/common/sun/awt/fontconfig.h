@@ -1,17 +1,17 @@
 /*
  * $RCSId: xc/lib/fontconfig/fontconfig/fontconfig.h,v 1.30 2002/09/26 00:17:27 keithp Exp $
  *
- * Copyright © 2001 Keith Packard
+ * Copyright © 2001 Keith Pbckbrd
  *
- * Permission to use, copy, modify, distribute, and sell this software and its
- * documentation for any purpose is hereby granted without fee, provided that
- * the above copyright notice appear in all copies and that both that
- * copyright notice and this permission notice appear in supporting
- * documentation, and that the name of Keith Packard not be used in
- * advertising or publicity pertaining to distribution of the software without
- * specific, written prior permission.  Keith Packard makes no
- * representations about the suitability of this software for any purpose.  It
- * is provided "as is" without express or implied warranty.
+ * Permission to use, copy, modify, distribute, bnd sell this softwbre bnd its
+ * documentbtion for bny purpose is hereby grbnted without fee, provided thbt
+ * the bbove copyright notice bppebr in bll copies bnd thbt both thbt
+ * copyright notice bnd this permission notice bppebr in supporting
+ * documentbtion, bnd thbt the nbme of Keith Pbckbrd not be used in
+ * bdvertising or publicity pertbining to distribution of the softwbre without
+ * specific, written prior permission.  Keith Pbckbrd mbkes no
+ * representbtions bbout the suitbbility of this softwbre for bny purpose.  It
+ * is provided "bs is" without express or implied wbrrbnty.
  *
  * KEITH PACKARD DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
  * INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO
@@ -26,12 +26,12 @@
 #define _FONTCONFIG_H_
 
 #include <sys/types.h>
-#include <sys/stat.h>
+#include <sys/stbt.h>
 #include <unistd.h>
-#include <stdarg.h>
+#include <stdbrg.h>
 
 #if defined(__GNUC__) && (__GNUC__ >= 4)
-#define FC_ATTRIBUTE_SENTINEL(x) __attribute__((__sentinel__(0)))
+#define FC_ATTRIBUTE_SENTINEL(x) __bttribute__((__sentinel__(0)))
 #else
 #define FC_ATTRIBUTE_SENTINEL(x)
 #endif
@@ -40,15 +40,15 @@
 #define FcPublic
 #endif
 
-typedef unsigned char   FcChar8;
-typedef unsigned short  FcChar16;
-typedef unsigned int    FcChar32;
+typedef unsigned chbr   FcChbr8;
+typedef unsigned short  FcChbr16;
+typedef unsigned int    FcChbr32;
 typedef int             FcBool;
 
 /*
- * Current Fontconfig version number.  This same number
- * must appear in the fontconfig configure.in file. Yes,
- * it'a a pain to synchronize version numbers like this.
+ * Current Fontconfig version number.  This sbme number
+ * must bppebr in the fontconfig configure.in file. Yes,
+ * it'b b pbin to synchronize version numbers like this.
  */
 
 #define FC_MAJOR        2
@@ -58,68 +58,68 @@ typedef int             FcBool;
 #define FC_VERSION      ((FC_MAJOR * 10000) + (FC_MINOR * 100) + (FC_REVISION))
 
 /*
- * Current font cache file format version
- * This is appended to the cache files so that multiple
- * versions of the library will peacefully coexist
+ * Current font cbche file formbt version
+ * This is bppended to the cbche files so thbt multiple
+ * versions of the librbry will pebcefully coexist
  *
- * Change this value whenever the disk format for the cache file
- * changes in any non-compatible way.  Try to avoid such changes as
- * it means multiple copies of the font information.
+ * Chbnge this vblue whenever the disk formbt for the cbche file
+ * chbnges in bny non-compbtible wby.  Try to bvoid such chbnges bs
+ * it mebns multiple copies of the font informbtion.
  */
 
 #define FC_CACHE_VERSION    "2"
 
 #define FcTrue          1
-#define FcFalse         0
+#define FcFblse         0
 
-#define FC_FAMILY           "family"            /* String */
+#define FC_FAMILY           "fbmily"            /* String */
 #define FC_STYLE            "style"             /* String */
-#define FC_SLANT            "slant"             /* Int */
+#define FC_SLANT            "slbnt"             /* Int */
 #define FC_WEIGHT           "weight"            /* Int */
 #define FC_SIZE             "size"              /* Double */
-#define FC_ASPECT           "aspect"            /* Double */
+#define FC_ASPECT           "bspect"            /* Double */
 #define FC_PIXEL_SIZE       "pixelsize"         /* Double */
-#define FC_SPACING          "spacing"           /* Int */
+#define FC_SPACING          "spbcing"           /* Int */
 #define FC_FOUNDRY          "foundry"           /* String */
-#define FC_ANTIALIAS        "antialias"         /* Bool (depends) */
+#define FC_ANTIALIAS        "bntiblibs"         /* Bool (depends) */
 #define FC_HINTING          "hinting"           /* Bool (true) */
 #define FC_HINT_STYLE       "hintstyle"         /* Int */
-#define FC_VERTICAL_LAYOUT  "verticallayout"    /* Bool (false) */
-#define FC_AUTOHINT         "autohint"          /* Bool (false) */
-#define FC_GLOBAL_ADVANCE   "globaladvance"     /* Bool (true) */
+#define FC_VERTICAL_LAYOUT  "verticbllbyout"    /* Bool (fblse) */
+#define FC_AUTOHINT         "butohint"          /* Bool (fblse) */
+#define FC_GLOBAL_ADVANCE   "globblbdvbnce"     /* Bool (true) */
 #define FC_WIDTH            "width"             /* Int */
 #define FC_FILE             "file"              /* String */
 #define FC_INDEX            "index"             /* Int */
-#define FC_FT_FACE          "ftface"            /* FT_Face */
-#define FC_RASTERIZER       "rasterizer"        /* String */
+#define FC_FT_FACE          "ftfbce"            /* FT_Fbce */
+#define FC_RASTERIZER       "rbsterizer"        /* String */
 #define FC_OUTLINE          "outline"           /* Bool */
-#define FC_SCALABLE         "scalable"          /* Bool */
-#define FC_SCALE            "scale"             /* double */
+#define FC_SCALABLE         "scblbble"          /* Bool */
+#define FC_SCALE            "scble"             /* double */
 #define FC_DPI              "dpi"               /* double */
-#define FC_RGBA             "rgba"              /* Int */
-#define FC_MINSPACE         "minspace"          /* Bool use minimum line spacing */
-#define FC_SOURCE           "source"            /* String (deprecated) */
-#define FC_CHARSET          "charset"           /* CharSet */
-#define FC_LANG             "lang"              /* String RFC 3066 langs */
-#define FC_FONTVERSION      "fontversion"       /* Int from 'head' table */
-#define FC_FULLNAME         "fullname"          /* String */
-#define FC_FAMILYLANG       "familylang"        /* String RFC 3066 langs */
-#define FC_STYLELANG        "stylelang"         /* String RFC 3066 langs */
-#define FC_FULLNAMELANG     "fullnamelang"      /* String RFC 3066 langs */
-#define FC_CAPABILITY       "capability"        /* String */
-#define FC_FONTFORMAT       "fontformat"        /* String */
+#define FC_RGBA             "rgbb"              /* Int */
+#define FC_MINSPACE         "minspbce"          /* Bool use minimum line spbcing */
+#define FC_SOURCE           "source"            /* String (deprecbted) */
+#define FC_CHARSET          "chbrset"           /* ChbrSet */
+#define FC_LANG             "lbng"              /* String RFC 3066 lbngs */
+#define FC_FONTVERSION      "fontversion"       /* Int from 'hebd' tbble */
+#define FC_FULLNAME         "fullnbme"          /* String */
+#define FC_FAMILYLANG       "fbmilylbng"        /* String RFC 3066 lbngs */
+#define FC_STYLELANG        "stylelbng"         /* String RFC 3066 lbngs */
+#define FC_FULLNAMELANG     "fullnbmelbng"      /* String RFC 3066 lbngs */
+#define FC_CAPABILITY       "cbpbbility"        /* String */
+#define FC_FONTFORMAT       "fontformbt"        /* String */
 #define FC_EMBOLDEN         "embolden"          /* Bool - true if emboldening needed*/
-#define FC_EMBEDDED_BITMAP  "embeddedbitmap"    /* Bool - true to enable embedded bitmaps */
-#define FC_DECORATIVE       "decorative"        /* Bool - true if style is a decorative variant */
+#define FC_EMBEDDED_BITMAP  "embeddedbitmbp"    /* Bool - true to enbble embedded bitmbps */
+#define FC_DECORATIVE       "decorbtive"        /* Bool - true if style is b decorbtive vbribnt */
 
-#define FC_CACHE_SUFFIX             ".cache-"FC_CACHE_VERSION
-#define FC_DIR_CACHE_FILE           "fonts.cache-"FC_CACHE_VERSION
-#define FC_USER_CACHE_FILE          ".fonts.cache-"FC_CACHE_VERSION
+#define FC_CACHE_SUFFIX             ".cbche-"FC_CACHE_VERSION
+#define FC_DIR_CACHE_FILE           "fonts.cbche-"FC_CACHE_VERSION
+#define FC_USER_CACHE_FILE          ".fonts.cbche-"FC_CACHE_VERSION
 
-/* Adjust outline rasterizer */
-#define FC_CHAR_WIDTH       "charwidth" /* Int */
-#define FC_CHAR_HEIGHT      "charheight"/* Int */
-#define FC_MATRIX           "matrix"    /* FcMatrix */
+/* Adjust outline rbsterizer */
+#define FC_CHAR_WIDTH       "chbrwidth" /* Int */
+#define FC_CHAR_HEIGHT      "chbrheight"/* Int */
+#define FC_MATRIX           "mbtrix"    /* FcMbtrix */
 
 #define FC_WEIGHT_THIN              0
 #define FC_WEIGHT_EXTRALIGHT        40
@@ -178,162 +178,162 @@ typedef enum _FcType {
     FcTypeDouble,
     FcTypeString,
     FcTypeBool,
-    FcTypeMatrix,
-    FcTypeCharSet,
-    FcTypeFTFace,
-    FcTypeLangSet
+    FcTypeMbtrix,
+    FcTypeChbrSet,
+    FcTypeFTFbce,
+    FcTypeLbngSet
 } FcType;
 
-typedef struct _FcMatrix {
+typedef struct _FcMbtrix {
     double xx, xy, yx, yy;
-} FcMatrix;
+} FcMbtrix;
 
-#define FcMatrixInit(m) ((m)->xx = (m)->yy = 1, \
+#define FcMbtrixInit(m) ((m)->xx = (m)->yy = 1, \
                          (m)->xy = (m)->yx = 0)
 
 /*
- * A data structure to represent the available glyphs in a font.
- * This is represented as a sparse boolean btree.
+ * A dbtb structure to represent the bvbilbble glyphs in b font.
+ * This is represented bs b spbrse boolebn btree.
  */
 
-typedef struct _FcCharSet FcCharSet;
+typedef struct _FcChbrSet FcChbrSet;
 
 typedef struct _FcObjectType {
-    const char  *object;
+    const chbr  *object;
     FcType      type;
 } FcObjectType;
 
-typedef struct _FcConstant {
-    const FcChar8  *name;
-    const char  *object;
-    int         value;
-} FcConstant;
+typedef struct _FcConstbnt {
+    const FcChbr8  *nbme;
+    const chbr  *object;
+    int         vblue;
+} FcConstbnt;
 
 typedef enum _FcResult {
-    FcResultMatch, FcResultNoMatch, FcResultTypeMismatch, FcResultNoId,
+    FcResultMbtch, FcResultNoMbtch, FcResultTypeMismbtch, FcResultNoId,
     FcResultOutOfMemory
 } FcResult;
 
-typedef struct _FcPattern   FcPattern;
+typedef struct _FcPbttern   FcPbttern;
 
-typedef struct _FcLangSet   FcLangSet;
+typedef struct _FcLbngSet   FcLbngSet;
 
-typedef struct _FcValue {
+typedef struct _FcVblue {
     FcType      type;
     union {
-        const FcChar8   *s;
+        const FcChbr8   *s;
         int             i;
         FcBool          b;
         double          d;
-        const FcMatrix  *m;
-        const FcCharSet *c;
+        const FcMbtrix  *m;
+        const FcChbrSet *c;
         void            *f;
-        const FcLangSet *l;
+        const FcLbngSet *l;
     } u;
-} FcValue;
+} FcVblue;
 
 typedef struct _FcFontSet {
     int         nfont;
     int         sfont;
-    FcPattern   **fonts;
+    FcPbttern   **fonts;
 } FcFontSet;
 
 typedef struct _FcObjectSet {
     int         nobject;
     int         sobject;
-    const char  **objects;
+    const chbr  **objects;
 } FcObjectSet;
 
-typedef enum _FcMatchKind {
-    FcMatchPattern, FcMatchFont, FcMatchScan
-} FcMatchKind;
+typedef enum _FcMbtchKind {
+    FcMbtchPbttern, FcMbtchFont, FcMbtchScbn
+} FcMbtchKind;
 
-typedef enum _FcLangResult {
-    FcLangEqual = 0,
-    FcLangDifferentCountry = 1,
-    FcLangDifferentTerritory = 1,
-    FcLangDifferentLang = 2
-} FcLangResult;
+typedef enum _FcLbngResult {
+    FcLbngEqubl = 0,
+    FcLbngDifferentCountry = 1,
+    FcLbngDifferentTerritory = 1,
+    FcLbngDifferentLbng = 2
+} FcLbngResult;
 
-typedef enum _FcSetName {
+typedef enum _FcSetNbme {
     FcSetSystem = 0,
-    FcSetApplication = 1
-} FcSetName;
+    FcSetApplicbtion = 1
+} FcSetNbme;
 
 typedef struct _FcAtomic FcAtomic;
 
 #if defined(__cplusplus) || defined(c_plusplus) /* for C++ V2.0 */
-#define _FCFUNCPROTOBEGIN extern "C" {  /* do not leave open across includes */
+#define _FCFUNCPROTOBEGIN extern "C" {  /* do not lebve open bcross includes */
 #define _FCFUNCPROTOEND }
 #else
 #define _FCFUNCPROTOBEGIN
 #define _FCFUNCPROTOEND
 #endif
 
-typedef enum { FcEndianBig, FcEndianLittle } FcEndian;
+typedef enum { FcEndibnBig, FcEndibnLittle } FcEndibn;
 
 typedef struct _FcConfig    FcConfig;
 
-typedef struct _FcGlobalCache   FcFileCache;
+typedef struct _FcGlobblCbche   FcFileCbche;
 
-typedef struct _FcBlanks    FcBlanks;
+typedef struct _FcBlbnks    FcBlbnks;
 
 typedef struct _FcStrList   FcStrList;
 
 typedef struct _FcStrSet    FcStrSet;
 
-typedef struct _FcCache     FcCache;
+typedef struct _FcCbche     FcCbche;
 
 _FCFUNCPROTOBEGIN
 
-/* fcblanks.c */
-FcPublic FcBlanks *
-FcBlanksCreate (void);
+/* fcblbnks.c */
+FcPublic FcBlbnks *
+FcBlbnksCrebte (void);
 
 FcPublic void
-FcBlanksDestroy (FcBlanks *b);
+FcBlbnksDestroy (FcBlbnks *b);
 
 FcPublic FcBool
-FcBlanksAdd (FcBlanks *b, FcChar32 ucs4);
+FcBlbnksAdd (FcBlbnks *b, FcChbr32 ucs4);
 
 FcPublic FcBool
-FcBlanksIsMember (FcBlanks *b, FcChar32 ucs4);
+FcBlbnksIsMember (FcBlbnks *b, FcChbr32 ucs4);
 
-/* fccache.c */
+/* fccbche.c */
 
-FcPublic const FcChar8 *
-FcCacheDir(const FcCache *c);
+FcPublic const FcChbr8 *
+FcCbcheDir(const FcCbche *c);
 
 FcPublic FcFontSet *
-FcCacheCopySet(const FcCache *c);
+FcCbcheCopySet(const FcCbche *c);
 
-FcPublic const FcChar8 *
-FcCacheSubdir (const FcCache *c, int i);
-
-FcPublic int
-FcCacheNumSubdir (const FcCache *c);
+FcPublic const FcChbr8 *
+FcCbcheSubdir (const FcCbche *c, int i);
 
 FcPublic int
-FcCacheNumFont (const FcCache *c);
+FcCbcheNumSubdir (const FcCbche *c);
+
+FcPublic int
+FcCbcheNumFont (const FcCbche *c);
 
 FcPublic FcBool
-FcDirCacheUnlink (const FcChar8 *dir, FcConfig *config);
+FcDirCbcheUnlink (const FcChbr8 *dir, FcConfig *config);
 
 FcPublic FcBool
-FcDirCacheValid (const FcChar8 *cache_file);
+FcDirCbcheVblid (const FcChbr8 *cbche_file);
 
 /* fccfg.c */
-FcPublic FcChar8 *
+FcPublic FcChbr8 *
 FcConfigHome (void);
 
 FcPublic FcBool
-FcConfigEnableHome (FcBool enable);
+FcConfigEnbbleHome (FcBool enbble);
 
-FcPublic FcChar8 *
-FcConfigFilename (const FcChar8 *url);
+FcPublic FcChbr8 *
+FcConfigFilenbme (const FcChbr8 *url);
 
 FcPublic FcConfig *
-FcConfigCreate (void);
+FcConfigCrebte (void);
 
 FcPublic void
 FcConfigDestroy (FcConfig *config);
@@ -345,7 +345,7 @@ FcPublic FcConfig *
 FcConfigGetCurrent (void);
 
 FcPublic FcBool
-FcConfigUptoDate (FcConfig *config);
+FcConfigUptoDbte (FcConfig *config);
 
 FcPublic FcBool
 FcConfigBuildFonts (FcConfig *config);
@@ -359,181 +359,181 @@ FcConfigGetConfigDirs (FcConfig   *config);
 FcPublic FcStrList *
 FcConfigGetConfigFiles (FcConfig    *config);
 
-FcPublic FcChar8 *
-FcConfigGetCache (FcConfig  *config);
+FcPublic FcChbr8 *
+FcConfigGetCbche (FcConfig  *config);
 
-FcPublic FcBlanks *
-FcConfigGetBlanks (FcConfig *config);
+FcPublic FcBlbnks *
+FcConfigGetBlbnks (FcConfig *config);
 
 FcPublic FcStrList *
-FcConfigGetCacheDirs (FcConfig  *config);
+FcConfigGetCbcheDirs (FcConfig  *config);
 
 FcPublic int
-FcConfigGetRescanInterval (FcConfig *config);
+FcConfigGetRescbnIntervbl (FcConfig *config);
 
 FcPublic FcBool
-FcConfigSetRescanInterval (FcConfig *config, int rescanInterval);
+FcConfigSetRescbnIntervbl (FcConfig *config, int rescbnIntervbl);
 
 FcPublic FcFontSet *
 FcConfigGetFonts (FcConfig      *config,
-                  FcSetName     set);
+                  FcSetNbme     set);
 
 FcPublic FcBool
 FcConfigAppFontAddFile (FcConfig    *config,
-                        const FcChar8  *file);
+                        const FcChbr8  *file);
 
 FcPublic FcBool
 FcConfigAppFontAddDir (FcConfig     *config,
-                       const FcChar8   *dir);
+                       const FcChbr8   *dir);
 
 FcPublic void
-FcConfigAppFontClear (FcConfig      *config);
+FcConfigAppFontClebr (FcConfig      *config);
 
 FcPublic FcBool
-FcConfigSubstituteWithPat (FcConfig     *config,
-                           FcPattern    *p,
-                           FcPattern    *p_pat,
-                           FcMatchKind  kind);
+FcConfigSubstituteWithPbt (FcConfig     *config,
+                           FcPbttern    *p,
+                           FcPbttern    *p_pbt,
+                           FcMbtchKind  kind);
 
 FcPublic FcBool
 FcConfigSubstitute (FcConfig    *config,
-                    FcPattern   *p,
-                    FcMatchKind kind);
+                    FcPbttern   *p,
+                    FcMbtchKind kind);
 
-/* fccharset.c */
-FcPublic FcCharSet*
-FcCharSetCreate (void);
+/* fcchbrset.c */
+FcPublic FcChbrSet*
+FcChbrSetCrebte (void);
 
-/* deprecated alias for FcCharSetCreate */
-FcPublic FcCharSet *
-FcCharSetNew (void);
+/* deprecbted blibs for FcChbrSetCrebte */
+FcPublic FcChbrSet *
+FcChbrSetNew (void);
 
 FcPublic void
-FcCharSetDestroy (FcCharSet *fcs);
+FcChbrSetDestroy (FcChbrSet *fcs);
 
 FcPublic FcBool
-FcCharSetAddChar (FcCharSet *fcs, FcChar32 ucs4);
+FcChbrSetAddChbr (FcChbrSet *fcs, FcChbr32 ucs4);
 
-FcPublic FcCharSet*
-FcCharSetCopy (FcCharSet *src);
-
-FcPublic FcBool
-FcCharSetEqual (const FcCharSet *a, const FcCharSet *b);
-
-FcPublic FcCharSet*
-FcCharSetIntersect (const FcCharSet *a, const FcCharSet *b);
-
-FcPublic FcCharSet*
-FcCharSetUnion (const FcCharSet *a, const FcCharSet *b);
-
-FcPublic FcCharSet*
-FcCharSetSubtract (const FcCharSet *a, const FcCharSet *b);
+FcPublic FcChbrSet*
+FcChbrSetCopy (FcChbrSet *src);
 
 FcPublic FcBool
-FcCharSetHasChar (const FcCharSet *fcs, FcChar32 ucs4);
+FcChbrSetEqubl (const FcChbrSet *b, const FcChbrSet *b);
 
-FcPublic FcChar32
-FcCharSetCount (const FcCharSet *a);
+FcPublic FcChbrSet*
+FcChbrSetIntersect (const FcChbrSet *b, const FcChbrSet *b);
 
-FcPublic FcChar32
-FcCharSetIntersectCount (const FcCharSet *a, const FcCharSet *b);
+FcPublic FcChbrSet*
+FcChbrSetUnion (const FcChbrSet *b, const FcChbrSet *b);
 
-FcPublic FcChar32
-FcCharSetSubtractCount (const FcCharSet *a, const FcCharSet *b);
+FcPublic FcChbrSet*
+FcChbrSetSubtrbct (const FcChbrSet *b, const FcChbrSet *b);
 
 FcPublic FcBool
-FcCharSetIsSubset (const FcCharSet *a, const FcCharSet *b);
+FcChbrSetHbsChbr (const FcChbrSet *fcs, FcChbr32 ucs4);
+
+FcPublic FcChbr32
+FcChbrSetCount (const FcChbrSet *b);
+
+FcPublic FcChbr32
+FcChbrSetIntersectCount (const FcChbrSet *b, const FcChbrSet *b);
+
+FcPublic FcChbr32
+FcChbrSetSubtrbctCount (const FcChbrSet *b, const FcChbrSet *b);
+
+FcPublic FcBool
+FcChbrSetIsSubset (const FcChbrSet *b, const FcChbrSet *b);
 
 #define FC_CHARSET_MAP_SIZE (256/32)
-#define FC_CHARSET_DONE ((FcChar32) -1)
+#define FC_CHARSET_DONE ((FcChbr32) -1)
 
-FcPublic FcChar32
-FcCharSetFirstPage (const FcCharSet *a,
-                    FcChar32        map[FC_CHARSET_MAP_SIZE],
-                    FcChar32        *next);
+FcPublic FcChbr32
+FcChbrSetFirstPbge (const FcChbrSet *b,
+                    FcChbr32        mbp[FC_CHARSET_MAP_SIZE],
+                    FcChbr32        *next);
 
-FcPublic FcChar32
-FcCharSetNextPage (const FcCharSet  *a,
-                   FcChar32         map[FC_CHARSET_MAP_SIZE],
-                   FcChar32         *next);
+FcPublic FcChbr32
+FcChbrSetNextPbge (const FcChbrSet  *b,
+                   FcChbr32         mbp[FC_CHARSET_MAP_SIZE],
+                   FcChbr32         *next);
 
 /*
- * old coverage API, rather hard to use correctly
+ * old coverbge API, rbther hbrd to use correctly
  */
 
-FcPublic FcChar32
-FcCharSetCoverage (const FcCharSet *a, FcChar32 page, FcChar32 *result);
+FcPublic FcChbr32
+FcChbrSetCoverbge (const FcChbrSet *b, FcChbr32 pbge, FcChbr32 *result);
 
 /* fcdbg.c */
 FcPublic void
-FcValuePrint (const FcValue v);
+FcVbluePrint (const FcVblue v);
 
 FcPublic void
-FcPatternPrint (const FcPattern *p);
+FcPbtternPrint (const FcPbttern *p);
 
 FcPublic void
 FcFontSetPrint (const FcFontSet *s);
 
-/* fcdefault.c */
+/* fcdefbult.c */
 FcPublic void
-FcDefaultSubstitute (FcPattern *pattern);
+FcDefbultSubstitute (FcPbttern *pbttern);
 
 /* fcdir.c */
 FcPublic FcBool
-FcFileIsDir (const FcChar8 *file);
+FcFileIsDir (const FcChbr8 *file);
 
 FcPublic FcBool
-FcFileScan (FcFontSet       *set,
+FcFileScbn (FcFontSet       *set,
             FcStrSet        *dirs,
-            FcFileCache     *cache,
-            FcBlanks        *blanks,
-            const FcChar8   *file,
+            FcFileCbche     *cbche,
+            FcBlbnks        *blbnks,
+            const FcChbr8   *file,
             FcBool          force);
 
 FcPublic FcBool
-FcDirScan (FcFontSet        *set,
+FcDirScbn (FcFontSet        *set,
            FcStrSet         *dirs,
-           FcFileCache      *cache,
-           FcBlanks         *blanks,
-           const FcChar8    *dir,
+           FcFileCbche      *cbche,
+           FcBlbnks         *blbnks,
+           const FcChbr8    *dir,
            FcBool           force);
 
 FcPublic FcBool
-FcDirSave (FcFontSet *set, FcStrSet *dirs, const FcChar8 *dir);
+FcDirSbve (FcFontSet *set, FcStrSet *dirs, const FcChbr8 *dir);
 
-FcPublic FcCache *
-FcDirCacheLoad (const FcChar8 *dir, FcConfig *config, FcChar8 **cache_file);
+FcPublic FcCbche *
+FcDirCbcheLobd (const FcChbr8 *dir, FcConfig *config, FcChbr8 **cbche_file);
 
-FcPublic FcCache *
-FcDirCacheRead (const FcChar8 *dir, FcBool force, FcConfig *config);
+FcPublic FcCbche *
+FcDirCbcheRebd (const FcChbr8 *dir, FcBool force, FcConfig *config);
 
-FcPublic FcCache *
-FcDirCacheLoadFile (const FcChar8 *cache_file, struct stat *file_stat);
+FcPublic FcCbche *
+FcDirCbcheLobdFile (const FcChbr8 *cbche_file, struct stbt *file_stbt);
 
 FcPublic void
-FcDirCacheUnload (FcCache *cache);
+FcDirCbcheUnlobd (FcCbche *cbche);
 
 /* fcfreetype.c */
-FcPublic FcPattern *
-FcFreeTypeQuery (const FcChar8 *file, int id, FcBlanks *blanks, int *count);
+FcPublic FcPbttern *
+FcFreeTypeQuery (const FcChbr8 *file, int id, FcBlbnks *blbnks, int *count);
 
 /* fcfs.c */
 
 FcPublic FcFontSet *
-FcFontSetCreate (void);
+FcFontSetCrebte (void);
 
 FcPublic void
 FcFontSetDestroy (FcFontSet *s);
 
 FcPublic FcBool
-FcFontSetAdd (FcFontSet *s, FcPattern *font);
+FcFontSetAdd (FcFontSet *s, FcPbttern *font);
 
 /* fcinit.c */
 FcPublic FcConfig *
-FcInitLoadConfig (void);
+FcInitLobdConfig (void);
 
 FcPublic FcConfig *
-FcInitLoadConfigAndFonts (void);
+FcInitLobdConfigAndFonts (void);
 
 FcPublic FcBool
 FcInit (void);
@@ -545,373 +545,373 @@ FcPublic int
 FcGetVersion (void);
 
 FcPublic FcBool
-FcInitReinitialize (void);
+FcInitReinitiblize (void);
 
 FcPublic FcBool
-FcInitBringUptoDate (void);
+FcInitBringUptoDbte (void);
 
-/* fclang.c */
+/* fclbng.c */
 FcPublic FcStrSet *
-FcGetLangs (void);
+FcGetLbngs (void);
 
-FcPublic const FcCharSet *
-FcLangGetCharSet (const FcChar8 *lang);
+FcPublic const FcChbrSet *
+FcLbngGetChbrSet (const FcChbr8 *lbng);
 
-FcPublic FcLangSet*
-FcLangSetCreate (void);
+FcPublic FcLbngSet*
+FcLbngSetCrebte (void);
 
 FcPublic void
-FcLangSetDestroy (FcLangSet *ls);
+FcLbngSetDestroy (FcLbngSet *ls);
 
-FcPublic FcLangSet*
-FcLangSetCopy (const FcLangSet *ls);
-
-FcPublic FcBool
-FcLangSetAdd (FcLangSet *ls, const FcChar8 *lang);
-
-FcPublic FcLangResult
-FcLangSetHasLang (const FcLangSet *ls, const FcChar8 *lang);
-
-FcPublic FcLangResult
-FcLangSetCompare (const FcLangSet *lsa, const FcLangSet *lsb);
+FcPublic FcLbngSet*
+FcLbngSetCopy (const FcLbngSet *ls);
 
 FcPublic FcBool
-FcLangSetContains (const FcLangSet *lsa, const FcLangSet *lsb);
+FcLbngSetAdd (FcLbngSet *ls, const FcChbr8 *lbng);
+
+FcPublic FcLbngResult
+FcLbngSetHbsLbng (const FcLbngSet *ls, const FcChbr8 *lbng);
+
+FcPublic FcLbngResult
+FcLbngSetCompbre (const FcLbngSet *lsb, const FcLbngSet *lsb);
 
 FcPublic FcBool
-FcLangSetEqual (const FcLangSet *lsa, const FcLangSet *lsb);
+FcLbngSetContbins (const FcLbngSet *lsb, const FcLbngSet *lsb);
 
-FcPublic FcChar32
-FcLangSetHash (const FcLangSet *ls);
+FcPublic FcBool
+FcLbngSetEqubl (const FcLbngSet *lsb, const FcLbngSet *lsb);
+
+FcPublic FcChbr32
+FcLbngSetHbsh (const FcLbngSet *ls);
 
 /* fclist.c */
 FcPublic FcObjectSet *
-FcObjectSetCreate (void);
+FcObjectSetCrebte (void);
 
 FcPublic FcBool
-FcObjectSetAdd (FcObjectSet *os, const char *object);
+FcObjectSetAdd (FcObjectSet *os, const chbr *object);
 
 FcPublic void
 FcObjectSetDestroy (FcObjectSet *os);
 
 FcPublic FcObjectSet *
-FcObjectSetVaBuild (const char *first, va_list va);
+FcObjectSetVbBuild (const chbr *first, vb_list vb);
 
 FcPublic FcObjectSet *
-FcObjectSetBuild (const char *first, ...) FC_ATTRIBUTE_SENTINEL(0);
+FcObjectSetBuild (const chbr *first, ...) FC_ATTRIBUTE_SENTINEL(0);
 
 FcPublic FcFontSet *
 FcFontSetList (FcConfig     *config,
                FcFontSet    **sets,
                int          nsets,
-               FcPattern    *p,
+               FcPbttern    *p,
                FcObjectSet  *os);
 
 FcPublic FcFontSet *
 FcFontList (FcConfig    *config,
-            FcPattern   *p,
+            FcPbttern   *p,
             FcObjectSet *os);
 
-/* fcatomic.c */
+/* fcbtomic.c */
 
 FcPublic FcAtomic *
-FcAtomicCreate (const FcChar8   *file);
+FcAtomicCrebte (const FcChbr8   *file);
 
 FcPublic FcBool
-FcAtomicLock (FcAtomic *atomic);
+FcAtomicLock (FcAtomic *btomic);
 
-FcPublic FcChar8 *
-FcAtomicNewFile (FcAtomic *atomic);
+FcPublic FcChbr8 *
+FcAtomicNewFile (FcAtomic *btomic);
 
-FcPublic FcChar8 *
-FcAtomicOrigFile (FcAtomic *atomic);
+FcPublic FcChbr8 *
+FcAtomicOrigFile (FcAtomic *btomic);
 
 FcPublic FcBool
-FcAtomicReplaceOrig (FcAtomic *atomic);
+FcAtomicReplbceOrig (FcAtomic *btomic);
 
 FcPublic void
-FcAtomicDeleteNew (FcAtomic *atomic);
+FcAtomicDeleteNew (FcAtomic *btomic);
 
 FcPublic void
-FcAtomicUnlock (FcAtomic *atomic);
+FcAtomicUnlock (FcAtomic *btomic);
 
 FcPublic void
-FcAtomicDestroy (FcAtomic *atomic);
+FcAtomicDestroy (FcAtomic *btomic);
 
-/* fcmatch.c */
-FcPublic FcPattern *
-FcFontSetMatch (FcConfig    *config,
+/* fcmbtch.c */
+FcPublic FcPbttern *
+FcFontSetMbtch (FcConfig    *config,
                 FcFontSet   **sets,
                 int         nsets,
-                FcPattern   *p,
+                FcPbttern   *p,
                 FcResult    *result);
 
-FcPublic FcPattern *
-FcFontMatch (FcConfig   *config,
-             FcPattern  *p,
+FcPublic FcPbttern *
+FcFontMbtch (FcConfig   *config,
+             FcPbttern  *p,
              FcResult   *result);
 
-FcPublic FcPattern *
-FcFontRenderPrepare (FcConfig       *config,
-                     FcPattern      *pat,
-                     FcPattern      *font);
+FcPublic FcPbttern *
+FcFontRenderPrepbre (FcConfig       *config,
+                     FcPbttern      *pbt,
+                     FcPbttern      *font);
 
 FcPublic FcFontSet *
 FcFontSetSort (FcConfig     *config,
                FcFontSet    **sets,
                int          nsets,
-               FcPattern    *p,
+               FcPbttern    *p,
                FcBool       trim,
-               FcCharSet    **csp,
+               FcChbrSet    **csp,
                FcResult     *result);
 
 FcPublic FcFontSet *
 FcFontSort (FcConfig     *config,
-            FcPattern    *p,
+            FcPbttern    *p,
             FcBool       trim,
-            FcCharSet    **csp,
+            FcChbrSet    **csp,
             FcResult     *result);
 
 FcPublic void
 FcFontSetSortDestroy (FcFontSet *fs);
 
-/* fcmatrix.c */
-FcPublic FcMatrix *
-FcMatrixCopy (const FcMatrix *mat);
+/* fcmbtrix.c */
+FcPublic FcMbtrix *
+FcMbtrixCopy (const FcMbtrix *mbt);
 
 FcPublic FcBool
-FcMatrixEqual (const FcMatrix *mat1, const FcMatrix *mat2);
+FcMbtrixEqubl (const FcMbtrix *mbt1, const FcMbtrix *mbt2);
 
 FcPublic void
-FcMatrixMultiply (FcMatrix *result, const FcMatrix *a, const FcMatrix *b);
+FcMbtrixMultiply (FcMbtrix *result, const FcMbtrix *b, const FcMbtrix *b);
 
 FcPublic void
-FcMatrixRotate (FcMatrix *m, double c, double s);
+FcMbtrixRotbte (FcMbtrix *m, double c, double s);
 
 FcPublic void
-FcMatrixScale (FcMatrix *m, double sx, double sy);
+FcMbtrixScble (FcMbtrix *m, double sx, double sy);
 
 FcPublic void
-FcMatrixShear (FcMatrix *m, double sh, double sv);
+FcMbtrixShebr (FcMbtrix *m, double sh, double sv);
 
-/* fcname.c */
+/* fcnbme.c */
 
 FcPublic FcBool
-FcNameRegisterObjectTypes (const FcObjectType *types, int ntype);
+FcNbmeRegisterObjectTypes (const FcObjectType *types, int ntype);
 
 FcPublic FcBool
-FcNameUnregisterObjectTypes (const FcObjectType *types, int ntype);
+FcNbmeUnregisterObjectTypes (const FcObjectType *types, int ntype);
 
 FcPublic const FcObjectType *
-FcNameGetObjectType (const char *object);
+FcNbmeGetObjectType (const chbr *object);
 
 FcPublic FcBool
-FcNameRegisterConstants (const FcConstant *consts, int nconsts);
+FcNbmeRegisterConstbnts (const FcConstbnt *consts, int nconsts);
 
 FcPublic FcBool
-FcNameUnregisterConstants (const FcConstant *consts, int nconsts);
+FcNbmeUnregisterConstbnts (const FcConstbnt *consts, int nconsts);
 
-FcPublic const FcConstant *
-FcNameGetConstant (FcChar8 *string);
+FcPublic const FcConstbnt *
+FcNbmeGetConstbnt (FcChbr8 *string);
 
 FcPublic FcBool
-FcNameConstant (FcChar8 *string, int *result);
+FcNbmeConstbnt (FcChbr8 *string, int *result);
 
-FcPublic FcPattern *
-FcNameParse (const FcChar8 *name);
+FcPublic FcPbttern *
+FcNbmePbrse (const FcChbr8 *nbme);
 
-FcPublic FcChar8 *
-FcNameUnparse (FcPattern *pat);
+FcPublic FcChbr8 *
+FcNbmeUnpbrse (FcPbttern *pbt);
 
-/* fcpat.c */
-FcPublic FcPattern *
-FcPatternCreate (void);
+/* fcpbt.c */
+FcPublic FcPbttern *
+FcPbtternCrebte (void);
 
-FcPublic FcPattern *
-FcPatternDuplicate (const FcPattern *p);
+FcPublic FcPbttern *
+FcPbtternDuplicbte (const FcPbttern *p);
 
 FcPublic void
-FcPatternReference (FcPattern *p);
+FcPbtternReference (FcPbttern *p);
 
 FcPublic void
-FcValueDestroy (FcValue v);
+FcVblueDestroy (FcVblue v);
 
 FcPublic FcBool
-FcValueEqual (FcValue va, FcValue vb);
+FcVblueEqubl (FcVblue vb, FcVblue vb);
 
-FcPublic FcValue
-FcValueSave (FcValue v);
+FcPublic FcVblue
+FcVblueSbve (FcVblue v);
 
 FcPublic void
-FcPatternDestroy (FcPattern *p);
+FcPbtternDestroy (FcPbttern *p);
 
 FcPublic FcBool
-FcPatternEqual (const FcPattern *pa, const FcPattern *pb);
+FcPbtternEqubl (const FcPbttern *pb, const FcPbttern *pb);
 
 FcPublic FcBool
-FcPatternEqualSubset (const FcPattern *pa, const FcPattern *pb, const FcObjectSet *os);
+FcPbtternEqublSubset (const FcPbttern *pb, const FcPbttern *pb, const FcObjectSet *os);
 
-FcPublic FcChar32
-FcPatternHash (const FcPattern *p);
-
-FcPublic FcBool
-FcPatternAdd (FcPattern *p, const char *object, FcValue value, FcBool append);
+FcPublic FcChbr32
+FcPbtternHbsh (const FcPbttern *p);
 
 FcPublic FcBool
-FcPatternAddWeak (FcPattern *p, const char *object, FcValue value, FcBool append);
+FcPbtternAdd (FcPbttern *p, const chbr *object, FcVblue vblue, FcBool bppend);
+
+FcPublic FcBool
+FcPbtternAddWebk (FcPbttern *p, const chbr *object, FcVblue vblue, FcBool bppend);
 
 FcPublic FcResult
-FcPatternGet (const FcPattern *p, const char *object, int id, FcValue *v);
+FcPbtternGet (const FcPbttern *p, const chbr *object, int id, FcVblue *v);
 
 FcPublic FcBool
-FcPatternDel (FcPattern *p, const char *object);
+FcPbtternDel (FcPbttern *p, const chbr *object);
 
 FcPublic FcBool
-FcPatternRemove (FcPattern *p, const char *object, int id);
+FcPbtternRemove (FcPbttern *p, const chbr *object, int id);
 
 FcPublic FcBool
-FcPatternAddInteger (FcPattern *p, const char *object, int i);
+FcPbtternAddInteger (FcPbttern *p, const chbr *object, int i);
 
 FcPublic FcBool
-FcPatternAddDouble (FcPattern *p, const char *object, double d);
+FcPbtternAddDouble (FcPbttern *p, const chbr *object, double d);
 
 FcPublic FcBool
-FcPatternAddString (FcPattern *p, const char *object, const FcChar8 *s);
+FcPbtternAddString (FcPbttern *p, const chbr *object, const FcChbr8 *s);
 
 FcPublic FcBool
-FcPatternAddMatrix (FcPattern *p, const char *object, const FcMatrix *s);
+FcPbtternAddMbtrix (FcPbttern *p, const chbr *object, const FcMbtrix *s);
 
 FcPublic FcBool
-FcPatternAddCharSet (FcPattern *p, const char *object, const FcCharSet *c);
+FcPbtternAddChbrSet (FcPbttern *p, const chbr *object, const FcChbrSet *c);
 
 FcPublic FcBool
-FcPatternAddBool (FcPattern *p, const char *object, FcBool b);
+FcPbtternAddBool (FcPbttern *p, const chbr *object, FcBool b);
 
 FcPublic FcBool
-FcPatternAddLangSet (FcPattern *p, const char *object, const FcLangSet *ls);
+FcPbtternAddLbngSet (FcPbttern *p, const chbr *object, const FcLbngSet *ls);
 
 FcPublic FcResult
-FcPatternGetInteger (const FcPattern *p, const char *object, int n, int *i);
+FcPbtternGetInteger (const FcPbttern *p, const chbr *object, int n, int *i);
 
 FcPublic FcResult
-FcPatternGetDouble (const FcPattern *p, const char *object, int n, double *d);
+FcPbtternGetDouble (const FcPbttern *p, const chbr *object, int n, double *d);
 
 FcPublic FcResult
-FcPatternGetString (const FcPattern *p, const char *object, int n, FcChar8 ** s);
+FcPbtternGetString (const FcPbttern *p, const chbr *object, int n, FcChbr8 ** s);
 
 FcPublic FcResult
-FcPatternGetMatrix (const FcPattern *p, const char *object, int n, FcMatrix **s);
+FcPbtternGetMbtrix (const FcPbttern *p, const chbr *object, int n, FcMbtrix **s);
 
 FcPublic FcResult
-FcPatternGetCharSet (const FcPattern *p, const char *object, int n, FcCharSet **c);
+FcPbtternGetChbrSet (const FcPbttern *p, const chbr *object, int n, FcChbrSet **c);
 
 FcPublic FcResult
-FcPatternGetBool (const FcPattern *p, const char *object, int n, FcBool *b);
+FcPbtternGetBool (const FcPbttern *p, const chbr *object, int n, FcBool *b);
 
 FcPublic FcResult
-FcPatternGetLangSet (const FcPattern *p, const char *object, int n, FcLangSet **ls);
+FcPbtternGetLbngSet (const FcPbttern *p, const chbr *object, int n, FcLbngSet **ls);
 
-FcPublic FcPattern *
-FcPatternVaBuild (FcPattern *orig, va_list va);
+FcPublic FcPbttern *
+FcPbtternVbBuild (FcPbttern *orig, vb_list vb);
 
-FcPublic FcPattern *
-FcPatternBuild (FcPattern *orig, ...) FC_ATTRIBUTE_SENTINEL(0);
+FcPublic FcPbttern *
+FcPbtternBuild (FcPbttern *orig, ...) FC_ATTRIBUTE_SENTINEL(0);
 
 /* fcstr.c */
 
-FcPublic FcChar8 *
-FcStrCopy (const FcChar8 *s);
+FcPublic FcChbr8 *
+FcStrCopy (const FcChbr8 *s);
 
-FcPublic FcChar8 *
-FcStrCopyFilename (const FcChar8 *s);
+FcPublic FcChbr8 *
+FcStrCopyFilenbme (const FcChbr8 *s);
 
-FcPublic FcChar8 *
-FcStrPlus (const FcChar8 *s1, const FcChar8 *s2);
+FcPublic FcChbr8 *
+FcStrPlus (const FcChbr8 *s1, const FcChbr8 *s2);
 
 FcPublic void
-FcStrFree (FcChar8 *s);
+FcStrFree (FcChbr8 *s);
 
-/* These are ASCII only, suitable only for pattern element names */
+/* These bre ASCII only, suitbble only for pbttern element nbmes */
 #define FcIsUpper(c)    ((0101 <= (c) && (c) <= 0132))
 #define FcIsLower(c)    ((0141 <= (c) && (c) <= 0172))
 #define FcToLower(c)    (FcIsUpper(c) ? (c) - 0101 + 0141 : (c))
 
-FcPublic FcChar8 *
-FcStrDowncase (const FcChar8 *s);
+FcPublic FcChbr8 *
+FcStrDowncbse (const FcChbr8 *s);
 
 FcPublic int
-FcStrCmpIgnoreCase (const FcChar8 *s1, const FcChar8 *s2);
+FcStrCmpIgnoreCbse (const FcChbr8 *s1, const FcChbr8 *s2);
 
 FcPublic int
-FcStrCmp (const FcChar8 *s1, const FcChar8 *s2);
+FcStrCmp (const FcChbr8 *s1, const FcChbr8 *s2);
 
-FcPublic const FcChar8 *
-FcStrStrIgnoreCase (const FcChar8 *s1, const FcChar8 *s2);
+FcPublic const FcChbr8 *
+FcStrStrIgnoreCbse (const FcChbr8 *s1, const FcChbr8 *s2);
 
-FcPublic const FcChar8 *
-FcStrStr (const FcChar8 *s1, const FcChar8 *s2);
+FcPublic const FcChbr8 *
+FcStrStr (const FcChbr8 *s1, const FcChbr8 *s2);
 
 FcPublic int
-FcUtf8ToUcs4 (const FcChar8 *src_orig,
-              FcChar32      *dst,
+FcUtf8ToUcs4 (const FcChbr8 *src_orig,
+              FcChbr32      *dst,
               int           len);
 
 FcPublic FcBool
-FcUtf8Len (const FcChar8    *string,
+FcUtf8Len (const FcChbr8    *string,
            int              len,
-           int              *nchar,
-           int              *wchar);
+           int              *nchbr,
+           int              *wchbr);
 
 #define FC_UTF8_MAX_LEN 6
 
 FcPublic int
-FcUcs4ToUtf8 (FcChar32  ucs4,
-              FcChar8   dest[FC_UTF8_MAX_LEN]);
+FcUcs4ToUtf8 (FcChbr32  ucs4,
+              FcChbr8   dest[FC_UTF8_MAX_LEN]);
 
 FcPublic int
-FcUtf16ToUcs4 (const FcChar8    *src_orig,
-               FcEndian         endian,
-               FcChar32         *dst,
+FcUtf16ToUcs4 (const FcChbr8    *src_orig,
+               FcEndibn         endibn,
+               FcChbr32         *dst,
                int              len);       /* in bytes */
 
 FcPublic FcBool
-FcUtf16Len (const FcChar8   *string,
-            FcEndian        endian,
+FcUtf16Len (const FcChbr8   *string,
+            FcEndibn        endibn,
             int             len,            /* in bytes */
-            int             *nchar,
-            int             *wchar);
+            int             *nchbr,
+            int             *wchbr);
 
-FcPublic FcChar8 *
-FcStrDirname (const FcChar8 *file);
+FcPublic FcChbr8 *
+FcStrDirnbme (const FcChbr8 *file);
 
-FcPublic FcChar8 *
-FcStrBasename (const FcChar8 *file);
+FcPublic FcChbr8 *
+FcStrBbsenbme (const FcChbr8 *file);
 
 FcPublic FcStrSet *
-FcStrSetCreate (void);
+FcStrSetCrebte (void);
 
 FcPublic FcBool
-FcStrSetMember (FcStrSet *set, const FcChar8 *s);
+FcStrSetMember (FcStrSet *set, const FcChbr8 *s);
 
 FcPublic FcBool
-FcStrSetEqual (FcStrSet *sa, FcStrSet *sb);
+FcStrSetEqubl (FcStrSet *sb, FcStrSet *sb);
 
 FcPublic FcBool
-FcStrSetAdd (FcStrSet *set, const FcChar8 *s);
+FcStrSetAdd (FcStrSet *set, const FcChbr8 *s);
 
 FcPublic FcBool
-FcStrSetAddFilename (FcStrSet *set, const FcChar8 *s);
+FcStrSetAddFilenbme (FcStrSet *set, const FcChbr8 *s);
 
 FcPublic FcBool
-FcStrSetDel (FcStrSet *set, const FcChar8 *s);
+FcStrSetDel (FcStrSet *set, const FcChbr8 *s);
 
 FcPublic void
 FcStrSetDestroy (FcStrSet *set);
 
 FcPublic FcStrList *
-FcStrListCreate (FcStrSet *set);
+FcStrListCrebte (FcStrSet *set);
 
-FcPublic FcChar8 *
+FcPublic FcChbr8 *
 FcStrListNext (FcStrList *list);
 
 FcPublic void
@@ -919,7 +919,7 @@ FcStrListDone (FcStrList *list);
 
 /* fcxml.c */
 FcPublic FcBool
-FcConfigParseAndLoad (FcConfig *config, const FcChar8 *file, FcBool complain);
+FcConfigPbrseAndLobd (FcConfig *config, const FcChbr8 *file, FcBool complbin);
 
 _FCFUNCPROTOEND
 
@@ -929,12 +929,12 @@ _FCFUNCPROTOEND
 #ifndef _FCINT_H_
 
 /*
- * Deprecated functions are placed here to help users fix their code without
- * digging through documentation
+ * Deprecbted functions bre plbced here to help users fix their code without
+ * digging through documentbtion
  */
 
-#define FcConfigGetRescanInverval   FcConfigGetRescanInverval_REPLACE_BY_FcConfigGetRescanInterval
-#define FcConfigSetRescanInverval   FcConfigSetRescanInverval_REPLACE_BY_FcConfigSetRescanInterval
+#define FcConfigGetRescbnInvervbl   FcConfigGetRescbnInvervbl_REPLACE_BY_FcConfigGetRescbnIntervbl
+#define FcConfigSetRescbnInvervbl   FcConfigSetRescbnInvervbl_REPLACE_BY_FcConfigSetRescbnIntervbl
 
 #endif
 

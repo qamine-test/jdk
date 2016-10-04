@@ -1,30 +1,30 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 #import <AppKit/AppKit.h>
-#import <JavaNativeFoundation/JavaNativeFoundation.h>
+#import <JbvbNbtiveFoundbtion/JbvbNbtiveFoundbtion.h>
 
 
 //#define JAVA_AX_DEBUG 1
@@ -32,105 +32,105 @@
 //#define JAVA_AX_DEBUG_PARMS 1
 
 
-@interface JavaComponentAccessibility : NSObject {
+@interfbce JbvbComponentAccessibility : NSObject {
     NSView *fView;
-    NSObject *fParent;
+    NSObject *fPbrent;
 
     NSString *fNSRole;
-    NSString *fJavaRole;
+    NSString *fJbvbRole;
 
     jint fIndex;
     jobject fAccessible;
     jobject fComponent;
 
-    NSMutableDictionary *fActions;
+    NSMutbbleDictionbry *fActions;
     NSObject *fActionsLOCK;
 }
 
-- (id)initWithParent:(NSObject*)parent withEnv:(JNIEnv *)env withAccessible:(jobject)accessible withIndex:(jint)index withView:(NSView *)view withJavaRole:(NSString *)javaRole;
-- (void)unregisterFromCocoaAXSystem;
-- (void)postValueChanged;
-- (void)postSelectionChanged;
-- (BOOL)isEqual:(id)anObject;
-- (BOOL)isAccessibleWithEnv:(JNIEnv *)env forAccessible:(jobject)accessible;
+- (id)initWithPbrent:(NSObject*)pbrent withEnv:(JNIEnv *)env withAccessible:(jobject)bccessible withIndex:(jint)index withView:(NSView *)view withJbvbRole:(NSString *)jbvbRole;
+- (void)unregisterFromCocobAXSystem;
+- (void)postVblueChbnged;
+- (void)postSelectionChbnged;
+- (BOOL)isEqubl:(id)bnObject;
+- (BOOL)isAccessibleWithEnv:(JNIEnv *)env forAccessible:(jobject)bccessible;
 
-+ (void)postFocusChanged:(id)message;
++ (void)postFocusChbnged:(id)messbge;
 
-+ (NSArray*)childrenOfParent:(JavaComponentAccessibility*)parent withEnv:(JNIEnv *)env withChildrenCode:(NSInteger)whichChildren allowIgnored:(BOOL)allowIgnored;
-+ (JavaComponentAccessibility *) createWithParent:(JavaComponentAccessibility *)parent accessible:(jobject)jaccessible role:(NSString *)javaRole index:(jint)index withEnv:(JNIEnv *)env withView:(NSView *)view;
-+ (JavaComponentAccessibility *) createWithAccessible:(jobject)jaccessible role:(NSString *)role index:(jint)index withEnv:(JNIEnv *)env withView:(NSView *)view;
-+ (JavaComponentAccessibility *) createWithAccessible:(jobject)jaccessible withEnv:(JNIEnv *)env withView:(NSView *)view;
++ (NSArrby*)childrenOfPbrent:(JbvbComponentAccessibility*)pbrent withEnv:(JNIEnv *)env withChildrenCode:(NSInteger)whichChildren bllowIgnored:(BOOL)bllowIgnored;
++ (JbvbComponentAccessibility *) crebteWithPbrent:(JbvbComponentAccessibility *)pbrent bccessible:(jobject)jbccessible role:(NSString *)jbvbRole index:(jint)index withEnv:(JNIEnv *)env withView:(NSView *)view;
++ (JbvbComponentAccessibility *) crebteWithAccessible:(jobject)jbccessible role:(NSString *)role index:(jint)index withEnv:(JNIEnv *)env withView:(NSView *)view;
++ (JbvbComponentAccessibility *) crebteWithAccessible:(jobject)jbccessible withEnv:(JNIEnv *)env withView:(NSView *)view;
 
-- (NSDictionary*)getActions:(JNIEnv *)env;
+- (NSDictionbry*)getActions:(JNIEnv *)env;
 - (void)getActionsWithEnv:(JNIEnv *)env;
 
-- (jobject)axContextWithEnv:(JNIEnv *)env;
+- (jobject)bxContextWithEnv:(JNIEnv *)env;
 - (NSView*)view;
 - (NSWindow*)window;
-- (id)parent;
-- (NSString *)javaRole;
+- (id)pbrent;
+- (NSString *)jbvbRole;
 - (BOOL)isMenu;
 - (BOOL)isSelected:(JNIEnv *)env;
 - (BOOL)isVisible:(JNIEnv *)env;
 
-// attribute names
-- (NSArray *)initializeAttributeNamesWithEnv:(JNIEnv *)env;
-- (NSArray *)accessibilityAttributeNames;
+// bttribute nbmes
+- (NSArrby *)initiblizeAttributeNbmesWithEnv:(JNIEnv *)env;
+- (NSArrby *)bccessibilityAttributeNbmes;
 
-// attributes
-- (id)accessibilityAttributeValue:(NSString *)attribute;
-- (BOOL)accessibilityIsAttributeSettable:(NSString *)attribute;
-- (void)accessibilitySetValue:(id)value forAttribute:(NSString *)attribute;
+// bttributes
+- (id)bccessibilityAttributeVblue:(NSString *)bttribute;
+- (BOOL)bccessibilityIsAttributeSettbble:(NSString *)bttribute;
+- (void)bccessibilitySetVblue:(id)vblue forAttribute:(NSString *)bttribute;
 
-- (NSArray *)accessibilityChildrenAttribute;
-- (BOOL)accessibilityIsChildrenAttributeSettable;
-- (NSUInteger)accessibilityIndexOfChild:(id)child;
-- (NSNumber *)accessibilityEnabledAttribute;
-- (BOOL)accessibilityIsEnabledAttributeSettable;
-- (NSNumber *)accessibilityFocusedAttribute;
-- (BOOL)accessibilityIsFocusedAttributeSettable;
-- (void)accessibilitySetFocusedAttribute:(id)value;
-- (NSString *)accessibilityHelpAttribute;
-- (BOOL)accessibilityIsHelpAttributeSettable;
-- (id)accessibilityMaxValueAttribute;
-- (BOOL)accessibilityIsMaxValueAttributeSettable;
-- (id)accessibilityMinValueAttribute;
-- (BOOL)accessibilityIsMinValueAttributeSettable;
-- (id)accessibilityOrientationAttribute;
-- (BOOL)accessibilityIsOrientationAttributeSettable;
-- (id)accessibilityParentAttribute;
-- (BOOL)accessibilityIsParentAttributeSettable;
-- (NSValue *)accessibilityPositionAttribute;
-- (BOOL)accessibilityIsPositionAttributeSettable;
-- (NSString *)accessibilityRoleAttribute;
-- (BOOL)accessibilityIsRoleAttributeSettable;
-- (NSString *)accessibilityRoleDescriptionAttribute;
-- (BOOL)accessibilityIsRoleDescriptionAttributeSettable;
-- (NSArray *)accessibilitySelectedChildrenAttribute;
-- (BOOL)accessibilityIsSelectedChildrenAttributeSettable;
-- (NSValue *)accessibilitySizeAttribute;
-- (BOOL)accessibilityIsSizeAttributeSettable;
-- (NSString *)accessibilitySubroleAttribute;
-- (BOOL)accessibilityIsSubroleAttributeSettable;
-- (NSString *)accessibilityTitleAttribute;
-- (BOOL)accessibilityIsTitleAttributeSettable;
-- (NSWindow *)accessibilityTopLevelUIElementAttribute;
-- (BOOL)accessibilityIsTopLevelUIElementAttributeSettable;
-- (id)accessibilityValueAttribute;
-- (BOOL)accessibilityIsValueAttributeSettable;
-- (void)accessibilitySetValueAttribute:(id)value;
-- (NSArray *)accessibilityVisibleChildrenAttribute;
-- (BOOL)accessibilityIsVisibleChildrenAttributeSettable;
-- (id)accessibilityWindowAttribute;
-- (BOOL)accessibilityIsWindowAttributeSettable;
+- (NSArrby *)bccessibilityChildrenAttribute;
+- (BOOL)bccessibilityIsChildrenAttributeSettbble;
+- (NSUInteger)bccessibilityIndexOfChild:(id)child;
+- (NSNumber *)bccessibilityEnbbledAttribute;
+- (BOOL)bccessibilityIsEnbbledAttributeSettbble;
+- (NSNumber *)bccessibilityFocusedAttribute;
+- (BOOL)bccessibilityIsFocusedAttributeSettbble;
+- (void)bccessibilitySetFocusedAttribute:(id)vblue;
+- (NSString *)bccessibilityHelpAttribute;
+- (BOOL)bccessibilityIsHelpAttributeSettbble;
+- (id)bccessibilityMbxVblueAttribute;
+- (BOOL)bccessibilityIsMbxVblueAttributeSettbble;
+- (id)bccessibilityMinVblueAttribute;
+- (BOOL)bccessibilityIsMinVblueAttributeSettbble;
+- (id)bccessibilityOrientbtionAttribute;
+- (BOOL)bccessibilityIsOrientbtionAttributeSettbble;
+- (id)bccessibilityPbrentAttribute;
+- (BOOL)bccessibilityIsPbrentAttributeSettbble;
+- (NSVblue *)bccessibilityPositionAttribute;
+- (BOOL)bccessibilityIsPositionAttributeSettbble;
+- (NSString *)bccessibilityRoleAttribute;
+- (BOOL)bccessibilityIsRoleAttributeSettbble;
+- (NSString *)bccessibilityRoleDescriptionAttribute;
+- (BOOL)bccessibilityIsRoleDescriptionAttributeSettbble;
+- (NSArrby *)bccessibilitySelectedChildrenAttribute;
+- (BOOL)bccessibilityIsSelectedChildrenAttributeSettbble;
+- (NSVblue *)bccessibilitySizeAttribute;
+- (BOOL)bccessibilityIsSizeAttributeSettbble;
+- (NSString *)bccessibilitySubroleAttribute;
+- (BOOL)bccessibilityIsSubroleAttributeSettbble;
+- (NSString *)bccessibilityTitleAttribute;
+- (BOOL)bccessibilityIsTitleAttributeSettbble;
+- (NSWindow *)bccessibilityTopLevelUIElementAttribute;
+- (BOOL)bccessibilityIsTopLevelUIElementAttributeSettbble;
+- (id)bccessibilityVblueAttribute;
+- (BOOL)bccessibilityIsVblueAttributeSettbble;
+- (void)bccessibilitySetVblueAttribute:(id)vblue;
+- (NSArrby *)bccessibilityVisibleChildrenAttribute;
+- (BOOL)bccessibilityIsVisibleChildrenAttributeSettbble;
+- (id)bccessibilityWindowAttribute;
+- (BOOL)bccessibilityIsWindowAttributeSettbble;
 
-// actions
-- (NSArray *)accessibilityActionNames;
-- (NSString *)accessibilityActionDescription:(NSString *)action;
-- (void)accessibilityPerformAction:(NSString *)action;
+// bctions
+- (NSArrby *)bccessibilityActionNbmes;
+- (NSString *)bccessibilityActionDescription:(NSString *)bction;
+- (void)bccessibilityPerformAction:(NSString *)bction;
 
-- (BOOL)accessibilityIsIgnored;
-- (id)accessibilityHitTest:(NSPoint)point withEnv:(JNIEnv *)env;
-- (id)accessibilityFocusedUIElement;
+- (BOOL)bccessibilityIsIgnored;
+- (id)bccessibilityHitTest:(NSPoint)point withEnv:(JNIEnv *)env;
+- (id)bccessibilityFocusedUIElement;
 
 @end

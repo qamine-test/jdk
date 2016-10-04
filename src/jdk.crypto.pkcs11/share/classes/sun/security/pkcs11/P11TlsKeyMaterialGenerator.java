@@ -1,143 +1,143 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.pkcs11;
+pbckbge sun.security.pkcs11;
 
-import java.util.*;
+import jbvb.util.*;
 
-import java.security.*;
-import java.security.spec.AlgorithmParameterSpec;
+import jbvb.security.*;
+import jbvb.security.spec.AlgorithmPbrbmeterSpec;
 
-import javax.crypto.*;
-import javax.crypto.spec.*;
+import jbvbx.crypto.*;
+import jbvbx.crypto.spec.*;
 
-import sun.security.internal.spec.*;
-import sun.security.internal.interfaces.TlsMasterSecret;
+import sun.security.internbl.spec.*;
+import sun.security.internbl.interfbces.TlsMbsterSecret;
 
-import static sun.security.pkcs11.TemplateManager.*;
-import sun.security.pkcs11.wrapper.*;
-import static sun.security.pkcs11.wrapper.PKCS11Constants.*;
+import stbtic sun.security.pkcs11.TemplbteMbnbger.*;
+import sun.security.pkcs11.wrbpper.*;
+import stbtic sun.security.pkcs11.wrbpper.PKCS11Constbnts.*;
 
 /**
- * KeyGenerator to calculate the SSL/TLS key material (cipher keys and ivs,
- * mac keys) from the master secret.
+ * KeyGenerbtor to cblculbte the SSL/TLS key mbteribl (cipher keys bnd ivs,
+ * mbc keys) from the mbster secret.
  *
- * @author  Andreas Sterbenz
+ * @buthor  Andrebs Sterbenz
  * @since   1.6
  */
-public final class P11TlsKeyMaterialGenerator extends KeyGeneratorSpi {
+public finbl clbss P11TlsKeyMbteriblGenerbtor extends KeyGenerbtorSpi {
 
-    private final static String MSG = "TlsKeyMaterialGenerator must be "
-        + "initialized using a TlsKeyMaterialParameterSpec";
+    privbte finbl stbtic String MSG = "TlsKeyMbteriblGenerbtor must be "
+        + "initiblized using b TlsKeyMbteriblPbrbmeterSpec";
 
-    // token instance
-    private final Token token;
+    // token instbnce
+    privbte finbl Token token;
 
-    // algorithm name
-    private final String algorithm;
+    // blgorithm nbme
+    privbte finbl String blgorithm;
 
-    // mechanism id
-    private long mechanism;
+    // mechbnism id
+    privbte long mechbnism;
 
-    // parameter spec
-    private TlsKeyMaterialParameterSpec spec;
+    // pbrbmeter spec
+    privbte TlsKeyMbteriblPbrbmeterSpec spec;
 
-    // master secret as a P11Key
-    private P11Key p11Key;
+    // mbster secret bs b P11Key
+    privbte P11Key p11Key;
 
     // version, e.g. 0x0301
-    private int version;
+    privbte int version;
 
-    P11TlsKeyMaterialGenerator(Token token, String algorithm, long mechanism)
+    P11TlsKeyMbteriblGenerbtor(Token token, String blgorithm, long mechbnism)
             throws PKCS11Exception {
         super();
         this.token = token;
-        this.algorithm = algorithm;
-        this.mechanism = mechanism;
+        this.blgorithm = blgorithm;
+        this.mechbnism = mechbnism;
     }
 
-    protected void engineInit(SecureRandom random) {
-        throw new InvalidParameterException(MSG);
+    protected void engineInit(SecureRbndom rbndom) {
+        throw new InvblidPbrbmeterException(MSG);
     }
 
-    protected void engineInit(AlgorithmParameterSpec params,
-            SecureRandom random) throws InvalidAlgorithmParameterException {
-        if (params instanceof TlsKeyMaterialParameterSpec == false) {
-            throw new InvalidAlgorithmParameterException(MSG);
+    protected void engineInit(AlgorithmPbrbmeterSpec pbrbms,
+            SecureRbndom rbndom) throws InvblidAlgorithmPbrbmeterException {
+        if (pbrbms instbnceof TlsKeyMbteriblPbrbmeterSpec == fblse) {
+            throw new InvblidAlgorithmPbrbmeterException(MSG);
         }
-        this.spec = (TlsKeyMaterialParameterSpec)params;
+        this.spec = (TlsKeyMbteriblPbrbmeterSpec)pbrbms;
         try {
-            p11Key = P11SecretKeyFactory.convertKey
-                            (token, spec.getMasterSecret(), "TlsMasterSecret");
-        } catch (InvalidKeyException e) {
-            throw new InvalidAlgorithmParameterException("init() failed", e);
+            p11Key = P11SecretKeyFbctory.convertKey
+                            (token, spec.getMbsterSecret(), "TlsMbsterSecret");
+        } cbtch (InvblidKeyException e) {
+            throw new InvblidAlgorithmPbrbmeterException("init() fbiled", e);
         }
-        version = (spec.getMajorVersion() << 8) | spec.getMinorVersion();
+        version = (spec.getMbjorVersion() << 8) | spec.getMinorVersion();
         if ((version < 0x0300) && (version > 0x0302)) {
-            throw new InvalidAlgorithmParameterException
-                    ("Only SSL 3.0, TLS 1.0, and TLS 1.1 are supported");
+            throw new InvblidAlgorithmPbrbmeterException
+                    ("Only SSL 3.0, TLS 1.0, bnd TLS 1.1 bre supported");
         }
-        // we assume the token supports both the CKM_SSL3_* and the CKM_TLS_*
-        // mechanisms
+        // we bssume the token supports both the CKM_SSL3_* bnd the CKM_TLS_*
+        // mechbnisms
     }
 
-    protected void engineInit(int keysize, SecureRandom random) {
-        throw new InvalidParameterException(MSG);
+    protected void engineInit(int keysize, SecureRbndom rbndom) {
+        throw new InvblidPbrbmeterException(MSG);
     }
 
-    protected SecretKey engineGenerateKey() {
+    protected SecretKey engineGenerbteKey() {
         if (spec == null) {
-            throw new IllegalStateException
-                ("TlsKeyMaterialGenerator must be initialized");
+            throw new IllegblStbteException
+                ("TlsKeyMbteriblGenerbtor must be initiblized");
         }
-        mechanism = (version == 0x0300) ? CKM_SSL3_KEY_AND_MAC_DERIVE
+        mechbnism = (version == 0x0300) ? CKM_SSL3_KEY_AND_MAC_DERIVE
                                          : CKM_TLS_KEY_AND_MAC_DERIVE;
-        int macBits = spec.getMacKeyLength() << 3;
+        int mbcBits = spec.getMbcKeyLength() << 3;
         int ivBits = spec.getIvLength() << 3;
 
-        int expandedKeyBits = spec.getExpandedCipherKeyLength() << 3;
+        int expbndedKeyBits = spec.getExpbndedCipherKeyLength() << 3;
         int keyBits = spec.getCipherKeyLength() << 3;
-        boolean isExportable;
-        if (expandedKeyBits != 0) {
-            isExportable = true;
+        boolebn isExportbble;
+        if (expbndedKeyBits != 0) {
+            isExportbble = true;
         } else {
-            isExportable = false;
-            expandedKeyBits = keyBits;
+            isExportbble = fblse;
+            expbndedKeyBits = keyBits;
         }
 
-        CK_SSL3_RANDOM_DATA random = new CK_SSL3_RANDOM_DATA
-                            (spec.getClientRandom(), spec.getServerRandom());
-        CK_SSL3_KEY_MAT_PARAMS params = new CK_SSL3_KEY_MAT_PARAMS
-                            (macBits, keyBits, ivBits, isExportable, random);
+        CK_SSL3_RANDOM_DATA rbndom = new CK_SSL3_RANDOM_DATA
+                            (spec.getClientRbndom(), spec.getServerRbndom());
+        CK_SSL3_KEY_MAT_PARAMS pbrbms = new CK_SSL3_KEY_MAT_PARAMS
+                            (mbcBits, keyBits, ivBits, isExportbble, rbndom);
 
         String cipherAlgorithm = spec.getCipherAlgorithm();
-        long keyType = P11SecretKeyFactory.getKeyType(cipherAlgorithm);
+        long keyType = P11SecretKeyFbctory.getKeyType(cipherAlgorithm);
         if (keyType < 0) {
             if (keyBits != 0) {
                 throw new ProviderException
-                            ("Unknown algorithm: " + spec.getCipherAlgorithm());
+                            ("Unknown blgorithm: " + spec.getCipherAlgorithm());
             } else {
                 // NULL encryption ciphersuites
                 keyType = CKK_GENERIC_SECRET;
@@ -147,65 +147,65 @@ public final class P11TlsKeyMaterialGenerator extends KeyGeneratorSpi {
         Session session = null;
         try {
             session = token.getObjSession();
-            CK_ATTRIBUTE[] attributes;
+            CK_ATTRIBUTE[] bttributes;
             if (keyBits != 0) {
-                attributes = new CK_ATTRIBUTE[] {
+                bttributes = new CK_ATTRIBUTE[] {
                     new CK_ATTRIBUTE(CKA_CLASS, CKO_SECRET_KEY),
                     new CK_ATTRIBUTE(CKA_KEY_TYPE, keyType),
-                    new CK_ATTRIBUTE(CKA_VALUE_LEN, expandedKeyBits >> 3),
+                    new CK_ATTRIBUTE(CKA_VALUE_LEN, expbndedKeyBits >> 3),
                 };
             } else {
                 // ciphersuites with NULL ciphers
-                attributes = new CK_ATTRIBUTE[0];
+                bttributes = new CK_ATTRIBUTE[0];
             }
-            attributes = token.getAttributes
-                (O_GENERATE, CKO_SECRET_KEY, keyType, attributes);
-            // the returned keyID is a dummy, ignore
+            bttributes = token.getAttributes
+                (O_GENERATE, CKO_SECRET_KEY, keyType, bttributes);
+            // the returned keyID is b dummy, ignore
             long keyID = token.p11.C_DeriveKey(session.id(),
-                new CK_MECHANISM(mechanism, params), p11Key.keyID, attributes);
+                new CK_MECHANISM(mechbnism, pbrbms), p11Key.keyID, bttributes);
 
-            CK_SSL3_KEY_MAT_OUT out = params.pReturnedKeyMaterial;
-            // Note that the MAC keys do not inherit all attributes from the
-            // template, but they do inherit the sensitive/extractable/token
-            // flags, which is all P11Key cares about.
-            SecretKey clientMacKey, serverMacKey;
+            CK_SSL3_KEY_MAT_OUT out = pbrbms.pReturnedKeyMbteribl;
+            // Note thbt the MAC keys do not inherit bll bttributes from the
+            // templbte, but they do inherit the sensitive/extrbctbble/token
+            // flbgs, which is bll P11Key cbres bbout.
+            SecretKey clientMbcKey, serverMbcKey;
 
-            // The MAC size may be zero for GCM mode.
+            // The MAC size mby be zero for GCM mode.
             //
-            // PKCS11 does not support GCM mode as the author made the comment,
-            // so the macBits is unlikely to be zero. It's only a place holder.
-            if (macBits != 0) {
-                clientMacKey = P11Key.secretKey
-                    (session, out.hClientMacSecret, "MAC", macBits, attributes);
-                serverMacKey = P11Key.secretKey
-                    (session, out.hServerMacSecret, "MAC", macBits, attributes);
+            // PKCS11 does not support GCM mode bs the buthor mbde the comment,
+            // so the mbcBits is unlikely to be zero. It's only b plbce holder.
+            if (mbcBits != 0) {
+                clientMbcKey = P11Key.secretKey
+                    (session, out.hClientMbcSecret, "MAC", mbcBits, bttributes);
+                serverMbcKey = P11Key.secretKey
+                    (session, out.hServerMbcSecret, "MAC", mbcBits, bttributes);
             } else {
-                clientMacKey = null;
-                serverMacKey = null;
+                clientMbcKey = null;
+                serverMbcKey = null;
             }
 
             SecretKey clientCipherKey, serverCipherKey;
             if (keyBits != 0) {
                 clientCipherKey = P11Key.secretKey(session, out.hClientKey,
-                        cipherAlgorithm, expandedKeyBits, attributes);
+                        cipherAlgorithm, expbndedKeyBits, bttributes);
                 serverCipherKey = P11Key.secretKey(session, out.hServerKey,
-                        cipherAlgorithm, expandedKeyBits, attributes);
+                        cipherAlgorithm, expbndedKeyBits, bttributes);
             } else {
                 clientCipherKey = null;
                 serverCipherKey = null;
             }
-            IvParameterSpec clientIv = (out.pIVClient == null)
-                                    ? null : new IvParameterSpec(out.pIVClient);
-            IvParameterSpec serverIv = (out.pIVServer == null)
-                                    ? null : new IvParameterSpec(out.pIVServer);
+            IvPbrbmeterSpec clientIv = (out.pIVClient == null)
+                                    ? null : new IvPbrbmeterSpec(out.pIVClient);
+            IvPbrbmeterSpec serverIv = (out.pIVServer == null)
+                                    ? null : new IvPbrbmeterSpec(out.pIVServer);
 
-            return new TlsKeyMaterialSpec(clientMacKey, serverMacKey,
+            return new TlsKeyMbteriblSpec(clientMbcKey, serverMbcKey,
                     clientCipherKey, clientIv, serverCipherKey, serverIv);
 
-        } catch (Exception e) {
-            throw new ProviderException("Could not generate key", e);
-        } finally {
-            token.releaseSession(session);
+        } cbtch (Exception e) {
+            throw new ProviderException("Could not generbte key", e);
+        } finblly {
+            token.relebseSession(session);
         }
     }
 

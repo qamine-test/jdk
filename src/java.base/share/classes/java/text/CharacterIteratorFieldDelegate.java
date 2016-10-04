@@ -1,124 +1,124 @@
 /*
- * Copyright (c) 2000, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.text;
+pbckbge jbvb.text;
 
-import java.util.ArrayList;
+import jbvb.util.ArrbyList;
 
 /**
- * CharacterIteratorFieldDelegate combines the notifications from a Format
- * into a resulting <code>AttributedCharacterIterator</code>. The resulting
- * <code>AttributedCharacterIterator</code> can be retrieved by way of
- * the <code>getIterator</code> method.
+ * ChbrbcterIterbtorFieldDelegbte combines the notificbtions from b Formbt
+ * into b resulting <code>AttributedChbrbcterIterbtor</code>. The resulting
+ * <code>AttributedChbrbcterIterbtor</code> cbn be retrieved by wby of
+ * the <code>getIterbtor</code> method.
  *
  */
-class CharacterIteratorFieldDelegate implements Format.FieldDelegate {
+clbss ChbrbcterIterbtorFieldDelegbte implements Formbt.FieldDelegbte {
     /**
-     * Array of AttributeStrings. Whenever <code>formatted</code> is invoked
-     * for a region > size, a new instance of AttributedString is added to
-     * attributedStrings. Subsequent invocations of <code>formatted</code>
-     * for existing regions result in invoking addAttribute on the existing
+     * Arrby of AttributeStrings. Whenever <code>formbtted</code> is invoked
+     * for b region > size, b new instbnce of AttributedString is bdded to
+     * bttributedStrings. Subsequent invocbtions of <code>formbtted</code>
+     * for existing regions result in invoking bddAttribute on the existing
      * AttributedStrings.
      */
-    private ArrayList<AttributedString> attributedStrings;
+    privbte ArrbyList<AttributedString> bttributedStrings;
     /**
-     * Running count of the number of characters that have
+     * Running count of the number of chbrbcters thbt hbve
      * been encountered.
      */
-    private int size;
+    privbte int size;
 
 
-    CharacterIteratorFieldDelegate() {
-        attributedStrings = new ArrayList<>();
+    ChbrbcterIterbtorFieldDelegbte() {
+        bttributedStrings = new ArrbyList<>();
     }
 
-    public void formatted(Format.Field attr, Object value, int start, int end,
+    public void formbtted(Formbt.Field bttr, Object vblue, int stbrt, int end,
                           StringBuffer buffer) {
-        if (start != end) {
-            if (start < size) {
-                // Adjust attributes of existing runs
+        if (stbrt != end) {
+            if (stbrt < size) {
+                // Adjust bttributes of existing runs
                 int index = size;
-                int asIndex = attributedStrings.size() - 1;
+                int bsIndex = bttributedStrings.size() - 1;
 
-                while (start < index) {
-                    AttributedString as = attributedStrings.
-                                           get(asIndex--);
-                    int newIndex = index - as.length();
-                    int aStart = Math.max(0, start - newIndex);
+                while (stbrt < index) {
+                    AttributedString bs = bttributedStrings.
+                                           get(bsIndex--);
+                    int newIndex = index - bs.length();
+                    int bStbrt = Mbth.mbx(0, stbrt - newIndex);
 
-                    as.addAttribute(attr, value, aStart, Math.min(
-                                    end - start, as.length() - aStart) +
-                                    aStart);
+                    bs.bddAttribute(bttr, vblue, bStbrt, Mbth.min(
+                                    end - stbrt, bs.length() - bStbrt) +
+                                    bStbrt);
                     index = newIndex;
                 }
             }
-            if (size < start) {
-                // Pad attributes
-                attributedStrings.add(new AttributedString(
-                                          buffer.substring(size, start)));
-                size = start;
+            if (size < stbrt) {
+                // Pbd bttributes
+                bttributedStrings.bdd(new AttributedString(
+                                          buffer.substring(size, stbrt)));
+                size = stbrt;
             }
             if (size < end) {
                 // Add new string
-                int aStart = Math.max(start, size);
+                int bStbrt = Mbth.mbx(stbrt, size);
                 AttributedString string = new AttributedString(
-                                   buffer.substring(aStart, end));
+                                   buffer.substring(bStbrt, end));
 
-                string.addAttribute(attr, value);
-                attributedStrings.add(string);
+                string.bddAttribute(bttr, vblue);
+                bttributedStrings.bdd(string);
                 size = end;
             }
         }
     }
 
-    public void formatted(int fieldID, Format.Field attr, Object value,
-                          int start, int end, StringBuffer buffer) {
-        formatted(attr, value, start, end, buffer);
+    public void formbtted(int fieldID, Formbt.Field bttr, Object vblue,
+                          int stbrt, int end, StringBuffer buffer) {
+        formbtted(bttr, vblue, stbrt, end, buffer);
     }
 
     /**
-     * Returns an <code>AttributedCharacterIterator</code> that can be used
-     * to iterate over the resulting formatted String.
+     * Returns bn <code>AttributedChbrbcterIterbtor</code> thbt cbn be used
+     * to iterbte over the resulting formbtted String.
      *
-     * @pararm string Result of formatting.
+     * @pbrbrm string Result of formbtting.
      */
-    public AttributedCharacterIterator getIterator(String string) {
-        // Add the last AttributedCharacterIterator if necessary
-        // assert(size <= string.length());
+    public AttributedChbrbcterIterbtor getIterbtor(String string) {
+        // Add the lbst AttributedChbrbcterIterbtor if necessbry
+        // bssert(size <= string.length());
         if (string.length() > size) {
-            attributedStrings.add(new AttributedString(
+            bttributedStrings.bdd(new AttributedString(
                                   string.substring(size)));
             size = string.length();
         }
-        int iCount = attributedStrings.size();
-        AttributedCharacterIterator iterators[] = new
-                                    AttributedCharacterIterator[iCount];
+        int iCount = bttributedStrings.size();
+        AttributedChbrbcterIterbtor iterbtors[] = new
+                                    AttributedChbrbcterIterbtor[iCount];
 
         for (int counter = 0; counter < iCount; counter++) {
-            iterators[counter] = attributedStrings.
-                                  get(counter).getIterator();
+            iterbtors[counter] = bttributedStrings.
+                                  get(counter).getIterbtor();
         }
-        return new AttributedString(iterators).getIterator();
+        return new AttributedString(iterbtors).getIterbtor();
     }
 }

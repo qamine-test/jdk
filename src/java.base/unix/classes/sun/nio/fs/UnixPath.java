@@ -1,142 +1,142 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.nio.fs;
+pbckbge sun.nio.fs;
 
-import java.nio.*;
-import java.nio.file.*;
-import java.nio.charset.*;
-import java.io.*;
-import java.net.URI;
-import java.util.*;
-import java.lang.ref.SoftReference;
+import jbvb.nio.*;
+import jbvb.nio.file.*;
+import jbvb.nio.chbrset.*;
+import jbvb.io.*;
+import jbvb.net.URI;
+import jbvb.util.*;
+import jbvb.lbng.ref.SoftReference;
 
-import static sun.nio.fs.UnixNativeDispatcher.*;
-import static sun.nio.fs.UnixConstants.*;
+import stbtic sun.nio.fs.UnixNbtiveDispbtcher.*;
+import stbtic sun.nio.fs.UnixConstbnts.*;
 
 /**
- * Solaris/Linux implementation of java.nio.file.Path
+ * Solbris/Linux implementbtion of jbvb.nio.file.Pbth
  */
 
-class UnixPath
-    extends AbstractPath
+clbss UnixPbth
+    extends AbstrbctPbth
 {
-    private static ThreadLocal<SoftReference<CharsetEncoder>> encoder =
-        new ThreadLocal<SoftReference<CharsetEncoder>>();
+    privbte stbtic ThrebdLocbl<SoftReference<ChbrsetEncoder>> encoder =
+        new ThrebdLocbl<SoftReference<ChbrsetEncoder>>();
 
-    // FIXME - eliminate this reference to reduce space
-    private final UnixFileSystem fs;
+    // FIXME - eliminbte this reference to reduce spbce
+    privbte finbl UnixFileSystem fs;
 
-    // internal representation
-    private final byte[] path;
+    // internbl representbtion
+    privbte finbl byte[] pbth;
 
-    // String representation (created lazily)
-    private volatile String stringValue;
+    // String representbtion (crebted lbzily)
+    privbte volbtile String stringVblue;
 
-    // cached hashcode (created lazily, no need to be volatile)
-    private int hash;
+    // cbched hbshcode (crebted lbzily, no need to be volbtile)
+    privbte int hbsh;
 
-    // array of offsets of elements in path (created lazily)
-    private volatile int[] offsets;
+    // brrby of offsets of elements in pbth (crebted lbzily)
+    privbte volbtile int[] offsets;
 
-    UnixPath(UnixFileSystem fs, byte[] path) {
+    UnixPbth(UnixFileSystem fs, byte[] pbth) {
         this.fs = fs;
-        this.path = path;
+        this.pbth = pbth;
     }
 
-    UnixPath(UnixFileSystem fs, String input) {
-        // removes redundant slashes and checks for invalid characters
-        this(fs, encode(fs, normalizeAndCheck(input)));
+    UnixPbth(UnixFileSystem fs, String input) {
+        // removes redundbnt slbshes bnd checks for invblid chbrbcters
+        this(fs, encode(fs, normblizeAndCheck(input)));
     }
 
-    // package-private
-    // removes redundant slashes and check input for invalid characters
-    static String normalizeAndCheck(String input) {
+    // pbckbge-privbte
+    // removes redundbnt slbshes bnd check input for invblid chbrbcters
+    stbtic String normblizeAndCheck(String input) {
         int n = input.length();
-        char prevChar = 0;
+        chbr prevChbr = 0;
         for (int i=0; i < n; i++) {
-            char c = input.charAt(i);
-            if ((c == '/') && (prevChar == '/'))
-                return normalize(input, n, i - 1);
+            chbr c = input.chbrAt(i);
+            if ((c == '/') && (prevChbr == '/'))
+                return normblize(input, n, i - 1);
             checkNotNul(input, c);
-            prevChar = c;
+            prevChbr = c;
         }
-        if (prevChar == '/')
-            return normalize(input, n, n - 1);
+        if (prevChbr == '/')
+            return normblize(input, n, n - 1);
         return input;
     }
 
-    private static void checkNotNul(String input, char c) {
+    privbte stbtic void checkNotNul(String input, chbr c) {
         if (c == '\u0000')
-            throw new InvalidPathException(input, "Nul character not allowed");
+            throw new InvblidPbthException(input, "Nul chbrbcter not bllowed");
     }
 
-    private static String normalize(String input, int len, int off) {
+    privbte stbtic String normblize(String input, int len, int off) {
         if (len == 0)
             return input;
         int n = len;
-        while ((n > 0) && (input.charAt(n - 1) == '/')) n--;
+        while ((n > 0) && (input.chbrAt(n - 1) == '/')) n--;
         if (n == 0)
             return "/";
         StringBuilder sb = new StringBuilder(input.length());
         if (off > 0)
-            sb.append(input.substring(0, off));
-        char prevChar = 0;
+            sb.bppend(input.substring(0, off));
+        chbr prevChbr = 0;
         for (int i=off; i < n; i++) {
-            char c = input.charAt(i);
-            if ((c == '/') && (prevChar == '/'))
+            chbr c = input.chbrAt(i);
+            if ((c == '/') && (prevChbr == '/'))
                 continue;
             checkNotNul(input, c);
-            sb.append(c);
-            prevChar = c;
+            sb.bppend(c);
+            prevChbr = c;
         }
         return sb.toString();
     }
 
-    // encodes the given path-string into a sequence of bytes
-    private static byte[] encode(UnixFileSystem fs, String input) {
-        SoftReference<CharsetEncoder> ref = encoder.get();
-        CharsetEncoder ce = (ref != null) ? ref.get() : null;
+    // encodes the given pbth-string into b sequence of bytes
+    privbte stbtic byte[] encode(UnixFileSystem fs, String input) {
+        SoftReference<ChbrsetEncoder> ref = encoder.get();
+        ChbrsetEncoder ce = (ref != null) ? ref.get() : null;
         if (ce == null) {
             ce = Util.jnuEncoding().newEncoder()
-                .onMalformedInput(CodingErrorAction.REPORT)
-                .onUnmappableCharacter(CodingErrorAction.REPORT);
-            encoder.set(new SoftReference<CharsetEncoder>(ce));
+                .onMblformedInput(CodingErrorAction.REPORT)
+                .onUnmbppbbleChbrbcter(CodingErrorAction.REPORT);
+            encoder.set(new SoftReference<ChbrsetEncoder>(ce));
         }
 
-        char[] ca = fs.normalizeNativePath(input.toCharArray());
+        chbr[] cb = fs.normblizeNbtivePbth(input.toChbrArrby());
 
-        // size output buffer for worse-case size
-        byte[] ba = new byte[(int)(ca.length * (double)ce.maxBytesPerChar())];
+        // size output buffer for worse-cbse size
+        byte[] bb = new byte[(int)(cb.length * (double)ce.mbxBytesPerChbr())];
 
         // encode
-        ByteBuffer bb = ByteBuffer.wrap(ba);
-        CharBuffer cb = CharBuffer.wrap(ca);
+        ByteBuffer bb = ByteBuffer.wrbp(bb);
+        ChbrBuffer cb = ChbrBuffer.wrbp(cb);
         ce.reset();
         CoderResult cr = ce.encode(cb, bb, true);
-        boolean error;
+        boolebn error;
         if (!cr.isUnderflow()) {
             error = true;
         } else {
@@ -144,96 +144,96 @@ class UnixPath
             error = !cr.isUnderflow();
         }
         if (error) {
-            throw new InvalidPathException(input,
-                "Malformed input or input contains unmappable characters");
+            throw new InvblidPbthException(input,
+                "Mblformed input or input contbins unmbppbble chbrbcters");
         }
 
-        // trim result to actual length if required
+        // trim result to bctubl length if required
         int len = bb.position();
-        if (len != ba.length)
-            ba = Arrays.copyOf(ba, len);
+        if (len != bb.length)
+            bb = Arrbys.copyOf(bb, len);
 
-        return ba;
+        return bb;
     }
 
-    // package-private
-    byte[] asByteArray() {
-        return path;
+    // pbckbge-privbte
+    byte[] bsByteArrby() {
+        return pbth;
     }
 
-    // use this path when making system/library calls
-    byte[] getByteArrayForSysCalls() {
-        // resolve against default directory if required (chdir allowed or
-        // file system default directory is not working directory)
-        if (getFileSystem().needToResolveAgainstDefaultDirectory()) {
-            return resolve(getFileSystem().defaultDirectory(), path);
+    // use this pbth when mbking system/librbry cblls
+    byte[] getByteArrbyForSysCblls() {
+        // resolve bgbinst defbult directory if required (chdir bllowed or
+        // file system defbult directory is not working directory)
+        if (getFileSystem().needToResolveAgbinstDefbultDirectory()) {
+            return resolve(getFileSystem().defbultDirectory(), pbth);
         } else {
             if (!isEmpty()) {
-                return path;
+                return pbth;
             } else {
-                // empty path case will access current directory
+                // empty pbth cbse will bccess current directory
                 byte[] here = { '.' };
                 return here;
             }
         }
     }
 
-    // use this message when throwing exceptions
-    String getPathForExceptionMessage() {
+    // use this messbge when throwing exceptions
+    String getPbthForExceptionMessbge() {
         return toString();
     }
 
-    // use this path for permission checks
-    String getPathForPermissionCheck() {
-        if (getFileSystem().needToResolveAgainstDefaultDirectory()) {
-            return Util.toString(getByteArrayForSysCalls());
+    // use this pbth for permission checks
+    String getPbthForPermissionCheck() {
+        if (getFileSystem().needToResolveAgbinstDefbultDirectory()) {
+            return Util.toString(getByteArrbyForSysCblls());
         } else {
             return toString();
         }
     }
 
-    // Checks that the given file is a UnixPath
-    static UnixPath toUnixPath(Path obj) {
+    // Checks thbt the given file is b UnixPbth
+    stbtic UnixPbth toUnixPbth(Pbth obj) {
         if (obj == null)
             throw new NullPointerException();
-        if (!(obj instanceof UnixPath))
-            throw new ProviderMismatchException();
-        return (UnixPath)obj;
+        if (!(obj instbnceof UnixPbth))
+            throw new ProviderMismbtchException();
+        return (UnixPbth)obj;
     }
 
-    // create offset list if not already created
-    private void initOffsets() {
+    // crebte offset list if not blrebdy crebted
+    privbte void initOffsets() {
         if (offsets == null) {
             int count, index;
 
-            // count names
+            // count nbmes
             count = 0;
             index = 0;
             if (isEmpty()) {
-                // empty path has one name
+                // empty pbth hbs one nbme
                 count = 1;
             } else {
-                while (index < path.length) {
-                    byte c = path[index++];
+                while (index < pbth.length) {
+                    byte c = pbth[index++];
                     if (c != '/') {
                         count++;
-                        while (index < path.length && path[index] != '/')
+                        while (index < pbth.length && pbth[index] != '/')
                             index++;
                     }
                 }
             }
 
-            // populate offsets
+            // populbte offsets
             int[] result = new int[count];
             count = 0;
             index = 0;
-            while (index < path.length) {
-                byte c = path[index];
+            while (index < pbth.length) {
+                byte c = pbth[index];
                 if (c == '/') {
                     index++;
                 } else {
                     result[count++] = index++;
-                    while (index < path.length && path[index] != '/')
+                    while (index < pbth.length && pbth[index] != '/')
                         index++;
                 }
             }
@@ -244,14 +244,14 @@ class UnixPath
         }
     }
 
-    // returns {@code true} if this path is an empty path
-    private boolean isEmpty() {
-        return path.length == 0;
+    // returns {@code true} if this pbth is bn empty pbth
+    privbte boolebn isEmpty() {
+        return pbth.length == 0;
     }
 
-    // returns an empty path
-    private UnixPath emptyPath() {
-        return new UnixPath(getFileSystem(), new byte[0]);
+    // returns bn empty pbth
+    privbte UnixPbth emptyPbth() {
+        return new UnixPbth(getFileSystem(), new byte[0]);
     }
 
     @Override
@@ -260,8 +260,8 @@ class UnixPath
     }
 
     @Override
-    public UnixPath getRoot() {
-        if (path.length > 0 && path[0] == '/') {
+    public UnixPbth getRoot() {
+        if (pbth.length > 0 && pbth[0] == '/') {
             return getFileSystem().rootDirectory();
         } else {
             return null;
@@ -269,184 +269,184 @@ class UnixPath
     }
 
     @Override
-    public UnixPath getFileName() {
+    public UnixPbth getFileNbme() {
         initOffsets();
 
         int count = offsets.length;
 
-        // no elements so no name
+        // no elements so no nbme
         if (count == 0)
             return null;
 
-        // one name element and no root component
-        if (count == 1 && path.length > 0 && path[0] != '/')
+        // one nbme element bnd no root component
+        if (count == 1 && pbth.length > 0 && pbth[0] != '/')
             return this;
 
-        int lastOffset = offsets[count-1];
-        int len = path.length - lastOffset;
+        int lbstOffset = offsets[count-1];
+        int len = pbth.length - lbstOffset;
         byte[] result = new byte[len];
-        System.arraycopy(path, lastOffset, result, 0, len);
-        return new UnixPath(getFileSystem(), result);
+        System.brrbycopy(pbth, lbstOffset, result, 0, len);
+        return new UnixPbth(getFileSystem(), result);
     }
 
     @Override
-    public UnixPath getParent() {
+    public UnixPbth getPbrent() {
         initOffsets();
 
         int count = offsets.length;
         if (count == 0) {
-            // no elements so no parent
+            // no elements so no pbrent
             return null;
         }
         int len = offsets[count-1] - 1;
         if (len <= 0) {
-            // parent is root only (may be null)
+            // pbrent is root only (mby be null)
             return getRoot();
         }
         byte[] result = new byte[len];
-        System.arraycopy(path, 0, result, 0, len);
-        return new UnixPath(getFileSystem(), result);
+        System.brrbycopy(pbth, 0, result, 0, len);
+        return new UnixPbth(getFileSystem(), result);
     }
 
     @Override
-    public int getNameCount() {
+    public int getNbmeCount() {
         initOffsets();
         return offsets.length;
     }
 
     @Override
-    public UnixPath getName(int index) {
+    public UnixPbth getNbme(int index) {
         initOffsets();
         if (index < 0)
-            throw new IllegalArgumentException();
+            throw new IllegblArgumentException();
         if (index >= offsets.length)
-            throw new IllegalArgumentException();
+            throw new IllegblArgumentException();
 
         int begin = offsets[index];
         int len;
         if (index == (offsets.length-1)) {
-            len = path.length - begin;
+            len = pbth.length - begin;
         } else {
             len = offsets[index+1] - begin - 1;
         }
 
         // construct result
         byte[] result = new byte[len];
-        System.arraycopy(path, begin, result, 0, len);
-        return new UnixPath(getFileSystem(), result);
+        System.brrbycopy(pbth, begin, result, 0, len);
+        return new UnixPbth(getFileSystem(), result);
     }
 
     @Override
-    public UnixPath subpath(int beginIndex, int endIndex) {
+    public UnixPbth subpbth(int beginIndex, int endIndex) {
         initOffsets();
 
         if (beginIndex < 0)
-            throw new IllegalArgumentException();
+            throw new IllegblArgumentException();
         if (beginIndex >= offsets.length)
-            throw new IllegalArgumentException();
+            throw new IllegblArgumentException();
         if (endIndex > offsets.length)
-            throw new IllegalArgumentException();
+            throw new IllegblArgumentException();
         if (beginIndex >= endIndex) {
-            throw new IllegalArgumentException();
+            throw new IllegblArgumentException();
         }
 
-        // starting offset and length
+        // stbrting offset bnd length
         int begin = offsets[beginIndex];
         int len;
         if (endIndex == offsets.length) {
-            len = path.length - begin;
+            len = pbth.length - begin;
         } else {
             len = offsets[endIndex] - begin - 1;
         }
 
         // construct result
         byte[] result = new byte[len];
-        System.arraycopy(path, begin, result, 0, len);
-        return new UnixPath(getFileSystem(), result);
+        System.brrbycopy(pbth, begin, result, 0, len);
+        return new UnixPbth(getFileSystem(), result);
     }
 
     @Override
-    public boolean isAbsolute() {
-        return (path.length > 0 && path[0] == '/');
+    public boolebn isAbsolute() {
+        return (pbth.length > 0 && pbth[0] == '/');
     }
 
-    // Resolve child against given base
-    private static byte[] resolve(byte[] base, byte[] child) {
-        int baseLength = base.length;
+    // Resolve child bgbinst given bbse
+    privbte stbtic byte[] resolve(byte[] bbse, byte[] child) {
+        int bbseLength = bbse.length;
         int childLength = child.length;
         if (childLength == 0)
-            return base;
-        if (baseLength == 0 || child[0] == '/')
+            return bbse;
+        if (bbseLength == 0 || child[0] == '/')
             return child;
         byte[] result;
-        if (baseLength == 1 && base[0] == '/') {
+        if (bbseLength == 1 && bbse[0] == '/') {
             result = new byte[childLength + 1];
             result[0] = '/';
-            System.arraycopy(child, 0, result, 1, childLength);
+            System.brrbycopy(child, 0, result, 1, childLength);
         } else {
-            result = new byte[baseLength + 1 + childLength];
-            System.arraycopy(base, 0, result, 0, baseLength);
-            result[base.length] = '/';
-            System.arraycopy(child, 0, result, baseLength+1, childLength);
+            result = new byte[bbseLength + 1 + childLength];
+            System.brrbycopy(bbse, 0, result, 0, bbseLength);
+            result[bbse.length] = '/';
+            System.brrbycopy(child, 0, result, bbseLength+1, childLength);
         }
         return result;
     }
 
     @Override
-    public UnixPath resolve(Path obj) {
-        byte[] other = toUnixPath(obj).path;
+    public UnixPbth resolve(Pbth obj) {
+        byte[] other = toUnixPbth(obj).pbth;
         if (other.length > 0 && other[0] == '/')
-            return ((UnixPath)obj);
-        byte[] result = resolve(path, other);
-        return new UnixPath(getFileSystem(), result);
+            return ((UnixPbth)obj);
+        byte[] result = resolve(pbth, other);
+        return new UnixPbth(getFileSystem(), result);
     }
 
-    UnixPath resolve(byte[] other) {
-        return resolve(new UnixPath(getFileSystem(), other));
+    UnixPbth resolve(byte[] other) {
+        return resolve(new UnixPbth(getFileSystem(), other));
     }
 
     @Override
-    public UnixPath relativize(Path obj) {
-        UnixPath other = toUnixPath(obj);
-        if (other.equals(this))
-            return emptyPath();
+    public UnixPbth relbtivize(Pbth obj) {
+        UnixPbth other = toUnixPbth(obj);
+        if (other.equbls(this))
+            return emptyPbth();
 
-        // can only relativize paths of the same type
+        // cbn only relbtivize pbths of the sbme type
         if (this.isAbsolute() != other.isAbsolute())
-            throw new IllegalArgumentException("'other' is different type of Path");
+            throw new IllegblArgumentException("'other' is different type of Pbth");
 
-        // this path is the empty path
+        // this pbth is the empty pbth
         if (this.isEmpty())
             return other;
 
-        int bn = this.getNameCount();
-        int cn = other.getNameCount();
+        int bn = this.getNbmeCount();
+        int cn = other.getNbmeCount();
 
-        // skip matching names
+        // skip mbtching nbmes
         int n = (bn > cn) ? cn : bn;
         int i = 0;
         while (i < n) {
-            if (!this.getName(i).equals(other.getName(i)))
-                break;
+            if (!this.getNbme(i).equbls(other.getNbme(i)))
+                brebk;
             i++;
         }
 
         int dotdots = bn - i;
         if (i < cn) {
-            // remaining name components in other
-            UnixPath remainder = other.subpath(i, cn);
+            // rembining nbme components in other
+            UnixPbth rembinder = other.subpbth(i, cn);
             if (dotdots == 0)
-                return remainder;
+                return rembinder;
 
-            // other is the empty path
-            boolean isOtherEmpty = other.isEmpty();
+            // other is the empty pbth
+            boolebn isOtherEmpty = other.isEmpty();
 
-            // result is a  "../" for each remaining name in base
-            // followed by the remaining names in other. If the remainder is
-            // the empty path then we don't add the final trailing slash.
-            int len = dotdots*3 + remainder.path.length;
+            // result is b  "../" for ebch rembining nbme in bbse
+            // followed by the rembining nbmes in other. If the rembinder is
+            // the empty pbth then we don't bdd the finbl trbiling slbsh.
+            int len = dotdots*3 + rembinder.pbth.length;
             if (isOtherEmpty) {
-                assert remainder.isEmpty();
+                bssert rembinder.isEmpty();
                 len--;
             }
             byte[] result = new byte[len];
@@ -461,124 +461,124 @@ class UnixPath
                 }
                 dotdots--;
             }
-            System.arraycopy(remainder.path, 0, result, pos, remainder.path.length);
-            return new UnixPath(getFileSystem(), result);
+            System.brrbycopy(rembinder.pbth, 0, result, pos, rembinder.pbth.length);
+            return new UnixPbth(getFileSystem(), result);
         } else {
-            // no remaining names in other so result is simply a sequence of ".."
+            // no rembining nbmes in other so result is simply b sequence of ".."
             byte[] result = new byte[dotdots*3 - 1];
             int pos = 0;
             while (dotdots > 0) {
                 result[pos++] = (byte)'.';
                 result[pos++] = (byte)'.';
-                // no tailing slash at the end
+                // no tbiling slbsh bt the end
                 if (dotdots > 1)
                     result[pos++] = (byte)'/';
                 dotdots--;
             }
-            return new UnixPath(getFileSystem(), result);
+            return new UnixPbth(getFileSystem(), result);
         }
     }
 
     @Override
-    public Path normalize() {
-        final int count = getNameCount();
+    public Pbth normblize() {
+        finbl int count = getNbmeCount();
         if (count == 0 || isEmpty())
             return this;
 
-        boolean[] ignore = new boolean[count];      // true => ignore name
-        int[] size = new int[count];                // length of name
-        int remaining = count;                      // number of names remaining
-        boolean hasDotDot = false;                  // has at least one ..
-        boolean isAbsolute = isAbsolute();
+        boolebn[] ignore = new boolebn[count];      // true => ignore nbme
+        int[] size = new int[count];                // length of nbme
+        int rembining = count;                      // number of nbmes rembining
+        boolebn hbsDotDot = fblse;                  // hbs bt lebst one ..
+        boolebn isAbsolute = isAbsolute();
 
-        // first pass:
-        //   1. compute length of names
-        //   2. mark all occurrences of "." to ignore
-        //   3. and look for any occurrences of ".."
+        // first pbss:
+        //   1. compute length of nbmes
+        //   2. mbrk bll occurrences of "." to ignore
+        //   3. bnd look for bny occurrences of ".."
         for (int i=0; i<count; i++) {
             int begin = offsets[i];
             int len;
             if (i == (offsets.length-1)) {
-                len = path.length - begin;
+                len = pbth.length - begin;
             } else {
                 len = offsets[i+1] - begin - 1;
             }
             size[i] = len;
 
-            if (path[begin] == '.') {
+            if (pbth[begin] == '.') {
                 if (len == 1) {
                     ignore[i] = true;  // ignore  "."
-                    remaining--;
+                    rembining--;
                 }
                 else {
-                    if (path[begin+1] == '.')   // ".." found
-                        hasDotDot = true;
+                    if (pbth[begin+1] == '.')   // ".." found
+                        hbsDotDot = true;
                 }
             }
         }
 
-        // multiple passes to eliminate all occurrences of name/..
-        if (hasDotDot) {
-            int prevRemaining;
+        // multiple pbsses to eliminbte bll occurrences of nbme/..
+        if (hbsDotDot) {
+            int prevRembining;
             do {
-                prevRemaining = remaining;
-                int prevName = -1;
+                prevRembining = rembining;
+                int prevNbme = -1;
                 for (int i=0; i<count; i++) {
                     if (ignore[i])
                         continue;
 
-                    // not a ".."
+                    // not b ".."
                     if (size[i] != 2) {
-                        prevName = i;
+                        prevNbme = i;
                         continue;
                     }
 
                     int begin = offsets[i];
-                    if (path[begin] != '.' || path[begin+1] != '.') {
-                        prevName = i;
+                    if (pbth[begin] != '.' || pbth[begin+1] != '.') {
+                        prevNbme = i;
                         continue;
                     }
 
                     // ".." found
-                    if (prevName >= 0) {
-                        // name/<ignored>/.. found so mark name and ".." to be
+                    if (prevNbme >= 0) {
+                        // nbme/<ignored>/.. found so mbrk nbme bnd ".." to be
                         // ignored
-                        ignore[prevName] = true;
+                        ignore[prevNbme] = true;
                         ignore[i] = true;
-                        remaining = remaining - 2;
-                        prevName = -1;
+                        rembining = rembining - 2;
+                        prevNbme = -1;
                     } else {
-                        // Case: /<ignored>/.. so mark ".." as ignored
+                        // Cbse: /<ignored>/.. so mbrk ".." bs ignored
                         if (isAbsolute) {
-                            boolean hasPrevious = false;
+                            boolebn hbsPrevious = fblse;
                             for (int j=0; j<i; j++) {
                                 if (!ignore[j]) {
-                                    hasPrevious = true;
-                                    break;
+                                    hbsPrevious = true;
+                                    brebk;
                                 }
                             }
-                            if (!hasPrevious) {
-                                // all proceeding names are ignored
+                            if (!hbsPrevious) {
+                                // bll proceeding nbmes bre ignored
                                 ignore[i] = true;
-                                remaining--;
+                                rembining--;
                             }
                         }
                     }
                 }
-            } while (prevRemaining > remaining);
+            } while (prevRembining > rembining);
         }
 
-        // no redundant names
-        if (remaining == count)
+        // no redundbnt nbmes
+        if (rembining == count)
             return this;
 
-        // corner case - all names removed
-        if (remaining == 0) {
-            return isAbsolute ? getFileSystem().rootDirectory() : emptyPath();
+        // corner cbse - bll nbmes removed
+        if (rembining == 0) {
+            return isAbsolute ? getFileSystem().rootDirectory() : emptyPbth();
         }
 
         // compute length of result
-        int len = remaining - 1;
+        int len = rembining - 1;
         if (isAbsolute)
             len++;
 
@@ -588,138 +588,138 @@ class UnixPath
         }
         byte[] result = new byte[len];
 
-        // copy names into result
+        // copy nbmes into result
         int pos = 0;
         if (isAbsolute)
             result[pos++] = '/';
         for (int i=0; i<count; i++) {
             if (!ignore[i]) {
-                System.arraycopy(path, offsets[i], result, pos, size[i]);
+                System.brrbycopy(pbth, offsets[i], result, pos, size[i]);
                 pos += size[i];
-                if (--remaining > 0) {
+                if (--rembining > 0) {
                     result[pos++] = '/';
                 }
             }
         }
-        return new UnixPath(getFileSystem(), result);
+        return new UnixPbth(getFileSystem(), result);
     }
 
     @Override
-    public boolean startsWith(Path other) {
-        if (!(Objects.requireNonNull(other) instanceof UnixPath))
-            return false;
-        UnixPath that = (UnixPath)other;
+    public boolebn stbrtsWith(Pbth other) {
+        if (!(Objects.requireNonNull(other) instbnceof UnixPbth))
+            return fblse;
+        UnixPbth thbt = (UnixPbth)other;
 
-        // other path is longer
-        if (that.path.length > path.length)
-            return false;
+        // other pbth is longer
+        if (thbt.pbth.length > pbth.length)
+            return fblse;
 
-        int thisOffsetCount = getNameCount();
-        int thatOffsetCount = that.getNameCount();
+        int thisOffsetCount = getNbmeCount();
+        int thbtOffsetCount = thbt.getNbmeCount();
 
-        // other path has no name elements
-        if (thatOffsetCount == 0 && this.isAbsolute()) {
-            return that.isEmpty() ? false : true;
+        // other pbth hbs no nbme elements
+        if (thbtOffsetCount == 0 && this.isAbsolute()) {
+            return thbt.isEmpty() ? fblse : true;
         }
 
-        // given path has more elements that this path
-        if (thatOffsetCount > thisOffsetCount)
-            return false;
+        // given pbth hbs more elements thbt this pbth
+        if (thbtOffsetCount > thisOffsetCount)
+            return fblse;
 
-        // same number of elements so must be exact match
-        if ((thatOffsetCount == thisOffsetCount) &&
-            (path.length != that.path.length)) {
-            return false;
+        // sbme number of elements so must be exbct mbtch
+        if ((thbtOffsetCount == thisOffsetCount) &&
+            (pbth.length != thbt.pbth.length)) {
+            return fblse;
         }
 
-        // check offsets of elements match
-        for (int i=0; i<thatOffsetCount; i++) {
+        // check offsets of elements mbtch
+        for (int i=0; i<thbtOffsetCount; i++) {
             Integer o1 = offsets[i];
-            Integer o2 = that.offsets[i];
-            if (!o1.equals(o2))
-                return false;
+            Integer o2 = thbt.offsets[i];
+            if (!o1.equbls(o2))
+                return fblse;
         }
 
-        // offsets match so need to compare bytes
+        // offsets mbtch so need to compbre bytes
         int i=0;
-        while (i < that.path.length) {
-            if (this.path[i] != that.path[i])
-                return false;
+        while (i < thbt.pbth.length) {
+            if (this.pbth[i] != thbt.pbth[i])
+                return fblse;
             i++;
         }
 
-        // final check that match is on name boundary
-        if (i < path.length && this.path[i] != '/')
-            return false;
+        // finbl check thbt mbtch is on nbme boundbry
+        if (i < pbth.length && this.pbth[i] != '/')
+            return fblse;
 
         return true;
     }
 
     @Override
-    public boolean endsWith(Path other) {
-        if (!(Objects.requireNonNull(other) instanceof UnixPath))
-            return false;
-        UnixPath that = (UnixPath)other;
+    public boolebn endsWith(Pbth other) {
+        if (!(Objects.requireNonNull(other) instbnceof UnixPbth))
+            return fblse;
+        UnixPbth thbt = (UnixPbth)other;
 
-        int thisLen = path.length;
-        int thatLen = that.path.length;
+        int thisLen = pbth.length;
+        int thbtLen = thbt.pbth.length;
 
-        // other path is longer
-        if (thatLen > thisLen)
-            return false;
+        // other pbth is longer
+        if (thbtLen > thisLen)
+            return fblse;
 
-        // other path is the empty path
-        if (thisLen > 0 && thatLen == 0)
-            return false;
+        // other pbth is the empty pbth
+        if (thisLen > 0 && thbtLen == 0)
+            return fblse;
 
-        // other path is absolute so this path must be absolute
-        if (that.isAbsolute() && !this.isAbsolute())
-            return false;
+        // other pbth is bbsolute so this pbth must be bbsolute
+        if (thbt.isAbsolute() && !this.isAbsolute())
+            return fblse;
 
-        int thisOffsetCount = getNameCount();
-        int thatOffsetCount = that.getNameCount();
+        int thisOffsetCount = getNbmeCount();
+        int thbtOffsetCount = thbt.getNbmeCount();
 
-        // given path has more elements that this path
-        if (thatOffsetCount > thisOffsetCount) {
-            return false;
+        // given pbth hbs more elements thbt this pbth
+        if (thbtOffsetCount > thisOffsetCount) {
+            return fblse;
         } else {
-            // same number of elements
-            if (thatOffsetCount == thisOffsetCount) {
+            // sbme number of elements
+            if (thbtOffsetCount == thisOffsetCount) {
                 if (thisOffsetCount == 0)
                     return true;
                 int expectedLen = thisLen;
-                if (this.isAbsolute() && !that.isAbsolute())
+                if (this.isAbsolute() && !thbt.isAbsolute())
                     expectedLen--;
-                if (thatLen != expectedLen)
-                    return false;
+                if (thbtLen != expectedLen)
+                    return fblse;
             } else {
-                // this path has more elements so given path must be relative
-                if (that.isAbsolute())
-                    return false;
+                // this pbth hbs more elements so given pbth must be relbtive
+                if (thbt.isAbsolute())
+                    return fblse;
             }
         }
 
-        // compare bytes
-        int thisPos = offsets[thisOffsetCount - thatOffsetCount];
-        int thatPos = that.offsets[0];
-        if ((thatLen - thatPos) != (thisLen - thisPos))
-            return false;
-        while (thatPos < thatLen) {
-            if (this.path[thisPos++] != that.path[thatPos++])
-                return false;
+        // compbre bytes
+        int thisPos = offsets[thisOffsetCount - thbtOffsetCount];
+        int thbtPos = thbt.offsets[0];
+        if ((thbtLen - thbtPos) != (thisLen - thisPos))
+            return fblse;
+        while (thbtPos < thbtLen) {
+            if (this.pbth[thisPos++] != thbt.pbth[thbtPos++])
+                return fblse;
         }
 
         return true;
     }
 
     @Override
-    public int compareTo(Path other) {
-        int len1 = path.length;
-        int len2 = ((UnixPath) other).path.length;
+    public int compbreTo(Pbth other) {
+        int len1 = pbth.length;
+        int len2 = ((UnixPbth) other).pbth.length;
 
-        int n = Math.min(len1, len2);
-        byte v1[] = path;
-        byte v2[] = ((UnixPath) other).path;
+        int n = Mbth.min(len1, len2);
+        byte v1[] = pbth;
+        byte v2[] = ((UnixPbth) other).pbth;
 
         int k = 0;
         while (k < n) {
@@ -734,132 +734,132 @@ class UnixPath
     }
 
     @Override
-    public boolean equals(Object ob) {
-        if ((ob != null) && (ob instanceof UnixPath)) {
-            return compareTo((Path)ob) == 0;
+    public boolebn equbls(Object ob) {
+        if ((ob != null) && (ob instbnceof UnixPbth)) {
+            return compbreTo((Pbth)ob) == 0;
         }
-        return false;
+        return fblse;
     }
 
     @Override
-    public int hashCode() {
-        // OK if two or more threads compute hash
-        int h = hash;
+    public int hbshCode() {
+        // OK if two or more threbds compute hbsh
+        int h = hbsh;
         if (h == 0) {
-            for (int i = 0; i< path.length; i++) {
-                h = 31*h + (path[i] & 0xff);
+            for (int i = 0; i< pbth.length; i++) {
+                h = 31*h + (pbth[i] & 0xff);
             }
-            hash = h;
+            hbsh = h;
         }
         return h;
     }
 
     @Override
     public String toString() {
-        // OK if two or more threads create a String
-        if (stringValue == null) {
-            stringValue = fs.normalizeJavaPath(Util.toString(path));     // platform encoding
+        // OK if two or more threbds crebte b String
+        if (stringVblue == null) {
+            stringVblue = fs.normblizeJbvbPbth(Util.toString(pbth));     // plbtform encoding
         }
-        return stringValue;
+        return stringVblue;
     }
 
-    // -- file operations --
+    // -- file operbtions --
 
-    // package-private
-    int openForAttributeAccess(boolean followLinks) throws IOException {
-        int flags = O_RDONLY;
+    // pbckbge-privbte
+    int openForAttributeAccess(boolebn followLinks) throws IOException {
+        int flbgs = O_RDONLY;
         if (!followLinks) {
             if (O_NOFOLLOW == 0)
-                throw new IOException("NOFOLLOW_LINKS is not supported on this platform");
-            flags |= O_NOFOLLOW;
+                throw new IOException("NOFOLLOW_LINKS is not supported on this plbtform");
+            flbgs |= O_NOFOLLOW;
         }
         try {
-            return open(this, flags, 0);
-        } catch (UnixException x) {
-            // HACK: EINVAL instead of ELOOP on Solaris 10 prior to u4 (see 6460380)
-            if (getFileSystem().isSolaris() && x.errno() == EINVAL)
+            return open(this, flbgs, 0);
+        } cbtch (UnixException x) {
+            // HACK: EINVAL instebd of ELOOP on Solbris 10 prior to u4 (see 6460380)
+            if (getFileSystem().isSolbris() && x.errno() == EINVAL)
                 x.setError(ELOOP);
 
             if (x.errno() == ELOOP)
-                throw new FileSystemException(getPathForExceptionMessage(), null,
-                    x.getMessage() + " or unable to access attributes of symbolic link");
+                throw new FileSystemException(getPbthForExceptionMessbge(), null,
+                    x.getMessbge() + " or unbble to bccess bttributes of symbolic link");
 
             x.rethrowAsIOException(this);
-            return -1; // keep compile happy
+            return -1; // keep compile hbppy
         }
     }
 
-    void checkRead() {
-        SecurityManager sm = System.getSecurityManager();
+    void checkRebd() {
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null)
-            sm.checkRead(getPathForPermissionCheck());
+            sm.checkRebd(getPbthForPermissionCheck());
     }
 
     void checkWrite() {
-        SecurityManager sm = System.getSecurityManager();
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null)
-            sm.checkWrite(getPathForPermissionCheck());
+            sm.checkWrite(getPbthForPermissionCheck());
     }
 
     void checkDelete() {
-        SecurityManager sm = System.getSecurityManager();
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null)
-            sm.checkDelete(getPathForPermissionCheck());
+            sm.checkDelete(getPbthForPermissionCheck());
     }
 
     @Override
-    public UnixPath toAbsolutePath() {
+    public UnixPbth toAbsolutePbth() {
         if (isAbsolute()) {
             return this;
         }
-        // The path is relative so need to resolve against default directory,
-        // taking care not to reveal the user.dir
-        SecurityManager sm = System.getSecurityManager();
+        // The pbth is relbtive so need to resolve bgbinst defbult directory,
+        // tbking cbre not to revebl the user.dir
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null) {
             sm.checkPropertyAccess("user.dir");
         }
-        return new UnixPath(getFileSystem(),
-            resolve(getFileSystem().defaultDirectory(), path));
+        return new UnixPbth(getFileSystem(),
+            resolve(getFileSystem().defbultDirectory(), pbth));
     }
 
     @Override
-    public Path toRealPath(LinkOption... options) throws IOException {
-        checkRead();
+    public Pbth toReblPbth(LinkOption... options) throws IOException {
+        checkRebd();
 
-        UnixPath absolute = toAbsolutePath();
+        UnixPbth bbsolute = toAbsolutePbth();
 
-        // if resolving links then use realpath
+        // if resolving links then use reblpbth
         if (Util.followLinks(options)) {
             try {
-                byte[] rp = realpath(absolute);
-                return new UnixPath(getFileSystem(), rp);
-            } catch (UnixException x) {
+                byte[] rp = reblpbth(bbsolute);
+                return new UnixPbth(getFileSystem(), rp);
+            } cbtch (UnixException x) {
                 x.rethrowAsIOException(this);
             }
         }
 
-        // if not resolving links then eliminate "." and also ".."
-        // where the previous element is not a link.
-        UnixPath result = fs.rootDirectory();
-        for (int i=0; i<absolute.getNameCount(); i++) {
-            UnixPath element = absolute.getName(i);
+        // if not resolving links then eliminbte "." bnd blso ".."
+        // where the previous element is not b link.
+        UnixPbth result = fs.rootDirectory();
+        for (int i=0; i<bbsolute.getNbmeCount(); i++) {
+            UnixPbth element = bbsolute.getNbme(i);
 
-            // eliminate "."
-            if ((element.asByteArray().length == 1) && (element.asByteArray()[0] == '.'))
+            // eliminbte "."
+            if ((element.bsByteArrby().length == 1) && (element.bsByteArrby()[0] == '.'))
                 continue;
 
-            // cannot eliminate ".." if previous element is a link
-            if ((element.asByteArray().length == 2) && (element.asByteArray()[0] == '.') &&
-                (element.asByteArray()[1] == '.'))
+            // cbnnot eliminbte ".." if previous element is b link
+            if ((element.bsByteArrby().length == 2) && (element.bsByteArrby()[0] == '.') &&
+                (element.bsByteArrby()[1] == '.'))
             {
-                UnixFileAttributes attrs = null;
+                UnixFileAttributes bttrs = null;
                 try {
-                    attrs = UnixFileAttributes.get(result, false);
-                } catch (UnixException x) {
+                    bttrs = UnixFileAttributes.get(result, fblse);
+                } cbtch (UnixException x) {
                     x.rethrowAsIOException(result);
                 }
-                if (!attrs.isSymbolicLink()) {
-                    result = result.getParent();
+                if (!bttrs.isSymbolicLink()) {
+                    result = result.getPbrent();
                     if (result == null) {
                         result = fs.rootDirectory();
                     }
@@ -871,8 +871,8 @@ class UnixPath
 
         // check file exists (without following links)
         try {
-            UnixFileAttributes.get(result, false);
-        } catch (UnixException x) {
+            UnixFileAttributes.get(result, fblse);
+        } cbtch (UnixException x) {
             x.rethrowAsIOException(result);
         }
         return result;
@@ -884,16 +884,16 @@ class UnixPath
     }
 
     @Override
-    public WatchKey register(WatchService watcher,
-                             WatchEvent.Kind<?>[] events,
-                             WatchEvent.Modifier... modifiers)
+    public WbtchKey register(WbtchService wbtcher,
+                             WbtchEvent.Kind<?>[] events,
+                             WbtchEvent.Modifier... modifiers)
         throws IOException
     {
-        if (watcher == null)
+        if (wbtcher == null)
             throw new NullPointerException();
-        if (!(watcher instanceof AbstractWatchService))
-            throw new ProviderMismatchException();
-        checkRead();
-        return ((AbstractWatchService)watcher).register(this, events, modifiers);
+        if (!(wbtcher instbnceof AbstrbctWbtchService))
+            throw new ProviderMismbtchException();
+        checkRebd();
+        return ((AbstrbctWbtchService)wbtcher).register(this, events, modifiers);
     }
 }

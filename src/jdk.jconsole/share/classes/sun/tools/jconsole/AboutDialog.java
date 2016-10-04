@@ -1,162 +1,162 @@
 /*
- * Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.jconsole;
+pbckbge sun.tools.jconsole;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.beans.PropertyVetoException;
-import java.net.URI;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvb.bebns.PropertyVetoException;
+import jbvb.net.URI;
 
-import javax.swing.*;
-import javax.swing.border.*;
-import javax.swing.event.*;
+import jbvbx.swing.*;
+import jbvbx.swing.border.*;
+import jbvbx.swing.event.*;
 
-import static sun.misc.Version.jdkMinorVersion;
+import stbtic sun.misc.Version.jdkMinorVersion;
 
-import static java.awt.BorderLayout.*;
-import static sun.tools.jconsole.Utilities.*;
+import stbtic jbvb.bwt.BorderLbyout.*;
+import stbtic sun.tools.jconsole.Utilities.*;
 
-@SuppressWarnings("serial")
-public class AboutDialog extends InternalDialog {
+@SuppressWbrnings("seribl")
+public clbss AboutDiblog extends InternblDiblog {
 
-    private static final Color textColor     = new Color(87,   88,  89);
-    private static final Color bgColor       = new Color(232, 237, 241);
-    private static final Color borderColor   = Color.black;
+    privbte stbtic finbl Color textColor     = new Color(87,   88,  89);
+    privbte stbtic finbl Color bgColor       = new Color(232, 237, 241);
+    privbte stbtic finbl Color borderColor   = Color.blbck;
 
-    private Icon mastheadIcon =
-        new MastheadIcon(Messages.HELP_ABOUT_DIALOG_MASTHEAD_TITLE);
+    privbte Icon mbsthebdIcon =
+        new MbsthebdIcon(Messbges.HELP_ABOUT_DIALOG_MASTHEAD_TITLE);
 
-    private static AboutDialog aboutDialog;
+    privbte stbtic AboutDiblog bboutDiblog;
 
-    private JLabel statusBar;
-    private Action closeAction;
+    privbte JLbbel stbtusBbr;
+    privbte Action closeAction;
 
-    public AboutDialog(JConsole jConsole) {
-        super(jConsole, Messages.HELP_ABOUT_DIALOG_TITLE, false);
+    public AboutDiblog(JConsole jConsole) {
+        super(jConsole, Messbges.HELP_ABOUT_DIALOG_TITLE, fblse);
 
-        setAccessibleDescription(this, Messages.HELP_ABOUT_DIALOG_ACCESSIBLE_DESCRIPTION);
-        setDefaultCloseOperation(HIDE_ON_CLOSE);
-        setResizable(false);
-        JComponent cp = (JComponent)getContentPane();
+        setAccessibleDescription(this, Messbges.HELP_ABOUT_DIALOG_ACCESSIBLE_DESCRIPTION);
+        setDefbultCloseOperbtion(HIDE_ON_CLOSE);
+        setResizbble(fblse);
+        JComponent cp = (JComponent)getContentPbne();
 
-        createActions();
+        crebteActions();
 
-        JLabel mastheadLabel = new JLabel(mastheadIcon);
-        setAccessibleName(mastheadLabel,
-                Messages.HELP_ABOUT_DIALOG_MASTHEAD_ACCESSIBLE_NAME);
+        JLbbel mbsthebdLbbel = new JLbbel(mbsthebdIcon);
+        setAccessibleNbme(mbsthebdLbbel,
+                Messbges.HELP_ABOUT_DIALOG_MASTHEAD_ACCESSIBLE_NAME);
 
-        JPanel mainPanel = new TPanel(0, 0);
-        mainPanel.add(mastheadLabel, NORTH);
+        JPbnel mbinPbnel = new TPbnel(0, 0);
+        mbinPbnel.bdd(mbsthebdLbbel, NORTH);
 
         String jConsoleVersion = Version.getVersion();
-        String vmName = System.getProperty("java.vm.name");
-        String vmVersion = System.getProperty("java.vm.version");
+        String vmNbme = System.getProperty("jbvb.vm.nbme");
+        String vmVersion = System.getProperty("jbvb.vm.version");
         String urlStr = getOnlineDocUrl();
         if (isBrowseSupported()) {
-            urlStr = "<a style='color:#35556b' href=\"" + urlStr + "\">" + urlStr + "</a>";
+            urlStr = "<b style='color:#35556b' href=\"" + urlStr + "\">" + urlStr + "</b>";
         }
 
-        JPanel infoAndLogoPanel = new JPanel(new BorderLayout(10, 10));
-        infoAndLogoPanel.setBackground(bgColor);
+        JPbnel infoAndLogoPbnel = new JPbnel(new BorderLbyout(10, 10));
+        infoAndLogoPbnel.setBbckground(bgColor);
 
-        String colorStr = String.format("%06x", textColor.getRGB() & 0xFFFFFF);
-        JEditorPane helpLink = new JEditorPane("text/html",
+        String colorStr = String.formbt("%06x", textColor.getRGB() & 0xFFFFFF);
+        JEditorPbne helpLink = new JEditorPbne("text/html",
                                 "<html><font color=#"+ colorStr + ">" +
-                        Resources.format(Messages.HELP_ABOUT_DIALOG_JCONSOLE_VERSION, jConsoleVersion) +
-                "<p>" + Resources.format(Messages.HELP_ABOUT_DIALOG_JAVA_VERSION, (vmName +", "+ vmVersion)) +
+                        Resources.formbt(Messbges.HELP_ABOUT_DIALOG_JCONSOLE_VERSION, jConsoleVersion) +
+                "<p>" + Resources.formbt(Messbges.HELP_ABOUT_DIALOG_JAVA_VERSION, (vmNbme +", "+ vmVersion)) +
                 "<p>" + urlStr + "</html>");
-        helpLink.setOpaque(false);
-        helpLink.setEditable(false);
+        helpLink.setOpbque(fblse);
+        helpLink.setEditbble(fblse);
         helpLink.setForeground(textColor);
-        mainPanel.setBorder(BorderFactory.createLineBorder(borderColor));
-        infoAndLogoPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        helpLink.addHyperlinkListener(new HyperlinkListener() {
-            public void hyperlinkUpdate(HyperlinkEvent e) {
+        mbinPbnel.setBorder(BorderFbctory.crebteLineBorder(borderColor));
+        infoAndLogoPbnel.setBorder(BorderFbctory.crebteEmptyBorder(10, 10, 10, 10));
+        helpLink.bddHyperlinkListener(new HyperlinkListener() {
+            public void hyperlinkUpdbte(HyperlinkEvent e) {
                 if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
                     browse(e.getDescription());
                 }
             }
         });
-        infoAndLogoPanel.add(helpLink, NORTH);
+        infoAndLogoPbnel.bdd(helpLink, NORTH);
 
-        ImageIcon brandLogoIcon = new ImageIcon(getClass().getResource("resources/brandlogo.png"));
-        JLabel brandLogo = new JLabel(brandLogoIcon, JLabel.LEADING);
+        ImbgeIcon brbndLogoIcon = new ImbgeIcon(getClbss().getResource("resources/brbndlogo.png"));
+        JLbbel brbndLogo = new JLbbel(brbndLogoIcon, JLbbel.LEADING);
 
         JButton closeButton = new JButton(closeAction);
 
-        JPanel bottomPanel = new TPanel(0, 0);
-        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.TRAILING));
-        buttonPanel.setOpaque(false);
+        JPbnel bottomPbnel = new TPbnel(0, 0);
+        JPbnel buttonPbnel = new JPbnel(new FlowLbyout(FlowLbyout.TRAILING));
+        buttonPbnel.setOpbque(fblse);
 
-        mainPanel.add(infoAndLogoPanel, CENTER);
-        cp.add(bottomPanel, SOUTH);
+        mbinPbnel.bdd(infoAndLogoPbnel, CENTER);
+        cp.bdd(bottomPbnel, SOUTH);
 
-        infoAndLogoPanel.add(brandLogo, SOUTH);
+        infoAndLogoPbnel.bdd(brbndLogo, SOUTH);
 
-        buttonPanel.setBorder(new EmptyBorder(2, 12, 2, 12));
-        buttonPanel.add(closeButton);
-        bottomPanel.add(buttonPanel, NORTH);
+        buttonPbnel.setBorder(new EmptyBorder(2, 12, 2, 12));
+        buttonPbnel.bdd(closeButton);
+        bottomPbnel.bdd(buttonPbnel, NORTH);
 
-        statusBar = new JLabel(" ");
-        bottomPanel.add(statusBar, SOUTH);
+        stbtusBbr = new JLbbel(" ");
+        bottomPbnel.bdd(stbtusBbr, SOUTH);
 
-        cp.add(mainPanel, NORTH);
+        cp.bdd(mbinPbnel, NORTH);
 
-        pack();
-        setLocationRelativeTo(jConsole);
-        Utilities.updateTransparency(this);
+        pbck();
+        setLocbtionRelbtiveTo(jConsole);
+        Utilities.updbteTrbnspbrency(this);
     }
 
-    public void showDialog() {
-        statusBar.setText(" ");
+    public void showDiblog() {
+        stbtusBbr.setText(" ");
         setVisible(true);
         try {
-            // Bring to front of other dialogs
+            // Bring to front of other diblogs
             setSelected(true);
-        } catch (PropertyVetoException e) {
+        } cbtch (PropertyVetoException e) {
             // ignore
         }
     }
 
-    private static AboutDialog getAboutDialog(JConsole jConsole) {
-        if (aboutDialog == null) {
-            aboutDialog = new AboutDialog(jConsole);
+    privbte stbtic AboutDiblog getAboutDiblog(JConsole jConsole) {
+        if (bboutDiblog == null) {
+            bboutDiblog = new AboutDiblog(jConsole);
         }
-        return aboutDialog;
+        return bboutDiblog;
     }
 
-    static void showAboutDialog(JConsole jConsole) {
-        getAboutDialog(jConsole).showDialog();
+    stbtic void showAboutDiblog(JConsole jConsole) {
+        getAboutDiblog(jConsole).showDiblog();
     }
 
-    static void browseUserGuide(JConsole jConsole) {
-        getAboutDialog(jConsole).browse(getOnlineDocUrl());
+    stbtic void browseUserGuide(JConsole jConsole) {
+        getAboutDiblog(jConsole).browse(getOnlineDocUrl());
     }
 
-    static boolean isBrowseSupported() {
+    stbtic boolebn isBrowseSupported() {
         return (Desktop.isDesktopSupported() &&
                 Desktop.getDesktop().isSupported(Desktop.Action.BROWSE));
     }
@@ -164,34 +164,34 @@ public class AboutDialog extends InternalDialog {
     void browse(String urlStr) {
         try {
             Desktop.getDesktop().browse(new URI(urlStr));
-        } catch (Exception ex) {
-            showDialog();
-            statusBar.setText(ex.getLocalizedMessage());
+        } cbtch (Exception ex) {
+            showDiblog();
+            stbtusBbr.setText(ex.getLocblizedMessbge());
             if (JConsole.isDebug()) {
-                ex.printStackTrace();
+                ex.printStbckTrbce();
             }
         }
     }
 
-    private void createActions() {
-        closeAction = new AbstractAction(Messages.CLOSE) {
-            public void actionPerformed(ActionEvent ev) {
-                setVisible(false);
-                statusBar.setText("");
+    privbte void crebteActions() {
+        closeAction = new AbstrbctAction(Messbges.CLOSE) {
+            public void bctionPerformed(ActionEvent ev) {
+                setVisible(fblse);
+                stbtusBbr.setText("");
             }
         };
     }
 
-    private static String getOnlineDocUrl() {
+    privbte stbtic String getOnlineDocUrl() {
         String version = Integer.toString(jdkMinorVersion());
-        return Resources.format(Messages.HELP_ABOUT_DIALOG_USER_GUIDE_LINK_URL,
+        return Resources.formbt(Messbges.HELP_ABOUT_DIALOG_USER_GUIDE_LINK_URL,
                                 version);
     }
 
-    private static class TPanel extends JPanel {
-        TPanel(int hgap, int vgap) {
-            super(new BorderLayout(hgap, vgap));
-            setOpaque(false);
+    privbte stbtic clbss TPbnel extends JPbnel {
+        TPbnel(int hgbp, int vgbp) {
+            super(new BorderLbyout(hgbp, vgbp));
+            setOpbque(fblse);
         }
     }
 }

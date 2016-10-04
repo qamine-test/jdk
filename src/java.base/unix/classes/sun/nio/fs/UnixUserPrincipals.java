@@ -1,58 +1,58 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.nio.fs;
+pbckbge sun.nio.fs;
 
-import java.nio.file.attribute.*;
-import java.io.IOException;
-import static sun.nio.fs.UnixNativeDispatcher.*;
+import jbvb.nio.file.bttribute.*;
+import jbvb.io.IOException;
+import stbtic sun.nio.fs.UnixNbtiveDispbtcher.*;
 
 /**
- * Unix implementation of java.nio.file.attribute.UserPrincipal
+ * Unix implementbtion of jbvb.nio.file.bttribute.UserPrincipbl
  */
 
-class UnixUserPrincipals {
-    private static User createSpecial(String name) { return new User(-1, name); }
+clbss UnixUserPrincipbls {
+    privbte stbtic User crebteSpecibl(String nbme) { return new User(-1, nbme); }
 
-    static final User SPECIAL_OWNER = createSpecial("OWNER@");
-    static final User SPECIAL_GROUP = createSpecial("GROUP@");
-    static final User SPECIAL_EVERYONE = createSpecial("EVERYONE@");
+    stbtic finbl User SPECIAL_OWNER = crebteSpecibl("OWNER@");
+    stbtic finbl User SPECIAL_GROUP = crebteSpecibl("GROUP@");
+    stbtic finbl User SPECIAL_EVERYONE = crebteSpecibl("EVERYONE@");
 
-    static class User implements UserPrincipal {
-        private final int id;             // uid or gid
-        private final boolean isGroup;
-        private final String name;
+    stbtic clbss User implements UserPrincipbl {
+        privbte finbl int id;             // uid or gid
+        privbte finbl boolebn isGroup;
+        privbte finbl String nbme;
 
-        private User(int id, boolean isGroup, String name) {
+        privbte User(int id, boolebn isGroup, String nbme) {
             this.id = id;
             this.isGroup = isGroup;
-            this.name = name;
+            this.nbme = nbme;
         }
 
-        User(int id, String name) {
-            this(id, false, name);
+        User(int id, String nbme) {
+            this(id, fblse, nbme);
         }
 
         int uid() {
@@ -67,115 +67,115 @@ class UnixUserPrincipals {
             throw new AssertionError();
         }
 
-        boolean isSpecial() {
+        boolebn isSpecibl() {
             return id == -1;
         }
 
         @Override
-        public String getName() {
-            return name;
+        public String getNbme() {
+            return nbme;
         }
 
         @Override
         public String toString() {
-            return name;
+            return nbme;
         }
 
         @Override
-        public boolean equals(Object obj) {
+        public boolebn equbls(Object obj) {
             if (obj == this)
                 return true;
-            if (!(obj instanceof User))
-                return false;
+            if (!(obj instbnceof User))
+                return fblse;
             User other = (User)obj;
             if ((this.id != other.id) ||
                 (this.isGroup != other.isGroup)) {
-                return false;
+                return fblse;
             }
-            // specials
+            // specibls
             if (this.id == -1 && other.id == -1)
-                return this.name.equals(other.name);
+                return this.nbme.equbls(other.nbme);
 
             return true;
         }
 
         @Override
-        public int hashCode() {
-            return (id != -1) ? id : name.hashCode();
+        public int hbshCode() {
+            return (id != -1) ? id : nbme.hbshCode();
         }
     }
 
-    static class Group extends User implements GroupPrincipal {
-        Group(int id, String name) {
-            super(id, true, name);
+    stbtic clbss Group extends User implements GroupPrincipbl {
+        Group(int id, String nbme) {
+            super(id, true, nbme);
         }
     }
 
-    // return UserPrincipal representing given uid
-    static User fromUid(int uid) {
-        String name = null;
+    // return UserPrincipbl representing given uid
+    stbtic User fromUid(int uid) {
+        String nbme = null;
         try {
-            name = Util.toString(getpwuid(uid));
-        } catch (UnixException x) {
-            name = Integer.toString(uid);
+            nbme = Util.toString(getpwuid(uid));
+        } cbtch (UnixException x) {
+            nbme = Integer.toString(uid);
         }
-        return new User(uid, name);
+        return new User(uid, nbme);
     }
 
-    // return GroupPrincipal representing given gid
-    static Group fromGid(int gid) {
-        String name = null;
+    // return GroupPrincipbl representing given gid
+    stbtic Group fromGid(int gid) {
+        String nbme = null;
         try {
-            name = Util.toString(getgrgid(gid));
-        } catch (UnixException x) {
-            name = Integer.toString(gid);
+            nbme = Util.toString(getgrgid(gid));
+        } cbtch (UnixException x) {
+            nbme = Integer.toString(gid);
         }
-        return new Group(gid, name);
+        return new Group(gid, nbme);
     }
 
-    // lookup user or group name
-    private static int lookupName(String name, boolean isGroup)
+    // lookup user or group nbme
+    privbte stbtic int lookupNbme(String nbme, boolebn isGroup)
         throws IOException
     {
-        SecurityManager sm = System.getSecurityManager();
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null) {
-            sm.checkPermission(new RuntimePermission("lookupUserInformation"));
+            sm.checkPermission(new RuntimePermission("lookupUserInformbtion"));
         }
         int id = -1;
         try {
-            id = (isGroup) ? getgrnam(name) : getpwnam(name);
-        } catch (UnixException x) {
-            throw new IOException(name + ": " + x.errorString());
+            id = (isGroup) ? getgrnbm(nbme) : getpwnbm(nbme);
+        } cbtch (UnixException x) {
+            throw new IOException(nbme + ": " + x.errorString());
         }
         if (id == -1) {
-            // lookup failed, allow input to be uid or gid
+            // lookup fbiled, bllow input to be uid or gid
             try {
-                id = Integer.parseInt(name);
-            } catch (NumberFormatException ignore) {
-                throw new UserPrincipalNotFoundException(name);
+                id = Integer.pbrseInt(nbme);
+            } cbtch (NumberFormbtException ignore) {
+                throw new UserPrincipblNotFoundException(nbme);
             }
         }
         return id;
 
     }
 
-    // lookup user name
-    static UserPrincipal lookupUser(String name) throws IOException {
-        if (name.equals(SPECIAL_OWNER.getName()))
+    // lookup user nbme
+    stbtic UserPrincipbl lookupUser(String nbme) throws IOException {
+        if (nbme.equbls(SPECIAL_OWNER.getNbme()))
             return SPECIAL_OWNER;
-        if (name.equals(SPECIAL_GROUP.getName()))
+        if (nbme.equbls(SPECIAL_GROUP.getNbme()))
             return SPECIAL_GROUP;
-        if (name.equals(SPECIAL_EVERYONE.getName()))
+        if (nbme.equbls(SPECIAL_EVERYONE.getNbme()))
             return SPECIAL_EVERYONE;
-        int uid = lookupName(name, false);
-        return new User(uid, name);
+        int uid = lookupNbme(nbme, fblse);
+        return new User(uid, nbme);
     }
 
-    // lookup group name
-    static GroupPrincipal lookupGroup(String group)
+    // lookup group nbme
+    stbtic GroupPrincipbl lookupGroup(String group)
         throws IOException
     {
-        int gid = lookupName(group, true);
+        int gid = lookupNbme(group, true);
         return new Group(gid, group);
     }
 }

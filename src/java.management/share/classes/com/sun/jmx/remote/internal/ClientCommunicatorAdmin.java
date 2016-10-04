@@ -1,84 +1,84 @@
 /*
- * Copyright (c) 2003, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jmx.remote.internal;
+pbckbge com.sun.jmx.remote.internbl;
 
-import java.io.IOException;
-import java.io.InterruptedIOException;
+import jbvb.io.IOException;
+import jbvb.io.InterruptedIOException;
 
-import com.sun.jmx.remote.util.ClassLogger;
+import com.sun.jmx.remote.util.ClbssLogger;
 import com.sun.jmx.remote.util.EnvHelp;
 
-public abstract class ClientCommunicatorAdmin {
-    private static volatile long threadNo = 1;
+public bbstrbct clbss ClientCommunicbtorAdmin {
+    privbte stbtic volbtile long threbdNo = 1;
 
-    public ClientCommunicatorAdmin(long period) {
+    public ClientCommunicbtorAdmin(long period) {
         this.period = period;
 
         if (period > 0) {
             checker = new Checker();
 
-            Thread t = new Thread(checker, "JMX client heartbeat " + ++threadNo);
-            t.setDaemon(true);
-            t.start();
+            Threbd t = new Threbd(checker, "JMX client hebrtbebt " + ++threbdNo);
+            t.setDbemon(true);
+            t.stbrt();
         } else
             checker = null;
     }
 
     /**
-     * Called by a client to inform of getting an IOException.
+     * Cblled by b client to inform of getting bn IOException.
      */
     public void gotIOException (IOException ioe) throws IOException {
-        restart(ioe);
+        restbrt(ioe);
     }
 
     /**
-     * Called by this class to check a client connection.
+     * Cblled by this clbss to check b client connection.
      */
-    protected abstract void checkConnection() throws IOException;
+    protected bbstrbct void checkConnection() throws IOException;
 
     /**
-     * Tells a client to re-start again.
+     * Tells b client to re-stbrt bgbin.
      */
-    protected abstract void doStart() throws IOException;
+    protected bbstrbct void doStbrt() throws IOException;
 
     /**
-     * Tells a client to stop because failing to call checkConnection.
+     * Tells b client to stop becbuse fbiling to cbll checkConnection.
      */
-    protected abstract void doStop();
+    protected bbstrbct void doStop();
 
     /**
-     * Terminates this object.
+     * Terminbtes this object.
      */
-    public void terminate() {
+    public void terminbte() {
         synchronized(lock) {
-            if (state == TERMINATED) {
+            if (stbte == TERMINATED) {
                 return;
             }
 
-            state = TERMINATED;
+            stbte = TERMINATED;
 
             lock.notifyAll();
 
@@ -87,167 +87,167 @@ public abstract class ClientCommunicatorAdmin {
         }
     }
 
-    private void restart(IOException ioe) throws IOException {
-        // check state
+    privbte void restbrt(IOException ioe) throws IOException {
+        // check stbte
         synchronized(lock) {
-            if (state == TERMINATED) {
-                throw new IOException("The client has been closed.");
-            } else if (state == FAILED) { // already failed to re-start by another thread
+            if (stbte == TERMINATED) {
+                throw new IOException("The client hbs been closed.");
+            } else if (stbte == FAILED) { // blrebdy fbiled to re-stbrt by bnother threbd
                 throw ioe;
-            } else if (state == RE_CONNECTING) {
-                // restart process has been called by another thread
-                // we need to wait
-                while(state == RE_CONNECTING) {
+            } else if (stbte == RE_CONNECTING) {
+                // restbrt process hbs been cblled by bnother threbd
+                // we need to wbit
+                while(stbte == RE_CONNECTING) {
                     try {
-                        lock.wait();
-                    } catch (InterruptedException ire) {
-                        // be asked to give up
+                        lock.wbit();
+                    } cbtch (InterruptedException ire) {
+                        // be bsked to give up
                         InterruptedIOException iioe = new InterruptedIOException(ire.toString());
-                        EnvHelp.initCause(iioe, ire);
+                        EnvHelp.initCbuse(iioe, ire);
 
                         throw iioe;
                     }
                 }
 
-                if (state == TERMINATED) {
-                    throw new IOException("The client has been closed.");
-                } else if (state != CONNECTED) {
-                    // restarted is failed by another thread
+                if (stbte == TERMINATED) {
+                    throw new IOException("The client hbs been closed.");
+                } else if (stbte != CONNECTED) {
+                    // restbrted is fbiled by bnother threbd
                     throw ioe;
                 }
                 return;
             } else {
-                state = RE_CONNECTING;
+                stbte = RE_CONNECTING;
                 lock.notifyAll();
             }
         }
 
-        // re-starting
+        // re-stbrting
         try {
-            doStart();
+            doStbrt();
             synchronized(lock) {
-                if (state == TERMINATED) {
-                    throw new IOException("The client has been closed.");
+                if (stbte == TERMINATED) {
+                    throw new IOException("The client hbs been closed.");
                 }
 
-                state = CONNECTED;
+                stbte = CONNECTED;
 
                 lock.notifyAll();
             }
 
             return;
-        } catch (Exception e) {
-            logger.warning("restart", "Failed to restart: " + e);
-            logger.debug("restart",e);
+        } cbtch (Exception e) {
+            logger.wbrning("restbrt", "Fbiled to restbrt: " + e);
+            logger.debug("restbrt",e);
 
             synchronized(lock) {
-                if (state == TERMINATED) {
-                    throw new IOException("The client has been closed.");
+                if (stbte == TERMINATED) {
+                    throw new IOException("The client hbs been closed.");
                 }
 
-                state = FAILED;
+                stbte = FAILED;
 
                 lock.notifyAll();
             }
 
             try {
                 doStop();
-            } catch (Exception eee) {
+            } cbtch (Exception eee) {
                 // OK.
-                // We know there is a problem.
+                // We know there is b problem.
             }
 
-            terminate();
+            terminbte();
 
             throw ioe;
         }
     }
 
 // --------------------------------------------------------------
-// private varaibles
+// privbte vbrbibles
 // --------------------------------------------------------------
-    private class Checker implements Runnable {
+    privbte clbss Checker implements Runnbble {
         public void run() {
-            myThread = Thread.currentThread();
+            myThrebd = Threbd.currentThrebd();
 
-            while (state != TERMINATED && !myThread.isInterrupted()) {
+            while (stbte != TERMINATED && !myThrebd.isInterrupted()) {
                 try {
-                    Thread.sleep(period);
-                } catch (InterruptedException ire) {
+                    Threbd.sleep(period);
+                } cbtch (InterruptedException ire) {
                     // OK.
-                    // We will check the state at the following steps
+                    // We will check the stbte bt the following steps
                 }
 
-                if (state == TERMINATED || myThread.isInterrupted()) {
-                    break;
+                if (stbte == TERMINATED || myThrebd.isInterrupted()) {
+                    brebk;
                 }
 
                 try {
                     checkConnection();
-                } catch (Exception e) {
+                } cbtch (Exception e) {
                     synchronized(lock) {
-                        if (state == TERMINATED || myThread.isInterrupted()) {
-                            break;
+                        if (stbte == TERMINATED || myThrebd.isInterrupted()) {
+                            brebk;
                         }
                     }
 
-                    e = (Exception)EnvHelp.getCause(e);
+                    e = (Exception)EnvHelp.getCbuse(e);
 
-                    if (e instanceof IOException &&
-                        !(e instanceof InterruptedIOException)) {
+                    if (e instbnceof IOException &&
+                        !(e instbnceof InterruptedIOException)) {
                         try {
                             gotIOException((IOException)e);
-                        } catch (Exception ee) {
-                            logger.warning("Checker-run",
-                                           "Failed to check connection: "+ e);
-                            logger.warning("Checker-run", "stopping");
+                        } cbtch (Exception ee) {
+                            logger.wbrning("Checker-run",
+                                           "Fbiled to check connection: "+ e);
+                            logger.wbrning("Checker-run", "stopping");
                             logger.debug("Checker-run",e);
 
-                            break;
+                            brebk;
                         }
                     } else {
-                        logger.warning("Checker-run",
-                                     "Failed to check the connection: " + e);
+                        logger.wbrning("Checker-run",
+                                     "Fbiled to check the connection: " + e);
                         logger.debug("Checker-run",e);
 
                         // XXX stop checking?
 
-                        break;
+                        brebk;
                     }
                 }
             }
 
-            if (logger.traceOn()) {
-                logger.trace("Checker-run", "Finished.");
+            if (logger.trbceOn()) {
+                logger.trbce("Checker-run", "Finished.");
             }
         }
 
-        private void stop() {
-            if (myThread != null && myThread != Thread.currentThread()) {
-                myThread.interrupt();
+        privbte void stop() {
+            if (myThrebd != null && myThrebd != Threbd.currentThrebd()) {
+                myThrebd.interrupt();
             }
         }
 
-        private Thread myThread;
+        privbte Threbd myThrebd;
     }
 
 // --------------------------------------------------------------
-// private variables
+// privbte vbribbles
 // --------------------------------------------------------------
-    private final Checker checker;
-    private long period;
+    privbte finbl Checker checker;
+    privbte long period;
 
-    // state
-    private final static int CONNECTED = 0;
-    private final static int RE_CONNECTING = 1;
-    private final static int FAILED = 2;
-    private final static int TERMINATED = 3;
+    // stbte
+    privbte finbl stbtic int CONNECTED = 0;
+    privbte finbl stbtic int RE_CONNECTING = 1;
+    privbte finbl stbtic int FAILED = 2;
+    privbte finbl stbtic int TERMINATED = 3;
 
-    private int state = CONNECTED;
+    privbte int stbte = CONNECTED;
 
-    private final int[] lock = new int[0];
+    privbte finbl int[] lock = new int[0];
 
-    private static final ClassLogger logger =
-        new ClassLogger("javax.management.remote.misc",
-                        "ClientCommunicatorAdmin");
+    privbte stbtic finbl ClbssLogger logger =
+        new ClbssLogger("jbvbx.mbnbgement.remote.misc",
+                        "ClientCommunicbtorAdmin");
 }

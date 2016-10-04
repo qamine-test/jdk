@@ -1,39 +1,39 @@
 /*
- * Copyright (c) 2007, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * Use is subject to license terms.
  *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
+ * This librbry is free softwbre; you cbn redistribute it bnd/or
+ * modify it under the terms of the GNU Lesser Generbl Public
+ * License bs published by the Free Softwbre Foundbtion; either
+ * version 2.1 of the License, or (bt your option) bny lbter version.
  *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * This librbry is distributed in the hope thbt it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied wbrrbnty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
+ * Lesser Generbl Public License for more detbils.
  *
- * You should have received a copy of the GNU Lesser General Public License
- * along with this library; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Lesser Generbl Public License
+ * blong with this librbry; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /* *********************************************************************
  *
- * The Original Code is the elliptic curve math library for binary polynomial field curves.
+ * The Originbl Code is the elliptic curve mbth librbry for binbry polynomibl field curves.
  *
- * The Initial Developer of the Original Code is
+ * The Initibl Developer of the Originbl Code is
  * Sun Microsystems, Inc.
- * Portions created by the Initial Developer are Copyright (C) 2003
- * the Initial Developer. All Rights Reserved.
+ * Portions crebted by the Initibl Developer bre Copyright (C) 2003
+ * the Initibl Developer. All Rights Reserved.
  *
  * Contributor(s):
- *   Sheueling Chang-Shantz <sheueling.chang@sun.com>,
- *   Stephen Fung <fungstep@hotmail.com>, and
- *   Douglas Stebila <douglas@stebila.ca>, Sun Microsystems Laboratories.
+ *   Sheueling Chbng-Shbntz <sheueling.chbng@sun.com>,
+ *   Stephen Fung <fungstep@hotmbil.com>, bnd
+ *   Douglbs Stebilb <douglbs@stebilb.cb>, Sun Microsystems Lbborbtories.
  *
  *********************************************************************** */
 
@@ -46,25 +46,25 @@
 #include <stdlib.h>
 #endif
 
-/* Fast reduction for polynomials over a 163-bit curve. Assumes reduction
- * polynomial with terms {163, 7, 6, 3, 0}. */
+/* Fbst reduction for polynomibls over b 163-bit curve. Assumes reduction
+ * polynomibl with terms {163, 7, 6, 3, 0}. */
 mp_err
-ec_GF2m_163_mod(const mp_int *a, mp_int *r, const GFMethod *meth)
+ec_GF2m_163_mod(const mp_int *b, mp_int *r, const GFMethod *meth)
 {
         mp_err res = MP_OKAY;
         mp_digit *u, z;
 
-        if (a != r) {
-                MP_CHECKOK(mp_copy(a, r));
+        if (b != r) {
+                MP_CHECKOK(mp_copy(b, r));
         }
 #ifdef ECL_SIXTY_FOUR_BIT
         if (MP_USED(r) < 6) {
-                MP_CHECKOK(s_mp_pad(r, 6));
+                MP_CHECKOK(s_mp_pbd(r, 6));
         }
         u = MP_DIGITS(r);
         MP_USED(r) = 6;
 
-        /* u[5] only has 6 significant bits */
+        /* u[5] only hbs 6 significbnt bits */
         z = u[5];
         u[2] ^= (z << 36) ^ (z << 35) ^ (z << 32) ^ (z << 29);
         z = u[4];
@@ -73,19 +73,19 @@ ec_GF2m_163_mod(const mp_int *a, mp_int *r, const GFMethod *meth)
         z = u[3];
         u[1] ^= (z >> 28) ^ (z >> 29) ^ (z >> 32) ^ (z >> 35);
         u[0] ^= (z << 36) ^ (z << 35) ^ (z << 32) ^ (z << 29);
-        z = u[2] >> 35;                         /* z only has 29 significant bits */
+        z = u[2] >> 35;                         /* z only hbs 29 significbnt bits */
         u[0] ^= (z << 7) ^ (z << 6) ^ (z << 3) ^ z;
-        /* clear bits above 163 */
+        /* clebr bits bbove 163 */
         u[5] = u[4] = u[3] = 0;
         u[2] ^= z << 35;
 #else
         if (MP_USED(r) < 11) {
-                MP_CHECKOK(s_mp_pad(r, 11));
+                MP_CHECKOK(s_mp_pbd(r, 11));
         }
         u = MP_DIGITS(r);
         MP_USED(r) = 11;
 
-        /* u[11] only has 6 significant bits */
+        /* u[11] only hbs 6 significbnt bits */
         z = u[10];
         u[5] ^= (z << 4) ^ (z << 3) ^ z ^ (z >> 3);
         u[4] ^= (z << 29);
@@ -105,43 +105,43 @@ ec_GF2m_163_mod(const mp_int *a, mp_int *r, const GFMethod *meth)
         u[2] ^= (z >> 28) ^ (z >> 29);
         u[1] ^= (z << 4) ^ (z << 3) ^ z ^ (z >> 3);
         u[0] ^= (z << 29);
-        z = u[5] >> 3;                          /* z only has 29 significant bits */
+        z = u[5] >> 3;                          /* z only hbs 29 significbnt bits */
         u[1] ^= (z >> 25) ^ (z >> 26);
         u[0] ^= (z << 7) ^ (z << 6) ^ (z << 3) ^ z;
-        /* clear bits above 163 */
+        /* clebr bits bbove 163 */
         u[11] = u[10] = u[9] = u[8] = u[7] = u[6] = 0;
         u[5] ^= z << 3;
 #endif
-        s_mp_clamp(r);
+        s_mp_clbmp(r);
 
   CLEANUP:
         return res;
 }
 
-/* Fast squaring for polynomials over a 163-bit curve. Assumes reduction
- * polynomial with terms {163, 7, 6, 3, 0}. */
+/* Fbst squbring for polynomibls over b 163-bit curve. Assumes reduction
+ * polynomibl with terms {163, 7, 6, 3, 0}. */
 mp_err
-ec_GF2m_163_sqr(const mp_int *a, mp_int *r, const GFMethod *meth)
+ec_GF2m_163_sqr(const mp_int *b, mp_int *r, const GFMethod *meth)
 {
         mp_err res = MP_OKAY;
         mp_digit *u, *v;
 
-        v = MP_DIGITS(a);
+        v = MP_DIGITS(b);
 
 #ifdef ECL_SIXTY_FOUR_BIT
-        if (MP_USED(a) < 3) {
-                return mp_bsqrmod(a, meth->irr_arr, r);
+        if (MP_USED(b) < 3) {
+                return mp_bsqrmod(b, meth->irr_brr, r);
         }
         if (MP_USED(r) < 6) {
-                MP_CHECKOK(s_mp_pad(r, 6));
+                MP_CHECKOK(s_mp_pbd(r, 6));
         }
         MP_USED(r) = 6;
 #else
-        if (MP_USED(a) < 6) {
-                return mp_bsqrmod(a, meth->irr_arr, r);
+        if (MP_USED(b) < 6) {
+                return mp_bsqrmod(b, meth->irr_brr, r);
         }
         if (MP_USED(r) < 12) {
-                MP_CHECKOK(s_mp_pad(r, 12));
+                MP_CHECKOK(s_mp_pbd(r, 12));
         }
         MP_USED(r) = 12;
 #endif
@@ -167,65 +167,65 @@ ec_GF2m_163_sqr(const mp_int *a, mp_int *r, const GFMethod *meth)
         return res;
 }
 
-/* Fast multiplication for polynomials over a 163-bit curve. Assumes
- * reduction polynomial with terms {163, 7, 6, 3, 0}. */
+/* Fbst multiplicbtion for polynomibls over b 163-bit curve. Assumes
+ * reduction polynomibl with terms {163, 7, 6, 3, 0}. */
 mp_err
-ec_GF2m_163_mul(const mp_int *a, const mp_int *b, mp_int *r,
+ec_GF2m_163_mul(const mp_int *b, const mp_int *b, mp_int *r,
                                 const GFMethod *meth)
 {
         mp_err res = MP_OKAY;
-        mp_digit a2 = 0, a1 = 0, a0, b2 = 0, b1 = 0, b0;
+        mp_digit b2 = 0, b1 = 0, b0, b2 = 0, b1 = 0, b0;
 
 #ifdef ECL_THIRTY_TWO_BIT
-        mp_digit a5 = 0, a4 = 0, a3 = 0, b5 = 0, b4 = 0, b3 = 0;
+        mp_digit b5 = 0, b4 = 0, b3 = 0, b5 = 0, b4 = 0, b3 = 0;
         mp_digit rm[6];
 #endif
 
-        if (a == b) {
-                return ec_GF2m_163_sqr(a, r, meth);
+        if (b == b) {
+                return ec_GF2m_163_sqr(b, r, meth);
         } else {
-                switch (MP_USED(a)) {
+                switch (MP_USED(b)) {
 #ifdef ECL_THIRTY_TWO_BIT
-                case 6:
-                        a5 = MP_DIGIT(a, 5);
-                case 5:
-                        a4 = MP_DIGIT(a, 4);
-                case 4:
-                        a3 = MP_DIGIT(a, 3);
+                cbse 6:
+                        b5 = MP_DIGIT(b, 5);
+                cbse 5:
+                        b4 = MP_DIGIT(b, 4);
+                cbse 4:
+                        b3 = MP_DIGIT(b, 3);
 #endif
-                case 3:
-                        a2 = MP_DIGIT(a, 2);
-                case 2:
-                        a1 = MP_DIGIT(a, 1);
-                default:
-                        a0 = MP_DIGIT(a, 0);
+                cbse 3:
+                        b2 = MP_DIGIT(b, 2);
+                cbse 2:
+                        b1 = MP_DIGIT(b, 1);
+                defbult:
+                        b0 = MP_DIGIT(b, 0);
                 }
                 switch (MP_USED(b)) {
 #ifdef ECL_THIRTY_TWO_BIT
-                case 6:
+                cbse 6:
                         b5 = MP_DIGIT(b, 5);
-                case 5:
+                cbse 5:
                         b4 = MP_DIGIT(b, 4);
-                case 4:
+                cbse 4:
                         b3 = MP_DIGIT(b, 3);
 #endif
-                case 3:
+                cbse 3:
                         b2 = MP_DIGIT(b, 2);
-                case 2:
+                cbse 2:
                         b1 = MP_DIGIT(b, 1);
-                default:
+                defbult:
                         b0 = MP_DIGIT(b, 0);
                 }
 #ifdef ECL_SIXTY_FOUR_BIT
-                MP_CHECKOK(s_mp_pad(r, 6));
-                s_bmul_3x3(MP_DIGITS(r), a2, a1, a0, b2, b1, b0);
+                MP_CHECKOK(s_mp_pbd(r, 6));
+                s_bmul_3x3(MP_DIGITS(r), b2, b1, b0, b2, b1, b0);
                 MP_USED(r) = 6;
-                s_mp_clamp(r);
+                s_mp_clbmp(r);
 #else
-                MP_CHECKOK(s_mp_pad(r, 12));
-                s_bmul_3x3(MP_DIGITS(r) + 6, a5, a4, a3, b5, b4, b3);
-                s_bmul_3x3(MP_DIGITS(r), a2, a1, a0, b2, b1, b0);
-                s_bmul_3x3(rm, a5 ^ a2, a4 ^ a1, a3 ^ a0, b5 ^ b2, b4 ^ b1,
+                MP_CHECKOK(s_mp_pbd(r, 12));
+                s_bmul_3x3(MP_DIGITS(r) + 6, b5, b4, b3, b5, b4, b3);
+                s_bmul_3x3(MP_DIGITS(r), b2, b1, b0, b2, b1, b0);
+                s_bmul_3x3(rm, b5 ^ b2, b4 ^ b1, b3 ^ b0, b5 ^ b2, b4 ^ b1,
                                    b3 ^ b0);
                 rm[5] ^= MP_DIGIT(r, 5) ^ MP_DIGIT(r, 11);
                 rm[4] ^= MP_DIGIT(r, 4) ^ MP_DIGIT(r, 10);
@@ -240,7 +240,7 @@ ec_GF2m_163_mul(const mp_int *a, const mp_int *b, mp_int *r,
                 MP_DIGIT(r, 4) ^= rm[1];
                 MP_DIGIT(r, 3) ^= rm[0];
                 MP_USED(r) = 12;
-                s_mp_clamp(r);
+                s_mp_clbmp(r);
 #endif
                 return ec_GF2m_163_mod(r, r, meth);
         }
@@ -249,9 +249,9 @@ ec_GF2m_163_mul(const mp_int *a, const mp_int *b, mp_int *r,
         return res;
 }
 
-/* Wire in fast field arithmetic for 163-bit curves. */
+/* Wire in fbst field brithmetic for 163-bit curves. */
 mp_err
-ec_group_set_gf2m163(ECGroup *group, ECCurveName name)
+ec_group_set_gf2m163(ECGroup *group, ECCurveNbme nbme)
 {
         group->meth->field_mod = &ec_GF2m_163_mod;
         group->meth->field_mul = &ec_GF2m_163_mul;

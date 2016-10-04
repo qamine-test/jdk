@@ -1,269 +1,269 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.rmi;
+pbckbge jbvb.rmi;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.ObjectStreamConstants;
-import java.io.OutputStream;
-import java.io.Serializable;
-import sun.rmi.server.MarshalInputStream;
-import sun.rmi.server.MarshalOutputStream;
+import jbvb.io.ByteArrbyInputStrebm;
+import jbvb.io.ByteArrbyOutputStrebm;
+import jbvb.io.IOException;
+import jbvb.io.InputStrebm;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.ObjectOutputStrebm;
+import jbvb.io.ObjectStrebmConstbnts;
+import jbvb.io.OutputStrebm;
+import jbvb.io.Seriblizbble;
+import sun.rmi.server.MbrshblInputStrebm;
+import sun.rmi.server.MbrshblOutputStrebm;
 
 /**
- * A <code>MarshalledObject</code> contains a byte stream with the serialized
- * representation of an object given to its constructor.  The <code>get</code>
- * method returns a new copy of the original object, as deserialized from
- * the contained byte stream.  The contained object is serialized and
- * deserialized with the same serialization semantics used for marshaling
- * and unmarshaling parameters and return values of RMI calls:  When the
- * serialized form is created:
+ * A <code>MbrshblledObject</code> contbins b byte strebm with the seriblized
+ * representbtion of bn object given to its constructor.  The <code>get</code>
+ * method returns b new copy of the originbl object, bs deseriblized from
+ * the contbined byte strebm.  The contbined object is seriblized bnd
+ * deseriblized with the sbme seriblizbtion sembntics used for mbrshbling
+ * bnd unmbrshbling pbrbmeters bnd return vblues of RMI cblls:  When the
+ * seriblized form is crebted:
  *
  * <ul>
- * <li> classes are annotated with a codebase URL from where the class
- *      can be loaded (if available), and
- * <li> any remote object in the <code>MarshalledObject</code> is
- *      represented by a serialized instance of its stub.
+ * <li> clbsses bre bnnotbted with b codebbse URL from where the clbss
+ *      cbn be lobded (if bvbilbble), bnd
+ * <li> bny remote object in the <code>MbrshblledObject</code> is
+ *      represented by b seriblized instbnce of its stub.
  * </ul>
  *
- * <p>When copy of the object is retrieved (via the <code>get</code> method),
- * if the class is not available locally, it will be loaded from the
- * appropriate location (specified the URL annotated with the class descriptor
- * when the class was serialized.
+ * <p>When copy of the object is retrieved (vib the <code>get</code> method),
+ * if the clbss is not bvbilbble locblly, it will be lobded from the
+ * bppropribte locbtion (specified the URL bnnotbted with the clbss descriptor
+ * when the clbss wbs seriblized.
  *
- * <p><code>MarshalledObject</code> facilitates passing objects in RMI calls
- * that are not automatically deserialized immediately by the remote peer.
+ * <p><code>MbrshblledObject</code> fbcilitbtes pbssing objects in RMI cblls
+ * thbt bre not butombticblly deseriblized immedibtely by the remote peer.
  *
- * @param <T> the type of the object contained in this
- * <code>MarshalledObject</code>
+ * @pbrbm <T> the type of the object contbined in this
+ * <code>MbrshblledObject</code>
  *
- * @author  Ann Wollrath
- * @author  Peter Jones
+ * @buthor  Ann Wollrbth
+ * @buthor  Peter Jones
  * @since   1.2
  */
-public final class MarshalledObject<T> implements Serializable {
+public finbl clbss MbrshblledObject<T> implements Seriblizbble {
     /**
-     * @serial Bytes of serialized representation.  If <code>objBytes</code> is
-     * <code>null</code> then the object marshalled was a <code>null</code>
+     * @seribl Bytes of seriblized representbtion.  If <code>objBytes</code> is
+     * <code>null</code> then the object mbrshblled wbs b <code>null</code>
      * reference.
      */
-    private byte[] objBytes = null;
+    privbte byte[] objBytes = null;
 
     /**
-     * @serial Bytes of location annotations, which are ignored by
-     * <code>equals</code>.  If <code>locBytes</code> is null, there were no
-     * non-<code>null</code> annotations during marshalling.
+     * @seribl Bytes of locbtion bnnotbtions, which bre ignored by
+     * <code>equbls</code>.  If <code>locBytes</code> is null, there were no
+     * non-<code>null</code> bnnotbtions during mbrshblling.
      */
-    private byte[] locBytes = null;
+    privbte byte[] locBytes = null;
 
     /**
-     * @serial Stored hash code of contained object.
+     * @seribl Stored hbsh code of contbined object.
      *
-     * @see #hashCode
+     * @see #hbshCode
      */
-    private int hash;
+    privbte int hbsh;
 
-    /** Indicate compatibility with 1.2 version of class. */
-    private static final long serialVersionUID = 8988374069173025854L;
+    /** Indicbte compbtibility with 1.2 version of clbss. */
+    privbte stbtic finbl long seriblVersionUID = 8988374069173025854L;
 
     /**
-     * Creates a new <code>MarshalledObject</code> that contains the
-     * serialized representation of the current state of the supplied object.
-     * The object is serialized with the semantics used for marshaling
-     * parameters for RMI calls.
+     * Crebtes b new <code>MbrshblledObject</code> thbt contbins the
+     * seriblized representbtion of the current stbte of the supplied object.
+     * The object is seriblized with the sembntics used for mbrshbling
+     * pbrbmeters for RMI cblls.
      *
-     * @param obj the object to be serialized (must be serializable)
-     * @exception IOException if an <code>IOException</code> occurs; an
-     * <code>IOException</code> may occur if <code>obj</code> is not
-     * serializable.
+     * @pbrbm obj the object to be seriblized (must be seriblizbble)
+     * @exception IOException if bn <code>IOException</code> occurs; bn
+     * <code>IOException</code> mby occur if <code>obj</code> is not
+     * seriblizbble.
      * @since 1.2
      */
-    public MarshalledObject(T obj) throws IOException {
+    public MbrshblledObject(T obj) throws IOException {
         if (obj == null) {
-            hash = 13;
+            hbsh = 13;
             return;
         }
 
-        ByteArrayOutputStream bout = new ByteArrayOutputStream();
-        ByteArrayOutputStream lout = new ByteArrayOutputStream();
-        MarshalledObjectOutputStream out =
-            new MarshalledObjectOutputStream(bout, lout);
+        ByteArrbyOutputStrebm bout = new ByteArrbyOutputStrebm();
+        ByteArrbyOutputStrebm lout = new ByteArrbyOutputStrebm();
+        MbrshblledObjectOutputStrebm out =
+            new MbrshblledObjectOutputStrebm(bout, lout);
         out.writeObject(obj);
         out.flush();
-        objBytes = bout.toByteArray();
-        // locBytes is null if no annotations
-        locBytes = (out.hadAnnotations() ? lout.toByteArray() : null);
+        objBytes = bout.toByteArrby();
+        // locBytes is null if no bnnotbtions
+        locBytes = (out.hbdAnnotbtions() ? lout.toByteArrby() : null);
 
         /*
-         * Calculate hash from the marshalled representation of object
-         * so the hashcode will be comparable when sent between VMs.
+         * Cblculbte hbsh from the mbrshblled representbtion of object
+         * so the hbshcode will be compbrbble when sent between VMs.
          */
         int h = 0;
         for (int i = 0; i < objBytes.length; i++) {
             h = 31 * h + objBytes[i];
         }
-        hash = h;
+        hbsh = h;
     }
 
     /**
-     * Returns a new copy of the contained marshalledobject.  The internal
-     * representation is deserialized with the semantics used for
-     * unmarshaling parameters for RMI calls.
+     * Returns b new copy of the contbined mbrshblledobject.  The internbl
+     * representbtion is deseriblized with the sembntics used for
+     * unmbrshbling pbrbmeters for RMI cblls.
      *
-     * @return a copy of the contained object
-     * @exception IOException if an <code>IOException</code> occurs while
-     * deserializing the object from its internal representation.
-     * @exception ClassNotFoundException if a
-     * <code>ClassNotFoundException</code> occurs while deserializing the
-     * object from its internal representation.
+     * @return b copy of the contbined object
+     * @exception IOException if bn <code>IOException</code> occurs while
+     * deseriblizing the object from its internbl representbtion.
+     * @exception ClbssNotFoundException if b
+     * <code>ClbssNotFoundException</code> occurs while deseriblizing the
+     * object from its internbl representbtion.
      * could not be found
      * @since 1.2
      */
-    public T get() throws IOException, ClassNotFoundException {
-        if (objBytes == null)   // must have been a null object
+    public T get() throws IOException, ClbssNotFoundException {
+        if (objBytes == null)   // must hbve been b null object
             return null;
 
-        ByteArrayInputStream bin = new ByteArrayInputStream(objBytes);
-        // locBytes is null if no annotations
-        ByteArrayInputStream lin =
-            (locBytes == null ? null : new ByteArrayInputStream(locBytes));
-        MarshalledObjectInputStream in =
-            new MarshalledObjectInputStream(bin, lin);
-        @SuppressWarnings("unchecked")
-        T obj = (T) in.readObject();
+        ByteArrbyInputStrebm bin = new ByteArrbyInputStrebm(objBytes);
+        // locBytes is null if no bnnotbtions
+        ByteArrbyInputStrebm lin =
+            (locBytes == null ? null : new ByteArrbyInputStrebm(locBytes));
+        MbrshblledObjectInputStrebm in =
+            new MbrshblledObjectInputStrebm(bin, lin);
+        @SuppressWbrnings("unchecked")
+        T obj = (T) in.rebdObject();
         in.close();
         return obj;
     }
 
     /**
-     * Return a hash code for this <code>MarshalledObject</code>.
+     * Return b hbsh code for this <code>MbrshblledObject</code>.
      *
-     * @return a hash code
+     * @return b hbsh code
      */
-    public int hashCode() {
-        return hash;
+    public int hbshCode() {
+        return hbsh;
     }
 
     /**
-     * Compares this <code>MarshalledObject</code> to another object.
-     * Returns true if and only if the argument refers to a
-     * <code>MarshalledObject</code> that contains exactly the same
-     * serialized representation of an object as this one does. The
-     * comparison ignores any class codebase annotation, meaning that
-     * two objects are equivalent if they have the same serialized
-     * representation <i>except</i> for the codebase of each class
-     * in the serialized representation.
+     * Compbres this <code>MbrshblledObject</code> to bnother object.
+     * Returns true if bnd only if the brgument refers to b
+     * <code>MbrshblledObject</code> thbt contbins exbctly the sbme
+     * seriblized representbtion of bn object bs this one does. The
+     * compbrison ignores bny clbss codebbse bnnotbtion, mebning thbt
+     * two objects bre equivblent if they hbve the sbme seriblized
+     * representbtion <i>except</i> for the codebbse of ebch clbss
+     * in the seriblized representbtion.
      *
-     * @param obj the object to compare with this <code>MarshalledObject</code>
-     * @return <code>true</code> if the argument contains an equivalent
-     * serialized object; <code>false</code> otherwise
+     * @pbrbm obj the object to compbre with this <code>MbrshblledObject</code>
+     * @return <code>true</code> if the brgument contbins bn equivblent
+     * seriblized object; <code>fblse</code> otherwise
      * @since 1.2
      */
-    public boolean equals(Object obj) {
+    public boolebn equbls(Object obj) {
         if (obj == this)
             return true;
 
-        if (obj != null && obj instanceof MarshalledObject) {
-            MarshalledObject<?> other = (MarshalledObject<?>) obj;
+        if (obj != null && obj instbnceof MbrshblledObject) {
+            MbrshblledObject<?> other = (MbrshblledObject<?>) obj;
 
-            // if either is a ref to null, both must be
+            // if either is b ref to null, both must be
             if (objBytes == null || other.objBytes == null)
                 return objBytes == other.objBytes;
 
-            // quick, easy test
+            // quick, ebsy test
             if (objBytes.length != other.objBytes.length)
-                return false;
+                return fblse;
 
-            //!! There is talk about adding an array comparision method
-            //!! at 1.2 -- if so, this should be rewritten.  -arnold
+            //!! There is tblk bbout bdding bn brrby compbrision method
+            //!! bt 1.2 -- if so, this should be rewritten.  -brnold
             for (int i = 0; i < objBytes.length; ++i) {
                 if (objBytes[i] != other.objBytes[i])
-                    return false;
+                    return fblse;
             }
             return true;
         } else {
-            return false;
+            return fblse;
         }
     }
 
     /**
-     * This class is used to marshal objects for
-     * <code>MarshalledObject</code>.  It places the location annotations
-     * to one side so that two <code>MarshalledObject</code>s can be
-     * compared for equality if they differ only in location
-     * annotations.  Objects written using this stream should be read back
-     * from a <code>MarshalledObjectInputStream</code>.
+     * This clbss is used to mbrshbl objects for
+     * <code>MbrshblledObject</code>.  It plbces the locbtion bnnotbtions
+     * to one side so thbt two <code>MbrshblledObject</code>s cbn be
+     * compbred for equblity if they differ only in locbtion
+     * bnnotbtions.  Objects written using this strebm should be rebd bbck
+     * from b <code>MbrshblledObjectInputStrebm</code>.
      *
-     * @see java.rmi.MarshalledObject
-     * @see MarshalledObjectInputStream
+     * @see jbvb.rmi.MbrshblledObject
+     * @see MbrshblledObjectInputStrebm
      */
-    private static class MarshalledObjectOutputStream
-        extends MarshalOutputStream
+    privbte stbtic clbss MbrshblledObjectOutputStrebm
+        extends MbrshblOutputStrebm
     {
-        /** The stream on which location objects are written. */
-        private ObjectOutputStream locOut;
+        /** The strebm on which locbtion objects bre written. */
+        privbte ObjectOutputStrebm locOut;
 
-        /** <code>true</code> if non-<code>null</code> annotations are
+        /** <code>true</code> if non-<code>null</code> bnnotbtions bre
          *  written.
          */
-        private boolean hadAnnotations;
+        privbte boolebn hbdAnnotbtions;
 
         /**
-         * Creates a new <code>MarshalledObjectOutputStream</code> whose
-         * non-location bytes will be written to <code>objOut</code> and whose
-         * location annotations (if any) will be written to
+         * Crebtes b new <code>MbrshblledObjectOutputStrebm</code> whose
+         * non-locbtion bytes will be written to <code>objOut</code> bnd whose
+         * locbtion bnnotbtions (if bny) will be written to
          * <code>locOut</code>.
          */
-        MarshalledObjectOutputStream(OutputStream objOut, OutputStream locOut)
+        MbrshblledObjectOutputStrebm(OutputStrebm objOut, OutputStrebm locOut)
             throws IOException
         {
             super(objOut);
-            this.useProtocolVersion(ObjectStreamConstants.PROTOCOL_VERSION_2);
-            this.locOut = new ObjectOutputStream(locOut);
-            hadAnnotations = false;
+            this.useProtocolVersion(ObjectStrebmConstbnts.PROTOCOL_VERSION_2);
+            this.locOut = new ObjectOutputStrebm(locOut);
+            hbdAnnotbtions = fblse;
         }
 
         /**
-         * Returns <code>true</code> if any non-<code>null</code> location
-         * annotations have been written to this stream.
+         * Returns <code>true</code> if bny non-<code>null</code> locbtion
+         * bnnotbtions hbve been written to this strebm.
          */
-        boolean hadAnnotations() {
-            return hadAnnotations;
+        boolebn hbdAnnotbtions() {
+            return hbdAnnotbtions;
         }
 
         /**
-         * Overrides MarshalOutputStream.writeLocation implementation to write
-         * annotations to the location stream.
+         * Overrides MbrshblOutputStrebm.writeLocbtion implementbtion to write
+         * bnnotbtions to the locbtion strebm.
          */
-        protected void writeLocation(String loc) throws IOException {
-            hadAnnotations |= (loc != null);
+        protected void writeLocbtion(String loc) throws IOException {
+            hbdAnnotbtions |= (loc != null);
             locOut.writeObject(loc);
         }
 
@@ -275,42 +275,42 @@ public final class MarshalledObject<T> implements Serializable {
     }
 
     /**
-     * The counterpart to <code>MarshalledObjectOutputStream</code>.
+     * The counterpbrt to <code>MbrshblledObjectOutputStrebm</code>.
      *
-     * @see MarshalledObjectOutputStream
+     * @see MbrshblledObjectOutputStrebm
      */
-    private static class MarshalledObjectInputStream
-        extends MarshalInputStream
+    privbte stbtic clbss MbrshblledObjectInputStrebm
+        extends MbrshblInputStrebm
     {
         /**
-         * The stream from which annotations will be read.  If this is
-         * <code>null</code>, then all annotations were <code>null</code>.
+         * The strebm from which bnnotbtions will be rebd.  If this is
+         * <code>null</code>, then bll bnnotbtions were <code>null</code>.
          */
-        private ObjectInputStream locIn;
+        privbte ObjectInputStrebm locIn;
 
         /**
-         * Creates a new <code>MarshalledObjectInputStream</code> that
-         * reads its objects from <code>objIn</code> and annotations
+         * Crebtes b new <code>MbrshblledObjectInputStrebm</code> thbt
+         * rebds its objects from <code>objIn</code> bnd bnnotbtions
          * from <code>locIn</code>.  If <code>locIn</code> is
-         * <code>null</code>, then all annotations will be
+         * <code>null</code>, then bll bnnotbtions will be
          * <code>null</code>.
          */
-        MarshalledObjectInputStream(InputStream objIn, InputStream locIn)
+        MbrshblledObjectInputStrebm(InputStrebm objIn, InputStrebm locIn)
             throws IOException
         {
             super(objIn);
-            this.locIn = (locIn == null ? null : new ObjectInputStream(locIn));
+            this.locIn = (locIn == null ? null : new ObjectInputStrebm(locIn));
         }
 
         /**
-         * Overrides MarshalInputStream.readLocation to return locations from
-         * the stream we were given, or <code>null</code> if we were given a
-         * <code>null</code> location stream.
+         * Overrides MbrshblInputStrebm.rebdLocbtion to return locbtions from
+         * the strebm we were given, or <code>null</code> if we were given b
+         * <code>null</code> locbtion strebm.
          */
-        protected Object readLocation()
-            throws IOException, ClassNotFoundException
+        protected Object rebdLocbtion()
+            throws IOException, ClbssNotFoundException
         {
-            return (locIn == null ? null : locIn.readObject());
+            return (locIn == null ? null : locIn.rebdObject());
         }
     }
 

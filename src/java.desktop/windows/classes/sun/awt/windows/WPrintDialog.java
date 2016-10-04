@@ -1,92 +1,92 @@
 /*
- * Copyright (c) 1999, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt.windows;
+pbckbge sun.bwt.windows;
 
-import java.awt.*;
-import java.awt.peer.*;
+import jbvb.bwt.*;
+import jbvb.bwt.peer.*;
 
-import java.awt.print.PrinterJob;
+import jbvb.bwt.print.PrinterJob;
 
-import sun.awt.AWTAccessor;
+import sun.bwt.AWTAccessor;
 
-@SuppressWarnings("serial") // JDK-implementation class
-class WPrintDialog extends Dialog {
-    static {
+@SuppressWbrnings("seribl") // JDK-implementbtion clbss
+clbss WPrintDiblog extends Diblog {
+    stbtic {
         initIDs();
     }
 
     protected PrintJob job;
     protected PrinterJob pjob;
 
-    WPrintDialog(Frame parent, PrinterJob control) {
-        super(parent, true);
+    WPrintDiblog(Frbme pbrent, PrinterJob control) {
+        super(pbrent, true);
         this.pjob = control;
-        setLayout(null);
+        setLbyout(null);
     }
 
-    WPrintDialog(Dialog parent, PrinterJob control) {
-        super(parent, "", true);
+    WPrintDiblog(Diblog pbrent, PrinterJob control) {
+        super(pbrent, "", true);
         this.pjob = control;
-        setLayout(null);
+        setLbyout(null);
     }
 
-    final void setPeer(final ComponentPeer p){
+    finbl void setPeer(finbl ComponentPeer p){
         AWTAccessor.getComponentAccessor().setPeer(this, p);
     }
 
     @Override
-    @SuppressWarnings("deprecation")
-    public void addNotify() {
+    @SuppressWbrnings("deprecbtion")
+    public void bddNotify() {
         synchronized(getTreeLock()) {
-            Container parent = getParent();
-            if (parent != null && parent.getPeer() == null) {
-                parent.addNotify();
+            Contbiner pbrent = getPbrent();
+            if (pbrent != null && pbrent.getPeer() == null) {
+                pbrent.bddNotify();
             }
 
             if (getPeer() == null) {
-                ComponentPeer peer = ((WToolkit)Toolkit.getDefaultToolkit()).
-                    createWPrintDialog(this);
+                ComponentPeer peer = ((WToolkit)Toolkit.getDefbultToolkit()).
+                    crebteWPrintDiblog(this);
                 setPeer(peer);
             }
-            super.addNotify();
+            super.bddNotify();
         }
     }
 
-    private boolean retval = false;
+    privbte boolebn retvbl = fblse;
 
-    final void setRetVal(boolean ret) {
-        retval = ret;
+    finbl void setRetVbl(boolebn ret) {
+        retvbl = ret;
     }
 
-    final boolean getRetVal() {
-        return retval;
+    finbl boolebn getRetVbl() {
+        return retvbl;
     }
 
     /**
-     * Initialize JNI field and method ids
+     * Initiblize JNI field bnd method ids
      */
-    private static native void initIDs();
+    privbte stbtic nbtive void initIDs();
 }

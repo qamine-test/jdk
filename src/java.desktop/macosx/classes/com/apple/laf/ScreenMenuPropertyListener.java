@@ -1,89 +1,89 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.apple.laf;
+pbckbge com.bpple.lbf;
 
-import java.beans.*;
+import jbvb.bebns.*;
 
-import javax.accessibility.*;
-import javax.swing.*;
+import jbvbx.bccessibility.*;
+import jbvbx.swing.*;
 
-class ScreenMenuPropertyListener implements PropertyChangeListener {
-    ScreenMenuPropertyHandler fMenu;
+clbss ScreenMenuPropertyListener implements PropertyChbngeListener {
+    ScreenMenuPropertyHbndler fMenu;
 
-    ScreenMenuPropertyListener(final ScreenMenuPropertyHandler mc) {
+    ScreenMenuPropertyListener(finbl ScreenMenuPropertyHbndler mc) {
         fMenu = mc;
     }
 
     /**
-     * This method gets called when a bound property is changed.
-     * @param evt A PropertyChangeEvent object describing the event source
-     *       and the property that has changed.
+     * This method gets cblled when b bound property is chbnged.
+     * @pbrbm evt A PropertyChbngeEvent object describing the event source
+     *       bnd the property thbt hbs chbnged.
      */
-    public void propertyChange(final PropertyChangeEvent e) {
-        final String propertyName = e.getPropertyName();
+    public void propertyChbnge(finbl PropertyChbngeEvent e) {
+        finbl String propertyNbme = e.getPropertyNbme();
 
-        if ("enabled".equals(propertyName)) {
-            fMenu.setEnabled(((Boolean)e.getNewValue()).booleanValue());
+        if ("enbbled".equbls(propertyNbme)) {
+            fMenu.setEnbbled(((Boolebn)e.getNewVblue()).boolebnVblue());
             return;
         }
 
-        if (AccessibleContext.ACCESSIBLE_STATE_PROPERTY.equals(propertyName)) {
-            // rdar://Problem/3553843
-            // When an ACCESSIBLE_STATE_PROPERTY changes, it's always newValue == null and oldValue == state turned off
-            // or newValue == state turned on and oldValue == null.  We only care about changes in the ENABLED
-            // state, so only change the menu's enabled state when the value is AccessibleState.ENABLED
-            if (e.getNewValue() == AccessibleState.ENABLED || e.getOldValue() == AccessibleState.ENABLED) {
-                final Object newValue = e.getNewValue();
-                fMenu.setEnabled(newValue == AccessibleState.ENABLED);
+        if (AccessibleContext.ACCESSIBLE_STATE_PROPERTY.equbls(propertyNbme)) {
+            // rdbr://Problem/3553843
+            // When bn ACCESSIBLE_STATE_PROPERTY chbnges, it's blwbys newVblue == null bnd oldVblue == stbte turned off
+            // or newVblue == stbte turned on bnd oldVblue == null.  We only cbre bbout chbnges in the ENABLED
+            // stbte, so only chbnge the menu's enbbled stbte when the vblue is AccessibleStbte.ENABLED
+            if (e.getNewVblue() == AccessibleStbte.ENABLED || e.getOldVblue() == AccessibleStbte.ENABLED) {
+                finbl Object newVblue = e.getNewVblue();
+                fMenu.setEnbbled(newVblue == AccessibleStbte.ENABLED);
             }
             return;
     }
 
-        if ("accelerator".equals(propertyName)) {
-            fMenu.setAccelerator((KeyStroke)e.getNewValue());
+        if ("bccelerbtor".equbls(propertyNbme)) {
+            fMenu.setAccelerbtor((KeyStroke)e.getNewVblue());
             return;
         }
 
-        if (AbstractButton.TEXT_CHANGED_PROPERTY.equals(propertyName)) {
-            fMenu.setLabel((String)e.getNewValue());
+        if (AbstrbctButton.TEXT_CHANGED_PROPERTY.equbls(propertyNbme)) {
+            fMenu.setLbbel((String)e.getNewVblue());
             return;
         }
 
-        if (AbstractButton.ICON_CHANGED_PROPERTY.equals(propertyName)) {
-            fMenu.setIcon((Icon)e.getNewValue());
+        if (AbstrbctButton.ICON_CHANGED_PROPERTY.equbls(propertyNbme)) {
+            fMenu.setIcon((Icon)e.getNewVblue());
             return;
         }
 
-        if (JComponent.TOOL_TIP_TEXT_KEY.equals(propertyName)) {
-            fMenu.setToolTipText((String)e.getNewValue());
+        if (JComponent.TOOL_TIP_TEXT_KEY.equbls(propertyNbme)) {
+            fMenu.setToolTipText((String)e.getNewVblue());
             return;
         }
 
-        if (AquaMenuItemUI.IndeterminateListener.CLIENT_PROPERTY_KEY.equals(propertyName)) {
-            fMenu.setIndeterminate(AquaMenuItemUI.IndeterminateListener.isIndeterminate((JMenuItem)e.getSource()));
+        if (AqubMenuItemUI.IndeterminbteListener.CLIENT_PROPERTY_KEY.equbls(propertyNbme)) {
+            fMenu.setIndeterminbte(AqubMenuItemUI.IndeterminbteListener.isIndeterminbte((JMenuItem)e.getSource()));
             return;
         }
     }

@@ -1,632 +1,632 @@
 /*
- * Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jndi.url.ldap;
+pbckbge com.sun.jndi.url.ldbp;
 
-import javax.naming.spi.ResolveResult;
-import javax.naming.*;
-import javax.naming.directory.*;
-import java.util.Hashtable;
-import java.util.StringTokenizer;
-import com.sun.jndi.ldap.LdapURL;
+import jbvbx.nbming.spi.ResolveResult;
+import jbvbx.nbming.*;
+import jbvbx.nbming.directory.*;
+import jbvb.util.Hbshtbble;
+import jbvb.util.StringTokenizer;
+import com.sun.jndi.ldbp.LdbpURL;
 
 /**
  * An LDAP URL context.
  *
- * @author Rosanna Lee
- * @author Scott Seligman
+ * @buthor Rosbnnb Lee
+ * @buthor Scott Seligmbn
  */
 
-final public class ldapURLContext
+finbl public clbss ldbpURLContext
         extends com.sun.jndi.toolkit.url.GenericURLDirContext {
 
-    ldapURLContext(Hashtable<?,?> env) {
+    ldbpURLContext(Hbshtbble<?,?> env) {
         super(env);
     }
 
     /**
-      * Resolves 'name' into a target context with remaining name.
-      * It only resolves the hostname/port number. The remaining name
-      * contains the root DN.
+      * Resolves 'nbme' into b tbrget context with rembining nbme.
+      * It only resolves the hostnbme/port number. The rembining nbme
+      * contbins the root DN.
       *
-      * For example, with a LDAP URL "ldap://localhost:389/o=widget,c=us",
-      * this method resolves "ldap://localhost:389/" to the root LDAP
-      * context on the server 'localhost' on port 389,
-      * and returns as the remaining name "o=widget, c=us".
+      * For exbmple, with b LDAP URL "ldbp://locblhost:389/o=widget,c=us",
+      * this method resolves "ldbp://locblhost:389/" to the root LDAP
+      * context on the server 'locblhost' on port 389,
+      * bnd returns bs the rembining nbme "o=widget, c=us".
       */
-    protected ResolveResult getRootURLContext(String name, Hashtable<?,?> env)
-    throws NamingException {
-        return ldapURLContextFactory.getUsingURLIgnoreRootDN(name, env);
+    protected ResolveResult getRootURLContext(String nbme, Hbshtbble<?,?> env)
+    throws NbmingException {
+        return ldbpURLContextFbctory.getUsingURLIgnoreRootDN(nbme, env);
     }
 
     /**
-     * Return the suffix of an ldap url.
-     * prefix parameter is ignored.
+     * Return the suffix of bn ldbp url.
+     * prefix pbrbmeter is ignored.
      */
-    protected Name getURLSuffix(String prefix, String url)
-        throws NamingException {
+    protected Nbme getURLSuffix(String prefix, String url)
+        throws NbmingException {
 
-        LdapURL ldapUrl = new LdapURL(url);
-        String dn = (ldapUrl.getDN() != null? ldapUrl.getDN() : "");
+        LdbpURL ldbpUrl = new LdbpURL(url);
+        String dn = (ldbpUrl.getDN() != null? ldbpUrl.getDN() : "");
 
-        // Represent DN as empty or single-component composite name.
-        CompositeName remaining = new CompositeName();
-        if (!"".equals(dn)) {
-            // if nonempty, add component
-            remaining.add(dn);
+        // Represent DN bs empty or single-component composite nbme.
+        CompositeNbme rembining = new CompositeNbme();
+        if (!"".equbls(dn)) {
+            // if nonempty, bdd component
+            rembining.bdd(dn);
         }
-        return remaining;
+        return rembining;
     }
 
     /*
-     * Override context operations.
-     * Test for presence of LDAP URL query components in the name argument.
-     * Query components are permitted only for search operations and only
-     * when the name has a single component.
+     * Override context operbtions.
+     * Test for presence of LDAP URL query components in the nbme brgument.
+     * Query components bre permitted only for sebrch operbtions bnd only
+     * when the nbme hbs b single component.
      */
 
-    public Object lookup(String name) throws NamingException {
-        if (LdapURL.hasQueryComponents(name)) {
-            throw new InvalidNameException(name);
+    public Object lookup(String nbme) throws NbmingException {
+        if (LdbpURL.hbsQueryComponents(nbme)) {
+            throw new InvblidNbmeException(nbme);
         } else {
-            return super.lookup(name);
+            return super.lookup(nbme);
         }
     }
 
-    public Object lookup(Name name) throws NamingException {
-        if (LdapURL.hasQueryComponents(name.get(0))) {
-            throw new InvalidNameException(name.toString());
+    public Object lookup(Nbme nbme) throws NbmingException {
+        if (LdbpURL.hbsQueryComponents(nbme.get(0))) {
+            throw new InvblidNbmeException(nbme.toString());
         } else {
-            return super.lookup(name);
+            return super.lookup(nbme);
         }
     }
 
-    public void bind(String name, Object obj) throws NamingException {
-        if (LdapURL.hasQueryComponents(name)) {
-            throw new InvalidNameException(name);
+    public void bind(String nbme, Object obj) throws NbmingException {
+        if (LdbpURL.hbsQueryComponents(nbme)) {
+            throw new InvblidNbmeException(nbme);
         } else {
-            super.bind(name, obj);
+            super.bind(nbme, obj);
         }
     }
 
-    public void bind(Name name, Object obj) throws NamingException {
-        if (LdapURL.hasQueryComponents(name.get(0))) {
-            throw new InvalidNameException(name.toString());
+    public void bind(Nbme nbme, Object obj) throws NbmingException {
+        if (LdbpURL.hbsQueryComponents(nbme.get(0))) {
+            throw new InvblidNbmeException(nbme.toString());
         } else {
-            super.bind(name, obj);
+            super.bind(nbme, obj);
         }
     }
 
-    public void rebind(String name, Object obj) throws NamingException {
-        if (LdapURL.hasQueryComponents(name)) {
-            throw new InvalidNameException(name);
+    public void rebind(String nbme, Object obj) throws NbmingException {
+        if (LdbpURL.hbsQueryComponents(nbme)) {
+            throw new InvblidNbmeException(nbme);
         } else {
-            super.rebind(name, obj);
+            super.rebind(nbme, obj);
         }
     }
 
-    public void rebind(Name name, Object obj) throws NamingException {
-        if (LdapURL.hasQueryComponents(name.get(0))) {
-            throw new InvalidNameException(name.toString());
+    public void rebind(Nbme nbme, Object obj) throws NbmingException {
+        if (LdbpURL.hbsQueryComponents(nbme.get(0))) {
+            throw new InvblidNbmeException(nbme.toString());
         } else {
-            super.rebind(name, obj);
+            super.rebind(nbme, obj);
         }
     }
 
-    public void unbind(String name) throws NamingException {
-        if (LdapURL.hasQueryComponents(name)) {
-            throw new InvalidNameException(name);
+    public void unbind(String nbme) throws NbmingException {
+        if (LdbpURL.hbsQueryComponents(nbme)) {
+            throw new InvblidNbmeException(nbme);
         } else {
-            super.unbind(name);
+            super.unbind(nbme);
         }
     }
 
-    public void unbind(Name name) throws NamingException {
-        if (LdapURL.hasQueryComponents(name.get(0))) {
-            throw new InvalidNameException(name.toString());
+    public void unbind(Nbme nbme) throws NbmingException {
+        if (LdbpURL.hbsQueryComponents(nbme.get(0))) {
+            throw new InvblidNbmeException(nbme.toString());
         } else {
-            super.unbind(name);
+            super.unbind(nbme);
         }
     }
 
-    public void rename(String oldName, String newName) throws NamingException {
-        if (LdapURL.hasQueryComponents(oldName)) {
-            throw new InvalidNameException(oldName);
-        } else if (LdapURL.hasQueryComponents(newName)) {
-            throw new InvalidNameException(newName);
+    public void renbme(String oldNbme, String newNbme) throws NbmingException {
+        if (LdbpURL.hbsQueryComponents(oldNbme)) {
+            throw new InvblidNbmeException(oldNbme);
+        } else if (LdbpURL.hbsQueryComponents(newNbme)) {
+            throw new InvblidNbmeException(newNbme);
         } else {
-            super.rename(oldName, newName);
+            super.renbme(oldNbme, newNbme);
         }
     }
 
-    public void rename(Name oldName, Name newName) throws NamingException {
-        if (LdapURL.hasQueryComponents(oldName.get(0))) {
-            throw new InvalidNameException(oldName.toString());
-        } else if (LdapURL.hasQueryComponents(newName.get(0))) {
-            throw new InvalidNameException(newName.toString());
+    public void renbme(Nbme oldNbme, Nbme newNbme) throws NbmingException {
+        if (LdbpURL.hbsQueryComponents(oldNbme.get(0))) {
+            throw new InvblidNbmeException(oldNbme.toString());
+        } else if (LdbpURL.hbsQueryComponents(newNbme.get(0))) {
+            throw new InvblidNbmeException(newNbme.toString());
         } else {
-            super.rename(oldName, newName);
+            super.renbme(oldNbme, newNbme);
         }
     }
 
-    public NamingEnumeration<NameClassPair> list(String name)
-            throws NamingException {
-        if (LdapURL.hasQueryComponents(name)) {
-            throw new InvalidNameException(name);
+    public NbmingEnumerbtion<NbmeClbssPbir> list(String nbme)
+            throws NbmingException {
+        if (LdbpURL.hbsQueryComponents(nbme)) {
+            throw new InvblidNbmeException(nbme);
         } else {
-            return super.list(name);
+            return super.list(nbme);
         }
     }
 
-    public NamingEnumeration<NameClassPair> list(Name name)
-            throws NamingException {
-        if (LdapURL.hasQueryComponents(name.get(0))) {
-            throw new InvalidNameException(name.toString());
+    public NbmingEnumerbtion<NbmeClbssPbir> list(Nbme nbme)
+            throws NbmingException {
+        if (LdbpURL.hbsQueryComponents(nbme.get(0))) {
+            throw new InvblidNbmeException(nbme.toString());
         } else {
-            return super.list(name);
+            return super.list(nbme);
         }
     }
 
-    public NamingEnumeration<Binding> listBindings(String name)
-            throws NamingException {
-        if (LdapURL.hasQueryComponents(name)) {
-            throw new InvalidNameException(name);
+    public NbmingEnumerbtion<Binding> listBindings(String nbme)
+            throws NbmingException {
+        if (LdbpURL.hbsQueryComponents(nbme)) {
+            throw new InvblidNbmeException(nbme);
         } else {
-            return super.listBindings(name);
+            return super.listBindings(nbme);
         }
     }
 
-    public NamingEnumeration<Binding> listBindings(Name name)
-            throws NamingException {
-        if (LdapURL.hasQueryComponents(name.get(0))) {
-            throw new InvalidNameException(name.toString());
+    public NbmingEnumerbtion<Binding> listBindings(Nbme nbme)
+            throws NbmingException {
+        if (LdbpURL.hbsQueryComponents(nbme.get(0))) {
+            throw new InvblidNbmeException(nbme.toString());
         } else {
-            return super.listBindings(name);
+            return super.listBindings(nbme);
         }
     }
 
-    public void destroySubcontext(String name) throws NamingException {
-        if (LdapURL.hasQueryComponents(name)) {
-            throw new InvalidNameException(name);
+    public void destroySubcontext(String nbme) throws NbmingException {
+        if (LdbpURL.hbsQueryComponents(nbme)) {
+            throw new InvblidNbmeException(nbme);
         } else {
-            super.destroySubcontext(name);
+            super.destroySubcontext(nbme);
         }
     }
 
-    public void destroySubcontext(Name name) throws NamingException {
-        if (LdapURL.hasQueryComponents(name.get(0))) {
-            throw new InvalidNameException(name.toString());
+    public void destroySubcontext(Nbme nbme) throws NbmingException {
+        if (LdbpURL.hbsQueryComponents(nbme.get(0))) {
+            throw new InvblidNbmeException(nbme.toString());
         } else {
-            super.destroySubcontext(name);
+            super.destroySubcontext(nbme);
         }
     }
 
-    public Context createSubcontext(String name) throws NamingException {
-        if (LdapURL.hasQueryComponents(name)) {
-            throw new InvalidNameException(name);
+    public Context crebteSubcontext(String nbme) throws NbmingException {
+        if (LdbpURL.hbsQueryComponents(nbme)) {
+            throw new InvblidNbmeException(nbme);
         } else {
-            return super.createSubcontext(name);
+            return super.crebteSubcontext(nbme);
         }
     }
 
-    public Context createSubcontext(Name name) throws NamingException {
-        if (LdapURL.hasQueryComponents(name.get(0))) {
-            throw new InvalidNameException(name.toString());
+    public Context crebteSubcontext(Nbme nbme) throws NbmingException {
+        if (LdbpURL.hbsQueryComponents(nbme.get(0))) {
+            throw new InvblidNbmeException(nbme.toString());
         } else {
-            return super.createSubcontext(name);
+            return super.crebteSubcontext(nbme);
         }
     }
 
-    public Object lookupLink(String name) throws NamingException {
-        if (LdapURL.hasQueryComponents(name)) {
-            throw new InvalidNameException(name);
+    public Object lookupLink(String nbme) throws NbmingException {
+        if (LdbpURL.hbsQueryComponents(nbme)) {
+            throw new InvblidNbmeException(nbme);
         } else {
-            return super.lookupLink(name);
+            return super.lookupLink(nbme);
         }
     }
 
-    public Object lookupLink(Name name) throws NamingException {
-        if (LdapURL.hasQueryComponents(name.get(0))) {
-            throw new InvalidNameException(name.toString());
+    public Object lookupLink(Nbme nbme) throws NbmingException {
+        if (LdbpURL.hbsQueryComponents(nbme.get(0))) {
+            throw new InvblidNbmeException(nbme.toString());
         } else {
-            return super.lookupLink(name);
+            return super.lookupLink(nbme);
         }
     }
 
-    public NameParser getNameParser(String name) throws NamingException {
-        if (LdapURL.hasQueryComponents(name)) {
-            throw new InvalidNameException(name);
+    public NbmePbrser getNbmePbrser(String nbme) throws NbmingException {
+        if (LdbpURL.hbsQueryComponents(nbme)) {
+            throw new InvblidNbmeException(nbme);
         } else {
-            return super.getNameParser(name);
+            return super.getNbmePbrser(nbme);
         }
     }
 
-    public NameParser getNameParser(Name name) throws NamingException {
-        if (LdapURL.hasQueryComponents(name.get(0))) {
-            throw new InvalidNameException(name.toString());
+    public NbmePbrser getNbmePbrser(Nbme nbme) throws NbmingException {
+        if (LdbpURL.hbsQueryComponents(nbme.get(0))) {
+            throw new InvblidNbmeException(nbme.toString());
         } else {
-            return super.getNameParser(name);
+            return super.getNbmePbrser(nbme);
         }
     }
 
-    public String composeName(String name, String prefix)
-        throws NamingException {
-        if (LdapURL.hasQueryComponents(name)) {
-            throw new InvalidNameException(name);
-        } else if (LdapURL.hasQueryComponents(prefix)) {
-            throw new InvalidNameException(prefix);
+    public String composeNbme(String nbme, String prefix)
+        throws NbmingException {
+        if (LdbpURL.hbsQueryComponents(nbme)) {
+            throw new InvblidNbmeException(nbme);
+        } else if (LdbpURL.hbsQueryComponents(prefix)) {
+            throw new InvblidNbmeException(prefix);
         } else {
-            return super.composeName(name, prefix);
+            return super.composeNbme(nbme, prefix);
         }
     }
 
-    public Name composeName(Name name, Name prefix) throws NamingException {
-        if (LdapURL.hasQueryComponents(name.get(0))) {
-            throw new InvalidNameException(name.toString());
-        } else if (LdapURL.hasQueryComponents(prefix.get(0))) {
-            throw new InvalidNameException(prefix.toString());
+    public Nbme composeNbme(Nbme nbme, Nbme prefix) throws NbmingException {
+        if (LdbpURL.hbsQueryComponents(nbme.get(0))) {
+            throw new InvblidNbmeException(nbme.toString());
+        } else if (LdbpURL.hbsQueryComponents(prefix.get(0))) {
+            throw new InvblidNbmeException(prefix.toString());
         } else {
-            return super.composeName(name, prefix);
+            return super.composeNbme(nbme, prefix);
         }
     }
 
-    public Attributes getAttributes(String name) throws NamingException {
-        if (LdapURL.hasQueryComponents(name)) {
-            throw new InvalidNameException(name);
+    public Attributes getAttributes(String nbme) throws NbmingException {
+        if (LdbpURL.hbsQueryComponents(nbme)) {
+            throw new InvblidNbmeException(nbme);
         } else {
-            return super.getAttributes(name);
+            return super.getAttributes(nbme);
         }
     }
 
-    public Attributes getAttributes(Name name) throws NamingException  {
-        if (LdapURL.hasQueryComponents(name.get(0))) {
-            throw new InvalidNameException(name.toString());
+    public Attributes getAttributes(Nbme nbme) throws NbmingException  {
+        if (LdbpURL.hbsQueryComponents(nbme.get(0))) {
+            throw new InvblidNbmeException(nbme.toString());
         } else {
-            return super.getAttributes(name);
+            return super.getAttributes(nbme);
         }
     }
 
-    public Attributes getAttributes(String name, String[] attrIds)
-        throws NamingException {
-        if (LdapURL.hasQueryComponents(name)) {
-            throw new InvalidNameException(name);
+    public Attributes getAttributes(String nbme, String[] bttrIds)
+        throws NbmingException {
+        if (LdbpURL.hbsQueryComponents(nbme)) {
+            throw new InvblidNbmeException(nbme);
         } else {
-            return super.getAttributes(name, attrIds);
+            return super.getAttributes(nbme, bttrIds);
         }
     }
 
-    public Attributes getAttributes(Name name, String[] attrIds)
-        throws NamingException {
-        if (LdapURL.hasQueryComponents(name.get(0))) {
-            throw new InvalidNameException(name.toString());
+    public Attributes getAttributes(Nbme nbme, String[] bttrIds)
+        throws NbmingException {
+        if (LdbpURL.hbsQueryComponents(nbme.get(0))) {
+            throw new InvblidNbmeException(nbme.toString());
         } else {
-            return super.getAttributes(name, attrIds);
+            return super.getAttributes(nbme, bttrIds);
         }
     }
 
-    public void modifyAttributes(String name, int mod_op, Attributes attrs)
-        throws NamingException {
-        if (LdapURL.hasQueryComponents(name)) {
-            throw new InvalidNameException(name);
+    public void modifyAttributes(String nbme, int mod_op, Attributes bttrs)
+        throws NbmingException {
+        if (LdbpURL.hbsQueryComponents(nbme)) {
+            throw new InvblidNbmeException(nbme);
         } else {
-            super.modifyAttributes(name, mod_op, attrs);
+            super.modifyAttributes(nbme, mod_op, bttrs);
         }
     }
 
-    public void modifyAttributes(Name name, int mod_op, Attributes attrs)
-        throws NamingException {
-        if (LdapURL.hasQueryComponents(name.get(0))) {
-            throw new InvalidNameException(name.toString());
+    public void modifyAttributes(Nbme nbme, int mod_op, Attributes bttrs)
+        throws NbmingException {
+        if (LdbpURL.hbsQueryComponents(nbme.get(0))) {
+            throw new InvblidNbmeException(nbme.toString());
         } else {
-            super.modifyAttributes(name, mod_op, attrs);
+            super.modifyAttributes(nbme, mod_op, bttrs);
         }
     }
 
-    public void modifyAttributes(String name, ModificationItem[] mods)
-        throws NamingException {
-        if (LdapURL.hasQueryComponents(name)) {
-            throw new InvalidNameException(name);
+    public void modifyAttributes(String nbme, ModificbtionItem[] mods)
+        throws NbmingException {
+        if (LdbpURL.hbsQueryComponents(nbme)) {
+            throw new InvblidNbmeException(nbme);
         } else {
-            super.modifyAttributes(name, mods);
+            super.modifyAttributes(nbme, mods);
         }
     }
 
-    public void modifyAttributes(Name name, ModificationItem[] mods)
-        throws NamingException  {
-        if (LdapURL.hasQueryComponents(name.get(0))) {
-            throw new InvalidNameException(name.toString());
+    public void modifyAttributes(Nbme nbme, ModificbtionItem[] mods)
+        throws NbmingException  {
+        if (LdbpURL.hbsQueryComponents(nbme.get(0))) {
+            throw new InvblidNbmeException(nbme.toString());
         } else {
-            super.modifyAttributes(name, mods);
+            super.modifyAttributes(nbme, mods);
         }
     }
 
-    public void bind(String name, Object obj, Attributes attrs)
-        throws NamingException {
-        if (LdapURL.hasQueryComponents(name)) {
-            throw new InvalidNameException(name);
+    public void bind(String nbme, Object obj, Attributes bttrs)
+        throws NbmingException {
+        if (LdbpURL.hbsQueryComponents(nbme)) {
+            throw new InvblidNbmeException(nbme);
         } else {
-            super.bind(name, obj, attrs);
+            super.bind(nbme, obj, bttrs);
         }
     }
 
-    public void bind(Name name, Object obj, Attributes attrs)
-        throws NamingException {
-        if (LdapURL.hasQueryComponents(name.get(0))) {
-            throw new InvalidNameException(name.toString());
+    public void bind(Nbme nbme, Object obj, Attributes bttrs)
+        throws NbmingException {
+        if (LdbpURL.hbsQueryComponents(nbme.get(0))) {
+            throw new InvblidNbmeException(nbme.toString());
         } else {
-            super.bind(name, obj, attrs);
+            super.bind(nbme, obj, bttrs);
         }
     }
 
-    public void rebind(String name, Object obj, Attributes attrs)
-        throws NamingException {
-        if (LdapURL.hasQueryComponents(name)) {
-            throw new InvalidNameException(name);
+    public void rebind(String nbme, Object obj, Attributes bttrs)
+        throws NbmingException {
+        if (LdbpURL.hbsQueryComponents(nbme)) {
+            throw new InvblidNbmeException(nbme);
         } else {
-            super.rebind(name, obj, attrs);
+            super.rebind(nbme, obj, bttrs);
         }
     }
 
-    public void rebind(Name name, Object obj, Attributes attrs)
-        throws NamingException {
-        if (LdapURL.hasQueryComponents(name.get(0))) {
-            throw new InvalidNameException(name.toString());
+    public void rebind(Nbme nbme, Object obj, Attributes bttrs)
+        throws NbmingException {
+        if (LdbpURL.hbsQueryComponents(nbme.get(0))) {
+            throw new InvblidNbmeException(nbme.toString());
         } else {
-            super.rebind(name, obj, attrs);
+            super.rebind(nbme, obj, bttrs);
         }
     }
 
-    public DirContext createSubcontext(String name, Attributes attrs)
-        throws NamingException {
-        if (LdapURL.hasQueryComponents(name)) {
-            throw new InvalidNameException(name);
+    public DirContext crebteSubcontext(String nbme, Attributes bttrs)
+        throws NbmingException {
+        if (LdbpURL.hbsQueryComponents(nbme)) {
+            throw new InvblidNbmeException(nbme);
         } else {
-            return super.createSubcontext(name, attrs);
+            return super.crebteSubcontext(nbme, bttrs);
         }
     }
 
-    public DirContext createSubcontext(Name name, Attributes attrs)
-        throws NamingException {
-        if (LdapURL.hasQueryComponents(name.get(0))) {
-            throw new InvalidNameException(name.toString());
+    public DirContext crebteSubcontext(Nbme nbme, Attributes bttrs)
+        throws NbmingException {
+        if (LdbpURL.hbsQueryComponents(nbme.get(0))) {
+            throw new InvblidNbmeException(nbme.toString());
         } else {
-            return super.createSubcontext(name, attrs);
+            return super.crebteSubcontext(nbme, bttrs);
         }
     }
 
-    public DirContext getSchema(String name) throws NamingException {
-        if (LdapURL.hasQueryComponents(name)) {
-            throw new InvalidNameException(name);
+    public DirContext getSchemb(String nbme) throws NbmingException {
+        if (LdbpURL.hbsQueryComponents(nbme)) {
+            throw new InvblidNbmeException(nbme);
         } else {
-            return super.getSchema(name);
+            return super.getSchemb(nbme);
         }
     }
 
-    public DirContext getSchema(Name name) throws NamingException {
-        if (LdapURL.hasQueryComponents(name.get(0))) {
-            throw new InvalidNameException(name.toString());
+    public DirContext getSchemb(Nbme nbme) throws NbmingException {
+        if (LdbpURL.hbsQueryComponents(nbme.get(0))) {
+            throw new InvblidNbmeException(nbme.toString());
         } else {
-            return super.getSchema(name);
+            return super.getSchemb(nbme);
         }
     }
 
-    public DirContext getSchemaClassDefinition(String name)
-        throws NamingException {
-        if (LdapURL.hasQueryComponents(name)) {
-            throw new InvalidNameException(name);
+    public DirContext getSchembClbssDefinition(String nbme)
+        throws NbmingException {
+        if (LdbpURL.hbsQueryComponents(nbme)) {
+            throw new InvblidNbmeException(nbme);
         } else {
-            return super.getSchemaClassDefinition(name);
+            return super.getSchembClbssDefinition(nbme);
         }
     }
 
-    public DirContext getSchemaClassDefinition(Name name)
-        throws NamingException {
-        if (LdapURL.hasQueryComponents(name.get(0))) {
-            throw new InvalidNameException(name.toString());
+    public DirContext getSchembClbssDefinition(Nbme nbme)
+        throws NbmingException {
+        if (LdbpURL.hbsQueryComponents(nbme.get(0))) {
+            throw new InvblidNbmeException(nbme.toString());
         } else {
-            return super.getSchemaClassDefinition(name);
+            return super.getSchembClbssDefinition(nbme);
         }
     }
 
-    // divert the search operation when the LDAP URL has query components
-    public NamingEnumeration<SearchResult> search(String name,
-        Attributes matchingAttributes)
-        throws NamingException {
+    // divert the sebrch operbtion when the LDAP URL hbs query components
+    public NbmingEnumerbtion<SebrchResult> sebrch(String nbme,
+        Attributes mbtchingAttributes)
+        throws NbmingException {
 
-        if (LdapURL.hasQueryComponents(name)) {
-            return searchUsingURL(name);
+        if (LdbpURL.hbsQueryComponents(nbme)) {
+            return sebrchUsingURL(nbme);
         } else {
-            return super.search(name, matchingAttributes);
+            return super.sebrch(nbme, mbtchingAttributes);
         }
     }
 
-    // divert the search operation when name has a single component
-    public NamingEnumeration<SearchResult> search(Name name,
-        Attributes matchingAttributes)
-        throws NamingException {
-        if (name.size() == 1) {
-            return search(name.get(0), matchingAttributes);
-        } else if (LdapURL.hasQueryComponents(name.get(0))) {
-            throw new InvalidNameException(name.toString());
+    // divert the sebrch operbtion when nbme hbs b single component
+    public NbmingEnumerbtion<SebrchResult> sebrch(Nbme nbme,
+        Attributes mbtchingAttributes)
+        throws NbmingException {
+        if (nbme.size() == 1) {
+            return sebrch(nbme.get(0), mbtchingAttributes);
+        } else if (LdbpURL.hbsQueryComponents(nbme.get(0))) {
+            throw new InvblidNbmeException(nbme.toString());
         } else {
-            return super.search(name, matchingAttributes);
+            return super.sebrch(nbme, mbtchingAttributes);
         }
     }
 
-    // divert the search operation when the LDAP URL has query components
-    public NamingEnumeration<SearchResult> search(String name,
-        Attributes matchingAttributes,
-        String[] attributesToReturn)
-        throws NamingException {
+    // divert the sebrch operbtion when the LDAP URL hbs query components
+    public NbmingEnumerbtion<SebrchResult> sebrch(String nbme,
+        Attributes mbtchingAttributes,
+        String[] bttributesToReturn)
+        throws NbmingException {
 
-        if (LdapURL.hasQueryComponents(name)) {
-            return searchUsingURL(name);
+        if (LdbpURL.hbsQueryComponents(nbme)) {
+            return sebrchUsingURL(nbme);
         } else {
-            return super.search(name, matchingAttributes, attributesToReturn);
+            return super.sebrch(nbme, mbtchingAttributes, bttributesToReturn);
         }
     }
 
-    // divert the search operation when name has a single component
-    public NamingEnumeration<SearchResult> search(Name name,
-        Attributes matchingAttributes,
-        String[] attributesToReturn)
-        throws NamingException {
+    // divert the sebrch operbtion when nbme hbs b single component
+    public NbmingEnumerbtion<SebrchResult> sebrch(Nbme nbme,
+        Attributes mbtchingAttributes,
+        String[] bttributesToReturn)
+        throws NbmingException {
 
-        if (name.size() == 1) {
-            return search(name.get(0), matchingAttributes, attributesToReturn);
-        } else if (LdapURL.hasQueryComponents(name.get(0))) {
-            throw new InvalidNameException(name.toString());
+        if (nbme.size() == 1) {
+            return sebrch(nbme.get(0), mbtchingAttributes, bttributesToReturn);
+        } else if (LdbpURL.hbsQueryComponents(nbme.get(0))) {
+            throw new InvblidNbmeException(nbme.toString());
         } else {
-            return super.search(name, matchingAttributes, attributesToReturn);
+            return super.sebrch(nbme, mbtchingAttributes, bttributesToReturn);
         }
     }
 
-    // divert the search operation when the LDAP URL has query components
-    public NamingEnumeration<SearchResult> search(String name,
+    // divert the sebrch operbtion when the LDAP URL hbs query components
+    public NbmingEnumerbtion<SebrchResult> sebrch(String nbme,
         String filter,
-        SearchControls cons)
-        throws NamingException {
+        SebrchControls cons)
+        throws NbmingException {
 
-        if (LdapURL.hasQueryComponents(name)) {
-            return searchUsingURL(name);
+        if (LdbpURL.hbsQueryComponents(nbme)) {
+            return sebrchUsingURL(nbme);
         } else {
-            return super.search(name, filter, cons);
+            return super.sebrch(nbme, filter, cons);
         }
     }
 
-    // divert the search operation when name has a single component
-    public NamingEnumeration<SearchResult> search(Name name,
+    // divert the sebrch operbtion when nbme hbs b single component
+    public NbmingEnumerbtion<SebrchResult> sebrch(Nbme nbme,
         String filter,
-        SearchControls cons)
-        throws NamingException {
+        SebrchControls cons)
+        throws NbmingException {
 
-        if (name.size() == 1) {
-            return search(name.get(0), filter, cons);
-        } else if (LdapURL.hasQueryComponents(name.get(0))) {
-            throw new InvalidNameException(name.toString());
+        if (nbme.size() == 1) {
+            return sebrch(nbme.get(0), filter, cons);
+        } else if (LdbpURL.hbsQueryComponents(nbme.get(0))) {
+            throw new InvblidNbmeException(nbme.toString());
         } else {
-            return super.search(name, filter, cons);
+            return super.sebrch(nbme, filter, cons);
         }
     }
 
-    // divert the search operation when the LDAP URL has query components
-    public NamingEnumeration<SearchResult> search(String name,
+    // divert the sebrch operbtion when the LDAP URL hbs query components
+    public NbmingEnumerbtion<SebrchResult> sebrch(String nbme,
         String filterExpr,
         Object[] filterArgs,
-        SearchControls cons)
-        throws NamingException {
+        SebrchControls cons)
+        throws NbmingException {
 
-        if (LdapURL.hasQueryComponents(name)) {
-            return searchUsingURL(name);
+        if (LdbpURL.hbsQueryComponents(nbme)) {
+            return sebrchUsingURL(nbme);
         } else {
-            return super.search(name, filterExpr, filterArgs, cons);
+            return super.sebrch(nbme, filterExpr, filterArgs, cons);
         }
     }
 
-    // divert the search operation when name has a single component
-    public NamingEnumeration<SearchResult> search(Name name,
+    // divert the sebrch operbtion when nbme hbs b single component
+    public NbmingEnumerbtion<SebrchResult> sebrch(Nbme nbme,
         String filterExpr,
         Object[] filterArgs,
-        SearchControls cons)
-        throws NamingException {
+        SebrchControls cons)
+        throws NbmingException {
 
-        if (name.size() == 1) {
-            return search(name.get(0), filterExpr, filterArgs, cons);
-        } else if (LdapURL.hasQueryComponents(name.get(0))) {
-            throw new InvalidNameException(name.toString());
+        if (nbme.size() == 1) {
+            return sebrch(nbme.get(0), filterExpr, filterArgs, cons);
+        } else if (LdbpURL.hbsQueryComponents(nbme.get(0))) {
+            throw new InvblidNbmeException(nbme.toString());
         } else {
-            return super.search(name, filterExpr, filterArgs, cons);
+            return super.sebrch(nbme, filterExpr, filterArgs, cons);
         }
     }
 
-    // Search using the LDAP URL in name.
-    // LDAP URL query components override the search arguments.
-    private NamingEnumeration<SearchResult> searchUsingURL(String name)
-        throws NamingException {
+    // Sebrch using the LDAP URL in nbme.
+    // LDAP URL query components override the sebrch brguments.
+    privbte NbmingEnumerbtion<SebrchResult> sebrchUsingURL(String nbme)
+        throws NbmingException {
 
-        LdapURL url = new LdapURL(name);
+        LdbpURL url = new LdbpURL(nbme);
 
-        ResolveResult res = getRootURLContext(name, myEnv);
+        ResolveResult res = getRootURLContext(nbme, myEnv);
         DirContext ctx = (DirContext)res.getResolvedObj();
         try {
-            return ctx.search(res.getRemainingName(),
+            return ctx.sebrch(res.getRembiningNbme(),
                               setFilterUsingURL(url),
-                              setSearchControlsUsingURL(url));
-        } finally {
+                              setSebrchControlsUsingURL(url));
+        } finblly {
             ctx.close();
         }
     }
 
     /*
-     * Initialize a String filter using the LDAP URL filter component.
-     * If filter is not present in the URL it is initialized to its default
-     * value as specified in RFC-2255.
+     * Initiblize b String filter using the LDAP URL filter component.
+     * If filter is not present in the URL it is initiblized to its defbult
+     * vblue bs specified in RFC-2255.
      */
-    private static String setFilterUsingURL(LdapURL url) {
+    privbte stbtic String setFilterUsingURL(LdbpURL url) {
 
         String filter = url.getFilter();
 
         if (filter == null) {
-            filter = "(objectClass=*)"; //default value
+            filter = "(objectClbss=*)"; //defbult vblue
         }
         return filter;
     }
 
     /*
-     * Initialize a SearchControls object using LDAP URL query components.
-     * Components not present in the URL are initialized to their default
-     * values as specified in RFC-2255.
+     * Initiblize b SebrchControls object using LDAP URL query components.
+     * Components not present in the URL bre initiblized to their defbult
+     * vblues bs specified in RFC-2255.
      */
-    private static SearchControls setSearchControlsUsingURL(LdapURL url) {
+    privbte stbtic SebrchControls setSebrchControlsUsingURL(LdbpURL url) {
 
-        SearchControls cons = new SearchControls();
+        SebrchControls cons = new SebrchControls();
         String scope = url.getScope();
-        String attributes = url.getAttributes();
+        String bttributes = url.getAttributes();
 
         if (scope == null) {
-            cons.setSearchScope(SearchControls.OBJECT_SCOPE); //default value
+            cons.setSebrchScope(SebrchControls.OBJECT_SCOPE); //defbult vblue
         } else {
-            if (scope.equals("sub")) {
-                cons.setSearchScope(SearchControls.SUBTREE_SCOPE);
-            } else if (scope.equals("one")) {
-                cons.setSearchScope(SearchControls.ONELEVEL_SCOPE);
-            } else if (scope.equals("base")) {
-                cons.setSearchScope(SearchControls.OBJECT_SCOPE);
+            if (scope.equbls("sub")) {
+                cons.setSebrchScope(SebrchControls.SUBTREE_SCOPE);
+            } else if (scope.equbls("one")) {
+                cons.setSebrchScope(SebrchControls.ONELEVEL_SCOPE);
+            } else if (scope.equbls("bbse")) {
+                cons.setSebrchScope(SebrchControls.OBJECT_SCOPE);
             }
         }
 
-        if (attributes == null) {
-            cons.setReturningAttributes(null); //default value
+        if (bttributes == null) {
+            cons.setReturningAttributes(null); //defbult vblue
         } else {
-            StringTokenizer tokens = new StringTokenizer(attributes, ",");
+            StringTokenizer tokens = new StringTokenizer(bttributes, ",");
             int count = tokens.countTokens();
-            String[] attrs = new String[count];
+            String[] bttrs = new String[count];
             for (int i = 0; i < count; i ++) {
-                attrs[i] = tokens.nextToken();
+                bttrs[i] = tokens.nextToken();
             }
-            cons.setReturningAttributes(attrs);
+            cons.setReturningAttributes(bttrs);
         }
         return cons;
     }

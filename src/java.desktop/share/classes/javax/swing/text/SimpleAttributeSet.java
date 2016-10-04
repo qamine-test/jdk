@@ -1,122 +1,122 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.text;
+pbckbge jbvbx.swing.text;
 
-import java.util.Hashtable;
-import java.util.Enumeration;
-import java.util.Collections;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.Serializable;
-import java.util.AbstractMap;
-import java.util.LinkedHashMap;
+import jbvb.util.Hbshtbble;
+import jbvb.util.Enumerbtion;
+import jbvb.util.Collections;
+import jbvb.io.IOException;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.Seriblizbble;
+import jbvb.util.AbstrbctMbp;
+import jbvb.util.LinkedHbshMbp;
 
 /**
- * A straightforward implementation of MutableAttributeSet using a
- * hash table.
+ * A strbightforwbrd implementbtion of MutbbleAttributeSet using b
+ * hbsh tbble.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
- * @author Tim Prinzing
+ * @buthor Tim Prinzing
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class SimpleAttributeSet implements MutableAttributeSet, Serializable, Cloneable
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public clbss SimpleAttributeSet implements MutbbleAttributeSet, Seriblizbble, Clonebble
 {
-    private static final long serialVersionUID = -6631553454711782652L;
+    privbte stbtic finbl long seriblVersionUID = -6631553454711782652L;
 
     /**
-     * An empty attribute set.
+     * An empty bttribute set.
      */
-    public static final AttributeSet EMPTY = new EmptyAttributeSet();
+    public stbtic finbl AttributeSet EMPTY = new EmptyAttributeSet();
 
-    private transient LinkedHashMap<Object, Object> table = new LinkedHashMap<>(3);
+    privbte trbnsient LinkedHbshMbp<Object, Object> tbble = new LinkedHbshMbp<>(3);
 
     /**
-     * Creates a new attribute set.
+     * Crebtes b new bttribute set.
      */
     public SimpleAttributeSet() {
     }
 
     /**
-     * Creates a new attribute set based on a supplied set of attributes.
+     * Crebtes b new bttribute set bbsed on b supplied set of bttributes.
      *
-     * @param source the set of attributes
+     * @pbrbm source the set of bttributes
      */
     public SimpleAttributeSet(AttributeSet source) {
-        addAttributes(source);
+        bddAttributes(source);
     }
 
     /**
-     * Checks whether the set of attributes is empty.
+     * Checks whether the set of bttributes is empty.
      *
-     * @return true if the set is empty else false
+     * @return true if the set is empty else fblse
      */
-    public boolean isEmpty()
+    public boolebn isEmpty()
     {
-        return table.isEmpty();
+        return tbble.isEmpty();
     }
 
     /**
-     * Gets a count of the number of attributes.
+     * Gets b count of the number of bttributes.
      *
      * @return the count
      */
     public int getAttributeCount() {
-        return table.size();
+        return tbble.size();
     }
 
     /**
-     * Tells whether a given attribute is defined.
+     * Tells whether b given bttribute is defined.
      *
-     * @param attrName the attribute name
-     * @return true if the attribute is defined
+     * @pbrbm bttrNbme the bttribute nbme
+     * @return true if the bttribute is defined
      */
-    public boolean isDefined(Object attrName) {
-        return table.containsKey(attrName);
+    public boolebn isDefined(Object bttrNbme) {
+        return tbble.contbinsKey(bttrNbme);
     }
 
     /**
-     * Compares two attribute sets.
+     * Compbres two bttribute sets.
      *
-     * @param attr the second attribute set
-     * @return true if the sets are equal, false otherwise
+     * @pbrbm bttr the second bttribute set
+     * @return true if the sets bre equbl, fblse otherwise
      */
-    public boolean isEqual(AttributeSet attr) {
-        return ((getAttributeCount() == attr.getAttributeCount()) &&
-                containsAttributes(attr));
+    public boolebn isEqubl(AttributeSet bttr) {
+        return ((getAttributeCount() == bttr.getAttributeCount()) &&
+                contbinsAttributes(bttr));
     }
 
     /**
-     * Makes a copy of the attributes.
+     * Mbkes b copy of the bttributes.
      *
      * @return the copy
      */
@@ -125,239 +125,239 @@ public class SimpleAttributeSet implements MutableAttributeSet, Serializable, Cl
     }
 
     /**
-     * Gets the names of the attributes in the set.
+     * Gets the nbmes of the bttributes in the set.
      *
-     * @return the names as an <code>Enumeration</code>
+     * @return the nbmes bs bn <code>Enumerbtion</code>
      */
-    public Enumeration<?> getAttributeNames() {
-        return Collections.enumeration(table.keySet());
+    public Enumerbtion<?> getAttributeNbmes() {
+        return Collections.enumerbtion(tbble.keySet());
     }
 
     /**
-     * Gets the value of an attribute.
+     * Gets the vblue of bn bttribute.
      *
-     * @param name the attribute name
-     * @return the value
+     * @pbrbm nbme the bttribute nbme
+     * @return the vblue
      */
-    public Object getAttribute(Object name) {
-        Object value = table.get(name);
-        if (value == null) {
-            AttributeSet parent = getResolveParent();
-            if (parent != null) {
-                value = parent.getAttribute(name);
+    public Object getAttribute(Object nbme) {
+        Object vblue = tbble.get(nbme);
+        if (vblue == null) {
+            AttributeSet pbrent = getResolvePbrent();
+            if (pbrent != null) {
+                vblue = pbrent.getAttribute(nbme);
             }
         }
-        return value;
+        return vblue;
     }
 
     /**
-     * Checks whether the attribute list contains a
-     * specified attribute name/value pair.
+     * Checks whether the bttribute list contbins b
+     * specified bttribute nbme/vblue pbir.
      *
-     * @param name the name
-     * @param value the value
-     * @return true if the name/value pair is in the list
+     * @pbrbm nbme the nbme
+     * @pbrbm vblue the vblue
+     * @return true if the nbme/vblue pbir is in the list
      */
-    public boolean containsAttribute(Object name, Object value) {
-        return value.equals(getAttribute(name));
+    public boolebn contbinsAttribute(Object nbme, Object vblue) {
+        return vblue.equbls(getAttribute(nbme));
     }
 
     /**
-     * Checks whether the attribute list contains all the
-     * specified name/value pairs.
+     * Checks whether the bttribute list contbins bll the
+     * specified nbme/vblue pbirs.
      *
-     * @param attributes the attribute list
-     * @return true if the list contains all the name/value pairs
+     * @pbrbm bttributes the bttribute list
+     * @return true if the list contbins bll the nbme/vblue pbirs
      */
-    public boolean containsAttributes(AttributeSet attributes) {
-        boolean result = true;
+    public boolebn contbinsAttributes(AttributeSet bttributes) {
+        boolebn result = true;
 
-        Enumeration<?> names = attributes.getAttributeNames();
-        while (result && names.hasMoreElements()) {
-            Object name = names.nextElement();
-            result = attributes.getAttribute(name).equals(getAttribute(name));
+        Enumerbtion<?> nbmes = bttributes.getAttributeNbmes();
+        while (result && nbmes.hbsMoreElements()) {
+            Object nbme = nbmes.nextElement();
+            result = bttributes.getAttribute(nbme).equbls(getAttribute(nbme));
         }
 
         return result;
     }
 
     /**
-     * Adds an attribute to the list.
+     * Adds bn bttribute to the list.
      *
-     * @param name the attribute name
-     * @param value the attribute value
+     * @pbrbm nbme the bttribute nbme
+     * @pbrbm vblue the bttribute vblue
      */
-    public void addAttribute(Object name, Object value) {
-        table.put(name, value);
+    public void bddAttribute(Object nbme, Object vblue) {
+        tbble.put(nbme, vblue);
     }
 
     /**
-     * Adds a set of attributes to the list.
+     * Adds b set of bttributes to the list.
      *
-     * @param attributes the set of attributes to add
+     * @pbrbm bttributes the set of bttributes to bdd
      */
-    public void addAttributes(AttributeSet attributes) {
-        Enumeration<?> names = attributes.getAttributeNames();
-        while (names.hasMoreElements()) {
-            Object name = names.nextElement();
-            addAttribute(name, attributes.getAttribute(name));
+    public void bddAttributes(AttributeSet bttributes) {
+        Enumerbtion<?> nbmes = bttributes.getAttributeNbmes();
+        while (nbmes.hbsMoreElements()) {
+            Object nbme = nbmes.nextElement();
+            bddAttribute(nbme, bttributes.getAttribute(nbme));
         }
     }
 
     /**
-     * Removes an attribute from the list.
+     * Removes bn bttribute from the list.
      *
-     * @param name the attribute name
+     * @pbrbm nbme the bttribute nbme
      */
-    public void removeAttribute(Object name) {
-        table.remove(name);
+    public void removeAttribute(Object nbme) {
+        tbble.remove(nbme);
     }
 
     /**
-     * Removes a set of attributes from the list.
+     * Removes b set of bttributes from the list.
      *
-     * @param names the set of names to remove
+     * @pbrbm nbmes the set of nbmes to remove
      */
-    public void removeAttributes(Enumeration<?> names) {
-        while (names.hasMoreElements())
-            removeAttribute(names.nextElement());
+    public void removeAttributes(Enumerbtion<?> nbmes) {
+        while (nbmes.hbsMoreElements())
+            removeAttribute(nbmes.nextElement());
     }
 
     /**
-     * Removes a set of attributes from the list.
+     * Removes b set of bttributes from the list.
      *
-     * @param attributes the set of attributes to remove
+     * @pbrbm bttributes the set of bttributes to remove
      */
-    public void removeAttributes(AttributeSet attributes) {
-        if (attributes == this) {
-            table.clear();
+    public void removeAttributes(AttributeSet bttributes) {
+        if (bttributes == this) {
+            tbble.clebr();
         }
         else {
-            Enumeration<?> names = attributes.getAttributeNames();
-            while (names.hasMoreElements()) {
-                Object name = names.nextElement();
-                Object value = attributes.getAttribute(name);
-                if (value.equals(getAttribute(name)))
-                    removeAttribute(name);
+            Enumerbtion<?> nbmes = bttributes.getAttributeNbmes();
+            while (nbmes.hbsMoreElements()) {
+                Object nbme = nbmes.nextElement();
+                Object vblue = bttributes.getAttribute(nbme);
+                if (vblue.equbls(getAttribute(nbme)))
+                    removeAttribute(nbme);
             }
         }
     }
 
     /**
-     * Gets the resolving parent.  This is the set
-     * of attributes to resolve through if an attribute
-     * isn't defined locally.  This is null if there
-     * are no other sets of attributes to resolve
+     * Gets the resolving pbrent.  This is the set
+     * of bttributes to resolve through if bn bttribute
+     * isn't defined locblly.  This is null if there
+     * bre no other sets of bttributes to resolve
      * through.
      *
-     * @return the parent
+     * @return the pbrent
      */
-    public AttributeSet getResolveParent() {
-        return (AttributeSet) table.get(StyleConstants.ResolveAttribute);
+    public AttributeSet getResolvePbrent() {
+        return (AttributeSet) tbble.get(StyleConstbnts.ResolveAttribute);
     }
 
     /**
-     * Sets the resolving parent.
+     * Sets the resolving pbrent.
      *
-     * @param parent the parent
+     * @pbrbm pbrent the pbrent
      */
-    public void setResolveParent(AttributeSet parent) {
-        addAttribute(StyleConstants.ResolveAttribute, parent);
+    public void setResolvePbrent(AttributeSet pbrent) {
+        bddAttribute(StyleConstbnts.ResolveAttribute, pbrent);
     }
 
     // --- Object methods ---------------------------------
 
     /**
-     * Clones a set of attributes.
+     * Clones b set of bttributes.
      *
-     * @return the new set of attributes
+     * @return the new set of bttributes
      */
-    @SuppressWarnings("unchecked") // Cast of result of clone
+    @SuppressWbrnings("unchecked") // Cbst of result of clone
     public Object clone() {
-        SimpleAttributeSet attr;
+        SimpleAttributeSet bttr;
         try {
-            attr = (SimpleAttributeSet) super.clone();
-            attr.table = (LinkedHashMap) table.clone();
-        } catch (CloneNotSupportedException cnse) {
-            attr = null;
+            bttr = (SimpleAttributeSet) super.clone();
+            bttr.tbble = (LinkedHbshMbp) tbble.clone();
+        } cbtch (CloneNotSupportedException cnse) {
+            bttr = null;
         }
-        return attr;
+        return bttr;
     }
 
     /**
-     * Returns a hashcode for this set of attributes.
-     * @return     a hashcode value for this set of attributes.
+     * Returns b hbshcode for this set of bttributes.
+     * @return     b hbshcode vblue for this set of bttributes.
      */
-    public int hashCode() {
-        return table.hashCode();
+    public int hbshCode() {
+        return tbble.hbshCode();
     }
 
     /**
-     * Compares this object to the specified object.
-     * The result is <code>true</code> if the object is an equivalent
-     * set of attributes.
-     * @param     obj   the object to compare this attribute set with
-     * @return    <code>true</code> if the objects are equal;
-     *            <code>false</code> otherwise
+     * Compbres this object to the specified object.
+     * The result is <code>true</code> if the object is bn equivblent
+     * set of bttributes.
+     * @pbrbm     obj   the object to compbre this bttribute set with
+     * @return    <code>true</code> if the objects bre equbl;
+     *            <code>fblse</code> otherwise
      */
-    public boolean equals(Object obj) {
+    public boolebn equbls(Object obj) {
         if (this == obj) {
             return true;
         }
-        if (obj instanceof AttributeSet) {
-            AttributeSet attrs = (AttributeSet) obj;
-            return isEqual(attrs);
+        if (obj instbnceof AttributeSet) {
+            AttributeSet bttrs = (AttributeSet) obj;
+            return isEqubl(bttrs);
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Converts the attribute set to a String.
+     * Converts the bttribute set to b String.
      *
      * @return the string
      */
     public String toString() {
         String s = "";
-        Enumeration<?> names = getAttributeNames();
-        while (names.hasMoreElements()) {
-            Object key = names.nextElement();
-            Object value = getAttribute(key);
-            if (value instanceof AttributeSet) {
+        Enumerbtion<?> nbmes = getAttributeNbmes();
+        while (nbmes.hbsMoreElements()) {
+            Object key = nbmes.nextElement();
+            Object vblue = getAttribute(key);
+            if (vblue instbnceof AttributeSet) {
                 // don't go recursive
                 s = s + key + "=**AttributeSet** ";
             } else {
-                s = s + key + "=" + value + " ";
+                s = s + key + "=" + vblue + " ";
             }
         }
         return s;
     }
 
-    private void writeObject(java.io.ObjectOutputStream s) throws IOException {
-        s.defaultWriteObject();
+    privbte void writeObject(jbvb.io.ObjectOutputStrebm s) throws IOException {
+        s.defbultWriteObject();
         StyleContext.writeAttributeSet(s, this);
     }
 
-    private void readObject(ObjectInputStream s)
-      throws ClassNotFoundException, IOException {
-        s.defaultReadObject();
-        table = new LinkedHashMap<>(3);
-        StyleContext.readAttributeSet(s, this);
+    privbte void rebdObject(ObjectInputStrebm s)
+      throws ClbssNotFoundException, IOException {
+        s.defbultRebdObject();
+        tbble = new LinkedHbshMbp<>(3);
+        StyleContext.rebdAttributeSet(s, this);
     }
 
     /**
-     * An AttributeSet that is always empty.
+     * An AttributeSet thbt is blwbys empty.
      */
-    static class EmptyAttributeSet implements AttributeSet, Serializable {
-        static final long serialVersionUID = -8714803568785904228L;
+    stbtic clbss EmptyAttributeSet implements AttributeSet, Seriblizbble {
+        stbtic finbl long seriblVersionUID = -8714803568785904228L;
 
         public int getAttributeCount() {
             return 0;
         }
-        public boolean isDefined(Object attrName) {
-            return false;
+        public boolebn isDefined(Object bttrNbme) {
+            return fblse;
         }
-        public boolean isEqual(AttributeSet attr) {
-            return (attr.getAttributeCount() == 0);
+        public boolebn isEqubl(AttributeSet bttr) {
+            return (bttr.getAttributeCount() == 0);
         }
         public AttributeSet copyAttributes() {
             return this;
@@ -365,26 +365,26 @@ public class SimpleAttributeSet implements MutableAttributeSet, Serializable, Cl
         public Object getAttribute(Object key) {
             return null;
         }
-        public Enumeration<?> getAttributeNames() {
-            return Collections.emptyEnumeration();
+        public Enumerbtion<?> getAttributeNbmes() {
+            return Collections.emptyEnumerbtion();
         }
-        public boolean containsAttribute(Object name, Object value) {
-            return false;
+        public boolebn contbinsAttribute(Object nbme, Object vblue) {
+            return fblse;
         }
-        public boolean containsAttributes(AttributeSet attributes) {
-            return (attributes.getAttributeCount() == 0);
+        public boolebn contbinsAttributes(AttributeSet bttributes) {
+            return (bttributes.getAttributeCount() == 0);
         }
-        public AttributeSet getResolveParent() {
+        public AttributeSet getResolvePbrent() {
             return null;
         }
-        public boolean equals(Object obj) {
+        public boolebn equbls(Object obj) {
             if (this == obj) {
                 return true;
             }
-            return ((obj instanceof AttributeSet) &&
+            return ((obj instbnceof AttributeSet) &&
                     (((AttributeSet)obj).getAttributeCount() == 0));
         }
-        public int hashCode() {
+        public int hbshCode() {
             return 0;
         }
     }

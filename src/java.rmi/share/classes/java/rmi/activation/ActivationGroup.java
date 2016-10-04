@@ -1,510 +1,510 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.rmi.activation;
+pbckbge jbvb.rmi.bctivbtion;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.rmi.MarshalledObject;
-import java.rmi.Naming;
-import java.rmi.Remote;
-import java.rmi.RemoteException;
-import java.rmi.activation.UnknownGroupException;
-import java.rmi.activation.UnknownObjectException;
-import java.rmi.server.RMIClassLoader;
-import java.rmi.server.UnicastRemoteObject;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
+import jbvb.lbng.reflect.Constructor;
+import jbvb.lbng.reflect.InvocbtionTbrgetException;
+import jbvb.rmi.MbrshblledObject;
+import jbvb.rmi.Nbming;
+import jbvb.rmi.Remote;
+import jbvb.rmi.RemoteException;
+import jbvb.rmi.bctivbtion.UnknownGroupException;
+import jbvb.rmi.bctivbtion.UnknownObjectException;
+import jbvb.rmi.server.RMIClbssLobder;
+import jbvb.rmi.server.UnicbstRemoteObject;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
 
 /**
- * An <code>ActivationGroup</code> is responsible for creating new
- * instances of "activatable" objects in its group, informing its
- * <code>ActivationMonitor</code> when either: its object's become
- * active or inactive, or the group as a whole becomes inactive. <p>
+ * An <code>ActivbtionGroup</code> is responsible for crebting new
+ * instbnces of "bctivbtbble" objects in its group, informing its
+ * <code>ActivbtionMonitor</code> when either: its object's become
+ * bctive or inbctive, or the group bs b whole becomes inbctive. <p>
  *
- * An <code>ActivationGroup</code> is <i>initially</i> created in one
- * of several ways: <ul>
- * <li>as a side-effect of creating an <code>ActivationDesc</code>
- *     without an explicit <code>ActivationGroupID</code> for the
- *     first activatable object in the group, or
- * <li>via the <code>ActivationGroup.createGroup</code> method
- * <li>as a side-effect of activating the first object in a group
- *     whose <code>ActivationGroupDesc</code> was only registered.</ul><p>
+ * An <code>ActivbtionGroup</code> is <i>initiblly</i> crebted in one
+ * of severbl wbys: <ul>
+ * <li>bs b side-effect of crebting bn <code>ActivbtionDesc</code>
+ *     without bn explicit <code>ActivbtionGroupID</code> for the
+ *     first bctivbtbble object in the group, or
+ * <li>vib the <code>ActivbtionGroup.crebteGroup</code> method
+ * <li>bs b side-effect of bctivbting the first object in b group
+ *     whose <code>ActivbtionGroupDesc</code> wbs only registered.</ul><p>
  *
- * Only the activator can <i>recreate</i> an
- * <code>ActivationGroup</code>.  The activator spawns, as needed, a
- * separate VM (as a child process, for example) for each registered
- * activation group and directs activation requests to the appropriate
- * group. It is implementation specific how VMs are spawned. An
- * activation group is created via the
- * <code>ActivationGroup.createGroup</code> static method. The
- * <code>createGroup</code> method has two requirements on the group
- * to be created: 1) the group must be a concrete subclass of
- * <code>ActivationGroup</code>, and 2) the group must have a
- * constructor that takes two arguments:
+ * Only the bctivbtor cbn <i>recrebte</i> bn
+ * <code>ActivbtionGroup</code>.  The bctivbtor spbwns, bs needed, b
+ * sepbrbte VM (bs b child process, for exbmple) for ebch registered
+ * bctivbtion group bnd directs bctivbtion requests to the bppropribte
+ * group. It is implementbtion specific how VMs bre spbwned. An
+ * bctivbtion group is crebted vib the
+ * <code>ActivbtionGroup.crebteGroup</code> stbtic method. The
+ * <code>crebteGroup</code> method hbs two requirements on the group
+ * to be crebted: 1) the group must be b concrete subclbss of
+ * <code>ActivbtionGroup</code>, bnd 2) the group must hbve b
+ * constructor thbt tbkes two brguments:
  *
  * <ul>
- * <li> the group's <code>ActivationGroupID</code>, and
- * <li> the group's initialization data (in a
- *      <code>java.rmi.MarshalledObject</code>)</ul><p>
+ * <li> the group's <code>ActivbtionGroupID</code>, bnd
+ * <li> the group's initiblizbtion dbtb (in b
+ *      <code>jbvb.rmi.MbrshblledObject</code>)</ul><p>
  *
- * When created, the default implementation of
- * <code>ActivationGroup</code> will override the system properties
+ * When crebted, the defbult implementbtion of
+ * <code>ActivbtionGroup</code> will override the system properties
  * with the properties requested when its
- * <code>ActivationGroupDesc</code> was created, and will set a
- * {@link SecurityManager} as the default system
- * security manager.  If your application requires specific properties
- * to be set when objects are activated in the group, the application
- * should create a special <code>Properties</code> object containing
- * these properties, then create an <code>ActivationGroupDesc</code>
- * with the <code>Properties</code> object, and use
- * <code>ActivationGroup.createGroup</code> before creating any
- * <code>ActivationDesc</code>s (before the default
- * <code>ActivationGroupDesc</code> is created).  If your application
- * requires the use of a security manager other than
- * {@link SecurityManager}, in the
- * ActivativationGroupDescriptor properties list you can set
- * <code>java.security.manager</code> property to the name of the security
- * manager you would like to install.
+ * <code>ActivbtionGroupDesc</code> wbs crebted, bnd will set b
+ * {@link SecurityMbnbger} bs the defbult system
+ * security mbnbger.  If your bpplicbtion requires specific properties
+ * to be set when objects bre bctivbted in the group, the bpplicbtion
+ * should crebte b specibl <code>Properties</code> object contbining
+ * these properties, then crebte bn <code>ActivbtionGroupDesc</code>
+ * with the <code>Properties</code> object, bnd use
+ * <code>ActivbtionGroup.crebteGroup</code> before crebting bny
+ * <code>ActivbtionDesc</code>s (before the defbult
+ * <code>ActivbtionGroupDesc</code> is crebted).  If your bpplicbtion
+ * requires the use of b security mbnbger other thbn
+ * {@link SecurityMbnbger}, in the
+ * ActivbtivbtionGroupDescriptor properties list you cbn set
+ * <code>jbvb.security.mbnbger</code> property to the nbme of the security
+ * mbnbger you would like to instbll.
  *
- * @author      Ann Wollrath
- * @see         ActivationInstantiator
- * @see         ActivationGroupDesc
- * @see         ActivationGroupID
+ * @buthor      Ann Wollrbth
+ * @see         ActivbtionInstbntibtor
+ * @see         ActivbtionGroupDesc
+ * @see         ActivbtionGroupID
  * @since       1.2
  */
-public abstract class ActivationGroup
-        extends UnicastRemoteObject
-        implements ActivationInstantiator
+public bbstrbct clbss ActivbtionGroup
+        extends UnicbstRemoteObject
+        implements ActivbtionInstbntibtor
 {
     /**
-     * @serial the group's identifier
+     * @seribl the group's identifier
      */
-    private ActivationGroupID groupID;
+    privbte ActivbtionGroupID groupID;
 
     /**
-     * @serial the group's monitor
+     * @seribl the group's monitor
      */
-    private ActivationMonitor monitor;
+    privbte ActivbtionMonitor monitor;
 
     /**
-     * @serial the group's incarnation number
+     * @seribl the group's incbrnbtion number
      */
-    private long incarnation;
+    privbte long incbrnbtion;
 
-    /** the current activation group for this VM */
-    private static ActivationGroup currGroup;
+    /** the current bctivbtion group for this VM */
+    privbte stbtic ActivbtionGroup currGroup;
     /** the current group's identifier */
-    private static ActivationGroupID currGroupID;
-    /** the current group's activation system */
-    private static ActivationSystem currSystem;
-    /** used to control a group being created only once */
-    private static boolean canCreate = true;
+    privbte stbtic ActivbtionGroupID currGroupID;
+    /** the current group's bctivbtion system */
+    privbte stbtic ActivbtionSystem currSystem;
+    /** used to control b group being crebted only once */
+    privbte stbtic boolebn cbnCrebte = true;
 
-    /** indicate compatibility with the Java 2 SDK v1.2 version of class */
-    private static final long serialVersionUID = -7696947875314805420L;
+    /** indicbte compbtibility with the Jbvb 2 SDK v1.2 version of clbss */
+    privbte stbtic finbl long seriblVersionUID = -7696947875314805420L;
 
     /**
-     * Constructs an activation group with the given activation group
-     * identifier.  The group is exported as a
-     * <code>java.rmi.server.UnicastRemoteObject</code>.
+     * Constructs bn bctivbtion group with the given bctivbtion group
+     * identifier.  The group is exported bs b
+     * <code>jbvb.rmi.server.UnicbstRemoteObject</code>.
      *
-     * @param   groupID the group's identifier
+     * @pbrbm   groupID the group's identifier
      * @throws  RemoteException if this group could not be exported
-     * @throws  UnsupportedOperationException if and only if activation is
-     *          not supported by this implementation
+     * @throws  UnsupportedOperbtionException if bnd only if bctivbtion is
+     *          not supported by this implementbtion
      * @since   1.2
      */
-    protected ActivationGroup(ActivationGroupID groupID)
+    protected ActivbtionGroup(ActivbtionGroupID groupID)
         throws RemoteException
     {
-        // call super constructor to export the object
+        // cbll super constructor to export the object
         super();
         this.groupID = groupID;
     }
 
     /**
-     * The group's <code>inactiveObject</code> method is called
-     * indirectly via a call to the <code>Activatable.inactive</code>
-     * method. A remote object implementation must call
-     * <code>Activatable</code>'s <code>inactive</code> method when
-     * that object deactivates (the object deems that it is no longer
-     * active). If the object does not call
-     * <code>Activatable.inactive</code> when it deactivates, the
-     * object will never be garbage collected since the group keeps
-     * strong references to the objects it creates.
+     * The group's <code>inbctiveObject</code> method is cblled
+     * indirectly vib b cbll to the <code>Activbtbble.inbctive</code>
+     * method. A remote object implementbtion must cbll
+     * <code>Activbtbble</code>'s <code>inbctive</code> method when
+     * thbt object debctivbtes (the object deems thbt it is no longer
+     * bctive). If the object does not cbll
+     * <code>Activbtbble.inbctive</code> when it debctivbtes, the
+     * object will never be gbrbbge collected since the group keeps
+     * strong references to the objects it crebtes.
      *
-     * <p>The group's <code>inactiveObject</code> method unexports the
-     * remote object from the RMI runtime so that the object can no
-     * longer receive incoming RMI calls. An object will only be unexported
-     * if the object has no pending or executing calls.
-     * The subclass of <code>ActivationGroup</code> must override this
-     * method and unexport the object.
+     * <p>The group's <code>inbctiveObject</code> method unexports the
+     * remote object from the RMI runtime so thbt the object cbn no
+     * longer receive incoming RMI cblls. An object will only be unexported
+     * if the object hbs no pending or executing cblls.
+     * The subclbss of <code>ActivbtionGroup</code> must override this
+     * method bnd unexport the object.
      *
      * <p>After removing the object from the RMI runtime, the group
-     * must inform its <code>ActivationMonitor</code> (via the monitor's
-     * <code>inactiveObject</code> method) that the remote object is
-     * not currently active so that the remote object will be
-     * re-activated by the activator upon a subsequent activation
+     * must inform its <code>ActivbtionMonitor</code> (vib the monitor's
+     * <code>inbctiveObject</code> method) thbt the remote object is
+     * not currently bctive so thbt the remote object will be
+     * re-bctivbted by the bctivbtor upon b subsequent bctivbtion
      * request.
      *
-     * <p>This method simply informs the group's monitor that the object
-     * is inactive.  It is up to the concrete subclass of ActivationGroup
-     * to fulfill the additional requirement of unexporting the object.
+     * <p>This method simply informs the group's monitor thbt the object
+     * is inbctive.  It is up to the concrete subclbss of ActivbtionGroup
+     * to fulfill the bdditionbl requirement of unexporting the object.
      *
-     * @param id the object's activation identifier
-     * @return true if the object was successfully deactivated; otherwise
-     *         returns false.
-     * @exception UnknownObjectException if object is unknown (may already
-     * be inactive)
-     * @exception RemoteException if call informing monitor fails
-     * @exception ActivationException if group is inactive
+     * @pbrbm id the object's bctivbtion identifier
+     * @return true if the object wbs successfully debctivbted; otherwise
+     *         returns fblse.
+     * @exception UnknownObjectException if object is unknown (mby blrebdy
+     * be inbctive)
+     * @exception RemoteException if cbll informing monitor fbils
+     * @exception ActivbtionException if group is inbctive
      * @since 1.2
      */
-    public boolean inactiveObject(ActivationID id)
-        throws ActivationException, UnknownObjectException, RemoteException
+    public boolebn inbctiveObject(ActivbtionID id)
+        throws ActivbtionException, UnknownObjectException, RemoteException
     {
-        getMonitor().inactiveObject(id);
+        getMonitor().inbctiveObject(id);
         return true;
     }
 
     /**
-     * The group's <code>activeObject</code> method is called when an
-     * object is exported (either by <code>Activatable</code> object
-     * construction or an explicit call to
-     * <code>Activatable.exportObject</code>. The group must inform its
-     * <code>ActivationMonitor</code> that the object is active (via
-     * the monitor's <code>activeObject</code> method) if the group
-     * hasn't already done so.
+     * The group's <code>bctiveObject</code> method is cblled when bn
+     * object is exported (either by <code>Activbtbble</code> object
+     * construction or bn explicit cbll to
+     * <code>Activbtbble.exportObject</code>. The group must inform its
+     * <code>ActivbtionMonitor</code> thbt the object is bctive (vib
+     * the monitor's <code>bctiveObject</code> method) if the group
+     * hbsn't blrebdy done so.
      *
-     * @param id the object's identifier
-     * @param obj the remote object implementation
+     * @pbrbm id the object's identifier
+     * @pbrbm obj the remote object implementbtion
      * @exception UnknownObjectException if object is not registered
-     * @exception RemoteException if call informing monitor fails
-     * @exception ActivationException if group is inactive
+     * @exception RemoteException if cbll informing monitor fbils
+     * @exception ActivbtionException if group is inbctive
      * @since 1.2
      */
-    public abstract void activeObject(ActivationID id, Remote obj)
-        throws ActivationException, UnknownObjectException, RemoteException;
+    public bbstrbct void bctiveObject(ActivbtionID id, Remote obj)
+        throws ActivbtionException, UnknownObjectException, RemoteException;
 
     /**
-     * Create and set the activation group for the current VM.  The
-     * activation group can only be set if it is not currently set.
-     * An activation group is set using the <code>createGroup</code>
-     * method when the <code>Activator</code> initiates the
-     * re-creation of an activation group in order to carry out
-     * incoming <code>activate</code> requests. A group must first be
-     * registered with the <code>ActivationSystem</code> before it can
-     * be created via this method.
+     * Crebte bnd set the bctivbtion group for the current VM.  The
+     * bctivbtion group cbn only be set if it is not currently set.
+     * An bctivbtion group is set using the <code>crebteGroup</code>
+     * method when the <code>Activbtor</code> initibtes the
+     * re-crebtion of bn bctivbtion group in order to cbrry out
+     * incoming <code>bctivbte</code> requests. A group must first be
+     * registered with the <code>ActivbtionSystem</code> before it cbn
+     * be crebted vib this method.
      *
-     * <p>The group class specified by the
-     * <code>ActivationGroupDesc</code> must be a concrete subclass of
-     * <code>ActivationGroup</code> and have a public constructor that
-     * takes two arguments: the <code>ActivationGroupID</code> for the
-     * group and the <code>MarshalledObject</code> containing the
-     * group's initialization data (obtained from the
-     * <code>ActivationGroupDesc</code>.
+     * <p>The group clbss specified by the
+     * <code>ActivbtionGroupDesc</code> must be b concrete subclbss of
+     * <code>ActivbtionGroup</code> bnd hbve b public constructor thbt
+     * tbkes two brguments: the <code>ActivbtionGroupID</code> for the
+     * group bnd the <code>MbrshblledObject</code> contbining the
+     * group's initiblizbtion dbtb (obtbined from the
+     * <code>ActivbtionGroupDesc</code>.
      *
-     * <p>If the group class name specified in the
-     * <code>ActivationGroupDesc</code> is <code>null</code>, then
-     * this method will behave as if the group descriptor contained
-     * the name of the default activation group implementation class.
+     * <p>If the group clbss nbme specified in the
+     * <code>ActivbtionGroupDesc</code> is <code>null</code>, then
+     * this method will behbve bs if the group descriptor contbined
+     * the nbme of the defbult bctivbtion group implementbtion clbss.
      *
-     * <p>Note that if your application creates its own custom
-     * activation group, a security manager must be set for that
-     * group.  Otherwise objects cannot be activated in the group.
-     * {@link SecurityManager} is set by default.
+     * <p>Note thbt if your bpplicbtion crebtes its own custom
+     * bctivbtion group, b security mbnbger must be set for thbt
+     * group.  Otherwise objects cbnnot be bctivbted in the group.
+     * {@link SecurityMbnbger} is set by defbult.
      *
-     * <p>If a security manager is already set in the group VM, this
-     * method first calls the security manager's
-     * <code>checkSetFactory</code> method.  This could result in a
-     * <code>SecurityException</code>. If your application needs to
-     * set a different security manager, you must ensure that the
+     * <p>If b security mbnbger is blrebdy set in the group VM, this
+     * method first cblls the security mbnbger's
+     * <code>checkSetFbctory</code> method.  This could result in b
+     * <code>SecurityException</code>. If your bpplicbtion needs to
+     * set b different security mbnbger, you must ensure thbt the
      * policy file specified by the group's
-     * <code>ActivationGroupDesc</code> grants the group the necessary
-     * permissions to set a new security manager.  (Note: This will be
-     * necessary if your group downloads and sets a security manager).
+     * <code>ActivbtionGroupDesc</code> grbnts the group the necessbry
+     * permissions to set b new security mbnbger.  (Note: This will be
+     * necessbry if your group downlobds bnd sets b security mbnbger).
      *
-     * <p>After the group is created, the
-     * <code>ActivationSystem</code> is informed that the group is
-     * active by calling the <code>activeGroup</code> method which
-     * returns the <code>ActivationMonitor</code> for the group. The
-     * application need not call <code>activeGroup</code>
-     * independently since it is taken care of by this method.
+     * <p>After the group is crebted, the
+     * <code>ActivbtionSystem</code> is informed thbt the group is
+     * bctive by cblling the <code>bctiveGroup</code> method which
+     * returns the <code>ActivbtionMonitor</code> for the group. The
+     * bpplicbtion need not cbll <code>bctiveGroup</code>
+     * independently since it is tbken cbre of by this method.
      *
-     * <p>Once a group is created, subsequent calls to the
+     * <p>Once b group is crebted, subsequent cblls to the
      * <code>currentGroupID</code> method will return the identifier
-     * for this group until the group becomes inactive.
+     * for this group until the group becomes inbctive.
      *
-     * @param id the activation group's identifier
-     * @param desc the activation group's descriptor
-     * @param incarnation the group's incarnation number (zero on group's
-     * initial creation)
-     * @return the activation group for the VM
-     * @exception ActivationException if group already exists or if error
-     * occurs during group creation
-     * @exception SecurityException if permission to create group is denied.
-     * (Note: The default implementation of the security manager
-     * <code>checkSetFactory</code>
-     * method requires the RuntimePermission "setFactory")
-     * @exception UnsupportedOperationException if and only if activation is
-     * not supported by this implementation
-     * @see SecurityManager#checkSetFactory
+     * @pbrbm id the bctivbtion group's identifier
+     * @pbrbm desc the bctivbtion group's descriptor
+     * @pbrbm incbrnbtion the group's incbrnbtion number (zero on group's
+     * initibl crebtion)
+     * @return the bctivbtion group for the VM
+     * @exception ActivbtionException if group blrebdy exists or if error
+     * occurs during group crebtion
+     * @exception SecurityException if permission to crebte group is denied.
+     * (Note: The defbult implementbtion of the security mbnbger
+     * <code>checkSetFbctory</code>
+     * method requires the RuntimePermission "setFbctory")
+     * @exception UnsupportedOperbtionException if bnd only if bctivbtion is
+     * not supported by this implementbtion
+     * @see SecurityMbnbger#checkSetFbctory
      * @since 1.2
      */
-    public static synchronized
-        ActivationGroup createGroup(ActivationGroupID id,
-                                    final ActivationGroupDesc desc,
-                                    long incarnation)
-        throws ActivationException
+    public stbtic synchronized
+        ActivbtionGroup crebteGroup(ActivbtionGroupID id,
+                                    finbl ActivbtionGroupDesc desc,
+                                    long incbrnbtion)
+        throws ActivbtionException
     {
-        SecurityManager security = System.getSecurityManager();
+        SecurityMbnbger security = System.getSecurityMbnbger();
         if (security != null)
-            security.checkSetFactory();
+            security.checkSetFbctory();
 
         if (currGroup != null)
-            throw new ActivationException("group already exists");
+            throw new ActivbtionException("group blrebdy exists");
 
-        if (canCreate == false)
-            throw new ActivationException("group deactivated and " +
-                                          "cannot be recreated");
+        if (cbnCrebte == fblse)
+            throw new ActivbtionException("group debctivbted bnd " +
+                                          "cbnnot be recrebted");
 
         try {
-            // load group's class
-            String groupClassName = desc.getClassName();
-            Class<? extends ActivationGroup> cl;
-            Class<? extends ActivationGroup> defaultGroupClass =
-                sun.rmi.server.ActivationGroupImpl.class;
-            if (groupClassName == null ||       // see 4252236
-                groupClassName.equals(defaultGroupClass.getName()))
+            // lobd group's clbss
+            String groupClbssNbme = desc.getClbssNbme();
+            Clbss<? extends ActivbtionGroup> cl;
+            Clbss<? extends ActivbtionGroup> defbultGroupClbss =
+                sun.rmi.server.ActivbtionGroupImpl.clbss;
+            if (groupClbssNbme == null ||       // see 4252236
+                groupClbssNbme.equbls(defbultGroupClbss.getNbme()))
             {
-                cl = defaultGroupClass;
+                cl = defbultGroupClbss;
             } else {
-                Class<?> cl0;
+                Clbss<?> cl0;
                 try {
-                    cl0 = RMIClassLoader.loadClass(desc.getLocation(),
-                                                   groupClassName);
-                } catch (Exception ex) {
-                    throw new ActivationException(
-                        "Could not load group implementation class", ex);
+                    cl0 = RMIClbssLobder.lobdClbss(desc.getLocbtion(),
+                                                   groupClbssNbme);
+                } cbtch (Exception ex) {
+                    throw new ActivbtionException(
+                        "Could not lobd group implementbtion clbss", ex);
                 }
-                if (ActivationGroup.class.isAssignableFrom(cl0)) {
-                    cl = cl0.asSubclass(ActivationGroup.class);
+                if (ActivbtionGroup.clbss.isAssignbbleFrom(cl0)) {
+                    cl = cl0.bsSubclbss(ActivbtionGroup.clbss);
                 } else {
-                    throw new ActivationException("group not correct class: " +
-                                                  cl0.getName());
+                    throw new ActivbtionException("group not correct clbss: " +
+                                                  cl0.getNbme());
                 }
             }
 
-            // create group
-            Constructor<? extends ActivationGroup> constructor =
-                cl.getConstructor(ActivationGroupID.class,
-                                  MarshalledObject.class);
-            ActivationGroup newGroup =
-                constructor.newInstance(id, desc.getData());
+            // crebte group
+            Constructor<? extends ActivbtionGroup> constructor =
+                cl.getConstructor(ActivbtionGroupID.clbss,
+                                  MbrshblledObject.clbss);
+            ActivbtionGroup newGroup =
+                constructor.newInstbnce(id, desc.getDbtb());
             currSystem = id.getSystem();
-            newGroup.incarnation = incarnation;
+            newGroup.incbrnbtion = incbrnbtion;
             newGroup.monitor =
-                currSystem.activeGroup(id, newGroup, incarnation);
+                currSystem.bctiveGroup(id, newGroup, incbrnbtion);
             currGroup = newGroup;
             currGroupID = id;
-            canCreate = false;
-        } catch (InvocationTargetException e) {
-                e.getTargetException().printStackTrace();
-                throw new ActivationException("exception in group constructor",
-                                              e.getTargetException());
+            cbnCrebte = fblse;
+        } cbtch (InvocbtionTbrgetException e) {
+                e.getTbrgetException().printStbckTrbce();
+                throw new ActivbtionException("exception in group constructor",
+                                              e.getTbrgetException());
 
-        } catch (ActivationException e) {
+        } cbtch (ActivbtionException e) {
             throw e;
 
-        } catch (Exception e) {
-            throw new ActivationException("exception creating group", e);
+        } cbtch (Exception e) {
+            throw new ActivbtionException("exception crebting group", e);
         }
 
         return currGroup;
     }
 
     /**
-     * Returns the current activation group's identifier.  Returns null
-     * if no group is currently active for this VM.
-     * @exception UnsupportedOperationException if and only if activation is
-     * not supported by this implementation
-     * @return the activation group's identifier
+     * Returns the current bctivbtion group's identifier.  Returns null
+     * if no group is currently bctive for this VM.
+     * @exception UnsupportedOperbtionException if bnd only if bctivbtion is
+     * not supported by this implementbtion
+     * @return the bctivbtion group's identifier
      * @since 1.2
      */
-    public static synchronized ActivationGroupID currentGroupID() {
+    public stbtic synchronized ActivbtionGroupID currentGroupID() {
         return currGroupID;
     }
 
     /**
-     * Returns the activation group identifier for the VM.  If an
-     * activation group does not exist for this VM, a default
-     * activation group is created. A group can be created only once,
-     * so if a group has already become active and deactivated.
+     * Returns the bctivbtion group identifier for the VM.  If bn
+     * bctivbtion group does not exist for this VM, b defbult
+     * bctivbtion group is crebted. A group cbn be crebted only once,
+     * so if b group hbs blrebdy become bctive bnd debctivbted.
      *
-     * @return the activation group identifier
-     * @exception ActivationException if error occurs during group
-     * creation, if security manager is not set, or if the group
-     * has already been created and deactivated.
+     * @return the bctivbtion group identifier
+     * @exception ActivbtionException if error occurs during group
+     * crebtion, if security mbnbger is not set, or if the group
+     * hbs blrebdy been crebted bnd debctivbted.
      */
-    static synchronized ActivationGroupID internalCurrentGroupID()
-        throws ActivationException
+    stbtic synchronized ActivbtionGroupID internblCurrentGroupID()
+        throws ActivbtionException
     {
         if (currGroupID == null)
-            throw new ActivationException("nonexistent group");
+            throw new ActivbtionException("nonexistent group");
 
         return currGroupID;
     }
 
     /**
-     * Set the activation system for the VM.  The activation system can
-     * only be set it if no group is currently active. If the activation
-     * system is not set via this call, then the <code>getSystem</code>
-     * method attempts to obtain a reference to the
-     * <code>ActivationSystem</code> by looking up the name
-     * "java.rmi.activation.ActivationSystem" in the Activator's
-     * registry. By default, the port number used to look up the
-     * activation system is defined by
-     * <code>ActivationSystem.SYSTEM_PORT</code>. This port can be overridden
-     * by setting the property <code>java.rmi.activation.port</code>.
+     * Set the bctivbtion system for the VM.  The bctivbtion system cbn
+     * only be set it if no group is currently bctive. If the bctivbtion
+     * system is not set vib this cbll, then the <code>getSystem</code>
+     * method bttempts to obtbin b reference to the
+     * <code>ActivbtionSystem</code> by looking up the nbme
+     * "jbvb.rmi.bctivbtion.ActivbtionSystem" in the Activbtor's
+     * registry. By defbult, the port number used to look up the
+     * bctivbtion system is defined by
+     * <code>ActivbtionSystem.SYSTEM_PORT</code>. This port cbn be overridden
+     * by setting the property <code>jbvb.rmi.bctivbtion.port</code>.
      *
-     * <p>If there is a security manager, this method first
-     * calls the security manager's <code>checkSetFactory</code> method.
-     * This could result in a SecurityException.
+     * <p>If there is b security mbnbger, this method first
+     * cblls the security mbnbger's <code>checkSetFbctory</code> method.
+     * This could result in b SecurityException.
      *
-     * @param system remote reference to the <code>ActivationSystem</code>
-     * @exception ActivationException if activation system is already set
-     * @exception SecurityException if permission to set the activation system is denied.
-     * (Note: The default implementation of the security manager
-     * <code>checkSetFactory</code>
-     * method requires the RuntimePermission "setFactory")
-     * @exception UnsupportedOperationException if and only if activation is
-     * not supported by this implementation
+     * @pbrbm system remote reference to the <code>ActivbtionSystem</code>
+     * @exception ActivbtionException if bctivbtion system is blrebdy set
+     * @exception SecurityException if permission to set the bctivbtion system is denied.
+     * (Note: The defbult implementbtion of the security mbnbger
+     * <code>checkSetFbctory</code>
+     * method requires the RuntimePermission "setFbctory")
+     * @exception UnsupportedOperbtionException if bnd only if bctivbtion is
+     * not supported by this implementbtion
      * @see #getSystem
-     * @see SecurityManager#checkSetFactory
+     * @see SecurityMbnbger#checkSetFbctory
      * @since 1.2
      */
-    public static synchronized void setSystem(ActivationSystem system)
-        throws ActivationException
+    public stbtic synchronized void setSystem(ActivbtionSystem system)
+        throws ActivbtionException
     {
-        SecurityManager security = System.getSecurityManager();
+        SecurityMbnbger security = System.getSecurityMbnbger();
         if (security != null)
-            security.checkSetFactory();
+            security.checkSetFbctory();
 
         if (currSystem != null)
-            throw new ActivationException("activation system already set");
+            throw new ActivbtionException("bctivbtion system blrebdy set");
 
         currSystem = system;
     }
 
     /**
-     * Returns the activation system for the VM. The activation system
-     * may be set by the <code>setSystem</code> method. If the
-     * activation system is not set via the <code>setSystem</code>
-     * method, then the <code>getSystem</code> method attempts to
-     * obtain a reference to the <code>ActivationSystem</code> by
-     * looking up the name "java.rmi.activation.ActivationSystem" in
-     * the Activator's registry. By default, the port number used to
-     * look up the activation system is defined by
-     * <code>ActivationSystem.SYSTEM_PORT</code>. This port can be
+     * Returns the bctivbtion system for the VM. The bctivbtion system
+     * mby be set by the <code>setSystem</code> method. If the
+     * bctivbtion system is not set vib the <code>setSystem</code>
+     * method, then the <code>getSystem</code> method bttempts to
+     * obtbin b reference to the <code>ActivbtionSystem</code> by
+     * looking up the nbme "jbvb.rmi.bctivbtion.ActivbtionSystem" in
+     * the Activbtor's registry. By defbult, the port number used to
+     * look up the bctivbtion system is defined by
+     * <code>ActivbtionSystem.SYSTEM_PORT</code>. This port cbn be
      * overridden by setting the property
-     * <code>java.rmi.activation.port</code>.
+     * <code>jbvb.rmi.bctivbtion.port</code>.
      *
-     * @return the activation system for the VM/group
-     * @exception ActivationException if activation system cannot be
-     *  obtained or is not bound
-     * (means that it is not running)
-     * @exception UnsupportedOperationException if and only if activation is
-     * not supported by this implementation
+     * @return the bctivbtion system for the VM/group
+     * @exception ActivbtionException if bctivbtion system cbnnot be
+     *  obtbined or is not bound
+     * (mebns thbt it is not running)
+     * @exception UnsupportedOperbtionException if bnd only if bctivbtion is
+     * not supported by this implementbtion
      * @see #setSystem
      * @since 1.2
      */
-    public static synchronized ActivationSystem getSystem()
-        throws ActivationException
+    public stbtic synchronized ActivbtionSystem getSystem()
+        throws ActivbtionException
     {
         if (currSystem == null) {
             try {
                 int port = AccessController.doPrivileged((PrivilegedAction<Integer>) () ->
-                    Integer.getInteger("java.rmi.activation.port", ActivationSystem.SYSTEM_PORT));
-                currSystem = (ActivationSystem)
-                    Naming.lookup("//:" + port +
-                                  "/java.rmi.activation.ActivationSystem");
-            } catch (Exception e) {
-                throw new ActivationException(
-                    "unable to obtain ActivationSystem", e);
+                    Integer.getInteger("jbvb.rmi.bctivbtion.port", ActivbtionSystem.SYSTEM_PORT));
+                currSystem = (ActivbtionSystem)
+                    Nbming.lookup("//:" + port +
+                                  "/jbvb.rmi.bctivbtion.ActivbtionSystem");
+            } cbtch (Exception e) {
+                throw new ActivbtionException(
+                    "unbble to obtbin ActivbtionSystem", e);
             }
         }
         return currSystem;
     }
 
     /**
-     * This protected method is necessary for subclasses to
-     * make the <code>activeObject</code> callback to the group's
-     * monitor. The call is simply forwarded to the group's
-     * <code>ActivationMonitor</code>.
+     * This protected method is necessbry for subclbsses to
+     * mbke the <code>bctiveObject</code> cbllbbck to the group's
+     * monitor. The cbll is simply forwbrded to the group's
+     * <code>ActivbtionMonitor</code>.
      *
-     * @param id the object's identifier
-     * @param mobj a marshalled object containing the remote object's stub
+     * @pbrbm id the object's identifier
+     * @pbrbm mobj b mbrshblled object contbining the remote object's stub
      * @exception UnknownObjectException if object is not registered
-     * @exception RemoteException if call informing monitor fails
-     * @exception ActivationException if an activation error occurs
+     * @exception RemoteException if cbll informing monitor fbils
+     * @exception ActivbtionException if bn bctivbtion error occurs
      * @since 1.2
      */
-    protected void activeObject(ActivationID id,
-                                MarshalledObject<? extends Remote> mobj)
-        throws ActivationException, UnknownObjectException, RemoteException
+    protected void bctiveObject(ActivbtionID id,
+                                MbrshblledObject<? extends Remote> mobj)
+        throws ActivbtionException, UnknownObjectException, RemoteException
     {
-        getMonitor().activeObject(id, mobj);
+        getMonitor().bctiveObject(id, mobj);
     }
 
     /**
-     * This protected method is necessary for subclasses to
-     * make the <code>inactiveGroup</code> callback to the group's
-     * monitor. The call is simply forwarded to the group's
-     * <code>ActivationMonitor</code>. Also, the current group
+     * This protected method is necessbry for subclbsses to
+     * mbke the <code>inbctiveGroup</code> cbllbbck to the group's
+     * monitor. The cbll is simply forwbrded to the group's
+     * <code>ActivbtionMonitor</code>. Also, the current group
      * for the VM is set to null.
      *
      * @exception UnknownGroupException if group is not registered
-     * @exception RemoteException if call informing monitor fails
+     * @exception RemoteException if cbll informing monitor fbils
      * @since 1.2
      */
-    protected void inactiveGroup()
+    protected void inbctiveGroup()
         throws UnknownGroupException, RemoteException
     {
         try {
-            getMonitor().inactiveGroup(groupID, incarnation);
-        } finally {
+            getMonitor().inbctiveGroup(groupID, incbrnbtion);
+        } finblly {
             destroyGroup();
         }
     }
 
     /**
-     * Returns the monitor for the activation group.
+     * Returns the monitor for the bctivbtion group.
      */
-    private ActivationMonitor getMonitor() throws RemoteException {
-        synchronized (ActivationGroup.class) {
+    privbte ActivbtionMonitor getMonitor() throws RemoteException {
+        synchronized (ActivbtionGroup.clbss) {
             if (monitor != null) {
                 return monitor;
             }
@@ -515,21 +515,21 @@ public abstract class ActivationGroup
     /**
      * Destroys the current group.
      */
-    private static synchronized void destroyGroup() {
+    privbte stbtic synchronized void destroyGroup() {
         currGroup = null;
         currGroupID = null;
-        // NOTE: don't set currSystem to null since it may be needed
+        // NOTE: don't set currSystem to null since it mby be needed
     }
 
     /**
      * Returns the current group for the VM.
-     * @exception ActivationException if current group is null (not active)
+     * @exception ActivbtionException if current group is null (not bctive)
      */
-    static synchronized ActivationGroup currentGroup()
-        throws ActivationException
+    stbtic synchronized ActivbtionGroup currentGroup()
+        throws ActivbtionException
     {
         if (currGroup == null) {
-            throw new ActivationException("group is not active");
+            throw new ActivbtionException("group is not bctive");
         }
         return currGroup;
     }

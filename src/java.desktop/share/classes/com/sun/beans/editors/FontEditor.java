@@ -1,62 +1,62 @@
 /*
- * Copyright (c) 1996, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.beans.editors;
+pbckbge com.sun.bebns.editors;
 
-import java.awt.*;
-import java.beans.*;
+import jbvb.bwt.*;
+import jbvb.bebns.*;
 
-public class FontEditor extends Panel implements java.beans.PropertyEditor {
-    private static final long serialVersionUID = 6732704486002715933L;
+public clbss FontEditor extends Pbnel implements jbvb.bebns.PropertyEditor {
+    privbte stbtic finbl long seriblVersionUID = 6732704486002715933L;
 
     public FontEditor() {
-        setLayout(null);
+        setLbyout(null);
 
-        toolkit = Toolkit.getDefaultToolkit();
+        toolkit = Toolkit.getDefbultToolkit();
         fonts = toolkit.getFontList();
 
-        familyChoser = new Choice();
+        fbmilyChoser = new Choice();
         for (int i = 0; i < fonts.length; i++) {
-            familyChoser.addItem(fonts[i]);
+            fbmilyChoser.bddItem(fonts[i]);
         }
-        add(familyChoser);
-        familyChoser.reshape(20, 5, 100, 30);
+        bdd(fbmilyChoser);
+        fbmilyChoser.reshbpe(20, 5, 100, 30);
 
         styleChoser = new Choice();
-        for (int i = 0; i < styleNames.length; i++) {
-            styleChoser.addItem(styleNames[i]);
+        for (int i = 0; i < styleNbmes.length; i++) {
+            styleChoser.bddItem(styleNbmes[i]);
         }
-        add(styleChoser);
-        styleChoser.reshape(145, 5, 70, 30);
+        bdd(styleChoser);
+        styleChoser.reshbpe(145, 5, 70, 30);
 
         sizeChoser = new Choice();
         for (int i = 0; i < pointSizes.length; i++) {
-            sizeChoser.addItem("" + pointSizes[i]);
+            sizeChoser.bddItem("" + pointSizes[i]);
         }
-        add(sizeChoser);
-        sizeChoser.reshape(220, 5, 70, 30);
+        bdd(sizeChoser);
+        sizeChoser.reshbpe(220, 5, 70, 30);
 
         resize(300,40);
     }
@@ -66,90 +66,90 @@ public class FontEditor extends Panel implements java.beans.PropertyEditor {
         return new Dimension(300, 40);
     }
 
-    public void setValue(Object o) {
+    public void setVblue(Object o) {
         font = (Font) o;
         if (this.font == null)
             return;
 
-        changeFont(font);
-        // Update the current GUI choices.
+        chbngeFont(font);
+        // Updbte the current GUI choices.
         for (int i = 0; i < fonts.length; i++) {
-            if (fonts[i].equals(font.getFamily())) {
-                familyChoser.select(i);
-                break;
+            if (fonts[i].equbls(font.getFbmily())) {
+                fbmilyChoser.select(i);
+                brebk;
             }
         }
-        for (int i = 0; i < styleNames.length; i++) {
+        for (int i = 0; i < styleNbmes.length; i++) {
             if (font.getStyle() == styles[i]) {
                 styleChoser.select(i);
-                break;
+                brebk;
             }
         }
         for (int i = 0; i < pointSizes.length; i++) {
             if (font.getSize() <= pointSizes[i]) {
                 sizeChoser.select(i);
-                break;
+                brebk;
             }
         }
     }
 
-    private void changeFont(Font f) {
+    privbte void chbngeFont(Font f) {
         font = f;
-        if (sample != null) {
-            remove(sample);
+        if (sbmple != null) {
+            remove(sbmple);
         }
-        sample = new Label(sampleText);
-        sample.setFont(font);
-        add(sample);
-        Component p = getParent();
+        sbmple = new Lbbel(sbmpleText);
+        sbmple.setFont(font);
+        bdd(sbmple);
+        Component p = getPbrent();
         if (p != null) {
-            p.invalidate();
-            p.layout();
+            p.invblidbte();
+            p.lbyout();
         }
-        invalidate();
-        layout();
-        repaint();
-        support.firePropertyChange("", null, null);
+        invblidbte();
+        lbyout();
+        repbint();
+        support.firePropertyChbnge("", null, null);
     }
 
-    public Object getValue() {
+    public Object getVblue() {
         return (font);
     }
 
-    public String getJavaInitializationString() {
+    public String getJbvbInitiblizbtionString() {
         if (this.font == null)
             return "null";
 
-        return "new java.awt.Font(\"" + font.getName() + "\", " +
+        return "new jbvb.bwt.Font(\"" + font.getNbme() + "\", " +
                    font.getStyle() + ", " + font.getSize() + ")";
     }
 
-    public boolean action(Event e, Object arg) {
-        String family = familyChoser.getSelectedItem();
+    public boolebn bction(Event e, Object brg) {
+        String fbmily = fbmilyChoser.getSelectedItem();
         int style = styles[styleChoser.getSelectedIndex()];
         int size = pointSizes[sizeChoser.getSelectedIndex()];
         try {
-            Font f = new Font(family, style, size);
-            changeFont(f);
-        } catch (Exception ex) {
-            System.err.println("Couldn't create font " + family + "-" +
-                        styleNames[style] + "-" + size);
+            Font f = new Font(fbmily, style, size);
+            chbngeFont(f);
+        } cbtch (Exception ex) {
+            System.err.println("Couldn't crebte font " + fbmily + "-" +
+                        styleNbmes[style] + "-" + size);
         }
-        return (false);
+        return (fblse);
     }
 
 
-    public boolean isPaintable() {
+    public boolebn isPbintbble() {
         return true;
     }
 
-    public void paintValue(java.awt.Graphics gfx, java.awt.Rectangle box) {
+    public void pbintVblue(jbvb.bwt.Grbphics gfx, jbvb.bwt.Rectbngle box) {
         // Silent noop.
         Font oldFont = gfx.getFont();
         gfx.setFont(font);
         FontMetrics fm = gfx.getFontMetrics();
-        int vpad = (box.height - fm.getAscent())/2;
-        gfx.drawString(sampleText, 0, box.height-vpad);
+        int vpbd = (box.height - fm.getAscent())/2;
+        gfx.drbwString(sbmpleText, 0, box.height-vpbd);
         gfx.setFont(oldFont);
     }
 
@@ -158,62 +158,62 @@ public class FontEditor extends Panel implements java.beans.PropertyEditor {
             return null;
         }
         StringBuilder sb = new StringBuilder();
-        sb.append(this.font.getName());
-        sb.append(' ');
+        sb.bppend(this.font.getNbme());
+        sb.bppend(' ');
 
-        boolean b = this.font.isBold();
+        boolebn b = this.font.isBold();
         if (b) {
-            sb.append("BOLD");
+            sb.bppend("BOLD");
         }
-        boolean i = this.font.isItalic();
+        boolebn i = this.font.isItblic();
         if (i) {
-            sb.append("ITALIC");
+            sb.bppend("ITALIC");
         }
         if (b || i) {
-            sb.append(' ');
+            sb.bppend(' ');
         }
-        sb.append(this.font.getSize());
+        sb.bppend(this.font.getSize());
         return sb.toString();
     }
 
-    public void setAsText(String text) throws IllegalArgumentException {
-        setValue((text == null) ? null : Font.decode(text));
+    public void setAsText(String text) throws IllegblArgumentException {
+        setVblue((text == null) ? null : Font.decode(text));
     }
 
-    public String[] getTags() {
+    public String[] getTbgs() {
         return null;
     }
 
-    public java.awt.Component getCustomEditor() {
+    public jbvb.bwt.Component getCustomEditor() {
         return this;
     }
 
-    public boolean supportsCustomEditor() {
+    public boolebn supportsCustomEditor() {
         return true;
     }
 
-    public void addPropertyChangeListener(PropertyChangeListener l) {
-        support.addPropertyChangeListener(l);
+    public void bddPropertyChbngeListener(PropertyChbngeListener l) {
+        support.bddPropertyChbngeListener(l);
     }
 
-    public void removePropertyChangeListener(PropertyChangeListener l) {
-        support.removePropertyChangeListener(l);
+    public void removePropertyChbngeListener(PropertyChbngeListener l) {
+        support.removePropertyChbngeListener(l);
     }
 
-    private Font font;
-    private Toolkit toolkit;
-    private String sampleText = "Abcde...";
+    privbte Font font;
+    privbte Toolkit toolkit;
+    privbte String sbmpleText = "Abcde...";
 
-    private Label sample;
-    private Choice familyChoser;
-    private Choice styleChoser;
-    private Choice sizeChoser;
+    privbte Lbbel sbmple;
+    privbte Choice fbmilyChoser;
+    privbte Choice styleChoser;
+    privbte Choice sizeChoser;
 
-    private String fonts[];
-    private String[] styleNames = { "plain", "bold", "italic" };
-    private int[] styles = { Font.PLAIN, Font.BOLD, Font.ITALIC };
-    private int[] pointSizes = { 3, 5, 8, 10, 12, 14, 18, 24, 36, 48 };
+    privbte String fonts[];
+    privbte String[] styleNbmes = { "plbin", "bold", "itblic" };
+    privbte int[] styles = { Font.PLAIN, Font.BOLD, Font.ITALIC };
+    privbte int[] pointSizes = { 3, 5, 8, 10, 12, 14, 18, 24, 36, 48 };
 
-    private PropertyChangeSupport support = new PropertyChangeSupport(this);
+    privbte PropertyChbngeSupport support = new PropertyChbngeSupport(this);
 
 }

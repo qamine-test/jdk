@@ -1,51 +1,51 @@
-This sample provides C# "Hello World" program that is invoked
-from Java application in the same process.
+This sbmple provides C# "Hello World" progrbm thbt is invoked
+from Jbvb bpplicbtion in the sbme process.
 
-There is no way to invoke .NET methods from Java classes directly,
-it is necessary to use native code level.
-The sample contains C++ library that can invoke any .NET program by mscorlib library.
-Using the JNI the Java application invokes the C# "Hello World".
+There is no wby to invoke .NET methods from Jbvb clbsses directly,
+it is necessbry to use nbtive code level.
+The sbmple contbins C++ librbry thbt cbn invoke bny .NET progrbm by mscorlib librbry.
+Using the JNI the Jbvb bpplicbtion invokes the C# "Hello World".
 
-The sample contains the following files:
+The sbmple contbins the following files:
 
-Makefile     - make file
-README.txt   - this readme
-invoked.cs   - the invoked HelloWorld Java program
-invoker.java - C# invoker application
-invoker.cpp  - C++ wrapper
-invokerExp.h - wrapper library exports
-invoker.h    - javah generated file with the native method definition
+Mbkefile     - mbke file
+README.txt   - this rebdme
+invoked.cs   - the invoked HelloWorld Jbvb progrbm
+invoker.jbvb - C# invoker bpplicbtion
+invoker.cpp  - C++ wrbpper
+invokerExp.h - wrbpper librbry exports
+invoker.h    - jbvbh generbted file with the nbtive method definition
 
-After the success making the following files are produced:
+After the success mbking the following files bre produced:
 
-invoked.exe   - the executable HelloWorld .NET program
-invoker.class - the compiled Java class that invokes the .NET program
-invoker.dll   - the wrapper library
+invoked.exe   - the executbble HelloWorld .NET progrbm
+invoker.clbss - the compiled Jbvb clbss thbt invokes the .NET progrbm
+invoker.dll   - the wrbpper librbry
 
-The following environment needs to be set for the correct sample
-build and execution:
+The following environment needs to be set for the correct sbmple
+build bnd execution:
 
-INCLUDE must contain the paths to:
-  1. MS Visual C++ standard include
+INCLUDE must contbin the pbths to:
+  1. MS Visubl C++ stbndbrd include
   2. .NET SDK include
-  3. Java includes
-  Example: %MSDEV%/VC98/Include;%DOTNET%/Include;%JAVA_HOME%/include;%JAVA_HOME%/include/win32
+  3. Jbvb includes
+  Exbmple: %MSDEV%/VC98/Include;%DOTNET%/Include;%JAVA_HOME%/include;%JAVA_HOME%/include/win32
 
-LIB must contain the paths to:
-  1. MS Visual C++ standard libraries
-  2. .NET SDK libraries
-  Example: %MSDEV%/VC98/Lib;%DOTNET%/Lib
+LIB must contbin the pbths to:
+  1. MS Visubl C++ stbndbrd librbries
+  2. .NET SDK librbries
+  Exbmple: %MSDEV%/VC98/Lib;%DOTNET%/Lib
 
-PATH must contain the paths to:
-  1. MS Visual C++ standard bin
+PATH must contbin the pbths to:
+  1. MS Visubl C++ stbndbrd bin
   2. MS Dev common bin
-  3. .NET SDK libraries
-  4. Java bin
-  Example: %MSDEV%/VC98/Bin;%MSDEV%/Common/MSDev98/Bin;%DOTNET%/Lib;%JAVA_HOME%/bin;%PATH%
+  3. .NET SDK librbries
+  4. Jbvb bin
+  Exbmple: %MSDEV%/VC98/Bin;%MSDEV%/Common/MSDev98/Bin;%DOTNET%/Lib;%JAVA_HOME%/bin;%PATH%
 
-To run the sample please do:
+To run the sbmple plebse do:
 
-java invoker invoked.exe
+jbvb invoker invoked.exe
 
 
---Dmitry Ryashchentsev
+--Dmitry Rybshchentsev

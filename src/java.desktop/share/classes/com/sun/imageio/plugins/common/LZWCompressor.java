@@ -1,80 +1,80 @@
 /*
- * Copyright (c) 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.imageio.plugins.common;
+pbckbge com.sun.imbgeio.plugins.common;
 
-import java.io.IOException;
-import java.io.PrintStream;
-import javax.imageio.stream.ImageOutputStream;
+import jbvb.io.IOException;
+import jbvb.io.PrintStrebm;
+import jbvbx.imbgeio.strebm.ImbgeOutputStrebm;
 
 /*
- * Modified from original LZWCompressor to change interface to passing a
- * buffer of data to be compressed.
+ * Modified from originbl LZWCompressor to chbnge interfbce to pbssing b
+ * buffer of dbtb to be compressed.
  */
-public class LZWCompressor {
-    /** base underlying code size of data being compressed 8 for TIFF, 1 to 8 for GIF **/
+public clbss LZWCompressor {
+    /** bbse underlying code size of dbtb being compressed 8 for TIFF, 1 to 8 for GIF **/
     int codeSize;
 
-    /** reserved clear code based on code size **/
-    int clearCode;
+    /** reserved clebr code bbsed on code size **/
+    int clebrCode;
 
-    /** reserved end of data code based on code size **/
+    /** reserved end of dbtb code bbsed on code size **/
     int endOfInfo;
 
-    /** current number bits output for each code **/
+    /** current number bits output for ebch code **/
     int numBits;
 
-    /** limit at which current number of bits code size has to be increased **/
+    /** limit bt which current number of bits code size hbs to be increbsed **/
     int limit;
 
     /** the prefix code which represents the predecessor string to current input point **/
     short prefix;
 
-    /** output destination for bit codes **/
+    /** output destinbtion for bit codes **/
     BitFile bf;
 
-    /** general purpose LZW string table **/
-    LZWStringTable lzss;
+    /** generbl purpose LZW string tbble **/
+    LZWStringTbble lzss;
 
-    /** modify the limits of the code values in LZW encoding due to TIFF bug / feature **/
-    boolean tiffFudge;
+    /** modify the limits of the code vblues in LZW encoding due to TIFF bug / febture **/
+    boolebn tiffFudge;
 
     /**
-     * @param out destination for compressed data
-     * @param codeSize the initial code size for the LZW compressor
-     * @param TIFF flag indicating that TIFF lzw fudge needs to be applied
-     * @exception IOException if underlying output stream error
+     * @pbrbm out destinbtion for compressed dbtb
+     * @pbrbm codeSize the initibl code size for the LZW compressor
+     * @pbrbm TIFF flbg indicbting thbt TIFF lzw fudge needs to be bpplied
+     * @exception IOException if underlying output strebm error
      **/
-    public LZWCompressor(ImageOutputStream out, int codeSize, boolean TIFF)
+    public LZWCompressor(ImbgeOutputStrebm out, int codeSize, boolebn TIFF)
         throws IOException
     {
-        bf = new BitFile(out, !TIFF); // set flag for GIF as NOT tiff
+        bf = new BitFile(out, !TIFF); // set flbg for GIF bs NOT tiff
         this.codeSize = codeSize;
         tiffFudge = TIFF;
-        clearCode = 1 << codeSize;
-        endOfInfo = clearCode + 1;
+        clebrCode = 1 << codeSize;
+        endOfInfo = clebrCode + 1;
         numBits = codeSize + 1;
 
         limit = (1 << numBits) - 1;
@@ -83,14 +83,14 @@ public class LZWCompressor {
         }
 
         prefix = (short)0xFFFF;
-        lzss = new LZWStringTable();
-        lzss.clearTable(codeSize);
-        bf.writeBits(clearCode, numBits);
+        lzss = new LZWStringTbble();
+        lzss.clebrTbble(codeSize);
+        bf.writeBits(clebrCode, numBits);
     }
 
     /**
-     * @param buf data to be compressed to output stream
-     * @exception IOException if underlying output stream error
+     * @pbrbm buf dbtb to be compressed to output strebm
+     * @exception IOException if underlying output strebm error
      **/
     public void compress(byte[] buf, int offset, int length)
         throws IOException
@@ -99,17 +99,17 @@ public class LZWCompressor {
         byte c;
         short index;
 
-        int maxOffset = offset + length;
-        for (idx = offset; idx < maxOffset; ++idx) {
+        int mbxOffset = offset + length;
+        for (idx = offset; idx < mbxOffset; ++idx) {
             c = buf[idx];
-            if ((index = lzss.findCharString(prefix, c)) != -1) {
+            if ((index = lzss.findChbrString(prefix, c)) != -1) {
                 prefix = index;
             } else {
                 bf.writeBits(prefix, numBits);
-                if (lzss.addCharString(prefix, c) > limit) {
+                if (lzss.bddChbrString(prefix, c) > limit) {
                     if (numBits == 12) {
-                        bf.writeBits(clearCode, numBits);
-                        lzss.clearTable(codeSize);
+                        bf.writeBits(clebrCode, numBits);
+                        lzss.clebrTbble(codeSize);
                         numBits = codeSize + 1;
                     } else {
                         ++numBits;
@@ -126,10 +126,10 @@ public class LZWCompressor {
     }
 
     /*
-     * Indicate to compressor that no more data to go so write out
-     * any remaining buffered data.
+     * Indicbte to compressor thbt no more dbtb to go so write out
+     * bny rembining buffered dbtb.
      *
-     * @exception IOException if underlying output stream error
+     * @exception IOException if underlying output strebm error
      */
     public void flush() throws IOException {
         if (prefix != -1) {
@@ -140,7 +140,7 @@ public class LZWCompressor {
         bf.flush();
     }
 
-    public void dump(PrintStream out) {
+    public void dump(PrintStrebm out) {
         lzss.dump(out);
     }
 }

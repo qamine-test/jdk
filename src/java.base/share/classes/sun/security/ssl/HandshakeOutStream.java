@@ -1,95 +1,95 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package sun.security.ssl;
+pbckbge sun.security.ssl;
 
-import java.io.OutputStream;
-import java.io.IOException;
+import jbvb.io.OutputStrebm;
+import jbvb.io.IOException;
 
 /**
- * Output stream for handshake data.  This is used only internally
- * to the SSL classes.
+ * Output strebm for hbndshbke dbtb.  This is used only internblly
+ * to the SSL clbsses.
  *
- * MT note:  one thread at a time is presumed be writing handshake
- * messages, but (after initial connection setup) it's possible to
- * have other threads reading/writing application data.  It's the
- * SSLSocketImpl class that synchronizes record writes.
+ * MT note:  one threbd bt b time is presumed be writing hbndshbke
+ * messbges, but (bfter initibl connection setup) it's possible to
+ * hbve other threbds rebding/writing bpplicbtion dbtb.  It's the
+ * SSLSocketImpl clbss thbt synchronizes record writes.
  *
- * @author  David Brownell
+ * @buthor  Dbvid Brownell
  */
-public class HandshakeOutStream extends OutputStream {
+public clbss HbndshbkeOutStrebm extends OutputStrebm {
 
-    private SSLSocketImpl socket;
-    private SSLEngineImpl engine;
+    privbte SSLSocketImpl socket;
+    privbte SSLEngineImpl engine;
 
     OutputRecord r;
 
-    HandshakeOutStream(ProtocolVersion protocolVersion,
-            ProtocolVersion helloVersion, HandshakeHash handshakeHash,
+    HbndshbkeOutStrebm(ProtocolVersion protocolVersion,
+            ProtocolVersion helloVersion, HbndshbkeHbsh hbndshbkeHbsh,
             SSLSocketImpl socket) {
         this.socket = socket;
-        r = new OutputRecord(Record.ct_handshake);
-        init(protocolVersion, helloVersion, handshakeHash);
+        r = new OutputRecord(Record.ct_hbndshbke);
+        init(protocolVersion, helloVersion, hbndshbkeHbsh);
     }
 
-    HandshakeOutStream(ProtocolVersion protocolVersion,
-            ProtocolVersion helloVersion, HandshakeHash handshakeHash,
+    HbndshbkeOutStrebm(ProtocolVersion protocolVersion,
+            ProtocolVersion helloVersion, HbndshbkeHbsh hbndshbkeHbsh,
             SSLEngineImpl engine) {
         this.engine = engine;
-        r = new EngineOutputRecord(Record.ct_handshake, engine);
-        init(protocolVersion, helloVersion, handshakeHash);
+        r = new EngineOutputRecord(Record.ct_hbndshbke, engine);
+        init(protocolVersion, helloVersion, hbndshbkeHbsh);
     }
 
-    private void init(ProtocolVersion protocolVersion,
-            ProtocolVersion helloVersion, HandshakeHash handshakeHash) {
+    privbte void init(ProtocolVersion protocolVersion,
+            ProtocolVersion helloVersion, HbndshbkeHbsh hbndshbkeHbsh) {
         r.setVersion(protocolVersion);
         r.setHelloVersion(helloVersion);
-        r.setHandshakeHash(handshakeHash);
+        r.setHbndshbkeHbsh(hbndshbkeHbsh);
     }
 
 
     /*
-     * Update the handshake data hashes ... mostly for use after a
-     * client cert has been sent, so the cert verify message can be
-     * constructed correctly yet without forcing extra I/O.  In all
-     * other cases, automatic hash calculation suffices.
+     * Updbte the hbndshbke dbtb hbshes ... mostly for use bfter b
+     * client cert hbs been sent, so the cert verify messbge cbn be
+     * constructed correctly yet without forcing extrb I/O.  In bll
+     * other cbses, butombtic hbsh cblculbtion suffices.
      */
-    void doHashes() {
-        r.doHashes();
+    void doHbshes() {
+        r.doHbshes();
     }
 
     /*
-     * Write some data out onto the stream ... buffers as much as possible.
-     * Hashes are updated automatically if something gets flushed to the
-     * network (e.g. a big cert message etc).
+     * Write some dbtb out onto the strebm ... buffers bs much bs possible.
+     * Hbshes bre updbted butombticblly if something gets flushed to the
+     * network (e.g. b big cert messbge etc).
      */
     @Override
     public void write(byte buf[], int off, int len) throws IOException {
         while (len > 0) {
-            int howmuch = Math.min(len, r.availableDataBytes());
+            int howmuch = Mbth.min(len, r.bvbilbbleDbtbBytes());
 
             if (howmuch == 0) {
                 flush();
@@ -102,11 +102,11 @@ public class HandshakeOutStream extends OutputStream {
     }
 
     /*
-     * write-a-byte
+     * write-b-byte
      */
     @Override
     public void write(int i) throws IOException {
-        if (r.availableDataBytes() < 1) {
+        if (r.bvbilbbleDbtbBytes() < 1) {
             flush();
         }
         r.write(i);
@@ -117,19 +117,19 @@ public class HandshakeOutStream extends OutputStream {
         if (socket != null) {
             try {
                 socket.writeRecord(r);
-            } catch (IOException e) {
-                // Had problems writing; check if there was an
-                // alert from peer. If alert received, waitForClose
-                // will throw an exception for the alert
-                socket.waitForClose(true);
+            } cbtch (IOException e) {
+                // Hbd problems writing; check if there wbs bn
+                // blert from peer. If blert received, wbitForClose
+                // will throw bn exception for the blert
+                socket.wbitForClose(true);
 
-                // No alert was received, just rethrow exception
+                // No blert wbs received, just rethrow exception
                 throw e;
             }
         } else {  // engine != null
             /*
-             * Even if record might be empty, flush anyway in case
-             * there is a finished handshake message that we need
+             * Even if record might be empty, flush bnywby in cbse
+             * there is b finished hbndshbke messbge thbt we need
              * to queue.
              */
             engine.writeRecord((EngineOutputRecord)r);
@@ -137,21 +137,21 @@ public class HandshakeOutStream extends OutputStream {
     }
 
     /*
-     * Tell the OutputRecord that a finished message was
-     * contained either in this record or the one immeiately
-     * preceding it.  We need to reliably pass back notifications
-     * that a finish message occurred.
+     * Tell the OutputRecord thbt b finished messbge wbs
+     * contbined either in this record or the one immeibtely
+     * preceding it.  We need to relibbly pbss bbck notificbtions
+     * thbt b finish messbge occurred.
      */
     void setFinishedMsg() {
-        assert(socket == null);
+        bssert(socket == null);
 
         ((EngineOutputRecord)r).setFinishedMsg();
     }
 
     /*
-     * Put integers encoded in standard 8, 16, 24, and 32 bit
-     * big endian formats. Note that OutputStream.write(int) only
-     * writes the least significant 8 bits and ignores the rest.
+     * Put integers encoded in stbndbrd 8, 16, 24, bnd 32 bit
+     * big endibn formbts. Note thbt OutputStrebm.write(int) only
+     * writes the lebst significbnt 8 bits bnd ignores the rest.
      */
 
     void putInt8(int i) throws IOException {
@@ -161,7 +161,7 @@ public class HandshakeOutStream extends OutputStream {
 
     void putInt16(int i) throws IOException {
         checkOverflow(i, Record.OVERFLOW_OF_INT16);
-        if (r.availableDataBytes() < 2) {
+        if (r.bvbilbbleDbtbBytes() < 2) {
             flush();
         }
         r.write(i >> 8);
@@ -170,7 +170,7 @@ public class HandshakeOutStream extends OutputStream {
 
     void putInt24(int i) throws IOException {
         checkOverflow(i, Record.OVERFLOW_OF_INT24);
-        if (r.availableDataBytes() < 3) {
+        if (r.bvbilbbleDbtbBytes() < 3) {
             flush();
         }
         r.write(i >> 16);
@@ -179,7 +179,7 @@ public class HandshakeOutStream extends OutputStream {
     }
 
     void putInt32(int i) throws IOException {
-        if (r.availableDataBytes() < 4) {
+        if (r.bvbilbbleDbtbBytes() < 4) {
             flush();
         }
         r.write(i >> 24);
@@ -189,8 +189,8 @@ public class HandshakeOutStream extends OutputStream {
     }
 
     /*
-     * Put byte arrays with length encoded as 8, 16, 24 bit
-     * integers in big-endian format.
+     * Put byte brrbys with length encoded bs 8, 16, 24 bit
+     * integers in big-endibn formbt.
      */
     void putBytes8(byte b[]) throws IOException {
         if (b == null) {
@@ -225,12 +225,12 @@ public class HandshakeOutStream extends OutputStream {
         write(b, 0, b.length);
     }
 
-    private void checkOverflow(int length, int overflow) {
+    privbte void checkOverflow(int length, int overflow) {
         if (length >= overflow) {
-            // internal_error alert will be triggered
+            // internbl_error blert will be triggered
             throw new RuntimeException(
                     "Field length overflow, the field length (" +
-                    length + ") should be less than " + overflow);
+                    length + ") should be less thbn " + overflow);
         }
     }
 }

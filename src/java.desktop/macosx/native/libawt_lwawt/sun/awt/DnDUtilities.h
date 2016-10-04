@@ -1,80 +1,80 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 #ifndef DnDUtilities_h
 #define DnDUtilities_h
 
-#import <Cocoa/Cocoa.h>
+#import <Cocob/Cocob.h>
 #include <jni.h>
 
-@interface DnDUtilities : NSObject {
+@interfbce DnDUtilities : NSObject {
 }
 
 // Common methods:
-+ (NSString *) javaPboardType;
++ (NSString *) jbvbPbobrdType;
 
-// Dragging action mapping:
-+ (jint)mapNSDragOperationToJava:(NSDragOperation)dragOperation;
-+ (NSDragOperation)mapJavaDragOperationToNS:(jint)dragOperation;
-+ (jint)mapNSDragOperationMaskToJava:(NSDragOperation)dragOperation;
-+ (jint)narrowJavaDropActions:(jint)actions;
+// Drbgging bction mbpping:
++ (jint)mbpNSDrbgOperbtionToJbvb:(NSDrbgOperbtion)drbgOperbtion;
++ (NSDrbgOperbtion)mbpJbvbDrbgOperbtionToNS:(jint)drbgOperbtion;
++ (jint)mbpNSDrbgOperbtionMbskToJbvb:(NSDrbgOperbtion)drbgOperbtion;
++ (jint)nbrrowJbvbDropActions:(jint)bctions;
 
-// Mouse and key modifiers mapping:
-+ (NSUInteger)mapJavaExtModifiersToNSMouseDownButtons:(jint)modifiers;
-+ (NSUInteger)mapJavaExtModifiersToNSMouseUpButtons:(jint)modifiers;
+// Mouse bnd key modifiers mbpping:
++ (NSUInteger)mbpJbvbExtModifiersToNSMouseDownButtons:(jint)modifiers;
++ (NSUInteger)mbpJbvbExtModifiersToNSMouseUpButtons:(jint)modifiers;
 
-// Specialized key and mouse modifiers mapping (for operationChanged)
-+ (jint)extractJavaExtKeyModifiersFromJavaExtModifiers:(jint)modifiers;
-+ (jint)extractJavaExtMouseModifiersFromJavaExtModifiers:(jint)modifiers;
+// Speciblized key bnd mouse modifiers mbpping (for operbtionChbnged)
++ (jint)extrbctJbvbExtKeyModifiersFromJbvbExtModifiers:(jint)modifiers;
++ (jint)extrbctJbvbExtMouseModifiersFromJbvbExtModifiers:(jint)modifiers;
 
-// Getting the state of the current Drag
-+ (NSDragOperation)nsDragOperationForModifiers:(NSUInteger)modifiers;
-+ (jint) javaKeyModifiersForNSDragOperation:(NSDragOperation)dragOp;
+// Getting the stbte of the current Drbg
++ (NSDrbgOperbtion)nsDrbgOperbtionForModifiers:(NSUInteger)modifiers;
++ (jint) jbvbKeyModifiersForNSDrbgOperbtion:(NSDrbgOperbtion)drbgOp;
 @end
 
 
-// Global debugging flag (for drag-and-drop) - this can be overriden locally per file:
+// Globbl debugging flbg (for drbg-bnd-drop) - this cbn be overriden locblly per file:
 #ifndef DND_DEBUG
 //    #define DND_DEBUG TRUE
 #endif
 
 #if DND_DEBUG
     // Turn DLog (debug log) on for debugging:
-    #define    DLog(arg1)                        NSLog(arg1)
-    #define    DLog2(arg1, arg2)                NSLog(arg1, arg2)
-    #define    DLog3(arg1, arg2, arg3)            NSLog(arg1, arg2, arg3)
-    #define    DLog4(arg1, arg2, arg3, arg4)    NSLog(arg1, arg2, arg3, arg4)
-    #define    DLog5(arg1, arg2, arg3, arg4, arg5)            NSLog(arg1, arg2, arg3, arg4, arg5)
-    #define    DLog6(arg1, arg2, arg3, arg4, arg5, arg6)    NSLog(arg1, arg2, arg3, arg4, arg5, arg6)
+    #define    DLog(brg1)                        NSLog(brg1)
+    #define    DLog2(brg1, brg2)                NSLog(brg1, brg2)
+    #define    DLog3(brg1, brg2, brg3)            NSLog(brg1, brg2, brg3)
+    #define    DLog4(brg1, brg2, brg3, brg4)    NSLog(brg1, brg2, brg3, brg4)
+    #define    DLog5(brg1, brg2, brg3, brg4, brg5)            NSLog(brg1, brg2, brg3, brg4, brg5)
+    #define    DLog6(brg1, brg2, brg3, brg4, brg5, brg6)    NSLog(brg1, brg2, brg3, brg4, brg5, brg6)
 #else
-    #define    DLog(arg1);
-    #define    DLog2(arg1, arg2);
-    #define    DLog3(arg1, arg2, arg3);
-    #define    DLog4(arg1, arg2, arg3, arg4);
-    #define    DLog5(arg1, arg2, arg3, arg4, arg5);
-    #define    DLog6(arg1, arg2, arg3, arg4, arg5, arg6);
+    #define    DLog(brg1);
+    #define    DLog2(brg1, brg2);
+    #define    DLog3(brg1, brg2, brg3);
+    #define    DLog4(brg1, brg2, brg3, brg4);
+    #define    DLog5(brg1, brg2, brg3, brg4, brg5);
+    #define    DLog6(brg1, brg2, brg3, brg4, brg5, brg6);
 #endif
 
 #endif // DnDUtilities_h

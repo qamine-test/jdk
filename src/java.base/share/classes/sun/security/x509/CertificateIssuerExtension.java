@@ -1,209 +1,209 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.security.x509;
+pbckbge sun.security.x509;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.Enumeration;
+import jbvb.io.IOException;
+import jbvb.io.OutputStrebm;
+import jbvb.util.Enumerbtion;
 
-import sun.security.util.DerValue;
-import sun.security.util.DerOutputStream;
+import sun.security.util.DerVblue;
+import sun.security.util.DerOutputStrebm;
 
 /**
- * Represents the CRL Certificate Issuer Extension (OID = 2.5.29.29).
+ * Represents the CRL Certificbte Issuer Extension (OID = 2.5.29.29).
  * <p>
- * The CRL certificate issuer extension identifies the certificate issuer
- * associated with an entry in an indirect CRL, i.e. a CRL that has the
- * indirectCRL indicator set in its issuing distribution point extension. If
- * this extension is not present on the first entry in an indirect CRL, the
- * certificate issuer defaults to the CRL issuer. On subsequent entries
- * in an indirect CRL, if this extension is not present, the certificate
- * issuer for the entry is the same as that for the preceding entry.
+ * The CRL certificbte issuer extension identifies the certificbte issuer
+ * bssocibted with bn entry in bn indirect CRL, i.e. b CRL thbt hbs the
+ * indirectCRL indicbtor set in its issuing distribution point extension. If
+ * this extension is not present on the first entry in bn indirect CRL, the
+ * certificbte issuer defbults to the CRL issuer. On subsequent entries
+ * in bn indirect CRL, if this extension is not present, the certificbte
+ * issuer for the entry is the sbme bs thbt for the preceding entry.
  * <p>
- * If used by conforming CRL issuers, this extension is always
- * critical.  If an implementation ignored this extension it could not
- * correctly attribute CRL entries to certificates.  PKIX (RFC 3280)
- * RECOMMENDS that implementations recognize this extension.
+ * If used by conforming CRL issuers, this extension is blwbys
+ * criticbl.  If bn implementbtion ignored this extension it could not
+ * correctly bttribute CRL entries to certificbtes.  PKIX (RFC 3280)
+ * RECOMMENDS thbt implementbtions recognize this extension.
  * <p>
  * The ASN.1 definition for this is:
  * <pre>
- * id-ce-certificateIssuer   OBJECT IDENTIFIER ::= { id-ce 29 }
+ * id-ce-certificbteIssuer   OBJECT IDENTIFIER ::= { id-ce 29 }
  *
- * certificateIssuer ::=     GeneralNames
+ * certificbteIssuer ::=     GenerblNbmes
  * </pre>
  *
- * @author Anne Anderson
- * @author Sean Mullan
+ * @buthor Anne Anderson
+ * @buthor Sebn Mullbn
  * @since 1.5
  * @see Extension
  * @see CertAttrSet
  */
-public class CertificateIssuerExtension extends Extension
+public clbss CertificbteIssuerExtension extends Extension
     implements CertAttrSet<String> {
 
     /**
-     * Attribute names.
+     * Attribute nbmes.
      */
-    public static final String NAME = "CertificateIssuer";
-    public static final String ISSUER = "issuer";
+    public stbtic finbl String NAME = "CertificbteIssuer";
+    public stbtic finbl String ISSUER = "issuer";
 
-    private GeneralNames names;
+    privbte GenerblNbmes nbmes;
 
     /**
      * Encode this extension
      */
-    private void encodeThis() throws IOException {
-        if (names == null || names.isEmpty()) {
-            this.extensionValue = null;
+    privbte void encodeThis() throws IOException {
+        if (nbmes == null || nbmes.isEmpty()) {
+            this.extensionVblue = null;
             return;
         }
-        DerOutputStream os = new DerOutputStream();
-        names.encode(os);
-        this.extensionValue = os.toByteArray();
+        DerOutputStrebm os = new DerOutputStrebm();
+        nbmes.encode(os);
+        this.extensionVblue = os.toByteArrby();
     }
 
     /**
-     * Create a CertificateIssuerExtension containing the specified issuer name.
-     * Criticality is automatically set to true.
+     * Crebte b CertificbteIssuerExtension contbining the specified issuer nbme.
+     * Criticblity is butombticblly set to true.
      *
-     * @param issuer the certificate issuer
+     * @pbrbm issuer the certificbte issuer
      * @throws IOException on error
      */
-    public CertificateIssuerExtension(GeneralNames issuer) throws IOException {
-        this.extensionId = PKIXExtensions.CertificateIssuer_Id;
-        this.critical = true;
-        this.names = issuer;
+    public CertificbteIssuerExtension(GenerblNbmes issuer) throws IOException {
+        this.extensionId = PKIXExtensions.CertificbteIssuer_Id;
+        this.criticbl = true;
+        this.nbmes = issuer;
         encodeThis();
     }
 
     /**
-     * Create a CertificateIssuerExtension from the specified DER encoded
-     * value of the same.
+     * Crebte b CertificbteIssuerExtension from the specified DER encoded
+     * vblue of the sbme.
      *
-     * @param critical true if the extension is to be treated as critical.
-     * @param value an array of DER encoded bytes of the actual value
-     * @throws ClassCastException if value is not an array of bytes
+     * @pbrbm criticbl true if the extension is to be trebted bs criticbl.
+     * @pbrbm vblue bn brrby of DER encoded bytes of the bctubl vblue
+     * @throws ClbssCbstException if vblue is not bn brrby of bytes
      * @throws IOException on error
      */
-    public CertificateIssuerExtension(Boolean critical, Object value)
+    public CertificbteIssuerExtension(Boolebn criticbl, Object vblue)
         throws IOException {
-        this.extensionId = PKIXExtensions.CertificateIssuer_Id;
-        this.critical = critical.booleanValue();
+        this.extensionId = PKIXExtensions.CertificbteIssuer_Id;
+        this.criticbl = criticbl.boolebnVblue();
 
-        this.extensionValue = (byte[]) value;
-        DerValue val = new DerValue(this.extensionValue);
-        this.names = new GeneralNames(val);
+        this.extensionVblue = (byte[]) vblue;
+        DerVblue vbl = new DerVblue(this.extensionVblue);
+        this.nbmes = new GenerblNbmes(vbl);
     }
 
     /**
-     * Set the attribute value.
+     * Set the bttribute vblue.
      *
      * @throws IOException on error
      */
-    public void set(String name, Object obj) throws IOException {
-        if (name.equalsIgnoreCase(ISSUER)) {
-            if (!(obj instanceof GeneralNames)) {
-                throw new IOException("Attribute value must be of type " +
-                    "GeneralNames");
+    public void set(String nbme, Object obj) throws IOException {
+        if (nbme.equblsIgnoreCbse(ISSUER)) {
+            if (!(obj instbnceof GenerblNbmes)) {
+                throw new IOException("Attribute vblue must be of type " +
+                    "GenerblNbmes");
             }
-            this.names = (GeneralNames)obj;
+            this.nbmes = (GenerblNbmes)obj;
         } else {
-            throw new IOException("Attribute name not recognized by " +
-                "CertAttrSet:CertificateIssuer");
+            throw new IOException("Attribute nbme not recognized by " +
+                "CertAttrSet:CertificbteIssuer");
         }
         encodeThis();
     }
 
     /**
-     * Gets the attribute value.
+     * Gets the bttribute vblue.
      *
      * @throws IOException on error
      */
-    public GeneralNames get(String name) throws IOException {
-        if (name.equalsIgnoreCase(ISSUER)) {
-            return names;
+    public GenerblNbmes get(String nbme) throws IOException {
+        if (nbme.equblsIgnoreCbse(ISSUER)) {
+            return nbmes;
         } else {
-            throw new IOException("Attribute name not recognized by " +
-                "CertAttrSet:CertificateIssuer");
+            throw new IOException("Attribute nbme not recognized by " +
+                "CertAttrSet:CertificbteIssuer");
         }
     }
 
     /**
-     * Deletes the attribute value.
+     * Deletes the bttribute vblue.
      *
      * @throws IOException on error
      */
-    public void delete(String name) throws IOException {
-        if (name.equalsIgnoreCase(ISSUER)) {
-            names = null;
+    public void delete(String nbme) throws IOException {
+        if (nbme.equblsIgnoreCbse(ISSUER)) {
+            nbmes = null;
         } else {
-            throw new IOException("Attribute name not recognized by " +
-                "CertAttrSet:CertificateIssuer");
+            throw new IOException("Attribute nbme not recognized by " +
+                "CertAttrSet:CertificbteIssuer");
         }
         encodeThis();
     }
 
     /**
-     * Returns a printable representation of the certificate issuer.
+     * Returns b printbble representbtion of the certificbte issuer.
      */
     public String toString() {
-        return super.toString() + "Certificate Issuer [\n" +
-            String.valueOf(names) + "]\n";
+        return super.toString() + "Certificbte Issuer [\n" +
+            String.vblueOf(nbmes) + "]\n";
     }
 
     /**
-     * Write the extension to the OutputStream.
+     * Write the extension to the OutputStrebm.
      *
-     * @param out the OutputStream to write the extension to
+     * @pbrbm out the OutputStrebm to write the extension to
      * @exception IOException on encoding errors
      */
-    public void encode(OutputStream out) throws IOException {
-        DerOutputStream  tmp = new DerOutputStream();
-        if (extensionValue == null) {
-            extensionId = PKIXExtensions.CertificateIssuer_Id;
-            critical = true;
+    public void encode(OutputStrebm out) throws IOException {
+        DerOutputStrebm  tmp = new DerOutputStrebm();
+        if (extensionVblue == null) {
+            extensionId = PKIXExtensions.CertificbteIssuer_Id;
+            criticbl = true;
             encodeThis();
         }
         super.encode(tmp);
-        out.write(tmp.toByteArray());
+        out.write(tmp.toByteArrby());
     }
 
     /**
-     * Return an enumeration of names of attributes existing within this
-     * attribute.
+     * Return bn enumerbtion of nbmes of bttributes existing within this
+     * bttribute.
      */
-    public Enumeration<String> getElements() {
-        AttributeNameEnumeration elements = new AttributeNameEnumeration();
-        elements.addElement(ISSUER);
+    public Enumerbtion<String> getElements() {
+        AttributeNbmeEnumerbtion elements = new AttributeNbmeEnumerbtion();
+        elements.bddElement(ISSUER);
         return elements.elements();
     }
 
     /**
-     * Return the name of this attribute.
+     * Return the nbme of this bttribute.
      */
-    public String getName() {
+    public String getNbme() {
         return NAME;
     }
 }

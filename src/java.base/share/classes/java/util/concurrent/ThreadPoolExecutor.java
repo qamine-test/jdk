@@ -1,1049 +1,1049 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * Written by Doug Lea with assistance from members of JCP JSR-166
- * Expert Group and released to the public domain, as explained at
- * http://creativecommons.org/publicdomain/zero/1.0/
+ * Written by Doug Leb with bssistbnce from members of JCP JSR-166
+ * Expert Group bnd relebsed to the public dombin, bs explbined bt
+ * http://crebtivecommons.org/publicdombin/zero/1.0/
  */
 
-package java.util.concurrent;
-import java.util.concurrent.locks.AbstractQueuedSynchronizer;
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.ReentrantLock;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.*;
+pbckbge jbvb.util.concurrent;
+import jbvb.util.concurrent.locks.AbstrbctQueuedSynchronizer;
+import jbvb.util.concurrent.locks.Condition;
+import jbvb.util.concurrent.locks.ReentrbntLock;
+import jbvb.util.concurrent.btomic.AtomicInteger;
+import jbvb.util.*;
 
 /**
- * An {@link ExecutorService} that executes each submitted task using
- * one of possibly several pooled threads, normally configured
- * using {@link Executors} factory methods.
+ * An {@link ExecutorService} thbt executes ebch submitted tbsk using
+ * one of possibly severbl pooled threbds, normblly configured
+ * using {@link Executors} fbctory methods.
  *
- * <p>Thread pools address two different problems: they usually
- * provide improved performance when executing large numbers of
- * asynchronous tasks, due to reduced per-task invocation overhead,
- * and they provide a means of bounding and managing the resources,
- * including threads, consumed when executing a collection of tasks.
- * Each {@code ThreadPoolExecutor} also maintains some basic
- * statistics, such as the number of completed tasks.
+ * <p>Threbd pools bddress two different problems: they usublly
+ * provide improved performbnce when executing lbrge numbers of
+ * bsynchronous tbsks, due to reduced per-tbsk invocbtion overhebd,
+ * bnd they provide b mebns of bounding bnd mbnbging the resources,
+ * including threbds, consumed when executing b collection of tbsks.
+ * Ebch {@code ThrebdPoolExecutor} blso mbintbins some bbsic
+ * stbtistics, such bs the number of completed tbsks.
  *
- * <p>To be useful across a wide range of contexts, this class
- * provides many adjustable parameters and extensibility
- * hooks. However, programmers are urged to use the more convenient
- * {@link Executors} factory methods {@link
- * Executors#newCachedThreadPool} (unbounded thread pool, with
- * automatic thread reclamation), {@link Executors#newFixedThreadPool}
- * (fixed size thread pool) and {@link
- * Executors#newSingleThreadExecutor} (single background thread), that
- * preconfigure settings for the most common usage
- * scenarios. Otherwise, use the following guide when manually
- * configuring and tuning this class:
+ * <p>To be useful bcross b wide rbnge of contexts, this clbss
+ * provides mbny bdjustbble pbrbmeters bnd extensibility
+ * hooks. However, progrbmmers bre urged to use the more convenient
+ * {@link Executors} fbctory methods {@link
+ * Executors#newCbchedThrebdPool} (unbounded threbd pool, with
+ * butombtic threbd reclbmbtion), {@link Executors#newFixedThrebdPool}
+ * (fixed size threbd pool) bnd {@link
+ * Executors#newSingleThrebdExecutor} (single bbckground threbd), thbt
+ * preconfigure settings for the most common usbge
+ * scenbrios. Otherwise, use the following guide when mbnublly
+ * configuring bnd tuning this clbss:
  *
  * <dl>
  *
- * <dt>Core and maximum pool sizes</dt>
+ * <dt>Core bnd mbximum pool sizes</dt>
  *
- * <dd>A {@code ThreadPoolExecutor} will automatically adjust the
+ * <dd>A {@code ThrebdPoolExecutor} will butombticblly bdjust the
  * pool size (see {@link #getPoolSize})
- * according to the bounds set by
- * corePoolSize (see {@link #getCorePoolSize}) and
- * maximumPoolSize (see {@link #getMaximumPoolSize}).
+ * bccording to the bounds set by
+ * corePoolSize (see {@link #getCorePoolSize}) bnd
+ * mbximumPoolSize (see {@link #getMbximumPoolSize}).
  *
- * When a new task is submitted in method {@link #execute(Runnable)},
- * and fewer than corePoolSize threads are running, a new thread is
- * created to handle the request, even if other worker threads are
- * idle.  If there are more than corePoolSize but less than
- * maximumPoolSize threads running, a new thread will be created only
- * if the queue is full.  By setting corePoolSize and maximumPoolSize
- * the same, you create a fixed-size thread pool. By setting
- * maximumPoolSize to an essentially unbounded value such as {@code
- * Integer.MAX_VALUE}, you allow the pool to accommodate an arbitrary
- * number of concurrent tasks. Most typically, core and maximum pool
- * sizes are set only upon construction, but they may also be changed
- * dynamically using {@link #setCorePoolSize} and {@link
- * #setMaximumPoolSize}. </dd>
+ * When b new tbsk is submitted in method {@link #execute(Runnbble)},
+ * bnd fewer thbn corePoolSize threbds bre running, b new threbd is
+ * crebted to hbndle the request, even if other worker threbds bre
+ * idle.  If there bre more thbn corePoolSize but less thbn
+ * mbximumPoolSize threbds running, b new threbd will be crebted only
+ * if the queue is full.  By setting corePoolSize bnd mbximumPoolSize
+ * the sbme, you crebte b fixed-size threbd pool. By setting
+ * mbximumPoolSize to bn essentiblly unbounded vblue such bs {@code
+ * Integer.MAX_VALUE}, you bllow the pool to bccommodbte bn brbitrbry
+ * number of concurrent tbsks. Most typicblly, core bnd mbximum pool
+ * sizes bre set only upon construction, but they mby blso be chbnged
+ * dynbmicblly using {@link #setCorePoolSize} bnd {@link
+ * #setMbximumPoolSize}. </dd>
  *
- * <dt>On-demand construction</dt>
+ * <dt>On-dembnd construction</dt>
  *
- * <dd>By default, even core threads are initially created and
- * started only when new tasks arrive, but this can be overridden
- * dynamically using method {@link #prestartCoreThread} or {@link
- * #prestartAllCoreThreads}.  You probably want to prestart threads if
- * you construct the pool with a non-empty queue. </dd>
+ * <dd>By defbult, even core threbds bre initiblly crebted bnd
+ * stbrted only when new tbsks brrive, but this cbn be overridden
+ * dynbmicblly using method {@link #prestbrtCoreThrebd} or {@link
+ * #prestbrtAllCoreThrebds}.  You probbbly wbnt to prestbrt threbds if
+ * you construct the pool with b non-empty queue. </dd>
  *
- * <dt>Creating new threads</dt>
+ * <dt>Crebting new threbds</dt>
  *
- * <dd>New threads are created using a {@link ThreadFactory}.  If not
- * otherwise specified, a {@link Executors#defaultThreadFactory} is
- * used, that creates threads to all be in the same {@link
- * ThreadGroup} and with the same {@code NORM_PRIORITY} priority and
- * non-daemon status. By supplying a different ThreadFactory, you can
- * alter the thread's name, thread group, priority, daemon status,
- * etc. If a {@code ThreadFactory} fails to create a thread when asked
- * by returning null from {@code newThread}, the executor will
- * continue, but might not be able to execute any tasks. Threads
- * should possess the "modifyThread" {@code RuntimePermission}. If
- * worker threads or other threads using the pool do not possess this
- * permission, service may be degraded: configuration changes may not
- * take effect in a timely manner, and a shutdown pool may remain in a
- * state in which termination is possible but not completed.</dd>
+ * <dd>New threbds bre crebted using b {@link ThrebdFbctory}.  If not
+ * otherwise specified, b {@link Executors#defbultThrebdFbctory} is
+ * used, thbt crebtes threbds to bll be in the sbme {@link
+ * ThrebdGroup} bnd with the sbme {@code NORM_PRIORITY} priority bnd
+ * non-dbemon stbtus. By supplying b different ThrebdFbctory, you cbn
+ * blter the threbd's nbme, threbd group, priority, dbemon stbtus,
+ * etc. If b {@code ThrebdFbctory} fbils to crebte b threbd when bsked
+ * by returning null from {@code newThrebd}, the executor will
+ * continue, but might not be bble to execute bny tbsks. Threbds
+ * should possess the "modifyThrebd" {@code RuntimePermission}. If
+ * worker threbds or other threbds using the pool do not possess this
+ * permission, service mby be degrbded: configurbtion chbnges mby not
+ * tbke effect in b timely mbnner, bnd b shutdown pool mby rembin in b
+ * stbte in which terminbtion is possible but not completed.</dd>
  *
- * <dt>Keep-alive times</dt>
+ * <dt>Keep-blive times</dt>
  *
- * <dd>If the pool currently has more than corePoolSize threads,
- * excess threads will be terminated if they have been idle for more
- * than the keepAliveTime (see {@link #getKeepAliveTime(TimeUnit)}).
- * This provides a means of reducing resource consumption when the
- * pool is not being actively used. If the pool becomes more active
- * later, new threads will be constructed. This parameter can also be
- * changed dynamically using method {@link #setKeepAliveTime(long,
- * TimeUnit)}.  Using a value of {@code Long.MAX_VALUE} {@link
- * TimeUnit#NANOSECONDS} effectively disables idle threads from ever
- * terminating prior to shut down. By default, the keep-alive policy
- * applies only when there are more than corePoolSize threads. But
- * method {@link #allowCoreThreadTimeOut(boolean)} can be used to
- * apply this time-out policy to core threads as well, so long as the
- * keepAliveTime value is non-zero. </dd>
+ * <dd>If the pool currently hbs more thbn corePoolSize threbds,
+ * excess threbds will be terminbted if they hbve been idle for more
+ * thbn the keepAliveTime (see {@link #getKeepAliveTime(TimeUnit)}).
+ * This provides b mebns of reducing resource consumption when the
+ * pool is not being bctively used. If the pool becomes more bctive
+ * lbter, new threbds will be constructed. This pbrbmeter cbn blso be
+ * chbnged dynbmicblly using method {@link #setKeepAliveTime(long,
+ * TimeUnit)}.  Using b vblue of {@code Long.MAX_VALUE} {@link
+ * TimeUnit#NANOSECONDS} effectively disbbles idle threbds from ever
+ * terminbting prior to shut down. By defbult, the keep-blive policy
+ * bpplies only when there bre more thbn corePoolSize threbds. But
+ * method {@link #bllowCoreThrebdTimeOut(boolebn)} cbn be used to
+ * bpply this time-out policy to core threbds bs well, so long bs the
+ * keepAliveTime vblue is non-zero. </dd>
  *
  * <dt>Queuing</dt>
  *
- * <dd>Any {@link BlockingQueue} may be used to transfer and hold
- * submitted tasks.  The use of this queue interacts with pool sizing:
+ * <dd>Any {@link BlockingQueue} mby be used to trbnsfer bnd hold
+ * submitted tbsks.  The use of this queue interbcts with pool sizing:
  *
  * <ul>
  *
- * <li> If fewer than corePoolSize threads are running, the Executor
- * always prefers adding a new thread
- * rather than queuing.</li>
+ * <li> If fewer thbn corePoolSize threbds bre running, the Executor
+ * blwbys prefers bdding b new threbd
+ * rbther thbn queuing.</li>
  *
- * <li> If corePoolSize or more threads are running, the Executor
- * always prefers queuing a request rather than adding a new
- * thread.</li>
+ * <li> If corePoolSize or more threbds bre running, the Executor
+ * blwbys prefers queuing b request rbther thbn bdding b new
+ * threbd.</li>
  *
- * <li> If a request cannot be queued, a new thread is created unless
- * this would exceed maximumPoolSize, in which case, the task will be
+ * <li> If b request cbnnot be queued, b new threbd is crebted unless
+ * this would exceed mbximumPoolSize, in which cbse, the tbsk will be
  * rejected.</li>
  *
  * </ul>
  *
- * There are three general strategies for queuing:
+ * There bre three generbl strbtegies for queuing:
  * <ol>
  *
- * <li> <em> Direct handoffs.</em> A good default choice for a work
- * queue is a {@link SynchronousQueue} that hands off tasks to threads
- * without otherwise holding them. Here, an attempt to queue a task
- * will fail if no threads are immediately available to run it, so a
- * new thread will be constructed. This policy avoids lockups when
- * handling sets of requests that might have internal dependencies.
- * Direct handoffs generally require unbounded maximumPoolSizes to
- * avoid rejection of new submitted tasks. This in turn admits the
- * possibility of unbounded thread growth when commands continue to
- * arrive on average faster than they can be processed.  </li>
+ * <li> <em> Direct hbndoffs.</em> A good defbult choice for b work
+ * queue is b {@link SynchronousQueue} thbt hbnds off tbsks to threbds
+ * without otherwise holding them. Here, bn bttempt to queue b tbsk
+ * will fbil if no threbds bre immedibtely bvbilbble to run it, so b
+ * new threbd will be constructed. This policy bvoids lockups when
+ * hbndling sets of requests thbt might hbve internbl dependencies.
+ * Direct hbndoffs generblly require unbounded mbximumPoolSizes to
+ * bvoid rejection of new submitted tbsks. This in turn bdmits the
+ * possibility of unbounded threbd growth when commbnds continue to
+ * brrive on bverbge fbster thbn they cbn be processed.  </li>
  *
- * <li><em> Unbounded queues.</em> Using an unbounded queue (for
- * example a {@link LinkedBlockingQueue} without a predefined
- * capacity) will cause new tasks to wait in the queue when all
- * corePoolSize threads are busy. Thus, no more than corePoolSize
- * threads will ever be created. (And the value of the maximumPoolSize
- * therefore doesn't have any effect.)  This may be appropriate when
- * each task is completely independent of others, so tasks cannot
- * affect each others execution; for example, in a web page server.
- * While this style of queuing can be useful in smoothing out
- * transient bursts of requests, it admits the possibility of
- * unbounded work queue growth when commands continue to arrive on
- * average faster than they can be processed.  </li>
+ * <li><em> Unbounded queues.</em> Using bn unbounded queue (for
+ * exbmple b {@link LinkedBlockingQueue} without b predefined
+ * cbpbcity) will cbuse new tbsks to wbit in the queue when bll
+ * corePoolSize threbds bre busy. Thus, no more thbn corePoolSize
+ * threbds will ever be crebted. (And the vblue of the mbximumPoolSize
+ * therefore doesn't hbve bny effect.)  This mby be bppropribte when
+ * ebch tbsk is completely independent of others, so tbsks cbnnot
+ * bffect ebch others execution; for exbmple, in b web pbge server.
+ * While this style of queuing cbn be useful in smoothing out
+ * trbnsient bursts of requests, it bdmits the possibility of
+ * unbounded work queue growth when commbnds continue to brrive on
+ * bverbge fbster thbn they cbn be processed.  </li>
  *
- * <li><em>Bounded queues.</em> A bounded queue (for example, an
- * {@link ArrayBlockingQueue}) helps prevent resource exhaustion when
- * used with finite maximumPoolSizes, but can be more difficult to
- * tune and control.  Queue sizes and maximum pool sizes may be traded
- * off for each other: Using large queues and small pools minimizes
- * CPU usage, OS resources, and context-switching overhead, but can
- * lead to artificially low throughput.  If tasks frequently block (for
- * example if they are I/O bound), a system may be able to schedule
- * time for more threads than you otherwise allow. Use of small queues
- * generally requires larger pool sizes, which keeps CPUs busier but
- * may encounter unacceptable scheduling overhead, which also
- * decreases throughput.  </li>
+ * <li><em>Bounded queues.</em> A bounded queue (for exbmple, bn
+ * {@link ArrbyBlockingQueue}) helps prevent resource exhbustion when
+ * used with finite mbximumPoolSizes, but cbn be more difficult to
+ * tune bnd control.  Queue sizes bnd mbximum pool sizes mby be trbded
+ * off for ebch other: Using lbrge queues bnd smbll pools minimizes
+ * CPU usbge, OS resources, bnd context-switching overhebd, but cbn
+ * lebd to brtificiblly low throughput.  If tbsks frequently block (for
+ * exbmple if they bre I/O bound), b system mby be bble to schedule
+ * time for more threbds thbn you otherwise bllow. Use of smbll queues
+ * generblly requires lbrger pool sizes, which keeps CPUs busier but
+ * mby encounter unbcceptbble scheduling overhebd, which blso
+ * decrebses throughput.  </li>
  *
  * </ol>
  *
  * </dd>
  *
- * <dt>Rejected tasks</dt>
+ * <dt>Rejected tbsks</dt>
  *
- * <dd>New tasks submitted in method {@link #execute(Runnable)} will be
- * <em>rejected</em> when the Executor has been shut down, and also when
- * the Executor uses finite bounds for both maximum threads and work queue
- * capacity, and is saturated.  In either case, the {@code execute} method
+ * <dd>New tbsks submitted in method {@link #execute(Runnbble)} will be
+ * <em>rejected</em> when the Executor hbs been shut down, bnd blso when
+ * the Executor uses finite bounds for both mbximum threbds bnd work queue
+ * cbpbcity, bnd is sbturbted.  In either cbse, the {@code execute} method
  * invokes the {@link
- * RejectedExecutionHandler#rejectedExecution(Runnable, ThreadPoolExecutor)}
- * method of its {@link RejectedExecutionHandler}.  Four predefined handler
- * policies are provided:
+ * RejectedExecutionHbndler#rejectedExecution(Runnbble, ThrebdPoolExecutor)}
+ * method of its {@link RejectedExecutionHbndler}.  Four predefined hbndler
+ * policies bre provided:
  *
  * <ol>
  *
- * <li> In the default {@link ThreadPoolExecutor.AbortPolicy}, the
- * handler throws a runtime {@link RejectedExecutionException} upon
+ * <li> In the defbult {@link ThrebdPoolExecutor.AbortPolicy}, the
+ * hbndler throws b runtime {@link RejectedExecutionException} upon
  * rejection. </li>
  *
- * <li> In {@link ThreadPoolExecutor.CallerRunsPolicy}, the thread
- * that invokes {@code execute} itself runs the task. This provides a
- * simple feedback control mechanism that will slow down the rate that
- * new tasks are submitted. </li>
+ * <li> In {@link ThrebdPoolExecutor.CbllerRunsPolicy}, the threbd
+ * thbt invokes {@code execute} itself runs the tbsk. This provides b
+ * simple feedbbck control mechbnism thbt will slow down the rbte thbt
+ * new tbsks bre submitted. </li>
  *
- * <li> In {@link ThreadPoolExecutor.DiscardPolicy}, a task that
- * cannot be executed is simply dropped.  </li>
+ * <li> In {@link ThrebdPoolExecutor.DiscbrdPolicy}, b tbsk thbt
+ * cbnnot be executed is simply dropped.  </li>
  *
- * <li>In {@link ThreadPoolExecutor.DiscardOldestPolicy}, if the
- * executor is not shut down, the task at the head of the work queue
- * is dropped, and then execution is retried (which can fail again,
- * causing this to be repeated.) </li>
+ * <li>In {@link ThrebdPoolExecutor.DiscbrdOldestPolicy}, if the
+ * executor is not shut down, the tbsk bt the hebd of the work queue
+ * is dropped, bnd then execution is retried (which cbn fbil bgbin,
+ * cbusing this to be repebted.) </li>
  *
  * </ol>
  *
- * It is possible to define and use other kinds of {@link
- * RejectedExecutionHandler} classes. Doing so requires some care
- * especially when policies are designed to work only under particular
- * capacity or queuing policies. </dd>
+ * It is possible to define bnd use other kinds of {@link
+ * RejectedExecutionHbndler} clbsses. Doing so requires some cbre
+ * especiblly when policies bre designed to work only under pbrticulbr
+ * cbpbcity or queuing policies. </dd>
  *
  * <dt>Hook methods</dt>
  *
- * <dd>This class provides {@code protected} overridable
- * {@link #beforeExecute(Thread, Runnable)} and
- * {@link #afterExecute(Runnable, Throwable)} methods that are called
- * before and after execution of each task.  These can be used to
- * manipulate the execution environment; for example, reinitializing
- * ThreadLocals, gathering statistics, or adding log entries.
- * Additionally, method {@link #terminated} can be overridden to perform
- * any special processing that needs to be done once the Executor has
- * fully terminated.
+ * <dd>This clbss provides {@code protected} overridbble
+ * {@link #beforeExecute(Threbd, Runnbble)} bnd
+ * {@link #bfterExecute(Runnbble, Throwbble)} methods thbt bre cblled
+ * before bnd bfter execution of ebch tbsk.  These cbn be used to
+ * mbnipulbte the execution environment; for exbmple, reinitiblizing
+ * ThrebdLocbls, gbthering stbtistics, or bdding log entries.
+ * Additionblly, method {@link #terminbted} cbn be overridden to perform
+ * bny specibl processing thbt needs to be done once the Executor hbs
+ * fully terminbted.
  *
- * <p>If hook or callback methods throw exceptions, internal worker
- * threads may in turn fail and abruptly terminate.</dd>
+ * <p>If hook or cbllbbck methods throw exceptions, internbl worker
+ * threbds mby in turn fbil bnd bbruptly terminbte.</dd>
  *
- * <dt>Queue maintenance</dt>
+ * <dt>Queue mbintenbnce</dt>
  *
- * <dd>Method {@link #getQueue()} allows access to the work queue
- * for purposes of monitoring and debugging.  Use of this method for
- * any other purpose is strongly discouraged.  Two supplied methods,
- * {@link #remove(Runnable)} and {@link #purge} are available to
- * assist in storage reclamation when large numbers of queued tasks
- * become cancelled.</dd>
+ * <dd>Method {@link #getQueue()} bllows bccess to the work queue
+ * for purposes of monitoring bnd debugging.  Use of this method for
+ * bny other purpose is strongly discourbged.  Two supplied methods,
+ * {@link #remove(Runnbble)} bnd {@link #purge} bre bvbilbble to
+ * bssist in storbge reclbmbtion when lbrge numbers of queued tbsks
+ * become cbncelled.</dd>
  *
- * <dt>Finalization</dt>
+ * <dt>Finblizbtion</dt>
  *
- * <dd>A pool that is no longer referenced in a program <em>AND</em>
- * has no remaining threads will be {@code shutdown} automatically. If
- * you would like to ensure that unreferenced pools are reclaimed even
- * if users forget to call {@link #shutdown}, then you must arrange
- * that unused threads eventually die, by setting appropriate
- * keep-alive times, using a lower bound of zero core threads and/or
- * setting {@link #allowCoreThreadTimeOut(boolean)}.  </dd>
+ * <dd>A pool thbt is no longer referenced in b progrbm <em>AND</em>
+ * hbs no rembining threbds will be {@code shutdown} butombticblly. If
+ * you would like to ensure thbt unreferenced pools bre reclbimed even
+ * if users forget to cbll {@link #shutdown}, then you must brrbnge
+ * thbt unused threbds eventublly die, by setting bppropribte
+ * keep-blive times, using b lower bound of zero core threbds bnd/or
+ * setting {@link #bllowCoreThrebdTimeOut(boolebn)}.  </dd>
  *
  * </dl>
  *
- * <p><b>Extension example</b>. Most extensions of this class
- * override one or more of the protected hook methods. For example,
- * here is a subclass that adds a simple pause/resume feature:
+ * <p><b>Extension exbmple</b>. Most extensions of this clbss
+ * override one or more of the protected hook methods. For exbmple,
+ * here is b subclbss thbt bdds b simple pbuse/resume febture:
  *
  *  <pre> {@code
- * class PausableThreadPoolExecutor extends ThreadPoolExecutor {
- *   private boolean isPaused;
- *   private ReentrantLock pauseLock = new ReentrantLock();
- *   private Condition unpaused = pauseLock.newCondition();
+ * clbss PbusbbleThrebdPoolExecutor extends ThrebdPoolExecutor {
+ *   privbte boolebn isPbused;
+ *   privbte ReentrbntLock pbuseLock = new ReentrbntLock();
+ *   privbte Condition unpbused = pbuseLock.newCondition();
  *
- *   public PausableThreadPoolExecutor(...) { super(...); }
+ *   public PbusbbleThrebdPoolExecutor(...) { super(...); }
  *
- *   protected void beforeExecute(Thread t, Runnable r) {
+ *   protected void beforeExecute(Threbd t, Runnbble r) {
  *     super.beforeExecute(t, r);
- *     pauseLock.lock();
+ *     pbuseLock.lock();
  *     try {
- *       while (isPaused) unpaused.await();
- *     } catch (InterruptedException ie) {
+ *       while (isPbused) unpbused.bwbit();
+ *     } cbtch (InterruptedException ie) {
  *       t.interrupt();
- *     } finally {
- *       pauseLock.unlock();
+ *     } finblly {
+ *       pbuseLock.unlock();
  *     }
  *   }
  *
- *   public void pause() {
- *     pauseLock.lock();
+ *   public void pbuse() {
+ *     pbuseLock.lock();
  *     try {
- *       isPaused = true;
- *     } finally {
- *       pauseLock.unlock();
+ *       isPbused = true;
+ *     } finblly {
+ *       pbuseLock.unlock();
  *     }
  *   }
  *
  *   public void resume() {
- *     pauseLock.lock();
+ *     pbuseLock.lock();
  *     try {
- *       isPaused = false;
- *       unpaused.signalAll();
- *     } finally {
- *       pauseLock.unlock();
+ *       isPbused = fblse;
+ *       unpbused.signblAll();
+ *     } finblly {
+ *       pbuseLock.unlock();
  *     }
  *   }
  * }}</pre>
  *
  * @since 1.5
- * @author Doug Lea
+ * @buthor Doug Leb
  */
-public class ThreadPoolExecutor extends AbstractExecutorService {
+public clbss ThrebdPoolExecutor extends AbstrbctExecutorService {
     /**
-     * The main pool control state, ctl, is an atomic integer packing
-     * two conceptual fields
-     *   workerCount, indicating the effective number of threads
-     *   runState,    indicating whether running, shutting down etc
+     * The mbin pool control stbte, ctl, is bn btomic integer pbcking
+     * two conceptubl fields
+     *   workerCount, indicbting the effective number of threbds
+     *   runStbte,    indicbting whether running, shutting down etc
      *
-     * In order to pack them into one int, we limit workerCount to
-     * (2^29)-1 (about 500 million) threads rather than (2^31)-1 (2
-     * billion) otherwise representable. If this is ever an issue in
-     * the future, the variable can be changed to be an AtomicLong,
-     * and the shift/mask constants below adjusted. But until the need
-     * arises, this code is a bit faster and simpler using an int.
+     * In order to pbck them into one int, we limit workerCount to
+     * (2^29)-1 (bbout 500 million) threbds rbther thbn (2^31)-1 (2
+     * billion) otherwise representbble. If this is ever bn issue in
+     * the future, the vbribble cbn be chbnged to be bn AtomicLong,
+     * bnd the shift/mbsk constbnts below bdjusted. But until the need
+     * brises, this code is b bit fbster bnd simpler using bn int.
      *
-     * The workerCount is the number of workers that have been
-     * permitted to start and not permitted to stop.  The value may be
-     * transiently different from the actual number of live threads,
-     * for example when a ThreadFactory fails to create a thread when
-     * asked, and when exiting threads are still performing
-     * bookkeeping before terminating. The user-visible pool size is
-     * reported as the current size of the workers set.
+     * The workerCount is the number of workers thbt hbve been
+     * permitted to stbrt bnd not permitted to stop.  The vblue mby be
+     * trbnsiently different from the bctubl number of live threbds,
+     * for exbmple when b ThrebdFbctory fbils to crebte b threbd when
+     * bsked, bnd when exiting threbds bre still performing
+     * bookkeeping before terminbting. The user-visible pool size is
+     * reported bs the current size of the workers set.
      *
-     * The runState provides the main lifecycle control, taking on values:
+     * The runStbte provides the mbin lifecycle control, tbking on vblues:
      *
-     *   RUNNING:  Accept new tasks and process queued tasks
-     *   SHUTDOWN: Don't accept new tasks, but process queued tasks
-     *   STOP:     Don't accept new tasks, don't process queued tasks,
-     *             and interrupt in-progress tasks
-     *   TIDYING:  All tasks have terminated, workerCount is zero,
-     *             the thread transitioning to state TIDYING
-     *             will run the terminated() hook method
-     *   TERMINATED: terminated() has completed
+     *   RUNNING:  Accept new tbsks bnd process queued tbsks
+     *   SHUTDOWN: Don't bccept new tbsks, but process queued tbsks
+     *   STOP:     Don't bccept new tbsks, don't process queued tbsks,
+     *             bnd interrupt in-progress tbsks
+     *   TIDYING:  All tbsks hbve terminbted, workerCount is zero,
+     *             the threbd trbnsitioning to stbte TIDYING
+     *             will run the terminbted() hook method
+     *   TERMINATED: terminbted() hbs completed
      *
-     * The numerical order among these values matters, to allow
-     * ordered comparisons. The runState monotonically increases over
-     * time, but need not hit each state. The transitions are:
+     * The numericbl order bmong these vblues mbtters, to bllow
+     * ordered compbrisons. The runStbte monotonicblly increbses over
+     * time, but need not hit ebch stbte. The trbnsitions bre:
      *
      * RUNNING -> SHUTDOWN
-     *    On invocation of shutdown(), perhaps implicitly in finalize()
+     *    On invocbtion of shutdown(), perhbps implicitly in finblize()
      * (RUNNING or SHUTDOWN) -> STOP
-     *    On invocation of shutdownNow()
+     *    On invocbtion of shutdownNow()
      * SHUTDOWN -> TIDYING
-     *    When both queue and pool are empty
+     *    When both queue bnd pool bre empty
      * STOP -> TIDYING
      *    When pool is empty
      * TIDYING -> TERMINATED
-     *    When the terminated() hook method has completed
+     *    When the terminbted() hook method hbs completed
      *
-     * Threads waiting in awaitTermination() will return when the
-     * state reaches TERMINATED.
+     * Threbds wbiting in bwbitTerminbtion() will return when the
+     * stbte rebches TERMINATED.
      *
-     * Detecting the transition from SHUTDOWN to TIDYING is less
-     * straightforward than you'd like because the queue may become
-     * empty after non-empty and vice versa during SHUTDOWN state, but
-     * we can only terminate if, after seeing that it is empty, we see
-     * that workerCount is 0 (which sometimes entails a recheck -- see
+     * Detecting the trbnsition from SHUTDOWN to TIDYING is less
+     * strbightforwbrd thbn you'd like becbuse the queue mby become
+     * empty bfter non-empty bnd vice versb during SHUTDOWN stbte, but
+     * we cbn only terminbte if, bfter seeing thbt it is empty, we see
+     * thbt workerCount is 0 (which sometimes entbils b recheck -- see
      * below).
      */
-    private final AtomicInteger ctl = new AtomicInteger(ctlOf(RUNNING, 0));
-    private static final int COUNT_BITS = Integer.SIZE - 3;
-    private static final int CAPACITY   = (1 << COUNT_BITS) - 1;
+    privbte finbl AtomicInteger ctl = new AtomicInteger(ctlOf(RUNNING, 0));
+    privbte stbtic finbl int COUNT_BITS = Integer.SIZE - 3;
+    privbte stbtic finbl int CAPACITY   = (1 << COUNT_BITS) - 1;
 
-    // runState is stored in the high-order bits
-    private static final int RUNNING    = -1 << COUNT_BITS;
-    private static final int SHUTDOWN   =  0 << COUNT_BITS;
-    private static final int STOP       =  1 << COUNT_BITS;
-    private static final int TIDYING    =  2 << COUNT_BITS;
-    private static final int TERMINATED =  3 << COUNT_BITS;
+    // runStbte is stored in the high-order bits
+    privbte stbtic finbl int RUNNING    = -1 << COUNT_BITS;
+    privbte stbtic finbl int SHUTDOWN   =  0 << COUNT_BITS;
+    privbte stbtic finbl int STOP       =  1 << COUNT_BITS;
+    privbte stbtic finbl int TIDYING    =  2 << COUNT_BITS;
+    privbte stbtic finbl int TERMINATED =  3 << COUNT_BITS;
 
-    // Packing and unpacking ctl
-    private static int runStateOf(int c)     { return c & ~CAPACITY; }
-    private static int workerCountOf(int c)  { return c & CAPACITY; }
-    private static int ctlOf(int rs, int wc) { return rs | wc; }
+    // Pbcking bnd unpbcking ctl
+    privbte stbtic int runStbteOf(int c)     { return c & ~CAPACITY; }
+    privbte stbtic int workerCountOf(int c)  { return c & CAPACITY; }
+    privbte stbtic int ctlOf(int rs, int wc) { return rs | wc; }
 
     /*
-     * Bit field accessors that don't require unpacking ctl.
-     * These depend on the bit layout and on workerCount being never negative.
+     * Bit field bccessors thbt don't require unpbcking ctl.
+     * These depend on the bit lbyout bnd on workerCount being never negbtive.
      */
 
-    private static boolean runStateLessThan(int c, int s) {
+    privbte stbtic boolebn runStbteLessThbn(int c, int s) {
         return c < s;
     }
 
-    private static boolean runStateAtLeast(int c, int s) {
+    privbte stbtic boolebn runStbteAtLebst(int c, int s) {
         return c >= s;
     }
 
-    private static boolean isRunning(int c) {
+    privbte stbtic boolebn isRunning(int c) {
         return c < SHUTDOWN;
     }
 
     /**
      * Attempts to CAS-increment the workerCount field of ctl.
      */
-    private boolean compareAndIncrementWorkerCount(int expect) {
-        return ctl.compareAndSet(expect, expect + 1);
+    privbte boolebn compbreAndIncrementWorkerCount(int expect) {
+        return ctl.compbreAndSet(expect, expect + 1);
     }
 
     /**
      * Attempts to CAS-decrement the workerCount field of ctl.
      */
-    private boolean compareAndDecrementWorkerCount(int expect) {
-        return ctl.compareAndSet(expect, expect - 1);
+    privbte boolebn compbreAndDecrementWorkerCount(int expect) {
+        return ctl.compbreAndSet(expect, expect - 1);
     }
 
     /**
-     * Decrements the workerCount field of ctl. This is called only on
-     * abrupt termination of a thread (see processWorkerExit). Other
-     * decrements are performed within getTask.
+     * Decrements the workerCount field of ctl. This is cblled only on
+     * bbrupt terminbtion of b threbd (see processWorkerExit). Other
+     * decrements bre performed within getTbsk.
      */
-    private void decrementWorkerCount() {
-        do {} while (! compareAndDecrementWorkerCount(ctl.get()));
+    privbte void decrementWorkerCount() {
+        do {} while (! compbreAndDecrementWorkerCount(ctl.get()));
     }
 
     /**
-     * The queue used for holding tasks and handing off to worker
-     * threads.  We do not require that workQueue.poll() returning
-     * null necessarily means that workQueue.isEmpty(), so rely
+     * The queue used for holding tbsks bnd hbnding off to worker
+     * threbds.  We do not require thbt workQueue.poll() returning
+     * null necessbrily mebns thbt workQueue.isEmpty(), so rely
      * solely on isEmpty to see if the queue is empty (which we must
-     * do for example when deciding whether to transition from
-     * SHUTDOWN to TIDYING).  This accommodates special-purpose
-     * queues such as DelayQueues for which poll() is allowed to
-     * return null even if it may later return non-null when delays
+     * do for exbmple when deciding whether to trbnsition from
+     * SHUTDOWN to TIDYING).  This bccommodbtes specibl-purpose
+     * queues such bs DelbyQueues for which poll() is bllowed to
+     * return null even if it mby lbter return non-null when delbys
      * expire.
      */
-    private final BlockingQueue<Runnable> workQueue;
+    privbte finbl BlockingQueue<Runnbble> workQueue;
 
     /**
-     * Lock held on access to workers set and related bookkeeping.
-     * While we could use a concurrent set of some sort, it turns out
-     * to be generally preferable to use a lock. Among the reasons is
-     * that this serializes interruptIdleWorkers, which avoids
-     * unnecessary interrupt storms, especially during shutdown.
-     * Otherwise exiting threads would concurrently interrupt those
-     * that have not yet interrupted. It also simplifies some of the
-     * associated statistics bookkeeping of largestPoolSize etc. We
-     * also hold mainLock on shutdown and shutdownNow, for the sake of
-     * ensuring workers set is stable while separately checking
-     * permission to interrupt and actually interrupting.
+     * Lock held on bccess to workers set bnd relbted bookkeeping.
+     * While we could use b concurrent set of some sort, it turns out
+     * to be generblly preferbble to use b lock. Among the rebsons is
+     * thbt this seriblizes interruptIdleWorkers, which bvoids
+     * unnecessbry interrupt storms, especiblly during shutdown.
+     * Otherwise exiting threbds would concurrently interrupt those
+     * thbt hbve not yet interrupted. It blso simplifies some of the
+     * bssocibted stbtistics bookkeeping of lbrgestPoolSize etc. We
+     * blso hold mbinLock on shutdown bnd shutdownNow, for the sbke of
+     * ensuring workers set is stbble while sepbrbtely checking
+     * permission to interrupt bnd bctublly interrupting.
      */
-    private final ReentrantLock mainLock = new ReentrantLock();
+    privbte finbl ReentrbntLock mbinLock = new ReentrbntLock();
 
     /**
-     * Set containing all worker threads in pool. Accessed only when
-     * holding mainLock.
+     * Set contbining bll worker threbds in pool. Accessed only when
+     * holding mbinLock.
      */
-    private final HashSet<Worker> workers = new HashSet<Worker>();
+    privbte finbl HbshSet<Worker> workers = new HbshSet<Worker>();
 
     /**
-     * Wait condition to support awaitTermination
+     * Wbit condition to support bwbitTerminbtion
      */
-    private final Condition termination = mainLock.newCondition();
+    privbte finbl Condition terminbtion = mbinLock.newCondition();
 
     /**
-     * Tracks largest attained pool size. Accessed only under
-     * mainLock.
+     * Trbcks lbrgest bttbined pool size. Accessed only under
+     * mbinLock.
      */
-    private int largestPoolSize;
+    privbte int lbrgestPoolSize;
 
     /**
-     * Counter for completed tasks. Updated only on termination of
-     * worker threads. Accessed only under mainLock.
+     * Counter for completed tbsks. Updbted only on terminbtion of
+     * worker threbds. Accessed only under mbinLock.
      */
-    private long completedTaskCount;
+    privbte long completedTbskCount;
 
     /*
-     * All user control parameters are declared as volatiles so that
-     * ongoing actions are based on freshest values, but without need
-     * for locking, since no internal invariants depend on them
-     * changing synchronously with respect to other actions.
+     * All user control pbrbmeters bre declbred bs volbtiles so thbt
+     * ongoing bctions bre bbsed on freshest vblues, but without need
+     * for locking, since no internbl invbribnts depend on them
+     * chbnging synchronously with respect to other bctions.
      */
 
     /**
-     * Factory for new threads. All threads are created using this
-     * factory (via method addWorker).  All callers must be prepared
-     * for addWorker to fail, which may reflect a system or user's
-     * policy limiting the number of threads.  Even though it is not
-     * treated as an error, failure to create threads may result in
-     * new tasks being rejected or existing ones remaining stuck in
+     * Fbctory for new threbds. All threbds bre crebted using this
+     * fbctory (vib method bddWorker).  All cbllers must be prepbred
+     * for bddWorker to fbil, which mby reflect b system or user's
+     * policy limiting the number of threbds.  Even though it is not
+     * trebted bs bn error, fbilure to crebte threbds mby result in
+     * new tbsks being rejected or existing ones rembining stuck in
      * the queue.
      *
-     * We go further and preserve pool invariants even in the face of
-     * errors such as OutOfMemoryError, that might be thrown while
-     * trying to create threads.  Such errors are rather common due to
-     * the need to allocate a native stack in Thread.start, and users
-     * will want to perform clean pool shutdown to clean up.  There
-     * will likely be enough memory available for the cleanup code to
-     * complete without encountering yet another OutOfMemoryError.
+     * We go further bnd preserve pool invbribnts even in the fbce of
+     * errors such bs OutOfMemoryError, thbt might be thrown while
+     * trying to crebte threbds.  Such errors bre rbther common due to
+     * the need to bllocbte b nbtive stbck in Threbd.stbrt, bnd users
+     * will wbnt to perform clebn pool shutdown to clebn up.  There
+     * will likely be enough memory bvbilbble for the clebnup code to
+     * complete without encountering yet bnother OutOfMemoryError.
      */
-    private volatile ThreadFactory threadFactory;
+    privbte volbtile ThrebdFbctory threbdFbctory;
 
     /**
-     * Handler called when saturated or shutdown in execute.
+     * Hbndler cblled when sbturbted or shutdown in execute.
      */
-    private volatile RejectedExecutionHandler handler;
+    privbte volbtile RejectedExecutionHbndler hbndler;
 
     /**
-     * Timeout in nanoseconds for idle threads waiting for work.
-     * Threads use this timeout when there are more than corePoolSize
-     * present or if allowCoreThreadTimeOut. Otherwise they wait
+     * Timeout in nbnoseconds for idle threbds wbiting for work.
+     * Threbds use this timeout when there bre more thbn corePoolSize
+     * present or if bllowCoreThrebdTimeOut. Otherwise they wbit
      * forever for new work.
      */
-    private volatile long keepAliveTime;
+    privbte volbtile long keepAliveTime;
 
     /**
-     * If false (default), core threads stay alive even when idle.
-     * If true, core threads use keepAliveTime to time out waiting
+     * If fblse (defbult), core threbds stby blive even when idle.
+     * If true, core threbds use keepAliveTime to time out wbiting
      * for work.
      */
-    private volatile boolean allowCoreThreadTimeOut;
+    privbte volbtile boolebn bllowCoreThrebdTimeOut;
 
     /**
-     * Core pool size is the minimum number of workers to keep alive
-     * (and not allow to time out etc) unless allowCoreThreadTimeOut
-     * is set, in which case the minimum is zero.
+     * Core pool size is the minimum number of workers to keep blive
+     * (bnd not bllow to time out etc) unless bllowCoreThrebdTimeOut
+     * is set, in which cbse the minimum is zero.
      */
-    private volatile int corePoolSize;
+    privbte volbtile int corePoolSize;
 
     /**
-     * Maximum pool size. Note that the actual maximum is internally
+     * Mbximum pool size. Note thbt the bctubl mbximum is internblly
      * bounded by CAPACITY.
      */
-    private volatile int maximumPoolSize;
+    privbte volbtile int mbximumPoolSize;
 
     /**
-     * The default rejected execution handler
+     * The defbult rejected execution hbndler
      */
-    private static final RejectedExecutionHandler defaultHandler =
+    privbte stbtic finbl RejectedExecutionHbndler defbultHbndler =
         new AbortPolicy();
 
     /**
-     * Permission required for callers of shutdown and shutdownNow.
-     * We additionally require (see checkShutdownAccess) that callers
-     * have permission to actually interrupt threads in the worker set
-     * (as governed by Thread.interrupt, which relies on
-     * ThreadGroup.checkAccess, which in turn relies on
-     * SecurityManager.checkAccess). Shutdowns are attempted only if
-     * these checks pass.
+     * Permission required for cbllers of shutdown bnd shutdownNow.
+     * We bdditionblly require (see checkShutdownAccess) thbt cbllers
+     * hbve permission to bctublly interrupt threbds in the worker set
+     * (bs governed by Threbd.interrupt, which relies on
+     * ThrebdGroup.checkAccess, which in turn relies on
+     * SecurityMbnbger.checkAccess). Shutdowns bre bttempted only if
+     * these checks pbss.
      *
-     * All actual invocations of Thread.interrupt (see
-     * interruptIdleWorkers and interruptWorkers) ignore
-     * SecurityExceptions, meaning that the attempted interrupts
-     * silently fail. In the case of shutdown, they should not fail
-     * unless the SecurityManager has inconsistent policies, sometimes
-     * allowing access to a thread and sometimes not. In such cases,
-     * failure to actually interrupt threads may disable or delay full
-     * termination. Other uses of interruptIdleWorkers are advisory,
-     * and failure to actually interrupt will merely delay response to
-     * configuration changes so is not handled exceptionally.
+     * All bctubl invocbtions of Threbd.interrupt (see
+     * interruptIdleWorkers bnd interruptWorkers) ignore
+     * SecurityExceptions, mebning thbt the bttempted interrupts
+     * silently fbil. In the cbse of shutdown, they should not fbil
+     * unless the SecurityMbnbger hbs inconsistent policies, sometimes
+     * bllowing bccess to b threbd bnd sometimes not. In such cbses,
+     * fbilure to bctublly interrupt threbds mby disbble or delby full
+     * terminbtion. Other uses of interruptIdleWorkers bre bdvisory,
+     * bnd fbilure to bctublly interrupt will merely delby response to
+     * configurbtion chbnges so is not hbndled exceptionblly.
      */
-    private static final RuntimePermission shutdownPerm =
-        new RuntimePermission("modifyThread");
+    privbte stbtic finbl RuntimePermission shutdownPerm =
+        new RuntimePermission("modifyThrebd");
 
     /**
-     * Class Worker mainly maintains interrupt control state for
-     * threads running tasks, along with other minor bookkeeping.
-     * This class opportunistically extends AbstractQueuedSynchronizer
-     * to simplify acquiring and releasing a lock surrounding each
-     * task execution.  This protects against interrupts that are
-     * intended to wake up a worker thread waiting for a task from
-     * instead interrupting a task being run.  We implement a simple
-     * non-reentrant mutual exclusion lock rather than use
-     * ReentrantLock because we do not want worker tasks to be able to
-     * reacquire the lock when they invoke pool control methods like
-     * setCorePoolSize.  Additionally, to suppress interrupts until
-     * the thread actually starts running tasks, we initialize lock
-     * state to a negative value, and clear it upon start (in
+     * Clbss Worker mbinly mbintbins interrupt control stbte for
+     * threbds running tbsks, blong with other minor bookkeeping.
+     * This clbss opportunisticblly extends AbstrbctQueuedSynchronizer
+     * to simplify bcquiring bnd relebsing b lock surrounding ebch
+     * tbsk execution.  This protects bgbinst interrupts thbt bre
+     * intended to wbke up b worker threbd wbiting for b tbsk from
+     * instebd interrupting b tbsk being run.  We implement b simple
+     * non-reentrbnt mutubl exclusion lock rbther thbn use
+     * ReentrbntLock becbuse we do not wbnt worker tbsks to be bble to
+     * rebcquire the lock when they invoke pool control methods like
+     * setCorePoolSize.  Additionblly, to suppress interrupts until
+     * the threbd bctublly stbrts running tbsks, we initiblize lock
+     * stbte to b negbtive vblue, bnd clebr it upon stbrt (in
      * runWorker).
      */
-    private final class Worker
-        extends AbstractQueuedSynchronizer
-        implements Runnable
+    privbte finbl clbss Worker
+        extends AbstrbctQueuedSynchronizer
+        implements Runnbble
     {
         /**
-         * This class will never be serialized, but we provide a
-         * serialVersionUID to suppress a javac warning.
+         * This clbss will never be seriblized, but we provide b
+         * seriblVersionUID to suppress b jbvbc wbrning.
          */
-        private static final long serialVersionUID = 6138294804551838833L;
+        privbte stbtic finbl long seriblVersionUID = 6138294804551838833L;
 
-        /** Thread this worker is running in.  Null if factory fails. */
-        final Thread thread;
-        /** Initial task to run.  Possibly null. */
-        Runnable firstTask;
-        /** Per-thread task counter */
-        volatile long completedTasks;
+        /** Threbd this worker is running in.  Null if fbctory fbils. */
+        finbl Threbd threbd;
+        /** Initibl tbsk to run.  Possibly null. */
+        Runnbble firstTbsk;
+        /** Per-threbd tbsk counter */
+        volbtile long completedTbsks;
 
         /**
-         * Creates with given first task and thread from ThreadFactory.
-         * @param firstTask the first task (null if none)
+         * Crebtes with given first tbsk bnd threbd from ThrebdFbctory.
+         * @pbrbm firstTbsk the first tbsk (null if none)
          */
-        Worker(Runnable firstTask) {
-            setState(-1); // inhibit interrupts until runWorker
-            this.firstTask = firstTask;
-            this.thread = getThreadFactory().newThread(this);
+        Worker(Runnbble firstTbsk) {
+            setStbte(-1); // inhibit interrupts until runWorker
+            this.firstTbsk = firstTbsk;
+            this.threbd = getThrebdFbctory().newThrebd(this);
         }
 
-        /** Delegates main run loop to outer runWorker  */
+        /** Delegbtes mbin run loop to outer runWorker  */
         public void run() {
             runWorker(this);
         }
 
         // Lock methods
         //
-        // The value 0 represents the unlocked state.
-        // The value 1 represents the locked state.
+        // The vblue 0 represents the unlocked stbte.
+        // The vblue 1 represents the locked stbte.
 
-        protected boolean isHeldExclusively() {
-            return getState() != 0;
+        protected boolebn isHeldExclusively() {
+            return getStbte() != 0;
         }
 
-        protected boolean tryAcquire(int unused) {
-            if (compareAndSetState(0, 1)) {
-                setExclusiveOwnerThread(Thread.currentThread());
+        protected boolebn tryAcquire(int unused) {
+            if (compbreAndSetStbte(0, 1)) {
+                setExclusiveOwnerThrebd(Threbd.currentThrebd());
                 return true;
             }
-            return false;
+            return fblse;
         }
 
-        protected boolean tryRelease(int unused) {
-            setExclusiveOwnerThread(null);
-            setState(0);
+        protected boolebn tryRelebse(int unused) {
+            setExclusiveOwnerThrebd(null);
+            setStbte(0);
             return true;
         }
 
-        public void lock()        { acquire(1); }
-        public boolean tryLock()  { return tryAcquire(1); }
-        public void unlock()      { release(1); }
-        public boolean isLocked() { return isHeldExclusively(); }
+        public void lock()        { bcquire(1); }
+        public boolebn tryLock()  { return tryAcquire(1); }
+        public void unlock()      { relebse(1); }
+        public boolebn isLocked() { return isHeldExclusively(); }
 
-        void interruptIfStarted() {
-            Thread t;
-            if (getState() >= 0 && (t = thread) != null && !t.isInterrupted()) {
+        void interruptIfStbrted() {
+            Threbd t;
+            if (getStbte() >= 0 && (t = threbd) != null && !t.isInterrupted()) {
                 try {
                     t.interrupt();
-                } catch (SecurityException ignore) {
+                } cbtch (SecurityException ignore) {
                 }
             }
         }
     }
 
     /*
-     * Methods for setting control state
+     * Methods for setting control stbte
      */
 
     /**
-     * Transitions runState to given target, or leaves it alone if
-     * already at least the given target.
+     * Trbnsitions runStbte to given tbrget, or lebves it blone if
+     * blrebdy bt lebst the given tbrget.
      *
-     * @param targetState the desired state, either SHUTDOWN or STOP
-     *        (but not TIDYING or TERMINATED -- use tryTerminate for that)
+     * @pbrbm tbrgetStbte the desired stbte, either SHUTDOWN or STOP
+     *        (but not TIDYING or TERMINATED -- use tryTerminbte for thbt)
      */
-    private void advanceRunState(int targetState) {
+    privbte void bdvbnceRunStbte(int tbrgetStbte) {
         for (;;) {
             int c = ctl.get();
-            if (runStateAtLeast(c, targetState) ||
-                ctl.compareAndSet(c, ctlOf(targetState, workerCountOf(c))))
-                break;
+            if (runStbteAtLebst(c, tbrgetStbte) ||
+                ctl.compbreAndSet(c, ctlOf(tbrgetStbte, workerCountOf(c))))
+                brebk;
         }
     }
 
     /**
-     * Transitions to TERMINATED state if either (SHUTDOWN and pool
-     * and queue empty) or (STOP and pool empty).  If otherwise
-     * eligible to terminate but workerCount is nonzero, interrupts an
-     * idle worker to ensure that shutdown signals propagate. This
-     * method must be called following any action that might make
-     * termination possible -- reducing worker count or removing tasks
-     * from the queue during shutdown. The method is non-private to
-     * allow access from ScheduledThreadPoolExecutor.
+     * Trbnsitions to TERMINATED stbte if either (SHUTDOWN bnd pool
+     * bnd queue empty) or (STOP bnd pool empty).  If otherwise
+     * eligible to terminbte but workerCount is nonzero, interrupts bn
+     * idle worker to ensure thbt shutdown signbls propbgbte. This
+     * method must be cblled following bny bction thbt might mbke
+     * terminbtion possible -- reducing worker count or removing tbsks
+     * from the queue during shutdown. The method is non-privbte to
+     * bllow bccess from ScheduledThrebdPoolExecutor.
      */
-    final void tryTerminate() {
+    finbl void tryTerminbte() {
         for (;;) {
             int c = ctl.get();
             if (isRunning(c) ||
-                runStateAtLeast(c, TIDYING) ||
-                (runStateOf(c) == SHUTDOWN && ! workQueue.isEmpty()))
+                runStbteAtLebst(c, TIDYING) ||
+                (runStbteOf(c) == SHUTDOWN && ! workQueue.isEmpty()))
                 return;
-            if (workerCountOf(c) != 0) { // Eligible to terminate
+            if (workerCountOf(c) != 0) { // Eligible to terminbte
                 interruptIdleWorkers(ONLY_ONE);
                 return;
             }
 
-            final ReentrantLock mainLock = this.mainLock;
-            mainLock.lock();
+            finbl ReentrbntLock mbinLock = this.mbinLock;
+            mbinLock.lock();
             try {
-                if (ctl.compareAndSet(c, ctlOf(TIDYING, 0))) {
+                if (ctl.compbreAndSet(c, ctlOf(TIDYING, 0))) {
                     try {
-                        terminated();
-                    } finally {
+                        terminbted();
+                    } finblly {
                         ctl.set(ctlOf(TERMINATED, 0));
-                        termination.signalAll();
+                        terminbtion.signblAll();
                     }
                     return;
                 }
-            } finally {
-                mainLock.unlock();
+            } finblly {
+                mbinLock.unlock();
             }
-            // else retry on failed CAS
+            // else retry on fbiled CAS
         }
     }
 
     /*
-     * Methods for controlling interrupts to worker threads.
+     * Methods for controlling interrupts to worker threbds.
      */
 
     /**
-     * If there is a security manager, makes sure caller has
-     * permission to shut down threads in general (see shutdownPerm).
-     * If this passes, additionally makes sure the caller is allowed
-     * to interrupt each worker thread. This might not be true even if
-     * first check passed, if the SecurityManager treats some threads
-     * specially.
+     * If there is b security mbnbger, mbkes sure cbller hbs
+     * permission to shut down threbds in generbl (see shutdownPerm).
+     * If this pbsses, bdditionblly mbkes sure the cbller is bllowed
+     * to interrupt ebch worker threbd. This might not be true even if
+     * first check pbssed, if the SecurityMbnbger trebts some threbds
+     * speciblly.
      */
-    private void checkShutdownAccess() {
-        SecurityManager security = System.getSecurityManager();
+    privbte void checkShutdownAccess() {
+        SecurityMbnbger security = System.getSecurityMbnbger();
         if (security != null) {
             security.checkPermission(shutdownPerm);
-            final ReentrantLock mainLock = this.mainLock;
-            mainLock.lock();
+            finbl ReentrbntLock mbinLock = this.mbinLock;
+            mbinLock.lock();
             try {
                 for (Worker w : workers)
-                    security.checkAccess(w.thread);
-            } finally {
-                mainLock.unlock();
+                    security.checkAccess(w.threbd);
+            } finblly {
+                mbinLock.unlock();
             }
         }
     }
 
     /**
-     * Interrupts all threads, even if active. Ignores SecurityExceptions
-     * (in which case some threads may remain uninterrupted).
+     * Interrupts bll threbds, even if bctive. Ignores SecurityExceptions
+     * (in which cbse some threbds mby rembin uninterrupted).
      */
-    private void interruptWorkers() {
-        final ReentrantLock mainLock = this.mainLock;
-        mainLock.lock();
+    privbte void interruptWorkers() {
+        finbl ReentrbntLock mbinLock = this.mbinLock;
+        mbinLock.lock();
         try {
             for (Worker w : workers)
-                w.interruptIfStarted();
-        } finally {
-            mainLock.unlock();
+                w.interruptIfStbrted();
+        } finblly {
+            mbinLock.unlock();
         }
     }
 
     /**
-     * Interrupts threads that might be waiting for tasks (as
-     * indicated by not being locked) so they can check for
-     * termination or configuration changes. Ignores
-     * SecurityExceptions (in which case some threads may remain
+     * Interrupts threbds thbt might be wbiting for tbsks (bs
+     * indicbted by not being locked) so they cbn check for
+     * terminbtion or configurbtion chbnges. Ignores
+     * SecurityExceptions (in which cbse some threbds mby rembin
      * uninterrupted).
      *
-     * @param onlyOne If true, interrupt at most one worker. This is
-     * called only from tryTerminate when termination is otherwise
-     * enabled but there are still other workers.  In this case, at
-     * most one waiting worker is interrupted to propagate shutdown
-     * signals in case all threads are currently waiting.
-     * Interrupting any arbitrary thread ensures that newly arriving
-     * workers since shutdown began will also eventually exit.
-     * To guarantee eventual termination, it suffices to always
-     * interrupt only one idle worker, but shutdown() interrupts all
-     * idle workers so that redundant workers exit promptly, not
-     * waiting for a straggler task to finish.
+     * @pbrbm onlyOne If true, interrupt bt most one worker. This is
+     * cblled only from tryTerminbte when terminbtion is otherwise
+     * enbbled but there bre still other workers.  In this cbse, bt
+     * most one wbiting worker is interrupted to propbgbte shutdown
+     * signbls in cbse bll threbds bre currently wbiting.
+     * Interrupting bny brbitrbry threbd ensures thbt newly brriving
+     * workers since shutdown begbn will blso eventublly exit.
+     * To gubrbntee eventubl terminbtion, it suffices to blwbys
+     * interrupt only one idle worker, but shutdown() interrupts bll
+     * idle workers so thbt redundbnt workers exit promptly, not
+     * wbiting for b strbggler tbsk to finish.
      */
-    private void interruptIdleWorkers(boolean onlyOne) {
-        final ReentrantLock mainLock = this.mainLock;
-        mainLock.lock();
+    privbte void interruptIdleWorkers(boolebn onlyOne) {
+        finbl ReentrbntLock mbinLock = this.mbinLock;
+        mbinLock.lock();
         try {
             for (Worker w : workers) {
-                Thread t = w.thread;
+                Threbd t = w.threbd;
                 if (!t.isInterrupted() && w.tryLock()) {
                     try {
                         t.interrupt();
-                    } catch (SecurityException ignore) {
-                    } finally {
+                    } cbtch (SecurityException ignore) {
+                    } finblly {
                         w.unlock();
                     }
                 }
                 if (onlyOne)
-                    break;
+                    brebk;
             }
-        } finally {
-            mainLock.unlock();
+        } finblly {
+            mbinLock.unlock();
         }
     }
 
     /**
-     * Common form of interruptIdleWorkers, to avoid having to
-     * remember what the boolean argument means.
+     * Common form of interruptIdleWorkers, to bvoid hbving to
+     * remember whbt the boolebn brgument mebns.
      */
-    private void interruptIdleWorkers() {
-        interruptIdleWorkers(false);
+    privbte void interruptIdleWorkers() {
+        interruptIdleWorkers(fblse);
     }
 
-    private static final boolean ONLY_ONE = true;
+    privbte stbtic finbl boolebn ONLY_ONE = true;
 
     /*
-     * Misc utilities, most of which are also exported to
-     * ScheduledThreadPoolExecutor
+     * Misc utilities, most of which bre blso exported to
+     * ScheduledThrebdPoolExecutor
      */
 
     /**
-     * Invokes the rejected execution handler for the given command.
-     * Package-protected for use by ScheduledThreadPoolExecutor.
+     * Invokes the rejected execution hbndler for the given commbnd.
+     * Pbckbge-protected for use by ScheduledThrebdPoolExecutor.
      */
-    final void reject(Runnable command) {
-        handler.rejectedExecution(command, this);
+    finbl void reject(Runnbble commbnd) {
+        hbndler.rejectedExecution(commbnd, this);
     }
 
     /**
-     * Performs any further cleanup following run state transition on
-     * invocation of shutdown.  A no-op here, but used by
-     * ScheduledThreadPoolExecutor to cancel delayed tasks.
+     * Performs bny further clebnup following run stbte trbnsition on
+     * invocbtion of shutdown.  A no-op here, but used by
+     * ScheduledThrebdPoolExecutor to cbncel delbyed tbsks.
      */
     void onShutdown() {
     }
 
     /**
-     * State check needed by ScheduledThreadPoolExecutor to
-     * enable running tasks during shutdown.
+     * Stbte check needed by ScheduledThrebdPoolExecutor to
+     * enbble running tbsks during shutdown.
      *
-     * @param shutdownOK true if should return true if SHUTDOWN
+     * @pbrbm shutdownOK true if should return true if SHUTDOWN
      */
-    final boolean isRunningOrShutdown(boolean shutdownOK) {
-        int rs = runStateOf(ctl.get());
+    finbl boolebn isRunningOrShutdown(boolebn shutdownOK) {
+        int rs = runStbteOf(ctl.get());
         return rs == RUNNING || (rs == SHUTDOWN && shutdownOK);
     }
 
     /**
-     * Drains the task queue into a new list, normally using
-     * drainTo. But if the queue is a DelayQueue or any other kind of
-     * queue for which poll or drainTo may fail to remove some
+     * Drbins the tbsk queue into b new list, normblly using
+     * drbinTo. But if the queue is b DelbyQueue or bny other kind of
+     * queue for which poll or drbinTo mby fbil to remove some
      * elements, it deletes them one by one.
      */
-    private List<Runnable> drainQueue() {
-        BlockingQueue<Runnable> q = workQueue;
-        ArrayList<Runnable> taskList = new ArrayList<Runnable>();
-        q.drainTo(taskList);
+    privbte List<Runnbble> drbinQueue() {
+        BlockingQueue<Runnbble> q = workQueue;
+        ArrbyList<Runnbble> tbskList = new ArrbyList<Runnbble>();
+        q.drbinTo(tbskList);
         if (!q.isEmpty()) {
-            for (Runnable r : q.toArray(new Runnable[0])) {
+            for (Runnbble r : q.toArrby(new Runnbble[0])) {
                 if (q.remove(r))
-                    taskList.add(r);
+                    tbskList.bdd(r);
             }
         }
-        return taskList;
+        return tbskList;
     }
 
     /*
-     * Methods for creating, running and cleaning up after workers
+     * Methods for crebting, running bnd clebning up bfter workers
      */
 
     /**
-     * Checks if a new worker can be added with respect to current
-     * pool state and the given bound (either core or maximum). If so,
-     * the worker count is adjusted accordingly, and, if possible, a
-     * new worker is created and started, running firstTask as its
-     * first task. This method returns false if the pool is stopped or
-     * eligible to shut down. It also returns false if the thread
-     * factory fails to create a thread when asked.  If the thread
-     * creation fails, either due to the thread factory returning
-     * null, or due to an exception (typically OutOfMemoryError in
-     * Thread.start()), we roll back cleanly.
+     * Checks if b new worker cbn be bdded with respect to current
+     * pool stbte bnd the given bound (either core or mbximum). If so,
+     * the worker count is bdjusted bccordingly, bnd, if possible, b
+     * new worker is crebted bnd stbrted, running firstTbsk bs its
+     * first tbsk. This method returns fblse if the pool is stopped or
+     * eligible to shut down. It blso returns fblse if the threbd
+     * fbctory fbils to crebte b threbd when bsked.  If the threbd
+     * crebtion fbils, either due to the threbd fbctory returning
+     * null, or due to bn exception (typicblly OutOfMemoryError in
+     * Threbd.stbrt()), we roll bbck clebnly.
      *
-     * @param firstTask the task the new thread should run first (or
-     * null if none). Workers are created with an initial first task
-     * (in method execute()) to bypass queuing when there are fewer
-     * than corePoolSize threads (in which case we always start one),
-     * or when the queue is full (in which case we must bypass queue).
-     * Initially idle threads are usually created via
-     * prestartCoreThread or to replace other dying workers.
+     * @pbrbm firstTbsk the tbsk the new threbd should run first (or
+     * null if none). Workers bre crebted with bn initibl first tbsk
+     * (in method execute()) to bypbss queuing when there bre fewer
+     * thbn corePoolSize threbds (in which cbse we blwbys stbrt one),
+     * or when the queue is full (in which cbse we must bypbss queue).
+     * Initiblly idle threbds bre usublly crebted vib
+     * prestbrtCoreThrebd or to replbce other dying workers.
      *
-     * @param core if true use corePoolSize as bound, else
-     * maximumPoolSize. (A boolean indicator is used here rather than a
-     * value to ensure reads of fresh values after checking other pool
-     * state).
+     * @pbrbm core if true use corePoolSize bs bound, else
+     * mbximumPoolSize. (A boolebn indicbtor is used here rbther thbn b
+     * vblue to ensure rebds of fresh vblues bfter checking other pool
+     * stbte).
      * @return true if successful
      */
-    private boolean addWorker(Runnable firstTask, boolean core) {
+    privbte boolebn bddWorker(Runnbble firstTbsk, boolebn core) {
         retry:
         for (;;) {
             int c = ctl.get();
-            int rs = runStateOf(c);
+            int rs = runStbteOf(c);
 
-            // Check if queue empty only if necessary.
+            // Check if queue empty only if necessbry.
             if (rs >= SHUTDOWN &&
                 ! (rs == SHUTDOWN &&
-                   firstTask == null &&
+                   firstTbsk == null &&
                    ! workQueue.isEmpty()))
-                return false;
+                return fblse;
 
             for (;;) {
                 int wc = workerCountOf(c);
                 if (wc >= CAPACITY ||
-                    wc >= (core ? corePoolSize : maximumPoolSize))
-                    return false;
-                if (compareAndIncrementWorkerCount(c))
-                    break retry;
-                c = ctl.get();  // Re-read ctl
-                if (runStateOf(c) != rs)
+                    wc >= (core ? corePoolSize : mbximumPoolSize))
+                    return fblse;
+                if (compbreAndIncrementWorkerCount(c))
+                    brebk retry;
+                c = ctl.get();  // Re-rebd ctl
+                if (runStbteOf(c) != rs)
                     continue retry;
-                // else CAS failed due to workerCount change; retry inner loop
+                // else CAS fbiled due to workerCount chbnge; retry inner loop
             }
         }
 
-        boolean workerStarted = false;
-        boolean workerAdded = false;
+        boolebn workerStbrted = fblse;
+        boolebn workerAdded = fblse;
         Worker w = null;
         try {
-            w = new Worker(firstTask);
-            final Thread t = w.thread;
+            w = new Worker(firstTbsk);
+            finbl Threbd t = w.threbd;
             if (t != null) {
-                final ReentrantLock mainLock = this.mainLock;
-                mainLock.lock();
+                finbl ReentrbntLock mbinLock = this.mbinLock;
+                mbinLock.lock();
                 try {
                     // Recheck while holding lock.
-                    // Back out on ThreadFactory failure or if
-                    // shut down before lock acquired.
-                    int rs = runStateOf(ctl.get());
+                    // Bbck out on ThrebdFbctory fbilure or if
+                    // shut down before lock bcquired.
+                    int rs = runStbteOf(ctl.get());
 
                     if (rs < SHUTDOWN ||
-                        (rs == SHUTDOWN && firstTask == null)) {
-                        if (t.isAlive()) // precheck that t is startable
-                            throw new IllegalThreadStateException();
-                        workers.add(w);
+                        (rs == SHUTDOWN && firstTbsk == null)) {
+                        if (t.isAlive()) // precheck thbt t is stbrtbble
+                            throw new IllegblThrebdStbteException();
+                        workers.bdd(w);
                         int s = workers.size();
-                        if (s > largestPoolSize)
-                            largestPoolSize = s;
+                        if (s > lbrgestPoolSize)
+                            lbrgestPoolSize = s;
                         workerAdded = true;
                     }
-                } finally {
-                    mainLock.unlock();
+                } finblly {
+                    mbinLock.unlock();
                 }
                 if (workerAdded) {
-                    t.start();
-                    workerStarted = true;
+                    t.stbrt();
+                    workerStbrted = true;
                 }
             }
-        } finally {
-            if (! workerStarted)
-                addWorkerFailed(w);
+        } finblly {
+            if (! workerStbrted)
+                bddWorkerFbiled(w);
         }
-        return workerStarted;
+        return workerStbrted;
     }
 
     /**
-     * Rolls back the worker thread creation.
+     * Rolls bbck the worker threbd crebtion.
      * - removes worker from workers, if present
      * - decrements worker count
-     * - rechecks for termination, in case the existence of this
-     *   worker was holding up termination
+     * - rechecks for terminbtion, in cbse the existence of this
+     *   worker wbs holding up terminbtion
      */
-    private void addWorkerFailed(Worker w) {
-        final ReentrantLock mainLock = this.mainLock;
-        mainLock.lock();
+    privbte void bddWorkerFbiled(Worker w) {
+        finbl ReentrbntLock mbinLock = this.mbinLock;
+        mbinLock.lock();
         try {
             if (w != null)
                 workers.remove(w);
             decrementWorkerCount();
-            tryTerminate();
-        } finally {
-            mainLock.unlock();
+            tryTerminbte();
+        } finblly {
+            mbinLock.unlock();
         }
     }
 
     /**
-     * Performs cleanup and bookkeeping for a dying worker. Called
-     * only from worker threads. Unless completedAbruptly is set,
-     * assumes that workerCount has already been adjusted to account
-     * for exit.  This method removes thread from worker set, and
-     * possibly terminates the pool or replaces the worker if either
-     * it exited due to user task exception or if fewer than
-     * corePoolSize workers are running or queue is non-empty but
-     * there are no workers.
+     * Performs clebnup bnd bookkeeping for b dying worker. Cblled
+     * only from worker threbds. Unless completedAbruptly is set,
+     * bssumes thbt workerCount hbs blrebdy been bdjusted to bccount
+     * for exit.  This method removes threbd from worker set, bnd
+     * possibly terminbtes the pool or replbces the worker if either
+     * it exited due to user tbsk exception or if fewer thbn
+     * corePoolSize workers bre running or queue is non-empty but
+     * there bre no workers.
      *
-     * @param w the worker
-     * @param completedAbruptly if the worker died due to user exception
+     * @pbrbm w the worker
+     * @pbrbm completedAbruptly if the worker died due to user exception
      */
-    private void processWorkerExit(Worker w, boolean completedAbruptly) {
-        if (completedAbruptly) // If abrupt, then workerCount wasn't adjusted
+    privbte void processWorkerExit(Worker w, boolebn completedAbruptly) {
+        if (completedAbruptly) // If bbrupt, then workerCount wbsn't bdjusted
             decrementWorkerCount();
 
-        final ReentrantLock mainLock = this.mainLock;
-        mainLock.lock();
+        finbl ReentrbntLock mbinLock = this.mbinLock;
+        mbinLock.lock();
         try {
-            completedTaskCount += w.completedTasks;
+            completedTbskCount += w.completedTbsks;
             workers.remove(w);
-        } finally {
-            mainLock.unlock();
+        } finblly {
+            mbinLock.unlock();
         }
 
-        tryTerminate();
+        tryTerminbte();
 
         int c = ctl.get();
-        if (runStateLessThan(c, STOP)) {
+        if (runStbteLessThbn(c, STOP)) {
             if (!completedAbruptly) {
-                int min = allowCoreThreadTimeOut ? 0 : corePoolSize;
+                int min = bllowCoreThrebdTimeOut ? 0 : corePoolSize;
                 if (min == 0 && ! workQueue.isEmpty())
                     min = 1;
                 if (workerCountOf(c) >= min)
-                    return; // replacement not needed
+                    return; // replbcement not needed
             }
-            addWorker(null, false);
+            bddWorker(null, fblse);
         }
     }
 
     /**
-     * Performs blocking or timed wait for a task, depending on
-     * current configuration settings, or returns null if this worker
-     * must exit because of any of:
-     * 1. There are more than maximumPoolSize workers (due to
-     *    a call to setMaximumPoolSize).
+     * Performs blocking or timed wbit for b tbsk, depending on
+     * current configurbtion settings, or returns null if this worker
+     * must exit becbuse of bny of:
+     * 1. There bre more thbn mbximumPoolSize workers (due to
+     *    b cbll to setMbximumPoolSize).
      * 2. The pool is stopped.
-     * 3. The pool is shutdown and the queue is empty.
-     * 4. This worker timed out waiting for a task, and timed-out
-     *    workers are subject to termination (that is,
-     *    {@code allowCoreThreadTimeOut || workerCount > corePoolSize})
-     *    both before and after the timed wait, and if the queue is
-     *    non-empty, this worker is not the last thread in the pool.
+     * 3. The pool is shutdown bnd the queue is empty.
+     * 4. This worker timed out wbiting for b tbsk, bnd timed-out
+     *    workers bre subject to terminbtion (thbt is,
+     *    {@code bllowCoreThrebdTimeOut || workerCount > corePoolSize})
+     *    both before bnd bfter the timed wbit, bnd if the queue is
+     *    non-empty, this worker is not the lbst threbd in the pool.
      *
-     * @return task, or null if the worker must exit, in which case
+     * @return tbsk, or null if the worker must exit, in which cbse
      *         workerCount is decremented
      */
-    private Runnable getTask() {
-        boolean timedOut = false; // Did the last poll() time out?
+    privbte Runnbble getTbsk() {
+        boolebn timedOut = fblse; // Did the lbst poll() time out?
 
         for (;;) {
             int c = ctl.get();
-            int rs = runStateOf(c);
+            int rs = runStbteOf(c);
 
-            // Check if queue empty only if necessary.
+            // Check if queue empty only if necessbry.
             if (rs >= SHUTDOWN && (rs >= STOP || workQueue.isEmpty())) {
                 decrementWorkerCount();
                 return null;
@@ -1052,514 +1052,514 @@ public class ThreadPoolExecutor extends AbstractExecutorService {
             int wc = workerCountOf(c);
 
             // Are workers subject to culling?
-            boolean timed = allowCoreThreadTimeOut || wc > corePoolSize;
+            boolebn timed = bllowCoreThrebdTimeOut || wc > corePoolSize;
 
-            if ((wc > maximumPoolSize || (timed && timedOut))
+            if ((wc > mbximumPoolSize || (timed && timedOut))
                 && (wc > 1 || workQueue.isEmpty())) {
-                if (compareAndDecrementWorkerCount(c))
+                if (compbreAndDecrementWorkerCount(c))
                     return null;
                 continue;
             }
 
             try {
-                Runnable r = timed ?
+                Runnbble r = timed ?
                     workQueue.poll(keepAliveTime, TimeUnit.NANOSECONDS) :
-                    workQueue.take();
+                    workQueue.tbke();
                 if (r != null)
                     return r;
                 timedOut = true;
-            } catch (InterruptedException retry) {
-                timedOut = false;
+            } cbtch (InterruptedException retry) {
+                timedOut = fblse;
             }
         }
     }
 
     /**
-     * Main worker run loop.  Repeatedly gets tasks from queue and
-     * executes them, while coping with a number of issues:
+     * Mbin worker run loop.  Repebtedly gets tbsks from queue bnd
+     * executes them, while coping with b number of issues:
      *
-     * 1. We may start out with an initial task, in which case we
-     * don't need to get the first one. Otherwise, as long as pool is
-     * running, we get tasks from getTask. If it returns null then the
-     * worker exits due to changed pool state or configuration
-     * parameters.  Other exits result from exception throws in
-     * external code, in which case completedAbruptly holds, which
-     * usually leads processWorkerExit to replace this thread.
+     * 1. We mby stbrt out with bn initibl tbsk, in which cbse we
+     * don't need to get the first one. Otherwise, bs long bs pool is
+     * running, we get tbsks from getTbsk. If it returns null then the
+     * worker exits due to chbnged pool stbte or configurbtion
+     * pbrbmeters.  Other exits result from exception throws in
+     * externbl code, in which cbse completedAbruptly holds, which
+     * usublly lebds processWorkerExit to replbce this threbd.
      *
-     * 2. Before running any task, the lock is acquired to prevent
-     * other pool interrupts while the task is executing, and then we
-     * ensure that unless pool is stopping, this thread does not have
+     * 2. Before running bny tbsk, the lock is bcquired to prevent
+     * other pool interrupts while the tbsk is executing, bnd then we
+     * ensure thbt unless pool is stopping, this threbd does not hbve
      * its interrupt set.
      *
-     * 3. Each task run is preceded by a call to beforeExecute, which
-     * might throw an exception, in which case we cause thread to die
-     * (breaking loop with completedAbruptly true) without processing
-     * the task.
+     * 3. Ebch tbsk run is preceded by b cbll to beforeExecute, which
+     * might throw bn exception, in which cbse we cbuse threbd to die
+     * (brebking loop with completedAbruptly true) without processing
+     * the tbsk.
      *
-     * 4. Assuming beforeExecute completes normally, we run the task,
-     * gathering any of its thrown exceptions to send to afterExecute.
-     * We separately handle RuntimeException, Error (both of which the
-     * specs guarantee that we trap) and arbitrary Throwables.
-     * Because we cannot rethrow Throwables within Runnable.run, we
-     * wrap them within Errors on the way out (to the thread's
-     * UncaughtExceptionHandler).  Any thrown exception also
-     * conservatively causes thread to die.
+     * 4. Assuming beforeExecute completes normblly, we run the tbsk,
+     * gbthering bny of its thrown exceptions to send to bfterExecute.
+     * We sepbrbtely hbndle RuntimeException, Error (both of which the
+     * specs gubrbntee thbt we trbp) bnd brbitrbry Throwbbles.
+     * Becbuse we cbnnot rethrow Throwbbles within Runnbble.run, we
+     * wrbp them within Errors on the wby out (to the threbd's
+     * UncbughtExceptionHbndler).  Any thrown exception blso
+     * conservbtively cbuses threbd to die.
      *
-     * 5. After task.run completes, we call afterExecute, which may
-     * also throw an exception, which will also cause thread to
-     * die. According to JLS Sec 14.20, this exception is the one that
-     * will be in effect even if task.run throws.
+     * 5. After tbsk.run completes, we cbll bfterExecute, which mby
+     * blso throw bn exception, which will blso cbuse threbd to
+     * die. According to JLS Sec 14.20, this exception is the one thbt
+     * will be in effect even if tbsk.run throws.
      *
-     * The net effect of the exception mechanics is that afterExecute
-     * and the thread's UncaughtExceptionHandler have as accurate
-     * information as we can provide about any problems encountered by
+     * The net effect of the exception mechbnics is thbt bfterExecute
+     * bnd the threbd's UncbughtExceptionHbndler hbve bs bccurbte
+     * informbtion bs we cbn provide bbout bny problems encountered by
      * user code.
      *
-     * @param w the worker
+     * @pbrbm w the worker
      */
-    final void runWorker(Worker w) {
-        Thread wt = Thread.currentThread();
-        Runnable task = w.firstTask;
-        w.firstTask = null;
-        w.unlock(); // allow interrupts
-        boolean completedAbruptly = true;
+    finbl void runWorker(Worker w) {
+        Threbd wt = Threbd.currentThrebd();
+        Runnbble tbsk = w.firstTbsk;
+        w.firstTbsk = null;
+        w.unlock(); // bllow interrupts
+        boolebn completedAbruptly = true;
         try {
-            while (task != null || (task = getTask()) != null) {
+            while (tbsk != null || (tbsk = getTbsk()) != null) {
                 w.lock();
-                // If pool is stopping, ensure thread is interrupted;
-                // if not, ensure thread is not interrupted.  This
-                // requires a recheck in second case to deal with
-                // shutdownNow race while clearing interrupt
-                if ((runStateAtLeast(ctl.get(), STOP) ||
-                     (Thread.interrupted() &&
-                      runStateAtLeast(ctl.get(), STOP))) &&
+                // If pool is stopping, ensure threbd is interrupted;
+                // if not, ensure threbd is not interrupted.  This
+                // requires b recheck in second cbse to debl with
+                // shutdownNow rbce while clebring interrupt
+                if ((runStbteAtLebst(ctl.get(), STOP) ||
+                     (Threbd.interrupted() &&
+                      runStbteAtLebst(ctl.get(), STOP))) &&
                     !wt.isInterrupted())
                     wt.interrupt();
                 try {
-                    beforeExecute(wt, task);
-                    Throwable thrown = null;
+                    beforeExecute(wt, tbsk);
+                    Throwbble thrown = null;
                     try {
-                        task.run();
-                    } catch (RuntimeException x) {
+                        tbsk.run();
+                    } cbtch (RuntimeException x) {
                         thrown = x; throw x;
-                    } catch (Error x) {
+                    } cbtch (Error x) {
                         thrown = x; throw x;
-                    } catch (Throwable x) {
+                    } cbtch (Throwbble x) {
                         thrown = x; throw new Error(x);
-                    } finally {
-                        afterExecute(task, thrown);
+                    } finblly {
+                        bfterExecute(tbsk, thrown);
                     }
-                } finally {
-                    task = null;
-                    w.completedTasks++;
+                } finblly {
+                    tbsk = null;
+                    w.completedTbsks++;
                     w.unlock();
                 }
             }
-            completedAbruptly = false;
-        } finally {
+            completedAbruptly = fblse;
+        } finblly {
             processWorkerExit(w, completedAbruptly);
         }
     }
 
-    // Public constructors and methods
+    // Public constructors bnd methods
 
     /**
-     * Creates a new {@code ThreadPoolExecutor} with the given initial
-     * parameters and default thread factory and rejected execution handler.
-     * It may be more convenient to use one of the {@link Executors} factory
-     * methods instead of this general purpose constructor.
+     * Crebtes b new {@code ThrebdPoolExecutor} with the given initibl
+     * pbrbmeters bnd defbult threbd fbctory bnd rejected execution hbndler.
+     * It mby be more convenient to use one of the {@link Executors} fbctory
+     * methods instebd of this generbl purpose constructor.
      *
-     * @param corePoolSize the number of threads to keep in the pool, even
-     *        if they are idle, unless {@code allowCoreThreadTimeOut} is set
-     * @param maximumPoolSize the maximum number of threads to allow in the
+     * @pbrbm corePoolSize the number of threbds to keep in the pool, even
+     *        if they bre idle, unless {@code bllowCoreThrebdTimeOut} is set
+     * @pbrbm mbximumPoolSize the mbximum number of threbds to bllow in the
      *        pool
-     * @param keepAliveTime when the number of threads is greater than
-     *        the core, this is the maximum time that excess idle threads
-     *        will wait for new tasks before terminating.
-     * @param unit the time unit for the {@code keepAliveTime} argument
-     * @param workQueue the queue to use for holding tasks before they are
-     *        executed.  This queue will hold only the {@code Runnable}
-     *        tasks submitted by the {@code execute} method.
-     * @throws IllegalArgumentException if one of the following holds:<br>
+     * @pbrbm keepAliveTime when the number of threbds is grebter thbn
+     *        the core, this is the mbximum time thbt excess idle threbds
+     *        will wbit for new tbsks before terminbting.
+     * @pbrbm unit the time unit for the {@code keepAliveTime} brgument
+     * @pbrbm workQueue the queue to use for holding tbsks before they bre
+     *        executed.  This queue will hold only the {@code Runnbble}
+     *        tbsks submitted by the {@code execute} method.
+     * @throws IllegblArgumentException if one of the following holds:<br>
      *         {@code corePoolSize < 0}<br>
      *         {@code keepAliveTime < 0}<br>
-     *         {@code maximumPoolSize <= 0}<br>
-     *         {@code maximumPoolSize < corePoolSize}
+     *         {@code mbximumPoolSize <= 0}<br>
+     *         {@code mbximumPoolSize < corePoolSize}
      * @throws NullPointerException if {@code workQueue} is null
      */
-    public ThreadPoolExecutor(int corePoolSize,
-                              int maximumPoolSize,
+    public ThrebdPoolExecutor(int corePoolSize,
+                              int mbximumPoolSize,
                               long keepAliveTime,
                               TimeUnit unit,
-                              BlockingQueue<Runnable> workQueue) {
-        this(corePoolSize, maximumPoolSize, keepAliveTime, unit, workQueue,
-             Executors.defaultThreadFactory(), defaultHandler);
+                              BlockingQueue<Runnbble> workQueue) {
+        this(corePoolSize, mbximumPoolSize, keepAliveTime, unit, workQueue,
+             Executors.defbultThrebdFbctory(), defbultHbndler);
     }
 
     /**
-     * Creates a new {@code ThreadPoolExecutor} with the given initial
-     * parameters and default rejected execution handler.
+     * Crebtes b new {@code ThrebdPoolExecutor} with the given initibl
+     * pbrbmeters bnd defbult rejected execution hbndler.
      *
-     * @param corePoolSize the number of threads to keep in the pool, even
-     *        if they are idle, unless {@code allowCoreThreadTimeOut} is set
-     * @param maximumPoolSize the maximum number of threads to allow in the
+     * @pbrbm corePoolSize the number of threbds to keep in the pool, even
+     *        if they bre idle, unless {@code bllowCoreThrebdTimeOut} is set
+     * @pbrbm mbximumPoolSize the mbximum number of threbds to bllow in the
      *        pool
-     * @param keepAliveTime when the number of threads is greater than
-     *        the core, this is the maximum time that excess idle threads
-     *        will wait for new tasks before terminating.
-     * @param unit the time unit for the {@code keepAliveTime} argument
-     * @param workQueue the queue to use for holding tasks before they are
-     *        executed.  This queue will hold only the {@code Runnable}
-     *        tasks submitted by the {@code execute} method.
-     * @param threadFactory the factory to use when the executor
-     *        creates a new thread
-     * @throws IllegalArgumentException if one of the following holds:<br>
+     * @pbrbm keepAliveTime when the number of threbds is grebter thbn
+     *        the core, this is the mbximum time thbt excess idle threbds
+     *        will wbit for new tbsks before terminbting.
+     * @pbrbm unit the time unit for the {@code keepAliveTime} brgument
+     * @pbrbm workQueue the queue to use for holding tbsks before they bre
+     *        executed.  This queue will hold only the {@code Runnbble}
+     *        tbsks submitted by the {@code execute} method.
+     * @pbrbm threbdFbctory the fbctory to use when the executor
+     *        crebtes b new threbd
+     * @throws IllegblArgumentException if one of the following holds:<br>
      *         {@code corePoolSize < 0}<br>
      *         {@code keepAliveTime < 0}<br>
-     *         {@code maximumPoolSize <= 0}<br>
-     *         {@code maximumPoolSize < corePoolSize}
+     *         {@code mbximumPoolSize <= 0}<br>
+     *         {@code mbximumPoolSize < corePoolSize}
      * @throws NullPointerException if {@code workQueue}
-     *         or {@code threadFactory} is null
+     *         or {@code threbdFbctory} is null
      */
-    public ThreadPoolExecutor(int corePoolSize,
-                              int maximumPoolSize,
+    public ThrebdPoolExecutor(int corePoolSize,
+                              int mbximumPoolSize,
                               long keepAliveTime,
                               TimeUnit unit,
-                              BlockingQueue<Runnable> workQueue,
-                              ThreadFactory threadFactory) {
-        this(corePoolSize, maximumPoolSize, keepAliveTime, unit, workQueue,
-             threadFactory, defaultHandler);
+                              BlockingQueue<Runnbble> workQueue,
+                              ThrebdFbctory threbdFbctory) {
+        this(corePoolSize, mbximumPoolSize, keepAliveTime, unit, workQueue,
+             threbdFbctory, defbultHbndler);
     }
 
     /**
-     * Creates a new {@code ThreadPoolExecutor} with the given initial
-     * parameters and default thread factory.
+     * Crebtes b new {@code ThrebdPoolExecutor} with the given initibl
+     * pbrbmeters bnd defbult threbd fbctory.
      *
-     * @param corePoolSize the number of threads to keep in the pool, even
-     *        if they are idle, unless {@code allowCoreThreadTimeOut} is set
-     * @param maximumPoolSize the maximum number of threads to allow in the
+     * @pbrbm corePoolSize the number of threbds to keep in the pool, even
+     *        if they bre idle, unless {@code bllowCoreThrebdTimeOut} is set
+     * @pbrbm mbximumPoolSize the mbximum number of threbds to bllow in the
      *        pool
-     * @param keepAliveTime when the number of threads is greater than
-     *        the core, this is the maximum time that excess idle threads
-     *        will wait for new tasks before terminating.
-     * @param unit the time unit for the {@code keepAliveTime} argument
-     * @param workQueue the queue to use for holding tasks before they are
-     *        executed.  This queue will hold only the {@code Runnable}
-     *        tasks submitted by the {@code execute} method.
-     * @param handler the handler to use when execution is blocked
-     *        because the thread bounds and queue capacities are reached
-     * @throws IllegalArgumentException if one of the following holds:<br>
+     * @pbrbm keepAliveTime when the number of threbds is grebter thbn
+     *        the core, this is the mbximum time thbt excess idle threbds
+     *        will wbit for new tbsks before terminbting.
+     * @pbrbm unit the time unit for the {@code keepAliveTime} brgument
+     * @pbrbm workQueue the queue to use for holding tbsks before they bre
+     *        executed.  This queue will hold only the {@code Runnbble}
+     *        tbsks submitted by the {@code execute} method.
+     * @pbrbm hbndler the hbndler to use when execution is blocked
+     *        becbuse the threbd bounds bnd queue cbpbcities bre rebched
+     * @throws IllegblArgumentException if one of the following holds:<br>
      *         {@code corePoolSize < 0}<br>
      *         {@code keepAliveTime < 0}<br>
-     *         {@code maximumPoolSize <= 0}<br>
-     *         {@code maximumPoolSize < corePoolSize}
+     *         {@code mbximumPoolSize <= 0}<br>
+     *         {@code mbximumPoolSize < corePoolSize}
      * @throws NullPointerException if {@code workQueue}
-     *         or {@code handler} is null
+     *         or {@code hbndler} is null
      */
-    public ThreadPoolExecutor(int corePoolSize,
-                              int maximumPoolSize,
+    public ThrebdPoolExecutor(int corePoolSize,
+                              int mbximumPoolSize,
                               long keepAliveTime,
                               TimeUnit unit,
-                              BlockingQueue<Runnable> workQueue,
-                              RejectedExecutionHandler handler) {
-        this(corePoolSize, maximumPoolSize, keepAliveTime, unit, workQueue,
-             Executors.defaultThreadFactory(), handler);
+                              BlockingQueue<Runnbble> workQueue,
+                              RejectedExecutionHbndler hbndler) {
+        this(corePoolSize, mbximumPoolSize, keepAliveTime, unit, workQueue,
+             Executors.defbultThrebdFbctory(), hbndler);
     }
 
     /**
-     * Creates a new {@code ThreadPoolExecutor} with the given initial
-     * parameters.
+     * Crebtes b new {@code ThrebdPoolExecutor} with the given initibl
+     * pbrbmeters.
      *
-     * @param corePoolSize the number of threads to keep in the pool, even
-     *        if they are idle, unless {@code allowCoreThreadTimeOut} is set
-     * @param maximumPoolSize the maximum number of threads to allow in the
+     * @pbrbm corePoolSize the number of threbds to keep in the pool, even
+     *        if they bre idle, unless {@code bllowCoreThrebdTimeOut} is set
+     * @pbrbm mbximumPoolSize the mbximum number of threbds to bllow in the
      *        pool
-     * @param keepAliveTime when the number of threads is greater than
-     *        the core, this is the maximum time that excess idle threads
-     *        will wait for new tasks before terminating.
-     * @param unit the time unit for the {@code keepAliveTime} argument
-     * @param workQueue the queue to use for holding tasks before they are
-     *        executed.  This queue will hold only the {@code Runnable}
-     *        tasks submitted by the {@code execute} method.
-     * @param threadFactory the factory to use when the executor
-     *        creates a new thread
-     * @param handler the handler to use when execution is blocked
-     *        because the thread bounds and queue capacities are reached
-     * @throws IllegalArgumentException if one of the following holds:<br>
+     * @pbrbm keepAliveTime when the number of threbds is grebter thbn
+     *        the core, this is the mbximum time thbt excess idle threbds
+     *        will wbit for new tbsks before terminbting.
+     * @pbrbm unit the time unit for the {@code keepAliveTime} brgument
+     * @pbrbm workQueue the queue to use for holding tbsks before they bre
+     *        executed.  This queue will hold only the {@code Runnbble}
+     *        tbsks submitted by the {@code execute} method.
+     * @pbrbm threbdFbctory the fbctory to use when the executor
+     *        crebtes b new threbd
+     * @pbrbm hbndler the hbndler to use when execution is blocked
+     *        becbuse the threbd bounds bnd queue cbpbcities bre rebched
+     * @throws IllegblArgumentException if one of the following holds:<br>
      *         {@code corePoolSize < 0}<br>
      *         {@code keepAliveTime < 0}<br>
-     *         {@code maximumPoolSize <= 0}<br>
-     *         {@code maximumPoolSize < corePoolSize}
+     *         {@code mbximumPoolSize <= 0}<br>
+     *         {@code mbximumPoolSize < corePoolSize}
      * @throws NullPointerException if {@code workQueue}
-     *         or {@code threadFactory} or {@code handler} is null
+     *         or {@code threbdFbctory} or {@code hbndler} is null
      */
-    public ThreadPoolExecutor(int corePoolSize,
-                              int maximumPoolSize,
+    public ThrebdPoolExecutor(int corePoolSize,
+                              int mbximumPoolSize,
                               long keepAliveTime,
                               TimeUnit unit,
-                              BlockingQueue<Runnable> workQueue,
-                              ThreadFactory threadFactory,
-                              RejectedExecutionHandler handler) {
+                              BlockingQueue<Runnbble> workQueue,
+                              ThrebdFbctory threbdFbctory,
+                              RejectedExecutionHbndler hbndler) {
         if (corePoolSize < 0 ||
-            maximumPoolSize <= 0 ||
-            maximumPoolSize < corePoolSize ||
+            mbximumPoolSize <= 0 ||
+            mbximumPoolSize < corePoolSize ||
             keepAliveTime < 0)
-            throw new IllegalArgumentException();
-        if (workQueue == null || threadFactory == null || handler == null)
+            throw new IllegblArgumentException();
+        if (workQueue == null || threbdFbctory == null || hbndler == null)
             throw new NullPointerException();
         this.corePoolSize = corePoolSize;
-        this.maximumPoolSize = maximumPoolSize;
+        this.mbximumPoolSize = mbximumPoolSize;
         this.workQueue = workQueue;
-        this.keepAliveTime = unit.toNanos(keepAliveTime);
-        this.threadFactory = threadFactory;
-        this.handler = handler;
+        this.keepAliveTime = unit.toNbnos(keepAliveTime);
+        this.threbdFbctory = threbdFbctory;
+        this.hbndler = hbndler;
     }
 
     /**
-     * Executes the given task sometime in the future.  The task
-     * may execute in a new thread or in an existing pooled thread.
+     * Executes the given tbsk sometime in the future.  The tbsk
+     * mby execute in b new threbd or in bn existing pooled threbd.
      *
-     * If the task cannot be submitted for execution, either because this
-     * executor has been shutdown or because its capacity has been reached,
-     * the task is handled by the current {@code RejectedExecutionHandler}.
+     * If the tbsk cbnnot be submitted for execution, either becbuse this
+     * executor hbs been shutdown or becbuse its cbpbcity hbs been rebched,
+     * the tbsk is hbndled by the current {@code RejectedExecutionHbndler}.
      *
-     * @param command the task to execute
-     * @throws RejectedExecutionException at discretion of
-     *         {@code RejectedExecutionHandler}, if the task
-     *         cannot be accepted for execution
-     * @throws NullPointerException if {@code command} is null
+     * @pbrbm commbnd the tbsk to execute
+     * @throws RejectedExecutionException bt discretion of
+     *         {@code RejectedExecutionHbndler}, if the tbsk
+     *         cbnnot be bccepted for execution
+     * @throws NullPointerException if {@code commbnd} is null
      */
-    public void execute(Runnable command) {
-        if (command == null)
+    public void execute(Runnbble commbnd) {
+        if (commbnd == null)
             throw new NullPointerException();
         /*
          * Proceed in 3 steps:
          *
-         * 1. If fewer than corePoolSize threads are running, try to
-         * start a new thread with the given command as its first
-         * task.  The call to addWorker atomically checks runState and
-         * workerCount, and so prevents false alarms that would add
-         * threads when it shouldn't, by returning false.
+         * 1. If fewer thbn corePoolSize threbds bre running, try to
+         * stbrt b new threbd with the given commbnd bs its first
+         * tbsk.  The cbll to bddWorker btomicblly checks runStbte bnd
+         * workerCount, bnd so prevents fblse blbrms thbt would bdd
+         * threbds when it shouldn't, by returning fblse.
          *
-         * 2. If a task can be successfully queued, then we still need
-         * to double-check whether we should have added a thread
-         * (because existing ones died since last checking) or that
+         * 2. If b tbsk cbn be successfully queued, then we still need
+         * to double-check whether we should hbve bdded b threbd
+         * (becbuse existing ones died since lbst checking) or thbt
          * the pool shut down since entry into this method. So we
-         * recheck state and if necessary roll back the enqueuing if
-         * stopped, or start a new thread if there are none.
+         * recheck stbte bnd if necessbry roll bbck the enqueuing if
+         * stopped, or stbrt b new threbd if there bre none.
          *
-         * 3. If we cannot queue task, then we try to add a new
-         * thread.  If it fails, we know we are shut down or saturated
-         * and so reject the task.
+         * 3. If we cbnnot queue tbsk, then we try to bdd b new
+         * threbd.  If it fbils, we know we bre shut down or sbturbted
+         * bnd so reject the tbsk.
          */
         int c = ctl.get();
         if (workerCountOf(c) < corePoolSize) {
-            if (addWorker(command, true))
+            if (bddWorker(commbnd, true))
                 return;
             c = ctl.get();
         }
-        if (isRunning(c) && workQueue.offer(command)) {
+        if (isRunning(c) && workQueue.offer(commbnd)) {
             int recheck = ctl.get();
-            if (! isRunning(recheck) && remove(command))
-                reject(command);
+            if (! isRunning(recheck) && remove(commbnd))
+                reject(commbnd);
             else if (workerCountOf(recheck) == 0)
-                addWorker(null, false);
+                bddWorker(null, fblse);
         }
-        else if (!addWorker(command, false))
-            reject(command);
+        else if (!bddWorker(commbnd, fblse))
+            reject(commbnd);
     }
 
     /**
-     * Initiates an orderly shutdown in which previously submitted
-     * tasks are executed, but no new tasks will be accepted.
-     * Invocation has no additional effect if already shut down.
+     * Initibtes bn orderly shutdown in which previously submitted
+     * tbsks bre executed, but no new tbsks will be bccepted.
+     * Invocbtion hbs no bdditionbl effect if blrebdy shut down.
      *
-     * <p>This method does not wait for previously submitted tasks to
-     * complete execution.  Use {@link #awaitTermination awaitTermination}
-     * to do that.
+     * <p>This method does not wbit for previously submitted tbsks to
+     * complete execution.  Use {@link #bwbitTerminbtion bwbitTerminbtion}
+     * to do thbt.
      *
      * @throws SecurityException {@inheritDoc}
      */
     public void shutdown() {
-        final ReentrantLock mainLock = this.mainLock;
-        mainLock.lock();
+        finbl ReentrbntLock mbinLock = this.mbinLock;
+        mbinLock.lock();
         try {
             checkShutdownAccess();
-            advanceRunState(SHUTDOWN);
+            bdvbnceRunStbte(SHUTDOWN);
             interruptIdleWorkers();
-            onShutdown(); // hook for ScheduledThreadPoolExecutor
-        } finally {
-            mainLock.unlock();
+            onShutdown(); // hook for ScheduledThrebdPoolExecutor
+        } finblly {
+            mbinLock.unlock();
         }
-        tryTerminate();
+        tryTerminbte();
     }
 
     /**
-     * Attempts to stop all actively executing tasks, halts the
-     * processing of waiting tasks, and returns a list of the tasks
-     * that were awaiting execution. These tasks are drained (removed)
-     * from the task queue upon return from this method.
+     * Attempts to stop bll bctively executing tbsks, hblts the
+     * processing of wbiting tbsks, bnd returns b list of the tbsks
+     * thbt were bwbiting execution. These tbsks bre drbined (removed)
+     * from the tbsk queue upon return from this method.
      *
-     * <p>This method does not wait for actively executing tasks to
-     * terminate.  Use {@link #awaitTermination awaitTermination} to
-     * do that.
+     * <p>This method does not wbit for bctively executing tbsks to
+     * terminbte.  Use {@link #bwbitTerminbtion bwbitTerminbtion} to
+     * do thbt.
      *
-     * <p>There are no guarantees beyond best-effort attempts to stop
-     * processing actively executing tasks.  This implementation
-     * cancels tasks via {@link Thread#interrupt}, so any task that
-     * fails to respond to interrupts may never terminate.
+     * <p>There bre no gubrbntees beyond best-effort bttempts to stop
+     * processing bctively executing tbsks.  This implementbtion
+     * cbncels tbsks vib {@link Threbd#interrupt}, so bny tbsk thbt
+     * fbils to respond to interrupts mby never terminbte.
      *
      * @throws SecurityException {@inheritDoc}
      */
-    public List<Runnable> shutdownNow() {
-        List<Runnable> tasks;
-        final ReentrantLock mainLock = this.mainLock;
-        mainLock.lock();
+    public List<Runnbble> shutdownNow() {
+        List<Runnbble> tbsks;
+        finbl ReentrbntLock mbinLock = this.mbinLock;
+        mbinLock.lock();
         try {
             checkShutdownAccess();
-            advanceRunState(STOP);
+            bdvbnceRunStbte(STOP);
             interruptWorkers();
-            tasks = drainQueue();
-        } finally {
-            mainLock.unlock();
+            tbsks = drbinQueue();
+        } finblly {
+            mbinLock.unlock();
         }
-        tryTerminate();
-        return tasks;
+        tryTerminbte();
+        return tbsks;
     }
 
-    public boolean isShutdown() {
+    public boolebn isShutdown() {
         return ! isRunning(ctl.get());
     }
 
     /**
-     * Returns true if this executor is in the process of terminating
-     * after {@link #shutdown} or {@link #shutdownNow} but has not
-     * completely terminated.  This method may be useful for
-     * debugging. A return of {@code true} reported a sufficient
-     * period after shutdown may indicate that submitted tasks have
-     * ignored or suppressed interruption, causing this executor not
-     * to properly terminate.
+     * Returns true if this executor is in the process of terminbting
+     * bfter {@link #shutdown} or {@link #shutdownNow} but hbs not
+     * completely terminbted.  This method mby be useful for
+     * debugging. A return of {@code true} reported b sufficient
+     * period bfter shutdown mby indicbte thbt submitted tbsks hbve
+     * ignored or suppressed interruption, cbusing this executor not
+     * to properly terminbte.
      *
-     * @return {@code true} if terminating but not yet terminated
+     * @return {@code true} if terminbting but not yet terminbted
      */
-    public boolean isTerminating() {
+    public boolebn isTerminbting() {
         int c = ctl.get();
-        return ! isRunning(c) && runStateLessThan(c, TERMINATED);
+        return ! isRunning(c) && runStbteLessThbn(c, TERMINATED);
     }
 
-    public boolean isTerminated() {
-        return runStateAtLeast(ctl.get(), TERMINATED);
+    public boolebn isTerminbted() {
+        return runStbteAtLebst(ctl.get(), TERMINATED);
     }
 
-    public boolean awaitTermination(long timeout, TimeUnit unit)
+    public boolebn bwbitTerminbtion(long timeout, TimeUnit unit)
         throws InterruptedException {
-        long nanos = unit.toNanos(timeout);
-        final ReentrantLock mainLock = this.mainLock;
-        mainLock.lock();
+        long nbnos = unit.toNbnos(timeout);
+        finbl ReentrbntLock mbinLock = this.mbinLock;
+        mbinLock.lock();
         try {
             for (;;) {
-                if (runStateAtLeast(ctl.get(), TERMINATED))
+                if (runStbteAtLebst(ctl.get(), TERMINATED))
                     return true;
-                if (nanos <= 0)
-                    return false;
-                nanos = termination.awaitNanos(nanos);
+                if (nbnos <= 0)
+                    return fblse;
+                nbnos = terminbtion.bwbitNbnos(nbnos);
             }
-        } finally {
-            mainLock.unlock();
+        } finblly {
+            mbinLock.unlock();
         }
     }
 
     /**
      * Invokes {@code shutdown} when this executor is no longer
-     * referenced and it has no threads.
+     * referenced bnd it hbs no threbds.
      */
-    protected void finalize() {
+    protected void finblize() {
         shutdown();
     }
 
     /**
-     * Sets the thread factory used to create new threads.
+     * Sets the threbd fbctory used to crebte new threbds.
      *
-     * @param threadFactory the new thread factory
-     * @throws NullPointerException if threadFactory is null
-     * @see #getThreadFactory
+     * @pbrbm threbdFbctory the new threbd fbctory
+     * @throws NullPointerException if threbdFbctory is null
+     * @see #getThrebdFbctory
      */
-    public void setThreadFactory(ThreadFactory threadFactory) {
-        if (threadFactory == null)
+    public void setThrebdFbctory(ThrebdFbctory threbdFbctory) {
+        if (threbdFbctory == null)
             throw new NullPointerException();
-        this.threadFactory = threadFactory;
+        this.threbdFbctory = threbdFbctory;
     }
 
     /**
-     * Returns the thread factory used to create new threads.
+     * Returns the threbd fbctory used to crebte new threbds.
      *
-     * @return the current thread factory
-     * @see #setThreadFactory(ThreadFactory)
+     * @return the current threbd fbctory
+     * @see #setThrebdFbctory(ThrebdFbctory)
      */
-    public ThreadFactory getThreadFactory() {
-        return threadFactory;
+    public ThrebdFbctory getThrebdFbctory() {
+        return threbdFbctory;
     }
 
     /**
-     * Sets a new handler for unexecutable tasks.
+     * Sets b new hbndler for unexecutbble tbsks.
      *
-     * @param handler the new handler
-     * @throws NullPointerException if handler is null
-     * @see #getRejectedExecutionHandler
+     * @pbrbm hbndler the new hbndler
+     * @throws NullPointerException if hbndler is null
+     * @see #getRejectedExecutionHbndler
      */
-    public void setRejectedExecutionHandler(RejectedExecutionHandler handler) {
-        if (handler == null)
+    public void setRejectedExecutionHbndler(RejectedExecutionHbndler hbndler) {
+        if (hbndler == null)
             throw new NullPointerException();
-        this.handler = handler;
+        this.hbndler = hbndler;
     }
 
     /**
-     * Returns the current handler for unexecutable tasks.
+     * Returns the current hbndler for unexecutbble tbsks.
      *
-     * @return the current handler
-     * @see #setRejectedExecutionHandler(RejectedExecutionHandler)
+     * @return the current hbndler
+     * @see #setRejectedExecutionHbndler(RejectedExecutionHbndler)
      */
-    public RejectedExecutionHandler getRejectedExecutionHandler() {
-        return handler;
+    public RejectedExecutionHbndler getRejectedExecutionHbndler() {
+        return hbndler;
     }
 
     /**
-     * Sets the core number of threads.  This overrides any value set
-     * in the constructor.  If the new value is smaller than the
-     * current value, excess existing threads will be terminated when
-     * they next become idle.  If larger, new threads will, if needed,
-     * be started to execute any queued tasks.
+     * Sets the core number of threbds.  This overrides bny vblue set
+     * in the constructor.  If the new vblue is smbller thbn the
+     * current vblue, excess existing threbds will be terminbted when
+     * they next become idle.  If lbrger, new threbds will, if needed,
+     * be stbrted to execute bny queued tbsks.
      *
-     * @param corePoolSize the new core size
-     * @throws IllegalArgumentException if {@code corePoolSize < 0}
-     *         or {@code corePoolSize} is greater than the {@linkplain
-     *         #getMaximumPoolSize() maximum pool size}
+     * @pbrbm corePoolSize the new core size
+     * @throws IllegblArgumentException if {@code corePoolSize < 0}
+     *         or {@code corePoolSize} is grebter thbn the {@linkplbin
+     *         #getMbximumPoolSize() mbximum pool size}
      * @see #getCorePoolSize
      */
     public void setCorePoolSize(int corePoolSize) {
-        if (corePoolSize < 0 || maximumPoolSize < corePoolSize)
-            throw new IllegalArgumentException();
-        int delta = corePoolSize - this.corePoolSize;
+        if (corePoolSize < 0 || mbximumPoolSize < corePoolSize)
+            throw new IllegblArgumentException();
+        int deltb = corePoolSize - this.corePoolSize;
         this.corePoolSize = corePoolSize;
         if (workerCountOf(ctl.get()) > corePoolSize)
             interruptIdleWorkers();
-        else if (delta > 0) {
-            // We don't really know how many new threads are "needed".
-            // As a heuristic, prestart enough new workers (up to new
-            // core size) to handle the current number of tasks in
+        else if (deltb > 0) {
+            // We don't reblly know how mbny new threbds bre "needed".
+            // As b heuristic, prestbrt enough new workers (up to new
+            // core size) to hbndle the current number of tbsks in
             // queue, but stop if queue becomes empty while doing so.
-            int k = Math.min(delta, workQueue.size());
-            while (k-- > 0 && addWorker(null, true)) {
+            int k = Mbth.min(deltb, workQueue.size());
+            while (k-- > 0 && bddWorker(null, true)) {
                 if (workQueue.isEmpty())
-                    break;
+                    brebk;
             }
         }
     }
 
     /**
-     * Returns the core number of threads.
+     * Returns the core number of threbds.
      *
-     * @return the core number of threads
+     * @return the core number of threbds
      * @see #setCorePoolSize
      */
     public int getCorePoolSize() {
@@ -1567,150 +1567,150 @@ public class ThreadPoolExecutor extends AbstractExecutorService {
     }
 
     /**
-     * Starts a core thread, causing it to idly wait for work. This
-     * overrides the default policy of starting core threads only when
-     * new tasks are executed. This method will return {@code false}
-     * if all core threads have already been started.
+     * Stbrts b core threbd, cbusing it to idly wbit for work. This
+     * overrides the defbult policy of stbrting core threbds only when
+     * new tbsks bre executed. This method will return {@code fblse}
+     * if bll core threbds hbve blrebdy been stbrted.
      *
-     * @return {@code true} if a thread was started
+     * @return {@code true} if b threbd wbs stbrted
      */
-    public boolean prestartCoreThread() {
+    public boolebn prestbrtCoreThrebd() {
         return workerCountOf(ctl.get()) < corePoolSize &&
-            addWorker(null, true);
+            bddWorker(null, true);
     }
 
     /**
-     * Same as prestartCoreThread except arranges that at least one
-     * thread is started even if corePoolSize is 0.
+     * Sbme bs prestbrtCoreThrebd except brrbnges thbt bt lebst one
+     * threbd is stbrted even if corePoolSize is 0.
      */
-    void ensurePrestart() {
+    void ensurePrestbrt() {
         int wc = workerCountOf(ctl.get());
         if (wc < corePoolSize)
-            addWorker(null, true);
+            bddWorker(null, true);
         else if (wc == 0)
-            addWorker(null, false);
+            bddWorker(null, fblse);
     }
 
     /**
-     * Starts all core threads, causing them to idly wait for work. This
-     * overrides the default policy of starting core threads only when
-     * new tasks are executed.
+     * Stbrts bll core threbds, cbusing them to idly wbit for work. This
+     * overrides the defbult policy of stbrting core threbds only when
+     * new tbsks bre executed.
      *
-     * @return the number of threads started
+     * @return the number of threbds stbrted
      */
-    public int prestartAllCoreThreads() {
+    public int prestbrtAllCoreThrebds() {
         int n = 0;
-        while (addWorker(null, true))
+        while (bddWorker(null, true))
             ++n;
         return n;
     }
 
     /**
-     * Returns true if this pool allows core threads to time out and
-     * terminate if no tasks arrive within the keepAlive time, being
-     * replaced if needed when new tasks arrive. When true, the same
-     * keep-alive policy applying to non-core threads applies also to
-     * core threads. When false (the default), core threads are never
-     * terminated due to lack of incoming tasks.
+     * Returns true if this pool bllows core threbds to time out bnd
+     * terminbte if no tbsks brrive within the keepAlive time, being
+     * replbced if needed when new tbsks brrive. When true, the sbme
+     * keep-blive policy bpplying to non-core threbds bpplies blso to
+     * core threbds. When fblse (the defbult), core threbds bre never
+     * terminbted due to lbck of incoming tbsks.
      *
-     * @return {@code true} if core threads are allowed to time out,
-     *         else {@code false}
+     * @return {@code true} if core threbds bre bllowed to time out,
+     *         else {@code fblse}
      *
      * @since 1.6
      */
-    public boolean allowsCoreThreadTimeOut() {
-        return allowCoreThreadTimeOut;
+    public boolebn bllowsCoreThrebdTimeOut() {
+        return bllowCoreThrebdTimeOut;
     }
 
     /**
-     * Sets the policy governing whether core threads may time out and
-     * terminate if no tasks arrive within the keep-alive time, being
-     * replaced if needed when new tasks arrive. When false, core
-     * threads are never terminated due to lack of incoming
-     * tasks. When true, the same keep-alive policy applying to
-     * non-core threads applies also to core threads. To avoid
-     * continual thread replacement, the keep-alive time must be
-     * greater than zero when setting {@code true}. This method
-     * should in general be called before the pool is actively used.
+     * Sets the policy governing whether core threbds mby time out bnd
+     * terminbte if no tbsks brrive within the keep-blive time, being
+     * replbced if needed when new tbsks brrive. When fblse, core
+     * threbds bre never terminbted due to lbck of incoming
+     * tbsks. When true, the sbme keep-blive policy bpplying to
+     * non-core threbds bpplies blso to core threbds. To bvoid
+     * continubl threbd replbcement, the keep-blive time must be
+     * grebter thbn zero when setting {@code true}. This method
+     * should in generbl be cblled before the pool is bctively used.
      *
-     * @param value {@code true} if should time out, else {@code false}
-     * @throws IllegalArgumentException if value is {@code true}
-     *         and the current keep-alive time is not greater than zero
+     * @pbrbm vblue {@code true} if should time out, else {@code fblse}
+     * @throws IllegblArgumentException if vblue is {@code true}
+     *         bnd the current keep-blive time is not grebter thbn zero
      *
      * @since 1.6
      */
-    public void allowCoreThreadTimeOut(boolean value) {
-        if (value && keepAliveTime <= 0)
-            throw new IllegalArgumentException("Core threads must have nonzero keep alive times");
-        if (value != allowCoreThreadTimeOut) {
-            allowCoreThreadTimeOut = value;
-            if (value)
+    public void bllowCoreThrebdTimeOut(boolebn vblue) {
+        if (vblue && keepAliveTime <= 0)
+            throw new IllegblArgumentException("Core threbds must hbve nonzero keep blive times");
+        if (vblue != bllowCoreThrebdTimeOut) {
+            bllowCoreThrebdTimeOut = vblue;
+            if (vblue)
                 interruptIdleWorkers();
         }
     }
 
     /**
-     * Sets the maximum allowed number of threads. This overrides any
-     * value set in the constructor. If the new value is smaller than
-     * the current value, excess existing threads will be
-     * terminated when they next become idle.
+     * Sets the mbximum bllowed number of threbds. This overrides bny
+     * vblue set in the constructor. If the new vblue is smbller thbn
+     * the current vblue, excess existing threbds will be
+     * terminbted when they next become idle.
      *
-     * @param maximumPoolSize the new maximum
-     * @throws IllegalArgumentException if the new maximum is
-     *         less than or equal to zero, or
-     *         less than the {@linkplain #getCorePoolSize core pool size}
-     * @see #getMaximumPoolSize
+     * @pbrbm mbximumPoolSize the new mbximum
+     * @throws IllegblArgumentException if the new mbximum is
+     *         less thbn or equbl to zero, or
+     *         less thbn the {@linkplbin #getCorePoolSize core pool size}
+     * @see #getMbximumPoolSize
      */
-    public void setMaximumPoolSize(int maximumPoolSize) {
-        if (maximumPoolSize <= 0 || maximumPoolSize < corePoolSize)
-            throw new IllegalArgumentException();
-        this.maximumPoolSize = maximumPoolSize;
-        if (workerCountOf(ctl.get()) > maximumPoolSize)
+    public void setMbximumPoolSize(int mbximumPoolSize) {
+        if (mbximumPoolSize <= 0 || mbximumPoolSize < corePoolSize)
+            throw new IllegblArgumentException();
+        this.mbximumPoolSize = mbximumPoolSize;
+        if (workerCountOf(ctl.get()) > mbximumPoolSize)
             interruptIdleWorkers();
     }
 
     /**
-     * Returns the maximum allowed number of threads.
+     * Returns the mbximum bllowed number of threbds.
      *
-     * @return the maximum allowed number of threads
-     * @see #setMaximumPoolSize
+     * @return the mbximum bllowed number of threbds
+     * @see #setMbximumPoolSize
      */
-    public int getMaximumPoolSize() {
-        return maximumPoolSize;
+    public int getMbximumPoolSize() {
+        return mbximumPoolSize;
     }
 
     /**
-     * Sets the time limit for which threads may remain idle before
-     * being terminated.  If there are more than the core number of
-     * threads currently in the pool, after waiting this amount of
-     * time without processing a task, excess threads will be
-     * terminated.  This overrides any value set in the constructor.
+     * Sets the time limit for which threbds mby rembin idle before
+     * being terminbted.  If there bre more thbn the core number of
+     * threbds currently in the pool, bfter wbiting this bmount of
+     * time without processing b tbsk, excess threbds will be
+     * terminbted.  This overrides bny vblue set in the constructor.
      *
-     * @param time the time to wait.  A time value of zero will cause
-     *        excess threads to terminate immediately after executing tasks.
-     * @param unit the time unit of the {@code time} argument
-     * @throws IllegalArgumentException if {@code time} less than zero or
-     *         if {@code time} is zero and {@code allowsCoreThreadTimeOut}
+     * @pbrbm time the time to wbit.  A time vblue of zero will cbuse
+     *        excess threbds to terminbte immedibtely bfter executing tbsks.
+     * @pbrbm unit the time unit of the {@code time} brgument
+     * @throws IllegblArgumentException if {@code time} less thbn zero or
+     *         if {@code time} is zero bnd {@code bllowsCoreThrebdTimeOut}
      * @see #getKeepAliveTime(TimeUnit)
      */
     public void setKeepAliveTime(long time, TimeUnit unit) {
         if (time < 0)
-            throw new IllegalArgumentException();
-        if (time == 0 && allowsCoreThreadTimeOut())
-            throw new IllegalArgumentException("Core threads must have nonzero keep alive times");
-        long keepAliveTime = unit.toNanos(time);
-        long delta = keepAliveTime - this.keepAliveTime;
+            throw new IllegblArgumentException();
+        if (time == 0 && bllowsCoreThrebdTimeOut())
+            throw new IllegblArgumentException("Core threbds must hbve nonzero keep blive times");
+        long keepAliveTime = unit.toNbnos(time);
+        long deltb = keepAliveTime - this.keepAliveTime;
         this.keepAliveTime = keepAliveTime;
-        if (delta < 0)
+        if (deltb < 0)
             interruptIdleWorkers();
     }
 
     /**
-     * Returns the thread keep-alive time, which is the amount of time
-     * that threads in excess of the core pool size may remain
-     * idle before being terminated.
+     * Returns the threbd keep-blive time, which is the bmount of time
+     * thbt threbds in excess of the core pool size mby rembin
+     * idle before being terminbted.
      *
-     * @param unit the desired time unit of the result
+     * @pbrbm unit the desired time unit of the result
      * @return the time limit
      * @see #setKeepAliveTime(long, TimeUnit)
      */
@@ -1721,262 +1721,262 @@ public class ThreadPoolExecutor extends AbstractExecutorService {
     /* User-level queue utilities */
 
     /**
-     * Returns the task queue used by this executor. Access to the
-     * task queue is intended primarily for debugging and monitoring.
-     * This queue may be in active use.  Retrieving the task queue
-     * does not prevent queued tasks from executing.
+     * Returns the tbsk queue used by this executor. Access to the
+     * tbsk queue is intended primbrily for debugging bnd monitoring.
+     * This queue mby be in bctive use.  Retrieving the tbsk queue
+     * does not prevent queued tbsks from executing.
      *
-     * @return the task queue
+     * @return the tbsk queue
      */
-    public BlockingQueue<Runnable> getQueue() {
+    public BlockingQueue<Runnbble> getQueue() {
         return workQueue;
     }
 
     /**
-     * Removes this task from the executor's internal queue if it is
-     * present, thus causing it not to be run if it has not already
-     * started.
+     * Removes this tbsk from the executor's internbl queue if it is
+     * present, thus cbusing it not to be run if it hbs not blrebdy
+     * stbrted.
      *
-     * <p>This method may be useful as one part of a cancellation
-     * scheme.  It may fail to remove tasks that have been converted
-     * into other forms before being placed on the internal queue. For
-     * example, a task entered using {@code submit} might be
-     * converted into a form that maintains {@code Future} status.
-     * However, in such cases, method {@link #purge} may be used to
-     * remove those Futures that have been cancelled.
+     * <p>This method mby be useful bs one pbrt of b cbncellbtion
+     * scheme.  It mby fbil to remove tbsks thbt hbve been converted
+     * into other forms before being plbced on the internbl queue. For
+     * exbmple, b tbsk entered using {@code submit} might be
+     * converted into b form thbt mbintbins {@code Future} stbtus.
+     * However, in such cbses, method {@link #purge} mby be used to
+     * remove those Futures thbt hbve been cbncelled.
      *
-     * @param task the task to remove
-     * @return {@code true} if the task was removed
+     * @pbrbm tbsk the tbsk to remove
+     * @return {@code true} if the tbsk wbs removed
      */
-    public boolean remove(Runnable task) {
-        boolean removed = workQueue.remove(task);
-        tryTerminate(); // In case SHUTDOWN and now empty
+    public boolebn remove(Runnbble tbsk) {
+        boolebn removed = workQueue.remove(tbsk);
+        tryTerminbte(); // In cbse SHUTDOWN bnd now empty
         return removed;
     }
 
     /**
-     * Tries to remove from the work queue all {@link Future}
-     * tasks that have been cancelled. This method can be useful as a
-     * storage reclamation operation, that has no other impact on
-     * functionality. Cancelled tasks are never executed, but may
-     * accumulate in work queues until worker threads can actively
-     * remove them. Invoking this method instead tries to remove them now.
-     * However, this method may fail to remove tasks in
-     * the presence of interference by other threads.
+     * Tries to remove from the work queue bll {@link Future}
+     * tbsks thbt hbve been cbncelled. This method cbn be useful bs b
+     * storbge reclbmbtion operbtion, thbt hbs no other impbct on
+     * functionblity. Cbncelled tbsks bre never executed, but mby
+     * bccumulbte in work queues until worker threbds cbn bctively
+     * remove them. Invoking this method instebd tries to remove them now.
+     * However, this method mby fbil to remove tbsks in
+     * the presence of interference by other threbds.
      */
     public void purge() {
-        final BlockingQueue<Runnable> q = workQueue;
+        finbl BlockingQueue<Runnbble> q = workQueue;
         try {
-            Iterator<Runnable> it = q.iterator();
-            while (it.hasNext()) {
-                Runnable r = it.next();
-                if (r instanceof Future<?> && ((Future<?>)r).isCancelled())
+            Iterbtor<Runnbble> it = q.iterbtor();
+            while (it.hbsNext()) {
+                Runnbble r = it.next();
+                if (r instbnceof Future<?> && ((Future<?>)r).isCbncelled())
                     it.remove();
             }
-        } catch (ConcurrentModificationException fallThrough) {
-            // Take slow path if we encounter interference during traversal.
-            // Make copy for traversal and call remove for cancelled entries.
-            // The slow path is more likely to be O(N*N).
-            for (Object r : q.toArray())
-                if (r instanceof Future<?> && ((Future<?>)r).isCancelled())
+        } cbtch (ConcurrentModificbtionException fbllThrough) {
+            // Tbke slow pbth if we encounter interference during trbversbl.
+            // Mbke copy for trbversbl bnd cbll remove for cbncelled entries.
+            // The slow pbth is more likely to be O(N*N).
+            for (Object r : q.toArrby())
+                if (r instbnceof Future<?> && ((Future<?>)r).isCbncelled())
                     q.remove(r);
         }
 
-        tryTerminate(); // In case SHUTDOWN and now empty
+        tryTerminbte(); // In cbse SHUTDOWN bnd now empty
     }
 
-    /* Statistics */
+    /* Stbtistics */
 
     /**
-     * Returns the current number of threads in the pool.
+     * Returns the current number of threbds in the pool.
      *
-     * @return the number of threads
+     * @return the number of threbds
      */
     public int getPoolSize() {
-        final ReentrantLock mainLock = this.mainLock;
-        mainLock.lock();
+        finbl ReentrbntLock mbinLock = this.mbinLock;
+        mbinLock.lock();
         try {
-            // Remove rare and surprising possibility of
-            // isTerminated() && getPoolSize() > 0
-            return runStateAtLeast(ctl.get(), TIDYING) ? 0
+            // Remove rbre bnd surprising possibility of
+            // isTerminbted() && getPoolSize() > 0
+            return runStbteAtLebst(ctl.get(), TIDYING) ? 0
                 : workers.size();
-        } finally {
-            mainLock.unlock();
+        } finblly {
+            mbinLock.unlock();
         }
     }
 
     /**
-     * Returns the approximate number of threads that are actively
-     * executing tasks.
+     * Returns the bpproximbte number of threbds thbt bre bctively
+     * executing tbsks.
      *
-     * @return the number of threads
+     * @return the number of threbds
      */
     public int getActiveCount() {
-        final ReentrantLock mainLock = this.mainLock;
-        mainLock.lock();
+        finbl ReentrbntLock mbinLock = this.mbinLock;
+        mbinLock.lock();
         try {
             int n = 0;
             for (Worker w : workers)
                 if (w.isLocked())
                     ++n;
             return n;
-        } finally {
-            mainLock.unlock();
+        } finblly {
+            mbinLock.unlock();
         }
     }
 
     /**
-     * Returns the largest number of threads that have ever
-     * simultaneously been in the pool.
+     * Returns the lbrgest number of threbds thbt hbve ever
+     * simultbneously been in the pool.
      *
-     * @return the number of threads
+     * @return the number of threbds
      */
-    public int getLargestPoolSize() {
-        final ReentrantLock mainLock = this.mainLock;
-        mainLock.lock();
+    public int getLbrgestPoolSize() {
+        finbl ReentrbntLock mbinLock = this.mbinLock;
+        mbinLock.lock();
         try {
-            return largestPoolSize;
-        } finally {
-            mainLock.unlock();
+            return lbrgestPoolSize;
+        } finblly {
+            mbinLock.unlock();
         }
     }
 
     /**
-     * Returns the approximate total number of tasks that have ever been
-     * scheduled for execution. Because the states of tasks and
-     * threads may change dynamically during computation, the returned
-     * value is only an approximation.
+     * Returns the bpproximbte totbl number of tbsks thbt hbve ever been
+     * scheduled for execution. Becbuse the stbtes of tbsks bnd
+     * threbds mby chbnge dynbmicblly during computbtion, the returned
+     * vblue is only bn bpproximbtion.
      *
-     * @return the number of tasks
+     * @return the number of tbsks
      */
-    public long getTaskCount() {
-        final ReentrantLock mainLock = this.mainLock;
-        mainLock.lock();
+    public long getTbskCount() {
+        finbl ReentrbntLock mbinLock = this.mbinLock;
+        mbinLock.lock();
         try {
-            long n = completedTaskCount;
+            long n = completedTbskCount;
             for (Worker w : workers) {
-                n += w.completedTasks;
+                n += w.completedTbsks;
                 if (w.isLocked())
                     ++n;
             }
             return n + workQueue.size();
-        } finally {
-            mainLock.unlock();
+        } finblly {
+            mbinLock.unlock();
         }
     }
 
     /**
-     * Returns the approximate total number of tasks that have
-     * completed execution. Because the states of tasks and threads
-     * may change dynamically during computation, the returned value
-     * is only an approximation, but one that does not ever decrease
-     * across successive calls.
+     * Returns the bpproximbte totbl number of tbsks thbt hbve
+     * completed execution. Becbuse the stbtes of tbsks bnd threbds
+     * mby chbnge dynbmicblly during computbtion, the returned vblue
+     * is only bn bpproximbtion, but one thbt does not ever decrebse
+     * bcross successive cblls.
      *
-     * @return the number of tasks
+     * @return the number of tbsks
      */
-    public long getCompletedTaskCount() {
-        final ReentrantLock mainLock = this.mainLock;
-        mainLock.lock();
+    public long getCompletedTbskCount() {
+        finbl ReentrbntLock mbinLock = this.mbinLock;
+        mbinLock.lock();
         try {
-            long n = completedTaskCount;
+            long n = completedTbskCount;
             for (Worker w : workers)
-                n += w.completedTasks;
+                n += w.completedTbsks;
             return n;
-        } finally {
-            mainLock.unlock();
+        } finblly {
+            mbinLock.unlock();
         }
     }
 
     /**
-     * Returns a string identifying this pool, as well as its state,
-     * including indications of run state and estimated worker and
-     * task counts.
+     * Returns b string identifying this pool, bs well bs its stbte,
+     * including indicbtions of run stbte bnd estimbted worker bnd
+     * tbsk counts.
      *
-     * @return a string identifying this pool, as well as its state
+     * @return b string identifying this pool, bs well bs its stbte
      */
     public String toString() {
         long ncompleted;
-        int nworkers, nactive;
-        final ReentrantLock mainLock = this.mainLock;
-        mainLock.lock();
+        int nworkers, nbctive;
+        finbl ReentrbntLock mbinLock = this.mbinLock;
+        mbinLock.lock();
         try {
-            ncompleted = completedTaskCount;
-            nactive = 0;
+            ncompleted = completedTbskCount;
+            nbctive = 0;
             nworkers = workers.size();
             for (Worker w : workers) {
-                ncompleted += w.completedTasks;
+                ncompleted += w.completedTbsks;
                 if (w.isLocked())
-                    ++nactive;
+                    ++nbctive;
             }
-        } finally {
-            mainLock.unlock();
+        } finblly {
+            mbinLock.unlock();
         }
         int c = ctl.get();
-        String rs = (runStateLessThan(c, SHUTDOWN) ? "Running" :
-                     (runStateAtLeast(c, TERMINATED) ? "Terminated" :
+        String rs = (runStbteLessThbn(c, SHUTDOWN) ? "Running" :
+                     (runStbteAtLebst(c, TERMINATED) ? "Terminbted" :
                       "Shutting down"));
         return super.toString() +
             "[" + rs +
             ", pool size = " + nworkers +
-            ", active threads = " + nactive +
-            ", queued tasks = " + workQueue.size() +
-            ", completed tasks = " + ncompleted +
+            ", bctive threbds = " + nbctive +
+            ", queued tbsks = " + workQueue.size() +
+            ", completed tbsks = " + ncompleted +
             "]";
     }
 
     /* Extension hooks */
 
     /**
-     * Method invoked prior to executing the given Runnable in the
-     * given thread.  This method is invoked by thread {@code t} that
-     * will execute task {@code r}, and may be used to re-initialize
-     * ThreadLocals, or to perform logging.
+     * Method invoked prior to executing the given Runnbble in the
+     * given threbd.  This method is invoked by threbd {@code t} thbt
+     * will execute tbsk {@code r}, bnd mby be used to re-initiblize
+     * ThrebdLocbls, or to perform logging.
      *
-     * <p>This implementation does nothing, but may be customized in
-     * subclasses. Note: To properly nest multiple overridings, subclasses
-     * should generally invoke {@code super.beforeExecute} at the end of
+     * <p>This implementbtion does nothing, but mby be customized in
+     * subclbsses. Note: To properly nest multiple overridings, subclbsses
+     * should generblly invoke {@code super.beforeExecute} bt the end of
      * this method.
      *
-     * @param t the thread that will run task {@code r}
-     * @param r the task that will be executed
+     * @pbrbm t the threbd thbt will run tbsk {@code r}
+     * @pbrbm r the tbsk thbt will be executed
      */
-    protected void beforeExecute(Thread t, Runnable r) { }
+    protected void beforeExecute(Threbd t, Runnbble r) { }
 
     /**
-     * Method invoked upon completion of execution of the given Runnable.
-     * This method is invoked by the thread that executed the task. If
-     * non-null, the Throwable is the uncaught {@code RuntimeException}
-     * or {@code Error} that caused execution to terminate abruptly.
+     * Method invoked upon completion of execution of the given Runnbble.
+     * This method is invoked by the threbd thbt executed the tbsk. If
+     * non-null, the Throwbble is the uncbught {@code RuntimeException}
+     * or {@code Error} thbt cbused execution to terminbte bbruptly.
      *
-     * <p>This implementation does nothing, but may be customized in
-     * subclasses. Note: To properly nest multiple overridings, subclasses
-     * should generally invoke {@code super.afterExecute} at the
+     * <p>This implementbtion does nothing, but mby be customized in
+     * subclbsses. Note: To properly nest multiple overridings, subclbsses
+     * should generblly invoke {@code super.bfterExecute} bt the
      * beginning of this method.
      *
-     * <p><b>Note:</b> When actions are enclosed in tasks (such as
-     * {@link FutureTask}) either explicitly or via methods such as
-     * {@code submit}, these task objects catch and maintain
-     * computational exceptions, and so they do not cause abrupt
-     * termination, and the internal exceptions are <em>not</em>
-     * passed to this method. If you would like to trap both kinds of
-     * failures in this method, you can further probe for such cases,
-     * as in this sample subclass that prints either the direct cause
-     * or the underlying exception if a task has been aborted:
+     * <p><b>Note:</b> When bctions bre enclosed in tbsks (such bs
+     * {@link FutureTbsk}) either explicitly or vib methods such bs
+     * {@code submit}, these tbsk objects cbtch bnd mbintbin
+     * computbtionbl exceptions, bnd so they do not cbuse bbrupt
+     * terminbtion, bnd the internbl exceptions bre <em>not</em>
+     * pbssed to this method. If you would like to trbp both kinds of
+     * fbilures in this method, you cbn further probe for such cbses,
+     * bs in this sbmple subclbss thbt prints either the direct cbuse
+     * or the underlying exception if b tbsk hbs been bborted:
      *
      *  <pre> {@code
-     * class ExtendedExecutor extends ThreadPoolExecutor {
+     * clbss ExtendedExecutor extends ThrebdPoolExecutor {
      *   // ...
-     *   protected void afterExecute(Runnable r, Throwable t) {
-     *     super.afterExecute(r, t);
-     *     if (t == null && r instanceof Future<?>) {
+     *   protected void bfterExecute(Runnbble r, Throwbble t) {
+     *     super.bfterExecute(r, t);
+     *     if (t == null && r instbnceof Future<?>) {
      *       try {
      *         Object result = ((Future<?>) r).get();
-     *       } catch (CancellationException ce) {
+     *       } cbtch (CbncellbtionException ce) {
      *           t = ce;
-     *       } catch (ExecutionException ee) {
-     *           t = ee.getCause();
-     *       } catch (InterruptedException ie) {
-     *           Thread.currentThread().interrupt(); // ignore/reset
+     *       } cbtch (ExecutionException ee) {
+     *           t = ee.getCbuse();
+     *       } cbtch (InterruptedException ie) {
+     *           Threbd.currentThrebd().interrupt(); // ignore/reset
      *       }
      *     }
      *     if (t != null)
@@ -1984,42 +1984,42 @@ public class ThreadPoolExecutor extends AbstractExecutorService {
      *   }
      * }}</pre>
      *
-     * @param r the runnable that has completed
-     * @param t the exception that caused termination, or null if
-     * execution completed normally
+     * @pbrbm r the runnbble thbt hbs completed
+     * @pbrbm t the exception thbt cbused terminbtion, or null if
+     * execution completed normblly
      */
-    protected void afterExecute(Runnable r, Throwable t) { }
+    protected void bfterExecute(Runnbble r, Throwbble t) { }
 
     /**
-     * Method invoked when the Executor has terminated.  Default
-     * implementation does nothing. Note: To properly nest multiple
-     * overridings, subclasses should generally invoke
-     * {@code super.terminated} within this method.
+     * Method invoked when the Executor hbs terminbted.  Defbult
+     * implementbtion does nothing. Note: To properly nest multiple
+     * overridings, subclbsses should generblly invoke
+     * {@code super.terminbted} within this method.
      */
-    protected void terminated() { }
+    protected void terminbted() { }
 
-    /* Predefined RejectedExecutionHandlers */
+    /* Predefined RejectedExecutionHbndlers */
 
     /**
-     * A handler for rejected tasks that runs the rejected task
-     * directly in the calling thread of the {@code execute} method,
-     * unless the executor has been shut down, in which case the task
-     * is discarded.
+     * A hbndler for rejected tbsks thbt runs the rejected tbsk
+     * directly in the cblling threbd of the {@code execute} method,
+     * unless the executor hbs been shut down, in which cbse the tbsk
+     * is discbrded.
      */
-    public static class CallerRunsPolicy implements RejectedExecutionHandler {
+    public stbtic clbss CbllerRunsPolicy implements RejectedExecutionHbndler {
         /**
-         * Creates a {@code CallerRunsPolicy}.
+         * Crebtes b {@code CbllerRunsPolicy}.
          */
-        public CallerRunsPolicy() { }
+        public CbllerRunsPolicy() { }
 
         /**
-         * Executes task r in the caller's thread, unless the executor
-         * has been shut down, in which case the task is discarded.
+         * Executes tbsk r in the cbller's threbd, unless the executor
+         * hbs been shut down, in which cbse the tbsk is discbrded.
          *
-         * @param r the runnable task requested to be executed
-         * @param e the executor attempting to execute this task
+         * @pbrbm r the runnbble tbsk requested to be executed
+         * @pbrbm e the executor bttempting to execute this tbsk
          */
-        public void rejectedExecution(Runnable r, ThreadPoolExecutor e) {
+        public void rejectedExecution(Runnbble r, ThrebdPoolExecutor e) {
             if (!e.isShutdown()) {
                 r.run();
             }
@@ -2027,70 +2027,70 @@ public class ThreadPoolExecutor extends AbstractExecutorService {
     }
 
     /**
-     * A handler for rejected tasks that throws a
+     * A hbndler for rejected tbsks thbt throws b
      * {@code RejectedExecutionException}.
      */
-    public static class AbortPolicy implements RejectedExecutionHandler {
+    public stbtic clbss AbortPolicy implements RejectedExecutionHbndler {
         /**
-         * Creates an {@code AbortPolicy}.
+         * Crebtes bn {@code AbortPolicy}.
          */
         public AbortPolicy() { }
 
         /**
-         * Always throws RejectedExecutionException.
+         * Alwbys throws RejectedExecutionException.
          *
-         * @param r the runnable task requested to be executed
-         * @param e the executor attempting to execute this task
-         * @throws RejectedExecutionException always
+         * @pbrbm r the runnbble tbsk requested to be executed
+         * @pbrbm e the executor bttempting to execute this tbsk
+         * @throws RejectedExecutionException blwbys
          */
-        public void rejectedExecution(Runnable r, ThreadPoolExecutor e) {
-            throw new RejectedExecutionException("Task " + r.toString() +
+        public void rejectedExecution(Runnbble r, ThrebdPoolExecutor e) {
+            throw new RejectedExecutionException("Tbsk " + r.toString() +
                                                  " rejected from " +
                                                  e.toString());
         }
     }
 
     /**
-     * A handler for rejected tasks that silently discards the
-     * rejected task.
+     * A hbndler for rejected tbsks thbt silently discbrds the
+     * rejected tbsk.
      */
-    public static class DiscardPolicy implements RejectedExecutionHandler {
+    public stbtic clbss DiscbrdPolicy implements RejectedExecutionHbndler {
         /**
-         * Creates a {@code DiscardPolicy}.
+         * Crebtes b {@code DiscbrdPolicy}.
          */
-        public DiscardPolicy() { }
+        public DiscbrdPolicy() { }
 
         /**
-         * Does nothing, which has the effect of discarding task r.
+         * Does nothing, which hbs the effect of discbrding tbsk r.
          *
-         * @param r the runnable task requested to be executed
-         * @param e the executor attempting to execute this task
+         * @pbrbm r the runnbble tbsk requested to be executed
+         * @pbrbm e the executor bttempting to execute this tbsk
          */
-        public void rejectedExecution(Runnable r, ThreadPoolExecutor e) {
+        public void rejectedExecution(Runnbble r, ThrebdPoolExecutor e) {
         }
     }
 
     /**
-     * A handler for rejected tasks that discards the oldest unhandled
-     * request and then retries {@code execute}, unless the executor
-     * is shut down, in which case the task is discarded.
+     * A hbndler for rejected tbsks thbt discbrds the oldest unhbndled
+     * request bnd then retries {@code execute}, unless the executor
+     * is shut down, in which cbse the tbsk is discbrded.
      */
-    public static class DiscardOldestPolicy implements RejectedExecutionHandler {
+    public stbtic clbss DiscbrdOldestPolicy implements RejectedExecutionHbndler {
         /**
-         * Creates a {@code DiscardOldestPolicy} for the given executor.
+         * Crebtes b {@code DiscbrdOldestPolicy} for the given executor.
          */
-        public DiscardOldestPolicy() { }
+        public DiscbrdOldestPolicy() { }
 
         /**
-         * Obtains and ignores the next task that the executor
-         * would otherwise execute, if one is immediately available,
-         * and then retries execution of task r, unless the executor
-         * is shut down, in which case task r is instead discarded.
+         * Obtbins bnd ignores the next tbsk thbt the executor
+         * would otherwise execute, if one is immedibtely bvbilbble,
+         * bnd then retries execution of tbsk r, unless the executor
+         * is shut down, in which cbse tbsk r is instebd discbrded.
          *
-         * @param r the runnable task requested to be executed
-         * @param e the executor attempting to execute this task
+         * @pbrbm r the runnbble tbsk requested to be executed
+         * @pbrbm e the executor bttempting to execute this tbsk
          */
-        public void rejectedExecution(Runnable r, ThreadPoolExecutor e) {
+        public void rejectedExecution(Runnbble r, ThrebdPoolExecutor e) {
             if (!e.isShutdown()) {
                 e.getQueue().poll();
                 e.execute(r);

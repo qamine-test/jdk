@@ -1,161 +1,161 @@
 /*
- * Copyright (c) 1998, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * @author Charlton Innovations, Inc.
+ * @buthor Chbrlton Innovbtions, Inc.
  */
 
-package sun.java2d.loops;
+pbckbge sun.jbvb2d.loops;
 
-import java.awt.image.WritableRaster;
-import java.awt.image.DataBuffer;
-import java.awt.image.ColorModel;
-import java.awt.geom.Path2D;
-import java.awt.geom.PathIterator;
-import java.awt.geom.AffineTransform;
-import sun.java2d.pipe.Region;
-import sun.java2d.pipe.SpanIterator;
-import sun.java2d.SunGraphics2D;
-import sun.java2d.SurfaceData;
-import sun.java2d.loops.ProcessPath;
+import jbvb.bwt.imbge.WritbbleRbster;
+import jbvb.bwt.imbge.DbtbBuffer;
+import jbvb.bwt.imbge.ColorModel;
+import jbvb.bwt.geom.Pbth2D;
+import jbvb.bwt.geom.PbthIterbtor;
+import jbvb.bwt.geom.AffineTrbnsform;
+import sun.jbvb2d.pipe.Region;
+import sun.jbvb2d.pipe.SpbnIterbtor;
+import sun.jbvb2d.SunGrbphics2D;
+import sun.jbvb2d.SurfbceDbtb;
+import sun.jbvb2d.loops.ProcessPbth;
 import sun.font.GlyphList;
 
 /**
- * GeneralRenderer collection
- * Basically, a collection of components which permit basic
- * rendering to occur on rasters of any format
+ * GenerblRenderer collection
+ * Bbsicblly, b collection of components which permit bbsic
+ * rendering to occur on rbsters of bny formbt
  */
 
-public final class GeneralRenderer {
-    public static void register() {
-        Class<?> owner = GeneralRenderer.class;
-        GraphicsPrimitive[] primitives = {
-            new  GraphicsPrimitiveProxy(owner, "SetFillRectANY",
-                                        FillRect.methodSignature,
+public finbl clbss GenerblRenderer {
+    public stbtic void register() {
+        Clbss<?> owner = GenerblRenderer.clbss;
+        GrbphicsPrimitive[] primitives = {
+            new  GrbphicsPrimitiveProxy(owner, "SetFillRectANY",
+                                        FillRect.methodSignbture,
                                         FillRect.primTypeID,
-                                        SurfaceType.AnyColor,
-                                        CompositeType.SrcNoEa,
-                                        SurfaceType.Any),
-            new  GraphicsPrimitiveProxy(owner, "SetFillPathANY",
-                                        FillPath.methodSignature,
-                                        FillPath.primTypeID,
-                                        SurfaceType.AnyColor,
-                                        CompositeType.SrcNoEa,
-                                        SurfaceType.Any),
-            new  GraphicsPrimitiveProxy(owner, "SetFillSpansANY",
-                                        FillSpans.methodSignature,
-                                        FillSpans.primTypeID,
-                                        SurfaceType.AnyColor,
-                                        CompositeType.SrcNoEa,
-                                        SurfaceType.Any),
-            new  GraphicsPrimitiveProxy(owner, "SetDrawLineANY",
-                                        DrawLine.methodSignature,
-                                        DrawLine.primTypeID,
-                                        SurfaceType.AnyColor,
-                                        CompositeType.SrcNoEa,
-                                        SurfaceType.Any),
-            new  GraphicsPrimitiveProxy(owner, "SetDrawPolygonsANY",
-                                        DrawPolygons.methodSignature,
-                                        DrawPolygons.primTypeID,
-                                        SurfaceType.AnyColor,
-                                        CompositeType.SrcNoEa,
-                                        SurfaceType.Any),
-            new  GraphicsPrimitiveProxy(owner, "SetDrawPathANY",
-                                        DrawPath.methodSignature,
-                                        DrawPath.primTypeID,
-                                        SurfaceType.AnyColor,
-                                        CompositeType.SrcNoEa,
-                                        SurfaceType.Any),
-            new  GraphicsPrimitiveProxy(owner, "SetDrawRectANY",
-                                        DrawRect.methodSignature,
-                                        DrawRect.primTypeID,
-                                        SurfaceType.AnyColor,
-                                        CompositeType.SrcNoEa,
-                                        SurfaceType.Any),
+                                        SurfbceType.AnyColor,
+                                        CompositeType.SrcNoEb,
+                                        SurfbceType.Any),
+            new  GrbphicsPrimitiveProxy(owner, "SetFillPbthANY",
+                                        FillPbth.methodSignbture,
+                                        FillPbth.primTypeID,
+                                        SurfbceType.AnyColor,
+                                        CompositeType.SrcNoEb,
+                                        SurfbceType.Any),
+            new  GrbphicsPrimitiveProxy(owner, "SetFillSpbnsANY",
+                                        FillSpbns.methodSignbture,
+                                        FillSpbns.primTypeID,
+                                        SurfbceType.AnyColor,
+                                        CompositeType.SrcNoEb,
+                                        SurfbceType.Any),
+            new  GrbphicsPrimitiveProxy(owner, "SetDrbwLineANY",
+                                        DrbwLine.methodSignbture,
+                                        DrbwLine.primTypeID,
+                                        SurfbceType.AnyColor,
+                                        CompositeType.SrcNoEb,
+                                        SurfbceType.Any),
+            new  GrbphicsPrimitiveProxy(owner, "SetDrbwPolygonsANY",
+                                        DrbwPolygons.methodSignbture,
+                                        DrbwPolygons.primTypeID,
+                                        SurfbceType.AnyColor,
+                                        CompositeType.SrcNoEb,
+                                        SurfbceType.Any),
+            new  GrbphicsPrimitiveProxy(owner, "SetDrbwPbthANY",
+                                        DrbwPbth.methodSignbture,
+                                        DrbwPbth.primTypeID,
+                                        SurfbceType.AnyColor,
+                                        CompositeType.SrcNoEb,
+                                        SurfbceType.Any),
+            new  GrbphicsPrimitiveProxy(owner, "SetDrbwRectANY",
+                                        DrbwRect.methodSignbture,
+                                        DrbwRect.primTypeID,
+                                        SurfbceType.AnyColor,
+                                        CompositeType.SrcNoEb,
+                                        SurfbceType.Any),
 
-            new  GraphicsPrimitiveProxy(owner, "XorFillRectANY",
-                                        FillRect.methodSignature,
+            new  GrbphicsPrimitiveProxy(owner, "XorFillRectANY",
+                                        FillRect.methodSignbture,
                                         FillRect.primTypeID,
-                                        SurfaceType.AnyColor,
+                                        SurfbceType.AnyColor,
                                         CompositeType.Xor,
-                                        SurfaceType.Any),
-            new  GraphicsPrimitiveProxy(owner, "XorFillPathANY",
-                                        FillPath.methodSignature,
-                                        FillPath.primTypeID,
-                                        SurfaceType.AnyColor,
+                                        SurfbceType.Any),
+            new  GrbphicsPrimitiveProxy(owner, "XorFillPbthANY",
+                                        FillPbth.methodSignbture,
+                                        FillPbth.primTypeID,
+                                        SurfbceType.AnyColor,
                                         CompositeType.Xor,
-                                        SurfaceType.Any),
-            new  GraphicsPrimitiveProxy(owner, "XorFillSpansANY",
-                                        FillSpans.methodSignature,
-                                        FillSpans.primTypeID,
-                                        SurfaceType.AnyColor,
+                                        SurfbceType.Any),
+            new  GrbphicsPrimitiveProxy(owner, "XorFillSpbnsANY",
+                                        FillSpbns.methodSignbture,
+                                        FillSpbns.primTypeID,
+                                        SurfbceType.AnyColor,
                                         CompositeType.Xor,
-                                        SurfaceType.Any),
-            new  GraphicsPrimitiveProxy(owner, "XorDrawLineANY",
-                                        DrawLine.methodSignature,
-                                        DrawLine.primTypeID,
-                                        SurfaceType.AnyColor,
+                                        SurfbceType.Any),
+            new  GrbphicsPrimitiveProxy(owner, "XorDrbwLineANY",
+                                        DrbwLine.methodSignbture,
+                                        DrbwLine.primTypeID,
+                                        SurfbceType.AnyColor,
                                         CompositeType.Xor,
-                                        SurfaceType.Any),
-            new  GraphicsPrimitiveProxy(owner, "XorDrawPolygonsANY",
-                                        DrawPolygons.methodSignature,
-                                        DrawPolygons.primTypeID,
-                                        SurfaceType.AnyColor,
+                                        SurfbceType.Any),
+            new  GrbphicsPrimitiveProxy(owner, "XorDrbwPolygonsANY",
+                                        DrbwPolygons.methodSignbture,
+                                        DrbwPolygons.primTypeID,
+                                        SurfbceType.AnyColor,
                                         CompositeType.Xor,
-                                        SurfaceType.Any),
-            new  GraphicsPrimitiveProxy(owner, "XorDrawPathANY",
-                                        DrawPath.methodSignature,
-                                        DrawPath.primTypeID,
-                                        SurfaceType.AnyColor,
+                                        SurfbceType.Any),
+            new  GrbphicsPrimitiveProxy(owner, "XorDrbwPbthANY",
+                                        DrbwPbth.methodSignbture,
+                                        DrbwPbth.primTypeID,
+                                        SurfbceType.AnyColor,
                                         CompositeType.Xor,
-                                        SurfaceType.Any),
-            new  GraphicsPrimitiveProxy(owner, "XorDrawRectANY",
-                                        DrawRect.methodSignature,
-                                        DrawRect.primTypeID,
-                                        SurfaceType.AnyColor,
+                                        SurfbceType.Any),
+            new  GrbphicsPrimitiveProxy(owner, "XorDrbwRectANY",
+                                        DrbwRect.methodSignbture,
+                                        DrbwRect.primTypeID,
+                                        SurfbceType.AnyColor,
                                         CompositeType.Xor,
-                                        SurfaceType.Any),
-            new  GraphicsPrimitiveProxy(owner, "XorDrawGlyphListANY",
-                                        DrawGlyphList.methodSignature,
-                                        DrawGlyphList.primTypeID,
-                                        SurfaceType.AnyColor,
+                                        SurfbceType.Any),
+            new  GrbphicsPrimitiveProxy(owner, "XorDrbwGlyphListANY",
+                                        DrbwGlyphList.methodSignbture,
+                                        DrbwGlyphList.primTypeID,
+                                        SurfbceType.AnyColor,
                                         CompositeType.Xor,
-                                        SurfaceType.Any),
-            new  GraphicsPrimitiveProxy(owner, "XorDrawGlyphListAAANY",
-                                        DrawGlyphListAA.methodSignature,
-                                        DrawGlyphListAA.primTypeID,
-                                        SurfaceType.AnyColor,
+                                        SurfbceType.Any),
+            new  GrbphicsPrimitiveProxy(owner, "XorDrbwGlyphListAAANY",
+                                        DrbwGlyphListAA.methodSignbture,
+                                        DrbwGlyphListAA.primTypeID,
+                                        SurfbceType.AnyColor,
                                         CompositeType.Xor,
-                                        SurfaceType.Any),
+                                        SurfbceType.Any),
         };
-        GraphicsPrimitiveMgr.register(primitives);
+        GrbphicsPrimitiveMgr.register(primitives);
     }
 
-    static void doDrawPoly(SurfaceData sData, PixelWriter pw,
+    stbtic void doDrbwPoly(SurfbceDbtb sDbtb, PixelWriter pw,
                            int xPoints[], int yPoints[], int off, int nPoints,
-                           Region clip, int transx, int transy, boolean close)
+                           Region clip, int trbnsx, int trbnsy, boolebn close)
     {
         int mx, my, x1, y1;
         int[] tmp = null;
@@ -163,28 +163,28 @@ public final class GeneralRenderer {
         if (nPoints <= 0) {
             return;
         }
-        mx = x1 = xPoints[off] + transx;
-        my = y1 = yPoints[off] + transy;
+        mx = x1 = xPoints[off] + trbnsx;
+        my = y1 = yPoints[off] + trbnsy;
         while (--nPoints > 0) {
             ++off;
-            int x2 = xPoints[off] + transx;
-            int y2 = yPoints[off] + transy;
-            tmp = GeneralRenderer.doDrawLine(sData, pw, tmp, clip,
+            int x2 = xPoints[off] + trbnsx;
+            int y2 = yPoints[off] + trbnsy;
+            tmp = GenerblRenderer.doDrbwLine(sDbtb, pw, tmp, clip,
                                              x1, y1, x2, y2);
             x1 = x2;
             y1 = y2;
         }
         if (close && (x1 != mx || y1 != my)) {
-            tmp = GeneralRenderer.doDrawLine(sData, pw, tmp, clip,
+            tmp = GenerblRenderer.doDrbwLine(sDbtb, pw, tmp, clip,
                                              x1, y1, mx, my);
         }
     }
 
-    static void doSetRect(SurfaceData sData, PixelWriter pw,
+    stbtic void doSetRect(SurfbceDbtb sDbtb, PixelWriter pw,
                           int x1, int y1, int x2, int y2) {
-        WritableRaster dstRast =
-            (WritableRaster) sData.getRaster(x1, y1, x2-x1, y2-y1);
-        pw.setRaster(dstRast);
+        WritbbleRbster dstRbst =
+            (WritbbleRbster) sDbtb.getRbster(x1, y1, x2-x1, y2-y1);
+        pw.setRbster(dstRbst);
 
         while (y1 < y2) {
             for (int x = x1; x < x2; x++) {
@@ -194,7 +194,7 @@ public final class GeneralRenderer {
         }
     }
 
-    static int[] doDrawLine(SurfaceData sData, PixelWriter pw, int[] boundPts,
+    stbtic int[] doDrbwLine(SurfbceDbtb sDbtb, PixelWriter pw, int[] boundPts,
                             Region clip,
                             int origx1, int origy1, int origx2, int origy2)
     {
@@ -205,7 +205,7 @@ public final class GeneralRenderer {
         boundPts[1] = origy1;
         boundPts[2] = origx2;
         boundPts[3] = origy2;
-        if (!adjustLine(boundPts,
+        if (!bdjustLine(boundPts,
                         clip.getLoX(), clip.getLoY(),
                         clip.getHiX(), clip.getHiY()))
         {
@@ -216,12 +216,12 @@ public final class GeneralRenderer {
         int x2 = boundPts[2];
         int y2 = boundPts[3];
 
-        WritableRaster dstRast = (WritableRaster)
-            sData.getRaster(Math.min(x1, x2), Math.min(y1, y2),
-                            Math.abs(x1 - x2) + 1, Math.abs(y1 - y2) + 1);
-        pw.setRaster(dstRast);
+        WritbbleRbster dstRbst = (WritbbleRbster)
+            sDbtb.getRbster(Mbth.min(x1, x2), Mbth.min(y1, y2),
+                            Mbth.bbs(x1 - x2) + 1, Mbth.bbs(y1 - y2) + 1);
+        pw.setRbster(dstRbst);
 
-        /* this could be made smaller, more elegant, more traditional. */
+        /* this could be mbde smbller, more elegbnt, more trbditionbl. */
         if (x1 == x2) {
             if (y1 > y2) {
                 do {
@@ -249,33 +249,33 @@ public final class GeneralRenderer {
         } else {
             int dx = boundPts[4];
             int dy = boundPts[5];
-            int ax = boundPts[6];
-            int ay = boundPts[7];
+            int bx = boundPts[6];
+            int by = boundPts[7];
             int steps;
-            int bumpmajor;
+            int bumpmbjor;
             int bumpminor;
             int errminor;
-            int errmajor;
+            int errmbjor;
             int error;
-            boolean xmajor;
+            boolebn xmbjor;
 
-            if (ax >= ay) {
-                /* x is dominant */
-                xmajor = true;
-                errmajor = ay * 2;
-                errminor = ax * 2;
-                bumpmajor = (dx < 0) ? -1 : 1;
+            if (bx >= by) {
+                /* x is dominbnt */
+                xmbjor = true;
+                errmbjor = by * 2;
+                errminor = bx * 2;
+                bumpmbjor = (dx < 0) ? -1 : 1;
                 bumpminor = (dy < 0) ? -1 : 1;
-                ax = -ax; /* For clipping adjustment below */
+                bx = -bx; /* For clipping bdjustment below */
                 steps = x2 - x1;
             } else {
-                /* y is dominant */
-                xmajor = false;
-                errmajor = ax * 2;
-                errminor = ay * 2;
-                bumpmajor = (dy < 0) ? -1 : 1;
+                /* y is dominbnt */
+                xmbjor = fblse;
+                errmbjor = bx * 2;
+                errminor = by * 2;
+                bumpmbjor = (dy < 0) ? -1 : 1;
                 bumpminor = (dx < 0) ? -1 : 1;
-                ay = -ay; /* For clipping adjustment below */
+                by = -by; /* For clipping bdjustment below */
                 steps = y2 - y1;
             }
             error = - (errminor / 2);
@@ -284,23 +284,23 @@ public final class GeneralRenderer {
                 if (ysteps < 0) {
                     ysteps = -ysteps;
                 }
-                error += ysteps * ax * 2;
+                error += ysteps * bx * 2;
             }
             if (x1 != origx1) {
                 int xsteps = x1 - origx1;
                 if (xsteps < 0) {
                     xsteps = -xsteps;
                 }
-                error += xsteps * ay * 2;
+                error += xsteps * by * 2;
             }
             if (steps < 0) {
                 steps = -steps;
             }
-            if (xmajor) {
+            if (xmbjor) {
                 do {
                     pw.writePixel(x1, y1);
-                    x1 += bumpmajor;
-                    error += errmajor;
+                    x1 += bumpmbjor;
+                    error += errmbjor;
                     if (error >= 0) {
                         y1 += bumpminor;
                         error -= errminor;
@@ -309,8 +309,8 @@ public final class GeneralRenderer {
             } else {
                 do {
                     pw.writePixel(x1, y1);
-                    y1 += bumpmajor;
-                    error += errmajor;
+                    y1 += bumpmbjor;
+                    error += errmbjor;
                     if (error >= 0) {
                         x1 += bumpminor;
                         error -= errminor;
@@ -321,8 +321,8 @@ public final class GeneralRenderer {
         return boundPts;
     }
 
-    public static void doDrawRect(PixelWriter pw,
-                                  SunGraphics2D sg2d, SurfaceData sData,
+    public stbtic void doDrbwRect(PixelWriter pw,
+                                  SunGrbphics2D sg2d, SurfbceDbtb sDbtb,
                                   int x, int y, int w, int h)
     {
         if (w < 0 || h < 0) {
@@ -340,33 +340,33 @@ public final class GeneralRenderer {
         int cy2 = r.getHiY();
 
         if (w < 2 || h < 2) {
-            doSetRect(sData, pw, cx1, cy1, cx2, cy2);
+            doSetRect(sDbtb, pw, cx1, cy1, cx2, cy2);
             return;
         }
 
 
         if (cy1 == y) {
-            doSetRect(sData, pw,   cx1,   cy1,   cx2, cy1+1);
+            doSetRect(sDbtb, pw,   cx1,   cy1,   cx2, cy1+1);
         }
         if (cx1 == x) {
-            doSetRect(sData, pw,   cx1, cy1+1, cx1+1, cy2-1);
+            doSetRect(sDbtb, pw,   cx1, cy1+1, cx1+1, cy2-1);
         }
         if (cx2 == x2) {
-            doSetRect(sData, pw, cx2-1, cy1+1,   cx2, cy2-1);
+            doSetRect(sDbtb, pw, cx2-1, cy1+1,   cx2, cy2-1);
         }
         if (cy2 == y2) {
-            doSetRect(sData, pw,   cx1, cy2-1,   cx2,   cy2);
+            doSetRect(sDbtb, pw,   cx1, cy2-1,   cx2,   cy2);
         }
     }
 
     /*
-     * REMIND: For now this will field both AA and non-AA requests and
-     * use a simple threshold to choose pixels if the supplied grey
-     * bits are antialiased.  We should really find a way to disable
-     * AA text at a higher level or to have the GlyphList be able to
-     * reset the glyphs to non-AA after construction.
+     * REMIND: For now this will field both AA bnd non-AA requests bnd
+     * use b simple threshold to choose pixels if the supplied grey
+     * bits bre bntiblibsed.  We should reblly find b wby to disbble
+     * AA text bt b higher level or to hbve the GlyphList be bble to
+     * reset the glyphs to non-AA bfter construction.
      */
-    static void doDrawGlyphList(SurfaceData sData, PixelWriter pw,
+    stbtic void doDrbwGlyphList(SurfbceDbtb sDbtb, PixelWriter pw,
                                 GlyphList gl, Region clip)
     {
         int[] bounds = gl.getBounds();
@@ -376,9 +376,9 @@ public final class GeneralRenderer {
         int cx2 = bounds[2];
         int cy2 = bounds[3];
 
-        WritableRaster dstRast =
-            (WritableRaster) sData.getRaster(cx1, cy1, cx2 - cx1, cy2 - cy1);
-        pw.setRaster(dstRast);
+        WritbbleRbster dstRbst =
+            (WritbbleRbster) sDbtb.getRbster(cx1, cy1, cx2 - cx1, cy2 - cy1);
+        pw.setRbster(dstRbst);
 
         int num = gl.getNumGlyphs();
         for (int i = 0; i < num; i++) {
@@ -401,11 +401,11 @@ public final class GeneralRenderer {
             if (gx2 > cx2) gx2 = cx2;
             if (gy2 > cy2) gy2 = cy2;
             if (gx2 > gx1 && gy2 > gy1) {
-                byte alpha[] = gl.getGrayBits();
+                byte blphb[] = gl.getGrbyBits();
                 w -= (gx2 - gx1);
                 for (int y = gy1; y < gy2; y++) {
                     for (int x = gx1; x < gx2; x++) {
-                        if (alpha[off++] < 0) {
+                        if (blphb[off++] < 0) {
                             pw.writePixel(x, y);
                         }
                     }
@@ -415,45 +415,45 @@ public final class GeneralRenderer {
         }
     }
 
-    static final int OUTCODE_TOP     = 1;
-    static final int OUTCODE_BOTTOM  = 2;
-    static final int OUTCODE_LEFT    = 4;
-    static final int OUTCODE_RIGHT   = 8;
+    stbtic finbl int OUTCODE_TOP     = 1;
+    stbtic finbl int OUTCODE_BOTTOM  = 2;
+    stbtic finbl int OUTCODE_LEFT    = 4;
+    stbtic finbl int OUTCODE_RIGHT   = 8;
 
-    static int outcode(int x, int y, int xmin, int ymin, int xmax, int ymax) {
+    stbtic int outcode(int x, int y, int xmin, int ymin, int xmbx, int ymbx) {
         int code;
         if (y < ymin) {
             code = OUTCODE_TOP;
-        } else if (y > ymax) {
+        } else if (y > ymbx) {
             code = OUTCODE_BOTTOM;
         } else {
             code = 0;
         }
         if (x < xmin) {
             code |= OUTCODE_LEFT;
-        } else if (x > xmax) {
+        } else if (x > xmbx) {
             code |= OUTCODE_RIGHT;
         }
         return code;
     }
 
-    public static boolean adjustLine(int [] boundPts,
+    public stbtic boolebn bdjustLine(int [] boundPts,
                                      int cxmin, int cymin, int cx2, int cy2)
     {
-        int cxmax = cx2 - 1;
-        int cymax = cy2 - 1;
+        int cxmbx = cx2 - 1;
+        int cymbx = cy2 - 1;
         int x1 = boundPts[0];
         int y1 = boundPts[1];
         int x2 = boundPts[2];
         int y2 = boundPts[3];
 
-        if ((cxmax < cxmin) || (cymax < cymin)) {
-            return false;
+        if ((cxmbx < cxmin) || (cymbx < cymin)) {
+            return fblse;
         }
 
         if (x1 == x2) {
-            if (x1 < cxmin || x1 > cxmax) {
-                return false;
+            if (x1 < cxmin || x1 > cxmbx) {
+                return fblse;
             }
             if (y1 > y2) {
                 int t = y1;
@@ -463,17 +463,17 @@ public final class GeneralRenderer {
             if (y1 < cymin) {
                 y1 = cymin;
             }
-            if (y2 > cymax) {
-                y2 = cymax;
+            if (y2 > cymbx) {
+                y2 = cymbx;
             }
             if (y1 > y2) {
-                return false;
+                return fblse;
             }
             boundPts[1] = y1;
             boundPts[3] = y2;
         } else if (y1 == y2) {
-            if (y1 < cymin || y1 > cymax) {
-                return false;
+            if (y1 < cymin || y1 > cymbx) {
+                return fblse;
             }
             if (x1 > x2) {
                 int t = x1;
@@ -483,11 +483,11 @@ public final class GeneralRenderer {
             if (x1 < cxmin) {
                 x1 = cxmin;
             }
-            if (x2 > cxmax) {
-                x2 = cxmax;
+            if (x2 > cxmbx) {
+                x2 = cxmbx;
             }
             if (x1 > x2) {
-                return false;
+                return fblse;
             }
             boundPts[0] = x1;
             boundPts[2] = x2;
@@ -496,33 +496,33 @@ public final class GeneralRenderer {
             int outcode1, outcode2;
             int dx = x2 - x1;
             int dy = y2 - y1;
-            int ax = (dx < 0) ? -dx : dx;
-            int ay = (dy < 0) ? -dy : dy;
-            boolean xmajor = (ax >= ay);
+            int bx = (dx < 0) ? -dx : dx;
+            int by = (dy < 0) ? -dy : dy;
+            boolebn xmbjor = (bx >= by);
 
-            outcode1 = outcode(x1, y1, cxmin, cymin, cxmax, cymax);
-            outcode2 = outcode(x2, y2, cxmin, cymin, cxmax, cymax);
+            outcode1 = outcode(x1, y1, cxmin, cymin, cxmbx, cymbx);
+            outcode2 = outcode(x2, y2, cxmin, cymin, cxmbx, cymbx);
             while ((outcode1 | outcode2) != 0) {
                 int xsteps, ysteps;
                 if ((outcode1 & outcode2) != 0) {
-                    return false;
+                    return fblse;
                 }
                 if (outcode1 != 0) {
                     if (0 != (outcode1 & (OUTCODE_TOP | OUTCODE_BOTTOM))) {
                         if (0 != (outcode1 & OUTCODE_TOP)) {
                             y1 = cymin;
                         } else {
-                            y1 = cymax;
+                            y1 = cymbx;
                         }
                         ysteps = y1 - boundPts[1];
                         if (ysteps < 0) {
                             ysteps = -ysteps;
                         }
-                        xsteps = 2 * ysteps * ax + ay;
-                        if (xmajor) {
-                            xsteps += ay - ax - 1;
+                        xsteps = 2 * ysteps * bx + by;
+                        if (xmbjor) {
+                            xsteps += by - bx - 1;
                         }
-                        xsteps = xsteps / (2 * ay);
+                        xsteps = xsteps / (2 * by);
                         if (dx < 0) {
                             xsteps = -xsteps;
                         }
@@ -532,41 +532,41 @@ public final class GeneralRenderer {
                         if (0 != (outcode1 & OUTCODE_LEFT)) {
                             x1 = cxmin;
                         } else {
-                            x1 = cxmax;
+                            x1 = cxmbx;
                         }
                         xsteps = x1 - boundPts[0];
                         if (xsteps < 0) {
                             xsteps = -xsteps;
                         }
-                        ysteps = 2 * xsteps * ay + ax;
-                        if (!xmajor) {
-                            ysteps += ax - ay - 1;
+                        ysteps = 2 * xsteps * by + bx;
+                        if (!xmbjor) {
+                            ysteps += bx - by - 1;
                         }
-                        ysteps = ysteps / (2 * ax);
+                        ysteps = ysteps / (2 * bx);
                         if (dy < 0) {
                             ysteps = -ysteps;
                         }
                         y1 = boundPts[1] + ysteps;
                     }
-                    outcode1 = outcode(x1, y1, cxmin, cymin, cxmax, cymax);
+                    outcode1 = outcode(x1, y1, cxmin, cymin, cxmbx, cymbx);
                 } else {
                     if (0 != (outcode2 & (OUTCODE_TOP | OUTCODE_BOTTOM))) {
                         if (0 != (outcode2 & OUTCODE_TOP)) {
                             y2 = cymin;
                         } else {
-                            y2 = cymax;
+                            y2 = cymbx;
                         }
                         ysteps = y2 - boundPts[3];
                         if (ysteps < 0) {
                             ysteps = -ysteps;
                         }
-                        xsteps = 2 * ysteps * ax + ay;
-                        if (xmajor) {
-                            xsteps += ay - ax;
+                        xsteps = 2 * ysteps * bx + by;
+                        if (xmbjor) {
+                            xsteps += by - bx;
                         } else {
                             xsteps -= 1;
                         }
-                        xsteps = xsteps / (2 * ay);
+                        xsteps = xsteps / (2 * by);
                         if (dx > 0) {
                             xsteps = -xsteps;
                         }
@@ -576,25 +576,25 @@ public final class GeneralRenderer {
                         if (0 != (outcode2 & OUTCODE_LEFT)) {
                             x2 = cxmin;
                         } else {
-                            x2 = cxmax;
+                            x2 = cxmbx;
                         }
                         xsteps = x2 - boundPts[2];
                         if (xsteps < 0) {
                             xsteps = -xsteps;
                         }
-                        ysteps = 2 * xsteps * ay + ax;
-                        if (xmajor) {
+                        ysteps = 2 * xsteps * by + bx;
+                        if (xmbjor) {
                             ysteps -= 1;
                         } else {
-                            ysteps += ax - ay;
+                            ysteps += bx - by;
                         }
-                        ysteps = ysteps / (2 * ax);
+                        ysteps = ysteps / (2 * bx);
                         if (dy > 0) {
                             ysteps = -ysteps;
                         }
                         y2 = boundPts[3] + ysteps;
                     }
-                    outcode2 = outcode(x2, y2, cxmin, cymin, cxmax, cymax);
+                    outcode2 = outcode(x2, y2, cxmin, cymin, cxmbx, cymbx);
                 }
             }
             boundPts[0] = x1;
@@ -603,522 +603,522 @@ public final class GeneralRenderer {
             boundPts[3] = y2;
             boundPts[4] = dx;
             boundPts[5] = dy;
-            boundPts[6] = ax;
-            boundPts[7] = ay;
+            boundPts[6] = bx;
+            boundPts[7] = by;
         }
         return true;
     }
 
-    static PixelWriter createSolidPixelWriter(SunGraphics2D sg2d,
-                                              SurfaceData sData)
+    stbtic PixelWriter crebteSolidPixelWriter(SunGrbphics2D sg2d,
+                                              SurfbceDbtb sDbtb)
     {
-        ColorModel dstCM = sData.getColorModel();
-        Object srcPixel = dstCM.getDataElements(sg2d.eargb, null);
+        ColorModel dstCM = sDbtb.getColorModel();
+        Object srcPixel = dstCM.getDbtbElements(sg2d.ebrgb, null);
 
         return new SolidPixelWriter(srcPixel);
     }
 
-    static PixelWriter createXorPixelWriter(SunGraphics2D sg2d,
-                                            SurfaceData sData)
+    stbtic PixelWriter crebteXorPixelWriter(SunGrbphics2D sg2d,
+                                            SurfbceDbtb sDbtb)
     {
-        ColorModel dstCM = sData.getColorModel();
+        ColorModel dstCM = sDbtb.getColorModel();
 
-        Object srcPixel = dstCM.getDataElements(sg2d.eargb, null);
+        Object srcPixel = dstCM.getDbtbElements(sg2d.ebrgb, null);
 
         XORComposite comp = (XORComposite)sg2d.getComposite();
         int xorrgb = comp.getXorColor().getRGB();
-        Object xorPixel = dstCM.getDataElements(xorrgb, null);
+        Object xorPixel = dstCM.getDbtbElements(xorrgb, null);
 
-        switch (dstCM.getTransferType()) {
-        case DataBuffer.TYPE_BYTE:
-            return new XorPixelWriter.ByteData(srcPixel, xorPixel);
-        case DataBuffer.TYPE_SHORT:
-        case DataBuffer.TYPE_USHORT:
-            return new XorPixelWriter.ShortData(srcPixel, xorPixel);
-        case DataBuffer.TYPE_INT:
-            return new XorPixelWriter.IntData(srcPixel, xorPixel);
-        case DataBuffer.TYPE_FLOAT:
-            return new XorPixelWriter.FloatData(srcPixel, xorPixel);
-        case DataBuffer.TYPE_DOUBLE:
-            return new XorPixelWriter.DoubleData(srcPixel, xorPixel);
-        default:
-            throw new InternalError("Unsupported XOR pixel type");
+        switch (dstCM.getTrbnsferType()) {
+        cbse DbtbBuffer.TYPE_BYTE:
+            return new XorPixelWriter.ByteDbtb(srcPixel, xorPixel);
+        cbse DbtbBuffer.TYPE_SHORT:
+        cbse DbtbBuffer.TYPE_USHORT:
+            return new XorPixelWriter.ShortDbtb(srcPixel, xorPixel);
+        cbse DbtbBuffer.TYPE_INT:
+            return new XorPixelWriter.IntDbtb(srcPixel, xorPixel);
+        cbse DbtbBuffer.TYPE_FLOAT:
+            return new XorPixelWriter.FlobtDbtb(srcPixel, xorPixel);
+        cbse DbtbBuffer.TYPE_DOUBLE:
+            return new XorPixelWriter.DoubleDbtb(srcPixel, xorPixel);
+        defbult:
+            throw new InternblError("Unsupported XOR pixel type");
         }
     }
 }
 
-class SetFillRectANY extends FillRect {
+clbss SetFillRectANY extends FillRect {
     SetFillRectANY() {
-        super(SurfaceType.AnyColor,
-              CompositeType.SrcNoEa,
-              SurfaceType.Any);
+        super(SurfbceType.AnyColor,
+              CompositeType.SrcNoEb,
+              SurfbceType.Any);
     }
 
-    public void FillRect(SunGraphics2D sg2d, SurfaceData sData,
+    public void FillRect(SunGrbphics2D sg2d, SurfbceDbtb sDbtb,
                          int x, int y, int w, int h)
     {
-        PixelWriter pw = GeneralRenderer.createSolidPixelWriter(sg2d, sData);
+        PixelWriter pw = GenerblRenderer.crebteSolidPixelWriter(sg2d, sDbtb);
 
         Region r = sg2d.getCompClip().getBoundsIntersectionXYWH(x, y, w, h);
 
-        GeneralRenderer.doSetRect(sData, pw,
+        GenerblRenderer.doSetRect(sDbtb, pw,
                                   r.getLoX(), r.getLoY(),
                                   r.getHiX(), r.getHiY());
     }
 }
 
-class PixelWriterDrawHandler extends ProcessPath.DrawHandler {
+clbss PixelWriterDrbwHbndler extends ProcessPbth.DrbwHbndler {
     PixelWriter pw;
-    SurfaceData sData;
+    SurfbceDbtb sDbtb;
     Region clip;
 
-    public PixelWriterDrawHandler(SurfaceData sData, PixelWriter pw,
+    public PixelWriterDrbwHbndler(SurfbceDbtb sDbtb, PixelWriter pw,
                                   Region clip, int strokeHint) {
         super(clip.getLoX(), clip.getLoY(),
               clip.getHiX(), clip.getHiY(),
               strokeHint);
-        this.sData = sData;
+        this.sDbtb = sDbtb;
         this.pw = pw;
         this.clip = clip;
     }
 
-    public void drawLine(int x0, int y0, int x1, int y1) {
-        GeneralRenderer.doDrawLine(sData, pw, null, clip,
+    public void drbwLine(int x0, int y0, int x1, int y1) {
+        GenerblRenderer.doDrbwLine(sDbtb, pw, null, clip,
                                    x0, y0, x1, y1);
     }
 
-    public void drawPixel(int x0, int y0) {
-        GeneralRenderer.doSetRect(sData, pw, x0, y0, x0 + 1, y0 + 1);
+    public void drbwPixel(int x0, int y0) {
+        GenerblRenderer.doSetRect(sDbtb, pw, x0, y0, x0 + 1, y0 + 1);
     }
 
-    public void drawScanline(int x0, int x1, int y0) {
-        GeneralRenderer.doSetRect(sData, pw, x0, y0, x1 + 1, y0 + 1);
+    public void drbwScbnline(int x0, int x1, int y0) {
+        GenerblRenderer.doSetRect(sDbtb, pw, x0, y0, x1 + 1, y0 + 1);
     }
 }
 
-class SetFillPathANY extends FillPath {
-    SetFillPathANY() {
-        super(SurfaceType.AnyColor, CompositeType.SrcNoEa,
-              SurfaceType.Any);
+clbss SetFillPbthANY extends FillPbth {
+    SetFillPbthANY() {
+        super(SurfbceType.AnyColor, CompositeType.SrcNoEb,
+              SurfbceType.Any);
     }
 
-    public void FillPath(SunGraphics2D sg2d, SurfaceData sData,
-                         int transx, int transy,
-                         Path2D.Float p2df)
+    public void FillPbth(SunGrbphics2D sg2d, SurfbceDbtb sDbtb,
+                         int trbnsx, int trbnsy,
+                         Pbth2D.Flobt p2df)
     {
-        PixelWriter pw = GeneralRenderer.createSolidPixelWriter(sg2d, sData);
-        ProcessPath.fillPath(
-            new PixelWriterDrawHandler(sData, pw, sg2d.getCompClip(),
+        PixelWriter pw = GenerblRenderer.crebteSolidPixelWriter(sg2d, sDbtb);
+        ProcessPbth.fillPbth(
+            new PixelWriterDrbwHbndler(sDbtb, pw, sg2d.getCompClip(),
                                        sg2d.strokeHint),
-            p2df, transx, transy);
+            p2df, trbnsx, trbnsy);
     }
 }
 
-class SetFillSpansANY extends FillSpans {
-    SetFillSpansANY() {
-        super(SurfaceType.AnyColor,
-              CompositeType.SrcNoEa,
-              SurfaceType.Any);
+clbss SetFillSpbnsANY extends FillSpbns {
+    SetFillSpbnsANY() {
+        super(SurfbceType.AnyColor,
+              CompositeType.SrcNoEb,
+              SurfbceType.Any);
     }
 
-    public void FillSpans(SunGraphics2D sg2d, SurfaceData sData,
-                          SpanIterator si)
+    public void FillSpbns(SunGrbphics2D sg2d, SurfbceDbtb sDbtb,
+                          SpbnIterbtor si)
     {
-        PixelWriter pw = GeneralRenderer.createSolidPixelWriter(sg2d, sData);
+        PixelWriter pw = GenerblRenderer.crebteSolidPixelWriter(sg2d, sDbtb);
 
-        int span[] = new int[4];
-        while (si.nextSpan(span)) {
-            GeneralRenderer.doSetRect(sData, pw,
-                                      span[0], span[1], span[2], span[3]);
+        int spbn[] = new int[4];
+        while (si.nextSpbn(spbn)) {
+            GenerblRenderer.doSetRect(sDbtb, pw,
+                                      spbn[0], spbn[1], spbn[2], spbn[3]);
         }
     }
 }
 
-class SetDrawLineANY extends DrawLine {
-    SetDrawLineANY() {
-        super(SurfaceType.AnyColor,
-              CompositeType.SrcNoEa,
-              SurfaceType.Any);
+clbss SetDrbwLineANY extends DrbwLine {
+    SetDrbwLineANY() {
+        super(SurfbceType.AnyColor,
+              CompositeType.SrcNoEb,
+              SurfbceType.Any);
     }
 
-    public void DrawLine(SunGraphics2D sg2d, SurfaceData sData,
+    public void DrbwLine(SunGrbphics2D sg2d, SurfbceDbtb sDbtb,
                          int x1, int y1, int x2, int y2)
     {
-        PixelWriter pw = GeneralRenderer.createSolidPixelWriter(sg2d, sData);
+        PixelWriter pw = GenerblRenderer.crebteSolidPixelWriter(sg2d, sDbtb);
 
         if (y1 >= y2) {
-            GeneralRenderer.doDrawLine(sData, pw, null,
+            GenerblRenderer.doDrbwLine(sDbtb, pw, null,
                                        sg2d.getCompClip(),
                                        x2, y2, x1, y1);
         } else {
-            GeneralRenderer.doDrawLine(sData, pw, null,
+            GenerblRenderer.doDrbwLine(sDbtb, pw, null,
                                        sg2d.getCompClip(),
                                        x1, y1, x2, y2);
         }
     }
 }
 
-class SetDrawPolygonsANY extends DrawPolygons {
-    SetDrawPolygonsANY() {
-        super(SurfaceType.AnyColor,
-              CompositeType.SrcNoEa,
-              SurfaceType.Any);
+clbss SetDrbwPolygonsANY extends DrbwPolygons {
+    SetDrbwPolygonsANY() {
+        super(SurfbceType.AnyColor,
+              CompositeType.SrcNoEb,
+              SurfbceType.Any);
     }
 
-    public void DrawPolygons(SunGraphics2D sg2d, SurfaceData sData,
+    public void DrbwPolygons(SunGrbphics2D sg2d, SurfbceDbtb sDbtb,
                              int xPoints[], int yPoints[],
                              int nPoints[], int numPolys,
-                             int transx, int transy,
-                             boolean close)
+                             int trbnsx, int trbnsy,
+                             boolebn close)
     {
-        PixelWriter pw = GeneralRenderer.createSolidPixelWriter(sg2d, sData);
+        PixelWriter pw = GenerblRenderer.crebteSolidPixelWriter(sg2d, sDbtb);
 
         int off = 0;
         Region clip = sg2d.getCompClip();
         for (int i = 0; i < numPolys; i++) {
             int numpts = nPoints[i];
-            GeneralRenderer.doDrawPoly(sData, pw,
+            GenerblRenderer.doDrbwPoly(sDbtb, pw,
                                        xPoints, yPoints, off, numpts,
-                                       clip, transx, transy, close);
+                                       clip, trbnsx, trbnsy, close);
             off += numpts;
         }
     }
 }
 
-class SetDrawPathANY extends DrawPath {
-    SetDrawPathANY() {
-        super(SurfaceType.AnyColor,
-              CompositeType.SrcNoEa,
-              SurfaceType.Any);
+clbss SetDrbwPbthANY extends DrbwPbth {
+    SetDrbwPbthANY() {
+        super(SurfbceType.AnyColor,
+              CompositeType.SrcNoEb,
+              SurfbceType.Any);
     }
 
-    public void DrawPath(SunGraphics2D sg2d, SurfaceData sData,
-                         int transx, int transy,
-                         Path2D.Float p2df)
+    public void DrbwPbth(SunGrbphics2D sg2d, SurfbceDbtb sDbtb,
+                         int trbnsx, int trbnsy,
+                         Pbth2D.Flobt p2df)
     {
-        PixelWriter pw = GeneralRenderer.createSolidPixelWriter(sg2d, sData);
-        ProcessPath.drawPath(
-            new PixelWriterDrawHandler(sData, pw, sg2d.getCompClip(),
+        PixelWriter pw = GenerblRenderer.crebteSolidPixelWriter(sg2d, sDbtb);
+        ProcessPbth.drbwPbth(
+            new PixelWriterDrbwHbndler(sDbtb, pw, sg2d.getCompClip(),
                                        sg2d.strokeHint),
-            p2df, transx, transy
+            p2df, trbnsx, trbnsy
         );
     }
 }
 
-class SetDrawRectANY extends DrawRect {
-    SetDrawRectANY() {
-        super(SurfaceType.AnyColor,
-              CompositeType.SrcNoEa,
-              SurfaceType.Any);
+clbss SetDrbwRectANY extends DrbwRect {
+    SetDrbwRectANY() {
+        super(SurfbceType.AnyColor,
+              CompositeType.SrcNoEb,
+              SurfbceType.Any);
     }
 
-    public void DrawRect(SunGraphics2D sg2d, SurfaceData sData,
+    public void DrbwRect(SunGrbphics2D sg2d, SurfbceDbtb sDbtb,
                          int x, int y, int w, int h)
     {
-        PixelWriter pw = GeneralRenderer.createSolidPixelWriter(sg2d, sData);
+        PixelWriter pw = GenerblRenderer.crebteSolidPixelWriter(sg2d, sDbtb);
 
-        GeneralRenderer.doDrawRect(pw, sg2d, sData, x, y, w, h);
+        GenerblRenderer.doDrbwRect(pw, sg2d, sDbtb, x, y, w, h);
     }
 }
 
-class XorFillRectANY extends FillRect {
+clbss XorFillRectANY extends FillRect {
     XorFillRectANY() {
-        super(SurfaceType.AnyColor,
+        super(SurfbceType.AnyColor,
               CompositeType.Xor,
-              SurfaceType.Any);
+              SurfbceType.Any);
     }
 
-    public void FillRect(SunGraphics2D sg2d, SurfaceData sData,
+    public void FillRect(SunGrbphics2D sg2d, SurfbceDbtb sDbtb,
                             int x, int y, int w, int h)
     {
-        PixelWriter pw = GeneralRenderer.createXorPixelWriter(sg2d, sData);
+        PixelWriter pw = GenerblRenderer.crebteXorPixelWriter(sg2d, sDbtb);
 
         Region r = sg2d.getCompClip().getBoundsIntersectionXYWH(x, y, w, h);
 
-        GeneralRenderer.doSetRect(sData, pw,
+        GenerblRenderer.doSetRect(sDbtb, pw,
                                   r.getLoX(), r.getLoY(),
                                   r.getHiX(), r.getHiY());
     }
 }
 
-class XorFillPathANY extends FillPath {
-    XorFillPathANY() {
-        super(SurfaceType.AnyColor, CompositeType.Xor,
-              SurfaceType.Any);
+clbss XorFillPbthANY extends FillPbth {
+    XorFillPbthANY() {
+        super(SurfbceType.AnyColor, CompositeType.Xor,
+              SurfbceType.Any);
     }
 
-    public void FillPath(SunGraphics2D sg2d, SurfaceData sData,
-                         int transx, int transy,
-                         Path2D.Float p2df)
+    public void FillPbth(SunGrbphics2D sg2d, SurfbceDbtb sDbtb,
+                         int trbnsx, int trbnsy,
+                         Pbth2D.Flobt p2df)
     {
-        PixelWriter pw = GeneralRenderer.createXorPixelWriter(sg2d, sData);
-        ProcessPath.fillPath(
-            new PixelWriterDrawHandler(sData, pw, sg2d.getCompClip(),
+        PixelWriter pw = GenerblRenderer.crebteXorPixelWriter(sg2d, sDbtb);
+        ProcessPbth.fillPbth(
+            new PixelWriterDrbwHbndler(sDbtb, pw, sg2d.getCompClip(),
                                        sg2d.strokeHint),
-            p2df, transx, transy);
+            p2df, trbnsx, trbnsy);
     }
 }
 
-class XorFillSpansANY extends FillSpans {
-    XorFillSpansANY() {
-        super(SurfaceType.AnyColor,
+clbss XorFillSpbnsANY extends FillSpbns {
+    XorFillSpbnsANY() {
+        super(SurfbceType.AnyColor,
               CompositeType.Xor,
-              SurfaceType.Any);
+              SurfbceType.Any);
     }
 
-    public void FillSpans(SunGraphics2D sg2d, SurfaceData sData,
-                          SpanIterator si)
+    public void FillSpbns(SunGrbphics2D sg2d, SurfbceDbtb sDbtb,
+                          SpbnIterbtor si)
     {
-        PixelWriter pw = GeneralRenderer.createXorPixelWriter(sg2d, sData);
+        PixelWriter pw = GenerblRenderer.crebteXorPixelWriter(sg2d, sDbtb);
 
-        int span[] = new int[4];
-        while (si.nextSpan(span)) {
-            GeneralRenderer.doSetRect(sData, pw,
-                                      span[0], span[1], span[2], span[3]);
+        int spbn[] = new int[4];
+        while (si.nextSpbn(spbn)) {
+            GenerblRenderer.doSetRect(sDbtb, pw,
+                                      spbn[0], spbn[1], spbn[2], spbn[3]);
         }
     }
 }
 
-class XorDrawLineANY extends DrawLine {
-    XorDrawLineANY() {
-        super(SurfaceType.AnyColor,
+clbss XorDrbwLineANY extends DrbwLine {
+    XorDrbwLineANY() {
+        super(SurfbceType.AnyColor,
               CompositeType.Xor,
-              SurfaceType.Any);
+              SurfbceType.Any);
     }
 
-    public void DrawLine(SunGraphics2D sg2d, SurfaceData sData,
+    public void DrbwLine(SunGrbphics2D sg2d, SurfbceDbtb sDbtb,
                          int x1, int y1, int x2, int y2)
     {
-        PixelWriter pw = GeneralRenderer.createXorPixelWriter(sg2d, sData);
+        PixelWriter pw = GenerblRenderer.crebteXorPixelWriter(sg2d, sDbtb);
 
         if (y1 >= y2) {
-            GeneralRenderer.doDrawLine(sData, pw, null,
+            GenerblRenderer.doDrbwLine(sDbtb, pw, null,
                                        sg2d.getCompClip(),
                                        x2, y2, x1, y1);
         } else {
-            GeneralRenderer.doDrawLine(sData, pw, null,
+            GenerblRenderer.doDrbwLine(sDbtb, pw, null,
                                        sg2d.getCompClip(),
                                        x1, y1, x2, y2);
         }
     }
 }
 
-class XorDrawPolygonsANY extends DrawPolygons {
-    XorDrawPolygonsANY() {
-        super(SurfaceType.AnyColor,
+clbss XorDrbwPolygonsANY extends DrbwPolygons {
+    XorDrbwPolygonsANY() {
+        super(SurfbceType.AnyColor,
               CompositeType.Xor,
-              SurfaceType.Any);
+              SurfbceType.Any);
     }
 
-    public void DrawPolygons(SunGraphics2D sg2d, SurfaceData sData,
+    public void DrbwPolygons(SunGrbphics2D sg2d, SurfbceDbtb sDbtb,
                              int xPoints[], int yPoints[],
                              int nPoints[], int numPolys,
-                             int transx, int transy,
-                             boolean close)
+                             int trbnsx, int trbnsy,
+                             boolebn close)
     {
-        PixelWriter pw = GeneralRenderer.createXorPixelWriter(sg2d, sData);
+        PixelWriter pw = GenerblRenderer.crebteXorPixelWriter(sg2d, sDbtb);
 
         int off = 0;
         Region clip = sg2d.getCompClip();
         for (int i = 0; i < numPolys; i++) {
             int numpts = nPoints[i];
-            GeneralRenderer.doDrawPoly(sData, pw,
+            GenerblRenderer.doDrbwPoly(sDbtb, pw,
                                        xPoints, yPoints, off, numpts,
-                                       clip, transx, transy, close);
+                                       clip, trbnsx, trbnsy, close);
             off += numpts;
         }
     }
 }
 
-class XorDrawPathANY extends DrawPath {
-    XorDrawPathANY() {
-        super(SurfaceType.AnyColor,
+clbss XorDrbwPbthANY extends DrbwPbth {
+    XorDrbwPbthANY() {
+        super(SurfbceType.AnyColor,
               CompositeType.Xor,
-              SurfaceType.Any);
+              SurfbceType.Any);
     }
 
-    public void DrawPath(SunGraphics2D sg2d, SurfaceData sData,
-                         int transx, int transy, Path2D.Float p2df)
+    public void DrbwPbth(SunGrbphics2D sg2d, SurfbceDbtb sDbtb,
+                         int trbnsx, int trbnsy, Pbth2D.Flobt p2df)
     {
-        PixelWriter pw = GeneralRenderer.createXorPixelWriter(sg2d, sData);
-        ProcessPath.drawPath(
-            new PixelWriterDrawHandler(sData, pw, sg2d.getCompClip(),
+        PixelWriter pw = GenerblRenderer.crebteXorPixelWriter(sg2d, sDbtb);
+        ProcessPbth.drbwPbth(
+            new PixelWriterDrbwHbndler(sDbtb, pw, sg2d.getCompClip(),
                                        sg2d.strokeHint),
-            p2df, transx, transy
+            p2df, trbnsx, trbnsy
         );
     }
 }
 
-class XorDrawRectANY extends DrawRect {
-    XorDrawRectANY() {
-        super(SurfaceType.AnyColor,
+clbss XorDrbwRectANY extends DrbwRect {
+    XorDrbwRectANY() {
+        super(SurfbceType.AnyColor,
               CompositeType.Xor,
-              SurfaceType.Any);
+              SurfbceType.Any);
     }
 
-    public void DrawRect(SunGraphics2D sg2d, SurfaceData sData,
+    public void DrbwRect(SunGrbphics2D sg2d, SurfbceDbtb sDbtb,
                          int x, int y, int w, int h)
     {
-        PixelWriter pw = GeneralRenderer.createXorPixelWriter(sg2d, sData);
+        PixelWriter pw = GenerblRenderer.crebteXorPixelWriter(sg2d, sDbtb);
 
-        GeneralRenderer.doDrawRect(pw, sg2d, sData, x, y, w, h);
+        GenerblRenderer.doDrbwRect(pw, sg2d, sDbtb, x, y, w, h);
     }
 }
 
-class XorDrawGlyphListANY extends DrawGlyphList {
-    XorDrawGlyphListANY() {
-        super(SurfaceType.AnyColor,
+clbss XorDrbwGlyphListANY extends DrbwGlyphList {
+    XorDrbwGlyphListANY() {
+        super(SurfbceType.AnyColor,
               CompositeType.Xor,
-              SurfaceType.Any);
+              SurfbceType.Any);
     }
 
-    public void DrawGlyphList(SunGraphics2D sg2d, SurfaceData sData,
+    public void DrbwGlyphList(SunGrbphics2D sg2d, SurfbceDbtb sDbtb,
                               GlyphList gl)
     {
-        PixelWriter pw = GeneralRenderer.createXorPixelWriter(sg2d, sData);
-        GeneralRenderer.doDrawGlyphList(sData, pw, gl, sg2d.getCompClip());
+        PixelWriter pw = GenerblRenderer.crebteXorPixelWriter(sg2d, sDbtb);
+        GenerblRenderer.doDrbwGlyphList(sDbtb, pw, gl, sg2d.getCompClip());
     }
 }
 
-class XorDrawGlyphListAAANY extends DrawGlyphListAA {
-    XorDrawGlyphListAAANY() {
-        super(SurfaceType.AnyColor,
+clbss XorDrbwGlyphListAAANY extends DrbwGlyphListAA {
+    XorDrbwGlyphListAAANY() {
+        super(SurfbceType.AnyColor,
               CompositeType.Xor,
-              SurfaceType.Any);
+              SurfbceType.Any);
     }
 
-    public void DrawGlyphListAA(SunGraphics2D sg2d, SurfaceData sData,
+    public void DrbwGlyphListAA(SunGrbphics2D sg2d, SurfbceDbtb sDbtb,
                                 GlyphList gl)
     {
-        PixelWriter pw = GeneralRenderer.createXorPixelWriter(sg2d, sData);
-        GeneralRenderer.doDrawGlyphList(sData, pw, gl, sg2d.getCompClip());
+        PixelWriter pw = GenerblRenderer.crebteXorPixelWriter(sg2d, sDbtb);
+        GenerblRenderer.doDrbwGlyphList(sDbtb, pw, gl, sg2d.getCompClip());
     }
 }
 
-abstract class PixelWriter {
-    protected WritableRaster dstRast;
+bbstrbct clbss PixelWriter {
+    protected WritbbleRbster dstRbst;
 
-    public void setRaster(WritableRaster dstRast) {
-        this.dstRast = dstRast;
+    public void setRbster(WritbbleRbster dstRbst) {
+        this.dstRbst = dstRbst;
     }
 
-    public abstract void writePixel(int x, int y);
+    public bbstrbct void writePixel(int x, int y);
 }
 
-class SolidPixelWriter extends PixelWriter {
-    protected Object srcData;
+clbss SolidPixelWriter extends PixelWriter {
+    protected Object srcDbtb;
 
     SolidPixelWriter(Object srcPixel) {
-        this.srcData = srcPixel;
+        this.srcDbtb = srcPixel;
     }
 
     public void writePixel(int x, int y) {
-        dstRast.setDataElements(x, y, srcData);
+        dstRbst.setDbtbElements(x, y, srcDbtb);
     }
 }
 
-abstract class XorPixelWriter extends PixelWriter {
+bbstrbct clbss XorPixelWriter extends PixelWriter {
     protected ColorModel dstCM;
 
     public void writePixel(int x, int y) {
-        Object dstPixel = dstRast.getDataElements(x, y, null);
+        Object dstPixel = dstRbst.getDbtbElements(x, y, null);
         xorPixel(dstPixel);
-        dstRast.setDataElements(x, y, dstPixel);
+        dstRbst.setDbtbElements(x, y, dstPixel);
     }
 
-    protected abstract void xorPixel(Object pixData);
+    protected bbstrbct void xorPixel(Object pixDbtb);
 
-    public static class ByteData extends XorPixelWriter {
-        byte[] xorData;
+    public stbtic clbss ByteDbtb extends XorPixelWriter {
+        byte[] xorDbtb;
 
-        ByteData(Object srcPixel, Object xorPixel) {
-            this.xorData = (byte[]) srcPixel;
+        ByteDbtb(Object srcPixel, Object xorPixel) {
+            this.xorDbtb = (byte[]) srcPixel;
             xorPixel(xorPixel);
-            this.xorData = (byte[]) xorPixel;
+            this.xorDbtb = (byte[]) xorPixel;
         }
 
-        protected void xorPixel(Object pixData) {
-            byte[] dstData = (byte[]) pixData;
-            for (int i = 0; i < dstData.length; i++) {
-                dstData[i] ^= xorData[i];
+        protected void xorPixel(Object pixDbtb) {
+            byte[] dstDbtb = (byte[]) pixDbtb;
+            for (int i = 0; i < dstDbtb.length; i++) {
+                dstDbtb[i] ^= xorDbtb[i];
             }
         }
     }
 
-    public static class ShortData extends XorPixelWriter {
-        short[] xorData;
+    public stbtic clbss ShortDbtb extends XorPixelWriter {
+        short[] xorDbtb;
 
-        ShortData(Object srcPixel, Object xorPixel) {
-            this.xorData = (short[]) srcPixel;
+        ShortDbtb(Object srcPixel, Object xorPixel) {
+            this.xorDbtb = (short[]) srcPixel;
             xorPixel(xorPixel);
-            this.xorData = (short[]) xorPixel;
+            this.xorDbtb = (short[]) xorPixel;
         }
 
-        protected void xorPixel(Object pixData) {
-            short[] dstData = (short[]) pixData;
-            for (int i = 0; i < dstData.length; i++) {
-                dstData[i] ^= xorData[i];
+        protected void xorPixel(Object pixDbtb) {
+            short[] dstDbtb = (short[]) pixDbtb;
+            for (int i = 0; i < dstDbtb.length; i++) {
+                dstDbtb[i] ^= xorDbtb[i];
             }
         }
     }
 
-    public static class IntData extends XorPixelWriter {
-        int[] xorData;
+    public stbtic clbss IntDbtb extends XorPixelWriter {
+        int[] xorDbtb;
 
-        IntData(Object srcPixel, Object xorPixel) {
-            this.xorData = (int[]) srcPixel;
+        IntDbtb(Object srcPixel, Object xorPixel) {
+            this.xorDbtb = (int[]) srcPixel;
             xorPixel(xorPixel);
-            this.xorData = (int[]) xorPixel;
+            this.xorDbtb = (int[]) xorPixel;
         }
 
-        protected void xorPixel(Object pixData) {
-            int[] dstData = (int[]) pixData;
-            for (int i = 0; i < dstData.length; i++) {
-                dstData[i] ^= xorData[i];
+        protected void xorPixel(Object pixDbtb) {
+            int[] dstDbtb = (int[]) pixDbtb;
+            for (int i = 0; i < dstDbtb.length; i++) {
+                dstDbtb[i] ^= xorDbtb[i];
             }
         }
     }
 
-    public static class FloatData extends XorPixelWriter {
-        int[] xorData;
+    public stbtic clbss FlobtDbtb extends XorPixelWriter {
+        int[] xorDbtb;
 
-        FloatData(Object srcPixel, Object xorPixel) {
-            float[] srcData = (float[]) srcPixel;
-            float[] xorData = (float[]) xorPixel;
-            this.xorData = new int[srcData.length];
-            for (int i = 0; i < srcData.length; i++) {
-                this.xorData[i] = (Float.floatToIntBits(srcData[i]) ^
-                                   Float.floatToIntBits(xorData[i]));
+        FlobtDbtb(Object srcPixel, Object xorPixel) {
+            flobt[] srcDbtb = (flobt[]) srcPixel;
+            flobt[] xorDbtb = (flobt[]) xorPixel;
+            this.xorDbtb = new int[srcDbtb.length];
+            for (int i = 0; i < srcDbtb.length; i++) {
+                this.xorDbtb[i] = (Flobt.flobtToIntBits(srcDbtb[i]) ^
+                                   Flobt.flobtToIntBits(xorDbtb[i]));
             }
         }
 
-        protected void xorPixel(Object pixData) {
-            float[] dstData = (float[]) pixData;
-            for (int i = 0; i < dstData.length; i++) {
-                int v = Float.floatToIntBits(dstData[i]) ^ xorData[i];
-                dstData[i] = Float.intBitsToFloat(v);
+        protected void xorPixel(Object pixDbtb) {
+            flobt[] dstDbtb = (flobt[]) pixDbtb;
+            for (int i = 0; i < dstDbtb.length; i++) {
+                int v = Flobt.flobtToIntBits(dstDbtb[i]) ^ xorDbtb[i];
+                dstDbtb[i] = Flobt.intBitsToFlobt(v);
             }
         }
     }
 
-    public static class DoubleData extends XorPixelWriter {
-        long[] xorData;
+    public stbtic clbss DoubleDbtb extends XorPixelWriter {
+        long[] xorDbtb;
 
-        DoubleData(Object srcPixel, Object xorPixel) {
-            double[] srcData = (double[]) srcPixel;
-            double[] xorData = (double[]) xorPixel;
-            this.xorData = new long[srcData.length];
-            for (int i = 0; i < srcData.length; i++) {
-                this.xorData[i] = (Double.doubleToLongBits(srcData[i]) ^
-                                   Double.doubleToLongBits(xorData[i]));
+        DoubleDbtb(Object srcPixel, Object xorPixel) {
+            double[] srcDbtb = (double[]) srcPixel;
+            double[] xorDbtb = (double[]) xorPixel;
+            this.xorDbtb = new long[srcDbtb.length];
+            for (int i = 0; i < srcDbtb.length; i++) {
+                this.xorDbtb[i] = (Double.doubleToLongBits(srcDbtb[i]) ^
+                                   Double.doubleToLongBits(xorDbtb[i]));
             }
         }
 
-        protected void xorPixel(Object pixData) {
-            double[] dstData = (double[]) pixData;
-            for (int i = 0; i < dstData.length; i++) {
-                long v = Double.doubleToLongBits(dstData[i]) ^ xorData[i];
-                dstData[i] = Double.longBitsToDouble(v);
+        protected void xorPixel(Object pixDbtb) {
+            double[] dstDbtb = (double[]) pixDbtb;
+            for (int i = 0; i < dstDbtb.length; i++) {
+                long v = Double.doubleToLongBits(dstDbtb[i]) ^ xorDbtb[i];
+                dstDbtb[i] = Double.longBitsToDouble(v);
             }
         }
     }

@@ -1,454 +1,454 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.io;
+pbckbge jbvb.io;
 
-import java.security.*;
-import java.util.Enumeration;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Vector;
-import java.util.Collections;
-import sun.security.util.SecurityConstants;
+import jbvb.security.*;
+import jbvb.util.Enumerbtion;
+import jbvb.util.List;
+import jbvb.util.ArrbyList;
+import jbvb.util.Vector;
+import jbvb.util.Collections;
+import sun.security.util.SecurityConstbnts;
 
 /**
- * This class represents access to a file or directory.  A FilePermission consists
- * of a pathname and a set of actions valid for that pathname.
+ * This clbss represents bccess to b file or directory.  A FilePermission consists
+ * of b pbthnbme bnd b set of bctions vblid for thbt pbthnbme.
  * <P>
- * Pathname is the pathname of the file or directory granted the specified
- * actions. A pathname that ends in "/*" (where "/" is
- * the file separator character, <code>File.separatorChar</code>) indicates
- * all the files and directories contained in that directory. A pathname
- * that ends with "/-" indicates (recursively) all files
- * and subdirectories contained in that directory. A pathname consisting of
- * the special token "&lt;&lt;ALL FILES&gt;&gt;" matches <b>any</b> file.
+ * Pbthnbme is the pbthnbme of the file or directory grbnted the specified
+ * bctions. A pbthnbme thbt ends in "/*" (where "/" is
+ * the file sepbrbtor chbrbcter, <code>File.sepbrbtorChbr</code>) indicbtes
+ * bll the files bnd directories contbined in thbt directory. A pbthnbme
+ * thbt ends with "/-" indicbtes (recursively) bll files
+ * bnd subdirectories contbined in thbt directory. A pbthnbme consisting of
+ * the specibl token "&lt;&lt;ALL FILES&gt;&gt;" mbtches <b>bny</b> file.
  * <P>
- * Note: A pathname consisting of a single "*" indicates all the files
- * in the current directory, while a pathname consisting of a single "-"
- * indicates all the files in the current directory and
- * (recursively) all files and subdirectories contained in the current
+ * Note: A pbthnbme consisting of b single "*" indicbtes bll the files
+ * in the current directory, while b pbthnbme consisting of b single "-"
+ * indicbtes bll the files in the current directory bnd
+ * (recursively) bll files bnd subdirectories contbined in the current
  * directory.
  * <P>
- * The actions to be granted are passed to the constructor in a string containing
- * a list of one or more comma-separated keywords. The possible keywords are
- * "read", "write", "execute", "delete", and "readlink". Their meaning is
- * defined as follows:
+ * The bctions to be grbnted bre pbssed to the constructor in b string contbining
+ * b list of one or more commb-sepbrbted keywords. The possible keywords bre
+ * "rebd", "write", "execute", "delete", bnd "rebdlink". Their mebning is
+ * defined bs follows:
  *
  * <DL>
- *    <DT> read <DD> read permission
+ *    <DT> rebd <DD> rebd permission
  *    <DT> write <DD> write permission
  *    <DT> execute
  *    <DD> execute permission. Allows <code>Runtime.exec</code> to
- *         be called. Corresponds to <code>SecurityManager.checkExec</code>.
+ *         be cblled. Corresponds to <code>SecurityMbnbger.checkExec</code>.
  *    <DT> delete
  *    <DD> delete permission. Allows <code>File.delete</code> to
- *         be called. Corresponds to <code>SecurityManager.checkDelete</code>.
- *    <DT> readlink
- *    <DD> read link permission. Allows the target of a
- *         <a href="../nio/file/package-summary.html#links">symbolic link</a>
- *         to be read by invoking the {@link java.nio.file.Files#readSymbolicLink
- *         readSymbolicLink } method.
+ *         be cblled. Corresponds to <code>SecurityMbnbger.checkDelete</code>.
+ *    <DT> rebdlink
+ *    <DD> rebd link permission. Allows the tbrget of b
+ *         <b href="../nio/file/pbckbge-summbry.html#links">symbolic link</b>
+ *         to be rebd by invoking the {@link jbvb.nio.file.Files#rebdSymbolicLink
+ *         rebdSymbolicLink } method.
  * </DL>
  * <P>
- * The actions string is converted to lowercase before processing.
+ * The bctions string is converted to lowercbse before processing.
  * <P>
- * Be careful when granting FilePermissions. Think about the implications
- * of granting read and especially write access to various files and
- * directories. The "&lt;&lt;ALL FILES&gt;&gt;" permission with write action is
- * especially dangerous. This grants permission to write to the entire
- * file system. One thing this effectively allows is replacement of the
- * system binary, including the JVM runtime environment.
+ * Be cbreful when grbnting FilePermissions. Think bbout the implicbtions
+ * of grbnting rebd bnd especiblly write bccess to vbrious files bnd
+ * directories. The "&lt;&lt;ALL FILES&gt;&gt;" permission with write bction is
+ * especiblly dbngerous. This grbnts permission to write to the entire
+ * file system. One thing this effectively bllows is replbcement of the
+ * system binbry, including the JVM runtime environment.
  *
- * <p>Please note: Code can always read a file from the same
- * directory it's in (or a subdirectory of that directory); it does not
+ * <p>Plebse note: Code cbn blwbys rebd b file from the sbme
+ * directory it's in (or b subdirectory of thbt directory); it does not
  * need explicit permission to do so.
  *
- * @see java.security.Permission
- * @see java.security.Permissions
- * @see java.security.PermissionCollection
+ * @see jbvb.security.Permission
+ * @see jbvb.security.Permissions
+ * @see jbvb.security.PermissionCollection
  *
  *
- * @author Marianne Mueller
- * @author Roland Schemers
+ * @buthor Mbribnne Mueller
+ * @buthor Rolbnd Schemers
  * @since 1.2
  *
- * @serial exclude
+ * @seribl exclude
  */
 
-public final class FilePermission extends Permission implements Serializable {
+public finbl clbss FilePermission extends Permission implements Seriblizbble {
 
     /**
-     * Execute action.
+     * Execute bction.
      */
-    private final static int EXECUTE = 0x1;
+    privbte finbl stbtic int EXECUTE = 0x1;
     /**
-     * Write action.
+     * Write bction.
      */
-    private final static int WRITE   = 0x2;
+    privbte finbl stbtic int WRITE   = 0x2;
     /**
-     * Read action.
+     * Rebd bction.
      */
-    private final static int READ    = 0x4;
+    privbte finbl stbtic int READ    = 0x4;
     /**
-     * Delete action.
+     * Delete bction.
      */
-    private final static int DELETE  = 0x8;
+    privbte finbl stbtic int DELETE  = 0x8;
     /**
-     * Read link action.
+     * Rebd link bction.
      */
-    private final static int READLINK    = 0x10;
+    privbte finbl stbtic int READLINK    = 0x10;
 
     /**
-     * All actions (read,write,execute,delete,readlink)
+     * All bctions (rebd,write,execute,delete,rebdlink)
      */
-    private final static int ALL     = READ|WRITE|EXECUTE|DELETE|READLINK;
+    privbte finbl stbtic int ALL     = READ|WRITE|EXECUTE|DELETE|READLINK;
     /**
-     * No actions.
+     * No bctions.
      */
-    private final static int NONE    = 0x0;
+    privbte finbl stbtic int NONE    = 0x0;
 
-    // the actions mask
-    private transient int mask;
+    // the bctions mbsk
+    privbte trbnsient int mbsk;
 
-    // does path indicate a directory? (wildcard or recursive)
-    private transient boolean directory;
+    // does pbth indicbte b directory? (wildcbrd or recursive)
+    privbte trbnsient boolebn directory;
 
-    // is it a recursive directory specification?
-    private transient boolean recursive;
+    // is it b recursive directory specificbtion?
+    privbte trbnsient boolebn recursive;
 
     /**
-     * the actions string.
+     * the bctions string.
      *
-     * @serial
+     * @seribl
      */
-    private String actions; // Left null as long as possible, then
-                            // created and re-used in the getAction function.
+    privbte String bctions; // Left null bs long bs possible, then
+                            // crebted bnd re-used in the getAction function.
 
-    // canonicalized dir path. In the case of
-    // directories, it is the name "/blah/*" or "/blah/-" without
-    // the last character (the "*" or "-").
+    // cbnonicblized dir pbth. In the cbse of
+    // directories, it is the nbme "/blbh/*" or "/blbh/-" without
+    // the lbst chbrbcter (the "*" or "-").
 
-    private transient String cpath;
+    privbte trbnsient String cpbth;
 
-    // static Strings used by init(int mask)
-    private static final char RECURSIVE_CHAR = '-';
-    private static final char WILD_CHAR = '*';
+    // stbtic Strings used by init(int mbsk)
+    privbte stbtic finbl chbr RECURSIVE_CHAR = '-';
+    privbte stbtic finbl chbr WILD_CHAR = '*';
 
 /*
     public String toString()
     {
         StringBuffer sb = new StringBuffer();
-        sb.append("***\n");
-        sb.append("cpath = "+cpath+"\n");
-        sb.append("mask = "+mask+"\n");
-        sb.append("actions = "+getActions()+"\n");
-        sb.append("directory = "+directory+"\n");
-        sb.append("recursive = "+recursive+"\n");
-        sb.append("***\n");
+        sb.bppend("***\n");
+        sb.bppend("cpbth = "+cpbth+"\n");
+        sb.bppend("mbsk = "+mbsk+"\n");
+        sb.bppend("bctions = "+getActions()+"\n");
+        sb.bppend("directory = "+directory+"\n");
+        sb.bppend("recursive = "+recursive+"\n");
+        sb.bppend("***\n");
         return sb.toString();
     }
 */
 
-    private static final long serialVersionUID = 7930732926638008763L;
+    privbte stbtic finbl long seriblVersionUID = 7930732926638008763L;
 
     /**
-     * initialize a FilePermission object. Common to all constructors.
-     * Also called during de-serialization.
+     * initiblize b FilePermission object. Common to bll constructors.
+     * Also cblled during de-seriblizbtion.
      *
-     * @param mask the actions mask to use.
+     * @pbrbm mbsk the bctions mbsk to use.
      *
      */
-    private void init(int mask) {
-        if ((mask & ALL) != mask)
-                throw new IllegalArgumentException("invalid actions mask");
+    privbte void init(int mbsk) {
+        if ((mbsk & ALL) != mbsk)
+                throw new IllegblArgumentException("invblid bctions mbsk");
 
-        if (mask == NONE)
-                throw new IllegalArgumentException("invalid actions mask");
+        if (mbsk == NONE)
+                throw new IllegblArgumentException("invblid bctions mbsk");
 
-        if ((cpath = getName()) == null)
-                throw new NullPointerException("name can't be null");
+        if ((cpbth = getNbme()) == null)
+                throw new NullPointerException("nbme cbn't be null");
 
-        this.mask = mask;
+        this.mbsk = mbsk;
 
-        if (cpath.equals("<<ALL FILES>>")) {
+        if (cpbth.equbls("<<ALL FILES>>")) {
             directory = true;
             recursive = true;
-            cpath = "";
+            cpbth = "";
             return;
         }
 
-        // store only the canonical cpath if possible
-        cpath = AccessController.doPrivileged(new PrivilegedAction<String>() {
+        // store only the cbnonicbl cpbth if possible
+        cpbth = AccessController.doPrivileged(new PrivilegedAction<String>() {
             public String run() {
                 try {
-                    String path = cpath;
-                    if (cpath.endsWith("*")) {
-                        // call getCanonicalPath with a path with wildcard character
-                        // replaced to avoid calling it with paths that are
-                        // intended to match all entries in a directory
-                        path = path.substring(0, path.length()-1) + "-";
-                        path = new File(path).getCanonicalPath();
-                        return path.substring(0, path.length()-1) + "*";
+                    String pbth = cpbth;
+                    if (cpbth.endsWith("*")) {
+                        // cbll getCbnonicblPbth with b pbth with wildcbrd chbrbcter
+                        // replbced to bvoid cblling it with pbths thbt bre
+                        // intended to mbtch bll entries in b directory
+                        pbth = pbth.substring(0, pbth.length()-1) + "-";
+                        pbth = new File(pbth).getCbnonicblPbth();
+                        return pbth.substring(0, pbth.length()-1) + "*";
                     } else {
-                        return new File(path).getCanonicalPath();
+                        return new File(pbth).getCbnonicblPbth();
                     }
-                } catch (IOException ioe) {
-                    return cpath;
+                } cbtch (IOException ioe) {
+                    return cpbth;
                 }
             }
         });
 
-        int len = cpath.length();
-        char last = ((len > 0) ? cpath.charAt(len - 1) : 0);
+        int len = cpbth.length();
+        chbr lbst = ((len > 0) ? cpbth.chbrAt(len - 1) : 0);
 
-        if (last == RECURSIVE_CHAR &&
-            cpath.charAt(len - 2) == File.separatorChar) {
+        if (lbst == RECURSIVE_CHAR &&
+            cpbth.chbrAt(len - 2) == File.sepbrbtorChbr) {
             directory = true;
             recursive = true;
-            cpath = cpath.substring(0, --len);
-        } else if (last == WILD_CHAR &&
-            cpath.charAt(len - 2) == File.separatorChar) {
+            cpbth = cpbth.substring(0, --len);
+        } else if (lbst == WILD_CHAR &&
+            cpbth.chbrAt(len - 2) == File.sepbrbtorChbr) {
             directory = true;
-            //recursive = false;
-            cpath = cpath.substring(0, --len);
+            //recursive = fblse;
+            cpbth = cpbth.substring(0, --len);
         } else {
-            // overkill since they are initialized to false, but
+            // overkill since they bre initiblized to fblse, but
             // commented out here to remind us...
-            //directory = false;
-            //recursive = false;
+            //directory = fblse;
+            //recursive = fblse;
         }
 
-        // XXX: at this point the path should be absolute. die if it isn't?
+        // XXX: bt this point the pbth should be bbsolute. die if it isn't?
     }
 
     /**
-     * Creates a new FilePermission object with the specified actions.
-     * <i>path</i> is the pathname of a file or directory, and <i>actions</i>
-     * contains a comma-separated list of the desired actions granted on the
-     * file or directory. Possible actions are
-     * "read", "write", "execute", "delete", and "readlink".
+     * Crebtes b new FilePermission object with the specified bctions.
+     * <i>pbth</i> is the pbthnbme of b file or directory, bnd <i>bctions</i>
+     * contbins b commb-sepbrbted list of the desired bctions grbnted on the
+     * file or directory. Possible bctions bre
+     * "rebd", "write", "execute", "delete", bnd "rebdlink".
      *
-     * <p>A pathname that ends in "/*" (where "/" is
-     * the file separator character, <code>File.separatorChar</code>)
-     * indicates all the files and directories contained in that directory.
-     * A pathname that ends with "/-" indicates (recursively) all files and
-     * subdirectories contained in that directory. The special pathname
-     * "&lt;&lt;ALL FILES&gt;&gt;" matches any file.
+     * <p>A pbthnbme thbt ends in "/*" (where "/" is
+     * the file sepbrbtor chbrbcter, <code>File.sepbrbtorChbr</code>)
+     * indicbtes bll the files bnd directories contbined in thbt directory.
+     * A pbthnbme thbt ends with "/-" indicbtes (recursively) bll files bnd
+     * subdirectories contbined in thbt directory. The specibl pbthnbme
+     * "&lt;&lt;ALL FILES&gt;&gt;" mbtches bny file.
      *
-     * <p>A pathname consisting of a single "*" indicates all the files
-     * in the current directory, while a pathname consisting of a single "-"
-     * indicates all the files in the current directory and
-     * (recursively) all files and subdirectories contained in the current
+     * <p>A pbthnbme consisting of b single "*" indicbtes bll the files
+     * in the current directory, while b pbthnbme consisting of b single "-"
+     * indicbtes bll the files in the current directory bnd
+     * (recursively) bll files bnd subdirectories contbined in the current
      * directory.
      *
-     * <p>A pathname containing an empty string represents an empty path.
+     * <p>A pbthnbme contbining bn empty string represents bn empty pbth.
      *
-     * @param path the pathname of the file/directory.
-     * @param actions the action string.
+     * @pbrbm pbth the pbthnbme of the file/directory.
+     * @pbrbm bctions the bction string.
      *
-     * @throws IllegalArgumentException
-     *          If actions is <code>null</code>, empty or contains an action
-     *          other than the specified possible actions.
+     * @throws IllegblArgumentException
+     *          If bctions is <code>null</code>, empty or contbins bn bction
+     *          other thbn the specified possible bctions.
      */
-    public FilePermission(String path, String actions) {
-        super(path);
-        init(getMask(actions));
+    public FilePermission(String pbth, String bctions) {
+        super(pbth);
+        init(getMbsk(bctions));
     }
 
     /**
-     * Creates a new FilePermission object using an action mask.
-     * More efficient than the FilePermission(String, String) constructor.
-     * Can be used from within
-     * code that needs to create a FilePermission object to pass into the
+     * Crebtes b new FilePermission object using bn bction mbsk.
+     * More efficient thbn the FilePermission(String, String) constructor.
+     * Cbn be used from within
+     * code thbt needs to crebte b FilePermission object to pbss into the
      * <code>implies</code> method.
      *
-     * @param path the pathname of the file/directory.
-     * @param mask the action mask to use.
+     * @pbrbm pbth the pbthnbme of the file/directory.
+     * @pbrbm mbsk the bction mbsk to use.
      */
 
-    // package private for use by the FilePermissionCollection add method
-    FilePermission(String path, int mask) {
-        super(path);
-        init(mask);
+    // pbckbge privbte for use by the FilePermissionCollection bdd method
+    FilePermission(String pbth, int mbsk) {
+        super(pbth);
+        init(mbsk);
     }
 
     /**
      * Checks if this FilePermission object "implies" the specified permission.
      * <P>
-     * More specifically, this method returns true if:
+     * More specificblly, this method returns true if:
      * <ul>
-     * <li> <i>p</i> is an instanceof FilePermission,
-     * <li> <i>p</i>'s actions are a proper subset of this
-     * object's actions, and
-     * <li> <i>p</i>'s pathname is implied by this object's
-     *      pathname. For example, "/tmp/*" implies "/tmp/foo", since
-     *      "/tmp/*" encompasses all files in the "/tmp" directory,
-     *      including the one named "foo".
+     * <li> <i>p</i> is bn instbnceof FilePermission,
+     * <li> <i>p</i>'s bctions bre b proper subset of this
+     * object's bctions, bnd
+     * <li> <i>p</i>'s pbthnbme is implied by this object's
+     *      pbthnbme. For exbmple, "/tmp/*" implies "/tmp/foo", since
+     *      "/tmp/*" encompbsses bll files in the "/tmp" directory,
+     *      including the one nbmed "foo".
      * </ul>
      *
-     * @param p the permission to check against.
+     * @pbrbm p the permission to check bgbinst.
      *
      * @return <code>true</code> if the specified permission is not
-     *                  <code>null</code> and is implied by this object,
-     *                  <code>false</code> otherwise.
+     *                  <code>null</code> bnd is implied by this object,
+     *                  <code>fblse</code> otherwise.
      */
-    public boolean implies(Permission p) {
-        if (!(p instanceof FilePermission))
-            return false;
+    public boolebn implies(Permission p) {
+        if (!(p instbnceof FilePermission))
+            return fblse;
 
-        FilePermission that = (FilePermission) p;
+        FilePermission thbt = (FilePermission) p;
 
-        // we get the effective mask. i.e., the "and" of this and that.
-        // They must be equal to that.mask for implies to return true.
+        // we get the effective mbsk. i.e., the "bnd" of this bnd thbt.
+        // They must be equbl to thbt.mbsk for implies to return true.
 
-        return ((this.mask & that.mask) == that.mask) && impliesIgnoreMask(that);
+        return ((this.mbsk & thbt.mbsk) == thbt.mbsk) && impliesIgnoreMbsk(thbt);
     }
 
     /**
-     * Checks if the Permission's actions are a proper subset of the
-     * this object's actions. Returns the effective mask iff the
-     * this FilePermission's path also implies that FilePermission's path.
+     * Checks if the Permission's bctions bre b proper subset of the
+     * this object's bctions. Returns the effective mbsk iff the
+     * this FilePermission's pbth blso implies thbt FilePermission's pbth.
      *
-     * @param that the FilePermission to check against.
-     * @return the effective mask
+     * @pbrbm thbt the FilePermission to check bgbinst.
+     * @return the effective mbsk
      */
-    boolean impliesIgnoreMask(FilePermission that) {
+    boolebn impliesIgnoreMbsk(FilePermission thbt) {
         if (this.directory) {
             if (this.recursive) {
-                // make sure that.path is longer then path so
+                // mbke sure thbt.pbth is longer then pbth so
                 // something like /foo/- does not imply /foo
-                if (that.directory) {
-                    return (that.cpath.length() >= this.cpath.length()) &&
-                            that.cpath.startsWith(this.cpath);
+                if (thbt.directory) {
+                    return (thbt.cpbth.length() >= this.cpbth.length()) &&
+                            thbt.cpbth.stbrtsWith(this.cpbth);
                 }  else {
-                    return ((that.cpath.length() > this.cpath.length()) &&
-                        that.cpath.startsWith(this.cpath));
+                    return ((thbt.cpbth.length() > this.cpbth.length()) &&
+                        thbt.cpbth.stbrtsWith(this.cpbth));
                 }
             } else {
-                if (that.directory) {
-                    // if the permission passed in is a directory
-                    // specification, make sure that a non-recursive
-                    // permission (i.e., this object) can't imply a recursive
+                if (thbt.directory) {
+                    // if the permission pbssed in is b directory
+                    // specificbtion, mbke sure thbt b non-recursive
+                    // permission (i.e., this object) cbn't imply b recursive
                     // permission.
-                    if (that.recursive)
-                        return false;
+                    if (thbt.recursive)
+                        return fblse;
                     else
-                        return (this.cpath.equals(that.cpath));
+                        return (this.cpbth.equbls(thbt.cpbth));
                 } else {
-                    int last = that.cpath.lastIndexOf(File.separatorChar);
-                    if (last == -1)
-                        return false;
+                    int lbst = thbt.cpbth.lbstIndexOf(File.sepbrbtorChbr);
+                    if (lbst == -1)
+                        return fblse;
                     else {
-                        // this.cpath.equals(that.cpath.substring(0, last+1));
-                        // Use regionMatches to avoid creating new string
-                        return (this.cpath.length() == (last + 1)) &&
-                            this.cpath.regionMatches(0, that.cpath, 0, last+1);
+                        // this.cpbth.equbls(thbt.cpbth.substring(0, lbst+1));
+                        // Use regionMbtches to bvoid crebting new string
+                        return (this.cpbth.length() == (lbst + 1)) &&
+                            this.cpbth.regionMbtches(0, thbt.cpbth, 0, lbst+1);
                     }
                 }
             }
-        } else if (that.directory) {
-            // if this is NOT recursive/wildcarded,
-            // do not let it imply a recursive/wildcarded permission
-            return false;
+        } else if (thbt.directory) {
+            // if this is NOT recursive/wildcbrded,
+            // do not let it imply b recursive/wildcbrded permission
+            return fblse;
         } else {
-            return (this.cpath.equals(that.cpath));
+            return (this.cpbth.equbls(thbt.cpbth));
         }
     }
 
     /**
-     * Checks two FilePermission objects for equality. Checks that <i>obj</i> is
-     * a FilePermission, and has the same pathname and actions as this object.
+     * Checks two FilePermission objects for equblity. Checks thbt <i>obj</i> is
+     * b FilePermission, bnd hbs the sbme pbthnbme bnd bctions bs this object.
      *
-     * @param obj the object we are testing for equality with this object.
-     * @return <code>true</code> if obj is a FilePermission, and has the same
-     *          pathname and actions as this FilePermission object,
-     *          <code>false</code> otherwise.
+     * @pbrbm obj the object we bre testing for equblity with this object.
+     * @return <code>true</code> if obj is b FilePermission, bnd hbs the sbme
+     *          pbthnbme bnd bctions bs this FilePermission object,
+     *          <code>fblse</code> otherwise.
      */
-    public boolean equals(Object obj) {
+    public boolebn equbls(Object obj) {
         if (obj == this)
             return true;
 
-        if (! (obj instanceof FilePermission))
-            return false;
+        if (! (obj instbnceof FilePermission))
+            return fblse;
 
-        FilePermission that = (FilePermission) obj;
+        FilePermission thbt = (FilePermission) obj;
 
-        return (this.mask == that.mask) &&
-            this.cpath.equals(that.cpath) &&
-            (this.directory == that.directory) &&
-            (this.recursive == that.recursive);
+        return (this.mbsk == thbt.mbsk) &&
+            this.cpbth.equbls(thbt.cpbth) &&
+            (this.directory == thbt.directory) &&
+            (this.recursive == thbt.recursive);
     }
 
     /**
-     * Returns the hash code value for this object.
+     * Returns the hbsh code vblue for this object.
      *
-     * @return a hash code value for this object.
+     * @return b hbsh code vblue for this object.
      */
-    public int hashCode() {
+    public int hbshCode() {
         return 0;
     }
 
     /**
-     * Converts an actions String to an actions mask.
+     * Converts bn bctions String to bn bctions mbsk.
      *
-     * @param actions the action string.
-     * @return the actions mask.
+     * @pbrbm bctions the bction string.
+     * @return the bctions mbsk.
      */
-    private static int getMask(String actions) {
-        int mask = NONE;
+    privbte stbtic int getMbsk(String bctions) {
+        int mbsk = NONE;
 
-        // Null action valid?
-        if (actions == null) {
-            return mask;
+        // Null bction vblid?
+        if (bctions == null) {
+            return mbsk;
         }
 
-        // Use object identity comparison against known-interned strings for
-        // performance benefit (these values are used heavily within the JDK).
-        if (actions == SecurityConstants.FILE_READ_ACTION) {
+        // Use object identity compbrison bgbinst known-interned strings for
+        // performbnce benefit (these vblues bre used hebvily within the JDK).
+        if (bctions == SecurityConstbnts.FILE_READ_ACTION) {
             return READ;
-        } else if (actions == SecurityConstants.FILE_WRITE_ACTION) {
+        } else if (bctions == SecurityConstbnts.FILE_WRITE_ACTION) {
             return WRITE;
-        } else if (actions == SecurityConstants.FILE_EXECUTE_ACTION) {
+        } else if (bctions == SecurityConstbnts.FILE_EXECUTE_ACTION) {
             return EXECUTE;
-        } else if (actions == SecurityConstants.FILE_DELETE_ACTION) {
+        } else if (bctions == SecurityConstbnts.FILE_DELETE_ACTION) {
             return DELETE;
-        } else if (actions == SecurityConstants.FILE_READLINK_ACTION) {
+        } else if (bctions == SecurityConstbnts.FILE_READLINK_ACTION) {
             return READLINK;
         }
 
-        char[] a = actions.toCharArray();
+        chbr[] b = bctions.toChbrArrby();
 
-        int i = a.length - 1;
+        int i = b.length - 1;
         if (i < 0)
-            return mask;
+            return mbsk;
 
         while (i != -1) {
-            char c;
+            chbr c;
 
-            // skip whitespace
-            while ((i!=-1) && ((c = a[i]) == ' ' ||
+            // skip whitespbce
+            while ((i!=-1) && ((c = b[i]) == ' ' ||
                                c == '\r' ||
                                c == '\n' ||
                                c == '\f' ||
@@ -456,186 +456,186 @@ public final class FilePermission extends Permission implements Serializable {
                 i--;
 
             // check for the known strings
-            int matchlen;
+            int mbtchlen;
 
-            if (i >= 3 && (a[i-3] == 'r' || a[i-3] == 'R') &&
-                          (a[i-2] == 'e' || a[i-2] == 'E') &&
-                          (a[i-1] == 'a' || a[i-1] == 'A') &&
-                          (a[i] == 'd' || a[i] == 'D'))
+            if (i >= 3 && (b[i-3] == 'r' || b[i-3] == 'R') &&
+                          (b[i-2] == 'e' || b[i-2] == 'E') &&
+                          (b[i-1] == 'b' || b[i-1] == 'A') &&
+                          (b[i] == 'd' || b[i] == 'D'))
             {
-                matchlen = 4;
-                mask |= READ;
+                mbtchlen = 4;
+                mbsk |= READ;
 
-            } else if (i >= 4 && (a[i-4] == 'w' || a[i-4] == 'W') &&
-                                 (a[i-3] == 'r' || a[i-3] == 'R') &&
-                                 (a[i-2] == 'i' || a[i-2] == 'I') &&
-                                 (a[i-1] == 't' || a[i-1] == 'T') &&
-                                 (a[i] == 'e' || a[i] == 'E'))
+            } else if (i >= 4 && (b[i-4] == 'w' || b[i-4] == 'W') &&
+                                 (b[i-3] == 'r' || b[i-3] == 'R') &&
+                                 (b[i-2] == 'i' || b[i-2] == 'I') &&
+                                 (b[i-1] == 't' || b[i-1] == 'T') &&
+                                 (b[i] == 'e' || b[i] == 'E'))
             {
-                matchlen = 5;
-                mask |= WRITE;
+                mbtchlen = 5;
+                mbsk |= WRITE;
 
-            } else if (i >= 6 && (a[i-6] == 'e' || a[i-6] == 'E') &&
-                                 (a[i-5] == 'x' || a[i-5] == 'X') &&
-                                 (a[i-4] == 'e' || a[i-4] == 'E') &&
-                                 (a[i-3] == 'c' || a[i-3] == 'C') &&
-                                 (a[i-2] == 'u' || a[i-2] == 'U') &&
-                                 (a[i-1] == 't' || a[i-1] == 'T') &&
-                                 (a[i] == 'e' || a[i] == 'E'))
+            } else if (i >= 6 && (b[i-6] == 'e' || b[i-6] == 'E') &&
+                                 (b[i-5] == 'x' || b[i-5] == 'X') &&
+                                 (b[i-4] == 'e' || b[i-4] == 'E') &&
+                                 (b[i-3] == 'c' || b[i-3] == 'C') &&
+                                 (b[i-2] == 'u' || b[i-2] == 'U') &&
+                                 (b[i-1] == 't' || b[i-1] == 'T') &&
+                                 (b[i] == 'e' || b[i] == 'E'))
             {
-                matchlen = 7;
-                mask |= EXECUTE;
+                mbtchlen = 7;
+                mbsk |= EXECUTE;
 
-            } else if (i >= 5 && (a[i-5] == 'd' || a[i-5] == 'D') &&
-                                 (a[i-4] == 'e' || a[i-4] == 'E') &&
-                                 (a[i-3] == 'l' || a[i-3] == 'L') &&
-                                 (a[i-2] == 'e' || a[i-2] == 'E') &&
-                                 (a[i-1] == 't' || a[i-1] == 'T') &&
-                                 (a[i] == 'e' || a[i] == 'E'))
+            } else if (i >= 5 && (b[i-5] == 'd' || b[i-5] == 'D') &&
+                                 (b[i-4] == 'e' || b[i-4] == 'E') &&
+                                 (b[i-3] == 'l' || b[i-3] == 'L') &&
+                                 (b[i-2] == 'e' || b[i-2] == 'E') &&
+                                 (b[i-1] == 't' || b[i-1] == 'T') &&
+                                 (b[i] == 'e' || b[i] == 'E'))
             {
-                matchlen = 6;
-                mask |= DELETE;
+                mbtchlen = 6;
+                mbsk |= DELETE;
 
-            } else if (i >= 7 && (a[i-7] == 'r' || a[i-7] == 'R') &&
-                                 (a[i-6] == 'e' || a[i-6] == 'E') &&
-                                 (a[i-5] == 'a' || a[i-5] == 'A') &&
-                                 (a[i-4] == 'd' || a[i-4] == 'D') &&
-                                 (a[i-3] == 'l' || a[i-3] == 'L') &&
-                                 (a[i-2] == 'i' || a[i-2] == 'I') &&
-                                 (a[i-1] == 'n' || a[i-1] == 'N') &&
-                                 (a[i] == 'k' || a[i] == 'K'))
+            } else if (i >= 7 && (b[i-7] == 'r' || b[i-7] == 'R') &&
+                                 (b[i-6] == 'e' || b[i-6] == 'E') &&
+                                 (b[i-5] == 'b' || b[i-5] == 'A') &&
+                                 (b[i-4] == 'd' || b[i-4] == 'D') &&
+                                 (b[i-3] == 'l' || b[i-3] == 'L') &&
+                                 (b[i-2] == 'i' || b[i-2] == 'I') &&
+                                 (b[i-1] == 'n' || b[i-1] == 'N') &&
+                                 (b[i] == 'k' || b[i] == 'K'))
             {
-                matchlen = 8;
-                mask |= READLINK;
+                mbtchlen = 8;
+                mbsk |= READLINK;
 
             } else {
-                // parse error
-                throw new IllegalArgumentException(
-                        "invalid permission: " + actions);
+                // pbrse error
+                throw new IllegblArgumentException(
+                        "invblid permission: " + bctions);
             }
 
-            // make sure we didn't just match the tail of a word
-            // like "ackbarfaccept".  Also, skip to the comma.
-            boolean seencomma = false;
-            while (i >= matchlen && !seencomma) {
-                switch(a[i-matchlen]) {
-                case ',':
-                    seencomma = true;
-                    break;
-                case ' ': case '\r': case '\n':
-                case '\f': case '\t':
-                    break;
-                default:
-                    throw new IllegalArgumentException(
-                            "invalid permission: " + actions);
+            // mbke sure we didn't just mbtch the tbil of b word
+            // like "bckbbrfbccept".  Also, skip to the commb.
+            boolebn seencommb = fblse;
+            while (i >= mbtchlen && !seencommb) {
+                switch(b[i-mbtchlen]) {
+                cbse ',':
+                    seencommb = true;
+                    brebk;
+                cbse ' ': cbse '\r': cbse '\n':
+                cbse '\f': cbse '\t':
+                    brebk;
+                defbult:
+                    throw new IllegblArgumentException(
+                            "invblid permission: " + bctions);
                 }
                 i--;
             }
 
-            // point i at the location of the comma minus one (or -1).
-            i -= matchlen;
+            // point i bt the locbtion of the commb minus one (or -1).
+            i -= mbtchlen;
         }
 
-        return mask;
+        return mbsk;
     }
 
     /**
-     * Return the current action mask. Used by the FilePermissionCollection.
+     * Return the current bction mbsk. Used by the FilePermissionCollection.
      *
-     * @return the actions mask.
+     * @return the bctions mbsk.
      */
-    int getMask() {
-        return mask;
+    int getMbsk() {
+        return mbsk;
     }
 
     /**
-     * Return the canonical string representation of the actions.
-     * Always returns present actions in the following order:
-     * read, write, execute, delete, readlink.
+     * Return the cbnonicbl string representbtion of the bctions.
+     * Alwbys returns present bctions in the following order:
+     * rebd, write, execute, delete, rebdlink.
      *
-     * @return the canonical string representation of the actions.
+     * @return the cbnonicbl string representbtion of the bctions.
      */
-    private static String getActions(int mask) {
+    privbte stbtic String getActions(int mbsk) {
         StringBuilder sb = new StringBuilder();
-        boolean comma = false;
+        boolebn commb = fblse;
 
-        if ((mask & READ) == READ) {
-            comma = true;
-            sb.append("read");
+        if ((mbsk & READ) == READ) {
+            commb = true;
+            sb.bppend("rebd");
         }
 
-        if ((mask & WRITE) == WRITE) {
-            if (comma) sb.append(',');
-            else comma = true;
-            sb.append("write");
+        if ((mbsk & WRITE) == WRITE) {
+            if (commb) sb.bppend(',');
+            else commb = true;
+            sb.bppend("write");
         }
 
-        if ((mask & EXECUTE) == EXECUTE) {
-            if (comma) sb.append(',');
-            else comma = true;
-            sb.append("execute");
+        if ((mbsk & EXECUTE) == EXECUTE) {
+            if (commb) sb.bppend(',');
+            else commb = true;
+            sb.bppend("execute");
         }
 
-        if ((mask & DELETE) == DELETE) {
-            if (comma) sb.append(',');
-            else comma = true;
-            sb.append("delete");
+        if ((mbsk & DELETE) == DELETE) {
+            if (commb) sb.bppend(',');
+            else commb = true;
+            sb.bppend("delete");
         }
 
-        if ((mask & READLINK) == READLINK) {
-            if (comma) sb.append(',');
-            else comma = true;
-            sb.append("readlink");
+        if ((mbsk & READLINK) == READLINK) {
+            if (commb) sb.bppend(',');
+            else commb = true;
+            sb.bppend("rebdlink");
         }
 
         return sb.toString();
     }
 
     /**
-     * Returns the "canonical string representation" of the actions.
-     * That is, this method always returns present actions in the following order:
-     * read, write, execute, delete, readlink. For example, if this FilePermission
-     * object allows both write and read actions, a call to <code>getActions</code>
-     * will return the string "read,write".
+     * Returns the "cbnonicbl string representbtion" of the bctions.
+     * Thbt is, this method blwbys returns present bctions in the following order:
+     * rebd, write, execute, delete, rebdlink. For exbmple, if this FilePermission
+     * object bllows both write bnd rebd bctions, b cbll to <code>getActions</code>
+     * will return the string "rebd,write".
      *
-     * @return the canonical string representation of the actions.
+     * @return the cbnonicbl string representbtion of the bctions.
      */
     public String getActions() {
-        if (actions == null)
-            actions = getActions(this.mask);
+        if (bctions == null)
+            bctions = getActions(this.mbsk);
 
-        return actions;
+        return bctions;
     }
 
     /**
-     * Returns a new PermissionCollection object for storing FilePermission
+     * Returns b new PermissionCollection object for storing FilePermission
      * objects.
      * <p>
-     * FilePermission objects must be stored in a manner that allows them
-     * to be inserted into the collection in any order, but that also enables the
+     * FilePermission objects must be stored in b mbnner thbt bllows them
+     * to be inserted into the collection in bny order, but thbt blso enbbles the
      * PermissionCollection <code>implies</code>
-     * method to be implemented in an efficient (and consistent) manner.
+     * method to be implemented in bn efficient (bnd consistent) mbnner.
      *
-     * <p>For example, if you have two FilePermissions:
+     * <p>For exbmple, if you hbve two FilePermissions:
      * <OL>
-     * <LI>  <code>"/tmp/-", "read"</code>
-     * <LI>  <code>"/tmp/scratch/foo", "write"</code>
+     * <LI>  <code>"/tmp/-", "rebd"</code>
+     * <LI>  <code>"/tmp/scrbtch/foo", "write"</code>
      * </OL>
      *
-     * <p>and you are calling the <code>implies</code> method with the FilePermission:
+     * <p>bnd you bre cblling the <code>implies</code> method with the FilePermission:
      *
      * <pre>
-     *   "/tmp/scratch/foo", "read,write",
+     *   "/tmp/scrbtch/foo", "rebd,write",
      * </pre>
      *
      * then the <code>implies</code> function must
-     * take into account both the "/tmp/-" and "/tmp/scratch/foo"
-     * permissions, so the effective permission is "read,write",
-     * and <code>implies</code> returns true. The "implies" semantics for
-     * FilePermissions are handled properly by the PermissionCollection object
+     * tbke into bccount both the "/tmp/-" bnd "/tmp/scrbtch/foo"
+     * permissions, so the effective permission is "rebd,write",
+     * bnd <code>implies</code> returns true. The "implies" sembntics for
+     * FilePermissions bre hbndled properly by the PermissionCollection object
      * returned by this <code>newPermissionCollection</code> method.
      *
-     * @return a new PermissionCollection object suitable for storing
+     * @return b new PermissionCollection object suitbble for storing
      * FilePermissions.
      */
     public PermissionCollection newPermissionCollection() {
@@ -643,115 +643,115 @@ public final class FilePermission extends Permission implements Serializable {
     }
 
     /**
-     * WriteObject is called to save the state of the FilePermission
-     * to a stream. The actions are serialized, and the superclass
-     * takes care of the name.
+     * WriteObject is cblled to sbve the stbte of the FilePermission
+     * to b strebm. The bctions bre seriblized, bnd the superclbss
+     * tbkes cbre of the nbme.
      */
-    private void writeObject(ObjectOutputStream s)
+    privbte void writeObject(ObjectOutputStrebm s)
         throws IOException
     {
-        // Write out the actions. The superclass takes care of the name
-        // call getActions to make sure actions field is initialized
-        if (actions == null)
+        // Write out the bctions. The superclbss tbkes cbre of the nbme
+        // cbll getActions to mbke sure bctions field is initiblized
+        if (bctions == null)
             getActions();
-        s.defaultWriteObject();
+        s.defbultWriteObject();
     }
 
     /**
-     * readObject is called to restore the state of the FilePermission from
-     * a stream.
+     * rebdObject is cblled to restore the stbte of the FilePermission from
+     * b strebm.
      */
-    private void readObject(ObjectInputStream s)
-         throws IOException, ClassNotFoundException
+    privbte void rebdObject(ObjectInputStrebm s)
+         throws IOException, ClbssNotFoundException
     {
-        // Read in the actions, then restore everything else by calling init.
-        s.defaultReadObject();
-        init(getMask(actions));
+        // Rebd in the bctions, then restore everything else by cblling init.
+        s.defbultRebdObject();
+        init(getMbsk(bctions));
     }
 }
 
 /**
- * A FilePermissionCollection stores a set of FilePermission permissions.
+ * A FilePermissionCollection stores b set of FilePermission permissions.
  * FilePermission objects
- * must be stored in a manner that allows them to be inserted in any
- * order, but enable the implies function to evaluate the implies
+ * must be stored in b mbnner thbt bllows them to be inserted in bny
+ * order, but enbble the implies function to evblubte the implies
  * method.
- * For example, if you have two FilePermissions:
+ * For exbmple, if you hbve two FilePermissions:
  * <OL>
- * <LI> "/tmp/-", "read"
- * <LI> "/tmp/scratch/foo", "write"
+ * <LI> "/tmp/-", "rebd"
+ * <LI> "/tmp/scrbtch/foo", "write"
  * </OL>
- * And you are calling the implies function with the FilePermission:
- * "/tmp/scratch/foo", "read,write", then the implies function must
- * take into account both the /tmp/- and /tmp/scratch/foo
- * permissions, so the effective permission is "read,write".
+ * And you bre cblling the implies function with the FilePermission:
+ * "/tmp/scrbtch/foo", "rebd,write", then the implies function must
+ * tbke into bccount both the /tmp/- bnd /tmp/scrbtch/foo
+ * permissions, so the effective permission is "rebd,write".
  *
- * @see java.security.Permission
- * @see java.security.Permissions
- * @see java.security.PermissionCollection
+ * @see jbvb.security.Permission
+ * @see jbvb.security.Permissions
+ * @see jbvb.security.PermissionCollection
  *
  *
- * @author Marianne Mueller
- * @author Roland Schemers
+ * @buthor Mbribnne Mueller
+ * @buthor Rolbnd Schemers
  *
- * @serial include
+ * @seribl include
  *
  */
 
-final class FilePermissionCollection extends PermissionCollection
-    implements Serializable
+finbl clbss FilePermissionCollection extends PermissionCollection
+    implements Seriblizbble
 {
-    // Not serialized; see serialization section at end of class
-    private transient List<Permission> perms;
+    // Not seriblized; see seriblizbtion section bt end of clbss
+    privbte trbnsient List<Permission> perms;
 
     /**
-     * Create an empty FilePermissionCollection object.
+     * Crebte bn empty FilePermissionCollection object.
      */
     public FilePermissionCollection() {
-        perms = new ArrayList<>();
+        perms = new ArrbyList<>();
     }
 
     /**
-     * Adds a permission to the FilePermissionCollection. The key for the hash is
-     * permission.path.
+     * Adds b permission to the FilePermissionCollection. The key for the hbsh is
+     * permission.pbth.
      *
-     * @param permission the Permission object to add.
+     * @pbrbm permission the Permission object to bdd.
      *
-     * @exception IllegalArgumentException - if the permission is not a
+     * @exception IllegblArgumentException - if the permission is not b
      *                                       FilePermission
      *
      * @exception SecurityException - if this FilePermissionCollection object
-     *                                has been marked readonly
+     *                                hbs been mbrked rebdonly
      */
-    public void add(Permission permission) {
-        if (! (permission instanceof FilePermission))
-            throw new IllegalArgumentException("invalid permission: "+
+    public void bdd(Permission permission) {
+        if (! (permission instbnceof FilePermission))
+            throw new IllegblArgumentException("invblid permission: "+
                                                permission);
-        if (isReadOnly())
+        if (isRebdOnly())
             throw new SecurityException(
-                "attempt to add a Permission to a readonly PermissionCollection");
+                "bttempt to bdd b Permission to b rebdonly PermissionCollection");
 
         synchronized (this) {
-            perms.add(permission);
+            perms.bdd(permission);
         }
     }
 
     /**
-     * Check and see if this set of permissions implies the permissions
+     * Check bnd see if this set of permissions implies the permissions
      * expressed in "permission".
      *
-     * @param permission the Permission object to compare
+     * @pbrbm permission the Permission object to compbre
      *
-     * @return true if "permission" is a proper subset of a permission in
-     * the set, false if not.
+     * @return true if "permission" is b proper subset of b permission in
+     * the set, fblse if not.
      */
-    public boolean implies(Permission permission) {
-        if (! (permission instanceof FilePermission))
-            return false;
+    public boolebn implies(Permission permission) {
+        if (! (permission instbnceof FilePermission))
+            return fblse;
 
         FilePermission fp = (FilePermission) permission;
 
-        int desired = fp.getMask();
+        int desired = fp.getMbsk();
         int effective = 0;
         int needed = desired;
 
@@ -759,80 +759,80 @@ final class FilePermissionCollection extends PermissionCollection
             int len = perms.size();
             for (int i = 0; i < len; i++) {
                 FilePermission x = (FilePermission) perms.get(i);
-                if (((needed & x.getMask()) != 0) && x.impliesIgnoreMask(fp)) {
-                    effective |=  x.getMask();
+                if (((needed & x.getMbsk()) != 0) && x.impliesIgnoreMbsk(fp)) {
+                    effective |=  x.getMbsk();
                     if ((effective & desired) == desired)
                         return true;
                     needed = (desired ^ effective);
                 }
             }
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Returns an enumeration of all the FilePermission objects in the
-     * container.
+     * Returns bn enumerbtion of bll the FilePermission objects in the
+     * contbiner.
      *
-     * @return an enumeration of all the FilePermission objects.
+     * @return bn enumerbtion of bll the FilePermission objects.
      */
-    public Enumeration<Permission> elements() {
-        // Convert Iterator into Enumeration
+    public Enumerbtion<Permission> elements() {
+        // Convert Iterbtor into Enumerbtion
         synchronized (this) {
-            return Collections.enumeration(perms);
+            return Collections.enumerbtion(perms);
         }
     }
 
-    private static final long serialVersionUID = 2202956749081564585L;
+    privbte stbtic finbl long seriblVersionUID = 2202956749081564585L;
 
-    // Need to maintain serialization interoperability with earlier releases,
-    // which had the serializable field:
-    //    private Vector permissions;
+    // Need to mbintbin seriblizbtion interoperbbility with ebrlier relebses,
+    // which hbd the seriblizbble field:
+    //    privbte Vector permissions;
 
     /**
-     * @serialField permissions java.util.Vector
+     * @seriblField permissions jbvb.util.Vector
      *     A list of FilePermission objects.
      */
-    private static final ObjectStreamField[] serialPersistentFields = {
-        new ObjectStreamField("permissions", Vector.class),
+    privbte stbtic finbl ObjectStrebmField[] seriblPersistentFields = {
+        new ObjectStrebmField("permissions", Vector.clbss),
     };
 
     /**
-     * @serialData "permissions" field (a Vector containing the FilePermissions).
+     * @seriblDbtb "permissions" field (b Vector contbining the FilePermissions).
      */
     /*
-     * Writes the contents of the perms field out as a Vector for
-     * serialization compatibility with earlier releases.
+     * Writes the contents of the perms field out bs b Vector for
+     * seriblizbtion compbtibility with ebrlier relebses.
      */
-    private void writeObject(ObjectOutputStream out) throws IOException {
-        // Don't call out.defaultWriteObject()
+    privbte void writeObject(ObjectOutputStrebm out) throws IOException {
+        // Don't cbll out.defbultWriteObject()
 
         // Write out Vector
         Vector<Permission> permissions = new Vector<>(perms.size());
         synchronized (this) {
-            permissions.addAll(perms);
+            permissions.bddAll(perms);
         }
 
-        ObjectOutputStream.PutField pfields = out.putFields();
+        ObjectOutputStrebm.PutField pfields = out.putFields();
         pfields.put("permissions", permissions);
         out.writeFields();
     }
 
     /*
-     * Reads in a Vector of FilePermissions and saves them in the perms field.
+     * Rebds in b Vector of FilePermissions bnd sbves them in the perms field.
      */
-    private void readObject(ObjectInputStream in)
-        throws IOException, ClassNotFoundException
+    privbte void rebdObject(ObjectInputStrebm in)
+        throws IOException, ClbssNotFoundException
     {
-        // Don't call defaultReadObject()
+        // Don't cbll defbultRebdObject()
 
-        // Read in serialized fields
-        ObjectInputStream.GetField gfields = in.readFields();
+        // Rebd in seriblized fields
+        ObjectInputStrebm.GetField gfields = in.rebdFields();
 
-        // Get the one we want
-        @SuppressWarnings("unchecked")
+        // Get the one we wbnt
+        @SuppressWbrnings("unchecked")
         Vector<Permission> permissions = (Vector<Permission>)gfields.get("permissions", null);
-        perms = new ArrayList<>(permissions.size());
-        perms.addAll(permissions);
+        perms = new ArrbyList<>(permissions.size());
+        perms.bddAll(permissions);
     }
 }

@@ -1,219 +1,219 @@
 /*
- * Copyright (c) 1997, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.security;
+pbckbge jbvb.security;
 
-import java.util.*;
-import java.io.ObjectStreamField;
-import java.io.ObjectOutputStream;
-import java.io.ObjectInputStream;
-import java.io.IOException;
+import jbvb.util.*;
+import jbvb.io.ObjectStrebmField;
+import jbvb.io.ObjectOutputStrebm;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.IOException;
 
 /**
- * A UnresolvedPermissionCollection stores a collection
+ * A UnresolvedPermissionCollection stores b collection
  * of UnresolvedPermission permissions.
  *
- * @see java.security.Permission
- * @see java.security.Permissions
- * @see java.security.UnresolvedPermission
+ * @see jbvb.security.Permission
+ * @see jbvb.security.Permissions
+ * @see jbvb.security.UnresolvedPermission
  *
  *
- * @author Roland Schemers
+ * @buthor Rolbnd Schemers
  *
- * @serial include
+ * @seribl include
  */
 
-final class UnresolvedPermissionCollection
+finbl clbss UnresolvedPermissionCollection
 extends PermissionCollection
-implements java.io.Serializable
+implements jbvb.io.Seriblizbble
 {
     /**
-     * Key is permission type, value is a list of the UnresolvedPermissions
-     * of the same type.
-     * Not serialized; see serialization section at end of class.
+     * Key is permission type, vblue is b list of the UnresolvedPermissions
+     * of the sbme type.
+     * Not seriblized; see seriblizbtion section bt end of clbss.
      */
-    private transient Map<String, List<UnresolvedPermission>> perms;
+    privbte trbnsient Mbp<String, List<UnresolvedPermission>> perms;
 
     /**
-     * Create an empty UnresolvedPermissionCollection object.
+     * Crebte bn empty UnresolvedPermissionCollection object.
      *
      */
     public UnresolvedPermissionCollection() {
-        perms = new HashMap<String, List<UnresolvedPermission>>(11);
+        perms = new HbshMbp<String, List<UnresolvedPermission>>(11);
     }
 
     /**
-     * Adds a permission to this UnresolvedPermissionCollection.
-     * The key for the hash is the unresolved permission's type (class) name.
+     * Adds b permission to this UnresolvedPermissionCollection.
+     * The key for the hbsh is the unresolved permission's type (clbss) nbme.
      *
-     * @param permission the Permission object to add.
+     * @pbrbm permission the Permission object to bdd.
      */
 
-    public void add(Permission permission)
+    public void bdd(Permission permission)
     {
-        if (! (permission instanceof UnresolvedPermission))
-            throw new IllegalArgumentException("invalid permission: "+
+        if (! (permission instbnceof UnresolvedPermission))
+            throw new IllegblArgumentException("invblid permission: "+
                                                permission);
         UnresolvedPermission up = (UnresolvedPermission) permission;
 
         List<UnresolvedPermission> v;
         synchronized (this) {
-            v = perms.get(up.getName());
+            v = perms.get(up.getNbme());
             if (v == null) {
-                v = new ArrayList<UnresolvedPermission>();
-                perms.put(up.getName(), v);
+                v = new ArrbyList<UnresolvedPermission>();
+                perms.put(up.getNbme(), v);
             }
         }
         synchronized (v) {
-            v.add(up);
+            v.bdd(up);
         }
     }
 
     /**
-     * get any unresolved permissions of the same type as p,
-     * and return the List containing them.
+     * get bny unresolved permissions of the sbme type bs p,
+     * bnd return the List contbining them.
      */
     List<UnresolvedPermission> getUnresolvedPermissions(Permission p) {
         synchronized (this) {
-            return perms.get(p.getClass().getName());
+            return perms.get(p.getClbss().getNbme());
         }
     }
 
     /**
-     * always returns false for unresolved permissions
+     * blwbys returns fblse for unresolved permissions
      *
      */
-    public boolean implies(Permission permission)
+    public boolebn implies(Permission permission)
     {
-        return false;
+        return fblse;
     }
 
     /**
-     * Returns an enumeration of all the UnresolvedPermission lists in the
-     * container.
+     * Returns bn enumerbtion of bll the UnresolvedPermission lists in the
+     * contbiner.
      *
-     * @return an enumeration of all the UnresolvedPermission objects.
+     * @return bn enumerbtion of bll the UnresolvedPermission objects.
      */
 
-    public Enumeration<Permission> elements() {
+    public Enumerbtion<Permission> elements() {
         List<Permission> results =
-            new ArrayList<>(); // where results are stored
+            new ArrbyList<>(); // where results bre stored
 
-        // Get iterator of Map values (which are lists of permissions)
+        // Get iterbtor of Mbp vblues (which bre lists of permissions)
         synchronized (this) {
-            for (List<UnresolvedPermission> l : perms.values()) {
+            for (List<UnresolvedPermission> l : perms.vblues()) {
                 synchronized (l) {
-                    results.addAll(l);
+                    results.bddAll(l);
                 }
             }
         }
 
-        return Collections.enumeration(results);
+        return Collections.enumerbtion(results);
     }
 
-    private static final long serialVersionUID = -7176153071733132400L;
+    privbte stbtic finbl long seriblVersionUID = -7176153071733132400L;
 
-    // Need to maintain serialization interoperability with earlier releases,
-    // which had the serializable field:
-    // private Hashtable permissions; // keyed on type
+    // Need to mbintbin seriblizbtion interoperbbility with ebrlier relebses,
+    // which hbd the seriblizbble field:
+    // privbte Hbshtbble permissions; // keyed on type
 
     /**
-     * @serialField permissions java.util.Hashtable
-     *     A table of the UnresolvedPermissions keyed on type, value is Vector
+     * @seriblField permissions jbvb.util.Hbshtbble
+     *     A tbble of the UnresolvedPermissions keyed on type, vblue is Vector
      *     of permissions
      */
-    private static final ObjectStreamField[] serialPersistentFields = {
-        new ObjectStreamField("permissions", Hashtable.class),
+    privbte stbtic finbl ObjectStrebmField[] seriblPersistentFields = {
+        new ObjectStrebmField("permissions", Hbshtbble.clbss),
     };
 
     /**
-     * @serialData Default field.
+     * @seriblDbtb Defbult field.
      */
     /*
-     * Writes the contents of the perms field out as a Hashtable
-     * in which the values are Vectors for
-     * serialization compatibility with earlier releases.
+     * Writes the contents of the perms field out bs b Hbshtbble
+     * in which the vblues bre Vectors for
+     * seriblizbtion compbtibility with ebrlier relebses.
      */
-    private void writeObject(ObjectOutputStream out) throws IOException {
-        // Don't call out.defaultWriteObject()
+    privbte void writeObject(ObjectOutputStrebm out) throws IOException {
+        // Don't cbll out.defbultWriteObject()
 
-        // Copy perms into a Hashtable
-        Hashtable<String, Vector<UnresolvedPermission>> permissions =
-            new Hashtable<>(perms.size()*2);
+        // Copy perms into b Hbshtbble
+        Hbshtbble<String, Vector<UnresolvedPermission>> permissions =
+            new Hbshtbble<>(perms.size()*2);
 
-        // Convert each entry (List) into a Vector
+        // Convert ebch entry (List) into b Vector
         synchronized (this) {
-            Set<Map.Entry<String, List<UnresolvedPermission>>> set = perms.entrySet();
-            for (Map.Entry<String, List<UnresolvedPermission>> e : set) {
+            Set<Mbp.Entry<String, List<UnresolvedPermission>>> set = perms.entrySet();
+            for (Mbp.Entry<String, List<UnresolvedPermission>> e : set) {
                 // Convert list into Vector
-                List<UnresolvedPermission> list = e.getValue();
+                List<UnresolvedPermission> list = e.getVblue();
                 Vector<UnresolvedPermission> vec = new Vector<>(list.size());
                 synchronized (list) {
-                    vec.addAll(list);
+                    vec.bddAll(list);
                 }
 
-                // Add to Hashtable being serialized
+                // Add to Hbshtbble being seriblized
                 permissions.put(e.getKey(), vec);
             }
         }
 
-        // Write out serializable fields
-        ObjectOutputStream.PutField pfields = out.putFields();
+        // Write out seriblizbble fields
+        ObjectOutputStrebm.PutField pfields = out.putFields();
         pfields.put("permissions", permissions);
         out.writeFields();
     }
 
     /*
-     * Reads in a Hashtable in which the values are Vectors of
-     * UnresolvedPermissions and saves them in the perms field.
+     * Rebds in b Hbshtbble in which the vblues bre Vectors of
+     * UnresolvedPermissions bnd sbves them in the perms field.
      */
-    private void readObject(ObjectInputStream in) throws IOException,
-    ClassNotFoundException {
-        // Don't call defaultReadObject()
+    privbte void rebdObject(ObjectInputStrebm in) throws IOException,
+    ClbssNotFoundException {
+        // Don't cbll defbultRebdObject()
 
-        // Read in serialized fields
-        ObjectInputStream.GetField gfields = in.readFields();
+        // Rebd in seriblized fields
+        ObjectInputStrebm.GetField gfields = in.rebdFields();
 
         // Get permissions
-        @SuppressWarnings("unchecked")
-        // writeObject writes a Hashtable<String, Vector<UnresolvedPermission>>
-        // for the permissions key, so this cast is safe, unless the data is corrupt.
-        Hashtable<String, Vector<UnresolvedPermission>> permissions =
-                (Hashtable<String, Vector<UnresolvedPermission>>)
+        @SuppressWbrnings("unchecked")
+        // writeObject writes b Hbshtbble<String, Vector<UnresolvedPermission>>
+        // for the permissions key, so this cbst is sbfe, unless the dbtb is corrupt.
+        Hbshtbble<String, Vector<UnresolvedPermission>> permissions =
+                (Hbshtbble<String, Vector<UnresolvedPermission>>)
                 gfields.get("permissions", null);
-        perms = new HashMap<String, List<UnresolvedPermission>>(permissions.size()*2);
+        perms = new HbshMbp<String, List<UnresolvedPermission>>(permissions.size()*2);
 
-        // Convert each entry (Vector) into a List
-        Set<Map.Entry<String, Vector<UnresolvedPermission>>> set = permissions.entrySet();
-        for (Map.Entry<String, Vector<UnresolvedPermission>> e : set) {
-            // Convert Vector into ArrayList
-            Vector<UnresolvedPermission> vec = e.getValue();
-            List<UnresolvedPermission> list = new ArrayList<>(vec.size());
-            list.addAll(vec);
+        // Convert ebch entry (Vector) into b List
+        Set<Mbp.Entry<String, Vector<UnresolvedPermission>>> set = permissions.entrySet();
+        for (Mbp.Entry<String, Vector<UnresolvedPermission>> e : set) {
+            // Convert Vector into ArrbyList
+            Vector<UnresolvedPermission> vec = e.getVblue();
+            List<UnresolvedPermission> list = new ArrbyList<>(vec.size());
+            list.bddAll(vec);
 
-            // Add to Hashtable being serialized
+            // Add to Hbshtbble being seriblized
             perms.put(e.getKey(), list);
         }
     }

@@ -1,117 +1,117 @@
 /*
- * Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /**
- * Defines interfaces and classes for the Java virtual machine to access files,
- * file attributes, and file systems.
+ * Defines interfbces bnd clbsses for the Jbvb virtubl mbchine to bccess files,
+ * file bttributes, bnd file systems.
  *
- * <p> The java.nio.file package defines classes to access files and file
- * systems. The API to access file and file system attributes is defined in the
- * {@link java.nio.file.attribute} package. The {@link java.nio.file.spi}
- * package is used by service provider implementors wishing to extend the
- * platform default provider, or to construct other provider implementations. </p>
+ * <p> The jbvb.nio.file pbckbge defines clbsses to bccess files bnd file
+ * systems. The API to bccess file bnd file system bttributes is defined in the
+ * {@link jbvb.nio.file.bttribute} pbckbge. The {@link jbvb.nio.file.spi}
+ * pbckbge is used by service provider implementors wishing to extend the
+ * plbtform defbult provider, or to construct other provider implementbtions. </p>
  *
- * <h3><a name="links">Symbolic Links</a></h3>
- * <p> Many operating systems and file systems support for <em>symbolic links</em>.
- * A symbolic link is a special file that serves as a reference to another file.
- * For the most part, symbolic links are transparent to applications and
- * operations on symbolic links are automatically redirected to the <em>target</em>
- * of the link. Exceptions to this are when a symbolic link is deleted or
- * renamed/moved in which case the link is deleted or removed rather than the
- * target of the link. This package includes support for symbolic links where
- * implementations provide these semantics. File systems may support other types
- * that are semantically close but support for these other types of links is
- * not included in this package. </p>
+ * <h3><b nbme="links">Symbolic Links</b></h3>
+ * <p> Mbny operbting systems bnd file systems support for <em>symbolic links</em>.
+ * A symbolic link is b specibl file thbt serves bs b reference to bnother file.
+ * For the most pbrt, symbolic links bre trbnspbrent to bpplicbtions bnd
+ * operbtions on symbolic links bre butombticblly redirected to the <em>tbrget</em>
+ * of the link. Exceptions to this bre when b symbolic link is deleted or
+ * renbmed/moved in which cbse the link is deleted or removed rbther thbn the
+ * tbrget of the link. This pbckbge includes support for symbolic links where
+ * implementbtions provide these sembntics. File systems mby support other types
+ * thbt bre sembnticblly close but support for these other types of links is
+ * not included in this pbckbge. </p>
  *
- * <h3><a name="interop">Interoperability</a></h3>
- * <p> The {@link java.io.File} class defines the {@link java.io.File#toPath
- * toPath} method to construct a {@link java.nio.file.Path} by converting
- * the abstract path represented by the {@code java.io.File} object. The resulting
- * {@code Path} can be used to operate on the same file as the {@code File}
- * object. The {@code Path} specification provides further information
- * on the <a href="Path.html#interop">interoperability</a> between {@code Path}
- * and {@code java.io.File} objects. </p>
+ * <h3><b nbme="interop">Interoperbbility</b></h3>
+ * <p> The {@link jbvb.io.File} clbss defines the {@link jbvb.io.File#toPbth
+ * toPbth} method to construct b {@link jbvb.nio.file.Pbth} by converting
+ * the bbstrbct pbth represented by the {@code jbvb.io.File} object. The resulting
+ * {@code Pbth} cbn be used to operbte on the sbme file bs the {@code File}
+ * object. The {@code Pbth} specificbtion provides further informbtion
+ * on the <b href="Pbth.html#interop">interoperbbility</b> between {@code Pbth}
+ * bnd {@code jbvb.io.File} objects. </p>
  *
  * <h3>Visibility</h3>
- * <p> The view of the files and file system provided by classes in this package are
- * guaranteed to be consistent with other views provided by other instances in the
- * same Java virtual machine.  The view may or may not, however, be consistent with
- * the view of the file system as seen by other concurrently running programs due
- * to caching performed by the underlying operating system and delays induced by
- * network-filesystem protocols. This is true regardless of the language in which
- * these other programs are written, and whether they are running on the same machine
- * or on some other machine.  The exact nature of any such inconsistencies are
- * system-dependent and are therefore unspecified. </p>
+ * <p> The view of the files bnd file system provided by clbsses in this pbckbge bre
+ * gubrbnteed to be consistent with other views provided by other instbnces in the
+ * sbme Jbvb virtubl mbchine.  The view mby or mby not, however, be consistent with
+ * the view of the file system bs seen by other concurrently running progrbms due
+ * to cbching performed by the underlying operbting system bnd delbys induced by
+ * network-filesystem protocols. This is true regbrdless of the lbngubge in which
+ * these other progrbms bre written, bnd whether they bre running on the sbme mbchine
+ * or on some other mbchine.  The exbct nbture of bny such inconsistencies bre
+ * system-dependent bnd bre therefore unspecified. </p>
  *
- * <h3><a name="integrity">Synchronized I/O File Integrity</a></h3>
- * <p> The {@link java.nio.file.StandardOpenOption#SYNC SYNC} and {@link
- * java.nio.file.StandardOpenOption#DSYNC DSYNC} options are used when opening a file
- * to require that updates to the file are written synchronously to the underlying
- * storage device. In the case of the default provider, and the file resides on
- * a local storage device, and the {@link java.nio.channels.SeekableByteChannel
- * seekable} channel is connected to a file that was opened with one of these
- * options, then an invocation of the {@link
- * java.nio.channels.WritableByteChannel#write(java.nio.ByteBuffer) write}
- * method is only guaranteed to return when all changes made to the file
- * by that invocation have been written to the device. These options are useful
- * for ensuring that critical information is not lost in the event of a system
- * crash. If the file does not reside on a local device then no such guarantee
- * is made. Whether this guarantee is possible with other {@link
- * java.nio.file.spi.FileSystemProvider provider} implementations is provider
+ * <h3><b nbme="integrity">Synchronized I/O File Integrity</b></h3>
+ * <p> The {@link jbvb.nio.file.StbndbrdOpenOption#SYNC SYNC} bnd {@link
+ * jbvb.nio.file.StbndbrdOpenOption#DSYNC DSYNC} options bre used when opening b file
+ * to require thbt updbtes to the file bre written synchronously to the underlying
+ * storbge device. In the cbse of the defbult provider, bnd the file resides on
+ * b locbl storbge device, bnd the {@link jbvb.nio.chbnnels.SeekbbleByteChbnnel
+ * seekbble} chbnnel is connected to b file thbt wbs opened with one of these
+ * options, then bn invocbtion of the {@link
+ * jbvb.nio.chbnnels.WritbbleByteChbnnel#write(jbvb.nio.ByteBuffer) write}
+ * method is only gubrbnteed to return when bll chbnges mbde to the file
+ * by thbt invocbtion hbve been written to the device. These options bre useful
+ * for ensuring thbt criticbl informbtion is not lost in the event of b system
+ * crbsh. If the file does not reside on b locbl device then no such gubrbntee
+ * is mbde. Whether this gubrbntee is possible with other {@link
+ * jbvb.nio.file.spi.FileSystemProvider provider} implementbtions is provider
  * specific. </p>
  *
- * <h3>General Exceptions</h3>
- * <p> Unless otherwise noted, passing a {@code null} argument to a constructor
- * or method of any class or interface in this package will cause a {@link
- * java.lang.NullPointerException NullPointerException} to be thrown. Additionally,
- * invoking a method with a collection containing a {@code null} element will
- * cause a {@code NullPointerException}, unless otherwise specified. </p>
+ * <h3>Generbl Exceptions</h3>
+ * <p> Unless otherwise noted, pbssing b {@code null} brgument to b constructor
+ * or method of bny clbss or interfbce in this pbckbge will cbuse b {@link
+ * jbvb.lbng.NullPointerException NullPointerException} to be thrown. Additionblly,
+ * invoking b method with b collection contbining b {@code null} element will
+ * cbuse b {@code NullPointerException}, unless otherwise specified. </p>
  *
- * <p> Unless otherwise noted, methods that attempt to access the file system
- * will throw {@link java.nio.file.ClosedFileSystemException} when invoked on
- * objects associated with a {@link java.nio.file.FileSystem} that has been
- * {@link java.nio.file.FileSystem#close closed}. Additionally, any methods
- * that attempt write access to a file system will throw {@link
- * java.nio.file.ReadOnlyFileSystemException} when invoked on an object associated
- * with a {@link java.nio.file.FileSystem} that only provides read-only
- * access. </p>
+ * <p> Unless otherwise noted, methods thbt bttempt to bccess the file system
+ * will throw {@link jbvb.nio.file.ClosedFileSystemException} when invoked on
+ * objects bssocibted with b {@link jbvb.nio.file.FileSystem} thbt hbs been
+ * {@link jbvb.nio.file.FileSystem#close closed}. Additionblly, bny methods
+ * thbt bttempt write bccess to b file system will throw {@link
+ * jbvb.nio.file.RebdOnlyFileSystemException} when invoked on bn object bssocibted
+ * with b {@link jbvb.nio.file.FileSystem} thbt only provides rebd-only
+ * bccess. </p>
  *
- * <p> Unless otherwise noted, invoking a method of any class or interface in
- * this package created by one {@link java.nio.file.spi.FileSystemProvider
- * provider} with a parameter that is an object created by another provider,
- * will throw {@link java.nio.file.ProviderMismatchException}. </p>
+ * <p> Unless otherwise noted, invoking b method of bny clbss or interfbce in
+ * this pbckbge crebted by one {@link jbvb.nio.file.spi.FileSystemProvider
+ * provider} with b pbrbmeter thbt is bn object crebted by bnother provider,
+ * will throw {@link jbvb.nio.file.ProviderMismbtchException}. </p>
  *
- * <h3>Optional Specific Exceptions</h3>
- * Most of the methods defined by classes in this package that access the
- * file system specify that {@link java.io.IOException} be thrown when an I/O
- * error occurs. In some cases, these methods define specific I/O exceptions
- * for common cases. These exceptions, noted as <i>optional specific exceptions</i>,
- * are thrown by the implementation where it can detect the specific error.
- * Where the specific error cannot be detected then the more general {@code
+ * <h3>Optionbl Specific Exceptions</h3>
+ * Most of the methods defined by clbsses in this pbckbge thbt bccess the
+ * file system specify thbt {@link jbvb.io.IOException} be thrown when bn I/O
+ * error occurs. In some cbses, these methods define specific I/O exceptions
+ * for common cbses. These exceptions, noted bs <i>optionbl specific exceptions</i>,
+ * bre thrown by the implementbtion where it cbn detect the specific error.
+ * Where the specific error cbnnot be detected then the more generbl {@code
  * IOException} is thrown.
  *
  * @since 1.7
  */
-package java.nio.file;
+pbckbge jbvb.nio.file;

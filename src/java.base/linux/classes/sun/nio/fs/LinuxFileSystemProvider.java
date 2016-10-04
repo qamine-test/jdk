@@ -1,42 +1,42 @@
 /*
- * Copyright (c) 2008, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.nio.fs;
+pbckbge sun.nio.fs;
 
-import java.nio.file.*;
-import java.nio.file.attribute.*;
-import java.nio.file.spi.FileTypeDetector;
-import java.io.IOException;
-import java.security.AccessController;
-import sun.security.action.GetPropertyAction;
+import jbvb.nio.file.*;
+import jbvb.nio.file.bttribute.*;
+import jbvb.nio.file.spi.FileTypeDetector;
+import jbvb.io.IOException;
+import jbvb.security.AccessController;
+import sun.security.bction.GetPropertyAction;
 
 /**
- * Linux implementation of FileSystemProvider
+ * Linux implementbtion of FileSystemProvider
  */
 
-public class LinuxFileSystemProvider extends UnixFileSystemProvider {
+public clbss LinuxFileSystemProvider extends UnixFileSystemProvider {
     public LinuxFileSystemProvider() {
         super();
     }
@@ -47,68 +47,68 @@ public class LinuxFileSystemProvider extends UnixFileSystemProvider {
     }
 
     @Override
-    LinuxFileStore getFileStore(UnixPath path) throws IOException {
-        return new LinuxFileStore(path);
+    LinuxFileStore getFileStore(UnixPbth pbth) throws IOException {
+        return new LinuxFileStore(pbth);
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public <V extends FileAttributeView> V getFileAttributeView(Path obj,
-                                                                Class<V> type,
+    @SuppressWbrnings("unchecked")
+    public <V extends FileAttributeView> V getFileAttributeView(Pbth obj,
+                                                                Clbss<V> type,
                                                                 LinkOption... options)
     {
-        if (type == DosFileAttributeView.class) {
-            return (V) new LinuxDosFileAttributeView(UnixPath.toUnixPath(obj),
+        if (type == DosFileAttributeView.clbss) {
+            return (V) new LinuxDosFileAttributeView(UnixPbth.toUnixPbth(obj),
                                                      Util.followLinks(options));
         }
-        if (type == UserDefinedFileAttributeView.class) {
-            return (V) new LinuxUserDefinedFileAttributeView(UnixPath.toUnixPath(obj),
+        if (type == UserDefinedFileAttributeView.clbss) {
+            return (V) new LinuxUserDefinedFileAttributeView(UnixPbth.toUnixPbth(obj),
                                                              Util.followLinks(options));
         }
         return super.getFileAttributeView(obj, type, options);
     }
 
     @Override
-    public DynamicFileAttributeView getFileAttributeView(Path obj,
-                                                         String name,
+    public DynbmicFileAttributeView getFileAttributeView(Pbth obj,
+                                                         String nbme,
                                                          LinkOption... options)
     {
-        if (name.equals("dos")) {
-            return new LinuxDosFileAttributeView(UnixPath.toUnixPath(obj),
+        if (nbme.equbls("dos")) {
+            return new LinuxDosFileAttributeView(UnixPbth.toUnixPbth(obj),
                                                  Util.followLinks(options));
         }
-        if (name.equals("user")) {
-            return new LinuxUserDefinedFileAttributeView(UnixPath.toUnixPath(obj),
+        if (nbme.equbls("user")) {
+            return new LinuxUserDefinedFileAttributeView(UnixPbth.toUnixPbth(obj),
                                                          Util.followLinks(options));
         }
-        return super.getFileAttributeView(obj, name, options);
+        return super.getFileAttributeView(obj, nbme, options);
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public <A extends BasicFileAttributes> A readAttributes(Path file,
-                                                            Class<A> type,
+    @SuppressWbrnings("unchecked")
+    public <A extends BbsicFileAttributes> A rebdAttributes(Pbth file,
+                                                            Clbss<A> type,
                                                             LinkOption... options)
         throws IOException
     {
-        if (type == DosFileAttributes.class) {
+        if (type == DosFileAttributes.clbss) {
             DosFileAttributeView view =
-                getFileAttributeView(file, DosFileAttributeView.class, options);
-            return (A) view.readAttributes();
+                getFileAttributeView(file, DosFileAttributeView.clbss, options);
+            return (A) view.rebdAttributes();
         } else {
-            return super.readAttributes(file, type, options);
+            return super.rebdAttributes(file, type, options);
         }
     }
 
     @Override
     FileTypeDetector getFileTypeDetector() {
-        Path userMimeTypes = Paths.get(AccessController.doPrivileged(
+        Pbth userMimeTypes = Pbths.get(AccessController.doPrivileged(
             new GetPropertyAction("user.home")), ".mime.types");
-        Path etcMimeTypes = Paths.get("/etc/mime.types");
+        Pbth etcMimeTypes = Pbths.get("/etc/mime.types");
 
-        return chain(new GnomeFileTypeDetector(),
+        return chbin(new GnomeFileTypeDetector(),
                      new MimeTypesFileTypeDetector(userMimeTypes),
                      new MimeTypesFileTypeDetector(etcMimeTypes),
-                     new MagicFileTypeDetector());
+                     new MbgicFileTypeDetector());
     }
 }

@@ -1,54 +1,54 @@
 /*
- * Copyright (c) 1997, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.java.swing.plaf.windows;
+pbckbge com.sun.jbvb.swing.plbf.windows;
 
-import java.awt.*;
+import jbvb.bwt.*;
 
-import javax.swing.plaf.ComponentUI;
-import javax.swing.plaf.basic.*;
-import javax.swing.*;
+import jbvbx.swing.plbf.ComponentUI;
+import jbvbx.swing.plbf.bbsic.*;
+import jbvbx.swing.*;
 
-import static com.sun.java.swing.plaf.windows.TMSchema.Part;
-import static com.sun.java.swing.plaf.windows.XPStyle.Skin;
+import stbtic com.sun.jbvb.swing.plbf.windows.TMSchemb.Pbrt;
+import stbtic com.sun.jbvb.swing.plbf.windows.XPStyle.Skin;
 
 
 /**
- * Draws Windows toolbar separators.
+ * Drbws Windows toolbbr sepbrbtors.
  * <p>
  *
- * @author Mark Davidson
+ * @buthor Mbrk Dbvidson
  */
-public class WindowsToolBarSeparatorUI extends BasicToolBarSeparatorUI {
+public clbss WindowsToolBbrSepbrbtorUI extends BbsicToolBbrSepbrbtorUI {
 
-    public static ComponentUI createUI( JComponent c ) {
-        return new WindowsToolBarSeparatorUI();
+    public stbtic ComponentUI crebteUI( JComponent c ) {
+        return new WindowsToolBbrSepbrbtorUI();
     }
 
     public Dimension getPreferredSize(JComponent c) {
-        Dimension size = ((JToolBar.Separator)c).getSeparatorSize();
+        Dimension size = ((JToolBbr.Sepbrbtor)c).getSepbrbtorSize();
 
         if (size != null) {
             size = size.getSize();
@@ -56,14 +56,14 @@ public class WindowsToolBarSeparatorUI extends BasicToolBarSeparatorUI {
             size = new Dimension(6, 6);
             XPStyle xp = XPStyle.getXP();
             if (xp != null) {
-                boolean vertical = ((JSeparator)c).getOrientation() == SwingConstants.VERTICAL;
-                Part part = vertical ? Part.TP_SEPARATOR : Part.TP_SEPARATORVERT;
-                Skin skin = xp.getSkin(c, part);
+                boolebn verticbl = ((JSepbrbtor)c).getOrientbtion() == SwingConstbnts.VERTICAL;
+                Pbrt pbrt = verticbl ? Pbrt.TP_SEPARATOR : Pbrt.TP_SEPARATORVERT;
+                Skin skin = xp.getSkin(c, pbrt);
                 size.width = skin.getWidth();
                 size.height = skin.getHeight();
             }
 
-            if (((JSeparator)c).getOrientation() == SwingConstants.VERTICAL) {
+            if (((JSepbrbtor)c).getOrientbtion() == SwingConstbnts.VERTICAL) {
                 size.height = 0;
             } else {
                 size.width = 0;
@@ -72,51 +72,51 @@ public class WindowsToolBarSeparatorUI extends BasicToolBarSeparatorUI {
         return size;
     }
 
-    public Dimension getMaximumSize(JComponent c) {
+    public Dimension getMbximumSize(JComponent c) {
         Dimension pref = getPreferredSize(c);
-        if (((JSeparator)c).getOrientation() == SwingConstants.VERTICAL) {
+        if (((JSepbrbtor)c).getOrientbtion() == SwingConstbnts.VERTICAL) {
             return new Dimension(pref.width, Short.MAX_VALUE);
         } else {
             return new Dimension(Short.MAX_VALUE, pref.height);
         }
     }
 
-    public void paint( Graphics g, JComponent c ) {
-        boolean vertical = ((JSeparator)c).getOrientation() == SwingConstants.VERTICAL;
+    public void pbint( Grbphics g, JComponent c ) {
+        boolebn verticbl = ((JSepbrbtor)c).getOrientbtion() == SwingConstbnts.VERTICAL;
         Dimension size = c.getSize();
 
         XPStyle xp = XPStyle.getXP();
         if (xp != null) {
-            Part part = vertical ? Part.TP_SEPARATOR : Part.TP_SEPARATORVERT;
-            Skin skin = xp.getSkin(c, part);
+            Pbrt pbrt = verticbl ? Pbrt.TP_SEPARATOR : Pbrt.TP_SEPARATORVERT;
+            Skin skin = xp.getSkin(c, pbrt);
 
-            int dx = vertical ? (size.width - skin.getWidth()) / 2 : 0;
-            int dy = vertical ? 0 : (size.height - skin.getHeight()) / 2;
-            int dw = vertical ? skin.getWidth() : size.width;
-            int dh = vertical ? size.height : skin.getHeight();
-            skin.paintSkin(g, dx, dy, dw, dh, null);
+            int dx = verticbl ? (size.width - skin.getWidth()) / 2 : 0;
+            int dy = verticbl ? 0 : (size.height - skin.getHeight()) / 2;
+            int dw = verticbl ? skin.getWidth() : size.width;
+            int dh = verticbl ? size.height : skin.getHeight();
+            skin.pbintSkin(g, dx, dy, dw, dh, null);
         } else {
 
         Color temp = g.getColor();
 
-        UIDefaults table = UIManager.getLookAndFeelDefaults();
+        UIDefbults tbble = UIMbnbger.getLookAndFeelDefbults();
 
-        Color shadow = table.getColor("ToolBar.shadow");
-        Color highlight = table.getColor("ToolBar.highlight");
+        Color shbdow = tbble.getColor("ToolBbr.shbdow");
+        Color highlight = tbble.getColor("ToolBbr.highlight");
 
-        if (vertical) {
+        if (verticbl) {
             int x = (size.width / 2) - 1;
-            g.setColor(shadow);
-            g.drawLine(x, 2, x, size.height - 2);
+            g.setColor(shbdow);
+            g.drbwLine(x, 2, x, size.height - 2);
 
             g.setColor(highlight);
-            g.drawLine(x + 1, 2, x + 1, size.height - 2);
+            g.drbwLine(x + 1, 2, x + 1, size.height - 2);
         } else {
             int y = (size.height / 2) - 1;
-            g.setColor(shadow);
-            g.drawLine(2, y, size.width - 2, y);
+            g.setColor(shbdow);
+            g.drbwLine(2, y, size.width - 2, y);
             g.setColor(highlight);
-            g.drawLine(2, y + 1, size.width - 2, y + 1);
+            g.drbwLine(2, y + 1, size.width - 2, y + 1);
         }
         g.setColor(temp);
         }

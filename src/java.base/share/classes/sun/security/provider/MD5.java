@@ -1,70 +1,70 @@
 /*
- * Copyright (c) 1996, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.provider;
+pbckbge sun.security.provider;
 
-import static sun.security.provider.ByteArrayAccess.*;
+import stbtic sun.security.provider.ByteArrbyAccess.*;
 
 /**
- * The MD5 class is used to compute an MD5 message digest over a given
- * buffer of bytes. It is an implementation of the RSA Data Security Inc
- * MD5 algorithim as described in internet RFC 1321.
+ * The MD5 clbss is used to compute bn MD5 messbge digest over b given
+ * buffer of bytes. It is bn implementbtion of the RSA Dbtb Security Inc
+ * MD5 blgorithim bs described in internet RFC 1321.
  *
- * @author      Chuck McManis
- * @author      Benjamin Renaud
- * @author      Andreas Sterbenz
+ * @buthor      Chuck McMbnis
+ * @buthor      Benjbmin Renbud
+ * @buthor      Andrebs Sterbenz
  */
-public final class MD5 extends DigestBase {
+public finbl clbss MD5 extends DigestBbse {
 
-    // state of this object
-    private int[] state;
-    // temporary buffer, used by implCompress()
-    private int[] x;
+    // stbte of this object
+    privbte int[] stbte;
+    // temporbry buffer, used by implCompress()
+    privbte int[] x;
 
-    // rotation constants
-    private static final int S11 = 7;
-    private static final int S12 = 12;
-    private static final int S13 = 17;
-    private static final int S14 = 22;
-    private static final int S21 = 5;
-    private static final int S22 = 9;
-    private static final int S23 = 14;
-    private static final int S24 = 20;
-    private static final int S31 = 4;
-    private static final int S32 = 11;
-    private static final int S33 = 16;
-    private static final int S34 = 23;
-    private static final int S41 = 6;
-    private static final int S42 = 10;
-    private static final int S43 = 15;
-    private static final int S44 = 21;
+    // rotbtion constbnts
+    privbte stbtic finbl int S11 = 7;
+    privbte stbtic finbl int S12 = 12;
+    privbte stbtic finbl int S13 = 17;
+    privbte stbtic finbl int S14 = 22;
+    privbte stbtic finbl int S21 = 5;
+    privbte stbtic finbl int S22 = 9;
+    privbte stbtic finbl int S23 = 14;
+    privbte stbtic finbl int S24 = 20;
+    privbte stbtic finbl int S31 = 4;
+    privbte stbtic finbl int S32 = 11;
+    privbte stbtic finbl int S33 = 16;
+    privbte stbtic finbl int S34 = 23;
+    privbte stbtic finbl int S41 = 6;
+    privbte stbtic finbl int S42 = 10;
+    privbte stbtic finbl int S43 = 15;
+    privbte stbtic finbl int S44 = 21;
 
-    // Standard constructor, creates a new MD5 instance.
+    // Stbndbrd constructor, crebtes b new MD5 instbnce.
     public MD5() {
         super("MD5", 16, 64);
-        state = new int[4];
+        stbte = new int[4];
         x = new int[16];
         implReset();
     }
@@ -72,156 +72,156 @@ public final class MD5 extends DigestBase {
     // clone this object
     public Object clone() throws CloneNotSupportedException {
         MD5 copy = (MD5) super.clone();
-        copy.state = copy.state.clone();
+        copy.stbte = copy.stbte.clone();
         copy.x = new int[16];
         return copy;
     }
 
     /**
-     * Reset the state of this object.
+     * Reset the stbte of this object.
      */
     void implReset() {
-        // Load magic initialization constants.
-        state[0] = 0x67452301;
-        state[1] = 0xefcdab89;
-        state[2] = 0x98badcfe;
-        state[3] = 0x10325476;
+        // Lobd mbgic initiblizbtion constbnts.
+        stbte[0] = 0x67452301;
+        stbte[1] = 0xefcdbb89;
+        stbte[2] = 0x98bbdcfe;
+        stbte[3] = 0x10325476;
     }
 
     /**
-     * Perform the final computations, any buffered bytes are added
-     * to the digest, the count is added to the digest, and the resulting
+     * Perform the finbl computbtions, bny buffered bytes bre bdded
+     * to the digest, the count is bdded to the digest, bnd the resulting
      * digest is stored.
      */
     void implDigest(byte[] out, int ofs) {
         long bitsProcessed = bytesProcessed << 3;
 
         int index = (int)bytesProcessed & 0x3f;
-        int padLen = (index < 56) ? (56 - index) : (120 - index);
-        engineUpdate(padding, 0, padLen);
+        int pbdLen = (index < 56) ? (56 - index) : (120 - index);
+        engineUpdbte(pbdding, 0, pbdLen);
 
         i2bLittle4((int)bitsProcessed, buffer, 56);
         i2bLittle4((int)(bitsProcessed >>> 32), buffer, 60);
         implCompress(buffer, 0);
 
-        i2bLittle(state, 0, out, ofs, 16);
+        i2bLittle(stbte, 0, out, ofs, 16);
     }
 
     /* **********************************************************
      * The MD5 Functions. The results of this
-     * implementation were checked against the RSADSI version.
+     * implementbtion were checked bgbinst the RSADSI version.
      * **********************************************************
      */
 
-    private static int FF(int a, int b, int c, int d, int x, int s, int ac) {
-        a += ((b & c) | ((~b) & d)) + x + ac;
-        return ((a << s) | (a >>> (32 - s))) + b;
+    privbte stbtic int FF(int b, int b, int c, int d, int x, int s, int bc) {
+        b += ((b & c) | ((~b) & d)) + x + bc;
+        return ((b << s) | (b >>> (32 - s))) + b;
     }
 
-    private static int GG(int a, int b, int c, int d, int x, int s, int ac) {
-        a += ((b & d) | (c & (~d))) + x + ac;
-        return ((a << s) | (a >>> (32 - s))) + b;
+    privbte stbtic int GG(int b, int b, int c, int d, int x, int s, int bc) {
+        b += ((b & d) | (c & (~d))) + x + bc;
+        return ((b << s) | (b >>> (32 - s))) + b;
     }
 
-    private static int HH(int a, int b, int c, int d, int x, int s, int ac) {
-        a += ((b ^ c) ^ d) + x + ac;
-        return ((a << s) | (a >>> (32 - s))) + b;
+    privbte stbtic int HH(int b, int b, int c, int d, int x, int s, int bc) {
+        b += ((b ^ c) ^ d) + x + bc;
+        return ((b << s) | (b >>> (32 - s))) + b;
     }
 
-    private static int II(int a, int b, int c, int d, int x, int s, int ac) {
-        a += (c ^ (b | (~d))) + x + ac;
-        return ((a << s) | (a >>> (32 - s))) + b;
+    privbte stbtic int II(int b, int b, int c, int d, int x, int s, int bc) {
+        b += (c ^ (b | (~d))) + x + bc;
+        return ((b << s) | (b >>> (32 - s))) + b;
     }
 
     /**
-     * This is where the functions come together as the generic MD5
-     * transformation operation. It consumes sixteen
-     * bytes from the buffer, beginning at the specified offset.
+     * This is where the functions come together bs the generic MD5
+     * trbnsformbtion operbtion. It consumes sixteen
+     * bytes from the buffer, beginning bt the specified offset.
      */
     void implCompress(byte[] buf, int ofs) {
         b2iLittle64(buf, ofs, x);
 
-        int a = state[0];
-        int b = state[1];
-        int c = state[2];
-        int d = state[3];
+        int b = stbte[0];
+        int b = stbte[1];
+        int c = stbte[2];
+        int d = stbte[3];
 
         /* Round 1 */
-        a = FF ( a, b, c, d, x[ 0], S11, 0xd76aa478); /* 1 */
-        d = FF ( d, a, b, c, x[ 1], S12, 0xe8c7b756); /* 2 */
-        c = FF ( c, d, a, b, x[ 2], S13, 0x242070db); /* 3 */
-        b = FF ( b, c, d, a, x[ 3], S14, 0xc1bdceee); /* 4 */
-        a = FF ( a, b, c, d, x[ 4], S11, 0xf57c0faf); /* 5 */
-        d = FF ( d, a, b, c, x[ 5], S12, 0x4787c62a); /* 6 */
-        c = FF ( c, d, a, b, x[ 6], S13, 0xa8304613); /* 7 */
-        b = FF ( b, c, d, a, x[ 7], S14, 0xfd469501); /* 8 */
-        a = FF ( a, b, c, d, x[ 8], S11, 0x698098d8); /* 9 */
-        d = FF ( d, a, b, c, x[ 9], S12, 0x8b44f7af); /* 10 */
-        c = FF ( c, d, a, b, x[10], S13, 0xffff5bb1); /* 11 */
-        b = FF ( b, c, d, a, x[11], S14, 0x895cd7be); /* 12 */
-        a = FF ( a, b, c, d, x[12], S11, 0x6b901122); /* 13 */
-        d = FF ( d, a, b, c, x[13], S12, 0xfd987193); /* 14 */
-        c = FF ( c, d, a, b, x[14], S13, 0xa679438e); /* 15 */
-        b = FF ( b, c, d, a, x[15], S14, 0x49b40821); /* 16 */
+        b = FF ( b, b, c, d, x[ 0], S11, 0xd76bb478); /* 1 */
+        d = FF ( d, b, b, c, x[ 1], S12, 0xe8c7b756); /* 2 */
+        c = FF ( c, d, b, b, x[ 2], S13, 0x242070db); /* 3 */
+        b = FF ( b, c, d, b, x[ 3], S14, 0xc1bdceee); /* 4 */
+        b = FF ( b, b, c, d, x[ 4], S11, 0xf57c0fbf); /* 5 */
+        d = FF ( d, b, b, c, x[ 5], S12, 0x4787c62b); /* 6 */
+        c = FF ( c, d, b, b, x[ 6], S13, 0xb8304613); /* 7 */
+        b = FF ( b, c, d, b, x[ 7], S14, 0xfd469501); /* 8 */
+        b = FF ( b, b, c, d, x[ 8], S11, 0x698098d8); /* 9 */
+        d = FF ( d, b, b, c, x[ 9], S12, 0x8b44f7bf); /* 10 */
+        c = FF ( c, d, b, b, x[10], S13, 0xffff5bb1); /* 11 */
+        b = FF ( b, c, d, b, x[11], S14, 0x895cd7be); /* 12 */
+        b = FF ( b, b, c, d, x[12], S11, 0x6b901122); /* 13 */
+        d = FF ( d, b, b, c, x[13], S12, 0xfd987193); /* 14 */
+        c = FF ( c, d, b, b, x[14], S13, 0xb679438e); /* 15 */
+        b = FF ( b, c, d, b, x[15], S14, 0x49b40821); /* 16 */
 
         /* Round 2 */
-        a = GG ( a, b, c, d, x[ 1], S21, 0xf61e2562); /* 17 */
-        d = GG ( d, a, b, c, x[ 6], S22, 0xc040b340); /* 18 */
-        c = GG ( c, d, a, b, x[11], S23, 0x265e5a51); /* 19 */
-        b = GG ( b, c, d, a, x[ 0], S24, 0xe9b6c7aa); /* 20 */
-        a = GG ( a, b, c, d, x[ 5], S21, 0xd62f105d); /* 21 */
-        d = GG ( d, a, b, c, x[10], S22,  0x2441453); /* 22 */
-        c = GG ( c, d, a, b, x[15], S23, 0xd8a1e681); /* 23 */
-        b = GG ( b, c, d, a, x[ 4], S24, 0xe7d3fbc8); /* 24 */
-        a = GG ( a, b, c, d, x[ 9], S21, 0x21e1cde6); /* 25 */
-        d = GG ( d, a, b, c, x[14], S22, 0xc33707d6); /* 26 */
-        c = GG ( c, d, a, b, x[ 3], S23, 0xf4d50d87); /* 27 */
-        b = GG ( b, c, d, a, x[ 8], S24, 0x455a14ed); /* 28 */
-        a = GG ( a, b, c, d, x[13], S21, 0xa9e3e905); /* 29 */
-        d = GG ( d, a, b, c, x[ 2], S22, 0xfcefa3f8); /* 30 */
-        c = GG ( c, d, a, b, x[ 7], S23, 0x676f02d9); /* 31 */
-        b = GG ( b, c, d, a, x[12], S24, 0x8d2a4c8a); /* 32 */
+        b = GG ( b, b, c, d, x[ 1], S21, 0xf61e2562); /* 17 */
+        d = GG ( d, b, b, c, x[ 6], S22, 0xc040b340); /* 18 */
+        c = GG ( c, d, b, b, x[11], S23, 0x265e5b51); /* 19 */
+        b = GG ( b, c, d, b, x[ 0], S24, 0xe9b6c7bb); /* 20 */
+        b = GG ( b, b, c, d, x[ 5], S21, 0xd62f105d); /* 21 */
+        d = GG ( d, b, b, c, x[10], S22,  0x2441453); /* 22 */
+        c = GG ( c, d, b, b, x[15], S23, 0xd8b1e681); /* 23 */
+        b = GG ( b, c, d, b, x[ 4], S24, 0xe7d3fbc8); /* 24 */
+        b = GG ( b, b, c, d, x[ 9], S21, 0x21e1cde6); /* 25 */
+        d = GG ( d, b, b, c, x[14], S22, 0xc33707d6); /* 26 */
+        c = GG ( c, d, b, b, x[ 3], S23, 0xf4d50d87); /* 27 */
+        b = GG ( b, c, d, b, x[ 8], S24, 0x455b14ed); /* 28 */
+        b = GG ( b, b, c, d, x[13], S21, 0xb9e3e905); /* 29 */
+        d = GG ( d, b, b, c, x[ 2], S22, 0xfcefb3f8); /* 30 */
+        c = GG ( c, d, b, b, x[ 7], S23, 0x676f02d9); /* 31 */
+        b = GG ( b, c, d, b, x[12], S24, 0x8d2b4c8b); /* 32 */
 
         /* Round 3 */
-        a = HH ( a, b, c, d, x[ 5], S31, 0xfffa3942); /* 33 */
-        d = HH ( d, a, b, c, x[ 8], S32, 0x8771f681); /* 34 */
-        c = HH ( c, d, a, b, x[11], S33, 0x6d9d6122); /* 35 */
-        b = HH ( b, c, d, a, x[14], S34, 0xfde5380c); /* 36 */
-        a = HH ( a, b, c, d, x[ 1], S31, 0xa4beea44); /* 37 */
-        d = HH ( d, a, b, c, x[ 4], S32, 0x4bdecfa9); /* 38 */
-        c = HH ( c, d, a, b, x[ 7], S33, 0xf6bb4b60); /* 39 */
-        b = HH ( b, c, d, a, x[10], S34, 0xbebfbc70); /* 40 */
-        a = HH ( a, b, c, d, x[13], S31, 0x289b7ec6); /* 41 */
-        d = HH ( d, a, b, c, x[ 0], S32, 0xeaa127fa); /* 42 */
-        c = HH ( c, d, a, b, x[ 3], S33, 0xd4ef3085); /* 43 */
-        b = HH ( b, c, d, a, x[ 6], S34,  0x4881d05); /* 44 */
-        a = HH ( a, b, c, d, x[ 9], S31, 0xd9d4d039); /* 45 */
-        d = HH ( d, a, b, c, x[12], S32, 0xe6db99e5); /* 46 */
-        c = HH ( c, d, a, b, x[15], S33, 0x1fa27cf8); /* 47 */
-        b = HH ( b, c, d, a, x[ 2], S34, 0xc4ac5665); /* 48 */
+        b = HH ( b, b, c, d, x[ 5], S31, 0xfffb3942); /* 33 */
+        d = HH ( d, b, b, c, x[ 8], S32, 0x8771f681); /* 34 */
+        c = HH ( c, d, b, b, x[11], S33, 0x6d9d6122); /* 35 */
+        b = HH ( b, c, d, b, x[14], S34, 0xfde5380c); /* 36 */
+        b = HH ( b, b, c, d, x[ 1], S31, 0xb4beeb44); /* 37 */
+        d = HH ( d, b, b, c, x[ 4], S32, 0x4bdecfb9); /* 38 */
+        c = HH ( c, d, b, b, x[ 7], S33, 0xf6bb4b60); /* 39 */
+        b = HH ( b, c, d, b, x[10], S34, 0xbebfbc70); /* 40 */
+        b = HH ( b, b, c, d, x[13], S31, 0x289b7ec6); /* 41 */
+        d = HH ( d, b, b, c, x[ 0], S32, 0xebb127fb); /* 42 */
+        c = HH ( c, d, b, b, x[ 3], S33, 0xd4ef3085); /* 43 */
+        b = HH ( b, c, d, b, x[ 6], S34,  0x4881d05); /* 44 */
+        b = HH ( b, b, c, d, x[ 9], S31, 0xd9d4d039); /* 45 */
+        d = HH ( d, b, b, c, x[12], S32, 0xe6db99e5); /* 46 */
+        c = HH ( c, d, b, b, x[15], S33, 0x1fb27cf8); /* 47 */
+        b = HH ( b, c, d, b, x[ 2], S34, 0xc4bc5665); /* 48 */
 
         /* Round 4 */
-        a = II ( a, b, c, d, x[ 0], S41, 0xf4292244); /* 49 */
-        d = II ( d, a, b, c, x[ 7], S42, 0x432aff97); /* 50 */
-        c = II ( c, d, a, b, x[14], S43, 0xab9423a7); /* 51 */
-        b = II ( b, c, d, a, x[ 5], S44, 0xfc93a039); /* 52 */
-        a = II ( a, b, c, d, x[12], S41, 0x655b59c3); /* 53 */
-        d = II ( d, a, b, c, x[ 3], S42, 0x8f0ccc92); /* 54 */
-        c = II ( c, d, a, b, x[10], S43, 0xffeff47d); /* 55 */
-        b = II ( b, c, d, a, x[ 1], S44, 0x85845dd1); /* 56 */
-        a = II ( a, b, c, d, x[ 8], S41, 0x6fa87e4f); /* 57 */
-        d = II ( d, a, b, c, x[15], S42, 0xfe2ce6e0); /* 58 */
-        c = II ( c, d, a, b, x[ 6], S43, 0xa3014314); /* 59 */
-        b = II ( b, c, d, a, x[13], S44, 0x4e0811a1); /* 60 */
-        a = II ( a, b, c, d, x[ 4], S41, 0xf7537e82); /* 61 */
-        d = II ( d, a, b, c, x[11], S42, 0xbd3af235); /* 62 */
-        c = II ( c, d, a, b, x[ 2], S43, 0x2ad7d2bb); /* 63 */
-        b = II ( b, c, d, a, x[ 9], S44, 0xeb86d391); /* 64 */
+        b = II ( b, b, c, d, x[ 0], S41, 0xf4292244); /* 49 */
+        d = II ( d, b, b, c, x[ 7], S42, 0x432bff97); /* 50 */
+        c = II ( c, d, b, b, x[14], S43, 0xbb9423b7); /* 51 */
+        b = II ( b, c, d, b, x[ 5], S44, 0xfc93b039); /* 52 */
+        b = II ( b, b, c, d, x[12], S41, 0x655b59c3); /* 53 */
+        d = II ( d, b, b, c, x[ 3], S42, 0x8f0ccc92); /* 54 */
+        c = II ( c, d, b, b, x[10], S43, 0xffeff47d); /* 55 */
+        b = II ( b, c, d, b, x[ 1], S44, 0x85845dd1); /* 56 */
+        b = II ( b, b, c, d, x[ 8], S41, 0x6fb87e4f); /* 57 */
+        d = II ( d, b, b, c, x[15], S42, 0xfe2ce6e0); /* 58 */
+        c = II ( c, d, b, b, x[ 6], S43, 0xb3014314); /* 59 */
+        b = II ( b, c, d, b, x[13], S44, 0x4e0811b1); /* 60 */
+        b = II ( b, b, c, d, x[ 4], S41, 0xf7537e82); /* 61 */
+        d = II ( d, b, b, c, x[11], S42, 0xbd3bf235); /* 62 */
+        c = II ( c, d, b, b, x[ 2], S43, 0x2bd7d2bb); /* 63 */
+        b = II ( b, c, d, b, x[ 9], S44, 0xeb86d391); /* 64 */
 
-        state[0] += a;
-        state[1] += b;
-        state[2] += c;
-        state[3] += d;
+        stbte[0] += b;
+        stbte[1] += b;
+        stbte[2] += c;
+        stbte[3] += d;
     }
 
 }

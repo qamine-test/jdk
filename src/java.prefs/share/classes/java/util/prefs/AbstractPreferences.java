@@ -1,338 +1,338 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.util.prefs;
+pbckbge jbvb.util.prefs;
 
-import java.util.*;
-import java.io.*;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-// These imports needed only as a workaround for a JavaDoc bug
-import java.lang.Integer;
-import java.lang.Long;
-import java.lang.Float;
-import java.lang.Double;
+import jbvb.util.*;
+import jbvb.io.*;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+// These imports needed only bs b workbround for b JbvbDoc bug
+import jbvb.lbng.Integer;
+import jbvb.lbng.Long;
+import jbvb.lbng.Flobt;
+import jbvb.lbng.Double;
 
 /**
- * This class provides a skeletal implementation of the {@link Preferences}
- * class, greatly easing the task of implementing it.
+ * This clbss provides b skeletbl implementbtion of the {@link Preferences}
+ * clbss, grebtly ebsing the tbsk of implementing it.
  *
- * <p><strong>This class is for <tt>Preferences</tt> implementers only.
- * Normal users of the <tt>Preferences</tt> facility should have no need to
- * consult this documentation.  The {@link Preferences} documentation
+ * <p><strong>This clbss is for <tt>Preferences</tt> implementers only.
+ * Normbl users of the <tt>Preferences</tt> fbcility should hbve no need to
+ * consult this documentbtion.  The {@link Preferences} documentbtion
  * should suffice.</strong>
  *
- * <p>Implementors must override the nine abstract service-provider interface
+ * <p>Implementors must override the nine bbstrbct service-provider interfbce
  * (SPI) methods: {@link #getSpi(String)}, {@link #putSpi(String,String)},
  * {@link #removeSpi(String)}, {@link #childSpi(String)}, {@link
- * #removeNodeSpi()}, {@link #keysSpi()}, {@link #childrenNamesSpi()}, {@link
- * #syncSpi()} and {@link #flushSpi()}.  All of the concrete methods specify
- * precisely how they are implemented atop these SPI methods.  The implementor
- * may, at his discretion, override one or more of the concrete methods if the
- * default implementation is unsatisfactory for any reason, such as
- * performance.
+ * #removeNodeSpi()}, {@link #keysSpi()}, {@link #childrenNbmesSpi()}, {@link
+ * #syncSpi()} bnd {@link #flushSpi()}.  All of the concrete methods specify
+ * precisely how they bre implemented btop these SPI methods.  The implementor
+ * mby, bt his discretion, override one or more of the concrete methods if the
+ * defbult implementbtion is unsbtisfbctory for bny rebson, such bs
+ * performbnce.
  *
- * <p>The SPI methods fall into three groups concerning exception
- * behavior. The <tt>getSpi</tt> method should never throw exceptions, but it
- * doesn't really matter, as any exception thrown by this method will be
+ * <p>The SPI methods fbll into three groups concerning exception
+ * behbvior. The <tt>getSpi</tt> method should never throw exceptions, but it
+ * doesn't reblly mbtter, bs bny exception thrown by this method will be
  * intercepted by {@link #get(String,String)}, which will return the specified
- * default value to the caller.  The <tt>removeNodeSpi, keysSpi,
- * childrenNamesSpi, syncSpi</tt> and <tt>flushSpi</tt> methods are specified
- * to throw {@link BackingStoreException}, and the implementation is required
- * to throw this checked exception if it is unable to perform the operation.
- * The exception propagates outward, causing the corresponding API method
- * to fail.
+ * defbult vblue to the cbller.  The <tt>removeNodeSpi, keysSpi,
+ * childrenNbmesSpi, syncSpi</tt> bnd <tt>flushSpi</tt> methods bre specified
+ * to throw {@link BbckingStoreException}, bnd the implementbtion is required
+ * to throw this checked exception if it is unbble to perform the operbtion.
+ * The exception propbgbtes outwbrd, cbusing the corresponding API method
+ * to fbil.
  *
- * <p>The remaining SPI methods {@link #putSpi(String,String)}, {@link
- * #removeSpi(String)} and {@link #childSpi(String)} have more complicated
- * exception behavior.  They are not specified to throw
- * <tt>BackingStoreException</tt>, as they can generally obey their contracts
- * even if the backing store is unavailable.  This is true because they return
- * no information and their effects are not required to become permanent until
- * a subsequent call to {@link Preferences#flush()} or
- * {@link Preferences#sync()}. Generally speaking, these SPI methods should not
- * throw exceptions.  In some implementations, there may be circumstances
- * under which these calls cannot even enqueue the requested operation for
- * later processing.  Even under these circumstances it is generally better to
- * simply ignore the invocation and return, rather than throwing an
- * exception.  Under these circumstances, however, all subsequent invocations
- * of <tt>flush()</tt> and <tt>sync</tt> should return <tt>false</tt>, as
- * returning <tt>true</tt> would imply that all previous operations had
- * successfully been made permanent.
+ * <p>The rembining SPI methods {@link #putSpi(String,String)}, {@link
+ * #removeSpi(String)} bnd {@link #childSpi(String)} hbve more complicbted
+ * exception behbvior.  They bre not specified to throw
+ * <tt>BbckingStoreException</tt>, bs they cbn generblly obey their contrbcts
+ * even if the bbcking store is unbvbilbble.  This is true becbuse they return
+ * no informbtion bnd their effects bre not required to become permbnent until
+ * b subsequent cbll to {@link Preferences#flush()} or
+ * {@link Preferences#sync()}. Generblly spebking, these SPI methods should not
+ * throw exceptions.  In some implementbtions, there mby be circumstbnces
+ * under which these cblls cbnnot even enqueue the requested operbtion for
+ * lbter processing.  Even under these circumstbnces it is generblly better to
+ * simply ignore the invocbtion bnd return, rbther thbn throwing bn
+ * exception.  Under these circumstbnces, however, bll subsequent invocbtions
+ * of <tt>flush()</tt> bnd <tt>sync</tt> should return <tt>fblse</tt>, bs
+ * returning <tt>true</tt> would imply thbt bll previous operbtions hbd
+ * successfully been mbde permbnent.
  *
- * <p>There is one circumstance under which <tt>putSpi, removeSpi and
- * childSpi</tt> <i>should</i> throw an exception: if the caller lacks
- * sufficient privileges on the underlying operating system to perform the
- * requested operation.  This will, for instance, occur on most systems
- * if a non-privileged user attempts to modify system preferences.
- * (The required privileges will vary from implementation to
- * implementation.  On some implementations, they are the right to modify the
- * contents of some directory in the file system; on others they are the right
- * to modify contents of some key in a registry.)  Under any of these
- * circumstances, it would generally be undesirable to let the program
- * continue executing as if these operations would become permanent at a later
- * time.  While implementations are not required to throw an exception under
- * these circumstances, they are encouraged to do so.  A {@link
- * SecurityException} would be appropriate.
+ * <p>There is one circumstbnce under which <tt>putSpi, removeSpi bnd
+ * childSpi</tt> <i>should</i> throw bn exception: if the cbller lbcks
+ * sufficient privileges on the underlying operbting system to perform the
+ * requested operbtion.  This will, for instbnce, occur on most systems
+ * if b non-privileged user bttempts to modify system preferences.
+ * (The required privileges will vbry from implementbtion to
+ * implementbtion.  On some implementbtions, they bre the right to modify the
+ * contents of some directory in the file system; on others they bre the right
+ * to modify contents of some key in b registry.)  Under bny of these
+ * circumstbnces, it would generblly be undesirbble to let the progrbm
+ * continue executing bs if these operbtions would become permbnent bt b lbter
+ * time.  While implementbtions bre not required to throw bn exception under
+ * these circumstbnces, they bre encourbged to do so.  A {@link
+ * SecurityException} would be bppropribte.
  *
- * <p>Most of the SPI methods require the implementation to read or write
- * information at a preferences node.  The implementor should beware of the
- * fact that another VM may have concurrently deleted this node from the
- * backing store.  It is the implementation's responsibility to recreate the
- * node if it has been deleted.
+ * <p>Most of the SPI methods require the implementbtion to rebd or write
+ * informbtion bt b preferences node.  The implementor should bewbre of the
+ * fbct thbt bnother VM mby hbve concurrently deleted this node from the
+ * bbcking store.  It is the implementbtion's responsibility to recrebte the
+ * node if it hbs been deleted.
  *
- * <p>Implementation note: In Sun's default <tt>Preferences</tt>
- * implementations, the user's identity is inherited from the underlying
- * operating system and does not change for the lifetime of the virtual
- * machine.  It is recognized that server-side <tt>Preferences</tt>
- * implementations may have the user identity change from request to request,
- * implicitly passed to <tt>Preferences</tt> methods via the use of a
- * static {@link ThreadLocal} instance.  Authors of such implementations are
- * <i>strongly</i> encouraged to determine the user at the time preferences
- * are accessed (for example by the {@link #get(String,String)} or {@link
- * #put(String,String)} method) rather than permanently associating a user
- * with each <tt>Preferences</tt> instance.  The latter behavior conflicts
- * with normal <tt>Preferences</tt> usage and would lead to great confusion.
+ * <p>Implementbtion note: In Sun's defbult <tt>Preferences</tt>
+ * implementbtions, the user's identity is inherited from the underlying
+ * operbting system bnd does not chbnge for the lifetime of the virtubl
+ * mbchine.  It is recognized thbt server-side <tt>Preferences</tt>
+ * implementbtions mby hbve the user identity chbnge from request to request,
+ * implicitly pbssed to <tt>Preferences</tt> methods vib the use of b
+ * stbtic {@link ThrebdLocbl} instbnce.  Authors of such implementbtions bre
+ * <i>strongly</i> encourbged to determine the user bt the time preferences
+ * bre bccessed (for exbmple by the {@link #get(String,String)} or {@link
+ * #put(String,String)} method) rbther thbn permbnently bssocibting b user
+ * with ebch <tt>Preferences</tt> instbnce.  The lbtter behbvior conflicts
+ * with normbl <tt>Preferences</tt> usbge bnd would lebd to grebt confusion.
  *
- * @author  Josh Bloch
+ * @buthor  Josh Bloch
  * @see     Preferences
  * @since   1.4
  */
-public abstract class AbstractPreferences extends Preferences {
+public bbstrbct clbss AbstrbctPreferences extends Preferences {
     /**
-     * Our name relative to parent.
+     * Our nbme relbtive to pbrent.
      */
-    private final String name;
+    privbte finbl String nbme;
 
     /**
-     * Our absolute path name.
+     * Our bbsolute pbth nbme.
      */
-    private final String absolutePath;
+    privbte finbl String bbsolutePbth;
 
     /**
-     * Our parent node.
+     * Our pbrent node.
      */
-    final AbstractPreferences parent;
+    finbl AbstrbctPreferences pbrent;
 
     /**
      * Our root node.
      */
-    private final AbstractPreferences root; // Relative to this node
+    privbte finbl AbstrbctPreferences root; // Relbtive to this node
 
     /**
      * This field should be <tt>true</tt> if this node did not exist in the
-     * backing store prior to the creation of this object.  The field
-     * is initialized to false, but may be set to true by a subclass
-     * constructor (and should not be modified thereafter).  This field
-     * indicates whether a node change event should be fired when
-     * creation is complete.
+     * bbcking store prior to the crebtion of this object.  The field
+     * is initiblized to fblse, but mby be set to true by b subclbss
+     * constructor (bnd should not be modified therebfter).  This field
+     * indicbtes whether b node chbnge event should be fired when
+     * crebtion is complete.
      */
-    protected boolean newNode = false;
+    protected boolebn newNode = fblse;
 
     /**
-     * All known unremoved children of this node.  (This "cache" is consulted
-     * prior to calling childSpi() or getChild().
+     * All known unremoved children of this node.  (This "cbche" is consulted
+     * prior to cblling childSpi() or getChild().
      */
-    private Map<String, AbstractPreferences> kidCache = new HashMap<>();
+    privbte Mbp<String, AbstrbctPreferences> kidCbche = new HbshMbp<>();
 
     /**
-     * This field is used to keep track of whether or not this node has
-     * been removed.  Once it's set to true, it will never be reset to false.
+     * This field is used to keep trbck of whether or not this node hbs
+     * been removed.  Once it's set to true, it will never be reset to fblse.
      */
-    private boolean removed = false;
+    privbte boolebn removed = fblse;
 
     /**
-     * Registered preference change listeners.
+     * Registered preference chbnge listeners.
      */
-    private PreferenceChangeListener[] prefListeners =
-        new PreferenceChangeListener[0];
+    privbte PreferenceChbngeListener[] prefListeners =
+        new PreferenceChbngeListener[0];
 
     /**
-     * Registered node change listeners.
+     * Registered node chbnge listeners.
      */
-    private NodeChangeListener[] nodeListeners = new NodeChangeListener[0];
+    privbte NodeChbngeListener[] nodeListeners = new NodeChbngeListener[0];
 
     /**
      * An object whose monitor is used to lock this node.  This object
      * is used in preference to the node itself to reduce the likelihood of
-     * intentional or unintentional denial of service due to a locked node.
-     * To avoid deadlock, a node is <i>never</i> locked by a thread that
-     * holds a lock on a descendant of that node.
+     * intentionbl or unintentionbl denibl of service due to b locked node.
+     * To bvoid debdlock, b node is <i>never</i> locked by b threbd thbt
+     * holds b lock on b descendbnt of thbt node.
      */
-    protected final Object lock = new Object();
+    protected finbl Object lock = new Object();
 
     /**
-     * Creates a preference node with the specified parent and the specified
-     * name relative to its parent.
+     * Crebtes b preference node with the specified pbrent bnd the specified
+     * nbme relbtive to its pbrent.
      *
-     * @param parent the parent of this preference node, or null if this
+     * @pbrbm pbrent the pbrent of this preference node, or null if this
      *               is the root.
-     * @param name the name of this preference node, relative to its parent,
+     * @pbrbm nbme the nbme of this preference node, relbtive to its pbrent,
      *             or <tt>""</tt> if this is the root.
-     * @throws IllegalArgumentException if <tt>name</tt> contains a slash
-     *          (<tt>'/'</tt>),  or <tt>parent</tt> is <tt>null</tt> and
-     *          name isn't <tt>""</tt>.
+     * @throws IllegblArgumentException if <tt>nbme</tt> contbins b slbsh
+     *          (<tt>'/'</tt>),  or <tt>pbrent</tt> is <tt>null</tt> bnd
+     *          nbme isn't <tt>""</tt>.
      */
-    protected AbstractPreferences(AbstractPreferences parent, String name) {
-        if (parent==null) {
-            if (!name.equals(""))
-                throw new IllegalArgumentException("Root name '"+name+
+    protected AbstrbctPreferences(AbstrbctPreferences pbrent, String nbme) {
+        if (pbrent==null) {
+            if (!nbme.equbls(""))
+                throw new IllegblArgumentException("Root nbme '"+nbme+
                                                    "' must be \"\"");
-            this.absolutePath = "/";
+            this.bbsolutePbth = "/";
             root = this;
         } else {
-            if (name.indexOf('/') != -1)
-                throw new IllegalArgumentException("Name '" + name +
-                                                 "' contains '/'");
-            if (name.equals(""))
-              throw new IllegalArgumentException("Illegal name: empty string");
+            if (nbme.indexOf('/') != -1)
+                throw new IllegblArgumentException("Nbme '" + nbme +
+                                                 "' contbins '/'");
+            if (nbme.equbls(""))
+              throw new IllegblArgumentException("Illegbl nbme: empty string");
 
-            root = parent.root;
-            absolutePath = (parent==root ? "/" + name
-                                         : parent.absolutePath() + "/" + name);
+            root = pbrent.root;
+            bbsolutePbth = (pbrent==root ? "/" + nbme
+                                         : pbrent.bbsolutePbth() + "/" + nbme);
         }
-        this.name = name;
-        this.parent = parent;
+        this.nbme = nbme;
+        this.pbrent = pbrent;
     }
 
     /**
-     * Implements the <tt>put</tt> method as per the specification in
+     * Implements the <tt>put</tt> method bs per the specificbtion in
      * {@link Preferences#put(String,String)}.
      *
-     * <p>This implementation checks that the key and value are legal,
-     * obtains this preference node's lock, checks that the node
-     * has not been removed, invokes {@link #putSpi(String,String)}, and if
-     * there are any preference change listeners, enqueues a notification
-     * event for processing by the event dispatch thread.
+     * <p>This implementbtion checks thbt the key bnd vblue bre legbl,
+     * obtbins this preference node's lock, checks thbt the node
+     * hbs not been removed, invokes {@link #putSpi(String,String)}, bnd if
+     * there bre bny preference chbnge listeners, enqueues b notificbtion
+     * event for processing by the event dispbtch threbd.
      *
-     * @param key key with which the specified value is to be associated.
-     * @param value value to be associated with the specified key.
-     * @throws NullPointerException if key or value is <tt>null</tt>.
-     * @throws IllegalArgumentException if <tt>key.length()</tt> exceeds
-     *       <tt>MAX_KEY_LENGTH</tt> or if <tt>value.length</tt> exceeds
+     * @pbrbm key key with which the specified vblue is to be bssocibted.
+     * @pbrbm vblue vblue to be bssocibted with the specified key.
+     * @throws NullPointerException if key or vblue is <tt>null</tt>.
+     * @throws IllegblArgumentException if <tt>key.length()</tt> exceeds
+     *       <tt>MAX_KEY_LENGTH</tt> or if <tt>vblue.length</tt> exceeds
      *       <tt>MAX_VALUE_LENGTH</tt>.
-     * @throws IllegalStateException if this node (or an ancestor) has been
+     * @throws IllegblStbteException if this node (or bn bncestor) hbs been
      *         removed with the {@link #removeNode()} method.
      */
-    public void put(String key, String value) {
-        if (key==null || value==null)
+    public void put(String key, String vblue) {
+        if (key==null || vblue==null)
             throw new NullPointerException();
         if (key.length() > MAX_KEY_LENGTH)
-            throw new IllegalArgumentException("Key too long: "+key);
-        if (value.length() > MAX_VALUE_LENGTH)
-            throw new IllegalArgumentException("Value too long: "+value);
+            throw new IllegblArgumentException("Key too long: "+key);
+        if (vblue.length() > MAX_VALUE_LENGTH)
+            throw new IllegblArgumentException("Vblue too long: "+vblue);
 
         synchronized(lock) {
             if (removed)
-                throw new IllegalStateException("Node has been removed.");
+                throw new IllegblStbteException("Node hbs been removed.");
 
-            putSpi(key, value);
-            enqueuePreferenceChangeEvent(key, value);
+            putSpi(key, vblue);
+            enqueuePreferenceChbngeEvent(key, vblue);
         }
     }
 
     /**
-     * Implements the <tt>get</tt> method as per the specification in
+     * Implements the <tt>get</tt> method bs per the specificbtion in
      * {@link Preferences#get(String,String)}.
      *
-     * <p>This implementation first checks to see if <tt>key</tt> is
-     * <tt>null</tt> throwing a <tt>NullPointerException</tt> if this is
-     * the case.  Then it obtains this preference node's lock,
-     * checks that the node has not been removed, invokes {@link
-     * #getSpi(String)}, and returns the result, unless the <tt>getSpi</tt>
-     * invocation returns <tt>null</tt> or throws an exception, in which case
-     * this invocation returns <tt>def</tt>.
+     * <p>This implementbtion first checks to see if <tt>key</tt> is
+     * <tt>null</tt> throwing b <tt>NullPointerException</tt> if this is
+     * the cbse.  Then it obtbins this preference node's lock,
+     * checks thbt the node hbs not been removed, invokes {@link
+     * #getSpi(String)}, bnd returns the result, unless the <tt>getSpi</tt>
+     * invocbtion returns <tt>null</tt> or throws bn exception, in which cbse
+     * this invocbtion returns <tt>def</tt>.
      *
-     * @param key key whose associated value is to be returned.
-     * @param def the value to be returned in the event that this
-     *        preference node has no value associated with <tt>key</tt>.
-     * @return the value associated with <tt>key</tt>, or <tt>def</tt>
-     *         if no value is associated with <tt>key</tt>.
-     * @throws IllegalStateException if this node (or an ancestor) has been
+     * @pbrbm key key whose bssocibted vblue is to be returned.
+     * @pbrbm def the vblue to be returned in the event thbt this
+     *        preference node hbs no vblue bssocibted with <tt>key</tt>.
+     * @return the vblue bssocibted with <tt>key</tt>, or <tt>def</tt>
+     *         if no vblue is bssocibted with <tt>key</tt>.
+     * @throws IllegblStbteException if this node (or bn bncestor) hbs been
      *         removed with the {@link #removeNode()} method.
      * @throws NullPointerException if key is <tt>null</tt>.  (A
-     *         <tt>null</tt> default <i>is</i> permitted.)
+     *         <tt>null</tt> defbult <i>is</i> permitted.)
      */
     public String get(String key, String def) {
         if (key==null)
             throw new NullPointerException("Null key");
         synchronized(lock) {
             if (removed)
-                throw new IllegalStateException("Node has been removed.");
+                throw new IllegblStbteException("Node hbs been removed.");
 
             String result = null;
             try {
                 result = getSpi(key);
-            } catch (Exception e) {
-                // Ignoring exception causes default to be returned
+            } cbtch (Exception e) {
+                // Ignoring exception cbuses defbult to be returned
             }
             return (result==null ? def : result);
         }
     }
 
     /**
-     * Implements the <tt>remove(String)</tt> method as per the specification
+     * Implements the <tt>remove(String)</tt> method bs per the specificbtion
      * in {@link Preferences#remove(String)}.
      *
-     * <p>This implementation obtains this preference node's lock,
-     * checks that the node has not been removed, invokes
-     * {@link #removeSpi(String)} and if there are any preference
-     * change listeners, enqueues a notification event for processing by the
-     * event dispatch thread.
+     * <p>This implementbtion obtbins this preference node's lock,
+     * checks thbt the node hbs not been removed, invokes
+     * {@link #removeSpi(String)} bnd if there bre bny preference
+     * chbnge listeners, enqueues b notificbtion event for processing by the
+     * event dispbtch threbd.
      *
-     * @param key key whose mapping is to be removed from the preference node.
-     * @throws IllegalStateException if this node (or an ancestor) has been
+     * @pbrbm key key whose mbpping is to be removed from the preference node.
+     * @throws IllegblStbteException if this node (or bn bncestor) hbs been
      *         removed with the {@link #removeNode()} method.
      * @throws NullPointerException {@inheritDoc}.
      */
     public void remove(String key) {
-        Objects.requireNonNull(key, "Specified key cannot be null");
+        Objects.requireNonNull(key, "Specified key cbnnot be null");
         synchronized(lock) {
             if (removed)
-                throw new IllegalStateException("Node has been removed.");
+                throw new IllegblStbteException("Node hbs been removed.");
 
             removeSpi(key);
-            enqueuePreferenceChangeEvent(key, null);
+            enqueuePreferenceChbngeEvent(key, null);
         }
     }
 
     /**
-     * Implements the <tt>clear</tt> method as per the specification in
-     * {@link Preferences#clear()}.
+     * Implements the <tt>clebr</tt> method bs per the specificbtion in
+     * {@link Preferences#clebr()}.
      *
-     * <p>This implementation obtains this preference node's lock,
-     * invokes {@link #keys()} to obtain an array of keys, and
-     * iterates over the array invoking {@link #remove(String)} on each key.
+     * <p>This implementbtion obtbins this preference node's lock,
+     * invokes {@link #keys()} to obtbin bn brrby of keys, bnd
+     * iterbtes over the brrby invoking {@link #remove(String)} on ebch key.
      *
-     * @throws BackingStoreException if this operation cannot be completed
-     *         due to a failure in the backing store, or inability to
-     *         communicate with it.
-     * @throws IllegalStateException if this node (or an ancestor) has been
+     * @throws BbckingStoreException if this operbtion cbnnot be completed
+     *         due to b fbilure in the bbcking store, or inbbility to
+     *         communicbte with it.
+     * @throws IllegblStbteException if this node (or bn bncestor) hbs been
      *         removed with the {@link #removeNode()} method.
      */
-    public void clear() throws BackingStoreException {
+    public void clebr() throws BbckingStoreException {
         synchronized(lock) {
             for (String key : keys())
                 remove(key);
@@ -340,772 +340,772 @@ public abstract class AbstractPreferences extends Preferences {
     }
 
     /**
-     * Implements the <tt>putInt</tt> method as per the specification in
+     * Implements the <tt>putInt</tt> method bs per the specificbtion in
      * {@link Preferences#putInt(String,int)}.
      *
-     * <p>This implementation translates <tt>value</tt> to a string with
-     * {@link Integer#toString(int)} and invokes {@link #put(String,String)}
+     * <p>This implementbtion trbnslbtes <tt>vblue</tt> to b string with
+     * {@link Integer#toString(int)} bnd invokes {@link #put(String,String)}
      * on the result.
      *
-     * @param key key with which the string form of value is to be associated.
-     * @param value value whose string form is to be associated with key.
+     * @pbrbm key key with which the string form of vblue is to be bssocibted.
+     * @pbrbm vblue vblue whose string form is to be bssocibted with key.
      * @throws NullPointerException if key is <tt>null</tt>.
-     * @throws IllegalArgumentException if <tt>key.length()</tt> exceeds
+     * @throws IllegblArgumentException if <tt>key.length()</tt> exceeds
      *         <tt>MAX_KEY_LENGTH</tt>.
-     * @throws IllegalStateException if this node (or an ancestor) has been
+     * @throws IllegblStbteException if this node (or bn bncestor) hbs been
      *         removed with the {@link #removeNode()} method.
      */
-    public void putInt(String key, int value) {
-        put(key, Integer.toString(value));
+    public void putInt(String key, int vblue) {
+        put(key, Integer.toString(vblue));
     }
 
     /**
-     * Implements the <tt>getInt</tt> method as per the specification in
+     * Implements the <tt>getInt</tt> method bs per the specificbtion in
      * {@link Preferences#getInt(String,int)}.
      *
-     * <p>This implementation invokes {@link #get(String,String) <tt>get(key,
-     * null)</tt>}.  If the return value is non-null, the implementation
-     * attempts to translate it to an <tt>int</tt> with
-     * {@link Integer#parseInt(String)}.  If the attempt succeeds, the return
-     * value is returned by this method.  Otherwise, <tt>def</tt> is returned.
+     * <p>This implementbtion invokes {@link #get(String,String) <tt>get(key,
+     * null)</tt>}.  If the return vblue is non-null, the implementbtion
+     * bttempts to trbnslbte it to bn <tt>int</tt> with
+     * {@link Integer#pbrseInt(String)}.  If the bttempt succeeds, the return
+     * vblue is returned by this method.  Otherwise, <tt>def</tt> is returned.
      *
-     * @param key key whose associated value is to be returned as an int.
-     * @param def the value to be returned in the event that this
-     *        preference node has no value associated with <tt>key</tt>
-     *        or the associated value cannot be interpreted as an int.
-     * @return the int value represented by the string associated with
+     * @pbrbm key key whose bssocibted vblue is to be returned bs bn int.
+     * @pbrbm def the vblue to be returned in the event thbt this
+     *        preference node hbs no vblue bssocibted with <tt>key</tt>
+     *        or the bssocibted vblue cbnnot be interpreted bs bn int.
+     * @return the int vblue represented by the string bssocibted with
      *         <tt>key</tt> in this preference node, or <tt>def</tt> if the
-     *         associated value does not exist or cannot be interpreted as
-     *         an int.
-     * @throws IllegalStateException if this node (or an ancestor) has been
+     *         bssocibted vblue does not exist or cbnnot be interpreted bs
+     *         bn int.
+     * @throws IllegblStbteException if this node (or bn bncestor) hbs been
      *         removed with the {@link #removeNode()} method.
      * @throws NullPointerException if <tt>key</tt> is <tt>null</tt>.
      */
     public int getInt(String key, int def) {
         int result = def;
         try {
-            String value = get(key, null);
-            if (value != null)
-                result = Integer.parseInt(value);
-        } catch (NumberFormatException e) {
-            // Ignoring exception causes specified default to be returned
+            String vblue = get(key, null);
+            if (vblue != null)
+                result = Integer.pbrseInt(vblue);
+        } cbtch (NumberFormbtException e) {
+            // Ignoring exception cbuses specified defbult to be returned
         }
 
         return result;
     }
 
     /**
-     * Implements the <tt>putLong</tt> method as per the specification in
+     * Implements the <tt>putLong</tt> method bs per the specificbtion in
      * {@link Preferences#putLong(String,long)}.
      *
-     * <p>This implementation translates <tt>value</tt> to a string with
-     * {@link Long#toString(long)} and invokes {@link #put(String,String)}
+     * <p>This implementbtion trbnslbtes <tt>vblue</tt> to b string with
+     * {@link Long#toString(long)} bnd invokes {@link #put(String,String)}
      * on the result.
      *
-     * @param key key with which the string form of value is to be associated.
-     * @param value value whose string form is to be associated with key.
+     * @pbrbm key key with which the string form of vblue is to be bssocibted.
+     * @pbrbm vblue vblue whose string form is to be bssocibted with key.
      * @throws NullPointerException if key is <tt>null</tt>.
-     * @throws IllegalArgumentException if <tt>key.length()</tt> exceeds
+     * @throws IllegblArgumentException if <tt>key.length()</tt> exceeds
      *         <tt>MAX_KEY_LENGTH</tt>.
-     * @throws IllegalStateException if this node (or an ancestor) has been
+     * @throws IllegblStbteException if this node (or bn bncestor) hbs been
      *         removed with the {@link #removeNode()} method.
      */
-    public void putLong(String key, long value) {
-        put(key, Long.toString(value));
+    public void putLong(String key, long vblue) {
+        put(key, Long.toString(vblue));
     }
 
     /**
-     * Implements the <tt>getLong</tt> method as per the specification in
+     * Implements the <tt>getLong</tt> method bs per the specificbtion in
      * {@link Preferences#getLong(String,long)}.
      *
-     * <p>This implementation invokes {@link #get(String,String) <tt>get(key,
-     * null)</tt>}.  If the return value is non-null, the implementation
-     * attempts to translate it to a <tt>long</tt> with
-     * {@link Long#parseLong(String)}.  If the attempt succeeds, the return
-     * value is returned by this method.  Otherwise, <tt>def</tt> is returned.
+     * <p>This implementbtion invokes {@link #get(String,String) <tt>get(key,
+     * null)</tt>}.  If the return vblue is non-null, the implementbtion
+     * bttempts to trbnslbte it to b <tt>long</tt> with
+     * {@link Long#pbrseLong(String)}.  If the bttempt succeeds, the return
+     * vblue is returned by this method.  Otherwise, <tt>def</tt> is returned.
      *
-     * @param key key whose associated value is to be returned as a long.
-     * @param def the value to be returned in the event that this
-     *        preference node has no value associated with <tt>key</tt>
-     *        or the associated value cannot be interpreted as a long.
-     * @return the long value represented by the string associated with
+     * @pbrbm key key whose bssocibted vblue is to be returned bs b long.
+     * @pbrbm def the vblue to be returned in the event thbt this
+     *        preference node hbs no vblue bssocibted with <tt>key</tt>
+     *        or the bssocibted vblue cbnnot be interpreted bs b long.
+     * @return the long vblue represented by the string bssocibted with
      *         <tt>key</tt> in this preference node, or <tt>def</tt> if the
-     *         associated value does not exist or cannot be interpreted as
-     *         a long.
-     * @throws IllegalStateException if this node (or an ancestor) has been
+     *         bssocibted vblue does not exist or cbnnot be interpreted bs
+     *         b long.
+     * @throws IllegblStbteException if this node (or bn bncestor) hbs been
      *         removed with the {@link #removeNode()} method.
      * @throws NullPointerException if <tt>key</tt> is <tt>null</tt>.
      */
     public long getLong(String key, long def) {
         long result = def;
         try {
-            String value = get(key, null);
-            if (value != null)
-                result = Long.parseLong(value);
-        } catch (NumberFormatException e) {
-            // Ignoring exception causes specified default to be returned
+            String vblue = get(key, null);
+            if (vblue != null)
+                result = Long.pbrseLong(vblue);
+        } cbtch (NumberFormbtException e) {
+            // Ignoring exception cbuses specified defbult to be returned
         }
 
         return result;
     }
 
     /**
-     * Implements the <tt>putBoolean</tt> method as per the specification in
-     * {@link Preferences#putBoolean(String,boolean)}.
+     * Implements the <tt>putBoolebn</tt> method bs per the specificbtion in
+     * {@link Preferences#putBoolebn(String,boolebn)}.
      *
-     * <p>This implementation translates <tt>value</tt> to a string with
-     * {@link String#valueOf(boolean)} and invokes {@link #put(String,String)}
+     * <p>This implementbtion trbnslbtes <tt>vblue</tt> to b string with
+     * {@link String#vblueOf(boolebn)} bnd invokes {@link #put(String,String)}
      * on the result.
      *
-     * @param key key with which the string form of value is to be associated.
-     * @param value value whose string form is to be associated with key.
+     * @pbrbm key key with which the string form of vblue is to be bssocibted.
+     * @pbrbm vblue vblue whose string form is to be bssocibted with key.
      * @throws NullPointerException if key is <tt>null</tt>.
-     * @throws IllegalArgumentException if <tt>key.length()</tt> exceeds
+     * @throws IllegblArgumentException if <tt>key.length()</tt> exceeds
      *         <tt>MAX_KEY_LENGTH</tt>.
-     * @throws IllegalStateException if this node (or an ancestor) has been
+     * @throws IllegblStbteException if this node (or bn bncestor) hbs been
      *         removed with the {@link #removeNode()} method.
      */
-    public void putBoolean(String key, boolean value) {
-        put(key, String.valueOf(value));
+    public void putBoolebn(String key, boolebn vblue) {
+        put(key, String.vblueOf(vblue));
     }
 
     /**
-     * Implements the <tt>getBoolean</tt> method as per the specification in
-     * {@link Preferences#getBoolean(String,boolean)}.
+     * Implements the <tt>getBoolebn</tt> method bs per the specificbtion in
+     * {@link Preferences#getBoolebn(String,boolebn)}.
      *
-     * <p>This implementation invokes {@link #get(String,String) <tt>get(key,
-     * null)</tt>}.  If the return value is non-null, it is compared with
-     * <tt>"true"</tt> using {@link String#equalsIgnoreCase(String)}.  If the
-     * comparison returns <tt>true</tt>, this invocation returns
-     * <tt>true</tt>.  Otherwise, the original return value is compared with
-     * <tt>"false"</tt>, again using {@link String#equalsIgnoreCase(String)}.
-     * If the comparison returns <tt>true</tt>, this invocation returns
-     * <tt>false</tt>.  Otherwise, this invocation returns <tt>def</tt>.
+     * <p>This implementbtion invokes {@link #get(String,String) <tt>get(key,
+     * null)</tt>}.  If the return vblue is non-null, it is compbred with
+     * <tt>"true"</tt> using {@link String#equblsIgnoreCbse(String)}.  If the
+     * compbrison returns <tt>true</tt>, this invocbtion returns
+     * <tt>true</tt>.  Otherwise, the originbl return vblue is compbred with
+     * <tt>"fblse"</tt>, bgbin using {@link String#equblsIgnoreCbse(String)}.
+     * If the compbrison returns <tt>true</tt>, this invocbtion returns
+     * <tt>fblse</tt>.  Otherwise, this invocbtion returns <tt>def</tt>.
      *
-     * @param key key whose associated value is to be returned as a boolean.
-     * @param def the value to be returned in the event that this
-     *        preference node has no value associated with <tt>key</tt>
-     *        or the associated value cannot be interpreted as a boolean.
-     * @return the boolean value represented by the string associated with
+     * @pbrbm key key whose bssocibted vblue is to be returned bs b boolebn.
+     * @pbrbm def the vblue to be returned in the event thbt this
+     *        preference node hbs no vblue bssocibted with <tt>key</tt>
+     *        or the bssocibted vblue cbnnot be interpreted bs b boolebn.
+     * @return the boolebn vblue represented by the string bssocibted with
      *         <tt>key</tt> in this preference node, or <tt>def</tt> if the
-     *         associated value does not exist or cannot be interpreted as
-     *         a boolean.
-     * @throws IllegalStateException if this node (or an ancestor) has been
+     *         bssocibted vblue does not exist or cbnnot be interpreted bs
+     *         b boolebn.
+     * @throws IllegblStbteException if this node (or bn bncestor) hbs been
      *         removed with the {@link #removeNode()} method.
      * @throws NullPointerException if <tt>key</tt> is <tt>null</tt>.
      */
-    public boolean getBoolean(String key, boolean def) {
-        boolean result = def;
-        String value = get(key, null);
-        if (value != null) {
-            if (value.equalsIgnoreCase("true"))
+    public boolebn getBoolebn(String key, boolebn def) {
+        boolebn result = def;
+        String vblue = get(key, null);
+        if (vblue != null) {
+            if (vblue.equblsIgnoreCbse("true"))
                 result = true;
-            else if (value.equalsIgnoreCase("false"))
-                result = false;
+            else if (vblue.equblsIgnoreCbse("fblse"))
+                result = fblse;
         }
 
         return result;
     }
 
     /**
-     * Implements the <tt>putFloat</tt> method as per the specification in
-     * {@link Preferences#putFloat(String,float)}.
+     * Implements the <tt>putFlobt</tt> method bs per the specificbtion in
+     * {@link Preferences#putFlobt(String,flobt)}.
      *
-     * <p>This implementation translates <tt>value</tt> to a string with
-     * {@link Float#toString(float)} and invokes {@link #put(String,String)}
+     * <p>This implementbtion trbnslbtes <tt>vblue</tt> to b string with
+     * {@link Flobt#toString(flobt)} bnd invokes {@link #put(String,String)}
      * on the result.
      *
-     * @param key key with which the string form of value is to be associated.
-     * @param value value whose string form is to be associated with key.
+     * @pbrbm key key with which the string form of vblue is to be bssocibted.
+     * @pbrbm vblue vblue whose string form is to be bssocibted with key.
      * @throws NullPointerException if key is <tt>null</tt>.
-     * @throws IllegalArgumentException if <tt>key.length()</tt> exceeds
+     * @throws IllegblArgumentException if <tt>key.length()</tt> exceeds
      *         <tt>MAX_KEY_LENGTH</tt>.
-     * @throws IllegalStateException if this node (or an ancestor) has been
+     * @throws IllegblStbteException if this node (or bn bncestor) hbs been
      *         removed with the {@link #removeNode()} method.
      */
-    public void putFloat(String key, float value) {
-        put(key, Float.toString(value));
+    public void putFlobt(String key, flobt vblue) {
+        put(key, Flobt.toString(vblue));
     }
 
     /**
-     * Implements the <tt>getFloat</tt> method as per the specification in
-     * {@link Preferences#getFloat(String,float)}.
+     * Implements the <tt>getFlobt</tt> method bs per the specificbtion in
+     * {@link Preferences#getFlobt(String,flobt)}.
      *
-     * <p>This implementation invokes {@link #get(String,String) <tt>get(key,
-     * null)</tt>}.  If the return value is non-null, the implementation
-     * attempts to translate it to an <tt>float</tt> with
-     * {@link Float#parseFloat(String)}.  If the attempt succeeds, the return
-     * value is returned by this method.  Otherwise, <tt>def</tt> is returned.
+     * <p>This implementbtion invokes {@link #get(String,String) <tt>get(key,
+     * null)</tt>}.  If the return vblue is non-null, the implementbtion
+     * bttempts to trbnslbte it to bn <tt>flobt</tt> with
+     * {@link Flobt#pbrseFlobt(String)}.  If the bttempt succeeds, the return
+     * vblue is returned by this method.  Otherwise, <tt>def</tt> is returned.
      *
-     * @param key key whose associated value is to be returned as a float.
-     * @param def the value to be returned in the event that this
-     *        preference node has no value associated with <tt>key</tt>
-     *        or the associated value cannot be interpreted as a float.
-     * @return the float value represented by the string associated with
+     * @pbrbm key key whose bssocibted vblue is to be returned bs b flobt.
+     * @pbrbm def the vblue to be returned in the event thbt this
+     *        preference node hbs no vblue bssocibted with <tt>key</tt>
+     *        or the bssocibted vblue cbnnot be interpreted bs b flobt.
+     * @return the flobt vblue represented by the string bssocibted with
      *         <tt>key</tt> in this preference node, or <tt>def</tt> if the
-     *         associated value does not exist or cannot be interpreted as
-     *         a float.
-     * @throws IllegalStateException if this node (or an ancestor) has been
+     *         bssocibted vblue does not exist or cbnnot be interpreted bs
+     *         b flobt.
+     * @throws IllegblStbteException if this node (or bn bncestor) hbs been
      *         removed with the {@link #removeNode()} method.
      * @throws NullPointerException if <tt>key</tt> is <tt>null</tt>.
      */
-    public float getFloat(String key, float def) {
-        float result = def;
+    public flobt getFlobt(String key, flobt def) {
+        flobt result = def;
         try {
-            String value = get(key, null);
-            if (value != null)
-                result = Float.parseFloat(value);
-        } catch (NumberFormatException e) {
-            // Ignoring exception causes specified default to be returned
+            String vblue = get(key, null);
+            if (vblue != null)
+                result = Flobt.pbrseFlobt(vblue);
+        } cbtch (NumberFormbtException e) {
+            // Ignoring exception cbuses specified defbult to be returned
         }
 
         return result;
     }
 
     /**
-     * Implements the <tt>putDouble</tt> method as per the specification in
+     * Implements the <tt>putDouble</tt> method bs per the specificbtion in
      * {@link Preferences#putDouble(String,double)}.
      *
-     * <p>This implementation translates <tt>value</tt> to a string with
-     * {@link Double#toString(double)} and invokes {@link #put(String,String)}
+     * <p>This implementbtion trbnslbtes <tt>vblue</tt> to b string with
+     * {@link Double#toString(double)} bnd invokes {@link #put(String,String)}
      * on the result.
      *
-     * @param key key with which the string form of value is to be associated.
-     * @param value value whose string form is to be associated with key.
+     * @pbrbm key key with which the string form of vblue is to be bssocibted.
+     * @pbrbm vblue vblue whose string form is to be bssocibted with key.
      * @throws NullPointerException if key is <tt>null</tt>.
-     * @throws IllegalArgumentException if <tt>key.length()</tt> exceeds
+     * @throws IllegblArgumentException if <tt>key.length()</tt> exceeds
      *         <tt>MAX_KEY_LENGTH</tt>.
-     * @throws IllegalStateException if this node (or an ancestor) has been
+     * @throws IllegblStbteException if this node (or bn bncestor) hbs been
      *         removed with the {@link #removeNode()} method.
      */
-    public void putDouble(String key, double value) {
-        put(key, Double.toString(value));
+    public void putDouble(String key, double vblue) {
+        put(key, Double.toString(vblue));
     }
 
     /**
-     * Implements the <tt>getDouble</tt> method as per the specification in
+     * Implements the <tt>getDouble</tt> method bs per the specificbtion in
      * {@link Preferences#getDouble(String,double)}.
      *
-     * <p>This implementation invokes {@link #get(String,String) <tt>get(key,
-     * null)</tt>}.  If the return value is non-null, the implementation
-     * attempts to translate it to an <tt>double</tt> with
-     * {@link Double#parseDouble(String)}.  If the attempt succeeds, the return
-     * value is returned by this method.  Otherwise, <tt>def</tt> is returned.
+     * <p>This implementbtion invokes {@link #get(String,String) <tt>get(key,
+     * null)</tt>}.  If the return vblue is non-null, the implementbtion
+     * bttempts to trbnslbte it to bn <tt>double</tt> with
+     * {@link Double#pbrseDouble(String)}.  If the bttempt succeeds, the return
+     * vblue is returned by this method.  Otherwise, <tt>def</tt> is returned.
      *
-     * @param key key whose associated value is to be returned as a double.
-     * @param def the value to be returned in the event that this
-     *        preference node has no value associated with <tt>key</tt>
-     *        or the associated value cannot be interpreted as a double.
-     * @return the double value represented by the string associated with
+     * @pbrbm key key whose bssocibted vblue is to be returned bs b double.
+     * @pbrbm def the vblue to be returned in the event thbt this
+     *        preference node hbs no vblue bssocibted with <tt>key</tt>
+     *        or the bssocibted vblue cbnnot be interpreted bs b double.
+     * @return the double vblue represented by the string bssocibted with
      *         <tt>key</tt> in this preference node, or <tt>def</tt> if the
-     *         associated value does not exist or cannot be interpreted as
-     *         a double.
-     * @throws IllegalStateException if this node (or an ancestor) has been
+     *         bssocibted vblue does not exist or cbnnot be interpreted bs
+     *         b double.
+     * @throws IllegblStbteException if this node (or bn bncestor) hbs been
      *         removed with the {@link #removeNode()} method.
      * @throws NullPointerException if <tt>key</tt> is <tt>null</tt>.
      */
     public double getDouble(String key, double def) {
         double result = def;
         try {
-            String value = get(key, null);
-            if (value != null)
-                result = Double.parseDouble(value);
-        } catch (NumberFormatException e) {
-            // Ignoring exception causes specified default to be returned
+            String vblue = get(key, null);
+            if (vblue != null)
+                result = Double.pbrseDouble(vblue);
+        } cbtch (NumberFormbtException e) {
+            // Ignoring exception cbuses specified defbult to be returned
         }
 
         return result;
     }
 
     /**
-     * Implements the <tt>putByteArray</tt> method as per the specification in
-     * {@link Preferences#putByteArray(String,byte[])}.
+     * Implements the <tt>putByteArrby</tt> method bs per the specificbtion in
+     * {@link Preferences#putByteArrby(String,byte[])}.
      *
-     * @param key key with which the string form of value is to be associated.
-     * @param value value whose string form is to be associated with key.
-     * @throws NullPointerException if key or value is <tt>null</tt>.
-     * @throws IllegalArgumentException if key.length() exceeds MAX_KEY_LENGTH
-     *         or if value.length exceeds MAX_VALUE_LENGTH*3/4.
-     * @throws IllegalStateException if this node (or an ancestor) has been
+     * @pbrbm key key with which the string form of vblue is to be bssocibted.
+     * @pbrbm vblue vblue whose string form is to be bssocibted with key.
+     * @throws NullPointerException if key or vblue is <tt>null</tt>.
+     * @throws IllegblArgumentException if key.length() exceeds MAX_KEY_LENGTH
+     *         or if vblue.length exceeds MAX_VALUE_LENGTH*3/4.
+     * @throws IllegblStbteException if this node (or bn bncestor) hbs been
      *         removed with the {@link #removeNode()} method.
      */
-    public void putByteArray(String key, byte[] value) {
-        put(key, Base64.byteArrayToBase64(value));
+    public void putByteArrby(String key, byte[] vblue) {
+        put(key, Bbse64.byteArrbyToBbse64(vblue));
     }
 
     /**
-     * Implements the <tt>getByteArray</tt> method as per the specification in
-     * {@link Preferences#getByteArray(String,byte[])}.
+     * Implements the <tt>getByteArrby</tt> method bs per the specificbtion in
+     * {@link Preferences#getByteArrby(String,byte[])}.
      *
-     * @param key key whose associated value is to be returned as a byte array.
-     * @param def the value to be returned in the event that this
-     *        preference node has no value associated with <tt>key</tt>
-     *        or the associated value cannot be interpreted as a byte array.
-     * @return the byte array value represented by the string associated with
+     * @pbrbm key key whose bssocibted vblue is to be returned bs b byte brrby.
+     * @pbrbm def the vblue to be returned in the event thbt this
+     *        preference node hbs no vblue bssocibted with <tt>key</tt>
+     *        or the bssocibted vblue cbnnot be interpreted bs b byte brrby.
+     * @return the byte brrby vblue represented by the string bssocibted with
      *         <tt>key</tt> in this preference node, or <tt>def</tt> if the
-     *         associated value does not exist or cannot be interpreted as
-     *         a byte array.
-     * @throws IllegalStateException if this node (or an ancestor) has been
+     *         bssocibted vblue does not exist or cbnnot be interpreted bs
+     *         b byte brrby.
+     * @throws IllegblStbteException if this node (or bn bncestor) hbs been
      *         removed with the {@link #removeNode()} method.
      * @throws NullPointerException if <tt>key</tt> is <tt>null</tt>.  (A
-     *         <tt>null</tt> value for <tt>def</tt> <i>is</i> permitted.)
+     *         <tt>null</tt> vblue for <tt>def</tt> <i>is</i> permitted.)
      */
-    public byte[] getByteArray(String key, byte[] def) {
+    public byte[] getByteArrby(String key, byte[] def) {
         byte[] result = def;
-        String value = get(key, null);
+        String vblue = get(key, null);
         try {
-            if (value != null)
-                result = Base64.base64ToByteArray(value);
+            if (vblue != null)
+                result = Bbse64.bbse64ToByteArrby(vblue);
         }
-        catch (RuntimeException e) {
-            // Ignoring exception causes specified default to be returned
+        cbtch (RuntimeException e) {
+            // Ignoring exception cbuses specified defbult to be returned
         }
 
         return result;
     }
 
     /**
-     * Implements the <tt>keys</tt> method as per the specification in
+     * Implements the <tt>keys</tt> method bs per the specificbtion in
      * {@link Preferences#keys()}.
      *
-     * <p>This implementation obtains this preference node's lock, checks that
-     * the node has not been removed and invokes {@link #keysSpi()}.
+     * <p>This implementbtion obtbins this preference node's lock, checks thbt
+     * the node hbs not been removed bnd invokes {@link #keysSpi()}.
      *
-     * @return an array of the keys that have an associated value in this
+     * @return bn brrby of the keys thbt hbve bn bssocibted vblue in this
      *         preference node.
-     * @throws BackingStoreException if this operation cannot be completed
-     *         due to a failure in the backing store, or inability to
-     *         communicate with it.
-     * @throws IllegalStateException if this node (or an ancestor) has been
+     * @throws BbckingStoreException if this operbtion cbnnot be completed
+     *         due to b fbilure in the bbcking store, or inbbility to
+     *         communicbte with it.
+     * @throws IllegblStbteException if this node (or bn bncestor) hbs been
      *         removed with the {@link #removeNode()} method.
      */
-    public String[] keys() throws BackingStoreException {
+    public String[] keys() throws BbckingStoreException {
         synchronized(lock) {
             if (removed)
-                throw new IllegalStateException("Node has been removed.");
+                throw new IllegblStbteException("Node hbs been removed.");
 
             return keysSpi();
         }
     }
 
     /**
-     * Implements the <tt>children</tt> method as per the specification in
-     * {@link Preferences#childrenNames()}.
+     * Implements the <tt>children</tt> method bs per the specificbtion in
+     * {@link Preferences#childrenNbmes()}.
      *
-     * <p>This implementation obtains this preference node's lock, checks that
-     * the node has not been removed, constructs a <tt>TreeSet</tt> initialized
-     * to the names of children already cached (the children in this node's
-     * "child-cache"), invokes {@link #childrenNamesSpi()}, and adds all of the
-     * returned child-names into the set.  The elements of the tree set are
-     * dumped into a <tt>String</tt> array using the <tt>toArray</tt> method,
-     * and this array is returned.
+     * <p>This implementbtion obtbins this preference node's lock, checks thbt
+     * the node hbs not been removed, constructs b <tt>TreeSet</tt> initiblized
+     * to the nbmes of children blrebdy cbched (the children in this node's
+     * "child-cbche"), invokes {@link #childrenNbmesSpi()}, bnd bdds bll of the
+     * returned child-nbmes into the set.  The elements of the tree set bre
+     * dumped into b <tt>String</tt> brrby using the <tt>toArrby</tt> method,
+     * bnd this brrby is returned.
      *
-     * @return the names of the children of this preference node.
-     * @throws BackingStoreException if this operation cannot be completed
-     *         due to a failure in the backing store, or inability to
-     *         communicate with it.
-     * @throws IllegalStateException if this node (or an ancestor) has been
+     * @return the nbmes of the children of this preference node.
+     * @throws BbckingStoreException if this operbtion cbnnot be completed
+     *         due to b fbilure in the bbcking store, or inbbility to
+     *         communicbte with it.
+     * @throws IllegblStbteException if this node (or bn bncestor) hbs been
      *         removed with the {@link #removeNode()} method.
-     * @see #cachedChildren()
+     * @see #cbchedChildren()
      */
-    public String[] childrenNames() throws BackingStoreException {
+    public String[] childrenNbmes() throws BbckingStoreException {
         synchronized(lock) {
             if (removed)
-                throw new IllegalStateException("Node has been removed.");
+                throw new IllegblStbteException("Node hbs been removed.");
 
-            Set<String> s = new TreeSet<>(kidCache.keySet());
-            for (String kid : childrenNamesSpi())
-                s.add(kid);
-            return s.toArray(EMPTY_STRING_ARRAY);
+            Set<String> s = new TreeSet<>(kidCbche.keySet());
+            for (String kid : childrenNbmesSpi())
+                s.bdd(kid);
+            return s.toArrby(EMPTY_STRING_ARRAY);
         }
     }
 
-    private static final String[] EMPTY_STRING_ARRAY = new String[0];
+    privbte stbtic finbl String[] EMPTY_STRING_ARRAY = new String[0];
 
     /**
-     * Returns all known unremoved children of this node.
+     * Returns bll known unremoved children of this node.
      *
-     * @return all known unremoved children of this node.
+     * @return bll known unremoved children of this node.
      */
-    protected final AbstractPreferences[] cachedChildren() {
-        return kidCache.values().toArray(EMPTY_ABSTRACT_PREFS_ARRAY);
+    protected finbl AbstrbctPreferences[] cbchedChildren() {
+        return kidCbche.vblues().toArrby(EMPTY_ABSTRACT_PREFS_ARRAY);
     }
 
-    private static final AbstractPreferences[] EMPTY_ABSTRACT_PREFS_ARRAY
-        = new AbstractPreferences[0];
+    privbte stbtic finbl AbstrbctPreferences[] EMPTY_ABSTRACT_PREFS_ARRAY
+        = new AbstrbctPreferences[0];
 
     /**
-     * Implements the <tt>parent</tt> method as per the specification in
-     * {@link Preferences#parent()}.
+     * Implements the <tt>pbrent</tt> method bs per the specificbtion in
+     * {@link Preferences#pbrent()}.
      *
-     * <p>This implementation obtains this preference node's lock, checks that
-     * the node has not been removed and returns the parent value that was
-     * passed to this node's constructor.
+     * <p>This implementbtion obtbins this preference node's lock, checks thbt
+     * the node hbs not been removed bnd returns the pbrent vblue thbt wbs
+     * pbssed to this node's constructor.
      *
-     * @return the parent of this preference node.
-     * @throws IllegalStateException if this node (or an ancestor) has been
+     * @return the pbrent of this preference node.
+     * @throws IllegblStbteException if this node (or bn bncestor) hbs been
      *         removed with the {@link #removeNode()} method.
      */
-    public Preferences parent() {
+    public Preferences pbrent() {
         synchronized(lock) {
             if (removed)
-                throw new IllegalStateException("Node has been removed.");
+                throw new IllegblStbteException("Node hbs been removed.");
 
-            return parent;
+            return pbrent;
         }
     }
 
     /**
-     * Implements the <tt>node</tt> method as per the specification in
+     * Implements the <tt>node</tt> method bs per the specificbtion in
      * {@link Preferences#node(String)}.
      *
-     * <p>This implementation obtains this preference node's lock and checks
-     * that the node has not been removed.  If <tt>path</tt> is <tt>""</tt>,
-     * this node is returned; if <tt>path</tt> is <tt>"/"</tt>, this node's
-     * root is returned.  If the first character in <tt>path</tt> is
-     * not <tt>'/'</tt>, the implementation breaks <tt>path</tt> into
-     * tokens and recursively traverses the path from this node to the
-     * named node, "consuming" a name and a slash from <tt>path</tt> at
-     * each step of the traversal.  At each step, the current node is locked
-     * and the node's child-cache is checked for the named node.  If it is
-     * not found, the name is checked to make sure its length does not
+     * <p>This implementbtion obtbins this preference node's lock bnd checks
+     * thbt the node hbs not been removed.  If <tt>pbth</tt> is <tt>""</tt>,
+     * this node is returned; if <tt>pbth</tt> is <tt>"/"</tt>, this node's
+     * root is returned.  If the first chbrbcter in <tt>pbth</tt> is
+     * not <tt>'/'</tt>, the implementbtion brebks <tt>pbth</tt> into
+     * tokens bnd recursively trbverses the pbth from this node to the
+     * nbmed node, "consuming" b nbme bnd b slbsh from <tt>pbth</tt> bt
+     * ebch step of the trbversbl.  At ebch step, the current node is locked
+     * bnd the node's child-cbche is checked for the nbmed node.  If it is
+     * not found, the nbme is checked to mbke sure its length does not
      * exceed <tt>MAX_NAME_LENGTH</tt>.  Then the {@link #childSpi(String)}
-     * method is invoked, and the result stored in this node's child-cache.
-     * If the newly created <tt>Preferences</tt> object's {@link #newNode}
-     * field is <tt>true</tt> and there are any node change listeners,
-     * a notification event is enqueued for processing by the event dispatch
-     * thread.
+     * method is invoked, bnd the result stored in this node's child-cbche.
+     * If the newly crebted <tt>Preferences</tt> object's {@link #newNode}
+     * field is <tt>true</tt> bnd there bre bny node chbnge listeners,
+     * b notificbtion event is enqueued for processing by the event dispbtch
+     * threbd.
      *
-     * <p>When there are no more tokens, the last value found in the
-     * child-cache or returned by <tt>childSpi</tt> is returned by this
-     * method.  If during the traversal, two <tt>"/"</tt> tokens occur
-     * consecutively, or the final token is <tt>"/"</tt> (rather than a name),
-     * an appropriate <tt>IllegalArgumentException</tt> is thrown.
+     * <p>When there bre no more tokens, the lbst vblue found in the
+     * child-cbche or returned by <tt>childSpi</tt> is returned by this
+     * method.  If during the trbversbl, two <tt>"/"</tt> tokens occur
+     * consecutively, or the finbl token is <tt>"/"</tt> (rbther thbn b nbme),
+     * bn bppropribte <tt>IllegblArgumentException</tt> is thrown.
      *
-     * <p> If the first character of <tt>path</tt> is <tt>'/'</tt>
-     * (indicating an absolute path name) this preference node's
-     * lock is dropped prior to breaking <tt>path</tt> into tokens, and
-     * this method recursively traverses the path starting from the root
-     * (rather than starting from this node).  The traversal is otherwise
-     * identical to the one described for relative path names.  Dropping
-     * the lock on this node prior to commencing the traversal at the root
-     * node is essential to avoid the possibility of deadlock, as per the
-     * {@link #lock locking invariant}.
+     * <p> If the first chbrbcter of <tt>pbth</tt> is <tt>'/'</tt>
+     * (indicbting bn bbsolute pbth nbme) this preference node's
+     * lock is dropped prior to brebking <tt>pbth</tt> into tokens, bnd
+     * this method recursively trbverses the pbth stbrting from the root
+     * (rbther thbn stbrting from this node).  The trbversbl is otherwise
+     * identicbl to the one described for relbtive pbth nbmes.  Dropping
+     * the lock on this node prior to commencing the trbversbl bt the root
+     * node is essentibl to bvoid the possibility of debdlock, bs per the
+     * {@link #lock locking invbribnt}.
      *
-     * @param path the path name of the preference node to return.
+     * @pbrbm pbth the pbth nbme of the preference node to return.
      * @return the specified preference node.
-     * @throws IllegalArgumentException if the path name is invalid (i.e.,
-     *         it contains multiple consecutive slash characters, or ends
-     *         with a slash character and is more than one character long).
-     * @throws IllegalStateException if this node (or an ancestor) has been
+     * @throws IllegblArgumentException if the pbth nbme is invblid (i.e.,
+     *         it contbins multiple consecutive slbsh chbrbcters, or ends
+     *         with b slbsh chbrbcter bnd is more thbn one chbrbcter long).
+     * @throws IllegblStbteException if this node (or bn bncestor) hbs been
      *         removed with the {@link #removeNode()} method.
      */
-    public Preferences node(String path) {
+    public Preferences node(String pbth) {
         synchronized(lock) {
             if (removed)
-                throw new IllegalStateException("Node has been removed.");
-            if (path.equals(""))
+                throw new IllegblStbteException("Node hbs been removed.");
+            if (pbth.equbls(""))
                 return this;
-            if (path.equals("/"))
+            if (pbth.equbls("/"))
                 return root;
-            if (path.charAt(0) != '/')
-                return node(new StringTokenizer(path, "/", true));
+            if (pbth.chbrAt(0) != '/')
+                return node(new StringTokenizer(pbth, "/", true));
         }
 
-        // Absolute path.  Note that we've dropped our lock to avoid deadlock
-        return root.node(new StringTokenizer(path.substring(1), "/", true));
+        // Absolute pbth.  Note thbt we've dropped our lock to bvoid debdlock
+        return root.node(new StringTokenizer(pbth.substring(1), "/", true));
     }
 
     /**
-     * tokenizer contains <name> {'/' <name>}*
+     * tokenizer contbins <nbme> {'/' <nbme>}*
      */
-    private Preferences node(StringTokenizer path) {
-        String token = path.nextToken();
-        if (token.equals("/"))  // Check for consecutive slashes
-            throw new IllegalArgumentException("Consecutive slashes in path");
+    privbte Preferences node(StringTokenizer pbth) {
+        String token = pbth.nextToken();
+        if (token.equbls("/"))  // Check for consecutive slbshes
+            throw new IllegblArgumentException("Consecutive slbshes in pbth");
         synchronized(lock) {
-            AbstractPreferences child = kidCache.get(token);
+            AbstrbctPreferences child = kidCbche.get(token);
             if (child == null) {
                 if (token.length() > MAX_NAME_LENGTH)
-                    throw new IllegalArgumentException(
-                        "Node name " + token + " too long");
+                    throw new IllegblArgumentException(
+                        "Node nbme " + token + " too long");
                 child = childSpi(token);
                 if (child.newNode)
                     enqueueNodeAddedEvent(child);
-                kidCache.put(token, child);
+                kidCbche.put(token, child);
             }
-            if (!path.hasMoreTokens())
+            if (!pbth.hbsMoreTokens())
                 return child;
-            path.nextToken();  // Consume slash
-            if (!path.hasMoreTokens())
-                throw new IllegalArgumentException("Path ends with slash");
-            return child.node(path);
+            pbth.nextToken();  // Consume slbsh
+            if (!pbth.hbsMoreTokens())
+                throw new IllegblArgumentException("Pbth ends with slbsh");
+            return child.node(pbth);
         }
     }
 
     /**
-     * Implements the <tt>nodeExists</tt> method as per the specification in
+     * Implements the <tt>nodeExists</tt> method bs per the specificbtion in
      * {@link Preferences#nodeExists(String)}.
      *
-     * <p>This implementation is very similar to {@link #node(String)},
-     * except that {@link #getChild(String)} is used instead of {@link
+     * <p>This implementbtion is very similbr to {@link #node(String)},
+     * except thbt {@link #getChild(String)} is used instebd of {@link
      * #childSpi(String)}.
      *
-     * @param path the path name of the node whose existence is to be checked.
+     * @pbrbm pbth the pbth nbme of the node whose existence is to be checked.
      * @return true if the specified node exists.
-     * @throws BackingStoreException if this operation cannot be completed
-     *         due to a failure in the backing store, or inability to
-     *         communicate with it.
-     * @throws IllegalArgumentException if the path name is invalid (i.e.,
-     *         it contains multiple consecutive slash characters, or ends
-     *         with a slash character and is more than one character long).
-     * @throws IllegalStateException if this node (or an ancestor) has been
-     *         removed with the {@link #removeNode()} method and
-     *         <tt>pathname</tt> is not the empty string (<tt>""</tt>).
+     * @throws BbckingStoreException if this operbtion cbnnot be completed
+     *         due to b fbilure in the bbcking store, or inbbility to
+     *         communicbte with it.
+     * @throws IllegblArgumentException if the pbth nbme is invblid (i.e.,
+     *         it contbins multiple consecutive slbsh chbrbcters, or ends
+     *         with b slbsh chbrbcter bnd is more thbn one chbrbcter long).
+     * @throws IllegblStbteException if this node (or bn bncestor) hbs been
+     *         removed with the {@link #removeNode()} method bnd
+     *         <tt>pbthnbme</tt> is not the empty string (<tt>""</tt>).
      */
-    public boolean nodeExists(String path)
-        throws BackingStoreException
+    public boolebn nodeExists(String pbth)
+        throws BbckingStoreException
     {
         synchronized(lock) {
-            if (path.equals(""))
+            if (pbth.equbls(""))
                 return !removed;
             if (removed)
-                throw new IllegalStateException("Node has been removed.");
-            if (path.equals("/"))
+                throw new IllegblStbteException("Node hbs been removed.");
+            if (pbth.equbls("/"))
                 return true;
-            if (path.charAt(0) != '/')
-                return nodeExists(new StringTokenizer(path, "/", true));
+            if (pbth.chbrAt(0) != '/')
+                return nodeExists(new StringTokenizer(pbth, "/", true));
         }
 
-        // Absolute path.  Note that we've dropped our lock to avoid deadlock
-        return root.nodeExists(new StringTokenizer(path.substring(1), "/",
+        // Absolute pbth.  Note thbt we've dropped our lock to bvoid debdlock
+        return root.nodeExists(new StringTokenizer(pbth.substring(1), "/",
                                                    true));
     }
 
     /**
-     * tokenizer contains <name> {'/' <name>}*
+     * tokenizer contbins <nbme> {'/' <nbme>}*
      */
-    private boolean nodeExists(StringTokenizer path)
-        throws BackingStoreException
+    privbte boolebn nodeExists(StringTokenizer pbth)
+        throws BbckingStoreException
     {
-        String token = path.nextToken();
-        if (token.equals("/"))  // Check for consecutive slashes
-            throw new IllegalArgumentException("Consecutive slashes in path");
+        String token = pbth.nextToken();
+        if (token.equbls("/"))  // Check for consecutive slbshes
+            throw new IllegblArgumentException("Consecutive slbshes in pbth");
         synchronized(lock) {
-            AbstractPreferences child = kidCache.get(token);
+            AbstrbctPreferences child = kidCbche.get(token);
             if (child == null)
                 child = getChild(token);
             if (child==null)
-                return false;
-            if (!path.hasMoreTokens())
+                return fblse;
+            if (!pbth.hbsMoreTokens())
                 return true;
-            path.nextToken();  // Consume slash
-            if (!path.hasMoreTokens())
-                throw new IllegalArgumentException("Path ends with slash");
-            return child.nodeExists(path);
+            pbth.nextToken();  // Consume slbsh
+            if (!pbth.hbsMoreTokens())
+                throw new IllegblArgumentException("Pbth ends with slbsh");
+            return child.nodeExists(pbth);
         }
     }
 
     /**
 
-     * Implements the <tt>removeNode()</tt> method as per the specification in
+     * Implements the <tt>removeNode()</tt> method bs per the specificbtion in
      * {@link Preferences#removeNode()}.
      *
-     * <p>This implementation checks to see that this node is the root; if so,
-     * it throws an appropriate exception.  Then, it locks this node's parent,
-     * and calls a recursive helper method that traverses the subtree rooted at
-     * this node.  The recursive method locks the node on which it was called,
-     * checks that it has not already been removed, and then ensures that all
-     * of its children are cached: The {@link #childrenNamesSpi()} method is
-     * invoked and each returned child name is checked for containment in the
-     * child-cache.  If a child is not already cached, the {@link
-     * #childSpi(String)} method is invoked to create a <tt>Preferences</tt>
-     * instance for it, and this instance is put into the child-cache.  Then
-     * the helper method calls itself recursively on each node contained in its
-     * child-cache.  Next, it invokes {@link #removeNodeSpi()}, marks itself
-     * as removed, and removes itself from its parent's child-cache.  Finally,
-     * if there are any node change listeners, it enqueues a notification
-     * event for processing by the event dispatch thread.
+     * <p>This implementbtion checks to see thbt this node is the root; if so,
+     * it throws bn bppropribte exception.  Then, it locks this node's pbrent,
+     * bnd cblls b recursive helper method thbt trbverses the subtree rooted bt
+     * this node.  The recursive method locks the node on which it wbs cblled,
+     * checks thbt it hbs not blrebdy been removed, bnd then ensures thbt bll
+     * of its children bre cbched: The {@link #childrenNbmesSpi()} method is
+     * invoked bnd ebch returned child nbme is checked for contbinment in the
+     * child-cbche.  If b child is not blrebdy cbched, the {@link
+     * #childSpi(String)} method is invoked to crebte b <tt>Preferences</tt>
+     * instbnce for it, bnd this instbnce is put into the child-cbche.  Then
+     * the helper method cblls itself recursively on ebch node contbined in its
+     * child-cbche.  Next, it invokes {@link #removeNodeSpi()}, mbrks itself
+     * bs removed, bnd removes itself from its pbrent's child-cbche.  Finblly,
+     * if there bre bny node chbnge listeners, it enqueues b notificbtion
+     * event for processing by the event dispbtch threbd.
      *
-     * <p>Note that the helper method is always invoked with all ancestors up
-     * to the "closest non-removed ancestor" locked.
+     * <p>Note thbt the helper method is blwbys invoked with bll bncestors up
+     * to the "closest non-removed bncestor" locked.
      *
-     * @throws IllegalStateException if this node (or an ancestor) has already
+     * @throws IllegblStbteException if this node (or bn bncestor) hbs blrebdy
      *         been removed with the {@link #removeNode()} method.
-     * @throws UnsupportedOperationException if this method is invoked on
+     * @throws UnsupportedOperbtionException if this method is invoked on
      *         the root node.
-     * @throws BackingStoreException if this operation cannot be completed
-     *         due to a failure in the backing store, or inability to
-     *         communicate with it.
+     * @throws BbckingStoreException if this operbtion cbnnot be completed
+     *         due to b fbilure in the bbcking store, or inbbility to
+     *         communicbte with it.
      */
-    public void removeNode() throws BackingStoreException {
+    public void removeNode() throws BbckingStoreException {
         if (this==root)
-            throw new UnsupportedOperationException("Can't remove the root!");
-        synchronized(parent.lock) {
+            throw new UnsupportedOperbtionException("Cbn't remove the root!");
+        synchronized(pbrent.lock) {
             removeNode2();
-            parent.kidCache.remove(name);
+            pbrent.kidCbche.remove(nbme);
         }
     }
 
     /*
-     * Called with locks on all nodes on path from parent of "removal root"
-     * to this (including the former but excluding the latter).
+     * Cblled with locks on bll nodes on pbth from pbrent of "removbl root"
+     * to this (including the former but excluding the lbtter).
      */
-    private void removeNode2() throws BackingStoreException {
+    privbte void removeNode2() throws BbckingStoreException {
         synchronized(lock) {
             if (removed)
-                throw new IllegalStateException("Node already removed.");
+                throw new IllegblStbteException("Node blrebdy removed.");
 
-            // Ensure that all children are cached
-            String[] kidNames = childrenNamesSpi();
-            for (String kidName : kidNames)
-                if (!kidCache.containsKey(kidName))
-                    kidCache.put(kidName, childSpi(kidName));
+            // Ensure thbt bll children bre cbched
+            String[] kidNbmes = childrenNbmesSpi();
+            for (String kidNbme : kidNbmes)
+                if (!kidCbche.contbinsKey(kidNbme))
+                    kidCbche.put(kidNbme, childSpi(kidNbme));
 
-            // Recursively remove all cached children
-            for (Iterator<AbstractPreferences> i = kidCache.values().iterator();
-                 i.hasNext();) {
+            // Recursively remove bll cbched children
+            for (Iterbtor<AbstrbctPreferences> i = kidCbche.vblues().iterbtor();
+                 i.hbsNext();) {
                 try {
                     i.next().removeNode2();
                     i.remove();
-                } catch (BackingStoreException x) { }
+                } cbtch (BbckingStoreException x) { }
             }
 
-            // Now we have no descendants - it's time to die!
+            // Now we hbve no descendbnts - it's time to die!
             removeNodeSpi();
             removed = true;
-            parent.enqueueNodeRemovedEvent(this);
+            pbrent.enqueueNodeRemovedEvent(this);
         }
     }
 
     /**
-     * Implements the <tt>name</tt> method as per the specification in
-     * {@link Preferences#name()}.
+     * Implements the <tt>nbme</tt> method bs per the specificbtion in
+     * {@link Preferences#nbme()}.
      *
-     * <p>This implementation merely returns the name that was
-     * passed to this node's constructor.
+     * <p>This implementbtion merely returns the nbme thbt wbs
+     * pbssed to this node's constructor.
      *
-     * @return this preference node's name, relative to its parent.
+     * @return this preference node's nbme, relbtive to its pbrent.
      */
-    public String name() {
-        return name;
+    public String nbme() {
+        return nbme;
     }
 
     /**
-     * Implements the <tt>absolutePath</tt> method as per the specification in
-     * {@link Preferences#absolutePath()}.
+     * Implements the <tt>bbsolutePbth</tt> method bs per the specificbtion in
+     * {@link Preferences#bbsolutePbth()}.
      *
-     * <p>This implementation merely returns the absolute path name that
-     * was computed at the time that this node was constructed (based on
-     * the name that was passed to this node's constructor, and the names
-     * that were passed to this node's ancestors' constructors).
+     * <p>This implementbtion merely returns the bbsolute pbth nbme thbt
+     * wbs computed bt the time thbt this node wbs constructed (bbsed on
+     * the nbme thbt wbs pbssed to this node's constructor, bnd the nbmes
+     * thbt were pbssed to this node's bncestors' constructors).
      *
-     * @return this preference node's absolute path name.
+     * @return this preference node's bbsolute pbth nbme.
      */
-    public String absolutePath() {
-        return absolutePath;
+    public String bbsolutePbth() {
+        return bbsolutePbth;
     }
 
     /**
-     * Implements the <tt>isUserNode</tt> method as per the specification in
+     * Implements the <tt>isUserNode</tt> method bs per the specificbtion in
      * {@link Preferences#isUserNode()}.
      *
-     * <p>This implementation compares this node's root node (which is stored
-     * in a private field) with the value returned by
-     * {@link Preferences#userRoot()}.  If the two object references are
-     * identical, this method returns true.
+     * <p>This implementbtion compbres this node's root node (which is stored
+     * in b privbte field) with the vblue returned by
+     * {@link Preferences#userRoot()}.  If the two object references bre
+     * identicbl, this method returns true.
      *
      * @return <tt>true</tt> if this preference node is in the user
-     *         preference tree, <tt>false</tt> if it's in the system
+     *         preference tree, <tt>fblse</tt> if it's in the system
      *         preference tree.
      */
-    public boolean isUserNode() {
+    public boolebn isUserNode() {
         return AccessController.doPrivileged(
-            new PrivilegedAction<Boolean>() {
-                public Boolean run() {
+            new PrivilegedAction<Boolebn>() {
+                public Boolebn run() {
                     return root == Preferences.userRoot();
             }
-            }).booleanValue();
+            }).boolebnVblue();
     }
 
-    public void addPreferenceChangeListener(PreferenceChangeListener pcl) {
+    public void bddPreferenceChbngeListener(PreferenceChbngeListener pcl) {
         if (pcl==null)
-            throw new NullPointerException("Change listener is null.");
+            throw new NullPointerException("Chbnge listener is null.");
         synchronized(lock) {
             if (removed)
-                throw new IllegalStateException("Node has been removed.");
+                throw new IllegblStbteException("Node hbs been removed.");
 
             // Copy-on-write
-            PreferenceChangeListener[] old = prefListeners;
-            prefListeners = new PreferenceChangeListener[old.length + 1];
-            System.arraycopy(old, 0, prefListeners, 0, old.length);
+            PreferenceChbngeListener[] old = prefListeners;
+            prefListeners = new PreferenceChbngeListener[old.length + 1];
+            System.brrbycopy(old, 0, prefListeners, 0, old.length);
             prefListeners[old.length] = pcl;
         }
-        startEventDispatchThreadIfNecessary();
+        stbrtEventDispbtchThrebdIfNecessbry();
     }
 
-    public void removePreferenceChangeListener(PreferenceChangeListener pcl) {
+    public void removePreferenceChbngeListener(PreferenceChbngeListener pcl) {
         synchronized(lock) {
             if (removed)
-                throw new IllegalStateException("Node has been removed.");
+                throw new IllegblStbteException("Node hbs been removed.");
             if ((prefListeners == null) || (prefListeners.length == 0))
-                throw new IllegalArgumentException("Listener not registered.");
+                throw new IllegblArgumentException("Listener not registered.");
 
             // Copy-on-write
-            PreferenceChangeListener[] newPl =
-                new PreferenceChangeListener[prefListeners.length - 1];
+            PreferenceChbngeListener[] newPl =
+                new PreferenceChbngeListener[prefListeners.length - 1];
             int i = 0;
             while (i < newPl.length && prefListeners[i] != pcl)
                 newPl[i] = prefListeners[i++];
 
             if (i == newPl.length &&  prefListeners[i] != pcl)
-                throw new IllegalArgumentException("Listener not registered.");
+                throw new IllegblArgumentException("Listener not registered.");
             while (i < newPl.length)
                 newPl[i] = prefListeners[++i];
             prefListeners = newPl;
         }
     }
 
-    public void addNodeChangeListener(NodeChangeListener ncl) {
+    public void bddNodeChbngeListener(NodeChbngeListener ncl) {
         if (ncl==null)
-            throw new NullPointerException("Change listener is null.");
+            throw new NullPointerException("Chbnge listener is null.");
         synchronized(lock) {
             if (removed)
-                throw new IllegalStateException("Node has been removed.");
+                throw new IllegblStbteException("Node hbs been removed.");
 
             // Copy-on-write
             if (nodeListeners == null) {
-                nodeListeners = new NodeChangeListener[1];
+                nodeListeners = new NodeChbngeListener[1];
                 nodeListeners[0] = ncl;
             } else {
-                NodeChangeListener[] old = nodeListeners;
-                nodeListeners = new NodeChangeListener[old.length + 1];
-                System.arraycopy(old, 0, nodeListeners, 0, old.length);
+                NodeChbngeListener[] old = nodeListeners;
+                nodeListeners = new NodeChbngeListener[old.length + 1];
+                System.brrbycopy(old, 0, nodeListeners, 0, old.length);
                 nodeListeners[old.length] = ncl;
             }
         }
-        startEventDispatchThreadIfNecessary();
+        stbrtEventDispbtchThrebdIfNecessbry();
     }
 
-    public void removeNodeChangeListener(NodeChangeListener ncl) {
+    public void removeNodeChbngeListener(NodeChbngeListener ncl) {
         synchronized(lock) {
             if (removed)
-                throw new IllegalStateException("Node has been removed.");
+                throw new IllegblStbteException("Node hbs been removed.");
             if ((nodeListeners == null) || (nodeListeners.length == 0))
-                throw new IllegalArgumentException("Listener not registered.");
+                throw new IllegblArgumentException("Listener not registered.");
 
             // Copy-on-write
             int i = 0;
             while (i < nodeListeners.length && nodeListeners[i] != ncl)
                 i++;
             if (i == nodeListeners.length)
-                throw new IllegalArgumentException("Listener not registered.");
-            NodeChangeListener[] newNl =
-                new NodeChangeListener[nodeListeners.length - 1];
+                throw new IllegblArgumentException("Listener not registered.");
+            NodeChbngeListener[] newNl =
+                new NodeChbngeListener[nodeListeners.length - 1];
             if (i != 0)
-                System.arraycopy(nodeListeners, 0, newNl, 0, i);
+                System.brrbycopy(nodeListeners, 0, newNl, 0, i);
             if (i != newNl.length)
-                System.arraycopy(nodeListeners, i + 1,
+                System.brrbycopy(nodeListeners, i + 1,
                                  newNl, i, newNl.length - i);
             nodeListeners = newNl;
         }
@@ -1114,394 +1114,394 @@ public abstract class AbstractPreferences extends Preferences {
     // "SPI" METHODS
 
     /**
-     * Put the given key-value association into this preference node.  It is
-     * guaranteed that <tt>key</tt> and <tt>value</tt> are non-null and of
-     * legal length.  Also, it is guaranteed that this node has not been
-     * removed.  (The implementor needn't check for any of these things.)
+     * Put the given key-vblue bssocibtion into this preference node.  It is
+     * gubrbnteed thbt <tt>key</tt> bnd <tt>vblue</tt> bre non-null bnd of
+     * legbl length.  Also, it is gubrbnteed thbt this node hbs not been
+     * removed.  (The implementor needn't check for bny of these things.)
      *
      * <p>This method is invoked with the lock on this node held.
-     * @param key the key
-     * @param value the value
+     * @pbrbm key the key
+     * @pbrbm vblue the vblue
      */
-    protected abstract void putSpi(String key, String value);
+    protected bbstrbct void putSpi(String key, String vblue);
 
     /**
-     * Return the value associated with the specified key at this preference
-     * node, or <tt>null</tt> if there is no association for this key, or the
-     * association cannot be determined at this time.  It is guaranteed that
-     * <tt>key</tt> is non-null.  Also, it is guaranteed that this node has
+     * Return the vblue bssocibted with the specified key bt this preference
+     * node, or <tt>null</tt> if there is no bssocibtion for this key, or the
+     * bssocibtion cbnnot be determined bt this time.  It is gubrbnteed thbt
+     * <tt>key</tt> is non-null.  Also, it is gubrbnteed thbt this node hbs
      * not been removed.  (The implementor needn't check for either of these
      * things.)
      *
-     * <p> Generally speaking, this method should not throw an exception
-     * under any circumstances.  If, however, if it does throw an exception,
-     * the exception will be intercepted and treated as a <tt>null</tt>
-     * return value.
+     * <p> Generblly spebking, this method should not throw bn exception
+     * under bny circumstbnces.  If, however, if it does throw bn exception,
+     * the exception will be intercepted bnd trebted bs b <tt>null</tt>
+     * return vblue.
      *
      * <p>This method is invoked with the lock on this node held.
      *
-     * @param key the key
-     * @return the value associated with the specified key at this preference
-     *          node, or <tt>null</tt> if there is no association for this
-     *          key, or the association cannot be determined at this time.
+     * @pbrbm key the key
+     * @return the vblue bssocibted with the specified key bt this preference
+     *          node, or <tt>null</tt> if there is no bssocibtion for this
+     *          key, or the bssocibtion cbnnot be determined bt this time.
      */
-    protected abstract String getSpi(String key);
+    protected bbstrbct String getSpi(String key);
 
     /**
-     * Remove the association (if any) for the specified key at this
-     * preference node.  It is guaranteed that <tt>key</tt> is non-null.
-     * Also, it is guaranteed that this node has not been removed.
+     * Remove the bssocibtion (if bny) for the specified key bt this
+     * preference node.  It is gubrbnteed thbt <tt>key</tt> is non-null.
+     * Also, it is gubrbnteed thbt this node hbs not been removed.
      * (The implementor needn't check for either of these things.)
      *
      * <p>This method is invoked with the lock on this node held.
-     * @param key the key
+     * @pbrbm key the key
      */
-    protected abstract void removeSpi(String key);
+    protected bbstrbct void removeSpi(String key);
 
     /**
-     * Removes this preference node, invalidating it and any preferences that
-     * it contains.  The named child will have no descendants at the time this
-     * invocation is made (i.e., the {@link Preferences#removeNode()} method
-     * invokes this method repeatedly in a bottom-up fashion, removing each of
-     * a node's descendants before removing the node itself).
+     * Removes this preference node, invblidbting it bnd bny preferences thbt
+     * it contbins.  The nbmed child will hbve no descendbnts bt the time this
+     * invocbtion is mbde (i.e., the {@link Preferences#removeNode()} method
+     * invokes this method repebtedly in b bottom-up fbshion, removing ebch of
+     * b node's descendbnts before removing the node itself).
      *
-     * <p>This method is invoked with the lock held on this node and its
-     * parent (and all ancestors that are being removed as a
-     * result of a single invocation to {@link Preferences#removeNode()}).
+     * <p>This method is invoked with the lock held on this node bnd its
+     * pbrent (bnd bll bncestors thbt bre being removed bs b
+     * result of b single invocbtion to {@link Preferences#removeNode()}).
      *
-     * <p>The removal of a node needn't become persistent until the
-     * <tt>flush</tt> method is invoked on this node (or an ancestor).
+     * <p>The removbl of b node needn't become persistent until the
+     * <tt>flush</tt> method is invoked on this node (or bn bncestor).
      *
-     * <p>If this node throws a <tt>BackingStoreException</tt>, the exception
-     * will propagate out beyond the enclosing {@link #removeNode()}
-     * invocation.
+     * <p>If this node throws b <tt>BbckingStoreException</tt>, the exception
+     * will propbgbte out beyond the enclosing {@link #removeNode()}
+     * invocbtion.
      *
-     * @throws BackingStoreException if this operation cannot be completed
-     *         due to a failure in the backing store, or inability to
-     *         communicate with it.
+     * @throws BbckingStoreException if this operbtion cbnnot be completed
+     *         due to b fbilure in the bbcking store, or inbbility to
+     *         communicbte with it.
      */
-    protected abstract void removeNodeSpi() throws BackingStoreException;
+    protected bbstrbct void removeNodeSpi() throws BbckingStoreException;
 
     /**
-     * Returns all of the keys that have an associated value in this
-     * preference node.  (The returned array will be of size zero if
-     * this node has no preferences.)  It is guaranteed that this node has not
+     * Returns bll of the keys thbt hbve bn bssocibted vblue in this
+     * preference node.  (The returned brrby will be of size zero if
+     * this node hbs no preferences.)  It is gubrbnteed thbt this node hbs not
      * been removed.
      *
      * <p>This method is invoked with the lock on this node held.
      *
-     * <p>If this node throws a <tt>BackingStoreException</tt>, the exception
-     * will propagate out beyond the enclosing {@link #keys()} invocation.
+     * <p>If this node throws b <tt>BbckingStoreException</tt>, the exception
+     * will propbgbte out beyond the enclosing {@link #keys()} invocbtion.
      *
-     * @return an array of the keys that have an associated value in this
+     * @return bn brrby of the keys thbt hbve bn bssocibted vblue in this
      *         preference node.
-     * @throws BackingStoreException if this operation cannot be completed
-     *         due to a failure in the backing store, or inability to
-     *         communicate with it.
+     * @throws BbckingStoreException if this operbtion cbnnot be completed
+     *         due to b fbilure in the bbcking store, or inbbility to
+     *         communicbte with it.
      */
-    protected abstract String[] keysSpi() throws BackingStoreException;
+    protected bbstrbct String[] keysSpi() throws BbckingStoreException;
 
     /**
-     * Returns the names of the children of this preference node.  (The
-     * returned array will be of size zero if this node has no children.)
-     * This method need not return the names of any nodes already cached,
-     * but may do so without harm.
+     * Returns the nbmes of the children of this preference node.  (The
+     * returned brrby will be of size zero if this node hbs no children.)
+     * This method need not return the nbmes of bny nodes blrebdy cbched,
+     * but mby do so without hbrm.
      *
      * <p>This method is invoked with the lock on this node held.
      *
-     * <p>If this node throws a <tt>BackingStoreException</tt>, the exception
-     * will propagate out beyond the enclosing {@link #childrenNames()}
-     * invocation.
+     * <p>If this node throws b <tt>BbckingStoreException</tt>, the exception
+     * will propbgbte out beyond the enclosing {@link #childrenNbmes()}
+     * invocbtion.
      *
-     * @return an array containing the names of the children of this
+     * @return bn brrby contbining the nbmes of the children of this
      *         preference node.
-     * @throws BackingStoreException if this operation cannot be completed
-     *         due to a failure in the backing store, or inability to
-     *         communicate with it.
+     * @throws BbckingStoreException if this operbtion cbnnot be completed
+     *         due to b fbilure in the bbcking store, or inbbility to
+     *         communicbte with it.
      */
-    protected abstract String[] childrenNamesSpi()
-        throws BackingStoreException;
+    protected bbstrbct String[] childrenNbmesSpi()
+        throws BbckingStoreException;
 
     /**
-     * Returns the named child if it exists, or <tt>null</tt> if it does not.
-     * It is guaranteed that <tt>nodeName</tt> is non-null, non-empty,
-     * does not contain the slash character ('/'), and is no longer than
-     * {@link #MAX_NAME_LENGTH} characters.  Also, it is guaranteed
-     * that this node has not been removed.  (The implementor needn't check
-     * for any of these things if he chooses to override this method.)
+     * Returns the nbmed child if it exists, or <tt>null</tt> if it does not.
+     * It is gubrbnteed thbt <tt>nodeNbme</tt> is non-null, non-empty,
+     * does not contbin the slbsh chbrbcter ('/'), bnd is no longer thbn
+     * {@link #MAX_NAME_LENGTH} chbrbcters.  Also, it is gubrbnteed
+     * thbt this node hbs not been removed.  (The implementor needn't check
+     * for bny of these things if he chooses to override this method.)
      *
-     * <p>Finally, it is guaranteed that the named node has not been returned
-     * by a previous invocation of this method or {@link #childSpi} after the
-     * last time that it was removed.  In other words, a cached value will
-     * always be used in preference to invoking this method.  (The implementor
-     * needn't maintain his own cache of previously returned children if he
+     * <p>Finblly, it is gubrbnteed thbt the nbmed node hbs not been returned
+     * by b previous invocbtion of this method or {@link #childSpi} bfter the
+     * lbst time thbt it wbs removed.  In other words, b cbched vblue will
+     * blwbys be used in preference to invoking this method.  (The implementor
+     * needn't mbintbin his own cbche of previously returned children if he
      * chooses to override this method.)
      *
-     * <p>This implementation obtains this preference node's lock, invokes
-     * {@link #childrenNames()} to get an array of the names of this node's
-     * children, and iterates over the array comparing the name of each child
-     * with the specified node name.  If a child node has the correct name,
-     * the {@link #childSpi(String)} method is invoked and the resulting
-     * node is returned.  If the iteration completes without finding the
-     * specified name, <tt>null</tt> is returned.
+     * <p>This implementbtion obtbins this preference node's lock, invokes
+     * {@link #childrenNbmes()} to get bn brrby of the nbmes of this node's
+     * children, bnd iterbtes over the brrby compbring the nbme of ebch child
+     * with the specified node nbme.  If b child node hbs the correct nbme,
+     * the {@link #childSpi(String)} method is invoked bnd the resulting
+     * node is returned.  If the iterbtion completes without finding the
+     * specified nbme, <tt>null</tt> is returned.
      *
-     * @param nodeName name of the child to be searched for.
-     * @return the named child if it exists, or null if it does not.
-     * @throws BackingStoreException if this operation cannot be completed
-     *         due to a failure in the backing store, or inability to
-     *         communicate with it.
+     * @pbrbm nodeNbme nbme of the child to be sebrched for.
+     * @return the nbmed child if it exists, or null if it does not.
+     * @throws BbckingStoreException if this operbtion cbnnot be completed
+     *         due to b fbilure in the bbcking store, or inbbility to
+     *         communicbte with it.
      */
-    protected AbstractPreferences getChild(String nodeName)
-            throws BackingStoreException {
+    protected AbstrbctPreferences getChild(String nodeNbme)
+            throws BbckingStoreException {
         synchronized(lock) {
-            // assert kidCache.get(nodeName)==null;
-            String[] kidNames = childrenNames();
-            for (String kidName : kidNames)
-                if (kidName.equals(nodeName))
-                    return childSpi(kidName);
+            // bssert kidCbche.get(nodeNbme)==null;
+            String[] kidNbmes = childrenNbmes();
+            for (String kidNbme : kidNbmes)
+                if (kidNbme.equbls(nodeNbme))
+                    return childSpi(kidNbme);
         }
         return null;
     }
 
     /**
-     * Returns the named child of this preference node, creating it if it does
-     * not already exist.  It is guaranteed that <tt>name</tt> is non-null,
-     * non-empty, does not contain the slash character ('/'), and is no longer
-     * than {@link #MAX_NAME_LENGTH} characters.  Also, it is guaranteed that
-     * this node has not been removed.  (The implementor needn't check for any
+     * Returns the nbmed child of this preference node, crebting it if it does
+     * not blrebdy exist.  It is gubrbnteed thbt <tt>nbme</tt> is non-null,
+     * non-empty, does not contbin the slbsh chbrbcter ('/'), bnd is no longer
+     * thbn {@link #MAX_NAME_LENGTH} chbrbcters.  Also, it is gubrbnteed thbt
+     * this node hbs not been removed.  (The implementor needn't check for bny
      * of these things.)
      *
-     * <p>Finally, it is guaranteed that the named node has not been returned
-     * by a previous invocation of this method or {@link #getChild(String)}
-     * after the last time that it was removed.  In other words, a cached
-     * value will always be used in preference to invoking this method.
-     * Subclasses need not maintain their own cache of previously returned
+     * <p>Finblly, it is gubrbnteed thbt the nbmed node hbs not been returned
+     * by b previous invocbtion of this method or {@link #getChild(String)}
+     * bfter the lbst time thbt it wbs removed.  In other words, b cbched
+     * vblue will blwbys be used in preference to invoking this method.
+     * Subclbsses need not mbintbin their own cbche of previously returned
      * children.
      *
-     * <p>The implementer must ensure that the returned node has not been
-     * removed.  If a like-named child of this node was previously removed, the
-     * implementer must return a newly constructed <tt>AbstractPreferences</tt>
-     * node; once removed, an <tt>AbstractPreferences</tt> node
-     * cannot be "resuscitated."
+     * <p>The implementer must ensure thbt the returned node hbs not been
+     * removed.  If b like-nbmed child of this node wbs previously removed, the
+     * implementer must return b newly constructed <tt>AbstrbctPreferences</tt>
+     * node; once removed, bn <tt>AbstrbctPreferences</tt> node
+     * cbnnot be "resuscitbted."
      *
-     * <p>If this method causes a node to be created, this node is not
-     * guaranteed to be persistent until the <tt>flush</tt> method is
-     * invoked on this node or one of its ancestors (or descendants).
+     * <p>If this method cbuses b node to be crebted, this node is not
+     * gubrbnteed to be persistent until the <tt>flush</tt> method is
+     * invoked on this node or one of its bncestors (or descendbnts).
      *
      * <p>This method is invoked with the lock on this node held.
      *
-     * @param name The name of the child node to return, relative to
+     * @pbrbm nbme The nbme of the child node to return, relbtive to
      *        this preference node.
-     * @return The named child node.
+     * @return The nbmed child node.
      */
-    protected abstract AbstractPreferences childSpi(String name);
+    protected bbstrbct AbstrbctPreferences childSpi(String nbme);
 
     /**
-     * Returns the absolute path name of this preferences node.
+     * Returns the bbsolute pbth nbme of this preferences node.
      */
     public String toString() {
         return (this.isUserNode() ? "User" : "System") +
-               " Preference Node: " + this.absolutePath();
+               " Preference Node: " + this.bbsolutePbth();
     }
 
     /**
-     * Implements the <tt>sync</tt> method as per the specification in
+     * Implements the <tt>sync</tt> method bs per the specificbtion in
      * {@link Preferences#sync()}.
      *
-     * <p>This implementation calls a recursive helper method that locks this
-     * node, invokes syncSpi() on it, unlocks this node, and recursively
-     * invokes this method on each "cached child."  A cached child is a child
-     * of this node that has been created in this VM and not subsequently
-     * removed.  In effect, this method does a depth first traversal of the
-     * "cached subtree" rooted at this node, calling syncSpi() on each node in
-     * the subTree while only that node is locked. Note that syncSpi() is
+     * <p>This implementbtion cblls b recursive helper method thbt locks this
+     * node, invokes syncSpi() on it, unlocks this node, bnd recursively
+     * invokes this method on ebch "cbched child."  A cbched child is b child
+     * of this node thbt hbs been crebted in this VM bnd not subsequently
+     * removed.  In effect, this method does b depth first trbversbl of the
+     * "cbched subtree" rooted bt this node, cblling syncSpi() on ebch node in
+     * the subTree while only thbt node is locked. Note thbt syncSpi() is
      * invoked top-down.
      *
-     * @throws BackingStoreException if this operation cannot be completed
-     *         due to a failure in the backing store, or inability to
-     *         communicate with it.
-     * @throws IllegalStateException if this node (or an ancestor) has been
+     * @throws BbckingStoreException if this operbtion cbnnot be completed
+     *         due to b fbilure in the bbcking store, or inbbility to
+     *         communicbte with it.
+     * @throws IllegblStbteException if this node (or bn bncestor) hbs been
      *         removed with the {@link #removeNode()} method.
      * @see #flush()
      */
-    public void sync() throws BackingStoreException {
+    public void sync() throws BbckingStoreException {
         sync2();
     }
 
-    private void sync2() throws BackingStoreException {
-        AbstractPreferences[] cachedKids;
+    privbte void sync2() throws BbckingStoreException {
+        AbstrbctPreferences[] cbchedKids;
 
         synchronized(lock) {
             if (removed)
-                throw new IllegalStateException("Node has been removed");
+                throw new IllegblStbteException("Node hbs been removed");
             syncSpi();
-            cachedKids = cachedChildren();
+            cbchedKids = cbchedChildren();
         }
 
-        for (AbstractPreferences cachedKid : cachedKids)
-            cachedKid.sync2();
+        for (AbstrbctPreferences cbchedKid : cbchedKids)
+            cbchedKid.sync2();
     }
 
     /**
-     * This method is invoked with this node locked.  The contract of this
-     * method is to synchronize any cached preferences stored at this node
-     * with any stored in the backing store.  (It is perfectly possible that
-     * this node does not exist on the backing store, either because it has
-     * been deleted by another VM, or because it has not yet been created.)
-     * Note that this method should <i>not</i> synchronize the preferences in
-     * any subnodes of this node.  If the backing store naturally syncs an
-     * entire subtree at once, the implementer is encouraged to override
-     * sync(), rather than merely overriding this method.
+     * This method is invoked with this node locked.  The contrbct of this
+     * method is to synchronize bny cbched preferences stored bt this node
+     * with bny stored in the bbcking store.  (It is perfectly possible thbt
+     * this node does not exist on the bbcking store, either becbuse it hbs
+     * been deleted by bnother VM, or becbuse it hbs not yet been crebted.)
+     * Note thbt this method should <i>not</i> synchronize the preferences in
+     * bny subnodes of this node.  If the bbcking store nbturblly syncs bn
+     * entire subtree bt once, the implementer is encourbged to override
+     * sync(), rbther thbn merely overriding this method.
      *
-     * <p>If this node throws a <tt>BackingStoreException</tt>, the exception
-     * will propagate out beyond the enclosing {@link #sync()} invocation.
+     * <p>If this node throws b <tt>BbckingStoreException</tt>, the exception
+     * will propbgbte out beyond the enclosing {@link #sync()} invocbtion.
      *
-     * @throws BackingStoreException if this operation cannot be completed
-     *         due to a failure in the backing store, or inability to
-     *         communicate with it.
+     * @throws BbckingStoreException if this operbtion cbnnot be completed
+     *         due to b fbilure in the bbcking store, or inbbility to
+     *         communicbte with it.
      */
-    protected abstract void syncSpi() throws BackingStoreException;
+    protected bbstrbct void syncSpi() throws BbckingStoreException;
 
     /**
-     * Implements the <tt>flush</tt> method as per the specification in
+     * Implements the <tt>flush</tt> method bs per the specificbtion in
      * {@link Preferences#flush()}.
      *
-     * <p>This implementation calls a recursive helper method that locks this
-     * node, invokes flushSpi() on it, unlocks this node, and recursively
-     * invokes this method on each "cached child."  A cached child is a child
-     * of this node that has been created in this VM and not subsequently
-     * removed.  In effect, this method does a depth first traversal of the
-     * "cached subtree" rooted at this node, calling flushSpi() on each node in
-     * the subTree while only that node is locked. Note that flushSpi() is
+     * <p>This implementbtion cblls b recursive helper method thbt locks this
+     * node, invokes flushSpi() on it, unlocks this node, bnd recursively
+     * invokes this method on ebch "cbched child."  A cbched child is b child
+     * of this node thbt hbs been crebted in this VM bnd not subsequently
+     * removed.  In effect, this method does b depth first trbversbl of the
+     * "cbched subtree" rooted bt this node, cblling flushSpi() on ebch node in
+     * the subTree while only thbt node is locked. Note thbt flushSpi() is
      * invoked top-down.
      *
-     * <p> If this method is invoked on a node that has been removed with
+     * <p> If this method is invoked on b node thbt hbs been removed with
      * the {@link #removeNode()} method, flushSpi() is invoked on this node,
      * but not on others.
      *
-     * @throws BackingStoreException if this operation cannot be completed
-     *         due to a failure in the backing store, or inability to
-     *         communicate with it.
+     * @throws BbckingStoreException if this operbtion cbnnot be completed
+     *         due to b fbilure in the bbcking store, or inbbility to
+     *         communicbte with it.
      * @see #flush()
      */
-    public void flush() throws BackingStoreException {
+    public void flush() throws BbckingStoreException {
         flush2();
     }
 
-    private void flush2() throws BackingStoreException {
-        AbstractPreferences[] cachedKids;
+    privbte void flush2() throws BbckingStoreException {
+        AbstrbctPreferences[] cbchedKids;
 
         synchronized(lock) {
             flushSpi();
             if(removed)
                 return;
-            cachedKids = cachedChildren();
+            cbchedKids = cbchedChildren();
         }
 
-        for (AbstractPreferences cachedKid : cachedKids)
-            cachedKid.flush2();
+        for (AbstrbctPreferences cbchedKid : cbchedKids)
+            cbchedKid.flush2();
     }
 
     /**
-     * This method is invoked with this node locked.  The contract of this
-     * method is to force any cached changes in the contents of this
-     * preference node to the backing store, guaranteeing their persistence.
-     * (It is perfectly possible that this node does not exist on the backing
-     * store, either because it has been deleted by another VM, or because it
-     * has not yet been created.)  Note that this method should <i>not</i>
-     * flush the preferences in any subnodes of this node.  If the backing
-     * store naturally flushes an entire subtree at once, the implementer is
-     * encouraged to override flush(), rather than merely overriding this
+     * This method is invoked with this node locked.  The contrbct of this
+     * method is to force bny cbched chbnges in the contents of this
+     * preference node to the bbcking store, gubrbnteeing their persistence.
+     * (It is perfectly possible thbt this node does not exist on the bbcking
+     * store, either becbuse it hbs been deleted by bnother VM, or becbuse it
+     * hbs not yet been crebted.)  Note thbt this method should <i>not</i>
+     * flush the preferences in bny subnodes of this node.  If the bbcking
+     * store nbturblly flushes bn entire subtree bt once, the implementer is
+     * encourbged to override flush(), rbther thbn merely overriding this
      * method.
      *
-     * <p>If this node throws a <tt>BackingStoreException</tt>, the exception
-     * will propagate out beyond the enclosing {@link #flush()} invocation.
+     * <p>If this node throws b <tt>BbckingStoreException</tt>, the exception
+     * will propbgbte out beyond the enclosing {@link #flush()} invocbtion.
      *
-     * @throws BackingStoreException if this operation cannot be completed
-     *         due to a failure in the backing store, or inability to
-     *         communicate with it.
+     * @throws BbckingStoreException if this operbtion cbnnot be completed
+     *         due to b fbilure in the bbcking store, or inbbility to
+     *         communicbte with it.
      */
-    protected abstract void flushSpi() throws BackingStoreException;
+    protected bbstrbct void flushSpi() throws BbckingStoreException;
 
     /**
-     * Returns <tt>true</tt> iff this node (or an ancestor) has been
+     * Returns <tt>true</tt> iff this node (or bn bncestor) hbs been
      * removed with the {@link #removeNode()} method.  This method
-     * locks this node prior to returning the contents of the private
-     * field used to track this state.
+     * locks this node prior to returning the contents of the privbte
+     * field used to trbck this stbte.
      *
-     * @return <tt>true</tt> iff this node (or an ancestor) has been
+     * @return <tt>true</tt> iff this node (or bn bncestor) hbs been
      *       removed with the {@link #removeNode()} method.
      */
-    protected boolean isRemoved() {
+    protected boolebn isRemoved() {
         synchronized(lock) {
             return removed;
         }
     }
 
     /**
-     * Queue of pending notification events.  When a preference or node
-     * change event for which there are one or more listeners occurs,
-     * it is placed on this queue and the queue is notified.  A background
-     * thread waits on this queue and delivers the events.  This decouples
-     * event delivery from preference activity, greatly simplifying
-     * locking and reducing opportunity for deadlock.
+     * Queue of pending notificbtion events.  When b preference or node
+     * chbnge event for which there bre one or more listeners occurs,
+     * it is plbced on this queue bnd the queue is notified.  A bbckground
+     * threbd wbits on this queue bnd delivers the events.  This decouples
+     * event delivery from preference bctivity, grebtly simplifying
+     * locking bnd reducing opportunity for debdlock.
      */
-    private static final List<EventObject> eventQueue = new LinkedList<>();
+    privbte stbtic finbl List<EventObject> eventQueue = new LinkedList<>();
 
     /**
-     * These two classes are used to distinguish NodeChangeEvents on
-     * eventQueue so the event dispatch thread knows whether to call
+     * These two clbsses bre used to distinguish NodeChbngeEvents on
+     * eventQueue so the event dispbtch threbd knows whether to cbll
      * childAdded or childRemoved.
      */
-    private class NodeAddedEvent extends NodeChangeEvent {
-        private static final long serialVersionUID = -6743557530157328528L;
-        NodeAddedEvent(Preferences parent, Preferences child) {
-            super(parent, child);
+    privbte clbss NodeAddedEvent extends NodeChbngeEvent {
+        privbte stbtic finbl long seriblVersionUID = -6743557530157328528L;
+        NodeAddedEvent(Preferences pbrent, Preferences child) {
+            super(pbrent, child);
         }
     }
-    private class NodeRemovedEvent extends NodeChangeEvent {
-        private static final long serialVersionUID = 8735497392918824837L;
-        NodeRemovedEvent(Preferences parent, Preferences child) {
-            super(parent, child);
+    privbte clbss NodeRemovedEvent extends NodeChbngeEvent {
+        privbte stbtic finbl long seriblVersionUID = 8735497392918824837L;
+        NodeRemovedEvent(Preferences pbrent, Preferences child) {
+            super(pbrent, child);
         }
     }
 
     /**
-     * A single background thread ("the event notification thread") monitors
-     * the event queue and delivers events that are placed on the queue.
+     * A single bbckground threbd ("the event notificbtion threbd") monitors
+     * the event queue bnd delivers events thbt bre plbced on the queue.
      */
-    private static class EventDispatchThread extends Thread {
+    privbte stbtic clbss EventDispbtchThrebd extends Threbd {
         public void run() {
             while(true) {
-                // Wait on eventQueue till an event is present
+                // Wbit on eventQueue till bn event is present
                 EventObject event = null;
                 synchronized(eventQueue) {
                     try {
                         while (eventQueue.isEmpty())
-                            eventQueue.wait();
+                            eventQueue.wbit();
                         event = eventQueue.remove(0);
-                    } catch (InterruptedException e) {
-                        // XXX Log "Event dispatch thread interrupted. Exiting"
+                    } cbtch (InterruptedException e) {
+                        // XXX Log "Event dispbtch threbd interrupted. Exiting"
                         return;
                     }
                 }
 
-                // Now we have event & hold no locks; deliver evt to listeners
-                AbstractPreferences src=(AbstractPreferences)event.getSource();
-                if (event instanceof PreferenceChangeEvent) {
-                    PreferenceChangeEvent pce = (PreferenceChangeEvent)event;
-                    PreferenceChangeListener[] listeners = src.prefListeners();
-                    for (PreferenceChangeListener listener : listeners)
-                        listener.preferenceChange(pce);
+                // Now we hbve event & hold no locks; deliver evt to listeners
+                AbstrbctPreferences src=(AbstrbctPreferences)event.getSource();
+                if (event instbnceof PreferenceChbngeEvent) {
+                    PreferenceChbngeEvent pce = (PreferenceChbngeEvent)event;
+                    PreferenceChbngeListener[] listeners = src.prefListeners();
+                    for (PreferenceChbngeListener listener : listeners)
+                        listener.preferenceChbnge(pce);
                 } else {
-                    NodeChangeEvent nce = (NodeChangeEvent)event;
-                    NodeChangeListener[] listeners = src.nodeListeners();
-                    if (nce instanceof NodeAddedEvent) {
-                        for (NodeChangeListener listener : listeners)
+                    NodeChbngeEvent nce = (NodeChbngeEvent)event;
+                    NodeChbngeListener[] listeners = src.nodeListeners();
+                    if (nce instbnceof NodeAddedEvent) {
+                        for (NodeChbngeListener listener : listeners)
                             listener.childAdded(nce);
                     } else {
-                        // assert nce instanceof NodeRemovedEvent;
-                        for (NodeChangeListener listener : listeners)
+                        // bssert nce instbnceof NodeRemovedEvent;
+                        for (NodeChbngeListener listener : listeners)
                             listener.childRemoved(nce);
                     }
                 }
@@ -1509,109 +1509,109 @@ public abstract class AbstractPreferences extends Preferences {
         }
     }
 
-    private static Thread eventDispatchThread = null;
+    privbte stbtic Threbd eventDispbtchThrebd = null;
 
     /**
-     * This method starts the event dispatch thread the first time it
-     * is called.  The event dispatch thread will be started only
-     * if someone registers a listener.
+     * This method stbrts the event dispbtch threbd the first time it
+     * is cblled.  The event dispbtch threbd will be stbrted only
+     * if someone registers b listener.
      */
-    private static synchronized void startEventDispatchThreadIfNecessary() {
-        if (eventDispatchThread == null) {
-            // XXX Log "Starting event dispatch thread"
-            eventDispatchThread = new EventDispatchThread();
-            eventDispatchThread.setDaemon(true);
-            eventDispatchThread.start();
+    privbte stbtic synchronized void stbrtEventDispbtchThrebdIfNecessbry() {
+        if (eventDispbtchThrebd == null) {
+            // XXX Log "Stbrting event dispbtch threbd"
+            eventDispbtchThrebd = new EventDispbtchThrebd();
+            eventDispbtchThrebd.setDbemon(true);
+            eventDispbtchThrebd.stbrt();
         }
     }
 
     /**
-     * Return this node's preference/node change listeners.  Even though
-     * we're using a copy-on-write lists, we use synchronized accessors to
-     * ensure information transmission from the writing thread to the
-     * reading thread.
+     * Return this node's preference/node chbnge listeners.  Even though
+     * we're using b copy-on-write lists, we use synchronized bccessors to
+     * ensure informbtion trbnsmission from the writing threbd to the
+     * rebding threbd.
      */
-    PreferenceChangeListener[] prefListeners() {
+    PreferenceChbngeListener[] prefListeners() {
         synchronized(lock) {
             return prefListeners;
         }
     }
-    NodeChangeListener[] nodeListeners() {
+    NodeChbngeListener[] nodeListeners() {
         synchronized(lock) {
             return nodeListeners;
         }
     }
 
     /**
-     * Enqueue a preference change event for delivery to registered
-     * preference change listeners unless there are no registered
+     * Enqueue b preference chbnge event for delivery to registered
+     * preference chbnge listeners unless there bre no registered
      * listeners.  Invoked with this.lock held.
      */
-    private void enqueuePreferenceChangeEvent(String key, String newValue) {
+    privbte void enqueuePreferenceChbngeEvent(String key, String newVblue) {
         if (prefListeners.length != 0) {
             synchronized(eventQueue) {
-                eventQueue.add(new PreferenceChangeEvent(this, key, newValue));
+                eventQueue.bdd(new PreferenceChbngeEvent(this, key, newVblue));
                 eventQueue.notify();
             }
         }
     }
 
     /**
-     * Enqueue a "node added" event for delivery to registered node change
-     * listeners unless there are no registered listeners.  Invoked with
+     * Enqueue b "node bdded" event for delivery to registered node chbnge
+     * listeners unless there bre no registered listeners.  Invoked with
      * this.lock held.
      */
-    private void enqueueNodeAddedEvent(Preferences child) {
+    privbte void enqueueNodeAddedEvent(Preferences child) {
         if (nodeListeners.length != 0) {
             synchronized(eventQueue) {
-                eventQueue.add(new NodeAddedEvent(this, child));
+                eventQueue.bdd(new NodeAddedEvent(this, child));
                 eventQueue.notify();
             }
         }
     }
 
     /**
-     * Enqueue a "node removed" event for delivery to registered node change
-     * listeners unless there are no registered listeners.  Invoked with
+     * Enqueue b "node removed" event for delivery to registered node chbnge
+     * listeners unless there bre no registered listeners.  Invoked with
      * this.lock held.
      */
-    private void enqueueNodeRemovedEvent(Preferences child) {
+    privbte void enqueueNodeRemovedEvent(Preferences child) {
         if (nodeListeners.length != 0) {
             synchronized(eventQueue) {
-                eventQueue.add(new NodeRemovedEvent(this, child));
+                eventQueue.bdd(new NodeRemovedEvent(this, child));
                 eventQueue.notify();
             }
         }
     }
 
     /**
-     * Implements the <tt>exportNode</tt> method as per the specification in
-     * {@link Preferences#exportNode(OutputStream)}.
+     * Implements the <tt>exportNode</tt> method bs per the specificbtion in
+     * {@link Preferences#exportNode(OutputStrebm)}.
      *
-     * @param os the output stream on which to emit the XML document.
-     * @throws IOException if writing to the specified output stream
-     *         results in an <tt>IOException</tt>.
-     * @throws BackingStoreException if preference data cannot be read from
-     *         backing store.
+     * @pbrbm os the output strebm on which to emit the XML document.
+     * @throws IOException if writing to the specified output strebm
+     *         results in bn <tt>IOException</tt>.
+     * @throws BbckingStoreException if preference dbtb cbnnot be rebd from
+     *         bbcking store.
      */
-    public void exportNode(OutputStream os)
-        throws IOException, BackingStoreException
+    public void exportNode(OutputStrebm os)
+        throws IOException, BbckingStoreException
     {
-        XmlSupport.export(os, this, false);
+        XmlSupport.export(os, this, fblse);
     }
 
     /**
-     * Implements the <tt>exportSubtree</tt> method as per the specification in
-     * {@link Preferences#exportSubtree(OutputStream)}.
+     * Implements the <tt>exportSubtree</tt> method bs per the specificbtion in
+     * {@link Preferences#exportSubtree(OutputStrebm)}.
      *
-     * @param os the output stream on which to emit the XML document.
-     * @throws IOException if writing to the specified output stream
-     *         results in an <tt>IOException</tt>.
-     * @throws BackingStoreException if preference data cannot be read from
-     *         backing store.
+     * @pbrbm os the output strebm on which to emit the XML document.
+     * @throws IOException if writing to the specified output strebm
+     *         results in bn <tt>IOException</tt>.
+     * @throws BbckingStoreException if preference dbtb cbnnot be rebd from
+     *         bbcking store.
      */
-    public void exportSubtree(OutputStream os)
-        throws IOException, BackingStoreException
+    public void exportSubtree(OutputStrebm os)
+        throws IOException, BbckingStoreException
     {
         XmlSupport.export(os, this, true);
     }

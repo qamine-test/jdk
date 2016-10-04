@@ -1,24 +1,24 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  *
  */
@@ -31,123 +31,123 @@
 
 #include "LETypes.h"
 #include "LEGlyphFilter.h"
-#include "LEFontInstance.h"
-#include "OpenTypeTables.h"
-#include "ICUFeatures.h"
+#include "LEFontInstbnce.h"
+#include "OpenTypeTbbles.h"
+#include "ICUFebtures.h"
 #include "Lookups.h"
-#include "ScriptAndLanguage.h"
-#include "GlyphDefinitionTables.h"
-#include "GlyphSubstitutionTables.h"
-#include "SingleSubstitutionSubtables.h"
-#include "MultipleSubstSubtables.h"
-#include "AlternateSubstSubtables.h"
-#include "LigatureSubstSubtables.h"
-#include "ContextualSubstSubtables.h"
-#include "ExtensionSubtables.h"
+#include "ScriptAndLbngubge.h"
+#include "GlyphDefinitionTbbles.h"
+#include "GlyphSubstitutionTbbles.h"
+#include "SingleSubstitutionSubtbbles.h"
+#include "MultipleSubstSubtbbles.h"
+#include "AlternbteSubstSubtbbles.h"
+#include "LigbtureSubstSubtbbles.h"
+#include "ContextublSubstSubtbbles.h"
+#include "ExtensionSubtbbles.h"
 #include "LookupProcessor.h"
 #include "GlyphSubstLookupProc.h"
-#include "LESwaps.h"
+#include "LESwbps.h"
 
 U_NAMESPACE_BEGIN
 
 GlyphSubstitutionLookupProcessor::GlyphSubstitutionLookupProcessor(
-        const LEReferenceTo<GlyphSubstitutionTableHeader> &glyphSubstitutionTableHeader,
-        LETag scriptTag,
-        LETag languageTag,
+        const LEReferenceTo<GlyphSubstitutionTbbleHebder> &glyphSubstitutionTbbleHebder,
+        LETbg scriptTbg,
+        LETbg lbngubgeTbg,
         const LEGlyphFilter *filter,
-        const FeatureMap *featureMap,
-        le_int32 featureMapCount,
-        le_bool featureOrder,
+        const FebtureMbp *febtureMbp,
+        le_int32 febtureMbpCount,
+        le_bool febtureOrder,
         LEErrorCode& success)
     : LookupProcessor(
-                      glyphSubstitutionTableHeader,
-                      SWAPW(glyphSubstitutionTableHeader->scriptListOffset),
-                      SWAPW(glyphSubstitutionTableHeader->featureListOffset),
-                      SWAPW(glyphSubstitutionTableHeader->lookupListOffset),
-                      scriptTag, languageTag, featureMap, featureMapCount, featureOrder, success), fFilter(filter)
+                      glyphSubstitutionTbbleHebder,
+                      SWAPW(glyphSubstitutionTbbleHebder->scriptListOffset),
+                      SWAPW(glyphSubstitutionTbbleHebder->febtureListOffset),
+                      SWAPW(glyphSubstitutionTbbleHebder->lookupListOffset),
+                      scriptTbg, lbngubgeTbg, febtureMbp, febtureMbpCount, febtureOrder, success), fFilter(filter)
 {
-    // anything?
+    // bnything?
 }
 
 GlyphSubstitutionLookupProcessor::GlyphSubstitutionLookupProcessor()
 {
 }
 
-le_uint32 GlyphSubstitutionLookupProcessor::applySubtable(const LEReferenceTo<LookupSubtable> &lookupSubtable, le_uint16 lookupType,
-                                                       GlyphIterator *glyphIterator, const LEFontInstance *fontInstance, LEErrorCode& success) const
+le_uint32 GlyphSubstitutionLookupProcessor::bpplySubtbble(const LEReferenceTo<LookupSubtbble> &lookupSubtbble, le_uint16 lookupType,
+                                                       GlyphIterbtor *glyphIterbtor, const LEFontInstbnce *fontInstbnce, LEErrorCode& success) const
 {
     if (LE_FAILURE(success)) {
         return 0;
     }
 
-    le_uint32 delta = 0;
+    le_uint32 deltb = 0;
 
     switch(lookupType)
     {
-    case 0:
-        break;
+    cbse 0:
+        brebk;
 
-    case gsstSingle:
+    cbse gsstSingle:
     {
-        const LEReferenceTo<SingleSubstitutionSubtable> subtable(lookupSubtable, success);
+        const LEReferenceTo<SingleSubstitutionSubtbble> subtbble(lookupSubtbble, success);
 
-        delta = subtable->process(subtable, glyphIterator, success, fFilter);
-        break;
+        deltb = subtbble->process(subtbble, glyphIterbtor, success, fFilter);
+        brebk;
     }
 
-    case gsstMultiple:
+    cbse gsstMultiple:
     {
-        const LEReferenceTo<MultipleSubstitutionSubtable> subtable(lookupSubtable, success);
+        const LEReferenceTo<MultipleSubstitutionSubtbble> subtbble(lookupSubtbble, success);
 
-        delta = subtable->process(subtable, glyphIterator, success, fFilter);
-        break;
+        deltb = subtbble->process(subtbble, glyphIterbtor, success, fFilter);
+        brebk;
     }
 
-    case gsstAlternate:
+    cbse gsstAlternbte:
     {
-        const LEReferenceTo<AlternateSubstitutionSubtable> subtable(lookupSubtable, success);
+        const LEReferenceTo<AlternbteSubstitutionSubtbble> subtbble(lookupSubtbble, success);
 
-        delta = subtable->process(subtable, glyphIterator, success, fFilter);
-        break;
+        deltb = subtbble->process(subtbble, glyphIterbtor, success, fFilter);
+        brebk;
     }
 
-    case gsstLigature:
+    cbse gsstLigbture:
     {
-        const LEReferenceTo<LigatureSubstitutionSubtable> subtable(lookupSubtable, success);
+        const LEReferenceTo<LigbtureSubstitutionSubtbble> subtbble(lookupSubtbble, success);
 
-        delta = subtable->process(subtable, glyphIterator, success, fFilter);
-        break;
+        deltb = subtbble->process(subtbble, glyphIterbtor, success, fFilter);
+        brebk;
     }
 
-    case gsstContext:
+    cbse gsstContext:
     {
-        const LEReferenceTo<ContextualSubstitutionSubtable> subtable(lookupSubtable, success);
+        const LEReferenceTo<ContextublSubstitutionSubtbble> subtbble(lookupSubtbble, success);
 
-        delta = subtable->process(subtable, this, glyphIterator, fontInstance, success);
-        break;
+        deltb = subtbble->process(subtbble, this, glyphIterbtor, fontInstbnce, success);
+        brebk;
     }
 
-    case gsstChainingContext:
+    cbse gsstChbiningContext:
     {
-        const LEReferenceTo<ChainingContextualSubstitutionSubtable> subtable(lookupSubtable, success);
+        const LEReferenceTo<ChbiningContextublSubstitutionSubtbble> subtbble(lookupSubtbble, success);
 
-        delta = subtable->process(subtable, this, glyphIterator, fontInstance, success);
-        break;
+        deltb = subtbble->process(subtbble, this, glyphIterbtor, fontInstbnce, success);
+        brebk;
     }
 
-    case gsstExtension:
+    cbse gsstExtension:
     {
-        const LEReferenceTo<ExtensionSubtable> subtable(lookupSubtable, success);
+        const LEReferenceTo<ExtensionSubtbble> subtbble(lookupSubtbble, success);
 
-        delta = subtable->process(subtable, this, lookupType, glyphIterator, fontInstance, success);
-        break;
+        deltb = subtbble->process(subtbble, this, lookupType, glyphIterbtor, fontInstbnce, success);
+        brebk;
     }
 
-    default:
-        break;
+    defbult:
+        brebk;
     }
 
-    return delta;
+    return deltb;
 }
 
 GlyphSubstitutionLookupProcessor::~GlyphSubstitutionLookupProcessor()

@@ -1,523 +1,523 @@
 /*
- * Copyright (c) 2003, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.management.snmp.jvminstr;
+pbckbge sun.mbnbgement.snmp.jvminstr;
 
-// java imports
+// jbvb imports
 //
-import com.sun.jmx.mbeanserver.Util;
-import java.io.Serializable;
-import java.util.List;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.HashMap;
-import java.util.TreeMap;
-import java.util.Collections;
+import com.sun.jmx.mbebnserver.Util;
+import jbvb.io.Seriblizbble;
+import jbvb.util.List;
+import jbvb.util.Iterbtor;
+import jbvb.util.Mbp;
+import jbvb.util.HbshMbp;
+import jbvb.util.TreeMbp;
+import jbvb.util.Collections;
 
 // jmx imports
 //
-import javax.management.MBeanServer;
-import javax.management.ObjectName;
+import jbvbx.mbnbgement.MBebnServer;
+import jbvbx.mbnbgement.ObjectNbme;
 import com.sun.jmx.snmp.SnmpOid;
-import com.sun.jmx.snmp.SnmpStatusException;
+import com.sun.jmx.snmp.SnmpStbtusException;
 
 // jdmk imports
 //
-import com.sun.jmx.snmp.agent.SnmpMib;
-import com.sun.jmx.snmp.agent.SnmpStandardObjectServer;
-import com.sun.jmx.snmp.agent.SnmpMibTable;
+import com.sun.jmx.snmp.bgent.SnmpMib;
+import com.sun.jmx.snmp.bgent.SnmpStbndbrdObjectServer;
+import com.sun.jmx.snmp.bgent.SnmpMibTbble;
 
-import java.lang.management.MemoryManagerMXBean;
-import java.lang.management.MemoryPoolMXBean;
+import jbvb.lbng.mbnbgement.MemoryMbnbgerMXBebn;
+import jbvb.lbng.mbnbgement.MemoryPoolMXBebn;
 
-import sun.management.snmp.jvmmib.JvmMemMgrPoolRelTableMeta;
-import sun.management.snmp.util.SnmpTableCache;
-import sun.management.snmp.util.SnmpCachedData;
-import sun.management.snmp.util.SnmpTableHandler;
-import sun.management.snmp.util.MibLogger;
-import sun.management.snmp.util.JvmContextFactory;
+import sun.mbnbgement.snmp.jvmmib.JvmMemMgrPoolRelTbbleMetb;
+import sun.mbnbgement.snmp.util.SnmpTbbleCbche;
+import sun.mbnbgement.snmp.util.SnmpCbchedDbtb;
+import sun.mbnbgement.snmp.util.SnmpTbbleHbndler;
+import sun.mbnbgement.snmp.util.MibLogger;
+import sun.mbnbgement.snmp.util.JvmContextFbctory;
 
 /**
- * The class is used for implementing the "JvmMemMgrPoolRelTable" group.
+ * The clbss is used for implementing the "JvmMemMgrPoolRelTbble" group.
  */
-public class JvmMemMgrPoolRelTableMetaImpl extends JvmMemMgrPoolRelTableMeta
-    implements Serializable {
+public clbss JvmMemMgrPoolRelTbbleMetbImpl extends JvmMemMgrPoolRelTbbleMetb
+    implements Seriblizbble {
 
-    static final long serialVersionUID = 1896509775012355443L;
+    stbtic finbl long seriblVersionUID = 1896509775012355443L;
 
     /**
-     * A concrete implementation of {@link SnmpTableCache}, for the
-     * jvmMemMgrPoolRelTable.
+     * A concrete implementbtion of {@link SnmpTbbleCbche}, for the
+     * jvmMemMgrPoolRelTbble.
      **/
 
-    private static class JvmMemMgrPoolRelTableCache
-        extends SnmpTableCache {
+    privbte stbtic clbss JvmMemMgrPoolRelTbbleCbche
+        extends SnmpTbbleCbche {
 
-        static final long serialVersionUID = 6059937161990659184L;
-        final private JvmMemMgrPoolRelTableMetaImpl meta;
+        stbtic finbl long seriblVersionUID = 6059937161990659184L;
+        finbl privbte JvmMemMgrPoolRelTbbleMetbImpl metb;
 
         /**
-         * Create a weak cache for the jvmMemMgrPoolRelTable.
-         * @param validity validity of the cached data, in ms.
+         * Crebte b webk cbche for the jvmMemMgrPoolRelTbble.
+         * @pbrbm vblidity vblidity of the cbched dbtb, in ms.
          **/
-        JvmMemMgrPoolRelTableCache(JvmMemMgrPoolRelTableMetaImpl meta,
-                                   long validity) {
-            this.validity = validity;
-            this.meta     = meta;
+        JvmMemMgrPoolRelTbbleCbche(JvmMemMgrPoolRelTbbleMetbImpl metb,
+                                   long vblidity) {
+            this.vblidity = vblidity;
+            this.metb     = metb;
         }
 
         /**
-         * Call <code>getTableDatas(JvmContextFactory.getUserData())</code>.
+         * Cbll <code>getTbbleDbtbs(JvmContextFbctory.getUserDbtb())</code>.
          **/
-        public SnmpTableHandler getTableHandler() {
-            final Map<Object,Object> userData = JvmContextFactory.getUserData();
-            return getTableDatas(userData);
+        public SnmpTbbleHbndler getTbbleHbndler() {
+            finbl Mbp<Object,Object> userDbtb = JvmContextFbctory.getUserDbtb();
+            return getTbbleDbtbs(userDbtb);
         }
 
         /**
-         * Builds a map pool-name => pool-index from the SnmpTableHandler
-         * of the JvmMemPoolTable.
+         * Builds b mbp pool-nbme => pool-index from the SnmpTbbleHbndler
+         * of the JvmMemPoolTbble.
          **/
-        private static Map<String, SnmpOid> buildPoolIndexMap(SnmpTableHandler handler) {
-            // optimization...
-            if (handler instanceof SnmpCachedData)
-                return buildPoolIndexMap((SnmpCachedData)handler);
+        privbte stbtic Mbp<String, SnmpOid> buildPoolIndexMbp(SnmpTbbleHbndler hbndler) {
+            // optimizbtion...
+            if (hbndler instbnceof SnmpCbchedDbtb)
+                return buildPoolIndexMbp((SnmpCbchedDbtb)hbndler);
 
-            // not optimizable... too bad.
-            final Map<String, SnmpOid> m = new HashMap<>();
+            // not optimizbble... too bbd.
+            finbl Mbp<String, SnmpOid> m = new HbshMbp<>();
             SnmpOid index=null;
-            while ((index = handler.getNext(index))!=null) {
-                final MemoryPoolMXBean mpm =
-                    (MemoryPoolMXBean)handler.getData(index);
+            while ((index = hbndler.getNext(index))!=null) {
+                finbl MemoryPoolMXBebn mpm =
+                    (MemoryPoolMXBebn)hbndler.getDbtb(index);
                 if (mpm == null) continue;
-                final String name = mpm.getName();
-                if (name == null) continue;
-                m.put(name,index);
+                finbl String nbme = mpm.getNbme();
+                if (nbme == null) continue;
+                m.put(nbme,index);
             }
             return m;
         }
 
         /**
-         * Builds a map pool-name => pool-index from the SnmpTableHandler
-         * of the JvmMemPoolTable.
-         * Optimized algorithm.
+         * Builds b mbp pool-nbme => pool-index from the SnmpTbbleHbndler
+         * of the JvmMemPoolTbble.
+         * Optimized blgorithm.
          **/
-        private static Map<String, SnmpOid> buildPoolIndexMap(SnmpCachedData cached) {
-            if (cached == null) return Collections.emptyMap();
-            final SnmpOid[] indexes = cached.indexes;
-            final Object[]  datas   = cached.datas;
-            final int len = indexes.length;
-            final Map<String, SnmpOid> m = new HashMap<>(len);
+        privbte stbtic Mbp<String, SnmpOid> buildPoolIndexMbp(SnmpCbchedDbtb cbched) {
+            if (cbched == null) return Collections.emptyMbp();
+            finbl SnmpOid[] indexes = cbched.indexes;
+            finbl Object[]  dbtbs   = cbched.dbtbs;
+            finbl int len = indexes.length;
+            finbl Mbp<String, SnmpOid> m = new HbshMbp<>(len);
             for (int i=0; i<len; i++) {
-                final SnmpOid index = indexes[i];
+                finbl SnmpOid index = indexes[i];
                 if (index == null) continue;
-                final MemoryPoolMXBean mpm =
-                    (MemoryPoolMXBean)datas[i];
+                finbl MemoryPoolMXBebn mpm =
+                    (MemoryPoolMXBebn)dbtbs[i];
                 if (mpm == null) continue;
-                final String name = mpm.getName();
-                if (name == null) continue;
-                m.put(name,index);
+                finbl String nbme = mpm.getNbme();
+                if (nbme == null) continue;
+                m.put(nbme,index);
             }
             return m;
         }
 
         /**
-         * Return a table handler that holds the jvmMemManagerTable table data.
-         * This method return the cached table data if it is still
-         * valid, recompute it and cache the new value if it's not.
-         * If it needs to recompute the cached data, it first
-         * try to obtain the list of memory managers from the request
-         * contextual cache, and if it is not found, it calls
-         * <code>ManagementFactory.getMemoryMBean().getMemoryManagers()</code>
-         * and caches the value.
-         * This ensures that
-         * <code>ManagementFactory.getMemoryMBean().getMemoryManagers()</code>
-         * is not called more than once per request, thus ensuring a
-         * consistent view of the table.
+         * Return b tbble hbndler thbt holds the jvmMemMbnbgerTbble tbble dbtb.
+         * This method return the cbched tbble dbtb if it is still
+         * vblid, recompute it bnd cbche the new vblue if it's not.
+         * If it needs to recompute the cbched dbtb, it first
+         * try to obtbin the list of memory mbnbgers from the request
+         * contextubl cbche, bnd if it is not found, it cblls
+         * <code>MbnbgementFbctory.getMemoryMBebn().getMemoryMbnbgers()</code>
+         * bnd cbches the vblue.
+         * This ensures thbt
+         * <code>MbnbgementFbctory.getMemoryMBebn().getMemoryMbnbgers()</code>
+         * is not cblled more thbn once per request, thus ensuring b
+         * consistent view of the tbble.
          **/
-        protected SnmpCachedData updateCachedDatas(Object userData) {
-            // Get the MemoryManager     table
-            final SnmpTableHandler mmHandler =
-                meta.getManagerHandler(userData);
+        protected SnmpCbchedDbtb updbteCbchedDbtbs(Object userDbtb) {
+            // Get the MemoryMbnbger     tbble
+            finbl SnmpTbbleHbndler mmHbndler =
+                metb.getMbnbgerHbndler(userDbtb);
 
-            // Get the MemoryPool        table
-            final SnmpTableHandler mpHandler =
-                meta.getPoolHandler(userData);
+            // Get the MemoryPool        tbble
+            finbl SnmpTbbleHbndler mpHbndler =
+                metb.getPoolHbndler(userDbtb);
 
-            // Time stamp for the cache
-            final long time = System.currentTimeMillis();
+            // Time stbmp for the cbche
+            finbl long time = System.currentTimeMillis();
 
-            //     Build a Map poolname -> index
-            final Map<String,SnmpOid> poolIndexMap = buildPoolIndexMap(mpHandler);
+            //     Build b Mbp poolnbme -> index
+            finbl Mbp<String,SnmpOid> poolIndexMbp = buildPoolIndexMbp(mpHbndler);
 
-            // For each memory manager, get the list of memory pools
-            // For each memory pool, find its index in the memory pool table
-            // Create a row in the relation table.
-            final TreeMap<SnmpOid, Object> table =
-                    new TreeMap<>(SnmpCachedData.oidComparator);
-            updateTreeMap(table,userData,mmHandler,mpHandler,poolIndexMap);
+            // For ebch memory mbnbger, get the list of memory pools
+            // For ebch memory pool, find its index in the memory pool tbble
+            // Crebte b row in the relbtion tbble.
+            finbl TreeMbp<SnmpOid, Object> tbble =
+                    new TreeMbp<>(SnmpCbchedDbtb.oidCompbrbtor);
+            updbteTreeMbp(tbble,userDbtb,mmHbndler,mpHbndler,poolIndexMbp);
 
-            return new SnmpCachedData(time,table);
+            return new SnmpCbchedDbtb(time,tbble);
         }
 
 
         /**
-         * Get the list of memory pool associated with the
-         * given MemoryManagerMXBean.
+         * Get the list of memory pool bssocibted with the
+         * given MemoryMbnbgerMXBebn.
          **/
-        protected String[] getMemoryPools(Object userData,
-                                      MemoryManagerMXBean mmm, long mmarc) {
-            final String listTag =
-                "JvmMemManager." + mmarc + ".getMemoryPools";
+        protected String[] getMemoryPools(Object userDbtb,
+                                      MemoryMbnbgerMXBebn mmm, long mmbrc) {
+            finbl String listTbg =
+                "JvmMemMbnbger." + mmbrc + ".getMemoryPools";
 
             String[] result=null;
-            if (userData instanceof Map) {
-                result = (String[])((Map)userData).get(listTag);
+            if (userDbtb instbnceof Mbp) {
+                result = (String[])((Mbp)userDbtb).get(listTbg);
                 if (result != null) return result;
             }
 
             if (mmm!=null) {
-                result = mmm.getMemoryPoolNames();
+                result = mmm.getMemoryPoolNbmes();
             }
-            if ((result!=null)&&(userData instanceof Map)) {
-                Map<Object, Object> map = Util.cast(userData);
-                map.put(listTag,result);
+            if ((result!=null)&&(userDbtb instbnceof Mbp)) {
+                Mbp<Object, Object> mbp = Util.cbst(userDbtb);
+                mbp.put(listTbg,result);
             }
 
             return result;
         }
 
-        protected void updateTreeMap(TreeMap<SnmpOid, Object> table, Object userData,
-                                     MemoryManagerMXBean mmm,
+        protected void updbteTreeMbp(TreeMbp<SnmpOid, Object> tbble, Object userDbtb,
+                                     MemoryMbnbgerMXBebn mmm,
                                      SnmpOid mmIndex,
-                                     Map<String, SnmpOid> poolIndexMap) {
+                                     Mbp<String, SnmpOid> poolIndexMbp) {
 
-            // The MemoryManager index is an int, so it's the first
-            // and only subidentifier.
-            final long mmarc;
+            // The MemoryMbnbger index is bn int, so it's the first
+            // bnd only subidentifier.
+            finbl long mmbrc;
             try {
-                mmarc = mmIndex.getOidArc(0);
-            } catch (SnmpStatusException x) {
-                log.debug("updateTreeMap",
-                          "Bad MemoryManager OID index: "+mmIndex);
-                log.debug("updateTreeMap",x);
+                mmbrc = mmIndex.getOidArc(0);
+            } cbtch (SnmpStbtusException x) {
+                log.debug("updbteTreeMbp",
+                          "Bbd MemoryMbnbger OID index: "+mmIndex);
+                log.debug("updbteTreeMbp",x);
                 return;
             }
 
 
-            // Cache this in userData + get it from cache?
-            final String[] mpList = getMemoryPools(userData,mmm,mmarc);
+            // Cbche this in userDbtb + get it from cbche?
+            finbl String[] mpList = getMemoryPools(userDbtb,mmm,mmbrc);
             if (mpList == null || mpList.length < 1) return;
 
-            final String mmmName = mmm.getName();
+            finbl String mmmNbme = mmm.getNbme();
             for (int i = 0; i < mpList.length; i++) {
-                final String mpmName = mpList[i];
-                if (mpmName == null) continue;
-                final SnmpOid mpIndex = poolIndexMap.get(mpmName);
+                finbl String mpmNbme = mpList[i];
+                if (mpmNbme == null) continue;
+                finbl SnmpOid mpIndex = poolIndexMbp.get(mpmNbme);
                 if (mpIndex == null) continue;
 
-                // The MemoryPool index is an int, so it's the first
-                // and only subidentifier.
-                final long mparc;
+                // The MemoryPool index is bn int, so it's the first
+                // bnd only subidentifier.
+                finbl long mpbrc;
                 try {
-                    mparc  = mpIndex.getOidArc(0);
-                } catch (SnmpStatusException x) {
-                    log.debug("updateTreeMap","Bad MemoryPool OID index: " +
+                    mpbrc  = mpIndex.getOidArc(0);
+                } cbtch (SnmpStbtusException x) {
+                    log.debug("updbteTreeMbp","Bbd MemoryPool OID index: " +
                           mpIndex);
-                    log.debug("updateTreeMap",x);
+                    log.debug("updbteTreeMbp",x);
                     continue;
                 }
-                // The MemoryMgrPoolRel table indexed is composed
-                // of the MemoryManager index, to which the MemoryPool
-                // index is appended.
-                final long[] arcs = { mmarc, mparc };
+                // The MemoryMgrPoolRel tbble indexed is composed
+                // of the MemoryMbnbger index, to which the MemoryPool
+                // index is bppended.
+                finbl long[] brcs = { mmbrc, mpbrc };
 
-                final SnmpOid index = new SnmpOid(arcs);
+                finbl SnmpOid index = new SnmpOid(brcs);
 
-                table.put(index, new JvmMemMgrPoolRelEntryImpl(mmmName,
-                                                               mpmName,
-                                                               (int)mmarc,
-                                                               (int)mparc));
+                tbble.put(index, new JvmMemMgrPoolRelEntryImpl(mmmNbme,
+                                                               mpmNbme,
+                                                               (int)mmbrc,
+                                                               (int)mpbrc));
             }
         }
 
-        protected void updateTreeMap(TreeMap<SnmpOid, Object> table, Object userData,
-                                     SnmpTableHandler mmHandler,
-                                     SnmpTableHandler mpHandler,
-                                     Map<String, SnmpOid> poolIndexMap) {
-            if (mmHandler instanceof SnmpCachedData) {
-                updateTreeMap(table,userData,(SnmpCachedData)mmHandler,
-                              mpHandler,poolIndexMap);
+        protected void updbteTreeMbp(TreeMbp<SnmpOid, Object> tbble, Object userDbtb,
+                                     SnmpTbbleHbndler mmHbndler,
+                                     SnmpTbbleHbndler mpHbndler,
+                                     Mbp<String, SnmpOid> poolIndexMbp) {
+            if (mmHbndler instbnceof SnmpCbchedDbtb) {
+                updbteTreeMbp(tbble,userDbtb,(SnmpCbchedDbtb)mmHbndler,
+                              mpHbndler,poolIndexMbp);
                 return;
             }
 
             SnmpOid mmIndex=null;
-            while ((mmIndex = mmHandler.getNext(mmIndex))!=null) {
-                final MemoryManagerMXBean mmm =
-                    (MemoryManagerMXBean)mmHandler.getData(mmIndex);
+            while ((mmIndex = mmHbndler.getNext(mmIndex))!=null) {
+                finbl MemoryMbnbgerMXBebn mmm =
+                    (MemoryMbnbgerMXBebn)mmHbndler.getDbtb(mmIndex);
                 if (mmm == null) continue;
-                updateTreeMap(table,userData,mmm,mmIndex,poolIndexMap);
+                updbteTreeMbp(tbble,userDbtb,mmm,mmIndex,poolIndexMbp);
             }
         }
 
-        protected void updateTreeMap(TreeMap<SnmpOid, Object> table, Object userData,
-                                     SnmpCachedData mmHandler,
-                                     SnmpTableHandler mpHandler,
-                                     Map<String, SnmpOid> poolIndexMap) {
+        protected void updbteTreeMbp(TreeMbp<SnmpOid, Object> tbble, Object userDbtb,
+                                     SnmpCbchedDbtb mmHbndler,
+                                     SnmpTbbleHbndler mpHbndler,
+                                     Mbp<String, SnmpOid> poolIndexMbp) {
 
-            final SnmpOid[] indexes = mmHandler.indexes;
-            final Object[]  datas   = mmHandler.datas;
-            final int size = indexes.length;
+            finbl SnmpOid[] indexes = mmHbndler.indexes;
+            finbl Object[]  dbtbs   = mmHbndler.dbtbs;
+            finbl int size = indexes.length;
             for (int i=size-1; i>-1; i--) {
-                final MemoryManagerMXBean mmm =
-                    (MemoryManagerMXBean)datas[i];
+                finbl MemoryMbnbgerMXBebn mmm =
+                    (MemoryMbnbgerMXBebn)dbtbs[i];
                 if (mmm == null) continue;
-                updateTreeMap(table,userData,mmm,indexes[i],poolIndexMap);
+                updbteTreeMbp(tbble,userDbtb,mmm,indexes[i],poolIndexMbp);
             }
         }
     }
 
-    // The weak cache for this table.
-    protected SnmpTableCache cache;
+    // The webk cbche for this tbble.
+    protected SnmpTbbleCbche cbche;
 
-    private transient JvmMemManagerTableMetaImpl managers = null;
-    private transient JvmMemPoolTableMetaImpl    pools    = null;
+    privbte trbnsient JvmMemMbnbgerTbbleMetbImpl mbnbgers = null;
+    privbte trbnsient JvmMemPoolTbbleMetbImpl    pools    = null;
 
     /**
-     * Constructor for the table. Initialize metadata for
-     * "JvmMemMgrPoolRelTableMeta".
-     * The reference on the MBean server is updated so the entries
-     * created through an SNMP SET will be AUTOMATICALLY REGISTERED
-     * in Java DMK.
+     * Constructor for the tbble. Initiblize metbdbtb for
+     * "JvmMemMgrPoolRelTbbleMetb".
+     * The reference on the MBebn server is updbted so the entries
+     * crebted through bn SNMP SET will be AUTOMATICALLY REGISTERED
+     * in Jbvb DMK.
      */
-    public JvmMemMgrPoolRelTableMetaImpl(SnmpMib myMib,
-                                      SnmpStandardObjectServer objserv) {
+    public JvmMemMgrPoolRelTbbleMetbImpl(SnmpMib myMib,
+                                      SnmpStbndbrdObjectServer objserv) {
         super(myMib,objserv);
-        this.cache = new
-            JvmMemMgrPoolRelTableCache(this,((JVM_MANAGEMENT_MIB_IMPL)myMib).
-                                       validity());
+        this.cbche = new
+            JvmMemMgrPoolRelTbbleCbche(this,((JVM_MANAGEMENT_MIB_IMPL)myMib).
+                                       vblidity());
     }
 
-    // Returns a pointer to the JvmMemManager meta node - we're going
-    // to reuse its SnmpTableHandler in order to implement the
-    // relation table.
-    private final JvmMemManagerTableMetaImpl getManagers(SnmpMib mib) {
-        if (managers == null) {
-            managers = (JvmMemManagerTableMetaImpl)
-                mib.getRegisteredTableMeta("JvmMemManagerTable");
+    // Returns b pointer to the JvmMemMbnbger metb node - we're going
+    // to reuse its SnmpTbbleHbndler in order to implement the
+    // relbtion tbble.
+    privbte finbl JvmMemMbnbgerTbbleMetbImpl getMbnbgers(SnmpMib mib) {
+        if (mbnbgers == null) {
+            mbnbgers = (JvmMemMbnbgerTbbleMetbImpl)
+                mib.getRegisteredTbbleMetb("JvmMemMbnbgerTbble");
         }
-        return managers;
+        return mbnbgers;
     }
 
-    // Returns a pointer to the JvmMemPool meta node - we're going
-    // to reuse its SnmpTableHandler in order to implement the
-    // relation table.
-    private final JvmMemPoolTableMetaImpl getPools(SnmpMib mib) {
+    // Returns b pointer to the JvmMemPool metb node - we're going
+    // to reuse its SnmpTbbleHbndler in order to implement the
+    // relbtion tbble.
+    privbte finbl JvmMemPoolTbbleMetbImpl getPools(SnmpMib mib) {
         if (pools == null) {
-            pools = (JvmMemPoolTableMetaImpl)
-                mib.getRegisteredTableMeta("JvmMemPoolTable");
+            pools = (JvmMemPoolTbbleMetbImpl)
+                mib.getRegisteredTbbleMetb("JvmMemPoolTbble");
         }
         return pools;
     }
 
     /**
-     * Returns the JvmMemManagerTable SnmpTableHandler
+     * Returns the JvmMemMbnbgerTbble SnmpTbbleHbndler
      **/
-    protected SnmpTableHandler getManagerHandler(Object userData) {
-        final JvmMemManagerTableMetaImpl managerTable = getManagers(theMib);
-        return managerTable.getHandler(userData);
+    protected SnmpTbbleHbndler getMbnbgerHbndler(Object userDbtb) {
+        finbl JvmMemMbnbgerTbbleMetbImpl mbnbgerTbble = getMbnbgers(theMib);
+        return mbnbgerTbble.getHbndler(userDbtb);
     }
 
     /**
-     * Returns the JvmMemPoolTable SnmpTableHandler
+     * Returns the JvmMemPoolTbble SnmpTbbleHbndler
      **/
-    protected SnmpTableHandler getPoolHandler(Object userData) {
-        final JvmMemPoolTableMetaImpl poolTable = getPools(theMib);
-        return poolTable.getHandler(userData);
+    protected SnmpTbbleHbndler getPoolHbndler(Object userDbtb) {
+        finbl JvmMemPoolTbbleMetbImpl poolTbble = getPools(theMib);
+        return poolTbble.getHbndler(userDbtb);
     }
 
-    // See com.sun.jmx.snmp.agent.SnmpMibTable
-    protected SnmpOid getNextOid(Object userData)
-        throws SnmpStatusException {
-        // null means get the first OID.
-        return getNextOid(null,userData);
+    // See com.sun.jmx.snmp.bgent.SnmpMibTbble
+    protected SnmpOid getNextOid(Object userDbtb)
+        throws SnmpStbtusException {
+        // null mebns get the first OID.
+        return getNextOid(null,userDbtb);
     }
 
-    // See com.sun.jmx.snmp.agent.SnmpMibTable
-    protected SnmpOid getNextOid(SnmpOid oid, Object userData)
-        throws SnmpStatusException {
-        final boolean dbg = log.isDebugOn();
+    // See com.sun.jmx.snmp.bgent.SnmpMibTbble
+    protected SnmpOid getNextOid(SnmpOid oid, Object userDbtb)
+        throws SnmpStbtusException {
+        finbl boolebn dbg = log.isDebugOn();
         if (dbg) log.debug("getNextOid", "previous=" + oid);
 
 
-        // Get the data handler.
+        // Get the dbtb hbndler.
         //
-        SnmpTableHandler handler = getHandler(userData);
-        if (handler == null) {
-            // This should never happen.
-            // If we get here it's a bug.
+        SnmpTbbleHbndler hbndler = getHbndler(userDbtb);
+        if (hbndler == null) {
+            // This should never hbppen.
+            // If we get here it's b bug.
             //
-            if (dbg) log.debug("getNextOid", "handler is null!");
-            throw new SnmpStatusException(SnmpStatusException.noSuchInstance);
+            if (dbg) log.debug("getNextOid", "hbndler is null!");
+            throw new SnmpStbtusException(SnmpStbtusException.noSuchInstbnce);
         }
 
         // Get the next oid
         //
-        final SnmpOid next = handler.getNext(oid);
+        finbl SnmpOid next = hbndler.getNext(oid);
         if (dbg) log.debug("getNextOid", "next=" + next);
 
-        // if next is null: we reached the end of the table.
+        // if next is null: we rebched the end of the tbble.
         //
         if (next == null)
-            throw new SnmpStatusException(SnmpStatusException.noSuchInstance);
+            throw new SnmpStbtusException(SnmpStbtusException.noSuchInstbnce);
 
         return next;
     }
 
 
-    // See com.sun.jmx.snmp.agent.SnmpMibTable
-    protected boolean contains(SnmpOid oid, Object userData) {
+    // See com.sun.jmx.snmp.bgent.SnmpMibTbble
+    protected boolebn contbins(SnmpOid oid, Object userDbtb) {
 
-        // Get the handler.
+        // Get the hbndler.
         //
-        SnmpTableHandler handler = getHandler(userData);
+        SnmpTbbleHbndler hbndler = getHbndler(userDbtb);
 
-        // handler should never be null.
+        // hbndler should never be null.
         //
-        if (handler == null)
-            return false;
+        if (hbndler == null)
+            return fblse;
 
-        return handler.contains(oid);
+        return hbndler.contbins(oid);
     }
 
-    // See com.sun.jmx.snmp.agent.SnmpMibTable
+    // See com.sun.jmx.snmp.bgent.SnmpMibTbble
     public Object getEntry(SnmpOid oid)
-        throws SnmpStatusException {
+        throws SnmpStbtusException {
 
         if (oid == null || oid.getLength() < 2)
-            throw new SnmpStatusException(SnmpStatusException.noSuchInstance);
+            throw new SnmpStbtusException(SnmpStbtusException.noSuchInstbnce);
 
-        // Get the request contextual cache (userData).
+        // Get the request contextubl cbche (userDbtb).
         //
-        final Map<Object, Object> m = JvmContextFactory.getUserData();
+        finbl Mbp<Object, Object> m = JvmContextFbctory.getUserDbtb();
 
-        // We know in the case of this table that the index is composed
+        // We know in the cbse of this tbble thbt the index is composed
         // of two integers,
-        //  o The MemoryManager is the first  OID arc of the index OID.
-        //  o The MemoryPool    is the second OID arc of the index OID.
+        //  o The MemoryMbnbger is the first  OID brc of the index OID.
+        //  o The MemoryPool    is the second OID brc of the index OID.
         //
-        final long   mgrIndex     = oid.getOidArc(0);
-        final long   poolIndex    = oid.getOidArc(1);
+        finbl long   mgrIndex     = oid.getOidArc(0);
+        finbl long   poolIndex    = oid.getOidArc(1);
 
-        // We're going to use this name to store/retrieve the entry in
-        // the request contextual cache.
+        // We're going to use this nbme to store/retrieve the entry in
+        // the request contextubl cbche.
         //
-        // Revisit: Probably better programming to put all these strings
-        //          in some interface.
+        // Revisit: Probbbly better progrbmming to put bll these strings
+        //          in some interfbce.
         //
-        final String entryTag = ((m==null)?null:
-                                 ("JvmMemMgrPoolRelTable.entry." +
+        finbl String entryTbg = ((m==null)?null:
+                                 ("JvmMemMgrPoolRelTbble.entry." +
                                   mgrIndex + "." + poolIndex));
 
-        // If the entry is in the cache, simply return it.
+        // If the entry is in the cbche, simply return it.
         //
         if (m != null) {
-            final Object entry = m.get(entryTag);
+            finbl Object entry = m.get(entryTbg);
             if (entry != null) return entry;
         }
 
-        // The entry was not in the cache, make a new one.
+        // The entry wbs not in the cbche, mbke b new one.
         //
-        // Get the data hanler.
+        // Get the dbtb hbnler.
         //
-        SnmpTableHandler handler = getHandler(m);
+        SnmpTbbleHbndler hbndler = getHbndler(m);
 
-        // handler should never be null.
+        // hbndler should never be null.
         //
-        if (handler == null)
-            throw new SnmpStatusException(SnmpStatusException.noSuchInstance);
+        if (hbndler == null)
+            throw new SnmpStbtusException(SnmpStbtusException.noSuchInstbnce);
 
-        // Get the data associated with our entry.
+        // Get the dbtb bssocibted with our entry.
         //
-        final Object data = handler.getData(oid);
+        finbl Object dbtb = hbndler.getDbtb(oid);
 
-        // data may be null if the OID we were given is not valid.
+        // dbtb mby be null if the OID we were given is not vblid.
         //
-        if (!(data instanceof JvmMemMgrPoolRelEntryImpl))
-            throw new SnmpStatusException(SnmpStatusException.noSuchInstance);
+        if (!(dbtb instbnceof JvmMemMgrPoolRelEntryImpl))
+            throw new SnmpStbtusException(SnmpStbtusException.noSuchInstbnce);
 
-        // make the new entry (transient object that will be kept only
-        // for the duration of the request.
+        // mbke the new entry (trbnsient object thbt will be kept only
+        // for the durbtion of the request.
         //
-        final Object entry = (JvmMemMgrPoolRelEntryImpl)data;
+        finbl Object entry = (JvmMemMgrPoolRelEntryImpl)dbtb;
         // XXXXX Revisit
-        // new JvmMemMgrPoolRelEntryImpl((MemoryManagerMXBean)data,
+        // new JvmMemMgrPoolRelEntryImpl((MemoryMbnbgerMXBebn)dbtb,
         //                                (int)mgrIndex,(int)poolIndex);
 
-        // Put the entry in the cache in case we need it later while processing
+        // Put the entry in the cbche in cbse we need it lbter while processing
         // the request.
         //
         if (m != null && entry != null) {
-            m.put(entryTag,entry);
+            m.put(entryTbg,entry);
         }
 
         return entry;
     }
 
     /**
-     * Get the SnmpTableHandler that holds the jvmMemManagerTable data.
-     * First look it up in the request contextual cache, and if it is
-     * not found, obtain it from the weak cache.
-     * <br>The request contextual cache will be released at the end of the
-     * current requests, and is used only to process this request.
-     * <br>The weak cache is shared by all requests, and is only
+     * Get the SnmpTbbleHbndler thbt holds the jvmMemMbnbgerTbble dbtb.
+     * First look it up in the request contextubl cbche, bnd if it is
+     * not found, obtbin it from the webk cbche.
+     * <br>The request contextubl cbche will be relebsed bt the end of the
+     * current requests, bnd is used only to process this request.
+     * <br>The webk cbche is shbred by bll requests, bnd is only
      * recomputed when it is found to be obsolete.
-     * <br>Note that the data put in the request contextual cache is
-     *     never considered to be obsolete, in order to preserve data
+     * <br>Note thbt the dbtb put in the request contextubl cbche is
+     *     never considered to be obsolete, in order to preserve dbtb
      *     coherency.
      **/
-    protected SnmpTableHandler getHandler(Object userData) {
-        final Map<Object, Object> m;
-        if (userData instanceof Map) m=Util.cast(userData);
+    protected SnmpTbbleHbndler getHbndler(Object userDbtb) {
+        finbl Mbp<Object, Object> m;
+        if (userDbtb instbnceof Mbp) m=Util.cbst(userDbtb);
         else m=null;
 
-        // Look in the contextual cache.
+        // Look in the contextubl cbche.
         if (m != null) {
-            final SnmpTableHandler handler =
-                (SnmpTableHandler)m.get("JvmMemMgrPoolRelTable.handler");
-            if (handler != null) return handler;
+            finbl SnmpTbbleHbndler hbndler =
+                (SnmpTbbleHbndler)m.get("JvmMemMgrPoolRelTbble.hbndler");
+            if (hbndler != null) return hbndler;
         }
 
-        // No handler in contextual cache, make a new one.
-        final SnmpTableHandler handler = cache.getTableHandler();
+        // No hbndler in contextubl cbche, mbke b new one.
+        finbl SnmpTbbleHbndler hbndler = cbche.getTbbleHbndler();
 
-        if (m != null && handler != null )
-            m.put("JvmMemMgrPoolRelTable.handler",handler);
+        if (m != null && hbndler != null )
+            m.put("JvmMemMgrPoolRelTbble.hbndler",hbndler);
 
-        return handler;
+        return hbndler;
     }
 
-    static final MibLogger log =
-        new MibLogger(JvmMemMgrPoolRelTableMetaImpl.class);
+    stbtic finbl MibLogger log =
+        new MibLogger(JvmMemMgrPoolRelTbbleMetbImpl.clbss);
 }

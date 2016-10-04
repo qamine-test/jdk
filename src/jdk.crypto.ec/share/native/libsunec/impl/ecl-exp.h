@@ -1,37 +1,37 @@
 /*
- * Copyright (c) 2007, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * Use is subject to license terms.
  *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
+ * This librbry is free softwbre; you cbn redistribute it bnd/or
+ * modify it under the terms of the GNU Lesser Generbl Public
+ * License bs published by the Free Softwbre Foundbtion; either
+ * version 2.1 of the License, or (bt your option) bny lbter version.
  *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * This librbry is distributed in the hope thbt it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied wbrrbnty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
+ * Lesser Generbl Public License for more detbils.
  *
- * You should have received a copy of the GNU Lesser General Public License
- * along with this library; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Lesser Generbl Public License
+ * blong with this librbry; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /* *********************************************************************
  *
- * The Original Code is the elliptic curve math library.
+ * The Originbl Code is the elliptic curve mbth librbry.
  *
- * The Initial Developer of the Original Code is
+ * The Initibl Developer of the Originbl Code is
  * Sun Microsystems, Inc.
- * Portions created by the Initial Developer are Copyright (C) 2003
- * the Initial Developer. All Rights Reserved.
+ * Portions crebted by the Initibl Developer bre Copyright (C) 2003
+ * the Initibl Developer. All Rights Reserved.
  *
  * Contributor(s):
- *   Douglas Stebila <douglas@stebila.ca>, Sun Microsystems Laboratories
+ *   Douglbs Stebilb <douglbs@stebilb.cb>, Sun Microsystems Lbborbtories
  *
  *********************************************************************** */
 
@@ -44,25 +44,25 @@ typedef enum {
         ECField_GF2m
 } ECField;
 
-/* Hexadecimal encoding of curve parameters */
-struct ECCurveParamsStr {
-        char *text;
+/* Hexbdecimbl encoding of curve pbrbmeters */
+struct ECCurvePbrbmsStr {
+        chbr *text;
         ECField field;
         unsigned int size;
-        char *irr;
-        char *curvea;
-        char *curveb;
-        char *genx;
-        char *geny;
-        char *order;
-        int cofactor;
+        chbr *irr;
+        chbr *curveb;
+        chbr *curveb;
+        chbr *genx;
+        chbr *geny;
+        chbr *order;
+        int cofbctor;
 };
-typedef struct ECCurveParamsStr ECCurveParams;
+typedef struct ECCurvePbrbmsStr ECCurvePbrbms;
 
-/* Named curve parameters */
+/* Nbmed curve pbrbmeters */
 typedef enum {
 
-        ECCurve_noName = 0,
+        ECCurve_noNbme = 0,
 
         /* NIST prime curves */
         ECCurve_NIST_P192,
@@ -71,7 +71,7 @@ typedef enum {
         ECCurve_NIST_P384,
         ECCurve_NIST_P521,
 
-        /* NIST binary curves */
+        /* NIST binbry curves */
         ECCurve_NIST_K163,
         ECCurve_NIST_B163,
         ECCurve_NIST_K233,
@@ -92,7 +92,7 @@ typedef enum {
         ECCurve_X9_62_PRIME_239V3,
         /* ECCurve_X9_62_PRIME_256V1 == ECCurve_NIST_P256 */
 
-        /* ANSI X9.62 binary curves */
+        /* ANSI X9.62 binbry curves */
         ECCurve_X9_62_CHAR2_PNB163V1,
         ECCurve_X9_62_CHAR2_PNB163V2,
         ECCurve_X9_62_CHAR2_PNB163V3,
@@ -127,7 +127,7 @@ typedef enum {
         /* ECCurve_SECG_PRIME_384R1 == ECCurve_NIST_P384 */
         /* ECCurve_SECG_PRIME_521R1 == ECCurve_NIST_P521 */
 
-        /* SEC2 binary curves */
+        /* SEC2 binbry curves */
         ECCurve_SECG_CHAR2_113R1,
         ECCurve_SECG_CHAR2_113R2,
         ECCurve_SECG_CHAR2_131R1,
@@ -161,10 +161,10 @@ typedef enum {
         /* ECCurve_WTLS_11 == ECCurve_NIST_B233 */
         /* ECCurve_WTLS_12 == ECCurve_NIST_P224 */
 
-        ECCurve_pastLastCurve
-} ECCurveName;
+        ECCurve_pbstLbstCurve
+} ECCurveNbme;
 
-/* Aliased named curves */
+/* Alibsed nbmed curves */
 
 #define ECCurve_X9_62_PRIME_192V1 ECCurve_NIST_P192
 #define ECCurve_X9_62_PRIME_256V1 ECCurve_NIST_P256

@@ -1,167 +1,167 @@
 /*
- * Copyright (c) 1999, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.management;
+pbckbge jbvbx.mbnbgement;
 
 
-import com.sun.jmx.mbeanserver.Introspector;
-import java.io.IOException;
-import java.io.ObjectInputStream;
+import com.sun.jmx.mbebnserver.Introspector;
+import jbvb.io.IOException;
+import jbvb.io.ObjectInputStrebm;
 
 /**
- * <p>Represents attributes used as arguments to relational constraints.
- * Instances of this class are usually obtained using {@link Query#attr(String)
- * Query.attr}.</p>
+ * <p>Represents bttributes used bs brguments to relbtionbl constrbints.
+ * Instbnces of this clbss bre usublly obtbined using {@link Query#bttr(String)
+ * Query.bttr}.</p>
  *
- * <p>An <CODE>AttributeValueExp</CODE> may be used anywhere a
- * <CODE>ValueExp</CODE> is required.
+ * <p>An <CODE>AttributeVblueExp</CODE> mby be used bnywhere b
+ * <CODE>VblueExp</CODE> is required.
  *
  * @since 1.5
  */
-public class AttributeValueExp implements ValueExp  {
+public clbss AttributeVblueExp implements VblueExp  {
 
 
-    /* Serial version */
-    private static final long serialVersionUID = -7768025046539163385L;
-
-    /**
-     * @serial The name of the attribute
-     */
-    private String attr;
+    /* Seribl version */
+    privbte stbtic finbl long seriblVersionUID = -7768025046539163385L;
 
     /**
-     * An <code>AttributeValueExp</code> with a null attribute.
-     * @deprecated An instance created with this constructor cannot be
-     * used in a query.
+     * @seribl The nbme of the bttribute
      */
-    @Deprecated
-    public AttributeValueExp() {
+    privbte String bttr;
+
+    /**
+     * An <code>AttributeVblueExp</code> with b null bttribute.
+     * @deprecbted An instbnce crebted with this constructor cbnnot be
+     * used in b query.
+     */
+    @Deprecbted
+    public AttributeVblueExp() {
     }
 
     /**
-     * Creates a new <CODE>AttributeValueExp</CODE> representing the
-     * specified object attribute, named attr.
+     * Crebtes b new <CODE>AttributeVblueExp</CODE> representing the
+     * specified object bttribute, nbmed bttr.
      *
-     * @param attr the name of the attribute whose value is the value
-     * of this {@link ValueExp}.
+     * @pbrbm bttr the nbme of the bttribute whose vblue is the vblue
+     * of this {@link VblueExp}.
      */
-    public AttributeValueExp(String attr) {
-        this.attr = attr;
+    public AttributeVblueExp(String bttr) {
+        this.bttr = bttr;
     }
 
     /**
-     * Returns a string representation of the name of the attribute.
+     * Returns b string representbtion of the nbme of the bttribute.
      *
-     * @return the attribute name.
+     * @return the bttribute nbme.
      */
-    public String getAttributeName()  {
-        return attr;
+    public String getAttributeNbme()  {
+        return bttr;
     }
 
     /**
-     * <p>Applies the <CODE>AttributeValueExp</CODE> on an MBean.
-     * This method calls {@link #getAttribute getAttribute(name)} and wraps
-     * the result as a {@code ValueExp}.  The value returned by
-     * {@code getAttribute} must be a {@code Number}, {@code String},
-     * or {@code Boolean}; otherwise this method throws a
-     * {@code BadAttributeValueExpException}, which will cause
-     * the containing query to be false for this {@code name}.</p>
+     * <p>Applies the <CODE>AttributeVblueExp</CODE> on bn MBebn.
+     * This method cblls {@link #getAttribute getAttribute(nbme)} bnd wrbps
+     * the result bs b {@code VblueExp}.  The vblue returned by
+     * {@code getAttribute} must be b {@code Number}, {@code String},
+     * or {@code Boolebn}; otherwise this method throws b
+     * {@code BbdAttributeVblueExpException}, which will cbuse
+     * the contbining query to be fblse for this {@code nbme}.</p>
      *
-     * @param name The name of the MBean on which the <CODE>AttributeValueExp</CODE> will be applied.
+     * @pbrbm nbme The nbme of the MBebn on which the <CODE>AttributeVblueExp</CODE> will be bpplied.
      *
-     * @return  The <CODE>ValueExp</CODE>.
+     * @return  The <CODE>VblueExp</CODE>.
      *
-     * @exception BadAttributeValueExpException
-     * @exception InvalidApplicationException
-     * @exception BadStringOperationException
-     * @exception BadBinaryOpValueExpException
+     * @exception BbdAttributeVblueExpException
+     * @exception InvblidApplicbtionException
+     * @exception BbdStringOperbtionException
+     * @exception BbdBinbryOpVblueExpException
      *
      */
     @Override
-    public ValueExp apply(ObjectName name) throws BadStringOperationException, BadBinaryOpValueExpException,
-        BadAttributeValueExpException, InvalidApplicationException {
-        Object result = getAttribute(name);
+    public VblueExp bpply(ObjectNbme nbme) throws BbdStringOperbtionException, BbdBinbryOpVblueExpException,
+        BbdAttributeVblueExpException, InvblidApplicbtionException {
+        Object result = getAttribute(nbme);
 
-        if (result instanceof Number) {
-            return new NumericValueExp((Number)result);
-        } else if (result instanceof String) {
-            return new StringValueExp((String)result);
-        } else if (result instanceof Boolean) {
-            return new BooleanValueExp((Boolean)result);
+        if (result instbnceof Number) {
+            return new NumericVblueExp((Number)result);
+        } else if (result instbnceof String) {
+            return new StringVblueExp((String)result);
+        } else if (result instbnceof Boolebn) {
+            return new BoolebnVblueExp((Boolebn)result);
         } else {
-            throw new BadAttributeValueExpException(result);
+            throw new BbdAttributeVblueExpException(result);
         }
     }
 
     /**
-     * Returns the string representing its value.
+     * Returns the string representing its vblue.
      */
     @Override
     public String toString()  {
-        return attr;
+        return bttr;
     }
 
 
     /**
-     * Sets the MBean server on which the query is to be performed.
+     * Sets the MBebn server on which the query is to be performed.
      *
-     * @param s The MBean server on which the query is to be performed.
+     * @pbrbm s The MBebn server on which the query is to be performed.
      *
-     * @deprecated This method has no effect.  The MBean Server used to
-     * obtain an attribute value is {@link QueryEval#getMBeanServer()}.
+     * @deprecbted This method hbs no effect.  The MBebn Server used to
+     * obtbin bn bttribute vblue is {@link QueryEvbl#getMBebnServer()}.
      */
-    /* There is no need for this method, because if a query is being
-       evaluted an AttributeValueExp can only appear inside a QueryExp,
-       and that QueryExp will itself have done setMBeanServer.  */
-    @Deprecated
+    /* There is no need for this method, becbuse if b query is being
+       evbluted bn AttributeVblueExp cbn only bppebr inside b QueryExp,
+       bnd thbt QueryExp will itself hbve done setMBebnServer.  */
+    @Deprecbted
     @Override
-    public void setMBeanServer(MBeanServer s)  {
+    public void setMBebnServer(MBebnServer s)  {
     }
 
 
     /**
-     * <p>Return the value of the given attribute in the named MBean.
-     * If the attempt to access the attribute generates an exception,
+     * <p>Return the vblue of the given bttribute in the nbmed MBebn.
+     * If the bttempt to bccess the bttribute generbtes bn exception,
      * return null.</p>
      *
-     * <p>The MBean Server used is the one returned by {@link
-     * QueryEval#getMBeanServer()}.</p>
+     * <p>The MBebn Server used is the one returned by {@link
+     * QueryEvbl#getMBebnServer()}.</p>
      *
-     * @param name the name of the MBean whose attribute is to be returned.
+     * @pbrbm nbme the nbme of the MBebn whose bttribute is to be returned.
      *
-     * @return the value of the attribute, or null if it could not be
-     * obtained.
+     * @return the vblue of the bttribute, or null if it could not be
+     * obtbined.
      */
-    protected Object getAttribute(ObjectName name) {
+    protected Object getAttribute(ObjectNbme nbme) {
         try {
-            // Get the value from the MBeanServer
+            // Get the vblue from the MBebnServer
 
-            MBeanServer server = QueryEval.getMBeanServer();
+            MBebnServer server = QueryEvbl.getMBebnServer();
 
-            return server.getAttribute(name, attr);
-        } catch (Exception re) {
+            return server.getAttribute(nbme, bttr);
+        } cbtch (Exception re) {
             return null;
         }
     }

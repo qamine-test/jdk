@@ -4,89 +4,89 @@
 ! Copyright 2000 Sun Microsystems, Inc.  All Rights Reserved.
 ! DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 !
-! This code is free software; you can redistribute it and/or modify it
-! under the terms of the GNU General Public License version 2 only, as
-! published by the Free Software Foundation.  Oracle designates this
-! particular file as subject to the "Classpath" exception as provided
-! by Oracle in the LICENSE file that accompanied this code.
+! This code is free softwbre; you cbn redistribute it bnd/or modify it
+! under the terms of the GNU Generbl Public License version 2 only, bs
+! published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+! pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+! by Orbcle in the LICENSE file thbt bccompbnied this code.
 !
-! This code is distributed in the hope that it will be useful, but WITHOUT
-! ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-! FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-! version 2 for more details (a copy is included in the LICENSE file that
-! accompanied this code).
+! This code is distributed in the hope thbt it will be useful, but WITHOUT
+! ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+! FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+! version 2 for more detbils (b copy is included in the LICENSE file thbt
+! bccompbnied this code).
 !
-! You should have received a copy of the GNU General Public License version
-! 2 along with this work; if not, write to the Free Software Foundation,
-! Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+! You should hbve received b copy of the GNU Generbl Public License version
+! 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+! Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 !
-! Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-! or visit www.oracle.com if you need additional information or have any
+! Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+! or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
 ! questions.
 !
 
 
 ! FUNCTION
-!      mlib_v_ImageCopy_blk   - Copy an image into another 
-!				(with Block Load/Store)
+!      mlib_v_ImbgeCopy_blk   - Copy bn imbge into bnother 
+!				(with Block Lobd/Store)
 !
 ! SYNOPSIS
-!      void mlib_v_ImageCopy_blk(void *src,
+!      void mlib_v_ImbgeCopy_blk(void *src,
 !                                void *dst, 
 !                                int size);
 !
 ! ARGUMENT
-!      src     source image data
-!      dst     destination image data
-!      size    image size in bytes
+!      src     source imbge dbtb
+!      dst     destinbtion imbge dbtb
+!      size    imbge size in bytes
 !
 ! NOTES
-!      src and dst must point to 64-byte aligned addresses
+!      src bnd dst must point to 64-byte bligned bddresses
 !      size must be multiple of 64
 !
 ! DESCRIPTION
 !      dst = src
 !
 
-#include "vis_asi.h"
+#include "vis_bsi.h"
 
-! Minimum size of stack frame according to SPARC ABI
+! Minimum size of stbck frbme bccording to SPARC ABI
 #define MINFRAME        96
 
-! ENTRY provides the standard procedure entry code
+! ENTRY provides the stbndbrd procedure entry code
 #define ENTRY(x) \
-	.align  4; \
-	.global x; \
+	.blign  4; \
+	.globbl x; \
 x:
 
-! SET_SIZE trails a function and sets the size for the ELF symbol table
+! SET_SIZE trbils b function bnd sets the size for the ELF symbol tbble
 #define SET_SIZE(x) \
 	.size   x, (.-x)
 
-! SPARC have four integer register groups. i-registers %i0 to %i7
-! hold input data. o-registers %o0 to %o7 hold output data. l-registers
-! %l0 to %l7 hold local data. g-registers %g0 to %g7 hold global data.
-! Note that %g0 is alway zero, write to it has no program-visible effect.
+! SPARC hbve four integer register groups. i-registers %i0 to %i7
+! hold input dbtb. o-registers %o0 to %o7 hold output dbtb. l-registers
+! %l0 to %l7 hold locbl dbtb. g-registers %g0 to %g7 hold globbl dbtb.
+! Note thbt %g0 is blwby zero, write to it hbs no progrbm-visible effect.
 
-! When calling an assembly function, the first 6 arguments are stored
-! in i-registers from %i0 to %i5. The rest arguments are stored in stack.
-! Note that %i6 is reserved for stack pointer and %i7 for return address.
+! When cblling bn bssembly function, the first 6 brguments bre stored
+! in i-registers from %i0 to %i5. The rest brguments bre stored in stbck.
+! Note thbt %i6 is reserved for stbck pointer bnd %i7 for return bddress.
 
-! Only the first 32 f-registers can be used as 32-bit registers.
-! The last 32 f-registers can only be used as 16 64-bit registers.
+! Only the first 32 f-registers cbn be used bs 32-bit registers.
+! The lbst 32 f-registers cbn only be used bs 16 64-bit registers.
 
 #define src     %i0
 #define dst     %i1
 #define sz      %i2
 
-!frame pointer  %i6
-!return addr    %i7
+!frbme pointer  %i6
+!return bddr    %i7
 
-!stack pointer  %o6
-!call link      %o7
+!stbck pointer  %o6
+!cbll link      %o7
 
-#define sa      %l0
-#define da      %l1
+#define sb      %l0
+#define db      %l1
 #define se      %l2
 #define ns      %l3
 
@@ -120,79 +120,79 @@ x:
 #define USE_BLD
 #define USE_BST
 
-#define MEMBAR_BEFORE_BLD        membar  #StoreLoad
-#define MEMBAR_AFTER_BLD         membar  #StoreLoad
+#define MEMBAR_BEFORE_BLD        membbr  #StoreLobd
+#define MEMBAR_AFTER_BLD         membbr  #StoreLobd
 
 #ifdef USE_BLD
 #define BLD_A0                                  \
-        ldda    [sa]ASI_BLK_P,A0;               \
-        cmp     sa,se;                          \
+        lddb    [sb]ASI_BLK_P,A0;               \
+        cmp     sb,se;                          \
         blu,pt  %icc,1f;                        \
-        inc     64,sa;                          \
-        dec     64,sa;                          \
+        inc     64,sb;                          \
+        dec     64,sb;                          \
 1:
 #else
 #define BLD_A0                                  \
-        ldd     [sa +  0],A0;                   \
-        ldd     [sa +  8],A1;                   \
-        ldd     [sa + 16],A2;                   \
-        ldd     [sa + 24],A3;                   \
-        ldd     [sa + 32],A4;                   \
-        ldd     [sa + 40],A5;                   \
-        ldd     [sa + 48],A6;                   \
-        ldd     [sa + 56],A7;                   \
-        cmp     sa,se;                          \
+        ldd     [sb +  0],A0;                   \
+        ldd     [sb +  8],A1;                   \
+        ldd     [sb + 16],A2;                   \
+        ldd     [sb + 24],A3;                   \
+        ldd     [sb + 32],A4;                   \
+        ldd     [sb + 40],A5;                   \
+        ldd     [sb + 48],A6;                   \
+        ldd     [sb + 56],A7;                   \
+        cmp     sb,se;                          \
         blu,pt  %icc,1f;                        \
-        inc     64,sa;                          \
-        dec     64,sa;                          \
+        inc     64,sb;                          \
+        dec     64,sb;                          \
 1:
 #endif
 
 #ifdef USE_BLD
 #define BLD_B0                                  \
-        ldda    [sa]ASI_BLK_P,B0;               \
-        cmp     sa,se;                          \
+        lddb    [sb]ASI_BLK_P,B0;               \
+        cmp     sb,se;                          \
         blu,pt  %icc,1f;                        \
-        inc     64,sa;                          \
-        dec     64,sa;                          \
+        inc     64,sb;                          \
+        dec     64,sb;                          \
 1:
 #else
 #define BLD_B0                                  \
-        ldd     [sa +  0],B0;                   \
-        ldd     [sa +  8],B1;                   \
-        ldd     [sa + 16],B2;                   \
-        ldd     [sa + 24],B3;                   \
-        ldd     [sa + 32],B4;                   \
-        ldd     [sa + 40],B5;                   \
-        ldd     [sa + 48],B6;                   \
-        ldd     [sa + 56],B7;                   \
-        cmp     sa,se;                          \
+        ldd     [sb +  0],B0;                   \
+        ldd     [sb +  8],B1;                   \
+        ldd     [sb + 16],B2;                   \
+        ldd     [sb + 24],B3;                   \
+        ldd     [sb + 32],B4;                   \
+        ldd     [sb + 40],B5;                   \
+        ldd     [sb + 48],B6;                   \
+        ldd     [sb + 56],B7;                   \
+        cmp     sb,se;                          \
         blu,pt  %icc,1f;                        \
-        inc     64,sa;                          \
-        dec     64,sa;                          \
+        inc     64,sb;                          \
+        dec     64,sb;                          \
 1:
 #endif
 
 #ifdef USE_BST
 #define BST                                     \
-        stda    O0,[da]ASI_BLK_P;               \
-        inc     64,da;                          \
+        stdb    O0,[db]ASI_BLK_P;               \
+        inc     64,db;                          \
         deccc   ns;                             \
-        ble,pn  %icc,mlib_v_ImageCopy_end;	\
+        ble,pn  %icc,mlib_v_ImbgeCopy_end;	\
         nop
 #else
 #define BST                                     \
-        std     O0,[da +  0];                   \
-        std     O1,[da +  8];                   \
-        std     O2,[da + 16];                   \
-        std     O3,[da + 24];                   \
-        std     O4,[da + 32];                   \
-        std     O5,[da + 40];                   \
-        std     O6,[da + 48];                   \
-        std     O7,[da + 56];                   \
-        inc     64,da;                          \
+        std     O0,[db +  0];                   \
+        std     O1,[db +  8];                   \
+        std     O2,[db + 16];                   \
+        std     O3,[db + 24];                   \
+        std     O4,[db + 32];                   \
+        std     O5,[db + 40];                   \
+        std     O6,[db + 48];                   \
+        std     O7,[db + 56];                   \
+        inc     64,db;                          \
         deccc   ns;                             \
-        ble,pn  %icc,mlib_v_ImageCopy_end;	\
+        ble,pn  %icc,mlib_v_ImbgeCopy_end;	\
         nop
 #endif
 
@@ -216,47 +216,47 @@ x:
         fmovd B6, O6;                           \
         fmovd B7, O7;
 
-        .section        ".text",#alloc,#execinstr
+        .section        ".text",#blloc,#execinstr
 
-        ENTRY(mlib_v_ImageCopy_blk)	! function name
+        ENTRY(mlib_v_ImbgeCopy_blk)	! function nbme
 
-        save    %sp,-MINFRAME,%sp	! reserve space for stack
-                                        ! and adjust register window
+        sbve    %sp,-MINFRAME,%sp	! reserve spbce for stbck
+                                        ! bnd bdjust register window
 ! do some error checking
         tst     sz                      ! size > 0
-        ble,pn  %icc,mlib_v_ImageCopy_ret
+        ble,pn  %icc,mlib_v_ImbgeCopy_ret
 
-! calculate loop count
-        sra     sz,6,ns                 ! 64 bytes per loop
+! cblculbte loop count
+        srb     sz,6,ns                 ! 64 bytes per loop
 
-        add     src,sz,se               ! end address of source
-        mov     src,sa
-        mov     dst,da
-                                        ! issue memory barrier instruction
-        MEMBAR_BEFORE_BLD               ! to ensure all previous memory load
-                                        ! and store has completed
+        bdd     src,sz,se               ! end bddress of source
+        mov     src,sb
+        mov     dst,db
+                                        ! issue memory bbrrier instruction
+        MEMBAR_BEFORE_BLD               ! to ensure bll previous memory lobd
+                                        ! bnd store hbs completed
 
         BLD_A0
-        BLD_B0                          ! issue the 2nd block load instruction
-                                        ! to synchronize with returning data
-mlib_v_ImageCopy_bgn:
+        BLD_B0                          ! issue the 2nd block lobd instruction
+                                        ! to synchronize with returning dbtb
+mlib_v_ImbgeCopy_bgn:
 
-        COPY_A0				! process data returned by BLD_A0
-        BLD_A0                          ! block load and sync data from BLD_B0
-        BST                             ! block store data from BLD_A0
+        COPY_A0				! process dbtb returned by BLD_A0
+        BLD_A0                          ! block lobd bnd sync dbtb from BLD_B0
+        BST                             ! block store dbtb from BLD_A0
 
-        COPY_B0				! process data returned by BLD_B0
-        BLD_B0                          ! block load and sync data from BLD_A0
-        BST                             ! block store data from BLD_B0
+        COPY_B0				! process dbtb returned by BLD_B0
+        BLD_B0                          ! block lobd bnd sync dbtb from BLD_A0
+        BST                             ! block store dbtb from BLD_B0
 
-        bg,pt   %icc,mlib_v_ImageCopy_bgn
+        bg,pt   %icc,mlib_v_ImbgeCopy_bgn
 
-mlib_v_ImageCopy_end:
-                                        ! issue memory barrier instruction
-        MEMBAR_AFTER_BLD                ! to ensure all previous memory load
-                                        ! and store has completed.
-mlib_v_ImageCopy_ret:
+mlib_v_ImbgeCopy_end:
+                                        ! issue memory bbrrier instruction
+        MEMBAR_AFTER_BLD                ! to ensure bll previous memory lobd
+                                        ! bnd store hbs completed.
+mlib_v_ImbgeCopy_ret:
         ret                             ! return
         restore                         ! restore register window
 
-        SET_SIZE(mlib_v_ImageCopy_blk)
+        SET_SIZE(mlib_v_ImbgeCopy_blk)

@@ -1,84 +1,84 @@
 /*
- * Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.nio.file;
+pbckbge jbvb.nio.file;
 
-import java.nio.file.attribute.BasicFileAttributes;
-import java.io.Closeable;
-import java.io.IOException;
-import java.util.ArrayDeque;
-import java.util.Collection;
-import java.util.Iterator;
-import sun.nio.fs.BasicFileAttributesHolder;
+import jbvb.nio.file.bttribute.BbsicFileAttributes;
+import jbvb.io.Closebble;
+import jbvb.io.IOException;
+import jbvb.util.ArrbyDeque;
+import jbvb.util.Collection;
+import jbvb.util.Iterbtor;
+import sun.nio.fs.BbsicFileAttributesHolder;
 
 /**
- * Walks a file tree, generating a sequence of events corresponding to the files
+ * Wblks b file tree, generbting b sequence of events corresponding to the files
  * in the tree.
  *
  * <pre>{@code
- *     Path top = ...
+ *     Pbth top = ...
  *     Set<FileVisitOption> options = ...
- *     int maxDepth = ...
+ *     int mbxDepth = ...
  *
- *     try (FileTreeWalker walker = new FileTreeWalker(options, maxDepth)) {
- *         FileTreeWalker.Event ev = walker.walk(top);
+ *     try (FileTreeWblker wblker = new FileTreeWblker(options, mbxDepth)) {
+ *         FileTreeWblker.Event ev = wblker.wblk(top);
  *         do {
  *             process(ev);
- *             ev = walker.next();
+ *             ev = wblker.next();
  *         } while (ev != null);
  *     }
  * }</pre>
  *
- * @see Files#walkFileTree
+ * @see Files#wblkFileTree
  */
 
-class FileTreeWalker implements Closeable {
-    private final boolean followLinks;
-    private final LinkOption[] linkOptions;
-    private final int maxDepth;
-    private final ArrayDeque<DirectoryNode> stack = new ArrayDeque<>();
-    private boolean closed;
+clbss FileTreeWblker implements Closebble {
+    privbte finbl boolebn followLinks;
+    privbte finbl LinkOption[] linkOptions;
+    privbte finbl int mbxDepth;
+    privbte finbl ArrbyDeque<DirectoryNode> stbck = new ArrbyDeque<>();
+    privbte boolebn closed;
 
     /**
-     * The element on the walking stack corresponding to a directory node.
+     * The element on the wblking stbck corresponding to b directory node.
      */
-    private static class DirectoryNode {
-        private final Path dir;
-        private final Object key;
-        private final DirectoryStream<Path> stream;
-        private final Iterator<Path> iterator;
-        private boolean skipped;
+    privbte stbtic clbss DirectoryNode {
+        privbte finbl Pbth dir;
+        privbte finbl Object key;
+        privbte finbl DirectoryStrebm<Pbth> strebm;
+        privbte finbl Iterbtor<Pbth> iterbtor;
+        privbte boolebn skipped;
 
-        DirectoryNode(Path dir, Object key, DirectoryStream<Path> stream) {
+        DirectoryNode(Pbth dir, Object key, DirectoryStrebm<Pbth> strebm) {
             this.dir = dir;
             this.key = key;
-            this.stream = stream;
-            this.iterator = stream.iterator();
+            this.strebm = strebm;
+            this.iterbtor = strebm.iterbtor();
         }
 
-        Path directory() {
+        Pbth directory() {
             return dir;
         }
 
@@ -86,19 +86,19 @@ class FileTreeWalker implements Closeable {
             return key;
         }
 
-        DirectoryStream<Path> stream() {
-            return stream;
+        DirectoryStrebm<Pbth> strebm() {
+            return strebm;
         }
 
-        Iterator<Path> iterator() {
-            return iterator;
+        Iterbtor<Pbth> iterbtor() {
+            return iterbtor;
         }
 
         void skip() {
             skipped = true;
         }
 
-        boolean skipped() {
+        boolebn skipped() {
             return skipped;
         }
     }
@@ -106,42 +106,42 @@ class FileTreeWalker implements Closeable {
     /**
      * The event types.
      */
-    static enum EventType {
+    stbtic enum EventType {
         /**
-         * Start of a directory
+         * Stbrt of b directory
          */
         START_DIRECTORY,
         /**
-         * End of a directory
+         * End of b directory
          */
         END_DIRECTORY,
         /**
-         * An entry in a directory
+         * An entry in b directory
          */
         ENTRY;
     }
 
     /**
-     * Events returned by the {@link #walk} and {@link #next} methods.
+     * Events returned by the {@link #wblk} bnd {@link #next} methods.
      */
-    static class Event {
-        private final EventType type;
-        private final Path file;
-        private final BasicFileAttributes attrs;
-        private final IOException ioe;
+    stbtic clbss Event {
+        privbte finbl EventType type;
+        privbte finbl Pbth file;
+        privbte finbl BbsicFileAttributes bttrs;
+        privbte finbl IOException ioe;
 
-        private Event(EventType type, Path file, BasicFileAttributes attrs, IOException ioe) {
+        privbte Event(EventType type, Pbth file, BbsicFileAttributes bttrs, IOException ioe) {
             this.type = type;
             this.file = file;
-            this.attrs = attrs;
+            this.bttrs = bttrs;
             this.ioe = ioe;
         }
 
-        Event(EventType type, Path file, BasicFileAttributes attrs) {
-            this(type, file, attrs, null);
+        Event(EventType type, Pbth file, BbsicFileAttributes bttrs) {
+            this(type, file, bttrs, null);
         }
 
-        Event(EventType type, Path file, IOException ioe) {
+        Event(EventType type, Pbth file, IOException ioe) {
             this(type, file, null, ioe);
         }
 
@@ -149,12 +149,12 @@ class FileTreeWalker implements Closeable {
             return type;
         }
 
-        Path file() {
+        Pbth file() {
             return file;
         }
 
-        BasicFileAttributes attributes() {
-            return attrs;
+        BbsicFileAttributes bttributes() {
+            return bttrs;
         }
 
         IOException ioeException() {
@@ -163,215 +163,215 @@ class FileTreeWalker implements Closeable {
     }
 
     /**
-     * Creates a {@code FileTreeWalker}.
+     * Crebtes b {@code FileTreeWblker}.
      *
-     * @throws  IllegalArgumentException
-     *          if {@code maxDepth} is negative
-     * @throws  ClassCastException
-     *          if (@code options} contains an element that is not a
+     * @throws  IllegblArgumentException
+     *          if {@code mbxDepth} is negbtive
+     * @throws  ClbssCbstException
+     *          if (@code options} contbins bn element thbt is not b
      *          {@code FileVisitOption}
      * @throws  NullPointerException
      *          if {@code options} is {@ocde null} or the options
-     *          array contains a {@code null} element
+     *          brrby contbins b {@code null} element
      */
-    FileTreeWalker(Collection<FileVisitOption> options, int maxDepth) {
-        boolean fl = false;
+    FileTreeWblker(Collection<FileVisitOption> options, int mbxDepth) {
+        boolebn fl = fblse;
         for (FileVisitOption option: options) {
-            // will throw NPE if options contains null
+            // will throw NPE if options contbins null
             switch (option) {
-                case FOLLOW_LINKS : fl = true; break;
-                default:
+                cbse FOLLOW_LINKS : fl = true; brebk;
+                defbult:
                     throw new AssertionError("Should not get here");
             }
         }
-        if (maxDepth < 0)
-            throw new IllegalArgumentException("'maxDepth' is negative");
+        if (mbxDepth < 0)
+            throw new IllegblArgumentException("'mbxDepth' is negbtive");
 
         this.followLinks = fl;
         this.linkOptions = (fl) ? new LinkOption[0] :
             new LinkOption[] { LinkOption.NOFOLLOW_LINKS };
-        this.maxDepth = maxDepth;
+        this.mbxDepth = mbxDepth;
     }
 
     /**
-     * Returns the attributes of the given file, taking into account whether
-     * the walk is following sym links is not. The {@code canUseCached}
-     * argument determines whether this method can use cached attributes.
+     * Returns the bttributes of the given file, tbking into bccount whether
+     * the wblk is following sym links is not. The {@code cbnUseCbched}
+     * brgument determines whether this method cbn use cbched bttributes.
      */
-    private BasicFileAttributes getAttributes(Path file, boolean canUseCached)
+    privbte BbsicFileAttributes getAttributes(Pbth file, boolebn cbnUseCbched)
         throws IOException
     {
-        // if attributes are cached then use them if possible
-        if (canUseCached &&
-            (file instanceof BasicFileAttributesHolder) &&
-            (System.getSecurityManager() == null))
+        // if bttributes bre cbched then use them if possible
+        if (cbnUseCbched &&
+            (file instbnceof BbsicFileAttributesHolder) &&
+            (System.getSecurityMbnbger() == null))
         {
-            BasicFileAttributes cached = ((BasicFileAttributesHolder)file).get();
-            if (cached != null && (!followLinks || !cached.isSymbolicLink())) {
-                return cached;
+            BbsicFileAttributes cbched = ((BbsicFileAttributesHolder)file).get();
+            if (cbched != null && (!followLinks || !cbched.isSymbolicLink())) {
+                return cbched;
             }
         }
 
-        // attempt to get attributes of file. If fails and we are following
-        // links then a link target might not exist so get attributes of link
-        BasicFileAttributes attrs;
+        // bttempt to get bttributes of file. If fbils bnd we bre following
+        // links then b link tbrget might not exist so get bttributes of link
+        BbsicFileAttributes bttrs;
         try {
-            attrs = Files.readAttributes(file, BasicFileAttributes.class, linkOptions);
-        } catch (IOException ioe) {
+            bttrs = Files.rebdAttributes(file, BbsicFileAttributes.clbss, linkOptions);
+        } cbtch (IOException ioe) {
             if (!followLinks)
                 throw ioe;
 
-            // attempt to get attrmptes without following links
-            attrs = Files.readAttributes(file,
-                                         BasicFileAttributes.class,
+            // bttempt to get bttrmptes without following links
+            bttrs = Files.rebdAttributes(file,
+                                         BbsicFileAttributes.clbss,
                                          LinkOption.NOFOLLOW_LINKS);
         }
-        return attrs;
+        return bttrs;
     }
 
     /**
-     * Returns true if walking into the given directory would result in a
+     * Returns true if wblking into the given directory would result in b
      * file system loop/cycle.
      */
-    private boolean wouldLoop(Path dir, Object key) {
-        // if this directory and ancestor has a file key then we compare
-        // them; otherwise we use less efficient isSameFile test.
-        for (DirectoryNode ancestor: stack) {
-            Object ancestorKey = ancestor.key();
-            if (key != null && ancestorKey != null) {
-                if (key.equals(ancestorKey)) {
+    privbte boolebn wouldLoop(Pbth dir, Object key) {
+        // if this directory bnd bncestor hbs b file key then we compbre
+        // them; otherwise we use less efficient isSbmeFile test.
+        for (DirectoryNode bncestor: stbck) {
+            Object bncestorKey = bncestor.key();
+            if (key != null && bncestorKey != null) {
+                if (key.equbls(bncestorKey)) {
                     // cycle detected
                     return true;
                 }
             } else {
                 try {
-                    if (Files.isSameFile(dir, ancestor.directory())) {
+                    if (Files.isSbmeFile(dir, bncestor.directory())) {
                         // cycle detected
                         return true;
                     }
-                } catch (IOException | SecurityException x) {
+                } cbtch (IOException | SecurityException x) {
                     // ignore
                 }
             }
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Visits the given file, returning the {@code Event} corresponding to that
+     * Visits the given file, returning the {@code Event} corresponding to thbt
      * visit.
      *
-     * The {@code ignoreSecurityException} parameter determines whether
-     * any SecurityException should be ignored or not. If a SecurityException
-     * is thrown, and is ignored, then this method returns {@code null} to
-     * mean that there is no event corresponding to a visit to the file.
+     * The {@code ignoreSecurityException} pbrbmeter determines whether
+     * bny SecurityException should be ignored or not. If b SecurityException
+     * is thrown, bnd is ignored, then this method returns {@code null} to
+     * mebn thbt there is no event corresponding to b visit to the file.
      *
-     * The {@code canUseCached} parameter determines whether cached attributes
-     * for the file can be used or not.
+     * The {@code cbnUseCbched} pbrbmeter determines whether cbched bttributes
+     * for the file cbn be used or not.
      */
-    private Event visit(Path entry, boolean ignoreSecurityException, boolean canUseCached) {
-        // need the file attributes
-        BasicFileAttributes attrs;
+    privbte Event visit(Pbth entry, boolebn ignoreSecurityException, boolebn cbnUseCbched) {
+        // need the file bttributes
+        BbsicFileAttributes bttrs;
         try {
-            attrs = getAttributes(entry, canUseCached);
-        } catch (IOException ioe) {
+            bttrs = getAttributes(entry, cbnUseCbched);
+        } cbtch (IOException ioe) {
             return new Event(EventType.ENTRY, entry, ioe);
-        } catch (SecurityException se) {
+        } cbtch (SecurityException se) {
             if (ignoreSecurityException)
                 return null;
             throw se;
         }
 
-        // at maximum depth or file is not a directory
-        int depth = stack.size();
-        if (depth >= maxDepth || !attrs.isDirectory()) {
-            return new Event(EventType.ENTRY, entry, attrs);
+        // bt mbximum depth or file is not b directory
+        int depth = stbck.size();
+        if (depth >= mbxDepth || !bttrs.isDirectory()) {
+            return new Event(EventType.ENTRY, entry, bttrs);
         }
 
         // check for cycles when following links
-        if (followLinks && wouldLoop(entry, attrs.fileKey())) {
+        if (followLinks && wouldLoop(entry, bttrs.fileKey())) {
             return new Event(EventType.ENTRY, entry,
                              new FileSystemLoopException(entry.toString()));
         }
 
-        // file is a directory, attempt to open it
-        DirectoryStream<Path> stream = null;
+        // file is b directory, bttempt to open it
+        DirectoryStrebm<Pbth> strebm = null;
         try {
-            stream = Files.newDirectoryStream(entry);
-        } catch (IOException ioe) {
+            strebm = Files.newDirectoryStrebm(entry);
+        } cbtch (IOException ioe) {
             return new Event(EventType.ENTRY, entry, ioe);
-        } catch (SecurityException se) {
+        } cbtch (SecurityException se) {
             if (ignoreSecurityException)
                 return null;
             throw se;
         }
 
-        // push a directory node to the stack and return an event
-        stack.push(new DirectoryNode(entry, attrs.fileKey(), stream));
-        return new Event(EventType.START_DIRECTORY, entry, attrs);
+        // push b directory node to the stbck bnd return bn event
+        stbck.push(new DirectoryNode(entry, bttrs.fileKey(), strebm));
+        return new Event(EventType.START_DIRECTORY, entry, bttrs);
     }
 
 
     /**
-     * Start walking from the given file.
+     * Stbrt wblking from the given file.
      */
-    Event walk(Path file) {
+    Event wblk(Pbth file) {
         if (closed)
-            throw new IllegalStateException("Closed");
+            throw new IllegblStbteException("Closed");
 
         Event ev = visit(file,
-                         false,   // ignoreSecurityException
-                         false);  // canUseCached
-        assert ev != null;
+                         fblse,   // ignoreSecurityException
+                         fblse);  // cbnUseCbched
+        bssert ev != null;
         return ev;
     }
 
     /**
-     * Returns the next Event or {@code null} if there are no more events or
-     * the walker is closed.
+     * Returns the next Event or {@code null} if there bre no more events or
+     * the wblker is closed.
      */
     Event next() {
-        DirectoryNode top = stack.peek();
+        DirectoryNode top = stbck.peek();
         if (top == null)
-            return null;      // stack is empty, we are done
+            return null;      // stbck is empty, we bre done
 
-        // continue iteration of the directory at the top of the stack
+        // continue iterbtion of the directory bt the top of the stbck
         Event ev;
         do {
-            Path entry = null;
+            Pbth entry = null;
             IOException ioe = null;
 
             // get next entry in the directory
             if (!top.skipped()) {
-                Iterator<Path> iterator = top.iterator();
+                Iterbtor<Pbth> iterbtor = top.iterbtor();
                 try {
-                    if (iterator.hasNext()) {
-                        entry = iterator.next();
+                    if (iterbtor.hbsNext()) {
+                        entry = iterbtor.next();
                     }
-                } catch (DirectoryIteratorException x) {
-                    ioe = x.getCause();
+                } cbtch (DirectoryIterbtorException x) {
+                    ioe = x.getCbuse();
                 }
             }
 
-            // no next entry so close and pop directory, creating corresponding event
+            // no next entry so close bnd pop directory, crebting corresponding event
             if (entry == null) {
                 try {
-                    top.stream().close();
-                } catch (IOException e) {
+                    top.strebm().close();
+                } cbtch (IOException e) {
                     if (ioe != null) {
                         ioe = e;
                     } else {
-                        ioe.addSuppressed(e);
+                        ioe.bddSuppressed(e);
                     }
                 }
-                stack.pop();
+                stbck.pop();
                 return new Event(EventType.END_DIRECTORY, top.directory(), ioe);
             }
 
             // visit the entry
             ev = visit(entry,
                        true,   // ignoreSecurityException
-                       true);  // canUseCached
+                       true);  // cbnUseCbched
 
         } while (ev == null);
 
@@ -379,44 +379,44 @@ class FileTreeWalker implements Closeable {
     }
 
     /**
-     * Pops the directory node that is the current top of the stack so that
-     * there are no more events for the directory (including no END_DIRECTORY)
-     * event. This method is a no-op if the stack is empty or the walker is
+     * Pops the directory node thbt is the current top of the stbck so thbt
+     * there bre no more events for the directory (including no END_DIRECTORY)
+     * event. This method is b no-op if the stbck is empty or the wblker is
      * closed.
      */
     void pop() {
-        if (!stack.isEmpty()) {
-            DirectoryNode node = stack.pop();
+        if (!stbck.isEmpty()) {
+            DirectoryNode node = stbck.pop();
             try {
-                node.stream().close();
-            } catch (IOException ignore) { }
+                node.strebm().close();
+            } cbtch (IOException ignore) { }
         }
     }
 
     /**
-     * Skips the remaining entries in the directory at the top of the stack.
-     * This method is a no-op if the stack is empty or the walker is closed.
+     * Skips the rembining entries in the directory bt the top of the stbck.
+     * This method is b no-op if the stbck is empty or the wblker is closed.
      */
-    void skipRemainingSiblings() {
-        if (!stack.isEmpty()) {
-            stack.peek().skip();
+    void skipRembiningSiblings() {
+        if (!stbck.isEmpty()) {
+            stbck.peek().skip();
         }
     }
 
     /**
-     * Returns {@code true} if the walker is open.
+     * Returns {@code true} if the wblker is open.
      */
-    boolean isOpen() {
+    boolebn isOpen() {
         return !closed;
     }
 
     /**
-     * Closes/pops all directories on the stack.
+     * Closes/pops bll directories on the stbck.
      */
     @Override
     public void close() {
         if (!closed) {
-            while (!stack.isEmpty()) {
+            while (!stbck.isEmpty()) {
                 pop();
             }
             closed = true;

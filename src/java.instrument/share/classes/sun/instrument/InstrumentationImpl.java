@@ -1,435 +1,435 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package sun.instrument;
+pbckbge sun.instrument;
 
-import java.lang.reflect.Method;
-import java.lang.reflect.AccessibleObject;
+import jbvb.lbng.reflect.Method;
+import jbvb.lbng.reflect.AccessibleObject;
 
-import java.lang.instrument.ClassFileTransformer;
-import java.lang.instrument.ClassDefinition;
-import java.lang.instrument.Instrumentation;
+import jbvb.lbng.instrument.ClbssFileTrbnsformer;
+import jbvb.lbng.instrument.ClbssDefinition;
+import jbvb.lbng.instrument.Instrumentbtion;
 
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.security.ProtectionDomain;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import jbvb.security.ProtectionDombin;
 
-import java.util.jar.JarFile;
+import jbvb.util.jbr.JbrFile;
 
 /*
  * Copyright 2003 Wily Technology, Inc.
  */
 
 /**
- * The Java side of the JPLIS implementation. Works in concert with a native JVMTI agent
- * to implement the JPLIS API set. Provides both the Java API implementation of
- * the Instrumentation interface and utility Java routines to support the native code.
- * Keeps a pointer to the native data structure in a scalar field to allow native
- * processing behind native methods.
+ * The Jbvb side of the JPLIS implementbtion. Works in concert with b nbtive JVMTI bgent
+ * to implement the JPLIS API set. Provides both the Jbvb API implementbtion of
+ * the Instrumentbtion interfbce bnd utility Jbvb routines to support the nbtive code.
+ * Keeps b pointer to the nbtive dbtb structure in b scblbr field to bllow nbtive
+ * processing behind nbtive methods.
  */
-public class InstrumentationImpl implements Instrumentation {
-    private final     TransformerManager      mTransformerManager;
-    private           TransformerManager      mRetransfomableTransformerManager;
-    // needs to store a native pointer, so use 64 bits
-    private final     long                    mNativeAgent;
-    private final     boolean                 mEnvironmentSupportsRedefineClasses;
-    private volatile  boolean                 mEnvironmentSupportsRetransformClassesKnown;
-    private volatile  boolean                 mEnvironmentSupportsRetransformClasses;
-    private final     boolean                 mEnvironmentSupportsNativeMethodPrefix;
+public clbss InstrumentbtionImpl implements Instrumentbtion {
+    privbte finbl     TrbnsformerMbnbger      mTrbnsformerMbnbger;
+    privbte           TrbnsformerMbnbger      mRetrbnsfombbleTrbnsformerMbnbger;
+    // needs to store b nbtive pointer, so use 64 bits
+    privbte finbl     long                    mNbtiveAgent;
+    privbte finbl     boolebn                 mEnvironmentSupportsRedefineClbsses;
+    privbte volbtile  boolebn                 mEnvironmentSupportsRetrbnsformClbssesKnown;
+    privbte volbtile  boolebn                 mEnvironmentSupportsRetrbnsformClbsses;
+    privbte finbl     boolebn                 mEnvironmentSupportsNbtiveMethodPrefix;
 
-    private
-    InstrumentationImpl(long    nativeAgent,
-                        boolean environmentSupportsRedefineClasses,
-                        boolean environmentSupportsNativeMethodPrefix) {
-        mTransformerManager                    = new TransformerManager(false);
-        mRetransfomableTransformerManager      = null;
-        mNativeAgent                           = nativeAgent;
-        mEnvironmentSupportsRedefineClasses    = environmentSupportsRedefineClasses;
-        mEnvironmentSupportsRetransformClassesKnown = false; // false = need to ask
-        mEnvironmentSupportsRetransformClasses = false;      // don't know yet
-        mEnvironmentSupportsNativeMethodPrefix = environmentSupportsNativeMethodPrefix;
+    privbte
+    InstrumentbtionImpl(long    nbtiveAgent,
+                        boolebn environmentSupportsRedefineClbsses,
+                        boolebn environmentSupportsNbtiveMethodPrefix) {
+        mTrbnsformerMbnbger                    = new TrbnsformerMbnbger(fblse);
+        mRetrbnsfombbleTrbnsformerMbnbger      = null;
+        mNbtiveAgent                           = nbtiveAgent;
+        mEnvironmentSupportsRedefineClbsses    = environmentSupportsRedefineClbsses;
+        mEnvironmentSupportsRetrbnsformClbssesKnown = fblse; // fblse = need to bsk
+        mEnvironmentSupportsRetrbnsformClbsses = fblse;      // don't know yet
+        mEnvironmentSupportsNbtiveMethodPrefix = environmentSupportsNbtiveMethodPrefix;
     }
 
     public void
-    addTransformer(ClassFileTransformer transformer) {
-        addTransformer(transformer, false);
+    bddTrbnsformer(ClbssFileTrbnsformer trbnsformer) {
+        bddTrbnsformer(trbnsformer, fblse);
     }
 
     public synchronized void
-    addTransformer(ClassFileTransformer transformer, boolean canRetransform) {
-        if (transformer == null) {
-            throw new NullPointerException("null passed as 'transformer' in addTransformer");
+    bddTrbnsformer(ClbssFileTrbnsformer trbnsformer, boolebn cbnRetrbnsform) {
+        if (trbnsformer == null) {
+            throw new NullPointerException("null pbssed bs 'trbnsformer' in bddTrbnsformer");
         }
-        if (canRetransform) {
-            if (!isRetransformClassesSupported()) {
-                throw new UnsupportedOperationException(
-                  "adding retransformable transformers is not supported in this environment");
+        if (cbnRetrbnsform) {
+            if (!isRetrbnsformClbssesSupported()) {
+                throw new UnsupportedOperbtionException(
+                  "bdding retrbnsformbble trbnsformers is not supported in this environment");
             }
-            if (mRetransfomableTransformerManager == null) {
-                mRetransfomableTransformerManager = new TransformerManager(true);
+            if (mRetrbnsfombbleTrbnsformerMbnbger == null) {
+                mRetrbnsfombbleTrbnsformerMbnbger = new TrbnsformerMbnbger(true);
             }
-            mRetransfomableTransformerManager.addTransformer(transformer);
-            if (mRetransfomableTransformerManager.getTransformerCount() == 1) {
-                setHasRetransformableTransformers(mNativeAgent, true);
+            mRetrbnsfombbleTrbnsformerMbnbger.bddTrbnsformer(trbnsformer);
+            if (mRetrbnsfombbleTrbnsformerMbnbger.getTrbnsformerCount() == 1) {
+                setHbsRetrbnsformbbleTrbnsformers(mNbtiveAgent, true);
             }
         } else {
-            mTransformerManager.addTransformer(transformer);
+            mTrbnsformerMbnbger.bddTrbnsformer(trbnsformer);
         }
     }
 
-    public synchronized boolean
-    removeTransformer(ClassFileTransformer transformer) {
-        if (transformer == null) {
-            throw new NullPointerException("null passed as 'transformer' in removeTransformer");
+    public synchronized boolebn
+    removeTrbnsformer(ClbssFileTrbnsformer trbnsformer) {
+        if (trbnsformer == null) {
+            throw new NullPointerException("null pbssed bs 'trbnsformer' in removeTrbnsformer");
         }
-        TransformerManager mgr = findTransformerManager(transformer);
+        TrbnsformerMbnbger mgr = findTrbnsformerMbnbger(trbnsformer);
         if (mgr != null) {
-            mgr.removeTransformer(transformer);
-            if (mgr.isRetransformable() && mgr.getTransformerCount() == 0) {
-                setHasRetransformableTransformers(mNativeAgent, false);
+            mgr.removeTrbnsformer(trbnsformer);
+            if (mgr.isRetrbnsformbble() && mgr.getTrbnsformerCount() == 0) {
+                setHbsRetrbnsformbbleTrbnsformers(mNbtiveAgent, fblse);
             }
             return true;
         }
-        return false;
+        return fblse;
     }
 
-    public boolean
-    isModifiableClass(Class<?> theClass) {
-        if (theClass == null) {
+    public boolebn
+    isModifibbleClbss(Clbss<?> theClbss) {
+        if (theClbss == null) {
             throw new NullPointerException(
-                         "null passed as 'theClass' in isModifiableClass");
+                         "null pbssed bs 'theClbss' in isModifibbleClbss");
         }
-        return isModifiableClass0(mNativeAgent, theClass);
+        return isModifibbleClbss0(mNbtiveAgent, theClbss);
     }
 
-    public boolean
-    isRetransformClassesSupported() {
-        // ask lazily since there is some overhead
-        if (!mEnvironmentSupportsRetransformClassesKnown) {
-            mEnvironmentSupportsRetransformClasses = isRetransformClassesSupported0(mNativeAgent);
-            mEnvironmentSupportsRetransformClassesKnown = true;
+    public boolebn
+    isRetrbnsformClbssesSupported() {
+        // bsk lbzily since there is some overhebd
+        if (!mEnvironmentSupportsRetrbnsformClbssesKnown) {
+            mEnvironmentSupportsRetrbnsformClbsses = isRetrbnsformClbssesSupported0(mNbtiveAgent);
+            mEnvironmentSupportsRetrbnsformClbssesKnown = true;
         }
-        return mEnvironmentSupportsRetransformClasses;
+        return mEnvironmentSupportsRetrbnsformClbsses;
     }
 
     public void
-    retransformClasses(Class<?>... classes) {
-        if (!isRetransformClassesSupported()) {
-            throw new UnsupportedOperationException(
-              "retransformClasses is not supported in this environment");
+    retrbnsformClbsses(Clbss<?>... clbsses) {
+        if (!isRetrbnsformClbssesSupported()) {
+            throw new UnsupportedOperbtionException(
+              "retrbnsformClbsses is not supported in this environment");
         }
-        retransformClasses0(mNativeAgent, classes);
+        retrbnsformClbsses0(mNbtiveAgent, clbsses);
     }
 
-    public boolean
-    isRedefineClassesSupported() {
-        return mEnvironmentSupportsRedefineClasses;
+    public boolebn
+    isRedefineClbssesSupported() {
+        return mEnvironmentSupportsRedefineClbsses;
     }
 
     public void
-    redefineClasses(ClassDefinition...  definitions)
-            throws  ClassNotFoundException {
-        if (!isRedefineClassesSupported()) {
-            throw new UnsupportedOperationException("redefineClasses is not supported in this environment");
+    redefineClbsses(ClbssDefinition...  definitions)
+            throws  ClbssNotFoundException {
+        if (!isRedefineClbssesSupported()) {
+            throw new UnsupportedOperbtionException("redefineClbsses is not supported in this environment");
         }
         if (definitions == null) {
-            throw new NullPointerException("null passed as 'definitions' in redefineClasses");
+            throw new NullPointerException("null pbssed bs 'definitions' in redefineClbsses");
         }
         for (int i = 0; i < definitions.length; ++i) {
             if (definitions[i] == null) {
-                throw new NullPointerException("element of 'definitions' is null in redefineClasses");
+                throw new NullPointerException("element of 'definitions' is null in redefineClbsses");
             }
         }
         if (definitions.length == 0) {
-            return; // short-circuit if there are no changes requested
+            return; // short-circuit if there bre no chbnges requested
         }
 
-        redefineClasses0(mNativeAgent, definitions);
+        redefineClbsses0(mNbtiveAgent, definitions);
     }
 
-    @SuppressWarnings("rawtypes")
-    public Class[]
-    getAllLoadedClasses() {
-        return getAllLoadedClasses0(mNativeAgent);
+    @SuppressWbrnings("rbwtypes")
+    public Clbss[]
+    getAllLobdedClbsses() {
+        return getAllLobdedClbsses0(mNbtiveAgent);
     }
 
-    @SuppressWarnings("rawtypes")
-    public Class[]
-    getInitiatedClasses(ClassLoader loader) {
-        return getInitiatedClasses0(mNativeAgent, loader);
+    @SuppressWbrnings("rbwtypes")
+    public Clbss[]
+    getInitibtedClbsses(ClbssLobder lobder) {
+        return getInitibtedClbsses0(mNbtiveAgent, lobder);
     }
 
     public long
     getObjectSize(Object objectToSize) {
         if (objectToSize == null) {
-            throw new NullPointerException("null passed as 'objectToSize' in getObjectSize");
+            throw new NullPointerException("null pbssed bs 'objectToSize' in getObjectSize");
         }
-        return getObjectSize0(mNativeAgent, objectToSize);
+        return getObjectSize0(mNbtiveAgent, objectToSize);
     }
 
     public void
-    appendToBootstrapClassLoaderSearch(JarFile jarfile) {
-        appendToClassLoaderSearch0(mNativeAgent, jarfile.getName(), true);
+    bppendToBootstrbpClbssLobderSebrch(JbrFile jbrfile) {
+        bppendToClbssLobderSebrch0(mNbtiveAgent, jbrfile.getNbme(), true);
     }
 
     public void
-    appendToSystemClassLoaderSearch(JarFile jarfile) {
-        appendToClassLoaderSearch0(mNativeAgent, jarfile.getName(), false);
+    bppendToSystemClbssLobderSebrch(JbrFile jbrfile) {
+        bppendToClbssLobderSebrch0(mNbtiveAgent, jbrfile.getNbme(), fblse);
     }
 
-    public boolean
-    isNativeMethodPrefixSupported() {
-        return mEnvironmentSupportsNativeMethodPrefix;
+    public boolebn
+    isNbtiveMethodPrefixSupported() {
+        return mEnvironmentSupportsNbtiveMethodPrefix;
     }
 
     public synchronized void
-    setNativeMethodPrefix(ClassFileTransformer transformer, String prefix) {
-        if (!isNativeMethodPrefixSupported()) {
-            throw new UnsupportedOperationException(
-                   "setNativeMethodPrefix is not supported in this environment");
+    setNbtiveMethodPrefix(ClbssFileTrbnsformer trbnsformer, String prefix) {
+        if (!isNbtiveMethodPrefixSupported()) {
+            throw new UnsupportedOperbtionException(
+                   "setNbtiveMethodPrefix is not supported in this environment");
         }
-        if (transformer == null) {
+        if (trbnsformer == null) {
             throw new NullPointerException(
-                       "null passed as 'transformer' in setNativeMethodPrefix");
+                       "null pbssed bs 'trbnsformer' in setNbtiveMethodPrefix");
         }
-        TransformerManager mgr = findTransformerManager(transformer);
+        TrbnsformerMbnbger mgr = findTrbnsformerMbnbger(trbnsformer);
         if (mgr == null) {
-            throw new IllegalArgumentException(
-                       "transformer not registered in setNativeMethodPrefix");
+            throw new IllegblArgumentException(
+                       "trbnsformer not registered in setNbtiveMethodPrefix");
         }
-        mgr.setNativeMethodPrefix(transformer, prefix);
-        String[] prefixes = mgr.getNativeMethodPrefixes();
-        setNativeMethodPrefixes(mNativeAgent, prefixes, mgr.isRetransformable());
+        mgr.setNbtiveMethodPrefix(trbnsformer, prefix);
+        String[] prefixes = mgr.getNbtiveMethodPrefixes();
+        setNbtiveMethodPrefixes(mNbtiveAgent, prefixes, mgr.isRetrbnsformbble());
     }
 
-    private TransformerManager
-    findTransformerManager(ClassFileTransformer transformer) {
-        if (mTransformerManager.includesTransformer(transformer)) {
-            return mTransformerManager;
+    privbte TrbnsformerMbnbger
+    findTrbnsformerMbnbger(ClbssFileTrbnsformer trbnsformer) {
+        if (mTrbnsformerMbnbger.includesTrbnsformer(trbnsformer)) {
+            return mTrbnsformerMbnbger;
         }
-        if (mRetransfomableTransformerManager != null &&
-                mRetransfomableTransformerManager.includesTransformer(transformer)) {
-            return mRetransfomableTransformerManager;
+        if (mRetrbnsfombbleTrbnsformerMbnbger != null &&
+                mRetrbnsfombbleTrbnsformerMbnbger.includesTrbnsformer(trbnsformer)) {
+            return mRetrbnsfombbleTrbnsformerMbnbger;
         }
         return null;
     }
 
 
     /*
-     *  Natives
+     *  Nbtives
      */
-    private native boolean
-    isModifiableClass0(long nativeAgent, Class<?> theClass);
+    privbte nbtive boolebn
+    isModifibbleClbss0(long nbtiveAgent, Clbss<?> theClbss);
 
-    private native boolean
-    isRetransformClassesSupported0(long nativeAgent);
+    privbte nbtive boolebn
+    isRetrbnsformClbssesSupported0(long nbtiveAgent);
 
-    private native void
-    setHasRetransformableTransformers(long nativeAgent, boolean has);
+    privbte nbtive void
+    setHbsRetrbnsformbbleTrbnsformers(long nbtiveAgent, boolebn hbs);
 
-    private native void
-    retransformClasses0(long nativeAgent, Class<?>[] classes);
+    privbte nbtive void
+    retrbnsformClbsses0(long nbtiveAgent, Clbss<?>[] clbsses);
 
-    private native void
-    redefineClasses0(long nativeAgent, ClassDefinition[]  definitions)
-        throws  ClassNotFoundException;
+    privbte nbtive void
+    redefineClbsses0(long nbtiveAgent, ClbssDefinition[]  definitions)
+        throws  ClbssNotFoundException;
 
-    @SuppressWarnings("rawtypes")
-    private native Class[]
-    getAllLoadedClasses0(long nativeAgent);
+    @SuppressWbrnings("rbwtypes")
+    privbte nbtive Clbss[]
+    getAllLobdedClbsses0(long nbtiveAgent);
 
-    @SuppressWarnings("rawtypes")
-    private native Class[]
-    getInitiatedClasses0(long nativeAgent, ClassLoader loader);
+    @SuppressWbrnings("rbwtypes")
+    privbte nbtive Clbss[]
+    getInitibtedClbsses0(long nbtiveAgent, ClbssLobder lobder);
 
-    private native long
-    getObjectSize0(long nativeAgent, Object objectToSize);
+    privbte nbtive long
+    getObjectSize0(long nbtiveAgent, Object objectToSize);
 
-    private native void
-    appendToClassLoaderSearch0(long nativeAgent, String jarfile, boolean bootLoader);
+    privbte nbtive void
+    bppendToClbssLobderSebrch0(long nbtiveAgent, String jbrfile, boolebn bootLobder);
 
-    private native void
-    setNativeMethodPrefixes(long nativeAgent, String[] prefixes, boolean isRetransformable);
+    privbte nbtive void
+    setNbtiveMethodPrefixes(long nbtiveAgent, String[] prefixes, boolebn isRetrbnsformbble);
 
-    static {
-        System.loadLibrary("instrument");
+    stbtic {
+        System.lobdLibrbry("instrument");
     }
 
     /*
-     *  Internals
+     *  Internbls
      */
 
 
-    // Enable or disable Java programming language access checks on a
-    // reflected object (for example, a method)
-    private static void setAccessible(final AccessibleObject ao, final boolean accessible) {
+    // Enbble or disbble Jbvb progrbmming lbngubge bccess checks on b
+    // reflected object (for exbmple, b method)
+    privbte stbtic void setAccessible(finbl AccessibleObject bo, finbl boolebn bccessible) {
         AccessController.doPrivileged(new PrivilegedAction<Object>() {
                 public Object run() {
-                    ao.setAccessible(accessible);
+                    bo.setAccessible(bccessible);
                     return null;
                 }});
     }
 
-    // Attempt to load and start an agent
-    private void
-    loadClassAndStartAgent( String  classname,
-                            String  methodname,
+    // Attempt to lobd bnd stbrt bn bgent
+    privbte void
+    lobdClbssAndStbrtAgent( String  clbssnbme,
+                            String  methodnbme,
                             String  optionsString)
-            throws Throwable {
+            throws Throwbble {
 
-        ClassLoader mainAppLoader   = ClassLoader.getSystemClassLoader();
-        Class<?>    javaAgentClass  = mainAppLoader.loadClass(classname);
+        ClbssLobder mbinAppLobder   = ClbssLobder.getSystemClbssLobder();
+        Clbss<?>    jbvbAgentClbss  = mbinAppLobder.lobdClbss(clbssnbme);
 
         Method m = null;
         NoSuchMethodException firstExc = null;
-        boolean twoArgAgent = false;
+        boolebn twoArgAgent = fblse;
 
-        // The agent class must have a premain or agentmain method that
-        // has 1 or 2 arguments. We check in the following order:
+        // The bgent clbss must hbve b prembin or bgentmbin method thbt
+        // hbs 1 or 2 brguments. We check in the following order:
         //
-        // 1) declared with a signature of (String, Instrumentation)
-        // 2) declared with a signature of (String)
-        // 3) inherited with a signature of (String, Instrumentation)
-        // 4) inherited with a signature of (String)
+        // 1) declbred with b signbture of (String, Instrumentbtion)
+        // 2) declbred with b signbture of (String)
+        // 3) inherited with b signbture of (String, Instrumentbtion)
+        // 4) inherited with b signbture of (String)
         //
-        // So the declared version of either 1-arg or 2-arg always takes
-        // primary precedence over an inherited version. After that, the
-        // 2-arg version takes precedence over the 1-arg version.
+        // So the declbred version of either 1-brg or 2-brg blwbys tbkes
+        // primbry precedence over bn inherited version. After thbt, the
+        // 2-brg version tbkes precedence over the 1-brg version.
         //
         // If no method is found then we throw the NoSuchMethodException
-        // from the first attempt so that the exception text indicates
-        // the lookup failed for the 2-arg method (same as JDK5.0).
+        // from the first bttempt so thbt the exception text indicbtes
+        // the lookup fbiled for the 2-brg method (sbme bs JDK5.0).
 
         try {
-            m = javaAgentClass.getDeclaredMethod( methodname,
-                                 new Class<?>[] {
-                                     String.class,
-                                     java.lang.instrument.Instrumentation.class
+            m = jbvbAgentClbss.getDeclbredMethod( methodnbme,
+                                 new Clbss<?>[] {
+                                     String.clbss,
+                                     jbvb.lbng.instrument.Instrumentbtion.clbss
                                  }
                                );
             twoArgAgent = true;
-        } catch (NoSuchMethodException x) {
+        } cbtch (NoSuchMethodException x) {
             // remember the NoSuchMethodException
             firstExc = x;
         }
 
         if (m == null) {
-            // now try the declared 1-arg method
+            // now try the declbred 1-brg method
             try {
-                m = javaAgentClass.getDeclaredMethod(methodname,
-                                                 new Class<?>[] { String.class });
-            } catch (NoSuchMethodException x) {
-                // ignore this exception because we'll try
-                // two arg inheritance next
+                m = jbvbAgentClbss.getDeclbredMethod(methodnbme,
+                                                 new Clbss<?>[] { String.clbss });
+            } cbtch (NoSuchMethodException x) {
+                // ignore this exception becbuse we'll try
+                // two brg inheritbnce next
             }
         }
 
         if (m == null) {
-            // now try the inherited 2-arg method
+            // now try the inherited 2-brg method
             try {
-                m = javaAgentClass.getMethod( methodname,
-                                 new Class<?>[] {
-                                     String.class,
-                                     java.lang.instrument.Instrumentation.class
+                m = jbvbAgentClbss.getMethod( methodnbme,
+                                 new Clbss<?>[] {
+                                     String.clbss,
+                                     jbvb.lbng.instrument.Instrumentbtion.clbss
                                  }
                                );
                 twoArgAgent = true;
-            } catch (NoSuchMethodException x) {
-                // ignore this exception because we'll try
-                // one arg inheritance next
+            } cbtch (NoSuchMethodException x) {
+                // ignore this exception becbuse we'll try
+                // one brg inheritbnce next
             }
         }
 
         if (m == null) {
-            // finally try the inherited 1-arg method
+            // finblly try the inherited 1-brg method
             try {
-                m = javaAgentClass.getMethod(methodname,
-                                             new Class<?>[] { String.class });
-            } catch (NoSuchMethodException x) {
+                m = jbvbAgentClbss.getMethod(methodnbme,
+                                             new Clbss<?>[] { String.clbss });
+            } cbtch (NoSuchMethodException x) {
                 // none of the methods exists so we throw the
-                // first NoSuchMethodException as per 5.0
+                // first NoSuchMethodException bs per 5.0
                 throw firstExc;
             }
         }
 
-        // the premain method should not be required to be public,
-        // make it accessible so we can call it
-        // Note: The spec says the following:
-        //     The agent class must implement a public static premain method...
+        // the prembin method should not be required to be public,
+        // mbke it bccessible so we cbn cbll it
+        // Note: The spec sbys the following:
+        //     The bgent clbss must implement b public stbtic prembin method...
         setAccessible(m, true);
 
-        // invoke the 1 or 2-arg method
+        // invoke the 1 or 2-brg method
         if (twoArgAgent) {
             m.invoke(null, new Object[] { optionsString, this });
         } else {
             m.invoke(null, new Object[] { optionsString });
         }
 
-        // don't let others access a non-public premain method
-        setAccessible(m, false);
+        // don't let others bccess b non-public prembin method
+        setAccessible(m, fblse);
     }
 
-    // WARNING: the native code knows the name & signature of this method
-    private void
-    loadClassAndCallPremain(    String  classname,
+    // WARNING: the nbtive code knows the nbme & signbture of this method
+    privbte void
+    lobdClbssAndCbllPrembin(    String  clbssnbme,
                                 String  optionsString)
-            throws Throwable {
+            throws Throwbble {
 
-        loadClassAndStartAgent( classname, "premain", optionsString );
+        lobdClbssAndStbrtAgent( clbssnbme, "prembin", optionsString );
     }
 
 
-    // WARNING: the native code knows the name & signature of this method
-    private void
-    loadClassAndCallAgentmain(  String  classname,
+    // WARNING: the nbtive code knows the nbme & signbture of this method
+    privbte void
+    lobdClbssAndCbllAgentmbin(  String  clbssnbme,
                                 String  optionsString)
-            throws Throwable {
+            throws Throwbble {
 
-        loadClassAndStartAgent( classname, "agentmain", optionsString );
+        lobdClbssAndStbrtAgent( clbssnbme, "bgentmbin", optionsString );
     }
 
-    // WARNING: the native code knows the name & signature of this method
-    private byte[]
-    transform(  ClassLoader         loader,
-                String              classname,
-                Class<?>            classBeingRedefined,
-                ProtectionDomain    protectionDomain,
-                byte[]              classfileBuffer,
-                boolean             isRetransformer) {
-        TransformerManager mgr = isRetransformer?
-                                        mRetransfomableTransformerManager :
-                                        mTransformerManager;
+    // WARNING: the nbtive code knows the nbme & signbture of this method
+    privbte byte[]
+    trbnsform(  ClbssLobder         lobder,
+                String              clbssnbme,
+                Clbss<?>            clbssBeingRedefined,
+                ProtectionDombin    protectionDombin,
+                byte[]              clbssfileBuffer,
+                boolebn             isRetrbnsformer) {
+        TrbnsformerMbnbger mgr = isRetrbnsformer?
+                                        mRetrbnsfombbleTrbnsformerMbnbger :
+                                        mTrbnsformerMbnbger;
         if (mgr == null) {
-            return null; // no manager, no transform
+            return null; // no mbnbger, no trbnsform
         } else {
-            return mgr.transform(   loader,
-                                    classname,
-                                    classBeingRedefined,
-                                    protectionDomain,
-                                    classfileBuffer);
+            return mgr.trbnsform(   lobder,
+                                    clbssnbme,
+                                    clbssBeingRedefined,
+                                    protectionDombin,
+                                    clbssfileBuffer);
         }
     }
 }

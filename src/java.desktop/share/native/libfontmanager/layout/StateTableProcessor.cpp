@@ -1,24 +1,24 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  *
  */
@@ -30,80 +30,80 @@
  */
 
 #include "LETypes.h"
-#include "MorphTables.h"
-#include "StateTables.h"
-#include "MorphStateTables.h"
-#include "SubtableProcessor.h"
-#include "StateTableProcessor.h"
-#include "LEGlyphStorage.h"
-#include "LESwaps.h"
+#include "MorphTbbles.h"
+#include "StbteTbbles.h"
+#include "MorphStbteTbbles.h"
+#include "SubtbbleProcessor.h"
+#include "StbteTbbleProcessor.h"
+#include "LEGlyphStorbge.h"
+#include "LESwbps.h"
 
 U_NAMESPACE_BEGIN
 
-StateTableProcessor::StateTableProcessor()
+StbteTbbleProcessor::StbteTbbleProcessor()
 {
 }
 
-StateTableProcessor::StateTableProcessor(const LEReferenceTo<MorphSubtableHeader> &morphSubtableHeader, LEErrorCode &success)
-  : SubtableProcessor(morphSubtableHeader, success), stateTableHeader(morphSubtableHeader, success),
-    stHeader(stateTableHeader, success, (const StateTableHeader*)&stateTableHeader->stHeader)
+StbteTbbleProcessor::StbteTbbleProcessor(const LEReferenceTo<MorphSubtbbleHebder> &morphSubtbbleHebder, LEErrorCode &success)
+  : SubtbbleProcessor(morphSubtbbleHebder, success), stbteTbbleHebder(morphSubtbbleHebder, success),
+    stHebder(stbteTbbleHebder, success, (const StbteTbbleHebder*)&stbteTbbleHebder->stHebder)
 {
   if(LE_FAILURE(success)) return;
-    stateSize = SWAPW(stateTableHeader->stHeader.stateSize);
-    classTableOffset = SWAPW(stateTableHeader->stHeader.classTableOffset);
-    stateArrayOffset = SWAPW(stateTableHeader->stHeader.stateArrayOffset);
-    entryTableOffset = SWAPW(stateTableHeader->stHeader.entryTableOffset);
+    stbteSize = SWAPW(stbteTbbleHebder->stHebder.stbteSize);
+    clbssTbbleOffset = SWAPW(stbteTbbleHebder->stHebder.clbssTbbleOffset);
+    stbteArrbyOffset = SWAPW(stbteTbbleHebder->stHebder.stbteArrbyOffset);
+    entryTbbleOffset = SWAPW(stbteTbbleHebder->stHebder.entryTbbleOffset);
 
-    classTable = LEReferenceTo<ClassTable>(stateTableHeader, success, ((char *) &stateTableHeader->stHeader + classTableOffset));
+    clbssTbble = LEReferenceTo<ClbssTbble>(stbteTbbleHebder, success, ((chbr *) &stbteTbbleHebder->stHebder + clbssTbbleOffset));
   if(LE_FAILURE(success)) return;
-    firstGlyph = SWAPW(classTable->firstGlyph);
-    lastGlyph  = firstGlyph + SWAPW(classTable->nGlyphs);
+    firstGlyph = SWAPW(clbssTbble->firstGlyph);
+    lbstGlyph  = firstGlyph + SWAPW(clbssTbble->nGlyphs);
 }
 
-StateTableProcessor::~StateTableProcessor()
+StbteTbbleProcessor::~StbteTbbleProcessor()
 {
 }
 
-void StateTableProcessor::process(LEGlyphStorage &glyphStorage, LEErrorCode &success)
+void StbteTbbleProcessor::process(LEGlyphStorbge &glyphStorbge, LEErrorCode &success)
 {
     if (LE_FAILURE(success)) return;
     LE_STATE_PATIENCE_INIT();
 
-    // Start at state 0
-    // XXX: How do we know when to start at state 1?
-    ByteOffset currentState = stateArrayOffset;
+    // Stbrt bt stbte 0
+    // XXX: How do we know when to stbrt bt stbte 1?
+    ByteOffset currentStbte = stbteArrbyOffset;
 
     // XXX: reverse?
     le_int32 currGlyph = 0;
-    le_int32 glyphCount = glyphStorage.getGlyphCount();
+    le_int32 glyphCount = glyphStorbge.getGlyphCount();
 
-    beginStateTable();
+    beginStbteTbble();
 
     while (currGlyph <= glyphCount) {
-        if(LE_STATE_PATIENCE_DECR()) break; // patience exceeded.
-        ClassCode classCode = classCodeOOB;
+        if(LE_STATE_PATIENCE_DECR()) brebk; // pbtience exceeded.
+        ClbssCode clbssCode = clbssCodeOOB;
         if (currGlyph == glyphCount) {
-            // XXX: How do we handle EOT vs. EOL?
-            classCode = classCodeEOT;
+            // XXX: How do we hbndle EOT vs. EOL?
+            clbssCode = clbssCodeEOT;
         } else {
-            TTGlyphID glyphCode = (TTGlyphID) LE_GET_GLYPH(glyphStorage[currGlyph]);
+            TTGlyphID glyphCode = (TTGlyphID) LE_GET_GLYPH(glyphStorbge[currGlyph]);
 
             if (glyphCode == 0xFFFF) {
-                classCode = classCodeDEL;
-            } else if ((glyphCode >= firstGlyph) && (glyphCode < lastGlyph)) {
-                classCode = classTable->classArray[glyphCode - firstGlyph];
+                clbssCode = clbssCodeDEL;
+            } else if ((glyphCode >= firstGlyph) && (glyphCode < lbstGlyph)) {
+                clbssCode = clbssTbble->clbssArrby[glyphCode - firstGlyph];
             }
         }
 
-        LEReferenceToArrayOf<EntryTableIndex> stateArray(stHeader, success, currentState, LE_UNBOUNDED_ARRAY);
-        EntryTableIndex entryTableIndex = stateArray.getObject((le_uint8)classCode, success);
-        if (LE_FAILURE(success)) { break; }
+        LEReferenceToArrbyOf<EntryTbbleIndex> stbteArrby(stHebder, success, currentStbte, LE_UNBOUNDED_ARRAY);
+        EntryTbbleIndex entryTbbleIndex = stbteArrby.getObject((le_uint8)clbssCode, success);
+        if (LE_FAILURE(success)) { brebk; }
         LE_STATE_PATIENCE_CURR(le_int32, currGlyph);
-        currentState = processStateEntry(glyphStorage, currGlyph, entryTableIndex);
+        currentStbte = processStbteEntry(glyphStorbge, currGlyph, entryTbbleIndex);
         LE_STATE_PATIENCE_INCR(currGlyph);
     }
 
-    endStateTable();
+    endStbteTbble();
 }
 
 U_NAMESPACE_END

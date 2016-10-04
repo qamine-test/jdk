@@ -1,208 +1,208 @@
 /*
- * Copyright (c) 2003, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2004, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.imageio.plugins.bmp;
+pbckbge com.sun.imbgeio.plugins.bmp;
 
-import java.util.Arrays;
-import javax.imageio.ImageTypeSpecifier;
-import javax.imageio.metadata.IIOMetadataFormat;
-import javax.imageio.metadata.IIOMetadataFormatImpl;
+import jbvb.util.Arrbys;
+import jbvbx.imbgeio.ImbgeTypeSpecifier;
+import jbvbx.imbgeio.metbdbtb.IIOMetbdbtbFormbt;
+import jbvbx.imbgeio.metbdbtb.IIOMetbdbtbFormbtImpl;
 
-public class BMPMetadataFormat extends IIOMetadataFormatImpl {
+public clbss BMPMetbdbtbFormbt extends IIOMetbdbtbFormbtImpl {
 
-    private static IIOMetadataFormat instance = null;
+    privbte stbtic IIOMetbdbtbFormbt instbnce = null;
 
-    private BMPMetadataFormat() {
-        super(BMPMetadata.nativeMetadataFormatName,
+    privbte BMPMetbdbtbFormbt() {
+        super(BMPMetbdbtb.nbtiveMetbdbtbFormbtNbme,
               CHILD_POLICY_SOME);
 
-        // root -> ImageDescriptor
-        addElement("ImageDescriptor",
-                   BMPMetadata.nativeMetadataFormatName,
+        // root -> ImbgeDescriptor
+        bddElement("ImbgeDescriptor",
+                   BMPMetbdbtb.nbtiveMetbdbtbFormbtNbme,
                    CHILD_POLICY_EMPTY);
-        addAttribute("ImageDescriptor", "bmpVersion",
+        bddAttribute("ImbgeDescriptor", "bmpVersion",
                      DATATYPE_STRING, true, null);
-        addAttribute("ImageDescriptor", "width",
+        bddAttribute("ImbgeDescriptor", "width",
                      DATATYPE_INTEGER, true, null,
                      "0", "65535", true, true);
-        addAttribute("ImageDescriptor", "height",
+        bddAttribute("ImbgeDescriptor", "height",
                      DATATYPE_INTEGER, true, null,
                      "1", "65535", true, true);
-        addAttribute("ImageDescriptor", "bitsPerPixel",
+        bddAttribute("ImbgeDescriptor", "bitsPerPixel",
                      DATATYPE_INTEGER, true, null,
                      "1", "65535", true, true);
-        addAttribute("ImageDescriptor", "compression",
-                      DATATYPE_INTEGER, false, null);
-        addAttribute("ImageDescriptor", "imageSize",
+        bddAttribute("ImbgeDescriptor", "compression",
+                      DATATYPE_INTEGER, fblse, null);
+        bddAttribute("ImbgeDescriptor", "imbgeSize",
                      DATATYPE_INTEGER, true, null,
                      "1", "65535", true, true);
 
-        addElement("PixelsPerMeter",
-                   BMPMetadata.nativeMetadataFormatName,
+        bddElement("PixelsPerMeter",
+                   BMPMetbdbtb.nbtiveMetbdbtbFormbtNbme,
                    CHILD_POLICY_EMPTY);
-        addAttribute("PixelsPerMeter", "X",
-                     DATATYPE_INTEGER, false, null,
+        bddAttribute("PixelsPerMeter", "X",
+                     DATATYPE_INTEGER, fblse, null,
                      "1", "65535", true, true);
-        addAttribute("PixelsPerMeter", "Y",
-                     DATATYPE_INTEGER, false, null,
+        bddAttribute("PixelsPerMeter", "Y",
+                     DATATYPE_INTEGER, fblse, null,
                      "1", "65535", true, true);
 
-        addElement("ColorsUsed",
-                   BMPMetadata.nativeMetadataFormatName,
+        bddElement("ColorsUsed",
+                   BMPMetbdbtb.nbtiveMetbdbtbFormbtNbme,
                    CHILD_POLICY_EMPTY);
-        addAttribute("ColorsUsed", "value",
+        bddAttribute("ColorsUsed", "vblue",
                      DATATYPE_INTEGER, true, null,
                      "0", "65535", true, true);
 
-        addElement("ColorsImportant",
-                   BMPMetadata.nativeMetadataFormatName,
+        bddElement("ColorsImportbnt",
+                   BMPMetbdbtb.nbtiveMetbdbtbFormbtNbme,
                    CHILD_POLICY_EMPTY);
-        addAttribute("ColorsImportant", "value",
-                     DATATYPE_INTEGER, false, null,
+        bddAttribute("ColorsImportbnt", "vblue",
+                     DATATYPE_INTEGER, fblse, null,
                      "0", "65535", true, true);
 
-        addElement("BI_BITFIELDS_Mask",
-                   BMPMetadata.nativeMetadataFormatName,
+        bddElement("BI_BITFIELDS_Mbsk",
+                   BMPMetbdbtb.nbtiveMetbdbtbFormbtNbme,
                    CHILD_POLICY_EMPTY);
-        addAttribute("BI_BITFIELDS_Mask", "red",
-                     DATATYPE_INTEGER, false, null,
+        bddAttribute("BI_BITFIELDS_Mbsk", "red",
+                     DATATYPE_INTEGER, fblse, null,
                      "0", "65535", true, true);
-        addAttribute("BI_BITFIELDS_Mask", "green",
-                     DATATYPE_INTEGER, false, null,
+        bddAttribute("BI_BITFIELDS_Mbsk", "green",
+                     DATATYPE_INTEGER, fblse, null,
                      "0", "65535", true, true);
-        addAttribute("BI_BITFIELDS_Mask", "blue",
-                     DATATYPE_INTEGER, false, null,
+        bddAttribute("BI_BITFIELDS_Mbsk", "blue",
+                     DATATYPE_INTEGER, fblse, null,
                      "0", "65535", true, true);
 
-        addElement("ColorSpace",
-                   BMPMetadata.nativeMetadataFormatName,
+        bddElement("ColorSpbce",
+                   BMPMetbdbtb.nbtiveMetbdbtbFormbtNbme,
                    CHILD_POLICY_EMPTY);
-        addAttribute("ColorSpace", "value",
-                     DATATYPE_INTEGER, false, null,
+        bddAttribute("ColorSpbce", "vblue",
+                     DATATYPE_INTEGER, fblse, null,
                      "0", "65535", true, true);
 
-        addElement("LCS_CALIBRATED_RGB",
-                   BMPMetadata.nativeMetadataFormatName,
+        bddElement("LCS_CALIBRATED_RGB",
+                   BMPMetbdbtb.nbtiveMetbdbtbFormbtNbme,
                    CHILD_POLICY_EMPTY);
 
-        /// Should the max value be 1.7976931348623157e+308 ?
-        addAttribute("LCS_CALIBRATED_RGB", "redX",
-                     DATATYPE_DOUBLE, false, null,
+        /// Should the mbx vblue be 1.7976931348623157e+308 ?
+        bddAttribute("LCS_CALIBRATED_RGB", "redX",
+                     DATATYPE_DOUBLE, fblse, null,
                      "0", "65535", true, true);
-        addAttribute("LCS_CALIBRATED_RGB", "redY",
-                     DATATYPE_DOUBLE, false, null,
+        bddAttribute("LCS_CALIBRATED_RGB", "redY",
+                     DATATYPE_DOUBLE, fblse, null,
                      "0", "65535", true, true);
-        addAttribute("LCS_CALIBRATED_RGB", "redZ",
-                     DATATYPE_DOUBLE, false, null,
+        bddAttribute("LCS_CALIBRATED_RGB", "redZ",
+                     DATATYPE_DOUBLE, fblse, null,
                      "0", "65535", true, true);
-        addAttribute("LCS_CALIBRATED_RGB", "greenX",
-                     DATATYPE_DOUBLE, false, null,
+        bddAttribute("LCS_CALIBRATED_RGB", "greenX",
+                     DATATYPE_DOUBLE, fblse, null,
                      "0", "65535", true, true);
-        addAttribute("LCS_CALIBRATED_RGB", "greenY",
-                     DATATYPE_DOUBLE, false, null,
+        bddAttribute("LCS_CALIBRATED_RGB", "greenY",
+                     DATATYPE_DOUBLE, fblse, null,
                      "0", "65535", true, true);
-        addAttribute("LCS_CALIBRATED_RGB", "greenZ",
-                     DATATYPE_DOUBLE, false, null,
+        bddAttribute("LCS_CALIBRATED_RGB", "greenZ",
+                     DATATYPE_DOUBLE, fblse, null,
                      "0", "65535", true, true);
-        addAttribute("LCS_CALIBRATED_RGB", "blueX",
-                     DATATYPE_DOUBLE, false, null,
+        bddAttribute("LCS_CALIBRATED_RGB", "blueX",
+                     DATATYPE_DOUBLE, fblse, null,
                      "0", "65535", true, true);
-        addAttribute("LCS_CALIBRATED_RGB", "blueY",
-                     DATATYPE_DOUBLE, false, null,
+        bddAttribute("LCS_CALIBRATED_RGB", "blueY",
+                     DATATYPE_DOUBLE, fblse, null,
                      "0", "65535", true, true);
-        addAttribute("LCS_CALIBRATED_RGB", "blueZ",
-                     DATATYPE_DOUBLE, false, null,
+        bddAttribute("LCS_CALIBRATED_RGB", "blueZ",
+                     DATATYPE_DOUBLE, fblse, null,
                      "0", "65535", true, true);
 
-        addElement("LCS_CALIBRATED_RGB_GAMMA",
-                   BMPMetadata.nativeMetadataFormatName,
+        bddElement("LCS_CALIBRATED_RGB_GAMMA",
+                   BMPMetbdbtb.nbtiveMetbdbtbFormbtNbme,
                    CHILD_POLICY_EMPTY);
-        addAttribute("LCS_CALIBRATED_RGB_GAMMA","red",
-                     DATATYPE_INTEGER, false, null,
+        bddAttribute("LCS_CALIBRATED_RGB_GAMMA","red",
+                     DATATYPE_INTEGER, fblse, null,
                      "0", "65535", true, true);
-        addAttribute("LCS_CALIBRATED_RGB_GAMMA","green",
-                     DATATYPE_INTEGER, false, null,
+        bddAttribute("LCS_CALIBRATED_RGB_GAMMA","green",
+                     DATATYPE_INTEGER, fblse, null,
                      "0", "65535", true, true);
-        addAttribute("LCS_CALIBRATED_RGB_GAMMA","blue",
-                     DATATYPE_INTEGER, false, null,
+        bddAttribute("LCS_CALIBRATED_RGB_GAMMA","blue",
+                     DATATYPE_INTEGER, fblse, null,
                      "0", "65535", true, true);
 
-        addElement("Intent",
-                   BMPMetadata.nativeMetadataFormatName,
+        bddElement("Intent",
+                   BMPMetbdbtb.nbtiveMetbdbtbFormbtNbme,
                    CHILD_POLICY_EMPTY);
-        addAttribute("Intent", "value",
-                     DATATYPE_INTEGER, false, null,
+        bddAttribute("Intent", "vblue",
+                     DATATYPE_INTEGER, fblse, null,
                      "0", "65535", true, true);
 
-        // root -> Palette
-        addElement("Palette",
-                   BMPMetadata.nativeMetadataFormatName,
+        // root -> Pblette
+        bddElement("Pblette",
+                   BMPMetbdbtb.nbtiveMetbdbtbFormbtNbme,
                    2, 256);
-        addAttribute("Palette", "sizeOfPalette",
+        bddAttribute("Pblette", "sizeOfPblette",
                      DATATYPE_INTEGER, true, null);
-        addBooleanAttribute("Palette", "sortFlag",
-                            false, false);
+        bddBoolebnAttribute("Pblette", "sortFlbg",
+                            fblse, fblse);
 
-        // root -> Palette -> PaletteEntry
-        addElement("PaletteEntry", "Palette",
+        // root -> Pblette -> PbletteEntry
+        bddElement("PbletteEntry", "Pblette",
                    CHILD_POLICY_EMPTY);
-        addAttribute("PaletteEntry", "index",
+        bddAttribute("PbletteEntry", "index",
                      DATATYPE_INTEGER, true, null,
                      "0", "255", true, true);
-        addAttribute("PaletteEntry", "red",
+        bddAttribute("PbletteEntry", "red",
                      DATATYPE_INTEGER, true, null,
                      "0", "255", true, true);
-        addAttribute("PaletteEntry", "green",
+        bddAttribute("PbletteEntry", "green",
                      DATATYPE_INTEGER, true, null,
                      "0", "255", true, true);
-        addAttribute("PaletteEntry", "blue",
+        bddAttribute("PbletteEntry", "blue",
                      DATATYPE_INTEGER, true, null,
                      "0", "255", true, true);
 
 
         // root -> CommentExtensions
-        addElement("CommentExtensions",
-                   BMPMetadata.nativeMetadataFormatName,
+        bddElement("CommentExtensions",
+                   BMPMetbdbtb.nbtiveMetbdbtbFormbtNbme,
                    1, Integer.MAX_VALUE);
 
         // root -> CommentExtensions -> CommentExtension
-        addElement("CommentExtension", "CommentExtensions",
+        bddElement("CommentExtension", "CommentExtensions",
                    CHILD_POLICY_EMPTY);
-        addAttribute("CommentExtension", "value",
+        bddAttribute("CommentExtension", "vblue",
                      DATATYPE_STRING, true, null);
     }
 
-    public boolean canNodeAppear(String elementName,
-                                 ImageTypeSpecifier imageType) {
+    public boolebn cbnNodeAppebr(String elementNbme,
+                                 ImbgeTypeSpecifier imbgeType) {
         return true;
     }
 
-    public static synchronized IIOMetadataFormat getInstance() {
-        if (instance == null) {
-            instance = new BMPMetadataFormat();
+    public stbtic synchronized IIOMetbdbtbFormbt getInstbnce() {
+        if (instbnce == null) {
+            instbnce = new BMPMetbdbtbFormbt();
         }
-        return instance;
+        return instbnce;
     }
 }

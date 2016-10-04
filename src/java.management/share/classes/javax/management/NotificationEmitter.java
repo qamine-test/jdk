@@ -1,98 +1,98 @@
 /*
- * Copyright (c) 2002, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2007, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.management;
+pbckbge jbvbx.mbnbgement;
 
-import java.util.concurrent.CopyOnWriteArrayList;  // for Javadoc
+import jbvb.util.concurrent.CopyOnWriteArrbyList;  // for Jbvbdoc
 
 /**
- * <p>Interface implemented by an MBean that emits Notifications. It
- * allows a listener to be registered with the MBean as a notification
+ * <p>Interfbce implemented by bn MBebn thbt emits Notificbtions. It
+ * bllows b listener to be registered with the MBebn bs b notificbtion
  * listener.</p>
  *
- * <h3>Notification dispatch</h3>
+ * <h3>Notificbtion dispbtch</h3>
  *
- *<p>When an MBean emits a notification, it considers each listener that has been
- * added with {@link #addNotificationListener addNotificationListener} and not
- * subsequently removed with {@link #removeNotificationListener removeNotificationListener}.
- * If a filter was provided with that listener, and if the filter's
- * {@link NotificationFilter#isNotificationEnabled isNotificationEnabled} method returns
- * false, the listener is ignored.  Otherwise, the listener's
- * {@link NotificationListener#handleNotification handleNotification} method is called with
- * the notification, as well as the handback object that was provided to
- * {@code addNotificationListener}.</p>
+ *<p>When bn MBebn emits b notificbtion, it considers ebch listener thbt hbs been
+ * bdded with {@link #bddNotificbtionListener bddNotificbtionListener} bnd not
+ * subsequently removed with {@link #removeNotificbtionListener removeNotificbtionListener}.
+ * If b filter wbs provided with thbt listener, bnd if the filter's
+ * {@link NotificbtionFilter#isNotificbtionEnbbled isNotificbtionEnbbled} method returns
+ * fblse, the listener is ignored.  Otherwise, the listener's
+ * {@link NotificbtionListener#hbndleNotificbtion hbndleNotificbtion} method is cblled with
+ * the notificbtion, bs well bs the hbndbbck object thbt wbs provided to
+ * {@code bddNotificbtionListener}.</p>
  *
- * <p>If the same listener is added more than once, it is considered as many times as it was
- * added.  It is often useful to add the same listener with different filters or handback
+ * <p>If the sbme listener is bdded more thbn once, it is considered bs mbny times bs it wbs
+ * bdded.  It is often useful to bdd the sbme listener with different filters or hbndbbck
  * objects.</p>
  *
- * <p>Implementations of this interface can differ regarding the thread in which the methods
- * of filters and listeners are called.</p>
+ * <p>Implementbtions of this interfbce cbn differ regbrding the threbd in which the methods
+ * of filters bnd listeners bre cblled.</p>
  *
- * <p>If the method call of a filter or listener throws an {@link Exception}, then that
+ * <p>If the method cbll of b filter or listener throws bn {@link Exception}, then thbt
  * exception should not prevent other listeners from being invoked.  However, if the method
- * call throws an {@link Error}, then it is recommended that processing of the notification
- * stop at that point, and if it is possible to propagate the {@code Error} to the sender of
- * the notification, this should be done.</p>
+ * cbll throws bn {@link Error}, then it is recommended thbt processing of the notificbtion
+ * stop bt thbt point, bnd if it is possible to propbgbte the {@code Error} to the sender of
+ * the notificbtion, this should be done.</p>
  *
- * <p>This interface should be used by new code in preference to the
- * {@link NotificationBroadcaster} interface.</p>
+ * <p>This interfbce should be used by new code in preference to the
+ * {@link NotificbtionBrobdcbster} interfbce.</p>
  *
- * <p>Implementations of this interface and of {@code NotificationBroadcaster}
- * should be careful about synchronization.  In particular, it is not a good
- * idea for an implementation to hold any locks while it is calling a
- * listener.  To deal with the possibility that the list of listeners might
- * change while a notification is being dispatched, a good strategy is to
- * use a {@link CopyOnWriteArrayList} for this list.
+ * <p>Implementbtions of this interfbce bnd of {@code NotificbtionBrobdcbster}
+ * should be cbreful bbout synchronizbtion.  In pbrticulbr, it is not b good
+ * ideb for bn implementbtion to hold bny locks while it is cblling b
+ * listener.  To debl with the possibility thbt the list of listeners might
+ * chbnge while b notificbtion is being dispbtched, b good strbtegy is to
+ * use b {@link CopyOnWriteArrbyList} for this list.
  *
  * @since 1.5
  */
-public interface NotificationEmitter extends NotificationBroadcaster {
+public interfbce NotificbtionEmitter extends NotificbtionBrobdcbster {
     /**
-     * <p>Removes a listener from this MBean.  The MBean must have a
-     * listener that exactly matches the given <code>listener</code>,
-     * <code>filter</code>, and <code>handback</code> parameters.  If
-     * there is more than one such listener, only one is removed.</p>
+     * <p>Removes b listener from this MBebn.  The MBebn must hbve b
+     * listener thbt exbctly mbtches the given <code>listener</code>,
+     * <code>filter</code>, bnd <code>hbndbbck</code> pbrbmeters.  If
+     * there is more thbn one such listener, only one is removed.</p>
      *
-     * <p>The <code>filter</code> and <code>handback</code> parameters
-     * may be null if and only if they are null in a listener to be
+     * <p>The <code>filter</code> bnd <code>hbndbbck</code> pbrbmeters
+     * mby be null if bnd only if they bre null in b listener to be
      * removed.</p>
      *
-     * @param listener A listener that was previously added to this
-     * MBean.
-     * @param filter The filter that was specified when the listener
-     * was added.
-     * @param handback The handback that was specified when the listener was
-     * added.
+     * @pbrbm listener A listener thbt wbs previously bdded to this
+     * MBebn.
+     * @pbrbm filter The filter thbt wbs specified when the listener
+     * wbs bdded.
+     * @pbrbm hbndbbck The hbndbbck thbt wbs specified when the listener wbs
+     * bdded.
      *
      * @exception ListenerNotFoundException The listener is not
-     * registered with the MBean, or it is not registered with the
-     * given filter and handback.
+     * registered with the MBebn, or it is not registered with the
+     * given filter bnd hbndbbck.
      */
-    public void removeNotificationListener(NotificationListener listener,
-                                           NotificationFilter filter,
-                                           Object handback)
+    public void removeNotificbtionListener(NotificbtionListener listener,
+                                           NotificbtionFilter filter,
+                                           Object hbndbbck)
             throws ListenerNotFoundException;
 }

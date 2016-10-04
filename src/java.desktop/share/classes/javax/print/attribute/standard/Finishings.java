@@ -1,46 +1,46 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.print.attribute.standard;
+pbckbge jbvbx.print.bttribute.stbndbrd;
 
-import javax.print.attribute.Attribute;
-import javax.print.attribute.EnumSyntax;
-import javax.print.attribute.DocAttribute;
-import javax.print.attribute.PrintRequestAttribute;
-import javax.print.attribute.PrintJobAttribute;
+import jbvbx.print.bttribute.Attribute;
+import jbvbx.print.bttribute.EnumSyntbx;
+import jbvbx.print.bttribute.DocAttribute;
+import jbvbx.print.bttribute.PrintRequestAttribute;
+import jbvbx.print.bttribute.PrintJobAttribute;
 
 /**
- * Class Finishings is a printing attribute class, an enumeration, that
- * identifies whether the printer applies a finishing operation of some kind
- * of binding to each copy of each printed document in the job. For multidoc
+ * Clbss Finishings is b printing bttribute clbss, bn enumerbtion, thbt
+ * identifies whether the printer bpplies b finishing operbtion of some kind
+ * of binding to ebch copy of ebch printed document in the job. For multidoc
  * print jobs (jobs with multiple documents), the
- * {@link MultipleDocumentHandling
- * MultipleDocumentHandling} attribute determines what constitutes a "copy"
+ * {@link MultipleDocumentHbndling
+ * MultipleDocumentHbndling} bttribute determines whbt constitutes b "copy"
  * for purposes of finishing.
  * <P>
- * Standard Finishings values are:
- * <TABLE BORDER=0 CELLPADDING=0 CELLSPACING=0 WIDTH=100% SUMMARY="layout">
+ * Stbndbrd Finishings vblues bre:
+ * <TABLE BORDER=0 CELLPADDING=0 CELLSPACING=0 WIDTH=100% SUMMARY="lbyout">
  * <TR>
  * <TD STYLE="WIDTH:10%">
  * &nbsp;
@@ -74,9 +74,9 @@ import javax.print.attribute.PrintJobAttribute;
  * </TR>
  * </TABLE>
  * <P>
- * The following Finishings values are more specific; they indicate a
- * corner or an edge as if the document were a portrait document:
- * <TABLE BORDER=0 CELLPADDING=0 CELLSPACING=0 WIDTH=100% SUMMARY="layout">
+ * The following Finishings vblues bre more specific; they indicbte b
+ * corner or bn edge bs if the document were b portrbit document:
+ * <TABLE BORDER=0 CELLPADDING=0 CELLSPACING=0 WIDTH=100% SUMMARY="lbyout">
  * <TR>
  * <TD STYLE="WIDTH:10%">
  * &nbsp;
@@ -147,230 +147,230 @@ import javax.print.attribute.PrintJobAttribute;
  * </TR>
  * </TABLE>
  * <P>
- * The STAPLE_<I>XXX</I> values are specified with respect to the
- * document as if the document were a portrait document. If the document is
- * actually a landscape or a reverse-landscape document, the client supplies the
- * appropriate transformed value. For example, to position a staple in the upper
- * left hand corner of a landscape document when held for reading, the client
- * supplies the STAPLE_BOTTOM_LEFT value (since landscape is
- * defined as a +90 degree rotation from portrait, i.e., anti-clockwise). On the
- * other hand, to position a staple in the upper left hand corner of a
- * reverse-landscape document when held for reading, the client supplies the
- * STAPLE_TOP_RIGHT value (since reverse-landscape is defined as a
- * -90 degree rotation from portrait, i.e., clockwise).
+ * The STAPLE_<I>XXX</I> vblues bre specified with respect to the
+ * document bs if the document were b portrbit document. If the document is
+ * bctublly b lbndscbpe or b reverse-lbndscbpe document, the client supplies the
+ * bppropribte trbnsformed vblue. For exbmple, to position b stbple in the upper
+ * left hbnd corner of b lbndscbpe document when held for rebding, the client
+ * supplies the STAPLE_BOTTOM_LEFT vblue (since lbndscbpe is
+ * defined bs b +90 degree rotbtion from portrbit, i.e., bnti-clockwise). On the
+ * other hbnd, to position b stbple in the upper left hbnd corner of b
+ * reverse-lbndscbpe document when held for rebding, the client supplies the
+ * STAPLE_TOP_RIGHT vblue (since reverse-lbndscbpe is defined bs b
+ * -90 degree rotbtion from portrbit, i.e., clockwise).
  * <P>
- * The angle (vertical, horizontal, angled) of each staple with respect to the
- * document depends on the implementation which may in turn depend on the value
- * of the attribute.
+ * The bngle (verticbl, horizontbl, bngled) of ebch stbple with respect to the
+ * document depends on the implementbtion which mby in turn depend on the vblue
+ * of the bttribute.
  * <P>
- * The effect of a Finishings attribute on a multidoc print job (a job
- * with multiple documents) depends on whether all the docs have the same
- * binding specified or whether different docs have different bindings
- * specified, and on the (perhaps defaulted) value of the {@link
- * MultipleDocumentHandling MultipleDocumentHandling} attribute.
+ * The effect of b Finishings bttribute on b multidoc print job (b job
+ * with multiple documents) depends on whether bll the docs hbve the sbme
+ * binding specified or whether different docs hbve different bindings
+ * specified, bnd on the (perhbps defbulted) vblue of the {@link
+ * MultipleDocumentHbndling MultipleDocumentHbndling} bttribute.
  * <UL>
  * <LI>
- * If all the docs have the same binding specified, then any value of {@link
- * MultipleDocumentHandling MultipleDocumentHandling} makes sense, and the
- * printer's processing depends on the {@link MultipleDocumentHandling
- * MultipleDocumentHandling} value:
+ * If bll the docs hbve the sbme binding specified, then bny vblue of {@link
+ * MultipleDocumentHbndling MultipleDocumentHbndling} mbkes sense, bnd the
+ * printer's processing depends on the {@link MultipleDocumentHbndling
+ * MultipleDocumentHbndling} vblue:
  * <UL>
  * <LI>
- * SINGLE_DOCUMENT -- All the input docs will be bound together as one output
+ * SINGLE_DOCUMENT -- All the input docs will be bound together bs one output
  * document with the specified binding.
  *
  * <LI>
- * SINGLE_DOCUMENT_NEW_SHEET -- All the input docs will be bound together as one
- * output document with the specified binding, and the first impression of each
- * input doc will always start on a new media sheet.
+ * SINGLE_DOCUMENT_NEW_SHEET -- All the input docs will be bound together bs one
+ * output document with the specified binding, bnd the first impression of ebch
+ * input doc will blwbys stbrt on b new medib sheet.
  *
  * <LI>
- * SEPARATE_DOCUMENTS_UNCOLLATED_COPIES -- Each input doc will be bound
- * separately with the specified binding.
+ * SEPARATE_DOCUMENTS_UNCOLLATED_COPIES -- Ebch input doc will be bound
+ * sepbrbtely with the specified binding.
  *
  * <LI>
- * SEPARATE_DOCUMENTS_COLLATED_COPIES -- Each input doc will be bound separately
+ * SEPARATE_DOCUMENTS_COLLATED_COPIES -- Ebch input doc will be bound sepbrbtely
  * with the specified binding.
  * </UL>
  *
  * <LI>
- * If different docs have different bindings specified, then only two values of
- * {@link MultipleDocumentHandling MultipleDocumentHandling} make sense, and the
- * printer reports an error when the job is submitted if any other value is
+ * If different docs hbve different bindings specified, then only two vblues of
+ * {@link MultipleDocumentHbndling MultipleDocumentHbndling} mbke sense, bnd the
+ * printer reports bn error when the job is submitted if bny other vblue is
  * specified:
  * <UL>
  * <LI>
- * SEPARATE_DOCUMENTS_UNCOLLATED_COPIES -- Each input doc will be bound
- * separately with its own specified binding.
+ * SEPARATE_DOCUMENTS_UNCOLLATED_COPIES -- Ebch input doc will be bound
+ * sepbrbtely with its own specified binding.
  *
  * <LI>
- * SEPARATE_DOCUMENTS_COLLATED_COPIES -- Each input doc will be bound separately
+ * SEPARATE_DOCUMENTS_COLLATED_COPIES -- Ebch input doc will be bound sepbrbtely
  * with its own specified binding.
  * </UL>
  * </UL>
  * <P>
- * <B>IPP Compatibility:</B> Class Finishings encapsulates some of the
- * IPP enum values that can be included in an IPP "finishings" attribute, which
- * is a set of enums. The category name returned by
- * <CODE>getName()</CODE> is the IPP attribute name.  The enumeration's
- * integer value is the IPP enum value.  The <code>toString()</code> method
- * returns the IPP string representation of the attribute value.
- * In IPP Finishings is a multi-value attribute, this API currently allows
+ * <B>IPP Compbtibility:</B> Clbss Finishings encbpsulbtes some of the
+ * IPP enum vblues thbt cbn be included in bn IPP "finishings" bttribute, which
+ * is b set of enums. The cbtegory nbme returned by
+ * <CODE>getNbme()</CODE> is the IPP bttribute nbme.  The enumerbtion's
+ * integer vblue is the IPP enum vblue.  The <code>toString()</code> method
+ * returns the IPP string representbtion of the bttribute vblue.
+ * In IPP Finishings is b multi-vblue bttribute, this API currently bllows
  * only one binding to be specified.
  *
- * @author  Alan Kaminsky
+ * @buthor  Albn Kbminsky
  */
-public class Finishings extends EnumSyntax
+public clbss Finishings extends EnumSyntbx
     implements DocAttribute, PrintRequestAttribute, PrintJobAttribute {
 
-    private static final long serialVersionUID = -627840419548391754L;
+    privbte stbtic finbl long seriblVersionUID = -627840419548391754L;
 
     /**
      * Perform no binding.
      */
-    public static final Finishings NONE = new Finishings(3);
+    public stbtic finbl Finishings NONE = new Finishings(3);
 
     /**
-     * Bind the document(s) with one or more staples. The exact number and
-     * placement of the staples is site-defined.
+     * Bind the document(s) with one or more stbples. The exbct number bnd
+     * plbcement of the stbples is site-defined.
      */
-    public static final Finishings STAPLE = new Finishings(4);
+    public stbtic finbl Finishings STAPLE = new Finishings(4);
 
     /**
-     * This value is specified when it is desired to select a non-printed (or
-     * pre-printed) cover for the document. This does not supplant the
-     * specification of a printed cover (on cover stock medium) by the
+     * This vblue is specified when it is desired to select b non-printed (or
+     * pre-printed) cover for the document. This does not supplbnt the
+     * specificbtion of b printed cover (on cover stock medium) by the
      * document  itself.
      */
-    public static final Finishings COVER = new Finishings(6);
+    public stbtic finbl Finishings COVER = new Finishings(6);
 
     /**
-     * This value indicates that a binding is to be applied to the document;
-     * the type and placement of the binding is site-defined.
+     * This vblue indicbtes thbt b binding is to be bpplied to the document;
+     * the type bnd plbcement of the binding is site-defined.
      */
-    public static final Finishings BIND = new Finishings(7);
+    public stbtic finbl Finishings BIND = new Finishings(7);
 
     /**
-     * Bind the document(s) with one or more staples (wire stitches) along the
-     * middle fold. The exact number and placement of the staples and the
-     * middle fold is implementation- and/or site-defined.
+     * Bind the document(s) with one or more stbples (wire stitches) blong the
+     * middle fold. The exbct number bnd plbcement of the stbples bnd the
+     * middle fold is implementbtion- bnd/or site-defined.
      */
-    public static final Finishings SADDLE_STITCH =
+    public stbtic finbl Finishings SADDLE_STITCH =
         new Finishings(8);
 
     /**
-     * Bind the document(s) with one or more staples (wire stitches) along one
-     * edge. The exact number and placement of the staples is implementation-
-     * and/or site- defined.
+     * Bind the document(s) with one or more stbples (wire stitches) blong one
+     * edge. The exbct number bnd plbcement of the stbples is implementbtion-
+     * bnd/or site- defined.
      */
-    public static final Finishings EDGE_STITCH =
+    public stbtic finbl Finishings EDGE_STITCH =
         new Finishings(9);
 
     /**
-     * Bind the document(s) with one or more staples in the top left corner.
+     * Bind the document(s) with one or more stbples in the top left corner.
      */
-    public static final Finishings STAPLE_TOP_LEFT =
+    public stbtic finbl Finishings STAPLE_TOP_LEFT =
         new Finishings(20);
 
     /**
-     * Bind the document(s) with one or more staples in the bottom left
+     * Bind the document(s) with one or more stbples in the bottom left
      * corner.
      */
-    public static final Finishings STAPLE_BOTTOM_LEFT =
+    public stbtic finbl Finishings STAPLE_BOTTOM_LEFT =
         new Finishings(21);
 
     /**
-     * Bind the document(s) with one or more staples in the top right corner.
+     * Bind the document(s) with one or more stbples in the top right corner.
      */
-    public static final Finishings STAPLE_TOP_RIGHT =
+    public stbtic finbl Finishings STAPLE_TOP_RIGHT =
         new Finishings(22);
 
     /**
-     * Bind the document(s) with one or more staples in the bottom right
+     * Bind the document(s) with one or more stbples in the bottom right
      * corner.
      */
-    public static final Finishings STAPLE_BOTTOM_RIGHT =
+    public stbtic finbl Finishings STAPLE_BOTTOM_RIGHT =
         new Finishings(23);
 
     /**
-     * Bind the document(s) with one or more staples (wire stitches) along the
-     * left edge. The exact number and placement of the staples is
-     * implementation- and/or site-defined.
+     * Bind the document(s) with one or more stbples (wire stitches) blong the
+     * left edge. The exbct number bnd plbcement of the stbples is
+     * implementbtion- bnd/or site-defined.
      */
-    public static final Finishings EDGE_STITCH_LEFT =
+    public stbtic finbl Finishings EDGE_STITCH_LEFT =
         new Finishings(24);
 
     /**
-     * Bind the document(s) with one or more staples (wire stitches) along the
-     * top edge. The exact number and placement of the staples is
-     * implementation- and/or site-defined.
+     * Bind the document(s) with one or more stbples (wire stitches) blong the
+     * top edge. The exbct number bnd plbcement of the stbples is
+     * implementbtion- bnd/or site-defined.
      */
-    public static final Finishings EDGE_STITCH_TOP =
+    public stbtic finbl Finishings EDGE_STITCH_TOP =
         new Finishings(25);
 
     /**
-     * Bind the document(s) with one or more staples (wire stitches) along the
-     * right edge. The exact number and placement of the staples is
-     * implementation- and/or site-defined.
+     * Bind the document(s) with one or more stbples (wire stitches) blong the
+     * right edge. The exbct number bnd plbcement of the stbples is
+     * implementbtion- bnd/or site-defined.
      */
-    public static final Finishings EDGE_STITCH_RIGHT =
+    public stbtic finbl Finishings EDGE_STITCH_RIGHT =
         new Finishings(26);
 
     /**
-     * Bind the document(s) with one or more staples (wire stitches) along the
-     * bottom edge. The exact number and placement of the staples is
-     * implementation- and/or site-defined.
+     * Bind the document(s) with one or more stbples (wire stitches) blong the
+     * bottom edge. The exbct number bnd plbcement of the stbples is
+     * implementbtion- bnd/or site-defined.
      */
-    public static final Finishings EDGE_STITCH_BOTTOM =
+    public stbtic finbl Finishings EDGE_STITCH_BOTTOM =
         new Finishings(27);
 
     /**
-     * Bind the document(s) with two staples (wire stitches) along the left
-     * edge assuming a portrait document (see above).
+     * Bind the document(s) with two stbples (wire stitches) blong the left
+     * edge bssuming b portrbit document (see bbove).
      */
-    public static final Finishings STAPLE_DUAL_LEFT =
+    public stbtic finbl Finishings STAPLE_DUAL_LEFT =
         new Finishings(28);
 
     /**
-     * Bind the document(s) with two staples (wire stitches) along the top
-     * edge assuming a portrait document (see above).
+     * Bind the document(s) with two stbples (wire stitches) blong the top
+     * edge bssuming b portrbit document (see bbove).
      */
-    public static final Finishings STAPLE_DUAL_TOP =
+    public stbtic finbl Finishings STAPLE_DUAL_TOP =
         new Finishings(29);
 
     /**
-     * Bind the document(s) with two staples (wire stitches) along the right
-     * edge assuming a portrait document (see above).
+     * Bind the document(s) with two stbples (wire stitches) blong the right
+     * edge bssuming b portrbit document (see bbove).
      */
-    public static final Finishings STAPLE_DUAL_RIGHT =
+    public stbtic finbl Finishings STAPLE_DUAL_RIGHT =
         new Finishings(30);
 
     /**
-     * Bind the document(s) with two staples (wire stitches) along the bottom
-     * edge assuming a portrait document (see above).
+     * Bind the document(s) with two stbples (wire stitches) blong the bottom
+     * edge bssuming b portrbit document (see bbove).
      */
-    public static final Finishings STAPLE_DUAL_BOTTOM =
+    public stbtic finbl Finishings STAPLE_DUAL_BOTTOM =
         new Finishings(31);
 
     /**
-     * Construct a new finishings binding enumeration value with the given
-     * integer value.
+     * Construct b new finishings binding enumerbtion vblue with the given
+     * integer vblue.
      *
-     * @param  value  Integer value.
+     * @pbrbm  vblue  Integer vblue.
      */
-    protected Finishings(int value) {
-        super(value);
+    protected Finishings(int vblue) {
+        super(vblue);
     }
 
-    private static final String[] myStringTable =
+    privbte stbtic finbl String[] myStringTbble =
                 {"none",
-                 "staple",
+                 "stbple",
                  null,
                  "cover",
                  "bind",
-                 "saddle-stitch",
+                 "sbddle-stitch",
                  "edge-stitch",
-                 null, // The next ten enum values are reserved.
+                 null, // The next ten enum vblues bre reserved.
                  null,
                  null,
                  null,
@@ -380,21 +380,21 @@ public class Finishings extends EnumSyntax
                  null,
                  null,
                  null,
-                 "staple-top-left",
-                 "staple-bottom-left",
-                 "staple-top-right",
-                 "staple-bottom-right",
+                 "stbple-top-left",
+                 "stbple-bottom-left",
+                 "stbple-top-right",
+                 "stbple-bottom-right",
                  "edge-stitch-left",
                  "edge-stitch-top",
                  "edge-stitch-right",
                  "edge-stitch-bottom",
-                 "staple-dual-left",
-                 "staple-dual-top",
-                 "staple-dual-right",
-                 "staple-dual-bottom"
+                 "stbple-dubl-left",
+                 "stbple-dubl-top",
+                 "stbple-dubl-right",
+                 "stbple-dubl-bottom"
                 };
 
-    private static final Finishings[] myEnumValueTable =
+    privbte stbtic finbl Finishings[] myEnumVblueTbble =
                 {NONE,
                  STAPLE,
                  null,
@@ -402,7 +402,7 @@ public class Finishings extends EnumSyntax
                  BIND,
                  SADDLE_STITCH,
                  EDGE_STITCH,
-                 null, // The next ten enum values are reserved.
+                 null, // The next ten enum vblues bre reserved.
                  null,
                  null,
                  null,
@@ -427,50 +427,50 @@ public class Finishings extends EnumSyntax
                 };
 
     /**
-     * Returns the string table for class Finishings.
+     * Returns the string tbble for clbss Finishings.
      */
-    protected String[] getStringTable() {
-        return myStringTable.clone();
+    protected String[] getStringTbble() {
+        return myStringTbble.clone();
     }
 
     /**
-     * Returns the enumeration value table for class Finishings.
+     * Returns the enumerbtion vblue tbble for clbss Finishings.
      */
-    protected EnumSyntax[] getEnumValueTable() {
-        return (EnumSyntax[])myEnumValueTable.clone();
+    protected EnumSyntbx[] getEnumVblueTbble() {
+        return (EnumSyntbx[])myEnumVblueTbble.clone();
     }
 
     /**
-     * Returns the lowest integer value used by class Finishings.
+     * Returns the lowest integer vblue used by clbss Finishings.
      */
     protected int getOffset() {
         return 3;
     }
 
     /**
-     * Get the printing attribute class which is to be used as the "category"
-     * for this printing attribute value.
+     * Get the printing bttribute clbss which is to be used bs the "cbtegory"
+     * for this printing bttribute vblue.
      * <P>
-     * For class Finishings and any vendor-defined subclasses, the
-     * category is class Finishings itself.
+     * For clbss Finishings bnd bny vendor-defined subclbsses, the
+     * cbtegory is clbss Finishings itself.
      *
-     * @return  Printing attribute class (category), an instance of class
-     *          {@link java.lang.Class java.lang.Class}.
+     * @return  Printing bttribute clbss (cbtegory), bn instbnce of clbss
+     *          {@link jbvb.lbng.Clbss jbvb.lbng.Clbss}.
      */
-    public final Class<? extends Attribute> getCategory() {
-        return Finishings.class;
+    public finbl Clbss<? extends Attribute> getCbtegory() {
+        return Finishings.clbss;
     }
 
     /**
-     * Get the name of the category of which this attribute value is an
-     * instance.
+     * Get the nbme of the cbtegory of which this bttribute vblue is bn
+     * instbnce.
      * <P>
-     * For class Finishings and any vendor-defined subclasses, the
-     * category name is <CODE>"finishings"</CODE>.
+     * For clbss Finishings bnd bny vendor-defined subclbsses, the
+     * cbtegory nbme is <CODE>"finishings"</CODE>.
      *
-     * @return  Attribute category name.
+     * @return  Attribute cbtegory nbme.
      */
-    public final String getName() {
+    public finbl String getNbme() {
         return "finishings";
     }
 

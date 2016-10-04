@@ -1,119 +1,119 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.security.auth.module;
+pbckbge com.sun.security.buth.module;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.security.*;
-import java.security.cert.*;
-import java.security.cert.Certificate;
-import java.security.cert.X509Certificate;
-import java.util.*;
-import javax.security.auth.Destroyable;
-import javax.security.auth.DestroyFailedException;
-import javax.security.auth.Subject;
-import javax.security.auth.x500.*;
-import javax.security.auth.callback.Callback;
-import javax.security.auth.callback.CallbackHandler;
-import javax.security.auth.callback.ConfirmationCallback;
-import javax.security.auth.callback.NameCallback;
-import javax.security.auth.callback.PasswordCallback;
-import javax.security.auth.callback.TextOutputCallback;
-import javax.security.auth.callback.UnsupportedCallbackException;
-import javax.security.auth.login.FailedLoginException;
-import javax.security.auth.login.LoginException;
-import javax.security.auth.spi.LoginModule;
+import jbvb.io.File;
+import jbvb.io.IOException;
+import jbvb.io.InputStrebm;
+import jbvb.net.MblformedURLException;
+import jbvb.net.URL;
+import jbvb.security.*;
+import jbvb.security.cert.*;
+import jbvb.security.cert.Certificbte;
+import jbvb.security.cert.X509Certificbte;
+import jbvb.util.*;
+import jbvbx.security.buth.Destroybble;
+import jbvbx.security.buth.DestroyFbiledException;
+import jbvbx.security.buth.Subject;
+import jbvbx.security.buth.x500.*;
+import jbvbx.security.buth.cbllbbck.Cbllbbck;
+import jbvbx.security.buth.cbllbbck.CbllbbckHbndler;
+import jbvbx.security.buth.cbllbbck.ConfirmbtionCbllbbck;
+import jbvbx.security.buth.cbllbbck.NbmeCbllbbck;
+import jbvbx.security.buth.cbllbbck.PbsswordCbllbbck;
+import jbvbx.security.buth.cbllbbck.TextOutputCbllbbck;
+import jbvbx.security.buth.cbllbbck.UnsupportedCbllbbckException;
+import jbvbx.security.buth.login.FbiledLoginException;
+import jbvbx.security.buth.login.LoginException;
+import jbvbx.security.buth.spi.LoginModule;
 
-import sun.security.util.Password;
+import sun.security.util.Pbssword;
 
 /**
- * Provides a JAAS login module that prompts for a key store alias and
- * populates the subject with the alias's principal and credentials. Stores
- * an <code>X500Principal</code> for the subject distinguished name of the
- * first certificate in the alias's credentials in the subject's principals,
- * the alias's certificate path in the subject's public credentials, and a
- * <code>X500PrivateCredential</code> whose certificate is the first
- * certificate in the alias's certificate path and whose private key is the
- * alias's private key in the subject's private credentials. <p>
+ * Provides b JAAS login module thbt prompts for b key store blibs bnd
+ * populbtes the subject with the blibs's principbl bnd credentibls. Stores
+ * bn <code>X500Principbl</code> for the subject distinguished nbme of the
+ * first certificbte in the blibs's credentibls in the subject's principbls,
+ * the blibs's certificbte pbth in the subject's public credentibls, bnd b
+ * <code>X500PrivbteCredentibl</code> whose certificbte is the first
+ * certificbte in the blibs's certificbte pbth bnd whose privbte key is the
+ * blibs's privbte key in the subject's privbte credentibls. <p>
  *
- * Recognizes the following options in the configuration file:
+ * Recognizes the following options in the configurbtion file:
  * <dl>
  *
  * <dt> <code>keyStoreURL</code> </dt>
- * <dd> A URL that specifies the location of the key store.  Defaults to
- *      a URL pointing to the .keystore file in the directory specified by the
- *      <code>user.home</code> system property.  The input stream from this
- *      URL is passed to the <code>KeyStore.load</code> method.
- *      "NONE" may be specified if a <code>null</code> stream must be
- *      passed to the <code>KeyStore.load</code> method.
+ * <dd> A URL thbt specifies the locbtion of the key store.  Defbults to
+ *      b URL pointing to the .keystore file in the directory specified by the
+ *      <code>user.home</code> system property.  The input strebm from this
+ *      URL is pbssed to the <code>KeyStore.lobd</code> method.
+ *      "NONE" mby be specified if b <code>null</code> strebm must be
+ *      pbssed to the <code>KeyStore.lobd</code> method.
  *      "NONE" should be specified if the KeyStore resides
- *      on a hardware token device, for example.</dd>
+ *      on b hbrdwbre token device, for exbmple.</dd>
  *
  * <dt> <code>keyStoreType</code> </dt>
- * <dd> The key store type.  If not specified, defaults to the result of
- *      calling <code>KeyStore.getDefaultType()</code>.
+ * <dd> The key store type.  If not specified, defbults to the result of
+ *      cblling <code>KeyStore.getDefbultType()</code>.
  *      If the type is "PKCS11", then keyStoreURL must be "NONE"
- *      and privateKeyPasswordURL must not be specified.</dd>
+ *      bnd privbteKeyPbsswordURL must not be specified.</dd>
  *
  * <dt> <code>keyStoreProvider</code> </dt>
- * <dd> The key store provider.  If not specified, uses the standard search
+ * <dd> The key store provider.  If not specified, uses the stbndbrd sebrch
  *      order to find the provider. </dd>
  *
- * <dt> <code>keyStoreAlias</code> </dt>
- * <dd> The alias in the key store to login as.  Required when no callback
- *      handler is provided.  No default value. </dd>
+ * <dt> <code>keyStoreAlibs</code> </dt>
+ * <dd> The blibs in the key store to login bs.  Required when no cbllbbck
+ *      hbndler is provided.  No defbult vblue. </dd>
  *
- * <dt> <code>keyStorePasswordURL</code> </dt>
- * <dd> A URL that specifies the location of the key store password.  Required
- *      when no callback handler is provided and
- *      <code>protected</code> is false.
- *      No default value. </dd>
+ * <dt> <code>keyStorePbsswordURL</code> </dt>
+ * <dd> A URL thbt specifies the locbtion of the key store pbssword.  Required
+ *      when no cbllbbck hbndler is provided bnd
+ *      <code>protected</code> is fblse.
+ *      No defbult vblue. </dd>
  *
- * <dt> <code>privateKeyPasswordURL</code> </dt>
- * <dd> A URL that specifies the location of the specific private key password
- *      needed to access the private key for this alias.
- *      The keystore password
- *      is used if this value is needed and not specified. </dd>
+ * <dt> <code>privbteKeyPbsswordURL</code> </dt>
+ * <dd> A URL thbt specifies the locbtion of the specific privbte key pbssword
+ *      needed to bccess the privbte key for this blibs.
+ *      The keystore pbssword
+ *      is used if this vblue is needed bnd not specified. </dd>
  *
  * <dt> <code>protected</code> </dt>
- * <dd> This value should be set to "true" if the KeyStore
- *      has a separate, protected authentication path
- *      (for example, a dedicated PIN-pad attached to a smart card).
- *      Defaults to "false". If "true" keyStorePasswordURL and
- *      privateKeyPasswordURL must not be specified.</dd>
+ * <dd> This vblue should be set to "true" if the KeyStore
+ *      hbs b sepbrbte, protected buthenticbtion pbth
+ *      (for exbmple, b dedicbted PIN-pbd bttbched to b smbrt cbrd).
+ *      Defbults to "fblse". If "true" keyStorePbsswordURL bnd
+ *      privbteKeyPbsswordURL must not be specified.</dd>
  *
  * </dl>
  */
 @jdk.Exported
-public class KeyStoreLoginModule implements LoginModule {
+public clbss KeyStoreLoginModule implements LoginModule {
 
-    private static final ResourceBundle rb = AccessController.doPrivileged(
+    privbte stbtic finbl ResourceBundle rb = AccessController.doPrivileged(
             new PrivilegedAction<ResourceBundle>() {
                 public ResourceBundle run() {
                     return ResourceBundle.getBundle(
@@ -124,328 +124,328 @@ public class KeyStoreLoginModule implements LoginModule {
 
     /* -- Fields -- */
 
-    private static final int UNINITIALIZED = 0;
-    private static final int INITIALIZED = 1;
-    private static final int AUTHENTICATED = 2;
-    private static final int LOGGED_IN = 3;
+    privbte stbtic finbl int UNINITIALIZED = 0;
+    privbte stbtic finbl int INITIALIZED = 1;
+    privbte stbtic finbl int AUTHENTICATED = 2;
+    privbte stbtic finbl int LOGGED_IN = 3;
 
-    private static final int PROTECTED_PATH = 0;
-    private static final int TOKEN = 1;
-    private static final int NORMAL = 2;
+    privbte stbtic finbl int PROTECTED_PATH = 0;
+    privbte stbtic finbl int TOKEN = 1;
+    privbte stbtic finbl int NORMAL = 2;
 
-    private static final String NONE = "NONE";
-    private static final String P11KEYSTORE = "PKCS11";
+    privbte stbtic finbl String NONE = "NONE";
+    privbte stbtic finbl String P11KEYSTORE = "PKCS11";
 
-    private static final TextOutputCallback bannerCallback =
-                new TextOutputCallback
-                        (TextOutputCallback.INFORMATION,
-                        rb.getString("Please.enter.keystore.information"));
-    private final ConfirmationCallback confirmationCallback =
-                new ConfirmationCallback
-                        (ConfirmationCallback.INFORMATION,
-                        ConfirmationCallback.OK_CANCEL_OPTION,
-                        ConfirmationCallback.OK);
+    privbte stbtic finbl TextOutputCbllbbck bbnnerCbllbbck =
+                new TextOutputCbllbbck
+                        (TextOutputCbllbbck.INFORMATION,
+                        rb.getString("Plebse.enter.keystore.informbtion"));
+    privbte finbl ConfirmbtionCbllbbck confirmbtionCbllbbck =
+                new ConfirmbtionCbllbbck
+                        (ConfirmbtionCbllbbck.INFORMATION,
+                        ConfirmbtionCbllbbck.OK_CANCEL_OPTION,
+                        ConfirmbtionCbllbbck.OK);
 
-    private Subject subject;
-    private CallbackHandler callbackHandler;
-    private Map<String, Object> sharedState;
-    private Map<String, ?> options;
+    privbte Subject subject;
+    privbte CbllbbckHbndler cbllbbckHbndler;
+    privbte Mbp<String, Object> shbredStbte;
+    privbte Mbp<String, ?> options;
 
-    private char[] keyStorePassword;
-    private char[] privateKeyPassword;
-    private KeyStore keyStore;
+    privbte chbr[] keyStorePbssword;
+    privbte chbr[] privbteKeyPbssword;
+    privbte KeyStore keyStore;
 
-    private String keyStoreURL;
-    private String keyStoreType;
-    private String keyStoreProvider;
-    private String keyStoreAlias;
-    private String keyStorePasswordURL;
-    private String privateKeyPasswordURL;
-    private boolean debug;
-    private javax.security.auth.x500.X500Principal principal;
-    private Certificate[] fromKeyStore;
-    private java.security.cert.CertPath certP = null;
-    private X500PrivateCredential privateCredential;
-    private int status = UNINITIALIZED;
-    private boolean nullStream = false;
-    private boolean token = false;
-    private boolean protectedPath = false;
+    privbte String keyStoreURL;
+    privbte String keyStoreType;
+    privbte String keyStoreProvider;
+    privbte String keyStoreAlibs;
+    privbte String keyStorePbsswordURL;
+    privbte String privbteKeyPbsswordURL;
+    privbte boolebn debug;
+    privbte jbvbx.security.buth.x500.X500Principbl principbl;
+    privbte Certificbte[] fromKeyStore;
+    privbte jbvb.security.cert.CertPbth certP = null;
+    privbte X500PrivbteCredentibl privbteCredentibl;
+    privbte int stbtus = UNINITIALIZED;
+    privbte boolebn nullStrebm = fblse;
+    privbte boolebn token = fblse;
+    privbte boolebn protectedPbth = fblse;
 
     /* -- Methods -- */
 
     /**
-     * Initialize this <code>LoginModule</code>.
+     * Initiblize this <code>LoginModule</code>.
      *
      * <p>
      *
-     * @param subject the <code>Subject</code> to be authenticated. <p>
+     * @pbrbm subject the <code>Subject</code> to be buthenticbted. <p>
      *
-     * @param callbackHandler a <code>CallbackHandler</code> for communicating
-     *                  with the end user (prompting for usernames and
-     *                  passwords, for example),
-     *                  which may be <code>null</code>. <p>
+     * @pbrbm cbllbbckHbndler b <code>CbllbbckHbndler</code> for communicbting
+     *                  with the end user (prompting for usernbmes bnd
+     *                  pbsswords, for exbmple),
+     *                  which mby be <code>null</code>. <p>
      *
-     * @param sharedState shared <code>LoginModule</code> state. <p>
+     * @pbrbm shbredStbte shbred <code>LoginModule</code> stbte. <p>
      *
-     * @param options options specified in the login
-     *                  <code>Configuration</code> for this particular
+     * @pbrbm options options specified in the login
+     *                  <code>Configurbtion</code> for this pbrticulbr
      *                  <code>LoginModule</code>.
      */
-    // Unchecked warning from (Map<String, Object>)sharedState is safe
-    // since javax.security.auth.login.LoginContext passes a raw HashMap.
-    @SuppressWarnings("unchecked")
-    public void initialize(Subject subject,
-                           CallbackHandler callbackHandler,
-                           Map<String,?> sharedState,
-                           Map<String,?> options)
+    // Unchecked wbrning from (Mbp<String, Object>)shbredStbte is sbfe
+    // since jbvbx.security.buth.login.LoginContext pbsses b rbw HbshMbp.
+    @SuppressWbrnings("unchecked")
+    public void initiblize(Subject subject,
+                           CbllbbckHbndler cbllbbckHbndler,
+                           Mbp<String,?> shbredStbte,
+                           Mbp<String,?> options)
     {
         this.subject = subject;
-        this.callbackHandler = callbackHandler;
-        this.sharedState = (Map<String, Object>)sharedState;
+        this.cbllbbckHbndler = cbllbbckHbndler;
+        this.shbredStbte = (Mbp<String, Object>)shbredStbte;
         this.options = options;
 
         processOptions();
-        status = INITIALIZED;
+        stbtus = INITIALIZED;
     }
 
-    private void processOptions() {
+    privbte void processOptions() {
         keyStoreURL = (String) options.get("keyStoreURL");
         if (keyStoreURL == null) {
             keyStoreURL =
                 "file:" +
-                System.getProperty("user.home").replace(
-                    File.separatorChar, '/') +
+                System.getProperty("user.home").replbce(
+                    File.sepbrbtorChbr, '/') +
                 '/' + ".keystore";
-        } else if (NONE.equals(keyStoreURL)) {
-            nullStream = true;
+        } else if (NONE.equbls(keyStoreURL)) {
+            nullStrebm = true;
         }
         keyStoreType = (String) options.get("keyStoreType");
         if (keyStoreType == null) {
-            keyStoreType = KeyStore.getDefaultType();
+            keyStoreType = KeyStore.getDefbultType();
         }
-        if (P11KEYSTORE.equalsIgnoreCase(keyStoreType)) {
+        if (P11KEYSTORE.equblsIgnoreCbse(keyStoreType)) {
             token = true;
         }
 
         keyStoreProvider = (String) options.get("keyStoreProvider");
 
-        keyStoreAlias = (String) options.get("keyStoreAlias");
+        keyStoreAlibs = (String) options.get("keyStoreAlibs");
 
-        keyStorePasswordURL = (String) options.get("keyStorePasswordURL");
+        keyStorePbsswordURL = (String) options.get("keyStorePbsswordURL");
 
-        privateKeyPasswordURL = (String) options.get("privateKeyPasswordURL");
+        privbteKeyPbsswordURL = (String) options.get("privbteKeyPbsswordURL");
 
-        protectedPath = "true".equalsIgnoreCase((String)options.get
+        protectedPbth = "true".equblsIgnoreCbse((String)options.get
                                         ("protected"));
 
-        debug = "true".equalsIgnoreCase((String) options.get("debug"));
+        debug = "true".equblsIgnoreCbse((String) options.get("debug"));
         if (debug) {
             debugPrint(null);
             debugPrint("keyStoreURL=" + keyStoreURL);
             debugPrint("keyStoreType=" + keyStoreType);
             debugPrint("keyStoreProvider=" + keyStoreProvider);
-            debugPrint("keyStoreAlias=" + keyStoreAlias);
-            debugPrint("keyStorePasswordURL=" + keyStorePasswordURL);
-            debugPrint("privateKeyPasswordURL=" + privateKeyPasswordURL);
-            debugPrint("protectedPath=" + protectedPath);
+            debugPrint("keyStoreAlibs=" + keyStoreAlibs);
+            debugPrint("keyStorePbsswordURL=" + keyStorePbsswordURL);
+            debugPrint("privbteKeyPbsswordURL=" + privbteKeyPbsswordURL);
+            debugPrint("protectedPbth=" + protectedPbth);
             debugPrint(null);
         }
     }
 
     /**
-     * Authenticate the user.
+     * Authenticbte the user.
      *
-     * <p> Get the Keystore alias and relevant passwords.
-     * Retrieve the alias's principal and credentials from the Keystore.
+     * <p> Get the Keystore blibs bnd relevbnt pbsswords.
+     * Retrieve the blibs's principbl bnd credentibls from the Keystore.
      *
      * <p>
      *
-     * @exception FailedLoginException if the authentication fails. <p>
+     * @exception FbiledLoginException if the buthenticbtion fbils. <p>
      *
-     * @return true in all cases (this <code>LoginModule</code>
+     * @return true in bll cbses (this <code>LoginModule</code>
      *          should not be ignored).
      */
 
-    public boolean login() throws LoginException {
-        switch (status) {
-        case UNINITIALIZED:
-        default:
-            throw new LoginException("The login module is not initialized");
-        case INITIALIZED:
-        case AUTHENTICATED:
+    public boolebn login() throws LoginException {
+        switch (stbtus) {
+        cbse UNINITIALIZED:
+        defbult:
+            throw new LoginException("The login module is not initiblized");
+        cbse INITIALIZED:
+        cbse AUTHENTICATED:
 
-            if (token && !nullStream) {
+            if (token && !nullStrebm) {
                 throw new LoginException
                         ("if keyStoreType is " + P11KEYSTORE +
                         " then keyStoreURL must be " + NONE);
             }
 
-            if (token && privateKeyPasswordURL != null) {
+            if (token && privbteKeyPbsswordURL != null) {
                 throw new LoginException
                         ("if keyStoreType is " + P11KEYSTORE +
-                        " then privateKeyPasswordURL must not be specified");
+                        " then privbteKeyPbsswordURL must not be specified");
             }
 
-            if (protectedPath &&
-                (keyStorePasswordURL != null ||
-                        privateKeyPasswordURL != null)) {
+            if (protectedPbth &&
+                (keyStorePbsswordURL != null ||
+                        privbteKeyPbsswordURL != null)) {
                 throw new LoginException
-                        ("if protected is true then keyStorePasswordURL and " +
-                        "privateKeyPasswordURL must not be specified");
+                        ("if protected is true then keyStorePbsswordURL bnd " +
+                        "privbteKeyPbsswordURL must not be specified");
             }
 
-            // get relevant alias and password info
+            // get relevbnt blibs bnd pbssword info
 
-            if (protectedPath) {
-                getAliasAndPasswords(PROTECTED_PATH);
+            if (protectedPbth) {
+                getAlibsAndPbsswords(PROTECTED_PATH);
             } else if (token) {
-                getAliasAndPasswords(TOKEN);
+                getAlibsAndPbsswords(TOKEN);
             } else {
-                getAliasAndPasswords(NORMAL);
+                getAlibsAndPbsswords(NORMAL);
             }
 
-            // log into KeyStore to retrieve data,
-            // then clear passwords
+            // log into KeyStore to retrieve dbtb,
+            // then clebr pbsswords
 
             try {
                 getKeyStoreInfo();
-            } finally {
-                if (privateKeyPassword != null &&
-                    privateKeyPassword != keyStorePassword) {
-                    Arrays.fill(privateKeyPassword, '\0');
-                    privateKeyPassword = null;
+            } finblly {
+                if (privbteKeyPbssword != null &&
+                    privbteKeyPbssword != keyStorePbssword) {
+                    Arrbys.fill(privbteKeyPbssword, '\0');
+                    privbteKeyPbssword = null;
                 }
-                if (keyStorePassword != null) {
-                    Arrays.fill(keyStorePassword, '\0');
-                    keyStorePassword = null;
+                if (keyStorePbssword != null) {
+                    Arrbys.fill(keyStorePbssword, '\0');
+                    keyStorePbssword = null;
                 }
             }
-            status = AUTHENTICATED;
+            stbtus = AUTHENTICATED;
             return true;
-        case LOGGED_IN:
+        cbse LOGGED_IN:
             return true;
         }
     }
 
-    /** Get the alias and passwords to use for looking up in the KeyStore. */
-    @SuppressWarnings("fallthrough")
-    private void getAliasAndPasswords(int env) throws LoginException {
-        if (callbackHandler == null) {
+    /** Get the blibs bnd pbsswords to use for looking up in the KeyStore. */
+    @SuppressWbrnings("fbllthrough")
+    privbte void getAlibsAndPbsswords(int env) throws LoginException {
+        if (cbllbbckHbndler == null) {
 
-            // No callback handler - check for alias and password options
+            // No cbllbbck hbndler - check for blibs bnd pbssword options
 
             switch (env) {
-            case PROTECTED_PATH:
-                checkAlias();
-                break;
-            case TOKEN:
-                checkAlias();
-                checkStorePass();
-                break;
-            case NORMAL:
-                checkAlias();
-                checkStorePass();
-                checkKeyPass();
-                break;
+            cbse PROTECTED_PATH:
+                checkAlibs();
+                brebk;
+            cbse TOKEN:
+                checkAlibs();
+                checkStorePbss();
+                brebk;
+            cbse NORMAL:
+                checkAlibs();
+                checkStorePbss();
+                checkKeyPbss();
+                brebk;
             }
 
         } else {
 
-            // Callback handler available - prompt for alias and passwords
+            // Cbllbbck hbndler bvbilbble - prompt for blibs bnd pbsswords
 
-            NameCallback aliasCallback;
-            if (keyStoreAlias == null || keyStoreAlias.length() == 0) {
-                aliasCallback = new NameCallback(
-                                        rb.getString("Keystore.alias."));
+            NbmeCbllbbck blibsCbllbbck;
+            if (keyStoreAlibs == null || keyStoreAlibs.length() == 0) {
+                blibsCbllbbck = new NbmeCbllbbck(
+                                        rb.getString("Keystore.blibs."));
             } else {
-                aliasCallback =
-                    new NameCallback(rb.getString("Keystore.alias."),
-                                     keyStoreAlias);
+                blibsCbllbbck =
+                    new NbmeCbllbbck(rb.getString("Keystore.blibs."),
+                                     keyStoreAlibs);
             }
 
-            PasswordCallback storePassCallback = null;
-            PasswordCallback keyPassCallback = null;
+            PbsswordCbllbbck storePbssCbllbbck = null;
+            PbsswordCbllbbck keyPbssCbllbbck = null;
 
             switch (env) {
-            case PROTECTED_PATH:
-                break;
-            case NORMAL:
-                keyPassCallback = new PasswordCallback
-                    (rb.getString("Private.key.password.optional."), false);
-                // fall thru
-            case TOKEN:
-                storePassCallback = new PasswordCallback
-                    (rb.getString("Keystore.password."), false);
-                break;
+            cbse PROTECTED_PATH:
+                brebk;
+            cbse NORMAL:
+                keyPbssCbllbbck = new PbsswordCbllbbck
+                    (rb.getString("Privbte.key.pbssword.optionbl."), fblse);
+                // fbll thru
+            cbse TOKEN:
+                storePbssCbllbbck = new PbsswordCbllbbck
+                    (rb.getString("Keystore.pbssword."), fblse);
+                brebk;
             }
-            prompt(aliasCallback, storePassCallback, keyPassCallback);
+            prompt(blibsCbllbbck, storePbssCbllbbck, keyPbssCbllbbck);
         }
 
         if (debug) {
-            debugPrint("alias=" + keyStoreAlias);
+            debugPrint("blibs=" + keyStoreAlibs);
         }
     }
 
-    private void checkAlias() throws LoginException {
-        if (keyStoreAlias == null) {
+    privbte void checkAlibs() throws LoginException {
+        if (keyStoreAlibs == null) {
             throw new LoginException
-                ("Need to specify an alias option to use " +
-                "KeyStoreLoginModule non-interactively.");
+                ("Need to specify bn blibs option to use " +
+                "KeyStoreLoginModule non-interbctively.");
         }
     }
 
-    private void checkStorePass() throws LoginException {
-        if (keyStorePasswordURL == null) {
+    privbte void checkStorePbss() throws LoginException {
+        if (keyStorePbsswordURL == null) {
             throw new LoginException
-                ("Need to specify keyStorePasswordURL option to use " +
-                "KeyStoreLoginModule non-interactively.");
+                ("Need to specify keyStorePbsswordURL option to use " +
+                "KeyStoreLoginModule non-interbctively.");
         }
-        InputStream in = null;
+        InputStrebm in = null;
         try {
-            in = new URL(keyStorePasswordURL).openStream();
-            keyStorePassword = Password.readPassword(in);
-        } catch (IOException e) {
+            in = new URL(keyStorePbsswordURL).openStrebm();
+            keyStorePbssword = Pbssword.rebdPbssword(in);
+        } cbtch (IOException e) {
             LoginException le = new LoginException
-                ("Problem accessing keystore password \"" +
-                keyStorePasswordURL + "\"");
-            le.initCause(e);
+                ("Problem bccessing keystore pbssword \"" +
+                keyStorePbsswordURL + "\"");
+            le.initCbuse(e);
             throw le;
-        } finally {
+        } finblly {
             if (in != null) {
                 try {
                     in.close();
-                } catch (IOException ioe) {
+                } cbtch (IOException ioe) {
                     LoginException le = new LoginException(
-                        "Problem closing the keystore password stream");
-                    le.initCause(ioe);
+                        "Problem closing the keystore pbssword strebm");
+                    le.initCbuse(ioe);
                     throw le;
                 }
             }
         }
     }
 
-    private void checkKeyPass() throws LoginException {
-        if (privateKeyPasswordURL == null) {
-            privateKeyPassword = keyStorePassword;
+    privbte void checkKeyPbss() throws LoginException {
+        if (privbteKeyPbsswordURL == null) {
+            privbteKeyPbssword = keyStorePbssword;
         } else {
-            InputStream in = null;
+            InputStrebm in = null;
             try {
-                in = new URL(privateKeyPasswordURL).openStream();
-                privateKeyPassword = Password.readPassword(in);
-            } catch (IOException e) {
+                in = new URL(privbteKeyPbsswordURL).openStrebm();
+                privbteKeyPbssword = Pbssword.rebdPbssword(in);
+            } cbtch (IOException e) {
                 LoginException le = new LoginException
-                        ("Problem accessing private key password \"" +
-                        privateKeyPasswordURL + "\"");
-                le.initCause(e);
+                        ("Problem bccessing privbte key pbssword \"" +
+                        privbteKeyPbsswordURL + "\"");
+                le.initCbuse(e);
                 throw le;
-            } finally {
+            } finblly {
                 if (in != null) {
                     try {
                         in.close();
-                    } catch (IOException ioe) {
+                    } cbtch (IOException ioe) {
                         LoginException le = new LoginException(
-                            "Problem closing the private key password stream");
-                        le.initCause(ioe);
+                            "Problem closing the privbte key pbssword strebm");
+                        le.initCbuse(ioe);
                         throw le;
                     }
                 }
@@ -453,487 +453,487 @@ public class KeyStoreLoginModule implements LoginModule {
         }
     }
 
-    private void prompt(NameCallback aliasCallback,
-                        PasswordCallback storePassCallback,
-                        PasswordCallback keyPassCallback)
+    privbte void prompt(NbmeCbllbbck blibsCbllbbck,
+                        PbsswordCbllbbck storePbssCbllbbck,
+                        PbsswordCbllbbck keyPbssCbllbbck)
                 throws LoginException {
 
-        if (storePassCallback == null) {
+        if (storePbssCbllbbck == null) {
 
-            // only prompt for alias
-
-            try {
-                callbackHandler.handle(
-                    new Callback[] {
-                        bannerCallback, aliasCallback, confirmationCallback
-                    });
-            } catch (IOException e) {
-                LoginException le = new LoginException
-                        ("Problem retrieving keystore alias");
-                le.initCause(e);
-                throw le;
-            } catch (UnsupportedCallbackException e) {
-                throw new LoginException(
-                    "Error: " + e.getCallback().toString() +
-                    " is not available to retrieve authentication " +
-                    " information from the user");
-            }
-
-            int confirmationResult = confirmationCallback.getSelectedIndex();
-
-            if (confirmationResult == ConfirmationCallback.CANCEL) {
-                throw new LoginException("Login cancelled");
-            }
-
-            saveAlias(aliasCallback);
-
-        } else if (keyPassCallback == null) {
-
-            // prompt for alias and key store password
+            // only prompt for blibs
 
             try {
-                callbackHandler.handle(
-                    new Callback[] {
-                        bannerCallback, aliasCallback,
-                        storePassCallback, confirmationCallback
+                cbllbbckHbndler.hbndle(
+                    new Cbllbbck[] {
+                        bbnnerCbllbbck, blibsCbllbbck, confirmbtionCbllbbck
                     });
-            } catch (IOException e) {
+            } cbtch (IOException e) {
                 LoginException le = new LoginException
-                        ("Problem retrieving keystore alias and password");
-                le.initCause(e);
+                        ("Problem retrieving keystore blibs");
+                le.initCbuse(e);
                 throw le;
-            } catch (UnsupportedCallbackException e) {
+            } cbtch (UnsupportedCbllbbckException e) {
                 throw new LoginException(
-                    "Error: " + e.getCallback().toString() +
-                    " is not available to retrieve authentication " +
-                    " information from the user");
+                    "Error: " + e.getCbllbbck().toString() +
+                    " is not bvbilbble to retrieve buthenticbtion " +
+                    " informbtion from the user");
             }
 
-            int confirmationResult = confirmationCallback.getSelectedIndex();
+            int confirmbtionResult = confirmbtionCbllbbck.getSelectedIndex();
 
-            if (confirmationResult == ConfirmationCallback.CANCEL) {
-                throw new LoginException("Login cancelled");
+            if (confirmbtionResult == ConfirmbtionCbllbbck.CANCEL) {
+                throw new LoginException("Login cbncelled");
             }
 
-            saveAlias(aliasCallback);
-            saveStorePass(storePassCallback);
+            sbveAlibs(blibsCbllbbck);
+
+        } else if (keyPbssCbllbbck == null) {
+
+            // prompt for blibs bnd key store pbssword
+
+            try {
+                cbllbbckHbndler.hbndle(
+                    new Cbllbbck[] {
+                        bbnnerCbllbbck, blibsCbllbbck,
+                        storePbssCbllbbck, confirmbtionCbllbbck
+                    });
+            } cbtch (IOException e) {
+                LoginException le = new LoginException
+                        ("Problem retrieving keystore blibs bnd pbssword");
+                le.initCbuse(e);
+                throw le;
+            } cbtch (UnsupportedCbllbbckException e) {
+                throw new LoginException(
+                    "Error: " + e.getCbllbbck().toString() +
+                    " is not bvbilbble to retrieve buthenticbtion " +
+                    " informbtion from the user");
+            }
+
+            int confirmbtionResult = confirmbtionCbllbbck.getSelectedIndex();
+
+            if (confirmbtionResult == ConfirmbtionCbllbbck.CANCEL) {
+                throw new LoginException("Login cbncelled");
+            }
+
+            sbveAlibs(blibsCbllbbck);
+            sbveStorePbss(storePbssCbllbbck);
 
         } else {
 
-            // prompt for alias, key store password, and key password
+            // prompt for blibs, key store pbssword, bnd key pbssword
 
             try {
-                callbackHandler.handle(
-                    new Callback[] {
-                        bannerCallback, aliasCallback,
-                        storePassCallback, keyPassCallback,
-                        confirmationCallback
+                cbllbbckHbndler.hbndle(
+                    new Cbllbbck[] {
+                        bbnnerCbllbbck, blibsCbllbbck,
+                        storePbssCbllbbck, keyPbssCbllbbck,
+                        confirmbtionCbllbbck
                     });
-            } catch (IOException e) {
+            } cbtch (IOException e) {
                 LoginException le = new LoginException
-                        ("Problem retrieving keystore alias and passwords");
-                le.initCause(e);
+                        ("Problem retrieving keystore blibs bnd pbsswords");
+                le.initCbuse(e);
                 throw le;
-            } catch (UnsupportedCallbackException e) {
+            } cbtch (UnsupportedCbllbbckException e) {
                 throw new LoginException(
-                    "Error: " + e.getCallback().toString() +
-                    " is not available to retrieve authentication " +
-                    " information from the user");
+                    "Error: " + e.getCbllbbck().toString() +
+                    " is not bvbilbble to retrieve buthenticbtion " +
+                    " informbtion from the user");
             }
 
-            int confirmationResult = confirmationCallback.getSelectedIndex();
+            int confirmbtionResult = confirmbtionCbllbbck.getSelectedIndex();
 
-            if (confirmationResult == ConfirmationCallback.CANCEL) {
-                throw new LoginException("Login cancelled");
+            if (confirmbtionResult == ConfirmbtionCbllbbck.CANCEL) {
+                throw new LoginException("Login cbncelled");
             }
 
-            saveAlias(aliasCallback);
-            saveStorePass(storePassCallback);
-            saveKeyPass(keyPassCallback);
+            sbveAlibs(blibsCbllbbck);
+            sbveStorePbss(storePbssCbllbbck);
+            sbveKeyPbss(keyPbssCbllbbck);
         }
     }
 
-    private void saveAlias(NameCallback cb) {
-        keyStoreAlias = cb.getName();
+    privbte void sbveAlibs(NbmeCbllbbck cb) {
+        keyStoreAlibs = cb.getNbme();
     }
 
-    private void saveStorePass(PasswordCallback c) {
-        keyStorePassword = c.getPassword();
-        if (keyStorePassword == null) {
-            /* Treat a NULL password as an empty password */
-            keyStorePassword = new char[0];
+    privbte void sbveStorePbss(PbsswordCbllbbck c) {
+        keyStorePbssword = c.getPbssword();
+        if (keyStorePbssword == null) {
+            /* Trebt b NULL pbssword bs bn empty pbssword */
+            keyStorePbssword = new chbr[0];
         }
-        c.clearPassword();
+        c.clebrPbssword();
     }
 
-    private void saveKeyPass(PasswordCallback c) {
-        privateKeyPassword = c.getPassword();
-        if (privateKeyPassword == null || privateKeyPassword.length == 0) {
+    privbte void sbveKeyPbss(PbsswordCbllbbck c) {
+        privbteKeyPbssword = c.getPbssword();
+        if (privbteKeyPbssword == null || privbteKeyPbssword.length == 0) {
             /*
-             * Use keystore password if no private key password is
+             * Use keystore pbssword if no privbte key pbssword is
              * specified.
              */
-            privateKeyPassword = keyStorePassword;
+            privbteKeyPbssword = keyStorePbssword;
         }
-        c.clearPassword();
+        c.clebrPbssword();
     }
 
-    /** Get the credentials from the KeyStore. */
-    private void getKeyStoreInfo() throws LoginException {
+    /** Get the credentibls from the KeyStore. */
+    privbte void getKeyStoreInfo() throws LoginException {
 
-        /* Get KeyStore instance */
+        /* Get KeyStore instbnce */
         try {
             if (keyStoreProvider == null) {
-                keyStore = KeyStore.getInstance(keyStoreType);
+                keyStore = KeyStore.getInstbnce(keyStoreType);
             } else {
                 keyStore =
-                    KeyStore.getInstance(keyStoreType, keyStoreProvider);
+                    KeyStore.getInstbnce(keyStoreType, keyStoreProvider);
             }
-        } catch (KeyStoreException e) {
+        } cbtch (KeyStoreException e) {
             LoginException le = new LoginException
-                ("The specified keystore type was not available");
-            le.initCause(e);
+                ("The specified keystore type wbs not bvbilbble");
+            le.initCbuse(e);
             throw le;
-        } catch (NoSuchProviderException e) {
+        } cbtch (NoSuchProviderException e) {
             LoginException le = new LoginException
-                ("The specified keystore provider was not available");
-            le.initCause(e);
+                ("The specified keystore provider wbs not bvbilbble");
+            le.initCbuse(e);
             throw le;
         }
 
-        /* Load KeyStore contents from file */
-        InputStream in = null;
+        /* Lobd KeyStore contents from file */
+        InputStrebm in = null;
         try {
-            if (nullStream) {
-                // if using protected auth path, keyStorePassword will be null
-                keyStore.load(null, keyStorePassword);
+            if (nullStrebm) {
+                // if using protected buth pbth, keyStorePbssword will be null
+                keyStore.lobd(null, keyStorePbssword);
             } else {
-                in = new URL(keyStoreURL).openStream();
-                keyStore.load(in, keyStorePassword);
+                in = new URL(keyStoreURL).openStrebm();
+                keyStore.lobd(in, keyStorePbssword);
             }
-        } catch (MalformedURLException e) {
+        } cbtch (MblformedURLException e) {
             LoginException le = new LoginException
                                 ("Incorrect keyStoreURL option");
-            le.initCause(e);
+            le.initCbuse(e);
             throw le;
-        } catch (GeneralSecurityException e) {
+        } cbtch (GenerblSecurityException e) {
             LoginException le = new LoginException
-                                ("Error initializing keystore");
-            le.initCause(e);
+                                ("Error initiblizing keystore");
+            le.initCbuse(e);
             throw le;
-        } catch (IOException e) {
+        } cbtch (IOException e) {
             LoginException le = new LoginException
-                                ("Error initializing keystore");
-            le.initCause(e);
+                                ("Error initiblizing keystore");
+            le.initCbuse(e);
             throw le;
-        } finally {
+        } finblly {
             if (in != null) {
                 try {
                     in.close();
-                } catch (IOException ioe) {
+                } cbtch (IOException ioe) {
                     LoginException le = new LoginException
-                                ("Error initializing keystore");
-                    le.initCause(ioe);
+                                ("Error initiblizing keystore");
+                    le.initCbuse(ioe);
                     throw le;
                 }
             }
         }
 
-        /* Get certificate chain and create a certificate path */
+        /* Get certificbte chbin bnd crebte b certificbte pbth */
         try {
             fromKeyStore =
-                keyStore.getCertificateChain(keyStoreAlias);
+                keyStore.getCertificbteChbin(keyStoreAlibs);
             if (fromKeyStore == null
                 || fromKeyStore.length == 0
-                || !(fromKeyStore[0] instanceof X509Certificate))
+                || !(fromKeyStore[0] instbnceof X509Certificbte))
             {
-                throw new FailedLoginException(
-                    "Unable to find X.509 certificate chain in keystore");
+                throw new FbiledLoginException(
+                    "Unbble to find X.509 certificbte chbin in keystore");
             } else {
-                LinkedList<Certificate> certList = new LinkedList<>();
+                LinkedList<Certificbte> certList = new LinkedList<>();
                 for (int i=0; i < fromKeyStore.length; i++) {
-                    certList.add(fromKeyStore[i]);
+                    certList.bdd(fromKeyStore[i]);
                 }
-                CertificateFactory certF=
-                    CertificateFactory.getInstance("X.509");
+                CertificbteFbctory certF=
+                    CertificbteFbctory.getInstbnce("X.509");
                 certP =
-                    certF.generateCertPath(certList);
+                    certF.generbteCertPbth(certList);
             }
-        } catch (KeyStoreException e) {
+        } cbtch (KeyStoreException e) {
             LoginException le = new LoginException("Error using keystore");
-            le.initCause(e);
+            le.initCbuse(e);
             throw le;
-        } catch (CertificateException ce) {
+        } cbtch (CertificbteException ce) {
             LoginException le = new LoginException
-                ("Error: X.509 Certificate type unavailable");
-            le.initCause(ce);
+                ("Error: X.509 Certificbte type unbvbilbble");
+            le.initCbuse(ce);
             throw le;
         }
 
-        /* Get principal and keys */
+        /* Get principbl bnd keys */
         try {
-            X509Certificate certificate = (X509Certificate)fromKeyStore[0];
-            principal = new javax.security.auth.x500.X500Principal
-                (certificate.getSubjectDN().getName());
+            X509Certificbte certificbte = (X509Certificbte)fromKeyStore[0];
+            principbl = new jbvbx.security.buth.x500.X500Principbl
+                (certificbte.getSubjectDN().getNbme());
 
-            // if token, privateKeyPassword will be null
-            Key privateKey = keyStore.getKey(keyStoreAlias, privateKeyPassword);
-            if (privateKey == null
-                || !(privateKey instanceof PrivateKey))
+            // if token, privbteKeyPbssword will be null
+            Key privbteKey = keyStore.getKey(keyStoreAlibs, privbteKeyPbssword);
+            if (privbteKey == null
+                || !(privbteKey instbnceof PrivbteKey))
             {
-                throw new FailedLoginException(
-                    "Unable to recover key from keystore");
+                throw new FbiledLoginException(
+                    "Unbble to recover key from keystore");
             }
 
-            privateCredential = new X500PrivateCredential(
-                certificate, (PrivateKey) privateKey, keyStoreAlias);
-        } catch (KeyStoreException e) {
+            privbteCredentibl = new X500PrivbteCredentibl(
+                certificbte, (PrivbteKey) privbteKey, keyStoreAlibs);
+        } cbtch (KeyStoreException e) {
             LoginException le = new LoginException("Error using keystore");
-            le.initCause(e);
+            le.initCbuse(e);
             throw le;
-        } catch (NoSuchAlgorithmException e) {
+        } cbtch (NoSuchAlgorithmException e) {
             LoginException le = new LoginException("Error using keystore");
-            le.initCause(e);
+            le.initCbuse(e);
             throw le;
-        } catch (UnrecoverableKeyException e) {
-            FailedLoginException fle = new FailedLoginException
-                                ("Unable to recover key from keystore");
-            fle.initCause(e);
+        } cbtch (UnrecoverbbleKeyException e) {
+            FbiledLoginException fle = new FbiledLoginException
+                                ("Unbble to recover key from keystore");
+            fle.initCbuse(e);
             throw fle;
         }
         if (debug) {
-            debugPrint("principal=" + principal +
-                       "\n certificate="
-                       + privateCredential.getCertificate() +
-                       "\n alias =" + privateCredential.getAlias());
+            debugPrint("principbl=" + principbl +
+                       "\n certificbte="
+                       + privbteCredentibl.getCertificbte() +
+                       "\n blibs =" + privbteCredentibl.getAlibs());
         }
     }
 
     /**
-     * Abstract method to commit the authentication process (phase 2).
+     * Abstrbct method to commit the buthenticbtion process (phbse 2).
      *
-     * <p> This method is called if the LoginContext's
-     * overall authentication succeeded
-     * (the relevant REQUIRED, REQUISITE, SUFFICIENT and OPTIONAL LoginModules
+     * <p> This method is cblled if the LoginContext's
+     * overbll buthenticbtion succeeded
+     * (the relevbnt REQUIRED, REQUISITE, SUFFICIENT bnd OPTIONAL LoginModules
      * succeeded).
      *
-     * <p> If this LoginModule's own authentication attempt
-     * succeeded (checked by retrieving the private state saved by the
-     * <code>login</code> method), then this method associates a
-     * <code>X500Principal</code> for the subject distinguished name of the
-     * first certificate in the alias's credentials in the subject's
-     * principals,the alias's certificate path in the subject's public
-     * credentials, and a<code>X500PrivateCredential</code> whose certificate
-     * is the first  certificate in the alias's certificate path and whose
-     * private key is the alias's private key in the subject's private
-     * credentials.  If this LoginModule's own
-     * authentication attempted failed, then this method removes
-     * any state that was originally saved.
+     * <p> If this LoginModule's own buthenticbtion bttempt
+     * succeeded (checked by retrieving the privbte stbte sbved by the
+     * <code>login</code> method), then this method bssocibtes b
+     * <code>X500Principbl</code> for the subject distinguished nbme of the
+     * first certificbte in the blibs's credentibls in the subject's
+     * principbls,the blibs's certificbte pbth in the subject's public
+     * credentibls, bnd b<code>X500PrivbteCredentibl</code> whose certificbte
+     * is the first  certificbte in the blibs's certificbte pbth bnd whose
+     * privbte key is the blibs's privbte key in the subject's privbte
+     * credentibls.  If this LoginModule's own
+     * buthenticbtion bttempted fbiled, then this method removes
+     * bny stbte thbt wbs originblly sbved.
      *
      * <p>
      *
-     * @exception LoginException if the commit fails
+     * @exception LoginException if the commit fbils
      *
-     * @return true if this LoginModule's own login and commit
-     *          attempts succeeded, or false otherwise.
+     * @return true if this LoginModule's own login bnd commit
+     *          bttempts succeeded, or fblse otherwise.
      */
 
-    public boolean commit() throws LoginException {
-        switch (status) {
-        case UNINITIALIZED:
-        default:
-            throw new LoginException("The login module is not initialized");
-        case INITIALIZED:
-            logoutInternal();
-            throw new LoginException("Authentication failed");
-        case AUTHENTICATED:
-            if (commitInternal()) {
+    public boolebn commit() throws LoginException {
+        switch (stbtus) {
+        cbse UNINITIALIZED:
+        defbult:
+            throw new LoginException("The login module is not initiblized");
+        cbse INITIALIZED:
+            logoutInternbl();
+            throw new LoginException("Authenticbtion fbiled");
+        cbse AUTHENTICATED:
+            if (commitInternbl()) {
                 return true;
             } else {
-                logoutInternal();
-                throw new LoginException("Unable to retrieve certificates");
+                logoutInternbl();
+                throw new LoginException("Unbble to retrieve certificbtes");
             }
-        case LOGGED_IN:
+        cbse LOGGED_IN:
             return true;
         }
     }
 
-    private boolean commitInternal() throws LoginException {
-        /* If the subject is not readonly add to the principal and credentials
+    privbte boolebn commitInternbl() throws LoginException {
+        /* If the subject is not rebdonly bdd to the principbl bnd credentibls
          * set; otherwise just return true
          */
-        if (subject.isReadOnly()) {
-            throw new LoginException ("Subject is set readonly");
+        if (subject.isRebdOnly()) {
+            throw new LoginException ("Subject is set rebdonly");
         } else {
-            subject.getPrincipals().add(principal);
-            subject.getPublicCredentials().add(certP);
-            subject.getPrivateCredentials().add(privateCredential);
-            status = LOGGED_IN;
+            subject.getPrincipbls().bdd(principbl);
+            subject.getPublicCredentibls().bdd(certP);
+            subject.getPrivbteCredentibls().bdd(privbteCredentibl);
+            stbtus = LOGGED_IN;
             return true;
         }
     }
 
     /**
-     * <p> This method is called if the LoginContext's
-     * overall authentication failed.
-     * (the relevant REQUIRED, REQUISITE, SUFFICIENT and OPTIONAL LoginModules
+     * <p> This method is cblled if the LoginContext's
+     * overbll buthenticbtion fbiled.
+     * (the relevbnt REQUIRED, REQUISITE, SUFFICIENT bnd OPTIONAL LoginModules
      * did not succeed).
      *
-     * <p> If this LoginModule's own authentication attempt
-     * succeeded (checked by retrieving the private state saved by the
-     * <code>login</code> and <code>commit</code> methods),
-     * then this method cleans up any state that was originally saved.
+     * <p> If this LoginModule's own buthenticbtion bttempt
+     * succeeded (checked by retrieving the privbte stbte sbved by the
+     * <code>login</code> bnd <code>commit</code> methods),
+     * then this method clebns up bny stbte thbt wbs originblly sbved.
      *
-     * <p> If the loaded KeyStore's provider extends
-     * <code>java.security.AuthProvider</code>,
+     * <p> If the lobded KeyStore's provider extends
+     * <code>jbvb.security.AuthProvider</code>,
      * then the provider's <code>logout</code> method is invoked.
      *
      * <p>
      *
-     * @exception LoginException if the abort fails.
+     * @exception LoginException if the bbort fbils.
      *
-     * @return false if this LoginModule's own login and/or commit attempts
-     *          failed, and true otherwise.
+     * @return fblse if this LoginModule's own login bnd/or commit bttempts
+     *          fbiled, bnd true otherwise.
      */
 
-    public boolean abort() throws LoginException {
-        switch (status) {
-        case UNINITIALIZED:
-        default:
-            return false;
-        case INITIALIZED:
-            return false;
-        case AUTHENTICATED:
-            logoutInternal();
+    public boolebn bbort() throws LoginException {
+        switch (stbtus) {
+        cbse UNINITIALIZED:
+        defbult:
+            return fblse;
+        cbse INITIALIZED:
+            return fblse;
+        cbse AUTHENTICATED:
+            logoutInternbl();
             return true;
-        case LOGGED_IN:
-            logoutInternal();
+        cbse LOGGED_IN:
+            logoutInternbl();
             return true;
         }
     }
     /**
-     * Logout a user.
+     * Logout b user.
      *
-     * <p> This method removes the Principals, public credentials and the
-     * private credentials that were added by the <code>commit</code> method.
+     * <p> This method removes the Principbls, public credentibls bnd the
+     * privbte credentibls thbt were bdded by the <code>commit</code> method.
      *
-     * <p> If the loaded KeyStore's provider extends
-     * <code>java.security.AuthProvider</code>,
+     * <p> If the lobded KeyStore's provider extends
+     * <code>jbvb.security.AuthProvider</code>,
      * then the provider's <code>logout</code> method is invoked.
      *
      * <p>
      *
-     * @exception LoginException if the logout fails.
+     * @exception LoginException if the logout fbils.
      *
-     * @return true in all cases since this <code>LoginModule</code>
+     * @return true in bll cbses since this <code>LoginModule</code>
      *          should not be ignored.
      */
 
-    public boolean logout() throws LoginException {
+    public boolebn logout() throws LoginException {
         if (debug)
-            debugPrint("Entering logout " + status);
-        switch (status) {
-        case UNINITIALIZED:
+            debugPrint("Entering logout " + stbtus);
+        switch (stbtus) {
+        cbse UNINITIALIZED:
             throw new LoginException
-                ("The login module is not initialized");
-        case INITIALIZED:
-        case AUTHENTICATED:
-        default:
+                ("The login module is not initiblized");
+        cbse INITIALIZED:
+        cbse AUTHENTICATED:
+        defbult:
            // impossible for LoginModule to be in AUTHENTICATED
-           // state
-           // assert status != AUTHENTICATED;
-            return false;
-        case LOGGED_IN:
-            logoutInternal();
+           // stbte
+           // bssert stbtus != AUTHENTICATED;
+            return fblse;
+        cbse LOGGED_IN:
+            logoutInternbl();
             return true;
         }
     }
 
-    private void logoutInternal() throws LoginException {
+    privbte void logoutInternbl() throws LoginException {
         if (debug) {
-            debugPrint("Entering logoutInternal");
+            debugPrint("Entering logoutInternbl");
         }
 
-        // assumption is that KeyStore.load did a login -
+        // bssumption is thbt KeyStore.lobd did b login -
         // perform explicit logout if possible
         LoginException logoutException = null;
         Provider provider = keyStore.getProvider();
-        if (provider instanceof AuthProvider) {
-            AuthProvider ap = (AuthProvider)provider;
+        if (provider instbnceof AuthProvider) {
+            AuthProvider bp = (AuthProvider)provider;
             try {
-                ap.logout();
+                bp.logout();
                 if (debug) {
                     debugPrint("logged out of KeyStore AuthProvider");
                 }
-            } catch (LoginException le) {
-                // save but continue below
+            } cbtch (LoginException le) {
+                // sbve but continue below
                 logoutException = le;
             }
         }
 
-        if (subject.isReadOnly()) {
-            // attempt to destroy the private credential
-            // even if the Subject is read-only
-            principal = null;
+        if (subject.isRebdOnly()) {
+            // bttempt to destroy the privbte credentibl
+            // even if the Subject is rebd-only
+            principbl = null;
             certP = null;
-            status = INITIALIZED;
-            // destroy the private credential
-            Iterator<Object> it = subject.getPrivateCredentials().iterator();
-            while (it.hasNext()) {
+            stbtus = INITIALIZED;
+            // destroy the privbte credentibl
+            Iterbtor<Object> it = subject.getPrivbteCredentibls().iterbtor();
+            while (it.hbsNext()) {
                 Object obj = it.next();
-                if (privateCredential.equals(obj)) {
-                    privateCredential = null;
+                if (privbteCredentibl.equbls(obj)) {
+                    privbteCredentibl = null;
                     try {
-                        ((Destroyable)obj).destroy();
+                        ((Destroybble)obj).destroy();
                         if (debug)
-                            debugPrint("Destroyed private credential, " +
-                                       obj.getClass().getName());
-                        break;
-                    } catch (DestroyFailedException dfe) {
+                            debugPrint("Destroyed privbte credentibl, " +
+                                       obj.getClbss().getNbme());
+                        brebk;
+                    } cbtch (DestroyFbiledException dfe) {
                         LoginException le = new LoginException
-                            ("Unable to destroy private credential, "
-                             + obj.getClass().getName());
-                        le.initCause(dfe);
+                            ("Unbble to destroy privbte credentibl, "
+                             + obj.getClbss().getNbme());
+                        le.initCbuse(dfe);
                         throw le;
                     }
                 }
             }
 
-            // throw an exception because we can not remove
-            // the principal and public credential from this
-            // read-only Subject
+            // throw bn exception becbuse we cbn not remove
+            // the principbl bnd public credentibl from this
+            // rebd-only Subject
             throw new LoginException
-                ("Unable to remove Principal ("
-                 + "X500Principal "
-                 + ") and public credential (certificatepath) "
-                 + "from read-only Subject");
+                ("Unbble to remove Principbl ("
+                 + "X500Principbl "
+                 + ") bnd public credentibl (certificbtepbth) "
+                 + "from rebd-only Subject");
         }
-        if (principal != null) {
-            subject.getPrincipals().remove(principal);
-            principal = null;
+        if (principbl != null) {
+            subject.getPrincipbls().remove(principbl);
+            principbl = null;
         }
         if (certP != null) {
-            subject.getPublicCredentials().remove(certP);
+            subject.getPublicCredentibls().remove(certP);
             certP = null;
         }
-        if (privateCredential != null) {
-            subject.getPrivateCredentials().remove(privateCredential);
-            privateCredential = null;
+        if (privbteCredentibl != null) {
+            subject.getPrivbteCredentibls().remove(privbteCredentibl);
+            privbteCredentibl = null;
         }
 
         // throw pending logout exception if there is one
         if (logoutException != null) {
             throw logoutException;
         }
-        status = INITIALIZED;
+        stbtus = INITIALIZED;
     }
 
-    private void debugPrint(String message) {
+    privbte void debugPrint(String messbge) {
         // we should switch to logging API
-        if (message == null) {
+        if (messbge == null) {
             System.err.println();
         } else {
-            System.err.println("Debug KeyStoreLoginModule: " + message);
+            System.err.println("Debug KeyStoreLoginModule: " + messbge);
         }
     }
 }

@@ -1,171 +1,171 @@
 /*
- * Copyright (c) 1996, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.rmi.transport.tcp;
+pbckbge sun.rmi.trbnsport.tcp;
 
-import java.io.DataInput;
-import java.io.DataOutput;
-import java.io.IOException;
-import java.io.ObjectInput;
-import java.io.ObjectOutput;
-import java.net.InetAddress;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.rmi.ConnectIOException;
-import java.rmi.RemoteException;
-import java.rmi.server.RMIClientSocketFactory;
-import java.rmi.server.RMIServerSocketFactory;
-import java.rmi.server.RMISocketFactory;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.Map;
-import java.util.Set;
+import jbvb.io.DbtbInput;
+import jbvb.io.DbtbOutput;
+import jbvb.io.IOException;
+import jbvb.io.ObjectInput;
+import jbvb.io.ObjectOutput;
+import jbvb.net.InetAddress;
+import jbvb.net.ServerSocket;
+import jbvb.net.Socket;
+import jbvb.rmi.ConnectIOException;
+import jbvb.rmi.RemoteException;
+import jbvb.rmi.server.RMIClientSocketFbctory;
+import jbvb.rmi.server.RMIServerSocketFbctory;
+import jbvb.rmi.server.RMISocketFbctory;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import jbvb.util.Collection;
+import jbvb.util.HbshMbp;
+import jbvb.util.HbshSet;
+import jbvb.util.LinkedList;
+import jbvb.util.Mbp;
+import jbvb.util.Set;
 import sun.rmi.runtime.Log;
-import sun.rmi.runtime.NewThreadAction;
-import sun.rmi.transport.Channel;
-import sun.rmi.transport.Endpoint;
-import sun.rmi.transport.Target;
-import sun.rmi.transport.Transport;
+import sun.rmi.runtime.NewThrebdAction;
+import sun.rmi.trbnsport.Chbnnel;
+import sun.rmi.trbnsport.Endpoint;
+import sun.rmi.trbnsport.Tbrget;
+import sun.rmi.trbnsport.Trbnsport;
 
 /**
- * TCPEndpoint represents some communication endpoint for an address
- * space (VM).
+ * TCPEndpoint represents some communicbtion endpoint for bn bddress
+ * spbce (VM).
  *
- * @author Ann Wollrath
+ * @buthor Ann Wollrbth
  */
-public class TCPEndpoint implements Endpoint {
-    /** IP address or host name */
-    private String host;
+public clbss TCPEndpoint implements Endpoint {
+    /** IP bddress or host nbme */
+    privbte String host;
     /** port number */
-    private int port;
-    /** custom client socket factory (null if not custom factory) */
-    private final RMIClientSocketFactory csf;
-    /** custom server socket factory (null if not custom factory) */
-    private final RMIServerSocketFactory ssf;
+    privbte int port;
+    /** custom client socket fbctory (null if not custom fbctory) */
+    privbte finbl RMIClientSocketFbctory csf;
+    /** custom server socket fbctory (null if not custom fbctory) */
+    privbte finbl RMIServerSocketFbctory ssf;
 
-    /** if local, the port number to listen on */
-    private int listenPort = -1;
-    /** if local, the transport object associated with this endpoint */
-    private TCPTransport transport = null;
+    /** if locbl, the port number to listen on */
+    privbte int listenPort = -1;
+    /** if locbl, the trbnsport object bssocibted with this endpoint */
+    privbte TCPTrbnsport trbnsport = null;
 
-    /** the local host name */
-    private static String localHost;
-    /** true if real local host name is known yet */
-    private static boolean localHostKnown;
+    /** the locbl host nbme */
+    privbte stbtic String locblHost;
+    /** true if rebl locbl host nbme is known yet */
+    privbte stbtic boolebn locblHostKnown;
 
-    // this should be a *private* method since it is privileged
-    private static int getInt(String name, int def) {
+    // this should be b *privbte* method since it is privileged
+    privbte stbtic int getInt(String nbme, int def) {
         return AccessController.doPrivileged(
-                (PrivilegedAction<Integer>) () -> Integer.getInteger(name, def));
+                (PrivilegedAction<Integer>) () -> Integer.getInteger(nbme, def));
     }
 
-    // this should be a *private* method since it is privileged
-    private static boolean getBoolean(String name) {
+    // this should be b *privbte* method since it is privileged
+    privbte stbtic boolebn getBoolebn(String nbme) {
         return AccessController.doPrivileged(
-                (PrivilegedAction<Boolean>) () -> Boolean.getBoolean(name));
-    }
-
-    /**
-     * Returns the value of the java.rmi.server.hostname property.
-     */
-    private static String getHostnameProperty() {
-        return AccessController.doPrivileged(
-            (PrivilegedAction<String>) () -> System.getProperty("java.rmi.server.hostname"));
+                (PrivilegedAction<Boolebn>) () -> Boolebn.getBoolebn(nbme));
     }
 
     /**
-     * Find host name of local machine.  Property "java.rmi.server.hostname"
-     * is used if set, so server administrator can compensate for the possible
-     * inablility to get fully qualified host name from VM.
+     * Returns the vblue of the jbvb.rmi.server.hostnbme property.
      */
-    static {
-        localHostKnown = true;
-        localHost = getHostnameProperty();
+    privbte stbtic String getHostnbmeProperty() {
+        return AccessController.doPrivileged(
+            (PrivilegedAction<String>) () -> System.getProperty("jbvb.rmi.server.hostnbme"));
+    }
 
-        // could try querying CGI program here?
-        if (localHost == null) {
+    /**
+     * Find host nbme of locbl mbchine.  Property "jbvb.rmi.server.hostnbme"
+     * is used if set, so server bdministrbtor cbn compensbte for the possible
+     * inbblility to get fully qublified host nbme from VM.
+     */
+    stbtic {
+        locblHostKnown = true;
+        locblHost = getHostnbmeProperty();
+
+        // could try querying CGI progrbm here?
+        if (locblHost == null) {
             try {
-                InetAddress localAddr = InetAddress.getLocalHost();
-                byte[] raw = localAddr.getAddress();
-                if ((raw[0] == 127) &&
-                    (raw[1] ==   0) &&
-                    (raw[2] ==   0) &&
-                    (raw[3] ==   1)) {
-                    localHostKnown = false;
+                InetAddress locblAddr = InetAddress.getLocblHost();
+                byte[] rbw = locblAddr.getAddress();
+                if ((rbw[0] == 127) &&
+                    (rbw[1] ==   0) &&
+                    (rbw[2] ==   0) &&
+                    (rbw[3] ==   1)) {
+                    locblHostKnown = fblse;
                 }
 
-                /* if the user wishes to use a fully qualified domain
-                 * name then attempt to find one.
+                /* if the user wishes to use b fully qublified dombin
+                 * nbme then bttempt to find one.
                  */
-                if (getBoolean("java.rmi.server.useLocalHostName")) {
-                    localHost = FQDN.attemptFQDN(localAddr);
+                if (getBoolebn("jbvb.rmi.server.useLocblHostNbme")) {
+                    locblHost = FQDN.bttemptFQDN(locblAddr);
                 } else {
-                    /* default to using ip addresses, names will
-                     * work across seperate domains.
+                    /* defbult to using ip bddresses, nbmes will
+                     * work bcross seperbte dombins.
                      */
-                    localHost = localAddr.getHostAddress();
+                    locblHost = locblAddr.getHostAddress();
                 }
-            } catch (Exception e) {
-                localHostKnown = false;
-                localHost = null;
+            } cbtch (Exception e) {
+                locblHostKnown = fblse;
+                locblHost = null;
             }
         }
 
-        if (TCPTransport.tcpLog.isLoggable(Log.BRIEF)) {
-            TCPTransport.tcpLog.log(Log.BRIEF,
-                "localHostKnown = " + localHostKnown +
-                ", localHost = " + localHost);
+        if (TCPTrbnsport.tcpLog.isLoggbble(Log.BRIEF)) {
+            TCPTrbnsport.tcpLog.log(Log.BRIEF,
+                "locblHostKnown = " + locblHostKnown +
+                ", locblHost = " + locblHost);
         }
     }
 
-    /** maps an endpoint key containing custom socket factories to
+    /** mbps bn endpoint key contbining custom socket fbctories to
      * their own unique endpoint */
-    // TBD: should this be a weak hash table?
-    private static final
-        Map<TCPEndpoint,LinkedList<TCPEndpoint>> localEndpoints =
-        new HashMap<>();
+    // TBD: should this be b webk hbsh tbble?
+    privbte stbtic finbl
+        Mbp<TCPEndpoint,LinkedList<TCPEndpoint>> locblEndpoints =
+        new HbshMbp<>();
 
     /**
-     * Create an endpoint for a specified host and port.
-     * This should not be used by external classes to create endpoints
-     * for servers in this VM; use getLocalEndpoint instead.
+     * Crebte bn endpoint for b specified host bnd port.
+     * This should not be used by externbl clbsses to crebte endpoints
+     * for servers in this VM; use getLocblEndpoint instebd.
      */
     public TCPEndpoint(String host, int port) {
         this(host, port, null, null);
     }
 
     /**
-     * Create a custom socket factory endpoint for a specified host and port.
-     * This should not be used by external classes to create endpoints
-     * for servers in this VM; use getLocalEndpoint instead.
+     * Crebte b custom socket fbctory endpoint for b specified host bnd port.
+     * This should not be used by externbl clbsses to crebte endpoints
+     * for servers in this VM; use getLocblEndpoint instebd.
      */
-    public TCPEndpoint(String host, int port, RMIClientSocketFactory csf,
-                       RMIServerSocketFactory ssf)
+    public TCPEndpoint(String host, int port, RMIClientSocketFbctory csf,
+                       RMIServerSocketFbctory ssf)
     {
         if (host == null)
             host = "";
@@ -176,69 +176,69 @@ public class TCPEndpoint implements Endpoint {
     }
 
     /**
-     * Get an endpoint for the local address space on specified port.
-     * If port number is 0, it returns shared default endpoint object
-     * whose host name and port may or may not have been determined.
+     * Get bn endpoint for the locbl bddress spbce on specified port.
+     * If port number is 0, it returns shbred defbult endpoint object
+     * whose host nbme bnd port mby or mby not hbve been determined.
      */
-    public static TCPEndpoint getLocalEndpoint(int port) {
-        return getLocalEndpoint(port, null, null);
+    public stbtic TCPEndpoint getLocblEndpoint(int port) {
+        return getLocblEndpoint(port, null, null);
     }
 
-    public static TCPEndpoint getLocalEndpoint(int port,
-                                               RMIClientSocketFactory csf,
-                                               RMIServerSocketFactory ssf)
+    public stbtic TCPEndpoint getLocblEndpoint(int port,
+                                               RMIClientSocketFbctory csf,
+                                               RMIServerSocketFbctory ssf)
     {
         /*
-         * Find mapping for an endpoint key to the list of local unique
-         * endpoints for this client/server socket factory pair (perhaps
+         * Find mbpping for bn endpoint key to the list of locbl unique
+         * endpoints for this client/server socket fbctory pbir (perhbps
          * null) for the specific port.
          */
         TCPEndpoint ep = null;
 
-        synchronized (localEndpoints) {
+        synchronized (locblEndpoints) {
             TCPEndpoint endpointKey = new TCPEndpoint(null, port, csf, ssf);
-            LinkedList<TCPEndpoint> epList = localEndpoints.get(endpointKey);
-            String localHost = resampleLocalHost();
+            LinkedList<TCPEndpoint> epList = locblEndpoints.get(endpointKey);
+            String locblHost = resbmpleLocblHost();
 
             if (epList == null) {
                 /*
-                 * Create new endpoint list.
+                 * Crebte new endpoint list.
                  */
-                ep = new TCPEndpoint(localHost, port, csf, ssf);
+                ep = new TCPEndpoint(locblHost, port, csf, ssf);
                 epList = new LinkedList<TCPEndpoint>();
-                epList.add(ep);
+                epList.bdd(ep);
                 ep.listenPort = port;
-                ep.transport = new TCPTransport(epList);
-                localEndpoints.put(endpointKey, epList);
+                ep.trbnsport = new TCPTrbnsport(epList);
+                locblEndpoints.put(endpointKey, epList);
 
-                if (TCPTransport.tcpLog.isLoggable(Log.BRIEF)) {
-                    TCPTransport.tcpLog.log(Log.BRIEF,
-                        "created local endpoint for socket factory " + ssf +
+                if (TCPTrbnsport.tcpLog.isLoggbble(Log.BRIEF)) {
+                    TCPTrbnsport.tcpLog.log(Log.BRIEF,
+                        "crebted locbl endpoint for socket fbctory " + ssf +
                         " on port " + port);
                 }
             } else {
                 synchronized (epList) {
-                    ep = epList.getLast();
-                    String lastHost = ep.host;
-                    int lastPort =  ep.port;
-                    TCPTransport lastTransport = ep.transport;
-                    // assert (localHost == null ^ lastHost != null)
-                    if (localHost != null && !localHost.equals(lastHost)) {
+                    ep = epList.getLbst();
+                    String lbstHost = ep.host;
+                    int lbstPort =  ep.port;
+                    TCPTrbnsport lbstTrbnsport = ep.trbnsport;
+                    // bssert (locblHost == null ^ lbstHost != null)
+                    if (locblHost != null && !locblHost.equbls(lbstHost)) {
                         /*
-                         * Hostname has been updated; add updated endpoint
+                         * Hostnbme hbs been updbted; bdd updbted endpoint
                          * to list.
                          */
-                        if (lastPort != 0) {
+                        if (lbstPort != 0) {
                             /*
-                             * Remove outdated endpoints only if the
-                             * port has already been set on those endpoints.
+                             * Remove outdbted endpoints only if the
+                             * port hbs blrebdy been set on those endpoints.
                              */
-                            epList.clear();
+                            epList.clebr();
                         }
-                        ep = new TCPEndpoint(localHost, lastPort, csf, ssf);
+                        ep = new TCPEndpoint(locblHost, lbstPort, csf, ssf);
                         ep.listenPort = port;
-                        ep.transport = lastTransport;
-                        epList.add(ep);
+                        ep.trbnsport = lbstTrbnsport;
+                        epList.bdd(ep);
                     }
                 }
             }
@@ -248,60 +248,60 @@ public class TCPEndpoint implements Endpoint {
     }
 
     /**
-     * Resamples the local hostname and returns the possibly-updated
-     * local hostname.
+     * Resbmples the locbl hostnbme bnd returns the possibly-updbted
+     * locbl hostnbme.
      */
-    private static String resampleLocalHost() {
+    privbte stbtic String resbmpleLocblHost() {
 
-        String hostnameProperty = getHostnameProperty();
+        String hostnbmeProperty = getHostnbmeProperty();
 
-        synchronized (localEndpoints) {
-            // assert(localHostKnown ^ (localHost == null))
+        synchronized (locblEndpoints) {
+            // bssert(locblHostKnown ^ (locblHost == null))
 
-            if (hostnameProperty != null) {
-                if (!localHostKnown) {
+            if (hostnbmeProperty != null) {
+                if (!locblHostKnown) {
                     /*
-                     * If the local hostname is unknown, update ALL
-                     * existing endpoints with the new hostname.
+                     * If the locbl hostnbme is unknown, updbte ALL
+                     * existing endpoints with the new hostnbme.
                      */
-                    setLocalHost(hostnameProperty);
-                } else if (!hostnameProperty.equals(localHost)) {
+                    setLocblHost(hostnbmeProperty);
+                } else if (!hostnbmeProperty.equbls(locblHost)) {
                     /*
-                     * Only update the localHost field for reference
-                     * in future endpoint creation.
+                     * Only updbte the locblHost field for reference
+                     * in future endpoint crebtion.
                      */
-                    localHost = hostnameProperty;
+                    locblHost = hostnbmeProperty;
 
-                    if (TCPTransport.tcpLog.isLoggable(Log.BRIEF)) {
-                        TCPTransport.tcpLog.log(Log.BRIEF,
-                            "updated local hostname to: " + localHost);
+                    if (TCPTrbnsport.tcpLog.isLoggbble(Log.BRIEF)) {
+                        TCPTrbnsport.tcpLog.log(Log.BRIEF,
+                            "updbted locbl hostnbme to: " + locblHost);
                     }
                 }
             }
-            return localHost;
+            return locblHost;
         }
     }
 
     /**
-     * Set the local host name, if currently unknown.
+     * Set the locbl host nbme, if currently unknown.
      */
-    static void setLocalHost(String host) {
-        // assert (host != null)
+    stbtic void setLocblHost(String host) {
+        // bssert (host != null)
 
-        synchronized (localEndpoints) {
+        synchronized (locblEndpoints) {
             /*
-             * If host is not known, change the host field of ALL
-             * the local endpoints.
+             * If host is not known, chbnge the host field of ALL
+             * the locbl endpoints.
              */
-            if (!localHostKnown) {
-                localHost = host;
-                localHostKnown = true;
+            if (!locblHostKnown) {
+                locblHost = host;
+                locblHostKnown = true;
 
-                if (TCPTransport.tcpLog.isLoggable(Log.BRIEF)) {
-                    TCPTransport.tcpLog.log(Log.BRIEF,
-                        "local host set to " + host);
+                if (TCPTrbnsport.tcpLog.isLoggbble(Log.BRIEF)) {
+                    TCPTrbnsport.tcpLog.log(Log.BRIEF,
+                        "locbl host set to " + host);
                 }
-                for (LinkedList<TCPEndpoint> epList : localEndpoints.values())
+                for (LinkedList<TCPEndpoint> epList : locblEndpoints.vblues())
                 {
                     synchronized (epList) {
                         for (TCPEndpoint ep : epList) {
@@ -314,164 +314,164 @@ public class TCPEndpoint implements Endpoint {
     }
 
     /**
-     * Set the port of the (shared) default endpoint object.
-     * When first created, it contains port 0 because the transport
-     * hasn't tried to listen to get assigned a port, or if listening
-     * failed, a port hasn't been assigned from the server.
+     * Set the port of the (shbred) defbult endpoint object.
+     * When first crebted, it contbins port 0 becbuse the trbnsport
+     * hbsn't tried to listen to get bssigned b port, or if listening
+     * fbiled, b port hbsn't been bssigned from the server.
      */
-    static void setDefaultPort(int port, RMIClientSocketFactory csf,
-                               RMIServerSocketFactory ssf)
+    stbtic void setDefbultPort(int port, RMIClientSocketFbctory csf,
+                               RMIServerSocketFbctory ssf)
     {
         TCPEndpoint endpointKey = new TCPEndpoint(null, 0, csf, ssf);
 
-        synchronized (localEndpoints) {
-            LinkedList<TCPEndpoint> epList = localEndpoints.get(endpointKey);
+        synchronized (locblEndpoints) {
+            LinkedList<TCPEndpoint> epList = locblEndpoints.get(endpointKey);
 
             synchronized (epList) {
                 int size = epList.size();
-                TCPEndpoint lastEp = epList.getLast();
+                TCPEndpoint lbstEp = epList.getLbst();
 
                 for (TCPEndpoint ep : epList) {
                     ep.port = port;
                 }
                 if (size > 1) {
                     /*
-                     * Remove all but the last element of the list
-                     * (which contains the most recent hostname).
+                     * Remove bll but the lbst element of the list
+                     * (which contbins the most recent hostnbme).
                      */
-                    epList.clear();
-                    epList.add(lastEp);
+                    epList.clebr();
+                    epList.bdd(lbstEp);
                 }
             }
 
             /*
-             * Allow future exports to use the actual bound port
+             * Allow future exports to use the bctubl bound port
              * explicitly (see 6269166).
              */
             TCPEndpoint newEndpointKey = new TCPEndpoint(null, port, csf, ssf);
-            localEndpoints.put(newEndpointKey, epList);
+            locblEndpoints.put(newEndpointKey, epList);
 
-            if (TCPTransport.tcpLog.isLoggable(Log.BRIEF)) {
-                TCPTransport.tcpLog.log(Log.BRIEF,
-                    "default port for server socket factory " + ssf +
-                    " and client socket factory " + csf +
+            if (TCPTrbnsport.tcpLog.isLoggbble(Log.BRIEF)) {
+                TCPTrbnsport.tcpLog.log(Log.BRIEF,
+                    "defbult port for server socket fbctory " + ssf +
+                    " bnd client socket fbctory " + csf +
                     " set to " + port);
             }
         }
     }
 
     /**
-     * Returns transport for making connections to remote endpoints;
-     * (here, the default transport at port 0 is used).
+     * Returns trbnsport for mbking connections to remote endpoints;
+     * (here, the defbult trbnsport bt port 0 is used).
      */
-    public Transport getOutboundTransport() {
-        TCPEndpoint localEndpoint = getLocalEndpoint(0, null, null);
-        return localEndpoint.transport;
+    public Trbnsport getOutboundTrbnsport() {
+        TCPEndpoint locblEndpoint = getLocblEndpoint(0, null, null);
+        return locblEndpoint.trbnsport;
     }
 
     /**
-     * Returns the current list of known transports.
-     * The returned list is an unshared collection of Transports,
-     * including all transports which may have channels to remote
+     * Returns the current list of known trbnsports.
+     * The returned list is bn unshbred collection of Trbnsports,
+     * including bll trbnsports which mby hbve chbnnels to remote
      * endpoints.
      */
-    private static Collection<TCPTransport> allKnownTransports() {
-        // Loop through local endpoints, getting the transport of each one.
-        Set<TCPTransport> s;
-        synchronized (localEndpoints) {
-            // presize s to number of localEndpoints
-            s = new HashSet<TCPTransport>(localEndpoints.size());
-            for (LinkedList<TCPEndpoint> epList : localEndpoints.values()) {
+    privbte stbtic Collection<TCPTrbnsport> bllKnownTrbnsports() {
+        // Loop through locbl endpoints, getting the trbnsport of ebch one.
+        Set<TCPTrbnsport> s;
+        synchronized (locblEndpoints) {
+            // presize s to number of locblEndpoints
+            s = new HbshSet<TCPTrbnsport>(locblEndpoints.size());
+            for (LinkedList<TCPEndpoint> epList : locblEndpoints.vblues()) {
                 /*
-                 * Each local endpoint has its transport added to s.
-                 * Note: the transport is the same for all endpoints
-                 * in the list, so it is okay to pick any one of them.
+                 * Ebch locbl endpoint hbs its trbnsport bdded to s.
+                 * Note: the trbnsport is the sbme for bll endpoints
+                 * in the list, so it is okby to pick bny one of them.
                  */
                 TCPEndpoint ep = epList.getFirst();
-                s.add(ep.transport);
+                s.bdd(ep.trbnsport);
             }
         }
         return s;
     }
 
     /**
-     * Release idle outbound connections to reduce demand on I/O resources.
-     * All transports are asked to release excess connections.
+     * Relebse idle outbound connections to reduce dembnd on I/O resources.
+     * All trbnsports bre bsked to relebse excess connections.
      */
-    public static void shedConnectionCaches() {
-        for (TCPTransport transport : allKnownTransports()) {
-            transport.shedConnectionCaches();
+    public stbtic void shedConnectionCbches() {
+        for (TCPTrbnsport trbnsport : bllKnownTrbnsports()) {
+            trbnsport.shedConnectionCbches();
         }
     }
 
     /**
-     * Export the object to accept incoming calls.
+     * Export the object to bccept incoming cblls.
      */
-    public void exportObject(Target target) throws RemoteException {
-        transport.exportObject(target);
+    public void exportObject(Tbrget tbrget) throws RemoteException {
+        trbnsport.exportObject(tbrget);
     }
 
     /**
-     * Returns a channel for this (remote) endpoint.
+     * Returns b chbnnel for this (remote) endpoint.
      */
-    public Channel getChannel() {
-        return getOutboundTransport().getChannel(this);
+    public Chbnnel getChbnnel() {
+        return getOutboundTrbnsport().getChbnnel(this);
     }
 
     /**
-     * Returns address for endpoint
+     * Returns bddress for endpoint
      */
     public String getHost() {
         return host;
     }
 
     /**
-     * Returns the port for this endpoint.  If this endpoint was
-     * created as a server endpoint (using getLocalEndpoint) for a
-     * default/anonymous port and its inbound transport has started
-     * listening, this method returns (instead of zero) the actual
-     * bound port suitable for passing to clients.
+     * Returns the port for this endpoint.  If this endpoint wbs
+     * crebted bs b server endpoint (using getLocblEndpoint) for b
+     * defbult/bnonymous port bnd its inbound trbnsport hbs stbrted
+     * listening, this method returns (instebd of zero) the bctubl
+     * bound port suitbble for pbssing to clients.
      **/
     public int getPort() {
         return port;
     }
 
     /**
-     * Returns the port that this endpoint's inbound transport listens
-     * on, if this endpoint was created as a server endpoint (using
-     * getLocalEndpoint).  If this endpoint was created for the
-     * default/anonymous port, then this method returns zero even if
-     * the transport has started listening.
+     * Returns the port thbt this endpoint's inbound trbnsport listens
+     * on, if this endpoint wbs crebted bs b server endpoint (using
+     * getLocblEndpoint).  If this endpoint wbs crebted for the
+     * defbult/bnonymous port, then this method returns zero even if
+     * the trbnsport hbs stbrted listening.
      **/
     public int getListenPort() {
         return listenPort;
     }
 
     /**
-     * Returns the transport for incoming connections to this
-     * endpoint, if this endpoint was created as a server endpoint
-     * (using getLocalEndpoint).
+     * Returns the trbnsport for incoming connections to this
+     * endpoint, if this endpoint wbs crebted bs b server endpoint
+     * (using getLocblEndpoint).
      **/
-    public Transport getInboundTransport() {
-        return transport;
+    public Trbnsport getInboundTrbnsport() {
+        return trbnsport;
     }
 
     /**
-     * Get the client socket factory associated with this endpoint.
+     * Get the client socket fbctory bssocibted with this endpoint.
      */
-    public RMIClientSocketFactory getClientSocketFactory() {
+    public RMIClientSocketFbctory getClientSocketFbctory() {
         return csf;
     }
 
     /**
-     * Get the server socket factory associated with this endpoint.
+     * Get the server socket fbctory bssocibted with this endpoint.
      */
-    public RMIServerSocketFactory getServerSocketFactory() {
+    public RMIServerSocketFbctory getServerSocketFbctory() {
         return ssf;
     }
 
     /**
-     * Return string representation for endpoint.
+     * Return string representbtion for endpoint.
      */
     public String toString() {
         return "[" + host + ":" + port +
@@ -480,42 +480,42 @@ public class TCPEndpoint implements Endpoint {
             "]";
     }
 
-    public int hashCode() {
+    public int hbshCode() {
         return port;
     }
 
-    public boolean equals(Object obj) {
-        if ((obj != null) && (obj instanceof TCPEndpoint)) {
+    public boolebn equbls(Object obj) {
+        if ((obj != null) && (obj instbnceof TCPEndpoint)) {
             TCPEndpoint ep = (TCPEndpoint) obj;
-            if (port != ep.port || !host.equals(ep.host))
-                return false;
+            if (port != ep.port || !host.equbls(ep.host))
+                return fblse;
             if (((csf == null) ^ (ep.csf == null)) ||
                 ((ssf == null) ^ (ep.ssf == null)))
-                return false;
+                return fblse;
             /*
-             * Fix for 4254510: perform socket factory *class* equality check
-             * before socket factory equality check to avoid passing
-             * a potentially naughty socket factory to this endpoint's
-             * {client,server} socket factory equals method.
+             * Fix for 4254510: perform socket fbctory *clbss* equblity check
+             * before socket fbctory equblity check to bvoid pbssing
+             * b potentiblly nbughty socket fbctory to this endpoint's
+             * {client,server} socket fbctory equbls method.
              */
             if ((csf != null) &&
-                !(csf.getClass() == ep.csf.getClass() && csf.equals(ep.csf)))
-                return false;
+                !(csf.getClbss() == ep.csf.getClbss() && csf.equbls(ep.csf)))
+                return fblse;
             if ((ssf != null) &&
-                !(ssf.getClass() == ep.ssf.getClass() && ssf.equals(ep.ssf)))
-                return false;
+                !(ssf.getClbss() == ep.ssf.getClbss() && ssf.equbls(ep.ssf)))
+                return fblse;
             return true;
         } else {
-            return false;
+            return fblse;
         }
     }
 
-    /* codes for the self-describing formats of wire representation */
-    private static final int FORMAT_HOST_PORT           = 0;
-    private static final int FORMAT_HOST_PORT_FACTORY   = 1;
+    /* codes for the self-describing formbts of wire representbtion */
+    privbte stbtic finbl int FORMAT_HOST_PORT           = 0;
+    privbte stbtic finbl int FORMAT_HOST_PORT_FACTORY   = 1;
 
     /**
-     * Write endpoint to output stream.
+     * Write endpoint to output strebm.
      */
     public void write(ObjectOutput out) throws IOException {
         if (csf == null) {
@@ -531,120 +531,120 @@ public class TCPEndpoint implements Endpoint {
     }
 
     /**
-     * Get the endpoint from the input stream.
-     * @param in the input stream
-     * @exception IOException If id could not be read (due to stream failure)
+     * Get the endpoint from the input strebm.
+     * @pbrbm in the input strebm
+     * @exception IOException If id could not be rebd (due to strebm fbilure)
      */
-    public static TCPEndpoint read(ObjectInput in)
-        throws IOException, ClassNotFoundException
+    public stbtic TCPEndpoint rebd(ObjectInput in)
+        throws IOException, ClbssNotFoundException
     {
         String host;
         int port;
-        RMIClientSocketFactory csf = null;
+        RMIClientSocketFbctory csf = null;
 
-        byte format = in.readByte();
-        switch (format) {
-          case FORMAT_HOST_PORT:
-            host = in.readUTF();
-            port = in.readInt();
-            break;
+        byte formbt = in.rebdByte();
+        switch (formbt) {
+          cbse FORMAT_HOST_PORT:
+            host = in.rebdUTF();
+            port = in.rebdInt();
+            brebk;
 
-          case FORMAT_HOST_PORT_FACTORY:
-            host = in.readUTF();
-            port = in.readInt();
-            csf = (RMIClientSocketFactory) in.readObject();
-          break;
+          cbse FORMAT_HOST_PORT_FACTORY:
+            host = in.rebdUTF();
+            port = in.rebdInt();
+            csf = (RMIClientSocketFbctory) in.rebdObject();
+          brebk;
 
-          default:
-            throw new IOException("invalid endpoint format");
+          defbult:
+            throw new IOException("invblid endpoint formbt");
         }
         return new TCPEndpoint(host, port, csf, null);
     }
 
     /**
-     * Write endpoint to output stream in older format used by
-     * UnicastRef for JDK1.1 compatibility.
+     * Write endpoint to output strebm in older formbt used by
+     * UnicbstRef for JDK1.1 compbtibility.
      */
-    public void writeHostPortFormat(DataOutput out) throws IOException {
+    public void writeHostPortFormbt(DbtbOutput out) throws IOException {
         if (csf != null) {
-            throw new InternalError("TCPEndpoint.writeHostPortFormat: " +
-                "called for endpoint with non-null socket factory");
+            throw new InternblError("TCPEndpoint.writeHostPortFormbt: " +
+                "cblled for endpoint with non-null socket fbctory");
         }
         out.writeUTF(host);
         out.writeInt(port);
     }
 
     /**
-     * Create a new endpoint from input stream data.
-     * @param in the input stream
+     * Crebte b new endpoint from input strebm dbtb.
+     * @pbrbm in the input strebm
      */
-    public static TCPEndpoint readHostPortFormat(DataInput in)
+    public stbtic TCPEndpoint rebdHostPortFormbt(DbtbInput in)
         throws IOException
     {
-        String host = in.readUTF();
-        int port = in.readInt();
+        String host = in.rebdUTF();
+        int port = in.rebdInt();
         return new TCPEndpoint(host, port);
     }
 
-    private static RMISocketFactory chooseFactory() {
-        RMISocketFactory sf = RMISocketFactory.getSocketFactory();
+    privbte stbtic RMISocketFbctory chooseFbctory() {
+        RMISocketFbctory sf = RMISocketFbctory.getSocketFbctory();
         if (sf == null) {
-            sf = TCPTransport.defaultSocketFactory;
+            sf = TCPTrbnsport.defbultSocketFbctory;
         }
         return sf;
     }
 
     /**
-     * Open and return new client socket connection to endpoint.
+     * Open bnd return new client socket connection to endpoint.
      */
     Socket newSocket() throws RemoteException {
-        if (TCPTransport.tcpLog.isLoggable(Log.VERBOSE)) {
-            TCPTransport.tcpLog.log(Log.VERBOSE,
+        if (TCPTrbnsport.tcpLog.isLoggbble(Log.VERBOSE)) {
+            TCPTrbnsport.tcpLog.log(Log.VERBOSE,
                 "opening socket to " + this);
         }
 
         Socket socket;
 
         try {
-            RMIClientSocketFactory clientFactory = csf;
-            if (clientFactory == null) {
-                clientFactory = chooseFactory();
+            RMIClientSocketFbctory clientFbctory = csf;
+            if (clientFbctory == null) {
+                clientFbctory = chooseFbctory();
             }
-            socket = clientFactory.createSocket(host, port);
+            socket = clientFbctory.crebteSocket(host, port);
 
-        } catch (java.net.UnknownHostException e) {
-            throw new java.rmi.UnknownHostException(
+        } cbtch (jbvb.net.UnknownHostException e) {
+            throw new jbvb.rmi.UnknownHostException(
                 "Unknown host: " + host, e);
-        } catch (java.net.ConnectException e) {
-            throw new java.rmi.ConnectException(
+        } cbtch (jbvb.net.ConnectException e) {
+            throw new jbvb.rmi.ConnectException(
                 "Connection refused to host: " + host, e);
-        } catch (IOException e) {
-            // We might have simply run out of file descriptors
+        } cbtch (IOException e) {
+            // We might hbve simply run out of file descriptors
             try {
-                TCPEndpoint.shedConnectionCaches();
-                // REMIND: should we retry createSocket?
-            } catch (OutOfMemoryError | Exception mem) {
+                TCPEndpoint.shedConnectionCbches();
+                // REMIND: should we retry crebteSocket?
+            } cbtch (OutOfMemoryError | Exception mem) {
                 // don't quit if out of memory
-                // or shed fails non-catastrophically
+                // or shed fbils non-cbtbstrophicblly
             }
 
-            throw new ConnectIOException("Exception creating connection to: " +
+            throw new ConnectIOException("Exception crebting connection to: " +
                 host, e);
         }
 
-        // set socket to disable Nagle's algorithm (always send immediately)
-        // TBD: should this be left up to socket factory instead?
+        // set socket to disbble Nbgle's blgorithm (blwbys send immedibtely)
+        // TBD: should this be left up to socket fbctory instebd?
         try {
-            socket.setTcpNoDelay(true);
-        } catch (Exception e) {
-            // if we fail to set this, ignore and proceed anyway
+            socket.setTcpNoDelby(true);
+        } cbtch (Exception e) {
+            // if we fbil to set this, ignore bnd proceed bnywby
         }
 
-        // fix 4187495: explicitly set SO_KEEPALIVE to prevent client hangs
+        // fix 4187495: explicitly set SO_KEEPALIVE to prevent client hbngs
         try {
             socket.setKeepAlive(true);
-        } catch (Exception e) {
-            // ignore and proceed
+        } cbtch (Exception e) {
+            // ignore bnd proceed
         }
 
         return socket;
@@ -654,130 +654,130 @@ public class TCPEndpoint implements Endpoint {
      * Return new server socket to listen for connections on this endpoint.
      */
     ServerSocket newServerSocket() throws IOException {
-        if (TCPTransport.tcpLog.isLoggable(Log.VERBOSE)) {
-            TCPTransport.tcpLog.log(Log.VERBOSE,
-                "creating server socket on " + this);
+        if (TCPTrbnsport.tcpLog.isLoggbble(Log.VERBOSE)) {
+            TCPTrbnsport.tcpLog.log(Log.VERBOSE,
+                "crebting server socket on " + this);
         }
 
-        RMIServerSocketFactory serverFactory = ssf;
-        if (serverFactory == null) {
-            serverFactory = chooseFactory();
+        RMIServerSocketFbctory serverFbctory = ssf;
+        if (serverFbctory == null) {
+            serverFbctory = chooseFbctory();
         }
-        ServerSocket server = serverFactory.createServerSocket(listenPort);
+        ServerSocket server = serverFbctory.crebteServerSocket(listenPort);
 
-        // if we listened on an anonymous port, set the default port
-        // (for this socket factory)
+        // if we listened on bn bnonymous port, set the defbult port
+        // (for this socket fbctory)
         if (listenPort == 0)
-            setDefaultPort(server.getLocalPort(), csf, ssf);
+            setDefbultPort(server.getLocblPort(), csf, ssf);
 
         return server;
     }
 
     /**
-     * The class FQDN encapsulates a routine that makes a best effort
-     * attempt to retrieve the fully qualified domain name of the local
+     * The clbss FQDN encbpsulbtes b routine thbt mbkes b best effort
+     * bttempt to retrieve the fully qublified dombin nbme of the locbl
      * host.
      *
-     * @author  Laird Dornin
+     * @buthor  Lbird Dornin
      */
-    private static class FQDN implements Runnable {
+    privbte stbtic clbss FQDN implements Runnbble {
 
         /**
-         * strings in which we can store discovered fqdn
+         * strings in which we cbn store discovered fqdn
          */
-        private String reverseLookup;
+        privbte String reverseLookup;
 
-        private String hostAddress;
+        privbte String hostAddress;
 
-        private FQDN(String hostAddress) {
+        privbte FQDN(String hostAddress) {
             this.hostAddress = hostAddress;
         }
 
         /**
-         * Do our best to obtain a fully qualified hostname for the local
-         * host.  Perform the following steps to get a localhostname:
+         * Do our best to obtbin b fully qublified hostnbme for the locbl
+         * host.  Perform the following steps to get b locblhostnbme:
          *
-         * 1. InetAddress.getLocalHost().getHostName() - if contains
-         *    '.' use as FQDN
-         * 2. if no '.' query name service for FQDN in a thread
-         *    Note: We query the name service for an FQDN by creating
-         *    an InetAddress via a stringified copy of the local ip
-         *    address; this creates an InetAddress with a null hostname.
-         *    Asking for the hostname of this InetAddress causes a name
+         * 1. InetAddress.getLocblHost().getHostNbme() - if contbins
+         *    '.' use bs FQDN
+         * 2. if no '.' query nbme service for FQDN in b threbd
+         *    Note: We query the nbme service for bn FQDN by crebting
+         *    bn InetAddress vib b stringified copy of the locbl ip
+         *    bddress; this crebtes bn InetAddress with b null hostnbme.
+         *    Asking for the hostnbme of this InetAddress cbuses b nbme
          *    service lookup.
          *
-         * 3. if name service takes too long to return, use ip address
-         * 4. if name service returns but response contains no '.'
-         *    default to ipaddress.
+         * 3. if nbme service tbkes too long to return, use ip bddress
+         * 4. if nbme service returns but response contbins no '.'
+         *    defbult to ipbddress.
          */
-        static String attemptFQDN(InetAddress localAddr)
-            throws java.net.UnknownHostException
+        stbtic String bttemptFQDN(InetAddress locblAddr)
+            throws jbvb.net.UnknownHostException
         {
 
-            String hostName = localAddr.getHostName();
+            String hostNbme = locblAddr.getHostNbme();
 
-            if (hostName.indexOf('.') < 0 ) {
+            if (hostNbme.indexOf('.') < 0 ) {
 
-                String hostAddress = localAddr.getHostAddress();
+                String hostAddress = locblAddr.getHostAddress();
                 FQDN f = new FQDN(hostAddress);
 
-                int nameServiceTimeOut =
-                    TCPEndpoint.getInt("sun.rmi.transport.tcp.localHostNameTimeOut",
+                int nbmeServiceTimeOut =
+                    TCPEndpoint.getInt("sun.rmi.trbnsport.tcp.locblHostNbmeTimeOut",
                                        10000);
 
                 try {
                     synchronized(f) {
                         f.getFQDN();
 
-                        /* wait to obtain an FQDN */
-                        f.wait(nameServiceTimeOut);
+                        /* wbit to obtbin bn FQDN */
+                        f.wbit(nbmeServiceTimeOut);
                     }
-                } catch (InterruptedException e) {
-                    /* propagate the exception to the caller */
-                    Thread.currentThread().interrupt();
+                } cbtch (InterruptedException e) {
+                    /* propbgbte the exception to the cbller */
+                    Threbd.currentThrebd().interrupt();
                 }
-                hostName = f.getHost();
+                hostNbme = f.getHost();
 
-                if ((hostName == null) || (hostName.equals(""))
-                    || (hostName.indexOf('.') < 0 )) {
+                if ((hostNbme == null) || (hostNbme.equbls(""))
+                    || (hostNbme.indexOf('.') < 0 )) {
 
-                    hostName = hostAddress;
+                    hostNbme = hostAddress;
                 }
             }
-            return hostName;
+            return hostNbme;
         }
 
         /**
-         * Method that that will start a thread to wait to retrieve a
-         * fully qualified domain name from a name service.  The spawned
-         * thread may never return but we have marked it as a daemon so the vm
-         * will terminate appropriately.
+         * Method thbt thbt will stbrt b threbd to wbit to retrieve b
+         * fully qublified dombin nbme from b nbme service.  The spbwned
+         * threbd mby never return but we hbve mbrked it bs b dbemon so the vm
+         * will terminbte bppropribtely.
          */
-        private void getFQDN() {
+        privbte void getFQDN() {
 
-            /* FQDN finder will run in RMI threadgroup. */
-            Thread t = AccessController.doPrivileged(
-                new NewThreadAction(FQDN.this, "FQDN Finder", true));
-            t.start();
+            /* FQDN finder will run in RMI threbdgroup. */
+            Threbd t = AccessController.doPrivileged(
+                new NewThrebdAction(FQDN.this, "FQDN Finder", true));
+            t.stbrt();
         }
 
-        private synchronized String getHost() {
+        privbte synchronized String getHost() {
             return reverseLookup;
         }
 
         /**
-         * thread to query a name service for the fqdn of this host.
+         * threbd to query b nbme service for the fqdn of this host.
          */
         public void run()  {
 
-            String name = null;
+            String nbme = null;
 
             try {
-                name = InetAddress.getByName(hostAddress).getHostName();
-            } catch (java.net.UnknownHostException e) {
-            } finally {
+                nbme = InetAddress.getByNbme(hostAddress).getHostNbme();
+            } cbtch (jbvb.net.UnknownHostException e) {
+            } finblly {
                 synchronized(this) {
-                    reverseLookup = name;
+                    reverseLookup = nbme;
                     this.notify();
                 }
             }

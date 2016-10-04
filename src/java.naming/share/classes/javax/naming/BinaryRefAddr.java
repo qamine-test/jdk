@@ -1,54 +1,54 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.naming;
+pbckbge jbvbx.nbming;
 
 /**
-  * This class represents the binary form of the address of
-  * a communications end-point.
+  * This clbss represents the binbry form of the bddress of
+  * b communicbtions end-point.
   *<p>
-  * A BinaryRefAddr consists of a type that describes the communication mechanism
-  * and an opaque buffer containing the address description
-  * specific to that communication mechanism. The format and interpretation of
-  * the address type and the contents of the opaque buffer are based on
-  * the agreement of three parties: the client that uses the address,
-  * the object/server that can be reached using the address,
-  * and the administrator or program that creates the address.
+  * A BinbryRefAddr consists of b type thbt describes the communicbtion mechbnism
+  * bnd bn opbque buffer contbining the bddress description
+  * specific to thbt communicbtion mechbnism. The formbt bnd interpretbtion of
+  * the bddress type bnd the contents of the opbque buffer bre bbsed on
+  * the bgreement of three pbrties: the client thbt uses the bddress,
+  * the object/server thbt cbn be rebched using the bddress,
+  * bnd the bdministrbtor or progrbm thbt crebtes the bddress.
   *<p>
-  * An example of a binary reference address is an BER X.500 presentation address.
-  * Another example of a binary reference address is a serialized form of
-  * a service's object handle.
+  * An exbmple of b binbry reference bddress is bn BER X.500 presentbtion bddress.
+  * Another exbmple of b binbry reference bddress is b seriblized form of
+  * b service's object hbndle.
   *<p>
-  * A binary reference address is immutable in the sense that its fields
-  * once created, cannot be replaced. However, it is possible to access
-  * the byte array used to hold the opaque buffer. Programs are strongly
-  * recommended against changing this byte array. Changes to this
-  * byte array need to be explicitly synchronized.
+  * A binbry reference bddress is immutbble in the sense thbt its fields
+  * once crebted, cbnnot be replbced. However, it is possible to bccess
+  * the byte brrby used to hold the opbque buffer. Progrbms bre strongly
+  * recommended bgbinst chbnging this byte brrby. Chbnges to this
+  * byte brrby need to be explicitly synchronized.
   *
-  * @author Rosanna Lee
-  * @author Scott Seligman
+  * @buthor Rosbnnb Lee
+  * @buthor Scott Seligmbn
   *
   * @see RefAddr
   * @see StringRefAddr
@@ -56,57 +56,57 @@ package javax.naming;
   */
 
   /*
-  * The serialized form of a BinaryRefAddr object consists of its type
-  * name String and a byte array containing its "contents".
+  * The seriblized form of b BinbryRefAddr object consists of its type
+  * nbme String bnd b byte brrby contbining its "contents".
   */
 
-public class BinaryRefAddr extends RefAddr {
+public clbss BinbryRefAddr extends RefAddr {
     /**
-     * Contains the bytes of the address.
-     * This field is initialized by the constructor and returned
-     * using getAddressBytes() and getAddressContents().
-     * @serial
+     * Contbins the bytes of the bddress.
+     * This field is initiblized by the constructor bnd returned
+     * using getAddressBytes() bnd getAddressContents().
+     * @seribl
      */
-    private byte[] buf = null;
+    privbte byte[] buf = null;
 
     /**
-      * Constructs a new instance of BinaryRefAddr using its address type and a byte
-      * array for contents.
+      * Constructs b new instbnce of BinbryRefAddr using its bddress type bnd b byte
+      * brrby for contents.
       *
-      * @param addrType A non-null string describing the type of the address.
-      * @param src      The non-null contents of the address as a byte array.
-      *                 The contents of src is copied into the new BinaryRefAddr.
+      * @pbrbm bddrType A non-null string describing the type of the bddress.
+      * @pbrbm src      The non-null contents of the bddress bs b byte brrby.
+      *                 The contents of src is copied into the new BinbryRefAddr.
       */
-    public BinaryRefAddr(String addrType, byte[] src) {
-        this(addrType, src, 0, src.length);
+    public BinbryRefAddr(String bddrType, byte[] src) {
+        this(bddrType, src, 0, src.length);
     }
 
     /**
-      * Constructs a new instance of BinaryRefAddr using its address type and
-      * a region of a byte array for contents.
+      * Constructs b new instbnce of BinbryRefAddr using its bddress type bnd
+      * b region of b byte brrby for contents.
       *
-      * @param addrType A non-null string describing the type of the address.
-      * @param src      The non-null contents of the address as a byte array.
-      *                 The contents of src is copied into the new BinaryRefAddr.
-      * @param offset   The starting index in src to get the bytes.
+      * @pbrbm bddrType A non-null string describing the type of the bddress.
+      * @pbrbm src      The non-null contents of the bddress bs b byte brrby.
+      *                 The contents of src is copied into the new BinbryRefAddr.
+      * @pbrbm offset   The stbrting index in src to get the bytes.
       *                 {@code 0 <= offset <= src.length}.
-      * @param count    The number of bytes to extract from src.
+      * @pbrbm count    The number of bytes to extrbct from src.
       *                 {@code 0 <= count <= src.length-offset}.
       */
-    public BinaryRefAddr(String addrType, byte[] src, int offset, int count) {
-        super(addrType);
+    public BinbryRefAddr(String bddrType, byte[] src, int offset, int count) {
+        super(bddrType);
         buf = new byte[count];
-        System.arraycopy(src, offset, buf, 0, count);
+        System.brrbycopy(src, offset, buf, 0, count);
     }
 
     /**
-      * Retrieves the contents of this address as an Object.
-      * The result is a byte array.
-      * Changes to this array will affect this BinaryRefAddr's contents.
-      * Programs are recommended against changing this array's contents
-      * and to lock the buffer if they need to change it.
+      * Retrieves the contents of this bddress bs bn Object.
+      * The result is b byte brrby.
+      * Chbnges to this brrby will bffect this BinbryRefAddr's contents.
+      * Progrbms bre recommended bgbinst chbnging this brrby's contents
+      * bnd to lock the buffer if they need to chbnge it.
       *
-      * @return The non-null buffer containing this address's contents.
+      * @return The non-null buffer contbining this bddress's contents.
       */
     public Object getContent() {
         return buf;
@@ -114,70 +114,70 @@ public class BinaryRefAddr extends RefAddr {
 
 
     /**
-      * Determines whether obj is equal to this address.  It is equal if
-      * it contains the same address type and their contents are byte-wise
-      * equivalent.
-      * @param obj      The possibly null object to check.
-      * @return true if the object is equal; false otherwise.
+      * Determines whether obj is equbl to this bddress.  It is equbl if
+      * it contbins the sbme bddress type bnd their contents bre byte-wise
+      * equivblent.
+      * @pbrbm obj      The possibly null object to check.
+      * @return true if the object is equbl; fblse otherwise.
       */
-    public boolean equals(Object obj) {
-        if ((obj != null) && (obj instanceof BinaryRefAddr)) {
-            BinaryRefAddr target = (BinaryRefAddr)obj;
-            if (addrType.compareTo(target.addrType) == 0) {
-                if (buf == null && target.buf == null)
+    public boolebn equbls(Object obj) {
+        if ((obj != null) && (obj instbnceof BinbryRefAddr)) {
+            BinbryRefAddr tbrget = (BinbryRefAddr)obj;
+            if (bddrType.compbreTo(tbrget.bddrType) == 0) {
+                if (buf == null && tbrget.buf == null)
                     return true;
-                if (buf == null || target.buf == null ||
-                    buf.length != target.buf.length)
-                    return false;
+                if (buf == null || tbrget.buf == null ||
+                    buf.length != tbrget.buf.length)
+                    return fblse;
                 for (int i = 0; i < buf.length; i++)
-                    if (buf[i] != target.buf[i])
-                        return false;
+                    if (buf[i] != tbrget.buf[i])
+                        return fblse;
                 return true;
             }
         }
-        return false;
+        return fblse;
     }
 
     /**
-      * Computes the hash code of this address using its address type and contents.
-      * Two BinaryRefAddrs have the same hash code if they have
-      * the same address type and the same contents.
-      * It is also possible for different BinaryRefAddrs to have
-      * the same hash code.
+      * Computes the hbsh code of this bddress using its bddress type bnd contents.
+      * Two BinbryRefAddrs hbve the sbme hbsh code if they hbve
+      * the sbme bddress type bnd the sbme contents.
+      * It is blso possible for different BinbryRefAddrs to hbve
+      * the sbme hbsh code.
       *
-      * @return The hash code of this address as an int.
+      * @return The hbsh code of this bddress bs bn int.
       */
-    public int hashCode() {
-        int hash = addrType.hashCode();
+    public int hbshCode() {
+        int hbsh = bddrType.hbshCode();
         for (int i = 0; i < buf.length; i++) {
-            hash += buf[i];     // %%% improve later
+            hbsh += buf[i];     // %%% improve lbter
         }
-        return hash;
+        return hbsh;
     }
 
     /**
-      * Generates the string representation of this address.
-      * The string consists of the address's type and contents with labels.
-      * The first 32 bytes of contents are displayed (in hexadecimal).
-      * If there are more than 32 bytes, "..." is used to indicate more.
-      * This string is meant to used for debugging purposes and not
-      * meant to be interpreted programmatically.
-      * @return The non-null string representation of this address.
+      * Generbtes the string representbtion of this bddress.
+      * The string consists of the bddress's type bnd contents with lbbels.
+      * The first 32 bytes of contents bre displbyed (in hexbdecimbl).
+      * If there bre more thbn 32 bytes, "..." is used to indicbte more.
+      * This string is mebnt to used for debugging purposes bnd not
+      * mebnt to be interpreted progrbmmbticblly.
+      * @return The non-null string representbtion of this bddress.
       */
     public String toString(){
-        StringBuilder str = new StringBuilder("Address Type: " + addrType + "\n");
+        StringBuilder str = new StringBuilder("Address Type: " + bddrType + "\n");
 
-        str.append("AddressContents: ");
+        str.bppend("AddressContents: ");
         for (int i = 0; i<buf.length && i < 32; i++) {
-            str.append(Integer.toHexString(buf[i]) +" ");
+            str.bppend(Integer.toHexString(buf[i]) +" ");
         }
         if (buf.length >= 32)
-            str.append(" ...\n");
+            str.bppend(" ...\n");
         return (str.toString());
     }
 
     /**
-     * Use serialVersionUID from JNDI 1.1.1 for interoperability
+     * Use seriblVersionUID from JNDI 1.1.1 for interoperbbility
      */
-    private static final long serialVersionUID = -3415254970957330361L;
+    privbte stbtic finbl long seriblVersionUID = -3415254970957330361L;
 }

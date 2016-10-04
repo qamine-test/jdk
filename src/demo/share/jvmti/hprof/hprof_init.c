@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,74 +30,74 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-/* Main source file, the basic JVMTI connection/startup code. */
+/* Mbin source file, the bbsic JVMTI connection/stbrtup code. */
 
 #include "hprof.h"
 
-#include "java_crw_demo.h"
+#include "jbvb_crw_demo.h"
 
 /*
- * This file contains all the startup logic (Agent_Onload) and
- *   connection to the JVMTI interface.
- * All JVMTI Event callbacks are in this file.
- * All setting of global data (gdata) is done here.
- * Options are parsed here.
- * Option help messages are here.
- * Termination handled here (VM_DEATH) and shutdown (Agent_OnUnload).
- * Spawning of the cpu sample loop thread and listener thread is done here.
+ * This file contbins bll the stbrtup logic (Agent_Onlobd) bnd
+ *   connection to the JVMTI interfbce.
+ * All JVMTI Event cbllbbcks bre in this file.
+ * All setting of globbl dbtb (gdbtb) is done here.
+ * Options bre pbrsed here.
+ * Option help messbges bre here.
+ * Terminbtion hbndled here (VM_DEATH) bnd shutdown (Agent_OnUnlobd).
+ * Spbwning of the cpu sbmple loop threbd bnd listener threbd is done here.
  *
- * Use of private 'static' data has been limited, most shared static data
- *    should be found in the GlobalData structure pointed to by gdata
+ * Use of privbte 'stbtic' dbtb hbs been limited, most shbred stbtic dbtb
+ *    should be found in the GlobblDbtb structure pointed to by gdbtb
  *    (see hprof.h).
  *
  */
 
-/* The default output filenames. */
+/* The defbult output filenbmes. */
 
 #define DEFAULT_TXT_SUFFIX      ".txt"
-#define DEFAULT_OUTPUTFILE      "java.hprof"
-#define DEFAULT_OUTPUTTEMP      "java.hprof.temp"
+#define DEFAULT_OUTPUTFILE      "jbvb.hprof"
+#define DEFAULT_OUTPUTTEMP      "jbvb.hprof.temp"
 
-/* The only global variable, defined by this library */
-GlobalData *gdata;
+/* The only globbl vbribble, defined by this librbry */
+GlobblDbtb *gdbtb;
 
-/* Experimental options */
+/* Experimentbl options */
 #define EXPERIMENT_NO_EARLY_HOOK 0x1
 
-/* Default trace depth */
+/* Defbult trbce depth */
 #define DEFAULT_TRACE_DEPTH 4
 
-/* Default sample interval */
+/* Defbult sbmple intervbl */
 #define DEFAULT_SAMPLE_INTERVAL 10
 
-/* Default cutoff */
+/* Defbult cutoff */
 #define DEFAULT_CUTOFF_POINT 0.0001
 
-/* Stringize macros for help. */
-#define _TO_STR(a) #a
-#define TO_STR(a) _TO_STR(a)
+/* Stringize mbcros for help. */
+#define _TO_STR(b) #b
+#define TO_STR(b) _TO_STR(b)
 
-/* Macros to surround callback code (non-VM_DEATH callbacks).
- *   Note that this just keeps a count of the non-VM_DEATH callbacks that
- *   are currently active, it does not prevent these callbacks from
- *   operating in parallel. It's the VM_DEATH callback that will wait
- *   for all these callbacks to either complete and block, or just block.
- *   We need to hold back these threads so they don't die during the final
+/* Mbcros to surround cbllbbck code (non-VM_DEATH cbllbbcks).
+ *   Note thbt this just keeps b count of the non-VM_DEATH cbllbbcks thbt
+ *   bre currently bctive, it does not prevent these cbllbbcks from
+ *   operbting in pbrbllel. It's the VM_DEATH cbllbbck thbt will wbit
+ *   for bll these cbllbbcks to either complete bnd block, or just block.
+ *   We need to hold bbck these threbds so they don't die during the finbl
  *   VM_DEATH processing.
- *   If the VM_DEATH callback is active in the beginning, then this callback
- *   just blocks to prevent further execution of the thread.
- *   If the VM_DEATH callback is active at the end, then this callback
- *   will notify the VM_DEATH callback if it's the last one.
- *   In all cases, the last thing they do is Enter/Exit the monitor
- *   gdata->callbackBlock, which will block this callback if VM_DEATH
+ *   If the VM_DEATH cbllbbck is bctive in the beginning, then this cbllbbck
+ *   just blocks to prevent further execution of the threbd.
+ *   If the VM_DEATH cbllbbck is bctive bt the end, then this cbllbbck
+ *   will notify the VM_DEATH cbllbbck if it's the lbst one.
+ *   In bll cbses, the lbst thing they do is Enter/Exit the monitor
+ *   gdbtb->cbllbbckBlock, which will block this cbllbbck if VM_DEATH
  *   is running.
  *
  *   WARNING: No not 'return' or 'goto' out of the BEGIN_CALLBACK/END_CALLBACK
@@ -106,103 +106,103 @@ GlobalData *gdata;
 
 #define BEGIN_CALLBACK()                                            \
 { /* BEGIN OF CALLBACK */                                           \
-    jboolean bypass;                                                \
-    rawMonitorEnter(gdata->callbackLock);                           \
-    if (gdata->vm_death_callback_active) {                          \
-        /* VM_DEATH is active, we will bypass the CALLBACK CODE */  \
-        bypass = JNI_TRUE;                                          \
-        rawMonitorExit(gdata->callbackLock);                        \
-        /* Bypassed CALLBACKS block here until VM_DEATH done */     \
-        rawMonitorEnter(gdata->callbackBlock);                      \
-        rawMonitorExit(gdata->callbackBlock);                       \
+    jboolebn bypbss;                                                \
+    rbwMonitorEnter(gdbtb->cbllbbckLock);                           \
+    if (gdbtb->vm_debth_cbllbbck_bctive) {                          \
+        /* VM_DEATH is bctive, we will bypbss the CALLBACK CODE */  \
+        bypbss = JNI_TRUE;                                          \
+        rbwMonitorExit(gdbtb->cbllbbckLock);                        \
+        /* Bypbssed CALLBACKS block here until VM_DEATH done */     \
+        rbwMonitorEnter(gdbtb->cbllbbckBlock);                      \
+        rbwMonitorExit(gdbtb->cbllbbckBlock);                       \
     } else {                                                        \
-        /* We will be executing the CALLBACK CODE in this case */   \
-        gdata->active_callbacks++;                                  \
-        bypass = JNI_FALSE;                                         \
-        rawMonitorExit(gdata->callbackLock);                        \
+        /* We will be executing the CALLBACK CODE in this cbse */   \
+        gdbtb->bctive_cbllbbcks++;                                  \
+        bypbss = JNI_FALSE;                                         \
+        rbwMonitorExit(gdbtb->cbllbbckLock);                        \
     }                                                               \
-    if ( !bypass ) {                                                \
-        /* BODY OF CALLBACK CODE (with no callback locks held) */
+    if ( !bypbss ) {                                                \
+        /* BODY OF CALLBACK CODE (with no cbllbbck locks held) */
 
-#define END_CALLBACK() /* Part of bypass if body */                 \
-        rawMonitorEnter(gdata->callbackLock);                       \
-        gdata->active_callbacks--;                                  \
-        /* If VM_DEATH is active, and last one, send notify. */     \
-        if (gdata->vm_death_callback_active) {                      \
-            if (gdata->active_callbacks == 0) {                     \
-                rawMonitorNotifyAll(gdata->callbackLock);           \
+#define END_CALLBACK() /* Pbrt of bypbss if body */                 \
+        rbwMonitorEnter(gdbtb->cbllbbckLock);                       \
+        gdbtb->bctive_cbllbbcks--;                                  \
+        /* If VM_DEATH is bctive, bnd lbst one, send notify. */     \
+        if (gdbtb->vm_debth_cbllbbck_bctive) {                      \
+            if (gdbtb->bctive_cbllbbcks == 0) {                     \
+                rbwMonitorNotifyAll(gdbtb->cbllbbckLock);           \
             }                                                       \
         }                                                           \
-        rawMonitorExit(gdata->callbackLock);                        \
-        /* Non-Bypassed CALLBACKS block here until VM_DEATH done */ \
-        rawMonitorEnter(gdata->callbackBlock);                      \
-        rawMonitorExit(gdata->callbackBlock);                       \
+        rbwMonitorExit(gdbtb->cbllbbckLock);                        \
+        /* Non-Bypbssed CALLBACKS block here until VM_DEATH done */ \
+        rbwMonitorEnter(gdbtb->cbllbbckBlock);                      \
+        rbwMonitorExit(gdbtb->cbllbbckBlock);                       \
     }                                                               \
 } /* END OF CALLBACK */
 
-/* Forward declarations */
-static void set_callbacks(jboolean on);
+/* Forwbrd declbrbtions */
+stbtic void set_cbllbbcks(jboolebn on);
 
 /* ------------------------------------------------------------------- */
-/* Global data initialization */
+/* Globbl dbtb initiblizbtion */
 
-/* Get initialized global data area */
-static GlobalData *
-get_gdata(void)
+/* Get initiblized globbl dbtb breb */
+stbtic GlobblDbtb *
+get_gdbtb(void)
 {
-    static GlobalData data;
+    stbtic GlobblDbtb dbtb;
 
-    /* Create initial default values */
-    (void)memset(&data, 0, sizeof(GlobalData));
+    /* Crebte initibl defbult vblues */
+    (void)memset(&dbtb, 0, sizeof(GlobblDbtb));
 
-    data.fd                             = -1; /* Non-zero file or socket. */
-    data.heap_fd                        = -1; /* For heap=dump, see hprof_io */
-    data.check_fd                       = -1; /* For heap=dump, see hprof_io */
-    data.max_trace_depth                = DEFAULT_TRACE_DEPTH;
-    data.prof_trace_depth               = DEFAULT_TRACE_DEPTH;
-    data.sample_interval                = DEFAULT_SAMPLE_INTERVAL;
-    data.lineno_in_traces               = JNI_TRUE;
-    data.output_format                  = 'a';      /* 'b' for binary */
-    data.cutoff_point                   = DEFAULT_CUTOFF_POINT;
-    data.dump_on_exit                   = JNI_TRUE;
-    data.gc_start_time                  = -1L;
+    dbtb.fd                             = -1; /* Non-zero file or socket. */
+    dbtb.hebp_fd                        = -1; /* For hebp=dump, see hprof_io */
+    dbtb.check_fd                       = -1; /* For hebp=dump, see hprof_io */
+    dbtb.mbx_trbce_depth                = DEFAULT_TRACE_DEPTH;
+    dbtb.prof_trbce_depth               = DEFAULT_TRACE_DEPTH;
+    dbtb.sbmple_intervbl                = DEFAULT_SAMPLE_INTERVAL;
+    dbtb.lineno_in_trbces               = JNI_TRUE;
+    dbtb.output_formbt                  = 'b';      /* 'b' for binbry */
+    dbtb.cutoff_point                   = DEFAULT_CUTOFF_POINT;
+    dbtb.dump_on_exit                   = JNI_TRUE;
+    dbtb.gc_stbrt_time                  = -1L;
 #ifdef DEBUG
-    data.debug                          = JNI_TRUE;
-    data.coredump                       = JNI_TRUE;
+    dbtb.debug                          = JNI_TRUE;
+    dbtb.coredump                       = JNI_TRUE;
 #endif
-    data.micro_state_accounting         = JNI_FALSE;
-    data.force_output                   = JNI_TRUE;
-    data.verbose                        = JNI_TRUE;
-    data.primfields                     = JNI_TRUE;
-    data.primarrays                     = JNI_TRUE;
+    dbtb.micro_stbte_bccounting         = JNI_FALSE;
+    dbtb.force_output                   = JNI_TRUE;
+    dbtb.verbose                        = JNI_TRUE;
+    dbtb.primfields                     = JNI_TRUE;
+    dbtb.primbrrbys                     = JNI_TRUE;
 
-    data.table_serial_number_start    = 1;
-    data.class_serial_number_start    = 100000;
-    data.thread_serial_number_start   = 200000;
-    data.trace_serial_number_start    = 300000;
-    data.object_serial_number_start   = 400000;
-    data.frame_serial_number_start    = 500000;
-    data.gref_serial_number_start     = 1;
+    dbtb.tbble_seribl_number_stbrt    = 1;
+    dbtb.clbss_seribl_number_stbrt    = 100000;
+    dbtb.threbd_seribl_number_stbrt   = 200000;
+    dbtb.trbce_seribl_number_stbrt    = 300000;
+    dbtb.object_seribl_number_stbrt   = 400000;
+    dbtb.frbme_seribl_number_stbrt    = 500000;
+    dbtb.gref_seribl_number_stbrt     = 1;
 
-    data.table_serial_number_counter  = data.table_serial_number_start;
-    data.class_serial_number_counter  = data.class_serial_number_start;
-    data.thread_serial_number_counter = data.thread_serial_number_start;
-    data.trace_serial_number_counter  = data.trace_serial_number_start;
-    data.object_serial_number_counter = data.object_serial_number_start;
-    data.frame_serial_number_counter  = data.frame_serial_number_start;
-    data.gref_serial_number_counter   = data.gref_serial_number_start;
+    dbtb.tbble_seribl_number_counter  = dbtb.tbble_seribl_number_stbrt;
+    dbtb.clbss_seribl_number_counter  = dbtb.clbss_seribl_number_stbrt;
+    dbtb.threbd_seribl_number_counter = dbtb.threbd_seribl_number_stbrt;
+    dbtb.trbce_seribl_number_counter  = dbtb.trbce_seribl_number_stbrt;
+    dbtb.object_seribl_number_counter = dbtb.object_seribl_number_stbrt;
+    dbtb.frbme_seribl_number_counter  = dbtb.frbme_seribl_number_stbrt;
+    dbtb.gref_seribl_number_counter   = dbtb.gref_seribl_number_stbrt;
 
-    data.unknown_thread_serial_num    = data.thread_serial_number_counter++;
-    return &data;
+    dbtb.unknown_threbd_seribl_num    = dbtb.threbd_seribl_number_counter++;
+    return &dbtb;
 }
 
 /* ------------------------------------------------------------------- */
-/* Error handler callback for the java_crw_demo (classfile read write) functions. */
+/* Error hbndler cbllbbck for the jbvb_crw_demo (clbssfile rebd write) functions. */
 
-static void
-my_crw_fatal_error_handler(const char * msg, const char *file, int line)
+stbtic void
+my_crw_fbtbl_error_hbndler(const chbr * msg, const chbr *file, int line)
 {
-    char errmsg[256];
+    chbr errmsg[256];
 
     (void)md_snprintf(errmsg, sizeof(errmsg),
                 "%s [%s:%d]", msg, file, line);
@@ -210,125 +210,125 @@ my_crw_fatal_error_handler(const char * msg, const char *file, int line)
     HPROF_ERROR(JNI_TRUE, errmsg);
 }
 
-static void
-list_all_tables(void)
+stbtic void
+list_bll_tbbles(void)
 {
     string_list();
-    class_list();
-    frame_list();
+    clbss_list();
+    frbme_list();
     site_list();
     object_list();
-    trace_list();
+    trbce_list();
     monitor_list();
     tls_list();
-    loader_list();
+    lobder_list();
 }
 
 /* ------------------------------------------------------------------- */
-/* Option Parsing support */
+/* Option Pbrsing support */
 
 /**
  * Socket connection
  */
 
 /*
- * Return a socket  connect()ed to a "hostname" that is
- * accept()ing heap profile data on "port." Return a value <= 0 if
- * such a connection can't be made.
+ * Return b socket  connect()ed to b "hostnbme" thbt is
+ * bccept()ing hebp profile dbtb on "port." Return b vblue <= 0 if
+ * such b connection cbn't be mbde.
  */
-static int
-connect_to_socket(char *hostname, int port)
+stbtic int
+connect_to_socket(chbr *hostnbme, int port)
 {
     int fd;
 
     if (port == 0 || port > 65535) {
-        HPROF_ERROR(JNI_FALSE, "invalid port number");
+        HPROF_ERROR(JNI_FALSE, "invblid port number");
         return -1;
     }
-    if (hostname == NULL) {
-        HPROF_ERROR(JNI_FALSE, "hostname is NULL");
+    if (hostnbme == NULL) {
+        HPROF_ERROR(JNI_FALSE, "hostnbme is NULL");
         return -1;
     }
 
-    /* create a socket */
-    fd = md_connect(hostname, (unsigned short)port);
+    /* crebte b socket */
+    fd = md_connect(hostnbme, (unsigned short)port);
     return fd;
 }
 
-/* Accept a filename, and adjust the name so that it is unique for this PID */
-static void
-make_unique_filename(char **filename)
+/* Accept b filenbme, bnd bdjust the nbme so thbt it is unique for this PID */
+stbtic void
+mbke_unique_filenbme(chbr **filenbme)
 {
     int fd;
 
-    /* Find a file that doesn't exist */
-    fd = md_open(*filename);
+    /* Find b file thbt doesn't exist */
+    fd = md_open(*filenbme);
     if ( fd >= 0 ) {
         int   pid;
-        char *new_name;
-        char *old_name;
-        char *prefix;
-        char  suffix[5];
+        chbr *new_nbme;
+        chbr *old_nbme;
+        chbr *prefix;
+        chbr  suffix[5];
         int   new_len;
 
         /* Close the file. */
         md_close(fd);
 
-        /* Make filename name.PID[.txt] */
+        /* Mbke filenbme nbme.PID[.txt] */
         pid = md_getpid();
-        old_name = *filename;
-        new_len = (int)strlen(old_name)+64;
-        new_name = HPROF_MALLOC(new_len);
-        prefix = old_name;
+        old_nbme = *filenbme;
+        new_len = (int)strlen(old_nbme)+64;
+        new_nbme = HPROF_MALLOC(new_len);
+        prefix = old_nbme;
         suffix[0] = 0;
 
-        /* Look for .txt suffix if not binary output */
-        if (gdata->output_format != 'b') {
-            char *dot;
-            char *format_suffix;
+        /* Look for .txt suffix if not binbry output */
+        if (gdbtb->output_formbt != 'b') {
+            chbr *dot;
+            chbr *formbt_suffix;
 
-            format_suffix = DEFAULT_TXT_SUFFIX;
+            formbt_suffix = DEFAULT_TXT_SUFFIX;
 
-            (void)strcpy(suffix, format_suffix);
+            (void)strcpy(suffix, formbt_suffix);
 
-            dot = strrchr(old_name, '.');
+            dot = strrchr(old_nbme, '.');
             if ( dot != NULL ) {
                 int i;
                 int slen;
-                int match;
+                int mbtch;
 
-                slen = (int)strlen(format_suffix);
-                match = 1;
+                slen = (int)strlen(formbt_suffix);
+                mbtch = 1;
                 for ( i = 0; i < slen; i++ ) {
                     if ( dot[i]==0 ||
-                         tolower(format_suffix[i]) != tolower(dot[i]) ) {
-                        match = 0;
-                        break;
+                         tolower(formbt_suffix[i]) != tolower(dot[i]) ) {
+                        mbtch = 0;
+                        brebk;
                     }
                 }
-                if ( match ) {
+                if ( mbtch ) {
                     (void)strcpy(suffix, dot);
-                    *dot = 0; /* truncates prefix and old_name */
+                    *dot = 0; /* truncbtes prefix bnd old_nbme */
                 }
             }
         }
 
-        /* Construct the name */
-        (void)md_snprintf(new_name, new_len,
+        /* Construct the nbme */
+        (void)md_snprintf(new_nbme, new_len,
                    "%s.%d%s", prefix, pid, suffix);
-        *filename = new_name;
-        HPROF_FREE(old_name);
+        *filenbme = new_nbme;
+        HPROF_FREE(old_nbme);
 
-        /* Odds are with Windows, this file may not be so unique. */
-        (void)remove(gdata->output_filename);
+        /* Odds bre with Windows, this file mby not be so unique. */
+        (void)remove(gdbtb->output_filenbme);
     }
 }
 
-static int
-get_tok(char **src, char *buf, int buflen, int sep)
+stbtic int
+get_tok(chbr **src, chbr *buf, int buflen, int sep)
 {
     int len;
-    char *p;
+    chbr *p;
 
     buf[0] = 0;
     if ( **src == 0 ) {
@@ -355,10 +355,10 @@ get_tok(char **src, char *buf, int buflen, int sep)
     return len;
 }
 
-static jboolean
-setBinarySwitch(char **src, jboolean *ptr)
+stbtic jboolebn
+setBinbrySwitch(chbr **src, jboolebn *ptr)
 {
-    char buf[80];
+    chbr buf[80];
 
     if (!get_tok(src, buf, (int)sizeof(buf), ',')) {
         return JNI_FALSE;
@@ -373,188 +373,188 @@ setBinarySwitch(char **src, jboolean *ptr)
     return JNI_TRUE;
 }
 
-static void
-print_usage(void)
+stbtic void
+print_usbge(void)
 {
 
     (void)fprintf(stdout,
 "\n"
-"     HPROF: Heap and CPU Profiling Agent (JVMTI Demonstration Code)\n"
+"     HPROF: Hebp bnd CPU Profiling Agent (JVMTI Demonstrbtion Code)\n"
 "\n"
-AGENTNAME " usage: java " AGENTLIB "=[help]|[<option>=<value>, ...]\n"
+AGENTNAME " usbge: jbvb " AGENTLIB "=[help]|[<option>=<vblue>, ...]\n"
 "\n"
-"Option Name and Value  Description                    Default\n"
+"Option Nbme bnd Vblue  Description                    Defbult\n"
 "---------------------  -----------                    -------\n"
-"heap=dump|sites|all    heap profiling                 all\n"
-"cpu=samples|times|old  CPU usage                      off\n"
+"hebp=dump|sites|bll    hebp profiling                 bll\n"
+"cpu=sbmples|times|old  CPU usbge                      off\n"
 "monitor=y|n            monitor contention             n\n"
-"format=a|b             text(txt) or binary output     a\n"
-"file=<file>            write data to file             " DEFAULT_OUTPUTFILE "[{" DEFAULT_TXT_SUFFIX "}]\n"
-"net=<host>:<port>      send data over a socket        off\n"
-"depth=<size>           stack trace depth              " TO_STR(DEFAULT_TRACE_DEPTH) "\n"
-"interval=<ms>          sample interval in ms          " TO_STR(DEFAULT_SAMPLE_INTERVAL) "\n"
-"cutoff=<value>         output cutoff point            " TO_STR(DEFAULT_CUTOFF_POINT) "\n"
-"lineno=y|n             line number in traces?         y\n"
-"thread=y|n             thread in traces?              n\n"
+"formbt=b|b             text(txt) or binbry output     b\n"
+"file=<file>            write dbtb to file             " DEFAULT_OUTPUTFILE "[{" DEFAULT_TXT_SUFFIX "}]\n"
+"net=<host>:<port>      send dbtb over b socket        off\n"
+"depth=<size>           stbck trbce depth              " TO_STR(DEFAULT_TRACE_DEPTH) "\n"
+"intervbl=<ms>          sbmple intervbl in ms          " TO_STR(DEFAULT_SAMPLE_INTERVAL) "\n"
+"cutoff=<vblue>         output cutoff point            " TO_STR(DEFAULT_CUTOFF_POINT) "\n"
+"lineno=y|n             line number in trbces?         y\n"
+"threbd=y|n             threbd in trbces?              n\n"
 "doe=y|n                dump on exit?                  y\n"
-"msa=y|n                Solaris micro state accounting n\n"
+"msb=y|n                Solbris micro stbte bccounting n\n"
 "force=y|n              force output to <file>         y\n"
-"verbose=y|n            print messages about dumps     y\n"
+"verbose=y|n            print messbges bbout dumps     y\n"
 "\n"
 "Obsolete Options\n"
 "----------------\n"
-"gc_okay=y|n\n"
+"gc_okby=y|n\n"
 
 #ifdef DEBUG
 "\n"
-"DEBUG Option           Description                    Default\n"
+"DEBUG Option           Description                    Defbult\n"
 "------------           -----------                    -------\n"
-"primfields=y|n         include primitive field values y\n"
-"primarrays=y|n         include primitive array values y\n"
-"debugflags=MASK        Various debug flags            0\n"
-"                        0x01   Report refs in and of unprepared classes\n"
-"logflags=MASK          Logging to stderr              0\n"
+"primfields=y|n         include primitive field vblues y\n"
+"primbrrbys=y|n         include primitive brrby vblues y\n"
+"debugflbgs=MASK        Vbrious debug flbgs            0\n"
+"                        0x01   Report refs in bnd of unprepbred clbsses\n"
+"logflbgs=MASK          Logging to stderr              0\n"
 "                        " TO_STR(LOG_DUMP_MISC)    " Misc logging\n"
-"                        " TO_STR(LOG_DUMP_LISTS)   " Dump out the tables\n"
-"                        " TO_STR(LOG_CHECK_BINARY) " Verify & dump format=b\n"
-"coredump=y|n           Core dump on fatal             n\n"
-"errorexit=y|n          Exit on any error              n\n"
-"pause=y|n              Pause on onload & echo PID     n\n"
-"debug=y|n              Turn on all debug checking     n\n"
-"X=MASK                 Internal use only              0\n"
+"                        " TO_STR(LOG_DUMP_LISTS)   " Dump out the tbbles\n"
+"                        " TO_STR(LOG_CHECK_BINARY) " Verify & dump formbt=b\n"
+"coredump=y|n           Core dump on fbtbl             n\n"
+"errorexit=y|n          Exit on bny error              n\n"
+"pbuse=y|n              Pbuse on onlobd & echo PID     n\n"
+"debug=y|n              Turn on bll debug checking     n\n"
+"X=MASK                 Internbl use only              0\n"
 
 "\n"
-"Environment Variables\n"
+"Environment Vbribbles\n"
 "---------------------\n"
 "_JAVA_HPROF_OPTIONS\n"
-"    Options can be added externally via this environment variable.\n"
-"    Anything contained in it will get a comma prepended to it (if needed),\n"
-"    then it will be added to the end of the options supplied via the\n"
-"    " XRUN " or " AGENTLIB " command line option.\n"
+"    Options cbn be bdded externblly vib this environment vbribble.\n"
+"    Anything contbined in it will get b commb prepended to it (if needed),\n"
+"    then it will be bdded to the end of the options supplied vib the\n"
+"    " XRUN " or " AGENTLIB " commbnd line option.\n"
 
 #endif
 
 "\n"
-"Examples\n"
+"Exbmples\n"
 "--------\n"
-"  - Get sample cpu information every 20 millisec, with a stack depth of 3:\n"
-"      java " AGENTLIB "=cpu=samples,interval=20,depth=3 classname\n"
-"  - Get heap usage information based on the allocation sites:\n"
-"      java " AGENTLIB "=heap=sites classname\n"
+"  - Get sbmple cpu informbtion every 20 millisec, with b stbck depth of 3:\n"
+"      jbvb " AGENTLIB "=cpu=sbmples,intervbl=20,depth=3 clbssnbme\n"
+"  - Get hebp usbge informbtion bbsed on the bllocbtion sites:\n"
+"      jbvb " AGENTLIB "=hebp=sites clbssnbme\n"
 
 #ifdef DEBUG
-"  - Using the external option addition with csh, log details on all runs:\n"
-"      setenv _JAVA_HPROF_OPTIONS \"logflags=0xC\"\n"
-"      java " AGENTLIB "=cpu=samples classname\n"
-"    is the same as:\n"
-"      java " AGENTLIB "=cpu=samples,logflags=0xC classname\n"
+"  - Using the externbl option bddition with csh, log detbils on bll runs:\n"
+"      setenv _JAVA_HPROF_OPTIONS \"logflbgs=0xC\"\n"
+"      jbvb " AGENTLIB "=cpu=sbmples clbssnbme\n"
+"    is the sbme bs:\n"
+"      jbvb " AGENTLIB "=cpu=sbmples,logflbgs=0xC clbssnbme\n"
 #endif
 
 "\n"
 "Notes\n"
 "-----\n"
-"  - The option format=b cannot be used with monitor=y.\n"
-"  - The option format=b cannot be used with cpu=old|times.\n"
-"  - Use of the " XRUN " interface can still be used, e.g.\n"
-"       java " XRUN ":[help]|[<option>=<value>, ...]\n"
-"    will behave exactly the same as:\n"
-"       java " AGENTLIB "=[help]|[<option>=<value>, ...]\n"
+"  - The option formbt=b cbnnot be used with monitor=y.\n"
+"  - The option formbt=b cbnnot be used with cpu=old|times.\n"
+"  - Use of the " XRUN " interfbce cbn still be used, e.g.\n"
+"       jbvb " XRUN ":[help]|[<option>=<vblue>, ...]\n"
+"    will behbve exbctly the sbme bs:\n"
+"       jbvb " AGENTLIB "=[help]|[<option>=<vblue>, ...]\n"
 
 #ifdef DEBUG
-"  - The debug options and environment variables are available with both java\n"
-"    and java_g versions.\n"
+"  - The debug options bnd environment vbribbles bre bvbilbble with both jbvb\n"
+"    bnd jbvb_g versions.\n"
 #endif
 
 "\n"
-"Warnings\n"
+"Wbrnings\n"
 "--------\n"
-"  - This is demonstration code for the JVMTI interface and use of BCI,\n"
-"    it is not an official product or formal part of the JDK.\n"
-"  - The " XRUN " interface will be removed in a future release.\n"
-"  - The option format=b is considered experimental, this format may change\n"
-"    in a future release.\n"
+"  - This is demonstrbtion code for the JVMTI interfbce bnd use of BCI,\n"
+"    it is not bn officibl product or formbl pbrt of the JDK.\n"
+"  - The " XRUN " interfbce will be removed in b future relebse.\n"
+"  - The option formbt=b is considered experimentbl, this formbt mby chbnge\n"
+"    in b future relebse.\n"
 
 #ifdef DEBUG
-"  - The obsolete options may be completely removed in a future release.\n"
-"  - The debug options and environment variables are not considered public\n"
-"    interfaces and can change or be removed with any type of update of\n"
-"    " AGENTNAME ", including patches.\n"
+"  - The obsolete options mby be completely removed in b future relebse.\n"
+"  - The debug options bnd environment vbribbles bre not considered public\n"
+"    interfbces bnd cbn chbnge or be removed with bny type of updbte of\n"
+"    " AGENTNAME ", including pbtches.\n"
 #endif
 
         );
 }
 
-static void
-option_error(char *description)
+stbtic void
+option_error(chbr *description)
 {
-    char errmsg[FILENAME_MAX+80];
+    chbr errmsg[FILENAME_MAX+80];
 
     (void)md_snprintf(errmsg, sizeof(errmsg),
-           "%s option error: %s (%s)", AGENTNAME, description, gdata->options);
+           "%s option error: %s (%s)", AGENTNAME, description, gdbtb->options);
     errmsg[sizeof(errmsg)-1] = 0;
     HPROF_ERROR(JNI_FALSE, errmsg);
     error_exit_process(1);
 }
 
-static void
-parse_options(char *command_line_options)
+stbtic void
+pbrse_options(chbr *commbnd_line_options)
 {
     int file_or_net_option_seen = JNI_FALSE;
-    char *all_options;
-    char *extra_options;
-    char *options;
-    char *default_filename;
+    chbr *bll_options;
+    chbr *extrb_options;
+    chbr *options;
+    chbr *defbult_filenbme;
     int   ulen;
 
-    if (command_line_options == 0)
-        command_line_options = "";
+    if (commbnd_line_options == 0)
+        commbnd_line_options = "";
 
-    if ((strcmp(command_line_options, "help")) == 0) {
-        print_usage();
+    if ((strcmp(commbnd_line_options, "help")) == 0) {
+        print_usbge();
         error_exit_process(0);
     }
 
-    extra_options = getenv("_JAVA_HPROF_OPTIONS");
-    if ( extra_options == NULL ) {
-        extra_options = "";
+    extrb_options = getenv("_JAVA_HPROF_OPTIONS");
+    if ( extrb_options == NULL ) {
+        extrb_options = "";
     }
 
-    all_options = HPROF_MALLOC((int)strlen(command_line_options) +
-                                (int)strlen(extra_options) + 2);
-    gdata->options = all_options;
-    (void)strcpy(all_options, command_line_options);
-    if ( extra_options[0] != 0 ) {
-        if ( all_options[0] != 0 ) {
-            (void)strcat(all_options, ",");
+    bll_options = HPROF_MALLOC((int)strlen(commbnd_line_options) +
+                                (int)strlen(extrb_options) + 2);
+    gdbtb->options = bll_options;
+    (void)strcpy(bll_options, commbnd_line_options);
+    if ( extrb_options[0] != 0 ) {
+        if ( bll_options[0] != 0 ) {
+            (void)strcbt(bll_options, ",");
         }
-        (void)strcat(all_options, extra_options);
+        (void)strcbt(bll_options, extrb_options);
     }
-    options = all_options;
+    options = bll_options;
 
-    LOG2("parse_options()", all_options);
+    LOG2("pbrse_options()", bll_options);
 
     while (*options) {
-        char option[16];
-        char suboption[FILENAME_MAX+1];
-        char *endptr;
+        chbr option[16];
+        chbr suboption[FILENAME_MAX+1];
+        chbr *endptr;
 
         if (!get_tok(&options, option, (int)sizeof(option), '=')) {
-            option_error("general syntax error parsing options");
+            option_error("generbl syntbx error pbrsing options");
         }
         if (strcmp(option, "file") == 0) {
             if ( file_or_net_option_seen  ) {
-                option_error("file or net options should only appear once");
+                option_error("file or net options should only bppebr once");
             }
             if (!get_tok(&options, suboption, (int)sizeof(suboption), ',')) {
-                option_error("syntax error parsing file=filename");
+                option_error("syntbx error pbrsing file=filenbme");
             }
-            gdata->utf8_output_filename = HPROF_MALLOC((int)strlen(suboption)+1);
-            (void)strcpy(gdata->utf8_output_filename, suboption);
+            gdbtb->utf8_output_filenbme = HPROF_MALLOC((int)strlen(suboption)+1);
+            (void)strcpy(gdbtb->utf8_output_filenbme, suboption);
             file_or_net_option_seen = JNI_TRUE;
         } else if (strcmp(option, "net") == 0) {
-            char port_number[16];
+            chbr port_number[16];
             if (file_or_net_option_seen ) {
-                option_error("file or net options should only appear once");
+                option_error("file or net options should only bppebr once");
             }
             if (!get_tok(&options, suboption, (int)sizeof(suboption), ':')) {
                 option_error("net option missing ':'");
@@ -562,285 +562,285 @@ parse_options(char *command_line_options)
             if (!get_tok(&options, port_number, (int)sizeof(port_number), ',')) {
                 option_error("net option missing port");
             }
-            gdata->net_hostname = HPROF_MALLOC((int)strlen(suboption)+1);
-            (void)strcpy(gdata->net_hostname, suboption);
-            gdata->net_port = (int)strtol(port_number, NULL, 10);
+            gdbtb->net_hostnbme = HPROF_MALLOC((int)strlen(suboption)+1);
+            (void)strcpy(gdbtb->net_hostnbme, suboption);
+            gdbtb->net_port = (int)strtol(port_number, NULL, 10);
             file_or_net_option_seen = JNI_TRUE;
-        } else if (strcmp(option, "format") == 0) {
+        } else if (strcmp(option, "formbt") == 0) {
             if (!get_tok(&options, suboption, (int)sizeof(suboption), ',')) {
-                option_error("syntax error parsing format=a|b");
+                option_error("syntbx error pbrsing formbt=b|b");
             }
-            if (strcmp(suboption, "a") == 0) {
-                gdata->output_format = 'a';
+            if (strcmp(suboption, "b") == 0) {
+                gdbtb->output_formbt = 'b';
             } else if (strcmp(suboption, "b") == 0) {
-                gdata->output_format = 'b';
+                gdbtb->output_formbt = 'b';
             } else {
-                option_error("format option value must be a|b");
+                option_error("formbt option vblue must be b|b");
             }
         } else if (strcmp(option, "depth") == 0) {
             if (!get_tok(&options, suboption, (int)sizeof(suboption), ',')) {
-                option_error("syntax error parsing depth=DECIMAL");
+                option_error("syntbx error pbrsing depth=DECIMAL");
             }
-            gdata->max_trace_depth = (int)strtol(suboption, &endptr, 10);
-            if ((endptr != NULL && *endptr != 0) || gdata->max_trace_depth < 0) {
-                option_error("depth option value must be decimal and >= 0");
+            gdbtb->mbx_trbce_depth = (int)strtol(suboption, &endptr, 10);
+            if ((endptr != NULL && *endptr != 0) || gdbtb->mbx_trbce_depth < 0) {
+                option_error("depth option vblue must be decimbl bnd >= 0");
             }
-            gdata->prof_trace_depth = gdata->max_trace_depth;
-        } else if (strcmp(option, "interval") == 0) {
+            gdbtb->prof_trbce_depth = gdbtb->mbx_trbce_depth;
+        } else if (strcmp(option, "intervbl") == 0) {
             if (!get_tok(&options, suboption, (int)sizeof(suboption), ',')) {
-                option_error("syntax error parsing interval=DECIMAL");
+                option_error("syntbx error pbrsing intervbl=DECIMAL");
             }
-            gdata->sample_interval = (int)strtol(suboption, &endptr, 10);
-            if ((endptr != NULL && *endptr != 0) || gdata->sample_interval <= 0) {
-                option_error("interval option value must be decimal and > 0");
+            gdbtb->sbmple_intervbl = (int)strtol(suboption, &endptr, 10);
+            if ((endptr != NULL && *endptr != 0) || gdbtb->sbmple_intervbl <= 0) {
+                option_error("intervbl option vblue must be decimbl bnd > 0");
             }
         } else if (strcmp(option, "cutoff") == 0) {
             if (!get_tok(&options, suboption, (int)sizeof(suboption), ',')) {
-                option_error("syntax error parsing cutoff=DOUBLE");
+                option_error("syntbx error pbrsing cutoff=DOUBLE");
             }
-            gdata->cutoff_point = strtod(suboption, &endptr);
-            if ((endptr != NULL && *endptr != 0) || gdata->cutoff_point < 0) {
-                option_error("cutoff option value must be floating point and >= 0");
+            gdbtb->cutoff_point = strtod(suboption, &endptr);
+            if ((endptr != NULL && *endptr != 0) || gdbtb->cutoff_point < 0) {
+                option_error("cutoff option vblue must be flobting point bnd >= 0");
             }
         } else if (strcmp(option, "cpu") == 0) {
             if (!get_tok(&options, suboption, (int)sizeof(suboption), ',')) {
-                option_error("syntax error parsing cpu=y|samples|times|old");
+                option_error("syntbx error pbrsing cpu=y|sbmples|times|old");
             }
-            if ((strcmp(suboption, "samples") == 0) ||
+            if ((strcmp(suboption, "sbmples") == 0) ||
                 (strcmp(suboption, "y") == 0)) {
-                gdata->cpu_sampling = JNI_TRUE;
+                gdbtb->cpu_sbmpling = JNI_TRUE;
             } else if (strcmp(suboption, "times") == 0) {
-                gdata->cpu_timing = JNI_TRUE;
-                gdata->old_timing_format = JNI_FALSE;
+                gdbtb->cpu_timing = JNI_TRUE;
+                gdbtb->old_timing_formbt = JNI_FALSE;
             } else if (strcmp(suboption, "old") == 0) {
-                gdata->cpu_timing = JNI_TRUE;
-                gdata->old_timing_format = JNI_TRUE;
+                gdbtb->cpu_timing = JNI_TRUE;
+                gdbtb->old_timing_formbt = JNI_TRUE;
             } else {
-                option_error("cpu option value must be y|samples|times|old");
+                option_error("cpu option vblue must be y|sbmples|times|old");
             }
-        } else if (strcmp(option, "heap") == 0) {
+        } else if (strcmp(option, "hebp") == 0) {
             if (!get_tok(&options, suboption, (int)sizeof(suboption), ',')) {
-                option_error("syntax error parsing heap=dump|sites|all");
+                option_error("syntbx error pbrsing hebp=dump|sites|bll");
             }
             if (strcmp(suboption, "dump") == 0) {
-                gdata->heap_dump = JNI_TRUE;
+                gdbtb->hebp_dump = JNI_TRUE;
             } else if (strcmp(suboption, "sites") == 0) {
-                gdata->alloc_sites = JNI_TRUE;
-            } else if (strcmp(suboption, "all") == 0) {
-                gdata->heap_dump = JNI_TRUE;
-                gdata->alloc_sites = JNI_TRUE;
+                gdbtb->blloc_sites = JNI_TRUE;
+            } else if (strcmp(suboption, "bll") == 0) {
+                gdbtb->hebp_dump = JNI_TRUE;
+                gdbtb->blloc_sites = JNI_TRUE;
             } else {
-                option_error("heap option value must be dump|sites|all");
+                option_error("hebp option vblue must be dump|sites|bll");
             }
         } else if( strcmp(option,"lineno") == 0) {
-            if ( !setBinarySwitch(&options, &(gdata->lineno_in_traces)) ) {
-                option_error("lineno option value must be y|n");
+            if ( !setBinbrySwitch(&options, &(gdbtb->lineno_in_trbces)) ) {
+                option_error("lineno option vblue must be y|n");
             }
-        } else if( strcmp(option,"thread") == 0) {
-            if ( !setBinarySwitch(&options, &(gdata->thread_in_traces)) ) {
-                option_error("thread option value must be y|n");
+        } else if( strcmp(option,"threbd") == 0) {
+            if ( !setBinbrySwitch(&options, &(gdbtb->threbd_in_trbces)) ) {
+                option_error("threbd option vblue must be y|n");
             }
         } else if( strcmp(option,"doe") == 0) {
-            if ( !setBinarySwitch(&options, &(gdata->dump_on_exit)) ) {
-                option_error("doe option value must be y|n");
+            if ( !setBinbrySwitch(&options, &(gdbtb->dump_on_exit)) ) {
+                option_error("doe option vblue must be y|n");
             }
-        } else if( strcmp(option,"msa") == 0) {
-            if ( !setBinarySwitch(&options, &(gdata->micro_state_accounting)) ) {
-                option_error("msa option value must be y|n");
+        } else if( strcmp(option,"msb") == 0) {
+            if ( !setBinbrySwitch(&options, &(gdbtb->micro_stbte_bccounting)) ) {
+                option_error("msb option vblue must be y|n");
             }
         } else if( strcmp(option,"force") == 0) {
-            if ( !setBinarySwitch(&options, &(gdata->force_output)) ) {
-                option_error("force option value must be y|n");
+            if ( !setBinbrySwitch(&options, &(gdbtb->force_output)) ) {
+                option_error("force option vblue must be y|n");
             }
         } else if( strcmp(option,"verbose") == 0) {
-            if ( !setBinarySwitch(&options, &(gdata->verbose)) ) {
-                option_error("verbose option value must be y|n");
+            if ( !setBinbrySwitch(&options, &(gdbtb->verbose)) ) {
+                option_error("verbose option vblue must be y|n");
             }
         } else if( strcmp(option,"primfields") == 0) {
-            if ( !setBinarySwitch(&options, &(gdata->primfields)) ) {
-                option_error("primfields option value must be y|n");
+            if ( !setBinbrySwitch(&options, &(gdbtb->primfields)) ) {
+                option_error("primfields option vblue must be y|n");
             }
-        } else if( strcmp(option,"primarrays") == 0) {
-            if ( !setBinarySwitch(&options, &(gdata->primarrays)) ) {
-                option_error("primarrays option value must be y|n");
+        } else if( strcmp(option,"primbrrbys") == 0) {
+            if ( !setBinbrySwitch(&options, &(gdbtb->primbrrbys)) ) {
+                option_error("primbrrbys option vblue must be y|n");
             }
         } else if( strcmp(option,"monitor") == 0) {
-            if ( !setBinarySwitch(&options, &(gdata->monitor_tracing)) ) {
-                option_error("monitor option value must be y|n");
+            if ( !setBinbrySwitch(&options, &(gdbtb->monitor_trbcing)) ) {
+                option_error("monitor option vblue must be y|n");
             }
-        } else if( strcmp(option,"gc_okay") == 0) {
-            if ( !setBinarySwitch(&options, &(gdata->gc_okay)) ) {
-                option_error("gc_okay option value must be y|n");
+        } else if( strcmp(option,"gc_okby") == 0) {
+            if ( !setBinbrySwitch(&options, &(gdbtb->gc_okby)) ) {
+                option_error("gc_okby option vblue must be y|n");
             }
-        } else if (strcmp(option, "logflags") == 0) {
+        } else if (strcmp(option, "logflbgs") == 0) {
             if (!get_tok(&options, suboption, (int)sizeof(suboption), ',')) {
-                option_error("logflags option value must be numeric");
+                option_error("logflbgs option vblue must be numeric");
             }
-            gdata->logflags = (int)strtol(suboption, NULL, 0);
-        } else if (strcmp(option, "debugflags") == 0) {
+            gdbtb->logflbgs = (int)strtol(suboption, NULL, 0);
+        } else if (strcmp(option, "debugflbgs") == 0) {
             if (!get_tok(&options, suboption, (int)sizeof(suboption), ',')) {
-                option_error("debugflags option value must be numeric");
+                option_error("debugflbgs option vblue must be numeric");
             }
-            gdata->debugflags = (int)strtol(suboption, NULL, 0);
+            gdbtb->debugflbgs = (int)strtol(suboption, NULL, 0);
         } else if (strcmp(option, "coredump") == 0) {
-            if ( !setBinarySwitch(&options, &(gdata->coredump)) ) {
-                option_error("coredump option value must be y|n");
+            if ( !setBinbrySwitch(&options, &(gdbtb->coredump)) ) {
+                option_error("coredump option vblue must be y|n");
             }
-        } else if (strcmp(option, "exitpause") == 0) {
-            option_error("The exitpause option was removed, use -XX:OnError='cmd %%p'");
+        } else if (strcmp(option, "exitpbuse") == 0) {
+            option_error("The exitpbuse option wbs removed, use -XX:OnError='cmd %%p'");
         } else if (strcmp(option, "errorexit") == 0) {
-            if ( !setBinarySwitch(&options, &(gdata->errorexit)) ) {
-                option_error("errorexit option value must be y|n");
+            if ( !setBinbrySwitch(&options, &(gdbtb->errorexit)) ) {
+                option_error("errorexit option vblue must be y|n");
             }
-        } else if (strcmp(option, "pause") == 0) {
-            if ( !setBinarySwitch(&options, &(gdata->pause)) ) {
-                option_error("pause option value must be y|n");
+        } else if (strcmp(option, "pbuse") == 0) {
+            if ( !setBinbrySwitch(&options, &(gdbtb->pbuse)) ) {
+                option_error("pbuse option vblue must be y|n");
             }
         } else if (strcmp(option, "debug") == 0) {
-            if ( !setBinarySwitch(&options, &(gdata->debug)) ) {
-                option_error("debug option value must be y|n");
+            if ( !setBinbrySwitch(&options, &(gdbtb->debug)) ) {
+                option_error("debug option vblue must be y|n");
             }
-        } else if (strcmp(option, "precrash") == 0) {
-            option_error("The precrash option was removed, use -XX:OnError='precrash -p %%p'");
+        } else if (strcmp(option, "precrbsh") == 0) {
+            option_error("The precrbsh option wbs removed, use -XX:OnError='precrbsh -p %%p'");
         } else if (strcmp(option, "X") == 0) {
             if (!get_tok(&options, suboption, (int)sizeof(suboption), ',')) {
-                option_error("X option value must be numeric");
+                option_error("X option vblue must be numeric");
             }
-            gdata->experiment = (int)strtol(suboption, NULL, 0);
+            gdbtb->experiment = (int)strtol(suboption, NULL, 0);
         } else {
-            char errmsg[80];
+            chbr errmsg[80];
             (void)strcpy(errmsg, "Unknown option: ");
-            (void)strcat(errmsg, option);
+            (void)strcbt(errmsg, option);
             option_error(errmsg);
         }
     }
 
-    if (gdata->output_format == 'b') {
-        if (gdata->cpu_timing) {
-            option_error("cpu=times|old is not supported with format=b");
+    if (gdbtb->output_formbt == 'b') {
+        if (gdbtb->cpu_timing) {
+            option_error("cpu=times|old is not supported with formbt=b");
         }
-        if (gdata->monitor_tracing) {
-            option_error("monitor=y is not supported with format=b");
+        if (gdbtb->monitor_trbcing) {
+            option_error("monitor=y is not supported with formbt=b");
         }
     }
 
-    if (gdata->old_timing_format) {
-        gdata->prof_trace_depth = 2;
+    if (gdbtb->old_timing_formbt) {
+        gdbtb->prof_trbce_depth = 2;
     }
 
-    if (gdata->output_format == 'b') {
-        default_filename = DEFAULT_OUTPUTFILE;
+    if (gdbtb->output_formbt == 'b') {
+        defbult_filenbme = DEFAULT_OUTPUTFILE;
     } else {
-        default_filename = DEFAULT_OUTPUTFILE DEFAULT_TXT_SUFFIX;
+        defbult_filenbme = DEFAULT_OUTPUTFILE DEFAULT_TXT_SUFFIX;
     }
 
     if (!file_or_net_option_seen) {
-        gdata->utf8_output_filename = HPROF_MALLOC((int)strlen(default_filename)+1);
-        (void)strcpy(gdata->utf8_output_filename, default_filename);
+        gdbtb->utf8_output_filenbme = HPROF_MALLOC((int)strlen(defbult_filenbme)+1);
+        (void)strcpy(gdbtb->utf8_output_filenbme, defbult_filenbme);
     }
 
-    if ( gdata->utf8_output_filename != NULL ) {
-        // Don't attempt to convert output filename.
-        // If fileystem uses the same encoding as the rest of the OS it will work as is.
-        ulen = (int)strlen(gdata->utf8_output_filename);
-        gdata->output_filename = (char*)HPROF_MALLOC(ulen*3+3);
-        (void)strcpy(gdata->output_filename, gdata->utf8_output_filename);
+    if ( gdbtb->utf8_output_filenbme != NULL ) {
+        // Don't bttempt to convert output filenbme.
+        // If fileystem uses the sbme encoding bs the rest of the OS it will work bs is.
+        ulen = (int)strlen(gdbtb->utf8_output_filenbme);
+        gdbtb->output_filenbme = (chbr*)HPROF_MALLOC(ulen*3+3);
+        (void)strcpy(gdbtb->output_filenbme, gdbtb->utf8_output_filenbme);
     }
 
-    /* By default we turn on gdata->alloc_sites and gdata->heap_dump */
-    if (     !gdata->cpu_timing &&
-             !gdata->cpu_sampling &&
-             !gdata->monitor_tracing &&
-             !gdata->alloc_sites &&
-             !gdata->heap_dump) {
-        gdata->heap_dump = JNI_TRUE;
-        gdata->alloc_sites = JNI_TRUE;
+    /* By defbult we turn on gdbtb->blloc_sites bnd gdbtb->hebp_dump */
+    if (     !gdbtb->cpu_timing &&
+             !gdbtb->cpu_sbmpling &&
+             !gdbtb->monitor_trbcing &&
+             !gdbtb->blloc_sites &&
+             !gdbtb->hebp_dump) {
+        gdbtb->hebp_dump = JNI_TRUE;
+        gdbtb->blloc_sites = JNI_TRUE;
     }
 
-    if ( gdata->alloc_sites || gdata->heap_dump ) {
-        gdata->obj_watch = JNI_TRUE;
+    if ( gdbtb->blloc_sites || gdbtb->hebp_dump ) {
+        gdbtb->obj_wbtch = JNI_TRUE;
     }
-    if ( gdata->obj_watch || gdata->cpu_timing ) {
-        gdata->bci = JNI_TRUE;
+    if ( gdbtb->obj_wbtch || gdbtb->cpu_timing ) {
+        gdbtb->bci = JNI_TRUE;
     }
 
-    /* Create files & sockets needed */
-    if (gdata->heap_dump) {
-        char *base;
+    /* Crebte files & sockets needed */
+    if (gdbtb->hebp_dump) {
+        chbr *bbse;
         int   len;
 
-        /* Get a fast tempfile for the heap information */
-        base = gdata->output_filename;
-        if ( base==NULL ) {
-            base = default_filename;
+        /* Get b fbst tempfile for the hebp informbtion */
+        bbse = gdbtb->output_filenbme;
+        if ( bbse==NULL ) {
+            bbse = defbult_filenbme;
         }
-        len = (int)strlen(base);
-        gdata->heapfilename = HPROF_MALLOC(len + 5);
-        (void)strcpy(gdata->heapfilename, base);
-        (void)strcat(gdata->heapfilename, ".TMP");
-        make_unique_filename(&(gdata->heapfilename));
-        (void)remove(gdata->heapfilename);
-        if (gdata->output_format == 'b') {
-            if ( gdata->logflags & LOG_CHECK_BINARY ) {
-                char * check_suffix;
+        len = (int)strlen(bbse);
+        gdbtb->hebpfilenbme = HPROF_MALLOC(len + 5);
+        (void)strcpy(gdbtb->hebpfilenbme, bbse);
+        (void)strcbt(gdbtb->hebpfilenbme, ".TMP");
+        mbke_unique_filenbme(&(gdbtb->hebpfilenbme));
+        (void)remove(gdbtb->hebpfilenbme);
+        if (gdbtb->output_formbt == 'b') {
+            if ( gdbtb->logflbgs & LOG_CHECK_BINARY ) {
+                chbr * check_suffix;
 
                 check_suffix = ".check" DEFAULT_TXT_SUFFIX;
-                gdata->checkfilename =
-                    HPROF_MALLOC((int)strlen(default_filename)+
+                gdbtb->checkfilenbme =
+                    HPROF_MALLOC((int)strlen(defbult_filenbme)+
                                 (int)strlen(check_suffix)+1);
-                (void)strcpy(gdata->checkfilename, default_filename);
-                (void)strcat(gdata->checkfilename, check_suffix);
-                (void)remove(gdata->checkfilename);
-                gdata->check_fd = md_creat(gdata->checkfilename);
+                (void)strcpy(gdbtb->checkfilenbme, defbult_filenbme);
+                (void)strcbt(gdbtb->checkfilenbme, check_suffix);
+                (void)remove(gdbtb->checkfilenbme);
+                gdbtb->check_fd = md_crebt(gdbtb->checkfilenbme);
             }
-            if ( gdata->debug ) {
-                gdata->logflags |= LOG_CHECK_BINARY;
+            if ( gdbtb->debug ) {
+                gdbtb->logflbgs |= LOG_CHECK_BINARY;
             }
-            gdata->heap_fd = md_creat_binary(gdata->heapfilename);
+            gdbtb->hebp_fd = md_crebt_binbry(gdbtb->hebpfilenbme);
         } else {
-            gdata->heap_fd = md_creat(gdata->heapfilename);
+            gdbtb->hebp_fd = md_crebt(gdbtb->hebpfilenbme);
         }
-        if ( gdata->heap_fd < 0 ) {
-            char errmsg[FILENAME_MAX+80];
+        if ( gdbtb->hebp_fd < 0 ) {
+            chbr errmsg[FILENAME_MAX+80];
 
             (void)md_snprintf(errmsg, sizeof(errmsg),
-                     "can't create temp heap file: %s", gdata->heapfilename);
+                     "cbn't crebte temp hebp file: %s", gdbtb->hebpfilenbme);
                     errmsg[sizeof(errmsg)-1] = 0;
             HPROF_ERROR(JNI_TRUE, errmsg);
         }
     }
 
-    if ( gdata->net_port > 0 ) {
-        LOG2("Agent_OnLoad", "Connecting to socket");
-        gdata->fd = connect_to_socket(gdata->net_hostname, gdata->net_port);
-        if (gdata->fd <= 0) {
-            char errmsg[120];
+    if ( gdbtb->net_port > 0 ) {
+        LOG2("Agent_OnLobd", "Connecting to socket");
+        gdbtb->fd = connect_to_socket(gdbtb->net_hostnbme, gdbtb->net_port);
+        if (gdbtb->fd <= 0) {
+            chbr errmsg[120];
 
             (void)md_snprintf(errmsg, sizeof(errmsg),
-                "can't connect to %s:%u", gdata->net_hostname, gdata->net_port);
+                "cbn't connect to %s:%u", gdbtb->net_hostnbme, gdbtb->net_port);
             errmsg[sizeof(errmsg)-1] = 0;
             HPROF_ERROR(JNI_FALSE, errmsg);
             error_exit_process(1);
         }
-        gdata->socket = JNI_TRUE;
+        gdbtb->socket = JNI_TRUE;
     } else {
-        /* If going out to a file, obey the force=y|n option */
-        if ( !gdata->force_output ) {
-            make_unique_filename(&(gdata->output_filename));
+        /* If going out to b file, obey the force=y|n option */
+        if ( !gdbtb->force_output ) {
+            mbke_unique_filenbme(&(gdbtb->output_filenbme));
         }
-        /* Make doubly sure this file does NOT exist */
-        (void)remove(gdata->output_filename);
-        /* Create the file */
-        if (gdata->output_format == 'b') {
-            gdata->fd = md_creat_binary(gdata->output_filename);
+        /* Mbke doubly sure this file does NOT exist */
+        (void)remove(gdbtb->output_filenbme);
+        /* Crebte the file */
+        if (gdbtb->output_formbt == 'b') {
+            gdbtb->fd = md_crebt_binbry(gdbtb->output_filenbme);
         } else {
-            gdata->fd = md_creat(gdata->output_filename);
+            gdbtb->fd = md_crebt(gdbtb->output_filenbme);
         }
-        if (gdata->fd < 0) {
-            char errmsg[FILENAME_MAX+80];
+        if (gdbtb->fd < 0) {
+            chbr errmsg[FILENAME_MAX+80];
 
             (void)md_snprintf(errmsg, sizeof(errmsg),
-                "can't create profile file: %s", gdata->output_filename);
+                "cbn't crebte profile file: %s", gdbtb->output_filenbme);
             errmsg[sizeof(errmsg)-1] = 0;
             HPROF_ERROR(JNI_FALSE, errmsg);
             error_exit_process(1);
@@ -850,806 +850,806 @@ parse_options(char *command_line_options)
 }
 
 /* ------------------------------------------------------------------- */
-/* Data reset and dump functions */
+/* Dbtb reset bnd dump functions */
 
-static void
-reset_all_data(void)
+stbtic void
+reset_bll_dbtb(void)
 {
-    if (gdata->cpu_sampling || gdata->cpu_timing || gdata->monitor_tracing) {
-        rawMonitorEnter(gdata->data_access_lock);
+    if (gdbtb->cpu_sbmpling || gdbtb->cpu_timing || gdbtb->monitor_trbcing) {
+        rbwMonitorEnter(gdbtb->dbtb_bccess_lock);
     }
 
-    if (gdata->cpu_sampling || gdata->cpu_timing) {
-        trace_clear_cost();
+    if (gdbtb->cpu_sbmpling || gdbtb->cpu_timing) {
+        trbce_clebr_cost();
     }
-    if (gdata->monitor_tracing) {
-        monitor_clear();
+    if (gdbtb->monitor_trbcing) {
+        monitor_clebr();
     }
 
-    if (gdata->cpu_sampling || gdata->cpu_timing || gdata->monitor_tracing) {
-        rawMonitorExit(gdata->data_access_lock);
+    if (gdbtb->cpu_sbmpling || gdbtb->cpu_timing || gdbtb->monitor_trbcing) {
+        rbwMonitorExit(gdbtb->dbtb_bccess_lock);
     }
 }
 
-static void reset_class_load_status(JNIEnv *env, jthread thread);
+stbtic void reset_clbss_lobd_stbtus(JNIEnv *env, jthrebd threbd);
 
-static void
-dump_all_data(JNIEnv *env)
+stbtic void
+dump_bll_dbtb(JNIEnv *env)
 {
-    verbose_message("Dumping");
-    if (gdata->monitor_tracing) {
-        verbose_message(" contended monitor usage ...");
-        tls_dump_monitor_state(env);
-        monitor_write_contended_time(env, gdata->cutoff_point);
+    verbose_messbge("Dumping");
+    if (gdbtb->monitor_trbcing) {
+        verbose_messbge(" contended monitor usbge ...");
+        tls_dump_monitor_stbte(env);
+        monitor_write_contended_time(env, gdbtb->cutoff_point);
     }
-    if (gdata->heap_dump) {
-        verbose_message(" Java heap ...");
-        /* Update the class table */
-        reset_class_load_status(env, NULL);
-        site_heapdump(env);
+    if (gdbtb->hebp_dump) {
+        verbose_messbge(" Jbvb hebp ...");
+        /* Updbte the clbss tbble */
+        reset_clbss_lobd_stbtus(env, NULL);
+        site_hebpdump(env);
     }
-    if (gdata->alloc_sites) {
-        verbose_message(" allocation sites ...");
-        site_write(env, 0, gdata->cutoff_point);
+    if (gdbtb->blloc_sites) {
+        verbose_messbge(" bllocbtion sites ...");
+        site_write(env, 0, gdbtb->cutoff_point);
     }
-    if (gdata->cpu_sampling) {
-        verbose_message(" CPU usage by sampling running threads ...");
-        trace_output_cost(env, gdata->cutoff_point);
+    if (gdbtb->cpu_sbmpling) {
+        verbose_messbge(" CPU usbge by sbmpling running threbds ...");
+        trbce_output_cost(env, gdbtb->cutoff_point);
     }
-    if (gdata->cpu_timing) {
-        if (!gdata->old_timing_format) {
-            verbose_message(" CPU usage by timing methods ...");
-            trace_output_cost(env, gdata->cutoff_point);
+    if (gdbtb->cpu_timing) {
+        if (!gdbtb->old_timing_formbt) {
+            verbose_messbge(" CPU usbge by timing methods ...");
+            trbce_output_cost(env, gdbtb->cutoff_point);
         } else {
-            verbose_message(" CPU usage in old prof format ...");
-            trace_output_cost_in_prof_format(env);
+            verbose_messbge(" CPU usbge in old prof formbt ...");
+            trbce_output_cost_in_prof_formbt(env);
         }
     }
-    reset_all_data();
+    reset_bll_dbtb();
     io_flush();
-    verbose_message(" done.\n");
+    verbose_messbge(" done.\n");
 }
 
 /* ------------------------------------------------------------------- */
-/* Dealing with class load and unload status */
+/* Debling with clbss lobd bnd unlobd stbtus */
 
-static void
-reset_class_load_status(JNIEnv *env, jthread thread)
+stbtic void
+reset_clbss_lobd_stbtus(JNIEnv *env, jthrebd threbd)
 {
 
     WITH_LOCAL_REFS(env, 1) {
-        jint    class_count;
-        jclass *classes;
+        jint    clbss_count;
+        jclbss *clbsses;
         jint    i;
 
-        /* Get all classes from JVMTI, make sure they are in the class table. */
-        getLoadedClasses(&classes, &class_count);
+        /* Get bll clbsses from JVMTI, mbke sure they bre in the clbss tbble. */
+        getLobdedClbsses(&clbsses, &clbss_count);
 
-        /* We don't know if the class list has changed really, so we
-         *    guess by the class count changing. Don't want to do
-         *    a bunch of work on classes when it's unnecessary.
-         *    I assume that even though we have global references on the
-         *    jclass object that the class is still considered unloaded.
-         *    (e.g. GC of jclass isn't required for it to be included
-         *    in the unloaded list, or not in the load list)
-         *    [Note: Use of Weak references was a performance problem.]
+        /* We don't know if the clbss list hbs chbnged reblly, so we
+         *    guess by the clbss count chbnging. Don't wbnt to do
+         *    b bunch of work on clbsses when it's unnecessbry.
+         *    I bssume thbt even though we hbve globbl references on the
+         *    jclbss object thbt the clbss is still considered unlobded.
+         *    (e.g. GC of jclbss isn't required for it to be included
+         *    in the unlobded list, or not in the lobd list)
+         *    [Note: Use of Webk references wbs b performbnce problem.]
          */
-        if ( class_count != gdata->class_count ) {
+        if ( clbss_count != gdbtb->clbss_count ) {
 
-            rawMonitorEnter(gdata->data_access_lock); {
+            rbwMonitorEnter(gdbtb->dbtb_bccess_lock); {
 
-                /* Unmark the classes in the load list */
-                class_all_status_remove(CLASS_IN_LOAD_LIST);
+                /* Unmbrk the clbsses in the lobd list */
+                clbss_bll_stbtus_remove(CLASS_IN_LOAD_LIST);
 
-                /* Pretend like it was a class load event */
-                for ( i = 0 ; i < class_count ; i++ ) {
-                    jobject loader;
+                /* Pretend like it wbs b clbss lobd event */
+                for ( i = 0 ; i < clbss_count ; i++ ) {
+                    jobject lobder;
 
-                    loader = getClassLoader(classes[i]);
-                    event_class_load(env, thread, classes[i], loader);
+                    lobder = getClbssLobder(clbsses[i]);
+                    event_clbss_lobd(env, threbd, clbsses[i], lobder);
                 }
 
-                /* Process the classes that have been unloaded */
-                class_do_unloads(env);
+                /* Process the clbsses thbt hbve been unlobded */
+                clbss_do_unlobds(env);
 
-            } rawMonitorExit(gdata->data_access_lock);
+            } rbwMonitorExit(gdbtb->dbtb_bccess_lock);
 
         }
 
-        /* Free the space and save the count. */
-        jvmtiDeallocate(classes);
-        gdata->class_count = class_count;
+        /* Free the spbce bnd sbve the count. */
+        jvmtiDebllocbte(clbsses);
+        gdbtb->clbss_count = clbss_count;
 
     } END_WITH_LOCAL_REFS;
 
 }
 
-/* A GC or Death event has happened, so do some cleanup */
-static void
-object_free_cleanup(JNIEnv *env, jboolean force_class_table_reset)
+/* A GC or Debth event hbs hbppened, so do some clebnup */
+stbtic void
+object_free_clebnup(JNIEnv *env, jboolebn force_clbss_tbble_reset)
 {
-    Stack *stack;
+    Stbck *stbck;
 
-    /* Then we process the ObjectFreeStack */
-    rawMonitorEnter(gdata->object_free_lock); {
-        stack = gdata->object_free_stack;
-        gdata->object_free_stack = NULL; /* Will trigger new stack */
-    } rawMonitorExit(gdata->object_free_lock);
+    /* Then we process the ObjectFreeStbck */
+    rbwMonitorEnter(gdbtb->object_free_lock); {
+        stbck = gdbtb->object_free_stbck;
+        gdbtb->object_free_stbck = NULL; /* Will trigger new stbck */
+    } rbwMonitorExit(gdbtb->object_free_lock);
 
-    /* Notice we just grabbed the stack of freed objects so
-     *    any object free events will create a new stack.
+    /* Notice we just grbbbed the stbck of freed objects so
+     *    bny object free events will crebte b new stbck.
      */
-    if ( stack != NULL ) {
+    if ( stbck != NULL ) {
         int count;
         int i;
 
-        count = stack_depth(stack);
+        count = stbck_depth(stbck);
 
-        /* If we saw something freed in this GC */
+        /* If we sbw something freed in this GC */
         if ( count > 0 ) {
 
             for ( i = 0 ; i < count ; i++ ) {
                 ObjectIndex object_index;
-                jlong tag;
+                jlong tbg;
 
-                tag = *(jlong*)stack_element(stack,i);
-                    object_index = tag_extract(tag);
+                tbg = *(jlong*)stbck_element(stbck,i);
+                    object_index = tbg_extrbct(tbg);
 
                 (void)object_free(object_index);
             }
 
-            /* We reset the class load status (only do this once) */
-            reset_class_load_status(env, NULL);
-            force_class_table_reset = JNI_FALSE;
+            /* We reset the clbss lobd stbtus (only do this once) */
+            reset_clbss_lobd_stbtus(env, NULL);
+            force_clbss_tbble_reset = JNI_FALSE;
 
         }
 
-        /* Just terminate this stack object */
-        stack_term(stack);
+        /* Just terminbte this stbck object */
+        stbck_term(stbck);
     }
 
-    /* We reset the class load status if we haven't and need to */
-    if ( force_class_table_reset ) {
-        reset_class_load_status(env, NULL);
+    /* We reset the clbss lobd stbtus if we hbven't bnd need to */
+    if ( force_clbss_tbble_reset ) {
+        reset_clbss_lobd_stbtus(env, NULL);
     }
 
 }
 
-/* Main function for thread that watches for GC finish events */
-static void JNICALL
-gc_finish_watcher(jvmtiEnv *jvmti, JNIEnv *env, void *p)
+/* Mbin function for threbd thbt wbtches for GC finish events */
+stbtic void JNICALL
+gc_finish_wbtcher(jvmtiEnv *jvmti, JNIEnv *env, void *p)
 {
-    jboolean active;
+    jboolebn bctive;
 
-    active = JNI_TRUE;
+    bctive = JNI_TRUE;
 
-    /* Indicate the watcher thread is active */
-    rawMonitorEnter(gdata->gc_finish_lock); {
-        gdata->gc_finish_active = JNI_TRUE;
-    } rawMonitorExit(gdata->gc_finish_lock);
+    /* Indicbte the wbtcher threbd is bctive */
+    rbwMonitorEnter(gdbtb->gc_finish_lock); {
+        gdbtb->gc_finish_bctive = JNI_TRUE;
+    } rbwMonitorExit(gdbtb->gc_finish_lock);
 
-    /* Loop while active */
-    while ( active ) {
-        jboolean do_cleanup;
+    /* Loop while bctive */
+    while ( bctive ) {
+        jboolebn do_clebnup;
 
-        do_cleanup = JNI_FALSE;
-        rawMonitorEnter(gdata->gc_finish_lock); {
-            /* Don't wait if VM_DEATH wants us to quit */
-            if ( gdata->gc_finish_stop_request ) {
-                /* Time to terminate */
-                active = JNI_FALSE;
+        do_clebnup = JNI_FALSE;
+        rbwMonitorEnter(gdbtb->gc_finish_lock); {
+            /* Don't wbit if VM_DEATH wbnts us to quit */
+            if ( gdbtb->gc_finish_stop_request ) {
+                /* Time to terminbte */
+                bctive = JNI_FALSE;
             } else {
-                /* Wait for notification to do cleanup, or terminate */
-                rawMonitorWait(gdata->gc_finish_lock, 0);
-                /* After wait, check to see if VM_DEATH wants us to quit */
-                if ( gdata->gc_finish_stop_request ) {
-                    /* Time to terminate */
-                    active = JNI_FALSE;
+                /* Wbit for notificbtion to do clebnup, or terminbte */
+                rbwMonitorWbit(gdbtb->gc_finish_lock, 0);
+                /* After wbit, check to see if VM_DEATH wbnts us to quit */
+                if ( gdbtb->gc_finish_stop_request ) {
+                    /* Time to terminbte */
+                    bctive = JNI_FALSE;
                 }
             }
-            if ( active && gdata->gc_finish > 0 ) {
-                /* Time to cleanup, reset count and prepare for cleanup */
-                gdata->gc_finish = 0;
-                do_cleanup = JNI_TRUE;
+            if ( bctive && gdbtb->gc_finish > 0 ) {
+                /* Time to clebnup, reset count bnd prepbre for clebnup */
+                gdbtb->gc_finish = 0;
+                do_clebnup = JNI_TRUE;
             }
-        } rawMonitorExit(gdata->gc_finish_lock);
+        } rbwMonitorExit(gdbtb->gc_finish_lock);
 
-        /* Do the cleanup if requested outside gc_finish_lock */
-        if ( do_cleanup ) {
-            /* Free up all freed objects, don't force class table reset
-             *   We cannot let the VM_DEATH complete while we are doing
-             *   this cleanup. So if during this, VM_DEATH happens,
-             *   the VM_DEATH callback should block waiting for this
-             *   loop to terminate, and send a notification to the
-             *   VM_DEATH thread.
+        /* Do the clebnup if requested outside gc_finish_lock */
+        if ( do_clebnup ) {
+            /* Free up bll freed objects, don't force clbss tbble reset
+             *   We cbnnot let the VM_DEATH complete while we bre doing
+             *   this clebnup. So if during this, VM_DEATH hbppens,
+             *   the VM_DEATH cbllbbck should block wbiting for this
+             *   loop to terminbte, bnd send b notificbtion to the
+             *   VM_DEATH threbd.
              */
-            object_free_cleanup(env, JNI_FALSE);
+            object_free_clebnup(env, JNI_FALSE);
 
-            /* Cleanup the tls table where the Thread objects were GC'd */
-            tls_garbage_collect(env);
+            /* Clebnup the tls tbble where the Threbd objects were GC'd */
+            tls_gbrbbge_collect(env);
         }
 
     }
 
-    /* Falling out means VM_DEATH is happening, we need to notify VM_DEATH
-     *    that we are done doing the cleanup. VM_DEATH is waiting on this
+    /* Fblling out mebns VM_DEATH is hbppening, we need to notify VM_DEATH
+     *    thbt we bre done doing the clebnup. VM_DEATH is wbiting on this
      *    notify.
      */
-    rawMonitorEnter(gdata->gc_finish_lock); {
-        gdata->gc_finish_active = JNI_FALSE;
-        rawMonitorNotifyAll(gdata->gc_finish_lock);
-    } rawMonitorExit(gdata->gc_finish_lock);
+    rbwMonitorEnter(gdbtb->gc_finish_lock); {
+        gdbtb->gc_finish_bctive = JNI_FALSE;
+        rbwMonitorNotifyAll(gdbtb->gc_finish_lock);
+    } rbwMonitorExit(gdbtb->gc_finish_lock);
 }
 
 /* ------------------------------------------------------------------- */
-/* JVMTI Event callback functions */
+/* JVMTI Event cbllbbck functions */
 
-static void
-setup_event_mode(jboolean onload_set_only, jvmtiEventMode state)
+stbtic void
+setup_event_mode(jboolebn onlobd_set_only, jvmtiEventMode stbte)
 {
-    if ( onload_set_only ) {
-        setEventNotificationMode(state,
+    if ( onlobd_set_only ) {
+        setEventNotificbtionMode(stbte,
                         JVMTI_EVENT_VM_INIT,                   NULL);
-        setEventNotificationMode(state,
+        setEventNotificbtionMode(stbte,
                         JVMTI_EVENT_VM_DEATH,                  NULL);
-        if (gdata->bci) {
-            setEventNotificationMode(state,
+        if (gdbtb->bci) {
+            setEventNotificbtionMode(stbte,
                         JVMTI_EVENT_CLASS_FILE_LOAD_HOOK,      NULL);
         }
     } else {
-        /* Enable all other JVMTI events of interest now. */
-        setEventNotificationMode(state,
+        /* Enbble bll other JVMTI events of interest now. */
+        setEventNotificbtionMode(stbte,
                         JVMTI_EVENT_THREAD_START,              NULL);
-        setEventNotificationMode(state,
+        setEventNotificbtionMode(stbte,
                         JVMTI_EVENT_THREAD_END,                NULL);
-        setEventNotificationMode(state,
+        setEventNotificbtionMode(stbte,
                         JVMTI_EVENT_CLASS_LOAD,                NULL);
-        setEventNotificationMode(state,
+        setEventNotificbtionMode(stbte,
                         JVMTI_EVENT_CLASS_PREPARE,             NULL);
-        setEventNotificationMode(state,
+        setEventNotificbtionMode(stbte,
                         JVMTI_EVENT_DATA_DUMP_REQUEST,         NULL);
-        if (gdata->cpu_timing) {
-            setEventNotificationMode(state,
+        if (gdbtb->cpu_timing) {
+            setEventNotificbtionMode(stbte,
                         JVMTI_EVENT_EXCEPTION_CATCH,           NULL);
         }
-        if (gdata->monitor_tracing) {
-            setEventNotificationMode(state,
+        if (gdbtb->monitor_trbcing) {
+            setEventNotificbtionMode(stbte,
                         JVMTI_EVENT_MONITOR_WAIT,              NULL);
-            setEventNotificationMode(state,
+            setEventNotificbtionMode(stbte,
                         JVMTI_EVENT_MONITOR_WAITED,            NULL);
-            setEventNotificationMode(state,
+            setEventNotificbtionMode(stbte,
                         JVMTI_EVENT_MONITOR_CONTENDED_ENTER,   NULL);
-            setEventNotificationMode(state,
+            setEventNotificbtionMode(stbte,
                         JVMTI_EVENT_MONITOR_CONTENDED_ENTERED, NULL);
         }
-        if (gdata->obj_watch) {
-            setEventNotificationMode(state,
+        if (gdbtb->obj_wbtch) {
+            setEventNotificbtionMode(stbte,
                         JVMTI_EVENT_OBJECT_FREE,               NULL);
         }
-        setEventNotificationMode(state,
+        setEventNotificbtionMode(stbte,
                         JVMTI_EVENT_GARBAGE_COLLECTION_START,  NULL);
-        setEventNotificationMode(state,
+        setEventNotificbtionMode(stbte,
                         JVMTI_EVENT_GARBAGE_COLLECTION_FINISH, NULL);
     }
 }
 
 /* JVMTI_EVENT_VM_INIT */
-static void JNICALL
-cbVMInit(jvmtiEnv *jvmti, JNIEnv *env, jthread thread)
+stbtic void JNICALL
+cbVMInit(jvmtiEnv *jvmti, JNIEnv *env, jthrebd threbd)
 {
-    rawMonitorEnter(gdata->data_access_lock); {
+    rbwMonitorEnter(gdbtb->dbtb_bccess_lock); {
 
-        LoaderIndex loader_index;
-        ClassIndex  cnum;
+        LobderIndex lobder_index;
+        ClbssIndex  cnum;
         TlsIndex    tls_index;
 
-        gdata->jvm_initializing = JNI_TRUE;
+        gdbtb->jvm_initiblizing = JNI_TRUE;
 
-        /* Header to use in heap dumps */
-        gdata->header    = "JAVA PROFILE 1.0.1";
-        gdata->segmented = JNI_FALSE;
-        if (gdata->output_format == 'b') {
-            /* We need JNI here to call in and get the current maximum memory */
-            gdata->maxMemory      = getMaxMemory(env);
-            gdata->maxHeapSegment = (jlong)2000000000;
-            /* More than 2Gig triggers segments and 1.0.2 */
-            if ( gdata->maxMemory >= gdata->maxHeapSegment ) {
-                gdata->header    = "JAVA PROFILE 1.0.2";
-                gdata->segmented = JNI_TRUE; /* 1.0.2 */
+        /* Hebder to use in hebp dumps */
+        gdbtb->hebder    = "JAVA PROFILE 1.0.1";
+        gdbtb->segmented = JNI_FALSE;
+        if (gdbtb->output_formbt == 'b') {
+            /* We need JNI here to cbll in bnd get the current mbximum memory */
+            gdbtb->mbxMemory      = getMbxMemory(env);
+            gdbtb->mbxHebpSegment = (jlong)2000000000;
+            /* More thbn 2Gig triggers segments bnd 1.0.2 */
+            if ( gdbtb->mbxMemory >= gdbtb->mbxHebpSegment ) {
+                gdbtb->hebder    = "JAVA PROFILE 1.0.2";
+                gdbtb->segmented = JNI_TRUE; /* 1.0.2 */
             }
         }
 
-        /* We write the initial header after the VM initializes now
-         *    because we needed to use JNI to get maxMemory and determine if
-         *    a 1.0.1 or a 1.0.2 header will be used.
-         *    This used to be done in Agent_OnLoad.
+        /* We write the initibl hebder bfter the VM initiblizes now
+         *    becbuse we needed to use JNI to get mbxMemory bnd determine if
+         *    b 1.0.1 or b 1.0.2 hebder will be used.
+         *    This used to be done in Agent_OnLobd.
          */
-        io_write_file_header();
+        io_write_file_hebder();
 
         LOG("cbVMInit begin");
 
-        /* Create a system loader entry first */
-        loader_index            = loader_find_or_create(NULL,NULL);
+        /* Crebte b system lobder entry first */
+        lobder_index            = lobder_find_or_crebte(NULL,NULL);
 
-        /* Find the thread jclass (does JNI calls) */
-        gdata->thread_cnum = class_find_or_create("Ljava/lang/Thread;",
-                        loader_index);
-        class_add_status(gdata->thread_cnum, CLASS_SYSTEM);
+        /* Find the threbd jclbss (does JNI cblls) */
+        gdbtb->threbd_cnum = clbss_find_or_crebte("Ljbvb/lbng/Threbd;",
+                        lobder_index);
+        clbss_bdd_stbtus(gdbtb->threbd_cnum, CLASS_SYSTEM);
 
-        /* Issue fake system thread start */
-        tls_index = tls_find_or_create(env, thread);
+        /* Issue fbke system threbd stbrt */
+        tls_index = tls_find_or_crebte(env, threbd);
 
-        /* Setup the Tracker class (should be first class in table) */
-        tracker_setup_class();
+        /* Setup the Trbcker clbss (should be first clbss in tbble) */
+        trbcker_setup_clbss();
 
-        /* Find selected system classes to keep track of */
-        gdata->system_class_size = 0;
-        cnum = class_find_or_create("Ljava/lang/Object;", loader_index);
+        /* Find selected system clbsses to keep trbck of */
+        gdbtb->system_clbss_size = 0;
+        cnum = clbss_find_or_crebte("Ljbvb/lbng/Object;", lobder_index);
 
-        gdata->system_trace_index = tls_get_trace(tls_index, env,
-                                gdata->max_trace_depth, JNI_FALSE);
-        gdata->system_object_site_index = site_find_or_create(
-                    cnum, gdata->system_trace_index);
+        gdbtb->system_trbce_index = tls_get_trbce(tls_index, env,
+                                gdbtb->mbx_trbce_depth, JNI_FALSE);
+        gdbtb->system_object_site_index = site_find_or_crebte(
+                    cnum, gdbtb->system_trbce_index);
 
-        /* Used to ID HPROF generated items */
-        gdata->hprof_trace_index = tls_get_trace(tls_index, env,
-                                gdata->max_trace_depth, JNI_FALSE);
-        gdata->hprof_site_index = site_find_or_create(
-                    cnum, gdata->hprof_trace_index);
+        /* Used to ID HPROF generbted items */
+        gdbtb->hprof_trbce_index = tls_get_trbce(tls_index, env,
+                                gdbtb->mbx_trbce_depth, JNI_FALSE);
+        gdbtb->hprof_site_index = site_find_or_crebte(
+                    cnum, gdbtb->hprof_trbce_index);
 
-        if ( gdata->logflags & LOG_DUMP_LISTS ) {
-            list_all_tables();
+        if ( gdbtb->logflbgs & LOG_DUMP_LISTS ) {
+            list_bll_tbbles();
         }
 
-        /* Prime the class table */
-        reset_class_load_status(env, thread);
+        /* Prime the clbss tbble */
+        reset_clbss_lobd_stbtus(env, threbd);
 
-        /* Find the tracker jclass and jmethodID's (does JNI calls) */
-        if ( gdata->bci ) {
-            tracker_setup_methods(env);
+        /* Find the trbcker jclbss bnd jmethodID's (does JNI cblls) */
+        if ( gdbtb->bci ) {
+            trbcker_setup_methods(env);
         }
 
-        /* Start any agent threads (does JNI, JVMTI, and Java calls) */
+        /* Stbrt bny bgent threbds (does JNI, JVMTI, bnd Jbvb cblls) */
 
-        /* Thread to watch for gc_finish events */
-        rawMonitorEnter(gdata->gc_finish_lock); {
-            createAgentThread(env, "HPROF gc_finish watcher",
-                              &gc_finish_watcher);
-        } rawMonitorExit(gdata->gc_finish_lock);
+        /* Threbd to wbtch for gc_finish events */
+        rbwMonitorEnter(gdbtb->gc_finish_lock); {
+            crebteAgentThrebd(env, "HPROF gc_finish wbtcher",
+                              &gc_finish_wbtcher);
+        } rbwMonitorExit(gdbtb->gc_finish_lock);
 
-        /* Start up listener thread if we need it */
-        if ( gdata->socket ) {
+        /* Stbrt up listener threbd if we need it */
+        if ( gdbtb->socket ) {
             listener_init(env);
         }
 
-        /* Start up cpu sampling thread if we need it */
-        if ( gdata->cpu_sampling ) {
-            /* Note: this could also get started later (see cpu) */
-            cpu_sample_init(env);
+        /* Stbrt up cpu sbmpling threbd if we need it */
+        if ( gdbtb->cpu_sbmpling ) {
+            /* Note: this could blso get stbrted lbter (see cpu) */
+            cpu_sbmple_init(env);
         }
 
         /* Setup event modes */
         setup_event_mode(JNI_FALSE, JVMTI_ENABLE);
 
-        /* Engage tracking (sets Java Tracker field so injections call into
-         *     agent library).
+        /* Engbge trbcking (sets Jbvb Trbcker field so injections cbll into
+         *     bgent librbry).
          */
-        if ( gdata->bci ) {
-            tracker_engage(env);
+        if ( gdbtb->bci ) {
+            trbcker_engbge(env);
         }
 
-        /* Indicate the VM is initialized now */
-        gdata->jvm_initialized = JNI_TRUE;
-        gdata->jvm_initializing = JNI_FALSE;
+        /* Indicbte the VM is initiblized now */
+        gdbtb->jvm_initiblized = JNI_TRUE;
+        gdbtb->jvm_initiblizing = JNI_FALSE;
 
         LOG("cbVMInit end");
 
-    } rawMonitorExit(gdata->data_access_lock);
+    } rbwMonitorExit(gdbtb->dbtb_bccess_lock);
 }
 
 /* JVMTI_EVENT_VM_DEATH */
-static void JNICALL
-cbVMDeath(jvmtiEnv *jvmti, JNIEnv *env)
+stbtic void JNICALL
+cbVMDebth(jvmtiEnv *jvmti, JNIEnv *env)
 {
     /*
-     * Use local flag to minimize gdata->dump_lock hold time.
+     * Use locbl flbg to minimize gdbtb->dump_lock hold time.
      */
-    jboolean need_to_dump = JNI_FALSE;
+    jboolebn need_to_dump = JNI_FALSE;
 
-    LOG("cbVMDeath");
+    LOG("cbVMDebth");
 
-    /* Shutdown thread watching gc_finish, outside CALLBACK locks.
-     *   We need to make sure the watcher thread is done doing any cleanup
+    /* Shutdown threbd wbtching gc_finish, outside CALLBACK locks.
+     *   We need to mbke sure the wbtcher threbd is done doing bny clebnup
      *   work before we continue here.
      */
-    rawMonitorEnter(gdata->gc_finish_lock); {
-        /* Notify watcher thread to finish up, it will send
-         *   another notify when done. If the watcher thread is busy
-         *   cleaning up, it will detect gc_finish_stop_request when it's done.
-         *   Then it sets gc_finish_active to JNI_FALSE and will notify us.
-         *   If the watcher thread is waiting to be notified, then the
-         *   notification wakes it up.
-         *   We do not want to do the VM_DEATH while the gc_finish
-         *   watcher thread is in the middle of a cleanup.
+    rbwMonitorEnter(gdbtb->gc_finish_lock); {
+        /* Notify wbtcher threbd to finish up, it will send
+         *   bnother notify when done. If the wbtcher threbd is busy
+         *   clebning up, it will detect gc_finish_stop_request when it's done.
+         *   Then it sets gc_finish_bctive to JNI_FALSE bnd will notify us.
+         *   If the wbtcher threbd is wbiting to be notified, then the
+         *   notificbtion wbkes it up.
+         *   We do not wbnt to do the VM_DEATH while the gc_finish
+         *   wbtcher threbd is in the middle of b clebnup.
          */
-        gdata->gc_finish_stop_request = JNI_TRUE;
-        rawMonitorNotifyAll(gdata->gc_finish_lock);
-        /* Wait for the gc_finish watcher thread to notify us it's done */
-        while ( gdata->gc_finish_active ) {
-            rawMonitorWait(gdata->gc_finish_lock,0);
+        gdbtb->gc_finish_stop_request = JNI_TRUE;
+        rbwMonitorNotifyAll(gdbtb->gc_finish_lock);
+        /* Wbit for the gc_finish wbtcher threbd to notify us it's done */
+        while ( gdbtb->gc_finish_bctive ) {
+            rbwMonitorWbit(gdbtb->gc_finish_lock,0);
         }
-    } rawMonitorExit(gdata->gc_finish_lock);
+    } rbwMonitorExit(gdbtb->gc_finish_lock);
 
-    /* The gc_finish watcher thread should be done now, or done shortly. */
+    /* The gc_finish wbtcher threbd should be done now, or done shortly. */
 
 
-    /* BEGIN_CALLBACK/END_CALLBACK handling. */
+    /* BEGIN_CALLBACK/END_CALLBACK hbndling. */
 
-    /* The callbackBlock prevents any active callbacks from returning
-     *   back to the VM, and also blocks all new callbacks.
-     *   We want to prevent any threads from premature death, so
-     *   that we don't have worry about that during thread queries
-     *   in this final dump process.
+    /* The cbllbbckBlock prevents bny bctive cbllbbcks from returning
+     *   bbck to the VM, bnd blso blocks bll new cbllbbcks.
+     *   We wbnt to prevent bny threbds from prembture debth, so
+     *   thbt we don't hbve worry bbout thbt during threbd queries
+     *   in this finbl dump process.
      */
-    rawMonitorEnter(gdata->callbackBlock); {
+    rbwMonitorEnter(gdbtb->cbllbbckBlock); {
 
-        /* We need to wait for all callbacks actively executing to block
-         *   on exit, and new ones will block on entry.
-         *   The BEGIN_CALLBACK/END_CALLBACK macros keep track of callbacks
-         *   that are active.
-         *   Once the last active callback is done, it will notify this
-         *   thread and block.
+        /* We need to wbit for bll cbllbbcks bctively executing to block
+         *   on exit, bnd new ones will block on entry.
+         *   The BEGIN_CALLBACK/END_CALLBACK mbcros keep trbck of cbllbbcks
+         *   thbt bre bctive.
+         *   Once the lbst bctive cbllbbck is done, it will notify this
+         *   threbd bnd block.
          */
 
-        rawMonitorEnter(gdata->callbackLock); {
-            /* Turn off native calls */
-            if ( gdata->bci ) {
-                tracker_disengage(env);
+        rbwMonitorEnter(gdbtb->cbllbbckLock); {
+            /* Turn off nbtive cblls */
+            if ( gdbtb->bci ) {
+                trbcker_disengbge(env);
             }
-            gdata->vm_death_callback_active = JNI_TRUE;
-            while (gdata->active_callbacks > 0) {
-                rawMonitorWait(gdata->callbackLock, 0);
+            gdbtb->vm_debth_cbllbbck_bctive = JNI_TRUE;
+            while (gdbtb->bctive_cbllbbcks > 0) {
+                rbwMonitorWbit(gdbtb->cbllbbckLock, 0);
             }
-        } rawMonitorExit(gdata->callbackLock);
+        } rbwMonitorExit(gdbtb->cbllbbckLock);
 
-        /* Now we know that no threads will die on us, being blocked
-         *   on some event callback, at a minimum ThreadEnd.
+        /* Now we know thbt no threbds will die on us, being blocked
+         *   on some event cbllbbck, bt b minimum ThrebdEnd.
          */
 
-        /* Make some basic checks. */
-        rawMonitorEnter(gdata->data_access_lock); {
-            if ( gdata->jvm_initializing ) {
-                HPROF_ERROR(JNI_TRUE, "VM Death during VM Init");
+        /* Mbke some bbsic checks. */
+        rbwMonitorEnter(gdbtb->dbtb_bccess_lock); {
+            if ( gdbtb->jvm_initiblizing ) {
+                HPROF_ERROR(JNI_TRUE, "VM Debth during VM Init");
                 return;
             }
-            if ( !gdata->jvm_initialized ) {
-                HPROF_ERROR(JNI_TRUE, "VM Death before VM Init");
+            if ( !gdbtb->jvm_initiblized ) {
+                HPROF_ERROR(JNI_TRUE, "VM Debth before VM Init");
                 return;
             }
-            if (gdata->jvm_shut_down) {
-                HPROF_ERROR(JNI_TRUE, "VM Death more than once?");
+            if (gdbtb->jvm_shut_down) {
+                HPROF_ERROR(JNI_TRUE, "VM Debth more thbn once?");
                 return;
             }
-        } rawMonitorExit(gdata->data_access_lock);
+        } rbwMonitorExit(gdbtb->dbtb_bccess_lock);
 
-        /* Shutdown the cpu loop thread */
-        if ( gdata->cpu_sampling ) {
-            cpu_sample_term(env);
+        /* Shutdown the cpu loop threbd */
+        if ( gdbtb->cpu_sbmpling ) {
+            cpu_sbmple_term(env);
         }
 
-        /* Time to dump the final data */
-        rawMonitorEnter(gdata->dump_lock); {
+        /* Time to dump the finbl dbtb */
+        rbwMonitorEnter(gdbtb->dump_lock); {
 
-            gdata->jvm_shut_down = JNI_TRUE;
+            gdbtb->jvm_shut_down = JNI_TRUE;
 
-            if (!gdata->dump_in_process) {
+            if (!gdbtb->dump_in_process) {
                 need_to_dump    = JNI_TRUE;
-                gdata->dump_in_process = JNI_TRUE;
+                gdbtb->dump_in_process = JNI_TRUE;
                 /*
-                 * Setting gdata->dump_in_process will cause cpu sampling to pause
-                 * (if we are sampling). We don't resume sampling after the
-                 * dump_all_data() call below because the VM is shutting
+                 * Setting gdbtb->dump_in_process will cbuse cpu sbmpling to pbuse
+                 * (if we bre sbmpling). We don't resume sbmpling bfter the
+                 * dump_bll_dbtb() cbll below becbuse the VM is shutting
                  * down.
                  */
             }
 
-        } rawMonitorExit(gdata->dump_lock);
+        } rbwMonitorExit(gdbtb->dump_lock);
 
         /* Dump everything if we need to */
-        if (gdata->dump_on_exit && need_to_dump) {
+        if (gdbtb->dump_on_exit && need_to_dump) {
 
-            dump_all_data(env);
+            dump_bll_dbtb(env);
         }
 
-        /* Disable all events and callbacks now, all of them.
-         *   NOTE: It's important that this be done after the dump
-         *         it prevents other threads from messing up the data
-         *         because they will block on ThreadStart and ThreadEnd
+        /* Disbble bll events bnd cbllbbcks now, bll of them.
+         *   NOTE: It's importbnt thbt this be done bfter the dump
+         *         it prevents other threbds from messing up the dbtb
+         *         becbuse they will block on ThrebdStbrt bnd ThrebdEnd
          *         events due to the CALLBACK block.
          */
-        set_callbacks(JNI_FALSE);
+        set_cbllbbcks(JNI_FALSE);
         setup_event_mode(JNI_FALSE, JVMTI_DISABLE);
         setup_event_mode(JNI_TRUE, JVMTI_DISABLE);
 
-        /* Write tail of file */
+        /* Write tbil of file */
         io_write_file_footer();
 
-    } rawMonitorExit(gdata->callbackBlock);
+    } rbwMonitorExit(gdbtb->cbllbbckBlock);
 
-    /* Shutdown the listener thread and socket, or flush I/O buffers */
-    if (gdata->socket) {
+    /* Shutdown the listener threbd bnd socket, or flush I/O buffers */
+    if (gdbtb->socket) {
         listener_term(env);
     } else {
         io_flush();
     }
 
     /* Close the file descriptors down */
-    if ( gdata->fd  >= 0 ) {
-        (void)md_close(gdata->fd);
-        gdata->fd = -1;
-        if ( gdata->logflags & LOG_CHECK_BINARY ) {
-            if (gdata->output_format == 'b' && gdata->output_filename != NULL) {
-                check_binary_file(gdata->output_filename);
+    if ( gdbtb->fd  >= 0 ) {
+        (void)md_close(gdbtb->fd);
+        gdbtb->fd = -1;
+        if ( gdbtb->logflbgs & LOG_CHECK_BINARY ) {
+            if (gdbtb->output_formbt == 'b' && gdbtb->output_filenbme != NULL) {
+                check_binbry_file(gdbtb->output_filenbme);
             }
         }
     }
-    if ( gdata->heap_fd  >= 0 ) {
-        (void)md_close(gdata->heap_fd);
-        gdata->heap_fd = -1;
+    if ( gdbtb->hebp_fd  >= 0 ) {
+        (void)md_close(gdbtb->hebp_fd);
+        gdbtb->hebp_fd = -1;
     }
 
-    if ( gdata->check_fd  >= 0 ) {
-        (void)md_close(gdata->check_fd);
-        gdata->check_fd = -1;
+    if ( gdbtb->check_fd  >= 0 ) {
+        (void)md_close(gdbtb->check_fd);
+        gdbtb->check_fd = -1;
     }
 
-    /* Remove the temporary heap file */
-    if (gdata->heap_dump) {
-        (void)remove(gdata->heapfilename);
+    /* Remove the temporbry hebp file */
+    if (gdbtb->hebp_dump) {
+        (void)remove(gdbtb->hebpfilenbme);
     }
 
-    /* If logging, dump the tables */
-    if ( gdata->logflags & LOG_DUMP_LISTS ) {
-        list_all_tables();
+    /* If logging, dump the tbbles */
+    if ( gdbtb->logflbgs & LOG_DUMP_LISTS ) {
+        list_bll_tbbles();
     }
 
-    /* Make sure all global references are deleted */
-    class_delete_global_references(env);
-    loader_delete_global_references(env);
-    tls_delete_global_references(env);
+    /* Mbke sure bll globbl references bre deleted */
+    clbss_delete_globbl_references(env);
+    lobder_delete_globbl_references(env);
+    tls_delete_globbl_references(env);
 
 }
 
 /* JVMTI_EVENT_THREAD_START */
-static void JNICALL
-cbThreadStart(jvmtiEnv *jvmti, JNIEnv *env, jthread thread)
+stbtic void JNICALL
+cbThrebdStbrt(jvmtiEnv *jvmti, JNIEnv *env, jthrebd threbd)
 {
-    LOG3("cbThreadStart", "thread is", (int)(long)(ptrdiff_t)thread);
+    LOG3("cbThrebdStbrt", "threbd is", (int)(long)(ptrdiff_t)threbd);
 
     BEGIN_CALLBACK() {
-        event_thread_start(env, thread);
+        event_threbd_stbrt(env, threbd);
     } END_CALLBACK();
 }
 
 /* JVMTI_EVENT_THREAD_END */
-static void JNICALL
-cbThreadEnd(jvmtiEnv *jvmti, JNIEnv *env, jthread thread)
+stbtic void JNICALL
+cbThrebdEnd(jvmtiEnv *jvmti, JNIEnv *env, jthrebd threbd)
 {
-    LOG3("cbThreadEnd", "thread is", (int)(long)(ptrdiff_t)thread);
+    LOG3("cbThrebdEnd", "threbd is", (int)(long)(ptrdiff_t)threbd);
 
     BEGIN_CALLBACK() {
-        event_thread_end(env, thread);
+        event_threbd_end(env, threbd);
     } END_CALLBACK();
 }
 
 /* JVMTI_EVENT_CLASS_FILE_LOAD_HOOK */
-static void JNICALL
-cbClassFileLoadHook(jvmtiEnv *jvmti_env, JNIEnv* env,
-                jclass class_being_redefined, jobject loader,
-                const char* name, jobject protection_domain,
-                jint class_data_len, const unsigned char* class_data,
-                jint* new_class_data_len, unsigned char** new_class_data)
+stbtic void JNICALL
+cbClbssFileLobdHook(jvmtiEnv *jvmti_env, JNIEnv* env,
+                jclbss clbss_being_redefined, jobject lobder,
+                const chbr* nbme, jobject protection_dombin,
+                jint clbss_dbtb_len, const unsigned chbr* clbss_dbtb,
+                jint* new_clbss_dbtb_len, unsigned chbr** new_clbss_dbtb)
 {
 
-    /* WARNING: This will be called before VM_INIT. */
+    /* WARNING: This will be cblled before VM_INIT. */
 
-    LOG2("cbClassFileLoadHook:",(name==NULL?"Unknown":name));
+    LOG2("cbClbssFileLobdHook:",(nbme==NULL?"Unknown":nbme));
 
-    if (!gdata->bci) {
+    if (!gdbtb->bci) {
         return;
     }
 
     BEGIN_CALLBACK() {
-        rawMonitorEnter(gdata->data_access_lock); {
-            const char *classname;
+        rbwMonitorEnter(gdbtb->dbtb_bccess_lock); {
+            const chbr *clbssnbme;
 
-            if ( gdata->bci_counter == 0 ) {
-                /* Prime the system classes */
-                class_prime_system_classes();
+            if ( gdbtb->bci_counter == 0 ) {
+                /* Prime the system clbsses */
+                clbss_prime_system_clbsses();
             }
 
-            gdata->bci_counter++;
+            gdbtb->bci_counter++;
 
-            *new_class_data_len = 0;
-            *new_class_data     = NULL;
+            *new_clbss_dbtb_len = 0;
+            *new_clbss_dbtb     = NULL;
 
-            /* Name could be NULL */
-            if ( name == NULL ) {
-                classname = ((JavaCrwDemoClassname)
-                             (gdata->java_crw_demo_classname_function))
-                    (class_data, class_data_len, &my_crw_fatal_error_handler);
-                if ( classname == NULL ) {
-                    HPROF_ERROR(JNI_TRUE, "No classname in classfile");
+            /* Nbme could be NULL */
+            if ( nbme == NULL ) {
+                clbssnbme = ((JbvbCrwDemoClbssnbme)
+                             (gdbtb->jbvb_crw_demo_clbssnbme_function))
+                    (clbss_dbtb, clbss_dbtb_len, &my_crw_fbtbl_error_hbndler);
+                if ( clbssnbme == NULL ) {
+                    HPROF_ERROR(JNI_TRUE, "No clbssnbme in clbssfile");
                 }
             } else {
-                classname = strdup(name);
-                if ( classname == NULL ) {
-                    HPROF_ERROR(JNI_TRUE, "Ran out of malloc() space");
+                clbssnbme = strdup(nbme);
+                if ( clbssnbme == NULL ) {
+                    HPROF_ERROR(JNI_TRUE, "Rbn out of mblloc() spbce");
                 }
             }
 
-            /* The tracker class itself? */
-            if ( strcmp(classname, TRACKER_CLASS_NAME) != 0 ) {
-                ClassIndex            cnum;
-                int                   system_class;
-                unsigned char *       new_image;
+            /* The trbcker clbss itself? */
+            if ( strcmp(clbssnbme, TRACKER_CLASS_NAME) != 0 ) {
+                ClbssIndex            cnum;
+                int                   system_clbss;
+                unsigned chbr *       new_imbge;
                 long                  new_length;
                 int                   len;
-                char                 *signature;
-                LoaderIndex           loader_index;
+                chbr                 *signbture;
+                LobderIndex           lobder_index;
 
-                LOG2("cbClassFileLoadHook injecting class" , classname);
+                LOG2("cbClbssFileLobdHook injecting clbss" , clbssnbme);
 
-                /* Define a unique class number for this class */
-                len              = (int)strlen(classname);
-                signature        = HPROF_MALLOC(len+3);
-                signature[0]     = JVM_SIGNATURE_CLASS;
-                (void)memcpy(signature+1, classname, len);
-                signature[len+1] = JVM_SIGNATURE_ENDCLASS;
-                signature[len+2] = 0;
-                loader_index = loader_find_or_create(env,loader);
-                if ( class_being_redefined != NULL ) {
-                    cnum  = class_find_or_create(signature, loader_index);
+                /* Define b unique clbss number for this clbss */
+                len              = (int)strlen(clbssnbme);
+                signbture        = HPROF_MALLOC(len+3);
+                signbture[0]     = JVM_SIGNATURE_CLASS;
+                (void)memcpy(signbture+1, clbssnbme, len);
+                signbture[len+1] = JVM_SIGNATURE_ENDCLASS;
+                signbture[len+2] = 0;
+                lobder_index = lobder_find_or_crebte(env,lobder);
+                if ( clbss_being_redefined != NULL ) {
+                    cnum  = clbss_find_or_crebte(signbture, lobder_index);
                 } else {
-                    cnum  = class_create(signature, loader_index);
+                    cnum  = clbss_crebte(signbture, lobder_index);
                 }
-                HPROF_FREE(signature);
-                signature        = NULL;
+                HPROF_FREE(signbture);
+                signbture        = NULL;
 
-                /* Make sure class doesn't get unloaded by accident */
-                class_add_status(cnum, CLASS_IN_LOAD_LIST);
+                /* Mbke sure clbss doesn't get unlobded by bccident */
+                clbss_bdd_stbtus(cnum, CLASS_IN_LOAD_LIST);
 
-                /* Is it a system class? */
-                system_class = 0;
-                if (    (!gdata->jvm_initialized)
-                     && (!gdata->jvm_initializing)
-                     && ( ( class_get_status(cnum) & CLASS_SYSTEM) != 0
-                            || gdata->bci_counter < 8 ) ) {
-                    system_class = 1;
-                    LOG2(classname, " is a system class");
+                /* Is it b system clbss? */
+                system_clbss = 0;
+                if (    (!gdbtb->jvm_initiblized)
+                     && (!gdbtb->jvm_initiblizing)
+                     && ( ( clbss_get_stbtus(cnum) & CLASS_SYSTEM) != 0
+                            || gdbtb->bci_counter < 8 ) ) {
+                    system_clbss = 1;
+                    LOG2(clbssnbme, " is b system clbss");
                 }
 
-                new_image = NULL;
+                new_imbge = NULL;
                 new_length = 0;
 
-                /* Call the class file reader/write demo code */
-                ((JavaCrwDemo)(gdata->java_crw_demo_function))(
+                /* Cbll the clbss file rebder/write demo code */
+                ((JbvbCrwDemo)(gdbtb->jbvb_crw_demo_function))(
                     cnum,
-                    classname,
-                    class_data,
-                    class_data_len,
-                    system_class,
+                    clbssnbme,
+                    clbss_dbtb,
+                    clbss_dbtb_len,
+                    system_clbss,
                     TRACKER_CLASS_NAME,
                     TRACKER_CLASS_SIG,
-                    (gdata->cpu_timing)?TRACKER_CALL_NAME:NULL,
-                    (gdata->cpu_timing)?TRACKER_CALL_SIG:NULL,
-                    (gdata->cpu_timing)?TRACKER_RETURN_NAME:NULL,
-                    (gdata->cpu_timing)?TRACKER_RETURN_SIG:NULL,
-                    (gdata->obj_watch)?TRACKER_OBJECT_INIT_NAME:NULL,
-                    (gdata->obj_watch)?TRACKER_OBJECT_INIT_SIG:NULL,
-                    (gdata->obj_watch)?TRACKER_NEWARRAY_NAME:NULL,
-                    (gdata->obj_watch)?TRACKER_NEWARRAY_SIG:NULL,
-                    &new_image,
+                    (gdbtb->cpu_timing)?TRACKER_CALL_NAME:NULL,
+                    (gdbtb->cpu_timing)?TRACKER_CALL_SIG:NULL,
+                    (gdbtb->cpu_timing)?TRACKER_RETURN_NAME:NULL,
+                    (gdbtb->cpu_timing)?TRACKER_RETURN_SIG:NULL,
+                    (gdbtb->obj_wbtch)?TRACKER_OBJECT_INIT_NAME:NULL,
+                    (gdbtb->obj_wbtch)?TRACKER_OBJECT_INIT_SIG:NULL,
+                    (gdbtb->obj_wbtch)?TRACKER_NEWARRAY_NAME:NULL,
+                    (gdbtb->obj_wbtch)?TRACKER_NEWARRAY_SIG:NULL,
+                    &new_imbge,
                     &new_length,
-                    &my_crw_fatal_error_handler,
-                    &class_set_methods);
+                    &my_crw_fbtbl_error_hbndler,
+                    &clbss_set_methods);
 
                 if ( new_length > 0 ) {
-                    unsigned char *jvmti_space;
+                    unsigned chbr *jvmti_spbce;
 
-                    LOG2("cbClassFileLoadHook DID inject this class", classname);
-                    jvmti_space = (unsigned char *)jvmtiAllocate((jint)new_length);
-                    (void)memcpy((void*)jvmti_space, (void*)new_image, (int)new_length);
-                    *new_class_data_len = (jint)new_length;
-                    *new_class_data     = jvmti_space; /* VM will deallocate */
+                    LOG2("cbClbssFileLobdHook DID inject this clbss", clbssnbme);
+                    jvmti_spbce = (unsigned chbr *)jvmtiAllocbte((jint)new_length);
+                    (void)memcpy((void*)jvmti_spbce, (void*)new_imbge, (int)new_length);
+                    *new_clbss_dbtb_len = (jint)new_length;
+                    *new_clbss_dbtb     = jvmti_spbce; /* VM will debllocbte */
                 } else {
-                    LOG2("cbClassFileLoadHook DID NOT inject this class", classname);
-                    *new_class_data_len = 0;
-                    *new_class_data     = NULL;
+                    LOG2("cbClbssFileLobdHook DID NOT inject this clbss", clbssnbme);
+                    *new_clbss_dbtb_len = 0;
+                    *new_clbss_dbtb     = NULL;
                 }
-                if ( new_image != NULL ) {
-                    (void)free((void*)new_image); /* Free malloc() space with free() */
+                if ( new_imbge != NULL ) {
+                    (void)free((void*)new_imbge); /* Free mblloc() spbce with free() */
                 }
             }
-            (void)free((void*)classname);
-        } rawMonitorExit(gdata->data_access_lock);
+            (void)free((void*)clbssnbme);
+        } rbwMonitorExit(gdbtb->dbtb_bccess_lock);
     } END_CALLBACK();
 }
 
 /* JVMTI_EVENT_CLASS_LOAD */
-static void JNICALL
-cbClassLoad(jvmtiEnv *jvmti, JNIEnv *env, jthread thread, jclass klass)
+stbtic void JNICALL
+cbClbssLobd(jvmtiEnv *jvmti, JNIEnv *env, jthrebd threbd, jclbss klbss)
 {
 
-    /* WARNING: This MAY be called before VM_INIT. */
+    /* WARNING: This MAY be cblled before VM_INIT. */
 
-    LOG("cbClassLoad");
+    LOG("cbClbssLobd");
 
     BEGIN_CALLBACK() {
-        rawMonitorEnter(gdata->data_access_lock); {
+        rbwMonitorEnter(gdbtb->dbtb_bccess_lock); {
 
             WITH_LOCAL_REFS(env, 1) {
-                jobject loader;
+                jobject lobder;
 
-                loader = getClassLoader(klass);
-                event_class_load(env, thread, klass, loader);
+                lobder = getClbssLobder(klbss);
+                event_clbss_lobd(env, threbd, klbss, lobder);
             } END_WITH_LOCAL_REFS;
 
-        } rawMonitorExit(gdata->data_access_lock);
+        } rbwMonitorExit(gdbtb->dbtb_bccess_lock);
     } END_CALLBACK();
 }
 
 /* JVMTI_EVENT_CLASS_PREPARE */
-static void JNICALL
-cbClassPrepare(jvmtiEnv *jvmti, JNIEnv *env, jthread thread, jclass klass)
+stbtic void JNICALL
+cbClbssPrepbre(jvmtiEnv *jvmti, JNIEnv *env, jthrebd threbd, jclbss klbss)
 {
 
-    /* WARNING: This will be called before VM_INIT. */
+    /* WARNING: This will be cblled before VM_INIT. */
 
-    LOG("cbClassPrepare");
+    LOG("cbClbssPrepbre");
 
     BEGIN_CALLBACK() {
-        rawMonitorEnter(gdata->data_access_lock); {
+        rbwMonitorEnter(gdbtb->dbtb_bccess_lock); {
 
             WITH_LOCAL_REFS(env, 1) {
-                jobject loader;
+                jobject lobder;
 
-                loader = NULL;
-                loader = getClassLoader(klass);
-                event_class_prepare(env, thread, klass, loader);
+                lobder = NULL;
+                lobder = getClbssLobder(klbss);
+                event_clbss_prepbre(env, threbd, klbss, lobder);
             } END_WITH_LOCAL_REFS;
 
-        } rawMonitorExit(gdata->data_access_lock);
+        } rbwMonitorExit(gdbtb->dbtb_bccess_lock);
     } END_CALLBACK();
 
 }
 
 /* JVMTI_EVENT_DATA_DUMP_REQUEST */
-static void JNICALL
-cbDataDumpRequest(jvmtiEnv *jvmti)
+stbtic void JNICALL
+cbDbtbDumpRequest(jvmtiEnv *jvmti)
 {
-    jboolean need_to_dump;
+    jboolebn need_to_dump;
 
-    LOG("cbDataDumpRequest");
+    LOG("cbDbtbDumpRequest");
 
     BEGIN_CALLBACK() {
         need_to_dump = JNI_FALSE;
-        rawMonitorEnter(gdata->dump_lock); {
-            if (!gdata->dump_in_process) {
+        rbwMonitorEnter(gdbtb->dump_lock); {
+            if (!gdbtb->dump_in_process) {
                 need_to_dump    = JNI_TRUE;
-                gdata->dump_in_process = JNI_TRUE;
+                gdbtb->dump_in_process = JNI_TRUE;
             }
-        } rawMonitorExit(gdata->dump_lock);
+        } rbwMonitorExit(gdbtb->dump_lock);
 
         if (need_to_dump) {
-            dump_all_data(getEnv());
+            dump_bll_dbtb(getEnv());
 
-            rawMonitorEnter(gdata->dump_lock); {
-                gdata->dump_in_process = JNI_FALSE;
-            } rawMonitorExit(gdata->dump_lock);
+            rbwMonitorEnter(gdbtb->dump_lock); {
+                gdbtb->dump_in_process = JNI_FALSE;
+            } rbwMonitorExit(gdbtb->dump_lock);
 
-            if (gdata->cpu_sampling && !gdata->jvm_shut_down) {
-                cpu_sample_on(NULL, 0); /* resume sampling */
+            if (gdbtb->cpu_sbmpling && !gdbtb->jvm_shut_down) {
+                cpu_sbmple_on(NULL, 0); /* resume sbmpling */
             }
         }
     } END_CALLBACK();
@@ -1657,392 +1657,392 @@ cbDataDumpRequest(jvmtiEnv *jvmti)
 }
 
 /* JVMTI_EVENT_EXCEPTION_CATCH */
-static void JNICALL
-cbExceptionCatch(jvmtiEnv *jvmti, JNIEnv* env,
-                jthread thread, jmethodID method, jlocation location,
+stbtic void JNICALL
+cbExceptionCbtch(jvmtiEnv *jvmti, JNIEnv* env,
+                jthrebd threbd, jmethodID method, jlocbtion locbtion,
                 jobject exception)
 {
-    LOG("cbExceptionCatch");
+    LOG("cbExceptionCbtch");
 
     BEGIN_CALLBACK() {
-        event_exception_catch(env, thread, method, location, exception);
+        event_exception_cbtch(env, threbd, method, locbtion, exception);
     } END_CALLBACK();
 }
 
 /* JVMTI_EVENT_MONITOR_WAIT */
-static void JNICALL
-cbMonitorWait(jvmtiEnv *jvmti, JNIEnv* env,
-                jthread thread, jobject object, jlong timeout)
+stbtic void JNICALL
+cbMonitorWbit(jvmtiEnv *jvmti, JNIEnv* env,
+                jthrebd threbd, jobject object, jlong timeout)
 {
-    LOG("cbMonitorWait");
+    LOG("cbMonitorWbit");
 
     BEGIN_CALLBACK() {
-        monitor_wait_event(env, thread, object, timeout);
+        monitor_wbit_event(env, threbd, object, timeout);
     } END_CALLBACK();
 }
 
 /* JVMTI_EVENT_MONITOR_WAITED */
-static void JNICALL
-cbMonitorWaited(jvmtiEnv *jvmti, JNIEnv* env,
-                jthread thread, jobject object, jboolean timed_out)
+stbtic void JNICALL
+cbMonitorWbited(jvmtiEnv *jvmti, JNIEnv* env,
+                jthrebd threbd, jobject object, jboolebn timed_out)
 {
-    LOG("cbMonitorWaited");
+    LOG("cbMonitorWbited");
 
     BEGIN_CALLBACK() {
-        monitor_waited_event(env, thread, object, timed_out);
+        monitor_wbited_event(env, threbd, object, timed_out);
     } END_CALLBACK();
 }
 
 /* JVMTI_EVENT_MONITOR_CONTENDED_ENTER */
-static void JNICALL
+stbtic void JNICALL
 cbMonitorContendedEnter(jvmtiEnv *jvmti, JNIEnv* env,
-                jthread thread, jobject object)
+                jthrebd threbd, jobject object)
 {
     LOG("cbMonitorContendedEnter");
 
     BEGIN_CALLBACK() {
-        monitor_contended_enter_event(env, thread, object);
+        monitor_contended_enter_event(env, threbd, object);
     } END_CALLBACK();
 }
 
 /* JVMTI_EVENT_MONITOR_CONTENDED_ENTERED */
-static void JNICALL
+stbtic void JNICALL
 cbMonitorContendedEntered(jvmtiEnv *jvmti, JNIEnv* env,
-                jthread thread, jobject object)
+                jthrebd threbd, jobject object)
 {
     LOG("cbMonitorContendedEntered");
 
     BEGIN_CALLBACK() {
-        monitor_contended_entered_event(env, thread, object);
+        monitor_contended_entered_event(env, threbd, object);
     } END_CALLBACK();
 }
 
 /* JVMTI_EVENT_GARBAGE_COLLECTION_START */
-static void JNICALL
-cbGarbageCollectionStart(jvmtiEnv *jvmti)
+stbtic void JNICALL
+cbGbrbbgeCollectionStbrt(jvmtiEnv *jvmti)
 {
-    LOG("cbGarbageCollectionStart");
+    LOG("cbGbrbbgeCollectionStbrt");
 
-    /* Only calls to Allocate, Deallocate, RawMonitorEnter & RawMonitorExit
-     *   are allowed here (see the JVMTI Spec).
+    /* Only cblls to Allocbte, Debllocbte, RbwMonitorEnter & RbwMonitorExit
+     *   bre bllowed here (see the JVMTI Spec).
      */
 
-    gdata->gc_start_time = md_get_timemillis();
+    gdbtb->gc_stbrt_time = md_get_timemillis();
 }
 
 /* JVMTI_EVENT_GARBAGE_COLLECTION_FINISH */
-static void JNICALL
-cbGarbageCollectionFinish(jvmtiEnv *jvmti)
+stbtic void JNICALL
+cbGbrbbgeCollectionFinish(jvmtiEnv *jvmti)
 {
-    LOG("cbGarbageCollectionFinish");
+    LOG("cbGbrbbgeCollectionFinish");
 
-    /* Only calls to Allocate, Deallocate, RawMonitorEnter & RawMonitorExit
-     *   are allowed here (see the JVMTI Spec).
+    /* Only cblls to Allocbte, Debllocbte, RbwMonitorEnter & RbwMonitorExit
+     *   bre bllowed here (see the JVMTI Spec).
      */
 
-    if ( gdata->gc_start_time != -1L ) {
-        gdata->time_in_gc += (md_get_timemillis() - gdata->gc_start_time);
-        gdata->gc_start_time = -1L;
+    if ( gdbtb->gc_stbrt_time != -1L ) {
+        gdbtb->time_in_gc += (md_get_timemillis() - gdbtb->gc_stbrt_time);
+        gdbtb->gc_stbrt_time = -1L;
     }
 
-    /* Increment gc_finish counter, notify watcher thread */
-    rawMonitorEnter(gdata->gc_finish_lock); {
-        /* If VM_DEATH is trying to shut it down, don't do anything at all.
-         *    Never send notify if VM_DEATH wants the watcher thread to quit.
+    /* Increment gc_finish counter, notify wbtcher threbd */
+    rbwMonitorEnter(gdbtb->gc_finish_lock); {
+        /* If VM_DEATH is trying to shut it down, don't do bnything bt bll.
+         *    Never send notify if VM_DEATH wbnts the wbtcher threbd to quit.
          */
-        if ( gdata->gc_finish_active ) {
-            gdata->gc_finish++;
-            rawMonitorNotifyAll(gdata->gc_finish_lock);
+        if ( gdbtb->gc_finish_bctive ) {
+            gdbtb->gc_finish++;
+            rbwMonitorNotifyAll(gdbtb->gc_finish_lock);
         }
-    } rawMonitorExit(gdata->gc_finish_lock);
+    } rbwMonitorExit(gdbtb->gc_finish_lock);
 }
 
 /* JVMTI_EVENT_OBJECT_FREE */
-static void JNICALL
-cbObjectFree(jvmtiEnv *jvmti, jlong tag)
+stbtic void JNICALL
+cbObjectFree(jvmtiEnv *jvmti, jlong tbg)
 {
-    LOG3("cbObjectFree", "tag", (int)tag);
+    LOG3("cbObjectFree", "tbg", (int)tbg);
 
-    /* Only calls to Allocate, Deallocate, RawMonitorEnter & RawMonitorExit
-     *   are allowed here (see the JVMTI Spec).
+    /* Only cblls to Allocbte, Debllocbte, RbwMonitorEnter & RbwMonitorExit
+     *   bre bllowed here (see the JVMTI Spec).
      */
 
-    HPROF_ASSERT(tag!=(jlong)0);
-    rawMonitorEnter(gdata->object_free_lock); {
-        if ( !gdata->jvm_shut_down ) {
-            Stack *stack;
+    HPROF_ASSERT(tbg!=(jlong)0);
+    rbwMonitorEnter(gdbtb->object_free_lock); {
+        if ( !gdbtb->jvm_shut_down ) {
+            Stbck *stbck;
 
-            stack = gdata->object_free_stack;
-            if ( stack == NULL ) {
-                gdata->object_free_stack = stack_init(512, 512, sizeof(jlong));
-                stack = gdata->object_free_stack;
+            stbck = gdbtb->object_free_stbck;
+            if ( stbck == NULL ) {
+                gdbtb->object_free_stbck = stbck_init(512, 512, sizeof(jlong));
+                stbck = gdbtb->object_free_stbck;
             }
-            stack_push(stack, (void*)&tag);
+            stbck_push(stbck, (void*)&tbg);
         }
-    } rawMonitorExit(gdata->object_free_lock);
+    } rbwMonitorExit(gdbtb->object_free_lock);
 }
 
-static void
-set_callbacks(jboolean on)
+stbtic void
+set_cbllbbcks(jboolebn on)
 {
-    jvmtiEventCallbacks callbacks;
+    jvmtiEventCbllbbcks cbllbbcks;
 
-    (void)memset(&callbacks,0,sizeof(callbacks));
+    (void)memset(&cbllbbcks,0,sizeof(cbllbbcks));
     if ( ! on ) {
-        setEventCallbacks(&callbacks);
+        setEventCbllbbcks(&cbllbbcks);
         return;
     }
 
     /* JVMTI_EVENT_VM_INIT */
-    callbacks.VMInit                     = &cbVMInit;
+    cbllbbcks.VMInit                     = &cbVMInit;
     /* JVMTI_EVENT_VM_DEATH */
-    callbacks.VMDeath                    = &cbVMDeath;
+    cbllbbcks.VMDebth                    = &cbVMDebth;
     /* JVMTI_EVENT_THREAD_START */
-    callbacks.ThreadStart                = &cbThreadStart;
+    cbllbbcks.ThrebdStbrt                = &cbThrebdStbrt;
     /* JVMTI_EVENT_THREAD_END */
-    callbacks.ThreadEnd                  = &cbThreadEnd;
+    cbllbbcks.ThrebdEnd                  = &cbThrebdEnd;
     /* JVMTI_EVENT_CLASS_FILE_LOAD_HOOK */
-    callbacks.ClassFileLoadHook          = &cbClassFileLoadHook;
+    cbllbbcks.ClbssFileLobdHook          = &cbClbssFileLobdHook;
     /* JVMTI_EVENT_CLASS_LOAD */
-    callbacks.ClassLoad                  = &cbClassLoad;
+    cbllbbcks.ClbssLobd                  = &cbClbssLobd;
     /* JVMTI_EVENT_CLASS_PREPARE */
-    callbacks.ClassPrepare               = &cbClassPrepare;
+    cbllbbcks.ClbssPrepbre               = &cbClbssPrepbre;
     /* JVMTI_EVENT_DATA_DUMP_REQUEST */
-    callbacks.DataDumpRequest            = &cbDataDumpRequest;
+    cbllbbcks.DbtbDumpRequest            = &cbDbtbDumpRequest;
     /* JVMTI_EVENT_EXCEPTION_CATCH */
-    callbacks.ExceptionCatch             = &cbExceptionCatch;
+    cbllbbcks.ExceptionCbtch             = &cbExceptionCbtch;
     /* JVMTI_EVENT_MONITOR_WAIT */
-    callbacks.MonitorWait                = &cbMonitorWait;
+    cbllbbcks.MonitorWbit                = &cbMonitorWbit;
     /* JVMTI_EVENT_MONITOR_WAITED */
-    callbacks.MonitorWaited              = &cbMonitorWaited;
+    cbllbbcks.MonitorWbited              = &cbMonitorWbited;
     /* JVMTI_EVENT_MONITOR_CONTENDED_ENTER */
-    callbacks.MonitorContendedEnter      = &cbMonitorContendedEnter;
+    cbllbbcks.MonitorContendedEnter      = &cbMonitorContendedEnter;
     /* JVMTI_EVENT_MONITOR_CONTENDED_ENTERED */
-    callbacks.MonitorContendedEntered    = &cbMonitorContendedEntered;
+    cbllbbcks.MonitorContendedEntered    = &cbMonitorContendedEntered;
     /* JVMTI_EVENT_GARBAGE_COLLECTION_START */
-    callbacks.GarbageCollectionStart     = &cbGarbageCollectionStart;
+    cbllbbcks.GbrbbgeCollectionStbrt     = &cbGbrbbgeCollectionStbrt;
     /* JVMTI_EVENT_GARBAGE_COLLECTION_FINISH */
-    callbacks.GarbageCollectionFinish    = &cbGarbageCollectionFinish;
+    cbllbbcks.GbrbbgeCollectionFinish    = &cbGbrbbgeCollectionFinish;
     /* JVMTI_EVENT_OBJECT_FREE */
-    callbacks.ObjectFree                 = &cbObjectFree;
+    cbllbbcks.ObjectFree                 = &cbObjectFree;
 
-    setEventCallbacks(&callbacks);
-
-}
-
-static void
-getCapabilities(void)
-{
-    jvmtiCapabilities needed_capabilities;
-    jvmtiCapabilities potential_capabilities;
-
-    /* Fill in ones that we must have */
-    (void)memset(&needed_capabilities,0,sizeof(needed_capabilities));
-    needed_capabilities.can_generate_garbage_collection_events   = 1;
-    needed_capabilities.can_tag_objects                          = 1;
-    if (gdata->bci) {
-        needed_capabilities.can_generate_all_class_hook_events   = 1;
-    }
-    if (gdata->obj_watch) {
-        needed_capabilities.can_generate_object_free_events      = 1;
-    }
-    if (gdata->cpu_timing || gdata->cpu_sampling) {
-        #if 0 /* Not needed until we call JVMTI for CpuTime */
-        needed_capabilities.can_get_thread_cpu_time              = 1;
-        needed_capabilities.can_get_current_thread_cpu_time      = 1;
-        #endif
-        needed_capabilities.can_generate_exception_events        = 1;
-    }
-    if (gdata->monitor_tracing) {
-        #if 0 /* Not needed until we call JVMTI for CpuTime */
-        needed_capabilities.can_get_thread_cpu_time              = 1;
-        needed_capabilities.can_get_current_thread_cpu_time      = 1;
-        #endif
-        needed_capabilities.can_get_owned_monitor_info           = 1;
-        needed_capabilities.can_get_current_contended_monitor    = 1;
-        needed_capabilities.can_get_monitor_info                 = 1;
-        needed_capabilities.can_generate_monitor_events          = 1;
-    }
-
-    /* Get potential capabilities */
-    getPotentialCapabilities(&potential_capabilities);
-
-    /* Some capabilities would be nicer to have */
-    needed_capabilities.can_get_source_file_name        =
-        potential_capabilities.can_get_source_file_name;
-    needed_capabilities.can_get_line_numbers    =
-        potential_capabilities.can_get_line_numbers;
-
-    /* Add the capabilities */
-    addCapabilities(&needed_capabilities);
+    setEventCbllbbcks(&cbllbbcks);
 
 }
 
-/* Dynamic library loading */
-static void *
-load_library(char *name)
+stbtic void
+getCbpbbilities(void)
 {
-    char  lname[FILENAME_MAX+1];
-    char  err_buf[256+FILENAME_MAX+1];
-    char *boot_path;
-    void *handle;
+    jvmtiCbpbbilities needed_cbpbbilities;
+    jvmtiCbpbbilities potentibl_cbpbbilities;
 
-    handle = NULL;
+    /* Fill in ones thbt we must hbve */
+    (void)memset(&needed_cbpbbilities,0,sizeof(needed_cbpbbilities));
+    needed_cbpbbilities.cbn_generbte_gbrbbge_collection_events   = 1;
+    needed_cbpbbilities.cbn_tbg_objects                          = 1;
+    if (gdbtb->bci) {
+        needed_cbpbbilities.cbn_generbte_bll_clbss_hook_events   = 1;
+    }
+    if (gdbtb->obj_wbtch) {
+        needed_cbpbbilities.cbn_generbte_object_free_events      = 1;
+    }
+    if (gdbtb->cpu_timing || gdbtb->cpu_sbmpling) {
+        #if 0 /* Not needed until we cbll JVMTI for CpuTime */
+        needed_cbpbbilities.cbn_get_threbd_cpu_time              = 1;
+        needed_cbpbbilities.cbn_get_current_threbd_cpu_time      = 1;
+        #endif
+        needed_cbpbbilities.cbn_generbte_exception_events        = 1;
+    }
+    if (gdbtb->monitor_trbcing) {
+        #if 0 /* Not needed until we cbll JVMTI for CpuTime */
+        needed_cbpbbilities.cbn_get_threbd_cpu_time              = 1;
+        needed_cbpbbilities.cbn_get_current_threbd_cpu_time      = 1;
+        #endif
+        needed_cbpbbilities.cbn_get_owned_monitor_info           = 1;
+        needed_cbpbbilities.cbn_get_current_contended_monitor    = 1;
+        needed_cbpbbilities.cbn_get_monitor_info                 = 1;
+        needed_cbpbbilities.cbn_generbte_monitor_events          = 1;
+    }
 
-    /* The library may be located in different ways, try both, but
+    /* Get potentibl cbpbbilities */
+    getPotentiblCbpbbilities(&potentibl_cbpbbilities);
+
+    /* Some cbpbbilities would be nicer to hbve */
+    needed_cbpbbilities.cbn_get_source_file_nbme        =
+        potentibl_cbpbbilities.cbn_get_source_file_nbme;
+    needed_cbpbbilities.cbn_get_line_numbers    =
+        potentibl_cbpbbilities.cbn_get_line_numbers;
+
+    /* Add the cbpbbilities */
+    bddCbpbbilities(&needed_cbpbbilities);
+
+}
+
+/* Dynbmic librbry lobding */
+stbtic void *
+lobd_librbry(chbr *nbme)
+{
+    chbr  lnbme[FILENAME_MAX+1];
+    chbr  err_buf[256+FILENAME_MAX+1];
+    chbr *boot_pbth;
+    void *hbndle;
+
+    hbndle = NULL;
+
+    /* The librbry mby be locbted in different wbys, try both, but
      *   if it comes from outside the SDK/jre it isn't ours.
      */
-    getSystemProperty("sun.boot.library.path", &boot_path);
-    md_build_library_name(lname, FILENAME_MAX, boot_path, name);
-    if ( strlen(lname) == 0 ) {
-        HPROF_ERROR(JNI_TRUE, "Could not find library");
+    getSystemProperty("sun.boot.librbry.pbth", &boot_pbth);
+    md_build_librbry_nbme(lnbme, FILENAME_MAX, boot_pbth, nbme);
+    if ( strlen(lnbme) == 0 ) {
+        HPROF_ERROR(JNI_TRUE, "Could not find librbry");
     }
-    jvmtiDeallocate(boot_path);
-    handle = md_load_library(lname, err_buf, (int)sizeof(err_buf));
-    if ( handle == NULL ) {
-        /* This may be necessary on Windows. */
-        md_build_library_name(lname, FILENAME_MAX, "", name);
-        if ( strlen(lname) == 0 ) {
-            HPROF_ERROR(JNI_TRUE, "Could not find library");
+    jvmtiDebllocbte(boot_pbth);
+    hbndle = md_lobd_librbry(lnbme, err_buf, (int)sizeof(err_buf));
+    if ( hbndle == NULL ) {
+        /* This mby be necessbry on Windows. */
+        md_build_librbry_nbme(lnbme, FILENAME_MAX, "", nbme);
+        if ( strlen(lnbme) == 0 ) {
+            HPROF_ERROR(JNI_TRUE, "Could not find librbry");
         }
-        handle = md_load_library(lname, err_buf, (int)sizeof(err_buf));
-        if ( handle == NULL ) {
+        hbndle = md_lobd_librbry(lnbme, err_buf, (int)sizeof(err_buf));
+        if ( hbndle == NULL ) {
             HPROF_ERROR(JNI_TRUE, err_buf);
         }
     }
-    return handle;
+    return hbndle;
 }
 
-/* Lookup dynamic function pointer in shared library */
-static void *
-lookup_library_symbol(void *library, char **symbols, int nsymbols)
+/* Lookup dynbmic function pointer in shbred librbry */
+stbtic void *
+lookup_librbry_symbol(void *librbry, chbr **symbols, int nsymbols)
 {
-    void *addr;
+    void *bddr;
     int   i;
 
-    addr = NULL;
+    bddr = NULL;
     for( i = 0 ; i < nsymbols; i++ ) {
-        addr = md_find_library_entry(library, symbols[i]);
-        if ( addr != NULL ) {
-            break;
+        bddr = md_find_librbry_entry(librbry, symbols[i]);
+        if ( bddr != NULL ) {
+            brebk;
         }
     }
-    if ( addr == NULL ) {
-        char errmsg[256];
+    if ( bddr == NULL ) {
+        chbr errmsg[256];
 
         (void)md_snprintf(errmsg, sizeof(errmsg),
-                    "Cannot find library symbol '%s'", symbols[0]);
+                    "Cbnnot find librbry symbol '%s'", symbols[0]);
         HPROF_ERROR(JNI_TRUE, errmsg);
     }
-    return addr;
+    return bddr;
 }
 
 /* ------------------------------------------------------------------- */
-/* The OnLoad interface */
+/* The OnLobd interfbce */
 
 JNIEXPORT jint JNICALL
-Agent_OnLoad(JavaVM *vm, char *options, void *reserved)
+Agent_OnLobd(JbvbVM *vm, chbr *options, void *reserved)
 {
-    char *boot_path = NULL;
+    chbr *boot_pbth = NULL;
 
-    /* See if it's already loaded */
-    if ( gdata!=NULL && gdata->isLoaded==JNI_TRUE ) {
-        HPROF_ERROR(JNI_TRUE, "Cannot load this JVM TI agent twice, check your java command line for duplicate hprof options.");
+    /* See if it's blrebdy lobded */
+    if ( gdbtb!=NULL && gdbtb->isLobded==JNI_TRUE ) {
+        HPROF_ERROR(JNI_TRUE, "Cbnnot lobd this JVM TI bgent twice, check your jbvb commbnd line for duplicbte hprof options.");
         return JNI_ERR;
     }
 
-    gdata = get_gdata();
+    gdbtb = get_gdbtb();
 
-    gdata->isLoaded = JNI_TRUE;
+    gdbtb->isLobded = JNI_TRUE;
 
     error_setup();
 
-    LOG2("Agent_OnLoad", "gdata setup");
+    LOG2("Agent_OnLobd", "gdbtb setup");
 
-    gdata->jvm = vm;
+    gdbtb->jvm = vm;
 
     /* Get the JVMTI environment */
     getJvmti();
 
-    /* Lock needed to protect debug_malloc() code, which is not MT safe */
+    /* Lock needed to protect debug_mblloc() code, which is not MT sbfe */
     #ifdef DEBUG
-        gdata->debug_malloc_lock = createRawMonitor("HPROF debug_malloc lock");
+        gdbtb->debug_mblloc_lock = crebteRbwMonitor("HPROF debug_mblloc lock");
     #endif
 
-    parse_options(options);
+    pbrse_options(options);
 
-    LOG2("Agent_OnLoad", "Has jvmtiEnv and options parsed");
+    LOG2("Agent_OnLobd", "Hbs jvmtiEnv bnd options pbrsed");
 
-    /* Initialize machine dependent code (micro state accounting) */
+    /* Initiblize mbchine dependent code (micro stbte bccounting) */
     md_init();
 
-    string_init();      /* Table index values look like: 0x10000000 */
+    string_init();      /* Tbble index vblues look like: 0x10000000 */
 
-    class_init();       /* Table index values look like: 0x20000000 */
-    tls_init();         /* Table index values look like: 0x30000000 */
-    trace_init();       /* Table index values look like: 0x40000000 */
-    object_init();      /* Table index values look like: 0x50000000 */
+    clbss_init();       /* Tbble index vblues look like: 0x20000000 */
+    tls_init();         /* Tbble index vblues look like: 0x30000000 */
+    trbce_init();       /* Tbble index vblues look like: 0x40000000 */
+    object_init();      /* Tbble index vblues look like: 0x50000000 */
 
-    site_init();        /* Table index values look like: 0x60000000 */
-    frame_init();       /* Table index values look like: 0x70000000 */
-    monitor_init();     /* Table index values look like: 0x80000000 */
-    loader_init();      /* Table index values look like: 0x90000000 */
+    site_init();        /* Tbble index vblues look like: 0x60000000 */
+    frbme_init();       /* Tbble index vblues look like: 0x70000000 */
+    monitor_init();     /* Tbble index vblues look like: 0x80000000 */
+    lobder_init();      /* Tbble index vblues look like: 0x90000000 */
 
-    LOG2("Agent_OnLoad", "Tables initialized");
+    LOG2("Agent_OnLobd", "Tbbles initiblized");
 
-    if ( gdata->pause ) {
-        error_do_pause();
+    if ( gdbtb->pbuse ) {
+        error_do_pbuse();
     }
 
-    getCapabilities();
+    getCbpbbilities();
 
-    /* Set the JVMTI callback functions  (do this only once)*/
-    set_callbacks(JNI_TRUE);
+    /* Set the JVMTI cbllbbck functions  (do this only once)*/
+    set_cbllbbcks(JNI_TRUE);
 
-    /* Create basic locks */
-    gdata->dump_lock          = createRawMonitor("HPROF dump lock");
-    gdata->data_access_lock   = createRawMonitor("HPROF data access lock");
-    gdata->callbackLock       = createRawMonitor("HPROF callback lock");
-    gdata->callbackBlock      = createRawMonitor("HPROF callback block");
-    gdata->object_free_lock   = createRawMonitor("HPROF object free lock");
-    gdata->gc_finish_lock     = createRawMonitor("HPROF gc_finish lock");
+    /* Crebte bbsic locks */
+    gdbtb->dump_lock          = crebteRbwMonitor("HPROF dump lock");
+    gdbtb->dbtb_bccess_lock   = crebteRbwMonitor("HPROF dbtb bccess lock");
+    gdbtb->cbllbbckLock       = crebteRbwMonitor("HPROF cbllbbck lock");
+    gdbtb->cbllbbckBlock      = crebteRbwMonitor("HPROF cbllbbck block");
+    gdbtb->object_free_lock   = crebteRbwMonitor("HPROF object free lock");
+    gdbtb->gc_finish_lock     = crebteRbwMonitor("HPROF gc_finish lock");
 
-    /* Set Onload events mode. */
+    /* Set Onlobd events mode. */
     setup_event_mode(JNI_TRUE, JVMTI_ENABLE);
 
-    LOG2("Agent_OnLoad", "JVMTI capabilities, callbacks and initial notifications setup");
+    LOG2("Agent_OnLobd", "JVMTI cbpbbilities, cbllbbcks bnd initibl notificbtions setup");
 
-    /* Used in VM_DEATH to wait for callbacks to complete */
-    gdata->jvm_initializing             = JNI_FALSE;
-    gdata->jvm_initialized              = JNI_FALSE;
-    gdata->vm_death_callback_active     = JNI_FALSE;
-    gdata->active_callbacks             = 0;
+    /* Used in VM_DEATH to wbit for cbllbbcks to complete */
+    gdbtb->jvm_initiblizing             = JNI_FALSE;
+    gdbtb->jvm_initiblized              = JNI_FALSE;
+    gdbtb->vm_debth_cbllbbck_bctive     = JNI_FALSE;
+    gdbtb->bctive_cbllbbcks             = 0;
 
-    /* Write the header information */
+    /* Write the hebder informbtion */
     io_setup();
 
-    /* We sample the start time now so that the time increments can be
-     *    placed in the various heap dump segments in micro seconds.
+    /* We sbmple the stbrt time now so thbt the time increments cbn be
+     *    plbced in the vbrious hebp dump segments in micro seconds.
      */
-    gdata->micro_sec_ticks = md_get_microsecs();
+    gdbtb->micro_sec_ticks = md_get_microsecs();
 
-    /* Load java_crw_demo library and find function "java_crw_demo" */
-    if ( gdata->bci ) {
+    /* Lobd jbvb_crw_demo librbry bnd find function "jbvb_crw_demo" */
+    if ( gdbtb->bci ) {
 
-        /* Load the library or get the handle to it */
-        gdata->java_crw_demo_library = load_library("java_crw_demo");
+        /* Lobd the librbry or get the hbndle to it */
+        gdbtb->jbvb_crw_demo_librbry = lobd_librbry("jbvb_crw_demo");
 
-        { /* "java_crw_demo" */
-            static char *symbols[]  = JAVA_CRW_DEMO_SYMBOLS;
-            gdata->java_crw_demo_function =
-                   lookup_library_symbol(gdata->java_crw_demo_library,
-                              symbols, (int)(sizeof(symbols)/sizeof(char*)));
+        { /* "jbvb_crw_demo" */
+            stbtic chbr *symbols[]  = JAVA_CRW_DEMO_SYMBOLS;
+            gdbtb->jbvb_crw_demo_function =
+                   lookup_librbry_symbol(gdbtb->jbvb_crw_demo_librbry,
+                              symbols, (int)(sizeof(symbols)/sizeof(chbr*)));
         }
-        { /* "java_crw_demo_classname" */
-            static char *symbols[] = JAVA_CRW_DEMO_CLASSNAME_SYMBOLS;
-            gdata->java_crw_demo_classname_function =
-                   lookup_library_symbol(gdata->java_crw_demo_library,
-                              symbols, (int)(sizeof(symbols)/sizeof(char*)));
+        { /* "jbvb_crw_demo_clbssnbme" */
+            stbtic chbr *symbols[] = JAVA_CRW_DEMO_CLASSNAME_SYMBOLS;
+            gdbtb->jbvb_crw_demo_clbssnbme_function =
+                   lookup_librbry_symbol(gdbtb->jbvb_crw_demo_librbry,
+                              symbols, (int)(sizeof(symbols)/sizeof(chbr*)));
         }
     }
 
@@ -2050,96 +2050,96 @@ Agent_OnLoad(JavaVM *vm, char *options, void *reserved)
 }
 
 JNIEXPORT void JNICALL
-Agent_OnUnload(JavaVM *vm)
+Agent_OnUnlobd(JbvbVM *vm)
 {
-    Stack *stack;
+    Stbck *stbck;
 
-    LOG("Agent_OnUnload");
+    LOG("Agent_OnUnlobd");
 
-    gdata->isLoaded = JNI_FALSE;
+    gdbtb->isLobded = JNI_FALSE;
 
-    stack = gdata->object_free_stack;
-    gdata->object_free_stack = NULL;
-    if ( stack != NULL ) {
-        stack_term(stack);
+    stbck = gdbtb->object_free_stbck;
+    gdbtb->object_free_stbck = NULL;
+    if ( stbck != NULL ) {
+        stbck_term(stbck);
     }
 
-    io_cleanup();
-    loader_cleanup();
-    tls_cleanup();
-    monitor_cleanup();
-    trace_cleanup();
-    site_cleanup();
-    object_cleanup();
-    frame_cleanup();
-    class_cleanup();
-    string_cleanup();
+    io_clebnup();
+    lobder_clebnup();
+    tls_clebnup();
+    monitor_clebnup();
+    trbce_clebnup();
+    site_clebnup();
+    object_clebnup();
+    frbme_clebnup();
+    clbss_clebnup();
+    string_clebnup();
 
-    /* Deallocate any memory in gdata */
-    if ( gdata->net_hostname != NULL ) {
-        HPROF_FREE(gdata->net_hostname);
+    /* Debllocbte bny memory in gdbtb */
+    if ( gdbtb->net_hostnbme != NULL ) {
+        HPROF_FREE(gdbtb->net_hostnbme);
     }
-    if ( gdata->utf8_output_filename != NULL ) {
-        HPROF_FREE(gdata->utf8_output_filename);
+    if ( gdbtb->utf8_output_filenbme != NULL ) {
+        HPROF_FREE(gdbtb->utf8_output_filenbme);
     }
-    if ( gdata->output_filename != NULL ) {
-        HPROF_FREE(gdata->output_filename);
+    if ( gdbtb->output_filenbme != NULL ) {
+        HPROF_FREE(gdbtb->output_filenbme);
     }
-    if ( gdata->heapfilename != NULL ) {
-        HPROF_FREE(gdata->heapfilename);
+    if ( gdbtb->hebpfilenbme != NULL ) {
+        HPROF_FREE(gdbtb->hebpfilenbme);
     }
-    if ( gdata->checkfilename != NULL ) {
-        HPROF_FREE(gdata->checkfilename);
+    if ( gdbtb->checkfilenbme != NULL ) {
+        HPROF_FREE(gdbtb->checkfilenbme);
     }
-    if ( gdata->options != NULL ) {
-        HPROF_FREE(gdata->options);
+    if ( gdbtb->options != NULL ) {
+        HPROF_FREE(gdbtb->options);
     }
 
-    /* Verify all allocated memory has been taken care of. */
-    malloc_police();
+    /* Verify bll bllocbted memory hbs been tbken cbre of. */
+    mblloc_police();
 
-    /* Cleanup is hard to do when other threads might still be running
-     *  so we skip destroying some raw monitors which still might be in use
-     *  and we skip disposal of the jvmtiEnv* which might still be needed.
-     *  Only raw monitors that could be held by other threads are left
-     *  alone. So we explicitly do NOT do this:
-     *      destroyRawMonitor(gdata->callbackLock);
-     *      destroyRawMonitor(gdata->callbackBlock);
-     *      destroyRawMonitor(gdata->gc_finish_lock);
-     *      destroyRawMonitor(gdata->object_free_lock);
-     *      destroyRawMonitor(gdata->listener_loop_lock);
-     *      destroyRawMonitor(gdata->cpu_loop_lock);
+    /* Clebnup is hbrd to do when other threbds might still be running
+     *  so we skip destroying some rbw monitors which still might be in use
+     *  bnd we skip disposbl of the jvmtiEnv* which might still be needed.
+     *  Only rbw monitors thbt could be held by other threbds bre left
+     *  blone. So we explicitly do NOT do this:
+     *      destroyRbwMonitor(gdbtb->cbllbbckLock);
+     *      destroyRbwMonitor(gdbtb->cbllbbckBlock);
+     *      destroyRbwMonitor(gdbtb->gc_finish_lock);
+     *      destroyRbwMonitor(gdbtb->object_free_lock);
+     *      destroyRbwMonitor(gdbtb->listener_loop_lock);
+     *      destroyRbwMonitor(gdbtb->cpu_loop_lock);
      *      disposeEnvironment();
-     *      gdata->jvmti = NULL;
+     *      gdbtb->jvmti = NULL;
      */
 
-    /* Destroy basic locks */
-    destroyRawMonitor(gdata->dump_lock);
-    gdata->dump_lock = NULL;
-    destroyRawMonitor(gdata->data_access_lock);
-    gdata->data_access_lock = NULL;
-    if ( gdata->cpu_sample_lock != NULL ) {
-        destroyRawMonitor(gdata->cpu_sample_lock);
-        gdata->cpu_sample_lock = NULL;
+    /* Destroy bbsic locks */
+    destroyRbwMonitor(gdbtb->dump_lock);
+    gdbtb->dump_lock = NULL;
+    destroyRbwMonitor(gdbtb->dbtb_bccess_lock);
+    gdbtb->dbtb_bccess_lock = NULL;
+    if ( gdbtb->cpu_sbmple_lock != NULL ) {
+        destroyRbwMonitor(gdbtb->cpu_sbmple_lock);
+        gdbtb->cpu_sbmple_lock = NULL;
     }
     #ifdef DEBUG
-        destroyRawMonitor(gdata->debug_malloc_lock);
-        gdata->debug_malloc_lock = NULL;
+        destroyRbwMonitor(gdbtb->debug_mblloc_lock);
+        gdbtb->debug_mblloc_lock = NULL;
     #endif
 
-    /* Unload java_crw_demo library */
-    if ( gdata->bci && gdata->java_crw_demo_library != NULL ) {
-        md_unload_library(gdata->java_crw_demo_library);
-        gdata->java_crw_demo_library = NULL;
+    /* Unlobd jbvb_crw_demo librbry */
+    if ( gdbtb->bci && gdbtb->jbvb_crw_demo_librbry != NULL ) {
+        md_unlobd_librbry(gdbtb->jbvb_crw_demo_librbry);
+        gdbtb->jbvb_crw_demo_librbry = NULL;
     }
 
-    /* You would think you could clear out gdata and set it to NULL, but
-     *   turns out that isn't a good idea.  Some of the threads could be
-     *   blocked inside the CALLBACK*() macros, where they got blocked up
-     *   waiting for the VM_DEATH callback to complete. They only have
-     *   some raw monitor actions to do, but they need access to gdata to do it.
+    /* You would think you could clebr out gdbtb bnd set it to NULL, but
+     *   turns out thbt isn't b good ideb.  Some of the threbds could be
+     *   blocked inside the CALLBACK*() mbcros, where they got blocked up
+     *   wbiting for the VM_DEATH cbllbbck to complete. They only hbve
+     *   some rbw monitor bctions to do, but they need bccess to gdbtb to do it.
      *   So do not do this:
-     *       (void)memset(gdata, 0, sizeof(GlobalData));
-     *       gdata = NULL;
+     *       (void)memset(gdbtb, 0, sizeof(GlobblDbtb));
+     *       gdbtb = NULL;
      */
 }

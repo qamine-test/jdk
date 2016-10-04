@@ -1,114 +1,114 @@
 /*
- * Copyright (c) 2002, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2010, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.net.dns;
+pbckbge sun.net.dns;
 
-import java.util.List;
+import jbvb.util.List;
 
 /**
- * The configuration of the client resolver.
+ * The configurbtion of the client resolver.
  *
- * <p>A ResolverConfiguration is a singleton that represents the
- * configuration of the client resolver. The ResolverConfiguration
+ * <p>A ResolverConfigurbtion is b singleton thbt represents the
+ * configurbtion of the client resolver. The ResolverConfigurbtion
  * is opened by invoking the {@link #open() open} method.
  *
  * @since 1.4
  */
 
-public abstract class ResolverConfiguration {
+public bbstrbct clbss ResolverConfigurbtion {
 
-    private static final Object lock = new Object();
+    privbte stbtic finbl Object lock = new Object();
 
-    private static ResolverConfiguration provider;
+    privbte stbtic ResolverConfigurbtion provider;
 
-    protected ResolverConfiguration() { }
+    protected ResolverConfigurbtion() { }
 
     /**
-     * Opens the resolver configuration.
+     * Opens the resolver configurbtion.
      *
-     * @return the resolver configuration
+     * @return the resolver configurbtion
      */
-    public static ResolverConfiguration open() {
+    public stbtic ResolverConfigurbtion open() {
         synchronized (lock) {
             if (provider == null) {
-                provider = new sun.net.dns.ResolverConfigurationImpl();
+                provider = new sun.net.dns.ResolverConfigurbtionImpl();
             }
             return provider;
         }
     }
 
     /**
-     * Returns a list corresponding to the domain search path. The
-     * list is ordered by the search order used for host name lookup.
-     * Each element in the list returns a {@link java.lang.String}
-     * containing a domain name or suffix.
+     * Returns b list corresponding to the dombin sebrch pbth. The
+     * list is ordered by the sebrch order used for host nbme lookup.
+     * Ebch element in the list returns b {@link jbvb.lbng.String}
+     * contbining b dombin nbme or suffix.
      *
-     * @return list of domain names
+     * @return list of dombin nbmes
      */
-    public abstract List<String> searchlist();
+    public bbstrbct List<String> sebrchlist();
 
     /**
-     * Returns a list of name servers used for host name lookup.
-     * Each element in the list returns a {@link java.lang.String}
-     * containing the textual representation of the IP address of
-     * the name server.
+     * Returns b list of nbme servers used for host nbme lookup.
+     * Ebch element in the list returns b {@link jbvb.lbng.String}
+     * contbining the textubl representbtion of the IP bddress of
+     * the nbme server.
      *
-     * @return list of the name servers
+     * @return list of the nbme servers
      */
-    public abstract List<String> nameservers();
+    public bbstrbct List<String> nbmeservers();
 
 
     /**
-     * Options representing certain resolver variables of
-     * a {@link ResolverConfiguration}.
+     * Options representing certbin resolver vbribbles of
+     * b {@link ResolverConfigurbtion}.
      */
-    public static abstract class Options {
+    public stbtic bbstrbct clbss Options {
 
         /**
-         * Returns the maximum number of attempts the resolver
-         * will connect to each name server before giving up
-         * and returning an error.
+         * Returns the mbximum number of bttempts the resolver
+         * will connect to ebch nbme server before giving up
+         * bnd returning bn error.
          *
-         * @return the resolver attempts value or -1 is unknown
+         * @return the resolver bttempts vblue or -1 is unknown
          */
-        public int attempts() {
+        public int bttempts() {
             return -1;
         }
 
         /**
-         * Returns the basic retransmit timeout, in milliseconds,
-         * used by the resolver. The resolver will typically use
-         * an exponential backoff algorithm where the timeout is
-         * doubled for every retransmit attempt. The basic
-         * retransmit timeout, returned here, is the initial
-         * timeout for the exponential backoff algorithm.
+         * Returns the bbsic retrbnsmit timeout, in milliseconds,
+         * used by the resolver. The resolver will typicblly use
+         * bn exponentibl bbckoff blgorithm where the timeout is
+         * doubled for every retrbnsmit bttempt. The bbsic
+         * retrbnsmit timeout, returned here, is the initibl
+         * timeout for the exponentibl bbckoff blgorithm.
          *
-         * @return the basic retransmit timeout value or -1
+         * @return the bbsic retrbnsmit timeout vblue or -1
          *         if unknown
          */
-        public int retrans() {
+        public int retrbns() {
             return -1;
         }
     }
@@ -118,5 +118,5 @@ public abstract class ResolverConfiguration {
      *
      * @return options for the resolver
      */
-    public abstract Options options();
+    public bbstrbct Options options();
 }

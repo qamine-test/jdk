@@ -1,46 +1,46 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-// This file is available under and governed by the GNU General Public
-// License version 2 only, as published by the Free Software Foundation.
-// However, the following notice accompanied the original version of this
+// This file is bvbilbble under bnd governed by the GNU Generbl Public
+// License version 2 only, bs published by the Free Softwbre Foundbtion.
+// However, the following notice bccompbnied the originbl version of this
 // file:
 //
 //---------------------------------------------------------------------------------
 //
-//  Little Color Management System
-//  Copyright (c) 1998-2012 Marti Maria Saguer
+//  Little Color Mbnbgement System
+//  Copyright (c) 1998-2012 Mbrti Mbrib Sbguer
 //
-// Permission is hereby granted, free of charge, to any person obtaining
-// a copy of this software and associated documentation files (the "Software"),
-// to deal in the Software without restriction, including without limitation
+// Permission is hereby grbnted, free of chbrge, to bny person obtbining
+// b copy of this softwbre bnd bssocibted documentbtion files (the "Softwbre"),
+// to debl in the Softwbre without restriction, including without limitbtion
 // the rights to use, copy, modify, merge, publish, distribute, sublicense,
-// and/or sell copies of the Software, and to permit persons to whom the Software
+// bnd/or sell copies of the Softwbre, bnd to permit persons to whom the Softwbre
 // is furnished to do so, subject to the following conditions:
 //
-// The above copyright notice and this permission notice shall be included in
-// all copies or substantial portions of the Software.
+// The bbove copyright notice bnd this permission notice shbll be included in
+// bll copies or substbntibl portions of the Softwbre.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO
@@ -53,26 +53,26 @@
 //---------------------------------------------------------------------------------
 //
 
-#include "lcms2_internal.h"
+#include "lcms2_internbl.h"
 
 
-#define DSWAP(x, y)     {cmsFloat64Number tmp = (x); (x)=(y); (y)=tmp;}
+#define DSWAP(x, y)     {cmsFlobt64Number tmp = (x); (x)=(y); (y)=tmp;}
 
 
-// Initiate a vector
-void CMSEXPORT _cmsVEC3init(cmsVEC3* r, cmsFloat64Number x, cmsFloat64Number y, cmsFloat64Number z)
+// Initibte b vector
+void CMSEXPORT _cmsVEC3init(cmsVEC3* r, cmsFlobt64Number x, cmsFlobt64Number y, cmsFlobt64Number z)
 {
     r -> n[VX] = x;
     r -> n[VY] = y;
     r -> n[VZ] = z;
 }
 
-// Vector substraction
-void CMSEXPORT _cmsVEC3minus(cmsVEC3* r, const cmsVEC3* a, const cmsVEC3* b)
+// Vector substrbction
+void CMSEXPORT _cmsVEC3minus(cmsVEC3* r, const cmsVEC3* b, const cmsVEC3* b)
 {
-  r -> n[VX] = a -> n[VX] - b -> n[VX];
-  r -> n[VY] = a -> n[VY] - b -> n[VY];
-  r -> n[VZ] = a -> n[VZ] - b -> n[VZ];
+  r -> n[VX] = b -> n[VX] - b -> n[VX];
+  r -> n[VY] = b -> n[VY] - b -> n[VY];
+  r -> n[VZ] = b -> n[VZ] - b -> n[VZ];
 }
 
 // Vector cross product
@@ -84,25 +84,25 @@ void CMSEXPORT _cmsVEC3cross(cmsVEC3* r, const cmsVEC3* u, const cmsVEC3* v)
 }
 
 // Vector dot product
-cmsFloat64Number CMSEXPORT _cmsVEC3dot(const cmsVEC3* u, const cmsVEC3* v)
+cmsFlobt64Number CMSEXPORT _cmsVEC3dot(const cmsVEC3* u, const cmsVEC3* v)
 {
     return u->n[VX] * v->n[VX] + u->n[VY] * v->n[VY] + u->n[VZ] * v->n[VZ];
 }
 
-// Euclidean length
-cmsFloat64Number CMSEXPORT _cmsVEC3length(const cmsVEC3* a)
+// Euclidebn length
+cmsFlobt64Number CMSEXPORT _cmsVEC3length(const cmsVEC3* b)
 {
-    return sqrt(a ->n[VX] * a ->n[VX] +
-                a ->n[VY] * a ->n[VY] +
-                a ->n[VZ] * a ->n[VZ]);
+    return sqrt(b ->n[VX] * b ->n[VX] +
+                b ->n[VY] * b ->n[VY] +
+                b ->n[VZ] * b ->n[VZ]);
 }
 
-// Euclidean distance
-cmsFloat64Number CMSEXPORT _cmsVEC3distance(const cmsVEC3* a, const cmsVEC3* b)
+// Euclidebn distbnce
+cmsFlobt64Number CMSEXPORT _cmsVEC3distbnce(const cmsVEC3* b, const cmsVEC3* b)
 {
-    cmsFloat64Number d1 = a ->n[VX] - b ->n[VX];
-    cmsFloat64Number d2 = a ->n[VY] - b ->n[VY];
-    cmsFloat64Number d3 = a ->n[VZ] - b ->n[VZ];
+    cmsFlobt64Number d1 = b ->n[VX] - b ->n[VX];
+    cmsFlobt64Number d2 = b ->n[VY] - b ->n[VY];
+    cmsFlobt64Number d3 = b ->n[VZ] - b ->n[VZ];
 
     return sqrt(d1*d1 + d2*d2 + d3*d3);
 }
@@ -110,21 +110,21 @@ cmsFloat64Number CMSEXPORT _cmsVEC3distance(const cmsVEC3* a, const cmsVEC3* b)
 
 
 // 3x3 Identity
-void CMSEXPORT _cmsMAT3identity(cmsMAT3* a)
+void CMSEXPORT _cmsMAT3identity(cmsMAT3* b)
 {
-    _cmsVEC3init(&a-> v[0], 1.0, 0.0, 0.0);
-    _cmsVEC3init(&a-> v[1], 0.0, 1.0, 0.0);
-    _cmsVEC3init(&a-> v[2], 0.0, 0.0, 1.0);
+    _cmsVEC3init(&b-> v[0], 1.0, 0.0, 0.0);
+    _cmsVEC3init(&b-> v[1], 0.0, 1.0, 0.0);
+    _cmsVEC3init(&b-> v[2], 0.0, 0.0, 1.0);
 }
 
-static
-cmsBool CloseEnough(cmsFloat64Number a, cmsFloat64Number b)
+stbtic
+cmsBool CloseEnough(cmsFlobt64Number b, cmsFlobt64Number b)
 {
-    return fabs(b - a) < (1.0 / 65535.0);
+    return fbbs(b - b) < (1.0 / 65535.0);
 }
 
 
-cmsBool CMSEXPORT _cmsMAT3isIdentity(const cmsMAT3* a)
+cmsBool CMSEXPORT _cmsMAT3isIdentity(const cmsMAT3* b)
 {
     cmsMAT3 Identity;
     int i, j;
@@ -133,17 +133,17 @@ cmsBool CMSEXPORT _cmsMAT3isIdentity(const cmsMAT3* a)
 
     for (i=0; i < 3; i++)
         for (j=0; j < 3; j++)
-            if (!CloseEnough(a ->v[i].n[j], Identity.v[i].n[j])) return FALSE;
+            if (!CloseEnough(b ->v[i].n[j], Identity.v[i].n[j])) return FALSE;
 
     return TRUE;
 }
 
 
-// Multiply two matrices
-void CMSEXPORT _cmsMAT3per(cmsMAT3* r, const cmsMAT3* a, const cmsMAT3* b)
+// Multiply two mbtrices
+void CMSEXPORT _cmsMAT3per(cmsMAT3* r, const cmsMAT3* b, const cmsMAT3* b)
 {
 #define ROWCOL(i, j) \
-    a->v[i].n[0]*b->v[0].n[j] + a->v[i].n[1]*b->v[1].n[j] + a->v[i].n[2]*b->v[2].n[j]
+    b->v[i].n[0]*b->v[0].n[j] + b->v[i].n[1]*b->v[1].n[j] + b->v[i].n[2]*b->v[2].n[j]
 
     _cmsVEC3init(&r-> v[0], ROWCOL(0,0), ROWCOL(0,1), ROWCOL(0,2));
     _cmsVEC3init(&r-> v[1], ROWCOL(1,0), ROWCOL(1,1), ROWCOL(1,2));
@@ -154,52 +154,52 @@ void CMSEXPORT _cmsMAT3per(cmsMAT3* r, const cmsMAT3* a, const cmsMAT3* b)
 
 
 
-// Inverse of a matrix b = a^(-1)
-cmsBool  CMSEXPORT _cmsMAT3inverse(const cmsMAT3* a, cmsMAT3* b)
+// Inverse of b mbtrix b = b^(-1)
+cmsBool  CMSEXPORT _cmsMAT3inverse(const cmsMAT3* b, cmsMAT3* b)
 {
-   cmsFloat64Number det, c0, c1, c2;
+   cmsFlobt64Number det, c0, c1, c2;
 
-   c0 =  a -> v[1].n[1]*a -> v[2].n[2] - a -> v[1].n[2]*a -> v[2].n[1];
-   c1 = -a -> v[1].n[0]*a -> v[2].n[2] + a -> v[1].n[2]*a -> v[2].n[0];
-   c2 =  a -> v[1].n[0]*a -> v[2].n[1] - a -> v[1].n[1]*a -> v[2].n[0];
+   c0 =  b -> v[1].n[1]*b -> v[2].n[2] - b -> v[1].n[2]*b -> v[2].n[1];
+   c1 = -b -> v[1].n[0]*b -> v[2].n[2] + b -> v[1].n[2]*b -> v[2].n[0];
+   c2 =  b -> v[1].n[0]*b -> v[2].n[1] - b -> v[1].n[1]*b -> v[2].n[0];
 
-   det = a -> v[0].n[0]*c0 + a -> v[0].n[1]*c1 + a -> v[0].n[2]*c2;
+   det = b -> v[0].n[0]*c0 + b -> v[0].n[1]*c1 + b -> v[0].n[2]*c2;
 
-   if (fabs(det) < MATRIX_DET_TOLERANCE) return FALSE;  // singular matrix; can't invert
+   if (fbbs(det) < MATRIX_DET_TOLERANCE) return FALSE;  // singulbr mbtrix; cbn't invert
 
    b -> v[0].n[0] = c0/det;
-   b -> v[0].n[1] = (a -> v[0].n[2]*a -> v[2].n[1] - a -> v[0].n[1]*a -> v[2].n[2])/det;
-   b -> v[0].n[2] = (a -> v[0].n[1]*a -> v[1].n[2] - a -> v[0].n[2]*a -> v[1].n[1])/det;
+   b -> v[0].n[1] = (b -> v[0].n[2]*b -> v[2].n[1] - b -> v[0].n[1]*b -> v[2].n[2])/det;
+   b -> v[0].n[2] = (b -> v[0].n[1]*b -> v[1].n[2] - b -> v[0].n[2]*b -> v[1].n[1])/det;
    b -> v[1].n[0] = c1/det;
-   b -> v[1].n[1] = (a -> v[0].n[0]*a -> v[2].n[2] - a -> v[0].n[2]*a -> v[2].n[0])/det;
-   b -> v[1].n[2] = (a -> v[0].n[2]*a -> v[1].n[0] - a -> v[0].n[0]*a -> v[1].n[2])/det;
+   b -> v[1].n[1] = (b -> v[0].n[0]*b -> v[2].n[2] - b -> v[0].n[2]*b -> v[2].n[0])/det;
+   b -> v[1].n[2] = (b -> v[0].n[2]*b -> v[1].n[0] - b -> v[0].n[0]*b -> v[1].n[2])/det;
    b -> v[2].n[0] = c2/det;
-   b -> v[2].n[1] = (a -> v[0].n[1]*a -> v[2].n[0] - a -> v[0].n[0]*a -> v[2].n[1])/det;
-   b -> v[2].n[2] = (a -> v[0].n[0]*a -> v[1].n[1] - a -> v[0].n[1]*a -> v[1].n[0])/det;
+   b -> v[2].n[1] = (b -> v[0].n[1]*b -> v[2].n[0] - b -> v[0].n[0]*b -> v[2].n[1])/det;
+   b -> v[2].n[2] = (b -> v[0].n[0]*b -> v[1].n[1] - b -> v[0].n[1]*b -> v[1].n[0])/det;
 
    return TRUE;
 }
 
 
-// Solve a system in the form Ax = b
-cmsBool  CMSEXPORT _cmsMAT3solve(cmsVEC3* x, cmsMAT3* a, cmsVEC3* b)
+// Solve b system in the form Ax = b
+cmsBool  CMSEXPORT _cmsMAT3solve(cmsVEC3* x, cmsMAT3* b, cmsVEC3* b)
 {
-    cmsMAT3 m, a_1;
+    cmsMAT3 m, b_1;
 
-    memmove(&m, a, sizeof(cmsMAT3));
+    memmove(&m, b, sizeof(cmsMAT3));
 
-    if (!_cmsMAT3inverse(&m, &a_1)) return FALSE;  // Singular matrix
+    if (!_cmsMAT3inverse(&m, &b_1)) return FALSE;  // Singulbr mbtrix
 
-    _cmsMAT3eval(x, &a_1, b);
+    _cmsMAT3evbl(x, &b_1, b);
     return TRUE;
 }
 
-// Evaluate a vector across a matrix
-void CMSEXPORT _cmsMAT3eval(cmsVEC3* r, const cmsMAT3* a, const cmsVEC3* v)
+// Evblubte b vector bcross b mbtrix
+void CMSEXPORT _cmsMAT3evbl(cmsVEC3* r, const cmsMAT3* b, const cmsVEC3* v)
 {
-    r->n[VX] = a->v[0].n[VX]*v->n[VX] + a->v[0].n[VY]*v->n[VY] + a->v[0].n[VZ]*v->n[VZ];
-    r->n[VY] = a->v[1].n[VX]*v->n[VX] + a->v[1].n[VY]*v->n[VY] + a->v[1].n[VZ]*v->n[VZ];
-    r->n[VZ] = a->v[2].n[VX]*v->n[VX] + a->v[2].n[VY]*v->n[VY] + a->v[2].n[VZ]*v->n[VZ];
+    r->n[VX] = b->v[0].n[VX]*v->n[VX] + b->v[0].n[VY]*v->n[VY] + b->v[0].n[VZ]*v->n[VZ];
+    r->n[VY] = b->v[1].n[VX]*v->n[VX] + b->v[1].n[VY]*v->n[VY] + b->v[1].n[VZ]*v->n[VZ];
+    r->n[VZ] = b->v[2].n[VX]*v->n[VX] + b->v[2].n[VY]*v->n[VY] + b->v[2].n[VZ]*v->n[VZ];
 }
 
 

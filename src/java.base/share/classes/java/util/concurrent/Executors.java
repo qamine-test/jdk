@@ -1,744 +1,744 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * Written by Doug Lea with assistance from members of JCP JSR-166
- * Expert Group and released to the public domain, as explained at
- * http://creativecommons.org/publicdomain/zero/1.0/
+ * Written by Doug Leb with bssistbnce from members of JCP JSR-166
+ * Expert Group bnd relebsed to the public dombin, bs explbined bt
+ * http://crebtivecommons.org/publicdombin/zero/1.0/
  */
 
-package java.util.concurrent;
-import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.security.AccessControlContext;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.security.PrivilegedExceptionAction;
-import java.security.PrivilegedActionException;
-import java.security.AccessControlException;
-import sun.security.util.SecurityConstants;
+pbckbge jbvb.util.concurrent;
+import jbvb.util.*;
+import jbvb.util.concurrent.btomic.AtomicInteger;
+import jbvb.security.AccessControlContext;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import jbvb.security.PrivilegedExceptionAction;
+import jbvb.security.PrivilegedActionException;
+import jbvb.security.AccessControlException;
+import sun.security.util.SecurityConstbnts;
 
 /**
- * Factory and utility methods for {@link Executor}, {@link
+ * Fbctory bnd utility methods for {@link Executor}, {@link
  * ExecutorService}, {@link ScheduledExecutorService}, {@link
- * ThreadFactory}, and {@link Callable} classes defined in this
- * package. This class supports the following kinds of methods:
+ * ThrebdFbctory}, bnd {@link Cbllbble} clbsses defined in this
+ * pbckbge. This clbss supports the following kinds of methods:
  *
  * <ul>
- *   <li> Methods that create and return an {@link ExecutorService}
- *        set up with commonly useful configuration settings.
- *   <li> Methods that create and return a {@link ScheduledExecutorService}
- *        set up with commonly useful configuration settings.
- *   <li> Methods that create and return a "wrapped" ExecutorService, that
- *        disables reconfiguration by making implementation-specific methods
- *        inaccessible.
- *   <li> Methods that create and return a {@link ThreadFactory}
- *        that sets newly created threads to a known state.
- *   <li> Methods that create and return a {@link Callable}
- *        out of other closure-like forms, so they can be used
- *        in execution methods requiring {@code Callable}.
+ *   <li> Methods thbt crebte bnd return bn {@link ExecutorService}
+ *        set up with commonly useful configurbtion settings.
+ *   <li> Methods thbt crebte bnd return b {@link ScheduledExecutorService}
+ *        set up with commonly useful configurbtion settings.
+ *   <li> Methods thbt crebte bnd return b "wrbpped" ExecutorService, thbt
+ *        disbbles reconfigurbtion by mbking implementbtion-specific methods
+ *        inbccessible.
+ *   <li> Methods thbt crebte bnd return b {@link ThrebdFbctory}
+ *        thbt sets newly crebted threbds to b known stbte.
+ *   <li> Methods thbt crebte bnd return b {@link Cbllbble}
+ *        out of other closure-like forms, so they cbn be used
+ *        in execution methods requiring {@code Cbllbble}.
  * </ul>
  *
  * @since 1.5
- * @author Doug Lea
+ * @buthor Doug Leb
  */
-public class Executors {
+public clbss Executors {
 
     /**
-     * Creates a thread pool that reuses a fixed number of threads
-     * operating off a shared unbounded queue.  At any point, at most
-     * {@code nThreads} threads will be active processing tasks.
-     * If additional tasks are submitted when all threads are active,
-     * they will wait in the queue until a thread is available.
-     * If any thread terminates due to a failure during execution
-     * prior to shutdown, a new one will take its place if needed to
-     * execute subsequent tasks.  The threads in the pool will exist
+     * Crebtes b threbd pool thbt reuses b fixed number of threbds
+     * operbting off b shbred unbounded queue.  At bny point, bt most
+     * {@code nThrebds} threbds will be bctive processing tbsks.
+     * If bdditionbl tbsks bre submitted when bll threbds bre bctive,
+     * they will wbit in the queue until b threbd is bvbilbble.
+     * If bny threbd terminbtes due to b fbilure during execution
+     * prior to shutdown, b new one will tbke its plbce if needed to
+     * execute subsequent tbsks.  The threbds in the pool will exist
      * until it is explicitly {@link ExecutorService#shutdown shutdown}.
      *
-     * @param nThreads the number of threads in the pool
-     * @return the newly created thread pool
-     * @throws IllegalArgumentException if {@code nThreads <= 0}
+     * @pbrbm nThrebds the number of threbds in the pool
+     * @return the newly crebted threbd pool
+     * @throws IllegblArgumentException if {@code nThrebds <= 0}
      */
-    public static ExecutorService newFixedThreadPool(int nThreads) {
-        return new ThreadPoolExecutor(nThreads, nThreads,
+    public stbtic ExecutorService newFixedThrebdPool(int nThrebds) {
+        return new ThrebdPoolExecutor(nThrebds, nThrebds,
                                       0L, TimeUnit.MILLISECONDS,
-                                      new LinkedBlockingQueue<Runnable>());
+                                      new LinkedBlockingQueue<Runnbble>());
     }
 
     /**
-     * Creates a thread pool that maintains enough threads to support
-     * the given parallelism level, and may use multiple queues to
-     * reduce contention. The parallelism level corresponds to the
-     * maximum number of threads actively engaged in, or available to
-     * engage in, task processing. The actual number of threads may
-     * grow and shrink dynamically. A work-stealing pool makes no
-     * guarantees about the order in which submitted tasks are
+     * Crebtes b threbd pool thbt mbintbins enough threbds to support
+     * the given pbrbllelism level, bnd mby use multiple queues to
+     * reduce contention. The pbrbllelism level corresponds to the
+     * mbximum number of threbds bctively engbged in, or bvbilbble to
+     * engbge in, tbsk processing. The bctubl number of threbds mby
+     * grow bnd shrink dynbmicblly. A work-stebling pool mbkes no
+     * gubrbntees bbout the order in which submitted tbsks bre
      * executed.
      *
-     * @param parallelism the targeted parallelism level
-     * @return the newly created thread pool
-     * @throws IllegalArgumentException if {@code parallelism <= 0}
+     * @pbrbm pbrbllelism the tbrgeted pbrbllelism level
+     * @return the newly crebted threbd pool
+     * @throws IllegblArgumentException if {@code pbrbllelism <= 0}
      * @since 1.8
      */
-    public static ExecutorService newWorkStealingPool(int parallelism) {
+    public stbtic ExecutorService newWorkSteblingPool(int pbrbllelism) {
         return new ForkJoinPool
-            (parallelism,
-             ForkJoinPool.defaultForkJoinWorkerThreadFactory,
+            (pbrbllelism,
+             ForkJoinPool.defbultForkJoinWorkerThrebdFbctory,
              null, true);
     }
 
     /**
-     * Creates a work-stealing thread pool using all
-     * {@link Runtime#availableProcessors available processors}
-     * as its target parallelism level.
-     * @return the newly created thread pool
-     * @see #newWorkStealingPool(int)
+     * Crebtes b work-stebling threbd pool using bll
+     * {@link Runtime#bvbilbbleProcessors bvbilbble processors}
+     * bs its tbrget pbrbllelism level.
+     * @return the newly crebted threbd pool
+     * @see #newWorkSteblingPool(int)
      * @since 1.8
      */
-    public static ExecutorService newWorkStealingPool() {
+    public stbtic ExecutorService newWorkSteblingPool() {
         return new ForkJoinPool
-            (Runtime.getRuntime().availableProcessors(),
-             ForkJoinPool.defaultForkJoinWorkerThreadFactory,
+            (Runtime.getRuntime().bvbilbbleProcessors(),
+             ForkJoinPool.defbultForkJoinWorkerThrebdFbctory,
              null, true);
     }
 
     /**
-     * Creates a thread pool that reuses a fixed number of threads
-     * operating off a shared unbounded queue, using the provided
-     * ThreadFactory to create new threads when needed.  At any point,
-     * at most {@code nThreads} threads will be active processing
-     * tasks.  If additional tasks are submitted when all threads are
-     * active, they will wait in the queue until a thread is
-     * available.  If any thread terminates due to a failure during
-     * execution prior to shutdown, a new one will take its place if
-     * needed to execute subsequent tasks.  The threads in the pool will
+     * Crebtes b threbd pool thbt reuses b fixed number of threbds
+     * operbting off b shbred unbounded queue, using the provided
+     * ThrebdFbctory to crebte new threbds when needed.  At bny point,
+     * bt most {@code nThrebds} threbds will be bctive processing
+     * tbsks.  If bdditionbl tbsks bre submitted when bll threbds bre
+     * bctive, they will wbit in the queue until b threbd is
+     * bvbilbble.  If bny threbd terminbtes due to b fbilure during
+     * execution prior to shutdown, b new one will tbke its plbce if
+     * needed to execute subsequent tbsks.  The threbds in the pool will
      * exist until it is explicitly {@link ExecutorService#shutdown
      * shutdown}.
      *
-     * @param nThreads the number of threads in the pool
-     * @param threadFactory the factory to use when creating new threads
-     * @return the newly created thread pool
-     * @throws NullPointerException if threadFactory is null
-     * @throws IllegalArgumentException if {@code nThreads <= 0}
+     * @pbrbm nThrebds the number of threbds in the pool
+     * @pbrbm threbdFbctory the fbctory to use when crebting new threbds
+     * @return the newly crebted threbd pool
+     * @throws NullPointerException if threbdFbctory is null
+     * @throws IllegblArgumentException if {@code nThrebds <= 0}
      */
-    public static ExecutorService newFixedThreadPool(int nThreads, ThreadFactory threadFactory) {
-        return new ThreadPoolExecutor(nThreads, nThreads,
+    public stbtic ExecutorService newFixedThrebdPool(int nThrebds, ThrebdFbctory threbdFbctory) {
+        return new ThrebdPoolExecutor(nThrebds, nThrebds,
                                       0L, TimeUnit.MILLISECONDS,
-                                      new LinkedBlockingQueue<Runnable>(),
-                                      threadFactory);
+                                      new LinkedBlockingQueue<Runnbble>(),
+                                      threbdFbctory);
     }
 
     /**
-     * Creates an Executor that uses a single worker thread operating
-     * off an unbounded queue. (Note however that if this single
-     * thread terminates due to a failure during execution prior to
-     * shutdown, a new one will take its place if needed to execute
-     * subsequent tasks.)  Tasks are guaranteed to execute
-     * sequentially, and no more than one task will be active at any
-     * given time. Unlike the otherwise equivalent
-     * {@code newFixedThreadPool(1)} the returned executor is
-     * guaranteed not to be reconfigurable to use additional threads.
+     * Crebtes bn Executor thbt uses b single worker threbd operbting
+     * off bn unbounded queue. (Note however thbt if this single
+     * threbd terminbtes due to b fbilure during execution prior to
+     * shutdown, b new one will tbke its plbce if needed to execute
+     * subsequent tbsks.)  Tbsks bre gubrbnteed to execute
+     * sequentiblly, bnd no more thbn one tbsk will be bctive bt bny
+     * given time. Unlike the otherwise equivblent
+     * {@code newFixedThrebdPool(1)} the returned executor is
+     * gubrbnteed not to be reconfigurbble to use bdditionbl threbds.
      *
-     * @return the newly created single-threaded Executor
+     * @return the newly crebted single-threbded Executor
      */
-    public static ExecutorService newSingleThreadExecutor() {
-        return new FinalizableDelegatedExecutorService
-            (new ThreadPoolExecutor(1, 1,
+    public stbtic ExecutorService newSingleThrebdExecutor() {
+        return new FinblizbbleDelegbtedExecutorService
+            (new ThrebdPoolExecutor(1, 1,
                                     0L, TimeUnit.MILLISECONDS,
-                                    new LinkedBlockingQueue<Runnable>()));
+                                    new LinkedBlockingQueue<Runnbble>()));
     }
 
     /**
-     * Creates an Executor that uses a single worker thread operating
-     * off an unbounded queue, and uses the provided ThreadFactory to
-     * create a new thread when needed. Unlike the otherwise
-     * equivalent {@code newFixedThreadPool(1, threadFactory)} the
-     * returned executor is guaranteed not to be reconfigurable to use
-     * additional threads.
+     * Crebtes bn Executor thbt uses b single worker threbd operbting
+     * off bn unbounded queue, bnd uses the provided ThrebdFbctory to
+     * crebte b new threbd when needed. Unlike the otherwise
+     * equivblent {@code newFixedThrebdPool(1, threbdFbctory)} the
+     * returned executor is gubrbnteed not to be reconfigurbble to use
+     * bdditionbl threbds.
      *
-     * @param threadFactory the factory to use when creating new
-     * threads
+     * @pbrbm threbdFbctory the fbctory to use when crebting new
+     * threbds
      *
-     * @return the newly created single-threaded Executor
-     * @throws NullPointerException if threadFactory is null
+     * @return the newly crebted single-threbded Executor
+     * @throws NullPointerException if threbdFbctory is null
      */
-    public static ExecutorService newSingleThreadExecutor(ThreadFactory threadFactory) {
-        return new FinalizableDelegatedExecutorService
-            (new ThreadPoolExecutor(1, 1,
+    public stbtic ExecutorService newSingleThrebdExecutor(ThrebdFbctory threbdFbctory) {
+        return new FinblizbbleDelegbtedExecutorService
+            (new ThrebdPoolExecutor(1, 1,
                                     0L, TimeUnit.MILLISECONDS,
-                                    new LinkedBlockingQueue<Runnable>(),
-                                    threadFactory));
+                                    new LinkedBlockingQueue<Runnbble>(),
+                                    threbdFbctory));
     }
 
     /**
-     * Creates a thread pool that creates new threads as needed, but
-     * will reuse previously constructed threads when they are
-     * available.  These pools will typically improve the performance
-     * of programs that execute many short-lived asynchronous tasks.
-     * Calls to {@code execute} will reuse previously constructed
-     * threads if available. If no existing thread is available, a new
-     * thread will be created and added to the pool. Threads that have
-     * not been used for sixty seconds are terminated and removed from
-     * the cache. Thus, a pool that remains idle for long enough will
-     * not consume any resources. Note that pools with similar
-     * properties but different details (for example, timeout parameters)
-     * may be created using {@link ThreadPoolExecutor} constructors.
+     * Crebtes b threbd pool thbt crebtes new threbds bs needed, but
+     * will reuse previously constructed threbds when they bre
+     * bvbilbble.  These pools will typicblly improve the performbnce
+     * of progrbms thbt execute mbny short-lived bsynchronous tbsks.
+     * Cblls to {@code execute} will reuse previously constructed
+     * threbds if bvbilbble. If no existing threbd is bvbilbble, b new
+     * threbd will be crebted bnd bdded to the pool. Threbds thbt hbve
+     * not been used for sixty seconds bre terminbted bnd removed from
+     * the cbche. Thus, b pool thbt rembins idle for long enough will
+     * not consume bny resources. Note thbt pools with similbr
+     * properties but different detbils (for exbmple, timeout pbrbmeters)
+     * mby be crebted using {@link ThrebdPoolExecutor} constructors.
      *
-     * @return the newly created thread pool
+     * @return the newly crebted threbd pool
      */
-    public static ExecutorService newCachedThreadPool() {
-        return new ThreadPoolExecutor(0, Integer.MAX_VALUE,
+    public stbtic ExecutorService newCbchedThrebdPool() {
+        return new ThrebdPoolExecutor(0, Integer.MAX_VALUE,
                                       60L, TimeUnit.SECONDS,
-                                      new SynchronousQueue<Runnable>());
+                                      new SynchronousQueue<Runnbble>());
     }
 
     /**
-     * Creates a thread pool that creates new threads as needed, but
-     * will reuse previously constructed threads when they are
-     * available, and uses the provided
-     * ThreadFactory to create new threads when needed.
-     * @param threadFactory the factory to use when creating new threads
-     * @return the newly created thread pool
-     * @throws NullPointerException if threadFactory is null
+     * Crebtes b threbd pool thbt crebtes new threbds bs needed, but
+     * will reuse previously constructed threbds when they bre
+     * bvbilbble, bnd uses the provided
+     * ThrebdFbctory to crebte new threbds when needed.
+     * @pbrbm threbdFbctory the fbctory to use when crebting new threbds
+     * @return the newly crebted threbd pool
+     * @throws NullPointerException if threbdFbctory is null
      */
-    public static ExecutorService newCachedThreadPool(ThreadFactory threadFactory) {
-        return new ThreadPoolExecutor(0, Integer.MAX_VALUE,
+    public stbtic ExecutorService newCbchedThrebdPool(ThrebdFbctory threbdFbctory) {
+        return new ThrebdPoolExecutor(0, Integer.MAX_VALUE,
                                       60L, TimeUnit.SECONDS,
-                                      new SynchronousQueue<Runnable>(),
-                                      threadFactory);
+                                      new SynchronousQueue<Runnbble>(),
+                                      threbdFbctory);
     }
 
     /**
-     * Creates a single-threaded executor that can schedule commands
-     * to run after a given delay, or to execute periodically.
-     * (Note however that if this single
-     * thread terminates due to a failure during execution prior to
-     * shutdown, a new one will take its place if needed to execute
-     * subsequent tasks.)  Tasks are guaranteed to execute
-     * sequentially, and no more than one task will be active at any
-     * given time. Unlike the otherwise equivalent
-     * {@code newScheduledThreadPool(1)} the returned executor is
-     * guaranteed not to be reconfigurable to use additional threads.
-     * @return the newly created scheduled executor
+     * Crebtes b single-threbded executor thbt cbn schedule commbnds
+     * to run bfter b given delby, or to execute periodicblly.
+     * (Note however thbt if this single
+     * threbd terminbtes due to b fbilure during execution prior to
+     * shutdown, b new one will tbke its plbce if needed to execute
+     * subsequent tbsks.)  Tbsks bre gubrbnteed to execute
+     * sequentiblly, bnd no more thbn one tbsk will be bctive bt bny
+     * given time. Unlike the otherwise equivblent
+     * {@code newScheduledThrebdPool(1)} the returned executor is
+     * gubrbnteed not to be reconfigurbble to use bdditionbl threbds.
+     * @return the newly crebted scheduled executor
      */
-    public static ScheduledExecutorService newSingleThreadScheduledExecutor() {
-        return new DelegatedScheduledExecutorService
-            (new ScheduledThreadPoolExecutor(1));
+    public stbtic ScheduledExecutorService newSingleThrebdScheduledExecutor() {
+        return new DelegbtedScheduledExecutorService
+            (new ScheduledThrebdPoolExecutor(1));
     }
 
     /**
-     * Creates a single-threaded executor that can schedule commands
-     * to run after a given delay, or to execute periodically.  (Note
-     * however that if this single thread terminates due to a failure
-     * during execution prior to shutdown, a new one will take its
-     * place if needed to execute subsequent tasks.)  Tasks are
-     * guaranteed to execute sequentially, and no more than one task
-     * will be active at any given time. Unlike the otherwise
-     * equivalent {@code newScheduledThreadPool(1, threadFactory)}
-     * the returned executor is guaranteed not to be reconfigurable to
-     * use additional threads.
-     * @param threadFactory the factory to use when creating new
-     * threads
-     * @return a newly created scheduled executor
-     * @throws NullPointerException if threadFactory is null
+     * Crebtes b single-threbded executor thbt cbn schedule commbnds
+     * to run bfter b given delby, or to execute periodicblly.  (Note
+     * however thbt if this single threbd terminbtes due to b fbilure
+     * during execution prior to shutdown, b new one will tbke its
+     * plbce if needed to execute subsequent tbsks.)  Tbsks bre
+     * gubrbnteed to execute sequentiblly, bnd no more thbn one tbsk
+     * will be bctive bt bny given time. Unlike the otherwise
+     * equivblent {@code newScheduledThrebdPool(1, threbdFbctory)}
+     * the returned executor is gubrbnteed not to be reconfigurbble to
+     * use bdditionbl threbds.
+     * @pbrbm threbdFbctory the fbctory to use when crebting new
+     * threbds
+     * @return b newly crebted scheduled executor
+     * @throws NullPointerException if threbdFbctory is null
      */
-    public static ScheduledExecutorService newSingleThreadScheduledExecutor(ThreadFactory threadFactory) {
-        return new DelegatedScheduledExecutorService
-            (new ScheduledThreadPoolExecutor(1, threadFactory));
+    public stbtic ScheduledExecutorService newSingleThrebdScheduledExecutor(ThrebdFbctory threbdFbctory) {
+        return new DelegbtedScheduledExecutorService
+            (new ScheduledThrebdPoolExecutor(1, threbdFbctory));
     }
 
     /**
-     * Creates a thread pool that can schedule commands to run after a
-     * given delay, or to execute periodically.
-     * @param corePoolSize the number of threads to keep in the pool,
-     * even if they are idle
-     * @return a newly created scheduled thread pool
-     * @throws IllegalArgumentException if {@code corePoolSize < 0}
+     * Crebtes b threbd pool thbt cbn schedule commbnds to run bfter b
+     * given delby, or to execute periodicblly.
+     * @pbrbm corePoolSize the number of threbds to keep in the pool,
+     * even if they bre idle
+     * @return b newly crebted scheduled threbd pool
+     * @throws IllegblArgumentException if {@code corePoolSize < 0}
      */
-    public static ScheduledExecutorService newScheduledThreadPool(int corePoolSize) {
-        return new ScheduledThreadPoolExecutor(corePoolSize);
+    public stbtic ScheduledExecutorService newScheduledThrebdPool(int corePoolSize) {
+        return new ScheduledThrebdPoolExecutor(corePoolSize);
     }
 
     /**
-     * Creates a thread pool that can schedule commands to run after a
-     * given delay, or to execute periodically.
-     * @param corePoolSize the number of threads to keep in the pool,
-     * even if they are idle
-     * @param threadFactory the factory to use when the executor
-     * creates a new thread
-     * @return a newly created scheduled thread pool
-     * @throws IllegalArgumentException if {@code corePoolSize < 0}
-     * @throws NullPointerException if threadFactory is null
+     * Crebtes b threbd pool thbt cbn schedule commbnds to run bfter b
+     * given delby, or to execute periodicblly.
+     * @pbrbm corePoolSize the number of threbds to keep in the pool,
+     * even if they bre idle
+     * @pbrbm threbdFbctory the fbctory to use when the executor
+     * crebtes b new threbd
+     * @return b newly crebted scheduled threbd pool
+     * @throws IllegblArgumentException if {@code corePoolSize < 0}
+     * @throws NullPointerException if threbdFbctory is null
      */
-    public static ScheduledExecutorService newScheduledThreadPool(
-            int corePoolSize, ThreadFactory threadFactory) {
-        return new ScheduledThreadPoolExecutor(corePoolSize, threadFactory);
+    public stbtic ScheduledExecutorService newScheduledThrebdPool(
+            int corePoolSize, ThrebdFbctory threbdFbctory) {
+        return new ScheduledThrebdPoolExecutor(corePoolSize, threbdFbctory);
     }
 
     /**
-     * Returns an object that delegates all defined {@link
-     * ExecutorService} methods to the given executor, but not any
-     * other methods that might otherwise be accessible using
-     * casts. This provides a way to safely "freeze" configuration and
-     * disallow tuning of a given concrete implementation.
-     * @param executor the underlying implementation
-     * @return an {@code ExecutorService} instance
+     * Returns bn object thbt delegbtes bll defined {@link
+     * ExecutorService} methods to the given executor, but not bny
+     * other methods thbt might otherwise be bccessible using
+     * cbsts. This provides b wby to sbfely "freeze" configurbtion bnd
+     * disbllow tuning of b given concrete implementbtion.
+     * @pbrbm executor the underlying implementbtion
+     * @return bn {@code ExecutorService} instbnce
      * @throws NullPointerException if executor null
      */
-    public static ExecutorService unconfigurableExecutorService(ExecutorService executor) {
+    public stbtic ExecutorService unconfigurbbleExecutorService(ExecutorService executor) {
         if (executor == null)
             throw new NullPointerException();
-        return new DelegatedExecutorService(executor);
+        return new DelegbtedExecutorService(executor);
     }
 
     /**
-     * Returns an object that delegates all defined {@link
+     * Returns bn object thbt delegbtes bll defined {@link
      * ScheduledExecutorService} methods to the given executor, but
-     * not any other methods that might otherwise be accessible using
-     * casts. This provides a way to safely "freeze" configuration and
-     * disallow tuning of a given concrete implementation.
-     * @param executor the underlying implementation
-     * @return a {@code ScheduledExecutorService} instance
+     * not bny other methods thbt might otherwise be bccessible using
+     * cbsts. This provides b wby to sbfely "freeze" configurbtion bnd
+     * disbllow tuning of b given concrete implementbtion.
+     * @pbrbm executor the underlying implementbtion
+     * @return b {@code ScheduledExecutorService} instbnce
      * @throws NullPointerException if executor null
      */
-    public static ScheduledExecutorService unconfigurableScheduledExecutorService(ScheduledExecutorService executor) {
+    public stbtic ScheduledExecutorService unconfigurbbleScheduledExecutorService(ScheduledExecutorService executor) {
         if (executor == null)
             throw new NullPointerException();
-        return new DelegatedScheduledExecutorService(executor);
+        return new DelegbtedScheduledExecutorService(executor);
     }
 
     /**
-     * Returns a default thread factory used to create new threads.
-     * This factory creates all new threads used by an Executor in the
-     * same {@link ThreadGroup}. If there is a {@link
-     * java.lang.SecurityManager}, it uses the group of {@link
-     * System#getSecurityManager}, else the group of the thread
-     * invoking this {@code defaultThreadFactory} method. Each new
-     * thread is created as a non-daemon thread with priority set to
-     * the smaller of {@code Thread.NORM_PRIORITY} and the maximum
-     * priority permitted in the thread group.  New threads have names
-     * accessible via {@link Thread#getName} of
-     * <em>pool-N-thread-M</em>, where <em>N</em> is the sequence
-     * number of this factory, and <em>M</em> is the sequence number
-     * of the thread created by this factory.
-     * @return a thread factory
+     * Returns b defbult threbd fbctory used to crebte new threbds.
+     * This fbctory crebtes bll new threbds used by bn Executor in the
+     * sbme {@link ThrebdGroup}. If there is b {@link
+     * jbvb.lbng.SecurityMbnbger}, it uses the group of {@link
+     * System#getSecurityMbnbger}, else the group of the threbd
+     * invoking this {@code defbultThrebdFbctory} method. Ebch new
+     * threbd is crebted bs b non-dbemon threbd with priority set to
+     * the smbller of {@code Threbd.NORM_PRIORITY} bnd the mbximum
+     * priority permitted in the threbd group.  New threbds hbve nbmes
+     * bccessible vib {@link Threbd#getNbme} of
+     * <em>pool-N-threbd-M</em>, where <em>N</em> is the sequence
+     * number of this fbctory, bnd <em>M</em> is the sequence number
+     * of the threbd crebted by this fbctory.
+     * @return b threbd fbctory
      */
-    public static ThreadFactory defaultThreadFactory() {
-        return new DefaultThreadFactory();
+    public stbtic ThrebdFbctory defbultThrebdFbctory() {
+        return new DefbultThrebdFbctory();
     }
 
     /**
-     * Returns a thread factory used to create new threads that
-     * have the same permissions as the current thread.
-     * This factory creates threads with the same settings as {@link
-     * Executors#defaultThreadFactory}, additionally setting the
-     * AccessControlContext and contextClassLoader of new threads to
-     * be the same as the thread invoking this
-     * {@code privilegedThreadFactory} method.  A new
-     * {@code privilegedThreadFactory} can be created within an
+     * Returns b threbd fbctory used to crebte new threbds thbt
+     * hbve the sbme permissions bs the current threbd.
+     * This fbctory crebtes threbds with the sbme settings bs {@link
+     * Executors#defbultThrebdFbctory}, bdditionblly setting the
+     * AccessControlContext bnd contextClbssLobder of new threbds to
+     * be the sbme bs the threbd invoking this
+     * {@code privilegedThrebdFbctory} method.  A new
+     * {@code privilegedThrebdFbctory} cbn be crebted within bn
      * {@link AccessController#doPrivileged AccessController.doPrivileged}
-     * action setting the current thread's access control context to
-     * create threads with the selected permission settings holding
-     * within that action.
+     * bction setting the current threbd's bccess control context to
+     * crebte threbds with the selected permission settings holding
+     * within thbt bction.
      *
-     * <p>Note that while tasks running within such threads will have
-     * the same access control and class loader settings as the
-     * current thread, they need not have the same {@link
-     * java.lang.ThreadLocal} or {@link
-     * java.lang.InheritableThreadLocal} values. If necessary,
-     * particular values of thread locals can be set or reset before
-     * any task runs in {@link ThreadPoolExecutor} subclasses using
-     * {@link ThreadPoolExecutor#beforeExecute(Thread, Runnable)}.
-     * Also, if it is necessary to initialize worker threads to have
-     * the same InheritableThreadLocal settings as some other
-     * designated thread, you can create a custom ThreadFactory in
-     * which that thread waits for and services requests to create
-     * others that will inherit its values.
+     * <p>Note thbt while tbsks running within such threbds will hbve
+     * the sbme bccess control bnd clbss lobder settings bs the
+     * current threbd, they need not hbve the sbme {@link
+     * jbvb.lbng.ThrebdLocbl} or {@link
+     * jbvb.lbng.InheritbbleThrebdLocbl} vblues. If necessbry,
+     * pbrticulbr vblues of threbd locbls cbn be set or reset before
+     * bny tbsk runs in {@link ThrebdPoolExecutor} subclbsses using
+     * {@link ThrebdPoolExecutor#beforeExecute(Threbd, Runnbble)}.
+     * Also, if it is necessbry to initiblize worker threbds to hbve
+     * the sbme InheritbbleThrebdLocbl settings bs some other
+     * designbted threbd, you cbn crebte b custom ThrebdFbctory in
+     * which thbt threbd wbits for bnd services requests to crebte
+     * others thbt will inherit its vblues.
      *
-     * @return a thread factory
-     * @throws AccessControlException if the current access control
-     * context does not have permission to both get and set context
-     * class loader
+     * @return b threbd fbctory
+     * @throws AccessControlException if the current bccess control
+     * context does not hbve permission to both get bnd set context
+     * clbss lobder
      */
-    public static ThreadFactory privilegedThreadFactory() {
-        return new PrivilegedThreadFactory();
+    public stbtic ThrebdFbctory privilegedThrebdFbctory() {
+        return new PrivilegedThrebdFbctory();
     }
 
     /**
-     * Returns a {@link Callable} object that, when
-     * called, runs the given task and returns the given result.  This
-     * can be useful when applying methods requiring a
-     * {@code Callable} to an otherwise resultless action.
-     * @param task the task to run
-     * @param result the result to return
-     * @param <T> the type of the result
-     * @return a callable object
-     * @throws NullPointerException if task null
+     * Returns b {@link Cbllbble} object thbt, when
+     * cblled, runs the given tbsk bnd returns the given result.  This
+     * cbn be useful when bpplying methods requiring b
+     * {@code Cbllbble} to bn otherwise resultless bction.
+     * @pbrbm tbsk the tbsk to run
+     * @pbrbm result the result to return
+     * @pbrbm <T> the type of the result
+     * @return b cbllbble object
+     * @throws NullPointerException if tbsk null
      */
-    public static <T> Callable<T> callable(Runnable task, T result) {
-        if (task == null)
+    public stbtic <T> Cbllbble<T> cbllbble(Runnbble tbsk, T result) {
+        if (tbsk == null)
             throw new NullPointerException();
-        return new RunnableAdapter<T>(task, result);
+        return new RunnbbleAdbpter<T>(tbsk, result);
     }
 
     /**
-     * Returns a {@link Callable} object that, when
-     * called, runs the given task and returns {@code null}.
-     * @param task the task to run
-     * @return a callable object
-     * @throws NullPointerException if task null
+     * Returns b {@link Cbllbble} object thbt, when
+     * cblled, runs the given tbsk bnd returns {@code null}.
+     * @pbrbm tbsk the tbsk to run
+     * @return b cbllbble object
+     * @throws NullPointerException if tbsk null
      */
-    public static Callable<Object> callable(Runnable task) {
-        if (task == null)
+    public stbtic Cbllbble<Object> cbllbble(Runnbble tbsk) {
+        if (tbsk == null)
             throw new NullPointerException();
-        return new RunnableAdapter<Object>(task, null);
+        return new RunnbbleAdbpter<Object>(tbsk, null);
     }
 
     /**
-     * Returns a {@link Callable} object that, when
-     * called, runs the given privileged action and returns its result.
-     * @param action the privileged action to run
-     * @return a callable object
-     * @throws NullPointerException if action null
+     * Returns b {@link Cbllbble} object thbt, when
+     * cblled, runs the given privileged bction bnd returns its result.
+     * @pbrbm bction the privileged bction to run
+     * @return b cbllbble object
+     * @throws NullPointerException if bction null
      */
-    public static Callable<Object> callable(final PrivilegedAction<?> action) {
-        if (action == null)
+    public stbtic Cbllbble<Object> cbllbble(finbl PrivilegedAction<?> bction) {
+        if (bction == null)
             throw new NullPointerException();
-        return new Callable<Object>() {
-            public Object call() { return action.run(); }};
+        return new Cbllbble<Object>() {
+            public Object cbll() { return bction.run(); }};
     }
 
     /**
-     * Returns a {@link Callable} object that, when
-     * called, runs the given privileged exception action and returns
+     * Returns b {@link Cbllbble} object thbt, when
+     * cblled, runs the given privileged exception bction bnd returns
      * its result.
-     * @param action the privileged exception action to run
-     * @return a callable object
-     * @throws NullPointerException if action null
+     * @pbrbm bction the privileged exception bction to run
+     * @return b cbllbble object
+     * @throws NullPointerException if bction null
      */
-    public static Callable<Object> callable(final PrivilegedExceptionAction<?> action) {
-        if (action == null)
+    public stbtic Cbllbble<Object> cbllbble(finbl PrivilegedExceptionAction<?> bction) {
+        if (bction == null)
             throw new NullPointerException();
-        return new Callable<Object>() {
-            public Object call() throws Exception { return action.run(); }};
+        return new Cbllbble<Object>() {
+            public Object cbll() throws Exception { return bction.run(); }};
     }
 
     /**
-     * Returns a {@link Callable} object that will, when called,
-     * execute the given {@code callable} under the current access
-     * control context. This method should normally be invoked within
-     * an {@link AccessController#doPrivileged AccessController.doPrivileged}
-     * action to create callables that will, if possible, execute
-     * under the selected permission settings holding within that
-     * action; or if not possible, throw an associated {@link
+     * Returns b {@link Cbllbble} object thbt will, when cblled,
+     * execute the given {@code cbllbble} under the current bccess
+     * control context. This method should normblly be invoked within
+     * bn {@link AccessController#doPrivileged AccessController.doPrivileged}
+     * bction to crebte cbllbbles thbt will, if possible, execute
+     * under the selected permission settings holding within thbt
+     * bction; or if not possible, throw bn bssocibted {@link
      * AccessControlException}.
-     * @param callable the underlying task
-     * @param <T> the type of the callable's result
-     * @return a callable object
-     * @throws NullPointerException if callable null
+     * @pbrbm cbllbble the underlying tbsk
+     * @pbrbm <T> the type of the cbllbble's result
+     * @return b cbllbble object
+     * @throws NullPointerException if cbllbble null
      */
-    public static <T> Callable<T> privilegedCallable(Callable<T> callable) {
-        if (callable == null)
+    public stbtic <T> Cbllbble<T> privilegedCbllbble(Cbllbble<T> cbllbble) {
+        if (cbllbble == null)
             throw new NullPointerException();
-        return new PrivilegedCallable<T>(callable);
+        return new PrivilegedCbllbble<T>(cbllbble);
     }
 
     /**
-     * Returns a {@link Callable} object that will, when called,
-     * execute the given {@code callable} under the current access
-     * control context, with the current context class loader as the
-     * context class loader. This method should normally be invoked
-     * within an
+     * Returns b {@link Cbllbble} object thbt will, when cblled,
+     * execute the given {@code cbllbble} under the current bccess
+     * control context, with the current context clbss lobder bs the
+     * context clbss lobder. This method should normblly be invoked
+     * within bn
      * {@link AccessController#doPrivileged AccessController.doPrivileged}
-     * action to create callables that will, if possible, execute
-     * under the selected permission settings holding within that
-     * action; or if not possible, throw an associated {@link
+     * bction to crebte cbllbbles thbt will, if possible, execute
+     * under the selected permission settings holding within thbt
+     * bction; or if not possible, throw bn bssocibted {@link
      * AccessControlException}.
      *
-     * @param callable the underlying task
-     * @param <T> the type of the callable's result
-     * @return a callable object
-     * @throws NullPointerException if callable null
-     * @throws AccessControlException if the current access control
-     * context does not have permission to both set and get context
-     * class loader
+     * @pbrbm cbllbble the underlying tbsk
+     * @pbrbm <T> the type of the cbllbble's result
+     * @return b cbllbble object
+     * @throws NullPointerException if cbllbble null
+     * @throws AccessControlException if the current bccess control
+     * context does not hbve permission to both set bnd get context
+     * clbss lobder
      */
-    public static <T> Callable<T> privilegedCallableUsingCurrentClassLoader(Callable<T> callable) {
-        if (callable == null)
+    public stbtic <T> Cbllbble<T> privilegedCbllbbleUsingCurrentClbssLobder(Cbllbble<T> cbllbble) {
+        if (cbllbble == null)
             throw new NullPointerException();
-        return new PrivilegedCallableUsingCurrentClassLoader<T>(callable);
+        return new PrivilegedCbllbbleUsingCurrentClbssLobder<T>(cbllbble);
     }
 
-    // Non-public classes supporting the public methods
+    // Non-public clbsses supporting the public methods
 
     /**
-     * A callable that runs given task and returns given result
+     * A cbllbble thbt runs given tbsk bnd returns given result
      */
-    static final class RunnableAdapter<T> implements Callable<T> {
-        final Runnable task;
-        final T result;
-        RunnableAdapter(Runnable task, T result) {
-            this.task = task;
+    stbtic finbl clbss RunnbbleAdbpter<T> implements Cbllbble<T> {
+        finbl Runnbble tbsk;
+        finbl T result;
+        RunnbbleAdbpter(Runnbble tbsk, T result) {
+            this.tbsk = tbsk;
             this.result = result;
         }
-        public T call() {
-            task.run();
+        public T cbll() {
+            tbsk.run();
             return result;
         }
     }
 
     /**
-     * A callable that runs under established access control settings
+     * A cbllbble thbt runs under estbblished bccess control settings
      */
-    static final class PrivilegedCallable<T> implements Callable<T> {
-        private final Callable<T> task;
-        private final AccessControlContext acc;
+    stbtic finbl clbss PrivilegedCbllbble<T> implements Cbllbble<T> {
+        privbte finbl Cbllbble<T> tbsk;
+        privbte finbl AccessControlContext bcc;
 
-        PrivilegedCallable(Callable<T> task) {
-            this.task = task;
-            this.acc = AccessController.getContext();
+        PrivilegedCbllbble(Cbllbble<T> tbsk) {
+            this.tbsk = tbsk;
+            this.bcc = AccessController.getContext();
         }
 
-        public T call() throws Exception {
+        public T cbll() throws Exception {
             try {
                 return AccessController.doPrivileged(
                     new PrivilegedExceptionAction<T>() {
                         public T run() throws Exception {
-                            return task.call();
+                            return tbsk.cbll();
                         }
-                    }, acc);
-            } catch (PrivilegedActionException e) {
+                    }, bcc);
+            } cbtch (PrivilegedActionException e) {
                 throw e.getException();
             }
         }
     }
 
     /**
-     * A callable that runs under established access control settings and
-     * current ClassLoader
+     * A cbllbble thbt runs under estbblished bccess control settings bnd
+     * current ClbssLobder
      */
-    static final class PrivilegedCallableUsingCurrentClassLoader<T> implements Callable<T> {
-        private final Callable<T> task;
-        private final AccessControlContext acc;
-        private final ClassLoader ccl;
+    stbtic finbl clbss PrivilegedCbllbbleUsingCurrentClbssLobder<T> implements Cbllbble<T> {
+        privbte finbl Cbllbble<T> tbsk;
+        privbte finbl AccessControlContext bcc;
+        privbte finbl ClbssLobder ccl;
 
-        PrivilegedCallableUsingCurrentClassLoader(Callable<T> task) {
-            SecurityManager sm = System.getSecurityManager();
+        PrivilegedCbllbbleUsingCurrentClbssLobder(Cbllbble<T> tbsk) {
+            SecurityMbnbger sm = System.getSecurityMbnbger();
             if (sm != null) {
-                // Calls to getContextClassLoader from this class
-                // never trigger a security check, but we check
-                // whether our callers have this permission anyways.
-                sm.checkPermission(SecurityConstants.GET_CLASSLOADER_PERMISSION);
+                // Cblls to getContextClbssLobder from this clbss
+                // never trigger b security check, but we check
+                // whether our cbllers hbve this permission bnywbys.
+                sm.checkPermission(SecurityConstbnts.GET_CLASSLOADER_PERMISSION);
 
-                // Whether setContextClassLoader turns out to be necessary
-                // or not, we fail fast if permission is not available.
-                sm.checkPermission(new RuntimePermission("setContextClassLoader"));
+                // Whether setContextClbssLobder turns out to be necessbry
+                // or not, we fbil fbst if permission is not bvbilbble.
+                sm.checkPermission(new RuntimePermission("setContextClbssLobder"));
             }
-            this.task = task;
-            this.acc = AccessController.getContext();
-            this.ccl = Thread.currentThread().getContextClassLoader();
+            this.tbsk = tbsk;
+            this.bcc = AccessController.getContext();
+            this.ccl = Threbd.currentThrebd().getContextClbssLobder();
         }
 
-        public T call() throws Exception {
+        public T cbll() throws Exception {
             try {
                 return AccessController.doPrivileged(
                     new PrivilegedExceptionAction<T>() {
                         public T run() throws Exception {
-                            Thread t = Thread.currentThread();
-                            ClassLoader cl = t.getContextClassLoader();
+                            Threbd t = Threbd.currentThrebd();
+                            ClbssLobder cl = t.getContextClbssLobder();
                             if (ccl == cl) {
-                                return task.call();
+                                return tbsk.cbll();
                             } else {
-                                t.setContextClassLoader(ccl);
+                                t.setContextClbssLobder(ccl);
                                 try {
-                                    return task.call();
-                                } finally {
-                                    t.setContextClassLoader(cl);
+                                    return tbsk.cbll();
+                                } finblly {
+                                    t.setContextClbssLobder(cl);
                                 }
                             }
                         }
-                    }, acc);
-            } catch (PrivilegedActionException e) {
+                    }, bcc);
+            } cbtch (PrivilegedActionException e) {
                 throw e.getException();
             }
         }
     }
 
     /**
-     * The default thread factory
+     * The defbult threbd fbctory
      */
-    static class DefaultThreadFactory implements ThreadFactory {
-        private static final AtomicInteger poolNumber = new AtomicInteger(1);
-        private final ThreadGroup group;
-        private final AtomicInteger threadNumber = new AtomicInteger(1);
-        private final String namePrefix;
+    stbtic clbss DefbultThrebdFbctory implements ThrebdFbctory {
+        privbte stbtic finbl AtomicInteger poolNumber = new AtomicInteger(1);
+        privbte finbl ThrebdGroup group;
+        privbte finbl AtomicInteger threbdNumber = new AtomicInteger(1);
+        privbte finbl String nbmePrefix;
 
-        DefaultThreadFactory() {
-            SecurityManager s = System.getSecurityManager();
-            group = (s != null) ? s.getThreadGroup() :
-                                  Thread.currentThread().getThreadGroup();
-            namePrefix = "pool-" +
+        DefbultThrebdFbctory() {
+            SecurityMbnbger s = System.getSecurityMbnbger();
+            group = (s != null) ? s.getThrebdGroup() :
+                                  Threbd.currentThrebd().getThrebdGroup();
+            nbmePrefix = "pool-" +
                           poolNumber.getAndIncrement() +
-                         "-thread-";
+                         "-threbd-";
         }
 
-        public Thread newThread(Runnable r) {
-            Thread t = new Thread(group, r,
-                                  namePrefix + threadNumber.getAndIncrement(),
+        public Threbd newThrebd(Runnbble r) {
+            Threbd t = new Threbd(group, r,
+                                  nbmePrefix + threbdNumber.getAndIncrement(),
                                   0);
-            if (t.isDaemon())
-                t.setDaemon(false);
-            if (t.getPriority() != Thread.NORM_PRIORITY)
-                t.setPriority(Thread.NORM_PRIORITY);
+            if (t.isDbemon())
+                t.setDbemon(fblse);
+            if (t.getPriority() != Threbd.NORM_PRIORITY)
+                t.setPriority(Threbd.NORM_PRIORITY);
             return t;
         }
     }
 
     /**
-     * Thread factory capturing access control context and class loader
+     * Threbd fbctory cbpturing bccess control context bnd clbss lobder
      */
-    static class PrivilegedThreadFactory extends DefaultThreadFactory {
-        private final AccessControlContext acc;
-        private final ClassLoader ccl;
+    stbtic clbss PrivilegedThrebdFbctory extends DefbultThrebdFbctory {
+        privbte finbl AccessControlContext bcc;
+        privbte finbl ClbssLobder ccl;
 
-        PrivilegedThreadFactory() {
+        PrivilegedThrebdFbctory() {
             super();
-            SecurityManager sm = System.getSecurityManager();
+            SecurityMbnbger sm = System.getSecurityMbnbger();
             if (sm != null) {
-                // Calls to getContextClassLoader from this class
-                // never trigger a security check, but we check
-                // whether our callers have this permission anyways.
-                sm.checkPermission(SecurityConstants.GET_CLASSLOADER_PERMISSION);
+                // Cblls to getContextClbssLobder from this clbss
+                // never trigger b security check, but we check
+                // whether our cbllers hbve this permission bnywbys.
+                sm.checkPermission(SecurityConstbnts.GET_CLASSLOADER_PERMISSION);
 
-                // Fail fast
-                sm.checkPermission(new RuntimePermission("setContextClassLoader"));
+                // Fbil fbst
+                sm.checkPermission(new RuntimePermission("setContextClbssLobder"));
             }
-            this.acc = AccessController.getContext();
-            this.ccl = Thread.currentThread().getContextClassLoader();
+            this.bcc = AccessController.getContext();
+            this.ccl = Threbd.currentThrebd().getContextClbssLobder();
         }
 
-        public Thread newThread(final Runnable r) {
-            return super.newThread(new Runnable() {
+        public Threbd newThrebd(finbl Runnbble r) {
+            return super.newThrebd(new Runnbble() {
                 public void run() {
                     AccessController.doPrivileged(new PrivilegedAction<Void>() {
                         public Void run() {
-                            Thread.currentThread().setContextClassLoader(ccl);
+                            Threbd.currentThrebd().setContextClbssLobder(ccl);
                             r.run();
                             return null;
                         }
-                    }, acc);
+                    }, bcc);
                 }
             });
         }
     }
 
     /**
-     * A wrapper class that exposes only the ExecutorService methods
-     * of an ExecutorService implementation.
+     * A wrbpper clbss thbt exposes only the ExecutorService methods
+     * of bn ExecutorService implementbtion.
      */
-    static class DelegatedExecutorService extends AbstractExecutorService {
-        private final ExecutorService e;
-        DelegatedExecutorService(ExecutorService executor) { e = executor; }
-        public void execute(Runnable command) { e.execute(command); }
+    stbtic clbss DelegbtedExecutorService extends AbstrbctExecutorService {
+        privbte finbl ExecutorService e;
+        DelegbtedExecutorService(ExecutorService executor) { e = executor; }
+        public void execute(Runnbble commbnd) { e.execute(commbnd); }
         public void shutdown() { e.shutdown(); }
-        public List<Runnable> shutdownNow() { return e.shutdownNow(); }
-        public boolean isShutdown() { return e.isShutdown(); }
-        public boolean isTerminated() { return e.isTerminated(); }
-        public boolean awaitTermination(long timeout, TimeUnit unit)
+        public List<Runnbble> shutdownNow() { return e.shutdownNow(); }
+        public boolebn isShutdown() { return e.isShutdown(); }
+        public boolebn isTerminbted() { return e.isTerminbted(); }
+        public boolebn bwbitTerminbtion(long timeout, TimeUnit unit)
             throws InterruptedException {
-            return e.awaitTermination(timeout, unit);
+            return e.bwbitTerminbtion(timeout, unit);
         }
-        public Future<?> submit(Runnable task) {
-            return e.submit(task);
+        public Future<?> submit(Runnbble tbsk) {
+            return e.submit(tbsk);
         }
-        public <T> Future<T> submit(Callable<T> task) {
-            return e.submit(task);
+        public <T> Future<T> submit(Cbllbble<T> tbsk) {
+            return e.submit(tbsk);
         }
-        public <T> Future<T> submit(Runnable task, T result) {
-            return e.submit(task, result);
+        public <T> Future<T> submit(Runnbble tbsk, T result) {
+            return e.submit(tbsk, result);
         }
-        public <T> List<Future<T>> invokeAll(Collection<? extends Callable<T>> tasks)
+        public <T> List<Future<T>> invokeAll(Collection<? extends Cbllbble<T>> tbsks)
             throws InterruptedException {
-            return e.invokeAll(tasks);
+            return e.invokeAll(tbsks);
         }
-        public <T> List<Future<T>> invokeAll(Collection<? extends Callable<T>> tasks,
+        public <T> List<Future<T>> invokeAll(Collection<? extends Cbllbble<T>> tbsks,
                                              long timeout, TimeUnit unit)
             throws InterruptedException {
-            return e.invokeAll(tasks, timeout, unit);
+            return e.invokeAll(tbsks, timeout, unit);
         }
-        public <T> T invokeAny(Collection<? extends Callable<T>> tasks)
+        public <T> T invokeAny(Collection<? extends Cbllbble<T>> tbsks)
             throws InterruptedException, ExecutionException {
-            return e.invokeAny(tasks);
+            return e.invokeAny(tbsks);
         }
-        public <T> T invokeAny(Collection<? extends Callable<T>> tasks,
+        public <T> T invokeAny(Collection<? extends Cbllbble<T>> tbsks,
                                long timeout, TimeUnit unit)
             throws InterruptedException, ExecutionException, TimeoutException {
-            return e.invokeAny(tasks, timeout, unit);
+            return e.invokeAny(tbsks, timeout, unit);
         }
     }
 
-    static class FinalizableDelegatedExecutorService
-        extends DelegatedExecutorService {
-        FinalizableDelegatedExecutorService(ExecutorService executor) {
+    stbtic clbss FinblizbbleDelegbtedExecutorService
+        extends DelegbtedExecutorService {
+        FinblizbbleDelegbtedExecutorService(ExecutorService executor) {
             super(executor);
         }
-        protected void finalize() {
+        protected void finblize() {
             super.shutdown();
         }
     }
 
     /**
-     * A wrapper class that exposes only the ScheduledExecutorService
-     * methods of a ScheduledExecutorService implementation.
+     * A wrbpper clbss thbt exposes only the ScheduledExecutorService
+     * methods of b ScheduledExecutorService implementbtion.
      */
-    static class DelegatedScheduledExecutorService
-            extends DelegatedExecutorService
+    stbtic clbss DelegbtedScheduledExecutorService
+            extends DelegbtedExecutorService
             implements ScheduledExecutorService {
-        private final ScheduledExecutorService e;
-        DelegatedScheduledExecutorService(ScheduledExecutorService executor) {
+        privbte finbl ScheduledExecutorService e;
+        DelegbtedScheduledExecutorService(ScheduledExecutorService executor) {
             super(executor);
             e = executor;
         }
-        public ScheduledFuture<?> schedule(Runnable command, long delay, TimeUnit unit) {
-            return e.schedule(command, delay, unit);
+        public ScheduledFuture<?> schedule(Runnbble commbnd, long delby, TimeUnit unit) {
+            return e.schedule(commbnd, delby, unit);
         }
-        public <V> ScheduledFuture<V> schedule(Callable<V> callable, long delay, TimeUnit unit) {
-            return e.schedule(callable, delay, unit);
+        public <V> ScheduledFuture<V> schedule(Cbllbble<V> cbllbble, long delby, TimeUnit unit) {
+            return e.schedule(cbllbble, delby, unit);
         }
-        public ScheduledFuture<?> scheduleAtFixedRate(Runnable command, long initialDelay, long period, TimeUnit unit) {
-            return e.scheduleAtFixedRate(command, initialDelay, period, unit);
+        public ScheduledFuture<?> scheduleAtFixedRbte(Runnbble commbnd, long initiblDelby, long period, TimeUnit unit) {
+            return e.scheduleAtFixedRbte(commbnd, initiblDelby, period, unit);
         }
-        public ScheduledFuture<?> scheduleWithFixedDelay(Runnable command, long initialDelay, long delay, TimeUnit unit) {
-            return e.scheduleWithFixedDelay(command, initialDelay, delay, unit);
+        public ScheduledFuture<?> scheduleWithFixedDelby(Runnbble commbnd, long initiblDelby, long delby, TimeUnit unit) {
+            return e.scheduleWithFixedDelby(commbnd, initiblDelby, delby, unit);
         }
     }
 
-    /** Cannot instantiate. */
-    private Executors() {}
+    /** Cbnnot instbntibte. */
+    privbte Executors() {}
 }

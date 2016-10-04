@@ -1,166 +1,166 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.util.jar;
+pbckbge jbvb.util.jbr;
 
-import java.io.*;
-import java.net.URL;
-import java.util.*;
-import java.security.*;
-import java.security.cert.CertificateException;
-import java.util.zip.ZipEntry;
+import jbvb.io.*;
+import jbvb.net.URL;
+import jbvb.util.*;
+import jbvb.security.*;
+import jbvb.security.cert.CertificbteException;
+import jbvb.util.zip.ZipEntry;
 
-import sun.misc.JarIndex;
-import sun.security.util.ManifestDigester;
-import sun.security.util.ManifestEntryVerifier;
-import sun.security.util.SignatureFileVerifier;
+import sun.misc.JbrIndex;
+import sun.security.util.MbnifestDigester;
+import sun.security.util.MbnifestEntryVerifier;
+import sun.security.util.SignbtureFileVerifier;
 import sun.security.util.Debug;
 
 /**
  *
- * @author      Roland Schemers
+ * @buthor      Rolbnd Schemers
  */
-class JarVerifier {
+clbss JbrVerifier {
 
     /* Are we debugging ? */
-    static final Debug debug = Debug.getInstance("jar");
+    stbtic finbl Debug debug = Debug.getInstbnce("jbr");
 
-    /* a table mapping names to code signers, for jar entries that have
-       had their actual hashes verified */
-    private Hashtable<String, CodeSigner[]> verifiedSigners;
+    /* b tbble mbpping nbmes to code signers, for jbr entries thbt hbve
+       hbd their bctubl hbshes verified */
+    privbte Hbshtbble<String, CodeSigner[]> verifiedSigners;
 
-    /* a table mapping names to code signers, for jar entries that have
-       passed the .SF/.DSA/.EC -> MANIFEST check */
-    private Hashtable<String, CodeSigner[]> sigFileSigners;
+    /* b tbble mbpping nbmes to code signers, for jbr entries thbt hbve
+       pbssed the .SF/.DSA/.EC -> MANIFEST check */
+    privbte Hbshtbble<String, CodeSigner[]> sigFileSigners;
 
-    /* a hash table to hold .SF bytes */
-    private Hashtable<String, byte[]> sigFileData;
+    /* b hbsh tbble to hold .SF bytes */
+    privbte Hbshtbble<String, byte[]> sigFileDbtb;
 
-    /** "queue" of pending PKCS7 blocks that we couldn't parse
-     *  until we parsed the .SF file */
-    private ArrayList<SignatureFileVerifier> pendingBlocks;
+    /** "queue" of pending PKCS7 blocks thbt we couldn't pbrse
+     *  until we pbrsed the .SF file */
+    privbte ArrbyList<SignbtureFileVerifier> pendingBlocks;
 
-    /* cache of CodeSigner objects */
-    private ArrayList<CodeSigner[]> signerCache;
+    /* cbche of CodeSigner objects */
+    privbte ArrbyList<CodeSigner[]> signerCbche;
 
-    /* Are we parsing a block? */
-    private boolean parsingBlockOrSF = false;
+    /* Are we pbrsing b block? */
+    privbte boolebn pbrsingBlockOrSF = fblse;
 
-    /* Are we done parsing META-INF entries? */
-    private boolean parsingMeta = true;
+    /* Are we done pbrsing META-INF entries? */
+    privbte boolebn pbrsingMetb = true;
 
-    /* Are there are files to verify? */
-    private boolean anyToVerify = true;
+    /* Are there bre files to verify? */
+    privbte boolebn bnyToVerify = true;
 
-    /* The output stream to use when keeping track of files we are interested
+    /* The output strebm to use when keeping trbck of files we bre interested
        in */
-    private ByteArrayOutputStream baos;
+    privbte ByteArrbyOutputStrebm bbos;
 
-    /** The ManifestDigester object */
-    private volatile ManifestDigester manDig;
+    /** The MbnifestDigester object */
+    privbte volbtile MbnifestDigester mbnDig;
 
-    /** the bytes for the manDig object */
-    byte manifestRawBytes[] = null;
+    /** the bytes for the mbnDig object */
+    byte mbnifestRbwBytes[] = null;
 
-    /** controls eager signature validation */
-    boolean eagerValidation;
+    /** controls ebger signbture vblidbtion */
+    boolebn ebgerVblidbtion;
 
-    /** makes code source singleton instances unique to us */
-    private Object csdomain = new Object();
+    /** mbkes code source singleton instbnces unique to us */
+    privbte Object csdombin = new Object();
 
-    /** collect -DIGEST-MANIFEST values for blacklist */
-    private List<Object> manifestDigests;
+    /** collect -DIGEST-MANIFEST vblues for blbcklist */
+    privbte List<Object> mbnifestDigests;
 
-    public JarVerifier(byte rawBytes[]) {
-        manifestRawBytes = rawBytes;
-        sigFileSigners = new Hashtable<>();
-        verifiedSigners = new Hashtable<>();
-        sigFileData = new Hashtable<>(11);
-        pendingBlocks = new ArrayList<>();
-        baos = new ByteArrayOutputStream();
-        manifestDigests = new ArrayList<>();
+    public JbrVerifier(byte rbwBytes[]) {
+        mbnifestRbwBytes = rbwBytes;
+        sigFileSigners = new Hbshtbble<>();
+        verifiedSigners = new Hbshtbble<>();
+        sigFileDbtb = new Hbshtbble<>(11);
+        pendingBlocks = new ArrbyList<>();
+        bbos = new ByteArrbyOutputStrebm();
+        mbnifestDigests = new ArrbyList<>();
     }
 
     /**
-     * This method scans to see which entry we're parsing and
-     * keeps various state information depending on what type of
-     * file is being parsed.
+     * This method scbns to see which entry we're pbrsing bnd
+     * keeps vbrious stbte informbtion depending on whbt type of
+     * file is being pbrsed.
      */
-    public void beginEntry(JarEntry je, ManifestEntryVerifier mev)
+    public void beginEntry(JbrEntry je, MbnifestEntryVerifier mev)
         throws IOException
     {
         if (je == null)
             return;
 
         if (debug != null) {
-            debug.println("beginEntry "+je.getName());
+            debug.println("beginEntry "+je.getNbme());
         }
 
-        String name = je.getName();
+        String nbme = je.getNbme();
 
         /*
          * Assumptions:
-         * 1. The manifest should be the first entry in the META-INF directory.
-         * 2. The .SF/.DSA/.EC files follow the manifest, before any normal entries
-         * 3. Any of the following will throw a SecurityException:
-         *    a. digest mismatch between a manifest section and
+         * 1. The mbnifest should be the first entry in the META-INF directory.
+         * 2. The .SF/.DSA/.EC files follow the mbnifest, before bny normbl entries
+         * 3. Any of the following will throw b SecurityException:
+         *    b. digest mismbtch between b mbnifest section bnd
          *       the SF section.
-         *    b. digest mismatch between the actual jar entry and the manifest
+         *    b. digest mismbtch between the bctubl jbr entry bnd the mbnifest
          */
 
-        if (parsingMeta) {
-            String uname = name.toUpperCase(Locale.ENGLISH);
-            if ((uname.startsWith("META-INF/") ||
-                 uname.startsWith("/META-INF/"))) {
+        if (pbrsingMetb) {
+            String unbme = nbme.toUpperCbse(Locble.ENGLISH);
+            if ((unbme.stbrtsWith("META-INF/") ||
+                 unbme.stbrtsWith("/META-INF/"))) {
 
                 if (je.isDirectory()) {
                     mev.setEntry(null, je);
                     return;
                 }
 
-                if (uname.equals(JarFile.MANIFEST_NAME) ||
-                        uname.equals(JarIndex.INDEX_NAME)) {
+                if (unbme.equbls(JbrFile.MANIFEST_NAME) ||
+                        unbme.equbls(JbrIndex.INDEX_NAME)) {
                     return;
                 }
 
-                if (SignatureFileVerifier.isBlockOrSF(uname)) {
-                    /* We parse only DSA, RSA or EC PKCS7 blocks. */
-                    parsingBlockOrSF = true;
-                    baos.reset();
+                if (SignbtureFileVerifier.isBlockOrSF(unbme)) {
+                    /* We pbrse only DSA, RSA or EC PKCS7 blocks. */
+                    pbrsingBlockOrSF = true;
+                    bbos.reset();
                     mev.setEntry(null, je);
                     return;
                 }
 
-                // If a META-INF entry is not MF or block or SF, they should
-                // be normal entries. According to 2 above, no more block or
-                // SF will appear. Let's doneWithMeta.
+                // If b META-INF entry is not MF or block or SF, they should
+                // be normbl entries. According to 2 bbove, no more block or
+                // SF will bppebr. Let's doneWithMetb.
             }
         }
 
-        if (parsingMeta) {
-            doneWithMeta();
+        if (pbrsingMetb) {
+            doneWithMetb();
         }
 
         if (je.isDirectory()) {
@@ -168,21 +168,21 @@ class JarVerifier {
             return;
         }
 
-        // be liberal in what you accept. If the name starts with ./, remove
-        // it as we internally canonicalize it with out the ./.
-        if (name.startsWith("./"))
-            name = name.substring(2);
+        // be liberbl in whbt you bccept. If the nbme stbrts with ./, remove
+        // it bs we internblly cbnonicblize it with out the ./.
+        if (nbme.stbrtsWith("./"))
+            nbme = nbme.substring(2);
 
-        // be liberal in what you accept. If the name starts with /, remove
-        // it as we internally canonicalize it with out the /.
-        if (name.startsWith("/"))
-            name = name.substring(1);
+        // be liberbl in whbt you bccept. If the nbme stbrts with /, remove
+        // it bs we internblly cbnonicblize it with out the /.
+        if (nbme.stbrtsWith("/"))
+            nbme = nbme.substring(1);
 
-        // only set the jev object for entries that have a signature
+        // only set the jev object for entries thbt hbve b signbture
         // (either verified or not)
-        if (sigFileSigners.get(name) != null ||
-                verifiedSigners.get(name) != null) {
-            mev.setEntry(name, je);
+        if (sigFileSigners.get(nbme) != null ||
+                verifiedSigners.get(nbme) != null) {
+            mev.setEntry(nbme, je);
             return;
         }
 
@@ -193,17 +193,17 @@ class JarVerifier {
     }
 
     /**
-     * update a single byte.
+     * updbte b single byte.
      */
 
-    public void update(int b, ManifestEntryVerifier mev)
+    public void updbte(int b, MbnifestEntryVerifier mev)
         throws IOException
     {
         if (b != -1) {
-            if (parsingBlockOrSF) {
-                baos.write(b);
+            if (pbrsingBlockOrSF) {
+                bbos.write(b);
             } else {
-                mev.update((byte)b);
+                mev.updbte((byte)b);
             }
         } else {
             processEntry(mev);
@@ -211,18 +211,18 @@ class JarVerifier {
     }
 
     /**
-     * update an array of bytes.
+     * updbte bn brrby of bytes.
      */
 
-    public void update(int n, byte[] b, int off, int len,
-                       ManifestEntryVerifier mev)
+    public void updbte(int n, byte[] b, int off, int len,
+                       MbnifestEntryVerifier mev)
         throws IOException
     {
         if (n != -1) {
-            if (parsingBlockOrSF) {
-                baos.write(b, off, n);
+            if (pbrsingBlockOrSF) {
+                bbos.write(b, off, n);
             } else {
-                mev.update(b, off, n);
+                mev.updbte(b, off, n);
             }
         } else {
             processEntry(mev);
@@ -230,245 +230,245 @@ class JarVerifier {
     }
 
     /**
-     * called when we reach the end of entry in one of the read() methods.
+     * cblled when we rebch the end of entry in one of the rebd() methods.
      */
-    private void processEntry(ManifestEntryVerifier mev)
+    privbte void processEntry(MbnifestEntryVerifier mev)
         throws IOException
     {
-        if (!parsingBlockOrSF) {
-            JarEntry je = mev.getEntry();
+        if (!pbrsingBlockOrSF) {
+            JbrEntry je = mev.getEntry();
             if ((je != null) && (je.signers == null)) {
                 je.signers = mev.verify(verifiedSigners, sigFileSigners);
-                je.certs = mapSignersToCertArray(je.signers);
+                je.certs = mbpSignersToCertArrby(je.signers);
             }
         } else {
 
             try {
-                parsingBlockOrSF = false;
+                pbrsingBlockOrSF = fblse;
 
                 if (debug != null) {
                     debug.println("processEntry: processing block");
                 }
 
-                String uname = mev.getEntry().getName()
-                                             .toUpperCase(Locale.ENGLISH);
+                String unbme = mev.getEntry().getNbme()
+                                             .toUpperCbse(Locble.ENGLISH);
 
-                if (uname.endsWith(".SF")) {
-                    String key = uname.substring(0, uname.length()-3);
-                    byte bytes[] = baos.toByteArray();
-                    // add to sigFileData in case future blocks need it
-                    sigFileData.put(key, bytes);
-                    // check pending blocks, we can now process
-                    // anyone waiting for this .SF file
-                    for (SignatureFileVerifier sfv : pendingBlocks) {
-                        if (sfv.needSignatureFile(key)) {
+                if (unbme.endsWith(".SF")) {
+                    String key = unbme.substring(0, unbme.length()-3);
+                    byte bytes[] = bbos.toByteArrby();
+                    // bdd to sigFileDbtb in cbse future blocks need it
+                    sigFileDbtb.put(key, bytes);
+                    // check pending blocks, we cbn now process
+                    // bnyone wbiting for this .SF file
+                    for (SignbtureFileVerifier sfv : pendingBlocks) {
+                        if (sfv.needSignbtureFile(key)) {
                             if (debug != null) {
                                 debug.println(
                                  "processEntry: processing pending block");
                             }
 
-                            sfv.setSignatureFile(bytes);
-                            sfv.process(sigFileSigners, manifestDigests);
+                            sfv.setSignbtureFile(bytes);
+                            sfv.process(sigFileSigners, mbnifestDigests);
                         }
                     }
                     return;
                 }
 
-                // now we are parsing a signature block file
+                // now we bre pbrsing b signbture block file
 
-                String key = uname.substring(0, uname.lastIndexOf('.'));
+                String key = unbme.substring(0, unbme.lbstIndexOf('.'));
 
-                if (signerCache == null)
-                    signerCache = new ArrayList<>();
+                if (signerCbche == null)
+                    signerCbche = new ArrbyList<>();
 
-                if (manDig == null) {
-                    synchronized(manifestRawBytes) {
-                        if (manDig == null) {
-                            manDig = new ManifestDigester(manifestRawBytes);
-                            manifestRawBytes = null;
+                if (mbnDig == null) {
+                    synchronized(mbnifestRbwBytes) {
+                        if (mbnDig == null) {
+                            mbnDig = new MbnifestDigester(mbnifestRbwBytes);
+                            mbnifestRbwBytes = null;
                         }
                     }
                 }
 
-                SignatureFileVerifier sfv =
-                  new SignatureFileVerifier(signerCache,
-                                            manDig, uname, baos.toByteArray());
+                SignbtureFileVerifier sfv =
+                  new SignbtureFileVerifier(signerCbche,
+                                            mbnDig, unbme, bbos.toByteArrby());
 
-                if (sfv.needSignatureFileBytes()) {
-                    // see if we have already parsed an external .SF file
-                    byte[] bytes = sigFileData.get(key);
+                if (sfv.needSignbtureFileBytes()) {
+                    // see if we hbve blrebdy pbrsed bn externbl .SF file
+                    byte[] bytes = sigFileDbtb.get(key);
 
                     if (bytes == null) {
-                        // put this block on queue for later processing
-                        // since we don't have the .SF bytes yet
-                        // (uname, block);
+                        // put this block on queue for lbter processing
+                        // since we don't hbve the .SF bytes yet
+                        // (unbme, block);
                         if (debug != null) {
-                            debug.println("adding pending block");
+                            debug.println("bdding pending block");
                         }
-                        pendingBlocks.add(sfv);
+                        pendingBlocks.bdd(sfv);
                         return;
                     } else {
-                        sfv.setSignatureFile(bytes);
+                        sfv.setSignbtureFile(bytes);
                     }
                 }
-                sfv.process(sigFileSigners, manifestDigests);
+                sfv.process(sigFileSigners, mbnifestDigests);
 
-            } catch (IOException | CertificateException |
-                    NoSuchAlgorithmException | SignatureException e) {
-                if (debug != null) debug.println("processEntry caught: "+e);
-                // ignore and treat as unsigned
+            } cbtch (IOException | CertificbteException |
+                    NoSuchAlgorithmException | SignbtureException e) {
+                if (debug != null) debug.println("processEntry cbught: "+e);
+                // ignore bnd trebt bs unsigned
             }
         }
     }
 
     /**
-     * Return an array of java.security.cert.Certificate objects for
-     * the given file in the jar.
-     * @deprecated
+     * Return bn brrby of jbvb.security.cert.Certificbte objects for
+     * the given file in the jbr.
+     * @deprecbted
      */
-    @Deprecated
-    public java.security.cert.Certificate[] getCerts(String name)
+    @Deprecbted
+    public jbvb.security.cert.Certificbte[] getCerts(String nbme)
     {
-        return mapSignersToCertArray(getCodeSigners(name));
+        return mbpSignersToCertArrby(getCodeSigners(nbme));
     }
 
-    public java.security.cert.Certificate[] getCerts(JarFile jar, JarEntry entry)
+    public jbvb.security.cert.Certificbte[] getCerts(JbrFile jbr, JbrEntry entry)
     {
-        return mapSignersToCertArray(getCodeSigners(jar, entry));
+        return mbpSignersToCertArrby(getCodeSigners(jbr, entry));
     }
 
     /**
-     * return an array of CodeSigner objects for
-     * the given file in the jar. this array is not cloned.
+     * return bn brrby of CodeSigner objects for
+     * the given file in the jbr. this brrby is not cloned.
      *
      */
-    public CodeSigner[] getCodeSigners(String name)
+    public CodeSigner[] getCodeSigners(String nbme)
     {
-        return verifiedSigners.get(name);
+        return verifiedSigners.get(nbme);
     }
 
-    public CodeSigner[] getCodeSigners(JarFile jar, JarEntry entry)
+    public CodeSigner[] getCodeSigners(JbrFile jbr, JbrEntry entry)
     {
-        String name = entry.getName();
-        if (eagerValidation && sigFileSigners.get(name) != null) {
+        String nbme = entry.getNbme();
+        if (ebgerVblidbtion && sigFileSigners.get(nbme) != null) {
             /*
-             * Force a read of the entry data to generate the
-             * verification hash.
+             * Force b rebd of the entry dbtb to generbte the
+             * verificbtion hbsh.
              */
             try {
-                InputStream s = jar.getInputStream(entry);
+                InputStrebm s = jbr.getInputStrebm(entry);
                 byte[] buffer = new byte[1024];
                 int n = buffer.length;
                 while (n != -1) {
-                    n = s.read(buffer, 0, buffer.length);
+                    n = s.rebd(buffer, 0, buffer.length);
                 }
                 s.close();
-            } catch (IOException e) {
+            } cbtch (IOException e) {
             }
         }
-        return getCodeSigners(name);
+        return getCodeSigners(nbme);
     }
 
     /*
-     * Convert an array of signers into an array of concatenated certificate
-     * arrays.
+     * Convert bn brrby of signers into bn brrby of concbtenbted certificbte
+     * brrbys.
      */
-    private static java.security.cert.Certificate[] mapSignersToCertArray(
+    privbte stbtic jbvb.security.cert.Certificbte[] mbpSignersToCertArrby(
         CodeSigner[] signers) {
 
         if (signers != null) {
-            ArrayList<java.security.cert.Certificate> certChains = new ArrayList<>();
+            ArrbyList<jbvb.security.cert.Certificbte> certChbins = new ArrbyList<>();
             for (CodeSigner signer : signers) {
-                certChains.addAll(
-                    signer.getSignerCertPath().getCertificates());
+                certChbins.bddAll(
+                    signer.getSignerCertPbth().getCertificbtes());
             }
 
-            // Convert into a Certificate[]
-            return certChains.toArray(
-                    new java.security.cert.Certificate[certChains.size()]);
+            // Convert into b Certificbte[]
+            return certChbins.toArrby(
+                    new jbvb.security.cert.Certificbte[certChbins.size()]);
         }
         return null;
     }
 
     /**
      * returns true if there no files to verify.
-     * should only be called after all the META-INF entries
-     * have been processed.
+     * should only be cblled bfter bll the META-INF entries
+     * hbve been processed.
      */
-    boolean nothingToVerify()
+    boolebn nothingToVerify()
     {
-        return (anyToVerify == false);
+        return (bnyToVerify == fblse);
     }
 
     /**
-     * called to let us know we have processed all the
-     * META-INF entries, and if we re-read one of them, don't
-     * re-process it. Also gets rid of any data structures
-     * we needed when parsing META-INF entries.
+     * cblled to let us know we hbve processed bll the
+     * META-INF entries, bnd if we re-rebd one of them, don't
+     * re-process it. Also gets rid of bny dbtb structures
+     * we needed when pbrsing META-INF entries.
      */
-    void doneWithMeta()
+    void doneWithMetb()
     {
-        parsingMeta = false;
-        anyToVerify = !sigFileSigners.isEmpty();
-        baos = null;
-        sigFileData = null;
+        pbrsingMetb = fblse;
+        bnyToVerify = !sigFileSigners.isEmpty();
+        bbos = null;
+        sigFileDbtb = null;
         pendingBlocks = null;
-        signerCache = null;
-        manDig = null;
-        // MANIFEST.MF is always treated as signed and verified,
+        signerCbche = null;
+        mbnDig = null;
+        // MANIFEST.MF is blwbys trebted bs signed bnd verified,
         // move its signers from sigFileSigners to verifiedSigners.
-        if (sigFileSigners.containsKey(JarFile.MANIFEST_NAME)) {
-            CodeSigner[] codeSigners = sigFileSigners.remove(JarFile.MANIFEST_NAME);
-            verifiedSigners.put(JarFile.MANIFEST_NAME, codeSigners);
+        if (sigFileSigners.contbinsKey(JbrFile.MANIFEST_NAME)) {
+            CodeSigner[] codeSigners = sigFileSigners.remove(JbrFile.MANIFEST_NAME);
+            verifiedSigners.put(JbrFile.MANIFEST_NAME, codeSigners);
         }
     }
 
-    static class VerifierStream extends java.io.InputStream {
+    stbtic clbss VerifierStrebm extends jbvb.io.InputStrebm {
 
-        private InputStream is;
-        private JarVerifier jv;
-        private ManifestEntryVerifier mev;
-        private long numLeft;
+        privbte InputStrebm is;
+        privbte JbrVerifier jv;
+        privbte MbnifestEntryVerifier mev;
+        privbte long numLeft;
 
-        VerifierStream(Manifest man,
-                       JarEntry je,
-                       InputStream is,
-                       JarVerifier jv) throws IOException
+        VerifierStrebm(Mbnifest mbn,
+                       JbrEntry je,
+                       InputStrebm is,
+                       JbrVerifier jv) throws IOException
         {
             this.is = is;
             this.jv = jv;
-            this.mev = new ManifestEntryVerifier(man);
+            this.mev = new MbnifestEntryVerifier(mbn);
             this.jv.beginEntry(je, mev);
             this.numLeft = je.getSize();
             if (this.numLeft == 0)
-                this.jv.update(-1, this.mev);
+                this.jv.updbte(-1, this.mev);
         }
 
-        public int read() throws IOException
+        public int rebd() throws IOException
         {
             if (numLeft > 0) {
-                int b = is.read();
-                jv.update(b, mev);
+                int b = is.rebd();
+                jv.updbte(b, mev);
                 numLeft--;
                 if (numLeft == 0)
-                    jv.update(-1, mev);
+                    jv.updbte(-1, mev);
                 return b;
             } else {
                 return -1;
             }
         }
 
-        public int read(byte b[], int off, int len) throws IOException {
+        public int rebd(byte b[], int off, int len) throws IOException {
             if ((numLeft > 0) && (numLeft < len)) {
                 len = (int)numLeft;
             }
 
             if (numLeft > 0) {
-                int n = is.read(b, off, len);
-                jv.update(n, b, off, len, mev);
+                int n = is.rebd(b, off, len);
+                jv.updbte(n, b, off, len, mev);
                 numLeft -= n;
                 if (numLeft == 0)
-                    jv.update(-1, b, off, len, mev);
+                    jv.updbte(-1, b, off, len, mev);
                 return n;
             } else {
                 return -1;
@@ -485,233 +485,233 @@ class JarVerifier {
             jv = null;
         }
 
-        public int available() throws IOException {
-            return is.available();
+        public int bvbilbble() throws IOException {
+            return is.bvbilbble();
         }
 
     }
 
-    // Extended JavaUtilJarAccess CodeSource API Support
+    // Extended JbvbUtilJbrAccess CodeSource API Support
 
-    private Map<URL, Map<CodeSigner[], CodeSource>> urlToCodeSourceMap = new HashMap<>();
-    private Map<CodeSigner[], CodeSource> signerToCodeSource = new HashMap<>();
-    private URL lastURL;
-    private Map<CodeSigner[], CodeSource> lastURLMap;
+    privbte Mbp<URL, Mbp<CodeSigner[], CodeSource>> urlToCodeSourceMbp = new HbshMbp<>();
+    privbte Mbp<CodeSigner[], CodeSource> signerToCodeSource = new HbshMbp<>();
+    privbte URL lbstURL;
+    privbte Mbp<CodeSigner[], CodeSource> lbstURLMbp;
 
     /*
-     * Create a unique mapping from codeSigner cache entries to CodeSource.
-     * In theory, multiple URLs origins could map to a single locally cached
-     * and shared JAR file although in practice there will be a single URL in use.
+     * Crebte b unique mbpping from codeSigner cbche entries to CodeSource.
+     * In theory, multiple URLs origins could mbp to b single locblly cbched
+     * bnd shbred JAR file blthough in prbctice there will be b single URL in use.
      */
-    private synchronized CodeSource mapSignersToCodeSource(URL url, CodeSigner[] signers) {
-        Map<CodeSigner[], CodeSource> map;
-        if (url == lastURL) {
-            map = lastURLMap;
+    privbte synchronized CodeSource mbpSignersToCodeSource(URL url, CodeSigner[] signers) {
+        Mbp<CodeSigner[], CodeSource> mbp;
+        if (url == lbstURL) {
+            mbp = lbstURLMbp;
         } else {
-            map = urlToCodeSourceMap.get(url);
-            if (map == null) {
-                map = new HashMap<>();
-                urlToCodeSourceMap.put(url, map);
+            mbp = urlToCodeSourceMbp.get(url);
+            if (mbp == null) {
+                mbp = new HbshMbp<>();
+                urlToCodeSourceMbp.put(url, mbp);
             }
-            lastURLMap = map;
-            lastURL = url;
+            lbstURLMbp = mbp;
+            lbstURL = url;
         }
-        CodeSource cs = map.get(signers);
+        CodeSource cs = mbp.get(signers);
         if (cs == null) {
-            cs = new VerifierCodeSource(csdomain, url, signers);
+            cs = new VerifierCodeSource(csdombin, url, signers);
             signerToCodeSource.put(signers, cs);
         }
         return cs;
     }
 
-    private CodeSource[] mapSignersToCodeSources(URL url, List<CodeSigner[]> signers, boolean unsigned) {
-        List<CodeSource> sources = new ArrayList<>();
+    privbte CodeSource[] mbpSignersToCodeSources(URL url, List<CodeSigner[]> signers, boolebn unsigned) {
+        List<CodeSource> sources = new ArrbyList<>();
 
         for (CodeSigner[] signer : signers) {
-            sources.add(mapSignersToCodeSource(url, signer));
+            sources.bdd(mbpSignersToCodeSource(url, signer));
         }
         if (unsigned) {
-            sources.add(mapSignersToCodeSource(url, null));
+            sources.bdd(mbpSignersToCodeSource(url, null));
         }
-        return sources.toArray(new CodeSource[sources.size()]);
+        return sources.toArrby(new CodeSource[sources.size()]);
     }
-    private CodeSigner[] emptySigner = new CodeSigner[0];
+    privbte CodeSigner[] emptySigner = new CodeSigner[0];
 
     /*
-     * Match CodeSource to a CodeSigner[] in the signer cache.
+     * Mbtch CodeSource to b CodeSigner[] in the signer cbche.
      */
-    private CodeSigner[] findMatchingSigners(CodeSource cs) {
-        if (cs instanceof VerifierCodeSource) {
+    privbte CodeSigner[] findMbtchingSigners(CodeSource cs) {
+        if (cs instbnceof VerifierCodeSource) {
             VerifierCodeSource vcs = (VerifierCodeSource) cs;
-            if (vcs.isSameDomain(csdomain)) {
-                return ((VerifierCodeSource) cs).getPrivateSigners();
+            if (vcs.isSbmeDombin(csdombin)) {
+                return ((VerifierCodeSource) cs).getPrivbteSigners();
             }
         }
 
         /*
-         * In practice signers should always be optimized above
-         * but this handles a CodeSource of any type, just in case.
+         * In prbctice signers should blwbys be optimized bbove
+         * but this hbndles b CodeSource of bny type, just in cbse.
          */
-        CodeSource[] sources = mapSignersToCodeSources(cs.getLocation(), getJarCodeSigners(), true);
-        List<CodeSource> sourceList = new ArrayList<>();
+        CodeSource[] sources = mbpSignersToCodeSources(cs.getLocbtion(), getJbrCodeSigners(), true);
+        List<CodeSource> sourceList = new ArrbyList<>();
         for (CodeSource source : sources) {
-            sourceList.add(source);
+            sourceList.bdd(source);
         }
         int j = sourceList.indexOf(cs);
         if (j != -1) {
-            CodeSigner[] match;
-            match = ((VerifierCodeSource) sourceList.get(j)).getPrivateSigners();
-            if (match == null) {
-                match = emptySigner;
+            CodeSigner[] mbtch;
+            mbtch = ((VerifierCodeSource) sourceList.get(j)).getPrivbteSigners();
+            if (mbtch == null) {
+                mbtch = emptySigner;
             }
-            return match;
+            return mbtch;
         }
         return null;
     }
 
     /*
-     * Instances of this class hold uncopied references to internal
-     * signing data that can be compared by object reference identity.
+     * Instbnces of this clbss hold uncopied references to internbl
+     * signing dbtb thbt cbn be compbred by object reference identity.
      */
-    private static class VerifierCodeSource extends CodeSource {
-        private static final long serialVersionUID = -9047366145967768825L;
+    privbte stbtic clbss VerifierCodeSource extends CodeSource {
+        privbte stbtic finbl long seriblVersionUID = -9047366145967768825L;
 
-        URL vlocation;
+        URL vlocbtion;
         CodeSigner[] vsigners;
-        java.security.cert.Certificate[] vcerts;
-        Object csdomain;
+        jbvb.security.cert.Certificbte[] vcerts;
+        Object csdombin;
 
-        VerifierCodeSource(Object csdomain, URL location, CodeSigner[] signers) {
-            super(location, signers);
-            this.csdomain = csdomain;
-            vlocation = location;
-            vsigners = signers; // from signerCache
+        VerifierCodeSource(Object csdombin, URL locbtion, CodeSigner[] signers) {
+            super(locbtion, signers);
+            this.csdombin = csdombin;
+            vlocbtion = locbtion;
+            vsigners = signers; // from signerCbche
         }
 
-        VerifierCodeSource(Object csdomain, URL location, java.security.cert.Certificate[] certs) {
-            super(location, certs);
-            this.csdomain = csdomain;
-            vlocation = location;
-            vcerts = certs; // from signerCache
+        VerifierCodeSource(Object csdombin, URL locbtion, jbvb.security.cert.Certificbte[] certs) {
+            super(locbtion, certs);
+            this.csdombin = csdombin;
+            vlocbtion = locbtion;
+            vcerts = certs; // from signerCbche
         }
 
         /*
-         * All VerifierCodeSource instances are constructed based on
-         * singleton signerCache or signerCacheCert entries for each unique signer.
-         * No CodeSigner<->Certificate[] conversion is required.
-         * We use these assumptions to optimize equality comparisons.
+         * All VerifierCodeSource instbnces bre constructed bbsed on
+         * singleton signerCbche or signerCbcheCert entries for ebch unique signer.
+         * No CodeSigner<->Certificbte[] conversion is required.
+         * We use these bssumptions to optimize equblity compbrisons.
          */
-        public boolean equals(Object obj) {
+        public boolebn equbls(Object obj) {
             if (obj == this) {
                 return true;
             }
-            if (obj instanceof VerifierCodeSource) {
-                VerifierCodeSource that = (VerifierCodeSource) obj;
+            if (obj instbnceof VerifierCodeSource) {
+                VerifierCodeSource thbt = (VerifierCodeSource) obj;
 
                 /*
-                 * Only compare against other per-signer singletons constructed
-                 * on behalf of the same JarFile instance. Otherwise, compare
-                 * things the slower way.
+                 * Only compbre bgbinst other per-signer singletons constructed
+                 * on behblf of the sbme JbrFile instbnce. Otherwise, compbre
+                 * things the slower wby.
                  */
-                if (isSameDomain(that.csdomain)) {
-                    if (that.vsigners != this.vsigners
-                            || that.vcerts != this.vcerts) {
-                        return false;
+                if (isSbmeDombin(thbt.csdombin)) {
+                    if (thbt.vsigners != this.vsigners
+                            || thbt.vcerts != this.vcerts) {
+                        return fblse;
                     }
-                    if (that.vlocation != null) {
-                        return that.vlocation.equals(this.vlocation);
-                    } else if (this.vlocation != null) {
-                        return this.vlocation.equals(that.vlocation);
+                    if (thbt.vlocbtion != null) {
+                        return thbt.vlocbtion.equbls(this.vlocbtion);
+                    } else if (this.vlocbtion != null) {
+                        return this.vlocbtion.equbls(thbt.vlocbtion);
                     } else { // both null
                         return true;
                     }
                 }
             }
-            return super.equals(obj);
+            return super.equbls(obj);
         }
 
-        boolean isSameDomain(Object csdomain) {
-            return this.csdomain == csdomain;
+        boolebn isSbmeDombin(Object csdombin) {
+            return this.csdombin == csdombin;
         }
 
-        private CodeSigner[] getPrivateSigners() {
+        privbte CodeSigner[] getPrivbteSigners() {
             return vsigners;
         }
 
-        private java.security.cert.Certificate[] getPrivateCertificates() {
+        privbte jbvb.security.cert.Certificbte[] getPrivbteCertificbtes() {
             return vcerts;
         }
     }
-    private Map<String, CodeSigner[]> signerMap;
+    privbte Mbp<String, CodeSigner[]> signerMbp;
 
-    private synchronized Map<String, CodeSigner[]> signerMap() {
-        if (signerMap == null) {
+    privbte synchronized Mbp<String, CodeSigner[]> signerMbp() {
+        if (signerMbp == null) {
             /*
-             * Snapshot signer state so it doesn't change on us. We care
-             * only about the asserted signatures. Verification of
-             * signature validity happens via the JarEntry apis.
+             * Snbpshot signer stbte so it doesn't chbnge on us. We cbre
+             * only bbout the bsserted signbtures. Verificbtion of
+             * signbture vblidity hbppens vib the JbrEntry bpis.
              */
-            signerMap = new HashMap<>(verifiedSigners.size() + sigFileSigners.size());
-            signerMap.putAll(verifiedSigners);
-            signerMap.putAll(sigFileSigners);
+            signerMbp = new HbshMbp<>(verifiedSigners.size() + sigFileSigners.size());
+            signerMbp.putAll(verifiedSigners);
+            signerMbp.putAll(sigFileSigners);
         }
-        return signerMap;
+        return signerMbp;
     }
 
-    public synchronized Enumeration<String> entryNames(JarFile jar, final CodeSource[] cs) {
-        final Map<String, CodeSigner[]> map = signerMap();
-        final Iterator<Map.Entry<String, CodeSigner[]>> itor = map.entrySet().iterator();
-        boolean matchUnsigned = false;
+    public synchronized Enumerbtion<String> entryNbmes(JbrFile jbr, finbl CodeSource[] cs) {
+        finbl Mbp<String, CodeSigner[]> mbp = signerMbp();
+        finbl Iterbtor<Mbp.Entry<String, CodeSigner[]>> itor = mbp.entrySet().iterbtor();
+        boolebn mbtchUnsigned = fblse;
 
         /*
-         * Grab a single copy of the CodeSigner arrays. Check
-         * to see if we can optimize CodeSigner equality test.
+         * Grbb b single copy of the CodeSigner brrbys. Check
+         * to see if we cbn optimize CodeSigner equblity test.
          */
-        List<CodeSigner[]> req = new ArrayList<>(cs.length);
+        List<CodeSigner[]> req = new ArrbyList<>(cs.length);
         for (CodeSource c : cs) {
-            CodeSigner[] match = findMatchingSigners(c);
-            if (match != null) {
-                if (match.length > 0) {
-                    req.add(match);
+            CodeSigner[] mbtch = findMbtchingSigners(c);
+            if (mbtch != null) {
+                if (mbtch.length > 0) {
+                    req.bdd(mbtch);
                 } else {
-                    matchUnsigned = true;
+                    mbtchUnsigned = true;
                 }
             } else {
-                matchUnsigned = true;
+                mbtchUnsigned = true;
             }
         }
 
-        final List<CodeSigner[]> signersReq = req;
-        final Enumeration<String> enum2 = (matchUnsigned) ? unsignedEntryNames(jar) : emptyEnumeration;
+        finbl List<CodeSigner[]> signersReq = req;
+        finbl Enumerbtion<String> enum2 = (mbtchUnsigned) ? unsignedEntryNbmes(jbr) : emptyEnumerbtion;
 
-        return new Enumeration<String>() {
+        return new Enumerbtion<String>() {
 
-            String name;
+            String nbme;
 
-            public boolean hasMoreElements() {
-                if (name != null) {
+            public boolebn hbsMoreElements() {
+                if (nbme != null) {
                     return true;
                 }
 
-                while (itor.hasNext()) {
-                    Map.Entry<String, CodeSigner[]> e = itor.next();
-                    if (signersReq.contains(e.getValue())) {
-                        name = e.getKey();
+                while (itor.hbsNext()) {
+                    Mbp.Entry<String, CodeSigner[]> e = itor.next();
+                    if (signersReq.contbins(e.getVblue())) {
+                        nbme = e.getKey();
                         return true;
                     }
                 }
-                while (enum2.hasMoreElements()) {
-                    name = enum2.nextElement();
+                while (enum2.hbsMoreElements()) {
+                    nbme = enum2.nextElement();
                     return true;
                 }
-                return false;
+                return fblse;
             }
 
             public String nextElement() {
-                if (hasMoreElements()) {
-                    String value = name;
-                    name = null;
-                    return value;
+                if (hbsMoreElements()) {
+                    String vblue = nbme;
+                    nbme = null;
+                    return vblue;
                 }
                 throw new NoSuchElementException();
             }
@@ -719,47 +719,47 @@ class JarVerifier {
     }
 
     /*
-     * Like entries() but screens out internal JAR mechanism entries
-     * and includes signed entries with no ZIP data.
+     * Like entries() but screens out internbl JAR mechbnism entries
+     * bnd includes signed entries with no ZIP dbtb.
      */
-    public Enumeration<JarEntry> entries2(final JarFile jar, Enumeration<? extends ZipEntry> e) {
-        final Map<String, CodeSigner[]> map = new HashMap<>();
-        map.putAll(signerMap());
-        final Enumeration<? extends ZipEntry> enum_ = e;
-        return new Enumeration<JarEntry>() {
+    public Enumerbtion<JbrEntry> entries2(finbl JbrFile jbr, Enumerbtion<? extends ZipEntry> e) {
+        finbl Mbp<String, CodeSigner[]> mbp = new HbshMbp<>();
+        mbp.putAll(signerMbp());
+        finbl Enumerbtion<? extends ZipEntry> enum_ = e;
+        return new Enumerbtion<JbrEntry>() {
 
-            Enumeration<String> signers = null;
-            JarEntry entry;
+            Enumerbtion<String> signers = null;
+            JbrEntry entry;
 
-            public boolean hasMoreElements() {
+            public boolebn hbsMoreElements() {
                 if (entry != null) {
                     return true;
                 }
-                while (enum_.hasMoreElements()) {
+                while (enum_.hbsMoreElements()) {
                     ZipEntry ze = enum_.nextElement();
-                    if (JarVerifier.isSigningRelated(ze.getName())) {
+                    if (JbrVerifier.isSigningRelbted(ze.getNbme())) {
                         continue;
                     }
-                    entry = jar.newEntry(ze);
+                    entry = jbr.newEntry(ze);
                     return true;
                 }
                 if (signers == null) {
-                    signers = Collections.enumeration(map.keySet());
+                    signers = Collections.enumerbtion(mbp.keySet());
                 }
-                while (signers.hasMoreElements()) {
-                    String name = signers.nextElement();
-                    entry = jar.newEntry(new ZipEntry(name));
+                while (signers.hbsMoreElements()) {
+                    String nbme = signers.nextElement();
+                    entry = jbr.newEntry(new ZipEntry(nbme));
                     return true;
                 }
 
-                // Any map entries left?
-                return false;
+                // Any mbp entries left?
+                return fblse;
             }
 
-            public JarEntry nextElement() {
-                if (hasMoreElements()) {
-                    JarEntry je = entry;
-                    map.remove(je.getName());
+            public JbrEntry nextElement() {
+                if (hbsMoreElements()) {
+                    JbrEntry je = entry;
+                    mbp.remove(je.getNbme());
                     entry = null;
                     return je;
                 }
@@ -767,10 +767,10 @@ class JarVerifier {
             }
         };
     }
-    private Enumeration<String> emptyEnumeration = new Enumeration<String>() {
+    privbte Enumerbtion<String> emptyEnumerbtion = new Enumerbtion<String>() {
 
-        public boolean hasMoreElements() {
-            return false;
+        public boolebn hbsMoreElements() {
+            return fblse;
         }
 
         public String nextElement() {
@@ -778,92 +778,92 @@ class JarVerifier {
         }
     };
 
-    // true if file is part of the signature mechanism itself
-    static boolean isSigningRelated(String name) {
-        return SignatureFileVerifier.isSigningRelated(name);
+    // true if file is pbrt of the signbture mechbnism itself
+    stbtic boolebn isSigningRelbted(String nbme) {
+        return SignbtureFileVerifier.isSigningRelbted(nbme);
     }
 
-    private Enumeration<String> unsignedEntryNames(JarFile jar) {
-        final Map<String, CodeSigner[]> map = signerMap();
-        final Enumeration<JarEntry> entries = jar.entries();
-        return new Enumeration<String>() {
+    privbte Enumerbtion<String> unsignedEntryNbmes(JbrFile jbr) {
+        finbl Mbp<String, CodeSigner[]> mbp = signerMbp();
+        finbl Enumerbtion<JbrEntry> entries = jbr.entries();
+        return new Enumerbtion<String>() {
 
-            String name;
+            String nbme;
 
             /*
-             * Grab entries from ZIP directory but screen out
-             * metadata.
+             * Grbb entries from ZIP directory but screen out
+             * metbdbtb.
              */
-            public boolean hasMoreElements() {
-                if (name != null) {
+            public boolebn hbsMoreElements() {
+                if (nbme != null) {
                     return true;
                 }
-                while (entries.hasMoreElements()) {
-                    String value;
+                while (entries.hbsMoreElements()) {
+                    String vblue;
                     ZipEntry e = entries.nextElement();
-                    value = e.getName();
-                    if (e.isDirectory() || isSigningRelated(value)) {
+                    vblue = e.getNbme();
+                    if (e.isDirectory() || isSigningRelbted(vblue)) {
                         continue;
                     }
-                    if (map.get(value) == null) {
-                        name = value;
+                    if (mbp.get(vblue) == null) {
+                        nbme = vblue;
                         return true;
                     }
                 }
-                return false;
+                return fblse;
             }
 
             public String nextElement() {
-                if (hasMoreElements()) {
-                    String value = name;
-                    name = null;
-                    return value;
+                if (hbsMoreElements()) {
+                    String vblue = nbme;
+                    nbme = null;
+                    return vblue;
                 }
                 throw new NoSuchElementException();
             }
         };
     }
-    private List<CodeSigner[]> jarCodeSigners;
+    privbte List<CodeSigner[]> jbrCodeSigners;
 
-    private synchronized List<CodeSigner[]> getJarCodeSigners() {
+    privbte synchronized List<CodeSigner[]> getJbrCodeSigners() {
         CodeSigner[] signers;
-        if (jarCodeSigners == null) {
-            HashSet<CodeSigner[]> set = new HashSet<>();
-            set.addAll(signerMap().values());
-            jarCodeSigners = new ArrayList<>();
-            jarCodeSigners.addAll(set);
+        if (jbrCodeSigners == null) {
+            HbshSet<CodeSigner[]> set = new HbshSet<>();
+            set.bddAll(signerMbp().vblues());
+            jbrCodeSigners = new ArrbyList<>();
+            jbrCodeSigners.bddAll(set);
         }
-        return jarCodeSigners;
+        return jbrCodeSigners;
     }
 
-    public synchronized CodeSource[] getCodeSources(JarFile jar, URL url) {
-        boolean hasUnsigned = unsignedEntryNames(jar).hasMoreElements();
+    public synchronized CodeSource[] getCodeSources(JbrFile jbr, URL url) {
+        boolebn hbsUnsigned = unsignedEntryNbmes(jbr).hbsMoreElements();
 
-        return mapSignersToCodeSources(url, getJarCodeSigners(), hasUnsigned);
+        return mbpSignersToCodeSources(url, getJbrCodeSigners(), hbsUnsigned);
     }
 
-    public CodeSource getCodeSource(URL url, String name) {
+    public CodeSource getCodeSource(URL url, String nbme) {
         CodeSigner[] signers;
 
-        signers = signerMap().get(name);
-        return mapSignersToCodeSource(url, signers);
+        signers = signerMbp().get(nbme);
+        return mbpSignersToCodeSource(url, signers);
     }
 
-    public CodeSource getCodeSource(URL url, JarFile jar, JarEntry je) {
+    public CodeSource getCodeSource(URL url, JbrFile jbr, JbrEntry je) {
         CodeSigner[] signers;
 
-        return mapSignersToCodeSource(url, getCodeSigners(jar, je));
+        return mbpSignersToCodeSource(url, getCodeSigners(jbr, je));
     }
 
-    public void setEagerValidation(boolean eager) {
-        eagerValidation = eager;
+    public void setEbgerVblidbtion(boolebn ebger) {
+        ebgerVblidbtion = ebger;
     }
 
-    public synchronized List<Object> getManifestDigests() {
-        return Collections.unmodifiableList(manifestDigests);
+    public synchronized List<Object> getMbnifestDigests() {
+        return Collections.unmodifibbleList(mbnifestDigests);
     }
 
-    static CodeSource getUnsignedCS(URL url) {
-        return new VerifierCodeSource(null, url, (java.security.cert.Certificate[]) null);
+    stbtic CodeSource getUnsignedCS(URL url) {
+        return new VerifierCodeSource(null, url, (jbvb.security.cert.Certificbte[]) null);
     }
 }

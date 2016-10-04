@@ -1,303 +1,303 @@
 /*
- * Copyright (c) 2000, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package javax.management.openmbean;
+pbckbge jbvbx.mbnbgement.openmbebn;
 
 
-// java import
+// jbvb import
 //
-import java.util.Arrays;
+import jbvb.util.Arrbys;
 
-import javax.management.Descriptor;
-import javax.management.MBeanConstructorInfo;
-import javax.management.MBeanParameterInfo;
+import jbvbx.mbnbgement.Descriptor;
+import jbvbx.mbnbgement.MBebnConstructorInfo;
+import jbvbx.mbnbgement.MBebnPbrbmeterInfo;
 
 
 /**
- * Describes a constructor of an Open MBean.
+ * Describes b constructor of bn Open MBebn.
  *
  *
  * @since 1.5
  */
-public class OpenMBeanConstructorInfoSupport
-    extends MBeanConstructorInfo
-    implements OpenMBeanConstructorInfo {
+public clbss OpenMBebnConstructorInfoSupport
+    extends MBebnConstructorInfo
+    implements OpenMBebnConstructorInfo {
 
-    /* Serial version */
-    static final long serialVersionUID = -4400441579007477003L;
+    /* Seribl version */
+    stbtic finbl long seriblVersionUID = -4400441579007477003L;
 
 
-    // As this instance is immutable,
-    // these two values need only be calculated once.
-    private transient Integer myHashCode = null;
-    private transient String  myToString = null;
+    // As this instbnce is immutbble,
+    // these two vblues need only be cblculbted once.
+    privbte trbnsient Integer myHbshCode = null;
+    privbte trbnsient String  myToString = null;
 
     /**
-     * <p>Constructs an {@code OpenMBeanConstructorInfoSupport}
-     * instance, which describes the constructor of a class of open
-     * MBeans with the specified {@code name}, {@code description} and
-     * {@code signature}.</p>
+     * <p>Constructs bn {@code OpenMBebnConstructorInfoSupport}
+     * instbnce, which describes the constructor of b clbss of open
+     * MBebns with the specified {@code nbme}, {@code description} bnd
+     * {@code signbture}.</p>
      *
-     * <p>The {@code signature} array parameter is internally copied,
-     * so that subsequent changes to the array referenced by {@code
-     * signature} have no effect on this instance.</p>
+     * <p>The {@code signbture} brrby pbrbmeter is internblly copied,
+     * so thbt subsequent chbnges to the brrby referenced by {@code
+     * signbture} hbve no effect on this instbnce.</p>
      *
-     * @param name cannot be a null or empty string.
+     * @pbrbm nbme cbnnot be b null or empty string.
      *
-     * @param description cannot be a null or empty string.
+     * @pbrbm description cbnnot be b null or empty string.
      *
-     * @param signature can be null or empty if there are no
-     * parameters to describe.
+     * @pbrbm signbture cbn be null or empty if there bre no
+     * pbrbmeters to describe.
      *
-     * @throws IllegalArgumentException if {@code name} or {@code
-     * description} are null or empty string.
+     * @throws IllegblArgumentException if {@code nbme} or {@code
+     * description} bre null or empty string.
      *
-     * @throws ArrayStoreException If {@code signature} is not an
-     * array of instances of a subclass of {@code MBeanParameterInfo}.
+     * @throws ArrbyStoreException If {@code signbture} is not bn
+     * brrby of instbnces of b subclbss of {@code MBebnPbrbmeterInfo}.
      */
-    public OpenMBeanConstructorInfoSupport(String name,
+    public OpenMBebnConstructorInfoSupport(String nbme,
                                            String description,
-                                           OpenMBeanParameterInfo[] signature) {
-        this(name, description, signature, (Descriptor) null);
+                                           OpenMBebnPbrbmeterInfo[] signbture) {
+        this(nbme, description, signbture, (Descriptor) null);
     }
 
     /**
-     * <p>Constructs an {@code OpenMBeanConstructorInfoSupport}
-     * instance, which describes the constructor of a class of open
-     * MBeans with the specified {@code name}, {@code description},
-     * {@code signature}, and {@code descriptor}.</p>
+     * <p>Constructs bn {@code OpenMBebnConstructorInfoSupport}
+     * instbnce, which describes the constructor of b clbss of open
+     * MBebns with the specified {@code nbme}, {@code description},
+     * {@code signbture}, bnd {@code descriptor}.</p>
      *
-     * <p>The {@code signature} array parameter is internally copied,
-     * so that subsequent changes to the array referenced by {@code
-     * signature} have no effect on this instance.</p>
+     * <p>The {@code signbture} brrby pbrbmeter is internblly copied,
+     * so thbt subsequent chbnges to the brrby referenced by {@code
+     * signbture} hbve no effect on this instbnce.</p>
      *
-     * @param name cannot be a null or empty string.
+     * @pbrbm nbme cbnnot be b null or empty string.
      *
-     * @param description cannot be a null or empty string.
+     * @pbrbm description cbnnot be b null or empty string.
      *
-     * @param signature can be null or empty if there are no
-     * parameters to describe.
+     * @pbrbm signbture cbn be null or empty if there bre no
+     * pbrbmeters to describe.
      *
-     * @param descriptor The descriptor for the constructor.  This may
-     * be null which is equivalent to an empty descriptor.
+     * @pbrbm descriptor The descriptor for the constructor.  This mby
+     * be null which is equivblent to bn empty descriptor.
      *
-     * @throws IllegalArgumentException if {@code name} or {@code
-     * description} are null or empty string.
+     * @throws IllegblArgumentException if {@code nbme} or {@code
+     * description} bre null or empty string.
      *
-     * @throws ArrayStoreException If {@code signature} is not an
-     * array of instances of a subclass of {@code MBeanParameterInfo}.
+     * @throws ArrbyStoreException If {@code signbture} is not bn
+     * brrby of instbnces of b subclbss of {@code MBebnPbrbmeterInfo}.
      *
      * @since 1.6
      */
-    public OpenMBeanConstructorInfoSupport(String name,
+    public OpenMBebnConstructorInfoSupport(String nbme,
                                            String description,
-                                           OpenMBeanParameterInfo[] signature,
+                                           OpenMBebnPbrbmeterInfo[] signbture,
                                            Descriptor descriptor) {
-        super(name,
+        super(nbme,
               description,
-              arrayCopyCast(signature), // may throw an ArrayStoreException
+              brrbyCopyCbst(signbture), // mby throw bn ArrbyStoreException
               descriptor);
 
-        // check parameters that should not be null or empty
-        // (unfortunately it is not done in superclass :-( ! )
+        // check pbrbmeters thbt should not be null or empty
+        // (unfortunbtely it is not done in superclbss :-( ! )
         //
-        if (name == null || name.trim().equals("")) {
-            throw new IllegalArgumentException("Argument name cannot be " +
+        if (nbme == null || nbme.trim().equbls("")) {
+            throw new IllegblArgumentException("Argument nbme cbnnot be " +
                                                "null or empty");
         }
-        if (description == null || description.trim().equals("")) {
-            throw new IllegalArgumentException("Argument description cannot " +
+        if (description == null || description.trim().equbls("")) {
+            throw new IllegblArgumentException("Argument description cbnnot " +
                                                "be null or empty");
         }
 
     }
 
-    private static MBeanParameterInfo[]
-            arrayCopyCast(OpenMBeanParameterInfo[] src) {
+    privbte stbtic MBebnPbrbmeterInfo[]
+            brrbyCopyCbst(OpenMBebnPbrbmeterInfo[] src) {
         if (src == null)
             return null;
 
-        MBeanParameterInfo[] dst = new MBeanParameterInfo[src.length];
-        System.arraycopy(src, 0, dst, 0, src.length);
-        // may throw an ArrayStoreException
+        MBebnPbrbmeterInfo[] dst = new MBebnPbrbmeterInfo[src.length];
+        System.brrbycopy(src, 0, dst, 0, src.length);
+        // mby throw bn ArrbyStoreException
         return dst;
     }
 
 
-    /* ***  Commodity methods from java.lang.Object  *** */
+    /* ***  Commodity methods from jbvb.lbng.Object  *** */
 
 
     /**
-     * <p>Compares the specified {@code obj} parameter with this
-     * {@code OpenMBeanConstructorInfoSupport} instance for
-     * equality.</p>
+     * <p>Compbres the specified {@code obj} pbrbmeter with this
+     * {@code OpenMBebnConstructorInfoSupport} instbnce for
+     * equblity.</p>
      *
-     * <p>Returns {@code true} if and only if all of the following
-     * statements are true:
+     * <p>Returns {@code true} if bnd only if bll of the following
+     * stbtements bre true:
      *
      * <ul>
      * <li>{@code obj} is non null,</li>
-     * <li>{@code obj} also implements the {@code
-     * OpenMBeanConstructorInfo} interface,</li>
-     * <li>their names are equal</li>
-     * <li>their signatures are equal.</li>
+     * <li>{@code obj} blso implements the {@code
+     * OpenMBebnConstructorInfo} interfbce,</li>
+     * <li>their nbmes bre equbl</li>
+     * <li>their signbtures bre equbl.</li>
      * </ul>
      *
-     * This ensures that this {@code equals} method works properly for
-     * {@code obj} parameters which are different implementations of
-     * the {@code OpenMBeanConstructorInfo} interface.
+     * This ensures thbt this {@code equbls} method works properly for
+     * {@code obj} pbrbmeters which bre different implementbtions of
+     * the {@code OpenMBebnConstructorInfo} interfbce.
      *
-     * @param obj the object to be compared for equality with this
-     * {@code OpenMBeanConstructorInfoSupport} instance;
+     * @pbrbm obj the object to be compbred for equblity with this
+     * {@code OpenMBebnConstructorInfoSupport} instbnce;
      *
-     * @return {@code true} if the specified object is equal to this
-     * {@code OpenMBeanConstructorInfoSupport} instance.
+     * @return {@code true} if the specified object is equbl to this
+     * {@code OpenMBebnConstructorInfoSupport} instbnce.
      */
-    public boolean equals(Object obj) {
+    public boolebn equbls(Object obj) {
 
-        // if obj is null, return false
+        // if obj is null, return fblse
         //
         if (obj == null) {
-            return false;
+            return fblse;
         }
 
-        // if obj is not a OpenMBeanConstructorInfo, return false
+        // if obj is not b OpenMBebnConstructorInfo, return fblse
         //
-        OpenMBeanConstructorInfo other;
+        OpenMBebnConstructorInfo other;
         try {
-            other = (OpenMBeanConstructorInfo) obj;
-        } catch (ClassCastException e) {
-            return false;
+            other = (OpenMBebnConstructorInfo) obj;
+        } cbtch (ClbssCbstException e) {
+            return fblse;
         }
 
-        // Now, really test for equality between this
-        // OpenMBeanConstructorInfo implementation and the other:
+        // Now, reblly test for equblity between this
+        // OpenMBebnConstructorInfo implementbtion bnd the other:
         //
 
-        // their Name should be equal
-        if ( ! this.getName().equals(other.getName()) ) {
-            return false;
+        // their Nbme should be equbl
+        if ( ! this.getNbme().equbls(other.getNbme()) ) {
+            return fblse;
         }
 
-        // their Signatures should be equal
-        if ( ! Arrays.equals(this.getSignature(), other.getSignature()) ) {
-            return false;
+        // their Signbtures should be equbl
+        if ( ! Arrbys.equbls(this.getSignbture(), other.getSignbture()) ) {
+            return fblse;
         }
 
-        // All tests for equality were successfull
+        // All tests for equblity were successfull
         //
         return true;
     }
 
     /**
-     * <p>Returns the hash code value for this {@code
-     * OpenMBeanConstructorInfoSupport} instance.</p>
+     * <p>Returns the hbsh code vblue for this {@code
+     * OpenMBebnConstructorInfoSupport} instbnce.</p>
      *
-     * <p>The hash code of an {@code OpenMBeanConstructorInfoSupport}
-     * instance is the sum of the hash codes of all elements of
-     * information used in {@code equals} comparisons (ie: its name
-     * and signature, where the signature hashCode is calculated by a
-     * call to {@code
-     * java.util.Arrays.asList(this.getSignature).hashCode()}).</p>
+     * <p>The hbsh code of bn {@code OpenMBebnConstructorInfoSupport}
+     * instbnce is the sum of the hbsh codes of bll elements of
+     * informbtion used in {@code equbls} compbrisons (ie: its nbme
+     * bnd signbture, where the signbture hbshCode is cblculbted by b
+     * cbll to {@code
+     * jbvb.util.Arrbys.bsList(this.getSignbture).hbshCode()}).</p>
      *
-     * <p>This ensures that {@code t1.equals(t2)} implies that {@code
-     * t1.hashCode()==t2.hashCode()} for any two {@code
-     * OpenMBeanConstructorInfoSupport} instances {@code t1} and
-     * {@code t2}, as required by the general contract of the method
-     * {@link Object#hashCode() Object.hashCode()}.</p>
+     * <p>This ensures thbt {@code t1.equbls(t2)} implies thbt {@code
+     * t1.hbshCode()==t2.hbshCode()} for bny two {@code
+     * OpenMBebnConstructorInfoSupport} instbnces {@code t1} bnd
+     * {@code t2}, bs required by the generbl contrbct of the method
+     * {@link Object#hbshCode() Object.hbshCode()}.</p>
      *
-     * <p>However, note that another instance of a class implementing
-     * the {@code OpenMBeanConstructorInfo} interface may be equal to
-     * this {@code OpenMBeanConstructorInfoSupport} instance as
-     * defined by {@link #equals(java.lang.Object)}, but may have a
-     * different hash code if it is calculated differently.</p>
+     * <p>However, note thbt bnother instbnce of b clbss implementing
+     * the {@code OpenMBebnConstructorInfo} interfbce mby be equbl to
+     * this {@code OpenMBebnConstructorInfoSupport} instbnce bs
+     * defined by {@link #equbls(jbvb.lbng.Object)}, but mby hbve b
+     * different hbsh code if it is cblculbted differently.</p>
      *
-     * <p>As {@code OpenMBeanConstructorInfoSupport} instances are
-     * immutable, the hash code for this instance is calculated once,
-     * on the first call to {@code hashCode}, and then the same value
-     * is returned for subsequent calls.</p>
+     * <p>As {@code OpenMBebnConstructorInfoSupport} instbnces bre
+     * immutbble, the hbsh code for this instbnce is cblculbted once,
+     * on the first cbll to {@code hbshCode}, bnd then the sbme vblue
+     * is returned for subsequent cblls.</p>
      *
-     * @return the hash code value for this {@code
-     * OpenMBeanConstructorInfoSupport} instance
+     * @return the hbsh code vblue for this {@code
+     * OpenMBebnConstructorInfoSupport} instbnce
      */
-    public int hashCode() {
+    public int hbshCode() {
 
-        // Calculate the hash code value if it has not yet been done
-        // (ie 1st call to hashCode())
+        // Cblculbte the hbsh code vblue if it hbs not yet been done
+        // (ie 1st cbll to hbshCode())
         //
-        if (myHashCode == null) {
-            int value = 0;
-            value += this.getName().hashCode();
-            value += Arrays.asList(this.getSignature()).hashCode();
-            myHashCode = Integer.valueOf(value);
+        if (myHbshCode == null) {
+            int vblue = 0;
+            vblue += this.getNbme().hbshCode();
+            vblue += Arrbys.bsList(this.getSignbture()).hbshCode();
+            myHbshCode = Integer.vblueOf(vblue);
         }
 
-        // return always the same hash code for this instance (immutable)
+        // return blwbys the sbme hbsh code for this instbnce (immutbble)
         //
-        return myHashCode.intValue();
+        return myHbshCode.intVblue();
     }
 
     /**
-     * <p>Returns a string representation of this {@code
-     * OpenMBeanConstructorInfoSupport} instance.</p>
+     * <p>Returns b string representbtion of this {@code
+     * OpenMBebnConstructorInfoSupport} instbnce.</p>
      *
-     * <p>The string representation consists of the name of this class
+     * <p>The string representbtion consists of the nbme of this clbss
      * (ie {@code
-     * javax.management.openmbean.OpenMBeanConstructorInfoSupport}),
-     * the name and signature of the described constructor and the
-     * string representation of its descriptor.</p>
+     * jbvbx.mbnbgement.openmbebn.OpenMBebnConstructorInfoSupport}),
+     * the nbme bnd signbture of the described constructor bnd the
+     * string representbtion of its descriptor.</p>
      *
-     * <p>As {@code OpenMBeanConstructorInfoSupport} instances are
-     * immutable, the string representation for this instance is
-     * calculated once, on the first call to {@code toString}, and
-     * then the same value is returned for subsequent calls.</p>
+     * <p>As {@code OpenMBebnConstructorInfoSupport} instbnces bre
+     * immutbble, the string representbtion for this instbnce is
+     * cblculbted once, on the first cbll to {@code toString}, bnd
+     * then the sbme vblue is returned for subsequent cblls.</p>
      *
-     * @return a string representation of this {@code
-     * OpenMBeanConstructorInfoSupport} instance
+     * @return b string representbtion of this {@code
+     * OpenMBebnConstructorInfoSupport} instbnce
      */
     public String toString() {
 
-        // Calculate the string value if it has not yet been done (ie
-        // 1st call to toString())
+        // Cblculbte the string vblue if it hbs not yet been done (ie
+        // 1st cbll to toString())
         //
         if (myToString == null) {
             myToString = new StringBuilder()
-                .append(this.getClass().getName())
-                .append("(name=")
-                .append(this.getName())
-                .append(",signature=")
-                .append(Arrays.asList(this.getSignature()).toString())
-                .append(",descriptor=")
-                .append(this.getDescriptor())
-                .append(")")
+                .bppend(this.getClbss().getNbme())
+                .bppend("(nbme=")
+                .bppend(this.getNbme())
+                .bppend(",signbture=")
+                .bppend(Arrbys.bsList(this.getSignbture()).toString())
+                .bppend(",descriptor=")
+                .bppend(this.getDescriptor())
+                .bppend(")")
                 .toString();
         }
 
-        // return always the same string representation for this
-        // instance (immutable)
+        // return blwbys the sbme string representbtion for this
+        // instbnce (immutbble)
         //
         return myToString;
     }

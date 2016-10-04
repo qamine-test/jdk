@@ -1,104 +1,104 @@
 /*
- * Copyright (c) 2000, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt;
+pbckbge jbvb.bwt;
 
 /**
- * Capabilities and properties of buffers.
+ * Cbpbbilities bnd properties of buffers.
  *
- * @see java.awt.image.BufferStrategy#getCapabilities()
- * @see GraphicsConfiguration#getBufferCapabilities
- * @author Michael Martak
+ * @see jbvb.bwt.imbge.BufferStrbtegy#getCbpbbilities()
+ * @see GrbphicsConfigurbtion#getBufferCbpbbilities
+ * @buthor Michbel Mbrtbk
  * @since 1.4
  */
-public class BufferCapabilities implements Cloneable {
+public clbss BufferCbpbbilities implements Clonebble {
 
-    private ImageCapabilities frontCaps;
-    private ImageCapabilities backCaps;
-    private FlipContents flipContents;
+    privbte ImbgeCbpbbilities frontCbps;
+    privbte ImbgeCbpbbilities bbckCbps;
+    privbte FlipContents flipContents;
 
     /**
-     * Creates a new object for specifying buffering capabilities
-     * @param frontCaps the capabilities of the front buffer; cannot be
+     * Crebtes b new object for specifying buffering cbpbbilities
+     * @pbrbm frontCbps the cbpbbilities of the front buffer; cbnnot be
      * <code>null</code>
-     * @param backCaps the capabilities of the back and intermediate buffers;
-     * cannot be <code>null</code>
-     * @param flipContents the contents of the back buffer after page-flipping,
-     * <code>null</code> if page flipping is not used (implies blitting)
-     * @exception IllegalArgumentException if frontCaps or backCaps are
+     * @pbrbm bbckCbps the cbpbbilities of the bbck bnd intermedibte buffers;
+     * cbnnot be <code>null</code>
+     * @pbrbm flipContents the contents of the bbck buffer bfter pbge-flipping,
+     * <code>null</code> if pbge flipping is not used (implies blitting)
+     * @exception IllegblArgumentException if frontCbps or bbckCbps bre
      * <code>null</code>
      */
-    public BufferCapabilities(ImageCapabilities frontCaps,
-        ImageCapabilities backCaps, FlipContents flipContents) {
-        if (frontCaps == null || backCaps == null) {
-            throw new IllegalArgumentException(
-                "Image capabilities specified cannot be null");
+    public BufferCbpbbilities(ImbgeCbpbbilities frontCbps,
+        ImbgeCbpbbilities bbckCbps, FlipContents flipContents) {
+        if (frontCbps == null || bbckCbps == null) {
+            throw new IllegblArgumentException(
+                "Imbge cbpbbilities specified cbnnot be null");
         }
-        this.frontCaps = frontCaps;
-        this.backCaps = backCaps;
+        this.frontCbps = frontCbps;
+        this.bbckCbps = bbckCbps;
         this.flipContents = flipContents;
     }
 
     /**
-     * @return the image capabilities of the front (displayed) buffer
+     * @return the imbge cbpbbilities of the front (displbyed) buffer
      */
-    public ImageCapabilities getFrontBufferCapabilities() {
-        return frontCaps;
+    public ImbgeCbpbbilities getFrontBufferCbpbbilities() {
+        return frontCbps;
     }
 
     /**
-     * @return the image capabilities of all back buffers (intermediate buffers
-     * are considered back buffers)
+     * @return the imbge cbpbbilities of bll bbck buffers (intermedibte buffers
+     * bre considered bbck buffers)
      */
-    public ImageCapabilities getBackBufferCapabilities() {
-        return backCaps;
+    public ImbgeCbpbbilities getBbckBufferCbpbbilities() {
+        return bbckCbps;
     }
 
     /**
-     * @return whether or not the buffer strategy uses page flipping; a set of
-     * buffers that uses page flipping
-     * can swap the contents internally between the front buffer and one or
-     * more back buffers by switching the video pointer (or by copying memory
-     * internally).  A non-flipping set of
+     * @return whether or not the buffer strbtegy uses pbge flipping; b set of
+     * buffers thbt uses pbge flipping
+     * cbn swbp the contents internblly between the front buffer bnd one or
+     * more bbck buffers by switching the video pointer (or by copying memory
+     * internblly).  A non-flipping set of
      * buffers uses blitting to copy the contents from one buffer to
-     * another; when this is the case, <code>getFlipContents</code> returns
+     * bnother; when this is the cbse, <code>getFlipContents</code> returns
      * <code>null</code>
      */
-    public boolean isPageFlipping() {
+    public boolebn isPbgeFlipping() {
         return (getFlipContents() != null);
     }
 
     /**
-     * @return the resulting contents of the back buffer after page-flipping.
-     * This value is <code>null</code> when the <code>isPageFlipping</code>
-     * returns <code>false</code>, implying blitting.  It can be one of
+     * @return the resulting contents of the bbck buffer bfter pbge-flipping.
+     * This vblue is <code>null</code> when the <code>isPbgeFlipping</code>
+     * returns <code>fblse</code>, implying blitting.  It cbn be one of
      * <code>FlipContents.UNDEFINED</code>
-     * (the assumed default), <code>FlipContents.BACKGROUND</code>,
+     * (the bssumed defbult), <code>FlipContents.BACKGROUND</code>,
      * <code>FlipContents.PRIOR</code>, or
      * <code>FlipContents.COPIED</code>.
-     * @see #isPageFlipping
+     * @see #isPbgeFlipping
      * @see FlipContents#UNDEFINED
      * @see FlipContents#BACKGROUND
      * @see FlipContents#PRIOR
@@ -109,109 +109,109 @@ public class BufferCapabilities implements Cloneable {
     }
 
     /**
-     * @return whether page flipping is only available in full-screen mode.  If this
+     * @return whether pbge flipping is only bvbilbble in full-screen mode.  If this
      * is <code>true</code>, full-screen exclusive mode is required for
-     * page-flipping.
-     * @see #isPageFlipping
-     * @see GraphicsDevice#setFullScreenWindow
+     * pbge-flipping.
+     * @see #isPbgeFlipping
+     * @see GrbphicsDevice#setFullScreenWindow
      */
-    public boolean isFullScreenRequired() {
-        return false;
+    public boolebn isFullScreenRequired() {
+        return fblse;
     }
 
     /**
      * @return whether or not
-     * page flipping can be performed using more than two buffers (one or more
-     * intermediate buffers as well as the front and back buffer).
-     * @see #isPageFlipping
+     * pbge flipping cbn be performed using more thbn two buffers (one or more
+     * intermedibte buffers bs well bs the front bnd bbck buffer).
+     * @see #isPbgeFlipping
      */
-    public boolean isMultiBufferAvailable() {
-        return false;
+    public boolebn isMultiBufferAvbilbble() {
+        return fblse;
     }
 
     /**
-     * @return a copy of this BufferCapabilities object.
+     * @return b copy of this BufferCbpbbilities object.
      */
     public Object clone() {
         try {
             return super.clone();
-        } catch (CloneNotSupportedException e) {
-            // Since we implement Cloneable, this should never happen
-            throw new InternalError(e);
+        } cbtch (CloneNotSupportedException e) {
+            // Since we implement Clonebble, this should never hbppen
+            throw new InternblError(e);
         }
     }
 
-    // Inner class FlipContents
+    // Inner clbss FlipContents
     /**
-     * A type-safe enumeration of the possible back buffer contents after
-     * page-flipping
+     * A type-sbfe enumerbtion of the possible bbck buffer contents bfter
+     * pbge-flipping
      * @since 1.4
      */
-    public static final class FlipContents extends AttributeValue {
+    public stbtic finbl clbss FlipContents extends AttributeVblue {
 
-        private static int I_UNDEFINED = 0;
-        private static int I_BACKGROUND = 1;
-        private static int I_PRIOR = 2;
-        private static int I_COPIED = 3;
+        privbte stbtic int I_UNDEFINED = 0;
+        privbte stbtic int I_BACKGROUND = 1;
+        privbte stbtic int I_PRIOR = 2;
+        privbte stbtic int I_COPIED = 3;
 
-        private static final String NAMES[] =
-            { "undefined", "background", "prior", "copied" };
+        privbte stbtic finbl String NAMES[] =
+            { "undefined", "bbckground", "prior", "copied" };
 
         /**
-         * When flip contents are <code>UNDEFINED</code>, the
-         * contents of the back buffer are undefined after flipping.
-         * @see #isPageFlipping
+         * When flip contents bre <code>UNDEFINED</code>, the
+         * contents of the bbck buffer bre undefined bfter flipping.
+         * @see #isPbgeFlipping
          * @see #getFlipContents
          * @see #BACKGROUND
          * @see #PRIOR
          * @see #COPIED
          */
-        public static final FlipContents UNDEFINED =
+        public stbtic finbl FlipContents UNDEFINED =
             new FlipContents(I_UNDEFINED);
 
         /**
-         * When flip contents are <code>BACKGROUND</code>, the
-         * contents of the back buffer are cleared with the background color after
+         * When flip contents bre <code>BACKGROUND</code>, the
+         * contents of the bbck buffer bre clebred with the bbckground color bfter
          * flipping.
-         * @see #isPageFlipping
+         * @see #isPbgeFlipping
          * @see #getFlipContents
          * @see #UNDEFINED
          * @see #PRIOR
          * @see #COPIED
          */
-        public static final FlipContents BACKGROUND =
+        public stbtic finbl FlipContents BACKGROUND =
             new FlipContents(I_BACKGROUND);
 
         /**
-         * When flip contents are <code>PRIOR</code>, the
-         * contents of the back buffer are the prior contents of the front buffer
-         * (a true page flip).
-         * @see #isPageFlipping
+         * When flip contents bre <code>PRIOR</code>, the
+         * contents of the bbck buffer bre the prior contents of the front buffer
+         * (b true pbge flip).
+         * @see #isPbgeFlipping
          * @see #getFlipContents
          * @see #UNDEFINED
          * @see #BACKGROUND
          * @see #COPIED
          */
-        public static final FlipContents PRIOR =
+        public stbtic finbl FlipContents PRIOR =
             new FlipContents(I_PRIOR);
 
         /**
-         * When flip contents are <code>COPIED</code>, the
-         * contents of the back buffer are copied to the front buffer when
+         * When flip contents bre <code>COPIED</code>, the
+         * contents of the bbck buffer bre copied to the front buffer when
          * flipping.
-         * @see #isPageFlipping
+         * @see #isPbgeFlipping
          * @see #getFlipContents
          * @see #UNDEFINED
          * @see #BACKGROUND
          * @see #PRIOR
          */
-        public static final FlipContents COPIED =
+        public stbtic finbl FlipContents COPIED =
             new FlipContents(I_COPIED);
 
-        private FlipContents(int type) {
+        privbte FlipContents(int type) {
             super(type, NAMES);
         }
 
-    } // Inner class FlipContents
+    } // Inner clbss FlipContents
 
 }

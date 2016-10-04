@@ -1,379 +1,379 @@
 /*
- * Copyright (c) 2013, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.lang.reflect;
+pbckbge jbvb.lbng.reflect;
 
-import java.lang.ref.ReferenceQueue;
-import java.lang.ref.WeakReference;
-import java.util.Objects;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
-import java.util.function.BiFunction;
-import java.util.function.Supplier;
+import jbvb.lbng.ref.ReferenceQueue;
+import jbvb.lbng.ref.WebkReference;
+import jbvb.util.Objects;
+import jbvb.util.concurrent.ConcurrentHbshMbp;
+import jbvb.util.concurrent.ConcurrentMbp;
+import jbvb.util.function.BiFunction;
+import jbvb.util.function.Supplier;
 
 /**
- * Cache mapping pairs of {@code (key, sub-key) -> value}. Keys and values are
- * weakly but sub-keys are strongly referenced.  Keys are passed directly to
- * {@link #get} method which also takes a {@code parameter}. Sub-keys are
- * calculated from keys and parameters using the {@code subKeyFactory} function
- * passed to the constructor. Values are calculated from keys and parameters
- * using the {@code valueFactory} function passed to the constructor.
- * Keys can be {@code null} and are compared by identity while sub-keys returned by
- * {@code subKeyFactory} or values returned by {@code valueFactory}
- * can not be null. Sub-keys are compared using their {@link #equals} method.
- * Entries are expunged from cache lazily on each invocation to {@link #get},
- * {@link #containsValue} or {@link #size} methods when the WeakReferences to
- * keys are cleared. Cleared WeakReferences to individual values don't cause
- * expunging, but such entries are logically treated as non-existent and
- * trigger re-evaluation of {@code valueFactory} on request for their
+ * Cbche mbpping pbirs of {@code (key, sub-key) -> vblue}. Keys bnd vblues bre
+ * webkly but sub-keys bre strongly referenced.  Keys bre pbssed directly to
+ * {@link #get} method which blso tbkes b {@code pbrbmeter}. Sub-keys bre
+ * cblculbted from keys bnd pbrbmeters using the {@code subKeyFbctory} function
+ * pbssed to the constructor. Vblues bre cblculbted from keys bnd pbrbmeters
+ * using the {@code vblueFbctory} function pbssed to the constructor.
+ * Keys cbn be {@code null} bnd bre compbred by identity while sub-keys returned by
+ * {@code subKeyFbctory} or vblues returned by {@code vblueFbctory}
+ * cbn not be null. Sub-keys bre compbred using their {@link #equbls} method.
+ * Entries bre expunged from cbche lbzily on ebch invocbtion to {@link #get},
+ * {@link #contbinsVblue} or {@link #size} methods when the WebkReferences to
+ * keys bre clebred. Clebred WebkReferences to individubl vblues don't cbuse
+ * expunging, but such entries bre logicblly trebted bs non-existent bnd
+ * trigger re-evblubtion of {@code vblueFbctory} on request for their
  * key/subKey.
  *
- * @author Peter Levart
- * @param <K> type of keys
- * @param <P> type of parameters
- * @param <V> type of values
+ * @buthor Peter Levbrt
+ * @pbrbm <K> type of keys
+ * @pbrbm <P> type of pbrbmeters
+ * @pbrbm <V> type of vblues
  */
-final class WeakCache<K, P, V> {
+finbl clbss WebkCbche<K, P, V> {
 
-    private final ReferenceQueue<K> refQueue
+    privbte finbl ReferenceQueue<K> refQueue
         = new ReferenceQueue<>();
     // the key type is Object for supporting null key
-    private final ConcurrentMap<Object, ConcurrentMap<Object, Supplier<V>>> map
-        = new ConcurrentHashMap<>();
-    private final ConcurrentMap<Supplier<V>, Boolean> reverseMap
-        = new ConcurrentHashMap<>();
-    private final BiFunction<K, P, ?> subKeyFactory;
-    private final BiFunction<K, P, V> valueFactory;
+    privbte finbl ConcurrentMbp<Object, ConcurrentMbp<Object, Supplier<V>>> mbp
+        = new ConcurrentHbshMbp<>();
+    privbte finbl ConcurrentMbp<Supplier<V>, Boolebn> reverseMbp
+        = new ConcurrentHbshMbp<>();
+    privbte finbl BiFunction<K, P, ?> subKeyFbctory;
+    privbte finbl BiFunction<K, P, V> vblueFbctory;
 
     /**
-     * Construct an instance of {@code WeakCache}
+     * Construct bn instbnce of {@code WebkCbche}
      *
-     * @param subKeyFactory a function mapping a pair of
-     *                      {@code (key, parameter) -> sub-key}
-     * @param valueFactory  a function mapping a pair of
-     *                      {@code (key, parameter) -> value}
-     * @throws NullPointerException if {@code subKeyFactory} or
-     *                              {@code valueFactory} is null.
+     * @pbrbm subKeyFbctory b function mbpping b pbir of
+     *                      {@code (key, pbrbmeter) -> sub-key}
+     * @pbrbm vblueFbctory  b function mbpping b pbir of
+     *                      {@code (key, pbrbmeter) -> vblue}
+     * @throws NullPointerException if {@code subKeyFbctory} or
+     *                              {@code vblueFbctory} is null.
      */
-    public WeakCache(BiFunction<K, P, ?> subKeyFactory,
-                     BiFunction<K, P, V> valueFactory) {
-        this.subKeyFactory = Objects.requireNonNull(subKeyFactory);
-        this.valueFactory = Objects.requireNonNull(valueFactory);
+    public WebkCbche(BiFunction<K, P, ?> subKeyFbctory,
+                     BiFunction<K, P, V> vblueFbctory) {
+        this.subKeyFbctory = Objects.requireNonNull(subKeyFbctory);
+        this.vblueFbctory = Objects.requireNonNull(vblueFbctory);
     }
 
     /**
-     * Look-up the value through the cache. This always evaluates the
-     * {@code subKeyFactory} function and optionally evaluates
-     * {@code valueFactory} function if there is no entry in the cache for given
-     * pair of (key, subKey) or the entry has already been cleared.
+     * Look-up the vblue through the cbche. This blwbys evblubtes the
+     * {@code subKeyFbctory} function bnd optionblly evblubtes
+     * {@code vblueFbctory} function if there is no entry in the cbche for given
+     * pbir of (key, subKey) or the entry hbs blrebdy been clebred.
      *
-     * @param key       possibly null key
-     * @param parameter parameter used together with key to create sub-key and
-     *                  value (should not be null)
-     * @return the cached value (never null)
-     * @throws NullPointerException if {@code parameter} passed in or
-     *                              {@code sub-key} calculated by
-     *                              {@code subKeyFactory} or {@code value}
-     *                              calculated by {@code valueFactory} is null.
+     * @pbrbm key       possibly null key
+     * @pbrbm pbrbmeter pbrbmeter used together with key to crebte sub-key bnd
+     *                  vblue (should not be null)
+     * @return the cbched vblue (never null)
+     * @throws NullPointerException if {@code pbrbmeter} pbssed in or
+     *                              {@code sub-key} cblculbted by
+     *                              {@code subKeyFbctory} or {@code vblue}
+     *                              cblculbted by {@code vblueFbctory} is null.
      */
-    public V get(K key, P parameter) {
-        Objects.requireNonNull(parameter);
+    public V get(K key, P pbrbmeter) {
+        Objects.requireNonNull(pbrbmeter);
 
-        expungeStaleEntries();
+        expungeStbleEntries();
 
-        Object cacheKey = CacheKey.valueOf(key, refQueue);
+        Object cbcheKey = CbcheKey.vblueOf(key, refQueue);
 
-        // lazily install the 2nd level valuesMap for the particular cacheKey
-        ConcurrentMap<Object, Supplier<V>> valuesMap = map.get(cacheKey);
-        if (valuesMap == null) {
-            ConcurrentMap<Object, Supplier<V>> oldValuesMap
-                = map.putIfAbsent(cacheKey,
-                                  valuesMap = new ConcurrentHashMap<>());
-            if (oldValuesMap != null) {
-                valuesMap = oldValuesMap;
+        // lbzily instbll the 2nd level vbluesMbp for the pbrticulbr cbcheKey
+        ConcurrentMbp<Object, Supplier<V>> vbluesMbp = mbp.get(cbcheKey);
+        if (vbluesMbp == null) {
+            ConcurrentMbp<Object, Supplier<V>> oldVbluesMbp
+                = mbp.putIfAbsent(cbcheKey,
+                                  vbluesMbp = new ConcurrentHbshMbp<>());
+            if (oldVbluesMbp != null) {
+                vbluesMbp = oldVbluesMbp;
             }
         }
 
-        // create subKey and retrieve the possible Supplier<V> stored by that
-        // subKey from valuesMap
-        Object subKey = Objects.requireNonNull(subKeyFactory.apply(key, parameter));
-        Supplier<V> supplier = valuesMap.get(subKey);
-        Factory factory = null;
+        // crebte subKey bnd retrieve the possible Supplier<V> stored by thbt
+        // subKey from vbluesMbp
+        Object subKey = Objects.requireNonNull(subKeyFbctory.bpply(key, pbrbmeter));
+        Supplier<V> supplier = vbluesMbp.get(subKey);
+        Fbctory fbctory = null;
 
         while (true) {
             if (supplier != null) {
-                // supplier might be a Factory or a CacheValue<V> instance
-                V value = supplier.get();
-                if (value != null) {
-                    return value;
+                // supplier might be b Fbctory or b CbcheVblue<V> instbnce
+                V vblue = supplier.get();
+                if (vblue != null) {
+                    return vblue;
                 }
             }
-            // else no supplier in cache
-            // or a supplier that returned null (could be a cleared CacheValue
-            // or a Factory that wasn't successful in installing the CacheValue)
+            // else no supplier in cbche
+            // or b supplier thbt returned null (could be b clebred CbcheVblue
+            // or b Fbctory thbt wbsn't successful in instblling the CbcheVblue)
 
-            // lazily construct a Factory
-            if (factory == null) {
-                factory = new Factory(key, parameter, subKey, valuesMap);
+            // lbzily construct b Fbctory
+            if (fbctory == null) {
+                fbctory = new Fbctory(key, pbrbmeter, subKey, vbluesMbp);
             }
 
             if (supplier == null) {
-                supplier = valuesMap.putIfAbsent(subKey, factory);
+                supplier = vbluesMbp.putIfAbsent(subKey, fbctory);
                 if (supplier == null) {
-                    // successfully installed Factory
-                    supplier = factory;
+                    // successfully instblled Fbctory
+                    supplier = fbctory;
                 }
                 // else retry with winning supplier
             } else {
-                if (valuesMap.replace(subKey, supplier, factory)) {
-                    // successfully replaced
-                    // cleared CacheEntry / unsuccessful Factory
-                    // with our Factory
-                    supplier = factory;
+                if (vbluesMbp.replbce(subKey, supplier, fbctory)) {
+                    // successfully replbced
+                    // clebred CbcheEntry / unsuccessful Fbctory
+                    // with our Fbctory
+                    supplier = fbctory;
                 } else {
                     // retry with current supplier
-                    supplier = valuesMap.get(subKey);
+                    supplier = vbluesMbp.get(subKey);
                 }
             }
         }
     }
 
     /**
-     * Checks whether the specified non-null value is already present in this
-     * {@code WeakCache}. The check is made using identity comparison regardless
-     * of whether value's class overrides {@link Object#equals} or not.
+     * Checks whether the specified non-null vblue is blrebdy present in this
+     * {@code WebkCbche}. The check is mbde using identity compbrison regbrdless
+     * of whether vblue's clbss overrides {@link Object#equbls} or not.
      *
-     * @param value the non-null value to check
-     * @return true if given {@code value} is already cached
-     * @throws NullPointerException if value is null
+     * @pbrbm vblue the non-null vblue to check
+     * @return true if given {@code vblue} is blrebdy cbched
+     * @throws NullPointerException if vblue is null
      */
-    public boolean containsValue(V value) {
-        Objects.requireNonNull(value);
+    public boolebn contbinsVblue(V vblue) {
+        Objects.requireNonNull(vblue);
 
-        expungeStaleEntries();
-        return reverseMap.containsKey(new LookupValue<>(value));
+        expungeStbleEntries();
+        return reverseMbp.contbinsKey(new LookupVblue<>(vblue));
     }
 
     /**
-     * Returns the current number of cached entries that
-     * can decrease over time when keys/values are GC-ed.
+     * Returns the current number of cbched entries thbt
+     * cbn decrebse over time when keys/vblues bre GC-ed.
      */
     public int size() {
-        expungeStaleEntries();
-        return reverseMap.size();
+        expungeStbleEntries();
+        return reverseMbp.size();
     }
 
-    @SuppressWarnings("unchecked") // refQueue.poll actually returns CacheKey<K>
-    private void expungeStaleEntries() {
-        CacheKey<K> cacheKey;
-        while ((cacheKey = (CacheKey<K>)refQueue.poll()) != null) {
-            cacheKey.expungeFrom(map, reverseMap);
+    @SuppressWbrnings("unchecked") // refQueue.poll bctublly returns CbcheKey<K>
+    privbte void expungeStbleEntries() {
+        CbcheKey<K> cbcheKey;
+        while ((cbcheKey = (CbcheKey<K>)refQueue.poll()) != null) {
+            cbcheKey.expungeFrom(mbp, reverseMbp);
         }
     }
 
     /**
-     * A factory {@link Supplier} that implements the lazy synchronized
-     * construction of the value and installment of it into the cache.
+     * A fbctory {@link Supplier} thbt implements the lbzy synchronized
+     * construction of the vblue bnd instbllment of it into the cbche.
      */
-    private final class Factory implements Supplier<V> {
+    privbte finbl clbss Fbctory implements Supplier<V> {
 
-        private final K key;
-        private final P parameter;
-        private final Object subKey;
-        private final ConcurrentMap<Object, Supplier<V>> valuesMap;
+        privbte finbl K key;
+        privbte finbl P pbrbmeter;
+        privbte finbl Object subKey;
+        privbte finbl ConcurrentMbp<Object, Supplier<V>> vbluesMbp;
 
-        Factory(K key, P parameter, Object subKey,
-                ConcurrentMap<Object, Supplier<V>> valuesMap) {
+        Fbctory(K key, P pbrbmeter, Object subKey,
+                ConcurrentMbp<Object, Supplier<V>> vbluesMbp) {
             this.key = key;
-            this.parameter = parameter;
+            this.pbrbmeter = pbrbmeter;
             this.subKey = subKey;
-            this.valuesMap = valuesMap;
+            this.vbluesMbp = vbluesMbp;
         }
 
         @Override
-        public synchronized V get() { // serialize access
+        public synchronized V get() { // seriblize bccess
             // re-check
-            Supplier<V> supplier = valuesMap.get(subKey);
+            Supplier<V> supplier = vbluesMbp.get(subKey);
             if (supplier != this) {
-                // something changed while we were waiting:
-                // might be that we were replaced by a CacheValue
-                // or were removed because of failure ->
-                // return null to signal WeakCache.get() to retry
+                // something chbnged while we were wbiting:
+                // might be thbt we were replbced by b CbcheVblue
+                // or were removed becbuse of fbilure ->
+                // return null to signbl WebkCbche.get() to retry
                 // the loop
                 return null;
             }
             // else still us (supplier == this)
 
-            // create new value
-            V value = null;
+            // crebte new vblue
+            V vblue = null;
             try {
-                value = Objects.requireNonNull(valueFactory.apply(key, parameter));
-            } finally {
-                if (value == null) { // remove us on failure
-                    valuesMap.remove(subKey, this);
+                vblue = Objects.requireNonNull(vblueFbctory.bpply(key, pbrbmeter));
+            } finblly {
+                if (vblue == null) { // remove us on fbilure
+                    vbluesMbp.remove(subKey, this);
                 }
             }
-            // the only path to reach here is with non-null value
-            assert value != null;
+            // the only pbth to rebch here is with non-null vblue
+            bssert vblue != null;
 
-            // wrap value with CacheValue (WeakReference)
-            CacheValue<V> cacheValue = new CacheValue<>(value);
+            // wrbp vblue with CbcheVblue (WebkReference)
+            CbcheVblue<V> cbcheVblue = new CbcheVblue<>(vblue);
 
-            // try replacing us with CacheValue (this should always succeed)
-            if (valuesMap.replace(subKey, this, cacheValue)) {
-                // put also in reverseMap
-                reverseMap.put(cacheValue, Boolean.TRUE);
+            // try replbcing us with CbcheVblue (this should blwbys succeed)
+            if (vbluesMbp.replbce(subKey, this, cbcheVblue)) {
+                // put blso in reverseMbp
+                reverseMbp.put(cbcheVblue, Boolebn.TRUE);
             } else {
-                throw new AssertionError("Should not reach here");
+                throw new AssertionError("Should not rebch here");
             }
 
-            // successfully replaced us with new CacheValue -> return the value
-            // wrapped by it
-            return value;
+            // successfully replbced us with new CbcheVblue -> return the vblue
+            // wrbpped by it
+            return vblue;
         }
     }
 
     /**
-     * Common type of value suppliers that are holding a referent.
-     * The {@link #equals} and {@link #hashCode} of implementations is defined
-     * to compare the referent by identity.
+     * Common type of vblue suppliers thbt bre holding b referent.
+     * The {@link #equbls} bnd {@link #hbshCode} of implementbtions is defined
+     * to compbre the referent by identity.
      */
-    private interface Value<V> extends Supplier<V> {}
+    privbte interfbce Vblue<V> extends Supplier<V> {}
 
     /**
-     * An optimized {@link Value} used to look-up the value in
-     * {@link WeakCache#containsValue} method so that we are not
-     * constructing the whole {@link CacheValue} just to look-up the referent.
+     * An optimized {@link Vblue} used to look-up the vblue in
+     * {@link WebkCbche#contbinsVblue} method so thbt we bre not
+     * constructing the whole {@link CbcheVblue} just to look-up the referent.
      */
-    private static final class LookupValue<V> implements Value<V> {
-        private final V value;
+    privbte stbtic finbl clbss LookupVblue<V> implements Vblue<V> {
+        privbte finbl V vblue;
 
-        LookupValue(V value) {
-            this.value = value;
+        LookupVblue(V vblue) {
+            this.vblue = vblue;
         }
 
         @Override
         public V get() {
-            return value;
+            return vblue;
         }
 
         @Override
-        public int hashCode() {
-            return System.identityHashCode(value); // compare by identity
+        public int hbshCode() {
+            return System.identityHbshCode(vblue); // compbre by identity
         }
 
         @Override
-        public boolean equals(Object obj) {
+        public boolebn equbls(Object obj) {
             return obj == this ||
-                   obj instanceof Value &&
-                   this.value == ((Value<?>) obj).get();  // compare by identity
+                   obj instbnceof Vblue &&
+                   this.vblue == ((Vblue<?>) obj).get();  // compbre by identity
         }
     }
 
     /**
-     * A {@link Value} that weakly references the referent.
+     * A {@link Vblue} thbt webkly references the referent.
      */
-    private static final class CacheValue<V>
-        extends WeakReference<V> implements Value<V>
+    privbte stbtic finbl clbss CbcheVblue<V>
+        extends WebkReference<V> implements Vblue<V>
     {
-        private final int hash;
+        privbte finbl int hbsh;
 
-        CacheValue(V value) {
-            super(value);
-            this.hash = System.identityHashCode(value); // compare by identity
+        CbcheVblue(V vblue) {
+            super(vblue);
+            this.hbsh = System.identityHbshCode(vblue); // compbre by identity
         }
 
         @Override
-        public int hashCode() {
-            return hash;
+        public int hbshCode() {
+            return hbsh;
         }
 
         @Override
-        public boolean equals(Object obj) {
-            V value;
+        public boolebn equbls(Object obj) {
+            V vblue;
             return obj == this ||
-                   obj instanceof Value &&
-                   // cleared CacheValue is only equal to itself
-                   (value = get()) != null &&
-                   value == ((Value<?>) obj).get(); // compare by identity
+                   obj instbnceof Vblue &&
+                   // clebred CbcheVblue is only equbl to itself
+                   (vblue = get()) != null &&
+                   vblue == ((Vblue<?>) obj).get(); // compbre by identity
         }
     }
 
     /**
-     * CacheKey containing a weakly referenced {@code key}. It registers
-     * itself with the {@code refQueue} so that it can be used to expunge
-     * the entry when the {@link WeakReference} is cleared.
+     * CbcheKey contbining b webkly referenced {@code key}. It registers
+     * itself with the {@code refQueue} so thbt it cbn be used to expunge
+     * the entry when the {@link WebkReference} is clebred.
      */
-    private static final class CacheKey<K> extends WeakReference<K> {
+    privbte stbtic finbl clbss CbcheKey<K> extends WebkReference<K> {
 
-        // a replacement for null keys
-        private static final Object NULL_KEY = new Object();
+        // b replbcement for null keys
+        privbte stbtic finbl Object NULL_KEY = new Object();
 
-        static <K> Object valueOf(K key, ReferenceQueue<K> refQueue) {
+        stbtic <K> Object vblueOf(K key, ReferenceQueue<K> refQueue) {
             return key == null
-                   // null key means we can't weakly reference it,
-                   // so we use a NULL_KEY singleton as cache key
+                   // null key mebns we cbn't webkly reference it,
+                   // so we use b NULL_KEY singleton bs cbche key
                    ? NULL_KEY
-                   // non-null key requires wrapping with a WeakReference
-                   : new CacheKey<>(key, refQueue);
+                   // non-null key requires wrbpping with b WebkReference
+                   : new CbcheKey<>(key, refQueue);
         }
 
-        private final int hash;
+        privbte finbl int hbsh;
 
-        private CacheKey(K key, ReferenceQueue<K> refQueue) {
+        privbte CbcheKey(K key, ReferenceQueue<K> refQueue) {
             super(key, refQueue);
-            this.hash = System.identityHashCode(key);  // compare by identity
+            this.hbsh = System.identityHbshCode(key);  // compbre by identity
         }
 
         @Override
-        public int hashCode() {
-            return hash;
+        public int hbshCode() {
+            return hbsh;
         }
 
         @Override
-        @SuppressWarnings("unchecked")
-        public boolean equals(Object obj) {
+        @SuppressWbrnings("unchecked")
+        public boolebn equbls(Object obj) {
             K key;
             return obj == this ||
                    obj != null &&
-                   obj.getClass() == this.getClass() &&
-                   // cleared CacheKey is only equal to itself
+                   obj.getClbss() == this.getClbss() &&
+                   // clebred CbcheKey is only equbl to itself
                    (key = this.get()) != null &&
-                   // compare key by identity
-                   key == ((CacheKey<K>) obj).get(); // Cast is safe from getClass check
+                   // compbre key by identity
+                   key == ((CbcheKey<K>) obj).get(); // Cbst is sbfe from getClbss check
         }
 
-        void expungeFrom(ConcurrentMap<?, ? extends ConcurrentMap<?, ?>> map,
-                         ConcurrentMap<?, Boolean> reverseMap) {
-            // removing just by key is always safe here because after a CacheKey
-            // is cleared and enqueue-ed it is only equal to itself
-            // (see equals method)...
-            ConcurrentMap<?, ?> valuesMap = map.remove(this);
-            // remove also from reverseMap if needed
-            if (valuesMap != null) {
-                for (Object cacheValue : valuesMap.values()) {
-                    reverseMap.remove(cacheValue);
+        void expungeFrom(ConcurrentMbp<?, ? extends ConcurrentMbp<?, ?>> mbp,
+                         ConcurrentMbp<?, Boolebn> reverseMbp) {
+            // removing just by key is blwbys sbfe here becbuse bfter b CbcheKey
+            // is clebred bnd enqueue-ed it is only equbl to itself
+            // (see equbls method)...
+            ConcurrentMbp<?, ?> vbluesMbp = mbp.remove(this);
+            // remove blso from reverseMbp if needed
+            if (vbluesMbp != null) {
+                for (Object cbcheVblue : vbluesMbp.vblues()) {
+                    reverseMbp.remove(cbcheVblue);
                 }
             }
         }

@@ -1,219 +1,219 @@
 /*
- * Copyright (c) 1998, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * (C) Copyright Taligent, Inc. 1996 - 1997, All Rights Reserved
+ * (C) Copyright Tbligent, Inc. 1996 - 1997, All Rights Reserved
  * (C) Copyright IBM Corp. 1996 - 1998, All Rights Reserved
  *
- * The original version of this source code and documentation is
- * copyrighted and owned by Taligent, Inc., a wholly-owned subsidiary
- * of IBM. These materials are provided under terms of a License
- * Agreement between Taligent and Sun. This technology is protected
- * by multiple US and International patents.
+ * The originbl version of this source code bnd documentbtion is
+ * copyrighted bnd owned by Tbligent, Inc., b wholly-owned subsidibry
+ * of IBM. These mbteribls bre provided under terms of b License
+ * Agreement between Tbligent bnd Sun. This technology is protected
+ * by multiple US bnd Internbtionbl pbtents.
  *
- * This notice and attribution to Taligent may not be removed.
- * Taligent is a registered trademark of Taligent, Inc.
+ * This notice bnd bttribution to Tbligent mby not be removed.
+ * Tbligent is b registered trbdembrk of Tbligent, Inc.
  *
  */
 
-package java.awt.font;
+pbckbge jbvb.bwt.font;
 
-import java.awt.Graphics2D;
-import java.awt.Font;
-import java.awt.Shape;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Rectangle2D;
+import jbvb.bwt.Grbphics2D;
+import jbvb.bwt.Font;
+import jbvb.bwt.Shbpe;
+import jbvb.bwt.geom.AffineTrbnsform;
+import jbvb.bwt.geom.Rectbngle2D;
 
 /**
- * This class is used with the CHAR_REPLACEMENT attribute.
+ * This clbss is used with the CHAR_REPLACEMENT bttribute.
  * <p>
- * The <code>GraphicAttribute</code> class represents a graphic embedded
- * in text. Clients subclass this class to implement their own char
- * replacement graphics.  Clients wishing to embed shapes and images in
- * text need not subclass this class.  Instead, clients can use the
- * {@link ShapeGraphicAttribute} and {@link ImageGraphicAttribute}
- * classes.
+ * The <code>GrbphicAttribute</code> clbss represents b grbphic embedded
+ * in text. Clients subclbss this clbss to implement their own chbr
+ * replbcement grbphics.  Clients wishing to embed shbpes bnd imbges in
+ * text need not subclbss this clbss.  Instebd, clients cbn use the
+ * {@link ShbpeGrbphicAttribute} bnd {@link ImbgeGrbphicAttribute}
+ * clbsses.
  * <p>
- * Subclasses must ensure that their objects are immutable once they
- * are constructed.  Mutating a <code>GraphicAttribute</code> that
- * is used in a {@link TextLayout} results in undefined behavior from the
- * <code>TextLayout</code>.
+ * Subclbsses must ensure thbt their objects bre immutbble once they
+ * bre constructed.  Mutbting b <code>GrbphicAttribute</code> thbt
+ * is used in b {@link TextLbyout} results in undefined behbvior from the
+ * <code>TextLbyout</code>.
  */
-public abstract class GraphicAttribute {
+public bbstrbct clbss GrbphicAttribute {
 
-    private int fAlignment;
-
-    /**
-     * Aligns top of graphic to top of line.
-     */
-    public static final int TOP_ALIGNMENT = -1;
+    privbte int fAlignment;
 
     /**
-     * Aligns bottom of graphic to bottom of line.
+     * Aligns top of grbphic to top of line.
      */
-    public static final int BOTTOM_ALIGNMENT = -2;
+    public stbtic finbl int TOP_ALIGNMENT = -1;
 
     /**
-     * Aligns origin of graphic to roman baseline of line.
+     * Aligns bottom of grbphic to bottom of line.
      */
-    public static final int ROMAN_BASELINE = Font.ROMAN_BASELINE;
+    public stbtic finbl int BOTTOM_ALIGNMENT = -2;
 
     /**
-     * Aligns origin of graphic to center baseline of line.
+     * Aligns origin of grbphic to rombn bbseline of line.
      */
-    public static final int CENTER_BASELINE = Font.CENTER_BASELINE;
+    public stbtic finbl int ROMAN_BASELINE = Font.ROMAN_BASELINE;
 
     /**
-     * Aligns origin of graphic to hanging baseline of line.
+     * Aligns origin of grbphic to center bbseline of line.
      */
-    public static final int HANGING_BASELINE = Font.HANGING_BASELINE;
+    public stbtic finbl int CENTER_BASELINE = Font.CENTER_BASELINE;
 
     /**
-     * Constructs a <code>GraphicAttribute</code>.
-     * Subclasses use this to define the alignment of the graphic.
-     * @param alignment an int representing one of the
-     * <code>GraphicAttribute</code> alignment fields
-     * @throws IllegalArgumentException if alignment is not one of the
-     * five defined values.
+     * Aligns origin of grbphic to hbnging bbseline of line.
      */
-    protected GraphicAttribute(int alignment) {
-        if (alignment < BOTTOM_ALIGNMENT || alignment > HANGING_BASELINE) {
-          throw new IllegalArgumentException("bad alignment");
+    public stbtic finbl int HANGING_BASELINE = Font.HANGING_BASELINE;
+
+    /**
+     * Constructs b <code>GrbphicAttribute</code>.
+     * Subclbsses use this to define the blignment of the grbphic.
+     * @pbrbm blignment bn int representing one of the
+     * <code>GrbphicAttribute</code> blignment fields
+     * @throws IllegblArgumentException if blignment is not one of the
+     * five defined vblues.
+     */
+    protected GrbphicAttribute(int blignment) {
+        if (blignment < BOTTOM_ALIGNMENT || blignment > HANGING_BASELINE) {
+          throw new IllegblArgumentException("bbd blignment");
         }
-        fAlignment = alignment;
+        fAlignment = blignment;
     }
 
     /**
-     * Returns the ascent of this <code>GraphicAttribute</code>.  A
-     * graphic can be rendered above its ascent.
-     * @return the ascent of this <code>GraphicAttribute</code>.
+     * Returns the bscent of this <code>GrbphicAttribute</code>.  A
+     * grbphic cbn be rendered bbove its bscent.
+     * @return the bscent of this <code>GrbphicAttribute</code>.
      * @see #getBounds()
      */
-    public abstract float getAscent();
+    public bbstrbct flobt getAscent();
 
 
     /**
-     * Returns the descent of this <code>GraphicAttribute</code>.  A
-     * graphic can be rendered below its descent.
-     * @return the descent of this <code>GraphicAttribute</code>.
+     * Returns the descent of this <code>GrbphicAttribute</code>.  A
+     * grbphic cbn be rendered below its descent.
+     * @return the descent of this <code>GrbphicAttribute</code>.
      * @see #getBounds()
      */
-    public abstract float getDescent();
+    public bbstrbct flobt getDescent();
 
     /**
-     * Returns the advance of this <code>GraphicAttribute</code>.  The
-     * <code>GraphicAttribute</code> object's advance is the distance
-     * from the point at which the graphic is rendered and the point where
-     * the next character or graphic is rendered.  A graphic can be
-     * rendered beyond its advance
-     * @return the advance of this <code>GraphicAttribute</code>.
+     * Returns the bdvbnce of this <code>GrbphicAttribute</code>.  The
+     * <code>GrbphicAttribute</code> object's bdvbnce is the distbnce
+     * from the point bt which the grbphic is rendered bnd the point where
+     * the next chbrbcter or grbphic is rendered.  A grbphic cbn be
+     * rendered beyond its bdvbnce
+     * @return the bdvbnce of this <code>GrbphicAttribute</code>.
      * @see #getBounds()
      */
-    public abstract float getAdvance();
+    public bbstrbct flobt getAdvbnce();
 
     /**
-     * Returns a {@link Rectangle2D} that encloses all of the
-     * bits drawn by this <code>GraphicAttribute</code> relative to the
+     * Returns b {@link Rectbngle2D} thbt encloses bll of the
+     * bits drbwn by this <code>GrbphicAttribute</code> relbtive to the
      * rendering position.
-     * A graphic may be rendered beyond its origin, ascent, descent,
-     * or advance;  but if it is, this method's implementation must
-     * indicate where the graphic is rendered.
-     * Default bounds is the rectangle (0, -ascent, advance, ascent+descent).
-     * @return a <code>Rectangle2D</code> that encloses all of the bits
-     * rendered by this <code>GraphicAttribute</code>.
+     * A grbphic mby be rendered beyond its origin, bscent, descent,
+     * or bdvbnce;  but if it is, this method's implementbtion must
+     * indicbte where the grbphic is rendered.
+     * Defbult bounds is the rectbngle (0, -bscent, bdvbnce, bscent+descent).
+     * @return b <code>Rectbngle2D</code> thbt encloses bll of the bits
+     * rendered by this <code>GrbphicAttribute</code>.
      */
-    public Rectangle2D getBounds() {
-        float ascent = getAscent();
-        return new Rectangle2D.Float(0, -ascent,
-                                        getAdvance(), ascent+getDescent());
+    public Rectbngle2D getBounds() {
+        flobt bscent = getAscent();
+        return new Rectbngle2D.Flobt(0, -bscent,
+                                        getAdvbnce(), bscent+getDescent());
     }
 
     /**
-     * Return a {@link java.awt.Shape} that represents the region that
-     * this <code>GraphicAttribute</code> renders.  This is used when a
-     * {@link TextLayout} is requested to return the outline of the text.
-     * The (untransformed) shape must not extend outside the rectangular
+     * Return b {@link jbvb.bwt.Shbpe} thbt represents the region thbt
+     * this <code>GrbphicAttribute</code> renders.  This is used when b
+     * {@link TextLbyout} is requested to return the outline of the text.
+     * The (untrbnsformed) shbpe must not extend outside the rectbngulbr
      * bounds returned by <code>getBounds</code>.
-     * The default implementation returns the rectangle returned by
-     * {@link #getBounds}, transformed by the provided {@link AffineTransform}
+     * The defbult implementbtion returns the rectbngle returned by
+     * {@link #getBounds}, trbnsformed by the provided {@link AffineTrbnsform}
      * if present.
-     * @param tx an optional {@link AffineTransform} to apply to the
-     *   outline of this <code>GraphicAttribute</code>. This can be null.
-     * @return a <code>Shape</code> representing this graphic attribute,
-     *   suitable for stroking or filling.
+     * @pbrbm tx bn optionbl {@link AffineTrbnsform} to bpply to the
+     *   outline of this <code>GrbphicAttribute</code>. This cbn be null.
+     * @return b <code>Shbpe</code> representing this grbphic bttribute,
+     *   suitbble for stroking or filling.
      * @since 1.6
      */
-    public Shape getOutline(AffineTransform tx) {
-        Shape b = getBounds();
+    public Shbpe getOutline(AffineTrbnsform tx) {
+        Shbpe b = getBounds();
         if (tx != null) {
-            b = tx.createTransformedShape(b);
+            b = tx.crebteTrbnsformedShbpe(b);
         }
         return b;
     }
 
     /**
-     * Renders this <code>GraphicAttribute</code> at the specified
-     * location.
-     * @param graphics the {@link Graphics2D} into which to render the
-     * graphic
-     * @param x the user-space X coordinate where the graphic is rendered
-     * @param y the user-space Y coordinate where the graphic is rendered
+     * Renders this <code>GrbphicAttribute</code> bt the specified
+     * locbtion.
+     * @pbrbm grbphics the {@link Grbphics2D} into which to render the
+     * grbphic
+     * @pbrbm x the user-spbce X coordinbte where the grbphic is rendered
+     * @pbrbm y the user-spbce Y coordinbte where the grbphic is rendered
      */
-    public abstract void draw(Graphics2D graphics, float x, float y);
+    public bbstrbct void drbw(Grbphics2D grbphics, flobt x, flobt y);
 
     /**
-     * Returns the alignment of this <code>GraphicAttribute</code>.
-     * Alignment can be to a particular baseline, or to the absolute top
-     * or bottom of a line.
-     * @return the alignment of this <code>GraphicAttribute</code>.
+     * Returns the blignment of this <code>GrbphicAttribute</code>.
+     * Alignment cbn be to b pbrticulbr bbseline, or to the bbsolute top
+     * or bottom of b line.
+     * @return the blignment of this <code>GrbphicAttribute</code>.
      */
-    public final int getAlignment() {
+    public finbl int getAlignment() {
 
         return fAlignment;
     }
 
     /**
-     * Returns the justification information for this
-     * <code>GraphicAttribute</code>.  Subclasses
-     * can override this method to provide different justification
-     * information.
-     * @return a {@link GlyphJustificationInfo} object that contains the
-     * justification information for this <code>GraphicAttribute</code>.
+     * Returns the justificbtion informbtion for this
+     * <code>GrbphicAttribute</code>.  Subclbsses
+     * cbn override this method to provide different justificbtion
+     * informbtion.
+     * @return b {@link GlyphJustificbtionInfo} object thbt contbins the
+     * justificbtion informbtion for this <code>GrbphicAttribute</code>.
      */
-    public GlyphJustificationInfo getJustificationInfo() {
+    public GlyphJustificbtionInfo getJustificbtionInfo() {
 
-        // should we cache this?
-        float advance = getAdvance();
+        // should we cbche this?
+        flobt bdvbnce = getAdvbnce();
 
-        return new GlyphJustificationInfo(
-                                     advance,   // weight
-                                     false,     // growAbsorb
+        return new GlyphJustificbtionInfo(
+                                     bdvbnce,   // weight
+                                     fblse,     // growAbsorb
                                      2,         // growPriority
-                                     advance/3, // growLeftLimit
-                                     advance/3, // growRightLimit
-                                     false,     // shrinkAbsorb
+                                     bdvbnce/3, // growLeftLimit
+                                     bdvbnce/3, // growRightLimit
+                                     fblse,     // shrinkAbsorb
                                      1,         // shrinkPriority
                                      0,         // shrinkLeftLimit
                                      0);        // shrinkRightLimit

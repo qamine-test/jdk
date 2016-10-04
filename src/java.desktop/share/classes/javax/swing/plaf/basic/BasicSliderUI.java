@@ -1,101 +1,101 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.plaf.basic;
+pbckbge jbvbx.swing.plbf.bbsic;
 
-import java.awt.event.*;
-import java.awt.*;
-import java.beans.*;
-import java.util.Dictionary;
-import java.util.Enumeration;
+import jbvb.bwt.event.*;
+import jbvb.bwt.*;
+import jbvb.bebns.*;
+import jbvb.util.Dictionbry;
+import jbvb.util.Enumerbtion;
 
-import javax.swing.*;
-import javax.swing.event.*;
-import javax.swing.plaf.*;
-import sun.swing.DefaultLookup;
+import jbvbx.swing.*;
+import jbvbx.swing.event.*;
+import jbvbx.swing.plbf.*;
+import sun.swing.DefbultLookup;
 import sun.swing.UIAction;
 
 
 /**
- * A Basic L&amp;F implementation of SliderUI.
+ * A Bbsic L&bmp;F implementbtion of SliderUI.
  *
- * @author Tom Santos
+ * @buthor Tom Sbntos
  */
-public class BasicSliderUI extends SliderUI{
-    // Old actions forward to an instance of this.
-    private static final Actions SHARED_ACTION = new Actions();
+public clbss BbsicSliderUI extends SliderUI{
+    // Old bctions forwbrd to bn instbnce of this.
+    privbte stbtic finbl Actions SHARED_ACTION = new Actions();
 
-    public static final int POSITIVE_SCROLL = +1;
-    public static final int NEGATIVE_SCROLL = -1;
-    public static final int MIN_SCROLL = -2;
-    public static final int MAX_SCROLL = +2;
+    public stbtic finbl int POSITIVE_SCROLL = +1;
+    public stbtic finbl int NEGATIVE_SCROLL = -1;
+    public stbtic finbl int MIN_SCROLL = -2;
+    public stbtic finbl int MAX_SCROLL = +2;
 
     protected Timer scrollTimer;
     protected JSlider slider;
 
     protected Insets focusInsets = null;
-    protected Insets insetCache = null;
-    protected boolean leftToRightCache = true;
-    protected Rectangle focusRect = null;
-    protected Rectangle contentRect = null;
-    protected Rectangle labelRect = null;
-    protected Rectangle tickRect = null;
-    protected Rectangle trackRect = null;
-    protected Rectangle thumbRect = null;
+    protected Insets insetCbche = null;
+    protected boolebn leftToRightCbche = true;
+    protected Rectbngle focusRect = null;
+    protected Rectbngle contentRect = null;
+    protected Rectbngle lbbelRect = null;
+    protected Rectbngle tickRect = null;
+    protected Rectbngle trbckRect = null;
+    protected Rectbngle thumbRect = null;
 
-    protected int trackBuffer = 0;  // The distance that the track is from the side of the control
+    protected int trbckBuffer = 0;  // The distbnce thbt the trbck is from the side of the control
 
-    private transient boolean isDragging;
+    privbte trbnsient boolebn isDrbgging;
 
-    protected TrackListener trackListener;
-    protected ChangeListener changeListener;
+    protected TrbckListener trbckListener;
+    protected ChbngeListener chbngeListener;
     protected ComponentListener componentListener;
     protected FocusListener focusListener;
     protected ScrollListener scrollListener;
-    protected PropertyChangeListener propertyChangeListener;
-    private Handler handler;
-    private int lastValue;
+    protected PropertyChbngeListener propertyChbngeListener;
+    privbte Hbndler hbndler;
+    privbte int lbstVblue;
 
     // Colors
-    private Color shadowColor;
-    private Color highlightColor;
-    private Color focusColor;
+    privbte Color shbdowColor;
+    privbte Color highlightColor;
+    privbte Color focusColor;
 
     /**
-     * Whther or not sameLabelBaselines is up to date.
+     * Whther or not sbmeLbbelBbselines is up to dbte.
      */
-    private boolean checkedLabelBaselines;
+    privbte boolebn checkedLbbelBbselines;
     /**
-     * Whether or not all the entries in the labeltable have the same
-     * baseline.
+     * Whether or not bll the entries in the lbbeltbble hbve the sbme
+     * bbseline.
      */
-    private boolean sameLabelBaselines;
+    privbte boolebn sbmeLbbelBbselines;
 
 
-    protected Color getShadowColor() {
-        return shadowColor;
+    protected Color getShbdowColor() {
+        return shbdowColor;
     }
 
     protected Color getHighlightColor() {
@@ -107,259 +107,259 @@ public class BasicSliderUI extends SliderUI{
     }
 
     /**
-     * Returns true if the user is dragging the slider.
+     * Returns true if the user is drbgging the slider.
      *
-     * @return true if the user is dragging the slider
+     * @return true if the user is drbgging the slider
      * @since 1.5
      */
-    protected boolean isDragging() {
-        return isDragging;
+    protected boolebn isDrbgging() {
+        return isDrbgging;
     }
 
     /////////////////////////////////////////////////////////////////////////////
-    // ComponentUI Interface Implementation methods
+    // ComponentUI Interfbce Implementbtion methods
     /////////////////////////////////////////////////////////////////////////////
-    public static ComponentUI createUI(JComponent b)    {
-        return new BasicSliderUI((JSlider)b);
+    public stbtic ComponentUI crebteUI(JComponent b)    {
+        return new BbsicSliderUI((JSlider)b);
     }
 
-    public BasicSliderUI(JSlider b)   {
+    public BbsicSliderUI(JSlider b)   {
     }
 
-    public void installUI(JComponent c)   {
+    public void instbllUI(JComponent c)   {
         slider = (JSlider) c;
 
-        checkedLabelBaselines = false;
+        checkedLbbelBbselines = fblse;
 
-        slider.setEnabled(slider.isEnabled());
-        LookAndFeel.installProperty(slider, "opaque", Boolean.TRUE);
+        slider.setEnbbled(slider.isEnbbled());
+        LookAndFeel.instbllProperty(slider, "opbque", Boolebn.TRUE);
 
-        isDragging = false;
-        trackListener = createTrackListener( slider );
-        changeListener = createChangeListener( slider );
-        componentListener = createComponentListener( slider );
-        focusListener = createFocusListener( slider );
-        scrollListener = createScrollListener( slider );
-        propertyChangeListener = createPropertyChangeListener( slider );
+        isDrbgging = fblse;
+        trbckListener = crebteTrbckListener( slider );
+        chbngeListener = crebteChbngeListener( slider );
+        componentListener = crebteComponentListener( slider );
+        focusListener = crebteFocusListener( slider );
+        scrollListener = crebteScrollListener( slider );
+        propertyChbngeListener = crebtePropertyChbngeListener( slider );
 
-        installDefaults( slider );
-        installListeners( slider );
-        installKeyboardActions( slider );
+        instbllDefbults( slider );
+        instbllListeners( slider );
+        instbllKeybobrdActions( slider );
 
         scrollTimer = new Timer( 100, scrollListener );
-        scrollTimer.setInitialDelay( 300 );
+        scrollTimer.setInitiblDelby( 300 );
 
-        insetCache = slider.getInsets();
-        leftToRightCache = BasicGraphicsUtils.isLeftToRight(slider);
-        focusRect = new Rectangle();
-        contentRect = new Rectangle();
-        labelRect = new Rectangle();
-        tickRect = new Rectangle();
-        trackRect = new Rectangle();
-        thumbRect = new Rectangle();
-        lastValue = slider.getValue();
+        insetCbche = slider.getInsets();
+        leftToRightCbche = BbsicGrbphicsUtils.isLeftToRight(slider);
+        focusRect = new Rectbngle();
+        contentRect = new Rectbngle();
+        lbbelRect = new Rectbngle();
+        tickRect = new Rectbngle();
+        trbckRect = new Rectbngle();
+        thumbRect = new Rectbngle();
+        lbstVblue = slider.getVblue();
 
-        calculateGeometry(); // This figures out where the labels, ticks, track, and thumb are.
+        cblculbteGeometry(); // This figures out where the lbbels, ticks, trbck, bnd thumb bre.
     }
 
-    public void uninstallUI(JComponent c) {
+    public void uninstbllUI(JComponent c) {
         if ( c != slider )
-            throw new IllegalComponentStateException(
-                                                    this + " was asked to deinstall() "
-                                                    + c + " when it only knows about "
+            throw new IllegblComponentStbteException(
+                                                    this + " wbs bsked to deinstbll() "
+                                                    + c + " when it only knows bbout "
                                                     + slider + ".");
 
         scrollTimer.stop();
         scrollTimer = null;
 
-        uninstallDefaults(slider);
-        uninstallListeners( slider );
-        uninstallKeyboardActions(slider);
+        uninstbllDefbults(slider);
+        uninstbllListeners( slider );
+        uninstbllKeybobrdActions(slider);
 
-        insetCache = null;
-        leftToRightCache = true;
+        insetCbche = null;
+        leftToRightCbche = true;
         focusRect = null;
         contentRect = null;
-        labelRect = null;
+        lbbelRect = null;
         tickRect = null;
-        trackRect = null;
+        trbckRect = null;
         thumbRect = null;
-        trackListener = null;
-        changeListener = null;
+        trbckListener = null;
+        chbngeListener = null;
         componentListener = null;
         focusListener = null;
         scrollListener = null;
-        propertyChangeListener = null;
+        propertyChbngeListener = null;
         slider = null;
     }
 
-    protected void installDefaults( JSlider slider ) {
-        LookAndFeel.installBorder(slider, "Slider.border");
-        LookAndFeel.installColorsAndFont(slider, "Slider.background",
+    protected void instbllDefbults( JSlider slider ) {
+        LookAndFeel.instbllBorder(slider, "Slider.border");
+        LookAndFeel.instbllColorsAndFont(slider, "Slider.bbckground",
                                          "Slider.foreground", "Slider.font");
-        highlightColor = UIManager.getColor("Slider.highlight");
+        highlightColor = UIMbnbger.getColor("Slider.highlight");
 
-        shadowColor = UIManager.getColor("Slider.shadow");
-        focusColor = UIManager.getColor("Slider.focus");
+        shbdowColor = UIMbnbger.getColor("Slider.shbdow");
+        focusColor = UIMbnbger.getColor("Slider.focus");
 
-        focusInsets = (Insets)UIManager.get( "Slider.focusInsets" );
-        // use default if missing so that BasicSliderUI can be used in other
+        focusInsets = (Insets)UIMbnbger.get( "Slider.focusInsets" );
+        // use defbult if missing so thbt BbsicSliderUI cbn be used in other
         // LAFs like Nimbus
         if (focusInsets == null) focusInsets = new InsetsUIResource(2,2,2,2);
     }
 
-    protected void uninstallDefaults(JSlider slider) {
-        LookAndFeel.uninstallBorder(slider);
+    protected void uninstbllDefbults(JSlider slider) {
+        LookAndFeel.uninstbllBorder(slider);
 
         focusInsets = null;
     }
 
-    protected TrackListener createTrackListener(JSlider slider) {
-        return new TrackListener();
+    protected TrbckListener crebteTrbckListener(JSlider slider) {
+        return new TrbckListener();
     }
 
-    protected ChangeListener createChangeListener(JSlider slider) {
-        return getHandler();
+    protected ChbngeListener crebteChbngeListener(JSlider slider) {
+        return getHbndler();
     }
 
-    protected ComponentListener createComponentListener(JSlider slider) {
-        return getHandler();
+    protected ComponentListener crebteComponentListener(JSlider slider) {
+        return getHbndler();
     }
 
-    protected FocusListener createFocusListener(JSlider slider) {
-        return getHandler();
+    protected FocusListener crebteFocusListener(JSlider slider) {
+        return getHbndler();
     }
 
-    protected ScrollListener createScrollListener( JSlider slider ) {
+    protected ScrollListener crebteScrollListener( JSlider slider ) {
         return new ScrollListener();
     }
 
-    protected PropertyChangeListener createPropertyChangeListener(
+    protected PropertyChbngeListener crebtePropertyChbngeListener(
             JSlider slider) {
-        return getHandler();
+        return getHbndler();
     }
 
-    private Handler getHandler() {
-        if (handler == null) {
-            handler = new Handler();
+    privbte Hbndler getHbndler() {
+        if (hbndler == null) {
+            hbndler = new Hbndler();
         }
-        return handler;
+        return hbndler;
     }
 
-    protected void installListeners( JSlider slider ) {
-        slider.addMouseListener(trackListener);
-        slider.addMouseMotionListener(trackListener);
-        slider.addFocusListener(focusListener);
-        slider.addComponentListener(componentListener);
-        slider.addPropertyChangeListener( propertyChangeListener );
-        slider.getModel().addChangeListener(changeListener);
+    protected void instbllListeners( JSlider slider ) {
+        slider.bddMouseListener(trbckListener);
+        slider.bddMouseMotionListener(trbckListener);
+        slider.bddFocusListener(focusListener);
+        slider.bddComponentListener(componentListener);
+        slider.bddPropertyChbngeListener( propertyChbngeListener );
+        slider.getModel().bddChbngeListener(chbngeListener);
     }
 
-    protected void uninstallListeners( JSlider slider ) {
-        slider.removeMouseListener(trackListener);
-        slider.removeMouseMotionListener(trackListener);
+    protected void uninstbllListeners( JSlider slider ) {
+        slider.removeMouseListener(trbckListener);
+        slider.removeMouseMotionListener(trbckListener);
         slider.removeFocusListener(focusListener);
         slider.removeComponentListener(componentListener);
-        slider.removePropertyChangeListener( propertyChangeListener );
-        slider.getModel().removeChangeListener(changeListener);
-        handler = null;
+        slider.removePropertyChbngeListener( propertyChbngeListener );
+        slider.getModel().removeChbngeListener(chbngeListener);
+        hbndler = null;
     }
 
-    protected void installKeyboardActions( JSlider slider ) {
-        InputMap km = getInputMap(JComponent.WHEN_FOCUSED, slider);
-        SwingUtilities.replaceUIInputMap(slider, JComponent.WHEN_FOCUSED, km);
-        LazyActionMap.installLazyActionMap(slider, BasicSliderUI.class,
-                "Slider.actionMap");
+    protected void instbllKeybobrdActions( JSlider slider ) {
+        InputMbp km = getInputMbp(JComponent.WHEN_FOCUSED, slider);
+        SwingUtilities.replbceUIInputMbp(slider, JComponent.WHEN_FOCUSED, km);
+        LbzyActionMbp.instbllLbzyActionMbp(slider, BbsicSliderUI.clbss,
+                "Slider.bctionMbp");
     }
 
-    InputMap getInputMap(int condition, JSlider slider) {
+    InputMbp getInputMbp(int condition, JSlider slider) {
         if (condition == JComponent.WHEN_FOCUSED) {
-            InputMap keyMap = (InputMap)DefaultLookup.get(slider, this,
-                  "Slider.focusInputMap");
-            InputMap rtlKeyMap;
+            InputMbp keyMbp = (InputMbp)DefbultLookup.get(slider, this,
+                  "Slider.focusInputMbp");
+            InputMbp rtlKeyMbp;
 
-            if (slider.getComponentOrientation().isLeftToRight() ||
-                ((rtlKeyMap = (InputMap)DefaultLookup.get(slider, this,
-                          "Slider.focusInputMap.RightToLeft")) == null)) {
-                return keyMap;
+            if (slider.getComponentOrientbtion().isLeftToRight() ||
+                ((rtlKeyMbp = (InputMbp)DefbultLookup.get(slider, this,
+                          "Slider.focusInputMbp.RightToLeft")) == null)) {
+                return keyMbp;
             } else {
-                rtlKeyMap.setParent(keyMap);
-                return rtlKeyMap;
+                rtlKeyMbp.setPbrent(keyMbp);
+                return rtlKeyMbp;
             }
         }
         return null;
     }
 
     /**
-     * Populates ComboBox's actions.
+     * Populbtes ComboBox's bctions.
      */
-    static void loadActionMap(LazyActionMap map) {
-        map.put(new Actions(Actions.POSITIVE_UNIT_INCREMENT));
-        map.put(new Actions(Actions.POSITIVE_BLOCK_INCREMENT));
-        map.put(new Actions(Actions.NEGATIVE_UNIT_INCREMENT));
-        map.put(new Actions(Actions.NEGATIVE_BLOCK_INCREMENT));
-        map.put(new Actions(Actions.MIN_SCROLL_INCREMENT));
-        map.put(new Actions(Actions.MAX_SCROLL_INCREMENT));
+    stbtic void lobdActionMbp(LbzyActionMbp mbp) {
+        mbp.put(new Actions(Actions.POSITIVE_UNIT_INCREMENT));
+        mbp.put(new Actions(Actions.POSITIVE_BLOCK_INCREMENT));
+        mbp.put(new Actions(Actions.NEGATIVE_UNIT_INCREMENT));
+        mbp.put(new Actions(Actions.NEGATIVE_BLOCK_INCREMENT));
+        mbp.put(new Actions(Actions.MIN_SCROLL_INCREMENT));
+        mbp.put(new Actions(Actions.MAX_SCROLL_INCREMENT));
     }
 
-    protected void uninstallKeyboardActions( JSlider slider ) {
-        SwingUtilities.replaceUIActionMap(slider, null);
-        SwingUtilities.replaceUIInputMap(slider, JComponent.WHEN_FOCUSED,
+    protected void uninstbllKeybobrdActions( JSlider slider ) {
+        SwingUtilities.replbceUIActionMbp(slider, null);
+        SwingUtilities.replbceUIInputMbp(slider, JComponent.WHEN_FOCUSED,
                                          null);
     }
 
 
     /**
-     * Returns the baseline.
+     * Returns the bbseline.
      *
      * @throws NullPointerException {@inheritDoc}
-     * @throws IllegalArgumentException {@inheritDoc}
-     * @see javax.swing.JComponent#getBaseline(int, int)
+     * @throws IllegblArgumentException {@inheritDoc}
+     * @see jbvbx.swing.JComponent#getBbseline(int, int)
      * @since 1.6
      */
-    public int getBaseline(JComponent c, int width, int height) {
-        super.getBaseline(c, width, height);
-        if (slider.getPaintLabels() && labelsHaveSameBaselines()) {
+    public int getBbseline(JComponent c, int width, int height) {
+        super.getBbseline(c, width, height);
+        if (slider.getPbintLbbels() && lbbelsHbveSbmeBbselines()) {
             FontMetrics metrics = slider.getFontMetrics(slider.getFont());
             Insets insets = slider.getInsets();
             Dimension thumbSize = getThumbSize();
-            if (slider.getOrientation() == JSlider.HORIZONTAL) {
+            if (slider.getOrientbtion() == JSlider.HORIZONTAL) {
                 int tickLength = getTickLength();
                 int contentHeight = height - insets.top - insets.bottom -
                     focusInsets.top - focusInsets.bottom;
                 int thumbHeight = thumbSize.height;
-                int centerSpacing = thumbHeight;
-                if (slider.getPaintTicks()) {
-                    centerSpacing += tickLength;
+                int centerSpbcing = thumbHeight;
+                if (slider.getPbintTicks()) {
+                    centerSpbcing += tickLength;
                 }
-                // Assume uniform labels.
-                centerSpacing += getHeightOfTallestLabel();
-                int trackY = insets.top + focusInsets.top +
-                    (contentHeight - centerSpacing - 1) / 2;
-                int trackHeight = thumbHeight;
-                int tickY = trackY + trackHeight;
+                // Assume uniform lbbels.
+                centerSpbcing += getHeightOfTbllestLbbel();
+                int trbckY = insets.top + focusInsets.top +
+                    (contentHeight - centerSpbcing - 1) / 2;
+                int trbckHeight = thumbHeight;
+                int tickY = trbckY + trbckHeight;
                 int tickHeight = tickLength;
-                if (!slider.getPaintTicks()) {
+                if (!slider.getPbintTicks()) {
                     tickHeight = 0;
                 }
-                int labelY = tickY + tickHeight;
-                return labelY + metrics.getAscent();
+                int lbbelY = tickY + tickHeight;
+                return lbbelY + metrics.getAscent();
             }
-            else { // vertical
-                boolean inverted = slider.getInverted();
-                Integer value = inverted ? getLowestValue() :
-                                           getHighestValue();
-                if (value != null) {
+            else { // verticbl
+                boolebn inverted = slider.getInverted();
+                Integer vblue = inverted ? getLowestVblue() :
+                                           getHighestVblue();
+                if (vblue != null) {
                     int thumbHeight = thumbSize.height;
-                    int trackBuffer = Math.max(metrics.getHeight() / 2,
+                    int trbckBuffer = Mbth.mbx(metrics.getHeight() / 2,
                                                thumbHeight / 2);
                     int contentY = focusInsets.top + insets.top;
-                    int trackY = contentY + trackBuffer;
-                    int trackHeight = height - focusInsets.top -
+                    int trbckY = contentY + trbckBuffer;
+                    int trbckHeight = height - focusInsets.top -
                         focusInsets.bottom - insets.top - insets.bottom -
-                        trackBuffer - trackBuffer;
-                    int yPosition = yPositionForValue(value, trackY,
-                                                      trackHeight);
+                        trbckBuffer - trbckBuffer;
+                    int yPosition = yPositionForVblue(vblue, trbckY,
+                                                      trbckHeight);
                     return yPosition - metrics.getHeight() / 2 +
                         metrics.getAscent();
                 }
@@ -369,96 +369,96 @@ public class BasicSliderUI extends SliderUI{
     }
 
     /**
-     * Returns an enum indicating how the baseline of the component
-     * changes as the size changes.
+     * Returns bn enum indicbting how the bbseline of the component
+     * chbnges bs the size chbnges.
      *
      * @throws NullPointerException {@inheritDoc}
-     * @see javax.swing.JComponent#getBaseline(int, int)
+     * @see jbvbx.swing.JComponent#getBbseline(int, int)
      * @since 1.6
      */
-    public Component.BaselineResizeBehavior getBaselineResizeBehavior(
+    public Component.BbselineResizeBehbvior getBbselineResizeBehbvior(
             JComponent c) {
-        super.getBaselineResizeBehavior(c);
-        // NOTE: BasicSpinner really provides for CENTER_OFFSET, but
-        // the default min/pref size is smaller than it should be
-        // so that getBaseline() doesn't implement the contract
-        // for CENTER_OFFSET as defined in Component.
-        return Component.BaselineResizeBehavior.OTHER;
+        super.getBbselineResizeBehbvior(c);
+        // NOTE: BbsicSpinner reblly provides for CENTER_OFFSET, but
+        // the defbult min/pref size is smbller thbn it should be
+        // so thbt getBbseline() doesn't implement the contrbct
+        // for CENTER_OFFSET bs defined in Component.
+        return Component.BbselineResizeBehbvior.OTHER;
     }
 
     /**
-     * Returns true if all the labels from the label table have the same
-     * baseline.
+     * Returns true if bll the lbbels from the lbbel tbble hbve the sbme
+     * bbseline.
      *
-     * @return true if all the labels from the label table have the
-     *         same baseline
+     * @return true if bll the lbbels from the lbbel tbble hbve the
+     *         sbme bbseline
      * @since 1.6
      */
-    protected boolean labelsHaveSameBaselines() {
-        if (!checkedLabelBaselines) {
-            checkedLabelBaselines = true;
-            Dictionary<?, JComponent> dictionary = slider.getLabelTable();
-            if (dictionary != null) {
-                sameLabelBaselines = true;
-                Enumeration<JComponent> elements = dictionary.elements();
-                int baseline = -1;
-                while (elements.hasMoreElements()) {
-                    JComponent label = elements.nextElement();
-                    Dimension pref = label.getPreferredSize();
-                    int labelBaseline = label.getBaseline(pref.width,
+    protected boolebn lbbelsHbveSbmeBbselines() {
+        if (!checkedLbbelBbselines) {
+            checkedLbbelBbselines = true;
+            Dictionbry<?, JComponent> dictionbry = slider.getLbbelTbble();
+            if (dictionbry != null) {
+                sbmeLbbelBbselines = true;
+                Enumerbtion<JComponent> elements = dictionbry.elements();
+                int bbseline = -1;
+                while (elements.hbsMoreElements()) {
+                    JComponent lbbel = elements.nextElement();
+                    Dimension pref = lbbel.getPreferredSize();
+                    int lbbelBbseline = lbbel.getBbseline(pref.width,
                                                           pref.height);
-                    if (labelBaseline >= 0) {
-                        if (baseline == -1) {
-                            baseline = labelBaseline;
+                    if (lbbelBbseline >= 0) {
+                        if (bbseline == -1) {
+                            bbseline = lbbelBbseline;
                         }
-                        else if (baseline != labelBaseline) {
-                            sameLabelBaselines = false;
-                            break;
+                        else if (bbseline != lbbelBbseline) {
+                            sbmeLbbelBbselines = fblse;
+                            brebk;
                         }
                     }
                     else {
-                        sameLabelBaselines = false;
-                        break;
+                        sbmeLbbelBbselines = fblse;
+                        brebk;
                     }
                 }
             }
             else {
-                sameLabelBaselines = false;
+                sbmeLbbelBbselines = fblse;
             }
         }
-        return sameLabelBaselines;
+        return sbmeLbbelBbselines;
     }
 
-    public Dimension getPreferredHorizontalSize() {
-        Dimension horizDim = (Dimension)DefaultLookup.get(slider,
-                this, "Slider.horizontalSize");
+    public Dimension getPreferredHorizontblSize() {
+        Dimension horizDim = (Dimension)DefbultLookup.get(slider,
+                this, "Slider.horizontblSize");
         if (horizDim == null) {
             horizDim = new Dimension(200, 21);
         }
         return horizDim;
     }
 
-    public Dimension getPreferredVerticalSize() {
-        Dimension vertDim = (Dimension)DefaultLookup.get(slider,
-                this, "Slider.verticalSize");
+    public Dimension getPreferredVerticblSize() {
+        Dimension vertDim = (Dimension)DefbultLookup.get(slider,
+                this, "Slider.verticblSize");
         if (vertDim == null) {
             vertDim = new Dimension(21, 200);
         }
         return vertDim;
     }
 
-    public Dimension getMinimumHorizontalSize() {
-        Dimension minHorizDim = (Dimension)DefaultLookup.get(slider,
-                this, "Slider.minimumHorizontalSize");
+    public Dimension getMinimumHorizontblSize() {
+        Dimension minHorizDim = (Dimension)DefbultLookup.get(slider,
+                this, "Slider.minimumHorizontblSize");
         if (minHorizDim == null) {
             minHorizDim = new Dimension(36, 21);
         }
         return minHorizDim;
     }
 
-    public Dimension getMinimumVerticalSize() {
-        Dimension minVertDim = (Dimension)DefaultLookup.get(slider,
-                this, "Slider.minimumVerticalSize");
+    public Dimension getMinimumVerticblSize() {
+        Dimension minVertDim = (Dimension)DefbultLookup.get(slider,
+                this, "Slider.minimumVerticblSize");
         if (minVertDim == null) {
             minVertDim = new Dimension(21, 36);
         }
@@ -466,47 +466,47 @@ public class BasicSliderUI extends SliderUI{
     }
 
     public Dimension getPreferredSize(JComponent c)    {
-        recalculateIfInsetsChanged();
+        recblculbteIfInsetsChbnged();
         Dimension d;
-        if ( slider.getOrientation() == JSlider.VERTICAL ) {
-            d = new Dimension(getPreferredVerticalSize());
-            d.width = insetCache.left + insetCache.right;
+        if ( slider.getOrientbtion() == JSlider.VERTICAL ) {
+            d = new Dimension(getPreferredVerticblSize());
+            d.width = insetCbche.left + insetCbche.right;
             d.width += focusInsets.left + focusInsets.right;
-            d.width += trackRect.width + tickRect.width + labelRect.width;
+            d.width += trbckRect.width + tickRect.width + lbbelRect.width;
         }
         else {
-            d = new Dimension(getPreferredHorizontalSize());
-            d.height = insetCache.top + insetCache.bottom;
+            d = new Dimension(getPreferredHorizontblSize());
+            d.height = insetCbche.top + insetCbche.bottom;
             d.height += focusInsets.top + focusInsets.bottom;
-            d.height += trackRect.height + tickRect.height + labelRect.height;
+            d.height += trbckRect.height + tickRect.height + lbbelRect.height;
         }
 
         return d;
     }
 
     public Dimension getMinimumSize(JComponent c)  {
-        recalculateIfInsetsChanged();
+        recblculbteIfInsetsChbnged();
         Dimension d;
 
-        if ( slider.getOrientation() == JSlider.VERTICAL ) {
-            d = new Dimension(getMinimumVerticalSize());
-            d.width = insetCache.left + insetCache.right;
+        if ( slider.getOrientbtion() == JSlider.VERTICAL ) {
+            d = new Dimension(getMinimumVerticblSize());
+            d.width = insetCbche.left + insetCbche.right;
             d.width += focusInsets.left + focusInsets.right;
-            d.width += trackRect.width + tickRect.width + labelRect.width;
+            d.width += trbckRect.width + tickRect.width + lbbelRect.width;
         }
         else {
-            d = new Dimension(getMinimumHorizontalSize());
-            d.height = insetCache.top + insetCache.bottom;
+            d = new Dimension(getMinimumHorizontblSize());
+            d.height = insetCbche.top + insetCbche.bottom;
             d.height += focusInsets.top + focusInsets.bottom;
-            d.height += trackRect.height + tickRect.height + labelRect.height;
+            d.height += trbckRect.height + tickRect.height + lbbelRect.height;
         }
 
         return d;
     }
 
-    public Dimension getMaximumSize(JComponent c) {
+    public Dimension getMbximumSize(JComponent c) {
         Dimension d = getPreferredSize(c);
-        if ( slider.getOrientation() == JSlider.VERTICAL ) {
+        if ( slider.getOrientbtion() == JSlider.VERTICAL ) {
             d.height = Short.MAX_VALUE;
         }
         else {
@@ -516,46 +516,46 @@ public class BasicSliderUI extends SliderUI{
         return d;
     }
 
-    protected void calculateGeometry() {
-        calculateFocusRect();
-        calculateContentRect();
-        calculateThumbSize();
-        calculateTrackBuffer();
-        calculateTrackRect();
-        calculateTickRect();
-        calculateLabelRect();
-        calculateThumbLocation();
+    protected void cblculbteGeometry() {
+        cblculbteFocusRect();
+        cblculbteContentRect();
+        cblculbteThumbSize();
+        cblculbteTrbckBuffer();
+        cblculbteTrbckRect();
+        cblculbteTickRect();
+        cblculbteLbbelRect();
+        cblculbteThumbLocbtion();
     }
 
-    protected void calculateFocusRect() {
-        focusRect.x = insetCache.left;
-        focusRect.y = insetCache.top;
-        focusRect.width = slider.getWidth() - (insetCache.left + insetCache.right);
-        focusRect.height = slider.getHeight() - (insetCache.top + insetCache.bottom);
+    protected void cblculbteFocusRect() {
+        focusRect.x = insetCbche.left;
+        focusRect.y = insetCbche.top;
+        focusRect.width = slider.getWidth() - (insetCbche.left + insetCbche.right);
+        focusRect.height = slider.getHeight() - (insetCbche.top + insetCbche.bottom);
     }
 
-    protected void calculateThumbSize() {
+    protected void cblculbteThumbSize() {
         Dimension size = getThumbSize();
         thumbRect.setSize( size.width, size.height );
     }
 
-    protected void calculateContentRect() {
+    protected void cblculbteContentRect() {
         contentRect.x = focusRect.x + focusInsets.left;
         contentRect.y = focusRect.y + focusInsets.top;
         contentRect.width = focusRect.width - (focusInsets.left + focusInsets.right);
         contentRect.height = focusRect.height - (focusInsets.top + focusInsets.bottom);
     }
 
-    private int getTickSpacing() {
-        int majorTickSpacing = slider.getMajorTickSpacing();
-        int minorTickSpacing = slider.getMinorTickSpacing();
+    privbte int getTickSpbcing() {
+        int mbjorTickSpbcing = slider.getMbjorTickSpbcing();
+        int minorTickSpbcing = slider.getMinorTickSpbcing();
 
         int result;
 
-        if (minorTickSpacing > 0) {
-            result = minorTickSpacing;
-        } else if (majorTickSpacing > 0) {
-            result = majorTickSpacing;
+        if (minorTickSpbcing > 0) {
+            result = minorTickSpbcing;
+        } else if (mbjorTickSpbcing > 0) {
+            result = mbjorTickSpbcing;
         } else {
             result = 0;
         }
@@ -563,166 +563,166 @@ public class BasicSliderUI extends SliderUI{
         return result;
     }
 
-    protected void calculateThumbLocation() {
-        if ( slider.getSnapToTicks() ) {
-            int sliderValue = slider.getValue();
-            int snappedValue = sliderValue;
-            int tickSpacing = getTickSpacing();
+    protected void cblculbteThumbLocbtion() {
+        if ( slider.getSnbpToTicks() ) {
+            int sliderVblue = slider.getVblue();
+            int snbppedVblue = sliderVblue;
+            int tickSpbcing = getTickSpbcing();
 
-            if ( tickSpacing != 0 ) {
-                // If it's not on a tick, change the value
-                if ( (sliderValue - slider.getMinimum()) % tickSpacing != 0 ) {
-                    float temp = (float)(sliderValue - slider.getMinimum()) / (float)tickSpacing;
-                    int whichTick = Math.round( temp );
+            if ( tickSpbcing != 0 ) {
+                // If it's not on b tick, chbnge the vblue
+                if ( (sliderVblue - slider.getMinimum()) % tickSpbcing != 0 ) {
+                    flobt temp = (flobt)(sliderVblue - slider.getMinimum()) / (flobt)tickSpbcing;
+                    int whichTick = Mbth.round( temp );
 
                     // This is the fix for the bug #6401380
-                    if (temp - (int)temp == .5 && sliderValue < lastValue) {
+                    if (temp - (int)temp == .5 && sliderVblue < lbstVblue) {
                       whichTick --;
                     }
-                    snappedValue = slider.getMinimum() + (whichTick * tickSpacing);
+                    snbppedVblue = slider.getMinimum() + (whichTick * tickSpbcing);
                 }
 
-                if( snappedValue != sliderValue ) {
-                    slider.setValue( snappedValue );
+                if( snbppedVblue != sliderVblue ) {
+                    slider.setVblue( snbppedVblue );
                 }
             }
         }
 
-        if ( slider.getOrientation() == JSlider.HORIZONTAL ) {
-            int valuePosition = xPositionForValue(slider.getValue());
+        if ( slider.getOrientbtion() == JSlider.HORIZONTAL ) {
+            int vbluePosition = xPositionForVblue(slider.getVblue());
 
-            thumbRect.x = valuePosition - (thumbRect.width / 2);
-            thumbRect.y = trackRect.y;
+            thumbRect.x = vbluePosition - (thumbRect.width / 2);
+            thumbRect.y = trbckRect.y;
         }
         else {
-            int valuePosition = yPositionForValue(slider.getValue());
+            int vbluePosition = yPositionForVblue(slider.getVblue());
 
-            thumbRect.x = trackRect.x;
-            thumbRect.y = valuePosition - (thumbRect.height / 2);
+            thumbRect.x = trbckRect.x;
+            thumbRect.y = vbluePosition - (thumbRect.height / 2);
         }
     }
 
-    protected void calculateTrackBuffer() {
-        if ( slider.getPaintLabels() && slider.getLabelTable()  != null ) {
-            Component highLabel = getHighestValueLabel();
-            Component lowLabel = getLowestValueLabel();
+    protected void cblculbteTrbckBuffer() {
+        if ( slider.getPbintLbbels() && slider.getLbbelTbble()  != null ) {
+            Component highLbbel = getHighestVblueLbbel();
+            Component lowLbbel = getLowestVblueLbbel();
 
-            if ( slider.getOrientation() == JSlider.HORIZONTAL ) {
-                trackBuffer = Math.max( highLabel.getBounds().width, lowLabel.getBounds().width ) / 2;
-                trackBuffer = Math.max( trackBuffer, thumbRect.width / 2 );
+            if ( slider.getOrientbtion() == JSlider.HORIZONTAL ) {
+                trbckBuffer = Mbth.mbx( highLbbel.getBounds().width, lowLbbel.getBounds().width ) / 2;
+                trbckBuffer = Mbth.mbx( trbckBuffer, thumbRect.width / 2 );
             }
             else {
-                trackBuffer = Math.max( highLabel.getBounds().height, lowLabel.getBounds().height ) / 2;
-                trackBuffer = Math.max( trackBuffer, thumbRect.height / 2 );
+                trbckBuffer = Mbth.mbx( highLbbel.getBounds().height, lowLbbel.getBounds().height ) / 2;
+                trbckBuffer = Mbth.mbx( trbckBuffer, thumbRect.height / 2 );
             }
         }
         else {
-            if ( slider.getOrientation() == JSlider.HORIZONTAL ) {
-                trackBuffer = thumbRect.width / 2;
+            if ( slider.getOrientbtion() == JSlider.HORIZONTAL ) {
+                trbckBuffer = thumbRect.width / 2;
             }
             else {
-                trackBuffer = thumbRect.height / 2;
+                trbckBuffer = thumbRect.height / 2;
             }
         }
     }
 
 
-    protected void calculateTrackRect() {
-        int centerSpacing; // used to center sliders added using BorderLayout.CENTER (bug 4275631)
-        if ( slider.getOrientation() == JSlider.HORIZONTAL ) {
-            centerSpacing = thumbRect.height;
-            if ( slider.getPaintTicks() ) centerSpacing += getTickLength();
-            if ( slider.getPaintLabels() ) centerSpacing += getHeightOfTallestLabel();
-            trackRect.x = contentRect.x + trackBuffer;
-            trackRect.y = contentRect.y + (contentRect.height - centerSpacing - 1)/2;
-            trackRect.width = contentRect.width - (trackBuffer * 2);
-            trackRect.height = thumbRect.height;
+    protected void cblculbteTrbckRect() {
+        int centerSpbcing; // used to center sliders bdded using BorderLbyout.CENTER (bug 4275631)
+        if ( slider.getOrientbtion() == JSlider.HORIZONTAL ) {
+            centerSpbcing = thumbRect.height;
+            if ( slider.getPbintTicks() ) centerSpbcing += getTickLength();
+            if ( slider.getPbintLbbels() ) centerSpbcing += getHeightOfTbllestLbbel();
+            trbckRect.x = contentRect.x + trbckBuffer;
+            trbckRect.y = contentRect.y + (contentRect.height - centerSpbcing - 1)/2;
+            trbckRect.width = contentRect.width - (trbckBuffer * 2);
+            trbckRect.height = thumbRect.height;
         }
         else {
-            centerSpacing = thumbRect.width;
-            if (BasicGraphicsUtils.isLeftToRight(slider)) {
-                if ( slider.getPaintTicks() ) centerSpacing += getTickLength();
-                if ( slider.getPaintLabels() ) centerSpacing += getWidthOfWidestLabel();
+            centerSpbcing = thumbRect.width;
+            if (BbsicGrbphicsUtils.isLeftToRight(slider)) {
+                if ( slider.getPbintTicks() ) centerSpbcing += getTickLength();
+                if ( slider.getPbintLbbels() ) centerSpbcing += getWidthOfWidestLbbel();
             } else {
-                if ( slider.getPaintTicks() ) centerSpacing -= getTickLength();
-                if ( slider.getPaintLabels() ) centerSpacing -= getWidthOfWidestLabel();
+                if ( slider.getPbintTicks() ) centerSpbcing -= getTickLength();
+                if ( slider.getPbintLbbels() ) centerSpbcing -= getWidthOfWidestLbbel();
             }
-            trackRect.x = contentRect.x + (contentRect.width - centerSpacing - 1)/2;
-            trackRect.y = contentRect.y + trackBuffer;
-            trackRect.width = thumbRect.width;
-            trackRect.height = contentRect.height - (trackBuffer * 2);
+            trbckRect.x = contentRect.x + (contentRect.width - centerSpbcing - 1)/2;
+            trbckRect.y = contentRect.y + trbckBuffer;
+            trbckRect.width = thumbRect.width;
+            trbckRect.height = contentRect.height - (trbckBuffer * 2);
         }
 
     }
 
     /**
-     * Gets the height of the tick area for horizontal sliders and the width of the
-     * tick area for vertical sliders.  BasicSliderUI uses the returned value to
-     * determine the tick area rectangle.  If you want to give your ticks some room,
-     * make this larger than you need and paint your ticks away from the sides in paintTicks().
+     * Gets the height of the tick breb for horizontbl sliders bnd the width of the
+     * tick breb for verticbl sliders.  BbsicSliderUI uses the returned vblue to
+     * determine the tick breb rectbngle.  If you wbnt to give your ticks some room,
+     * mbke this lbrger thbn you need bnd pbint your ticks bwby from the sides in pbintTicks().
      */
     protected int getTickLength() {
         return 8;
     }
 
-    protected void calculateTickRect() {
-        if ( slider.getOrientation() == JSlider.HORIZONTAL ) {
-            tickRect.x = trackRect.x;
-            tickRect.y = trackRect.y + trackRect.height;
-            tickRect.width = trackRect.width;
-            tickRect.height = (slider.getPaintTicks()) ? getTickLength() : 0;
+    protected void cblculbteTickRect() {
+        if ( slider.getOrientbtion() == JSlider.HORIZONTAL ) {
+            tickRect.x = trbckRect.x;
+            tickRect.y = trbckRect.y + trbckRect.height;
+            tickRect.width = trbckRect.width;
+            tickRect.height = (slider.getPbintTicks()) ? getTickLength() : 0;
         }
         else {
-            tickRect.width = (slider.getPaintTicks()) ? getTickLength() : 0;
-            if(BasicGraphicsUtils.isLeftToRight(slider)) {
-                tickRect.x = trackRect.x + trackRect.width;
+            tickRect.width = (slider.getPbintTicks()) ? getTickLength() : 0;
+            if(BbsicGrbphicsUtils.isLeftToRight(slider)) {
+                tickRect.x = trbckRect.x + trbckRect.width;
             }
             else {
-                tickRect.x = trackRect.x - tickRect.width;
+                tickRect.x = trbckRect.x - tickRect.width;
             }
-            tickRect.y = trackRect.y;
-            tickRect.height = trackRect.height;
+            tickRect.y = trbckRect.y;
+            tickRect.height = trbckRect.height;
         }
     }
 
-    protected void calculateLabelRect() {
-        if ( slider.getPaintLabels() ) {
-            if ( slider.getOrientation() == JSlider.HORIZONTAL ) {
-                labelRect.x = tickRect.x - trackBuffer;
-                labelRect.y = tickRect.y + tickRect.height;
-                labelRect.width = tickRect.width + (trackBuffer * 2);
-                labelRect.height = getHeightOfTallestLabel();
+    protected void cblculbteLbbelRect() {
+        if ( slider.getPbintLbbels() ) {
+            if ( slider.getOrientbtion() == JSlider.HORIZONTAL ) {
+                lbbelRect.x = tickRect.x - trbckBuffer;
+                lbbelRect.y = tickRect.y + tickRect.height;
+                lbbelRect.width = tickRect.width + (trbckBuffer * 2);
+                lbbelRect.height = getHeightOfTbllestLbbel();
             }
             else {
-                if(BasicGraphicsUtils.isLeftToRight(slider)) {
-                    labelRect.x = tickRect.x + tickRect.width;
-                    labelRect.width = getWidthOfWidestLabel();
+                if(BbsicGrbphicsUtils.isLeftToRight(slider)) {
+                    lbbelRect.x = tickRect.x + tickRect.width;
+                    lbbelRect.width = getWidthOfWidestLbbel();
                 }
                 else {
-                    labelRect.width = getWidthOfWidestLabel();
-                    labelRect.x = tickRect.x - labelRect.width;
+                    lbbelRect.width = getWidthOfWidestLbbel();
+                    lbbelRect.x = tickRect.x - lbbelRect.width;
                 }
-                labelRect.y = tickRect.y - trackBuffer;
-                labelRect.height = tickRect.height + (trackBuffer * 2);
+                lbbelRect.y = tickRect.y - trbckBuffer;
+                lbbelRect.height = tickRect.height + (trbckBuffer * 2);
             }
         }
         else {
-            if ( slider.getOrientation() == JSlider.HORIZONTAL ) {
-                labelRect.x = tickRect.x;
-                labelRect.y = tickRect.y + tickRect.height;
-                labelRect.width = tickRect.width;
-                labelRect.height = 0;
+            if ( slider.getOrientbtion() == JSlider.HORIZONTAL ) {
+                lbbelRect.x = tickRect.x;
+                lbbelRect.y = tickRect.y + tickRect.height;
+                lbbelRect.width = tickRect.width;
+                lbbelRect.height = 0;
             }
             else {
-                if(BasicGraphicsUtils.isLeftToRight(slider)) {
-                    labelRect.x = tickRect.x + tickRect.width;
+                if(BbsicGrbphicsUtils.isLeftToRight(slider)) {
+                    lbbelRect.x = tickRect.x + tickRect.width;
                 }
                 else {
-                    labelRect.x = tickRect.x;
+                    lbbelRect.x = tickRect.x;
                 }
-                labelRect.y = tickRect.y;
-                labelRect.width = 0;
-                labelRect.height = tickRect.height;
+                lbbelRect.y = tickRect.y;
+                lbbelRect.width = 0;
+                lbbelRect.height = tickRect.height;
             }
         }
     }
@@ -730,7 +730,7 @@ public class BasicSliderUI extends SliderUI{
     protected Dimension getThumbSize() {
         Dimension size = new Dimension();
 
-        if ( slider.getOrientation() == JSlider.VERTICAL ) {
+        if ( slider.getOrientbtion() == JSlider.VERTICAL ) {
             size.width = 20;
             size.height = 11;
         }
@@ -742,89 +742,89 @@ public class BasicSliderUI extends SliderUI{
         return size;
     }
 
-    public class PropertyChangeHandler implements PropertyChangeListener {
-        // NOTE: This class exists only for backward compatibility. All
-        // its functionality has been moved into Handler. If you need to add
-        // new functionality add it to the Handler, but make sure this
-        // class calls into the Handler.
-        public void propertyChange( PropertyChangeEvent e ) {
-            getHandler().propertyChange(e);
+    public clbss PropertyChbngeHbndler implements PropertyChbngeListener {
+        // NOTE: This clbss exists only for bbckwbrd compbtibility. All
+        // its functionblity hbs been moved into Hbndler. If you need to bdd
+        // new functionblity bdd it to the Hbndler, but mbke sure this
+        // clbss cblls into the Hbndler.
+        public void propertyChbnge( PropertyChbngeEvent e ) {
+            getHbndler().propertyChbnge(e);
         }
     }
 
-    protected int getWidthOfWidestLabel() {
-        Dictionary<?, JComponent> dictionary = slider.getLabelTable();
+    protected int getWidthOfWidestLbbel() {
+        Dictionbry<?, JComponent> dictionbry = slider.getLbbelTbble();
         int widest = 0;
-        if ( dictionary != null ) {
-            Enumeration<?> keys = dictionary.keys();
-            while ( keys.hasMoreElements() ) {
-                JComponent label = dictionary.get(keys.nextElement());
-                widest = Math.max( label.getPreferredSize().width, widest );
+        if ( dictionbry != null ) {
+            Enumerbtion<?> keys = dictionbry.keys();
+            while ( keys.hbsMoreElements() ) {
+                JComponent lbbel = dictionbry.get(keys.nextElement());
+                widest = Mbth.mbx( lbbel.getPreferredSize().width, widest );
             }
         }
         return widest;
     }
 
-    protected int getHeightOfTallestLabel() {
-        Dictionary<?, JComponent> dictionary = slider.getLabelTable();
-        int tallest = 0;
-        if ( dictionary != null ) {
-            Enumeration<?> keys = dictionary.keys();
-            while ( keys.hasMoreElements() ) {
-                JComponent label = dictionary.get(keys.nextElement());
-                tallest = Math.max( label.getPreferredSize().height, tallest );
+    protected int getHeightOfTbllestLbbel() {
+        Dictionbry<?, JComponent> dictionbry = slider.getLbbelTbble();
+        int tbllest = 0;
+        if ( dictionbry != null ) {
+            Enumerbtion<?> keys = dictionbry.keys();
+            while ( keys.hbsMoreElements() ) {
+                JComponent lbbel = dictionbry.get(keys.nextElement());
+                tbllest = Mbth.mbx( lbbel.getPreferredSize().height, tbllest );
             }
         }
-        return tallest;
+        return tbllest;
     }
 
-    protected int getWidthOfHighValueLabel() {
-        Component label = getHighestValueLabel();
+    protected int getWidthOfHighVblueLbbel() {
+        Component lbbel = getHighestVblueLbbel();
         int width = 0;
 
-        if ( label != null ) {
-            width = label.getPreferredSize().width;
+        if ( lbbel != null ) {
+            width = lbbel.getPreferredSize().width;
         }
 
         return width;
     }
 
-    protected int getWidthOfLowValueLabel() {
-        Component label = getLowestValueLabel();
+    protected int getWidthOfLowVblueLbbel() {
+        Component lbbel = getLowestVblueLbbel();
         int width = 0;
 
-        if ( label != null ) {
-            width = label.getPreferredSize().width;
+        if ( lbbel != null ) {
+            width = lbbel.getPreferredSize().width;
         }
 
         return width;
     }
 
-    protected int getHeightOfHighValueLabel() {
-        Component label = getHighestValueLabel();
+    protected int getHeightOfHighVblueLbbel() {
+        Component lbbel = getHighestVblueLbbel();
         int height = 0;
 
-        if ( label != null ) {
-            height = label.getPreferredSize().height;
+        if ( lbbel != null ) {
+            height = lbbel.getPreferredSize().height;
         }
 
         return height;
     }
 
-    protected int getHeightOfLowValueLabel() {
-        Component label = getLowestValueLabel();
+    protected int getHeightOfLowVblueLbbel() {
+        Component lbbel = getLowestVblueLbbel();
         int height = 0;
 
-        if ( label != null ) {
-            height = label.getPreferredSize().height;
+        if ( lbbel != null ) {
+            height = lbbel.getPreferredSize().height;
         }
 
         return height;
     }
 
-    protected boolean drawInverted() {
-        if (slider.getOrientation()==JSlider.HORIZONTAL) {
-            if(BasicGraphicsUtils.isLeftToRight(slider)) {
+    protected boolebn drbwInverted() {
+        if (slider.getOrientbtion()==JSlider.HORIZONTAL) {
+            if(BbsicGrbphicsUtils.isLeftToRight(slider)) {
                 return slider.getInverted();
             } else {
                 return !slider.getInverted();
@@ -835,53 +835,53 @@ public class BasicSliderUI extends SliderUI{
     }
 
     /**
-     * Returns the biggest value that has an entry in the label table.
+     * Returns the biggest vblue thbt hbs bn entry in the lbbel tbble.
      *
-     * @return biggest value that has an entry in the label table, or
+     * @return biggest vblue thbt hbs bn entry in the lbbel tbble, or
      *         null.
      * @since 1.6
      */
-    protected Integer getHighestValue() {
-        Dictionary<Integer, ?> dictionary = slider.getLabelTable();
+    protected Integer getHighestVblue() {
+        Dictionbry<Integer, ?> dictionbry = slider.getLbbelTbble();
 
-        if (dictionary == null) {
+        if (dictionbry == null) {
             return null;
         }
 
-        Enumeration<Integer> keys = dictionary.keys();
+        Enumerbtion<Integer> keys = dictionbry.keys();
 
-        Integer max = null;
+        Integer mbx = null;
 
-        while (keys.hasMoreElements()) {
+        while (keys.hbsMoreElements()) {
             Integer i = keys.nextElement();
 
-            if (max == null || i > max) {
-                max = i;
+            if (mbx == null || i > mbx) {
+                mbx = i;
             }
         }
 
-        return max;
+        return mbx;
     }
 
     /**
-     * Returns the smallest value that has an entry in the label table.
+     * Returns the smbllest vblue thbt hbs bn entry in the lbbel tbble.
      *
-     * @return smallest value that has an entry in the label table, or
+     * @return smbllest vblue thbt hbs bn entry in the lbbel tbble, or
      *         null.
      * @since 1.6
      */
-    protected Integer getLowestValue() {
-        Dictionary<Integer, JComponent> dictionary = slider.getLabelTable();
+    protected Integer getLowestVblue() {
+        Dictionbry<Integer, JComponent> dictionbry = slider.getLbbelTbble();
 
-        if (dictionary == null) {
+        if (dictionbry == null) {
             return null;
         }
 
-        Enumeration<Integer> keys = dictionary.keys();
+        Enumerbtion<Integer> keys = dictionbry.keys();
 
         Integer min = null;
 
-        while (keys.hasMoreElements()) {
+        while (keys.hbsMoreElements()) {
             Integer i = keys.nextElement();
 
             if (min == null || i < min) {
@@ -894,270 +894,270 @@ public class BasicSliderUI extends SliderUI{
 
 
     /**
-     * Returns the label that corresponds to the highest slider value in the label table.
-     * @see JSlider#setLabelTable
+     * Returns the lbbel thbt corresponds to the highest slider vblue in the lbbel tbble.
+     * @see JSlider#setLbbelTbble
      */
-    protected Component getLowestValueLabel() {
-        Integer min = getLowestValue();
+    protected Component getLowestVblueLbbel() {
+        Integer min = getLowestVblue();
         if (min != null) {
-            return (Component)slider.getLabelTable().get(min);
+            return (Component)slider.getLbbelTbble().get(min);
         }
         return null;
     }
 
     /**
-     * Returns the label that corresponds to the lowest slider value in the label table.
-     * @see JSlider#setLabelTable
+     * Returns the lbbel thbt corresponds to the lowest slider vblue in the lbbel tbble.
+     * @see JSlider#setLbbelTbble
      */
-    protected Component getHighestValueLabel() {
-        Integer max = getHighestValue();
-        if (max != null) {
-            return (Component)slider.getLabelTable().get(max);
+    protected Component getHighestVblueLbbel() {
+        Integer mbx = getHighestVblue();
+        if (mbx != null) {
+            return (Component)slider.getLbbelTbble().get(mbx);
         }
         return null;
     }
 
-    public void paint( Graphics g, JComponent c )   {
-        recalculateIfInsetsChanged();
-        recalculateIfOrientationChanged();
-        Rectangle clip = g.getClipBounds();
+    public void pbint( Grbphics g, JComponent c )   {
+        recblculbteIfInsetsChbnged();
+        recblculbteIfOrientbtionChbnged();
+        Rectbngle clip = g.getClipBounds();
 
-        if ( !clip.intersects(trackRect) && slider.getPaintTrack())
-            calculateGeometry();
+        if ( !clip.intersects(trbckRect) && slider.getPbintTrbck())
+            cblculbteGeometry();
 
-        if ( slider.getPaintTrack() && clip.intersects( trackRect ) ) {
-            paintTrack( g );
+        if ( slider.getPbintTrbck() && clip.intersects( trbckRect ) ) {
+            pbintTrbck( g );
         }
-        if ( slider.getPaintTicks() && clip.intersects( tickRect ) ) {
-            paintTicks( g );
+        if ( slider.getPbintTicks() && clip.intersects( tickRect ) ) {
+            pbintTicks( g );
         }
-        if ( slider.getPaintLabels() && clip.intersects( labelRect ) ) {
-            paintLabels( g );
+        if ( slider.getPbintLbbels() && clip.intersects( lbbelRect ) ) {
+            pbintLbbels( g );
         }
-        if ( slider.hasFocus() && clip.intersects( focusRect ) ) {
-            paintFocus( g );
+        if ( slider.hbsFocus() && clip.intersects( focusRect ) ) {
+            pbintFocus( g );
         }
         if ( clip.intersects( thumbRect ) ) {
-            paintThumb( g );
+            pbintThumb( g );
         }
     }
 
-    protected void recalculateIfInsetsChanged() {
+    protected void recblculbteIfInsetsChbnged() {
         Insets newInsets = slider.getInsets();
-        if ( !newInsets.equals( insetCache ) ) {
-            insetCache = newInsets;
-            calculateGeometry();
+        if ( !newInsets.equbls( insetCbche ) ) {
+            insetCbche = newInsets;
+            cblculbteGeometry();
         }
     }
 
-    protected void recalculateIfOrientationChanged() {
-        boolean ltr = BasicGraphicsUtils.isLeftToRight(slider);
-        if ( ltr!=leftToRightCache ) {
-            leftToRightCache = ltr;
-            calculateGeometry();
+    protected void recblculbteIfOrientbtionChbnged() {
+        boolebn ltr = BbsicGrbphicsUtils.isLeftToRight(slider);
+        if ( ltr!=leftToRightCbche ) {
+            leftToRightCbche = ltr;
+            cblculbteGeometry();
         }
     }
 
-    public void paintFocus(Graphics g)  {
+    public void pbintFocus(Grbphics g)  {
         g.setColor( getFocusColor() );
 
-        BasicGraphicsUtils.drawDashedRect( g, focusRect.x, focusRect.y,
+        BbsicGrbphicsUtils.drbwDbshedRect( g, focusRect.x, focusRect.y,
                                            focusRect.width, focusRect.height );
     }
 
-    public void paintTrack(Graphics g)  {
+    public void pbintTrbck(Grbphics g)  {
 
-        Rectangle trackBounds = trackRect;
+        Rectbngle trbckBounds = trbckRect;
 
-        if ( slider.getOrientation() == JSlider.HORIZONTAL ) {
-            int cy = (trackBounds.height / 2) - 2;
-            int cw = trackBounds.width;
+        if ( slider.getOrientbtion() == JSlider.HORIZONTAL ) {
+            int cy = (trbckBounds.height / 2) - 2;
+            int cw = trbckBounds.width;
 
-            g.translate(trackBounds.x, trackBounds.y + cy);
+            g.trbnslbte(trbckBounds.x, trbckBounds.y + cy);
 
-            g.setColor(getShadowColor());
-            g.drawLine(0, 0, cw - 1, 0);
-            g.drawLine(0, 1, 0, 2);
+            g.setColor(getShbdowColor());
+            g.drbwLine(0, 0, cw - 1, 0);
+            g.drbwLine(0, 1, 0, 2);
             g.setColor(getHighlightColor());
-            g.drawLine(0, 3, cw, 3);
-            g.drawLine(cw, 0, cw, 3);
-            g.setColor(Color.black);
-            g.drawLine(1, 1, cw-2, 1);
+            g.drbwLine(0, 3, cw, 3);
+            g.drbwLine(cw, 0, cw, 3);
+            g.setColor(Color.blbck);
+            g.drbwLine(1, 1, cw-2, 1);
 
-            g.translate(-trackBounds.x, -(trackBounds.y + cy));
+            g.trbnslbte(-trbckBounds.x, -(trbckBounds.y + cy));
         }
         else {
-            int cx = (trackBounds.width / 2) - 2;
-            int ch = trackBounds.height;
+            int cx = (trbckBounds.width / 2) - 2;
+            int ch = trbckBounds.height;
 
-            g.translate(trackBounds.x + cx, trackBounds.y);
+            g.trbnslbte(trbckBounds.x + cx, trbckBounds.y);
 
-            g.setColor(getShadowColor());
-            g.drawLine(0, 0, 0, ch - 1);
-            g.drawLine(1, 0, 2, 0);
+            g.setColor(getShbdowColor());
+            g.drbwLine(0, 0, 0, ch - 1);
+            g.drbwLine(1, 0, 2, 0);
             g.setColor(getHighlightColor());
-            g.drawLine(3, 0, 3, ch);
-            g.drawLine(0, ch, 3, ch);
-            g.setColor(Color.black);
-            g.drawLine(1, 1, 1, ch-2);
+            g.drbwLine(3, 0, 3, ch);
+            g.drbwLine(0, ch, 3, ch);
+            g.setColor(Color.blbck);
+            g.drbwLine(1, 1, 1, ch-2);
 
-            g.translate(-(trackBounds.x + cx), -trackBounds.y);
+            g.trbnslbte(-(trbckBounds.x + cx), -trbckBounds.y);
         }
     }
 
-    public void paintTicks(Graphics g)  {
-        Rectangle tickBounds = tickRect;
+    public void pbintTicks(Grbphics g)  {
+        Rectbngle tickBounds = tickRect;
 
-        g.setColor(DefaultLookup.getColor(slider, this, "Slider.tickColor", Color.black));
+        g.setColor(DefbultLookup.getColor(slider, this, "Slider.tickColor", Color.blbck));
 
-        if ( slider.getOrientation() == JSlider.HORIZONTAL ) {
-            g.translate(0, tickBounds.y);
+        if ( slider.getOrientbtion() == JSlider.HORIZONTAL ) {
+            g.trbnslbte(0, tickBounds.y);
 
-            if (slider.getMinorTickSpacing() > 0) {
-                int value = slider.getMinimum();
+            if (slider.getMinorTickSpbcing() > 0) {
+                int vblue = slider.getMinimum();
 
-                while ( value <= slider.getMaximum() ) {
-                    int xPos = xPositionForValue(value);
-                    paintMinorTickForHorizSlider( g, tickBounds, xPos );
+                while ( vblue <= slider.getMbximum() ) {
+                    int xPos = xPositionForVblue(vblue);
+                    pbintMinorTickForHorizSlider( g, tickBounds, xPos );
 
                     // Overflow checking
-                    if (Integer.MAX_VALUE - slider.getMinorTickSpacing() < value) {
-                        break;
+                    if (Integer.MAX_VALUE - slider.getMinorTickSpbcing() < vblue) {
+                        brebk;
                     }
 
-                    value += slider.getMinorTickSpacing();
+                    vblue += slider.getMinorTickSpbcing();
                 }
             }
 
-            if (slider.getMajorTickSpacing() > 0) {
-                int value = slider.getMinimum();
+            if (slider.getMbjorTickSpbcing() > 0) {
+                int vblue = slider.getMinimum();
 
-                while ( value <= slider.getMaximum() ) {
-                    int xPos = xPositionForValue(value);
-                    paintMajorTickForHorizSlider( g, tickBounds, xPos );
+                while ( vblue <= slider.getMbximum() ) {
+                    int xPos = xPositionForVblue(vblue);
+                    pbintMbjorTickForHorizSlider( g, tickBounds, xPos );
 
                     // Overflow checking
-                    if (Integer.MAX_VALUE - slider.getMajorTickSpacing() < value) {
-                        break;
+                    if (Integer.MAX_VALUE - slider.getMbjorTickSpbcing() < vblue) {
+                        brebk;
                     }
 
-                    value += slider.getMajorTickSpacing();
+                    vblue += slider.getMbjorTickSpbcing();
                 }
             }
 
-            g.translate( 0, -tickBounds.y);
+            g.trbnslbte( 0, -tickBounds.y);
         } else {
-            g.translate(tickBounds.x, 0);
+            g.trbnslbte(tickBounds.x, 0);
 
-            if (slider.getMinorTickSpacing() > 0) {
+            if (slider.getMinorTickSpbcing() > 0) {
                 int offset = 0;
-                if(!BasicGraphicsUtils.isLeftToRight(slider)) {
+                if(!BbsicGrbphicsUtils.isLeftToRight(slider)) {
                     offset = tickBounds.width - tickBounds.width / 2;
-                    g.translate(offset, 0);
+                    g.trbnslbte(offset, 0);
                 }
 
-                int value = slider.getMinimum();
+                int vblue = slider.getMinimum();
 
-                while (value <= slider.getMaximum()) {
-                    int yPos = yPositionForValue(value);
-                    paintMinorTickForVertSlider( g, tickBounds, yPos );
+                while (vblue <= slider.getMbximum()) {
+                    int yPos = yPositionForVblue(vblue);
+                    pbintMinorTickForVertSlider( g, tickBounds, yPos );
 
                     // Overflow checking
-                    if (Integer.MAX_VALUE - slider.getMinorTickSpacing() < value) {
-                        break;
+                    if (Integer.MAX_VALUE - slider.getMinorTickSpbcing() < vblue) {
+                        brebk;
                     }
 
-                    value += slider.getMinorTickSpacing();
+                    vblue += slider.getMinorTickSpbcing();
                 }
 
-                if(!BasicGraphicsUtils.isLeftToRight(slider)) {
-                    g.translate(-offset, 0);
+                if(!BbsicGrbphicsUtils.isLeftToRight(slider)) {
+                    g.trbnslbte(-offset, 0);
                 }
             }
 
-            if (slider.getMajorTickSpacing() > 0) {
-                if(!BasicGraphicsUtils.isLeftToRight(slider)) {
-                    g.translate(2, 0);
+            if (slider.getMbjorTickSpbcing() > 0) {
+                if(!BbsicGrbphicsUtils.isLeftToRight(slider)) {
+                    g.trbnslbte(2, 0);
                 }
 
-                int value = slider.getMinimum();
+                int vblue = slider.getMinimum();
 
-                while (value <= slider.getMaximum()) {
-                    int yPos = yPositionForValue(value);
-                    paintMajorTickForVertSlider( g, tickBounds, yPos );
+                while (vblue <= slider.getMbximum()) {
+                    int yPos = yPositionForVblue(vblue);
+                    pbintMbjorTickForVertSlider( g, tickBounds, yPos );
 
                     // Overflow checking
-                    if (Integer.MAX_VALUE - slider.getMajorTickSpacing() < value) {
-                        break;
+                    if (Integer.MAX_VALUE - slider.getMbjorTickSpbcing() < vblue) {
+                        brebk;
                     }
 
-                    value += slider.getMajorTickSpacing();
+                    vblue += slider.getMbjorTickSpbcing();
                 }
 
-                if(!BasicGraphicsUtils.isLeftToRight(slider)) {
-                    g.translate(-2, 0);
+                if(!BbsicGrbphicsUtils.isLeftToRight(slider)) {
+                    g.trbnslbte(-2, 0);
                 }
             }
-            g.translate(-tickBounds.x, 0);
+            g.trbnslbte(-tickBounds.x, 0);
         }
     }
 
-    protected void paintMinorTickForHorizSlider( Graphics g, Rectangle tickBounds, int x ) {
-        g.drawLine( x, 0, x, tickBounds.height / 2 - 1 );
+    protected void pbintMinorTickForHorizSlider( Grbphics g, Rectbngle tickBounds, int x ) {
+        g.drbwLine( x, 0, x, tickBounds.height / 2 - 1 );
     }
 
-    protected void paintMajorTickForHorizSlider( Graphics g, Rectangle tickBounds, int x ) {
-        g.drawLine( x, 0, x, tickBounds.height - 2 );
+    protected void pbintMbjorTickForHorizSlider( Grbphics g, Rectbngle tickBounds, int x ) {
+        g.drbwLine( x, 0, x, tickBounds.height - 2 );
     }
 
-    protected void paintMinorTickForVertSlider( Graphics g, Rectangle tickBounds, int y ) {
-        g.drawLine( 0, y, tickBounds.width / 2 - 1, y );
+    protected void pbintMinorTickForVertSlider( Grbphics g, Rectbngle tickBounds, int y ) {
+        g.drbwLine( 0, y, tickBounds.width / 2 - 1, y );
     }
 
-    protected void paintMajorTickForVertSlider( Graphics g, Rectangle tickBounds, int y ) {
-        g.drawLine( 0, y,  tickBounds.width - 2, y );
+    protected void pbintMbjorTickForVertSlider( Grbphics g, Rectbngle tickBounds, int y ) {
+        g.drbwLine( 0, y,  tickBounds.width - 2, y );
     }
 
-    public void paintLabels( Graphics g ) {
-        Rectangle labelBounds = labelRect;
+    public void pbintLbbels( Grbphics g ) {
+        Rectbngle lbbelBounds = lbbelRect;
 
-        Dictionary<Integer, JComponent> dictionary = slider.getLabelTable();
-        if ( dictionary != null ) {
-            Enumeration<Integer> keys = dictionary.keys();
-            int minValue = slider.getMinimum();
-            int maxValue = slider.getMaximum();
-            boolean enabled = slider.isEnabled();
-            while ( keys.hasMoreElements() ) {
+        Dictionbry<Integer, JComponent> dictionbry = slider.getLbbelTbble();
+        if ( dictionbry != null ) {
+            Enumerbtion<Integer> keys = dictionbry.keys();
+            int minVblue = slider.getMinimum();
+            int mbxVblue = slider.getMbximum();
+            boolebn enbbled = slider.isEnbbled();
+            while ( keys.hbsMoreElements() ) {
                 Integer key = keys.nextElement();
-                int value = key.intValue();
-                if (value >= minValue && value <= maxValue) {
-                    JComponent label = dictionary.get(key);
-                    label.setEnabled(enabled);
+                int vblue = key.intVblue();
+                if (vblue >= minVblue && vblue <= mbxVblue) {
+                    JComponent lbbel = dictionbry.get(key);
+                    lbbel.setEnbbled(enbbled);
 
-                    if (label instanceof JLabel) {
-                        Icon icon = label.isEnabled() ? ((JLabel) label).getIcon() : ((JLabel) label).getDisabledIcon();
+                    if (lbbel instbnceof JLbbel) {
+                        Icon icon = lbbel.isEnbbled() ? ((JLbbel) lbbel).getIcon() : ((JLbbel) lbbel).getDisbbledIcon();
 
-                        if (icon instanceof ImageIcon) {
-                            // Register Slider as an image observer. It allows to catch notifications about
-                            // image changes (e.g. gif animation)
-                            Toolkit.getDefaultToolkit().checkImage(((ImageIcon) icon).getImage(), -1, -1, slider);
+                        if (icon instbnceof ImbgeIcon) {
+                            // Register Slider bs bn imbge observer. It bllows to cbtch notificbtions bbout
+                            // imbge chbnges (e.g. gif bnimbtion)
+                            Toolkit.getDefbultToolkit().checkImbge(((ImbgeIcon) icon).getImbge(), -1, -1, slider);
                         }
                     }
 
-                    if ( slider.getOrientation() == JSlider.HORIZONTAL ) {
-                        g.translate( 0, labelBounds.y );
-                        paintHorizontalLabel( g, value, label );
-                        g.translate( 0, -labelBounds.y );
+                    if ( slider.getOrientbtion() == JSlider.HORIZONTAL ) {
+                        g.trbnslbte( 0, lbbelBounds.y );
+                        pbintHorizontblLbbel( g, vblue, lbbel );
+                        g.trbnslbte( 0, -lbbelBounds.y );
                     }
                     else {
                         int offset = 0;
-                        if (!BasicGraphicsUtils.isLeftToRight(slider)) {
-                            offset = labelBounds.width -
-                                label.getPreferredSize().width;
+                        if (!BbsicGrbphicsUtils.isLeftToRight(slider)) {
+                            offset = lbbelBounds.width -
+                                lbbel.getPreferredSize().width;
                         }
-                        g.translate( labelBounds.x + offset, 0 );
-                        paintVerticalLabel( g, value, label );
-                        g.translate( -labelBounds.x - offset, 0 );
+                        g.trbnslbte( lbbelBounds.x + offset, 0 );
+                        pbintVerticblLbbel( g, vblue, lbbel );
+                        g.trbnslbte( -lbbelBounds.x - offset, 0 );
                     }
                 }
             }
@@ -1166,461 +1166,461 @@ public class BasicSliderUI extends SliderUI{
     }
 
     /**
-     * Called for every label in the label table.  Used to draw the labels for horizontal sliders.
-     * The graphics have been translated to labelRect.y already.
-     * @see JSlider#setLabelTable
+     * Cblled for every lbbel in the lbbel tbble.  Used to drbw the lbbels for horizontbl sliders.
+     * The grbphics hbve been trbnslbted to lbbelRect.y blrebdy.
+     * @see JSlider#setLbbelTbble
      */
-    protected void paintHorizontalLabel( Graphics g, int value, Component label ) {
-        int labelCenter = xPositionForValue( value );
-        int labelLeft = labelCenter - (label.getPreferredSize().width / 2);
-        g.translate( labelLeft, 0 );
-        label.paint( g );
-        g.translate( -labelLeft, 0 );
+    protected void pbintHorizontblLbbel( Grbphics g, int vblue, Component lbbel ) {
+        int lbbelCenter = xPositionForVblue( vblue );
+        int lbbelLeft = lbbelCenter - (lbbel.getPreferredSize().width / 2);
+        g.trbnslbte( lbbelLeft, 0 );
+        lbbel.pbint( g );
+        g.trbnslbte( -lbbelLeft, 0 );
     }
 
     /**
-     * Called for every label in the label table.  Used to draw the labels for vertical sliders.
-     * The graphics have been translated to labelRect.x already.
-     * @see JSlider#setLabelTable
+     * Cblled for every lbbel in the lbbel tbble.  Used to drbw the lbbels for verticbl sliders.
+     * The grbphics hbve been trbnslbted to lbbelRect.x blrebdy.
+     * @see JSlider#setLbbelTbble
      */
-    protected void paintVerticalLabel( Graphics g, int value, Component label ) {
-        int labelCenter = yPositionForValue( value );
-        int labelTop = labelCenter - (label.getPreferredSize().height / 2);
-        g.translate( 0, labelTop );
-        label.paint( g );
-        g.translate( 0, -labelTop );
+    protected void pbintVerticblLbbel( Grbphics g, int vblue, Component lbbel ) {
+        int lbbelCenter = yPositionForVblue( vblue );
+        int lbbelTop = lbbelCenter - (lbbel.getPreferredSize().height / 2);
+        g.trbnslbte( 0, lbbelTop );
+        lbbel.pbint( g );
+        g.trbnslbte( 0, -lbbelTop );
     }
 
-    public void paintThumb(Graphics g)  {
-        Rectangle knobBounds = thumbRect;
+    public void pbintThumb(Grbphics g)  {
+        Rectbngle knobBounds = thumbRect;
         int w = knobBounds.width;
         int h = knobBounds.height;
 
-        g.translate(knobBounds.x, knobBounds.y);
+        g.trbnslbte(knobBounds.x, knobBounds.y);
 
-        if ( slider.isEnabled() ) {
-            g.setColor(slider.getBackground());
+        if ( slider.isEnbbled() ) {
+            g.setColor(slider.getBbckground());
         }
         else {
-            g.setColor(slider.getBackground().darker());
+            g.setColor(slider.getBbckground().dbrker());
         }
 
-        Boolean paintThumbArrowShape =
-            (Boolean)slider.getClientProperty("Slider.paintThumbArrowShape");
+        Boolebn pbintThumbArrowShbpe =
+            (Boolebn)slider.getClientProperty("Slider.pbintThumbArrowShbpe");
 
-        if ((!slider.getPaintTicks() && paintThumbArrowShape == null) ||
-            paintThumbArrowShape == Boolean.FALSE) {
+        if ((!slider.getPbintTicks() && pbintThumbArrowShbpe == null) ||
+            pbintThumbArrowShbpe == Boolebn.FALSE) {
 
-            // "plain" version
+            // "plbin" version
             g.fillRect(0, 0, w, h);
 
-            g.setColor(Color.black);
-            g.drawLine(0, h-1, w-1, h-1);
-            g.drawLine(w-1, 0, w-1, h-1);
+            g.setColor(Color.blbck);
+            g.drbwLine(0, h-1, w-1, h-1);
+            g.drbwLine(w-1, 0, w-1, h-1);
 
             g.setColor(highlightColor);
-            g.drawLine(0, 0, 0, h-2);
-            g.drawLine(1, 0, w-2, 0);
+            g.drbwLine(0, 0, 0, h-2);
+            g.drbwLine(1, 0, w-2, 0);
 
-            g.setColor(shadowColor);
-            g.drawLine(1, h-2, w-2, h-2);
-            g.drawLine(w-2, 1, w-2, h-3);
+            g.setColor(shbdowColor);
+            g.drbwLine(1, h-2, w-2, h-2);
+            g.drbwLine(w-2, 1, w-2, h-3);
         }
-        else if ( slider.getOrientation() == JSlider.HORIZONTAL ) {
+        else if ( slider.getOrientbtion() == JSlider.HORIZONTAL ) {
             int cw = w / 2;
             g.fillRect(1, 1, w-3, h-1-cw);
             Polygon p = new Polygon();
-            p.addPoint(1, h-cw);
-            p.addPoint(cw-1, h-1);
-            p.addPoint(w-2, h-1-cw);
+            p.bddPoint(1, h-cw);
+            p.bddPoint(cw-1, h-1);
+            p.bddPoint(w-2, h-1-cw);
             g.fillPolygon(p);
 
             g.setColor(highlightColor);
-            g.drawLine(0, 0, w-2, 0);
-            g.drawLine(0, 1, 0, h-1-cw);
-            g.drawLine(0, h-cw, cw-1, h-1);
+            g.drbwLine(0, 0, w-2, 0);
+            g.drbwLine(0, 1, 0, h-1-cw);
+            g.drbwLine(0, h-cw, cw-1, h-1);
 
-            g.setColor(Color.black);
-            g.drawLine(w-1, 0, w-1, h-2-cw);
-            g.drawLine(w-1, h-1-cw, w-1-cw, h-1);
+            g.setColor(Color.blbck);
+            g.drbwLine(w-1, 0, w-1, h-2-cw);
+            g.drbwLine(w-1, h-1-cw, w-1-cw, h-1);
 
-            g.setColor(shadowColor);
-            g.drawLine(w-2, 1, w-2, h-2-cw);
-            g.drawLine(w-2, h-1-cw, w-1-cw, h-2);
+            g.setColor(shbdowColor);
+            g.drbwLine(w-2, 1, w-2, h-2-cw);
+            g.drbwLine(w-2, h-1-cw, w-1-cw, h-2);
         }
-        else {  // vertical
+        else {  // verticbl
             int cw = h / 2;
-            if(BasicGraphicsUtils.isLeftToRight(slider)) {
+            if(BbsicGrbphicsUtils.isLeftToRight(slider)) {
                   g.fillRect(1, 1, w-1-cw, h-3);
                   Polygon p = new Polygon();
-                  p.addPoint(w-cw-1, 0);
-                  p.addPoint(w-1, cw);
-                  p.addPoint(w-1-cw, h-2);
+                  p.bddPoint(w-cw-1, 0);
+                  p.bddPoint(w-1, cw);
+                  p.bddPoint(w-1-cw, h-2);
                   g.fillPolygon(p);
 
                   g.setColor(highlightColor);
-                  g.drawLine(0, 0, 0, h - 2);                  // left
-                  g.drawLine(1, 0, w-1-cw, 0);                 // top
-                  g.drawLine(w-cw-1, 0, w-1, cw);              // top slant
+                  g.drbwLine(0, 0, 0, h - 2);                  // left
+                  g.drbwLine(1, 0, w-1-cw, 0);                 // top
+                  g.drbwLine(w-cw-1, 0, w-1, cw);              // top slbnt
 
-                  g.setColor(Color.black);
-                  g.drawLine(0, h-1, w-2-cw, h-1);             // bottom
-                  g.drawLine(w-1-cw, h-1, w-1, h-1-cw);        // bottom slant
+                  g.setColor(Color.blbck);
+                  g.drbwLine(0, h-1, w-2-cw, h-1);             // bottom
+                  g.drbwLine(w-1-cw, h-1, w-1, h-1-cw);        // bottom slbnt
 
-                  g.setColor(shadowColor);
-                  g.drawLine(1, h-2, w-2-cw,  h-2 );         // bottom
-                  g.drawLine(w-1-cw, h-2, w-2, h-cw-1 );     // bottom slant
+                  g.setColor(shbdowColor);
+                  g.drbwLine(1, h-2, w-2-cw,  h-2 );         // bottom
+                  g.drbwLine(w-1-cw, h-2, w-2, h-cw-1 );     // bottom slbnt
             }
             else {
                   g.fillRect(5, 1, w-1-cw, h-3);
                   Polygon p = new Polygon();
-                  p.addPoint(cw, 0);
-                  p.addPoint(0, cw);
-                  p.addPoint(cw, h-2);
+                  p.bddPoint(cw, 0);
+                  p.bddPoint(0, cw);
+                  p.bddPoint(cw, h-2);
                   g.fillPolygon(p);
 
                   g.setColor(highlightColor);
-                  g.drawLine(cw-1, 0, w-2, 0);             // top
-                  g.drawLine(0, cw, cw, 0);                // top slant
+                  g.drbwLine(cw-1, 0, w-2, 0);             // top
+                  g.drbwLine(0, cw, cw, 0);                // top slbnt
 
-                  g.setColor(Color.black);
-                  g.drawLine(0, h-1-cw, cw, h-1 );         // bottom slant
-                  g.drawLine(cw, h-1, w-1, h-1);           // bottom
+                  g.setColor(Color.blbck);
+                  g.drbwLine(0, h-1-cw, cw, h-1 );         // bottom slbnt
+                  g.drbwLine(cw, h-1, w-1, h-1);           // bottom
 
-                  g.setColor(shadowColor);
-                  g.drawLine(cw, h-2, w-2,  h-2 );         // bottom
-                  g.drawLine(w-1, 1, w-1,  h-2 );          // right
+                  g.setColor(shbdowColor);
+                  g.drbwLine(cw, h-2, w-2,  h-2 );         // bottom
+                  g.drbwLine(w-1, 1, w-1,  h-2 );          // right
             }
         }
 
-        g.translate(-knobBounds.x, -knobBounds.y);
+        g.trbnslbte(-knobBounds.x, -knobBounds.y);
     }
 
-    // Used exclusively by setThumbLocation()
-    private static Rectangle unionRect = new Rectangle();
+    // Used exclusively by setThumbLocbtion()
+    privbte stbtic Rectbngle unionRect = new Rectbngle();
 
-    public void setThumbLocation(int x, int y)  {
+    public void setThumbLocbtion(int x, int y)  {
         unionRect.setBounds( thumbRect );
 
-        thumbRect.setLocation( x, y );
+        thumbRect.setLocbtion( x, y );
 
         SwingUtilities.computeUnion( thumbRect.x, thumbRect.y, thumbRect.width, thumbRect.height, unionRect );
-        slider.repaint( unionRect.x, unionRect.y, unionRect.width, unionRect.height );
+        slider.repbint( unionRect.x, unionRect.y, unionRect.width, unionRect.height );
     }
 
     public void scrollByBlock(int direction)    {
         synchronized(slider)    {
             int blockIncrement =
-                (slider.getMaximum() - slider.getMinimum()) / 10;
+                (slider.getMbximum() - slider.getMinimum()) / 10;
             if (blockIncrement == 0) {
                 blockIncrement = 1;
             }
 
-            if (slider.getSnapToTicks()) {
-                int tickSpacing = getTickSpacing();
+            if (slider.getSnbpToTicks()) {
+                int tickSpbcing = getTickSpbcing();
 
-                if (blockIncrement < tickSpacing) {
-                    blockIncrement = tickSpacing;
+                if (blockIncrement < tickSpbcing) {
+                    blockIncrement = tickSpbcing;
                 }
             }
 
-            int delta = blockIncrement * ((direction > 0) ? POSITIVE_SCROLL : NEGATIVE_SCROLL);
-            slider.setValue(slider.getValue() + delta);
+            int deltb = blockIncrement * ((direction > 0) ? POSITIVE_SCROLL : NEGATIVE_SCROLL);
+            slider.setVblue(slider.getVblue() + deltb);
         }
     }
 
     public void scrollByUnit(int direction) {
         synchronized(slider)    {
-            int delta = ((direction > 0) ? POSITIVE_SCROLL : NEGATIVE_SCROLL);
+            int deltb = ((direction > 0) ? POSITIVE_SCROLL : NEGATIVE_SCROLL);
 
-            if (slider.getSnapToTicks()) {
-                delta *= getTickSpacing();
+            if (slider.getSnbpToTicks()) {
+                deltb *= getTickSpbcing();
             }
 
-            slider.setValue(slider.getValue() + delta);
+            slider.setVblue(slider.getVblue() + deltb);
         }
     }
 
     /**
-     * This function is called when a mousePressed was detected in the track, not
-     * in the thumb.  The default behavior is to scroll by block.  You can
-     *  override this method to stop it from scrolling or to add additional behavior.
+     * This function is cblled when b mousePressed wbs detected in the trbck, not
+     * in the thumb.  The defbult behbvior is to scroll by block.  You cbn
+     *  override this method to stop it from scrolling or to bdd bdditionbl behbvior.
      */
-    protected void scrollDueToClickInTrack( int dir ) {
+    protected void scrollDueToClickInTrbck( int dir ) {
         scrollByBlock( dir );
     }
 
-    protected int xPositionForValue( int value )    {
+    protected int xPositionForVblue( int vblue )    {
         int min = slider.getMinimum();
-        int max = slider.getMaximum();
-        int trackLength = trackRect.width;
-        double valueRange = (double)max - (double)min;
-        double pixelsPerValue = (double)trackLength / valueRange;
-        int trackLeft = trackRect.x;
-        int trackRight = trackRect.x + (trackRect.width - 1);
+        int mbx = slider.getMbximum();
+        int trbckLength = trbckRect.width;
+        double vblueRbnge = (double)mbx - (double)min;
+        double pixelsPerVblue = (double)trbckLength / vblueRbnge;
+        int trbckLeft = trbckRect.x;
+        int trbckRight = trbckRect.x + (trbckRect.width - 1);
         int xPosition;
 
-        if ( !drawInverted() ) {
-            xPosition = trackLeft;
-            xPosition += Math.round( pixelsPerValue * ((double)value - min) );
+        if ( !drbwInverted() ) {
+            xPosition = trbckLeft;
+            xPosition += Mbth.round( pixelsPerVblue * ((double)vblue - min) );
         }
         else {
-            xPosition = trackRight;
-            xPosition -= Math.round( pixelsPerValue * ((double)value - min) );
+            xPosition = trbckRight;
+            xPosition -= Mbth.round( pixelsPerVblue * ((double)vblue - min) );
         }
 
-        xPosition = Math.max( trackLeft, xPosition );
-        xPosition = Math.min( trackRight, xPosition );
+        xPosition = Mbth.mbx( trbckLeft, xPosition );
+        xPosition = Mbth.min( trbckRight, xPosition );
 
         return xPosition;
     }
 
-    protected int yPositionForValue( int value )  {
-        return yPositionForValue(value, trackRect.y, trackRect.height);
+    protected int yPositionForVblue( int vblue )  {
+        return yPositionForVblue(vblue, trbckRect.y, trbckRect.height);
     }
 
     /**
-     * Returns the y location for the specified value.  No checking is
-     * done on the arguments.  In particular if <code>trackHeight</code> is
-     * negative undefined results may occur.
+     * Returns the y locbtion for the specified vblue.  No checking is
+     * done on the brguments.  In pbrticulbr if <code>trbckHeight</code> is
+     * negbtive undefined results mby occur.
      *
-     * @param value the slider value to get the location for
-     * @param trackY y-origin of the track
-     * @param trackHeight the height of the track
+     * @pbrbm vblue the slider vblue to get the locbtion for
+     * @pbrbm trbckY y-origin of the trbck
+     * @pbrbm trbckHeight the height of the trbck
      * @since 1.6
      */
-    protected int yPositionForValue(int value, int trackY, int trackHeight) {
+    protected int yPositionForVblue(int vblue, int trbckY, int trbckHeight) {
         int min = slider.getMinimum();
-        int max = slider.getMaximum();
-        double valueRange = (double)max - (double)min;
-        double pixelsPerValue = (double)trackHeight / valueRange;
-        int trackBottom = trackY + (trackHeight - 1);
+        int mbx = slider.getMbximum();
+        double vblueRbnge = (double)mbx - (double)min;
+        double pixelsPerVblue = (double)trbckHeight / vblueRbnge;
+        int trbckBottom = trbckY + (trbckHeight - 1);
         int yPosition;
 
-        if ( !drawInverted() ) {
-            yPosition = trackY;
-            yPosition += Math.round( pixelsPerValue * ((double)max - value ) );
+        if ( !drbwInverted() ) {
+            yPosition = trbckY;
+            yPosition += Mbth.round( pixelsPerVblue * ((double)mbx - vblue ) );
         }
         else {
-            yPosition = trackY;
-            yPosition += Math.round( pixelsPerValue * ((double)value - min) );
+            yPosition = trbckY;
+            yPosition += Mbth.round( pixelsPerVblue * ((double)vblue - min) );
         }
 
-        yPosition = Math.max( trackY, yPosition );
-        yPosition = Math.min( trackBottom, yPosition );
+        yPosition = Mbth.mbx( trbckY, yPosition );
+        yPosition = Mbth.min( trbckBottom, yPosition );
 
         return yPosition;
     }
 
     /**
-     * Returns the value at the y position. If {@code yPos} is beyond the
-     * track at the the bottom or the top, this method sets the value to either
-     * the minimum or maximum value of the slider, depending on if the slider
+     * Returns the vblue bt the y position. If {@code yPos} is beyond the
+     * trbck bt the the bottom or the top, this method sets the vblue to either
+     * the minimum or mbximum vblue of the slider, depending on if the slider
      * is inverted or not.
      */
-    public int valueForYPosition( int yPos ) {
-        int value;
-        final int minValue = slider.getMinimum();
-        final int maxValue = slider.getMaximum();
-        final int trackLength = trackRect.height;
-        final int trackTop = trackRect.y;
-        final int trackBottom = trackRect.y + (trackRect.height - 1);
+    public int vblueForYPosition( int yPos ) {
+        int vblue;
+        finbl int minVblue = slider.getMinimum();
+        finbl int mbxVblue = slider.getMbximum();
+        finbl int trbckLength = trbckRect.height;
+        finbl int trbckTop = trbckRect.y;
+        finbl int trbckBottom = trbckRect.y + (trbckRect.height - 1);
 
-        if ( yPos <= trackTop ) {
-            value = drawInverted() ? minValue : maxValue;
+        if ( yPos <= trbckTop ) {
+            vblue = drbwInverted() ? minVblue : mbxVblue;
         }
-        else if ( yPos >= trackBottom ) {
-            value = drawInverted() ? maxValue : minValue;
+        else if ( yPos >= trbckBottom ) {
+            vblue = drbwInverted() ? mbxVblue : minVblue;
         }
         else {
-            int distanceFromTrackTop = yPos - trackTop;
-            double valueRange = (double)maxValue - (double)minValue;
-            double valuePerPixel = valueRange / (double)trackLength;
-            int valueFromTrackTop = (int)Math.round( distanceFromTrackTop * valuePerPixel );
+            int distbnceFromTrbckTop = yPos - trbckTop;
+            double vblueRbnge = (double)mbxVblue - (double)minVblue;
+            double vbluePerPixel = vblueRbnge / (double)trbckLength;
+            int vblueFromTrbckTop = (int)Mbth.round( distbnceFromTrbckTop * vbluePerPixel );
 
-            value = drawInverted() ? minValue + valueFromTrackTop : maxValue - valueFromTrackTop;
+            vblue = drbwInverted() ? minVblue + vblueFromTrbckTop : mbxVblue - vblueFromTrbckTop;
         }
 
-        return value;
+        return vblue;
     }
 
     /**
-     * Returns the value at the x position.  If {@code xPos} is beyond the
-     * track at the left or the right, this method sets the value to either the
-     * minimum or maximum value of the slider, depending on if the slider is
+     * Returns the vblue bt the x position.  If {@code xPos} is beyond the
+     * trbck bt the left or the right, this method sets the vblue to either the
+     * minimum or mbximum vblue of the slider, depending on if the slider is
      * inverted or not.
      */
-    public int valueForXPosition( int xPos ) {
-        int value;
-        final int minValue = slider.getMinimum();
-        final int maxValue = slider.getMaximum();
-        final int trackLength = trackRect.width;
-        final int trackLeft = trackRect.x;
-        final int trackRight = trackRect.x + (trackRect.width - 1);
+    public int vblueForXPosition( int xPos ) {
+        int vblue;
+        finbl int minVblue = slider.getMinimum();
+        finbl int mbxVblue = slider.getMbximum();
+        finbl int trbckLength = trbckRect.width;
+        finbl int trbckLeft = trbckRect.x;
+        finbl int trbckRight = trbckRect.x + (trbckRect.width - 1);
 
-        if ( xPos <= trackLeft ) {
-            value = drawInverted() ? maxValue : minValue;
+        if ( xPos <= trbckLeft ) {
+            vblue = drbwInverted() ? mbxVblue : minVblue;
         }
-        else if ( xPos >= trackRight ) {
-            value = drawInverted() ? minValue : maxValue;
+        else if ( xPos >= trbckRight ) {
+            vblue = drbwInverted() ? minVblue : mbxVblue;
         }
         else {
-            int distanceFromTrackLeft = xPos - trackLeft;
-            double valueRange = (double)maxValue - (double)minValue;
-            double valuePerPixel = valueRange / (double)trackLength;
-            int valueFromTrackLeft = (int)Math.round( distanceFromTrackLeft * valuePerPixel );
+            int distbnceFromTrbckLeft = xPos - trbckLeft;
+            double vblueRbnge = (double)mbxVblue - (double)minVblue;
+            double vbluePerPixel = vblueRbnge / (double)trbckLength;
+            int vblueFromTrbckLeft = (int)Mbth.round( distbnceFromTrbckLeft * vbluePerPixel );
 
-            value = drawInverted() ? maxValue - valueFromTrackLeft :
-              minValue + valueFromTrackLeft;
+            vblue = drbwInverted() ? mbxVblue - vblueFromTrbckLeft :
+              minVblue + vblueFromTrbckLeft;
         }
 
-        return value;
+        return vblue;
     }
 
 
-    private class Handler implements ChangeListener,
-            ComponentListener, FocusListener, PropertyChangeListener {
-        // Change Handler
-        public void stateChanged(ChangeEvent e) {
-            if (!isDragging) {
-                calculateThumbLocation();
-                slider.repaint();
+    privbte clbss Hbndler implements ChbngeListener,
+            ComponentListener, FocusListener, PropertyChbngeListener {
+        // Chbnge Hbndler
+        public void stbteChbnged(ChbngeEvent e) {
+            if (!isDrbgging) {
+                cblculbteThumbLocbtion();
+                slider.repbint();
             }
-            lastValue = slider.getValue();
+            lbstVblue = slider.getVblue();
         }
 
-        // Component Handler
+        // Component Hbndler
         public void componentHidden(ComponentEvent e) { }
         public void componentMoved(ComponentEvent e) { }
         public void componentResized(ComponentEvent e) {
-            calculateGeometry();
-            slider.repaint();
+            cblculbteGeometry();
+            slider.repbint();
         }
         public void componentShown(ComponentEvent e) { }
 
-        // Focus Handler
-        public void focusGained(FocusEvent e) { slider.repaint(); }
-        public void focusLost(FocusEvent e) { slider.repaint(); }
+        // Focus Hbndler
+        public void focusGbined(FocusEvent e) { slider.repbint(); }
+        public void focusLost(FocusEvent e) { slider.repbint(); }
 
-        // Property Change Handler
-        public void propertyChange(PropertyChangeEvent e) {
-            String propertyName = e.getPropertyName();
-            if (propertyName == "orientation" ||
-                    propertyName == "inverted" ||
-                    propertyName == "labelTable" ||
-                    propertyName == "majorTickSpacing" ||
-                    propertyName == "minorTickSpacing" ||
-                    propertyName == "paintTicks" ||
-                    propertyName == "paintTrack" ||
-                    propertyName == "font" ||
-                    propertyName == "paintLabels" ||
-                    propertyName == "Slider.paintThumbArrowShape") {
-                checkedLabelBaselines = false;
-                calculateGeometry();
-                slider.repaint();
-            } else if (propertyName == "componentOrientation") {
-                calculateGeometry();
-                slider.repaint();
-                InputMap km = getInputMap(JComponent.WHEN_FOCUSED, slider);
-                SwingUtilities.replaceUIInputMap(slider,
+        // Property Chbnge Hbndler
+        public void propertyChbnge(PropertyChbngeEvent e) {
+            String propertyNbme = e.getPropertyNbme();
+            if (propertyNbme == "orientbtion" ||
+                    propertyNbme == "inverted" ||
+                    propertyNbme == "lbbelTbble" ||
+                    propertyNbme == "mbjorTickSpbcing" ||
+                    propertyNbme == "minorTickSpbcing" ||
+                    propertyNbme == "pbintTicks" ||
+                    propertyNbme == "pbintTrbck" ||
+                    propertyNbme == "font" ||
+                    propertyNbme == "pbintLbbels" ||
+                    propertyNbme == "Slider.pbintThumbArrowShbpe") {
+                checkedLbbelBbselines = fblse;
+                cblculbteGeometry();
+                slider.repbint();
+            } else if (propertyNbme == "componentOrientbtion") {
+                cblculbteGeometry();
+                slider.repbint();
+                InputMbp km = getInputMbp(JComponent.WHEN_FOCUSED, slider);
+                SwingUtilities.replbceUIInputMbp(slider,
                     JComponent.WHEN_FOCUSED, km);
-            } else if (propertyName == "model") {
-                ((BoundedRangeModel)e.getOldValue()).removeChangeListener(
-                    changeListener);
-                ((BoundedRangeModel)e.getNewValue()).addChangeListener(
-                    changeListener);
-                calculateThumbLocation();
-                slider.repaint();
+            } else if (propertyNbme == "model") {
+                ((BoundedRbngeModel)e.getOldVblue()).removeChbngeListener(
+                    chbngeListener);
+                ((BoundedRbngeModel)e.getNewVblue()).bddChbngeListener(
+                    chbngeListener);
+                cblculbteThumbLocbtion();
+                slider.repbint();
             }
         }
     }
 
     /////////////////////////////////////////////////////////////////////////
-    /// Model Listener Class
+    /// Model Listener Clbss
     /////////////////////////////////////////////////////////////////////////
     /**
-     * Data model listener.
+     * Dbtb model listener.
      *
-     * This class should be treated as a &quot;protected&quot; inner class.
-     * Instantiate it only within subclasses of <code>Foo</code>.
+     * This clbss should be trebted bs b &quot;protected&quot; inner clbss.
+     * Instbntibte it only within subclbsses of <code>Foo</code>.
      */
-    public class ChangeHandler implements ChangeListener {
-        // NOTE: This class exists only for backward compatibility. All
-        // its functionality has been moved into Handler. If you need to add
-        // new functionality add it to the Handler, but make sure this
-        // class calls into the Handler.
-        public void stateChanged(ChangeEvent e) {
-            getHandler().stateChanged(e);
+    public clbss ChbngeHbndler implements ChbngeListener {
+        // NOTE: This clbss exists only for bbckwbrd compbtibility. All
+        // its functionblity hbs been moved into Hbndler. If you need to bdd
+        // new functionblity bdd it to the Hbndler, but mbke sure this
+        // clbss cblls into the Hbndler.
+        public void stbteChbnged(ChbngeEvent e) {
+            getHbndler().stbteChbnged(e);
         }
     }
 
     /////////////////////////////////////////////////////////////////////////
-    /// Track Listener Class
+    /// Trbck Listener Clbss
     /////////////////////////////////////////////////////////////////////////
     /**
-     * Track mouse movements.
+     * Trbck mouse movements.
      *
-     * This class should be treated as a &quot;protected&quot; inner class.
-     * Instantiate it only within subclasses of <code>Foo</code>.
+     * This clbss should be trebted bs b &quot;protected&quot; inner clbss.
+     * Instbntibte it only within subclbsses of <code>Foo</code>.
      */
-    public class TrackListener extends MouseInputAdapter {
-        protected transient int offset;
-        protected transient int currentMouseX, currentMouseY;
+    public clbss TrbckListener extends MouseInputAdbpter {
+        protected trbnsient int offset;
+        protected trbnsient int currentMouseX, currentMouseY;
 
-        public void mouseReleased(MouseEvent e) {
-            if (!slider.isEnabled()) {
+        public void mouseRelebsed(MouseEvent e) {
+            if (!slider.isEnbbled()) {
                 return;
             }
 
             offset = 0;
             scrollTimer.stop();
 
-            isDragging = false;
-            slider.setValueIsAdjusting(false);
-            slider.repaint();
+            isDrbgging = fblse;
+            slider.setVblueIsAdjusting(fblse);
+            slider.repbint();
         }
 
         /**
-        * If the mouse is pressed above the "thumb" component
-        * then reduce the scrollbars value by one page ("page up"),
-        * otherwise increase it by one page.  If there is no
-        * thumb then page up if the mouse is in the upper half
-        * of the track.
+        * If the mouse is pressed bbove the "thumb" component
+        * then reduce the scrollbbrs vblue by one pbge ("pbge up"),
+        * otherwise increbse it by one pbge.  If there is no
+        * thumb then pbge up if the mouse is in the upper hblf
+        * of the trbck.
         */
         public void mousePressed(MouseEvent e) {
-            if (!slider.isEnabled()) {
+            if (!slider.isEnbbled()) {
                 return;
             }
 
-            // We should recalculate geometry just before
-            // calculation of the thumb movement direction.
-            // It is important for the case, when JSlider
-            // is a cell editor in JTable. See 6348946.
-            calculateGeometry();
+            // We should recblculbte geometry just before
+            // cblculbtion of the thumb movement direction.
+            // It is importbnt for the cbse, when JSlider
+            // is b cell editor in JTbble. See 6348946.
+            cblculbteGeometry();
 
             currentMouseX = e.getX();
             currentMouseY = e.getY();
 
-            if (slider.isRequestFocusEnabled()) {
+            if (slider.isRequestFocusEnbbled()) {
                 slider.requestFocus();
             }
 
-            // Clicked in the Thumb area?
-            if (thumbRect.contains(currentMouseX, currentMouseY)) {
-                if (UIManager.getBoolean("Slider.onlyLeftMouseButtonDrag")
+            // Clicked in the Thumb breb?
+            if (thumbRect.contbins(currentMouseX, currentMouseY)) {
+                if (UIMbnbger.getBoolebn("Slider.onlyLeftMouseButtonDrbg")
                         && !SwingUtilities.isLeftMouseButton(e)) {
                     return;
                 }
 
-                switch (slider.getOrientation()) {
-                case JSlider.VERTICAL:
+                switch (slider.getOrientbtion()) {
+                cbse JSlider.VERTICAL:
                     offset = currentMouseY - thumbRect.y;
-                    break;
-                case JSlider.HORIZONTAL:
+                    brebk;
+                cbse JSlider.HORIZONTAL:
                     offset = currentMouseX - thumbRect.x;
-                    break;
+                    brebk;
                 }
-                isDragging = true;
+                isDrbgging = true;
                 return;
             }
 
@@ -1628,28 +1628,28 @@ public class BasicSliderUI extends SliderUI{
                 return;
             }
 
-            isDragging = false;
-            slider.setValueIsAdjusting(true);
+            isDrbgging = fblse;
+            slider.setVblueIsAdjusting(true);
 
             Dimension sbSize = slider.getSize();
             int direction = POSITIVE_SCROLL;
 
-            switch (slider.getOrientation()) {
-            case JSlider.VERTICAL:
+            switch (slider.getOrientbtion()) {
+            cbse JSlider.VERTICAL:
                 if ( thumbRect.isEmpty() ) {
-                    int scrollbarCenter = sbSize.height / 2;
-                    if ( !drawInverted() ) {
-                        direction = (currentMouseY < scrollbarCenter) ?
+                    int scrollbbrCenter = sbSize.height / 2;
+                    if ( !drbwInverted() ) {
+                        direction = (currentMouseY < scrollbbrCenter) ?
                             POSITIVE_SCROLL : NEGATIVE_SCROLL;
                     }
                     else {
-                        direction = (currentMouseY < scrollbarCenter) ?
+                        direction = (currentMouseY < scrollbbrCenter) ?
                             NEGATIVE_SCROLL : POSITIVE_SCROLL;
                     }
                 }
                 else {
                     int thumbY = thumbRect.y;
-                    if ( !drawInverted() ) {
+                    if ( !drbwInverted() ) {
                         direction = (currentMouseY < thumbY) ?
                             POSITIVE_SCROLL : NEGATIVE_SCROLL;
                     }
@@ -1658,22 +1658,22 @@ public class BasicSliderUI extends SliderUI{
                             NEGATIVE_SCROLL : POSITIVE_SCROLL;
                     }
                 }
-                break;
-            case JSlider.HORIZONTAL:
+                brebk;
+            cbse JSlider.HORIZONTAL:
                 if ( thumbRect.isEmpty() ) {
-                    int scrollbarCenter = sbSize.width / 2;
-                    if ( !drawInverted() ) {
-                        direction = (currentMouseX < scrollbarCenter) ?
+                    int scrollbbrCenter = sbSize.width / 2;
+                    if ( !drbwInverted() ) {
+                        direction = (currentMouseX < scrollbbrCenter) ?
                             NEGATIVE_SCROLL : POSITIVE_SCROLL;
                     }
                     else {
-                        direction = (currentMouseX < scrollbarCenter) ?
+                        direction = (currentMouseX < scrollbbrCenter) ?
                             POSITIVE_SCROLL : NEGATIVE_SCROLL;
                     }
                 }
                 else {
                     int thumbX = thumbRect.x;
-                    if ( !drawInverted() ) {
+                    if ( !drbwInverted() ) {
                         direction = (currentMouseX < thumbX) ?
                             NEGATIVE_SCROLL : POSITIVE_SCROLL;
                     }
@@ -1682,119 +1682,119 @@ public class BasicSliderUI extends SliderUI{
                             POSITIVE_SCROLL : NEGATIVE_SCROLL;
                     }
                 }
-                break;
+                brebk;
             }
 
             if (shouldScroll(direction)) {
-                scrollDueToClickInTrack(direction);
+                scrollDueToClickInTrbck(direction);
             }
             if (shouldScroll(direction)) {
                 scrollTimer.stop();
                 scrollListener.setDirection(direction);
-                scrollTimer.start();
+                scrollTimer.stbrt();
             }
         }
 
-        public boolean shouldScroll(int direction) {
-            Rectangle r = thumbRect;
-            if (slider.getOrientation() == JSlider.VERTICAL) {
-                if (drawInverted() ? direction < 0 : direction > 0) {
+        public boolebn shouldScroll(int direction) {
+            Rectbngle r = thumbRect;
+            if (slider.getOrientbtion() == JSlider.VERTICAL) {
+                if (drbwInverted() ? direction < 0 : direction > 0) {
                     if (r.y  <= currentMouseY) {
-                        return false;
+                        return fblse;
                     }
                 }
                 else if (r.y + r.height >= currentMouseY) {
-                    return false;
+                    return fblse;
                 }
             }
             else {
-                if (drawInverted() ? direction < 0 : direction > 0) {
+                if (drbwInverted() ? direction < 0 : direction > 0) {
                     if (r.x + r.width  >= currentMouseX) {
-                        return false;
+                        return fblse;
                     }
                 }
                 else if (r.x <= currentMouseX) {
-                    return false;
+                    return fblse;
                 }
             }
 
-            if (direction > 0 && slider.getValue() + slider.getExtent() >=
-                    slider.getMaximum()) {
-                return false;
+            if (direction > 0 && slider.getVblue() + slider.getExtent() >=
+                    slider.getMbximum()) {
+                return fblse;
             }
-            else if (direction < 0 && slider.getValue() <=
+            else if (direction < 0 && slider.getVblue() <=
                     slider.getMinimum()) {
-                return false;
+                return fblse;
             }
 
             return true;
         }
 
         /**
-        * Set the models value to the position of the top/left
-        * of the thumb relative to the origin of the track.
+        * Set the models vblue to the position of the top/left
+        * of the thumb relbtive to the origin of the trbck.
         */
-        public void mouseDragged(MouseEvent e) {
+        public void mouseDrbgged(MouseEvent e) {
             int thumbMiddle;
 
-            if (!slider.isEnabled()) {
+            if (!slider.isEnbbled()) {
                 return;
             }
 
             currentMouseX = e.getX();
             currentMouseY = e.getY();
 
-            if (!isDragging) {
+            if (!isDrbgging) {
                 return;
             }
 
-            slider.setValueIsAdjusting(true);
+            slider.setVblueIsAdjusting(true);
 
-            switch (slider.getOrientation()) {
-            case JSlider.VERTICAL:
-                int halfThumbHeight = thumbRect.height / 2;
+            switch (slider.getOrientbtion()) {
+            cbse JSlider.VERTICAL:
+                int hblfThumbHeight = thumbRect.height / 2;
                 int thumbTop = e.getY() - offset;
-                int trackTop = trackRect.y;
-                int trackBottom = trackRect.y + (trackRect.height - 1);
-                int vMax = yPositionForValue(slider.getMaximum() -
+                int trbckTop = trbckRect.y;
+                int trbckBottom = trbckRect.y + (trbckRect.height - 1);
+                int vMbx = yPositionForVblue(slider.getMbximum() -
                                             slider.getExtent());
 
-                if (drawInverted()) {
-                    trackBottom = vMax;
+                if (drbwInverted()) {
+                    trbckBottom = vMbx;
                 }
                 else {
-                    trackTop = vMax;
+                    trbckTop = vMbx;
                 }
-                thumbTop = Math.max(thumbTop, trackTop - halfThumbHeight);
-                thumbTop = Math.min(thumbTop, trackBottom - halfThumbHeight);
+                thumbTop = Mbth.mbx(thumbTop, trbckTop - hblfThumbHeight);
+                thumbTop = Mbth.min(thumbTop, trbckBottom - hblfThumbHeight);
 
-                setThumbLocation(thumbRect.x, thumbTop);
+                setThumbLocbtion(thumbRect.x, thumbTop);
 
-                thumbMiddle = thumbTop + halfThumbHeight;
-                slider.setValue( valueForYPosition( thumbMiddle ) );
-                break;
-            case JSlider.HORIZONTAL:
-                int halfThumbWidth = thumbRect.width / 2;
+                thumbMiddle = thumbTop + hblfThumbHeight;
+                slider.setVblue( vblueForYPosition( thumbMiddle ) );
+                brebk;
+            cbse JSlider.HORIZONTAL:
+                int hblfThumbWidth = thumbRect.width / 2;
                 int thumbLeft = e.getX() - offset;
-                int trackLeft = trackRect.x;
-                int trackRight = trackRect.x + (trackRect.width - 1);
-                int hMax = xPositionForValue(slider.getMaximum() -
+                int trbckLeft = trbckRect.x;
+                int trbckRight = trbckRect.x + (trbckRect.width - 1);
+                int hMbx = xPositionForVblue(slider.getMbximum() -
                                             slider.getExtent());
 
-                if (drawInverted()) {
-                    trackLeft = hMax;
+                if (drbwInverted()) {
+                    trbckLeft = hMbx;
                 }
                 else {
-                    trackRight = hMax;
+                    trbckRight = hMbx;
                 }
-                thumbLeft = Math.max(thumbLeft, trackLeft - halfThumbWidth);
-                thumbLeft = Math.min(thumbLeft, trackRight - halfThumbWidth);
+                thumbLeft = Mbth.mbx(thumbLeft, trbckLeft - hblfThumbWidth);
+                thumbLeft = Mbth.min(thumbLeft, trbckRight - hblfThumbWidth);
 
-                setThumbLocation(thumbLeft, thumbRect.y);
+                setThumbLocbtion(thumbLeft, thumbRect.y);
 
-                thumbMiddle = thumbLeft + halfThumbWidth;
-                slider.setValue(valueForXPosition(thumbMiddle));
-                break;
+                thumbMiddle = thumbLeft + hblfThumbWidth;
+                slider.setVblue(vblueForXPosition(thumbMiddle));
+                brebk;
             }
         }
 
@@ -1804,22 +1804,22 @@ public class BasicSliderUI extends SliderUI{
     /**
      * Scroll-event listener.
      *
-     * This class should be treated as a &quot;protected&quot; inner class.
-     * Instantiate it only within subclasses of <code>Foo</code>.
+     * This clbss should be trebted bs b &quot;protected&quot; inner clbss.
+     * Instbntibte it only within subclbsses of <code>Foo</code>.
      */
-    public class ScrollListener implements ActionListener {
-        // changed this class to public to avoid bogus IllegalAccessException
-        // bug in InternetExplorer browser.  It was protected.  Work around
+    public clbss ScrollListener implements ActionListener {
+        // chbnged this clbss to public to bvoid bogus IllegblAccessException
+        // bug in InternetExplorer browser.  It wbs protected.  Work bround
         // for 4109432
         int direction = POSITIVE_SCROLL;
-        boolean useBlockIncrement;
+        boolebn useBlockIncrement;
 
         public ScrollListener() {
             direction = POSITIVE_SCROLL;
             useBlockIncrement = true;
         }
 
-        public ScrollListener(int dir, boolean block)   {
+        public ScrollListener(int dir, boolebn block)   {
             direction = dir;
             useBlockIncrement = block;
         }
@@ -1828,18 +1828,18 @@ public class BasicSliderUI extends SliderUI{
             this.direction = direction;
         }
 
-        public void setScrollByBlock(boolean block) {
+        public void setScrollByBlock(boolebn block) {
             this.useBlockIncrement = block;
         }
 
-        public void actionPerformed(ActionEvent e) {
+        public void bctionPerformed(ActionEvent e) {
             if (useBlockIncrement) {
                 scrollByBlock(direction);
             }
             else {
                 scrollByUnit(direction);
             }
-            if (!trackListener.shouldScroll(direction)) {
+            if (!trbckListener.shouldScroll(direction)) {
                 ((Timer)e.getSource()).stop();
             }
         }
@@ -1848,76 +1848,76 @@ public class BasicSliderUI extends SliderUI{
     /**
      * Listener for resizing events.
      * <p>
-     * This class should be treated as a &quot;protected&quot; inner class.
-     * Instantiate it only within subclasses of <code>Foo</code>.
+     * This clbss should be trebted bs b &quot;protected&quot; inner clbss.
+     * Instbntibte it only within subclbsses of <code>Foo</code>.
      */
-    public class ComponentHandler extends ComponentAdapter {
-        // NOTE: This class exists only for backward compatibility. All
-        // its functionality has been moved into Handler. If you need to add
-        // new functionality add it to the Handler, but make sure this
-        // class calls into the Handler.
+    public clbss ComponentHbndler extends ComponentAdbpter {
+        // NOTE: This clbss exists only for bbckwbrd compbtibility. All
+        // its functionblity hbs been moved into Hbndler. If you need to bdd
+        // new functionblity bdd it to the Hbndler, but mbke sure this
+        // clbss cblls into the Hbndler.
         public void componentResized(ComponentEvent e)  {
-            getHandler().componentResized(e);
+            getHbndler().componentResized(e);
         }
     }
 
     /**
-     * Focus-change listener.
+     * Focus-chbnge listener.
      * <p>
-     * This class should be treated as a &quot;protected&quot; inner class.
-     * Instantiate it only within subclasses of <code>Foo</code>.
+     * This clbss should be trebted bs b &quot;protected&quot; inner clbss.
+     * Instbntibte it only within subclbsses of <code>Foo</code>.
      */
-    public class FocusHandler implements FocusListener {
-        // NOTE: This class exists only for backward compatibility. All
-        // its functionality has been moved into Handler. If you need to add
-        // new functionality add it to the Handler, but make sure this
-        // class calls into the Handler.
-        public void focusGained(FocusEvent e) {
-            getHandler().focusGained(e);
+    public clbss FocusHbndler implements FocusListener {
+        // NOTE: This clbss exists only for bbckwbrd compbtibility. All
+        // its functionblity hbs been moved into Hbndler. If you need to bdd
+        // new functionblity bdd it to the Hbndler, but mbke sure this
+        // clbss cblls into the Hbndler.
+        public void focusGbined(FocusEvent e) {
+            getHbndler().focusGbined(e);
         }
 
         public void focusLost(FocusEvent e) {
-            getHandler().focusLost(e);
+            getHbndler().focusLost(e);
         }
     }
 
     /**
-     * As of Java 2 platform v1.3 this undocumented class is no longer used.
-     * The recommended approach to creating bindings is to use a
-     * combination of an <code>ActionMap</code>, to contain the action,
-     * and an <code>InputMap</code> to contain the mapping from KeyStroke
-     * to action description. The InputMap is is usually described in the
-     * LookAndFeel tables.
+     * As of Jbvb 2 plbtform v1.3 this undocumented clbss is no longer used.
+     * The recommended bpprobch to crebting bindings is to use b
+     * combinbtion of bn <code>ActionMbp</code>, to contbin the bction,
+     * bnd bn <code>InputMbp</code> to contbin the mbpping from KeyStroke
+     * to bction description. The InputMbp is is usublly described in the
+     * LookAndFeel tbbles.
      * <p>
-     * Please refer to the key bindings specification for further details.
+     * Plebse refer to the key bindings specificbtion for further detbils.
      * <p>
-     * This class should be treated as a &quot;protected&quot; inner class.
-     * Instantiate it only within subclasses of <code>Foo</code>.
+     * This clbss should be trebted bs b &quot;protected&quot; inner clbss.
+     * Instbntibte it only within subclbsses of <code>Foo</code>.
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    public class ActionScroller extends AbstractAction {
-        // NOTE: This class exists only for backward compatibility. All
-        // its functionality has been moved into Actions. If you need to add
-        // new functionality add it to the Actions, but make sure this
-        // class calls into the Actions.
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    public clbss ActionScroller extends AbstrbctAction {
+        // NOTE: This clbss exists only for bbckwbrd compbtibility. All
+        // its functionblity hbs been moved into Actions. If you need to bdd
+        // new functionblity bdd it to the Actions, but mbke sure this
+        // clbss cblls into the Actions.
         int dir;
-        boolean block;
+        boolebn block;
         JSlider slider;
 
-        public ActionScroller( JSlider slider, int dir, boolean block) {
+        public ActionScroller( JSlider slider, int dir, boolebn block) {
             this.dir = dir;
             this.block = block;
             this.slider = slider;
         }
 
-        public void actionPerformed(ActionEvent e) {
-            SHARED_ACTION.scroll(slider, BasicSliderUI.this, dir, block);
+        public void bctionPerformed(ActionEvent e) {
+            SHARED_ACTION.scroll(slider, BbsicSliderUI.this, dir, block);
         }
 
-        public boolean isEnabled() {
-            boolean b = true;
+        public boolebn isEnbbled() {
+            boolebn b = true;
             if (slider != null) {
-                b = slider.isEnabled();
+                b = slider.isEnbbled();
             }
             return b;
         }
@@ -1926,26 +1926,26 @@ public class BasicSliderUI extends SliderUI{
 
 
     /**
-     * A static version of the above.
+     * A stbtic version of the bbove.
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    static class SharedActionScroller extends AbstractAction {
-        // NOTE: This class exists only for backward compatibility. All
-        // its functionality has been moved into Actions. If you need to add
-        // new functionality add it to the Actions, but make sure this
-        // class calls into the Actions.
+    @SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+    stbtic clbss ShbredActionScroller extends AbstrbctAction {
+        // NOTE: This clbss exists only for bbckwbrd compbtibility. All
+        // its functionblity hbs been moved into Actions. If you need to bdd
+        // new functionblity bdd it to the Actions, but mbke sure this
+        // clbss cblls into the Actions.
         int dir;
-        boolean block;
+        boolebn block;
 
-        public SharedActionScroller(int dir, boolean block) {
+        public ShbredActionScroller(int dir, boolebn block) {
             this.dir = dir;
             this.block = block;
         }
 
-        public void actionPerformed(ActionEvent evt) {
+        public void bctionPerformed(ActionEvent evt) {
             JSlider slider = (JSlider)evt.getSource();
-            BasicSliderUI ui = (BasicSliderUI)BasicLookAndFeel.getUIOfType(
-                    slider.getUI(), BasicSliderUI.class);
+            BbsicSliderUI ui = (BbsicSliderUI)BbsicLookAndFeel.getUIOfType(
+                    slider.getUI(), BbsicSliderUI.clbss);
             if (ui == null) {
                 return;
             }
@@ -1953,54 +1953,54 @@ public class BasicSliderUI extends SliderUI{
         }
     }
 
-    private static class Actions extends UIAction {
-        public static final String POSITIVE_UNIT_INCREMENT =
+    privbte stbtic clbss Actions extends UIAction {
+        public stbtic finbl String POSITIVE_UNIT_INCREMENT =
             "positiveUnitIncrement";
-        public static final String POSITIVE_BLOCK_INCREMENT =
+        public stbtic finbl String POSITIVE_BLOCK_INCREMENT =
             "positiveBlockIncrement";
-        public static final String NEGATIVE_UNIT_INCREMENT =
-            "negativeUnitIncrement";
-        public static final String NEGATIVE_BLOCK_INCREMENT =
-            "negativeBlockIncrement";
-        public static final String MIN_SCROLL_INCREMENT = "minScroll";
-        public static final String MAX_SCROLL_INCREMENT = "maxScroll";
+        public stbtic finbl String NEGATIVE_UNIT_INCREMENT =
+            "negbtiveUnitIncrement";
+        public stbtic finbl String NEGATIVE_BLOCK_INCREMENT =
+            "negbtiveBlockIncrement";
+        public stbtic finbl String MIN_SCROLL_INCREMENT = "minScroll";
+        public stbtic finbl String MAX_SCROLL_INCREMENT = "mbxScroll";
 
 
         Actions() {
             super(null);
         }
 
-        public Actions(String name) {
-            super(name);
+        public Actions(String nbme) {
+            super(nbme);
         }
 
-        public void actionPerformed(ActionEvent evt) {
+        public void bctionPerformed(ActionEvent evt) {
             JSlider slider = (JSlider)evt.getSource();
-            BasicSliderUI ui = (BasicSliderUI)BasicLookAndFeel.getUIOfType(
-                     slider.getUI(), BasicSliderUI.class);
-            String name = getName();
+            BbsicSliderUI ui = (BbsicSliderUI)BbsicLookAndFeel.getUIOfType(
+                     slider.getUI(), BbsicSliderUI.clbss);
+            String nbme = getNbme();
 
             if (ui == null) {
                 return;
             }
-            if (POSITIVE_UNIT_INCREMENT == name) {
-                scroll(slider, ui, POSITIVE_SCROLL, false);
-            } else if (NEGATIVE_UNIT_INCREMENT == name) {
-                scroll(slider, ui, NEGATIVE_SCROLL, false);
-            } else if (POSITIVE_BLOCK_INCREMENT == name) {
+            if (POSITIVE_UNIT_INCREMENT == nbme) {
+                scroll(slider, ui, POSITIVE_SCROLL, fblse);
+            } else if (NEGATIVE_UNIT_INCREMENT == nbme) {
+                scroll(slider, ui, NEGATIVE_SCROLL, fblse);
+            } else if (POSITIVE_BLOCK_INCREMENT == nbme) {
                 scroll(slider, ui, POSITIVE_SCROLL, true);
-            } else if (NEGATIVE_BLOCK_INCREMENT == name) {
+            } else if (NEGATIVE_BLOCK_INCREMENT == nbme) {
                 scroll(slider, ui, NEGATIVE_SCROLL, true);
-            } else if (MIN_SCROLL_INCREMENT == name) {
-                scroll(slider, ui, MIN_SCROLL, false);
-            } else if (MAX_SCROLL_INCREMENT == name) {
-                scroll(slider, ui, MAX_SCROLL, false);
+            } else if (MIN_SCROLL_INCREMENT == nbme) {
+                scroll(slider, ui, MIN_SCROLL, fblse);
+            } else if (MAX_SCROLL_INCREMENT == nbme) {
+                scroll(slider, ui, MAX_SCROLL, fblse);
             }
         }
 
-        private void scroll(JSlider slider, BasicSliderUI ui, int direction,
-                boolean isBlock) {
-            boolean invert = slider.getInverted();
+        privbte void scroll(JSlider slider, BbsicSliderUI ui, int direction,
+                boolebn isBlock) {
+            boolebn invert = slider.getInverted();
 
             if (direction == NEGATIVE_SCROLL || direction == POSITIVE_SCROLL) {
                 if (invert) {
@@ -2019,8 +2019,8 @@ public class BasicSliderUI extends SliderUI{
                         MAX_SCROLL : MIN_SCROLL;
                 }
 
-                slider.setValue((direction == MIN_SCROLL) ?
-                    slider.getMinimum() : slider.getMaximum());
+                slider.setVblue((direction == MIN_SCROLL) ?
+                    slider.getMinimum() : slider.getMbximum());
             }
         }
     }

@@ -1,62 +1,62 @@
 /*
- * Copyright (c) 1994, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1994, 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.tree;
+pbckbge sun.tools.tree;
 
-import sun.tools.java.*;
-import sun.tools.asm.Assembler;
-import java.util.Hashtable;
+import sun.tools.jbvb.*;
+import sun.tools.bsm.Assembler;
+import jbvb.util.Hbshtbble;
 
 /**
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file bre not pbrt of bny
+ * supported API.  Code thbt depends on them does so bt its own risk:
+ * they bre subject to chbnge or removbl without notice.
  */
 public
-class BinaryAssignExpression extends BinaryExpression {
-    Expression implementation;
+clbss BinbryAssignExpression extends BinbryExpression {
+    Expression implementbtion;
 
     /**
      * Constructor
      */
-    BinaryAssignExpression(int op, long where, Expression left, Expression right) {
+    BinbryAssignExpression(int op, long where, Expression left, Expression right) {
         super(op, where, left.type, left, right);
     }
 
-    public Expression getImplementation() {
-        if (implementation != null)
-            return implementation;
+    public Expression getImplementbtion() {
+        if (implementbtion != null)
+            return implementbtion;
         return this;
     }
 
     /**
-     * Order the expression based on precedence
+     * Order the expression bbsed on precedence
      */
     public Expression order() {
         if (precedence() >= left.precedence()) {
-            UnaryExpression e = (UnaryExpression)left;
+            UnbryExpression e = (UnbryExpression)left;
             left = e.right;
             e.right = order();
             return e;
@@ -67,35 +67,35 @@ class BinaryAssignExpression extends BinaryExpression {
     /**
      * Check void expression
      */
-    public Vset check(Environment env, Context ctx, Vset vset, Hashtable<Object,Object> exp) {
-        return checkValue(env, ctx, vset, exp);
+    public Vset check(Environment env, Context ctx, Vset vset, Hbshtbble<Object,Object> exp) {
+        return checkVblue(env, ctx, vset, exp);
     }
 
     /**
      * Inline
      */
     public Expression inline(Environment env, Context ctx) {
-        if (implementation != null)
-            return implementation.inline(env, ctx);
-        return inlineValue(env, ctx);
+        if (implementbtion != null)
+            return implementbtion.inline(env, ctx);
+        return inlineVblue(env, ctx);
     }
-    public Expression inlineValue(Environment env, Context ctx) {
-        if (implementation != null)
-            return implementation.inlineValue(env, ctx);
+    public Expression inlineVblue(Environment env, Context ctx) {
+        if (implementbtion != null)
+            return implementbtion.inlineVblue(env, ctx);
         left = left.inlineLHS(env, ctx);
-        right = right.inlineValue(env, ctx);
+        right = right.inlineVblue(env, ctx);
         return this;
     }
 
     public Expression copyInline(Context ctx) {
-        if (implementation != null)
-            return implementation.copyInline(ctx);
+        if (implementbtion != null)
+            return implementbtion.copyInline(ctx);
         return super.copyInline(ctx);
     }
 
     public int costInline(int thresh, Environment env, Context ctx) {
-        if (implementation != null)
-            return implementation.costInline(thresh, env, ctx);
+        if (implementbtion != null)
+            return implementbtion.costInline(thresh, env, ctx);
         return super.costInline(thresh, env, ctx);
     }
 }

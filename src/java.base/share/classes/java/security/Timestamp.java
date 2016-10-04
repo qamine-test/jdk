@@ -1,164 +1,164 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.security;
+pbckbge jbvb.security;
 
-import java.io.*;
-import java.security.cert.Certificate;
-import java.security.cert.CertPath;
-import java.security.cert.X509Extension;
-import java.util.Date;
-import java.util.List;
+import jbvb.io.*;
+import jbvb.security.cert.Certificbte;
+import jbvb.security.cert.CertPbth;
+import jbvb.security.cert.X509Extension;
+import jbvb.util.Dbte;
+import jbvb.util.List;
 
 /**
- * This class encapsulates information about a signed timestamp.
- * It is immutable.
- * It includes the timestamp's date and time as well as information about the
- * Timestamping Authority (TSA) which generated and signed the timestamp.
+ * This clbss encbpsulbtes informbtion bbout b signed timestbmp.
+ * It is immutbble.
+ * It includes the timestbmp's dbte bnd time bs well bs informbtion bbout the
+ * Timestbmping Authority (TSA) which generbted bnd signed the timestbmp.
  *
  * @since 1.5
- * @author Vincent Ryan
+ * @buthor Vincent Rybn
  */
 
-public final class Timestamp implements Serializable {
+public finbl clbss Timestbmp implements Seriblizbble {
 
-    private static final long serialVersionUID = -5502683707821851294L;
-
-    /**
-     * The timestamp's date and time
-     *
-     * @serial
-     */
-    private Date timestamp;
+    privbte stbtic finbl long seriblVersionUID = -5502683707821851294L;
 
     /**
-     * The TSA's certificate path.
+     * The timestbmp's dbte bnd time
      *
-     * @serial
+     * @seribl
      */
-    private CertPath signerCertPath;
+    privbte Dbte timestbmp;
+
+    /**
+     * The TSA's certificbte pbth.
+     *
+     * @seribl
+     */
+    privbte CertPbth signerCertPbth;
 
     /*
-     * Hash code for this timestamp.
+     * Hbsh code for this timestbmp.
      */
-    private transient int myhash = -1;
+    privbte trbnsient int myhbsh = -1;
 
     /**
-     * Constructs a Timestamp.
+     * Constructs b Timestbmp.
      *
-     * @param timestamp is the timestamp's date and time. It must not be null.
-     * @param signerCertPath is the TSA's certificate path. It must not be null.
-     * @throws NullPointerException if timestamp or signerCertPath is null.
+     * @pbrbm timestbmp is the timestbmp's dbte bnd time. It must not be null.
+     * @pbrbm signerCertPbth is the TSA's certificbte pbth. It must not be null.
+     * @throws NullPointerException if timestbmp or signerCertPbth is null.
      */
-    public Timestamp(Date timestamp, CertPath signerCertPath) {
-        if (timestamp == null || signerCertPath == null) {
+    public Timestbmp(Dbte timestbmp, CertPbth signerCertPbth) {
+        if (timestbmp == null || signerCertPbth == null) {
             throw new NullPointerException();
         }
-        this.timestamp = new Date(timestamp.getTime()); // clone
-        this.signerCertPath = signerCertPath;
+        this.timestbmp = new Dbte(timestbmp.getTime()); // clone
+        this.signerCertPbth = signerCertPbth;
     }
 
     /**
-     * Returns the date and time when the timestamp was generated.
+     * Returns the dbte bnd time when the timestbmp wbs generbted.
      *
-     * @return The timestamp's date and time.
+     * @return The timestbmp's dbte bnd time.
      */
-    public Date getTimestamp() {
-        return new Date(timestamp.getTime()); // clone
+    public Dbte getTimestbmp() {
+        return new Dbte(timestbmp.getTime()); // clone
     }
 
     /**
-     * Returns the certificate path for the Timestamping Authority.
+     * Returns the certificbte pbth for the Timestbmping Authority.
      *
-     * @return The TSA's certificate path.
+     * @return The TSA's certificbte pbth.
      */
-    public CertPath getSignerCertPath() {
-        return signerCertPath;
+    public CertPbth getSignerCertPbth() {
+        return signerCertPbth;
     }
 
     /**
-     * Returns the hash code value for this timestamp.
-     * The hash code is generated using the date and time of the timestamp
-     * and the TSA's certificate path.
+     * Returns the hbsh code vblue for this timestbmp.
+     * The hbsh code is generbted using the dbte bnd time of the timestbmp
+     * bnd the TSA's certificbte pbth.
      *
-     * @return a hash code value for this timestamp.
+     * @return b hbsh code vblue for this timestbmp.
      */
-    public int hashCode() {
-        if (myhash == -1) {
-            myhash = timestamp.hashCode() + signerCertPath.hashCode();
+    public int hbshCode() {
+        if (myhbsh == -1) {
+            myhbsh = timestbmp.hbshCode() + signerCertPbth.hbshCode();
         }
-        return myhash;
+        return myhbsh;
     }
 
     /**
-     * Tests for equality between the specified object and this
-     * timestamp. Two timestamps are considered equal if the date and time of
-     * their timestamp's and their signer's certificate paths are equal.
+     * Tests for equblity between the specified object bnd this
+     * timestbmp. Two timestbmps bre considered equbl if the dbte bnd time of
+     * their timestbmp's bnd their signer's certificbte pbths bre equbl.
      *
-     * @param obj the object to test for equality with this timestamp.
+     * @pbrbm obj the object to test for equblity with this timestbmp.
      *
-     * @return true if the timestamp are considered equal, false otherwise.
+     * @return true if the timestbmp bre considered equbl, fblse otherwise.
      */
-    public boolean equals(Object obj) {
-        if (obj == null || (!(obj instanceof Timestamp))) {
-            return false;
+    public boolebn equbls(Object obj) {
+        if (obj == null || (!(obj instbnceof Timestbmp))) {
+            return fblse;
         }
-        Timestamp that = (Timestamp)obj;
+        Timestbmp thbt = (Timestbmp)obj;
 
-        if (this == that) {
+        if (this == thbt) {
             return true;
         }
-        return (timestamp.equals(that.getTimestamp()) &&
-            signerCertPath.equals(that.getSignerCertPath()));
+        return (timestbmp.equbls(thbt.getTimestbmp()) &&
+            signerCertPbth.equbls(thbt.getSignerCertPbth()));
     }
 
     /**
-     * Returns a string describing this timestamp.
+     * Returns b string describing this timestbmp.
      *
-     * @return A string comprising the date and time of the timestamp and
-     *         its signer's certificate.
+     * @return A string comprising the dbte bnd time of the timestbmp bnd
+     *         its signer's certificbte.
      */
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("(");
-        sb.append("timestamp: " + timestamp);
-        List<? extends Certificate> certs = signerCertPath.getCertificates();
+        sb.bppend("(");
+        sb.bppend("timestbmp: " + timestbmp);
+        List<? extends Certificbte> certs = signerCertPbth.getCertificbtes();
         if (!certs.isEmpty()) {
-            sb.append("TSA: " + certs.get(0));
+            sb.bppend("TSA: " + certs.get(0));
         } else {
-            sb.append("TSA: <empty>");
+            sb.bppend("TSA: <empty>");
         }
-        sb.append(")");
+        sb.bppend(")");
         return sb.toString();
     }
 
-    // Explicitly reset hash code value to -1
-    private void readObject(ObjectInputStream ois)
-        throws IOException, ClassNotFoundException {
-        ois.defaultReadObject();
-        myhash = -1;
-        timestamp = new Date(timestamp.getTime());
+    // Explicitly reset hbsh code vblue to -1
+    privbte void rebdObject(ObjectInputStrebm ois)
+        throws IOException, ClbssNotFoundException {
+        ois.defbultRebdObject();
+        myhbsh = -1;
+        timestbmp = new Dbte(timestbmp.getTime());
     }
 }

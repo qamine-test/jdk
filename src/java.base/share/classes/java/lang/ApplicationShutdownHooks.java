@@ -1,85 +1,85 @@
 /*
- * Copyright (c) 2005, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2010, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.lang;
+pbckbge jbvb.lbng;
 
-import java.util.*;
+import jbvb.util.*;
 
 /*
- * Class to track and run user level shutdown hooks registered through
- * <tt>{@link Runtime#addShutdownHook Runtime.addShutdownHook}</tt>.
+ * Clbss to trbck bnd run user level shutdown hooks registered through
+ * <tt>{@link Runtime#bddShutdownHook Runtime.bddShutdownHook}</tt>.
  *
- * @see java.lang.Runtime#addShutdownHook
- * @see java.lang.Runtime#removeShutdownHook
+ * @see jbvb.lbng.Runtime#bddShutdownHook
+ * @see jbvb.lbng.Runtime#removeShutdownHook
  */
 
-class ApplicationShutdownHooks {
+clbss ApplicbtionShutdownHooks {
     /* The set of registered hooks */
-    private static IdentityHashMap<Thread, Thread> hooks;
-    static {
+    privbte stbtic IdentityHbshMbp<Threbd, Threbd> hooks;
+    stbtic {
         try {
-            Shutdown.add(1 /* shutdown hook invocation order */,
-                false /* not registered if shutdown in progress */,
-                new Runnable() {
+            Shutdown.bdd(1 /* shutdown hook invocbtion order */,
+                fblse /* not registered if shutdown in progress */,
+                new Runnbble() {
                     public void run() {
                         runHooks();
                     }
                 }
             );
-            hooks = new IdentityHashMap<>();
-        } catch (IllegalStateException e) {
-            // application shutdown hooks cannot be added if
+            hooks = new IdentityHbshMbp<>();
+        } cbtch (IllegblStbteException e) {
+            // bpplicbtion shutdown hooks cbnnot be bdded if
             // shutdown is in progress.
             hooks = null;
         }
     }
 
 
-    private ApplicationShutdownHooks() {}
+    privbte ApplicbtionShutdownHooks() {}
 
-    /* Add a new shutdown hook.  Checks the shutdown state and the hook itself,
-     * but does not do any security checks.
+    /* Add b new shutdown hook.  Checks the shutdown stbte bnd the hook itself,
+     * but does not do bny security checks.
      */
-    static synchronized void add(Thread hook) {
+    stbtic synchronized void bdd(Threbd hook) {
         if(hooks == null)
-            throw new IllegalStateException("Shutdown in progress");
+            throw new IllegblStbteException("Shutdown in progress");
 
         if (hook.isAlive())
-            throw new IllegalArgumentException("Hook already running");
+            throw new IllegblArgumentException("Hook blrebdy running");
 
-        if (hooks.containsKey(hook))
-            throw new IllegalArgumentException("Hook previously registered");
+        if (hooks.contbinsKey(hook))
+            throw new IllegblArgumentException("Hook previously registered");
 
         hooks.put(hook, hook);
     }
 
-    /* Remove a previously-registered hook.  Like the add method, this method
-     * does not do any security checks.
+    /* Remove b previously-registered hook.  Like the bdd method, this method
+     * does not do bny security checks.
      */
-    static synchronized boolean remove(Thread hook) {
+    stbtic synchronized boolebn remove(Threbd hook) {
         if(hooks == null)
-            throw new IllegalStateException("Shutdown in progress");
+            throw new IllegblStbteException("Shutdown in progress");
 
         if (hook == null)
             throw new NullPointerException();
@@ -87,24 +87,24 @@ class ApplicationShutdownHooks {
         return hooks.remove(hook) != null;
     }
 
-    /* Iterates over all application hooks creating a new thread for each
-     * to run in. Hooks are run concurrently and this method waits for
+    /* Iterbtes over bll bpplicbtion hooks crebting b new threbd for ebch
+     * to run in. Hooks bre run concurrently bnd this method wbits for
      * them to finish.
      */
-    static void runHooks() {
-        Collection<Thread> threads;
-        synchronized(ApplicationShutdownHooks.class) {
-            threads = hooks.keySet();
+    stbtic void runHooks() {
+        Collection<Threbd> threbds;
+        synchronized(ApplicbtionShutdownHooks.clbss) {
+            threbds = hooks.keySet();
             hooks = null;
         }
 
-        for (Thread hook : threads) {
-            hook.start();
+        for (Threbd hook : threbds) {
+            hook.stbrt();
         }
-        for (Thread hook : threads) {
+        for (Threbd hook : threbds) {
             try {
                 hook.join();
-            } catch (InterruptedException x) { }
+            } cbtch (InterruptedException x) { }
         }
     }
 }

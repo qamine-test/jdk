@@ -1,80 +1,80 @@
 /*
- * Copyright (c) 1996, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.rmi.transport.proxy;
+pbckbge sun.rmi.trbnsport.proxy;
 
-import java.io.*;
+import jbvb.io.*;
 
 /**
- * The HttpOutputStream class assists the HttpSendSocket and HttpReceiveSocket
- * classes by providing an output stream that buffers its entire input until
- * closed, and then it sends the complete transmission prefixed by the end of
- * an HTTP header that specifies the content length.
+ * The HttpOutputStrebm clbss bssists the HttpSendSocket bnd HttpReceiveSocket
+ * clbsses by providing bn output strebm thbt buffers its entire input until
+ * closed, bnd then it sends the complete trbnsmission prefixed by the end of
+ * bn HTTP hebder thbt specifies the content length.
  */
-class HttpOutputStream extends ByteArrayOutputStream {
+clbss HttpOutputStrebm extends ByteArrbyOutputStrebm {
 
-    /** the output stream to send response to */
-    protected OutputStream out;
+    /** the output strebm to send response to */
+    protected OutputStrebm out;
 
-    /** true if HTTP response has been sent */
-    boolean responseSent = false;
+    /** true if HTTP response hbs been sent */
+    boolebn responseSent = fblse;
 
     /**
-     * Begin buffering new HTTP response to be sent to a given stream.
-     * @param out the OutputStream to send response to
+     * Begin buffering new HTTP response to be sent to b given strebm.
+     * @pbrbm out the OutputStrebm to send response to
      */
-    public HttpOutputStream(OutputStream out) {
+    public HttpOutputStrebm(OutputStrebm out) {
         super();
         this.out = out;
     }
 
     /**
-     * On close, send HTTP-packaged response.
+     * On close, send HTTP-pbckbged response.
      */
     public synchronized void close() throws IOException {
         if (!responseSent) {
             /*
-             * If response would have zero content length, then make it
-             * have some arbitrary data so that certain clients will not
-             * fail because the "document contains no data".
+             * If response would hbve zero content length, then mbke it
+             * hbve some brbitrbry dbtb so thbt certbin clients will not
+             * fbil becbuse the "document contbins no dbtb".
              */
             if (size() == 0)
-                write(emptyData);
+                write(emptyDbtb);
 
-            DataOutputStream dos = new DataOutputStream(out);
-            dos.writeBytes("Content-type: application/octet-stream\r\n");
+            DbtbOutputStrebm dos = new DbtbOutputStrebm(out);
+            dos.writeBytes("Content-type: bpplicbtion/octet-strebm\r\n");
             dos.writeBytes("Content-length: " + size() + "\r\n");
             dos.writeBytes("\r\n");
             writeTo(dos);
             dos.flush();
-            // Do not close the underlying stream here, because that would
-            // close the underlying socket and prevent reading a response.
-            reset(); // reset byte array
+            // Do not close the underlying strebm here, becbuse thbt would
+            // close the underlying socket bnd prevent rebding b response.
+            reset(); // reset byte brrby
             responseSent = true;
         }
     }
 
-    /** data to send if the response would otherwise be empty */
-    private static byte[] emptyData = { 0 };
+    /** dbtb to send if the response would otherwise be empty */
+    privbte stbtic byte[] emptyDbtb = { 0 };
 }

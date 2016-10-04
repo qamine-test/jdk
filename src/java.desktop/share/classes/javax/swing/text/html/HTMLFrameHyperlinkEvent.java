@@ -1,136 +1,136 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.text.html;
+pbckbge jbvbx.swing.text.html;
 
-import java.awt.event.InputEvent;
-import javax.swing.text.*;
-import javax.swing.event.HyperlinkEvent;
-import java.net.URL;
+import jbvb.bwt.event.InputEvent;
+import jbvbx.swing.text.*;
+import jbvbx.swing.event.HyperlinkEvent;
+import jbvb.net.URL;
 
 /**
- * HTMLFrameHyperlinkEvent is used to notify interested
- * parties that link was activated in a frame.
+ * HTMLFrbmeHyperlinkEvent is used to notify interested
+ * pbrties thbt link wbs bctivbted in b frbme.
  *
- * @author Sunita Mani
+ * @buthor Sunitb Mbni
  */
-@SuppressWarnings("serial") // Superclass is not serializable across versions
-public class HTMLFrameHyperlinkEvent extends HyperlinkEvent {
+@SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+public clbss HTMLFrbmeHyperlinkEvent extends HyperlinkEvent {
 
     /**
-     * Creates a new object representing a html frame
+     * Crebtes b new object representing b html frbme
      * hypertext link event.
      *
-     * @param source the object responsible for the event
-     * @param type the event type
-     * @param targetURL the affected URL
-     * @param targetFrame the Frame to display the document in
+     * @pbrbm source the object responsible for the event
+     * @pbrbm type the event type
+     * @pbrbm tbrgetURL the bffected URL
+     * @pbrbm tbrgetFrbme the Frbme to displby the document in
      */
-    public HTMLFrameHyperlinkEvent(Object source, EventType type, URL targetURL,
-                                   String targetFrame) {
-        super(source, type, targetURL);
-        this.targetFrame = targetFrame;
+    public HTMLFrbmeHyperlinkEvent(Object source, EventType type, URL tbrgetURL,
+                                   String tbrgetFrbme) {
+        super(source, type, tbrgetURL);
+        this.tbrgetFrbme = tbrgetFrbme;
     }
 
 
     /**
-     * Creates a new object representing a hypertext link event.
+     * Crebtes b new object representing b hypertext link event.
      *
-     * @param source the object responsible for the event
-     * @param type the event type
-     * @param targetURL the affected URL
-     * @param desc a description
-     * @param targetFrame the Frame to display the document in
+     * @pbrbm source the object responsible for the event
+     * @pbrbm type the event type
+     * @pbrbm tbrgetURL the bffected URL
+     * @pbrbm desc b description
+     * @pbrbm tbrgetFrbme the Frbme to displby the document in
      */
-    public HTMLFrameHyperlinkEvent(Object source, EventType type, URL targetURL, String desc,
-                                   String targetFrame) {
-        super(source, type, targetURL, desc);
-        this.targetFrame = targetFrame;
+    public HTMLFrbmeHyperlinkEvent(Object source, EventType type, URL tbrgetURL, String desc,
+                                   String tbrgetFrbme) {
+        super(source, type, tbrgetURL, desc);
+        this.tbrgetFrbme = tbrgetFrbme;
     }
 
     /**
-     * Creates a new object representing a hypertext link event.
+     * Crebtes b new object representing b hypertext link event.
      *
-     * @param source the object responsible for the event
-     * @param type the event type
-     * @param targetURL the affected URL
-     * @param sourceElement the element that corresponds to the source
+     * @pbrbm source the object responsible for the event
+     * @pbrbm type the event type
+     * @pbrbm tbrgetURL the bffected URL
+     * @pbrbm sourceElement the element thbt corresponds to the source
      *                      of the event
-     * @param targetFrame the Frame to display the document in
+     * @pbrbm tbrgetFrbme the Frbme to displby the document in
      */
-    public HTMLFrameHyperlinkEvent(Object source, EventType type, URL targetURL,
-                                   Element sourceElement, String targetFrame) {
-        super(source, type, targetURL, null, sourceElement);
-        this.targetFrame = targetFrame;
+    public HTMLFrbmeHyperlinkEvent(Object source, EventType type, URL tbrgetURL,
+                                   Element sourceElement, String tbrgetFrbme) {
+        super(source, type, tbrgetURL, null, sourceElement);
+        this.tbrgetFrbme = tbrgetFrbme;
     }
 
 
     /**
-     * Creates a new object representing a hypertext link event.
+     * Crebtes b new object representing b hypertext link event.
      *
-     * @param source the object responsible for the event
-     * @param type the event type
-     * @param targetURL the affected URL
-     * @param desc a description
-     * @param sourceElement the element that corresponds to the source
+     * @pbrbm source the object responsible for the event
+     * @pbrbm type the event type
+     * @pbrbm tbrgetURL the bffected URL
+     * @pbrbm desc b description
+     * @pbrbm sourceElement the element thbt corresponds to the source
      *                      of the event
-     * @param targetFrame the Frame to display the document in
+     * @pbrbm tbrgetFrbme the Frbme to displby the document in
      */
-    public HTMLFrameHyperlinkEvent(Object source, EventType type, URL targetURL, String desc,
-                                   Element sourceElement, String targetFrame) {
-        super(source, type, targetURL, desc, sourceElement);
-        this.targetFrame = targetFrame;
+    public HTMLFrbmeHyperlinkEvent(Object source, EventType type, URL tbrgetURL, String desc,
+                                   Element sourceElement, String tbrgetFrbme) {
+        super(source, type, tbrgetURL, desc, sourceElement);
+        this.tbrgetFrbme = tbrgetFrbme;
     }
 
     /**
-     * Creates a new object representing a hypertext link event.
+     * Crebtes b new object representing b hypertext link event.
      *
-     * @param source the object responsible for the event
-     * @param type the event type
-     * @param targetURL the affected URL
-     * @param desc a description
-     * @param sourceElement the element that corresponds to the source
+     * @pbrbm source the object responsible for the event
+     * @pbrbm type the event type
+     * @pbrbm tbrgetURL the bffected URL
+     * @pbrbm desc b description
+     * @pbrbm sourceElement the element thbt corresponds to the source
      *                      of the event
-     * @param inputEvent  InputEvent that triggered the hyperlink event
-     * @param targetFrame the Frame to display the document in
+     * @pbrbm inputEvent  InputEvent thbt triggered the hyperlink event
+     * @pbrbm tbrgetFrbme the Frbme to displby the document in
      * @since 1.7
      */
-    public HTMLFrameHyperlinkEvent(Object source, EventType type, URL targetURL,
+    public HTMLFrbmeHyperlinkEvent(Object source, EventType type, URL tbrgetURL,
                                    String desc, Element sourceElement,
-                                   InputEvent inputEvent, String targetFrame) {
-        super(source, type, targetURL, desc, sourceElement, inputEvent);
-        this.targetFrame = targetFrame;
+                                   InputEvent inputEvent, String tbrgetFrbme) {
+        super(source, type, tbrgetURL, desc, sourceElement, inputEvent);
+        this.tbrgetFrbme = tbrgetFrbme;
     }
 
     /**
-     * returns the target for the link.
+     * returns the tbrget for the link.
      *
-     * @return the target for the link
+     * @return the tbrget for the link
      */
-    public String getTarget() {
-        return targetFrame;
+    public String getTbrget() {
+        return tbrgetFrbme;
     }
 
-    private String targetFrame;
+    privbte String tbrgetFrbme;
 }

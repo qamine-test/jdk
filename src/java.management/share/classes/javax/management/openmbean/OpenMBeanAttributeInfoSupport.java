@@ -1,1125 +1,1125 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package javax.management.openmbean;
+pbckbge jbvbx.mbnbgement.openmbebn;
 
 
-// java import
+// jbvb import
 //
-import java.lang.reflect.Array;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-import javax.management.Descriptor;
-import javax.management.DescriptorRead;
-import javax.management.ImmutableDescriptor;
-import javax.management.MBeanAttributeInfo;
+import jbvb.lbng.reflect.Arrby;
+import jbvb.lbng.reflect.Constructor;
+import jbvb.lbng.reflect.Method;
+import jbvb.lbng.reflect.Modifier;
+import jbvb.util.Arrbys;
+import jbvb.util.Collection;
+import jbvb.util.Collections;
+import jbvb.util.HbshMbp;
+import jbvb.util.HbshSet;
+import jbvb.util.Mbp;
+import jbvb.util.Set;
+import jbvbx.mbnbgement.Descriptor;
+import jbvbx.mbnbgement.DescriptorRebd;
+import jbvbx.mbnbgement.ImmutbbleDescriptor;
+import jbvbx.mbnbgement.MBebnAttributeInfo;
 import com.sun.jmx.remote.util.EnvHelp;
 import sun.reflect.misc.ConstructorUtil;
 import sun.reflect.misc.MethodUtil;
 import sun.reflect.misc.ReflectUtil;
 
 /**
- * Describes an attribute of an open MBean.
+ * Describes bn bttribute of bn open MBebn.
  *
  *
  * @since 1.5
  */
-public class OpenMBeanAttributeInfoSupport
-    extends MBeanAttributeInfo
-    implements OpenMBeanAttributeInfo {
+public clbss OpenMBebnAttributeInfoSupport
+    extends MBebnAttributeInfo
+    implements OpenMBebnAttributeInfo {
 
-    /* Serial version */
-    static final long serialVersionUID = -4867215622149721849L;
+    /* Seribl version */
+    stbtic finbl long seriblVersionUID = -4867215622149721849L;
 
     /**
-     * @serial The open mbean attribute's <i>open type</i>
+     * @seribl The open mbebn bttribute's <i>open type</i>
      */
-    private OpenType<?> openType;
+    privbte OpenType<?> openType;
 
     /**
-     * @serial The open mbean attribute's default value
+     * @seribl The open mbebn bttribute's defbult vblue
      */
-    private final Object defaultValue;
+    privbte finbl Object defbultVblue;
 
     /**
-     * @serial The open mbean attribute's legal values. This {@link
-     * Set} is unmodifiable
+     * @seribl The open mbebn bttribute's legbl vblues. This {@link
+     * Set} is unmodifibble
      */
-    private final Set<?> legalValues;  // to be constructed unmodifiable
+    privbte finbl Set<?> legblVblues;  // to be constructed unmodifibble
 
     /**
-     * @serial The open mbean attribute's min value
+     * @seribl The open mbebn bttribute's min vblue
      */
-    private final Comparable<?> minValue;
+    privbte finbl Compbrbble<?> minVblue;
 
     /**
-     * @serial The open mbean attribute's max value
+     * @seribl The open mbebn bttribute's mbx vblue
      */
-    private final Comparable<?> maxValue;
+    privbte finbl Compbrbble<?> mbxVblue;
 
 
-    // As this instance is immutable, these two values need only
-    // be calculated once.
-    private transient Integer myHashCode = null;
-    private transient String  myToString = null;
+    // As this instbnce is immutbble, these two vblues need only
+    // be cblculbted once.
+    privbte trbnsient Integer myHbshCode = null;
+    privbte trbnsient String  myToString = null;
 
 
     /**
-     * Constructs an {@code OpenMBeanAttributeInfoSupport} instance,
-     * which describes the attribute of an open MBean with the
-     * specified {@code name}, {@code openType} and {@code
-     * description}, and the specified read/write access properties.
+     * Constructs bn {@code OpenMBebnAttributeInfoSupport} instbnce,
+     * which describes the bttribute of bn open MBebn with the
+     * specified {@code nbme}, {@code openType} bnd {@code
+     * description}, bnd the specified rebd/write bccess properties.
      *
-     * @param name  cannot be a null or empty string.
+     * @pbrbm nbme  cbnnot be b null or empty string.
      *
-     * @param description  cannot be a null or empty string.
+     * @pbrbm description  cbnnot be b null or empty string.
      *
-     * @param openType  cannot be null.
+     * @pbrbm openType  cbnnot be null.
      *
-     * @param isReadable {@code true} if the attribute has a getter
-     * exposed for management.
+     * @pbrbm isRebdbble {@code true} if the bttribute hbs b getter
+     * exposed for mbnbgement.
      *
-     * @param isWritable {@code true} if the attribute has a setter
-     * exposed for management.
+     * @pbrbm isWritbble {@code true} if the bttribute hbs b setter
+     * exposed for mbnbgement.
      *
-     * @param isIs {@code true} if the attribute's getter is of the
+     * @pbrbm isIs {@code true} if the bttribute's getter is of the
      * form <tt>is<i>XXX</i></tt>.
      *
-     * @throws IllegalArgumentException if {@code name} or {@code
-     * description} are null or empty string, or {@code openType} is
+     * @throws IllegblArgumentException if {@code nbme} or {@code
+     * description} bre null or empty string, or {@code openType} is
      * null.
      */
-    public OpenMBeanAttributeInfoSupport(String name,
+    public OpenMBebnAttributeInfoSupport(String nbme,
                                          String description,
                                          OpenType<?> openType,
-                                         boolean isReadable,
-                                         boolean isWritable,
-                                         boolean isIs) {
-        this(name, description, openType, isReadable, isWritable, isIs,
+                                         boolebn isRebdbble,
+                                         boolebn isWritbble,
+                                         boolebn isIs) {
+        this(nbme, description, openType, isRebdbble, isWritbble, isIs,
              (Descriptor) null);
     }
 
     /**
-     * <p>Constructs an {@code OpenMBeanAttributeInfoSupport} instance,
-     * which describes the attribute of an open MBean with the
-     * specified {@code name}, {@code openType}, {@code
-     * description}, read/write access properties, and {@code Descriptor}.</p>
+     * <p>Constructs bn {@code OpenMBebnAttributeInfoSupport} instbnce,
+     * which describes the bttribute of bn open MBebn with the
+     * specified {@code nbme}, {@code openType}, {@code
+     * description}, rebd/write bccess properties, bnd {@code Descriptor}.</p>
      *
-     * <p>The {@code descriptor} can contain entries that will define
-     * the values returned by certain methods of this class, as
-     * explained in the <a href="package-summary.html#constraints">
-     * package description</a>.
+     * <p>The {@code descriptor} cbn contbin entries thbt will define
+     * the vblues returned by certbin methods of this clbss, bs
+     * explbined in the <b href="pbckbge-summbry.html#constrbints">
+     * pbckbge description</b>.
      *
-     * @param name  cannot be a null or empty string.
+     * @pbrbm nbme  cbnnot be b null or empty string.
      *
-     * @param description  cannot be a null or empty string.
+     * @pbrbm description  cbnnot be b null or empty string.
      *
-     * @param openType  cannot be null.
+     * @pbrbm openType  cbnnot be null.
      *
-     * @param isReadable {@code true} if the attribute has a getter
-     * exposed for management.
+     * @pbrbm isRebdbble {@code true} if the bttribute hbs b getter
+     * exposed for mbnbgement.
      *
-     * @param isWritable {@code true} if the attribute has a setter
-     * exposed for management.
+     * @pbrbm isWritbble {@code true} if the bttribute hbs b setter
+     * exposed for mbnbgement.
      *
-     * @param isIs {@code true} if the attribute's getter is of the
+     * @pbrbm isIs {@code true} if the bttribute's getter is of the
      * form <tt>is<i>XXX</i></tt>.
      *
-     * @param descriptor The descriptor for the attribute.  This may be null
-     * which is equivalent to an empty descriptor.
+     * @pbrbm descriptor The descriptor for the bttribute.  This mby be null
+     * which is equivblent to bn empty descriptor.
      *
-     * @throws IllegalArgumentException if {@code name} or {@code
-     * description} are null or empty string, or {@code openType} is
-     * null, or the descriptor entries are invalid as described in the
-     * <a href="package-summary.html#constraints">package description</a>.
+     * @throws IllegblArgumentException if {@code nbme} or {@code
+     * description} bre null or empty string, or {@code openType} is
+     * null, or the descriptor entries bre invblid bs described in the
+     * <b href="pbckbge-summbry.html#constrbints">pbckbge description</b>.
      *
      * @since 1.6
      */
-    public OpenMBeanAttributeInfoSupport(String name,
+    public OpenMBebnAttributeInfoSupport(String nbme,
                                          String description,
                                          OpenType<?> openType,
-                                         boolean isReadable,
-                                         boolean isWritable,
-                                         boolean isIs,
+                                         boolebn isRebdbble,
+                                         boolebn isWritbble,
+                                         boolebn isIs,
                                          Descriptor descriptor) {
-        // Construct parent's state
+        // Construct pbrent's stbte
         //
-        super(name,
-              (openType==null) ? null : openType.getClassName(),
+        super(nbme,
+              (openType==null) ? null : openType.getClbssNbme(),
               description,
-              isReadable,
-              isWritable,
+              isRebdbble,
+              isWritbble,
               isIs,
-              ImmutableDescriptor.union(descriptor, (openType==null)?null:
+              ImmutbbleDescriptor.union(descriptor, (openType==null)?null:
                 openType.getDescriptor()));
 
-        // Initialize this instance's specific state
+        // Initiblize this instbnce's specific stbte
         //
         this.openType = openType;
 
-        descriptor = getDescriptor();  // replace null by empty
-        this.defaultValue = valueFrom(descriptor, "defaultValue", openType);
-        this.legalValues = valuesFrom(descriptor, "legalValues", openType);
-        this.minValue = comparableValueFrom(descriptor, "minValue", openType);
-        this.maxValue = comparableValueFrom(descriptor, "maxValue", openType);
+        descriptor = getDescriptor();  // replbce null by empty
+        this.defbultVblue = vblueFrom(descriptor, "defbultVblue", openType);
+        this.legblVblues = vbluesFrom(descriptor, "legblVblues", openType);
+        this.minVblue = compbrbbleVblueFrom(descriptor, "minVblue", openType);
+        this.mbxVblue = compbrbbleVblueFrom(descriptor, "mbxVblue", openType);
 
         try {
             check(this);
-        } catch (OpenDataException e) {
-            throw new IllegalArgumentException(e.getMessage(), e);
+        } cbtch (OpenDbtbException e) {
+            throw new IllegblArgumentException(e.getMessbge(), e);
         }
     }
 
     /**
-     * Constructs an {@code OpenMBeanAttributeInfoSupport} instance,
-     * which describes the attribute of an open MBean with the
-     * specified {@code name}, {@code openType}, {@code description}
-     * and {@code defaultValue}, and the specified read/write access
+     * Constructs bn {@code OpenMBebnAttributeInfoSupport} instbnce,
+     * which describes the bttribute of bn open MBebn with the
+     * specified {@code nbme}, {@code openType}, {@code description}
+     * bnd {@code defbultVblue}, bnd the specified rebd/write bccess
      * properties.
      *
-     * @param name  cannot be a null or empty string.
+     * @pbrbm nbme  cbnnot be b null or empty string.
      *
-     * @param description  cannot be a null or empty string.
+     * @pbrbm description  cbnnot be b null or empty string.
      *
-     * @param openType  cannot be null.
+     * @pbrbm openType  cbnnot be null.
      *
-     * @param isReadable {@code true} if the attribute has a getter
-     * exposed for management.
+     * @pbrbm isRebdbble {@code true} if the bttribute hbs b getter
+     * exposed for mbnbgement.
      *
-     * @param isWritable {@code true} if the attribute has a setter
-     * exposed for management.
+     * @pbrbm isWritbble {@code true} if the bttribute hbs b setter
+     * exposed for mbnbgement.
      *
-     * @param isIs {@code true} if the attribute's getter is of the
+     * @pbrbm isIs {@code true} if the bttribute's getter is of the
      * form <tt>is<i>XXX</i></tt>.
      *
-     * @param defaultValue must be a valid value for the {@code
-     * openType} specified for this attribute; default value not
-     * supported for {@code ArrayType} and {@code TabularType}; can
-     * be null, in which case it means that no default value is set.
+     * @pbrbm defbultVblue must be b vblid vblue for the {@code
+     * openType} specified for this bttribute; defbult vblue not
+     * supported for {@code ArrbyType} bnd {@code TbbulbrType}; cbn
+     * be null, in which cbse it mebns thbt no defbult vblue is set.
      *
-     * @param <T> allows the compiler to check that the {@code defaultValue},
-     * if non-null, has the correct Java type for the given {@code openType}.
+     * @pbrbm <T> bllows the compiler to check thbt the {@code defbultVblue},
+     * if non-null, hbs the correct Jbvb type for the given {@code openType}.
      *
-     * @throws IllegalArgumentException if {@code name} or {@code
-     * description} are null or empty string, or {@code openType} is
+     * @throws IllegblArgumentException if {@code nbme} or {@code
+     * description} bre null or empty string, or {@code openType} is
      * null.
      *
-     * @throws OpenDataException if {@code defaultValue} is not a
-     * valid value for the specified {@code openType}, or {@code
-     * defaultValue} is non null and {@code openType} is an {@code
-     * ArrayType} or a {@code TabularType}.
+     * @throws OpenDbtbException if {@code defbultVblue} is not b
+     * vblid vblue for the specified {@code openType}, or {@code
+     * defbultVblue} is non null bnd {@code openType} is bn {@code
+     * ArrbyType} or b {@code TbbulbrType}.
      */
-    public <T> OpenMBeanAttributeInfoSupport(String   name,
+    public <T> OpenMBebnAttributeInfoSupport(String   nbme,
                                              String   description,
                                              OpenType<T> openType,
-                                             boolean  isReadable,
-                                             boolean  isWritable,
-                                             boolean  isIs,
-                                             T        defaultValue)
-            throws OpenDataException {
-        this(name, description, openType, isReadable, isWritable, isIs,
-             defaultValue, (T[]) null);
+                                             boolebn  isRebdbble,
+                                             boolebn  isWritbble,
+                                             boolebn  isIs,
+                                             T        defbultVblue)
+            throws OpenDbtbException {
+        this(nbme, description, openType, isRebdbble, isWritbble, isIs,
+             defbultVblue, (T[]) null);
     }
 
 
     /**
-     * <p>Constructs an {@code OpenMBeanAttributeInfoSupport} instance,
-     * which describes the attribute of an open MBean with the
-     * specified {@code name}, {@code openType}, {@code description},
-     * {@code defaultValue} and {@code legalValues}, and the specified
-     * read/write access properties.</p>
+     * <p>Constructs bn {@code OpenMBebnAttributeInfoSupport} instbnce,
+     * which describes the bttribute of bn open MBebn with the
+     * specified {@code nbme}, {@code openType}, {@code description},
+     * {@code defbultVblue} bnd {@code legblVblues}, bnd the specified
+     * rebd/write bccess properties.</p>
      *
-     * <p>The contents of {@code legalValues} are copied, so subsequent
-     * modifications of the array referenced by {@code legalValues}
-     * have no impact on this {@code OpenMBeanAttributeInfoSupport}
-     * instance.</p>
+     * <p>The contents of {@code legblVblues} bre copied, so subsequent
+     * modificbtions of the brrby referenced by {@code legblVblues}
+     * hbve no impbct on this {@code OpenMBebnAttributeInfoSupport}
+     * instbnce.</p>
      *
-     * @param name  cannot be a null or empty string.
+     * @pbrbm nbme  cbnnot be b null or empty string.
      *
-     * @param description  cannot be a null or empty string.
+     * @pbrbm description  cbnnot be b null or empty string.
      *
-     * @param openType  cannot be null.
+     * @pbrbm openType  cbnnot be null.
      *
-     * @param isReadable {@code true} if the attribute has a getter
-     * exposed for management.
+     * @pbrbm isRebdbble {@code true} if the bttribute hbs b getter
+     * exposed for mbnbgement.
      *
-     * @param isWritable {@code true} if the attribute has a setter
-     * exposed for management.
+     * @pbrbm isWritbble {@code true} if the bttribute hbs b setter
+     * exposed for mbnbgement.
      *
-     * @param isIs {@code true} if the attribute's getter is of the
+     * @pbrbm isIs {@code true} if the bttribute's getter is of the
      * form <tt>is<i>XXX</i></tt>.
      *
-     * @param defaultValue must be a valid value
+     * @pbrbm defbultVblue must be b vblid vblue
      * for the {@code
-     * openType} specified for this attribute; default value not
-     * supported for {@code ArrayType} and {@code TabularType}; can
-     * be null, in which case it means that no default value is set.
+     * openType} specified for this bttribute; defbult vblue not
+     * supported for {@code ArrbyType} bnd {@code TbbulbrType}; cbn
+     * be null, in which cbse it mebns thbt no defbult vblue is set.
      *
-     * @param legalValues each contained value must be valid for the
-     * {@code openType} specified for this attribute; legal values
-     * not supported for {@code ArrayType} and {@code TabularType};
-     * can be null or empty.
+     * @pbrbm legblVblues ebch contbined vblue must be vblid for the
+     * {@code openType} specified for this bttribute; legbl vblues
+     * not supported for {@code ArrbyType} bnd {@code TbbulbrType};
+     * cbn be null or empty.
      *
-     * @param <T> allows the compiler to check that the {@code
-     * defaultValue} and {@code legalValues}, if non-null, have the
-     * correct Java type for the given {@code openType}.
+     * @pbrbm <T> bllows the compiler to check thbt the {@code
+     * defbultVblue} bnd {@code legblVblues}, if non-null, hbve the
+     * correct Jbvb type for the given {@code openType}.
      *
-     * @throws IllegalArgumentException if {@code name} or {@code
-     * description} are null or empty string, or {@code openType} is
+     * @throws IllegblArgumentException if {@code nbme} or {@code
+     * description} bre null or empty string, or {@code openType} is
      * null.
      *
-     * @throws OpenDataException if {@code defaultValue} is not a
-     * valid value for the specified {@code openType}, or one value in
-     * {@code legalValues} is not valid for the specified {@code
-     * openType}, or {@code defaultValue} is non null and {@code
-     * openType} is an {@code ArrayType} or a {@code TabularType}, or
-     * {@code legalValues} is non null and non empty and {@code
-     * openType} is an {@code ArrayType} or a {@code TabularType}, or
-     * {@code legalValues} is non null and non empty and {@code
-     * defaultValue} is not contained in {@code legalValues}.
+     * @throws OpenDbtbException if {@code defbultVblue} is not b
+     * vblid vblue for the specified {@code openType}, or one vblue in
+     * {@code legblVblues} is not vblid for the specified {@code
+     * openType}, or {@code defbultVblue} is non null bnd {@code
+     * openType} is bn {@code ArrbyType} or b {@code TbbulbrType}, or
+     * {@code legblVblues} is non null bnd non empty bnd {@code
+     * openType} is bn {@code ArrbyType} or b {@code TbbulbrType}, or
+     * {@code legblVblues} is non null bnd non empty bnd {@code
+     * defbultVblue} is not contbined in {@code legblVblues}.
      */
-    public <T> OpenMBeanAttributeInfoSupport(String   name,
+    public <T> OpenMBebnAttributeInfoSupport(String   nbme,
                                              String   description,
                                              OpenType<T> openType,
-                                             boolean  isReadable,
-                                             boolean  isWritable,
-                                             boolean  isIs,
-                                             T        defaultValue,
-                                             T[]      legalValues)
-            throws OpenDataException {
-        this(name, description, openType, isReadable, isWritable, isIs,
-             defaultValue, legalValues, null, null);
+                                             boolebn  isRebdbble,
+                                             boolebn  isWritbble,
+                                             boolebn  isIs,
+                                             T        defbultVblue,
+                                             T[]      legblVblues)
+            throws OpenDbtbException {
+        this(nbme, description, openType, isRebdbble, isWritbble, isIs,
+             defbultVblue, legblVblues, null, null);
     }
 
 
     /**
-     * Constructs an {@code OpenMBeanAttributeInfoSupport} instance,
-     * which describes the attribute of an open MBean, with the
-     * specified {@code name}, {@code openType}, {@code description},
-     * {@code defaultValue}, {@code minValue} and {@code maxValue}.
+     * Constructs bn {@code OpenMBebnAttributeInfoSupport} instbnce,
+     * which describes the bttribute of bn open MBebn, with the
+     * specified {@code nbme}, {@code openType}, {@code description},
+     * {@code defbultVblue}, {@code minVblue} bnd {@code mbxVblue}.
      *
-     * It is possible to specify minimal and maximal values only for
-     * an open type whose values are {@code Comparable}.
+     * It is possible to specify minimbl bnd mbximbl vblues only for
+     * bn open type whose vblues bre {@code Compbrbble}.
      *
-     * @param name  cannot be a null or empty string.
+     * @pbrbm nbme  cbnnot be b null or empty string.
      *
-     * @param description  cannot be a null or empty string.
+     * @pbrbm description  cbnnot be b null or empty string.
      *
-     * @param openType  cannot be null.
+     * @pbrbm openType  cbnnot be null.
      *
-     * @param isReadable {@code true} if the attribute has a getter
-     * exposed for management.
+     * @pbrbm isRebdbble {@code true} if the bttribute hbs b getter
+     * exposed for mbnbgement.
      *
-     * @param isWritable {@code true} if the attribute has a setter
-     * exposed for management.
+     * @pbrbm isWritbble {@code true} if the bttribute hbs b setter
+     * exposed for mbnbgement.
      *
-     * @param isIs {@code true} if the attribute's getter is of the
+     * @pbrbm isIs {@code true} if the bttribute's getter is of the
      * form <tt>is<i>XXX</i></tt>.
      *
-     * @param defaultValue must be a valid value for the {@code
-     * openType} specified for this attribute; default value not
-     * supported for {@code ArrayType} and {@code TabularType}; can be
-     * null, in which case it means that no default value is set.
+     * @pbrbm defbultVblue must be b vblid vblue for the {@code
+     * openType} specified for this bttribute; defbult vblue not
+     * supported for {@code ArrbyType} bnd {@code TbbulbrType}; cbn be
+     * null, in which cbse it mebns thbt no defbult vblue is set.
      *
-     * @param minValue must be valid for the {@code openType}
-     * specified for this attribute; can be null, in which case it
-     * means that no minimal value is set.
+     * @pbrbm minVblue must be vblid for the {@code openType}
+     * specified for this bttribute; cbn be null, in which cbse it
+     * mebns thbt no minimbl vblue is set.
      *
-     * @param maxValue must be valid for the {@code openType}
-     * specified for this attribute; can be null, in which case it
-     * means that no maximal value is set.
+     * @pbrbm mbxVblue must be vblid for the {@code openType}
+     * specified for this bttribute; cbn be null, in which cbse it
+     * mebns thbt no mbximbl vblue is set.
      *
-     * @param <T> allows the compiler to check that the {@code
-     * defaultValue}, {@code minValue}, and {@code maxValue}, if
-     * non-null, have the correct Java type for the given {@code
+     * @pbrbm <T> bllows the compiler to check thbt the {@code
+     * defbultVblue}, {@code minVblue}, bnd {@code mbxVblue}, if
+     * non-null, hbve the correct Jbvb type for the given {@code
      * openType}.
      *
-     * @throws IllegalArgumentException if {@code name} or {@code
-     * description} are null or empty string, or {@code openType} is
+     * @throws IllegblArgumentException if {@code nbme} or {@code
+     * description} bre null or empty string, or {@code openType} is
      * null.
      *
-     * @throws OpenDataException if {@code defaultValue}, {@code
-     * minValue} or {@code maxValue} is not a valid value for the
-     * specified {@code openType}, or {@code defaultValue} is non null
-     * and {@code openType} is an {@code ArrayType} or a {@code
-     * TabularType}, or both {@code minValue} and {@code maxValue} are
-     * non-null and {@code minValue.compareTo(maxValue) > 0} is {@code
-     * true}, or both {@code defaultValue} and {@code minValue} are
-     * non-null and {@code minValue.compareTo(defaultValue) > 0} is
-     * {@code true}, or both {@code defaultValue} and {@code maxValue}
-     * are non-null and {@code defaultValue.compareTo(maxValue) > 0}
+     * @throws OpenDbtbException if {@code defbultVblue}, {@code
+     * minVblue} or {@code mbxVblue} is not b vblid vblue for the
+     * specified {@code openType}, or {@code defbultVblue} is non null
+     * bnd {@code openType} is bn {@code ArrbyType} or b {@code
+     * TbbulbrType}, or both {@code minVblue} bnd {@code mbxVblue} bre
+     * non-null bnd {@code minVblue.compbreTo(mbxVblue) > 0} is {@code
+     * true}, or both {@code defbultVblue} bnd {@code minVblue} bre
+     * non-null bnd {@code minVblue.compbreTo(defbultVblue) > 0} is
+     * {@code true}, or both {@code defbultVblue} bnd {@code mbxVblue}
+     * bre non-null bnd {@code defbultVblue.compbreTo(mbxVblue) > 0}
      * is {@code true}.
      */
-    public <T> OpenMBeanAttributeInfoSupport(String     name,
+    public <T> OpenMBebnAttributeInfoSupport(String     nbme,
                                              String     description,
                                              OpenType<T>   openType,
-                                             boolean    isReadable,
-                                             boolean    isWritable,
-                                             boolean    isIs,
-                                             T          defaultValue,
-                                             Comparable<T> minValue,
-                                             Comparable<T> maxValue)
-            throws OpenDataException {
-        this(name, description, openType, isReadable, isWritable, isIs,
-             defaultValue, null, minValue, maxValue);
+                                             boolebn    isRebdbble,
+                                             boolebn    isWritbble,
+                                             boolebn    isIs,
+                                             T          defbultVblue,
+                                             Compbrbble<T> minVblue,
+                                             Compbrbble<T> mbxVblue)
+            throws OpenDbtbException {
+        this(nbme, description, openType, isRebdbble, isWritbble, isIs,
+             defbultVblue, null, minVblue, mbxVblue);
     }
 
-    private <T> OpenMBeanAttributeInfoSupport(String name,
+    privbte <T> OpenMBebnAttributeInfoSupport(String nbme,
                                               String description,
                                               OpenType<T> openType,
-                                              boolean isReadable,
-                                              boolean isWritable,
-                                              boolean isIs,
-                                              T defaultValue,
-                                              T[] legalValues,
-                                              Comparable<T> minValue,
-                                              Comparable<T> maxValue)
-            throws OpenDataException {
-        super(name,
-              (openType==null) ? null : openType.getClassName(),
+                                              boolebn isRebdbble,
+                                              boolebn isWritbble,
+                                              boolebn isIs,
+                                              T defbultVblue,
+                                              T[] legblVblues,
+                                              Compbrbble<T> minVblue,
+                                              Compbrbble<T> mbxVblue)
+            throws OpenDbtbException {
+        super(nbme,
+              (openType==null) ? null : openType.getClbssNbme(),
               description,
-              isReadable,
-              isWritable,
+              isRebdbble,
+              isWritbble,
               isIs,
-              makeDescriptor(openType,
-                             defaultValue, legalValues, minValue, maxValue));
+              mbkeDescriptor(openType,
+                             defbultVblue, legblVblues, minVblue, mbxVblue));
 
         this.openType = openType;
 
         Descriptor d = getDescriptor();
-        this.defaultValue = defaultValue;
-        this.minValue = minValue;
-        this.maxValue = maxValue;
-        // We already converted the array into an unmodifiable Set
+        this.defbultVblue = defbultVblue;
+        this.minVblue = minVblue;
+        this.mbxVblue = mbxVblue;
+        // We blrebdy converted the brrby into bn unmodifibble Set
         // in the descriptor.
-        this.legalValues = (Set<?>) d.getFieldValue("legalValues");
+        this.legblVblues = (Set<?>) d.getFieldVblue("legblVblues");
 
         check(this);
     }
 
     /**
-     * An object serialized in a version of the API before Descriptors were
-     * added to this class will have an empty or null Descriptor.
+     * An object seriblized in b version of the API before Descriptors were
+     * bdded to this clbss will hbve bn empty or null Descriptor.
      * For consistency with our
-     * behavior in this version, we must replace the object with one
-     * where the Descriptors reflect the same values of openType, defaultValue,
+     * behbvior in this version, we must replbce the object with one
+     * where the Descriptors reflect the sbme vblues of openType, defbultVblue,
      * etc.
      **/
-    private Object readResolve() {
-        if (getDescriptor().getFieldNames().length == 0) {
-            OpenType<Object> xopenType = cast(openType);
-            Set<Object> xlegalValues = cast(legalValues);
-            Comparable<Object> xminValue = cast(minValue);
-            Comparable<Object> xmaxValue = cast(maxValue);
-            return new OpenMBeanAttributeInfoSupport(
-                    name, description, openType,
-                    isReadable(), isWritable(), isIs(),
-                    makeDescriptor(xopenType, defaultValue, xlegalValues,
-                                   xminValue, xmaxValue));
+    privbte Object rebdResolve() {
+        if (getDescriptor().getFieldNbmes().length == 0) {
+            OpenType<Object> xopenType = cbst(openType);
+            Set<Object> xlegblVblues = cbst(legblVblues);
+            Compbrbble<Object> xminVblue = cbst(minVblue);
+            Compbrbble<Object> xmbxVblue = cbst(mbxVblue);
+            return new OpenMBebnAttributeInfoSupport(
+                    nbme, description, openType,
+                    isRebdbble(), isWritbble(), isIs(),
+                    mbkeDescriptor(xopenType, defbultVblue, xlegblVblues,
+                                   xminVblue, xmbxVblue));
         } else
             return this;
     }
 
-    static void check(OpenMBeanParameterInfo info) throws OpenDataException {
+    stbtic void check(OpenMBebnPbrbmeterInfo info) throws OpenDbtbException {
         OpenType<?> openType = info.getOpenType();
         if (openType == null)
-            throw new IllegalArgumentException("OpenType cannot be null");
+            throw new IllegblArgumentException("OpenType cbnnot be null");
 
-        if (info.getName() == null ||
-                info.getName().trim().equals(""))
-            throw new IllegalArgumentException("Name cannot be null or empty");
+        if (info.getNbme() == null ||
+                info.getNbme().trim().equbls(""))
+            throw new IllegblArgumentException("Nbme cbnnot be null or empty");
 
         if (info.getDescription() == null ||
-                info.getDescription().trim().equals(""))
-            throw new IllegalArgumentException("Description cannot be null or empty");
+                info.getDescription().trim().equbls(""))
+            throw new IllegblArgumentException("Description cbnnot be null or empty");
 
-        // Check and initialize defaultValue
+        // Check bnd initiblize defbultVblue
         //
-        if (info.hasDefaultValue()) {
-            // Default value not supported for ArrayType and TabularType
-            // Cast to Object because "OpenType<T> instanceof" is illegal
-            if (openType.isArray() || (Object)openType instanceof TabularType) {
-                throw new OpenDataException("Default value not supported " +
-                                            "for ArrayType and TabularType");
+        if (info.hbsDefbultVblue()) {
+            // Defbult vblue not supported for ArrbyType bnd TbbulbrType
+            // Cbst to Object becbuse "OpenType<T> instbnceof" is illegbl
+            if (openType.isArrby() || (Object)openType instbnceof TbbulbrType) {
+                throw new OpenDbtbException("Defbult vblue not supported " +
+                                            "for ArrbyType bnd TbbulbrType");
             }
-            // Check defaultValue's class
-            if (!openType.isValue(info.getDefaultValue())) {
-                final String msg =
-                    "Argument defaultValue's class [\"" +
-                    info.getDefaultValue().getClass().getName() +
-                    "\"] does not match the one defined in openType[\"" +
-                    openType.getClassName() +"\"]";
-                throw new OpenDataException(msg);
+            // Check defbultVblue's clbss
+            if (!openType.isVblue(info.getDefbultVblue())) {
+                finbl String msg =
+                    "Argument defbultVblue's clbss [\"" +
+                    info.getDefbultVblue().getClbss().getNbme() +
+                    "\"] does not mbtch the one defined in openType[\"" +
+                    openType.getClbssNbme() +"\"]";
+                throw new OpenDbtbException(msg);
             }
         }
 
-        // Check that we don't have both legalValues and min or max
+        // Check thbt we don't hbve both legblVblues bnd min or mbx
         //
-        if (info.hasLegalValues() &&
-                (info.hasMinValue() || info.hasMaxValue())) {
-            throw new OpenDataException("cannot have both legalValue and " +
-                                        "minValue or maxValue");
+        if (info.hbsLegblVblues() &&
+                (info.hbsMinVblue() || info.hbsMbxVblue())) {
+            throw new OpenDbtbException("cbnnot hbve both legblVblue bnd " +
+                                        "minVblue or mbxVblue");
         }
 
-        // Check minValue and maxValue
-        if (info.hasMinValue() && !openType.isValue(info.getMinValue())) {
-            final String msg =
-                "Type of minValue [" + info.getMinValue().getClass().getName() +
-                "] does not match OpenType [" + openType.getClassName() + "]";
-            throw new OpenDataException(msg);
+        // Check minVblue bnd mbxVblue
+        if (info.hbsMinVblue() && !openType.isVblue(info.getMinVblue())) {
+            finbl String msg =
+                "Type of minVblue [" + info.getMinVblue().getClbss().getNbme() +
+                "] does not mbtch OpenType [" + openType.getClbssNbme() + "]";
+            throw new OpenDbtbException(msg);
         }
-        if (info.hasMaxValue() && !openType.isValue(info.getMaxValue())) {
-            final String msg =
-                "Type of maxValue [" + info.getMaxValue().getClass().getName() +
-                "] does not match OpenType [" + openType.getClassName() + "]";
-            throw new OpenDataException(msg);
+        if (info.hbsMbxVblue() && !openType.isVblue(info.getMbxVblue())) {
+            finbl String msg =
+                "Type of mbxVblue [" + info.getMbxVblue().getClbss().getNbme() +
+                "] does not mbtch OpenType [" + openType.getClbssNbme() + "]";
+            throw new OpenDbtbException(msg);
         }
 
-        // Check that defaultValue is a legal value
+        // Check thbt defbultVblue is b legbl vblue
         //
-        if (info.hasDefaultValue()) {
-            Object defaultValue = info.getDefaultValue();
-            if (info.hasLegalValues() &&
-                    !info.getLegalValues().contains(defaultValue)) {
-                throw new OpenDataException("defaultValue is not contained " +
-                                            "in legalValues");
+        if (info.hbsDefbultVblue()) {
+            Object defbultVblue = info.getDefbultVblue();
+            if (info.hbsLegblVblues() &&
+                    !info.getLegblVblues().contbins(defbultVblue)) {
+                throw new OpenDbtbException("defbultVblue is not contbined " +
+                                            "in legblVblues");
             }
 
-            // Check that minValue <= defaultValue <= maxValue
+            // Check thbt minVblue <= defbultVblue <= mbxVblue
             //
-            if (info.hasMinValue()) {
-                if (compare(info.getMinValue(), defaultValue) > 0) {
-                    throw new OpenDataException("minValue cannot be greater " +
-                                                "than defaultValue");
+            if (info.hbsMinVblue()) {
+                if (compbre(info.getMinVblue(), defbultVblue) > 0) {
+                    throw new OpenDbtbException("minVblue cbnnot be grebter " +
+                                                "thbn defbultVblue");
                 }
             }
-            if (info.hasMaxValue()) {
-                if (compare(info.getMaxValue(), defaultValue) < 0) {
-                    throw new OpenDataException("maxValue cannot be less " +
-                                                "than defaultValue");
+            if (info.hbsMbxVblue()) {
+                if (compbre(info.getMbxVblue(), defbultVblue) < 0) {
+                    throw new OpenDbtbException("mbxVblue cbnnot be less " +
+                                                "thbn defbultVblue");
                 }
             }
         }
 
-        // Check legalValues
+        // Check legblVblues
         //
-        if (info.hasLegalValues()) {
-            // legalValues not supported for TabularType and arrays
-            if ((Object)openType instanceof TabularType || openType.isArray()) {
-                throw new OpenDataException("Legal values not supported " +
-                                            "for TabularType and arrays");
+        if (info.hbsLegblVblues()) {
+            // legblVblues not supported for TbbulbrType bnd brrbys
+            if ((Object)openType instbnceof TbbulbrType || openType.isArrby()) {
+                throw new OpenDbtbException("Legbl vblues not supported " +
+                                            "for TbbulbrType bnd brrbys");
             }
-            // Check legalValues are valid with openType
-            for (Object v : info.getLegalValues()) {
-                if (!openType.isValue(v)) {
-                    final String msg =
-                        "Element of legalValues [" + v +
-                        "] is not a valid value for the specified openType [" +
+            // Check legblVblues bre vblid with openType
+            for (Object v : info.getLegblVblues()) {
+                if (!openType.isVblue(v)) {
+                    finbl String msg =
+                        "Element of legblVblues [" + v +
+                        "] is not b vblid vblue for the specified openType [" +
                         openType.toString() +"]";
-                    throw new OpenDataException(msg);
+                    throw new OpenDbtbException(msg);
                 }
             }
         }
 
 
-        // Check that, if both specified, minValue <= maxValue
+        // Check thbt, if both specified, minVblue <= mbxVblue
         //
-        if (info.hasMinValue() && info.hasMaxValue()) {
-            if (compare(info.getMinValue(), info.getMaxValue()) > 0) {
-                throw new OpenDataException("minValue cannot be greater " +
-                                            "than maxValue");
+        if (info.hbsMinVblue() && info.hbsMbxVblue()) {
+            if (compbre(info.getMinVblue(), info.getMbxVblue()) > 0) {
+                throw new OpenDbtbException("minVblue cbnnot be grebter " +
+                                            "thbn mbxVblue");
             }
         }
 
     }
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
-    static int compare(Object x, Object y) {
-        return ((Comparable) x).compareTo(y);
+    @SuppressWbrnings({"unchecked", "rbwtypes"})
+    stbtic int compbre(Object x, Object y) {
+        return ((Compbrbble) x).compbreTo(y);
     }
 
-    static <T> Descriptor makeDescriptor(OpenType<T> openType,
-                                         T defaultValue,
-                                         T[] legalValues,
-                                         Comparable<T> minValue,
-                                         Comparable<T> maxValue) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        if (defaultValue != null)
-            map.put("defaultValue", defaultValue);
-        if (legalValues != null) {
-            Set<T> set = new HashSet<T>();
-            for (T v : legalValues)
-                set.add(v);
-            set = Collections.unmodifiableSet(set);
-            map.put("legalValues", set);
+    stbtic <T> Descriptor mbkeDescriptor(OpenType<T> openType,
+                                         T defbultVblue,
+                                         T[] legblVblues,
+                                         Compbrbble<T> minVblue,
+                                         Compbrbble<T> mbxVblue) {
+        Mbp<String, Object> mbp = new HbshMbp<String, Object>();
+        if (defbultVblue != null)
+            mbp.put("defbultVblue", defbultVblue);
+        if (legblVblues != null) {
+            Set<T> set = new HbshSet<T>();
+            for (T v : legblVblues)
+                set.bdd(v);
+            set = Collections.unmodifibbleSet(set);
+            mbp.put("legblVblues", set);
         }
-        if (minValue != null)
-            map.put("minValue", minValue);
-        if (maxValue != null)
-            map.put("maxValue", maxValue);
-        if (map.isEmpty()) {
+        if (minVblue != null)
+            mbp.put("minVblue", minVblue);
+        if (mbxVblue != null)
+            mbp.put("mbxVblue", mbxVblue);
+        if (mbp.isEmpty()) {
             return openType.getDescriptor();
         } else {
-            map.put("openType", openType);
-            return new ImmutableDescriptor(map);
+            mbp.put("openType", openType);
+            return new ImmutbbleDescriptor(mbp);
         }
     }
 
-    static <T> Descriptor makeDescriptor(OpenType<T> openType,
-                                         T defaultValue,
-                                         Set<T> legalValues,
-                                         Comparable<T> minValue,
-                                         Comparable<T> maxValue) {
-        T[] legals;
-        if (legalValues == null)
-            legals = null;
+    stbtic <T> Descriptor mbkeDescriptor(OpenType<T> openType,
+                                         T defbultVblue,
+                                         Set<T> legblVblues,
+                                         Compbrbble<T> minVblue,
+                                         Compbrbble<T> mbxVblue) {
+        T[] legbls;
+        if (legblVblues == null)
+            legbls = null;
         else {
-            legals = cast(new Object[legalValues.size()]);
-            legalValues.toArray(legals);
+            legbls = cbst(new Object[legblVblues.size()]);
+            legblVblues.toArrby(legbls);
         }
-        return makeDescriptor(openType, defaultValue, legals, minValue, maxValue);
+        return mbkeDescriptor(openType, defbultVblue, legbls, minVblue, mbxVblue);
     }
 
 
-    static <T> T valueFrom(Descriptor d, String name, OpenType<T> openType) {
-        Object x = d.getFieldValue(name);
+    stbtic <T> T vblueFrom(Descriptor d, String nbme, OpenType<T> openType) {
+        Object x = d.getFieldVblue(nbme);
         if (x == null)
             return null;
         try {
             return convertFrom(x, openType);
-        } catch (Exception e) {
-            final String msg =
-                "Cannot convert descriptor field " + name + "  to " +
-                openType.getTypeName();
-            throw EnvHelp.initCause(new IllegalArgumentException(msg), e);
+        } cbtch (Exception e) {
+            finbl String msg =
+                "Cbnnot convert descriptor field " + nbme + "  to " +
+                openType.getTypeNbme();
+            throw EnvHelp.initCbuse(new IllegblArgumentException(msg), e);
         }
     }
 
-    static <T> Set<T> valuesFrom(Descriptor d, String name,
+    stbtic <T> Set<T> vbluesFrom(Descriptor d, String nbme,
                                  OpenType<T> openType) {
-        Object x = d.getFieldValue(name);
+        Object x = d.getFieldVblue(nbme);
         if (x == null)
             return null;
         Collection<?> coll;
-        if (x instanceof Set<?>) {
+        if (x instbnceof Set<?>) {
             Set<?> set = (Set<?>) x;
-            boolean asis = true;
+            boolebn bsis = true;
             for (Object element : set) {
-                if (!openType.isValue(element)) {
-                    asis = false;
-                    break;
+                if (!openType.isVblue(element)) {
+                    bsis = fblse;
+                    brebk;
                 }
             }
-            if (asis)
-                return cast(set);
+            if (bsis)
+                return cbst(set);
             coll = set;
-        } else if (x instanceof Object[]) {
-            coll = Arrays.asList((Object[]) x);
+        } else if (x instbnceof Object[]) {
+            coll = Arrbys.bsList((Object[]) x);
         } else {
-            final String msg =
-                "Descriptor value for " + name + " must be a Set or " +
-                "an array: " + x.getClass().getName();
-            throw new IllegalArgumentException(msg);
+            finbl String msg =
+                "Descriptor vblue for " + nbme + " must be b Set or " +
+                "bn brrby: " + x.getClbss().getNbme();
+            throw new IllegblArgumentException(msg);
         }
 
-        Set<T> result = new HashSet<T>();
+        Set<T> result = new HbshSet<T>();
         for (Object element : coll)
-            result.add(convertFrom(element, openType));
+            result.bdd(convertFrom(element, openType));
         return result;
     }
 
-    static <T> Comparable<?> comparableValueFrom(Descriptor d, String name,
+    stbtic <T> Compbrbble<?> compbrbbleVblueFrom(Descriptor d, String nbme,
                                                  OpenType<T> openType) {
-        T t = valueFrom(d, name, openType);
-        if (t == null || t instanceof Comparable<?>)
-            return (Comparable<?>) t;
-        final String msg =
-            "Descriptor field " + name + " with value " + t +
-            " is not Comparable";
-        throw new IllegalArgumentException(msg);
+        T t = vblueFrom(d, nbme, openType);
+        if (t == null || t instbnceof Compbrbble<?>)
+            return (Compbrbble<?>) t;
+        finbl String msg =
+            "Descriptor field " + nbme + " with vblue " + t +
+            " is not Compbrbble";
+        throw new IllegblArgumentException(msg);
     }
 
-    private static <T> T convertFrom(Object x, OpenType<T> openType) {
-        if (openType.isValue(x)) {
-            T t = OpenMBeanAttributeInfoSupport.<T>cast(x);
+    privbte stbtic <T> T convertFrom(Object x, OpenType<T> openType) {
+        if (openType.isVblue(x)) {
+            T t = OpenMBebnAttributeInfoSupport.<T>cbst(x);
             return t;
         }
         return convertFromStrings(x, openType);
     }
 
-    private static <T> T convertFromStrings(Object x, OpenType<T> openType) {
-        if (openType instanceof ArrayType<?>)
-            return convertFromStringArray(x, openType);
-        else if (x instanceof String)
+    privbte stbtic <T> T convertFromStrings(Object x, OpenType<T> openType) {
+        if (openType instbnceof ArrbyType<?>)
+            return convertFromStringArrby(x, openType);
+        else if (x instbnceof String)
             return convertFromString((String) x, openType);
-        final String msg =
-            "Cannot convert value " + x + " of type " +
-            x.getClass().getName() + " to type " + openType.getTypeName();
-        throw new IllegalArgumentException(msg);
+        finbl String msg =
+            "Cbnnot convert vblue " + x + " of type " +
+            x.getClbss().getNbme() + " to type " + openType.getTypeNbme();
+        throw new IllegblArgumentException(msg);
     }
 
-    private static <T> T convertFromString(String s, OpenType<T> openType) {
-        Class<T> c;
+    privbte stbtic <T> T convertFromString(String s, OpenType<T> openType) {
+        Clbss<T> c;
         try {
-            ReflectUtil.checkPackageAccess(openType.safeGetClassName());
-            c = cast(Class.forName(openType.safeGetClassName()));
-        } catch (ClassNotFoundException e) {
-            throw new NoClassDefFoundError(e.toString());  // can't happen
+            ReflectUtil.checkPbckbgeAccess(openType.sbfeGetClbssNbme());
+            c = cbst(Clbss.forNbme(openType.sbfeGetClbssNbme()));
+        } cbtch (ClbssNotFoundException e) {
+            throw new NoClbssDefFoundError(e.toString());  // cbn't hbppen
         }
 
-        // Look for: public static T valueOf(String)
-        Method valueOf;
+        // Look for: public stbtic T vblueOf(String)
+        Method vblueOf;
         try {
-            // It is safe to call this plain Class.getMethod because the class "c"
-            // was checked before by ReflectUtil.checkPackageAccess(openType.safeGetClassName());
-            valueOf = c.getMethod("valueOf", String.class);
-            if (!Modifier.isStatic(valueOf.getModifiers()) ||
-                    valueOf.getReturnType() != c)
-                valueOf = null;
-        } catch (NoSuchMethodException e) {
-            valueOf = null;
+            // It is sbfe to cbll this plbin Clbss.getMethod becbuse the clbss "c"
+            // wbs checked before by ReflectUtil.checkPbckbgeAccess(openType.sbfeGetClbssNbme());
+            vblueOf = c.getMethod("vblueOf", String.clbss);
+            if (!Modifier.isStbtic(vblueOf.getModifiers()) ||
+                    vblueOf.getReturnType() != c)
+                vblueOf = null;
+        } cbtch (NoSuchMethodException e) {
+            vblueOf = null;
         }
-        if (valueOf != null) {
+        if (vblueOf != null) {
             try {
-                return c.cast(MethodUtil.invoke(valueOf, null, new Object[] {s}));
-            } catch (Exception e) {
-                final String msg =
-                    "Could not convert \"" + s + "\" using method: " + valueOf;
-                throw new IllegalArgumentException(msg, e);
+                return c.cbst(MethodUtil.invoke(vblueOf, null, new Object[] {s}));
+            } cbtch (Exception e) {
+                finbl String msg =
+                    "Could not convert \"" + s + "\" using method: " + vblueOf;
+                throw new IllegblArgumentException(msg, e);
             }
         }
 
         // Look for: public T(String)
         Constructor<T> con;
         try {
-            // It is safe to call this plain Class.getConstructor because the class "c"
-            // was checked before by ReflectUtil.checkPackageAccess(openType.safeGetClassName());
-            con = c.getConstructor(String.class);
-        } catch (NoSuchMethodException e) {
+            // It is sbfe to cbll this plbin Clbss.getConstructor becbuse the clbss "c"
+            // wbs checked before by ReflectUtil.checkPbckbgeAccess(openType.sbfeGetClbssNbme());
+            con = c.getConstructor(String.clbss);
+        } cbtch (NoSuchMethodException e) {
             con = null;
         }
         if (con != null) {
             try {
-                return con.newInstance(s);
-            } catch (Exception e) {
-                final String msg =
+                return con.newInstbnce(s);
+            } cbtch (Exception e) {
+                finbl String msg =
                     "Could not convert \"" + s + "\" using constructor: " + con;
-                throw new IllegalArgumentException(msg, e);
+                throw new IllegblArgumentException(msg, e);
             }
         }
 
-        throw new IllegalArgumentException("Don't know how to convert " +
+        throw new IllegblArgumentException("Don't know how to convert " +
                                            "string to " +
-                                           openType.getTypeName());
+                                           openType.getTypeNbme());
     }
 
 
-    /* A Descriptor contained an array value encoded as Strings.  The
-       Strings must be organized in an array corresponding to the desired
-       array.  If the desired array has n dimensions, so must the String
-       array.  We will convert element by element from String to desired
+    /* A Descriptor contbined bn brrby vblue encoded bs Strings.  The
+       Strings must be orgbnized in bn brrby corresponding to the desired
+       brrby.  If the desired brrby hbs n dimensions, so must the String
+       brrby.  We will convert element by element from String to desired
        component type. */
-    private static <T> T convertFromStringArray(Object x,
+    privbte stbtic <T> T convertFromStringArrby(Object x,
                                                 OpenType<T> openType) {
-        ArrayType<?> arrayType = (ArrayType<?>) openType;
-        OpenType<?> baseType = arrayType.getElementOpenType();
-        int dim = arrayType.getDimension();
-        String squareBrackets = "[";
+        ArrbyType<?> brrbyType = (ArrbyType<?>) openType;
+        OpenType<?> bbseType = brrbyType.getElementOpenType();
+        int dim = brrbyType.getDimension();
+        String squbreBrbckets = "[";
         for (int i = 1; i < dim; i++)
-            squareBrackets += "[";
-        Class<?> stringArrayClass;
-        Class<?> targetArrayClass;
+            squbreBrbckets += "[";
+        Clbss<?> stringArrbyClbss;
+        Clbss<?> tbrgetArrbyClbss;
         try {
-            stringArrayClass =
-                Class.forName(squareBrackets + "Ljava.lang.String;");
-            targetArrayClass =
-                Class.forName(squareBrackets + "L" + baseType.safeGetClassName() +
+            stringArrbyClbss =
+                Clbss.forNbme(squbreBrbckets + "Ljbvb.lbng.String;");
+            tbrgetArrbyClbss =
+                Clbss.forNbme(squbreBrbckets + "L" + bbseType.sbfeGetClbssNbme() +
                               ";");
-        } catch (ClassNotFoundException e) {
-            throw new NoClassDefFoundError(e.toString());  // can't happen
+        } cbtch (ClbssNotFoundException e) {
+            throw new NoClbssDefFoundError(e.toString());  // cbn't hbppen
         }
-        if (!stringArrayClass.isInstance(x)) {
-            final String msg =
-                "Value for " + dim + "-dimensional array of " +
-                baseType.getTypeName() + " must be same type or a String " +
-                "array with same dimensions";
-            throw new IllegalArgumentException(msg);
+        if (!stringArrbyClbss.isInstbnce(x)) {
+            finbl String msg =
+                "Vblue for " + dim + "-dimensionbl brrby of " +
+                bbseType.getTypeNbme() + " must be sbme type or b String " +
+                "brrby with sbme dimensions";
+            throw new IllegblArgumentException(msg);
         }
         OpenType<?> componentOpenType;
         if (dim == 1)
-            componentOpenType = baseType;
+            componentOpenType = bbseType;
         else {
             try {
-                componentOpenType = new ArrayType<T>(dim - 1, baseType);
-            } catch (OpenDataException e) {
-                throw new IllegalArgumentException(e.getMessage(), e);
-                // can't happen
+                componentOpenType = new ArrbyType<T>(dim - 1, bbseType);
+            } cbtch (OpenDbtbException e) {
+                throw new IllegblArgumentException(e.getMessbge(), e);
+                // cbn't hbppen
             }
         }
-        int n = Array.getLength(x);
-        Object[] targetArray = (Object[])
-            Array.newInstance(targetArrayClass.getComponentType(), n);
+        int n = Arrby.getLength(x);
+        Object[] tbrgetArrby = (Object[])
+            Arrby.newInstbnce(tbrgetArrbyClbss.getComponentType(), n);
         for (int i = 0; i < n; i++) {
-            Object stringish = Array.get(x, i);  // String or String[] etc
+            Object stringish = Arrby.get(x, i);  // String or String[] etc
             Object converted =
                 convertFromStrings(stringish, componentOpenType);
-            Array.set(targetArray, i, converted);
+            Arrby.set(tbrgetArrby, i, converted);
         }
-        return OpenMBeanAttributeInfoSupport.<T>cast(targetArray);
+        return OpenMBebnAttributeInfoSupport.<T>cbst(tbrgetArrby);
     }
 
-    @SuppressWarnings("unchecked")
-    static <T> T cast(Object x) {
+    @SuppressWbrnings("unchecked")
+    stbtic <T> T cbst(Object x) {
         return (T) x;
     }
 
     /**
-     * Returns the open type for the values of the attribute described
-     * by this {@code OpenMBeanAttributeInfoSupport} instance.
+     * Returns the open type for the vblues of the bttribute described
+     * by this {@code OpenMBebnAttributeInfoSupport} instbnce.
      */
     public OpenType<?> getOpenType() {
         return openType;
     }
 
     /**
-     * Returns the default value for the attribute described by this
-     * {@code OpenMBeanAttributeInfoSupport} instance, if specified,
+     * Returns the defbult vblue for the bttribute described by this
+     * {@code OpenMBebnAttributeInfoSupport} instbnce, if specified,
      * or {@code null} otherwise.
      */
-    public Object getDefaultValue() {
+    public Object getDefbultVblue() {
 
-        // Special case for ArrayType and TabularType
-        // [JF] TODO: clone it so that it cannot be altered,
-        // [JF] TODO: if we decide to support defaultValue as an array itself.
-        // [JF] As of today (oct 2000) it is not supported so
-        // defaultValue is null for arrays. Nothing to do.
+        // Specibl cbse for ArrbyType bnd TbbulbrType
+        // [JF] TODO: clone it so thbt it cbnnot be bltered,
+        // [JF] TODO: if we decide to support defbultVblue bs bn brrby itself.
+        // [JF] As of todby (oct 2000) it is not supported so
+        // defbultVblue is null for brrbys. Nothing to do.
 
-        return defaultValue;
+        return defbultVblue;
     }
 
     /**
-     * Returns an unmodifiable Set of legal values for the attribute
-     * described by this {@code OpenMBeanAttributeInfoSupport}
-     * instance, if specified, or {@code null} otherwise.
+     * Returns bn unmodifibble Set of legbl vblues for the bttribute
+     * described by this {@code OpenMBebnAttributeInfoSupport}
+     * instbnce, if specified, or {@code null} otherwise.
      */
-    public Set<?> getLegalValues() {
+    public Set<?> getLegblVblues() {
 
-        // Special case for ArrayType and TabularType
-        // [JF] TODO: clone values so that they cannot be altered,
-        // [JF] TODO: if we decide to support LegalValues as an array itself.
-        // [JF] As of today (oct 2000) it is not supported so
-        // legalValues is null for arrays. Nothing to do.
+        // Specibl cbse for ArrbyType bnd TbbulbrType
+        // [JF] TODO: clone vblues so thbt they cbnnot be bltered,
+        // [JF] TODO: if we decide to support LegblVblues bs bn brrby itself.
+        // [JF] As of todby (oct 2000) it is not supported so
+        // legblVblues is null for brrbys. Nothing to do.
 
-        // Returns our legalValues Set (set was constructed unmodifiable)
-        return (legalValues);
+        // Returns our legblVblues Set (set wbs constructed unmodifibble)
+        return (legblVblues);
     }
 
     /**
-     * Returns the minimal value for the attribute described by this
-     * {@code OpenMBeanAttributeInfoSupport} instance, if specified,
+     * Returns the minimbl vblue for the bttribute described by this
+     * {@code OpenMBebnAttributeInfoSupport} instbnce, if specified,
      * or {@code null} otherwise.
      */
-    public Comparable<?> getMinValue() {
+    public Compbrbble<?> getMinVblue() {
 
-        // Note: only comparable values have a minValue,
-        // so that's not the case of arrays and tabulars (always null).
+        // Note: only compbrbble vblues hbve b minVblue,
+        // so thbt's not the cbse of brrbys bnd tbbulbrs (blwbys null).
 
-        return minValue;
+        return minVblue;
     }
 
     /**
-     * Returns the maximal value for the attribute described by this
-     * {@code OpenMBeanAttributeInfoSupport} instance, if specified,
+     * Returns the mbximbl vblue for the bttribute described by this
+     * {@code OpenMBebnAttributeInfoSupport} instbnce, if specified,
      * or {@code null} otherwise.
      */
-    public Comparable<?> getMaxValue() {
+    public Compbrbble<?> getMbxVblue() {
 
-        // Note: only comparable values have a maxValue,
-        // so that's not the case of arrays and tabulars (always null).
+        // Note: only compbrbble vblues hbve b mbxVblue,
+        // so thbt's not the cbse of brrbys bnd tbbulbrs (blwbys null).
 
-        return maxValue;
+        return mbxVblue;
     }
 
     /**
      * Returns {@code true} if this {@code
-     * OpenMBeanAttributeInfoSupport} instance specifies a non-null
-     * default value for the described attribute, {@code false}
+     * OpenMBebnAttributeInfoSupport} instbnce specifies b non-null
+     * defbult vblue for the described bttribute, {@code fblse}
      * otherwise.
      */
-    public boolean hasDefaultValue() {
+    public boolebn hbsDefbultVblue() {
 
-        return (defaultValue != null);
+        return (defbultVblue != null);
     }
 
     /**
      * Returns {@code true} if this {@code
-     * OpenMBeanAttributeInfoSupport} instance specifies a non-null
-     * set of legal values for the described attribute, {@code false}
+     * OpenMBebnAttributeInfoSupport} instbnce specifies b non-null
+     * set of legbl vblues for the described bttribute, {@code fblse}
      * otherwise.
      */
-    public boolean hasLegalValues() {
+    public boolebn hbsLegblVblues() {
 
-        return (legalValues != null);
+        return (legblVblues != null);
     }
 
     /**
      * Returns {@code true} if this {@code
-     * OpenMBeanAttributeInfoSupport} instance specifies a non-null
-     * minimal value for the described attribute, {@code false}
+     * OpenMBebnAttributeInfoSupport} instbnce specifies b non-null
+     * minimbl vblue for the described bttribute, {@code fblse}
      * otherwise.
      */
-    public boolean hasMinValue() {
+    public boolebn hbsMinVblue() {
 
-        return (minValue != null);
+        return (minVblue != null);
     }
 
     /**
      * Returns {@code true} if this {@code
-     * OpenMBeanAttributeInfoSupport} instance specifies a non-null
-     * maximal value for the described attribute, {@code false}
+     * OpenMBebnAttributeInfoSupport} instbnce specifies b non-null
+     * mbximbl vblue for the described bttribute, {@code fblse}
      * otherwise.
      */
-    public boolean hasMaxValue() {
+    public boolebn hbsMbxVblue() {
 
-        return (maxValue != null);
+        return (mbxVblue != null);
     }
 
 
     /**
-     * Tests whether {@code obj} is a valid value for the attribute
-     * described by this {@code OpenMBeanAttributeInfoSupport}
-     * instance.
+     * Tests whether {@code obj} is b vblid vblue for the bttribute
+     * described by this {@code OpenMBebnAttributeInfoSupport}
+     * instbnce.
      *
-     * @param obj the object to be tested.
+     * @pbrbm obj the object to be tested.
      *
-     * @return {@code true} if {@code obj} is a valid value for
-     * the parameter described by this {@code
-     * OpenMBeanAttributeInfoSupport} instance, {@code false}
+     * @return {@code true} if {@code obj} is b vblid vblue for
+     * the pbrbmeter described by this {@code
+     * OpenMBebnAttributeInfoSupport} instbnce, {@code fblse}
      * otherwise.
      */
-    public boolean isValue(Object obj) {
-        return isValue(this, obj);
+    public boolebn isVblue(Object obj) {
+        return isVblue(this, obj);
     }
 
-    @SuppressWarnings({"unchecked", "rawtypes"})  // cast to Comparable
-    static boolean isValue(OpenMBeanParameterInfo info, Object obj) {
-        if (info.hasDefaultValue() && obj == null)
+    @SuppressWbrnings({"unchecked", "rbwtypes"})  // cbst to Compbrbble
+    stbtic boolebn isVblue(OpenMBebnPbrbmeterInfo info, Object obj) {
+        if (info.hbsDefbultVblue() && obj == null)
             return true;
         return
-            info.getOpenType().isValue(obj) &&
-            (!info.hasLegalValues() || info.getLegalValues().contains(obj)) &&
-            (!info.hasMinValue() ||
-            ((Comparable) info.getMinValue()).compareTo(obj) <= 0) &&
-            (!info.hasMaxValue() ||
-            ((Comparable) info.getMaxValue()).compareTo(obj) >= 0);
+            info.getOpenType().isVblue(obj) &&
+            (!info.hbsLegblVblues() || info.getLegblVblues().contbins(obj)) &&
+            (!info.hbsMinVblue() ||
+            ((Compbrbble) info.getMinVblue()).compbreTo(obj) <= 0) &&
+            (!info.hbsMbxVblue() ||
+            ((Compbrbble) info.getMbxVblue()).compbreTo(obj) >= 0);
     }
 
-    /* ***  Commodity methods from java.lang.Object  *** */
+    /* ***  Commodity methods from jbvb.lbng.Object  *** */
 
 
     /**
-     * Compares the specified {@code obj} parameter with this {@code
-     * OpenMBeanAttributeInfoSupport} instance for equality.
+     * Compbres the specified {@code obj} pbrbmeter with this {@code
+     * OpenMBebnAttributeInfoSupport} instbnce for equblity.
      * <p>
-     * Returns {@code true} if and only if all of the following statements are true:
+     * Returns {@code true} if bnd only if bll of the following stbtements bre true:
      * <ul>
      * <li>{@code obj} is non null,</li>
-     * <li>{@code obj} also implements the {@code OpenMBeanAttributeInfo} interface,</li>
-     * <li>their names are equal</li>
-     * <li>their open types are equal</li>
-     * <li>their access properties (isReadable, isWritable and isIs) are equal</li>
-     * <li>their default, min, max and legal values are equal.</li>
+     * <li>{@code obj} blso implements the {@code OpenMBebnAttributeInfo} interfbce,</li>
+     * <li>their nbmes bre equbl</li>
+     * <li>their open types bre equbl</li>
+     * <li>their bccess properties (isRebdbble, isWritbble bnd isIs) bre equbl</li>
+     * <li>their defbult, min, mbx bnd legbl vblues bre equbl.</li>
      * </ul>
-     * This ensures that this {@code equals} method works properly for
-     * {@code obj} parameters which are different implementations of
-     * the {@code OpenMBeanAttributeInfo} interface.
+     * This ensures thbt this {@code equbls} method works properly for
+     * {@code obj} pbrbmeters which bre different implementbtions of
+     * the {@code OpenMBebnAttributeInfo} interfbce.
      *
-     * <p>If {@code obj} also implements {@link DescriptorRead}, then its
-     * {@link DescriptorRead#getDescriptor() getDescriptor()} method must
-     * also return the same value as for this object.</p>
+     * <p>If {@code obj} blso implements {@link DescriptorRebd}, then its
+     * {@link DescriptorRebd#getDescriptor() getDescriptor()} method must
+     * blso return the sbme vblue bs for this object.</p>
      *
-     * @param obj the object to be compared for equality with this
-     * {@code OpenMBeanAttributeInfoSupport} instance.
+     * @pbrbm obj the object to be compbred for equblity with this
+     * {@code OpenMBebnAttributeInfoSupport} instbnce.
      *
-     * @return {@code true} if the specified object is equal to this
-     * {@code OpenMBeanAttributeInfoSupport} instance.
+     * @return {@code true} if the specified object is equbl to this
+     * {@code OpenMBebnAttributeInfoSupport} instbnce.
      */
-    public boolean equals(Object obj) {
-        if (!(obj instanceof OpenMBeanAttributeInfo))
-            return false;
+    public boolebn equbls(Object obj) {
+        if (!(obj instbnceof OpenMBebnAttributeInfo))
+            return fblse;
 
-        OpenMBeanAttributeInfo other = (OpenMBeanAttributeInfo) obj;
+        OpenMBebnAttributeInfo other = (OpenMBebnAttributeInfo) obj;
 
         return
-            this.isReadable() == other.isReadable() &&
-            this.isWritable() == other.isWritable() &&
+            this.isRebdbble() == other.isRebdbble() &&
+            this.isWritbble() == other.isWritbble() &&
             this.isIs() == other.isIs() &&
-            equal(this, other);
+            equbl(this, other);
     }
 
-    static boolean equal(OpenMBeanParameterInfo x1, OpenMBeanParameterInfo x2) {
-        if (x1 instanceof DescriptorRead) {
-            if (!(x2 instanceof DescriptorRead))
-                return false;
-            Descriptor d1 = ((DescriptorRead) x1).getDescriptor();
-            Descriptor d2 = ((DescriptorRead) x2).getDescriptor();
-            if (!d1.equals(d2))
-                return false;
-        } else if (x2 instanceof DescriptorRead)
-            return false;
+    stbtic boolebn equbl(OpenMBebnPbrbmeterInfo x1, OpenMBebnPbrbmeterInfo x2) {
+        if (x1 instbnceof DescriptorRebd) {
+            if (!(x2 instbnceof DescriptorRebd))
+                return fblse;
+            Descriptor d1 = ((DescriptorRebd) x1).getDescriptor();
+            Descriptor d2 = ((DescriptorRebd) x2).getDescriptor();
+            if (!d1.equbls(d2))
+                return fblse;
+        } else if (x2 instbnceof DescriptorRebd)
+            return fblse;
 
         return
-            x1.getName().equals(x2.getName()) &&
-            x1.getOpenType().equals(x2.getOpenType()) &&
-            (x1.hasDefaultValue() ?
-                x1.getDefaultValue().equals(x2.getDefaultValue()) :
-                !x2.hasDefaultValue()) &&
-            (x1.hasMinValue() ?
-                x1.getMinValue().equals(x2.getMinValue()) :
-                !x2.hasMinValue()) &&
-            (x1.hasMaxValue() ?
-                x1.getMaxValue().equals(x2.getMaxValue()) :
-                !x2.hasMaxValue()) &&
-            (x1.hasLegalValues() ?
-                x1.getLegalValues().equals(x2.getLegalValues()) :
-                !x2.hasLegalValues());
+            x1.getNbme().equbls(x2.getNbme()) &&
+            x1.getOpenType().equbls(x2.getOpenType()) &&
+            (x1.hbsDefbultVblue() ?
+                x1.getDefbultVblue().equbls(x2.getDefbultVblue()) :
+                !x2.hbsDefbultVblue()) &&
+            (x1.hbsMinVblue() ?
+                x1.getMinVblue().equbls(x2.getMinVblue()) :
+                !x2.hbsMinVblue()) &&
+            (x1.hbsMbxVblue() ?
+                x1.getMbxVblue().equbls(x2.getMbxVblue()) :
+                !x2.hbsMbxVblue()) &&
+            (x1.hbsLegblVblues() ?
+                x1.getLegblVblues().equbls(x2.getLegblVblues()) :
+                !x2.hbsLegblVblues());
     }
 
     /**
-     * <p>Returns the hash code value for this {@code
-     * OpenMBeanAttributeInfoSupport} instance.</p>
+     * <p>Returns the hbsh code vblue for this {@code
+     * OpenMBebnAttributeInfoSupport} instbnce.</p>
      *
-     * <p>The hash code of an {@code OpenMBeanAttributeInfoSupport}
-     * instance is the sum of the hash codes of all elements of
-     * information used in {@code equals} comparisons (ie: its name,
-     * its <i>open type</i>, its default, min, max and legal
-     * values, and its Descriptor).
+     * <p>The hbsh code of bn {@code OpenMBebnAttributeInfoSupport}
+     * instbnce is the sum of the hbsh codes of bll elements of
+     * informbtion used in {@code equbls} compbrisons (ie: its nbme,
+     * its <i>open type</i>, its defbult, min, mbx bnd legbl
+     * vblues, bnd its Descriptor).
      *
-     * <p>This ensures that {@code t1.equals(t2)} implies that {@code
-     * t1.hashCode()==t2.hashCode()} for any two {@code
-     * OpenMBeanAttributeInfoSupport} instances {@code t1} and {@code
-     * t2}, as required by the general contract of the method {@link
-     * Object#hashCode() Object.hashCode()}.
+     * <p>This ensures thbt {@code t1.equbls(t2)} implies thbt {@code
+     * t1.hbshCode()==t2.hbshCode()} for bny two {@code
+     * OpenMBebnAttributeInfoSupport} instbnces {@code t1} bnd {@code
+     * t2}, bs required by the generbl contrbct of the method {@link
+     * Object#hbshCode() Object.hbshCode()}.
      *
-     * <p>However, note that another instance of a class implementing
-     * the {@code OpenMBeanAttributeInfo} interface may be equal to
-     * this {@code OpenMBeanAttributeInfoSupport} instance as defined
-     * by {@link #equals(java.lang.Object)}, but may have a different
-     * hash code if it is calculated differently.
+     * <p>However, note thbt bnother instbnce of b clbss implementing
+     * the {@code OpenMBebnAttributeInfo} interfbce mby be equbl to
+     * this {@code OpenMBebnAttributeInfoSupport} instbnce bs defined
+     * by {@link #equbls(jbvb.lbng.Object)}, but mby hbve b different
+     * hbsh code if it is cblculbted differently.
      *
-     * <p>As {@code OpenMBeanAttributeInfoSupport} instances are
-     * immutable, the hash code for this instance is calculated once,
-     * on the first call to {@code hashCode}, and then the same value
-     * is returned for subsequent calls.
+     * <p>As {@code OpenMBebnAttributeInfoSupport} instbnces bre
+     * immutbble, the hbsh code for this instbnce is cblculbted once,
+     * on the first cbll to {@code hbshCode}, bnd then the sbme vblue
+     * is returned for subsequent cblls.
      *
-     * @return the hash code value for this {@code
-     * OpenMBeanAttributeInfoSupport} instance
+     * @return the hbsh code vblue for this {@code
+     * OpenMBebnAttributeInfoSupport} instbnce
      */
-    public int hashCode() {
+    public int hbshCode() {
 
-        // Calculate the hash code value if it has not yet been done
-        // (ie 1st call to hashCode())
+        // Cblculbte the hbsh code vblue if it hbs not yet been done
+        // (ie 1st cbll to hbshCode())
         //
-        if (myHashCode == null)
-            myHashCode = hashCode(this);
+        if (myHbshCode == null)
+            myHbshCode = hbshCode(this);
 
-        // return always the same hash code for this instance (immutable)
+        // return blwbys the sbme hbsh code for this instbnce (immutbble)
         //
-        return myHashCode.intValue();
+        return myHbshCode.intVblue();
     }
 
-    static int hashCode(OpenMBeanParameterInfo info) {
-        int value = 0;
-        value += info.getName().hashCode();
-        value += info.getOpenType().hashCode();
-        if (info.hasDefaultValue())
-            value += info.getDefaultValue().hashCode();
-        if (info.hasMinValue())
-            value += info.getMinValue().hashCode();
-        if (info.hasMaxValue())
-            value += info.getMaxValue().hashCode();
-        if (info.hasLegalValues())
-            value += info.getLegalValues().hashCode();
-        if (info instanceof DescriptorRead)
-            value += ((DescriptorRead) info).getDescriptor().hashCode();
-        return value;
+    stbtic int hbshCode(OpenMBebnPbrbmeterInfo info) {
+        int vblue = 0;
+        vblue += info.getNbme().hbshCode();
+        vblue += info.getOpenType().hbshCode();
+        if (info.hbsDefbultVblue())
+            vblue += info.getDefbultVblue().hbshCode();
+        if (info.hbsMinVblue())
+            vblue += info.getMinVblue().hbshCode();
+        if (info.hbsMbxVblue())
+            vblue += info.getMbxVblue().hbshCode();
+        if (info.hbsLegblVblues())
+            vblue += info.getLegblVblues().hbshCode();
+        if (info instbnceof DescriptorRebd)
+            vblue += ((DescriptorRebd) info).getDescriptor().hbshCode();
+        return vblue;
     }
 
     /**
-     * Returns a string representation of this
-     * {@code OpenMBeanAttributeInfoSupport} instance.
+     * Returns b string representbtion of this
+     * {@code OpenMBebnAttributeInfoSupport} instbnce.
      * <p>
-     * The string representation consists of the name of this class (i.e.
-     * {@code javax.management.openmbean.OpenMBeanAttributeInfoSupport}),
-     * the string representation of the name and open type of the
-     * described parameter, the string representation of its
-     * default, min, max and legal values and the string
-     * representation of its descriptor.
+     * The string representbtion consists of the nbme of this clbss (i.e.
+     * {@code jbvbx.mbnbgement.openmbebn.OpenMBebnAttributeInfoSupport}),
+     * the string representbtion of the nbme bnd open type of the
+     * described pbrbmeter, the string representbtion of its
+     * defbult, min, mbx bnd legbl vblues bnd the string
+     * representbtion of its descriptor.
      *
-     * <p>As {@code OpenMBeanAttributeInfoSupport} instances are
-     * immutable, the string representation for this instance is
-     * calculated once, on the first call to {@code toString}, and
-     * then the same value is returned for subsequent calls.
+     * <p>As {@code OpenMBebnAttributeInfoSupport} instbnces bre
+     * immutbble, the string representbtion for this instbnce is
+     * cblculbted once, on the first cbll to {@code toString}, bnd
+     * then the sbme vblue is returned for subsequent cblls.
      *
-     * @return a string representation of this
-     * {@code OpenMBeanAttributeInfoSupport} instance.
+     * @return b string representbtion of this
+     * {@code OpenMBebnAttributeInfoSupport} instbnce.
      */
     public String toString() {
 
-        // Calculate the string value if it has not yet been done
-        // (ie 1st call to toString())
+        // Cblculbte the string vblue if it hbs not yet been done
+        // (ie 1st cbll to toString())
         //
         if (myToString == null)
             myToString = toString(this);
 
-        // return always the same string representation for this
-        // instance (immutable)
+        // return blwbys the sbme string representbtion for this
+        // instbnce (immutbble)
         //
         return myToString;
     }
 
-    static String toString(OpenMBeanParameterInfo info) {
-        Descriptor d = (info instanceof DescriptorRead) ?
-            ((DescriptorRead) info).getDescriptor() : null;
+    stbtic String toString(OpenMBebnPbrbmeterInfo info) {
+        Descriptor d = (info instbnceof DescriptorRebd) ?
+            ((DescriptorRebd) info).getDescriptor() : null;
         return
-            info.getClass().getName() +
-            "(name=" + info.getName() +
+            info.getClbss().getNbme() +
+            "(nbme=" + info.getNbme() +
             ",openType=" + info.getOpenType() +
-            ",default=" + info.getDefaultValue() +
-            ",minValue=" + info.getMinValue() +
-            ",maxValue=" + info.getMaxValue() +
-            ",legalValues=" + info.getLegalValues() +
+            ",defbult=" + info.getDefbultVblue() +
+            ",minVblue=" + info.getMinVblue() +
+            ",mbxVblue=" + info.getMbxVblue() +
+            ",legblVblues=" + info.getLegblVblues() +
             ((d == null) ? "" : ",descriptor=" + d) +
             ")";
     }

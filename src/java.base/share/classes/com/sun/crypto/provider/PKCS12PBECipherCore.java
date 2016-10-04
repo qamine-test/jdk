@@ -1,108 +1,108 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.crypto.provider;
+pbckbge com.sun.crypto.provider;
 
-import java.math.BigInteger;
-import java.security.*;
-import java.security.spec.*;
-import java.util.Arrays;
-import javax.crypto.*;
-import javax.crypto.spec.*;
+import jbvb.mbth.BigInteger;
+import jbvb.security.*;
+import jbvb.security.spec.*;
+import jbvb.util.Arrbys;
+import jbvbx.crypto.*;
+import jbvbx.crypto.spec.*;
 
 /**
- * This class implements password-base encryption algorithm with
- * SHA1 digest and the following Ciphers (in CBC mode, where applicable):
- * - DESede cipher and
- * - RC2 Cipher with 40-bit or 128-bit effective key length and
+ * This clbss implements pbssword-bbse encryption blgorithm with
+ * SHA1 digest bnd the following Ciphers (in CBC mode, where bpplicbble):
+ * - DESede cipher bnd
+ * - RC2 Cipher with 40-bit or 128-bit effective key length bnd
  * - RC4 Cipher with 40-bit or 128-bit effective key length
- * as defined by PKCS #12 version 1.0 standard.
+ * bs defined by PKCS #12 version 1.0 stbndbrd.
  *
- * @author Valerie Peng
- * @see javax.crypto.CipherSpi
+ * @buthor Vblerie Peng
+ * @see jbvbx.crypto.CipherSpi
  */
-final class PKCS12PBECipherCore {
+finbl clbss PKCS12PBECipherCore {
 
-    // TBD: replace CipherCore with a CipherSpi object to simplify maintenance
+    // TBD: replbce CipherCore with b CipherSpi object to simplify mbintenbnce
 
-    private CipherCore cipher;
-    private int blockSize;
-    private int keySize;
-    private String algo = null;
-    private String pbeAlgo = null;
-    private byte[] salt = null;
-    private int iCount = 0;
+    privbte CipherCore cipher;
+    privbte int blockSize;
+    privbte int keySize;
+    privbte String blgo = null;
+    privbte String pbeAlgo = null;
+    privbte byte[] sblt = null;
+    privbte int iCount = 0;
 
-    private static final int DEFAULT_SALT_LENGTH = 20;
-    private static final int DEFAULT_COUNT = 1024;
+    privbte stbtic finbl int DEFAULT_SALT_LENGTH = 20;
+    privbte stbtic finbl int DEFAULT_COUNT = 1024;
 
-    static final int CIPHER_KEY = 1;
-    static final int CIPHER_IV = 2;
-    static final int MAC_KEY = 3;
+    stbtic finbl int CIPHER_KEY = 1;
+    stbtic finbl int CIPHER_IV = 2;
+    stbtic finbl int MAC_KEY = 3;
 
-    // Uses default hash algorithm (SHA-1)
-    static byte[] derive(char[] chars, byte[] salt,
+    // Uses defbult hbsh blgorithm (SHA-1)
+    stbtic byte[] derive(chbr[] chbrs, byte[] sblt,
                          int ic, int n, int type) {
-        return derive(chars, salt, ic, n, type, "SHA-1", 64);
+        return derive(chbrs, sblt, ic, n, type, "SHA-1", 64);
     }
 
-    // Uses supplied hash algorithm
-    static byte[] derive(char[] chars, byte[] salt, int ic, int n, int type,
-        String hashAlgo, int blockLength) {
+    // Uses supplied hbsh blgorithm
+    stbtic byte[] derive(chbr[] chbrs, byte[] sblt, int ic, int n, int type,
+        String hbshAlgo, int blockLength) {
 
-        // Add in trailing NULL terminator.  Special case:
-        // no terminator if password is "\0".
-        int length = chars.length*2;
-        if (length == 2 && chars[0] == 0) {
-            chars = new char[0];
+        // Add in trbiling NULL terminbtor.  Specibl cbse:
+        // no terminbtor if pbssword is "\0".
+        int length = chbrs.length*2;
+        if (length == 2 && chbrs[0] == 0) {
+            chbrs = new chbr[0];
             length = 0;
         } else {
             length += 2;
         }
 
-        byte[] passwd = new byte[length];
-        for (int i = 0, j = 0; i < chars.length; i++, j+=2) {
-            passwd[j] = (byte) ((chars[i] >>> 8) & 0xFF);
-            passwd[j+1] = (byte) (chars[i] & 0xFF);
+        byte[] pbsswd = new byte[length];
+        for (int i = 0, j = 0; i < chbrs.length; i++, j+=2) {
+            pbsswd[j] = (byte) ((chbrs[i] >>> 8) & 0xFF);
+            pbsswd[j+1] = (byte) (chbrs[i] & 0xFF);
         }
         byte[] key = new byte[n];
 
         try {
-            MessageDigest sha = MessageDigest.getInstance(hashAlgo);
+            MessbgeDigest shb = MessbgeDigest.getInstbnce(hbshAlgo);
 
             int v = blockLength;
-            int u = sha.getDigestLength();
+            int u = shb.getDigestLength();
             int c = roundup(n, u) / u;
             byte[] D = new byte[v];
-            int s = roundup(salt.length, v);
-            int p = roundup(passwd.length, v);
+            int s = roundup(sblt.length, v);
+            int p = roundup(pbsswd.length, v);
             byte[] I = new byte[s + p];
 
-            Arrays.fill(D, (byte)type);
-            concat(salt, I, 0, s);
-            concat(passwd, I, s, p);
+            Arrbys.fill(D, (byte)type);
+            concbt(sblt, I, 0, s);
+            concbt(pbsswd, I, s, p);
 
             byte[] Ai;
             byte[] B = new byte[v];
@@ -110,17 +110,17 @@ final class PKCS12PBECipherCore {
 
             int i = 0;
             for (; ; i++, n -= u) {
-                sha.update(D);
-                sha.update(I);
-                Ai = sha.digest();
+                shb.updbte(D);
+                shb.updbte(I);
+                Ai = shb.digest();
                 for (int r = 1; r < ic; r++)
-                    Ai = sha.digest(Ai);
-                System.arraycopy(Ai, 0, key, u * i, Math.min(n, u));
+                    Ai = shb.digest(Ai);
+                System.brrbycopy(Ai, 0, key, u * i, Mbth.min(n, u));
                 if (i + 1 == c)
-                    break;
-                concat(Ai, B, 0, B.length);
+                    brebk;
+                concbt(Ai, B, 0, B.length);
                 BigInteger B1;
-                B1 = new BigInteger(1, B).add(BigInteger.ONE);
+                B1 = new BigInteger(1, B).bdd(BigInteger.ONE);
 
                 for (int j = 0; j < I.length; j += v) {
                     BigInteger Ij;
@@ -128,82 +128,82 @@ final class PKCS12PBECipherCore {
 
                     if (tmp.length != v)
                         tmp = new byte[v];
-                    System.arraycopy(I, j, tmp, 0, v);
+                    System.brrbycopy(I, j, tmp, 0, v);
                     Ij = new BigInteger(1, tmp);
-                    Ij = Ij.add(B1);
-                    tmp = Ij.toByteArray();
+                    Ij = Ij.bdd(B1);
+                    tmp = Ij.toByteArrby();
                     trunc = tmp.length - v;
                     if (trunc >= 0) {
-                        System.arraycopy(tmp, trunc, I, j, v);
+                        System.brrbycopy(tmp, trunc, I, j, v);
                     } else if (trunc < 0) {
-                        Arrays.fill(I, j, j + (-trunc), (byte)0);
-                        System.arraycopy(tmp, 0, I, j + (-trunc), tmp.length);
+                        Arrbys.fill(I, j, j + (-trunc), (byte)0);
+                        System.brrbycopy(tmp, 0, I, j + (-trunc), tmp.length);
                     }
                 }
             }
-        } catch (Exception e) {
-            throw new RuntimeException("internal error: " + e);
+        } cbtch (Exception e) {
+            throw new RuntimeException("internbl error: " + e);
         }
         return key;
     }
 
-    private static int roundup(int x, int y) {
+    privbte stbtic int roundup(int x, int y) {
         return ((x + (y - 1)) / y) * y;
     }
 
-    private static void concat(byte[] src, byte[] dst, int start, int len) {
+    privbte stbtic void concbt(byte[] src, byte[] dst, int stbrt, int len) {
         if (src.length == 0) {
             return;
         }
         int loop = len / src.length;
         int off, i;
         for (i = 0, off = 0; i < loop; i++, off += src.length)
-            System.arraycopy(src, 0, dst, off + start, src.length);
-        System.arraycopy(src, 0, dst, off + start, len - off);
+            System.brrbycopy(src, 0, dst, off + stbrt, src.length);
+        System.brrbycopy(src, 0, dst, off + stbrt, len - off);
     }
 
     PKCS12PBECipherCore(String symmCipherAlg, int defKeySize)
         throws NoSuchAlgorithmException {
 
-        algo = symmCipherAlg;
-        if (algo.equals("RC4")) {
+        blgo = symmCipherAlg;
+        if (blgo.equbls("RC4")) {
             pbeAlgo = "PBEWithSHA1AndRC4_" + defKeySize * 8;
         } else {
             SymmetricCipher symmCipher = null;
-            if (algo.equals("DESede")) {
+            if (blgo.equbls("DESede")) {
                 symmCipher = new DESedeCrypt();
                 pbeAlgo = "PBEWithSHA1AndDESede";
-            } else if (algo.equals("RC2")) {
+            } else if (blgo.equbls("RC2")) {
                 symmCipher = new RC2Crypt();
                 pbeAlgo = "PBEWithSHA1AndRC2_" + defKeySize * 8;
             } else {
-                throw new NoSuchAlgorithmException("No Cipher implementation " +
-                       "for PBEWithSHA1And" + algo);
+                throw new NoSuchAlgorithmException("No Cipher implementbtion " +
+                       "for PBEWithSHA1And" + blgo);
             }
             blockSize = symmCipher.getBlockSize();
             cipher = new CipherCore(symmCipher, blockSize);
             cipher.setMode("CBC");
             try {
-                cipher.setPadding("PKCS5Padding");
-            } catch (NoSuchPaddingException nspe) {
-                // should not happen
+                cipher.setPbdding("PKCS5Pbdding");
+            } cbtch (NoSuchPbddingException nspe) {
+                // should not hbppen
             }
         }
         keySize = defKeySize;
     }
 
     void implSetMode(String mode) throws NoSuchAlgorithmException {
-        if ((mode != null) && (!mode.equalsIgnoreCase("CBC"))) {
-            throw new NoSuchAlgorithmException("Invalid cipher mode: "
+        if ((mode != null) && (!mode.equblsIgnoreCbse("CBC"))) {
+            throw new NoSuchAlgorithmException("Invblid cipher mode: "
                                                + mode);
         }
     }
 
-    void implSetPadding(String padding) throws NoSuchPaddingException {
-        if ((padding != null) &&
-            (!padding.equalsIgnoreCase("PKCS5Padding"))) {
-            throw new NoSuchPaddingException("Invalid padding scheme: " +
-                                             padding);
+    void implSetPbdding(String pbdding) throws NoSuchPbddingException {
+        if ((pbdding != null) &&
+            (!pbdding.equblsIgnoreCbse("PKCS5Pbdding"))) {
+            throw new NoSuchPbddingException("Invblid pbdding scheme: " +
+                                             pbdding);
         }
     }
 
@@ -219,222 +219,222 @@ final class PKCS12PBECipherCore {
         return cipher.getIV();
     }
 
-    AlgorithmParameters implGetParameters() {
-        AlgorithmParameters params = null;
-        if (salt == null) {
-            // Cipher is not initialized with parameters;
-            // follow the recommendation in PKCS12 v1.0
-            // section B.4 to generate salt and iCount.
-            salt = new byte[DEFAULT_SALT_LENGTH];
-            SunJCE.getRandom().nextBytes(salt);
+    AlgorithmPbrbmeters implGetPbrbmeters() {
+        AlgorithmPbrbmeters pbrbms = null;
+        if (sblt == null) {
+            // Cipher is not initiblized with pbrbmeters;
+            // follow the recommendbtion in PKCS12 v1.0
+            // section B.4 to generbte sblt bnd iCount.
+            sblt = new byte[DEFAULT_SALT_LENGTH];
+            SunJCE.getRbndom().nextBytes(sblt);
             iCount = DEFAULT_COUNT;
         }
-        PBEParameterSpec pbeSpec = new PBEParameterSpec(salt, iCount);
+        PBEPbrbmeterSpec pbeSpec = new PBEPbrbmeterSpec(sblt, iCount);
         try {
-            params = AlgorithmParameters.getInstance(pbeAlgo,
-                SunJCE.getInstance());
-            params.init(pbeSpec);
-        } catch (NoSuchAlgorithmException nsae) {
-            // should never happen
+            pbrbms = AlgorithmPbrbmeters.getInstbnce(pbeAlgo,
+                SunJCE.getInstbnce());
+            pbrbms.init(pbeSpec);
+        } cbtch (NoSuchAlgorithmException nsbe) {
+            // should never hbppen
             throw new RuntimeException(
                 "SunJCE provider is not configured properly");
-        } catch (InvalidParameterSpecException ipse) {
-            // should never happen
-            throw new RuntimeException("PBEParameterSpec not supported");
+        } cbtch (InvblidPbrbmeterSpecException ipse) {
+            // should never hbppen
+            throw new RuntimeException("PBEPbrbmeterSpec not supported");
         }
-        return params;
+        return pbrbms;
     }
 
-    void implInit(int opmode, Key key, AlgorithmParameterSpec params,
-                  SecureRandom random) throws InvalidKeyException,
-        InvalidAlgorithmParameterException {
-        implInit(opmode, key, params, random, null);
+    void implInit(int opmode, Key key, AlgorithmPbrbmeterSpec pbrbms,
+                  SecureRbndom rbndom) throws InvblidKeyException,
+        InvblidAlgorithmPbrbmeterException {
+        implInit(opmode, key, pbrbms, rbndom, null);
     }
 
-    void implInit(int opmode, Key key, AlgorithmParameterSpec params,
-                  SecureRandom random, CipherSpi cipherImpl)
-                      throws InvalidKeyException,
-        InvalidAlgorithmParameterException {
-        char[] passwdChars = null;
-        salt = null;
+    void implInit(int opmode, Key key, AlgorithmPbrbmeterSpec pbrbms,
+                  SecureRbndom rbndom, CipherSpi cipherImpl)
+                      throws InvblidKeyException,
+        InvblidAlgorithmPbrbmeterException {
+        chbr[] pbsswdChbrs = null;
+        sblt = null;
         iCount = 0;
-        if (key instanceof javax.crypto.interfaces.PBEKey) {
-            javax.crypto.interfaces.PBEKey pbeKey =
-                (javax.crypto.interfaces.PBEKey) key;
-            passwdChars = pbeKey.getPassword();
-            salt = pbeKey.getSalt(); // maybe null if unspecified
-            iCount = pbeKey.getIterationCount(); // maybe 0 if unspecified
-        } else if (key instanceof SecretKey) {
-            byte[] passwdBytes = key.getEncoded();
-            if ((passwdBytes == null) ||
-                !(key.getAlgorithm().regionMatches(true, 0, "PBE", 0, 3))) {
-                throw new InvalidKeyException("Missing password");
+        if (key instbnceof jbvbx.crypto.interfbces.PBEKey) {
+            jbvbx.crypto.interfbces.PBEKey pbeKey =
+                (jbvbx.crypto.interfbces.PBEKey) key;
+            pbsswdChbrs = pbeKey.getPbssword();
+            sblt = pbeKey.getSblt(); // mbybe null if unspecified
+            iCount = pbeKey.getIterbtionCount(); // mbybe 0 if unspecified
+        } else if (key instbnceof SecretKey) {
+            byte[] pbsswdBytes = key.getEncoded();
+            if ((pbsswdBytes == null) ||
+                !(key.getAlgorithm().regionMbtches(true, 0, "PBE", 0, 3))) {
+                throw new InvblidKeyException("Missing pbssword");
             }
-            passwdChars = new char[passwdBytes.length];
-            for (int i=0; i<passwdChars.length; i++) {
-                passwdChars[i] = (char) (passwdBytes[i] & 0x7f);
+            pbsswdChbrs = new chbr[pbsswdBytes.length];
+            for (int i=0; i<pbsswdChbrs.length; i++) {
+                pbsswdChbrs[i] = (chbr) (pbsswdBytes[i] & 0x7f);
             }
         } else {
-            throw new InvalidKeyException("SecretKey of PBE type required");
+            throw new InvblidKeyException("SecretKey of PBE type required");
         }
 
         if (((opmode == Cipher.DECRYPT_MODE) ||
              (opmode == Cipher.UNWRAP_MODE)) &&
-            ((params == null) && ((salt == null) || (iCount == 0)))) {
-            throw new InvalidAlgorithmParameterException
-                ("Parameters missing");
+            ((pbrbms == null) && ((sblt == null) || (iCount == 0)))) {
+            throw new InvblidAlgorithmPbrbmeterException
+                ("Pbrbmeters missing");
         }
 
-        if (params == null) {
-            // generate default for salt and iteration count if necessary
-            if (salt == null) {
-                salt = new byte[DEFAULT_SALT_LENGTH];
-                if (random != null) {
-                    random.nextBytes(salt);
+        if (pbrbms == null) {
+            // generbte defbult for sblt bnd iterbtion count if necessbry
+            if (sblt == null) {
+                sblt = new byte[DEFAULT_SALT_LENGTH];
+                if (rbndom != null) {
+                    rbndom.nextBytes(sblt);
                 } else {
-                    SunJCE.getRandom().nextBytes(salt);
+                    SunJCE.getRbndom().nextBytes(sblt);
                 }
             }
             if (iCount == 0) iCount = DEFAULT_COUNT;
-        } else if (!(params instanceof PBEParameterSpec)) {
-            throw new InvalidAlgorithmParameterException
-                ("PBEParameterSpec type required");
+        } else if (!(pbrbms instbnceof PBEPbrbmeterSpec)) {
+            throw new InvblidAlgorithmPbrbmeterException
+                ("PBEPbrbmeterSpec type required");
         } else {
-            PBEParameterSpec pbeParams = (PBEParameterSpec) params;
-            // make sure the parameter values are consistent
-            if (salt != null) {
-                if (!Arrays.equals(salt, pbeParams.getSalt())) {
-                    throw new InvalidAlgorithmParameterException
-                        ("Inconsistent value of salt between key and params");
+            PBEPbrbmeterSpec pbePbrbms = (PBEPbrbmeterSpec) pbrbms;
+            // mbke sure the pbrbmeter vblues bre consistent
+            if (sblt != null) {
+                if (!Arrbys.equbls(sblt, pbePbrbms.getSblt())) {
+                    throw new InvblidAlgorithmPbrbmeterException
+                        ("Inconsistent vblue of sblt between key bnd pbrbms");
                 }
             } else {
-                salt = pbeParams.getSalt();
+                sblt = pbePbrbms.getSblt();
             }
             if (iCount != 0) {
-                if (iCount != pbeParams.getIterationCount()) {
-                    throw new InvalidAlgorithmParameterException
-                        ("Different iteration count between key and params");
+                if (iCount != pbePbrbms.getIterbtionCount()) {
+                    throw new InvblidAlgorithmPbrbmeterException
+                        ("Different iterbtion count between key bnd pbrbms");
                 }
             } else {
-                iCount = pbeParams.getIterationCount();
+                iCount = pbePbrbms.getIterbtionCount();
             }
         }
-        // salt is recommended to be ideally as long as the output
-        // of the hash function. However, it may be too strict to
-        // force this; so instead, we'll just require the minimum
-        // salt length to be 8-byte which is what PKCS#5 recommends
-        // and openssl does.
-        if (salt.length < 8) {
-            throw new InvalidAlgorithmParameterException
-                ("Salt must be at least 8 bytes long");
+        // sblt is recommended to be ideblly bs long bs the output
+        // of the hbsh function. However, it mby be too strict to
+        // force this; so instebd, we'll just require the minimum
+        // sblt length to be 8-byte which is whbt PKCS#5 recommends
+        // bnd openssl does.
+        if (sblt.length < 8) {
+            throw new InvblidAlgorithmPbrbmeterException
+                ("Sblt must be bt lebst 8 bytes long");
         }
         if (iCount <= 0) {
-            throw new InvalidAlgorithmParameterException
-                ("IterationCount must be a positive number");
+            throw new InvblidAlgorithmPbrbmeterException
+                ("IterbtionCount must be b positive number");
         }
-        byte[] derivedKey = derive(passwdChars, salt, iCount,
+        byte[] derivedKey = derive(pbsswdChbrs, sblt, iCount,
                                    keySize, CIPHER_KEY);
-        SecretKey cipherKey = new SecretKeySpec(derivedKey, algo);
+        SecretKey cipherKey = new SecretKeySpec(derivedKey, blgo);
 
-        if (cipherImpl != null && cipherImpl instanceof ARCFOURCipher) {
-            ((ARCFOURCipher)cipherImpl).engineInit(opmode, cipherKey, random);
+        if (cipherImpl != null && cipherImpl instbnceof ARCFOURCipher) {
+            ((ARCFOURCipher)cipherImpl).engineInit(opmode, cipherKey, rbndom);
 
         } else {
-            byte[] derivedIv = derive(passwdChars, salt, iCount, 8,
+            byte[] derivedIv = derive(pbsswdChbrs, sblt, iCount, 8,
                                   CIPHER_IV);
-            IvParameterSpec ivSpec = new IvParameterSpec(derivedIv, 0, 8);
+            IvPbrbmeterSpec ivSpec = new IvPbrbmeterSpec(derivedIv, 0, 8);
 
-            // initialize the underlying cipher
-            cipher.init(opmode, cipherKey, ivSpec, random);
+            // initiblize the underlying cipher
+            cipher.init(opmode, cipherKey, ivSpec, rbndom);
         }
     }
 
-    void implInit(int opmode, Key key, AlgorithmParameters params,
-                  SecureRandom random)
-        throws InvalidKeyException, InvalidAlgorithmParameterException {
-        implInit(opmode, key, params, random, null);
+    void implInit(int opmode, Key key, AlgorithmPbrbmeters pbrbms,
+                  SecureRbndom rbndom)
+        throws InvblidKeyException, InvblidAlgorithmPbrbmeterException {
+        implInit(opmode, key, pbrbms, rbndom, null);
     }
 
-    void implInit(int opmode, Key key, AlgorithmParameters params,
-                  SecureRandom random, CipherSpi cipherImpl)
-        throws InvalidKeyException, InvalidAlgorithmParameterException {
-        AlgorithmParameterSpec paramSpec = null;
-        if (params != null) {
+    void implInit(int opmode, Key key, AlgorithmPbrbmeters pbrbms,
+                  SecureRbndom rbndom, CipherSpi cipherImpl)
+        throws InvblidKeyException, InvblidAlgorithmPbrbmeterException {
+        AlgorithmPbrbmeterSpec pbrbmSpec = null;
+        if (pbrbms != null) {
             try {
-                paramSpec = params.getParameterSpec(PBEParameterSpec.class);
-            } catch (InvalidParameterSpecException ipse) {
-                throw new InvalidAlgorithmParameterException(
-                    "requires PBE parameters");
+                pbrbmSpec = pbrbms.getPbrbmeterSpec(PBEPbrbmeterSpec.clbss);
+            } cbtch (InvblidPbrbmeterSpecException ipse) {
+                throw new InvblidAlgorithmPbrbmeterException(
+                    "requires PBE pbrbmeters");
             }
         }
-        implInit(opmode, key, paramSpec, random, cipherImpl);
+        implInit(opmode, key, pbrbmSpec, rbndom, cipherImpl);
     }
 
-    void implInit(int opmode, Key key, SecureRandom random)
-        throws InvalidKeyException {
-        implInit(opmode, key, random, null);
+    void implInit(int opmode, Key key, SecureRbndom rbndom)
+        throws InvblidKeyException {
+        implInit(opmode, key, rbndom, null);
     }
 
-    void implInit(int opmode, Key key, SecureRandom random,
-        CipherSpi cipherImpl) throws InvalidKeyException {
+    void implInit(int opmode, Key key, SecureRbndom rbndom,
+        CipherSpi cipherImpl) throws InvblidKeyException {
         try {
-            implInit(opmode, key, (AlgorithmParameterSpec) null, random,
+            implInit(opmode, key, (AlgorithmPbrbmeterSpec) null, rbndom,
                 cipherImpl);
-        } catch (InvalidAlgorithmParameterException iape) {
-            throw new InvalidKeyException("requires PBE parameters");
+        } cbtch (InvblidAlgorithmPbrbmeterException ibpe) {
+            throw new InvblidKeyException("requires PBE pbrbmeters");
         }
     }
 
-    byte[] implUpdate(byte[] in, int inOff, int inLen) {
-        return cipher.update(in, inOff, inLen);
+    byte[] implUpdbte(byte[] in, int inOff, int inLen) {
+        return cipher.updbte(in, inOff, inLen);
     }
 
-    int implUpdate(byte[] in, int inOff, int inLen, byte[] out, int outOff)
+    int implUpdbte(byte[] in, int inOff, int inLen, byte[] out, int outOff)
         throws ShortBufferException {
-        return cipher.update(in, inOff, inLen, out, outOff);
+        return cipher.updbte(in, inOff, inLen, out, outOff);
     }
 
-    byte[] implDoFinal(byte[] in, int inOff, int inLen)
-        throws IllegalBlockSizeException, BadPaddingException {
-        return cipher.doFinal(in, inOff, inLen);
+    byte[] implDoFinbl(byte[] in, int inOff, int inLen)
+        throws IllegblBlockSizeException, BbdPbddingException {
+        return cipher.doFinbl(in, inOff, inLen);
     }
 
-    int implDoFinal(byte[] in, int inOff, int inLen, byte[] out, int outOff)
-        throws ShortBufferException, IllegalBlockSizeException,
-               BadPaddingException {
-        return cipher.doFinal(in, inOff, inLen, out, outOff);
+    int implDoFinbl(byte[] in, int inOff, int inLen, byte[] out, int outOff)
+        throws ShortBufferException, IllegblBlockSizeException,
+               BbdPbddingException {
+        return cipher.doFinbl(in, inOff, inLen, out, outOff);
     }
 
-    int implGetKeySize(Key key) throws InvalidKeyException {
+    int implGetKeySize(Key key) throws InvblidKeyException {
         return keySize;
     }
 
-    byte[] implWrap(Key key) throws IllegalBlockSizeException,
-        InvalidKeyException {
-        return cipher.wrap(key);
+    byte[] implWrbp(Key key) throws IllegblBlockSizeException,
+        InvblidKeyException {
+        return cipher.wrbp(key);
     }
 
-    Key implUnwrap(byte[] wrappedKey, String wrappedKeyAlgorithm,
-                   int wrappedKeyType)
-        throws InvalidKeyException, NoSuchAlgorithmException {
-        return cipher.unwrap(wrappedKey, wrappedKeyAlgorithm,
-                             wrappedKeyType);
+    Key implUnwrbp(byte[] wrbppedKey, String wrbppedKeyAlgorithm,
+                   int wrbppedKeyType)
+        throws InvblidKeyException, NoSuchAlgorithmException {
+        return cipher.unwrbp(wrbppedKey, wrbppedKeyAlgorithm,
+                             wrbppedKeyType);
     }
 
-    public static final class PBEWithSHA1AndDESede extends CipherSpi {
-        private final PKCS12PBECipherCore core;
+    public stbtic finbl clbss PBEWithSHA1AndDESede extends CipherSpi {
+        privbte finbl PKCS12PBECipherCore core;
         public PBEWithSHA1AndDESede() throws NoSuchAlgorithmException {
             core = new PKCS12PBECipherCore("DESede", 24);
         }
-        protected byte[] engineDoFinal(byte[] in, int inOff, int inLen)
-            throws IllegalBlockSizeException, BadPaddingException {
-            return core.implDoFinal(in, inOff, inLen);
+        protected byte[] engineDoFinbl(byte[] in, int inOff, int inLen)
+            throws IllegblBlockSizeException, BbdPbddingException {
+            return core.implDoFinbl(in, inOff, inLen);
         }
-        protected int engineDoFinal(byte[] in, int inOff, int inLen,
+        protected int engineDoFinbl(byte[] in, int inOff, int inLen,
                                     byte[] out, int outOff)
-            throws ShortBufferException, IllegalBlockSizeException,
-                   BadPaddingException {
-            return core.implDoFinal(in, inOff, inLen, out, outOff);
+            throws ShortBufferException, IllegblBlockSizeException,
+                   BbdPbddingException {
+            return core.implDoFinbl(in, inOff, inLen, out, outOff);
         }
         protected int engineGetBlockSize() {
             return core.implGetBlockSize();
@@ -442,74 +442,74 @@ final class PKCS12PBECipherCore {
         protected byte[] engineGetIV() {
             return core.implGetIV();
         }
-        protected int engineGetKeySize(Key key) throws InvalidKeyException {
+        protected int engineGetKeySize(Key key) throws InvblidKeyException {
             return core.implGetKeySize(key);
         }
         protected int engineGetOutputSize(int inLen) {
             return core.implGetOutputSize(inLen);
         }
-        protected AlgorithmParameters engineGetParameters() {
-            return core.implGetParameters();
+        protected AlgorithmPbrbmeters engineGetPbrbmeters() {
+            return core.implGetPbrbmeters();
         }
         protected void engineInit(int opmode, Key key,
-                                  AlgorithmParameterSpec params,
-                                  SecureRandom random)
-            throws InvalidKeyException, InvalidAlgorithmParameterException {
-            core.implInit(opmode, key, params, random);
+                                  AlgorithmPbrbmeterSpec pbrbms,
+                                  SecureRbndom rbndom)
+            throws InvblidKeyException, InvblidAlgorithmPbrbmeterException {
+            core.implInit(opmode, key, pbrbms, rbndom);
         }
         protected void engineInit(int opmode, Key key,
-                                  AlgorithmParameters params,
-                                  SecureRandom random)
-            throws InvalidKeyException, InvalidAlgorithmParameterException {
-            core.implInit(opmode, key, params, random);
+                                  AlgorithmPbrbmeters pbrbms,
+                                  SecureRbndom rbndom)
+            throws InvblidKeyException, InvblidAlgorithmPbrbmeterException {
+            core.implInit(opmode, key, pbrbms, rbndom);
         }
-        protected void engineInit(int opmode, Key key, SecureRandom random)
-            throws InvalidKeyException {
-            core.implInit(opmode, key, random);
+        protected void engineInit(int opmode, Key key, SecureRbndom rbndom)
+            throws InvblidKeyException {
+            core.implInit(opmode, key, rbndom);
         }
         protected void engineSetMode(String mode)
             throws NoSuchAlgorithmException {
             core.implSetMode(mode);
         }
-        protected void engineSetPadding(String paddingScheme)
-            throws NoSuchPaddingException {
-            core.implSetPadding(paddingScheme);
+        protected void engineSetPbdding(String pbddingScheme)
+            throws NoSuchPbddingException {
+            core.implSetPbdding(pbddingScheme);
         }
-        protected Key engineUnwrap(byte[] wrappedKey,
-                                   String wrappedKeyAlgorithm,
-                                   int wrappedKeyType)
-            throws InvalidKeyException, NoSuchAlgorithmException {
-            return core.implUnwrap(wrappedKey, wrappedKeyAlgorithm,
-                                   wrappedKeyType);
+        protected Key engineUnwrbp(byte[] wrbppedKey,
+                                   String wrbppedKeyAlgorithm,
+                                   int wrbppedKeyType)
+            throws InvblidKeyException, NoSuchAlgorithmException {
+            return core.implUnwrbp(wrbppedKey, wrbppedKeyAlgorithm,
+                                   wrbppedKeyType);
         }
-        protected byte[] engineUpdate(byte[] in, int inOff, int inLen) {
-            return core.implUpdate(in, inOff, inLen);
+        protected byte[] engineUpdbte(byte[] in, int inOff, int inLen) {
+            return core.implUpdbte(in, inOff, inLen);
         }
-        protected int engineUpdate(byte[] in, int inOff, int inLen,
+        protected int engineUpdbte(byte[] in, int inOff, int inLen,
                                    byte[] out, int outOff)
             throws ShortBufferException {
-            return core.implUpdate(in, inOff, inLen, out, outOff);
+            return core.implUpdbte(in, inOff, inLen, out, outOff);
         }
-        protected byte[] engineWrap(Key key)
-            throws IllegalBlockSizeException, InvalidKeyException {
-            return core.implWrap(key);
+        protected byte[] engineWrbp(Key key)
+            throws IllegblBlockSizeException, InvblidKeyException {
+            return core.implWrbp(key);
         }
     }
 
-    public static final class PBEWithSHA1AndRC2_40 extends CipherSpi {
-        private final PKCS12PBECipherCore core;
+    public stbtic finbl clbss PBEWithSHA1AndRC2_40 extends CipherSpi {
+        privbte finbl PKCS12PBECipherCore core;
         public PBEWithSHA1AndRC2_40() throws NoSuchAlgorithmException {
             core = new PKCS12PBECipherCore("RC2", 5);
         }
-        protected byte[] engineDoFinal(byte[] in, int inOff, int inLen)
-            throws IllegalBlockSizeException, BadPaddingException {
-            return core.implDoFinal(in, inOff, inLen);
+        protected byte[] engineDoFinbl(byte[] in, int inOff, int inLen)
+            throws IllegblBlockSizeException, BbdPbddingException {
+            return core.implDoFinbl(in, inOff, inLen);
         }
-        protected int engineDoFinal(byte[] in, int inOff, int inLen,
+        protected int engineDoFinbl(byte[] in, int inOff, int inLen,
                                     byte[] out, int outOff)
-            throws ShortBufferException, IllegalBlockSizeException,
-                   BadPaddingException {
-            return core.implDoFinal(in, inOff, inLen, out, outOff);
+            throws ShortBufferException, IllegblBlockSizeException,
+                   BbdPbddingException {
+            return core.implDoFinbl(in, inOff, inLen, out, outOff);
         }
         protected int engineGetBlockSize() {
             return core.implGetBlockSize();
@@ -517,74 +517,74 @@ final class PKCS12PBECipherCore {
         protected byte[] engineGetIV() {
             return core.implGetIV();
         }
-        protected int engineGetKeySize(Key key) throws InvalidKeyException {
+        protected int engineGetKeySize(Key key) throws InvblidKeyException {
             return core.implGetKeySize(key);
         }
         protected int engineGetOutputSize(int inLen) {
             return core.implGetOutputSize(inLen);
         }
-        protected AlgorithmParameters engineGetParameters() {
-            return core.implGetParameters();
+        protected AlgorithmPbrbmeters engineGetPbrbmeters() {
+            return core.implGetPbrbmeters();
         }
         protected void engineInit(int opmode, Key key,
-                                  AlgorithmParameterSpec params,
-                                  SecureRandom random)
-            throws InvalidKeyException, InvalidAlgorithmParameterException {
-            core.implInit(opmode, key, params, random);
+                                  AlgorithmPbrbmeterSpec pbrbms,
+                                  SecureRbndom rbndom)
+            throws InvblidKeyException, InvblidAlgorithmPbrbmeterException {
+            core.implInit(opmode, key, pbrbms, rbndom);
         }
         protected void engineInit(int opmode, Key key,
-                                  AlgorithmParameters params,
-                                  SecureRandom random)
-            throws InvalidKeyException, InvalidAlgorithmParameterException {
-            core.implInit(opmode, key, params, random);
+                                  AlgorithmPbrbmeters pbrbms,
+                                  SecureRbndom rbndom)
+            throws InvblidKeyException, InvblidAlgorithmPbrbmeterException {
+            core.implInit(opmode, key, pbrbms, rbndom);
         }
-        protected void engineInit(int opmode, Key key, SecureRandom random)
-            throws InvalidKeyException {
-            core.implInit(opmode, key, random);
+        protected void engineInit(int opmode, Key key, SecureRbndom rbndom)
+            throws InvblidKeyException {
+            core.implInit(opmode, key, rbndom);
         }
         protected void engineSetMode(String mode)
             throws NoSuchAlgorithmException {
             core.implSetMode(mode);
         }
-        protected void engineSetPadding(String paddingScheme)
-            throws NoSuchPaddingException {
-            core.implSetPadding(paddingScheme);
+        protected void engineSetPbdding(String pbddingScheme)
+            throws NoSuchPbddingException {
+            core.implSetPbdding(pbddingScheme);
         }
-        protected Key engineUnwrap(byte[] wrappedKey,
-                                   String wrappedKeyAlgorithm,
-                                   int wrappedKeyType)
-            throws InvalidKeyException, NoSuchAlgorithmException {
-            return core.implUnwrap(wrappedKey, wrappedKeyAlgorithm,
-                                   wrappedKeyType);
+        protected Key engineUnwrbp(byte[] wrbppedKey,
+                                   String wrbppedKeyAlgorithm,
+                                   int wrbppedKeyType)
+            throws InvblidKeyException, NoSuchAlgorithmException {
+            return core.implUnwrbp(wrbppedKey, wrbppedKeyAlgorithm,
+                                   wrbppedKeyType);
         }
-        protected byte[] engineUpdate(byte[] in, int inOff, int inLen) {
-            return core.implUpdate(in, inOff, inLen);
+        protected byte[] engineUpdbte(byte[] in, int inOff, int inLen) {
+            return core.implUpdbte(in, inOff, inLen);
         }
-        protected int engineUpdate(byte[] in, int inOff, int inLen,
+        protected int engineUpdbte(byte[] in, int inOff, int inLen,
                                    byte[] out, int outOff)
             throws ShortBufferException {
-            return core.implUpdate(in, inOff, inLen, out, outOff);
+            return core.implUpdbte(in, inOff, inLen, out, outOff);
         }
-        protected byte[] engineWrap(Key key)
-            throws IllegalBlockSizeException, InvalidKeyException {
-            return core.implWrap(key);
+        protected byte[] engineWrbp(Key key)
+            throws IllegblBlockSizeException, InvblidKeyException {
+            return core.implWrbp(key);
         }
     }
 
-    public static final class PBEWithSHA1AndRC2_128 extends CipherSpi {
-        private final PKCS12PBECipherCore core;
+    public stbtic finbl clbss PBEWithSHA1AndRC2_128 extends CipherSpi {
+        privbte finbl PKCS12PBECipherCore core;
         public PBEWithSHA1AndRC2_128() throws NoSuchAlgorithmException {
             core = new PKCS12PBECipherCore("RC2", 16);
         }
-        protected byte[] engineDoFinal(byte[] in, int inOff, int inLen)
-            throws IllegalBlockSizeException, BadPaddingException {
-            return core.implDoFinal(in, inOff, inLen);
+        protected byte[] engineDoFinbl(byte[] in, int inOff, int inLen)
+            throws IllegblBlockSizeException, BbdPbddingException {
+            return core.implDoFinbl(in, inOff, inLen);
         }
-        protected int engineDoFinal(byte[] in, int inOff, int inLen,
+        protected int engineDoFinbl(byte[] in, int inOff, int inLen,
                                     byte[] out, int outOff)
-            throws ShortBufferException, IllegalBlockSizeException,
-                   BadPaddingException {
-            return core.implDoFinal(in, inOff, inLen, out, outOff);
+            throws ShortBufferException, IllegblBlockSizeException,
+                   BbdPbddingException {
+            return core.implDoFinbl(in, inOff, inLen, out, outOff);
         }
         protected int engineGetBlockSize() {
             return core.implGetBlockSize();
@@ -592,78 +592,78 @@ final class PKCS12PBECipherCore {
         protected byte[] engineGetIV() {
             return core.implGetIV();
         }
-        protected int engineGetKeySize(Key key) throws InvalidKeyException {
+        protected int engineGetKeySize(Key key) throws InvblidKeyException {
             return core.implGetKeySize(key);
         }
         protected int engineGetOutputSize(int inLen) {
             return core.implGetOutputSize(inLen);
         }
-        protected AlgorithmParameters engineGetParameters() {
-            return core.implGetParameters();
+        protected AlgorithmPbrbmeters engineGetPbrbmeters() {
+            return core.implGetPbrbmeters();
         }
         protected void engineInit(int opmode, Key key,
-                                  AlgorithmParameterSpec params,
-                                  SecureRandom random)
-            throws InvalidKeyException, InvalidAlgorithmParameterException {
-            core.implInit(opmode, key, params, random);
+                                  AlgorithmPbrbmeterSpec pbrbms,
+                                  SecureRbndom rbndom)
+            throws InvblidKeyException, InvblidAlgorithmPbrbmeterException {
+            core.implInit(opmode, key, pbrbms, rbndom);
         }
         protected void engineInit(int opmode, Key key,
-                                  AlgorithmParameters params,
-                                  SecureRandom random)
-            throws InvalidKeyException, InvalidAlgorithmParameterException {
-            core.implInit(opmode, key, params, random);
+                                  AlgorithmPbrbmeters pbrbms,
+                                  SecureRbndom rbndom)
+            throws InvblidKeyException, InvblidAlgorithmPbrbmeterException {
+            core.implInit(opmode, key, pbrbms, rbndom);
         }
-        protected void engineInit(int opmode, Key key, SecureRandom random)
-            throws InvalidKeyException {
-            core.implInit(opmode, key, random);
+        protected void engineInit(int opmode, Key key, SecureRbndom rbndom)
+            throws InvblidKeyException {
+            core.implInit(opmode, key, rbndom);
         }
         protected void engineSetMode(String mode)
             throws NoSuchAlgorithmException {
             core.implSetMode(mode);
         }
-        protected void engineSetPadding(String paddingScheme)
-            throws NoSuchPaddingException {
-            core.implSetPadding(paddingScheme);
+        protected void engineSetPbdding(String pbddingScheme)
+            throws NoSuchPbddingException {
+            core.implSetPbdding(pbddingScheme);
         }
-        protected Key engineUnwrap(byte[] wrappedKey,
-                                   String wrappedKeyAlgorithm,
-                                   int wrappedKeyType)
-            throws InvalidKeyException, NoSuchAlgorithmException {
-            return core.implUnwrap(wrappedKey, wrappedKeyAlgorithm,
-                                   wrappedKeyType);
+        protected Key engineUnwrbp(byte[] wrbppedKey,
+                                   String wrbppedKeyAlgorithm,
+                                   int wrbppedKeyType)
+            throws InvblidKeyException, NoSuchAlgorithmException {
+            return core.implUnwrbp(wrbppedKey, wrbppedKeyAlgorithm,
+                                   wrbppedKeyType);
         }
-        protected byte[] engineUpdate(byte[] in, int inOff, int inLen) {
-            return core.implUpdate(in, inOff, inLen);
+        protected byte[] engineUpdbte(byte[] in, int inOff, int inLen) {
+            return core.implUpdbte(in, inOff, inLen);
         }
-        protected int engineUpdate(byte[] in, int inOff, int inLen,
+        protected int engineUpdbte(byte[] in, int inOff, int inLen,
                                    byte[] out, int outOff)
             throws ShortBufferException {
-            return core.implUpdate(in, inOff, inLen, out, outOff);
+            return core.implUpdbte(in, inOff, inLen, out, outOff);
         }
-        protected byte[] engineWrap(Key key)
-            throws IllegalBlockSizeException, InvalidKeyException {
-            return core.implWrap(key);
+        protected byte[] engineWrbp(Key key)
+            throws IllegblBlockSizeException, InvblidKeyException {
+            return core.implWrbp(key);
         }
     }
 
-    public static final class PBEWithSHA1AndRC4_40 extends CipherSpi {
-        private static final int RC4_KEYSIZE = 5;
-        private final PKCS12PBECipherCore core;
-        private final ARCFOURCipher cipher;
+    public stbtic finbl clbss PBEWithSHA1AndRC4_40 extends CipherSpi {
+        privbte stbtic finbl int RC4_KEYSIZE = 5;
+        privbte finbl PKCS12PBECipherCore core;
+        privbte finbl ARCFOURCipher cipher;
 
         public PBEWithSHA1AndRC4_40() throws NoSuchAlgorithmException {
             core = new PKCS12PBECipherCore("RC4", RC4_KEYSIZE);
             cipher = new ARCFOURCipher();
         }
-        protected byte[] engineDoFinal(byte[] in, int inOff, int inLen)
-            throws IllegalBlockSizeException, BadPaddingException {
-            return cipher.engineDoFinal(in, inOff, inLen);
+        protected byte[] engineDoFinbl(byte[] in, int inOff, int inLen)
+            throws IllegblBlockSizeException, BbdPbddingException {
+            return cipher.engineDoFinbl(in, inOff, inLen);
         }
-        protected int engineDoFinal(byte[] in, int inOff, int inLen,
+        protected int engineDoFinbl(byte[] in, int inOff, int inLen,
                                     byte[] out, int outOff)
-            throws ShortBufferException, IllegalBlockSizeException,
-                   BadPaddingException {
-            return cipher.engineDoFinal(in, inOff, inLen, out, outOff);
+            throws ShortBufferException, IllegblBlockSizeException,
+                   BbdPbddingException {
+            return cipher.engineDoFinbl(in, inOff, inLen, out, outOff);
         }
         protected int engineGetBlockSize() {
             return cipher.engineGetBlockSize();
@@ -671,82 +671,82 @@ final class PKCS12PBECipherCore {
         protected byte[] engineGetIV() {
             return cipher.engineGetIV();
         }
-        protected int engineGetKeySize(Key key) throws InvalidKeyException {
+        protected int engineGetKeySize(Key key) throws InvblidKeyException {
             return RC4_KEYSIZE;
         }
         protected int engineGetOutputSize(int inLen) {
             return cipher.engineGetOutputSize(inLen);
         }
-        protected AlgorithmParameters engineGetParameters() {
-            return core.implGetParameters();
+        protected AlgorithmPbrbmeters engineGetPbrbmeters() {
+            return core.implGetPbrbmeters();
         }
         protected void engineInit(int opmode, Key key,
-                                  AlgorithmParameterSpec params,
-                                  SecureRandom random)
-            throws InvalidKeyException, InvalidAlgorithmParameterException {
-            core.implInit(opmode, key, params, random, cipher);
+                                  AlgorithmPbrbmeterSpec pbrbms,
+                                  SecureRbndom rbndom)
+            throws InvblidKeyException, InvblidAlgorithmPbrbmeterException {
+            core.implInit(opmode, key, pbrbms, rbndom, cipher);
         }
         protected void engineInit(int opmode, Key key,
-                                  AlgorithmParameters params,
-                                  SecureRandom random)
-            throws InvalidKeyException, InvalidAlgorithmParameterException {
-            core.implInit(opmode, key, params, random, cipher);
+                                  AlgorithmPbrbmeters pbrbms,
+                                  SecureRbndom rbndom)
+            throws InvblidKeyException, InvblidAlgorithmPbrbmeterException {
+            core.implInit(opmode, key, pbrbms, rbndom, cipher);
         }
-        protected void engineInit(int opmode, Key key, SecureRandom random)
-            throws InvalidKeyException {
-            core.implInit(opmode, key, random, cipher);
+        protected void engineInit(int opmode, Key key, SecureRbndom rbndom)
+            throws InvblidKeyException {
+            core.implInit(opmode, key, rbndom, cipher);
         }
         protected void engineSetMode(String mode)
             throws NoSuchAlgorithmException {
-            if (mode.equalsIgnoreCase("ECB") == false) {
+            if (mode.equblsIgnoreCbse("ECB") == fblse) {
                 throw new NoSuchAlgorithmException("Unsupported mode " + mode);
             }
         }
-        protected void engineSetPadding(String paddingScheme)
-            throws NoSuchPaddingException {
-            if (paddingScheme.equalsIgnoreCase("NoPadding") == false) {
-                throw new NoSuchPaddingException("Padding must be NoPadding");
+        protected void engineSetPbdding(String pbddingScheme)
+            throws NoSuchPbddingException {
+            if (pbddingScheme.equblsIgnoreCbse("NoPbdding") == fblse) {
+                throw new NoSuchPbddingException("Pbdding must be NoPbdding");
             }
         }
-        protected Key engineUnwrap(byte[] wrappedKey,
-                                   String wrappedKeyAlgorithm,
-                                   int wrappedKeyType)
-            throws InvalidKeyException, NoSuchAlgorithmException {
-            return cipher.engineUnwrap(wrappedKey, wrappedKeyAlgorithm,
-                                   wrappedKeyType);
+        protected Key engineUnwrbp(byte[] wrbppedKey,
+                                   String wrbppedKeyAlgorithm,
+                                   int wrbppedKeyType)
+            throws InvblidKeyException, NoSuchAlgorithmException {
+            return cipher.engineUnwrbp(wrbppedKey, wrbppedKeyAlgorithm,
+                                   wrbppedKeyType);
         }
-        protected byte[] engineUpdate(byte[] in, int inOff, int inLen) {
-            return cipher.engineUpdate(in, inOff, inLen);
+        protected byte[] engineUpdbte(byte[] in, int inOff, int inLen) {
+            return cipher.engineUpdbte(in, inOff, inLen);
         }
-        protected int engineUpdate(byte[] in, int inOff, int inLen,
+        protected int engineUpdbte(byte[] in, int inOff, int inLen,
                                    byte[] out, int outOff)
             throws ShortBufferException {
-            return cipher.engineUpdate(in, inOff, inLen, out, outOff);
+            return cipher.engineUpdbte(in, inOff, inLen, out, outOff);
         }
-        protected byte[] engineWrap(Key key)
-            throws IllegalBlockSizeException, InvalidKeyException {
-            return cipher.engineWrap(key);
+        protected byte[] engineWrbp(Key key)
+            throws IllegblBlockSizeException, InvblidKeyException {
+            return cipher.engineWrbp(key);
         }
     }
 
-    public static final class PBEWithSHA1AndRC4_128 extends CipherSpi {
-        private static final int RC4_KEYSIZE = 16;
-        private final PKCS12PBECipherCore core;
-        private final ARCFOURCipher cipher;
+    public stbtic finbl clbss PBEWithSHA1AndRC4_128 extends CipherSpi {
+        privbte stbtic finbl int RC4_KEYSIZE = 16;
+        privbte finbl PKCS12PBECipherCore core;
+        privbte finbl ARCFOURCipher cipher;
 
         public PBEWithSHA1AndRC4_128() throws NoSuchAlgorithmException {
             core = new PKCS12PBECipherCore("RC4", RC4_KEYSIZE);
             cipher = new ARCFOURCipher();
         }
-        protected byte[] engineDoFinal(byte[] in, int inOff, int inLen)
-            throws IllegalBlockSizeException, BadPaddingException {
-            return cipher.engineDoFinal(in, inOff, inLen);
+        protected byte[] engineDoFinbl(byte[] in, int inOff, int inLen)
+            throws IllegblBlockSizeException, BbdPbddingException {
+            return cipher.engineDoFinbl(in, inOff, inLen);
         }
-        protected int engineDoFinal(byte[] in, int inOff, int inLen,
+        protected int engineDoFinbl(byte[] in, int inOff, int inLen,
                                     byte[] out, int outOff)
-            throws ShortBufferException, IllegalBlockSizeException,
-                   BadPaddingException {
-            return cipher.engineDoFinal(in, inOff, inLen, out, outOff);
+            throws ShortBufferException, IllegblBlockSizeException,
+                   BbdPbddingException {
+            return cipher.engineDoFinbl(in, inOff, inLen, out, outOff);
         }
         protected int engineGetBlockSize() {
             return cipher.engineGetBlockSize();
@@ -754,61 +754,61 @@ final class PKCS12PBECipherCore {
         protected byte[] engineGetIV() {
             return cipher.engineGetIV();
         }
-        protected int engineGetKeySize(Key key) throws InvalidKeyException {
+        protected int engineGetKeySize(Key key) throws InvblidKeyException {
             return RC4_KEYSIZE;
         }
         protected int engineGetOutputSize(int inLen) {
             return cipher.engineGetOutputSize(inLen);
         }
-        protected AlgorithmParameters engineGetParameters() {
-            return core.implGetParameters();
+        protected AlgorithmPbrbmeters engineGetPbrbmeters() {
+            return core.implGetPbrbmeters();
         }
         protected void engineInit(int opmode, Key key,
-                                  AlgorithmParameterSpec params,
-                                  SecureRandom random)
-            throws InvalidKeyException, InvalidAlgorithmParameterException {
-            core.implInit(opmode, key, params, random, cipher);
+                                  AlgorithmPbrbmeterSpec pbrbms,
+                                  SecureRbndom rbndom)
+            throws InvblidKeyException, InvblidAlgorithmPbrbmeterException {
+            core.implInit(opmode, key, pbrbms, rbndom, cipher);
         }
         protected void engineInit(int opmode, Key key,
-                                  AlgorithmParameters params,
-                                  SecureRandom random)
-            throws InvalidKeyException, InvalidAlgorithmParameterException {
-            core.implInit(opmode, key, params, random, cipher);
+                                  AlgorithmPbrbmeters pbrbms,
+                                  SecureRbndom rbndom)
+            throws InvblidKeyException, InvblidAlgorithmPbrbmeterException {
+            core.implInit(opmode, key, pbrbms, rbndom, cipher);
         }
-        protected void engineInit(int opmode, Key key, SecureRandom random)
-            throws InvalidKeyException {
-            core.implInit(opmode, key, random, cipher);
+        protected void engineInit(int opmode, Key key, SecureRbndom rbndom)
+            throws InvblidKeyException {
+            core.implInit(opmode, key, rbndom, cipher);
         }
         protected void engineSetMode(String mode)
             throws NoSuchAlgorithmException {
-            if (mode.equalsIgnoreCase("ECB") == false) {
+            if (mode.equblsIgnoreCbse("ECB") == fblse) {
                 throw new NoSuchAlgorithmException("Unsupported mode " + mode);
             }
         }
-        protected void engineSetPadding(String paddingScheme)
-            throws NoSuchPaddingException {
-            if (paddingScheme.equalsIgnoreCase("NoPadding") == false) {
-                throw new NoSuchPaddingException("Padding must be NoPadding");
+        protected void engineSetPbdding(String pbddingScheme)
+            throws NoSuchPbddingException {
+            if (pbddingScheme.equblsIgnoreCbse("NoPbdding") == fblse) {
+                throw new NoSuchPbddingException("Pbdding must be NoPbdding");
             }
         }
-        protected Key engineUnwrap(byte[] wrappedKey,
-                                   String wrappedKeyAlgorithm,
-                                   int wrappedKeyType)
-            throws InvalidKeyException, NoSuchAlgorithmException {
-            return cipher.engineUnwrap(wrappedKey, wrappedKeyAlgorithm,
-                                   wrappedKeyType);
+        protected Key engineUnwrbp(byte[] wrbppedKey,
+                                   String wrbppedKeyAlgorithm,
+                                   int wrbppedKeyType)
+            throws InvblidKeyException, NoSuchAlgorithmException {
+            return cipher.engineUnwrbp(wrbppedKey, wrbppedKeyAlgorithm,
+                                   wrbppedKeyType);
         }
-        protected byte[] engineUpdate(byte[] in, int inOff, int inLen) {
-            return cipher.engineUpdate(in, inOff, inLen);
+        protected byte[] engineUpdbte(byte[] in, int inOff, int inLen) {
+            return cipher.engineUpdbte(in, inOff, inLen);
         }
-        protected int engineUpdate(byte[] in, int inOff, int inLen,
+        protected int engineUpdbte(byte[] in, int inOff, int inLen,
                                    byte[] out, int outOff)
             throws ShortBufferException {
-            return cipher.engineUpdate(in, inOff, inLen, out, outOff);
+            return cipher.engineUpdbte(in, inOff, inLen, out, outOff);
         }
-        protected byte[] engineWrap(Key key)
-            throws IllegalBlockSizeException, InvalidKeyException {
-            return cipher.engineWrap(key);
+        protected byte[] engineWrbp(Key key)
+            throws IllegblBlockSizeException, InvblidKeyException {
+            return cipher.engineWrbp(key);
         }
     }
 }

@@ -1,54 +1,54 @@
 /*
- * Copyright (c) 1996, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.rmi.transport.proxy;
+pbckbge sun.rmi.trbnsport.proxy;
 
-import java.io.*;
-import java.net.*;
-import java.security.PrivilegedAction;
+import jbvb.io.*;
+import jbvb.net.*;
+import jbvb.security.PrivilegedAction;
 
 import sun.rmi.runtime.Log;
 
 /**
- * The HttpSendSocket class extends the java.net.Socket class
- * by enclosing the data output stream in, then extracting the input
- * stream from, an HTTP protocol transmission.
+ * The HttpSendSocket clbss extends the jbvb.net.Socket clbss
+ * by enclosing the dbtb output strebm in, then extrbcting the input
+ * strebm from, bn HTTP protocol trbnsmission.
  *
  * NOTES:
  *
  * Since the length of the output request must be known before the
- * HTTP header can be completed, all of the output is buffered by
- * an HttpOutputStream object until either an attempt is made to
- * read from this socket, or the socket is explicitly closed.
+ * HTTP hebder cbn be completed, bll of the output is buffered by
+ * bn HttpOutputStrebm object until either bn bttempt is mbde to
+ * rebd from this socket, or the socket is explicitly closed.
  *
- * On the first read attempt to read from this socket, the buffered
- * output is sent to the destination as the body of an HTTP POST
- * request.  All reads will then acquire data from the body of
- * the response.  A subsequent attempt to write to this socket will
- * throw an IOException.
+ * On the first rebd bttempt to rebd from this socket, the buffered
+ * output is sent to the destinbtion bs the body of bn HTTP POST
+ * request.  All rebds will then bcquire dbtb from the body of
+ * the response.  A subsequent bttempt to write to this socket will
+ * throw bn IOException.
  */
-class HttpSendSocket extends Socket implements RMISocketInfo {
+clbss HttpSendSocket extends Socket implements RMISocketInfo {
 
     /** the host to connect to */
     protected String host;
@@ -56,44 +56,44 @@ class HttpSendSocket extends Socket implements RMISocketInfo {
     /** the port to connect to */
     protected int port;
 
-    /** the URL to forward through */
+    /** the URL to forwbrd through */
     protected URL url;
 
-    /** the object managing this connection through the URL */
+    /** the object mbnbging this connection through the URL */
     protected URLConnection conn = null;
 
-    /** internal input stream for this socket */
-    protected InputStream in = null;
+    /** internbl input strebm for this socket */
+    protected InputStrebm in = null;
 
-    /** internal output stream for this socket */
-    protected OutputStream out = null;
+    /** internbl output strebm for this socket */
+    protected OutputStrebm out = null;
 
-    /** the notifying input stream returned to users */
-    protected HttpSendInputStream inNotifier;
+    /** the notifying input strebm returned to users */
+    protected HttpSendInputStrebm inNotifier;
 
-    /** the notifying output stream returned to users */
-    protected HttpSendOutputStream outNotifier;
+    /** the notifying output strebm returned to users */
+    protected HttpSendOutputStrebm outNotifier;
 
     /**
-     * Line separator string.  This is the value of the line.separator
-     * property at the moment that the socket was created.
+     * Line sepbrbtor string.  This is the vblue of the line.sepbrbtor
+     * property bt the moment thbt the socket wbs crebted.
      */
-    private String lineSeparator =
-        java.security.AccessController.doPrivileged(
-            (PrivilegedAction<String>) () -> System.getProperty("line.separator"));
+    privbte String lineSepbrbtor =
+        jbvb.security.AccessController.doPrivileged(
+            (PrivilegedAction<String>) () -> System.getProperty("line.sepbrbtor"));
 
     /**
-     * Create a stream socket and connect it to the specified port on
+     * Crebte b strebm socket bnd connect it to the specified port on
      * the specified host.
-     * @param host the host
-     * @param port the port
+     * @pbrbm host the host
+     * @pbrbm port the port
      */
     public HttpSendSocket(String host, int port, URL url) throws IOException
     {
         super((SocketImpl)null);        // no underlying SocketImpl for this object
 
-        if (RMIMasterSocketFactory.proxyLog.isLoggable(Log.VERBOSE)) {
-            RMIMasterSocketFactory.proxyLog.log(Log.VERBOSE,
+        if (RMIMbsterSocketFbctory.proxyLog.isLoggbble(Log.VERBOSE)) {
+            RMIMbsterSocketFbctory.proxyLog.log(Log.VERBOSE,
                 "host = " + host + ", port = " + port + ", url = " + url);
         }
 
@@ -101,15 +101,15 @@ class HttpSendSocket extends Socket implements RMISocketInfo {
         this.port = port;
         this.url = url;
 
-        inNotifier = new HttpSendInputStream(null, this);
-        outNotifier = new HttpSendOutputStream(writeNotify(), this);
+        inNotifier = new HttpSendInputStrebm(null, this);
+        outNotifier = new HttpSendOutputStrebm(writeNotify(), this);
     }
 
     /**
-     * Create a stream socket and connect it to the specified port on
+     * Crebte b strebm socket bnd connect it to the specified port on
      * the specified host.
-     * @param host the host
-     * @param port the port
+     * @pbrbm host the host
+     * @pbrbm port the port
      */
     public HttpSendSocket(String host, int port) throws IOException
     {
@@ -117,129 +117,129 @@ class HttpSendSocket extends Socket implements RMISocketInfo {
     }
 
     /**
-     * Create a stream socket and connect it to the specified address on
+     * Crebte b strebm socket bnd connect it to the specified bddress on
      * the specified port.
-     * @param address the address
-     * @param port the port
+     * @pbrbm bddress the bddress
+     * @pbrbm port the port
      */
-    public HttpSendSocket(InetAddress address, int port) throws IOException
+    public HttpSendSocket(InetAddress bddress, int port) throws IOException
     {
-        this(address.getHostName(), port);
+        this(bddress.getHostNbme(), port);
     }
 
     /**
-     * Indicate that this socket is not reusable.
+     * Indicbte thbt this socket is not reusbble.
      */
-    public boolean isReusable()
+    public boolebn isReusbble()
     {
-        return false;
+        return fblse;
     }
 
     /**
-     * Create a new socket connection to host (or proxy), and prepare to
-     * send HTTP transmission.
+     * Crebte b new socket connection to host (or proxy), bnd prepbre to
+     * send HTTP trbnsmission.
      */
-    public synchronized OutputStream writeNotify() throws IOException
+    public synchronized OutputStrebm writeNotify() throws IOException
     {
         if (conn != null) {
-            throw new IOException("attempt to write on HttpSendSocket after " +
-                                  "request has been sent");
+            throw new IOException("bttempt to write on HttpSendSocket bfter " +
+                                  "request hbs been sent");
         }
 
         conn = url.openConnection();
         conn.setDoOutput(true);
-        conn.setUseCaches(false);
-        conn.setRequestProperty("Content-type", "application/octet-stream");
+        conn.setUseCbches(fblse);
+        conn.setRequestProperty("Content-type", "bpplicbtion/octet-strebm");
 
-        inNotifier.deactivate();
+        inNotifier.debctivbte();
         in = null;
 
-        return out = conn.getOutputStream();
+        return out = conn.getOutputStrebm();
     }
 
     /**
-     * Send HTTP output transmission and prepare to receive response.
+     * Send HTTP output trbnsmission bnd prepbre to receive response.
      */
-    public synchronized InputStream readNotify() throws IOException
+    public synchronized InputStrebm rebdNotify() throws IOException
     {
-        RMIMasterSocketFactory.proxyLog.log(Log.VERBOSE,
-            "sending request and activating input stream");
+        RMIMbsterSocketFbctory.proxyLog.log(Log.VERBOSE,
+            "sending request bnd bctivbting input strebm");
 
-        outNotifier.deactivate();
+        outNotifier.debctivbte();
         out.close();
         out = null;
 
         try {
-            in = conn.getInputStream();
-        } catch (IOException e) {
-            RMIMasterSocketFactory.proxyLog.log(Log.BRIEF,
-                "failed to get input stream, exception: ", e);
+            in = conn.getInputStrebm();
+        } cbtch (IOException e) {
+            RMIMbsterSocketFbctory.proxyLog.log(Log.BRIEF,
+                "fbiled to get input strebm, exception: ", e);
 
-            throw new IOException("HTTP request failed");
+            throw new IOException("HTTP request fbiled");
         }
 
         /*
-         * If an HTTP error response is returned, sometimes an IOException
-         * is thrown, which is handled above, and other times it isn't, and
-         * the error response body will be available for reading.
-         * As a safety net to catch any such unexpected HTTP behavior, we
-         * verify that the content type of the response is what the
-         * HttpOutputStream generates: "application/octet-stream".
-         * (Servers' error responses will generally be "text/html".)
+         * If bn HTTP error response is returned, sometimes bn IOException
+         * is thrown, which is hbndled bbove, bnd other times it isn't, bnd
+         * the error response body will be bvbilbble for rebding.
+         * As b sbfety net to cbtch bny such unexpected HTTP behbvior, we
+         * verify thbt the content type of the response is whbt the
+         * HttpOutputStrebm generbtes: "bpplicbtion/octet-strebm".
+         * (Servers' error responses will generblly be "text/html".)
          * Any error response body is printed to the log.
          */
         String contentType = conn.getContentType();
         if (contentType == null ||
-            !conn.getContentType().equals("application/octet-stream"))
+            !conn.getContentType().equbls("bpplicbtion/octet-strebm"))
         {
-            if (RMIMasterSocketFactory.proxyLog.isLoggable(Log.BRIEF)) {
-                String message;
+            if (RMIMbsterSocketFbctory.proxyLog.isLoggbble(Log.BRIEF)) {
+                String messbge;
                 if (contentType == null) {
-                    message = "missing content type in response" +
-                        lineSeparator;
+                    messbge = "missing content type in response" +
+                        lineSepbrbtor;
                 } else {
-                    message = "invalid content type in response: " +
-                        contentType + lineSeparator;
+                    messbge = "invblid content type in response: " +
+                        contentType + lineSepbrbtor;
                 }
 
-                message += "HttpSendSocket.readNotify: response body: ";
+                messbge += "HttpSendSocket.rebdNotify: response body: ";
                 try {
-                    BufferedReader din = new BufferedReader(new InputStreamReader(in));
+                    BufferedRebder din = new BufferedRebder(new InputStrebmRebder(in));
                     String line;
-                    while ((line = din.readLine()) != null)
-                        message += line + lineSeparator;
-                } catch (IOException e) {
+                    while ((line = din.rebdLine()) != null)
+                        messbge += line + lineSepbrbtor;
+                } cbtch (IOException e) {
                 }
-                RMIMasterSocketFactory.proxyLog.log(Log.BRIEF, message);
+                RMIMbsterSocketFbctory.proxyLog.log(Log.BRIEF, messbge);
             }
 
-            throw new IOException("HTTP request failed");
+            throw new IOException("HTTP request fbiled");
         }
 
         return in;
     }
 
     /**
-     * Get the address to which the socket is connected.
+     * Get the bddress to which the socket is connected.
      */
     public InetAddress getInetAddress()
     {
         try {
-            return InetAddress.getByName(host);
-        } catch (UnknownHostException e) {
-            return null;        // null if couldn't resolve destination host
+            return InetAddress.getByNbme(host);
+        } cbtch (UnknownHostException e) {
+            return null;        // null if couldn't resolve destinbtion host
         }
     }
 
     /**
-     * Get the local address to which the socket is bound.
+     * Get the locbl bddress to which the socket is bound.
      */
-    public InetAddress getLocalAddress()
+    public InetAddress getLocblAddress()
     {
         try {
-            return InetAddress.getLocalHost();
-        } catch (UnknownHostException e) {
-            return null;        // null if couldn't determine local host
+            return InetAddress.getLocblHost();
+        } cbtch (UnknownHostException e) {
+            return null;        // null if couldn't determine locbl host
         }
     }
 
@@ -252,50 +252,50 @@ class HttpSendSocket extends Socket implements RMISocketInfo {
     }
 
     /**
-     * Get the local port to which the socket is connected.
+     * Get the locbl port to which the socket is connected.
      */
-    public int getLocalPort()
+    public int getLocblPort()
     {
-        return -1;      // request not applicable to this socket type
+        return -1;      // request not bpplicbble to this socket type
     }
 
     /**
-     * Get an InputStream for this socket.
+     * Get bn InputStrebm for this socket.
      */
-    public InputStream getInputStream() throws IOException
+    public InputStrebm getInputStrebm() throws IOException
     {
         return inNotifier;
     }
 
     /**
-     * Get an OutputStream for this socket.
+     * Get bn OutputStrebm for this socket.
      */
-    public OutputStream getOutputStream() throws IOException
+    public OutputStrebm getOutputStrebm() throws IOException
     {
         return outNotifier;
     }
 
     /**
-     * Enable/disable TCP_NODELAY.
-     * This operation has no effect for an HttpSendSocket.
+     * Enbble/disbble TCP_NODELAY.
+     * This operbtion hbs no effect for bn HttpSendSocket.
      */
-    public void setTcpNoDelay(boolean on) throws SocketException
+    public void setTcpNoDelby(boolebn on) throws SocketException
     {
     }
 
     /**
-     * Retrieve whether TCP_NODELAY is enabled.
+     * Retrieve whether TCP_NODELAY is enbbled.
      */
-    public boolean getTcpNoDelay() throws SocketException
+    public boolebn getTcpNoDelby() throws SocketException
     {
-        return false;   // imply option is disabled
+        return fblse;   // imply option is disbbled
     }
 
     /**
-     * Enable/disable SO_LINGER with the specified linger time.
-     * This operation has no effect for an HttpSendSocket.
+     * Enbble/disbble SO_LINGER with the specified linger time.
+     * This operbtion hbs no effect for bn HttpSendSocket.
      */
-    public void setSoLinger(boolean on, int val) throws SocketException
+    public void setSoLinger(boolebn on, int vbl) throws SocketException
     {
     }
 
@@ -304,12 +304,12 @@ class HttpSendSocket extends Socket implements RMISocketInfo {
      */
     public int getSoLinger() throws SocketException
     {
-        return -1;      // imply option is disabled
+        return -1;      // imply option is disbbled
     }
 
     /**
-     * Enable/disable SO_TIMEOUT with the specified timeout
-     * This operation has no effect for an HttpSendSocket.
+     * Enbble/disbble SO_TIMEOUT with the specified timeout
+     * This operbtion hbs no effect for bn HttpSendSocket.
      */
     public synchronized void setSoTimeout(int timeout) throws SocketException
     {
@@ -320,7 +320,7 @@ class HttpSendSocket extends Socket implements RMISocketInfo {
      */
     public synchronized int getSoTimeout() throws SocketException
     {
-        return 0;       // imply option is disabled
+        return 0;       // imply option is disbbled
     }
 
     /**
@@ -328,12 +328,12 @@ class HttpSendSocket extends Socket implements RMISocketInfo {
      */
     public synchronized void close() throws IOException
     {
-        if (out != null) // push out transmission if not done
+        if (out != null) // push out trbnsmission if not done
             out.close();
     }
 
     /**
-     * Return string representation of this pseudo-socket.
+     * Return string representbtion of this pseudo-socket.
      */
     public String toString()
     {

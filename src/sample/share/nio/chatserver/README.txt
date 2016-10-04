@@ -1,62 +1,62 @@
-A Simple Chat Server Example
+A Simple Chbt Server Exbmple
 
 INTRODUCTION
 ============
-This directory contains a very simple chat server, the server takes input from a
-socket ("user") and sends it to all other connected sockets ("users") along with
-the provided name the user was asked for when first connecting.
+This directory contbins b very simple chbt server, the server tbkes input from b
+socket ("user") bnd sends it to bll other connected sockets ("users") blong with
+the provided nbme the user wbs bsked for when first connecting.
 
-The server was written to demonstrate the asynchronous I/O API in JDK 7. 
-The sample assumes the reader has some familiarity with the subject matter.
+The server wbs written to demonstrbte the bsynchronous I/O API in JDK 7. 
+The sbmple bssumes the rebder hbs some fbmilibrity with the subject mbtter.
 
 SETUP
 =====
 
-The server must be built with version 7 (or later) of the JDK.
+The server must be built with version 7 (or lbter) of the JDK.
 The server is built with:
 
     % mkdir build
-    % javac -source 7 -target 7 -d build *.java
+    % jbvbc -source 7 -tbrget 7 -d build *.jbvb
 
 EXECUTION
 =========
 
-    % java -classpath build ChatServer [-port <port number>]
+    % jbvb -clbsspbth build ChbtServer [-port <port number>]
 
-    Usage:  ChatServer [options]
+    Usbge:  ChbtServer [options]
         options:
             -port port      port number
-                default: 5000
+                defbult: 5000
 
 CLIENT EXECUTION
 ================
 
-No client binary is included in the sample.
-Connections can be made using for example the telnet command or any program
-that supports a raw TCP connection to a port.
+No client binbry is included in the sbmple.
+Connections cbn be mbde using for exbmple the telnet commbnd or bny progrbm
+thbt supports b rbw TCP connection to b port.
 
 SOURCE CODE OVERVIEW
 ====================
-ChatServer is the main class, it handles the startup and handles incoming
-connections on the listening sockets. It keeps a list of connected client
-and provides methods for sending a message to them.
+ChbtServer is the mbin clbss, it hbndles the stbrtup bnd hbndles incoming
+connections on the listening sockets. It keeps b list of connected client
+bnd provides methods for sending b messbge to them.
 
-Client represents a connected user, it provides methods for reading/writing
-from/to the underlying socket. It also contains a buffer of input read from
+Client represents b connected user, it provides methods for rebding/writing
+from/to the underlying socket. It blso contbins b buffer of input rebd from
 the user.
 
-DataReader provides the interface of the two states a user can
-be in. Waiting for a name (and not receiving any messages while doing so, implemented
-by NameReader) and waiting for messages from the user (implemented by MessageReader).
+DbtbRebder provides the interfbce of the two stbtes b user cbn
+be in. Wbiting for b nbme (bnd not receiving bny messbges while doing so, implemented
+by NbmeRebder) bnd wbiting for messbges from the user (implemented by MessbgeRebder).
 
-ClientReader contains the "main loop" for a connected client. 
+ClientRebder contbins the "mbin loop" for b connected client. 
 
-NameReader is the initial state for a new client, it sends the user a string and
-waits for a response before changing the state to MessageReader.
+NbmeRebder is the initibl stbte for b new client, it sends the user b string bnd
+wbits for b response before chbnging the stbte to MessbgeRebder.
 
-MessageReader is the main state for a client, it checks for new messages to send to
-other clients and reads messages from the client.
+MessbgeRebder is the mbin stbte for b client, it checks for new messbges to send to
+other clients bnd rebds messbges from the client.
 
 FINALLY
 =======
-This is a sample: it is not production quality and isn't optimized for performance.
+This is b sbmple: it is not production qublity bnd isn't optimized for performbnce.

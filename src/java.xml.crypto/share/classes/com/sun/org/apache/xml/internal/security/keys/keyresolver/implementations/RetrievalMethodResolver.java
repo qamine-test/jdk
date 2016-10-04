@@ -3,342 +3,342 @@
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Licensed to the Apbche Softwbre Foundbtion (ASF) under one
+ * or more contributor license bgreements. See the NOTICE file
+ * distributed with this work for bdditionbl informbtion
+ * regbrding copyright ownership. The ASF licenses this file
+ * to you under the Apbche License, Version 2.0 (the
+ * "License"); you mby not use this file except in complibnce
+ * with the License. You mby obtbin b copy of the License bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.bpbche.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unless required by bpplicbble lbw or bgreed to in writing,
+ * softwbre distributed under the License is distributed on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
+ * specific lbngubge governing permissions bnd limitbtions
  * under the License.
  */
-package com.sun.org.apache.xml.internal.security.keys.keyresolver.implementations;
+pbckbge com.sun.org.bpbche.xml.internbl.security.keys.keyresolver.implementbtions;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.security.PublicKey;
-import java.security.cert.CertificateException;
-import java.security.cert.CertificateFactory;
-import java.security.cert.X509Certificate;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.Set;
+import jbvb.io.ByteArrbyInputStrebm;
+import jbvb.io.IOException;
+import jbvb.security.PublicKey;
+import jbvb.security.cert.CertificbteException;
+import jbvb.security.cert.CertificbteFbctory;
+import jbvb.security.cert.X509Certificbte;
+import jbvb.util.ArrbyList;
+import jbvb.util.Iterbtor;
+import jbvb.util.List;
+import jbvb.util.ListIterbtor;
+import jbvb.util.Set;
 
-import javax.xml.XMLConstants;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
+import jbvbx.xml.XMLConstbnts;
+import jbvbx.xml.pbrsers.DocumentBuilder;
+import jbvbx.xml.pbrsers.DocumentBuilderFbctory;
+import jbvbx.xml.pbrsers.PbrserConfigurbtionException;
 
-import com.sun.org.apache.xml.internal.security.c14n.CanonicalizationException;
-import com.sun.org.apache.xml.internal.security.exceptions.XMLSecurityException;
-import com.sun.org.apache.xml.internal.security.keys.content.RetrievalMethod;
-import com.sun.org.apache.xml.internal.security.keys.content.x509.XMLX509Certificate;
-import com.sun.org.apache.xml.internal.security.keys.keyresolver.KeyResolver;
-import com.sun.org.apache.xml.internal.security.keys.keyresolver.KeyResolverException;
-import com.sun.org.apache.xml.internal.security.keys.keyresolver.KeyResolverSpi;
-import com.sun.org.apache.xml.internal.security.keys.storage.StorageResolver;
-import com.sun.org.apache.xml.internal.security.signature.XMLSignatureInput;
-import com.sun.org.apache.xml.internal.security.transforms.Transforms;
-import com.sun.org.apache.xml.internal.security.utils.Constants;
-import com.sun.org.apache.xml.internal.security.utils.XMLUtils;
-import com.sun.org.apache.xml.internal.security.utils.resolver.ResourceResolver;
+import com.sun.org.bpbche.xml.internbl.security.c14n.CbnonicblizbtionException;
+import com.sun.org.bpbche.xml.internbl.security.exceptions.XMLSecurityException;
+import com.sun.org.bpbche.xml.internbl.security.keys.content.RetrievblMethod;
+import com.sun.org.bpbche.xml.internbl.security.keys.content.x509.XMLX509Certificbte;
+import com.sun.org.bpbche.xml.internbl.security.keys.keyresolver.KeyResolver;
+import com.sun.org.bpbche.xml.internbl.security.keys.keyresolver.KeyResolverException;
+import com.sun.org.bpbche.xml.internbl.security.keys.keyresolver.KeyResolverSpi;
+import com.sun.org.bpbche.xml.internbl.security.keys.storbge.StorbgeResolver;
+import com.sun.org.bpbche.xml.internbl.security.signbture.XMLSignbtureInput;
+import com.sun.org.bpbche.xml.internbl.security.trbnsforms.Trbnsforms;
+import com.sun.org.bpbche.xml.internbl.security.utils.Constbnts;
+import com.sun.org.bpbche.xml.internbl.security.utils.XMLUtils;
+import com.sun.org.bpbche.xml.internbl.security.utils.resolver.ResourceResolver;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
-import org.xml.sax.SAXException;
+import org.xml.sbx.SAXException;
 
 /**
- * The RetrievalMethodResolver can retrieve public keys and certificates from
- * other locations. The location is specified using the ds:RetrievalMethod
- * element which points to the location. This includes the handling of raw
- * (binary) X.509 certificate which are not encapsulated in an XML structure.
- * If the retrieval process encounters an element which the
- * RetrievalMethodResolver cannot handle itself, resolving of the extracted
- * element is delegated back to the KeyResolver mechanism.
+ * The RetrievblMethodResolver cbn retrieve public keys bnd certificbtes from
+ * other locbtions. The locbtion is specified using the ds:RetrievblMethod
+ * element which points to the locbtion. This includes the hbndling of rbw
+ * (binbry) X.509 certificbte which bre not encbpsulbted in bn XML structure.
+ * If the retrievbl process encounters bn element which the
+ * RetrievblMethodResolver cbnnot hbndle itself, resolving of the extrbcted
+ * element is delegbted bbck to the KeyResolver mechbnism.
  *
- * @author $Author: raul $ modified by Dave Garcia
+ * @buthor $Author: rbul $ modified by Dbve Gbrcib
  */
-public class RetrievalMethodResolver extends KeyResolverSpi {
+public clbss RetrievblMethodResolver extends KeyResolverSpi {
 
-    /** {@link org.apache.commons.logging} logging facility */
-    private static java.util.logging.Logger log =
-        java.util.logging.Logger.getLogger(RetrievalMethodResolver.class.getName());
+    /** {@link org.bpbche.commons.logging} logging fbcility */
+    privbte stbtic jbvb.util.logging.Logger log =
+        jbvb.util.logging.Logger.getLogger(RetrievblMethodResolver.clbss.getNbme());
 
     /**
      * Method engineResolvePublicKey
      * @inheritDoc
-     * @param element
-     * @param baseURI
-     * @param storage
+     * @pbrbm element
+     * @pbrbm bbseURI
+     * @pbrbm storbge
      */
     public PublicKey engineLookupAndResolvePublicKey(
-           Element element, String baseURI, StorageResolver storage
+           Element element, String bbseURI, StorbgeResolver storbge
     ) {
-        if (!XMLUtils.elementIsInSignatureSpace(element, Constants._TAG_RETRIEVALMETHOD)) {
+        if (!XMLUtils.elementIsInSignbtureSpbce(element, Constbnts._TAG_RETRIEVALMETHOD)) {
             return null;
         }
 
         try {
-            // Create a retrieval method over the given element
-            RetrievalMethod rm = new RetrievalMethod(element, baseURI);
+            // Crebte b retrievbl method over the given element
+            RetrievblMethod rm = new RetrievblMethod(element, bbseURI);
             String type = rm.getType();
-            XMLSignatureInput resource = resolveInput(rm, baseURI, secureValidation);
-            if (RetrievalMethod.TYPE_RAWX509.equals(type)) {
-                // a raw certificate, direct parsing is done!
-                X509Certificate cert = getRawCertificate(resource);
+            XMLSignbtureInput resource = resolveInput(rm, bbseURI, secureVblidbtion);
+            if (RetrievblMethod.TYPE_RAWX509.equbls(type)) {
+                // b rbw certificbte, direct pbrsing is done!
+                X509Certificbte cert = getRbwCertificbte(resource);
                 if (cert != null) {
                     return cert.getPublicKey();
                 }
                 return null;
              }
-             Element e = obtainReferenceElement(resource);
+             Element e = obtbinReferenceElement(resource);
 
-             // Check to make sure that the reference is not to another RetrievalMethod
+             // Check to mbke sure thbt the reference is not to bnother RetrievblMethod
              // which points to this element
-             if (XMLUtils.elementIsInSignatureSpace(e, Constants._TAG_RETRIEVALMETHOD)) {
-                 if (secureValidation) {
-                     String error = "Error: It is forbidden to have one RetrievalMethod "
-                         + "point to another with secure validation";
-                     if (log.isLoggable(java.util.logging.Level.FINE)) {
-                         log.log(java.util.logging.Level.FINE, error);
+             if (XMLUtils.elementIsInSignbtureSpbce(e, Constbnts._TAG_RETRIEVALMETHOD)) {
+                 if (secureVblidbtion) {
+                     String error = "Error: It is forbidden to hbve one RetrievblMethod "
+                         + "point to bnother with secure vblidbtion";
+                     if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+                         log.log(jbvb.util.logging.Level.FINE, error);
                      }
                      return null;
                  }
-                 RetrievalMethod rm2 = new RetrievalMethod(e, baseURI);
-                 XMLSignatureInput resource2 = resolveInput(rm2, baseURI, secureValidation);
-                 Element e2 = obtainReferenceElement(resource2);
+                 RetrievblMethod rm2 = new RetrievblMethod(e, bbseURI);
+                 XMLSignbtureInput resource2 = resolveInput(rm2, bbseURI, secureVblidbtion);
+                 Element e2 = obtbinReferenceElement(resource2);
                  if (e2 == element) {
-                     if (log.isLoggable(java.util.logging.Level.FINE)) {
-                         log.log(java.util.logging.Level.FINE, "Error: Can't have RetrievalMethods pointing to each other");
+                     if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+                         log.log(jbvb.util.logging.Level.FINE, "Error: Cbn't hbve RetrievblMethods pointing to ebch other");
                      }
                      return null;
                  }
              }
 
-             return resolveKey(e, baseURI, storage);
-         } catch (XMLSecurityException ex) {
-             if (log.isLoggable(java.util.logging.Level.FINE)) {
-                 log.log(java.util.logging.Level.FINE, "XMLSecurityException", ex);
+             return resolveKey(e, bbseURI, storbge);
+         } cbtch (XMLSecurityException ex) {
+             if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+                 log.log(jbvb.util.logging.Level.FINE, "XMLSecurityException", ex);
              }
-         } catch (CertificateException ex) {
-             if (log.isLoggable(java.util.logging.Level.FINE)) {
-                 log.log(java.util.logging.Level.FINE, "CertificateException", ex);
+         } cbtch (CertificbteException ex) {
+             if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+                 log.log(jbvb.util.logging.Level.FINE, "CertificbteException", ex);
              }
-         } catch (IOException ex) {
-             if (log.isLoggable(java.util.logging.Level.FINE)) {
-                 log.log(java.util.logging.Level.FINE, "IOException", ex);
+         } cbtch (IOException ex) {
+             if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+                 log.log(jbvb.util.logging.Level.FINE, "IOException", ex);
              }
-         } catch (ParserConfigurationException e) {
-             if (log.isLoggable(java.util.logging.Level.FINE)) {
-                 log.log(java.util.logging.Level.FINE, "ParserConfigurationException", e);
+         } cbtch (PbrserConfigurbtionException e) {
+             if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+                 log.log(jbvb.util.logging.Level.FINE, "PbrserConfigurbtionException", e);
              }
-         } catch (SAXException e) {
-             if (log.isLoggable(java.util.logging.Level.FINE)) {
-                 log.log(java.util.logging.Level.FINE, "SAXException", e);
+         } cbtch (SAXException e) {
+             if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+                 log.log(jbvb.util.logging.Level.FINE, "SAXException", e);
              }
          }
          return null;
     }
 
     /**
-     * Method engineResolveX509Certificate
+     * Method engineResolveX509Certificbte
      * @inheritDoc
-     * @param element
-     * @param baseURI
-     * @param storage
+     * @pbrbm element
+     * @pbrbm bbseURI
+     * @pbrbm storbge
      */
-    public X509Certificate engineLookupResolveX509Certificate(
-        Element element, String baseURI, StorageResolver storage) {
-        if (!XMLUtils.elementIsInSignatureSpace(element, Constants._TAG_RETRIEVALMETHOD)) {
+    public X509Certificbte engineLookupResolveX509Certificbte(
+        Element element, String bbseURI, StorbgeResolver storbge) {
+        if (!XMLUtils.elementIsInSignbtureSpbce(element, Constbnts._TAG_RETRIEVALMETHOD)) {
              return null;
         }
 
         try {
-            RetrievalMethod rm = new RetrievalMethod(element, baseURI);
+            RetrievblMethod rm = new RetrievblMethod(element, bbseURI);
             String type = rm.getType();
-            XMLSignatureInput resource = resolveInput(rm, baseURI, secureValidation);
-            if (RetrievalMethod.TYPE_RAWX509.equals(type)) {
-                return getRawCertificate(resource);
+            XMLSignbtureInput resource = resolveInput(rm, bbseURI, secureVblidbtion);
+            if (RetrievblMethod.TYPE_RAWX509.equbls(type)) {
+                return getRbwCertificbte(resource);
             }
 
-            Element e = obtainReferenceElement(resource);
+            Element e = obtbinReferenceElement(resource);
 
-            // Check to make sure that the reference is not to another RetrievalMethod
+            // Check to mbke sure thbt the reference is not to bnother RetrievblMethod
             // which points to this element
-            if (XMLUtils.elementIsInSignatureSpace(e, Constants._TAG_RETRIEVALMETHOD)) {
-                if (secureValidation) {
-                    String error = "Error: It is forbidden to have one RetrievalMethod "
-                        + "point to another with secure validation";
-                    if (log.isLoggable(java.util.logging.Level.FINE)) {
-                        log.log(java.util.logging.Level.FINE, error);
+            if (XMLUtils.elementIsInSignbtureSpbce(e, Constbnts._TAG_RETRIEVALMETHOD)) {
+                if (secureVblidbtion) {
+                    String error = "Error: It is forbidden to hbve one RetrievblMethod "
+                        + "point to bnother with secure vblidbtion";
+                    if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+                        log.log(jbvb.util.logging.Level.FINE, error);
                     }
                     return null;
                 }
-                RetrievalMethod rm2 = new RetrievalMethod(e, baseURI);
-                XMLSignatureInput resource2 = resolveInput(rm2, baseURI, secureValidation);
-                Element e2 = obtainReferenceElement(resource2);
+                RetrievblMethod rm2 = new RetrievblMethod(e, bbseURI);
+                XMLSignbtureInput resource2 = resolveInput(rm2, bbseURI, secureVblidbtion);
+                Element e2 = obtbinReferenceElement(resource2);
                 if (e2 == element) {
-                    if (log.isLoggable(java.util.logging.Level.FINE)) {
-                        log.log(java.util.logging.Level.FINE, "Error: Can't have RetrievalMethods pointing to each other");
+                    if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+                        log.log(jbvb.util.logging.Level.FINE, "Error: Cbn't hbve RetrievblMethods pointing to ebch other");
                     }
                     return null;
                 }
             }
 
-            return resolveCertificate(e, baseURI, storage);
-        } catch (XMLSecurityException ex) {
-            if (log.isLoggable(java.util.logging.Level.FINE)) {
-                log.log(java.util.logging.Level.FINE, "XMLSecurityException", ex);
+            return resolveCertificbte(e, bbseURI, storbge);
+        } cbtch (XMLSecurityException ex) {
+            if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+                log.log(jbvb.util.logging.Level.FINE, "XMLSecurityException", ex);
             }
-        } catch (CertificateException ex) {
-            if (log.isLoggable(java.util.logging.Level.FINE)) {
-                log.log(java.util.logging.Level.FINE, "CertificateException", ex);
+        } cbtch (CertificbteException ex) {
+            if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+                log.log(jbvb.util.logging.Level.FINE, "CertificbteException", ex);
             }
-        } catch (IOException ex) {
-            if (log.isLoggable(java.util.logging.Level.FINE)) {
-                log.log(java.util.logging.Level.FINE, "IOException", ex);
+        } cbtch (IOException ex) {
+            if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+                log.log(jbvb.util.logging.Level.FINE, "IOException", ex);
             }
-        } catch (ParserConfigurationException e) {
-            if (log.isLoggable(java.util.logging.Level.FINE)) {
-                log.log(java.util.logging.Level.FINE, "ParserConfigurationException", e);
+        } cbtch (PbrserConfigurbtionException e) {
+            if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+                log.log(jbvb.util.logging.Level.FINE, "PbrserConfigurbtionException", e);
             }
-        } catch (SAXException e) {
-            if (log.isLoggable(java.util.logging.Level.FINE)) {
-                log.log(java.util.logging.Level.FINE, "SAXException", e);
+        } cbtch (SAXException e) {
+            if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+                log.log(jbvb.util.logging.Level.FINE, "SAXException", e);
             }
         }
         return null;
     }
 
     /**
-     * Retrieves a x509Certificate from the given information
-     * @param e
-     * @param baseURI
-     * @param storage
+     * Retrieves b x509Certificbte from the given informbtion
+     * @pbrbm e
+     * @pbrbm bbseURI
+     * @pbrbm storbge
      * @return
      * @throws KeyResolverException
      */
-    private static X509Certificate resolveCertificate(
-        Element e, String baseURI, StorageResolver storage
+    privbte stbtic X509Certificbte resolveCertificbte(
+        Element e, String bbseURI, StorbgeResolver storbge
     ) throws KeyResolverException {
-        if (log.isLoggable(java.util.logging.Level.FINE)) {
-            log.log(java.util.logging.Level.FINE, "Now we have a {" + e.getNamespaceURI() + "}"
-                + e.getLocalName() + " Element");
+        if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+            log.log(jbvb.util.logging.Level.FINE, "Now we hbve b {" + e.getNbmespbceURI() + "}"
+                + e.getLocblNbme() + " Element");
         }
-        // An element has been provided
+        // An element hbs been provided
         if (e != null) {
-            return KeyResolver.getX509Certificate(e, baseURI, storage);
+            return KeyResolver.getX509Certificbte(e, bbseURI, storbge);
         }
         return null;
     }
 
     /**
-     * Retrieves a PublicKey from the given information
-     * @param e
-     * @param baseURI
-     * @param storage
+     * Retrieves b PublicKey from the given informbtion
+     * @pbrbm e
+     * @pbrbm bbseURI
+     * @pbrbm storbge
      * @return
      * @throws KeyResolverException
      */
-    private static PublicKey resolveKey(
-        Element e, String baseURI, StorageResolver storage
+    privbte stbtic PublicKey resolveKey(
+        Element e, String bbseURI, StorbgeResolver storbge
     ) throws KeyResolverException {
-        if (log.isLoggable(java.util.logging.Level.FINE)) {
-            log.log(java.util.logging.Level.FINE, "Now we have a {" + e.getNamespaceURI() + "}"
-                + e.getLocalName() + " Element");
+        if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+            log.log(jbvb.util.logging.Level.FINE, "Now we hbve b {" + e.getNbmespbceURI() + "}"
+                + e.getLocblNbme() + " Element");
         }
-        // An element has been provided
+        // An element hbs been provided
         if (e != null) {
-            return KeyResolver.getPublicKey(e, baseURI, storage);
+            return KeyResolver.getPublicKey(e, bbseURI, storbge);
         }
         return null;
     }
 
-    private static Element obtainReferenceElement(XMLSignatureInput resource)
-        throws CanonicalizationException, ParserConfigurationException,
+    privbte stbtic Element obtbinReferenceElement(XMLSignbtureInput resource)
+        throws CbnonicblizbtionException, PbrserConfigurbtionException,
         IOException, SAXException, KeyResolverException {
         Element e;
         if (resource.isElement()){
             e = (Element) resource.getSubNode();
         } else if (resource.isNodeSet()) {
-            // Retrieved resource is a nodeSet
+            // Retrieved resource is b nodeSet
             e = getDocumentElement(resource.getNodeSet());
         } else {
-            // Retrieved resource is an inputStream
+            // Retrieved resource is bn inputStrebm
             byte inputBytes[] = resource.getBytes();
             e = getDocFromBytes(inputBytes);
-            // otherwise, we parse the resource, create an Element and delegate
-            if (log.isLoggable(java.util.logging.Level.FINE)) {
-                log.log(java.util.logging.Level.FINE, "we have to parse " + inputBytes.length + " bytes");
+            // otherwise, we pbrse the resource, crebte bn Element bnd delegbte
+            if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+                log.log(jbvb.util.logging.Level.FINE, "we hbve to pbrse " + inputBytes.length + " bytes");
             }
         }
         return e;
     }
 
-    private static X509Certificate getRawCertificate(XMLSignatureInput resource)
-        throws CanonicalizationException, IOException, CertificateException {
+    privbte stbtic X509Certificbte getRbwCertificbte(XMLSignbtureInput resource)
+        throws CbnonicblizbtionException, IOException, CertificbteException {
         byte inputBytes[] = resource.getBytes();
-        // if the resource stores a raw certificate, we have to handle it
-        CertificateFactory certFact =
-            CertificateFactory.getInstance(XMLX509Certificate.JCA_CERT_ID);
-        X509Certificate cert = (X509Certificate)
-            certFact.generateCertificate(new ByteArrayInputStream(inputBytes));
+        // if the resource stores b rbw certificbte, we hbve to hbndle it
+        CertificbteFbctory certFbct =
+            CertificbteFbctory.getInstbnce(XMLX509Certificbte.JCA_CERT_ID);
+        X509Certificbte cert = (X509Certificbte)
+            certFbct.generbteCertificbte(new ByteArrbyInputStrebm(inputBytes));
         return cert;
     }
 
     /**
-     * Resolves the input from the given retrieval method
+     * Resolves the input from the given retrievbl method
      * @return
      * @throws XMLSecurityException
      */
-    private static XMLSignatureInput resolveInput(
-        RetrievalMethod rm, String baseURI, boolean secureValidation
+    privbte stbtic XMLSignbtureInput resolveInput(
+        RetrievblMethod rm, String bbseURI, boolebn secureVblidbtion
     ) throws XMLSecurityException {
         Attr uri = rm.getURIAttr();
-        // Apply the transforms
-        Transforms transforms = rm.getTransforms();
-        ResourceResolver resRes = ResourceResolver.getInstance(uri, baseURI, secureValidation);
-        XMLSignatureInput resource = resRes.resolve(uri, baseURI, secureValidation);
-        if (transforms != null) {
-            if (log.isLoggable(java.util.logging.Level.FINE)) {
-                log.log(java.util.logging.Level.FINE, "We have Transforms");
+        // Apply the trbnsforms
+        Trbnsforms trbnsforms = rm.getTrbnsforms();
+        ResourceResolver resRes = ResourceResolver.getInstbnce(uri, bbseURI, secureVblidbtion);
+        XMLSignbtureInput resource = resRes.resolve(uri, bbseURI, secureVblidbtion);
+        if (trbnsforms != null) {
+            if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+                log.log(jbvb.util.logging.Level.FINE, "We hbve Trbnsforms");
             }
-            resource = transforms.performTransforms(resource);
+            resource = trbnsforms.performTrbnsforms(resource);
         }
         return resource;
     }
 
     /**
-     * Parses a byte array and returns the parsed Element.
+     * Pbrses b byte brrby bnd returns the pbrsed Element.
      *
-     * @param bytes
-     * @return the Document Element after parsing bytes
+     * @pbrbm bytes
+     * @return the Document Element bfter pbrsing bytes
      * @throws KeyResolverException if something goes wrong
      */
-    private static Element getDocFromBytes(byte[] bytes) throws KeyResolverException {
+    privbte stbtic Element getDocFromBytes(byte[] bytes) throws KeyResolverException {
         try {
-            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-            dbf.setNamespaceAware(true);
-            dbf.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, Boolean.TRUE);
+            DocumentBuilderFbctory dbf = DocumentBuilderFbctory.newInstbnce();
+            dbf.setNbmespbceAwbre(true);
+            dbf.setFebture(XMLConstbnts.FEATURE_SECURE_PROCESSING, Boolebn.TRUE);
             DocumentBuilder db = dbf.newDocumentBuilder();
-            Document doc = db.parse(new ByteArrayInputStream(bytes));
+            Document doc = db.pbrse(new ByteArrbyInputStrebm(bytes));
             return doc.getDocumentElement();
-        } catch (SAXException ex) {
+        } cbtch (SAXException ex) {
             throw new KeyResolverException("empty", ex);
-        } catch (IOException ex) {
+        } cbtch (IOException ex) {
             throw new KeyResolverException("empty", ex);
-        } catch (ParserConfigurationException ex) {
+        } cbtch (PbrserConfigurbtionException ex) {
             throw new KeyResolverException("empty", ex);
         }
     }
@@ -346,43 +346,43 @@ public class RetrievalMethodResolver extends KeyResolverSpi {
     /**
      * Method engineResolveSecretKey
      * @inheritDoc
-     * @param element
-     * @param baseURI
-     * @param storage
+     * @pbrbm element
+     * @pbrbm bbseURI
+     * @pbrbm storbge
      */
-    public javax.crypto.SecretKey engineLookupAndResolveSecretKey(
-        Element element, String baseURI, StorageResolver storage
+    public jbvbx.crypto.SecretKey engineLookupAndResolveSecretKey(
+        Element element, String bbseURI, StorbgeResolver storbge
     ) {
         return null;
     }
 
-    private static Element getDocumentElement(Set<Node> set) {
-        Iterator<Node> it = set.iterator();
+    privbte stbtic Element getDocumentElement(Set<Node> set) {
+        Iterbtor<Node> it = set.iterbtor();
         Element e = null;
-        while (it.hasNext()) {
+        while (it.hbsNext()) {
             Node currentNode = it.next();
             if (currentNode != null && Node.ELEMENT_NODE == currentNode.getNodeType()) {
                 e = (Element) currentNode;
-                break;
+                brebk;
             }
         }
-        List<Node> parents = new ArrayList<Node>();
+        List<Node> pbrents = new ArrbyList<Node>();
 
-        // Obtain all the parents of the elemnt
+        // Obtbin bll the pbrents of the elemnt
         while (e != null) {
-            parents.add(e);
-            Node n = e.getParentNode();
+            pbrents.bdd(e);
+            Node n = e.getPbrentNode();
             if (n == null || Node.ELEMENT_NODE != n.getNodeType()) {
-                break;
+                brebk;
             }
             e = (Element) n;
         }
         // Visit them in reverse order.
-        ListIterator<Node> it2 = parents.listIterator(parents.size()-1);
+        ListIterbtor<Node> it2 = pbrents.listIterbtor(pbrents.size()-1);
         Element ele = null;
-        while (it2.hasPrevious()) {
+        while (it2.hbsPrevious()) {
             ele = (Element) it2.previous();
-            if (set.contains(ele)) {
+            if (set.contbins(ele)) {
                 return ele;
             }
         }

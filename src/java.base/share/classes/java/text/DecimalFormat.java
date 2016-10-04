@@ -1,110 +1,110 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * (C) Copyright Taligent, Inc. 1996, 1997 - All Rights Reserved
+ * (C) Copyright Tbligent, Inc. 1996, 1997 - All Rights Reserved
  * (C) Copyright IBM Corp. 1996 - 1998 - All Rights Reserved
  *
- *   The original version of this source code and documentation is copyrighted
- * and owned by Taligent, Inc., a wholly-owned subsidiary of IBM. These
- * materials are provided under terms of a License Agreement between Taligent
- * and Sun. This technology is protected by multiple US and International
- * patents. This notice and attribution to Taligent may not be removed.
- *   Taligent is a registered trademark of Taligent, Inc.
+ *   The originbl version of this source code bnd documentbtion is copyrighted
+ * bnd owned by Tbligent, Inc., b wholly-owned subsidibry of IBM. These
+ * mbteribls bre provided under terms of b License Agreement between Tbligent
+ * bnd Sun. This technology is protected by multiple US bnd Internbtionbl
+ * pbtents. This notice bnd bttribution to Tbligent mby not be removed.
+ *   Tbligent is b registered trbdembrk of Tbligent, Inc.
  *
  */
 
-package java.text;
+pbckbge jbvb.text;
 
-import java.io.IOException;
-import java.io.InvalidObjectException;
-import java.io.ObjectInputStream;
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.math.RoundingMode;
-import java.text.spi.NumberFormatProvider;
-import java.util.ArrayList;
-import java.util.Currency;
-import java.util.Locale;
-import java.util.ResourceBundle;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.atomic.AtomicLong;
-import sun.util.locale.provider.LocaleProviderAdapter;
-import sun.util.locale.provider.ResourceBundleBasedAdapter;
+import jbvb.io.IOException;
+import jbvb.io.InvblidObjectException;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.mbth.BigDecimbl;
+import jbvb.mbth.BigInteger;
+import jbvb.mbth.RoundingMode;
+import jbvb.text.spi.NumberFormbtProvider;
+import jbvb.util.ArrbyList;
+import jbvb.util.Currency;
+import jbvb.util.Locble;
+import jbvb.util.ResourceBundle;
+import jbvb.util.concurrent.ConcurrentHbshMbp;
+import jbvb.util.concurrent.ConcurrentMbp;
+import jbvb.util.concurrent.btomic.AtomicInteger;
+import jbvb.util.concurrent.btomic.AtomicLong;
+import sun.util.locble.provider.LocbleProviderAdbpter;
+import sun.util.locble.provider.ResourceBundleBbsedAdbpter;
 
 /**
- * <code>DecimalFormat</code> is a concrete subclass of
- * <code>NumberFormat</code> that formats decimal numbers. It has a variety of
- * features designed to make it possible to parse and format numbers in any
- * locale, including support for Western, Arabic, and Indic digits.  It also
+ * <code>DecimblFormbt</code> is b concrete subclbss of
+ * <code>NumberFormbt</code> thbt formbts decimbl numbers. It hbs b vbriety of
+ * febtures designed to mbke it possible to pbrse bnd formbt numbers in bny
+ * locble, including support for Western, Arbbic, bnd Indic digits.  It blso
  * supports different kinds of numbers, including integers (123), fixed-point
- * numbers (123.4), scientific notation (1.23E4), percentages (12%), and
- * currency amounts ($123).  All of these can be localized.
+ * numbers (123.4), scientific notbtion (1.23E4), percentbges (12%), bnd
+ * currency bmounts ($123).  All of these cbn be locblized.
  *
- * <p>To obtain a <code>NumberFormat</code> for a specific locale, including the
- * default locale, call one of <code>NumberFormat</code>'s factory methods, such
- * as <code>getInstance()</code>.  In general, do not call the
- * <code>DecimalFormat</code> constructors directly, since the
- * <code>NumberFormat</code> factory methods may return subclasses other than
- * <code>DecimalFormat</code>. If you need to customize the format object, do
+ * <p>To obtbin b <code>NumberFormbt</code> for b specific locble, including the
+ * defbult locble, cbll one of <code>NumberFormbt</code>'s fbctory methods, such
+ * bs <code>getInstbnce()</code>.  In generbl, do not cbll the
+ * <code>DecimblFormbt</code> constructors directly, since the
+ * <code>NumberFormbt</code> fbctory methods mby return subclbsses other thbn
+ * <code>DecimblFormbt</code>. If you need to customize the formbt object, do
  * something like this:
  *
  * <blockquote><pre>
- * NumberFormat f = NumberFormat.getInstance(loc);
- * if (f instanceof DecimalFormat) {
- *     ((DecimalFormat) f).setDecimalSeparatorAlwaysShown(true);
+ * NumberFormbt f = NumberFormbt.getInstbnce(loc);
+ * if (f instbnceof DecimblFormbt) {
+ *     ((DecimblFormbt) f).setDecimblSepbrbtorAlwbysShown(true);
  * }
  * </pre></blockquote>
  *
- * <p>A <code>DecimalFormat</code> comprises a <em>pattern</em> and a set of
- * <em>symbols</em>.  The pattern may be set directly using
- * <code>applyPattern()</code>, or indirectly using the API methods.  The
- * symbols are stored in a <code>DecimalFormatSymbols</code> object.  When using
- * the <code>NumberFormat</code> factory methods, the pattern and symbols are
- * read from localized <code>ResourceBundle</code>s.
+ * <p>A <code>DecimblFormbt</code> comprises b <em>pbttern</em> bnd b set of
+ * <em>symbols</em>.  The pbttern mby be set directly using
+ * <code>bpplyPbttern()</code>, or indirectly using the API methods.  The
+ * symbols bre stored in b <code>DecimblFormbtSymbols</code> object.  When using
+ * the <code>NumberFormbt</code> fbctory methods, the pbttern bnd symbols bre
+ * rebd from locblized <code>ResourceBundle</code>s.
  *
- * <h3>Patterns</h3>
+ * <h3>Pbtterns</h3>
  *
- * <code>DecimalFormat</code> patterns have the following syntax:
+ * <code>DecimblFormbt</code> pbtterns hbve the following syntbx:
  * <blockquote><pre>
- * <i>Pattern:</i>
- *         <i>PositivePattern</i>
- *         <i>PositivePattern</i> ; <i>NegativePattern</i>
- * <i>PositivePattern:</i>
+ * <i>Pbttern:</i>
+ *         <i>PositivePbttern</i>
+ *         <i>PositivePbttern</i> ; <i>NegbtivePbttern</i>
+ * <i>PositivePbttern:</i>
  *         <i>Prefix<sub>opt</sub></i> <i>Number</i> <i>Suffix<sub>opt</sub></i>
- * <i>NegativePattern:</i>
+ * <i>NegbtivePbttern:</i>
  *         <i>Prefix<sub>opt</sub></i> <i>Number</i> <i>Suffix<sub>opt</sub></i>
  * <i>Prefix:</i>
- *         any Unicode characters except &#92;uFFFE, &#92;uFFFF, and special characters
+ *         bny Unicode chbrbcters except &#92;uFFFE, &#92;uFFFF, bnd specibl chbrbcters
  * <i>Suffix:</i>
- *         any Unicode characters except &#92;uFFFE, &#92;uFFFF, and special characters
+ *         bny Unicode chbrbcters except &#92;uFFFE, &#92;uFFFF, bnd specibl chbrbcters
  * <i>Number:</i>
  *         <i>Integer</i> <i>Exponent<sub>opt</sub></i>
- *         <i>Integer</i> . <i>Fraction</i> <i>Exponent<sub>opt</sub></i>
+ *         <i>Integer</i> . <i>Frbction</i> <i>Exponent<sub>opt</sub></i>
  * <i>Integer:</i>
  *         <i>MinimumInteger</i>
  *         #
@@ -114,563 +114,563 @@ import sun.util.locale.provider.ResourceBundleBasedAdapter;
  *         0
  *         0 <i>MinimumInteger</i>
  *         0 , <i>MinimumInteger</i>
- * <i>Fraction:</i>
- *         <i>MinimumFraction<sub>opt</sub></i> <i>OptionalFraction<sub>opt</sub></i>
- * <i>MinimumFraction:</i>
- *         0 <i>MinimumFraction<sub>opt</sub></i>
- * <i>OptionalFraction:</i>
- *         # <i>OptionalFraction<sub>opt</sub></i>
+ * <i>Frbction:</i>
+ *         <i>MinimumFrbction<sub>opt</sub></i> <i>OptionblFrbction<sub>opt</sub></i>
+ * <i>MinimumFrbction:</i>
+ *         0 <i>MinimumFrbction<sub>opt</sub></i>
+ * <i>OptionblFrbction:</i>
+ *         # <i>OptionblFrbction<sub>opt</sub></i>
  * <i>Exponent:</i>
  *         E <i>MinimumExponent</i>
  * <i>MinimumExponent:</i>
  *         0 <i>MinimumExponent<sub>opt</sub></i>
  * </pre></blockquote>
  *
- * <p>A <code>DecimalFormat</code> pattern contains a positive and negative
- * subpattern, for example, <code>"#,##0.00;(#,##0.00)"</code>.  Each
- * subpattern has a prefix, numeric part, and suffix. The negative subpattern
- * is optional; if absent, then the positive subpattern prefixed with the
- * localized minus sign (<code>'-'</code> in most locales) is used as the
- * negative subpattern. That is, <code>"0.00"</code> alone is equivalent to
- * <code>"0.00;-0.00"</code>.  If there is an explicit negative subpattern, it
- * serves only to specify the negative prefix and suffix; the number of digits,
- * minimal digits, and other characteristics are all the same as the positive
- * pattern. That means that <code>"#,##0.0#;(#)"</code> produces precisely
- * the same behavior as <code>"#,##0.0#;(#,##0.0#)"</code>.
+ * <p>A <code>DecimblFormbt</code> pbttern contbins b positive bnd negbtive
+ * subpbttern, for exbmple, <code>"#,##0.00;(#,##0.00)"</code>.  Ebch
+ * subpbttern hbs b prefix, numeric pbrt, bnd suffix. The negbtive subpbttern
+ * is optionbl; if bbsent, then the positive subpbttern prefixed with the
+ * locblized minus sign (<code>'-'</code> in most locbles) is used bs the
+ * negbtive subpbttern. Thbt is, <code>"0.00"</code> blone is equivblent to
+ * <code>"0.00;-0.00"</code>.  If there is bn explicit negbtive subpbttern, it
+ * serves only to specify the negbtive prefix bnd suffix; the number of digits,
+ * minimbl digits, bnd other chbrbcteristics bre bll the sbme bs the positive
+ * pbttern. Thbt mebns thbt <code>"#,##0.0#;(#)"</code> produces precisely
+ * the sbme behbvior bs <code>"#,##0.0#;(#,##0.0#)"</code>.
  *
- * <p>The prefixes, suffixes, and various symbols used for infinity, digits,
- * thousands separators, decimal separators, etc. may be set to arbitrary
- * values, and they will appear properly during formatting.  However, care must
- * be taken that the symbols and strings do not conflict, or parsing will be
- * unreliable.  For example, either the positive and negative prefixes or the
- * suffixes must be distinct for <code>DecimalFormat.parse()</code> to be able
- * to distinguish positive from negative values.  (If they are identical, then
- * <code>DecimalFormat</code> will behave as if no negative subpattern was
- * specified.)  Another example is that the decimal separator and thousands
- * separator should be distinct characters, or parsing will be impossible.
+ * <p>The prefixes, suffixes, bnd vbrious symbols used for infinity, digits,
+ * thousbnds sepbrbtors, decimbl sepbrbtors, etc. mby be set to brbitrbry
+ * vblues, bnd they will bppebr properly during formbtting.  However, cbre must
+ * be tbken thbt the symbols bnd strings do not conflict, or pbrsing will be
+ * unrelibble.  For exbmple, either the positive bnd negbtive prefixes or the
+ * suffixes must be distinct for <code>DecimblFormbt.pbrse()</code> to be bble
+ * to distinguish positive from negbtive vblues.  (If they bre identicbl, then
+ * <code>DecimblFormbt</code> will behbve bs if no negbtive subpbttern wbs
+ * specified.)  Another exbmple is thbt the decimbl sepbrbtor bnd thousbnds
+ * sepbrbtor should be distinct chbrbcters, or pbrsing will be impossible.
  *
- * <p>The grouping separator is commonly used for thousands, but in some
- * countries it separates ten-thousands. The grouping size is a constant number
- * of digits between the grouping characters, such as 3 for 100,000,000 or 4 for
- * 1,0000,0000.  If you supply a pattern with multiple grouping characters, the
- * interval between the last one and the end of the integer is the one that is
+ * <p>The grouping sepbrbtor is commonly used for thousbnds, but in some
+ * countries it sepbrbtes ten-thousbnds. The grouping size is b constbnt number
+ * of digits between the grouping chbrbcters, such bs 3 for 100,000,000 or 4 for
+ * 1,0000,0000.  If you supply b pbttern with multiple grouping chbrbcters, the
+ * intervbl between the lbst one bnd the end of the integer is the one thbt is
  * used. So <code>"#,##,###,####"</code> == <code>"######,####"</code> ==
  * <code>"##,####,####"</code>.
  *
- * <h4>Special Pattern Characters</h4>
+ * <h4>Specibl Pbttern Chbrbcters</h4>
  *
- * <p>Many characters in a pattern are taken literally; they are matched during
- * parsing and output unchanged during formatting.  Special characters, on the
- * other hand, stand for other characters, strings, or classes of characters.
- * They must be quoted, unless noted otherwise, if they are to appear in the
- * prefix or suffix as literals.
+ * <p>Mbny chbrbcters in b pbttern bre tbken literblly; they bre mbtched during
+ * pbrsing bnd output unchbnged during formbtting.  Specibl chbrbcters, on the
+ * other hbnd, stbnd for other chbrbcters, strings, or clbsses of chbrbcters.
+ * They must be quoted, unless noted otherwise, if they bre to bppebr in the
+ * prefix or suffix bs literbls.
  *
- * <p>The characters listed here are used in non-localized patterns.  Localized
- * patterns use the corresponding characters taken from this formatter's
- * <code>DecimalFormatSymbols</code> object instead, and these characters lose
- * their special status.  Two exceptions are the currency sign and quote, which
- * are not localized.
+ * <p>The chbrbcters listed here bre used in non-locblized pbtterns.  Locblized
+ * pbtterns use the corresponding chbrbcters tbken from this formbtter's
+ * <code>DecimblFormbtSymbols</code> object instebd, bnd these chbrbcters lose
+ * their specibl stbtus.  Two exceptions bre the currency sign bnd quote, which
+ * bre not locblized.
  *
  * <blockquote>
- * <table border=0 cellspacing=3 cellpadding=0 summary="Chart showing symbol,
- *  location, localized, and meaning.">
- *     <tr style="background-color: rgb(204, 204, 255);">
- *          <th align=left>Symbol
- *          <th align=left>Location
- *          <th align=left>Localized?
- *          <th align=left>Meaning
- *     <tr valign=top>
+ * <tbble border=0 cellspbcing=3 cellpbdding=0 summbry="Chbrt showing symbol,
+ *  locbtion, locblized, bnd mebning.">
+ *     <tr style="bbckground-color: rgb(204, 204, 255);">
+ *          <th blign=left>Symbol
+ *          <th blign=left>Locbtion
+ *          <th blign=left>Locblized?
+ *          <th blign=left>Mebning
+ *     <tr vblign=top>
  *          <td><code>0</code>
  *          <td>Number
  *          <td>Yes
  *          <td>Digit
- *     <tr style="vertical-align: top; background-color: rgb(238, 238, 255);">
+ *     <tr style="verticbl-blign: top; bbckground-color: rgb(238, 238, 255);">
  *          <td><code>#</code>
  *          <td>Number
  *          <td>Yes
- *          <td>Digit, zero shows as absent
- *     <tr valign=top>
+ *          <td>Digit, zero shows bs bbsent
+ *     <tr vblign=top>
  *          <td><code>.</code>
  *          <td>Number
  *          <td>Yes
- *          <td>Decimal separator or monetary decimal separator
- *     <tr style="vertical-align: top; background-color: rgb(238, 238, 255);">
+ *          <td>Decimbl sepbrbtor or monetbry decimbl sepbrbtor
+ *     <tr style="verticbl-blign: top; bbckground-color: rgb(238, 238, 255);">
  *          <td><code>-</code>
  *          <td>Number
  *          <td>Yes
  *          <td>Minus sign
- *     <tr valign=top>
+ *     <tr vblign=top>
  *          <td><code>,</code>
  *          <td>Number
  *          <td>Yes
- *          <td>Grouping separator
- *     <tr style="vertical-align: top; background-color: rgb(238, 238, 255);">
+ *          <td>Grouping sepbrbtor
+ *     <tr style="verticbl-blign: top; bbckground-color: rgb(238, 238, 255);">
  *          <td><code>E</code>
  *          <td>Number
  *          <td>Yes
- *          <td>Separates mantissa and exponent in scientific notation.
+ *          <td>Sepbrbtes mbntissb bnd exponent in scientific notbtion.
  *              <em>Need not be quoted in prefix or suffix.</em>
- *     <tr valign=top>
+ *     <tr vblign=top>
  *          <td><code>;</code>
- *          <td>Subpattern boundary
+ *          <td>Subpbttern boundbry
  *          <td>Yes
- *          <td>Separates positive and negative subpatterns
- *     <tr style="vertical-align: top; background-color: rgb(238, 238, 255);">
+ *          <td>Sepbrbtes positive bnd negbtive subpbtterns
+ *     <tr style="verticbl-blign: top; bbckground-color: rgb(238, 238, 255);">
  *          <td><code>%</code>
  *          <td>Prefix or suffix
  *          <td>Yes
- *          <td>Multiply by 100 and show as percentage
- *     <tr valign=top>
+ *          <td>Multiply by 100 bnd show bs percentbge
+ *     <tr vblign=top>
  *          <td><code>&#92;u2030</code>
  *          <td>Prefix or suffix
  *          <td>Yes
- *          <td>Multiply by 1000 and show as per mille value
- *     <tr style="vertical-align: top; background-color: rgb(238, 238, 255);">
+ *          <td>Multiply by 1000 bnd show bs per mille vblue
+ *     <tr style="verticbl-blign: top; bbckground-color: rgb(238, 238, 255);">
  *          <td><code>&#164;</code> (<code>&#92;u00A4</code>)
  *          <td>Prefix or suffix
  *          <td>No
- *          <td>Currency sign, replaced by currency symbol.  If
- *              doubled, replaced by international currency symbol.
- *              If present in a pattern, the monetary decimal separator
- *              is used instead of the decimal separator.
- *     <tr valign=top>
+ *          <td>Currency sign, replbced by currency symbol.  If
+ *              doubled, replbced by internbtionbl currency symbol.
+ *              If present in b pbttern, the monetbry decimbl sepbrbtor
+ *              is used instebd of the decimbl sepbrbtor.
+ *     <tr vblign=top>
  *          <td><code>'</code>
  *          <td>Prefix or suffix
  *          <td>No
- *          <td>Used to quote special characters in a prefix or suffix,
- *              for example, <code>"'#'#"</code> formats 123 to
- *              <code>"#123"</code>.  To create a single quote
- *              itself, use two in a row: <code>"# o''clock"</code>.
- * </table>
+ *          <td>Used to quote specibl chbrbcters in b prefix or suffix,
+ *              for exbmple, <code>"'#'#"</code> formbts 123 to
+ *              <code>"#123"</code>.  To crebte b single quote
+ *              itself, use two in b row: <code>"# o''clock"</code>.
+ * </tbble>
  * </blockquote>
  *
- * <h4>Scientific Notation</h4>
+ * <h4>Scientific Notbtion</h4>
  *
- * <p>Numbers in scientific notation are expressed as the product of a mantissa
- * and a power of ten, for example, 1234 can be expressed as 1.234 x 10^3.  The
- * mantissa is often in the range 1.0 &le; x {@literal <} 10.0, but it need not
+ * <p>Numbers in scientific notbtion bre expressed bs the product of b mbntissb
+ * bnd b power of ten, for exbmple, 1234 cbn be expressed bs 1.234 x 10^3.  The
+ * mbntissb is often in the rbnge 1.0 &le; x {@literbl <} 10.0, but it need not
  * be.
- * <code>DecimalFormat</code> can be instructed to format and parse scientific
- * notation <em>only via a pattern</em>; there is currently no factory method
- * that creates a scientific notation format.  In a pattern, the exponent
- * character immediately followed by one or more digit characters indicates
- * scientific notation.  Example: <code>"0.###E0"</code> formats the number
- * 1234 as <code>"1.234E3"</code>.
+ * <code>DecimblFormbt</code> cbn be instructed to formbt bnd pbrse scientific
+ * notbtion <em>only vib b pbttern</em>; there is currently no fbctory method
+ * thbt crebtes b scientific notbtion formbt.  In b pbttern, the exponent
+ * chbrbcter immedibtely followed by one or more digit chbrbcters indicbtes
+ * scientific notbtion.  Exbmple: <code>"0.###E0"</code> formbts the number
+ * 1234 bs <code>"1.234E3"</code>.
  *
  * <ul>
- * <li>The number of digit characters after the exponent character gives the
- * minimum exponent digit count.  There is no maximum.  Negative exponents are
- * formatted using the localized minus sign, <em>not</em> the prefix and suffix
- * from the pattern.  This allows patterns such as <code>"0.###E0 m/s"</code>.
+ * <li>The number of digit chbrbcters bfter the exponent chbrbcter gives the
+ * minimum exponent digit count.  There is no mbximum.  Negbtive exponents bre
+ * formbtted using the locblized minus sign, <em>not</em> the prefix bnd suffix
+ * from the pbttern.  This bllows pbtterns such bs <code>"0.###E0 m/s"</code>.
  *
- * <li>The minimum and maximum number of integer digits are interpreted
+ * <li>The minimum bnd mbximum number of integer digits bre interpreted
  * together:
  *
  * <ul>
- * <li>If the maximum number of integer digits is greater than their minimum number
- * and greater than 1, it forces the exponent to be a multiple of the maximum
- * number of integer digits, and the minimum number of integer digits to be
- * interpreted as 1.  The most common use of this is to generate
- * <em>engineering notation</em>, in which the exponent is a multiple of three,
- * e.g., <code>"##0.#####E0"</code>. Using this pattern, the number 12345
- * formats to <code>"12.345E3"</code>, and 123456 formats to
+ * <li>If the mbximum number of integer digits is grebter thbn their minimum number
+ * bnd grebter thbn 1, it forces the exponent to be b multiple of the mbximum
+ * number of integer digits, bnd the minimum number of integer digits to be
+ * interpreted bs 1.  The most common use of this is to generbte
+ * <em>engineering notbtion</em>, in which the exponent is b multiple of three,
+ * e.g., <code>"##0.#####E0"</code>. Using this pbttern, the number 12345
+ * formbts to <code>"12.345E3"</code>, bnd 123456 formbts to
  * <code>"123.456E3"</code>.
  *
- * <li>Otherwise, the minimum number of integer digits is achieved by adjusting the
- * exponent.  Example: 0.00123 formatted with <code>"00.###E0"</code> yields
+ * <li>Otherwise, the minimum number of integer digits is bchieved by bdjusting the
+ * exponent.  Exbmple: 0.00123 formbtted with <code>"00.###E0"</code> yields
  * <code>"12.3E-4"</code>.
  * </ul>
  *
- * <li>The number of significant digits in the mantissa is the sum of the
- * <em>minimum integer</em> and <em>maximum fraction</em> digits, and is
- * unaffected by the maximum integer digits.  For example, 12345 formatted with
- * <code>"##0.##E0"</code> is <code>"12.3E3"</code>. To show all digits, set
- * the significant digits count to zero.  The number of significant digits
- * does not affect parsing.
+ * <li>The number of significbnt digits in the mbntissb is the sum of the
+ * <em>minimum integer</em> bnd <em>mbximum frbction</em> digits, bnd is
+ * unbffected by the mbximum integer digits.  For exbmple, 12345 formbtted with
+ * <code>"##0.##E0"</code> is <code>"12.3E3"</code>. To show bll digits, set
+ * the significbnt digits count to zero.  The number of significbnt digits
+ * does not bffect pbrsing.
  *
- * <li>Exponential patterns may not contain grouping separators.
+ * <li>Exponentibl pbtterns mby not contbin grouping sepbrbtors.
  * </ul>
  *
  * <h4>Rounding</h4>
  *
- * <code>DecimalFormat</code> provides rounding modes defined in
- * {@link java.math.RoundingMode} for formatting.  By default, it uses
- * {@link java.math.RoundingMode#HALF_EVEN RoundingMode.HALF_EVEN}.
+ * <code>DecimblFormbt</code> provides rounding modes defined in
+ * {@link jbvb.mbth.RoundingMode} for formbtting.  By defbult, it uses
+ * {@link jbvb.mbth.RoundingMode#HALF_EVEN RoundingMode.HALF_EVEN}.
  *
  * <h4>Digits</h4>
  *
- * For formatting, <code>DecimalFormat</code> uses the ten consecutive
- * characters starting with the localized zero digit defined in the
- * <code>DecimalFormatSymbols</code> object as digits. For parsing, these
- * digits as well as all Unicode decimal digits, as defined by
- * {@link Character#digit Character.digit}, are recognized.
+ * For formbtting, <code>DecimblFormbt</code> uses the ten consecutive
+ * chbrbcters stbrting with the locblized zero digit defined in the
+ * <code>DecimblFormbtSymbols</code> object bs digits. For pbrsing, these
+ * digits bs well bs bll Unicode decimbl digits, bs defined by
+ * {@link Chbrbcter#digit Chbrbcter.digit}, bre recognized.
  *
- * <h4>Special Values</h4>
+ * <h4>Specibl Vblues</h4>
  *
- * <p><code>NaN</code> is formatted as a string, which typically has a single character
+ * <p><code>NbN</code> is formbtted bs b string, which typicblly hbs b single chbrbcter
  * <code>&#92;uFFFD</code>.  This string is determined by the
- * <code>DecimalFormatSymbols</code> object.  This is the only value for which
- * the prefixes and suffixes are not used.
+ * <code>DecimblFormbtSymbols</code> object.  This is the only vblue for which
+ * the prefixes bnd suffixes bre not used.
  *
- * <p>Infinity is formatted as a string, which typically has a single character
- * <code>&#92;u221E</code>, with the positive or negative prefixes and suffixes
- * applied.  The infinity string is determined by the
- * <code>DecimalFormatSymbols</code> object.
+ * <p>Infinity is formbtted bs b string, which typicblly hbs b single chbrbcter
+ * <code>&#92;u221E</code>, with the positive or negbtive prefixes bnd suffixes
+ * bpplied.  The infinity string is determined by the
+ * <code>DecimblFormbtSymbols</code> object.
  *
- * <p>Negative zero (<code>"-0"</code>) parses to
+ * <p>Negbtive zero (<code>"-0"</code>) pbrses to
  * <ul>
- * <li><code>BigDecimal(0)</code> if <code>isParseBigDecimal()</code> is
+ * <li><code>BigDecimbl(0)</code> if <code>isPbrseBigDecimbl()</code> is
  * true,
- * <li><code>Long(0)</code> if <code>isParseBigDecimal()</code> is false
- *     and <code>isParseIntegerOnly()</code> is true,
- * <li><code>Double(-0.0)</code> if both <code>isParseBigDecimal()</code>
- * and <code>isParseIntegerOnly()</code> are false.
+ * <li><code>Long(0)</code> if <code>isPbrseBigDecimbl()</code> is fblse
+ *     bnd <code>isPbrseIntegerOnly()</code> is true,
+ * <li><code>Double(-0.0)</code> if both <code>isPbrseBigDecimbl()</code>
+ * bnd <code>isPbrseIntegerOnly()</code> bre fblse.
  * </ul>
  *
- * <h4><a name="synchronization">Synchronization</a></h4>
+ * <h4><b nbme="synchronizbtion">Synchronizbtion</b></h4>
  *
  * <p>
- * Decimal formats are generally not synchronized.
- * It is recommended to create separate format instances for each thread.
- * If multiple threads access a format concurrently, it must be synchronized
- * externally.
+ * Decimbl formbts bre generblly not synchronized.
+ * It is recommended to crebte sepbrbte formbt instbnces for ebch threbd.
+ * If multiple threbds bccess b formbt concurrently, it must be synchronized
+ * externblly.
  *
- * <h4>Example</h4>
+ * <h4>Exbmple</h4>
  *
  * <blockquote><pre>{@code
- * <strong>// Print out a number using the localized number, integer, currency,
- * // and percent format for each locale</strong>
- * Locale[] locales = NumberFormat.getAvailableLocales();
+ * <strong>// Print out b number using the locblized number, integer, currency,
+ * // bnd percent formbt for ebch locble</strong>
+ * Locble[] locbles = NumberFormbt.getAvbilbbleLocbles();
  * double myNumber = -1234.56;
- * NumberFormat form;
+ * NumberFormbt form;
  * for (int j = 0; j < 4; ++j) {
  *     System.out.println("FORMAT");
- *     for (int i = 0; i < locales.length; ++i) {
- *         if (locales[i].getCountry().length() == 0) {
- *            continue; // Skip language-only locales
+ *     for (int i = 0; i < locbles.length; ++i) {
+ *         if (locbles[i].getCountry().length() == 0) {
+ *            continue; // Skip lbngubge-only locbles
  *         }
- *         System.out.print(locales[i].getDisplayName());
+ *         System.out.print(locbles[i].getDisplbyNbme());
  *         switch (j) {
- *         case 0:
- *             form = NumberFormat.getInstance(locales[i]); break;
- *         case 1:
- *             form = NumberFormat.getIntegerInstance(locales[i]); break;
- *         case 2:
- *             form = NumberFormat.getCurrencyInstance(locales[i]); break;
- *         default:
- *             form = NumberFormat.getPercentInstance(locales[i]); break;
+ *         cbse 0:
+ *             form = NumberFormbt.getInstbnce(locbles[i]); brebk;
+ *         cbse 1:
+ *             form = NumberFormbt.getIntegerInstbnce(locbles[i]); brebk;
+ *         cbse 2:
+ *             form = NumberFormbt.getCurrencyInstbnce(locbles[i]); brebk;
+ *         defbult:
+ *             form = NumberFormbt.getPercentInstbnce(locbles[i]); brebk;
  *         }
- *         if (form instanceof DecimalFormat) {
- *             System.out.print(": " + ((DecimalFormat) form).toPattern());
+ *         if (form instbnceof DecimblFormbt) {
+ *             System.out.print(": " + ((DecimblFormbt) form).toPbttern());
  *         }
- *         System.out.print(" -> " + form.format(myNumber));
+ *         System.out.print(" -> " + form.formbt(myNumber));
  *         try {
- *             System.out.println(" -> " + form.parse(form.format(myNumber)));
- *         } catch (ParseException e) {}
+ *             System.out.println(" -> " + form.pbrse(form.formbt(myNumber)));
+ *         } cbtch (PbrseException e) {}
  *     }
  * }
  * }</pre></blockquote>
  *
- * @see          <a href="http://docs.oracle.com/javase/tutorial/i18n/format/decimalFormat.html">Java Tutorial</a>
- * @see          NumberFormat
- * @see          DecimalFormatSymbols
- * @see          ParsePosition
- * @author       Mark Davis
- * @author       Alan Liu
+ * @see          <b href="http://docs.orbcle.com/jbvbse/tutoribl/i18n/formbt/decimblFormbt.html">Jbvb Tutoribl</b>
+ * @see          NumberFormbt
+ * @see          DecimblFormbtSymbols
+ * @see          PbrsePosition
+ * @buthor       Mbrk Dbvis
+ * @buthor       Albn Liu
  */
-public class DecimalFormat extends NumberFormat {
+public clbss DecimblFormbt extends NumberFormbt {
 
     /**
-     * Creates a DecimalFormat using the default pattern and symbols
-     * for the default {@link java.util.Locale.Category#FORMAT FORMAT} locale.
-     * This is a convenient way to obtain a
-     * DecimalFormat when internationalization is not the main concern.
+     * Crebtes b DecimblFormbt using the defbult pbttern bnd symbols
+     * for the defbult {@link jbvb.util.Locble.Cbtegory#FORMAT FORMAT} locble.
+     * This is b convenient wby to obtbin b
+     * DecimblFormbt when internbtionblizbtion is not the mbin concern.
      * <p>
-     * To obtain standard formats for a given locale, use the factory methods
-     * on NumberFormat such as getNumberInstance. These factories will
-     * return the most appropriate sub-class of NumberFormat for a given
-     * locale.
+     * To obtbin stbndbrd formbts for b given locble, use the fbctory methods
+     * on NumberFormbt such bs getNumberInstbnce. These fbctories will
+     * return the most bppropribte sub-clbss of NumberFormbt for b given
+     * locble.
      *
-     * @see java.text.NumberFormat#getInstance
-     * @see java.text.NumberFormat#getNumberInstance
-     * @see java.text.NumberFormat#getCurrencyInstance
-     * @see java.text.NumberFormat#getPercentInstance
+     * @see jbvb.text.NumberFormbt#getInstbnce
+     * @see jbvb.text.NumberFormbt#getNumberInstbnce
+     * @see jbvb.text.NumberFormbt#getCurrencyInstbnce
+     * @see jbvb.text.NumberFormbt#getPercentInstbnce
      */
-    public DecimalFormat() {
-        // Get the pattern for the default locale.
-        Locale def = Locale.getDefault(Locale.Category.FORMAT);
-        LocaleProviderAdapter adapter = LocaleProviderAdapter.getAdapter(NumberFormatProvider.class, def);
-        if (!(adapter instanceof ResourceBundleBasedAdapter)) {
-            adapter = LocaleProviderAdapter.getResourceBundleBased();
+    public DecimblFormbt() {
+        // Get the pbttern for the defbult locble.
+        Locble def = Locble.getDefbult(Locble.Cbtegory.FORMAT);
+        LocbleProviderAdbpter bdbpter = LocbleProviderAdbpter.getAdbpter(NumberFormbtProvider.clbss, def);
+        if (!(bdbpter instbnceof ResourceBundleBbsedAdbpter)) {
+            bdbpter = LocbleProviderAdbpter.getResourceBundleBbsed();
         }
-        String[] all = adapter.getLocaleResources(def).getNumberPatterns();
+        String[] bll = bdbpter.getLocbleResources(def).getNumberPbtterns();
 
-        // Always applyPattern after the symbols are set
-        this.symbols = DecimalFormatSymbols.getInstance(def);
-        applyPattern(all[0], false);
+        // Alwbys bpplyPbttern bfter the symbols bre set
+        this.symbols = DecimblFormbtSymbols.getInstbnce(def);
+        bpplyPbttern(bll[0], fblse);
     }
 
 
     /**
-     * Creates a DecimalFormat using the given pattern and the symbols
-     * for the default {@link java.util.Locale.Category#FORMAT FORMAT} locale.
-     * This is a convenient way to obtain a
-     * DecimalFormat when internationalization is not the main concern.
+     * Crebtes b DecimblFormbt using the given pbttern bnd the symbols
+     * for the defbult {@link jbvb.util.Locble.Cbtegory#FORMAT FORMAT} locble.
+     * This is b convenient wby to obtbin b
+     * DecimblFormbt when internbtionblizbtion is not the mbin concern.
      * <p>
-     * To obtain standard formats for a given locale, use the factory methods
-     * on NumberFormat such as getNumberInstance. These factories will
-     * return the most appropriate sub-class of NumberFormat for a given
-     * locale.
+     * To obtbin stbndbrd formbts for b given locble, use the fbctory methods
+     * on NumberFormbt such bs getNumberInstbnce. These fbctories will
+     * return the most bppropribte sub-clbss of NumberFormbt for b given
+     * locble.
      *
-     * @param pattern a non-localized pattern string.
-     * @exception NullPointerException if <code>pattern</code> is null
-     * @exception IllegalArgumentException if the given pattern is invalid.
-     * @see java.text.NumberFormat#getInstance
-     * @see java.text.NumberFormat#getNumberInstance
-     * @see java.text.NumberFormat#getCurrencyInstance
-     * @see java.text.NumberFormat#getPercentInstance
+     * @pbrbm pbttern b non-locblized pbttern string.
+     * @exception NullPointerException if <code>pbttern</code> is null
+     * @exception IllegblArgumentException if the given pbttern is invblid.
+     * @see jbvb.text.NumberFormbt#getInstbnce
+     * @see jbvb.text.NumberFormbt#getNumberInstbnce
+     * @see jbvb.text.NumberFormbt#getCurrencyInstbnce
+     * @see jbvb.text.NumberFormbt#getPercentInstbnce
      */
-    public DecimalFormat(String pattern) {
-        // Always applyPattern after the symbols are set
-        this.symbols = DecimalFormatSymbols.getInstance(Locale.getDefault(Locale.Category.FORMAT));
-        applyPattern(pattern, false);
+    public DecimblFormbt(String pbttern) {
+        // Alwbys bpplyPbttern bfter the symbols bre set
+        this.symbols = DecimblFormbtSymbols.getInstbnce(Locble.getDefbult(Locble.Cbtegory.FORMAT));
+        bpplyPbttern(pbttern, fblse);
     }
 
 
     /**
-     * Creates a DecimalFormat using the given pattern and symbols.
+     * Crebtes b DecimblFormbt using the given pbttern bnd symbols.
      * Use this constructor when you need to completely customize the
-     * behavior of the format.
+     * behbvior of the formbt.
      * <p>
-     * To obtain standard formats for a given
-     * locale, use the factory methods on NumberFormat such as
-     * getInstance or getCurrencyInstance. If you need only minor adjustments
-     * to a standard format, you can modify the format returned by
-     * a NumberFormat factory method.
+     * To obtbin stbndbrd formbts for b given
+     * locble, use the fbctory methods on NumberFormbt such bs
+     * getInstbnce or getCurrencyInstbnce. If you need only minor bdjustments
+     * to b stbndbrd formbt, you cbn modify the formbt returned by
+     * b NumberFormbt fbctory method.
      *
-     * @param pattern a non-localized pattern string
-     * @param symbols the set of symbols to be used
-     * @exception NullPointerException if any of the given arguments is null
-     * @exception IllegalArgumentException if the given pattern is invalid
-     * @see java.text.NumberFormat#getInstance
-     * @see java.text.NumberFormat#getNumberInstance
-     * @see java.text.NumberFormat#getCurrencyInstance
-     * @see java.text.NumberFormat#getPercentInstance
-     * @see java.text.DecimalFormatSymbols
+     * @pbrbm pbttern b non-locblized pbttern string
+     * @pbrbm symbols the set of symbols to be used
+     * @exception NullPointerException if bny of the given brguments is null
+     * @exception IllegblArgumentException if the given pbttern is invblid
+     * @see jbvb.text.NumberFormbt#getInstbnce
+     * @see jbvb.text.NumberFormbt#getNumberInstbnce
+     * @see jbvb.text.NumberFormbt#getCurrencyInstbnce
+     * @see jbvb.text.NumberFormbt#getPercentInstbnce
+     * @see jbvb.text.DecimblFormbtSymbols
      */
-    public DecimalFormat (String pattern, DecimalFormatSymbols symbols) {
-        // Always applyPattern after the symbols are set
-        this.symbols = (DecimalFormatSymbols)symbols.clone();
-        applyPattern(pattern, false);
+    public DecimblFormbt (String pbttern, DecimblFormbtSymbols symbols) {
+        // Alwbys bpplyPbttern bfter the symbols bre set
+        this.symbols = (DecimblFormbtSymbols)symbols.clone();
+        bpplyPbttern(pbttern, fblse);
     }
 
 
     // Overrides
     /**
-     * Formats a number and appends the resulting text to the given string
+     * Formbts b number bnd bppends the resulting text to the given string
      * buffer.
-     * The number can be of any subclass of {@link java.lang.Number}.
+     * The number cbn be of bny subclbss of {@link jbvb.lbng.Number}.
      * <p>
-     * This implementation uses the maximum precision permitted.
-     * @param number     the number to format
-     * @param toAppendTo the <code>StringBuffer</code> to which the formatted
-     *                   text is to be appended
-     * @param pos        On input: an alignment field, if desired.
-     *                   On output: the offsets of the alignment field.
-     * @return           the value passed in as <code>toAppendTo</code>
-     * @exception        IllegalArgumentException if <code>number</code> is
-     *                   null or not an instance of <code>Number</code>.
+     * This implementbtion uses the mbximum precision permitted.
+     * @pbrbm number     the number to formbt
+     * @pbrbm toAppendTo the <code>StringBuffer</code> to which the formbtted
+     *                   text is to be bppended
+     * @pbrbm pos        On input: bn blignment field, if desired.
+     *                   On output: the offsets of the blignment field.
+     * @return           the vblue pbssed in bs <code>toAppendTo</code>
+     * @exception        IllegblArgumentException if <code>number</code> is
+     *                   null or not bn instbnce of <code>Number</code>.
      * @exception        NullPointerException if <code>toAppendTo</code> or
      *                   <code>pos</code> is null
      * @exception        ArithmeticException if rounding is needed with rounding
      *                   mode being set to RoundingMode.UNNECESSARY
-     * @see              java.text.FieldPosition
+     * @see              jbvb.text.FieldPosition
      */
     @Override
-    public final StringBuffer format(Object number,
+    public finbl StringBuffer formbt(Object number,
                                      StringBuffer toAppendTo,
                                      FieldPosition pos) {
-        if (number instanceof Long || number instanceof Integer ||
-                   number instanceof Short || number instanceof Byte ||
-                   number instanceof AtomicInteger ||
-                   number instanceof AtomicLong ||
-                   (number instanceof BigInteger &&
+        if (number instbnceof Long || number instbnceof Integer ||
+                   number instbnceof Short || number instbnceof Byte ||
+                   number instbnceof AtomicInteger ||
+                   number instbnceof AtomicLong ||
+                   (number instbnceof BigInteger &&
                     ((BigInteger)number).bitLength () < 64)) {
-            return format(((Number)number).longValue(), toAppendTo, pos);
-        } else if (number instanceof BigDecimal) {
-            return format((BigDecimal)number, toAppendTo, pos);
-        } else if (number instanceof BigInteger) {
-            return format((BigInteger)number, toAppendTo, pos);
-        } else if (number instanceof Number) {
-            return format(((Number)number).doubleValue(), toAppendTo, pos);
+            return formbt(((Number)number).longVblue(), toAppendTo, pos);
+        } else if (number instbnceof BigDecimbl) {
+            return formbt((BigDecimbl)number, toAppendTo, pos);
+        } else if (number instbnceof BigInteger) {
+            return formbt((BigInteger)number, toAppendTo, pos);
+        } else if (number instbnceof Number) {
+            return formbt(((Number)number).doubleVblue(), toAppendTo, pos);
         } else {
-            throw new IllegalArgumentException("Cannot format given Object as a Number");
+            throw new IllegblArgumentException("Cbnnot formbt given Object bs b Number");
         }
     }
 
     /**
-     * Formats a double to produce a string.
-     * @param number    The double to format
-     * @param result    where the text is to be appended
-     * @param fieldPosition    On input: an alignment field, if desired.
-     * On output: the offsets of the alignment field.
+     * Formbts b double to produce b string.
+     * @pbrbm number    The double to formbt
+     * @pbrbm result    where the text is to be bppended
+     * @pbrbm fieldPosition    On input: bn blignment field, if desired.
+     * On output: the offsets of the blignment field.
      * @exception ArithmeticException if rounding is needed with rounding
      *            mode being set to RoundingMode.UNNECESSARY
-     * @return The formatted number string
-     * @see java.text.FieldPosition
+     * @return The formbtted number string
+     * @see jbvb.text.FieldPosition
      */
     @Override
-    public StringBuffer format(double number, StringBuffer result,
+    public StringBuffer formbt(double number, StringBuffer result,
                                FieldPosition fieldPosition) {
-        // If fieldPosition is a DontCareFieldPosition instance we can
-        // try to go to fast-path code.
-        boolean tryFastPath = false;
-        if (fieldPosition == DontCareFieldPosition.INSTANCE)
-            tryFastPath = true;
+        // If fieldPosition is b DontCbreFieldPosition instbnce we cbn
+        // try to go to fbst-pbth code.
+        boolebn tryFbstPbth = fblse;
+        if (fieldPosition == DontCbreFieldPosition.INSTANCE)
+            tryFbstPbth = true;
         else {
             fieldPosition.setBeginIndex(0);
             fieldPosition.setEndIndex(0);
         }
 
-        if (tryFastPath) {
-            String tempResult = fastFormat(number);
+        if (tryFbstPbth) {
+            String tempResult = fbstFormbt(number);
             if (tempResult != null) {
-                result.append(tempResult);
+                result.bppend(tempResult);
                 return result;
             }
         }
 
-        // if fast-path could not work, we fallback to standard code.
-        return format(number, result, fieldPosition.getFieldDelegate());
+        // if fbst-pbth could not work, we fbllbbck to stbndbrd code.
+        return formbt(number, result, fieldPosition.getFieldDelegbte());
     }
 
     /**
-     * Formats a double to produce a string.
-     * @param number    The double to format
-     * @param result    where the text is to be appended
-     * @param delegate notified of locations of sub fields
+     * Formbts b double to produce b string.
+     * @pbrbm number    The double to formbt
+     * @pbrbm result    where the text is to be bppended
+     * @pbrbm delegbte notified of locbtions of sub fields
      * @exception       ArithmeticException if rounding is needed with rounding
      *                  mode being set to RoundingMode.UNNECESSARY
-     * @return The formatted number string
+     * @return The formbtted number string
      */
-    private StringBuffer format(double number, StringBuffer result,
-                                FieldDelegate delegate) {
-        if (Double.isNaN(number) ||
+    privbte StringBuffer formbt(double number, StringBuffer result,
+                                FieldDelegbte delegbte) {
+        if (Double.isNbN(number) ||
            (Double.isInfinite(number) && multiplier == 0)) {
-            int iFieldStart = result.length();
-            result.append(symbols.getNaN());
-            delegate.formatted(INTEGER_FIELD, Field.INTEGER, Field.INTEGER,
-                               iFieldStart, result.length(), result);
+            int iFieldStbrt = result.length();
+            result.bppend(symbols.getNbN());
+            delegbte.formbtted(INTEGER_FIELD, Field.INTEGER, Field.INTEGER,
+                               iFieldStbrt, result.length(), result);
             return result;
         }
 
-        /* Detecting whether a double is negative is easy with the exception of
-         * the value -0.0.  This is a double which has a zero mantissa (and
-         * exponent), but a negative sign bit.  It is semantically distinct from
-         * a zero with a positive sign bit, and this distinction is important
-         * to certain kinds of computations.  However, it's a little tricky to
-         * detect, since (-0.0 == 0.0) and !(-0.0 < 0.0).  How then, you may
-         * ask, does it behave distinctly from +0.0?  Well, 1/(-0.0) ==
-         * -Infinity.  Proper detection of -0.0 is needed to deal with the
-         * issues raised by bugs 4106658, 4106667, and 4147706.  Liu 7/6/98.
+        /* Detecting whether b double is negbtive is ebsy with the exception of
+         * the vblue -0.0.  This is b double which hbs b zero mbntissb (bnd
+         * exponent), but b negbtive sign bit.  It is sembnticblly distinct from
+         * b zero with b positive sign bit, bnd this distinction is importbnt
+         * to certbin kinds of computbtions.  However, it's b little tricky to
+         * detect, since (-0.0 == 0.0) bnd !(-0.0 < 0.0).  How then, you mby
+         * bsk, does it behbve distinctly from +0.0?  Well, 1/(-0.0) ==
+         * -Infinity.  Proper detection of -0.0 is needed to debl with the
+         * issues rbised by bugs 4106658, 4106667, bnd 4147706.  Liu 7/6/98.
          */
-        boolean isNegative = ((number < 0.0) || (number == 0.0 && 1/number < 0.0)) ^ (multiplier < 0);
+        boolebn isNegbtive = ((number < 0.0) || (number == 0.0 && 1/number < 0.0)) ^ (multiplier < 0);
 
         if (multiplier != 1) {
             number *= multiplier;
         }
 
         if (Double.isInfinite(number)) {
-            if (isNegative) {
-                append(result, negativePrefix, delegate,
-                       getNegativePrefixFieldPositions(), Field.SIGN);
+            if (isNegbtive) {
+                bppend(result, negbtivePrefix, delegbte,
+                       getNegbtivePrefixFieldPositions(), Field.SIGN);
             } else {
-                append(result, positivePrefix, delegate,
+                bppend(result, positivePrefix, delegbte,
                        getPositivePrefixFieldPositions(), Field.SIGN);
             }
 
-            int iFieldStart = result.length();
-            result.append(symbols.getInfinity());
-            delegate.formatted(INTEGER_FIELD, Field.INTEGER, Field.INTEGER,
-                               iFieldStart, result.length(), result);
+            int iFieldStbrt = result.length();
+            result.bppend(symbols.getInfinity());
+            delegbte.formbtted(INTEGER_FIELD, Field.INTEGER, Field.INTEGER,
+                               iFieldStbrt, result.length(), result);
 
-            if (isNegative) {
-                append(result, negativeSuffix, delegate,
-                       getNegativeSuffixFieldPositions(), Field.SIGN);
+            if (isNegbtive) {
+                bppend(result, negbtiveSuffix, delegbte,
+                       getNegbtiveSuffixFieldPositions(), Field.SIGN);
             } else {
-                append(result, positiveSuffix, delegate,
+                bppend(result, positiveSuffix, delegbte,
                        getPositiveSuffixFieldPositions(), Field.SIGN);
             }
 
             return result;
         }
 
-        if (isNegative) {
+        if (isNegbtive) {
             number = -number;
         }
 
-        // at this point we are guaranteed a nonnegative finite number.
-        assert(number >= 0 && !Double.isInfinite(number));
+        // bt this point we bre gubrbnteed b nonnegbtive finite number.
+        bssert(number >= 0 && !Double.isInfinite(number));
 
         synchronized(digitList) {
-            int maxIntDigits = super.getMaximumIntegerDigits();
+            int mbxIntDigits = super.getMbximumIntegerDigits();
             int minIntDigits = super.getMinimumIntegerDigits();
-            int maxFraDigits = super.getMaximumFractionDigits();
-            int minFraDigits = super.getMinimumFractionDigits();
+            int mbxFrbDigits = super.getMbximumFrbctionDigits();
+            int minFrbDigits = super.getMinimumFrbctionDigits();
 
-            digitList.set(isNegative, number, useExponentialNotation ?
-                          maxIntDigits + maxFraDigits : maxFraDigits,
-                          !useExponentialNotation);
-            return subformat(result, delegate, isNegative, false,
-                       maxIntDigits, minIntDigits, maxFraDigits, minFraDigits);
+            digitList.set(isNegbtive, number, useExponentiblNotbtion ?
+                          mbxIntDigits + mbxFrbDigits : mbxFrbDigits,
+                          !useExponentiblNotbtion);
+            return subformbt(result, delegbte, isNegbtive, fblse,
+                       mbxIntDigits, minIntDigits, mbxFrbDigits, minFrbDigits);
         }
     }
 
     /**
-     * Format a long to produce a string.
-     * @param number    The long to format
-     * @param result    where the text is to be appended
-     * @param fieldPosition    On input: an alignment field, if desired.
-     * On output: the offsets of the alignment field.
+     * Formbt b long to produce b string.
+     * @pbrbm number    The long to formbt
+     * @pbrbm result    where the text is to be bppended
+     * @pbrbm fieldPosition    On input: bn blignment field, if desired.
+     * On output: the offsets of the blignment field.
      * @exception       ArithmeticException if rounding is needed with rounding
      *                  mode being set to RoundingMode.UNNECESSARY
-     * @return The formatted number string
-     * @see java.text.FieldPosition
+     * @return The formbtted number string
+     * @see jbvb.text.FieldPosition
      */
     @Override
-    public StringBuffer format(long number, StringBuffer result,
+    public StringBuffer formbt(long number, StringBuffer result,
                                FieldPosition fieldPosition) {
         fieldPosition.setBeginIndex(0);
         fieldPosition.setEndIndex(0);
 
-        return format(number, result, fieldPosition.getFieldDelegate());
+        return formbt(number, result, fieldPosition.getFieldDelegbte());
     }
 
     /**
-     * Format a long to produce a string.
-     * @param number    The long to format
-     * @param result    where the text is to be appended
-     * @param delegate notified of locations of sub fields
-     * @return The formatted number string
+     * Formbt b long to produce b string.
+     * @pbrbm number    The long to formbt
+     * @pbrbm result    where the text is to be bppended
+     * @pbrbm delegbte notified of locbtions of sub fields
+     * @return The formbtted number string
      * @exception        ArithmeticException if rounding is needed with rounding
      *                   mode being set to RoundingMode.UNNECESSARY
-     * @see java.text.FieldPosition
+     * @see jbvb.text.FieldPosition
      */
-    private StringBuffer format(long number, StringBuffer result,
-                               FieldDelegate delegate) {
-        boolean isNegative = (number < 0);
-        if (isNegative) {
+    privbte StringBuffer formbt(long number, StringBuffer result,
+                               FieldDelegbte delegbte) {
+        boolebn isNegbtive = (number < 0);
+        if (isNegbtive) {
             number = -number;
         }
 
-        // In general, long values always represent real finite numbers, so
-        // we don't have to check for +/- Infinity or NaN.  However, there
-        // is one case we have to be careful of:  The multiplier can push
-        // a number near MIN_VALUE or MAX_VALUE outside the legal range.  We
-        // check for this before multiplying, and if it happens we use
-        // BigInteger instead.
-        boolean useBigInteger = false;
-        if (number < 0) { // This can only happen if number == Long.MIN_VALUE.
+        // In generbl, long vblues blwbys represent rebl finite numbers, so
+        // we don't hbve to check for +/- Infinity or NbN.  However, there
+        // is one cbse we hbve to be cbreful of:  The multiplier cbn push
+        // b number nebr MIN_VALUE or MAX_VALUE outside the legbl rbnge.  We
+        // check for this before multiplying, bnd if it hbppens we use
+        // BigInteger instebd.
+        boolebn useBigInteger = fblse;
+        if (number < 0) { // This cbn only hbppen if number == Long.MIN_VALUE.
             if (multiplier != 0) {
                 useBigInteger = true;
             }
@@ -683,614 +683,614 @@ public class DecimalFormat extends NumberFormat {
         }
 
         if (useBigInteger) {
-            if (isNegative) {
+            if (isNegbtive) {
                 number = -number;
             }
-            BigInteger bigIntegerValue = BigInteger.valueOf(number);
-            return format(bigIntegerValue, result, delegate, true);
+            BigInteger bigIntegerVblue = BigInteger.vblueOf(number);
+            return formbt(bigIntegerVblue, result, delegbte, true);
         }
 
         number *= multiplier;
         if (number == 0) {
-            isNegative = false;
+            isNegbtive = fblse;
         } else {
             if (multiplier < 0) {
                 number = -number;
-                isNegative = !isNegative;
+                isNegbtive = !isNegbtive;
             }
         }
 
         synchronized(digitList) {
-            int maxIntDigits = super.getMaximumIntegerDigits();
+            int mbxIntDigits = super.getMbximumIntegerDigits();
             int minIntDigits = super.getMinimumIntegerDigits();
-            int maxFraDigits = super.getMaximumFractionDigits();
-            int minFraDigits = super.getMinimumFractionDigits();
+            int mbxFrbDigits = super.getMbximumFrbctionDigits();
+            int minFrbDigits = super.getMinimumFrbctionDigits();
 
-            digitList.set(isNegative, number,
-                     useExponentialNotation ? maxIntDigits + maxFraDigits : 0);
+            digitList.set(isNegbtive, number,
+                     useExponentiblNotbtion ? mbxIntDigits + mbxFrbDigits : 0);
 
-            return subformat(result, delegate, isNegative, true,
-                       maxIntDigits, minIntDigits, maxFraDigits, minFraDigits);
+            return subformbt(result, delegbte, isNegbtive, true,
+                       mbxIntDigits, minIntDigits, mbxFrbDigits, minFrbDigits);
         }
     }
 
     /**
-     * Formats a BigDecimal to produce a string.
-     * @param number    The BigDecimal to format
-     * @param result    where the text is to be appended
-     * @param fieldPosition    On input: an alignment field, if desired.
-     * On output: the offsets of the alignment field.
-     * @return The formatted number string
+     * Formbts b BigDecimbl to produce b string.
+     * @pbrbm number    The BigDecimbl to formbt
+     * @pbrbm result    where the text is to be bppended
+     * @pbrbm fieldPosition    On input: bn blignment field, if desired.
+     * On output: the offsets of the blignment field.
+     * @return The formbtted number string
      * @exception        ArithmeticException if rounding is needed with rounding
      *                   mode being set to RoundingMode.UNNECESSARY
-     * @see java.text.FieldPosition
+     * @see jbvb.text.FieldPosition
      */
-    private StringBuffer format(BigDecimal number, StringBuffer result,
+    privbte StringBuffer formbt(BigDecimbl number, StringBuffer result,
                                 FieldPosition fieldPosition) {
         fieldPosition.setBeginIndex(0);
         fieldPosition.setEndIndex(0);
-        return format(number, result, fieldPosition.getFieldDelegate());
+        return formbt(number, result, fieldPosition.getFieldDelegbte());
     }
 
     /**
-     * Formats a BigDecimal to produce a string.
-     * @param number    The BigDecimal to format
-     * @param result    where the text is to be appended
-     * @param delegate notified of locations of sub fields
+     * Formbts b BigDecimbl to produce b string.
+     * @pbrbm number    The BigDecimbl to formbt
+     * @pbrbm result    where the text is to be bppended
+     * @pbrbm delegbte notified of locbtions of sub fields
      * @exception        ArithmeticException if rounding is needed with rounding
      *                   mode being set to RoundingMode.UNNECESSARY
-     * @return The formatted number string
+     * @return The formbtted number string
      */
-    private StringBuffer format(BigDecimal number, StringBuffer result,
-                                FieldDelegate delegate) {
+    privbte StringBuffer formbt(BigDecimbl number, StringBuffer result,
+                                FieldDelegbte delegbte) {
         if (multiplier != 1) {
-            number = number.multiply(getBigDecimalMultiplier());
+            number = number.multiply(getBigDecimblMultiplier());
         }
-        boolean isNegative = number.signum() == -1;
-        if (isNegative) {
-            number = number.negate();
+        boolebn isNegbtive = number.signum() == -1;
+        if (isNegbtive) {
+            number = number.negbte();
         }
 
         synchronized(digitList) {
-            int maxIntDigits = getMaximumIntegerDigits();
+            int mbxIntDigits = getMbximumIntegerDigits();
             int minIntDigits = getMinimumIntegerDigits();
-            int maxFraDigits = getMaximumFractionDigits();
-            int minFraDigits = getMinimumFractionDigits();
-            int maximumDigits = maxIntDigits + maxFraDigits;
+            int mbxFrbDigits = getMbximumFrbctionDigits();
+            int minFrbDigits = getMinimumFrbctionDigits();
+            int mbximumDigits = mbxIntDigits + mbxFrbDigits;
 
-            digitList.set(isNegative, number, useExponentialNotation ?
-                ((maximumDigits < 0) ? Integer.MAX_VALUE : maximumDigits) :
-                maxFraDigits, !useExponentialNotation);
+            digitList.set(isNegbtive, number, useExponentiblNotbtion ?
+                ((mbximumDigits < 0) ? Integer.MAX_VALUE : mbximumDigits) :
+                mbxFrbDigits, !useExponentiblNotbtion);
 
-            return subformat(result, delegate, isNegative, false,
-                maxIntDigits, minIntDigits, maxFraDigits, minFraDigits);
+            return subformbt(result, delegbte, isNegbtive, fblse,
+                mbxIntDigits, minIntDigits, mbxFrbDigits, minFrbDigits);
         }
     }
 
     /**
-     * Format a BigInteger to produce a string.
-     * @param number    The BigInteger to format
-     * @param result    where the text is to be appended
-     * @param fieldPosition    On input: an alignment field, if desired.
-     * On output: the offsets of the alignment field.
-     * @return The formatted number string
+     * Formbt b BigInteger to produce b string.
+     * @pbrbm number    The BigInteger to formbt
+     * @pbrbm result    where the text is to be bppended
+     * @pbrbm fieldPosition    On input: bn blignment field, if desired.
+     * On output: the offsets of the blignment field.
+     * @return The formbtted number string
      * @exception        ArithmeticException if rounding is needed with rounding
      *                   mode being set to RoundingMode.UNNECESSARY
-     * @see java.text.FieldPosition
+     * @see jbvb.text.FieldPosition
      */
-    private StringBuffer format(BigInteger number, StringBuffer result,
+    privbte StringBuffer formbt(BigInteger number, StringBuffer result,
                                FieldPosition fieldPosition) {
         fieldPosition.setBeginIndex(0);
         fieldPosition.setEndIndex(0);
 
-        return format(number, result, fieldPosition.getFieldDelegate(), false);
+        return formbt(number, result, fieldPosition.getFieldDelegbte(), fblse);
     }
 
     /**
-     * Format a BigInteger to produce a string.
-     * @param number    The BigInteger to format
-     * @param result    where the text is to be appended
-     * @param delegate notified of locations of sub fields
-     * @return The formatted number string
+     * Formbt b BigInteger to produce b string.
+     * @pbrbm number    The BigInteger to formbt
+     * @pbrbm result    where the text is to be bppended
+     * @pbrbm delegbte notified of locbtions of sub fields
+     * @return The formbtted number string
      * @exception        ArithmeticException if rounding is needed with rounding
      *                   mode being set to RoundingMode.UNNECESSARY
-     * @see java.text.FieldPosition
+     * @see jbvb.text.FieldPosition
      */
-    private StringBuffer format(BigInteger number, StringBuffer result,
-                               FieldDelegate delegate, boolean formatLong) {
+    privbte StringBuffer formbt(BigInteger number, StringBuffer result,
+                               FieldDelegbte delegbte, boolebn formbtLong) {
         if (multiplier != 1) {
             number = number.multiply(getBigIntegerMultiplier());
         }
-        boolean isNegative = number.signum() == -1;
-        if (isNegative) {
-            number = number.negate();
+        boolebn isNegbtive = number.signum() == -1;
+        if (isNegbtive) {
+            number = number.negbte();
         }
 
         synchronized(digitList) {
-            int maxIntDigits, minIntDigits, maxFraDigits, minFraDigits, maximumDigits;
-            if (formatLong) {
-                maxIntDigits = super.getMaximumIntegerDigits();
+            int mbxIntDigits, minIntDigits, mbxFrbDigits, minFrbDigits, mbximumDigits;
+            if (formbtLong) {
+                mbxIntDigits = super.getMbximumIntegerDigits();
                 minIntDigits = super.getMinimumIntegerDigits();
-                maxFraDigits = super.getMaximumFractionDigits();
-                minFraDigits = super.getMinimumFractionDigits();
-                maximumDigits = maxIntDigits + maxFraDigits;
+                mbxFrbDigits = super.getMbximumFrbctionDigits();
+                minFrbDigits = super.getMinimumFrbctionDigits();
+                mbximumDigits = mbxIntDigits + mbxFrbDigits;
             } else {
-                maxIntDigits = getMaximumIntegerDigits();
+                mbxIntDigits = getMbximumIntegerDigits();
                 minIntDigits = getMinimumIntegerDigits();
-                maxFraDigits = getMaximumFractionDigits();
-                minFraDigits = getMinimumFractionDigits();
-                maximumDigits = maxIntDigits + maxFraDigits;
-                if (maximumDigits < 0) {
-                    maximumDigits = Integer.MAX_VALUE;
+                mbxFrbDigits = getMbximumFrbctionDigits();
+                minFrbDigits = getMinimumFrbctionDigits();
+                mbximumDigits = mbxIntDigits + mbxFrbDigits;
+                if (mbximumDigits < 0) {
+                    mbximumDigits = Integer.MAX_VALUE;
                 }
             }
 
-            digitList.set(isNegative, number,
-                          useExponentialNotation ? maximumDigits : 0);
+            digitList.set(isNegbtive, number,
+                          useExponentiblNotbtion ? mbximumDigits : 0);
 
-            return subformat(result, delegate, isNegative, true,
-                maxIntDigits, minIntDigits, maxFraDigits, minFraDigits);
+            return subformbt(result, delegbte, isNegbtive, true,
+                mbxIntDigits, minIntDigits, mbxFrbDigits, minFrbDigits);
         }
     }
 
     /**
-     * Formats an Object producing an <code>AttributedCharacterIterator</code>.
-     * You can use the returned <code>AttributedCharacterIterator</code>
-     * to build the resulting String, as well as to determine information
-     * about the resulting String.
+     * Formbts bn Object producing bn <code>AttributedChbrbcterIterbtor</code>.
+     * You cbn use the returned <code>AttributedChbrbcterIterbtor</code>
+     * to build the resulting String, bs well bs to determine informbtion
+     * bbout the resulting String.
      * <p>
-     * Each attribute key of the AttributedCharacterIterator will be of type
-     * <code>NumberFormat.Field</code>, with the attribute value being the
-     * same as the attribute key.
+     * Ebch bttribute key of the AttributedChbrbcterIterbtor will be of type
+     * <code>NumberFormbt.Field</code>, with the bttribute vblue being the
+     * sbme bs the bttribute key.
      *
      * @exception NullPointerException if obj is null.
-     * @exception IllegalArgumentException when the Format cannot format the
+     * @exception IllegblArgumentException when the Formbt cbnnot formbt the
      *            given object.
      * @exception        ArithmeticException if rounding is needed with rounding
      *                   mode being set to RoundingMode.UNNECESSARY
-     * @param obj The object to format
-     * @return AttributedCharacterIterator describing the formatted value.
+     * @pbrbm obj The object to formbt
+     * @return AttributedChbrbcterIterbtor describing the formbtted vblue.
      * @since 1.4
      */
     @Override
-    public AttributedCharacterIterator formatToCharacterIterator(Object obj) {
-        CharacterIteratorFieldDelegate delegate =
-                         new CharacterIteratorFieldDelegate();
+    public AttributedChbrbcterIterbtor formbtToChbrbcterIterbtor(Object obj) {
+        ChbrbcterIterbtorFieldDelegbte delegbte =
+                         new ChbrbcterIterbtorFieldDelegbte();
         StringBuffer sb = new StringBuffer();
 
-        if (obj instanceof Double || obj instanceof Float) {
-            format(((Number)obj).doubleValue(), sb, delegate);
-        } else if (obj instanceof Long || obj instanceof Integer ||
-                   obj instanceof Short || obj instanceof Byte ||
-                   obj instanceof AtomicInteger || obj instanceof AtomicLong) {
-            format(((Number)obj).longValue(), sb, delegate);
-        } else if (obj instanceof BigDecimal) {
-            format((BigDecimal)obj, sb, delegate);
-        } else if (obj instanceof BigInteger) {
-            format((BigInteger)obj, sb, delegate, false);
+        if (obj instbnceof Double || obj instbnceof Flobt) {
+            formbt(((Number)obj).doubleVblue(), sb, delegbte);
+        } else if (obj instbnceof Long || obj instbnceof Integer ||
+                   obj instbnceof Short || obj instbnceof Byte ||
+                   obj instbnceof AtomicInteger || obj instbnceof AtomicLong) {
+            formbt(((Number)obj).longVblue(), sb, delegbte);
+        } else if (obj instbnceof BigDecimbl) {
+            formbt((BigDecimbl)obj, sb, delegbte);
+        } else if (obj instbnceof BigInteger) {
+            formbt((BigInteger)obj, sb, delegbte, fblse);
         } else if (obj == null) {
             throw new NullPointerException(
-                "formatToCharacterIterator must be passed non-null object");
+                "formbtToChbrbcterIterbtor must be pbssed non-null object");
         } else {
-            throw new IllegalArgumentException(
-                "Cannot format given Object as a Number");
+            throw new IllegblArgumentException(
+                "Cbnnot formbt given Object bs b Number");
         }
-        return delegate.getIterator(sb.toString());
+        return delegbte.getIterbtor(sb.toString());
     }
 
-    // ==== Begin fast-path formating logic for double =========================
+    // ==== Begin fbst-pbth formbting logic for double =========================
 
-    /* Fast-path formatting will be used for format(double ...) methods iff a
-     * number of conditions are met (see checkAndSetFastPathStatus()):
-     * - Only if instance properties meet the right predefined conditions.
-     * - The abs value of the double to format is <= Integer.MAX_VALUE.
+    /* Fbst-pbth formbtting will be used for formbt(double ...) methods iff b
+     * number of conditions bre met (see checkAndSetFbstPbthStbtus()):
+     * - Only if instbnce properties meet the right predefined conditions.
+     * - The bbs vblue of the double to formbt is <= Integer.MAX_VALUE.
      *
-     * The basic approach is to split the binary to decimal conversion of a
-     * double value into two phases:
+     * The bbsic bpprobch is to split the binbry to decimbl conversion of b
+     * double vblue into two phbses:
      * * The conversion of the integer portion of the double.
-     * * The conversion of the fractional portion of the double
+     * * The conversion of the frbctionbl portion of the double
      *   (limited to two or three digits).
      *
-     * The isolation and conversion of the integer portion of the double is
-     * straightforward. The conversion of the fraction is more subtle and relies
-     * on some rounding properties of double to the decimal precisions in
-     * question.  Using the terminology of BigDecimal, this fast-path algorithm
-     * is applied when a double value has a magnitude less than Integer.MAX_VALUE
-     * and rounding is to nearest even and the destination format has two or
-     * three digits of *scale* (digits after the decimal point).
+     * The isolbtion bnd conversion of the integer portion of the double is
+     * strbightforwbrd. The conversion of the frbction is more subtle bnd relies
+     * on some rounding properties of double to the decimbl precisions in
+     * question.  Using the terminology of BigDecimbl, this fbst-pbth blgorithm
+     * is bpplied when b double vblue hbs b mbgnitude less thbn Integer.MAX_VALUE
+     * bnd rounding is to nebrest even bnd the destinbtion formbt hbs two or
+     * three digits of *scble* (digits bfter the decimbl point).
      *
-     * Under a rounding to nearest even policy, the returned result is a digit
-     * string of a number in the (in this case decimal) destination format
-     * closest to the exact numerical value of the (in this case binary) input
-     * value.  If two destination format numbers are equally distant, the one
-     * with the last digit even is returned.  To compute such a correctly rounded
-     * value, some information about digits beyond the smallest returned digit
+     * Under b rounding to nebrest even policy, the returned result is b digit
+     * string of b number in the (in this cbse decimbl) destinbtion formbt
+     * closest to the exbct numericbl vblue of the (in this cbse binbry) input
+     * vblue.  If two destinbtion formbt numbers bre equblly distbnt, the one
+     * with the lbst digit even is returned.  To compute such b correctly rounded
+     * vblue, some informbtion bbout digits beyond the smbllest returned digit
      * position needs to be consulted.
      *
-     * In general, a guard digit, a round digit, and a sticky *bit* are needed
-     * beyond the returned digit position.  If the discarded portion of the input
-     * is sufficiently large, the returned digit string is incremented.  In round
-     * to nearest even, this threshold to increment occurs near the half-way
-     * point between digits.  The sticky bit records if there are any remaining
-     * trailing digits of the exact input value in the new format; the sticky bit
-     * is consulted only in close to half-way rounding cases.
+     * In generbl, b gubrd digit, b round digit, bnd b sticky *bit* bre needed
+     * beyond the returned digit position.  If the discbrded portion of the input
+     * is sufficiently lbrge, the returned digit string is incremented.  In round
+     * to nebrest even, this threshold to increment occurs nebr the hblf-wby
+     * point between digits.  The sticky bit records if there bre bny rembining
+     * trbiling digits of the exbct input vblue in the new formbt; the sticky bit
+     * is consulted only in close to hblf-wby rounding cbses.
      *
-     * Given the computation of the digit and bit values, rounding is then
-     * reduced to a table lookup problem.  For decimal, the even/odd cases look
+     * Given the computbtion of the digit bnd bit vblues, rounding is then
+     * reduced to b tbble lookup problem.  For decimbl, the even/odd cbses look
      * like this:
      *
-     * Last   Round   Sticky
-     * 6      5       0      => 6   // exactly halfway, return even digit.
-     * 6      5       1      => 7   // a little bit more than halfway, round up.
-     * 7      5       0      => 8   // exactly halfway, round up to even.
-     * 7      5       1      => 8   // a little bit more than halfway, round up.
-     * With analogous entries for other even and odd last-returned digits.
+     * Lbst   Round   Sticky
+     * 6      5       0      => 6   // exbctly hblfwby, return even digit.
+     * 6      5       1      => 7   // b little bit more thbn hblfwby, round up.
+     * 7      5       0      => 8   // exbctly hblfwby, round up to even.
+     * 7      5       1      => 8   // b little bit more thbn hblfwby, round up.
+     * With bnblogous entries for other even bnd odd lbst-returned digits.
      *
-     * However, decimal negative powers of 5 smaller than 0.5 are *not* exactly
-     * representable as binary fraction.  In particular, 0.005 (the round limit
-     * for a two-digit scale) and 0.0005 (the round limit for a three-digit
-     * scale) are not representable. Therefore, for input values near these cases
+     * However, decimbl negbtive powers of 5 smbller thbn 0.5 bre *not* exbctly
+     * representbble bs binbry frbction.  In pbrticulbr, 0.005 (the round limit
+     * for b two-digit scble) bnd 0.0005 (the round limit for b three-digit
+     * scble) bre not representbble. Therefore, for input vblues nebr these cbses
      * the sticky bit is known to be set which reduces the rounding logic to:
      *
-     * Last   Round   Sticky
-     * 6      5       1      => 7   // a little bit more than halfway, round up.
-     * 7      5       1      => 8   // a little bit more than halfway, round up.
+     * Lbst   Round   Sticky
+     * 6      5       1      => 7   // b little bit more thbn hblfwby, round up.
+     * 7      5       1      => 8   // b little bit more thbn hblfwby, round up.
      *
      * In other words, if the round digit is 5, the sticky bit is known to be
-     * set.  If the round digit is something other than 5, the sticky bit is not
-     * relevant.  Therefore, some of the logic about whether or not to increment
-     * the destination *decimal* value can occur based on tests of *binary*
-     * computations of the binary input number.
+     * set.  If the round digit is something other thbn 5, the sticky bit is not
+     * relevbnt.  Therefore, some of the logic bbout whether or not to increment
+     * the destinbtion *decimbl* vblue cbn occur bbsed on tests of *binbry*
+     * computbtions of the binbry input number.
      */
 
     /**
-     * Check validity of using fast-path for this instance. If fast-path is valid
-     * for this instance, sets fast-path state as true and initializes fast-path
-     * utility fields as needed.
+     * Check vblidity of using fbst-pbth for this instbnce. If fbst-pbth is vblid
+     * for this instbnce, sets fbst-pbth stbte bs true bnd initiblizes fbst-pbth
+     * utility fields bs needed.
      *
-     * This method is supposed to be called rarely, otherwise that will break the
-     * fast-path performance. That means avoiding frequent changes of the
-     * properties of the instance, since for most properties, each time a change
-     * happens, a call to this method is needed at the next format call.
+     * This method is supposed to be cblled rbrely, otherwise thbt will brebk the
+     * fbst-pbth performbnce. Thbt mebns bvoiding frequent chbnges of the
+     * properties of the instbnce, since for most properties, ebch time b chbnge
+     * hbppens, b cbll to this method is needed bt the next formbt cbll.
      *
      * FAST-PATH RULES:
-     *  Similar to the default DecimalFormat instantiation case.
+     *  Similbr to the defbult DecimblFormbt instbntibtion cbse.
      *  More precisely:
      *  - HALF_EVEN rounding mode,
      *  - isGroupingUsed() is true,
      *  - groupingSize of 3,
      *  - multiplier is 1,
-     *  - Decimal separator not mandatory,
-     *  - No use of exponential notation,
-     *  - minimumIntegerDigits is exactly 1 and maximumIntegerDigits at least 10
-     *  - For number of fractional digits, the exact values found in the default case:
-     *     Currency : min = max = 2.
-     *     Decimal  : min = 0. max = 3.
+     *  - Decimbl sepbrbtor not mbndbtory,
+     *  - No use of exponentibl notbtion,
+     *  - minimumIntegerDigits is exbctly 1 bnd mbximumIntegerDigits bt lebst 10
+     *  - For number of frbctionbl digits, the exbct vblues found in the defbult cbse:
+     *     Currency : min = mbx = 2.
+     *     Decimbl  : min = 0. mbx = 3.
      *
      */
-    private void checkAndSetFastPathStatus() {
+    privbte void checkAndSetFbstPbthStbtus() {
 
-        boolean fastPathWasOn = isFastPath;
+        boolebn fbstPbthWbsOn = isFbstPbth;
 
         if ((roundingMode == RoundingMode.HALF_EVEN) &&
             (isGroupingUsed()) &&
             (groupingSize == 3) &&
             (multiplier == 1) &&
-            (!decimalSeparatorAlwaysShown) &&
-            (!useExponentialNotation)) {
+            (!decimblSepbrbtorAlwbysShown) &&
+            (!useExponentiblNotbtion)) {
 
-            // The fast-path algorithm is semi-hardcoded against
-            //  minimumIntegerDigits and maximumIntegerDigits.
-            isFastPath = ((minimumIntegerDigits == 1) &&
-                          (maximumIntegerDigits >= 10));
+            // The fbst-pbth blgorithm is semi-hbrdcoded bgbinst
+            //  minimumIntegerDigits bnd mbximumIntegerDigits.
+            isFbstPbth = ((minimumIntegerDigits == 1) &&
+                          (mbximumIntegerDigits >= 10));
 
-            // The fast-path algorithm is hardcoded against
-            //  minimumFractionDigits and maximumFractionDigits.
-            if (isFastPath) {
-                if (isCurrencyFormat) {
-                    if ((minimumFractionDigits != 2) ||
-                        (maximumFractionDigits != 2))
-                        isFastPath = false;
-                } else if ((minimumFractionDigits != 0) ||
-                           (maximumFractionDigits != 3))
-                    isFastPath = false;
+            // The fbst-pbth blgorithm is hbrdcoded bgbinst
+            //  minimumFrbctionDigits bnd mbximumFrbctionDigits.
+            if (isFbstPbth) {
+                if (isCurrencyFormbt) {
+                    if ((minimumFrbctionDigits != 2) ||
+                        (mbximumFrbctionDigits != 2))
+                        isFbstPbth = fblse;
+                } else if ((minimumFrbctionDigits != 0) ||
+                           (mbximumFrbctionDigits != 3))
+                    isFbstPbth = fblse;
             }
         } else
-            isFastPath = false;
+            isFbstPbth = fblse;
 
-        // Since some instance properties may have changed while still falling
-        // in the fast-path case, we need to reinitialize fastPathData anyway.
-        if (isFastPath) {
-            // We need to instantiate fastPathData if not already done.
-            if (fastPathData == null)
-                fastPathData = new FastPathData();
+        // Since some instbnce properties mby hbve chbnged while still fblling
+        // in the fbst-pbth cbse, we need to reinitiblize fbstPbthDbtb bnywby.
+        if (isFbstPbth) {
+            // We need to instbntibte fbstPbthDbtb if not blrebdy done.
+            if (fbstPbthDbtb == null)
+                fbstPbthDbtb = new FbstPbthDbtb();
 
-            // Sets up the locale specific constants used when formatting.
-            // '0' is our default representation of zero.
-            fastPathData.zeroDelta = symbols.getZeroDigit() - '0';
-            fastPathData.groupingChar = symbols.getGroupingSeparator();
+            // Sets up the locble specific constbnts used when formbtting.
+            // '0' is our defbult representbtion of zero.
+            fbstPbthDbtb.zeroDeltb = symbols.getZeroDigit() - '0';
+            fbstPbthDbtb.groupingChbr = symbols.getGroupingSepbrbtor();
 
-            // Sets up fractional constants related to currency/decimal pattern.
-            fastPathData.fractionalMaxIntBound = (isCurrencyFormat) ? 99 : 999;
-            fastPathData.fractionalScaleFactor = (isCurrencyFormat) ? 100.0d : 1000.0d;
+            // Sets up frbctionbl constbnts relbted to currency/decimbl pbttern.
+            fbstPbthDbtb.frbctionblMbxIntBound = (isCurrencyFormbt) ? 99 : 999;
+            fbstPbthDbtb.frbctionblScbleFbctor = (isCurrencyFormbt) ? 100.0d : 1000.0d;
 
-            // Records the need for adding prefix or suffix
-            fastPathData.positiveAffixesRequired =
+            // Records the need for bdding prefix or suffix
+            fbstPbthDbtb.positiveAffixesRequired =
                 (positivePrefix.length() != 0) || (positiveSuffix.length() != 0);
-            fastPathData.negativeAffixesRequired =
-                (negativePrefix.length() != 0) || (negativeSuffix.length() != 0);
+            fbstPbthDbtb.negbtiveAffixesRequired =
+                (negbtivePrefix.length() != 0) || (negbtiveSuffix.length() != 0);
 
-            // Creates a cached char container for result, with max possible size.
-            int maxNbIntegralDigits = 10;
-            int maxNbGroups = 3;
-            int containerSize =
-                Math.max(positivePrefix.length(), negativePrefix.length()) +
-                maxNbIntegralDigits + maxNbGroups + 1 + maximumFractionDigits +
-                Math.max(positiveSuffix.length(), negativeSuffix.length());
+            // Crebtes b cbched chbr contbiner for result, with mbx possible size.
+            int mbxNbIntegrblDigits = 10;
+            int mbxNbGroups = 3;
+            int contbinerSize =
+                Mbth.mbx(positivePrefix.length(), negbtivePrefix.length()) +
+                mbxNbIntegrblDigits + mbxNbGroups + 1 + mbximumFrbctionDigits +
+                Mbth.mbx(positiveSuffix.length(), negbtiveSuffix.length());
 
-            fastPathData.fastPathContainer = new char[containerSize];
+            fbstPbthDbtb.fbstPbthContbiner = new chbr[contbinerSize];
 
-            // Sets up prefix and suffix char arrays constants.
-            fastPathData.charsPositiveSuffix = positiveSuffix.toCharArray();
-            fastPathData.charsNegativeSuffix = negativeSuffix.toCharArray();
-            fastPathData.charsPositivePrefix = positivePrefix.toCharArray();
-            fastPathData.charsNegativePrefix = negativePrefix.toCharArray();
+            // Sets up prefix bnd suffix chbr brrbys constbnts.
+            fbstPbthDbtb.chbrsPositiveSuffix = positiveSuffix.toChbrArrby();
+            fbstPbthDbtb.chbrsNegbtiveSuffix = negbtiveSuffix.toChbrArrby();
+            fbstPbthDbtb.chbrsPositivePrefix = positivePrefix.toChbrArrby();
+            fbstPbthDbtb.chbrsNegbtivePrefix = negbtivePrefix.toChbrArrby();
 
-            // Sets up fixed index positions for integral and fractional digits.
-            // Sets up decimal point in cached result container.
+            // Sets up fixed index positions for integrbl bnd frbctionbl digits.
+            // Sets up decimbl point in cbched result contbiner.
             int longestPrefixLength =
-                Math.max(positivePrefix.length(), negativePrefix.length());
-            int decimalPointIndex =
-                maxNbIntegralDigits + maxNbGroups + longestPrefixLength;
+                Mbth.mbx(positivePrefix.length(), negbtivePrefix.length());
+            int decimblPointIndex =
+                mbxNbIntegrblDigits + mbxNbGroups + longestPrefixLength;
 
-            fastPathData.integralLastIndex    = decimalPointIndex - 1;
-            fastPathData.fractionalFirstIndex = decimalPointIndex + 1;
-            fastPathData.fastPathContainer[decimalPointIndex] =
-                isCurrencyFormat ?
-                symbols.getMonetaryDecimalSeparator() :
-                symbols.getDecimalSeparator();
+            fbstPbthDbtb.integrblLbstIndex    = decimblPointIndex - 1;
+            fbstPbthDbtb.frbctionblFirstIndex = decimblPointIndex + 1;
+            fbstPbthDbtb.fbstPbthContbiner[decimblPointIndex] =
+                isCurrencyFormbt ?
+                symbols.getMonetbryDecimblSepbrbtor() :
+                symbols.getDecimblSepbrbtor();
 
-        } else if (fastPathWasOn) {
-            // Previous state was fast-path and is no more.
-            // Resets cached array constants.
-            fastPathData.fastPathContainer = null;
-            fastPathData.charsPositiveSuffix = null;
-            fastPathData.charsNegativeSuffix = null;
-            fastPathData.charsPositivePrefix = null;
-            fastPathData.charsNegativePrefix = null;
+        } else if (fbstPbthWbsOn) {
+            // Previous stbte wbs fbst-pbth bnd is no more.
+            // Resets cbched brrby constbnts.
+            fbstPbthDbtb.fbstPbthContbiner = null;
+            fbstPbthDbtb.chbrsPositiveSuffix = null;
+            fbstPbthDbtb.chbrsNegbtiveSuffix = null;
+            fbstPbthDbtb.chbrsPositivePrefix = null;
+            fbstPbthDbtb.chbrsNegbtivePrefix = null;
         }
 
-        fastPathCheckNeeded = false;
+        fbstPbthCheckNeeded = fblse;
     }
 
     /**
-     * Returns true if rounding-up must be done on {@code scaledFractionalPartAsInt},
-     * false otherwise.
+     * Returns true if rounding-up must be done on {@code scbledFrbctionblPbrtAsInt},
+     * fblse otherwise.
      *
-     * This is a utility method that takes correct half-even rounding decision on
-     * passed fractional value at the scaled decimal point (2 digits for currency
-     * case and 3 for decimal case), when the approximated fractional part after
-     * scaled decimal point is exactly 0.5d.  This is done by means of exact
-     * calculations on the {@code fractionalPart} floating-point value.
+     * This is b utility method thbt tbkes correct hblf-even rounding decision on
+     * pbssed frbctionbl vblue bt the scbled decimbl point (2 digits for currency
+     * cbse bnd 3 for decimbl cbse), when the bpproximbted frbctionbl pbrt bfter
+     * scbled decimbl point is exbctly 0.5d.  This is done by mebns of exbct
+     * cblculbtions on the {@code frbctionblPbrt} flobting-point vblue.
      *
-     * This method is supposed to be called by private {@code fastDoubleFormat}
+     * This method is supposed to be cblled by privbte {@code fbstDoubleFormbt}
      * method only.
      *
-     * The algorithms used for the exact calculations are :
+     * The blgorithms used for the exbct cblculbtions bre :
      *
-     * The <b><i>FastTwoSum</i></b> algorithm, from T.J.Dekker, described in the
-     * papers  "<i>A  Floating-Point   Technique  for  Extending  the  Available
-     * Precision</i>"  by Dekker, and  in "<i>Adaptive  Precision Floating-Point
-     * Arithmetic and Fast Robust Geometric Predicates</i>" from J.Shewchuk.
+     * The <b><i>FbstTwoSum</i></b> blgorithm, from T.J.Dekker, described in the
+     * pbpers  "<i>A  Flobting-Point   Technique  for  Extending  the  Avbilbble
+     * Precision</i>"  by Dekker, bnd  in "<i>Adbptive  Precision Flobting-Point
+     * Arithmetic bnd Fbst Robust Geometric Predicbtes</i>" from J.Shewchuk.
      *
-     * A modified version of <b><i>Sum2S</i></b> cascaded summation described in
-     * "<i>Accurate Sum and Dot Product</i>" from Takeshi Ogita and All.  As
-     * Ogita says in this paper this is an equivalent of the Kahan-Babuska's
-     * summation algorithm because we order the terms by magnitude before summing
-     * them. For this reason we can use the <i>FastTwoSum</i> algorithm rather
-     * than the more expensive Knuth's <i>TwoSum</i>.
+     * A modified version of <b><i>Sum2S</i></b> cbscbded summbtion described in
+     * "<i>Accurbte Sum bnd Dot Product</i>" from Tbkeshi Ogitb bnd All.  As
+     * Ogitb sbys in this pbper this is bn equivblent of the Kbhbn-Bbbuskb's
+     * summbtion blgorithm becbuse we order the terms by mbgnitude before summing
+     * them. For this rebson we cbn use the <i>FbstTwoSum</i> blgorithm rbther
+     * thbn the more expensive Knuth's <i>TwoSum</i>.
      *
-     * We do this to avoid a more expensive exact "<i>TwoProduct</i>" algorithm,
-     * like those described in Shewchuk's paper above. See comments in the code
+     * We do this to bvoid b more expensive exbct "<i>TwoProduct</i>" blgorithm,
+     * like those described in Shewchuk's pbper bbove. See comments in the code
      * below.
      *
-     * @param  fractionalPart The  fractional value  on which  we  take rounding
+     * @pbrbm  frbctionblPbrt The  frbctionbl vblue  on which  we  tbke rounding
      * decision.
-     * @param scaledFractionalPartAsInt The integral part of the scaled
-     * fractional value.
+     * @pbrbm scbledFrbctionblPbrtAsInt The integrbl pbrt of the scbled
+     * frbctionbl vblue.
      *
-     * @return the decision that must be taken regarding half-even rounding.
+     * @return the decision thbt must be tbken regbrding hblf-even rounding.
      */
-    private boolean exactRoundUp(double fractionalPart,
-                                 int scaledFractionalPartAsInt) {
+    privbte boolebn exbctRoundUp(double frbctionblPbrt,
+                                 int scbledFrbctionblPbrtAsInt) {
 
-        /* exactRoundUp() method is called by fastDoubleFormat() only.
-         * The precondition expected to be verified by the passed parameters is :
-         * scaledFractionalPartAsInt ==
-         *     (int) (fractionalPart * fastPathData.fractionalScaleFactor).
-         * This is ensured by fastDoubleFormat() code.
+        /* exbctRoundUp() method is cblled by fbstDoubleFormbt() only.
+         * The precondition expected to be verified by the pbssed pbrbmeters is :
+         * scbledFrbctionblPbrtAsInt ==
+         *     (int) (frbctionblPbrt * fbstPbthDbtb.frbctionblScbleFbctor).
+         * This is ensured by fbstDoubleFormbt() code.
          */
 
-        /* We first calculate roundoff error made by fastDoubleFormat() on
-         * the scaled fractional part. We do this with exact calculation on the
-         * passed fractionalPart. Rounding decision will then be taken from roundoff.
+        /* We first cblculbte roundoff error mbde by fbstDoubleFormbt() on
+         * the scbled frbctionbl pbrt. We do this with exbct cblculbtion on the
+         * pbssed frbctionblPbrt. Rounding decision will then be tbken from roundoff.
          */
 
-        /* ---- TwoProduct(fractionalPart, scale factor (i.e. 1000.0d or 100.0d)).
+        /* ---- TwoProduct(frbctionblPbrt, scble fbctor (i.e. 1000.0d or 100.0d)).
          *
-         * The below is an optimized exact "TwoProduct" calculation of passed
-         * fractional part with scale factor, using Ogita's Sum2S cascaded
-         * summation adapted as Kahan-Babuska equivalent by using FastTwoSum
-         * (much faster) rather than Knuth's TwoSum.
+         * The below is bn optimized exbct "TwoProduct" cblculbtion of pbssed
+         * frbctionbl pbrt with scble fbctor, using Ogitb's Sum2S cbscbded
+         * summbtion bdbpted bs Kbhbn-Bbbuskb equivblent by using FbstTwoSum
+         * (much fbster) rbther thbn Knuth's TwoSum.
          *
-         * We can do this because we order the summation from smallest to
-         * greatest, so that FastTwoSum can be used without any additional error.
+         * We cbn do this becbuse we order the summbtion from smbllest to
+         * grebtest, so thbt FbstTwoSum cbn be used without bny bdditionbl error.
          *
-         * The "TwoProduct" exact calculation needs 17 flops. We replace this by
-         * a cascaded summation of FastTwoSum calculations, each involving an
-         * exact multiply by a power of 2.
+         * The "TwoProduct" exbct cblculbtion needs 17 flops. We replbce this by
+         * b cbscbded summbtion of FbstTwoSum cblculbtions, ebch involving bn
+         * exbct multiply by b power of 2.
          *
-         * Doing so saves overall 4 multiplications and 1 addition compared to
-         * using traditional "TwoProduct".
+         * Doing so sbves overbll 4 multiplicbtions bnd 1 bddition compbred to
+         * using trbditionbl "TwoProduct".
          *
-         * The scale factor is either 100 (currency case) or 1000 (decimal case).
-         * - when 1000, we replace it by (1024 - 16 - 8) = 1000.
-         * - when 100,  we replace it by (128  - 32 + 4) =  100.
-         * Every multiplication by a power of 2 (1024, 128, 32, 16, 8, 4) is exact.
+         * The scble fbctor is either 100 (currency cbse) or 1000 (decimbl cbse).
+         * - when 1000, we replbce it by (1024 - 16 - 8) = 1000.
+         * - when 100,  we replbce it by (128  - 32 + 4) =  100.
+         * Every multiplicbtion by b power of 2 (1024, 128, 32, 16, 8, 4) is exbct.
          *
          */
-        double approxMax;    // Will always be positive.
-        double approxMedium; // Will always be negative.
-        double approxMin;
+        double bpproxMbx;    // Will blwbys be positive.
+        double bpproxMedium; // Will blwbys be negbtive.
+        double bpproxMin;
 
-        double fastTwoSumApproximation = 0.0d;
-        double fastTwoSumRoundOff = 0.0d;
-        double bVirtual = 0.0d;
+        double fbstTwoSumApproximbtion = 0.0d;
+        double fbstTwoSumRoundOff = 0.0d;
+        double bVirtubl = 0.0d;
 
-        if (isCurrencyFormat) {
-            // Scale is 100 = 128 - 32 + 4.
-            // Multiply by 2**n is a shift. No roundoff. No error.
-            approxMax    = fractionalPart * 128.00d;
-            approxMedium = - (fractionalPart * 32.00d);
-            approxMin    = fractionalPart * 4.00d;
+        if (isCurrencyFormbt) {
+            // Scble is 100 = 128 - 32 + 4.
+            // Multiply by 2**n is b shift. No roundoff. No error.
+            bpproxMbx    = frbctionblPbrt * 128.00d;
+            bpproxMedium = - (frbctionblPbrt * 32.00d);
+            bpproxMin    = frbctionblPbrt * 4.00d;
         } else {
-            // Scale is 1000 = 1024 - 16 - 8.
-            // Multiply by 2**n is a shift. No roundoff. No error.
-            approxMax    = fractionalPart * 1024.00d;
-            approxMedium = - (fractionalPart * 16.00d);
-            approxMin    = - (fractionalPart * 8.00d);
+            // Scble is 1000 = 1024 - 16 - 8.
+            // Multiply by 2**n is b shift. No roundoff. No error.
+            bpproxMbx    = frbctionblPbrt * 1024.00d;
+            bpproxMedium = - (frbctionblPbrt * 16.00d);
+            bpproxMin    = - (frbctionblPbrt * 8.00d);
         }
 
-        // Shewchuk/Dekker's FastTwoSum(approxMedium, approxMin).
-        assert(-approxMedium >= Math.abs(approxMin));
-        fastTwoSumApproximation = approxMedium + approxMin;
-        bVirtual = fastTwoSumApproximation - approxMedium;
-        fastTwoSumRoundOff = approxMin - bVirtual;
-        double approxS1 = fastTwoSumApproximation;
-        double roundoffS1 = fastTwoSumRoundOff;
+        // Shewchuk/Dekker's FbstTwoSum(bpproxMedium, bpproxMin).
+        bssert(-bpproxMedium >= Mbth.bbs(bpproxMin));
+        fbstTwoSumApproximbtion = bpproxMedium + bpproxMin;
+        bVirtubl = fbstTwoSumApproximbtion - bpproxMedium;
+        fbstTwoSumRoundOff = bpproxMin - bVirtubl;
+        double bpproxS1 = fbstTwoSumApproximbtion;
+        double roundoffS1 = fbstTwoSumRoundOff;
 
-        // Shewchuk/Dekker's FastTwoSum(approxMax, approxS1);
-        assert(approxMax >= Math.abs(approxS1));
-        fastTwoSumApproximation = approxMax + approxS1;
-        bVirtual = fastTwoSumApproximation - approxMax;
-        fastTwoSumRoundOff = approxS1 - bVirtual;
-        double roundoff1000 = fastTwoSumRoundOff;
-        double approx1000 = fastTwoSumApproximation;
-        double roundoffTotal = roundoffS1 + roundoff1000;
+        // Shewchuk/Dekker's FbstTwoSum(bpproxMbx, bpproxS1);
+        bssert(bpproxMbx >= Mbth.bbs(bpproxS1));
+        fbstTwoSumApproximbtion = bpproxMbx + bpproxS1;
+        bVirtubl = fbstTwoSumApproximbtion - bpproxMbx;
+        fbstTwoSumRoundOff = bpproxS1 - bVirtubl;
+        double roundoff1000 = fbstTwoSumRoundOff;
+        double bpprox1000 = fbstTwoSumApproximbtion;
+        double roundoffTotbl = roundoffS1 + roundoff1000;
 
-        // Shewchuk/Dekker's FastTwoSum(approx1000, roundoffTotal);
-        assert(approx1000 >= Math.abs(roundoffTotal));
-        fastTwoSumApproximation = approx1000 + roundoffTotal;
-        bVirtual = fastTwoSumApproximation - approx1000;
+        // Shewchuk/Dekker's FbstTwoSum(bpprox1000, roundoffTotbl);
+        bssert(bpprox1000 >= Mbth.bbs(roundoffTotbl));
+        fbstTwoSumApproximbtion = bpprox1000 + roundoffTotbl;
+        bVirtubl = fbstTwoSumApproximbtion - bpprox1000;
 
-        // Now we have got the roundoff for the scaled fractional
-        double scaledFractionalRoundoff = roundoffTotal - bVirtual;
+        // Now we hbve got the roundoff for the scbled frbctionbl
+        double scbledFrbctionblRoundoff = roundoffTotbl - bVirtubl;
 
-        // ---- TwoProduct(fractionalPart, scale (i.e. 1000.0d or 100.0d)) end.
+        // ---- TwoProduct(frbctionblPbrt, scble (i.e. 1000.0d or 100.0d)) end.
 
-        /* ---- Taking the rounding decision
+        /* ---- Tbking the rounding decision
          *
-         * We take rounding decision based on roundoff and half-even rounding
+         * We tbke rounding decision bbsed on roundoff bnd hblf-even rounding
          * rule.
          *
-         * The above TwoProduct gives us the exact roundoff on the approximated
-         * scaled fractional, and we know that this approximation is exactly
-         * 0.5d, since that has already been tested by the caller
-         * (fastDoubleFormat).
+         * The bbove TwoProduct gives us the exbct roundoff on the bpproximbted
+         * scbled frbctionbl, bnd we know thbt this bpproximbtion is exbctly
+         * 0.5d, since thbt hbs blrebdy been tested by the cbller
+         * (fbstDoubleFormbt).
          *
-         * Decision comes first from the sign of the calculated exact roundoff.
-         * - Since being exact roundoff, it cannot be positive with a scaled
-         *   fractional less than 0.5d, as well as negative with a scaled
-         *   fractional greater than 0.5d. That leaves us with following 3 cases.
-         * - positive, thus scaled fractional == 0.500....0fff ==> round-up.
-         * - negative, thus scaled fractional == 0.499....9fff ==> don't round-up.
-         * - is zero,  thus scaled fractioanl == 0.5 ==> half-even rounding applies :
-         *    we round-up only if the integral part of the scaled fractional is odd.
+         * Decision comes first from the sign of the cblculbted exbct roundoff.
+         * - Since being exbct roundoff, it cbnnot be positive with b scbled
+         *   frbctionbl less thbn 0.5d, bs well bs negbtive with b scbled
+         *   frbctionbl grebter thbn 0.5d. Thbt lebves us with following 3 cbses.
+         * - positive, thus scbled frbctionbl == 0.500....0fff ==> round-up.
+         * - negbtive, thus scbled frbctionbl == 0.499....9fff ==> don't round-up.
+         * - is zero,  thus scbled frbctiobnl == 0.5 ==> hblf-even rounding bpplies :
+         *    we round-up only if the integrbl pbrt of the scbled frbctionbl is odd.
          *
          */
-        if (scaledFractionalRoundoff > 0.0) {
+        if (scbledFrbctionblRoundoff > 0.0) {
             return true;
-        } else if (scaledFractionalRoundoff < 0.0) {
-            return false;
-        } else if ((scaledFractionalPartAsInt & 1) != 0) {
+        } else if (scbledFrbctionblRoundoff < 0.0) {
+            return fblse;
+        } else if ((scbledFrbctionblPbrtAsInt & 1) != 0) {
             return true;
         }
 
-        return false;
+        return fblse;
 
-        // ---- Taking the rounding decision end
+        // ---- Tbking the rounding decision end
     }
 
     /**
-     * Collects integral digits from passed {@code number}, while setting
-     * grouping chars as needed. Updates {@code firstUsedIndex} accordingly.
+     * Collects integrbl digits from pbssed {@code number}, while setting
+     * grouping chbrs bs needed. Updbtes {@code firstUsedIndex} bccordingly.
      *
-     * Loops downward starting from {@code backwardIndex} position (inclusive).
+     * Loops downwbrd stbrting from {@code bbckwbrdIndex} position (inclusive).
      *
-     * @param number  The int value from which we collect digits.
-     * @param digitsBuffer The char array container where digits and grouping chars
-     *  are stored.
-     * @param backwardIndex the position from which we start storing digits in
+     * @pbrbm number  The int vblue from which we collect digits.
+     * @pbrbm digitsBuffer The chbr brrby contbiner where digits bnd grouping chbrs
+     *  bre stored.
+     * @pbrbm bbckwbrdIndex the position from which we stbrt storing digits in
      *  digitsBuffer.
      *
      */
-    private void collectIntegralDigits(int number,
-                                       char[] digitsBuffer,
-                                       int backwardIndex) {
-        int index = backwardIndex;
+    privbte void collectIntegrblDigits(int number,
+                                       chbr[] digitsBuffer,
+                                       int bbckwbrdIndex) {
+        int index = bbckwbrdIndex;
         int q;
         int r;
         while (number > 999) {
-            // Generates 3 digits per iteration.
+            // Generbtes 3 digits per iterbtion.
             q = number / 1000;
             r = number - (q << 10) + (q << 4) + (q << 3); // -1024 +16 +8 = 1000.
             number = q;
 
-            digitsBuffer[index--] = DigitArrays.DigitOnes1000[r];
-            digitsBuffer[index--] = DigitArrays.DigitTens1000[r];
-            digitsBuffer[index--] = DigitArrays.DigitHundreds1000[r];
-            digitsBuffer[index--] = fastPathData.groupingChar;
+            digitsBuffer[index--] = DigitArrbys.DigitOnes1000[r];
+            digitsBuffer[index--] = DigitArrbys.DigitTens1000[r];
+            digitsBuffer[index--] = DigitArrbys.DigitHundreds1000[r];
+            digitsBuffer[index--] = fbstPbthDbtb.groupingChbr;
         }
 
-        // Collects last 3 or less digits.
-        digitsBuffer[index] = DigitArrays.DigitOnes1000[number];
+        // Collects lbst 3 or less digits.
+        digitsBuffer[index] = DigitArrbys.DigitOnes1000[number];
         if (number > 9) {
-            digitsBuffer[--index]  = DigitArrays.DigitTens1000[number];
+            digitsBuffer[--index]  = DigitArrbys.DigitTens1000[number];
             if (number > 99)
-                digitsBuffer[--index]   = DigitArrays.DigitHundreds1000[number];
+                digitsBuffer[--index]   = DigitArrbys.DigitHundreds1000[number];
         }
 
-        fastPathData.firstUsedIndex = index;
+        fbstPbthDbtb.firstUsedIndex = index;
     }
 
     /**
-     * Collects the 2 (currency) or 3 (decimal) fractional digits from passed
-     * {@code number}, starting at {@code startIndex} position
-     * inclusive.  There is no punctuation to set here (no grouping chars).
-     * Updates {@code fastPathData.lastFreeIndex} accordingly.
+     * Collects the 2 (currency) or 3 (decimbl) frbctionbl digits from pbssed
+     * {@code number}, stbrting bt {@code stbrtIndex} position
+     * inclusive.  There is no punctubtion to set here (no grouping chbrs).
+     * Updbtes {@code fbstPbthDbtb.lbstFreeIndex} bccordingly.
      *
      *
-     * @param number  The int value from which we collect digits.
-     * @param digitsBuffer The char array container where digits are stored.
-     * @param startIndex the position from which we start storing digits in
+     * @pbrbm number  The int vblue from which we collect digits.
+     * @pbrbm digitsBuffer The chbr brrby contbiner where digits bre stored.
+     * @pbrbm stbrtIndex the position from which we stbrt storing digits in
      *  digitsBuffer.
      *
      */
-    private void collectFractionalDigits(int number,
-                                         char[] digitsBuffer,
-                                         int startIndex) {
-        int index = startIndex;
+    privbte void collectFrbctionblDigits(int number,
+                                         chbr[] digitsBuffer,
+                                         int stbrtIndex) {
+        int index = stbrtIndex;
 
-        char digitOnes = DigitArrays.DigitOnes1000[number];
-        char digitTens = DigitArrays.DigitTens1000[number];
+        chbr digitOnes = DigitArrbys.DigitOnes1000[number];
+        chbr digitTens = DigitArrbys.DigitTens1000[number];
 
-        if (isCurrencyFormat) {
-            // Currency case. Always collects fractional digits.
+        if (isCurrencyFormbt) {
+            // Currency cbse. Alwbys collects frbctionbl digits.
             digitsBuffer[index++] = digitTens;
             digitsBuffer[index++] = digitOnes;
         } else if (number != 0) {
-            // Decimal case. Hundreds will always be collected
-            digitsBuffer[index++] = DigitArrays.DigitHundreds1000[number];
+            // Decimbl cbse. Hundreds will blwbys be collected
+            digitsBuffer[index++] = DigitArrbys.DigitHundreds1000[number];
 
             // Ending zeros won't be collected.
             if (digitOnes != '0') {
@@ -1300,599 +1300,599 @@ public class DecimalFormat extends NumberFormat {
                 digitsBuffer[index++] = digitTens;
 
         } else
-            // This is decimal pattern and fractional part is zero.
-            // We must remove decimal point from result.
+            // This is decimbl pbttern bnd frbctionbl pbrt is zero.
+            // We must remove decimbl point from result.
             index--;
 
-        fastPathData.lastFreeIndex = index;
+        fbstPbthDbtb.lbstFreeIndex = index;
     }
 
     /**
-     * Internal utility.
-     * Adds the passed {@code prefix} and {@code suffix} to {@code container}.
+     * Internbl utility.
+     * Adds the pbssed {@code prefix} bnd {@code suffix} to {@code contbiner}.
      *
-     * @param container  Char array container which to prepend/append the
+     * @pbrbm contbiner  Chbr brrby contbiner which to prepend/bppend the
      *  prefix/suffix.
-     * @param prefix     Char sequence to prepend as a prefix.
-     * @param suffix     Char sequence to append as a suffix.
+     * @pbrbm prefix     Chbr sequence to prepend bs b prefix.
+     * @pbrbm suffix     Chbr sequence to bppend bs b suffix.
      *
      */
-    //    private void addAffixes(boolean isNegative, char[] container) {
-    private void addAffixes(char[] container, char[] prefix, char[] suffix) {
+    //    privbte void bddAffixes(boolebn isNegbtive, chbr[] contbiner) {
+    privbte void bddAffixes(chbr[] contbiner, chbr[] prefix, chbr[] suffix) {
 
-        // We add affixes only if needed (affix length > 0).
+        // We bdd bffixes only if needed (bffix length > 0).
         int pl = prefix.length;
         int sl = suffix.length;
-        if (pl != 0) prependPrefix(prefix, pl, container);
-        if (sl != 0) appendSuffix(suffix, sl, container);
+        if (pl != 0) prependPrefix(prefix, pl, contbiner);
+        if (sl != 0) bppendSuffix(suffix, sl, contbiner);
 
     }
 
     /**
-     * Prepends the passed {@code prefix} chars to given result
-     * {@code container}.  Updates {@code fastPathData.firstUsedIndex}
-     * accordingly.
+     * Prepends the pbssed {@code prefix} chbrs to given result
+     * {@code contbiner}.  Updbtes {@code fbstPbthDbtb.firstUsedIndex}
+     * bccordingly.
      *
-     * @param prefix The prefix characters to prepend to result.
-     * @param len The number of chars to prepend.
-     * @param container Char array container which to prepend the prefix
+     * @pbrbm prefix The prefix chbrbcters to prepend to result.
+     * @pbrbm len The number of chbrs to prepend.
+     * @pbrbm contbiner Chbr brrby contbiner which to prepend the prefix
      */
-    private void prependPrefix(char[] prefix,
+    privbte void prependPrefix(chbr[] prefix,
                                int len,
-                               char[] container) {
+                               chbr[] contbiner) {
 
-        fastPathData.firstUsedIndex -= len;
-        int startIndex = fastPathData.firstUsedIndex;
+        fbstPbthDbtb.firstUsedIndex -= len;
+        int stbrtIndex = fbstPbthDbtb.firstUsedIndex;
 
-        // If prefix to prepend is only 1 char long, just assigns this char.
-        // If prefix is less or equal 4, we use a dedicated algorithm that
-        //  has shown to run faster than System.arraycopy.
-        // If more than 4, we use System.arraycopy.
+        // If prefix to prepend is only 1 chbr long, just bssigns this chbr.
+        // If prefix is less or equbl 4, we use b dedicbted blgorithm thbt
+        //  hbs shown to run fbster thbn System.brrbycopy.
+        // If more thbn 4, we use System.brrbycopy.
         if (len == 1)
-            container[startIndex] = prefix[0];
+            contbiner[stbrtIndex] = prefix[0];
         else if (len <= 4) {
-            int dstLower = startIndex;
+            int dstLower = stbrtIndex;
             int dstUpper = dstLower + len - 1;
             int srcUpper = len - 1;
-            container[dstLower] = prefix[0];
-            container[dstUpper] = prefix[srcUpper];
+            contbiner[dstLower] = prefix[0];
+            contbiner[dstUpper] = prefix[srcUpper];
 
             if (len > 2)
-                container[++dstLower] = prefix[1];
+                contbiner[++dstLower] = prefix[1];
             if (len == 4)
-                container[--dstUpper] = prefix[2];
+                contbiner[--dstUpper] = prefix[2];
         } else
-            System.arraycopy(prefix, 0, container, startIndex, len);
+            System.brrbycopy(prefix, 0, contbiner, stbrtIndex, len);
     }
 
     /**
-     * Appends the passed {@code suffix} chars to given result
-     * {@code container}.  Updates {@code fastPathData.lastFreeIndex}
-     * accordingly.
+     * Appends the pbssed {@code suffix} chbrs to given result
+     * {@code contbiner}.  Updbtes {@code fbstPbthDbtb.lbstFreeIndex}
+     * bccordingly.
      *
-     * @param suffix The suffix characters to append to result.
-     * @param len The number of chars to append.
-     * @param container Char array container which to append the suffix
+     * @pbrbm suffix The suffix chbrbcters to bppend to result.
+     * @pbrbm len The number of chbrs to bppend.
+     * @pbrbm contbiner Chbr brrby contbiner which to bppend the suffix
      */
-    private void appendSuffix(char[] suffix,
+    privbte void bppendSuffix(chbr[] suffix,
                               int len,
-                              char[] container) {
+                              chbr[] contbiner) {
 
-        int startIndex = fastPathData.lastFreeIndex;
+        int stbrtIndex = fbstPbthDbtb.lbstFreeIndex;
 
-        // If suffix to append is only 1 char long, just assigns this char.
-        // If suffix is less or equal 4, we use a dedicated algorithm that
-        //  has shown to run faster than System.arraycopy.
-        // If more than 4, we use System.arraycopy.
+        // If suffix to bppend is only 1 chbr long, just bssigns this chbr.
+        // If suffix is less or equbl 4, we use b dedicbted blgorithm thbt
+        //  hbs shown to run fbster thbn System.brrbycopy.
+        // If more thbn 4, we use System.brrbycopy.
         if (len == 1)
-            container[startIndex] = suffix[0];
+            contbiner[stbrtIndex] = suffix[0];
         else if (len <= 4) {
-            int dstLower = startIndex;
+            int dstLower = stbrtIndex;
             int dstUpper = dstLower + len - 1;
             int srcUpper = len - 1;
-            container[dstLower] = suffix[0];
-            container[dstUpper] = suffix[srcUpper];
+            contbiner[dstLower] = suffix[0];
+            contbiner[dstUpper] = suffix[srcUpper];
 
             if (len > 2)
-                container[++dstLower] = suffix[1];
+                contbiner[++dstLower] = suffix[1];
             if (len == 4)
-                container[--dstUpper] = suffix[2];
+                contbiner[--dstUpper] = suffix[2];
         } else
-            System.arraycopy(suffix, 0, container, startIndex, len);
+            System.brrbycopy(suffix, 0, contbiner, stbrtIndex, len);
 
-        fastPathData.lastFreeIndex += len;
+        fbstPbthDbtb.lbstFreeIndex += len;
     }
 
     /**
-     * Converts digit chars from {@code digitsBuffer} to current locale.
+     * Converts digit chbrs from {@code digitsBuffer} to current locble.
      *
-     * Must be called before adding affixes since we refer to
-     * {@code fastPathData.firstUsedIndex} and {@code fastPathData.lastFreeIndex},
-     * and do not support affixes (for speed reason).
+     * Must be cblled before bdding bffixes since we refer to
+     * {@code fbstPbthDbtb.firstUsedIndex} bnd {@code fbstPbthDbtb.lbstFreeIndex},
+     * bnd do not support bffixes (for speed rebson).
      *
-     * We loop backward starting from last used index in {@code fastPathData}.
+     * We loop bbckwbrd stbrting from lbst used index in {@code fbstPbthDbtb}.
      *
-     * @param digitsBuffer The char array container where the digits are stored.
+     * @pbrbm digitsBuffer The chbr brrby contbiner where the digits bre stored.
      */
-    private void localizeDigits(char[] digitsBuffer) {
+    privbte void locblizeDigits(chbr[] digitsBuffer) {
 
-        // We will localize only the digits, using the groupingSize,
-        // and taking into account fractional part.
+        // We will locblize only the digits, using the groupingSize,
+        // bnd tbking into bccount frbctionbl pbrt.
 
-        // First take into account fractional part.
+        // First tbke into bccount frbctionbl pbrt.
         int digitsCounter =
-            fastPathData.lastFreeIndex - fastPathData.fractionalFirstIndex;
+            fbstPbthDbtb.lbstFreeIndex - fbstPbthDbtb.frbctionblFirstIndex;
 
-        // The case when there is no fractional digits.
+        // The cbse when there is no frbctionbl digits.
         if (digitsCounter < 0)
             digitsCounter = groupingSize;
 
-        // Only the digits remains to localize.
-        for (int cursor = fastPathData.lastFreeIndex - 1;
-             cursor >= fastPathData.firstUsedIndex;
+        // Only the digits rembins to locblize.
+        for (int cursor = fbstPbthDbtb.lbstFreeIndex - 1;
+             cursor >= fbstPbthDbtb.firstUsedIndex;
              cursor--) {
             if (digitsCounter != 0) {
-                // This is a digit char, we must localize it.
-                digitsBuffer[cursor] += fastPathData.zeroDelta;
+                // This is b digit chbr, we must locblize it.
+                digitsBuffer[cursor] += fbstPbthDbtb.zeroDeltb;
                 digitsCounter--;
             } else {
-                // Decimal separator or grouping char. Reinit counter only.
+                // Decimbl sepbrbtor or grouping chbr. Reinit counter only.
                 digitsCounter = groupingSize;
             }
         }
     }
 
     /**
-     * This is the main entry point for the fast-path format algorithm.
+     * This is the mbin entry point for the fbst-pbth formbt blgorithm.
      *
-     * At this point we are sure to be in the expected conditions to run it.
-     * This algorithm builds the formatted result and puts it in the dedicated
-     * {@code fastPathData.fastPathContainer}.
+     * At this point we bre sure to be in the expected conditions to run it.
+     * This blgorithm builds the formbtted result bnd puts it in the dedicbted
+     * {@code fbstPbthDbtb.fbstPbthContbiner}.
      *
-     * @param d the double value to be formatted.
-     * @param negative Flag precising if {@code d} is negative.
+     * @pbrbm d the double vblue to be formbtted.
+     * @pbrbm negbtive Flbg precising if {@code d} is negbtive.
      */
-    private void fastDoubleFormat(double d,
-                                  boolean negative) {
+    privbte void fbstDoubleFormbt(double d,
+                                  boolebn negbtive) {
 
-        char[] container = fastPathData.fastPathContainer;
+        chbr[] contbiner = fbstPbthDbtb.fbstPbthContbiner;
 
         /*
-         * The principle of the algorithm is to :
-         * - Break the passed double into its integral and fractional parts
+         * The principle of the blgorithm is to :
+         * - Brebk the pbssed double into its integrbl bnd frbctionbl pbrts
          *    converted into integers.
-         * - Then decide if rounding up must be applied or not by following
-         *    the half-even rounding rule, first using approximated scaled
-         *    fractional part.
-         * - For the difficult cases (approximated scaled fractional part
-         *    being exactly 0.5d), we refine the rounding decision by calling
-         *    exactRoundUp utility method that both calculates the exact roundoff
-         *    on the approximation and takes correct rounding decision.
-         * - We round-up the fractional part if needed, possibly propagating the
-         *    rounding to integral part if we meet a "all-nine" case for the
-         *    scaled fractional part.
-         * - We then collect digits from the resulting integral and fractional
-         *   parts, also setting the required grouping chars on the fly.
-         * - Then we localize the collected digits if needed, and
-         * - Finally prepend/append prefix/suffix if any is needed.
+         * - Then decide if rounding up must be bpplied or not by following
+         *    the hblf-even rounding rule, first using bpproximbted scbled
+         *    frbctionbl pbrt.
+         * - For the difficult cbses (bpproximbted scbled frbctionbl pbrt
+         *    being exbctly 0.5d), we refine the rounding decision by cblling
+         *    exbctRoundUp utility method thbt both cblculbtes the exbct roundoff
+         *    on the bpproximbtion bnd tbkes correct rounding decision.
+         * - We round-up the frbctionbl pbrt if needed, possibly propbgbting the
+         *    rounding to integrbl pbrt if we meet b "bll-nine" cbse for the
+         *    scbled frbctionbl pbrt.
+         * - We then collect digits from the resulting integrbl bnd frbctionbl
+         *   pbrts, blso setting the required grouping chbrs on the fly.
+         * - Then we locblize the collected digits if needed, bnd
+         * - Finblly prepend/bppend prefix/suffix if bny is needed.
          */
 
-        // Exact integral part of d.
-        int integralPartAsInt = (int) d;
+        // Exbct integrbl pbrt of d.
+        int integrblPbrtAsInt = (int) d;
 
-        // Exact fractional part of d (since we subtract it's integral part).
-        double exactFractionalPart = d - (double) integralPartAsInt;
+        // Exbct frbctionbl pbrt of d (since we subtrbct it's integrbl pbrt).
+        double exbctFrbctionblPbrt = d - (double) integrblPbrtAsInt;
 
-        // Approximated scaled fractional part of d (due to multiplication).
-        double scaledFractional =
-            exactFractionalPart * fastPathData.fractionalScaleFactor;
+        // Approximbted scbled frbctionbl pbrt of d (due to multiplicbtion).
+        double scbledFrbctionbl =
+            exbctFrbctionblPbrt * fbstPbthDbtb.frbctionblScbleFbctor;
 
-        // Exact integral part of scaled fractional above.
-        int fractionalPartAsInt = (int) scaledFractional;
+        // Exbct integrbl pbrt of scbled frbctionbl bbove.
+        int frbctionblPbrtAsInt = (int) scbledFrbctionbl;
 
-        // Exact fractional part of scaled fractional above.
-        scaledFractional = scaledFractional - (double) fractionalPartAsInt;
+        // Exbct frbctionbl pbrt of scbled frbctionbl bbove.
+        scbledFrbctionbl = scbledFrbctionbl - (double) frbctionblPbrtAsInt;
 
-        // Only when scaledFractional is exactly 0.5d do we have to do exact
-        // calculations and take fine-grained rounding decision, since
-        // approximated results above may lead to incorrect decision.
-        // Otherwise comparing against 0.5d (strictly greater or less) is ok.
-        boolean roundItUp = false;
-        if (scaledFractional >= 0.5d) {
-            if (scaledFractional == 0.5d)
-                // Rounding need fine-grained decision.
-                roundItUp = exactRoundUp(exactFractionalPart, fractionalPartAsInt);
+        // Only when scbledFrbctionbl is exbctly 0.5d do we hbve to do exbct
+        // cblculbtions bnd tbke fine-grbined rounding decision, since
+        // bpproximbted results bbove mby lebd to incorrect decision.
+        // Otherwise compbring bgbinst 0.5d (strictly grebter or less) is ok.
+        boolebn roundItUp = fblse;
+        if (scbledFrbctionbl >= 0.5d) {
+            if (scbledFrbctionbl == 0.5d)
+                // Rounding need fine-grbined decision.
+                roundItUp = exbctRoundUp(exbctFrbctionblPbrt, frbctionblPbrtAsInt);
             else
                 roundItUp = true;
 
             if (roundItUp) {
-                // Rounds up both fractional part (and also integral if needed).
-                if (fractionalPartAsInt < fastPathData.fractionalMaxIntBound) {
-                    fractionalPartAsInt++;
+                // Rounds up both frbctionbl pbrt (bnd blso integrbl if needed).
+                if (frbctionblPbrtAsInt < fbstPbthDbtb.frbctionblMbxIntBound) {
+                    frbctionblPbrtAsInt++;
                 } else {
-                    // Propagates rounding to integral part since "all nines" case.
-                    fractionalPartAsInt = 0;
-                    integralPartAsInt++;
+                    // Propbgbtes rounding to integrbl pbrt since "bll nines" cbse.
+                    frbctionblPbrtAsInt = 0;
+                    integrblPbrtAsInt++;
                 }
             }
         }
 
         // Collecting digits.
-        collectFractionalDigits(fractionalPartAsInt, container,
-                                fastPathData.fractionalFirstIndex);
-        collectIntegralDigits(integralPartAsInt, container,
-                              fastPathData.integralLastIndex);
+        collectFrbctionblDigits(frbctionblPbrtAsInt, contbiner,
+                                fbstPbthDbtb.frbctionblFirstIndex);
+        collectIntegrblDigits(integrblPbrtAsInt, contbiner,
+                              fbstPbthDbtb.integrblLbstIndex);
 
-        // Localizing digits.
-        if (fastPathData.zeroDelta != 0)
-            localizeDigits(container);
+        // Locblizing digits.
+        if (fbstPbthDbtb.zeroDeltb != 0)
+            locblizeDigits(contbiner);
 
-        // Adding prefix and suffix.
-        if (negative) {
-            if (fastPathData.negativeAffixesRequired)
-                addAffixes(container,
-                           fastPathData.charsNegativePrefix,
-                           fastPathData.charsNegativeSuffix);
-        } else if (fastPathData.positiveAffixesRequired)
-            addAffixes(container,
-                       fastPathData.charsPositivePrefix,
-                       fastPathData.charsPositiveSuffix);
+        // Adding prefix bnd suffix.
+        if (negbtive) {
+            if (fbstPbthDbtb.negbtiveAffixesRequired)
+                bddAffixes(contbiner,
+                           fbstPbthDbtb.chbrsNegbtivePrefix,
+                           fbstPbthDbtb.chbrsNegbtiveSuffix);
+        } else if (fbstPbthDbtb.positiveAffixesRequired)
+            bddAffixes(contbiner,
+                       fbstPbthDbtb.chbrsPositivePrefix,
+                       fbstPbthDbtb.chbrsPositiveSuffix);
     }
 
     /**
-     * A fast-path shortcut of format(double) to be called by NumberFormat, or by
-     * format(double, ...) public methods.
+     * A fbst-pbth shortcut of formbt(double) to be cblled by NumberFormbt, or by
+     * formbt(double, ...) public methods.
      *
-     * If instance can be applied fast-path and passed double is not NaN or
-     * Infinity, is in the integer range, we call {@code fastDoubleFormat}
-     * after changing {@code d} to its positive value if necessary.
+     * If instbnce cbn be bpplied fbst-pbth bnd pbssed double is not NbN or
+     * Infinity, is in the integer rbnge, we cbll {@code fbstDoubleFormbt}
+     * bfter chbnging {@code d} to its positive vblue if necessbry.
      *
-     * Otherwise returns null by convention since fast-path can't be exercized.
+     * Otherwise returns null by convention since fbst-pbth cbn't be exercized.
      *
-     * @param d The double value to be formatted
+     * @pbrbm d The double vblue to be formbtted
      *
-     * @return the formatted result for {@code d} as a string.
+     * @return the formbtted result for {@code d} bs b string.
      */
-    String fastFormat(double d) {
-        // (Re-)Evaluates fast-path status if needed.
-        if (fastPathCheckNeeded)
-            checkAndSetFastPathStatus();
+    String fbstFormbt(double d) {
+        // (Re-)Evblubtes fbst-pbth stbtus if needed.
+        if (fbstPbthCheckNeeded)
+            checkAndSetFbstPbthStbtus();
 
-        if (!isFastPath )
-            // DecimalFormat instance is not in a fast-path state.
+        if (!isFbstPbth )
+            // DecimblFormbt instbnce is not in b fbst-pbth stbte.
             return null;
 
         if (!Double.isFinite(d))
-            // Should not use fast-path for Infinity and NaN.
+            // Should not use fbst-pbth for Infinity bnd NbN.
             return null;
 
-        // Extracts and records sign of double value, possibly changing it
-        // to a positive one, before calling fastDoubleFormat().
-        boolean negative = false;
+        // Extrbcts bnd records sign of double vblue, possibly chbnging it
+        // to b positive one, before cblling fbstDoubleFormbt().
+        boolebn negbtive = fblse;
         if (d < 0.0d) {
-            negative = true;
+            negbtive = true;
             d = -d;
         } else if (d == 0.0d) {
-            negative = (Math.copySign(1.0d, d) == -1.0d);
+            negbtive = (Mbth.copySign(1.0d, d) == -1.0d);
             d = +0.0d;
         }
 
         if (d > MAX_INT_AS_DOUBLE)
-            // Filters out values that are outside expected fast-path range
+            // Filters out vblues thbt bre outside expected fbst-pbth rbnge
             return null;
         else
-            fastDoubleFormat(d, negative);
+            fbstDoubleFormbt(d, negbtive);
 
-        // Returns a new string from updated fastPathContainer.
-        return new String(fastPathData.fastPathContainer,
-                          fastPathData.firstUsedIndex,
-                          fastPathData.lastFreeIndex - fastPathData.firstUsedIndex);
+        // Returns b new string from updbted fbstPbthContbiner.
+        return new String(fbstPbthDbtb.fbstPbthContbiner,
+                          fbstPbthDbtb.firstUsedIndex,
+                          fbstPbthDbtb.lbstFreeIndex - fbstPbthDbtb.firstUsedIndex);
 
     }
 
-    // ======== End fast-path formating logic for double =========================
+    // ======== End fbst-pbth formbting logic for double =========================
 
     /**
-     * Complete the formatting of a finite number.  On entry, the digitList must
+     * Complete the formbtting of b finite number.  On entry, the digitList must
      * be filled in with the correct digits.
      */
-    private StringBuffer subformat(StringBuffer result, FieldDelegate delegate,
-                                   boolean isNegative, boolean isInteger,
-                                   int maxIntDigits, int minIntDigits,
-                                   int maxFraDigits, int minFraDigits) {
-        // NOTE: This isn't required anymore because DigitList takes care of this.
+    privbte StringBuffer subformbt(StringBuffer result, FieldDelegbte delegbte,
+                                   boolebn isNegbtive, boolebn isInteger,
+                                   int mbxIntDigits, int minIntDigits,
+                                   int mbxFrbDigits, int minFrbDigits) {
+        // NOTE: This isn't required bnymore becbuse DigitList tbkes cbre of this.
         //
-        //  // The negative of the exponent represents the number of leading
-        //  // zeros between the decimal and the first non-zero digit, for
-        //  // a value < 0.1 (e.g., for 0.00123, -fExponent == 2).  If this
-        //  // is more than the maximum fraction digits, then we have an underflow
-        //  // for the printed representation.  We recognize this here and set
-        //  // the DigitList representation to zero in this situation.
+        //  // The negbtive of the exponent represents the number of lebding
+        //  // zeros between the decimbl bnd the first non-zero digit, for
+        //  // b vblue < 0.1 (e.g., for 0.00123, -fExponent == 2).  If this
+        //  // is more thbn the mbximum frbction digits, then we hbve bn underflow
+        //  // for the printed representbtion.  We recognize this here bnd set
+        //  // the DigitList representbtion to zero in this situbtion.
         //
-        //  if (-digitList.decimalAt >= getMaximumFractionDigits())
+        //  if (-digitList.decimblAt >= getMbximumFrbctionDigits())
         //  {
         //      digitList.count = 0;
         //  }
 
-        char zero = symbols.getZeroDigit();
-        int zeroDelta = zero - '0'; // '0' is the DigitList representation of zero
-        char grouping = symbols.getGroupingSeparator();
-        char decimal = isCurrencyFormat ?
-            symbols.getMonetaryDecimalSeparator() :
-            symbols.getDecimalSeparator();
+        chbr zero = symbols.getZeroDigit();
+        int zeroDeltb = zero - '0'; // '0' is the DigitList representbtion of zero
+        chbr grouping = symbols.getGroupingSepbrbtor();
+        chbr decimbl = isCurrencyFormbt ?
+            symbols.getMonetbryDecimblSepbrbtor() :
+            symbols.getDecimblSepbrbtor();
 
-        /* Per bug 4147706, DecimalFormat must respect the sign of numbers which
-         * format as zero.  This allows sensible computations and preserves
-         * relations such as signum(1/x) = signum(x), where x is +Infinity or
-         * -Infinity.  Prior to this fix, we always formatted zero values as if
+        /* Per bug 4147706, DecimblFormbt must respect the sign of numbers which
+         * formbt bs zero.  This bllows sensible computbtions bnd preserves
+         * relbtions such bs signum(1/x) = signum(x), where x is +Infinity or
+         * -Infinity.  Prior to this fix, we blwbys formbtted zero vblues bs if
          * they were positive.  Liu 7/6/98.
          */
         if (digitList.isZero()) {
-            digitList.decimalAt = 0; // Normalize
+            digitList.decimblAt = 0; // Normblize
         }
 
-        if (isNegative) {
-            append(result, negativePrefix, delegate,
-                   getNegativePrefixFieldPositions(), Field.SIGN);
+        if (isNegbtive) {
+            bppend(result, negbtivePrefix, delegbte,
+                   getNegbtivePrefixFieldPositions(), Field.SIGN);
         } else {
-            append(result, positivePrefix, delegate,
+            bppend(result, positivePrefix, delegbte,
                    getPositivePrefixFieldPositions(), Field.SIGN);
         }
 
-        if (useExponentialNotation) {
-            int iFieldStart = result.length();
+        if (useExponentiblNotbtion) {
+            int iFieldStbrt = result.length();
             int iFieldEnd = -1;
-            int fFieldStart = -1;
+            int fFieldStbrt = -1;
 
-            // Minimum integer digits are handled in exponential format by
-            // adjusting the exponent.  For example, 0.01234 with 3 minimum
+            // Minimum integer digits bre hbndled in exponentibl formbt by
+            // bdjusting the exponent.  For exbmple, 0.01234 with 3 minimum
             // integer digits is "123.4E-4".
 
-            // Maximum integer digits are interpreted as indicating the
-            // repeating range.  This is useful for engineering notation, in
-            // which the exponent is restricted to a multiple of 3.  For
-            // example, 0.01234 with 3 maximum integer digits is "12.34e-3".
-            // If maximum integer digits are > 1 and are larger than
-            // minimum integer digits, then minimum integer digits are
+            // Mbximum integer digits bre interpreted bs indicbting the
+            // repebting rbnge.  This is useful for engineering notbtion, in
+            // which the exponent is restricted to b multiple of 3.  For
+            // exbmple, 0.01234 with 3 mbximum integer digits is "12.34e-3".
+            // If mbximum integer digits bre > 1 bnd bre lbrger thbn
+            // minimum integer digits, then minimum integer digits bre
             // ignored.
-            int exponent = digitList.decimalAt;
-            int repeat = maxIntDigits;
+            int exponent = digitList.decimblAt;
+            int repebt = mbxIntDigits;
             int minimumIntegerDigits = minIntDigits;
-            if (repeat > 1 && repeat > minIntDigits) {
-                // A repeating range is defined; adjust to it as follows.
-                // If repeat == 3, we have 6,5,4=>3; 3,2,1=>0; 0,-1,-2=>-3;
-                // -3,-4,-5=>-6, etc. This takes into account that the
-                // exponent we have here is off by one from what we expect;
-                // it is for the format 0.MMMMMx10^n.
+            if (repebt > 1 && repebt > minIntDigits) {
+                // A repebting rbnge is defined; bdjust to it bs follows.
+                // If repebt == 3, we hbve 6,5,4=>3; 3,2,1=>0; 0,-1,-2=>-3;
+                // -3,-4,-5=>-6, etc. This tbkes into bccount thbt the
+                // exponent we hbve here is off by one from whbt we expect;
+                // it is for the formbt 0.MMMMMx10^n.
                 if (exponent >= 1) {
-                    exponent = ((exponent - 1) / repeat) * repeat;
+                    exponent = ((exponent - 1) / repebt) * repebt;
                 } else {
-                    // integer division rounds towards 0
-                    exponent = ((exponent - repeat) / repeat) * repeat;
+                    // integer division rounds towbrds 0
+                    exponent = ((exponent - repebt) / repebt) * repebt;
                 }
                 minimumIntegerDigits = 1;
             } else {
-                // No repeating range is defined; use minimum integer digits.
+                // No repebting rbnge is defined; use minimum integer digits.
                 exponent -= minimumIntegerDigits;
             }
 
-            // We now output a minimum number of digits, and more if there
-            // are more digits, up to the maximum number of digits.  We
-            // place the decimal point after the "integer" digits, which
-            // are the first (decimalAt - exponent) digits.
-            int minimumDigits = minIntDigits + minFraDigits;
+            // We now output b minimum number of digits, bnd more if there
+            // bre more digits, up to the mbximum number of digits.  We
+            // plbce the decimbl point bfter the "integer" digits, which
+            // bre the first (decimblAt - exponent) digits.
+            int minimumDigits = minIntDigits + minFrbDigits;
             if (minimumDigits < 0) {    // overflow?
                 minimumDigits = Integer.MAX_VALUE;
             }
 
-            // The number of integer digits is handled specially if the number
-            // is zero, since then there may be no digits.
+            // The number of integer digits is hbndled speciblly if the number
+            // is zero, since then there mby be no digits.
             int integerDigits = digitList.isZero() ? minimumIntegerDigits :
-                    digitList.decimalAt - exponent;
+                    digitList.decimblAt - exponent;
             if (minimumDigits < integerDigits) {
                 minimumDigits = integerDigits;
             }
-            int totalDigits = digitList.count;
-            if (minimumDigits > totalDigits) {
-                totalDigits = minimumDigits;
+            int totblDigits = digitList.count;
+            if (minimumDigits > totblDigits) {
+                totblDigits = minimumDigits;
             }
-            boolean addedDecimalSeparator = false;
+            boolebn bddedDecimblSepbrbtor = fblse;
 
-            for (int i=0; i<totalDigits; ++i) {
+            for (int i=0; i<totblDigits; ++i) {
                 if (i == integerDigits) {
-                    // Record field information for caller.
+                    // Record field informbtion for cbller.
                     iFieldEnd = result.length();
 
-                    result.append(decimal);
-                    addedDecimalSeparator = true;
+                    result.bppend(decimbl);
+                    bddedDecimblSepbrbtor = true;
 
-                    // Record field information for caller.
-                    fFieldStart = result.length();
+                    // Record field informbtion for cbller.
+                    fFieldStbrt = result.length();
                 }
-                result.append((i < digitList.count) ?
-                              (char)(digitList.digits[i] + zeroDelta) :
+                result.bppend((i < digitList.count) ?
+                              (chbr)(digitList.digits[i] + zeroDeltb) :
                               zero);
             }
 
-            if (decimalSeparatorAlwaysShown && totalDigits == integerDigits) {
-                // Record field information for caller.
+            if (decimblSepbrbtorAlwbysShown && totblDigits == integerDigits) {
+                // Record field informbtion for cbller.
                 iFieldEnd = result.length();
 
-                result.append(decimal);
-                addedDecimalSeparator = true;
+                result.bppend(decimbl);
+                bddedDecimblSepbrbtor = true;
 
-                // Record field information for caller.
-                fFieldStart = result.length();
+                // Record field informbtion for cbller.
+                fFieldStbrt = result.length();
             }
 
-            // Record field information
+            // Record field informbtion
             if (iFieldEnd == -1) {
                 iFieldEnd = result.length();
             }
-            delegate.formatted(INTEGER_FIELD, Field.INTEGER, Field.INTEGER,
-                               iFieldStart, iFieldEnd, result);
-            if (addedDecimalSeparator) {
-                delegate.formatted(Field.DECIMAL_SEPARATOR,
+            delegbte.formbtted(INTEGER_FIELD, Field.INTEGER, Field.INTEGER,
+                               iFieldStbrt, iFieldEnd, result);
+            if (bddedDecimblSepbrbtor) {
+                delegbte.formbtted(Field.DECIMAL_SEPARATOR,
                                    Field.DECIMAL_SEPARATOR,
-                                   iFieldEnd, fFieldStart, result);
+                                   iFieldEnd, fFieldStbrt, result);
             }
-            if (fFieldStart == -1) {
-                fFieldStart = result.length();
+            if (fFieldStbrt == -1) {
+                fFieldStbrt = result.length();
             }
-            delegate.formatted(FRACTION_FIELD, Field.FRACTION, Field.FRACTION,
-                               fFieldStart, result.length(), result);
+            delegbte.formbtted(FRACTION_FIELD, Field.FRACTION, Field.FRACTION,
+                               fFieldStbrt, result.length(), result);
 
-            // The exponent is output using the pattern-specified minimum
-            // exponent digits.  There is no maximum limit to the exponent
-            // digits, since truncating the exponent would result in an
-            // unacceptable inaccuracy.
-            int fieldStart = result.length();
+            // The exponent is output using the pbttern-specified minimum
+            // exponent digits.  There is no mbximum limit to the exponent
+            // digits, since truncbting the exponent would result in bn
+            // unbcceptbble inbccurbcy.
+            int fieldStbrt = result.length();
 
-            result.append(symbols.getExponentSeparator());
+            result.bppend(symbols.getExponentSepbrbtor());
 
-            delegate.formatted(Field.EXPONENT_SYMBOL, Field.EXPONENT_SYMBOL,
-                               fieldStart, result.length(), result);
+            delegbte.formbtted(Field.EXPONENT_SYMBOL, Field.EXPONENT_SYMBOL,
+                               fieldStbrt, result.length(), result);
 
-            // For zero values, we force the exponent to zero.  We
-            // must do this here, and not earlier, because the value
-            // is used to determine integer digit count above.
+            // For zero vblues, we force the exponent to zero.  We
+            // must do this here, bnd not ebrlier, becbuse the vblue
+            // is used to determine integer digit count bbove.
             if (digitList.isZero()) {
                 exponent = 0;
             }
 
-            boolean negativeExponent = exponent < 0;
-            if (negativeExponent) {
+            boolebn negbtiveExponent = exponent < 0;
+            if (negbtiveExponent) {
                 exponent = -exponent;
-                fieldStart = result.length();
-                result.append(symbols.getMinusSign());
-                delegate.formatted(Field.EXPONENT_SIGN, Field.EXPONENT_SIGN,
-                                   fieldStart, result.length(), result);
+                fieldStbrt = result.length();
+                result.bppend(symbols.getMinusSign());
+                delegbte.formbtted(Field.EXPONENT_SIGN, Field.EXPONENT_SIGN,
+                                   fieldStbrt, result.length(), result);
             }
-            digitList.set(negativeExponent, exponent);
+            digitList.set(negbtiveExponent, exponent);
 
-            int eFieldStart = result.length();
+            int eFieldStbrt = result.length();
 
-            for (int i=digitList.decimalAt; i<minExponentDigits; ++i) {
-                result.append(zero);
+            for (int i=digitList.decimblAt; i<minExponentDigits; ++i) {
+                result.bppend(zero);
             }
-            for (int i=0; i<digitList.decimalAt; ++i) {
-                result.append((i < digitList.count) ?
-                          (char)(digitList.digits[i] + zeroDelta) : zero);
+            for (int i=0; i<digitList.decimblAt; ++i) {
+                result.bppend((i < digitList.count) ?
+                          (chbr)(digitList.digits[i] + zeroDeltb) : zero);
             }
-            delegate.formatted(Field.EXPONENT, Field.EXPONENT, eFieldStart,
+            delegbte.formbtted(Field.EXPONENT, Field.EXPONENT, eFieldStbrt,
                                result.length(), result);
         } else {
-            int iFieldStart = result.length();
+            int iFieldStbrt = result.length();
 
-            // Output the integer portion.  Here 'count' is the total
-            // number of integer digits we will display, including both
-            // leading zeros required to satisfy getMinimumIntegerDigits,
-            // and actual digits present in the number.
+            // Output the integer portion.  Here 'count' is the totbl
+            // number of integer digits we will displby, including both
+            // lebding zeros required to sbtisfy getMinimumIntegerDigits,
+            // bnd bctubl digits present in the number.
             int count = minIntDigits;
             int digitIndex = 0; // Index into digitList.fDigits[]
-            if (digitList.decimalAt > 0 && count < digitList.decimalAt) {
-                count = digitList.decimalAt;
+            if (digitList.decimblAt > 0 && count < digitList.decimblAt) {
+                count = digitList.decimblAt;
             }
 
-            // Handle the case where getMaximumIntegerDigits() is smaller
-            // than the real number of integer digits.  If this is so, we
-            // output the least significant max integer digits.  For example,
-            // the value 1997 printed with 2 max integer digits is just "97".
-            if (count > maxIntDigits) {
-                count = maxIntDigits;
-                digitIndex = digitList.decimalAt - count;
+            // Hbndle the cbse where getMbximumIntegerDigits() is smbller
+            // thbn the rebl number of integer digits.  If this is so, we
+            // output the lebst significbnt mbx integer digits.  For exbmple,
+            // the vblue 1997 printed with 2 mbx integer digits is just "97".
+            if (count > mbxIntDigits) {
+                count = mbxIntDigits;
+                digitIndex = digitList.decimblAt - count;
             }
 
-            int sizeBeforeIntegerPart = result.length();
+            int sizeBeforeIntegerPbrt = result.length();
             for (int i=count-1; i>=0; --i) {
-                if (i < digitList.decimalAt && digitIndex < digitList.count) {
-                    // Output a real digit
-                    result.append((char)(digitList.digits[digitIndex++] + zeroDelta));
+                if (i < digitList.decimblAt && digitIndex < digitList.count) {
+                    // Output b rebl digit
+                    result.bppend((chbr)(digitList.digits[digitIndex++] + zeroDeltb));
                 } else {
-                    // Output a leading zero
-                    result.append(zero);
+                    // Output b lebding zero
+                    result.bppend(zero);
                 }
 
-                // Output grouping separator if necessary.  Don't output a
-                // grouping separator if i==0 though; that's at the end of
-                // the integer part.
+                // Output grouping sepbrbtor if necessbry.  Don't output b
+                // grouping sepbrbtor if i==0 though; thbt's bt the end of
+                // the integer pbrt.
                 if (isGroupingUsed() && i>0 && (groupingSize != 0) &&
                     (i % groupingSize == 0)) {
-                    int gStart = result.length();
-                    result.append(grouping);
-                    delegate.formatted(Field.GROUPING_SEPARATOR,
-                                       Field.GROUPING_SEPARATOR, gStart,
+                    int gStbrt = result.length();
+                    result.bppend(grouping);
+                    delegbte.formbtted(Field.GROUPING_SEPARATOR,
+                                       Field.GROUPING_SEPARATOR, gStbrt,
                                        result.length(), result);
                 }
             }
 
-            // Determine whether or not there are any printable fractional
-            // digits.  If we've used up the digits we know there aren't.
-            boolean fractionPresent = (minFraDigits > 0) ||
+            // Determine whether or not there bre bny printbble frbctionbl
+            // digits.  If we've used up the digits we know there bren't.
+            boolebn frbctionPresent = (minFrbDigits > 0) ||
                 (!isInteger && digitIndex < digitList.count);
 
-            // If there is no fraction present, and we haven't printed any
-            // integer digits, then print a zero.  Otherwise we won't print
-            // _any_ digits, and we won't be able to parse this string.
-            if (!fractionPresent && result.length() == sizeBeforeIntegerPart) {
-                result.append(zero);
+            // If there is no frbction present, bnd we hbven't printed bny
+            // integer digits, then print b zero.  Otherwise we won't print
+            // _bny_ digits, bnd we won't be bble to pbrse this string.
+            if (!frbctionPresent && result.length() == sizeBeforeIntegerPbrt) {
+                result.bppend(zero);
             }
 
-            delegate.formatted(INTEGER_FIELD, Field.INTEGER, Field.INTEGER,
-                               iFieldStart, result.length(), result);
+            delegbte.formbtted(INTEGER_FIELD, Field.INTEGER, Field.INTEGER,
+                               iFieldStbrt, result.length(), result);
 
-            // Output the decimal separator if we always do so.
-            int sStart = result.length();
-            if (decimalSeparatorAlwaysShown || fractionPresent) {
-                result.append(decimal);
+            // Output the decimbl sepbrbtor if we blwbys do so.
+            int sStbrt = result.length();
+            if (decimblSepbrbtorAlwbysShown || frbctionPresent) {
+                result.bppend(decimbl);
             }
 
-            if (sStart != result.length()) {
-                delegate.formatted(Field.DECIMAL_SEPARATOR,
+            if (sStbrt != result.length()) {
+                delegbte.formbtted(Field.DECIMAL_SEPARATOR,
                                    Field.DECIMAL_SEPARATOR,
-                                   sStart, result.length(), result);
+                                   sStbrt, result.length(), result);
             }
-            int fFieldStart = result.length();
+            int fFieldStbrt = result.length();
 
-            for (int i=0; i < maxFraDigits; ++i) {
-                // Here is where we escape from the loop.  We escape if we've
-                // output the maximum fraction digits (specified in the for
-                // expression above).
-                // We also stop when we've output the minimum digits and either:
-                // we have an integer, so there is no fractional stuff to
-                // display, or we're out of significant digits.
-                if (i >= minFraDigits &&
+            for (int i=0; i < mbxFrbDigits; ++i) {
+                // Here is where we escbpe from the loop.  We escbpe if we've
+                // output the mbximum frbction digits (specified in the for
+                // expression bbove).
+                // We blso stop when we've output the minimum digits bnd either:
+                // we hbve bn integer, so there is no frbctionbl stuff to
+                // displby, or we're out of significbnt digits.
+                if (i >= minFrbDigits &&
                     (isInteger || digitIndex >= digitList.count)) {
-                    break;
+                    brebk;
                 }
 
-                // Output leading fractional zeros. These are zeros that come
-                // after the decimal but before any significant digits. These
-                // are only output if abs(number being formatted) < 1.0.
-                if (-1-i > (digitList.decimalAt-1)) {
-                    result.append(zero);
+                // Output lebding frbctionbl zeros. These bre zeros thbt come
+                // bfter the decimbl but before bny significbnt digits. These
+                // bre only output if bbs(number being formbtted) < 1.0.
+                if (-1-i > (digitList.decimblAt-1)) {
+                    result.bppend(zero);
                     continue;
                 }
 
-                // Output a digit, if we have any precision left, or a
-                // zero if we don't.  We don't want to output noise digits.
+                // Output b digit, if we hbve bny precision left, or b
+                // zero if we don't.  We don't wbnt to output noise digits.
                 if (!isInteger && digitIndex < digitList.count) {
-                    result.append((char)(digitList.digits[digitIndex++] + zeroDelta));
+                    result.bppend((chbr)(digitList.digits[digitIndex++] + zeroDeltb));
                 } else {
-                    result.append(zero);
+                    result.bppend(zero);
                 }
             }
 
-            // Record field information for caller.
-            delegate.formatted(FRACTION_FIELD, Field.FRACTION, Field.FRACTION,
-                               fFieldStart, result.length(), result);
+            // Record field informbtion for cbller.
+            delegbte.formbtted(FRACTION_FIELD, Field.FRACTION, Field.FRACTION,
+                               fFieldStbrt, result.length(), result);
         }
 
-        if (isNegative) {
-            append(result, negativeSuffix, delegate,
-                   getNegativeSuffixFieldPositions(), Field.SIGN);
+        if (isNegbtive) {
+            bppend(result, negbtiveSuffix, delegbte,
+                   getNegbtiveSuffixFieldPositions(), Field.SIGN);
         } else {
-            append(result, positiveSuffix, delegate,
+            bppend(result, positiveSuffix, delegbte,
                    getPositiveSuffixFieldPositions(), Field.SIGN);
         }
 
@@ -1901,112 +1901,112 @@ public class DecimalFormat extends NumberFormat {
 
     /**
      * Appends the String <code>string</code> to <code>result</code>.
-     * <code>delegate</code> is notified of all  the
+     * <code>delegbte</code> is notified of bll  the
      * <code>FieldPosition</code>s in <code>positions</code>.
      * <p>
      * If one of the <code>FieldPosition</code>s in <code>positions</code>
-     * identifies a <code>SIGN</code> attribute, it is mapped to
+     * identifies b <code>SIGN</code> bttribute, it is mbpped to
      * <code>signAttribute</code>. This is used
-     * to map the <code>SIGN</code> attribute to the <code>EXPONENT</code>
-     * attribute as necessary.
+     * to mbp the <code>SIGN</code> bttribute to the <code>EXPONENT</code>
+     * bttribute bs necessbry.
      * <p>
-     * This is used by <code>subformat</code> to add the prefix/suffix.
+     * This is used by <code>subformbt</code> to bdd the prefix/suffix.
      */
-    private void append(StringBuffer result, String string,
-                        FieldDelegate delegate,
+    privbte void bppend(StringBuffer result, String string,
+                        FieldDelegbte delegbte,
                         FieldPosition[] positions,
-                        Format.Field signAttribute) {
-        int start = result.length();
+                        Formbt.Field signAttribute) {
+        int stbrt = result.length();
 
         if (string.length() > 0) {
-            result.append(string);
-            for (int counter = 0, max = positions.length; counter < max;
+            result.bppend(string);
+            for (int counter = 0, mbx = positions.length; counter < mbx;
                  counter++) {
                 FieldPosition fp = positions[counter];
-                Format.Field attribute = fp.getFieldAttribute();
+                Formbt.Field bttribute = fp.getFieldAttribute();
 
-                if (attribute == Field.SIGN) {
-                    attribute = signAttribute;
+                if (bttribute == Field.SIGN) {
+                    bttribute = signAttribute;
                 }
-                delegate.formatted(attribute, attribute,
-                                   start + fp.getBeginIndex(),
-                                   start + fp.getEndIndex(), result);
+                delegbte.formbtted(bttribute, bttribute,
+                                   stbrt + fp.getBeginIndex(),
+                                   stbrt + fp.getEndIndex(), result);
             }
         }
     }
 
     /**
-     * Parses text from a string to produce a <code>Number</code>.
+     * Pbrses text from b string to produce b <code>Number</code>.
      * <p>
-     * The method attempts to parse text starting at the index given by
+     * The method bttempts to pbrse text stbrting bt the index given by
      * <code>pos</code>.
-     * If parsing succeeds, then the index of <code>pos</code> is updated
-     * to the index after the last character used (parsing does not necessarily
-     * use all characters up to the end of the string), and the parsed
-     * number is returned. The updated <code>pos</code> can be used to
-     * indicate the starting point for the next call to this method.
-     * If an error occurs, then the index of <code>pos</code> is not
-     * changed, the error index of <code>pos</code> is set to the index of
-     * the character where the error occurred, and null is returned.
+     * If pbrsing succeeds, then the index of <code>pos</code> is updbted
+     * to the index bfter the lbst chbrbcter used (pbrsing does not necessbrily
+     * use bll chbrbcters up to the end of the string), bnd the pbrsed
+     * number is returned. The updbted <code>pos</code> cbn be used to
+     * indicbte the stbrting point for the next cbll to this method.
+     * If bn error occurs, then the index of <code>pos</code> is not
+     * chbnged, the error index of <code>pos</code> is set to the index of
+     * the chbrbcter where the error occurred, bnd null is returned.
      * <p>
-     * The subclass returned depends on the value of {@link #isParseBigDecimal}
-     * as well as on the string being parsed.
+     * The subclbss returned depends on the vblue of {@link #isPbrseBigDecimbl}
+     * bs well bs on the string being pbrsed.
      * <ul>
-     *   <li>If <code>isParseBigDecimal()</code> is false (the default),
-     *       most integer values are returned as <code>Long</code>
-     *       objects, no matter how they are written: <code>"17"</code> and
-     *       <code>"17.000"</code> both parse to <code>Long(17)</code>.
-     *       Values that cannot fit into a <code>Long</code> are returned as
-     *       <code>Double</code>s. This includes values with a fractional part,
-     *       infinite values, <code>NaN</code>, and the value -0.0.
-     *       <code>DecimalFormat</code> does <em>not</em> decide whether to
-     *       return a <code>Double</code> or a <code>Long</code> based on the
-     *       presence of a decimal separator in the source string. Doing so
-     *       would prevent integers that overflow the mantissa of a double,
-     *       such as <code>"-9,223,372,036,854,775,808.00"</code>, from being
-     *       parsed accurately.
+     *   <li>If <code>isPbrseBigDecimbl()</code> is fblse (the defbult),
+     *       most integer vblues bre returned bs <code>Long</code>
+     *       objects, no mbtter how they bre written: <code>"17"</code> bnd
+     *       <code>"17.000"</code> both pbrse to <code>Long(17)</code>.
+     *       Vblues thbt cbnnot fit into b <code>Long</code> bre returned bs
+     *       <code>Double</code>s. This includes vblues with b frbctionbl pbrt,
+     *       infinite vblues, <code>NbN</code>, bnd the vblue -0.0.
+     *       <code>DecimblFormbt</code> does <em>not</em> decide whether to
+     *       return b <code>Double</code> or b <code>Long</code> bbsed on the
+     *       presence of b decimbl sepbrbtor in the source string. Doing so
+     *       would prevent integers thbt overflow the mbntissb of b double,
+     *       such bs <code>"-9,223,372,036,854,775,808.00"</code>, from being
+     *       pbrsed bccurbtely.
      *       <p>
-     *       Callers may use the <code>Number</code> methods
-     *       <code>doubleValue</code>, <code>longValue</code>, etc., to obtain
-     *       the type they want.
-     *   <li>If <code>isParseBigDecimal()</code> is true, values are returned
-     *       as <code>BigDecimal</code> objects. The values are the ones
-     *       constructed by {@link java.math.BigDecimal#BigDecimal(String)}
-     *       for corresponding strings in locale-independent format. The
-     *       special cases negative and positive infinity and NaN are returned
-     *       as <code>Double</code> instances holding the values of the
-     *       corresponding <code>Double</code> constants.
+     *       Cbllers mby use the <code>Number</code> methods
+     *       <code>doubleVblue</code>, <code>longVblue</code>, etc., to obtbin
+     *       the type they wbnt.
+     *   <li>If <code>isPbrseBigDecimbl()</code> is true, vblues bre returned
+     *       bs <code>BigDecimbl</code> objects. The vblues bre the ones
+     *       constructed by {@link jbvb.mbth.BigDecimbl#BigDecimbl(String)}
+     *       for corresponding strings in locble-independent formbt. The
+     *       specibl cbses negbtive bnd positive infinity bnd NbN bre returned
+     *       bs <code>Double</code> instbnces holding the vblues of the
+     *       corresponding <code>Double</code> constbnts.
      * </ul>
      * <p>
-     * <code>DecimalFormat</code> parses all Unicode characters that represent
-     * decimal digits, as defined by <code>Character.digit()</code>. In
-     * addition, <code>DecimalFormat</code> also recognizes as digits the ten
-     * consecutive characters starting with the localized zero digit defined in
-     * the <code>DecimalFormatSymbols</code> object.
+     * <code>DecimblFormbt</code> pbrses bll Unicode chbrbcters thbt represent
+     * decimbl digits, bs defined by <code>Chbrbcter.digit()</code>. In
+     * bddition, <code>DecimblFormbt</code> blso recognizes bs digits the ten
+     * consecutive chbrbcters stbrting with the locblized zero digit defined in
+     * the <code>DecimblFormbtSymbols</code> object.
      *
-     * @param text the string to be parsed
-     * @param pos  A <code>ParsePosition</code> object with index and error
-     *             index information as described above.
-     * @return     the parsed value, or <code>null</code> if the parse fails
+     * @pbrbm text the string to be pbrsed
+     * @pbrbm pos  A <code>PbrsePosition</code> object with index bnd error
+     *             index informbtion bs described bbove.
+     * @return     the pbrsed vblue, or <code>null</code> if the pbrse fbils
      * @exception  NullPointerException if <code>text</code> or
      *             <code>pos</code> is null.
      */
     @Override
-    public Number parse(String text, ParsePosition pos) {
-        // special case NaN
-        if (text.regionMatches(pos.index, symbols.getNaN(), 0, symbols.getNaN().length())) {
-            pos.index = pos.index + symbols.getNaN().length();
-            return new Double(Double.NaN);
+    public Number pbrse(String text, PbrsePosition pos) {
+        // specibl cbse NbN
+        if (text.regionMbtches(pos.index, symbols.getNbN(), 0, symbols.getNbN().length())) {
+            pos.index = pos.index + symbols.getNbN().length();
+            return new Double(Double.NbN);
         }
 
-        boolean[] status = new boolean[STATUS_LENGTH];
-        if (!subparse(text, pos, positivePrefix, negativePrefix, digitList, false, status)) {
+        boolebn[] stbtus = new boolebn[STATUS_LENGTH];
+        if (!subpbrse(text, pos, positivePrefix, negbtivePrefix, digitList, fblse, stbtus)) {
             return null;
         }
 
-        // special case INFINITY
-        if (status[STATUS_INFINITE]) {
-            if (status[STATUS_POSITIVE] == (multiplier >= 0)) {
+        // specibl cbse INFINITY
+        if (stbtus[STATUS_INFINITE]) {
+            if (stbtus[STATUS_POSITIVE] == (multiplier >= 0)) {
                 return new Double(Double.POSITIVE_INFINITY);
             } else {
                 return new Double(Double.NEGATIVE_INFINITY);
@@ -2015,39 +2015,39 @@ public class DecimalFormat extends NumberFormat {
 
         if (multiplier == 0) {
             if (digitList.isZero()) {
-                return new Double(Double.NaN);
-            } else if (status[STATUS_POSITIVE]) {
+                return new Double(Double.NbN);
+            } else if (stbtus[STATUS_POSITIVE]) {
                 return new Double(Double.POSITIVE_INFINITY);
             } else {
                 return new Double(Double.NEGATIVE_INFINITY);
             }
         }
 
-        if (isParseBigDecimal()) {
-            BigDecimal bigDecimalResult = digitList.getBigDecimal();
+        if (isPbrseBigDecimbl()) {
+            BigDecimbl bigDecimblResult = digitList.getBigDecimbl();
 
             if (multiplier != 1) {
                 try {
-                    bigDecimalResult = bigDecimalResult.divide(getBigDecimalMultiplier());
+                    bigDecimblResult = bigDecimblResult.divide(getBigDecimblMultiplier());
                 }
-                catch (ArithmeticException e) {  // non-terminating decimal expansion
-                    bigDecimalResult = bigDecimalResult.divide(getBigDecimalMultiplier(), roundingMode);
+                cbtch (ArithmeticException e) {  // non-terminbting decimbl expbnsion
+                    bigDecimblResult = bigDecimblResult.divide(getBigDecimblMultiplier(), roundingMode);
                 }
             }
 
-            if (!status[STATUS_POSITIVE]) {
-                bigDecimalResult = bigDecimalResult.negate();
+            if (!stbtus[STATUS_POSITIVE]) {
+                bigDecimblResult = bigDecimblResult.negbte();
             }
-            return bigDecimalResult;
+            return bigDecimblResult;
         } else {
-            boolean gotDouble = true;
-            boolean gotLongMinimum = false;
+            boolebn gotDouble = true;
+            boolebn gotLongMinimum = fblse;
             double  doubleResult = 0.0;
             long    longResult = 0;
 
-            // Finally, have DigitList parse the digits into a value.
-            if (digitList.fitsIntoLong(status[STATUS_POSITIVE], isParseIntegerOnly())) {
-                gotDouble = false;
+            // Finblly, hbve DigitList pbrse the digits into b vblue.
+            if (digitList.fitsIntoLong(stbtus[STATUS_POSITIVE], isPbrseIntegerOnly())) {
+                gotDouble = fblse;
                 longResult = digitList.getLong();
                 if (longResult < 0) {  // got Long.MIN_VALUE
                     gotLongMinimum = true;
@@ -2056,13 +2056,13 @@ public class DecimalFormat extends NumberFormat {
                 doubleResult = digitList.getDouble();
             }
 
-            // Divide by multiplier. We have to be careful here not to do
-            // unneeded conversions between double and long.
+            // Divide by multiplier. We hbve to be cbreful here not to do
+            // unneeded conversions between double bnd long.
             if (multiplier != 1) {
                 if (gotDouble) {
                     doubleResult /= multiplier;
                 } else {
-                    // Avoid converting to double if we can
+                    // Avoid converting to double if we cbn
                     if (longResult % multiplier == 0) {
                         longResult /= multiplier;
                     } else {
@@ -2072,317 +2072,317 @@ public class DecimalFormat extends NumberFormat {
                 }
             }
 
-            if (!status[STATUS_POSITIVE] && !gotLongMinimum) {
+            if (!stbtus[STATUS_POSITIVE] && !gotLongMinimum) {
                 doubleResult = -doubleResult;
                 longResult = -longResult;
             }
 
             // At this point, if we divided the result by the multiplier, the
-            // result may fit into a long.  We check for this case and return
-            // a long if possible.
-            // We must do this AFTER applying the negative (if appropriate)
-            // in order to handle the case of LONG_MIN; otherwise, if we do
-            // this with a positive value -LONG_MIN, the double is > 0, but
-            // the long is < 0. We also must retain a double in the case of
-            // -0.0, which will compare as == to a long 0 cast to a double
+            // result mby fit into b long.  We check for this cbse bnd return
+            // b long if possible.
+            // We must do this AFTER bpplying the negbtive (if bppropribte)
+            // in order to hbndle the cbse of LONG_MIN; otherwise, if we do
+            // this with b positive vblue -LONG_MIN, the double is > 0, but
+            // the long is < 0. We blso must retbin b double in the cbse of
+            // -0.0, which will compbre bs == to b long 0 cbst to b double
             // (bug 4162852).
             if (multiplier != 1 && gotDouble) {
                 longResult = (long)doubleResult;
                 gotDouble = ((doubleResult != (double)longResult) ||
                             (doubleResult == 0.0 && 1/doubleResult < 0.0)) &&
-                            !isParseIntegerOnly();
+                            !isPbrseIntegerOnly();
             }
 
             return gotDouble ?
-                (Number)new Double(doubleResult) : (Number)Long.valueOf(longResult);
+                (Number)new Double(doubleResult) : (Number)Long.vblueOf(longResult);
         }
     }
 
     /**
-     * Return a BigInteger multiplier.
+     * Return b BigInteger multiplier.
      */
-    private BigInteger getBigIntegerMultiplier() {
+    privbte BigInteger getBigIntegerMultiplier() {
         if (bigIntegerMultiplier == null) {
-            bigIntegerMultiplier = BigInteger.valueOf(multiplier);
+            bigIntegerMultiplier = BigInteger.vblueOf(multiplier);
         }
         return bigIntegerMultiplier;
     }
-    private transient BigInteger bigIntegerMultiplier;
+    privbte trbnsient BigInteger bigIntegerMultiplier;
 
     /**
-     * Return a BigDecimal multiplier.
+     * Return b BigDecimbl multiplier.
      */
-    private BigDecimal getBigDecimalMultiplier() {
-        if (bigDecimalMultiplier == null) {
-            bigDecimalMultiplier = new BigDecimal(multiplier);
+    privbte BigDecimbl getBigDecimblMultiplier() {
+        if (bigDecimblMultiplier == null) {
+            bigDecimblMultiplier = new BigDecimbl(multiplier);
         }
-        return bigDecimalMultiplier;
+        return bigDecimblMultiplier;
     }
-    private transient BigDecimal bigDecimalMultiplier;
+    privbte trbnsient BigDecimbl bigDecimblMultiplier;
 
-    private static final int STATUS_INFINITE = 0;
-    private static final int STATUS_POSITIVE = 1;
-    private static final int STATUS_LENGTH   = 2;
+    privbte stbtic finbl int STATUS_INFINITE = 0;
+    privbte stbtic finbl int STATUS_POSITIVE = 1;
+    privbte stbtic finbl int STATUS_LENGTH   = 2;
 
     /**
-     * Parse the given text into a number.  The text is parsed beginning at
-     * parsePosition, until an unparseable character is seen.
-     * @param text The string to parse.
-     * @param parsePosition The position at which to being parsing.  Upon
-     * return, the first unparseable character.
-     * @param digits The DigitList to set to the parsed value.
-     * @param isExponent If true, parse an exponent.  This means no
-     * infinite values and integer only.
-     * @param status Upon return contains boolean status flags indicating
-     * whether the value was infinite and whether it was positive.
+     * Pbrse the given text into b number.  The text is pbrsed beginning bt
+     * pbrsePosition, until bn unpbrsebble chbrbcter is seen.
+     * @pbrbm text The string to pbrse.
+     * @pbrbm pbrsePosition The position bt which to being pbrsing.  Upon
+     * return, the first unpbrsebble chbrbcter.
+     * @pbrbm digits The DigitList to set to the pbrsed vblue.
+     * @pbrbm isExponent If true, pbrse bn exponent.  This mebns no
+     * infinite vblues bnd integer only.
+     * @pbrbm stbtus Upon return contbins boolebn stbtus flbgs indicbting
+     * whether the vblue wbs infinite bnd whether it wbs positive.
      */
-    private final boolean subparse(String text, ParsePosition parsePosition,
-                   String positivePrefix, String negativePrefix,
-                   DigitList digits, boolean isExponent,
-                   boolean status[]) {
-        int position = parsePosition.index;
-        int oldStart = parsePosition.index;
-        int backup;
-        boolean gotPositive, gotNegative;
+    privbte finbl boolebn subpbrse(String text, PbrsePosition pbrsePosition,
+                   String positivePrefix, String negbtivePrefix,
+                   DigitList digits, boolebn isExponent,
+                   boolebn stbtus[]) {
+        int position = pbrsePosition.index;
+        int oldStbrt = pbrsePosition.index;
+        int bbckup;
+        boolebn gotPositive, gotNegbtive;
 
-        // check for positivePrefix; take longest
-        gotPositive = text.regionMatches(position, positivePrefix, 0,
+        // check for positivePrefix; tbke longest
+        gotPositive = text.regionMbtches(position, positivePrefix, 0,
                                          positivePrefix.length());
-        gotNegative = text.regionMatches(position, negativePrefix, 0,
-                                         negativePrefix.length());
+        gotNegbtive = text.regionMbtches(position, negbtivePrefix, 0,
+                                         negbtivePrefix.length());
 
-        if (gotPositive && gotNegative) {
-            if (positivePrefix.length() > negativePrefix.length()) {
-                gotNegative = false;
-            } else if (positivePrefix.length() < negativePrefix.length()) {
-                gotPositive = false;
+        if (gotPositive && gotNegbtive) {
+            if (positivePrefix.length() > negbtivePrefix.length()) {
+                gotNegbtive = fblse;
+            } else if (positivePrefix.length() < negbtivePrefix.length()) {
+                gotPositive = fblse;
             }
         }
 
         if (gotPositive) {
             position += positivePrefix.length();
-        } else if (gotNegative) {
-            position += negativePrefix.length();
+        } else if (gotNegbtive) {
+            position += negbtivePrefix.length();
         } else {
-            parsePosition.errorIndex = position;
-            return false;
+            pbrsePosition.errorIndex = position;
+            return fblse;
         }
 
-        // process digits or Inf, find decimal position
-        status[STATUS_INFINITE] = false;
-        if (!isExponent && text.regionMatches(position,symbols.getInfinity(),0,
+        // process digits or Inf, find decimbl position
+        stbtus[STATUS_INFINITE] = fblse;
+        if (!isExponent && text.regionMbtches(position,symbols.getInfinity(),0,
                           symbols.getInfinity().length())) {
             position += symbols.getInfinity().length();
-            status[STATUS_INFINITE] = true;
+            stbtus[STATUS_INFINITE] = true;
         } else {
-            // We now have a string of digits, possibly with grouping symbols,
-            // and decimal points.  We want to process these into a DigitList.
-            // We don't want to put a bunch of leading zeros into the DigitList
-            // though, so we keep track of the location of the decimal point,
-            // put only significant digits into the DigitList, and adjust the
-            // exponent as needed.
+            // We now hbve b string of digits, possibly with grouping symbols,
+            // bnd decimbl points.  We wbnt to process these into b DigitList.
+            // We don't wbnt to put b bunch of lebding zeros into the DigitList
+            // though, so we keep trbck of the locbtion of the decimbl point,
+            // put only significbnt digits into the DigitList, bnd bdjust the
+            // exponent bs needed.
 
-            digits.decimalAt = digits.count = 0;
-            char zero = symbols.getZeroDigit();
-            char decimal = isCurrencyFormat ?
-                symbols.getMonetaryDecimalSeparator() :
-                symbols.getDecimalSeparator();
-            char grouping = symbols.getGroupingSeparator();
-            String exponentString = symbols.getExponentSeparator();
-            boolean sawDecimal = false;
-            boolean sawExponent = false;
-            boolean sawDigit = false;
-            int exponent = 0; // Set to the exponent value, if any
+            digits.decimblAt = digits.count = 0;
+            chbr zero = symbols.getZeroDigit();
+            chbr decimbl = isCurrencyFormbt ?
+                symbols.getMonetbryDecimblSepbrbtor() :
+                symbols.getDecimblSepbrbtor();
+            chbr grouping = symbols.getGroupingSepbrbtor();
+            String exponentString = symbols.getExponentSepbrbtor();
+            boolebn sbwDecimbl = fblse;
+            boolebn sbwExponent = fblse;
+            boolebn sbwDigit = fblse;
+            int exponent = 0; // Set to the exponent vblue, if bny
 
-            // We have to track digitCount ourselves, because digits.count will
-            // pin when the maximum allowable digits is reached.
+            // We hbve to trbck digitCount ourselves, becbuse digits.count will
+            // pin when the mbximum bllowbble digits is rebched.
             int digitCount = 0;
 
-            backup = -1;
+            bbckup = -1;
             for (; position < text.length(); ++position) {
-                char ch = text.charAt(position);
+                chbr ch = text.chbrAt(position);
 
-                /* We recognize all digit ranges, not only the Latin digit range
-                 * '0'..'9'.  We do so by using the Character.digit() method,
-                 * which converts a valid Unicode digit to the range 0..9.
+                /* We recognize bll digit rbnges, not only the Lbtin digit rbnge
+                 * '0'..'9'.  We do so by using the Chbrbcter.digit() method,
+                 * which converts b vblid Unicode digit to the rbnge 0..9.
                  *
-                 * The character 'ch' may be a digit.  If so, place its value
-                 * from 0 to 9 in 'digit'.  First try using the locale digit,
-                 * which may or MAY NOT be a standard Unicode digit range.  If
-                 * this fails, try using the standard Unicode digit ranges by
-                 * calling Character.digit().  If this also fails, digit will
-                 * have a value outside the range 0..9.
+                 * The chbrbcter 'ch' mby be b digit.  If so, plbce its vblue
+                 * from 0 to 9 in 'digit'.  First try using the locble digit,
+                 * which mby or MAY NOT be b stbndbrd Unicode digit rbnge.  If
+                 * this fbils, try using the stbndbrd Unicode digit rbnges by
+                 * cblling Chbrbcter.digit().  If this blso fbils, digit will
+                 * hbve b vblue outside the rbnge 0..9.
                  */
                 int digit = ch - zero;
                 if (digit < 0 || digit > 9) {
-                    digit = Character.digit(ch, 10);
+                    digit = Chbrbcter.digit(ch, 10);
                 }
 
                 if (digit == 0) {
-                    // Cancel out backup setting (see grouping handler below)
-                    backup = -1; // Do this BEFORE continue statement below!!!
-                    sawDigit = true;
+                    // Cbncel out bbckup setting (see grouping hbndler below)
+                    bbckup = -1; // Do this BEFORE continue stbtement below!!!
+                    sbwDigit = true;
 
-                    // Handle leading zeros
+                    // Hbndle lebding zeros
                     if (digits.count == 0) {
-                        // Ignore leading zeros in integer part of number.
-                        if (!sawDecimal) {
+                        // Ignore lebding zeros in integer pbrt of number.
+                        if (!sbwDecimbl) {
                             continue;
                         }
 
-                        // If we have seen the decimal, but no significant
-                        // digits yet, then we account for leading zeros by
-                        // decrementing the digits.decimalAt into negative
-                        // values.
-                        --digits.decimalAt;
+                        // If we hbve seen the decimbl, but no significbnt
+                        // digits yet, then we bccount for lebding zeros by
+                        // decrementing the digits.decimblAt into negbtive
+                        // vblues.
+                        --digits.decimblAt;
                     } else {
                         ++digitCount;
-                        digits.append((char)(digit + '0'));
+                        digits.bppend((chbr)(digit + '0'));
                     }
-                } else if (digit > 0 && digit <= 9) { // [sic] digit==0 handled above
-                    sawDigit = true;
+                } else if (digit > 0 && digit <= 9) { // [sic] digit==0 hbndled bbove
+                    sbwDigit = true;
                     ++digitCount;
-                    digits.append((char)(digit + '0'));
+                    digits.bppend((chbr)(digit + '0'));
 
-                    // Cancel out backup setting (see grouping handler below)
-                    backup = -1;
-                } else if (!isExponent && ch == decimal) {
-                    // If we're only parsing integers, or if we ALREADY saw the
-                    // decimal, then don't parse this one.
-                    if (isParseIntegerOnly() || sawDecimal) {
-                        break;
+                    // Cbncel out bbckup setting (see grouping hbndler below)
+                    bbckup = -1;
+                } else if (!isExponent && ch == decimbl) {
+                    // If we're only pbrsing integers, or if we ALREADY sbw the
+                    // decimbl, then don't pbrse this one.
+                    if (isPbrseIntegerOnly() || sbwDecimbl) {
+                        brebk;
                     }
-                    digits.decimalAt = digitCount; // Not digits.count!
-                    sawDecimal = true;
+                    digits.decimblAt = digitCount; // Not digits.count!
+                    sbwDecimbl = true;
                 } else if (!isExponent && ch == grouping && isGroupingUsed()) {
-                    if (sawDecimal) {
-                        break;
+                    if (sbwDecimbl) {
+                        brebk;
                     }
-                    // Ignore grouping characters, if we are using them, but
-                    // require that they be followed by a digit.  Otherwise
-                    // we backup and reprocess them.
-                    backup = position;
-                } else if (!isExponent && text.regionMatches(position, exponentString, 0, exponentString.length())
-                             && !sawExponent) {
-                    // Process the exponent by recursively calling this method.
-                     ParsePosition pos = new ParsePosition(position + exponentString.length());
-                    boolean[] stat = new boolean[STATUS_LENGTH];
+                    // Ignore grouping chbrbcters, if we bre using them, but
+                    // require thbt they be followed by b digit.  Otherwise
+                    // we bbckup bnd reprocess them.
+                    bbckup = position;
+                } else if (!isExponent && text.regionMbtches(position, exponentString, 0, exponentString.length())
+                             && !sbwExponent) {
+                    // Process the exponent by recursively cblling this method.
+                     PbrsePosition pos = new PbrsePosition(position + exponentString.length());
+                    boolebn[] stbt = new boolebn[STATUS_LENGTH];
                     DigitList exponentDigits = new DigitList();
 
-                    if (subparse(text, pos, "", Character.toString(symbols.getMinusSign()), exponentDigits, true, stat) &&
-                        exponentDigits.fitsIntoLong(stat[STATUS_POSITIVE], true)) {
-                        position = pos.index; // Advance past the exponent
+                    if (subpbrse(text, pos, "", Chbrbcter.toString(symbols.getMinusSign()), exponentDigits, true, stbt) &&
+                        exponentDigits.fitsIntoLong(stbt[STATUS_POSITIVE], true)) {
+                        position = pos.index; // Advbnce pbst the exponent
                         exponent = (int)exponentDigits.getLong();
-                        if (!stat[STATUS_POSITIVE]) {
+                        if (!stbt[STATUS_POSITIVE]) {
                             exponent = -exponent;
                         }
-                        sawExponent = true;
+                        sbwExponent = true;
                     }
-                    break; // Whether we fail or succeed, we exit this loop
+                    brebk; // Whether we fbil or succeed, we exit this loop
                 } else {
-                    break;
+                    brebk;
                 }
             }
 
-            if (backup != -1) {
-                position = backup;
+            if (bbckup != -1) {
+                position = bbckup;
             }
 
-            // If there was no decimal point we have an integer
-            if (!sawDecimal) {
-                digits.decimalAt = digitCount; // Not digits.count!
+            // If there wbs no decimbl point we hbve bn integer
+            if (!sbwDecimbl) {
+                digits.decimblAt = digitCount; // Not digits.count!
             }
 
-            // Adjust for exponent, if any
-            digits.decimalAt += exponent;
+            // Adjust for exponent, if bny
+            digits.decimblAt += exponent;
 
-            // If none of the text string was recognized.  For example, parse
-            // "x" with pattern "#0.00" (return index and error index both 0)
-            // parse "$" with pattern "$#0.00". (return index 0 and error
+            // If none of the text string wbs recognized.  For exbmple, pbrse
+            // "x" with pbttern "#0.00" (return index bnd error index both 0)
+            // pbrse "$" with pbttern "$#0.00". (return index 0 bnd error
             // index 1).
-            if (!sawDigit && digitCount == 0) {
-                parsePosition.index = oldStart;
-                parsePosition.errorIndex = oldStart;
-                return false;
+            if (!sbwDigit && digitCount == 0) {
+                pbrsePosition.index = oldStbrt;
+                pbrsePosition.errorIndex = oldStbrt;
+                return fblse;
             }
         }
 
         // check for suffix
         if (!isExponent) {
             if (gotPositive) {
-                gotPositive = text.regionMatches(position,positiveSuffix,0,
+                gotPositive = text.regionMbtches(position,positiveSuffix,0,
                                                  positiveSuffix.length());
             }
-            if (gotNegative) {
-                gotNegative = text.regionMatches(position,negativeSuffix,0,
-                                                 negativeSuffix.length());
+            if (gotNegbtive) {
+                gotNegbtive = text.regionMbtches(position,negbtiveSuffix,0,
+                                                 negbtiveSuffix.length());
             }
 
-        // if both match, take longest
-        if (gotPositive && gotNegative) {
-            if (positiveSuffix.length() > negativeSuffix.length()) {
-                gotNegative = false;
-            } else if (positiveSuffix.length() < negativeSuffix.length()) {
-                gotPositive = false;
+        // if both mbtch, tbke longest
+        if (gotPositive && gotNegbtive) {
+            if (positiveSuffix.length() > negbtiveSuffix.length()) {
+                gotNegbtive = fblse;
+            } else if (positiveSuffix.length() < negbtiveSuffix.length()) {
+                gotPositive = fblse;
             }
         }
 
-        // fail if neither or both
-        if (gotPositive == gotNegative) {
-            parsePosition.errorIndex = position;
-            return false;
+        // fbil if neither or both
+        if (gotPositive == gotNegbtive) {
+            pbrsePosition.errorIndex = position;
+            return fblse;
         }
 
-        parsePosition.index = position +
-            (gotPositive ? positiveSuffix.length() : negativeSuffix.length()); // mark success!
+        pbrsePosition.index = position +
+            (gotPositive ? positiveSuffix.length() : negbtiveSuffix.length()); // mbrk success!
         } else {
-            parsePosition.index = position;
+            pbrsePosition.index = position;
         }
 
-        status[STATUS_POSITIVE] = gotPositive;
-        if (parsePosition.index == oldStart) {
-            parsePosition.errorIndex = position;
-            return false;
+        stbtus[STATUS_POSITIVE] = gotPositive;
+        if (pbrsePosition.index == oldStbrt) {
+            pbrsePosition.errorIndex = position;
+            return fblse;
         }
         return true;
     }
 
     /**
-     * Returns a copy of the decimal format symbols, which is generally not
-     * changed by the programmer or user.
-     * @return a copy of the desired DecimalFormatSymbols
-     * @see java.text.DecimalFormatSymbols
+     * Returns b copy of the decimbl formbt symbols, which is generblly not
+     * chbnged by the progrbmmer or user.
+     * @return b copy of the desired DecimblFormbtSymbols
+     * @see jbvb.text.DecimblFormbtSymbols
      */
-    public DecimalFormatSymbols getDecimalFormatSymbols() {
+    public DecimblFormbtSymbols getDecimblFormbtSymbols() {
         try {
-            // don't allow multiple references
-            return (DecimalFormatSymbols) symbols.clone();
-        } catch (Exception foo) {
-            return null; // should never happen
+            // don't bllow multiple references
+            return (DecimblFormbtSymbols) symbols.clone();
+        } cbtch (Exception foo) {
+            return null; // should never hbppen
         }
     }
 
 
     /**
-     * Sets the decimal format symbols, which is generally not changed
-     * by the programmer or user.
-     * @param newSymbols desired DecimalFormatSymbols
-     * @see java.text.DecimalFormatSymbols
+     * Sets the decimbl formbt symbols, which is generblly not chbnged
+     * by the progrbmmer or user.
+     * @pbrbm newSymbols desired DecimblFormbtSymbols
+     * @see jbvb.text.DecimblFormbtSymbols
      */
-    public void setDecimalFormatSymbols(DecimalFormatSymbols newSymbols) {
+    public void setDecimblFormbtSymbols(DecimblFormbtSymbols newSymbols) {
         try {
-            // don't allow multiple references
-            symbols = (DecimalFormatSymbols) newSymbols.clone();
-            expandAffixes();
-            fastPathCheckNeeded = true;
-        } catch (Exception foo) {
-            // should never happen
+            // don't bllow multiple references
+            symbols = (DecimblFormbtSymbols) newSymbols.clone();
+            expbndAffixes();
+            fbstPbthCheckNeeded = true;
+        } cbtch (Exception foo) {
+            // should never hbppen
         }
     }
 
     /**
      * Get the positive prefix.
-     * <P>Examples: +123, $123, sFr123
+     * <P>Exbmples: +123, $123, sFr123
      *
      * @return the positive prefix
      */
@@ -2392,80 +2392,80 @@ public class DecimalFormat extends NumberFormat {
 
     /**
      * Set the positive prefix.
-     * <P>Examples: +123, $123, sFr123
+     * <P>Exbmples: +123, $123, sFr123
      *
-     * @param newValue the new positive prefix
+     * @pbrbm newVblue the new positive prefix
      */
-    public void setPositivePrefix (String newValue) {
-        positivePrefix = newValue;
-        posPrefixPattern = null;
+    public void setPositivePrefix (String newVblue) {
+        positivePrefix = newVblue;
+        posPrefixPbttern = null;
         positivePrefixFieldPositions = null;
-        fastPathCheckNeeded = true;
+        fbstPbthCheckNeeded = true;
     }
 
     /**
      * Returns the FieldPositions of the fields in the prefix used for
-     * positive numbers. This is not used if the user has explicitly set
-     * a positive prefix via <code>setPositivePrefix</code>. This is
-     * lazily created.
+     * positive numbers. This is not used if the user hbs explicitly set
+     * b positive prefix vib <code>setPositivePrefix</code>. This is
+     * lbzily crebted.
      *
      * @return FieldPositions in positive prefix
      */
-    private FieldPosition[] getPositivePrefixFieldPositions() {
+    privbte FieldPosition[] getPositivePrefixFieldPositions() {
         if (positivePrefixFieldPositions == null) {
-            if (posPrefixPattern != null) {
-                positivePrefixFieldPositions = expandAffix(posPrefixPattern);
+            if (posPrefixPbttern != null) {
+                positivePrefixFieldPositions = expbndAffix(posPrefixPbttern);
             } else {
-                positivePrefixFieldPositions = EmptyFieldPositionArray;
+                positivePrefixFieldPositions = EmptyFieldPositionArrby;
             }
         }
         return positivePrefixFieldPositions;
     }
 
     /**
-     * Get the negative prefix.
-     * <P>Examples: -123, ($123) (with negative suffix), sFr-123
+     * Get the negbtive prefix.
+     * <P>Exbmples: -123, ($123) (with negbtive suffix), sFr-123
      *
-     * @return the negative prefix
+     * @return the negbtive prefix
      */
-    public String getNegativePrefix () {
-        return negativePrefix;
+    public String getNegbtivePrefix () {
+        return negbtivePrefix;
     }
 
     /**
-     * Set the negative prefix.
-     * <P>Examples: -123, ($123) (with negative suffix), sFr-123
+     * Set the negbtive prefix.
+     * <P>Exbmples: -123, ($123) (with negbtive suffix), sFr-123
      *
-     * @param newValue the new negative prefix
+     * @pbrbm newVblue the new negbtive prefix
      */
-    public void setNegativePrefix (String newValue) {
-        negativePrefix = newValue;
-        negPrefixPattern = null;
-        fastPathCheckNeeded = true;
+    public void setNegbtivePrefix (String newVblue) {
+        negbtivePrefix = newVblue;
+        negPrefixPbttern = null;
+        fbstPbthCheckNeeded = true;
     }
 
     /**
      * Returns the FieldPositions of the fields in the prefix used for
-     * negative numbers. This is not used if the user has explicitly set
-     * a negative prefix via <code>setNegativePrefix</code>. This is
-     * lazily created.
+     * negbtive numbers. This is not used if the user hbs explicitly set
+     * b negbtive prefix vib <code>setNegbtivePrefix</code>. This is
+     * lbzily crebted.
      *
      * @return FieldPositions in positive prefix
      */
-    private FieldPosition[] getNegativePrefixFieldPositions() {
-        if (negativePrefixFieldPositions == null) {
-            if (negPrefixPattern != null) {
-                negativePrefixFieldPositions = expandAffix(negPrefixPattern);
+    privbte FieldPosition[] getNegbtivePrefixFieldPositions() {
+        if (negbtivePrefixFieldPositions == null) {
+            if (negPrefixPbttern != null) {
+                negbtivePrefixFieldPositions = expbndAffix(negPrefixPbttern);
             } else {
-                negativePrefixFieldPositions = EmptyFieldPositionArray;
+                negbtivePrefixFieldPositions = EmptyFieldPositionArrby;
             }
         }
-        return negativePrefixFieldPositions;
+        return negbtivePrefixFieldPositions;
     }
 
     /**
      * Get the positive suffix.
-     * <P>Example: 123%
+     * <P>Exbmple: 123%
      *
      * @return the positive suffix
      */
@@ -2475,79 +2475,79 @@ public class DecimalFormat extends NumberFormat {
 
     /**
      * Set the positive suffix.
-     * <P>Example: 123%
+     * <P>Exbmple: 123%
      *
-     * @param newValue the new positive suffix
+     * @pbrbm newVblue the new positive suffix
      */
-    public void setPositiveSuffix (String newValue) {
-        positiveSuffix = newValue;
-        posSuffixPattern = null;
-        fastPathCheckNeeded = true;
+    public void setPositiveSuffix (String newVblue) {
+        positiveSuffix = newVblue;
+        posSuffixPbttern = null;
+        fbstPbthCheckNeeded = true;
     }
 
     /**
      * Returns the FieldPositions of the fields in the suffix used for
-     * positive numbers. This is not used if the user has explicitly set
-     * a positive suffix via <code>setPositiveSuffix</code>. This is
-     * lazily created.
+     * positive numbers. This is not used if the user hbs explicitly set
+     * b positive suffix vib <code>setPositiveSuffix</code>. This is
+     * lbzily crebted.
      *
      * @return FieldPositions in positive prefix
      */
-    private FieldPosition[] getPositiveSuffixFieldPositions() {
+    privbte FieldPosition[] getPositiveSuffixFieldPositions() {
         if (positiveSuffixFieldPositions == null) {
-            if (posSuffixPattern != null) {
-                positiveSuffixFieldPositions = expandAffix(posSuffixPattern);
+            if (posSuffixPbttern != null) {
+                positiveSuffixFieldPositions = expbndAffix(posSuffixPbttern);
             } else {
-                positiveSuffixFieldPositions = EmptyFieldPositionArray;
+                positiveSuffixFieldPositions = EmptyFieldPositionArrby;
             }
         }
         return positiveSuffixFieldPositions;
     }
 
     /**
-     * Get the negative suffix.
-     * <P>Examples: -123%, ($123) (with positive suffixes)
+     * Get the negbtive suffix.
+     * <P>Exbmples: -123%, ($123) (with positive suffixes)
      *
-     * @return the negative suffix
+     * @return the negbtive suffix
      */
-    public String getNegativeSuffix () {
-        return negativeSuffix;
+    public String getNegbtiveSuffix () {
+        return negbtiveSuffix;
     }
 
     /**
-     * Set the negative suffix.
-     * <P>Examples: 123%
+     * Set the negbtive suffix.
+     * <P>Exbmples: 123%
      *
-     * @param newValue the new negative suffix
+     * @pbrbm newVblue the new negbtive suffix
      */
-    public void setNegativeSuffix (String newValue) {
-        negativeSuffix = newValue;
-        negSuffixPattern = null;
-        fastPathCheckNeeded = true;
+    public void setNegbtiveSuffix (String newVblue) {
+        negbtiveSuffix = newVblue;
+        negSuffixPbttern = null;
+        fbstPbthCheckNeeded = true;
     }
 
     /**
      * Returns the FieldPositions of the fields in the suffix used for
-     * negative numbers. This is not used if the user has explicitly set
-     * a negative suffix via <code>setNegativeSuffix</code>. This is
-     * lazily created.
+     * negbtive numbers. This is not used if the user hbs explicitly set
+     * b negbtive suffix vib <code>setNegbtiveSuffix</code>. This is
+     * lbzily crebted.
      *
      * @return FieldPositions in positive prefix
      */
-    private FieldPosition[] getNegativeSuffixFieldPositions() {
-        if (negativeSuffixFieldPositions == null) {
-            if (negSuffixPattern != null) {
-                negativeSuffixFieldPositions = expandAffix(negSuffixPattern);
+    privbte FieldPosition[] getNegbtiveSuffixFieldPositions() {
+        if (negbtiveSuffixFieldPositions == null) {
+            if (negSuffixPbttern != null) {
+                negbtiveSuffixFieldPositions = expbndAffix(negSuffixPbttern);
             } else {
-                negativeSuffixFieldPositions = EmptyFieldPositionArray;
+                negbtiveSuffixFieldPositions = EmptyFieldPositionArrby;
             }
         }
-        return negativeSuffixFieldPositions;
+        return negbtiveSuffixFieldPositions;
     }
 
     /**
-     * Gets the multiplier for use in percent, per mille, and similar
-     * formats.
+     * Gets the multiplier for use in percent, per mille, bnd similbr
+     * formbts.
      *
      * @return the multiplier
      * @see #setMultiplier(int)
@@ -2557,44 +2557,44 @@ public class DecimalFormat extends NumberFormat {
     }
 
     /**
-     * Sets the multiplier for use in percent, per mille, and similar
-     * formats.
-     * For a percent format, set the multiplier to 100 and the suffixes to
-     * have '%' (for Arabic, use the Arabic percent sign).
-     * For a per mille format, set the multiplier to 1000 and the suffixes to
-     * have '&#92;u2030'.
+     * Sets the multiplier for use in percent, per mille, bnd similbr
+     * formbts.
+     * For b percent formbt, set the multiplier to 100 bnd the suffixes to
+     * hbve '%' (for Arbbic, use the Arbbic percent sign).
+     * For b per mille formbt, set the multiplier to 1000 bnd the suffixes to
+     * hbve '&#92;u2030'.
      *
-     * <P>Example: with multiplier 100, 1.23 is formatted as "123", and
-     * "123" is parsed into 1.23.
+     * <P>Exbmple: with multiplier 100, 1.23 is formbtted bs "123", bnd
+     * "123" is pbrsed into 1.23.
      *
-     * @param newValue the new multiplier
+     * @pbrbm newVblue the new multiplier
      * @see #getMultiplier
      */
-    public void setMultiplier (int newValue) {
-        multiplier = newValue;
-        bigDecimalMultiplier = null;
+    public void setMultiplier (int newVblue) {
+        multiplier = newVblue;
+        bigDecimblMultiplier = null;
         bigIntegerMultiplier = null;
-        fastPathCheckNeeded = true;
+        fbstPbthCheckNeeded = true;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void setGroupingUsed(boolean newValue) {
-        super.setGroupingUsed(newValue);
-        fastPathCheckNeeded = true;
+    public void setGroupingUsed(boolebn newVblue) {
+        super.setGroupingUsed(newVblue);
+        fbstPbthCheckNeeded = true;
     }
 
     /**
      * Return the grouping size. Grouping size is the number of digits between
-     * grouping separators in the integer portion of a number.  For example,
+     * grouping sepbrbtors in the integer portion of b number.  For exbmple,
      * in the number "123,456.78", the grouping size is 3.
      *
      * @return the grouping size
      * @see #setGroupingSize
-     * @see java.text.NumberFormat#isGroupingUsed
-     * @see java.text.DecimalFormatSymbols#getGroupingSeparator
+     * @see jbvb.text.NumberFormbt#isGroupingUsed
+     * @see jbvb.text.DecimblFormbtSymbols#getGroupingSepbrbtor
      */
     public int getGroupingSize () {
         return groupingSize;
@@ -2602,800 +2602,800 @@ public class DecimalFormat extends NumberFormat {
 
     /**
      * Set the grouping size. Grouping size is the number of digits between
-     * grouping separators in the integer portion of a number.  For example,
+     * grouping sepbrbtors in the integer portion of b number.  For exbmple,
      * in the number "123,456.78", the grouping size is 3.
      * <br>
-     * The value passed in is converted to a byte, which may lose information.
+     * The vblue pbssed in is converted to b byte, which mby lose informbtion.
      *
-     * @param newValue the new grouping size
+     * @pbrbm newVblue the new grouping size
      * @see #getGroupingSize
-     * @see java.text.NumberFormat#setGroupingUsed
-     * @see java.text.DecimalFormatSymbols#setGroupingSeparator
+     * @see jbvb.text.NumberFormbt#setGroupingUsed
+     * @see jbvb.text.DecimblFormbtSymbols#setGroupingSepbrbtor
      */
-    public void setGroupingSize (int newValue) {
-        groupingSize = (byte)newValue;
-        fastPathCheckNeeded = true;
+    public void setGroupingSize (int newVblue) {
+        groupingSize = (byte)newVblue;
+        fbstPbthCheckNeeded = true;
     }
 
     /**
-     * Allows you to get the behavior of the decimal separator with integers.
-     * (The decimal separator will always appear with decimals.)
-     * <P>Example: Decimal ON: 12345 &rarr; 12345.; OFF: 12345 &rarr; 12345
+     * Allows you to get the behbvior of the decimbl sepbrbtor with integers.
+     * (The decimbl sepbrbtor will blwbys bppebr with decimbls.)
+     * <P>Exbmple: Decimbl ON: 12345 &rbrr; 12345.; OFF: 12345 &rbrr; 12345
      *
-     * @return {@code true} if the decimal separator is always shown;
-     *         {@code false} otherwise
+     * @return {@code true} if the decimbl sepbrbtor is blwbys shown;
+     *         {@code fblse} otherwise
      */
-    public boolean isDecimalSeparatorAlwaysShown() {
-        return decimalSeparatorAlwaysShown;
+    public boolebn isDecimblSepbrbtorAlwbysShown() {
+        return decimblSepbrbtorAlwbysShown;
     }
 
     /**
-     * Allows you to set the behavior of the decimal separator with integers.
-     * (The decimal separator will always appear with decimals.)
-     * <P>Example: Decimal ON: 12345 &rarr; 12345.; OFF: 12345 &rarr; 12345
+     * Allows you to set the behbvior of the decimbl sepbrbtor with integers.
+     * (The decimbl sepbrbtor will blwbys bppebr with decimbls.)
+     * <P>Exbmple: Decimbl ON: 12345 &rbrr; 12345.; OFF: 12345 &rbrr; 12345
      *
-     * @param newValue {@code true} if the decimal separator is always shown;
-     *                 {@code false} otherwise
+     * @pbrbm newVblue {@code true} if the decimbl sepbrbtor is blwbys shown;
+     *                 {@code fblse} otherwise
      */
-    public void setDecimalSeparatorAlwaysShown(boolean newValue) {
-        decimalSeparatorAlwaysShown = newValue;
-        fastPathCheckNeeded = true;
+    public void setDecimblSepbrbtorAlwbysShown(boolebn newVblue) {
+        decimblSepbrbtorAlwbysShown = newVblue;
+        fbstPbthCheckNeeded = true;
     }
 
     /**
-     * Returns whether the {@link #parse(java.lang.String, java.text.ParsePosition)}
-     * method returns <code>BigDecimal</code>. The default value is false.
+     * Returns whether the {@link #pbrse(jbvb.lbng.String, jbvb.text.PbrsePosition)}
+     * method returns <code>BigDecimbl</code>. The defbult vblue is fblse.
      *
-     * @return {@code true} if the parse method returns BigDecimal;
-     *         {@code false} otherwise
-     * @see #setParseBigDecimal
+     * @return {@code true} if the pbrse method returns BigDecimbl;
+     *         {@code fblse} otherwise
+     * @see #setPbrseBigDecimbl
      * @since 1.5
      */
-    public boolean isParseBigDecimal() {
-        return parseBigDecimal;
+    public boolebn isPbrseBigDecimbl() {
+        return pbrseBigDecimbl;
     }
 
     /**
-     * Sets whether the {@link #parse(java.lang.String, java.text.ParsePosition)}
-     * method returns <code>BigDecimal</code>.
+     * Sets whether the {@link #pbrse(jbvb.lbng.String, jbvb.text.PbrsePosition)}
+     * method returns <code>BigDecimbl</code>.
      *
-     * @param newValue {@code true} if the parse method returns BigDecimal;
-     *                 {@code false} otherwise
-     * @see #isParseBigDecimal
+     * @pbrbm newVblue {@code true} if the pbrse method returns BigDecimbl;
+     *                 {@code fblse} otherwise
+     * @see #isPbrseBigDecimbl
      * @since 1.5
      */
-    public void setParseBigDecimal(boolean newValue) {
-        parseBigDecimal = newValue;
+    public void setPbrseBigDecimbl(boolebn newVblue) {
+        pbrseBigDecimbl = newVblue;
     }
 
     /**
-     * Standard override; no change in semantics.
+     * Stbndbrd override; no chbnge in sembntics.
      */
     @Override
     public Object clone() {
-        DecimalFormat other = (DecimalFormat) super.clone();
-        other.symbols = (DecimalFormatSymbols) symbols.clone();
+        DecimblFormbt other = (DecimblFormbt) super.clone();
+        other.symbols = (DecimblFormbtSymbols) symbols.clone();
         other.digitList = (DigitList) digitList.clone();
 
-        // Fast-path is almost stateless algorithm. The only logical state is the
-        // isFastPath flag. In addition fastPathCheckNeeded is a sentinel flag
-        // that forces recalculation of all fast-path fields when set to true.
+        // Fbst-pbth is blmost stbteless blgorithm. The only logicbl stbte is the
+        // isFbstPbth flbg. In bddition fbstPbthCheckNeeded is b sentinel flbg
+        // thbt forces recblculbtion of bll fbst-pbth fields when set to true.
         //
-        // There is thus no need to clone all the fast-path fields.
-        // We just only need to set fastPathCheckNeeded to true when cloning,
-        // and init fastPathData to null as if it were a truly new instance.
-        // Every fast-path field will be recalculated (only once) at next usage of
-        // fast-path algorithm.
-        other.fastPathCheckNeeded = true;
-        other.isFastPath = false;
-        other.fastPathData = null;
+        // There is thus no need to clone bll the fbst-pbth fields.
+        // We just only need to set fbstPbthCheckNeeded to true when cloning,
+        // bnd init fbstPbthDbtb to null bs if it were b truly new instbnce.
+        // Every fbst-pbth field will be recblculbted (only once) bt next usbge of
+        // fbst-pbth blgorithm.
+        other.fbstPbthCheckNeeded = true;
+        other.isFbstPbth = fblse;
+        other.fbstPbthDbtb = null;
 
         return other;
     }
 
     /**
-     * Overrides equals
+     * Overrides equbls
      */
     @Override
-    public boolean equals(Object obj)
+    public boolebn equbls(Object obj)
     {
         if (obj == null)
-            return false;
-        if (!super.equals(obj))
-            return false; // super does class check
-        DecimalFormat other = (DecimalFormat) obj;
-        return ((posPrefixPattern == other.posPrefixPattern &&
-                 positivePrefix.equals(other.positivePrefix))
-                || (posPrefixPattern != null &&
-                    posPrefixPattern.equals(other.posPrefixPattern)))
-            && ((posSuffixPattern == other.posSuffixPattern &&
-                 positiveSuffix.equals(other.positiveSuffix))
-                || (posSuffixPattern != null &&
-                    posSuffixPattern.equals(other.posSuffixPattern)))
-            && ((negPrefixPattern == other.negPrefixPattern &&
-                 negativePrefix.equals(other.negativePrefix))
-                || (negPrefixPattern != null &&
-                    negPrefixPattern.equals(other.negPrefixPattern)))
-            && ((negSuffixPattern == other.negSuffixPattern &&
-                 negativeSuffix.equals(other.negativeSuffix))
-                || (negSuffixPattern != null &&
-                    negSuffixPattern.equals(other.negSuffixPattern)))
+            return fblse;
+        if (!super.equbls(obj))
+            return fblse; // super does clbss check
+        DecimblFormbt other = (DecimblFormbt) obj;
+        return ((posPrefixPbttern == other.posPrefixPbttern &&
+                 positivePrefix.equbls(other.positivePrefix))
+                || (posPrefixPbttern != null &&
+                    posPrefixPbttern.equbls(other.posPrefixPbttern)))
+            && ((posSuffixPbttern == other.posSuffixPbttern &&
+                 positiveSuffix.equbls(other.positiveSuffix))
+                || (posSuffixPbttern != null &&
+                    posSuffixPbttern.equbls(other.posSuffixPbttern)))
+            && ((negPrefixPbttern == other.negPrefixPbttern &&
+                 negbtivePrefix.equbls(other.negbtivePrefix))
+                || (negPrefixPbttern != null &&
+                    negPrefixPbttern.equbls(other.negPrefixPbttern)))
+            && ((negSuffixPbttern == other.negSuffixPbttern &&
+                 negbtiveSuffix.equbls(other.negbtiveSuffix))
+                || (negSuffixPbttern != null &&
+                    negSuffixPbttern.equbls(other.negSuffixPbttern)))
             && multiplier == other.multiplier
             && groupingSize == other.groupingSize
-            && decimalSeparatorAlwaysShown == other.decimalSeparatorAlwaysShown
-            && parseBigDecimal == other.parseBigDecimal
-            && useExponentialNotation == other.useExponentialNotation
-            && (!useExponentialNotation ||
+            && decimblSepbrbtorAlwbysShown == other.decimblSepbrbtorAlwbysShown
+            && pbrseBigDecimbl == other.pbrseBigDecimbl
+            && useExponentiblNotbtion == other.useExponentiblNotbtion
+            && (!useExponentiblNotbtion ||
                 minExponentDigits == other.minExponentDigits)
-            && maximumIntegerDigits == other.maximumIntegerDigits
+            && mbximumIntegerDigits == other.mbximumIntegerDigits
             && minimumIntegerDigits == other.minimumIntegerDigits
-            && maximumFractionDigits == other.maximumFractionDigits
-            && minimumFractionDigits == other.minimumFractionDigits
+            && mbximumFrbctionDigits == other.mbximumFrbctionDigits
+            && minimumFrbctionDigits == other.minimumFrbctionDigits
             && roundingMode == other.roundingMode
-            && symbols.equals(other.symbols);
+            && symbols.equbls(other.symbols);
     }
 
     /**
-     * Overrides hashCode
+     * Overrides hbshCode
      */
     @Override
-    public int hashCode() {
-        return super.hashCode() * 37 + positivePrefix.hashCode();
-        // just enough fields for a reasonable distribution
+    public int hbshCode() {
+        return super.hbshCode() * 37 + positivePrefix.hbshCode();
+        // just enough fields for b rebsonbble distribution
     }
 
     /**
-     * Synthesizes a pattern string that represents the current state
-     * of this Format object.
+     * Synthesizes b pbttern string thbt represents the current stbte
+     * of this Formbt object.
      *
-     * @return a pattern string
-     * @see #applyPattern
+     * @return b pbttern string
+     * @see #bpplyPbttern
      */
-    public String toPattern() {
-        return toPattern( false );
+    public String toPbttern() {
+        return toPbttern( fblse );
     }
 
     /**
-     * Synthesizes a localized pattern string that represents the current
-     * state of this Format object.
+     * Synthesizes b locblized pbttern string thbt represents the current
+     * stbte of this Formbt object.
      *
-     * @return a localized pattern string
-     * @see #applyPattern
+     * @return b locblized pbttern string
+     * @see #bpplyPbttern
      */
-    public String toLocalizedPattern() {
-        return toPattern( true );
+    public String toLocblizedPbttern() {
+        return toPbttern( true );
     }
 
     /**
-     * Expand the affix pattern strings into the expanded affix strings.  If any
-     * affix pattern string is null, do not expand it.  This method should be
-     * called any time the symbols or the affix patterns change in order to keep
-     * the expanded affix strings up to date.
+     * Expbnd the bffix pbttern strings into the expbnded bffix strings.  If bny
+     * bffix pbttern string is null, do not expbnd it.  This method should be
+     * cblled bny time the symbols or the bffix pbtterns chbnge in order to keep
+     * the expbnded bffix strings up to dbte.
      */
-    private void expandAffixes() {
-        // Reuse one StringBuffer for better performance
+    privbte void expbndAffixes() {
+        // Reuse one StringBuffer for better performbnce
         StringBuffer buffer = new StringBuffer();
-        if (posPrefixPattern != null) {
-            positivePrefix = expandAffix(posPrefixPattern, buffer);
+        if (posPrefixPbttern != null) {
+            positivePrefix = expbndAffix(posPrefixPbttern, buffer);
             positivePrefixFieldPositions = null;
         }
-        if (posSuffixPattern != null) {
-            positiveSuffix = expandAffix(posSuffixPattern, buffer);
+        if (posSuffixPbttern != null) {
+            positiveSuffix = expbndAffix(posSuffixPbttern, buffer);
             positiveSuffixFieldPositions = null;
         }
-        if (negPrefixPattern != null) {
-            negativePrefix = expandAffix(negPrefixPattern, buffer);
-            negativePrefixFieldPositions = null;
+        if (negPrefixPbttern != null) {
+            negbtivePrefix = expbndAffix(negPrefixPbttern, buffer);
+            negbtivePrefixFieldPositions = null;
         }
-        if (negSuffixPattern != null) {
-            negativeSuffix = expandAffix(negSuffixPattern, buffer);
-            negativeSuffixFieldPositions = null;
+        if (negSuffixPbttern != null) {
+            negbtiveSuffix = expbndAffix(negSuffixPbttern, buffer);
+            negbtiveSuffixFieldPositions = null;
         }
     }
 
     /**
-     * Expand an affix pattern into an affix string.  All characters in the
-     * pattern are literal unless prefixed by QUOTE.  The following characters
-     * after QUOTE are recognized: PATTERN_PERCENT, PATTERN_PER_MILLE,
-     * PATTERN_MINUS, and CURRENCY_SIGN.  If CURRENCY_SIGN is doubled (QUOTE +
-     * CURRENCY_SIGN + CURRENCY_SIGN), it is interpreted as an ISO 4217
-     * currency code.  Any other character after a QUOTE represents itself.
-     * QUOTE must be followed by another character; QUOTE may not occur by
-     * itself at the end of the pattern.
+     * Expbnd bn bffix pbttern into bn bffix string.  All chbrbcters in the
+     * pbttern bre literbl unless prefixed by QUOTE.  The following chbrbcters
+     * bfter QUOTE bre recognized: PATTERN_PERCENT, PATTERN_PER_MILLE,
+     * PATTERN_MINUS, bnd CURRENCY_SIGN.  If CURRENCY_SIGN is doubled (QUOTE +
+     * CURRENCY_SIGN + CURRENCY_SIGN), it is interpreted bs bn ISO 4217
+     * currency code.  Any other chbrbcter bfter b QUOTE represents itself.
+     * QUOTE must be followed by bnother chbrbcter; QUOTE mby not occur by
+     * itself bt the end of the pbttern.
      *
-     * @param pattern the non-null, possibly empty pattern
-     * @param buffer a scratch StringBuffer; its contents will be lost
-     * @return the expanded equivalent of pattern
+     * @pbrbm pbttern the non-null, possibly empty pbttern
+     * @pbrbm buffer b scrbtch StringBuffer; its contents will be lost
+     * @return the expbnded equivblent of pbttern
      */
-    private String expandAffix(String pattern, StringBuffer buffer) {
+    privbte String expbndAffix(String pbttern, StringBuffer buffer) {
         buffer.setLength(0);
-        for (int i=0; i<pattern.length(); ) {
-            char c = pattern.charAt(i++);
+        for (int i=0; i<pbttern.length(); ) {
+            chbr c = pbttern.chbrAt(i++);
             if (c == QUOTE) {
-                c = pattern.charAt(i++);
+                c = pbttern.chbrAt(i++);
                 switch (c) {
-                case CURRENCY_SIGN:
-                    if (i<pattern.length() &&
-                        pattern.charAt(i) == CURRENCY_SIGN) {
+                cbse CURRENCY_SIGN:
+                    if (i<pbttern.length() &&
+                        pbttern.chbrAt(i) == CURRENCY_SIGN) {
                         ++i;
-                        buffer.append(symbols.getInternationalCurrencySymbol());
+                        buffer.bppend(symbols.getInternbtionblCurrencySymbol());
                     } else {
-                        buffer.append(symbols.getCurrencySymbol());
+                        buffer.bppend(symbols.getCurrencySymbol());
                     }
                     continue;
-                case PATTERN_PERCENT:
+                cbse PATTERN_PERCENT:
                     c = symbols.getPercent();
-                    break;
-                case PATTERN_PER_MILLE:
+                    brebk;
+                cbse PATTERN_PER_MILLE:
                     c = symbols.getPerMill();
-                    break;
-                case PATTERN_MINUS:
+                    brebk;
+                cbse PATTERN_MINUS:
                     c = symbols.getMinusSign();
-                    break;
+                    brebk;
                 }
             }
-            buffer.append(c);
+            buffer.bppend(c);
         }
         return buffer.toString();
     }
 
     /**
-     * Expand an affix pattern into an array of FieldPositions describing
-     * how the pattern would be expanded.
-     * All characters in the
-     * pattern are literal unless prefixed by QUOTE.  The following characters
-     * after QUOTE are recognized: PATTERN_PERCENT, PATTERN_PER_MILLE,
-     * PATTERN_MINUS, and CURRENCY_SIGN.  If CURRENCY_SIGN is doubled (QUOTE +
-     * CURRENCY_SIGN + CURRENCY_SIGN), it is interpreted as an ISO 4217
-     * currency code.  Any other character after a QUOTE represents itself.
-     * QUOTE must be followed by another character; QUOTE may not occur by
-     * itself at the end of the pattern.
+     * Expbnd bn bffix pbttern into bn brrby of FieldPositions describing
+     * how the pbttern would be expbnded.
+     * All chbrbcters in the
+     * pbttern bre literbl unless prefixed by QUOTE.  The following chbrbcters
+     * bfter QUOTE bre recognized: PATTERN_PERCENT, PATTERN_PER_MILLE,
+     * PATTERN_MINUS, bnd CURRENCY_SIGN.  If CURRENCY_SIGN is doubled (QUOTE +
+     * CURRENCY_SIGN + CURRENCY_SIGN), it is interpreted bs bn ISO 4217
+     * currency code.  Any other chbrbcter bfter b QUOTE represents itself.
+     * QUOTE must be followed by bnother chbrbcter; QUOTE mby not occur by
+     * itself bt the end of the pbttern.
      *
-     * @param pattern the non-null, possibly empty pattern
-     * @return FieldPosition array of the resulting fields.
+     * @pbrbm pbttern the non-null, possibly empty pbttern
+     * @return FieldPosition brrby of the resulting fields.
      */
-    private FieldPosition[] expandAffix(String pattern) {
-        ArrayList<FieldPosition> positions = null;
+    privbte FieldPosition[] expbndAffix(String pbttern) {
+        ArrbyList<FieldPosition> positions = null;
         int stringIndex = 0;
-        for (int i=0; i<pattern.length(); ) {
-            char c = pattern.charAt(i++);
+        for (int i=0; i<pbttern.length(); ) {
+            chbr c = pbttern.chbrAt(i++);
             if (c == QUOTE) {
                 int field = -1;
-                Format.Field fieldID = null;
-                c = pattern.charAt(i++);
+                Formbt.Field fieldID = null;
+                c = pbttern.chbrAt(i++);
                 switch (c) {
-                case CURRENCY_SIGN:
+                cbse CURRENCY_SIGN:
                     String string;
-                    if (i<pattern.length() &&
-                        pattern.charAt(i) == CURRENCY_SIGN) {
+                    if (i<pbttern.length() &&
+                        pbttern.chbrAt(i) == CURRENCY_SIGN) {
                         ++i;
-                        string = symbols.getInternationalCurrencySymbol();
+                        string = symbols.getInternbtionblCurrencySymbol();
                     } else {
                         string = symbols.getCurrencySymbol();
                     }
                     if (string.length() > 0) {
                         if (positions == null) {
-                            positions = new ArrayList<>(2);
+                            positions = new ArrbyList<>(2);
                         }
                         FieldPosition fp = new FieldPosition(Field.CURRENCY);
                         fp.setBeginIndex(stringIndex);
                         fp.setEndIndex(stringIndex + string.length());
-                        positions.add(fp);
+                        positions.bdd(fp);
                         stringIndex += string.length();
                     }
                     continue;
-                case PATTERN_PERCENT:
+                cbse PATTERN_PERCENT:
                     c = symbols.getPercent();
                     field = -1;
                     fieldID = Field.PERCENT;
-                    break;
-                case PATTERN_PER_MILLE:
+                    brebk;
+                cbse PATTERN_PER_MILLE:
                     c = symbols.getPerMill();
                     field = -1;
                     fieldID = Field.PERMILLE;
-                    break;
-                case PATTERN_MINUS:
+                    brebk;
+                cbse PATTERN_MINUS:
                     c = symbols.getMinusSign();
                     field = -1;
                     fieldID = Field.SIGN;
-                    break;
+                    brebk;
                 }
                 if (fieldID != null) {
                     if (positions == null) {
-                        positions = new ArrayList<>(2);
+                        positions = new ArrbyList<>(2);
                     }
                     FieldPosition fp = new FieldPosition(fieldID, field);
                     fp.setBeginIndex(stringIndex);
                     fp.setEndIndex(stringIndex + 1);
-                    positions.add(fp);
+                    positions.bdd(fp);
                 }
             }
             stringIndex++;
         }
         if (positions != null) {
-            return positions.toArray(EmptyFieldPositionArray);
+            return positions.toArrby(EmptyFieldPositionArrby);
         }
-        return EmptyFieldPositionArray;
+        return EmptyFieldPositionArrby;
     }
 
     /**
-     * Appends an affix pattern to the given StringBuffer, quoting special
-     * characters as needed.  Uses the internal affix pattern, if that exists,
-     * or the literal affix, if the internal affix pattern is null.  The
-     * appended string will generate the same affix pattern (or literal affix)
-     * when passed to toPattern().
+     * Appends bn bffix pbttern to the given StringBuffer, quoting specibl
+     * chbrbcters bs needed.  Uses the internbl bffix pbttern, if thbt exists,
+     * or the literbl bffix, if the internbl bffix pbttern is null.  The
+     * bppended string will generbte the sbme bffix pbttern (or literbl bffix)
+     * when pbssed to toPbttern().
      *
-     * @param buffer the affix string is appended to this
-     * @param affixPattern a pattern such as posPrefixPattern; may be null
-     * @param expAffix a corresponding expanded affix, such as positivePrefix.
-     * Ignored unless affixPattern is null.  If affixPattern is null, then
-     * expAffix is appended as a literal affix.
-     * @param localized true if the appended pattern should contain localized
-     * pattern characters; otherwise, non-localized pattern chars are appended
+     * @pbrbm buffer the bffix string is bppended to this
+     * @pbrbm bffixPbttern b pbttern such bs posPrefixPbttern; mby be null
+     * @pbrbm expAffix b corresponding expbnded bffix, such bs positivePrefix.
+     * Ignored unless bffixPbttern is null.  If bffixPbttern is null, then
+     * expAffix is bppended bs b literbl bffix.
+     * @pbrbm locblized true if the bppended pbttern should contbin locblized
+     * pbttern chbrbcters; otherwise, non-locblized pbttern chbrs bre bppended
      */
-    private void appendAffix(StringBuffer buffer, String affixPattern,
-                             String expAffix, boolean localized) {
-        if (affixPattern == null) {
-            appendAffix(buffer, expAffix, localized);
+    privbte void bppendAffix(StringBuffer buffer, String bffixPbttern,
+                             String expAffix, boolebn locblized) {
+        if (bffixPbttern == null) {
+            bppendAffix(buffer, expAffix, locblized);
         } else {
             int i;
-            for (int pos=0; pos<affixPattern.length(); pos=i) {
-                i = affixPattern.indexOf(QUOTE, pos);
+            for (int pos=0; pos<bffixPbttern.length(); pos=i) {
+                i = bffixPbttern.indexOf(QUOTE, pos);
                 if (i < 0) {
-                    appendAffix(buffer, affixPattern.substring(pos), localized);
-                    break;
+                    bppendAffix(buffer, bffixPbttern.substring(pos), locblized);
+                    brebk;
                 }
                 if (i > pos) {
-                    appendAffix(buffer, affixPattern.substring(pos, i), localized);
+                    bppendAffix(buffer, bffixPbttern.substring(pos, i), locblized);
                 }
-                char c = affixPattern.charAt(++i);
+                chbr c = bffixPbttern.chbrAt(++i);
                 ++i;
                 if (c == QUOTE) {
-                    buffer.append(c);
-                    // Fall through and append another QUOTE below
+                    buffer.bppend(c);
+                    // Fbll through bnd bppend bnother QUOTE below
                 } else if (c == CURRENCY_SIGN &&
-                           i<affixPattern.length() &&
-                           affixPattern.charAt(i) == CURRENCY_SIGN) {
+                           i<bffixPbttern.length() &&
+                           bffixPbttern.chbrAt(i) == CURRENCY_SIGN) {
                     ++i;
-                    buffer.append(c);
-                    // Fall through and append another CURRENCY_SIGN below
-                } else if (localized) {
+                    buffer.bppend(c);
+                    // Fbll through bnd bppend bnother CURRENCY_SIGN below
+                } else if (locblized) {
                     switch (c) {
-                    case PATTERN_PERCENT:
+                    cbse PATTERN_PERCENT:
                         c = symbols.getPercent();
-                        break;
-                    case PATTERN_PER_MILLE:
+                        brebk;
+                    cbse PATTERN_PER_MILLE:
                         c = symbols.getPerMill();
-                        break;
-                    case PATTERN_MINUS:
+                        brebk;
+                    cbse PATTERN_MINUS:
                         c = symbols.getMinusSign();
-                        break;
+                        brebk;
                     }
                 }
-                buffer.append(c);
+                buffer.bppend(c);
             }
         }
     }
 
     /**
-     * Append an affix to the given StringBuffer, using quotes if
-     * there are special characters.  Single quotes themselves must be
-     * escaped in either case.
+     * Append bn bffix to the given StringBuffer, using quotes if
+     * there bre specibl chbrbcters.  Single quotes themselves must be
+     * escbped in either cbse.
      */
-    private void appendAffix(StringBuffer buffer, String affix, boolean localized) {
-        boolean needQuote;
-        if (localized) {
-            needQuote = affix.indexOf(symbols.getZeroDigit()) >= 0
-                || affix.indexOf(symbols.getGroupingSeparator()) >= 0
-                || affix.indexOf(symbols.getDecimalSeparator()) >= 0
-                || affix.indexOf(symbols.getPercent()) >= 0
-                || affix.indexOf(symbols.getPerMill()) >= 0
-                || affix.indexOf(symbols.getDigit()) >= 0
-                || affix.indexOf(symbols.getPatternSeparator()) >= 0
-                || affix.indexOf(symbols.getMinusSign()) >= 0
-                || affix.indexOf(CURRENCY_SIGN) >= 0;
+    privbte void bppendAffix(StringBuffer buffer, String bffix, boolebn locblized) {
+        boolebn needQuote;
+        if (locblized) {
+            needQuote = bffix.indexOf(symbols.getZeroDigit()) >= 0
+                || bffix.indexOf(symbols.getGroupingSepbrbtor()) >= 0
+                || bffix.indexOf(symbols.getDecimblSepbrbtor()) >= 0
+                || bffix.indexOf(symbols.getPercent()) >= 0
+                || bffix.indexOf(symbols.getPerMill()) >= 0
+                || bffix.indexOf(symbols.getDigit()) >= 0
+                || bffix.indexOf(symbols.getPbtternSepbrbtor()) >= 0
+                || bffix.indexOf(symbols.getMinusSign()) >= 0
+                || bffix.indexOf(CURRENCY_SIGN) >= 0;
         } else {
-            needQuote = affix.indexOf(PATTERN_ZERO_DIGIT) >= 0
-                || affix.indexOf(PATTERN_GROUPING_SEPARATOR) >= 0
-                || affix.indexOf(PATTERN_DECIMAL_SEPARATOR) >= 0
-                || affix.indexOf(PATTERN_PERCENT) >= 0
-                || affix.indexOf(PATTERN_PER_MILLE) >= 0
-                || affix.indexOf(PATTERN_DIGIT) >= 0
-                || affix.indexOf(PATTERN_SEPARATOR) >= 0
-                || affix.indexOf(PATTERN_MINUS) >= 0
-                || affix.indexOf(CURRENCY_SIGN) >= 0;
+            needQuote = bffix.indexOf(PATTERN_ZERO_DIGIT) >= 0
+                || bffix.indexOf(PATTERN_GROUPING_SEPARATOR) >= 0
+                || bffix.indexOf(PATTERN_DECIMAL_SEPARATOR) >= 0
+                || bffix.indexOf(PATTERN_PERCENT) >= 0
+                || bffix.indexOf(PATTERN_PER_MILLE) >= 0
+                || bffix.indexOf(PATTERN_DIGIT) >= 0
+                || bffix.indexOf(PATTERN_SEPARATOR) >= 0
+                || bffix.indexOf(PATTERN_MINUS) >= 0
+                || bffix.indexOf(CURRENCY_SIGN) >= 0;
         }
-        if (needQuote) buffer.append('\'');
-        if (affix.indexOf('\'') < 0) buffer.append(affix);
+        if (needQuote) buffer.bppend('\'');
+        if (bffix.indexOf('\'') < 0) buffer.bppend(bffix);
         else {
-            for (int j=0; j<affix.length(); ++j) {
-                char c = affix.charAt(j);
-                buffer.append(c);
-                if (c == '\'') buffer.append(c);
+            for (int j=0; j<bffix.length(); ++j) {
+                chbr c = bffix.chbrAt(j);
+                buffer.bppend(c);
+                if (c == '\'') buffer.bppend(c);
             }
         }
-        if (needQuote) buffer.append('\'');
+        if (needQuote) buffer.bppend('\'');
     }
 
     /**
-     * Does the real work of generating a pattern.  */
-    private String toPattern(boolean localized) {
+     * Does the rebl work of generbting b pbttern.  */
+    privbte String toPbttern(boolebn locblized) {
         StringBuffer result = new StringBuffer();
         for (int j = 1; j >= 0; --j) {
             if (j == 1)
-                appendAffix(result, posPrefixPattern, positivePrefix, localized);
-            else appendAffix(result, negPrefixPattern, negativePrefix, localized);
+                bppendAffix(result, posPrefixPbttern, positivePrefix, locblized);
+            else bppendAffix(result, negPrefixPbttern, negbtivePrefix, locblized);
             int i;
-            int digitCount = useExponentialNotation
-                        ? getMaximumIntegerDigits()
-                        : Math.max(groupingSize, getMinimumIntegerDigits())+1;
+            int digitCount = useExponentiblNotbtion
+                        ? getMbximumIntegerDigits()
+                        : Mbth.mbx(groupingSize, getMinimumIntegerDigits())+1;
             for (i = digitCount; i > 0; --i) {
                 if (i != digitCount && isGroupingUsed() && groupingSize != 0 &&
                     i % groupingSize == 0) {
-                    result.append(localized ? symbols.getGroupingSeparator() :
+                    result.bppend(locblized ? symbols.getGroupingSepbrbtor() :
                                   PATTERN_GROUPING_SEPARATOR);
                 }
-                result.append(i <= getMinimumIntegerDigits()
-                    ? (localized ? symbols.getZeroDigit() : PATTERN_ZERO_DIGIT)
-                    : (localized ? symbols.getDigit() : PATTERN_DIGIT));
+                result.bppend(i <= getMinimumIntegerDigits()
+                    ? (locblized ? symbols.getZeroDigit() : PATTERN_ZERO_DIGIT)
+                    : (locblized ? symbols.getDigit() : PATTERN_DIGIT));
             }
-            if (getMaximumFractionDigits() > 0 || decimalSeparatorAlwaysShown)
-                result.append(localized ? symbols.getDecimalSeparator() :
+            if (getMbximumFrbctionDigits() > 0 || decimblSepbrbtorAlwbysShown)
+                result.bppend(locblized ? symbols.getDecimblSepbrbtor() :
                               PATTERN_DECIMAL_SEPARATOR);
-            for (i = 0; i < getMaximumFractionDigits(); ++i) {
-                if (i < getMinimumFractionDigits()) {
-                    result.append(localized ? symbols.getZeroDigit() :
+            for (i = 0; i < getMbximumFrbctionDigits(); ++i) {
+                if (i < getMinimumFrbctionDigits()) {
+                    result.bppend(locblized ? symbols.getZeroDigit() :
                                   PATTERN_ZERO_DIGIT);
                 } else {
-                    result.append(localized ? symbols.getDigit() :
+                    result.bppend(locblized ? symbols.getDigit() :
                                   PATTERN_DIGIT);
                 }
             }
-        if (useExponentialNotation)
+        if (useExponentiblNotbtion)
         {
-            result.append(localized ? symbols.getExponentSeparator() :
+            result.bppend(locblized ? symbols.getExponentSepbrbtor() :
                   PATTERN_EXPONENT);
         for (i=0; i<minExponentDigits; ++i)
-                    result.append(localized ? symbols.getZeroDigit() :
+                    result.bppend(locblized ? symbols.getZeroDigit() :
                                   PATTERN_ZERO_DIGIT);
         }
             if (j == 1) {
-                appendAffix(result, posSuffixPattern, positiveSuffix, localized);
-                if ((negSuffixPattern == posSuffixPattern && // n == p == null
-                     negativeSuffix.equals(positiveSuffix))
-                    || (negSuffixPattern != null &&
-                        negSuffixPattern.equals(posSuffixPattern))) {
-                    if ((negPrefixPattern != null && posPrefixPattern != null &&
-                         negPrefixPattern.equals("'-" + posPrefixPattern)) ||
-                        (negPrefixPattern == posPrefixPattern && // n == p == null
-                         negativePrefix.equals(symbols.getMinusSign() + positivePrefix)))
-                        break;
+                bppendAffix(result, posSuffixPbttern, positiveSuffix, locblized);
+                if ((negSuffixPbttern == posSuffixPbttern && // n == p == null
+                     negbtiveSuffix.equbls(positiveSuffix))
+                    || (negSuffixPbttern != null &&
+                        negSuffixPbttern.equbls(posSuffixPbttern))) {
+                    if ((negPrefixPbttern != null && posPrefixPbttern != null &&
+                         negPrefixPbttern.equbls("'-" + posPrefixPbttern)) ||
+                        (negPrefixPbttern == posPrefixPbttern && // n == p == null
+                         negbtivePrefix.equbls(symbols.getMinusSign() + positivePrefix)))
+                        brebk;
                 }
-                result.append(localized ? symbols.getPatternSeparator() :
+                result.bppend(locblized ? symbols.getPbtternSepbrbtor() :
                               PATTERN_SEPARATOR);
-            } else appendAffix(result, negSuffixPattern, negativeSuffix, localized);
+            } else bppendAffix(result, negSuffixPbttern, negbtiveSuffix, locblized);
         }
         return result.toString();
     }
 
     /**
-     * Apply the given pattern to this Format object.  A pattern is a
-     * short-hand specification for the various formatting properties.
-     * These properties can also be changed individually through the
-     * various setter methods.
+     * Apply the given pbttern to this Formbt object.  A pbttern is b
+     * short-hbnd specificbtion for the vbrious formbtting properties.
+     * These properties cbn blso be chbnged individublly through the
+     * vbrious setter methods.
      * <p>
      * There is no limit to integer digits set
-     * by this routine, since that is the typical end-user desire;
-     * use setMaximumInteger if you want to set a real value.
-     * For negative numbers, use a second pattern, separated by a semicolon
-     * <P>Example <code>"#,#00.0#"</code> &rarr; 1,234.56
-     * <P>This means a minimum of 2 integer digits, 1 fraction digit, and
-     * a maximum of 2 fraction digits.
-     * <p>Example: <code>"#,#00.0#;(#,#00.0#)"</code> for negatives in
-     * parentheses.
-     * <p>In negative patterns, the minimum and maximum counts are ignored;
-     * these are presumed to be set in the positive pattern.
+     * by this routine, since thbt is the typicbl end-user desire;
+     * use setMbximumInteger if you wbnt to set b rebl vblue.
+     * For negbtive numbers, use b second pbttern, sepbrbted by b semicolon
+     * <P>Exbmple <code>"#,#00.0#"</code> &rbrr; 1,234.56
+     * <P>This mebns b minimum of 2 integer digits, 1 frbction digit, bnd
+     * b mbximum of 2 frbction digits.
+     * <p>Exbmple: <code>"#,#00.0#;(#,#00.0#)"</code> for negbtives in
+     * pbrentheses.
+     * <p>In negbtive pbtterns, the minimum bnd mbximum counts bre ignored;
+     * these bre presumed to be set in the positive pbttern.
      *
-     * @param pattern a new pattern
-     * @exception NullPointerException if <code>pattern</code> is null
-     * @exception IllegalArgumentException if the given pattern is invalid.
+     * @pbrbm pbttern b new pbttern
+     * @exception NullPointerException if <code>pbttern</code> is null
+     * @exception IllegblArgumentException if the given pbttern is invblid.
      */
-    public void applyPattern(String pattern) {
-        applyPattern(pattern, false);
+    public void bpplyPbttern(String pbttern) {
+        bpplyPbttern(pbttern, fblse);
     }
 
     /**
-     * Apply the given pattern to this Format object.  The pattern
-     * is assumed to be in a localized notation. A pattern is a
-     * short-hand specification for the various formatting properties.
-     * These properties can also be changed individually through the
-     * various setter methods.
+     * Apply the given pbttern to this Formbt object.  The pbttern
+     * is bssumed to be in b locblized notbtion. A pbttern is b
+     * short-hbnd specificbtion for the vbrious formbtting properties.
+     * These properties cbn blso be chbnged individublly through the
+     * vbrious setter methods.
      * <p>
      * There is no limit to integer digits set
-     * by this routine, since that is the typical end-user desire;
-     * use setMaximumInteger if you want to set a real value.
-     * For negative numbers, use a second pattern, separated by a semicolon
-     * <P>Example <code>"#,#00.0#"</code> &rarr; 1,234.56
-     * <P>This means a minimum of 2 integer digits, 1 fraction digit, and
-     * a maximum of 2 fraction digits.
-     * <p>Example: <code>"#,#00.0#;(#,#00.0#)"</code> for negatives in
-     * parentheses.
-     * <p>In negative patterns, the minimum and maximum counts are ignored;
-     * these are presumed to be set in the positive pattern.
+     * by this routine, since thbt is the typicbl end-user desire;
+     * use setMbximumInteger if you wbnt to set b rebl vblue.
+     * For negbtive numbers, use b second pbttern, sepbrbted by b semicolon
+     * <P>Exbmple <code>"#,#00.0#"</code> &rbrr; 1,234.56
+     * <P>This mebns b minimum of 2 integer digits, 1 frbction digit, bnd
+     * b mbximum of 2 frbction digits.
+     * <p>Exbmple: <code>"#,#00.0#;(#,#00.0#)"</code> for negbtives in
+     * pbrentheses.
+     * <p>In negbtive pbtterns, the minimum bnd mbximum counts bre ignored;
+     * these bre presumed to be set in the positive pbttern.
      *
-     * @param pattern a new pattern
-     * @exception NullPointerException if <code>pattern</code> is null
-     * @exception IllegalArgumentException if the given pattern is invalid.
+     * @pbrbm pbttern b new pbttern
+     * @exception NullPointerException if <code>pbttern</code> is null
+     * @exception IllegblArgumentException if the given pbttern is invblid.
      */
-    public void applyLocalizedPattern(String pattern) {
-        applyPattern(pattern, true);
+    public void bpplyLocblizedPbttern(String pbttern) {
+        bpplyPbttern(pbttern, true);
     }
 
     /**
-     * Does the real work of applying a pattern.
+     * Does the rebl work of bpplying b pbttern.
      */
-    private void applyPattern(String pattern, boolean localized) {
-        char zeroDigit         = PATTERN_ZERO_DIGIT;
-        char groupingSeparator = PATTERN_GROUPING_SEPARATOR;
-        char decimalSeparator  = PATTERN_DECIMAL_SEPARATOR;
-        char percent           = PATTERN_PERCENT;
-        char perMill           = PATTERN_PER_MILLE;
-        char digit             = PATTERN_DIGIT;
-        char separator         = PATTERN_SEPARATOR;
+    privbte void bpplyPbttern(String pbttern, boolebn locblized) {
+        chbr zeroDigit         = PATTERN_ZERO_DIGIT;
+        chbr groupingSepbrbtor = PATTERN_GROUPING_SEPARATOR;
+        chbr decimblSepbrbtor  = PATTERN_DECIMAL_SEPARATOR;
+        chbr percent           = PATTERN_PERCENT;
+        chbr perMill           = PATTERN_PER_MILLE;
+        chbr digit             = PATTERN_DIGIT;
+        chbr sepbrbtor         = PATTERN_SEPARATOR;
         String exponent          = PATTERN_EXPONENT;
-        char minus             = PATTERN_MINUS;
-        if (localized) {
+        chbr minus             = PATTERN_MINUS;
+        if (locblized) {
             zeroDigit         = symbols.getZeroDigit();
-            groupingSeparator = symbols.getGroupingSeparator();
-            decimalSeparator  = symbols.getDecimalSeparator();
+            groupingSepbrbtor = symbols.getGroupingSepbrbtor();
+            decimblSepbrbtor  = symbols.getDecimblSepbrbtor();
             percent           = symbols.getPercent();
             perMill           = symbols.getPerMill();
             digit             = symbols.getDigit();
-            separator         = symbols.getPatternSeparator();
-            exponent          = symbols.getExponentSeparator();
+            sepbrbtor         = symbols.getPbtternSepbrbtor();
+            exponent          = symbols.getExponentSepbrbtor();
             minus             = symbols.getMinusSign();
         }
-        boolean gotNegative = false;
-        decimalSeparatorAlwaysShown = false;
-        isCurrencyFormat = false;
-        useExponentialNotation = false;
+        boolebn gotNegbtive = fblse;
+        decimblSepbrbtorAlwbysShown = fblse;
+        isCurrencyFormbt = fblse;
+        useExponentiblNotbtion = fblse;
 
-        // Two variables are used to record the subrange of the pattern
-        // occupied by phase 1.  This is used during the processing of the
-        // second pattern (the one representing negative numbers) to ensure
-        // that no deviation exists in phase 1 between the two patterns.
-        int phaseOneStart = 0;
-        int phaseOneLength = 0;
+        // Two vbribbles bre used to record the subrbnge of the pbttern
+        // occupied by phbse 1.  This is used during the processing of the
+        // second pbttern (the one representing negbtive numbers) to ensure
+        // thbt no devibtion exists in phbse 1 between the two pbtterns.
+        int phbseOneStbrt = 0;
+        int phbseOneLength = 0;
 
-        int start = 0;
-        for (int j = 1; j >= 0 && start < pattern.length(); --j) {
-            boolean inQuote = false;
+        int stbrt = 0;
+        for (int j = 1; j >= 0 && stbrt < pbttern.length(); --j) {
+            boolebn inQuote = fblse;
             StringBuffer prefix = new StringBuffer();
             StringBuffer suffix = new StringBuffer();
-            int decimalPos = -1;
+            int decimblPos = -1;
             int multiplier = 1;
             int digitLeftCount = 0, zeroDigitCount = 0, digitRightCount = 0;
             byte groupingCount = -1;
 
-            // The phase ranges from 0 to 2.  Phase 0 is the prefix.  Phase 1 is
-            // the section of the pattern with digits, decimal separator,
-            // grouping characters.  Phase 2 is the suffix.  In phases 0 and 2,
-            // percent, per mille, and currency symbols are recognized and
-            // translated.  The separation of the characters into phases is
-            // strictly enforced; if phase 1 characters are to appear in the
-            // suffix, for example, they must be quoted.
-            int phase = 0;
+            // The phbse rbnges from 0 to 2.  Phbse 0 is the prefix.  Phbse 1 is
+            // the section of the pbttern with digits, decimbl sepbrbtor,
+            // grouping chbrbcters.  Phbse 2 is the suffix.  In phbses 0 bnd 2,
+            // percent, per mille, bnd currency symbols bre recognized bnd
+            // trbnslbted.  The sepbrbtion of the chbrbcters into phbses is
+            // strictly enforced; if phbse 1 chbrbcters bre to bppebr in the
+            // suffix, for exbmple, they must be quoted.
+            int phbse = 0;
 
-            // The affix is either the prefix or the suffix.
-            StringBuffer affix = prefix;
+            // The bffix is either the prefix or the suffix.
+            StringBuffer bffix = prefix;
 
-            for (int pos = start; pos < pattern.length(); ++pos) {
-                char ch = pattern.charAt(pos);
-                switch (phase) {
-                case 0:
-                case 2:
-                    // Process the prefix / suffix characters
+            for (int pos = stbrt; pos < pbttern.length(); ++pos) {
+                chbr ch = pbttern.chbrAt(pos);
+                switch (phbse) {
+                cbse 0:
+                cbse 2:
+                    // Process the prefix / suffix chbrbcters
                     if (inQuote) {
-                        // A quote within quotes indicates either the closing
-                        // quote or two quotes, which is a quote literal. That
-                        // is, we have the second quote in 'do' or 'don''t'.
+                        // A quote within quotes indicbtes either the closing
+                        // quote or two quotes, which is b quote literbl. Thbt
+                        // is, we hbve the second quote in 'do' or 'don''t'.
                         if (ch == QUOTE) {
-                            if ((pos+1) < pattern.length() &&
-                                pattern.charAt(pos+1) == QUOTE) {
+                            if ((pos+1) < pbttern.length() &&
+                                pbttern.chbrAt(pos+1) == QUOTE) {
                                 ++pos;
-                                affix.append("''"); // 'don''t'
+                                bffix.bppend("''"); // 'don''t'
                             } else {
-                                inQuote = false; // 'do'
+                                inQuote = fblse; // 'do'
                             }
                             continue;
                         }
                     } else {
-                        // Process unquoted characters seen in prefix or suffix
-                        // phase.
+                        // Process unquoted chbrbcters seen in prefix or suffix
+                        // phbse.
                         if (ch == digit ||
                             ch == zeroDigit ||
-                            ch == groupingSeparator ||
-                            ch == decimalSeparator) {
-                            phase = 1;
+                            ch == groupingSepbrbtor ||
+                            ch == decimblSepbrbtor) {
+                            phbse = 1;
                             if (j == 1) {
-                                phaseOneStart = pos;
+                                phbseOneStbrt = pos;
                             }
-                            --pos; // Reprocess this character
+                            --pos; // Reprocess this chbrbcter
                             continue;
                         } else if (ch == CURRENCY_SIGN) {
-                            // Use lookahead to determine if the currency sign
+                            // Use lookbhebd to determine if the currency sign
                             // is doubled or not.
-                            boolean doubled = (pos + 1) < pattern.length() &&
-                                pattern.charAt(pos + 1) == CURRENCY_SIGN;
-                            if (doubled) { // Skip over the doubled character
+                            boolebn doubled = (pos + 1) < pbttern.length() &&
+                                pbttern.chbrAt(pos + 1) == CURRENCY_SIGN;
+                            if (doubled) { // Skip over the doubled chbrbcter
                              ++pos;
                             }
-                            isCurrencyFormat = true;
-                            affix.append(doubled ? "'\u00A4\u00A4" : "'\u00A4");
+                            isCurrencyFormbt = true;
+                            bffix.bppend(doubled ? "'\u00A4\u00A4" : "'\u00A4");
                             continue;
                         } else if (ch == QUOTE) {
-                            // A quote outside quotes indicates either the
-                            // opening quote or two quotes, which is a quote
-                            // literal. That is, we have the first quote in 'do'
+                            // A quote outside quotes indicbtes either the
+                            // opening quote or two quotes, which is b quote
+                            // literbl. Thbt is, we hbve the first quote in 'do'
                             // or o''clock.
                             if (ch == QUOTE) {
-                                if ((pos+1) < pattern.length() &&
-                                    pattern.charAt(pos+1) == QUOTE) {
+                                if ((pos+1) < pbttern.length() &&
+                                    pbttern.chbrAt(pos+1) == QUOTE) {
                                     ++pos;
-                                    affix.append("''"); // o''clock
+                                    bffix.bppend("''"); // o''clock
                                 } else {
                                     inQuote = true; // 'do'
                                 }
                                 continue;
                             }
-                        } else if (ch == separator) {
-                            // Don't allow separators before we see digit
-                            // characters of phase 1, and don't allow separators
-                            // in the second pattern (j == 0).
-                            if (phase == 0 || j == 0) {
-                                throw new IllegalArgumentException("Unquoted special character '" +
-                                    ch + "' in pattern \"" + pattern + '"');
+                        } else if (ch == sepbrbtor) {
+                            // Don't bllow sepbrbtors before we see digit
+                            // chbrbcters of phbse 1, bnd don't bllow sepbrbtors
+                            // in the second pbttern (j == 0).
+                            if (phbse == 0 || j == 0) {
+                                throw new IllegblArgumentException("Unquoted specibl chbrbcter '" +
+                                    ch + "' in pbttern \"" + pbttern + '"');
                             }
-                            start = pos + 1;
-                            pos = pattern.length();
+                            stbrt = pos + 1;
+                            pos = pbttern.length();
                             continue;
                         }
 
-                        // Next handle characters which are appended directly.
+                        // Next hbndle chbrbcters which bre bppended directly.
                         else if (ch == percent) {
                             if (multiplier != 1) {
-                                throw new IllegalArgumentException("Too many percent/per mille characters in pattern \"" +
-                                    pattern + '"');
+                                throw new IllegblArgumentException("Too mbny percent/per mille chbrbcters in pbttern \"" +
+                                    pbttern + '"');
                             }
                             multiplier = 100;
-                            affix.append("'%");
+                            bffix.bppend("'%");
                             continue;
                         } else if (ch == perMill) {
                             if (multiplier != 1) {
-                                throw new IllegalArgumentException("Too many percent/per mille characters in pattern \"" +
-                                    pattern + '"');
+                                throw new IllegblArgumentException("Too mbny percent/per mille chbrbcters in pbttern \"" +
+                                    pbttern + '"');
                             }
                             multiplier = 1000;
-                            affix.append("'\u2030");
+                            bffix.bppend("'\u2030");
                             continue;
                         } else if (ch == minus) {
-                            affix.append("'-");
+                            bffix.bppend("'-");
                             continue;
                         }
                     }
-                    // Note that if we are within quotes, or if this is an
-                    // unquoted, non-special character, then we usually fall
+                    // Note thbt if we bre within quotes, or if this is bn
+                    // unquoted, non-specibl chbrbcter, then we usublly fbll
                     // through to here.
-                    affix.append(ch);
-                    break;
+                    bffix.bppend(ch);
+                    brebk;
 
-                case 1:
-                    // Phase one must be identical in the two sub-patterns. We
-                    // enforce this by doing a direct comparison. While
-                    // processing the first sub-pattern, we just record its
-                    // length. While processing the second, we compare
-                    // characters.
+                cbse 1:
+                    // Phbse one must be identicbl in the two sub-pbtterns. We
+                    // enforce this by doing b direct compbrison. While
+                    // processing the first sub-pbttern, we just record its
+                    // length. While processing the second, we compbre
+                    // chbrbcters.
                     if (j == 1) {
-                        ++phaseOneLength;
+                        ++phbseOneLength;
                     } else {
-                        if (--phaseOneLength == 0) {
-                            phase = 2;
-                            affix = suffix;
+                        if (--phbseOneLength == 0) {
+                            phbse = 2;
+                            bffix = suffix;
                         }
                         continue;
                     }
 
-                    // Process the digits, decimal, and grouping characters. We
-                    // record five pieces of information. We expect the digits
-                    // to occur in the pattern ####0000.####, and we record the
-                    // number of left digits, zero (central) digits, and right
-                    // digits. The position of the last grouping character is
+                    // Process the digits, decimbl, bnd grouping chbrbcters. We
+                    // record five pieces of informbtion. We expect the digits
+                    // to occur in the pbttern ####0000.####, bnd we record the
+                    // number of left digits, zero (centrbl) digits, bnd right
+                    // digits. The position of the lbst grouping chbrbcter is
                     // recorded (should be somewhere within the first two blocks
-                    // of characters), as is the position of the decimal point,
-                    // if any (should be in the zero digits). If there is no
-                    // decimal point, then there should be no right digits.
+                    // of chbrbcters), bs is the position of the decimbl point,
+                    // if bny (should be in the zero digits). If there is no
+                    // decimbl point, then there should be no right digits.
                     if (ch == digit) {
                         if (zeroDigitCount > 0) {
                             ++digitRightCount;
                         } else {
                             ++digitLeftCount;
                         }
-                        if (groupingCount >= 0 && decimalPos < 0) {
+                        if (groupingCount >= 0 && decimblPos < 0) {
                             ++groupingCount;
                         }
                     } else if (ch == zeroDigit) {
                         if (digitRightCount > 0) {
-                            throw new IllegalArgumentException("Unexpected '0' in pattern \"" +
-                                pattern + '"');
+                            throw new IllegblArgumentException("Unexpected '0' in pbttern \"" +
+                                pbttern + '"');
                         }
                         ++zeroDigitCount;
-                        if (groupingCount >= 0 && decimalPos < 0) {
+                        if (groupingCount >= 0 && decimblPos < 0) {
                             ++groupingCount;
                         }
-                    } else if (ch == groupingSeparator) {
+                    } else if (ch == groupingSepbrbtor) {
                         groupingCount = 0;
-                    } else if (ch == decimalSeparator) {
-                        if (decimalPos >= 0) {
-                            throw new IllegalArgumentException("Multiple decimal separators in pattern \"" +
-                                pattern + '"');
+                    } else if (ch == decimblSepbrbtor) {
+                        if (decimblPos >= 0) {
+                            throw new IllegblArgumentException("Multiple decimbl sepbrbtors in pbttern \"" +
+                                pbttern + '"');
                         }
-                        decimalPos = digitLeftCount + zeroDigitCount + digitRightCount;
-                    } else if (pattern.regionMatches(pos, exponent, 0, exponent.length())){
-                        if (useExponentialNotation) {
-                            throw new IllegalArgumentException("Multiple exponential " +
-                                "symbols in pattern \"" + pattern + '"');
+                        decimblPos = digitLeftCount + zeroDigitCount + digitRightCount;
+                    } else if (pbttern.regionMbtches(pos, exponent, 0, exponent.length())){
+                        if (useExponentiblNotbtion) {
+                            throw new IllegblArgumentException("Multiple exponentibl " +
+                                "symbols in pbttern \"" + pbttern + '"');
                         }
-                        useExponentialNotation = true;
+                        useExponentiblNotbtion = true;
                         minExponentDigits = 0;
 
-                        // Use lookahead to parse out the exponential part
-                        // of the pattern, then jump into phase 2.
+                        // Use lookbhebd to pbrse out the exponentibl pbrt
+                        // of the pbttern, then jump into phbse 2.
                         pos = pos+exponent.length();
-                         while (pos < pattern.length() &&
-                               pattern.charAt(pos) == zeroDigit) {
+                         while (pos < pbttern.length() &&
+                               pbttern.chbrAt(pos) == zeroDigit) {
                             ++minExponentDigits;
-                            ++phaseOneLength;
+                            ++phbseOneLength;
                             ++pos;
                         }
 
                         if ((digitLeftCount + zeroDigitCount) < 1 ||
                             minExponentDigits < 1) {
-                            throw new IllegalArgumentException("Malformed exponential " +
-                                "pattern \"" + pattern + '"');
+                            throw new IllegblArgumentException("Mblformed exponentibl " +
+                                "pbttern \"" + pbttern + '"');
                         }
 
-                        // Transition to phase 2
-                        phase = 2;
-                        affix = suffix;
+                        // Trbnsition to phbse 2
+                        phbse = 2;
+                        bffix = suffix;
                         --pos;
                         continue;
                     } else {
-                        phase = 2;
-                        affix = suffix;
+                        phbse = 2;
+                        bffix = suffix;
                         --pos;
-                        --phaseOneLength;
+                        --phbseOneLength;
                         continue;
                     }
-                    break;
+                    brebk;
                 }
             }
 
-            // Handle patterns with no '0' pattern character. These patterns
-            // are legal, but must be interpreted.  "##.###" -> "#0.###".
+            // Hbndle pbtterns with no '0' pbttern chbrbcter. These pbtterns
+            // bre legbl, but must be interpreted.  "##.###" -> "#0.###".
             // ".###" -> ".0##".
-            /* We allow patterns of the form "####" to produce a zeroDigitCount
-             * of zero (got that?); although this seems like it might make it
-             * possible for format() to produce empty strings, format() checks
-             * for this condition and outputs a zero digit in this situation.
-             * Having a zeroDigitCount of zero yields a minimum integer digits
-             * of zero, which allows proper round-trip patterns.  That is, we
-             * don't want "#" to become "#0" when toPattern() is called (even
-             * though that's what it really is, semantically).
+            /* We bllow pbtterns of the form "####" to produce b zeroDigitCount
+             * of zero (got thbt?); blthough this seems like it might mbke it
+             * possible for formbt() to produce empty strings, formbt() checks
+             * for this condition bnd outputs b zero digit in this situbtion.
+             * Hbving b zeroDigitCount of zero yields b minimum integer digits
+             * of zero, which bllows proper round-trip pbtterns.  Thbt is, we
+             * don't wbnt "#" to become "#0" when toPbttern() is cblled (even
+             * though thbt's whbt it reblly is, sembnticblly).
              */
-            if (zeroDigitCount == 0 && digitLeftCount > 0 && decimalPos >= 0) {
-                // Handle "###.###" and "###." and ".###"
-                int n = decimalPos;
-                if (n == 0) { // Handle ".###"
+            if (zeroDigitCount == 0 && digitLeftCount > 0 && decimblPos >= 0) {
+                // Hbndle "###.###" bnd "###." bnd ".###"
+                int n = decimblPos;
+                if (n == 0) { // Hbndle ".###"
                     ++n;
                 }
                 digitRightCount = digitLeftCount - n;
@@ -3403,170 +3403,170 @@ public class DecimalFormat extends NumberFormat {
                 zeroDigitCount = 1;
             }
 
-            // Do syntax checking on the digits.
-            if ((decimalPos < 0 && digitRightCount > 0) ||
-                (decimalPos >= 0 && (decimalPos < digitLeftCount ||
-                 decimalPos > (digitLeftCount + zeroDigitCount))) ||
+            // Do syntbx checking on the digits.
+            if ((decimblPos < 0 && digitRightCount > 0) ||
+                (decimblPos >= 0 && (decimblPos < digitLeftCount ||
+                 decimblPos > (digitLeftCount + zeroDigitCount))) ||
                  groupingCount == 0 || inQuote) {
-                throw new IllegalArgumentException("Malformed pattern \"" +
-                    pattern + '"');
+                throw new IllegblArgumentException("Mblformed pbttern \"" +
+                    pbttern + '"');
             }
 
             if (j == 1) {
-                posPrefixPattern = prefix.toString();
-                posSuffixPattern = suffix.toString();
-                negPrefixPattern = posPrefixPattern;   // assume these for now
-                negSuffixPattern = posSuffixPattern;
-                int digitTotalCount = digitLeftCount + zeroDigitCount + digitRightCount;
-                /* The effectiveDecimalPos is the position the decimal is at or
-                 * would be at if there is no decimal. Note that if decimalPos<0,
-                 * then digitTotalCount == digitLeftCount + zeroDigitCount.
+                posPrefixPbttern = prefix.toString();
+                posSuffixPbttern = suffix.toString();
+                negPrefixPbttern = posPrefixPbttern;   // bssume these for now
+                negSuffixPbttern = posSuffixPbttern;
+                int digitTotblCount = digitLeftCount + zeroDigitCount + digitRightCount;
+                /* The effectiveDecimblPos is the position the decimbl is bt or
+                 * would be bt if there is no decimbl. Note thbt if decimblPos<0,
+                 * then digitTotblCount == digitLeftCount + zeroDigitCount.
                  */
-                int effectiveDecimalPos = decimalPos >= 0 ?
-                    decimalPos : digitTotalCount;
-                setMinimumIntegerDigits(effectiveDecimalPos - digitLeftCount);
-                setMaximumIntegerDigits(useExponentialNotation ?
+                int effectiveDecimblPos = decimblPos >= 0 ?
+                    decimblPos : digitTotblCount;
+                setMinimumIntegerDigits(effectiveDecimblPos - digitLeftCount);
+                setMbximumIntegerDigits(useExponentiblNotbtion ?
                     digitLeftCount + getMinimumIntegerDigits() :
                     MAXIMUM_INTEGER_DIGITS);
-                setMaximumFractionDigits(decimalPos >= 0 ?
-                    (digitTotalCount - decimalPos) : 0);
-                setMinimumFractionDigits(decimalPos >= 0 ?
-                    (digitLeftCount + zeroDigitCount - decimalPos) : 0);
+                setMbximumFrbctionDigits(decimblPos >= 0 ?
+                    (digitTotblCount - decimblPos) : 0);
+                setMinimumFrbctionDigits(decimblPos >= 0 ?
+                    (digitLeftCount + zeroDigitCount - decimblPos) : 0);
                 setGroupingUsed(groupingCount > 0);
                 this.groupingSize = (groupingCount > 0) ? groupingCount : 0;
                 this.multiplier = multiplier;
-                setDecimalSeparatorAlwaysShown(decimalPos == 0 ||
-                    decimalPos == digitTotalCount);
+                setDecimblSepbrbtorAlwbysShown(decimblPos == 0 ||
+                    decimblPos == digitTotblCount);
             } else {
-                negPrefixPattern = prefix.toString();
-                negSuffixPattern = suffix.toString();
-                gotNegative = true;
+                negPrefixPbttern = prefix.toString();
+                negSuffixPbttern = suffix.toString();
+                gotNegbtive = true;
             }
         }
 
-        if (pattern.length() == 0) {
-            posPrefixPattern = posSuffixPattern = "";
+        if (pbttern.length() == 0) {
+            posPrefixPbttern = posSuffixPbttern = "";
             setMinimumIntegerDigits(0);
-            setMaximumIntegerDigits(MAXIMUM_INTEGER_DIGITS);
-            setMinimumFractionDigits(0);
-            setMaximumFractionDigits(MAXIMUM_FRACTION_DIGITS);
+            setMbximumIntegerDigits(MAXIMUM_INTEGER_DIGITS);
+            setMinimumFrbctionDigits(0);
+            setMbximumFrbctionDigits(MAXIMUM_FRACTION_DIGITS);
         }
 
-        // If there was no negative pattern, or if the negative pattern is
-        // identical to the positive pattern, then prepend the minus sign to
-        // the positive pattern to form the negative pattern.
-        if (!gotNegative ||
-            (negPrefixPattern.equals(posPrefixPattern)
-             && negSuffixPattern.equals(posSuffixPattern))) {
-            negSuffixPattern = posSuffixPattern;
-            negPrefixPattern = "'-" + posPrefixPattern;
+        // If there wbs no negbtive pbttern, or if the negbtive pbttern is
+        // identicbl to the positive pbttern, then prepend the minus sign to
+        // the positive pbttern to form the negbtive pbttern.
+        if (!gotNegbtive ||
+            (negPrefixPbttern.equbls(posPrefixPbttern)
+             && negSuffixPbttern.equbls(posSuffixPbttern))) {
+            negSuffixPbttern = posSuffixPbttern;
+            negPrefixPbttern = "'-" + posPrefixPbttern;
         }
 
-        expandAffixes();
+        expbndAffixes();
     }
 
     /**
-     * Sets the maximum number of digits allowed in the integer portion of a
+     * Sets the mbximum number of digits bllowed in the integer portion of b
      * number.
-     * For formatting numbers other than <code>BigInteger</code> and
-     * <code>BigDecimal</code> objects, the lower of <code>newValue</code> and
-     * 309 is used. Negative input values are replaced with 0.
-     * @see NumberFormat#setMaximumIntegerDigits
+     * For formbtting numbers other thbn <code>BigInteger</code> bnd
+     * <code>BigDecimbl</code> objects, the lower of <code>newVblue</code> bnd
+     * 309 is used. Negbtive input vblues bre replbced with 0.
+     * @see NumberFormbt#setMbximumIntegerDigits
      */
     @Override
-    public void setMaximumIntegerDigits(int newValue) {
-        maximumIntegerDigits = Math.min(Math.max(0, newValue), MAXIMUM_INTEGER_DIGITS);
-        super.setMaximumIntegerDigits((maximumIntegerDigits > DOUBLE_INTEGER_DIGITS) ?
-            DOUBLE_INTEGER_DIGITS : maximumIntegerDigits);
-        if (minimumIntegerDigits > maximumIntegerDigits) {
-            minimumIntegerDigits = maximumIntegerDigits;
+    public void setMbximumIntegerDigits(int newVblue) {
+        mbximumIntegerDigits = Mbth.min(Mbth.mbx(0, newVblue), MAXIMUM_INTEGER_DIGITS);
+        super.setMbximumIntegerDigits((mbximumIntegerDigits > DOUBLE_INTEGER_DIGITS) ?
+            DOUBLE_INTEGER_DIGITS : mbximumIntegerDigits);
+        if (minimumIntegerDigits > mbximumIntegerDigits) {
+            minimumIntegerDigits = mbximumIntegerDigits;
             super.setMinimumIntegerDigits((minimumIntegerDigits > DOUBLE_INTEGER_DIGITS) ?
                 DOUBLE_INTEGER_DIGITS : minimumIntegerDigits);
         }
-        fastPathCheckNeeded = true;
+        fbstPbthCheckNeeded = true;
     }
 
     /**
-     * Sets the minimum number of digits allowed in the integer portion of a
+     * Sets the minimum number of digits bllowed in the integer portion of b
      * number.
-     * For formatting numbers other than <code>BigInteger</code> and
-     * <code>BigDecimal</code> objects, the lower of <code>newValue</code> and
-     * 309 is used. Negative input values are replaced with 0.
-     * @see NumberFormat#setMinimumIntegerDigits
+     * For formbtting numbers other thbn <code>BigInteger</code> bnd
+     * <code>BigDecimbl</code> objects, the lower of <code>newVblue</code> bnd
+     * 309 is used. Negbtive input vblues bre replbced with 0.
+     * @see NumberFormbt#setMinimumIntegerDigits
      */
     @Override
-    public void setMinimumIntegerDigits(int newValue) {
-        minimumIntegerDigits = Math.min(Math.max(0, newValue), MAXIMUM_INTEGER_DIGITS);
+    public void setMinimumIntegerDigits(int newVblue) {
+        minimumIntegerDigits = Mbth.min(Mbth.mbx(0, newVblue), MAXIMUM_INTEGER_DIGITS);
         super.setMinimumIntegerDigits((minimumIntegerDigits > DOUBLE_INTEGER_DIGITS) ?
             DOUBLE_INTEGER_DIGITS : minimumIntegerDigits);
-        if (minimumIntegerDigits > maximumIntegerDigits) {
-            maximumIntegerDigits = minimumIntegerDigits;
-            super.setMaximumIntegerDigits((maximumIntegerDigits > DOUBLE_INTEGER_DIGITS) ?
-                DOUBLE_INTEGER_DIGITS : maximumIntegerDigits);
+        if (minimumIntegerDigits > mbximumIntegerDigits) {
+            mbximumIntegerDigits = minimumIntegerDigits;
+            super.setMbximumIntegerDigits((mbximumIntegerDigits > DOUBLE_INTEGER_DIGITS) ?
+                DOUBLE_INTEGER_DIGITS : mbximumIntegerDigits);
         }
-        fastPathCheckNeeded = true;
+        fbstPbthCheckNeeded = true;
     }
 
     /**
-     * Sets the maximum number of digits allowed in the fraction portion of a
+     * Sets the mbximum number of digits bllowed in the frbction portion of b
      * number.
-     * For formatting numbers other than <code>BigInteger</code> and
-     * <code>BigDecimal</code> objects, the lower of <code>newValue</code> and
-     * 340 is used. Negative input values are replaced with 0.
-     * @see NumberFormat#setMaximumFractionDigits
+     * For formbtting numbers other thbn <code>BigInteger</code> bnd
+     * <code>BigDecimbl</code> objects, the lower of <code>newVblue</code> bnd
+     * 340 is used. Negbtive input vblues bre replbced with 0.
+     * @see NumberFormbt#setMbximumFrbctionDigits
      */
     @Override
-    public void setMaximumFractionDigits(int newValue) {
-        maximumFractionDigits = Math.min(Math.max(0, newValue), MAXIMUM_FRACTION_DIGITS);
-        super.setMaximumFractionDigits((maximumFractionDigits > DOUBLE_FRACTION_DIGITS) ?
-            DOUBLE_FRACTION_DIGITS : maximumFractionDigits);
-        if (minimumFractionDigits > maximumFractionDigits) {
-            minimumFractionDigits = maximumFractionDigits;
-            super.setMinimumFractionDigits((minimumFractionDigits > DOUBLE_FRACTION_DIGITS) ?
-                DOUBLE_FRACTION_DIGITS : minimumFractionDigits);
+    public void setMbximumFrbctionDigits(int newVblue) {
+        mbximumFrbctionDigits = Mbth.min(Mbth.mbx(0, newVblue), MAXIMUM_FRACTION_DIGITS);
+        super.setMbximumFrbctionDigits((mbximumFrbctionDigits > DOUBLE_FRACTION_DIGITS) ?
+            DOUBLE_FRACTION_DIGITS : mbximumFrbctionDigits);
+        if (minimumFrbctionDigits > mbximumFrbctionDigits) {
+            minimumFrbctionDigits = mbximumFrbctionDigits;
+            super.setMinimumFrbctionDigits((minimumFrbctionDigits > DOUBLE_FRACTION_DIGITS) ?
+                DOUBLE_FRACTION_DIGITS : minimumFrbctionDigits);
         }
-        fastPathCheckNeeded = true;
+        fbstPbthCheckNeeded = true;
     }
 
     /**
-     * Sets the minimum number of digits allowed in the fraction portion of a
+     * Sets the minimum number of digits bllowed in the frbction portion of b
      * number.
-     * For formatting numbers other than <code>BigInteger</code> and
-     * <code>BigDecimal</code> objects, the lower of <code>newValue</code> and
-     * 340 is used. Negative input values are replaced with 0.
-     * @see NumberFormat#setMinimumFractionDigits
+     * For formbtting numbers other thbn <code>BigInteger</code> bnd
+     * <code>BigDecimbl</code> objects, the lower of <code>newVblue</code> bnd
+     * 340 is used. Negbtive input vblues bre replbced with 0.
+     * @see NumberFormbt#setMinimumFrbctionDigits
      */
     @Override
-    public void setMinimumFractionDigits(int newValue) {
-        minimumFractionDigits = Math.min(Math.max(0, newValue), MAXIMUM_FRACTION_DIGITS);
-        super.setMinimumFractionDigits((minimumFractionDigits > DOUBLE_FRACTION_DIGITS) ?
-            DOUBLE_FRACTION_DIGITS : minimumFractionDigits);
-        if (minimumFractionDigits > maximumFractionDigits) {
-            maximumFractionDigits = minimumFractionDigits;
-            super.setMaximumFractionDigits((maximumFractionDigits > DOUBLE_FRACTION_DIGITS) ?
-                DOUBLE_FRACTION_DIGITS : maximumFractionDigits);
+    public void setMinimumFrbctionDigits(int newVblue) {
+        minimumFrbctionDigits = Mbth.min(Mbth.mbx(0, newVblue), MAXIMUM_FRACTION_DIGITS);
+        super.setMinimumFrbctionDigits((minimumFrbctionDigits > DOUBLE_FRACTION_DIGITS) ?
+            DOUBLE_FRACTION_DIGITS : minimumFrbctionDigits);
+        if (minimumFrbctionDigits > mbximumFrbctionDigits) {
+            mbximumFrbctionDigits = minimumFrbctionDigits;
+            super.setMbximumFrbctionDigits((mbximumFrbctionDigits > DOUBLE_FRACTION_DIGITS) ?
+                DOUBLE_FRACTION_DIGITS : mbximumFrbctionDigits);
         }
-        fastPathCheckNeeded = true;
+        fbstPbthCheckNeeded = true;
     }
 
     /**
-     * Gets the maximum number of digits allowed in the integer portion of a
+     * Gets the mbximum number of digits bllowed in the integer portion of b
      * number.
-     * For formatting numbers other than <code>BigInteger</code> and
-     * <code>BigDecimal</code> objects, the lower of the return value and
+     * For formbtting numbers other thbn <code>BigInteger</code> bnd
+     * <code>BigDecimbl</code> objects, the lower of the return vblue bnd
      * 309 is used.
-     * @see #setMaximumIntegerDigits
+     * @see #setMbximumIntegerDigits
      */
     @Override
-    public int getMaximumIntegerDigits() {
-        return maximumIntegerDigits;
+    public int getMbximumIntegerDigits() {
+        return mbximumIntegerDigits;
     }
 
     /**
-     * Gets the minimum number of digits allowed in the integer portion of a
+     * Gets the minimum number of digits bllowed in the integer portion of b
      * number.
-     * For formatting numbers other than <code>BigInteger</code> and
-     * <code>BigDecimal</code> objects, the lower of the return value and
+     * For formbtting numbers other thbn <code>BigInteger</code> bnd
+     * <code>BigDecimbl</code> objects, the lower of the return vblue bnd
      * 309 is used.
      * @see #setMinimumIntegerDigits
      */
@@ -3576,39 +3576,39 @@ public class DecimalFormat extends NumberFormat {
     }
 
     /**
-     * Gets the maximum number of digits allowed in the fraction portion of a
+     * Gets the mbximum number of digits bllowed in the frbction portion of b
      * number.
-     * For formatting numbers other than <code>BigInteger</code> and
-     * <code>BigDecimal</code> objects, the lower of the return value and
+     * For formbtting numbers other thbn <code>BigInteger</code> bnd
+     * <code>BigDecimbl</code> objects, the lower of the return vblue bnd
      * 340 is used.
-     * @see #setMaximumFractionDigits
+     * @see #setMbximumFrbctionDigits
      */
     @Override
-    public int getMaximumFractionDigits() {
-        return maximumFractionDigits;
+    public int getMbximumFrbctionDigits() {
+        return mbximumFrbctionDigits;
     }
 
     /**
-     * Gets the minimum number of digits allowed in the fraction portion of a
+     * Gets the minimum number of digits bllowed in the frbction portion of b
      * number.
-     * For formatting numbers other than <code>BigInteger</code> and
-     * <code>BigDecimal</code> objects, the lower of the return value and
+     * For formbtting numbers other thbn <code>BigInteger</code> bnd
+     * <code>BigDecimbl</code> objects, the lower of the return vblue bnd
      * 340 is used.
-     * @see #setMinimumFractionDigits
+     * @see #setMinimumFrbctionDigits
      */
     @Override
-    public int getMinimumFractionDigits() {
-        return minimumFractionDigits;
+    public int getMinimumFrbctionDigits() {
+        return minimumFrbctionDigits;
     }
 
     /**
-     * Gets the currency used by this decimal format when formatting
-     * currency values.
-     * The currency is obtained by calling
-     * {@link DecimalFormatSymbols#getCurrency DecimalFormatSymbols.getCurrency}
-     * on this number format's symbols.
+     * Gets the currency used by this decimbl formbt when formbtting
+     * currency vblues.
+     * The currency is obtbined by cblling
+     * {@link DecimblFormbtSymbols#getCurrency DecimblFormbtSymbols.getCurrency}
+     * on this number formbt's symbols.
      *
-     * @return the currency used by this decimal format, or <code>null</code>
+     * @return the currency used by this decimbl formbt, or <code>null</code>
      * @since 1.4
      */
     @Override
@@ -3617,14 +3617,14 @@ public class DecimalFormat extends NumberFormat {
     }
 
     /**
-     * Sets the currency used by this number format when formatting
-     * currency values. This does not update the minimum or maximum
-     * number of fraction digits used by the number format.
-     * The currency is set by calling
-     * {@link DecimalFormatSymbols#setCurrency DecimalFormatSymbols.setCurrency}
-     * on this number format's symbols.
+     * Sets the currency used by this number formbt when formbtting
+     * currency vblues. This does not updbte the minimum or mbximum
+     * number of frbction digits used by the number formbt.
+     * The currency is set by cblling
+     * {@link DecimblFormbtSymbols#setCurrency DecimblFormbtSymbols.setCurrency}
+     * on this number formbt's symbols.
      *
-     * @param currency the new currency to be used by this decimal format
+     * @pbrbm currency the new currency to be used by this decimbl formbt
      * @exception NullPointerException if <code>currency</code> is null
      * @since 1.4
      */
@@ -3632,17 +3632,17 @@ public class DecimalFormat extends NumberFormat {
     public void setCurrency(Currency currency) {
         if (currency != symbols.getCurrency()) {
             symbols.setCurrency(currency);
-            if (isCurrencyFormat) {
-                expandAffixes();
+            if (isCurrencyFormbt) {
+                expbndAffixes();
             }
         }
-        fastPathCheckNeeded = true;
+        fbstPbthCheckNeeded = true;
     }
 
     /**
-     * Gets the {@link java.math.RoundingMode} used in this DecimalFormat.
+     * Gets the {@link jbvb.mbth.RoundingMode} used in this DecimblFormbt.
      *
-     * @return The <code>RoundingMode</code> used for this DecimalFormat.
+     * @return The <code>RoundingMode</code> used for this DecimblFormbt.
      * @see #setRoundingMode(RoundingMode)
      * @since 1.6
      */
@@ -3652,9 +3652,9 @@ public class DecimalFormat extends NumberFormat {
     }
 
     /**
-     * Sets the {@link java.math.RoundingMode} used in this DecimalFormat.
+     * Sets the {@link jbvb.mbth.RoundingMode} used in this DecimblFormbt.
      *
-     * @param roundingMode The <code>RoundingMode</code> to be used
+     * @pbrbm roundingMode The <code>RoundingMode</code> to be used
      * @see #getRoundingMode()
      * @exception NullPointerException if <code>roundingMode</code> is null.
      * @since 1.6
@@ -3667,463 +3667,463 @@ public class DecimalFormat extends NumberFormat {
 
         this.roundingMode = roundingMode;
         digitList.setRoundingMode(roundingMode);
-        fastPathCheckNeeded = true;
+        fbstPbthCheckNeeded = true;
     }
 
     /**
-     * Reads the default serializable fields from the stream and performs
-     * validations and adjustments for older serialized versions. The
-     * validations and adjustments are:
+     * Rebds the defbult seriblizbble fields from the strebm bnd performs
+     * vblidbtions bnd bdjustments for older seriblized versions. The
+     * vblidbtions bnd bdjustments bre:
      * <ol>
      * <li>
-     * Verify that the superclass's digit count fields correctly reflect
-     * the limits imposed on formatting numbers other than
-     * <code>BigInteger</code> and <code>BigDecimal</code> objects. These
-     * limits are stored in the superclass for serialization compatibility
-     * with older versions, while the limits for <code>BigInteger</code> and
-     * <code>BigDecimal</code> objects are kept in this class.
-     * If, in the superclass, the minimum or maximum integer digit count is
-     * larger than <code>DOUBLE_INTEGER_DIGITS</code> or if the minimum or
-     * maximum fraction digit count is larger than
-     * <code>DOUBLE_FRACTION_DIGITS</code>, then the stream data is invalid
-     * and this method throws an <code>InvalidObjectException</code>.
+     * Verify thbt the superclbss's digit count fields correctly reflect
+     * the limits imposed on formbtting numbers other thbn
+     * <code>BigInteger</code> bnd <code>BigDecimbl</code> objects. These
+     * limits bre stored in the superclbss for seriblizbtion compbtibility
+     * with older versions, while the limits for <code>BigInteger</code> bnd
+     * <code>BigDecimbl</code> objects bre kept in this clbss.
+     * If, in the superclbss, the minimum or mbximum integer digit count is
+     * lbrger thbn <code>DOUBLE_INTEGER_DIGITS</code> or if the minimum or
+     * mbximum frbction digit count is lbrger thbn
+     * <code>DOUBLE_FRACTION_DIGITS</code>, then the strebm dbtb is invblid
+     * bnd this method throws bn <code>InvblidObjectException</code>.
      * <li>
-     * If <code>serialVersionOnStream</code> is less than 4, initialize
-     * <code>roundingMode</code> to {@link java.math.RoundingMode#HALF_EVEN
+     * If <code>seriblVersionOnStrebm</code> is less thbn 4, initiblize
+     * <code>roundingMode</code> to {@link jbvb.mbth.RoundingMode#HALF_EVEN
      * RoundingMode.HALF_EVEN}.  This field is new with version 4.
      * <li>
-     * If <code>serialVersionOnStream</code> is less than 3, then call
-     * the setters for the minimum and maximum integer and fraction digits with
-     * the values of the corresponding superclass getters to initialize the
-     * fields in this class. The fields in this class are new with version 3.
+     * If <code>seriblVersionOnStrebm</code> is less thbn 3, then cbll
+     * the setters for the minimum bnd mbximum integer bnd frbction digits with
+     * the vblues of the corresponding superclbss getters to initiblize the
+     * fields in this clbss. The fields in this clbss bre new with version 3.
      * <li>
-     * If <code>serialVersionOnStream</code> is less than 1, indicating that
-     * the stream was written by JDK 1.1, initialize
-     * <code>useExponentialNotation</code>
-     * to false, since it was not present in JDK 1.1.
+     * If <code>seriblVersionOnStrebm</code> is less thbn 1, indicbting thbt
+     * the strebm wbs written by JDK 1.1, initiblize
+     * <code>useExponentiblNotbtion</code>
+     * to fblse, since it wbs not present in JDK 1.1.
      * <li>
-     * Set <code>serialVersionOnStream</code> to the maximum allowed value so
-     * that default serialization will work properly if this object is streamed
-     * out again.
+     * Set <code>seriblVersionOnStrebm</code> to the mbximum bllowed vblue so
+     * thbt defbult seriblizbtion will work properly if this object is strebmed
+     * out bgbin.
      * </ol>
      *
-     * <p>Stream versions older than 2 will not have the affix pattern variables
-     * <code>posPrefixPattern</code> etc.  As a result, they will be initialized
-     * to <code>null</code>, which means the affix strings will be taken as
-     * literal values.  This is exactly what we want, since that corresponds to
-     * the pre-version-2 behavior.
+     * <p>Strebm versions older thbn 2 will not hbve the bffix pbttern vbribbles
+     * <code>posPrefixPbttern</code> etc.  As b result, they will be initiblized
+     * to <code>null</code>, which mebns the bffix strings will be tbken bs
+     * literbl vblues.  This is exbctly whbt we wbnt, since thbt corresponds to
+     * the pre-version-2 behbvior.
      */
-    private void readObject(ObjectInputStream stream)
-         throws IOException, ClassNotFoundException
+    privbte void rebdObject(ObjectInputStrebm strebm)
+         throws IOException, ClbssNotFoundException
     {
-        stream.defaultReadObject();
+        strebm.defbultRebdObject();
         digitList = new DigitList();
 
-        // We force complete fast-path reinitialization when the instance is
-        // deserialized. See clone() comment on fastPathCheckNeeded.
-        fastPathCheckNeeded = true;
-        isFastPath = false;
-        fastPathData = null;
+        // We force complete fbst-pbth reinitiblizbtion when the instbnce is
+        // deseriblized. See clone() comment on fbstPbthCheckNeeded.
+        fbstPbthCheckNeeded = true;
+        isFbstPbth = fblse;
+        fbstPbthDbtb = null;
 
-        if (serialVersionOnStream < 4) {
+        if (seriblVersionOnStrebm < 4) {
             setRoundingMode(RoundingMode.HALF_EVEN);
         } else {
             setRoundingMode(getRoundingMode());
         }
 
-        // We only need to check the maximum counts because NumberFormat
-        // .readObject has already ensured that the maximum is greater than the
+        // We only need to check the mbximum counts becbuse NumberFormbt
+        // .rebdObject hbs blrebdy ensured thbt the mbximum is grebter thbn the
         // minimum count.
-        if (super.getMaximumIntegerDigits() > DOUBLE_INTEGER_DIGITS ||
-            super.getMaximumFractionDigits() > DOUBLE_FRACTION_DIGITS) {
-            throw new InvalidObjectException("Digit count out of range");
+        if (super.getMbximumIntegerDigits() > DOUBLE_INTEGER_DIGITS ||
+            super.getMbximumFrbctionDigits() > DOUBLE_FRACTION_DIGITS) {
+            throw new InvblidObjectException("Digit count out of rbnge");
         }
-        if (serialVersionOnStream < 3) {
-            setMaximumIntegerDigits(super.getMaximumIntegerDigits());
+        if (seriblVersionOnStrebm < 3) {
+            setMbximumIntegerDigits(super.getMbximumIntegerDigits());
             setMinimumIntegerDigits(super.getMinimumIntegerDigits());
-            setMaximumFractionDigits(super.getMaximumFractionDigits());
-            setMinimumFractionDigits(super.getMinimumFractionDigits());
+            setMbximumFrbctionDigits(super.getMbximumFrbctionDigits());
+            setMinimumFrbctionDigits(super.getMinimumFrbctionDigits());
         }
-        if (serialVersionOnStream < 1) {
-            // Didn't have exponential fields
-            useExponentialNotation = false;
+        if (seriblVersionOnStrebm < 1) {
+            // Didn't hbve exponentibl fields
+            useExponentiblNotbtion = fblse;
         }
-        serialVersionOnStream = currentSerialVersion;
+        seriblVersionOnStrebm = currentSeriblVersion;
     }
 
     //----------------------------------------------------------------------
     // INSTANCE VARIABLES
     //----------------------------------------------------------------------
 
-    private transient DigitList digitList = new DigitList();
+    privbte trbnsient DigitList digitList = new DigitList();
 
     /**
-     * The symbol used as a prefix when formatting positive numbers, e.g. "+".
+     * The symbol used bs b prefix when formbtting positive numbers, e.g. "+".
      *
-     * @serial
+     * @seribl
      * @see #getPositivePrefix
      */
-    private String  positivePrefix = "";
+    privbte String  positivePrefix = "";
 
     /**
-     * The symbol used as a suffix when formatting positive numbers.
-     * This is often an empty string.
+     * The symbol used bs b suffix when formbtting positive numbers.
+     * This is often bn empty string.
      *
-     * @serial
+     * @seribl
      * @see #getPositiveSuffix
      */
-    private String  positiveSuffix = "";
+    privbte String  positiveSuffix = "";
 
     /**
-     * The symbol used as a prefix when formatting negative numbers, e.g. "-".
+     * The symbol used bs b prefix when formbtting negbtive numbers, e.g. "-".
      *
-     * @serial
-     * @see #getNegativePrefix
+     * @seribl
+     * @see #getNegbtivePrefix
      */
-    private String  negativePrefix = "-";
+    privbte String  negbtivePrefix = "-";
 
     /**
-     * The symbol used as a suffix when formatting negative numbers.
-     * This is often an empty string.
+     * The symbol used bs b suffix when formbtting negbtive numbers.
+     * This is often bn empty string.
      *
-     * @serial
-     * @see #getNegativeSuffix
+     * @seribl
+     * @see #getNegbtiveSuffix
      */
-    private String  negativeSuffix = "";
+    privbte String  negbtiveSuffix = "";
 
     /**
-     * The prefix pattern for non-negative numbers.  This variable corresponds
+     * The prefix pbttern for non-negbtive numbers.  This vbribble corresponds
      * to <code>positivePrefix</code>.
      *
-     * <p>This pattern is expanded by the method <code>expandAffix()</code> to
-     * <code>positivePrefix</code> to update the latter to reflect changes in
-     * <code>symbols</code>.  If this variable is <code>null</code> then
-     * <code>positivePrefix</code> is taken as a literal value that does not
-     * change when <code>symbols</code> changes.  This variable is always
-     * <code>null</code> for <code>DecimalFormat</code> objects older than
-     * stream version 2 restored from stream.
+     * <p>This pbttern is expbnded by the method <code>expbndAffix()</code> to
+     * <code>positivePrefix</code> to updbte the lbtter to reflect chbnges in
+     * <code>symbols</code>.  If this vbribble is <code>null</code> then
+     * <code>positivePrefix</code> is tbken bs b literbl vblue thbt does not
+     * chbnge when <code>symbols</code> chbnges.  This vbribble is blwbys
+     * <code>null</code> for <code>DecimblFormbt</code> objects older thbn
+     * strebm version 2 restored from strebm.
      *
-     * @serial
+     * @seribl
      * @since 1.3
      */
-    private String posPrefixPattern;
+    privbte String posPrefixPbttern;
 
     /**
-     * The suffix pattern for non-negative numbers.  This variable corresponds
-     * to <code>positiveSuffix</code>.  This variable is analogous to
-     * <code>posPrefixPattern</code>; see that variable for further
-     * documentation.
+     * The suffix pbttern for non-negbtive numbers.  This vbribble corresponds
+     * to <code>positiveSuffix</code>.  This vbribble is bnblogous to
+     * <code>posPrefixPbttern</code>; see thbt vbribble for further
+     * documentbtion.
      *
-     * @serial
+     * @seribl
      * @since 1.3
      */
-    private String posSuffixPattern;
+    privbte String posSuffixPbttern;
 
     /**
-     * The prefix pattern for negative numbers.  This variable corresponds
-     * to <code>negativePrefix</code>.  This variable is analogous to
-     * <code>posPrefixPattern</code>; see that variable for further
-     * documentation.
+     * The prefix pbttern for negbtive numbers.  This vbribble corresponds
+     * to <code>negbtivePrefix</code>.  This vbribble is bnblogous to
+     * <code>posPrefixPbttern</code>; see thbt vbribble for further
+     * documentbtion.
      *
-     * @serial
+     * @seribl
      * @since 1.3
      */
-    private String negPrefixPattern;
+    privbte String negPrefixPbttern;
 
     /**
-     * The suffix pattern for negative numbers.  This variable corresponds
-     * to <code>negativeSuffix</code>.  This variable is analogous to
-     * <code>posPrefixPattern</code>; see that variable for further
-     * documentation.
+     * The suffix pbttern for negbtive numbers.  This vbribble corresponds
+     * to <code>negbtiveSuffix</code>.  This vbribble is bnblogous to
+     * <code>posPrefixPbttern</code>; see thbt vbribble for further
+     * documentbtion.
      *
-     * @serial
+     * @seribl
      * @since 1.3
      */
-    private String negSuffixPattern;
+    privbte String negSuffixPbttern;
 
     /**
      * The multiplier for use in percent, per mille, etc.
      *
-     * @serial
+     * @seribl
      * @see #getMultiplier
      */
-    private int     multiplier = 1;
+    privbte int     multiplier = 1;
 
     /**
-     * The number of digits between grouping separators in the integer
-     * portion of a number.  Must be greater than 0 if
-     * <code>NumberFormat.groupingUsed</code> is true.
+     * The number of digits between grouping sepbrbtors in the integer
+     * portion of b number.  Must be grebter thbn 0 if
+     * <code>NumberFormbt.groupingUsed</code> is true.
      *
-     * @serial
+     * @seribl
      * @see #getGroupingSize
-     * @see java.text.NumberFormat#isGroupingUsed
+     * @see jbvb.text.NumberFormbt#isGroupingUsed
      */
-    private byte    groupingSize = 3;  // invariant, > 0 if useThousands
+    privbte byte    groupingSize = 3;  // invbribnt, > 0 if useThousbnds
 
     /**
-     * If true, forces the decimal separator to always appear in a formatted
-     * number, even if the fractional part of the number is zero.
+     * If true, forces the decimbl sepbrbtor to blwbys bppebr in b formbtted
+     * number, even if the frbctionbl pbrt of the number is zero.
      *
-     * @serial
-     * @see #isDecimalSeparatorAlwaysShown
+     * @seribl
+     * @see #isDecimblSepbrbtorAlwbysShown
      */
-    private boolean decimalSeparatorAlwaysShown = false;
+    privbte boolebn decimblSepbrbtorAlwbysShown = fblse;
 
     /**
-     * If true, parse returns BigDecimal wherever possible.
+     * If true, pbrse returns BigDecimbl wherever possible.
      *
-     * @serial
-     * @see #isParseBigDecimal
+     * @seribl
+     * @see #isPbrseBigDecimbl
      * @since 1.5
      */
-    private boolean parseBigDecimal = false;
+    privbte boolebn pbrseBigDecimbl = fblse;
 
 
     /**
-     * True if this object represents a currency format.  This determines
-     * whether the monetary decimal separator is used instead of the normal one.
+     * True if this object represents b currency formbt.  This determines
+     * whether the monetbry decimbl sepbrbtor is used instebd of the normbl one.
      */
-    private transient boolean isCurrencyFormat = false;
+    privbte trbnsient boolebn isCurrencyFormbt = fblse;
 
     /**
-     * The <code>DecimalFormatSymbols</code> object used by this format.
-     * It contains the symbols used to format numbers, e.g. the grouping separator,
-     * decimal separator, and so on.
+     * The <code>DecimblFormbtSymbols</code> object used by this formbt.
+     * It contbins the symbols used to formbt numbers, e.g. the grouping sepbrbtor,
+     * decimbl sepbrbtor, bnd so on.
      *
-     * @serial
-     * @see #setDecimalFormatSymbols
-     * @see java.text.DecimalFormatSymbols
+     * @seribl
+     * @see #setDecimblFormbtSymbols
+     * @see jbvb.text.DecimblFormbtSymbols
      */
-    private DecimalFormatSymbols symbols = null; // LIU new DecimalFormatSymbols();
+    privbte DecimblFormbtSymbols symbols = null; // LIU new DecimblFormbtSymbols();
 
     /**
-     * True to force the use of exponential (i.e. scientific) notation when formatting
+     * True to force the use of exponentibl (i.e. scientific) notbtion when formbtting
      * numbers.
      *
-     * @serial
+     * @seribl
      * @since 1.2
      */
-    private boolean useExponentialNotation;  // Newly persistent in the Java 2 platform v.1.2
+    privbte boolebn useExponentiblNotbtion;  // Newly persistent in the Jbvb 2 plbtform v.1.2
 
     /**
      * FieldPositions describing the positive prefix String. This is
-     * lazily created. Use <code>getPositivePrefixFieldPositions</code>
+     * lbzily crebted. Use <code>getPositivePrefixFieldPositions</code>
      * when needed.
      */
-    private transient FieldPosition[] positivePrefixFieldPositions;
+    privbte trbnsient FieldPosition[] positivePrefixFieldPositions;
 
     /**
      * FieldPositions describing the positive suffix String. This is
-     * lazily created. Use <code>getPositiveSuffixFieldPositions</code>
+     * lbzily crebted. Use <code>getPositiveSuffixFieldPositions</code>
      * when needed.
      */
-    private transient FieldPosition[] positiveSuffixFieldPositions;
+    privbte trbnsient FieldPosition[] positiveSuffixFieldPositions;
 
     /**
-     * FieldPositions describing the negative prefix String. This is
-     * lazily created. Use <code>getNegativePrefixFieldPositions</code>
+     * FieldPositions describing the negbtive prefix String. This is
+     * lbzily crebted. Use <code>getNegbtivePrefixFieldPositions</code>
      * when needed.
      */
-    private transient FieldPosition[] negativePrefixFieldPositions;
+    privbte trbnsient FieldPosition[] negbtivePrefixFieldPositions;
 
     /**
-     * FieldPositions describing the negative suffix String. This is
-     * lazily created. Use <code>getNegativeSuffixFieldPositions</code>
+     * FieldPositions describing the negbtive suffix String. This is
+     * lbzily crebted. Use <code>getNegbtiveSuffixFieldPositions</code>
      * when needed.
      */
-    private transient FieldPosition[] negativeSuffixFieldPositions;
+    privbte trbnsient FieldPosition[] negbtiveSuffixFieldPositions;
 
     /**
-     * The minimum number of digits used to display the exponent when a number is
-     * formatted in exponential notation.  This field is ignored if
-     * <code>useExponentialNotation</code> is not true.
+     * The minimum number of digits used to displby the exponent when b number is
+     * formbtted in exponentibl notbtion.  This field is ignored if
+     * <code>useExponentiblNotbtion</code> is not true.
      *
-     * @serial
+     * @seribl
      * @since 1.2
      */
-    private byte    minExponentDigits;       // Newly persistent in the Java 2 platform v.1.2
+    privbte byte    minExponentDigits;       // Newly persistent in the Jbvb 2 plbtform v.1.2
 
     /**
-     * The maximum number of digits allowed in the integer portion of a
-     * <code>BigInteger</code> or <code>BigDecimal</code> number.
-     * <code>maximumIntegerDigits</code> must be greater than or equal to
+     * The mbximum number of digits bllowed in the integer portion of b
+     * <code>BigInteger</code> or <code>BigDecimbl</code> number.
+     * <code>mbximumIntegerDigits</code> must be grebter thbn or equbl to
      * <code>minimumIntegerDigits</code>.
      *
-     * @serial
-     * @see #getMaximumIntegerDigits
+     * @seribl
+     * @see #getMbximumIntegerDigits
      * @since 1.5
      */
-    private int    maximumIntegerDigits = super.getMaximumIntegerDigits();
+    privbte int    mbximumIntegerDigits = super.getMbximumIntegerDigits();
 
     /**
-     * The minimum number of digits allowed in the integer portion of a
-     * <code>BigInteger</code> or <code>BigDecimal</code> number.
-     * <code>minimumIntegerDigits</code> must be less than or equal to
-     * <code>maximumIntegerDigits</code>.
+     * The minimum number of digits bllowed in the integer portion of b
+     * <code>BigInteger</code> or <code>BigDecimbl</code> number.
+     * <code>minimumIntegerDigits</code> must be less thbn or equbl to
+     * <code>mbximumIntegerDigits</code>.
      *
-     * @serial
+     * @seribl
      * @see #getMinimumIntegerDigits
      * @since 1.5
      */
-    private int    minimumIntegerDigits = super.getMinimumIntegerDigits();
+    privbte int    minimumIntegerDigits = super.getMinimumIntegerDigits();
 
     /**
-     * The maximum number of digits allowed in the fractional portion of a
-     * <code>BigInteger</code> or <code>BigDecimal</code> number.
-     * <code>maximumFractionDigits</code> must be greater than or equal to
-     * <code>minimumFractionDigits</code>.
+     * The mbximum number of digits bllowed in the frbctionbl portion of b
+     * <code>BigInteger</code> or <code>BigDecimbl</code> number.
+     * <code>mbximumFrbctionDigits</code> must be grebter thbn or equbl to
+     * <code>minimumFrbctionDigits</code>.
      *
-     * @serial
-     * @see #getMaximumFractionDigits
+     * @seribl
+     * @see #getMbximumFrbctionDigits
      * @since 1.5
      */
-    private int    maximumFractionDigits = super.getMaximumFractionDigits();
+    privbte int    mbximumFrbctionDigits = super.getMbximumFrbctionDigits();
 
     /**
-     * The minimum number of digits allowed in the fractional portion of a
-     * <code>BigInteger</code> or <code>BigDecimal</code> number.
-     * <code>minimumFractionDigits</code> must be less than or equal to
-     * <code>maximumFractionDigits</code>.
+     * The minimum number of digits bllowed in the frbctionbl portion of b
+     * <code>BigInteger</code> or <code>BigDecimbl</code> number.
+     * <code>minimumFrbctionDigits</code> must be less thbn or equbl to
+     * <code>mbximumFrbctionDigits</code>.
      *
-     * @serial
-     * @see #getMinimumFractionDigits
+     * @seribl
+     * @see #getMinimumFrbctionDigits
      * @since 1.5
      */
-    private int    minimumFractionDigits = super.getMinimumFractionDigits();
+    privbte int    minimumFrbctionDigits = super.getMinimumFrbctionDigits();
 
     /**
-     * The {@link java.math.RoundingMode} used in this DecimalFormat.
+     * The {@link jbvb.mbth.RoundingMode} used in this DecimblFormbt.
      *
-     * @serial
+     * @seribl
      * @since 1.6
      */
-    private RoundingMode roundingMode = RoundingMode.HALF_EVEN;
+    privbte RoundingMode roundingMode = RoundingMode.HALF_EVEN;
 
-    // ------ DecimalFormat fields for fast-path for double algorithm  ------
+    // ------ DecimblFormbt fields for fbst-pbth for double blgorithm  ------
 
     /**
-     * Helper inner utility class for storing the data used in the fast-path
-     * algorithm. Almost all fields related to fast-path are encapsulated in
-     * this class.
+     * Helper inner utility clbss for storing the dbtb used in the fbst-pbth
+     * blgorithm. Almost bll fields relbted to fbst-pbth bre encbpsulbted in
+     * this clbss.
      *
-     * Any {@code DecimalFormat} instance has a {@code fastPathData}
-     * reference field that is null unless both the properties of the instance
-     * are such that the instance is in the "fast-path" state, and a format call
-     * has been done at least once while in this state.
+     * Any {@code DecimblFormbt} instbnce hbs b {@code fbstPbthDbtb}
+     * reference field thbt is null unless both the properties of the instbnce
+     * bre such thbt the instbnce is in the "fbst-pbth" stbte, bnd b formbt cbll
+     * hbs been done bt lebst once while in this stbte.
      *
-     * Almost all fields are related to the "fast-path" state only and don't
-     * change until one of the instance properties is changed.
+     * Almost bll fields bre relbted to the "fbst-pbth" stbte only bnd don't
+     * chbnge until one of the instbnce properties is chbnged.
      *
-     * {@code firstUsedIndex} and {@code lastFreeIndex} are the only
-     * two fields that are used and modified while inside a call to
-     * {@code fastDoubleFormat}.
+     * {@code firstUsedIndex} bnd {@code lbstFreeIndex} bre the only
+     * two fields thbt bre used bnd modified while inside b cbll to
+     * {@code fbstDoubleFormbt}.
      *
      */
-    private static class FastPathData {
-        // --- Temporary fields used in fast-path, shared by several methods.
+    privbte stbtic clbss FbstPbthDbtb {
+        // --- Temporbry fields used in fbst-pbth, shbred by severbl methods.
 
-        /** The first unused index at the end of the formatted result. */
-        int lastFreeIndex;
+        /** The first unused index bt the end of the formbtted result. */
+        int lbstFreeIndex;
 
-        /** The first used index at the beginning of the formatted result */
+        /** The first used index bt the beginning of the formbtted result */
         int firstUsedIndex;
 
-        // --- State fields related to fast-path status. Changes due to a
-        //     property change only. Set by checkAndSetFastPathStatus() only.
+        // --- Stbte fields relbted to fbst-pbth stbtus. Chbnges due to b
+        //     property chbnge only. Set by checkAndSetFbstPbthStbtus() only.
 
-        /** Difference between locale zero and default zero representation. */
-        int  zeroDelta;
+        /** Difference between locble zero bnd defbult zero representbtion. */
+        int  zeroDeltb;
 
-        /** Locale char for grouping separator. */
-        char groupingChar;
+        /** Locble chbr for grouping sepbrbtor. */
+        chbr groupingChbr;
 
-        /**  Fixed index position of last integral digit of formatted result */
-        int integralLastIndex;
+        /**  Fixed index position of lbst integrbl digit of formbtted result */
+        int integrblLbstIndex;
 
-        /**  Fixed index position of first fractional digit of formatted result */
-        int fractionalFirstIndex;
+        /**  Fixed index position of first frbctionbl digit of formbtted result */
+        int frbctionblFirstIndex;
 
-        /** Fractional constants depending on decimal|currency state */
-        double fractionalScaleFactor;
-        int fractionalMaxIntBound;
+        /** Frbctionbl constbnts depending on decimbl|currency stbte */
+        double frbctionblScbleFbctor;
+        int frbctionblMbxIntBound;
 
 
-        /** The char array buffer that will contain the formatted result */
-        char[] fastPathContainer;
+        /** The chbr brrby buffer thbt will contbin the formbtted result */
+        chbr[] fbstPbthContbiner;
 
-        /** Suffixes recorded as char array for efficiency. */
-        char[] charsPositivePrefix;
-        char[] charsNegativePrefix;
-        char[] charsPositiveSuffix;
-        char[] charsNegativeSuffix;
-        boolean positiveAffixesRequired = true;
-        boolean negativeAffixesRequired = true;
+        /** Suffixes recorded bs chbr brrby for efficiency. */
+        chbr[] chbrsPositivePrefix;
+        chbr[] chbrsNegbtivePrefix;
+        chbr[] chbrsPositiveSuffix;
+        chbr[] chbrsNegbtiveSuffix;
+        boolebn positiveAffixesRequired = true;
+        boolebn negbtiveAffixesRequired = true;
     }
 
-    /** The format fast-path status of the instance. Logical state. */
-    private transient boolean isFastPath = false;
+    /** The formbt fbst-pbth stbtus of the instbnce. Logicbl stbte. */
+    privbte trbnsient boolebn isFbstPbth = fblse;
 
-    /** Flag stating need of check and reinit fast-path status on next format call. */
-    private transient boolean fastPathCheckNeeded = true;
+    /** Flbg stbting need of check bnd reinit fbst-pbth stbtus on next formbt cbll. */
+    privbte trbnsient boolebn fbstPbthCheckNeeded = true;
 
-    /** DecimalFormat reference to its FastPathData */
-    private transient FastPathData fastPathData;
+    /** DecimblFormbt reference to its FbstPbthDbtb */
+    privbte trbnsient FbstPbthDbtb fbstPbthDbtb;
 
 
     //----------------------------------------------------------------------
 
-    static final int currentSerialVersion = 4;
+    stbtic finbl int currentSeriblVersion = 4;
 
     /**
-     * The internal serial version which says which version was written.
-     * Possible values are:
+     * The internbl seribl version which sbys which version wbs written.
+     * Possible vblues bre:
      * <ul>
-     * <li><b>0</b> (default): versions before the Java 2 platform v1.2
+     * <li><b>0</b> (defbult): versions before the Jbvb 2 plbtform v1.2
      * <li><b>1</b>: version for 1.2, which includes the two new fields
-     *      <code>useExponentialNotation</code> and
+     *      <code>useExponentiblNotbtion</code> bnd
      *      <code>minExponentDigits</code>.
-     * <li><b>2</b>: version for 1.3 and later, which adds four new fields:
-     *      <code>posPrefixPattern</code>, <code>posSuffixPattern</code>,
-     *      <code>negPrefixPattern</code>, and <code>negSuffixPattern</code>.
-     * <li><b>3</b>: version for 1.5 and later, which adds five new fields:
-     *      <code>maximumIntegerDigits</code>,
+     * <li><b>2</b>: version for 1.3 bnd lbter, which bdds four new fields:
+     *      <code>posPrefixPbttern</code>, <code>posSuffixPbttern</code>,
+     *      <code>negPrefixPbttern</code>, bnd <code>negSuffixPbttern</code>.
+     * <li><b>3</b>: version for 1.5 bnd lbter, which bdds five new fields:
+     *      <code>mbximumIntegerDigits</code>,
      *      <code>minimumIntegerDigits</code>,
-     *      <code>maximumFractionDigits</code>,
-     *      <code>minimumFractionDigits</code>, and
-     *      <code>parseBigDecimal</code>.
-     * <li><b>4</b>: version for 1.6 and later, which adds one new field:
+     *      <code>mbximumFrbctionDigits</code>,
+     *      <code>minimumFrbctionDigits</code>, bnd
+     *      <code>pbrseBigDecimbl</code>.
+     * <li><b>4</b>: version for 1.6 bnd lbter, which bdds one new field:
      *      <code>roundingMode</code>.
      * </ul>
      * @since 1.2
-     * @serial
+     * @seribl
      */
-    private int serialVersionOnStream = currentSerialVersion;
+    privbte int seriblVersionOnStrebm = currentSeriblVersion;
 
     //----------------------------------------------------------------------
     // CONSTANTS
     //----------------------------------------------------------------------
 
-    // ------ Fast-Path for double Constants ------
+    // ------ Fbst-Pbth for double Constbnts ------
 
-    /** Maximum valid integer value for applying fast-path algorithm */
-    private static final double MAX_INT_AS_DOUBLE = (double) Integer.MAX_VALUE;
+    /** Mbximum vblid integer vblue for bpplying fbst-pbth blgorithm */
+    privbte stbtic finbl double MAX_INT_AS_DOUBLE = (double) Integer.MAX_VALUE;
 
     /**
-     * The digit arrays used in the fast-path methods for collecting digits.
-     * Using 3 constants arrays of chars ensures a very fast collection of digits
+     * The digit brrbys used in the fbst-pbth methods for collecting digits.
+     * Using 3 constbnts brrbys of chbrs ensures b very fbst collection of digits
      */
-    private static class DigitArrays {
-        static final char[] DigitOnes1000 = new char[1000];
-        static final char[] DigitTens1000 = new char[1000];
-        static final char[] DigitHundreds1000 = new char[1000];
+    privbte stbtic clbss DigitArrbys {
+        stbtic finbl chbr[] DigitOnes1000 = new chbr[1000];
+        stbtic finbl chbr[] DigitTens1000 = new chbr[1000];
+        stbtic finbl chbr[] DigitHundreds1000 = new chbr[1000];
 
-        // initialize on demand holder class idiom for arrays of digits
-        static {
+        // initiblize on dembnd holder clbss idiom for brrbys of digits
+        stbtic {
             int tenIndex = 0;
             int hundredIndex = 0;
-            char digitOne = '0';
-            char digitTen = '0';
-            char digitHundred = '0';
+            chbr digitOne = '0';
+            chbr digitTen = '0';
+            chbr digitHundred = '0';
             for (int i = 0;  i < 1000; i++ ) {
 
                 DigitOnes1000[i] = digitOne;
@@ -4149,42 +4149,42 @@ public class DecimalFormat extends NumberFormat {
             }
         }
     }
-    // ------ Fast-Path for double Constants end ------
+    // ------ Fbst-Pbth for double Constbnts end ------
 
-    // Constants for characters used in programmatic (unlocalized) patterns.
-    private static final char       PATTERN_ZERO_DIGIT         = '0';
-    private static final char       PATTERN_GROUPING_SEPARATOR = ',';
-    private static final char       PATTERN_DECIMAL_SEPARATOR  = '.';
-    private static final char       PATTERN_PER_MILLE          = '\u2030';
-    private static final char       PATTERN_PERCENT            = '%';
-    private static final char       PATTERN_DIGIT              = '#';
-    private static final char       PATTERN_SEPARATOR          = ';';
-    private static final String     PATTERN_EXPONENT           = "E";
-    private static final char       PATTERN_MINUS              = '-';
+    // Constbnts for chbrbcters used in progrbmmbtic (unlocblized) pbtterns.
+    privbte stbtic finbl chbr       PATTERN_ZERO_DIGIT         = '0';
+    privbte stbtic finbl chbr       PATTERN_GROUPING_SEPARATOR = ',';
+    privbte stbtic finbl chbr       PATTERN_DECIMAL_SEPARATOR  = '.';
+    privbte stbtic finbl chbr       PATTERN_PER_MILLE          = '\u2030';
+    privbte stbtic finbl chbr       PATTERN_PERCENT            = '%';
+    privbte stbtic finbl chbr       PATTERN_DIGIT              = '#';
+    privbte stbtic finbl chbr       PATTERN_SEPARATOR          = ';';
+    privbte stbtic finbl String     PATTERN_EXPONENT           = "E";
+    privbte stbtic finbl chbr       PATTERN_MINUS              = '-';
 
     /**
-     * The CURRENCY_SIGN is the standard Unicode symbol for currency.  It
-     * is used in patterns and substituted with either the currency symbol,
-     * or if it is doubled, with the international currency symbol.  If the
-     * CURRENCY_SIGN is seen in a pattern, then the decimal separator is
-     * replaced with the monetary decimal separator.
+     * The CURRENCY_SIGN is the stbndbrd Unicode symbol for currency.  It
+     * is used in pbtterns bnd substituted with either the currency symbol,
+     * or if it is doubled, with the internbtionbl currency symbol.  If the
+     * CURRENCY_SIGN is seen in b pbttern, then the decimbl sepbrbtor is
+     * replbced with the monetbry decimbl sepbrbtor.
      *
-     * The CURRENCY_SIGN is not localized.
+     * The CURRENCY_SIGN is not locblized.
      */
-    private static final char       CURRENCY_SIGN = '\u00A4';
+    privbte stbtic finbl chbr       CURRENCY_SIGN = '\u00A4';
 
-    private static final char       QUOTE = '\'';
+    privbte stbtic finbl chbr       QUOTE = '\'';
 
-    private static FieldPosition[] EmptyFieldPositionArray = new FieldPosition[0];
+    privbte stbtic FieldPosition[] EmptyFieldPositionArrby = new FieldPosition[0];
 
-    // Upper limit on integer and fraction digits for a Java double
-    static final int DOUBLE_INTEGER_DIGITS  = 309;
-    static final int DOUBLE_FRACTION_DIGITS = 340;
+    // Upper limit on integer bnd frbction digits for b Jbvb double
+    stbtic finbl int DOUBLE_INTEGER_DIGITS  = 309;
+    stbtic finbl int DOUBLE_FRACTION_DIGITS = 340;
 
-    // Upper limit on integer and fraction digits for BigDecimal and BigInteger
-    static final int MAXIMUM_INTEGER_DIGITS  = Integer.MAX_VALUE;
-    static final int MAXIMUM_FRACTION_DIGITS = Integer.MAX_VALUE;
+    // Upper limit on integer bnd frbction digits for BigDecimbl bnd BigInteger
+    stbtic finbl int MAXIMUM_INTEGER_DIGITS  = Integer.MAX_VALUE;
+    stbtic finbl int MAXIMUM_FRACTION_DIGITS = Integer.MAX_VALUE;
 
-    // Proclaim JDK 1.1 serial compatibility.
-    static final long serialVersionUID = 864413376551465018L;
+    // Proclbim JDK 1.1 seribl compbtibility.
+    stbtic finbl long seriblVersionUID = 864413376551465018L;
 }

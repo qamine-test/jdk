@@ -1,107 +1,107 @@
 /*
- * Copyright (c) 2005, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.net.httpserver;
-import java.io.*;
-import java.util.*;
-import java.util.logging.Logger;
+pbckbge sun.net.httpserver;
+import jbvb.io.*;
+import jbvb.util.*;
+import jbvb.util.logging.Logger;
 import com.sun.net.httpserver.*;
 import com.sun.net.httpserver.spi.*;
 
 /**
- * HttpContext represents a mapping between a protocol (http or https) together with a root URI path
- * to a {@link HttpHandler} which is invoked to handle requests destined
- * for the protocol/path on the associated HttpServer.
+ * HttpContext represents b mbpping between b protocol (http or https) together with b root URI pbth
+ * to b {@link HttpHbndler} which is invoked to hbndle requests destined
+ * for the protocol/pbth on the bssocibted HttpServer.
  * <p>
- * HttpContext instances are created by {@link HttpServer#createContext(String,String,HttpHandler,Object)}
+ * HttpContext instbnces bre crebted by {@link HttpServer#crebteContext(String,String,HttpHbndler,Object)}
  * <p>
  */
-class HttpContextImpl extends HttpContext {
+clbss HttpContextImpl extends HttpContext {
 
-    private String path;
-    private String protocol;
-    private HttpHandler handler;
-    private Map<String,Object> attributes = new HashMap<String,Object>();
-    private ServerImpl server;
-    /* system filters, not visible to applications */
-    private LinkedList<Filter> sfilters = new LinkedList<Filter>();
-    /* user filters, set by applications */
-    private LinkedList<Filter> ufilters = new LinkedList<Filter>();
-    private Authenticator authenticator;
-    private AuthFilter authfilter;
+    privbte String pbth;
+    privbte String protocol;
+    privbte HttpHbndler hbndler;
+    privbte Mbp<String,Object> bttributes = new HbshMbp<String,Object>();
+    privbte ServerImpl server;
+    /* system filters, not visible to bpplicbtions */
+    privbte LinkedList<Filter> sfilters = new LinkedList<Filter>();
+    /* user filters, set by bpplicbtions */
+    privbte LinkedList<Filter> ufilters = new LinkedList<Filter>();
+    privbte Authenticbtor buthenticbtor;
+    privbte AuthFilter buthfilter;
 
     /**
-     * constructor is package private.
+     * constructor is pbckbge privbte.
      */
-    HttpContextImpl (String protocol, String path, HttpHandler cb, ServerImpl server) {
-        if (path == null || protocol == null || path.length() < 1 || path.charAt(0) != '/') {
-            throw new IllegalArgumentException ("Illegal value for path or protocol");
+    HttpContextImpl (String protocol, String pbth, HttpHbndler cb, ServerImpl server) {
+        if (pbth == null || protocol == null || pbth.length() < 1 || pbth.chbrAt(0) != '/') {
+            throw new IllegblArgumentException ("Illegbl vblue for pbth or protocol");
         }
-        this.protocol = protocol.toLowerCase();
-        this.path = path;
-        if (!this.protocol.equals ("http") && !this.protocol.equals ("https")) {
-            throw new IllegalArgumentException ("Illegal value for protocol");
+        this.protocol = protocol.toLowerCbse();
+        this.pbth = pbth;
+        if (!this.protocol.equbls ("http") && !this.protocol.equbls ("https")) {
+            throw new IllegblArgumentException ("Illegbl vblue for protocol");
         }
-        this.handler = cb;
+        this.hbndler = cb;
         this.server = server;
-        authfilter = new AuthFilter(null);
-        sfilters.add (authfilter);
+        buthfilter = new AuthFilter(null);
+        sfilters.bdd (buthfilter);
     }
 
     /**
-     * returns the handler for this context
-     * @return the HttpHandler for this context
+     * returns the hbndler for this context
+     * @return the HttpHbndler for this context
      */
-    public HttpHandler getHandler () {
-        return handler;
+    public HttpHbndler getHbndler () {
+        return hbndler;
     }
 
-    public void setHandler (HttpHandler h) {
+    public void setHbndler (HttpHbndler h) {
         if (h == null) {
-            throw new NullPointerException ("Null handler parameter");
+            throw new NullPointerException ("Null hbndler pbrbmeter");
         }
-        if (handler != null) {
-            throw new IllegalArgumentException ("handler already set");
+        if (hbndler != null) {
+            throw new IllegblArgumentException ("hbndler blrebdy set");
         }
-        handler = h;
+        hbndler = h;
     }
 
     /**
-     * returns the path this context was created with
-     * @return this context's path
+     * returns the pbth this context wbs crebted with
+     * @return this context's pbth
      */
-    public String getPath() {
-        return path;
+    public String getPbth() {
+        return pbth;
     }
 
     /**
-     * returns the server this context was created with
+     * returns the server this context wbs crebted with
      * @return this context's server
      */
     public HttpServer getServer () {
-        return server.getWrapper();
+        return server.getWrbpper();
     }
 
     ServerImpl getServerImpl () {
@@ -109,23 +109,23 @@ class HttpContextImpl extends HttpContext {
     }
 
     /**
-     * returns the protocol this context was created with
-     * @return this context's path
+     * returns the protocol this context wbs crebted with
+     * @return this context's pbth
      */
     public String getProtocol() {
         return protocol;
     }
 
     /**
-     * returns a mutable Map, which can be used to pass
-     * configuration and other data to Filter modules
-     * and to the context's exchange handler.
+     * returns b mutbble Mbp, which cbn be used to pbss
+     * configurbtion bnd other dbtb to Filter modules
+     * bnd to the context's exchbnge hbndler.
      * <p>
-     * Every attribute stored in this Map will be visible to
-     * every HttpExchange processed by this context
+     * Every bttribute stored in this Mbp will be visible to
+     * every HttpExchbnge processed by this context
      */
-    public Map<String,Object> getAttributes() {
-        return attributes;
+    public Mbp<String,Object> getAttributes() {
+        return bttributes;
     }
 
     public List<Filter> getFilters () {
@@ -136,15 +136,15 @@ class HttpContextImpl extends HttpContext {
         return sfilters;
     }
 
-    public Authenticator setAuthenticator (Authenticator auth) {
-        Authenticator old = authenticator;
-        authenticator = auth;
-        authfilter.setAuthenticator (auth);
+    public Authenticbtor setAuthenticbtor (Authenticbtor buth) {
+        Authenticbtor old = buthenticbtor;
+        buthenticbtor = buth;
+        buthfilter.setAuthenticbtor (buth);
         return old;
     }
 
-    public Authenticator getAuthenticator () {
-        return authenticator;
+    public Authenticbtor getAuthenticbtor () {
+        return buthenticbtor;
     }
     Logger getLogger () {
         return server.getLogger();

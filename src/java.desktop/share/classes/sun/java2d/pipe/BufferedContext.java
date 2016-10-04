@@ -1,103 +1,103 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.java2d.pipe;
+pbckbge sun.jbvb2d.pipe;
 
-import java.awt.AlphaComposite;
-import java.awt.Color;
-import java.awt.Composite;
-import java.awt.Paint;
-import java.awt.geom.AffineTransform;
-import sun.java2d.pipe.hw.AccelSurface;
-import sun.java2d.InvalidPipeException;
-import sun.java2d.SunGraphics2D;
-import sun.java2d.loops.XORComposite;
-import static sun.java2d.pipe.BufferedOpCodes.*;
-import static sun.java2d.pipe.BufferedRenderPipe.BYTES_PER_SPAN;
+import jbvb.bwt.AlphbComposite;
+import jbvb.bwt.Color;
+import jbvb.bwt.Composite;
+import jbvb.bwt.Pbint;
+import jbvb.bwt.geom.AffineTrbnsform;
+import sun.jbvb2d.pipe.hw.AccelSurfbce;
+import sun.jbvb2d.InvblidPipeException;
+import sun.jbvb2d.SunGrbphics2D;
+import sun.jbvb2d.loops.XORComposite;
+import stbtic sun.jbvb2d.pipe.BufferedOpCodes.*;
+import stbtic sun.jbvb2d.pipe.BufferedRenderPipe.BYTES_PER_SPAN;
 
-import java.lang.annotation.Native;
+import jbvb.lbng.bnnotbtion.Nbtive;
 
 /**
- * Base context class for managing state in a single-threaded rendering
- * environment.  Each state-setting operation (e.g. SET_COLOR) is added to
- * the provided RenderQueue, which will be processed at a later time by a
- * single thread.  Note that the RenderQueue lock must be acquired before
- * calling the validate() method (or any other method in this class).  See
- * the RenderQueue class comments for a sample usage scenario.
+ * Bbse context clbss for mbnbging stbte in b single-threbded rendering
+ * environment.  Ebch stbte-setting operbtion (e.g. SET_COLOR) is bdded to
+ * the provided RenderQueue, which will be processed bt b lbter time by b
+ * single threbd.  Note thbt the RenderQueue lock must be bcquired before
+ * cblling the vblidbte() method (or bny other method in this clbss).  See
+ * the RenderQueue clbss comments for b sbmple usbge scenbrio.
  *
  * @see RenderQueue
  */
-public abstract class BufferedContext {
+public bbstrbct clbss BufferedContext {
 
     /*
-     * The following flags help the internals of validate() determine
-     * the appropriate (meaning correct, or optimal) code path when
-     * setting up the current context.  The flags can be bitwise OR'd
-     * together as needed.
+     * The following flbgs help the internbls of vblidbte() determine
+     * the bppropribte (mebning correct, or optimbl) code pbth when
+     * setting up the current context.  The flbgs cbn be bitwise OR'd
+     * together bs needed.
      */
 
     /**
-     * Indicates that no flags are needed; take all default code paths.
+     * Indicbtes thbt no flbgs bre needed; tbke bll defbult code pbths.
      */
-    @Native public static final int NO_CONTEXT_FLAGS = (0 << 0);
+    @Nbtive public stbtic finbl int NO_CONTEXT_FLAGS = (0 << 0);
     /**
-     * Indicates that the source surface (or color value, if it is a simple
-     * rendering operation) is opaque (has an alpha value of 1.0).  If this
-     * flag is present, it allows us to disable blending in certain
-     * situations in order to improve performance.
+     * Indicbtes thbt the source surfbce (or color vblue, if it is b simple
+     * rendering operbtion) is opbque (hbs bn blphb vblue of 1.0).  If this
+     * flbg is present, it bllows us to disbble blending in certbin
+     * situbtions in order to improve performbnce.
      */
-    @Native public static final int SRC_IS_OPAQUE    = (1 << 0);
+    @Nbtive public stbtic finbl int SRC_IS_OPAQUE    = (1 << 0);
     /**
-     * Indicates that the operation uses an alpha mask, which may determine
-     * the code path that is used when setting up the current paint state.
+     * Indicbtes thbt the operbtion uses bn blphb mbsk, which mby determine
+     * the code pbth thbt is used when setting up the current pbint stbte.
      */
-    @Native public static final int USE_MASK         = (1 << 1);
+    @Nbtive public stbtic finbl int USE_MASK         = (1 << 1);
 
     protected RenderQueue rq;
     protected RenderBuffer buf;
 
     /**
-     * This is a reference to the most recently validated BufferedContext.  If
-     * this value is null, it means that there is no current context.  It is
-     * provided here so that validate() only needs to do a quick reference
-     * check to see if the BufferedContext passed to that method is the same
-     * as the one we've cached here.
+     * This is b reference to the most recently vblidbted BufferedContext.  If
+     * this vblue is null, it mebns thbt there is no current context.  It is
+     * provided here so thbt vblidbte() only needs to do b quick reference
+     * check to see if the BufferedContext pbssed to thbt method is the sbme
+     * bs the one we've cbched here.
      */
-    protected static BufferedContext currentContext;
+    protected stbtic BufferedContext currentContext;
 
-    private AccelSurface    validatedSrcData;
-    private AccelSurface    validatedDstData;
-    private Region          validatedClip;
-    private Composite       validatedComp;
-    private Paint           validatedPaint;
-    // renamed from isValidatedPaintAColor as part of a work around for 6764257
-    private boolean         isValidatedPaintJustAColor;
-    private int             validatedRGB;
-    private int             validatedFlags;
-    private boolean         xformInUse;
-    private AffineTransform transform;
+    privbte AccelSurfbce    vblidbtedSrcDbtb;
+    privbte AccelSurfbce    vblidbtedDstDbtb;
+    privbte Region          vblidbtedClip;
+    privbte Composite       vblidbtedComp;
+    privbte Pbint           vblidbtedPbint;
+    // renbmed from isVblidbtedPbintAColor bs pbrt of b work bround for 6764257
+    privbte boolebn         isVblidbtedPbintJustAColor;
+    privbte int             vblidbtedRGB;
+    privbte int             vblidbtedFlbgs;
+    privbte boolebn         xformInUse;
+    privbte AffineTrbnsform trbnsform;
 
     protected BufferedContext(RenderQueue rq) {
         this.rq = rq;
@@ -105,370 +105,370 @@ public abstract class BufferedContext {
     }
 
     /**
-     * Fetches the BufferedContextContext associated with the dst. surface
-     * and validates the context using the given parameters.  Most rendering
-     * operations will call this method first in order to set the necessary
-     * state before issuing rendering commands.
+     * Fetches the BufferedContextContext bssocibted with the dst. surfbce
+     * bnd vblidbtes the context using the given pbrbmeters.  Most rendering
+     * operbtions will cbll this method first in order to set the necessbry
+     * stbte before issuing rendering commbnds.
      *
-     * Note: must be called while the RenderQueue lock is held.
+     * Note: must be cblled while the RenderQueue lock is held.
      *
-     * It's assumed that the type of surfaces has been checked by the Renderer
+     * It's bssumed thbt the type of surfbces hbs been checked by the Renderer
      *
-     * @throws InvalidPipeException if either src or dest surface is not valid
+     * @throws InvblidPipeException if either src or dest surfbce is not vblid
      * or lost
      * @see RenderQueue#lock
      * @see RenderQueue#unlock
      */
-    public static void validateContext(AccelSurface srcData,
-                                       AccelSurface dstData,
+    public stbtic void vblidbteContext(AccelSurfbce srcDbtb,
+                                       AccelSurfbce dstDbtb,
                                        Region clip, Composite comp,
-                                       AffineTransform xform,
-                                       Paint paint, SunGraphics2D sg2d,
-                                       int flags)
+                                       AffineTrbnsform xform,
+                                       Pbint pbint, SunGrbphics2D sg2d,
+                                       int flbgs)
     {
-        // assert rq.lock.isHeldByCurrentThread();
-        BufferedContext d3dc = dstData.getContext();
-        d3dc.validate(srcData, dstData,
-                      clip, comp, xform, paint, sg2d, flags);
+        // bssert rq.lock.isHeldByCurrentThrebd();
+        BufferedContext d3dc = dstDbtb.getContext();
+        d3dc.vblidbte(srcDbtb, dstDbtb,
+                      clip, comp, xform, pbint, sg2d, flbgs);
     }
 
     /**
-     * Fetches the BufferedContextassociated with the surface
-     * and disables all context state settings.
+     * Fetches the BufferedContextbssocibted with the surfbce
+     * bnd disbbles bll context stbte settings.
      *
-     * Note: must be called while the RenderQueue lock is held.
+     * Note: must be cblled while the RenderQueue lock is held.
      *
-     * It's assumed that the type of surfaces has been checked by the Renderer
+     * It's bssumed thbt the type of surfbces hbs been checked by the Renderer
      *
-     * @throws InvalidPipeException if the surface is not valid
+     * @throws InvblidPipeException if the surfbce is not vblid
      * or lost
      * @see RenderQueue#lock
      * @see RenderQueue#unlock
      */
-    public static void validateContext(AccelSurface surface) {
-        // assert rt.lock.isHeldByCurrentThread();
-        validateContext(surface, surface,
+    public stbtic void vblidbteContext(AccelSurfbce surfbce) {
+        // bssert rt.lock.isHeldByCurrentThrebd();
+        vblidbteContext(surfbce, surfbce,
                         null, null, null, null, null, NO_CONTEXT_FLAGS);
     }
 
     /**
-     * Validates the given parameters against the current state for this
-     * context.  If this context is not current, it will be made current
-     * for the given source and destination surfaces, and the viewport will
-     * be updated.  Then each part of the context state (clip, composite,
-     * etc.) is checked against the previous value.  If the value has changed
-     * since the last call to validate(), it will be updated accordingly.
+     * Vblidbtes the given pbrbmeters bgbinst the current stbte for this
+     * context.  If this context is not current, it will be mbde current
+     * for the given source bnd destinbtion surfbces, bnd the viewport will
+     * be updbted.  Then ebch pbrt of the context stbte (clip, composite,
+     * etc.) is checked bgbinst the previous vblue.  If the vblue hbs chbnged
+     * since the lbst cbll to vblidbte(), it will be updbted bccordingly.
      *
-     * Note that the SunGraphics2D parameter is only used for the purposes
-     * of validating a (non-null) Paint parameter.  In all other cases it
-     * is safe to pass a null SunGraphics2D and it will be ignored.
+     * Note thbt the SunGrbphics2D pbrbmeter is only used for the purposes
+     * of vblidbting b (non-null) Pbint pbrbmeter.  In bll other cbses it
+     * is sbfe to pbss b null SunGrbphics2D bnd it will be ignored.
      *
-     * Note: must be called while the RenderQueue lock is held.
+     * Note: must be cblled while the RenderQueue lock is held.
      *
-     * It's assumed that the type of surfaces has been checked by the Renderer
+     * It's bssumed thbt the type of surfbces hbs been checked by the Renderer
      *
-     * @throws InvalidPipeException if either src or dest surface is not valid
+     * @throws InvblidPipeException if either src or dest surfbce is not vblid
      * or lost
      */
-    public void validate(AccelSurface srcData, AccelSurface dstData,
+    public void vblidbte(AccelSurfbce srcDbtb, AccelSurfbce dstDbtb,
                          Region clip, Composite comp,
-                         AffineTransform xform,
-                         Paint paint, SunGraphics2D sg2d, int flags)
+                         AffineTrbnsform xform,
+                         Pbint pbint, SunGrbphics2D sg2d, int flbgs)
     {
-        // assert rq.lock.isHeldByCurrentThread();
+        // bssert rq.lock.isHeldByCurrentThrebd();
 
-        boolean updateClip = false;
-        boolean updatePaint = false;
+        boolebn updbteClip = fblse;
+        boolebn updbtePbint = fblse;
 
-        if (!dstData.isValid() ||
-            dstData.isSurfaceLost() || srcData.isSurfaceLost())
+        if (!dstDbtb.isVblid() ||
+            dstDbtb.isSurfbceLost() || srcDbtb.isSurfbceLost())
         {
-            invalidateContext();
-            throw new InvalidPipeException("bounds changed or surface lost");
+            invblidbteContext();
+            throw new InvblidPipeException("bounds chbnged or surfbce lost");
         }
 
-        if (paint instanceof Color) {
+        if (pbint instbnceof Color) {
             // REMIND: not 30-bit friendly
-            int newRGB = ((Color)paint).getRGB();
-            if (isValidatedPaintJustAColor) {
-                if (newRGB != validatedRGB) {
-                    validatedRGB = newRGB;
-                    updatePaint = true;
+            int newRGB = ((Color)pbint).getRGB();
+            if (isVblidbtedPbintJustAColor) {
+                if (newRGB != vblidbtedRGB) {
+                    vblidbtedRGB = newRGB;
+                    updbtePbint = true;
                 }
             } else {
-                validatedRGB = newRGB;
-                updatePaint = true;
-                isValidatedPaintJustAColor = true;
+                vblidbtedRGB = newRGB;
+                updbtePbint = true;
+                isVblidbtedPbintJustAColor = true;
             }
-        } else if (validatedPaint != paint) {
-            updatePaint = true;
-            // this should be set when we are switching from paint to color
-            // in which case this condition will be true
-            isValidatedPaintJustAColor = false;
+        } else if (vblidbtedPbint != pbint) {
+            updbtePbint = true;
+            // this should be set when we bre switching from pbint to color
+            // in which cbse this condition will be true
+            isVblidbtedPbintJustAColor = fblse;
         }
 
         if ((currentContext != this) ||
-            (srcData != validatedSrcData) ||
-            (dstData != validatedDstData))
+            (srcDbtb != vblidbtedSrcDbtb) ||
+            (dstDbtb != vblidbtedDstDbtb))
         {
-            if (dstData != validatedDstData) {
-                // the clip is dependent on the destination surface, so we
-                // need to update it if we have a new destination surface
-                updateClip = true;
+            if (dstDbtb != vblidbtedDstDbtb) {
+                // the clip is dependent on the destinbtion surfbce, so we
+                // need to updbte it if we hbve b new destinbtion surfbce
+                updbteClip = true;
             }
 
-            if (paint == null) {
-                // make sure we update the color state (otherwise, it might
-                // not be updated if this is the first time the context
-                // is being validated)
-                updatePaint = true;
+            if (pbint == null) {
+                // mbke sure we updbte the color stbte (otherwise, it might
+                // not be updbted if this is the first time the context
+                // is being vblidbted)
+                updbtePbint = true;
             }
 
-            // update the current source and destination surfaces
-            setSurfaces(srcData, dstData);
+            // updbte the current source bnd destinbtion surfbces
+            setSurfbces(srcDbtb, dstDbtb);
 
             currentContext = this;
-            validatedSrcData = srcData;
-            validatedDstData = dstData;
+            vblidbtedSrcDbtb = srcDbtb;
+            vblidbtedDstDbtb = dstDbtb;
         }
 
-        // validate clip
-        if ((clip != validatedClip) || updateClip) {
+        // vblidbte clip
+        if ((clip != vblidbtedClip) || updbteClip) {
             if (clip != null) {
-                if (updateClip ||
-                    validatedClip == null ||
-                    !(validatedClip.isRectangular() && clip.isRectangular()) ||
-                    ((clip.getLoX() != validatedClip.getLoX() ||
-                      clip.getLoY() != validatedClip.getLoY() ||
-                      clip.getHiX() != validatedClip.getHiX() ||
-                      clip.getHiY() != validatedClip.getHiY())))
+                if (updbteClip ||
+                    vblidbtedClip == null ||
+                    !(vblidbtedClip.isRectbngulbr() && clip.isRectbngulbr()) ||
+                    ((clip.getLoX() != vblidbtedClip.getLoX() ||
+                      clip.getLoY() != vblidbtedClip.getLoY() ||
+                      clip.getHiX() != vblidbtedClip.getHiX() ||
+                      clip.getHiY() != vblidbtedClip.getHiY())))
                 {
                     setClip(clip);
                 }
             } else {
                 resetClip();
             }
-            validatedClip = clip;
+            vblidbtedClip = clip;
         }
 
-        // validate composite (note that a change in the context flags
-        // may require us to update the composite state, even if the
-        // composite has not changed)
-        if ((comp != validatedComp) || (flags != validatedFlags)) {
+        // vblidbte composite (note thbt b chbnge in the context flbgs
+        // mby require us to updbte the composite stbte, even if the
+        // composite hbs not chbnged)
+        if ((comp != vblidbtedComp) || (flbgs != vblidbtedFlbgs)) {
             if (comp != null) {
-                setComposite(comp, flags);
+                setComposite(comp, flbgs);
             } else {
                 resetComposite();
             }
-            // the paint state is dependent on the composite state, so make
-            // sure we update the color below
-            updatePaint = true;
-            validatedComp = comp;
-            validatedFlags = flags;
+            // the pbint stbte is dependent on the composite stbte, so mbke
+            // sure we updbte the color below
+            updbtePbint = true;
+            vblidbtedComp = comp;
+            vblidbtedFlbgs = flbgs;
         }
 
-        // validate transform
-        boolean txChanged = false;
+        // vblidbte trbnsform
+        boolebn txChbnged = fblse;
         if (xform == null) {
             if (xformInUse) {
-                resetTransform();
-                xformInUse = false;
-                txChanged = true;
-            } else if (sg2d != null && !sg2d.transform.equals(transform)) {
-                txChanged = true;
+                resetTrbnsform();
+                xformInUse = fblse;
+                txChbnged = true;
+            } else if (sg2d != null && !sg2d.trbnsform.equbls(trbnsform)) {
+                txChbnged = true;
             }
-            if (sg2d != null && txChanged) {
-                transform = new AffineTransform(sg2d.transform);
+            if (sg2d != null && txChbnged) {
+                trbnsform = new AffineTrbnsform(sg2d.trbnsform);
             }
         } else {
-            setTransform(xform);
+            setTrbnsform(xform);
             xformInUse = true;
-            txChanged = true;
+            txChbnged = true;
         }
-        // non-Color paints may require paint revalidation
-        if (!isValidatedPaintJustAColor && txChanged) {
-            updatePaint = true;
+        // non-Color pbints mby require pbint revblidbtion
+        if (!isVblidbtedPbintJustAColor && txChbnged) {
+            updbtePbint = true;
         }
 
-        // validate paint
-        if (updatePaint) {
-            if (paint != null) {
-                BufferedPaints.setPaint(rq, sg2d, paint, flags);
+        // vblidbte pbint
+        if (updbtePbint) {
+            if (pbint != null) {
+                BufferedPbints.setPbint(rq, sg2d, pbint, flbgs);
             } else {
-                BufferedPaints.resetPaint(rq);
+                BufferedPbints.resetPbint(rq);
             }
-            validatedPaint = paint;
+            vblidbtedPbint = pbint;
         }
 
-        // mark dstData dirty
-        // REMIND: is this really needed now? we do it in SunGraphics2D..
-        dstData.markDirty();
+        // mbrk dstDbtb dirty
+        // REMIND: is this reblly needed now? we do it in SunGrbphics2D..
+        dstDbtb.mbrkDirty();
     }
 
     /**
-     * Invalidates the surfaces associated with this context.  This is
-     * useful when the context is no longer needed, and we want to break
-     * the chain caused by these surface references.
+     * Invblidbtes the surfbces bssocibted with this context.  This is
+     * useful when the context is no longer needed, bnd we wbnt to brebk
+     * the chbin cbused by these surfbce references.
      *
-     * Note: must be called while the RenderQueue lock is held.
+     * Note: must be cblled while the RenderQueue lock is held.
      *
      * @see RenderQueue#lock
      * @see RenderQueue#unlock
      */
-    public void invalidateSurfaces() {
-        validatedSrcData = null;
-        validatedDstData = null;
+    public void invblidbteSurfbces() {
+        vblidbtedSrcDbtb = null;
+        vblidbtedDstDbtb = null;
     }
 
-    private void setSurfaces(AccelSurface srcData,
-                             AccelSurface dstData)
+    privbte void setSurfbces(AccelSurfbce srcDbtb,
+                             AccelSurfbce dstDbtb)
     {
-        // assert rq.lock.isHeldByCurrentThread();
-        rq.ensureCapacityAndAlignment(20, 4);
+        // bssert rq.lock.isHeldByCurrentThrebd();
+        rq.ensureCbpbcityAndAlignment(20, 4);
         buf.putInt(SET_SURFACES);
-        buf.putLong(srcData.getNativeOps());
-        buf.putLong(dstData.getNativeOps());
+        buf.putLong(srcDbtb.getNbtiveOps());
+        buf.putLong(dstDbtb.getNbtiveOps());
     }
 
-    private void resetClip() {
-        // assert rq.lock.isHeldByCurrentThread();
-        rq.ensureCapacity(4);
+    privbte void resetClip() {
+        // bssert rq.lock.isHeldByCurrentThrebd();
+        rq.ensureCbpbcity(4);
         buf.putInt(RESET_CLIP);
     }
 
-    private void setClip(Region clip) {
-        // assert rq.lock.isHeldByCurrentThread();
-        if (clip.isRectangular()) {
-            rq.ensureCapacity(20);
+    privbte void setClip(Region clip) {
+        // bssert rq.lock.isHeldByCurrentThrebd();
+        if (clip.isRectbngulbr()) {
+            rq.ensureCbpbcity(20);
             buf.putInt(SET_RECT_CLIP);
             buf.putInt(clip.getLoX()).putInt(clip.getLoY());
             buf.putInt(clip.getHiX()).putInt(clip.getHiY());
         } else {
-            rq.ensureCapacity(28); // so that we have room for at least a span
+            rq.ensureCbpbcity(28); // so thbt we hbve room for bt lebst b spbn
             buf.putInt(BEGIN_SHAPE_CLIP);
             buf.putInt(SET_SHAPE_CLIP_SPANS);
-            // include a placeholder for the span count
+            // include b plbceholder for the spbn count
             int countIndex = buf.position();
             buf.putInt(0);
-            int spanCount = 0;
-            int remainingSpans = buf.remaining() / BYTES_PER_SPAN;
-            int span[] = new int[4];
-            SpanIterator si = clip.getSpanIterator();
-            while (si.nextSpan(span)) {
-                if (remainingSpans == 0) {
-                    buf.putInt(countIndex, spanCount);
+            int spbnCount = 0;
+            int rembiningSpbns = buf.rembining() / BYTES_PER_SPAN;
+            int spbn[] = new int[4];
+            SpbnIterbtor si = clip.getSpbnIterbtor();
+            while (si.nextSpbn(spbn)) {
+                if (rembiningSpbns == 0) {
+                    buf.putInt(countIndex, spbnCount);
                     rq.flushNow();
                     buf.putInt(SET_SHAPE_CLIP_SPANS);
                     countIndex = buf.position();
                     buf.putInt(0);
-                    spanCount = 0;
-                    remainingSpans = buf.remaining() / BYTES_PER_SPAN;
+                    spbnCount = 0;
+                    rembiningSpbns = buf.rembining() / BYTES_PER_SPAN;
                 }
-                buf.putInt(span[0]); // x1
-                buf.putInt(span[1]); // y1
-                buf.putInt(span[2]); // x2
-                buf.putInt(span[3]); // y2
-                spanCount++;
-                remainingSpans--;
+                buf.putInt(spbn[0]); // x1
+                buf.putInt(spbn[1]); // y1
+                buf.putInt(spbn[2]); // x2
+                buf.putInt(spbn[3]); // y2
+                spbnCount++;
+                rembiningSpbns--;
             }
-            buf.putInt(countIndex, spanCount);
-            rq.ensureCapacity(4);
+            buf.putInt(countIndex, spbnCount);
+            rq.ensureCbpbcity(4);
             buf.putInt(END_SHAPE_CLIP);
         }
     }
 
-    private void resetComposite() {
-        // assert rq.lock.isHeldByCurrentThread();
-        rq.ensureCapacity(4);
+    privbte void resetComposite() {
+        // bssert rq.lock.isHeldByCurrentThrebd();
+        rq.ensureCbpbcity(4);
         buf.putInt(RESET_COMPOSITE);
     }
 
-    private void setComposite(Composite comp, int flags) {
-        // assert rq.lock.isHeldByCurrentThread();
-        if (comp instanceof AlphaComposite) {
-            AlphaComposite ac = (AlphaComposite)comp;
-            rq.ensureCapacity(16);
+    privbte void setComposite(Composite comp, int flbgs) {
+        // bssert rq.lock.isHeldByCurrentThrebd();
+        if (comp instbnceof AlphbComposite) {
+            AlphbComposite bc = (AlphbComposite)comp;
+            rq.ensureCbpbcity(16);
             buf.putInt(SET_ALPHA_COMPOSITE);
-            buf.putInt(ac.getRule());
-            buf.putFloat(ac.getAlpha());
-            buf.putInt(flags);
-        } else if (comp instanceof XORComposite) {
+            buf.putInt(bc.getRule());
+            buf.putFlobt(bc.getAlphb());
+            buf.putInt(flbgs);
+        } else if (comp instbnceof XORComposite) {
             int xorPixel = ((XORComposite)comp).getXorPixel();
-            rq.ensureCapacity(8);
+            rq.ensureCbpbcity(8);
             buf.putInt(SET_XOR_COMPOSITE);
             buf.putInt(xorPixel);
         } else {
-            throw new InternalError("not yet implemented");
+            throw new InternblError("not yet implemented");
         }
     }
 
-    private void resetTransform() {
-        // assert rq.lock.isHeldByCurrentThread();
-        rq.ensureCapacity(4);
+    privbte void resetTrbnsform() {
+        // bssert rq.lock.isHeldByCurrentThrebd();
+        rq.ensureCbpbcity(4);
         buf.putInt(RESET_TRANSFORM);
     }
 
-    private void setTransform(AffineTransform xform) {
-        // assert rq.lock.isHeldByCurrentThread();
-        rq.ensureCapacityAndAlignment(52, 4);
+    privbte void setTrbnsform(AffineTrbnsform xform) {
+        // bssert rq.lock.isHeldByCurrentThrebd();
+        rq.ensureCbpbcityAndAlignment(52, 4);
         buf.putInt(SET_TRANSFORM);
-        buf.putDouble(xform.getScaleX());
-        buf.putDouble(xform.getShearY());
-        buf.putDouble(xform.getShearX());
-        buf.putDouble(xform.getScaleY());
-        buf.putDouble(xform.getTranslateX());
-        buf.putDouble(xform.getTranslateY());
+        buf.putDouble(xform.getScbleX());
+        buf.putDouble(xform.getShebrY());
+        buf.putDouble(xform.getShebrX());
+        buf.putDouble(xform.getScbleY());
+        buf.putDouble(xform.getTrbnslbteX());
+        buf.putDouble(xform.getTrbnslbteY());
     }
 
     /**
-     * Resets this context's surfaces and all attributes.
+     * Resets this context's surfbces bnd bll bttributes.
      *
-     * Note: must be called while the RenderQueue lock is held.
+     * Note: must be cblled while the RenderQueue lock is held.
      *
      * @see RenderQueue#lock
      * @see RenderQueue#unlock
      */
-    public void invalidateContext() {
-        resetTransform();
+    public void invblidbteContext() {
+        resetTrbnsform();
         resetComposite();
         resetClip();
-        BufferedPaints.resetPaint(rq);
-        invalidateSurfaces();
-        validatedComp = null;
-        validatedClip = null;
-        validatedPaint = null;
-        isValidatedPaintJustAColor = false;
-        xformInUse = false;
+        BufferedPbints.resetPbint(rq);
+        invblidbteSurfbces();
+        vblidbtedComp = null;
+        vblidbtedClip = null;
+        vblidbtedPbint = null;
+        isVblidbtedPbintJustAColor = fblse;
+        xformInUse = fblse;
     }
 
     /**
-     * Returns a singleton {@code RenderQueue} object used by the rendering
+     * Returns b singleton {@code RenderQueue} object used by the rendering
      * pipeline.
      *
-     * @return a render queue
+     * @return b render queue
      * @see RenderQueue
      */
-    public abstract RenderQueue getRenderQueue();
+    public bbstrbct RenderQueue getRenderQueue();
 
     /**
-     * Saves the the state of this context.
-     * It may reset the current context.
+     * Sbves the the stbte of this context.
+     * It mby reset the current context.
      *
-     * Note: must be called while the RenderQueue lock is held.
+     * Note: must be cblled while the RenderQueue lock is held.
      *
      * @see RenderQueue#lock
      * @see RenderQueue#unlock
      */
-    public abstract void saveState();
+    public bbstrbct void sbveStbte();
 
     /**
-     * Restores the native state of this context.
-     * It may reset the current context.
+     * Restores the nbtive stbte of this context.
+     * It mby reset the current context.
      *
-     * Note: must be called while the RenderQueue lock is held.
+     * Note: must be cblled while the RenderQueue lock is held.
      *
      * @see RenderQueue#lock
      * @see RenderQueue#unlock
      */
-    public abstract void restoreState();
+    public bbstrbct void restoreStbte();
 }

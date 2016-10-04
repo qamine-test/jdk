@@ -1,52 +1,52 @@
 /*
- * Copyright (c) 1998, 2001, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2001, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 #ifndef _COLORDATA_H_
 #define _COLORDATA_H_
 
-#include "img_globals.h"
+#include "img_globbls.h"
 
 typedef struct ColorEntry {
-        unsigned char r, g, b;
-        unsigned char flags;
+        unsigned chbr r, g, b;
+        unsigned chbr flbgs;
 } ColorEntry;
 
-typedef struct _ColorData {
-    ColorEntry  *awt_Colors;
-    int         awt_numICMcolors;
-    int         *awt_icmLUT;
-    unsigned char *awt_icmLUT2Colors;
-    unsigned char *img_grays;
-    unsigned char *img_clr_tbl;
-    char* img_oda_red;
-    char* img_oda_green;
-    char* img_oda_blue;
-    int *pGrayInverseLutData;
-    int screendata;
-} ColorData;
+typedef struct _ColorDbtb {
+    ColorEntry  *bwt_Colors;
+    int         bwt_numICMcolors;
+    int         *bwt_icmLUT;
+    unsigned chbr *bwt_icmLUT2Colors;
+    unsigned chbr *img_grbys;
+    unsigned chbr *img_clr_tbl;
+    chbr* img_odb_red;
+    chbr* img_odb_green;
+    chbr* img_odb_blue;
+    int *pGrbyInverseLutDbtb;
+    int screendbtb;
+} ColorDbtb;
 
 
-#define CANFREE(pData) (pData  && (pData->screendata == 0))
+#define CANFREE(pDbtb) (pDbtb  && (pDbtb->screendbtb == 0))
 
 #endif           /* _COLORDATA_H_ */

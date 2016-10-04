@@ -1,82 +1,82 @@
 /*
- * Copyright (c) 1997, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.java.swing.plaf.motif;
+pbckbge com.sun.jbvb.swing.plbf.motif;
 
 import sun.swing.SwingUtilities2;
-import javax.swing.*;
-import javax.swing.event.*;
-import javax.swing.border.*;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Frame;
-import java.awt.Graphics;
-import java.awt.Insets;
-import java.awt.LayoutManager;
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.event.*;
-import javax.swing.plaf.*;
-import javax.swing.plaf.basic.BasicPopupMenuUI;
+import jbvbx.swing.*;
+import jbvbx.swing.event.*;
+import jbvbx.swing.border.*;
+import jbvb.bwt.Color;
+import jbvb.bwt.Component;
+import jbvb.bwt.Contbiner;
+import jbvb.bwt.Dimension;
+import jbvb.bwt.Font;
+import jbvb.bwt.FontMetrics;
+import jbvb.bwt.Frbme;
+import jbvb.bwt.Grbphics;
+import jbvb.bwt.Insets;
+import jbvb.bwt.LbyoutMbnbger;
+import jbvb.bwt.Point;
+import jbvb.bwt.Rectbngle;
+import jbvb.bwt.event.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.bbsic.BbsicPopupMenuUI;
 
 
 /**
- * A Motif L&F implementation of PopupMenuUI.
+ * A Motif L&F implementbtion of PopupMenuUI.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases.  The current serialization support is appropriate
- * for short term storage or RMI between applications running the same
- * version of Swing.  A future release of Swing will provide support for
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses.  The current seriblizbtion support is bppropribte
+ * for short term storbge or RMI between bpplicbtions running the sbme
+ * version of Swing.  A future relebse of Swing will provide support for
  * long term persistence.
  *
- * @author Georges Saab
- * @author Rich Schiavi
+ * @buthor Georges Sbbb
+ * @buthor Rich Schibvi
  */
-public class MotifPopupMenuUI extends BasicPopupMenuUI {
-    private static Border border = null;
-    private Font titleFont = null;
+public clbss MotifPopupMenuUI extends BbsicPopupMenuUI {
+    privbte stbtic Border border = null;
+    privbte Font titleFont = null;
 
-    public static ComponentUI createUI(JComponent x) {
+    public stbtic ComponentUI crebteUI(JComponent x) {
         return new MotifPopupMenuUI();
     }
 
-    /* This has to deal with the fact that the title may be wider than
+    /* This hbs to debl with the fbct thbt the title mby be wider thbn
        the widest child component.
        */
     public Dimension getPreferredSize(JComponent c) {
-        LayoutManager layout = c.getLayout();
-        Dimension d = layout.preferredLayoutSize(c);
-        String title = ((JPopupMenu)c).getLabel();
+        LbyoutMbnbger lbyout = c.getLbyout();
+        Dimension d = lbyout.preferredLbyoutSize(c);
+        String title = ((JPopupMenu)c).getLbbel();
         if (titleFont == null) {
-            UIDefaults table = UIManager.getLookAndFeelDefaults();
-            titleFont = table.getFont("PopupMenu.font");
+            UIDefbults tbble = UIMbnbger.getLookAndFeelDefbults();
+            titleFont = tbble.getFont("PopupMenu.font");
         }
         FontMetrics fm = c.getFontMetrics(titleFont);
         int         stringWidth = 0;
@@ -101,13 +101,13 @@ public class MotifPopupMenuUI extends BasicPopupMenuUI {
         return null;
     }
 
-    protected ChangeListener createChangeListener(JPopupMenu m) {
-        return new ChangeListener() {
-            public void stateChanged(ChangeEvent e) {}
+    protected ChbngeListener crebteChbngeListener(JPopupMenu m) {
+        return new ChbngeListener() {
+            public void stbteChbnged(ChbngeEvent e) {}
         };
     }
 
-    public boolean isPopupTrigger(MouseEvent e) {
+    public boolebn isPopupTrigger(MouseEvent e) {
         return ((e.getID()==MouseEvent.MOUSE_PRESSED)
                 && ((e.getModifiers() & MouseEvent.BUTTON3_MASK)!=0));
     }

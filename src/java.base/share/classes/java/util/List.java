@@ -1,119 +1,119 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.util;
+pbckbge jbvb.util;
 
-import java.util.function.UnaryOperator;
+import jbvb.util.function.UnbryOperbtor;
 
 /**
- * An ordered collection (also known as a <i>sequence</i>).  The user of this
- * interface has precise control over where in the list each element is
- * inserted.  The user can access elements by their integer index (position in
- * the list), and search for elements in the list.<p>
+ * An ordered collection (blso known bs b <i>sequence</i>).  The user of this
+ * interfbce hbs precise control over where in the list ebch element is
+ * inserted.  The user cbn bccess elements by their integer index (position in
+ * the list), bnd sebrch for elements in the list.<p>
  *
- * Unlike sets, lists typically allow duplicate elements.  More formally,
- * lists typically allow pairs of elements <tt>e1</tt> and <tt>e2</tt>
- * such that <tt>e1.equals(e2)</tt>, and they typically allow multiple
- * null elements if they allow null elements at all.  It is not inconceivable
- * that someone might wish to implement a list that prohibits duplicates, by
- * throwing runtime exceptions when the user attempts to insert them, but we
- * expect this usage to be rare.<p>
+ * Unlike sets, lists typicblly bllow duplicbte elements.  More formblly,
+ * lists typicblly bllow pbirs of elements <tt>e1</tt> bnd <tt>e2</tt>
+ * such thbt <tt>e1.equbls(e2)</tt>, bnd they typicblly bllow multiple
+ * null elements if they bllow null elements bt bll.  It is not inconceivbble
+ * thbt someone might wish to implement b list thbt prohibits duplicbtes, by
+ * throwing runtime exceptions when the user bttempts to insert them, but we
+ * expect this usbge to be rbre.<p>
  *
- * The <tt>List</tt> interface places additional stipulations, beyond those
- * specified in the <tt>Collection</tt> interface, on the contracts of the
- * <tt>iterator</tt>, <tt>add</tt>, <tt>remove</tt>, <tt>equals</tt>, and
- * <tt>hashCode</tt> methods.  Declarations for other inherited methods are
- * also included here for convenience.<p>
+ * The <tt>List</tt> interfbce plbces bdditionbl stipulbtions, beyond those
+ * specified in the <tt>Collection</tt> interfbce, on the contrbcts of the
+ * <tt>iterbtor</tt>, <tt>bdd</tt>, <tt>remove</tt>, <tt>equbls</tt>, bnd
+ * <tt>hbshCode</tt> methods.  Declbrbtions for other inherited methods bre
+ * blso included here for convenience.<p>
  *
- * The <tt>List</tt> interface provides four methods for positional (indexed)
- * access to list elements.  Lists (like Java arrays) are zero based.  Note
- * that these operations may execute in time proportional to the index value
- * for some implementations (the <tt>LinkedList</tt> class, for
- * example). Thus, iterating over the elements in a list is typically
- * preferable to indexing through it if the caller does not know the
- * implementation.<p>
+ * The <tt>List</tt> interfbce provides four methods for positionbl (indexed)
+ * bccess to list elements.  Lists (like Jbvb brrbys) bre zero bbsed.  Note
+ * thbt these operbtions mby execute in time proportionbl to the index vblue
+ * for some implementbtions (the <tt>LinkedList</tt> clbss, for
+ * exbmple). Thus, iterbting over the elements in b list is typicblly
+ * preferbble to indexing through it if the cbller does not know the
+ * implementbtion.<p>
  *
- * The <tt>List</tt> interface provides a special iterator, called a
- * <tt>ListIterator</tt>, that allows element insertion and replacement, and
- * bidirectional access in addition to the normal operations that the
- * <tt>Iterator</tt> interface provides.  A method is provided to obtain a
- * list iterator that starts at a specified position in the list.<p>
+ * The <tt>List</tt> interfbce provides b specibl iterbtor, cblled b
+ * <tt>ListIterbtor</tt>, thbt bllows element insertion bnd replbcement, bnd
+ * bidirectionbl bccess in bddition to the normbl operbtions thbt the
+ * <tt>Iterbtor</tt> interfbce provides.  A method is provided to obtbin b
+ * list iterbtor thbt stbrts bt b specified position in the list.<p>
  *
- * The <tt>List</tt> interface provides two methods to search for a specified
- * object.  From a performance standpoint, these methods should be used with
- * caution.  In many implementations they will perform costly linear
- * searches.<p>
+ * The <tt>List</tt> interfbce provides two methods to sebrch for b specified
+ * object.  From b performbnce stbndpoint, these methods should be used with
+ * cbution.  In mbny implementbtions they will perform costly linebr
+ * sebrches.<p>
  *
- * The <tt>List</tt> interface provides two methods to efficiently insert and
- * remove multiple elements at an arbitrary point in the list.<p>
+ * The <tt>List</tt> interfbce provides two methods to efficiently insert bnd
+ * remove multiple elements bt bn brbitrbry point in the list.<p>
  *
- * Note: While it is permissible for lists to contain themselves as elements,
- * extreme caution is advised: the <tt>equals</tt> and <tt>hashCode</tt>
- * methods are no longer well defined on such a list.
+ * Note: While it is permissible for lists to contbin themselves bs elements,
+ * extreme cbution is bdvised: the <tt>equbls</tt> bnd <tt>hbshCode</tt>
+ * methods bre no longer well defined on such b list.
  *
- * <p>Some list implementations have restrictions on the elements that
- * they may contain.  For example, some implementations prohibit null elements,
- * and some have restrictions on the types of their elements.  Attempting to
- * add an ineligible element throws an unchecked exception, typically
- * <tt>NullPointerException</tt> or <tt>ClassCastException</tt>.  Attempting
- * to query the presence of an ineligible element may throw an exception,
- * or it may simply return false; some implementations will exhibit the former
- * behavior and some will exhibit the latter.  More generally, attempting an
- * operation on an ineligible element whose completion would not result in
- * the insertion of an ineligible element into the list may throw an
- * exception or it may succeed, at the option of the implementation.
- * Such exceptions are marked as "optional" in the specification for this
- * interface.
+ * <p>Some list implementbtions hbve restrictions on the elements thbt
+ * they mby contbin.  For exbmple, some implementbtions prohibit null elements,
+ * bnd some hbve restrictions on the types of their elements.  Attempting to
+ * bdd bn ineligible element throws bn unchecked exception, typicblly
+ * <tt>NullPointerException</tt> or <tt>ClbssCbstException</tt>.  Attempting
+ * to query the presence of bn ineligible element mby throw bn exception,
+ * or it mby simply return fblse; some implementbtions will exhibit the former
+ * behbvior bnd some will exhibit the lbtter.  More generblly, bttempting bn
+ * operbtion on bn ineligible element whose completion would not result in
+ * the insertion of bn ineligible element into the list mby throw bn
+ * exception or it mby succeed, bt the option of the implementbtion.
+ * Such exceptions bre mbrked bs "optionbl" in the specificbtion for this
+ * interfbce.
  *
- * <p>This interface is a member of the
- * <a href="{@docRoot}/../technotes/guides/collections/index.html">
- * Java Collections Framework</a>.
+ * <p>This interfbce is b member of the
+ * <b href="{@docRoot}/../technotes/guides/collections/index.html">
+ * Jbvb Collections Frbmework</b>.
  *
- * @param <E> the type of elements in this list
+ * @pbrbm <E> the type of elements in this list
  *
- * @author  Josh Bloch
- * @author  Neal Gafter
+ * @buthor  Josh Bloch
+ * @buthor  Nebl Gbfter
  * @see Collection
  * @see Set
- * @see ArrayList
+ * @see ArrbyList
  * @see LinkedList
  * @see Vector
- * @see Arrays#asList(Object[])
+ * @see Arrbys#bsList(Object[])
  * @see Collections#nCopies(int, Object)
  * @see Collections#EMPTY_LIST
- * @see AbstractList
- * @see AbstractSequentialList
+ * @see AbstrbctList
+ * @see AbstrbctSequentiblList
  * @since 1.2
  */
 
-public interface List<E> extends Collection<E> {
-    // Query Operations
+public interfbce List<E> extends Collection<E> {
+    // Query Operbtions
 
     /**
-     * Returns the number of elements in this list.  If this list contains
-     * more than <tt>Integer.MAX_VALUE</tt> elements, returns
+     * Returns the number of elements in this list.  If this list contbins
+     * more thbn <tt>Integer.MAX_VALUE</tt> elements, returns
      * <tt>Integer.MAX_VALUE</tt>.
      *
      * @return the number of elements in this list
@@ -121,614 +121,614 @@ public interface List<E> extends Collection<E> {
     int size();
 
     /**
-     * Returns <tt>true</tt> if this list contains no elements.
+     * Returns <tt>true</tt> if this list contbins no elements.
      *
-     * @return <tt>true</tt> if this list contains no elements
+     * @return <tt>true</tt> if this list contbins no elements
      */
-    boolean isEmpty();
+    boolebn isEmpty();
 
     /**
-     * Returns <tt>true</tt> if this list contains the specified element.
-     * More formally, returns <tt>true</tt> if and only if this list contains
-     * at least one element <tt>e</tt> such that
-     * <tt>(o==null&nbsp;?&nbsp;e==null&nbsp;:&nbsp;o.equals(e))</tt>.
+     * Returns <tt>true</tt> if this list contbins the specified element.
+     * More formblly, returns <tt>true</tt> if bnd only if this list contbins
+     * bt lebst one element <tt>e</tt> such thbt
+     * <tt>(o==null&nbsp;?&nbsp;e==null&nbsp;:&nbsp;o.equbls(e))</tt>.
      *
-     * @param o element whose presence in this list is to be tested
-     * @return <tt>true</tt> if this list contains the specified element
-     * @throws ClassCastException if the type of the specified element
-     *         is incompatible with this list
-     * (<a href="Collection.html#optional-restrictions">optional</a>)
-     * @throws NullPointerException if the specified element is null and this
+     * @pbrbm o element whose presence in this list is to be tested
+     * @return <tt>true</tt> if this list contbins the specified element
+     * @throws ClbssCbstException if the type of the specified element
+     *         is incompbtible with this list
+     * (<b href="Collection.html#optionbl-restrictions">optionbl</b>)
+     * @throws NullPointerException if the specified element is null bnd this
      *         list does not permit null elements
-     * (<a href="Collection.html#optional-restrictions">optional</a>)
+     * (<b href="Collection.html#optionbl-restrictions">optionbl</b>)
      */
-    boolean contains(Object o);
+    boolebn contbins(Object o);
 
     /**
-     * Returns an iterator over the elements in this list in proper sequence.
+     * Returns bn iterbtor over the elements in this list in proper sequence.
      *
-     * @return an iterator over the elements in this list in proper sequence
+     * @return bn iterbtor over the elements in this list in proper sequence
      */
-    Iterator<E> iterator();
+    Iterbtor<E> iterbtor();
 
     /**
-     * Returns an array containing all of the elements in this list in proper
-     * sequence (from first to last element).
+     * Returns bn brrby contbining bll of the elements in this list in proper
+     * sequence (from first to lbst element).
      *
-     * <p>The returned array will be "safe" in that no references to it are
-     * maintained by this list.  (In other words, this method must
-     * allocate a new array even if this list is backed by an array).
-     * The caller is thus free to modify the returned array.
+     * <p>The returned brrby will be "sbfe" in thbt no references to it bre
+     * mbintbined by this list.  (In other words, this method must
+     * bllocbte b new brrby even if this list is bbcked by bn brrby).
+     * The cbller is thus free to modify the returned brrby.
      *
-     * <p>This method acts as bridge between array-based and collection-based
+     * <p>This method bcts bs bridge between brrby-bbsed bnd collection-bbsed
      * APIs.
      *
-     * @return an array containing all of the elements in this list in proper
+     * @return bn brrby contbining bll of the elements in this list in proper
      *         sequence
-     * @see Arrays#asList(Object[])
+     * @see Arrbys#bsList(Object[])
      */
-    Object[] toArray();
+    Object[] toArrby();
 
     /**
-     * Returns an array containing all of the elements in this list in
-     * proper sequence (from first to last element); the runtime type of
-     * the returned array is that of the specified array.  If the list fits
-     * in the specified array, it is returned therein.  Otherwise, a new
-     * array is allocated with the runtime type of the specified array and
+     * Returns bn brrby contbining bll of the elements in this list in
+     * proper sequence (from first to lbst element); the runtime type of
+     * the returned brrby is thbt of the specified brrby.  If the list fits
+     * in the specified brrby, it is returned therein.  Otherwise, b new
+     * brrby is bllocbted with the runtime type of the specified brrby bnd
      * the size of this list.
      *
-     * <p>If the list fits in the specified array with room to spare (i.e.,
-     * the array has more elements than the list), the element in the array
-     * immediately following the end of the list is set to <tt>null</tt>.
+     * <p>If the list fits in the specified brrby with room to spbre (i.e.,
+     * the brrby hbs more elements thbn the list), the element in the brrby
+     * immedibtely following the end of the list is set to <tt>null</tt>.
      * (This is useful in determining the length of the list <i>only</i> if
-     * the caller knows that the list does not contain any null elements.)
+     * the cbller knows thbt the list does not contbin bny null elements.)
      *
-     * <p>Like the {@link #toArray()} method, this method acts as bridge between
-     * array-based and collection-based APIs.  Further, this method allows
-     * precise control over the runtime type of the output array, and may,
-     * under certain circumstances, be used to save allocation costs.
+     * <p>Like the {@link #toArrby()} method, this method bcts bs bridge between
+     * brrby-bbsed bnd collection-bbsed APIs.  Further, this method bllows
+     * precise control over the runtime type of the output brrby, bnd mby,
+     * under certbin circumstbnces, be used to sbve bllocbtion costs.
      *
-     * <p>Suppose <tt>x</tt> is a list known to contain only strings.
-     * The following code can be used to dump the list into a newly
-     * allocated array of <tt>String</tt>:
+     * <p>Suppose <tt>x</tt> is b list known to contbin only strings.
+     * The following code cbn be used to dump the list into b newly
+     * bllocbted brrby of <tt>String</tt>:
      *
      * <pre>{@code
-     *     String[] y = x.toArray(new String[0]);
+     *     String[] y = x.toArrby(new String[0]);
      * }</pre>
      *
-     * Note that <tt>toArray(new Object[0])</tt> is identical in function to
-     * <tt>toArray()</tt>.
+     * Note thbt <tt>toArrby(new Object[0])</tt> is identicbl in function to
+     * <tt>toArrby()</tt>.
      *
-     * @param a the array into which the elements of this list are to
-     *          be stored, if it is big enough; otherwise, a new array of the
-     *          same runtime type is allocated for this purpose.
-     * @return an array containing the elements of this list
-     * @throws ArrayStoreException if the runtime type of the specified array
-     *         is not a supertype of the runtime type of every element in
+     * @pbrbm b the brrby into which the elements of this list bre to
+     *          be stored, if it is big enough; otherwise, b new brrby of the
+     *          sbme runtime type is bllocbted for this purpose.
+     * @return bn brrby contbining the elements of this list
+     * @throws ArrbyStoreException if the runtime type of the specified brrby
+     *         is not b supertype of the runtime type of every element in
      *         this list
-     * @throws NullPointerException if the specified array is null
+     * @throws NullPointerException if the specified brrby is null
      */
-    <T> T[] toArray(T[] a);
+    <T> T[] toArrby(T[] b);
 
 
-    // Modification Operations
+    // Modificbtion Operbtions
 
     /**
-     * Appends the specified element to the end of this list (optional
-     * operation).
+     * Appends the specified element to the end of this list (optionbl
+     * operbtion).
      *
-     * <p>Lists that support this operation may place limitations on what
-     * elements may be added to this list.  In particular, some
-     * lists will refuse to add null elements, and others will impose
-     * restrictions on the type of elements that may be added.  List
-     * classes should clearly specify in their documentation any restrictions
-     * on what elements may be added.
+     * <p>Lists thbt support this operbtion mby plbce limitbtions on whbt
+     * elements mby be bdded to this list.  In pbrticulbr, some
+     * lists will refuse to bdd null elements, bnd others will impose
+     * restrictions on the type of elements thbt mby be bdded.  List
+     * clbsses should clebrly specify in their documentbtion bny restrictions
+     * on whbt elements mby be bdded.
      *
-     * @param e element to be appended to this list
-     * @return <tt>true</tt> (as specified by {@link Collection#add})
-     * @throws UnsupportedOperationException if the <tt>add</tt> operation
+     * @pbrbm e element to be bppended to this list
+     * @return <tt>true</tt> (bs specified by {@link Collection#bdd})
+     * @throws UnsupportedOperbtionException if the <tt>bdd</tt> operbtion
      *         is not supported by this list
-     * @throws ClassCastException if the class of the specified element
-     *         prevents it from being added to this list
-     * @throws NullPointerException if the specified element is null and this
+     * @throws ClbssCbstException if the clbss of the specified element
+     *         prevents it from being bdded to this list
+     * @throws NullPointerException if the specified element is null bnd this
      *         list does not permit null elements
-     * @throws IllegalArgumentException if some property of this element
-     *         prevents it from being added to this list
+     * @throws IllegblArgumentException if some property of this element
+     *         prevents it from being bdded to this list
      */
-    boolean add(E e);
+    boolebn bdd(E e);
 
     /**
      * Removes the first occurrence of the specified element from this list,
-     * if it is present (optional operation).  If this list does not contain
-     * the element, it is unchanged.  More formally, removes the element with
-     * the lowest index <tt>i</tt> such that
-     * <tt>(o==null&nbsp;?&nbsp;get(i)==null&nbsp;:&nbsp;o.equals(get(i)))</tt>
-     * (if such an element exists).  Returns <tt>true</tt> if this list
-     * contained the specified element (or equivalently, if this list changed
-     * as a result of the call).
+     * if it is present (optionbl operbtion).  If this list does not contbin
+     * the element, it is unchbnged.  More formblly, removes the element with
+     * the lowest index <tt>i</tt> such thbt
+     * <tt>(o==null&nbsp;?&nbsp;get(i)==null&nbsp;:&nbsp;o.equbls(get(i)))</tt>
+     * (if such bn element exists).  Returns <tt>true</tt> if this list
+     * contbined the specified element (or equivblently, if this list chbnged
+     * bs b result of the cbll).
      *
-     * @param o element to be removed from this list, if present
-     * @return <tt>true</tt> if this list contained the specified element
-     * @throws ClassCastException if the type of the specified element
-     *         is incompatible with this list
-     * (<a href="Collection.html#optional-restrictions">optional</a>)
-     * @throws NullPointerException if the specified element is null and this
+     * @pbrbm o element to be removed from this list, if present
+     * @return <tt>true</tt> if this list contbined the specified element
+     * @throws ClbssCbstException if the type of the specified element
+     *         is incompbtible with this list
+     * (<b href="Collection.html#optionbl-restrictions">optionbl</b>)
+     * @throws NullPointerException if the specified element is null bnd this
      *         list does not permit null elements
-     * (<a href="Collection.html#optional-restrictions">optional</a>)
-     * @throws UnsupportedOperationException if the <tt>remove</tt> operation
+     * (<b href="Collection.html#optionbl-restrictions">optionbl</b>)
+     * @throws UnsupportedOperbtionException if the <tt>remove</tt> operbtion
      *         is not supported by this list
      */
-    boolean remove(Object o);
+    boolebn remove(Object o);
 
 
-    // Bulk Modification Operations
+    // Bulk Modificbtion Operbtions
 
     /**
-     * Returns <tt>true</tt> if this list contains all of the elements of the
+     * Returns <tt>true</tt> if this list contbins bll of the elements of the
      * specified collection.
      *
-     * @param  c collection to be checked for containment in this list
-     * @return <tt>true</tt> if this list contains all of the elements of the
+     * @pbrbm  c collection to be checked for contbinment in this list
+     * @return <tt>true</tt> if this list contbins bll of the elements of the
      *         specified collection
-     * @throws ClassCastException if the types of one or more elements
-     *         in the specified collection are incompatible with this
+     * @throws ClbssCbstException if the types of one or more elements
+     *         in the specified collection bre incompbtible with this
      *         list
-     * (<a href="Collection.html#optional-restrictions">optional</a>)
-     * @throws NullPointerException if the specified collection contains one
-     *         or more null elements and this list does not permit null
+     * (<b href="Collection.html#optionbl-restrictions">optionbl</b>)
+     * @throws NullPointerException if the specified collection contbins one
+     *         or more null elements bnd this list does not permit null
      *         elements
-     *         (<a href="Collection.html#optional-restrictions">optional</a>),
+     *         (<b href="Collection.html#optionbl-restrictions">optionbl</b>),
      *         or if the specified collection is null
-     * @see #contains(Object)
+     * @see #contbins(Object)
      */
-    boolean containsAll(Collection<?> c);
+    boolebn contbinsAll(Collection<?> c);
 
     /**
-     * Appends all of the elements in the specified collection to the end of
-     * this list, in the order that they are returned by the specified
-     * collection's iterator (optional operation).  The behavior of this
-     * operation is undefined if the specified collection is modified while
-     * the operation is in progress.  (Note that this will occur if the
-     * specified collection is this list, and it's nonempty.)
+     * Appends bll of the elements in the specified collection to the end of
+     * this list, in the order thbt they bre returned by the specified
+     * collection's iterbtor (optionbl operbtion).  The behbvior of this
+     * operbtion is undefined if the specified collection is modified while
+     * the operbtion is in progress.  (Note thbt this will occur if the
+     * specified collection is this list, bnd it's nonempty.)
      *
-     * @param c collection containing elements to be added to this list
-     * @return <tt>true</tt> if this list changed as a result of the call
-     * @throws UnsupportedOperationException if the <tt>addAll</tt> operation
+     * @pbrbm c collection contbining elements to be bdded to this list
+     * @return <tt>true</tt> if this list chbnged bs b result of the cbll
+     * @throws UnsupportedOperbtionException if the <tt>bddAll</tt> operbtion
      *         is not supported by this list
-     * @throws ClassCastException if the class of an element of the specified
-     *         collection prevents it from being added to this list
-     * @throws NullPointerException if the specified collection contains one
-     *         or more null elements and this list does not permit null
+     * @throws ClbssCbstException if the clbss of bn element of the specified
+     *         collection prevents it from being bdded to this list
+     * @throws NullPointerException if the specified collection contbins one
+     *         or more null elements bnd this list does not permit null
      *         elements, or if the specified collection is null
-     * @throws IllegalArgumentException if some property of an element of the
-     *         specified collection prevents it from being added to this list
-     * @see #add(Object)
+     * @throws IllegblArgumentException if some property of bn element of the
+     *         specified collection prevents it from being bdded to this list
+     * @see #bdd(Object)
      */
-    boolean addAll(Collection<? extends E> c);
+    boolebn bddAll(Collection<? extends E> c);
 
     /**
-     * Inserts all of the elements in the specified collection into this
-     * list at the specified position (optional operation).  Shifts the
-     * element currently at that position (if any) and any subsequent
-     * elements to the right (increases their indices).  The new elements
-     * will appear in this list in the order that they are returned by the
-     * specified collection's iterator.  The behavior of this operation is
+     * Inserts bll of the elements in the specified collection into this
+     * list bt the specified position (optionbl operbtion).  Shifts the
+     * element currently bt thbt position (if bny) bnd bny subsequent
+     * elements to the right (increbses their indices).  The new elements
+     * will bppebr in this list in the order thbt they bre returned by the
+     * specified collection's iterbtor.  The behbvior of this operbtion is
      * undefined if the specified collection is modified while the
-     * operation is in progress.  (Note that this will occur if the specified
-     * collection is this list, and it's nonempty.)
+     * operbtion is in progress.  (Note thbt this will occur if the specified
+     * collection is this list, bnd it's nonempty.)
      *
-     * @param index index at which to insert the first element from the
+     * @pbrbm index index bt which to insert the first element from the
      *              specified collection
-     * @param c collection containing elements to be added to this list
-     * @return <tt>true</tt> if this list changed as a result of the call
-     * @throws UnsupportedOperationException if the <tt>addAll</tt> operation
+     * @pbrbm c collection contbining elements to be bdded to this list
+     * @return <tt>true</tt> if this list chbnged bs b result of the cbll
+     * @throws UnsupportedOperbtionException if the <tt>bddAll</tt> operbtion
      *         is not supported by this list
-     * @throws ClassCastException if the class of an element of the specified
-     *         collection prevents it from being added to this list
-     * @throws NullPointerException if the specified collection contains one
-     *         or more null elements and this list does not permit null
+     * @throws ClbssCbstException if the clbss of bn element of the specified
+     *         collection prevents it from being bdded to this list
+     * @throws NullPointerException if the specified collection contbins one
+     *         or more null elements bnd this list does not permit null
      *         elements, or if the specified collection is null
-     * @throws IllegalArgumentException if some property of an element of the
-     *         specified collection prevents it from being added to this list
-     * @throws IndexOutOfBoundsException if the index is out of range
+     * @throws IllegblArgumentException if some property of bn element of the
+     *         specified collection prevents it from being bdded to this list
+     * @throws IndexOutOfBoundsException if the index is out of rbnge
      *         (<tt>index &lt; 0 || index &gt; size()</tt>)
      */
-    boolean addAll(int index, Collection<? extends E> c);
+    boolebn bddAll(int index, Collection<? extends E> c);
 
     /**
-     * Removes from this list all of its elements that are contained in the
-     * specified collection (optional operation).
+     * Removes from this list bll of its elements thbt bre contbined in the
+     * specified collection (optionbl operbtion).
      *
-     * @param c collection containing elements to be removed from this list
-     * @return <tt>true</tt> if this list changed as a result of the call
-     * @throws UnsupportedOperationException if the <tt>removeAll</tt> operation
+     * @pbrbm c collection contbining elements to be removed from this list
+     * @return <tt>true</tt> if this list chbnged bs b result of the cbll
+     * @throws UnsupportedOperbtionException if the <tt>removeAll</tt> operbtion
      *         is not supported by this list
-     * @throws ClassCastException if the class of an element of this list
-     *         is incompatible with the specified collection
-     * (<a href="Collection.html#optional-restrictions">optional</a>)
-     * @throws NullPointerException if this list contains a null element and the
+     * @throws ClbssCbstException if the clbss of bn element of this list
+     *         is incompbtible with the specified collection
+     * (<b href="Collection.html#optionbl-restrictions">optionbl</b>)
+     * @throws NullPointerException if this list contbins b null element bnd the
      *         specified collection does not permit null elements
-     *         (<a href="Collection.html#optional-restrictions">optional</a>),
+     *         (<b href="Collection.html#optionbl-restrictions">optionbl</b>),
      *         or if the specified collection is null
      * @see #remove(Object)
-     * @see #contains(Object)
+     * @see #contbins(Object)
      */
-    boolean removeAll(Collection<?> c);
+    boolebn removeAll(Collection<?> c);
 
     /**
-     * Retains only the elements in this list that are contained in the
-     * specified collection (optional operation).  In other words, removes
-     * from this list all of its elements that are not contained in the
+     * Retbins only the elements in this list thbt bre contbined in the
+     * specified collection (optionbl operbtion).  In other words, removes
+     * from this list bll of its elements thbt bre not contbined in the
      * specified collection.
      *
-     * @param c collection containing elements to be retained in this list
-     * @return <tt>true</tt> if this list changed as a result of the call
-     * @throws UnsupportedOperationException if the <tt>retainAll</tt> operation
+     * @pbrbm c collection contbining elements to be retbined in this list
+     * @return <tt>true</tt> if this list chbnged bs b result of the cbll
+     * @throws UnsupportedOperbtionException if the <tt>retbinAll</tt> operbtion
      *         is not supported by this list
-     * @throws ClassCastException if the class of an element of this list
-     *         is incompatible with the specified collection
-     * (<a href="Collection.html#optional-restrictions">optional</a>)
-     * @throws NullPointerException if this list contains a null element and the
+     * @throws ClbssCbstException if the clbss of bn element of this list
+     *         is incompbtible with the specified collection
+     * (<b href="Collection.html#optionbl-restrictions">optionbl</b>)
+     * @throws NullPointerException if this list contbins b null element bnd the
      *         specified collection does not permit null elements
-     *         (<a href="Collection.html#optional-restrictions">optional</a>),
+     *         (<b href="Collection.html#optionbl-restrictions">optionbl</b>),
      *         or if the specified collection is null
      * @see #remove(Object)
-     * @see #contains(Object)
+     * @see #contbins(Object)
      */
-    boolean retainAll(Collection<?> c);
+    boolebn retbinAll(Collection<?> c);
 
     /**
-     * Replaces each element of this list with the result of applying the
-     * operator to that element.  Errors or runtime exceptions thrown by
-     * the operator are relayed to the caller.
+     * Replbces ebch element of this list with the result of bpplying the
+     * operbtor to thbt element.  Errors or runtime exceptions thrown by
+     * the operbtor bre relbyed to the cbller.
      *
      * @implSpec
-     * The default implementation is equivalent to, for this {@code list}:
+     * The defbult implementbtion is equivblent to, for this {@code list}:
      * <pre>{@code
-     *     final ListIterator<E> li = list.listIterator();
-     *     while (li.hasNext()) {
-     *         li.set(operator.apply(li.next()));
+     *     finbl ListIterbtor<E> li = list.listIterbtor();
+     *     while (li.hbsNext()) {
+     *         li.set(operbtor.bpply(li.next()));
      *     }
      * }</pre>
      *
-     * If the list's list-iterator does not support the {@code set} operation
-     * then an {@code UnsupportedOperationException} will be thrown when
-     * replacing the first element.
+     * If the list's list-iterbtor does not support the {@code set} operbtion
+     * then bn {@code UnsupportedOperbtionException} will be thrown when
+     * replbcing the first element.
      *
-     * @param operator the operator to apply to each element
-     * @throws UnsupportedOperationException if this list is unmodifiable.
-     *         Implementations may throw this exception if an element
-     *         cannot be replaced or if, in general, modification is not
+     * @pbrbm operbtor the operbtor to bpply to ebch element
+     * @throws UnsupportedOperbtionException if this list is unmodifibble.
+     *         Implementbtions mby throw this exception if bn element
+     *         cbnnot be replbced or if, in generbl, modificbtion is not
      *         supported
-     * @throws NullPointerException if the specified operator is null or
-     *         if the operator result is a null value and this list does
+     * @throws NullPointerException if the specified operbtor is null or
+     *         if the operbtor result is b null vblue bnd this list does
      *         not permit null elements
-     *         (<a href="Collection.html#optional-restrictions">optional</a>)
+     *         (<b href="Collection.html#optionbl-restrictions">optionbl</b>)
      * @since 1.8
      */
-    default void replaceAll(UnaryOperator<E> operator) {
-        Objects.requireNonNull(operator);
-        final ListIterator<E> li = this.listIterator();
-        while (li.hasNext()) {
-            li.set(operator.apply(li.next()));
+    defbult void replbceAll(UnbryOperbtor<E> operbtor) {
+        Objects.requireNonNull(operbtor);
+        finbl ListIterbtor<E> li = this.listIterbtor();
+        while (li.hbsNext()) {
+            li.set(operbtor.bpply(li.next()));
         }
     }
 
     /**
-     * Sorts this list according to the order induced by the specified
-     * {@link Comparator}.
+     * Sorts this list bccording to the order induced by the specified
+     * {@link Compbrbtor}.
      *
-     * <p>All elements in this list must be <i>mutually comparable</i> using the
-     * specified comparator (that is, {@code c.compare(e1, e2)} must not throw
-     * a {@code ClassCastException} for any elements {@code e1} and {@code e2}
+     * <p>All elements in this list must be <i>mutublly compbrbble</i> using the
+     * specified compbrbtor (thbt is, {@code c.compbre(e1, e2)} must not throw
+     * b {@code ClbssCbstException} for bny elements {@code e1} bnd {@code e2}
      * in the list).
      *
-     * <p>If the specified comparator is {@code null} then all elements in this
-     * list must implement the {@link Comparable} interface and the elements'
-     * {@linkplain Comparable natural ordering} should be used.
+     * <p>If the specified compbrbtor is {@code null} then bll elements in this
+     * list must implement the {@link Compbrbble} interfbce bnd the elements'
+     * {@linkplbin Compbrbble nbturbl ordering} should be used.
      *
-     * <p>This list must be modifiable, but need not be resizable.
+     * <p>This list must be modifibble, but need not be resizbble.
      *
      * @implSpec
-     * The default implementation obtains an array containing all elements in
-     * this list, sorts the array, and iterates over this list resetting each
-     * element from the corresponding position in the array. (This avoids the
-     * n<sup>2</sup> log(n) performance that would result from attempting
-     * to sort a linked list in place.)
+     * The defbult implementbtion obtbins bn brrby contbining bll elements in
+     * this list, sorts the brrby, bnd iterbtes over this list resetting ebch
+     * element from the corresponding position in the brrby. (This bvoids the
+     * n<sup>2</sup> log(n) performbnce thbt would result from bttempting
+     * to sort b linked list in plbce.)
      *
      * @implNote
-     * This implementation is a stable, adaptive, iterative mergesort that
-     * requires far fewer than n lg(n) comparisons when the input array is
-     * partially sorted, while offering the performance of a traditional
-     * mergesort when the input array is randomly ordered.  If the input array
-     * is nearly sorted, the implementation requires approximately n
-     * comparisons.  Temporary storage requirements vary from a small constant
-     * for nearly sorted input arrays to n/2 object references for randomly
-     * ordered input arrays.
+     * This implementbtion is b stbble, bdbptive, iterbtive mergesort thbt
+     * requires fbr fewer thbn n lg(n) compbrisons when the input brrby is
+     * pbrtiblly sorted, while offering the performbnce of b trbditionbl
+     * mergesort when the input brrby is rbndomly ordered.  If the input brrby
+     * is nebrly sorted, the implementbtion requires bpproximbtely n
+     * compbrisons.  Temporbry storbge requirements vbry from b smbll constbnt
+     * for nebrly sorted input brrbys to n/2 object references for rbndomly
+     * ordered input brrbys.
      *
-     * <p>The implementation takes equal advantage of ascending and
-     * descending order in its input array, and can take advantage of
-     * ascending and descending order in different parts of the same
-     * input array.  It is well-suited to merging two or more sorted arrays:
-     * simply concatenate the arrays and sort the resulting array.
+     * <p>The implementbtion tbkes equbl bdvbntbge of bscending bnd
+     * descending order in its input brrby, bnd cbn tbke bdvbntbge of
+     * bscending bnd descending order in different pbrts of the sbme
+     * input brrby.  It is well-suited to merging two or more sorted brrbys:
+     * simply concbtenbte the brrbys bnd sort the resulting brrby.
      *
-     * <p>The implementation was adapted from Tim Peters's list sort for Python
-     * (<a href="http://svn.python.org/projects/python/trunk/Objects/listsort.txt">
-     * TimSort</a>).  It uses techniques from Peter McIlroy's "Optimistic
-     * Sorting and Information Theoretic Complexity", in Proceedings of the
-     * Fourth Annual ACM-SIAM Symposium on Discrete Algorithms, pp 467-474,
-     * January 1993.
+     * <p>The implementbtion wbs bdbpted from Tim Peters's list sort for Python
+     * (<b href="http://svn.python.org/projects/python/trunk/Objects/listsort.txt">
+     * TimSort</b>).  It uses techniques from Peter McIlroy's "Optimistic
+     * Sorting bnd Informbtion Theoretic Complexity", in Proceedings of the
+     * Fourth Annubl ACM-SIAM Symposium on Discrete Algorithms, pp 467-474,
+     * Jbnubry 1993.
      *
-     * @param c the {@code Comparator} used to compare list elements.
-     *          A {@code null} value indicates that the elements'
-     *          {@linkplain Comparable natural ordering} should be used
-     * @throws ClassCastException if the list contains elements that are not
-     *         <i>mutually comparable</i> using the specified comparator
-     * @throws UnsupportedOperationException if the list's list-iterator does
-     *         not support the {@code set} operation
-     * @throws IllegalArgumentException
-     *         (<a href="Collection.html#optional-restrictions">optional</a>)
-     *         if the comparator is found to violate the {@link Comparator}
-     *         contract
+     * @pbrbm c the {@code Compbrbtor} used to compbre list elements.
+     *          A {@code null} vblue indicbtes thbt the elements'
+     *          {@linkplbin Compbrbble nbturbl ordering} should be used
+     * @throws ClbssCbstException if the list contbins elements thbt bre not
+     *         <i>mutublly compbrbble</i> using the specified compbrbtor
+     * @throws UnsupportedOperbtionException if the list's list-iterbtor does
+     *         not support the {@code set} operbtion
+     * @throws IllegblArgumentException
+     *         (<b href="Collection.html#optionbl-restrictions">optionbl</b>)
+     *         if the compbrbtor is found to violbte the {@link Compbrbtor}
+     *         contrbct
      * @since 1.8
      */
-    @SuppressWarnings({"unchecked", "rawtypes"})
-    default void sort(Comparator<? super E> c) {
-        Object[] a = this.toArray();
-        Arrays.sort(a, (Comparator) c);
-        ListIterator<E> i = this.listIterator();
-        for (Object e : a) {
+    @SuppressWbrnings({"unchecked", "rbwtypes"})
+    defbult void sort(Compbrbtor<? super E> c) {
+        Object[] b = this.toArrby();
+        Arrbys.sort(b, (Compbrbtor) c);
+        ListIterbtor<E> i = this.listIterbtor();
+        for (Object e : b) {
             i.next();
             i.set((E) e);
         }
     }
 
     /**
-     * Removes all of the elements from this list (optional operation).
-     * The list will be empty after this call returns.
+     * Removes bll of the elements from this list (optionbl operbtion).
+     * The list will be empty bfter this cbll returns.
      *
-     * @throws UnsupportedOperationException if the <tt>clear</tt> operation
+     * @throws UnsupportedOperbtionException if the <tt>clebr</tt> operbtion
      *         is not supported by this list
      */
-    void clear();
+    void clebr();
 
 
-    // Comparison and hashing
+    // Compbrison bnd hbshing
 
     /**
-     * Compares the specified object with this list for equality.  Returns
-     * <tt>true</tt> if and only if the specified object is also a list, both
-     * lists have the same size, and all corresponding pairs of elements in
-     * the two lists are <i>equal</i>.  (Two elements <tt>e1</tt> and
-     * <tt>e2</tt> are <i>equal</i> if <tt>(e1==null ? e2==null :
-     * e1.equals(e2))</tt>.)  In other words, two lists are defined to be
-     * equal if they contain the same elements in the same order.  This
-     * definition ensures that the equals method works properly across
-     * different implementations of the <tt>List</tt> interface.
+     * Compbres the specified object with this list for equblity.  Returns
+     * <tt>true</tt> if bnd only if the specified object is blso b list, both
+     * lists hbve the sbme size, bnd bll corresponding pbirs of elements in
+     * the two lists bre <i>equbl</i>.  (Two elements <tt>e1</tt> bnd
+     * <tt>e2</tt> bre <i>equbl</i> if <tt>(e1==null ? e2==null :
+     * e1.equbls(e2))</tt>.)  In other words, two lists bre defined to be
+     * equbl if they contbin the sbme elements in the sbme order.  This
+     * definition ensures thbt the equbls method works properly bcross
+     * different implementbtions of the <tt>List</tt> interfbce.
      *
-     * @param o the object to be compared for equality with this list
-     * @return <tt>true</tt> if the specified object is equal to this list
+     * @pbrbm o the object to be compbred for equblity with this list
+     * @return <tt>true</tt> if the specified object is equbl to this list
      */
-    boolean equals(Object o);
+    boolebn equbls(Object o);
 
     /**
-     * Returns the hash code value for this list.  The hash code of a list
-     * is defined to be the result of the following calculation:
+     * Returns the hbsh code vblue for this list.  The hbsh code of b list
+     * is defined to be the result of the following cblculbtion:
      * <pre>{@code
-     *     int hashCode = 1;
+     *     int hbshCode = 1;
      *     for (E e : list)
-     *         hashCode = 31*hashCode + (e==null ? 0 : e.hashCode());
+     *         hbshCode = 31*hbshCode + (e==null ? 0 : e.hbshCode());
      * }</pre>
-     * This ensures that <tt>list1.equals(list2)</tt> implies that
-     * <tt>list1.hashCode()==list2.hashCode()</tt> for any two lists,
-     * <tt>list1</tt> and <tt>list2</tt>, as required by the general
-     * contract of {@link Object#hashCode}.
+     * This ensures thbt <tt>list1.equbls(list2)</tt> implies thbt
+     * <tt>list1.hbshCode()==list2.hbshCode()</tt> for bny two lists,
+     * <tt>list1</tt> bnd <tt>list2</tt>, bs required by the generbl
+     * contrbct of {@link Object#hbshCode}.
      *
-     * @return the hash code value for this list
-     * @see Object#equals(Object)
-     * @see #equals(Object)
+     * @return the hbsh code vblue for this list
+     * @see Object#equbls(Object)
+     * @see #equbls(Object)
      */
-    int hashCode();
+    int hbshCode();
 
 
-    // Positional Access Operations
+    // Positionbl Access Operbtions
 
     /**
-     * Returns the element at the specified position in this list.
+     * Returns the element bt the specified position in this list.
      *
-     * @param index index of the element to return
-     * @return the element at the specified position in this list
-     * @throws IndexOutOfBoundsException if the index is out of range
+     * @pbrbm index index of the element to return
+     * @return the element bt the specified position in this list
+     * @throws IndexOutOfBoundsException if the index is out of rbnge
      *         (<tt>index &lt; 0 || index &gt;= size()</tt>)
      */
     E get(int index);
 
     /**
-     * Replaces the element at the specified position in this list with the
-     * specified element (optional operation).
+     * Replbces the element bt the specified position in this list with the
+     * specified element (optionbl operbtion).
      *
-     * @param index index of the element to replace
-     * @param element element to be stored at the specified position
-     * @return the element previously at the specified position
-     * @throws UnsupportedOperationException if the <tt>set</tt> operation
+     * @pbrbm index index of the element to replbce
+     * @pbrbm element element to be stored bt the specified position
+     * @return the element previously bt the specified position
+     * @throws UnsupportedOperbtionException if the <tt>set</tt> operbtion
      *         is not supported by this list
-     * @throws ClassCastException if the class of the specified element
-     *         prevents it from being added to this list
-     * @throws NullPointerException if the specified element is null and
+     * @throws ClbssCbstException if the clbss of the specified element
+     *         prevents it from being bdded to this list
+     * @throws NullPointerException if the specified element is null bnd
      *         this list does not permit null elements
-     * @throws IllegalArgumentException if some property of the specified
-     *         element prevents it from being added to this list
-     * @throws IndexOutOfBoundsException if the index is out of range
+     * @throws IllegblArgumentException if some property of the specified
+     *         element prevents it from being bdded to this list
+     * @throws IndexOutOfBoundsException if the index is out of rbnge
      *         (<tt>index &lt; 0 || index &gt;= size()</tt>)
      */
     E set(int index, E element);
 
     /**
-     * Inserts the specified element at the specified position in this list
-     * (optional operation).  Shifts the element currently at that position
-     * (if any) and any subsequent elements to the right (adds one to their
+     * Inserts the specified element bt the specified position in this list
+     * (optionbl operbtion).  Shifts the element currently bt thbt position
+     * (if bny) bnd bny subsequent elements to the right (bdds one to their
      * indices).
      *
-     * @param index index at which the specified element is to be inserted
-     * @param element element to be inserted
-     * @throws UnsupportedOperationException if the <tt>add</tt> operation
+     * @pbrbm index index bt which the specified element is to be inserted
+     * @pbrbm element element to be inserted
+     * @throws UnsupportedOperbtionException if the <tt>bdd</tt> operbtion
      *         is not supported by this list
-     * @throws ClassCastException if the class of the specified element
-     *         prevents it from being added to this list
-     * @throws NullPointerException if the specified element is null and
+     * @throws ClbssCbstException if the clbss of the specified element
+     *         prevents it from being bdded to this list
+     * @throws NullPointerException if the specified element is null bnd
      *         this list does not permit null elements
-     * @throws IllegalArgumentException if some property of the specified
-     *         element prevents it from being added to this list
-     * @throws IndexOutOfBoundsException if the index is out of range
+     * @throws IllegblArgumentException if some property of the specified
+     *         element prevents it from being bdded to this list
+     * @throws IndexOutOfBoundsException if the index is out of rbnge
      *         (<tt>index &lt; 0 || index &gt; size()</tt>)
      */
-    void add(int index, E element);
+    void bdd(int index, E element);
 
     /**
-     * Removes the element at the specified position in this list (optional
-     * operation).  Shifts any subsequent elements to the left (subtracts one
-     * from their indices).  Returns the element that was removed from the
+     * Removes the element bt the specified position in this list (optionbl
+     * operbtion).  Shifts bny subsequent elements to the left (subtrbcts one
+     * from their indices).  Returns the element thbt wbs removed from the
      * list.
      *
-     * @param index the index of the element to be removed
-     * @return the element previously at the specified position
-     * @throws UnsupportedOperationException if the <tt>remove</tt> operation
+     * @pbrbm index the index of the element to be removed
+     * @return the element previously bt the specified position
+     * @throws UnsupportedOperbtionException if the <tt>remove</tt> operbtion
      *         is not supported by this list
-     * @throws IndexOutOfBoundsException if the index is out of range
+     * @throws IndexOutOfBoundsException if the index is out of rbnge
      *         (<tt>index &lt; 0 || index &gt;= size()</tt>)
      */
     E remove(int index);
 
 
-    // Search Operations
+    // Sebrch Operbtions
 
     /**
      * Returns the index of the first occurrence of the specified element
-     * in this list, or -1 if this list does not contain the element.
-     * More formally, returns the lowest index <tt>i</tt> such that
-     * <tt>(o==null&nbsp;?&nbsp;get(i)==null&nbsp;:&nbsp;o.equals(get(i)))</tt>,
+     * in this list, or -1 if this list does not contbin the element.
+     * More formblly, returns the lowest index <tt>i</tt> such thbt
+     * <tt>(o==null&nbsp;?&nbsp;get(i)==null&nbsp;:&nbsp;o.equbls(get(i)))</tt>,
      * or -1 if there is no such index.
      *
-     * @param o element to search for
+     * @pbrbm o element to sebrch for
      * @return the index of the first occurrence of the specified element in
-     *         this list, or -1 if this list does not contain the element
-     * @throws ClassCastException if the type of the specified element
-     *         is incompatible with this list
-     *         (<a href="Collection.html#optional-restrictions">optional</a>)
-     * @throws NullPointerException if the specified element is null and this
+     *         this list, or -1 if this list does not contbin the element
+     * @throws ClbssCbstException if the type of the specified element
+     *         is incompbtible with this list
+     *         (<b href="Collection.html#optionbl-restrictions">optionbl</b>)
+     * @throws NullPointerException if the specified element is null bnd this
      *         list does not permit null elements
-     *         (<a href="Collection.html#optional-restrictions">optional</a>)
+     *         (<b href="Collection.html#optionbl-restrictions">optionbl</b>)
      */
     int indexOf(Object o);
 
     /**
-     * Returns the index of the last occurrence of the specified element
-     * in this list, or -1 if this list does not contain the element.
-     * More formally, returns the highest index <tt>i</tt> such that
-     * <tt>(o==null&nbsp;?&nbsp;get(i)==null&nbsp;:&nbsp;o.equals(get(i)))</tt>,
+     * Returns the index of the lbst occurrence of the specified element
+     * in this list, or -1 if this list does not contbin the element.
+     * More formblly, returns the highest index <tt>i</tt> such thbt
+     * <tt>(o==null&nbsp;?&nbsp;get(i)==null&nbsp;:&nbsp;o.equbls(get(i)))</tt>,
      * or -1 if there is no such index.
      *
-     * @param o element to search for
-     * @return the index of the last occurrence of the specified element in
-     *         this list, or -1 if this list does not contain the element
-     * @throws ClassCastException if the type of the specified element
-     *         is incompatible with this list
-     *         (<a href="Collection.html#optional-restrictions">optional</a>)
-     * @throws NullPointerException if the specified element is null and this
+     * @pbrbm o element to sebrch for
+     * @return the index of the lbst occurrence of the specified element in
+     *         this list, or -1 if this list does not contbin the element
+     * @throws ClbssCbstException if the type of the specified element
+     *         is incompbtible with this list
+     *         (<b href="Collection.html#optionbl-restrictions">optionbl</b>)
+     * @throws NullPointerException if the specified element is null bnd this
      *         list does not permit null elements
-     *         (<a href="Collection.html#optional-restrictions">optional</a>)
+     *         (<b href="Collection.html#optionbl-restrictions">optionbl</b>)
      */
-    int lastIndexOf(Object o);
+    int lbstIndexOf(Object o);
 
 
-    // List Iterators
+    // List Iterbtors
 
     /**
-     * Returns a list iterator over the elements in this list (in proper
+     * Returns b list iterbtor over the elements in this list (in proper
      * sequence).
      *
-     * @return a list iterator over the elements in this list (in proper
+     * @return b list iterbtor over the elements in this list (in proper
      *         sequence)
      */
-    ListIterator<E> listIterator();
+    ListIterbtor<E> listIterbtor();
 
     /**
-     * Returns a list iterator over the elements in this list (in proper
-     * sequence), starting at the specified position in the list.
-     * The specified index indicates the first element that would be
-     * returned by an initial call to {@link ListIterator#next next}.
-     * An initial call to {@link ListIterator#previous previous} would
+     * Returns b list iterbtor over the elements in this list (in proper
+     * sequence), stbrting bt the specified position in the list.
+     * The specified index indicbtes the first element thbt would be
+     * returned by bn initibl cbll to {@link ListIterbtor#next next}.
+     * An initibl cbll to {@link ListIterbtor#previous previous} would
      * return the element with the specified index minus one.
      *
-     * @param index index of the first element to be returned from the
-     *        list iterator (by a call to {@link ListIterator#next next})
-     * @return a list iterator over the elements in this list (in proper
-     *         sequence), starting at the specified position in the list
-     * @throws IndexOutOfBoundsException if the index is out of range
+     * @pbrbm index index of the first element to be returned from the
+     *        list iterbtor (by b cbll to {@link ListIterbtor#next next})
+     * @return b list iterbtor over the elements in this list (in proper
+     *         sequence), stbrting bt the specified position in the list
+     * @throws IndexOutOfBoundsException if the index is out of rbnge
      *         ({@code index < 0 || index > size()})
      */
-    ListIterator<E> listIterator(int index);
+    ListIterbtor<E> listIterbtor(int index);
 
     // View
 
     /**
-     * Returns a view of the portion of this list between the specified
-     * <tt>fromIndex</tt>, inclusive, and <tt>toIndex</tt>, exclusive.  (If
-     * <tt>fromIndex</tt> and <tt>toIndex</tt> are equal, the returned list is
-     * empty.)  The returned list is backed by this list, so non-structural
-     * changes in the returned list are reflected in this list, and vice-versa.
-     * The returned list supports all of the optional list operations supported
+     * Returns b view of the portion of this list between the specified
+     * <tt>fromIndex</tt>, inclusive, bnd <tt>toIndex</tt>, exclusive.  (If
+     * <tt>fromIndex</tt> bnd <tt>toIndex</tt> bre equbl, the returned list is
+     * empty.)  The returned list is bbcked by this list, so non-structurbl
+     * chbnges in the returned list bre reflected in this list, bnd vice-versb.
+     * The returned list supports bll of the optionbl list operbtions supported
      * by this list.<p>
      *
-     * This method eliminates the need for explicit range operations (of
-     * the sort that commonly exist for arrays).  Any operation that expects
-     * a list can be used as a range operation by passing a subList view
-     * instead of a whole list.  For example, the following idiom
-     * removes a range of elements from a list:
+     * This method eliminbtes the need for explicit rbnge operbtions (of
+     * the sort thbt commonly exist for brrbys).  Any operbtion thbt expects
+     * b list cbn be used bs b rbnge operbtion by pbssing b subList view
+     * instebd of b whole list.  For exbmple, the following idiom
+     * removes b rbnge of elements from b list:
      * <pre>{@code
-     *      list.subList(from, to).clear();
+     *      list.subList(from, to).clebr();
      * }</pre>
-     * Similar idioms may be constructed for <tt>indexOf</tt> and
-     * <tt>lastIndexOf</tt>, and all of the algorithms in the
-     * <tt>Collections</tt> class can be applied to a subList.<p>
+     * Similbr idioms mby be constructed for <tt>indexOf</tt> bnd
+     * <tt>lbstIndexOf</tt>, bnd bll of the blgorithms in the
+     * <tt>Collections</tt> clbss cbn be bpplied to b subList.<p>
      *
-     * The semantics of the list returned by this method become undefined if
-     * the backing list (i.e., this list) is <i>structurally modified</i> in
-     * any way other than via the returned list.  (Structural modifications are
-     * those that change the size of this list, or otherwise perturb it in such
-     * a fashion that iterations in progress may yield incorrect results.)
+     * The sembntics of the list returned by this method become undefined if
+     * the bbcking list (i.e., this list) is <i>structurblly modified</i> in
+     * bny wby other thbn vib the returned list.  (Structurbl modificbtions bre
+     * those thbt chbnge the size of this list, or otherwise perturb it in such
+     * b fbshion thbt iterbtions in progress mby yield incorrect results.)
      *
-     * @param fromIndex low endpoint (inclusive) of the subList
-     * @param toIndex high endpoint (exclusive) of the subList
-     * @return a view of the specified range within this list
-     * @throws IndexOutOfBoundsException for an illegal endpoint index value
+     * @pbrbm fromIndex low endpoint (inclusive) of the subList
+     * @pbrbm toIndex high endpoint (exclusive) of the subList
+     * @return b view of the specified rbnge within this list
+     * @throws IndexOutOfBoundsException for bn illegbl endpoint index vblue
      *         (<tt>fromIndex &lt; 0 || toIndex &gt; size ||
      *         fromIndex &gt; toIndex</tt>)
      */
     List<E> subList(int fromIndex, int toIndex);
 
     /**
-     * Creates a {@link Spliterator} over the elements in this list.
+     * Crebtes b {@link Spliterbtor} over the elements in this list.
      *
-     * <p>The {@code Spliterator} reports {@link Spliterator#SIZED} and
-     * {@link Spliterator#ORDERED}.  Implementations should document the
-     * reporting of additional characteristic values.
+     * <p>The {@code Spliterbtor} reports {@link Spliterbtor#SIZED} bnd
+     * {@link Spliterbtor#ORDERED}.  Implementbtions should document the
+     * reporting of bdditionbl chbrbcteristic vblues.
      *
      * @implSpec
-     * The default implementation creates a
-     * <em><a href="Spliterator.html#binding">late-binding</a></em> spliterator
-     * from the list's {@code Iterator}.  The spliterator inherits the
-     * <em>fail-fast</em> properties of the list's iterator.
+     * The defbult implementbtion crebtes b
+     * <em><b href="Spliterbtor.html#binding">lbte-binding</b></em> spliterbtor
+     * from the list's {@code Iterbtor}.  The spliterbtor inherits the
+     * <em>fbil-fbst</em> properties of the list's iterbtor.
      *
      * @implNote
-     * The created {@code Spliterator} additionally reports
-     * {@link Spliterator#SUBSIZED}.
+     * The crebted {@code Spliterbtor} bdditionblly reports
+     * {@link Spliterbtor#SUBSIZED}.
      *
-     * @return a {@code Spliterator} over the elements in this list
+     * @return b {@code Spliterbtor} over the elements in this list
      * @since 1.8
      */
     @Override
-    default Spliterator<E> spliterator() {
-        return Spliterators.spliterator(this, Spliterator.ORDERED);
+    defbult Spliterbtor<E> spliterbtor() {
+        return Spliterbtors.spliterbtor(this, Spliterbtor.ORDERED);
     }
 }

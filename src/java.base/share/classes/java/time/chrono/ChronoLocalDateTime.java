@@ -1,50 +1,50 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * Copyright (c) 2007-2012, Stephen Colebourne & Michael Nascimento Santos
+ * Copyright (c) 2007-2012, Stephen Colebourne & Michbel Nbscimento Sbntos
  *
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions bre met:
  *
- *  * Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ *  * Redistributions of source code must retbin the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer.
  *
- *  * Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ *  * Redistributions in binbry form must reproduce the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer in the documentbtion
+ *    bnd/or other mbteribls provided with the distribution.
  *
- *  * Neither the name of JSR-310 nor the names of its contributors
- *    may be used to endorse or promote products derived from this software
+ *  * Neither the nbme of JSR-310 nor the nbmes of its contributors
+ *    mby be used to endorse or promote products derived from this softwbre
  *    without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
@@ -59,542 +59,542 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package java.time.chrono;
+pbckbge jbvb.time.chrono;
 
-import static java.time.temporal.ChronoField.EPOCH_DAY;
-import static java.time.temporal.ChronoField.NANO_OF_DAY;
-import static java.time.temporal.ChronoUnit.FOREVER;
-import static java.time.temporal.ChronoUnit.NANOS;
+import stbtic jbvb.time.temporbl.ChronoField.EPOCH_DAY;
+import stbtic jbvb.time.temporbl.ChronoField.NANO_OF_DAY;
+import stbtic jbvb.time.temporbl.ChronoUnit.FOREVER;
+import stbtic jbvb.time.temporbl.ChronoUnit.NANOS;
 
-import java.time.DateTimeException;
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.ZoneId;
-import java.time.ZoneOffset;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoField;
-import java.time.temporal.ChronoUnit;
-import java.time.temporal.Temporal;
-import java.time.temporal.TemporalAccessor;
-import java.time.temporal.TemporalAdjuster;
-import java.time.temporal.TemporalAmount;
-import java.time.temporal.TemporalField;
-import java.time.temporal.TemporalQueries;
-import java.time.temporal.TemporalQuery;
-import java.time.temporal.TemporalUnit;
-import java.time.zone.ZoneRules;
-import java.util.Comparator;
-import java.util.Objects;
+import jbvb.time.DbteTimeException;
+import jbvb.time.Instbnt;
+import jbvb.time.LocblDbteTime;
+import jbvb.time.LocblTime;
+import jbvb.time.ZoneId;
+import jbvb.time.ZoneOffset;
+import jbvb.time.formbt.DbteTimeFormbtter;
+import jbvb.time.temporbl.ChronoField;
+import jbvb.time.temporbl.ChronoUnit;
+import jbvb.time.temporbl.Temporbl;
+import jbvb.time.temporbl.TemporblAccessor;
+import jbvb.time.temporbl.TemporblAdjuster;
+import jbvb.time.temporbl.TemporblAmount;
+import jbvb.time.temporbl.TemporblField;
+import jbvb.time.temporbl.TemporblQueries;
+import jbvb.time.temporbl.TemporblQuery;
+import jbvb.time.temporbl.TemporblUnit;
+import jbvb.time.zone.ZoneRules;
+import jbvb.util.Compbrbtor;
+import jbvb.util.Objects;
 
 /**
- * A date-time without a time-zone in an arbitrary chronology, intended
- * for advanced globalization use cases.
+ * A dbte-time without b time-zone in bn brbitrbry chronology, intended
+ * for bdvbnced globblizbtion use cbses.
  * <p>
- * <b>Most applications should declare method signatures, fields and variables
- * as {@link LocalDateTime}, not this interface.</b>
+ * <b>Most bpplicbtions should declbre method signbtures, fields bnd vbribbles
+ * bs {@link LocblDbteTime}, not this interfbce.</b>
  * <p>
- * A {@code ChronoLocalDateTime} is the abstract representation of a local date-time
- * where the {@code Chronology chronology}, or calendar system, is pluggable.
- * The date-time is defined in terms of fields expressed by {@link TemporalField},
- * where most common implementations are defined in {@link ChronoField}.
- * The chronology defines how the calendar system operates and the meaning of
- * the standard fields.
+ * A {@code ChronoLocblDbteTime} is the bbstrbct representbtion of b locbl dbte-time
+ * where the {@code Chronology chronology}, or cblendbr system, is pluggbble.
+ * The dbte-time is defined in terms of fields expressed by {@link TemporblField},
+ * where most common implementbtions bre defined in {@link ChronoField}.
+ * The chronology defines how the cblendbr system operbtes bnd the mebning of
+ * the stbndbrd fields.
  *
- * <h3>When to use this interface</h3>
- * The design of the API encourages the use of {@code LocalDateTime} rather than this
- * interface, even in the case where the application needs to deal with multiple
- * calendar systems. The rationale for this is explored in detail in {@link ChronoLocalDate}.
+ * <h3>When to use this interfbce</h3>
+ * The design of the API encourbges the use of {@code LocblDbteTime} rbther thbn this
+ * interfbce, even in the cbse where the bpplicbtion needs to debl with multiple
+ * cblendbr systems. The rbtionble for this is explored in detbil in {@link ChronoLocblDbte}.
  * <p>
- * Ensure that the discussion in {@code ChronoLocalDate} has been read and understood
- * before using this interface.
+ * Ensure thbt the discussion in {@code ChronoLocblDbte} hbs been rebd bnd understood
+ * before using this interfbce.
  *
  * @implSpec
- * This interface must be implemented with care to ensure other classes operate correctly.
- * All implementations that can be instantiated must be final, immutable and thread-safe.
- * Subclasses should be Serializable wherever possible.
+ * This interfbce must be implemented with cbre to ensure other clbsses operbte correctly.
+ * All implementbtions thbt cbn be instbntibted must be finbl, immutbble bnd threbd-sbfe.
+ * Subclbsses should be Seriblizbble wherever possible.
  *
- * @param <D> the concrete type for the date of this date-time
+ * @pbrbm <D> the concrete type for the dbte of this dbte-time
  * @since 1.8
  */
-public interface ChronoLocalDateTime<D extends ChronoLocalDate>
-        extends Temporal, TemporalAdjuster, Comparable<ChronoLocalDateTime<?>> {
+public interfbce ChronoLocblDbteTime<D extends ChronoLocblDbte>
+        extends Temporbl, TemporblAdjuster, Compbrbble<ChronoLocblDbteTime<?>> {
 
     /**
-     * Gets a comparator that compares {@code ChronoLocalDateTime} in
+     * Gets b compbrbtor thbt compbres {@code ChronoLocblDbteTime} in
      * time-line order ignoring the chronology.
      * <p>
-     * This comparator differs from the comparison in {@link #compareTo} in that it
-     * only compares the underlying date-time and not the chronology.
-     * This allows dates in different calendar systems to be compared based
-     * on the position of the date-time on the local time-line.
-     * The underlying comparison is equivalent to comparing the epoch-day and nano-of-day.
+     * This compbrbtor differs from the compbrison in {@link #compbreTo} in thbt it
+     * only compbres the underlying dbte-time bnd not the chronology.
+     * This bllows dbtes in different cblendbr systems to be compbred bbsed
+     * on the position of the dbte-time on the locbl time-line.
+     * The underlying compbrison is equivblent to compbring the epoch-dby bnd nbno-of-dby.
      *
-     * @return a comparator that compares in time-line order ignoring the chronology
+     * @return b compbrbtor thbt compbres in time-line order ignoring the chronology
      * @see #isAfter
      * @see #isBefore
-     * @see #isEqual
+     * @see #isEqubl
      */
-    static Comparator<ChronoLocalDateTime<?>> timeLineOrder() {
-        return AbstractChronology.DATE_TIME_ORDER;
+    stbtic Compbrbtor<ChronoLocblDbteTime<?>> timeLineOrder() {
+        return AbstrbctChronology.DATE_TIME_ORDER;
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Obtains an instance of {@code ChronoLocalDateTime} from a temporal object.
+     * Obtbins bn instbnce of {@code ChronoLocblDbteTime} from b temporbl object.
      * <p>
-     * This obtains a local date-time based on the specified temporal.
-     * A {@code TemporalAccessor} represents an arbitrary set of date and time information,
-     * which this factory converts to an instance of {@code ChronoLocalDateTime}.
+     * This obtbins b locbl dbte-time bbsed on the specified temporbl.
+     * A {@code TemporblAccessor} represents bn brbitrbry set of dbte bnd time informbtion,
+     * which this fbctory converts to bn instbnce of {@code ChronoLocblDbteTime}.
      * <p>
-     * The conversion extracts and combines the chronology and the date-time
-     * from the temporal object. The behavior is equivalent to using
-     * {@link Chronology#localDateTime(TemporalAccessor)} with the extracted chronology.
-     * Implementations are permitted to perform optimizations such as accessing
-     * those fields that are equivalent to the relevant objects.
+     * The conversion extrbcts bnd combines the chronology bnd the dbte-time
+     * from the temporbl object. The behbvior is equivblent to using
+     * {@link Chronology#locblDbteTime(TemporblAccessor)} with the extrbcted chronology.
+     * Implementbtions bre permitted to perform optimizbtions such bs bccessing
+     * those fields thbt bre equivblent to the relevbnt objects.
      * <p>
-     * This method matches the signature of the functional interface {@link TemporalQuery}
-     * allowing it to be used as a query via method reference, {@code ChronoLocalDateTime::from}.
+     * This method mbtches the signbture of the functionbl interfbce {@link TemporblQuery}
+     * bllowing it to be used bs b query vib method reference, {@code ChronoLocblDbteTime::from}.
      *
-     * @param temporal  the temporal object to convert, not null
-     * @return the date-time, not null
-     * @throws DateTimeException if unable to convert to a {@code ChronoLocalDateTime}
-     * @see Chronology#localDateTime(TemporalAccessor)
+     * @pbrbm temporbl  the temporbl object to convert, not null
+     * @return the dbte-time, not null
+     * @throws DbteTimeException if unbble to convert to b {@code ChronoLocblDbteTime}
+     * @see Chronology#locblDbteTime(TemporblAccessor)
      */
-    static ChronoLocalDateTime<?> from(TemporalAccessor temporal) {
-        if (temporal instanceof ChronoLocalDateTime) {
-            return (ChronoLocalDateTime<?>) temporal;
+    stbtic ChronoLocblDbteTime<?> from(TemporblAccessor temporbl) {
+        if (temporbl instbnceof ChronoLocblDbteTime) {
+            return (ChronoLocblDbteTime<?>) temporbl;
         }
-        Objects.requireNonNull(temporal, "temporal");
-        Chronology chrono = temporal.query(TemporalQueries.chronology());
+        Objects.requireNonNull(temporbl, "temporbl");
+        Chronology chrono = temporbl.query(TemporblQueries.chronology());
         if (chrono == null) {
-            throw new DateTimeException("Unable to obtain ChronoLocalDateTime from TemporalAccessor: " + temporal.getClass());
+            throw new DbteTimeException("Unbble to obtbin ChronoLocblDbteTime from TemporblAccessor: " + temporbl.getClbss());
         }
-        return chrono.localDateTime(temporal);
+        return chrono.locblDbteTime(temporbl);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Gets the chronology of this date-time.
+     * Gets the chronology of this dbte-time.
      * <p>
-     * The {@code Chronology} represents the calendar system in use.
-     * The era and other fields in {@link ChronoField} are defined by the chronology.
+     * The {@code Chronology} represents the cblendbr system in use.
+     * The erb bnd other fields in {@link ChronoField} bre defined by the chronology.
      *
      * @return the chronology, not null
      */
-    default Chronology getChronology() {
-        return toLocalDate().getChronology();
+    defbult Chronology getChronology() {
+        return toLocblDbte().getChronology();
     }
 
     /**
-     * Gets the local date part of this date-time.
+     * Gets the locbl dbte pbrt of this dbte-time.
      * <p>
-     * This returns a local date with the same year, month and day
-     * as this date-time.
+     * This returns b locbl dbte with the sbme yebr, month bnd dby
+     * bs this dbte-time.
      *
-     * @return the date part of this date-time, not null
+     * @return the dbte pbrt of this dbte-time, not null
      */
-    D toLocalDate() ;
+    D toLocblDbte() ;
 
     /**
-     * Gets the local time part of this date-time.
+     * Gets the locbl time pbrt of this dbte-time.
      * <p>
-     * This returns a local time with the same hour, minute, second and
-     * nanosecond as this date-time.
+     * This returns b locbl time with the sbme hour, minute, second bnd
+     * nbnosecond bs this dbte-time.
      *
-     * @return the time part of this date-time, not null
+     * @return the time pbrt of this dbte-time, not null
      */
-    LocalTime toLocalTime();
+    LocblTime toLocblTime();
 
     /**
      * Checks if the specified field is supported.
      * <p>
-     * This checks if the specified field can be queried on this date-time.
-     * If false, then calling the {@link #range(TemporalField) range},
-     * {@link #get(TemporalField) get} and {@link #with(TemporalField, long)}
-     * methods will throw an exception.
+     * This checks if the specified field cbn be queried on this dbte-time.
+     * If fblse, then cblling the {@link #rbnge(TemporblField) rbnge},
+     * {@link #get(TemporblField) get} bnd {@link #with(TemporblField, long)}
+     * methods will throw bn exception.
      * <p>
-     * The set of supported fields is defined by the chronology and normally includes
-     * all {@code ChronoField} date and time fields.
+     * The set of supported fields is defined by the chronology bnd normblly includes
+     * bll {@code ChronoField} dbte bnd time fields.
      * <p>
-     * If the field is not a {@code ChronoField}, then the result of this method
-     * is obtained by invoking {@code TemporalField.isSupportedBy(TemporalAccessor)}
-     * passing {@code this} as the argument.
+     * If the field is not b {@code ChronoField}, then the result of this method
+     * is obtbined by invoking {@code TemporblField.isSupportedBy(TemporblAccessor)}
+     * pbssing {@code this} bs the brgument.
      * Whether the field is supported is determined by the field.
      *
-     * @param field  the field to check, null returns false
-     * @return true if the field can be queried, false if not
+     * @pbrbm field  the field to check, null returns fblse
+     * @return true if the field cbn be queried, fblse if not
      */
     @Override
-    boolean isSupported(TemporalField field);
+    boolebn isSupported(TemporblField field);
 
     /**
      * Checks if the specified unit is supported.
      * <p>
-     * This checks if the specified unit can be added to or subtracted from this date-time.
-     * If false, then calling the {@link #plus(long, TemporalUnit)} and
-     * {@link #minus(long, TemporalUnit) minus} methods will throw an exception.
+     * This checks if the specified unit cbn be bdded to or subtrbcted from this dbte-time.
+     * If fblse, then cblling the {@link #plus(long, TemporblUnit)} bnd
+     * {@link #minus(long, TemporblUnit) minus} methods will throw bn exception.
      * <p>
-     * The set of supported units is defined by the chronology and normally includes
-     * all {@code ChronoUnit} units except {@code FOREVER}.
+     * The set of supported units is defined by the chronology bnd normblly includes
+     * bll {@code ChronoUnit} units except {@code FOREVER}.
      * <p>
-     * If the unit is not a {@code ChronoUnit}, then the result of this method
-     * is obtained by invoking {@code TemporalUnit.isSupportedBy(Temporal)}
-     * passing {@code this} as the argument.
+     * If the unit is not b {@code ChronoUnit}, then the result of this method
+     * is obtbined by invoking {@code TemporblUnit.isSupportedBy(Temporbl)}
+     * pbssing {@code this} bs the brgument.
      * Whether the unit is supported is determined by the unit.
      *
-     * @param unit  the unit to check, null returns false
-     * @return true if the unit can be added/subtracted, false if not
+     * @pbrbm unit  the unit to check, null returns fblse
+     * @return true if the unit cbn be bdded/subtrbcted, fblse if not
      */
     @Override
-    default boolean isSupported(TemporalUnit unit) {
-        if (unit instanceof ChronoUnit) {
+    defbult boolebn isSupported(TemporblUnit unit) {
+        if (unit instbnceof ChronoUnit) {
             return unit != FOREVER;
         }
         return unit != null && unit.isSupportedBy(this);
     }
 
     //-----------------------------------------------------------------------
-    // override for covariant return type
+    // override for covbribnt return type
     /**
      * {@inheritDoc}
-     * @throws DateTimeException {@inheritDoc}
+     * @throws DbteTimeException {@inheritDoc}
      * @throws ArithmeticException {@inheritDoc}
      */
     @Override
-    default ChronoLocalDateTime<D> with(TemporalAdjuster adjuster) {
-        return ChronoLocalDateTimeImpl.ensureValid(getChronology(), Temporal.super.with(adjuster));
+    defbult ChronoLocblDbteTime<D> with(TemporblAdjuster bdjuster) {
+        return ChronoLocblDbteTimeImpl.ensureVblid(getChronology(), Temporbl.super.with(bdjuster));
     }
 
     /**
      * {@inheritDoc}
-     * @throws DateTimeException {@inheritDoc}
+     * @throws DbteTimeException {@inheritDoc}
      * @throws ArithmeticException {@inheritDoc}
      */
     @Override
-    ChronoLocalDateTime<D> with(TemporalField field, long newValue);
+    ChronoLocblDbteTime<D> with(TemporblField field, long newVblue);
 
     /**
      * {@inheritDoc}
-     * @throws DateTimeException {@inheritDoc}
+     * @throws DbteTimeException {@inheritDoc}
      * @throws ArithmeticException {@inheritDoc}
      */
     @Override
-    default ChronoLocalDateTime<D> plus(TemporalAmount amount) {
-        return ChronoLocalDateTimeImpl.ensureValid(getChronology(), Temporal.super.plus(amount));
+    defbult ChronoLocblDbteTime<D> plus(TemporblAmount bmount) {
+        return ChronoLocblDbteTimeImpl.ensureVblid(getChronology(), Temporbl.super.plus(bmount));
     }
 
     /**
      * {@inheritDoc}
-     * @throws DateTimeException {@inheritDoc}
+     * @throws DbteTimeException {@inheritDoc}
      * @throws ArithmeticException {@inheritDoc}
      */
     @Override
-    ChronoLocalDateTime<D> plus(long amountToAdd, TemporalUnit unit);
+    ChronoLocblDbteTime<D> plus(long bmountToAdd, TemporblUnit unit);
 
     /**
      * {@inheritDoc}
-     * @throws DateTimeException {@inheritDoc}
+     * @throws DbteTimeException {@inheritDoc}
      * @throws ArithmeticException {@inheritDoc}
      */
     @Override
-    default ChronoLocalDateTime<D> minus(TemporalAmount amount) {
-        return ChronoLocalDateTimeImpl.ensureValid(getChronology(), Temporal.super.minus(amount));
+    defbult ChronoLocblDbteTime<D> minus(TemporblAmount bmount) {
+        return ChronoLocblDbteTimeImpl.ensureVblid(getChronology(), Temporbl.super.minus(bmount));
     }
 
     /**
      * {@inheritDoc}
-     * @throws DateTimeException {@inheritDoc}
+     * @throws DbteTimeException {@inheritDoc}
      * @throws ArithmeticException {@inheritDoc}
      */
     @Override
-    default ChronoLocalDateTime<D> minus(long amountToSubtract, TemporalUnit unit) {
-        return ChronoLocalDateTimeImpl.ensureValid(getChronology(), Temporal.super.minus(amountToSubtract, unit));
+    defbult ChronoLocblDbteTime<D> minus(long bmountToSubtrbct, TemporblUnit unit) {
+        return ChronoLocblDbteTimeImpl.ensureVblid(getChronology(), Temporbl.super.minus(bmountToSubtrbct, unit));
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Queries this date-time using the specified query.
+     * Queries this dbte-time using the specified query.
      * <p>
-     * This queries this date-time using the specified query strategy object.
-     * The {@code TemporalQuery} object defines the logic to be used to
-     * obtain the result. Read the documentation of the query to understand
-     * what the result of this method will be.
+     * This queries this dbte-time using the specified query strbtegy object.
+     * The {@code TemporblQuery} object defines the logic to be used to
+     * obtbin the result. Rebd the documentbtion of the query to understbnd
+     * whbt the result of this method will be.
      * <p>
-     * The result of this method is obtained by invoking the
-     * {@link TemporalQuery#queryFrom(TemporalAccessor)} method on the
-     * specified query passing {@code this} as the argument.
+     * The result of this method is obtbined by invoking the
+     * {@link TemporblQuery#queryFrom(TemporblAccessor)} method on the
+     * specified query pbssing {@code this} bs the brgument.
      *
-     * @param <R> the type of the result
-     * @param query  the query to invoke, not null
-     * @return the query result, null may be returned (defined by the query)
-     * @throws DateTimeException if unable to query (defined by the query)
+     * @pbrbm <R> the type of the result
+     * @pbrbm query  the query to invoke, not null
+     * @return the query result, null mby be returned (defined by the query)
+     * @throws DbteTimeException if unbble to query (defined by the query)
      * @throws ArithmeticException if numeric overflow occurs (defined by the query)
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWbrnings("unchecked")
     @Override
-    default <R> R query(TemporalQuery<R> query) {
-        if (query == TemporalQueries.zoneId() || query == TemporalQueries.zone() || query == TemporalQueries.offset()) {
+    defbult <R> R query(TemporblQuery<R> query) {
+        if (query == TemporblQueries.zoneId() || query == TemporblQueries.zone() || query == TemporblQueries.offset()) {
             return null;
-        } else if (query == TemporalQueries.localTime()) {
-            return (R) toLocalTime();
-        } else if (query == TemporalQueries.chronology()) {
+        } else if (query == TemporblQueries.locblTime()) {
+            return (R) toLocblTime();
+        } else if (query == TemporblQueries.chronology()) {
             return (R) getChronology();
-        } else if (query == TemporalQueries.precision()) {
+        } else if (query == TemporblQueries.precision()) {
             return (R) NANOS;
         }
-        // inline TemporalAccessor.super.query(query) as an optimization
-        // non-JDK classes are not permitted to make this optimization
+        // inline TemporblAccessor.super.query(query) bs bn optimizbtion
+        // non-JDK clbsses bre not permitted to mbke this optimizbtion
         return query.queryFrom(this);
     }
 
     /**
-     * Adjusts the specified temporal object to have the same date and time as this object.
+     * Adjusts the specified temporbl object to hbve the sbme dbte bnd time bs this object.
      * <p>
-     * This returns a temporal object of the same observable type as the input
-     * with the date and time changed to be the same as this.
+     * This returns b temporbl object of the sbme observbble type bs the input
+     * with the dbte bnd time chbnged to be the sbme bs this.
      * <p>
-     * The adjustment is equivalent to using {@link Temporal#with(TemporalField, long)}
-     * twice, passing {@link ChronoField#EPOCH_DAY} and
-     * {@link ChronoField#NANO_OF_DAY} as the fields.
+     * The bdjustment is equivblent to using {@link Temporbl#with(TemporblField, long)}
+     * twice, pbssing {@link ChronoField#EPOCH_DAY} bnd
+     * {@link ChronoField#NANO_OF_DAY} bs the fields.
      * <p>
-     * In most cases, it is clearer to reverse the calling pattern by using
-     * {@link Temporal#with(TemporalAdjuster)}:
+     * In most cbses, it is clebrer to reverse the cblling pbttern by using
+     * {@link Temporbl#with(TemporblAdjuster)}:
      * <pre>
-     *   // these two lines are equivalent, but the second approach is recommended
-     *   temporal = thisLocalDateTime.adjustInto(temporal);
-     *   temporal = temporal.with(thisLocalDateTime);
+     *   // these two lines bre equivblent, but the second bpprobch is recommended
+     *   temporbl = thisLocblDbteTime.bdjustInto(temporbl);
+     *   temporbl = temporbl.with(thisLocblDbteTime);
      * </pre>
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param temporal  the target object to be adjusted, not null
-     * @return the adjusted object, not null
-     * @throws DateTimeException if unable to make the adjustment
+     * @pbrbm temporbl  the tbrget object to be bdjusted, not null
+     * @return the bdjusted object, not null
+     * @throws DbteTimeException if unbble to mbke the bdjustment
      * @throws ArithmeticException if numeric overflow occurs
      */
     @Override
-    default Temporal adjustInto(Temporal temporal) {
-        return temporal
-                .with(EPOCH_DAY, toLocalDate().toEpochDay())
-                .with(NANO_OF_DAY, toLocalTime().toNanoOfDay());
+    defbult Temporbl bdjustInto(Temporbl temporbl) {
+        return temporbl
+                .with(EPOCH_DAY, toLocblDbte().toEpochDby())
+                .with(NANO_OF_DAY, toLocblTime().toNbnoOfDby());
     }
 
     /**
-     * Formats this date-time using the specified formatter.
+     * Formbts this dbte-time using the specified formbtter.
      * <p>
-     * This date-time will be passed to the formatter to produce a string.
+     * This dbte-time will be pbssed to the formbtter to produce b string.
      * <p>
-     * The default implementation must behave as follows:
+     * The defbult implementbtion must behbve bs follows:
      * <pre>
-     *  return formatter.format(this);
+     *  return formbtter.formbt(this);
      * </pre>
      *
-     * @param formatter  the formatter to use, not null
-     * @return the formatted date-time string, not null
-     * @throws DateTimeException if an error occurs during printing
+     * @pbrbm formbtter  the formbtter to use, not null
+     * @return the formbtted dbte-time string, not null
+     * @throws DbteTimeException if bn error occurs during printing
      */
-    default String format(DateTimeFormatter formatter) {
-        Objects.requireNonNull(formatter, "formatter");
-        return formatter.format(this);
+    defbult String formbt(DbteTimeFormbtter formbtter) {
+        Objects.requireNonNull(formbtter, "formbtter");
+        return formbtter.formbt(this);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Combines this time with a time-zone to create a {@code ChronoZonedDateTime}.
+     * Combines this time with b time-zone to crebte b {@code ChronoZonedDbteTime}.
      * <p>
-     * This returns a {@code ChronoZonedDateTime} formed from this date-time at the
-     * specified time-zone. The result will match this date-time as closely as possible.
-     * Time-zone rules, such as daylight savings, mean that not every local date-time
-     * is valid for the specified zone, thus the local date-time may be adjusted.
+     * This returns b {@code ChronoZonedDbteTime} formed from this dbte-time bt the
+     * specified time-zone. The result will mbtch this dbte-time bs closely bs possible.
+     * Time-zone rules, such bs dbylight sbvings, mebn thbt not every locbl dbte-time
+     * is vblid for the specified zone, thus the locbl dbte-time mby be bdjusted.
      * <p>
-     * The local date-time is resolved to a single instant on the time-line.
-     * This is achieved by finding a valid offset from UTC/Greenwich for the local
-     * date-time as defined by the {@link ZoneRules rules} of the zone ID.
+     * The locbl dbte-time is resolved to b single instbnt on the time-line.
+     * This is bchieved by finding b vblid offset from UTC/Greenwich for the locbl
+     * dbte-time bs defined by the {@link ZoneRules rules} of the zone ID.
      *<p>
-     * In most cases, there is only one valid offset for a local date-time.
-     * In the case of an overlap, where clocks are set back, there are two valid offsets.
-     * This method uses the earlier offset typically corresponding to "summer".
+     * In most cbses, there is only one vblid offset for b locbl dbte-time.
+     * In the cbse of bn overlbp, where clocks bre set bbck, there bre two vblid offsets.
+     * This method uses the ebrlier offset typicblly corresponding to "summer".
      * <p>
-     * In the case of a gap, where clocks jump forward, there is no valid offset.
-     * Instead, the local date-time is adjusted to be later by the length of the gap.
-     * For a typical one hour daylight savings change, the local date-time will be
-     * moved one hour later into the offset typically corresponding to "summer".
+     * In the cbse of b gbp, where clocks jump forwbrd, there is no vblid offset.
+     * Instebd, the locbl dbte-time is bdjusted to be lbter by the length of the gbp.
+     * For b typicbl one hour dbylight sbvings chbnge, the locbl dbte-time will be
+     * moved one hour lbter into the offset typicblly corresponding to "summer".
      * <p>
-     * To obtain the later offset during an overlap, call
-     * {@link ChronoZonedDateTime#withLaterOffsetAtOverlap()} on the result of this method.
+     * To obtbin the lbter offset during bn overlbp, cbll
+     * {@link ChronoZonedDbteTime#withLbterOffsetAtOverlbp()} on the result of this method.
      *
-     * @param zone  the time-zone to use, not null
-     * @return the zoned date-time formed from this date-time, not null
+     * @pbrbm zone  the time-zone to use, not null
+     * @return the zoned dbte-time formed from this dbte-time, not null
      */
-    ChronoZonedDateTime<D> atZone(ZoneId zone);
+    ChronoZonedDbteTime<D> btZone(ZoneId zone);
 
     //-----------------------------------------------------------------------
     /**
-     * Converts this date-time to an {@code Instant}.
+     * Converts this dbte-time to bn {@code Instbnt}.
      * <p>
-     * This combines this local date-time and the specified offset to form
-     * an {@code Instant}.
+     * This combines this locbl dbte-time bnd the specified offset to form
+     * bn {@code Instbnt}.
      * <p>
-     * This default implementation calculates from the epoch-day of the date and the
-     * second-of-day of the time.
+     * This defbult implementbtion cblculbtes from the epoch-dby of the dbte bnd the
+     * second-of-dby of the time.
      *
-     * @param offset  the offset to use for the conversion, not null
-     * @return an {@code Instant} representing the same instant, not null
+     * @pbrbm offset  the offset to use for the conversion, not null
+     * @return bn {@code Instbnt} representing the sbme instbnt, not null
      */
-    default Instant toInstant(ZoneOffset offset) {
-        return Instant.ofEpochSecond(toEpochSecond(offset), toLocalTime().getNano());
+    defbult Instbnt toInstbnt(ZoneOffset offset) {
+        return Instbnt.ofEpochSecond(toEpochSecond(offset), toLocblTime().getNbno());
     }
 
     /**
-     * Converts this date-time to the number of seconds from the epoch
+     * Converts this dbte-time to the number of seconds from the epoch
      * of 1970-01-01T00:00:00Z.
      * <p>
-     * This combines this local date-time and the specified offset to calculate the
-     * epoch-second value, which is the number of elapsed seconds from 1970-01-01T00:00:00Z.
-     * Instants on the time-line after the epoch are positive, earlier are negative.
+     * This combines this locbl dbte-time bnd the specified offset to cblculbte the
+     * epoch-second vblue, which is the number of elbpsed seconds from 1970-01-01T00:00:00Z.
+     * Instbnts on the time-line bfter the epoch bre positive, ebrlier bre negbtive.
      * <p>
-     * This default implementation calculates from the epoch-day of the date and the
-     * second-of-day of the time.
+     * This defbult implementbtion cblculbtes from the epoch-dby of the dbte bnd the
+     * second-of-dby of the time.
      *
-     * @param offset  the offset to use for the conversion, not null
+     * @pbrbm offset  the offset to use for the conversion, not null
      * @return the number of seconds from the epoch of 1970-01-01T00:00:00Z
      */
-    default long toEpochSecond(ZoneOffset offset) {
+    defbult long toEpochSecond(ZoneOffset offset) {
         Objects.requireNonNull(offset, "offset");
-        long epochDay = toLocalDate().toEpochDay();
-        long secs = epochDay * 86400 + toLocalTime().toSecondOfDay();
-        secs -= offset.getTotalSeconds();
+        long epochDby = toLocblDbte().toEpochDby();
+        long secs = epochDby * 86400 + toLocblTime().toSecondOfDby();
+        secs -= offset.getTotblSeconds();
         return secs;
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Compares this date-time to another date-time, including the chronology.
+     * Compbres this dbte-time to bnother dbte-time, including the chronology.
      * <p>
-     * The comparison is based first on the underlying time-line date-time, then
+     * The compbrison is bbsed first on the underlying time-line dbte-time, then
      * on the chronology.
-     * It is "consistent with equals", as defined by {@link Comparable}.
+     * It is "consistent with equbls", bs defined by {@link Compbrbble}.
      * <p>
-     * For example, the following is the comparator order:
+     * For exbmple, the following is the compbrbtor order:
      * <ol>
      * <li>{@code 2012-12-03T12:00 (ISO)}</li>
      * <li>{@code 2012-12-04T12:00 (ISO)}</li>
-     * <li>{@code 2555-12-04T12:00 (ThaiBuddhist)}</li>
+     * <li>{@code 2555-12-04T12:00 (ThbiBuddhist)}</li>
      * <li>{@code 2012-12-05T12:00 (ISO)}</li>
      * </ol>
-     * Values #2 and #3 represent the same date-time on the time-line.
-     * When two values represent the same date-time, the chronology ID is compared to distinguish them.
-     * This step is needed to make the ordering "consistent with equals".
+     * Vblues #2 bnd #3 represent the sbme dbte-time on the time-line.
+     * When two vblues represent the sbme dbte-time, the chronology ID is compbred to distinguish them.
+     * This step is needed to mbke the ordering "consistent with equbls".
      * <p>
-     * If all the date-time objects being compared are in the same chronology, then the
-     * additional chronology stage is not required and only the local date-time is used.
+     * If bll the dbte-time objects being compbred bre in the sbme chronology, then the
+     * bdditionbl chronology stbge is not required bnd only the locbl dbte-time is used.
      * <p>
-     * This default implementation performs the comparison defined above.
+     * This defbult implementbtion performs the compbrison defined bbove.
      *
-     * @param other  the other date-time to compare to, not null
-     * @return the comparator value, negative if less, positive if greater
+     * @pbrbm other  the other dbte-time to compbre to, not null
+     * @return the compbrbtor vblue, negbtive if less, positive if grebter
      */
     @Override
-    default int compareTo(ChronoLocalDateTime<?> other) {
-        int cmp = toLocalDate().compareTo(other.toLocalDate());
+    defbult int compbreTo(ChronoLocblDbteTime<?> other) {
+        int cmp = toLocblDbte().compbreTo(other.toLocblDbte());
         if (cmp == 0) {
-            cmp = toLocalTime().compareTo(other.toLocalTime());
+            cmp = toLocblTime().compbreTo(other.toLocblTime());
             if (cmp == 0) {
-                cmp = getChronology().compareTo(other.getChronology());
+                cmp = getChronology().compbreTo(other.getChronology());
             }
         }
         return cmp;
     }
 
     /**
-     * Checks if this date-time is after the specified date-time ignoring the chronology.
+     * Checks if this dbte-time is bfter the specified dbte-time ignoring the chronology.
      * <p>
-     * This method differs from the comparison in {@link #compareTo} in that it
-     * only compares the underlying date-time and not the chronology.
-     * This allows dates in different calendar systems to be compared based
+     * This method differs from the compbrison in {@link #compbreTo} in thbt it
+     * only compbres the underlying dbte-time bnd not the chronology.
+     * This bllows dbtes in different cblendbr systems to be compbred bbsed
      * on the time-line position.
      * <p>
-     * This default implementation performs the comparison based on the epoch-day
-     * and nano-of-day.
+     * This defbult implementbtion performs the compbrison bbsed on the epoch-dby
+     * bnd nbno-of-dby.
      *
-     * @param other  the other date-time to compare to, not null
-     * @return true if this is after the specified date-time
+     * @pbrbm other  the other dbte-time to compbre to, not null
+     * @return true if this is bfter the specified dbte-time
      */
-    default boolean isAfter(ChronoLocalDateTime<?> other) {
-        long thisEpDay = this.toLocalDate().toEpochDay();
-        long otherEpDay = other.toLocalDate().toEpochDay();
-        return thisEpDay > otherEpDay ||
-            (thisEpDay == otherEpDay && this.toLocalTime().toNanoOfDay() > other.toLocalTime().toNanoOfDay());
+    defbult boolebn isAfter(ChronoLocblDbteTime<?> other) {
+        long thisEpDby = this.toLocblDbte().toEpochDby();
+        long otherEpDby = other.toLocblDbte().toEpochDby();
+        return thisEpDby > otherEpDby ||
+            (thisEpDby == otherEpDby && this.toLocblTime().toNbnoOfDby() > other.toLocblTime().toNbnoOfDby());
     }
 
     /**
-     * Checks if this date-time is before the specified date-time ignoring the chronology.
+     * Checks if this dbte-time is before the specified dbte-time ignoring the chronology.
      * <p>
-     * This method differs from the comparison in {@link #compareTo} in that it
-     * only compares the underlying date-time and not the chronology.
-     * This allows dates in different calendar systems to be compared based
+     * This method differs from the compbrison in {@link #compbreTo} in thbt it
+     * only compbres the underlying dbte-time bnd not the chronology.
+     * This bllows dbtes in different cblendbr systems to be compbred bbsed
      * on the time-line position.
      * <p>
-     * This default implementation performs the comparison based on the epoch-day
-     * and nano-of-day.
+     * This defbult implementbtion performs the compbrison bbsed on the epoch-dby
+     * bnd nbno-of-dby.
      *
-     * @param other  the other date-time to compare to, not null
-     * @return true if this is before the specified date-time
+     * @pbrbm other  the other dbte-time to compbre to, not null
+     * @return true if this is before the specified dbte-time
      */
-    default boolean isBefore(ChronoLocalDateTime<?> other) {
-        long thisEpDay = this.toLocalDate().toEpochDay();
-        long otherEpDay = other.toLocalDate().toEpochDay();
-        return thisEpDay < otherEpDay ||
-            (thisEpDay == otherEpDay && this.toLocalTime().toNanoOfDay() < other.toLocalTime().toNanoOfDay());
+    defbult boolebn isBefore(ChronoLocblDbteTime<?> other) {
+        long thisEpDby = this.toLocblDbte().toEpochDby();
+        long otherEpDby = other.toLocblDbte().toEpochDby();
+        return thisEpDby < otherEpDby ||
+            (thisEpDby == otherEpDby && this.toLocblTime().toNbnoOfDby() < other.toLocblTime().toNbnoOfDby());
     }
 
     /**
-     * Checks if this date-time is equal to the specified date-time ignoring the chronology.
+     * Checks if this dbte-time is equbl to the specified dbte-time ignoring the chronology.
      * <p>
-     * This method differs from the comparison in {@link #compareTo} in that it
-     * only compares the underlying date and time and not the chronology.
-     * This allows date-times in different calendar systems to be compared based
+     * This method differs from the compbrison in {@link #compbreTo} in thbt it
+     * only compbres the underlying dbte bnd time bnd not the chronology.
+     * This bllows dbte-times in different cblendbr systems to be compbred bbsed
      * on the time-line position.
      * <p>
-     * This default implementation performs the comparison based on the epoch-day
-     * and nano-of-day.
+     * This defbult implementbtion performs the compbrison bbsed on the epoch-dby
+     * bnd nbno-of-dby.
      *
-     * @param other  the other date-time to compare to, not null
-     * @return true if the underlying date-time is equal to the specified date-time on the timeline
+     * @pbrbm other  the other dbte-time to compbre to, not null
+     * @return true if the underlying dbte-time is equbl to the specified dbte-time on the timeline
      */
-    default boolean isEqual(ChronoLocalDateTime<?> other) {
-        // Do the time check first, it is cheaper than computing EPOCH day.
-        return this.toLocalTime().toNanoOfDay() == other.toLocalTime().toNanoOfDay() &&
-               this.toLocalDate().toEpochDay() == other.toLocalDate().toEpochDay();
+    defbult boolebn isEqubl(ChronoLocblDbteTime<?> other) {
+        // Do the time check first, it is chebper thbn computing EPOCH dby.
+        return this.toLocblTime().toNbnoOfDby() == other.toLocblTime().toNbnoOfDby() &&
+               this.toLocblDbte().toEpochDby() == other.toLocblDbte().toEpochDby();
     }
 
     /**
-     * Checks if this date-time is equal to another date-time, including the chronology.
+     * Checks if this dbte-time is equbl to bnother dbte-time, including the chronology.
      * <p>
-     * Compares this date-time with another ensuring that the date-time and chronology are the same.
+     * Compbres this dbte-time with bnother ensuring thbt the dbte-time bnd chronology bre the sbme.
      *
-     * @param obj  the object to check, null returns false
-     * @return true if this is equal to the other date
+     * @pbrbm obj  the object to check, null returns fblse
+     * @return true if this is equbl to the other dbte
      */
     @Override
-    boolean equals(Object obj);
+    boolebn equbls(Object obj);
 
     /**
-     * A hash code for this date-time.
+     * A hbsh code for this dbte-time.
      *
-     * @return a suitable hash code
+     * @return b suitbble hbsh code
      */
     @Override
-    int hashCode();
+    int hbshCode();
 
     //-----------------------------------------------------------------------
     /**
-     * Outputs this date-time as a {@code String}.
+     * Outputs this dbte-time bs b {@code String}.
      * <p>
-     * The output will include the full local date-time.
+     * The output will include the full locbl dbte-time.
      *
-     * @return a string representation of this date-time, not null
+     * @return b string representbtion of this dbte-time, not null
      */
     @Override
     String toString();

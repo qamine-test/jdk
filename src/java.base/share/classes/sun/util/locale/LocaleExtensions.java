@@ -1,216 +1,216 @@
 /*
- * Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
  *******************************************************************************
- * Copyright (C) 2009-2010, International Business Machines Corporation and    *
+ * Copyright (C) 2009-2010, Internbtionbl Business Mbchines Corporbtion bnd    *
  * others. All Rights Reserved.                                                *
  *******************************************************************************
  */
-package sun.util.locale;
+pbckbge sun.util.locble;
 
-import java.util.Collections;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-import java.util.SortedMap;
-import java.util.SortedSet;
-import java.util.TreeMap;
-import java.util.TreeSet;
+import jbvb.util.Collections;
+import jbvb.util.Mbp;
+import jbvb.util.Mbp.Entry;
+import jbvb.util.Set;
+import jbvb.util.SortedMbp;
+import jbvb.util.SortedSet;
+import jbvb.util.TreeMbp;
+import jbvb.util.TreeSet;
 
-import sun.util.locale.InternalLocaleBuilder.CaseInsensitiveChar;
-import sun.util.locale.InternalLocaleBuilder.CaseInsensitiveString;
+import sun.util.locble.InternblLocbleBuilder.CbseInsensitiveChbr;
+import sun.util.locble.InternblLocbleBuilder.CbseInsensitiveString;
 
 
-public class LocaleExtensions {
+public clbss LocbleExtensions {
 
-    private final Map<Character, Extension> extensionMap;
-    private final String id;
+    privbte finbl Mbp<Chbrbcter, Extension> extensionMbp;
+    privbte finbl String id;
 
-    public static final LocaleExtensions CALENDAR_JAPANESE
-        = new LocaleExtensions("u-ca-japanese",
-                               UnicodeLocaleExtension.SINGLETON,
-                               UnicodeLocaleExtension.CA_JAPANESE);
+    public stbtic finbl LocbleExtensions CALENDAR_JAPANESE
+        = new LocbleExtensions("u-cb-jbpbnese",
+                               UnicodeLocbleExtension.SINGLETON,
+                               UnicodeLocbleExtension.CA_JAPANESE);
 
-    public static final LocaleExtensions NUMBER_THAI
-        = new LocaleExtensions("u-nu-thai",
-                               UnicodeLocaleExtension.SINGLETON,
-                               UnicodeLocaleExtension.NU_THAI);
+    public stbtic finbl LocbleExtensions NUMBER_THAI
+        = new LocbleExtensions("u-nu-thbi",
+                               UnicodeLocbleExtension.SINGLETON,
+                               UnicodeLocbleExtension.NU_THAI);
 
-    private LocaleExtensions(String id, Character key, Extension value) {
+    privbte LocbleExtensions(String id, Chbrbcter key, Extension vblue) {
         this.id = id;
-        this.extensionMap = Collections.singletonMap(key, value);
+        this.extensionMbp = Collections.singletonMbp(key, vblue);
     }
 
     /*
-     * Package private constructor, only used by InternalLocaleBuilder.
+     * Pbckbge privbte constructor, only used by InternblLocbleBuilder.
      */
-    LocaleExtensions(Map<CaseInsensitiveChar, String> extensions,
-                     Set<CaseInsensitiveString> uattributes,
-                     Map<CaseInsensitiveString, String> ukeywords) {
-        boolean hasExtension = !LocaleUtils.isEmpty(extensions);
-        boolean hasUAttributes = !LocaleUtils.isEmpty(uattributes);
-        boolean hasUKeywords = !LocaleUtils.isEmpty(ukeywords);
+    LocbleExtensions(Mbp<CbseInsensitiveChbr, String> extensions,
+                     Set<CbseInsensitiveString> ubttributes,
+                     Mbp<CbseInsensitiveString, String> ukeywords) {
+        boolebn hbsExtension = !LocbleUtils.isEmpty(extensions);
+        boolebn hbsUAttributes = !LocbleUtils.isEmpty(ubttributes);
+        boolebn hbsUKeywords = !LocbleUtils.isEmpty(ukeywords);
 
-        if (!hasExtension && !hasUAttributes && !hasUKeywords) {
+        if (!hbsExtension && !hbsUAttributes && !hbsUKeywords) {
             id = "";
-            extensionMap = Collections.emptyMap();
+            extensionMbp = Collections.emptyMbp();
             return;
         }
 
-        // Build extension map
-        SortedMap<Character, Extension> map = new TreeMap<>();
-        if (hasExtension) {
-            for (Entry<CaseInsensitiveChar, String> ext : extensions.entrySet()) {
-                char key = LocaleUtils.toLower(ext.getKey().value());
-                String value = ext.getValue();
+        // Build extension mbp
+        SortedMbp<Chbrbcter, Extension> mbp = new TreeMbp<>();
+        if (hbsExtension) {
+            for (Entry<CbseInsensitiveChbr, String> ext : extensions.entrySet()) {
+                chbr key = LocbleUtils.toLower(ext.getKey().vblue());
+                String vblue = ext.getVblue();
 
-                if (LanguageTag.isPrivateusePrefixChar(key)) {
-                    // we need to exclude special variant in privuateuse, e.g. "x-abc-lvariant-DEF"
-                    value = InternalLocaleBuilder.removePrivateuseVariant(value);
-                    if (value == null) {
+                if (LbngubgeTbg.isPrivbteusePrefixChbr(key)) {
+                    // we need to exclude specibl vbribnt in privubteuse, e.g. "x-bbc-lvbribnt-DEF"
+                    vblue = InternblLocbleBuilder.removePrivbteuseVbribnt(vblue);
+                    if (vblue == null) {
                         continue;
                     }
                 }
 
-                map.put(key, new Extension(key, LocaleUtils.toLowerString(value)));
+                mbp.put(key, new Extension(key, LocbleUtils.toLowerString(vblue)));
             }
         }
 
-        if (hasUAttributes || hasUKeywords) {
-            SortedSet<String> uaset = null;
-            SortedMap<String, String> ukmap = null;
+        if (hbsUAttributes || hbsUKeywords) {
+            SortedSet<String> ubset = null;
+            SortedMbp<String, String> ukmbp = null;
 
-            if (hasUAttributes) {
-                uaset = new TreeSet<>();
-                for (CaseInsensitiveString cis : uattributes) {
-                    uaset.add(LocaleUtils.toLowerString(cis.value()));
+            if (hbsUAttributes) {
+                ubset = new TreeSet<>();
+                for (CbseInsensitiveString cis : ubttributes) {
+                    ubset.bdd(LocbleUtils.toLowerString(cis.vblue()));
                 }
             }
 
-            if (hasUKeywords) {
-                ukmap = new TreeMap<>();
-                for (Entry<CaseInsensitiveString, String> kwd : ukeywords.entrySet()) {
-                    String key = LocaleUtils.toLowerString(kwd.getKey().value());
-                    String type = LocaleUtils.toLowerString(kwd.getValue());
-                    ukmap.put(key, type);
+            if (hbsUKeywords) {
+                ukmbp = new TreeMbp<>();
+                for (Entry<CbseInsensitiveString, String> kwd : ukeywords.entrySet()) {
+                    String key = LocbleUtils.toLowerString(kwd.getKey().vblue());
+                    String type = LocbleUtils.toLowerString(kwd.getVblue());
+                    ukmbp.put(key, type);
                 }
             }
 
-            UnicodeLocaleExtension ule = new UnicodeLocaleExtension(uaset, ukmap);
-            map.put(UnicodeLocaleExtension.SINGLETON, ule);
+            UnicodeLocbleExtension ule = new UnicodeLocbleExtension(ubset, ukmbp);
+            mbp.put(UnicodeLocbleExtension.SINGLETON, ule);
         }
 
-        if (map.isEmpty()) {
-            // this could happen when only privuateuse with special variant
+        if (mbp.isEmpty()) {
+            // this could hbppen when only privubteuse with specibl vbribnt
             id = "";
-            extensionMap = Collections.emptyMap();
+            extensionMbp = Collections.emptyMbp();
         } else {
-            id = toID(map);
-            extensionMap = map;
+            id = toID(mbp);
+            extensionMbp = mbp;
         }
     }
 
-    public Set<Character> getKeys() {
-        if (extensionMap.isEmpty()) {
+    public Set<Chbrbcter> getKeys() {
+        if (extensionMbp.isEmpty()) {
             return Collections.emptySet();
         }
-        return Collections.unmodifiableSet(extensionMap.keySet());
+        return Collections.unmodifibbleSet(extensionMbp.keySet());
     }
 
-    public Extension getExtension(Character key) {
-        return extensionMap.get(LocaleUtils.toLower(key));
+    public Extension getExtension(Chbrbcter key) {
+        return extensionMbp.get(LocbleUtils.toLower(key));
     }
 
-    public String getExtensionValue(Character key) {
-        Extension ext = extensionMap.get(LocaleUtils.toLower(key));
+    public String getExtensionVblue(Chbrbcter key) {
+        Extension ext = extensionMbp.get(LocbleUtils.toLower(key));
         if (ext == null) {
             return null;
         }
-        return ext.getValue();
+        return ext.getVblue();
     }
 
-    public Set<String> getUnicodeLocaleAttributes() {
-        Extension ext = extensionMap.get(UnicodeLocaleExtension.SINGLETON);
+    public Set<String> getUnicodeLocbleAttributes() {
+        Extension ext = extensionMbp.get(UnicodeLocbleExtension.SINGLETON);
         if (ext == null) {
             return Collections.emptySet();
         }
-        assert (ext instanceof UnicodeLocaleExtension);
-        return ((UnicodeLocaleExtension)ext).getUnicodeLocaleAttributes();
+        bssert (ext instbnceof UnicodeLocbleExtension);
+        return ((UnicodeLocbleExtension)ext).getUnicodeLocbleAttributes();
     }
 
-    public Set<String> getUnicodeLocaleKeys() {
-        Extension ext = extensionMap.get(UnicodeLocaleExtension.SINGLETON);
+    public Set<String> getUnicodeLocbleKeys() {
+        Extension ext = extensionMbp.get(UnicodeLocbleExtension.SINGLETON);
         if (ext == null) {
             return Collections.emptySet();
         }
-        assert (ext instanceof UnicodeLocaleExtension);
-        return ((UnicodeLocaleExtension)ext).getUnicodeLocaleKeys();
+        bssert (ext instbnceof UnicodeLocbleExtension);
+        return ((UnicodeLocbleExtension)ext).getUnicodeLocbleKeys();
     }
 
-    public String getUnicodeLocaleType(String unicodeLocaleKey) {
-        Extension ext = extensionMap.get(UnicodeLocaleExtension.SINGLETON);
+    public String getUnicodeLocbleType(String unicodeLocbleKey) {
+        Extension ext = extensionMbp.get(UnicodeLocbleExtension.SINGLETON);
         if (ext == null) {
             return null;
         }
-        assert (ext instanceof UnicodeLocaleExtension);
-        return ((UnicodeLocaleExtension)ext).getUnicodeLocaleType(LocaleUtils.toLowerString(unicodeLocaleKey));
+        bssert (ext instbnceof UnicodeLocbleExtension);
+        return ((UnicodeLocbleExtension)ext).getUnicodeLocbleType(LocbleUtils.toLowerString(unicodeLocbleKey));
     }
 
-    public boolean isEmpty() {
-        return extensionMap.isEmpty();
+    public boolebn isEmpty() {
+        return extensionMbp.isEmpty();
     }
 
-    public static boolean isValidKey(char c) {
-        return LanguageTag.isExtensionSingletonChar(c) || LanguageTag.isPrivateusePrefixChar(c);
+    public stbtic boolebn isVblidKey(chbr c) {
+        return LbngubgeTbg.isExtensionSingletonChbr(c) || LbngubgeTbg.isPrivbteusePrefixChbr(c);
     }
 
-    public static boolean isValidUnicodeLocaleKey(String ukey) {
-        return UnicodeLocaleExtension.isKey(ukey);
+    public stbtic boolebn isVblidUnicodeLocbleKey(String ukey) {
+        return UnicodeLocbleExtension.isKey(ukey);
     }
 
-    private static String toID(SortedMap<Character, Extension> map) {
+    privbte stbtic String toID(SortedMbp<Chbrbcter, Extension> mbp) {
         StringBuilder buf = new StringBuilder();
         Extension privuse = null;
-        for (Entry<Character, Extension> entry : map.entrySet()) {
-            char singleton = entry.getKey();
-            Extension extension = entry.getValue();
-            if (LanguageTag.isPrivateusePrefixChar(singleton)) {
+        for (Entry<Chbrbcter, Extension> entry : mbp.entrySet()) {
+            chbr singleton = entry.getKey();
+            Extension extension = entry.getVblue();
+            if (LbngubgeTbg.isPrivbteusePrefixChbr(singleton)) {
                 privuse = extension;
             } else {
                 if (buf.length() > 0) {
-                    buf.append(LanguageTag.SEP);
+                    buf.bppend(LbngubgeTbg.SEP);
                 }
-                buf.append(extension);
+                buf.bppend(extension);
             }
         }
         if (privuse != null) {
             if (buf.length() > 0) {
-                buf.append(LanguageTag.SEP);
+                buf.bppend(LbngubgeTbg.SEP);
             }
-            buf.append(privuse);
+            buf.bppend(privuse);
         }
         return buf.toString();
     }
@@ -225,18 +225,18 @@ public class LocaleExtensions {
     }
 
     @Override
-    public int hashCode() {
-        return id.hashCode();
+    public int hbshCode() {
+        return id.hbshCode();
     }
 
     @Override
-    public boolean equals(Object other) {
+    public boolebn equbls(Object other) {
         if (this == other) {
             return true;
         }
-        if (!(other instanceof LocaleExtensions)) {
-            return false;
+        if (!(other instbnceof LocbleExtensions)) {
+            return fblse;
         }
-        return id.equals(((LocaleExtensions)other).id);
+        return id.equbls(((LocbleExtensions)other).id);
     }
 }

@@ -1,310 +1,310 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.util.locale.provider;
+pbckbge sun.util.locble.provider;
 
-import static java.util.Calendar.*;
-import java.util.Comparator;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeMap;
-import java.util.spi.CalendarNameProvider;
+import stbtic jbvb.util.Cblendbr.*;
+import jbvb.util.Compbrbtor;
+import jbvb.util.Locble;
+import jbvb.util.Mbp;
+import jbvb.util.Set;
+import jbvb.util.TreeMbp;
+import jbvb.util.spi.CblendbrNbmeProvider;
 
 /**
- * Concrete implementation of the  {@link java.util.spi.CalendarDataProvider
- * CalendarDataProvider} class for the JRE LocaleProviderAdapter.
+ * Concrete implementbtion of the  {@link jbvb.util.spi.CblendbrDbtbProvider
+ * CblendbrDbtbProvider} clbss for the JRE LocbleProviderAdbpter.
  *
- * @author Masayoshi Okutsu
- * @author Naoto Sato
+ * @buthor Mbsbyoshi Okutsu
+ * @buthor Nboto Sbto
  */
-public class CalendarNameProviderImpl extends CalendarNameProvider implements AvailableLanguageTags {
-    private final LocaleProviderAdapter.Type type;
-    private final Set<String> langtags;
+public clbss CblendbrNbmeProviderImpl extends CblendbrNbmeProvider implements AvbilbbleLbngubgeTbgs {
+    privbte finbl LocbleProviderAdbpter.Type type;
+    privbte finbl Set<String> lbngtbgs;
 
-    public CalendarNameProviderImpl(LocaleProviderAdapter.Type type, Set<String> langtags) {
+    public CblendbrNbmeProviderImpl(LocbleProviderAdbpter.Type type, Set<String> lbngtbgs) {
         this.type = type;
-        this.langtags = langtags;
+        this.lbngtbgs = lbngtbgs;
     }
 
     @Override
-    public String getDisplayName(String calendarType, int field, int value, int style, Locale locale) {
-        return getDisplayNameImpl(calendarType, field, value, style, locale, false);
+    public String getDisplbyNbme(String cblendbrType, int field, int vblue, int style, Locble locble) {
+        return getDisplbyNbmeImpl(cblendbrType, field, vblue, style, locble, fblse);
     }
 
-    public String getJavaTimeDisplayName(String calendarType, int field, int value, int style, Locale locale) {
-        return getDisplayNameImpl(calendarType, field, value, style, locale, true);
+    public String getJbvbTimeDisplbyNbme(String cblendbrType, int field, int vblue, int style, Locble locble) {
+        return getDisplbyNbmeImpl(cblendbrType, field, vblue, style, locble, true);
     }
 
-    public String getDisplayNameImpl(String calendarType, int field, int value, int style, Locale locale, boolean javatime) {
-        String name = null;
-        String key = getResourceKey(calendarType, field, style, javatime);
+    public String getDisplbyNbmeImpl(String cblendbrType, int field, int vblue, int style, Locble locble, boolebn jbvbtime) {
+        String nbme = null;
+        String key = getResourceKey(cblendbrType, field, style, jbvbtime);
         if (key != null) {
-            LocaleResources lr = LocaleProviderAdapter.forType(type).getLocaleResources(locale);
-            String[] strings = javatime ? lr.getJavaTimeNames(key) : lr.getCalendarNames(key);
+            LocbleResources lr = LocbleProviderAdbpter.forType(type).getLocbleResources(locble);
+            String[] strings = jbvbtime ? lr.getJbvbTimeNbmes(key) : lr.getCblendbrNbmes(key);
             if (strings != null && strings.length > 0) {
                 if (field == DAY_OF_WEEK || field == YEAR) {
-                    --value;
+                    --vblue;
                 }
-                if (value < 0 || value >= strings.length) {
+                if (vblue < 0 || vblue >= strings.length) {
                     return null;
                 }
-                name = strings[value];
-                // If name is empty in standalone, try its `format' style.
-                if (name.length() == 0
+                nbme = strings[vblue];
+                // If nbme is empty in stbndblone, try its `formbt' style.
+                if (nbme.length() == 0
                         && (style == SHORT_STANDALONE || style == LONG_STANDALONE
                             || style == NARROW_STANDALONE)) {
-                    name = getDisplayName(calendarType, field, value,
-                                          getBaseStyle(style),
-                                          locale);
+                    nbme = getDisplbyNbme(cblendbrType, field, vblue,
+                                          getBbseStyle(style),
+                                          locble);
                 }
             }
         }
-        return name;
+        return nbme;
     }
 
-    private static int[] REST_OF_STYLES = {
+    privbte stbtic int[] REST_OF_STYLES = {
         SHORT_STANDALONE, LONG_FORMAT, LONG_STANDALONE,
         NARROW_FORMAT, NARROW_STANDALONE
     };
 
     @Override
-    public Map<String, Integer> getDisplayNames(String calendarType, int field, int style, Locale locale) {
-        Map<String, Integer> names;
+    public Mbp<String, Integer> getDisplbyNbmes(String cblendbrType, int field, int style, Locble locble) {
+        Mbp<String, Integer> nbmes;
         if (style == ALL_STYLES) {
-            names = getDisplayNamesImpl(calendarType, field, SHORT_FORMAT, locale, false);
+            nbmes = getDisplbyNbmesImpl(cblendbrType, field, SHORT_FORMAT, locble, fblse);
             for (int st : REST_OF_STYLES) {
-                names.putAll(getDisplayNamesImpl(calendarType, field, st, locale, false));
+                nbmes.putAll(getDisplbyNbmesImpl(cblendbrType, field, st, locble, fblse));
             }
         } else {
             // specific style
-            names = getDisplayNamesImpl(calendarType, field, style, locale, false);
+            nbmes = getDisplbyNbmesImpl(cblendbrType, field, style, locble, fblse);
         }
-        return names.isEmpty() ? null : names;
+        return nbmes.isEmpty() ? null : nbmes;
     }
 
-    // NOTE: This method should be used ONLY BY JSR 310 classes.
-    public Map<String, Integer> getJavaTimeDisplayNames(String calendarType, int field, int style, Locale locale) {
-        Map<String, Integer> names;
-        names = getDisplayNamesImpl(calendarType, field, style, locale, true);
-        return names.isEmpty() ? null : names;
+    // NOTE: This method should be used ONLY BY JSR 310 clbsses.
+    public Mbp<String, Integer> getJbvbTimeDisplbyNbmes(String cblendbrType, int field, int style, Locble locble) {
+        Mbp<String, Integer> nbmes;
+        nbmes = getDisplbyNbmesImpl(cblendbrType, field, style, locble, true);
+        return nbmes.isEmpty() ? null : nbmes;
     }
 
-    private Map<String, Integer> getDisplayNamesImpl(String calendarType, int field,
-                                                     int style, Locale locale, boolean javatime) {
-        String key = getResourceKey(calendarType, field, style, javatime);
-        Map<String, Integer> map = new TreeMap<>(LengthBasedComparator.INSTANCE);
+    privbte Mbp<String, Integer> getDisplbyNbmesImpl(String cblendbrType, int field,
+                                                     int style, Locble locble, boolebn jbvbtime) {
+        String key = getResourceKey(cblendbrType, field, style, jbvbtime);
+        Mbp<String, Integer> mbp = new TreeMbp<>(LengthBbsedCompbrbtor.INSTANCE);
         if (key != null) {
-            LocaleResources lr = LocaleProviderAdapter.forType(type).getLocaleResources(locale);
-            String[] strings = javatime ? lr.getJavaTimeNames(key) : lr.getCalendarNames(key);
+            LocbleResources lr = LocbleProviderAdbpter.forType(type).getLocbleResources(locble);
+            String[] strings = jbvbtime ? lr.getJbvbTimeNbmes(key) : lr.getCblendbrNbmes(key);
             if (strings != null) {
-                if (!hasDuplicates(strings)) {
+                if (!hbsDuplicbtes(strings)) {
                     if (field == YEAR) {
                         if (strings.length > 0) {
-                            map.put(strings[0], 1);
+                            mbp.put(strings[0], 1);
                         }
                     } else {
-                        int base = (field == DAY_OF_WEEK) ? 1 : 0;
+                        int bbse = (field == DAY_OF_WEEK) ? 1 : 0;
                         for (int i = 0; i < strings.length; i++) {
-                            String name = strings[i];
-                            // Ignore any empty string (some standalone month names
-                            // are not defined)
-                            if (name.length() == 0) {
+                            String nbme = strings[i];
+                            // Ignore bny empty string (some stbndblone month nbmes
+                            // bre not defined)
+                            if (nbme.length() == 0) {
                                 continue;
                             }
-                            map.put(name, base + i);
+                            mbp.put(nbme, bbse + i);
                         }
                     }
                 }
             }
         }
-        return map;
+        return mbp;
     }
 
-    private int getBaseStyle(int style) {
+    privbte int getBbseStyle(int style) {
         return style & ~(SHORT_STANDALONE - SHORT_FORMAT);
     }
 
     /**
-     * Comparator implementation for TreeMap which iterates keys from longest
+     * Compbrbtor implementbtion for TreeMbp which iterbtes keys from longest
      * to shortest.
      */
-    private static class LengthBasedComparator implements Comparator<String> {
-        private static final LengthBasedComparator INSTANCE = new LengthBasedComparator();
+    privbte stbtic clbss LengthBbsedCompbrbtor implements Compbrbtor<String> {
+        privbte stbtic finbl LengthBbsedCompbrbtor INSTANCE = new LengthBbsedCompbrbtor();
 
-        private LengthBasedComparator() {
+        privbte LengthBbsedCompbrbtor() {
         }
 
         @Override
-        public int compare(String o1, String o2) {
+        public int compbre(String o1, String o2) {
             int n = o2.length() - o1.length();
-            return (n == 0) ? o1.compareTo(o2) : n;
+            return (n == 0) ? o1.compbreTo(o2) : n;
         }
     }
 
     @Override
-    public Locale[] getAvailableLocales() {
-        return LocaleProviderAdapter.toLocaleArray(langtags);
+    public Locble[] getAvbilbbleLocbles() {
+        return LocbleProviderAdbpter.toLocbleArrby(lbngtbgs);
     }
 
     @Override
-    public boolean isSupportedLocale(Locale locale) {
-        if (Locale.ROOT.equals(locale)) {
+    public boolebn isSupportedLocble(Locble locble) {
+        if (Locble.ROOT.equbls(locble)) {
             return true;
         }
-        String calendarType = null;
-        if (locale.hasExtensions()) {
-            calendarType = locale.getUnicodeLocaleType("ca");
-            locale = locale.stripExtensions();
+        String cblendbrType = null;
+        if (locble.hbsExtensions()) {
+            cblendbrType = locble.getUnicodeLocbleType("cb");
+            locble = locble.stripExtensions();
         }
 
-        if (calendarType != null) {
-            switch (calendarType) {
-            case "buddhist":
-            case "japanese":
-            case "gregory":
-            case "islamic":
-            case "roc":
-                break;
-            default:
-                // Unknown calendar type
-                return false;
+        if (cblendbrType != null) {
+            switch (cblendbrType) {
+            cbse "buddhist":
+            cbse "jbpbnese":
+            cbse "gregory":
+            cbse "islbmic":
+            cbse "roc":
+                brebk;
+            defbult:
+                // Unknown cblendbr type
+                return fblse;
             }
         }
-        if (langtags.contains(locale.toLanguageTag())) {
+        if (lbngtbgs.contbins(locble.toLbngubgeTbg())) {
             return true;
         }
-        if (type == LocaleProviderAdapter.Type.JRE) {
-            String oldname = locale.toString().replace('_', '-');
-            return langtags.contains(oldname);
+        if (type == LocbleProviderAdbpter.Type.JRE) {
+            String oldnbme = locble.toString().replbce('_', '-');
+            return lbngtbgs.contbins(oldnbme);
         }
-        return false;
+        return fblse;
     }
 
     @Override
-    public Set<String> getAvailableLanguageTags() {
-        return langtags;
+    public Set<String> getAvbilbbleLbngubgeTbgs() {
+        return lbngtbgs;
     }
 
-    private boolean hasDuplicates(String[] strings) {
+    privbte boolebn hbsDuplicbtes(String[] strings) {
         int len = strings.length;
         for (int i = 0; i < len - 1; i++) {
-            String a = strings[i];
-            if (a != null) {
+            String b = strings[i];
+            if (b != null) {
                 for (int j = i + 1; j < len; j++) {
-                    if (a.equals(strings[j]))  {
+                    if (b.equbls(strings[j]))  {
                         return true;
                     }
                 }
             }
         }
-        return false;
+        return fblse;
     }
 
-    private String getResourceKey(String type, int field, int style, boolean javatime) {
-        int baseStyle = getBaseStyle(style);
-        boolean isStandalone = (style != baseStyle);
+    privbte String getResourceKey(String type, int field, int style, boolebn jbvbtime) {
+        int bbseStyle = getBbseStyle(style);
+        boolebn isStbndblone = (style != bbseStyle);
 
-        if ("gregory".equals(type)) {
+        if ("gregory".equbls(type)) {
             type = null;
         }
-        boolean isNarrow = (baseStyle == NARROW_FORMAT);
+        boolebn isNbrrow = (bbseStyle == NARROW_FORMAT);
         StringBuilder key = new StringBuilder();
-        // If javatime is true, use prefix "java.time.".
-        if (javatime) {
-            key.append("java.time.");
+        // If jbvbtime is true, use prefix "jbvb.time.".
+        if (jbvbtime) {
+            key.bppend("jbvb.time.");
         }
         switch (field) {
-        case ERA:
+        cbse ERA:
             if (type != null) {
-                key.append(type).append('.');
+                key.bppend(type).bppend('.');
             }
-            if (isNarrow) {
-                key.append("narrow.");
+            if (isNbrrow) {
+                key.bppend("nbrrow.");
             } else {
-                // JRE and CLDR use different resource key conventions
-                // due to historical reasons. (JRE DateFormatSymbols.getEras returns
-                // abbreviations while other getShort*() return abbreviations.)
-                if (this.type == LocaleProviderAdapter.Type.JRE) {
-                    if (javatime) {
-                        if (baseStyle == LONG) {
-                            key.append("long.");
+                // JRE bnd CLDR use different resource key conventions
+                // due to historicbl rebsons. (JRE DbteFormbtSymbols.getErbs returns
+                // bbbrevibtions while other getShort*() return bbbrevibtions.)
+                if (this.type == LocbleProviderAdbpter.Type.JRE) {
+                    if (jbvbtime) {
+                        if (bbseStyle == LONG) {
+                            key.bppend("long.");
                         }
                     }
-                    if (baseStyle == SHORT) {
-                        key.append("short.");
+                    if (bbseStyle == SHORT) {
+                        key.bppend("short.");
                     }
-                } else { // this.type == LocaleProviderAdapter.Type.CLDR
-                    if (baseStyle == LONG) {
-                        key.append("long.");
+                } else { // this.type == LocbleProviderAdbpter.Type.CLDR
+                    if (bbseStyle == LONG) {
+                        key.bppend("long.");
                     }
                 }
             }
-            key.append("Eras");
-            break;
+            key.bppend("Erbs");
+            brebk;
 
-        case YEAR:
-            if (!isNarrow) {
-                key.append(type).append(".FirstYear");
+        cbse YEAR:
+            if (!isNbrrow) {
+                key.bppend(type).bppend(".FirstYebr");
             }
-            break;
+            brebk;
 
-        case MONTH:
-            if ("islamic".equals(type)) {
-                key.append(type).append('.');
+        cbse MONTH:
+            if ("islbmic".equbls(type)) {
+                key.bppend(type).bppend('.');
             }
-            if (isStandalone) {
-                key.append("standalone.");
+            if (isStbndblone) {
+                key.bppend("stbndblone.");
             }
-            key.append("Month").append(toStyleName(baseStyle));
-            break;
+            key.bppend("Month").bppend(toStyleNbme(bbseStyle));
+            brebk;
 
-        case DAY_OF_WEEK:
-            // support standalone narrow day names
-            if (isStandalone && isNarrow) {
-                key.append("standalone.");
+        cbse DAY_OF_WEEK:
+            // support stbndblone nbrrow dby nbmes
+            if (isStbndblone && isNbrrow) {
+                key.bppend("stbndblone.");
             }
-            key.append("Day").append(toStyleName(baseStyle));
-            break;
+            key.bppend("Dby").bppend(toStyleNbme(bbseStyle));
+            brebk;
 
-        case AM_PM:
-            if (isNarrow) {
-                key.append("narrow.");
+        cbse AM_PM:
+            if (isNbrrow) {
+                key.bppend("nbrrow.");
             }
-            key.append("AmPmMarkers");
-            break;
+            key.bppend("AmPmMbrkers");
+            brebk;
         }
         return key.length() > 0 ? key.toString() : null;
     }
 
-    private String toStyleName(int baseStyle) {
-        switch (baseStyle) {
-        case SHORT:
-            return "Abbreviations";
-        case NARROW_FORMAT:
-            return "Narrows";
+    privbte String toStyleNbme(int bbseStyle) {
+        switch (bbseStyle) {
+        cbse SHORT:
+            return "Abbrevibtions";
+        cbse NARROW_FORMAT:
+            return "Nbrrows";
         }
-        return "Names";
+        return "Nbmes";
     }
 }

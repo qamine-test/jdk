@@ -1,81 +1,81 @@
 /*
- * Copyright (c) 1999, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt.windows;
+pbckbge sun.bwt.windows;
 
-import java.awt.Color;
-import java.awt.Font;
-import static java.awt.RenderingHints.*;
-import java.awt.RenderingHints;
+import jbvb.bwt.Color;
+import jbvb.bwt.Font;
+import stbtic jbvb.bwt.RenderingHints.*;
+import jbvb.bwt.RenderingHints;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import jbvb.util.Arrbys;
+import jbvb.util.HbshMbp;
+import jbvb.util.Mbp;
 
-import sun.util.logging.PlatformLogger;
+import sun.util.logging.PlbtformLogger;
 
-import sun.awt.SunToolkit;
+import sun.bwt.SunToolkit;
 
 /*
- * Class encapsulating Windows desktop properties.;
- * This class exposes Windows user configuration values
+ * Clbss encbpsulbting Windows desktop properties.;
+ * This clbss exposes Windows user configurbtion vblues
  * for things like:
  *      Window metrics
- *      Accessibility, display settings
- *      Animation effects
+ *      Accessibility, displby settings
+ *      Animbtion effects
  *      Colors
  *      Etc, etc etc.
  *
- * It's primary use is so that Windows specific Java code;
- * like the Windows Pluggable Look-and-Feel can better adapt
- * itself when running on a Windows platform.
+ * It's primbry use is so thbt Windows specific Jbvb code;
+ * like the Windows Pluggbble Look-bnd-Feel cbn better bdbpt
+ * itself when running on b Windows plbtform.
  */
-final class WDesktopProperties {
-    private static final PlatformLogger log = PlatformLogger.getLogger("sun.awt.windows.WDesktopProperties");
-    private static final String PREFIX = "win.";
-    private static final String FILE_PREFIX = "awt.file.";
-    private static final String PROP_NAMES = "win.propNames";
+finbl clbss WDesktopProperties {
+    privbte stbtic finbl PlbtformLogger log = PlbtformLogger.getLogger("sun.bwt.windows.WDesktopProperties");
+    privbte stbtic finbl String PREFIX = "win.";
+    privbte stbtic finbl String FILE_PREFIX = "bwt.file.";
+    privbte stbtic finbl String PROP_NAMES = "win.propNbmes";
 
-    private long pData;
+    privbte long pDbtb;
 
-    static {
+    stbtic {
         initIDs();
     }
 
-    private WToolkit wToolkit;
+    privbte WToolkit wToolkit;
 
-    private HashMap<String, Object> map = new HashMap<String, Object>();
+    privbte HbshMbp<String, Object> mbp = new HbshMbp<String, Object>();
 
     /**
-     * Initialize JNI field and method IDs
+     * Initiblize JNI field bnd method IDs
      */
-    private static native void initIDs();
+    privbte stbtic nbtive void initIDs();
 
-    static boolean isWindowsProperty(String name) {
-        return name.startsWith(PREFIX) || name.startsWith(FILE_PREFIX) ||
-            name.equals(SunToolkit.DESKTOPFONTHINTS);
+    stbtic boolebn isWindowsProperty(String nbme) {
+        return nbme.stbrtsWith(PREFIX) || nbme.stbrtsWith(FILE_PREFIX) ||
+            nbme.equbls(SunToolkit.DESKTOPFONTHINTS);
     }
 
     WDesktopProperties(WToolkit wToolkit) {
@@ -83,233 +83,233 @@ final class WDesktopProperties {
         init();
     }
 
-    private native void init();
+    privbte nbtive void init();
 
     /*
-     * Returns String[] containing available property names
+     * Returns String[] contbining bvbilbble property nbmes
      */
-    private String [] getKeyNames() {
-        Object  keys[] = map.keySet().toArray();
+    privbte String [] getKeyNbmes() {
+        Object  keys[] = mbp.keySet().toArrby();
         String  sortedKeys[] = new String[keys.length];
 
         for ( int nkey = 0; nkey < keys.length; nkey++ ) {
             sortedKeys[nkey] = keys[nkey].toString();
         }
-        Arrays.sort(sortedKeys);
+        Arrbys.sort(sortedKeys);
         return sortedKeys;
     }
 
     /*
-     * Reads Win32 configuration information and
-     * updates hashmap values
+     * Rebds Win32 configurbtion informbtion bnd
+     * updbtes hbshmbp vblues
      */
-    private native void getWindowsParameters();
+    privbte nbtive void getWindowsPbrbmeters();
 
     /*
-     * Called from native code to set a boolean property
+     * Cblled from nbtive code to set b boolebn property
      */
-    private synchronized void setBooleanProperty(String key, boolean value) {
-        assert( key != null );
-        if (log.isLoggable(PlatformLogger.Level.FINE)) {
-            log.fine(key + "=" + String.valueOf(value));
+    privbte synchronized void setBoolebnProperty(String key, boolebn vblue) {
+        bssert( key != null );
+        if (log.isLoggbble(PlbtformLogger.Level.FINE)) {
+            log.fine(key + "=" + String.vblueOf(vblue));
         }
-        map.put(key, Boolean.valueOf(value));
+        mbp.put(key, Boolebn.vblueOf(vblue));
     }
 
     /*
-     * Called from native code to set an integer property
+     * Cblled from nbtive code to set bn integer property
      */
-    private synchronized void setIntegerProperty(String key, int value) {
-        assert( key != null );
-        if (log.isLoggable(PlatformLogger.Level.FINE)) {
-            log.fine(key + "=" + String.valueOf(value));
+    privbte synchronized void setIntegerProperty(String key, int vblue) {
+        bssert( key != null );
+        if (log.isLoggbble(PlbtformLogger.Level.FINE)) {
+            log.fine(key + "=" + String.vblueOf(vblue));
         }
-        map.put(key, Integer.valueOf(value));
+        mbp.put(key, Integer.vblueOf(vblue));
     }
 
     /*
-     * Called from native code to set a string property
+     * Cblled from nbtive code to set b string property
      */
-    private synchronized void setStringProperty(String key, String value) {
-        assert( key != null );
-        if (log.isLoggable(PlatformLogger.Level.FINE)) {
-            log.fine(key + "=" + value);
+    privbte synchronized void setStringProperty(String key, String vblue) {
+        bssert( key != null );
+        if (log.isLoggbble(PlbtformLogger.Level.FINE)) {
+            log.fine(key + "=" + vblue);
         }
-        map.put(key, value);
+        mbp.put(key, vblue);
     }
 
     /*
-     * Called from native code to set a color property
+     * Cblled from nbtive code to set b color property
      */
-    private synchronized void setColorProperty(String key, int r, int g, int b) {
-        assert( key != null && r <= 255 && g <=255 && b <= 255 );
+    privbte synchronized void setColorProperty(String key, int r, int g, int b) {
+        bssert( key != null && r <= 255 && g <=255 && b <= 255 );
         Color color = new Color(r, g, b);
-        if (log.isLoggable(PlatformLogger.Level.FINE)) {
+        if (log.isLoggbble(PlbtformLogger.Level.FINE)) {
             log.fine(key + "=" + color);
         }
-        map.put(key, color);
+        mbp.put(key, color);
     }
 
-    /* Map of known windows font aliases to the preferred JDK name */
-    static HashMap<String,String> fontNameMap;
-    static {
-        fontNameMap = new HashMap<String,String>();
-        fontNameMap.put("Courier", Font.MONOSPACED);
-        fontNameMap.put("MS Serif", "Microsoft Serif");
-        fontNameMap.put("MS Sans Serif", "Microsoft Sans Serif");
-        fontNameMap.put("Terminal", Font.DIALOG);
-        fontNameMap.put("FixedSys", Font.MONOSPACED);
-        fontNameMap.put("System", Font.DIALOG);
+    /* Mbp of known windows font blibses to the preferred JDK nbme */
+    stbtic HbshMbp<String,String> fontNbmeMbp;
+    stbtic {
+        fontNbmeMbp = new HbshMbp<String,String>();
+        fontNbmeMbp.put("Courier", Font.MONOSPACED);
+        fontNbmeMbp.put("MS Serif", "Microsoft Serif");
+        fontNbmeMbp.put("MS Sbns Serif", "Microsoft Sbns Serif");
+        fontNbmeMbp.put("Terminbl", Font.DIALOG);
+        fontNbmeMbp.put("FixedSys", Font.MONOSPACED);
+        fontNbmeMbp.put("System", Font.DIALOG);
     }
     /*
-     * Called from native code to set a font property
+     * Cblled from nbtive code to set b font property
      */
-    private synchronized void setFontProperty(String key, String name, int style, int size) {
-        assert( key != null && style <= (Font.BOLD|Font.ITALIC)  && size >= 0 );
+    privbte synchronized void setFontProperty(String key, String nbme, int style, int size) {
+        bssert( key != null && style <= (Font.BOLD|Font.ITALIC)  && size >= 0 );
 
-        String mappedName = fontNameMap.get(name);
-        if (mappedName != null) {
-            name = mappedName;
+        String mbppedNbme = fontNbmeMbp.get(nbme);
+        if (mbppedNbme != null) {
+            nbme = mbppedNbme;
         }
-        Font    font = new Font(name, style, size);
-        if (log.isLoggable(PlatformLogger.Level.FINE)) {
+        Font    font = new Font(nbme, style, size);
+        if (log.isLoggbble(PlbtformLogger.Level.FINE)) {
             log.fine(key + "=" + font);
         }
-        map.put(key, font);
+        mbp.put(key, font);
 
         String sizeKey = key + ".height";
-        Integer iSize = Integer.valueOf(size);
-        if (log.isLoggable(PlatformLogger.Level.FINE)) {
+        Integer iSize = Integer.vblueOf(size);
+        if (log.isLoggbble(PlbtformLogger.Level.FINE)) {
             log.fine(sizeKey + "=" + iSize);
         }
-        map.put(sizeKey, iSize);
+        mbp.put(sizeKey, iSize);
     }
 
     /*
-     * Called from native code to set a sound event property
+     * Cblled from nbtive code to set b sound event property
      */
-    private synchronized void setSoundProperty(String key, String winEventName) {
-        assert( key != null && winEventName != null );
+    privbte synchronized void setSoundProperty(String key, String winEventNbme) {
+        bssert( key != null && winEventNbme != null );
 
-        Runnable soundRunnable = new WinPlaySound(winEventName);
-        if (log.isLoggable(PlatformLogger.Level.FINE)) {
-            log.fine(key + "=" + soundRunnable);
+        Runnbble soundRunnbble = new WinPlbySound(winEventNbme);
+        if (log.isLoggbble(PlbtformLogger.Level.FINE)) {
+            log.fine(key + "=" + soundRunnbble);
         }
-        map.put(key, soundRunnable);
+        mbp.put(key, soundRunnbble);
     }
 
     /*
-     * Plays Windows sound event
+     * Plbys Windows sound event
      */
-    private native void playWindowsSound(String winEventName);
+    privbte nbtive void plbyWindowsSound(String winEventNbme);
 
-    class WinPlaySound implements Runnable {
-        String  winEventName;
+    clbss WinPlbySound implements Runnbble {
+        String  winEventNbme;
 
-        WinPlaySound(String winEventName) {
-            this.winEventName = winEventName;
+        WinPlbySound(String winEventNbme) {
+            this.winEventNbme = winEventNbme;
         }
 
         @Override
         public void run() {
-            WDesktopProperties.this.playWindowsSound(winEventName);
+            WDesktopProperties.this.plbyWindowsSound(winEventNbme);
         }
 
         public String toString() {
-            return "WinPlaySound("+winEventName+")";
+            return "WinPlbySound("+winEventNbme+")";
         }
 
-        public boolean equals(Object o) {
+        public boolebn equbls(Object o) {
             if (o == this) {
                 return true;
             }
             try {
-                return winEventName.equals(((WinPlaySound)o).winEventName);
-            } catch (Exception e) {
-                return false;
+                return winEventNbme.equbls(((WinPlbySound)o).winEventNbme);
+            } cbtch (Exception e) {
+                return fblse;
             }
         }
 
-        public int hashCode() {
-            return winEventName.hashCode();
+        public int hbshCode() {
+            return winEventNbme.hbshCode();
         }
     }
 
     /*
-     * Called by WToolkit when Windows settings change-- we (re)load properties and
-     * set new values.
+     * Cblled by WToolkit when Windows settings chbnge-- we (re)lobd properties bnd
+     * set new vblues.
      */
-    @SuppressWarnings("unchecked")
-    synchronized Map<String, Object> getProperties() {
-        ThemeReader.flush();
+    @SuppressWbrnings("unchecked")
+    synchronized Mbp<String, Object> getProperties() {
+        ThemeRebder.flush();
 
-        // load the changed properties into a new hashmap
-        map = new HashMap<String, Object>();
-        getWindowsParameters();
-        map.put(SunToolkit.DESKTOPFONTHINTS, SunToolkit.getDesktopFontHints());
-        map.put(PROP_NAMES, getKeyNames());
-        // DnD uses one value for x and y drag diff, but Windows provides
-        // separate ones.  For now, just use the x value - rnk
-        map.put("DnD.Autoscroll.cursorHysteresis", map.get("win.drag.x"));
+        // lobd the chbnged properties into b new hbshmbp
+        mbp = new HbshMbp<String, Object>();
+        getWindowsPbrbmeters();
+        mbp.put(SunToolkit.DESKTOPFONTHINTS, SunToolkit.getDesktopFontHints());
+        mbp.put(PROP_NAMES, getKeyNbmes());
+        // DnD uses one vblue for x bnd y drbg diff, but Windows provides
+        // sepbrbte ones.  For now, just use the x vblue - rnk
+        mbp.put("DnD.Autoscroll.cursorHysteresis", mbp.get("win.drbg.x"));
 
-        return (Map<String, Object>) map.clone();
+        return (Mbp<String, Object>) mbp.clone();
     }
 
     /*
-     * This returns the value for the desktop property "awt.font.desktophints"
+     * This returns the vblue for the desktop property "bwt.font.desktophints"
      * It builds this using the Windows desktop properties to return
-     * them as platform independent hints.
-     * This requires that the Windows properties have already been gathered
-     * and placed in "map"
+     * them bs plbtform independent hints.
+     * This requires thbt the Windows properties hbve blrebdy been gbthered
+     * bnd plbced in "mbp"
      */
     synchronized RenderingHints getDesktopAAHints() {
 
-        /* Equate "DEFAULT" to "OFF", which it is in our implementation.
-         * Doing this prevents unnecessary pipeline revalidation where
-         * the value OFF is detected as a distinct value by SunGraphics2D
+        /* Equbte "DEFAULT" to "OFF", which it is in our implementbtion.
+         * Doing this prevents unnecessbry pipeline revblidbtion where
+         * the vblue OFF is detected bs b distinct vblue by SunGrbphics2D
          */
         Object fontSmoothingHint = VALUE_TEXT_ANTIALIAS_DEFAULT;
-        Integer fontSmoothingContrast = null;
+        Integer fontSmoothingContrbst = null;
 
-        Boolean smoothingOn = (Boolean)map.get("win.text.fontSmoothingOn");
+        Boolebn smoothingOn = (Boolebn)mbp.get("win.text.fontSmoothingOn");
 
-        if (smoothingOn != null && smoothingOn.equals(Boolean.TRUE)) {
-            Integer typeID = (Integer)map.get("win.text.fontSmoothingType");
-            /* "1" is GASP/Standard but we'll also use that if the return
-             * value is anything other than "2" for LCD.
+        if (smoothingOn != null && smoothingOn.equbls(Boolebn.TRUE)) {
+            Integer typeID = (Integer)mbp.get("win.text.fontSmoothingType");
+            /* "1" is GASP/Stbndbrd but we'll blso use thbt if the return
+             * vblue is bnything other thbn "2" for LCD.
              */
-            if (typeID == null || typeID.intValue() <= 1 ||
-                typeID.intValue() > 2) {
+            if (typeID == null || typeID.intVblue() <= 1 ||
+                typeID.intVblue() > 2) {
                 fontSmoothingHint = VALUE_TEXT_ANTIALIAS_GASP;
             } else {
-                /* Recognise 0 as BGR and everything else as RGB - note
-                 * that 1 is the expected value for RGB.
+                /* Recognise 0 bs BGR bnd everything else bs RGB - note
+                 * thbt 1 is the expected vblue for RGB.
                  */
                 Integer orientID = (Integer)
-                    map.get("win.text.fontSmoothingOrientation");
-                /* 0 is BGR, 1 is RGB. Other values, assume RGB */
-                if (orientID == null || orientID.intValue() != 0) {
+                    mbp.get("win.text.fontSmoothingOrientbtion");
+                /* 0 is BGR, 1 is RGB. Other vblues, bssume RGB */
+                if (orientID == null || orientID.intVblue() != 0) {
                     fontSmoothingHint = VALUE_TEXT_ANTIALIAS_LCD_HRGB;
                 } else {
                     fontSmoothingHint = VALUE_TEXT_ANTIALIAS_LCD_HBGR;
                 }
 
-                fontSmoothingContrast = (Integer)
-                    map.get("win.text.fontSmoothingContrast");
-                if (fontSmoothingContrast == null) {
-                    fontSmoothingContrast = Integer.valueOf(140);
+                fontSmoothingContrbst = (Integer)
+                    mbp.get("win.text.fontSmoothingContrbst");
+                if (fontSmoothingContrbst == null) {
+                    fontSmoothingContrbst = Integer.vblueOf(140);
                 } else {
-                    /* Windows values are scaled 10x those of Java 2D */
-                    fontSmoothingContrast =
-                        Integer.valueOf(fontSmoothingContrast.intValue()/10);
+                    /* Windows vblues bre scbled 10x those of Jbvb 2D */
+                    fontSmoothingContrbst =
+                        Integer.vblueOf(fontSmoothingContrbst.intVblue()/10);
                 }
             }
         }
 
         RenderingHints hints = new RenderingHints(null);
         hints.put(KEY_TEXT_ANTIALIASING, fontSmoothingHint);
-        if (fontSmoothingContrast != null) {
-            hints.put(KEY_TEXT_LCD_CONTRAST, fontSmoothingContrast);
+        if (fontSmoothingContrbst != null) {
+            hints.put(KEY_TEXT_LCD_CONTRAST, fontSmoothingContrbst);
         }
         return hints;
     }

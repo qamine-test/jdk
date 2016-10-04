@@ -1,60 +1,60 @@
 /*
- * Copyright (c) 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.net;
+pbckbge sun.net;
 
-import java.net.URL;
+import jbvb.net.URL;
 
 /**
- * ProgressSource represents the source of progress changes.
+ * ProgressSource represents the source of progress chbnges.
  *
- * @author Stanley Man-Kit Ho
+ * @buthor Stbnley Mbn-Kit Ho
  */
-public class ProgressSource
+public clbss ProgressSource
 {
-    public enum State { NEW, CONNECTED, UPDATE, DELETE };
+    public enum Stbte { NEW, CONNECTED, UPDATE, DELETE };
 
     // URL
-    private URL url;
+    privbte URL url;
     // URL method
-    private String method;
+    privbte String method;
     // Content type
-    private String contentType;
-    // bytes read
-    private long progress = 0;
-    // last bytes read
-    private long lastProgress = 0;
+    privbte String contentType;
+    // bytes rebd
+    privbte long progress = 0;
+    // lbst bytes rebd
+    privbte long lbstProgress = 0;
     //bytes expected
-    private long expected = -1;
-    // the last thing to happen with this source
-    private State state;
-    // connect flag
-    private boolean connected = false;
-    // threshold for notification
-    private int threshold = 8192;
+    privbte long expected = -1;
+    // the lbst thing to hbppen with this source
+    privbte Stbte stbte;
+    // connect flbg
+    privbte boolebn connected = fblse;
+    // threshold for notificbtion
+    privbte int threshold = 8192;
     // progress monitor
-    private ProgressMonitor progressMonitor;
+    privbte ProgressMonitor progressMonitor;
 
     /**
      * Construct progress source object.
@@ -71,18 +71,18 @@ public class ProgressSource
         this.method = method;
         this.contentType = "content/unknown";
         this.progress = 0;
-        this.lastProgress = 0;
+        this.lbstProgress = 0;
         this.expected = expected;
-        this.state = State.NEW;
-        this.progressMonitor = ProgressMonitor.getDefault();
-        this.threshold = progressMonitor.getProgressUpdateThreshold();
+        this.stbte = Stbte.NEW;
+        this.progressMonitor = ProgressMonitor.getDefbult();
+        this.threshold = progressMonitor.getProgressUpdbteThreshold();
     }
 
-    public boolean connected() {
+    public boolebn connected() {
         if (!connected) {
             connected = true;
-            state = State.CONNECTED;
-            return false;
+            stbte = Stbte.CONNECTED;
+            return fblse;
         }
         return true;
     }
@@ -91,7 +91,7 @@ public class ProgressSource
      * Close progress source.
      */
     public void close() {
-        state = State.DELETE;
+        stbte = Stbte.DELETE;
     }
 
     /**
@@ -115,7 +115,7 @@ public class ProgressSource
         return contentType;
     }
 
-    // Change content type
+    // Chbnge content type
     public void setContentType(String ct)  {
         contentType = ct;
     }
@@ -128,71 +128,71 @@ public class ProgressSource
     }
 
     /**
-     * Return expected maximum progress; -1 if expected is unknown.
+     * Return expected mbximum progress; -1 if expected is unknown.
      */
     public long getExpected() {
         return expected;
     }
 
     /**
-     * Return state.
+     * Return stbte.
      */
-    public State getState() {
-        return state;
+    public Stbte getStbte() {
+        return stbte;
     }
 
     /**
-     * Begin progress tracking.
+     * Begin progress trbcking.
      */
-    public void beginTracking() {
+    public void beginTrbcking() {
         progressMonitor.registerSource(this);
     }
 
     /**
-     * Finish progress tracking.
+     * Finish progress trbcking.
      */
-    public void finishTracking() {
+    public void finishTrbcking() {
         progressMonitor.unregisterSource(this);
     }
 
     /**
-     * Update progress.
+     * Updbte progress.
      */
-    public void updateProgress(long latestProgress, long expectedProgress) {
-        lastProgress = progress;
-        progress = latestProgress;
+    public void updbteProgress(long lbtestProgress, long expectedProgress) {
+        lbstProgress = progress;
+        progress = lbtestProgress;
         expected = expectedProgress;
 
-        if (connected() == false)
-            state = State.CONNECTED;
+        if (connected() == fblse)
+            stbte = Stbte.CONNECTED;
         else
-            state = State.UPDATE;
+            stbte = Stbte.UPDATE;
 
         // The threshold effectively divides the progress into
-        // different set of ranges:
+        // different set of rbnges:
         //
-        //      Range 0: 0..threshold-1,
-        //      Range 1: threshold .. 2*threshold-1
+        //      Rbnge 0: 0..threshold-1,
+        //      Rbnge 1: threshold .. 2*threshold-1
         //      ....
-        //      Range n: n*threshold .. (n+1)*threshold-1
+        //      Rbnge n: n*threshold .. (n+1)*threshold-1
         //
-        // To determine which range the progress belongs to, it
-        // would be calculated as follow:
+        // To determine which rbnge the progress belongs to, it
+        // would be cblculbted bs follow:
         //
-        //      range number = progress / threshold
+        //      rbnge number = progress / threshold
         //
-        // Notification should only be triggered when the current
-        // progress and the last progress are in different ranges,
-        // i.e. they have different range numbers.
+        // Notificbtion should only be triggered when the current
+        // progress bnd the lbst progress bre in different rbnges,
+        // i.e. they hbve different rbnge numbers.
         //
-        // Using this range scheme, notification will be generated
-        // only once when the progress reaches each range.
+        // Using this rbnge scheme, notificbtion will be generbted
+        // only once when the progress rebches ebch rbnge.
         //
-        if (lastProgress / threshold != progress / threshold)   {
-            progressMonitor.updateProgress(this);
+        if (lbstProgress / threshold != progress / threshold)   {
+            progressMonitor.updbteProgress(this);
         }
 
-        // Detect read overrun
+        // Detect rebd overrun
         if (expected != -1) {
             if (progress >= expected && progress != 0)
                 close();
@@ -204,7 +204,7 @@ public class ProgressSource
     }
 
     public String toString()    {
-        return getClass().getName() + "[url=" + url + ", method=" + method + ", state=" + state
+        return getClbss().getNbme() + "[url=" + url + ", method=" + method + ", stbte=" + stbte
             + ", content-type=" + contentType + ", progress=" + progress + ", expected=" + expected + "]";
     }
 }

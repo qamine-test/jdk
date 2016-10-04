@@ -1,74 +1,74 @@
 /*
- * Copyright (c) 2005, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.event;
+pbckbge jbvbx.swing.event;
 
-import javax.swing.RowSorter;
+import jbvbx.swing.RowSorter;
 
 /**
- * <code>RowSorterEvent</code> provides notification of changes to
- * a <code>RowSorter</code>.  Two types of notification are possible:
+ * <code>RowSorterEvent</code> provides notificbtion of chbnges to
+ * b <code>RowSorter</code>.  Two types of notificbtion bre possible:
  * <ul>
- * <li><code>Type.SORT_ORDER_CHANGED</code>: indicates the sort order has
- *     changed.  This is typically followed by a notification of:
- * <li><code>Type.SORTED</code>: indicates the contents of the model have
- *     been transformed in some way.  For example, the contents may have
+ * <li><code>Type.SORT_ORDER_CHANGED</code>: indicbtes the sort order hbs
+ *     chbnged.  This is typicblly followed by b notificbtion of:
+ * <li><code>Type.SORTED</code>: indicbtes the contents of the model hbve
+ *     been trbnsformed in some wby.  For exbmple, the contents mby hbve
  *     been sorted or filtered.
  * </ul>
  *
- * @see javax.swing.RowSorter
+ * @see jbvbx.swing.RowSorter
  * @since 1.6
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class RowSorterEvent extends java.util.EventObject {
-    private Type type;
-    private int[] oldViewToModel;
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public clbss RowSorterEvent extends jbvb.util.EventObject {
+    privbte Type type;
+    privbte int[] oldViewToModel;
 
     /**
-     * Enumeration of the types of <code>RowSorterEvent</code>s.
+     * Enumerbtion of the types of <code>RowSorterEvent</code>s.
      *
      * @since 1.6
      */
     public enum Type {
         /**
-         * Indicates the sort order has changed.
+         * Indicbtes the sort order hbs chbnged.
          */
         SORT_ORDER_CHANGED,
 
         /**
-         * Indicates the contents have been newly sorted or
-         * transformed in some way.
+         * Indicbtes the contents hbve been newly sorted or
+         * trbnsformed in some wby.
          */
         SORTED
     }
 
     /**
-     * Creates a <code>RowSorterEvent</code> of type
+     * Crebtes b <code>RowSorterEvent</code> of type
      * <code>SORT_ORDER_CHANGED</code>.
      *
-     * @param source the source of the change
-     * @throws IllegalArgumentException if <code>source</code> is
+     * @pbrbm source the source of the chbnge
+     * @throws IllegblArgumentException if <code>source</code> is
      *         <code>null</code>
      */
     public RowSorterEvent(RowSorter<?> source) {
@@ -76,29 +76,29 @@ public class RowSorterEvent extends java.util.EventObject {
     }
 
     /**
-     * Creates a <code>RowSorterEvent</code>.
+     * Crebtes b <code>RowSorterEvent</code>.
      *
-     * @param source the source of the change
-     * @param type the type of event
-     * @param previousRowIndexToModel the mapping from model indices to
-     *        view indices prior to the sort, may be <code>null</code>
-     * @throws IllegalArgumentException if source or <code>type</code> is
+     * @pbrbm source the source of the chbnge
+     * @pbrbm type the type of event
+     * @pbrbm previousRowIndexToModel the mbpping from model indices to
+     *        view indices prior to the sort, mby be <code>null</code>
+     * @throws IllegblArgumentException if source or <code>type</code> is
      *         <code>null</code>
      */
     public RowSorterEvent(RowSorter<?> source, Type type,
                           int[] previousRowIndexToModel) {
         super(source);
         if (type == null) {
-            throw new IllegalArgumentException("type must be non-null");
+            throw new IllegblArgumentException("type must be non-null");
         }
         this.type = type;
         this.oldViewToModel = previousRowIndexToModel;
     }
 
     /**
-     * Returns the source of the event as a <code>RowSorter</code>.
+     * Returns the source of the event bs b <code>RowSorter</code>.
      *
-     * @return the source of the event as a <code>RowSorter</code>
+     * @return the source of the event bs b <code>RowSorter</code>
      */
     @Override
     public RowSorter<?> getSource() {
@@ -115,15 +115,15 @@ public class RowSorterEvent extends java.util.EventObject {
     }
 
     /**
-     * Returns the location of <code>index</code> in terms of the
+     * Returns the locbtion of <code>index</code> in terms of the
      * model prior to the sort.  This method is only useful for events
      * of type <code>SORTED</code>.  This method will return -1 if the
-     * index is not valid, or the locations prior to the sort have not
+     * index is not vblid, or the locbtions prior to the sort hbve not
      * been provided.
      *
-     * @param index the index in terms of the view
+     * @pbrbm index the index in terms of the view
      * @return the index in terms of the model prior to the sort, or -1 if
-     *         the location is not valid or the mapping was not provided.
+     *         the locbtion is not vblid or the mbpping wbs not provided.
      */
     public int convertPreviousRowIndexToModel(int index) {
         if (oldViewToModel != null && index >= 0 &&
@@ -135,8 +135,8 @@ public class RowSorterEvent extends java.util.EventObject {
 
     /**
      * Returns the number of rows before the sort.  This method is only
-     * useful for events of type <code>SORTED</code> and if the
-     * last locations have not been provided will return 0.
+     * useful for events of type <code>SORTED</code> bnd if the
+     * lbst locbtions hbve not been provided will return 0.
      *
      * @return the number of rows in terms of the view prior to the sort
      */

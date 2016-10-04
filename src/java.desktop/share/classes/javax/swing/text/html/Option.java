@@ -1,134 +1,134 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.text.html;
+pbckbge jbvbx.swing.text.html;
 
-import java.io.Serializable;
-import javax.swing.text.*;
+import jbvb.io.Seriblizbble;
+import jbvbx.swing.text.*;
 
 /**
- * Value for the ListModel used to represent
+ * Vblue for the ListModel used to represent
  * &lt;option&gt; elements.  This is the object
- * installed as items of the DefaultComboBoxModel
+ * instblled bs items of the DefbultComboBoxModel
  * used to represent the &lt;select&gt; element.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
- * @author  Timothy Prinzing
+ * @buthor  Timothy Prinzing
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class Option implements Serializable {
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public clbss Option implements Seriblizbble {
 
     /**
-     * Creates a new Option object.
+     * Crebtes b new Option object.
      *
-     * @param attr the attributes associated with the
-     *  option element.  The attributes are copied to
-     *  ensure they won't change.
+     * @pbrbm bttr the bttributes bssocibted with the
+     *  option element.  The bttributes bre copied to
+     *  ensure they won't chbnge.
      */
-    public Option(AttributeSet attr) {
-        this.attr = attr.copyAttributes();
-        selected = (attr.getAttribute(HTML.Attribute.SELECTED) != null);
+    public Option(AttributeSet bttr) {
+        this.bttr = bttr.copyAttributes();
+        selected = (bttr.getAttribute(HTML.Attribute.SELECTED) != null);
     }
 
     /**
-     * Sets the label to be used for the option.
+     * Sets the lbbel to be used for the option.
      *
-     * @param label a label.
+     * @pbrbm lbbel b lbbel.
      */
-    public void setLabel(String label) {
-        this.label = label;
+    public void setLbbel(String lbbel) {
+        this.lbbel = lbbel;
     }
 
     /**
-     * Fetch the label associated with the option.
+     * Fetch the lbbel bssocibted with the option.
      *
-     * @return the label associated with the option.
+     * @return the lbbel bssocibted with the option.
      */
-    public String getLabel() {
-        return label;
+    public String getLbbel() {
+        return lbbel;
     }
 
     /**
-     * Fetch the attributes associated with this option.
+     * Fetch the bttributes bssocibted with this option.
      *
-     * @return the attributes associated with this option.
+     * @return the bttributes bssocibted with this option.
      */
     public AttributeSet getAttributes() {
-        return attr;
+        return bttr;
     }
 
     /**
-     * String representation is the label.
+     * String representbtion is the lbbel.
      */
     public String toString() {
-        return label;
+        return lbbel;
     }
 
     /**
-     * Sets the selected state.
+     * Sets the selected stbte.
      *
-     * @param state a selection state
+     * @pbrbm stbte b selection stbte
      */
-    protected void setSelection(boolean state) {
-        selected = state;
+    protected void setSelection(boolebn stbte) {
+        selected = stbte;
     }
 
     /**
-     * Fetches the selection state associated with this option.
+     * Fetches the selection stbte bssocibted with this option.
      *
-     * @return the selection state.
+     * @return the selection stbte.
      */
-    public boolean isSelected() {
+    public boolebn isSelected() {
         return selected;
     }
 
     /**
-     * Convenient method to return the string associated
-     * with the {@code value} attribute. If the
-     * {@code value} has not been specified, the {@code label} will be
+     * Convenient method to return the string bssocibted
+     * with the {@code vblue} bttribute. If the
+     * {@code vblue} hbs not been specified, the {@code lbbel} will be
      * returned.
      *
-     * @return the string associated with the {@code value} attribute,
-     * or {@code label} if the value has been not specified.
+     * @return the string bssocibted with the {@code vblue} bttribute,
+     * or {@code lbbel} if the vblue hbs been not specified.
      */
-    public String getValue() {
-        String value = (String) attr.getAttribute(HTML.Attribute.VALUE);
-        if (value == null) {
-            value = label;
+    public String getVblue() {
+        String vblue = (String) bttr.getAttribute(HTML.Attribute.VALUE);
+        if (vblue == null) {
+            vblue = lbbel;
         }
-        return value;
+        return vblue;
     }
 
-    private boolean selected;
-    private String label;
-    private AttributeSet attr;
+    privbte boolebn selected;
+    privbte String lbbel;
+    privbte AttributeSet bttr;
 }

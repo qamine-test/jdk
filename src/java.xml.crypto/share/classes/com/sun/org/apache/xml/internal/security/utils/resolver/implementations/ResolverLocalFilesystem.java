@@ -3,47 +3,47 @@
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Licensed to the Apbche Softwbre Foundbtion (ASF) under one
+ * or more contributor license bgreements. See the NOTICE file
+ * distributed with this work for bdditionbl informbtion
+ * regbrding copyright ownership. The ASF licenses this file
+ * to you under the Apbche License, Version 2.0 (the
+ * "License"); you mby not use this file except in complibnce
+ * with the License. You mby obtbin b copy of the License bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.bpbche.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unless required by bpplicbble lbw or bgreed to in writing,
+ * softwbre distributed under the License is distributed on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
+ * specific lbngubge governing permissions bnd limitbtions
  * under the License.
  */
-package com.sun.org.apache.xml.internal.security.utils.resolver.implementations;
+pbckbge com.sun.org.bpbche.xml.internbl.security.utils.resolver.implementbtions;
 
-import java.io.FileInputStream;
-import java.net.URI;
-import java.net.URISyntaxException;
+import jbvb.io.FileInputStrebm;
+import jbvb.net.URI;
+import jbvb.net.URISyntbxException;
 
-import com.sun.org.apache.xml.internal.security.signature.XMLSignatureInput;
-import com.sun.org.apache.xml.internal.security.utils.resolver.ResourceResolverContext;
-import com.sun.org.apache.xml.internal.security.utils.resolver.ResourceResolverException;
-import com.sun.org.apache.xml.internal.security.utils.resolver.ResourceResolverSpi;
+import com.sun.org.bpbche.xml.internbl.security.signbture.XMLSignbtureInput;
+import com.sun.org.bpbche.xml.internbl.security.utils.resolver.ResourceResolverContext;
+import com.sun.org.bpbche.xml.internbl.security.utils.resolver.ResourceResolverException;
+import com.sun.org.bpbche.xml.internbl.security.utils.resolver.ResourceResolverSpi;
 
 /**
- * A simple ResourceResolver for requests into the local filesystem.
+ * A simple ResourceResolver for requests into the locbl filesystem.
  */
-public class ResolverLocalFilesystem extends ResourceResolverSpi {
+public clbss ResolverLocblFilesystem extends ResourceResolverSpi {
 
-    private static final int FILE_URI_LENGTH = "file:/".length();
+    privbte stbtic finbl int FILE_URI_LENGTH = "file:/".length();
 
-    /** {@link org.apache.commons.logging} logging facility */
-    private static java.util.logging.Logger log =
-        java.util.logging.Logger.getLogger(ResolverLocalFilesystem.class.getName());
+    /** {@link org.bpbche.commons.logging} logging fbcility */
+    privbte stbtic jbvb.util.logging.Logger log =
+        jbvb.util.logging.Logger.getLogger(ResolverLocblFilesystem.clbss.getNbme());
 
     @Override
-    public boolean engineIsThreadSafe() {
+    public boolebn engineIsThrebdSbfe() {
         return true;
     }
 
@@ -51,32 +51,32 @@ public class ResolverLocalFilesystem extends ResourceResolverSpi {
      * @inheritDoc
      */
     @Override
-    public XMLSignatureInput engineResolveURI(ResourceResolverContext context)
+    public XMLSignbtureInput engineResolveURI(ResourceResolverContext context)
         throws ResourceResolverException {
         try {
-            // calculate new URI
-            URI uriNew = getNewURI(context.uriToResolve, context.baseUri);
+            // cblculbte new URI
+            URI uriNew = getNewURI(context.uriToResolve, context.bbseUri);
 
-            String fileName =
-                ResolverLocalFilesystem.translateUriToFilename(uriNew.toString());
-            FileInputStream inputStream = new FileInputStream(fileName);
-            XMLSignatureInput result = new XMLSignatureInput(inputStream);
+            String fileNbme =
+                ResolverLocblFilesystem.trbnslbteUriToFilenbme(uriNew.toString());
+            FileInputStrebm inputStrebm = new FileInputStrebm(fileNbme);
+            XMLSignbtureInput result = new XMLSignbtureInput(inputStrebm);
 
             result.setSourceURI(uriNew.toString());
 
             return result;
-        } catch (Exception e) {
-            throw new ResourceResolverException("generic.EmptyMessage", e, context.attr, context.baseUri);
+        } cbtch (Exception e) {
+            throw new ResourceResolverException("generic.EmptyMessbge", e, context.bttr, context.bbseUri);
         }
     }
 
     /**
-     * Method translateUriToFilename
+     * Method trbnslbteUriToFilenbme
      *
-     * @param uri
-     * @return the string of the filename
+     * @pbrbm uri
+     * @return the string of the filenbme
      */
-    private static String translateUriToFilename(String uri) {
+    privbte stbtic String trbnslbteUriToFilenbme(String uri) {
 
         String subStr = uri.substring(FILE_URI_LENGTH);
 
@@ -87,74 +87,74 @@ public class ResolverLocalFilesystem extends ResourceResolverSpi {
             do {
                 index = subStr.indexOf("%20",offset);
                 if (index == -1) {
-                    temp.append(subStr.substring(offset));
+                    temp.bppend(subStr.substring(offset));
                 } else {
-                    temp.append(subStr.substring(offset, index));
-                    temp.append(' ');
+                    temp.bppend(subStr.substring(offset, index));
+                    temp.bppend(' ');
                     offset = index + 3;
                 }
             } while(index != -1);
             subStr = temp.toString();
         }
 
-        if (subStr.charAt(1) == ':') {
+        if (subStr.chbrAt(1) == ':') {
             // we're running M$ Windows, so this works fine
             return subStr;
         }
-        // we're running some UNIX, so we have to prepend a slash
+        // we're running some UNIX, so we hbve to prepend b slbsh
         return "/" + subStr;
     }
 
     /**
      * @inheritDoc
      */
-    public boolean engineCanResolveURI(ResourceResolverContext context) {
+    public boolebn engineCbnResolveURI(ResourceResolverContext context) {
         if (context.uriToResolve == null) {
-            return false;
+            return fblse;
         }
 
-        if (context.uriToResolve.equals("") || (context.uriToResolve.charAt(0)=='#') ||
-            context.uriToResolve.startsWith("http:")) {
-            return false;
+        if (context.uriToResolve.equbls("") || (context.uriToResolve.chbrAt(0)=='#') ||
+            context.uriToResolve.stbrtsWith("http:")) {
+            return fblse;
         }
 
         try {
-            if (log.isLoggable(java.util.logging.Level.FINE)) {
-                log.log(java.util.logging.Level.FINE, "I was asked whether I can resolve " + context.uriToResolve);
+            if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+                log.log(jbvb.util.logging.Level.FINE, "I wbs bsked whether I cbn resolve " + context.uriToResolve);
             }
 
-            if (context.uriToResolve.startsWith("file:") || context.baseUri.startsWith("file:")) {
-                if (log.isLoggable(java.util.logging.Level.FINE)) {
-                    log.log(java.util.logging.Level.FINE, "I state that I can resolve " + context.uriToResolve);
+            if (context.uriToResolve.stbrtsWith("file:") || context.bbseUri.stbrtsWith("file:")) {
+                if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+                    log.log(jbvb.util.logging.Level.FINE, "I stbte thbt I cbn resolve " + context.uriToResolve);
                 }
                 return true;
             }
-        } catch (Exception e) {
-            if (log.isLoggable(java.util.logging.Level.FINE)) {
-                log.log(java.util.logging.Level.FINE, e.getMessage(), e);
+        } cbtch (Exception e) {
+            if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+                log.log(jbvb.util.logging.Level.FINE, e.getMessbge(), e);
             }
         }
 
-        if (log.isLoggable(java.util.logging.Level.FINE)) {
-            log.log(java.util.logging.Level.FINE, "But I can't");
+        if (log.isLoggbble(jbvb.util.logging.Level.FINE)) {
+            log.log(jbvb.util.logging.Level.FINE, "But I cbn't");
         }
 
-        return false;
+        return fblse;
     }
 
-    private static URI getNewURI(String uri, String baseURI) throws URISyntaxException {
+    privbte stbtic URI getNewURI(String uri, String bbseURI) throws URISyntbxException {
         URI newUri = null;
-        if (baseURI == null || "".equals(baseURI)) {
+        if (bbseURI == null || "".equbls(bbseURI)) {
             newUri = new URI(uri);
         } else {
-            newUri = new URI(baseURI).resolve(uri);
+            newUri = new URI(bbseURI).resolve(uri);
         }
 
-        // if the URI contains a fragment, ignore it
-        if (newUri.getFragment() != null) {
-            URI uriNewNoFrag =
-                new URI(newUri.getScheme(), newUri.getSchemeSpecificPart(), null);
-            return uriNewNoFrag;
+        // if the URI contbins b frbgment, ignore it
+        if (newUri.getFrbgment() != null) {
+            URI uriNewNoFrbg =
+                new URI(newUri.getScheme(), newUri.getSchemeSpecificPbrt(), null);
+            return uriNewNoFrbg;
         }
         return newUri;
     }

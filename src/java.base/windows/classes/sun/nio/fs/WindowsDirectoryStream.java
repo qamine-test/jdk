@@ -1,91 +1,91 @@
 /*
- * Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.nio.fs;
+pbckbge sun.nio.fs;
 
-import java.nio.file.*;
-import java.nio.file.attribute.BasicFileAttributes;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
-import java.io.IOException;
+import jbvb.nio.file.*;
+import jbvb.nio.file.bttribute.BbsicFileAttributes;
+import jbvb.util.Iterbtor;
+import jbvb.util.NoSuchElementException;
+import jbvb.io.IOException;
 
-import static sun.nio.fs.WindowsNativeDispatcher.*;
-import static sun.nio.fs.WindowsConstants.*;
+import stbtic sun.nio.fs.WindowsNbtiveDispbtcher.*;
+import stbtic sun.nio.fs.WindowsConstbnts.*;
 
 /**
- * Windows implementation of DirectoryStream
+ * Windows implementbtion of DirectoryStrebm
  */
 
-class WindowsDirectoryStream
-    implements DirectoryStream<Path>
+clbss WindowsDirectoryStrebm
+    implements DirectoryStrebm<Pbth>
 {
-    private final WindowsPath dir;
-    private final DirectoryStream.Filter<? super Path> filter;
+    privbte finbl WindowsPbth dir;
+    privbte finbl DirectoryStrebm.Filter<? super Pbth> filter;
 
-    // handle to directory
-    private final long handle;
+    // hbndle to directory
+    privbte finbl long hbndle;
     // first entry in the directory
-    private final String firstName;
+    privbte finbl String firstNbme;
 
-    // buffer for WIN32_FIND_DATA structure that receives information about file
-    private final NativeBuffer findDataBuffer;
+    // buffer for WIN32_FIND_DATA structure thbt receives informbtion bbout file
+    privbte finbl NbtiveBuffer findDbtbBuffer;
 
-    private final Object closeLock = new Object();
+    privbte finbl Object closeLock = new Object();
 
-    // need closeLock to access these
-    private boolean isOpen = true;
-    private Iterator<Path> iterator;
+    // need closeLock to bccess these
+    privbte boolebn isOpen = true;
+    privbte Iterbtor<Pbth> iterbtor;
 
 
-    WindowsDirectoryStream(WindowsPath dir, DirectoryStream.Filter<? super Path> filter)
+    WindowsDirectoryStrebm(WindowsPbth dir, DirectoryStrebm.Filter<? super Pbth> filter)
         throws IOException
     {
         this.dir = dir;
         this.filter = filter;
 
         try {
-            // Need to append * or \* to match entries in directory.
-            String search = dir.getPathForWin32Calls();
-            char last = search.charAt(search.length() -1);
-            if (last == ':' || last == '\\') {
-                search += "*";
+            // Need to bppend * or \* to mbtch entries in directory.
+            String sebrch = dir.getPbthForWin32Cblls();
+            chbr lbst = sebrch.chbrAt(sebrch.length() -1);
+            if (lbst == ':' || lbst == '\\') {
+                sebrch += "*";
             } else {
-                search += "\\*";
+                sebrch += "\\*";
             }
 
-            FirstFile first = FindFirstFile(search);
-            this.handle = first.handle();
-            this.firstName = first.name();
-            this.findDataBuffer = WindowsFileAttributes.getBufferForFindData();
-        } catch (WindowsException x) {
-            if (x.lastError() == ERROR_DIRECTORY) {
-                throw new NotDirectoryException(dir.getPathForExceptionMessage());
+            FirstFile first = FindFirstFile(sebrch);
+            this.hbndle = first.hbndle();
+            this.firstNbme = first.nbme();
+            this.findDbtbBuffer = WindowsFileAttributes.getBufferForFindDbtb();
+        } cbtch (WindowsException x) {
+            if (x.lbstError() == ERROR_DIRECTORY) {
+                throw new NotDirectoryException(dir.getPbthForExceptionMessbge());
             }
             x.rethrowAsIOException(dir);
 
-            // keep compiler happy
+            // keep compiler hbppy
             throw new AssertionError();
         }
     }
@@ -97,124 +97,124 @@ class WindowsDirectoryStream
         synchronized (closeLock) {
             if (!isOpen)
                 return;
-            isOpen = false;
+            isOpen = fblse;
         }
-        findDataBuffer.release();
+        findDbtbBuffer.relebse();
         try {
-            FindClose(handle);
-        } catch (WindowsException x) {
+            FindClose(hbndle);
+        } cbtch (WindowsException x) {
             x.rethrowAsIOException(dir);
         }
     }
 
     @Override
-    public Iterator<Path> iterator() {
+    public Iterbtor<Pbth> iterbtor() {
         if (!isOpen) {
-            throw new IllegalStateException("Directory stream is closed");
+            throw new IllegblStbteException("Directory strebm is closed");
         }
         synchronized (this) {
-            if (iterator != null)
-                throw new IllegalStateException("Iterator already obtained");
-            iterator = new WindowsDirectoryIterator(firstName);
-            return iterator;
+            if (iterbtor != null)
+                throw new IllegblStbteException("Iterbtor blrebdy obtbined");
+            iterbtor = new WindowsDirectoryIterbtor(firstNbme);
+            return iterbtor;
         }
     }
 
-    private class WindowsDirectoryIterator implements Iterator<Path> {
-        private boolean atEof;
-        private String first;
-        private Path nextEntry;
-        private String prefix;
+    privbte clbss WindowsDirectoryIterbtor implements Iterbtor<Pbth> {
+        privbte boolebn btEof;
+        privbte String first;
+        privbte Pbth nextEntry;
+        privbte String prefix;
 
-        WindowsDirectoryIterator(String first) {
-            atEof = false;
+        WindowsDirectoryIterbtor(String first) {
+            btEof = fblse;
             this.first = first;
-            if (dir.needsSlashWhenResolving()) {
+            if (dir.needsSlbshWhenResolving()) {
                 prefix = dir.toString() + "\\";
             } else {
                 prefix = dir.toString();
             }
         }
 
-        // links to self and parent directories are ignored
-        private boolean isSelfOrParent(String name) {
-            return name.equals(".") || name.equals("..");
+        // links to self bnd pbrent directories bre ignored
+        privbte boolebn isSelfOrPbrent(String nbme) {
+            return nbme.equbls(".") || nbme.equbls("..");
         }
 
-        // applies filter and also ignores "." and ".."
-        private Path acceptEntry(String s, BasicFileAttributes attrs) {
-            Path entry = WindowsPath
-                .createFromNormalizedPath(dir.getFileSystem(), prefix + s, attrs);
+        // bpplies filter bnd blso ignores "." bnd ".."
+        privbte Pbth bcceptEntry(String s, BbsicFileAttributes bttrs) {
+            Pbth entry = WindowsPbth
+                .crebteFromNormblizedPbth(dir.getFileSystem(), prefix + s, bttrs);
             try {
-                if (filter.accept(entry))
+                if (filter.bccept(entry))
                     return entry;
-            } catch (IOException ioe) {
-                throw new DirectoryIteratorException(ioe);
+            } cbtch (IOException ioe) {
+                throw new DirectoryIterbtorException(ioe);
             }
             return null;
         }
 
-        // reads next directory entry
-        private Path readNextEntry() {
-            // handle first element returned by search
+        // rebds next directory entry
+        privbte Pbth rebdNextEntry() {
+            // hbndle first element returned by sebrch
             if (first != null) {
-                nextEntry = isSelfOrParent(first) ? null : acceptEntry(first, null);
+                nextEntry = isSelfOrPbrent(first) ? null : bcceptEntry(first, null);
                 first = null;
                 if (nextEntry != null)
                     return nextEntry;
             }
 
             for (;;) {
-                String name = null;
-                WindowsFileAttributes attrs;
+                String nbme = null;
+                WindowsFileAttributes bttrs;
 
-                // synchronize on closeLock to prevent close while reading
+                // synchronize on closeLock to prevent close while rebding
                 synchronized (closeLock) {
                     try {
                         if (isOpen) {
-                            name = FindNextFile(handle, findDataBuffer.address());
+                            nbme = FindNextFile(hbndle, findDbtbBuffer.bddress());
                         }
-                    } catch (WindowsException x) {
-                        IOException ioe = x.asIOException(dir);
-                        throw new DirectoryIteratorException(ioe);
+                    } cbtch (WindowsException x) {
+                        IOException ioe = x.bsIOException(dir);
+                        throw new DirectoryIterbtorException(ioe);
                     }
 
-                    // NO_MORE_FILES or stream closed
-                    if (name == null) {
-                        atEof = true;
+                    // NO_MORE_FILES or strebm closed
+                    if (nbme == null) {
+                        btEof = true;
                         return null;
                     }
 
-                    // ignore link to self and parent directories
-                    if (isSelfOrParent(name))
+                    // ignore link to self bnd pbrent directories
+                    if (isSelfOrPbrent(nbme))
                         continue;
 
-                    // grab the attributes from the WIN32_FIND_DATA structure
-                    // (needs to be done while holding closeLock because close
-                    // will release the buffer)
-                    attrs = WindowsFileAttributes
-                        .fromFindData(findDataBuffer.address());
+                    // grbb the bttributes from the WIN32_FIND_DATA structure
+                    // (needs to be done while holding closeLock becbuse close
+                    // will relebse the buffer)
+                    bttrs = WindowsFileAttributes
+                        .fromFindDbtb(findDbtbBuffer.bddress());
                 }
 
-                // return entry if accepted by filter
-                Path entry = acceptEntry(name, attrs);
+                // return entry if bccepted by filter
+                Pbth entry = bcceptEntry(nbme, bttrs);
                 if (entry != null)
                     return entry;
             }
         }
 
         @Override
-        public synchronized boolean hasNext() {
-            if (nextEntry == null && !atEof)
-                nextEntry = readNextEntry();
+        public synchronized boolebn hbsNext() {
+            if (nextEntry == null && !btEof)
+                nextEntry = rebdNextEntry();
             return nextEntry != null;
         }
 
         @Override
-        public synchronized Path next() {
-            Path result = null;
-            if (nextEntry == null && !atEof) {
-                result = readNextEntry();
+        public synchronized Pbth next() {
+            Pbth result = null;
+            if (nextEntry == null && !btEof) {
+                result = rebdNextEntry();
             } else {
                 result = nextEntry;
                 nextEntry = null;
@@ -226,7 +226,7 @@ class WindowsDirectoryStream
 
         @Override
         public void remove() {
-            throw new UnsupportedOperationException();
+            throw new UnsupportedOperbtionException();
         }
     }
 }

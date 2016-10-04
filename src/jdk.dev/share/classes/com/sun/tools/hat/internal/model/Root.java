@@ -1,73 +1,73 @@
 /*
- * Copyright (c) 1997, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
 /*
- * The Original Code is HAT. The Initial Developer of the
- * Original Code is Bill Foote, with contributions from others
- * at JavaSoft/Sun.
+ * The Originbl Code is HAT. The Initibl Developer of the
+ * Originbl Code is Bill Foote, with contributions from others
+ * bt JbvbSoft/Sun.
  */
 
-package com.sun.tools.hat.internal.model;
+pbckbge com.sun.tools.hbt.internbl.model;
 
-import com.sun.tools.hat.internal.util.Misc;
+import com.sun.tools.hbt.internbl.util.Misc;
 
 /**
  *
- * @author      Bill Foote
+ * @buthor      Bill Foote
  */
 
 
 /**
- * Represents a member of the rootset, that is, one of the objects that
- * the GC starts from when marking reachable objects.
+ * Represents b member of the rootset, thbt is, one of the objects thbt
+ * the GC stbrts from when mbrking rebchbble objects.
  */
 
-public class Root {
+public clbss Root {
 
-    private long id;            // ID of the JavaThing we refer to
-    private long refererId;     // Thread or Class responsible for this, or 0
-    private int index = -1;             // Index in Snapshot.roots
-    private int type;
-    private String description;
-    private JavaHeapObject referer = null;
-    private StackTrace stackTrace = null;
+    privbte long id;            // ID of the JbvbThing we refer to
+    privbte long refererId;     // Threbd or Clbss responsible for this, or 0
+    privbte int index = -1;             // Index in Snbpshot.roots
+    privbte int type;
+    privbte String description;
+    privbte JbvbHebpObject referer = null;
+    privbte StbckTrbce stbckTrbce = null;
 
-    // Values for type.  Higher values are more interesting -- see getType().
-    // See also getTypeName()
-    public final static int INVALID_TYPE = 0;
-    public final static int UNKNOWN = 1;
-    public final static int SYSTEM_CLASS = 2;
+    // Vblues for type.  Higher vblues bre more interesting -- see getType().
+    // See blso getTypeNbme()
+    public finbl stbtic int INVALID_TYPE = 0;
+    public finbl stbtic int UNKNOWN = 1;
+    public finbl stbtic int SYSTEM_CLASS = 2;
 
-    public final static int NATIVE_LOCAL = 3;
-    public final static int NATIVE_STATIC = 4;
-    public final static int THREAD_BLOCK = 5;
-    public final static int BUSY_MONITOR = 6;
-    public final static int JAVA_LOCAL = 7;
-    public final static int NATIVE_STACK = 8;
-    public final static int JAVA_STATIC = 9;
+    public finbl stbtic int NATIVE_LOCAL = 3;
+    public finbl stbtic int NATIVE_STATIC = 4;
+    public finbl stbtic int THREAD_BLOCK = 5;
+    public finbl stbtic int BUSY_MONITOR = 6;
+    public finbl stbtic int JAVA_LOCAL = 7;
+    public finbl stbtic int NATIVE_STACK = 8;
+    public finbl stbtic int JAVA_STATIC = 9;
 
 
     public Root(long id, long refererId, int type, String description) {
@@ -76,12 +76,12 @@ public class Root {
 
 
     public Root(long id, long refererId, int type, String description,
-                StackTrace stackTrace) {
+                StbckTrbce stbckTrbce) {
         this.id = id;
         this.refererId = refererId;
         this.type = type;
         this.description = description;
-        this.stackTrace = stackTrace;
+        this.stbckTrbce = stbckTrbce;
     }
 
     public long getId() {
@@ -93,39 +93,39 @@ public class Root {
     }
 
     public String getDescription() {
-        if ("".equals(description)) {
-            return getTypeName() + " Reference";
+        if ("".equbls(description)) {
+            return getTypeNbme() + " Reference";
         } else {
             return description;
         }
     }
 
     /**
-     * Return type.  We guarantee that more interesting roots will have
-     * a type that is numerically higher.
+     * Return type.  We gubrbntee thbt more interesting roots will hbve
+     * b type thbt is numericblly higher.
      */
     public int getType() {
         return type;
     }
 
-    public String getTypeName() {
+    public String getTypeNbme() {
         switch(type) {
-            case INVALID_TYPE:          return "Invalid (?!?)";
-            case UNKNOWN:               return "Unknown";
-            case SYSTEM_CLASS:          return "System Class";
-            case NATIVE_LOCAL:          return "JNI Local";
-            case NATIVE_STATIC:         return "JNI Global";
-            case THREAD_BLOCK:          return "Thread Block";
-            case BUSY_MONITOR:          return "Busy Monitor";
-            case JAVA_LOCAL:            return "Java Local";
-            case NATIVE_STACK:          return "Native Stack (possibly Java local)";
-            case JAVA_STATIC:           return "Java Static";
-            default:                    return "??";
+            cbse INVALID_TYPE:          return "Invblid (?!?)";
+            cbse UNKNOWN:               return "Unknown";
+            cbse SYSTEM_CLASS:          return "System Clbss";
+            cbse NATIVE_LOCAL:          return "JNI Locbl";
+            cbse NATIVE_STATIC:         return "JNI Globbl";
+            cbse THREAD_BLOCK:          return "Threbd Block";
+            cbse BUSY_MONITOR:          return "Busy Monitor";
+            cbse JAVA_LOCAL:            return "Jbvb Locbl";
+            cbse NATIVE_STACK:          return "Nbtive Stbck (possibly Jbvb locbl)";
+            cbse JAVA_STATIC:           return "Jbvb Stbtic";
+            defbult:                    return "??";
         }
     }
 
     /**
-     * Given two Root instances, return the one that is most interesting.
+     * Given two Root instbnces, return the one thbt is most interesting.
      */
     public Root mostInteresting(Root other) {
         if (other.type > this.type) {
@@ -136,34 +136,34 @@ public class Root {
     }
 
     /**
-     * Get the object that's responsible for this root, if there is one.
-     * This will be null, a Thread object, or a Class object.
+     * Get the object thbt's responsible for this root, if there is one.
+     * This will be null, b Threbd object, or b Clbss object.
      */
-    public JavaHeapObject getReferer() {
+    public JbvbHebpObject getReferer() {
         return referer;
     }
 
     /**
-     * @return the stack trace responsible for this root, or null if there
+     * @return the stbck trbce responsible for this root, or null if there
      * is none.
      */
-    public StackTrace getStackTrace() {
-        return stackTrace;
+    public StbckTrbce getStbckTrbce() {
+        return stbckTrbce;
     }
 
     /**
-     * @return The index of this root in Snapshot.roots
+     * @return The index of this root in Snbpshot.roots
      */
     public int getIndex() {
         return index;
     }
 
-    void resolve(Snapshot ss) {
+    void resolve(Snbpshot ss) {
         if (refererId != 0) {
             referer = ss.findThing(refererId);
         }
-        if (stackTrace != null) {
-            stackTrace.resolve(ss);
+        if (stbckTrbce != null) {
+            stbckTrbce.resolve(ss);
         }
     }
 

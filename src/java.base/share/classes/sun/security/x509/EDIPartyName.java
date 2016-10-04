@@ -1,257 +1,257 @@
 /*
- * Copyright (c) 1997, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2004, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.x509;
+pbckbge sun.security.x509;
 
-import java.io.IOException;
+import jbvb.io.IOException;
 import sun.security.util.*;
 
 /**
- * This class defines the EDIPartyName of the GeneralName choice.
- * The ASN.1 syntax for this is:
+ * This clbss defines the EDIPbrtyNbme of the GenerblNbme choice.
+ * The ASN.1 syntbx for this is:
  * <pre>
- * EDIPartyName ::= SEQUENCE {
- *     nameAssigner  [0]  DirectoryString OPTIONAL,
- *     partyName     [1]  DirectoryString }
+ * EDIPbrtyNbme ::= SEQUENCE {
+ *     nbmeAssigner  [0]  DirectoryString OPTIONAL,
+ *     pbrtyNbme     [1]  DirectoryString }
  * </pre>
  *
- * @author Hemma Prafullchandra
- * @see GeneralName
- * @see GeneralNames
- * @see GeneralNameInterface
+ * @buthor Hemmb Prbfullchbndrb
+ * @see GenerblNbme
+ * @see GenerblNbmes
+ * @see GenerblNbmeInterfbce
  */
-public class EDIPartyName implements GeneralNameInterface {
+public clbss EDIPbrtyNbme implements GenerblNbmeInterfbce {
 
-    // Private data members
-    private static final byte TAG_ASSIGNER = 0;
-    private static final byte TAG_PARTYNAME = 1;
+    // Privbte dbtb members
+    privbte stbtic finbl byte TAG_ASSIGNER = 0;
+    privbte stbtic finbl byte TAG_PARTYNAME = 1;
 
-    private String assigner = null;
-    private String party = null;
+    privbte String bssigner = null;
+    privbte String pbrty = null;
 
-    private int myhash = -1;
+    privbte int myhbsh = -1;
 
     /**
-     * Create the EDIPartyName object from the specified names.
+     * Crebte the EDIPbrtyNbme object from the specified nbmes.
      *
-     * @param assignerName the name of the assigner
-     * @param partyName the name of the EDI party.
+     * @pbrbm bssignerNbme the nbme of the bssigner
+     * @pbrbm pbrtyNbme the nbme of the EDI pbrty.
      */
-    public EDIPartyName(String assignerName, String partyName) {
-        this.assigner = assignerName;
-        this.party = partyName;
+    public EDIPbrtyNbme(String bssignerNbme, String pbrtyNbme) {
+        this.bssigner = bssignerNbme;
+        this.pbrty = pbrtyNbme;
     }
 
     /**
-     * Create the EDIPartyName object from the specified name.
+     * Crebte the EDIPbrtyNbme object from the specified nbme.
      *
-     * @param partyName the name of the EDI party.
+     * @pbrbm pbrtyNbme the nbme of the EDI pbrty.
      */
-    public EDIPartyName(String partyName) {
-        this.party = partyName;
+    public EDIPbrtyNbme(String pbrtyNbme) {
+        this.pbrty = pbrtyNbme;
     }
 
     /**
-     * Create the EDIPartyName object from the passed encoded Der value.
+     * Crebte the EDIPbrtyNbme object from the pbssed encoded Der vblue.
      *
-     * @param derValue the encoded DER EDIPartyName.
+     * @pbrbm derVblue the encoded DER EDIPbrtyNbme.
      * @exception IOException on error.
      */
-    public EDIPartyName(DerValue derValue) throws IOException {
-        DerInputStream in = new DerInputStream(derValue.toByteArray());
-        DerValue[] seq = in.getSequence(2);
+    public EDIPbrtyNbme(DerVblue derVblue) throws IOException {
+        DerInputStrebm in = new DerInputStrebm(derVblue.toByteArrby());
+        DerVblue[] seq = in.getSequence(2);
 
         int len = seq.length;
         if (len < 1 || len > 2)
-            throw new IOException("Invalid encoding of EDIPartyName");
+            throw new IOException("Invblid encoding of EDIPbrtyNbme");
 
         for (int i = 0; i < len; i++) {
-            DerValue opt = seq[i];
+            DerVblue opt = seq[i];
             if (opt.isContextSpecific(TAG_ASSIGNER) &&
                 !opt.isConstructed()) {
-                if (assigner != null)
-                    throw new IOException("Duplicate nameAssigner found in"
-                                          + " EDIPartyName");
-                opt = opt.data.getDerValue();
-                assigner = opt.getAsString();
+                if (bssigner != null)
+                    throw new IOException("Duplicbte nbmeAssigner found in"
+                                          + " EDIPbrtyNbme");
+                opt = opt.dbtb.getDerVblue();
+                bssigner = opt.getAsString();
             }
             if (opt.isContextSpecific(TAG_PARTYNAME) &&
                 !opt.isConstructed()) {
-                if (party != null)
-                    throw new IOException("Duplicate partyName found in"
-                                          + " EDIPartyName");
-                opt = opt.data.getDerValue();
-                party = opt.getAsString();
+                if (pbrty != null)
+                    throw new IOException("Duplicbte pbrtyNbme found in"
+                                          + " EDIPbrtyNbme");
+                opt = opt.dbtb.getDerVblue();
+                pbrty = opt.getAsString();
             }
         }
     }
 
     /**
-     * Return the type of the GeneralName.
+     * Return the type of the GenerblNbme.
      */
     public int getType() {
-        return (GeneralNameInterface.NAME_EDI);
+        return (GenerblNbmeInterfbce.NAME_EDI);
     }
 
     /**
-     * Encode the EDI party name into the DerOutputStream.
+     * Encode the EDI pbrty nbme into the DerOutputStrebm.
      *
-     * @param out the DER stream to encode the EDIPartyName to.
+     * @pbrbm out the DER strebm to encode the EDIPbrtyNbme to.
      * @exception IOException on encoding errors.
      */
-    public void encode(DerOutputStream out) throws IOException {
-        DerOutputStream tagged = new DerOutputStream();
-        DerOutputStream tmp = new DerOutputStream();
+    public void encode(DerOutputStrebm out) throws IOException {
+        DerOutputStrebm tbgged = new DerOutputStrebm();
+        DerOutputStrebm tmp = new DerOutputStrebm();
 
-        if (assigner != null) {
-            DerOutputStream tmp2 = new DerOutputStream();
-            // XXX - shd check is chars fit into PrintableString
-            tmp2.putPrintableString(assigner);
-            tagged.write(DerValue.createTag(DerValue.TAG_CONTEXT,
-                                 false, TAG_ASSIGNER), tmp2);
+        if (bssigner != null) {
+            DerOutputStrebm tmp2 = new DerOutputStrebm();
+            // XXX - shd check is chbrs fit into PrintbbleString
+            tmp2.putPrintbbleString(bssigner);
+            tbgged.write(DerVblue.crebteTbg(DerVblue.TAG_CONTEXT,
+                                 fblse, TAG_ASSIGNER), tmp2);
         }
-        if (party == null)
-            throw  new IOException("Cannot have null partyName");
+        if (pbrty == null)
+            throw  new IOException("Cbnnot hbve null pbrtyNbme");
 
-        // XXX - shd check is chars fit into PrintableString
-        tmp.putPrintableString(party);
-        tagged.write(DerValue.createTag(DerValue.TAG_CONTEXT,
-                                 false, TAG_PARTYNAME), tmp);
+        // XXX - shd check is chbrs fit into PrintbbleString
+        tmp.putPrintbbleString(pbrty);
+        tbgged.write(DerVblue.crebteTbg(DerVblue.TAG_CONTEXT,
+                                 fblse, TAG_PARTYNAME), tmp);
 
-        out.write(DerValue.tag_Sequence, tagged);
+        out.write(DerVblue.tbg_Sequence, tbgged);
     }
 
     /**
-     * Return the assignerName
+     * Return the bssignerNbme
      *
-     * @returns String assignerName
+     * @returns String bssignerNbme
      */
-    public String getAssignerName() {
-        return assigner;
+    public String getAssignerNbme() {
+        return bssigner;
     }
 
     /**
-     * Return the partyName
+     * Return the pbrtyNbme
      *
-     * @returns String partyName
+     * @returns String pbrtyNbme
      */
-    public String getPartyName() {
-        return party;
+    public String getPbrtyNbme() {
+        return pbrty;
     }
 
     /**
-     * Compare this EDIPartyName with another.  Does a byte-string
-     * comparison without regard to type of the partyName and
-     * the assignerName.
+     * Compbre this EDIPbrtyNbme with bnother.  Does b byte-string
+     * compbrison without regbrd to type of the pbrtyNbme bnd
+     * the bssignerNbme.
      *
-     * @returns true if the two names match
+     * @returns true if the two nbmes mbtch
      */
-    public boolean equals(Object other) {
-        if (!(other instanceof EDIPartyName))
-            return false;
-        String otherAssigner = ((EDIPartyName)other).assigner;
-        if (this.assigner == null) {
+    public boolebn equbls(Object other) {
+        if (!(other instbnceof EDIPbrtyNbme))
+            return fblse;
+        String otherAssigner = ((EDIPbrtyNbme)other).bssigner;
+        if (this.bssigner == null) {
             if (otherAssigner != null)
-                return false;
+                return fblse;
         } else {
-            if (!(this.assigner.equals(otherAssigner)))
-                return false;
+            if (!(this.bssigner.equbls(otherAssigner)))
+                return fblse;
         }
-        String otherParty = ((EDIPartyName)other).party;
-        if (this.party == null) {
-            if (otherParty != null)
-                return false;
+        String otherPbrty = ((EDIPbrtyNbme)other).pbrty;
+        if (this.pbrty == null) {
+            if (otherPbrty != null)
+                return fblse;
         } else {
-            if (!(this.party.equals(otherParty)))
-                return false;
+            if (!(this.pbrty.equbls(otherPbrty)))
+                return fblse;
         }
         return true;
     }
 
     /**
-     * Returns the hash code value for this EDIPartyName.
+     * Returns the hbsh code vblue for this EDIPbrtyNbme.
      *
-     * @return a hash code value.
+     * @return b hbsh code vblue.
      */
-    public int hashCode() {
-        if (myhash == -1) {
-            myhash = 37 + party.hashCode();
-            if (assigner != null) {
-                myhash = 37 * myhash + assigner.hashCode();
+    public int hbshCode() {
+        if (myhbsh == -1) {
+            myhbsh = 37 + pbrty.hbshCode();
+            if (bssigner != null) {
+                myhbsh = 37 * myhbsh + bssigner.hbshCode();
             }
         }
-        return myhash;
+        return myhbsh;
     }
 
     /**
-     * Return the printable string.
+     * Return the printbble string.
      */
     public String toString() {
-        return ("EDIPartyName: " +
-                 ((assigner == null) ? "" :
-                   ("  nameAssigner = " + assigner + ","))
-                 + "  partyName = " + party);
+        return ("EDIPbrtyNbme: " +
+                 ((bssigner == null) ? "" :
+                   ("  nbmeAssigner = " + bssigner + ","))
+                 + "  pbrtyNbme = " + pbrty);
     }
 
     /**
-     * Return constraint type:<ul>
-     *   <li>NAME_DIFF_TYPE = -1: input name is different type from name (i.e. does not constrain)
-     *   <li>NAME_MATCH = 0: input name matches name
-     *   <li>NAME_NARROWS = 1: input name narrows name
-     *   <li>NAME_WIDENS = 2: input name widens name
-     *   <li>NAME_SAME_TYPE = 3: input name does not match or narrow name, but is same type
-     * </ul>.  These results are used in checking NameConstraints during
-     * certification path verification.
+     * Return constrbint type:<ul>
+     *   <li>NAME_DIFF_TYPE = -1: input nbme is different type from nbme (i.e. does not constrbin)
+     *   <li>NAME_MATCH = 0: input nbme mbtches nbme
+     *   <li>NAME_NARROWS = 1: input nbme nbrrows nbme
+     *   <li>NAME_WIDENS = 2: input nbme widens nbme
+     *   <li>NAME_SAME_TYPE = 3: input nbme does not mbtch or nbrrow nbme, but is sbme type
+     * </ul>.  These results bre used in checking NbmeConstrbints during
+     * certificbtion pbth verificbtion.
      *
-     * @param inputName to be checked for being constrained
-     * @returns constraint type above
-     * @throws UnsupportedOperationException if name is same type, but comparison operations are
-     *          not supported for this name type.
+     * @pbrbm inputNbme to be checked for being constrbined
+     * @returns constrbint type bbove
+     * @throws UnsupportedOperbtionException if nbme is sbme type, but compbrison operbtions bre
+     *          not supported for this nbme type.
      */
-    public int constrains(GeneralNameInterface inputName) throws UnsupportedOperationException {
-        int constraintType;
-        if (inputName == null)
-            constraintType = NAME_DIFF_TYPE;
-        else if (inputName.getType() != NAME_EDI)
-            constraintType = NAME_DIFF_TYPE;
+    public int constrbins(GenerblNbmeInterfbce inputNbme) throws UnsupportedOperbtionException {
+        int constrbintType;
+        if (inputNbme == null)
+            constrbintType = NAME_DIFF_TYPE;
+        else if (inputNbme.getType() != NAME_EDI)
+            constrbintType = NAME_DIFF_TYPE;
         else {
-            throw new UnsupportedOperationException("Narrowing, widening, and matching of names not supported for EDIPartyName");
+            throw new UnsupportedOperbtionException("Nbrrowing, widening, bnd mbtching of nbmes not supported for EDIPbrtyNbme");
         }
-        return constraintType;
+        return constrbintType;
     }
 
     /**
-     * Return subtree depth of this name for purposes of determining
-     * NameConstraints minimum and maximum bounds and for calculating
-     * path lengths in name subtrees.
+     * Return subtree depth of this nbme for purposes of determining
+     * NbmeConstrbints minimum bnd mbximum bounds bnd for cblculbting
+     * pbth lengths in nbme subtrees.
      *
-     * @returns distance of name from root
-     * @throws UnsupportedOperationException if not supported for this name type
+     * @returns distbnce of nbme from root
+     * @throws UnsupportedOperbtionException if not supported for this nbme type
      */
-    public int subtreeDepth() throws UnsupportedOperationException {
-        throw new UnsupportedOperationException("subtreeDepth() not supported for EDIPartyName");
+    public int subtreeDepth() throws UnsupportedOperbtionException {
+        throw new UnsupportedOperbtionException("subtreeDepth() not supported for EDIPbrtyNbme");
     }
 
 }

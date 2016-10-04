@@ -1,238 +1,238 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.apple.laf;
+pbckbge com.bpple.lbf;
 
-import java.awt.*;
-import java.beans.PropertyChangeEvent;
+import jbvb.bwt.*;
+import jbvb.bebns.PropertyChbngeEvent;
 
-import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.plaf.basic.BasicSplitPaneDivider;
+import jbvbx.swing.*;
+import jbvbx.swing.border.Border;
+import jbvbx.swing.plbf.bbsic.BbsicSplitPbneDivider;
 
-import apple.laf.*;
-import apple.laf.JRSUIConstants.State;
+import bpple.lbf.*;
+import bpple.lbf.JRSUIConstbnts.Stbte;
 
-import com.apple.laf.AquaUtils.LazyKeyedSingleton;
-import com.apple.laf.AquaUtils.RecyclableSingleton;
-import com.apple.laf.AquaUtils.RecyclableSingletonFromDefaultConstructor;
+import com.bpple.lbf.AqubUtils.LbzyKeyedSingleton;
+import com.bpple.lbf.AqubUtils.RecyclbbleSingleton;
+import com.bpple.lbf.AqubUtils.RecyclbbleSingletonFromDefbultConstructor;
 
-@SuppressWarnings("serial") // Superclass is not serializable across versions
-public class AquaSplitPaneDividerUI extends BasicSplitPaneDivider {
-    final AquaPainter<JRSUIState> painter = AquaPainter.create(JRSUIStateFactory.getSplitPaneDivider());
+@SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+public clbss AqubSplitPbneDividerUI extends BbsicSplitPbneDivider {
+    finbl AqubPbinter<JRSUIStbte> pbinter = AqubPbinter.crebte(JRSUIStbteFbctory.getSplitPbneDivider());
 
-    public AquaSplitPaneDividerUI(final AquaSplitPaneUI ui) {
+    public AqubSplitPbneDividerUI(finbl AqubSplitPbneUI ui) {
         super(ui);
-        setLayout(new AquaSplitPaneDividerUI.DividerLayout());
+        setLbyout(new AqubSplitPbneDividerUI.DividerLbyout());
     }
 
     /**
-     * Property change event, presumably from the JSplitPane, will message
-     * updateOrientation if necessary.
+     * Property chbnge event, presumbbly from the JSplitPbne, will messbge
+     * updbteOrientbtion if necessbry.
      */
-    public void propertyChange(final PropertyChangeEvent e) {
-        if (e.getSource() == splitPane) {
-            final String propName = e.getPropertyName();
-            if ("enabled".equals(propName)) {
-                final boolean enabled = splitPane.isEnabled();
-                if (leftButton != null) leftButton.setEnabled(enabled);
-                if (rightButton != null) rightButton.setEnabled(enabled);
-            } else if (JSplitPane.ORIENTATION_PROPERTY.equals(propName)) {
-                // need to regenerate the buttons, since we bake the orientation into them
+    public void propertyChbnge(finbl PropertyChbngeEvent e) {
+        if (e.getSource() == splitPbne) {
+            finbl String propNbme = e.getPropertyNbme();
+            if ("enbbled".equbls(propNbme)) {
+                finbl boolebn enbbled = splitPbne.isEnbbled();
+                if (leftButton != null) leftButton.setEnbbled(enbbled);
+                if (rightButton != null) rightButton.setEnbbled(enbbled);
+            } else if (JSplitPbne.ORIENTATION_PROPERTY.equbls(propNbme)) {
+                // need to regenerbte the buttons, since we bbke the orientbtion into them
                 if (rightButton  != null) {
                     remove(rightButton); rightButton = null;
                 }
                 if (leftButton != null) {
                     remove(leftButton); leftButton = null;
                 }
-                oneTouchExpandableChanged();
+                oneTouchExpbndbbleChbnged();
             }
         }
-        super.propertyChange(e);
+        super.propertyChbnge(e);
     }
 
-    public int getMaxDividerSize() {
+    public int getMbxDividerSize() {
         return 10;
     }
 
     /**
-     * Paints the divider.
+     * Pbints the divider.
      */
-    public void paint(final Graphics g) {
-        final Dimension size = getSize();
+    public void pbint(finbl Grbphics g) {
+        finbl Dimension size = getSize();
         int x = 0;
         int y = 0;
 
-        final boolean horizontal = splitPane.getOrientation() == SwingConstants.HORIZONTAL;
-        //System.err.println("Size = " + size + " orientation horiz = " + horizontal);
-        // size determines orientation
-        final int maxSize = getMaxDividerSize();
-        boolean doPaint = true;
-        if (horizontal) {
-            if (size.height > maxSize) {
-                final int diff = size.height - maxSize;
+        finbl boolebn horizontbl = splitPbne.getOrientbtion() == SwingConstbnts.HORIZONTAL;
+        //System.err.println("Size = " + size + " orientbtion horiz = " + horizontbl);
+        // size determines orientbtion
+        finbl int mbxSize = getMbxDividerSize();
+        boolebn doPbint = true;
+        if (horizontbl) {
+            if (size.height > mbxSize) {
+                finbl int diff = size.height - mbxSize;
                 y = diff / 2;
-                size.height = maxSize;
+                size.height = mbxSize;
             }
-            if (size.height < 4) doPaint = false;
+            if (size.height < 4) doPbint = fblse;
         } else {
-            if (size.width > maxSize) {
-                final int diff = size.width - maxSize;
+            if (size.width > mbxSize) {
+                finbl int diff = size.width - mbxSize;
                 x = diff / 2;
-                size.width = maxSize;
+                size.width = mbxSize;
             }
-            if (size.width < 4) doPaint = false;
+            if (size.width < 4) doPbint = fblse;
         }
 
-        if (doPaint) {
-            painter.state.set(getState());
-            painter.paint(g, splitPane, x, y, size.width, size.height);
+        if (doPbint) {
+            pbinter.stbte.set(getStbte());
+            pbinter.pbint(g, splitPbne, x, y, size.width, size.height);
         }
 
-        super.paint(g); // Ends up at Container.paint, which paints our JButton children
+        super.pbint(g); // Ends up bt Contbiner.pbint, which pbints our JButton children
     }
 
-    protected State getState() {
-        return splitPane.isEnabled() ? State.ACTIVE : State.DISABLED;
+    protected Stbte getStbte() {
+        return splitPbne.isEnbbled() ? Stbte.ACTIVE : Stbte.DISABLED;
     }
 
-    protected JButton createLeftOneTouchButton() {
-        return createButtonForDirection(getDirection(true));
+    protected JButton crebteLeftOneTouchButton() {
+        return crebteButtonForDirection(getDirection(true));
     }
 
-    protected JButton createRightOneTouchButton() {
-        return createButtonForDirection(getDirection(false));
+    protected JButton crebteRightOneTouchButton() {
+        return crebteButtonForDirection(getDirection(fblse));
     }
 
-    static final LazyKeyedSingleton<Integer, Image> directionArrows = new LazyKeyedSingleton<Integer, Image>() {
-        protected Image getInstance(final Integer direction) {
-            final Image arrowImage = AquaImageFactory.getArrowImageForDirection(direction);
-            final int h = (arrowImage.getHeight(null) * 5) / 7;
-            final int w = (arrowImage.getWidth(null) * 5) / 7;
-            return AquaUtils.generateLightenedImage(arrowImage.getScaledInstance(w, h, Image.SCALE_SMOOTH), 50);
+    stbtic finbl LbzyKeyedSingleton<Integer, Imbge> directionArrows = new LbzyKeyedSingleton<Integer, Imbge>() {
+        protected Imbge getInstbnce(finbl Integer direction) {
+            finbl Imbge brrowImbge = AqubImbgeFbctory.getArrowImbgeForDirection(direction);
+            finbl int h = (brrowImbge.getHeight(null) * 5) / 7;
+            finbl int w = (brrowImbge.getWidth(null) * 5) / 7;
+            return AqubUtils.generbteLightenedImbge(brrowImbge.getScbledInstbnce(w, h, Imbge.SCALE_SMOOTH), 50);
         }
     };
 
-    // separate static, because the divider needs to be serializable
-    // see <rdar://problem/7590946> JSplitPane is not serializable when using Aqua look and feel
-    static JButton createButtonForDirection(final int direction) {
-        final JButton button = new JButton(new ImageIcon(directionArrows.get(Integer.valueOf(direction))));
+    // sepbrbte stbtic, becbuse the divider needs to be seriblizbble
+    // see <rdbr://problem/7590946> JSplitPbne is not seriblizbble when using Aqub look bnd feel
+    stbtic JButton crebteButtonForDirection(finbl int direction) {
+        finbl JButton button = new JButton(new ImbgeIcon(directionArrows.get(Integer.vblueOf(direction))));
         button.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-        button.setFocusPainted(false);
-        button.setRequestFocusEnabled(false);
-        button.setFocusable(false);
-        button.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        button.setFocusPbinted(fblse);
+        button.setRequestFocusEnbbled(fblse);
+        button.setFocusbble(fblse);
+        button.setBorder(BorderFbctory.crebteEmptyBorder(1, 1, 1, 1));
         return button;
     }
 
-    int getDirection(final boolean isLeft) {
-        if (splitPane.getOrientation() == JSplitPane.HORIZONTAL_SPLIT) {
-            return isLeft ? SwingConstants.WEST : SwingConstants.EAST;
+    int getDirection(finbl boolebn isLeft) {
+        if (splitPbne.getOrientbtion() == JSplitPbne.HORIZONTAL_SPLIT) {
+            return isLeft ? SwingConstbnts.WEST : SwingConstbnts.EAST;
         }
 
-        return isLeft ? SwingConstants.NORTH : SwingConstants.SOUTH;
+        return isLeft ? SwingConstbnts.NORTH : SwingConstbnts.SOUTH;
     }
 
-    static final int kMaxPopupArrowSize = 9;
-    protected class DividerLayout extends BasicSplitPaneDivider.DividerLayout {
-        public void layoutContainer(final Container c) {
-            final int maxSize = getMaxDividerSize();
-            final Dimension size = getSize();
+    stbtic finbl int kMbxPopupArrowSize = 9;
+    protected clbss DividerLbyout extends BbsicSplitPbneDivider.DividerLbyout {
+        public void lbyoutContbiner(finbl Contbiner c) {
+            finbl int mbxSize = getMbxDividerSize();
+            finbl Dimension size = getSize();
 
-            if (leftButton == null || rightButton == null || c != AquaSplitPaneDividerUI.this) return;
+            if (leftButton == null || rightButton == null || c != AqubSplitPbneDividerUI.this) return;
 
-            if (!splitPane.isOneTouchExpandable()) {
+            if (!splitPbne.isOneTouchExpbndbble()) {
                 leftButton.setBounds(-5, -5, 1, 1);
                 rightButton.setBounds(-5, -5, 1, 1);
                 return;
             }
 
-            final int blockSize = Math.min(getDividerSize(), kMaxPopupArrowSize); // make it 1 less than divider, or kMaxPopupArrowSize
+            finbl int blockSize = Mbth.min(getDividerSize(), kMbxPopupArrowSize); // mbke it 1 less thbn divider, or kMbxPopupArrowSize
 
-            // put them at the right or the bottom
-            if (orientation == JSplitPane.VERTICAL_SPLIT) {
+            // put them bt the right or the bottom
+            if (orientbtion == JSplitPbne.VERTICAL_SPLIT) {
                 int yPosition = 0;
-                if (size.height > maxSize) {
-                    final int diff = size.height - maxSize;
+                if (size.height > mbxSize) {
+                    finbl int diff = size.height - mbxSize;
                     yPosition = diff / 2;
                 }
-                int xPosition = kMaxPopupArrowSize + ONE_TOUCH_OFFSET;
+                int xPosition = kMbxPopupArrowSize + ONE_TOUCH_OFFSET;
 
-                rightButton.setBounds(xPosition, yPosition, kMaxPopupArrowSize, blockSize);
+                rightButton.setBounds(xPosition, yPosition, kMbxPopupArrowSize, blockSize);
 
-                xPosition -= (kMaxPopupArrowSize + ONE_TOUCH_OFFSET);
-                leftButton.setBounds(xPosition, yPosition, kMaxPopupArrowSize, blockSize);
+                xPosition -= (kMbxPopupArrowSize + ONE_TOUCH_OFFSET);
+                leftButton.setBounds(xPosition, yPosition, kMbxPopupArrowSize, blockSize);
             } else {
                 int xPosition = 0;
-                if (size.width > maxSize) {
-                    final int diff = size.width - maxSize;
+                if (size.width > mbxSize) {
+                    finbl int diff = size.width - mbxSize;
                     xPosition = diff / 2;
                 }
-                int yPosition = kMaxPopupArrowSize + ONE_TOUCH_OFFSET;
+                int yPosition = kMbxPopupArrowSize + ONE_TOUCH_OFFSET;
 
-                rightButton.setBounds(xPosition, yPosition, blockSize, kMaxPopupArrowSize);
+                rightButton.setBounds(xPosition, yPosition, blockSize, kMbxPopupArrowSize);
 
-                yPosition -= (kMaxPopupArrowSize + ONE_TOUCH_OFFSET);
-                leftButton.setBounds(xPosition, yPosition, blockSize, kMaxPopupArrowSize);
+                yPosition -= (kMbxPopupArrowSize + ONE_TOUCH_OFFSET);
+                leftButton.setBounds(xPosition, yPosition, blockSize, kMbxPopupArrowSize);
             }
         }
     }
 
-    public static Border getHorizontalSplitDividerGradientVariant() {
-        return HorizontalSplitDividerGradientPainter.instance();
+    public stbtic Border getHorizontblSplitDividerGrbdientVbribnt() {
+        return HorizontblSplitDividerGrbdientPbinter.instbnce();
     }
 
-    static class HorizontalSplitDividerGradientPainter implements Border {
-        private static final RecyclableSingleton<HorizontalSplitDividerGradientPainter> instance = new RecyclableSingletonFromDefaultConstructor<HorizontalSplitDividerGradientPainter>(HorizontalSplitDividerGradientPainter.class);
-        static HorizontalSplitDividerGradientPainter instance() {
-            return instance.get();
+    stbtic clbss HorizontblSplitDividerGrbdientPbinter implements Border {
+        privbte stbtic finbl RecyclbbleSingleton<HorizontblSplitDividerGrbdientPbinter> instbnce = new RecyclbbleSingletonFromDefbultConstructor<HorizontblSplitDividerGrbdientPbinter>(HorizontblSplitDividerGrbdientPbinter.clbss);
+        stbtic HorizontblSplitDividerGrbdientPbinter instbnce() {
+            return instbnce.get();
         }
 
-        final Color startColor = Color.white;
-        final Color endColor = new Color(217, 217, 217);
-        final Color borderLines = Color.lightGray;
+        finbl Color stbrtColor = Color.white;
+        finbl Color endColor = new Color(217, 217, 217);
+        finbl Color borderLines = Color.lightGrby;
 
-        public Insets getBorderInsets(final Component c) {
+        public Insets getBorderInsets(finbl Component c) {
             return new Insets(0, 0, 0, 0);
         }
 
-        public boolean isBorderOpaque() {
+        public boolebn isBorderOpbque() {
             return true;
         }
 
-        public void paintBorder(final Component c, final Graphics g, final int x, final int y, final int width, final int height) {
-            if (!(g instanceof Graphics2D)) return;
+        public void pbintBorder(finbl Component c, finbl Grbphics g, finbl int x, finbl int y, finbl int width, finbl int height) {
+            if (!(g instbnceof Grbphics2D)) return;
 
-            final Graphics2D g2d = (Graphics2D)g;
-            final Color oldColor = g2d.getColor();
+            finbl Grbphics2D g2d = (Grbphics2D)g;
+            finbl Color oldColor = g2d.getColor();
 
-            g2d.setPaint(new GradientPaint(0, 0, startColor, 0, height, endColor));
+            g2d.setPbint(new GrbdientPbint(0, 0, stbrtColor, 0, height, endColor));
             g2d.fillRect(x, y, width, height);
             g2d.setColor(borderLines);
-            g2d.drawLine(x, y, x + width, y);
-            g2d.drawLine(x, y + height - 1, x + width, y + height - 1);
+            g2d.drbwLine(x, y, x + width, y);
+            g2d.drbwLine(x, y + height - 1, x + width, y + height - 1);
 
             g2d.setColor(oldColor);
         }

@@ -3,24 +3,24 @@
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Licensed to the Apbche Softwbre Foundbtion (ASF) under one
+ * or more contributor license bgreements. See the NOTICE file
+ * distributed with this work for bdditionbl informbtion
+ * regbrding copyright ownership. The ASF licenses this file
+ * to you under the Apbche License, Version 2.0 (the
+ * "License"); you mby not use this file except in complibnce
+ * with the License. You mby obtbin b copy of the License bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.bpbche.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unless required by bpplicbble lbw or bgreed to in writing,
+ * softwbre distributed under the License is distributed on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
+ * specific lbngubge governing permissions bnd limitbtions
  * under the License.
  */
-package com.sun.org.apache.xml.internal.security.utils;
+pbckbge com.sun.org.bpbche.xml.internbl.security.utils;
 
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
@@ -28,36 +28,36 @@ import org.w3c.dom.Element;
 
 
 /**
- * Purpose of this class is to enable the XML Parser to keep track of ID
- * attributes. This is done by 'registering' attributes of type ID at the
+ * Purpose of this clbss is to enbble the XML Pbrser to keep trbck of ID
+ * bttributes. This is done by 'registering' bttributes of type ID bt the
  * IdResolver.
- * @deprecated
+ * @deprecbted
  */
-@Deprecated
-public class IdResolver {
+@Deprecbted
+public clbss IdResolver {
 
-    private IdResolver() {
-        // we don't allow instantiation
+    privbte IdResolver() {
+        // we don't bllow instbntibtion
     }
 
     /**
      * Method registerElementById
      *
-     * @param element the element to register
-     * @param id the ID attribute
+     * @pbrbm element the element to register
+     * @pbrbm id the ID bttribute
      */
-    public static void registerElementById(Element element, Attr id) {
+    public stbtic void registerElementById(Element element, Attr id) {
         element.setIdAttributeNode(id, true);
     }
 
     /**
      * Method getElementById
      *
-     * @param doc the document
-     * @param id the value of the ID
-     * @return the element obtained by the id, or null if it is not found.
+     * @pbrbm doc the document
+     * @pbrbm id the vblue of the ID
+     * @return the element obtbined by the id, or null if it is not found.
      */
-    public static Element getElementById(Document doc, String id) {
+    public stbtic Element getElementById(Document doc, String id) {
         return doc.getElementById(id);
     }
 

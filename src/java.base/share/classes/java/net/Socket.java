@@ -1,83 +1,83 @@
 /*
- * Copyright (c) 1995, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.net;
+pbckbge jbvb.net;
 
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.IOException;
-import java.nio.channels.SocketChannel;
-import java.security.AccessController;
-import java.security.PrivilegedExceptionAction;
-import java.security.PrivilegedAction;
-import java.util.Set;
-import java.util.Collections;
+import jbvb.io.InputStrebm;
+import jbvb.io.OutputStrebm;
+import jbvb.io.IOException;
+import jbvb.nio.chbnnels.SocketChbnnel;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedExceptionAction;
+import jbvb.security.PrivilegedAction;
+import jbvb.util.Set;
+import jbvb.util.Collections;
 
 /**
- * This class implements client sockets (also called just
- * "sockets"). A socket is an endpoint for communication
- * between two machines.
+ * This clbss implements client sockets (blso cblled just
+ * "sockets"). A socket is bn endpoint for communicbtion
+ * between two mbchines.
  * <p>
- * The actual work of the socket is performed by an instance of the
- * {@code SocketImpl} class. An application, by changing
- * the socket factory that creates the socket implementation,
- * can configure itself to create sockets appropriate to the local
- * firewall.
+ * The bctubl work of the socket is performed by bn instbnce of the
+ * {@code SocketImpl} clbss. An bpplicbtion, by chbnging
+ * the socket fbctory thbt crebtes the socket implementbtion,
+ * cbn configure itself to crebte sockets bppropribte to the locbl
+ * firewbll.
  *
- * @author  unascribed
- * @see     java.net.Socket#setSocketImplFactory(java.net.SocketImplFactory)
- * @see     java.net.SocketImpl
- * @see     java.nio.channels.SocketChannel
+ * @buthor  unbscribed
+ * @see     jbvb.net.Socket#setSocketImplFbctory(jbvb.net.SocketImplFbctory)
+ * @see     jbvb.net.SocketImpl
+ * @see     jbvb.nio.chbnnels.SocketChbnnel
  * @since   1.0
  */
 public
-class Socket implements java.io.Closeable {
+clbss Socket implements jbvb.io.Closebble {
     /**
-     * Various states of this socket.
+     * Vbrious stbtes of this socket.
      */
-    private boolean created = false;
-    private boolean bound = false;
-    private boolean connected = false;
-    private boolean closed = false;
-    private Object closeLock = new Object();
-    private boolean shutIn = false;
-    private boolean shutOut = false;
+    privbte boolebn crebted = fblse;
+    privbte boolebn bound = fblse;
+    privbte boolebn connected = fblse;
+    privbte boolebn closed = fblse;
+    privbte Object closeLock = new Object();
+    privbte boolebn shutIn = fblse;
+    privbte boolebn shutOut = fblse;
 
     /**
-     * The implementation of this Socket.
+     * The implementbtion of this Socket.
      */
     SocketImpl impl;
 
     /**
-     * Are we using an older SocketImpl?
+     * Are we using bn older SocketImpl?
      */
-    private boolean oldImpl = false;
+    privbte boolebn oldImpl = fblse;
 
     /**
-     * Creates an unconnected socket, with the
-     * system-default type of SocketImpl.
+     * Crebtes bn unconnected socket, with the
+     * system-defbult type of SocketImpl.
      *
      * @since   1.1
      * @revised 1.4
@@ -87,52 +87,52 @@ class Socket implements java.io.Closeable {
     }
 
     /**
-     * Creates an unconnected socket, specifying the type of proxy, if any,
-     * that should be used regardless of any other settings.
+     * Crebtes bn unconnected socket, specifying the type of proxy, if bny,
+     * thbt should be used regbrdless of bny other settings.
      * <P>
-     * If there is a security manager, its {@code checkConnect} method
-     * is called with the proxy host address and port number
-     * as its arguments. This could result in a SecurityException.
+     * If there is b security mbnbger, its {@code checkConnect} method
+     * is cblled with the proxy host bddress bnd port number
+     * bs its brguments. This could result in b SecurityException.
      * <P>
-     * Examples:
-     * <UL> <LI>{@code Socket s = new Socket(Proxy.NO_PROXY);} will create
-     * a plain socket ignoring any other proxy configuration.</LI>
+     * Exbmples:
+     * <UL> <LI>{@code Socket s = new Socket(Proxy.NO_PROXY);} will crebte
+     * b plbin socket ignoring bny other proxy configurbtion.</LI>
      * <LI>{@code Socket s = new Socket(new Proxy(Proxy.Type.SOCKS, new InetSocketAddress("socks.mydom.com", 1080)));}
-     * will create a socket connecting through the specified SOCKS proxy
+     * will crebte b socket connecting through the specified SOCKS proxy
      * server.</LI>
      * </UL>
      *
-     * @param proxy a {@link java.net.Proxy Proxy} object specifying what kind
+     * @pbrbm proxy b {@link jbvb.net.Proxy Proxy} object specifying whbt kind
      *              of proxying should be used.
-     * @throws IllegalArgumentException if the proxy is of an invalid type
+     * @throws IllegblArgumentException if the proxy is of bn invblid type
      *          or {@code null}.
-     * @throws SecurityException if a security manager is present and
+     * @throws SecurityException if b security mbnbger is present bnd
      *                           permission to connect to the proxy is
      *                           denied.
-     * @see java.net.ProxySelector
-     * @see java.net.Proxy
+     * @see jbvb.net.ProxySelector
+     * @see jbvb.net.Proxy
      *
      * @since   1.5
      */
     public Socket(Proxy proxy) {
-        // Create a copy of Proxy as a security measure
+        // Crebte b copy of Proxy bs b security mebsure
         if (proxy == null) {
-            throw new IllegalArgumentException("Invalid Proxy");
+            throw new IllegblArgumentException("Invblid Proxy");
         }
         Proxy p = proxy == Proxy.NO_PROXY ? Proxy.NO_PROXY
-                                          : sun.net.ApplicationProxy.create(proxy);
+                                          : sun.net.ApplicbtionProxy.crebte(proxy);
         Proxy.Type type = p.type();
         if (type == Proxy.Type.SOCKS || type == Proxy.Type.HTTP) {
-            SecurityManager security = System.getSecurityManager();
-            InetSocketAddress epoint = (InetSocketAddress) p.address();
+            SecurityMbnbger security = System.getSecurityMbnbger();
+            InetSocketAddress epoint = (InetSocketAddress) p.bddress();
             if (epoint.getAddress() != null) {
                 checkAddress (epoint.getAddress(), "Socket");
             }
             if (security != null) {
                 if (epoint.isUnresolved())
-                    epoint = new InetSocketAddress(epoint.getHostName(), epoint.getPort());
+                    epoint = new InetSocketAddress(epoint.getHostNbme(), epoint.getPort());
                 if (epoint.isUnresolved())
-                    security.checkConnect(epoint.getHostName(), epoint.getPort());
+                    security.checkConnect(epoint.getHostNbme(), epoint.getPort());
                 else
                     security.checkConnect(epoint.getAddress().getHostAddress(),
                                   epoint.getPort());
@@ -142,25 +142,25 @@ class Socket implements java.io.Closeable {
             impl.setSocket(this);
         } else {
             if (p == Proxy.NO_PROXY) {
-                if (factory == null) {
-                    impl = new PlainSocketImpl();
+                if (fbctory == null) {
+                    impl = new PlbinSocketImpl();
                     impl.setSocket(this);
                 } else
                     setImpl();
             } else
-                throw new IllegalArgumentException("Invalid Proxy");
+                throw new IllegblArgumentException("Invblid Proxy");
         }
     }
 
     /**
-     * Creates an unconnected Socket with a user-specified
+     * Crebtes bn unconnected Socket with b user-specified
      * SocketImpl.
      *
-     * @param impl an instance of a <B>SocketImpl</B>
-     * the subclass wishes to use on the Socket.
+     * @pbrbm impl bn instbnce of b <B>SocketImpl</B>
+     * the subclbss wishes to use on the Socket.
      *
-     * @exception SocketException if there is an error in the underlying protocol,
-     * such as a TCP error.
+     * @exception SocketException if there is bn error in the underlying protocol,
+     * such bs b TCP error.
      * @since   1.1
      */
     protected Socket(SocketImpl impl) throws SocketException {
@@ -172,318 +172,318 @@ class Socket implements java.io.Closeable {
     }
 
     /**
-     * Creates a stream socket and connects it to the specified port
-     * number on the named host.
+     * Crebtes b strebm socket bnd connects it to the specified port
+     * number on the nbmed host.
      * <p>
-     * If the specified host is {@code null} it is the equivalent of
-     * specifying the address as
-     * {@link java.net.InetAddress#getByName InetAddress.getByName}{@code (null)}.
-     * In other words, it is equivalent to specifying an address of the
-     * loopback interface. </p>
+     * If the specified host is {@code null} it is the equivblent of
+     * specifying the bddress bs
+     * {@link jbvb.net.InetAddress#getByNbme InetAddress.getByNbme}{@code (null)}.
+     * In other words, it is equivblent to specifying bn bddress of the
+     * loopbbck interfbce. </p>
      * <p>
-     * If the application has specified a server socket factory, that
-     * factory's {@code createSocketImpl} method is called to create
-     * the actual socket implementation. Otherwise a "plain" socket is created.
+     * If the bpplicbtion hbs specified b server socket fbctory, thbt
+     * fbctory's {@code crebteSocketImpl} method is cblled to crebte
+     * the bctubl socket implementbtion. Otherwise b "plbin" socket is crebted.
      * <p>
-     * If there is a security manager, its
-     * {@code checkConnect} method is called
-     * with the host address and {@code port}
-     * as its arguments. This could result in a SecurityException.
+     * If there is b security mbnbger, its
+     * {@code checkConnect} method is cblled
+     * with the host bddress bnd {@code port}
+     * bs its brguments. This could result in b SecurityException.
      *
-     * @param      host   the host name, or {@code null} for the loopback address.
-     * @param      port   the port number.
+     * @pbrbm      host   the host nbme, or {@code null} for the loopbbck bddress.
+     * @pbrbm      port   the port number.
      *
-     * @exception  UnknownHostException if the IP address of
+     * @exception  UnknownHostException if the IP bddress of
      * the host could not be determined.
      *
-     * @exception  IOException  if an I/O error occurs when creating the socket.
-     * @exception  SecurityException  if a security manager exists and its
-     *             {@code checkConnect} method doesn't allow the operation.
-     * @exception  IllegalArgumentException if the port parameter is outside
-     *             the specified range of valid port values, which is between
-     *             0 and 65535, inclusive.
-     * @see        java.net.Socket#setSocketImplFactory(java.net.SocketImplFactory)
-     * @see        java.net.SocketImpl
-     * @see        java.net.SocketImplFactory#createSocketImpl()
-     * @see        SecurityManager#checkConnect
+     * @exception  IOException  if bn I/O error occurs when crebting the socket.
+     * @exception  SecurityException  if b security mbnbger exists bnd its
+     *             {@code checkConnect} method doesn't bllow the operbtion.
+     * @exception  IllegblArgumentException if the port pbrbmeter is outside
+     *             the specified rbnge of vblid port vblues, which is between
+     *             0 bnd 65535, inclusive.
+     * @see        jbvb.net.Socket#setSocketImplFbctory(jbvb.net.SocketImplFbctory)
+     * @see        jbvb.net.SocketImpl
+     * @see        jbvb.net.SocketImplFbctory#crebteSocketImpl()
+     * @see        SecurityMbnbger#checkConnect
      */
     public Socket(String host, int port)
         throws UnknownHostException, IOException
     {
         this(host != null ? new InetSocketAddress(host, port) :
-             new InetSocketAddress(InetAddress.getByName(null), port),
+             new InetSocketAddress(InetAddress.getByNbme(null), port),
              (SocketAddress) null, true);
     }
 
     /**
-     * Creates a stream socket and connects it to the specified port
-     * number at the specified IP address.
+     * Crebtes b strebm socket bnd connects it to the specified port
+     * number bt the specified IP bddress.
      * <p>
-     * If the application has specified a socket factory, that factory's
-     * {@code createSocketImpl} method is called to create the
-     * actual socket implementation. Otherwise a "plain" socket is created.
+     * If the bpplicbtion hbs specified b socket fbctory, thbt fbctory's
+     * {@code crebteSocketImpl} method is cblled to crebte the
+     * bctubl socket implementbtion. Otherwise b "plbin" socket is crebted.
      * <p>
-     * If there is a security manager, its
-     * {@code checkConnect} method is called
-     * with the host address and {@code port}
-     * as its arguments. This could result in a SecurityException.
+     * If there is b security mbnbger, its
+     * {@code checkConnect} method is cblled
+     * with the host bddress bnd {@code port}
+     * bs its brguments. This could result in b SecurityException.
      *
-     * @param      address   the IP address.
-     * @param      port      the port number.
-     * @exception  IOException  if an I/O error occurs when creating the socket.
-     * @exception  SecurityException  if a security manager exists and its
-     *             {@code checkConnect} method doesn't allow the operation.
-     * @exception  IllegalArgumentException if the port parameter is outside
-     *             the specified range of valid port values, which is between
-     *             0 and 65535, inclusive.
-     * @exception  NullPointerException if {@code address} is null.
-     * @see        java.net.Socket#setSocketImplFactory(java.net.SocketImplFactory)
-     * @see        java.net.SocketImpl
-     * @see        java.net.SocketImplFactory#createSocketImpl()
-     * @see        SecurityManager#checkConnect
+     * @pbrbm      bddress   the IP bddress.
+     * @pbrbm      port      the port number.
+     * @exception  IOException  if bn I/O error occurs when crebting the socket.
+     * @exception  SecurityException  if b security mbnbger exists bnd its
+     *             {@code checkConnect} method doesn't bllow the operbtion.
+     * @exception  IllegblArgumentException if the port pbrbmeter is outside
+     *             the specified rbnge of vblid port vblues, which is between
+     *             0 bnd 65535, inclusive.
+     * @exception  NullPointerException if {@code bddress} is null.
+     * @see        jbvb.net.Socket#setSocketImplFbctory(jbvb.net.SocketImplFbctory)
+     * @see        jbvb.net.SocketImpl
+     * @see        jbvb.net.SocketImplFbctory#crebteSocketImpl()
+     * @see        SecurityMbnbger#checkConnect
      */
-    public Socket(InetAddress address, int port) throws IOException {
-        this(address != null ? new InetSocketAddress(address, port) : null,
+    public Socket(InetAddress bddress, int port) throws IOException {
+        this(bddress != null ? new InetSocketAddress(bddress, port) : null,
              (SocketAddress) null, true);
     }
 
     /**
-     * Creates a socket and connects it to the specified remote host on
-     * the specified remote port. The Socket will also bind() to the local
-     * address and port supplied.
+     * Crebtes b socket bnd connects it to the specified remote host on
+     * the specified remote port. The Socket will blso bind() to the locbl
+     * bddress bnd port supplied.
      * <p>
-     * If the specified host is {@code null} it is the equivalent of
-     * specifying the address as
-     * {@link java.net.InetAddress#getByName InetAddress.getByName}{@code (null)}.
-     * In other words, it is equivalent to specifying an address of the
-     * loopback interface. </p>
+     * If the specified host is {@code null} it is the equivblent of
+     * specifying the bddress bs
+     * {@link jbvb.net.InetAddress#getByNbme InetAddress.getByNbme}{@code (null)}.
+     * In other words, it is equivblent to specifying bn bddress of the
+     * loopbbck interfbce. </p>
      * <p>
-     * A local port number of {@code zero} will let the system pick up a
-     * free port in the {@code bind} operation.</p>
+     * A locbl port number of {@code zero} will let the system pick up b
+     * free port in the {@code bind} operbtion.</p>
      * <p>
-     * If there is a security manager, its
-     * {@code checkConnect} method is called
-     * with the host address and {@code port}
-     * as its arguments. This could result in a SecurityException.
+     * If there is b security mbnbger, its
+     * {@code checkConnect} method is cblled
+     * with the host bddress bnd {@code port}
+     * bs its brguments. This could result in b SecurityException.
      *
-     * @param host the name of the remote host, or {@code null} for the loopback address.
-     * @param port the remote port
-     * @param localAddr the local address the socket is bound to, or
-     *        {@code null} for the {@code anyLocal} address.
-     * @param localPort the local port the socket is bound to, or
-     *        {@code zero} for a system selected free port.
-     * @exception  IOException  if an I/O error occurs when creating the socket.
-     * @exception  SecurityException  if a security manager exists and its
-     *             {@code checkConnect} method doesn't allow the connection
-     *             to the destination, or if its {@code checkListen} method
-     *             doesn't allow the bind to the local port.
-     * @exception  IllegalArgumentException if the port parameter or localPort
-     *             parameter is outside the specified range of valid port values,
-     *             which is between 0 and 65535, inclusive.
-     * @see        SecurityManager#checkConnect
+     * @pbrbm host the nbme of the remote host, or {@code null} for the loopbbck bddress.
+     * @pbrbm port the remote port
+     * @pbrbm locblAddr the locbl bddress the socket is bound to, or
+     *        {@code null} for the {@code bnyLocbl} bddress.
+     * @pbrbm locblPort the locbl port the socket is bound to, or
+     *        {@code zero} for b system selected free port.
+     * @exception  IOException  if bn I/O error occurs when crebting the socket.
+     * @exception  SecurityException  if b security mbnbger exists bnd its
+     *             {@code checkConnect} method doesn't bllow the connection
+     *             to the destinbtion, or if its {@code checkListen} method
+     *             doesn't bllow the bind to the locbl port.
+     * @exception  IllegblArgumentException if the port pbrbmeter or locblPort
+     *             pbrbmeter is outside the specified rbnge of vblid port vblues,
+     *             which is between 0 bnd 65535, inclusive.
+     * @see        SecurityMbnbger#checkConnect
      * @since   1.1
      */
-    public Socket(String host, int port, InetAddress localAddr,
-                  int localPort) throws IOException {
+    public Socket(String host, int port, InetAddress locblAddr,
+                  int locblPort) throws IOException {
         this(host != null ? new InetSocketAddress(host, port) :
-               new InetSocketAddress(InetAddress.getByName(null), port),
-             new InetSocketAddress(localAddr, localPort), true);
+               new InetSocketAddress(InetAddress.getByNbme(null), port),
+             new InetSocketAddress(locblAddr, locblPort), true);
     }
 
     /**
-     * Creates a socket and connects it to the specified remote address on
-     * the specified remote port. The Socket will also bind() to the local
-     * address and port supplied.
+     * Crebtes b socket bnd connects it to the specified remote bddress on
+     * the specified remote port. The Socket will blso bind() to the locbl
+     * bddress bnd port supplied.
      * <p>
-     * If the specified local address is {@code null} it is the equivalent of
-     * specifying the address as the AnyLocal address
-     * (see {@link java.net.InetAddress#isAnyLocalAddress InetAddress.isAnyLocalAddress}{@code ()}).
+     * If the specified locbl bddress is {@code null} it is the equivblent of
+     * specifying the bddress bs the AnyLocbl bddress
+     * (see {@link jbvb.net.InetAddress#isAnyLocblAddress InetAddress.isAnyLocblAddress}{@code ()}).
      * <p>
-     * A local port number of {@code zero} will let the system pick up a
-     * free port in the {@code bind} operation.</p>
+     * A locbl port number of {@code zero} will let the system pick up b
+     * free port in the {@code bind} operbtion.</p>
      * <p>
-     * If there is a security manager, its
-     * {@code checkConnect} method is called
-     * with the host address and {@code port}
-     * as its arguments. This could result in a SecurityException.
+     * If there is b security mbnbger, its
+     * {@code checkConnect} method is cblled
+     * with the host bddress bnd {@code port}
+     * bs its brguments. This could result in b SecurityException.
      *
-     * @param address the remote address
-     * @param port the remote port
-     * @param localAddr the local address the socket is bound to, or
-     *        {@code null} for the {@code anyLocal} address.
-     * @param localPort the local port the socket is bound to or
-     *        {@code zero} for a system selected free port.
-     * @exception  IOException  if an I/O error occurs when creating the socket.
-     * @exception  SecurityException  if a security manager exists and its
-     *             {@code checkConnect} method doesn't allow the connection
-     *             to the destination, or if its {@code checkListen} method
-     *             doesn't allow the bind to the local port.
-     * @exception  IllegalArgumentException if the port parameter or localPort
-     *             parameter is outside the specified range of valid port values,
-     *             which is between 0 and 65535, inclusive.
-     * @exception  NullPointerException if {@code address} is null.
-     * @see        SecurityManager#checkConnect
+     * @pbrbm bddress the remote bddress
+     * @pbrbm port the remote port
+     * @pbrbm locblAddr the locbl bddress the socket is bound to, or
+     *        {@code null} for the {@code bnyLocbl} bddress.
+     * @pbrbm locblPort the locbl port the socket is bound to or
+     *        {@code zero} for b system selected free port.
+     * @exception  IOException  if bn I/O error occurs when crebting the socket.
+     * @exception  SecurityException  if b security mbnbger exists bnd its
+     *             {@code checkConnect} method doesn't bllow the connection
+     *             to the destinbtion, or if its {@code checkListen} method
+     *             doesn't bllow the bind to the locbl port.
+     * @exception  IllegblArgumentException if the port pbrbmeter or locblPort
+     *             pbrbmeter is outside the specified rbnge of vblid port vblues,
+     *             which is between 0 bnd 65535, inclusive.
+     * @exception  NullPointerException if {@code bddress} is null.
+     * @see        SecurityMbnbger#checkConnect
      * @since   1.1
      */
-    public Socket(InetAddress address, int port, InetAddress localAddr,
-                  int localPort) throws IOException {
-        this(address != null ? new InetSocketAddress(address, port) : null,
-             new InetSocketAddress(localAddr, localPort), true);
+    public Socket(InetAddress bddress, int port, InetAddress locblAddr,
+                  int locblPort) throws IOException {
+        this(bddress != null ? new InetSocketAddress(bddress, port) : null,
+             new InetSocketAddress(locblAddr, locblPort), true);
     }
 
     /**
-     * Creates a stream socket and connects it to the specified port
-     * number on the named host.
+     * Crebtes b strebm socket bnd connects it to the specified port
+     * number on the nbmed host.
      * <p>
-     * If the specified host is {@code null} it is the equivalent of
-     * specifying the address as
-     * {@link java.net.InetAddress#getByName InetAddress.getByName}{@code (null)}.
-     * In other words, it is equivalent to specifying an address of the
-     * loopback interface. </p>
+     * If the specified host is {@code null} it is the equivblent of
+     * specifying the bddress bs
+     * {@link jbvb.net.InetAddress#getByNbme InetAddress.getByNbme}{@code (null)}.
+     * In other words, it is equivblent to specifying bn bddress of the
+     * loopbbck interfbce. </p>
      * <p>
-     * If the stream argument is {@code true}, this creates a
-     * stream socket. If the stream argument is {@code false}, it
-     * creates a datagram socket.
+     * If the strebm brgument is {@code true}, this crebtes b
+     * strebm socket. If the strebm brgument is {@code fblse}, it
+     * crebtes b dbtbgrbm socket.
      * <p>
-     * If the application has specified a server socket factory, that
-     * factory's {@code createSocketImpl} method is called to create
-     * the actual socket implementation. Otherwise a "plain" socket is created.
+     * If the bpplicbtion hbs specified b server socket fbctory, thbt
+     * fbctory's {@code crebteSocketImpl} method is cblled to crebte
+     * the bctubl socket implementbtion. Otherwise b "plbin" socket is crebted.
      * <p>
-     * If there is a security manager, its
-     * {@code checkConnect} method is called
-     * with the host address and {@code port}
-     * as its arguments. This could result in a SecurityException.
+     * If there is b security mbnbger, its
+     * {@code checkConnect} method is cblled
+     * with the host bddress bnd {@code port}
+     * bs its brguments. This could result in b SecurityException.
      * <p>
-     * If a UDP socket is used, TCP/IP related socket options will not apply.
+     * If b UDP socket is used, TCP/IP relbted socket options will not bpply.
      *
-     * @param      host     the host name, or {@code null} for the loopback address.
-     * @param      port     the port number.
-     * @param      stream   a {@code boolean} indicating whether this is
-     *                      a stream socket or a datagram socket.
-     * @exception  IOException  if an I/O error occurs when creating the socket.
-     * @exception  SecurityException  if a security manager exists and its
-     *             {@code checkConnect} method doesn't allow the operation.
-     * @exception  IllegalArgumentException if the port parameter is outside
-     *             the specified range of valid port values, which is between
-     *             0 and 65535, inclusive.
-     * @see        java.net.Socket#setSocketImplFactory(java.net.SocketImplFactory)
-     * @see        java.net.SocketImpl
-     * @see        java.net.SocketImplFactory#createSocketImpl()
-     * @see        SecurityManager#checkConnect
-     * @deprecated Use DatagramSocket instead for UDP transport.
+     * @pbrbm      host     the host nbme, or {@code null} for the loopbbck bddress.
+     * @pbrbm      port     the port number.
+     * @pbrbm      strebm   b {@code boolebn} indicbting whether this is
+     *                      b strebm socket or b dbtbgrbm socket.
+     * @exception  IOException  if bn I/O error occurs when crebting the socket.
+     * @exception  SecurityException  if b security mbnbger exists bnd its
+     *             {@code checkConnect} method doesn't bllow the operbtion.
+     * @exception  IllegblArgumentException if the port pbrbmeter is outside
+     *             the specified rbnge of vblid port vblues, which is between
+     *             0 bnd 65535, inclusive.
+     * @see        jbvb.net.Socket#setSocketImplFbctory(jbvb.net.SocketImplFbctory)
+     * @see        jbvb.net.SocketImpl
+     * @see        jbvb.net.SocketImplFbctory#crebteSocketImpl()
+     * @see        SecurityMbnbger#checkConnect
+     * @deprecbted Use DbtbgrbmSocket instebd for UDP trbnsport.
      */
-    @Deprecated
-    public Socket(String host, int port, boolean stream) throws IOException {
+    @Deprecbted
+    public Socket(String host, int port, boolebn strebm) throws IOException {
         this(host != null ? new InetSocketAddress(host, port) :
-               new InetSocketAddress(InetAddress.getByName(null), port),
-             (SocketAddress) null, stream);
+               new InetSocketAddress(InetAddress.getByNbme(null), port),
+             (SocketAddress) null, strebm);
     }
 
     /**
-     * Creates a socket and connects it to the specified port number at
-     * the specified IP address.
+     * Crebtes b socket bnd connects it to the specified port number bt
+     * the specified IP bddress.
      * <p>
-     * If the stream argument is {@code true}, this creates a
-     * stream socket. If the stream argument is {@code false}, it
-     * creates a datagram socket.
+     * If the strebm brgument is {@code true}, this crebtes b
+     * strebm socket. If the strebm brgument is {@code fblse}, it
+     * crebtes b dbtbgrbm socket.
      * <p>
-     * If the application has specified a server socket factory, that
-     * factory's {@code createSocketImpl} method is called to create
-     * the actual socket implementation. Otherwise a "plain" socket is created.
+     * If the bpplicbtion hbs specified b server socket fbctory, thbt
+     * fbctory's {@code crebteSocketImpl} method is cblled to crebte
+     * the bctubl socket implementbtion. Otherwise b "plbin" socket is crebted.
      *
-     * <p>If there is a security manager, its
-     * {@code checkConnect} method is called
-     * with {@code host.getHostAddress()} and {@code port}
-     * as its arguments. This could result in a SecurityException.
+     * <p>If there is b security mbnbger, its
+     * {@code checkConnect} method is cblled
+     * with {@code host.getHostAddress()} bnd {@code port}
+     * bs its brguments. This could result in b SecurityException.
      * <p>
-     * If UDP socket is used, TCP/IP related socket options will not apply.
+     * If UDP socket is used, TCP/IP relbted socket options will not bpply.
      *
-     * @param      host     the IP address.
-     * @param      port      the port number.
-     * @param      stream    if {@code true}, create a stream socket;
-     *                       otherwise, create a datagram socket.
-     * @exception  IOException  if an I/O error occurs when creating the socket.
-     * @exception  SecurityException  if a security manager exists and its
-     *             {@code checkConnect} method doesn't allow the operation.
-     * @exception  IllegalArgumentException if the port parameter is outside
-     *             the specified range of valid port values, which is between
-     *             0 and 65535, inclusive.
+     * @pbrbm      host     the IP bddress.
+     * @pbrbm      port      the port number.
+     * @pbrbm      strebm    if {@code true}, crebte b strebm socket;
+     *                       otherwise, crebte b dbtbgrbm socket.
+     * @exception  IOException  if bn I/O error occurs when crebting the socket.
+     * @exception  SecurityException  if b security mbnbger exists bnd its
+     *             {@code checkConnect} method doesn't bllow the operbtion.
+     * @exception  IllegblArgumentException if the port pbrbmeter is outside
+     *             the specified rbnge of vblid port vblues, which is between
+     *             0 bnd 65535, inclusive.
      * @exception  NullPointerException if {@code host} is null.
-     * @see        java.net.Socket#setSocketImplFactory(java.net.SocketImplFactory)
-     * @see        java.net.SocketImpl
-     * @see        java.net.SocketImplFactory#createSocketImpl()
-     * @see        SecurityManager#checkConnect
-     * @deprecated Use DatagramSocket instead for UDP transport.
+     * @see        jbvb.net.Socket#setSocketImplFbctory(jbvb.net.SocketImplFbctory)
+     * @see        jbvb.net.SocketImpl
+     * @see        jbvb.net.SocketImplFbctory#crebteSocketImpl()
+     * @see        SecurityMbnbger#checkConnect
+     * @deprecbted Use DbtbgrbmSocket instebd for UDP trbnsport.
      */
-    @Deprecated
-    public Socket(InetAddress host, int port, boolean stream) throws IOException {
+    @Deprecbted
+    public Socket(InetAddress host, int port, boolebn strebm) throws IOException {
         this(host != null ? new InetSocketAddress(host, port) : null,
-             new InetSocketAddress(0), stream);
+             new InetSocketAddress(0), strebm);
     }
 
-    private Socket(SocketAddress address, SocketAddress localAddr,
-                   boolean stream) throws IOException {
+    privbte Socket(SocketAddress bddress, SocketAddress locblAddr,
+                   boolebn strebm) throws IOException {
         setImpl();
 
-        // backward compatibility
-        if (address == null)
+        // bbckwbrd compbtibility
+        if (bddress == null)
             throw new NullPointerException();
 
         try {
-            createImpl(stream);
-            if (localAddr != null)
-                bind(localAddr);
-            connect(address);
-        } catch (IOException | IllegalArgumentException | SecurityException e) {
+            crebteImpl(strebm);
+            if (locblAddr != null)
+                bind(locblAddr);
+            connect(bddress);
+        } cbtch (IOException | IllegblArgumentException | SecurityException e) {
             try {
                 close();
-            } catch (IOException ce) {
-                e.addSuppressed(ce);
+            } cbtch (IOException ce) {
+                e.bddSuppressed(ce);
             }
             throw e;
         }
     }
 
     /**
-     * Creates the socket implementation.
+     * Crebtes the socket implementbtion.
      *
-     * @param stream a {@code boolean} value : {@code true} for a TCP socket,
-     *               {@code false} for UDP.
-     * @throws IOException if creation fails
+     * @pbrbm strebm b {@code boolebn} vblue : {@code true} for b TCP socket,
+     *               {@code fblse} for UDP.
+     * @throws IOException if crebtion fbils
      * @since 1.4
      */
-     void createImpl(boolean stream) throws SocketException {
+     void crebteImpl(boolebn strebm) throws SocketException {
         if (impl == null)
             setImpl();
         try {
-            impl.create(stream);
-            created = true;
-        } catch (IOException e) {
-            throw new SocketException(e.getMessage());
+            impl.crebte(strebm);
+            crebted = true;
+        } cbtch (IOException e) {
+            throw new SocketException(e.getMessbge());
         }
     }
 
-    private void checkOldImpl() {
+    privbte void checkOldImpl() {
         if (impl == null)
             return;
-        // SocketImpl.connect() is a protected method, therefore we need to use
-        // getDeclaredMethod, therefore we need permission to access the member
+        // SocketImpl.connect() is b protected method, therefore we need to use
+        // getDeclbredMethod, therefore we need permission to bccess the member
 
         oldImpl = AccessController.doPrivileged
-                                (new PrivilegedAction<Boolean>() {
-            public Boolean run() {
-                Class<?> clazz = impl.getClass();
+                                (new PrivilegedAction<Boolebn>() {
+            public Boolebn run() {
+                Clbss<?> clbzz = impl.getClbss();
                 while (true) {
                     try {
-                        clazz.getDeclaredMethod("connect", SocketAddress.class, int.class);
-                        return Boolean.FALSE;
-                    } catch (NoSuchMethodException e) {
-                        clazz = clazz.getSuperclass();
-                        // java.net.SocketImpl class will always have this abstract method.
-                        // If we have not found it by now in the hierarchy then it does not
-                        // exist, we are an old style impl.
-                        if (clazz.equals(java.net.SocketImpl.class)) {
-                            return Boolean.TRUE;
+                        clbzz.getDeclbredMethod("connect", SocketAddress.clbss, int.clbss);
+                        return Boolebn.FALSE;
+                    } cbtch (NoSuchMethodException e) {
+                        clbzz = clbzz.getSuperclbss();
+                        // jbvb.net.SocketImpl clbss will blwbys hbve this bbstrbct method.
+                        // If we hbve not found it by now in the hierbrchy then it does not
+                        // exist, we bre bn old style impl.
+                        if (clbzz.equbls(jbvb.net.SocketImpl.clbss)) {
+                            return Boolebn.TRUE;
                         }
                     }
                 }
@@ -492,15 +492,15 @@ class Socket implements java.io.Closeable {
     }
 
     /**
-     * Sets impl to the system-default type of SocketImpl.
+     * Sets impl to the system-defbult type of SocketImpl.
      * @since 1.4
      */
     void setImpl() {
-        if (factory != null) {
-            impl = factory.createSocketImpl();
+        if (fbctory != null) {
+            impl = fbctory.crebteSocketImpl();
             checkOldImpl();
         } else {
-            // No need to do a checkOldImpl() here, we know it's an up to date
+            // No need to do b checkOldImpl() here, we know it's bn up to dbte
             // SocketImpl!
             impl = new SocksSocketImpl();
         }
@@ -510,29 +510,29 @@ class Socket implements java.io.Closeable {
 
 
     /**
-     * Get the {@code SocketImpl} attached to this socket, creating
-     * it if necessary.
+     * Get the {@code SocketImpl} bttbched to this socket, crebting
+     * it if necessbry.
      *
-     * @return  the {@code SocketImpl} attached to that ServerSocket.
-     * @throws SocketException if creation fails
+     * @return  the {@code SocketImpl} bttbched to thbt ServerSocket.
+     * @throws SocketException if crebtion fbils
      * @since 1.4
      */
     SocketImpl getImpl() throws SocketException {
-        if (!created)
-            createImpl(true);
+        if (!crebted)
+            crebteImpl(true);
         return impl;
     }
 
     /**
      * Connects this socket to the server.
      *
-     * @param   endpoint the {@code SocketAddress}
-     * @throws  IOException if an error occurs during the connection
-     * @throws  java.nio.channels.IllegalBlockingModeException
-     *          if this socket has an associated channel,
-     *          and the channel is in non-blocking mode
-     * @throws  IllegalArgumentException if endpoint is null or is a
-     *          SocketAddress subclass not supported by this socket
+     * @pbrbm   endpoint the {@code SocketAddress}
+     * @throws  IOException if bn error occurs during the connection
+     * @throws  jbvb.nio.chbnnels.IllegblBlockingModeException
+     *          if this socket hbs bn bssocibted chbnnel,
+     *          bnd the chbnnel is in non-blocking mode
+     * @throws  IllegblArgumentException if endpoint is null or is b
+     *          SocketAddress subclbss not supported by this socket
      * @since 1.4
      * @spec JSR-51
      */
@@ -541,83 +541,83 @@ class Socket implements java.io.Closeable {
     }
 
     /**
-     * Connects this socket to the server with a specified timeout value.
-     * A timeout of zero is interpreted as an infinite timeout. The connection
-     * will then block until established or an error occurs.
+     * Connects this socket to the server with b specified timeout vblue.
+     * A timeout of zero is interpreted bs bn infinite timeout. The connection
+     * will then block until estbblished or bn error occurs.
      *
-     * @param   endpoint the {@code SocketAddress}
-     * @param   timeout  the timeout value to be used in milliseconds.
-     * @throws  IOException if an error occurs during the connection
+     * @pbrbm   endpoint the {@code SocketAddress}
+     * @pbrbm   timeout  the timeout vblue to be used in milliseconds.
+     * @throws  IOException if bn error occurs during the connection
      * @throws  SocketTimeoutException if timeout expires before connecting
-     * @throws  java.nio.channels.IllegalBlockingModeException
-     *          if this socket has an associated channel,
-     *          and the channel is in non-blocking mode
-     * @throws  IllegalArgumentException if endpoint is null or is a
-     *          SocketAddress subclass not supported by this socket
+     * @throws  jbvb.nio.chbnnels.IllegblBlockingModeException
+     *          if this socket hbs bn bssocibted chbnnel,
+     *          bnd the chbnnel is in non-blocking mode
+     * @throws  IllegblArgumentException if endpoint is null or is b
+     *          SocketAddress subclbss not supported by this socket
      * @since 1.4
      * @spec JSR-51
      */
     public void connect(SocketAddress endpoint, int timeout) throws IOException {
         if (endpoint == null)
-            throw new IllegalArgumentException("connect: The address can't be null");
+            throw new IllegblArgumentException("connect: The bddress cbn't be null");
 
         if (timeout < 0)
-          throw new IllegalArgumentException("connect: timeout can't be negative");
+          throw new IllegblArgumentException("connect: timeout cbn't be negbtive");
 
         if (isClosed())
             throw new SocketException("Socket is closed");
 
         if (!oldImpl && isConnected())
-            throw new SocketException("already connected");
+            throw new SocketException("blrebdy connected");
 
-        if (!(endpoint instanceof InetSocketAddress))
-            throw new IllegalArgumentException("Unsupported address type");
+        if (!(endpoint instbnceof InetSocketAddress))
+            throw new IllegblArgumentException("Unsupported bddress type");
 
         InetSocketAddress epoint = (InetSocketAddress) endpoint;
-        InetAddress addr = epoint.getAddress ();
+        InetAddress bddr = epoint.getAddress ();
         int port = epoint.getPort();
-        checkAddress(addr, "connect");
+        checkAddress(bddr, "connect");
 
-        SecurityManager security = System.getSecurityManager();
+        SecurityMbnbger security = System.getSecurityMbnbger();
         if (security != null) {
             if (epoint.isUnresolved())
-                security.checkConnect(epoint.getHostName(), port);
+                security.checkConnect(epoint.getHostNbme(), port);
             else
-                security.checkConnect(addr.getHostAddress(), port);
+                security.checkConnect(bddr.getHostAddress(), port);
         }
-        if (!created)
-            createImpl(true);
+        if (!crebted)
+            crebteImpl(true);
         if (!oldImpl)
             impl.connect(epoint, timeout);
         else if (timeout == 0) {
             if (epoint.isUnresolved())
-                impl.connect(addr.getHostName(), port);
+                impl.connect(bddr.getHostNbme(), port);
             else
-                impl.connect(addr, port);
+                impl.connect(bddr, port);
         } else
-            throw new UnsupportedOperationException("SocketImpl.connect(addr, timeout)");
+            throw new UnsupportedOperbtionException("SocketImpl.connect(bddr, timeout)");
         connected = true;
         /*
-         * If the socket was not bound before the connect, it is now because
-         * the kernel will have picked an ephemeral port & a local address
+         * If the socket wbs not bound before the connect, it is now becbuse
+         * the kernel will hbve picked bn ephemerbl port & b locbl bddress
          */
         bound = true;
     }
 
     /**
-     * Binds the socket to a local address.
+     * Binds the socket to b locbl bddress.
      * <P>
-     * If the address is {@code null}, then the system will pick up
-     * an ephemeral port and a valid local address to bind the socket.
+     * If the bddress is {@code null}, then the system will pick up
+     * bn ephemerbl port bnd b vblid locbl bddress to bind the socket.
      *
-     * @param   bindpoint the {@code SocketAddress} to bind to
-     * @throws  IOException if the bind operation fails, or if the socket
-     *                     is already bound.
-     * @throws  IllegalArgumentException if bindpoint is a
-     *          SocketAddress subclass not supported by this socket
-     * @throws  SecurityException  if a security manager exists and its
-     *          {@code checkListen} method doesn't allow the bind
-     *          to the local port.
+     * @pbrbm   bindpoint the {@code SocketAddress} to bind to
+     * @throws  IOException if the bind operbtion fbils, or if the socket
+     *                     is blrebdy bound.
+     * @throws  IllegblArgumentException if bindpoint is b
+     *          SocketAddress subclbss not supported by this socket
+     * @throws  SecurityException  if b security mbnbger exists bnd its
+     *          {@code checkListen} method doesn't bllow the bind
+     *          to the locbl port.
      *
      * @since   1.4
      * @see #isBound
@@ -626,47 +626,47 @@ class Socket implements java.io.Closeable {
         if (isClosed())
             throw new SocketException("Socket is closed");
         if (!oldImpl && isBound())
-            throw new SocketException("Already bound");
+            throw new SocketException("Alrebdy bound");
 
-        if (bindpoint != null && (!(bindpoint instanceof InetSocketAddress)))
-            throw new IllegalArgumentException("Unsupported address type");
+        if (bindpoint != null && (!(bindpoint instbnceof InetSocketAddress)))
+            throw new IllegblArgumentException("Unsupported bddress type");
         InetSocketAddress epoint = (InetSocketAddress) bindpoint;
         if (epoint != null && epoint.isUnresolved())
-            throw new SocketException("Unresolved address");
+            throw new SocketException("Unresolved bddress");
         if (epoint == null) {
             epoint = new InetSocketAddress(0);
         }
-        InetAddress addr = epoint.getAddress();
+        InetAddress bddr = epoint.getAddress();
         int port = epoint.getPort();
-        checkAddress (addr, "bind");
-        SecurityManager security = System.getSecurityManager();
+        checkAddress (bddr, "bind");
+        SecurityMbnbger security = System.getSecurityMbnbger();
         if (security != null) {
             security.checkListen(port);
         }
-        getImpl().bind (addr, port);
+        getImpl().bind (bddr, port);
         bound = true;
     }
 
-    private void checkAddress (InetAddress addr, String op) {
-        if (addr == null) {
+    privbte void checkAddress (InetAddress bddr, String op) {
+        if (bddr == null) {
             return;
         }
-        if (!(addr instanceof Inet4Address || addr instanceof Inet6Address)) {
-            throw new IllegalArgumentException(op + ": invalid address type");
+        if (!(bddr instbnceof Inet4Address || bddr instbnceof Inet6Address)) {
+            throw new IllegblArgumentException(op + ": invblid bddress type");
         }
     }
 
     /**
-     * set the flags after an accept() call.
+     * set the flbgs bfter bn bccept() cbll.
      */
-    final void postAccept() {
+    finbl void postAccept() {
         connected = true;
-        created = true;
+        crebted = true;
         bound = true;
     }
 
-    void setCreated() {
-        created = true;
+    void setCrebted() {
+        crebted = true;
     }
 
     void setBound() {
@@ -678,13 +678,13 @@ class Socket implements java.io.Closeable {
     }
 
     /**
-     * Returns the address to which the socket is connected.
+     * Returns the bddress to which the socket is connected.
      * <p>
-     * If the socket was connected prior to being {@link #close closed},
-     * then this method will continue to return the connected address
-     * after the socket is closed.
+     * If the socket wbs connected prior to being {@link #close closed},
+     * then this method will continue to return the connected bddress
+     * bfter the socket is closed.
      *
-     * @return  the remote IP address to which this socket is connected,
+     * @return  the remote IP bddress to which this socket is connected,
      *          or {@code null} if the socket is not connected.
      */
     public InetAddress getInetAddress() {
@@ -692,43 +692,43 @@ class Socket implements java.io.Closeable {
             return null;
         try {
             return getImpl().getInetAddress();
-        } catch (SocketException e) {
+        } cbtch (SocketException e) {
         }
         return null;
     }
 
     /**
-     * Gets the local address to which the socket is bound.
+     * Gets the locbl bddress to which the socket is bound.
      * <p>
-     * If there is a security manager set, its {@code checkConnect} method is
-     * called with the local address and {@code -1} as its arguments to see
-     * if the operation is allowed. If the operation is not allowed,
-     * the {@link InetAddress#getLoopbackAddress loopback} address is returned.
+     * If there is b security mbnbger set, its {@code checkConnect} method is
+     * cblled with the locbl bddress bnd {@code -1} bs its brguments to see
+     * if the operbtion is bllowed. If the operbtion is not bllowed,
+     * the {@link InetAddress#getLoopbbckAddress loopbbck} bddress is returned.
      *
-     * @return the local address to which the socket is bound,
-     *         the loopback address if denied by the security manager, or
-     *         the wildcard address if the socket is closed or not bound yet.
+     * @return the locbl bddress to which the socket is bound,
+     *         the loopbbck bddress if denied by the security mbnbger, or
+     *         the wildcbrd bddress if the socket is closed or not bound yet.
      * @since   1.1
      *
-     * @see SecurityManager#checkConnect
+     * @see SecurityMbnbger#checkConnect
      */
-    public InetAddress getLocalAddress() {
-        // This is for backward compatibility
+    public InetAddress getLocblAddress() {
+        // This is for bbckwbrd compbtibility
         if (!isBound())
-            return InetAddress.anyLocalAddress();
+            return InetAddress.bnyLocblAddress();
         InetAddress in = null;
         try {
             in = (InetAddress) getImpl().getOption(SocketOptions.SO_BINDADDR);
-            SecurityManager sm = System.getSecurityManager();
+            SecurityMbnbger sm = System.getSecurityMbnbger();
             if (sm != null)
                 sm.checkConnect(in.getHostAddress(), -1);
-            if (in.isAnyLocalAddress()) {
-                in = InetAddress.anyLocalAddress();
+            if (in.isAnyLocblAddress()) {
+                in = InetAddress.bnyLocblAddress();
             }
-        } catch (SecurityException e) {
-            in = InetAddress.getLoopbackAddress();
-        } catch (Exception e) {
-            in = InetAddress.anyLocalAddress(); // "0.0.0.0"
+        } cbtch (SecurityException e) {
+            in = InetAddress.getLoopbbckAddress();
+        } cbtch (Exception e) {
+            in = InetAddress.bnyLocblAddress(); // "0.0.0.0"
         }
         return in;
     }
@@ -736,9 +736,9 @@ class Socket implements java.io.Closeable {
     /**
      * Returns the remote port number to which this socket is connected.
      * <p>
-     * If the socket was connected prior to being {@link #close closed},
+     * If the socket wbs connected prior to being {@link #close closed},
      * then this method will continue to return the connected port number
-     * after the socket is closed.
+     * bfter the socket is closed.
      *
      * @return  the remote port number to which this socket is connected, or
      *          0 if the socket is not connected yet.
@@ -748,43 +748,43 @@ class Socket implements java.io.Closeable {
             return 0;
         try {
             return getImpl().getPort();
-        } catch (SocketException e) {
-            // Shouldn't happen as we're connected
+        } cbtch (SocketException e) {
+            // Shouldn't hbppen bs we're connected
         }
         return -1;
     }
 
     /**
-     * Returns the local port number to which this socket is bound.
+     * Returns the locbl port number to which this socket is bound.
      * <p>
-     * If the socket was bound prior to being {@link #close closed},
-     * then this method will continue to return the local port number
-     * after the socket is closed.
+     * If the socket wbs bound prior to being {@link #close closed},
+     * then this method will continue to return the locbl port number
+     * bfter the socket is closed.
      *
-     * @return  the local port number to which this socket is bound or -1
+     * @return  the locbl port number to which this socket is bound or -1
      *          if the socket is not bound yet.
      */
-    public int getLocalPort() {
+    public int getLocblPort() {
         if (!isBound())
             return -1;
         try {
-            return getImpl().getLocalPort();
-        } catch(SocketException e) {
-            // shouldn't happen as we're bound
+            return getImpl().getLocblPort();
+        } cbtch(SocketException e) {
+            // shouldn't hbppen bs we're bound
         }
         return -1;
     }
 
     /**
-     * Returns the address of the endpoint this socket is connected to, or
+     * Returns the bddress of the endpoint this socket is connected to, or
      * {@code null} if it is unconnected.
      * <p>
-     * If the socket was connected prior to being {@link #close closed},
-     * then this method will continue to return the connected address
-     * after the socket is closed.
+     * If the socket wbs connected prior to being {@link #close closed},
+     * then this method will continue to return the connected bddress
+     * bfter the socket is closed.
      *
 
-     * @return a {@code SocketAddress} representing the remote endpoint of this
+     * @return b {@code SocketAddress} representing the remote endpoint of this
      *         socket, or {@code null} if it is not connected yet.
      * @see #getInetAddress()
      * @see #getPort()
@@ -799,228 +799,228 @@ class Socket implements java.io.Closeable {
     }
 
     /**
-     * Returns the address of the endpoint this socket is bound to.
+     * Returns the bddress of the endpoint this socket is bound to.
      * <p>
-     * If a socket bound to an endpoint represented by an
+     * If b socket bound to bn endpoint represented by bn
      * {@code InetSocketAddress } is {@link #close closed},
-     * then this method will continue to return an {@code InetSocketAddress}
-     * after the socket is closed. In that case the returned
-     * {@code InetSocketAddress}'s address is the
-     * {@link InetAddress#isAnyLocalAddress wildcard} address
-     * and its port is the local port that it was bound to.
+     * then this method will continue to return bn {@code InetSocketAddress}
+     * bfter the socket is closed. In thbt cbse the returned
+     * {@code InetSocketAddress}'s bddress is the
+     * {@link InetAddress#isAnyLocblAddress wildcbrd} bddress
+     * bnd its port is the locbl port thbt it wbs bound to.
      * <p>
-     * If there is a security manager set, its {@code checkConnect} method is
-     * called with the local address and {@code -1} as its arguments to see
-     * if the operation is allowed. If the operation is not allowed,
-     * a {@code SocketAddress} representing the
-     * {@link InetAddress#getLoopbackAddress loopback} address and the local
+     * If there is b security mbnbger set, its {@code checkConnect} method is
+     * cblled with the locbl bddress bnd {@code -1} bs its brguments to see
+     * if the operbtion is bllowed. If the operbtion is not bllowed,
+     * b {@code SocketAddress} representing the
+     * {@link InetAddress#getLoopbbckAddress loopbbck} bddress bnd the locbl
      * port to which this socket is bound is returned.
      *
-     * @return a {@code SocketAddress} representing the local endpoint of
-     *         this socket, or a {@code SocketAddress} representing the
-     *         loopback address if denied by the security manager, or
+     * @return b {@code SocketAddress} representing the locbl endpoint of
+     *         this socket, or b {@code SocketAddress} representing the
+     *         loopbbck bddress if denied by the security mbnbger, or
      *         {@code null} if the socket is not bound yet.
      *
-     * @see #getLocalAddress()
-     * @see #getLocalPort()
+     * @see #getLocblAddress()
+     * @see #getLocblPort()
      * @see #bind(SocketAddress)
-     * @see SecurityManager#checkConnect
+     * @see SecurityMbnbger#checkConnect
      * @since 1.4
      */
 
-    public SocketAddress getLocalSocketAddress() {
+    public SocketAddress getLocblSocketAddress() {
         if (!isBound())
             return null;
-        return new InetSocketAddress(getLocalAddress(), getLocalPort());
+        return new InetSocketAddress(getLocblAddress(), getLocblPort());
     }
 
     /**
-     * Returns the unique {@link java.nio.channels.SocketChannel SocketChannel}
-     * object associated with this socket, if any.
+     * Returns the unique {@link jbvb.nio.chbnnels.SocketChbnnel SocketChbnnel}
+     * object bssocibted with this socket, if bny.
      *
-     * <p> A socket will have a channel if, and only if, the channel itself was
-     * created via the {@link java.nio.channels.SocketChannel#open
-     * SocketChannel.open} or {@link
-     * java.nio.channels.ServerSocketChannel#accept ServerSocketChannel.accept}
+     * <p> A socket will hbve b chbnnel if, bnd only if, the chbnnel itself wbs
+     * crebted vib the {@link jbvb.nio.chbnnels.SocketChbnnel#open
+     * SocketChbnnel.open} or {@link
+     * jbvb.nio.chbnnels.ServerSocketChbnnel#bccept ServerSocketChbnnel.bccept}
      * methods.
      *
-     * @return  the socket channel associated with this socket,
-     *          or {@code null} if this socket was not created
-     *          for a channel
+     * @return  the socket chbnnel bssocibted with this socket,
+     *          or {@code null} if this socket wbs not crebted
+     *          for b chbnnel
      *
      * @since 1.4
      * @spec JSR-51
      */
-    public SocketChannel getChannel() {
+    public SocketChbnnel getChbnnel() {
         return null;
     }
 
     /**
-     * Returns an input stream for this socket.
+     * Returns bn input strebm for this socket.
      *
-     * <p> If this socket has an associated channel then the resulting input
-     * stream delegates all of its operations to the channel.  If the channel
-     * is in non-blocking mode then the input stream's {@code read} operations
-     * will throw an {@link java.nio.channels.IllegalBlockingModeException}.
+     * <p> If this socket hbs bn bssocibted chbnnel then the resulting input
+     * strebm delegbtes bll of its operbtions to the chbnnel.  If the chbnnel
+     * is in non-blocking mode then the input strebm's {@code rebd} operbtions
+     * will throw bn {@link jbvb.nio.chbnnels.IllegblBlockingModeException}.
      *
-     * <p>Under abnormal conditions the underlying connection may be
-     * broken by the remote host or the network software (for example
-     * a connection reset in the case of TCP connections). When a
-     * broken connection is detected by the network software the
-     * following applies to the returned input stream :-
+     * <p>Under bbnormbl conditions the underlying connection mby be
+     * broken by the remote host or the network softwbre (for exbmple
+     * b connection reset in the cbse of TCP connections). When b
+     * broken connection is detected by the network softwbre the
+     * following bpplies to the returned input strebm :-
      *
      * <ul>
      *
-     *   <li><p>The network software may discard bytes that are buffered
-     *   by the socket. Bytes that aren't discarded by the network
-     *   software can be read using {@link java.io.InputStream#read read}.
+     *   <li><p>The network softwbre mby discbrd bytes thbt bre buffered
+     *   by the socket. Bytes thbt bren't discbrded by the network
+     *   softwbre cbn be rebd using {@link jbvb.io.InputStrebm#rebd rebd}.
      *
-     *   <li><p>If there are no bytes buffered on the socket, or all
-     *   buffered bytes have been consumed by
-     *   {@link java.io.InputStream#read read}, then all subsequent
-     *   calls to {@link java.io.InputStream#read read} will throw an
-     *   {@link java.io.IOException IOException}.
+     *   <li><p>If there bre no bytes buffered on the socket, or bll
+     *   buffered bytes hbve been consumed by
+     *   {@link jbvb.io.InputStrebm#rebd rebd}, then bll subsequent
+     *   cblls to {@link jbvb.io.InputStrebm#rebd rebd} will throw bn
+     *   {@link jbvb.io.IOException IOException}.
      *
-     *   <li><p>If there are no bytes buffered on the socket, and the
-     *   socket has not been closed using {@link #close close}, then
-     *   {@link java.io.InputStream#available available} will
+     *   <li><p>If there bre no bytes buffered on the socket, bnd the
+     *   socket hbs not been closed using {@link #close close}, then
+     *   {@link jbvb.io.InputStrebm#bvbilbble bvbilbble} will
      *   return {@code 0}.
      *
      * </ul>
      *
-     * <p> Closing the returned {@link java.io.InputStream InputStream}
-     * will close the associated socket.
+     * <p> Closing the returned {@link jbvb.io.InputStrebm InputStrebm}
+     * will close the bssocibted socket.
      *
-     * @return     an input stream for reading bytes from this socket.
-     * @exception  IOException  if an I/O error occurs when creating the
-     *             input stream, the socket is closed, the socket is
-     *             not connected, or the socket input has been shutdown
+     * @return     bn input strebm for rebding bytes from this socket.
+     * @exception  IOException  if bn I/O error occurs when crebting the
+     *             input strebm, the socket is closed, the socket is
+     *             not connected, or the socket input hbs been shutdown
      *             using {@link #shutdownInput()}
      *
      * @revised 1.4
      * @spec JSR-51
      */
-    public InputStream getInputStream() throws IOException {
+    public InputStrebm getInputStrebm() throws IOException {
         if (isClosed())
             throw new SocketException("Socket is closed");
         if (!isConnected())
             throw new SocketException("Socket is not connected");
         if (isInputShutdown())
             throw new SocketException("Socket input is shutdown");
-        final Socket s = this;
-        InputStream is = null;
+        finbl Socket s = this;
+        InputStrebm is = null;
         try {
             is = AccessController.doPrivileged(
-                new PrivilegedExceptionAction<InputStream>() {
-                    public InputStream run() throws IOException {
-                        return impl.getInputStream();
+                new PrivilegedExceptionAction<InputStrebm>() {
+                    public InputStrebm run() throws IOException {
+                        return impl.getInputStrebm();
                     }
                 });
-        } catch (java.security.PrivilegedActionException e) {
+        } cbtch (jbvb.security.PrivilegedActionException e) {
             throw (IOException) e.getException();
         }
         return is;
     }
 
     /**
-     * Returns an output stream for this socket.
+     * Returns bn output strebm for this socket.
      *
-     * <p> If this socket has an associated channel then the resulting output
-     * stream delegates all of its operations to the channel.  If the channel
-     * is in non-blocking mode then the output stream's {@code write}
-     * operations will throw an {@link
-     * java.nio.channels.IllegalBlockingModeException}.
+     * <p> If this socket hbs bn bssocibted chbnnel then the resulting output
+     * strebm delegbtes bll of its operbtions to the chbnnel.  If the chbnnel
+     * is in non-blocking mode then the output strebm's {@code write}
+     * operbtions will throw bn {@link
+     * jbvb.nio.chbnnels.IllegblBlockingModeException}.
      *
-     * <p> Closing the returned {@link java.io.OutputStream OutputStream}
-     * will close the associated socket.
+     * <p> Closing the returned {@link jbvb.io.OutputStrebm OutputStrebm}
+     * will close the bssocibted socket.
      *
-     * @return     an output stream for writing bytes to this socket.
-     * @exception  IOException  if an I/O error occurs when creating the
-     *               output stream or if the socket is not connected.
+     * @return     bn output strebm for writing bytes to this socket.
+     * @exception  IOException  if bn I/O error occurs when crebting the
+     *               output strebm or if the socket is not connected.
      * @revised 1.4
      * @spec JSR-51
      */
-    public OutputStream getOutputStream() throws IOException {
+    public OutputStrebm getOutputStrebm() throws IOException {
         if (isClosed())
             throw new SocketException("Socket is closed");
         if (!isConnected())
             throw new SocketException("Socket is not connected");
         if (isOutputShutdown())
             throw new SocketException("Socket output is shutdown");
-        final Socket s = this;
-        OutputStream os = null;
+        finbl Socket s = this;
+        OutputStrebm os = null;
         try {
             os = AccessController.doPrivileged(
-                new PrivilegedExceptionAction<OutputStream>() {
-                    public OutputStream run() throws IOException {
-                        return impl.getOutputStream();
+                new PrivilegedExceptionAction<OutputStrebm>() {
+                    public OutputStrebm run() throws IOException {
+                        return impl.getOutputStrebm();
                     }
                 });
-        } catch (java.security.PrivilegedActionException e) {
+        } cbtch (jbvb.security.PrivilegedActionException e) {
             throw (IOException) e.getException();
         }
         return os;
     }
 
     /**
-     * Enable/disable {@link SocketOptions#TCP_NODELAY TCP_NODELAY}
-     * (disable/enable Nagle's algorithm).
+     * Enbble/disbble {@link SocketOptions#TCP_NODELAY TCP_NODELAY}
+     * (disbble/enbble Nbgle's blgorithm).
      *
-     * @param on {@code true} to enable TCP_NODELAY,
-     * {@code false} to disable.
+     * @pbrbm on {@code true} to enbble TCP_NODELAY,
+     * {@code fblse} to disbble.
      *
-     * @exception SocketException if there is an error
-     * in the underlying protocol, such as a TCP error.
+     * @exception SocketException if there is bn error
+     * in the underlying protocol, such bs b TCP error.
      *
      * @since   1.1
      *
-     * @see #getTcpNoDelay()
+     * @see #getTcpNoDelby()
      */
-    public void setTcpNoDelay(boolean on) throws SocketException {
+    public void setTcpNoDelby(boolebn on) throws SocketException {
         if (isClosed())
             throw new SocketException("Socket is closed");
-        getImpl().setOption(SocketOptions.TCP_NODELAY, Boolean.valueOf(on));
+        getImpl().setOption(SocketOptions.TCP_NODELAY, Boolebn.vblueOf(on));
     }
 
     /**
-     * Tests if {@link SocketOptions#TCP_NODELAY TCP_NODELAY} is enabled.
+     * Tests if {@link SocketOptions#TCP_NODELAY TCP_NODELAY} is enbbled.
      *
-     * @return a {@code boolean} indicating whether or not
-     *         {@link SocketOptions#TCP_NODELAY TCP_NODELAY} is enabled.
-     * @exception SocketException if there is an error
-     * in the underlying protocol, such as a TCP error.
+     * @return b {@code boolebn} indicbting whether or not
+     *         {@link SocketOptions#TCP_NODELAY TCP_NODELAY} is enbbled.
+     * @exception SocketException if there is bn error
+     * in the underlying protocol, such bs b TCP error.
      * @since   1.1
-     * @see #setTcpNoDelay(boolean)
+     * @see #setTcpNoDelby(boolebn)
      */
-    public boolean getTcpNoDelay() throws SocketException {
+    public boolebn getTcpNoDelby() throws SocketException {
         if (isClosed())
             throw new SocketException("Socket is closed");
-        return ((Boolean) getImpl().getOption(SocketOptions.TCP_NODELAY)).booleanValue();
+        return ((Boolebn) getImpl().getOption(SocketOptions.TCP_NODELAY)).boolebnVblue();
     }
 
     /**
-     * Enable/disable {@link SocketOptions#SO_LINGER SO_LINGER} with the
-     * specified linger time in seconds. The maximum timeout value is platform
+     * Enbble/disbble {@link SocketOptions#SO_LINGER SO_LINGER} with the
+     * specified linger time in seconds. The mbximum timeout vblue is plbtform
      * specific.
      *
-     * The setting only affects socket close.
+     * The setting only bffects socket close.
      *
-     * @param on     whether or not to linger on.
-     * @param linger how long to linger for, if on is true.
-     * @exception SocketException if there is an error
-     * in the underlying protocol, such as a TCP error.
-     * @exception IllegalArgumentException if the linger value is negative.
+     * @pbrbm on     whether or not to linger on.
+     * @pbrbm linger how long to linger for, if on is true.
+     * @exception SocketException if there is bn error
+     * in the underlying protocol, such bs b TCP error.
+     * @exception IllegblArgumentException if the linger vblue is negbtive.
      * @since 1.1
      * @see #getSoLinger()
      */
-    public void setSoLinger(boolean on, int linger) throws SocketException {
+    public void setSoLinger(boolebn on, int linger) throws SocketException {
         if (isClosed())
             throw new SocketException("Socket is closed");
         if (!on) {
             getImpl().setOption(SocketOptions.SO_LINGER, on);
         } else {
             if (linger < 0) {
-                throw new IllegalArgumentException("invalid value for SO_LINGER");
+                throw new IllegblArgumentException("invblid vblue for SO_LINGER");
             }
             if (linger > 65535)
                 linger = 65535;
@@ -1030,107 +1030,107 @@ class Socket implements java.io.Closeable {
 
     /**
      * Returns setting for {@link SocketOptions#SO_LINGER SO_LINGER}.
-     * -1 returns implies that the
-     * option is disabled.
+     * -1 returns implies thbt the
+     * option is disbbled.
      *
-     * The setting only affects socket close.
+     * The setting only bffects socket close.
      *
      * @return the setting for {@link SocketOptions#SO_LINGER SO_LINGER}.
-     * @exception SocketException if there is an error
-     * in the underlying protocol, such as a TCP error.
+     * @exception SocketException if there is bn error
+     * in the underlying protocol, such bs b TCP error.
      * @since   1.1
-     * @see #setSoLinger(boolean, int)
+     * @see #setSoLinger(boolebn, int)
      */
     public int getSoLinger() throws SocketException {
         if (isClosed())
             throw new SocketException("Socket is closed");
         Object o = getImpl().getOption(SocketOptions.SO_LINGER);
-        if (o instanceof Integer) {
-            return ((Integer) o).intValue();
+        if (o instbnceof Integer) {
+            return ((Integer) o).intVblue();
         } else {
             return -1;
         }
     }
 
     /**
-     * Send one byte of urgent data on the socket. The byte to be sent is the lowest eight
-     * bits of the data parameter. The urgent byte is
-     * sent after any preceding writes to the socket OutputStream
-     * and before any future writes to the OutputStream.
-     * @param data The byte of data to send
-     * @exception IOException if there is an error
-     *  sending the data.
+     * Send one byte of urgent dbtb on the socket. The byte to be sent is the lowest eight
+     * bits of the dbtb pbrbmeter. The urgent byte is
+     * sent bfter bny preceding writes to the socket OutputStrebm
+     * bnd before bny future writes to the OutputStrebm.
+     * @pbrbm dbtb The byte of dbtb to send
+     * @exception IOException if there is bn error
+     *  sending the dbtb.
      * @since 1.4
      */
-    public void sendUrgentData (int data) throws IOException  {
-        if (!getImpl().supportsUrgentData ()) {
-            throw new SocketException ("Urgent data not supported");
+    public void sendUrgentDbtb (int dbtb) throws IOException  {
+        if (!getImpl().supportsUrgentDbtb ()) {
+            throw new SocketException ("Urgent dbtb not supported");
         }
-        getImpl().sendUrgentData (data);
+        getImpl().sendUrgentDbtb (dbtb);
     }
 
     /**
-     * Enable/disable {@link SocketOptions#SO_OOBINLINE SO_OOBINLINE}
-     * (receipt of TCP urgent data)
+     * Enbble/disbble {@link SocketOptions#SO_OOBINLINE SO_OOBINLINE}
+     * (receipt of TCP urgent dbtb)
      *
-     * By default, this option is disabled and TCP urgent data received on a
-     * socket is silently discarded. If the user wishes to receive urgent data, then
-     * this option must be enabled. When enabled, urgent data is received
-     * inline with normal data.
+     * By defbult, this option is disbbled bnd TCP urgent dbtb received on b
+     * socket is silently discbrded. If the user wishes to receive urgent dbtb, then
+     * this option must be enbbled. When enbbled, urgent dbtb is received
+     * inline with normbl dbtb.
      * <p>
-     * Note, only limited support is provided for handling incoming urgent
-     * data. In particular, no notification of incoming urgent data is provided
-     * and there is no capability to distinguish between normal data and urgent
-     * data unless provided by a higher level protocol.
+     * Note, only limited support is provided for hbndling incoming urgent
+     * dbtb. In pbrticulbr, no notificbtion of incoming urgent dbtb is provided
+     * bnd there is no cbpbbility to distinguish between normbl dbtb bnd urgent
+     * dbtb unless provided by b higher level protocol.
      *
-     * @param on {@code true} to enable
+     * @pbrbm on {@code true} to enbble
      *           {@link SocketOptions#SO_OOBINLINE SO_OOBINLINE},
-     *           {@code false} to disable.
+     *           {@code fblse} to disbble.
      *
-     * @exception SocketException if there is an error
-     * in the underlying protocol, such as a TCP error.
+     * @exception SocketException if there is bn error
+     * in the underlying protocol, such bs b TCP error.
      *
      * @since   1.4
      *
      * @see #getOOBInline()
      */
-    public void setOOBInline(boolean on) throws SocketException {
+    public void setOOBInline(boolebn on) throws SocketException {
         if (isClosed())
             throw new SocketException("Socket is closed");
-        getImpl().setOption(SocketOptions.SO_OOBINLINE, Boolean.valueOf(on));
+        getImpl().setOption(SocketOptions.SO_OOBINLINE, Boolebn.vblueOf(on));
     }
 
     /**
-     * Tests if {@link SocketOptions#SO_OOBINLINE SO_OOBINLINE} is enabled.
+     * Tests if {@link SocketOptions#SO_OOBINLINE SO_OOBINLINE} is enbbled.
      *
-     * @return a {@code boolean} indicating whether or not
-     *         {@link SocketOptions#SO_OOBINLINE SO_OOBINLINE}is enabled.
+     * @return b {@code boolebn} indicbting whether or not
+     *         {@link SocketOptions#SO_OOBINLINE SO_OOBINLINE}is enbbled.
      *
-     * @exception SocketException if there is an error
-     * in the underlying protocol, such as a TCP error.
+     * @exception SocketException if there is bn error
+     * in the underlying protocol, such bs b TCP error.
      * @since   1.4
-     * @see #setOOBInline(boolean)
+     * @see #setOOBInline(boolebn)
      */
-    public boolean getOOBInline() throws SocketException {
+    public boolebn getOOBInline() throws SocketException {
         if (isClosed())
             throw new SocketException("Socket is closed");
-        return ((Boolean) getImpl().getOption(SocketOptions.SO_OOBINLINE)).booleanValue();
+        return ((Boolebn) getImpl().getOption(SocketOptions.SO_OOBINLINE)).boolebnVblue();
     }
 
     /**
-     *  Enable/disable {@link SocketOptions#SO_TIMEOUT SO_TIMEOUT}
+     *  Enbble/disbble {@link SocketOptions#SO_TIMEOUT SO_TIMEOUT}
      *  with the specified timeout, in milliseconds. With this option set
-     *  to a non-zero timeout, a read() call on the InputStream associated with
-     *  this Socket will block for only this amount of time.  If the timeout
-     *  expires, a <B>java.net.SocketTimeoutException</B> is raised, though the
-     *  Socket is still valid. The option <B>must</B> be enabled
-     *  prior to entering the blocking operation to have effect. The
+     *  to b non-zero timeout, b rebd() cbll on the InputStrebm bssocibted with
+     *  this Socket will block for only this bmount of time.  If the timeout
+     *  expires, b <B>jbvb.net.SocketTimeoutException</B> is rbised, though the
+     *  Socket is still vblid. The option <B>must</B> be enbbled
+     *  prior to entering the blocking operbtion to hbve effect. The
      *  timeout must be {@code > 0}.
-     *  A timeout of zero is interpreted as an infinite timeout.
+     *  A timeout of zero is interpreted bs bn infinite timeout.
      *
-     * @param timeout the specified timeout, in milliseconds.
-     * @exception SocketException if there is an error
-     * in the underlying protocol, such as a TCP error.
+     * @pbrbm timeout the specified timeout, in milliseconds.
+     * @exception SocketException if there is bn error
+     * in the underlying protocol, such bs b TCP error.
      * @since   1.1
      * @see #getSoTimeout()
      */
@@ -1138,18 +1138,18 @@ class Socket implements java.io.Closeable {
         if (isClosed())
             throw new SocketException("Socket is closed");
         if (timeout < 0)
-          throw new IllegalArgumentException("timeout can't be negative");
+          throw new IllegblArgumentException("timeout cbn't be negbtive");
 
         getImpl().setOption(SocketOptions.SO_TIMEOUT, timeout);
     }
 
     /**
      * Returns setting for {@link SocketOptions#SO_TIMEOUT SO_TIMEOUT}.
-     * 0 returns implies that the option is disabled (i.e., timeout of infinity).
+     * 0 returns implies thbt the option is disbbled (i.e., timeout of infinity).
      *
      * @return the setting for {@link SocketOptions#SO_TIMEOUT SO_TIMEOUT}
-     * @exception SocketException if there is an error
-     * in the underlying protocol, such as a TCP error.
+     * @exception SocketException if there is bn error
+     * in the underlying protocol, such bs b TCP error.
      *
      * @since   1.1
      * @see #setSoTimeout(int)
@@ -1158,9 +1158,9 @@ class Socket implements java.io.Closeable {
         if (isClosed())
             throw new SocketException("Socket is closed");
         Object o = getImpl().getOption(SocketOptions.SO_TIMEOUT);
-        /* extra type safety */
-        if (o instanceof Integer) {
-            return ((Integer) o).intValue();
+        /* extrb type sbfety */
+        if (o instbnceof Integer) {
+            return ((Integer) o).intVblue();
         } else {
             return 0;
         }
@@ -1168,23 +1168,23 @@ class Socket implements java.io.Closeable {
 
     /**
      * Sets the {@link SocketOptions#SO_SNDBUF SO_SNDBUF} option to the
-     * specified value for this {@code Socket}.
+     * specified vblue for this {@code Socket}.
      * The {@link SocketOptions#SO_SNDBUF SO_SNDBUF} option is used by the
-     * platform's networking code as a hint for the size to set the underlying
+     * plbtform's networking code bs b hint for the size to set the underlying
      * network I/O buffers.
      *
-     * <p>Because {@link SocketOptions#SO_SNDBUF SO_SNDBUF} is a hint,
-     * applications that want to verify what size the buffers were set to
-     * should call {@link #getSendBufferSize()}.
+     * <p>Becbuse {@link SocketOptions#SO_SNDBUF SO_SNDBUF} is b hint,
+     * bpplicbtions thbt wbnt to verify whbt size the buffers were set to
+     * should cbll {@link #getSendBufferSize()}.
      *
-     * @exception SocketException if there is an error
-     * in the underlying protocol, such as a TCP error.
+     * @exception SocketException if there is bn error
+     * in the underlying protocol, such bs b TCP error.
      *
-     * @param size the size to which to set the send buffer
-     * size. This value must be greater than 0.
+     * @pbrbm size the size to which to set the send buffer
+     * size. This vblue must be grebter thbn 0.
      *
-     * @exception IllegalArgumentException if the
-     * value is 0 or is negative.
+     * @exception IllegblArgumentException if the
+     * vblue is 0 or is negbtive.
      *
      * @see #getSendBufferSize()
      * @since 1.2
@@ -1192,7 +1192,7 @@ class Socket implements java.io.Closeable {
     public synchronized void setSendBufferSize(int size)
     throws SocketException{
         if (!(size > 0)) {
-            throw new IllegalArgumentException("negative send size");
+            throw new IllegblArgumentException("negbtive send size");
         }
         if (isClosed())
             throw new SocketException("Socket is closed");
@@ -1200,14 +1200,14 @@ class Socket implements java.io.Closeable {
     }
 
     /**
-     * Get value of the {@link SocketOptions#SO_SNDBUF SO_SNDBUF} option
-     * for this {@code Socket}, that is the buffer size used by the platform
+     * Get vblue of the {@link SocketOptions#SO_SNDBUF SO_SNDBUF} option
+     * for this {@code Socket}, thbt is the buffer size used by the plbtform
      * for output on this {@code Socket}.
-     * @return the value of the {@link SocketOptions#SO_SNDBUF SO_SNDBUF}
+     * @return the vblue of the {@link SocketOptions#SO_SNDBUF SO_SNDBUF}
      *         option for this {@code Socket}.
      *
-     * @exception SocketException if there is an error
-     * in the underlying protocol, such as a TCP error.
+     * @exception SocketException if there is bn error
+     * in the underlying protocol, such bs b TCP error.
      *
      * @see #setSendBufferSize(int)
      * @since 1.2
@@ -1217,47 +1217,47 @@ class Socket implements java.io.Closeable {
             throw new SocketException("Socket is closed");
         int result = 0;
         Object o = getImpl().getOption(SocketOptions.SO_SNDBUF);
-        if (o instanceof Integer) {
-            result = ((Integer)o).intValue();
+        if (o instbnceof Integer) {
+            result = ((Integer)o).intVblue();
         }
         return result;
     }
 
     /**
      * Sets the {@link SocketOptions#SO_RCVBUF SO_RCVBUF} option to the
-     * specified value for this {@code Socket}. The
+     * specified vblue for this {@code Socket}. The
      * {@link SocketOptions#SO_RCVBUF SO_RCVBUF} option is
-     * used by the platform's networking code as a hint for the size to set
+     * used by the plbtform's networking code bs b hint for the size to set
      * the underlying network I/O buffers.
      *
-     * <p>Increasing the receive buffer size can increase the performance of
-     * network I/O for high-volume connection, while decreasing it can
-     * help reduce the backlog of incoming data.
+     * <p>Increbsing the receive buffer size cbn increbse the performbnce of
+     * network I/O for high-volume connection, while decrebsing it cbn
+     * help reduce the bbcklog of incoming dbtb.
      *
-     * <p>Because {@link SocketOptions#SO_RCVBUF SO_RCVBUF} is a hint,
-     * applications that want to verify what size the buffers were set to
-     * should call {@link #getReceiveBufferSize()}.
+     * <p>Becbuse {@link SocketOptions#SO_RCVBUF SO_RCVBUF} is b hint,
+     * bpplicbtions thbt wbnt to verify whbt size the buffers were set to
+     * should cbll {@link #getReceiveBufferSize()}.
      *
-     * <p>The value of {@link SocketOptions#SO_RCVBUF SO_RCVBUF} is also used
-     * to set the TCP receive window that is advertized to the remote peer.
-     * Generally, the window size can be modified at any time when a socket is
-     * connected. However, if a receive window larger than 64K is required then
+     * <p>The vblue of {@link SocketOptions#SO_RCVBUF SO_RCVBUF} is blso used
+     * to set the TCP receive window thbt is bdvertized to the remote peer.
+     * Generblly, the window size cbn be modified bt bny time when b socket is
+     * connected. However, if b receive window lbrger thbn 64K is required then
      * this must be requested <B>before</B> the socket is connected to the
-     * remote peer. There are two cases to be aware of:
+     * remote peer. There bre two cbses to be bwbre of:
      * <ol>
-     * <li>For sockets accepted from a ServerSocket, this must be done by calling
+     * <li>For sockets bccepted from b ServerSocket, this must be done by cblling
      * {@link ServerSocket#setReceiveBufferSize(int)} before the ServerSocket
-     * is bound to a local address.</li>
-     * <li>For client sockets, setReceiveBufferSize() must be called before
+     * is bound to b locbl bddress.</li>
+     * <li>For client sockets, setReceiveBufferSize() must be cblled before
      * connecting the socket to its remote peer.</li></ol>
-     * @param size the size to which to set the receive buffer
-     * size. This value must be greater than 0.
+     * @pbrbm size the size to which to set the receive buffer
+     * size. This vblue must be grebter thbn 0.
      *
-     * @exception IllegalArgumentException if the value is 0 or is
-     * negative.
+     * @exception IllegblArgumentException if the vblue is 0 or is
+     * negbtive.
      *
-     * @exception SocketException if there is an error
-     * in the underlying protocol, such as a TCP error.
+     * @exception SocketException if there is bn error
+     * in the underlying protocol, such bs b TCP error.
      *
      * @see #getReceiveBufferSize()
      * @see ServerSocket#setReceiveBufferSize(int)
@@ -1266,7 +1266,7 @@ class Socket implements java.io.Closeable {
     public synchronized void setReceiveBufferSize(int size)
     throws SocketException{
         if (size <= 0) {
-            throw new IllegalArgumentException("invalid receive size");
+            throw new IllegblArgumentException("invblid receive size");
         }
         if (isClosed())
             throw new SocketException("Socket is closed");
@@ -1274,14 +1274,14 @@ class Socket implements java.io.Closeable {
     }
 
     /**
-     * Gets the value of the {@link SocketOptions#SO_RCVBUF SO_RCVBUF} option
-     * for this {@code Socket}, that is the buffer size used by the platform
+     * Gets the vblue of the {@link SocketOptions#SO_RCVBUF SO_RCVBUF} option
+     * for this {@code Socket}, thbt is the buffer size used by the plbtform
      * for input on this {@code Socket}.
      *
-     * @return the value of the {@link SocketOptions#SO_RCVBUF SO_RCVBUF}
+     * @return the vblue of the {@link SocketOptions#SO_RCVBUF SO_RCVBUF}
      *         option for this {@code Socket}.
-     * @exception SocketException if there is an error
-     * in the underlying protocol, such as a TCP error.
+     * @exception SocketException if there is bn error
+     * in the underlying protocol, such bs b TCP error.
      * @see #setReceiveBufferSize(int)
      * @since 1.2
      */
@@ -1291,57 +1291,57 @@ class Socket implements java.io.Closeable {
             throw new SocketException("Socket is closed");
         int result = 0;
         Object o = getImpl().getOption(SocketOptions.SO_RCVBUF);
-        if (o instanceof Integer) {
-            result = ((Integer)o).intValue();
+        if (o instbnceof Integer) {
+            result = ((Integer)o).intVblue();
         }
         return result;
     }
 
     /**
-     * Enable/disable {@link SocketOptions#SO_KEEPALIVE SO_KEEPALIVE}.
+     * Enbble/disbble {@link SocketOptions#SO_KEEPALIVE SO_KEEPALIVE}.
      *
-     * @param on  whether or not to have socket keep alive turned on.
-     * @exception SocketException if there is an error
-     * in the underlying protocol, such as a TCP error.
+     * @pbrbm on  whether or not to hbve socket keep blive turned on.
+     * @exception SocketException if there is bn error
+     * in the underlying protocol, such bs b TCP error.
      * @since 1.3
      * @see #getKeepAlive()
      */
-    public void setKeepAlive(boolean on) throws SocketException {
+    public void setKeepAlive(boolebn on) throws SocketException {
         if (isClosed())
             throw new SocketException("Socket is closed");
-        getImpl().setOption(SocketOptions.SO_KEEPALIVE, Boolean.valueOf(on));
+        getImpl().setOption(SocketOptions.SO_KEEPALIVE, Boolebn.vblueOf(on));
     }
 
     /**
-     * Tests if {@link SocketOptions#SO_KEEPALIVE SO_KEEPALIVE} is enabled.
+     * Tests if {@link SocketOptions#SO_KEEPALIVE SO_KEEPALIVE} is enbbled.
      *
-     * @return a {@code boolean} indicating whether or not
-     *         {@link SocketOptions#SO_KEEPALIVE SO_KEEPALIVE} is enabled.
-     * @exception SocketException if there is an error
-     * in the underlying protocol, such as a TCP error.
+     * @return b {@code boolebn} indicbting whether or not
+     *         {@link SocketOptions#SO_KEEPALIVE SO_KEEPALIVE} is enbbled.
+     * @exception SocketException if there is bn error
+     * in the underlying protocol, such bs b TCP error.
      * @since   1.3
-     * @see #setKeepAlive(boolean)
+     * @see #setKeepAlive(boolebn)
      */
-    public boolean getKeepAlive() throws SocketException {
+    public boolebn getKeepAlive() throws SocketException {
         if (isClosed())
             throw new SocketException("Socket is closed");
-        return ((Boolean) getImpl().getOption(SocketOptions.SO_KEEPALIVE)).booleanValue();
+        return ((Boolebn) getImpl().getOption(SocketOptions.SO_KEEPALIVE)).boolebnVblue();
     }
 
     /**
-     * Sets traffic class or type-of-service octet in the IP
-     * header for packets sent from this Socket.
-     * As the underlying network implementation may ignore this
-     * value applications should consider it a hint.
+     * Sets trbffic clbss or type-of-service octet in the IP
+     * hebder for pbckets sent from this Socket.
+     * As the underlying network implementbtion mby ignore this
+     * vblue bpplicbtions should consider it b hint.
      *
-     * <P> The tc <B>must</B> be in the range {@code 0 <= tc <=
-     * 255} or an IllegalArgumentException will be thrown.
+     * <P> The tc <B>must</B> be in the rbnge {@code 0 <= tc <=
+     * 255} or bn IllegblArgumentException will be thrown.
      * <p>Notes:
-     * <p>For Internet Protocol v4 the value consists of an
-     * {@code integer}, the least significant 8 bits of which
-     * represent the value of the TOS octet in IP packets sent by
+     * <p>For Internet Protocol v4 the vblue consists of bn
+     * {@code integer}, the lebst significbnt 8 bits of which
+     * represent the vblue of the TOS octet in IP pbckets sent by
      * the socket.
-     * RFC 1349 defines the TOS values as follows:
+     * RFC 1349 defines the TOS vblues bs follows:
      *
      * <UL>
      * <LI><CODE>IPTOS_LOWCOST (0x02)</CODE></LI>
@@ -1349,34 +1349,34 @@ class Socket implements java.io.Closeable {
      * <LI><CODE>IPTOS_THROUGHPUT (0x08)</CODE></LI>
      * <LI><CODE>IPTOS_LOWDELAY (0x10)</CODE></LI>
      * </UL>
-     * The last low order bit is always ignored as this
+     * The lbst low order bit is blwbys ignored bs this
      * corresponds to the MBZ (must be zero) bit.
      * <p>
-     * Setting bits in the precedence field may result in a
-     * SocketException indicating that the operation is not
+     * Setting bits in the precedence field mby result in b
+     * SocketException indicbting thbt the operbtion is not
      * permitted.
      * <p>
-     * As RFC 1122 section 4.2.4.2 indicates, a compliant TCP
-     * implementation should, but is not required to, let application
-     * change the TOS field during the lifetime of a connection.
-     * So whether the type-of-service field can be changed after the
-     * TCP connection has been established depends on the implementation
-     * in the underlying platform. Applications should not assume that
-     * they can change the TOS field after the connection.
+     * As RFC 1122 section 4.2.4.2 indicbtes, b complibnt TCP
+     * implementbtion should, but is not required to, let bpplicbtion
+     * chbnge the TOS field during the lifetime of b connection.
+     * So whether the type-of-service field cbn be chbnged bfter the
+     * TCP connection hbs been estbblished depends on the implementbtion
+     * in the underlying plbtform. Applicbtions should not bssume thbt
+     * they cbn chbnge the TOS field bfter the connection.
      * <p>
-     * For Internet Protocol v6 {@code tc} is the value that
-     * would be placed into the sin6_flowinfo field of the IP header.
+     * For Internet Protocol v6 {@code tc} is the vblue thbt
+     * would be plbced into the sin6_flowinfo field of the IP hebder.
      *
-     * @param tc        an {@code int} value for the bitset.
-     * @throws SocketException if there is an error setting the
-     * traffic class or type-of-service
+     * @pbrbm tc        bn {@code int} vblue for the bitset.
+     * @throws SocketException if there is bn error setting the
+     * trbffic clbss or type-of-service
      * @since 1.4
-     * @see #getTrafficClass
+     * @see #getTrbfficClbss
      * @see SocketOptions#IP_TOS
      */
-    public void setTrafficClass(int tc) throws SocketException {
+    public void setTrbfficClbss(int tc) throws SocketException {
         if (tc < 0 || tc > 255)
-            throw new IllegalArgumentException("tc is not in range 0 -- 255");
+            throw new IllegblArgumentException("tc is not in rbnge 0 -- 255");
 
         if (isClosed())
             throw new SocketException("Socket is closed");
@@ -1384,53 +1384,53 @@ class Socket implements java.io.Closeable {
     }
 
     /**
-     * Gets traffic class or type-of-service in the IP header
-     * for packets sent from this Socket
+     * Gets trbffic clbss or type-of-service in the IP hebder
+     * for pbckets sent from this Socket
      * <p>
-     * As the underlying network implementation may ignore the
-     * traffic class or type-of-service set using {@link #setTrafficClass(int)}
-     * this method may return a different value than was previously
-     * set using the {@link #setTrafficClass(int)} method on this Socket.
+     * As the underlying network implementbtion mby ignore the
+     * trbffic clbss or type-of-service set using {@link #setTrbfficClbss(int)}
+     * this method mby return b different vblue thbn wbs previously
+     * set using the {@link #setTrbfficClbss(int)} method on this Socket.
      *
-     * @return the traffic class or type-of-service already set
-     * @throws SocketException if there is an error obtaining the
-     * traffic class or type-of-service value.
+     * @return the trbffic clbss or type-of-service blrebdy set
+     * @throws SocketException if there is bn error obtbining the
+     * trbffic clbss or type-of-service vblue.
      * @since 1.4
-     * @see #setTrafficClass(int)
+     * @see #setTrbfficClbss(int)
      * @see SocketOptions#IP_TOS
      */
-    public int getTrafficClass() throws SocketException {
-        return ((Integer) (getImpl().getOption(SocketOptions.IP_TOS))).intValue();
+    public int getTrbfficClbss() throws SocketException {
+        return ((Integer) (getImpl().getOption(SocketOptions.IP_TOS))).intVblue();
     }
 
     /**
-     * Enable/disable the {@link SocketOptions#SO_REUSEADDR SO_REUSEADDR}
+     * Enbble/disbble the {@link SocketOptions#SO_REUSEADDR SO_REUSEADDR}
      * socket option.
      * <p>
-     * When a TCP connection is closed the connection may remain
-     * in a timeout state for a period of time after the connection
-     * is closed (typically known as the {@code TIME_WAIT} state
-     * or {@code 2MSL} wait state).
-     * For applications using a well known socket address or port
-     * it may not be possible to bind a socket to the required
-     * {@code SocketAddress} if there is a connection in the
-     * timeout state involving the socket address or port.
+     * When b TCP connection is closed the connection mby rembin
+     * in b timeout stbte for b period of time bfter the connection
+     * is closed (typicblly known bs the {@code TIME_WAIT} stbte
+     * or {@code 2MSL} wbit stbte).
+     * For bpplicbtions using b well known socket bddress or port
+     * it mby not be possible to bind b socket to the required
+     * {@code SocketAddress} if there is b connection in the
+     * timeout stbte involving the socket bddress or port.
      * <p>
-     * Enabling {@link SocketOptions#SO_REUSEADDR SO_REUSEADDR}
-     * prior to binding the socket using {@link #bind(SocketAddress)} allows
-     * the socket to be bound even though a previous connection is in a timeout
-     * state.
+     * Enbbling {@link SocketOptions#SO_REUSEADDR SO_REUSEADDR}
+     * prior to binding the socket using {@link #bind(SocketAddress)} bllows
+     * the socket to be bound even though b previous connection is in b timeout
+     * stbte.
      * <p>
-     * When a {@code Socket} is created the initial setting
-     * of {@link SocketOptions#SO_REUSEADDR SO_REUSEADDR} is disabled.
+     * When b {@code Socket} is crebted the initibl setting
+     * of {@link SocketOptions#SO_REUSEADDR SO_REUSEADDR} is disbbled.
      * <p>
-     * The behaviour when {@link SocketOptions#SO_REUSEADDR SO_REUSEADDR} is
-     * enabled or disabled after a socket is bound (See {@link #isBound()})
+     * The behbviour when {@link SocketOptions#SO_REUSEADDR SO_REUSEADDR} is
+     * enbbled or disbbled bfter b socket is bound (See {@link #isBound()})
      * is not defined.
      *
-     * @param on  whether to enable or disable the socket option
-     * @exception SocketException if an error occurs enabling or
-     *            disabling the {@link SocketOptions#SO_REUSEADDR SO_REUSEADDR}
+     * @pbrbm on  whether to enbble or disbble the socket option
+     * @exception SocketException if bn error occurs enbbling or
+     *            disbbling the {@link SocketOptions#SO_REUSEADDR SO_REUSEADDR}
      *            socket option, or the socket is closed.
      * @since 1.4
      * @see #getReuseAddress()
@@ -1438,46 +1438,46 @@ class Socket implements java.io.Closeable {
      * @see #isClosed()
      * @see #isBound()
      */
-    public void setReuseAddress(boolean on) throws SocketException {
+    public void setReuseAddress(boolebn on) throws SocketException {
         if (isClosed())
             throw new SocketException("Socket is closed");
-        getImpl().setOption(SocketOptions.SO_REUSEADDR, Boolean.valueOf(on));
+        getImpl().setOption(SocketOptions.SO_REUSEADDR, Boolebn.vblueOf(on));
     }
 
     /**
-     * Tests if {@link SocketOptions#SO_REUSEADDR SO_REUSEADDR} is enabled.
+     * Tests if {@link SocketOptions#SO_REUSEADDR SO_REUSEADDR} is enbbled.
      *
-     * @return a {@code boolean} indicating whether or not
-     *         {@link SocketOptions#SO_REUSEADDR SO_REUSEADDR} is enabled.
-     * @exception SocketException if there is an error
-     * in the underlying protocol, such as a TCP error.
+     * @return b {@code boolebn} indicbting whether or not
+     *         {@link SocketOptions#SO_REUSEADDR SO_REUSEADDR} is enbbled.
+     * @exception SocketException if there is bn error
+     * in the underlying protocol, such bs b TCP error.
      * @since   1.4
-     * @see #setReuseAddress(boolean)
+     * @see #setReuseAddress(boolebn)
      */
-    public boolean getReuseAddress() throws SocketException {
+    public boolebn getReuseAddress() throws SocketException {
         if (isClosed())
             throw new SocketException("Socket is closed");
-        return ((Boolean) (getImpl().getOption(SocketOptions.SO_REUSEADDR))).booleanValue();
+        return ((Boolebn) (getImpl().getOption(SocketOptions.SO_REUSEADDR))).boolebnVblue();
     }
 
     /**
      * Closes this socket.
      * <p>
-     * Any thread currently blocked in an I/O operation upon this socket
-     * will throw a {@link SocketException}.
+     * Any threbd currently blocked in bn I/O operbtion upon this socket
+     * will throw b {@link SocketException}.
      * <p>
-     * Once a socket has been closed, it is not available for further networking
-     * use (i.e. can't be reconnected or rebound). A new socket needs to be
-     * created.
+     * Once b socket hbs been closed, it is not bvbilbble for further networking
+     * use (i.e. cbn't be reconnected or rebound). A new socket needs to be
+     * crebted.
      *
-     * <p> Closing this socket will also close the socket's
-     * {@link java.io.InputStream InputStream} and
-     * {@link java.io.OutputStream OutputStream}.
+     * <p> Closing this socket will blso close the socket's
+     * {@link jbvb.io.InputStrebm InputStrebm} bnd
+     * {@link jbvb.io.OutputStrebm OutputStrebm}.
      *
-     * <p> If this socket has an associated channel then the channel is closed
-     * as well.
+     * <p> If this socket hbs bn bssocibted chbnnel then the chbnnel is closed
+     * bs well.
      *
-     * @exception  IOException  if an I/O error occurs when closing this socket.
+     * @exception  IOException  if bn I/O error occurs when closing this socket.
      * @revised 1.4
      * @spec JSR-51
      * @see #isClosed
@@ -1486,28 +1486,28 @@ class Socket implements java.io.Closeable {
         synchronized(closeLock) {
             if (isClosed())
                 return;
-            if (created)
+            if (crebted)
                 impl.close();
             closed = true;
         }
     }
 
     /**
-     * Places the input stream for this socket at "end of stream".
-     * Any data sent to the input stream side of the socket is acknowledged
-     * and then silently discarded.
+     * Plbces the input strebm for this socket bt "end of strebm".
+     * Any dbtb sent to the input strebm side of the socket is bcknowledged
+     * bnd then silently discbrded.
      * <p>
-     * If you read from a socket input stream after invoking this method on the
-     * socket, the stream's {@code available} method will return 0, and its
-     * {@code read} methods will return {@code -1} (end of stream).
+     * If you rebd from b socket input strebm bfter invoking this method on the
+     * socket, the strebm's {@code bvbilbble} method will return 0, bnd its
+     * {@code rebd} methods will return {@code -1} (end of strebm).
      *
-     * @exception IOException if an I/O error occurs when shutting down this
+     * @exception IOException if bn I/O error occurs when shutting down this
      * socket.
      *
      * @since 1.3
-     * @see java.net.Socket#shutdownOutput()
-     * @see java.net.Socket#close()
-     * @see java.net.Socket#setSoLinger(boolean, int)
+     * @see jbvb.net.Socket#shutdownOutput()
+     * @see jbvb.net.Socket#close()
+     * @see jbvb.net.Socket#setSoLinger(boolebn, int)
      * @see #isInputShutdown
      */
     public void shutdownInput() throws IOException
@@ -1517,27 +1517,27 @@ class Socket implements java.io.Closeable {
         if (!isConnected())
             throw new SocketException("Socket is not connected");
         if (isInputShutdown())
-            throw new SocketException("Socket input is already shutdown");
+            throw new SocketException("Socket input is blrebdy shutdown");
         getImpl().shutdownInput();
         shutIn = true;
     }
 
     /**
-     * Disables the output stream for this socket.
-     * For a TCP socket, any previously written data will be sent
-     * followed by TCP's normal connection termination sequence.
+     * Disbbles the output strebm for this socket.
+     * For b TCP socket, bny previously written dbtb will be sent
+     * followed by TCP's normbl connection terminbtion sequence.
      *
-     * If you write to a socket output stream after invoking
-     * shutdownOutput() on the socket, the stream will throw
-     * an IOException.
+     * If you write to b socket output strebm bfter invoking
+     * shutdownOutput() on the socket, the strebm will throw
+     * bn IOException.
      *
-     * @exception IOException if an I/O error occurs when shutting down this
+     * @exception IOException if bn I/O error occurs when shutting down this
      * socket.
      *
      * @since 1.3
-     * @see java.net.Socket#shutdownInput()
-     * @see java.net.Socket#close()
-     * @see java.net.Socket#setSoLinger(boolean, int)
+     * @see jbvb.net.Socket#shutdownInput()
+     * @see jbvb.net.Socket#close()
+     * @see jbvb.net.Socket#setSoLinger(boolebn, int)
      * @see #isOutputShutdown
      */
     public void shutdownOutput() throws IOException
@@ -1547,264 +1547,264 @@ class Socket implements java.io.Closeable {
         if (!isConnected())
             throw new SocketException("Socket is not connected");
         if (isOutputShutdown())
-            throw new SocketException("Socket output is already shutdown");
+            throw new SocketException("Socket output is blrebdy shutdown");
         getImpl().shutdownOutput();
         shutOut = true;
     }
 
     /**
-     * Converts this socket to a {@code String}.
+     * Converts this socket to b {@code String}.
      *
-     * @return  a string representation of this socket.
+     * @return  b string representbtion of this socket.
      */
     public String toString() {
         try {
             if (isConnected())
-                return "Socket[addr=" + getImpl().getInetAddress() +
+                return "Socket[bddr=" + getImpl().getInetAddress() +
                     ",port=" + getImpl().getPort() +
-                    ",localport=" + getImpl().getLocalPort() + "]";
-        } catch (SocketException e) {
+                    ",locblport=" + getImpl().getLocblPort() + "]";
+        } cbtch (SocketException e) {
         }
         return "Socket[unconnected]";
     }
 
     /**
-     * Returns the connection state of the socket.
+     * Returns the connection stbte of the socket.
      * <p>
-     * Note: Closing a socket doesn't clear its connection state, which means
-     * this method will return {@code true} for a closed socket
-     * (see {@link #isClosed()}) if it was successfuly connected prior
+     * Note: Closing b socket doesn't clebr its connection stbte, which mebns
+     * this method will return {@code true} for b closed socket
+     * (see {@link #isClosed()}) if it wbs successfuly connected prior
      * to being closed.
      *
-     * @return true if the socket was successfuly connected to a server
+     * @return true if the socket wbs successfuly connected to b server
      * @since 1.4
      */
-    public boolean isConnected() {
-        // Before 1.3 Sockets were always connected during creation
+    public boolebn isConnected() {
+        // Before 1.3 Sockets were blwbys connected during crebtion
         return connected || oldImpl;
     }
 
     /**
-     * Returns the binding state of the socket.
+     * Returns the binding stbte of the socket.
      * <p>
-     * Note: Closing a socket doesn't clear its binding state, which means
-     * this method will return {@code true} for a closed socket
-     * (see {@link #isClosed()}) if it was successfuly bound prior
+     * Note: Closing b socket doesn't clebr its binding stbte, which mebns
+     * this method will return {@code true} for b closed socket
+     * (see {@link #isClosed()}) if it wbs successfuly bound prior
      * to being closed.
      *
-     * @return true if the socket was successfuly bound to an address
+     * @return true if the socket wbs successfuly bound to bn bddress
      * @since 1.4
      * @see #bind
      */
-    public boolean isBound() {
-        // Before 1.3 Sockets were always bound during creation
+    public boolebn isBound() {
+        // Before 1.3 Sockets were blwbys bound during crebtion
         return bound || oldImpl;
     }
 
     /**
-     * Returns the closed state of the socket.
+     * Returns the closed stbte of the socket.
      *
-     * @return true if the socket has been closed
+     * @return true if the socket hbs been closed
      * @since 1.4
      * @see #close
      */
-    public boolean isClosed() {
+    public boolebn isClosed() {
         synchronized(closeLock) {
             return closed;
         }
     }
 
     /**
-     * Returns whether the read-half of the socket connection is closed.
+     * Returns whether the rebd-hblf of the socket connection is closed.
      *
-     * @return true if the input of the socket has been shutdown
+     * @return true if the input of the socket hbs been shutdown
      * @since 1.4
      * @see #shutdownInput
      */
-    public boolean isInputShutdown() {
+    public boolebn isInputShutdown() {
         return shutIn;
     }
 
     /**
-     * Returns whether the write-half of the socket connection is closed.
+     * Returns whether the write-hblf of the socket connection is closed.
      *
-     * @return true if the output of the socket has been shutdown
+     * @return true if the output of the socket hbs been shutdown
      * @since 1.4
      * @see #shutdownOutput
      */
-    public boolean isOutputShutdown() {
+    public boolebn isOutputShutdown() {
         return shutOut;
     }
 
     /**
-     * The factory for all client sockets.
+     * The fbctory for bll client sockets.
      */
-    private static SocketImplFactory factory = null;
+    privbte stbtic SocketImplFbctory fbctory = null;
 
     /**
-     * Sets the client socket implementation factory for the
-     * application. The factory can be specified only once.
+     * Sets the client socket implementbtion fbctory for the
+     * bpplicbtion. The fbctory cbn be specified only once.
      * <p>
-     * When an application creates a new client socket, the socket
-     * implementation factory's {@code createSocketImpl} method is
-     * called to create the actual socket implementation.
+     * When bn bpplicbtion crebtes b new client socket, the socket
+     * implementbtion fbctory's {@code crebteSocketImpl} method is
+     * cblled to crebte the bctubl socket implementbtion.
      * <p>
-     * Passing {@code null} to the method is a no-op unless the factory
-     * was already set.
-     * <p>If there is a security manager, this method first calls
-     * the security manager's {@code checkSetFactory} method
-     * to ensure the operation is allowed.
-     * This could result in a SecurityException.
+     * Pbssing {@code null} to the method is b no-op unless the fbctory
+     * wbs blrebdy set.
+     * <p>If there is b security mbnbger, this method first cblls
+     * the security mbnbger's {@code checkSetFbctory} method
+     * to ensure the operbtion is bllowed.
+     * This could result in b SecurityException.
      *
-     * @param      fac   the desired factory.
-     * @exception  IOException  if an I/O error occurs when setting the
-     *               socket factory.
-     * @exception  SocketException  if the factory is already defined.
-     * @exception  SecurityException  if a security manager exists and its
-     *             {@code checkSetFactory} method doesn't allow the operation.
-     * @see        java.net.SocketImplFactory#createSocketImpl()
-     * @see        SecurityManager#checkSetFactory
+     * @pbrbm      fbc   the desired fbctory.
+     * @exception  IOException  if bn I/O error occurs when setting the
+     *               socket fbctory.
+     * @exception  SocketException  if the fbctory is blrebdy defined.
+     * @exception  SecurityException  if b security mbnbger exists bnd its
+     *             {@code checkSetFbctory} method doesn't bllow the operbtion.
+     * @see        jbvb.net.SocketImplFbctory#crebteSocketImpl()
+     * @see        SecurityMbnbger#checkSetFbctory
      */
-    public static synchronized void setSocketImplFactory(SocketImplFactory fac)
+    public stbtic synchronized void setSocketImplFbctory(SocketImplFbctory fbc)
         throws IOException
     {
-        if (factory != null) {
-            throw new SocketException("factory already defined");
+        if (fbctory != null) {
+            throw new SocketException("fbctory blrebdy defined");
         }
-        SecurityManager security = System.getSecurityManager();
+        SecurityMbnbger security = System.getSecurityMbnbger();
         if (security != null) {
-            security.checkSetFactory();
+            security.checkSetFbctory();
         }
-        factory = fac;
+        fbctory = fbc;
     }
 
     /**
-     * Sets performance preferences for this socket.
+     * Sets performbnce preferences for this socket.
      *
-     * <p> Sockets use the TCP/IP protocol by default.  Some implementations
-     * may offer alternative protocols which have different performance
-     * characteristics than TCP/IP.  This method allows the application to
-     * express its own preferences as to how these tradeoffs should be made
-     * when the implementation chooses from the available protocols.
+     * <p> Sockets use the TCP/IP protocol by defbult.  Some implementbtions
+     * mby offer blternbtive protocols which hbve different performbnce
+     * chbrbcteristics thbn TCP/IP.  This method bllows the bpplicbtion to
+     * express its own preferences bs to how these trbdeoffs should be mbde
+     * when the implementbtion chooses from the bvbilbble protocols.
      *
-     * <p> Performance preferences are described by three integers
-     * whose values indicate the relative importance of short connection time,
-     * low latency, and high bandwidth.  The absolute values of the integers
-     * are irrelevant; in order to choose a protocol the values are simply
-     * compared, with larger values indicating stronger preferences. Negative
-     * values represent a lower priority than positive values. If the
-     * application prefers short connection time over both low latency and high
-     * bandwidth, for example, then it could invoke this method with the values
-     * {@code (1, 0, 0)}.  If the application prefers high bandwidth above low
-     * latency, and low latency above short connection time, then it could
-     * invoke this method with the values {@code (0, 1, 2)}.
+     * <p> Performbnce preferences bre described by three integers
+     * whose vblues indicbte the relbtive importbnce of short connection time,
+     * low lbtency, bnd high bbndwidth.  The bbsolute vblues of the integers
+     * bre irrelevbnt; in order to choose b protocol the vblues bre simply
+     * compbred, with lbrger vblues indicbting stronger preferences. Negbtive
+     * vblues represent b lower priority thbn positive vblues. If the
+     * bpplicbtion prefers short connection time over both low lbtency bnd high
+     * bbndwidth, for exbmple, then it could invoke this method with the vblues
+     * {@code (1, 0, 0)}.  If the bpplicbtion prefers high bbndwidth bbove low
+     * lbtency, bnd low lbtency bbove short connection time, then it could
+     * invoke this method with the vblues {@code (0, 1, 2)}.
      *
-     * <p> Invoking this method after this socket has been connected
-     * will have no effect.
+     * <p> Invoking this method bfter this socket hbs been connected
+     * will hbve no effect.
      *
-     * @param  connectionTime
-     *         An {@code int} expressing the relative importance of a short
+     * @pbrbm  connectionTime
+     *         An {@code int} expressing the relbtive importbnce of b short
      *         connection time
      *
-     * @param  latency
-     *         An {@code int} expressing the relative importance of low
-     *         latency
+     * @pbrbm  lbtency
+     *         An {@code int} expressing the relbtive importbnce of low
+     *         lbtency
      *
-     * @param  bandwidth
-     *         An {@code int} expressing the relative importance of high
-     *         bandwidth
+     * @pbrbm  bbndwidth
+     *         An {@code int} expressing the relbtive importbnce of high
+     *         bbndwidth
      *
      * @since 1.5
      */
-    public void setPerformancePreferences(int connectionTime,
-                                          int latency,
-                                          int bandwidth)
+    public void setPerformbncePreferences(int connectionTime,
+                                          int lbtency,
+                                          int bbndwidth)
     {
         /* Not implemented yet */
     }
 
 
     /**
-     * Sets the value of a socket option.
+     * Sets the vblue of b socket option.
      *
-     * @param name The socket option
-     * @param value The value of the socket option. A value of {@code null}
-     *              may be valid for some options.
+     * @pbrbm nbme The socket option
+     * @pbrbm vblue The vblue of the socket option. A vblue of {@code null}
+     *              mby be vblid for some options.
      * @return this Socket
      *
-     * @throws UnsupportedOperationException if the socket does not support
+     * @throws UnsupportedOperbtionException if the socket does not support
      *         the option.
      *
-     * @throws IllegalArgumentException if the value is not valid for
+     * @throws IllegblArgumentException if the vblue is not vblid for
      *         the option.
      *
-     * @throws IOException if an I/O error occurs, or if the socket is closed.
+     * @throws IOException if bn I/O error occurs, or if the socket is closed.
      *
-     * @throws NullPointerException if name is {@code null}
+     * @throws NullPointerException if nbme is {@code null}
      *
-     * @throws SecurityException if a security manager is set and if the socket
-     *         option requires a security permission and if the caller does
-     *         not have the required permission.
-     *         {@link java.net.StandardSocketOptions StandardSocketOptions}
-     *         do not require any security permission.
+     * @throws SecurityException if b security mbnbger is set bnd if the socket
+     *         option requires b security permission bnd if the cbller does
+     *         not hbve the required permission.
+     *         {@link jbvb.net.StbndbrdSocketOptions StbndbrdSocketOptions}
+     *         do not require bny security permission.
      *
      * @since 1.9
      */
-    public <T> Socket setOption(SocketOption<T> name, T value) throws IOException {
-        getImpl().setOption(name, value);
+    public <T> Socket setOption(SocketOption<T> nbme, T vblue) throws IOException {
+        getImpl().setOption(nbme, vblue);
         return this;
     }
 
     /**
-     * Returns the value of a socket option.
+     * Returns the vblue of b socket option.
      *
-     * @param name The socket option
+     * @pbrbm nbme The socket option
      *
-     * @return The value of the socket option.
+     * @return The vblue of the socket option.
      *
-     * @throws UnsupportedOperationException if the socket does not support
+     * @throws UnsupportedOperbtionException if the socket does not support
      *         the option.
      *
-     * @throws IOException if an I/O error occurs, or if the socket is closed.
+     * @throws IOException if bn I/O error occurs, or if the socket is closed.
      *
-     * @throws NullPointerException if name is {@code null}
+     * @throws NullPointerException if nbme is {@code null}
      *
-     * @throws SecurityException if a security manager is set and if the socket
-     *         option requires a security permission and if the caller does
-     *         not have the required permission.
-     *         {@link java.net.StandardSocketOptions StandardSocketOptions}
-     *         do not require any security permission.
+     * @throws SecurityException if b security mbnbger is set bnd if the socket
+     *         option requires b security permission bnd if the cbller does
+     *         not hbve the required permission.
+     *         {@link jbvb.net.StbndbrdSocketOptions StbndbrdSocketOptions}
+     *         do not require bny security permission.
      *
      * @since 1.9
      */
-    @SuppressWarnings("unchecked")
-    public <T> T getOption(SocketOption<T> name) throws IOException {
-        return getImpl().getOption(name);
+    @SuppressWbrnings("unchecked")
+    public <T> T getOption(SocketOption<T> nbme) throws IOException {
+        return getImpl().getOption(nbme);
     }
 
-    private static Set<SocketOption<?>> options;
-    private static boolean optionsSet = false;
+    privbte stbtic Set<SocketOption<?>> options;
+    privbte stbtic boolebn optionsSet = fblse;
 
     /**
-     * Returns a set of the socket options supported by this socket.
+     * Returns b set of the socket options supported by this socket.
      *
-     * This method will continue to return the set of options even after
-     * the socket has been closed.
+     * This method will continue to return the set of options even bfter
+     * the socket hbs been closed.
      *
      * @return A set of the socket options supported by this socket. This set
-     *         may be empty if the socket's SocketImpl cannot be created.
+     *         mby be empty if the socket's SocketImpl cbnnot be crebted.
      *
      * @since 1.9
      */
     public Set<SocketOption<?>> supportedOptions() {
-        synchronized (Socket.class) {
+        synchronized (Socket.clbss) {
             if (optionsSet) {
                 return options;
             }
             try {
                 SocketImpl impl = getImpl();
-                options = Collections.unmodifiableSet(impl.supportedOptions());
-            } catch (IOException e) {
+                options = Collections.unmodifibbleSet(impl.supportedOptions());
+            } cbtch (IOException e) {
                 options = Collections.emptySet();
             }
             optionsSet = true;

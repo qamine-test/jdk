@@ -1,181 +1,181 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.jgss.krb5;
+pbckbge sun.security.jgss.krb5;
 
-import com.sun.security.jgss.AuthorizationDataEntry;
+import com.sun.security.jgss.AuthorizbtionDbtbEntry;
 import org.ietf.jgss.*;
-import java.io.InputStream;
-import java.io.IOException;
+import jbvb.io.InputStrebm;
+import jbvb.io.IOException;
 import sun.security.krb5.*;
-import java.net.InetAddress;
-import sun.security.krb5.internal.AuthorizationData;
-import sun.security.krb5.internal.KerberosTime;
+import jbvb.net.InetAddress;
+import sun.security.krb5.internbl.AuthorizbtionDbtb;
+import sun.security.krb5.internbl.KerberosTime;
 
-class InitSecContextToken extends InitialToken {
+clbss InitSecContextToken extends InitiblToken {
 
-    private KrbApReq apReq = null;
+    privbte KrbApReq bpReq = null;
 
     /**
-     * For the context initiator to call. It constructs a new
-     * InitSecContextToken to send over to the peer containing the desired
-     * flags and the AP-REQ. It also updates the context with the local
-     * sequence number and shared context key.
-     * (When mutual auth is enabled the peer has an opportunity to
-     * renegotiate the session key in the followup AcceptSecContextToken
-     * that it sends.)
+     * For the context initibtor to cbll. It constructs b new
+     * InitSecContextToken to send over to the peer contbining the desired
+     * flbgs bnd the AP-REQ. It blso updbtes the context with the locbl
+     * sequence number bnd shbred context key.
+     * (When mutubl buth is enbbled the peer hbs bn opportunity to
+     * renegotibte the session key in the followup AcceptSecContextToken
+     * thbt it sends.)
      */
     InitSecContextToken(Krb5Context context,
-                               Credentials tgt,
-                               Credentials serviceTicket)
+                               Credentibls tgt,
+                               Credentibls serviceTicket)
         throws KrbException, IOException, GSSException {
 
-        boolean mutualRequired = context.getMutualAuthState();
-        boolean useSubkey = true; // MIT Impl will crash if this is not set!
-        boolean useSequenceNumber = true;
+        boolebn mutublRequired = context.getMutublAuthStbte();
+        boolebn useSubkey = true; // MIT Impl will crbsh if this is not set!
+        boolebn useSequenceNumber = true;
 
-        OverloadedChecksum gssChecksum =
-            new OverloadedChecksum(context, tgt, serviceTicket);
+        OverlobdedChecksum gssChecksum =
+            new OverlobdedChecksum(context, tgt, serviceTicket);
 
         Checksum checksum = gssChecksum.getChecksum();
 
-        context.setTktFlags(serviceTicket.getFlags());
+        context.setTktFlbgs(serviceTicket.getFlbgs());
         context.setAuthTime(
                 new KerberosTime(serviceTicket.getAuthTime()).toString());
-        apReq = new KrbApReq(serviceTicket,
-                             mutualRequired,
+        bpReq = new KrbApReq(serviceTicket,
+                             mutublRequired,
                              useSubkey,
                              useSequenceNumber,
                              checksum);
 
-        context.resetMySequenceNumber(apReq.getSeqNumber().intValue());
+        context.resetMySequenceNumber(bpReq.getSeqNumber().intVblue());
 
-        EncryptionKey subKey = apReq.getSubKey();
+        EncryptionKey subKey = bpReq.getSubKey();
         if (subKey != null)
             context.setKey(Krb5Context.INITIATOR_SUBKEY, subKey);
         else
             context.setKey(Krb5Context.SESSION_KEY, serviceTicket.getSessionKey());
 
-        if (!mutualRequired)
+        if (!mutublRequired)
             context.resetPeerSequenceNumber(0);
     }
 
     /**
-     * For the context acceptor to call. It reads the bytes out of an
-     * InputStream and constructs an InitSecContextToken with them.
+     * For the context bcceptor to cbll. It rebds the bytes out of bn
+     * InputStrebm bnd constructs bn InitSecContextToken with them.
      */
-    InitSecContextToken(Krb5Context context, Krb5AcceptCredential cred,
-                               InputStream is)
+    InitSecContextToken(Krb5Context context, Krb5AcceptCredentibl cred,
+                               InputStrebm is)
         throws IOException, GSSException, KrbException  {
 
-        int tokenId = ((is.read()<<8) | is.read());
+        int tokenId = ((is.rebd()<<8) | is.rebd());
 
         if (tokenId != Krb5Token.AP_REQ_ID)
             throw new GSSException(GSSException.DEFECTIVE_TOKEN, -1,
-                                   "AP_REQ token id does not match!");
+                                   "AP_REQ token id does not mbtch!");
 
-        // XXX Modify KrbApReq cons to take an InputStream
-        byte[] apReqBytes =
-            new sun.security.util.DerValue(is).toByteArray();
-        //debug("=====ApReqBytes: [" + getHexBytes(apReqBytes) + "]\n");
+        // XXX Modify KrbApReq cons to tbke bn InputStrebm
+        byte[] bpReqBytes =
+            new sun.security.util.DerVblue(is).toByteArrby();
+        //debug("=====ApReqBytes: [" + getHexBytes(bpReqBytes) + "]\n");
 
-        InetAddress addr = null;
-        if (context.getChannelBinding() != null) {
-            addr = context.getChannelBinding().getInitiatorAddress();
+        InetAddress bddr = null;
+        if (context.getChbnnelBinding() != null) {
+            bddr = context.getChbnnelBinding().getInitibtorAddress();
         }
-        apReq = new KrbApReq(apReqBytes, cred, addr);
-        //debug("\nReceived AP-REQ and authenticated it.\n");
+        bpReq = new KrbApReq(bpReqBytes, cred, bddr);
+        //debug("\nReceived AP-REQ bnd buthenticbted it.\n");
 
-        EncryptionKey sessionKey = apReq.getCreds().getSessionKey();
+        EncryptionKey sessionKey = bpReq.getCreds().getSessionKey();
 
         /*
           System.out.println("\n\nSession key from service ticket is: " +
           getHexBytes(sessionKey.getBytes()));
         */
 
-        EncryptionKey subKey = apReq.getSubKey();
+        EncryptionKey subKey = bpReq.getSubKey();
         if (subKey != null) {
             context.setKey(Krb5Context.INITIATOR_SUBKEY, subKey);
             /*
-              System.out.println("Sub-Session key from authenticator is: " +
+              System.out.println("Sub-Session key from buthenticbtor is: " +
               getHexBytes(subKey.getBytes()) + "\n");
             */
         } else {
             context.setKey(Krb5Context.SESSION_KEY, sessionKey);
-            //System.out.println("Sub-Session Key Missing in Authenticator.\n");
+            //System.out.println("Sub-Session Key Missing in Authenticbtor.\n");
         }
 
-        OverloadedChecksum gssChecksum = new OverloadedChecksum(
-                context, apReq.getChecksum(), sessionKey, subKey);
-        gssChecksum.setContextFlags(context);
-        Credentials delegCred = gssChecksum.getDelegatedCreds();
+        OverlobdedChecksum gssChecksum = new OverlobdedChecksum(
+                context, bpReq.getChecksum(), sessionKey, subKey);
+        gssChecksum.setContextFlbgs(context);
+        Credentibls delegCred = gssChecksum.getDelegbtedCreds();
         if (delegCred != null) {
             Krb5CredElement credElement =
-                Krb5InitCredential.getInstance(
-                                   (Krb5NameElement)context.getSrcName(),
+                Krb5InitCredentibl.getInstbnce(
+                                   (Krb5NbmeElement)context.getSrcNbme(),
                                    delegCred);
             context.setDelegCred(credElement);
         }
 
-        Integer apReqSeqNumber = apReq.getSeqNumber();
-        int peerSeqNumber = (apReqSeqNumber != null ?
-                             apReqSeqNumber.intValue() :
+        Integer bpReqSeqNumber = bpReq.getSeqNumber();
+        int peerSeqNumber = (bpReqSeqNumber != null ?
+                             bpReqSeqNumber.intVblue() :
                              0);
         context.resetPeerSequenceNumber(peerSeqNumber);
-        if (!context.getMutualAuthState())
-            // Use the same sequence number as the peer
-            // (Behaviour exhibited by the Windows SSPI server)
+        if (!context.getMutublAuthStbte())
+            // Use the sbme sequence number bs the peer
+            // (Behbviour exhibited by the Windows SSPI server)
             context.resetMySequenceNumber(peerSeqNumber);
         context.setAuthTime(
-                new KerberosTime(apReq.getCreds().getAuthTime()).toString());
-        context.setTktFlags(apReq.getCreds().getFlags());
-        AuthorizationData ad = apReq.getCreds().getAuthzData();
-        if (ad == null) {
-            context.setAuthzData(null);
+                new KerberosTime(bpReq.getCreds().getAuthTime()).toString());
+        context.setTktFlbgs(bpReq.getCreds().getFlbgs());
+        AuthorizbtionDbtb bd = bpReq.getCreds().getAuthzDbtb();
+        if (bd == null) {
+            context.setAuthzDbtb(null);
         } else {
-            AuthorizationDataEntry[] authzData =
-                    new AuthorizationDataEntry[ad.count()];
-            for (int i=0; i<ad.count(); i++) {
-                authzData[i] = new AuthorizationDataEntry(
-                        ad.item(i).adType, ad.item(i).adData);
+            AuthorizbtionDbtbEntry[] buthzDbtb =
+                    new AuthorizbtionDbtbEntry[bd.count()];
+            for (int i=0; i<bd.count(); i++) {
+                buthzDbtb[i] = new AuthorizbtionDbtbEntry(
+                        bd.item(i).bdType, bd.item(i).bdDbtb);
             }
-            context.setAuthzData(authzData);
+            context.setAuthzDbtb(buthzDbtb);
         }
     }
 
-    public final KrbApReq getKrbApReq() {
-        return apReq;
+    public finbl KrbApReq getKrbApReq() {
+        return bpReq;
     }
 
-    public final byte[] encode() throws IOException {
-        byte[] apReqBytes = apReq.getMessage();
-        byte[] retVal = new byte[2 + apReqBytes.length];
-        writeInt(Krb5Token.AP_REQ_ID, retVal, 0);
-        System.arraycopy(apReqBytes, 0, retVal, 2, apReqBytes.length);
+    public finbl byte[] encode() throws IOException {
+        byte[] bpReqBytes = bpReq.getMessbge();
+        byte[] retVbl = new byte[2 + bpReqBytes.length];
+        writeInt(Krb5Token.AP_REQ_ID, retVbl, 0);
+        System.brrbycopy(bpReqBytes, 0, retVbl, 2, bpReqBytes.length);
         //      System.out.println("GSS-Token with AP_REQ is:");
-        //      System.out.println(getHexBytes(retVal));
-        return retVal;
+        //      System.out.println(getHexBytes(retVbl));
+        return retVbl;
     }
 }

@@ -1,85 +1,85 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing;
+pbckbge jbvbx.swing;
 
 
 /**
- * Constants used to control the window-closing operation.
- * The <code>setDefaultCloseOperation</code> and
- * <code>getDefaultCloseOperation</code> methods
- * provided by <code>JFrame</code>,
- * <code>JInternalFrame</code>, and
- * <code>JDialog</code>
- * use these constants.
- * For examples of setting the default window-closing operation, see
- * <a
- href="http://docs.oracle.com/javase/tutorial/uiswing/components/frame.html#windowevents">Responding to Window-Closing Events</a>,
- * a section in <em>The Java Tutorial</em>.
- * @see JFrame#setDefaultCloseOperation(int)
- * @see JDialog#setDefaultCloseOperation(int)
- * @see JInternalFrame#setDefaultCloseOperation(int)
+ * Constbnts used to control the window-closing operbtion.
+ * The <code>setDefbultCloseOperbtion</code> bnd
+ * <code>getDefbultCloseOperbtion</code> methods
+ * provided by <code>JFrbme</code>,
+ * <code>JInternblFrbme</code>, bnd
+ * <code>JDiblog</code>
+ * use these constbnts.
+ * For exbmples of setting the defbult window-closing operbtion, see
+ * <b
+ href="http://docs.orbcle.com/jbvbse/tutoribl/uiswing/components/frbme.html#windowevents">Responding to Window-Closing Events</b>,
+ * b section in <em>The Jbvb Tutoribl</em>.
+ * @see JFrbme#setDefbultCloseOperbtion(int)
+ * @see JDiblog#setDefbultCloseOperbtion(int)
+ * @see JInternblFrbme#setDefbultCloseOperbtion(int)
  *
  *
- * @author Amy Fowler
+ * @buthor Amy Fowler
  * @since 1.2
  */
-public interface WindowConstants
+public interfbce WindowConstbnts
 {
     /**
-     * The do-nothing default window close operation.
+     * The do-nothing defbult window close operbtion.
      */
-    public static final int DO_NOTHING_ON_CLOSE = 0;
+    public stbtic finbl int DO_NOTHING_ON_CLOSE = 0;
 
     /**
-     * The hide-window default window close operation
+     * The hide-window defbult window close operbtion
      */
-    public static final int HIDE_ON_CLOSE = 1;
+    public stbtic finbl int HIDE_ON_CLOSE = 1;
 
     /**
-     * The dispose-window default window close operation.
+     * The dispose-window defbult window close operbtion.
      * <p>
-     * <b>Note</b>: When the last displayable window
-     * within the Java virtual machine (VM) is disposed of, the VM may
-     * terminate.  See <a href="../../java/awt/doc-files/AWTThreadIssues.html">
-     * AWT Threading Issues</a> for more information.
-     * @see java.awt.Window#dispose()
-     * @see JInternalFrame#dispose()
+     * <b>Note</b>: When the lbst displbybble window
+     * within the Jbvb virtubl mbchine (VM) is disposed of, the VM mby
+     * terminbte.  See <b href="../../jbvb/bwt/doc-files/AWTThrebdIssues.html">
+     * AWT Threbding Issues</b> for more informbtion.
+     * @see jbvb.bwt.Window#dispose()
+     * @see JInternblFrbme#dispose()
      */
-    public static final int DISPOSE_ON_CLOSE = 2;
+    public stbtic finbl int DISPOSE_ON_CLOSE = 2;
 
     /**
-     * The exit application default window close operation. Attempting
-     * to set this on Windows that support this, such as
-     * <code>JFrame</code>, may throw a <code>SecurityException</code> based
-     * on the <code>SecurityManager</code>.
-     * It is recommended you only use this in an application.
+     * The exit bpplicbtion defbult window close operbtion. Attempting
+     * to set this on Windows thbt support this, such bs
+     * <code>JFrbme</code>, mby throw b <code>SecurityException</code> bbsed
+     * on the <code>SecurityMbnbger</code>.
+     * It is recommended you only use this in bn bpplicbtion.
      *
      * @since 1.4
-     * @see JFrame#setDefaultCloseOperation
+     * @see JFrbme#setDefbultCloseOperbtion
      */
-    public static final int EXIT_ON_CLOSE = 3;
+    public stbtic finbl int EXIT_ON_CLOSE = 3;
 
 }

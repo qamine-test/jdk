@@ -1,240 +1,240 @@
 /*
- * Copyright (c) 1998, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 #include "util.h"
 #include "MethodImpl.h"
-#include "inStream.h"
-#include "outStream.h"
+#include "inStrebm.h"
+#include "outStrebm.h"
 
-static jboolean
-lineTable(PacketInputStream *in, PacketOutputStream *out)
+stbtic jboolebn
+lineTbble(PbcketInputStrebm *in, PbcketOutputStrebm *out)
 {
     jvmtiError error;
     jint count = 0;
-    jvmtiLineNumberEntry *table = NULL;
+    jvmtiLineNumberEntry *tbble = NULL;
     jmethodID method;
-    jlocation firstCodeIndex;
-    jlocation lastCodeIndex;
-    jboolean isNative;
+    jlocbtion firstCodeIndex;
+    jlocbtion lbstCodeIndex;
+    jboolebn isNbtive;
 
-    /* JVMDI needed the class, but JVMTI does not so we ignore it */
-    (void)inStream_readClassRef(getEnv(), in);
-    if (inStream_error(in)) {
+    /* JVMDI needed the clbss, but JVMTI does not so we ignore it */
+    (void)inStrebm_rebdClbssRef(getEnv(), in);
+    if (inStrebm_error(in)) {
         return JNI_TRUE;
     }
-    method = inStream_readMethodID(in);
-    if (inStream_error(in)) {
+    method = inStrebm_rebdMethodID(in);
+    if (inStrebm_error(in)) {
         return JNI_TRUE;
     }
 
     /*
-     * JVMTI behavior for the calls below is unspecified for native
+     * JVMTI behbvior for the cblls below is unspecified for nbtive
      * methods, so we must check explicitly.
      */
-    isNative = isMethodNative(method);
-    if (isNative) {
-        outStream_setError(out, JDWP_ERROR(NATIVE_METHOD));
+    isNbtive = isMethodNbtive(method);
+    if (isNbtive) {
+        outStrebm_setError(out, JDWP_ERROR(NATIVE_METHOD));
         return JNI_TRUE;
     }
 
-    error = methodLocation(method, &firstCodeIndex, &lastCodeIndex);
+    error = methodLocbtion(method, &firstCodeIndex, &lbstCodeIndex);
     if (error != JVMTI_ERROR_NONE) {
-        outStream_setError(out, map2jdwpError(error));
+        outStrebm_setError(out, mbp2jdwpError(error));
         return JNI_TRUE;
     }
-    (void)outStream_writeLocation(out, firstCodeIndex);
-    (void)outStream_writeLocation(out, lastCodeIndex);
+    (void)outStrebm_writeLocbtion(out, firstCodeIndex);
+    (void)outStrebm_writeLocbtion(out, lbstCodeIndex);
 
-    error = JVMTI_FUNC_PTR(gdata->jvmti,GetLineNumberTable)
-                (gdata->jvmti, method, &count, &table);
+    error = JVMTI_FUNC_PTR(gdbtb->jvmti,GetLineNumberTbble)
+                (gdbtb->jvmti, method, &count, &tbble);
     if (error == JVMTI_ERROR_ABSENT_INFORMATION) {
         /*
-         * Indicate no line info with an empty table. The code indices
-         * are still useful, so we don't want to return an error
+         * Indicbte no line info with bn empty tbble. The code indices
+         * bre still useful, so we don't wbnt to return bn error
          */
-        (void)outStream_writeInt(out, 0);
+        (void)outStrebm_writeInt(out, 0);
     } else if (error == JVMTI_ERROR_NONE) {
         jint i;
-        (void)outStream_writeInt(out, count);
-        for (i = 0; (i < count) && !outStream_error(out); i++) {
-            (void)outStream_writeLocation(out, table[i].start_location);
-            (void)outStream_writeInt(out, table[i].line_number);
+        (void)outStrebm_writeInt(out, count);
+        for (i = 0; (i < count) && !outStrebm_error(out); i++) {
+            (void)outStrebm_writeLocbtion(out, tbble[i].stbrt_locbtion);
+            (void)outStrebm_writeInt(out, tbble[i].line_number);
         }
-        jvmtiDeallocate(table);
+        jvmtiDebllocbte(tbble);
     } else {
-        outStream_setError(out, map2jdwpError(error));
+        outStrebm_setError(out, mbp2jdwpError(error));
     }
     return JNI_TRUE;
 }
 
 
-static jboolean
-doVariableTable(PacketInputStream *in, PacketOutputStream *out,
+stbtic jboolebn
+doVbribbleTbble(PbcketInputStrebm *in, PbcketOutputStrebm *out,
                 int outputGenerics)
 {
     jvmtiError error;
     jint count;
-    jvmtiLocalVariableEntry *table;
+    jvmtiLocblVbribbleEntry *tbble;
     jmethodID method;
-    jint argsSize;
-    jboolean isNative;
+    jint brgsSize;
+    jboolebn isNbtive;
 
-    /* JVMDI needed the class, but JVMTI does not so we ignore it */
-    (void)inStream_readClassRef(getEnv(), in);
-    if (inStream_error(in)) {
+    /* JVMDI needed the clbss, but JVMTI does not so we ignore it */
+    (void)inStrebm_rebdClbssRef(getEnv(), in);
+    if (inStrebm_error(in)) {
         return JNI_TRUE;
     }
-    method = inStream_readMethodID(in);
-    if (inStream_error(in)) {
+    method = inStrebm_rebdMethodID(in);
+    if (inStrebm_error(in)) {
         return JNI_TRUE;
     }
 
     /*
-     * JVMTI behavior for the calls below is unspecified for native
+     * JVMTI behbvior for the cblls below is unspecified for nbtive
      * methods, so we must check explicitly.
      */
-    isNative = isMethodNative(method);
-    if (isNative) {
-        outStream_setError(out, JDWP_ERROR(NATIVE_METHOD));
+    isNbtive = isMethodNbtive(method);
+    if (isNbtive) {
+        outStrebm_setError(out, JDWP_ERROR(NATIVE_METHOD));
         return JNI_TRUE;
     }
 
-    error = JVMTI_FUNC_PTR(gdata->jvmti,GetArgumentsSize)
-                (gdata->jvmti, method, &argsSize);
+    error = JVMTI_FUNC_PTR(gdbtb->jvmti,GetArgumentsSize)
+                (gdbtb->jvmti, method, &brgsSize);
     if (error != JVMTI_ERROR_NONE) {
-        outStream_setError(out, map2jdwpError(error));
+        outStrebm_setError(out, mbp2jdwpError(error));
         return JNI_TRUE;
     }
 
-    error = JVMTI_FUNC_PTR(gdata->jvmti,GetLocalVariableTable)
-                (gdata->jvmti, method, &count, &table);
+    error = JVMTI_FUNC_PTR(gdbtb->jvmti,GetLocblVbribbleTbble)
+                (gdbtb->jvmti, method, &count, &tbble);
     if (error == JVMTI_ERROR_NONE) {
         jint i;
-        (void)outStream_writeInt(out, argsSize);
-        (void)outStream_writeInt(out, count);
-        for (i = 0; (i < count) && !outStream_error(out); i++) {
-            jvmtiLocalVariableEntry *entry = &table[i];
-            (void)outStream_writeLocation(out, entry->start_location);
-            (void)outStream_writeString(out, entry->name);
-            (void)outStream_writeString(out, entry->signature);
+        (void)outStrebm_writeInt(out, brgsSize);
+        (void)outStrebm_writeInt(out, count);
+        for (i = 0; (i < count) && !outStrebm_error(out); i++) {
+            jvmtiLocblVbribbleEntry *entry = &tbble[i];
+            (void)outStrebm_writeLocbtion(out, entry->stbrt_locbtion);
+            (void)outStrebm_writeString(out, entry->nbme);
+            (void)outStrebm_writeString(out, entry->signbture);
             if (outputGenerics == 1) {
-                writeGenericSignature(out, entry->generic_signature);
+                writeGenericSignbture(out, entry->generic_signbture);
             }
-            (void)outStream_writeInt(out, entry->length);
-            (void)outStream_writeInt(out, entry->slot);
+            (void)outStrebm_writeInt(out, entry->length);
+            (void)outStrebm_writeInt(out, entry->slot);
 
-            jvmtiDeallocate(entry->name);
-            jvmtiDeallocate(entry->signature);
-            if (entry->generic_signature != NULL) {
-              jvmtiDeallocate(entry->generic_signature);
+            jvmtiDebllocbte(entry->nbme);
+            jvmtiDebllocbte(entry->signbture);
+            if (entry->generic_signbture != NULL) {
+              jvmtiDebllocbte(entry->generic_signbture);
             }
         }
 
-        jvmtiDeallocate(table);
+        jvmtiDebllocbte(tbble);
     } else {
-        outStream_setError(out, map2jdwpError(error));
+        outStrebm_setError(out, mbp2jdwpError(error));
     }
     return JNI_TRUE;
 }
 
 
-static jboolean
-variableTable(PacketInputStream *in, PacketOutputStream *out) {
-    return doVariableTable(in, out, 0);
+stbtic jboolebn
+vbribbleTbble(PbcketInputStrebm *in, PbcketOutputStrebm *out) {
+    return doVbribbleTbble(in, out, 0);
 }
 
-static jboolean
-variableTableWithGenerics(PacketInputStream *in, PacketOutputStream *out) {
-    return doVariableTable(in, out, 1);
+stbtic jboolebn
+vbribbleTbbleWithGenerics(PbcketInputStrebm *in, PbcketOutputStrebm *out) {
+    return doVbribbleTbble(in, out, 1);
 }
 
 
-static jboolean
-bytecodes(PacketInputStream *in, PacketOutputStream *out)
+stbtic jboolebn
+bytecodes(PbcketInputStrebm *in, PbcketOutputStrebm *out)
 {
     jvmtiError error;
-    unsigned char * bcp;
+    unsigned chbr * bcp;
     jint bytecodeCount;
     jmethodID method;
 
-    /* JVMDI needed the class, but JVMTI does not so we ignore it */
-    (void)inStream_readClassRef(getEnv(), in);
-    if (inStream_error(in)) {
+    /* JVMDI needed the clbss, but JVMTI does not so we ignore it */
+    (void)inStrebm_rebdClbssRef(getEnv(), in);
+    if (inStrebm_error(in)) {
         return JNI_TRUE;
     }
-    method = inStream_readMethodID(in);
-    if (inStream_error(in)) {
+    method = inStrebm_rebdMethodID(in);
+    if (inStrebm_error(in)) {
         return JNI_TRUE;
     }
 
-    /* Initialize assuming no bytecodes and no error */
+    /* Initiblize bssuming no bytecodes bnd no error */
     error         = JVMTI_ERROR_NONE;
     bytecodeCount = 0;
     bcp           = NULL;
 
-    /* Only non-native methods have bytecodes, don't even ask if native. */
-    if ( !isMethodNative(method) ) {
-        error = JVMTI_FUNC_PTR(gdata->jvmti,GetBytecodes)
-                    (gdata->jvmti, method, &bytecodeCount, &bcp);
+    /* Only non-nbtive methods hbve bytecodes, don't even bsk if nbtive. */
+    if ( !isMethodNbtive(method) ) {
+        error = JVMTI_FUNC_PTR(gdbtb->jvmti,GetBytecodes)
+                    (gdbtb->jvmti, method, &bytecodeCount, &bcp);
     }
     if (error != JVMTI_ERROR_NONE) {
-        outStream_setError(out, map2jdwpError(error));
+        outStrebm_setError(out, mbp2jdwpError(error));
     } else {
-        (void)outStream_writeByteArray(out, bytecodeCount, (jbyte *)bcp);
-        jvmtiDeallocate(bcp);
+        (void)outStrebm_writeByteArrby(out, bytecodeCount, (jbyte *)bcp);
+        jvmtiDebllocbte(bcp);
     }
 
     return JNI_TRUE;
 }
 
-static jboolean
-isObsolete(PacketInputStream *in, PacketOutputStream *out)
+stbtic jboolebn
+isObsolete(PbcketInputStrebm *in, PbcketOutputStrebm *out)
 {
-    jboolean isObsolete;
+    jboolebn isObsolete;
     jmethodID method;
 
-    /* JVMDI needed the class, but JVMTI does not so we ignore it */
-    (void)inStream_readClassRef(getEnv(), in);
-    if (inStream_error(in)) {
+    /* JVMDI needed the clbss, but JVMTI does not so we ignore it */
+    (void)inStrebm_rebdClbssRef(getEnv(), in);
+    if (inStrebm_error(in)) {
         return JNI_TRUE;
     }
-    method = inStream_readMethodID(in);
-    if (inStream_error(in)) {
+    method = inStrebm_rebdMethodID(in);
+    if (inStrebm_error(in)) {
         return JNI_TRUE;
     }
 
     isObsolete = isMethodObsolete(method);
-    (void)outStream_writeBoolean(out, isObsolete);
+    (void)outStrebm_writeBoolebn(out, isObsolete);
 
     return JNI_TRUE;
 }
 
 void *Method_Cmds[] = { (void *)0x5
-    ,(void *)lineTable
-    ,(void *)variableTable
+    ,(void *)lineTbble
+    ,(void *)vbribbleTbble
     ,(void *)bytecodes
     ,(void *)isObsolete
-    ,(void *)variableTableWithGenerics
+    ,(void *)vbribbleTbbleWithGenerics
 };

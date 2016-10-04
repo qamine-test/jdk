@@ -1,78 +1,78 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jdi.connect;
+pbckbge com.sun.jdi.connect;
 
 /**
- * This exception may be thrown as a result of a timeout
- * when attaching to a target VM, or waiting to accept a
- * connection from a target VM.
+ * This exception mby be thrown bs b result of b timeout
+ * when bttbching to b tbrget VM, or wbiting to bccept b
+ * connection from b tbrget VM.
  *
- * <p> When attaching to a target VM, using {@link
- * AttachingConnector#attach attach} this
- * exception may be thrown if the connector supports a timeout
- * {@link Connector.Argument connector argument}. Similiarly,
- * when waiting to accept a connection from a target VM,
- * using {@link ListeningConnector#accept accept} this
- * exception may be thrown if the connector supports a
- * timeout connector argument when accepting.
+ * <p> When bttbching to b tbrget VM, using {@link
+ * AttbchingConnector#bttbch bttbch} this
+ * exception mby be thrown if the connector supports b timeout
+ * {@link Connector.Argument connector brgument}. Similibrly,
+ * when wbiting to bccept b connection from b tbrget VM,
+ * using {@link ListeningConnector#bccept bccept} this
+ * exception mby be thrown if the connector supports b
+ * timeout connector brgument when bccepting.
  *
- * <p> In addition, for developers creating {@link
- * com.sun.jdi.connect.spi.TransportService TransportService}
- * implementations this exception is thrown when
- * {@link com.sun.jdi.connect.spi.TransportService#attach attach}
- * times out when establishing a connection to a target VM,
- * or {@link com.sun.jdi.connect.spi.TransportService#accept
- * accept} times out while waiting for a target VM to connect. </p>
+ * <p> In bddition, for developers crebting {@link
+ * com.sun.jdi.connect.spi.TrbnsportService TrbnsportService}
+ * implementbtions this exception is thrown when
+ * {@link com.sun.jdi.connect.spi.TrbnsportService#bttbch bttbch}
+ * times out when estbblishing b connection to b tbrget VM,
+ * or {@link com.sun.jdi.connect.spi.TrbnsportService#bccept
+ * bccept} times out while wbiting for b tbrget VM to connect. </p>
  *
- * @see AttachingConnector#attach
- * @see ListeningConnector#accept
- * @see com.sun.jdi.connect.spi.TransportService#attach
- * @see com.sun.jdi.connect.spi.TransportService#accept
+ * @see AttbchingConnector#bttbch
+ * @see ListeningConnector#bccept
+ * @see com.sun.jdi.connect.spi.TrbnsportService#bttbch
+ * @see com.sun.jdi.connect.spi.TrbnsportService#bccept
  *
  * @since 1.5
  */
 @jdk.Exported
-public class TransportTimeoutException extends java.io.IOException {
-    private static final long serialVersionUID = 4107035242623365074L;
+public clbss TrbnsportTimeoutException extends jbvb.io.IOException {
+    privbte stbtic finbl long seriblVersionUID = 4107035242623365074L;
     /**
-     * Constructs a <tt>TransportTimeoutException</tt> with no detail
-     * message.
+     * Constructs b <tt>TrbnsportTimeoutException</tt> with no detbil
+     * messbge.
      */
-    public TransportTimeoutException() {
+    public TrbnsportTimeoutException() {
     }
 
 
     /**
-     * Constructs a <tt>TransportTimeoutException</tt> with the
-     * specified detail message.
+     * Constructs b <tt>TrbnsportTimeoutException</tt> with the
+     * specified detbil messbge.
      *
-     * @param message the detail message pertaining to this exception.
+     * @pbrbm messbge the detbil messbge pertbining to this exception.
      */
-    public TransportTimeoutException(String message) {
-        super(message);
+    public TrbnsportTimeoutException(String messbge) {
+        super(messbge);
     }
 
 }

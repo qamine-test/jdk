@@ -1,52 +1,52 @@
 /*
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.nio;
+pbckbge jbvb.nio;
 
-import java.util.Comparator;
-import java.util.Spliterator;
-import java.util.function.IntConsumer;
+import jbvb.util.Compbrbtor;
+import jbvb.util.Spliterbtor;
+import jbvb.util.function.IntConsumer;
 
 /**
- * A Spliterator.OfInt for sources that traverse and split elements
- * maintained in a CharBuffer.
+ * A Spliterbtor.OfInt for sources thbt trbverse bnd split elements
+ * mbintbined in b ChbrBuffer.
  *
  * @implNote
- * The implementation is based on the code for the Array-based spliterators.
+ * The implementbtion is bbsed on the code for the Arrby-bbsed spliterbtors.
  */
-class CharBufferSpliterator implements Spliterator.OfInt {
-    private final CharBuffer buffer;
-    private int index;   // current index, modified on advance/split
-    private final int limit;
+clbss ChbrBufferSpliterbtor implements Spliterbtor.OfInt {
+    privbte finbl ChbrBuffer buffer;
+    privbte int index;   // current index, modified on bdvbnce/split
+    privbte finbl int limit;
 
-    CharBufferSpliterator(CharBuffer buffer) {
+    ChbrBufferSpliterbtor(ChbrBuffer buffer) {
         this(buffer, buffer.position(), buffer.limit());
     }
 
-    CharBufferSpliterator(CharBuffer buffer, int origin, int limit) {
-        assert origin <= limit;
+    ChbrBufferSpliterbtor(ChbrBuffer buffer, int origin, int limit) {
+        bssert origin <= limit;
         this.buffer = buffer;
         this.index = (origin <= limit) ? origin : limit;
         this.limit = limit;
@@ -57,40 +57,40 @@ class CharBufferSpliterator implements Spliterator.OfInt {
         int lo = index, mid = (lo + limit) >>> 1;
         return (lo >= mid)
                ? null
-               : new CharBufferSpliterator(buffer, lo, index = mid);
+               : new ChbrBufferSpliterbtor(buffer, lo, index = mid);
     }
 
     @Override
-    public void forEachRemaining(IntConsumer action) {
-        if (action == null)
+    public void forEbchRembining(IntConsumer bction) {
+        if (bction == null)
             throw new NullPointerException();
-        CharBuffer cb = buffer;
+        ChbrBuffer cb = buffer;
         int i = index;
         int hi = limit;
         index = hi;
         while (i < hi) {
-            action.accept(cb.getUnchecked(i++));
+            bction.bccept(cb.getUnchecked(i++));
         }
     }
 
     @Override
-    public boolean tryAdvance(IntConsumer action) {
-        if (action == null)
+    public boolebn tryAdvbnce(IntConsumer bction) {
+        if (bction == null)
             throw new NullPointerException();
         if (index >= 0 && index < limit) {
-            action.accept(buffer.getUnchecked(index++));
+            bction.bccept(buffer.getUnchecked(index++));
             return true;
         }
-        return false;
+        return fblse;
     }
 
     @Override
-    public long estimateSize() {
+    public long estimbteSize() {
         return (long)(limit - index);
     }
 
     @Override
-    public int characteristics() {
+    public int chbrbcteristics() {
         return Buffer.SPLITERATOR_CHARACTERISTICS;
     }
 }

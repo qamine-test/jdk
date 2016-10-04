@@ -1,94 +1,94 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 #import "ScreenMenu.h"
 
-#import "com_apple_laf_ScreenMenu.h"
-#import "java_awt_Event.h"
-#import "java_awt_event_KeyEvent.h"
-#import "java_awt_event_InputEvent.h"
-#import "java_awt_event_MouseEvent.h"
+#import "com_bpple_lbf_ScreenMenu.h"
+#import "jbvb_bwt_Event.h"
+#import "jbvb_bwt_event_KeyEvent.h"
+#import "jbvb_bwt_event_InputEvent.h"
+#import "jbvb_bwt_event_MouseEvent.h"
 
-#import <JavaNativeFoundation/JavaNativeFoundation.h>
-#import <JavaRuntimeSupport/JavaRuntimeSupport.h>
+#import <JbvbNbtiveFoundbtion/JbvbNbtiveFoundbtion.h>
+#import <JbvbRuntimeSupport/JbvbRuntimeSupport.h>
 
-#import "ThreadUtilities.h"
-#import "CMenuBar.h"
+#import "ThrebdUtilities.h"
+#import "CMenuBbr.h"
 
-/* Use THIS_FILE when it is available. */
+/* Use THIS_FILE when it is bvbilbble. */
 #ifndef THIS_FILE
     #define THIS_FILE __FILE__     
 #endif 
  
-static JNF_CLASS_CACHE(sjc_ScreenMenu, "com/apple/laf/ScreenMenu");
+stbtic JNF_CLASS_CACHE(sjc_ScreenMenu, "com/bpple/lbf/ScreenMenu");
 
-static jint ns2awtModifiers(NSUInteger keyMods) {
+stbtic jint ns2bwtModifiers(NSUInteger keyMods) {
     jint result = 0;
-    if (keyMods & NSShiftKeyMask)        result |= java_awt_Event_SHIFT_MASK;
-    if (keyMods & NSControlKeyMask)        result |= java_awt_Event_CTRL_MASK;
-    if (keyMods & NSAlternateKeyMask)    result |= java_awt_Event_ALT_MASK;
-    if (keyMods & NSCommandKeyMask)        result |= java_awt_Event_META_MASK;
+    if (keyMods & NSShiftKeyMbsk)        result |= jbvb_bwt_Event_SHIFT_MASK;
+    if (keyMods & NSControlKeyMbsk)        result |= jbvb_bwt_Event_CTRL_MASK;
+    if (keyMods & NSAlternbteKeyMbsk)    result |= jbvb_bwt_Event_ALT_MASK;
+    if (keyMods & NSCommbndKeyMbsk)        result |= jbvb_bwt_Event_META_MASK;
     return result;
 }
 
-static jint ns2awtMouseButton(NSInteger mouseButton) {
+stbtic jint ns2bwtMouseButton(NSInteger mouseButton) {
     switch (mouseButton) {
-        case 1: return java_awt_event_InputEvent_BUTTON1_MASK;
-        case 2: return java_awt_event_InputEvent_BUTTON2_MASK;
-        case 3: return java_awt_event_InputEvent_BUTTON3_MASK;
+        cbse 1: return jbvb_bwt_event_InputEvent_BUTTON1_MASK;
+        cbse 2: return jbvb_bwt_event_InputEvent_BUTTON2_MASK;
+        cbse 3: return jbvb_bwt_event_InputEvent_BUTTON3_MASK;
     }
     return 0;
 }
 
 
-@interface NativeToJavaDelegate : NSObject <JRSMenuDelegate, NSMenuDelegate>
+@interfbce NbtiveToJbvbDelegbte : NSObject <JRSMenuDelegbte, NSMenuDelegbte>
 {
 @public
     NSMenu *nsmenu;
-    JNFJObjectWrapper *javaObjectWrapper;
+    JNFJObjectWrbpper *jbvbObjectWrbpper;
 }
 
-@property (nonatomic, retain) NSMenu *nsmenu;
-@property (nonatomic, retain) JNFJObjectWrapper *javaObjectWrapper;
+@property (nonbtomic, retbin) NSMenu *nsmenu;
+@property (nonbtomic, retbin) JNFJObjectWrbpper *jbvbObjectWrbpper;
 
-- (id)initFromMenu:(NSMenu *)menu javaObj:(JNFJObjectWrapper *)obj;
+- (id)initFromMenu:(NSMenu *)menu jbvbObj:(JNFJObjectWrbpper *)obj;
 - (NSMenu*)menu;
 @end
 
 
-@implementation NativeToJavaDelegate
+@implementbtion NbtiveToJbvbDelegbte
 
 @synthesize nsmenu;
-@synthesize javaObjectWrapper;
+@synthesize jbvbObjectWrbpper;
 
-- (id)initFromMenu:(NSMenu *)aMenu javaObj:(JNFJObjectWrapper *)obj
+- (id)initFromMenu:(NSMenu *)bMenu jbvbObj:(JNFJObjectWrbpper *)obj
 {
     self = [super init];
     if (self) {
-        self.nsmenu = aMenu;
-        self.javaObjectWrapper = obj;
+        self.nsmenu = bMenu;
+        self.jbvbObjectWrbpper = obj;
     }
     return self;
 }
@@ -99,97 +99,97 @@ static jint ns2awtMouseButton(NSInteger mouseButton) {
 
 - (void)menuWillOpen:(NSMenu *)menu
 {
-    if (self.javaObjectWrapper == nil) {
+    if (self.jbvbObjectWrbpper == nil) {
 #ifdef DEBUG
-        NSLog(@"_javaObject is NULL: (%s - %s : %d)", THIS_FILE, __FUNCTION__, __LINE__);
+        NSLog(@"_jbvbObject is NULL: (%s - %s : %d)", THIS_FILE, __FUNCTION__, __LINE__);
 #endif
         return;
     }
 
-    JNIEnv *env = [ThreadUtilities getJNIEnv];
+    JNIEnv *env = [ThrebdUtilities getJNIEnv];
 JNF_COCOA_ENTER(env);
     //NSLog(@"menuWillOpen %@", [menu title]);
-    static JNF_MEMBER_CACHE(jm_ScreenMenu_invokeOpenLater, sjc_ScreenMenu, "invokeOpenLater", "()V");
-    JNFCallVoidMethod(env, [self.javaObjectWrapper jObject], jm_ScreenMenu_invokeOpenLater); // AWT_THREADING Safe (AWTRunLoopMode)
+    stbtic JNF_MEMBER_CACHE(jm_ScreenMenu_invokeOpenLbter, sjc_ScreenMenu, "invokeOpenLbter", "()V");
+    JNFCbllVoidMethod(env, [self.jbvbObjectWrbpper jObject], jm_ScreenMenu_invokeOpenLbter); // AWT_THREADING Sbfe (AWTRunLoopMode)
 JNF_COCOA_EXIT(env);
 
 }
 
 - (void)menuDidClose:(NSMenu *)menu
 {
-    if (self.javaObjectWrapper == nil) {
+    if (self.jbvbObjectWrbpper == nil) {
 #ifdef DEBUG
-        NSLog(@"_javaObject is NULL: (%s - %s : %d)", THIS_FILE, __FUNCTION__, __LINE__);
+        NSLog(@"_jbvbObject is NULL: (%s - %s : %d)", THIS_FILE, __FUNCTION__, __LINE__);
 #endif
         return;
     }
 
-    JNIEnv *env = [ThreadUtilities getJNIEnv];
+    JNIEnv *env = [ThrebdUtilities getJNIEnv];
 JNF_COCOA_ENTER(env);
     //NSLog(@"menuDidClose %@", [menu title]);
-    static JNF_MEMBER_CACHE(jm_ScreenMenu_invokeMenuClosing, sjc_ScreenMenu, "invokeMenuClosing", "()V");
-    JNFCallVoidMethod(env, [self.javaObjectWrapper jObject], jm_ScreenMenu_invokeMenuClosing); // AWT_THREADING Safe (AWTRunLoopMode)
+    stbtic JNF_MEMBER_CACHE(jm_ScreenMenu_invokeMenuClosing, sjc_ScreenMenu, "invokeMenuClosing", "()V");
+    JNFCbllVoidMethod(env, [self.jbvbObjectWrbpper jObject], jm_ScreenMenu_invokeMenuClosing); // AWT_THREADING Sbfe (AWTRunLoopMode)
 JNF_COCOA_EXIT(env);
 }
 
 
-- (void)handleJavaMenuItemTargetedAtIndex:(NSUInteger)menuIndex rect:(NSRect)rect
+- (void)hbndleJbvbMenuItemTbrgetedAtIndex:(NSUInteger)menuIndex rect:(NSRect)rect
 {
-    if (self.javaObjectWrapper == nil) {
+    if (self.jbvbObjectWrbpper == nil) {
 #ifdef DEBUG
-        NSLog(@"_javaObject is NULL: (%s - %s : %d)", THIS_FILE, __FUNCTION__, __LINE__);
+        NSLog(@"_jbvbObject is NULL: (%s - %s : %d)", THIS_FILE, __FUNCTION__, __LINE__);
 #endif
         return;
     }
 
-    JNIEnv *env = [ThreadUtilities getJNIEnv];
+    JNIEnv *env = [ThrebdUtilities getJNIEnv];
 JNF_COCOA_ENTER(env);
-    // Send that to Java so we can test which item was hit.
-    static JNF_MEMBER_CACHE(jm_ScreenMenu_updateSelectedItem, sjc_ScreenMenu, "handleItemTargeted", "(IIIII)V");
-    JNFCallVoidMethod(env, [self.javaObjectWrapper jObject], jm_ScreenMenu_updateSelectedItem, menuIndex,
-                    NSMinY(rect), NSMinX(rect), NSMaxY(rect), NSMaxX(rect)); // AWT_THREADING Safe (AWTRunLoopMode)
+    // Send thbt to Jbvb so we cbn test which item wbs hit.
+    stbtic JNF_MEMBER_CACHE(jm_ScreenMenu_updbteSelectedItem, sjc_ScreenMenu, "hbndleItemTbrgeted", "(IIIII)V");
+    JNFCbllVoidMethod(env, [self.jbvbObjectWrbpper jObject], jm_ScreenMenu_updbteSelectedItem, menuIndex,
+                    NSMinY(rect), NSMinX(rect), NSMbxY(rect), NSMbxX(rect)); // AWT_THREADING Sbfe (AWTRunLoopMode)
 
 JNF_COCOA_EXIT(env);
 }
 
 
-// Called from event handler callback
-- (void)handleJavaMouseEvent:(NSEvent *)event
+// Cblled from event hbndler cbllbbck
+- (void)hbndleJbvbMouseEvent:(NSEvent *)event
 {
     NSInteger kind = [event type];
-    jint javaKind = 0;
+    jint jbvbKind = 0;
 
     switch (kind) {
-        case NSLeftMouseUp: case NSRightMouseUp: case NSOtherMouseUp:
-            javaKind = java_awt_event_MouseEvent_MOUSE_RELEASED;
-            break;
-        case NSLeftMouseDown: case NSRightMouseDown: case NSOtherMouseDown:
-            javaKind = java_awt_event_MouseEvent_MOUSE_PRESSED;
-            break;
-        case NSMouseMoved:
-            javaKind = java_awt_event_MouseEvent_MOUSE_MOVED;
-            break;
-        case NSLeftMouseDragged: case NSRightMouseDragged: case NSOtherMouseDragged:
-            javaKind = java_awt_event_MouseEvent_MOUSE_DRAGGED;
-            break;
+        cbse NSLeftMouseUp: cbse NSRightMouseUp: cbse NSOtherMouseUp:
+            jbvbKind = jbvb_bwt_event_MouseEvent_MOUSE_RELEASED;
+            brebk;
+        cbse NSLeftMouseDown: cbse NSRightMouseDown: cbse NSOtherMouseDown:
+            jbvbKind = jbvb_bwt_event_MouseEvent_MOUSE_PRESSED;
+            brebk;
+        cbse NSMouseMoved:
+            jbvbKind = jbvb_bwt_event_MouseEvent_MOUSE_MOVED;
+            brebk;
+        cbse NSLeftMouseDrbgged: cbse NSRightMouseDrbgged: cbse NSOtherMouseDrbgged:
+            jbvbKind = jbvb_bwt_event_MouseEvent_MOUSE_DRAGGED;
+            brebk;
     }
 
-    // Get the coordinates of the mouse in global coordinates (must be global, since our tracking rects are global.)
-    NSPoint globalPoint = [event locationInWindow];
-    jint javaX = globalPoint.x;
-    jint javaY = globalPoint.y;
+    // Get the coordinbtes of the mouse in globbl coordinbtes (must be globbl, since our trbcking rects bre globbl.)
+    NSPoint globblPoint = [event locbtionInWindow];
+    jint jbvbX = globblPoint.x;
+    jint jbvbY = globblPoint.y;
 
-    // Convert the event modifiers into Java modifiers
-    jint javaModifiers = ns2awtModifiers([event modifierFlags]) | ns2awtMouseButton([event buttonNumber]);
+    // Convert the event modifiers into Jbvb modifiers
+    jint jbvbModifiers = ns2bwtModifiers([event modifierFlbgs]) | ns2bwtMouseButton([event buttonNumber]);
 
     // Get the event time
-    jlong javaWhen = JNFNSTimeIntervalToJavaMillis([event timestamp]);
+    jlong jbvbWhen = JNFNSTimeIntervblToJbvbMillis([event timestbmp]);
 
-    // Call the mouse event handler, which will generate Java mouse events.
-    JNIEnv *env = [ThreadUtilities getJNIEnv];
+    // Cbll the mouse event hbndler, which will generbte Jbvb mouse events.
+    JNIEnv *env = [ThrebdUtilities getJNIEnv];
 JNF_COCOA_ENTER(env);
-    static JNF_MEMBER_CACHE(jm_ScreenMenu_handleMouseEvent, sjc_ScreenMenu, "handleMouseEvent", "(IIIIJ)V");
-    JNFCallVoidMethod(env, [self.javaObjectWrapper jObject], jm_ScreenMenu_handleMouseEvent, javaKind, javaX, javaY, javaModifiers, javaWhen); // AWT_THREADING Safe (AWTRunLoopMode)
+    stbtic JNF_MEMBER_CACHE(jm_ScreenMenu_hbndleMouseEvent, sjc_ScreenMenu, "hbndleMouseEvent", "(IIIIJ)V");
+    JNFCbllVoidMethod(env, [self.jbvbObjectWrbpper jObject], jm_ScreenMenu_hbndleMouseEvent, jbvbKind, jbvbX, jbvbY, jbvbModifiers, jbvbWhen); // AWT_THREADING Sbfe (AWTRunLoopMode)
 JNF_COCOA_EXIT(env);
 }
 
@@ -197,59 +197,59 @@ JNF_COCOA_EXIT(env);
 
 
 /*
- * Class:     com_apple_laf_ScreenMenu
- * Method:    addMenuListeners
- * Signature: (Lcom/apple/laf/ScreenMenu;J[J)V
+ * Clbss:     com_bpple_lbf_ScreenMenu
+ * Method:    bddMenuListeners
+ * Signbture: (Lcom/bpple/lbf/ScreenMenu;J[J)V
  */
-JNIEXPORT jlong JNICALL Java_com_apple_laf_ScreenMenu_addMenuListeners
-(JNIEnv *env, jclass clz, jobject listener, jlong nativeMenu)
+JNIEXPORT jlong JNICALL Jbvb_com_bpple_lbf_ScreenMenu_bddMenuListeners
+(JNIEnv *env, jclbss clz, jobject listener, jlong nbtiveMenu)
 {
-    NativeToJavaDelegate *delegate = nil;
+    NbtiveToJbvbDelegbte *delegbte = nil;
 
 JNF_COCOA_ENTER(env);
 
-    JNFJObjectWrapper *wrapper = [JNFJObjectWrapper wrapperWithJObject:listener withEnv:env];
-    NSMenu *menu = jlong_to_ptr(nativeMenu);
+    JNFJObjectWrbpper *wrbpper = [JNFJObjectWrbpper wrbpperWithJObject:listener withEnv:env];
+    NSMenu *menu = jlong_to_ptr(nbtiveMenu);
 
-    delegate = [[[NativeToJavaDelegate alloc] initFromMenu:menu javaObj:wrapper] autorelease];
-    CFRetain(delegate); // GC
+    delegbte = [[[NbtiveToJbvbDelegbte blloc] initFromMenu:menu jbvbObj:wrbpper] butorelebse];
+    CFRetbin(delegbte); // GC
 
-    [JNFRunLoop performOnMainThreadWaiting:YES withBlock:^{
-        NSMenu *menu = delegate.nsmenu;
-        if ([menu isJavaMenu]) {
-            [menu setDelegate:delegate];
-            [menu setJavaMenuDelegate:delegate];
+    [JNFRunLoop performOnMbinThrebdWbiting:YES withBlock:^{
+        NSMenu *menu = delegbte.nsmenu;
+        if ([menu isJbvbMenu]) {
+            [menu setDelegbte:delegbte];
+            [menu setJbvbMenuDelegbte:delegbte];
         }
     }];
 
 JNF_COCOA_EXIT(env);
 
-    return ptr_to_jlong(delegate);
+    return ptr_to_jlong(delegbte);
 }
 
 /*
- * Class:     com_apple_laf_ScreenMenu
+ * Clbss:     com_bpple_lbf_ScreenMenu
  * Method:    removeMenuListeners
- * Signature: (JJ)V
+ * Signbture: (JJ)V
  */
-JNIEXPORT void JNICALL Java_com_apple_laf_ScreenMenu_removeMenuListeners
-(JNIEnv *env, jclass clz, jlong fModelPtr)
+JNIEXPORT void JNICALL Jbvb_com_bpple_lbf_ScreenMenu_removeMenuListeners
+(JNIEnv *env, jclbss clz, jlong fModelPtr)
 {
     if (fModelPtr == 0L) return;
 
 JNF_COCOA_ENTER(env);
 
-    NativeToJavaDelegate *delegate = (NativeToJavaDelegate *)jlong_to_ptr(fModelPtr);
+    NbtiveToJbvbDelegbte *delegbte = (NbtiveToJbvbDelegbte *)jlong_to_ptr(fModelPtr);
 
-    [JNFRunLoop performOnMainThreadWaiting:YES withBlock:^{
-        NSMenu *menu = delegate.nsmenu;
-        [menu setJavaMenuDelegate:nil];
-        [menu setDelegate:nil];
-        delegate.nsmenu = nil;
-        delegate.javaObjectWrapper = nil;
+    [JNFRunLoop performOnMbinThrebdWbiting:YES withBlock:^{
+        NSMenu *menu = delegbte.nsmenu;
+        [menu setJbvbMenuDelegbte:nil];
+        [menu setDelegbte:nil];
+        delegbte.nsmenu = nil;
+        delegbte.jbvbObjectWrbpper = nil;
     }];
 
-    CFRelease(delegate); // GC
+    CFRelebse(delegbte); // GC
 
 JNF_COCOA_EXIT(env);
 }

@@ -1,53 +1,53 @@
 /*
- * Copyright (c) 1997, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt.im;
+pbckbge sun.bwt.im;
 
-import java.awt.Component;
-import java.awt.Rectangle;
-import java.awt.im.spi.InputMethod;
+import jbvb.bwt.Component;
+import jbvb.bwt.Rectbngle;
+import jbvb.bwt.im.spi.InputMethod;
 
 /**
- * An input method adapter interfaces with the native input methods
- * on a host platform. In general, it looks to the input method
- * framework like a Java input method (that may support a few more
- * locales than a typical Java input method). However, since it
- * often has to work in a slightly hostile environment that's not
- * designed for easy integration into the Java input method
- * framework, it gets some special treatment that's not available
- * to Java input methods.
+ * An input method bdbpter interfbces with the nbtive input methods
+ * on b host plbtform. In generbl, it looks to the input method
+ * frbmework like b Jbvb input method (thbt mby support b few more
+ * locbles thbn b typicbl Jbvb input method). However, since it
+ * often hbs to work in b slightly hostile environment thbt's not
+ * designed for ebsy integrbtion into the Jbvb input method
+ * frbmework, it gets some specibl trebtment thbt's not bvbilbble
+ * to Jbvb input methods.
  * <p>
- * Licensees are free to modify this class as necessary to implement
- * their host input method adapters.
+ * Licensees bre free to modify this clbss bs necessbry to implement
+ * their host input method bdbpters.
  *
- * @author JavaSoft International
+ * @buthor JbvbSoft Internbtionbl
  */
 
-public abstract class InputMethodAdapter implements InputMethod {
+public bbstrbct clbss InputMethodAdbpter implements InputMethod {
 
-    private Component clientComponent;
+    privbte Component clientComponent;
 
     void setClientComponent(Component client) {
         clientComponent = client;
@@ -57,61 +57,61 @@ public abstract class InputMethodAdapter implements InputMethod {
         return clientComponent;
     }
 
-    protected boolean haveActiveClient() {
+    protected boolebn hbveActiveClient() {
         return clientComponent != null && clientComponent.getInputMethodRequests() != null;
     }
 
     /**
-     * Informs the input method adapter about the component that has the AWT
-     * focus if it's using the input context owning this adapter instance.
+     * Informs the input method bdbpter bbout the component thbt hbs the AWT
+     * focus if it's using the input context owning this bdbpter instbnce.
      */
     protected void setAWTFocussedComponent(Component component) {
-        // ignore - adapters can override if needed
+        // ignore - bdbpters cbn override if needed
     }
 
     /**
-     * Returns whether host input methods can support below-the-spot input.
-     * Returns false by default.
+     * Returns whether host input methods cbn support below-the-spot input.
+     * Returns fblse by defbult.
      */
-    protected boolean supportsBelowTheSpot() {
-        return false;
+    protected boolebn supportsBelowTheSpot() {
+        return fblse;
     }
 
     /**
-     * Informs the input method adapter not to listen to the native events.
+     * Informs the input method bdbpter not to listen to the nbtive events.
      */
     protected void stopListening() {
-        // ignore - adapters can override if needed
+        // ignore - bdbpters cbn override if needed
     }
 
     /**
-     * Notifies client Window location or status changes
+     * Notifies client Window locbtion or stbtus chbnges
      */
-    public void notifyClientWindowChange(Rectangle location) {
+    public void notifyClientWindowChbnge(Rectbngle locbtion) {
     }
 
     /**
-     * Starts reconvertion. An implementing host adapter has to override
-     * this method if it can support reconvert().
-     * @exception UnsupportedOperationException when the adapter does not override
+     * Stbrts reconvertion. An implementing host bdbpter hbs to override
+     * this method if it cbn support reconvert().
+     * @exception UnsupportedOperbtionException when the bdbpter does not override
      * the method.
      */
     public void reconvert() {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperbtionException();
     }
 
     /**
-     * Disable the native input method. This method is provided for explicitly
-     * turning off the native IM. The native IM is not turned off
-     * when the native input method is deactivated. This method is
-     * always called on AWT EDT. See details in bug 6226489.
+     * Disbble the nbtive input method. This method is provided for explicitly
+     * turning off the nbtive IM. The nbtive IM is not turned off
+     * when the nbtive input method is debctivbted. This method is
+     * blwbys cblled on AWT EDT. See detbils in bug 6226489.
      */
-    public abstract void disableInputMethod();
+    public bbstrbct void disbbleInputMethod();
 
 
     /**
-     * Returns a string with information about the native input method, or
+     * Returns b string with informbtion bbout the nbtive input method, or
      * null.
      */
-    public abstract String getNativeInputMethodInfo();
+    public bbstrbct String getNbtiveInputMethodInfo();
 }

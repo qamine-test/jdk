@@ -1,295 +1,295 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * (C) Copyright Taligent, Inc. 1996 - All Rights Reserved
+ * (C) Copyright Tbligent, Inc. 1996 - All Rights Reserved
  * (C) Copyright IBM Corp. 1996-1998 - All Rights Reserved
  *
- *   The original version of this source code and documentation is copyrighted
- * and owned by Taligent, Inc., a wholly-owned subsidiary of IBM. These
- * materials are provided under terms of a License Agreement between Taligent
- * and Sun. This technology is protected by multiple US and International
- * patents. This notice and attribution to Taligent may not be removed.
- *   Taligent is a registered trademark of Taligent, Inc.
+ *   The originbl version of this source code bnd documentbtion is copyrighted
+ * bnd owned by Tbligent, Inc., b wholly-owned subsidibry of IBM. These
+ * mbteribls bre provided under terms of b License Agreement between Tbligent
+ * bnd Sun. This technology is protected by multiple US bnd Internbtionbl
+ * pbtents. This notice bnd bttribution to Tbligent mby not be removed.
+ *   Tbligent is b registered trbdembrk of Tbligent, Inc.
  *
  */
 
-package java.text;
+pbckbge jbvb.text;
 
-import java.io.IOException;
-import java.io.InvalidObjectException;
-import java.io.ObjectInputStream;
-import static java.text.DateFormatSymbols.*;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.Locale;
-import java.util.Map;
-import java.util.SimpleTimeZone;
-import java.util.SortedMap;
-import java.util.TimeZone;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
-import sun.util.calendar.CalendarUtils;
-import sun.util.calendar.ZoneInfoFile;
-import sun.util.locale.provider.LocaleProviderAdapter;
+import jbvb.io.IOException;
+import jbvb.io.InvblidObjectException;
+import jbvb.io.ObjectInputStrebm;
+import stbtic jbvb.text.DbteFormbtSymbols.*;
+import jbvb.util.Cblendbr;
+import jbvb.util.Dbte;
+import jbvb.util.GregoribnCblendbr;
+import jbvb.util.Locble;
+import jbvb.util.Mbp;
+import jbvb.util.SimpleTimeZone;
+import jbvb.util.SortedMbp;
+import jbvb.util.TimeZone;
+import jbvb.util.concurrent.ConcurrentHbshMbp;
+import jbvb.util.concurrent.ConcurrentMbp;
+import sun.util.cblendbr.CblendbrUtils;
+import sun.util.cblendbr.ZoneInfoFile;
+import sun.util.locble.provider.LocbleProviderAdbpter;
 
 /**
- * <code>SimpleDateFormat</code> is a concrete class for formatting and
- * parsing dates in a locale-sensitive manner. It allows for formatting
- * (date &rarr; text), parsing (text &rarr; date), and normalization.
+ * <code>SimpleDbteFormbt</code> is b concrete clbss for formbtting bnd
+ * pbrsing dbtes in b locble-sensitive mbnner. It bllows for formbtting
+ * (dbte &rbrr; text), pbrsing (text &rbrr; dbte), bnd normblizbtion.
  *
  * <p>
- * <code>SimpleDateFormat</code> allows you to start by choosing
- * any user-defined patterns for date-time formatting. However, you
- * are encouraged to create a date-time formatter with either
- * <code>getTimeInstance</code>, <code>getDateInstance</code>, or
- * <code>getDateTimeInstance</code> in <code>DateFormat</code>. Each
- * of these class methods can return a date/time formatter initialized
- * with a default format pattern. You may modify the format pattern
- * using the <code>applyPattern</code> methods as desired.
- * For more information on using these methods, see
- * {@link DateFormat}.
+ * <code>SimpleDbteFormbt</code> bllows you to stbrt by choosing
+ * bny user-defined pbtterns for dbte-time formbtting. However, you
+ * bre encourbged to crebte b dbte-time formbtter with either
+ * <code>getTimeInstbnce</code>, <code>getDbteInstbnce</code>, or
+ * <code>getDbteTimeInstbnce</code> in <code>DbteFormbt</code>. Ebch
+ * of these clbss methods cbn return b dbte/time formbtter initiblized
+ * with b defbult formbt pbttern. You mby modify the formbt pbttern
+ * using the <code>bpplyPbttern</code> methods bs desired.
+ * For more informbtion on using these methods, see
+ * {@link DbteFormbt}.
  *
- * <h3>Date and Time Patterns</h3>
+ * <h3>Dbte bnd Time Pbtterns</h3>
  * <p>
- * Date and time formats are specified by <em>date and time pattern</em>
+ * Dbte bnd time formbts bre specified by <em>dbte bnd time pbttern</em>
  * strings.
- * Within date and time pattern strings, unquoted letters from
- * <code>'A'</code> to <code>'Z'</code> and from <code>'a'</code> to
- * <code>'z'</code> are interpreted as pattern letters representing the
- * components of a date or time string.
- * Text can be quoted using single quotes (<code>'</code>) to avoid
- * interpretation.
- * <code>"''"</code> represents a single quote.
- * All other characters are not interpreted; they're simply copied into the
- * output string during formatting or matched against the input string
- * during parsing.
+ * Within dbte bnd time pbttern strings, unquoted letters from
+ * <code>'A'</code> to <code>'Z'</code> bnd from <code>'b'</code> to
+ * <code>'z'</code> bre interpreted bs pbttern letters representing the
+ * components of b dbte or time string.
+ * Text cbn be quoted using single quotes (<code>'</code>) to bvoid
+ * interpretbtion.
+ * <code>"''"</code> represents b single quote.
+ * All other chbrbcters bre not interpreted; they're simply copied into the
+ * output string during formbtting or mbtched bgbinst the input string
+ * during pbrsing.
  * <p>
- * The following pattern letters are defined (all other characters from
- * <code>'A'</code> to <code>'Z'</code> and from <code>'a'</code> to
- * <code>'z'</code> are reserved):
+ * The following pbttern letters bre defined (bll other chbrbcters from
+ * <code>'A'</code> to <code>'Z'</code> bnd from <code>'b'</code> to
+ * <code>'z'</code> bre reserved):
  * <blockquote>
- * <table border=0 cellspacing=3 cellpadding=0 summary="Chart shows pattern letters, date/time component, presentation, and examples.">
- *     <tr style="background-color: rgb(204, 204, 255);">
- *         <th align=left>Letter
- *         <th align=left>Date or Time Component
- *         <th align=left>Presentation
- *         <th align=left>Examples
+ * <tbble border=0 cellspbcing=3 cellpbdding=0 summbry="Chbrt shows pbttern letters, dbte/time component, presentbtion, bnd exbmples.">
+ *     <tr style="bbckground-color: rgb(204, 204, 255);">
+ *         <th blign=left>Letter
+ *         <th blign=left>Dbte or Time Component
+ *         <th blign=left>Presentbtion
+ *         <th blign=left>Exbmples
  *     <tr>
  *         <td><code>G</code>
- *         <td>Era designator
- *         <td><a href="#text">Text</a>
+ *         <td>Erb designbtor
+ *         <td><b href="#text">Text</b>
  *         <td><code>AD</code>
- *     <tr style="background-color: rgb(238, 238, 255);">
+ *     <tr style="bbckground-color: rgb(238, 238, 255);">
  *         <td><code>y</code>
- *         <td>Year
- *         <td><a href="#year">Year</a>
+ *         <td>Yebr
+ *         <td><b href="#yebr">Yebr</b>
  *         <td><code>1996</code>; <code>96</code>
  *     <tr>
  *         <td><code>Y</code>
- *         <td>Week year
- *         <td><a href="#year">Year</a>
+ *         <td>Week yebr
+ *         <td><b href="#yebr">Yebr</b>
  *         <td><code>2009</code>; <code>09</code>
- *     <tr style="background-color: rgb(238, 238, 255);">
+ *     <tr style="bbckground-color: rgb(238, 238, 255);">
  *         <td><code>M</code>
- *         <td>Month in year (context sensitive)
- *         <td><a href="#month">Month</a>
+ *         <td>Month in yebr (context sensitive)
+ *         <td><b href="#month">Month</b>
  *         <td><code>July</code>; <code>Jul</code>; <code>07</code>
  *     <tr>
  *         <td><code>L</code>
- *         <td>Month in year (standalone form)
- *         <td><a href="#month">Month</a>
+ *         <td>Month in yebr (stbndblone form)
+ *         <td><b href="#month">Month</b>
  *         <td><code>July</code>; <code>Jul</code>; <code>07</code>
- *     <tr style="background-color: rgb(238, 238, 255);">
+ *     <tr style="bbckground-color: rgb(238, 238, 255);">
  *         <td><code>w</code>
- *         <td>Week in year
- *         <td><a href="#number">Number</a>
+ *         <td>Week in yebr
+ *         <td><b href="#number">Number</b>
  *         <td><code>27</code>
  *     <tr>
  *         <td><code>W</code>
  *         <td>Week in month
- *         <td><a href="#number">Number</a>
+ *         <td><b href="#number">Number</b>
  *         <td><code>2</code>
- *     <tr style="background-color: rgb(238, 238, 255);">
+ *     <tr style="bbckground-color: rgb(238, 238, 255);">
  *         <td><code>D</code>
- *         <td>Day in year
- *         <td><a href="#number">Number</a>
+ *         <td>Dby in yebr
+ *         <td><b href="#number">Number</b>
  *         <td><code>189</code>
  *     <tr>
  *         <td><code>d</code>
- *         <td>Day in month
- *         <td><a href="#number">Number</a>
+ *         <td>Dby in month
+ *         <td><b href="#number">Number</b>
  *         <td><code>10</code>
- *     <tr style="background-color: rgb(238, 238, 255);">
+ *     <tr style="bbckground-color: rgb(238, 238, 255);">
  *         <td><code>F</code>
- *         <td>Day of week in month
- *         <td><a href="#number">Number</a>
+ *         <td>Dby of week in month
+ *         <td><b href="#number">Number</b>
  *         <td><code>2</code>
  *     <tr>
  *         <td><code>E</code>
- *         <td>Day name in week
- *         <td><a href="#text">Text</a>
- *         <td><code>Tuesday</code>; <code>Tue</code>
- *     <tr style="background-color: rgb(238, 238, 255);">
+ *         <td>Dby nbme in week
+ *         <td><b href="#text">Text</b>
+ *         <td><code>Tuesdby</code>; <code>Tue</code>
+ *     <tr style="bbckground-color: rgb(238, 238, 255);">
  *         <td><code>u</code>
- *         <td>Day number of week (1 = Monday, ..., 7 = Sunday)
- *         <td><a href="#number">Number</a>
+ *         <td>Dby number of week (1 = Mondby, ..., 7 = Sundby)
+ *         <td><b href="#number">Number</b>
  *         <td><code>1</code>
  *     <tr>
- *         <td><code>a</code>
- *         <td>Am/pm marker
- *         <td><a href="#text">Text</a>
+ *         <td><code>b</code>
+ *         <td>Am/pm mbrker
+ *         <td><b href="#text">Text</b>
  *         <td><code>PM</code>
- *     <tr style="background-color: rgb(238, 238, 255);">
+ *     <tr style="bbckground-color: rgb(238, 238, 255);">
  *         <td><code>H</code>
- *         <td>Hour in day (0-23)
- *         <td><a href="#number">Number</a>
+ *         <td>Hour in dby (0-23)
+ *         <td><b href="#number">Number</b>
  *         <td><code>0</code>
  *     <tr>
  *         <td><code>k</code>
- *         <td>Hour in day (1-24)
- *         <td><a href="#number">Number</a>
+ *         <td>Hour in dby (1-24)
+ *         <td><b href="#number">Number</b>
  *         <td><code>24</code>
- *     <tr style="background-color: rgb(238, 238, 255);">
+ *     <tr style="bbckground-color: rgb(238, 238, 255);">
  *         <td><code>K</code>
- *         <td>Hour in am/pm (0-11)
- *         <td><a href="#number">Number</a>
+ *         <td>Hour in bm/pm (0-11)
+ *         <td><b href="#number">Number</b>
  *         <td><code>0</code>
  *     <tr>
  *         <td><code>h</code>
- *         <td>Hour in am/pm (1-12)
- *         <td><a href="#number">Number</a>
+ *         <td>Hour in bm/pm (1-12)
+ *         <td><b href="#number">Number</b>
  *         <td><code>12</code>
- *     <tr style="background-color: rgb(238, 238, 255);">
+ *     <tr style="bbckground-color: rgb(238, 238, 255);">
  *         <td><code>m</code>
  *         <td>Minute in hour
- *         <td><a href="#number">Number</a>
+ *         <td><b href="#number">Number</b>
  *         <td><code>30</code>
  *     <tr>
  *         <td><code>s</code>
  *         <td>Second in minute
- *         <td><a href="#number">Number</a>
+ *         <td><b href="#number">Number</b>
  *         <td><code>55</code>
- *     <tr style="background-color: rgb(238, 238, 255);">
+ *     <tr style="bbckground-color: rgb(238, 238, 255);">
  *         <td><code>S</code>
  *         <td>Millisecond
- *         <td><a href="#number">Number</a>
+ *         <td><b href="#number">Number</b>
  *         <td><code>978</code>
  *     <tr>
  *         <td><code>z</code>
  *         <td>Time zone
- *         <td><a href="#timezone">General time zone</a>
- *         <td><code>Pacific Standard Time</code>; <code>PST</code>; <code>GMT-08:00</code>
- *     <tr style="background-color: rgb(238, 238, 255);">
+ *         <td><b href="#timezone">Generbl time zone</b>
+ *         <td><code>Pbcific Stbndbrd Time</code>; <code>PST</code>; <code>GMT-08:00</code>
+ *     <tr style="bbckground-color: rgb(238, 238, 255);">
  *         <td><code>Z</code>
  *         <td>Time zone
- *         <td><a href="#rfc822timezone">RFC 822 time zone</a>
+ *         <td><b href="#rfc822timezone">RFC 822 time zone</b>
  *         <td><code>-0800</code>
  *     <tr>
  *         <td><code>X</code>
  *         <td>Time zone
- *         <td><a href="#iso8601timezone">ISO 8601 time zone</a>
+ *         <td><b href="#iso8601timezone">ISO 8601 time zone</b>
  *         <td><code>-08</code>; <code>-0800</code>;  <code>-08:00</code>
- * </table>
+ * </tbble>
  * </blockquote>
- * Pattern letters are usually repeated, as their number determines the
- * exact presentation:
+ * Pbttern letters bre usublly repebted, bs their number determines the
+ * exbct presentbtion:
  * <ul>
- * <li><strong><a name="text">Text:</a></strong>
- *     For formatting, if the number of pattern letters is 4 or more,
- *     the full form is used; otherwise a short or abbreviated form
- *     is used if available.
- *     For parsing, both forms are accepted, independent of the number
- *     of pattern letters.<br><br></li>
- * <li><strong><a name="number">Number:</a></strong>
- *     For formatting, the number of pattern letters is the minimum
- *     number of digits, and shorter numbers are zero-padded to this amount.
- *     For parsing, the number of pattern letters is ignored unless
- *     it's needed to separate two adjacent fields.<br><br></li>
- * <li><strong><a name="year">Year:</a></strong>
- *     If the formatter's {@link #getCalendar() Calendar} is the Gregorian
- *     calendar, the following rules are applied.<br>
+ * <li><strong><b nbme="text">Text:</b></strong>
+ *     For formbtting, if the number of pbttern letters is 4 or more,
+ *     the full form is used; otherwise b short or bbbrevibted form
+ *     is used if bvbilbble.
+ *     For pbrsing, both forms bre bccepted, independent of the number
+ *     of pbttern letters.<br><br></li>
+ * <li><strong><b nbme="number">Number:</b></strong>
+ *     For formbtting, the number of pbttern letters is the minimum
+ *     number of digits, bnd shorter numbers bre zero-pbdded to this bmount.
+ *     For pbrsing, the number of pbttern letters is ignored unless
+ *     it's needed to sepbrbte two bdjbcent fields.<br><br></li>
+ * <li><strong><b nbme="yebr">Yebr:</b></strong>
+ *     If the formbtter's {@link #getCblendbr() Cblendbr} is the Gregoribn
+ *     cblendbr, the following rules bre bpplied.<br>
  *     <ul>
- *     <li>For formatting, if the number of pattern letters is 2, the year
- *         is truncated to 2 digits; otherwise it is interpreted as a
- *         <a href="#number">number</a>.
- *     <li>For parsing, if the number of pattern letters is more than 2,
- *         the year is interpreted literally, regardless of the number of
- *         digits. So using the pattern "MM/dd/yyyy", "01/11/12" parses to
- *         Jan 11, 12 A.D.
- *     <li>For parsing with the abbreviated year pattern ("y" or "yy"),
- *         <code>SimpleDateFormat</code> must interpret the abbreviated year
- *         relative to some century.  It does this by adjusting dates to be
- *         within 80 years before and 20 years after the time the <code>SimpleDateFormat</code>
- *         instance is created. For example, using a pattern of "MM/dd/yy" and a
- *         <code>SimpleDateFormat</code> instance created on Jan 1, 1997,  the string
- *         "01/11/12" would be interpreted as Jan 11, 2012 while the string "05/04/64"
- *         would be interpreted as May 4, 1964.
- *         During parsing, only strings consisting of exactly two digits, as defined by
- *         {@link Character#isDigit(char)}, will be parsed into the default century.
- *         Any other numeric string, such as a one digit string, a three or more digit
- *         string, or a two digit string that isn't all digits (for example, "-1"), is
- *         interpreted literally.  So "01/02/3" or "01/02/003" are parsed, using the
- *         same pattern, as Jan 2, 3 AD.  Likewise, "01/02/-3" is parsed as Jan 2, 4 BC.
+ *     <li>For formbtting, if the number of pbttern letters is 2, the yebr
+ *         is truncbted to 2 digits; otherwise it is interpreted bs b
+ *         <b href="#number">number</b>.
+ *     <li>For pbrsing, if the number of pbttern letters is more thbn 2,
+ *         the yebr is interpreted literblly, regbrdless of the number of
+ *         digits. So using the pbttern "MM/dd/yyyy", "01/11/12" pbrses to
+ *         Jbn 11, 12 A.D.
+ *     <li>For pbrsing with the bbbrevibted yebr pbttern ("y" or "yy"),
+ *         <code>SimpleDbteFormbt</code> must interpret the bbbrevibted yebr
+ *         relbtive to some century.  It does this by bdjusting dbtes to be
+ *         within 80 yebrs before bnd 20 yebrs bfter the time the <code>SimpleDbteFormbt</code>
+ *         instbnce is crebted. For exbmple, using b pbttern of "MM/dd/yy" bnd b
+ *         <code>SimpleDbteFormbt</code> instbnce crebted on Jbn 1, 1997,  the string
+ *         "01/11/12" would be interpreted bs Jbn 11, 2012 while the string "05/04/64"
+ *         would be interpreted bs Mby 4, 1964.
+ *         During pbrsing, only strings consisting of exbctly two digits, bs defined by
+ *         {@link Chbrbcter#isDigit(chbr)}, will be pbrsed into the defbult century.
+ *         Any other numeric string, such bs b one digit string, b three or more digit
+ *         string, or b two digit string thbt isn't bll digits (for exbmple, "-1"), is
+ *         interpreted literblly.  So "01/02/3" or "01/02/003" bre pbrsed, using the
+ *         sbme pbttern, bs Jbn 2, 3 AD.  Likewise, "01/02/-3" is pbrsed bs Jbn 2, 4 BC.
  *     </ul>
- *     Otherwise, calendar system specific forms are applied.
- *     For both formatting and parsing, if the number of pattern
- *     letters is 4 or more, a calendar specific {@linkplain
- *     Calendar#LONG long form} is used. Otherwise, a calendar
- *     specific {@linkplain Calendar#SHORT short or abbreviated form}
+ *     Otherwise, cblendbr system specific forms bre bpplied.
+ *     For both formbtting bnd pbrsing, if the number of pbttern
+ *     letters is 4 or more, b cblendbr specific {@linkplbin
+ *     Cblendbr#LONG long form} is used. Otherwise, b cblendbr
+ *     specific {@linkplbin Cblendbr#SHORT short or bbbrevibted form}
  *     is used.<br>
  *     <br>
- *     If week year {@code 'Y'} is specified and the {@linkplain
- *     #getCalendar() calendar} doesn't support any <a
- *     href="../util/GregorianCalendar.html#week_year"> week
- *     years</a>, the calendar year ({@code 'y'}) is used instead. The
- *     support of week years can be tested with a call to {@link
- *     DateFormat#getCalendar() getCalendar()}.{@link
- *     java.util.Calendar#isWeekDateSupported()
- *     isWeekDateSupported()}.<br><br></li>
- * <li><strong><a name="month">Month:</a></strong>
- *     If the number of pattern letters is 3 or more, the month is
- *     interpreted as <a href="#text">text</a>; otherwise,
- *     it is interpreted as a <a href="#number">number</a>.<br>
+ *     If week yebr {@code 'Y'} is specified bnd the {@linkplbin
+ *     #getCblendbr() cblendbr} doesn't support bny <b
+ *     href="../util/GregoribnCblendbr.html#week_yebr"> week
+ *     yebrs</b>, the cblendbr yebr ({@code 'y'}) is used instebd. The
+ *     support of week yebrs cbn be tested with b cbll to {@link
+ *     DbteFormbt#getCblendbr() getCblendbr()}.{@link
+ *     jbvb.util.Cblendbr#isWeekDbteSupported()
+ *     isWeekDbteSupported()}.<br><br></li>
+ * <li><strong><b nbme="month">Month:</b></strong>
+ *     If the number of pbttern letters is 3 or more, the month is
+ *     interpreted bs <b href="#text">text</b>; otherwise,
+ *     it is interpreted bs b <b href="#number">number</b>.<br>
  *     <ul>
- *     <li>Letter <em>M</em> produces context-sensitive month names, such as the
- *         embedded form of names. If a {@code DateFormatSymbols} has been set
- *         explicitly with constructor {@link #SimpleDateFormat(String,
- *         DateFormatSymbols)} or method {@link
- *         #setDateFormatSymbols(DateFormatSymbols)}, the month names given by
- *         the {@code DateFormatSymbols} are used.</li>
- *     <li>Letter <em>L</em> produces the standalone form of month names.</li>
+ *     <li>Letter <em>M</em> produces context-sensitive month nbmes, such bs the
+ *         embedded form of nbmes. If b {@code DbteFormbtSymbols} hbs been set
+ *         explicitly with constructor {@link #SimpleDbteFormbt(String,
+ *         DbteFormbtSymbols)} or method {@link
+ *         #setDbteFormbtSymbols(DbteFormbtSymbols)}, the month nbmes given by
+ *         the {@code DbteFormbtSymbols} bre used.</li>
+ *     <li>Letter <em>L</em> produces the stbndblone form of month nbmes.</li>
  *     </ul>
  *     <br></li>
- * <li><strong><a name="timezone">General time zone:</a></strong>
- *     Time zones are interpreted as <a href="#text">text</a> if they have
- *     names. For time zones representing a GMT offset value, the
- *     following syntax is used:
+ * <li><strong><b nbme="timezone">Generbl time zone:</b></strong>
+ *     Time zones bre interpreted bs <b href="#text">text</b> if they hbve
+ *     nbmes. For time zones representing b GMT offset vblue, the
+ *     following syntbx is used:
  *     <pre>
- *     <a name="GMTOffsetTimeZone"><i>GMTOffsetTimeZone:</i></a>
+ *     <b nbme="GMTOffsetTimeZone"><i>GMTOffsetTimeZone:</i></b>
  *             <code>GMT</code> <i>Sign</i> <i>Hours</i> <code>:</code> <i>Minutes</i>
  *     <i>Sign:</i> one of
  *             <code>+ -</code>
@@ -300,27 +300,27 @@ import sun.util.locale.provider.LocaleProviderAdapter;
  *             <i>Digit</i> <i>Digit</i>
  *     <i>Digit:</i> one of
  *             <code>0 1 2 3 4 5 6 7 8 9</code></pre>
- *     <i>Hours</i> must be between 0 and 23, and <i>Minutes</i> must be between
- *     00 and 59. The format is locale independent and digits must be taken
- *     from the Basic Latin block of the Unicode standard.
- *     <p>For parsing, <a href="#rfc822timezone">RFC 822 time zones</a> are also
- *     accepted.<br><br></li>
- * <li><strong><a name="rfc822timezone">RFC 822 time zone:</a></strong>
- *     For formatting, the RFC 822 4-digit time zone format is used:
+ *     <i>Hours</i> must be between 0 bnd 23, bnd <i>Minutes</i> must be between
+ *     00 bnd 59. The formbt is locble independent bnd digits must be tbken
+ *     from the Bbsic Lbtin block of the Unicode stbndbrd.
+ *     <p>For pbrsing, <b href="#rfc822timezone">RFC 822 time zones</b> bre blso
+ *     bccepted.<br><br></li>
+ * <li><strong><b nbme="rfc822timezone">RFC 822 time zone:</b></strong>
+ *     For formbtting, the RFC 822 4-digit time zone formbt is used:
  *
  *     <pre>
  *     <i>RFC822TimeZone:</i>
  *             <i>Sign</i> <i>TwoDigitHours</i> <i>Minutes</i>
  *     <i>TwoDigitHours:</i>
  *             <i>Digit Digit</i></pre>
- *     <i>TwoDigitHours</i> must be between 00 and 23. Other definitions
- *     are as for <a href="#timezone">general time zones</a>.
+ *     <i>TwoDigitHours</i> must be between 00 bnd 23. Other definitions
+ *     bre bs for <b href="#timezone">generbl time zones</b>.
  *
- *     <p>For parsing, <a href="#timezone">general time zones</a> are also
- *     accepted.
- * <li><strong><a name="iso8601timezone">ISO 8601 Time zone:</a></strong>
- *     The number of pattern letters designates the format for both formatting
- *     and parsing as follows:
+ *     <p>For pbrsing, <b href="#timezone">generbl time zones</b> bre blso
+ *     bccepted.
+ * <li><strong><b nbme="iso8601timezone">ISO 8601 Time zone:</b></strong>
+ *     The number of pbttern letters designbtes the formbt for both formbtting
+ *     bnd pbrsing bs follows:
  *     <pre>
  *     <i>ISO8601TimeZone:</i>
  *             <i>OneLetterISO8601TimeZone</i>
@@ -335,432 +335,432 @@ import sun.util.locale.provider.LocaleProviderAdapter;
  *     <i>ThreeLetterISO8601TimeZone:</i>
  *             <i>Sign</i> <i>TwoDigitHours</i> {@code :} <i>Minutes</i>
  *             {@code Z}</pre>
- *     Other definitions are as for <a href="#timezone">general time zones</a> or
- *     <a href="#rfc822timezone">RFC 822 time zones</a>.
+ *     Other definitions bre bs for <b href="#timezone">generbl time zones</b> or
+ *     <b href="#rfc822timezone">RFC 822 time zones</b>.
  *
- *     <p>For formatting, if the offset value from GMT is 0, {@code "Z"} is
- *     produced. If the number of pattern letters is 1, any fraction of an hour
- *     is ignored. For example, if the pattern is {@code "X"} and the time zone is
+ *     <p>For formbtting, if the offset vblue from GMT is 0, {@code "Z"} is
+ *     produced. If the number of pbttern letters is 1, bny frbction of bn hour
+ *     is ignored. For exbmple, if the pbttern is {@code "X"} bnd the time zone is
  *     {@code "GMT+05:30"}, {@code "+05"} is produced.
  *
- *     <p>For parsing, {@code "Z"} is parsed as the UTC time zone designator.
- *     <a href="#timezone">General time zones</a> are <em>not</em> accepted.
+ *     <p>For pbrsing, {@code "Z"} is pbrsed bs the UTC time zone designbtor.
+ *     <b href="#timezone">Generbl time zones</b> bre <em>not</em> bccepted.
  *
- *     <p>If the number of pattern letters is 4 or more, {@link
- *     IllegalArgumentException} is thrown when constructing a {@code
- *     SimpleDateFormat} or {@linkplain #applyPattern(String) applying a
- *     pattern}.
+ *     <p>If the number of pbttern letters is 4 or more, {@link
+ *     IllegblArgumentException} is thrown when constructing b {@code
+ *     SimpleDbteFormbt} or {@linkplbin #bpplyPbttern(String) bpplying b
+ *     pbttern}.
  * </ul>
- * <code>SimpleDateFormat</code> also supports <em>localized date and time
- * pattern</em> strings. In these strings, the pattern letters described above
- * may be replaced with other, locale dependent, pattern letters.
- * <code>SimpleDateFormat</code> does not deal with the localization of text
- * other than the pattern letters; that's up to the client of the class.
+ * <code>SimpleDbteFormbt</code> blso supports <em>locblized dbte bnd time
+ * pbttern</em> strings. In these strings, the pbttern letters described bbove
+ * mby be replbced with other, locble dependent, pbttern letters.
+ * <code>SimpleDbteFormbt</code> does not debl with the locblizbtion of text
+ * other thbn the pbttern letters; thbt's up to the client of the clbss.
  *
- * <h4>Examples</h4>
+ * <h4>Exbmples</h4>
  *
- * The following examples show how date and time patterns are interpreted in
- * the U.S. locale. The given date and time are 2001-07-04 12:08:56 local time
- * in the U.S. Pacific Time time zone.
+ * The following exbmples show how dbte bnd time pbtterns bre interpreted in
+ * the U.S. locble. The given dbte bnd time bre 2001-07-04 12:08:56 locbl time
+ * in the U.S. Pbcific Time time zone.
  * <blockquote>
- * <table border=0 cellspacing=3 cellpadding=0 summary="Examples of date and time patterns interpreted in the U.S. locale">
- *     <tr style="background-color: rgb(204, 204, 255);">
- *         <th align=left>Date and Time Pattern
- *         <th align=left>Result
+ * <tbble border=0 cellspbcing=3 cellpbdding=0 summbry="Exbmples of dbte bnd time pbtterns interpreted in the U.S. locble">
+ *     <tr style="bbckground-color: rgb(204, 204, 255);">
+ *         <th blign=left>Dbte bnd Time Pbttern
+ *         <th blign=left>Result
  *     <tr>
- *         <td><code>"yyyy.MM.dd G 'at' HH:mm:ss z"</code>
- *         <td><code>2001.07.04 AD at 12:08:56 PDT</code>
- *     <tr style="background-color: rgb(238, 238, 255);">
+ *         <td><code>"yyyy.MM.dd G 'bt' HH:mm:ss z"</code>
+ *         <td><code>2001.07.04 AD bt 12:08:56 PDT</code>
+ *     <tr style="bbckground-color: rgb(238, 238, 255);">
  *         <td><code>"EEE, MMM d, ''yy"</code>
  *         <td><code>Wed, Jul 4, '01</code>
  *     <tr>
- *         <td><code>"h:mm a"</code>
+ *         <td><code>"h:mm b"</code>
  *         <td><code>12:08 PM</code>
- *     <tr style="background-color: rgb(238, 238, 255);">
- *         <td><code>"hh 'o''clock' a, zzzz"</code>
- *         <td><code>12 o'clock PM, Pacific Daylight Time</code>
+ *     <tr style="bbckground-color: rgb(238, 238, 255);">
+ *         <td><code>"hh 'o''clock' b, zzzz"</code>
+ *         <td><code>12 o'clock PM, Pbcific Dbylight Time</code>
  *     <tr>
- *         <td><code>"K:mm a, z"</code>
+ *         <td><code>"K:mm b, z"</code>
  *         <td><code>0:08 PM, PDT</code>
- *     <tr style="background-color: rgb(238, 238, 255);">
- *         <td><code>"yyyyy.MMMMM.dd GGG hh:mm aaa"</code>
+ *     <tr style="bbckground-color: rgb(238, 238, 255);">
+ *         <td><code>"yyyyy.MMMMM.dd GGG hh:mm bbb"</code>
  *         <td><code>02001.July.04 AD 12:08 PM</code>
  *     <tr>
  *         <td><code>"EEE, d MMM yyyy HH:mm:ss Z"</code>
  *         <td><code>Wed, 4 Jul 2001 12:08:56 -0700</code>
- *     <tr style="background-color: rgb(238, 238, 255);">
+ *     <tr style="bbckground-color: rgb(238, 238, 255);">
  *         <td><code>"yyMMddHHmmssZ"</code>
  *         <td><code>010704120856-0700</code>
  *     <tr>
  *         <td><code>"yyyy-MM-dd'T'HH:mm:ss.SSSZ"</code>
  *         <td><code>2001-07-04T12:08:56.235-0700</code>
- *     <tr style="background-color: rgb(238, 238, 255);">
+ *     <tr style="bbckground-color: rgb(238, 238, 255);">
  *         <td><code>"yyyy-MM-dd'T'HH:mm:ss.SSSXXX"</code>
  *         <td><code>2001-07-04T12:08:56.235-07:00</code>
  *     <tr>
  *         <td><code>"YYYY-'W'ww-u"</code>
  *         <td><code>2001-W27-3</code>
- * </table>
+ * </tbble>
  * </blockquote>
  *
- * <h4><a name="synchronization">Synchronization</a></h4>
+ * <h4><b nbme="synchronizbtion">Synchronizbtion</b></h4>
  *
  * <p>
- * Date formats are not synchronized.
- * It is recommended to create separate format instances for each thread.
- * If multiple threads access a format concurrently, it must be synchronized
- * externally.
+ * Dbte formbts bre not synchronized.
+ * It is recommended to crebte sepbrbte formbt instbnces for ebch threbd.
+ * If multiple threbds bccess b formbt concurrently, it must be synchronized
+ * externblly.
  *
- * @see          <a href="http://docs.oracle.com/javase/tutorial/i18n/format/simpleDateFormat.html">Java Tutorial</a>
- * @see          java.util.Calendar
- * @see          java.util.TimeZone
- * @see          DateFormat
- * @see          DateFormatSymbols
- * @author       Mark Davis, Chen-Lieh Huang, Alan Liu
+ * @see          <b href="http://docs.orbcle.com/jbvbse/tutoribl/i18n/formbt/simpleDbteFormbt.html">Jbvb Tutoribl</b>
+ * @see          jbvb.util.Cblendbr
+ * @see          jbvb.util.TimeZone
+ * @see          DbteFormbt
+ * @see          DbteFormbtSymbols
+ * @buthor       Mbrk Dbvis, Chen-Lieh Hubng, Albn Liu
  */
-public class SimpleDateFormat extends DateFormat {
+public clbss SimpleDbteFormbt extends DbteFormbt {
 
-    // the official serial version ID which says cryptically
-    // which version we're compatible with
-    static final long serialVersionUID = 4774881970558875024L;
+    // the officibl seribl version ID which sbys crypticblly
+    // which version we're compbtible with
+    stbtic finbl long seriblVersionUID = 4774881970558875024L;
 
-    // the internal serial version which says which version was written
-    // - 0 (default) for version up to JDK 1.1.3
-    // - 1 for version from JDK 1.1.4, which includes a new field
-    static final int currentSerialVersion = 1;
+    // the internbl seribl version which sbys which version wbs written
+    // - 0 (defbult) for version up to JDK 1.1.3
+    // - 1 for version from JDK 1.1.4, which includes b new field
+    stbtic finbl int currentSeriblVersion = 1;
 
     /**
-     * The version of the serialized data on the stream.  Possible values:
+     * The version of the seriblized dbtb on the strebm.  Possible vblues:
      * <ul>
-     * <li><b>0</b> or not present on stream: JDK 1.1.3.  This version
-     * has no <code>defaultCenturyStart</code> on stream.
-     * <li><b>1</b> JDK 1.1.4 or later.  This version adds
-     * <code>defaultCenturyStart</code>.
+     * <li><b>0</b> or not present on strebm: JDK 1.1.3.  This version
+     * hbs no <code>defbultCenturyStbrt</code> on strebm.
+     * <li><b>1</b> JDK 1.1.4 or lbter.  This version bdds
+     * <code>defbultCenturyStbrt</code>.
      * </ul>
-     * When streaming out this class, the most recent format
-     * and the highest allowable <code>serialVersionOnStream</code>
+     * When strebming out this clbss, the most recent formbt
+     * bnd the highest bllowbble <code>seriblVersionOnStrebm</code>
      * is written.
-     * @serial
+     * @seribl
      * @since 1.1.4
      */
-    private int serialVersionOnStream = currentSerialVersion;
+    privbte int seriblVersionOnStrebm = currentSeriblVersion;
 
     /**
-     * The pattern string of this formatter.  This is always a non-localized
-     * pattern.  May not be null.  See class documentation for details.
-     * @serial
+     * The pbttern string of this formbtter.  This is blwbys b non-locblized
+     * pbttern.  Mby not be null.  See clbss documentbtion for detbils.
+     * @seribl
      */
-    private String pattern;
+    privbte String pbttern;
 
     /**
-     * Saved numberFormat and pattern.
-     * @see SimpleDateFormat#checkNegativeNumberExpression
+     * Sbved numberFormbt bnd pbttern.
+     * @see SimpleDbteFormbt#checkNegbtiveNumberExpression
      */
-    transient private NumberFormat originalNumberFormat;
-    transient private String originalNumberPattern;
+    trbnsient privbte NumberFormbt originblNumberFormbt;
+    trbnsient privbte String originblNumberPbttern;
 
     /**
-     * The minus sign to be used with format and parse.
+     * The minus sign to be used with formbt bnd pbrse.
      */
-    transient private char minusSign = '-';
+    trbnsient privbte chbr minusSign = '-';
 
     /**
-     * True when a negative sign follows a number.
-     * (True as default in Arabic.)
+     * True when b negbtive sign follows b number.
+     * (True bs defbult in Arbbic.)
      */
-    transient private boolean hasFollowingMinusSign = false;
+    trbnsient privbte boolebn hbsFollowingMinusSign = fblse;
 
     /**
-     * True if standalone form needs to be used.
+     * True if stbndblone form needs to be used.
      */
-    transient private boolean forceStandaloneForm = false;
+    trbnsient privbte boolebn forceStbndbloneForm = fblse;
 
     /**
-     * The compiled pattern.
+     * The compiled pbttern.
      */
-    transient private char[] compiledPattern;
+    trbnsient privbte chbr[] compiledPbttern;
 
     /**
-     * Tags for the compiled pattern.
+     * Tbgs for the compiled pbttern.
      */
-    private final static int TAG_QUOTE_ASCII_CHAR       = 100;
-    private final static int TAG_QUOTE_CHARS            = 101;
+    privbte finbl stbtic int TAG_QUOTE_ASCII_CHAR       = 100;
+    privbte finbl stbtic int TAG_QUOTE_CHARS            = 101;
 
     /**
-     * Locale dependent digit zero.
-     * @see #zeroPaddingNumber
-     * @see java.text.DecimalFormatSymbols#getZeroDigit
+     * Locble dependent digit zero.
+     * @see #zeroPbddingNumber
+     * @see jbvb.text.DecimblFormbtSymbols#getZeroDigit
      */
-    transient private char zeroDigit;
+    trbnsient privbte chbr zeroDigit;
 
     /**
-     * The symbols used by this formatter for week names, month names,
-     * etc.  May not be null.
-     * @serial
-     * @see java.text.DateFormatSymbols
+     * The symbols used by this formbtter for week nbmes, month nbmes,
+     * etc.  Mby not be null.
+     * @seribl
+     * @see jbvb.text.DbteFormbtSymbols
      */
-    private DateFormatSymbols formatData;
+    privbte DbteFormbtSymbols formbtDbtb;
 
     /**
-     * We map dates with two-digit years into the century starting at
-     * <code>defaultCenturyStart</code>, which may be any date.  May
+     * We mbp dbtes with two-digit yebrs into the century stbrting bt
+     * <code>defbultCenturyStbrt</code>, which mby be bny dbte.  Mby
      * not be null.
-     * @serial
+     * @seribl
      * @since 1.1.4
      */
-    private Date defaultCenturyStart;
+    privbte Dbte defbultCenturyStbrt;
 
-    transient private int defaultCenturyStartYear;
+    trbnsient privbte int defbultCenturyStbrtYebr;
 
-    private static final int MILLIS_PER_MINUTE = 60 * 1000;
+    privbte stbtic finbl int MILLIS_PER_MINUTE = 60 * 1000;
 
-    // For time zones that have no names, use strings GMT+minutes and
-    // GMT-minutes. For instance, in France the time zone is GMT+60.
-    private static final String GMT = "GMT";
+    // For time zones thbt hbve no nbmes, use strings GMT+minutes bnd
+    // GMT-minutes. For instbnce, in Frbnce the time zone is GMT+60.
+    privbte stbtic finbl String GMT = "GMT";
 
     /**
-     * Cache NumberFormat instances with Locale key.
+     * Cbche NumberFormbt instbnces with Locble key.
      */
-    private static final ConcurrentMap<Locale, NumberFormat> cachedNumberFormatData
-        = new ConcurrentHashMap<>(3);
+    privbte stbtic finbl ConcurrentMbp<Locble, NumberFormbt> cbchedNumberFormbtDbtb
+        = new ConcurrentHbshMbp<>(3);
 
     /**
-     * The Locale used to instantiate this
-     * <code>SimpleDateFormat</code>. The value may be null if this object
-     * has been created by an older <code>SimpleDateFormat</code> and
-     * deserialized.
+     * The Locble used to instbntibte this
+     * <code>SimpleDbteFormbt</code>. The vblue mby be null if this object
+     * hbs been crebted by bn older <code>SimpleDbteFormbt</code> bnd
+     * deseriblized.
      *
-     * @serial
+     * @seribl
      * @since 1.6
      */
-    private Locale locale;
+    privbte Locble locble;
 
     /**
-     * Indicates whether this <code>SimpleDateFormat</code> should use
-     * the DateFormatSymbols. If true, the format and parse methods
-     * use the DateFormatSymbols values. If false, the format and
-     * parse methods call Calendar.getDisplayName or
-     * Calendar.getDisplayNames.
+     * Indicbtes whether this <code>SimpleDbteFormbt</code> should use
+     * the DbteFormbtSymbols. If true, the formbt bnd pbrse methods
+     * use the DbteFormbtSymbols vblues. If fblse, the formbt bnd
+     * pbrse methods cbll Cblendbr.getDisplbyNbme or
+     * Cblendbr.getDisplbyNbmes.
      */
-    transient boolean useDateFormatSymbols;
+    trbnsient boolebn useDbteFormbtSymbols;
 
     /**
-     * Constructs a <code>SimpleDateFormat</code> using the default pattern and
-     * date format symbols for the default
-     * {@link java.util.Locale.Category#FORMAT FORMAT} locale.
-     * <b>Note:</b> This constructor may not support all locales.
-     * For full coverage, use the factory methods in the {@link DateFormat}
-     * class.
+     * Constructs b <code>SimpleDbteFormbt</code> using the defbult pbttern bnd
+     * dbte formbt symbols for the defbult
+     * {@link jbvb.util.Locble.Cbtegory#FORMAT FORMAT} locble.
+     * <b>Note:</b> This constructor mby not support bll locbles.
+     * For full coverbge, use the fbctory methods in the {@link DbteFormbt}
+     * clbss.
      */
-    public SimpleDateFormat() {
-        this("", Locale.getDefault(Locale.Category.FORMAT));
-        applyPatternImpl(LocaleProviderAdapter.getResourceBundleBased().getLocaleResources(locale)
-                         .getDateTimePattern(SHORT, SHORT, calendar));
+    public SimpleDbteFormbt() {
+        this("", Locble.getDefbult(Locble.Cbtegory.FORMAT));
+        bpplyPbtternImpl(LocbleProviderAdbpter.getResourceBundleBbsed().getLocbleResources(locble)
+                         .getDbteTimePbttern(SHORT, SHORT, cblendbr));
     }
 
     /**
-     * Constructs a <code>SimpleDateFormat</code> using the given pattern and
-     * the default date format symbols for the default
-     * {@link java.util.Locale.Category#FORMAT FORMAT} locale.
-     * <b>Note:</b> This constructor may not support all locales.
-     * For full coverage, use the factory methods in the {@link DateFormat}
-     * class.
-     * <p>This is equivalent to calling
-     * {@link #SimpleDateFormat(String, Locale)
-     *     SimpleDateFormat(pattern, Locale.getDefault(Locale.Category.FORMAT))}.
+     * Constructs b <code>SimpleDbteFormbt</code> using the given pbttern bnd
+     * the defbult dbte formbt symbols for the defbult
+     * {@link jbvb.util.Locble.Cbtegory#FORMAT FORMAT} locble.
+     * <b>Note:</b> This constructor mby not support bll locbles.
+     * For full coverbge, use the fbctory methods in the {@link DbteFormbt}
+     * clbss.
+     * <p>This is equivblent to cblling
+     * {@link #SimpleDbteFormbt(String, Locble)
+     *     SimpleDbteFormbt(pbttern, Locble.getDefbult(Locble.Cbtegory.FORMAT))}.
      *
-     * @see java.util.Locale#getDefault(java.util.Locale.Category)
-     * @see java.util.Locale.Category#FORMAT
-     * @param pattern the pattern describing the date and time format
-     * @exception NullPointerException if the given pattern is null
-     * @exception IllegalArgumentException if the given pattern is invalid
+     * @see jbvb.util.Locble#getDefbult(jbvb.util.Locble.Cbtegory)
+     * @see jbvb.util.Locble.Cbtegory#FORMAT
+     * @pbrbm pbttern the pbttern describing the dbte bnd time formbt
+     * @exception NullPointerException if the given pbttern is null
+     * @exception IllegblArgumentException if the given pbttern is invblid
      */
-    public SimpleDateFormat(String pattern)
+    public SimpleDbteFormbt(String pbttern)
     {
-        this(pattern, Locale.getDefault(Locale.Category.FORMAT));
+        this(pbttern, Locble.getDefbult(Locble.Cbtegory.FORMAT));
     }
 
     /**
-     * Constructs a <code>SimpleDateFormat</code> using the given pattern and
-     * the default date format symbols for the given locale.
-     * <b>Note:</b> This constructor may not support all locales.
-     * For full coverage, use the factory methods in the {@link DateFormat}
-     * class.
+     * Constructs b <code>SimpleDbteFormbt</code> using the given pbttern bnd
+     * the defbult dbte formbt symbols for the given locble.
+     * <b>Note:</b> This constructor mby not support bll locbles.
+     * For full coverbge, use the fbctory methods in the {@link DbteFormbt}
+     * clbss.
      *
-     * @param pattern the pattern describing the date and time format
-     * @param locale the locale whose date format symbols should be used
-     * @exception NullPointerException if the given pattern or locale is null
-     * @exception IllegalArgumentException if the given pattern is invalid
+     * @pbrbm pbttern the pbttern describing the dbte bnd time formbt
+     * @pbrbm locble the locble whose dbte formbt symbols should be used
+     * @exception NullPointerException if the given pbttern or locble is null
+     * @exception IllegblArgumentException if the given pbttern is invblid
      */
-    public SimpleDateFormat(String pattern, Locale locale)
+    public SimpleDbteFormbt(String pbttern, Locble locble)
     {
-        if (pattern == null || locale == null) {
+        if (pbttern == null || locble == null) {
             throw new NullPointerException();
         }
 
-        initializeCalendar(locale);
-        this.pattern = pattern;
-        this.formatData = DateFormatSymbols.getInstanceRef(locale);
-        this.locale = locale;
-        initialize(locale);
+        initiblizeCblendbr(locble);
+        this.pbttern = pbttern;
+        this.formbtDbtb = DbteFormbtSymbols.getInstbnceRef(locble);
+        this.locble = locble;
+        initiblize(locble);
     }
 
     /**
-     * Constructs a <code>SimpleDateFormat</code> using the given pattern and
-     * date format symbols.
+     * Constructs b <code>SimpleDbteFormbt</code> using the given pbttern bnd
+     * dbte formbt symbols.
      *
-     * @param pattern the pattern describing the date and time format
-     * @param formatSymbols the date format symbols to be used for formatting
-     * @exception NullPointerException if the given pattern or formatSymbols is null
-     * @exception IllegalArgumentException if the given pattern is invalid
+     * @pbrbm pbttern the pbttern describing the dbte bnd time formbt
+     * @pbrbm formbtSymbols the dbte formbt symbols to be used for formbtting
+     * @exception NullPointerException if the given pbttern or formbtSymbols is null
+     * @exception IllegblArgumentException if the given pbttern is invblid
      */
-    public SimpleDateFormat(String pattern, DateFormatSymbols formatSymbols)
+    public SimpleDbteFormbt(String pbttern, DbteFormbtSymbols formbtSymbols)
     {
-        if (pattern == null || formatSymbols == null) {
+        if (pbttern == null || formbtSymbols == null) {
             throw new NullPointerException();
         }
 
-        this.pattern = pattern;
-        this.formatData = (DateFormatSymbols) formatSymbols.clone();
-        this.locale = Locale.getDefault(Locale.Category.FORMAT);
-        initializeCalendar(this.locale);
-        initialize(this.locale);
-        useDateFormatSymbols = true;
+        this.pbttern = pbttern;
+        this.formbtDbtb = (DbteFormbtSymbols) formbtSymbols.clone();
+        this.locble = Locble.getDefbult(Locble.Cbtegory.FORMAT);
+        initiblizeCblendbr(this.locble);
+        initiblize(this.locble);
+        useDbteFormbtSymbols = true;
     }
 
-    /* Initialize compiledPattern and numberFormat fields */
-    private void initialize(Locale loc) {
-        // Verify and compile the given pattern.
-        compiledPattern = compile(pattern);
+    /* Initiblize compiledPbttern bnd numberFormbt fields */
+    privbte void initiblize(Locble loc) {
+        // Verify bnd compile the given pbttern.
+        compiledPbttern = compile(pbttern);
 
-        /* try the cache first */
-        numberFormat = cachedNumberFormatData.get(loc);
-        if (numberFormat == null) { /* cache miss */
-            numberFormat = NumberFormat.getIntegerInstance(loc);
-            numberFormat.setGroupingUsed(false);
+        /* try the cbche first */
+        numberFormbt = cbchedNumberFormbtDbtb.get(loc);
+        if (numberFormbt == null) { /* cbche miss */
+            numberFormbt = NumberFormbt.getIntegerInstbnce(loc);
+            numberFormbt.setGroupingUsed(fblse);
 
-            /* update cache */
-            cachedNumberFormatData.putIfAbsent(loc, numberFormat);
+            /* updbte cbche */
+            cbchedNumberFormbtDbtb.putIfAbsent(loc, numberFormbt);
         }
-        numberFormat = (NumberFormat) numberFormat.clone();
+        numberFormbt = (NumberFormbt) numberFormbt.clone();
 
-        initializeDefaultCentury();
+        initiblizeDefbultCentury();
     }
 
-    private void initializeCalendar(Locale loc) {
-        if (calendar == null) {
-            assert loc != null;
-            // The format object must be constructed using the symbols for this zone.
-            // However, the calendar should use the current default TimeZone.
-            // If this is not contained in the locale zone strings, then the zone
-            // will be formatted using generic GMT+/-H:MM nomenclature.
-            calendar = Calendar.getInstance(TimeZone.getDefault(), loc);
+    privbte void initiblizeCblendbr(Locble loc) {
+        if (cblendbr == null) {
+            bssert loc != null;
+            // The formbt object must be constructed using the symbols for this zone.
+            // However, the cblendbr should use the current defbult TimeZone.
+            // If this is not contbined in the locble zone strings, then the zone
+            // will be formbtted using generic GMT+/-H:MM nomenclbture.
+            cblendbr = Cblendbr.getInstbnce(TimeZone.getDefbult(), loc);
         }
     }
 
     /**
-     * Returns the compiled form of the given pattern. The syntax of
-     * the compiled pattern is:
+     * Returns the compiled form of the given pbttern. The syntbx of
+     * the compiled pbttern is:
      * <blockquote>
-     * CompiledPattern:
+     * CompiledPbttern:
      *     EntryList
      * EntryList:
      *     Entry
      *     EntryList Entry
      * Entry:
-     *     TagField
-     *     TagField data
-     * TagField:
-     *     Tag Length
-     *     TaggedData
-     * Tag:
-     *     pattern_char_index
+     *     TbgField
+     *     TbgField dbtb
+     * TbgField:
+     *     Tbg Length
+     *     TbggedDbtb
+     * Tbg:
+     *     pbttern_chbr_index
      *     TAG_QUOTE_CHARS
      * Length:
      *     short_length
      *     long_length
-     * TaggedData:
-     *     TAG_QUOTE_ASCII_CHAR ascii_char
+     * TbggedDbtb:
+     *     TAG_QUOTE_ASCII_CHAR bscii_chbr
      *
      * </blockquote>
      *
-     * where `short_length' is an 8-bit unsigned integer between 0 and
-     * 254.  `long_length' is a sequence of an 8-bit integer 255 and a
-     * 32-bit signed integer value which is split into upper and lower
-     * 16-bit fields in two char's. `pattern_char_index' is an 8-bit
-     * integer between 0 and 18. `ascii_char' is an 7-bit ASCII
-     * character value. `data' depends on its Tag value.
+     * where `short_length' is bn 8-bit unsigned integer between 0 bnd
+     * 254.  `long_length' is b sequence of bn 8-bit integer 255 bnd b
+     * 32-bit signed integer vblue which is split into upper bnd lower
+     * 16-bit fields in two chbr's. `pbttern_chbr_index' is bn 8-bit
+     * integer between 0 bnd 18. `bscii_chbr' is bn 7-bit ASCII
+     * chbrbcter vblue. `dbtb' depends on its Tbg vblue.
      * <p>
-     * If Length is short_length, Tag and short_length are packed in a
-     * single char, as illustrated below.
+     * If Length is short_length, Tbg bnd short_length bre pbcked in b
+     * single chbr, bs illustrbted below.
      * <blockquote>
-     *     char[0] = (Tag << 8) | short_length;
+     *     chbr[0] = (Tbg << 8) | short_length;
      * </blockquote>
      *
-     * If Length is long_length, Tag and 255 are packed in the first
-     * char and a 32-bit integer, as illustrated below.
+     * If Length is long_length, Tbg bnd 255 bre pbcked in the first
+     * chbr bnd b 32-bit integer, bs illustrbted below.
      * <blockquote>
-     *     char[0] = (Tag << 8) | 255;
-     *     char[1] = (char) (long_length >>> 16);
-     *     char[2] = (char) (long_length & 0xffff);
+     *     chbr[0] = (Tbg << 8) | 255;
+     *     chbr[1] = (chbr) (long_length >>> 16);
+     *     chbr[2] = (chbr) (long_length & 0xffff);
      * </blockquote>
      * <p>
-     * If Tag is a pattern_char_index, its Length is the number of
-     * pattern characters. For example, if the given pattern is
-     * "yyyy", Tag is 1 and Length is 4, followed by no data.
+     * If Tbg is b pbttern_chbr_index, its Length is the number of
+     * pbttern chbrbcters. For exbmple, if the given pbttern is
+     * "yyyy", Tbg is 1 bnd Length is 4, followed by no dbtb.
      * <p>
-     * If Tag is TAG_QUOTE_CHARS, its Length is the number of char's
-     * following the TagField. For example, if the given pattern is
-     * "'o''clock'", Length is 7 followed by a char sequence of
+     * If Tbg is TAG_QUOTE_CHARS, its Length is the number of chbr's
+     * following the TbgField. For exbmple, if the given pbttern is
+     * "'o''clock'", Length is 7 followed by b chbr sequence of
      * <code>o&nbs;'&nbs;c&nbs;l&nbs;o&nbs;c&nbs;k</code>.
      * <p>
-     * TAG_QUOTE_ASCII_CHAR is a special tag and has an ASCII
-     * character in place of Length. For example, if the given pattern
-     * is "'o'", the TaggedData entry is
+     * TAG_QUOTE_ASCII_CHAR is b specibl tbg bnd hbs bn ASCII
+     * chbrbcter in plbce of Length. For exbmple, if the given pbttern
+     * is "'o'", the TbggedDbtb entry is
      * <code>((TAG_QUOTE_ASCII_CHAR&nbs;<<&nbs;8)&nbs;|&nbs;'o')</code>.
      *
-     * @exception NullPointerException if the given pattern is null
-     * @exception IllegalArgumentException if the given pattern is invalid
+     * @exception NullPointerException if the given pbttern is null
+     * @exception IllegblArgumentException if the given pbttern is invblid
      */
-    private char[] compile(String pattern) {
-        int length = pattern.length();
-        boolean inQuote = false;
+    privbte chbr[] compile(String pbttern) {
+        int length = pbttern.length();
+        boolebn inQuote = fblse;
         StringBuilder compiledCode = new StringBuilder(length * 2);
         StringBuilder tmpBuffer = null;
-        int count = 0, tagcount = 0;
-        int lastTag = -1, prevTag = -1;
+        int count = 0, tbgcount = 0;
+        int lbstTbg = -1, prevTbg = -1;
 
         for (int i = 0; i < length; i++) {
-            char c = pattern.charAt(i);
+            chbr c = pbttern.chbrAt(i);
 
             if (c == '\'') {
-                // '' is treated as a single quote regardless of being
-                // in a quoted section.
+                // '' is trebted bs b single quote regbrdless of being
+                // in b quoted section.
                 if ((i + 1) < length) {
-                    c = pattern.charAt(i + 1);
+                    c = pbttern.chbrAt(i + 1);
                     if (c == '\'') {
                         i++;
                         if (count != 0) {
-                            encode(lastTag, count, compiledCode);
-                            tagcount++;
-                            prevTag = lastTag;
-                            lastTag = -1;
+                            encode(lbstTbg, count, compiledCode);
+                            tbgcount++;
+                            prevTbg = lbstTbg;
+                            lbstTbg = -1;
                             count = 0;
                         }
                         if (inQuote) {
-                            tmpBuffer.append(c);
+                            tmpBuffer.bppend(c);
                         } else {
-                            compiledCode.append((char)(TAG_QUOTE_ASCII_CHAR << 8 | c));
+                            compiledCode.bppend((chbr)(TAG_QUOTE_ASCII_CHAR << 8 | c));
                         }
                         continue;
                     }
                 }
                 if (!inQuote) {
                     if (count != 0) {
-                        encode(lastTag, count, compiledCode);
-                        tagcount++;
-                        prevTag = lastTag;
-                        lastTag = -1;
+                        encode(lbstTbg, count, compiledCode);
+                        tbgcount++;
+                        prevTbg = lbstTbg;
+                        lbstTbg = -1;
                         count = 0;
                     }
                     if (tmpBuffer == null) {
@@ -772,300 +772,300 @@ public class SimpleDateFormat extends DateFormat {
                 } else {
                     int len = tmpBuffer.length();
                     if (len == 1) {
-                        char ch = tmpBuffer.charAt(0);
+                        chbr ch = tmpBuffer.chbrAt(0);
                         if (ch < 128) {
-                            compiledCode.append((char)(TAG_QUOTE_ASCII_CHAR << 8 | ch));
+                            compiledCode.bppend((chbr)(TAG_QUOTE_ASCII_CHAR << 8 | ch));
                         } else {
-                            compiledCode.append((char)(TAG_QUOTE_CHARS << 8 | 1));
-                            compiledCode.append(ch);
+                            compiledCode.bppend((chbr)(TAG_QUOTE_CHARS << 8 | 1));
+                            compiledCode.bppend(ch);
                         }
                     } else {
                         encode(TAG_QUOTE_CHARS, len, compiledCode);
-                        compiledCode.append(tmpBuffer);
+                        compiledCode.bppend(tmpBuffer);
                     }
-                    inQuote = false;
+                    inQuote = fblse;
                 }
                 continue;
             }
             if (inQuote) {
-                tmpBuffer.append(c);
+                tmpBuffer.bppend(c);
                 continue;
             }
-            if (!(c >= 'a' && c <= 'z' || c >= 'A' && c <= 'Z')) {
+            if (!(c >= 'b' && c <= 'z' || c >= 'A' && c <= 'Z')) {
                 if (count != 0) {
-                    encode(lastTag, count, compiledCode);
-                    tagcount++;
-                    prevTag = lastTag;
-                    lastTag = -1;
+                    encode(lbstTbg, count, compiledCode);
+                    tbgcount++;
+                    prevTbg = lbstTbg;
+                    lbstTbg = -1;
                     count = 0;
                 }
                 if (c < 128) {
-                    // In most cases, c would be a delimiter, such as ':'.
-                    compiledCode.append((char)(TAG_QUOTE_ASCII_CHAR << 8 | c));
+                    // In most cbses, c would be b delimiter, such bs ':'.
+                    compiledCode.bppend((chbr)(TAG_QUOTE_ASCII_CHAR << 8 | c));
                 } else {
-                    // Take any contiguous non-ASCII alphabet characters and
-                    // put them in a single TAG_QUOTE_CHARS.
+                    // Tbke bny contiguous non-ASCII blphbbet chbrbcters bnd
+                    // put them in b single TAG_QUOTE_CHARS.
                     int j;
                     for (j = i + 1; j < length; j++) {
-                        char d = pattern.charAt(j);
-                        if (d == '\'' || (d >= 'a' && d <= 'z' || d >= 'A' && d <= 'Z')) {
-                            break;
+                        chbr d = pbttern.chbrAt(j);
+                        if (d == '\'' || (d >= 'b' && d <= 'z' || d >= 'A' && d <= 'Z')) {
+                            brebk;
                         }
                     }
-                    compiledCode.append((char)(TAG_QUOTE_CHARS << 8 | (j - i)));
+                    compiledCode.bppend((chbr)(TAG_QUOTE_CHARS << 8 | (j - i)));
                     for (; i < j; i++) {
-                        compiledCode.append(pattern.charAt(i));
+                        compiledCode.bppend(pbttern.chbrAt(i));
                     }
                     i--;
                 }
                 continue;
             }
 
-            int tag;
-            if ((tag = DateFormatSymbols.patternChars.indexOf(c)) == -1) {
-                throw new IllegalArgumentException("Illegal pattern character " +
+            int tbg;
+            if ((tbg = DbteFormbtSymbols.pbtternChbrs.indexOf(c)) == -1) {
+                throw new IllegblArgumentException("Illegbl pbttern chbrbcter " +
                                                    "'" + c + "'");
             }
-            if (lastTag == -1 || lastTag == tag) {
-                lastTag = tag;
+            if (lbstTbg == -1 || lbstTbg == tbg) {
+                lbstTbg = tbg;
                 count++;
                 continue;
             }
-            encode(lastTag, count, compiledCode);
-            tagcount++;
-            prevTag = lastTag;
-            lastTag = tag;
+            encode(lbstTbg, count, compiledCode);
+            tbgcount++;
+            prevTbg = lbstTbg;
+            lbstTbg = tbg;
             count = 1;
         }
 
         if (inQuote) {
-            throw new IllegalArgumentException("Unterminated quote");
+            throw new IllegblArgumentException("Unterminbted quote");
         }
 
         if (count != 0) {
-            encode(lastTag, count, compiledCode);
-            tagcount++;
-            prevTag = lastTag;
+            encode(lbstTbg, count, compiledCode);
+            tbgcount++;
+            prevTbg = lbstTbg;
         }
 
-        forceStandaloneForm = (tagcount == 1 && prevTag == PATTERN_MONTH);
+        forceStbndbloneForm = (tbgcount == 1 && prevTbg == PATTERN_MONTH);
 
-        // Copy the compiled pattern to a char array
+        // Copy the compiled pbttern to b chbr brrby
         int len = compiledCode.length();
-        char[] r = new char[len];
-        compiledCode.getChars(0, len, r, 0);
+        chbr[] r = new chbr[len];
+        compiledCode.getChbrs(0, len, r, 0);
         return r;
     }
 
     /**
-     * Encodes the given tag and length and puts encoded char(s) into buffer.
+     * Encodes the given tbg bnd length bnd puts encoded chbr(s) into buffer.
      */
-    private static void encode(int tag, int length, StringBuilder buffer) {
-        if (tag == PATTERN_ISO_ZONE && length >= 4) {
-            throw new IllegalArgumentException("invalid ISO 8601 format: length=" + length);
+    privbte stbtic void encode(int tbg, int length, StringBuilder buffer) {
+        if (tbg == PATTERN_ISO_ZONE && length >= 4) {
+            throw new IllegblArgumentException("invblid ISO 8601 formbt: length=" + length);
         }
         if (length < 255) {
-            buffer.append((char)(tag << 8 | length));
+            buffer.bppend((chbr)(tbg << 8 | length));
         } else {
-            buffer.append((char)((tag << 8) | 0xff));
-            buffer.append((char)(length >>> 16));
-            buffer.append((char)(length & 0xffff));
+            buffer.bppend((chbr)((tbg << 8) | 0xff));
+            buffer.bppend((chbr)(length >>> 16));
+            buffer.bppend((chbr)(length & 0xffff));
         }
     }
 
-    /* Initialize the fields we use to disambiguate ambiguous years. Separate
-     * so we can call it from readObject().
+    /* Initiblize the fields we use to disbmbigubte bmbiguous yebrs. Sepbrbte
+     * so we cbn cbll it from rebdObject().
      */
-    private void initializeDefaultCentury() {
-        calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.add( Calendar.YEAR, -80 );
-        parseAmbiguousDatesAsAfter(calendar.getTime());
+    privbte void initiblizeDefbultCentury() {
+        cblendbr.setTimeInMillis(System.currentTimeMillis());
+        cblendbr.bdd( Cblendbr.YEAR, -80 );
+        pbrseAmbiguousDbtesAsAfter(cblendbr.getTime());
     }
 
-    /* Define one-century window into which to disambiguate dates using
-     * two-digit years.
+    /* Define one-century window into which to disbmbigubte dbtes using
+     * two-digit yebrs.
      */
-    private void parseAmbiguousDatesAsAfter(Date startDate) {
-        defaultCenturyStart = startDate;
-        calendar.setTime(startDate);
-        defaultCenturyStartYear = calendar.get(Calendar.YEAR);
+    privbte void pbrseAmbiguousDbtesAsAfter(Dbte stbrtDbte) {
+        defbultCenturyStbrt = stbrtDbte;
+        cblendbr.setTime(stbrtDbte);
+        defbultCenturyStbrtYebr = cblendbr.get(Cblendbr.YEAR);
     }
 
     /**
-     * Sets the 100-year period 2-digit years will be interpreted as being in
-     * to begin on the date the user specifies.
+     * Sets the 100-yebr period 2-digit yebrs will be interpreted bs being in
+     * to begin on the dbte the user specifies.
      *
-     * @param startDate During parsing, two digit years will be placed in the range
-     * <code>startDate</code> to <code>startDate + 100 years</code>.
-     * @see #get2DigitYearStart
+     * @pbrbm stbrtDbte During pbrsing, two digit yebrs will be plbced in the rbnge
+     * <code>stbrtDbte</code> to <code>stbrtDbte + 100 yebrs</code>.
+     * @see #get2DigitYebrStbrt
      * @since 1.2
      */
-    public void set2DigitYearStart(Date startDate) {
-        parseAmbiguousDatesAsAfter(new Date(startDate.getTime()));
+    public void set2DigitYebrStbrt(Dbte stbrtDbte) {
+        pbrseAmbiguousDbtesAsAfter(new Dbte(stbrtDbte.getTime()));
     }
 
     /**
-     * Returns the beginning date of the 100-year period 2-digit years are interpreted
-     * as being within.
+     * Returns the beginning dbte of the 100-yebr period 2-digit yebrs bre interpreted
+     * bs being within.
      *
-     * @return the start of the 100-year period into which two digit years are
-     * parsed
-     * @see #set2DigitYearStart
+     * @return the stbrt of the 100-yebr period into which two digit yebrs bre
+     * pbrsed
+     * @see #set2DigitYebrStbrt
      * @since 1.2
      */
-    public Date get2DigitYearStart() {
-        return (Date) defaultCenturyStart.clone();
+    public Dbte get2DigitYebrStbrt() {
+        return (Dbte) defbultCenturyStbrt.clone();
     }
 
     /**
-     * Formats the given <code>Date</code> into a date/time string and appends
+     * Formbts the given <code>Dbte</code> into b dbte/time string bnd bppends
      * the result to the given <code>StringBuffer</code>.
      *
-     * @param date the date-time value to be formatted into a date-time string.
-     * @param toAppendTo where the new date-time text is to be appended.
-     * @param pos the formatting position. On input: an alignment field,
-     * if desired. On output: the offsets of the alignment field.
-     * @return the formatted date-time string.
-     * @exception NullPointerException if the given {@code date} is {@code null}.
+     * @pbrbm dbte the dbte-time vblue to be formbtted into b dbte-time string.
+     * @pbrbm toAppendTo where the new dbte-time text is to be bppended.
+     * @pbrbm pos the formbtting position. On input: bn blignment field,
+     * if desired. On output: the offsets of the blignment field.
+     * @return the formbtted dbte-time string.
+     * @exception NullPointerException if the given {@code dbte} is {@code null}.
      */
     @Override
-    public StringBuffer format(Date date, StringBuffer toAppendTo,
+    public StringBuffer formbt(Dbte dbte, StringBuffer toAppendTo,
                                FieldPosition pos)
     {
         pos.beginIndex = pos.endIndex = 0;
-        return format(date, toAppendTo, pos.getFieldDelegate());
+        return formbt(dbte, toAppendTo, pos.getFieldDelegbte());
     }
 
-    // Called from Format after creating a FieldDelegate
-    private StringBuffer format(Date date, StringBuffer toAppendTo,
-                                FieldDelegate delegate) {
-        // Convert input date to time field list
-        calendar.setTime(date);
+    // Cblled from Formbt bfter crebting b FieldDelegbte
+    privbte StringBuffer formbt(Dbte dbte, StringBuffer toAppendTo,
+                                FieldDelegbte delegbte) {
+        // Convert input dbte to time field list
+        cblendbr.setTime(dbte);
 
-        boolean useDateFormatSymbols = useDateFormatSymbols();
+        boolebn useDbteFormbtSymbols = useDbteFormbtSymbols();
 
-        for (int i = 0; i < compiledPattern.length; ) {
-            int tag = compiledPattern[i] >>> 8;
-            int count = compiledPattern[i++] & 0xff;
+        for (int i = 0; i < compiledPbttern.length; ) {
+            int tbg = compiledPbttern[i] >>> 8;
+            int count = compiledPbttern[i++] & 0xff;
             if (count == 255) {
-                count = compiledPattern[i++] << 16;
-                count |= compiledPattern[i++];
+                count = compiledPbttern[i++] << 16;
+                count |= compiledPbttern[i++];
             }
 
-            switch (tag) {
-            case TAG_QUOTE_ASCII_CHAR:
-                toAppendTo.append((char)count);
-                break;
+            switch (tbg) {
+            cbse TAG_QUOTE_ASCII_CHAR:
+                toAppendTo.bppend((chbr)count);
+                brebk;
 
-            case TAG_QUOTE_CHARS:
-                toAppendTo.append(compiledPattern, i, count);
+            cbse TAG_QUOTE_CHARS:
+                toAppendTo.bppend(compiledPbttern, i, count);
                 i += count;
-                break;
+                brebk;
 
-            default:
-                subFormat(tag, count, delegate, toAppendTo, useDateFormatSymbols);
-                break;
+            defbult:
+                subFormbt(tbg, count, delegbte, toAppendTo, useDbteFormbtSymbols);
+                brebk;
             }
         }
         return toAppendTo;
     }
 
     /**
-     * Formats an Object producing an <code>AttributedCharacterIterator</code>.
-     * You can use the returned <code>AttributedCharacterIterator</code>
-     * to build the resulting String, as well as to determine information
-     * about the resulting String.
+     * Formbts bn Object producing bn <code>AttributedChbrbcterIterbtor</code>.
+     * You cbn use the returned <code>AttributedChbrbcterIterbtor</code>
+     * to build the resulting String, bs well bs to determine informbtion
+     * bbout the resulting String.
      * <p>
-     * Each attribute key of the AttributedCharacterIterator will be of type
-     * <code>DateFormat.Field</code>, with the corresponding attribute value
-     * being the same as the attribute key.
+     * Ebch bttribute key of the AttributedChbrbcterIterbtor will be of type
+     * <code>DbteFormbt.Field</code>, with the corresponding bttribute vblue
+     * being the sbme bs the bttribute key.
      *
      * @exception NullPointerException if obj is null.
-     * @exception IllegalArgumentException if the Format cannot format the
-     *            given object, or if the Format's pattern string is invalid.
-     * @param obj The object to format
-     * @return AttributedCharacterIterator describing the formatted value.
+     * @exception IllegblArgumentException if the Formbt cbnnot formbt the
+     *            given object, or if the Formbt's pbttern string is invblid.
+     * @pbrbm obj The object to formbt
+     * @return AttributedChbrbcterIterbtor describing the formbtted vblue.
      * @since 1.4
      */
     @Override
-    public AttributedCharacterIterator formatToCharacterIterator(Object obj) {
+    public AttributedChbrbcterIterbtor formbtToChbrbcterIterbtor(Object obj) {
         StringBuffer sb = new StringBuffer();
-        CharacterIteratorFieldDelegate delegate = new
-                         CharacterIteratorFieldDelegate();
+        ChbrbcterIterbtorFieldDelegbte delegbte = new
+                         ChbrbcterIterbtorFieldDelegbte();
 
-        if (obj instanceof Date) {
-            format((Date)obj, sb, delegate);
+        if (obj instbnceof Dbte) {
+            formbt((Dbte)obj, sb, delegbte);
         }
-        else if (obj instanceof Number) {
-            format(new Date(((Number)obj).longValue()), sb, delegate);
+        else if (obj instbnceof Number) {
+            formbt(new Dbte(((Number)obj).longVblue()), sb, delegbte);
         }
         else if (obj == null) {
             throw new NullPointerException(
-                   "formatToCharacterIterator must be passed non-null object");
+                   "formbtToChbrbcterIterbtor must be pbssed non-null object");
         }
         else {
-            throw new IllegalArgumentException(
-                             "Cannot format given Object as a Date");
+            throw new IllegblArgumentException(
+                             "Cbnnot formbt given Object bs b Dbte");
         }
-        return delegate.getIterator(sb.toString());
+        return delegbte.getIterbtor(sb.toString());
     }
 
-    // Map index into pattern character string to Calendar field number
-    private static final int[] PATTERN_INDEX_TO_CALENDAR_FIELD = {
-        Calendar.ERA,
-        Calendar.YEAR,
-        Calendar.MONTH,
-        Calendar.DATE,
-        Calendar.HOUR_OF_DAY,
-        Calendar.HOUR_OF_DAY,
-        Calendar.MINUTE,
-        Calendar.SECOND,
-        Calendar.MILLISECOND,
-        Calendar.DAY_OF_WEEK,
-        Calendar.DAY_OF_YEAR,
-        Calendar.DAY_OF_WEEK_IN_MONTH,
-        Calendar.WEEK_OF_YEAR,
-        Calendar.WEEK_OF_MONTH,
-        Calendar.AM_PM,
-        Calendar.HOUR,
-        Calendar.HOUR,
-        Calendar.ZONE_OFFSET,
-        Calendar.ZONE_OFFSET,
-        CalendarBuilder.WEEK_YEAR,         // Pseudo Calendar field
-        CalendarBuilder.ISO_DAY_OF_WEEK,   // Pseudo Calendar field
-        Calendar.ZONE_OFFSET,
-        Calendar.MONTH
+    // Mbp index into pbttern chbrbcter string to Cblendbr field number
+    privbte stbtic finbl int[] PATTERN_INDEX_TO_CALENDAR_FIELD = {
+        Cblendbr.ERA,
+        Cblendbr.YEAR,
+        Cblendbr.MONTH,
+        Cblendbr.DATE,
+        Cblendbr.HOUR_OF_DAY,
+        Cblendbr.HOUR_OF_DAY,
+        Cblendbr.MINUTE,
+        Cblendbr.SECOND,
+        Cblendbr.MILLISECOND,
+        Cblendbr.DAY_OF_WEEK,
+        Cblendbr.DAY_OF_YEAR,
+        Cblendbr.DAY_OF_WEEK_IN_MONTH,
+        Cblendbr.WEEK_OF_YEAR,
+        Cblendbr.WEEK_OF_MONTH,
+        Cblendbr.AM_PM,
+        Cblendbr.HOUR,
+        Cblendbr.HOUR,
+        Cblendbr.ZONE_OFFSET,
+        Cblendbr.ZONE_OFFSET,
+        CblendbrBuilder.WEEK_YEAR,         // Pseudo Cblendbr field
+        CblendbrBuilder.ISO_DAY_OF_WEEK,   // Pseudo Cblendbr field
+        Cblendbr.ZONE_OFFSET,
+        Cblendbr.MONTH
     };
 
-    // Map index into pattern character string to DateFormat field number
-    private static final int[] PATTERN_INDEX_TO_DATE_FORMAT_FIELD = {
-        DateFormat.ERA_FIELD,
-        DateFormat.YEAR_FIELD,
-        DateFormat.MONTH_FIELD,
-        DateFormat.DATE_FIELD,
-        DateFormat.HOUR_OF_DAY1_FIELD,
-        DateFormat.HOUR_OF_DAY0_FIELD,
-        DateFormat.MINUTE_FIELD,
-        DateFormat.SECOND_FIELD,
-        DateFormat.MILLISECOND_FIELD,
-        DateFormat.DAY_OF_WEEK_FIELD,
-        DateFormat.DAY_OF_YEAR_FIELD,
-        DateFormat.DAY_OF_WEEK_IN_MONTH_FIELD,
-        DateFormat.WEEK_OF_YEAR_FIELD,
-        DateFormat.WEEK_OF_MONTH_FIELD,
-        DateFormat.AM_PM_FIELD,
-        DateFormat.HOUR1_FIELD,
-        DateFormat.HOUR0_FIELD,
-        DateFormat.TIMEZONE_FIELD,
-        DateFormat.TIMEZONE_FIELD,
-        DateFormat.YEAR_FIELD,
-        DateFormat.DAY_OF_WEEK_FIELD,
-        DateFormat.TIMEZONE_FIELD,
-        DateFormat.MONTH_FIELD
+    // Mbp index into pbttern chbrbcter string to DbteFormbt field number
+    privbte stbtic finbl int[] PATTERN_INDEX_TO_DATE_FORMAT_FIELD = {
+        DbteFormbt.ERA_FIELD,
+        DbteFormbt.YEAR_FIELD,
+        DbteFormbt.MONTH_FIELD,
+        DbteFormbt.DATE_FIELD,
+        DbteFormbt.HOUR_OF_DAY1_FIELD,
+        DbteFormbt.HOUR_OF_DAY0_FIELD,
+        DbteFormbt.MINUTE_FIELD,
+        DbteFormbt.SECOND_FIELD,
+        DbteFormbt.MILLISECOND_FIELD,
+        DbteFormbt.DAY_OF_WEEK_FIELD,
+        DbteFormbt.DAY_OF_YEAR_FIELD,
+        DbteFormbt.DAY_OF_WEEK_IN_MONTH_FIELD,
+        DbteFormbt.WEEK_OF_YEAR_FIELD,
+        DbteFormbt.WEEK_OF_MONTH_FIELD,
+        DbteFormbt.AM_PM_FIELD,
+        DbteFormbt.HOUR1_FIELD,
+        DbteFormbt.HOUR0_FIELD,
+        DbteFormbt.TIMEZONE_FIELD,
+        DbteFormbt.TIMEZONE_FIELD,
+        DbteFormbt.YEAR_FIELD,
+        DbteFormbt.DAY_OF_WEEK_FIELD,
+        DbteFormbt.TIMEZONE_FIELD,
+        DbteFormbt.MONTH_FIELD
     };
 
-    // Maps from DecimalFormatSymbols index to Field constant
-    private static final Field[] PATTERN_INDEX_TO_DATE_FORMAT_FIELD_ID = {
+    // Mbps from DecimblFormbtSymbols index to Field constbnt
+    privbte stbtic finbl Field[] PATTERN_INDEX_TO_DATE_FORMAT_FIELD_ID = {
         Field.ERA,
         Field.YEAR,
         Field.MONTH,
@@ -1092,418 +1092,418 @@ public class SimpleDateFormat extends DateFormat {
     };
 
     /**
-     * Private member function that does the real date/time formatting.
+     * Privbte member function thbt does the rebl dbte/time formbtting.
      */
-    private void subFormat(int patternCharIndex, int count,
-                           FieldDelegate delegate, StringBuffer buffer,
-                           boolean useDateFormatSymbols)
+    privbte void subFormbt(int pbtternChbrIndex, int count,
+                           FieldDelegbte delegbte, StringBuffer buffer,
+                           boolebn useDbteFormbtSymbols)
     {
-        int     maxIntCount = Integer.MAX_VALUE;
+        int     mbxIntCount = Integer.MAX_VALUE;
         String  current = null;
         int     beginOffset = buffer.length();
 
-        int field = PATTERN_INDEX_TO_CALENDAR_FIELD[patternCharIndex];
-        int value;
-        if (field == CalendarBuilder.WEEK_YEAR) {
-            if (calendar.isWeekDateSupported()) {
-                value = calendar.getWeekYear();
+        int field = PATTERN_INDEX_TO_CALENDAR_FIELD[pbtternChbrIndex];
+        int vblue;
+        if (field == CblendbrBuilder.WEEK_YEAR) {
+            if (cblendbr.isWeekDbteSupported()) {
+                vblue = cblendbr.getWeekYebr();
             } else {
-                // use calendar year 'y' instead
-                patternCharIndex = PATTERN_YEAR;
-                field = PATTERN_INDEX_TO_CALENDAR_FIELD[patternCharIndex];
-                value = calendar.get(field);
+                // use cblendbr yebr 'y' instebd
+                pbtternChbrIndex = PATTERN_YEAR;
+                field = PATTERN_INDEX_TO_CALENDAR_FIELD[pbtternChbrIndex];
+                vblue = cblendbr.get(field);
             }
-        } else if (field == CalendarBuilder.ISO_DAY_OF_WEEK) {
-            value = CalendarBuilder.toISODayOfWeek(calendar.get(Calendar.DAY_OF_WEEK));
+        } else if (field == CblendbrBuilder.ISO_DAY_OF_WEEK) {
+            vblue = CblendbrBuilder.toISODbyOfWeek(cblendbr.get(Cblendbr.DAY_OF_WEEK));
         } else {
-            value = calendar.get(field);
+            vblue = cblendbr.get(field);
         }
 
-        int style = (count >= 4) ? Calendar.LONG : Calendar.SHORT;
-        if (!useDateFormatSymbols && field < Calendar.ZONE_OFFSET
-            && patternCharIndex != PATTERN_MONTH_STANDALONE) {
-            current = calendar.getDisplayName(field, style, locale);
+        int style = (count >= 4) ? Cblendbr.LONG : Cblendbr.SHORT;
+        if (!useDbteFormbtSymbols && field < Cblendbr.ZONE_OFFSET
+            && pbtternChbrIndex != PATTERN_MONTH_STANDALONE) {
+            current = cblendbr.getDisplbyNbme(field, style, locble);
         }
 
-        // Note: zeroPaddingNumber() assumes that maxDigits is either
-        // 2 or maxIntCount. If we make any changes to this,
-        // zeroPaddingNumber() must be fixed.
+        // Note: zeroPbddingNumber() bssumes thbt mbxDigits is either
+        // 2 or mbxIntCount. If we mbke bny chbnges to this,
+        // zeroPbddingNumber() must be fixed.
 
-        switch (patternCharIndex) {
-        case PATTERN_ERA: // 'G'
-            if (useDateFormatSymbols) {
-                String[] eras = formatData.getEras();
-                if (value < eras.length) {
-                    current = eras[value];
+        switch (pbtternChbrIndex) {
+        cbse PATTERN_ERA: // 'G'
+            if (useDbteFormbtSymbols) {
+                String[] erbs = formbtDbtb.getErbs();
+                if (vblue < erbs.length) {
+                    current = erbs[vblue];
                 }
             }
             if (current == null) {
                 current = "";
             }
-            break;
+            brebk;
 
-        case PATTERN_WEEK_YEAR: // 'Y'
-        case PATTERN_YEAR:      // 'y'
-            if (calendar instanceof GregorianCalendar) {
+        cbse PATTERN_WEEK_YEAR: // 'Y'
+        cbse PATTERN_YEAR:      // 'y'
+            if (cblendbr instbnceof GregoribnCblendbr) {
                 if (count != 2) {
-                    zeroPaddingNumber(value, count, maxIntCount, buffer);
+                    zeroPbddingNumber(vblue, count, mbxIntCount, buffer);
                 } else {
-                    zeroPaddingNumber(value, 2, 2, buffer);
+                    zeroPbddingNumber(vblue, 2, 2, buffer);
                 } // clip 1996 to 96
             } else {
                 if (current == null) {
-                    zeroPaddingNumber(value, style == Calendar.LONG ? 1 : count,
-                                      maxIntCount, buffer);
+                    zeroPbddingNumber(vblue, style == Cblendbr.LONG ? 1 : count,
+                                      mbxIntCount, buffer);
                 }
             }
-            break;
+            brebk;
 
-        case PATTERN_MONTH:            // 'M' (context seinsive)
-            if (useDateFormatSymbols) {
+        cbse PATTERN_MONTH:            // 'M' (context seinsive)
+            if (useDbteFormbtSymbols) {
                 String[] months;
                 if (count >= 4) {
-                    months = formatData.getMonths();
-                    current = months[value];
+                    months = formbtDbtb.getMonths();
+                    current = months[vblue];
                 } else if (count == 3) {
-                    months = formatData.getShortMonths();
-                    current = months[value];
+                    months = formbtDbtb.getShortMonths();
+                    current = months[vblue];
                 }
             } else {
                 if (count < 3) {
                     current = null;
-                } else if (forceStandaloneForm) {
-                    current = calendar.getDisplayName(field, style | 0x8000, locale);
+                } else if (forceStbndbloneForm) {
+                    current = cblendbr.getDisplbyNbme(field, style | 0x8000, locble);
                     if (current == null) {
-                        current = calendar.getDisplayName(field, style, locale);
+                        current = cblendbr.getDisplbyNbme(field, style, locble);
                     }
                 }
             }
             if (current == null) {
-                zeroPaddingNumber(value+1, count, maxIntCount, buffer);
+                zeroPbddingNumber(vblue+1, count, mbxIntCount, buffer);
             }
-            break;
+            brebk;
 
-        case PATTERN_MONTH_STANDALONE: // 'L'
-            assert current == null;
-            if (locale == null) {
+        cbse PATTERN_MONTH_STANDALONE: // 'L'
+            bssert current == null;
+            if (locble == null) {
                 String[] months;
                 if (count >= 4) {
-                    months = formatData.getMonths();
-                    current = months[value];
+                    months = formbtDbtb.getMonths();
+                    current = months[vblue];
                 } else if (count == 3) {
-                    months = formatData.getShortMonths();
-                    current = months[value];
+                    months = formbtDbtb.getShortMonths();
+                    current = months[vblue];
                 }
             } else {
                 if (count >= 3) {
-                    current = calendar.getDisplayName(field, style | 0x8000, locale);
+                    current = cblendbr.getDisplbyNbme(field, style | 0x8000, locble);
                 }
             }
             if (current == null) {
-                zeroPaddingNumber(value+1, count, maxIntCount, buffer);
+                zeroPbddingNumber(vblue+1, count, mbxIntCount, buffer);
             }
-            break;
+            brebk;
 
-        case PATTERN_HOUR_OF_DAY1: // 'k' 1-based.  eg, 23:59 + 1 hour =>> 24:59
+        cbse PATTERN_HOUR_OF_DAY1: // 'k' 1-bbsed.  eg, 23:59 + 1 hour =>> 24:59
             if (current == null) {
-                if (value == 0) {
-                    zeroPaddingNumber(calendar.getMaximum(Calendar.HOUR_OF_DAY) + 1,
-                                      count, maxIntCount, buffer);
+                if (vblue == 0) {
+                    zeroPbddingNumber(cblendbr.getMbximum(Cblendbr.HOUR_OF_DAY) + 1,
+                                      count, mbxIntCount, buffer);
                 } else {
-                    zeroPaddingNumber(value, count, maxIntCount, buffer);
+                    zeroPbddingNumber(vblue, count, mbxIntCount, buffer);
                 }
             }
-            break;
+            brebk;
 
-        case PATTERN_DAY_OF_WEEK: // 'E'
-            if (useDateFormatSymbols) {
-                String[] weekdays;
+        cbse PATTERN_DAY_OF_WEEK: // 'E'
+            if (useDbteFormbtSymbols) {
+                String[] weekdbys;
                 if (count >= 4) {
-                    weekdays = formatData.getWeekdays();
-                    current = weekdays[value];
-                } else { // count < 4, use abbreviated form if exists
-                    weekdays = formatData.getShortWeekdays();
-                    current = weekdays[value];
+                    weekdbys = formbtDbtb.getWeekdbys();
+                    current = weekdbys[vblue];
+                } else { // count < 4, use bbbrevibted form if exists
+                    weekdbys = formbtDbtb.getShortWeekdbys();
+                    current = weekdbys[vblue];
                 }
             }
-            break;
+            brebk;
 
-        case PATTERN_AM_PM:    // 'a'
-            if (useDateFormatSymbols) {
-                String[] ampm = formatData.getAmPmStrings();
-                current = ampm[value];
+        cbse PATTERN_AM_PM:    // 'b'
+            if (useDbteFormbtSymbols) {
+                String[] bmpm = formbtDbtb.getAmPmStrings();
+                current = bmpm[vblue];
             }
-            break;
+            brebk;
 
-        case PATTERN_HOUR1:    // 'h' 1-based.  eg, 11PM + 1 hour =>> 12 AM
+        cbse PATTERN_HOUR1:    // 'h' 1-bbsed.  eg, 11PM + 1 hour =>> 12 AM
             if (current == null) {
-                if (value == 0) {
-                    zeroPaddingNumber(calendar.getLeastMaximum(Calendar.HOUR) + 1,
-                                      count, maxIntCount, buffer);
+                if (vblue == 0) {
+                    zeroPbddingNumber(cblendbr.getLebstMbximum(Cblendbr.HOUR) + 1,
+                                      count, mbxIntCount, buffer);
                 } else {
-                    zeroPaddingNumber(value, count, maxIntCount, buffer);
+                    zeroPbddingNumber(vblue, count, mbxIntCount, buffer);
                 }
             }
-            break;
+            brebk;
 
-        case PATTERN_ZONE_NAME: // 'z'
+        cbse PATTERN_ZONE_NAME: // 'z'
             if (current == null) {
-                if (formatData.locale == null || formatData.isZoneStringsSet) {
+                if (formbtDbtb.locble == null || formbtDbtb.isZoneStringsSet) {
                     int zoneIndex =
-                        formatData.getZoneIndex(calendar.getTimeZone().getID());
+                        formbtDbtb.getZoneIndex(cblendbr.getTimeZone().getID());
                     if (zoneIndex == -1) {
-                        value = calendar.get(Calendar.ZONE_OFFSET) +
-                            calendar.get(Calendar.DST_OFFSET);
-                        buffer.append(ZoneInfoFile.toCustomID(value));
+                        vblue = cblendbr.get(Cblendbr.ZONE_OFFSET) +
+                            cblendbr.get(Cblendbr.DST_OFFSET);
+                        buffer.bppend(ZoneInfoFile.toCustomID(vblue));
                     } else {
-                        int index = (calendar.get(Calendar.DST_OFFSET) == 0) ? 1: 3;
+                        int index = (cblendbr.get(Cblendbr.DST_OFFSET) == 0) ? 1: 3;
                         if (count < 4) {
-                            // Use the short name
+                            // Use the short nbme
                             index++;
                         }
-                        String[][] zoneStrings = formatData.getZoneStringsWrapper();
-                        buffer.append(zoneStrings[zoneIndex][index]);
+                        String[][] zoneStrings = formbtDbtb.getZoneStringsWrbpper();
+                        buffer.bppend(zoneStrings[zoneIndex][index]);
                     }
                 } else {
-                    TimeZone tz = calendar.getTimeZone();
-                    boolean daylight = (calendar.get(Calendar.DST_OFFSET) != 0);
+                    TimeZone tz = cblendbr.getTimeZone();
+                    boolebn dbylight = (cblendbr.get(Cblendbr.DST_OFFSET) != 0);
                     int tzstyle = (count < 4 ? TimeZone.SHORT : TimeZone.LONG);
-                    buffer.append(tz.getDisplayName(daylight, tzstyle, formatData.locale));
+                    buffer.bppend(tz.getDisplbyNbme(dbylight, tzstyle, formbtDbtb.locble));
                 }
             }
-            break;
+            brebk;
 
-        case PATTERN_ZONE_VALUE: // 'Z' ("-/+hhmm" form)
-            value = (calendar.get(Calendar.ZONE_OFFSET) +
-                     calendar.get(Calendar.DST_OFFSET)) / 60000;
+        cbse PATTERN_ZONE_VALUE: // 'Z' ("-/+hhmm" form)
+            vblue = (cblendbr.get(Cblendbr.ZONE_OFFSET) +
+                     cblendbr.get(Cblendbr.DST_OFFSET)) / 60000;
 
             int width = 4;
-            if (value >= 0) {
-                buffer.append('+');
+            if (vblue >= 0) {
+                buffer.bppend('+');
             } else {
                 width++;
             }
 
-            int num = (value / 60) * 100 + (value % 60);
-            CalendarUtils.sprintf0d(buffer, num, width);
-            break;
+            int num = (vblue / 60) * 100 + (vblue % 60);
+            CblendbrUtils.sprintf0d(buffer, num, width);
+            brebk;
 
-        case PATTERN_ISO_ZONE:   // 'X'
-            value = calendar.get(Calendar.ZONE_OFFSET)
-                    + calendar.get(Calendar.DST_OFFSET);
+        cbse PATTERN_ISO_ZONE:   // 'X'
+            vblue = cblendbr.get(Cblendbr.ZONE_OFFSET)
+                    + cblendbr.get(Cblendbr.DST_OFFSET);
 
-            if (value == 0) {
-                buffer.append('Z');
-                break;
+            if (vblue == 0) {
+                buffer.bppend('Z');
+                brebk;
             }
 
-            value /=  60000;
-            if (value >= 0) {
-                buffer.append('+');
+            vblue /=  60000;
+            if (vblue >= 0) {
+                buffer.bppend('+');
             } else {
-                buffer.append('-');
-                value = -value;
+                buffer.bppend('-');
+                vblue = -vblue;
             }
 
-            CalendarUtils.sprintf0d(buffer, value / 60, 2);
+            CblendbrUtils.sprintf0d(buffer, vblue / 60, 2);
             if (count == 1) {
-                break;
+                brebk;
             }
 
             if (count == 3) {
-                buffer.append(':');
+                buffer.bppend(':');
             }
-            CalendarUtils.sprintf0d(buffer, value % 60, 2);
-            break;
+            CblendbrUtils.sprintf0d(buffer, vblue % 60, 2);
+            brebk;
 
-        default:
-     // case PATTERN_DAY_OF_MONTH:         // 'd'
-     // case PATTERN_HOUR_OF_DAY0:         // 'H' 0-based.  eg, 23:59 + 1 hour =>> 00:59
-     // case PATTERN_MINUTE:               // 'm'
-     // case PATTERN_SECOND:               // 's'
-     // case PATTERN_MILLISECOND:          // 'S'
-     // case PATTERN_DAY_OF_YEAR:          // 'D'
-     // case PATTERN_DAY_OF_WEEK_IN_MONTH: // 'F'
-     // case PATTERN_WEEK_OF_YEAR:         // 'w'
-     // case PATTERN_WEEK_OF_MONTH:        // 'W'
-     // case PATTERN_HOUR0:                // 'K' eg, 11PM + 1 hour =>> 0 AM
-     // case PATTERN_ISO_DAY_OF_WEEK:      // 'u' pseudo field, Monday = 1, ..., Sunday = 7
+        defbult:
+     // cbse PATTERN_DAY_OF_MONTH:         // 'd'
+     // cbse PATTERN_HOUR_OF_DAY0:         // 'H' 0-bbsed.  eg, 23:59 + 1 hour =>> 00:59
+     // cbse PATTERN_MINUTE:               // 'm'
+     // cbse PATTERN_SECOND:               // 's'
+     // cbse PATTERN_MILLISECOND:          // 'S'
+     // cbse PATTERN_DAY_OF_YEAR:          // 'D'
+     // cbse PATTERN_DAY_OF_WEEK_IN_MONTH: // 'F'
+     // cbse PATTERN_WEEK_OF_YEAR:         // 'w'
+     // cbse PATTERN_WEEK_OF_MONTH:        // 'W'
+     // cbse PATTERN_HOUR0:                // 'K' eg, 11PM + 1 hour =>> 0 AM
+     // cbse PATTERN_ISO_DAY_OF_WEEK:      // 'u' pseudo field, Mondby = 1, ..., Sundby = 7
             if (current == null) {
-                zeroPaddingNumber(value, count, maxIntCount, buffer);
+                zeroPbddingNumber(vblue, count, mbxIntCount, buffer);
             }
-            break;
-        } // switch (patternCharIndex)
+            brebk;
+        } // switch (pbtternChbrIndex)
 
         if (current != null) {
-            buffer.append(current);
+            buffer.bppend(current);
         }
 
-        int fieldID = PATTERN_INDEX_TO_DATE_FORMAT_FIELD[patternCharIndex];
-        Field f = PATTERN_INDEX_TO_DATE_FORMAT_FIELD_ID[patternCharIndex];
+        int fieldID = PATTERN_INDEX_TO_DATE_FORMAT_FIELD[pbtternChbrIndex];
+        Field f = PATTERN_INDEX_TO_DATE_FORMAT_FIELD_ID[pbtternChbrIndex];
 
-        delegate.formatted(fieldID, f, f, beginOffset, buffer.length(), buffer);
+        delegbte.formbtted(fieldID, f, f, beginOffset, buffer.length(), buffer);
     }
 
     /**
-     * Formats a number with the specified minimum and maximum number of digits.
+     * Formbts b number with the specified minimum bnd mbximum number of digits.
      */
-    private void zeroPaddingNumber(int value, int minDigits, int maxDigits, StringBuffer buffer)
+    privbte void zeroPbddingNumber(int vblue, int minDigits, int mbxDigits, StringBuffer buffer)
     {
-        // Optimization for 1, 2 and 4 digit numbers. This should
-        // cover most cases of formatting date/time related items.
-        // Note: This optimization code assumes that maxDigits is
-        // either 2 or Integer.MAX_VALUE (maxIntCount in format()).
+        // Optimizbtion for 1, 2 bnd 4 digit numbers. This should
+        // cover most cbses of formbtting dbte/time relbted items.
+        // Note: This optimizbtion code bssumes thbt mbxDigits is
+        // either 2 or Integer.MAX_VALUE (mbxIntCount in formbt()).
         try {
             if (zeroDigit == 0) {
-                zeroDigit = ((DecimalFormat)numberFormat).getDecimalFormatSymbols().getZeroDigit();
+                zeroDigit = ((DecimblFormbt)numberFormbt).getDecimblFormbtSymbols().getZeroDigit();
             }
-            if (value >= 0) {
-                if (value < 100 && minDigits >= 1 && minDigits <= 2) {
-                    if (value < 10) {
+            if (vblue >= 0) {
+                if (vblue < 100 && minDigits >= 1 && minDigits <= 2) {
+                    if (vblue < 10) {
                         if (minDigits == 2) {
-                            buffer.append(zeroDigit);
+                            buffer.bppend(zeroDigit);
                         }
-                        buffer.append((char)(zeroDigit + value));
+                        buffer.bppend((chbr)(zeroDigit + vblue));
                     } else {
-                        buffer.append((char)(zeroDigit + value / 10));
-                        buffer.append((char)(zeroDigit + value % 10));
+                        buffer.bppend((chbr)(zeroDigit + vblue / 10));
+                        buffer.bppend((chbr)(zeroDigit + vblue % 10));
                     }
                     return;
-                } else if (value >= 1000 && value < 10000) {
+                } else if (vblue >= 1000 && vblue < 10000) {
                     if (minDigits == 4) {
-                        buffer.append((char)(zeroDigit + value / 1000));
-                        value %= 1000;
-                        buffer.append((char)(zeroDigit + value / 100));
-                        value %= 100;
-                        buffer.append((char)(zeroDigit + value / 10));
-                        buffer.append((char)(zeroDigit + value % 10));
+                        buffer.bppend((chbr)(zeroDigit + vblue / 1000));
+                        vblue %= 1000;
+                        buffer.bppend((chbr)(zeroDigit + vblue / 100));
+                        vblue %= 100;
+                        buffer.bppend((chbr)(zeroDigit + vblue / 10));
+                        buffer.bppend((chbr)(zeroDigit + vblue % 10));
                         return;
                     }
-                    if (minDigits == 2 && maxDigits == 2) {
-                        zeroPaddingNumber(value % 100, 2, 2, buffer);
+                    if (minDigits == 2 && mbxDigits == 2) {
+                        zeroPbddingNumber(vblue % 100, 2, 2, buffer);
                         return;
                     }
                 }
             }
-        } catch (Exception e) {
+        } cbtch (Exception e) {
         }
 
-        numberFormat.setMinimumIntegerDigits(minDigits);
-        numberFormat.setMaximumIntegerDigits(maxDigits);
-        numberFormat.format((long)value, buffer, DontCareFieldPosition.INSTANCE);
+        numberFormbt.setMinimumIntegerDigits(minDigits);
+        numberFormbt.setMbximumIntegerDigits(mbxDigits);
+        numberFormbt.formbt((long)vblue, buffer, DontCbreFieldPosition.INSTANCE);
     }
 
 
     /**
-     * Parses text from a string to produce a <code>Date</code>.
+     * Pbrses text from b string to produce b <code>Dbte</code>.
      * <p>
-     * The method attempts to parse text starting at the index given by
+     * The method bttempts to pbrse text stbrting bt the index given by
      * <code>pos</code>.
-     * If parsing succeeds, then the index of <code>pos</code> is updated
-     * to the index after the last character used (parsing does not necessarily
-     * use all characters up to the end of the string), and the parsed
-     * date is returned. The updated <code>pos</code> can be used to
-     * indicate the starting point for the next call to this method.
-     * If an error occurs, then the index of <code>pos</code> is not
-     * changed, the error index of <code>pos</code> is set to the index of
-     * the character where the error occurred, and null is returned.
+     * If pbrsing succeeds, then the index of <code>pos</code> is updbted
+     * to the index bfter the lbst chbrbcter used (pbrsing does not necessbrily
+     * use bll chbrbcters up to the end of the string), bnd the pbrsed
+     * dbte is returned. The updbted <code>pos</code> cbn be used to
+     * indicbte the stbrting point for the next cbll to this method.
+     * If bn error occurs, then the index of <code>pos</code> is not
+     * chbnged, the error index of <code>pos</code> is set to the index of
+     * the chbrbcter where the error occurred, bnd null is returned.
      *
-     * <p>This parsing operation uses the {@link DateFormat#calendar
-     * calendar} to produce a {@code Date}. All of the {@code
-     * calendar}'s date-time fields are {@linkplain Calendar#clear()
-     * cleared} before parsing, and the {@code calendar}'s default
-     * values of the date-time fields are used for any missing
-     * date-time information. For example, the year value of the
-     * parsed {@code Date} is 1970 with {@link GregorianCalendar} if
-     * no year value is given from the parsing operation.  The {@code
-     * TimeZone} value may be overwritten, depending on the given
-     * pattern and the time zone value in {@code text}. Any {@code
-     * TimeZone} value that has previously been set by a call to
-     * {@link #setTimeZone(java.util.TimeZone) setTimeZone} may need
-     * to be restored for further operations.
+     * <p>This pbrsing operbtion uses the {@link DbteFormbt#cblendbr
+     * cblendbr} to produce b {@code Dbte}. All of the {@code
+     * cblendbr}'s dbte-time fields bre {@linkplbin Cblendbr#clebr()
+     * clebred} before pbrsing, bnd the {@code cblendbr}'s defbult
+     * vblues of the dbte-time fields bre used for bny missing
+     * dbte-time informbtion. For exbmple, the yebr vblue of the
+     * pbrsed {@code Dbte} is 1970 with {@link GregoribnCblendbr} if
+     * no yebr vblue is given from the pbrsing operbtion.  The {@code
+     * TimeZone} vblue mby be overwritten, depending on the given
+     * pbttern bnd the time zone vblue in {@code text}. Any {@code
+     * TimeZone} vblue thbt hbs previously been set by b cbll to
+     * {@link #setTimeZone(jbvb.util.TimeZone) setTimeZone} mby need
+     * to be restored for further operbtions.
      *
-     * @param text  A <code>String</code>, part of which should be parsed.
-     * @param pos   A <code>ParsePosition</code> object with index and error
-     *              index information as described above.
-     * @return A <code>Date</code> parsed from the string. In case of
+     * @pbrbm text  A <code>String</code>, pbrt of which should be pbrsed.
+     * @pbrbm pos   A <code>PbrsePosition</code> object with index bnd error
+     *              index informbtion bs described bbove.
+     * @return A <code>Dbte</code> pbrsed from the string. In cbse of
      *         error, returns null.
      * @exception NullPointerException if <code>text</code> or <code>pos</code> is null.
      */
     @Override
-    public Date parse(String text, ParsePosition pos)
+    public Dbte pbrse(String text, PbrsePosition pos)
     {
-        checkNegativeNumberExpression();
+        checkNegbtiveNumberExpression();
 
-        int start = pos.index;
-        int oldStart = start;
+        int stbrt = pos.index;
+        int oldStbrt = stbrt;
         int textLength = text.length();
 
-        boolean[] ambiguousYear = {false};
+        boolebn[] bmbiguousYebr = {fblse};
 
-        CalendarBuilder calb = new CalendarBuilder();
+        CblendbrBuilder cblb = new CblendbrBuilder();
 
-        for (int i = 0; i < compiledPattern.length; ) {
-            int tag = compiledPattern[i] >>> 8;
-            int count = compiledPattern[i++] & 0xff;
+        for (int i = 0; i < compiledPbttern.length; ) {
+            int tbg = compiledPbttern[i] >>> 8;
+            int count = compiledPbttern[i++] & 0xff;
             if (count == 255) {
-                count = compiledPattern[i++] << 16;
-                count |= compiledPattern[i++];
+                count = compiledPbttern[i++] << 16;
+                count |= compiledPbttern[i++];
             }
 
-            switch (tag) {
-            case TAG_QUOTE_ASCII_CHAR:
-                if (start >= textLength || text.charAt(start) != (char)count) {
-                    pos.index = oldStart;
-                    pos.errorIndex = start;
+            switch (tbg) {
+            cbse TAG_QUOTE_ASCII_CHAR:
+                if (stbrt >= textLength || text.chbrAt(stbrt) != (chbr)count) {
+                    pos.index = oldStbrt;
+                    pos.errorIndex = stbrt;
                     return null;
                 }
-                start++;
-                break;
+                stbrt++;
+                brebk;
 
-            case TAG_QUOTE_CHARS:
+            cbse TAG_QUOTE_CHARS:
                 while (count-- > 0) {
-                    if (start >= textLength || text.charAt(start) != compiledPattern[i++]) {
-                        pos.index = oldStart;
-                        pos.errorIndex = start;
+                    if (stbrt >= textLength || text.chbrAt(stbrt) != compiledPbttern[i++]) {
+                        pos.index = oldStbrt;
+                        pos.errorIndex = stbrt;
                         return null;
                     }
-                    start++;
+                    stbrt++;
                 }
-                break;
+                brebk;
 
-            default:
-                // Peek the next pattern to determine if we need to
-                // obey the number of pattern letters for
-                // parsing. It's required when parsing contiguous
-                // digit text (e.g., "20010704") with a pattern which
-                // has no delimiters between fields, like "yyyyMMdd".
-                boolean obeyCount = false;
+            defbult:
+                // Peek the next pbttern to determine if we need to
+                // obey the number of pbttern letters for
+                // pbrsing. It's required when pbrsing contiguous
+                // digit text (e.g., "20010704") with b pbttern which
+                // hbs no delimiters between fields, like "yyyyMMdd".
+                boolebn obeyCount = fblse;
 
-                // In Arabic, a minus sign for a negative number is put after
-                // the number. Even in another locale, a minus sign can be
-                // put after a number using DateFormat.setNumberFormat().
-                // If both the minus sign and the field-delimiter are '-',
-                // subParse() needs to determine whether a '-' after a number
-                // in the given text is a delimiter or is a minus sign for the
-                // preceding number. We give subParse() a clue based on the
-                // information in compiledPattern.
-                boolean useFollowingMinusSignAsDelimiter = false;
+                // In Arbbic, b minus sign for b negbtive number is put bfter
+                // the number. Even in bnother locble, b minus sign cbn be
+                // put bfter b number using DbteFormbt.setNumberFormbt().
+                // If both the minus sign bnd the field-delimiter bre '-',
+                // subPbrse() needs to determine whether b '-' bfter b number
+                // in the given text is b delimiter or is b minus sign for the
+                // preceding number. We give subPbrse() b clue bbsed on the
+                // informbtion in compiledPbttern.
+                boolebn useFollowingMinusSignAsDelimiter = fblse;
 
-                if (i < compiledPattern.length) {
-                    int nextTag = compiledPattern[i] >>> 8;
-                    if (!(nextTag == TAG_QUOTE_ASCII_CHAR ||
-                          nextTag == TAG_QUOTE_CHARS)) {
+                if (i < compiledPbttern.length) {
+                    int nextTbg = compiledPbttern[i] >>> 8;
+                    if (!(nextTbg == TAG_QUOTE_ASCII_CHAR ||
+                          nextTbg == TAG_QUOTE_CHARS)) {
                         obeyCount = true;
                     }
 
-                    if (hasFollowingMinusSign &&
-                        (nextTag == TAG_QUOTE_ASCII_CHAR ||
-                         nextTag == TAG_QUOTE_CHARS)) {
+                    if (hbsFollowingMinusSign &&
+                        (nextTbg == TAG_QUOTE_ASCII_CHAR ||
+                         nextTbg == TAG_QUOTE_CHARS)) {
                         int c;
-                        if (nextTag == TAG_QUOTE_ASCII_CHAR) {
-                            c = compiledPattern[i] & 0xff;
+                        if (nextTbg == TAG_QUOTE_ASCII_CHAR) {
+                            c = compiledPbttern[i] & 0xff;
                         } else {
-                            c = compiledPattern[i+1];
+                            c = compiledPbttern[i+1];
                         }
 
                         if (c == minusSign) {
@@ -1511,184 +1511,184 @@ public class SimpleDateFormat extends DateFormat {
                         }
                     }
                 }
-                start = subParse(text, start, tag, count, obeyCount,
-                                 ambiguousYear, pos,
-                                 useFollowingMinusSignAsDelimiter, calb);
-                if (start < 0) {
-                    pos.index = oldStart;
+                stbrt = subPbrse(text, stbrt, tbg, count, obeyCount,
+                                 bmbiguousYebr, pos,
+                                 useFollowingMinusSignAsDelimiter, cblb);
+                if (stbrt < 0) {
+                    pos.index = oldStbrt;
                     return null;
                 }
             }
         }
 
-        // At this point the fields of Calendar have been set.  Calendar
-        // will fill in default values for missing fields when the time
+        // At this point the fields of Cblendbr hbve been set.  Cblendbr
+        // will fill in defbult vblues for missing fields when the time
         // is computed.
 
-        pos.index = start;
+        pos.index = stbrt;
 
-        Date parsedDate;
+        Dbte pbrsedDbte;
         try {
-            parsedDate = calb.establish(calendar).getTime();
-            // If the year value is ambiguous,
-            // then the two-digit year == the default start year
-            if (ambiguousYear[0]) {
-                if (parsedDate.before(defaultCenturyStart)) {
-                    parsedDate = calb.addYear(100).establish(calendar).getTime();
+            pbrsedDbte = cblb.estbblish(cblendbr).getTime();
+            // If the yebr vblue is bmbiguous,
+            // then the two-digit yebr == the defbult stbrt yebr
+            if (bmbiguousYebr[0]) {
+                if (pbrsedDbte.before(defbultCenturyStbrt)) {
+                    pbrsedDbte = cblb.bddYebr(100).estbblish(cblendbr).getTime();
                 }
             }
         }
-        // An IllegalArgumentException will be thrown by Calendar.getTime()
-        // if any fields are out of range, e.g., MONTH == 17.
-        catch (IllegalArgumentException e) {
-            pos.errorIndex = start;
-            pos.index = oldStart;
+        // An IllegblArgumentException will be thrown by Cblendbr.getTime()
+        // if bny fields bre out of rbnge, e.g., MONTH == 17.
+        cbtch (IllegblArgumentException e) {
+            pos.errorIndex = stbrt;
+            pos.index = oldStbrt;
             return null;
         }
 
-        return parsedDate;
+        return pbrsedDbte;
     }
 
     /**
-     * Private code-size reduction function used by subParse.
-     * @param text the time text being parsed.
-     * @param start where to start parsing.
-     * @param field the date field being parsed.
-     * @param data the string array to parsed.
-     * @return the new start position if matching succeeded; a negative number
-     * indicating matching failure, otherwise.
+     * Privbte code-size reduction function used by subPbrse.
+     * @pbrbm text the time text being pbrsed.
+     * @pbrbm stbrt where to stbrt pbrsing.
+     * @pbrbm field the dbte field being pbrsed.
+     * @pbrbm dbtb the string brrby to pbrsed.
+     * @return the new stbrt position if mbtching succeeded; b negbtive number
+     * indicbting mbtching fbilure, otherwise.
      */
-    private int matchString(String text, int start, int field, String[] data, CalendarBuilder calb)
+    privbte int mbtchString(String text, int stbrt, int field, String[] dbtb, CblendbrBuilder cblb)
     {
         int i = 0;
-        int count = data.length;
+        int count = dbtb.length;
 
-        if (field == Calendar.DAY_OF_WEEK) {
+        if (field == Cblendbr.DAY_OF_WEEK) {
             i = 1;
         }
 
-        // There may be multiple strings in the data[] array which begin with
-        // the same prefix (e.g., Cerven and Cervenec (June and July) in Czech).
-        // We keep track of the longest match, and return that.  Note that this
-        // unfortunately requires us to test all array elements.
-        int bestMatchLength = 0, bestMatch = -1;
+        // There mby be multiple strings in the dbtb[] brrby which begin with
+        // the sbme prefix (e.g., Cerven bnd Cervenec (June bnd July) in Czech).
+        // We keep trbck of the longest mbtch, bnd return thbt.  Note thbt this
+        // unfortunbtely requires us to test bll brrby elements.
+        int bestMbtchLength = 0, bestMbtch = -1;
         for (; i<count; ++i)
         {
-            int length = data[i].length();
-            // Always compare if we have no match yet; otherwise only compare
-            // against potentially better matches (longer strings).
-            if (length > bestMatchLength &&
-                text.regionMatches(true, start, data[i], 0, length))
+            int length = dbtb[i].length();
+            // Alwbys compbre if we hbve no mbtch yet; otherwise only compbre
+            // bgbinst potentiblly better mbtches (longer strings).
+            if (length > bestMbtchLength &&
+                text.regionMbtches(true, stbrt, dbtb[i], 0, length))
             {
-                bestMatch = i;
-                bestMatchLength = length;
+                bestMbtch = i;
+                bestMbtchLength = length;
             }
         }
-        if (bestMatch >= 0)
+        if (bestMbtch >= 0)
         {
-            calb.set(field, bestMatch);
-            return start + bestMatchLength;
+            cblb.set(field, bestMbtch);
+            return stbrt + bestMbtchLength;
         }
-        return -start;
+        return -stbrt;
     }
 
     /**
-     * Performs the same thing as matchString(String, int, int,
-     * String[]). This method takes a Map<String, Integer> instead of
+     * Performs the sbme thing bs mbtchString(String, int, int,
+     * String[]). This method tbkes b Mbp<String, Integer> instebd of
      * String[].
      */
-    private int matchString(String text, int start, int field,
-                            Map<String,Integer> data, CalendarBuilder calb) {
-        if (data != null) {
-            // TODO: make this default when it's in the spec.
-            if (data instanceof SortedMap) {
-                for (String name : data.keySet()) {
-                    if (text.regionMatches(true, start, name, 0, name.length())) {
-                        calb.set(field, data.get(name));
-                        return start + name.length();
+    privbte int mbtchString(String text, int stbrt, int field,
+                            Mbp<String,Integer> dbtb, CblendbrBuilder cblb) {
+        if (dbtb != null) {
+            // TODO: mbke this defbult when it's in the spec.
+            if (dbtb instbnceof SortedMbp) {
+                for (String nbme : dbtb.keySet()) {
+                    if (text.regionMbtches(true, stbrt, nbme, 0, nbme.length())) {
+                        cblb.set(field, dbtb.get(nbme));
+                        return stbrt + nbme.length();
                     }
                 }
-                return -start;
+                return -stbrt;
             }
 
-            String bestMatch = null;
+            String bestMbtch = null;
 
-            for (String name : data.keySet()) {
-                int length = name.length();
-                if (bestMatch == null || length > bestMatch.length()) {
-                    if (text.regionMatches(true, start, name, 0, length)) {
-                        bestMatch = name;
+            for (String nbme : dbtb.keySet()) {
+                int length = nbme.length();
+                if (bestMbtch == null || length > bestMbtch.length()) {
+                    if (text.regionMbtches(true, stbrt, nbme, 0, length)) {
+                        bestMbtch = nbme;
                     }
                 }
             }
 
-            if (bestMatch != null) {
-                calb.set(field, data.get(bestMatch));
-                return start + bestMatch.length();
+            if (bestMbtch != null) {
+                cblb.set(field, dbtb.get(bestMbtch));
+                return stbrt + bestMbtch.length();
             }
         }
-        return -start;
+        return -stbrt;
     }
 
-    private int matchZoneString(String text, int start, String[] zoneNames) {
+    privbte int mbtchZoneString(String text, int stbrt, String[] zoneNbmes) {
         for (int i = 1; i <= 4; ++i) {
-            // Checking long and short zones [1 & 2],
-            // and long and short daylight [3 & 4].
-            String zoneName = zoneNames[i];
-            if (text.regionMatches(true, start,
-                                   zoneName, 0, zoneName.length())) {
+            // Checking long bnd short zones [1 & 2],
+            // bnd long bnd short dbylight [3 & 4].
+            String zoneNbme = zoneNbmes[i];
+            if (text.regionMbtches(true, stbrt,
+                                   zoneNbme, 0, zoneNbme.length())) {
                 return i;
             }
         }
         return -1;
     }
 
-    private boolean matchDSTString(String text, int start, int zoneIndex, int standardIndex,
+    privbte boolebn mbtchDSTString(String text, int stbrt, int zoneIndex, int stbndbrdIndex,
                                    String[][] zoneStrings) {
-        int index = standardIndex + 2;
-        String zoneName  = zoneStrings[zoneIndex][index];
-        if (text.regionMatches(true, start,
-                               zoneName, 0, zoneName.length())) {
+        int index = stbndbrdIndex + 2;
+        String zoneNbme  = zoneStrings[zoneIndex][index];
+        if (text.regionMbtches(true, stbrt,
+                               zoneNbme, 0, zoneNbme.length())) {
             return true;
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * find time zone 'text' matched zoneStrings and set to internal
-     * calendar.
+     * find time zone 'text' mbtched zoneStrings bnd set to internbl
+     * cblendbr.
      */
-    private int subParseZoneString(String text, int start, CalendarBuilder calb) {
-        boolean useSameName = false; // true if standard and daylight time use the same abbreviation.
+    privbte int subPbrseZoneString(String text, int stbrt, CblendbrBuilder cblb) {
+        boolebn useSbmeNbme = fblse; // true if stbndbrd bnd dbylight time use the sbme bbbrevibtion.
         TimeZone currentTimeZone = getTimeZone();
 
-        // At this point, check for named time zones by looking through
-        // the locale data from the TimeZoneNames strings.
-        // Want to be able to parse both short and long forms.
-        int zoneIndex = formatData.getZoneIndex(currentTimeZone.getID());
+        // At this point, check for nbmed time zones by looking through
+        // the locble dbtb from the TimeZoneNbmes strings.
+        // Wbnt to be bble to pbrse both short bnd long forms.
+        int zoneIndex = formbtDbtb.getZoneIndex(currentTimeZone.getID());
         TimeZone tz = null;
-        String[][] zoneStrings = formatData.getZoneStringsWrapper();
-        String[] zoneNames = null;
-        int nameIndex = 0;
+        String[][] zoneStrings = formbtDbtb.getZoneStringsWrbpper();
+        String[] zoneNbmes = null;
+        int nbmeIndex = 0;
         if (zoneIndex != -1) {
-            zoneNames = zoneStrings[zoneIndex];
-            if ((nameIndex = matchZoneString(text, start, zoneNames)) > 0) {
-                if (nameIndex <= 2) {
-                    // Check if the standard name (abbr) and the daylight name are the same.
-                    useSameName = zoneNames[nameIndex].equalsIgnoreCase(zoneNames[nameIndex + 2]);
+            zoneNbmes = zoneStrings[zoneIndex];
+            if ((nbmeIndex = mbtchZoneString(text, stbrt, zoneNbmes)) > 0) {
+                if (nbmeIndex <= 2) {
+                    // Check if the stbndbrd nbme (bbbr) bnd the dbylight nbme bre the sbme.
+                    useSbmeNbme = zoneNbmes[nbmeIndex].equblsIgnoreCbse(zoneNbmes[nbmeIndex + 2]);
                 }
-                tz = TimeZone.getTimeZone(zoneNames[0]);
+                tz = TimeZone.getTimeZone(zoneNbmes[0]);
             }
         }
         if (tz == null) {
-            zoneIndex = formatData.getZoneIndex(TimeZone.getDefault().getID());
+            zoneIndex = formbtDbtb.getZoneIndex(TimeZone.getDefbult().getID());
             if (zoneIndex != -1) {
-                zoneNames = zoneStrings[zoneIndex];
-                if ((nameIndex = matchZoneString(text, start, zoneNames)) > 0) {
-                    if (nameIndex <= 2) {
-                        useSameName = zoneNames[nameIndex].equalsIgnoreCase(zoneNames[nameIndex + 2]);
+                zoneNbmes = zoneStrings[zoneIndex];
+                if ((nbmeIndex = mbtchZoneString(text, stbrt, zoneNbmes)) > 0) {
+                    if (nbmeIndex <= 2) {
+                        useSbmeNbme = zoneNbmes[nbmeIndex].equblsIgnoreCbse(zoneNbmes[nbmeIndex + 2]);
                     }
-                    tz = TimeZone.getTimeZone(zoneNames[0]);
+                    tz = TimeZone.getTimeZone(zoneNbmes[0]);
                 }
             }
         }
@@ -1696,375 +1696,375 @@ public class SimpleDateFormat extends DateFormat {
         if (tz == null) {
             int len = zoneStrings.length;
             for (int i = 0; i < len; i++) {
-                zoneNames = zoneStrings[i];
-                if ((nameIndex = matchZoneString(text, start, zoneNames)) > 0) {
-                    if (nameIndex <= 2) {
-                        useSameName = zoneNames[nameIndex].equalsIgnoreCase(zoneNames[nameIndex + 2]);
+                zoneNbmes = zoneStrings[i];
+                if ((nbmeIndex = mbtchZoneString(text, stbrt, zoneNbmes)) > 0) {
+                    if (nbmeIndex <= 2) {
+                        useSbmeNbme = zoneNbmes[nbmeIndex].equblsIgnoreCbse(zoneNbmes[nbmeIndex + 2]);
                     }
-                    tz = TimeZone.getTimeZone(zoneNames[0]);
-                    break;
+                    tz = TimeZone.getTimeZone(zoneNbmes[0]);
+                    brebk;
                 }
             }
         }
-        if (tz != null) { // Matched any ?
-            if (!tz.equals(currentTimeZone)) {
+        if (tz != null) { // Mbtched bny ?
+            if (!tz.equbls(currentTimeZone)) {
                 setTimeZone(tz);
             }
-            // If the time zone matched uses the same name
-            // (abbreviation) for both standard and daylight time,
-            // let the time zone in the Calendar decide which one.
+            // If the time zone mbtched uses the sbme nbme
+            // (bbbrevibtion) for both stbndbrd bnd dbylight time,
+            // let the time zone in the Cblendbr decide which one.
             //
-            // Also if tz.getDSTSaving() returns 0 for DST, use tz to
-            // determine the local time. (6645292)
-            int dstAmount = (nameIndex >= 3) ? tz.getDSTSavings() : 0;
-            if (!(useSameName || (nameIndex >= 3 && dstAmount == 0))) {
-                calb.clear(Calendar.ZONE_OFFSET).set(Calendar.DST_OFFSET, dstAmount);
+            // Also if tz.getDSTSbving() returns 0 for DST, use tz to
+            // determine the locbl time. (6645292)
+            int dstAmount = (nbmeIndex >= 3) ? tz.getDSTSbvings() : 0;
+            if (!(useSbmeNbme || (nbmeIndex >= 3 && dstAmount == 0))) {
+                cblb.clebr(Cblendbr.ZONE_OFFSET).set(Cblendbr.DST_OFFSET, dstAmount);
             }
-            return (start + zoneNames[nameIndex].length());
+            return (stbrt + zoneNbmes[nbmeIndex].length());
         }
         return 0;
     }
 
     /**
-     * Parses numeric forms of time zone offset, such as "hh:mm", and
-     * sets calb to the parsed value.
+     * Pbrses numeric forms of time zone offset, such bs "hh:mm", bnd
+     * sets cblb to the pbrsed vblue.
      *
-     * @param text  the text to be parsed
-     * @param start the character position to start parsing
-     * @param sign  1: positive; -1: negative
-     * @param count 0: 'Z' or "GMT+hh:mm" parsing; 1 - 3: the number of 'X's
-     * @param colon true - colon required between hh and mm; false - no colon required
-     * @param calb  a CalendarBuilder in which the parsed value is stored
-     * @return updated parsed position, or its negative value to indicate a parsing error
+     * @pbrbm text  the text to be pbrsed
+     * @pbrbm stbrt the chbrbcter position to stbrt pbrsing
+     * @pbrbm sign  1: positive; -1: negbtive
+     * @pbrbm count 0: 'Z' or "GMT+hh:mm" pbrsing; 1 - 3: the number of 'X's
+     * @pbrbm colon true - colon required between hh bnd mm; fblse - no colon required
+     * @pbrbm cblb  b CblendbrBuilder in which the pbrsed vblue is stored
+     * @return updbted pbrsed position, or its negbtive vblue to indicbte b pbrsing error
      */
-    private int subParseNumericZone(String text, int start, int sign, int count,
-                                    boolean colon, CalendarBuilder calb) {
-        int index = start;
+    privbte int subPbrseNumericZone(String text, int stbrt, int sign, int count,
+                                    boolebn colon, CblendbrBuilder cblb) {
+        int index = stbrt;
 
-      parse:
+      pbrse:
         try {
-            char c = text.charAt(index++);
-            // Parse hh
+            chbr c = text.chbrAt(index++);
+            // Pbrse hh
             int hours;
             if (!isDigit(c)) {
-                break parse;
+                brebk pbrse;
             }
             hours = c - '0';
-            c = text.charAt(index++);
+            c = text.chbrAt(index++);
             if (isDigit(c)) {
                 hours = hours * 10 + (c - '0');
             } else {
-                // If no colon in RFC 822 or 'X' (ISO), two digits are
+                // If no colon in RFC 822 or 'X' (ISO), two digits bre
                 // required.
                 if (count > 0 || !colon) {
-                    break parse;
+                    brebk pbrse;
                 }
                 --index;
             }
             if (hours > 23) {
-                break parse;
+                brebk pbrse;
             }
             int minutes = 0;
             if (count != 1) {
-                // Proceed with parsing mm
-                c = text.charAt(index++);
+                // Proceed with pbrsing mm
+                c = text.chbrAt(index++);
                 if (colon) {
                     if (c != ':') {
-                        break parse;
+                        brebk pbrse;
                     }
-                    c = text.charAt(index++);
+                    c = text.chbrAt(index++);
                 }
                 if (!isDigit(c)) {
-                    break parse;
+                    brebk pbrse;
                 }
                 minutes = c - '0';
-                c = text.charAt(index++);
+                c = text.chbrAt(index++);
                 if (!isDigit(c)) {
-                    break parse;
+                    brebk pbrse;
                 }
                 minutes = minutes * 10 + (c - '0');
                 if (minutes > 59) {
-                    break parse;
+                    brebk pbrse;
                 }
             }
             minutes += hours * 60;
-            calb.set(Calendar.ZONE_OFFSET, minutes * MILLIS_PER_MINUTE * sign)
-                .set(Calendar.DST_OFFSET, 0);
+            cblb.set(Cblendbr.ZONE_OFFSET, minutes * MILLIS_PER_MINUTE * sign)
+                .set(Cblendbr.DST_OFFSET, 0);
             return index;
-        } catch (IndexOutOfBoundsException e) {
+        } cbtch (IndexOutOfBoundsException e) {
         }
         return  1 - index; // -(index - 1)
     }
 
-    private boolean isDigit(char c) {
+    privbte boolebn isDigit(chbr c) {
         return c >= '0' && c <= '9';
     }
 
     /**
-     * Private member function that converts the parsed date strings into
-     * timeFields. Returns -start (for ParsePosition) if failed.
-     * @param text the time text to be parsed.
-     * @param start where to start parsing.
-     * @param patternCharIndex the index of the pattern character.
-     * @param count the count of a pattern character.
-     * @param obeyCount if true, then the next field directly abuts this one,
-     * and we should use the count to know when to stop parsing.
-     * @param ambiguousYear return parameter; upon return, if ambiguousYear[0]
-     * is true, then a two-digit year was parsed and may need to be readjusted.
-     * @param origPos origPos.errorIndex is used to return an error index
-     * at which a parse error occurred, if matching failure occurs.
-     * @return the new start position if matching succeeded; -1 indicating
-     * matching failure, otherwise. In case matching failure occurred,
-     * an error index is set to origPos.errorIndex.
+     * Privbte member function thbt converts the pbrsed dbte strings into
+     * timeFields. Returns -stbrt (for PbrsePosition) if fbiled.
+     * @pbrbm text the time text to be pbrsed.
+     * @pbrbm stbrt where to stbrt pbrsing.
+     * @pbrbm pbtternChbrIndex the index of the pbttern chbrbcter.
+     * @pbrbm count the count of b pbttern chbrbcter.
+     * @pbrbm obeyCount if true, then the next field directly bbuts this one,
+     * bnd we should use the count to know when to stop pbrsing.
+     * @pbrbm bmbiguousYebr return pbrbmeter; upon return, if bmbiguousYebr[0]
+     * is true, then b two-digit yebr wbs pbrsed bnd mby need to be rebdjusted.
+     * @pbrbm origPos origPos.errorIndex is used to return bn error index
+     * bt which b pbrse error occurred, if mbtching fbilure occurs.
+     * @return the new stbrt position if mbtching succeeded; -1 indicbting
+     * mbtching fbilure, otherwise. In cbse mbtching fbilure occurred,
+     * bn error index is set to origPos.errorIndex.
      */
-    private int subParse(String text, int start, int patternCharIndex, int count,
-                         boolean obeyCount, boolean[] ambiguousYear,
-                         ParsePosition origPos,
-                         boolean useFollowingMinusSignAsDelimiter, CalendarBuilder calb) {
+    privbte int subPbrse(String text, int stbrt, int pbtternChbrIndex, int count,
+                         boolebn obeyCount, boolebn[] bmbiguousYebr,
+                         PbrsePosition origPos,
+                         boolebn useFollowingMinusSignAsDelimiter, CblendbrBuilder cblb) {
         Number number;
-        int value = 0;
-        ParsePosition pos = new ParsePosition(0);
-        pos.index = start;
-        if (patternCharIndex == PATTERN_WEEK_YEAR && !calendar.isWeekDateSupported()) {
-            // use calendar year 'y' instead
-            patternCharIndex = PATTERN_YEAR;
+        int vblue = 0;
+        PbrsePosition pos = new PbrsePosition(0);
+        pos.index = stbrt;
+        if (pbtternChbrIndex == PATTERN_WEEK_YEAR && !cblendbr.isWeekDbteSupported()) {
+            // use cblendbr yebr 'y' instebd
+            pbtternChbrIndex = PATTERN_YEAR;
         }
-        int field = PATTERN_INDEX_TO_CALENDAR_FIELD[patternCharIndex];
+        int field = PATTERN_INDEX_TO_CALENDAR_FIELD[pbtternChbrIndex];
 
-        // If there are any spaces here, skip over them.  If we hit the end
-        // of the string, then fail.
+        // If there bre bny spbces here, skip over them.  If we hit the end
+        // of the string, then fbil.
         for (;;) {
             if (pos.index >= text.length()) {
-                origPos.errorIndex = start;
+                origPos.errorIndex = stbrt;
                 return -1;
             }
-            char c = text.charAt(pos.index);
+            chbr c = text.chbrAt(pos.index);
             if (c != ' ' && c != '\t') {
-                break;
+                brebk;
             }
             ++pos.index;
         }
-        // Remember the actual start index
-        int actualStart = pos.index;
+        // Remember the bctubl stbrt index
+        int bctublStbrt = pos.index;
 
-      parsing:
+      pbrsing:
         {
-            // We handle a few special cases here where we need to parse
-            // a number value.  We handle further, more generic cases below.  We need
-            // to handle some of them here because some fields require extra processing on
-            // the parsed value.
-            if (patternCharIndex == PATTERN_HOUR_OF_DAY1 ||
-                patternCharIndex == PATTERN_HOUR1 ||
-                (patternCharIndex == PATTERN_MONTH && count <= 2) ||
-                patternCharIndex == PATTERN_YEAR ||
-                patternCharIndex == PATTERN_WEEK_YEAR) {
+            // We hbndle b few specibl cbses here where we need to pbrse
+            // b number vblue.  We hbndle further, more generic cbses below.  We need
+            // to hbndle some of them here becbuse some fields require extrb processing on
+            // the pbrsed vblue.
+            if (pbtternChbrIndex == PATTERN_HOUR_OF_DAY1 ||
+                pbtternChbrIndex == PATTERN_HOUR1 ||
+                (pbtternChbrIndex == PATTERN_MONTH && count <= 2) ||
+                pbtternChbrIndex == PATTERN_YEAR ||
+                pbtternChbrIndex == PATTERN_WEEK_YEAR) {
                 // It would be good to unify this with the obeyCount logic below,
-                // but that's going to be difficult.
+                // but thbt's going to be difficult.
                 if (obeyCount) {
-                    if ((start+count) > text.length()) {
-                        break parsing;
+                    if ((stbrt+count) > text.length()) {
+                        brebk pbrsing;
                     }
-                    number = numberFormat.parse(text.substring(0, start+count), pos);
+                    number = numberFormbt.pbrse(text.substring(0, stbrt+count), pos);
                 } else {
-                    number = numberFormat.parse(text, pos);
+                    number = numberFormbt.pbrse(text, pos);
                 }
                 if (number == null) {
-                    if (patternCharIndex != PATTERN_YEAR || calendar instanceof GregorianCalendar) {
-                        break parsing;
+                    if (pbtternChbrIndex != PATTERN_YEAR || cblendbr instbnceof GregoribnCblendbr) {
+                        brebk pbrsing;
                     }
                 } else {
-                    value = number.intValue();
+                    vblue = number.intVblue();
 
-                    if (useFollowingMinusSignAsDelimiter && (value < 0) &&
+                    if (useFollowingMinusSignAsDelimiter && (vblue < 0) &&
                         (((pos.index < text.length()) &&
-                         (text.charAt(pos.index) != minusSign)) ||
+                         (text.chbrAt(pos.index) != minusSign)) ||
                          ((pos.index == text.length()) &&
-                          (text.charAt(pos.index-1) == minusSign)))) {
-                        value = -value;
+                          (text.chbrAt(pos.index-1) == minusSign)))) {
+                        vblue = -vblue;
                         pos.index--;
                     }
                 }
             }
 
-            boolean useDateFormatSymbols = useDateFormatSymbols();
+            boolebn useDbteFormbtSymbols = useDbteFormbtSymbols();
 
             int index;
-            switch (patternCharIndex) {
-            case PATTERN_ERA: // 'G'
-                if (useDateFormatSymbols) {
-                    if ((index = matchString(text, start, Calendar.ERA, formatData.getEras(), calb)) > 0) {
+            switch (pbtternChbrIndex) {
+            cbse PATTERN_ERA: // 'G'
+                if (useDbteFormbtSymbols) {
+                    if ((index = mbtchString(text, stbrt, Cblendbr.ERA, formbtDbtb.getErbs(), cblb)) > 0) {
                         return index;
                     }
                 } else {
-                    Map<String, Integer> map = getDisplayNamesMap(field, locale);
-                    if ((index = matchString(text, start, field, map, calb)) > 0) {
+                    Mbp<String, Integer> mbp = getDisplbyNbmesMbp(field, locble);
+                    if ((index = mbtchString(text, stbrt, field, mbp, cblb)) > 0) {
                         return index;
                     }
                 }
-                break parsing;
+                brebk pbrsing;
 
-            case PATTERN_WEEK_YEAR: // 'Y'
-            case PATTERN_YEAR:      // 'y'
-                if (!(calendar instanceof GregorianCalendar)) {
-                    // calendar might have text representations for year values,
-                    // such as "\u5143" in JapaneseImperialCalendar.
-                    int style = (count >= 4) ? Calendar.LONG : Calendar.SHORT;
-                    Map<String, Integer> map = calendar.getDisplayNames(field, style, locale);
-                    if (map != null) {
-                        if ((index = matchString(text, start, field, map, calb)) > 0) {
+            cbse PATTERN_WEEK_YEAR: // 'Y'
+            cbse PATTERN_YEAR:      // 'y'
+                if (!(cblendbr instbnceof GregoribnCblendbr)) {
+                    // cblendbr might hbve text representbtions for yebr vblues,
+                    // such bs "\u5143" in JbpbneseImperiblCblendbr.
+                    int style = (count >= 4) ? Cblendbr.LONG : Cblendbr.SHORT;
+                    Mbp<String, Integer> mbp = cblendbr.getDisplbyNbmes(field, style, locble);
+                    if (mbp != null) {
+                        if ((index = mbtchString(text, stbrt, field, mbp, cblb)) > 0) {
                             return index;
                         }
                     }
-                    calb.set(field, value);
+                    cblb.set(field, vblue);
                     return pos.index;
                 }
 
-                // If there are 3 or more YEAR pattern characters, this indicates
-                // that the year value is to be treated literally, without any
-                // two-digit year adjustments (e.g., from "01" to 2001).  Otherwise
-                // we made adjustments to place the 2-digit year in the proper
-                // century, for parsed strings from "00" to "99".  Any other string
-                // is treated literally:  "2250", "-1", "1", "002".
-                if (count <= 2 && (pos.index - actualStart) == 2
-                    && Character.isDigit(text.charAt(actualStart))
-                    && Character.isDigit(text.charAt(actualStart + 1))) {
-                    // Assume for example that the defaultCenturyStart is 6/18/1903.
-                    // This means that two-digit years will be forced into the range
-                    // 6/18/1903 to 6/17/2003.  As a result, years 00, 01, and 02
-                    // correspond to 2000, 2001, and 2002.  Years 04, 05, etc. correspond
-                    // to 1904, 1905, etc.  If the year is 03, then it is 2003 if the
-                    // other fields specify a date before 6/18, or 1903 if they specify a
-                    // date afterwards.  As a result, 03 is an ambiguous year.  All other
-                    // two-digit years are unambiguous.
-                    int ambiguousTwoDigitYear = defaultCenturyStartYear % 100;
-                    ambiguousYear[0] = value == ambiguousTwoDigitYear;
-                    value += (defaultCenturyStartYear/100)*100 +
-                        (value < ambiguousTwoDigitYear ? 100 : 0);
+                // If there bre 3 or more YEAR pbttern chbrbcters, this indicbtes
+                // thbt the yebr vblue is to be trebted literblly, without bny
+                // two-digit yebr bdjustments (e.g., from "01" to 2001).  Otherwise
+                // we mbde bdjustments to plbce the 2-digit yebr in the proper
+                // century, for pbrsed strings from "00" to "99".  Any other string
+                // is trebted literblly:  "2250", "-1", "1", "002".
+                if (count <= 2 && (pos.index - bctublStbrt) == 2
+                    && Chbrbcter.isDigit(text.chbrAt(bctublStbrt))
+                    && Chbrbcter.isDigit(text.chbrAt(bctublStbrt + 1))) {
+                    // Assume for exbmple thbt the defbultCenturyStbrt is 6/18/1903.
+                    // This mebns thbt two-digit yebrs will be forced into the rbnge
+                    // 6/18/1903 to 6/17/2003.  As b result, yebrs 00, 01, bnd 02
+                    // correspond to 2000, 2001, bnd 2002.  Yebrs 04, 05, etc. correspond
+                    // to 1904, 1905, etc.  If the yebr is 03, then it is 2003 if the
+                    // other fields specify b dbte before 6/18, or 1903 if they specify b
+                    // dbte bfterwbrds.  As b result, 03 is bn bmbiguous yebr.  All other
+                    // two-digit yebrs bre unbmbiguous.
+                    int bmbiguousTwoDigitYebr = defbultCenturyStbrtYebr % 100;
+                    bmbiguousYebr[0] = vblue == bmbiguousTwoDigitYebr;
+                    vblue += (defbultCenturyStbrtYebr/100)*100 +
+                        (vblue < bmbiguousTwoDigitYebr ? 100 : 0);
                 }
-                calb.set(field, value);
+                cblb.set(field, vblue);
                 return pos.index;
 
-            case PATTERN_MONTH: // 'M'
+            cbse PATTERN_MONTH: // 'M'
                 if (count <= 2) // i.e., M or MM.
                 {
-                    // Don't want to parse the month if it is a string
-                    // while pattern uses numeric style: M or MM.
-                    // [We computed 'value' above.]
-                    calb.set(Calendar.MONTH, value - 1);
+                    // Don't wbnt to pbrse the month if it is b string
+                    // while pbttern uses numeric style: M or MM.
+                    // [We computed 'vblue' bbove.]
+                    cblb.set(Cblendbr.MONTH, vblue - 1);
                     return pos.index;
                 }
 
-                if (useDateFormatSymbols) {
+                if (useDbteFormbtSymbols) {
                     // count >= 3 // i.e., MMM or MMMM
-                    // Want to be able to parse both short and long forms.
+                    // Wbnt to be bble to pbrse both short bnd long forms.
                     // Try count == 4 first:
-                    int newStart;
-                    if ((newStart = matchString(text, start, Calendar.MONTH,
-                                                formatData.getMonths(), calb)) > 0) {
-                        return newStart;
+                    int newStbrt;
+                    if ((newStbrt = mbtchString(text, stbrt, Cblendbr.MONTH,
+                                                formbtDbtb.getMonths(), cblb)) > 0) {
+                        return newStbrt;
                     }
-                    // count == 4 failed, now try count == 3
-                    if ((index = matchString(text, start, Calendar.MONTH,
-                                             formatData.getShortMonths(), calb)) > 0) {
+                    // count == 4 fbiled, now try count == 3
+                    if ((index = mbtchString(text, stbrt, Cblendbr.MONTH,
+                                             formbtDbtb.getShortMonths(), cblb)) > 0) {
                         return index;
                     }
                 } else {
-                    Map<String, Integer> map = getDisplayNamesMap(field, locale);
-                    if ((index = matchString(text, start, field, map, calb)) > 0) {
+                    Mbp<String, Integer> mbp = getDisplbyNbmesMbp(field, locble);
+                    if ((index = mbtchString(text, stbrt, field, mbp, cblb)) > 0) {
                         return index;
                     }
                 }
-                break parsing;
+                brebk pbrsing;
 
-            case PATTERN_HOUR_OF_DAY1: // 'k' 1-based.  eg, 23:59 + 1 hour =>> 24:59
+            cbse PATTERN_HOUR_OF_DAY1: // 'k' 1-bbsed.  eg, 23:59 + 1 hour =>> 24:59
                 if (!isLenient()) {
-                    // Validate the hour value in non-lenient
-                    if (value < 1 || value > 24) {
-                        break parsing;
+                    // Vblidbte the hour vblue in non-lenient
+                    if (vblue < 1 || vblue > 24) {
+                        brebk pbrsing;
                     }
                 }
-                // [We computed 'value' above.]
-                if (value == calendar.getMaximum(Calendar.HOUR_OF_DAY) + 1) {
-                    value = 0;
+                // [We computed 'vblue' bbove.]
+                if (vblue == cblendbr.getMbximum(Cblendbr.HOUR_OF_DAY) + 1) {
+                    vblue = 0;
                 }
-                calb.set(Calendar.HOUR_OF_DAY, value);
+                cblb.set(Cblendbr.HOUR_OF_DAY, vblue);
                 return pos.index;
 
-            case PATTERN_DAY_OF_WEEK:  // 'E'
+            cbse PATTERN_DAY_OF_WEEK:  // 'E'
                 {
-                    if (useDateFormatSymbols) {
-                        // Want to be able to parse both short and long forms.
+                    if (useDbteFormbtSymbols) {
+                        // Wbnt to be bble to pbrse both short bnd long forms.
                         // Try count == 4 (DDDD) first:
-                        int newStart;
-                        if ((newStart=matchString(text, start, Calendar.DAY_OF_WEEK,
-                                                  formatData.getWeekdays(), calb)) > 0) {
-                            return newStart;
+                        int newStbrt;
+                        if ((newStbrt=mbtchString(text, stbrt, Cblendbr.DAY_OF_WEEK,
+                                                  formbtDbtb.getWeekdbys(), cblb)) > 0) {
+                            return newStbrt;
                         }
-                        // DDDD failed, now try DDD
-                        if ((index = matchString(text, start, Calendar.DAY_OF_WEEK,
-                                                 formatData.getShortWeekdays(), calb)) > 0) {
+                        // DDDD fbiled, now try DDD
+                        if ((index = mbtchString(text, stbrt, Cblendbr.DAY_OF_WEEK,
+                                                 formbtDbtb.getShortWeekdbys(), cblb)) > 0) {
                             return index;
                         }
                     } else {
-                        int[] styles = { Calendar.LONG, Calendar.SHORT };
+                        int[] styles = { Cblendbr.LONG, Cblendbr.SHORT };
                         for (int style : styles) {
-                            Map<String,Integer> map = calendar.getDisplayNames(field, style, locale);
-                            if ((index = matchString(text, start, field, map, calb)) > 0) {
+                            Mbp<String,Integer> mbp = cblendbr.getDisplbyNbmes(field, style, locble);
+                            if ((index = mbtchString(text, stbrt, field, mbp, cblb)) > 0) {
                                 return index;
                             }
                         }
                     }
                 }
-                break parsing;
+                brebk pbrsing;
 
-            case PATTERN_AM_PM:    // 'a'
-                if (useDateFormatSymbols) {
-                    if ((index = matchString(text, start, Calendar.AM_PM,
-                                             formatData.getAmPmStrings(), calb)) > 0) {
+            cbse PATTERN_AM_PM:    // 'b'
+                if (useDbteFormbtSymbols) {
+                    if ((index = mbtchString(text, stbrt, Cblendbr.AM_PM,
+                                             formbtDbtb.getAmPmStrings(), cblb)) > 0) {
                         return index;
                     }
                 } else {
-                    Map<String,Integer> map = getDisplayNamesMap(field, locale);
-                    if ((index = matchString(text, start, field, map, calb)) > 0) {
+                    Mbp<String,Integer> mbp = getDisplbyNbmesMbp(field, locble);
+                    if ((index = mbtchString(text, stbrt, field, mbp, cblb)) > 0) {
                         return index;
                     }
                 }
-                break parsing;
+                brebk pbrsing;
 
-            case PATTERN_HOUR1: // 'h' 1-based.  eg, 11PM + 1 hour =>> 12 AM
+            cbse PATTERN_HOUR1: // 'h' 1-bbsed.  eg, 11PM + 1 hour =>> 12 AM
                 if (!isLenient()) {
-                    // Validate the hour value in non-lenient
-                    if (value < 1 || value > 12) {
-                        break parsing;
+                    // Vblidbte the hour vblue in non-lenient
+                    if (vblue < 1 || vblue > 12) {
+                        brebk pbrsing;
                     }
                 }
-                // [We computed 'value' above.]
-                if (value == calendar.getLeastMaximum(Calendar.HOUR) + 1) {
-                    value = 0;
+                // [We computed 'vblue' bbove.]
+                if (vblue == cblendbr.getLebstMbximum(Cblendbr.HOUR) + 1) {
+                    vblue = 0;
                 }
-                calb.set(Calendar.HOUR, value);
+                cblb.set(Cblendbr.HOUR, vblue);
                 return pos.index;
 
-            case PATTERN_ZONE_NAME:  // 'z'
-            case PATTERN_ZONE_VALUE: // 'Z'
+            cbse PATTERN_ZONE_NAME:  // 'z'
+            cbse PATTERN_ZONE_VALUE: // 'Z'
                 {
                     int sign = 0;
                     try {
-                        char c = text.charAt(pos.index);
+                        chbr c = text.chbrAt(pos.index);
                         if (c == '+') {
                             sign = 1;
                         } else if (c == '-') {
                             sign = -1;
                         }
                         if (sign == 0) {
-                            // Try parsing a custom time zone "GMT+hh:mm" or "GMT".
+                            // Try pbrsing b custom time zone "GMT+hh:mm" or "GMT".
                             if ((c == 'G' || c == 'g')
-                                && (text.length() - start) >= GMT.length()
-                                && text.regionMatches(true, start, GMT, 0, GMT.length())) {
-                                pos.index = start + GMT.length();
+                                && (text.length() - stbrt) >= GMT.length()
+                                && text.regionMbtches(true, stbrt, GMT, 0, GMT.length())) {
+                                pos.index = stbrt + GMT.length();
 
                                 if ((text.length() - pos.index) > 0) {
-                                    c = text.charAt(pos.index);
+                                    c = text.chbrAt(pos.index);
                                     if (c == '+') {
                                         sign = 1;
                                     } else if (c == '-') {
@@ -2073,369 +2073,369 @@ public class SimpleDateFormat extends DateFormat {
                                 }
 
                                 if (sign == 0) {    /* "GMT" without offset */
-                                    calb.set(Calendar.ZONE_OFFSET, 0)
-                                        .set(Calendar.DST_OFFSET, 0);
+                                    cblb.set(Cblendbr.ZONE_OFFSET, 0)
+                                        .set(Cblendbr.DST_OFFSET, 0);
                                     return pos.index;
                                 }
 
-                                // Parse the rest as "hh:mm"
-                                int i = subParseNumericZone(text, ++pos.index,
-                                                            sign, 0, true, calb);
+                                // Pbrse the rest bs "hh:mm"
+                                int i = subPbrseNumericZone(text, ++pos.index,
+                                                            sign, 0, true, cblb);
                                 if (i > 0) {
                                     return i;
                                 }
                                 pos.index = -i;
                             } else {
-                                // Try parsing the text as a time zone
-                                // name or abbreviation.
-                                int i = subParseZoneString(text, pos.index, calb);
+                                // Try pbrsing the text bs b time zone
+                                // nbme or bbbrevibtion.
+                                int i = subPbrseZoneString(text, pos.index, cblb);
                                 if (i > 0) {
                                     return i;
                                 }
                                 pos.index = -i;
                             }
                         } else {
-                            // Parse the rest as "hhmm" (RFC 822)
-                            int i = subParseNumericZone(text, ++pos.index,
-                                                        sign, 0, false, calb);
+                            // Pbrse the rest bs "hhmm" (RFC 822)
+                            int i = subPbrseNumericZone(text, ++pos.index,
+                                                        sign, 0, fblse, cblb);
                             if (i > 0) {
                                 return i;
                             }
                             pos.index = -i;
                         }
-                    } catch (IndexOutOfBoundsException e) {
+                    } cbtch (IndexOutOfBoundsException e) {
                     }
                 }
-                break parsing;
+                brebk pbrsing;
 
-            case PATTERN_ISO_ZONE:   // 'X'
+            cbse PATTERN_ISO_ZONE:   // 'X'
                 {
                     if ((text.length() - pos.index) <= 0) {
-                        break parsing;
+                        brebk pbrsing;
                     }
 
                     int sign;
-                    char c = text.charAt(pos.index);
+                    chbr c = text.chbrAt(pos.index);
                     if (c == 'Z') {
-                        calb.set(Calendar.ZONE_OFFSET, 0).set(Calendar.DST_OFFSET, 0);
+                        cblb.set(Cblendbr.ZONE_OFFSET, 0).set(Cblendbr.DST_OFFSET, 0);
                         return ++pos.index;
                     }
 
-                    // parse text as "+/-hh[[:]mm]" based on count
+                    // pbrse text bs "+/-hh[[:]mm]" bbsed on count
                     if (c == '+') {
                         sign = 1;
                     } else if (c == '-') {
                         sign = -1;
                     } else {
                         ++pos.index;
-                        break parsing;
+                        brebk pbrsing;
                     }
-                    int i = subParseNumericZone(text, ++pos.index, sign, count,
-                                                count == 3, calb);
+                    int i = subPbrseNumericZone(text, ++pos.index, sign, count,
+                                                count == 3, cblb);
                     if (i > 0) {
                         return i;
                     }
                     pos.index = -i;
                 }
-                break parsing;
+                brebk pbrsing;
 
-            default:
-         // case PATTERN_DAY_OF_MONTH:         // 'd'
-         // case PATTERN_HOUR_OF_DAY0:         // 'H' 0-based.  eg, 23:59 + 1 hour =>> 00:59
-         // case PATTERN_MINUTE:               // 'm'
-         // case PATTERN_SECOND:               // 's'
-         // case PATTERN_MILLISECOND:          // 'S'
-         // case PATTERN_DAY_OF_YEAR:          // 'D'
-         // case PATTERN_DAY_OF_WEEK_IN_MONTH: // 'F'
-         // case PATTERN_WEEK_OF_YEAR:         // 'w'
-         // case PATTERN_WEEK_OF_MONTH:        // 'W'
-         // case PATTERN_HOUR0:                // 'K' 0-based.  eg, 11PM + 1 hour =>> 0 AM
-         // case PATTERN_ISO_DAY_OF_WEEK:      // 'u' (pseudo field);
+            defbult:
+         // cbse PATTERN_DAY_OF_MONTH:         // 'd'
+         // cbse PATTERN_HOUR_OF_DAY0:         // 'H' 0-bbsed.  eg, 23:59 + 1 hour =>> 00:59
+         // cbse PATTERN_MINUTE:               // 'm'
+         // cbse PATTERN_SECOND:               // 's'
+         // cbse PATTERN_MILLISECOND:          // 'S'
+         // cbse PATTERN_DAY_OF_YEAR:          // 'D'
+         // cbse PATTERN_DAY_OF_WEEK_IN_MONTH: // 'F'
+         // cbse PATTERN_WEEK_OF_YEAR:         // 'w'
+         // cbse PATTERN_WEEK_OF_MONTH:        // 'W'
+         // cbse PATTERN_HOUR0:                // 'K' 0-bbsed.  eg, 11PM + 1 hour =>> 0 AM
+         // cbse PATTERN_ISO_DAY_OF_WEEK:      // 'u' (pseudo field);
 
-                // Handle "generic" fields
+                // Hbndle "generic" fields
                 if (obeyCount) {
-                    if ((start+count) > text.length()) {
-                        break parsing;
+                    if ((stbrt+count) > text.length()) {
+                        brebk pbrsing;
                     }
-                    number = numberFormat.parse(text.substring(0, start+count), pos);
+                    number = numberFormbt.pbrse(text.substring(0, stbrt+count), pos);
                 } else {
-                    number = numberFormat.parse(text, pos);
+                    number = numberFormbt.pbrse(text, pos);
                 }
                 if (number != null) {
-                    value = number.intValue();
+                    vblue = number.intVblue();
 
-                    if (useFollowingMinusSignAsDelimiter && (value < 0) &&
+                    if (useFollowingMinusSignAsDelimiter && (vblue < 0) &&
                         (((pos.index < text.length()) &&
-                         (text.charAt(pos.index) != minusSign)) ||
+                         (text.chbrAt(pos.index) != minusSign)) ||
                          ((pos.index == text.length()) &&
-                          (text.charAt(pos.index-1) == minusSign)))) {
-                        value = -value;
+                          (text.chbrAt(pos.index-1) == minusSign)))) {
+                        vblue = -vblue;
                         pos.index--;
                     }
 
-                    calb.set(field, value);
+                    cblb.set(field, vblue);
                     return pos.index;
                 }
-                break parsing;
+                brebk pbrsing;
             }
         }
 
-        // Parsing failed.
+        // Pbrsing fbiled.
         origPos.errorIndex = pos.index;
         return -1;
     }
 
     /**
-     * Returns true if the DateFormatSymbols has been set explicitly or locale
+     * Returns true if the DbteFormbtSymbols hbs been set explicitly or locble
      * is null.
      */
-    private boolean useDateFormatSymbols() {
-        return useDateFormatSymbols || locale == null;
+    privbte boolebn useDbteFormbtSymbols() {
+        return useDbteFormbtSymbols || locble == null;
     }
 
     /**
-     * Translates a pattern, mapping each character in the from string to the
-     * corresponding character in the to string.
+     * Trbnslbtes b pbttern, mbpping ebch chbrbcter in the from string to the
+     * corresponding chbrbcter in the to string.
      *
-     * @exception IllegalArgumentException if the given pattern is invalid
+     * @exception IllegblArgumentException if the given pbttern is invblid
      */
-    private String translatePattern(String pattern, String from, String to) {
+    privbte String trbnslbtePbttern(String pbttern, String from, String to) {
         StringBuilder result = new StringBuilder();
-        boolean inQuote = false;
-        for (int i = 0; i < pattern.length(); ++i) {
-            char c = pattern.charAt(i);
+        boolebn inQuote = fblse;
+        for (int i = 0; i < pbttern.length(); ++i) {
+            chbr c = pbttern.chbrAt(i);
             if (inQuote) {
                 if (c == '\'') {
-                    inQuote = false;
+                    inQuote = fblse;
                 }
             }
             else {
                 if (c == '\'') {
                     inQuote = true;
-                } else if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z')) {
+                } else if ((c >= 'b' && c <= 'z') || (c >= 'A' && c <= 'Z')) {
                     int ci = from.indexOf(c);
                     if (ci >= 0) {
-                        // patternChars is longer than localPatternChars due
-                        // to serialization compatibility. The pattern letters
-                        // unsupported by localPatternChars pass through.
+                        // pbtternChbrs is longer thbn locblPbtternChbrs due
+                        // to seriblizbtion compbtibility. The pbttern letters
+                        // unsupported by locblPbtternChbrs pbss through.
                         if (ci < to.length()) {
-                            c = to.charAt(ci);
+                            c = to.chbrAt(ci);
                         }
                     } else {
-                        throw new IllegalArgumentException("Illegal pattern " +
-                                                           " character '" +
+                        throw new IllegblArgumentException("Illegbl pbttern " +
+                                                           " chbrbcter '" +
                                                            c + "'");
                     }
                 }
             }
-            result.append(c);
+            result.bppend(c);
         }
         if (inQuote) {
-            throw new IllegalArgumentException("Unfinished quote in pattern");
+            throw new IllegblArgumentException("Unfinished quote in pbttern");
         }
         return result.toString();
     }
 
     /**
-     * Returns a pattern string describing this date format.
+     * Returns b pbttern string describing this dbte formbt.
      *
-     * @return a pattern string describing this date format.
+     * @return b pbttern string describing this dbte formbt.
      */
-    public String toPattern() {
-        return pattern;
+    public String toPbttern() {
+        return pbttern;
     }
 
     /**
-     * Returns a localized pattern string describing this date format.
+     * Returns b locblized pbttern string describing this dbte formbt.
      *
-     * @return a localized pattern string describing this date format.
+     * @return b locblized pbttern string describing this dbte formbt.
      */
-    public String toLocalizedPattern() {
-        return translatePattern(pattern,
-                                DateFormatSymbols.patternChars,
-                                formatData.getLocalPatternChars());
+    public String toLocblizedPbttern() {
+        return trbnslbtePbttern(pbttern,
+                                DbteFormbtSymbols.pbtternChbrs,
+                                formbtDbtb.getLocblPbtternChbrs());
     }
 
     /**
-     * Applies the given pattern string to this date format.
+     * Applies the given pbttern string to this dbte formbt.
      *
-     * @param pattern the new date and time pattern for this date format
-     * @exception NullPointerException if the given pattern is null
-     * @exception IllegalArgumentException if the given pattern is invalid
+     * @pbrbm pbttern the new dbte bnd time pbttern for this dbte formbt
+     * @exception NullPointerException if the given pbttern is null
+     * @exception IllegblArgumentException if the given pbttern is invblid
      */
-    public void applyPattern(String pattern)
+    public void bpplyPbttern(String pbttern)
     {
-        applyPatternImpl(pattern);
+        bpplyPbtternImpl(pbttern);
     }
 
-    private void applyPatternImpl(String pattern) {
-        compiledPattern = compile(pattern);
-        this.pattern = pattern;
-    }
-
-    /**
-     * Applies the given localized pattern string to this date format.
-     *
-     * @param pattern a String to be mapped to the new date and time format
-     *        pattern for this format
-     * @exception NullPointerException if the given pattern is null
-     * @exception IllegalArgumentException if the given pattern is invalid
-     */
-    public void applyLocalizedPattern(String pattern) {
-         String p = translatePattern(pattern,
-                                     formatData.getLocalPatternChars(),
-                                     DateFormatSymbols.patternChars);
-         compiledPattern = compile(p);
-         this.pattern = p;
+    privbte void bpplyPbtternImpl(String pbttern) {
+        compiledPbttern = compile(pbttern);
+        this.pbttern = pbttern;
     }
 
     /**
-     * Gets a copy of the date and time format symbols of this date format.
+     * Applies the given locblized pbttern string to this dbte formbt.
      *
-     * @return the date and time format symbols of this date format
-     * @see #setDateFormatSymbols
+     * @pbrbm pbttern b String to be mbpped to the new dbte bnd time formbt
+     *        pbttern for this formbt
+     * @exception NullPointerException if the given pbttern is null
+     * @exception IllegblArgumentException if the given pbttern is invblid
      */
-    public DateFormatSymbols getDateFormatSymbols()
+    public void bpplyLocblizedPbttern(String pbttern) {
+         String p = trbnslbtePbttern(pbttern,
+                                     formbtDbtb.getLocblPbtternChbrs(),
+                                     DbteFormbtSymbols.pbtternChbrs);
+         compiledPbttern = compile(p);
+         this.pbttern = p;
+    }
+
+    /**
+     * Gets b copy of the dbte bnd time formbt symbols of this dbte formbt.
+     *
+     * @return the dbte bnd time formbt symbols of this dbte formbt
+     * @see #setDbteFormbtSymbols
+     */
+    public DbteFormbtSymbols getDbteFormbtSymbols()
     {
-        return (DateFormatSymbols)formatData.clone();
+        return (DbteFormbtSymbols)formbtDbtb.clone();
     }
 
     /**
-     * Sets the date and time format symbols of this date format.
+     * Sets the dbte bnd time formbt symbols of this dbte formbt.
      *
-     * @param newFormatSymbols the new date and time format symbols
-     * @exception NullPointerException if the given newFormatSymbols is null
-     * @see #getDateFormatSymbols
+     * @pbrbm newFormbtSymbols the new dbte bnd time formbt symbols
+     * @exception NullPointerException if the given newFormbtSymbols is null
+     * @see #getDbteFormbtSymbols
      */
-    public void setDateFormatSymbols(DateFormatSymbols newFormatSymbols)
+    public void setDbteFormbtSymbols(DbteFormbtSymbols newFormbtSymbols)
     {
-        this.formatData = (DateFormatSymbols)newFormatSymbols.clone();
-        useDateFormatSymbols = true;
+        this.formbtDbtb = (DbteFormbtSymbols)newFormbtSymbols.clone();
+        useDbteFormbtSymbols = true;
     }
 
     /**
-     * Creates a copy of this <code>SimpleDateFormat</code>. This also
-     * clones the format's date format symbols.
+     * Crebtes b copy of this <code>SimpleDbteFormbt</code>. This blso
+     * clones the formbt's dbte formbt symbols.
      *
-     * @return a clone of this <code>SimpleDateFormat</code>
+     * @return b clone of this <code>SimpleDbteFormbt</code>
      */
     @Override
     public Object clone() {
-        SimpleDateFormat other = (SimpleDateFormat) super.clone();
-        other.formatData = (DateFormatSymbols) formatData.clone();
+        SimpleDbteFormbt other = (SimpleDbteFormbt) super.clone();
+        other.formbtDbtb = (DbteFormbtSymbols) formbtDbtb.clone();
         return other;
     }
 
     /**
-     * Returns the hash code value for this <code>SimpleDateFormat</code> object.
+     * Returns the hbsh code vblue for this <code>SimpleDbteFormbt</code> object.
      *
-     * @return the hash code value for this <code>SimpleDateFormat</code> object.
+     * @return the hbsh code vblue for this <code>SimpleDbteFormbt</code> object.
      */
     @Override
-    public int hashCode()
+    public int hbshCode()
     {
-        return pattern.hashCode();
-        // just enough fields for a reasonable distribution
+        return pbttern.hbshCode();
+        // just enough fields for b rebsonbble distribution
     }
 
     /**
-     * Compares the given object with this <code>SimpleDateFormat</code> for
-     * equality.
+     * Compbres the given object with this <code>SimpleDbteFormbt</code> for
+     * equblity.
      *
-     * @return true if the given object is equal to this
-     * <code>SimpleDateFormat</code>
+     * @return true if the given object is equbl to this
+     * <code>SimpleDbteFormbt</code>
      */
     @Override
-    public boolean equals(Object obj)
+    public boolebn equbls(Object obj)
     {
-        if (!super.equals(obj)) {
-            return false; // super does class check
+        if (!super.equbls(obj)) {
+            return fblse; // super does clbss check
         }
-        SimpleDateFormat that = (SimpleDateFormat) obj;
-        return (pattern.equals(that.pattern)
-                && formatData.equals(that.formatData));
+        SimpleDbteFormbt thbt = (SimpleDbteFormbt) obj;
+        return (pbttern.equbls(thbt.pbttern)
+                && formbtDbtb.equbls(thbt.formbtDbtb));
     }
 
-    private static final int[] REST_OF_STYLES = {
-        Calendar.SHORT_STANDALONE, Calendar.LONG_FORMAT, Calendar.LONG_STANDALONE,
+    privbte stbtic finbl int[] REST_OF_STYLES = {
+        Cblendbr.SHORT_STANDALONE, Cblendbr.LONG_FORMAT, Cblendbr.LONG_STANDALONE,
     };
-    private Map<String, Integer> getDisplayNamesMap(int field, Locale locale) {
-        Map<String, Integer> map = calendar.getDisplayNames(field, Calendar.SHORT_FORMAT, locale);
-        // Get all SHORT and LONG styles (avoid NARROW styles).
+    privbte Mbp<String, Integer> getDisplbyNbmesMbp(int field, Locble locble) {
+        Mbp<String, Integer> mbp = cblendbr.getDisplbyNbmes(field, Cblendbr.SHORT_FORMAT, locble);
+        // Get bll SHORT bnd LONG styles (bvoid NARROW styles).
         for (int style : REST_OF_STYLES) {
-            Map<String, Integer> m = calendar.getDisplayNames(field, style, locale);
+            Mbp<String, Integer> m = cblendbr.getDisplbyNbmes(field, style, locble);
             if (m != null) {
-                map.putAll(m);
+                mbp.putAll(m);
             }
         }
-        return map;
+        return mbp;
     }
 
     /**
-     * After reading an object from the input stream, the format
-     * pattern in the object is verified.
+     * After rebding bn object from the input strebm, the formbt
+     * pbttern in the object is verified.
      * <p>
-     * @exception InvalidObjectException if the pattern is invalid
+     * @exception InvblidObjectException if the pbttern is invblid
      */
-    private void readObject(ObjectInputStream stream)
-                         throws IOException, ClassNotFoundException {
-        stream.defaultReadObject();
+    privbte void rebdObject(ObjectInputStrebm strebm)
+                         throws IOException, ClbssNotFoundException {
+        strebm.defbultRebdObject();
 
         try {
-            compiledPattern = compile(pattern);
-        } catch (Exception e) {
-            throw new InvalidObjectException("invalid pattern");
+            compiledPbttern = compile(pbttern);
+        } cbtch (Exception e) {
+            throw new InvblidObjectException("invblid pbttern");
         }
 
-        if (serialVersionOnStream < 1) {
-            // didn't have defaultCenturyStart field
-            initializeDefaultCentury();
+        if (seriblVersionOnStrebm < 1) {
+            // didn't hbve defbultCenturyStbrt field
+            initiblizeDefbultCentury();
         }
         else {
-            // fill in dependent transient field
-            parseAmbiguousDatesAsAfter(defaultCenturyStart);
+            // fill in dependent trbnsient field
+            pbrseAmbiguousDbtesAsAfter(defbultCenturyStbrt);
         }
-        serialVersionOnStream = currentSerialVersion;
+        seriblVersionOnStrebm = currentSeriblVersion;
 
-        // If the deserialized object has a SimpleTimeZone, try
-        // to replace it with a ZoneInfo equivalent in order to
-        // be compatible with the SimpleTimeZone-based
-        // implementation as much as possible.
+        // If the deseriblized object hbs b SimpleTimeZone, try
+        // to replbce it with b ZoneInfo equivblent in order to
+        // be compbtible with the SimpleTimeZone-bbsed
+        // implementbtion bs much bs possible.
         TimeZone tz = getTimeZone();
-        if (tz instanceof SimpleTimeZone) {
+        if (tz instbnceof SimpleTimeZone) {
             String id = tz.getID();
             TimeZone zi = TimeZone.getTimeZone(id);
-            if (zi != null && zi.hasSameRules(tz) && zi.getID().equals(id)) {
+            if (zi != null && zi.hbsSbmeRules(tz) && zi.getID().equbls(id)) {
                 setTimeZone(zi);
             }
         }
     }
 
     /**
-     * Analyze the negative subpattern of DecimalFormat and set/update values
-     * as necessary.
+     * Anblyze the negbtive subpbttern of DecimblFormbt bnd set/updbte vblues
+     * bs necessbry.
      */
-    private void checkNegativeNumberExpression() {
-        if ((numberFormat instanceof DecimalFormat) &&
-            !numberFormat.equals(originalNumberFormat)) {
-            String numberPattern = ((DecimalFormat)numberFormat).toPattern();
-            if (!numberPattern.equals(originalNumberPattern)) {
-                hasFollowingMinusSign = false;
+    privbte void checkNegbtiveNumberExpression() {
+        if ((numberFormbt instbnceof DecimblFormbt) &&
+            !numberFormbt.equbls(originblNumberFormbt)) {
+            String numberPbttern = ((DecimblFormbt)numberFormbt).toPbttern();
+            if (!numberPbttern.equbls(originblNumberPbttern)) {
+                hbsFollowingMinusSign = fblse;
 
-                int separatorIndex = numberPattern.indexOf(';');
-                // If the negative subpattern is not absent, we have to analayze
-                // it in order to check if it has a following minus sign.
-                if (separatorIndex > -1) {
-                    int minusIndex = numberPattern.indexOf('-', separatorIndex);
-                    if ((minusIndex > numberPattern.lastIndexOf('0')) &&
-                        (minusIndex > numberPattern.lastIndexOf('#'))) {
-                        hasFollowingMinusSign = true;
-                        minusSign = ((DecimalFormat)numberFormat).getDecimalFormatSymbols().getMinusSign();
+                int sepbrbtorIndex = numberPbttern.indexOf(';');
+                // If the negbtive subpbttern is not bbsent, we hbve to bnblbyze
+                // it in order to check if it hbs b following minus sign.
+                if (sepbrbtorIndex > -1) {
+                    int minusIndex = numberPbttern.indexOf('-', sepbrbtorIndex);
+                    if ((minusIndex > numberPbttern.lbstIndexOf('0')) &&
+                        (minusIndex > numberPbttern.lbstIndexOf('#'))) {
+                        hbsFollowingMinusSign = true;
+                        minusSign = ((DecimblFormbt)numberFormbt).getDecimblFormbtSymbols().getMinusSign();
                     }
                 }
-                originalNumberPattern = numberPattern;
+                originblNumberPbttern = numberPbttern;
             }
-            originalNumberFormat = numberFormat;
+            originblNumberFormbt = numberFormbt;
         }
     }
 

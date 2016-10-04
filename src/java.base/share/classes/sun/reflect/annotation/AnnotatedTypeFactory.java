@@ -1,319 +1,319 @@
 /*
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.reflect.annotation;
+pbckbge sun.reflect.bnnotbtion;
 
-import java.lang.annotation.*;
-import java.lang.reflect.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import jbvb.lbng.bnnotbtion.*;
+import jbvb.lbng.reflect.*;
+import jbvb.util.ArrbyList;
+import jbvb.util.Arrbys;
+import jbvb.util.List;
+import jbvb.util.Mbp;
 
-import static sun.reflect.annotation.TypeAnnotation.*;
+import stbtic sun.reflect.bnnotbtion.TypeAnnotbtion.*;
 
-public final class AnnotatedTypeFactory {
+public finbl clbss AnnotbtedTypeFbctory {
     /**
-     * Create an AnnotatedType.
+     * Crebte bn AnnotbtedType.
      *
-     * @param type the type this AnnotatedType corresponds to
-     * @param currentLoc the location this AnnotatedType corresponds to
-     * @param actualTypeAnnos the type annotations this AnnotatedType has
-     * @param allOnSameTarget all type annotation on the same TypeAnnotationTarget
-     *                          as the AnnotatedType being built
-     * @param decl the declaration having the type use this AnnotatedType
+     * @pbrbm type the type this AnnotbtedType corresponds to
+     * @pbrbm currentLoc the locbtion this AnnotbtedType corresponds to
+     * @pbrbm bctublTypeAnnos the type bnnotbtions this AnnotbtedType hbs
+     * @pbrbm bllOnSbmeTbrget bll type bnnotbtion on the sbme TypeAnnotbtionTbrget
+     *                          bs the AnnotbtedType being built
+     * @pbrbm decl the declbrbtion hbving the type use this AnnotbtedType
      *                          corresponds to
      */
-    public static AnnotatedType buildAnnotatedType(Type type,
-            LocationInfo currentLoc,
-            TypeAnnotation[] actualTypeAnnos,
-            TypeAnnotation[] allOnSameTarget,
-            AnnotatedElement decl) {
+    public stbtic AnnotbtedType buildAnnotbtedType(Type type,
+            LocbtionInfo currentLoc,
+            TypeAnnotbtion[] bctublTypeAnnos,
+            TypeAnnotbtion[] bllOnSbmeTbrget,
+            AnnotbtedElement decl) {
         if (type == null) {
             return EMPTY_ANNOTATED_TYPE;
         }
-        if (isArray(type))
-            return new AnnotatedArrayTypeImpl(type,
+        if (isArrby(type))
+            return new AnnotbtedArrbyTypeImpl(type,
                     currentLoc,
-                    actualTypeAnnos,
-                    allOnSameTarget,
+                    bctublTypeAnnos,
+                    bllOnSbmeTbrget,
                     decl);
-        if (type instanceof Class) {
-            return new AnnotatedTypeBaseImpl(type,
-                    addNesting(type, currentLoc),
-                    actualTypeAnnos,
-                    allOnSameTarget,
+        if (type instbnceof Clbss) {
+            return new AnnotbtedTypeBbseImpl(type,
+                    bddNesting(type, currentLoc),
+                    bctublTypeAnnos,
+                    bllOnSbmeTbrget,
                     decl);
-        } else if (type instanceof TypeVariable) {
-            return new AnnotatedTypeVariableImpl((TypeVariable)type,
+        } else if (type instbnceof TypeVbribble) {
+            return new AnnotbtedTypeVbribbleImpl((TypeVbribble)type,
                     currentLoc,
-                    actualTypeAnnos,
-                    allOnSameTarget,
+                    bctublTypeAnnos,
+                    bllOnSbmeTbrget,
                     decl);
-        } else if (type instanceof ParameterizedType) {
-            return new AnnotatedParameterizedTypeImpl((ParameterizedType)type,
-                    addNesting(type, currentLoc),
-                    actualTypeAnnos,
-                    allOnSameTarget,
+        } else if (type instbnceof PbrbmeterizedType) {
+            return new AnnotbtedPbrbmeterizedTypeImpl((PbrbmeterizedType)type,
+                    bddNesting(type, currentLoc),
+                    bctublTypeAnnos,
+                    bllOnSbmeTbrget,
                     decl);
-        } else if (type instanceof WildcardType) {
-            return new AnnotatedWildcardTypeImpl((WildcardType) type,
+        } else if (type instbnceof WildcbrdType) {
+            return new AnnotbtedWildcbrdTypeImpl((WildcbrdType) type,
                     currentLoc,
-                    actualTypeAnnos,
-                    allOnSameTarget,
+                    bctublTypeAnnos,
+                    bllOnSbmeTbrget,
                     decl);
         }
-        throw new AssertionError("Unknown instance of Type: " + type + "\nThis should not happen.");
+        throw new AssertionError("Unknown instbnce of Type: " + type + "\nThis should not hbppen.");
     }
 
-    private static LocationInfo addNesting(Type type, LocationInfo addTo) {
-        if (isArray(type))
-            return addTo;
-        if (type instanceof Class) {
-            Class<?> clz = (Class)type;
-            if (clz.getEnclosingClass() == null)
-                return addTo;
-            if (Modifier.isStatic(clz.getModifiers()))
-                return addNesting(clz.getEnclosingClass(), addTo);
-            return addNesting(clz.getEnclosingClass(), addTo.pushInner());
-        } else if (type instanceof ParameterizedType) {
-            ParameterizedType t = (ParameterizedType)type;
+    privbte stbtic LocbtionInfo bddNesting(Type type, LocbtionInfo bddTo) {
+        if (isArrby(type))
+            return bddTo;
+        if (type instbnceof Clbss) {
+            Clbss<?> clz = (Clbss)type;
+            if (clz.getEnclosingClbss() == null)
+                return bddTo;
+            if (Modifier.isStbtic(clz.getModifiers()))
+                return bddNesting(clz.getEnclosingClbss(), bddTo);
+            return bddNesting(clz.getEnclosingClbss(), bddTo.pushInner());
+        } else if (type instbnceof PbrbmeterizedType) {
+            PbrbmeterizedType t = (PbrbmeterizedType)type;
             if (t.getOwnerType() == null)
-                return addTo;
-            return addNesting(t.getOwnerType(), addTo.pushInner());
+                return bddTo;
+            return bddNesting(t.getOwnerType(), bddTo.pushInner());
         }
-        return addTo;
+        return bddTo;
     }
 
-    private static boolean isArray(Type t) {
-        if (t instanceof Class) {
-            Class<?> c = (Class)t;
-            if (c.isArray())
+    privbte stbtic boolebn isArrby(Type t) {
+        if (t instbnceof Clbss) {
+            Clbss<?> c = (Clbss)t;
+            if (c.isArrby())
                 return true;
-        } else if (t instanceof GenericArrayType) {
+        } else if (t instbnceof GenericArrbyType) {
             return true;
         }
-        return false;
+        return fblse;
     }
 
-    static final AnnotatedType EMPTY_ANNOTATED_TYPE = new AnnotatedTypeBaseImpl(null, LocationInfo.BASE_LOCATION,
-                                                            new TypeAnnotation[0], new TypeAnnotation[0], null);
-    static final AnnotatedType[] EMPTY_ANNOTATED_TYPE_ARRAY = new AnnotatedType[0];
+    stbtic finbl AnnotbtedType EMPTY_ANNOTATED_TYPE = new AnnotbtedTypeBbseImpl(null, LocbtionInfo.BASE_LOCATION,
+                                                            new TypeAnnotbtion[0], new TypeAnnotbtion[0], null);
+    stbtic finbl AnnotbtedType[] EMPTY_ANNOTATED_TYPE_ARRAY = new AnnotbtedType[0];
 
-    private static class AnnotatedTypeBaseImpl implements AnnotatedType {
-        private final Type type;
-        private final AnnotatedElement decl;
-        private final LocationInfo location;
-        private final TypeAnnotation[] allOnSameTargetTypeAnnotations;
-        private final Map<Class <? extends Annotation>, Annotation> annotations;
+    privbte stbtic clbss AnnotbtedTypeBbseImpl implements AnnotbtedType {
+        privbte finbl Type type;
+        privbte finbl AnnotbtedElement decl;
+        privbte finbl LocbtionInfo locbtion;
+        privbte finbl TypeAnnotbtion[] bllOnSbmeTbrgetTypeAnnotbtions;
+        privbte finbl Mbp<Clbss <? extends Annotbtion>, Annotbtion> bnnotbtions;
 
-        AnnotatedTypeBaseImpl(Type type, LocationInfo location,
-                TypeAnnotation[] actualTypeAnnotations, TypeAnnotation[] allOnSameTargetTypeAnnotations,
-                AnnotatedElement decl) {
+        AnnotbtedTypeBbseImpl(Type type, LocbtionInfo locbtion,
+                TypeAnnotbtion[] bctublTypeAnnotbtions, TypeAnnotbtion[] bllOnSbmeTbrgetTypeAnnotbtions,
+                AnnotbtedElement decl) {
             this.type = type;
             this.decl = decl;
-            this.location = location;
-            this.allOnSameTargetTypeAnnotations = allOnSameTargetTypeAnnotations;
-            this.annotations = TypeAnnotationParser.mapTypeAnnotations(location.filter(actualTypeAnnotations));
+            this.locbtion = locbtion;
+            this.bllOnSbmeTbrgetTypeAnnotbtions = bllOnSbmeTbrgetTypeAnnotbtions;
+            this.bnnotbtions = TypeAnnotbtionPbrser.mbpTypeAnnotbtions(locbtion.filter(bctublTypeAnnotbtions));
         }
 
-        // AnnotatedElement
+        // AnnotbtedElement
         @Override
-        public final Annotation[] getAnnotations() {
-            return getDeclaredAnnotations();
-        }
-
-        @Override
-        public final <T extends Annotation> T getAnnotation(Class<T> annotation) {
-            return getDeclaredAnnotation(annotation);
+        public finbl Annotbtion[] getAnnotbtions() {
+            return getDeclbredAnnotbtions();
         }
 
         @Override
-        public final <T extends Annotation> T[] getAnnotationsByType(Class<T> annotation) {
-            return getDeclaredAnnotationsByType(annotation);
+        public finbl <T extends Annotbtion> T getAnnotbtion(Clbss<T> bnnotbtion) {
+            return getDeclbredAnnotbtion(bnnotbtion);
         }
 
         @Override
-        public final Annotation[] getDeclaredAnnotations() {
-            return annotations.values().toArray(new Annotation[0]);
+        public finbl <T extends Annotbtion> T[] getAnnotbtionsByType(Clbss<T> bnnotbtion) {
+            return getDeclbredAnnotbtionsByType(bnnotbtion);
         }
 
         @Override
-        @SuppressWarnings("unchecked")
-        public final <T extends Annotation> T getDeclaredAnnotation(Class<T> annotation) {
-            return (T)annotations.get(annotation);
+        public finbl Annotbtion[] getDeclbredAnnotbtions() {
+            return bnnotbtions.vblues().toArrby(new Annotbtion[0]);
         }
 
         @Override
-        public final <T extends Annotation> T[] getDeclaredAnnotationsByType(Class<T> annotation) {
-            return AnnotationSupport.getDirectlyAndIndirectlyPresent(annotations, annotation);
+        @SuppressWbrnings("unchecked")
+        public finbl <T extends Annotbtion> T getDeclbredAnnotbtion(Clbss<T> bnnotbtion) {
+            return (T)bnnotbtions.get(bnnotbtion);
         }
 
-        // AnnotatedType
         @Override
-        public final Type getType() {
+        public finbl <T extends Annotbtion> T[] getDeclbredAnnotbtionsByType(Clbss<T> bnnotbtion) {
+            return AnnotbtionSupport.getDirectlyAndIndirectlyPresent(bnnotbtions, bnnotbtion);
+        }
+
+        // AnnotbtedType
+        @Override
+        public finbl Type getType() {
             return type;
         }
 
-        // Implementation details
-        final LocationInfo getLocation() {
-            return location;
+        // Implementbtion detbils
+        finbl LocbtionInfo getLocbtion() {
+            return locbtion;
         }
-        final TypeAnnotation[] getTypeAnnotations() {
-            return allOnSameTargetTypeAnnotations;
+        finbl TypeAnnotbtion[] getTypeAnnotbtions() {
+            return bllOnSbmeTbrgetTypeAnnotbtions;
         }
-        final AnnotatedElement getDecl() {
+        finbl AnnotbtedElement getDecl() {
             return decl;
         }
     }
 
-    private static final class AnnotatedArrayTypeImpl extends AnnotatedTypeBaseImpl implements AnnotatedArrayType {
-        AnnotatedArrayTypeImpl(Type type, LocationInfo location,
-                TypeAnnotation[] actualTypeAnnotations, TypeAnnotation[] allOnSameTargetTypeAnnotations,
-                AnnotatedElement decl) {
-            super(type, location, actualTypeAnnotations, allOnSameTargetTypeAnnotations, decl);
+    privbte stbtic finbl clbss AnnotbtedArrbyTypeImpl extends AnnotbtedTypeBbseImpl implements AnnotbtedArrbyType {
+        AnnotbtedArrbyTypeImpl(Type type, LocbtionInfo locbtion,
+                TypeAnnotbtion[] bctublTypeAnnotbtions, TypeAnnotbtion[] bllOnSbmeTbrgetTypeAnnotbtions,
+                AnnotbtedElement decl) {
+            super(type, locbtion, bctublTypeAnnotbtions, bllOnSbmeTbrgetTypeAnnotbtions, decl);
         }
 
         @Override
-        public AnnotatedType getAnnotatedGenericComponentType() {
-            return AnnotatedTypeFactory.buildAnnotatedType(getComponentType(),
-                                                           getLocation().pushArray(),
-                                                           getTypeAnnotations(),
-                                                           getTypeAnnotations(),
+        public AnnotbtedType getAnnotbtedGenericComponentType() {
+            return AnnotbtedTypeFbctory.buildAnnotbtedType(getComponentType(),
+                                                           getLocbtion().pushArrby(),
+                                                           getTypeAnnotbtions(),
+                                                           getTypeAnnotbtions(),
                                                            getDecl());
         }
 
-        private Type getComponentType() {
+        privbte Type getComponentType() {
             Type t = getType();
-            if (t instanceof Class) {
-                Class<?> c = (Class)t;
+            if (t instbnceof Clbss) {
+                Clbss<?> c = (Clbss)t;
                 return c.getComponentType();
             }
-            return ((GenericArrayType)t).getGenericComponentType();
+            return ((GenericArrbyType)t).getGenericComponentType();
         }
     }
 
-    private static final class AnnotatedTypeVariableImpl extends AnnotatedTypeBaseImpl implements AnnotatedTypeVariable {
-        AnnotatedTypeVariableImpl(TypeVariable<?> type, LocationInfo location,
-                TypeAnnotation[] actualTypeAnnotations, TypeAnnotation[] allOnSameTargetTypeAnnotations,
-                AnnotatedElement decl) {
-            super(type, location, actualTypeAnnotations, allOnSameTargetTypeAnnotations, decl);
+    privbte stbtic finbl clbss AnnotbtedTypeVbribbleImpl extends AnnotbtedTypeBbseImpl implements AnnotbtedTypeVbribble {
+        AnnotbtedTypeVbribbleImpl(TypeVbribble<?> type, LocbtionInfo locbtion,
+                TypeAnnotbtion[] bctublTypeAnnotbtions, TypeAnnotbtion[] bllOnSbmeTbrgetTypeAnnotbtions,
+                AnnotbtedElement decl) {
+            super(type, locbtion, bctublTypeAnnotbtions, bllOnSbmeTbrgetTypeAnnotbtions, decl);
         }
 
         @Override
-        public AnnotatedType[] getAnnotatedBounds() {
-            return getTypeVariable().getAnnotatedBounds();
+        public AnnotbtedType[] getAnnotbtedBounds() {
+            return getTypeVbribble().getAnnotbtedBounds();
         }
 
-        private TypeVariable<?> getTypeVariable() {
-            return (TypeVariable)getType();
+        privbte TypeVbribble<?> getTypeVbribble() {
+            return (TypeVbribble)getType();
         }
     }
 
-    private static final class AnnotatedParameterizedTypeImpl extends AnnotatedTypeBaseImpl
-            implements AnnotatedParameterizedType {
-        AnnotatedParameterizedTypeImpl(ParameterizedType type, LocationInfo location,
-                TypeAnnotation[] actualTypeAnnotations, TypeAnnotation[] allOnSameTargetTypeAnnotations,
-                AnnotatedElement decl) {
-            super(type, location, actualTypeAnnotations, allOnSameTargetTypeAnnotations, decl);
+    privbte stbtic finbl clbss AnnotbtedPbrbmeterizedTypeImpl extends AnnotbtedTypeBbseImpl
+            implements AnnotbtedPbrbmeterizedType {
+        AnnotbtedPbrbmeterizedTypeImpl(PbrbmeterizedType type, LocbtionInfo locbtion,
+                TypeAnnotbtion[] bctublTypeAnnotbtions, TypeAnnotbtion[] bllOnSbmeTbrgetTypeAnnotbtions,
+                AnnotbtedElement decl) {
+            super(type, locbtion, bctublTypeAnnotbtions, bllOnSbmeTbrgetTypeAnnotbtions, decl);
         }
 
         @Override
-        public AnnotatedType[] getAnnotatedActualTypeArguments() {
-            Type[] arguments = getParameterizedType().getActualTypeArguments();
-            AnnotatedType[] res = new AnnotatedType[arguments.length];
-            Arrays.fill(res, EMPTY_ANNOTATED_TYPE);
-            int initialCapacity = getTypeAnnotations().length;
+        public AnnotbtedType[] getAnnotbtedActublTypeArguments() {
+            Type[] brguments = getPbrbmeterizedType().getActublTypeArguments();
+            AnnotbtedType[] res = new AnnotbtedType[brguments.length];
+            Arrbys.fill(res, EMPTY_ANNOTATED_TYPE);
+            int initiblCbpbcity = getTypeAnnotbtions().length;
             for (int i = 0; i < res.length; i++) {
-                List<TypeAnnotation> l = new ArrayList<>(initialCapacity);
-                LocationInfo newLoc = getLocation().pushTypeArg((byte)i);
-                for (TypeAnnotation t : getTypeAnnotations())
-                    if (t.getLocationInfo().isSameLocationInfo(newLoc))
-                        l.add(t);
-                res[i] = buildAnnotatedType(arguments[i],
+                List<TypeAnnotbtion> l = new ArrbyList<>(initiblCbpbcity);
+                LocbtionInfo newLoc = getLocbtion().pushTypeArg((byte)i);
+                for (TypeAnnotbtion t : getTypeAnnotbtions())
+                    if (t.getLocbtionInfo().isSbmeLocbtionInfo(newLoc))
+                        l.bdd(t);
+                res[i] = buildAnnotbtedType(brguments[i],
                                             newLoc,
-                                            l.toArray(new TypeAnnotation[0]),
-                                            getTypeAnnotations(),
+                                            l.toArrby(new TypeAnnotbtion[0]),
+                                            getTypeAnnotbtions(),
                                             getDecl());
             }
             return res;
         }
 
-        private ParameterizedType getParameterizedType() {
-            return (ParameterizedType)getType();
+        privbte PbrbmeterizedType getPbrbmeterizedType() {
+            return (PbrbmeterizedType)getType();
         }
     }
 
-    private static final class AnnotatedWildcardTypeImpl extends AnnotatedTypeBaseImpl implements AnnotatedWildcardType {
-        private final boolean hasUpperBounds;
-        AnnotatedWildcardTypeImpl(WildcardType type, LocationInfo location,
-                TypeAnnotation[] actualTypeAnnotations, TypeAnnotation[] allOnSameTargetTypeAnnotations,
-                AnnotatedElement decl) {
-            super(type, location, actualTypeAnnotations, allOnSameTargetTypeAnnotations, decl);
-            hasUpperBounds = (type.getLowerBounds().length == 0);
+    privbte stbtic finbl clbss AnnotbtedWildcbrdTypeImpl extends AnnotbtedTypeBbseImpl implements AnnotbtedWildcbrdType {
+        privbte finbl boolebn hbsUpperBounds;
+        AnnotbtedWildcbrdTypeImpl(WildcbrdType type, LocbtionInfo locbtion,
+                TypeAnnotbtion[] bctublTypeAnnotbtions, TypeAnnotbtion[] bllOnSbmeTbrgetTypeAnnotbtions,
+                AnnotbtedElement decl) {
+            super(type, locbtion, bctublTypeAnnotbtions, bllOnSbmeTbrgetTypeAnnotbtions, decl);
+            hbsUpperBounds = (type.getLowerBounds().length == 0);
         }
 
         @Override
-        public AnnotatedType[] getAnnotatedUpperBounds() {
-            if (!hasUpperBounds())
-                return new AnnotatedType[0];
-            return getAnnotatedBounds(getWildcardType().getUpperBounds());
+        public AnnotbtedType[] getAnnotbtedUpperBounds() {
+            if (!hbsUpperBounds())
+                return new AnnotbtedType[0];
+            return getAnnotbtedBounds(getWildcbrdType().getUpperBounds());
         }
 
         @Override
-        public AnnotatedType[] getAnnotatedLowerBounds() {
-            if (hasUpperBounds)
-                return new AnnotatedType[0];
-            return getAnnotatedBounds(getWildcardType().getLowerBounds());
+        public AnnotbtedType[] getAnnotbtedLowerBounds() {
+            if (hbsUpperBounds)
+                return new AnnotbtedType[0];
+            return getAnnotbtedBounds(getWildcbrdType().getLowerBounds());
         }
 
-        private AnnotatedType[] getAnnotatedBounds(Type[] bounds) {
-            AnnotatedType[] res = new AnnotatedType[bounds.length];
-            Arrays.fill(res, EMPTY_ANNOTATED_TYPE);
-            LocationInfo newLoc = getLocation().pushWildcard();
-            int initialCapacity = getTypeAnnotations().length;
+        privbte AnnotbtedType[] getAnnotbtedBounds(Type[] bounds) {
+            AnnotbtedType[] res = new AnnotbtedType[bounds.length];
+            Arrbys.fill(res, EMPTY_ANNOTATED_TYPE);
+            LocbtionInfo newLoc = getLocbtion().pushWildcbrd();
+            int initiblCbpbcity = getTypeAnnotbtions().length;
             for (int i = 0; i < res.length; i++) {
-                List<TypeAnnotation> l = new ArrayList<>(initialCapacity);
-                for (TypeAnnotation t : getTypeAnnotations())
-                    if (t.getLocationInfo().isSameLocationInfo(newLoc))
-                        l.add(t);
-                res[i] = buildAnnotatedType(bounds[i],
+                List<TypeAnnotbtion> l = new ArrbyList<>(initiblCbpbcity);
+                for (TypeAnnotbtion t : getTypeAnnotbtions())
+                    if (t.getLocbtionInfo().isSbmeLocbtionInfo(newLoc))
+                        l.bdd(t);
+                res[i] = buildAnnotbtedType(bounds[i],
                                             newLoc,
-                                            l.toArray(new TypeAnnotation[0]),
-                                            getTypeAnnotations(),
+                                            l.toArrby(new TypeAnnotbtion[0]),
+                                            getTypeAnnotbtions(),
                                             getDecl());
             }
             return res;
         }
 
-        private WildcardType getWildcardType() {
-            return (WildcardType)getType();
+        privbte WildcbrdType getWildcbrdType() {
+            return (WildcbrdType)getType();
         }
 
-        private boolean hasUpperBounds() {
-            return hasUpperBounds;
+        privbte boolebn hbsUpperBounds() {
+            return hbsUpperBounds;
         }
     }
 }

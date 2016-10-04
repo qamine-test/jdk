@@ -1,87 +1,87 @@
 /*
- * Copyright (c) 2003, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.rmi.server;
+pbckbge sun.rmi.server;
 
-import java.lang.ref.Reference;
-import java.lang.ref.SoftReference;
-import java.util.Map;
-import java.util.WeakHashMap;
+import jbvb.lbng.ref.Reference;
+import jbvb.lbng.ref.SoftReference;
+import jbvb.util.Mbp;
+import jbvb.util.WebkHbshMbp;
 
 /**
- * Abstract class that maps Class objects to lazily-computed values of
- * type V.  A concrete subclass must implement the computeValue method
- * to determine how the values are computed.
+ * Abstrbct clbss thbt mbps Clbss objects to lbzily-computed vblues of
+ * type V.  A concrete subclbss must implement the computeVblue method
+ * to determine how the vblues bre computed.
  *
- * The keys are only weakly reachable through this map, so this map
- * does not prevent a class (along with its class loader, etc.) from
- * being garbage collected if it is not otherwise strongly reachable.
- * The values are only softly reachable through this map, so that the
- * computed values generally persist while not otherwise strongly
- * reachable, but their storage may be reclaimed if necessary.  Also,
- * note that if a key is strongly reachable from a value, then the key
- * is effectively softly reachable through this map, which may delay
- * garbage collection of classes (see 4429536).
+ * The keys bre only webkly rebchbble through this mbp, so this mbp
+ * does not prevent b clbss (blong with its clbss lobder, etc.) from
+ * being gbrbbge collected if it is not otherwise strongly rebchbble.
+ * The vblues bre only softly rebchbble through this mbp, so thbt the
+ * computed vblues generblly persist while not otherwise strongly
+ * rebchbble, but their storbge mby be reclbimed if necessbry.  Also,
+ * note thbt if b key is strongly rebchbble from b vblue, then the key
+ * is effectively softly rebchbble through this mbp, which mby delby
+ * gbrbbge collection of clbsses (see 4429536).
  **/
-public abstract class WeakClassHashMap<V> {
+public bbstrbct clbss WebkClbssHbshMbp<V> {
 
-    private Map<Class<?>,ValueCell<V>> internalMap = new WeakHashMap<>();
+    privbte Mbp<Clbss<?>,VblueCell<V>> internblMbp = new WebkHbshMbp<>();
 
-    protected WeakClassHashMap() { }
+    protected WebkClbssHbshMbp() { }
 
-    public V get(Class<?> remoteClass) {
+    public V get(Clbss<?> remoteClbss) {
         /*
-         * Use a mutable cell (a one-element list) to hold the soft
-         * reference to a value, to allow the lazy value computation
-         * to be synchronized with entry-level granularity instead of
-         * by locking the whole table.
+         * Use b mutbble cell (b one-element list) to hold the soft
+         * reference to b vblue, to bllow the lbzy vblue computbtion
+         * to be synchronized with entry-level grbnulbrity instebd of
+         * by locking the whole tbble.
          */
-        ValueCell<V> valueCell;
-        synchronized (internalMap) {
-            valueCell = internalMap.get(remoteClass);
-            if (valueCell == null) {
-                valueCell = new ValueCell<V>();
-                internalMap.put(remoteClass, valueCell);
+        VblueCell<V> vblueCell;
+        synchronized (internblMbp) {
+            vblueCell = internblMbp.get(remoteClbss);
+            if (vblueCell == null) {
+                vblueCell = new VblueCell<V>();
+                internblMbp.put(remoteClbss, vblueCell);
             }
         }
-        synchronized (valueCell) {
-            V value = null;
-            if (valueCell.ref != null) {
-                value = valueCell.ref.get();
+        synchronized (vblueCell) {
+            V vblue = null;
+            if (vblueCell.ref != null) {
+                vblue = vblueCell.ref.get();
             }
-            if (value == null) {
-                value = computeValue(remoteClass);
-                valueCell.ref = new SoftReference<V>(value);
+            if (vblue == null) {
+                vblue = computeVblue(remoteClbss);
+                vblueCell.ref = new SoftReference<V>(vblue);
             }
-            return value;
+            return vblue;
         }
     }
 
-    protected abstract V computeValue(Class<?> remoteClass);
+    protected bbstrbct V computeVblue(Clbss<?> remoteClbss);
 
-    private static class ValueCell<T> {
+    privbte stbtic clbss VblueCell<T> {
         Reference<T> ref = null;
-        ValueCell() { }
+        VblueCell() { }
     }
 }

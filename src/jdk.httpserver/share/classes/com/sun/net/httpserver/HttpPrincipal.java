@@ -1,105 +1,105 @@
 /*
- * Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.net.httpserver;
-import java.net.*;
-import java.io.*;
-import java.util.*;
-import java.security.Principal;
+pbckbge com.sun.net.httpserver;
+import jbvb.net.*;
+import jbvb.io.*;
+import jbvb.util.*;
+import jbvb.security.Principbl;
 
 /**
- * Represents a user authenticated by HTTP Basic or Digest
- * authentication.
+ * Represents b user buthenticbted by HTTP Bbsic or Digest
+ * buthenticbtion.
  */
 @jdk.Exported
-public class HttpPrincipal implements Principal {
-    private String username, realm;
+public clbss HttpPrincipbl implements Principbl {
+    privbte String usernbme, reblm;
 
     /**
-     * creates a HttpPrincipal from the given username and realm
-     * @param username The name of the user within the realm
-     * @param realm The realm.
-     * @throws NullPointerException if either username or realm are null
+     * crebtes b HttpPrincipbl from the given usernbme bnd reblm
+     * @pbrbm usernbme The nbme of the user within the reblm
+     * @pbrbm reblm The reblm.
+     * @throws NullPointerException if either usernbme or reblm bre null
      */
-    public HttpPrincipal (String username, String realm) {
-        if (username == null || realm == null) {
+    public HttpPrincipbl (String usernbme, String reblm) {
+        if (usernbme == null || reblm == null) {
             throw new NullPointerException();
         }
-        this.username = username;
-        this.realm = realm;
+        this.usernbme = usernbme;
+        this.reblm = reblm;
     }
 
     /**
-     * Compares two HttpPrincipal. Returns <code>true</code>
-     * if <i>another</i> is an instance of HttpPrincipal, and its
-     * username and realm are equal to this object's username
-     * and realm. Returns <code>false</code> otherwise.
+     * Compbres two HttpPrincipbl. Returns <code>true</code>
+     * if <i>bnother</i> is bn instbnce of HttpPrincipbl, bnd its
+     * usernbme bnd reblm bre equbl to this object's usernbme
+     * bnd reblm. Returns <code>fblse</code> otherwise.
      */
-    public boolean equals (Object another) {
-        if (!(another instanceof HttpPrincipal)) {
-            return false;
+    public boolebn equbls (Object bnother) {
+        if (!(bnother instbnceof HttpPrincipbl)) {
+            return fblse;
         }
-        HttpPrincipal theother = (HttpPrincipal)another;
-        return (username.equals(theother.username) &&
-                realm.equals(theother.realm));
+        HttpPrincipbl theother = (HttpPrincipbl)bnother;
+        return (usernbme.equbls(theother.usernbme) &&
+                reblm.equbls(theother.reblm));
     }
 
     /**
-     * returns the contents of this principal in the form
-     * <i>realm:username</i>
+     * returns the contents of this principbl in the form
+     * <i>reblm:usernbme</i>
      */
-    public String getName() {
-        return username;
+    public String getNbme() {
+        return usernbme;
     }
 
     /**
-     * returns the username this object was created with.
+     * returns the usernbme this object wbs crebted with.
      */
-    public String getUsername() {
-        return username;
+    public String getUsernbme() {
+        return usernbme;
     }
 
     /**
-     * returns the realm this object was created with.
+     * returns the reblm this object wbs crebted with.
      */
-    public String getRealm() {
-        return realm;
+    public String getReblm() {
+        return reblm;
     }
 
     /**
-     * returns a hashcode for this HttpPrincipal. This is calculated
-     * as <code>(getUsername()+getRealm().hashCode()</code>
+     * returns b hbshcode for this HttpPrincipbl. This is cblculbted
+     * bs <code>(getUsernbme()+getReblm().hbshCode()</code>
      */
-    public int hashCode() {
-        return (username+realm).hashCode();
+    public int hbshCode() {
+        return (usernbme+reblm).hbshCode();
     }
 
     /**
-     * returns the same string as getName()
+     * returns the sbme string bs getNbme()
      */
     public String toString() {
-        return getName();
+        return getNbme();
     }
 }

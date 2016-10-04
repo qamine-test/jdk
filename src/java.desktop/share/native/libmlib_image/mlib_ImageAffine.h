@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 2003, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -27,9 +27,9 @@
 #ifndef __MLIB_IMAGEAFFINE_H
 #define __MLIB_IMAGEAFFINE_H
 
-#include "mlib_image.h"
-#include "mlib_ImageDivTables.h"
-#include "mlib_ImageFilters.h"
+#include "mlib_imbge.h"
+#include "mlib_ImbgeDivTbbles.h"
+#include "mlib_ImbgeFilters.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -37,43 +37,43 @@ extern "C" {
 
 /*
  * DESCRIPTION
- *   Internal macro for mlib_ImageAffine.
+ *   Internbl mbcro for mlib_ImbgeAffine.
  *
- *   DTYPE define must be set to data type of image.
- *   FTYPE define must be set to type of floating-point operations.
+ *   DTYPE define must be set to dbtb type of imbge.
+ *   FTYPE define must be set to type of flobting-point operbtions.
  */
 
 /***************************************************************/
 typedef struct {
-  mlib_image *src;
-  mlib_image *dst;
-  mlib_u8  *buff_malloc;
+  mlib_imbge *src;
+  mlib_imbge *dst;
+  mlib_u8  *buff_mblloc;
   mlib_u8  **lineAddr;
-  mlib_u8  *dstData;
+  mlib_u8  *dstDbtb;
   mlib_s32 *leftEdges;
   mlib_s32 *rightEdges;
-  mlib_s32 *xStarts;
-  mlib_s32 *yStarts;
-  mlib_s32 yStart;
+  mlib_s32 *xStbrts;
+  mlib_s32 *yStbrts;
+  mlib_s32 yStbrt;
   mlib_s32 yFinish;
   mlib_s32 dX;
   mlib_s32 dY;
-  mlib_s32 max_xsize;
+  mlib_s32 mbx_xsize;
   mlib_s32 srcYStride;
   mlib_s32 dstYStride;
-  mlib_s32 *warp_tbl;
+  mlib_s32 *wbrp_tbl;
   mlib_filter filter;
-} mlib_affine_param;
+} mlib_bffine_pbrbm;
 
 /***************************************************************/
 
-#define LOAD_PARAM(param, x)  x = param->x
-#define STORE_PARAM(param, x) param->x=x
+#define LOAD_PARAM(pbrbm, x)  x = pbrbm->x
+#define STORE_PARAM(pbrbm, x) pbrbm->x=x
 
 /***************************************************************/
-mlib_status mlib_AffineEdges(mlib_affine_param *param,
-                             const mlib_image  *dst,
-                             const mlib_image  *src,
+mlib_stbtus mlib_AffineEdges(mlib_bffine_pbrbm *pbrbm,
+                             const mlib_imbge  *dst,
+                             const mlib_imbge  *src,
                              void              *buff_lcl,
                              mlib_s32          buff_size,
                              mlib_s32          kw,
@@ -86,141 +86,141 @@ mlib_status mlib_AffineEdges(mlib_affine_param *param,
                              mlib_s32          shifty);
 
 /***************************************************************/
-typedef mlib_status (*type_affine_fun)(mlib_affine_param *param);
+typedef mlib_stbtus (*type_bffine_fun)(mlib_bffine_pbrbm *pbrbm);
 
 /***************************************************************/
-void mlib_ImageAffine_bit_1ch_nn(mlib_affine_param *param,
+void mlib_ImbgeAffine_bit_1ch_nn(mlib_bffine_pbrbm *pbrbm,
                                  mlib_s32          s_bitoff,
                                  mlib_s32          d_bitoff);
 
-mlib_status mlib_ImageAffine_u8_1ch_nn(mlib_affine_param *param);
-mlib_status mlib_ImageAffine_u8_2ch_nn(mlib_affine_param *param);
-mlib_status mlib_ImageAffine_u8_3ch_nn(mlib_affine_param *param);
-mlib_status mlib_ImageAffine_u8_4ch_nn(mlib_affine_param *param);
-mlib_status mlib_ImageAffine_s16_1ch_nn(mlib_affine_param *param);
-mlib_status mlib_ImageAffine_s16_2ch_nn(mlib_affine_param *param);
-mlib_status mlib_ImageAffine_s16_3ch_nn(mlib_affine_param *param);
-mlib_status mlib_ImageAffine_s16_4ch_nn(mlib_affine_param *param);
-mlib_status mlib_ImageAffine_s32_1ch_nn(mlib_affine_param *param);
-mlib_status mlib_ImageAffine_s32_2ch_nn(mlib_affine_param *param);
-mlib_status mlib_ImageAffine_s32_3ch_nn(mlib_affine_param *param);
-mlib_status mlib_ImageAffine_s32_4ch_nn(mlib_affine_param *param);
-mlib_status mlib_ImageAffine_d64_1ch_nn(mlib_affine_param *param);
-mlib_status mlib_ImageAffine_d64_2ch_nn(mlib_affine_param *param);
-mlib_status mlib_ImageAffine_d64_3ch_nn(mlib_affine_param *param);
-mlib_status mlib_ImageAffine_d64_4ch_nn(mlib_affine_param *param);
+mlib_stbtus mlib_ImbgeAffine_u8_1ch_nn(mlib_bffine_pbrbm *pbrbm);
+mlib_stbtus mlib_ImbgeAffine_u8_2ch_nn(mlib_bffine_pbrbm *pbrbm);
+mlib_stbtus mlib_ImbgeAffine_u8_3ch_nn(mlib_bffine_pbrbm *pbrbm);
+mlib_stbtus mlib_ImbgeAffine_u8_4ch_nn(mlib_bffine_pbrbm *pbrbm);
+mlib_stbtus mlib_ImbgeAffine_s16_1ch_nn(mlib_bffine_pbrbm *pbrbm);
+mlib_stbtus mlib_ImbgeAffine_s16_2ch_nn(mlib_bffine_pbrbm *pbrbm);
+mlib_stbtus mlib_ImbgeAffine_s16_3ch_nn(mlib_bffine_pbrbm *pbrbm);
+mlib_stbtus mlib_ImbgeAffine_s16_4ch_nn(mlib_bffine_pbrbm *pbrbm);
+mlib_stbtus mlib_ImbgeAffine_s32_1ch_nn(mlib_bffine_pbrbm *pbrbm);
+mlib_stbtus mlib_ImbgeAffine_s32_2ch_nn(mlib_bffine_pbrbm *pbrbm);
+mlib_stbtus mlib_ImbgeAffine_s32_3ch_nn(mlib_bffine_pbrbm *pbrbm);
+mlib_stbtus mlib_ImbgeAffine_s32_4ch_nn(mlib_bffine_pbrbm *pbrbm);
+mlib_stbtus mlib_ImbgeAffine_d64_1ch_nn(mlib_bffine_pbrbm *pbrbm);
+mlib_stbtus mlib_ImbgeAffine_d64_2ch_nn(mlib_bffine_pbrbm *pbrbm);
+mlib_stbtus mlib_ImbgeAffine_d64_3ch_nn(mlib_bffine_pbrbm *pbrbm);
+mlib_stbtus mlib_ImbgeAffine_d64_4ch_nn(mlib_bffine_pbrbm *pbrbm);
 
-mlib_status mlib_ImageAffine_u8_1ch_bl(mlib_affine_param *param);
-mlib_status mlib_ImageAffine_u8_2ch_bl(mlib_affine_param *param);
-mlib_status mlib_ImageAffine_u8_3ch_bl(mlib_affine_param *param);
-mlib_status mlib_ImageAffine_u8_4ch_bl(mlib_affine_param *param);
-mlib_status mlib_ImageAffine_s16_1ch_bl(mlib_affine_param *param);
-mlib_status mlib_ImageAffine_s16_2ch_bl(mlib_affine_param *param);
-mlib_status mlib_ImageAffine_s16_3ch_bl(mlib_affine_param *param);
-mlib_status mlib_ImageAffine_s16_4ch_bl(mlib_affine_param *param);
-mlib_status mlib_ImageAffine_u16_1ch_bl(mlib_affine_param *param);
-mlib_status mlib_ImageAffine_u16_2ch_bl(mlib_affine_param *param);
-mlib_status mlib_ImageAffine_u16_3ch_bl(mlib_affine_param *param);
-mlib_status mlib_ImageAffine_u16_4ch_bl(mlib_affine_param *param);
-mlib_status mlib_ImageAffine_s32_1ch_bl(mlib_affine_param *param);
-mlib_status mlib_ImageAffine_s32_2ch_bl(mlib_affine_param *param);
-mlib_status mlib_ImageAffine_s32_3ch_bl(mlib_affine_param *param);
-mlib_status mlib_ImageAffine_s32_4ch_bl(mlib_affine_param *param);
-mlib_status mlib_ImageAffine_f32_1ch_bl(mlib_affine_param *param);
-mlib_status mlib_ImageAffine_f32_2ch_bl(mlib_affine_param *param);
-mlib_status mlib_ImageAffine_f32_3ch_bl(mlib_affine_param *param);
-mlib_status mlib_ImageAffine_f32_4ch_bl(mlib_affine_param *param);
-mlib_status mlib_ImageAffine_d64_1ch_bl(mlib_affine_param *param);
-mlib_status mlib_ImageAffine_d64_2ch_bl(mlib_affine_param *param);
-mlib_status mlib_ImageAffine_d64_3ch_bl(mlib_affine_param *param);
-mlib_status mlib_ImageAffine_d64_4ch_bl(mlib_affine_param *param);
+mlib_stbtus mlib_ImbgeAffine_u8_1ch_bl(mlib_bffine_pbrbm *pbrbm);
+mlib_stbtus mlib_ImbgeAffine_u8_2ch_bl(mlib_bffine_pbrbm *pbrbm);
+mlib_stbtus mlib_ImbgeAffine_u8_3ch_bl(mlib_bffine_pbrbm *pbrbm);
+mlib_stbtus mlib_ImbgeAffine_u8_4ch_bl(mlib_bffine_pbrbm *pbrbm);
+mlib_stbtus mlib_ImbgeAffine_s16_1ch_bl(mlib_bffine_pbrbm *pbrbm);
+mlib_stbtus mlib_ImbgeAffine_s16_2ch_bl(mlib_bffine_pbrbm *pbrbm);
+mlib_stbtus mlib_ImbgeAffine_s16_3ch_bl(mlib_bffine_pbrbm *pbrbm);
+mlib_stbtus mlib_ImbgeAffine_s16_4ch_bl(mlib_bffine_pbrbm *pbrbm);
+mlib_stbtus mlib_ImbgeAffine_u16_1ch_bl(mlib_bffine_pbrbm *pbrbm);
+mlib_stbtus mlib_ImbgeAffine_u16_2ch_bl(mlib_bffine_pbrbm *pbrbm);
+mlib_stbtus mlib_ImbgeAffine_u16_3ch_bl(mlib_bffine_pbrbm *pbrbm);
+mlib_stbtus mlib_ImbgeAffine_u16_4ch_bl(mlib_bffine_pbrbm *pbrbm);
+mlib_stbtus mlib_ImbgeAffine_s32_1ch_bl(mlib_bffine_pbrbm *pbrbm);
+mlib_stbtus mlib_ImbgeAffine_s32_2ch_bl(mlib_bffine_pbrbm *pbrbm);
+mlib_stbtus mlib_ImbgeAffine_s32_3ch_bl(mlib_bffine_pbrbm *pbrbm);
+mlib_stbtus mlib_ImbgeAffine_s32_4ch_bl(mlib_bffine_pbrbm *pbrbm);
+mlib_stbtus mlib_ImbgeAffine_f32_1ch_bl(mlib_bffine_pbrbm *pbrbm);
+mlib_stbtus mlib_ImbgeAffine_f32_2ch_bl(mlib_bffine_pbrbm *pbrbm);
+mlib_stbtus mlib_ImbgeAffine_f32_3ch_bl(mlib_bffine_pbrbm *pbrbm);
+mlib_stbtus mlib_ImbgeAffine_f32_4ch_bl(mlib_bffine_pbrbm *pbrbm);
+mlib_stbtus mlib_ImbgeAffine_d64_1ch_bl(mlib_bffine_pbrbm *pbrbm);
+mlib_stbtus mlib_ImbgeAffine_d64_2ch_bl(mlib_bffine_pbrbm *pbrbm);
+mlib_stbtus mlib_ImbgeAffine_d64_3ch_bl(mlib_bffine_pbrbm *pbrbm);
+mlib_stbtus mlib_ImbgeAffine_d64_4ch_bl(mlib_bffine_pbrbm *pbrbm);
 
-mlib_status mlib_ImageAffine_u8_1ch_bc(mlib_affine_param *param);
-mlib_status mlib_ImageAffine_u8_2ch_bc(mlib_affine_param *param);
-mlib_status mlib_ImageAffine_u8_3ch_bc(mlib_affine_param *param);
-mlib_status mlib_ImageAffine_u8_4ch_bc(mlib_affine_param *param);
-mlib_status mlib_ImageAffine_s16_1ch_bc(mlib_affine_param *param);
-mlib_status mlib_ImageAffine_s16_2ch_bc(mlib_affine_param *param);
-mlib_status mlib_ImageAffine_s16_3ch_bc(mlib_affine_param *param);
-mlib_status mlib_ImageAffine_s16_4ch_bc(mlib_affine_param *param);
-mlib_status mlib_ImageAffine_u16_1ch_bc(mlib_affine_param *param);
-mlib_status mlib_ImageAffine_u16_2ch_bc(mlib_affine_param *param);
-mlib_status mlib_ImageAffine_u16_3ch_bc(mlib_affine_param *param);
-mlib_status mlib_ImageAffine_u16_4ch_bc(mlib_affine_param *param);
-mlib_status mlib_ImageAffine_s32_1ch_bc(mlib_affine_param *param);
-mlib_status mlib_ImageAffine_s32_2ch_bc(mlib_affine_param *param);
-mlib_status mlib_ImageAffine_s32_3ch_bc(mlib_affine_param *param);
-mlib_status mlib_ImageAffine_s32_4ch_bc(mlib_affine_param *param);
-mlib_status mlib_ImageAffine_f32_1ch_bc(mlib_affine_param *param);
-mlib_status mlib_ImageAffine_f32_2ch_bc(mlib_affine_param *param);
-mlib_status mlib_ImageAffine_f32_3ch_bc(mlib_affine_param *param);
-mlib_status mlib_ImageAffine_f32_4ch_bc(mlib_affine_param *param);
-mlib_status mlib_ImageAffine_d64_1ch_bc(mlib_affine_param *param);
-mlib_status mlib_ImageAffine_d64_2ch_bc(mlib_affine_param *param);
-mlib_status mlib_ImageAffine_d64_3ch_bc(mlib_affine_param *param);
-mlib_status mlib_ImageAffine_d64_4ch_bc(mlib_affine_param *param);
-
-/***************************************************************/
-void mlib_ImageAffineEdgeZero(mlib_affine_param *param,
-                              mlib_affine_param *param_e,
-                              const void        *colormap);
-
-void mlib_ImageAffineEdgeNearest(mlib_affine_param *param,
-                                 mlib_affine_param *param_e);
-
-mlib_status mlib_ImageAffineEdgeExtend_BL(mlib_affine_param *param,
-                                          mlib_affine_param *param_e,
-                                          const void        *colormap);
-
-mlib_status mlib_ImageAffineEdgeExtend_BC(mlib_affine_param *param,
-                                          mlib_affine_param *param_e,
-                                          const void        *colormap);
-
-mlib_status mlib_ImageAffineEdgeExtend_BC2(mlib_affine_param *param,
-                                           mlib_affine_param *param_e,
-                                           const void        *colormap);
+mlib_stbtus mlib_ImbgeAffine_u8_1ch_bc(mlib_bffine_pbrbm *pbrbm);
+mlib_stbtus mlib_ImbgeAffine_u8_2ch_bc(mlib_bffine_pbrbm *pbrbm);
+mlib_stbtus mlib_ImbgeAffine_u8_3ch_bc(mlib_bffine_pbrbm *pbrbm);
+mlib_stbtus mlib_ImbgeAffine_u8_4ch_bc(mlib_bffine_pbrbm *pbrbm);
+mlib_stbtus mlib_ImbgeAffine_s16_1ch_bc(mlib_bffine_pbrbm *pbrbm);
+mlib_stbtus mlib_ImbgeAffine_s16_2ch_bc(mlib_bffine_pbrbm *pbrbm);
+mlib_stbtus mlib_ImbgeAffine_s16_3ch_bc(mlib_bffine_pbrbm *pbrbm);
+mlib_stbtus mlib_ImbgeAffine_s16_4ch_bc(mlib_bffine_pbrbm *pbrbm);
+mlib_stbtus mlib_ImbgeAffine_u16_1ch_bc(mlib_bffine_pbrbm *pbrbm);
+mlib_stbtus mlib_ImbgeAffine_u16_2ch_bc(mlib_bffine_pbrbm *pbrbm);
+mlib_stbtus mlib_ImbgeAffine_u16_3ch_bc(mlib_bffine_pbrbm *pbrbm);
+mlib_stbtus mlib_ImbgeAffine_u16_4ch_bc(mlib_bffine_pbrbm *pbrbm);
+mlib_stbtus mlib_ImbgeAffine_s32_1ch_bc(mlib_bffine_pbrbm *pbrbm);
+mlib_stbtus mlib_ImbgeAffine_s32_2ch_bc(mlib_bffine_pbrbm *pbrbm);
+mlib_stbtus mlib_ImbgeAffine_s32_3ch_bc(mlib_bffine_pbrbm *pbrbm);
+mlib_stbtus mlib_ImbgeAffine_s32_4ch_bc(mlib_bffine_pbrbm *pbrbm);
+mlib_stbtus mlib_ImbgeAffine_f32_1ch_bc(mlib_bffine_pbrbm *pbrbm);
+mlib_stbtus mlib_ImbgeAffine_f32_2ch_bc(mlib_bffine_pbrbm *pbrbm);
+mlib_stbtus mlib_ImbgeAffine_f32_3ch_bc(mlib_bffine_pbrbm *pbrbm);
+mlib_stbtus mlib_ImbgeAffine_f32_4ch_bc(mlib_bffine_pbrbm *pbrbm);
+mlib_stbtus mlib_ImbgeAffine_d64_1ch_bc(mlib_bffine_pbrbm *pbrbm);
+mlib_stbtus mlib_ImbgeAffine_d64_2ch_bc(mlib_bffine_pbrbm *pbrbm);
+mlib_stbtus mlib_ImbgeAffine_d64_3ch_bc(mlib_bffine_pbrbm *pbrbm);
+mlib_stbtus mlib_ImbgeAffine_d64_4ch_bc(mlib_bffine_pbrbm *pbrbm);
 
 /***************************************************************/
-typedef mlib_status (*type_affine_i_fun)(mlib_affine_param *param, const void *colormap);
+void mlib_ImbgeAffineEdgeZero(mlib_bffine_pbrbm *pbrbm,
+                              mlib_bffine_pbrbm *pbrbm_e,
+                              const void        *colormbp);
 
-mlib_status mlib_ImageAffine_u8_u8_i_bl(mlib_affine_param *param,
-                                        const void        *colormap);
-mlib_status mlib_ImageAffine_u8_s16_i_bl(mlib_affine_param *param,
-                                         const void        *colormap);
-mlib_status mlib_ImageAffine_s16_u8_i_bl(mlib_affine_param *param,
-                                         const void        *colormap);
-mlib_status mlib_ImageAffine_s16_s16_i_bl(mlib_affine_param *param,
-                                          const void        *colormap);
+void mlib_ImbgeAffineEdgeNebrest(mlib_bffine_pbrbm *pbrbm,
+                                 mlib_bffine_pbrbm *pbrbm_e);
 
-mlib_status mlib_ImageAffine_u8_u8_i_bc(mlib_affine_param *param,
-                                        const void        *colormap);
-mlib_status mlib_ImageAffine_u8_s16_i_bc(mlib_affine_param *param,
-                                         const void        *colormap);
-mlib_status mlib_ImageAffine_s16_u8_i_bc(mlib_affine_param *param,
-                                         const void        *colormap);
-mlib_status mlib_ImageAffine_s16_s16_i_bc(mlib_affine_param *param,
-                                          const void        *colormap);
+mlib_stbtus mlib_ImbgeAffineEdgeExtend_BL(mlib_bffine_pbrbm *pbrbm,
+                                          mlib_bffine_pbrbm *pbrbm_e,
+                                          const void        *colormbp);
 
-void mlib_ImageAffineEdgeZeroIndex(mlib_affine_param *param,
-                                   mlib_affine_param *param_e,
-                                   const void        *colormap);
+mlib_stbtus mlib_ImbgeAffineEdgeExtend_BC(mlib_bffine_pbrbm *pbrbm,
+                                          mlib_bffine_pbrbm *pbrbm_e,
+                                          const void        *colormbp);
 
-void mlib_ImageAffineEdgeExtendIndex_BL(mlib_affine_param *param,
-                                        mlib_affine_param *param_e,
-                                        const void        *colormap);
+mlib_stbtus mlib_ImbgeAffineEdgeExtend_BC2(mlib_bffine_pbrbm *pbrbm,
+                                           mlib_bffine_pbrbm *pbrbm_e,
+                                           const void        *colormbp);
 
-void mlib_ImageAffineEdgeExtendIndex_BC(mlib_affine_param *param,
-                                        mlib_affine_param *param_e,
-                                        const void        *colormap);
+/***************************************************************/
+typedef mlib_stbtus (*type_bffine_i_fun)(mlib_bffine_pbrbm *pbrbm, const void *colormbp);
 
-void mlib_ImageAffineEdgeExtendIndex_BC2(mlib_affine_param *param,
-                                         mlib_affine_param *param_e,
-                                         const void        *colormap);
+mlib_stbtus mlib_ImbgeAffine_u8_u8_i_bl(mlib_bffine_pbrbm *pbrbm,
+                                        const void        *colormbp);
+mlib_stbtus mlib_ImbgeAffine_u8_s16_i_bl(mlib_bffine_pbrbm *pbrbm,
+                                         const void        *colormbp);
+mlib_stbtus mlib_ImbgeAffine_s16_u8_i_bl(mlib_bffine_pbrbm *pbrbm,
+                                         const void        *colormbp);
+mlib_stbtus mlib_ImbgeAffine_s16_s16_i_bl(mlib_bffine_pbrbm *pbrbm,
+                                          const void        *colormbp);
+
+mlib_stbtus mlib_ImbgeAffine_u8_u8_i_bc(mlib_bffine_pbrbm *pbrbm,
+                                        const void        *colormbp);
+mlib_stbtus mlib_ImbgeAffine_u8_s16_i_bc(mlib_bffine_pbrbm *pbrbm,
+                                         const void        *colormbp);
+mlib_stbtus mlib_ImbgeAffine_s16_u8_i_bc(mlib_bffine_pbrbm *pbrbm,
+                                         const void        *colormbp);
+mlib_stbtus mlib_ImbgeAffine_s16_s16_i_bc(mlib_bffine_pbrbm *pbrbm,
+                                          const void        *colormbp);
+
+void mlib_ImbgeAffineEdgeZeroIndex(mlib_bffine_pbrbm *pbrbm,
+                                   mlib_bffine_pbrbm *pbrbm_e,
+                                   const void        *colormbp);
+
+void mlib_ImbgeAffineEdgeExtendIndex_BL(mlib_bffine_pbrbm *pbrbm,
+                                        mlib_bffine_pbrbm *pbrbm_e,
+                                        const void        *colormbp);
+
+void mlib_ImbgeAffineEdgeExtendIndex_BC(mlib_bffine_pbrbm *pbrbm,
+                                        mlib_bffine_pbrbm *pbrbm_e,
+                                        const void        *colormbp);
+
+void mlib_ImbgeAffineEdgeExtendIndex_BC2(mlib_bffine_pbrbm *pbrbm,
+                                         mlib_bffine_pbrbm *pbrbm_e,
+                                         const void        *colormbp);
 
 /***************************************************************/
 #define PROT_AFFINEINDEX_BC(ITYPE, LTYPE, NCHAN)                                                 \
-  mlib_status mlib_ImageAffineIndex_##ITYPE##_##LTYPE##_##NCHAN##CH_BC(mlib_affine_param *param, \
-                                                                       const void        *colormap)
+  mlib_stbtus mlib_ImbgeAffineIndex_##ITYPE##_##LTYPE##_##NCHAN##CH_BC(mlib_bffine_pbrbm *pbrbm, \
+                                                                       const void        *colormbp)
 
 PROT_AFFINEINDEX_BC(U8, U8, 3);
 PROT_AFFINEINDEX_BC(U8, S16, 3);
@@ -233,8 +233,8 @@ PROT_AFFINEINDEX_BC(S16, S16, 4);
 
 /***************************************************************/
 #define PROT_AFFINEINDEX_BL(ITYPE, LTYPE, NCHAN)                                                 \
-  mlib_status mlib_ImageAffineIndex_##ITYPE##_##LTYPE##_##NCHAN##CH_BL(mlib_affine_param *param, \
-                                                                       const void        *colormap)
+  mlib_stbtus mlib_ImbgeAffineIndex_##ITYPE##_##LTYPE##_##NCHAN##CH_BL(mlib_bffine_pbrbm *pbrbm, \
+                                                                       const void        *colormbp)
 
 PROT_AFFINEINDEX_BL(U8, U8, 3);
 PROT_AFFINEINDEX_BL(U8, S16, 3);
@@ -246,18 +246,18 @@ PROT_AFFINEINDEX_BL(S16, U8, 4);
 PROT_AFFINEINDEX_BL(S16, S16, 4);
 
 /***************************************************************/
-mlib_status mlib_ImageAffine_alltypes(mlib_image       *dst,
-                                      const mlib_image *src,
+mlib_stbtus mlib_ImbgeAffine_blltypes(mlib_imbge       *dst,
+                                      const mlib_imbge *src,
                                       const mlib_d64   *mtx,
                                       mlib_filter      filter,
                                       mlib_edge        edge,
-                                      const void       *colormap);
+                                      const void       *colormbp);
 
 /***************************************************************/
-extern const type_affine_i_fun mlib_AffineFunArr_bl_i[];
-extern const type_affine_fun mlib_AffineFunArr_nn[];
-extern const type_affine_fun mlib_AffineFunArr_bl[];
-extern const type_affine_fun mlib_AffineFunArr_bc[];
+extern const type_bffine_i_fun mlib_AffineFunArr_bl_i[];
+extern const type_bffine_fun mlib_AffineFunArr_nn[];
+extern const type_bffine_fun mlib_AffineFunArr_bl[];
+extern const type_bffine_fun mlib_AffineFunArr_bc[];
 
 /***************************************************************/
 typedef union {
@@ -293,8 +293,8 @@ typedef union {
 
 #endif /* MLIB_USE_FTOI_CLAMPING */
 
-//we still need this for mlib_ImageAffine_BC_S32.c
-#define SAT32(DST) SAT_32(DST, val0)
+//we still need this for mlib_ImbgeAffine_BC_S32.c
+#define SAT32(DST) SAT_32(DST, vbl0)
 
 /***************************************************************/
 #if defined(MLIB_OS64BIT) || (defined(MACOSX) && defined(_LP64))
@@ -304,7 +304,7 @@ typedef union {
 #else
 #define PBITS  2
 #define MLIB_POINTER_SHIFT(P)  (((P) >> (MLIB_SHIFT - 2)) &~ 3)
-#define MLIB_POINTER_GET(A, P) (*(DTYPE**)((mlib_addr)(A) + (P)))
+#define MLIB_POINTER_GET(A, P) (*(DTYPE**)((mlib_bddr)(A) + (P)))
 #endif /* MLIB_OS64BIT */
 
 #define PTR_SHIFT MLIB_POINTER_SHIFT
@@ -320,7 +320,7 @@ typedef union {
 #define S_PTR(Y) S_PTRl(Y, 16)
 
 /***************************************************************/
-#define AL_ADDR(sp, ind) (mlib_d64*)((mlib_addr)(sp + ind) &~ 7)
+#define AL_ADDR(sp, ind) (mlib_d64*)((mlib_bddr)(sp + ind) &~ 7)
 
 /***************************************************************/
 #define FILTER_ELEM_BITS  3
@@ -332,24 +332,24 @@ typedef union {
 
 /***************************************************************/
 #define DECLAREVAR0()                                           \
-  mlib_s32  *leftEdges  = param -> leftEdges;                   \
-  mlib_s32  *rightEdges = param -> rightEdges;                  \
-  mlib_s32  *xStarts    = param -> xStarts;                     \
-  mlib_s32  *yStarts    = param -> yStarts;                     \
-  mlib_u8   *dstData    = param -> dstData;                     \
-  mlib_u8   **lineAddr  = param -> lineAddr;                    \
-  mlib_s32  dstYStride  = param -> dstYStride;                  \
+  mlib_s32  *leftEdges  = pbrbm -> leftEdges;                   \
+  mlib_s32  *rightEdges = pbrbm -> rightEdges;                  \
+  mlib_s32  *xStbrts    = pbrbm -> xStbrts;                     \
+  mlib_s32  *yStbrts    = pbrbm -> yStbrts;                     \
+  mlib_u8   *dstDbtb    = pbrbm -> dstDbtb;                     \
+  mlib_u8   **lineAddr  = pbrbm -> lineAddr;                    \
+  mlib_s32  dstYStride  = pbrbm -> dstYStride;                  \
   mlib_s32  xLeft, xRight, X, Y;                                \
-  mlib_s32  yStart  = param -> yStart;                          \
-  mlib_s32  yFinish = param -> yFinish;                         \
-  mlib_s32  dX = param -> dX;                                   \
-  mlib_s32  dY = param -> dY;                                   \
+  mlib_s32  yStbrt  = pbrbm -> yStbrt;                          \
+  mlib_s32  yFinish = pbrbm -> yFinish;                         \
+  mlib_s32  dX = pbrbm -> dX;                                   \
+  mlib_s32  dY = pbrbm -> dY;                                   \
   mlib_s32  j
 
 /***************************************************************/
 #define DECLAREVAR()                                            \
   DECLAREVAR0();                                                \
-  mlib_s32 *warp_tbl   = param -> warp_tbl;                     \
+  mlib_s32 *wbrp_tbl   = pbrbm -> wbrp_tbl;                     \
   DTYPE    *dstPixelPtr
 
 /***************************************************************/
@@ -361,40 +361,40 @@ typedef union {
 /***************************************************************/
 #define DECLAREVAR_BL()                                         \
   DECLAREVAR_NN();                                              \
-  mlib_s32 srcYStride = param -> srcYStride
+  mlib_s32 srcYStride = pbrbm -> srcYStride
 
 /***************************************************************/
 #define DECLAREVAR_BC()                                         \
   DECLAREVAR_BL();                                              \
-  mlib_filter filter = param -> filter
+  mlib_filter filter = pbrbm -> filter
 
 /***************************************************************/
 #define PREPARE_DELTAS                                          \
-  if (warp_tbl != NULL) {                                       \
-    dX = warp_tbl[2*j];                                         \
-    dY = warp_tbl[2*j + 1];                                     \
+  if (wbrp_tbl != NULL) {                                       \
+    dX = wbrp_tbl[2*j];                                         \
+    dY = wbrp_tbl[2*j + 1];                                     \
   }
 
 /***************************************************************/
 #define CLIP(N)                                                 \
-  dstData += dstYStride;                                        \
+  dstDbtb += dstYStride;                                        \
   xLeft  = leftEdges[j];                                        \
   xRight = rightEdges[j];                                       \
-  X = xStarts[j];                                               \
-  Y = yStarts[j];                                               \
+  X = xStbrts[j];                                               \
+  Y = yStbrts[j];                                               \
   PREPARE_DELTAS;                                               \
   if (xLeft > xRight) continue;                                 \
-  dstPixelPtr = (DTYPE*)dstData + N * xLeft
+  dstPixelPtr = (DTYPE*)dstDbtb + N * xLeft
 
 /***************************************************************/
 #define NEW_LINE(NCHAN)                                         \
-  dstData += dstYStride;                                        \
+  dstDbtb += dstYStride;                                        \
   xLeft  = leftEdges[j];                                        \
   xRight = rightEdges[j];                                       \
-  X = xStarts[j];                                               \
-  Y = yStarts[j];                                               \
+  X = xStbrts[j];                                               \
+  Y = yStbrts[j];                                               \
   PREPARE_DELTAS                                                \
-  dl = (void*)((DTYPE*)dstData + NCHAN*xLeft);                  \
+  dl = (void*)((DTYPE*)dstDbtb + NCHAN*xLeft);                  \
   size = xRight - xLeft + 1;                                    \
   if (size <= 0) continue
 

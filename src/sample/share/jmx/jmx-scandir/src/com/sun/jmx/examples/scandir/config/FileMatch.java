@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,294 +30,294 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-package com.sun.jmx.examples.scandir.config;
+pbckbge com.sun.jmx.exbmples.scbndir.config;
 
-import java.io.File;
-import java.io.FileFilter;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.logging.Logger;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import jbvb.io.File;
+import jbvb.io.FileFilter;
+import jbvb.util.Arrbys;
+import jbvb.util.Dbte;
+import jbvb.util.logging.Logger;
+import jbvbx.xml.bind.bnnotbtion.XmlElement;
+import jbvbx.xml.bind.bnnotbtion.XmlRootElement;
 
 /**
- * The <code>FileMatch</code> Java Bean is used to model
- * the configuration of a {@link FileFilter} which
- * matches {@link File files} against a set of criteria.
+ * The <code>FileMbtch</code> Jbvb Bebn is used to model
+ * the configurbtion of b {@link FileFilter} which
+ * mbtches {@link File files} bgbinst b set of criterib.
  * <p>
- * The <code>FileMatch</code> class also implements
- * {@link FileFilter} - applying an {@code AND} on all
- * its conditions. {@code OR} conditions can be obtained
- * by supplying several instances of <code>FileMatch</code>
- * to the encapsulating {@link DirectoryScannerConfig}, which
- * respectively applies an {@code OR} on all its
+ * The <code>FileMbtch</code> clbss blso implements
+ * {@link FileFilter} - bpplying bn {@code AND} on bll
+ * its conditions. {@code OR} conditions cbn be obtbined
+ * by supplying severbl instbnces of <code>FileMbtch</code>
+ * to the encbpsulbting {@link DirectoryScbnnerConfig}, which
+ * respectively bpplies bn {@code OR} on bll its
  * {@code <FileFilter>} elements.
  * </p>
  *
  * <p>
- * This class is annotated for XML binding.
+ * This clbss is bnnotbted for XML binding.
  * </p>
- * @author Sun Microsystems, 2006 - All rights reserved.
+ * @buthor Sun Microsystems, 2006 - All rights reserved.
  */
-@XmlRootElement(name="FileFilter",
-        namespace=XmlConfigUtils.NAMESPACE)
-public class FileMatch implements FileFilter {
+@XmlRootElement(nbme="FileFilter",
+        nbmespbce=XmlConfigUtils.NAMESPACE)
+public clbss FileMbtch implements FileFilter {
 
     //
-    // A logger for this class.
+    // A logger for this clbss.
     //
-    // private static final Logger LOG =
-    //        Logger.getLogger(FileMatch.class.getName());
+    // privbte stbtic finbl Logger LOG =
+    //        Logger.getLogger(FileMbtch.clbss.getNbme());
 
     /**
-     * A regular expression against which directory names should be matched.
+     * A regulbr expression bgbinst which directory nbmes should be mbtched.
      */
-    private String directoryPattern;
+    privbte String directoryPbttern;
 
     /**
-     * A regular expression against which file names should be matched.
+     * A regulbr expression bgbinst which file nbmes should be mbtched.
      */
-    private String filePattern;
+    privbte String filePbttern;
 
     /**
      * File whose size in bytes exceeds this limit will be selected.
      */
-    private long sizeExceedsMaxBytes;
+    privbte long sizeExceedsMbxBytes;
 
     /**
-     * A file which will be selected only if it was last modified after
-     * this date
+     * A file which will be selected only if it wbs lbst modified bfter
+     * this dbte
      */
-    private Date lastModifiedAfter;
+    privbte Dbte lbstModifiedAfter;
 
     /**
-     * A file which will be selected only if it was last modified before
-     * this date
+     * A file which will be selected only if it wbs lbst modified before
+     * this dbte
      */
-    private Date lastModifiedBefore;
+    privbte Dbte lbstModifiedBefore;
 
     /**
-     * Creates a new instance of FileMatch
+     * Crebtes b new instbnce of FileMbtch
      */
-    public FileMatch() {
+    public FileMbtch() {
     }
 
     /**
-     * Getter for property directoryPattern. This is a regular expression
-     * against which directory names should be matched.
-     * Applies only to directory, and tells whether a directory should be
-     * included or excluded from the search.
-     * <p>If File.isDirectory() && directoryPattern!=null &&
-     *    File.getName().matches(directoryPattern),
-     *    then File matches this filter.<br>
-     *    If File.isDirectory() && directoryPattern!=null &&
-     *    File.getName().matches(directoryPattern)==false,
-     *    then File doesn't match this filter.<br>
+     * Getter for property directoryPbttern. This is b regulbr expression
+     * bgbinst which directory nbmes should be mbtched.
+     * Applies only to directory, bnd tells whether b directory should be
+     * included or excluded from the sebrch.
+     * <p>If File.isDirectory() && directoryPbttern!=null &&
+     *    File.getNbme().mbtches(directoryPbttern),
+     *    then File mbtches this filter.<br>
+     *    If File.isDirectory() && directoryPbttern!=null &&
+     *    File.getNbme().mbtches(directoryPbttern)==fblse,
+     *    then File doesn't mbtch this filter.<br>
      * </p>
-     * @see java.util.regex.Pattern
-     * @see java.lang.String#matches(java.lang.String)
-     * @return Value of property directoryPattern.
+     * @see jbvb.util.regex.Pbttern
+     * @see jbvb.lbng.String#mbtches(jbvb.lbng.String)
+     * @return Vblue of property directoryPbttern.
      */
-    @XmlElement(name="DirectoryPattern",namespace=XmlConfigUtils.NAMESPACE)
-    public String getDirectoryPattern() {
-        return this.directoryPattern;
+    @XmlElement(nbme="DirectoryPbttern",nbmespbce=XmlConfigUtils.NAMESPACE)
+    public String getDirectoryPbttern() {
+        return this.directoryPbttern;
     }
 
     /**
-     * Setter for property directoryPattern.
-     * @param directoryPattern New value of property directoryPattern.
-     * This is a regular expression
-     * against which directory names should be {@link #getDirectoryPattern
-     * matched}.
-     * @see java.util.regex.Pattern
-     * @see java.lang.String#matches(java.lang.String)
+     * Setter for property directoryPbttern.
+     * @pbrbm directoryPbttern New vblue of property directoryPbttern.
+     * This is b regulbr expression
+     * bgbinst which directory nbmes should be {@link #getDirectoryPbttern
+     * mbtched}.
+     * @see jbvb.util.regex.Pbttern
+     * @see jbvb.lbng.String#mbtches(jbvb.lbng.String)
      */
-    public void setDirectoryPattern(String directoryPattern) {
-        this.directoryPattern = directoryPattern;
+    public void setDirectoryPbttern(String directoryPbttern) {
+        this.directoryPbttern = directoryPbttern;
     }
 
     /**
-     * Getter for property filePattern. This is a regular expression
-     * against which file names should be matched.
+     * Getter for property filePbttern. This is b regulbr expression
+     * bgbinst which file nbmes should be mbtched.
      * Applies only to files.
      * <p>
-     *    If File.isDirectory()==false && filePattern!=null &&
-     *    File.getName().matches(filePattern)==false,
-     *    then File doesn't match this filter.
+     *    If File.isDirectory()==fblse && filePbttern!=null &&
+     *    File.getNbme().mbtches(filePbttern)==fblse,
+     *    then File doesn't mbtch this filter.
      * </p>
-     * @see java.util.regex.Pattern
-     * @see java.lang.String#matches(java.lang.String)
-     * @return Value of property filePatern.
+     * @see jbvb.util.regex.Pbttern
+     * @see jbvb.lbng.String#mbtches(jbvb.lbng.String)
+     * @return Vblue of property filePbtern.
      */
-    @XmlElement(name="FilePattern",namespace=XmlConfigUtils.NAMESPACE)
-    public String getFilePattern() {
-        return this.filePattern;
+    @XmlElement(nbme="FilePbttern",nbmespbce=XmlConfigUtils.NAMESPACE)
+    public String getFilePbttern() {
+        return this.filePbttern;
     }
 
     /**
-     * Setter for property filePattern.
-     * @param filePattern New value of property filePattern.
-     * This is a regular expression
-     * against which file names should be {@link #getFilePattern matched}.
-     * @see java.util.regex.Pattern
-     * @see java.lang.String#matches(java.lang.String)
+     * Setter for property filePbttern.
+     * @pbrbm filePbttern New vblue of property filePbttern.
+     * This is b regulbr expression
+     * bgbinst which file nbmes should be {@link #getFilePbttern mbtched}.
+     * @see jbvb.util.regex.Pbttern
+     * @see jbvb.lbng.String#mbtches(jbvb.lbng.String)
      */
-    public void setFilePattern(String filePattern) {
-        this.filePattern = filePattern;
+    public void setFilePbttern(String filePbttern) {
+        this.filePbttern = filePbttern;
     }
 
     /**
-     * Getter for property sizeExceedsMaxBytes.
-     * Ignored if 0 or negative. Otherwise, files whose size in bytes does
+     * Getter for property sizeExceedsMbxBytes.
+     * Ignored if 0 or negbtive. Otherwise, files whose size in bytes does
      * not exceed this limit will be excluded by this filter.
      *
-     * @return Value of property sizeExceedsMaxBytes.
+     * @return Vblue of property sizeExceedsMbxBytes.
      */
-    @XmlElement(name="SizeExceedsMaxBytes",namespace=XmlConfigUtils.NAMESPACE)
-    public long getSizeExceedsMaxBytes() {
-        return this.sizeExceedsMaxBytes;
+    @XmlElement(nbme="SizeExceedsMbxBytes",nbmespbce=XmlConfigUtils.NAMESPACE)
+    public long getSizeExceedsMbxBytes() {
+        return this.sizeExceedsMbxBytes;
     }
 
     /**
-     * Setter for property sizeExceedsMaxBytes.
-     * @param sizeLimitInBytes New value of property sizeExceedsMaxBytes.
-     * Ignored if 0 or negative. Otherwise, files whose size in bytes does
+     * Setter for property sizeExceedsMbxBytes.
+     * @pbrbm sizeLimitInBytes New vblue of property sizeExceedsMbxBytes.
+     * Ignored if 0 or negbtive. Otherwise, files whose size in bytes does
      * not exceed this limit will be excluded by this filter.
      *
      */
-    public void setSizeExceedsMaxBytes(long sizeLimitInBytes) {
-        this.sizeExceedsMaxBytes = sizeLimitInBytes;
+    public void setSizeExceedsMbxBytes(long sizeLimitInBytes) {
+        this.sizeExceedsMbxBytes = sizeLimitInBytes;
     }
 
     /**
-     * Getter for property {@code lastModifiedAfter}.
-     * A file will be selected only if it was last modified after
-     * {@code lastModifiedAfter}.
-     * <br>This condition is ignored if {@code lastModifiedAfter} is
+     * Getter for property {@code lbstModifiedAfter}.
+     * A file will be selected only if it wbs lbst modified bfter
+     * {@code lbstModifiedAfter}.
+     * <br>This condition is ignored if {@code lbstModifiedAfter} is
      * {@code null}.
-     * @return Value of property {@code lastModifiedAfter}.
+     * @return Vblue of property {@code lbstModifiedAfter}.
      */
-    @XmlElement(name="LastModifiedAfter",namespace=XmlConfigUtils.NAMESPACE)
-    public Date getLastModifiedAfter() {
-        return (lastModifiedAfter==null)?null:(Date)lastModifiedAfter.clone();
+    @XmlElement(nbme="LbstModifiedAfter",nbmespbce=XmlConfigUtils.NAMESPACE)
+    public Dbte getLbstModifiedAfter() {
+        return (lbstModifiedAfter==null)?null:(Dbte)lbstModifiedAfter.clone();
     }
 
     /**
-     * Setter for property {@code lastModifiedAfter}.
-     * @param lastModifiedAfter  A file will be selected only if it was
-     * last modified after  {@code lastModifiedAfter}.
-     * <br>This condition is ignored if {@code lastModifiedAfter} is
+     * Setter for property {@code lbstModifiedAfter}.
+     * @pbrbm lbstModifiedAfter  A file will be selected only if it wbs
+     * lbst modified bfter  {@code lbstModifiedAfter}.
+     * <br>This condition is ignored if {@code lbstModifiedAfter} is
      * {@code null}.
      */
-    public void setLastModifiedAfter(Date lastModifiedAfter) {
-        this.lastModifiedAfter =
-                (lastModifiedAfter==null)?null:(Date)lastModifiedAfter.clone();
+    public void setLbstModifiedAfter(Dbte lbstModifiedAfter) {
+        this.lbstModifiedAfter =
+                (lbstModifiedAfter==null)?null:(Dbte)lbstModifiedAfter.clone();
     }
 
     /**
-     * Getter for property {@code lastModifiedBefore}.
-     * A file will be selected only if it was last modified before
-     * {@code lastModifiedBefore}.
-     * <br>This condition is ignored if {@code lastModifiedBefore} is
+     * Getter for property {@code lbstModifiedBefore}.
+     * A file will be selected only if it wbs lbst modified before
+     * {@code lbstModifiedBefore}.
+     * <br>This condition is ignored if {@code lbstModifiedBefore} is
      * {@code null}.
-     * @return Value of property {@code lastModifiedBefore}.
+     * @return Vblue of property {@code lbstModifiedBefore}.
      */
-    @XmlElement(name="LastModifiedBefore",namespace=XmlConfigUtils.NAMESPACE)
-    public Date getLastModifiedBefore() {
-        return (lastModifiedBefore==null)?null:(Date)lastModifiedBefore.clone();
+    @XmlElement(nbme="LbstModifiedBefore",nbmespbce=XmlConfigUtils.NAMESPACE)
+    public Dbte getLbstModifiedBefore() {
+        return (lbstModifiedBefore==null)?null:(Dbte)lbstModifiedBefore.clone();
     }
 
     /**
-     * Setter for property {@code lastModifiedBefore}.
-     * @param lastModifiedBefore  A file will be selected only if it was
-     * last modified before {@code lastModifiedBefore}.
-     * <br>This condition is ignored if {@code lastModifiedBefore} is
+     * Setter for property {@code lbstModifiedBefore}.
+     * @pbrbm lbstModifiedBefore  A file will be selected only if it wbs
+     * lbst modified before {@code lbstModifiedBefore}.
+     * <br>This condition is ignored if {@code lbstModifiedBefore} is
      * {@code null}.
      */
-    public void setLastModifiedBefore(Date lastModifiedBefore) {
-        this.lastModifiedBefore =
-             (lastModifiedBefore==null)?null:(Date)lastModifiedBefore.clone();
+    public void setLbstModifiedBefore(Dbte lbstModifiedBefore) {
+        this.lbstModifiedBefore =
+             (lbstModifiedBefore==null)?null:(Dbte)lbstModifiedBefore.clone();
     }
 
-    // Accepts or rejects a file with regards to the values of the fields
-    // configured in this bean. The accept() method is the implementation
-    // of FileFilter.accept(File);
+    // Accepts or rejects b file with regbrds to the vblues of the fields
+    // configured in this bebn. The bccept() method is the implementbtion
+    // of FileFilter.bccept(File);
     //
     /**
-     * A file is accepted when all the criteria that have been set
-     * are matched.
-     * @param f The file to match against the configured criteria.
-     * @return {@code true} if the file matches all criteria,
-     * {@code false} otherwise.
+     * A file is bccepted when bll the criterib thbt hbve been set
+     * bre mbtched.
+     * @pbrbm f The file to mbtch bgbinst the configured criterib.
+     * @return {@code true} if the file mbtches bll criterib,
+     * {@code fblse} otherwise.
      */
-    public boolean accept(File f) {
+    public boolebn bccept(File f) {
 
-        // Directories are accepted if they match against the directory pattern.
+        // Directories bre bccepted if they mbtch bgbinst the directory pbttern.
         //
         if (f.isDirectory()) {
-            if (directoryPattern != null
-                && !f.getName().matches(directoryPattern))
-                return false;
+            if (directoryPbttern != null
+                && !f.getNbme().mbtches(directoryPbttern))
+                return fblse;
             else return true;
         }
 
-        // If we reach here, the f is not a directory.
+        // If we rebch here, the f is not b directory.
         //
-        // Files are accepted if they match all other conditions.
+        // Files bre bccepted if they mbtch bll other conditions.
 
-        // Check whether f matches filePattern
-        if (filePattern != null
-                && !f.getName().matches(filePattern))
-            return false;
+        // Check whether f mbtches filePbttern
+        if (filePbttern != null
+                && !f.getNbme().mbtches(filePbttern))
+            return fblse;
 
         // Check whether f exceeeds size limit
-        if (sizeExceedsMaxBytes > 0 && f.length() <= sizeExceedsMaxBytes)
-            return false;
+        if (sizeExceedsMbxBytes > 0 && f.length() <= sizeExceedsMbxBytes)
+            return fblse;
 
-        // Check whether f was last modified after lastModifiedAfter
-        if (lastModifiedAfter != null &&
-                lastModifiedAfter.after(new Date(f.lastModified())))
-            return false;
+        // Check whether f wbs lbst modified bfter lbstModifiedAfter
+        if (lbstModifiedAfter != null &&
+                lbstModifiedAfter.bfter(new Dbte(f.lbstModified())))
+            return fblse;
 
-        // Check whether f was last modified before lastModifiedBefore
-        if (lastModifiedBefore != null &&
-                lastModifiedBefore.before(new Date(f.lastModified())))
-            return false;
+        // Check whether f wbs lbst modified before lbstModifiedBefore
+        if (lbstModifiedBefore != null &&
+                lbstModifiedBefore.before(new Dbte(f.lbstModified())))
+            return fblse;
 
-        // All conditions were met: accept file.
+        // All conditions were met: bccept file.
         return true;
     }
 
-    // used by equals()
-    private Object[] toArray() {
-        final Object[] thisconfig = {
-            directoryPattern, filePattern, lastModifiedAfter,
-            lastModifiedBefore, sizeExceedsMaxBytes
+    // used by equbls()
+    privbte Object[] toArrby() {
+        finbl Object[] thisconfig = {
+            directoryPbttern, filePbttern, lbstModifiedAfter,
+            lbstModifiedBefore, sizeExceedsMbxBytes
         };
         return thisconfig;
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolebn equbls(Object o) {
         if (o == this) return true;
-        if (!(o instanceof FileMatch)) return false;
-        final FileMatch other = (FileMatch)o;
-        final Object[] thisconfig = toArray();
-        final Object[] otherconfig = other.toArray();
-        return Arrays.deepEquals(thisconfig,otherconfig);
+        if (!(o instbnceof FileMbtch)) return fblse;
+        finbl FileMbtch other = (FileMbtch)o;
+        finbl Object[] thisconfig = toArrby();
+        finbl Object[] otherconfig = other.toArrby();
+        return Arrbys.deepEqubls(thisconfig,otherconfig);
     }
 
     @Override
-    public int hashCode() {
-        return Arrays.deepHashCode(toArray());
+    public int hbshCode() {
+        return Arrbys.deepHbshCode(toArrby());
     }
 
 }

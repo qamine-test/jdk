@@ -1,103 +1,103 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
 /*
- * The Original Code is HAT. The Initial Developer of the
- * Original Code is Bill Foote, with contributions from others
- * at JavaSoft/Sun.
+ * The Originbl Code is HAT. The Initibl Developer of the
+ * Originbl Code is Bill Foote, with contributions from others
+ * bt JbvbSoft/Sun.
  */
 
-package com.sun.tools.hat.internal.server;
+pbckbge com.sun.tools.hbt.internbl.server;
 
-import com.sun.tools.hat.internal.model.*;
-import java.util.*;
+import com.sun.tools.hbt.internbl.model.*;
+import jbvb.util.*;
 
-public class FinalizerSummaryQuery extends QueryHandler {
+public clbss FinblizerSummbryQuery extends QueryHbndler {
     public void run() {
-        Enumeration<?> objs = snapshot.getFinalizerObjects();
-        startHtml("Finalizer Summary");
+        Enumerbtion<?> objs = snbpshot.getFinblizerObjects();
+        stbrtHtml("Finblizer Summbry");
 
-        out.println("<p align='center'>");
-        out.println("<b><a href='/'>All Classes (excluding platform)</a></b>");
+        out.println("<p blign='center'>");
+        out.println("<b><b href='/'>All Clbsses (excluding plbtform)</b></b>");
         out.println("</p>");
 
-        printFinalizerSummary(objs);
+        printFinblizerSummbry(objs);
         endHtml();
     }
 
-    private static class HistogramElement {
-        public HistogramElement(JavaClass clazz) {
-            this.clazz = clazz;
+    privbte stbtic clbss HistogrbmElement {
+        public HistogrbmElement(JbvbClbss clbzz) {
+            this.clbzz = clbzz;
         }
 
-        public void updateCount() {
+        public void updbteCount() {
             this.count++;
         }
 
-        public int compare(HistogramElement other) {
+        public int compbre(HistogrbmElement other) {
             long diff = other.count - count;
             return (diff == 0L)? 0 : ((diff > 0L)? +1 : -1);
         }
 
-        public JavaClass getClazz() {
-            return clazz;
+        public JbvbClbss getClbzz() {
+            return clbzz;
         }
 
         public long getCount() {
             return count;
         }
 
-        private JavaClass clazz;
-        private long count;
+        privbte JbvbClbss clbzz;
+        privbte long count;
     }
 
-    private void printFinalizerSummary(Enumeration<?> objs) {
+    privbte void printFinblizerSummbry(Enumerbtion<?> objs) {
         int count = 0;
-        Map<JavaClass, HistogramElement> map = new HashMap<JavaClass, HistogramElement>();
+        Mbp<JbvbClbss, HistogrbmElement> mbp = new HbshMbp<JbvbClbss, HistogrbmElement>();
 
-        while (objs.hasMoreElements()) {
-            JavaHeapObject obj = (JavaHeapObject) objs.nextElement();
+        while (objs.hbsMoreElements()) {
+            JbvbHebpObject obj = (JbvbHebpObject) objs.nextElement();
             count++;
-            JavaClass clazz = obj.getClazz();
-            if (! map.containsKey(clazz)) {
-                map.put(clazz, new HistogramElement(clazz));
+            JbvbClbss clbzz = obj.getClbzz();
+            if (! mbp.contbinsKey(clbzz)) {
+                mbp.put(clbzz, new HistogrbmElement(clbzz));
             }
-            HistogramElement element = map.get(clazz);
-            element.updateCount();
+            HistogrbmElement element = mbp.get(clbzz);
+            element.updbteCount();
         }
 
-        out.println("<p align='center'>");
+        out.println("<p blign='center'>");
         out.println("<b>");
-        out.println("Total ");
+        out.println("Totbl ");
         if (count != 0) {
-            out.print("<a href='/finalizerObjects/'>instances</a>");
+            out.print("<b href='/finblizerObjects/'>instbnces</b>");
         } else {
-            out.print("instances");
+            out.print("instbnces");
         }
-        out.println(" pending finalization: ");
+        out.println(" pending finblizbtion: ");
         out.print(count);
         out.println("</b></p><hr>");
 
@@ -105,24 +105,24 @@ public class FinalizerSummaryQuery extends QueryHandler {
             return;
         }
 
-        // calculate and print histogram
-        HistogramElement[] elements = new HistogramElement[map.size()];
-        map.values().toArray(elements);
-        Arrays.sort(elements, new Comparator<HistogramElement>() {
-                    public int compare(HistogramElement o1, HistogramElement o2) {
-                        return o1.compare(o2);
+        // cblculbte bnd print histogrbm
+        HistogrbmElement[] elements = new HistogrbmElement[mbp.size()];
+        mbp.vblues().toArrby(elements);
+        Arrbys.sort(elements, new Compbrbtor<HistogrbmElement>() {
+                    public int compbre(HistogrbmElement o1, HistogrbmElement o2) {
+                        return o1.compbre(o2);
                     }
                 });
 
-        out.println("<table border=1 align=center>");
-        out.println("<tr><th>Count</th><th>Class</th></tr>");
+        out.println("<tbble border=1 blign=center>");
+        out.println("<tr><th>Count</th><th>Clbss</th></tr>");
         for (int j = 0; j < elements.length; j++) {
             out.println("<tr><td>");
             out.println(elements[j].getCount());
             out.println("</td><td>");
-            printClass(elements[j].getClazz());
+            printClbss(elements[j].getClbzz());
             out.println("</td><tr>");
         }
-        out.println("</table>");
+        out.println("</tbble>");
     }
 }

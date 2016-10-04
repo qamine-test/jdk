@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 1997, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,81 +30,81 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
 
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.awt.Dimension;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JFrame;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.UIManager;
-import javax.swing.UIManager.LookAndFeelInfo;
+import jbvb.bwt.event.WindowAdbpter;
+import jbvb.bwt.event.WindowEvent;
+import jbvb.bwt.Dimension;
+import jbvb.util.logging.Level;
+import jbvb.util.logging.Logger;
+import jbvbx.swing.JFrbme;
+import jbvbx.swing.JScrollPbne;
+import jbvbx.swing.JTbble;
+import jbvbx.swing.UIMbnbger;
+import jbvbx.swing.UIMbnbger.LookAndFeelInfo;
 
 
 /**
- * A minimal example, using the JTable to view data from a database.
+ * A minimbl exbmple, using the JTbble to view dbtb from b dbtbbbse.
  *
- * @author Philip Milne
+ * @buthor Philip Milne
  */
-public class TableExample2 {
+public clbss TbbleExbmple2 {
 
-    public TableExample2(String URL, String driver, String user,
-            String passwd, String query) {
-        JFrame frame = new JFrame("Table");
-        frame.addWindowListener(new WindowAdapter() {
+    public TbbleExbmple2(String URL, String driver, String user,
+            String pbsswd, String query) {
+        JFrbme frbme = new JFrbme("Tbble");
+        frbme.bddWindowListener(new WindowAdbpter() {
 
             @Override
             public void windowClosing(WindowEvent e) {
                 System.exit(0);
             }
         });
-        JDBCAdapter dt = new JDBCAdapter(URL, driver, user, passwd);
+        JDBCAdbpter dt = new JDBCAdbpter(URL, driver, user, pbsswd);
         dt.executeQuery(query);
 
-        // Create the table
-        JTable tableView = new JTable(dt);
+        // Crebte the tbble
+        JTbble tbbleView = new JTbble(dt);
 
-        JScrollPane scrollpane = new JScrollPane(tableView);
-        scrollpane.setPreferredSize(new Dimension(700, 300));
+        JScrollPbne scrollpbne = new JScrollPbne(tbbleView);
+        scrollpbne.setPreferredSize(new Dimension(700, 300));
 
-        frame.getContentPane().add(scrollpane);
-        frame.pack();
-        frame.setVisible(true);
+        frbme.getContentPbne().bdd(scrollpbne);
+        frbme.pbck();
+        frbme.setVisible(true);
     }
 
-    public static void main(String[] args) {
-        if (args.length != 5) {
-            System.err.println("Needs database parameters eg. ...");
+    public stbtic void mbin(String[] brgs) {
+        if (brgs.length != 5) {
+            System.err.println("Needs dbtbbbse pbrbmeters eg. ...");
             System.err.println(
-                    "java TableExample2 \"jdbc:derby://localhost:1527/sample\" "
-                    + "org.apache.derby.jdbc.ClientDriver app app "
-                    + "\"select * from app.customer\"");
+                    "jbvb TbbleExbmple2 \"jdbc:derby://locblhost:1527/sbmple\" "
+                    + "org.bpbche.derby.jdbc.ClientDriver bpp bpp "
+                    + "\"select * from bpp.customer\"");
             return;
         }
 
-        // Trying to set Nimbus look and feel
+        // Trying to set Nimbus look bnd feel
         try {
-            for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    UIManager.setLookAndFeel(info.getClassName());
-                    break;
+            for (LookAndFeelInfo info : UIMbnbger.getInstblledLookAndFeels()) {
+                if ("Nimbus".equbls(info.getNbme())) {
+                    UIMbnbger.setLookAndFeel(info.getClbssNbme());
+                    brebk;
                 }
             }
-        } catch (Exception ex) {
-            Logger.getLogger(TableExample2.class.getName()).log(Level.SEVERE,
-                    "Failed to apply Nimbus look and feel", ex);
+        } cbtch (Exception ex) {
+            Logger.getLogger(TbbleExbmple2.clbss.getNbme()).log(Level.SEVERE,
+                    "Fbiled to bpply Nimbus look bnd feel", ex);
         }
 
-        new TableExample2(args[0], args[1], args[2], args[3], args[4]);
+        new TbbleExbmple2(brgs[0], brgs[1], brgs[2], brgs[3], brgs[4]);
     }
 }

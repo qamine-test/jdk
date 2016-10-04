@@ -1,175 +1,175 @@
 /*
- * Copyright (c) 2000, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
  *
  *  (C) Copyright IBM Corp. 1999 All Rights Reserved.
- *  Copyright 1997 The Open Group Research Institute.  All rights reserved.
+ *  Copyright 1997 The Open Group Resebrch Institute.  All rights reserved.
  */
 
-package sun.security.krb5.internal.crypto;
+pbckbge sun.security.krb5.internbl.crypto;
 
 import sun.security.krb5.Config;
 import sun.security.krb5.Checksum;
-import sun.security.krb5.EncryptedData;
+import sun.security.krb5.EncryptedDbtb;
 import sun.security.krb5.KrbException;
 import sun.security.krb5.KrbCryptoException;
-import sun.security.krb5.internal.*;
+import sun.security.krb5.internbl.*;
 
-public abstract class CksumType {
+public bbstrbct clbss CksumType {
 
-    private static boolean DEBUG = Krb5.DEBUG;
+    privbte stbtic boolebn DEBUG = Krb5.DEBUG;
 
-    public static CksumType getInstance(int cksumTypeConst)
+    public stbtic CksumType getInstbnce(int cksumTypeConst)
         throws KdcErrException {
         CksumType cksumType = null;
-        String cksumTypeName = null;
+        String cksumTypeNbme = null;
         switch (cksumTypeConst) {
-        case Checksum.CKSUMTYPE_CRC32:
+        cbse Checksum.CKSUMTYPE_CRC32:
             cksumType = new Crc32CksumType();
-            cksumTypeName = "sun.security.krb5.internal.crypto.Crc32CksumType";
-            break;
-        case Checksum.CKSUMTYPE_DES_MAC:
-            cksumType = new DesMacCksumType();
-            cksumTypeName = "sun.security.krb5.internal.crypto.DesMacCksumType";
-            break;
-        case Checksum.CKSUMTYPE_DES_MAC_K:
-            cksumType = new DesMacKCksumType();
-            cksumTypeName =
-                "sun.security.krb5.internal.crypto.DesMacKCksumType";
-            break;
-        case Checksum.CKSUMTYPE_RSA_MD5:
-            cksumType = new RsaMd5CksumType();
-            cksumTypeName = "sun.security.krb5.internal.crypto.RsaMd5CksumType";
-            break;
-        case Checksum.CKSUMTYPE_RSA_MD5_DES:
-            cksumType = new RsaMd5DesCksumType();
-            cksumTypeName =
-                "sun.security.krb5.internal.crypto.RsaMd5DesCksumType";
-            break;
+            cksumTypeNbme = "sun.security.krb5.internbl.crypto.Crc32CksumType";
+            brebk;
+        cbse Checksum.CKSUMTYPE_DES_MAC:
+            cksumType = new DesMbcCksumType();
+            cksumTypeNbme = "sun.security.krb5.internbl.crypto.DesMbcCksumType";
+            brebk;
+        cbse Checksum.CKSUMTYPE_DES_MAC_K:
+            cksumType = new DesMbcKCksumType();
+            cksumTypeNbme =
+                "sun.security.krb5.internbl.crypto.DesMbcKCksumType";
+            brebk;
+        cbse Checksum.CKSUMTYPE_RSA_MD5:
+            cksumType = new RsbMd5CksumType();
+            cksumTypeNbme = "sun.security.krb5.internbl.crypto.RsbMd5CksumType";
+            brebk;
+        cbse Checksum.CKSUMTYPE_RSA_MD5_DES:
+            cksumType = new RsbMd5DesCksumType();
+            cksumTypeNbme =
+                "sun.security.krb5.internbl.crypto.RsbMd5DesCksumType";
+            brebk;
 
-        case Checksum.CKSUMTYPE_HMAC_SHA1_DES3_KD:
-            cksumType = new HmacSha1Des3KdCksumType();
-            cksumTypeName =
-                "sun.security.krb5.internal.crypto.HmacSha1Des3KdCksumType";
-            break;
+        cbse Checksum.CKSUMTYPE_HMAC_SHA1_DES3_KD:
+            cksumType = new HmbcShb1Des3KdCksumType();
+            cksumTypeNbme =
+                "sun.security.krb5.internbl.crypto.HmbcShb1Des3KdCksumType";
+            brebk;
 
-        case Checksum.CKSUMTYPE_HMAC_SHA1_96_AES128:
-            cksumType = new HmacSha1Aes128CksumType();
-            cksumTypeName =
-                "sun.security.krb5.internal.crypto.HmacSha1Aes128CksumType";
-            break;
-        case Checksum.CKSUMTYPE_HMAC_SHA1_96_AES256:
-            cksumType = new HmacSha1Aes256CksumType();
-            cksumTypeName =
-                "sun.security.krb5.internal.crypto.HmacSha1Aes256CksumType";
-            break;
+        cbse Checksum.CKSUMTYPE_HMAC_SHA1_96_AES128:
+            cksumType = new HmbcShb1Aes128CksumType();
+            cksumTypeNbme =
+                "sun.security.krb5.internbl.crypto.HmbcShb1Aes128CksumType";
+            brebk;
+        cbse Checksum.CKSUMTYPE_HMAC_SHA1_96_AES256:
+            cksumType = new HmbcShb1Aes256CksumType();
+            cksumTypeNbme =
+                "sun.security.krb5.internbl.crypto.HmbcShb1Aes256CksumType";
+            brebk;
 
-        case Checksum.CKSUMTYPE_HMAC_MD5_ARCFOUR:
-            cksumType = new HmacMd5ArcFourCksumType();
-            cksumTypeName =
-                "sun.security.krb5.internal.crypto.HmacMd5ArcFourCksumType";
-            break;
+        cbse Checksum.CKSUMTYPE_HMAC_MD5_ARCFOUR:
+            cksumType = new HmbcMd5ArcFourCksumType();
+            cksumTypeNbme =
+                "sun.security.krb5.internbl.crypto.HmbcMd5ArcFourCksumType";
+            brebk;
 
             // currently we don't support MD4.
-        case Checksum.CKSUMTYPE_RSA_MD4_DES_K:
-            // cksumType = new RsaMd4DesKCksumType();
-            // cksumTypeName =
-            //          "sun.security.krb5.internal.crypto.RsaMd4DesKCksumType";
-        case Checksum.CKSUMTYPE_RSA_MD4:
-            // cksumType = new RsaMd4CksumType();
-            // linux box support rsamd4, how to solve conflict?
-            // cksumTypeName =
-            //          "sun.security.krb5.internal.crypto.RsaMd4CksumType";
-        case Checksum.CKSUMTYPE_RSA_MD4_DES:
-            // cksumType = new RsaMd4DesCksumType();
-            // cksumTypeName =
-            //          "sun.security.krb5.internal.crypto.RsaMd4DesCksumType";
+        cbse Checksum.CKSUMTYPE_RSA_MD4_DES_K:
+            // cksumType = new RsbMd4DesKCksumType();
+            // cksumTypeNbme =
+            //          "sun.security.krb5.internbl.crypto.RsbMd4DesKCksumType";
+        cbse Checksum.CKSUMTYPE_RSA_MD4:
+            // cksumType = new RsbMd4CksumType();
+            // linux box support rsbmd4, how to solve conflict?
+            // cksumTypeNbme =
+            //          "sun.security.krb5.internbl.crypto.RsbMd4CksumType";
+        cbse Checksum.CKSUMTYPE_RSA_MD4_DES:
+            // cksumType = new RsbMd4DesCksumType();
+            // cksumTypeNbme =
+            //          "sun.security.krb5.internbl.crypto.RsbMd4DesCksumType";
 
-        default:
+        defbult:
             throw new KdcErrException(Krb5.KDC_ERR_SUMTYPE_NOSUPP);
         }
         if (DEBUG) {
-            System.out.println(">>> CksumType: " + cksumTypeName);
+            System.out.println(">>> CksumType: " + cksumTypeNbme);
         }
         return cksumType;
     }
 
 
     /**
-     * Returns default checksum type.
+     * Returns defbult checksum type.
      */
-    public static CksumType getInstance() throws KdcErrException {
-        // this method provided for Kerberos applications.
-        int cksumType = Checksum.CKSUMTYPE_RSA_MD5; // default
+    public stbtic CksumType getInstbnce() throws KdcErrException {
+        // this method provided for Kerberos bpplicbtions.
+        int cksumType = Checksum.CKSUMTYPE_RSA_MD5; // defbult
         try {
-            Config c = Config.getInstance();
-            if ((cksumType = (Config.getType(c.get("libdefaults",
-                    "ap_req_checksum_type")))) == - 1) {
-                if ((cksumType = Config.getType(c.get("libdefaults",
+            Config c = Config.getInstbnce();
+            if ((cksumType = (Config.getType(c.get("libdefbults",
+                    "bp_req_checksum_type")))) == - 1) {
+                if ((cksumType = Config.getType(c.get("libdefbults",
                         "checksum_type"))) == -1) {
-                    cksumType = Checksum.CKSUMTYPE_RSA_MD5; // default
+                    cksumType = Checksum.CKSUMTYPE_RSA_MD5; // defbult
                 }
             }
-        } catch (KrbException e) {
+        } cbtch (KrbException e) {
         }
-        return getInstance(cksumType);
+        return getInstbnce(cksumType);
     }
 
-    public abstract int confounderSize();
+    public bbstrbct int confounderSize();
 
-    public abstract int cksumType();
+    public bbstrbct int cksumType();
 
-    public abstract boolean isSafe();
+    public bbstrbct boolebn isSbfe();
 
-    public abstract int cksumSize();
+    public bbstrbct int cksumSize();
 
-    public abstract int keyType();
+    public bbstrbct int keyType();
 
-    public abstract int keySize();
+    public bbstrbct int keySize();
 
-    public abstract byte[] calculateChecksum(byte[] data, int size)
+    public bbstrbct byte[] cblculbteChecksum(byte[] dbtb, int size)
         throws KrbCryptoException;
 
-    public abstract byte[] calculateKeyedChecksum(byte[] data, int size,
-        byte[] key, int usage) throws KrbCryptoException;
+    public bbstrbct byte[] cblculbteKeyedChecksum(byte[] dbtb, int size,
+        byte[] key, int usbge) throws KrbCryptoException;
 
-    public abstract boolean verifyKeyedChecksum(byte[] data, int size,
-        byte[] key, byte[] checksum, int usage) throws KrbCryptoException;
+    public bbstrbct boolebn verifyKeyedChecksum(byte[] dbtb, int size,
+        byte[] key, byte[] checksum, int usbge) throws KrbCryptoException;
 
-    public static boolean isChecksumEqual(byte[] cksum1, byte[] cksum2) {
+    public stbtic boolebn isChecksumEqubl(byte[] cksum1, byte[] cksum2) {
         if (cksum1 == cksum2)
             return true;
         if ((cksum1 == null && cksum2 != null) ||
             (cksum1 != null && cksum2 == null))
-            return false;
+            return fblse;
         if (cksum1.length != cksum2.length)
-            return false;
+            return fblse;
         for (int i = 0; i < cksum1.length; i++)
             if (cksum1[i] != cksum2[i])
-                return false;
+                return fblse;
         return true;
     }
 

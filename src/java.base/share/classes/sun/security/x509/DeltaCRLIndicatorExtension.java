@@ -1,116 +1,116 @@
 /*
- * Copyright (c) 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.x509;
+pbckbge sun.security.x509;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.math.BigInteger;
-import java.util.Enumeration;
+import jbvb.io.IOException;
+import jbvb.io.OutputStrebm;
+import jbvb.mbth.BigInteger;
+import jbvb.util.Enumerbtion;
 
 import sun.security.util.*;
 
 /**
- * Represents the Delta CRL Indicator Extension.
+ * Represents the Deltb CRL Indicbtor Extension.
  *
  * <p>
- * The extension identifies a CRL as being a delta CRL.
- * Delta CRLs contain updates to revocation information previously distributed,
- * rather than all the information that would appear in a complete CRL.
- * The extension contains a CRL number that identifies the CRL, complete for a
- * given scope, that was used as the starting point in the generation of
- * this delta CRL.
+ * The extension identifies b CRL bs being b deltb CRL.
+ * Deltb CRLs contbin updbtes to revocbtion informbtion previously distributed,
+ * rbther thbn bll the informbtion thbt would bppebr in b complete CRL.
+ * The extension contbins b CRL number thbt identifies the CRL, complete for b
+ * given scope, thbt wbs used bs the stbrting point in the generbtion of
+ * this deltb CRL.
  *
  * <p>
  * The extension is defined in Section 5.2.4 of
- * <a href="http://www.ietf.org/rfc/rfc3280.txt">Internet X.509 PKI Certific
-ate and Certificate Revocation List (CRL) Profile</a>.
+ * <b href="http://www.ietf.org/rfc/rfc3280.txt">Internet X.509 PKI Certific
+bte bnd Certificbte Revocbtion List (CRL) Profile</b>.
  *
  * <p>
- * Its ASN.1 definition is as follows:
+ * Its ASN.1 definition is bs follows:
  * <pre>
- *     id-ce-deltaCRLIndicator OBJECT IDENTIFIER ::= { id-ce 27 }
+ *     id-ce-deltbCRLIndicbtor OBJECT IDENTIFIER ::= { id-ce 27 }
  *
- *     BaseCRLNumber ::= CRLNumber
+ *     BbseCRLNumber ::= CRLNumber
  *     CRLNumber ::= INTEGER (0..MAX)
  * </pre>
  *
  * @since 1.6
  */
-public class DeltaCRLIndicatorExtension extends CRLNumberExtension {
+public clbss DeltbCRLIndicbtorExtension extends CRLNumberExtension {
 
     /**
-     * Attribute name.
+     * Attribute nbme.
      */
-    public static final String NAME = "DeltaCRLIndicator";
+    public stbtic finbl String NAME = "DeltbCRLIndicbtor";
 
-    private static final String LABEL = "Base CRL Number";
+    privbte stbtic finbl String LABEL = "Bbse CRL Number";
 
     /**
-     * Creates a delta CRL indicator extension with the integer value .
-     * The criticality is set to true.
+     * Crebtes b deltb CRL indicbtor extension with the integer vblue .
+     * The criticblity is set to true.
      *
-     * @param crlNum the value to be set for the extension.
+     * @pbrbm crlNum the vblue to be set for the extension.
      */
-    public DeltaCRLIndicatorExtension(int crlNum) throws IOException {
-        super(PKIXExtensions.DeltaCRLIndicator_Id, true,
-            BigInteger.valueOf(crlNum), NAME, LABEL);
+    public DeltbCRLIndicbtorExtension(int crlNum) throws IOException {
+        super(PKIXExtensions.DeltbCRLIndicbtor_Id, true,
+            BigInteger.vblueOf(crlNum), NAME, LABEL);
     }
 
     /**
-     * Creates a delta CRL indictor extension with the BigInteger value .
-     * The criticality is set to true.
+     * Crebtes b deltb CRL indictor extension with the BigInteger vblue .
+     * The criticblity is set to true.
      *
-     * @param crlNum the value to be set for the extension.
+     * @pbrbm crlNum the vblue to be set for the extension.
      */
-    public DeltaCRLIndicatorExtension(BigInteger crlNum) throws IOException {
-        super(PKIXExtensions.DeltaCRLIndicator_Id, true, crlNum, NAME, LABEL);
+    public DeltbCRLIndicbtorExtension(BigInteger crlNum) throws IOException {
+        super(PKIXExtensions.DeltbCRLIndicbtor_Id, true, crlNum, NAME, LABEL);
     }
 
     /**
-     * Creates the extension from the passed DER encoded value of the same.
+     * Crebtes the extension from the pbssed DER encoded vblue of the sbme.
      *
-     * @param critical true if the extension is to be treated as critical.
-     * @param value an array of DER encoded bytes of the actual value.
-     * @exception ClassCastException if value is not an array of bytes
+     * @pbrbm criticbl true if the extension is to be trebted bs criticbl.
+     * @pbrbm vblue bn brrby of DER encoded bytes of the bctubl vblue.
+     * @exception ClbssCbstException if vblue is not bn brrby of bytes
      * @exception IOException on decoding error.
      */
-    public DeltaCRLIndicatorExtension(Boolean critical, Object value)
+    public DeltbCRLIndicbtorExtension(Boolebn criticbl, Object vblue)
     throws IOException {
-        super(PKIXExtensions.DeltaCRLIndicator_Id, critical.booleanValue(),
-            value, NAME, LABEL);
+        super(PKIXExtensions.DeltbCRLIndicbtor_Id, criticbl.boolebnVblue(),
+            vblue, NAME, LABEL);
     }
 
     /**
-     * Writes the extension to the DerOutputStream.
+     * Writes the extension to the DerOutputStrebm.
      *
-     * @param out the DerOutputStream to write the extension to.
+     * @pbrbm out the DerOutputStrebm to write the extension to.
      * @exception IOException on encoding errors.
      */
-    public void encode(OutputStream out) throws IOException {
-       DerOutputStream  tmp = new DerOutputStream();
-        super.encode(out, PKIXExtensions.DeltaCRLIndicator_Id, true);
+    public void encode(OutputStrebm out) throws IOException {
+       DerOutputStrebm  tmp = new DerOutputStrebm();
+        super.encode(out, PKIXExtensions.DeltbCRLIndicbtor_Id, true);
     }
 }

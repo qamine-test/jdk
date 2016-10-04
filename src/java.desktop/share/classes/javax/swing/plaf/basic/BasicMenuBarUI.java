@@ -1,221 +1,221 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.plaf.basic;
+pbckbge jbvbx.swing.plbf.bbsic;
 
-import sun.swing.DefaultLookup;
+import sun.swing.DefbultLookup;
 import sun.swing.UIAction;
-import javax.swing.*;
-import javax.swing.event.*;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Insets;
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.event.*;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
+import jbvbx.swing.*;
+import jbvbx.swing.event.*;
+import jbvb.bwt.Color;
+import jbvb.bwt.Component;
+import jbvb.bwt.Contbiner;
+import jbvb.bwt.Dimension;
+import jbvb.bwt.Grbphics;
+import jbvb.bwt.Insets;
+import jbvb.bwt.Point;
+import jbvb.bwt.Rectbngle;
+import jbvb.bwt.event.*;
+import jbvb.bebns.PropertyChbngeEvent;
+import jbvb.bebns.PropertyChbngeListener;
 
-import javax.swing.border.*;
-import javax.swing.plaf.*;
+import jbvbx.swing.border.*;
+import jbvbx.swing.plbf.*;
 
 
 /**
- * A default L&amp;F implementation of MenuBarUI.  This implementation
- * is a "combined" view/controller.
+ * A defbult L&bmp;F implementbtion of MenuBbrUI.  This implementbtion
+ * is b "combined" view/controller.
  *
- * @author Georges Saab
- * @author David Karlton
- * @author Arnaud Weber
+ * @buthor Georges Sbbb
+ * @buthor Dbvid Kbrlton
+ * @buthor Arnbud Weber
  */
-public class BasicMenuBarUI extends MenuBarUI  {
+public clbss BbsicMenuBbrUI extends MenuBbrUI  {
 
     /**
-     * The instance of {@code JMenuBar}.
+     * The instbnce of {@code JMenuBbr}.
      */
-    protected JMenuBar              menuBar = null;
+    protected JMenuBbr              menuBbr = null;
 
     /**
-     * The instance of {@code ContainerListener}.
+     * The instbnce of {@code ContbinerListener}.
      */
-    protected ContainerListener     containerListener;
+    protected ContbinerListener     contbinerListener;
 
     /**
-     * The instance of {@code ChangeListener}.
+     * The instbnce of {@code ChbngeListener}.
      */
-    protected ChangeListener        changeListener;
-    private Handler handler;
+    protected ChbngeListener        chbngeListener;
+    privbte Hbndler hbndler;
 
     /**
-     * Returns a new instance of {@code BasicMenuBarUI}.
+     * Returns b new instbnce of {@code BbsicMenuBbrUI}.
      *
-     * @param x a component
-     * @return a new instance of {@code BasicMenuBarUI}
+     * @pbrbm x b component
+     * @return b new instbnce of {@code BbsicMenuBbrUI}
      */
-    public static ComponentUI createUI(JComponent x) {
-        return new BasicMenuBarUI();
+    public stbtic ComponentUI crebteUI(JComponent x) {
+        return new BbsicMenuBbrUI();
     }
 
-    static void loadActionMap(LazyActionMap map) {
-        map.put(new Actions(Actions.TAKE_FOCUS));
+    stbtic void lobdActionMbp(LbzyActionMbp mbp) {
+        mbp.put(new Actions(Actions.TAKE_FOCUS));
     }
 
-    public void installUI(JComponent c) {
-        menuBar = (JMenuBar) c;
+    public void instbllUI(JComponent c) {
+        menuBbr = (JMenuBbr) c;
 
-        installDefaults();
-        installListeners();
-        installKeyboardActions();
+        instbllDefbults();
+        instbllListeners();
+        instbllKeybobrdActions();
 
     }
 
     /**
-     * Installs default properties.
+     * Instblls defbult properties.
      */
-    protected void installDefaults() {
-        if (menuBar.getLayout() == null ||
-            menuBar.getLayout() instanceof UIResource) {
-            menuBar.setLayout(new DefaultMenuLayout(menuBar,BoxLayout.LINE_AXIS));
+    protected void instbllDefbults() {
+        if (menuBbr.getLbyout() == null ||
+            menuBbr.getLbyout() instbnceof UIResource) {
+            menuBbr.setLbyout(new DefbultMenuLbyout(menuBbr,BoxLbyout.LINE_AXIS));
         }
 
-        LookAndFeel.installProperty(menuBar, "opaque", Boolean.TRUE);
-        LookAndFeel.installBorder(menuBar,"MenuBar.border");
-        LookAndFeel.installColorsAndFont(menuBar,
-                                              "MenuBar.background",
-                                              "MenuBar.foreground",
-                                              "MenuBar.font");
+        LookAndFeel.instbllProperty(menuBbr, "opbque", Boolebn.TRUE);
+        LookAndFeel.instbllBorder(menuBbr,"MenuBbr.border");
+        LookAndFeel.instbllColorsAndFont(menuBbr,
+                                              "MenuBbr.bbckground",
+                                              "MenuBbr.foreground",
+                                              "MenuBbr.font");
     }
 
     /**
      * Registers listeners.
      */
-    protected void installListeners() {
-        containerListener = createContainerListener();
-        changeListener = createChangeListener();
+    protected void instbllListeners() {
+        contbinerListener = crebteContbinerListener();
+        chbngeListener = crebteChbngeListener();
 
-        for (int i = 0; i < menuBar.getMenuCount(); i++) {
-            JMenu menu = menuBar.getMenu(i);
+        for (int i = 0; i < menuBbr.getMenuCount(); i++) {
+            JMenu menu = menuBbr.getMenu(i);
             if (menu!=null)
-                menu.getModel().addChangeListener(changeListener);
+                menu.getModel().bddChbngeListener(chbngeListener);
         }
-        menuBar.addContainerListener(containerListener);
+        menuBbr.bddContbinerListener(contbinerListener);
     }
 
     /**
-     * Registers keyboard actions.
+     * Registers keybobrd bctions.
      */
-    protected void installKeyboardActions() {
-        InputMap inputMap = getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+    protected void instbllKeybobrdActions() {
+        InputMbp inputMbp = getInputMbp(JComponent.WHEN_IN_FOCUSED_WINDOW);
 
-        SwingUtilities.replaceUIInputMap(menuBar,
-                           JComponent.WHEN_IN_FOCUSED_WINDOW, inputMap);
+        SwingUtilities.replbceUIInputMbp(menuBbr,
+                           JComponent.WHEN_IN_FOCUSED_WINDOW, inputMbp);
 
-        LazyActionMap.installLazyActionMap(menuBar, BasicMenuBarUI.class,
-                                           "MenuBar.actionMap");
+        LbzyActionMbp.instbllLbzyActionMbp(menuBbr, BbsicMenuBbrUI.clbss,
+                                           "MenuBbr.bctionMbp");
     }
 
-    InputMap getInputMap(int condition) {
+    InputMbp getInputMbp(int condition) {
         if (condition == JComponent.WHEN_IN_FOCUSED_WINDOW) {
-            Object[] bindings = (Object[])DefaultLookup.get
-                                (menuBar, this, "MenuBar.windowBindings");
+            Object[] bindings = (Object[])DefbultLookup.get
+                                (menuBbr, this, "MenuBbr.windowBindings");
             if (bindings != null) {
-                return LookAndFeel.makeComponentInputMap(menuBar, bindings);
+                return LookAndFeel.mbkeComponentInputMbp(menuBbr, bindings);
             }
         }
         return null;
     }
 
-    public void uninstallUI(JComponent c) {
-        uninstallDefaults();
-        uninstallListeners();
-        uninstallKeyboardActions();
+    public void uninstbllUI(JComponent c) {
+        uninstbllDefbults();
+        uninstbllListeners();
+        uninstbllKeybobrdActions();
 
-        menuBar = null;
+        menuBbr = null;
     }
 
     /**
-     * Uninstalls default properties.
+     * Uninstblls defbult properties.
      */
-    protected void uninstallDefaults() {
-        if (menuBar!=null) {
-            LookAndFeel.uninstallBorder(menuBar);
+    protected void uninstbllDefbults() {
+        if (menuBbr!=null) {
+            LookAndFeel.uninstbllBorder(menuBbr);
         }
     }
 
     /**
      * Unregisters listeners.
      */
-    protected void uninstallListeners() {
-        menuBar.removeContainerListener(containerListener);
+    protected void uninstbllListeners() {
+        menuBbr.removeContbinerListener(contbinerListener);
 
-        for (int i = 0; i < menuBar.getMenuCount(); i++) {
-            JMenu menu = menuBar.getMenu(i);
+        for (int i = 0; i < menuBbr.getMenuCount(); i++) {
+            JMenu menu = menuBbr.getMenu(i);
             if (menu !=null)
-                menu.getModel().removeChangeListener(changeListener);
+                menu.getModel().removeChbngeListener(chbngeListener);
         }
 
-        containerListener = null;
-        changeListener = null;
-        handler = null;
+        contbinerListener = null;
+        chbngeListener = null;
+        hbndler = null;
     }
 
     /**
-     * Unregisters keyboard actions.
+     * Unregisters keybobrd bctions.
      */
-    protected void uninstallKeyboardActions() {
-        SwingUtilities.replaceUIInputMap(menuBar, JComponent.
+    protected void uninstbllKeybobrdActions() {
+        SwingUtilities.replbceUIInputMbp(menuBbr, JComponent.
                                        WHEN_IN_FOCUSED_WINDOW, null);
-        SwingUtilities.replaceUIActionMap(menuBar, null);
+        SwingUtilities.replbceUIActionMbp(menuBbr, null);
     }
 
     /**
-     * Returns an instance of {@code ContainerListener}.
+     * Returns bn instbnce of {@code ContbinerListener}.
      *
-     * @return an instance of {@code ContainerListener}
+     * @return bn instbnce of {@code ContbinerListener}
      */
-    protected ContainerListener createContainerListener() {
-        return getHandler();
+    protected ContbinerListener crebteContbinerListener() {
+        return getHbndler();
     }
 
     /**
-     * Returns an instance of {@code ChangeListener}.
+     * Returns bn instbnce of {@code ChbngeListener}.
      *
-     * @return an instance of {@code ChangeListener}
+     * @return bn instbnce of {@code ChbngeListener}
      */
-    protected ChangeListener createChangeListener() {
-        return getHandler();
+    protected ChbngeListener crebteChbngeListener() {
+        return getHbndler();
     }
 
-    private Handler getHandler() {
-        if (handler == null) {
-            handler = new Handler();
+    privbte Hbndler getHbndler() {
+        if (hbndler == null) {
+            hbndler = new Hbndler();
         }
-        return handler;
+        return hbndler;
     }
 
 
@@ -223,61 +223,61 @@ public class BasicMenuBarUI extends MenuBarUI  {
         return null;
     }
 
-    public Dimension getMaximumSize(JComponent c) {
+    public Dimension getMbximumSize(JComponent c) {
         return null;
     }
 
-    private class Handler implements ChangeListener, ContainerListener {
+    privbte clbss Hbndler implements ChbngeListener, ContbinerListener {
         //
-        // ChangeListener
+        // ChbngeListener
         //
-        public void stateChanged(ChangeEvent e) {
+        public void stbteChbnged(ChbngeEvent e) {
             int i,c;
-            for(i=0,c = menuBar.getMenuCount() ; i < c ; i++) {
-                JMenu menu = menuBar.getMenu(i);
+            for(i=0,c = menuBbr.getMenuCount() ; i < c ; i++) {
+                JMenu menu = menuBbr.getMenu(i);
                 if(menu !=null && menu.isSelected()) {
-                    menuBar.getSelectionModel().setSelectedIndex(i);
-                    break;
+                    menuBbr.getSelectionModel().setSelectedIndex(i);
+                    brebk;
                 }
             }
         }
 
         //
-        // ContainerListener
+        // ContbinerListener
         //
-        public void componentAdded(ContainerEvent e) {
+        public void componentAdded(ContbinerEvent e) {
             Component c = e.getChild();
-            if (c instanceof JMenu)
-                ((JMenu)c).getModel().addChangeListener(changeListener);
+            if (c instbnceof JMenu)
+                ((JMenu)c).getModel().bddChbngeListener(chbngeListener);
         }
-        public void componentRemoved(ContainerEvent e) {
+        public void componentRemoved(ContbinerEvent e) {
             Component c = e.getChild();
-            if (c instanceof JMenu)
-                ((JMenu)c).getModel().removeChangeListener(changeListener);
+            if (c instbnceof JMenu)
+                ((JMenu)c).getModel().removeChbngeListener(chbngeListener);
         }
     }
 
 
-    private static class Actions extends UIAction {
-        private static final String TAKE_FOCUS = "takeFocus";
+    privbte stbtic clbss Actions extends UIAction {
+        privbte stbtic finbl String TAKE_FOCUS = "tbkeFocus";
 
         Actions(String key) {
             super(key);
         }
 
-        public void actionPerformed(ActionEvent e) {
+        public void bctionPerformed(ActionEvent e) {
             // TAKE_FOCUS
-            JMenuBar menuBar = (JMenuBar)e.getSource();
-            MenuSelectionManager defaultManager = MenuSelectionManager.defaultManager();
+            JMenuBbr menuBbr = (JMenuBbr)e.getSource();
+            MenuSelectionMbnbger defbultMbnbger = MenuSelectionMbnbger.defbultMbnbger();
             MenuElement me[];
             MenuElement subElements[];
-            JMenu menu = menuBar.getMenu(0);
+            JMenu menu = menuBbr.getMenu(0);
             if (menu!=null) {
                     me = new MenuElement[3];
-                    me[0] = (MenuElement) menuBar;
+                    me[0] = (MenuElement) menuBbr;
                     me[1] = (MenuElement) menu;
                     me[2] = (MenuElement) menu.getPopupMenu();
-                    defaultManager.setSelectedPath(me);
+                    defbultMbnbger.setSelectedPbth(me);
             }
         }
     }

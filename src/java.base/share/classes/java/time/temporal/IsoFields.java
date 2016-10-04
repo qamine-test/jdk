@@ -1,45 +1,45 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * Copyright (c) 2011-2012, Stephen Colebourne & Michael Nascimento Santos
+ * Copyright (c) 2011-2012, Stephen Colebourne & Michbel Nbscimento Sbntos
  *
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions bre met:
  *
- *  * Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ *  * Redistributions of source code must retbin the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer.
  *
- *  * Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ *  * Redistributions in binbry form must reproduce the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer in the documentbtion
+ *    bnd/or other mbteribls provided with the distribution.
  *
- *  * Neither the name of JSR-310 nor the names of its contributors
- *    may be used to endorse or promote products derived from this software
+ *  * Neither the nbme of JSR-310 nor the nbmes of its contributors
+ *    mby be used to endorse or promote products derived from this softwbre
  *    without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
@@ -54,671 +54,671 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package java.time.temporal;
+pbckbge jbvb.time.temporbl;
 
-import static java.time.DayOfWeek.THURSDAY;
-import static java.time.DayOfWeek.WEDNESDAY;
-import static java.time.temporal.ChronoField.DAY_OF_WEEK;
-import static java.time.temporal.ChronoField.DAY_OF_YEAR;
-import static java.time.temporal.ChronoField.EPOCH_DAY;
-import static java.time.temporal.ChronoField.MONTH_OF_YEAR;
-import static java.time.temporal.ChronoField.YEAR;
-import static java.time.temporal.ChronoUnit.DAYS;
-import static java.time.temporal.ChronoUnit.FOREVER;
-import static java.time.temporal.ChronoUnit.MONTHS;
-import static java.time.temporal.ChronoUnit.WEEKS;
-import static java.time.temporal.ChronoUnit.YEARS;
+import stbtic jbvb.time.DbyOfWeek.THURSDAY;
+import stbtic jbvb.time.DbyOfWeek.WEDNESDAY;
+import stbtic jbvb.time.temporbl.ChronoField.DAY_OF_WEEK;
+import stbtic jbvb.time.temporbl.ChronoField.DAY_OF_YEAR;
+import stbtic jbvb.time.temporbl.ChronoField.EPOCH_DAY;
+import stbtic jbvb.time.temporbl.ChronoField.MONTH_OF_YEAR;
+import stbtic jbvb.time.temporbl.ChronoField.YEAR;
+import stbtic jbvb.time.temporbl.ChronoUnit.DAYS;
+import stbtic jbvb.time.temporbl.ChronoUnit.FOREVER;
+import stbtic jbvb.time.temporbl.ChronoUnit.MONTHS;
+import stbtic jbvb.time.temporbl.ChronoUnit.WEEKS;
+import stbtic jbvb.time.temporbl.ChronoUnit.YEARS;
 
-import java.time.DateTimeException;
-import java.time.Duration;
-import java.time.LocalDate;
-import java.time.chrono.ChronoLocalDate;
-import java.time.chrono.Chronology;
-import java.time.chrono.IsoChronology;
-import java.time.format.ResolverStyle;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Objects;
-import java.util.ResourceBundle;
+import jbvb.time.DbteTimeException;
+import jbvb.time.Durbtion;
+import jbvb.time.LocblDbte;
+import jbvb.time.chrono.ChronoLocblDbte;
+import jbvb.time.chrono.Chronology;
+import jbvb.time.chrono.IsoChronology;
+import jbvb.time.formbt.ResolverStyle;
+import jbvb.util.Locble;
+import jbvb.util.Mbp;
+import jbvb.util.Objects;
+import jbvb.util.ResourceBundle;
 
-import sun.util.locale.provider.LocaleProviderAdapter;
-import sun.util.locale.provider.LocaleResources;
+import sun.util.locble.provider.LocbleProviderAdbpter;
+import sun.util.locble.provider.LocbleResources;
 
 /**
- * Fields and units specific to the ISO-8601 calendar system,
- * including quarter-of-year and week-based-year.
+ * Fields bnd units specific to the ISO-8601 cblendbr system,
+ * including qubrter-of-yebr bnd week-bbsed-yebr.
  * <p>
- * This class defines fields and units that are specific to the ISO calendar system.
+ * This clbss defines fields bnd units thbt bre specific to the ISO cblendbr system.
  *
- * <h3>Quarter of year</h3>
- * The ISO-8601 standard is based on the standard civic 12 month year.
- * This is commonly divided into four quarters, often abbreviated as Q1, Q2, Q3 and Q4.
+ * <h3>Qubrter of yebr</h3>
+ * The ISO-8601 stbndbrd is bbsed on the stbndbrd civic 12 month yebr.
+ * This is commonly divided into four qubrters, often bbbrevibted bs Q1, Q2, Q3 bnd Q4.
  * <p>
- * January, February and March are in Q1.
- * April, May and June are in Q2.
- * July, August and September are in Q3.
- * October, November and December are in Q4.
+ * Jbnubry, Februbry bnd Mbrch bre in Q1.
+ * April, Mby bnd June bre in Q2.
+ * July, August bnd September bre in Q3.
+ * October, November bnd December bre in Q4.
  * <p>
- * The complete date is expressed using three fields:
+ * The complete dbte is expressed using three fields:
  * <ul>
- * <li>{@link #DAY_OF_QUARTER DAY_OF_QUARTER} - the day within the quarter, from 1 to 90, 91 or 92
- * <li>{@link #QUARTER_OF_YEAR QUARTER_OF_YEAR} - the week within the week-based-year
- * <li>{@link ChronoField#YEAR YEAR} - the standard ISO year
+ * <li>{@link #DAY_OF_QUARTER DAY_OF_QUARTER} - the dby within the qubrter, from 1 to 90, 91 or 92
+ * <li>{@link #QUARTER_OF_YEAR QUARTER_OF_YEAR} - the week within the week-bbsed-yebr
+ * <li>{@link ChronoField#YEAR YEAR} - the stbndbrd ISO yebr
  * </ul>
  *
- * <h3>Week based years</h3>
- * The ISO-8601 standard was originally intended as a data interchange format,
- * defining a string format for dates and times. However, it also defines an
- * alternate way of expressing the date, based on the concept of week-based-year.
+ * <h3>Week bbsed yebrs</h3>
+ * The ISO-8601 stbndbrd wbs originblly intended bs b dbtb interchbnge formbt,
+ * defining b string formbt for dbtes bnd times. However, it blso defines bn
+ * blternbte wby of expressing the dbte, bbsed on the concept of week-bbsed-yebr.
  * <p>
- * The date is expressed using three fields:
+ * The dbte is expressed using three fields:
  * <ul>
- * <li>{@link ChronoField#DAY_OF_WEEK DAY_OF_WEEK} - the standard field defining the
- *  day-of-week from Monday (1) to Sunday (7)
- * <li>{@link #WEEK_OF_WEEK_BASED_YEAR} - the week within the week-based-year
- * <li>{@link #WEEK_BASED_YEAR WEEK_BASED_YEAR} - the week-based-year
+ * <li>{@link ChronoField#DAY_OF_WEEK DAY_OF_WEEK} - the stbndbrd field defining the
+ *  dby-of-week from Mondby (1) to Sundby (7)
+ * <li>{@link #WEEK_OF_WEEK_BASED_YEAR} - the week within the week-bbsed-yebr
+ * <li>{@link #WEEK_BASED_YEAR WEEK_BASED_YEAR} - the week-bbsed-yebr
  * </ul>
- * The week-based-year itself is defined relative to the standard ISO proleptic year.
- * It differs from the standard year in that it always starts on a Monday.
+ * The week-bbsed-yebr itself is defined relbtive to the stbndbrd ISO proleptic yebr.
+ * It differs from the stbndbrd yebr in thbt it blwbys stbrts on b Mondby.
  * <p>
- * The first week of a week-based-year is the first Monday-based week of the standard
- * ISO year that has at least 4 days in the new year.
+ * The first week of b week-bbsed-yebr is the first Mondby-bbsed week of the stbndbrd
+ * ISO yebr thbt hbs bt lebst 4 dbys in the new yebr.
  * <ul>
- * <li>If January 1st is Monday then week 1 starts on January 1st
- * <li>If January 1st is Tuesday then week 1 starts on December 31st of the previous standard year
- * <li>If January 1st is Wednesday then week 1 starts on December 30th of the previous standard year
- * <li>If January 1st is Thursday then week 1 starts on December 29th of the previous standard year
- * <li>If January 1st is Friday then week 1 starts on January 4th
- * <li>If January 1st is Saturday then week 1 starts on January 3rd
- * <li>If January 1st is Sunday then week 1 starts on January 2nd
+ * <li>If Jbnubry 1st is Mondby then week 1 stbrts on Jbnubry 1st
+ * <li>If Jbnubry 1st is Tuesdby then week 1 stbrts on December 31st of the previous stbndbrd yebr
+ * <li>If Jbnubry 1st is Wednesdby then week 1 stbrts on December 30th of the previous stbndbrd yebr
+ * <li>If Jbnubry 1st is Thursdby then week 1 stbrts on December 29th of the previous stbndbrd yebr
+ * <li>If Jbnubry 1st is Fridby then week 1 stbrts on Jbnubry 4th
+ * <li>If Jbnubry 1st is Sbturdby then week 1 stbrts on Jbnubry 3rd
+ * <li>If Jbnubry 1st is Sundby then week 1 stbrts on Jbnubry 2nd
  * </ul>
- * There are 52 weeks in most week-based years, however on occasion there are 53 weeks.
+ * There bre 52 weeks in most week-bbsed yebrs, however on occbsion there bre 53 weeks.
  * <p>
- * For example:
+ * For exbmple:
  *
- * <table cellpadding="0" cellspacing="3" border="0" style="text-align: left; width: 50%;">
- * <caption>Examples of Week based Years</caption>
- * <tr><th>Date</th><th>Day-of-week</th><th>Field values</th></tr>
- * <tr><th>2008-12-28</th><td>Sunday</td><td>Week 52 of week-based-year 2008</td></tr>
- * <tr><th>2008-12-29</th><td>Monday</td><td>Week 1 of week-based-year 2009</td></tr>
- * <tr><th>2008-12-31</th><td>Wednesday</td><td>Week 1 of week-based-year 2009</td></tr>
- * <tr><th>2009-01-01</th><td>Thursday</td><td>Week 1 of week-based-year 2009</td></tr>
- * <tr><th>2009-01-04</th><td>Sunday</td><td>Week 1 of week-based-year 2009</td></tr>
- * <tr><th>2009-01-05</th><td>Monday</td><td>Week 2 of week-based-year 2009</td></tr>
- * </table>
+ * <tbble cellpbdding="0" cellspbcing="3" border="0" style="text-blign: left; width: 50%;">
+ * <cbption>Exbmples of Week bbsed Yebrs</cbption>
+ * <tr><th>Dbte</th><th>Dby-of-week</th><th>Field vblues</th></tr>
+ * <tr><th>2008-12-28</th><td>Sundby</td><td>Week 52 of week-bbsed-yebr 2008</td></tr>
+ * <tr><th>2008-12-29</th><td>Mondby</td><td>Week 1 of week-bbsed-yebr 2009</td></tr>
+ * <tr><th>2008-12-31</th><td>Wednesdby</td><td>Week 1 of week-bbsed-yebr 2009</td></tr>
+ * <tr><th>2009-01-01</th><td>Thursdby</td><td>Week 1 of week-bbsed-yebr 2009</td></tr>
+ * <tr><th>2009-01-04</th><td>Sundby</td><td>Week 1 of week-bbsed-yebr 2009</td></tr>
+ * <tr><th>2009-01-05</th><td>Mondby</td><td>Week 2 of week-bbsed-yebr 2009</td></tr>
+ * </tbble>
  *
  * @implSpec
  * <p>
- * This class is immutable and thread-safe.
+ * This clbss is immutbble bnd threbd-sbfe.
  *
  * @since 1.8
  */
-public final class IsoFields {
+public finbl clbss IsoFields {
 
     /**
-     * The field that represents the day-of-quarter.
+     * The field thbt represents the dby-of-qubrter.
      * <p>
-     * This field allows the day-of-quarter value to be queried and set.
-     * The day-of-quarter has values from 1 to 90 in Q1 of a standard year, from 1 to 91
-     * in Q1 of a leap year, from 1 to 91 in Q2 and from 1 to 92 in Q3 and Q4.
+     * This field bllows the dby-of-qubrter vblue to be queried bnd set.
+     * The dby-of-qubrter hbs vblues from 1 to 90 in Q1 of b stbndbrd yebr, from 1 to 91
+     * in Q1 of b lebp yebr, from 1 to 91 in Q2 bnd from 1 to 92 in Q3 bnd Q4.
      * <p>
-     * The day-of-quarter can only be calculated if the day-of-year, month-of-year and year
-     * are available.
+     * The dby-of-qubrter cbn only be cblculbted if the dby-of-yebr, month-of-yebr bnd yebr
+     * bre bvbilbble.
      * <p>
-     * When setting this field, the value is allowed to be partially lenient, taking any
-     * value from 1 to 92. If the quarter has less than 92 days, then day 92, and
-     * potentially day 91, is in the following quarter.
+     * When setting this field, the vblue is bllowed to be pbrtiblly lenient, tbking bny
+     * vblue from 1 to 92. If the qubrter hbs less thbn 92 dbys, then dby 92, bnd
+     * potentiblly dby 91, is in the following qubrter.
      * <p>
-     * In the resolving phase of parsing, a date can be created from a year,
-     * quarter-of-year and day-of-quarter.
+     * In the resolving phbse of pbrsing, b dbte cbn be crebted from b yebr,
+     * qubrter-of-yebr bnd dby-of-qubrter.
      * <p>
-     * In {@linkplain ResolverStyle#STRICT strict mode}, all three fields are
-     * validated against their range of valid values. The day-of-quarter field
-     * is validated from 1 to 90, 91 or 92 depending on the year and quarter.
+     * In {@linkplbin ResolverStyle#STRICT strict mode}, bll three fields bre
+     * vblidbted bgbinst their rbnge of vblid vblues. The dby-of-qubrter field
+     * is vblidbted from 1 to 90, 91 or 92 depending on the yebr bnd qubrter.
      * <p>
-     * In {@linkplain ResolverStyle#SMART smart mode}, all three fields are
-     * validated against their range of valid values. The day-of-quarter field is
-     * validated between 1 and 92, ignoring the actual range based on the year and quarter.
-     * If the day-of-quarter exceeds the actual range by one day, then the resulting date
-     * is one day later. If the day-of-quarter exceeds the actual range by two days,
-     * then the resulting date is two days later.
+     * In {@linkplbin ResolverStyle#SMART smbrt mode}, bll three fields bre
+     * vblidbted bgbinst their rbnge of vblid vblues. The dby-of-qubrter field is
+     * vblidbted between 1 bnd 92, ignoring the bctubl rbnge bbsed on the yebr bnd qubrter.
+     * If the dby-of-qubrter exceeds the bctubl rbnge by one dby, then the resulting dbte
+     * is one dby lbter. If the dby-of-qubrter exceeds the bctubl rbnge by two dbys,
+     * then the resulting dbte is two dbys lbter.
      * <p>
-     * In {@linkplain ResolverStyle#LENIENT lenient mode}, only the year is validated
-     * against the range of valid values. The resulting date is calculated equivalent to
-     * the following three stage approach. First, create a date on the first of January
-     * in the requested year. Then take the quarter-of-year, subtract one, and add the
-     * amount in quarters to the date. Finally, take the day-of-quarter, subtract one,
-     * and add the amount in days to the date.
+     * In {@linkplbin ResolverStyle#LENIENT lenient mode}, only the yebr is vblidbted
+     * bgbinst the rbnge of vblid vblues. The resulting dbte is cblculbted equivblent to
+     * the following three stbge bpprobch. First, crebte b dbte on the first of Jbnubry
+     * in the requested yebr. Then tbke the qubrter-of-yebr, subtrbct one, bnd bdd the
+     * bmount in qubrters to the dbte. Finblly, tbke the dby-of-qubrter, subtrbct one,
+     * bnd bdd the bmount in dbys to the dbte.
      * <p>
-     * This unit is an immutable and thread-safe singleton.
+     * This unit is bn immutbble bnd threbd-sbfe singleton.
      */
-    public static final TemporalField DAY_OF_QUARTER = Field.DAY_OF_QUARTER;
+    public stbtic finbl TemporblField DAY_OF_QUARTER = Field.DAY_OF_QUARTER;
     /**
-     * The field that represents the quarter-of-year.
+     * The field thbt represents the qubrter-of-yebr.
      * <p>
-     * This field allows the quarter-of-year value to be queried and set.
-     * The quarter-of-year has values from 1 to 4.
+     * This field bllows the qubrter-of-yebr vblue to be queried bnd set.
+     * The qubrter-of-yebr hbs vblues from 1 to 4.
      * <p>
-     * The quarter-of-year can only be calculated if the month-of-year is available.
+     * The qubrter-of-yebr cbn only be cblculbted if the month-of-yebr is bvbilbble.
      * <p>
-     * In the resolving phase of parsing, a date can be created from a year,
-     * quarter-of-year and day-of-quarter.
-     * See {@link #DAY_OF_QUARTER} for details.
+     * In the resolving phbse of pbrsing, b dbte cbn be crebted from b yebr,
+     * qubrter-of-yebr bnd dby-of-qubrter.
+     * See {@link #DAY_OF_QUARTER} for detbils.
      * <p>
-     * This unit is an immutable and thread-safe singleton.
+     * This unit is bn immutbble bnd threbd-sbfe singleton.
      */
-    public static final TemporalField QUARTER_OF_YEAR = Field.QUARTER_OF_YEAR;
+    public stbtic finbl TemporblField QUARTER_OF_YEAR = Field.QUARTER_OF_YEAR;
     /**
-     * The field that represents the week-of-week-based-year.
+     * The field thbt represents the week-of-week-bbsed-yebr.
      * <p>
-     * This field allows the week of the week-based-year value to be queried and set.
-     * The week-of-week-based-year has values from 1 to 52, or 53 if the
-     * week-based-year has 53 weeks.
+     * This field bllows the week of the week-bbsed-yebr vblue to be queried bnd set.
+     * The week-of-week-bbsed-yebr hbs vblues from 1 to 52, or 53 if the
+     * week-bbsed-yebr hbs 53 weeks.
      * <p>
-     * In the resolving phase of parsing, a date can be created from a
-     * week-based-year, week-of-week-based-year and day-of-week.
+     * In the resolving phbse of pbrsing, b dbte cbn be crebted from b
+     * week-bbsed-yebr, week-of-week-bbsed-yebr bnd dby-of-week.
      * <p>
-     * In {@linkplain ResolverStyle#STRICT strict mode}, all three fields are
-     * validated against their range of valid values. The week-of-week-based-year
-     * field is validated from 1 to 52 or 53 depending on the week-based-year.
+     * In {@linkplbin ResolverStyle#STRICT strict mode}, bll three fields bre
+     * vblidbted bgbinst their rbnge of vblid vblues. The week-of-week-bbsed-yebr
+     * field is vblidbted from 1 to 52 or 53 depending on the week-bbsed-yebr.
      * <p>
-     * In {@linkplain ResolverStyle#SMART smart mode}, all three fields are
-     * validated against their range of valid values. The week-of-week-based-year
-     * field is validated between 1 and 53, ignoring the week-based-year.
-     * If the week-of-week-based-year is 53, but the week-based-year only has
-     * 52 weeks, then the resulting date is in week 1 of the following week-based-year.
+     * In {@linkplbin ResolverStyle#SMART smbrt mode}, bll three fields bre
+     * vblidbted bgbinst their rbnge of vblid vblues. The week-of-week-bbsed-yebr
+     * field is vblidbted between 1 bnd 53, ignoring the week-bbsed-yebr.
+     * If the week-of-week-bbsed-yebr is 53, but the week-bbsed-yebr only hbs
+     * 52 weeks, then the resulting dbte is in week 1 of the following week-bbsed-yebr.
      * <p>
-     * In {@linkplain ResolverStyle#LENIENT lenient mode}, only the week-based-year
-     * is validated against the range of valid values. If the day-of-week is outside
-     * the range 1 to 7, then the resulting date is adjusted by a suitable number of
-     * weeks to reduce the day-of-week to the range 1 to 7. If the week-of-week-based-year
-     * value is outside the range 1 to 52, then any excess weeks are added or subtracted
-     * from the resulting date.
+     * In {@linkplbin ResolverStyle#LENIENT lenient mode}, only the week-bbsed-yebr
+     * is vblidbted bgbinst the rbnge of vblid vblues. If the dby-of-week is outside
+     * the rbnge 1 to 7, then the resulting dbte is bdjusted by b suitbble number of
+     * weeks to reduce the dby-of-week to the rbnge 1 to 7. If the week-of-week-bbsed-yebr
+     * vblue is outside the rbnge 1 to 52, then bny excess weeks bre bdded or subtrbcted
+     * from the resulting dbte.
      * <p>
-     * This unit is an immutable and thread-safe singleton.
+     * This unit is bn immutbble bnd threbd-sbfe singleton.
      */
-    public static final TemporalField WEEK_OF_WEEK_BASED_YEAR = Field.WEEK_OF_WEEK_BASED_YEAR;
+    public stbtic finbl TemporblField WEEK_OF_WEEK_BASED_YEAR = Field.WEEK_OF_WEEK_BASED_YEAR;
     /**
-     * The field that represents the week-based-year.
+     * The field thbt represents the week-bbsed-yebr.
      * <p>
-     * This field allows the week-based-year value to be queried and set.
+     * This field bllows the week-bbsed-yebr vblue to be queried bnd set.
      * <p>
-     * The field has a range that matches {@link LocalDate#MAX} and {@link LocalDate#MIN}.
+     * The field hbs b rbnge thbt mbtches {@link LocblDbte#MAX} bnd {@link LocblDbte#MIN}.
      * <p>
-     * In the resolving phase of parsing, a date can be created from a
-     * week-based-year, week-of-week-based-year and day-of-week.
-     * See {@link #WEEK_OF_WEEK_BASED_YEAR} for details.
+     * In the resolving phbse of pbrsing, b dbte cbn be crebted from b
+     * week-bbsed-yebr, week-of-week-bbsed-yebr bnd dby-of-week.
+     * See {@link #WEEK_OF_WEEK_BASED_YEAR} for detbils.
      * <p>
-     * This unit is an immutable and thread-safe singleton.
+     * This unit is bn immutbble bnd threbd-sbfe singleton.
      */
-    public static final TemporalField WEEK_BASED_YEAR = Field.WEEK_BASED_YEAR;
+    public stbtic finbl TemporblField WEEK_BASED_YEAR = Field.WEEK_BASED_YEAR;
     /**
-     * The unit that represents week-based-years for the purpose of addition and subtraction.
+     * The unit thbt represents week-bbsed-yebrs for the purpose of bddition bnd subtrbction.
      * <p>
-     * This allows a number of week-based-years to be added to, or subtracted from, a date.
-     * The unit is equal to either 52 or 53 weeks.
-     * The estimated duration of a week-based-year is the same as that of a standard ISO
-     * year at {@code 365.2425 Days}.
+     * This bllows b number of week-bbsed-yebrs to be bdded to, or subtrbcted from, b dbte.
+     * The unit is equbl to either 52 or 53 weeks.
+     * The estimbted durbtion of b week-bbsed-yebr is the sbme bs thbt of b stbndbrd ISO
+     * yebr bt {@code 365.2425 Dbys}.
      * <p>
-     * The rules for addition add the number of week-based-years to the existing value
-     * for the week-based-year field. If the resulting week-based-year only has 52 weeks,
-     * then the date will be in week 1 of the following week-based-year.
+     * The rules for bddition bdd the number of week-bbsed-yebrs to the existing vblue
+     * for the week-bbsed-yebr field. If the resulting week-bbsed-yebr only hbs 52 weeks,
+     * then the dbte will be in week 1 of the following week-bbsed-yebr.
      * <p>
-     * This unit is an immutable and thread-safe singleton.
+     * This unit is bn immutbble bnd threbd-sbfe singleton.
      */
-    public static final TemporalUnit WEEK_BASED_YEARS = Unit.WEEK_BASED_YEARS;
+    public stbtic finbl TemporblUnit WEEK_BASED_YEARS = Unit.WEEK_BASED_YEARS;
     /**
-     * Unit that represents the concept of a quarter-year.
-     * For the ISO calendar system, it is equal to 3 months.
-     * The estimated duration of a quarter-year is one quarter of {@code 365.2425 Days}.
+     * Unit thbt represents the concept of b qubrter-yebr.
+     * For the ISO cblendbr system, it is equbl to 3 months.
+     * The estimbted durbtion of b qubrter-yebr is one qubrter of {@code 365.2425 Dbys}.
      * <p>
-     * This unit is an immutable and thread-safe singleton.
+     * This unit is bn immutbble bnd threbd-sbfe singleton.
      */
-    public static final TemporalUnit QUARTER_YEARS = Unit.QUARTER_YEARS;
+    public stbtic finbl TemporblUnit QUARTER_YEARS = Unit.QUARTER_YEARS;
 
     /**
      * Restricted constructor.
      */
-    private IsoFields() {
-        throw new AssertionError("Not instantiable");
+    privbte IsoFields() {
+        throw new AssertionError("Not instbntibble");
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Implementation of the field.
+     * Implementbtion of the field.
      */
-    private static enum Field implements TemporalField {
+    privbte stbtic enum Field implements TemporblField {
         DAY_OF_QUARTER {
             @Override
-            public TemporalUnit getBaseUnit() {
+            public TemporblUnit getBbseUnit() {
                 return DAYS;
             }
             @Override
-            public TemporalUnit getRangeUnit() {
+            public TemporblUnit getRbngeUnit() {
                 return QUARTER_YEARS;
             }
             @Override
-            public ValueRange range() {
-                return ValueRange.of(1, 90, 92);
+            public VblueRbnge rbnge() {
+                return VblueRbnge.of(1, 90, 92);
             }
             @Override
-            public boolean isSupportedBy(TemporalAccessor temporal) {
-                return temporal.isSupported(DAY_OF_YEAR) && temporal.isSupported(MONTH_OF_YEAR) &&
-                        temporal.isSupported(YEAR) && isIso(temporal);
+            public boolebn isSupportedBy(TemporblAccessor temporbl) {
+                return temporbl.isSupported(DAY_OF_YEAR) && temporbl.isSupported(MONTH_OF_YEAR) &&
+                        temporbl.isSupported(YEAR) && isIso(temporbl);
             }
             @Override
-            public ValueRange rangeRefinedBy(TemporalAccessor temporal) {
-                if (isSupportedBy(temporal) == false) {
-                    throw new UnsupportedTemporalTypeException("Unsupported field: DayOfQuarter");
+            public VblueRbnge rbngeRefinedBy(TemporblAccessor temporbl) {
+                if (isSupportedBy(temporbl) == fblse) {
+                    throw new UnsupportedTemporblTypeException("Unsupported field: DbyOfQubrter");
                 }
-                long qoy = temporal.getLong(QUARTER_OF_YEAR);
+                long qoy = temporbl.getLong(QUARTER_OF_YEAR);
                 if (qoy == 1) {
-                    long year = temporal.getLong(YEAR);
-                    return (IsoChronology.INSTANCE.isLeapYear(year) ? ValueRange.of(1, 91) : ValueRange.of(1, 90));
+                    long yebr = temporbl.getLong(YEAR);
+                    return (IsoChronology.INSTANCE.isLebpYebr(yebr) ? VblueRbnge.of(1, 91) : VblueRbnge.of(1, 90));
                 } else if (qoy == 2) {
-                    return ValueRange.of(1, 91);
+                    return VblueRbnge.of(1, 91);
                 } else if (qoy == 3 || qoy == 4) {
-                    return ValueRange.of(1, 92);
-                } // else value not from 1 to 4, so drop through
-                return range();
+                    return VblueRbnge.of(1, 92);
+                } // else vblue not from 1 to 4, so drop through
+                return rbnge();
             }
             @Override
-            public long getFrom(TemporalAccessor temporal) {
-                if (isSupportedBy(temporal) == false) {
-                    throw new UnsupportedTemporalTypeException("Unsupported field: DayOfQuarter");
+            public long getFrom(TemporblAccessor temporbl) {
+                if (isSupportedBy(temporbl) == fblse) {
+                    throw new UnsupportedTemporblTypeException("Unsupported field: DbyOfQubrter");
                 }
-                int doy = temporal.get(DAY_OF_YEAR);
-                int moy = temporal.get(MONTH_OF_YEAR);
-                long year = temporal.getLong(YEAR);
-                return doy - QUARTER_DAYS[((moy - 1) / 3) + (IsoChronology.INSTANCE.isLeapYear(year) ? 4 : 0)];
+                int doy = temporbl.get(DAY_OF_YEAR);
+                int moy = temporbl.get(MONTH_OF_YEAR);
+                long yebr = temporbl.getLong(YEAR);
+                return doy - QUARTER_DAYS[((moy - 1) / 3) + (IsoChronology.INSTANCE.isLebpYebr(yebr) ? 4 : 0)];
             }
-            @SuppressWarnings("unchecked")
+            @SuppressWbrnings("unchecked")
             @Override
-            public <R extends Temporal> R adjustInto(R temporal, long newValue) {
-                // calls getFrom() to check if supported
-                long curValue = getFrom(temporal);
-                range().checkValidValue(newValue, this);  // leniently check from 1 to 92 TODO: check
-                return (R) temporal.with(DAY_OF_YEAR, temporal.getLong(DAY_OF_YEAR) + (newValue - curValue));
+            public <R extends Temporbl> R bdjustInto(R temporbl, long newVblue) {
+                // cblls getFrom() to check if supported
+                long curVblue = getFrom(temporbl);
+                rbnge().checkVblidVblue(newVblue, this);  // leniently check from 1 to 92 TODO: check
+                return (R) temporbl.with(DAY_OF_YEAR, temporbl.getLong(DAY_OF_YEAR) + (newVblue - curVblue));
             }
             @Override
-            public ChronoLocalDate resolve(
-                    Map<TemporalField, Long> fieldValues, TemporalAccessor partialTemporal, ResolverStyle resolverStyle) {
-                Long yearLong = fieldValues.get(YEAR);
-                Long qoyLong = fieldValues.get(QUARTER_OF_YEAR);
-                if (yearLong == null || qoyLong == null) {
+            public ChronoLocblDbte resolve(
+                    Mbp<TemporblField, Long> fieldVblues, TemporblAccessor pbrtiblTemporbl, ResolverStyle resolverStyle) {
+                Long yebrLong = fieldVblues.get(YEAR);
+                Long qoyLong = fieldVblues.get(QUARTER_OF_YEAR);
+                if (yebrLong == null || qoyLong == null) {
                     return null;
                 }
-                int y = YEAR.checkValidIntValue(yearLong);  // always validate
-                long doq = fieldValues.get(DAY_OF_QUARTER);
-                ensureIso(partialTemporal);
-                LocalDate date;
+                int y = YEAR.checkVblidIntVblue(yebrLong);  // blwbys vblidbte
+                long doq = fieldVblues.get(DAY_OF_QUARTER);
+                ensureIso(pbrtiblTemporbl);
+                LocblDbte dbte;
                 if (resolverStyle == ResolverStyle.LENIENT) {
-                    date = LocalDate.of(y, 1, 1).plusMonths(Math.multiplyExact(Math.subtractExact(qoyLong, 1), 3));
-                    doq = Math.subtractExact(doq, 1);
+                    dbte = LocblDbte.of(y, 1, 1).plusMonths(Mbth.multiplyExbct(Mbth.subtrbctExbct(qoyLong, 1), 3));
+                    doq = Mbth.subtrbctExbct(doq, 1);
                 } else {
-                    int qoy = QUARTER_OF_YEAR.range().checkValidIntValue(qoyLong, QUARTER_OF_YEAR);  // validated
-                    date = LocalDate.of(y, ((qoy - 1) * 3) + 1, 1);
+                    int qoy = QUARTER_OF_YEAR.rbnge().checkVblidIntVblue(qoyLong, QUARTER_OF_YEAR);  // vblidbted
+                    dbte = LocblDbte.of(y, ((qoy - 1) * 3) + 1, 1);
                     if (doq < 1 || doq > 90) {
                         if (resolverStyle == ResolverStyle.STRICT) {
-                            rangeRefinedBy(date).checkValidValue(doq, this);  // only allow exact range
+                            rbngeRefinedBy(dbte).checkVblidVblue(doq, this);  // only bllow exbct rbnge
                         } else {  // SMART
-                            range().checkValidValue(doq, this);  // allow 1-92 rolling into next quarter
+                            rbnge().checkVblidVblue(doq, this);  // bllow 1-92 rolling into next qubrter
                         }
                     }
                     doq--;
                 }
-                fieldValues.remove(this);
-                fieldValues.remove(YEAR);
-                fieldValues.remove(QUARTER_OF_YEAR);
-                return date.plusDays(doq);
+                fieldVblues.remove(this);
+                fieldVblues.remove(YEAR);
+                fieldVblues.remove(QUARTER_OF_YEAR);
+                return dbte.plusDbys(doq);
             }
             @Override
             public String toString() {
-                return "DayOfQuarter";
+                return "DbyOfQubrter";
             }
         },
         QUARTER_OF_YEAR {
             @Override
-            public TemporalUnit getBaseUnit() {
+            public TemporblUnit getBbseUnit() {
                 return QUARTER_YEARS;
             }
             @Override
-            public TemporalUnit getRangeUnit() {
+            public TemporblUnit getRbngeUnit() {
                 return YEARS;
             }
             @Override
-            public ValueRange range() {
-                return ValueRange.of(1, 4);
+            public VblueRbnge rbnge() {
+                return VblueRbnge.of(1, 4);
             }
             @Override
-            public boolean isSupportedBy(TemporalAccessor temporal) {
-                return temporal.isSupported(MONTH_OF_YEAR) && isIso(temporal);
+            public boolebn isSupportedBy(TemporblAccessor temporbl) {
+                return temporbl.isSupported(MONTH_OF_YEAR) && isIso(temporbl);
             }
             @Override
-            public long getFrom(TemporalAccessor temporal) {
-                if (isSupportedBy(temporal) == false) {
-                    throw new UnsupportedTemporalTypeException("Unsupported field: QuarterOfYear");
+            public long getFrom(TemporblAccessor temporbl) {
+                if (isSupportedBy(temporbl) == fblse) {
+                    throw new UnsupportedTemporblTypeException("Unsupported field: QubrterOfYebr");
                 }
-                long moy = temporal.getLong(MONTH_OF_YEAR);
+                long moy = temporbl.getLong(MONTH_OF_YEAR);
                 return ((moy + 2) / 3);
             }
-            @SuppressWarnings("unchecked")
+            @SuppressWbrnings("unchecked")
             @Override
-            public <R extends Temporal> R adjustInto(R temporal, long newValue) {
-                // calls getFrom() to check if supported
-                long curValue = getFrom(temporal);
-                range().checkValidValue(newValue, this);  // strictly check from 1 to 4
-                return (R) temporal.with(MONTH_OF_YEAR, temporal.getLong(MONTH_OF_YEAR) + (newValue - curValue) * 3);
+            public <R extends Temporbl> R bdjustInto(R temporbl, long newVblue) {
+                // cblls getFrom() to check if supported
+                long curVblue = getFrom(temporbl);
+                rbnge().checkVblidVblue(newVblue, this);  // strictly check from 1 to 4
+                return (R) temporbl.with(MONTH_OF_YEAR, temporbl.getLong(MONTH_OF_YEAR) + (newVblue - curVblue) * 3);
             }
             @Override
             public String toString() {
-                return "QuarterOfYear";
+                return "QubrterOfYebr";
             }
         },
         WEEK_OF_WEEK_BASED_YEAR {
             @Override
-            public String getDisplayName(Locale locale) {
-                Objects.requireNonNull(locale, "locale");
-                LocaleResources lr = LocaleProviderAdapter.getResourceBundleBased()
-                                            .getLocaleResources(locale);
-                ResourceBundle rb = lr.getJavaTimeFormatData();
-                return rb.containsKey("field.week") ? rb.getString("field.week") : toString();
+            public String getDisplbyNbme(Locble locble) {
+                Objects.requireNonNull(locble, "locble");
+                LocbleResources lr = LocbleProviderAdbpter.getResourceBundleBbsed()
+                                            .getLocbleResources(locble);
+                ResourceBundle rb = lr.getJbvbTimeFormbtDbtb();
+                return rb.contbinsKey("field.week") ? rb.getString("field.week") : toString();
             }
 
             @Override
-            public TemporalUnit getBaseUnit() {
+            public TemporblUnit getBbseUnit() {
                 return WEEKS;
             }
             @Override
-            public TemporalUnit getRangeUnit() {
+            public TemporblUnit getRbngeUnit() {
                 return WEEK_BASED_YEARS;
             }
             @Override
-            public ValueRange range() {
-                return ValueRange.of(1, 52, 53);
+            public VblueRbnge rbnge() {
+                return VblueRbnge.of(1, 52, 53);
             }
             @Override
-            public boolean isSupportedBy(TemporalAccessor temporal) {
-                return temporal.isSupported(EPOCH_DAY) && isIso(temporal);
+            public boolebn isSupportedBy(TemporblAccessor temporbl) {
+                return temporbl.isSupported(EPOCH_DAY) && isIso(temporbl);
             }
             @Override
-            public ValueRange rangeRefinedBy(TemporalAccessor temporal) {
-                if (isSupportedBy(temporal) == false) {
-                    throw new UnsupportedTemporalTypeException("Unsupported field: WeekOfWeekBasedYear");
+            public VblueRbnge rbngeRefinedBy(TemporblAccessor temporbl) {
+                if (isSupportedBy(temporbl) == fblse) {
+                    throw new UnsupportedTemporblTypeException("Unsupported field: WeekOfWeekBbsedYebr");
                 }
-                return getWeekRange(LocalDate.from(temporal));
+                return getWeekRbnge(LocblDbte.from(temporbl));
             }
             @Override
-            public long getFrom(TemporalAccessor temporal) {
-                if (isSupportedBy(temporal) == false) {
-                    throw new UnsupportedTemporalTypeException("Unsupported field: WeekOfWeekBasedYear");
+            public long getFrom(TemporblAccessor temporbl) {
+                if (isSupportedBy(temporbl) == fblse) {
+                    throw new UnsupportedTemporblTypeException("Unsupported field: WeekOfWeekBbsedYebr");
                 }
-                return getWeek(LocalDate.from(temporal));
+                return getWeek(LocblDbte.from(temporbl));
             }
-            @SuppressWarnings("unchecked")
+            @SuppressWbrnings("unchecked")
             @Override
-            public <R extends Temporal> R adjustInto(R temporal, long newValue) {
-                // calls getFrom() to check if supported
-                range().checkValidValue(newValue, this);  // lenient range
-                return (R) temporal.plus(Math.subtractExact(newValue, getFrom(temporal)), WEEKS);
+            public <R extends Temporbl> R bdjustInto(R temporbl, long newVblue) {
+                // cblls getFrom() to check if supported
+                rbnge().checkVblidVblue(newVblue, this);  // lenient rbnge
+                return (R) temporbl.plus(Mbth.subtrbctExbct(newVblue, getFrom(temporbl)), WEEKS);
             }
             @Override
-            public ChronoLocalDate resolve(
-                    Map<TemporalField, Long> fieldValues, TemporalAccessor partialTemporal, ResolverStyle resolverStyle) {
-                Long wbyLong = fieldValues.get(WEEK_BASED_YEAR);
-                Long dowLong = fieldValues.get(DAY_OF_WEEK);
+            public ChronoLocblDbte resolve(
+                    Mbp<TemporblField, Long> fieldVblues, TemporblAccessor pbrtiblTemporbl, ResolverStyle resolverStyle) {
+                Long wbyLong = fieldVblues.get(WEEK_BASED_YEAR);
+                Long dowLong = fieldVblues.get(DAY_OF_WEEK);
                 if (wbyLong == null || dowLong == null) {
                     return null;
                 }
-                int wby = WEEK_BASED_YEAR.range().checkValidIntValue(wbyLong, WEEK_BASED_YEAR);  // always validate
-                long wowby = fieldValues.get(WEEK_OF_WEEK_BASED_YEAR);
-                ensureIso(partialTemporal);
-                LocalDate date = LocalDate.of(wby, 1, 4);
+                int wby = WEEK_BASED_YEAR.rbnge().checkVblidIntVblue(wbyLong, WEEK_BASED_YEAR);  // blwbys vblidbte
+                long wowby = fieldVblues.get(WEEK_OF_WEEK_BASED_YEAR);
+                ensureIso(pbrtiblTemporbl);
+                LocblDbte dbte = LocblDbte.of(wby, 1, 4);
                 if (resolverStyle == ResolverStyle.LENIENT) {
-                    long dow = dowLong;  // unvalidated
+                    long dow = dowLong;  // unvblidbted
                     if (dow > 7) {
-                        date = date.plusWeeks((dow - 1) / 7);
+                        dbte = dbte.plusWeeks((dow - 1) / 7);
                         dow = ((dow - 1) % 7) + 1;
                     } else if (dow < 1) {
-                        date = date.plusWeeks(Math.subtractExact(dow,  7) / 7);
+                        dbte = dbte.plusWeeks(Mbth.subtrbctExbct(dow,  7) / 7);
                         dow = ((dow + 6) % 7) + 1;
                     }
-                    date = date.plusWeeks(Math.subtractExact(wowby, 1)).with(DAY_OF_WEEK, dow);
+                    dbte = dbte.plusWeeks(Mbth.subtrbctExbct(wowby, 1)).with(DAY_OF_WEEK, dow);
                 } else {
-                    int dow = DAY_OF_WEEK.checkValidIntValue(dowLong);  // validated
+                    int dow = DAY_OF_WEEK.checkVblidIntVblue(dowLong);  // vblidbted
                     if (wowby < 1 || wowby > 52) {
                         if (resolverStyle == ResolverStyle.STRICT) {
-                            getWeekRange(date).checkValidValue(wowby, this);  // only allow exact range
+                            getWeekRbnge(dbte).checkVblidVblue(wowby, this);  // only bllow exbct rbnge
                         } else {  // SMART
-                            range().checkValidValue(wowby, this);  // allow 1-53 rolling into next year
+                            rbnge().checkVblidVblue(wowby, this);  // bllow 1-53 rolling into next yebr
                         }
                     }
-                    date = date.plusWeeks(wowby - 1).with(DAY_OF_WEEK, dow);
+                    dbte = dbte.plusWeeks(wowby - 1).with(DAY_OF_WEEK, dow);
                 }
-                fieldValues.remove(this);
-                fieldValues.remove(WEEK_BASED_YEAR);
-                fieldValues.remove(DAY_OF_WEEK);
-                return date;
+                fieldVblues.remove(this);
+                fieldVblues.remove(WEEK_BASED_YEAR);
+                fieldVblues.remove(DAY_OF_WEEK);
+                return dbte;
             }
             @Override
             public String toString() {
-                return "WeekOfWeekBasedYear";
+                return "WeekOfWeekBbsedYebr";
             }
         },
         WEEK_BASED_YEAR {
             @Override
-            public TemporalUnit getBaseUnit() {
+            public TemporblUnit getBbseUnit() {
                 return WEEK_BASED_YEARS;
             }
             @Override
-            public TemporalUnit getRangeUnit() {
+            public TemporblUnit getRbngeUnit() {
                 return FOREVER;
             }
             @Override
-            public ValueRange range() {
-                return YEAR.range();
+            public VblueRbnge rbnge() {
+                return YEAR.rbnge();
             }
             @Override
-            public boolean isSupportedBy(TemporalAccessor temporal) {
-                return temporal.isSupported(EPOCH_DAY) && isIso(temporal);
+            public boolebn isSupportedBy(TemporblAccessor temporbl) {
+                return temporbl.isSupported(EPOCH_DAY) && isIso(temporbl);
             }
             @Override
-            public long getFrom(TemporalAccessor temporal) {
-                if (isSupportedBy(temporal) == false) {
-                    throw new UnsupportedTemporalTypeException("Unsupported field: WeekBasedYear");
+            public long getFrom(TemporblAccessor temporbl) {
+                if (isSupportedBy(temporbl) == fblse) {
+                    throw new UnsupportedTemporblTypeException("Unsupported field: WeekBbsedYebr");
                 }
-                return getWeekBasedYear(LocalDate.from(temporal));
+                return getWeekBbsedYebr(LocblDbte.from(temporbl));
             }
-            @SuppressWarnings("unchecked")
+            @SuppressWbrnings("unchecked")
             @Override
-            public <R extends Temporal> R adjustInto(R temporal, long newValue) {
-                if (isSupportedBy(temporal) == false) {
-                    throw new UnsupportedTemporalTypeException("Unsupported field: WeekBasedYear");
+            public <R extends Temporbl> R bdjustInto(R temporbl, long newVblue) {
+                if (isSupportedBy(temporbl) == fblse) {
+                    throw new UnsupportedTemporblTypeException("Unsupported field: WeekBbsedYebr");
                 }
-                int newWby = range().checkValidIntValue(newValue, WEEK_BASED_YEAR);  // strict check
-                LocalDate date = LocalDate.from(temporal);
-                int dow = date.get(DAY_OF_WEEK);
-                int week = getWeek(date);
-                if (week == 53 && getWeekRange(newWby) == 52) {
+                int newWby = rbnge().checkVblidIntVblue(newVblue, WEEK_BASED_YEAR);  // strict check
+                LocblDbte dbte = LocblDbte.from(temporbl);
+                int dow = dbte.get(DAY_OF_WEEK);
+                int week = getWeek(dbte);
+                if (week == 53 && getWeekRbnge(newWby) == 52) {
                     week = 52;
                 }
-                LocalDate resolved = LocalDate.of(newWby, 1, 4);  // 4th is guaranteed to be in week one
-                int days = (dow - resolved.get(DAY_OF_WEEK)) + ((week - 1) * 7);
-                resolved = resolved.plusDays(days);
-                return (R) temporal.with(resolved);
+                LocblDbte resolved = LocblDbte.of(newWby, 1, 4);  // 4th is gubrbnteed to be in week one
+                int dbys = (dow - resolved.get(DAY_OF_WEEK)) + ((week - 1) * 7);
+                resolved = resolved.plusDbys(dbys);
+                return (R) temporbl.with(resolved);
             }
             @Override
             public String toString() {
-                return "WeekBasedYear";
+                return "WeekBbsedYebr";
             }
         };
 
         @Override
-        public boolean isDateBased() {
+        public boolebn isDbteBbsed() {
             return true;
         }
 
         @Override
-        public boolean isTimeBased() {
-            return false;
+        public boolebn isTimeBbsed() {
+            return fblse;
         }
 
         @Override
-        public ValueRange rangeRefinedBy(TemporalAccessor temporal) {
-            return range();
+        public VblueRbnge rbngeRefinedBy(TemporblAccessor temporbl) {
+            return rbnge();
         }
 
         //-------------------------------------------------------------------------
-        private static final int[] QUARTER_DAYS = {0, 90, 181, 273, 0, 91, 182, 274};
+        privbte stbtic finbl int[] QUARTER_DAYS = {0, 90, 181, 273, 0, 91, 182, 274};
 
-        private static boolean isIso(TemporalAccessor temporal) {
-            return Chronology.from(temporal).equals(IsoChronology.INSTANCE);
+        privbte stbtic boolebn isIso(TemporblAccessor temporbl) {
+            return Chronology.from(temporbl).equbls(IsoChronology.INSTANCE);
         }
 
-        private static void ensureIso(TemporalAccessor temporal) {
-            if (isIso(temporal) == false) {
-                throw new DateTimeException("Resolve requires IsoChronology");
+        privbte stbtic void ensureIso(TemporblAccessor temporbl) {
+            if (isIso(temporbl) == fblse) {
+                throw new DbteTimeException("Resolve requires IsoChronology");
             }
         }
 
-        private static ValueRange getWeekRange(LocalDate date) {
-            int wby = getWeekBasedYear(date);
-            return ValueRange.of(1, getWeekRange(wby));
+        privbte stbtic VblueRbnge getWeekRbnge(LocblDbte dbte) {
+            int wby = getWeekBbsedYebr(dbte);
+            return VblueRbnge.of(1, getWeekRbnge(wby));
         }
 
-        private static int getWeekRange(int wby) {
-            LocalDate date = LocalDate.of(wby, 1, 1);
-            // 53 weeks if standard year starts on Thursday, or Wed in a leap year
-            if (date.getDayOfWeek() == THURSDAY || (date.getDayOfWeek() == WEDNESDAY && date.isLeapYear())) {
+        privbte stbtic int getWeekRbnge(int wby) {
+            LocblDbte dbte = LocblDbte.of(wby, 1, 1);
+            // 53 weeks if stbndbrd yebr stbrts on Thursdby, or Wed in b lebp yebr
+            if (dbte.getDbyOfWeek() == THURSDAY || (dbte.getDbyOfWeek() == WEDNESDAY && dbte.isLebpYebr())) {
                 return 53;
             }
             return 52;
         }
 
-        private static int getWeek(LocalDate date) {
-            int dow0 = date.getDayOfWeek().ordinal();
-            int doy0 = date.getDayOfYear() - 1;
-            int doyThu0 = doy0 + (3 - dow0);  // adjust to mid-week Thursday (which is 3 indexed from zero)
-            int alignedWeek = doyThu0 / 7;
-            int firstThuDoy0 = doyThu0 - (alignedWeek * 7);
+        privbte stbtic int getWeek(LocblDbte dbte) {
+            int dow0 = dbte.getDbyOfWeek().ordinbl();
+            int doy0 = dbte.getDbyOfYebr() - 1;
+            int doyThu0 = doy0 + (3 - dow0);  // bdjust to mid-week Thursdby (which is 3 indexed from zero)
+            int blignedWeek = doyThu0 / 7;
+            int firstThuDoy0 = doyThu0 - (blignedWeek * 7);
             int firstMonDoy0 = firstThuDoy0 - 3;
             if (firstMonDoy0 < -3) {
                 firstMonDoy0 += 7;
             }
             if (doy0 < firstMonDoy0) {
-                return (int) getWeekRange(date.withDayOfYear(180).minusYears(1)).getMaximum();
+                return (int) getWeekRbnge(dbte.withDbyOfYebr(180).minusYebrs(1)).getMbximum();
             }
             int week = ((doy0 - firstMonDoy0) / 7) + 1;
             if (week == 53) {
-                if ((firstMonDoy0 == -3 || (firstMonDoy0 == -2 && date.isLeapYear())) == false) {
+                if ((firstMonDoy0 == -3 || (firstMonDoy0 == -2 && dbte.isLebpYebr())) == fblse) {
                     week = 1;
                 }
             }
             return week;
         }
 
-        private static int getWeekBasedYear(LocalDate date) {
-            int year = date.getYear();
-            int doy = date.getDayOfYear();
+        privbte stbtic int getWeekBbsedYebr(LocblDbte dbte) {
+            int yebr = dbte.getYebr();
+            int doy = dbte.getDbyOfYebr();
             if (doy <= 3) {
-                int dow = date.getDayOfWeek().ordinal();
+                int dow = dbte.getDbyOfWeek().ordinbl();
                 if (doy - dow < -2) {
-                    year--;
+                    yebr--;
                 }
             } else if (doy >= 363) {
-                int dow = date.getDayOfWeek().ordinal();
-                doy = doy - 363 - (date.isLeapYear() ? 1 : 0);
+                int dow = dbte.getDbyOfWeek().ordinbl();
+                doy = doy - 363 - (dbte.isLebpYebr() ? 1 : 0);
                 if (doy - dow >= 0) {
-                    year++;
+                    yebr++;
                 }
             }
-            return year;
+            return yebr;
         }
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Implementation of the unit.
+     * Implementbtion of the unit.
      */
-    private static enum Unit implements TemporalUnit {
+    privbte stbtic enum Unit implements TemporblUnit {
 
         /**
-         * Unit that represents the concept of a week-based-year.
+         * Unit thbt represents the concept of b week-bbsed-yebr.
          */
-        WEEK_BASED_YEARS("WeekBasedYears", Duration.ofSeconds(31556952L)),
+        WEEK_BASED_YEARS("WeekBbsedYebrs", Durbtion.ofSeconds(31556952L)),
         /**
-         * Unit that represents the concept of a quarter-year.
+         * Unit thbt represents the concept of b qubrter-yebr.
          */
-        QUARTER_YEARS("QuarterYears", Duration.ofSeconds(31556952L / 4));
+        QUARTER_YEARS("QubrterYebrs", Durbtion.ofSeconds(31556952L / 4));
 
-        private final String name;
-        private final Duration duration;
+        privbte finbl String nbme;
+        privbte finbl Durbtion durbtion;
 
-        private Unit(String name, Duration estimatedDuration) {
-            this.name = name;
-            this.duration = estimatedDuration;
+        privbte Unit(String nbme, Durbtion estimbtedDurbtion) {
+            this.nbme = nbme;
+            this.durbtion = estimbtedDurbtion;
         }
 
         @Override
-        public Duration getDuration() {
-            return duration;
+        public Durbtion getDurbtion() {
+            return durbtion;
         }
 
         @Override
-        public boolean isDurationEstimated() {
+        public boolebn isDurbtionEstimbted() {
             return true;
         }
 
         @Override
-        public boolean isDateBased() {
+        public boolebn isDbteBbsed() {
             return true;
         }
 
         @Override
-        public boolean isTimeBased() {
-            return false;
+        public boolebn isTimeBbsed() {
+            return fblse;
         }
 
         @Override
-        public boolean isSupportedBy(Temporal temporal) {
-            return temporal.isSupported(EPOCH_DAY);
+        public boolebn isSupportedBy(Temporbl temporbl) {
+            return temporbl.isSupported(EPOCH_DAY);
         }
 
-        @SuppressWarnings("unchecked")
+        @SuppressWbrnings("unchecked")
         @Override
-        public <R extends Temporal> R addTo(R temporal, long amount) {
+        public <R extends Temporbl> R bddTo(R temporbl, long bmount) {
             switch (this) {
-                case WEEK_BASED_YEARS:
-                    return (R) temporal.with(WEEK_BASED_YEAR,
-                            Math.addExact(temporal.get(WEEK_BASED_YEAR), amount));
-                case QUARTER_YEARS:
+                cbse WEEK_BASED_YEARS:
+                    return (R) temporbl.with(WEEK_BASED_YEAR,
+                            Mbth.bddExbct(temporbl.get(WEEK_BASED_YEAR), bmount));
+                cbse QUARTER_YEARS:
                     // no overflow (256 is multiple of 4)
-                    return (R) temporal.plus(amount / 256, YEARS)
-                            .plus((amount % 256) * 3, MONTHS);
-                default:
-                    throw new IllegalStateException("Unreachable");
+                    return (R) temporbl.plus(bmount / 256, YEARS)
+                            .plus((bmount % 256) * 3, MONTHS);
+                defbult:
+                    throw new IllegblStbteException("Unrebchbble");
             }
         }
 
         @Override
-        public long between(Temporal temporal1Inclusive, Temporal temporal2Exclusive) {
-            if (temporal1Inclusive.getClass() != temporal2Exclusive.getClass()) {
-                return temporal1Inclusive.until(temporal2Exclusive, this);
+        public long between(Temporbl temporbl1Inclusive, Temporbl temporbl2Exclusive) {
+            if (temporbl1Inclusive.getClbss() != temporbl2Exclusive.getClbss()) {
+                return temporbl1Inclusive.until(temporbl2Exclusive, this);
             }
             switch(this) {
-                case WEEK_BASED_YEARS:
-                    return Math.subtractExact(temporal2Exclusive.getLong(WEEK_BASED_YEAR),
-                            temporal1Inclusive.getLong(WEEK_BASED_YEAR));
-                case QUARTER_YEARS:
-                    return temporal1Inclusive.until(temporal2Exclusive, MONTHS) / 3;
-                default:
-                    throw new IllegalStateException("Unreachable");
+                cbse WEEK_BASED_YEARS:
+                    return Mbth.subtrbctExbct(temporbl2Exclusive.getLong(WEEK_BASED_YEAR),
+                            temporbl1Inclusive.getLong(WEEK_BASED_YEAR));
+                cbse QUARTER_YEARS:
+                    return temporbl1Inclusive.until(temporbl2Exclusive, MONTHS) / 3;
+                defbult:
+                    throw new IllegblStbteException("Unrebchbble");
             }
         }
 
         @Override
         public String toString() {
-            return name;
+            return nbme;
         }
     }
 }

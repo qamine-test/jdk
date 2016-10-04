@@ -1,400 +1,400 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.sql;
+pbckbge jbvb.sql;
 
 /**
- * The output stream for writing the attributes of a user-defined
- * type back to the database.  This interface, used
- * only for custom mapping, is used by the driver, and its
- * methods are never directly invoked by a programmer.
- * <p>When an object of a class implementing the interface
- * <code>SQLData</code> is passed as an argument to an SQL statement, the
- * JDBC driver calls the method <code>SQLData.getSQLType</code> to
+ * The output strebm for writing the bttributes of b user-defined
+ * type bbck to the dbtbbbse.  This interfbce, used
+ * only for custom mbpping, is used by the driver, bnd its
+ * methods bre never directly invoked by b progrbmmer.
+ * <p>When bn object of b clbss implementing the interfbce
+ * <code>SQLDbtb</code> is pbssed bs bn brgument to bn SQL stbtement, the
+ * JDBC driver cblls the method <code>SQLDbtb.getSQLType</code> to
  * determine the  kind of SQL
- * datum being passed to the database.
- * The driver then creates an instance of <code>SQLOutput</code> and
- * passes it to the method <code>SQLData.writeSQL</code>.
- * The method <code>writeSQL</code> in turn calls the
- * appropriate <code>SQLOutput</code> <i>writer</i> methods
- * <code>writeBoolean</code>, <code>writeCharacterStream</code>, and so on)
- * to write data from the <code>SQLData</code> object to
- * the <code>SQLOutput</code> output stream as the
- * representation of an SQL user-defined type.
+ * dbtum being pbssed to the dbtbbbse.
+ * The driver then crebtes bn instbnce of <code>SQLOutput</code> bnd
+ * pbsses it to the method <code>SQLDbtb.writeSQL</code>.
+ * The method <code>writeSQL</code> in turn cblls the
+ * bppropribte <code>SQLOutput</code> <i>writer</i> methods
+ * <code>writeBoolebn</code>, <code>writeChbrbcterStrebm</code>, bnd so on)
+ * to write dbtb from the <code>SQLDbtb</code> object to
+ * the <code>SQLOutput</code> output strebm bs the
+ * representbtion of bn SQL user-defined type.
  * @since 1.2
  */
 
- public interface SQLOutput {
+ public interfbce SQLOutput {
 
   //================================================================
-  // Methods for writing attributes to the stream of SQL data.
-  // These methods correspond to the column-accessor methods of
-  // java.sql.ResultSet.
+  // Methods for writing bttributes to the strebm of SQL dbtb.
+  // These methods correspond to the column-bccessor methods of
+  // jbvb.sql.ResultSet.
   //================================================================
 
   /**
-   * Writes the next attribute to the stream as a <code>String</code>
-   * in the Java programming language.
+   * Writes the next bttribute to the strebm bs b <code>String</code>
+   * in the Jbvb progrbmming lbngubge.
    *
-   * @param x the value to pass to the database
-   * @exception SQLException if a database access error occurs
-   * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+   * @pbrbm x the vblue to pbss to the dbtbbbse
+   * @exception SQLException if b dbtbbbse bccess error occurs
+   * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
    * this method
    * @since 1.2
    */
   void writeString(String x) throws SQLException;
 
   /**
-   * Writes the next attribute to the stream as a Java boolean.
-   * Writes the next attribute to the stream as a <code>String</code>
-   * in the Java programming language.
+   * Writes the next bttribute to the strebm bs b Jbvb boolebn.
+   * Writes the next bttribute to the strebm bs b <code>String</code>
+   * in the Jbvb progrbmming lbngubge.
    *
-   * @param x the value to pass to the database
-   * @exception SQLException if a database access error occurs
-   * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+   * @pbrbm x the vblue to pbss to the dbtbbbse
+   * @exception SQLException if b dbtbbbse bccess error occurs
+   * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
    * this method
    * @since 1.2
    */
-  void writeBoolean(boolean x) throws SQLException;
+  void writeBoolebn(boolebn x) throws SQLException;
 
   /**
-   * Writes the next attribute to the stream as a Java byte.
-   * Writes the next attribute to the stream as a <code>String</code>
-   * in the Java programming language.
+   * Writes the next bttribute to the strebm bs b Jbvb byte.
+   * Writes the next bttribute to the strebm bs b <code>String</code>
+   * in the Jbvb progrbmming lbngubge.
    *
-   * @param x the value to pass to the database
-   * @exception SQLException if a database access error occurs
-   * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+   * @pbrbm x the vblue to pbss to the dbtbbbse
+   * @exception SQLException if b dbtbbbse bccess error occurs
+   * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
    * this method
    * @since 1.2
    */
   void writeByte(byte x) throws SQLException;
 
   /**
-   * Writes the next attribute to the stream as a Java short.
-   * Writes the next attribute to the stream as a <code>String</code>
-   * in the Java programming language.
+   * Writes the next bttribute to the strebm bs b Jbvb short.
+   * Writes the next bttribute to the strebm bs b <code>String</code>
+   * in the Jbvb progrbmming lbngubge.
    *
-   * @param x the value to pass to the database
-   * @exception SQLException if a database access error occurs
-   * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+   * @pbrbm x the vblue to pbss to the dbtbbbse
+   * @exception SQLException if b dbtbbbse bccess error occurs
+   * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
    * this method
    * @since 1.2
    */
   void writeShort(short x) throws SQLException;
 
   /**
-   * Writes the next attribute to the stream as a Java int.
-   * Writes the next attribute to the stream as a <code>String</code>
-   * in the Java programming language.
+   * Writes the next bttribute to the strebm bs b Jbvb int.
+   * Writes the next bttribute to the strebm bs b <code>String</code>
+   * in the Jbvb progrbmming lbngubge.
    *
-   * @param x the value to pass to the database
-   * @exception SQLException if a database access error occurs
-   * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+   * @pbrbm x the vblue to pbss to the dbtbbbse
+   * @exception SQLException if b dbtbbbse bccess error occurs
+   * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
    * this method
    * @since 1.2
    */
   void writeInt(int x) throws SQLException;
 
   /**
-   * Writes the next attribute to the stream as a Java long.
-   * Writes the next attribute to the stream as a <code>String</code>
-   * in the Java programming language.
+   * Writes the next bttribute to the strebm bs b Jbvb long.
+   * Writes the next bttribute to the strebm bs b <code>String</code>
+   * in the Jbvb progrbmming lbngubge.
    *
-   * @param x the value to pass to the database
-   * @exception SQLException if a database access error occurs
-   * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+   * @pbrbm x the vblue to pbss to the dbtbbbse
+   * @exception SQLException if b dbtbbbse bccess error occurs
+   * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
    * this method
    * @since 1.2
    */
   void writeLong(long x) throws SQLException;
 
   /**
-   * Writes the next attribute to the stream as a Java float.
-   * Writes the next attribute to the stream as a <code>String</code>
-   * in the Java programming language.
+   * Writes the next bttribute to the strebm bs b Jbvb flobt.
+   * Writes the next bttribute to the strebm bs b <code>String</code>
+   * in the Jbvb progrbmming lbngubge.
    *
-   * @param x the value to pass to the database
-   * @exception SQLException if a database access error occurs
-   * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+   * @pbrbm x the vblue to pbss to the dbtbbbse
+   * @exception SQLException if b dbtbbbse bccess error occurs
+   * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
    * this method
    * @since 1.2
    */
-  void writeFloat(float x) throws SQLException;
+  void writeFlobt(flobt x) throws SQLException;
 
   /**
-   * Writes the next attribute to the stream as a Java double.
-   * Writes the next attribute to the stream as a <code>String</code>
-   * in the Java programming language.
+   * Writes the next bttribute to the strebm bs b Jbvb double.
+   * Writes the next bttribute to the strebm bs b <code>String</code>
+   * in the Jbvb progrbmming lbngubge.
    *
-   * @param x the value to pass to the database
-   * @exception SQLException if a database access error occurs
-   * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+   * @pbrbm x the vblue to pbss to the dbtbbbse
+   * @exception SQLException if b dbtbbbse bccess error occurs
+   * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
    * this method
    * @since 1.2
    */
   void writeDouble(double x) throws SQLException;
 
   /**
-   * Writes the next attribute to the stream as a java.math.BigDecimal object.
-   * Writes the next attribute to the stream as a <code>String</code>
-   * in the Java programming language.
+   * Writes the next bttribute to the strebm bs b jbvb.mbth.BigDecimbl object.
+   * Writes the next bttribute to the strebm bs b <code>String</code>
+   * in the Jbvb progrbmming lbngubge.
    *
-   * @param x the value to pass to the database
-   * @exception SQLException if a database access error occurs
-   * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+   * @pbrbm x the vblue to pbss to the dbtbbbse
+   * @exception SQLException if b dbtbbbse bccess error occurs
+   * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
    * this method
    * @since 1.2
    */
-  void writeBigDecimal(java.math.BigDecimal x) throws SQLException;
+  void writeBigDecimbl(jbvb.mbth.BigDecimbl x) throws SQLException;
 
   /**
-   * Writes the next attribute to the stream as an array of bytes.
-   * Writes the next attribute to the stream as a <code>String</code>
-   * in the Java programming language.
+   * Writes the next bttribute to the strebm bs bn brrby of bytes.
+   * Writes the next bttribute to the strebm bs b <code>String</code>
+   * in the Jbvb progrbmming lbngubge.
    *
-   * @param x the value to pass to the database
-   * @exception SQLException if a database access error occurs
-   * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+   * @pbrbm x the vblue to pbss to the dbtbbbse
+   * @exception SQLException if b dbtbbbse bccess error occurs
+   * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
    * this method
    * @since 1.2
    */
   void writeBytes(byte[] x) throws SQLException;
 
   /**
-   * Writes the next attribute to the stream as a java.sql.Date object.
-   * Writes the next attribute to the stream as a <code>java.sql.Date</code> object
-   * in the Java programming language.
+   * Writes the next bttribute to the strebm bs b jbvb.sql.Dbte object.
+   * Writes the next bttribute to the strebm bs b <code>jbvb.sql.Dbte</code> object
+   * in the Jbvb progrbmming lbngubge.
    *
-   * @param x the value to pass to the database
-   * @exception SQLException if a database access error occurs
-   * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+   * @pbrbm x the vblue to pbss to the dbtbbbse
+   * @exception SQLException if b dbtbbbse bccess error occurs
+   * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
    * this method
    * @since 1.2
    */
-  void writeDate(java.sql.Date x) throws SQLException;
+  void writeDbte(jbvb.sql.Dbte x) throws SQLException;
 
   /**
-   * Writes the next attribute to the stream as a java.sql.Time object.
-   * Writes the next attribute to the stream as a <code>java.sql.Date</code> object
-   * in the Java programming language.
+   * Writes the next bttribute to the strebm bs b jbvb.sql.Time object.
+   * Writes the next bttribute to the strebm bs b <code>jbvb.sql.Dbte</code> object
+   * in the Jbvb progrbmming lbngubge.
    *
-   * @param x the value to pass to the database
-   * @exception SQLException if a database access error occurs
-   * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+   * @pbrbm x the vblue to pbss to the dbtbbbse
+   * @exception SQLException if b dbtbbbse bccess error occurs
+   * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
    * this method
    * @since 1.2
    */
-  void writeTime(java.sql.Time x) throws SQLException;
+  void writeTime(jbvb.sql.Time x) throws SQLException;
 
   /**
-   * Writes the next attribute to the stream as a java.sql.Timestamp object.
-   * Writes the next attribute to the stream as a <code>java.sql.Date</code> object
-   * in the Java programming language.
+   * Writes the next bttribute to the strebm bs b jbvb.sql.Timestbmp object.
+   * Writes the next bttribute to the strebm bs b <code>jbvb.sql.Dbte</code> object
+   * in the Jbvb progrbmming lbngubge.
    *
-   * @param x the value to pass to the database
-   * @exception SQLException if a database access error occurs
-   * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+   * @pbrbm x the vblue to pbss to the dbtbbbse
+   * @exception SQLException if b dbtbbbse bccess error occurs
+   * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
    * this method
    * @since 1.2
    */
-  void writeTimestamp(java.sql.Timestamp x) throws SQLException;
+  void writeTimestbmp(jbvb.sql.Timestbmp x) throws SQLException;
 
   /**
-   * Writes the next attribute to the stream as a stream of Unicode characters.
+   * Writes the next bttribute to the strebm bs b strebm of Unicode chbrbcters.
    *
-   * @param x the value to pass to the database
-   * @exception SQLException if a database access error occurs
-   * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+   * @pbrbm x the vblue to pbss to the dbtbbbse
+   * @exception SQLException if b dbtbbbse bccess error occurs
+   * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
    * this method
    * @since 1.2
    */
-  void writeCharacterStream(java.io.Reader x) throws SQLException;
+  void writeChbrbcterStrebm(jbvb.io.Rebder x) throws SQLException;
 
   /**
-   * Writes the next attribute to the stream as a stream of ASCII characters.
+   * Writes the next bttribute to the strebm bs b strebm of ASCII chbrbcters.
    *
-   * @param x the value to pass to the database
-   * @exception SQLException if a database access error occurs
-   * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+   * @pbrbm x the vblue to pbss to the dbtbbbse
+   * @exception SQLException if b dbtbbbse bccess error occurs
+   * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
    * this method
    * @since 1.2
    */
-  void writeAsciiStream(java.io.InputStream x) throws SQLException;
+  void writeAsciiStrebm(jbvb.io.InputStrebm x) throws SQLException;
 
   /**
-   * Writes the next attribute to the stream as a stream of uninterpreted
+   * Writes the next bttribute to the strebm bs b strebm of uninterpreted
    * bytes.
    *
-   * @param x the value to pass to the database
-   * @exception SQLException if a database access error occurs
-   * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+   * @pbrbm x the vblue to pbss to the dbtbbbse
+   * @exception SQLException if b dbtbbbse bccess error occurs
+   * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
    * this method
    * @since 1.2
    */
-  void writeBinaryStream(java.io.InputStream x) throws SQLException;
+  void writeBinbryStrebm(jbvb.io.InputStrebm x) throws SQLException;
 
   //================================================================
-  // Methods for writing items of SQL user-defined types to the stream.
-  // These methods pass objects to the database as values of SQL
-  // Structured Types, Distinct Types, Constructed Types, and Locator
-  // Types.  They decompose the Java object(s) and write leaf data
-  // items using the methods above.
+  // Methods for writing items of SQL user-defined types to the strebm.
+  // These methods pbss objects to the dbtbbbse bs vblues of SQL
+  // Structured Types, Distinct Types, Constructed Types, bnd Locbtor
+  // Types.  They decompose the Jbvb object(s) bnd write lebf dbtb
+  // items using the methods bbove.
   //================================================================
 
   /**
-   * Writes to the stream the data contained in the given
-   * <code>SQLData</code> object.
-   * When the <code>SQLData</code> object is <code>null</code>, this
-   * method writes an SQL <code>NULL</code> to the stream.
-   * Otherwise, it calls the <code>SQLData.writeSQL</code>
+   * Writes to the strebm the dbtb contbined in the given
+   * <code>SQLDbtb</code> object.
+   * When the <code>SQLDbtb</code> object is <code>null</code>, this
+   * method writes bn SQL <code>NULL</code> to the strebm.
+   * Otherwise, it cblls the <code>SQLDbtb.writeSQL</code>
    * method of the given object, which
-   * writes the object's attributes to the stream.
-   * The implementation of the method <code>SQLData.writeSQL</code>
-   * calls the appropriate <code>SQLOutput</code> writer method(s)
-   * for writing each of the object's attributes in order.
-   * The attributes must be read from an <code>SQLInput</code>
-   * input stream and written to an <code>SQLOutput</code>
-   * output stream in the same order in which they were
+   * writes the object's bttributes to the strebm.
+   * The implementbtion of the method <code>SQLDbtb.writeSQL</code>
+   * cblls the bppropribte <code>SQLOutput</code> writer method(s)
+   * for writing ebch of the object's bttributes in order.
+   * The bttributes must be rebd from bn <code>SQLInput</code>
+   * input strebm bnd written to bn <code>SQLOutput</code>
+   * output strebm in the sbme order in which they were
    * listed in the SQL definition of the user-defined type.
    *
-   * @param x the object representing data of an SQL structured or
+   * @pbrbm x the object representing dbtb of bn SQL structured or
    * distinct type
-   * @exception SQLException if a database access error occurs
-   * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+   * @exception SQLException if b dbtbbbse bccess error occurs
+   * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
    * this method
    * @since 1.2
    */
-  void writeObject(SQLData x) throws SQLException;
+  void writeObject(SQLDbtb x) throws SQLException;
 
   /**
-   * Writes an SQL <code>REF</code> value to the stream.
+   * Writes bn SQL <code>REF</code> vblue to the strebm.
    *
-   * @param x a <code>Ref</code> object representing data of an SQL
-   * <code>REF</code> value
-   * @exception SQLException if a database access error occurs
-   * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+   * @pbrbm x b <code>Ref</code> object representing dbtb of bn SQL
+   * <code>REF</code> vblue
+   * @exception SQLException if b dbtbbbse bccess error occurs
+   * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
    * this method
    * @since 1.2
    */
   void writeRef(Ref x) throws SQLException;
 
   /**
-   * Writes an SQL <code>BLOB</code> value to the stream.
+   * Writes bn SQL <code>BLOB</code> vblue to the strebm.
    *
-   * @param x a <code>Blob</code> object representing data of an SQL
-   * <code>BLOB</code> value
+   * @pbrbm x b <code>Blob</code> object representing dbtb of bn SQL
+   * <code>BLOB</code> vblue
    *
-   * @exception SQLException if a database access error occurs
-   * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+   * @exception SQLException if b dbtbbbse bccess error occurs
+   * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
    * this method
    * @since 1.2
    */
   void writeBlob(Blob x) throws SQLException;
 
   /**
-   * Writes an SQL <code>CLOB</code> value to the stream.
+   * Writes bn SQL <code>CLOB</code> vblue to the strebm.
    *
-   * @param x a <code>Clob</code> object representing data of an SQL
-   * <code>CLOB</code> value
+   * @pbrbm x b <code>Clob</code> object representing dbtb of bn SQL
+   * <code>CLOB</code> vblue
    *
-   * @exception SQLException if a database access error occurs
-   * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+   * @exception SQLException if b dbtbbbse bccess error occurs
+   * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
    * this method
    * @since 1.2
    */
   void writeClob(Clob x) throws SQLException;
 
   /**
-   * Writes an SQL structured type value to the stream.
+   * Writes bn SQL structured type vblue to the strebm.
    *
-   * @param x a <code>Struct</code> object representing data of an SQL
+   * @pbrbm x b <code>Struct</code> object representing dbtb of bn SQL
    * structured type
    *
-   * @exception SQLException if a database access error occurs
-   * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+   * @exception SQLException if b dbtbbbse bccess error occurs
+   * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
    * this method
    * @since 1.2
    */
   void writeStruct(Struct x) throws SQLException;
 
   /**
-   * Writes an SQL <code>ARRAY</code> value to the stream.
+   * Writes bn SQL <code>ARRAY</code> vblue to the strebm.
    *
-   * @param x an <code>Array</code> object representing data of an SQL
+   * @pbrbm x bn <code>Arrby</code> object representing dbtb of bn SQL
    * <code>ARRAY</code> type
    *
-   * @exception SQLException if a database access error occurs
-   * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+   * @exception SQLException if b dbtbbbse bccess error occurs
+   * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
    * this method
    * @since 1.2
    */
-  void writeArray(Array x) throws SQLException;
+  void writeArrby(Arrby x) throws SQLException;
 
      //--------------------------- JDBC 3.0 ------------------------
 
      /**
-      * Writes a SQL <code>DATALINK</code> value to the stream.
+      * Writes b SQL <code>DATALINK</code> vblue to the strebm.
       *
-      * @param x a <code>java.net.URL</code> object representing the data
+      * @pbrbm x b <code>jbvb.net.URL</code> object representing the dbtb
       * of SQL DATALINK type
       *
-      * @exception SQLException if a database access error occurs
-      * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+      * @exception SQLException if b dbtbbbse bccess error occurs
+      * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
       * this method
       * @since 1.4
       */
-     void writeURL(java.net.URL x) throws SQLException;
+     void writeURL(jbvb.net.URL x) throws SQLException;
 
      //--------------------------- JDBC 4.0 ------------------------
 
   /**
-   * Writes the next attribute to the stream as a <code>String</code>
-   * in the Java programming language. The driver converts this to a
+   * Writes the next bttribute to the strebm bs b <code>String</code>
+   * in the Jbvb progrbmming lbngubge. The driver converts this to b
    * SQL <code>NCHAR</code> or
-   * <code>NVARCHAR</code> or <code>LONGNVARCHAR</code> value
-   * (depending on the argument's
-   * size relative to the driver's limits on <code>NVARCHAR</code> values)
-   * when it sends it to the stream.
+   * <code>NVARCHAR</code> or <code>LONGNVARCHAR</code> vblue
+   * (depending on the brgument's
+   * size relbtive to the driver's limits on <code>NVARCHAR</code> vblues)
+   * when it sends it to the strebm.
    *
-   * @param x the value to pass to the database
-   * @exception SQLException if a database access error occurs
-   * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+   * @pbrbm x the vblue to pbss to the dbtbbbse
+   * @exception SQLException if b dbtbbbse bccess error occurs
+   * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
    * this method
    * @since 1.6
    */
   void writeNString(String x) throws SQLException;
 
   /**
-   * Writes an SQL <code>NCLOB</code> value to the stream.
+   * Writes bn SQL <code>NCLOB</code> vblue to the strebm.
    *
-   * @param x a <code>NClob</code> object representing data of an SQL
-   * <code>NCLOB</code> value
+   * @pbrbm x b <code>NClob</code> object representing dbtb of bn SQL
+   * <code>NCLOB</code> vblue
    *
-   * @exception SQLException if a database access error occurs
-   * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+   * @exception SQLException if b dbtbbbse bccess error occurs
+   * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
    * this method
    * @since 1.6
    */
@@ -402,13 +402,13 @@ package java.sql;
 
 
   /**
-   * Writes an SQL <code>ROWID</code> value to the stream.
+   * Writes bn SQL <code>ROWID</code> vblue to the strebm.
    *
-   * @param x a <code>RowId</code> object representing data of an SQL
-   * <code>ROWID</code> value
+   * @pbrbm x b <code>RowId</code> object representing dbtb of bn SQL
+   * <code>ROWID</code> vblue
    *
-   * @exception SQLException if a database access error occurs
-   * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+   * @exception SQLException if b dbtbbbse bccess error occurs
+   * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
    * this method
    * @since 1.6
    */
@@ -416,18 +416,18 @@ package java.sql;
 
 
   /**
-   * Writes an SQL <code>XML</code> value to the stream.
+   * Writes bn SQL <code>XML</code> vblue to the strebm.
    *
-   * @param x a <code>SQLXML</code> object representing data of an SQL
-   * <code>XML</code> value
+   * @pbrbm x b <code>SQLXML</code> object representing dbtb of bn SQL
+   * <code>XML</code> vblue
    *
-   * @throws SQLException if a database access error occurs,
-   * the <code>java.xml.transform.Result</code>,
-   *  <code>Writer</code> or <code>OutputStream</code> has not been closed for the <code>SQLXML</code> object or
-   *  if there is an error processing the XML value.  The <code>getCause</code> method
-   *  of the exception may provide a more detailed exception, for example, if the
-   *  stream does not contain valid XML.
-   * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
+   * @throws SQLException if b dbtbbbse bccess error occurs,
+   * the <code>jbvb.xml.trbnsform.Result</code>,
+   *  <code>Writer</code> or <code>OutputStrebm</code> hbs not been closed for the <code>SQLXML</code> object or
+   *  if there is bn error processing the XML vblue.  The <code>getCbuse</code> method
+   *  of the exception mby provide b more detbiled exception, for exbmple, if the
+   *  strebm does not contbin vblid XML.
+   * @exception SQLFebtureNotSupportedException if the JDBC driver does not support
    * this method
    * @since 1.6
    */
@@ -436,39 +436,39 @@ package java.sql;
   //--------------------------JDBC 4.2 -----------------------------
 
   /**
-   * Writes to the stream the data contained in the given object. The
-   * object will be converted to the specified targetSqlType
-   * before being sent to the stream.
+   * Writes to the strebm the dbtb contbined in the given object. The
+   * object will be converted to the specified tbrgetSqlType
+   * before being sent to the strebm.
    *<p>
    * When the {@code object} is {@code null}, this
-   * method writes an SQL {@code NULL} to the stream.
+   * method writes bn SQL {@code NULL} to the strebm.
    * <p>
-   * If the object has a custom mapping (is of a class implementing the
-   * interface {@code SQLData}),
-   * the JDBC driver should call the method {@code SQLData.writeSQL} to
-   * write it to the SQL data stream.
-   * If, on the other hand, the object is of a class implementing
+   * If the object hbs b custom mbpping (is of b clbss implementing the
+   * interfbce {@code SQLDbtb}),
+   * the JDBC driver should cbll the method {@code SQLDbtb.writeSQL} to
+   * write it to the SQL dbtb strebm.
+   * If, on the other hbnd, the object is of b clbss implementing
    * {@code Ref}, {@code Blob}, {@code Clob},  {@code NClob},
-   *  {@code Struct}, {@code java.net.URL},
-   * or {@code Array}, the driver should pass it to the database as a
-   * value of the corresponding SQL type.
+   *  {@code Struct}, {@code jbvb.net.URL},
+   * or {@code Arrby}, the driver should pbss it to the dbtbbbse bs b
+   * vblue of the corresponding SQL type.
    *<P>
-   * The default implementation will throw {@code SQLFeatureNotSupportedException}
+   * The defbult implementbtion will throw {@code SQLFebtureNotSupportedException}
    *
-   * @param x the object containing the input parameter value
-   * @param targetSqlType the SQL type to be sent to the database.
-   * @exception SQLException if a database access error occurs  or
-   *            if the Java Object specified by x is an InputStream
-   *            or Reader object and the value of the scale parameter is less
-   *            than zero
-   * @exception SQLFeatureNotSupportedException if
-   * the JDBC driver does not support this data type
+   * @pbrbm x the object contbining the input pbrbmeter vblue
+   * @pbrbm tbrgetSqlType the SQL type to be sent to the dbtbbbse.
+   * @exception SQLException if b dbtbbbse bccess error occurs  or
+   *            if the Jbvb Object specified by x is bn InputStrebm
+   *            or Rebder object bnd the vblue of the scble pbrbmeter is less
+   *            thbn zero
+   * @exception SQLFebtureNotSupportedException if
+   * the JDBC driver does not support this dbtb type
    * @see JDBCType
    * @see SQLType
    * @since 1.8
    */
-  default void writeObject(Object x, SQLType targetSqlType) throws SQLException {
-        throw new SQLFeatureNotSupportedException();
+  defbult void writeObject(Object x, SQLType tbrgetSqlType) throws SQLException {
+        throw new SQLFebtureNotSupportedException();
   }
 
 }

@@ -1,130 +1,130 @@
 /*
- * Copyright (c) 2002, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jmx.interceptor;
+pbckbge com.sun.jmx.interceptor;
 
 
-import java.io.ObjectInputStream;
-import javax.management.InstanceNotFoundException;
-import javax.management.MBeanException;
-import javax.management.MBeanServer;
-import javax.management.ObjectName;
-import javax.management.OperationsException;
-import javax.management.ReflectionException;
-import javax.management.loading.ClassLoaderRepository;
+import jbvb.io.ObjectInputStrebm;
+import jbvbx.mbnbgement.InstbnceNotFoundException;
+import jbvbx.mbnbgement.MBebnException;
+import jbvbx.mbnbgement.MBebnServer;
+import jbvbx.mbnbgement.ObjectNbme;
+import jbvbx.mbnbgement.OperbtionsException;
+import jbvbx.mbnbgement.ReflectionException;
+import jbvbx.mbnbgement.lobding.ClbssLobderRepository;
 
 /**
- * <p>This interface specifies the behavior to be implemented by an
- * MBean Server Interceptor.  An MBean Server Interceptor has
- * essentially the same interface as an MBean Server.  An MBean Server
- * forwards received requests to its default interceptor, which may
- * handle them itself or forward them to other interceptors.  The
- * default interceptor may be changed via the {@link
- * com.sun.jmx.mbeanserver.SunJmxMBeanServer#setMBeanServerInterceptor}
+ * <p>This interfbce specifies the behbvior to be implemented by bn
+ * MBebn Server Interceptor.  An MBebn Server Interceptor hbs
+ * essentiblly the sbme interfbce bs bn MBebn Server.  An MBebn Server
+ * forwbrds received requests to its defbult interceptor, which mby
+ * hbndle them itself or forwbrd them to other interceptors.  The
+ * defbult interceptor mby be chbnged vib the {@link
+ * com.sun.jmx.mbebnserver.SunJmxMBebnServer#setMBebnServerInterceptor}
  * method.</p>
  *
- * <p>The initial default interceptor provides the standard MBean
- * Server behavior.  It handles a collection of named MBeans, each
- * represented by a Java object.  A replacement default interceptor
- * may build on this behavior, for instance by adding logging or
- * security checks, before forwarding requests to the initial default
- * interceptor.  Or, it may route each request to one of a number of
- * sub-interceptors, for instance based on the {@link ObjectName} in
+ * <p>The initibl defbult interceptor provides the stbndbrd MBebn
+ * Server behbvior.  It hbndles b collection of nbmed MBebns, ebch
+ * represented by b Jbvb object.  A replbcement defbult interceptor
+ * mby build on this behbvior, for instbnce by bdding logging or
+ * security checks, before forwbrding requests to the initibl defbult
+ * interceptor.  Or, it mby route ebch request to one of b number of
+ * sub-interceptors, for instbnce bbsed on the {@link ObjectNbme} in
  * the request.</p>
  *
- * <p>An interceptor, default or not, need not implement MBeans as
- * Java objects, in the way that the initial default interceptor does.
- * It may instead implement <em>virtual MBeans</em>, which do not
- * exist as Java objects when they are not in use.  For example, these
- * MBeans could be implemented by forwarding requests to a database,
- * or to a remote MBean server, or by performing system calls to query
+ * <p>An interceptor, defbult or not, need not implement MBebns bs
+ * Jbvb objects, in the wby thbt the initibl defbult interceptor does.
+ * It mby instebd implement <em>virtubl MBebns</em>, which do not
+ * exist bs Jbvb objects when they bre not in use.  For exbmple, these
+ * MBebns could be implemented by forwbrding requests to b dbtbbbse,
+ * or to b remote MBebn server, or by performing system cblls to query
  * or modify system resources.</p>
  *
  * @since 1.5
  */
-public interface MBeanServerInterceptor extends MBeanServer {
+public interfbce MBebnServerInterceptor extends MBebnServer {
     /**
-     * This method should never be called.
-     * Usually hrows UnsupportedOperationException.
+     * This method should never be cblled.
+     * Usublly hrows UnsupportedOperbtionException.
      */
-    public Object instantiate(String className)
-            throws ReflectionException, MBeanException;
+    public Object instbntibte(String clbssNbme)
+            throws ReflectionException, MBebnException;
     /**
-     * This method should never be called.
-     * Usually throws UnsupportedOperationException.
+     * This method should never be cblled.
+     * Usublly throws UnsupportedOperbtionException.
      */
-    public Object instantiate(String className, ObjectName loaderName)
-            throws ReflectionException, MBeanException,
-            InstanceNotFoundException;
+    public Object instbntibte(String clbssNbme, ObjectNbme lobderNbme)
+            throws ReflectionException, MBebnException,
+            InstbnceNotFoundException;
     /**
-     * This method should never be called.
-     * Usually throws UnsupportedOperationException.
+     * This method should never be cblled.
+     * Usublly throws UnsupportedOperbtionException.
      */
-    public Object instantiate(String className, Object[] params,
-            String[] signature) throws ReflectionException, MBeanException;
+    public Object instbntibte(String clbssNbme, Object[] pbrbms,
+            String[] signbture) throws ReflectionException, MBebnException;
 
     /**
-     * This method should never be called.
-     * Usually throws UnsupportedOperationException.
+     * This method should never be cblled.
+     * Usublly throws UnsupportedOperbtionException.
      */
-    public Object instantiate(String className, ObjectName loaderName,
-            Object[] params, String[] signature)
-            throws ReflectionException, MBeanException,
-            InstanceNotFoundException;
+    public Object instbntibte(String clbssNbme, ObjectNbme lobderNbme,
+            Object[] pbrbms, String[] signbture)
+            throws ReflectionException, MBebnException,
+            InstbnceNotFoundException;
 
     /**
-     * This method should never be called.
-     * Usually throws UnsupportedOperationException.
+     * This method should never be cblled.
+     * Usublly throws UnsupportedOperbtionException.
      */
-    @Deprecated
-    public ObjectInputStream deserialize(ObjectName name, byte[] data)
-            throws InstanceNotFoundException, OperationsException;
+    @Deprecbted
+    public ObjectInputStrebm deseriblize(ObjectNbme nbme, byte[] dbtb)
+            throws InstbnceNotFoundException, OperbtionsException;
 
     /**
-     * This method should never be called.
-     * Usually throws UnsupportedOperationException.
+     * This method should never be cblled.
+     * Usublly throws UnsupportedOperbtionException.
      */
-    @Deprecated
-    public ObjectInputStream deserialize(String className, byte[] data)
-            throws OperationsException, ReflectionException;
+    @Deprecbted
+    public ObjectInputStrebm deseriblize(String clbssNbme, byte[] dbtb)
+            throws OperbtionsException, ReflectionException;
 
     /**
-     * This method should never be called.
-     * Usually hrows UnsupportedOperationException.
+     * This method should never be cblled.
+     * Usublly hrows UnsupportedOperbtionException.
      */
-    @Deprecated
-    public ObjectInputStream deserialize(String className,
-            ObjectName loaderName, byte[] data)
-            throws InstanceNotFoundException, OperationsException,
+    @Deprecbted
+    public ObjectInputStrebm deseriblize(String clbssNbme,
+            ObjectNbme lobderNbme, byte[] dbtb)
+            throws InstbnceNotFoundException, OperbtionsException,
             ReflectionException;
 
     /**
-     * This method should never be called.
-     * Usually throws UnsupportedOperationException.
+     * This method should never be cblled.
+     * Usublly throws UnsupportedOperbtionException.
      */
-    public ClassLoaderRepository getClassLoaderRepository();
+    public ClbssLobderRepository getClbssLobderRepository();
 
 }
 

@@ -1,213 +1,213 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt.geom;
+pbckbge jbvb.bwt.geom;
 
-import java.awt.Shape;
-import java.awt.Rectangle;
-import java.util.Vector;
-import java.util.Enumeration;
-import java.util.NoSuchElementException;
-import sun.awt.geom.Curve;
-import sun.awt.geom.Crossings;
-import sun.awt.geom.AreaOp;
+import jbvb.bwt.Shbpe;
+import jbvb.bwt.Rectbngle;
+import jbvb.util.Vector;
+import jbvb.util.Enumerbtion;
+import jbvb.util.NoSuchElementException;
+import sun.bwt.geom.Curve;
+import sun.bwt.geom.Crossings;
+import sun.bwt.geom.ArebOp;
 
 /**
- * An <code>Area</code> object stores and manipulates a
- * resolution-independent description of an enclosed area of
- * 2-dimensional space.
- * <code>Area</code> objects can be transformed and can perform
- * various Constructive Area Geometry (CAG) operations when combined
- * with other <code>Area</code> objects.
- * The CAG operations include area
- * {@link #add addition}, {@link #subtract subtraction},
- * {@link #intersect intersection}, and {@link #exclusiveOr exclusive or}.
- * See the linked method documentation for examples of the various
- * operations.
+ * An <code>Areb</code> object stores bnd mbnipulbtes b
+ * resolution-independent description of bn enclosed breb of
+ * 2-dimensionbl spbce.
+ * <code>Areb</code> objects cbn be trbnsformed bnd cbn perform
+ * vbrious Constructive Areb Geometry (CAG) operbtions when combined
+ * with other <code>Areb</code> objects.
+ * The CAG operbtions include breb
+ * {@link #bdd bddition}, {@link #subtrbct subtrbction},
+ * {@link #intersect intersection}, bnd {@link #exclusiveOr exclusive or}.
+ * See the linked method documentbtion for exbmples of the vbrious
+ * operbtions.
  * <p>
- * The <code>Area</code> class implements the <code>Shape</code>
- * interface and provides full support for all of its hit-testing
- * and path iteration facilities, but an <code>Area</code> is more
- * specific than a generalized path in a number of ways:
+ * The <code>Areb</code> clbss implements the <code>Shbpe</code>
+ * interfbce bnd provides full support for bll of its hit-testing
+ * bnd pbth iterbtion fbcilities, but bn <code>Areb</code> is more
+ * specific thbn b generblized pbth in b number of wbys:
  * <ul>
- * <li>Only closed paths and sub-paths are stored.
- *     <code>Area</code> objects constructed from unclosed paths
- *     are implicitly closed during construction as if those paths
- *     had been filled by the <code>Graphics2D.fill</code> method.
- * <li>The interiors of the individual stored sub-paths are all
- *     non-empty and non-overlapping.  Paths are decomposed during
- *     construction into separate component non-overlapping parts,
- *     empty pieces of the path are discarded, and then these
- *     non-empty and non-overlapping properties are maintained
- *     through all subsequent CAG operations.  Outlines of different
- *     component sub-paths may touch each other, as long as they
- *     do not cross so that their enclosed areas overlap.
- * <li>The geometry of the path describing the outline of the
- *     <code>Area</code> resembles the path from which it was
- *     constructed only in that it describes the same enclosed
- *     2-dimensional area, but may use entirely different types
- *     and ordering of the path segments to do so.
+ * <li>Only closed pbths bnd sub-pbths bre stored.
+ *     <code>Areb</code> objects constructed from unclosed pbths
+ *     bre implicitly closed during construction bs if those pbths
+ *     hbd been filled by the <code>Grbphics2D.fill</code> method.
+ * <li>The interiors of the individubl stored sub-pbths bre bll
+ *     non-empty bnd non-overlbpping.  Pbths bre decomposed during
+ *     construction into sepbrbte component non-overlbpping pbrts,
+ *     empty pieces of the pbth bre discbrded, bnd then these
+ *     non-empty bnd non-overlbpping properties bre mbintbined
+ *     through bll subsequent CAG operbtions.  Outlines of different
+ *     component sub-pbths mby touch ebch other, bs long bs they
+ *     do not cross so thbt their enclosed brebs overlbp.
+ * <li>The geometry of the pbth describing the outline of the
+ *     <code>Areb</code> resembles the pbth from which it wbs
+ *     constructed only in thbt it describes the sbme enclosed
+ *     2-dimensionbl breb, but mby use entirely different types
+ *     bnd ordering of the pbth segments to do so.
  * </ul>
- * Interesting issues which are not always obvious when using
- * the <code>Area</code> include:
+ * Interesting issues which bre not blwbys obvious when using
+ * the <code>Areb</code> include:
  * <ul>
- * <li>Creating an <code>Area</code> from an unclosed (open)
- *     <code>Shape</code> results in a closed outline in the
- *     <code>Area</code> object.
- * <li>Creating an <code>Area</code> from a <code>Shape</code>
- *     which encloses no area (even when "closed") produces an
- *     empty <code>Area</code>.  A common example of this issue
- *     is that producing an <code>Area</code> from a line will
- *     be empty since the line encloses no area.  An empty
- *     <code>Area</code> will iterate no geometry in its
- *     <code>PathIterator</code> objects.
- * <li>A self-intersecting <code>Shape</code> may be split into
- *     two (or more) sub-paths each enclosing one of the
- *     non-intersecting portions of the original path.
- * <li>An <code>Area</code> may take more path segments to
- *     describe the same geometry even when the original
- *     outline is simple and obvious.  The analysis that the
- *     <code>Area</code> class must perform on the path may
- *     not reflect the same concepts of "simple and obvious"
- *     as a human being perceives.
+ * <li>Crebting bn <code>Areb</code> from bn unclosed (open)
+ *     <code>Shbpe</code> results in b closed outline in the
+ *     <code>Areb</code> object.
+ * <li>Crebting bn <code>Areb</code> from b <code>Shbpe</code>
+ *     which encloses no breb (even when "closed") produces bn
+ *     empty <code>Areb</code>.  A common exbmple of this issue
+ *     is thbt producing bn <code>Areb</code> from b line will
+ *     be empty since the line encloses no breb.  An empty
+ *     <code>Areb</code> will iterbte no geometry in its
+ *     <code>PbthIterbtor</code> objects.
+ * <li>A self-intersecting <code>Shbpe</code> mby be split into
+ *     two (or more) sub-pbths ebch enclosing one of the
+ *     non-intersecting portions of the originbl pbth.
+ * <li>An <code>Areb</code> mby tbke more pbth segments to
+ *     describe the sbme geometry even when the originbl
+ *     outline is simple bnd obvious.  The bnblysis thbt the
+ *     <code>Areb</code> clbss must perform on the pbth mby
+ *     not reflect the sbme concepts of "simple bnd obvious"
+ *     bs b humbn being perceives.
  * </ul>
  *
  * @since 1.2
  */
-public class Area implements Shape, Cloneable {
-    private static Vector<Curve> EmptyCurves = new Vector<>();
+public clbss Areb implements Shbpe, Clonebble {
+    privbte stbtic Vector<Curve> EmptyCurves = new Vector<>();
 
-    private Vector<Curve> curves;
+    privbte Vector<Curve> curves;
 
     /**
-     * Default constructor which creates an empty area.
+     * Defbult constructor which crebtes bn empty breb.
      * @since 1.2
      */
-    public Area() {
+    public Areb() {
         curves = EmptyCurves;
     }
 
     /**
-     * The <code>Area</code> class creates an area geometry from the
-     * specified {@link Shape} object.  The geometry is explicitly
-     * closed, if the <code>Shape</code> is not already closed.  The
+     * The <code>Areb</code> clbss crebtes bn breb geometry from the
+     * specified {@link Shbpe} object.  The geometry is explicitly
+     * closed, if the <code>Shbpe</code> is not blrebdy closed.  The
      * fill rule (even-odd or winding) specified by the geometry of the
-     * <code>Shape</code> is used to determine the resulting enclosed area.
-     * @param s  the <code>Shape</code> from which the area is constructed
+     * <code>Shbpe</code> is used to determine the resulting enclosed breb.
+     * @pbrbm s  the <code>Shbpe</code> from which the breb is constructed
      * @throws NullPointerException if <code>s</code> is null
      * @since 1.2
      */
-    public Area(Shape s) {
-        if (s instanceof Area) {
-            curves = ((Area) s).curves;
+    public Areb(Shbpe s) {
+        if (s instbnceof Areb) {
+            curves = ((Areb) s).curves;
         } else {
-            curves = pathToCurves(s.getPathIterator(null));
+            curves = pbthToCurves(s.getPbthIterbtor(null));
         }
     }
 
-    private static Vector<Curve> pathToCurves(PathIterator pi) {
+    privbte stbtic Vector<Curve> pbthToCurves(PbthIterbtor pi) {
         Vector<Curve> curves = new Vector<>();
         int windingRule = pi.getWindingRule();
-        // coords array is big enough for holding:
-        //     coordinates returned from currentSegment (6)
+        // coords brrby is big enough for holding:
+        //     coordinbtes returned from currentSegment (6)
         //     OR
-        //         two subdivided quadratic curves (2+4+4=10)
+        //         two subdivided qubdrbtic curves (2+4+4=10)
         //         AND
-        //             0-1 horizontal splitting parameters
+        //             0-1 horizontbl splitting pbrbmeters
         //             OR
-        //             2 parametric equation derivative coefficients
+        //             2 pbrbmetric equbtion derivbtive coefficients
         //     OR
         //         three subdivided cubic curves (2+6+6+6=20)
         //         AND
-        //             0-2 horizontal splitting parameters
+        //             0-2 horizontbl splitting pbrbmeters
         //             OR
-        //             3 parametric equation derivative coefficients
+        //             3 pbrbmetric equbtion derivbtive coefficients
         double coords[] = new double[23];
         double movx = 0, movy = 0;
         double curx = 0, cury = 0;
         double newx, newy;
         while (!pi.isDone()) {
             switch (pi.currentSegment(coords)) {
-            case PathIterator.SEG_MOVETO:
+            cbse PbthIterbtor.SEG_MOVETO:
                 Curve.insertLine(curves, curx, cury, movx, movy);
                 curx = movx = coords[0];
                 cury = movy = coords[1];
                 Curve.insertMove(curves, movx, movy);
-                break;
-            case PathIterator.SEG_LINETO:
+                brebk;
+            cbse PbthIterbtor.SEG_LINETO:
                 newx = coords[0];
                 newy = coords[1];
                 Curve.insertLine(curves, curx, cury, newx, newy);
                 curx = newx;
                 cury = newy;
-                break;
-            case PathIterator.SEG_QUADTO:
+                brebk;
+            cbse PbthIterbtor.SEG_QUADTO:
                 newx = coords[2];
                 newy = coords[3];
-                Curve.insertQuad(curves, curx, cury, coords);
+                Curve.insertQubd(curves, curx, cury, coords);
                 curx = newx;
                 cury = newy;
-                break;
-            case PathIterator.SEG_CUBICTO:
+                brebk;
+            cbse PbthIterbtor.SEG_CUBICTO:
                 newx = coords[4];
                 newy = coords[5];
                 Curve.insertCubic(curves, curx, cury, coords);
                 curx = newx;
                 cury = newy;
-                break;
-            case PathIterator.SEG_CLOSE:
+                brebk;
+            cbse PbthIterbtor.SEG_CLOSE:
                 Curve.insertLine(curves, curx, cury, movx, movy);
                 curx = movx;
                 cury = movy;
-                break;
+                brebk;
             }
             pi.next();
         }
         Curve.insertLine(curves, curx, cury, movx, movy);
-        AreaOp operator;
-        if (windingRule == PathIterator.WIND_EVEN_ODD) {
-            operator = new AreaOp.EOWindOp();
+        ArebOp operbtor;
+        if (windingRule == PbthIterbtor.WIND_EVEN_ODD) {
+            operbtor = new ArebOp.EOWindOp();
         } else {
-            operator = new AreaOp.NZWindOp();
+            operbtor = new ArebOp.NZWindOp();
         }
-        return operator.calculate(curves, EmptyCurves);
+        return operbtor.cblculbte(curves, EmptyCurves);
     }
 
     /**
-     * Adds the shape of the specified <code>Area</code> to the
-     * shape of this <code>Area</code>.
-     * The resulting shape of this <code>Area</code> will include
-     * the union of both shapes, or all areas that were contained
-     * in either this or the specified <code>Area</code>.
+     * Adds the shbpe of the specified <code>Areb</code> to the
+     * shbpe of this <code>Areb</code>.
+     * The resulting shbpe of this <code>Areb</code> will include
+     * the union of both shbpes, or bll brebs thbt were contbined
+     * in either this or the specified <code>Areb</code>.
      * <pre>
-     *     // Example:
-     *     Area a1 = new Area([triangle 0,0 =&gt; 8,0 =&gt; 0,8]);
-     *     Area a2 = new Area([triangle 0,0 =&gt; 8,0 =&gt; 8,8]);
-     *     a1.add(a2);
+     *     // Exbmple:
+     *     Areb b1 = new Areb([tribngle 0,0 =&gt; 8,0 =&gt; 0,8]);
+     *     Areb b2 = new Areb([tribngle 0,0 =&gt; 8,0 =&gt; 8,8]);
+     *     b1.bdd(b2);
      *
-     *        a1(before)     +         a2         =     a1(after)
+     *        b1(before)     +         b2         =     b1(bfter)
      *
      *     ################     ################     ################
      *     ##############         ##############     ################
@@ -218,29 +218,29 @@ public class Area implements Shape, Cloneable {
      *     ####                             ####     ####        ####
      *     ##                                 ##     ##            ##
      * </pre>
-     * @param   rhs  the <code>Area</code> to be added to the
-     *          current shape
+     * @pbrbm   rhs  the <code>Areb</code> to be bdded to the
+     *          current shbpe
      * @throws NullPointerException if <code>rhs</code> is null
      * @since 1.2
      */
-    public void add(Area rhs) {
-        curves = new AreaOp.AddOp().calculate(this.curves, rhs.curves);
-        invalidateBounds();
+    public void bdd(Areb rhs) {
+        curves = new ArebOp.AddOp().cblculbte(this.curves, rhs.curves);
+        invblidbteBounds();
     }
 
     /**
-     * Subtracts the shape of the specified <code>Area</code> from the
-     * shape of this <code>Area</code>.
-     * The resulting shape of this <code>Area</code> will include
-     * areas that were contained only in this <code>Area</code>
-     * and not in the specified <code>Area</code>.
+     * Subtrbcts the shbpe of the specified <code>Areb</code> from the
+     * shbpe of this <code>Areb</code>.
+     * The resulting shbpe of this <code>Areb</code> will include
+     * brebs thbt were contbined only in this <code>Areb</code>
+     * bnd not in the specified <code>Areb</code>.
      * <pre>
-     *     // Example:
-     *     Area a1 = new Area([triangle 0,0 =&gt; 8,0 =&gt; 0,8]);
-     *     Area a2 = new Area([triangle 0,0 =&gt; 8,0 =&gt; 8,8]);
-     *     a1.subtract(a2);
+     *     // Exbmple:
+     *     Areb b1 = new Areb([tribngle 0,0 =&gt; 8,0 =&gt; 0,8]);
+     *     Areb b2 = new Areb([tribngle 0,0 =&gt; 8,0 =&gt; 8,8]);
+     *     b1.subtrbct(b2);
      *
-     *        a1(before)     -         a2         =     a1(after)
+     *        b1(before)     -         b2         =     b1(bfter)
      *
      *     ################     ################
      *     ##############         ##############     ##
@@ -251,29 +251,29 @@ public class Area implements Shape, Cloneable {
      *     ####                             ####     ####
      *     ##                                 ##     ##
      * </pre>
-     * @param   rhs  the <code>Area</code> to be subtracted from the
-     *          current shape
+     * @pbrbm   rhs  the <code>Areb</code> to be subtrbcted from the
+     *          current shbpe
      * @throws NullPointerException if <code>rhs</code> is null
      * @since 1.2
      */
-    public void subtract(Area rhs) {
-        curves = new AreaOp.SubOp().calculate(this.curves, rhs.curves);
-        invalidateBounds();
+    public void subtrbct(Areb rhs) {
+        curves = new ArebOp.SubOp().cblculbte(this.curves, rhs.curves);
+        invblidbteBounds();
     }
 
     /**
-     * Sets the shape of this <code>Area</code> to the intersection of
-     * its current shape and the shape of the specified <code>Area</code>.
-     * The resulting shape of this <code>Area</code> will include
-     * only areas that were contained in both this <code>Area</code>
-     * and also in the specified <code>Area</code>.
+     * Sets the shbpe of this <code>Areb</code> to the intersection of
+     * its current shbpe bnd the shbpe of the specified <code>Areb</code>.
+     * The resulting shbpe of this <code>Areb</code> will include
+     * only brebs thbt were contbined in both this <code>Areb</code>
+     * bnd blso in the specified <code>Areb</code>.
      * <pre>
-     *     // Example:
-     *     Area a1 = new Area([triangle 0,0 =&gt; 8,0 =&gt; 0,8]);
-     *     Area a2 = new Area([triangle 0,0 =&gt; 8,0 =&gt; 8,8]);
-     *     a1.intersect(a2);
+     *     // Exbmple:
+     *     Areb b1 = new Areb([tribngle 0,0 =&gt; 8,0 =&gt; 0,8]);
+     *     Areb b2 = new Areb([tribngle 0,0 =&gt; 8,0 =&gt; 8,8]);
+     *     b1.intersect(b2);
      *
-     *      a1(before)   intersect     a2         =     a1(after)
+     *      b1(before)   intersect     b2         =     b1(bfter)
      *
      *     ################     ################     ################
      *     ##############         ##############       ############
@@ -284,30 +284,30 @@ public class Area implements Shape, Cloneable {
      *     ####                             ####
      *     ##                                 ##
      * </pre>
-     * @param   rhs  the <code>Area</code> to be intersected with this
-     *          <code>Area</code>
+     * @pbrbm   rhs  the <code>Areb</code> to be intersected with this
+     *          <code>Areb</code>
      * @throws NullPointerException if <code>rhs</code> is null
      * @since 1.2
      */
-    public void intersect(Area rhs) {
-        curves = new AreaOp.IntOp().calculate(this.curves, rhs.curves);
-        invalidateBounds();
+    public void intersect(Areb rhs) {
+        curves = new ArebOp.IntOp().cblculbte(this.curves, rhs.curves);
+        invblidbteBounds();
     }
 
     /**
-     * Sets the shape of this <code>Area</code> to be the combined area
-     * of its current shape and the shape of the specified <code>Area</code>,
+     * Sets the shbpe of this <code>Areb</code> to be the combined breb
+     * of its current shbpe bnd the shbpe of the specified <code>Areb</code>,
      * minus their intersection.
-     * The resulting shape of this <code>Area</code> will include
-     * only areas that were contained in either this <code>Area</code>
-     * or in the specified <code>Area</code>, but not in both.
+     * The resulting shbpe of this <code>Areb</code> will include
+     * only brebs thbt were contbined in either this <code>Areb</code>
+     * or in the specified <code>Areb</code>, but not in both.
      * <pre>
-     *     // Example:
-     *     Area a1 = new Area([triangle 0,0 =&gt; 8,0 =&gt; 0,8]);
-     *     Area a2 = new Area([triangle 0,0 =&gt; 8,0 =&gt; 8,8]);
-     *     a1.exclusiveOr(a2);
+     *     // Exbmple:
+     *     Areb b1 = new Areb([tribngle 0,0 =&gt; 8,0 =&gt; 0,8]);
+     *     Areb b2 = new Areb([tribngle 0,0 =&gt; 8,0 =&gt; 8,8]);
+     *     b1.exclusiveOr(b2);
      *
-     *        a1(before)    xor        a2         =     a1(after)
+     *        b1(before)    xor        b2         =     b1(bfter)
      *
      *     ################     ################
      *     ##############         ##############     ##            ##
@@ -318,246 +318,246 @@ public class Area implements Shape, Cloneable {
      *     ####                             ####     ####        ####
      *     ##                                 ##     ##            ##
      * </pre>
-     * @param   rhs  the <code>Area</code> to be exclusive ORed with this
-     *          <code>Area</code>.
+     * @pbrbm   rhs  the <code>Areb</code> to be exclusive ORed with this
+     *          <code>Areb</code>.
      * @throws NullPointerException if <code>rhs</code> is null
      * @since 1.2
      */
-    public void exclusiveOr(Area rhs) {
-        curves = new AreaOp.XorOp().calculate(this.curves, rhs.curves);
-        invalidateBounds();
+    public void exclusiveOr(Areb rhs) {
+        curves = new ArebOp.XorOp().cblculbte(this.curves, rhs.curves);
+        invblidbteBounds();
     }
 
     /**
-     * Removes all of the geometry from this <code>Area</code> and
-     * restores it to an empty area.
+     * Removes bll of the geometry from this <code>Areb</code> bnd
+     * restores it to bn empty breb.
      * @since 1.2
      */
     public void reset() {
         curves = new Vector<>();
-        invalidateBounds();
+        invblidbteBounds();
     }
 
     /**
-     * Tests whether this <code>Area</code> object encloses any area.
-     * @return    <code>true</code> if this <code>Area</code> object
-     * represents an empty area; <code>false</code> otherwise.
+     * Tests whether this <code>Areb</code> object encloses bny breb.
+     * @return    <code>true</code> if this <code>Areb</code> object
+     * represents bn empty breb; <code>fblse</code> otherwise.
      * @since 1.2
      */
-    public boolean isEmpty() {
+    public boolebn isEmpty() {
         return (curves.size() == 0);
     }
 
     /**
-     * Tests whether this <code>Area</code> consists entirely of
-     * straight edged polygonal geometry.
+     * Tests whether this <code>Areb</code> consists entirely of
+     * strbight edged polygonbl geometry.
      * @return    <code>true</code> if the geometry of this
-     * <code>Area</code> consists entirely of line segments;
-     * <code>false</code> otherwise.
+     * <code>Areb</code> consists entirely of line segments;
+     * <code>fblse</code> otherwise.
      * @since 1.2
      */
-    public boolean isPolygonal() {
-        Enumeration<Curve> enum_ = curves.elements();
-        while (enum_.hasMoreElements()) {
+    public boolebn isPolygonbl() {
+        Enumerbtion<Curve> enum_ = curves.elements();
+        while (enum_.hbsMoreElements()) {
             if (enum_.nextElement().getOrder() > 1) {
-                return false;
+                return fblse;
             }
         }
         return true;
     }
 
     /**
-     * Tests whether this <code>Area</code> is rectangular in shape.
+     * Tests whether this <code>Areb</code> is rectbngulbr in shbpe.
      * @return    <code>true</code> if the geometry of this
-     * <code>Area</code> is rectangular in shape; <code>false</code>
+     * <code>Areb</code> is rectbngulbr in shbpe; <code>fblse</code>
      * otherwise.
      * @since 1.2
      */
-    public boolean isRectangular() {
+    public boolebn isRectbngulbr() {
         int size = curves.size();
         if (size == 0) {
             return true;
         }
         if (size > 3) {
-            return false;
+            return fblse;
         }
         Curve c1 = curves.get(1);
         Curve c2 = curves.get(2);
         if (c1.getOrder() != 1 || c2.getOrder() != 1) {
-            return false;
+            return fblse;
         }
         if (c1.getXTop() != c1.getXBot() || c2.getXTop() != c2.getXBot()) {
-            return false;
+            return fblse;
         }
         if (c1.getYTop() != c2.getYTop() || c1.getYBot() != c2.getYBot()) {
-            // One might be able to prove that this is impossible...
-            return false;
+            // One might be bble to prove thbt this is impossible...
+            return fblse;
         }
         return true;
     }
 
     /**
-     * Tests whether this <code>Area</code> is comprised of a single
-     * closed subpath.  This method returns <code>true</code> if the
-     * path contains 0 or 1 subpaths, or <code>false</code> if the path
-     * contains more than 1 subpath.  The subpaths are counted by the
-     * number of {@link PathIterator#SEG_MOVETO SEG_MOVETO}  segments
-     * that appear in the path.
-     * @return    <code>true</code> if the <code>Area</code> is comprised
-     * of a single basic geometry; <code>false</code> otherwise.
+     * Tests whether this <code>Areb</code> is comprised of b single
+     * closed subpbth.  This method returns <code>true</code> if the
+     * pbth contbins 0 or 1 subpbths, or <code>fblse</code> if the pbth
+     * contbins more thbn 1 subpbth.  The subpbths bre counted by the
+     * number of {@link PbthIterbtor#SEG_MOVETO SEG_MOVETO}  segments
+     * thbt bppebr in the pbth.
+     * @return    <code>true</code> if the <code>Areb</code> is comprised
+     * of b single bbsic geometry; <code>fblse</code> otherwise.
      * @since 1.2
      */
-    public boolean isSingular() {
+    public boolebn isSingulbr() {
         if (curves.size() < 3) {
             return true;
         }
-        Enumeration<Curve> enum_ = curves.elements();
+        Enumerbtion<Curve> enum_ = curves.elements();
         enum_.nextElement(); // First Order0 "moveto"
-        while (enum_.hasMoreElements()) {
+        while (enum_.hbsMoreElements()) {
             if (enum_.nextElement().getOrder() == 0) {
-                return false;
+                return fblse;
             }
         }
         return true;
     }
 
-    private Rectangle2D cachedBounds;
-    private void invalidateBounds() {
-        cachedBounds = null;
+    privbte Rectbngle2D cbchedBounds;
+    privbte void invblidbteBounds() {
+        cbchedBounds = null;
     }
-    private Rectangle2D getCachedBounds() {
-        if (cachedBounds != null) {
-            return cachedBounds;
+    privbte Rectbngle2D getCbchedBounds() {
+        if (cbchedBounds != null) {
+            return cbchedBounds;
         }
-        Rectangle2D r = new Rectangle2D.Double();
+        Rectbngle2D r = new Rectbngle2D.Double();
         if (curves.size() > 0) {
             Curve c = curves.get(0);
-            // First point is always an order 0 curve (moveto)
+            // First point is blwbys bn order 0 curve (moveto)
             r.setRect(c.getX0(), c.getY0(), 0, 0);
             for (int i = 1; i < curves.size(); i++) {
-                curves.get(i).enlarge(r);
+                curves.get(i).enlbrge(r);
             }
         }
-        return (cachedBounds = r);
+        return (cbchedBounds = r);
     }
 
     /**
-     * Returns a high precision bounding {@link Rectangle2D} that
-     * completely encloses this <code>Area</code>.
+     * Returns b high precision bounding {@link Rectbngle2D} thbt
+     * completely encloses this <code>Areb</code>.
      * <p>
-     * The Area class will attempt to return the tightest bounding
-     * box possible for the Shape.  The bounding box will not be
-     * padded to include the control points of curves in the outline
-     * of the Shape, but should tightly fit the actual geometry of
+     * The Areb clbss will bttempt to return the tightest bounding
+     * box possible for the Shbpe.  The bounding box will not be
+     * pbdded to include the control points of curves in the outline
+     * of the Shbpe, but should tightly fit the bctubl geometry of
      * the outline itself.
-     * @return    the bounding <code>Rectangle2D</code> for the
-     * <code>Area</code>.
+     * @return    the bounding <code>Rectbngle2D</code> for the
+     * <code>Areb</code>.
      * @since 1.2
      */
-    public Rectangle2D getBounds2D() {
-        return getCachedBounds().getBounds2D();
+    public Rectbngle2D getBounds2D() {
+        return getCbchedBounds().getBounds2D();
     }
 
     /**
-     * Returns a bounding {@link Rectangle} that completely encloses
-     * this <code>Area</code>.
+     * Returns b bounding {@link Rectbngle} thbt completely encloses
+     * this <code>Areb</code>.
      * <p>
-     * The Area class will attempt to return the tightest bounding
-     * box possible for the Shape.  The bounding box will not be
-     * padded to include the control points of curves in the outline
-     * of the Shape, but should tightly fit the actual geometry of
+     * The Areb clbss will bttempt to return the tightest bounding
+     * box possible for the Shbpe.  The bounding box will not be
+     * pbdded to include the control points of curves in the outline
+     * of the Shbpe, but should tightly fit the bctubl geometry of
      * the outline itself.  Since the returned object represents
-     * the bounding box with integers, the bounding box can only be
-     * as tight as the nearest integer coordinates that encompass
-     * the geometry of the Shape.
-     * @return    the bounding <code>Rectangle</code> for the
-     * <code>Area</code>.
+     * the bounding box with integers, the bounding box cbn only be
+     * bs tight bs the nebrest integer coordinbtes thbt encompbss
+     * the geometry of the Shbpe.
+     * @return    the bounding <code>Rectbngle</code> for the
+     * <code>Areb</code>.
      * @since 1.2
      */
-    public Rectangle getBounds() {
-        return getCachedBounds().getBounds();
+    public Rectbngle getBounds() {
+        return getCbchedBounds().getBounds();
     }
 
     /**
-     * Returns an exact copy of this <code>Area</code> object.
-     * @return    Created clone object
+     * Returns bn exbct copy of this <code>Areb</code> object.
+     * @return    Crebted clone object
      * @since 1.2
      */
     public Object clone() {
-        return new Area(this);
+        return new Areb(this);
     }
 
     /**
-     * Tests whether the geometries of the two <code>Area</code> objects
-     * are equal.
-     * This method will return false if the argument is null.
-     * @param   other  the <code>Area</code> to be compared to this
-     *          <code>Area</code>
-     * @return  <code>true</code> if the two geometries are equal;
-     *          <code>false</code> otherwise.
+     * Tests whether the geometries of the two <code>Areb</code> objects
+     * bre equbl.
+     * This method will return fblse if the brgument is null.
+     * @pbrbm   other  the <code>Areb</code> to be compbred to this
+     *          <code>Areb</code>
+     * @return  <code>true</code> if the two geometries bre equbl;
+     *          <code>fblse</code> otherwise.
      * @since 1.2
      */
-    public boolean equals(Area other) {
-        // REMIND: A *much* simpler operation should be possible...
-        // Should be able to do a curve-wise comparison since all Areas
-        // should evaluate their curves in the same top-down order.
+    public boolebn equbls(Areb other) {
+        // REMIND: A *much* simpler operbtion should be possible...
+        // Should be bble to do b curve-wise compbrison since bll Arebs
+        // should evblubte their curves in the sbme top-down order.
         if (other == this) {
             return true;
         }
         if (other == null) {
-            return false;
+            return fblse;
         }
-        Vector<Curve> c = new AreaOp.XorOp().calculate(this.curves, other.curves);
+        Vector<Curve> c = new ArebOp.XorOp().cblculbte(this.curves, other.curves);
         return c.isEmpty();
     }
 
     /**
-     * Transforms the geometry of this <code>Area</code> using the specified
-     * {@link AffineTransform}.  The geometry is transformed in place, which
-     * permanently changes the enclosed area defined by this object.
-     * @param t  the transformation used to transform the area
+     * Trbnsforms the geometry of this <code>Areb</code> using the specified
+     * {@link AffineTrbnsform}.  The geometry is trbnsformed in plbce, which
+     * permbnently chbnges the enclosed breb defined by this object.
+     * @pbrbm t  the trbnsformbtion used to trbnsform the breb
      * @throws NullPointerException if <code>t</code> is null
      * @since 1.2
      */
-    public void transform(AffineTransform t) {
+    public void trbnsform(AffineTrbnsform t) {
         if (t == null) {
-            throw new NullPointerException("transform must not be null");
+            throw new NullPointerException("trbnsform must not be null");
         }
-        // REMIND: A simpler operation can be performed for some types
-        // of transform.
-        curves = pathToCurves(getPathIterator(t));
-        invalidateBounds();
+        // REMIND: A simpler operbtion cbn be performed for some types
+        // of trbnsform.
+        curves = pbthToCurves(getPbthIterbtor(t));
+        invblidbteBounds();
     }
 
     /**
-     * Creates a new <code>Area</code> object that contains the same
-     * geometry as this <code>Area</code> transformed by the specified
-     * <code>AffineTransform</code>.  This <code>Area</code> object
-     * is unchanged.
-     * @param t  the specified <code>AffineTransform</code> used to transform
-     *           the new <code>Area</code>
+     * Crebtes b new <code>Areb</code> object thbt contbins the sbme
+     * geometry bs this <code>Areb</code> trbnsformed by the specified
+     * <code>AffineTrbnsform</code>.  This <code>Areb</code> object
+     * is unchbnged.
+     * @pbrbm t  the specified <code>AffineTrbnsform</code> used to trbnsform
+     *           the new <code>Areb</code>
      * @throws NullPointerException if <code>t</code> is null
-     * @return   a new <code>Area</code> object representing the transformed
+     * @return   b new <code>Areb</code> object representing the trbnsformed
      *           geometry.
      * @since 1.2
      */
-    public Area createTransformedArea(AffineTransform t) {
-        Area a = new Area(this);
-        a.transform(t);
-        return a;
+    public Areb crebteTrbnsformedAreb(AffineTrbnsform t) {
+        Areb b = new Areb(this);
+        b.trbnsform(t);
+        return b;
     }
 
     /**
      * {@inheritDoc}
      * @since 1.2
      */
-    public boolean contains(double x, double y) {
-        if (!getCachedBounds().contains(x, y)) {
-            return false;
+    public boolebn contbins(double x, double y) {
+        if (!getCbchedBounds().contbins(x, y)) {
+            return fblse;
         }
-        Enumeration<Curve> enum_ = curves.elements();
+        Enumerbtion<Curve> enum_ = curves.elements();
         int crossings = 0;
-        while (enum_.hasMoreElements()) {
+        while (enum_.hbsMoreElements()) {
             Curve c = enum_.nextElement();
             crossings += c.crossingsFor(x, y);
         }
@@ -568,20 +568,20 @@ public class Area implements Shape, Cloneable {
      * {@inheritDoc}
      * @since 1.2
      */
-    public boolean contains(Point2D p) {
-        return contains(p.getX(), p.getY());
+    public boolebn contbins(Point2D p) {
+        return contbins(p.getX(), p.getY());
     }
 
     /**
      * {@inheritDoc}
      * @since 1.2
      */
-    public boolean contains(double x, double y, double w, double h) {
+    public boolebn contbins(double x, double y, double w, double h) {
         if (w < 0 || h < 0) {
-            return false;
+            return fblse;
         }
-        if (!getCachedBounds().contains(x, y, w, h)) {
-            return false;
+        if (!getCbchedBounds().contbins(x, y, w, h)) {
+            return fblse;
         }
         Crossings c = Crossings.findCrossings(curves, x, y, x+w, y+h);
         return (c != null && c.covers(y, y+h));
@@ -591,20 +591,20 @@ public class Area implements Shape, Cloneable {
      * {@inheritDoc}
      * @since 1.2
      */
-    public boolean contains(Rectangle2D r) {
-        return contains(r.getX(), r.getY(), r.getWidth(), r.getHeight());
+    public boolebn contbins(Rectbngle2D r) {
+        return contbins(r.getX(), r.getY(), r.getWidth(), r.getHeight());
     }
 
     /**
      * {@inheritDoc}
      * @since 1.2
      */
-    public boolean intersects(double x, double y, double w, double h) {
+    public boolebn intersects(double x, double y, double w, double h) {
         if (w < 0 || h < 0) {
-            return false;
+            return fblse;
         }
-        if (!getCachedBounds().intersects(x, y, w, h)) {
-            return false;
+        if (!getCbchedBounds().intersects(x, y, w, h)) {
+            return fblse;
         }
         Crossings c = Crossings.findCrossings(curves, x, y, x+w, y+h);
         return (c == null || !c.isEmpty());
@@ -614,58 +614,58 @@ public class Area implements Shape, Cloneable {
      * {@inheritDoc}
      * @since 1.2
      */
-    public boolean intersects(Rectangle2D r) {
+    public boolebn intersects(Rectbngle2D r) {
         return intersects(r.getX(), r.getY(), r.getWidth(), r.getHeight());
     }
 
     /**
-     * Creates a {@link PathIterator} for the outline of this
-     * <code>Area</code> object.  This <code>Area</code> object is unchanged.
-     * @param at an optional <code>AffineTransform</code> to be applied to
-     * the coordinates as they are returned in the iteration, or
-     * <code>null</code> if untransformed coordinates are desired
-     * @return    the <code>PathIterator</code> object that returns the
-     *          geometry of the outline of this <code>Area</code>, one
-     *          segment at a time.
+     * Crebtes b {@link PbthIterbtor} for the outline of this
+     * <code>Areb</code> object.  This <code>Areb</code> object is unchbnged.
+     * @pbrbm bt bn optionbl <code>AffineTrbnsform</code> to be bpplied to
+     * the coordinbtes bs they bre returned in the iterbtion, or
+     * <code>null</code> if untrbnsformed coordinbtes bre desired
+     * @return    the <code>PbthIterbtor</code> object thbt returns the
+     *          geometry of the outline of this <code>Areb</code>, one
+     *          segment bt b time.
      * @since 1.2
      */
-    public PathIterator getPathIterator(AffineTransform at) {
-        return new AreaIterator(curves, at);
+    public PbthIterbtor getPbthIterbtor(AffineTrbnsform bt) {
+        return new ArebIterbtor(curves, bt);
     }
 
     /**
-     * Creates a <code>PathIterator</code> for the flattened outline of
-     * this <code>Area</code> object.  Only uncurved path segments
-     * represented by the SEG_MOVETO, SEG_LINETO, and SEG_CLOSE point
-     * types are returned by the iterator.  This <code>Area</code>
-     * object is unchanged.
-     * @param at an optional <code>AffineTransform</code> to be
-     * applied to the coordinates as they are returned in the
-     * iteration, or <code>null</code> if untransformed coordinates
-     * are desired
-     * @param flatness the maximum amount that the control points
-     * for a given curve can vary from colinear before a subdivided
-     * curve is replaced by a straight line connecting the end points
-     * @return    the <code>PathIterator</code> object that returns the
-     * geometry of the outline of this <code>Area</code>, one segment
-     * at a time.
+     * Crebtes b <code>PbthIterbtor</code> for the flbttened outline of
+     * this <code>Areb</code> object.  Only uncurved pbth segments
+     * represented by the SEG_MOVETO, SEG_LINETO, bnd SEG_CLOSE point
+     * types bre returned by the iterbtor.  This <code>Areb</code>
+     * object is unchbnged.
+     * @pbrbm bt bn optionbl <code>AffineTrbnsform</code> to be
+     * bpplied to the coordinbtes bs they bre returned in the
+     * iterbtion, or <code>null</code> if untrbnsformed coordinbtes
+     * bre desired
+     * @pbrbm flbtness the mbximum bmount thbt the control points
+     * for b given curve cbn vbry from colinebr before b subdivided
+     * curve is replbced by b strbight line connecting the end points
+     * @return    the <code>PbthIterbtor</code> object thbt returns the
+     * geometry of the outline of this <code>Areb</code>, one segment
+     * bt b time.
      * @since 1.2
      */
-    public PathIterator getPathIterator(AffineTransform at, double flatness) {
-        return new FlatteningPathIterator(getPathIterator(at), flatness);
+    public PbthIterbtor getPbthIterbtor(AffineTrbnsform bt, double flbtness) {
+        return new FlbtteningPbthIterbtor(getPbthIterbtor(bt), flbtness);
     }
 }
 
-class AreaIterator implements PathIterator {
-    private AffineTransform transform;
-    private Vector<Curve> curves;
-    private int index;
-    private Curve prevcurve;
-    private Curve thiscurve;
+clbss ArebIterbtor implements PbthIterbtor {
+    privbte AffineTrbnsform trbnsform;
+    privbte Vector<Curve> curves;
+    privbte int index;
+    privbte Curve prevcurve;
+    privbte Curve thiscurve;
 
-    public AreaIterator(Vector<Curve> curves, AffineTransform at) {
+    public ArebIterbtor(Vector<Curve> curves, AffineTrbnsform bt) {
         this.curves = curves;
-        this.transform = at;
+        this.trbnsform = bt;
         if (curves.size() >= 1) {
             thiscurve = curves.get(0);
         }
@@ -673,12 +673,12 @@ class AreaIterator implements PathIterator {
 
     public int getWindingRule() {
         // REMIND: Which is better, EVEN_ODD or NON_ZERO?
-        //         The paths calculated could be classified either way.
+        //         The pbths cblculbted could be clbssified either wby.
         //return WIND_EVEN_ODD;
         return WIND_NON_ZERO;
     }
 
-    public boolean isDone() {
+    public boolebn isDone() {
         return (prevcurve == null && thiscurve == null);
     }
 
@@ -702,7 +702,7 @@ class AreaIterator implements PathIterator {
         }
     }
 
-    public int currentSegment(float coords[]) {
+    public int currentSegment(flobt coords[]) {
         double dcoords[] = new double[6];
         int segtype = currentSegment(dcoords);
         int numpoints = (segtype == SEG_CLOSE ? 0
@@ -710,7 +710,7 @@ class AreaIterator implements PathIterator {
                             : (segtype == SEG_CUBICTO ? 3
                                : 1)));
         for (int i = 0; i < numpoints * 2; i++) {
-            coords[i] = (float) dcoords[i];
+            coords[i] = (flobt) dcoords[i];
         }
         return segtype;
     }
@@ -728,7 +728,7 @@ class AreaIterator implements PathIterator {
             segtype = SEG_LINETO;
             numpoints = 1;
         } else if (thiscurve == null) {
-            throw new NoSuchElementException("area iterator out of bounds");
+            throw new NoSuchElementException("breb iterbtor out of bounds");
         } else {
             segtype = thiscurve.getSegment(coords);
             numpoints = thiscurve.getOrder();
@@ -736,8 +736,8 @@ class AreaIterator implements PathIterator {
                 numpoints = 1;
             }
         }
-        if (transform != null) {
-            transform.transform(coords, 0, coords, 0, numpoints);
+        if (trbnsform != null) {
+            trbnsform.trbnsform(coords, 0, coords, 0, numpoints);
         }
         return segtype;
     }

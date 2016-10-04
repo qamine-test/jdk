@@ -1,75 +1,75 @@
 /*
- * Copyright (c) 2002, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.crypto.provider;
+pbckbge com.sun.crypto.provider;
 
-import java.util.Arrays;
+import jbvb.util.Arrbys;
 
-import java.nio.ByteBuffer;
+import jbvb.nio.ByteBuffer;
 
-import javax.crypto.MacSpi;
-import javax.crypto.SecretKey;
-import java.security.*;
-import java.security.spec.*;
+import jbvbx.crypto.MbcSpi;
+import jbvbx.crypto.SecretKey;
+import jbvb.security.*;
+import jbvb.security.spec.*;
 
 /**
- * This class constitutes the core of HMAC-<MD> algorithms, where
- * <MD> can be SHA1 or MD5, etc. See RFC 2104 for spec.
+ * This clbss constitutes the core of HMAC-<MD> blgorithms, where
+ * <MD> cbn be SHA1 or MD5, etc. See RFC 2104 for spec.
  *
- * It also contains the implementation classes for SHA-224, SHA-256,
- * SHA-384, and SHA-512 HMACs.
+ * It blso contbins the implementbtion clbsses for SHA-224, SHA-256,
+ * SHA-384, bnd SHA-512 HMACs.
  *
- * @author Jan Luehe
+ * @buthor Jbn Luehe
  */
-abstract class HmacCore extends MacSpi implements Cloneable {
+bbstrbct clbss HmbcCore extends MbcSpi implements Clonebble {
 
-    private MessageDigest md;
-    private byte[] k_ipad; // inner padding - key XORd with ipad
-    private byte[] k_opad; // outer padding - key XORd with opad
-    private boolean first;       // Is this the first data to be processed?
+    privbte MessbgeDigest md;
+    privbte byte[] k_ipbd; // inner pbdding - key XORd with ipbd
+    privbte byte[] k_opbd; // outer pbdding - key XORd with opbd
+    privbte boolebn first;       // Is this the first dbtb to be processed?
 
-    private final int blockLen;
+    privbte finbl int blockLen;
 
     /**
-     * Standard constructor, creates a new HmacCore instance using the
-     * specified MessageDigest object.
+     * Stbndbrd constructor, crebtes b new HmbcCore instbnce using the
+     * specified MessbgeDigest object.
      */
-    HmacCore(MessageDigest md, int bl) {
+    HmbcCore(MessbgeDigest md, int bl) {
         this.md = md;
         this.blockLen = bl;
-        this.k_ipad = new byte[blockLen];
-        this.k_opad = new byte[blockLen];
+        this.k_ipbd = new byte[blockLen];
+        this.k_opbd = new byte[blockLen];
         first = true;
     }
 
     /**
-     * Standard constructor, creates a new HmacCore instance instantiating
-     * a MessageDigest of the specified name.
+     * Stbndbrd constructor, crebtes b new HmbcCore instbnce instbntibting
+     * b MessbgeDigest of the specified nbme.
      */
-    HmacCore(String digestAlgorithm, int bl) throws NoSuchAlgorithmException {
-        this(MessageDigest.getInstance(digestAlgorithm), bl);
+    HmbcCore(String digestAlgorithm, int bl) throws NoSuchAlgorithmException {
+        this(MessbgeDigest.getInstbnce(digestAlgorithm), bl);
     }
 
     /**
@@ -77,55 +77,55 @@ abstract class HmacCore extends MacSpi implements Cloneable {
      *
      * @return the HMAC length in bytes.
      */
-    protected int engineGetMacLength() {
+    protected int engineGetMbcLength() {
         return this.md.getDigestLength();
     }
 
     /**
-     * Initializes the HMAC with the given secret key and algorithm parameters.
+     * Initiblizes the HMAC with the given secret key bnd blgorithm pbrbmeters.
      *
-     * @param key the secret key.
-     * @param params the algorithm parameters.
+     * @pbrbm key the secret key.
+     * @pbrbm pbrbms the blgorithm pbrbmeters.
      *
-     * @exception InvalidKeyException if the given key is inappropriate for
-     * initializing this MAC.
-     * @exception InvalidAlgorithmParameterException if the given algorithm
-     * parameters are inappropriate for this MAC.
+     * @exception InvblidKeyException if the given key is inbppropribte for
+     * initiblizing this MAC.
+     * @exception InvblidAlgorithmPbrbmeterException if the given blgorithm
+     * pbrbmeters bre inbppropribte for this MAC.
      */
-    protected void engineInit(Key key, AlgorithmParameterSpec params)
-            throws InvalidKeyException, InvalidAlgorithmParameterException {
-        if (params != null) {
-            throw new InvalidAlgorithmParameterException
-                ("HMAC does not use parameters");
+    protected void engineInit(Key key, AlgorithmPbrbmeterSpec pbrbms)
+            throws InvblidKeyException, InvblidAlgorithmPbrbmeterException {
+        if (pbrbms != null) {
+            throw new InvblidAlgorithmPbrbmeterException
+                ("HMAC does not use pbrbmeters");
         }
 
-        if (!(key instanceof SecretKey)) {
-            throw new InvalidKeyException("Secret key expected");
+        if (!(key instbnceof SecretKey)) {
+            throw new InvblidKeyException("Secret key expected");
         }
 
         byte[] secret = key.getEncoded();
         if (secret == null) {
-            throw new InvalidKeyException("Missing key data");
+            throw new InvblidKeyException("Missing key dbtb");
         }
 
-        // if key is longer than the block length, reset it using
-        // the message digest object.
+        // if key is longer thbn the block length, reset it using
+        // the messbge digest object.
         if (secret.length > blockLen) {
             byte[] tmp = md.digest(secret);
-            // now erase the secret
-            Arrays.fill(secret, (byte)0);
+            // now erbse the secret
+            Arrbys.fill(secret, (byte)0);
             secret = tmp;
         }
 
-        // XOR k with ipad and opad, respectively
+        // XOR k with ipbd bnd opbd, respectively
         for (int i = 0; i < blockLen; i++) {
             int si = (i < secret.length) ? secret[i] : 0;
-            k_ipad[i] = (byte)(si ^ 0x36);
-            k_opad[i] = (byte)(si ^ 0x5c);
+            k_ipbd[i] = (byte)(si ^ 0x36);
+            k_opbd[i] = (byte)(si ^ 0x5c);
         }
 
-        // now erase the secret
-        Arrays.fill(secret, (byte)0);
+        // now erbse the secret
+        Arrbys.fill(secret, (byte)0);
         secret = null;
 
         engineReset();
@@ -134,64 +134,64 @@ abstract class HmacCore extends MacSpi implements Cloneable {
     /**
      * Processes the given byte.
      *
-     * @param input the input byte to be processed.
+     * @pbrbm input the input byte to be processed.
      */
-    protected void engineUpdate(byte input) {
+    protected void engineUpdbte(byte input) {
         if (first == true) {
-            // compute digest for 1st pass; start with inner pad
-            md.update(k_ipad);
-            first = false;
+            // compute digest for 1st pbss; stbrt with inner pbd
+            md.updbte(k_ipbd);
+            first = fblse;
         }
 
-        // add the passed byte to the inner digest
-        md.update(input);
+        // bdd the pbssed byte to the inner digest
+        md.updbte(input);
     }
 
     /**
      * Processes the first <code>len</code> bytes in <code>input</code>,
-     * starting at <code>offset</code>.
+     * stbrting bt <code>offset</code>.
      *
-     * @param input the input buffer.
-     * @param offset the offset in <code>input</code> where the input starts.
-     * @param len the number of bytes to process.
+     * @pbrbm input the input buffer.
+     * @pbrbm offset the offset in <code>input</code> where the input stbrts.
+     * @pbrbm len the number of bytes to process.
      */
-    protected void engineUpdate(byte input[], int offset, int len) {
+    protected void engineUpdbte(byte input[], int offset, int len) {
         if (first == true) {
-            // compute digest for 1st pass; start with inner pad
-            md.update(k_ipad);
-            first = false;
+            // compute digest for 1st pbss; stbrt with inner pbd
+            md.updbte(k_ipbd);
+            first = fblse;
         }
 
-        // add the selected part of an array of bytes to the inner digest
-        md.update(input, offset, len);
+        // bdd the selected pbrt of bn brrby of bytes to the inner digest
+        md.updbte(input, offset, len);
     }
 
     /**
-     * Processes the <code>input.remaining()</code> bytes in the ByteBuffer
+     * Processes the <code>input.rembining()</code> bytes in the ByteBuffer
      * <code>input</code>.
      *
-     * @param input the input byte buffer.
+     * @pbrbm input the input byte buffer.
      */
-    protected void engineUpdate(ByteBuffer input) {
+    protected void engineUpdbte(ByteBuffer input) {
         if (first == true) {
-            // compute digest for 1st pass; start with inner pad
-            md.update(k_ipad);
-            first = false;
+            // compute digest for 1st pbss; stbrt with inner pbd
+            md.updbte(k_ipbd);
+            first = fblse;
         }
 
-        md.update(input);
+        md.updbte(input);
     }
 
     /**
-     * Completes the HMAC computation and resets the HMAC for further use,
-     * maintaining the secret key that the HMAC was initialized with.
+     * Completes the HMAC computbtion bnd resets the HMAC for further use,
+     * mbintbining the secret key thbt the HMAC wbs initiblized with.
      *
      * @return the HMAC result.
      */
-    protected byte[] engineDoFinal() {
+    protected byte[] engineDoFinbl() {
         if (first == true) {
-            // compute digest for 1st pass; start with inner pad
-            md.update(k_ipad);
+            // compute digest for 1st pbss; stbrt with inner pbd
+            md.updbte(k_ipbd);
         } else {
             first = true;
         }
@@ -200,25 +200,25 @@ abstract class HmacCore extends MacSpi implements Cloneable {
             // finish the inner digest
             byte[] tmp = md.digest();
 
-            // compute digest for 2nd pass; start with outer pad
-            md.update(k_opad);
-            // add result of 1st hash
-            md.update(tmp);
+            // compute digest for 2nd pbss; stbrt with outer pbd
+            md.updbte(k_opbd);
+            // bdd result of 1st hbsh
+            md.updbte(tmp);
 
             md.digest(tmp, 0, tmp.length);
             return tmp;
-        } catch (DigestException e) {
+        } cbtch (DigestException e) {
             // should never occur
             throw new ProviderException(e);
         }
     }
 
     /**
-     * Resets the HMAC for further use, maintaining the secret key that the
-     * HMAC was initialized with.
+     * Resets the HMAC for further use, mbintbining the secret key thbt the
+     * HMAC wbs initiblized with.
      */
     protected void engineReset() {
-        if (first == false) {
+        if (first == fblse) {
             md.reset();
             first = true;
         }
@@ -228,37 +228,37 @@ abstract class HmacCore extends MacSpi implements Cloneable {
      * Clones this object.
      */
     public Object clone() throws CloneNotSupportedException {
-        HmacCore copy = (HmacCore) super.clone();
-        copy.md = (MessageDigest) md.clone();
-        copy.k_ipad = k_ipad.clone();
-        copy.k_opad = k_opad.clone();
+        HmbcCore copy = (HmbcCore) super.clone();
+        copy.md = (MessbgeDigest) md.clone();
+        copy.k_ipbd = k_ipbd.clone();
+        copy.k_opbd = k_opbd.clone();
         return copy;
     }
 
-    // nested static class for the HmacSHA224 implementation
-    public static final class HmacSHA224 extends HmacCore {
-        public HmacSHA224() throws NoSuchAlgorithmException {
+    // nested stbtic clbss for the HmbcSHA224 implementbtion
+    public stbtic finbl clbss HmbcSHA224 extends HmbcCore {
+        public HmbcSHA224() throws NoSuchAlgorithmException {
             super("SHA-224", 64);
         }
     }
 
-    // nested static class for the HmacSHA256 implementation
-    public static final class HmacSHA256 extends HmacCore {
-        public HmacSHA256() throws NoSuchAlgorithmException {
+    // nested stbtic clbss for the HmbcSHA256 implementbtion
+    public stbtic finbl clbss HmbcSHA256 extends HmbcCore {
+        public HmbcSHA256() throws NoSuchAlgorithmException {
             super("SHA-256", 64);
         }
     }
 
-    // nested static class for the HmacSHA384 implementation
-    public static final class HmacSHA384 extends HmacCore {
-        public HmacSHA384() throws NoSuchAlgorithmException {
+    // nested stbtic clbss for the HmbcSHA384 implementbtion
+    public stbtic finbl clbss HmbcSHA384 extends HmbcCore {
+        public HmbcSHA384() throws NoSuchAlgorithmException {
             super("SHA-384", 128);
         }
     }
 
-    // nested static class for the HmacSHA512 implementation
-    public static final class HmacSHA512 extends HmacCore {
-        public HmacSHA512() throws NoSuchAlgorithmException {
+    // nested stbtic clbss for the HmbcSHA512 implementbtion
+    public stbtic finbl clbss HmbcSHA512 extends HmbcCore {
+        public HmbcSHA512() throws NoSuchAlgorithmException {
             super("SHA-512", 128);
         }
     }

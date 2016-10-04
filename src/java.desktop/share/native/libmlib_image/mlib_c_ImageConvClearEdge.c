@@ -1,123 +1,123 @@
 /*
- * Copyright (c) 1997, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
 /*
  * FUNCTIONS
- *      mlib_ImageConvClearEdge  - Set edge of an image to a specific color.
+ *      mlib_ImbgeConvClebrEdge  - Set edge of bn imbge to b specific color.
  *
  * SYNOPSIS
- *      mlib_status mlib_ImageConvClearEdge(mlib_image     *dst,
+ *      mlib_stbtus mlib_ImbgeConvClebrEdge(mlib_imbge     *dst,
  *                                          mlib_s32       dx_l,
  *                                          mlib_s32       dx_r,
  *                                          mlib_s32       dy_t,
  *                                          mlib_s32       dy_b,
  *                                          const mlib_s32 *color,
- *                                          mlib_s32       cmask)
+ *                                          mlib_s32       cmbsk)
  *
  * ARGUMENT
- *      dst       Pointer to an image.
+ *      dst       Pointer to bn imbge.
  *      dx_l      Number of columns on the left side of the
- *                image to be cleared.
+ *                imbge to be clebred.
  *      dx_r      Number of columns on the right side of the
- *                image to be cleared.
+ *                imbge to be clebred.
  *      dy_t      Number of rows on the top edge of the
- *                image to be cleared.
+ *                imbge to be clebred.
  *      dy_b      Number of rows on the top edge of the
- *                image to be cleared.
- *      color     Pointer to the color that the edges are set to.
- *      cmask     Channel mask to indicate the channels to be convolved.
- *                Each bit of which represents a channel in the image. The
- *                channels corresponded to 1 bits are those to be processed.
+ *                imbge to be clebred.
+ *      color     Pointer to the color thbt the edges bre set to.
+ *      cmbsk     Chbnnel mbsk to indicbte the chbnnels to be convolved.
+ *                Ebch bit of which represents b chbnnel in the imbge. The
+ *                chbnnels corresponded to 1 bits bre those to be processed.
  *
  * RESTRICTION
- *      dst can have 1, 2, 3 or 4 channels of MLIB_BYTE or MLIB_SHORT or MLIB_INT
- *      data type.
+ *      dst cbn hbve 1, 2, 3 or 4 chbnnels of MLIB_BYTE or MLIB_SHORT or MLIB_INT
+ *      dbtb type.
  *
  * DESCRIPTION
- *      Set edge of an image to a specific color. (VIS version)
- *      The unselected channels are not overwritten.
- *      If src and dst have just one channel,
- *      cmask is ignored.
+ *      Set edge of bn imbge to b specific color. (VIS version)
+ *      The unselected chbnnels bre not overwritten.
+ *      If src bnd dst hbve just one chbnnel,
+ *      cmbsk is ignored.
  */
 
-#include "mlib_image.h"
-#include "mlib_ImageConvEdge.h"
+#include "mlib_imbge.h"
+#include "mlib_ImbgeConvEdge.h"
 
 /***************************************************************/
-#define EDGES(chan, type, mask)                                       \
+#define EDGES(chbn, type, mbsk)                                       \
   {                                                                   \
-    type *pdst = (type *) mlib_ImageGetData(dst);                     \
+    type *pdst = (type *) mlib_ImbgeGetDbtb(dst);                     \
     type color_i;                                                     \
-    mlib_s32 dst_stride = mlib_ImageGetStride(dst) / sizeof(type);    \
+    mlib_s32 dst_stride = mlib_ImbgeGetStride(dst) / sizeof(type);    \
     mlib_s32 i, j, l;                                                 \
-    mlib_s32 testchan;                                                \
+    mlib_s32 testchbn;                                                \
                                                                       \
-    testchan = 1;                                                     \
-    for (l = chan - 1; l >= 0; l--) {                                 \
-      if ((mask & testchan) == 0) {                                   \
-        testchan <<= 1;                                               \
+    testchbn = 1;                                                     \
+    for (l = chbn - 1; l >= 0; l--) {                                 \
+      if ((mbsk & testchbn) == 0) {                                   \
+        testchbn <<= 1;                                               \
         continue;                                                     \
       }                                                               \
-      testchan <<= 1;                                                 \
+      testchbn <<= 1;                                                 \
       color_i = (type)color[l];                                       \
       for (j = 0; j < dx_l; j++) {                                    \
         for (i = dy_t; i < (dst_height - dy_b); i++) {                \
-          pdst[i*dst_stride + l + j*chan] = color_i;                  \
+          pdst[i*dst_stride + l + j*chbn] = color_i;                  \
         }                                                             \
       }                                                               \
       for (j = 0; j < dx_r; j++) {                                    \
         for (i = dy_t; i < (dst_height - dy_b); i++) {                \
-          pdst[i*dst_stride + l+(dst_width-1 - j)*chan] = color_i;    \
+          pdst[i*dst_stride + l+(dst_width-1 - j)*chbn] = color_i;    \
         }                                                             \
       }                                                               \
       for (i = 0; i < dy_t; i++) {                                    \
         for (j = 0; j < dst_width; j++) {                             \
-          pdst[i*dst_stride + l + j*chan] = color_i;                  \
+          pdst[i*dst_stride + l + j*chbn] = color_i;                  \
         }                                                             \
       }                                                               \
       for (i = 0; i < dy_b; i++) {                                    \
         for (j = 0; j < dst_width; j++) {                             \
-          pdst[(dst_height-1 - i)*dst_stride + l + j*chan] = color_i; \
+          pdst[(dst_height-1 - i)*dst_stride + l + j*chbn] = color_i; \
         }                                                             \
       }                                                               \
     }                                                                 \
   }
 
 /***************************************************************/
-mlib_status mlib_ImageConvClearEdge(mlib_image     *dst,
+mlib_stbtus mlib_ImbgeConvClebrEdge(mlib_imbge     *dst,
                                     mlib_s32       dx_l,
                                     mlib_s32       dx_r,
                                     mlib_s32       dy_t,
                                     mlib_s32       dy_b,
                                     const mlib_s32 *color,
-                                    mlib_s32       cmask)
+                                    mlib_s32       cmbsk)
 {
-  mlib_s32 dst_width = mlib_ImageGetWidth(dst);
-  mlib_s32 dst_height = mlib_ImageGetHeight(dst);
-  mlib_s32 channel = mlib_ImageGetChannels(dst);
+  mlib_s32 dst_width = mlib_ImbgeGetWidth(dst);
+  mlib_s32 dst_height = mlib_ImbgeGetHeight(dst);
+  mlib_s32 chbnnel = mlib_ImbgeGetChbnnels(dst);
 
   if (dx_l + dx_r > dst_width) {
     dx_l = dst_width;
@@ -129,23 +129,23 @@ mlib_status mlib_ImageConvClearEdge(mlib_image     *dst,
     dy_b = 0;
   }
 
-  if (channel == 1)
-    cmask = 1;
+  if (chbnnel == 1)
+    cmbsk = 1;
 
-  switch (mlib_ImageGetType(dst)) {
-    case MLIB_BIT:
-      return mlib_ImageConvClearEdge_Bit(dst, dx_l, dx_r, dy_t, dy_b, color, cmask);
-    case MLIB_BYTE:
-      EDGES(channel, mlib_u8, cmask)
-        break;
-    case MLIB_SHORT:
-    case MLIB_USHORT:
-      EDGES(channel, mlib_s16, cmask)
-        break;
-    case MLIB_INT:
-      EDGES(channel, mlib_s32, cmask)
-        break;
-    default:
+  switch (mlib_ImbgeGetType(dst)) {
+    cbse MLIB_BIT:
+      return mlib_ImbgeConvClebrEdge_Bit(dst, dx_l, dx_r, dy_t, dy_b, color, cmbsk);
+    cbse MLIB_BYTE:
+      EDGES(chbnnel, mlib_u8, cmbsk)
+        brebk;
+    cbse MLIB_SHORT:
+    cbse MLIB_USHORT:
+      EDGES(chbnnel, mlib_s16, cmbsk)
+        brebk;
+    cbse MLIB_INT:
+      EDGES(chbnnel, mlib_s32, cmbsk)
+        brebk;
+    defbult:
       return MLIB_FAILURE;
   }
 
@@ -153,21 +153,21 @@ mlib_status mlib_ImageConvClearEdge(mlib_image     *dst,
 }
 
 /***************************************************************/
-mlib_status mlib_ImageConvZeroEdge(mlib_image *dst,
+mlib_stbtus mlib_ImbgeConvZeroEdge(mlib_imbge *dst,
                                    mlib_s32   dx_l,
                                    mlib_s32   dx_r,
                                    mlib_s32   dy_t,
                                    mlib_s32   dy_b,
-                                   mlib_s32   cmask)
+                                   mlib_s32   cmbsk)
 {
   mlib_d64 zero[4] = { 0, 0, 0, 0 };
-  mlib_type type = mlib_ImageGetType(dst);
+  mlib_type type = mlib_ImbgeGetType(dst);
 
   if (type == MLIB_FLOAT || type == MLIB_DOUBLE) {
-    return mlib_ImageConvClearEdge_Fp(dst, dx_l, dx_r, dy_t, dy_b, zero, cmask);
+    return mlib_ImbgeConvClebrEdge_Fp(dst, dx_l, dx_r, dy_t, dy_b, zero, cmbsk);
   }
   else {
-    return mlib_ImageConvClearEdge(dst, dx_l, dx_r, dy_t, dy_b, (mlib_s32 *) zero, cmask);
+    return mlib_ImbgeConvClebrEdge(dst, dx_l, dx_r, dy_t, dy_b, (mlib_s32 *) zero, cmbsk);
   }
 }
 

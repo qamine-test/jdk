@@ -1,40 +1,40 @@
 /*
- * Copyright (c) 1998, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2007, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 #include "util.h"
 #include "invoker.h"
-#include "eventHandler.h"
-#include "threadControl.h"
-#include "outStream.h"
+#include "eventHbndler.h"
+#include "threbdControl.h"
+#include "outStrebm.h"
 
-static jrawMonitorID invokerLock;
+stbtic jrbwMonitorID invokerLock;
 
 void
-invoker_initialize(void)
+invoker_initiblize(void)
 {
-    invokerLock = debugMonitorCreate("JDWP Invocation Lock");
+    invokerLock = debugMonitorCrebte("JDWP Invocbtion Lock");
 }
 
 void
@@ -52,176 +52,176 @@ void invoker_unlock(void)
     debugMonitorExit(invokerLock);
 }
 
-static jbyte
-returnTypeTag(char *signature)
+stbtic jbyte
+returnTypeTbg(chbr *signbture)
 {
-    char *tagPtr = strchr(signature, SIGNATURE_END_ARGS);
-    JDI_ASSERT(tagPtr);
-    tagPtr++;    /* 1st character after the end of args */
-    return (jbyte)*tagPtr;
+    chbr *tbgPtr = strchr(signbture, SIGNATURE_END_ARGS);
+    JDI_ASSERT(tbgPtr);
+    tbgPtr++;    /* 1st chbrbcter bfter the end of brgs */
+    return (jbyte)*tbgPtr;
 }
 
-static jbyte
-nextArgumentTypeTag(void **cursor)
+stbtic jbyte
+nextArgumentTypeTbg(void **cursor)
 {
-    char *tagPtr = *cursor;
-    jbyte argumentTag = (jbyte)*tagPtr;
+    chbr *tbgPtr = *cursor;
+    jbyte brgumentTbg = (jbyte)*tbgPtr;
 
-    if (*tagPtr != SIGNATURE_END_ARGS) {
-        /* Skip any array modifiers */
-        while (*tagPtr == JDWP_TAG(ARRAY)) {
-            tagPtr++;
+    if (*tbgPtr != SIGNATURE_END_ARGS) {
+        /* Skip bny brrby modifiers */
+        while (*tbgPtr == JDWP_TAG(ARRAY)) {
+            tbgPtr++;
         }
-        /* Skip class name */
-        if (*tagPtr == JDWP_TAG(OBJECT)) {
-            tagPtr = strchr(tagPtr, SIGNATURE_END_CLASS) + 1;
-            JDI_ASSERT(tagPtr);
+        /* Skip clbss nbme */
+        if (*tbgPtr == JDWP_TAG(OBJECT)) {
+            tbgPtr = strchr(tbgPtr, SIGNATURE_END_CLASS) + 1;
+            JDI_ASSERT(tbgPtr);
         } else {
             /* Skip primitive sig */
-            tagPtr++;
+            tbgPtr++;
         }
     }
 
-    *cursor = tagPtr;
-    return argumentTag;
+    *cursor = tbgPtr;
+    return brgumentTbg;
 }
 
-static jbyte
-firstArgumentTypeTag(char *signature, void **cursor)
+stbtic jbyte
+firstArgumentTypeTbg(chbr *signbture, void **cursor)
 {
-    JDI_ASSERT(signature[0] == SIGNATURE_BEGIN_ARGS);
-    *cursor = signature + 1; /* skip to the first arg */
-    return nextArgumentTypeTag(cursor);
+    JDI_ASSERT(signbture[0] == SIGNATURE_BEGIN_ARGS);
+    *cursor = signbture + 1; /* skip to the first brg */
+    return nextArgumentTypeTbg(cursor);
 }
 
 
 /*
- * Note: argument refs may be destroyed on out-of-memory error
+ * Note: brgument refs mby be destroyed on out-of-memory error
  */
-static jvmtiError
-createGlobalRefs(JNIEnv *env, InvokeRequest *request)
+stbtic jvmtiError
+crebteGlobblRefs(JNIEnv *env, InvokeRequest *request)
 {
     jvmtiError error;
-    jclass clazz = NULL;
-    jobject instance = NULL;
-    jint argIndex;
-    jbyte argumentTag;
-    jvalue *argument;
+    jclbss clbzz = NULL;
+    jobject instbnce = NULL;
+    jint brgIndex;
+    jbyte brgumentTbg;
+    jvblue *brgument;
     void *cursor;
-    jobject *argRefs = NULL;
+    jobject *brgRefs = NULL;
 
     error = JVMTI_ERROR_NONE;
 
-    if ( request->argumentCount > 0 ) {
+    if ( request->brgumentCount > 0 ) {
         /*LINTED*/
-        argRefs = jvmtiAllocate((jint)(request->argumentCount*sizeof(jobject)));
-        if ( argRefs==NULL ) {
+        brgRefs = jvmtiAllocbte((jint)(request->brgumentCount*sizeof(jobject)));
+        if ( brgRefs==NULL ) {
             error = AGENT_ERROR_OUT_OF_MEMORY;
         } else {
             /*LINTED*/
-            (void)memset(argRefs, 0, request->argumentCount*sizeof(jobject));
+            (void)memset(brgRefs, 0, request->brgumentCount*sizeof(jobject));
         }
     }
 
     if ( error == JVMTI_ERROR_NONE ) {
-        saveGlobalRef(env, request->clazz, &clazz);
-        if (clazz == NULL) {
+        sbveGlobblRef(env, request->clbzz, &clbzz);
+        if (clbzz == NULL) {
             error = AGENT_ERROR_OUT_OF_MEMORY;
         }
     }
 
-    if ( error == JVMTI_ERROR_NONE && request->instance != NULL ) {
-        saveGlobalRef(env, request->instance, &instance);
-        if (instance == NULL) {
+    if ( error == JVMTI_ERROR_NONE && request->instbnce != NULL ) {
+        sbveGlobblRef(env, request->instbnce, &instbnce);
+        if (instbnce == NULL) {
             error = AGENT_ERROR_OUT_OF_MEMORY;
         }
     }
 
-    if ( error == JVMTI_ERROR_NONE && argRefs!=NULL ) {
-        argIndex = 0;
-        argumentTag = firstArgumentTypeTag(request->methodSignature, &cursor);
-        argument = request->arguments;
-        while (argumentTag != SIGNATURE_END_ARGS) {
-            if ( argIndex > request->argumentCount ) {
-                break;
+    if ( error == JVMTI_ERROR_NONE && brgRefs!=NULL ) {
+        brgIndex = 0;
+        brgumentTbg = firstArgumentTypeTbg(request->methodSignbture, &cursor);
+        brgument = request->brguments;
+        while (brgumentTbg != SIGNATURE_END_ARGS) {
+            if ( brgIndex > request->brgumentCount ) {
+                brebk;
             }
-            if ((argumentTag == JDWP_TAG(OBJECT)) ||
-                (argumentTag == JDWP_TAG(ARRAY))) {
-                /* Create a global ref for any non-null argument */
-                if (argument->l != NULL) {
-                    saveGlobalRef(env, argument->l, &argRefs[argIndex]);
-                    if (argRefs[argIndex] == NULL) {
+            if ((brgumentTbg == JDWP_TAG(OBJECT)) ||
+                (brgumentTbg == JDWP_TAG(ARRAY))) {
+                /* Crebte b globbl ref for bny non-null brgument */
+                if (brgument->l != NULL) {
+                    sbveGlobblRef(env, brgument->l, &brgRefs[brgIndex]);
+                    if (brgRefs[brgIndex] == NULL) {
                         error = AGENT_ERROR_OUT_OF_MEMORY;
-                        break;
+                        brebk;
                     }
                 }
             }
-            argument++;
-            argIndex++;
-            argumentTag = nextArgumentTypeTag(&cursor);
+            brgument++;
+            brgIndex++;
+            brgumentTbg = nextArgumentTypeTbg(&cursor);
         }
     }
 
-#ifdef FIXUP /* Why isn't this an error? */
-    /* Make sure the argument count matches */
-    if ( error == JVMTI_ERROR_NONE && argIndex != request->argumentCount ) {
+#ifdef FIXUP /* Why isn't this bn error? */
+    /* Mbke sure the brgument count mbtches */
+    if ( error == JVMTI_ERROR_NONE && brgIndex != request->brgumentCount ) {
         error = AGENT_ERROR_INVALID_COUNT;
     }
 #endif
 
-    /* Finally, put the global refs into the request if no errors */
+    /* Finblly, put the globbl refs into the request if no errors */
     if ( error == JVMTI_ERROR_NONE ) {
-        request->clazz = clazz;
-        request->instance = instance;
-        if ( argRefs!=NULL ) {
-            argIndex = 0;
-            argumentTag = firstArgumentTypeTag(request->methodSignature, &cursor);
-            argument = request->arguments;
-            while ( argIndex < request->argumentCount ) {
-                if ((argumentTag == JDWP_TAG(OBJECT)) ||
-                    (argumentTag == JDWP_TAG(ARRAY))) {
-                    argument->l = argRefs[argIndex];
+        request->clbzz = clbzz;
+        request->instbnce = instbnce;
+        if ( brgRefs!=NULL ) {
+            brgIndex = 0;
+            brgumentTbg = firstArgumentTypeTbg(request->methodSignbture, &cursor);
+            brgument = request->brguments;
+            while ( brgIndex < request->brgumentCount ) {
+                if ((brgumentTbg == JDWP_TAG(OBJECT)) ||
+                    (brgumentTbg == JDWP_TAG(ARRAY))) {
+                    brgument->l = brgRefs[brgIndex];
                 }
-                argument++;
-                argIndex++;
-                argumentTag = nextArgumentTypeTag(&cursor);
+                brgument++;
+                brgIndex++;
+                brgumentTbg = nextArgumentTypeTbg(&cursor);
             }
-            jvmtiDeallocate(argRefs);
+            jvmtiDebllocbte(brgRefs);
         }
         return JVMTI_ERROR_NONE;
 
     } else {
-        /* Delete global references */
-        if ( clazz != NULL ) {
-            tossGlobalRef(env, &clazz);
+        /* Delete globbl references */
+        if ( clbzz != NULL ) {
+            tossGlobblRef(env, &clbzz);
         }
-        if ( instance != NULL ) {
-            tossGlobalRef(env, &instance);
+        if ( instbnce != NULL ) {
+            tossGlobblRef(env, &instbnce);
         }
-        if ( argRefs!=NULL ) {
-            for ( argIndex=0; argIndex < request->argumentCount; argIndex++ ) {
-                if ( argRefs[argIndex] != NULL ) {
-                    tossGlobalRef(env, &argRefs[argIndex]);
+        if ( brgRefs!=NULL ) {
+            for ( brgIndex=0; brgIndex < request->brgumentCount; brgIndex++ ) {
+                if ( brgRefs[brgIndex] != NULL ) {
+                    tossGlobblRef(env, &brgRefs[brgIndex]);
                 }
             }
-            jvmtiDeallocate(argRefs);
+            jvmtiDebllocbte(brgRefs);
         }
     }
 
     return error;
 }
 
-static jvmtiError
+stbtic jvmtiError
 fillInvokeRequest(JNIEnv *env, InvokeRequest *request,
                   jbyte invokeType, jbyte options, jint id,
-                  jthread thread, jclass clazz, jmethodID method,
-                  jobject instance,
-                  jvalue *arguments, jint argumentCount)
+                  jthrebd threbd, jclbss clbzz, jmethodID method,
+                  jobject instbnce,
+                  jvblue *brguments, jint brgumentCount)
 {
     jvmtiError error;
-    if (!request->available) {
+    if (!request->bvbilbble) {
         /*
-         * Thread is not at a point where it can invoke.
+         * Threbd is not bt b point where it cbn invoke.
          */
         return AGENT_ERROR_INVALID_THREAD;
     }
@@ -234,431 +234,431 @@ fillInvokeRequest(JNIEnv *env, InvokeRequest *request,
 
     request->invokeType = invokeType;
     request->options = options;
-    request->detached = JNI_FALSE;
+    request->detbched = JNI_FALSE;
     request->id = id;
-    request->clazz = clazz;
+    request->clbzz = clbzz;
     request->method = method;
-    request->instance = instance;
-    request->arguments = arguments;
-    request->arguments = arguments;
-    request->argumentCount = argumentCount;
+    request->instbnce = instbnce;
+    request->brguments = brguments;
+    request->brguments = brguments;
+    request->brgumentCount = brgumentCount;
 
-    request->returnValue.j = 0;
+    request->returnVblue.j = 0;
     request->exception = 0;
 
     /*
-     * Squirrel away the method signature
+     * Squirrel bwby the method signbture
      */
-    error = methodSignature(method, NULL, &request->methodSignature,  NULL);
+    error = methodSignbture(method, NULL, &request->methodSignbture,  NULL);
     if (error != JVMTI_ERROR_NONE) {
         return error;
     }
 
     /*
-     * The given references for class and instance are not guaranteed
-     * to be around long enough for invocation, so create new ones
+     * The given references for clbss bnd instbnce bre not gubrbnteed
+     * to be bround long enough for invocbtion, so crebte new ones
      * here.
      */
-    error = createGlobalRefs(env, request);
+    error = crebteGlobblRefs(env, request);
     if (error != JVMTI_ERROR_NONE) {
-        jvmtiDeallocate(request->methodSignature);
+        jvmtiDebllocbte(request->methodSignbture);
         return error;
     }
 
     request->pending = JNI_TRUE;
-    request->available = JNI_FALSE;
+    request->bvbilbble = JNI_FALSE;
     return JVMTI_ERROR_NONE;
 }
 
 void
-invoker_enableInvokeRequests(jthread thread)
+invoker_enbbleInvokeRequests(jthrebd threbd)
 {
     InvokeRequest *request;
 
-    JDI_ASSERT(thread);
+    JDI_ASSERT(threbd);
 
-    request = threadControl_getInvokeRequest(thread);
+    request = threbdControl_getInvokeRequest(threbd);
     if (request == NULL) {
-        EXIT_ERROR(AGENT_ERROR_INVALID_THREAD, "getting thread invoke request");
+        EXIT_ERROR(AGENT_ERROR_INVALID_THREAD, "getting threbd invoke request");
     }
 
-    request->available = JNI_TRUE;
+    request->bvbilbble = JNI_TRUE;
 }
 
 jvmtiError
 invoker_requestInvoke(jbyte invokeType, jbyte options, jint id,
-                      jthread thread, jclass clazz, jmethodID method,
-                      jobject instance,
-                      jvalue *arguments, jint argumentCount)
+                      jthrebd threbd, jclbss clbzz, jmethodID method,
+                      jobject instbnce,
+                      jvblue *brguments, jint brgumentCount)
 {
     JNIEnv *env = getEnv();
     InvokeRequest *request;
     jvmtiError error = JVMTI_ERROR_NONE;
 
     debugMonitorEnter(invokerLock);
-    request = threadControl_getInvokeRequest(thread);
+    request = threbdControl_getInvokeRequest(threbd);
     if (request != NULL) {
         error = fillInvokeRequest(env, request, invokeType, options, id,
-                                  thread, clazz, method, instance,
-                                  arguments, argumentCount);
+                                  threbd, clbzz, method, instbnce,
+                                  brguments, brgumentCount);
     }
     debugMonitorExit(invokerLock);
 
     if (error == JVMTI_ERROR_NONE) {
         if (options & JDWP_INVOKE_OPTIONS(SINGLE_THREADED) ) {
-            /* true means it is okay to unblock the commandLoop thread */
-            (void)threadControl_resumeThread(thread, JNI_TRUE);
+            /* true mebns it is okby to unblock the commbndLoop threbd */
+            (void)threbdControl_resumeThrebd(threbd, JNI_TRUE);
         } else {
-            (void)threadControl_resumeAll();
+            (void)threbdControl_resumeAll();
         }
     }
 
     return error;
 }
 
-static void
+stbtic void
 invokeConstructor(JNIEnv *env, InvokeRequest *request)
 {
     jobject object;
-    object = JNI_FUNC_PTR(env,NewObjectA)(env, request->clazz,
+    object = JNI_FUNC_PTR(env,NewObjectA)(env, request->clbzz,
                                      request->method,
-                                     request->arguments);
-    request->returnValue.l = NULL;
+                                     request->brguments);
+    request->returnVblue.l = NULL;
     if (object != NULL) {
-        saveGlobalRef(env, object, &(request->returnValue.l));
+        sbveGlobblRef(env, object, &(request->returnVblue.l));
     }
 }
 
-static void
-invokeStatic(JNIEnv *env, InvokeRequest *request)
+stbtic void
+invokeStbtic(JNIEnv *env, InvokeRequest *request)
 {
-    switch(returnTypeTag(request->methodSignature)) {
-        case JDWP_TAG(OBJECT):
-        case JDWP_TAG(ARRAY): {
+    switch(returnTypeTbg(request->methodSignbture)) {
+        cbse JDWP_TAG(OBJECT):
+        cbse JDWP_TAG(ARRAY): {
             jobject object;
-            object = JNI_FUNC_PTR(env,CallStaticObjectMethodA)(env,
-                                       request->clazz,
+            object = JNI_FUNC_PTR(env,CbllStbticObjectMethodA)(env,
+                                       request->clbzz,
                                        request->method,
-                                       request->arguments);
-            request->returnValue.l = NULL;
+                                       request->brguments);
+            request->returnVblue.l = NULL;
             if (object != NULL) {
-                saveGlobalRef(env, object, &(request->returnValue.l));
+                sbveGlobblRef(env, object, &(request->returnVblue.l));
             }
-            break;
+            brebk;
         }
 
 
-        case JDWP_TAG(BYTE):
-            request->returnValue.b = JNI_FUNC_PTR(env,CallStaticByteMethodA)(env,
-                                                       request->clazz,
+        cbse JDWP_TAG(BYTE):
+            request->returnVblue.b = JNI_FUNC_PTR(env,CbllStbticByteMethodA)(env,
+                                                       request->clbzz,
                                                        request->method,
-                                                       request->arguments);
-            break;
+                                                       request->brguments);
+            brebk;
 
-        case JDWP_TAG(CHAR):
-            request->returnValue.c = JNI_FUNC_PTR(env,CallStaticCharMethodA)(env,
-                                                       request->clazz,
+        cbse JDWP_TAG(CHAR):
+            request->returnVblue.c = JNI_FUNC_PTR(env,CbllStbticChbrMethodA)(env,
+                                                       request->clbzz,
                                                        request->method,
-                                                       request->arguments);
-            break;
+                                                       request->brguments);
+            brebk;
 
-        case JDWP_TAG(FLOAT):
-            request->returnValue.f = JNI_FUNC_PTR(env,CallStaticFloatMethodA)(env,
-                                                       request->clazz,
+        cbse JDWP_TAG(FLOAT):
+            request->returnVblue.f = JNI_FUNC_PTR(env,CbllStbticFlobtMethodA)(env,
+                                                       request->clbzz,
                                                        request->method,
-                                                       request->arguments);
-            break;
+                                                       request->brguments);
+            brebk;
 
-        case JDWP_TAG(DOUBLE):
-            request->returnValue.d = JNI_FUNC_PTR(env,CallStaticDoubleMethodA)(env,
-                                                       request->clazz,
+        cbse JDWP_TAG(DOUBLE):
+            request->returnVblue.d = JNI_FUNC_PTR(env,CbllStbticDoubleMethodA)(env,
+                                                       request->clbzz,
                                                        request->method,
-                                                       request->arguments);
-            break;
+                                                       request->brguments);
+            brebk;
 
-        case JDWP_TAG(INT):
-            request->returnValue.i = JNI_FUNC_PTR(env,CallStaticIntMethodA)(env,
-                                                       request->clazz,
+        cbse JDWP_TAG(INT):
+            request->returnVblue.i = JNI_FUNC_PTR(env,CbllStbticIntMethodA)(env,
+                                                       request->clbzz,
                                                        request->method,
-                                                       request->arguments);
-            break;
+                                                       request->brguments);
+            brebk;
 
-        case JDWP_TAG(LONG):
-            request->returnValue.j = JNI_FUNC_PTR(env,CallStaticLongMethodA)(env,
-                                                       request->clazz,
+        cbse JDWP_TAG(LONG):
+            request->returnVblue.j = JNI_FUNC_PTR(env,CbllStbticLongMethodA)(env,
+                                                       request->clbzz,
                                                        request->method,
-                                                       request->arguments);
-            break;
+                                                       request->brguments);
+            brebk;
 
-        case JDWP_TAG(SHORT):
-            request->returnValue.s = JNI_FUNC_PTR(env,CallStaticShortMethodA)(env,
-                                                       request->clazz,
+        cbse JDWP_TAG(SHORT):
+            request->returnVblue.s = JNI_FUNC_PTR(env,CbllStbticShortMethodA)(env,
+                                                       request->clbzz,
                                                        request->method,
-                                                       request->arguments);
-            break;
+                                                       request->brguments);
+            brebk;
 
-        case JDWP_TAG(BOOLEAN):
-            request->returnValue.z = JNI_FUNC_PTR(env,CallStaticBooleanMethodA)(env,
-                                                       request->clazz,
+        cbse JDWP_TAG(BOOLEAN):
+            request->returnVblue.z = JNI_FUNC_PTR(env,CbllStbticBoolebnMethodA)(env,
+                                                       request->clbzz,
                                                        request->method,
-                                                       request->arguments);
-            break;
+                                                       request->brguments);
+            brebk;
 
-        case JDWP_TAG(VOID):
-            JNI_FUNC_PTR(env,CallStaticVoidMethodA)(env,
-                                          request->clazz,
+        cbse JDWP_TAG(VOID):
+            JNI_FUNC_PTR(env,CbllStbticVoidMethodA)(env,
+                                          request->clbzz,
                                           request->method,
-                                          request->arguments);
-            break;
+                                          request->brguments);
+            brebk;
 
-        default:
-            EXIT_ERROR(AGENT_ERROR_NULL_POINTER,"Invalid method signature");
-            break;
+        defbult:
+            EXIT_ERROR(AGENT_ERROR_NULL_POINTER,"Invblid method signbture");
+            brebk;
     }
 }
 
-static void
-invokeVirtual(JNIEnv *env, InvokeRequest *request)
+stbtic void
+invokeVirtubl(JNIEnv *env, InvokeRequest *request)
 {
-    switch(returnTypeTag(request->methodSignature)) {
-        case JDWP_TAG(OBJECT):
-        case JDWP_TAG(ARRAY): {
+    switch(returnTypeTbg(request->methodSignbture)) {
+        cbse JDWP_TAG(OBJECT):
+        cbse JDWP_TAG(ARRAY): {
             jobject object;
-            object = JNI_FUNC_PTR(env,CallObjectMethodA)(env,
-                                 request->instance,
+            object = JNI_FUNC_PTR(env,CbllObjectMethodA)(env,
+                                 request->instbnce,
                                  request->method,
-                                 request->arguments);
-            request->returnValue.l = NULL;
+                                 request->brguments);
+            request->returnVblue.l = NULL;
             if (object != NULL) {
-                saveGlobalRef(env, object, &(request->returnValue.l));
+                sbveGlobblRef(env, object, &(request->returnVblue.l));
             }
-            break;
+            brebk;
         }
 
-        case JDWP_TAG(BYTE):
-            request->returnValue.b = JNI_FUNC_PTR(env,CallByteMethodA)(env,
-                                                 request->instance,
+        cbse JDWP_TAG(BYTE):
+            request->returnVblue.b = JNI_FUNC_PTR(env,CbllByteMethodA)(env,
+                                                 request->instbnce,
                                                  request->method,
-                                                 request->arguments);
-            break;
+                                                 request->brguments);
+            brebk;
 
-        case JDWP_TAG(CHAR):
-            request->returnValue.c = JNI_FUNC_PTR(env,CallCharMethodA)(env,
-                                                 request->instance,
+        cbse JDWP_TAG(CHAR):
+            request->returnVblue.c = JNI_FUNC_PTR(env,CbllChbrMethodA)(env,
+                                                 request->instbnce,
                                                  request->method,
-                                                 request->arguments);
-            break;
+                                                 request->brguments);
+            brebk;
 
-        case JDWP_TAG(FLOAT):
-            request->returnValue.f = JNI_FUNC_PTR(env,CallFloatMethodA)(env,
-                                                 request->instance,
+        cbse JDWP_TAG(FLOAT):
+            request->returnVblue.f = JNI_FUNC_PTR(env,CbllFlobtMethodA)(env,
+                                                 request->instbnce,
                                                  request->method,
-                                                 request->arguments);
-            break;
+                                                 request->brguments);
+            brebk;
 
-        case JDWP_TAG(DOUBLE):
-            request->returnValue.d = JNI_FUNC_PTR(env,CallDoubleMethodA)(env,
-                                                 request->instance,
+        cbse JDWP_TAG(DOUBLE):
+            request->returnVblue.d = JNI_FUNC_PTR(env,CbllDoubleMethodA)(env,
+                                                 request->instbnce,
                                                  request->method,
-                                                 request->arguments);
-            break;
+                                                 request->brguments);
+            brebk;
 
-        case JDWP_TAG(INT):
-            request->returnValue.i = JNI_FUNC_PTR(env,CallIntMethodA)(env,
-                                                 request->instance,
+        cbse JDWP_TAG(INT):
+            request->returnVblue.i = JNI_FUNC_PTR(env,CbllIntMethodA)(env,
+                                                 request->instbnce,
                                                  request->method,
-                                                 request->arguments);
-            break;
+                                                 request->brguments);
+            brebk;
 
-        case JDWP_TAG(LONG):
-            request->returnValue.j = JNI_FUNC_PTR(env,CallLongMethodA)(env,
-                                                 request->instance,
+        cbse JDWP_TAG(LONG):
+            request->returnVblue.j = JNI_FUNC_PTR(env,CbllLongMethodA)(env,
+                                                 request->instbnce,
                                                  request->method,
-                                                 request->arguments);
-            break;
+                                                 request->brguments);
+            brebk;
 
-        case JDWP_TAG(SHORT):
-            request->returnValue.s = JNI_FUNC_PTR(env,CallShortMethodA)(env,
-                                                 request->instance,
+        cbse JDWP_TAG(SHORT):
+            request->returnVblue.s = JNI_FUNC_PTR(env,CbllShortMethodA)(env,
+                                                 request->instbnce,
                                                  request->method,
-                                                 request->arguments);
-            break;
+                                                 request->brguments);
+            brebk;
 
-        case JDWP_TAG(BOOLEAN):
-            request->returnValue.z = JNI_FUNC_PTR(env,CallBooleanMethodA)(env,
-                                                 request->instance,
+        cbse JDWP_TAG(BOOLEAN):
+            request->returnVblue.z = JNI_FUNC_PTR(env,CbllBoolebnMethodA)(env,
+                                                 request->instbnce,
                                                  request->method,
-                                                 request->arguments);
-            break;
+                                                 request->brguments);
+            brebk;
 
-        case JDWP_TAG(VOID):
-            JNI_FUNC_PTR(env,CallVoidMethodA)(env,
-                                    request->instance,
+        cbse JDWP_TAG(VOID):
+            JNI_FUNC_PTR(env,CbllVoidMethodA)(env,
+                                    request->instbnce,
                                     request->method,
-                                    request->arguments);
-            break;
+                                    request->brguments);
+            brebk;
 
-        default:
-            EXIT_ERROR(AGENT_ERROR_NULL_POINTER,"Invalid method signature");
-            break;
+        defbult:
+            EXIT_ERROR(AGENT_ERROR_NULL_POINTER,"Invblid method signbture");
+            brebk;
     }
 }
 
-static void
-invokeNonvirtual(JNIEnv *env, InvokeRequest *request)
+stbtic void
+invokeNonvirtubl(JNIEnv *env, InvokeRequest *request)
 {
-    switch(returnTypeTag(request->methodSignature)) {
-        case JDWP_TAG(OBJECT):
-        case JDWP_TAG(ARRAY): {
+    switch(returnTypeTbg(request->methodSignbture)) {
+        cbse JDWP_TAG(OBJECT):
+        cbse JDWP_TAG(ARRAY): {
             jobject object;
-            object = JNI_FUNC_PTR(env,CallNonvirtualObjectMethodA)(env,
-                                           request->instance,
-                                           request->clazz,
+            object = JNI_FUNC_PTR(env,CbllNonvirtublObjectMethodA)(env,
+                                           request->instbnce,
+                                           request->clbzz,
                                            request->method,
-                                           request->arguments);
-            request->returnValue.l = NULL;
+                                           request->brguments);
+            request->returnVblue.l = NULL;
             if (object != NULL) {
-                saveGlobalRef(env, object, &(request->returnValue.l));
+                sbveGlobblRef(env, object, &(request->returnVblue.l));
             }
-            break;
+            brebk;
         }
 
-        case JDWP_TAG(BYTE):
-            request->returnValue.b = JNI_FUNC_PTR(env,CallNonvirtualByteMethodA)(env,
-                                                 request->instance,
-                                                 request->clazz,
+        cbse JDWP_TAG(BYTE):
+            request->returnVblue.b = JNI_FUNC_PTR(env,CbllNonvirtublByteMethodA)(env,
+                                                 request->instbnce,
+                                                 request->clbzz,
                                                  request->method,
-                                                 request->arguments);
-            break;
+                                                 request->brguments);
+            brebk;
 
-        case JDWP_TAG(CHAR):
-            request->returnValue.c = JNI_FUNC_PTR(env,CallNonvirtualCharMethodA)(env,
-                                                 request->instance,
-                                                 request->clazz,
+        cbse JDWP_TAG(CHAR):
+            request->returnVblue.c = JNI_FUNC_PTR(env,CbllNonvirtublChbrMethodA)(env,
+                                                 request->instbnce,
+                                                 request->clbzz,
                                                  request->method,
-                                                 request->arguments);
-            break;
+                                                 request->brguments);
+            brebk;
 
-        case JDWP_TAG(FLOAT):
-            request->returnValue.f = JNI_FUNC_PTR(env,CallNonvirtualFloatMethodA)(env,
-                                                 request->instance,
-                                                 request->clazz,
+        cbse JDWP_TAG(FLOAT):
+            request->returnVblue.f = JNI_FUNC_PTR(env,CbllNonvirtublFlobtMethodA)(env,
+                                                 request->instbnce,
+                                                 request->clbzz,
                                                  request->method,
-                                                 request->arguments);
-            break;
+                                                 request->brguments);
+            brebk;
 
-        case JDWP_TAG(DOUBLE):
-            request->returnValue.d = JNI_FUNC_PTR(env,CallNonvirtualDoubleMethodA)(env,
-                                                 request->instance,
-                                                 request->clazz,
+        cbse JDWP_TAG(DOUBLE):
+            request->returnVblue.d = JNI_FUNC_PTR(env,CbllNonvirtublDoubleMethodA)(env,
+                                                 request->instbnce,
+                                                 request->clbzz,
                                                  request->method,
-                                                 request->arguments);
-            break;
+                                                 request->brguments);
+            brebk;
 
-        case JDWP_TAG(INT):
-            request->returnValue.i = JNI_FUNC_PTR(env,CallNonvirtualIntMethodA)(env,
-                                                 request->instance,
-                                                 request->clazz,
+        cbse JDWP_TAG(INT):
+            request->returnVblue.i = JNI_FUNC_PTR(env,CbllNonvirtublIntMethodA)(env,
+                                                 request->instbnce,
+                                                 request->clbzz,
                                                  request->method,
-                                                 request->arguments);
-            break;
+                                                 request->brguments);
+            brebk;
 
-        case JDWP_TAG(LONG):
-            request->returnValue.j = JNI_FUNC_PTR(env,CallNonvirtualLongMethodA)(env,
-                                                 request->instance,
-                                                 request->clazz,
+        cbse JDWP_TAG(LONG):
+            request->returnVblue.j = JNI_FUNC_PTR(env,CbllNonvirtublLongMethodA)(env,
+                                                 request->instbnce,
+                                                 request->clbzz,
                                                  request->method,
-                                                 request->arguments);
-            break;
+                                                 request->brguments);
+            brebk;
 
-        case JDWP_TAG(SHORT):
-            request->returnValue.s = JNI_FUNC_PTR(env,CallNonvirtualShortMethodA)(env,
-                                                 request->instance,
-                                                 request->clazz,
+        cbse JDWP_TAG(SHORT):
+            request->returnVblue.s = JNI_FUNC_PTR(env,CbllNonvirtublShortMethodA)(env,
+                                                 request->instbnce,
+                                                 request->clbzz,
                                                  request->method,
-                                                 request->arguments);
-            break;
+                                                 request->brguments);
+            brebk;
 
-        case JDWP_TAG(BOOLEAN):
-            request->returnValue.z = JNI_FUNC_PTR(env,CallNonvirtualBooleanMethodA)(env,
-                                                 request->instance,
-                                                 request->clazz,
+        cbse JDWP_TAG(BOOLEAN):
+            request->returnVblue.z = JNI_FUNC_PTR(env,CbllNonvirtublBoolebnMethodA)(env,
+                                                 request->instbnce,
+                                                 request->clbzz,
                                                  request->method,
-                                                 request->arguments);
-            break;
+                                                 request->brguments);
+            brebk;
 
-        case JDWP_TAG(VOID):
-            JNI_FUNC_PTR(env,CallNonvirtualVoidMethodA)(env,
-                                    request->instance,
-                                    request->clazz,
+        cbse JDWP_TAG(VOID):
+            JNI_FUNC_PTR(env,CbllNonvirtublVoidMethodA)(env,
+                                    request->instbnce,
+                                    request->clbzz,
                                     request->method,
-                                    request->arguments);
-            break;
+                                    request->brguments);
+            brebk;
 
-        default:
-            EXIT_ERROR(AGENT_ERROR_NULL_POINTER,"Invalid method signature");
-            break;
+        defbult:
+            EXIT_ERROR(AGENT_ERROR_NULL_POINTER,"Invblid method signbture");
+            brebk;
     }
 }
 
-jboolean
-invoker_doInvoke(jthread thread)
+jboolebn
+invoker_doInvoke(jthrebd threbd)
 {
     JNIEnv *env;
-    jboolean startNow;
+    jboolebn stbrtNow;
     InvokeRequest *request;
 
-    JDI_ASSERT(thread);
+    JDI_ASSERT(threbd);
 
     debugMonitorEnter(invokerLock);
 
-    request = threadControl_getInvokeRequest(thread);
+    request = threbdControl_getInvokeRequest(threbd);
     if (request == NULL) {
-        EXIT_ERROR(AGENT_ERROR_INVALID_THREAD, "getting thread invoke request");
+        EXIT_ERROR(AGENT_ERROR_INVALID_THREAD, "getting threbd invoke request");
     }
 
-    request->available = JNI_FALSE;
-    startNow = request->pending && !request->started;
+    request->bvbilbble = JNI_FALSE;
+    stbrtNow = request->pending && !request->stbrted;
 
-    if (startNow) {
-        request->started = JNI_TRUE;
+    if (stbrtNow) {
+        request->stbrted = JNI_TRUE;
     }
     debugMonitorExit(invokerLock);
 
-    if (!startNow) {
+    if (!stbrtNow) {
         return JNI_FALSE;
     }
 
     env = getEnv();
 
-    WITH_LOCAL_REFS(env, 2) {  /* 1 for obj return values, 1 for exception */
+    WITH_LOCAL_REFS(env, 2) {  /* 1 for obj return vblues, 1 for exception */
 
         jobject exception;
 
-        JNI_FUNC_PTR(env,ExceptionClear)(env);
+        JNI_FUNC_PTR(env,ExceptionClebr)(env);
 
         switch (request->invokeType) {
-            case INVOKE_CONSTRUCTOR:
+            cbse INVOKE_CONSTRUCTOR:
                 invokeConstructor(env, request);
-                break;
-            case INVOKE_STATIC:
-                invokeStatic(env, request);
-                break;
-            case INVOKE_INSTANCE:
+                brebk;
+            cbse INVOKE_STATIC:
+                invokeStbtic(env, request);
+                brebk;
+            cbse INVOKE_INSTANCE:
                 if (request->options & JDWP_INVOKE_OPTIONS(NONVIRTUAL) ) {
-                    invokeNonvirtual(env, request);
+                    invokeNonvirtubl(env, request);
                 } else {
-                    invokeVirtual(env, request);
+                    invokeVirtubl(env, request);
                 }
-                break;
-            default:
+                brebk;
+            defbult:
                 JDI_ASSERT(JNI_FALSE);
         }
         request->exception = NULL;
         exception = JNI_FUNC_PTR(env,ExceptionOccurred)(env);
         if (exception != NULL) {
-            JNI_FUNC_PTR(env,ExceptionClear)(env);
-            saveGlobalRef(env, exception, &(request->exception));
+            JNI_FUNC_PTR(env,ExceptionClebr)(env);
+            sbveGlobblRef(env, exception, &(request->exception));
         }
 
     } END_WITH_LOCAL_REFS(env);
@@ -667,108 +667,108 @@ invoker_doInvoke(jthread thread)
 }
 
 void
-invoker_completeInvokeRequest(jthread thread)
+invoker_completeInvokeRequest(jthrebd threbd)
 {
     JNIEnv *env = getEnv();
-    PacketOutputStream out;
-    jbyte tag;
+    PbcketOutputStrebm out;
+    jbyte tbg;
     jobject exc;
-    jvalue returnValue;
+    jvblue returnVblue;
     jint id;
     InvokeRequest *request;
-    jboolean detached;
+    jboolebn detbched;
 
-    JDI_ASSERT(thread);
+    JDI_ASSERT(threbd);
 
-    /* Prevent gcc errors on uninitialized variables. */
-    tag = 0;
+    /* Prevent gcc errors on uninitiblized vbribbles. */
+    tbg = 0;
     exc = NULL;
     id  = 0;
 
-    eventHandler_lock(); /* for proper lock order */
+    eventHbndler_lock(); /* for proper lock order */
     debugMonitorEnter(invokerLock);
 
-    request = threadControl_getInvokeRequest(thread);
+    request = threbdControl_getInvokeRequest(threbd);
     if (request == NULL) {
-        EXIT_ERROR(AGENT_ERROR_INVALID_THREAD, "getting thread invoke request");
+        EXIT_ERROR(AGENT_ERROR_INVALID_THREAD, "getting threbd invoke request");
     }
 
     JDI_ASSERT(request->pending);
-    JDI_ASSERT(request->started);
+    JDI_ASSERT(request->stbrted);
 
     request->pending = JNI_FALSE;
-    request->started = JNI_FALSE;
-    request->available = JNI_TRUE; /* For next time around */
+    request->stbrted = JNI_FALSE;
+    request->bvbilbble = JNI_TRUE; /* For next time bround */
 
-    detached = request->detached;
-    if (!detached) {
+    detbched = request->detbched;
+    if (!detbched) {
         if (request->options & JDWP_INVOKE_OPTIONS(SINGLE_THREADED)) {
-            (void)threadControl_suspendThread(thread, JNI_FALSE);
+            (void)threbdControl_suspendThrebd(threbd, JNI_FALSE);
         } else {
-            (void)threadControl_suspendAll();
+            (void)threbdControl_suspendAll();
         }
 
         if (request->invokeType == INVOKE_CONSTRUCTOR) {
             /*
-             * Although constructors technically have a return type of
-             * void, we return the object created.
+             * Although constructors technicblly hbve b return type of
+             * void, we return the object crebted.
              */
-            tag = specificTypeKey(env, request->returnValue.l);
+            tbg = specificTypeKey(env, request->returnVblue.l);
         } else {
-            tag = returnTypeTag(request->methodSignature);
+            tbg = returnTypeTbg(request->methodSignbture);
         }
         id = request->id;
         exc = request->exception;
-        returnValue = request->returnValue;
+        returnVblue = request->returnVblue;
     }
 
     /*
-     * Give up the lock before I/O operation
+     * Give up the lock before I/O operbtion
      */
     debugMonitorExit(invokerLock);
-    eventHandler_unlock();
+    eventHbndler_unlock();
 
 
-    if (!detached) {
-        outStream_initReply(&out, id);
-        (void)outStream_writeValue(env, &out, tag, returnValue);
-        (void)outStream_writeObjectTag(env, &out, exc);
-        (void)outStream_writeObjectRef(env, &out, exc);
-        outStream_sendReply(&out);
+    if (!detbched) {
+        outStrebm_initReply(&out, id);
+        (void)outStrebm_writeVblue(env, &out, tbg, returnVblue);
+        (void)outStrebm_writeObjectTbg(env, &out, exc);
+        (void)outStrebm_writeObjectRef(env, &out, exc);
+        outStrebm_sendReply(&out);
     }
 }
 
-jboolean
-invoker_isPending(jthread thread)
+jboolebn
+invoker_isPending(jthrebd threbd)
 {
     InvokeRequest *request;
 
-    JDI_ASSERT(thread);
-    request = threadControl_getInvokeRequest(thread);
+    JDI_ASSERT(threbd);
+    request = threbdControl_getInvokeRequest(threbd);
     if (request == NULL) {
-        EXIT_ERROR(AGENT_ERROR_INVALID_THREAD, "getting thread invoke request");
+        EXIT_ERROR(AGENT_ERROR_INVALID_THREAD, "getting threbd invoke request");
     }
     return request->pending;
 }
 
-jboolean
-invoker_isEnabled(jthread thread)
+jboolebn
+invoker_isEnbbled(jthrebd threbd)
 {
     InvokeRequest *request;
 
-    JDI_ASSERT(thread);
-    request = threadControl_getInvokeRequest(thread);
+    JDI_ASSERT(threbd);
+    request = threbdControl_getInvokeRequest(threbd);
     if (request == NULL) {
-        EXIT_ERROR(AGENT_ERROR_INVALID_THREAD, "getting thread invoke request");
+        EXIT_ERROR(AGENT_ERROR_INVALID_THREAD, "getting threbd invoke request");
     }
-    return request->available;
+    return request->bvbilbble;
 }
 
 void
-invoker_detach(InvokeRequest *request)
+invoker_detbch(InvokeRequest *request)
 {
     JDI_ASSERT(request);
     debugMonitorEnter(invokerLock);
-    request->detached = JNI_TRUE;
+    request->detbched = JNI_TRUE;
     debugMonitorExit(invokerLock);
 }

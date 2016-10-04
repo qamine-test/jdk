@@ -1,155 +1,155 @@
 /*
- * Copyright (c) 1997, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.java2d.pipe;
+pbckbge sun.jbvb2d.pipe;
 
-import java.awt.Color;
-import java.awt.Image;
-import java.awt.Shape;
-import java.awt.geom.AffineTransform;
-import java.awt.image.BufferedImage;
-import java.awt.image.BufferedImageOp;
-import java.awt.image.ImageObserver;
-import java.awt.font.GlyphVector;
-import sun.java2d.SunGraphics2D;
+import jbvb.bwt.Color;
+import jbvb.bwt.Imbge;
+import jbvb.bwt.Shbpe;
+import jbvb.bwt.geom.AffineTrbnsform;
+import jbvb.bwt.imbge.BufferedImbge;
+import jbvb.bwt.imbge.BufferedImbgeOp;
+import jbvb.bwt.imbge.ImbgeObserver;
+import jbvb.bwt.font.GlyphVector;
+import sun.jbvb2d.SunGrbphics2D;
 
 /**
- * This is a class that implements all of the basic pixel rendering
- * methods as NOPs.
- * This class is useful for installing as the pipeline when the
- * clip is determined to be empty or when the composite operation is
- * determined to have no effect (i.e. rule == SRC_OVER, extraAlpha == 0.0).
+ * This is b clbss thbt implements bll of the bbsic pixel rendering
+ * methods bs NOPs.
+ * This clbss is useful for instblling bs the pipeline when the
+ * clip is determined to be empty or when the composite operbtion is
+ * determined to hbve no effect (i.e. rule == SRC_OVER, extrbAlphb == 0.0).
  */
-public class NullPipe
-    implements PixelDrawPipe, PixelFillPipe, ShapeDrawPipe, TextPipe,
-    DrawImagePipe
+public clbss NullPipe
+    implements PixelDrbwPipe, PixelFillPipe, ShbpeDrbwPipe, TextPipe,
+    DrbwImbgePipe
 {
-    public void drawLine(SunGraphics2D sg,
+    public void drbwLine(SunGrbphics2D sg,
                          int x1, int y1, int x2, int y2) {
     }
 
-    public void drawRect(SunGraphics2D sg,
+    public void drbwRect(SunGrbphics2D sg,
                          int x, int y, int width, int height) {
     }
 
-    public void fillRect(SunGraphics2D sg,
+    public void fillRect(SunGrbphics2D sg,
                          int x, int y, int width, int height) {
     }
 
-    public void drawRoundRect(SunGraphics2D sg,
+    public void drbwRoundRect(SunGrbphics2D sg,
                               int x, int y, int width, int height,
-                              int arcWidth, int arcHeight) {
+                              int brcWidth, int brcHeight) {
     }
 
-    public void fillRoundRect(SunGraphics2D sg,
+    public void fillRoundRect(SunGrbphics2D sg,
                               int x, int y, int width, int height,
-                              int arcWidth, int arcHeight) {
+                              int brcWidth, int brcHeight) {
     }
 
-    public void drawOval(SunGraphics2D sg,
+    public void drbwOvbl(SunGrbphics2D sg,
                          int x, int y, int width, int height) {
     }
 
-    public void fillOval(SunGraphics2D sg,
+    public void fillOvbl(SunGrbphics2D sg,
                          int x, int y, int width, int height) {
     }
 
-    public void drawArc(SunGraphics2D sg,
+    public void drbwArc(SunGrbphics2D sg,
                         int x, int y, int width, int height,
-                        int startAngle, int arcAngle) {
+                        int stbrtAngle, int brcAngle) {
     }
 
-    public void fillArc(SunGraphics2D sg,
+    public void fillArc(SunGrbphics2D sg,
                         int x, int y, int width, int height,
-                        int startAngle, int arcAngle) {
+                        int stbrtAngle, int brcAngle) {
     }
 
-    public void drawPolyline(SunGraphics2D sg,
+    public void drbwPolyline(SunGrbphics2D sg,
                              int xPoints[], int yPoints[],
                              int nPoints) {
     }
 
-    public void drawPolygon(SunGraphics2D sg,
+    public void drbwPolygon(SunGrbphics2D sg,
                             int xPoints[], int yPoints[],
                             int nPoints) {
     }
 
-    public void fillPolygon(SunGraphics2D sg,
+    public void fillPolygon(SunGrbphics2D sg,
                             int xPoints[], int yPoints[],
                             int nPoints) {
     }
 
-    public void draw(SunGraphics2D sg, Shape s) {
+    public void drbw(SunGrbphics2D sg, Shbpe s) {
     }
 
-    public void fill(SunGraphics2D sg, Shape s) {
+    public void fill(SunGrbphics2D sg, Shbpe s) {
     }
 
-    public void drawString(SunGraphics2D sg, String s, double x, double y) {
+    public void drbwString(SunGrbphics2D sg, String s, double x, double y) {
     }
 
-    public void drawGlyphVector(SunGraphics2D sg, GlyphVector g,
-                                float x, float y) {
+    public void drbwGlyphVector(SunGrbphics2D sg, GlyphVector g,
+                                flobt x, flobt y) {
     }
 
-    public void drawChars(SunGraphics2D sg,
-                                char data[], int offset, int length,
+    public void drbwChbrs(SunGrbphics2D sg,
+                                chbr dbtb[], int offset, int length,
                                 int x, int y) {
     }
 
-    public boolean copyImage(SunGraphics2D sg, Image img,
+    public boolebn copyImbge(SunGrbphics2D sg, Imbge img,
                              int x, int y,
                              Color bgColor,
-                             ImageObserver observer) {
-        return false;
+                             ImbgeObserver observer) {
+        return fblse;
     }
-    public boolean copyImage(SunGraphics2D sg, Image img,
+    public boolebn copyImbge(SunGrbphics2D sg, Imbge img,
                              int dx, int dy, int sx, int sy, int w, int h,
                              Color bgColor,
-                             ImageObserver observer) {
-        return false;
+                             ImbgeObserver observer) {
+        return fblse;
     }
-    public boolean scaleImage(SunGraphics2D sg, Image img, int x, int y,
+    public boolebn scbleImbge(SunGrbphics2D sg, Imbge img, int x, int y,
                               int w, int h,
                               Color bgColor,
-                              ImageObserver observer) {
-        return false;
+                              ImbgeObserver observer) {
+        return fblse;
     }
-    public boolean scaleImage(SunGraphics2D sg, Image img,
+    public boolebn scbleImbge(SunGrbphics2D sg, Imbge img,
                               int dx1, int dy1, int dx2, int dy2,
                               int sx1, int sy1, int sx2, int sy2,
                               Color bgColor,
-                              ImageObserver observer) {
-        return false;
+                              ImbgeObserver observer) {
+        return fblse;
     }
-    public boolean transformImage(SunGraphics2D sg, Image img,
-                                  AffineTransform atfm,
-                                  ImageObserver observer) {
-        return false;
+    public boolebn trbnsformImbge(SunGrbphics2D sg, Imbge img,
+                                  AffineTrbnsform btfm,
+                                  ImbgeObserver observer) {
+        return fblse;
     }
-    public void transformImage(SunGraphics2D sg, BufferedImage img,
-                               BufferedImageOp op, int x, int y) {
+    public void trbnsformImbge(SunGrbphics2D sg, BufferedImbge img,
+                               BufferedImbgeOp op, int x, int y) {
     }
 }

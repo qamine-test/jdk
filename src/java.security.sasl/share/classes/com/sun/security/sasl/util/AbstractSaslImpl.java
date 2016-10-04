@@ -1,190 +1,190 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.security.sasl.util;
+pbckbge com.sun.security.sbsl.util;
 
-import javax.security.sasl.*;
-import java.io.*;
-import java.util.Map;
-import java.util.StringTokenizer;
+import jbvbx.security.sbsl.*;
+import jbvb.io.*;
+import jbvb.util.Mbp;
+import jbvb.util.StringTokenizer;
 
-import java.util.logging.Logger;
-import java.util.logging.Level;
+import jbvb.util.logging.Logger;
+import jbvb.util.logging.Level;
 
 import sun.misc.HexDumpEncoder;
 
 /**
- * The base class used by client and server implementations of SASL
- * mechanisms to process properties passed in the props argument
- * and strings with the same format (e.g., used in digest-md5).
+ * The bbse clbss used by client bnd server implementbtions of SASL
+ * mechbnisms to process properties pbssed in the props brgument
+ * bnd strings with the sbme formbt (e.g., used in digest-md5).
  *
- * Also contains utilities for doing int to network-byte-order
- * transformations.
+ * Also contbins utilities for doing int to network-byte-order
+ * trbnsformbtions.
  *
- * @author Rosanna Lee
+ * @buthor Rosbnnb Lee
  */
-public abstract class AbstractSaslImpl {
+public bbstrbct clbss AbstrbctSbslImpl {
 
-    protected boolean completed = false;
-    protected boolean privacy = false;
-    protected boolean integrity = false;
+    protected boolebn completed = fblse;
+    protected boolebn privbcy = fblse;
+    protected boolebn integrity = fblse;
     protected byte[] qop;           // ordered list of qops
-    protected byte allQop;          // a mask indicating which QOPs are requested
+    protected byte bllQop;          // b mbsk indicbting which QOPs bre requested
     protected byte[] strength;      // ordered list of cipher strengths
 
-    // These are relevant only when privacy or integray have been negotiated
-    protected int sendMaxBufSize = 0;     // specified by peer but can override
-    protected int recvMaxBufSize = 65536; // optionally specified by self
-    protected int rawSendSize;            // derived from sendMaxBufSize
+    // These bre relevbnt only when privbcy or integrby hbve been negotibted
+    protected int sendMbxBufSize = 0;     // specified by peer but cbn override
+    protected int recvMbxBufSize = 65536; // optionblly specified by self
+    protected int rbwSendSize;            // derived from sendMbxBufSize
 
-    protected String myClassName;
+    protected String myClbssNbme;
 
-    protected AbstractSaslImpl(Map<String, ?> props, String className)
-            throws SaslException {
-        myClassName = className;
+    protected AbstrbctSbslImpl(Mbp<String, ?> props, String clbssNbme)
+            throws SbslException {
+        myClbssNbme = clbssNbme;
 
-        // Parse properties  to set desired context options
+        // Pbrse properties  to set desired context options
         if (props != null) {
             String prop;
 
-            // "auth", "auth-int", "auth-conf"
-            qop = parseQop(prop=(String)props.get(Sasl.QOP));
-            logger.logp(Level.FINE, myClassName, "constructor",
+            // "buth", "buth-int", "buth-conf"
+            qop = pbrseQop(prop=(String)props.get(Sbsl.QOP));
+            logger.logp(Level.FINE, myClbssNbme, "constructor",
                 "SASLIMPL01:Preferred qop property: {0}", prop);
-            allQop = combineMasks(qop);
+            bllQop = combineMbsks(qop);
 
-            if (logger.isLoggable(Level.FINE)) {
-                logger.logp(Level.FINE, myClassName, "constructor",
-                    "SASLIMPL02:Preferred qop mask: {0}", allQop);
+            if (logger.isLoggbble(Level.FINE)) {
+                logger.logp(Level.FINE, myClbssNbme, "constructor",
+                    "SASLIMPL02:Preferred qop mbsk: {0}", bllQop);
 
                 if (qop.length > 0) {
                     StringBuilder str = new StringBuilder();
                     for (int i = 0; i < qop.length; i++) {
-                        str.append(Byte.toString(qop[i]));
-                        str.append(' ');
+                        str.bppend(Byte.toString(qop[i]));
+                        str.bppend(' ');
                     }
-                    logger.logp(Level.FINE, myClassName, "constructor",
+                    logger.logp(Level.FINE, myClbssNbme, "constructor",
                             "SASLIMPL03:Preferred qops : {0}", str.toString());
                 }
             }
 
             // "low", "medium", "high"
-            strength = parseStrength(prop=(String)props.get(Sasl.STRENGTH));
-            logger.logp(Level.FINE, myClassName, "constructor",
+            strength = pbrseStrength(prop=(String)props.get(Sbsl.STRENGTH));
+            logger.logp(Level.FINE, myClbssNbme, "constructor",
                 "SASLIMPL04:Preferred strength property: {0}", prop);
-            if (logger.isLoggable(Level.FINE) && strength.length > 0) {
+            if (logger.isLoggbble(Level.FINE) && strength.length > 0) {
                 StringBuilder str = new StringBuilder();
                 for (int i = 0; i < strength.length; i++) {
-                    str.append(Byte.toString(strength[i]));
-                    str.append(' ');
+                    str.bppend(Byte.toString(strength[i]));
+                    str.bppend(' ');
                 }
-                logger.logp(Level.FINE, myClassName, "constructor",
+                logger.logp(Level.FINE, myClbssNbme, "constructor",
                         "SASLIMPL05:Cipher strengths: {0}", str.toString());
             }
 
-            // Max receive buffer size
-            prop = (String)props.get(Sasl.MAX_BUFFER);
+            // Mbx receive buffer size
+            prop = (String)props.get(Sbsl.MAX_BUFFER);
             if (prop != null) {
                 try {
-                    logger.logp(Level.FINE, myClassName, "constructor",
-                        "SASLIMPL06:Max receive buffer size: {0}", prop);
-                    recvMaxBufSize = Integer.parseInt(prop);
-                } catch (NumberFormatException e) {
-                    throw new SaslException(
-                "Property must be string representation of integer: " +
-                        Sasl.MAX_BUFFER);
+                    logger.logp(Level.FINE, myClbssNbme, "constructor",
+                        "SASLIMPL06:Mbx receive buffer size: {0}", prop);
+                    recvMbxBufSize = Integer.pbrseInt(prop);
+                } cbtch (NumberFormbtException e) {
+                    throw new SbslException(
+                "Property must be string representbtion of integer: " +
+                        Sbsl.MAX_BUFFER);
                 }
             }
 
-            // Max send buffer size
+            // Mbx send buffer size
             prop = (String)props.get(MAX_SEND_BUF);
             if (prop != null) {
                 try {
-                    logger.logp(Level.FINE, myClassName, "constructor",
-                        "SASLIMPL07:Max send buffer size: {0}", prop);
-                    sendMaxBufSize = Integer.parseInt(prop);
-                } catch (NumberFormatException e) {
-                    throw new SaslException(
-                "Property must be string representation of integer: " +
+                    logger.logp(Level.FINE, myClbssNbme, "constructor",
+                        "SASLIMPL07:Mbx send buffer size: {0}", prop);
+                    sendMbxBufSize = Integer.pbrseInt(prop);
+                } cbtch (NumberFormbtException e) {
+                    throw new SbslException(
+                "Property must be string representbtion of integer: " +
                         MAX_SEND_BUF);
                 }
             }
         } else {
             qop = DEFAULT_QOP;
-            allQop = NO_PROTECTION;
+            bllQop = NO_PROTECTION;
             strength = STRENGTH_MASKS;
         }
     }
 
     /**
-     * Determines whether this mechanism has completed.
+     * Determines whether this mechbnism hbs completed.
      *
-     * @return true if has completed; false otherwise;
+     * @return true if hbs completed; fblse otherwise;
      */
-    public boolean isComplete() {
+    public boolebn isComplete() {
         return completed;
     }
 
     /**
-     * Retrieves the negotiated property.
-     * @exception IllegalStateException if this authentication exchange has
+     * Retrieves the negotibted property.
+     * @exception IllegblStbteException if this buthenticbtion exchbnge hbs
      * not completed
      */
-    public Object getNegotiatedProperty(String propName) {
+    public Object getNegotibtedProperty(String propNbme) {
         if (!completed) {
-            throw new IllegalStateException("SASL authentication not completed");
+            throw new IllegblStbteException("SASL buthenticbtion not completed");
         }
-        switch (propName) {
-            case Sasl.QOP:
-                if (privacy) {
-                    return "auth-conf";
+        switch (propNbme) {
+            cbse Sbsl.QOP:
+                if (privbcy) {
+                    return "buth-conf";
                 } else if (integrity) {
-                    return "auth-int";
+                    return "buth-int";
                 } else {
-                    return "auth";
+                    return "buth";
                 }
-            case Sasl.MAX_BUFFER:
-                return Integer.toString(recvMaxBufSize);
-            case Sasl.RAW_SEND_SIZE:
-                return Integer.toString(rawSendSize);
-            case MAX_SEND_BUF:
-                return Integer.toString(sendMaxBufSize);
-            default:
+            cbse Sbsl.MAX_BUFFER:
+                return Integer.toString(recvMbxBufSize);
+            cbse Sbsl.RAW_SEND_SIZE:
+                return Integer.toString(rbwSendSize);
+            cbse MAX_SEND_BUF:
+                return Integer.toString(sendMbxBufSize);
+            defbult:
                 return null;
         }
     }
 
-    protected static final byte combineMasks(byte[] in) {
-        byte answer = 0;
+    protected stbtic finbl byte combineMbsks(byte[] in) {
+        byte bnswer = 0;
         for (int i = 0; i < in.length; i++) {
-            answer |= in[i];
+            bnswer |= in[i];
         }
-        return answer;
+        return bnswer;
     }
 
-    protected static final byte findPreferredMask(byte pref, byte[] in) {
+    protected stbtic finbl byte findPreferredMbsk(byte pref, byte[] in) {
         for (int i = 0; i < in.length; i++) {
             if ((in[i]&pref) != 0) {
                 return in[i];
@@ -193,81 +193,81 @@ public abstract class AbstractSaslImpl {
         return (byte)0;
     }
 
-    private static final byte[] parseQop(String qop) throws SaslException {
-        return parseQop(qop, null, false);
+    privbte stbtic finbl byte[] pbrseQop(String qop) throws SbslException {
+        return pbrseQop(qop, null, fblse);
     }
 
-    protected static final byte[] parseQop(String qop, String[] saveTokens,
-        boolean ignore) throws SaslException {
+    protected stbtic finbl byte[] pbrseQop(String qop, String[] sbveTokens,
+        boolebn ignore) throws SbslException {
         if (qop == null) {
-            return DEFAULT_QOP;   // default
+            return DEFAULT_QOP;   // defbult
         }
 
-        return parseProp(Sasl.QOP, qop, QOP_TOKENS, QOP_MASKS, saveTokens, ignore);
+        return pbrseProp(Sbsl.QOP, qop, QOP_TOKENS, QOP_MASKS, sbveTokens, ignore);
     }
 
-    private static final byte[] parseStrength(String strength)
-        throws SaslException {
+    privbte stbtic finbl byte[] pbrseStrength(String strength)
+        throws SbslException {
         if (strength == null) {
-            return DEFAULT_STRENGTH;   // default
+            return DEFAULT_STRENGTH;   // defbult
         }
 
-        return parseProp(Sasl.STRENGTH, strength, STRENGTH_TOKENS,
-            STRENGTH_MASKS, null, false);
+        return pbrseProp(Sbsl.STRENGTH, strength, STRENGTH_TOKENS,
+            STRENGTH_MASKS, null, fblse);
     }
 
-    private static final byte[] parseProp(String propName, String propVal,
-        String[] vals, byte[] masks, String[] tokens, boolean ignore)
-        throws SaslException {
+    privbte stbtic finbl byte[] pbrseProp(String propNbme, String propVbl,
+        String[] vbls, byte[] mbsks, String[] tokens, boolebn ignore)
+        throws SbslException {
 
-        StringTokenizer parser = new StringTokenizer(propVal, ", \t\n");
+        StringTokenizer pbrser = new StringTokenizer(propVbl, ", \t\n");
         String token;
-        byte[] answer = new byte[vals.length];
+        byte[] bnswer = new byte[vbls.length];
         int i = 0;
-        boolean found;
+        boolebn found;
 
-        while (parser.hasMoreTokens() && i < answer.length) {
-            token = parser.nextToken();
-            found = false;
-            for (int j = 0; !found && j < vals.length; j++) {
-                if (token.equalsIgnoreCase(vals[j])) {
+        while (pbrser.hbsMoreTokens() && i < bnswer.length) {
+            token = pbrser.nextToken();
+            found = fblse;
+            for (int j = 0; !found && j < vbls.length; j++) {
+                if (token.equblsIgnoreCbse(vbls[j])) {
                     found = true;
-                    answer[i++] = masks[j];
+                    bnswer[i++] = mbsks[j];
                     if (tokens != null) {
-                        tokens[j] = token;    // save what was parsed
+                        tokens[j] = token;    // sbve whbt wbs pbrsed
                     }
                 }
             }
             if (!found && !ignore) {
-                throw new SaslException(
-                    "Invalid token in " + propName + ": " + propVal);
+                throw new SbslException(
+                    "Invblid token in " + propNbme + ": " + propVbl);
             }
         }
-        // Initialize rest of array with 0
-        for (int j = i; j < answer.length; j++) {
-            answer[j] = 0;
+        // Initiblize rest of brrby with 0
+        for (int j = i; j < bnswer.length; j++) {
+            bnswer[j] = 0;
         }
-        return answer;
+        return bnswer;
     }
 
 
     /**
-     * Outputs a byte array. Can be null.
+     * Outputs b byte brrby. Cbn be null.
      */
-    protected static final void traceOutput(String srcClass, String srcMethod,
-        String traceTag, byte[] output) {
-        traceOutput(srcClass, srcMethod, traceTag, output, 0,
+    protected stbtic finbl void trbceOutput(String srcClbss, String srcMethod,
+        String trbceTbg, byte[] output) {
+        trbceOutput(srcClbss, srcMethod, trbceTbg, output, 0,
                 output == null ? 0 : output.length);
     }
 
-    protected static final void traceOutput(String srcClass, String srcMethod,
-        String traceTag, byte[] output, int offset, int len) {
+    protected stbtic finbl void trbceOutput(String srcClbss, String srcMethod,
+        String trbceTbg, byte[] output, int offset, int len) {
         try {
             int origlen = len;
             Level lev;
 
-            if (!logger.isLoggable(Level.FINEST)) {
-                len = Math.min(16, len);
+            if (!logger.isLoggbble(Level.FINEST)) {
+                len = Mbth.min(16, len);
                 lev = Level.FINER;
             } else {
                 lev = Level.FINEST;
@@ -276,20 +276,20 @@ public abstract class AbstractSaslImpl {
             String content;
 
             if (output != null) {
-                ByteArrayOutputStream out = new ByteArrayOutputStream(len);
+                ByteArrbyOutputStrebm out = new ByteArrbyOutputStrebm(len);
                 new HexDumpEncoder().encodeBuffer(
-                    new ByteArrayInputStream(output, offset, len), out);
+                    new ByteArrbyInputStrebm(output, offset, len), out);
                 content = out.toString();
             } else {
                 content = "NULL";
             }
 
-            // Message id supplied by caller as part of traceTag
-            logger.logp(lev, srcClass, srcMethod, "{0} ( {1} ): {2}",
-                new Object[] {traceTag, origlen, content});
-        } catch (Exception e) {
-            logger.logp(Level.WARNING, srcClass, srcMethod,
-                "SASLIMPL09:Error generating trace output: {0}", e);
+            // Messbge id supplied by cbller bs pbrt of trbceTbg
+            logger.logp(lev, srcClbss, srcMethod, "{0} ( {1} ): {2}",
+                new Object[] {trbceTbg, origlen, content});
+        } cbtch (Exception e) {
+            logger.logp(Level.WARNING, srcClbss, srcMethod,
+                "SASLIMPL09:Error generbting trbce output: {0}", e);
         }
     }
 
@@ -297,69 +297,69 @@ public abstract class AbstractSaslImpl {
     /**
      * Returns the integer represented by  4 bytes in network byte order.
      */
-    protected static final int networkByteOrderToInt(byte[] buf, int start,
+    protected stbtic finbl int networkByteOrderToInt(byte[] buf, int stbrt,
         int count) {
         if (count > 4) {
-            throw new IllegalArgumentException("Cannot handle more than 4 bytes");
+            throw new IllegblArgumentException("Cbnnot hbndle more thbn 4 bytes");
         }
 
-        int answer = 0;
+        int bnswer = 0;
 
         for (int i = 0; i < count; i++) {
-            answer <<= 8;
-            answer |= ((int)buf[start+i] & 0xff);
+            bnswer <<= 8;
+            bnswer |= ((int)buf[stbrt+i] & 0xff);
         }
-        return answer;
+        return bnswer;
     }
 
     /**
-     * Encodes an integer into 4 bytes in network byte order in the buffer
+     * Encodes bn integer into 4 bytes in network byte order in the buffer
      * supplied.
      */
-    protected static final void intToNetworkByteOrder(int num, byte[] buf,
-        int start, int count) {
+    protected stbtic finbl void intToNetworkByteOrder(int num, byte[] buf,
+        int stbrt, int count) {
         if (count > 4) {
-            throw new IllegalArgumentException("Cannot handle more than 4 bytes");
+            throw new IllegblArgumentException("Cbnnot hbndle more thbn 4 bytes");
         }
 
         for (int i = count-1; i >= 0; i--) {
-            buf[start+i] = (byte)(num & 0xff);
+            buf[stbrt+i] = (byte)(num & 0xff);
             num >>>= 8;
         }
     }
 
-    // ---------------- Constants  -----------------
-    private static final String SASL_LOGGER_NAME = "javax.security.sasl";
-    protected static final String MAX_SEND_BUF = "javax.security.sasl.sendmaxbuffer";
+    // ---------------- Constbnts  -----------------
+    privbte stbtic finbl String SASL_LOGGER_NAME = "jbvbx.security.sbsl";
+    protected stbtic finbl String MAX_SEND_BUF = "jbvbx.security.sbsl.sendmbxbuffer";
 
     /**
-     * Logger for debug messages
+     * Logger for debug messbges
      */
-    protected static final Logger logger = Logger.getLogger(SASL_LOGGER_NAME);
+    protected stbtic finbl Logger logger = Logger.getLogger(SASL_LOGGER_NAME);
 
-    // default 0 (no protection); 1 (integrity only)
-    protected static final byte NO_PROTECTION = (byte)1;
-    protected static final byte INTEGRITY_ONLY_PROTECTION = (byte)2;
-    protected static final byte PRIVACY_PROTECTION = (byte)4;
+    // defbult 0 (no protection); 1 (integrity only)
+    protected stbtic finbl byte NO_PROTECTION = (byte)1;
+    protected stbtic finbl byte INTEGRITY_ONLY_PROTECTION = (byte)2;
+    protected stbtic finbl byte PRIVACY_PROTECTION = (byte)4;
 
-    protected static final byte LOW_STRENGTH = (byte)1;
-    protected static final byte MEDIUM_STRENGTH = (byte)2;
-    protected static final byte HIGH_STRENGTH = (byte)4;
+    protected stbtic finbl byte LOW_STRENGTH = (byte)1;
+    protected stbtic finbl byte MEDIUM_STRENGTH = (byte)2;
+    protected stbtic finbl byte HIGH_STRENGTH = (byte)4;
 
-    private static final byte[] DEFAULT_QOP = new byte[]{NO_PROTECTION};
-    private static final String[] QOP_TOKENS = {"auth-conf",
-                                       "auth-int",
-                                       "auth"};
-    private static final byte[] QOP_MASKS = {PRIVACY_PROTECTION,
+    privbte stbtic finbl byte[] DEFAULT_QOP = new byte[]{NO_PROTECTION};
+    privbte stbtic finbl String[] QOP_TOKENS = {"buth-conf",
+                                       "buth-int",
+                                       "buth"};
+    privbte stbtic finbl byte[] QOP_MASKS = {PRIVACY_PROTECTION,
                                      INTEGRITY_ONLY_PROTECTION,
                                      NO_PROTECTION};
 
-    private static final byte[] DEFAULT_STRENGTH = new byte[]{
+    privbte stbtic finbl byte[] DEFAULT_STRENGTH = new byte[]{
         HIGH_STRENGTH, MEDIUM_STRENGTH, LOW_STRENGTH};
-    private static final String[] STRENGTH_TOKENS = {"low",
+    privbte stbtic finbl String[] STRENGTH_TOKENS = {"low",
                                                      "medium",
                                                      "high"};
-    private static final byte[] STRENGTH_MASKS = {LOW_STRENGTH,
+    privbte stbtic finbl byte[] STRENGTH_MASKS = {LOW_STRENGTH,
                                                   MEDIUM_STRENGTH,
                                                   HIGH_STRENGTH};
 }

@@ -1,108 +1,108 @@
 /*
- * Copyright (c) 2000, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.nio.ch;
+pbckbge sun.nio.ch;
 
-import java.io.IOException;
-import java.nio.channels.*;
-import java.nio.channels.spi.*;
+import jbvb.io.IOException;
+import jbvb.nio.chbnnels.*;
+import jbvb.nio.chbnnels.spi.*;
 
 
 /**
- * An implementation of SelectionKey for Solaris.
+ * An implementbtion of SelectionKey for Solbris.
  */
 
-public class SelectionKeyImpl
-    extends AbstractSelectionKey
+public clbss SelectionKeyImpl
+    extends AbstrbctSelectionKey
 {
 
-    final SelChImpl channel;                            // package-private
-    public final SelectorImpl selector;
+    finbl SelChImpl chbnnel;                            // pbckbge-privbte
+    public finbl SelectorImpl selector;
 
-    // Index for a pollfd array in Selector that this key is registered with
-    private int index;
+    // Index for b pollfd brrby in Selector thbt this key is registered with
+    privbte int index;
 
-    private volatile int interestOps;
-    private int readyOps;
+    privbte volbtile int interestOps;
+    privbte int rebdyOps;
 
     SelectionKeyImpl(SelChImpl ch, SelectorImpl sel) {
-        channel = ch;
+        chbnnel = ch;
         selector = sel;
     }
 
-    public SelectableChannel channel() {
-        return (SelectableChannel)channel;
+    public SelectbbleChbnnel chbnnel() {
+        return (SelectbbleChbnnel)chbnnel;
     }
 
     public Selector selector() {
         return selector;
     }
 
-    int getIndex() {                                    // package-private
+    int getIndex() {                                    // pbckbge-privbte
         return index;
     }
 
-    void setIndex(int i) {                              // package-private
+    void setIndex(int i) {                              // pbckbge-privbte
         index = i;
     }
 
-    private void ensureValid() {
-        if (!isValid())
-            throw new CancelledKeyException();
+    privbte void ensureVblid() {
+        if (!isVblid())
+            throw new CbncelledKeyException();
     }
 
     public int interestOps() {
-        ensureValid();
+        ensureVblid();
         return interestOps;
     }
 
     public SelectionKey interestOps(int ops) {
-        ensureValid();
+        ensureVblid();
         return nioInterestOps(ops);
     }
 
-    public int readyOps() {
-        ensureValid();
-        return readyOps;
+    public int rebdyOps() {
+        ensureVblid();
+        return rebdyOps;
     }
 
-    // The nio versions of these operations do not care if a key
-    // has been invalidated. They are for internal use by nio code.
+    // The nio versions of these operbtions do not cbre if b key
+    // hbs been invblidbted. They bre for internbl use by nio code.
 
-    public void nioReadyOps(int ops) {
-        readyOps = ops;
+    public void nioRebdyOps(int ops) {
+        rebdyOps = ops;
     }
 
-    public int nioReadyOps() {
-        return readyOps;
+    public int nioRebdyOps() {
+        return rebdyOps;
     }
 
     public SelectionKey nioInterestOps(int ops) {
-        if ((ops & ~channel().validOps()) != 0)
-            throw new IllegalArgumentException();
-        channel.translateAndSetInterestOps(ops, this);
+        if ((ops & ~chbnnel().vblidOps()) != 0)
+            throw new IllegblArgumentException();
+        chbnnel.trbnslbteAndSetInterestOps(ops, this);
         interestOps = ops;
         return this;
     }

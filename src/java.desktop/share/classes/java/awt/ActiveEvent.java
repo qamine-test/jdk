@@ -1,59 +1,59 @@
 /*
- * Copyright (c) 1997, 2002, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2002, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt;
+pbckbge jbvb.bwt;
 
 /**
- * An interface for events that know how to dispatch themselves.
- * By implementing this interface an event can be placed upon the event
- * queue and its <code>dispatch()</code> method will be called when the event
- * is dispatched, using the <code>EventDispatchThread</code>.
+ * An interfbce for events thbt know how to dispbtch themselves.
+ * By implementing this interfbce bn event cbn be plbced upon the event
+ * queue bnd its <code>dispbtch()</code> method will be cblled when the event
+ * is dispbtched, using the <code>EventDispbtchThrebd</code>.
  * <p>
- * This is a very useful mechanism for avoiding deadlocks. If
- * a thread is executing in a critical section (i.e., it has entered
- * one or more monitors), calling other synchronized code may
- * cause deadlocks. To avoid the potential deadlocks, an
- * <code>ActiveEvent</code> can be created to run the second section of
- * code at later time. If there is contention on the monitor,
- * the second thread will simply block until the first thread
- * has finished its work and exited its monitors.
+ * This is b very useful mechbnism for bvoiding debdlocks. If
+ * b threbd is executing in b criticbl section (i.e., it hbs entered
+ * one or more monitors), cblling other synchronized code mby
+ * cbuse debdlocks. To bvoid the potentibl debdlocks, bn
+ * <code>ActiveEvent</code> cbn be crebted to run the second section of
+ * code bt lbter time. If there is contention on the monitor,
+ * the second threbd will simply block until the first threbd
+ * hbs finished its work bnd exited its monitors.
  * <p>
- * For security reasons, it is often desirable to use an <code>ActiveEvent</code>
- * to avoid calling untrusted code from a critical thread. For
- * instance, peer implementations can use this facility to avoid
- * making calls into user code from a system thread. Doing so avoids
- * potential deadlocks and denial-of-service attacks.
+ * For security rebsons, it is often desirbble to use bn <code>ActiveEvent</code>
+ * to bvoid cblling untrusted code from b criticbl threbd. For
+ * instbnce, peer implementbtions cbn use this fbcility to bvoid
+ * mbking cblls into user code from b system threbd. Doing so bvoids
+ * potentibl debdlocks bnd denibl-of-service bttbcks.
  *
- * @author  Timothy Prinzing
+ * @buthor  Timothy Prinzing
  * @since   1.2
  */
-public interface ActiveEvent {
+public interfbce ActiveEvent {
 
     /**
-     * Dispatch the event to its target, listeners of the events source,
-     * or do whatever it is this event is supposed to do.
+     * Dispbtch the event to its tbrget, listeners of the events source,
+     * or do whbtever it is this event is supposed to do.
      */
-    public void dispatch();
+    public void dispbtch();
 }

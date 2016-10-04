@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 1997, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -33,64 +33,64 @@
 #include "jni_util.h"
 #include "net_util.h"
 
-#include "java_net_SocketInputStream.h"
+#include "jbvb_net_SocketInputStrebm.h"
 
 
 /************************************************************************
- * SocketInputStream
+ * SocketInputStrebm
  */
 
-static jfieldID IO_fd_fdID;
+stbtic jfieldID IO_fd_fdID;
 
 /*
- * Class:     java_net_SocketInputStream
+ * Clbss:     jbvb_net_SocketInputStrebm
  * Method:    init
- * Signature: ()V
+ * Signbture: ()V
  */
 JNIEXPORT void JNICALL
-Java_java_net_SocketInputStream_init(JNIEnv *env, jclass cls) {
+Jbvb_jbvb_net_SocketInputStrebm_init(JNIEnv *env, jclbss cls) {
     IO_fd_fdID = NET_GetFileDescriptorID(env);
 }
 
 /*
- * Class:     java_net_SocketInputStream
- * Method:    socketRead0
- * Signature: (Ljava/io/FileDescriptor;[BIII)I
+ * Clbss:     jbvb_net_SocketInputStrebm
+ * Method:    socketRebd0
+ * Signbture: (Ljbvb/io/FileDescriptor;[BIII)I
  */
 JNIEXPORT jint JNICALL
-Java_java_net_SocketInputStream_socketRead0(JNIEnv *env, jobject this,
-                                            jobject fdObj, jbyteArray data,
+Jbvb_jbvb_net_SocketInputStrebm_socketRebd0(JNIEnv *env, jobject this,
+                                            jobject fdObj, jbyteArrby dbtb,
                                             jint off, jint len, jint timeout)
 {
-    char BUF[MAX_BUFFER_LEN];
-    char *bufP;
-    jint fd, nread;
+    chbr BUF[MAX_BUFFER_LEN];
+    chbr *bufP;
+    jint fd, nrebd;
 
     if (IS_NULL(fdObj)) {
-        /* shouldn't this be a NullPointerException? -br */
-        JNU_ThrowByName(env, JNU_JAVANETPKG "SocketException",
+        /* shouldn't this be b NullPointerException? -br */
+        JNU_ThrowByNbme(env, JNU_JAVANETPKG "SocketException",
                         "Socket closed");
         return -1;
     } else {
         fd = (*env)->GetIntField(env, fdObj, IO_fd_fdID);
-        /* Bug 4086704 - If the Socket associated with this file descriptor
-         * was closed (sysCloseFD), then the file descriptor is set to -1.
+        /* Bug 4086704 - If the Socket bssocibted with this file descriptor
+         * wbs closed (sysCloseFD), then the file descriptor is set to -1.
          */
         if (fd == -1) {
-            JNU_ThrowByName(env, "java/net/SocketException", "Socket closed");
+            JNU_ThrowByNbme(env, "jbvb/net/SocketException", "Socket closed");
             return -1;
         }
     }
 
     /*
-     * If the read is greater than our stack allocated buffer then
-     * we allocate from the heap (up to a limit)
+     * If the rebd is grebter thbn our stbck bllocbted buffer then
+     * we bllocbte from the hebp (up to b limit)
      */
     if (len > MAX_BUFFER_LEN) {
         if (len > MAX_HEAP_BUFFER_LEN) {
             len = MAX_HEAP_BUFFER_LEN;
         }
-        bufP = (char *)malloc((size_t)len);
+        bufP = (chbr *)mblloc((size_t)len);
         if (bufP == NULL) {
             bufP = BUF;
             len = MAX_BUFFER_LEN;
@@ -100,19 +100,19 @@ Java_java_net_SocketInputStream_socketRead0(JNIEnv *env, jobject this,
     }
 
     if (timeout) {
-        nread = NET_Timeout(fd, timeout);
-        if (nread <= 0) {
-            if (nread == 0) {
-                JNU_ThrowByName(env, JNU_JAVANETPKG "SocketTimeoutException",
-                            "Read timed out");
-            } else if (nread == -1) {
+        nrebd = NET_Timeout(fd, timeout);
+        if (nrebd <= 0) {
+            if (nrebd == 0) {
+                JNU_ThrowByNbme(env, JNU_JAVANETPKG "SocketTimeoutException",
+                            "Rebd timed out");
+            } else if (nrebd == -1) {
                 if (errno == EBADF) {
-                     JNU_ThrowByName(env, JNU_JAVANETPKG "SocketException", "Socket closed");
+                     JNU_ThrowByNbme(env, JNU_JAVANETPKG "SocketException", "Socket closed");
                 } else if (errno == ENOMEM) {
-                    JNU_ThrowOutOfMemoryError(env, "NET_Timeout native heap allocation failed");
+                    JNU_ThrowOutOfMemoryError(env, "NET_Timeout nbtive hebp bllocbtion fbiled");
                 } else {
-                    NET_ThrowByNameWithLastError(env, JNU_JAVANETPKG "SocketException",
-                                                  "select/poll failed");
+                    NET_ThrowByNbmeWithLbstError(env, JNU_JAVANETPKG "SocketException",
+                                                  "select/poll fbiled");
                 }
             }
             if (bufP != BUF) {
@@ -122,39 +122,39 @@ Java_java_net_SocketInputStream_socketRead0(JNIEnv *env, jobject this,
         }
     }
 
-    nread = NET_Read(fd, bufP, len);
+    nrebd = NET_Rebd(fd, bufP, len);
 
-    if (nread <= 0) {
-        if (nread < 0) {
+    if (nrebd <= 0) {
+        if (nrebd < 0) {
 
             switch (errno) {
-                case ECONNRESET:
-                case EPIPE:
-                    JNU_ThrowByName(env, "sun/net/ConnectionResetException",
+                cbse ECONNRESET:
+                cbse EPIPE:
+                    JNU_ThrowByNbme(env, "sun/net/ConnectionResetException",
                         "Connection reset");
-                    break;
+                    brebk;
 
-                case EBADF:
-                    JNU_ThrowByName(env, JNU_JAVANETPKG "SocketException",
+                cbse EBADF:
+                    JNU_ThrowByNbme(env, JNU_JAVANETPKG "SocketException",
                         "Socket closed");
-                    break;
+                    brebk;
 
-                case EINTR:
-                     JNU_ThrowByName(env, JNU_JAVAIOPKG "InterruptedIOException",
-                           "Operation interrupted");
-                     break;
+                cbse EINTR:
+                     JNU_ThrowByNbme(env, JNU_JAVAIOPKG "InterruptedIOException",
+                           "Operbtion interrupted");
+                     brebk;
 
-                default:
-                    NET_ThrowByNameWithLastError(env,
-                        JNU_JAVANETPKG "SocketException", "Read failed");
+                defbult:
+                    NET_ThrowByNbmeWithLbstError(env,
+                        JNU_JAVANETPKG "SocketException", "Rebd fbiled");
             }
         }
     } else {
-        (*env)->SetByteArrayRegion(env, data, off, nread, (jbyte *)bufP);
+        (*env)->SetByteArrbyRegion(env, dbtb, off, nrebd, (jbyte *)bufP);
     }
 
     if (bufP != BUF) {
         free(bufP);
     }
-    return nread;
+    return nrebd;
 }

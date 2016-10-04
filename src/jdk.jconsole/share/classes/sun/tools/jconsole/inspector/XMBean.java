@@ -1,166 +1,166 @@
 /*
- * Copyright (c) 2004, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.jconsole.inspector;
+pbckbge sun.tools.jconsole.inspector;
 
-import java.io.IOException;
-import javax.management.*;
-import javax.swing.Icon;
+import jbvb.io.IOException;
+import jbvbx.mbnbgement.*;
+import jbvbx.swing.Icon;
 import sun.tools.jconsole.JConsole;
-import sun.tools.jconsole.MBeansTab;
-import sun.tools.jconsole.ProxyClient.SnapshotMBeanServerConnection;
+import sun.tools.jconsole.MBebnsTbb;
+import sun.tools.jconsole.ProxyClient.SnbpshotMBebnServerConnection;
 
-public class XMBean {
+public clbss XMBebn {
 
-    private final MBeansTab mbeansTab;
-    private final ObjectName objectName;
-    private Icon icon;
-    private String text;
-    private Boolean broadcaster;
-    private final Object broadcasterLock = new Object();
-    private MBeanInfo mbeanInfo;
-    private final Object mbeanInfoLock = new Object();
+    privbte finbl MBebnsTbb mbebnsTbb;
+    privbte finbl ObjectNbme objectNbme;
+    privbte Icon icon;
+    privbte String text;
+    privbte Boolebn brobdcbster;
+    privbte finbl Object brobdcbsterLock = new Object();
+    privbte MBebnInfo mbebnInfo;
+    privbte finbl Object mbebnInfoLock = new Object();
 
-    public XMBean(ObjectName objectName, MBeansTab mbeansTab) {
-        this.mbeansTab = mbeansTab;
-        this.objectName = objectName;
-        text = objectName.getKeyProperty("name");
+    public XMBebn(ObjectNbme objectNbme, MBebnsTbb mbebnsTbb) {
+        this.mbebnsTbb = mbebnsTbb;
+        this.objectNbme = objectNbme;
+        text = objectNbme.getKeyProperty("nbme");
         if (text == null) {
-            text = objectName.getDomain();
+            text = objectNbme.getDombin();
         }
-        if (MBeanServerDelegate.DELEGATE_NAME.equals(objectName)) {
-            icon = IconManager.MBEANSERVERDELEGATE;
+        if (MBebnServerDelegbte.DELEGATE_NAME.equbls(objectNbme)) {
+            icon = IconMbnbger.MBEANSERVERDELEGATE;
         } else {
-            icon = IconManager.MBEAN;
+            icon = IconMbnbger.MBEAN;
         }
     }
 
-    MBeanServerConnection getMBeanServerConnection() {
-        return mbeansTab.getMBeanServerConnection();
+    MBebnServerConnection getMBebnServerConnection() {
+        return mbebnsTbb.getMBebnServerConnection();
     }
 
-    SnapshotMBeanServerConnection getSnapshotMBeanServerConnection() {
-        return mbeansTab.getSnapshotMBeanServerConnection();
+    SnbpshotMBebnServerConnection getSnbpshotMBebnServerConnection() {
+        return mbebnsTbb.getSnbpshotMBebnServerConnection();
     }
 
-    public Boolean isBroadcaster() {
-        synchronized (broadcasterLock) {
-            if (broadcaster == null) {
+    public Boolebn isBrobdcbster() {
+        synchronized (brobdcbsterLock) {
+            if (brobdcbster == null) {
                 try {
-                    broadcaster = getMBeanServerConnection().isInstanceOf(
-                            getObjectName(),
-                            "javax.management.NotificationBroadcaster");
-                } catch (Exception e) {
+                    brobdcbster = getMBebnServerConnection().isInstbnceOf(
+                            getObjectNbme(),
+                            "jbvbx.mbnbgement.NotificbtionBrobdcbster");
+                } cbtch (Exception e) {
                     if (JConsole.isDebug()) {
-                        System.err.println("Couldn't check if MBean [" +
-                                objectName + "] is a notification broadcaster");
-                        e.printStackTrace();
+                        System.err.println("Couldn't check if MBebn [" +
+                                objectNbme + "] is b notificbtion brobdcbster");
+                        e.printStbckTrbce();
                     }
-                    return false;
+                    return fblse;
                 }
             }
-            return broadcaster;
+            return brobdcbster;
         }
     }
 
-    public Object invoke(String operationName) throws Exception {
-        Object result = getMBeanServerConnection().invoke(
-                getObjectName(), operationName, new Object[0], new String[0]);
+    public Object invoke(String operbtionNbme) throws Exception {
+        Object result = getMBebnServerConnection().invoke(
+                getObjectNbme(), operbtionNbme, new Object[0], new String[0]);
         return result;
     }
 
-    public Object invoke(String operationName, Object params[], String sig[])
+    public Object invoke(String operbtionNbme, Object pbrbms[], String sig[])
             throws Exception {
-        Object result = getMBeanServerConnection().invoke(
-                getObjectName(), operationName, params, sig);
+        Object result = getMBebnServerConnection().invoke(
+                getObjectNbme(), operbtionNbme, pbrbms, sig);
         return result;
     }
 
-    public void setAttribute(Attribute attribute)
-            throws AttributeNotFoundException, InstanceNotFoundException,
-            InvalidAttributeValueException, MBeanException,
+    public void setAttribute(Attribute bttribute)
+            throws AttributeNotFoundException, InstbnceNotFoundException,
+            InvblidAttributeVblueException, MBebnException,
             ReflectionException, IOException {
-        getMBeanServerConnection().setAttribute(getObjectName(), attribute);
+        getMBebnServerConnection().setAttribute(getObjectNbme(), bttribute);
     }
 
-    public Object getAttribute(String attributeName)
-            throws AttributeNotFoundException, InstanceNotFoundException,
-            MBeanException, ReflectionException, IOException {
-        return getSnapshotMBeanServerConnection().getAttribute(
-                getObjectName(), attributeName);
+    public Object getAttribute(String bttributeNbme)
+            throws AttributeNotFoundException, InstbnceNotFoundException,
+            MBebnException, ReflectionException, IOException {
+        return getSnbpshotMBebnServerConnection().getAttribute(
+                getObjectNbme(), bttributeNbme);
     }
 
-    public AttributeList getAttributes(String attributeNames[])
-            throws AttributeNotFoundException, InstanceNotFoundException,
-            MBeanException, ReflectionException, IOException {
-        return getSnapshotMBeanServerConnection().getAttributes(
-                getObjectName(), attributeNames);
+    public AttributeList getAttributes(String bttributeNbmes[])
+            throws AttributeNotFoundException, InstbnceNotFoundException,
+            MBebnException, ReflectionException, IOException {
+        return getSnbpshotMBebnServerConnection().getAttributes(
+                getObjectNbme(), bttributeNbmes);
     }
 
-    public AttributeList getAttributes(MBeanAttributeInfo attributeNames[])
-            throws AttributeNotFoundException, InstanceNotFoundException,
-            MBeanException, ReflectionException, IOException {
-        String attributeString[] = new String[attributeNames.length];
-        for (int i = 0; i < attributeNames.length; i++) {
-            attributeString[i] = attributeNames[i].getName();
+    public AttributeList getAttributes(MBebnAttributeInfo bttributeNbmes[])
+            throws AttributeNotFoundException, InstbnceNotFoundException,
+            MBebnException, ReflectionException, IOException {
+        String bttributeString[] = new String[bttributeNbmes.length];
+        for (int i = 0; i < bttributeNbmes.length; i++) {
+            bttributeString[i] = bttributeNbmes[i].getNbme();
         }
-        return getAttributes(attributeString);
+        return getAttributes(bttributeString);
     }
 
-    public ObjectName getObjectName() {
-        return objectName;
+    public ObjectNbme getObjectNbme() {
+        return objectNbme;
     }
 
-    public MBeanInfo getMBeanInfo() throws InstanceNotFoundException,
+    public MBebnInfo getMBebnInfo() throws InstbnceNotFoundException,
             IntrospectionException, ReflectionException, IOException {
-        synchronized (mbeanInfoLock) {
-            if (mbeanInfo == null) {
-                mbeanInfo = getMBeanServerConnection().getMBeanInfo(objectName);
+        synchronized (mbebnInfoLock) {
+            if (mbebnInfo == null) {
+                mbebnInfo = getMBebnServerConnection().getMBebnInfo(objectNbme);
             }
-            return mbeanInfo;
+            return mbebnInfo;
         }
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolebn equbls(Object obj) {
         if (obj == null) {
-            return false;
+            return fblse;
         }
         if (obj == this) {
             return true;
         }
-        if (!(obj instanceof XMBean)) {
-            return false;
+        if (!(obj instbnceof XMBebn)) {
+            return fblse;
         }
-        XMBean that = (XMBean) obj;
-        return getObjectName().equals(that.getObjectName());
+        XMBebn thbt = (XMBebn) obj;
+        return getObjectNbme().equbls(thbt.getObjectNbme());
     }
 
     @Override
-    public int hashCode() {
-        return (objectName == null ? 0 : objectName.hashCode());
+    public int hbshCode() {
+        return (objectNbme == null ? 0 : objectNbme.hbshCode());
     }
 
     public String getText() {

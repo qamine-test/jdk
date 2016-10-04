@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,69 +30,69 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
 /*
- * This file defines 'jstack' function to print stack traces of
- * threads.'jstack' function which can be called once or periodically 
- * from a timer thread (calling it periodically would slow down the target
- * application). To call this once, just call 'jstack()' in script
- * console prompt. To call jstack in a timer thread, you can use
+ * This file defines 'jstbck' function to print stbck trbces of
+ * threbds.'jstbck' function which cbn be cblled once or periodicblly 
+ * from b timer threbd (cblling it periodicblly would slow down the tbrget
+ * bpplicbtion). To cbll this once, just cbll 'jstbck()' in script
+ * console prompt. To cbll jstbck in b timer threbd, you cbn use
  *
- *     var t = setInterval(function () { jstack(print); }, 5000);
+ *     vbr t = setIntervbl(function () { jstbck(print); }, 5000);
  *
- * The above call prints threads in sorted order for every 5 seconds.
- * The print output goes to OS console window from which jconsole was 
- * started. The timer can be cancelled later by clearTimeout() function
- * as shown below:
+ * The bbove cbll prints threbds in sorted order for every 5 seconds.
+ * The print output goes to OS console window from which jconsole wbs 
+ * stbrted. The timer cbn be cbncelled lbter by clebrTimeout() function
+ * bs shown below:
  * 
- *     clearInterval(t);
+ *     clebrIntervbl(t);
  */
 
 
 /**
- * print given ThreadInfo using given printFunc
+ * print given ThrebdInfo using given printFunc
  */
-function printThreadInfo(ti, printFunc) {
-    printFunc(ti.threadId + " - " + ti.threadName + " - " + ti.threadState);
-    var stackTrace = ti.stackTrace;
-    for (var i in stackTrace) {
-        printFunc("\t" + stackTrace[i]);
+function printThrebdInfo(ti, printFunc) {
+    printFunc(ti.threbdId + " - " + ti.threbdNbme + " - " + ti.threbdStbte);
+    vbr stbckTrbce = ti.stbckTrbce;
+    for (vbr i in stbckTrbce) {
+        printFunc("\t" + stbckTrbce[i]);
     }
 }
 
 /**
- * print stack traces of all threads. 
+ * print stbck trbces of bll threbds. 
  *
- * @param printFunc function called to print [optional]
- * @param maxFrames maximum number of frames to print [optional]
+ * @pbrbm printFunc function cblled to print [optionbl]
+ * @pbrbm mbxFrbmes mbximum number of frbmes to print [optionbl]
  */
-function jstack(printFunc, maxFrames) {
-    // by default use 'echo' to print. Other choices could be
-    // 'print' or custom function that writes in a text file
+function jstbck(printFunc, mbxFrbmes) {
+    // by defbult use 'echo' to print. Other choices could be
+    // 'print' or custom function thbt writes in b text file
     if (printFunc == undefined) {
         printFunc = echo;
     }
 
-    // by default print 25 frames
-    if (maxFrames == undefined) {
-        maxFrames = 25;
+    // by defbult print 25 frbmes
+    if (mbxFrbmes == undefined) {
+        mbxFrbmes = 25;
     }
 
-    var tmbean = newPlatformMXBeanProxy(
-        "java.lang:type=Threading",
-        java.lang.management.ThreadMXBean.class);
+    vbr tmbebn = newPlbtformMXBebnProxy(
+        "jbvb.lbng:type=Threbding",
+        jbvb.lbng.mbnbgement.ThrebdMXBebn.clbss);
 
-    var tids = tmbean.allThreadIds;
-    var tinfos = tmbean["getThreadInfo(long[],int)"](tids, maxFrames);
+    vbr tids = tmbebn.bllThrebdIds;
+    vbr tinfos = tmbebn["getThrebdInfo(long[],int)"](tids, mbxFrbmes);
 
-    for (var i in tinfos) {
-        printThreadInfo(tinfos[i], printFunc);
+    for (vbr i in tinfos) {
+        printThrebdInfo(tinfos[i], printFunc);
     }
 }

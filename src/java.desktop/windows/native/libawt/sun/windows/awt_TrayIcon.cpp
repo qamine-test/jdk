@@ -1,650 +1,650 @@
 /*
- * Copyright (c) 2005, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-#include "awt.h"
+#include "bwt.h"
 #include <windowsx.h>
-#include <shellapi.h>
-#include <shlwapi.h>
+#include <shellbpi.h>
+#include <shlwbpi.h>
 
-#include "awt_Toolkit.h"
-#include "awt_TrayIcon.h"
-#include "awt_AWTEvent.h"
+#include "bwt_Toolkit.h"
+#include "bwt_TrbyIcon.h"
+#include "bwt_AWTEvent.h"
 
-#include <java_awt_event_InputEvent.h>
+#include <jbvb_bwt_event_InputEvent.h>
 
 /***********************************************************************/
 // Struct for _SetToolTip() method
 struct SetToolTipStruct {
-    jobject trayIcon;
+    jobject trbyIcon;
     jstring tooltip;
 };
 // Struct for _SetIcon() method
 struct SetIconStruct {
-    jobject trayIcon;
+    jobject trbyIcon;
     HICON hIcon;
 };
-// Struct for _UpdateIcon() method
-struct UpdateIconStruct {
-    jobject trayIcon;
-    jboolean update;
+// Struct for _UpdbteIcon() method
+struct UpdbteIconStruct {
+    jobject trbyIcon;
+    jboolebn updbte;
 };
-// Struct for _DisplayMessage() method
-struct DisplayMessageStruct {
-    jobject trayIcon;
-    jstring caption;
+// Struct for _DisplbyMessbge() method
+struct DisplbyMessbgeStruct {
+    jobject trbyIcon;
+    jstring cbption;
     jstring text;
     jstring msgType;
 };
 
-typedef struct tagBitmapheader  {
-    BITMAPV5HEADER bmiHeader;
-    DWORD            dwMasks[256];
-} Bitmapheader, *LPBITMAPHEADER;
+typedef struct tbgBitmbphebder  {
+    BITMAPV5HEADER bmiHebder;
+    DWORD            dwMbsks[256];
+} Bitmbphebder, *LPBITMAPHEADER;
 
 
 /************************************************************************
- * AwtTrayIcon fields
+ * AwtTrbyIcon fields
  */
 
-jfieldID AwtTrayIcon::idID;
-jfieldID AwtTrayIcon::actionCommandID;
+jfieldID AwtTrbyIcon::idID;
+jfieldID AwtTrbyIcon::bctionCommbndID;
 
-HWND AwtTrayIcon::sm_msgWindow = NULL;
-AwtTrayIcon::TrayIconListItem* AwtTrayIcon::sm_trayIconList = NULL;
-int AwtTrayIcon::sm_instCount = 0;
+HWND AwtTrbyIcon::sm_msgWindow = NULL;
+AwtTrbyIcon::TrbyIconListItem* AwtTrbyIcon::sm_trbyIconList = NULL;
+int AwtTrbyIcon::sm_instCount = 0;
 
 /************************************************************************
- * AwtTrayIcon methods
+ * AwtTrbyIcon methods
  */
 
-AwtTrayIcon::AwtTrayIcon() {
+AwtTrbyIcon::AwtTrbyIcon() {
     ::ZeroMemory(&m_nid, sizeof(m_nid));
 
-    if (sm_instCount++ == 0 && AwtTrayIcon::sm_msgWindow == NULL) {
-        sm_msgWindow = AwtTrayIcon::CreateMessageWindow();
+    if (sm_instCount++ == 0 && AwtTrbyIcon::sm_msgWindow == NULL) {
+        sm_msgWindow = AwtTrbyIcon::CrebteMessbgeWindow();
     }
     m_mouseButtonClickAllowed = 0;
 }
 
-AwtTrayIcon::~AwtTrayIcon() {
+AwtTrbyIcon::~AwtTrbyIcon() {
 }
 
-void AwtTrayIcon::Dispose() {
-    SendTrayMessage(NIM_DELETE);
+void AwtTrbyIcon::Dispose() {
+    SendTrbyMessbge(NIM_DELETE);
     UnlinkObjects();
 
     if (--sm_instCount == 0) {
-        AwtTrayIcon::DestroyMessageWindow();
+        AwtTrbyIcon::DestroyMessbgeWindow();
     }
 
     AwtObject::Dispose();
 }
 
-LPCTSTR AwtTrayIcon::GetClassName() {
-    return TEXT("SunAwtTrayIcon");
+LPCTSTR AwtTrbyIcon::GetClbssNbme() {
+    return TEXT("SunAwtTrbyIcon");
 }
 
-void AwtTrayIcon::FillClassInfo(WNDCLASS *lpwc)
+void AwtTrbyIcon::FillClbssInfo(WNDCLASS *lpwc)
 {
     lpwc->style         = 0L;
-    lpwc->lpfnWndProc   = (WNDPROC)TrayWindowProc;
-    lpwc->cbClsExtra    = 0;
-    lpwc->cbWndExtra    = 0;
-    lpwc->hInstance     = AwtToolkit::GetInstance().GetModuleHandle(),
-    lpwc->hIcon         = AwtToolkit::GetInstance().GetAwtIcon();
+    lpwc->lpfnWndProc   = (WNDPROC)TrbyWindowProc;
+    lpwc->cbClsExtrb    = 0;
+    lpwc->cbWndExtrb    = 0;
+    lpwc->hInstbnce     = AwtToolkit::GetInstbnce().GetModuleHbndle(),
+    lpwc->hIcon         = AwtToolkit::GetInstbnce().GetAwtIcon();
     lpwc->hCursor       = NULL;
-    lpwc->hbrBackground = NULL;
-    lpwc->lpszMenuName  = NULL;
-    lpwc->lpszClassName = AwtTrayIcon::GetClassName();
+    lpwc->hbrBbckground = NULL;
+    lpwc->lpszMenuNbme  = NULL;
+    lpwc->lpszClbssNbme = AwtTrbyIcon::GetClbssNbme();
 }
 
-void AwtTrayIcon::RegisterClass()
+void AwtTrbyIcon::RegisterClbss()
 {
     WNDCLASS  wc;
 
     ::ZeroMemory(&wc, sizeof(wc));
 
-    if (!::GetClassInfo(AwtToolkit::GetInstance().GetModuleHandle(),
-                        AwtTrayIcon::GetClassName(), &wc))
+    if (!::GetClbssInfo(AwtToolkit::GetInstbnce().GetModuleHbndle(),
+                        AwtTrbyIcon::GetClbssNbme(), &wc))
     {
-        AwtTrayIcon::FillClassInfo(&wc);
-        ATOM atom = ::RegisterClass(&wc);
-        DASSERT(atom != 0);
+        AwtTrbyIcon::FillClbssInfo(&wc);
+        ATOM btom = ::RegisterClbss(&wc);
+        DASSERT(btom != 0);
     }
 }
 
-void AwtTrayIcon::UnregisterClass()
+void AwtTrbyIcon::UnregisterClbss()
 {
-    ::UnregisterClass(AwtTrayIcon::GetClassName(), AwtToolkit::GetInstance().GetModuleHandle());
+    ::UnregisterClbss(AwtTrbyIcon::GetClbssNbme(), AwtToolkit::GetInstbnce().GetModuleHbndle());
 }
 
-HWND AwtTrayIcon::CreateMessageWindow()
+HWND AwtTrbyIcon::CrebteMessbgeWindow()
 {
-    AwtTrayIcon::RegisterClass();
+    AwtTrbyIcon::RegisterClbss();
 
-    HWND hWnd = ::CreateWindow(AwtTrayIcon::GetClassName(), TEXT("TrayMessageWindow"),
+    HWND hWnd = ::CrebteWindow(AwtTrbyIcon::GetClbssNbme(), TEXT("TrbyMessbgeWindow"),
                                0, 0, 0, 0, 0, NULL, NULL,
-                               AwtToolkit::GetInstance().GetModuleHandle(), NULL);
+                               AwtToolkit::GetInstbnce().GetModuleHbndle(), NULL);
     return hWnd;
 }
 
-void AwtTrayIcon::DestroyMessageWindow()
+void AwtTrbyIcon::DestroyMessbgeWindow()
 {
-    ::DestroyWindow(AwtTrayIcon::sm_msgWindow);
-    AwtTrayIcon::sm_msgWindow = NULL;
-    AwtTrayIcon::UnregisterClass();
+    ::DestroyWindow(AwtTrbyIcon::sm_msgWindow);
+    AwtTrbyIcon::sm_msgWindow = NULL;
+    AwtTrbyIcon::UnregisterClbss();
 }
 
-AwtTrayIcon* AwtTrayIcon::Create(jobject self, jobject parent)
+AwtTrbyIcon* AwtTrbyIcon::Crebte(jobject self, jobject pbrent)
 {
     JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
-    jobject target = NULL;
-    AwtTrayIcon* awtTrayIcon = NULL;
+    jobject tbrget = NULL;
+    AwtTrbyIcon* bwtTrbyIcon = NULL;
 
-    target  = env->GetObjectField(self, AwtObject::targetID);
-    DASSERT(target);
+    tbrget  = env->GetObjectField(self, AwtObject::tbrgetID);
+    DASSERT(tbrget);
 
-    awtTrayIcon = new AwtTrayIcon();
-    awtTrayIcon->LinkObjects(env, self);
-    awtTrayIcon->InitNID(env->GetIntField(target, AwtTrayIcon::idID));
-    awtTrayIcon->AddTrayIconItem(awtTrayIcon->GetID());
+    bwtTrbyIcon = new AwtTrbyIcon();
+    bwtTrbyIcon->LinkObjects(env, self);
+    bwtTrbyIcon->InitNID(env->GetIntField(tbrget, AwtTrbyIcon::idID));
+    bwtTrbyIcon->AddTrbyIconItem(bwtTrbyIcon->GetID());
 
-    env->DeleteLocalRef(target);
-    return awtTrayIcon;
+    env->DeleteLocblRef(tbrget);
+    return bwtTrbyIcon;
 }
 
-void AwtTrayIcon::InitNID(UINT uID)
+void AwtTrbyIcon::InitNID(UINT uID)
 {
-    // fix for 6271589: we MUST set the size of the structure to match
-    // the shell version, otherwise some errors may occur (like missing
-    // balloon messages on win2k)
+    // fix for 6271589: we MUST set the size of the structure to mbtch
+    // the shell version, otherwise some errors mby occur (like missing
+    // bblloon messbges on win2k)
     DLLVERSIONINFO dllVersionInfo;
     dllVersionInfo.cbSize = sizeof(DLLVERSIONINFO);
     int shellVersion = 5; // WIN_2000
-    // MSDN: DllGetVersion should not be implicitly called, but rather
-    // loaded using GetProcAddress
-    HMODULE hShell = JDK_LoadSystemLibrary("Shell32.dll");
+    // MSDN: DllGetVersion should not be implicitly cblled, but rbther
+    // lobded using GetProcAddress
+    HMODULE hShell = JDK_LobdSystemLibrbry("Shell32.dll");
     if (hShell != NULL) {
         DLLGETVERSIONPROC proc = (DLLGETVERSIONPROC)GetProcAddress(hShell, "DllGetVersion");
         if (proc != NULL) {
             if (proc(&dllVersionInfo) == NOERROR) {
-                shellVersion = dllVersionInfo.dwMajorVersion;
+                shellVersion = dllVersionInfo.dwMbjorVersion;
             }
         }
     }
-    FreeLibrary(hShell);
+    FreeLibrbry(hShell);
     switch (shellVersion) {
-        case 5: // WIN_2000
+        cbse 5: // WIN_2000
             m_nid.cbSize = (BYTE *)(&m_nid.guidItem) - (BYTE *)(&m_nid.cbSize);
-            break;
-        case 6: // WIN_XP
-            m_nid.cbSize = (BYTE *)(&m_nid.hBalloonIcon) - (BYTE *)(&m_nid.cbSize);
-            break;
-        default: // WIN_VISTA
+            brebk;
+        cbse 6: // WIN_XP
+            m_nid.cbSize = (BYTE *)(&m_nid.hBblloonIcon) - (BYTE *)(&m_nid.cbSize);
+            brebk;
+        defbult: // WIN_VISTA
             m_nid.cbSize = sizeof(m_nid);
-            break;
+            brebk;
     }
-    m_nid.hWnd = AwtTrayIcon::sm_msgWindow;
+    m_nid.hWnd = AwtTrbyIcon::sm_msgWindow;
     m_nid.uID = uID;
-    m_nid.uFlags = NIF_ICON | NIF_MESSAGE | NIF_TIP;
-    m_nid.uCallbackMessage = WM_AWT_TRAY_NOTIFY;
-    m_nid.hIcon = AwtToolkit::GetInstance().GetAwtIcon();
+    m_nid.uFlbgs = NIF_ICON | NIF_MESSAGE | NIF_TIP;
+    m_nid.uCbllbbckMessbge = WM_AWT_TRAY_NOTIFY;
+    m_nid.hIcon = AwtToolkit::GetInstbnce().GetAwtIcon();
     m_nid.szTip[0] = '\0';
     m_nid.uVersion = NOTIFYICON_VERSION;
 }
 
-BOOL AwtTrayIcon::SendTrayMessage(DWORD dwMessage)
+BOOL AwtTrbyIcon::SendTrbyMessbge(DWORD dwMessbge)
 {
-    return Shell_NotifyIcon(dwMessage, (PNOTIFYICONDATA)&m_nid);
+    return Shell_NotifyIcon(dwMessbge, (PNOTIFYICONDATA)&m_nid);
 }
 
-static UINT lastMessage = WM_NULL;
+stbtic UINT lbstMessbge = WM_NULL;
 
-LRESULT CALLBACK AwtTrayIcon::TrayWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK AwtTrbyIcon::TrbyWindowProc(HWND hwnd, UINT uMsg, WPARAM wPbrbm, LPARAM lPbrbm)
 {
-    LRESULT retValue = 0;
-    MsgRouting mr = mrDoDefault;
-    static UINT s_msgTaskbarCreated;
+    LRESULT retVblue = 0;
+    MsgRouting mr = mrDoDefbult;
+    stbtic UINT s_msgTbskbbrCrebted;
 
     switch(uMsg)
     {
-        case WM_CREATE:
+        cbse WM_CREATE:
             // Fix for CR#6369062
-            s_msgTaskbarCreated = ::RegisterWindowMessage(TEXT("TaskbarCreated"));
-            break;
-        case WM_AWT_TRAY_NOTIFY:
-            if (hwnd == AwtTrayIcon::sm_msgWindow) {
-                AwtTrayIcon* trayIcon = AwtTrayIcon::SearchTrayIconItem((UINT)wParam);
-                if (trayIcon != NULL) {
-                    mr = trayIcon->WmAwtTrayNotify(wParam, lParam);
+            s_msgTbskbbrCrebted = ::RegisterWindowMessbge(TEXT("TbskbbrCrebted"));
+            brebk;
+        cbse WM_AWT_TRAY_NOTIFY:
+            if (hwnd == AwtTrbyIcon::sm_msgWindow) {
+                AwtTrbyIcon* trbyIcon = AwtTrbyIcon::SebrchTrbyIconItem((UINT)wPbrbm);
+                if (trbyIcon != NULL) {
+                    mr = trbyIcon->WmAwtTrbyNotify(wPbrbm, lPbrbm);
                 }
             }
-            break;
-        default:
-            if(uMsg == s_msgTaskbarCreated) {
-                if (hwnd == AwtTrayIcon::sm_msgWindow) {
-                    mr = WmTaskbarCreated();
+            brebk;
+        defbult:
+            if(uMsg == s_msgTbskbbrCrebted) {
+                if (hwnd == AwtTrbyIcon::sm_msgWindow) {
+                    mr = WmTbskbbrCrebted();
                 }
             }
-            break;
+            brebk;
     }
 
     if (mr != mrConsume) {
-        retValue = ::DefWindowProc(hwnd, uMsg, wParam, lParam);
+        retVblue = ::DefWindowProc(hwnd, uMsg, wPbrbm, lPbrbm);
     }
-    return retValue;
+    return retVblue;
 }
 
 /*
- * This function processes callback messages for taskbar icons.
+ * This function processes cbllbbck messbges for tbskbbr icons.
  */
-MsgRouting AwtTrayIcon::WmAwtTrayNotify(WPARAM wParam, LPARAM lParam)
+MsgRouting AwtTrbyIcon::WmAwtTrbyNotify(WPARAM wPbrbm, LPARAM lPbrbm)
 {
-    MsgRouting mr = mrDoDefault;
+    MsgRouting mr = mrDoDefbult;
 
     POINT pos = {0, 0};
     ::GetCursorPos(&pos);
 
-    lastMessage = (UINT)lParam;
-    UINT flags = AwtToolkit::GetInstance().GetMouseKeyState();
+    lbstMessbge = (UINT)lPbrbm;
+    UINT flbgs = AwtToolkit::GetInstbnce().GetMouseKeyStbte();
 
-    switch((UINT)lParam)
+    switch((UINT)lPbrbm)
     {
-        case WM_MOUSEMOVE:
-            mr = WmMouseMove(flags, pos.x, pos.y);
-            break;
-        case WM_LBUTTONDBLCLK:
-        case WM_LBUTTONDOWN:
-            mr = WmMouseDown(flags, pos.x, pos.y, LEFT_BUTTON);
-            break;
-        case WM_LBUTTONUP:
-            mr = WmMouseUp(flags, pos.x, pos.y, LEFT_BUTTON);
-            break;
-        case WM_RBUTTONDBLCLK:
-        case WM_RBUTTONDOWN:
-            mr = WmMouseDown(flags, pos.x, pos.y, RIGHT_BUTTON);
-            break;
-        case WM_RBUTTONUP:
-            mr = WmMouseUp(flags, pos.x, pos.y, RIGHT_BUTTON);
-            break;
-        case WM_MBUTTONDBLCLK:
-        case WM_MBUTTONDOWN:
-            mr = WmMouseDown(flags, pos.x, pos.y, MIDDLE_BUTTON);
-            break;
-        case WM_MBUTTONUP:
-            mr = WmMouseUp(flags, pos.x, pos.y, MIDDLE_BUTTON);
-            break;
-        case WM_CONTEXTMENU:
+        cbse WM_MOUSEMOVE:
+            mr = WmMouseMove(flbgs, pos.x, pos.y);
+            brebk;
+        cbse WM_LBUTTONDBLCLK:
+        cbse WM_LBUTTONDOWN:
+            mr = WmMouseDown(flbgs, pos.x, pos.y, LEFT_BUTTON);
+            brebk;
+        cbse WM_LBUTTONUP:
+            mr = WmMouseUp(flbgs, pos.x, pos.y, LEFT_BUTTON);
+            brebk;
+        cbse WM_RBUTTONDBLCLK:
+        cbse WM_RBUTTONDOWN:
+            mr = WmMouseDown(flbgs, pos.x, pos.y, RIGHT_BUTTON);
+            brebk;
+        cbse WM_RBUTTONUP:
+            mr = WmMouseUp(flbgs, pos.x, pos.y, RIGHT_BUTTON);
+            brebk;
+        cbse WM_MBUTTONDBLCLK:
+        cbse WM_MBUTTONDOWN:
+            mr = WmMouseDown(flbgs, pos.x, pos.y, MIDDLE_BUTTON);
+            brebk;
+        cbse WM_MBUTTONUP:
+            mr = WmMouseUp(flbgs, pos.x, pos.y, MIDDLE_BUTTON);
+            brebk;
+        cbse WM_CONTEXTMENU:
             mr = WmContextMenu(0, pos.x, pos.y);
-            break;
-        case NIN_KEYSELECT:
+            brebk;
+        cbse NIN_KEYSELECT:
             mr = WmKeySelect(0, pos.x, pos.y);
-            break;
-        case NIN_SELECT:
+            brebk;
+        cbse NIN_SELECT:
             mr = WmSelect(0, pos.x, pos.y);
-            break;
-        case NIN_BALLOONUSERCLICK:
-            mr = WmBalloonUserClick(0, pos.x, pos.y);
-            break;
+            brebk;
+        cbse NIN_BALLOONUSERCLICK:
+            mr = WmBblloonUserClick(0, pos.x, pos.y);
+            brebk;
     }
     return mr;
 }
 
-/* Double-click variables. */
-static jlong multiClickTime = ::GetDoubleClickTime();
-static int multiClickMaxX = ::GetSystemMetrics(SM_CXDOUBLECLK);
-static int multiClickMaxY = ::GetSystemMetrics(SM_CYDOUBLECLK);
-static AwtTrayIcon* lastClickTrIc = NULL;
-static jlong lastTime = 0;
-static int lastClickX = 0;
-static int lastClickY = 0;
-static int lastButton = 0;
-static int clickCount = 0;
+/* Double-click vbribbles. */
+stbtic jlong multiClickTime = ::GetDoubleClickTime();
+stbtic int multiClickMbxX = ::GetSystemMetrics(SM_CXDOUBLECLK);
+stbtic int multiClickMbxY = ::GetSystemMetrics(SM_CYDOUBLECLK);
+stbtic AwtTrbyIcon* lbstClickTrIc = NULL;
+stbtic jlong lbstTime = 0;
+stbtic int lbstClickX = 0;
+stbtic int lbstClickY = 0;
+stbtic int lbstButton = 0;
+stbtic int clickCount = 0;
 
-MsgRouting AwtTrayIcon::WmMouseDown(UINT flags, int x, int y, int button)
+MsgRouting AwtTrbyIcon::WmMouseDown(UINT flbgs, int x, int y, int button)
 {
     jlong now = TimeHelper::windowsToUTC(::GetTickCount());
-    jint javaModif = AwtComponent::GetJavaModifiers();
+    jint jbvbModif = AwtComponent::GetJbvbModifiers();
 
-    if (lastClickTrIc == this &&
-        lastButton == button &&
-        (now - lastTime) <= multiClickTime &&
-        abs(x - lastClickX) <= multiClickMaxX &&
-        abs(y - lastClickY) <= multiClickMaxY)
+    if (lbstClickTrIc == this &&
+        lbstButton == button &&
+        (now - lbstTime) <= multiClickTime &&
+        bbs(x - lbstClickX) <= multiClickMbxX &&
+        bbs(y - lbstClickY) <= multiClickMbxY)
     {
         clickCount++;
     } else {
         clickCount = 1;
-        lastClickTrIc = this;
-        lastButton = button;
-        lastClickX = x;
-        lastClickY = y;
+        lbstClickTrIc = this;
+        lbstButton = button;
+        lbstClickX = x;
+        lbstClickY = y;
     }
-    lastTime = now;
-    // it's needed only if WM_LBUTTONUP doesn't come for some reason
+    lbstTime = now;
+    // it's needed only if WM_LBUTTONUP doesn't come for some rebson
     m_mouseButtonClickAllowed |= AwtComponent::GetButtonMK(button);
 
     MSG msg;
-    AwtComponent::InitMessage(&msg, lastMessage, flags, MAKELPARAM(x, y), x, y);
+    AwtComponent::InitMessbge(&msg, lbstMessbge, flbgs, MAKELPARAM(x, y), x, y);
 
-    SendMouseEvent(java_awt_event_MouseEvent_MOUSE_PRESSED, now, x, y,
-                   javaModif, clickCount, JNI_FALSE,
+    SendMouseEvent(jbvb_bwt_event_MouseEvent_MOUSE_PRESSED, now, x, y,
+                   jbvbModif, clickCount, JNI_FALSE,
                    AwtComponent::GetButton(button), &msg);
 
     return mrConsume;
 }
 
-MsgRouting AwtTrayIcon::WmMouseUp(UINT flags, int x, int y, int button)
+MsgRouting AwtTrbyIcon::WmMouseUp(UINT flbgs, int x, int y, int button)
 {
     MSG msg;
-    AwtComponent::InitMessage(&msg, lastMessage, flags, MAKELPARAM(x, y), x, y);
+    AwtComponent::InitMessbge(&msg, lbstMessbge, flbgs, MAKELPARAM(x, y), x, y);
 
-    SendMouseEvent(java_awt_event_MouseEvent_MOUSE_RELEASED, TimeHelper::windowsToUTC(::GetTickCount()),
-                   x, y, AwtComponent::GetJavaModifiers(), clickCount,
-                   (AwtComponent::GetButton(button) == java_awt_event_MouseEvent_BUTTON3 ?
+    SendMouseEvent(jbvb_bwt_event_MouseEvent_MOUSE_RELEASED, TimeHelper::windowsToUTC(::GetTickCount()),
+                   x, y, AwtComponent::GetJbvbModifiers(), clickCount,
+                   (AwtComponent::GetButton(button) == jbvb_bwt_event_MouseEvent_BUTTON3 ?
                     TRUE : FALSE), AwtComponent::GetButton(button), &msg);
 
-    if ((m_mouseButtonClickAllowed & AwtComponent::GetButtonMK(button)) != 0) { // No up-button in the drag-state
-        SendMouseEvent(java_awt_event_MouseEvent_MOUSE_CLICKED,
-                       TimeHelper::windowsToUTC(::GetTickCount()), x, y, AwtComponent::GetJavaModifiers(),
+    if ((m_mouseButtonClickAllowed & AwtComponent::GetButtonMK(button)) != 0) { // No up-button in the drbg-stbte
+        SendMouseEvent(jbvb_bwt_event_MouseEvent_MOUSE_CLICKED,
+                       TimeHelper::windowsToUTC(::GetTickCount()), x, y, AwtComponent::GetJbvbModifiers(),
                        clickCount, JNI_FALSE, AwtComponent::GetButton(button));
     }
-    m_mouseButtonClickAllowed &= ~AwtComponent::GetButtonMK(button); // Exclude the up-button from the drag-state
+    m_mouseButtonClickAllowed &= ~AwtComponent::GetButtonMK(button); // Exclude the up-button from the drbg-stbte
 
     return mrConsume;
 }
 
-MsgRouting AwtTrayIcon::WmMouseMove(UINT flags, int x, int y)
+MsgRouting AwtTrbyIcon::WmMouseMove(UINT flbgs, int x, int y)
 {
     MSG msg;
-    static AwtTrayIcon* lastComp = NULL;
-    static int lastX = 0;
-    static int lastY = 0;
+    stbtic AwtTrbyIcon* lbstComp = NULL;
+    stbtic int lbstX = 0;
+    stbtic int lbstY = 0;
 
     /*
-     * Workaround for CR#6267980
+     * Workbround for CR#6267980
      * Windows sends WM_MOUSEMOVE if mouse is motionless
      */
-    if (lastComp != this || x != lastX || y != lastY) {
-        lastComp = this;
-        lastX = x;
-        lastY = y;
-        AwtComponent::InitMessage(&msg, lastMessage, flags, MAKELPARAM(x, y), x, y);
-        if ((flags & ALL_MK_BUTTONS) != 0) {
+    if (lbstComp != this || x != lbstX || y != lbstY) {
+        lbstComp = this;
+        lbstX = x;
+        lbstY = y;
+        AwtComponent::InitMessbge(&msg, lbstMessbge, flbgs, MAKELPARAM(x, y), x, y);
+        if ((flbgs & ALL_MK_BUTTONS) != 0) {
             m_mouseButtonClickAllowed = 0;
         } else {
-            SendMouseEvent(java_awt_event_MouseEvent_MOUSE_MOVED, TimeHelper::windowsToUTC(::GetTickCount()), x, y,
-                           AwtComponent::GetJavaModifiers(), 0, JNI_FALSE,
-                           java_awt_event_MouseEvent_NOBUTTON, &msg);
+            SendMouseEvent(jbvb_bwt_event_MouseEvent_MOUSE_MOVED, TimeHelper::windowsToUTC(::GetTickCount()), x, y,
+                           AwtComponent::GetJbvbModifiers(), 0, JNI_FALSE,
+                           jbvb_bwt_event_MouseEvent_NOBUTTON, &msg);
         }
     }
     return mrConsume;
 }
 
-MsgRouting AwtTrayIcon::WmBalloonUserClick(UINT flags, int x, int y)
+MsgRouting AwtTrbyIcon::WmBblloonUserClick(UINT flbgs, int x, int y)
 {
-    if (AwtComponent::GetJavaModifiers() & java_awt_event_InputEvent_BUTTON1_DOWN_MASK) {
+    if (AwtComponent::GetJbvbModifiers() & jbvb_bwt_event_InputEvent_BUTTON1_DOWN_MASK) {
         MSG msg;
-        AwtComponent::InitMessage(&msg, lastMessage, flags, MAKELPARAM(x, y), x, y);
-        SendActionEvent(java_awt_event_ActionEvent_ACTION_PERFORMED, TimeHelper::windowsToUTC(::GetTickCount()),
-                        AwtComponent::GetJavaModifiers(), &msg);
+        AwtComponent::InitMessbge(&msg, lbstMessbge, flbgs, MAKELPARAM(x, y), x, y);
+        SendActionEvent(jbvb_bwt_event_ActionEvent_ACTION_PERFORMED, TimeHelper::windowsToUTC(::GetTickCount()),
+                        AwtComponent::GetJbvbModifiers(), &msg);
     }
     return mrConsume;
 }
 
-MsgRouting AwtTrayIcon::WmKeySelect(UINT flags, int x, int y)
+MsgRouting AwtTrbyIcon::WmKeySelect(UINT flbgs, int x, int y)
 {
-    static jlong lastKeySelectTime = 0;
+    stbtic jlong lbstKeySelectTime = 0;
     jlong now = TimeHelper::windowsToUTC(::GetTickCount());
 
-    // If a user selects a notify icon with the ENTER key,
-    // Shell 5.0 sends double NIN_KEYSELECT notification.
-    if (lastKeySelectTime != now) {
+    // If b user selects b notify icon with the ENTER key,
+    // Shell 5.0 sends double NIN_KEYSELECT notificbtion.
+    if (lbstKeySelectTime != now) {
         MSG msg;
-        AwtComponent::InitMessage(&msg, lastMessage, flags, MAKELPARAM(x, y), x, y);
-        SendActionEvent(java_awt_event_ActionEvent_ACTION_PERFORMED, TimeHelper::windowsToUTC(::GetTickCount()),
-                        AwtComponent::GetJavaModifiers(), &msg);
+        AwtComponent::InitMessbge(&msg, lbstMessbge, flbgs, MAKELPARAM(x, y), x, y);
+        SendActionEvent(jbvb_bwt_event_ActionEvent_ACTION_PERFORMED, TimeHelper::windowsToUTC(::GetTickCount()),
+                        AwtComponent::GetJbvbModifiers(), &msg);
     }
-    lastKeySelectTime = now;
+    lbstKeySelectTime = now;
 
     return mrConsume;
 }
 
-MsgRouting AwtTrayIcon::WmSelect(UINT flags, int x, int y)
+MsgRouting AwtTrbyIcon::WmSelect(UINT flbgs, int x, int y)
 {
 
-    // If a user click on a notify icon with the mouse,
-    // Shell 5.0 sends NIN_SELECT notification on every click.
-    // To be compatible with JDK6.0 only second click is important.
+    // If b user click on b notify icon with the mouse,
+    // Shell 5.0 sends NIN_SELECT notificbtion on every click.
+    // To be compbtible with JDK6.0 only second click is importbnt.
     if (clickCount == 2) {
         MSG msg;
-        AwtComponent::InitMessage(&msg, lastMessage, flags, MAKELPARAM(x, y), x, y);
-        SendActionEvent(java_awt_event_ActionEvent_ACTION_PERFORMED, TimeHelper::windowsToUTC(::GetTickCount()),
-                        AwtComponent::GetJavaModifiers(), &msg);
+        AwtComponent::InitMessbge(&msg, lbstMessbge, flbgs, MAKELPARAM(x, y), x, y);
+        SendActionEvent(jbvb_bwt_event_ActionEvent_ACTION_PERFORMED, TimeHelper::windowsToUTC(::GetTickCount()),
+                        AwtComponent::GetJbvbModifiers(), &msg);
     }
     return mrConsume;
 }
 
-MsgRouting AwtTrayIcon::WmContextMenu(UINT flags, int x, int y)
+MsgRouting AwtTrbyIcon::WmContextMenu(UINT flbgs, int x, int y)
 {
     JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
     jobject peer = GetPeer(env);
     if (peer != NULL) {
-        JNU_CallMethodByName(env, NULL, peer, "showPopupMenu",
+        JNU_CbllMethodByNbme(env, NULL, peer, "showPopupMenu",
                              "(II)V", x, y);
     }
     return mrConsume;
 }
 
 /*
- * Adds all icons we already have to taskbar.
- * We use this method on taskbar recreation (see 6369062).
+ * Adds bll icons we blrebdy hbve to tbskbbr.
+ * We use this method on tbskbbr recrebtion (see 6369062).
  */
-MsgRouting AwtTrayIcon::WmTaskbarCreated() {
-    TrayIconListItem* item;
-    for (item = sm_trayIconList; item != NULL; item = item->m_next) {
-        BOOL result = item->m_trayIcon->SendTrayMessage(NIM_ADD);
-        // 6270114: Instructs the taskbar to behave according to the Shell version 5.0
+MsgRouting AwtTrbyIcon::WmTbskbbrCrebted() {
+    TrbyIconListItem* item;
+    for (item = sm_trbyIconList; item != NULL; item = item->m_next) {
+        BOOL result = item->m_trbyIcon->SendTrbyMessbge(NIM_ADD);
+        // 6270114: Instructs the tbskbbr to behbve bccording to the Shell version 5.0
         if (result) {
-            item->m_trayIcon->SendTrayMessage(NIM_SETVERSION);
+            item->m_trbyIcon->SendTrbyMessbge(NIM_SETVERSION);
         }
     }
-    return mrDoDefault;
+    return mrDoDefbult;
 }
 
-void AwtTrayIcon::SendMouseEvent(jint id, jlong when, jint x, jint y,
+void AwtTrbyIcon::SendMouseEvent(jint id, jlong when, jint x, jint y,
                                  jint modifiers, jint clickCount,
-                                 jboolean popupTrigger, jint button,
+                                 jboolebn popupTrigger, jint button,
                                  MSG *pMsg)
 {
     JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
     if (GetPeer(env) == NULL) {
-        /* event received during termination. */
+        /* event received during terminbtion. */
         return;
     }
 
-    static jclass mouseEventCls;
+    stbtic jclbss mouseEventCls;
     if (mouseEventCls == NULL) {
-        jclass mouseEventClsLocal =
-            env->FindClass("java/awt/event/MouseEvent");
-        if (!mouseEventClsLocal) {
-            /* exception already thrown */
+        jclbss mouseEventClsLocbl =
+            env->FindClbss("jbvb/bwt/event/MouseEvent");
+        if (!mouseEventClsLocbl) {
+            /* exception blrebdy thrown */
             return;
         }
-        mouseEventCls = (jclass)env->NewGlobalRef(mouseEventClsLocal);
-        env->DeleteLocalRef(mouseEventClsLocal);
+        mouseEventCls = (jclbss)env->NewGlobblRef(mouseEventClsLocbl);
+        env->DeleteLocblRef(mouseEventClsLocbl);
     }
 
-    static jmethodID mouseEventConst;
+    stbtic jmethodID mouseEventConst;
     if (mouseEventConst == NULL) {
         mouseEventConst =
             env->GetMethodID(mouseEventCls, "<init>",
-                             "(Ljava/awt/Component;IJIIIIIIZI)V");
+                             "(Ljbvb/bwt/Component;IJIIIIIIZI)V");
         DASSERT(mouseEventConst);
         CHECK_NULL(mouseEventConst);
     }
-    if (env->EnsureLocalCapacity(2) < 0) {
+    if (env->EnsureLocblCbpbcity(2) < 0) {
         return;
     }
-    jobject target = GetTarget(env);
+    jobject tbrget = GetTbrget(env);
     jobject mouseEvent = env->NewObject(mouseEventCls, mouseEventConst,
-                                        target,
+                                        tbrget,
                                         id, when, modifiers,
-                                        x, y, // no client area coordinates
+                                        x, y, // no client breb coordinbtes
                                         x, y,
                                         clickCount, popupTrigger, button);
 
-    if (safe_ExceptionOccurred(env)) {
+    if (sbfe_ExceptionOccurred(env)) {
         env->ExceptionDescribe();
-        env->ExceptionClear();
+        env->ExceptionClebr();
     }
 
     DASSERT(mouseEvent != NULL);
     if (pMsg != 0) {
-        AwtAWTEvent::saveMSG(env, pMsg, mouseEvent);
+        AwtAWTEvent::sbveMSG(env, pMsg, mouseEvent);
     }
     SendEvent(mouseEvent);
 
-    env->DeleteLocalRef(mouseEvent);
-    env->DeleteLocalRef(target);
+    env->DeleteLocblRef(mouseEvent);
+    env->DeleteLocblRef(tbrget);
 }
 
-void AwtTrayIcon::SendActionEvent(jint id, jlong when, jint modifiers, MSG *pMsg)
+void AwtTrbyIcon::SendActionEvent(jint id, jlong when, jint modifiers, MSG *pMsg)
 {
     JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
     if (GetPeer(env) == NULL) {
-        /* event received during termination. */
+        /* event received during terminbtion. */
         return;
     }
 
-    static jclass actionEventCls;
-    if (actionEventCls == NULL) {
-        jclass actionEventClsLocal =
-            env->FindClass("java/awt/event/ActionEvent");
-        if (!actionEventClsLocal) {
-            /* exception already thrown */
+    stbtic jclbss bctionEventCls;
+    if (bctionEventCls == NULL) {
+        jclbss bctionEventClsLocbl =
+            env->FindClbss("jbvb/bwt/event/ActionEvent");
+        if (!bctionEventClsLocbl) {
+            /* exception blrebdy thrown */
             return;
         }
-        actionEventCls = (jclass)env->NewGlobalRef(actionEventClsLocal);
-        env->DeleteLocalRef(actionEventClsLocal);
+        bctionEventCls = (jclbss)env->NewGlobblRef(bctionEventClsLocbl);
+        env->DeleteLocblRef(bctionEventClsLocbl);
     }
 
-    static jmethodID actionEventConst;
-    if (actionEventConst == NULL) {
-        actionEventConst =
-            env->GetMethodID(actionEventCls, "<init>",
-                             "(Ljava/lang/Object;ILjava/lang/String;JI)V");
-        DASSERT(actionEventConst);
-        CHECK_NULL(actionEventConst);
+    stbtic jmethodID bctionEventConst;
+    if (bctionEventConst == NULL) {
+        bctionEventConst =
+            env->GetMethodID(bctionEventCls, "<init>",
+                             "(Ljbvb/lbng/Object;ILjbvb/lbng/String;JI)V");
+        DASSERT(bctionEventConst);
+        CHECK_NULL(bctionEventConst);
     }
-    if (env->EnsureLocalCapacity(2) < 0) {
+    if (env->EnsureLocblCbpbcity(2) < 0) {
         return;
     }
-    jobject target = GetTarget(env);
-    jstring actionCommand = (jstring)env->GetObjectField(target, AwtTrayIcon::actionCommandID);
-    jobject actionEvent = env->NewObject(actionEventCls, actionEventConst,
-                                         target, id, actionCommand, when, modifiers);
+    jobject tbrget = GetTbrget(env);
+    jstring bctionCommbnd = (jstring)env->GetObjectField(tbrget, AwtTrbyIcon::bctionCommbndID);
+    jobject bctionEvent = env->NewObject(bctionEventCls, bctionEventConst,
+                                         tbrget, id, bctionCommbnd, when, modifiers);
 
-    if (safe_ExceptionOccurred(env)) {
+    if (sbfe_ExceptionOccurred(env)) {
         env->ExceptionDescribe();
-        env->ExceptionClear();
+        env->ExceptionClebr();
     }
 
-    DASSERT(actionEvent != NULL);
+    DASSERT(bctionEvent != NULL);
     if (pMsg != 0) {
-        AwtAWTEvent::saveMSG(env, pMsg, actionEvent);
+        AwtAWTEvent::sbveMSG(env, pMsg, bctionEvent);
     }
-    SendEvent(actionEvent);
+    SendEvent(bctionEvent);
 
-    env->DeleteLocalRef(actionEvent);
-    env->DeleteLocalRef(target);
-    env->DeleteLocalRef(actionCommand);
+    env->DeleteLocblRef(bctionEvent);
+    env->DeleteLocblRef(tbrget);
+    env->DeleteLocblRef(bctionCommbnd);
 }
 
-AwtTrayIcon* AwtTrayIcon::SearchTrayIconItem(UINT id) {
-    TrayIconListItem* item;
-    for (item = sm_trayIconList; item != NULL; item = item->m_next) {
+AwtTrbyIcon* AwtTrbyIcon::SebrchTrbyIconItem(UINT id) {
+    TrbyIconListItem* item;
+    for (item = sm_trbyIconList; item != NULL; item = item->m_next) {
         if (item->m_ID == id) {
-            return item->m_trayIcon;
+            return item->m_trbyIcon;
         }
     }
     /*
      * DASSERT(FALSE);
-     * This should not be happend if all tray icons are recorded
+     * This should not be hbppend if bll trby icons bre recorded
      */
     return NULL;
 }
 
-void AwtTrayIcon::RemoveTrayIconItem(UINT id) {
-    TrayIconListItem* item = sm_trayIconList;
-    TrayIconListItem* lastItem = NULL;
+void AwtTrbyIcon::RemoveTrbyIconItem(UINT id) {
+    TrbyIconListItem* item = sm_trbyIconList;
+    TrbyIconListItem* lbstItem = NULL;
     while (item != NULL) {
         if (item->m_ID == id) {
-            if (lastItem == NULL) {
-                sm_trayIconList = item->m_next;
+            if (lbstItem == NULL) {
+                sm_trbyIconList = item->m_next;
             } else {
-                lastItem->m_next = item->m_next;
+                lbstItem->m_next = item->m_next;
             }
             item->m_next = NULL;
             DASSERT(item != NULL);
             delete item;
             return;
         }
-        lastItem = item;
+        lbstItem = item;
         item = item->m_next;
     }
 }
 
-void AwtTrayIcon::LinkObjects(JNIEnv *env, jobject peer)
+void AwtTrbyIcon::LinkObjects(JNIEnv *env, jobject peer)
 {
     if (m_peerObject == NULL) {
-        m_peerObject = env->NewGlobalRef(peer);
+        m_peerObject = env->NewGlobblRef(peer);
     }
 
-    /* Bind JavaPeer -> C++*/
+    /* Bind JbvbPeer -> C++*/
     JNI_SET_PDATA(peer, this);
 }
 
-void AwtTrayIcon::UnlinkObjects()
+void AwtTrbyIcon::UnlinkObjects()
 {
     JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
     if (m_peerObject) {
-        JNI_SET_PDATA(m_peerObject, static_cast<PDATA>(NULL));
-        env->DeleteGlobalRef(m_peerObject);
+        JNI_SET_PDATA(m_peerObject, stbtic_cbst<PDATA>(NULL));
+        env->DeleteGlobblRef(m_peerObject);
         m_peerObject = NULL;
     }
 }
 
-HBITMAP AwtTrayIcon::CreateBMP(HWND hW,int* imageData,int nSS, int nW, int nH)
+HBITMAP AwtTrbyIcon::CrebteBMP(HWND hW,int* imbgeDbtb,int nSS, int nW, int nH)
 {
-    Bitmapheader    bmhHeader = {0};
+    Bitmbphebder    bmhHebder = {0};
     HDC             hDC;
-    char            *ptrImageData;
-    HBITMAP         hbmpBitmap;
-    HBITMAP         hBitmap;
-    int             nNumChannels    = 4;
+    chbr            *ptrImbgeDbtb;
+    HBITMAP         hbmpBitmbp;
+    HBITMAP         hBitmbp;
+    int             nNumChbnnels    = 4;
 
     if (!hW) {
         hW = ::GetDesktopWindow();
@@ -654,29 +654,29 @@ HBITMAP AwtTrayIcon::CreateBMP(HWND hW,int* imageData,int nSS, int nW, int nH)
         return NULL;
     }
 
-    bmhHeader.bmiHeader.bV5Size              = sizeof(BITMAPV5HEADER);
-    bmhHeader.bmiHeader.bV5Width             = nW;
-    bmhHeader.bmiHeader.bV5Height            = -nH;
-    bmhHeader.bmiHeader.bV5Planes            = 1;
+    bmhHebder.bmiHebder.bV5Size              = sizeof(BITMAPV5HEADER);
+    bmhHebder.bmiHebder.bV5Width             = nW;
+    bmhHebder.bmiHebder.bV5Height            = -nH;
+    bmhHebder.bmiHebder.bV5Plbnes            = 1;
 
-    bmhHeader.bmiHeader.bV5BitCount          = 32;
-    bmhHeader.bmiHeader.bV5Compression       = BI_BITFIELDS;
+    bmhHebder.bmiHebder.bV5BitCount          = 32;
+    bmhHebder.bmiHebder.bV5Compression       = BI_BITFIELDS;
 
-    // The following mask specification specifies a supported 32 BPP
-    // alpha format for Windows XP.
-    bmhHeader.bmiHeader.bV5RedMask   =  0x00FF0000;
-    bmhHeader.bmiHeader.bV5GreenMask =  0x0000FF00;
-    bmhHeader.bmiHeader.bV5BlueMask  =  0x000000FF;
-    bmhHeader.bmiHeader.bV5AlphaMask =  0xFF000000;
+    // The following mbsk specificbtion specifies b supported 32 BPP
+    // blphb formbt for Windows XP.
+    bmhHebder.bmiHebder.bV5RedMbsk   =  0x00FF0000;
+    bmhHebder.bmiHebder.bV5GreenMbsk =  0x0000FF00;
+    bmhHebder.bmiHebder.bV5BlueMbsk  =  0x000000FF;
+    bmhHebder.bmiHebder.bV5AlphbMbsk =  0xFF000000;
 
-    hbmpBitmap = ::CreateDIBSection(hDC, (BITMAPINFO*)&(bmhHeader),
+    hbmpBitmbp = ::CrebteDIBSection(hDC, (BITMAPINFO*)&(bmhHebder),
                                     DIB_RGB_COLORS,
-                                    (void**)&(ptrImageData),
+                                    (void**)&(ptrImbgeDbtb),
                                     NULL, 0);
-    int  *srcPtr = imageData;
-    char *dstPtr = ptrImageData;
+    int  *srcPtr = imbgeDbtb;
+    chbr *dstPtr = ptrImbgeDbtb;
     if (!dstPtr) {
-        ReleaseDC(hW, hDC);
+        RelebseDC(hW, hDC);
         return NULL;
     }
     for (int nOutern = 0; nOutern < nH; nOutern++) {
@@ -687,25 +687,25 @@ HBITMAP AwtTrayIcon::CreateBMP(HWND hW,int* imageData,int nSS, int nW, int nH)
             dstPtr[0] = *srcPtr & 0xFF;
 
             srcPtr++;
-            dstPtr += nNumChannels;
+            dstPtr += nNumChbnnels;
         }
     }
 
-    // convert it into DDB to make CustomCursor work on WIN95
-    hBitmap = CreateDIBitmap(hDC,
-                             (BITMAPINFOHEADER*)&bmhHeader,
+    // convert it into DDB to mbke CustomCursor work on WIN95
+    hBitmbp = CrebteDIBitmbp(hDC,
+                             (BITMAPINFOHEADER*)&bmhHebder,
                              CBM_INIT,
-                             (void *)ptrImageData,
-                             (BITMAPINFO*)&bmhHeader,
+                             (void *)ptrImbgeDbtb,
+                             (BITMAPINFO*)&bmhHebder,
                              DIB_RGB_COLORS);
 
-    ::DeleteObject(hbmpBitmap);
-    ::ReleaseDC(hW, hDC);
+    ::DeleteObject(hbmpBitmbp);
+    ::RelebseDC(hW, hDC);
 //  ::GdiFlush();
-    return hBitmap;
+    return hBitmbp;
 }
 
-void AwtTrayIcon::SetToolTip(LPCTSTR tooltip)
+void AwtTrbyIcon::SetToolTip(LPCTSTR tooltip)
 {
     if (tooltip == NULL) {
         m_nid.szTip[0] = '\0';
@@ -716,111 +716,111 @@ void AwtTrayIcon::SetToolTip(LPCTSTR tooltip)
         _tcscpy_s(m_nid.szTip, TRAY_ICON_TOOLTIP_MAX_SIZE, tooltip);
     }
 
-    SendTrayMessage(NIM_MODIFY);
+    SendTrbyMessbge(NIM_MODIFY);
 }
 
-void AwtTrayIcon::_SetToolTip(void *param)
+void AwtTrbyIcon::_SetToolTip(void *pbrbm)
 {
     JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
-    SetToolTipStruct *sts = (SetToolTipStruct *)param;
-    jobject self = sts->trayIcon;
+    SetToolTipStruct *sts = (SetToolTipStruct *)pbrbm;
+    jobject self = sts->trbyIcon;
     jstring jtooltip = sts->tooltip;
-    AwtTrayIcon *trayIcon = NULL;
+    AwtTrbyIcon *trbyIcon = NULL;
     LPCTSTR tooltipStr = NULL;
 
-    PDATA pData;
+    PDATA pDbtb;
     JNI_CHECK_PEER_GOTO(self, ret);
-    trayIcon = (AwtTrayIcon *)pData;
+    trbyIcon = (AwtTrbyIcon *)pDbtb;
 
     if (jtooltip == NULL) {
-        trayIcon->SetToolTip(NULL);
+        trbyIcon->SetToolTip(NULL);
         goto ret;
     }
 
-    tooltipStr = JNU_GetStringPlatformChars(env, jtooltip, (jboolean *)NULL);
+    tooltipStr = JNU_GetStringPlbtformChbrs(env, jtooltip, (jboolebn *)NULL);
     if (env->ExceptionCheck()) goto ret;
-    trayIcon->SetToolTip(tooltipStr);
-    JNU_ReleaseStringPlatformChars(env, jtooltip, tooltipStr);
+    trbyIcon->SetToolTip(tooltipStr);
+    JNU_RelebseStringPlbtformChbrs(env, jtooltip, tooltipStr);
 ret:
-    env->DeleteGlobalRef(self);
-    env->DeleteGlobalRef(jtooltip);
+    env->DeleteGlobblRef(self);
+    env->DeleteGlobblRef(jtooltip);
     delete sts;
 }
 
-void AwtTrayIcon::SetIcon(HICON hIcon)
+void AwtTrbyIcon::SetIcon(HICON hIcon)
 {
     ::DestroyIcon(m_nid.hIcon);
     m_nid.hIcon = hIcon;
 }
 
-void AwtTrayIcon::_SetIcon(void *param)
+void AwtTrbyIcon::_SetIcon(void *pbrbm)
 {
     JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
-    SetIconStruct *sis = (SetIconStruct *)param;
-    jobject self = sis->trayIcon;
+    SetIconStruct *sis = (SetIconStruct *)pbrbm;
+    jobject self = sis->trbyIcon;
     HICON hIcon = sis->hIcon;
-    AwtTrayIcon *trayIcon = NULL;
+    AwtTrbyIcon *trbyIcon = NULL;
 
-    PDATA pData;
+    PDATA pDbtb;
     JNI_CHECK_PEER_GOTO(self, ret);
-    trayIcon = (AwtTrayIcon *)pData;
+    trbyIcon = (AwtTrbyIcon *)pDbtb;
 
-    trayIcon->SetIcon(hIcon);
+    trbyIcon->SetIcon(hIcon);
 
 ret:
-    env->DeleteGlobalRef(self);
+    env->DeleteGlobblRef(self);
     delete sis;
 }
 
-void AwtTrayIcon::_UpdateIcon(void *param)
+void AwtTrbyIcon::_UpdbteIcon(void *pbrbm)
 {
     JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
-    UpdateIconStruct *uis = (UpdateIconStruct *)param;
-    jobject self = uis->trayIcon;
-    jboolean jupdate = uis->update;
-    AwtTrayIcon *trayIcon = NULL;
+    UpdbteIconStruct *uis = (UpdbteIconStruct *)pbrbm;
+    jobject self = uis->trbyIcon;
+    jboolebn jupdbte = uis->updbte;
+    AwtTrbyIcon *trbyIcon = NULL;
 
-    PDATA pData;
+    PDATA pDbtb;
     JNI_CHECK_PEER_GOTO(self, ret);
-    trayIcon = (AwtTrayIcon *)pData;
+    trbyIcon = (AwtTrbyIcon *)pDbtb;
 
-    BOOL result = trayIcon->SendTrayMessage(jupdate == JNI_TRUE ? NIM_MODIFY : NIM_ADD);
-    // 6270114: Instructs the taskbar to behave according to the Shell version 5.0
-    if (result && jupdate == JNI_FALSE) {
-        trayIcon->SendTrayMessage(NIM_SETVERSION);
+    BOOL result = trbyIcon->SendTrbyMessbge(jupdbte == JNI_TRUE ? NIM_MODIFY : NIM_ADD);
+    // 6270114: Instructs the tbskbbr to behbve bccording to the Shell version 5.0
+    if (result && jupdbte == JNI_FALSE) {
+        trbyIcon->SendTrbyMessbge(NIM_SETVERSION);
     }
 ret:
-    env->DeleteGlobalRef(self);
+    env->DeleteGlobblRef(self);
     delete uis;
 }
 
-void AwtTrayIcon::DisplayMessage(LPCTSTR caption, LPCTSTR text, LPCTSTR msgType)
+void AwtTrbyIcon::DisplbyMessbge(LPCTSTR cbption, LPCTSTR text, LPCTSTR msgType)
 {
-    m_nid.uFlags |= NIF_INFO;
+    m_nid.uFlbgs |= NIF_INFO;
     m_nid.uTimeout = 10000;
 
     if (lstrcmp(msgType, TEXT("ERROR")) == 0) {
-        m_nid.dwInfoFlags = NIIF_ERROR;
+        m_nid.dwInfoFlbgs = NIIF_ERROR;
     } else if (lstrcmp(msgType, TEXT("WARNING")) == 0) {
-        m_nid.dwInfoFlags = NIIF_WARNING;
+        m_nid.dwInfoFlbgs = NIIF_WARNING;
     } else if (lstrcmp(msgType, TEXT("INFO")) == 0) {
-        m_nid.dwInfoFlags = NIIF_INFO;
+        m_nid.dwInfoFlbgs = NIIF_INFO;
     } else if (lstrcmp(msgType, TEXT("NONE")) == 0) {
-        m_nid.dwInfoFlags = NIIF_NONE;
+        m_nid.dwInfoFlbgs = NIIF_NONE;
     } else {
-        m_nid.dwInfoFlags = NIIF_NONE;
+        m_nid.dwInfoFlbgs = NIIF_NONE;
     }
 
-    if (caption[0] == '\0') {
+    if (cbption[0] == '\0') {
         m_nid.szInfoTitle[0] = '\0';
 
-    } else if (lstrlen(caption) > TRAY_ICON_BALLOON_TITLE_MAX_SIZE) {
+    } else if (lstrlen(cbption) > TRAY_ICON_BALLOON_TITLE_MAX_SIZE) {
 
-        _tcsncpy(m_nid.szInfoTitle, caption, TRAY_ICON_BALLOON_TITLE_MAX_SIZE);
+        _tcsncpy(m_nid.szInfoTitle, cbption, TRAY_ICON_BALLOON_TITLE_MAX_SIZE);
         m_nid.szInfoTitle[TRAY_ICON_BALLOON_TITLE_MAX_SIZE - 1] = '\0';
 
     } else {
-        _tcscpy_s(m_nid.szInfoTitle, TRAY_ICON_BALLOON_TITLE_MAX_SIZE, caption);
+        _tcscpy_s(m_nid.szInfoTitle, TRAY_ICON_BALLOON_TITLE_MAX_SIZE, cbption);
     }
 
     if (text[0] == '\0') {
@@ -836,107 +836,107 @@ void AwtTrayIcon::DisplayMessage(LPCTSTR caption, LPCTSTR text, LPCTSTR msgType)
         _tcscpy_s(m_nid.szInfo, TRAY_ICON_BALLOON_INFO_MAX_SIZE, text);
     }
 
-    SendTrayMessage(NIM_MODIFY);
-    m_nid.uFlags &= ~NIF_INFO;
+    SendTrbyMessbge(NIM_MODIFY);
+    m_nid.uFlbgs &= ~NIF_INFO;
 }
 
-void AwtTrayIcon::_DisplayMessage(void *param)
+void AwtTrbyIcon::_DisplbyMessbge(void *pbrbm)
 {
     JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
-    DisplayMessageStruct *dms = (DisplayMessageStruct *)param;
-    jobject self = dms->trayIcon;
-    jstring jcaption = dms->caption;
+    DisplbyMessbgeStruct *dms = (DisplbyMessbgeStruct *)pbrbm;
+    jobject self = dms->trbyIcon;
+    jstring jcbption = dms->cbption;
     jstring jtext = dms-> text;
     jstring jmsgType = dms->msgType;
-    AwtTrayIcon *trayIcon = NULL;
-    LPCTSTR captionStr = NULL;
+    AwtTrbyIcon *trbyIcon = NULL;
+    LPCTSTR cbptionStr = NULL;
     LPCTSTR textStr = NULL;
     LPCTSTR msgTypeStr = NULL;
 
-    PDATA pData;
+    PDATA pDbtb;
     JNI_CHECK_PEER_GOTO(self, ret);
-    trayIcon = (AwtTrayIcon *)pData;
+    trbyIcon = (AwtTrbyIcon *)pDbtb;
 
-    captionStr = JNU_GetStringPlatformChars(env, jcaption, (jboolean *)NULL);
+    cbptionStr = JNU_GetStringPlbtformChbrs(env, jcbption, (jboolebn *)NULL);
     if (env->ExceptionCheck()) goto ret;
-    textStr = JNU_GetStringPlatformChars(env, jtext, (jboolean *)NULL);
+    textStr = JNU_GetStringPlbtformChbrs(env, jtext, (jboolebn *)NULL);
     if (env->ExceptionCheck()) {
-        JNU_ReleaseStringPlatformChars(env, jcaption, captionStr);
+        JNU_RelebseStringPlbtformChbrs(env, jcbption, cbptionStr);
         goto ret;
     }
-    msgTypeStr = JNU_GetStringPlatformChars(env, jmsgType, (jboolean *)NULL);
+    msgTypeStr = JNU_GetStringPlbtformChbrs(env, jmsgType, (jboolebn *)NULL);
     if (env->ExceptionCheck()) {
-        JNU_ReleaseStringPlatformChars(env, jcaption, captionStr);
-        JNU_ReleaseStringPlatformChars(env, jtext, textStr);
+        JNU_RelebseStringPlbtformChbrs(env, jcbption, cbptionStr);
+        JNU_RelebseStringPlbtformChbrs(env, jtext, textStr);
         goto ret;
     }
-    trayIcon->DisplayMessage(captionStr, textStr, msgTypeStr);
+    trbyIcon->DisplbyMessbge(cbptionStr, textStr, msgTypeStr);
 
-    JNU_ReleaseStringPlatformChars(env, jcaption, captionStr);
-    JNU_ReleaseStringPlatformChars(env, jtext, textStr);
-    JNU_ReleaseStringPlatformChars(env, jmsgType, msgTypeStr);
+    JNU_RelebseStringPlbtformChbrs(env, jcbption, cbptionStr);
+    JNU_RelebseStringPlbtformChbrs(env, jtext, textStr);
+    JNU_RelebseStringPlbtformChbrs(env, jmsgType, msgTypeStr);
 ret:
-    env->DeleteGlobalRef(self);
-    env->DeleteGlobalRef(jcaption);
-    env->DeleteGlobalRef(jtext);
-    env->DeleteGlobalRef(jmsgType);
+    env->DeleteGlobblRef(self);
+    env->DeleteGlobblRef(jcbption);
+    env->DeleteGlobblRef(jtext);
+    env->DeleteGlobblRef(jmsgType);
     delete dms;
 }
 
 /************************************************************************
- * TrayIcon native methods
+ * TrbyIcon nbtive methods
  */
 
 extern "C" {
 
 /*
- * Class:     java_awt_TrayIcon
+ * Clbss:     jbvb_bwt_TrbyIcon
  * Method:    initIDs
- * Signature: ()V
+ * Signbture: ()V
  */
 JNIEXPORT void JNICALL
-Java_java_awt_TrayIcon_initIDs(JNIEnv *env, jclass cls)
+Jbvb_jbvb_bwt_TrbyIcon_initIDs(JNIEnv *env, jclbss cls)
 {
     TRY;
 
     /* init field ids */
-    AwtTrayIcon::idID = env->GetFieldID(cls, "id", "I");
-    DASSERT(AwtTrayIcon::idID != NULL);
-    CHECK_NULL(AwtTrayIcon::idID);
+    AwtTrbyIcon::idID = env->GetFieldID(cls, "id", "I");
+    DASSERT(AwtTrbyIcon::idID != NULL);
+    CHECK_NULL(AwtTrbyIcon::idID);
 
-    AwtTrayIcon::actionCommandID = env->GetFieldID(cls, "actionCommand", "Ljava/lang/String;");
-    DASSERT(AwtTrayIcon::actionCommandID != NULL);
-    CHECK_NULL( AwtTrayIcon::actionCommandID);
+    AwtTrbyIcon::bctionCommbndID = env->GetFieldID(cls, "bctionCommbnd", "Ljbvb/lbng/String;");
+    DASSERT(AwtTrbyIcon::bctionCommbndID != NULL);
+    CHECK_NULL( AwtTrbyIcon::bctionCommbndID);
 
     CATCH_BAD_ALLOC;
 }
 
 /*
- * Class:     sun_awt_windows_WTrayIconPeer
- * Method:    create
- * Signature: ()V
+ * Clbss:     sun_bwt_windows_WTrbyIconPeer
+ * Method:    crebte
+ * Signbture: ()V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WTrayIconPeer_create(JNIEnv *env, jobject self)
+Jbvb_sun_bwt_windows_WTrbyIconPeer_crebte(JNIEnv *env, jobject self)
 {
     TRY;
 
-    AwtToolkit::CreateComponent(self, NULL,
-                                (AwtToolkit::ComponentFactory)
-                                AwtTrayIcon::Create);
-    PDATA pData;
+    AwtToolkit::CrebteComponent(self, NULL,
+                                (AwtToolkit::ComponentFbctory)
+                                AwtTrbyIcon::Crebte);
+    PDATA pDbtb;
     JNI_CHECK_PEER_CREATION_RETURN(self);
 
     CATCH_BAD_ALLOC;
 }
 
 /*
- * Class:     sun_awt_windows_WTrayIconPeer
+ * Clbss:     sun_bwt_windows_WTrbyIconPeer
  * Method:    _dispose
- * Signature: ()V
+ * Signbture: ()V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WTrayIconPeer__1dispose(JNIEnv *env, jobject self)
+Jbvb_sun_bwt_windows_WTrbyIconPeer__1dispose(JNIEnv *env, jobject self)
 {
     TRY;
 
@@ -946,140 +946,140 @@ Java_sun_awt_windows_WTrayIconPeer__1dispose(JNIEnv *env, jobject self)
 }
 
 /*
- * Class:     sun_awt_windows_WTrayIconPeer
+ * Clbss:     sun_bwt_windows_WTrbyIconPeer
  * Method:    _setToolTip
- * Signature: ()V
+ * Signbture: ()V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WTrayIconPeer_setToolTip(JNIEnv *env, jobject self,
+Jbvb_sun_bwt_windows_WTrbyIconPeer_setToolTip(JNIEnv *env, jobject self,
                                               jstring tooltip)
 {
     TRY;
 
     SetToolTipStruct *sts = new SetToolTipStruct;
-    sts->trayIcon = env->NewGlobalRef(self);
+    sts->trbyIcon = env->NewGlobblRef(self);
     if (tooltip != NULL) {
-        sts->tooltip = (jstring)env->NewGlobalRef(tooltip);
+        sts->tooltip = (jstring)env->NewGlobblRef(tooltip);
     } else {
         sts->tooltip = NULL;
     }
 
-    AwtToolkit::GetInstance().SyncCall(AwtTrayIcon::_SetToolTip, sts);
-    // global ref and sts are deleted in _SetToolTip
+    AwtToolkit::GetInstbnce().SyncCbll(AwtTrbyIcon::_SetToolTip, sts);
+    // globbl ref bnd sts bre deleted in _SetToolTip
 
     CATCH_BAD_ALLOC;
 }
 
 /*
- * Class:     sun_awt_windows_WTrayIconPeer
- * Method:    setNativeIcon
- * Signature: (I[B[IIIII)V
+ * Clbss:     sun_bwt_windows_WTrbyIconPeer
+ * Method:    setNbtiveIcon
+ * Signbture: (I[B[IIIII)V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WTrayIconPeer_setNativeIcon(JNIEnv *env, jobject self,
-                                                 jintArray intRasterData, jbyteArray andMask,
+Jbvb_sun_bwt_windows_WTrbyIconPeer_setNbtiveIcon(JNIEnv *env, jobject self,
+                                                 jintArrby intRbsterDbtb, jbyteArrby bndMbsk,
                                                  jint nSS, jint nW, jint nH)
 {
     TRY;
 
-    int length = env->GetArrayLength(andMask);
-    jbyte *andMaskPtr = new jbyte[length];
+    int length = env->GetArrbyLength(bndMbsk);
+    jbyte *bndMbskPtr = new jbyte[length];
 
-    env->GetByteArrayRegion(andMask, 0, length, andMaskPtr);
+    env->GetByteArrbyRegion(bndMbsk, 0, length, bndMbskPtr);
 
-    HBITMAP hMask = ::CreateBitmap(nW, nH, 1, 1, (BYTE *)andMaskPtr);
+    HBITMAP hMbsk = ::CrebteBitmbp(nW, nH, 1, 1, (BYTE *)bndMbskPtr);
 //    ::GdiFlush();
 
-    delete[] andMaskPtr;
+    delete[] bndMbskPtr;
 
-    jint *intRasterDataPtr = NULL;
+    jint *intRbsterDbtbPtr = NULL;
     HBITMAP hColor = NULL;
     try {
-        intRasterDataPtr = (jint *)env->GetPrimitiveArrayCritical(intRasterData, 0);
-        if (intRasterDataPtr == NULL) {
-            ::DeleteObject(hMask);
+        intRbsterDbtbPtr = (jint *)env->GetPrimitiveArrbyCriticbl(intRbsterDbtb, 0);
+        if (intRbsterDbtbPtr == NULL) {
+            ::DeleteObject(hMbsk);
             return;
         }
-        hColor = AwtTrayIcon::CreateBMP(NULL, (int *)intRasterDataPtr, nSS, nW, nH);
-    } catch (...) {
-        if (intRasterDataPtr != NULL) {
-            env->ReleasePrimitiveArrayCritical(intRasterData, intRasterDataPtr, 0);
+        hColor = AwtTrbyIcon::CrebteBMP(NULL, (int *)intRbsterDbtbPtr, nSS, nW, nH);
+    } cbtch (...) {
+        if (intRbsterDbtbPtr != NULL) {
+            env->RelebsePrimitiveArrbyCriticbl(intRbsterDbtb, intRbsterDbtbPtr, 0);
         }
-        ::DeleteObject(hMask);
+        ::DeleteObject(hMbsk);
         throw;
     }
 
-    env->ReleasePrimitiveArrayCritical(intRasterData, intRasterDataPtr, 0);
-    intRasterDataPtr = NULL;
+    env->RelebsePrimitiveArrbyCriticbl(intRbsterDbtb, intRbsterDbtbPtr, 0);
+    intRbsterDbtbPtr = NULL;
 
     HICON hIcon = NULL;
 
-    if (hMask && hColor) {
+    if (hMbsk && hColor) {
         ICONINFO icnInfo;
         memset(&icnInfo, 0, sizeof(ICONINFO));
-        icnInfo.hbmMask = hMask;
+        icnInfo.hbmMbsk = hMbsk;
         icnInfo.hbmColor = hColor;
         icnInfo.fIcon = TRUE;
         icnInfo.xHotspot = TRAY_ICON_X_HOTSPOT;
         icnInfo.yHotspot = TRAY_ICON_Y_HOTSPOT;
 
-        hIcon = ::CreateIconIndirect(&icnInfo);
+        hIcon = ::CrebteIconIndirect(&icnInfo);
     }
     ::DeleteObject(hColor);
-    ::DeleteObject(hMask);
+    ::DeleteObject(hMbsk);
 
     //////////////////////////////////////////
 
     SetIconStruct *sis = new SetIconStruct;
-    sis->trayIcon = env->NewGlobalRef(self);
+    sis->trbyIcon = env->NewGlobblRef(self);
     sis->hIcon = hIcon;
 
-    AwtToolkit::GetInstance().SyncCall(AwtTrayIcon::_SetIcon, sis);
-    // global ref is deleted in _SetIcon
+    AwtToolkit::GetInstbnce().SyncCbll(AwtTrbyIcon::_SetIcon, sis);
+    // globbl ref is deleted in _SetIcon
 
     CATCH_BAD_ALLOC;
 }
 
 /*
- * Class:     sun_awt_windows_WTrayIconPeer
- * Method:    updateNativeIcon
- * Signature: (Z)V
+ * Clbss:     sun_bwt_windows_WTrbyIconPeer
+ * Method:    updbteNbtiveIcon
+ * Signbture: (Z)V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WTrayIconPeer_updateNativeIcon(JNIEnv *env, jobject self,
-                                                    jboolean doUpdate)
+Jbvb_sun_bwt_windows_WTrbyIconPeer_updbteNbtiveIcon(JNIEnv *env, jobject self,
+                                                    jboolebn doUpdbte)
 {
     TRY;
 
-    UpdateIconStruct *uis = new UpdateIconStruct;
-    uis->trayIcon = env->NewGlobalRef(self);
-    uis->update = doUpdate;
+    UpdbteIconStruct *uis = new UpdbteIconStruct;
+    uis->trbyIcon = env->NewGlobblRef(self);
+    uis->updbte = doUpdbte;
 
-    AwtToolkit::GetInstance().SyncCall(AwtTrayIcon::_UpdateIcon, uis);
-    // global ref is deleted in _UpdateIcon
+    AwtToolkit::GetInstbnce().SyncCbll(AwtTrbyIcon::_UpdbteIcon, uis);
+    // globbl ref is deleted in _UpdbteIcon
 
     CATCH_BAD_ALLOC;
 }
 
 /*
- * Class:     sun_awt_windows_WTrayIconPeer
- * Method:    displayMessage
- * Signature: ()V;
+ * Clbss:     sun_bwt_windows_WTrbyIconPeer
+ * Method:    displbyMessbge
+ * Signbture: ()V;
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WTrayIconPeer__1displayMessage(JNIEnv *env, jobject self,
-    jstring caption, jstring text, jstring msgType)
+Jbvb_sun_bwt_windows_WTrbyIconPeer__1displbyMessbge(JNIEnv *env, jobject self,
+    jstring cbption, jstring text, jstring msgType)
 {
     TRY;
 
-    DisplayMessageStruct *dms = new DisplayMessageStruct;
-    dms->trayIcon = env->NewGlobalRef(self);
-    dms->caption = (jstring)env->NewGlobalRef(caption);
-    dms->text = (jstring)env->NewGlobalRef(text);
-    dms->msgType = (jstring)env->NewGlobalRef(msgType);
+    DisplbyMessbgeStruct *dms = new DisplbyMessbgeStruct;
+    dms->trbyIcon = env->NewGlobblRef(self);
+    dms->cbption = (jstring)env->NewGlobblRef(cbption);
+    dms->text = (jstring)env->NewGlobblRef(text);
+    dms->msgType = (jstring)env->NewGlobblRef(msgType);
 
-    AwtToolkit::GetInstance().SyncCall(AwtTrayIcon::_DisplayMessage, dms);
-    // global ref is deleted in _DisplayMessage
+    AwtToolkit::GetInstbnce().SyncCbll(AwtTrbyIcon::_DisplbyMessbge, dms);
+    // globbl ref is deleted in _DisplbyMessbge
 
     CATCH_BAD_ALLOC(NULL);
 }

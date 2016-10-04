@@ -1,158 +1,158 @@
 /*
- * Copyright (c) 2002, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.net.dns;
+pbckbge sun.net.dns;
 
-import java.util.List;
-import java.util.LinkedList;
-import java.util.StringTokenizer;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import jbvb.util.List;
+import jbvb.util.LinkedList;
+import jbvb.util.StringTokenizer;
+import jbvb.io.BufferedRebder;
+import jbvb.io.FileRebder;
+import jbvb.io.IOException;
 
 /*
- * An implementation of ResolverConfiguration for Solaris
- * and Linux.
+ * An implementbtion of ResolverConfigurbtion for Solbris
+ * bnd Linux.
  */
 
-public class ResolverConfigurationImpl
-    extends ResolverConfiguration
+public clbss ResolverConfigurbtionImpl
+    extends ResolverConfigurbtion
 {
-    // Lock helds whilst loading configuration or checking
-    private static Object lock = new Object();
+    // Lock helds whilst lobding configurbtion or checking
+    privbte stbtic Object lock = new Object();
 
-    // Time of last refresh.
-    private static long lastRefresh = -1;
+    // Time of lbst refresh.
+    privbte stbtic long lbstRefresh = -1;
 
-    // Cache timeout (300 seconds) - should be converted into property
-    // or configured as preference in the future.
-    private static final int TIMEOUT = 300000;
+    // Cbche timeout (300 seconds) - should be converted into property
+    // or configured bs preference in the future.
+    privbte stbtic finbl int TIMEOUT = 300000;
 
     // Resolver options
-    private final Options opts;
+    privbte finbl Options opts;
 
-    // Parse /etc/resolv.conf to get the values for a particular
+    // Pbrse /etc/resolv.conf to get the vblues for b pbrticulbr
     // keyword.
     //
-    private LinkedList<String> resolvconf(String keyword,
-                                          int maxperkeyword,
-                                          int maxkeywords)
+    privbte LinkedList<String> resolvconf(String keyword,
+                                          int mbxperkeyword,
+                                          int mbxkeywords)
     {
         LinkedList<String> ll = new LinkedList<>();
 
         try {
-            BufferedReader in =
-                new BufferedReader(new FileReader("/etc/resolv.conf"));
+            BufferedRebder in =
+                new BufferedRebder(new FileRebder("/etc/resolv.conf"));
             String line;
-            while ((line = in.readLine()) != null) {
-                int maxvalues = maxperkeyword;
+            while ((line = in.rebdLine()) != null) {
+                int mbxvblues = mbxperkeyword;
                 if (line.length() == 0)
                    continue;
-                if (line.charAt(0) == '#' || line.charAt(0) == ';')
+                if (line.chbrAt(0) == '#' || line.chbrAt(0) == ';')
                     continue;
-                if (!line.startsWith(keyword))
+                if (!line.stbrtsWith(keyword))
                     continue;
-                String value = line.substring(keyword.length());
-                if (value.length() == 0)
+                String vblue = line.substring(keyword.length());
+                if (vblue.length() == 0)
                     continue;
-                if (value.charAt(0) != ' ' && value.charAt(0) != '\t')
+                if (vblue.chbrAt(0) != ' ' && vblue.chbrAt(0) != '\t')
                     continue;
-                StringTokenizer st = new StringTokenizer(value, " \t");
-                while (st.hasMoreTokens()) {
-                    String val = st.nextToken();
-                    if (val.charAt(0) == '#' || val.charAt(0) == ';') {
-                        break;
+                StringTokenizer st = new StringTokenizer(vblue, " \t");
+                while (st.hbsMoreTokens()) {
+                    String vbl = st.nextToken();
+                    if (vbl.chbrAt(0) == '#' || vbl.chbrAt(0) == ';') {
+                        brebk;
                     }
-                    ll.add(val);
-                    if (--maxvalues == 0) {
-                        break;
+                    ll.bdd(vbl);
+                    if (--mbxvblues == 0) {
+                        brebk;
                     }
                 }
-                if (--maxkeywords == 0) {
-                    break;
+                if (--mbxkeywords == 0) {
+                    brebk;
                 }
             }
             in.close();
-        } catch (IOException ioe) {
-            // problem reading value
+        } cbtch (IOException ioe) {
+            // problem rebding vblue
         }
 
         return ll;
     }
 
-    private LinkedList<String> searchlist;
-    private LinkedList<String> nameservers;
+    privbte LinkedList<String> sebrchlist;
+    privbte LinkedList<String> nbmeservers;
 
 
-    // Load DNS configuration from OS
+    // Lobd DNS configurbtion from OS
 
-    private void loadConfig() {
-        assert Thread.holdsLock(lock);
+    privbte void lobdConfig() {
+        bssert Threbd.holdsLock(lock);
 
-        // check if cached settings have expired.
-        if (lastRefresh >= 0) {
+        // check if cbched settings hbve expired.
+        if (lbstRefresh >= 0) {
             long currTime = System.currentTimeMillis();
-            if ((currTime - lastRefresh) < TIMEOUT) {
+            if ((currTime - lbstRefresh) < TIMEOUT) {
                 return;
             }
         }
 
-        // get the name servers from /etc/resolv.conf
-        nameservers =
-            java.security.AccessController.doPrivileged(
-                new java.security.PrivilegedAction<LinkedList<String>>() {
+        // get the nbme servers from /etc/resolv.conf
+        nbmeservers =
+            jbvb.security.AccessController.doPrivileged(
+                new jbvb.security.PrivilegedAction<LinkedList<String>>() {
                     public LinkedList<String> run() {
-                        // typically MAXNS is 3 but we've picked 5 here
-                        // to allow for additional servers if required.
-                        return resolvconf("nameserver", 1, 5);
+                        // typicblly MAXNS is 3 but we've picked 5 here
+                        // to bllow for bdditionbl servers if required.
+                        return resolvconf("nbmeserver", 1, 5);
                     } /* run */
                 });
 
-        // get the search list (or domain)
-        searchlist = getSearchList();
+        // get the sebrch list (or dombin)
+        sebrchlist = getSebrchList();
 
-        // update the timestamp on the configuration
-        lastRefresh = System.currentTimeMillis();
+        // updbte the timestbmp on the configurbtion
+        lbstRefresh = System.currentTimeMillis();
     }
 
 
-    // obtain search list or local domain
+    // obtbin sebrch list or locbl dombin
 
-    private LinkedList<String> getSearchList() {
+    privbte LinkedList<String> getSebrchList() {
 
         LinkedList<String> sl;
 
-        // first try the search keyword in /etc/resolv.conf
+        // first try the sebrch keyword in /etc/resolv.conf
 
-        sl = java.security.AccessController.doPrivileged(
-                 new java.security.PrivilegedAction<LinkedList<String>>() {
+        sl = jbvb.security.AccessController.doPrivileged(
+                 new jbvb.security.PrivilegedAction<LinkedList<String>>() {
                     public LinkedList<String> run() {
                         LinkedList<String> ll;
 
-                        // first try search keyword (max 6 domains)
-                        ll = resolvconf("search", 6, 1);
+                        // first try sebrch keyword (mbx 6 dombins)
+                        ll = resolvconf("sebrch", 6, 1);
                         if (ll.size() > 0) {
                             return ll;
                         }
@@ -166,26 +166,26 @@ public class ResolverConfigurationImpl
             return sl;
         }
 
-        // No search keyword so use local domain
+        // No sebrch keyword so use locbl dombin
 
 
-        // LOCALDOMAIN has absolute priority on Solaris
+        // LOCALDOMAIN hbs bbsolute priority on Solbris
 
-        String localDomain = localDomain0();
-        if (localDomain != null && localDomain.length() > 0) {
+        String locblDombin = locblDombin0();
+        if (locblDombin != null && locblDombin.length() > 0) {
             sl = new LinkedList<String>();
-            sl.add(localDomain);
+            sl.bdd(locblDombin);
             return sl;
         }
 
-        // try domain keyword in /etc/resolv.conf
+        // try dombin keyword in /etc/resolv.conf
 
-        sl = java.security.AccessController.doPrivileged(
-                 new java.security.PrivilegedAction<LinkedList<String>>() {
+        sl = jbvb.security.AccessController.doPrivileged(
+                 new jbvb.security.PrivilegedAction<LinkedList<String>>() {
                     public LinkedList<String> run() {
                         LinkedList<String> ll;
 
-                        ll = resolvconf("domain", 1, 1);
+                        ll = resolvconf("dombin", 1, 1);
                         if (ll.size() > 0) {
                             return ll;
                         }
@@ -197,13 +197,13 @@ public class ResolverConfigurationImpl
             return sl;
         }
 
-        // no local domain so try fallback (RPC) domain or
-        // hostName
+        // no locbl dombin so try fbllbbck (RPC) dombin or
+        // hostNbme
 
         sl = new LinkedList<>();
-        String domain = fallbackDomain0();
-        if (domain != null && domain.length() > 0) {
-            sl.add(domain);
+        String dombin = fbllbbckDombin0();
+        if (dombin != null && dombin.length() > 0) {
+            sl.bdd(dombin);
         }
 
         return sl;
@@ -212,28 +212,28 @@ public class ResolverConfigurationImpl
 
     // ----
 
-    ResolverConfigurationImpl() {
+    ResolverConfigurbtionImpl() {
         opts = new OptionsImpl();
     }
 
-    @SuppressWarnings("unchecked")
-    public List<String> searchlist() {
+    @SuppressWbrnings("unchecked")
+    public List<String> sebrchlist() {
         synchronized (lock) {
-            loadConfig();
+            lobdConfig();
 
-            // List is mutable so return a shallow copy
-            return (List<String>)searchlist.clone();
+            // List is mutbble so return b shbllow copy
+            return (List<String>)sebrchlist.clone();
         }
     }
 
-    @SuppressWarnings("unchecked")
-    public List<String> nameservers() {
+    @SuppressWbrnings("unchecked")
+    public List<String> nbmeservers() {
         synchronized (lock) {
-            loadConfig();
+            lobdConfig();
 
-            // List is mutable so return a shallow copy
+            // List is mutbble so return b shbllow copy
 
-          return (List<String>)nameservers.clone();
+          return (List<String>)nbmeservers.clone();
 
         }
     }
@@ -243,17 +243,17 @@ public class ResolverConfigurationImpl
     }
 
 
-    // --- Native methods --
+    // --- Nbtive methods --
 
-    static native String localDomain0();
+    stbtic nbtive String locblDombin0();
 
-    static native String fallbackDomain0();
+    stbtic nbtive String fbllbbckDombin0();
 
-    static {
-        java.security.AccessController.doPrivileged(
-            new java.security.PrivilegedAction<Void>() {
+    stbtic {
+        jbvb.security.AccessController.doPrivileged(
+            new jbvb.security.PrivilegedAction<Void>() {
                 public Void run() {
-                    System.loadLibrary("net");
+                    System.lobdLibrbry("net");
                     return null;
                 }
             });
@@ -262,7 +262,7 @@ public class ResolverConfigurationImpl
 }
 
 /**
- * Implementation of {@link ResolverConfiguration.Options}
+ * Implementbtion of {@link ResolverConfigurbtion.Options}
  */
-class OptionsImpl extends ResolverConfiguration.Options {
+clbss OptionsImpl extends ResolverConfigurbtion.Options {
 }

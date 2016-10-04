@@ -1,78 +1,78 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.beans.beancontext;
+pbckbge jbvb.bebns.bebncontext;
 
-import java.beans.beancontext.BeanContextChild;
-import java.beans.beancontext.BeanContextEvent;
+import jbvb.bebns.bebncontext.BebnContextChild;
+import jbvb.bebns.bebncontext.BebnContextEvent;
 
-import java.beans.beancontext.BeanContextServices;
+import jbvb.bebns.bebncontext.BebnContextServices;
 
-import java.util.Iterator;
+import jbvb.util.Iterbtor;
 
 /**
  * <p>
- * This event type is used by the BeanContextServicesListener in order to
+ * This event type is used by the BebnContextServicesListener in order to
  * identify the service being registered.
  * </p>
  */
 
-public class BeanContextServiceAvailableEvent extends BeanContextEvent {
-    private static final long serialVersionUID = -5333985775656400778L;
+public clbss BebnContextServiceAvbilbbleEvent extends BebnContextEvent {
+    privbte stbtic finbl long seriblVersionUID = -5333985775656400778L;
 
     /**
-     * Construct a <code>BeanContextAvailableServiceEvent</code>.
-     * @param bcs The context in which the service has become available
-     * @param sc A <code>Class</code> reference to the newly available service
+     * Construct b <code>BebnContextAvbilbbleServiceEvent</code>.
+     * @pbrbm bcs The context in which the service hbs become bvbilbble
+     * @pbrbm sc A <code>Clbss</code> reference to the newly bvbilbble service
      */
-    public BeanContextServiceAvailableEvent(BeanContextServices bcs, Class<?> sc) {
-        super((BeanContext)bcs);
+    public BebnContextServiceAvbilbbleEvent(BebnContextServices bcs, Clbss<?> sc) {
+        super((BebnContext)bcs);
 
-        serviceClass = sc;
+        serviceClbss = sc;
     }
 
     /**
-     * Gets the source as a reference of type <code>BeanContextServices</code>.
-     * @return The context in which the service has become available
+     * Gets the source bs b reference of type <code>BebnContextServices</code>.
+     * @return The context in which the service hbs become bvbilbble
      */
-    public BeanContextServices getSourceAsBeanContextServices() {
-        return (BeanContextServices)getBeanContext();
+    public BebnContextServices getSourceAsBebnContextServices() {
+        return (BebnContextServices)getBebnContext();
     }
 
     /**
-     * Gets the service class that is the subject of this notification.
-     * @return A <code>Class</code> reference to the newly available service
+     * Gets the service clbss thbt is the subject of this notificbtion.
+     * @return A <code>Clbss</code> reference to the newly bvbilbble service
      */
-    public Class<?> getServiceClass() { return serviceClass; }
+    public Clbss<?> getServiceClbss() { return serviceClbss; }
 
     /**
      * Gets the list of service dependent selectors.
-     * @return the current selectors available from the service
+     * @return the current selectors bvbilbble from the service
      */
-    public Iterator<?> getCurrentServiceSelectors() {
-        return ((BeanContextServices)getSource()).getCurrentServiceSelectors(serviceClass);
+    public Iterbtor<?> getCurrentServiceSelectors() {
+        return ((BebnContextServices)getSource()).getCurrentServiceSelectors(serviceClbss);
     }
 
     /*
@@ -80,7 +80,7 @@ public class BeanContextServiceAvailableEvent extends BeanContextEvent {
      */
 
     /**
-     * A <code>Class</code> reference to the newly available service
+     * A <code>Clbss</code> reference to the newly bvbilbble service
      */
-    protected Class<?>                   serviceClass;
+    protected Clbss<?>                   serviceClbss;
 }

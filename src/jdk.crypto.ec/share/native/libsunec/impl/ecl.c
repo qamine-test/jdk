@@ -1,37 +1,37 @@
 /*
- * Copyright (c) 2007, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * Use is subject to license terms.
  *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
+ * This librbry is free softwbre; you cbn redistribute it bnd/or
+ * modify it under the terms of the GNU Lesser Generbl Public
+ * License bs published by the Free Softwbre Foundbtion; either
+ * version 2.1 of the License, or (bt your option) bny lbter version.
  *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * This librbry is distributed in the hope thbt it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied wbrrbnty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
+ * Lesser Generbl Public License for more detbils.
  *
- * You should have received a copy of the GNU Lesser General Public License
- * along with this library; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Lesser Generbl Public License
+ * blong with this librbry; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /* *********************************************************************
  *
- * The Original Code is the elliptic curve math library.
+ * The Originbl Code is the elliptic curve mbth librbry.
  *
- * The Initial Developer of the Original Code is
+ * The Initibl Developer of the Originbl Code is
  * Sun Microsystems, Inc.
- * Portions created by the Initial Developer are Copyright (C) 2003
- * the Initial Developer. All Rights Reserved.
+ * Portions crebted by the Initibl Developer bre Copyright (C) 2003
+ * the Initibl Developer. All Rights Reserved.
  *
  * Contributor(s):
- *   Douglas Stebila <douglas@stebila.ca>, Sun Microsystems Laboratories
+ *   Douglbs Stebilb <douglbs@stebilb.cb>, Sun Microsystems Lbborbtories
  *
  *********************************************************************** */
 
@@ -46,38 +46,38 @@
 #include <string.h>
 #endif
 
-/* Allocate memory for a new ECGroup object. */
+/* Allocbte memory for b new ECGroup object. */
 ECGroup *
-ECGroup_new(int kmflag)
+ECGroup_new(int kmflbg)
 {
         mp_err res = MP_OKAY;
         ECGroup *group;
 #ifdef _KERNEL
-        group = (ECGroup *) kmem_alloc(sizeof(ECGroup), kmflag);
+        group = (ECGroup *) kmem_blloc(sizeof(ECGroup), kmflbg);
 #else
-        group = (ECGroup *) malloc(sizeof(ECGroup));
+        group = (ECGroup *) mblloc(sizeof(ECGroup));
 #endif
         if (group == NULL)
                 return NULL;
         group->constructed = MP_YES;
         group->meth = NULL;
         group->text = NULL;
-        MP_DIGITS(&group->curvea) = 0;
+        MP_DIGITS(&group->curveb) = 0;
         MP_DIGITS(&group->curveb) = 0;
         MP_DIGITS(&group->genx) = 0;
         MP_DIGITS(&group->geny) = 0;
         MP_DIGITS(&group->order) = 0;
-        group->base_point_mul = NULL;
+        group->bbse_point_mul = NULL;
         group->points_mul = NULL;
-        group->validate_point = NULL;
-        group->extra1 = NULL;
-        group->extra2 = NULL;
-        group->extra_free = NULL;
-        MP_CHECKOK(mp_init(&group->curvea, kmflag));
-        MP_CHECKOK(mp_init(&group->curveb, kmflag));
-        MP_CHECKOK(mp_init(&group->genx, kmflag));
-        MP_CHECKOK(mp_init(&group->geny, kmflag));
-        MP_CHECKOK(mp_init(&group->order, kmflag));
+        group->vblidbte_point = NULL;
+        group->extrb1 = NULL;
+        group->extrb2 = NULL;
+        group->extrb_free = NULL;
+        MP_CHECKOK(mp_init(&group->curveb, kmflbg));
+        MP_CHECKOK(mp_init(&group->curveb, kmflbg));
+        MP_CHECKOK(mp_init(&group->genx, kmflbg));
+        MP_CHECKOK(mp_init(&group->geny, kmflbg));
+        MP_CHECKOK(mp_init(&group->order, kmflbg));
 
   CLEANUP:
         if (res != MP_OKAY) {
@@ -87,11 +87,11 @@ ECGroup_new(int kmflag)
         return group;
 }
 
-/* Construct a generic ECGroup for elliptic curves over prime fields. */
+/* Construct b generic ECGroup for elliptic curves over prime fields. */
 ECGroup *
-ECGroup_consGFp(const mp_int *irr, const mp_int *curvea,
+ECGroup_consGFp(const mp_int *irr, const mp_int *curveb,
                                 const mp_int *curveb, const mp_int *genx,
-                                const mp_int *geny, const mp_int *order, int cofactor)
+                                const mp_int *geny, const mp_int *order, int cofbctor)
 {
         mp_err res = MP_OKAY;
         ECGroup *group = NULL;
@@ -105,19 +105,19 @@ ECGroup_consGFp(const mp_int *irr, const mp_int *curvea,
                 res = MP_MEM;
                 goto CLEANUP;
         }
-        MP_CHECKOK(mp_copy(curvea, &group->curvea));
+        MP_CHECKOK(mp_copy(curveb, &group->curveb));
         MP_CHECKOK(mp_copy(curveb, &group->curveb));
         MP_CHECKOK(mp_copy(genx, &group->genx));
         MP_CHECKOK(mp_copy(geny, &group->geny));
         MP_CHECKOK(mp_copy(order, &group->order));
-        group->cofactor = cofactor;
-        group->point_add = &ec_GFp_pt_add_aff;
-        group->point_sub = &ec_GFp_pt_sub_aff;
-        group->point_dbl = &ec_GFp_pt_dbl_aff;
+        group->cofbctor = cofbctor;
+        group->point_bdd = &ec_GFp_pt_bdd_bff;
+        group->point_sub = &ec_GFp_pt_sub_bff;
+        group->point_dbl = &ec_GFp_pt_dbl_bff;
         group->point_mul = &ec_GFp_pt_mul_jm_wNAF;
-        group->base_point_mul = NULL;
-        group->points_mul = &ec_GFp_pts_mul_jac;
-        group->validate_point = &ec_GFp_validate_point;
+        group->bbse_point_mul = NULL;
+        group->points_mul = &ec_GFp_pts_mul_jbc;
+        group->vblidbte_point = &ec_GFp_vblidbte_point;
 
   CLEANUP:
         if (res != MP_OKAY) {
@@ -127,12 +127,12 @@ ECGroup_consGFp(const mp_int *irr, const mp_int *curvea,
         return group;
 }
 
-/* Construct a generic ECGroup for elliptic curves over prime fields with
- * field arithmetic implemented in Montgomery coordinates. */
+/* Construct b generic ECGroup for elliptic curves over prime fields with
+ * field brithmetic implemented in Montgomery coordinbtes. */
 ECGroup *
-ECGroup_consGFp_mont(const mp_int *irr, const mp_int *curvea,
+ECGroup_consGFp_mont(const mp_int *irr, const mp_int *curveb,
                                          const mp_int *curveb, const mp_int *genx,
-                                         const mp_int *geny, const mp_int *order, int cofactor)
+                                         const mp_int *geny, const mp_int *order, int cofbctor)
 {
         mp_err res = MP_OKAY;
         ECGroup *group = NULL;
@@ -147,20 +147,20 @@ ECGroup_consGFp_mont(const mp_int *irr, const mp_int *curvea,
                 goto CLEANUP;
         }
         MP_CHECKOK(group->meth->
-                           field_enc(curvea, &group->curvea, group->meth));
+                           field_enc(curveb, &group->curveb, group->meth));
         MP_CHECKOK(group->meth->
                            field_enc(curveb, &group->curveb, group->meth));
         MP_CHECKOK(group->meth->field_enc(genx, &group->genx, group->meth));
         MP_CHECKOK(group->meth->field_enc(geny, &group->geny, group->meth));
         MP_CHECKOK(mp_copy(order, &group->order));
-        group->cofactor = cofactor;
-        group->point_add = &ec_GFp_pt_add_aff;
-        group->point_sub = &ec_GFp_pt_sub_aff;
-        group->point_dbl = &ec_GFp_pt_dbl_aff;
+        group->cofbctor = cofbctor;
+        group->point_bdd = &ec_GFp_pt_bdd_bff;
+        group->point_sub = &ec_GFp_pt_sub_bff;
+        group->point_dbl = &ec_GFp_pt_dbl_bff;
         group->point_mul = &ec_GFp_pt_mul_jm_wNAF;
-        group->base_point_mul = NULL;
-        group->points_mul = &ec_GFp_pts_mul_jac;
-        group->validate_point = &ec_GFp_validate_point;
+        group->bbse_point_mul = NULL;
+        group->points_mul = &ec_GFp_pts_mul_jbc;
+        group->vblidbte_point = &ec_GFp_vblidbte_point;
 
   CLEANUP:
         if (res != MP_OKAY) {
@@ -171,13 +171,13 @@ ECGroup_consGFp_mont(const mp_int *irr, const mp_int *curvea,
 }
 
 #ifdef NSS_ECC_MORE_THAN_SUITE_B
-/* Construct a generic ECGroup for elliptic curves over binary polynomial
+/* Construct b generic ECGroup for elliptic curves over binbry polynomibl
  * fields. */
 ECGroup *
-ECGroup_consGF2m(const mp_int *irr, const unsigned int irr_arr[5],
-                                 const mp_int *curvea, const mp_int *curveb,
+ECGroup_consGF2m(const mp_int *irr, const unsigned int irr_brr[5],
+                                 const mp_int *curveb, const mp_int *curveb,
                                  const mp_int *genx, const mp_int *geny,
-                                 const mp_int *order, int cofactor)
+                                 const mp_int *order, int cofbctor)
 {
         mp_err res = MP_OKAY;
         ECGroup *group = NULL;
@@ -186,24 +186,24 @@ ECGroup_consGF2m(const mp_int *irr, const unsigned int irr_arr[5],
         if (group == NULL)
                 return NULL;
 
-        group->meth = GFMethod_consGF2m(irr, irr_arr);
+        group->meth = GFMethod_consGF2m(irr, irr_brr);
         if (group->meth == NULL) {
                 res = MP_MEM;
                 goto CLEANUP;
         }
-        MP_CHECKOK(mp_copy(curvea, &group->curvea));
+        MP_CHECKOK(mp_copy(curveb, &group->curveb));
         MP_CHECKOK(mp_copy(curveb, &group->curveb));
         MP_CHECKOK(mp_copy(genx, &group->genx));
         MP_CHECKOK(mp_copy(geny, &group->geny));
         MP_CHECKOK(mp_copy(order, &group->order));
-        group->cofactor = cofactor;
-        group->point_add = &ec_GF2m_pt_add_aff;
-        group->point_sub = &ec_GF2m_pt_sub_aff;
-        group->point_dbl = &ec_GF2m_pt_dbl_aff;
+        group->cofbctor = cofbctor;
+        group->point_bdd = &ec_GF2m_pt_bdd_bff;
+        group->point_sub = &ec_GF2m_pt_sub_bff;
+        group->point_dbl = &ec_GF2m_pt_dbl_bff;
         group->point_mul = &ec_GF2m_pt_mul_mont;
-        group->base_point_mul = NULL;
-        group->points_mul = &ec_pts_mul_basic;
-        group->validate_point = &ec_GF2m_validate_point;
+        group->bbse_point_mul = NULL;
+        group->points_mul = &ec_pts_mul_bbsic;
+        group->vblidbte_point = &ec_GF2m_vblidbte_point;
 
   CLEANUP:
         if (res != MP_OKAY) {
@@ -214,123 +214,123 @@ ECGroup_consGF2m(const mp_int *irr, const unsigned int irr_arr[5],
 }
 #endif
 
-/* Construct ECGroup from hex parameters and name, if any. Called by
- * ECGroup_fromHex and ECGroup_fromName. */
+/* Construct ECGroup from hex pbrbmeters bnd nbme, if bny. Cblled by
+ * ECGroup_fromHex bnd ECGroup_fromNbme. */
 ECGroup *
-ecgroup_fromNameAndHex(const ECCurveName name,
-                                   const ECCurveParams * params, int kmflag)
+ecgroup_fromNbmeAndHex(const ECCurveNbme nbme,
+                                   const ECCurvePbrbms * pbrbms, int kmflbg)
 {
-        mp_int irr, curvea, curveb, genx, geny, order;
+        mp_int irr, curveb, curveb, genx, geny, order;
         int bits;
         ECGroup *group = NULL;
         mp_err res = MP_OKAY;
 
-        /* initialize values */
+        /* initiblize vblues */
         MP_DIGITS(&irr) = 0;
-        MP_DIGITS(&curvea) = 0;
+        MP_DIGITS(&curveb) = 0;
         MP_DIGITS(&curveb) = 0;
         MP_DIGITS(&genx) = 0;
         MP_DIGITS(&geny) = 0;
         MP_DIGITS(&order) = 0;
-        MP_CHECKOK(mp_init(&irr, kmflag));
-        MP_CHECKOK(mp_init(&curvea, kmflag));
-        MP_CHECKOK(mp_init(&curveb, kmflag));
-        MP_CHECKOK(mp_init(&genx, kmflag));
-        MP_CHECKOK(mp_init(&geny, kmflag));
-        MP_CHECKOK(mp_init(&order, kmflag));
-        MP_CHECKOK(mp_read_radix(&irr, params->irr, 16));
-        MP_CHECKOK(mp_read_radix(&curvea, params->curvea, 16));
-        MP_CHECKOK(mp_read_radix(&curveb, params->curveb, 16));
-        MP_CHECKOK(mp_read_radix(&genx, params->genx, 16));
-        MP_CHECKOK(mp_read_radix(&geny, params->geny, 16));
-        MP_CHECKOK(mp_read_radix(&order, params->order, 16));
+        MP_CHECKOK(mp_init(&irr, kmflbg));
+        MP_CHECKOK(mp_init(&curveb, kmflbg));
+        MP_CHECKOK(mp_init(&curveb, kmflbg));
+        MP_CHECKOK(mp_init(&genx, kmflbg));
+        MP_CHECKOK(mp_init(&geny, kmflbg));
+        MP_CHECKOK(mp_init(&order, kmflbg));
+        MP_CHECKOK(mp_rebd_rbdix(&irr, pbrbms->irr, 16));
+        MP_CHECKOK(mp_rebd_rbdix(&curveb, pbrbms->curveb, 16));
+        MP_CHECKOK(mp_rebd_rbdix(&curveb, pbrbms->curveb, 16));
+        MP_CHECKOK(mp_rebd_rbdix(&genx, pbrbms->genx, 16));
+        MP_CHECKOK(mp_rebd_rbdix(&geny, pbrbms->geny, 16));
+        MP_CHECKOK(mp_rebd_rbdix(&order, pbrbms->order, 16));
 
         /* determine number of bits */
-        bits = mpl_significant_bits(&irr) - 1;
+        bits = mpl_significbnt_bits(&irr) - 1;
         if (bits < MP_OKAY) {
                 res = bits;
                 goto CLEANUP;
         }
 
-        /* determine which optimizations (if any) to use */
-        if (params->field == ECField_GFp) {
+        /* determine which optimizbtions (if bny) to use */
+        if (pbrbms->field == ECField_GFp) {
 #ifdef NSS_ECC_MORE_THAN_SUITE_B
-            switch (name) {
+            switch (nbme) {
 #ifdef ECL_USE_FP
-                case ECCurve_SECG_PRIME_160R1:
+                cbse ECCurve_SECG_PRIME_160R1:
                         group =
-                                ECGroup_consGFp(&irr, &curvea, &curveb, &genx, &geny,
-                                                                &order, params->cofactor);
+                                ECGroup_consGFp(&irr, &curveb, &curveb, &genx, &geny,
+                                                                &order, pbrbms->cofbctor);
                         if (group == NULL) { res = MP_UNDEF; goto CLEANUP; }
                         MP_CHECKOK(ec_group_set_secp160r1_fp(group));
-                        break;
+                        brebk;
 #endif
-                case ECCurve_SECG_PRIME_192R1:
+                cbse ECCurve_SECG_PRIME_192R1:
 #ifdef ECL_USE_FP
                         group =
-                                ECGroup_consGFp(&irr, &curvea, &curveb, &genx, &geny,
-                                                                &order, params->cofactor);
+                                ECGroup_consGFp(&irr, &curveb, &curveb, &genx, &geny,
+                                                                &order, pbrbms->cofbctor);
                         if (group == NULL) { res = MP_UNDEF; goto CLEANUP; }
                         MP_CHECKOK(ec_group_set_nistp192_fp(group));
 #else
                         group =
-                                ECGroup_consGFp(&irr, &curvea, &curveb, &genx, &geny,
-                                                                &order, params->cofactor);
+                                ECGroup_consGFp(&irr, &curveb, &curveb, &genx, &geny,
+                                                                &order, pbrbms->cofbctor);
                         if (group == NULL) { res = MP_UNDEF; goto CLEANUP; }
-                        MP_CHECKOK(ec_group_set_gfp192(group, name));
+                        MP_CHECKOK(ec_group_set_gfp192(group, nbme));
 #endif
-                        break;
-                case ECCurve_SECG_PRIME_224R1:
+                        brebk;
+                cbse ECCurve_SECG_PRIME_224R1:
 #ifdef ECL_USE_FP
                         group =
-                                ECGroup_consGFp(&irr, &curvea, &curveb, &genx, &geny,
-                                                                &order, params->cofactor);
+                                ECGroup_consGFp(&irr, &curveb, &curveb, &genx, &geny,
+                                                                &order, pbrbms->cofbctor);
                         if (group == NULL) { res = MP_UNDEF; goto CLEANUP; }
                         MP_CHECKOK(ec_group_set_nistp224_fp(group));
 #else
                         group =
-                                ECGroup_consGFp(&irr, &curvea, &curveb, &genx, &geny,
-                                                                &order, params->cofactor);
+                                ECGroup_consGFp(&irr, &curveb, &curveb, &genx, &geny,
+                                                                &order, pbrbms->cofbctor);
                         if (group == NULL) { res = MP_UNDEF; goto CLEANUP; }
-                        MP_CHECKOK(ec_group_set_gfp224(group, name));
+                        MP_CHECKOK(ec_group_set_gfp224(group, nbme));
 #endif
-                        break;
-                case ECCurve_SECG_PRIME_256R1:
+                        brebk;
+                cbse ECCurve_SECG_PRIME_256R1:
                         group =
-                                ECGroup_consGFp(&irr, &curvea, &curveb, &genx, &geny,
-                                                                &order, params->cofactor);
+                                ECGroup_consGFp(&irr, &curveb, &curveb, &genx, &geny,
+                                                                &order, pbrbms->cofbctor);
                         if (group == NULL) { res = MP_UNDEF; goto CLEANUP; }
-                        MP_CHECKOK(ec_group_set_gfp256(group, name));
-                        break;
-                case ECCurve_SECG_PRIME_521R1:
+                        MP_CHECKOK(ec_group_set_gfp256(group, nbme));
+                        brebk;
+                cbse ECCurve_SECG_PRIME_521R1:
                         group =
-                                ECGroup_consGFp(&irr, &curvea, &curveb, &genx, &geny,
-                                                                &order, params->cofactor);
+                                ECGroup_consGFp(&irr, &curveb, &curveb, &genx, &geny,
+                                                                &order, pbrbms->cofbctor);
                         if (group == NULL) { res = MP_UNDEF; goto CLEANUP; }
-                        MP_CHECKOK(ec_group_set_gfp521(group, name));
-                        break;
-                default:
-                        /* use generic arithmetic */
+                        MP_CHECKOK(ec_group_set_gfp521(group, nbme));
+                        brebk;
+                defbult:
+                        /* use generic brithmetic */
 #endif
                         group =
-                                ECGroup_consGFp_mont(&irr, &curvea, &curveb, &genx, &geny,
-                                                                         &order, params->cofactor);
+                                ECGroup_consGFp_mont(&irr, &curveb, &curveb, &genx, &geny,
+                                                                         &order, pbrbms->cofbctor);
                         if (group == NULL) { res = MP_UNDEF; goto CLEANUP; }
 #ifdef NSS_ECC_MORE_THAN_SUITE_B
                 }
-        } else if (params->field == ECField_GF2m) {
-                group = ECGroup_consGF2m(&irr, NULL, &curvea, &curveb, &genx, &geny, &order, params->cofactor);
+        } else if (pbrbms->field == ECField_GF2m) {
+                group = ECGroup_consGF2m(&irr, NULL, &curveb, &curveb, &genx, &geny, &order, pbrbms->cofbctor);
                 if (group == NULL) { res = MP_UNDEF; goto CLEANUP; }
-                if ((name == ECCurve_NIST_K163) ||
-                    (name == ECCurve_NIST_B163) ||
-                    (name == ECCurve_SECG_CHAR2_163R1)) {
-                        MP_CHECKOK(ec_group_set_gf2m163(group, name));
-                } else if ((name == ECCurve_SECG_CHAR2_193R1) ||
-                           (name == ECCurve_SECG_CHAR2_193R2)) {
-                        MP_CHECKOK(ec_group_set_gf2m193(group, name));
-                } else if ((name == ECCurve_NIST_K233) ||
-                           (name == ECCurve_NIST_B233)) {
-                        MP_CHECKOK(ec_group_set_gf2m233(group, name));
+                if ((nbme == ECCurve_NIST_K163) ||
+                    (nbme == ECCurve_NIST_B163) ||
+                    (nbme == ECCurve_SECG_CHAR2_163R1)) {
+                        MP_CHECKOK(ec_group_set_gf2m163(group, nbme));
+                } else if ((nbme == ECCurve_SECG_CHAR2_193R1) ||
+                           (nbme == ECCurve_SECG_CHAR2_193R2)) {
+                        MP_CHECKOK(ec_group_set_gf2m193(group, nbme));
+                } else if ((nbme == ECCurve_NIST_K233) ||
+                           (nbme == ECCurve_NIST_B233)) {
+                        MP_CHECKOK(ec_group_set_gf2m233(group, nbme));
                 }
 #endif
         } else {
@@ -338,20 +338,20 @@ ecgroup_fromNameAndHex(const ECCurveName name,
                 goto CLEANUP;
         }
 
-        /* set name, if any */
-        if ((group != NULL) && (params->text != NULL)) {
+        /* set nbme, if bny */
+        if ((group != NULL) && (pbrbms->text != NULL)) {
 #ifdef _KERNEL
-                int n = strlen(params->text) + 1;
+                int n = strlen(pbrbms->text) + 1;
 
-                group->text = kmem_alloc(n, kmflag);
+                group->text = kmem_blloc(n, kmflbg);
                 if (group->text == NULL) {
                         res = MP_MEM;
                         goto CLEANUP;
                 }
-                bcopy(params->text, group->text, n);
+                bcopy(pbrbms->text, group->text, n);
                 group->text_len = n;
 #else
-                group->text = strdup(params->text);
+                group->text = strdup(pbrbms->text);
                 if (group->text == NULL) {
                         res = MP_MEM;
                 }
@@ -359,12 +359,12 @@ ecgroup_fromNameAndHex(const ECCurveName name,
         }
 
   CLEANUP:
-        mp_clear(&irr);
-        mp_clear(&curvea);
-        mp_clear(&curveb);
-        mp_clear(&genx);
-        mp_clear(&geny);
-        mp_clear(&order);
+        mp_clebr(&irr);
+        mp_clebr(&curveb);
+        mp_clebr(&curveb);
+        mp_clebr(&genx);
+        mp_clebr(&geny);
+        mp_clebr(&order);
         if (res != MP_OKAY) {
                 ECGroup_free(group);
                 return NULL;
@@ -372,36 +372,36 @@ ecgroup_fromNameAndHex(const ECCurveName name,
         return group;
 }
 
-/* Construct ECGroup from hexadecimal representations of parameters. */
+/* Construct ECGroup from hexbdecimbl representbtions of pbrbmeters. */
 ECGroup *
-ECGroup_fromHex(const ECCurveParams * params, int kmflag)
+ECGroup_fromHex(const ECCurvePbrbms * pbrbms, int kmflbg)
 {
-        return ecgroup_fromNameAndHex(ECCurve_noName, params, kmflag);
+        return ecgroup_fromNbmeAndHex(ECCurve_noNbme, pbrbms, kmflbg);
 }
 
-/* Construct ECGroup from named parameters. */
+/* Construct ECGroup from nbmed pbrbmeters. */
 ECGroup *
-ECGroup_fromName(const ECCurveName name, int kmflag)
+ECGroup_fromNbme(const ECCurveNbme nbme, int kmflbg)
 {
         ECGroup *group = NULL;
-        ECCurveParams *params = NULL;
+        ECCurvePbrbms *pbrbms = NULL;
         mp_err res = MP_OKAY;
 
-        params = EC_GetNamedCurveParams(name, kmflag);
-        if (params == NULL) {
+        pbrbms = EC_GetNbmedCurvePbrbms(nbme, kmflbg);
+        if (pbrbms == NULL) {
                 res = MP_UNDEF;
                 goto CLEANUP;
         }
 
-        /* construct actual group */
-        group = ecgroup_fromNameAndHex(name, params, kmflag);
+        /* construct bctubl group */
+        group = ecgroup_fromNbmeAndHex(nbme, pbrbms, kmflbg);
         if (group == NULL) {
                 res = MP_UNDEF;
                 goto CLEANUP;
         }
 
   CLEANUP:
-        EC_FreeCurveParams(params);
+        EC_FreeCurvePbrbms(pbrbms);
         if (res != MP_OKAY) {
                 ECGroup_free(group);
                 return NULL;
@@ -409,22 +409,22 @@ ECGroup_fromName(const ECCurveName name, int kmflag)
         return group;
 }
 
-/* Validates an EC public key as described in Section 5.2.2 of X9.62. */
-mp_err ECPoint_validate(const ECGroup *group, const mp_int *px, const
+/* Vblidbtes bn EC public key bs described in Section 5.2.2 of X9.62. */
+mp_err ECPoint_vblidbte(const ECGroup *group, const mp_int *px, const
                                         mp_int *py)
 {
-    /* 1: Verify that publicValue is not the point at infinity */
-    /* 2: Verify that the coordinates of publicValue are elements
+    /* 1: Verify thbt publicVblue is not the point bt infinity */
+    /* 2: Verify thbt the coordinbtes of publicVblue bre elements
      *    of the field.
      */
-    /* 3: Verify that publicValue is on the curve. */
-    /* 4: Verify that the order of the curve times the publicValue
-     *    is the point at infinity.
+    /* 3: Verify thbt publicVblue is on the curve. */
+    /* 4: Verify thbt the order of the curve times the publicVblue
+     *    is the point bt infinity.
      */
-        return group->validate_point(px, py, group);
+        return group->vblidbte_point(px, py, group);
 }
 
-/* Free the memory allocated (if any) to an ECGroup object. */
+/* Free the memory bllocbted (if bny) to bn ECGroup object. */
 void
 ECGroup_free(ECGroup *group)
 {
@@ -433,19 +433,19 @@ ECGroup_free(ECGroup *group)
         GFMethod_free(group->meth);
         if (group->constructed == MP_NO)
                 return;
-        mp_clear(&group->curvea);
-        mp_clear(&group->curveb);
-        mp_clear(&group->genx);
-        mp_clear(&group->geny);
-        mp_clear(&group->order);
+        mp_clebr(&group->curveb);
+        mp_clebr(&group->curveb);
+        mp_clebr(&group->genx);
+        mp_clebr(&group->geny);
+        mp_clebr(&group->order);
         if (group->text != NULL)
 #ifdef _KERNEL
                 kmem_free(group->text, group->text_len);
 #else
                 free(group->text);
 #endif
-        if (group->extra_free != NULL)
-                group->extra_free(group);
+        if (group->extrb_free != NULL)
+                group->extrb_free(group);
 #ifdef _KERNEL
         kmem_free(group, sizeof (ECGroup));
 #else

@@ -1,209 +1,209 @@
 /*
- * Copyright (c) 1998, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * (C) Copyright Taligent, Inc. 1996 - 1997, All Rights Reserved
+ * (C) Copyright Tbligent, Inc. 1996 - 1997, All Rights Reserved
  * (C) Copyright IBM Corp. 1996 - 1998, All Rights Reserved
  *
- * The original version of this source code and documentation is
- * copyrighted and owned by Taligent, Inc., a wholly-owned subsidiary
- * of IBM. These materials are provided under terms of a License
- * Agreement between Taligent and Sun. This technology is protected
- * by multiple US and International patents.
+ * The originbl version of this source code bnd documentbtion is
+ * copyrighted bnd owned by Tbligent, Inc., b wholly-owned subsidibry
+ * of IBM. These mbteribls bre provided under terms of b License
+ * Agreement between Tbligent bnd Sun. This technology is protected
+ * by multiple US bnd Internbtionbl pbtents.
  *
- * This notice and attribution to Taligent may not be removed.
- * Taligent is a registered trademark of Taligent, Inc.
+ * This notice bnd bttribution to Tbligent mby not be removed.
+ * Tbligent is b registered trbdembrk of Tbligent, Inc.
  *
  */
 
-package java.awt.font;
+pbckbge jbvb.bwt.font;
 
-import java.awt.Image;
-import java.awt.Graphics2D;
-import java.awt.geom.Rectangle2D;
+import jbvb.bwt.Imbge;
+import jbvb.bwt.Grbphics2D;
+import jbvb.bwt.geom.Rectbngle2D;
 
 /**
- * The <code>ImageGraphicAttribute</code> class is an implementation of
- * {@link GraphicAttribute} which draws images in
- * a {@link TextLayout}.
- * @see GraphicAttribute
+ * The <code>ImbgeGrbphicAttribute</code> clbss is bn implementbtion of
+ * {@link GrbphicAttribute} which drbws imbges in
+ * b {@link TextLbyout}.
+ * @see GrbphicAttribute
  */
 
-public final class ImageGraphicAttribute extends GraphicAttribute {
+public finbl clbss ImbgeGrbphicAttribute extends GrbphicAttribute {
 
-    private Image fImage;
-    private float fImageWidth, fImageHeight;
-    private float fOriginX, fOriginY;
+    privbte Imbge fImbge;
+    privbte flobt fImbgeWidth, fImbgeHeight;
+    privbte flobt fOriginX, fOriginY;
 
     /**
-     * Constucts an <code>ImageGraphicAttribute</code> from the specified
-     * {@link Image}.  The origin is at (0,&nbsp;0).
-     * @param image the <code>Image</code> rendered by this
-     * <code>ImageGraphicAttribute</code>.
-     * This object keeps a reference to <code>image</code>.
-     * @param alignment one of the alignments from this
-     * <code>ImageGraphicAttribute</code>
+     * Constucts bn <code>ImbgeGrbphicAttribute</code> from the specified
+     * {@link Imbge}.  The origin is bt (0,&nbsp;0).
+     * @pbrbm imbge the <code>Imbge</code> rendered by this
+     * <code>ImbgeGrbphicAttribute</code>.
+     * This object keeps b reference to <code>imbge</code>.
+     * @pbrbm blignment one of the blignments from this
+     * <code>ImbgeGrbphicAttribute</code>
      */
-    public ImageGraphicAttribute(Image image, int alignment) {
+    public ImbgeGrbphicAttribute(Imbge imbge, int blignment) {
 
-        this(image, alignment, 0, 0);
+        this(imbge, blignment, 0, 0);
     }
 
     /**
-     * Constructs an <code>ImageGraphicAttribute</code> from the specified
-     * <code>Image</code>. The point
+     * Constructs bn <code>ImbgeGrbphicAttribute</code> from the specified
+     * <code>Imbge</code>. The point
      * (<code>originX</code>,&nbsp;<code>originY</code>) in the
-     * <code>Image</code> appears at the origin of the
-     * <code>ImageGraphicAttribute</code> within the text.
-     * @param image the <code>Image</code> rendered by this
-     * <code>ImageGraphicAttribute</code>.
-     * This object keeps a reference to <code>image</code>.
-     * @param alignment one of the alignments from this
-     * <code>ImageGraphicAttribute</code>
-     * @param originX the X coordinate of the point within
-     * the <code>Image</code> that appears at the origin of the
-     * <code>ImageGraphicAttribute</code> in the text line.
-     * @param originY the Y coordinate of the point within
-     * the <code>Image</code> that appears at the origin of the
-     * <code>ImageGraphicAttribute</code> in the text line.
+     * <code>Imbge</code> bppebrs bt the origin of the
+     * <code>ImbgeGrbphicAttribute</code> within the text.
+     * @pbrbm imbge the <code>Imbge</code> rendered by this
+     * <code>ImbgeGrbphicAttribute</code>.
+     * This object keeps b reference to <code>imbge</code>.
+     * @pbrbm blignment one of the blignments from this
+     * <code>ImbgeGrbphicAttribute</code>
+     * @pbrbm originX the X coordinbte of the point within
+     * the <code>Imbge</code> thbt bppebrs bt the origin of the
+     * <code>ImbgeGrbphicAttribute</code> in the text line.
+     * @pbrbm originY the Y coordinbte of the point within
+     * the <code>Imbge</code> thbt bppebrs bt the origin of the
+     * <code>ImbgeGrbphicAttribute</code> in the text line.
      */
-    public ImageGraphicAttribute(Image image,
-                                 int alignment,
-                                 float originX,
-                                 float originY) {
+    public ImbgeGrbphicAttribute(Imbge imbge,
+                                 int blignment,
+                                 flobt originX,
+                                 flobt originY) {
 
-        super(alignment);
+        super(blignment);
 
-        // Can't clone image
-        // fImage = (Image) image.clone();
-        fImage = image;
+        // Cbn't clone imbge
+        // fImbge = (Imbge) imbge.clone();
+        fImbge = imbge;
 
-        fImageWidth = image.getWidth(null);
-        fImageHeight = image.getHeight(null);
+        fImbgeWidth = imbge.getWidth(null);
+        fImbgeHeight = imbge.getHeight(null);
 
-        // ensure origin is in Image?
+        // ensure origin is in Imbge?
         fOriginX = originX;
         fOriginY = originY;
     }
 
     /**
-     * Returns the ascent of this <code>ImageGraphicAttribute</code>.  The
-     * ascent of an <code>ImageGraphicAttribute</code> is the distance
-     * from the top of the image to the origin.
-     * @return the ascent of this <code>ImageGraphicAttribute</code>.
+     * Returns the bscent of this <code>ImbgeGrbphicAttribute</code>.  The
+     * bscent of bn <code>ImbgeGrbphicAttribute</code> is the distbnce
+     * from the top of the imbge to the origin.
+     * @return the bscent of this <code>ImbgeGrbphicAttribute</code>.
      */
-    public float getAscent() {
+    public flobt getAscent() {
 
-        return Math.max(0, fOriginY);
+        return Mbth.mbx(0, fOriginY);
     }
 
     /**
-     * Returns the descent of this <code>ImageGraphicAttribute</code>.
-     * The descent of an <code>ImageGraphicAttribute</code> is the
-     * distance from the origin to the bottom of the image.
-     * @return the descent of this <code>ImageGraphicAttribute</code>.
+     * Returns the descent of this <code>ImbgeGrbphicAttribute</code>.
+     * The descent of bn <code>ImbgeGrbphicAttribute</code> is the
+     * distbnce from the origin to the bottom of the imbge.
+     * @return the descent of this <code>ImbgeGrbphicAttribute</code>.
      */
-    public float getDescent() {
+    public flobt getDescent() {
 
-        return Math.max(0, fImageHeight-fOriginY);
+        return Mbth.mbx(0, fImbgeHeight-fOriginY);
     }
 
     /**
-     * Returns the advance of this <code>ImageGraphicAttribute</code>.
-     * The advance of an <code>ImageGraphicAttribute</code> is the
-     * distance from the origin to the right edge of the image.
-     * @return the advance of this <code>ImageGraphicAttribute</code>.
+     * Returns the bdvbnce of this <code>ImbgeGrbphicAttribute</code>.
+     * The bdvbnce of bn <code>ImbgeGrbphicAttribute</code> is the
+     * distbnce from the origin to the right edge of the imbge.
+     * @return the bdvbnce of this <code>ImbgeGrbphicAttribute</code>.
      */
-    public float getAdvance() {
+    public flobt getAdvbnce() {
 
-        return Math.max(0, fImageWidth-fOriginX);
+        return Mbth.mbx(0, fImbgeWidth-fOriginX);
     }
 
     /**
-     * Returns a {@link Rectangle2D} that encloses all of the
-     * bits rendered by this <code>ImageGraphicAttribute</code>, relative
-     * to the rendering position.  A graphic can be rendered beyond its
-     * origin, ascent, descent, or advance;  but if it is, this
-     * method's implementation must indicate where the graphic is rendered.
-     * @return a <code>Rectangle2D</code> that encloses all of the bits
-     * rendered by this <code>ImageGraphicAttribute</code>.
+     * Returns b {@link Rectbngle2D} thbt encloses bll of the
+     * bits rendered by this <code>ImbgeGrbphicAttribute</code>, relbtive
+     * to the rendering position.  A grbphic cbn be rendered beyond its
+     * origin, bscent, descent, or bdvbnce;  but if it is, this
+     * method's implementbtion must indicbte where the grbphic is rendered.
+     * @return b <code>Rectbngle2D</code> thbt encloses bll of the bits
+     * rendered by this <code>ImbgeGrbphicAttribute</code>.
      */
-    public Rectangle2D getBounds() {
+    public Rectbngle2D getBounds() {
 
-        return new Rectangle2D.Float(
-                        -fOriginX, -fOriginY, fImageWidth, fImageHeight);
+        return new Rectbngle2D.Flobt(
+                        -fOriginX, -fOriginY, fImbgeWidth, fImbgeHeight);
     }
 
     /**
      * {@inheritDoc}
      */
-    public void draw(Graphics2D graphics, float x, float y) {
+    public void drbw(Grbphics2D grbphics, flobt x, flobt y) {
 
-        graphics.drawImage(fImage, (int) (x-fOriginX), (int) (y-fOriginY), null);
+        grbphics.drbwImbge(fImbge, (int) (x-fOriginX), (int) (y-fOriginY), null);
     }
 
     /**
-     * Returns a hashcode for this <code>ImageGraphicAttribute</code>.
-     * @return  a hash code value for this object.
+     * Returns b hbshcode for this <code>ImbgeGrbphicAttribute</code>.
+     * @return  b hbsh code vblue for this object.
      */
-    public int hashCode() {
+    public int hbshCode() {
 
-        return fImage.hashCode();
+        return fImbge.hbshCode();
     }
 
     /**
-     * Compares this <code>ImageGraphicAttribute</code> to the specified
+     * Compbres this <code>ImbgeGrbphicAttribute</code> to the specified
      * {@link Object}.
-     * @param rhs the <code>Object</code> to compare for equality
+     * @pbrbm rhs the <code>Object</code> to compbre for equblity
      * @return <code>true</code> if this
-     * <code>ImageGraphicAttribute</code> equals <code>rhs</code>;
-     * <code>false</code> otherwise.
+     * <code>ImbgeGrbphicAttribute</code> equbls <code>rhs</code>;
+     * <code>fblse</code> otherwise.
      */
-    public boolean equals(Object rhs) {
+    public boolebn equbls(Object rhs) {
 
         try {
-            return equals((ImageGraphicAttribute) rhs);
+            return equbls((ImbgeGrbphicAttribute) rhs);
         }
-        catch(ClassCastException e) {
-            return false;
+        cbtch(ClbssCbstException e) {
+            return fblse;
         }
     }
 
     /**
-     * Compares this <code>ImageGraphicAttribute</code> to the specified
-     * <code>ImageGraphicAttribute</code>.
-     * @param rhs the <code>ImageGraphicAttribute</code> to compare for
-     * equality
+     * Compbres this <code>ImbgeGrbphicAttribute</code> to the specified
+     * <code>ImbgeGrbphicAttribute</code>.
+     * @pbrbm rhs the <code>ImbgeGrbphicAttribute</code> to compbre for
+     * equblity
      * @return <code>true</code> if this
-     * <code>ImageGraphicAttribute</code> equals <code>rhs</code>;
-     * <code>false</code> otherwise.
+     * <code>ImbgeGrbphicAttribute</code> equbls <code>rhs</code>;
+     * <code>fblse</code> otherwise.
      */
-    public boolean equals(ImageGraphicAttribute rhs) {
+    public boolebn equbls(ImbgeGrbphicAttribute rhs) {
 
         if (rhs == null) {
-            return false;
+            return fblse;
         }
 
         if (this == rhs) {
@@ -211,15 +211,15 @@ public final class ImageGraphicAttribute extends GraphicAttribute {
         }
 
         if (fOriginX != rhs.fOriginX || fOriginY != rhs.fOriginY) {
-            return false;
+            return fblse;
         }
 
         if (getAlignment() != rhs.getAlignment()) {
-            return false;
+            return fblse;
         }
 
-        if (!fImage.equals(rhs.fImage)) {
-            return false;
+        if (!fImbge.equbls(rhs.fImbge)) {
+            return fblse;
         }
 
         return true;

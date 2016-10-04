@@ -1,41 +1,41 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-#include "awt_Toolkit.h"
-#include "awt_TextField.h"
-#include "awt_TextComponent.h"
-#include "awt_Canvas.h"
+#include "bwt_Toolkit.h"
+#include "bwt_TextField.h"
+#include "bwt_TextComponent.h"
+#include "bwt_Cbnvbs.h"
 
-/* IMPORTANT! Read the README.JNI file for notes on JNI converted AWT code.
+/* IMPORTANT! Rebd the README.JNI file for notes on JNI converted AWT code.
  */
 
 /***********************************************************************/
-// struct for _SetEchoChar() method
-struct SetEchoCharStruct {
+// struct for _SetEchoChbr() method
+struct SetEchoChbrStruct {
     jobject textfield;
-    jchar echoChar;
+    jchbr echoChbr;
 };
 /************************************************************************
  * AwtTextField methods
@@ -45,120 +45,120 @@ AwtTextField::AwtTextField()
 {
 }
 
-/* Create a new AwtTextField object and window.   */
-AwtTextField* AwtTextField::Create(jobject peer, jobject parent)
+/* Crebte b new AwtTextField object bnd window.   */
+AwtTextField* AwtTextField::Crebte(jobject peer, jobject pbrent)
 {
-    return (AwtTextField*) AwtTextComponent::Create(peer, parent, false);
+    return (AwtTextField*) AwtTextComponent::Crebte(peer, pbrent, fblse);
 }
 
 void AwtTextField::EditSetSel(CHARRANGE &cr) {
-    SendMessage(EM_EXSETSEL, 0, reinterpret_cast<LPARAM>(&cr));
+    SendMessbge(EM_EXSETSEL, 0, reinterpret_cbst<LPARAM>(&cr));
 
-    // 6417581: force expected drawing
-    if (IS_WINVISTA && cr.cpMin == cr.cpMax) {
-        ::InvalidateRect(GetHWnd(), NULL, TRUE);
+    // 6417581: force expected drbwing
+    if (IS_WINVISTA && cr.cpMin == cr.cpMbx) {
+        ::InvblidbteRect(GetHWnd(), NULL, TRUE);
     }
 
 }
 
-LRESULT AwtTextField::WindowProc(UINT message, WPARAM wParam, LPARAM lParam)
+LRESULT AwtTextField::WindowProc(UINT messbge, WPARAM wPbrbm, LPARAM lPbrbm)
 {
-    if (message == WM_UNDO || message == EM_UNDO || message == EM_CANUNDO) {
+    if (messbge == WM_UNDO || messbge == EM_UNDO || messbge == EM_CANUNDO) {
         if (GetWindowLong(GetHWnd(), GWL_STYLE) & ES_READONLY) {
             return FALSE;
         }
     }
-    return AwtTextComponent::WindowProc(message, wParam, lParam);
+    return AwtTextComponent::WindowProc(messbge, wPbrbm, lPbrbm);
 }
 
 MsgRouting
-AwtTextField::HandleEvent(MSG *msg, BOOL synthetic)
+AwtTextField::HbndleEvent(MSG *msg, BOOL synthetic)
 {
-    MsgRouting returnVal;
-    BOOL systemBeeperEnabled = FALSE;
+    MsgRouting returnVbl;
+    BOOL systemBeeperEnbbled = FALSE;
     /*
-     * RichEdit 1.0 control starts internal message loop if the
+     * RichEdit 1.0 control stbrts internbl messbge loop if the
      * left mouse button is pressed while the cursor is not over
      * the current selection or the current selection is empty.
-     * Because of this we don't receive WM_MOUSEMOVE messages
-     * while the left mouse button is pressed. To work around
-     * this behavior we process the relevant mouse messages
+     * Becbuse of this we don't receive WM_MOUSEMOVE messbges
+     * while the left mouse button is pressed. To work bround
+     * this behbvior we process the relevbnt mouse messbges
      * by ourselves.
-     * By consuming WM_MOUSEMOVE messages we also don't give
-     * the RichEdit control a chance to recognize a drag gesture
-     * and initiate its own drag-n-drop operation.
+     * By consuming WM_MOUSEMOVE messbges we blso don't give
+     * the RichEdit control b chbnce to recognize b drbg gesture
+     * bnd initibte its own drbg-n-drop operbtion.
      *
-     * The workaround also allows us to implement synthetic focus mechanism.
+     * The workbround blso bllows us to implement synthetic focus mechbnism.
      */
-    if (IsFocusingMouseMessage(msg)) {
+    if (IsFocusingMouseMessbge(msg)) {
 
-        LONG lCurPos = EditGetCharFromPos(msg->pt);
+        LONG lCurPos = EditGetChbrFromPos(msg->pt);
 
         /*
-         * NOTE: Plain EDIT control always clears selection on mouse
-         * button press. We are clearing the current selection only if
+         * NOTE: Plbin EDIT control blwbys clebrs selection on mouse
+         * button press. We bre clebring the current selection only if
          * the mouse pointer is not over the selected region.
-         * In this case we sacrifice backward compatibility
-         * to allow dnd of the current selection.
+         * In this cbse we sbcrifice bbckwbrd compbtibility
+         * to bllow dnd of the current selection.
          */
-        if (msg->message == WM_LBUTTONDBLCLK) {
-            jchar echo = SendMessage(EM_GETPASSWORDCHAR);
+        if (msg->messbge == WM_LBUTTONDBLCLK) {
+            jchbr echo = SendMessbge(EM_GETPASSWORDCHAR);
 
             if(echo == 0){
-              SetStartSelectionPos(static_cast<LONG>(SendMessage(
+              SetStbrtSelectionPos(stbtic_cbst<LONG>(SendMessbge(
                   EM_FINDWORDBREAK, WB_MOVEWORDLEFT, lCurPos)));
-              SetEndSelectionPos(static_cast<LONG>(SendMessage(
+              SetEndSelectionPos(stbtic_cbst<LONG>(SendMessbge(
                   EM_FINDWORDBREAK, WB_MOVEWORDRIGHT, lCurPos)));
             }else{
-              SetStartSelectionPos(0);
+              SetStbrtSelectionPos(0);
               SetEndSelectionPos(GetTextLength());
             }
 
         } else {
-            SetStartSelectionPos(lCurPos);
+            SetStbrtSelectionPos(lCurPos);
             SetEndSelectionPos(lCurPos);
         }
         CHARRANGE cr;
-        cr.cpMin = GetStartSelectionPos();
-        cr.cpMax = GetEndSelectionPos();
+        cr.cpMin = GetStbrtSelectionPos();
+        cr.cpMbx = GetEndSelectionPos();
         EditSetSel(cr);
 
         delete msg;
         return mrConsume;
-    } else if (msg->message == WM_LBUTTONUP) {
+    } else if (msg->messbge == WM_LBUTTONUP) {
 
         /*
          * If the left mouse button is pressed on the selected region
-         * we don't clear the current selection. We clear it on button
-         * release instead. This is to allow dnd of the current selection.
+         * we don't clebr the current selection. We clebr it on button
+         * relebse instebd. This is to bllow dnd of the current selection.
          */
-        if (GetStartSelectionPos() == -1 && GetEndSelectionPos() == -1) {
+        if (GetStbrtSelectionPos() == -1 && GetEndSelectionPos() == -1) {
             CHARRANGE cr;
 
-            LONG lCurPos = EditGetCharFromPos(msg->pt);
+            LONG lCurPos = EditGetChbrFromPos(msg->pt);
 
             cr.cpMin = lCurPos;
-            cr.cpMax = lCurPos;
+            cr.cpMbx = lCurPos;
             EditSetSel(cr);
         }
 
         /*
-         * Cleanup the state variables when left mouse button is released.
-         * These state variables are designed to reflect the selection state
-         * while the left mouse button is pressed and be set to -1 otherwise.
+         * Clebnup the stbte vbribbles when left mouse button is relebsed.
+         * These stbte vbribbles bre designed to reflect the selection stbte
+         * while the left mouse button is pressed bnd be set to -1 otherwise.
          */
-        SetStartSelectionPos(-1);
+        SetStbrtSelectionPos(-1);
         SetEndSelectionPos(-1);
-        SetLastSelectionPos(-1);
+        SetLbstSelectionPos(-1);
 
         delete msg;
         return mrConsume;
-    } else if (msg->message == WM_MOUSEMOVE && (msg->wParam & MK_LBUTTON)) {
+    } else if (msg->messbge == WM_MOUSEMOVE && (msg->wPbrbm & MK_LBUTTON)) {
 
         /*
          * We consume WM_MOUSEMOVE while the left mouse button is pressed,
-         * so we have to simulate autoscrolling when mouse is moved outside
-         * of the client area.
+         * so we hbve to simulbte butoscrolling when mouse is moved outside
+         * of the client breb.
          */
         POINT p;
         RECT r;
@@ -178,18 +178,18 @@ AwtTextField::HandleEvent(MSG *msg, BOOL synthetic)
             bScrollRight = TRUE;
             p.x = r.right - 1;
         }
-        LONG lCurPos = EditGetCharFromPos(p);
+        LONG lCurPos = EditGetChbrFromPos(p);
 
-        if (GetStartSelectionPos() != -1 &&
+        if (GetStbrtSelectionPos() != -1 &&
             GetEndSelectionPos() != -1 &&
-            lCurPos != GetLastSelectionPos()) {
+            lCurPos != GetLbstSelectionPos()) {
 
             CHARRANGE cr;
 
-            SetLastSelectionPos(lCurPos);
+            SetLbstSelectionPos(lCurPos);
 
-            cr.cpMin = GetStartSelectionPos();
-            cr.cpMax = GetLastSelectionPos();
+            cr.cpMin = GetStbrtSelectionPos();
+            cr.cpMbx = GetLbstSelectionPos();
 
             EditSetSel(cr);
         }
@@ -198,142 +198,142 @@ AwtTextField::HandleEvent(MSG *msg, BOOL synthetic)
             SCROLLINFO si;
             memset(&si, 0, sizeof(si));
             si.cbSize = sizeof(si);
-            si.fMask = SIF_PAGE | SIF_POS | SIF_RANGE;
+            si.fMbsk = SIF_PAGE | SIF_POS | SIF_RANGE;
 
-            SendMessage(EM_SHOWSCROLLBAR, SB_HORZ, TRUE);
+            SendMessbge(EM_SHOWSCROLLBAR, SB_HORZ, TRUE);
             VERIFY(::GetScrollInfo(GetHWnd(), SB_HORZ, &si));
-            SendMessage(EM_SHOWSCROLLBAR, SB_HORZ, FALSE);
+            SendMessbge(EM_SHOWSCROLLBAR, SB_HORZ, FALSE);
 
             if (bScrollLeft == TRUE) {
-                si.nPos = si.nPos - si.nPage / 2;
-                si.nPos = max(si.nMin, si.nPos);
+                si.nPos = si.nPos - si.nPbge / 2;
+                si.nPos = mbx(si.nMin, si.nPos);
             } else if (bScrollRight == TRUE) {
-                si.nPos = si.nPos + si.nPage / 2;
-                si.nPos = min(si.nPos, si.nMax);
+                si.nPos = si.nPos + si.nPbge / 2;
+                si.nPos = min(si.nPos, si.nMbx);
             }
             /*
-             * Okay to use 16-bit position since RichEdit control adjusts
-             * its scrollbars so that their range is always 16-bit.
+             * Okby to use 16-bit position since RichEdit control bdjusts
+             * its scrollbbrs so thbt their rbnge is blwbys 16-bit.
              */
-            DASSERT(abs(si.nPos) < 0x8000);
-            SendMessage(WM_HSCROLL,
+            DASSERT(bbs(si.nPos) < 0x8000);
+            SendMessbge(WM_HSCROLL,
                         MAKEWPARAM(SB_THUMBPOSITION, LOWORD(si.nPos)));
         }
         delete msg;
         return mrConsume;
-    } else if (msg->message == WM_KEYDOWN) {
-        UINT virtualKey = (UINT) msg->wParam;
+    } else if (msg->messbge == WM_KEYDOWN) {
+        UINT virtublKey = (UINT) msg->wPbrbm;
 
-        switch(virtualKey){
-          case VK_RETURN:
-          case VK_UP:
-          case VK_DOWN:
-          case VK_LEFT:
-          case VK_RIGHT:
-          case VK_DELETE:
-          case VK_BACK:
-              SystemParametersInfo(SPI_GETBEEP, 0, &systemBeeperEnabled, 0);
-              if(systemBeeperEnabled){
-                  // disable system beeper for the RICHEDIT control to be compatible
-                  // with the EDIT control behaviour
-                  SystemParametersInfo(SPI_SETBEEP, 0, NULL, 0);
+        switch(virtublKey){
+          cbse VK_RETURN:
+          cbse VK_UP:
+          cbse VK_DOWN:
+          cbse VK_LEFT:
+          cbse VK_RIGHT:
+          cbse VK_DELETE:
+          cbse VK_BACK:
+              SystemPbrbmetersInfo(SPI_GETBEEP, 0, &systemBeeperEnbbled, 0);
+              if(systemBeeperEnbbled){
+                  // disbble system beeper for the RICHEDIT control to be compbtible
+                  // with the EDIT control behbviour
+                  SystemPbrbmetersInfo(SPI_SETBEEP, 0, NULL, 0);
               }
-              break;
+              brebk;
           }
-    } else if (msg->message == WM_SETTINGCHANGE) {
-        if (msg->wParam == SPI_SETBEEP) {
-            SystemParametersInfo(SPI_GETBEEP, 0, &systemBeeperEnabled, 0);
-            if(systemBeeperEnabled){
-                SystemParametersInfo(SPI_SETBEEP, 1, NULL, 0);
+    } else if (msg->messbge == WM_SETTINGCHANGE) {
+        if (msg->wPbrbm == SPI_SETBEEP) {
+            SystemPbrbmetersInfo(SPI_GETBEEP, 0, &systemBeeperEnbbled, 0);
+            if(systemBeeperEnbbled){
+                SystemPbrbmetersInfo(SPI_SETBEEP, 1, NULL, 0);
             }
         }
     }
 
     /*
-     * Store the 'synthetic' parameter so that the WM_PASTE security check
-     * happens only for synthetic events.
+     * Store the 'synthetic' pbrbmeter so thbt the WM_PASTE security check
+     * hbppens only for synthetic events.
      */
     m_synthetic = synthetic;
-    returnVal = AwtComponent::HandleEvent(msg, synthetic);
+    returnVbl = AwtComponent::HbndleEvent(msg, synthetic);
     m_synthetic = FALSE;
 
-    if(systemBeeperEnabled){
-        SystemParametersInfo(SPI_SETBEEP, 1, NULL, 0);
+    if(systemBeeperEnbbled){
+        SystemPbrbmetersInfo(SPI_SETBEEP, 1, NULL, 0);
     }
 
-    return returnVal;
+    return returnVbl;
 }
 
-void AwtTextField::_SetEchoChar(void *param)
+void AwtTextField::_SetEchoChbr(void *pbrbm)
 {
     JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
 
-    SetEchoCharStruct *secs = (SetEchoCharStruct *)param;
+    SetEchoChbrStruct *secs = (SetEchoChbrStruct *)pbrbm;
     jobject self = secs->textfield;
-    jchar echo = secs->echoChar;
+    jchbr echo = secs->echoChbr;
 
     AwtTextField *c = NULL;
 
-    PDATA pData;
+    PDATA pDbtb;
     JNI_CHECK_PEER_GOTO(self, ret);
-    c = (AwtTextField *)pData;
+    c = (AwtTextField *)pDbtb;
     if (::IsWindow(c->GetHWnd()))
     {
-        c->SendMessage(EM_SETPASSWORDCHAR, echo);
-        // Fix for 4307281: force redraw so that changes will take effect
-        VERIFY(::InvalidateRect(c->GetHWnd(), NULL, FALSE));
+        c->SendMessbge(EM_SETPASSWORDCHAR, echo);
+        // Fix for 4307281: force redrbw so thbt chbnges will tbke effect
+        VERIFY(::InvblidbteRect(c->GetHWnd(), NULL, FALSE));
     }
 ret:
-    env->DeleteGlobalRef(self);
+    env->DeleteGlobblRef(self);
 
     delete secs;
 }
 
 
 /************************************************************************
- * WTextFieldPeer native methods
+ * WTextFieldPeer nbtive methods
  */
 
 extern "C" {
 
 /*
- * Class:     sun_awt_windows_WTextFieldPeer
- * Method:    create
- * Signature: (Lsun/awt/windows/WComponentPeer;)V
+ * Clbss:     sun_bwt_windows_WTextFieldPeer
+ * Method:    crebte
+ * Signbture: (Lsun/bwt/windows/WComponentPeer;)V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WTextFieldPeer_create(JNIEnv *env, jobject self,
-                                           jobject parent)
+Jbvb_sun_bwt_windows_WTextFieldPeer_crebte(JNIEnv *env, jobject self,
+                                           jobject pbrent)
 {
     TRY;
 
-    PDATA pData;
-    JNI_CHECK_PEER_RETURN(parent);
-    AwtToolkit::CreateComponent(self, parent,
-                                (AwtToolkit::ComponentFactory)
-                                AwtTextField::Create);
+    PDATA pDbtb;
+    JNI_CHECK_PEER_RETURN(pbrent);
+    AwtToolkit::CrebteComponent(self, pbrent,
+                                (AwtToolkit::ComponentFbctory)
+                                AwtTextField::Crebte);
     JNI_CHECK_PEER_CREATION_RETURN(self);
 
     CATCH_BAD_ALLOC;
 }
 
 /*
- * Class:     sun_awt_windows_WTextFieldPeer
- * Method:    setEchoChar
- * Signature: (C)V
+ * Clbss:     sun_bwt_windows_WTextFieldPeer
+ * Method:    setEchoChbr
+ * Signbture: (C)V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WTextFieldPeer_setEchoChar(JNIEnv *env, jobject self,
-                                                jchar ch)
+Jbvb_sun_bwt_windows_WTextFieldPeer_setEchoChbr(JNIEnv *env, jobject self,
+                                                jchbr ch)
 {
     TRY;
 
-    SetEchoCharStruct *secs = new SetEchoCharStruct;
-    secs->textfield = env->NewGlobalRef(self);
-    secs->echoChar = ch;
+    SetEchoChbrStruct *secs = new SetEchoChbrStruct;
+    secs->textfield = env->NewGlobblRef(self);
+    secs->echoChbr = ch;
 
-    AwtToolkit::GetInstance().SyncCall(AwtTextField::_SetEchoChar, secs);
-    // global ref and secs are deleted in _SetEchoChar()
+    AwtToolkit::GetInstbnce().SyncCbll(AwtTextField::_SetEchoChbr, secs);
+    // globbl ref bnd secs bre deleted in _SetEchoChbr()
 
     CATCH_BAD_ALLOC;
 }

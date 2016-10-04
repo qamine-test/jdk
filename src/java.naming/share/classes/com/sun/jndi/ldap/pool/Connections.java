@@ -1,189 +1,189 @@
 /*
- * Copyright (c) 2002, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jndi.ldap.pool;
+pbckbge com.sun.jndi.ldbp.pool;
 
-import java.util.ArrayList; // JDK 1.2
-import java.util.List;
-import java.util.Iterator;
+import jbvb.util.ArrbyList; // JDK 1.2
+import jbvb.util.List;
+import jbvb.util.Iterbtor;
 
-import java.lang.ref.Reference;
-import java.lang.ref.SoftReference;
+import jbvb.lbng.ref.Reference;
+import jbvb.lbng.ref.SoftReference;
 
-import javax.naming.NamingException;
-import javax.naming.InterruptedNamingException;
-import javax.naming.CommunicationException;
+import jbvbx.nbming.NbmingException;
+import jbvbx.nbming.InterruptedNbmingException;
+import jbvbx.nbming.CommunicbtionException;
 
 /**
- * Represents a list of PooledConnections (actually, ConnectionDescs) with the
- * same pool id.
- * The list starts out with an initial number of connections.
- * Additional PooledConnections are created lazily upon demand.
- * The list has a maximum size. When the number of connections
- * reaches the maximum size, a request for a PooledConnection blocks until
- * a connection is returned to the list. A maximum size of zero means that
- * there is no maximum: connection creation will be attempted when
- * no idle connection is available.
+ * Represents b list of PooledConnections (bctublly, ConnectionDescs) with the
+ * sbme pool id.
+ * The list stbrts out with bn initibl number of connections.
+ * Additionbl PooledConnections bre crebted lbzily upon dembnd.
+ * The list hbs b mbximum size. When the number of connections
+ * rebches the mbximum size, b request for b PooledConnection blocks until
+ * b connection is returned to the list. A mbximum size of zero mebns thbt
+ * there is no mbximum: connection crebtion will be bttempted when
+ * no idle connection is bvbilbble.
  *
- * The list may also have a preferred size. If the current list size
- * is less than the preferred size, a request for a connection will result in
- * a PooledConnection being created (even if an idle connection is available).
- * If the current list size is greater than the preferred size,
- * a connection being returned to the list will be closed and removed from
- * the list. A preferred size of zero means that there is no preferred size:
- * connections are created only when no idle connection is available and
- * a connection being returned to the list is not closed. Regardless of the
- * preferred size, connection creation always observes the maximum size:
- * a connection won't be created if the list size is at or exceeds the
- * maximum size.
+ * The list mby blso hbve b preferred size. If the current list size
+ * is less thbn the preferred size, b request for b connection will result in
+ * b PooledConnection being crebted (even if bn idle connection is bvbilbble).
+ * If the current list size is grebter thbn the preferred size,
+ * b connection being returned to the list will be closed bnd removed from
+ * the list. A preferred size of zero mebns thbt there is no preferred size:
+ * connections bre crebted only when no idle connection is bvbilbble bnd
+ * b connection being returned to the list is not closed. Regbrdless of the
+ * preferred size, connection crebtion blwbys observes the mbximum size:
+ * b connection won't be crebted if the list size is bt or exceeds the
+ * mbximum size.
  *
- * @author Rosanna Lee
+ * @buthor Rosbnnb Lee
  */
 
-// Package private: accessed only by Pool
-final class Connections implements PoolCallback {
-    private static final boolean debug = Pool.debug;
-    private static final boolean trace =
-        com.sun.jndi.ldap.LdapPoolManager.trace;
-    private static final int DEFAULT_SIZE = 10;
+// Pbckbge privbte: bccessed only by Pool
+finbl clbss Connections implements PoolCbllbbck {
+    privbte stbtic finbl boolebn debug = Pool.debug;
+    privbte stbtic finbl boolebn trbce =
+        com.sun.jndi.ldbp.LdbpPoolMbnbger.trbce;
+    privbte stbtic finbl int DEFAULT_SIZE = 10;
 
-    final private int maxSize;
-    final private int prefSize;
-    final private List<ConnectionDesc> conns;
+    finbl privbte int mbxSize;
+    finbl privbte int prefSize;
+    finbl privbte List<ConnectionDesc> conns;
 
-    private boolean closed = false;   // Closed for business
-    private Reference<Object> ref; // maintains reference to id to prevent premature GC
+    privbte boolebn closed = fblse;   // Closed for business
+    privbte Reference<Object> ref; // mbintbins reference to id to prevent prembture GC
 
     /**
-     * @param id the identity (connection request) of the connections in the list
-     * @param initSize the number of connections to create initially
-     * @param prefSize the preferred size of the pool. The pool will try
-     * to maintain a pool of this size by creating and closing connections
-     * as needed.
-     * @param maxSize the maximum size of the pool. The pool will not exceed
-     * this size. If the pool is at this size, a request for a connection
-     * will block until an idle connection is released to the pool or
+     * @pbrbm id the identity (connection request) of the connections in the list
+     * @pbrbm initSize the number of connections to crebte initiblly
+     * @pbrbm prefSize the preferred size of the pool. The pool will try
+     * to mbintbin b pool of this size by crebting bnd closing connections
+     * bs needed.
+     * @pbrbm mbxSize the mbximum size of the pool. The pool will not exceed
+     * this size. If the pool is bt this size, b request for b connection
+     * will block until bn idle connection is relebsed to the pool or
      * when one is removed.
-     * @param factory The factory responsible for creating a connection
+     * @pbrbm fbctory The fbctory responsible for crebting b connection
      */
-    Connections(Object id, int initSize, int prefSize, int maxSize,
-        PooledConnectionFactory factory) throws NamingException {
+    Connections(Object id, int initSize, int prefSize, int mbxSize,
+        PooledConnectionFbctory fbctory) throws NbmingException {
 
-        this.maxSize = maxSize;
-        if (maxSize > 0) {
-            // prefSize and initSize cannot exceed specified maxSize
-            this.prefSize = Math.min(prefSize, maxSize);
-            initSize = Math.min(initSize, maxSize);
+        this.mbxSize = mbxSize;
+        if (mbxSize > 0) {
+            // prefSize bnd initSize cbnnot exceed specified mbxSize
+            this.prefSize = Mbth.min(prefSize, mbxSize);
+            initSize = Mbth.min(initSize, mbxSize);
         } else {
             this.prefSize = prefSize;
         }
-        conns = new ArrayList<>(maxSize > 0 ? maxSize : DEFAULT_SIZE);
+        conns = new ArrbyList<>(mbxSize > 0 ? mbxSize : DEFAULT_SIZE);
 
-        // Maintain soft ref to id so that this Connections' entry in
-        // Pool doesn't get GC'ed prematurely
+        // Mbintbin soft ref to id so thbt this Connections' entry in
+        // Pool doesn't get GC'ed prembturely
         ref = new SoftReference<>(id);
 
         d("init size=", initSize);
-        d("max size=", maxSize);
+        d("mbx size=", mbxSize);
         d("preferred size=", prefSize);
 
-        // Create initial connections
+        // Crebte initibl connections
         PooledConnection conn;
         for (int i = 0; i < initSize; i++) {
-            conn = factory.createPooledConnection(this);
-            td("Create ", conn ,factory);
-            conns.add(new ConnectionDesc(conn)); // Add new idle conn to pool
+            conn = fbctory.crebtePooledConnection(this);
+            td("Crebte ", conn ,fbctory);
+            conns.bdd(new ConnectionDesc(conn)); // Add new idle conn to pool
         }
     }
 
     /**
-     * Retrieves a PooledConnection from this list of connections.
-     * Use an existing one if one is idle, or create one if the list's
-     * max size hasn't been reached. If max size has been reached, wait
-     * for a PooledConnection to be returned, or one to be removed (thus
-     * not reaching the max size any longer).
+     * Retrieves b PooledConnection from this list of connections.
+     * Use bn existing one if one is idle, or crebte one if the list's
+     * mbx size hbsn't been rebched. If mbx size hbs been rebched, wbit
+     * for b PooledConnection to be returned, or one to be removed (thus
+     * not rebching the mbx size bny longer).
      *
-     * @param timeout if > 0, msec to wait until connection is available
-     * @param factory creates the PooledConnection if one needs to be created
+     * @pbrbm timeout if > 0, msec to wbit until connection is bvbilbble
+     * @pbrbm fbctory crebtes the PooledConnection if one needs to be crebted
      *
      * @return A non-null PooledConnection
-     * @throws NamingException PooledConnection cannot be created, because this
-     * thread was interrupted while it waited for an available connection,
-     * or if it timed out while waiting, or the creation of a connection
-     * resulted in an error.
+     * @throws NbmingException PooledConnection cbnnot be crebted, becbuse this
+     * threbd wbs interrupted while it wbited for bn bvbilbble connection,
+     * or if it timed out while wbiting, or the crebtion of b connection
+     * resulted in bn error.
      */
     synchronized PooledConnection get(long timeout,
-        PooledConnectionFactory factory) throws NamingException {
+        PooledConnectionFbctory fbctory) throws NbmingException {
         PooledConnection conn;
-        long start = (timeout > 0 ? System.currentTimeMillis() : 0);
-        long waittime = timeout;
+        long stbrt = (timeout > 0 ? System.currentTimeMillis() : 0);
+        long wbittime = timeout;
 
         d("get(): before");
-        while ((conn = getOrCreateConnection(factory)) == null) {
-            if (timeout > 0 && waittime <= 0) {
-                throw new CommunicationException(
-                    "Timeout exceeded while waiting for a connection: " +
+        while ((conn = getOrCrebteConnection(fbctory)) == null) {
+            if (timeout > 0 && wbittime <= 0) {
+                throw new CommunicbtionException(
+                    "Timeout exceeded while wbiting for b connection: " +
                     timeout + "ms");
             }
             try {
-                d("get(): waiting");
-                if (waittime > 0) {
-                    wait(waittime);  // Wait until one is released or removed
+                d("get(): wbiting");
+                if (wbittime > 0) {
+                    wbit(wbittime);  // Wbit until one is relebsed or removed
                 } else {
-                    wait();
+                    wbit();
                 }
-            } catch (InterruptedException e) {
-                throw new InterruptedNamingException(
-                    "Interrupted while waiting for a connection");
+            } cbtch (InterruptedException e) {
+                throw new InterruptedNbmingException(
+                    "Interrupted while wbiting for b connection");
             }
             // Check whether we timed out
             if (timeout > 0) {
                 long now = System.currentTimeMillis();
-                waittime = timeout - (now - start);
+                wbittime = timeout - (now - stbrt);
             }
         }
 
-        d("get(): after");
+        d("get(): bfter");
         return conn;
     }
 
     /**
-     * Retrieves an idle connection from this list if one is available.
-     * If none is available, create a new one if maxSize hasn't been reached.
-     * If maxSize has been reached, return null.
-     * Always called from a synchronized method.
+     * Retrieves bn idle connection from this list if one is bvbilbble.
+     * If none is bvbilbble, crebte b new one if mbxSize hbsn't been rebched.
+     * If mbxSize hbs been rebched, return null.
+     * Alwbys cblled from b synchronized method.
      */
-    private PooledConnection getOrCreateConnection(
-        PooledConnectionFactory factory) throws NamingException {
+    privbte PooledConnection getOrCrebteConnection(
+        PooledConnectionFbctory fbctory) throws NbmingException {
 
         int size = conns.size(); // Current number of idle/nonidle conns
         PooledConnection conn = null;
 
         if (prefSize <= 0 || size >= prefSize) {
-            // If no prefSize specified, or list size already meets or
-            // exceeds prefSize, then first look for an idle connection
+            // If no prefSize specified, or list size blrebdy meets or
+            // exceeds prefSize, then first look for bn idle connection
             ConnectionDesc entry;
             for (int i = 0; i < size; i++) {
                 entry = conns.get(i);
@@ -195,31 +195,31 @@ final class Connections implements PoolCallback {
             }
         }
 
-        // Check if list size already at maxSize specified
-        if (maxSize > 0 && size >= maxSize) {
-            return null;   // List size is at limit; cannot create any more
+        // Check if list size blrebdy bt mbxSize specified
+        if (mbxSize > 0 && size >= mbxSize) {
+            return null;   // List size is bt limit; cbnnot crebte bny more
         }
 
-        conn = factory.createPooledConnection(this);
-        td("Create and use ", conn, factory);
-        conns.add(new ConnectionDesc(conn, true)); // Add new conn to pool
+        conn = fbctory.crebtePooledConnection(this);
+        td("Crebte bnd use ", conn, fbctory);
+        conns.bdd(new ConnectionDesc(conn, true)); // Add new conn to pool
 
         return conn;
     }
 
     /**
-     * Releases connection back into list.
-     * If the list size is below prefSize, the connection may be reused.
+     * Relebses connection bbck into list.
+     * If the list size is below prefSize, the connection mby be reused.
      * If the list size exceeds prefSize, then the connection is closed
-     * and removed from the list.
+     * bnd removed from the list.
      *
-     * public because implemented as part of PoolCallback.
+     * public becbuse implemented bs pbrt of PoolCbllbbck.
      */
-    public synchronized boolean releasePooledConnection(PooledConnection conn) {
+    public synchronized boolebn relebsePooledConnection(PooledConnection conn) {
         ConnectionDesc entry;
         int loc = conns.indexOf(entry=new ConnectionDesc(conn));
 
-        d("release(): ", conn);
+        d("relebse(): ", conn);
 
         if (loc >= 0) {
             // Found entry
@@ -227,41 +227,41 @@ final class Connections implements PoolCallback {
             if (closed || (prefSize > 0 && conns.size() > prefSize)) {
                 // If list size exceeds prefSize, close connection
 
-                d("release(): closing ", conn);
+                d("relebse(): closing ", conn);
                 td("Close ", conn);
 
-                // size must be >= 2 so don't worry about empty list
+                // size must be >= 2 so don't worry bbout empty list
                 conns.remove(entry);
                 conn.closeConnection();
 
             } else {
-                d("release(): release ", conn);
-                td("Release ", conn);
+                d("relebse(): relebse ", conn);
+                td("Relebse ", conn);
 
-                // Get ConnectionDesc from list to get correct state info
+                // Get ConnectionDesc from list to get correct stbte info
                 entry = conns.get(loc);
-                // Return connection to list, ready for reuse
-                entry.release();
+                // Return connection to list, rebdy for reuse
+                entry.relebse();
             }
             notifyAll();
-            d("release(): notify");
+            d("relebse(): notify");
             return true;
         } else {
-            return false;
+            return fblse;
         }
     }
 
     /**
      * Removes PooledConnection from list of connections.
-     * The closing of the connection is separate from this method.
-     * This method is called usually when the caller encounters an error
-     * when using the connection and wants it removed from the pool.
+     * The closing of the connection is sepbrbte from this method.
+     * This method is cblled usublly when the cbller encounters bn error
+     * when using the connection bnd wbnts it removed from the pool.
      *
-     * @return true if conn removed; false if it was not in pool
+     * @return true if conn removed; fblse if it wbs not in pool
      *
-     * public because implemented as part of PoolCallback.
+     * public becbuse implemented bs pbrt of PoolCbllbbck.
      */
-    public synchronized boolean removePooledConnection(PooledConnection conn) {
+    public synchronized boolebn removePooledConnection(PooledConnection conn) {
         if (conns.remove(new ConnectionDesc(conn))) {
             d("remove(): ", conn);
 
@@ -271,29 +271,29 @@ final class Connections implements PoolCallback {
             td("Remove ", conn);
 
             if (conns.isEmpty()) {
-                // Remove softref to make pool entry eligible for GC.
-                // Once ref has been removed, it cannot be reinstated.
+                // Remove softref to mbke pool entry eligible for GC.
+                // Once ref hbs been removed, it cbnnot be reinstbted.
                 ref = null;
             }
 
             return true;
         } else {
             d("remove(): not found ", conn);
-            return false;
+            return fblse;
         }
     }
 
     /**
-     * Goes through all entries in list, removes and closes ones that have been
+     * Goes through bll entries in list, removes bnd closes ones thbt hbve been
      * idle before threshold.
      *
-     * @param threshold an entry idle since this time has expired.
+     * @pbrbm threshold bn entry idle since this time hbs expired.
      * @return true if no more connections in list
      */
-    synchronized boolean expire(long threshold) {
-        Iterator<ConnectionDesc> iter = conns.iterator();
+    synchronized boolebn expire(long threshold) {
+        Iterbtor<ConnectionDesc> iter = conns.iterbtor();
         ConnectionDesc entry;
-        while (iter.hasNext()) {
+        while (iter.hbsNext()) {
             entry = iter.next();
             if (entry.expire(threshold)) {
                 d("expire(): removing ", entry);
@@ -301,27 +301,27 @@ final class Connections implements PoolCallback {
 
                 iter.remove();  // remove from pool
 
-                // Don't need to call notify() because we're
+                // Don't need to cbll notify() becbuse we're
                 // removing only idle connections. If there were
-                // idle connections, then there should be no waiters.
+                // idle connections, then there should be no wbiters.
             }
         }
-        return conns.isEmpty();  // whether whole list has 'expired'
+        return conns.isEmpty();  // whether whole list hbs 'expired'
     }
 
     /**
-     * Called when this instance of Connections has been removed from Pool.
-     * This means that no one can get any pooled connections from this
-     * Connections any longer. Expire all idle connections as of 'now'
-     * and leave indicator so that any in-use connections will be closed upon
+     * Cblled when this instbnce of Connections hbs been removed from Pool.
+     * This mebns thbt no one cbn get bny pooled connections from this
+     * Connections bny longer. Expire bll idle connections bs of 'now'
+     * bnd lebve indicbtor so thbt bny in-use connections will be closed upon
      * their return.
      */
     synchronized void close() {
         expire(System.currentTimeMillis());     // Expire idle connections
-        closed = true;   // Close in-use connections when they are returned
+        closed = true;   // Close in-use connections when they bre returned
     }
 
-    String getStats() {
+    String getStbts() {
         int idle = 0;
         int busy = 0;
         int expired = 0;
@@ -335,14 +335,14 @@ final class Connections implements PoolCallback {
             for (int i = 0; i < len; i++) {
                 entry = conns.get(i);
                 use += entry.getUseCount();
-                switch (entry.getState()) {
-                case ConnectionDesc.BUSY:
+                switch (entry.getStbte()) {
+                cbse ConnectionDesc.BUSY:
                     ++busy;
-                    break;
-                case ConnectionDesc.IDLE:
+                    brebk;
+                cbse ConnectionDesc.IDLE:
                     ++idle;
-                    break;
-                case ConnectionDesc.EXPIRED:
+                    brebk;
+                cbse ConnectionDesc.EXPIRED:
                     ++expired;
                 }
             }
@@ -351,36 +351,36 @@ final class Connections implements PoolCallback {
             + "; idle=" + idle + "; expired=" + expired;
     }
 
-    private void d(String msg, Object o1) {
+    privbte void d(String msg, Object o1) {
         if (debug) {
             d(msg + o1);
         }
     }
 
-    private void d(String msg, int i) {
+    privbte void d(String msg, int i) {
         if (debug) {
             d(msg + i);
         }
     }
 
-    private void d(String msg) {
+    privbte void d(String msg) {
         if (debug) {
             System.err.println(this + "." + msg + "; size: " + conns.size());
         }
     }
 
-    private void td(String msg, Object o1, Object o2) {
-        if (trace) { // redo test to avoid object creation
+    privbte void td(String msg, Object o1, Object o2) {
+        if (trbce) { // redo test to bvoid object crebtion
             td(msg + o1 + "[" + o2 + "]");
         }
     }
-    private void td(String msg, Object o1) {
-        if (trace) { // redo test to avoid object creation
+    privbte void td(String msg, Object o1) {
+        if (trbce) { // redo test to bvoid object crebtion
             td(msg + o1);
         }
     }
-    private void td(String msg) {
-        if (trace) {
+    privbte void td(String msg) {
+        if (trbce) {
             System.err.println(msg);
         }
     }

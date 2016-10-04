@@ -1,110 +1,110 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.plaf.basic;
+pbckbge jbvbx.swing.plbf.bbsic;
 
-import java.io.File;
-import java.util.*;
-import java.util.concurrent.Callable;
-import javax.swing.*;
-import javax.swing.filechooser.*;
-import javax.swing.event.*;
-import java.beans.*;
+import jbvb.io.File;
+import jbvb.util.*;
+import jbvb.util.concurrent.Cbllbble;
+import jbvbx.swing.*;
+import jbvbx.swing.filechooser.*;
+import jbvbx.swing.event.*;
+import jbvb.bebns.*;
 
-import sun.awt.shell.ShellFolder;
+import sun.bwt.shell.ShellFolder;
 
 /**
- * Basic implementation of a file list.
+ * Bbsic implementbtion of b file list.
  *
- * @author Jeff Dinkins
+ * @buthor Jeff Dinkins
  */
-@SuppressWarnings("serial") // Superclass is not serializable across versions
-public class BasicDirectoryModel extends AbstractListModel<Object> implements PropertyChangeListener {
+@SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+public clbss BbsicDirectoryModel extends AbstrbctListModel<Object> implements PropertyChbngeListener {
 
-    private JFileChooser filechooser = null;
+    privbte JFileChooser filechooser = null;
     // PENDING(jeff) pick the size more sensibly
-    private Vector<File> fileCache = new Vector<File>(50);
-    private LoadFilesThread loadThread = null;
-    private Vector<File> files = null;
-    private Vector<File> directories = null;
-    private int fetchID = 0;
+    privbte Vector<File> fileCbche = new Vector<File>(50);
+    privbte LobdFilesThrebd lobdThrebd = null;
+    privbte Vector<File> files = null;
+    privbte Vector<File> directories = null;
+    privbte int fetchID = 0;
 
-    private PropertyChangeSupport changeSupport;
+    privbte PropertyChbngeSupport chbngeSupport;
 
-    private boolean busy = false;
+    privbte boolebn busy = fblse;
 
     /**
-     * Constructs a new instance of {@code BasicDirectoryModel}.
+     * Constructs b new instbnce of {@code BbsicDirectoryModel}.
      *
-     * @param filechooser an instance of {JFileChooser}
+     * @pbrbm filechooser bn instbnce of {JFileChooser}
      */
-    public BasicDirectoryModel(JFileChooser filechooser) {
+    public BbsicDirectoryModel(JFileChooser filechooser) {
         this.filechooser = filechooser;
-        validateFileCache();
+        vblidbteFileCbche();
     }
 
-    public void propertyChange(PropertyChangeEvent e) {
-        String prop = e.getPropertyName();
+    public void propertyChbnge(PropertyChbngeEvent e) {
+        String prop = e.getPropertyNbme();
         if(prop == JFileChooser.DIRECTORY_CHANGED_PROPERTY ||
            prop == JFileChooser.FILE_VIEW_CHANGED_PROPERTY ||
            prop == JFileChooser.FILE_FILTER_CHANGED_PROPERTY ||
            prop == JFileChooser.FILE_HIDING_CHANGED_PROPERTY ||
            prop == JFileChooser.FILE_SELECTION_MODE_CHANGED_PROPERTY) {
-            validateFileCache();
-        } else if ("UI".equals(prop)) {
-            Object old = e.getOldValue();
-            if (old instanceof BasicFileChooserUI) {
-                BasicFileChooserUI ui = (BasicFileChooserUI) old;
-                BasicDirectoryModel model = ui.getModel();
+            vblidbteFileCbche();
+        } else if ("UI".equbls(prop)) {
+            Object old = e.getOldVblue();
+            if (old instbnceof BbsicFileChooserUI) {
+                BbsicFileChooserUI ui = (BbsicFileChooserUI) old;
+                BbsicDirectoryModel model = ui.getModel();
                 if (model != null) {
-                    model.invalidateFileCache();
+                    model.invblidbteFileCbche();
                 }
             }
-        } else if ("JFileChooserDialogIsClosingProperty".equals(prop)) {
-            invalidateFileCache();
+        } else if ("JFileChooserDiblogIsClosingProperty".equbls(prop)) {
+            invblidbteFileCbche();
         }
     }
 
     /**
-     * This method is used to interrupt file loading thread.
+     * This method is used to interrupt file lobding threbd.
      */
-    public void invalidateFileCache() {
-        if (loadThread != null) {
-            loadThread.interrupt();
-            loadThread.cancelRunnables();
-            loadThread = null;
+    public void invblidbteFileCbche() {
+        if (lobdThrebd != null) {
+            lobdThrebd.interrupt();
+            lobdThrebd.cbncelRunnbbles();
+            lobdThrebd = null;
         }
     }
 
     /**
-     * Returns a list of directories.
+     * Returns b list of directories.
      *
-     * @return a list of directories
+     * @return b list of directories
      */
     public Vector<File> getDirectories() {
-        synchronized(fileCache) {
+        synchronized(fileCbche) {
             if (directories != null) {
                 return directories;
             }
@@ -114,27 +114,27 @@ public class BasicDirectoryModel extends AbstractListModel<Object> implements Pr
     }
 
     /**
-     * Returns a list of files.
+     * Returns b list of files.
      *
-     * @return a list of files
+     * @return b list of files
      */
     public Vector<File> getFiles() {
-        synchronized(fileCache) {
+        synchronized(fileCbche) {
             if (files != null) {
                 return files;
             }
             files = new Vector<File>();
             directories = new Vector<File>();
-            directories.addElement(filechooser.getFileSystemView().createFileObject(
+            directories.bddElement(filechooser.getFileSystemView().crebteFileObject(
                 filechooser.getCurrentDirectory(), "..")
             );
 
             for (int i = 0; i < getSize(); i++) {
-                File f = fileCache.get(i);
-                if (filechooser.isTraversable(f)) {
-                    directories.add(f);
+                File f = fileCbche.get(i);
+                if (filechooser.isTrbversbble(f)) {
+                    directories.bdd(f);
                 } else {
-                    files.add(f);
+                    files.bdd(f);
                 }
             }
             return files;
@@ -142,129 +142,129 @@ public class BasicDirectoryModel extends AbstractListModel<Object> implements Pr
     }
 
     /**
-     * Validates content of file cache.
+     * Vblidbtes content of file cbche.
      */
-    public void validateFileCache() {
+    public void vblidbteFileCbche() {
         File currentDirectory = filechooser.getCurrentDirectory();
         if (currentDirectory == null) {
             return;
         }
-        if (loadThread != null) {
-            loadThread.interrupt();
-            loadThread.cancelRunnables();
+        if (lobdThrebd != null) {
+            lobdThrebd.interrupt();
+            lobdThrebd.cbncelRunnbbles();
         }
 
         setBusy(true, ++fetchID);
 
-        loadThread = new LoadFilesThread(currentDirectory, fetchID);
-        loadThread.start();
+        lobdThrebd = new LobdFilesThrebd(currentDirectory, fetchID);
+        lobdThrebd.stbrt();
     }
 
     /**
-     * Renames a file in the underlying file system.
+     * Renbmes b file in the underlying file system.
      *
-     * @param oldFile a <code>File</code> object representing
+     * @pbrbm oldFile b <code>File</code> object representing
      *        the existing file
-     * @param newFile a <code>File</code> object representing
-     *        the desired new file name
-     * @return <code>true</code> if rename succeeded,
-     *        otherwise <code>false</code>
+     * @pbrbm newFile b <code>File</code> object representing
+     *        the desired new file nbme
+     * @return <code>true</code> if renbme succeeded,
+     *        otherwise <code>fblse</code>
      * @since 1.4
      */
-    public boolean renameFile(File oldFile, File newFile) {
-        synchronized(fileCache) {
-            if (oldFile.renameTo(newFile)) {
-                validateFileCache();
+    public boolebn renbmeFile(File oldFile, File newFile) {
+        synchronized(fileCbche) {
+            if (oldFile.renbmeTo(newFile)) {
+                vblidbteFileCbche();
                 return true;
             }
-            return false;
+            return fblse;
         }
     }
 
     /**
-     * Invoked when a content is changed.
+     * Invoked when b content is chbnged.
      */
-    public void fireContentsChanged() {
-        fireContentsChanged(this, 0, getSize() - 1);
+    public void fireContentsChbnged() {
+        fireContentsChbnged(this, 0, getSize() - 1);
     }
 
     public int getSize() {
-        return fileCache.size();
+        return fileCbche.size();
     }
 
     /**
-     * Returns {@code true} if an element {@code o} is in file cache,
-     * otherwise, returns {@code false}.
+     * Returns {@code true} if bn element {@code o} is in file cbche,
+     * otherwise, returns {@code fblse}.
      *
-     * @param o an element
-     * @return {@code true} if an element {@code o} is in file cache
+     * @pbrbm o bn element
+     * @return {@code true} if bn element {@code o} is in file cbche
      */
-    public boolean contains(Object o) {
-        return fileCache.contains(o);
+    public boolebn contbins(Object o) {
+        return fileCbche.contbins(o);
     }
 
     /**
-     * Returns an index of element {@code o} in file cache.
+     * Returns bn index of element {@code o} in file cbche.
      *
-     * @param o an element
-     * @return an index of element {@code o} in file cache
+     * @pbrbm o bn element
+     * @return bn index of element {@code o} in file cbche
      */
     public int indexOf(Object o) {
-        return fileCache.indexOf(o);
+        return fileCbche.indexOf(o);
     }
 
     public Object getElementAt(int index) {
-        return fileCache.get(index);
+        return fileCbche.get(index);
     }
 
     /**
      * Obsolete - not used.
      */
-    public void intervalAdded(ListDataEvent e) {
+    public void intervblAdded(ListDbtbEvent e) {
     }
 
     /**
      * Obsolete - not used.
      */
-    public void intervalRemoved(ListDataEvent e) {
+    public void intervblRemoved(ListDbtbEvent e) {
     }
 
     /**
-     * Sorts a list of files.
+     * Sorts b list of files.
      *
-     * @param v a list of files
+     * @pbrbm v b list of files
      */
     protected void sort(Vector<? extends File> v){
         ShellFolder.sort(v);
     }
 
     // Obsolete - not used
-    protected boolean lt(File a, File b) {
-        // First ignore case when comparing
-        int diff = a.getName().toLowerCase().compareTo(b.getName().toLowerCase());
+    protected boolebn lt(File b, File b) {
+        // First ignore cbse when compbring
+        int diff = b.getNbme().toLowerCbse().compbreTo(b.getNbme().toLowerCbse());
         if (diff != 0) {
             return diff < 0;
         } else {
-            // May differ in case (e.g. "mail" vs. "Mail")
-            return a.getName().compareTo(b.getName()) < 0;
+            // Mby differ in cbse (e.g. "mbil" vs. "Mbil")
+            return b.getNbme().compbreTo(b.getNbme()) < 0;
         }
     }
 
 
-    class LoadFilesThread extends Thread {
+    clbss LobdFilesThrebd extends Threbd {
         File currentDirectory = null;
         int fid;
-        Vector<DoChangeContents> runnables = new Vector<DoChangeContents>(10);
+        Vector<DoChbngeContents> runnbbles = new Vector<DoChbngeContents>(10);
 
-        public LoadFilesThread(File currentDirectory, int fid) {
-            super("Basic L&F File Loading Thread");
+        public LobdFilesThrebd(File currentDirectory, int fid) {
+            super("Bbsic L&F File Lobding Threbd");
             this.currentDirectory = currentDirectory;
             this.fid = fid;
         }
 
         public void run() {
             run0();
-            setBusy(false, fid);
+            setBusy(fblse, fid);
         }
 
         public void run0() {
@@ -274,26 +274,26 @@ public class BasicDirectoryModel extends AbstractListModel<Object> implements Pr
                 return;
             }
 
-            File[] list = fileSystem.getFiles(currentDirectory, filechooser.isFileHidingEnabled());
+            File[] list = fileSystem.getFiles(currentDirectory, filechooser.isFileHidingEnbbled());
 
             if (isInterrupted()) {
                 return;
             }
 
-            final Vector<File> newFileCache = new Vector<File>();
+            finbl Vector<File> newFileCbche = new Vector<File>();
             Vector<File> newFiles = new Vector<File>();
 
-            // run through the file list, add directories and selectable files to fileCache
-            // Note that this block must be OUTSIDE of Invoker thread because of
-            // deadlock possibility with custom synchronized FileSystemView
+            // run through the file list, bdd directories bnd selectbble files to fileCbche
+            // Note thbt this block must be OUTSIDE of Invoker threbd becbuse of
+            // debdlock possibility with custom synchronized FileSystemView
             for (File file : list) {
-                if (filechooser.accept(file)) {
-                    boolean isTraversable = filechooser.isTraversable(file);
+                if (filechooser.bccept(file)) {
+                    boolebn isTrbversbble = filechooser.isTrbversbble(file);
 
-                    if (isTraversable) {
-                        newFileCache.addElement(file);
-                    } else if (filechooser.isFileSelectionEnabled()) {
-                        newFiles.addElement(file);
+                    if (isTrbversbble) {
+                        newFileCbche.bddElement(file);
+                    } else if (filechooser.isFileSelectionEnbbled()) {
+                        newFiles.bddElement(file);
                     }
 
                     if (isInterrupted()) {
@@ -302,185 +302,185 @@ public class BasicDirectoryModel extends AbstractListModel<Object> implements Pr
                 }
             }
 
-            // First sort alphabetically by filename
-            sort(newFileCache);
+            // First sort blphbbeticblly by filenbme
+            sort(newFileCbche);
             sort(newFiles);
 
-            newFileCache.addAll(newFiles);
+            newFileCbche.bddAll(newFiles);
 
-            // To avoid loads of synchronizations with Invoker and improve performance we
-            // execute the whole block on the COM thread
-            DoChangeContents doChangeContents = ShellFolder.invoke(new Callable<DoChangeContents>() {
-                public DoChangeContents call() {
-                    int newSize = newFileCache.size();
-                    int oldSize = fileCache.size();
+            // To bvoid lobds of synchronizbtions with Invoker bnd improve performbnce we
+            // execute the whole block on the COM threbd
+            DoChbngeContents doChbngeContents = ShellFolder.invoke(new Cbllbble<DoChbngeContents>() {
+                public DoChbngeContents cbll() {
+                    int newSize = newFileCbche.size();
+                    int oldSize = fileCbche.size();
 
                     if (newSize > oldSize) {
-                        //see if interval is added
-                        int start = oldSize;
+                        //see if intervbl is bdded
+                        int stbrt = oldSize;
                         int end = newSize;
                         for (int i = 0; i < oldSize; i++) {
-                            if (!newFileCache.get(i).equals(fileCache.get(i))) {
-                                start = i;
+                            if (!newFileCbche.get(i).equbls(fileCbche.get(i))) {
+                                stbrt = i;
                                 for (int j = i; j < newSize; j++) {
-                                    if (newFileCache.get(j).equals(fileCache.get(i))) {
+                                    if (newFileCbche.get(j).equbls(fileCbche.get(i))) {
                                         end = j;
-                                        break;
+                                        brebk;
                                     }
                                 }
-                                break;
+                                brebk;
                             }
                         }
-                        if (start >= 0 && end > start
-                            && newFileCache.subList(end, newSize).equals(fileCache.subList(start, oldSize))) {
+                        if (stbrt >= 0 && end > stbrt
+                            && newFileCbche.subList(end, newSize).equbls(fileCbche.subList(stbrt, oldSize))) {
                             if (isInterrupted()) {
                                 return null;
                             }
-                            return new DoChangeContents(newFileCache.subList(start, end), start, null, 0, fid);
+                            return new DoChbngeContents(newFileCbche.subList(stbrt, end), stbrt, null, 0, fid);
                         }
                     } else if (newSize < oldSize) {
-                        //see if interval is removed
-                        int start = -1;
+                        //see if intervbl is removed
+                        int stbrt = -1;
                         int end = -1;
                         for (int i = 0; i < newSize; i++) {
-                            if (!newFileCache.get(i).equals(fileCache.get(i))) {
-                                start = i;
+                            if (!newFileCbche.get(i).equbls(fileCbche.get(i))) {
+                                stbrt = i;
                                 end = i + oldSize - newSize;
-                                break;
+                                brebk;
                             }
                         }
-                        if (start >= 0 && end > start
-                            && fileCache.subList(end, oldSize).equals(newFileCache.subList(start, newSize))) {
+                        if (stbrt >= 0 && end > stbrt
+                            && fileCbche.subList(end, oldSize).equbls(newFileCbche.subList(stbrt, newSize))) {
                             if (isInterrupted()) {
                                 return null;
                             }
-                            return new DoChangeContents(null, 0, new Vector<>(fileCache.subList(start, end)), start, fid);
+                            return new DoChbngeContents(null, 0, new Vector<>(fileCbche.subList(stbrt, end)), stbrt, fid);
                         }
                     }
-                    if (!fileCache.equals(newFileCache)) {
+                    if (!fileCbche.equbls(newFileCbche)) {
                         if (isInterrupted()) {
-                            cancelRunnables(runnables);
+                            cbncelRunnbbles(runnbbles);
                         }
-                        return new DoChangeContents(newFileCache, 0, fileCache, 0, fid);
+                        return new DoChbngeContents(newFileCbche, 0, fileCbche, 0, fid);
                     }
                     return null;
                 }
             });
 
-            if (doChangeContents != null) {
-                runnables.addElement(doChangeContents);
-                SwingUtilities.invokeLater(doChangeContents);
+            if (doChbngeContents != null) {
+                runnbbles.bddElement(doChbngeContents);
+                SwingUtilities.invokeLbter(doChbngeContents);
             }
         }
 
 
-        public void cancelRunnables(Vector<DoChangeContents> runnables) {
-            for (DoChangeContents runnable : runnables) {
-                runnable.cancel();
+        public void cbncelRunnbbles(Vector<DoChbngeContents> runnbbles) {
+            for (DoChbngeContents runnbble : runnbbles) {
+                runnbble.cbncel();
             }
         }
 
-        public void cancelRunnables() {
-            cancelRunnables(runnables);
+        public void cbncelRunnbbles() {
+            cbncelRunnbbles(runnbbles);
         }
    }
 
 
     /**
-     * Adds a PropertyChangeListener to the listener list. The listener is
-     * registered for all bound properties of this class.
+     * Adds b PropertyChbngeListener to the listener list. The listener is
+     * registered for bll bound properties of this clbss.
      * <p>
      * If <code>listener</code> is <code>null</code>,
-     * no exception is thrown and no action is performed.
+     * no exception is thrown bnd no bction is performed.
      *
-     * @param    listener  the property change listener to be added
+     * @pbrbm    listener  the property chbnge listener to be bdded
      *
-     * @see #removePropertyChangeListener
-     * @see #getPropertyChangeListeners
+     * @see #removePropertyChbngeListener
+     * @see #getPropertyChbngeListeners
      *
      * @since 1.6
      */
-    public void addPropertyChangeListener(PropertyChangeListener listener) {
-        if (changeSupport == null) {
-            changeSupport = new PropertyChangeSupport(this);
+    public void bddPropertyChbngeListener(PropertyChbngeListener listener) {
+        if (chbngeSupport == null) {
+            chbngeSupport = new PropertyChbngeSupport(this);
         }
-        changeSupport.addPropertyChangeListener(listener);
+        chbngeSupport.bddPropertyChbngeListener(listener);
     }
 
     /**
-     * Removes a PropertyChangeListener from the listener list.
+     * Removes b PropertyChbngeListener from the listener list.
      * <p>
-     * If listener is null, no exception is thrown and no action is performed.
+     * If listener is null, no exception is thrown bnd no bction is performed.
      *
-     * @param listener the PropertyChangeListener to be removed
+     * @pbrbm listener the PropertyChbngeListener to be removed
      *
-     * @see #addPropertyChangeListener
-     * @see #getPropertyChangeListeners
+     * @see #bddPropertyChbngeListener
+     * @see #getPropertyChbngeListeners
      *
      * @since 1.6
      */
-    public void removePropertyChangeListener(PropertyChangeListener listener) {
-        if (changeSupport != null) {
-            changeSupport.removePropertyChangeListener(listener);
+    public void removePropertyChbngeListener(PropertyChbngeListener listener) {
+        if (chbngeSupport != null) {
+            chbngeSupport.removePropertyChbngeListener(listener);
         }
     }
 
     /**
-     * Returns an array of all the property change listeners
+     * Returns bn brrby of bll the property chbnge listeners
      * registered on this component.
      *
-     * @return all of this component's <code>PropertyChangeListener</code>s
-     *         or an empty array if no property change
-     *         listeners are currently registered
+     * @return bll of this component's <code>PropertyChbngeListener</code>s
+     *         or bn empty brrby if no property chbnge
+     *         listeners bre currently registered
      *
-     * @see      #addPropertyChangeListener
-     * @see      #removePropertyChangeListener
-     * @see      java.beans.PropertyChangeSupport#getPropertyChangeListeners
-     *
-     * @since 1.6
-     */
-    public PropertyChangeListener[] getPropertyChangeListeners() {
-        if (changeSupport == null) {
-            return new PropertyChangeListener[0];
-        }
-        return changeSupport.getPropertyChangeListeners();
-    }
-
-    /**
-     * Support for reporting bound property changes for boolean properties.
-     * This method can be called when a bound property has changed and it will
-     * send the appropriate PropertyChangeEvent to any registered
-     * PropertyChangeListeners.
-     *
-     * @param propertyName the property whose value has changed
-     * @param oldValue the property's previous value
-     * @param newValue the property's new value
+     * @see      #bddPropertyChbngeListener
+     * @see      #removePropertyChbngeListener
+     * @see      jbvb.bebns.PropertyChbngeSupport#getPropertyChbngeListeners
      *
      * @since 1.6
      */
-    protected void firePropertyChange(String propertyName,
-                                      Object oldValue, Object newValue) {
-        if (changeSupport != null) {
-            changeSupport.firePropertyChange(propertyName,
-                                             oldValue, newValue);
+    public PropertyChbngeListener[] getPropertyChbngeListeners() {
+        if (chbngeSupport == null) {
+            return new PropertyChbngeListener[0];
+        }
+        return chbngeSupport.getPropertyChbngeListeners();
+    }
+
+    /**
+     * Support for reporting bound property chbnges for boolebn properties.
+     * This method cbn be cblled when b bound property hbs chbnged bnd it will
+     * send the bppropribte PropertyChbngeEvent to bny registered
+     * PropertyChbngeListeners.
+     *
+     * @pbrbm propertyNbme the property whose vblue hbs chbnged
+     * @pbrbm oldVblue the property's previous vblue
+     * @pbrbm newVblue the property's new vblue
+     *
+     * @since 1.6
+     */
+    protected void firePropertyChbnge(String propertyNbme,
+                                      Object oldVblue, Object newVblue) {
+        if (chbngeSupport != null) {
+            chbngeSupport.firePropertyChbnge(propertyNbme,
+                                             oldVblue, newVblue);
         }
     }
 
 
     /**
-     * Set the busy state for the model. The model is considered
-     * busy when it is running a separate (interruptable)
-     * thread in order to load the contents of a directory.
+     * Set the busy stbte for the model. The model is considered
+     * busy when it is running b sepbrbte (interruptbble)
+     * threbd in order to lobd the contents of b directory.
      */
-    private synchronized void setBusy(final boolean busy, int fid) {
+    privbte synchronized void setBusy(finbl boolebn busy, int fid) {
         if (fid == fetchID) {
-            boolean oldValue = this.busy;
+            boolebn oldVblue = this.busy;
             this.busy = busy;
 
-            if (changeSupport != null && busy != oldValue) {
-                SwingUtilities.invokeLater(new Runnable() {
+            if (chbngeSupport != null && busy != oldVblue) {
+                SwingUtilities.invokeLbter(new Runnbble() {
                     public void run() {
-                        firePropertyChange("busy", !busy, busy);
+                        firePropertyChbnge("busy", !busy, busy);
                     }
                 });
             }
@@ -488,46 +488,46 @@ public class BasicDirectoryModel extends AbstractListModel<Object> implements Pr
     }
 
 
-    class DoChangeContents implements Runnable {
-        private List<File> addFiles;
-        private List<File> remFiles;
-        private boolean doFire = true;
-        private int fid;
-        private int addStart = 0;
-        private int remStart = 0;
+    clbss DoChbngeContents implements Runnbble {
+        privbte List<File> bddFiles;
+        privbte List<File> remFiles;
+        privbte boolebn doFire = true;
+        privbte int fid;
+        privbte int bddStbrt = 0;
+        privbte int remStbrt = 0;
 
-        public DoChangeContents(List<File> addFiles, int addStart, List<File> remFiles, int remStart, int fid) {
-            this.addFiles = addFiles;
-            this.addStart = addStart;
+        public DoChbngeContents(List<File> bddFiles, int bddStbrt, List<File> remFiles, int remStbrt, int fid) {
+            this.bddFiles = bddFiles;
+            this.bddStbrt = bddStbrt;
             this.remFiles = remFiles;
-            this.remStart = remStart;
+            this.remStbrt = remStbrt;
             this.fid = fid;
         }
 
-        synchronized void cancel() {
-                doFire = false;
+        synchronized void cbncel() {
+                doFire = fblse;
         }
 
         public synchronized void run() {
             if (fetchID == fid && doFire) {
                 int remSize = (remFiles == null) ? 0 : remFiles.size();
-                int addSize = (addFiles == null) ? 0 : addFiles.size();
-                synchronized(fileCache) {
+                int bddSize = (bddFiles == null) ? 0 : bddFiles.size();
+                synchronized(fileCbche) {
                     if (remSize > 0) {
-                        fileCache.removeAll(remFiles);
+                        fileCbche.removeAll(remFiles);
                     }
-                    if (addSize > 0) {
-                        fileCache.addAll(addStart, addFiles);
+                    if (bddSize > 0) {
+                        fileCbche.bddAll(bddStbrt, bddFiles);
                     }
                     files = null;
                     directories = null;
                 }
-                if (remSize > 0 && addSize == 0) {
-                    fireIntervalRemoved(BasicDirectoryModel.this, remStart, remStart + remSize - 1);
-                } else if (addSize > 0 && remSize == 0 && addStart + addSize <= fileCache.size()) {
-                    fireIntervalAdded(BasicDirectoryModel.this, addStart, addStart + addSize - 1);
+                if (remSize > 0 && bddSize == 0) {
+                    fireIntervblRemoved(BbsicDirectoryModel.this, remStbrt, remStbrt + remSize - 1);
+                } else if (bddSize > 0 && remSize == 0 && bddStbrt + bddSize <= fileCbche.size()) {
+                    fireIntervblAdded(BbsicDirectoryModel.this, bddStbrt, bddStbrt + bddSize - 1);
                 } else {
-                    fireContentsChanged();
+                    fireContentsChbnged();
                 }
             }
         }

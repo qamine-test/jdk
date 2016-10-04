@@ -1,77 +1,77 @@
 /*
- * Copyright (c) 2001, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.java.util.jar.pack;
+pbckbge com.sun.jbvb.util.jbr.pbck;
 
-import com.sun.java.util.jar.pack.ConstantPool.ClassEntry;
-import com.sun.java.util.jar.pack.ConstantPool.DescriptorEntry;
-import com.sun.java.util.jar.pack.ConstantPool.Entry;
-import com.sun.java.util.jar.pack.ConstantPool.SignatureEntry;
-import com.sun.java.util.jar.pack.ConstantPool.MemberEntry;
-import com.sun.java.util.jar.pack.ConstantPool.MethodHandleEntry;
-import com.sun.java.util.jar.pack.ConstantPool.BootstrapMethodEntry;
-import com.sun.java.util.jar.pack.ConstantPool.Utf8Entry;
-import com.sun.java.util.jar.pack.Package.Class;
-import com.sun.java.util.jar.pack.Package.InnerClass;
-import java.io.DataInputStream;
-import java.io.FilterInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Map;
-import static com.sun.java.util.jar.pack.Constants.*;
+import com.sun.jbvb.util.jbr.pbck.ConstbntPool.ClbssEntry;
+import com.sun.jbvb.util.jbr.pbck.ConstbntPool.DescriptorEntry;
+import com.sun.jbvb.util.jbr.pbck.ConstbntPool.Entry;
+import com.sun.jbvb.util.jbr.pbck.ConstbntPool.SignbtureEntry;
+import com.sun.jbvb.util.jbr.pbck.ConstbntPool.MemberEntry;
+import com.sun.jbvb.util.jbr.pbck.ConstbntPool.MethodHbndleEntry;
+import com.sun.jbvb.util.jbr.pbck.ConstbntPool.BootstrbpMethodEntry;
+import com.sun.jbvb.util.jbr.pbck.ConstbntPool.Utf8Entry;
+import com.sun.jbvb.util.jbr.pbck.Pbckbge.Clbss;
+import com.sun.jbvb.util.jbr.pbck.Pbckbge.InnerClbss;
+import jbvb.io.DbtbInputStrebm;
+import jbvb.io.FilterInputStrebm;
+import jbvb.io.IOException;
+import jbvb.io.InputStrebm;
+import jbvb.util.ArrbyList;
+import jbvb.util.Arrbys;
+import jbvb.util.Mbp;
+import stbtic com.sun.jbvb.util.jbr.pbck.Constbnts.*;
 
 /**
- * Reader for a class file that is being incorporated into a package.
- * @author John Rose
+ * Rebder for b clbss file thbt is being incorporbted into b pbckbge.
+ * @buthor John Rose
  */
-class ClassReader {
+clbss ClbssRebder {
     int verbose;
 
-    Package pkg;
-    Class cls;
+    Pbckbge pkg;
+    Clbss cls;
     long inPos;
-    long constantPoolLimit = -1;
-    DataInputStream in;
-    Map<Attribute.Layout, Attribute> attrDefs;
-    Map<Attribute.Layout, String> attrCommands;
-    String unknownAttrCommand = "error";;
+    long constbntPoolLimit = -1;
+    DbtbInputStrebm in;
+    Mbp<Attribute.Lbyout, Attribute> bttrDefs;
+    Mbp<Attribute.Lbyout, String> bttrCommbnds;
+    String unknownAttrCommbnd = "error";;
 
-    ClassReader(Class cls, InputStream in) throws IOException {
-        this.pkg = cls.getPackage();
+    ClbssRebder(Clbss cls, InputStrebm in) throws IOException {
+        this.pkg = cls.getPbckbge();
         this.cls = cls;
         this.verbose = pkg.verbose;
-        this.in = new DataInputStream(new FilterInputStream(in) {
-            public int read(byte b[], int off, int len) throws IOException {
-                int nr = super.read(b, off, len);
+        this.in = new DbtbInputStrebm(new FilterInputStrebm(in) {
+            public int rebd(byte b[], int off, int len) throws IOException {
+                int nr = super.rebd(b, off, len);
                 if (nr >= 0)  inPos += nr;
                 return nr;
             }
-            public int read() throws IOException {
-                int ch = super.read();
+            public int rebd() throws IOException {
+                int ch = super.rebd();
                 if (ch >= 0)  inPos += 1;
                 return ch;
             }
@@ -83,224 +83,224 @@ class ClassReader {
         });
     }
 
-    public void setAttrDefs(Map<Attribute.Layout, Attribute> attrDefs) {
-        this.attrDefs = attrDefs;
+    public void setAttrDefs(Mbp<Attribute.Lbyout, Attribute> bttrDefs) {
+        this.bttrDefs = bttrDefs;
     }
 
-    public void setAttrCommands(Map<Attribute.Layout, String> attrCommands) {
-        this.attrCommands = attrCommands;
+    public void setAttrCommbnds(Mbp<Attribute.Lbyout, String> bttrCommbnds) {
+        this.bttrCommbnds = bttrCommbnds;
     }
 
-    private void skip(int n, String what) throws IOException {
-        Utils.log.warning("skipping "+n+" bytes of "+what);
+    privbte void skip(int n, String whbt) throws IOException {
+        Utils.log.wbrning("skipping "+n+" bytes of "+whbt);
         long skipped = 0;
         while (skipped < n) {
             long j = in.skip(n - skipped);
-            assert(j > 0);
+            bssert(j > 0);
             skipped += j;
         }
-        assert(skipped == n);
+        bssert(skipped == n);
     }
 
-    private int readUnsignedShort() throws IOException {
-        return in.readUnsignedShort();
+    privbte int rebdUnsignedShort() throws IOException {
+        return in.rebdUnsignedShort();
     }
 
-    private int readInt() throws IOException {
-        return in.readInt();
+    privbte int rebdInt() throws IOException {
+        return in.rebdInt();
     }
 
-    /** Read a 2-byte int, and return the <em>global</em> CP entry for it. */
-    private Entry readRef() throws IOException {
-        int i = in.readUnsignedShort();
-        return i == 0 ? null : cls.cpMap[i];
+    /** Rebd b 2-byte int, bnd return the <em>globbl</em> CP entry for it. */
+    privbte Entry rebdRef() throws IOException {
+        int i = in.rebdUnsignedShort();
+        return i == 0 ? null : cls.cpMbp[i];
     }
 
-    private Entry readRef(byte tag) throws IOException {
-        Entry e = readRef();
-        assert(!(e instanceof UnresolvedEntry));
-        checkTag(e, tag);
+    privbte Entry rebdRef(byte tbg) throws IOException {
+        Entry e = rebdRef();
+        bssert(!(e instbnceof UnresolvedEntry));
+        checkTbg(e, tbg);
         return e;
     }
 
-    /** Throw a ClassFormatException if the entry does not match the expected tag type. */
-    private Entry checkTag(Entry e, byte tag) throws ClassFormatException {
-        if (e == null || !e.tagMatches(tag)) {
-            String where = (inPos == constantPoolLimit
-                                ? " in constant pool"
-                                : " at pos: " + inPos);
+    /** Throw b ClbssFormbtException if the entry does not mbtch the expected tbg type. */
+    privbte Entry checkTbg(Entry e, byte tbg) throws ClbssFormbtException {
+        if (e == null || !e.tbgMbtches(tbg)) {
+            String where = (inPos == constbntPoolLimit
+                                ? " in constbnt pool"
+                                : " bt pos: " + inPos);
             String got = (e == null
                             ? "null CP index"
-                            : "type=" + ConstantPool.tagName(e.tag));
-            throw new ClassFormatException("Bad constant, expected type=" +
-                    ConstantPool.tagName(tag) +
-                    " got "+ got + ", in File: " + cls.file.nameString + where);
+                            : "type=" + ConstbntPool.tbgNbme(e.tbg));
+            throw new ClbssFormbtException("Bbd constbnt, expected type=" +
+                    ConstbntPool.tbgNbme(tbg) +
+                    " got "+ got + ", in File: " + cls.file.nbmeString + where);
         }
         return e;
     }
-    private Entry checkTag(Entry e, byte tag, boolean nullOK) throws ClassFormatException {
-        return nullOK && e == null ? null : checkTag(e, tag);
+    privbte Entry checkTbg(Entry e, byte tbg, boolebn nullOK) throws ClbssFormbtException {
+        return nullOK && e == null ? null : checkTbg(e, tbg);
     }
 
-    private Entry readRefOrNull(byte tag) throws IOException {
-        Entry e = readRef();
-        checkTag(e, tag, true);
+    privbte Entry rebdRefOrNull(byte tbg) throws IOException {
+        Entry e = rebdRef();
+        checkTbg(e, tbg, true);
         return e;
     }
 
-    private Utf8Entry readUtf8Ref() throws IOException {
-        return (Utf8Entry) readRef(CONSTANT_Utf8);
+    privbte Utf8Entry rebdUtf8Ref() throws IOException {
+        return (Utf8Entry) rebdRef(CONSTANT_Utf8);
     }
 
-    private ClassEntry readClassRef() throws IOException {
-        return (ClassEntry) readRef(CONSTANT_Class);
+    privbte ClbssEntry rebdClbssRef() throws IOException {
+        return (ClbssEntry) rebdRef(CONSTANT_Clbss);
     }
 
-    private ClassEntry readClassRefOrNull() throws IOException {
-        return (ClassEntry) readRefOrNull(CONSTANT_Class);
+    privbte ClbssEntry rebdClbssRefOrNull() throws IOException {
+        return (ClbssEntry) rebdRefOrNull(CONSTANT_Clbss);
     }
 
-    private SignatureEntry readSignatureRef() throws IOException {
-        // The class file stores a Utf8, but we want a Signature.
-        Entry e = readRef(CONSTANT_Signature);
-        return (e != null && e.getTag() == CONSTANT_Utf8)
-                ? ConstantPool.getSignatureEntry(e.stringValue())
-                : (SignatureEntry) e;
+    privbte SignbtureEntry rebdSignbtureRef() throws IOException {
+        // The clbss file stores b Utf8, but we wbnt b Signbture.
+        Entry e = rebdRef(CONSTANT_Signbture);
+        return (e != null && e.getTbg() == CONSTANT_Utf8)
+                ? ConstbntPool.getSignbtureEntry(e.stringVblue())
+                : (SignbtureEntry) e;
     }
 
-    void read() throws IOException {
-        boolean ok = false;
+    void rebd() throws IOException {
+        boolebn ok = fblse;
         try {
-            readMagicNumbers();
-            readConstantPool();
-            readHeader();
-            readMembers(false);  // fields
-            readMembers(true);   // methods
-            readAttributes(ATTR_CONTEXT_CLASS, cls);
+            rebdMbgicNumbers();
+            rebdConstbntPool();
+            rebdHebder();
+            rebdMembers(fblse);  // fields
+            rebdMembers(true);   // methods
+            rebdAttributes(ATTR_CONTEXT_CLASS, cls);
             fixUnresolvedEntries();
-            cls.finishReading();
-            assert(0 >= in.read(new byte[1]));
+            cls.finishRebding();
+            bssert(0 >= in.rebd(new byte[1]));
             ok = true;
-        } finally {
+        } finblly {
             if (!ok) {
-                if (verbose > 0) Utils.log.warning("Erroneous data at input offset "+inPos+" of "+cls.file);
+                if (verbose > 0) Utils.log.wbrning("Erroneous dbtb bt input offset "+inPos+" of "+cls.file);
             }
         }
     }
 
-    void readMagicNumbers() throws IOException {
-        cls.magic = in.readInt();
-        if (cls.magic != JAVA_MAGIC)
-            throw new Attribute.FormatException
-                ("Bad magic number in class file "
-                 +Integer.toHexString(cls.magic),
-                 ATTR_CONTEXT_CLASS, "magic-number", "pass");
-        int minver = (short) readUnsignedShort();
-        int majver = (short) readUnsignedShort();
-        cls.version = Package.Version.of(majver, minver);
+    void rebdMbgicNumbers() throws IOException {
+        cls.mbgic = in.rebdInt();
+        if (cls.mbgic != JAVA_MAGIC)
+            throw new Attribute.FormbtException
+                ("Bbd mbgic number in clbss file "
+                 +Integer.toHexString(cls.mbgic),
+                 ATTR_CONTEXT_CLASS, "mbgic-number", "pbss");
+        int minver = (short) rebdUnsignedShort();
+        int mbjver = (short) rebdUnsignedShort();
+        cls.version = Pbckbge.Version.of(mbjver, minver);
 
-        //System.out.println("ClassFile.version="+cls.majver+"."+cls.minver);
-        String bad = checkVersion(cls.version);
-        if (bad != null) {
-            throw new Attribute.FormatException
-                ("classfile version too "+bad+": "
+        //System.out.println("ClbssFile.version="+cls.mbjver+"."+cls.minver);
+        String bbd = checkVersion(cls.version);
+        if (bbd != null) {
+            throw new Attribute.FormbtException
+                ("clbssfile version too "+bbd+": "
                  +cls.version+" in "+cls.file,
-                 ATTR_CONTEXT_CLASS, "version", "pass");
+                 ATTR_CONTEXT_CLASS, "version", "pbss");
         }
     }
 
-    private String checkVersion(Package.Version ver) {
-        int majver = ver.major;
+    privbte String checkVersion(Pbckbge.Version ver) {
+        int mbjver = ver.mbjor;
         int minver = ver.minor;
-        if (majver < pkg.minClassVersion.major ||
-            (majver == pkg.minClassVersion.major &&
-             minver < pkg.minClassVersion.minor)) {
-            return "small";
+        if (mbjver < pkg.minClbssVersion.mbjor ||
+            (mbjver == pkg.minClbssVersion.mbjor &&
+             minver < pkg.minClbssVersion.minor)) {
+            return "smbll";
         }
-        if (majver > pkg.maxClassVersion.major ||
-            (majver == pkg.maxClassVersion.major &&
-             minver > pkg.maxClassVersion.minor)) {
-            return "large";
+        if (mbjver > pkg.mbxClbssVersion.mbjor ||
+            (mbjver == pkg.mbxClbssVersion.mbjor &&
+             minver > pkg.mbxClbssVersion.minor)) {
+            return "lbrge";
         }
         return null;  // OK
     }
 
-    void readConstantPool() throws IOException {
-        int length = in.readUnsignedShort();
-        //System.err.println("reading CP, length="+length);
+    void rebdConstbntPool() throws IOException {
+        int length = in.rebdUnsignedShort();
+        //System.err.println("rebding CP, length="+length);
 
         int[] fixups = new int[length*4];
         int fptr = 0;
 
-        Entry[] cpMap = new Entry[length];
-        cpMap[0] = null;
+        Entry[] cpMbp = new Entry[length];
+        cpMbp[0] = null;
         for (int i = 1; i < length; i++) {
-            //System.err.println("reading CP elt, i="+i);
-            int tag = in.readByte();
-            switch (tag) {
-                case CONSTANT_Utf8:
-                    cpMap[i] = ConstantPool.getUtf8Entry(in.readUTF());
-                    break;
-                case CONSTANT_Integer:
+            //System.err.println("rebding CP elt, i="+i);
+            int tbg = in.rebdByte();
+            switch (tbg) {
+                cbse CONSTANT_Utf8:
+                    cpMbp[i] = ConstbntPool.getUtf8Entry(in.rebdUTF());
+                    brebk;
+                cbse CONSTANT_Integer:
                     {
-                        cpMap[i] = ConstantPool.getLiteralEntry(in.readInt());
+                        cpMbp[i] = ConstbntPool.getLiterblEntry(in.rebdInt());
                     }
-                    break;
-                case CONSTANT_Float:
+                    brebk;
+                cbse CONSTANT_Flobt:
                     {
-                        cpMap[i] = ConstantPool.getLiteralEntry(in.readFloat());
+                        cpMbp[i] = ConstbntPool.getLiterblEntry(in.rebdFlobt());
                     }
-                    break;
-                case CONSTANT_Long:
+                    brebk;
+                cbse CONSTANT_Long:
                     {
-                        cpMap[i] = ConstantPool.getLiteralEntry(in.readLong());
-                        cpMap[++i] = null;
+                        cpMbp[i] = ConstbntPool.getLiterblEntry(in.rebdLong());
+                        cpMbp[++i] = null;
                     }
-                    break;
-                case CONSTANT_Double:
+                    brebk;
+                cbse CONSTANT_Double:
                     {
-                        cpMap[i] = ConstantPool.getLiteralEntry(in.readDouble());
-                        cpMap[++i] = null;
+                        cpMbp[i] = ConstbntPool.getLiterblEntry(in.rebdDouble());
+                        cpMbp[++i] = null;
                     }
-                    break;
+                    brebk;
 
-                // just read the refs; do not attempt to resolve while reading
-                case CONSTANT_Class:
-                case CONSTANT_String:
-                case CONSTANT_MethodType:
+                // just rebd the refs; do not bttempt to resolve while rebding
+                cbse CONSTANT_Clbss:
+                cbse CONSTANT_String:
+                cbse CONSTANT_MethodType:
                     fixups[fptr++] = i;
-                    fixups[fptr++] = tag;
-                    fixups[fptr++] = in.readUnsignedShort();
+                    fixups[fptr++] = tbg;
+                    fixups[fptr++] = in.rebdUnsignedShort();
                     fixups[fptr++] = -1;  // empty ref2
-                    break;
-                case CONSTANT_Fieldref:
-                case CONSTANT_Methodref:
-                case CONSTANT_InterfaceMethodref:
-                case CONSTANT_NameandType:
+                    brebk;
+                cbse CONSTANT_Fieldref:
+                cbse CONSTANT_Methodref:
+                cbse CONSTANT_InterfbceMethodref:
+                cbse CONSTANT_NbmebndType:
                     fixups[fptr++] = i;
-                    fixups[fptr++] = tag;
-                    fixups[fptr++] = in.readUnsignedShort();
-                    fixups[fptr++] = in.readUnsignedShort();
-                    break;
-                case CONSTANT_InvokeDynamic:
+                    fixups[fptr++] = tbg;
+                    fixups[fptr++] = in.rebdUnsignedShort();
+                    fixups[fptr++] = in.rebdUnsignedShort();
+                    brebk;
+                cbse CONSTANT_InvokeDynbmic:
                     fixups[fptr++] = i;
-                    fixups[fptr++] = tag;
-                    fixups[fptr++] = -1 ^ in.readUnsignedShort();  // not a ref
-                    fixups[fptr++] = in.readUnsignedShort();
-                    break;
-                case CONSTANT_MethodHandle:
+                    fixups[fptr++] = tbg;
+                    fixups[fptr++] = -1 ^ in.rebdUnsignedShort();  // not b ref
+                    fixups[fptr++] = in.rebdUnsignedShort();
+                    brebk;
+                cbse CONSTANT_MethodHbndle:
                     fixups[fptr++] = i;
-                    fixups[fptr++] = tag;
-                    fixups[fptr++] = -1 ^ in.readUnsignedByte();
-                    fixups[fptr++] = in.readUnsignedShort();
-                    break;
-                default:
-                    throw new ClassFormatException("Bad constant pool tag " +
-                            tag + " in File: " + cls.file.nameString +
-                            " at pos: " + inPos);
+                    fixups[fptr++] = tbg;
+                    fixups[fptr++] = -1 ^ in.rebdUnsignedByte();
+                    fixups[fptr++] = in.rebdUnsignedShort();
+                    brebk;
+                defbult:
+                    throw new ClbssFormbtException("Bbd constbnt pool tbg " +
+                            tbg + " in File: " + cls.file.nbmeString +
+                            " bt pos: " + inPos);
             }
         }
-        constantPoolLimit = inPos;
+        constbntPoolLimit = inPos;
 
         // Fix up refs, which might be out of order.
         while (fptr > 0) {
@@ -310,309 +310,309 @@ class ClassReader {
             fptr = 0;
             for (int fi = 0; fi < flimit; ) {
                 int cpi = fixups[fi++];
-                int tag = fixups[fi++];
+                int tbg = fixups[fi++];
                 int ref = fixups[fi++];
                 int ref2 = fixups[fi++];
                 if (verbose > 3)
-                    Utils.log.fine("  cp["+cpi+"] = "+ConstantPool.tagName(tag)+"{"+ref+","+ref2+"}");
-                if (ref >= 0 && cpMap[ref] == null || ref2 >= 0 && cpMap[ref2] == null) {
+                    Utils.log.fine("  cp["+cpi+"] = "+ConstbntPool.tbgNbme(tbg)+"{"+ref+","+ref2+"}");
+                if (ref >= 0 && cpMbp[ref] == null || ref2 >= 0 && cpMbp[ref2] == null) {
                     // Defer.
                     fixups[fptr++] = cpi;
-                    fixups[fptr++] = tag;
+                    fixups[fptr++] = tbg;
                     fixups[fptr++] = ref;
                     fixups[fptr++] = ref2;
                     continue;
                 }
-                switch (tag) {
-                case CONSTANT_Class:
-                    cpMap[cpi] = ConstantPool.getClassEntry(cpMap[ref].stringValue());
-                    break;
-                case CONSTANT_String:
-                    cpMap[cpi] = ConstantPool.getStringEntry(cpMap[ref].stringValue());
-                    break;
-                case CONSTANT_Fieldref:
-                case CONSTANT_Methodref:
-                case CONSTANT_InterfaceMethodref:
-                    ClassEntry      mclass = (ClassEntry)      checkTag(cpMap[ref],  CONSTANT_Class);
-                    DescriptorEntry mdescr = (DescriptorEntry) checkTag(cpMap[ref2], CONSTANT_NameandType);
-                    cpMap[cpi] = ConstantPool.getMemberEntry((byte)tag, mclass, mdescr);
-                    break;
-                case CONSTANT_NameandType:
-                    Utf8Entry mname = (Utf8Entry) checkTag(cpMap[ref],  CONSTANT_Utf8);
-                    Utf8Entry mtype = (Utf8Entry) checkTag(cpMap[ref2], CONSTANT_Signature);
-                    cpMap[cpi] = ConstantPool.getDescriptorEntry(mname, mtype);
-                    break;
-                case CONSTANT_MethodType:
-                    cpMap[cpi] = ConstantPool.getMethodTypeEntry((Utf8Entry) checkTag(cpMap[ref], CONSTANT_Signature));
-                    break;
-                case CONSTANT_MethodHandle:
+                switch (tbg) {
+                cbse CONSTANT_Clbss:
+                    cpMbp[cpi] = ConstbntPool.getClbssEntry(cpMbp[ref].stringVblue());
+                    brebk;
+                cbse CONSTANT_String:
+                    cpMbp[cpi] = ConstbntPool.getStringEntry(cpMbp[ref].stringVblue());
+                    brebk;
+                cbse CONSTANT_Fieldref:
+                cbse CONSTANT_Methodref:
+                cbse CONSTANT_InterfbceMethodref:
+                    ClbssEntry      mclbss = (ClbssEntry)      checkTbg(cpMbp[ref],  CONSTANT_Clbss);
+                    DescriptorEntry mdescr = (DescriptorEntry) checkTbg(cpMbp[ref2], CONSTANT_NbmebndType);
+                    cpMbp[cpi] = ConstbntPool.getMemberEntry((byte)tbg, mclbss, mdescr);
+                    brebk;
+                cbse CONSTANT_NbmebndType:
+                    Utf8Entry mnbme = (Utf8Entry) checkTbg(cpMbp[ref],  CONSTANT_Utf8);
+                    Utf8Entry mtype = (Utf8Entry) checkTbg(cpMbp[ref2], CONSTANT_Signbture);
+                    cpMbp[cpi] = ConstbntPool.getDescriptorEntry(mnbme, mtype);
+                    brebk;
+                cbse CONSTANT_MethodType:
+                    cpMbp[cpi] = ConstbntPool.getMethodTypeEntry((Utf8Entry) checkTbg(cpMbp[ref], CONSTANT_Signbture));
+                    brebk;
+                cbse CONSTANT_MethodHbndle:
                     byte refKind = (byte)(-1 ^ ref);
-                    MemberEntry memRef = (MemberEntry) checkTag(cpMap[ref2], CONSTANT_AnyMember);
-                    cpMap[cpi] = ConstantPool.getMethodHandleEntry(refKind, memRef);
-                    break;
-                case CONSTANT_InvokeDynamic:
-                    DescriptorEntry idescr = (DescriptorEntry) checkTag(cpMap[ref2], CONSTANT_NameandType);
-                    cpMap[cpi] = new UnresolvedEntry((byte)tag, (-1 ^ ref), idescr);
-                    // Note that ref must be resolved later, using the BootstrapMethods attribute.
-                    break;
-                default:
-                    assert(false);
+                    MemberEntry memRef = (MemberEntry) checkTbg(cpMbp[ref2], CONSTANT_AnyMember);
+                    cpMbp[cpi] = ConstbntPool.getMethodHbndleEntry(refKind, memRef);
+                    brebk;
+                cbse CONSTANT_InvokeDynbmic:
+                    DescriptorEntry idescr = (DescriptorEntry) checkTbg(cpMbp[ref2], CONSTANT_NbmebndType);
+                    cpMbp[cpi] = new UnresolvedEntry((byte)tbg, (-1 ^ ref), idescr);
+                    // Note thbt ref must be resolved lbter, using the BootstrbpMethods bttribute.
+                    brebk;
+                defbult:
+                    bssert(fblse);
                 }
             }
-            assert(fptr < flimit);  // Must make progress.
+            bssert(fptr < flimit);  // Must mbke progress.
         }
 
-        cls.cpMap = cpMap;
+        cls.cpMbp = cpMbp;
     }
 
-    private /*non-static*/
-    class UnresolvedEntry extends Entry {
-        final Object[] refsOrIndexes;
-        UnresolvedEntry(byte tag, Object... refsOrIndexes) {
-            super(tag);
+    privbte /*non-stbtic*/
+    clbss UnresolvedEntry extends Entry {
+        finbl Object[] refsOrIndexes;
+        UnresolvedEntry(byte tbg, Object... refsOrIndexes) {
+            super(tbg);
             this.refsOrIndexes = refsOrIndexes;
-            ClassReader.this.haveUnresolvedEntry = true;
+            ClbssRebder.this.hbveUnresolvedEntry = true;
         }
         Entry resolve() {
-            Class cls = ClassReader.this.cls;
+            Clbss cls = ClbssRebder.this.cls;
             Entry res;
-            switch (tag) {
-            case CONSTANT_InvokeDynamic:
-                BootstrapMethodEntry iboots = cls.bootstrapMethods.get((Integer) refsOrIndexes[0]);
+            switch (tbg) {
+            cbse CONSTANT_InvokeDynbmic:
+                BootstrbpMethodEntry iboots = cls.bootstrbpMethods.get((Integer) refsOrIndexes[0]);
                 DescriptorEntry         idescr = (DescriptorEntry) refsOrIndexes[1];
-                res = ConstantPool.getInvokeDynamicEntry(iboots, idescr);
-                break;
-            default:
+                res = ConstbntPool.getInvokeDynbmicEntry(iboots, idescr);
+                brebk;
+            defbult:
                 throw new AssertionError();
             }
             return res;
         }
-        private void unresolved() { throw new RuntimeException("unresolved entry has no string"); }
-        public int compareTo(Object x) { unresolved(); return 0; }
-        public boolean equals(Object x) { unresolved(); return false; }
-        protected int computeValueHash() { unresolved(); return 0; }
-        public String stringValue() { unresolved(); return toString(); }
-        public String toString() { return "(unresolved "+ConstantPool.tagName(tag)+")"; }
+        privbte void unresolved() { throw new RuntimeException("unresolved entry hbs no string"); }
+        public int compbreTo(Object x) { unresolved(); return 0; }
+        public boolebn equbls(Object x) { unresolved(); return fblse; }
+        protected int computeVblueHbsh() { unresolved(); return 0; }
+        public String stringVblue() { unresolved(); return toString(); }
+        public String toString() { return "(unresolved "+ConstbntPool.tbgNbme(tbg)+")"; }
     }
 
-    boolean haveUnresolvedEntry;
-    private void fixUnresolvedEntries() {
-        if (!haveUnresolvedEntry)  return;
-        Entry[] cpMap = cls.getCPMap();
-        for (int i = 0; i < cpMap.length; i++) {
-            Entry e = cpMap[i];
-            if (e instanceof UnresolvedEntry) {
-                cpMap[i] = e = ((UnresolvedEntry)e).resolve();
-                assert(!(e instanceof UnresolvedEntry));
+    boolebn hbveUnresolvedEntry;
+    privbte void fixUnresolvedEntries() {
+        if (!hbveUnresolvedEntry)  return;
+        Entry[] cpMbp = cls.getCPMbp();
+        for (int i = 0; i < cpMbp.length; i++) {
+            Entry e = cpMbp[i];
+            if (e instbnceof UnresolvedEntry) {
+                cpMbp[i] = e = ((UnresolvedEntry)e).resolve();
+                bssert(!(e instbnceof UnresolvedEntry));
             }
         }
-        haveUnresolvedEntry = false;
+        hbveUnresolvedEntry = fblse;
     }
 
-    void readHeader() throws IOException {
-        cls.flags = readUnsignedShort();
-        cls.thisClass = readClassRef();
-        cls.superClass = readClassRefOrNull();
-        int ni = readUnsignedShort();
-        cls.interfaces = new ClassEntry[ni];
+    void rebdHebder() throws IOException {
+        cls.flbgs = rebdUnsignedShort();
+        cls.thisClbss = rebdClbssRef();
+        cls.superClbss = rebdClbssRefOrNull();
+        int ni = rebdUnsignedShort();
+        cls.interfbces = new ClbssEntry[ni];
         for (int i = 0; i < ni; i++) {
-            cls.interfaces[i] = readClassRef();
+            cls.interfbces[i] = rebdClbssRef();
         }
     }
 
-    void readMembers(boolean doMethods) throws IOException {
-        int nm = readUnsignedShort();
+    void rebdMembers(boolebn doMethods) throws IOException {
+        int nm = rebdUnsignedShort();
         for (int i = 0; i < nm; i++) {
-            readMember(doMethods);
+            rebdMember(doMethods);
         }
     }
 
-    void readMember(boolean doMethod) throws IOException {
-        int    mflags = readUnsignedShort();
-        Utf8Entry       mname = readUtf8Ref();
-        SignatureEntry  mtype = readSignatureRef();
-        DescriptorEntry descr = ConstantPool.getDescriptorEntry(mname, mtype);
-        Class.Member m;
+    void rebdMember(boolebn doMethod) throws IOException {
+        int    mflbgs = rebdUnsignedShort();
+        Utf8Entry       mnbme = rebdUtf8Ref();
+        SignbtureEntry  mtype = rebdSignbtureRef();
+        DescriptorEntry descr = ConstbntPool.getDescriptorEntry(mnbme, mtype);
+        Clbss.Member m;
         if (!doMethod)
-            m = cls.new Field(mflags, descr);
+            m = cls.new Field(mflbgs, descr);
         else
-            m = cls.new Method(mflags, descr);
-        readAttributes(!doMethod ? ATTR_CONTEXT_FIELD : ATTR_CONTEXT_METHOD,
+            m = cls.new Method(mflbgs, descr);
+        rebdAttributes(!doMethod ? ATTR_CONTEXT_FIELD : ATTR_CONTEXT_METHOD,
                        m);
     }
-    void readAttributes(int ctype, Attribute.Holder h) throws IOException {
-        int na = readUnsignedShort();
-        if (na == 0)  return;  // nothing to do here
+    void rebdAttributes(int ctype, Attribute.Holder h) throws IOException {
+        int nb = rebdUnsignedShort();
+        if (nb == 0)  return;  // nothing to do here
         if (verbose > 3)
-            Utils.log.fine("readAttributes "+h+" ["+na+"]");
-        for (int i = 0; i < na; i++) {
-            String name = readUtf8Ref().stringValue();
-            int length = readInt();
-            // See if there is a special command that applies.
-            if (attrCommands != null) {
-                Attribute.Layout lkey = Attribute.keyForLookup(ctype, name);
-                String cmd = attrCommands.get(lkey);
+            Utils.log.fine("rebdAttributes "+h+" ["+nb+"]");
+        for (int i = 0; i < nb; i++) {
+            String nbme = rebdUtf8Ref().stringVblue();
+            int length = rebdInt();
+            // See if there is b specibl commbnd thbt bpplies.
+            if (bttrCommbnds != null) {
+                Attribute.Lbyout lkey = Attribute.keyForLookup(ctype, nbme);
+                String cmd = bttrCommbnds.get(lkey);
                 if (cmd != null) {
                     switch (cmd) {
-                        case "pass":
-                            String message1 = "passing attribute bitwise in " + h;
-                            throw new Attribute.FormatException(message1, ctype, name, cmd);
-                        case "error":
-                            String message2 = "attribute not allowed in " + h;
-                            throw new Attribute.FormatException(message2, ctype, name, cmd);
-                        case "strip":
-                            skip(length, name + " attribute in " + h);
+                        cbse "pbss":
+                            String messbge1 = "pbssing bttribute bitwise in " + h;
+                            throw new Attribute.FormbtException(messbge1, ctype, nbme, cmd);
+                        cbse "error":
+                            String messbge2 = "bttribute not bllowed in " + h;
+                            throw new Attribute.FormbtException(messbge2, ctype, nbme, cmd);
+                        cbse "strip":
+                            skip(length, nbme + " bttribute in " + h);
                             continue;
                     }
                 }
             }
-            // Find canonical instance of the requested attribute.
-            Attribute a = Attribute.lookup(Package.attrDefs, ctype, name);
-            if (verbose > 4 && a != null)
-                Utils.log.fine("pkg_attribute_lookup "+name+" = "+a);
-            if (a == null) {
-                a = Attribute.lookup(this.attrDefs, ctype, name);
-                if (verbose > 4 && a != null)
-                    Utils.log.fine("this "+name+" = "+a);
+            // Find cbnonicbl instbnce of the requested bttribute.
+            Attribute b = Attribute.lookup(Pbckbge.bttrDefs, ctype, nbme);
+            if (verbose > 4 && b != null)
+                Utils.log.fine("pkg_bttribute_lookup "+nbme+" = "+b);
+            if (b == null) {
+                b = Attribute.lookup(this.bttrDefs, ctype, nbme);
+                if (verbose > 4 && b != null)
+                    Utils.log.fine("this "+nbme+" = "+b);
             }
-            if (a == null) {
-                a = Attribute.lookup(null, ctype, name);
-                if (verbose > 4 && a != null)
-                    Utils.log.fine("null_attribute_lookup "+name+" = "+a);
+            if (b == null) {
+                b = Attribute.lookup(null, ctype, nbme);
+                if (verbose > 4 && b != null)
+                    Utils.log.fine("null_bttribute_lookup "+nbme+" = "+b);
             }
-            if (a == null && length == 0) {
-                // Any zero-length attr is "known"...
-                // We can assume an empty attr. has an empty layout.
-                // Handles markers like Enum, Bridge, Synthetic, Deprecated.
-                a = Attribute.find(ctype, name, "");
+            if (b == null && length == 0) {
+                // Any zero-length bttr is "known"...
+                // We cbn bssume bn empty bttr. hbs bn empty lbyout.
+                // Hbndles mbrkers like Enum, Bridge, Synthetic, Deprecbted.
+                b = Attribute.find(ctype, nbme, "");
             }
-            boolean isStackMap = (ctype == ATTR_CONTEXT_CODE
-                                  && (name.equals("StackMap") ||
-                                      name.equals("StackMapX")));
-            if (isStackMap) {
-                // Known attribute but with a corner case format, "pass" it.
+            boolebn isStbckMbp = (ctype == ATTR_CONTEXT_CODE
+                                  && (nbme.equbls("StbckMbp") ||
+                                      nbme.equbls("StbckMbpX")));
+            if (isStbckMbp) {
+                // Known bttribute but with b corner cbse formbt, "pbss" it.
                 Code code = (Code) h;
-                final int TOO_BIG = 0x10000;
-                if (code.max_stack   >= TOO_BIG ||
-                    code.max_locals  >= TOO_BIG ||
+                finbl int TOO_BIG = 0x10000;
+                if (code.mbx_stbck   >= TOO_BIG ||
+                    code.mbx_locbls  >= TOO_BIG ||
                     code.getLength() >= TOO_BIG ||
-                    name.endsWith("X")) {
-                    // No, we don't really know what to do this this one.
-                    // Do not compress the rare and strange "u4" and "X" cases.
-                    a = null;
+                    nbme.endsWith("X")) {
+                    // No, we don't reblly know whbt to do this this one.
+                    // Do not compress the rbre bnd strbnge "u4" bnd "X" cbses.
+                    b = null;
                 }
             }
-            if (a == null) {
-                if (isStackMap) {
-                    // Known attribute but w/o a format; pass it.
-                    String message = "unsupported StackMap variant in "+h;
-                    throw new Attribute.FormatException(message, ctype, name,
-                                                        "pass");
-                } else if ("strip".equals(unknownAttrCommand)) {
-                    // Skip the unknown attribute.
-                    skip(length, "unknown "+name+" attribute in "+h);
+            if (b == null) {
+                if (isStbckMbp) {
+                    // Known bttribute but w/o b formbt; pbss it.
+                    String messbge = "unsupported StbckMbp vbribnt in "+h;
+                    throw new Attribute.FormbtException(messbge, ctype, nbme,
+                                                        "pbss");
+                } else if ("strip".equbls(unknownAttrCommbnd)) {
+                    // Skip the unknown bttribute.
+                    skip(length, "unknown "+nbme+" bttribute in "+h);
                     continue;
                 } else {
-                    String message = " is unknown attribute in class " + h;
-                    throw new Attribute.FormatException(message, ctype, name,
-                                                        unknownAttrCommand);
+                    String messbge = " is unknown bttribute in clbss " + h;
+                    throw new Attribute.FormbtException(messbge, ctype, nbme,
+                                                        unknownAttrCommbnd);
                 }
             }
-            long pos0 = inPos;  // in case we want to check it
-            if (a.layout() == Package.attrCodeEmpty) {
-                // These are hardwired.
-                Class.Method m = (Class.Method) h;
+            long pos0 = inPos;  // in cbse we wbnt to check it
+            if (b.lbyout() == Pbckbge.bttrCodeEmpty) {
+                // These bre hbrdwired.
+                Clbss.Method m = (Clbss.Method) h;
                 m.code = new Code(m);
                 try {
-                    readCode(m.code);
-                } catch (Instruction.FormatException iie) {
-                    String message = iie.getMessage() + " in " + h;
-                    throw new ClassReader.ClassFormatException(message, iie);
+                    rebdCode(m.code);
+                } cbtch (Instruction.FormbtException iie) {
+                    String messbge = iie.getMessbge() + " in " + h;
+                    throw new ClbssRebder.ClbssFormbtException(messbge, iie);
                 }
-                assert(length == inPos - pos0);
-                // Keep empty attribute a...
-            } else if (a.layout() == Package.attrBootstrapMethodsEmpty) {
-                assert(h == cls);
-                readBootstrapMethods(cls);
-                assert(length == inPos - pos0);
-                // Delete the attribute; it is logically part of the constant pool.
+                bssert(length == inPos - pos0);
+                // Keep empty bttribute b...
+            } else if (b.lbyout() == Pbckbge.bttrBootstrbpMethodsEmpty) {
+                bssert(h == cls);
+                rebdBootstrbpMethods(cls);
+                bssert(length == inPos - pos0);
+                // Delete the bttribute; it is logicblly pbrt of the constbnt pool.
                 continue;
-            } else if (a.layout() == Package.attrInnerClassesEmpty) {
-                // These are hardwired also.
-                assert(h == cls);
-                readInnerClasses(cls);
-                assert(length == inPos - pos0);
-                // Keep empty attribute a...
+            } else if (b.lbyout() == Pbckbge.bttrInnerClbssesEmpty) {
+                // These bre hbrdwired blso.
+                bssert(h == cls);
+                rebdInnerClbsses(cls);
+                bssert(length == inPos - pos0);
+                // Keep empty bttribute b...
             } else if (length > 0) {
                 byte[] bytes = new byte[length];
-                in.readFully(bytes);
-                a = a.addContent(bytes);
+                in.rebdFully(bytes);
+                b = b.bddContent(bytes);
             }
-            if (a.size() == 0 && !a.layout().isEmpty()) {
-                throw new ClassFormatException(name +
-                        ": attribute length cannot be zero, in " + h);
+            if (b.size() == 0 && !b.lbyout().isEmpty()) {
+                throw new ClbssFormbtException(nbme +
+                        ": bttribute length cbnnot be zero, in " + h);
             }
-            h.addAttribute(a);
+            h.bddAttribute(b);
             if (verbose > 2)
-                Utils.log.fine("read "+a);
+                Utils.log.fine("rebd "+b);
         }
     }
 
-    void readCode(Code code) throws IOException {
-        code.max_stack = readUnsignedShort();
-        code.max_locals = readUnsignedShort();
-        code.bytes = new byte[readInt()];
-        in.readFully(code.bytes);
-        Entry[] cpMap = cls.getCPMap();
-        Instruction.opcodeChecker(code.bytes, cpMap, this.cls.version);
-        int nh = readUnsignedShort();
-        code.setHandlerCount(nh);
+    void rebdCode(Code code) throws IOException {
+        code.mbx_stbck = rebdUnsignedShort();
+        code.mbx_locbls = rebdUnsignedShort();
+        code.bytes = new byte[rebdInt()];
+        in.rebdFully(code.bytes);
+        Entry[] cpMbp = cls.getCPMbp();
+        Instruction.opcodeChecker(code.bytes, cpMbp, this.cls.version);
+        int nh = rebdUnsignedShort();
+        code.setHbndlerCount(nh);
         for (int i = 0; i < nh; i++) {
-            code.handler_start[i] = readUnsignedShort();
-            code.handler_end[i]   = readUnsignedShort();
-            code.handler_catch[i] = readUnsignedShort();
-            code.handler_class[i] = readClassRefOrNull();
+            code.hbndler_stbrt[i] = rebdUnsignedShort();
+            code.hbndler_end[i]   = rebdUnsignedShort();
+            code.hbndler_cbtch[i] = rebdUnsignedShort();
+            code.hbndler_clbss[i] = rebdClbssRefOrNull();
         }
-        readAttributes(ATTR_CONTEXT_CODE, code);
+        rebdAttributes(ATTR_CONTEXT_CODE, code);
     }
 
-    void readBootstrapMethods(Class cls) throws IOException {
-        BootstrapMethodEntry[] bsms = new BootstrapMethodEntry[readUnsignedShort()];
+    void rebdBootstrbpMethods(Clbss cls) throws IOException {
+        BootstrbpMethodEntry[] bsms = new BootstrbpMethodEntry[rebdUnsignedShort()];
         for (int i = 0; i < bsms.length; i++) {
-            MethodHandleEntry bsmRef = (MethodHandleEntry) readRef(CONSTANT_MethodHandle);
-            Entry[] argRefs = new Entry[readUnsignedShort()];
-            for (int j = 0; j < argRefs.length; j++) {
-                argRefs[j] = readRef(CONSTANT_LoadableValue);
+            MethodHbndleEntry bsmRef = (MethodHbndleEntry) rebdRef(CONSTANT_MethodHbndle);
+            Entry[] brgRefs = new Entry[rebdUnsignedShort()];
+            for (int j = 0; j < brgRefs.length; j++) {
+                brgRefs[j] = rebdRef(CONSTANT_LobdbbleVblue);
             }
-            bsms[i] = ConstantPool.getBootstrapMethodEntry(bsmRef, argRefs);
+            bsms[i] = ConstbntPool.getBootstrbpMethodEntry(bsmRef, brgRefs);
         }
-        cls.setBootstrapMethods(Arrays.asList(bsms));
+        cls.setBootstrbpMethods(Arrbys.bsList(bsms));
     }
 
-    void readInnerClasses(Class cls) throws IOException {
-        int nc = readUnsignedShort();
-        ArrayList<InnerClass> ics = new ArrayList<>(nc);
+    void rebdInnerClbsses(Clbss cls) throws IOException {
+        int nc = rebdUnsignedShort();
+        ArrbyList<InnerClbss> ics = new ArrbyList<>(nc);
         for (int i = 0; i < nc; i++) {
-            InnerClass ic =
-                new InnerClass(readClassRef(),
-                               readClassRefOrNull(),
-                               (Utf8Entry)readRefOrNull(CONSTANT_Utf8),
-                               readUnsignedShort());
-            ics.add(ic);
+            InnerClbss ic =
+                new InnerClbss(rebdClbssRef(),
+                               rebdClbssRefOrNull(),
+                               (Utf8Entry)rebdRefOrNull(CONSTANT_Utf8),
+                               rebdUnsignedShort());
+            ics.bdd(ic);
         }
-        cls.innerClasses = ics;  // set directly; do not use setInnerClasses.
-        // (Later, ics may be transferred to the pkg.)
+        cls.innerClbsses = ics;  // set directly; do not use setInnerClbsses.
+        // (Lbter, ics mby be trbnsferred to the pkg.)
     }
 
-    static class ClassFormatException extends IOException {
-        private static final long serialVersionUID = -3564121733989501833L;
+    stbtic clbss ClbssFormbtException extends IOException {
+        privbte stbtic finbl long seriblVersionUID = -3564121733989501833L;
 
-        public ClassFormatException(String message) {
-            super(message);
+        public ClbssFormbtException(String messbge) {
+            super(messbge);
         }
 
-        public ClassFormatException(String message, Throwable cause) {
-            super(message, cause);
+        public ClbssFormbtException(String messbge, Throwbble cbuse) {
+            super(messbge, cbuse);
         }
     }
 }

@@ -1,256 +1,256 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.io;
+pbckbge jbvb.io;
 
-import java.util.*;
-import java.nio.charset.Charset;
-import sun.nio.cs.StreamDecoder;
-import sun.nio.cs.StreamEncoder;
+import jbvb.util.*;
+import jbvb.nio.chbrset.Chbrset;
+import sun.nio.cs.StrebmDecoder;
+import sun.nio.cs.StrebmEncoder;
 
 /**
- * Methods to access the character-based console device, if any, associated
- * with the current Java virtual machine.
+ * Methods to bccess the chbrbcter-bbsed console device, if bny, bssocibted
+ * with the current Jbvb virtubl mbchine.
  *
- * <p> Whether a virtual machine has a console is dependent upon the
- * underlying platform and also upon the manner in which the virtual
- * machine is invoked.  If the virtual machine is started from an
- * interactive command line without redirecting the standard input and
- * output streams then its console will exist and will typically be
- * connected to the keyboard and display from which the virtual machine
- * was launched.  If the virtual machine is started automatically, for
- * example by a background job scheduler, then it will typically not
- * have a console.
+ * <p> Whether b virtubl mbchine hbs b console is dependent upon the
+ * underlying plbtform bnd blso upon the mbnner in which the virtubl
+ * mbchine is invoked.  If the virtubl mbchine is stbrted from bn
+ * interbctive commbnd line without redirecting the stbndbrd input bnd
+ * output strebms then its console will exist bnd will typicblly be
+ * connected to the keybobrd bnd displby from which the virtubl mbchine
+ * wbs lbunched.  If the virtubl mbchine is stbrted butombticblly, for
+ * exbmple by b bbckground job scheduler, then it will typicblly not
+ * hbve b console.
  * <p>
- * If this virtual machine has a console then it is represented by a
- * unique instance of this class which can be obtained by invoking the
- * {@link java.lang.System#console()} method.  If no console device is
- * available then an invocation of that method will return <tt>null</tt>.
+ * If this virtubl mbchine hbs b console then it is represented by b
+ * unique instbnce of this clbss which cbn be obtbined by invoking the
+ * {@link jbvb.lbng.System#console()} method.  If no console device is
+ * bvbilbble then bn invocbtion of thbt method will return <tt>null</tt>.
  * <p>
- * Read and write operations are synchronized to guarantee the atomic
- * completion of critical operations; therefore invoking methods
- * {@link #readLine()}, {@link #readPassword()}, {@link #format format()},
- * {@link #printf printf()} as well as the read, format and write operations
- * on the objects returned by {@link #reader()} and {@link #writer()} may
- * block in multithreaded scenarios.
+ * Rebd bnd write operbtions bre synchronized to gubrbntee the btomic
+ * completion of criticbl operbtions; therefore invoking methods
+ * {@link #rebdLine()}, {@link #rebdPbssword()}, {@link #formbt formbt()},
+ * {@link #printf printf()} bs well bs the rebd, formbt bnd write operbtions
+ * on the objects returned by {@link #rebder()} bnd {@link #writer()} mby
+ * block in multithrebded scenbrios.
  * <p>
- * Invoking <tt>close()</tt> on the objects returned by the {@link #reader()}
- * and the {@link #writer()} will not close the underlying stream of those
+ * Invoking <tt>close()</tt> on the objects returned by the {@link #rebder()}
+ * bnd the {@link #writer()} will not close the underlying strebm of those
  * objects.
  * <p>
- * The console-read methods return <tt>null</tt> when the end of the
- * console input stream is reached, for example by typing control-D on
- * Unix or control-Z on Windows.  Subsequent read operations will succeed
- * if additional characters are later entered on the console's input
+ * The console-rebd methods return <tt>null</tt> when the end of the
+ * console input strebm is rebched, for exbmple by typing control-D on
+ * Unix or control-Z on Windows.  Subsequent rebd operbtions will succeed
+ * if bdditionbl chbrbcters bre lbter entered on the console's input
  * device.
  * <p>
- * Unless otherwise specified, passing a <tt>null</tt> argument to any method
- * in this class will cause a {@link NullPointerException} to be thrown.
+ * Unless otherwise specified, pbssing b <tt>null</tt> brgument to bny method
+ * in this clbss will cbuse b {@link NullPointerException} to be thrown.
  * <p>
  * <b>Security note:</b>
- * If an application needs to read a password or other secure data, it should
- * use {@link #readPassword()} or {@link #readPassword(String, Object...)} and
- * manually zero the returned character array after processing to minimize the
- * lifetime of sensitive data in memory.
+ * If bn bpplicbtion needs to rebd b pbssword or other secure dbtb, it should
+ * use {@link #rebdPbssword()} or {@link #rebdPbssword(String, Object...)} bnd
+ * mbnublly zero the returned chbrbcter brrby bfter processing to minimize the
+ * lifetime of sensitive dbtb in memory.
  *
  * <blockquote><pre>{@code
  * Console cons;
- * char[] passwd;
+ * chbr[] pbsswd;
  * if ((cons = System.console()) != null &&
- *     (passwd = cons.readPassword("[%s]", "Password:")) != null) {
+ *     (pbsswd = cons.rebdPbssword("[%s]", "Pbssword:")) != null) {
  *     ...
- *     java.util.Arrays.fill(passwd, ' ');
+ *     jbvb.util.Arrbys.fill(pbsswd, ' ');
  * }
  * }</pre></blockquote>
  *
- * @author  Xueming Shen
+ * @buthor  Xueming Shen
  * @since   1.6
  */
 
-public final class Console implements Flushable
+public finbl clbss Console implements Flushbble
 {
    /**
-    * Retrieves the unique {@link java.io.PrintWriter PrintWriter} object
-    * associated with this console.
+    * Retrieves the unique {@link jbvb.io.PrintWriter PrintWriter} object
+    * bssocibted with this console.
     *
-    * @return  The printwriter associated with this console
+    * @return  The printwriter bssocibted with this console
     */
     public PrintWriter writer() {
         return pw;
     }
 
    /**
-    * Retrieves the unique {@link java.io.Reader Reader} object associated
+    * Retrieves the unique {@link jbvb.io.Rebder Rebder} object bssocibted
     * with this console.
     * <p>
-    * This method is intended to be used by sophisticated applications, for
-    * example, a {@link java.util.Scanner} object which utilizes the rich
-    * parsing/scanning functionality provided by the <tt>Scanner</tt>:
+    * This method is intended to be used by sophisticbted bpplicbtions, for
+    * exbmple, b {@link jbvb.util.Scbnner} object which utilizes the rich
+    * pbrsing/scbnning functionblity provided by the <tt>Scbnner</tt>:
     * <blockquote><pre>
     * Console con = System.console();
     * if (con != null) {
-    *     Scanner sc = new Scanner(con.reader());
+    *     Scbnner sc = new Scbnner(con.rebder());
     *     ...
     * }
     * </pre></blockquote>
     * <p>
-    * For simple applications requiring only line-oriented reading, use
-    * <tt>{@link #readLine}</tt>.
+    * For simple bpplicbtions requiring only line-oriented rebding, use
+    * <tt>{@link #rebdLine}</tt>.
     * <p>
-    * The bulk read operations {@link java.io.Reader#read(char[]) read(char[]) },
-    * {@link java.io.Reader#read(char[], int, int) read(char[], int, int) } and
-    * {@link java.io.Reader#read(java.nio.CharBuffer) read(java.nio.CharBuffer)}
-    * on the returned object will not read in characters beyond the line
-    * bound for each invocation, even if the destination buffer has space for
-    * more characters. The {@code Reader}'s {@code read} methods may block if a
-    * line bound has not been entered or reached on the console's input device.
-    * A line bound is considered to be any one of a line feed (<tt>'\n'</tt>),
-    * a carriage return (<tt>'\r'</tt>), a carriage return followed immediately
-    * by a linefeed, or an end of stream.
+    * The bulk rebd operbtions {@link jbvb.io.Rebder#rebd(chbr[]) rebd(chbr[]) },
+    * {@link jbvb.io.Rebder#rebd(chbr[], int, int) rebd(chbr[], int, int) } bnd
+    * {@link jbvb.io.Rebder#rebd(jbvb.nio.ChbrBuffer) rebd(jbvb.nio.ChbrBuffer)}
+    * on the returned object will not rebd in chbrbcters beyond the line
+    * bound for ebch invocbtion, even if the destinbtion buffer hbs spbce for
+    * more chbrbcters. The {@code Rebder}'s {@code rebd} methods mby block if b
+    * line bound hbs not been entered or rebched on the console's input device.
+    * A line bound is considered to be bny one of b line feed (<tt>'\n'</tt>),
+    * b cbrribge return (<tt>'\r'</tt>), b cbrribge return followed immedibtely
+    * by b linefeed, or bn end of strebm.
     *
-    * @return  The reader associated with this console
+    * @return  The rebder bssocibted with this console
     */
-    public Reader reader() {
-        return reader;
+    public Rebder rebder() {
+        return rebder;
     }
 
    /**
-    * Writes a formatted string to this console's output stream using
-    * the specified format string and arguments.
+    * Writes b formbtted string to this console's output strebm using
+    * the specified formbt string bnd brguments.
     *
-    * @param  fmt
-    *         A format string as described in <a
-    *         href="../util/Formatter.html#syntax">Format string syntax</a>
+    * @pbrbm  fmt
+    *         A formbt string bs described in <b
+    *         href="../util/Formbtter.html#syntbx">Formbt string syntbx</b>
     *
-    * @param  args
-    *         Arguments referenced by the format specifiers in the format
-    *         string.  If there are more arguments than format specifiers, the
-    *         extra arguments are ignored.  The number of arguments is
-    *         variable and may be zero.  The maximum number of arguments is
-    *         limited by the maximum dimension of a Java array as defined by
-    *         <cite>The Java&trade; Virtual Machine Specification</cite>.
-    *         The behaviour on a
-    *         <tt>null</tt> argument depends on the <a
-    *         href="../util/Formatter.html#syntax">conversion</a>.
+    * @pbrbm  brgs
+    *         Arguments referenced by the formbt specifiers in the formbt
+    *         string.  If there bre more brguments thbn formbt specifiers, the
+    *         extrb brguments bre ignored.  The number of brguments is
+    *         vbribble bnd mby be zero.  The mbximum number of brguments is
+    *         limited by the mbximum dimension of b Jbvb brrby bs defined by
+    *         <cite>The Jbvb&trbde; Virtubl Mbchine Specificbtion</cite>.
+    *         The behbviour on b
+    *         <tt>null</tt> brgument depends on the <b
+    *         href="../util/Formbtter.html#syntbx">conversion</b>.
     *
-    * @throws  IllegalFormatException
-    *          If a format string contains an illegal syntax, a format
-    *          specifier that is incompatible with the given arguments,
-    *          insufficient arguments given the format string, or other
-    *          illegal conditions.  For specification of all possible
-    *          formatting errors, see the <a
-    *          href="../util/Formatter.html#detail">Details</a> section
-    *          of the formatter class specification.
+    * @throws  IllegblFormbtException
+    *          If b formbt string contbins bn illegbl syntbx, b formbt
+    *          specifier thbt is incompbtible with the given brguments,
+    *          insufficient brguments given the formbt string, or other
+    *          illegbl conditions.  For specificbtion of bll possible
+    *          formbtting errors, see the <b
+    *          href="../util/Formbtter.html#detbil">Detbils</b> section
+    *          of the formbtter clbss specificbtion.
     *
     * @return  This console
     */
-    public Console format(String fmt, Object ...args) {
-        formatter.format(fmt, args).flush();
+    public Console formbt(String fmt, Object ...brgs) {
+        formbtter.formbt(fmt, brgs).flush();
         return this;
     }
 
    /**
-    * A convenience method to write a formatted string to this console's
-    * output stream using the specified format string and arguments.
+    * A convenience method to write b formbtted string to this console's
+    * output strebm using the specified formbt string bnd brguments.
     *
-    * <p> An invocation of this method of the form <tt>con.printf(format,
-    * args)</tt> behaves in exactly the same way as the invocation of
-    * <pre>con.format(format, args)</pre>.
+    * <p> An invocbtion of this method of the form <tt>con.printf(formbt,
+    * brgs)</tt> behbves in exbctly the sbme wby bs the invocbtion of
+    * <pre>con.formbt(formbt, brgs)</pre>.
     *
-    * @param  format
-    *         A format string as described in <a
-    *         href="../util/Formatter.html#syntax">Format string syntax</a>.
+    * @pbrbm  formbt
+    *         A formbt string bs described in <b
+    *         href="../util/Formbtter.html#syntbx">Formbt string syntbx</b>.
     *
-    * @param  args
-    *         Arguments referenced by the format specifiers in the format
-    *         string.  If there are more arguments than format specifiers, the
-    *         extra arguments are ignored.  The number of arguments is
-    *         variable and may be zero.  The maximum number of arguments is
-    *         limited by the maximum dimension of a Java array as defined by
-    *         <cite>The Java&trade; Virtual Machine Specification</cite>.
-    *         The behaviour on a
-    *         <tt>null</tt> argument depends on the <a
-    *         href="../util/Formatter.html#syntax">conversion</a>.
+    * @pbrbm  brgs
+    *         Arguments referenced by the formbt specifiers in the formbt
+    *         string.  If there bre more brguments thbn formbt specifiers, the
+    *         extrb brguments bre ignored.  The number of brguments is
+    *         vbribble bnd mby be zero.  The mbximum number of brguments is
+    *         limited by the mbximum dimension of b Jbvb brrby bs defined by
+    *         <cite>The Jbvb&trbde; Virtubl Mbchine Specificbtion</cite>.
+    *         The behbviour on b
+    *         <tt>null</tt> brgument depends on the <b
+    *         href="../util/Formbtter.html#syntbx">conversion</b>.
     *
-    * @throws  IllegalFormatException
-    *          If a format string contains an illegal syntax, a format
-    *          specifier that is incompatible with the given arguments,
-    *          insufficient arguments given the format string, or other
-    *          illegal conditions.  For specification of all possible
-    *          formatting errors, see the <a
-    *          href="../util/Formatter.html#detail">Details</a> section of the
-    *          formatter class specification.
+    * @throws  IllegblFormbtException
+    *          If b formbt string contbins bn illegbl syntbx, b formbt
+    *          specifier thbt is incompbtible with the given brguments,
+    *          insufficient brguments given the formbt string, or other
+    *          illegbl conditions.  For specificbtion of bll possible
+    *          formbtting errors, see the <b
+    *          href="../util/Formbtter.html#detbil">Detbils</b> section of the
+    *          formbtter clbss specificbtion.
     *
     * @return  This console
     */
-    public Console printf(String format, Object ... args) {
-        return format(format, args);
+    public Console printf(String formbt, Object ... brgs) {
+        return formbt(formbt, brgs);
     }
 
    /**
-    * Provides a formatted prompt, then reads a single line of text from the
+    * Provides b formbtted prompt, then rebds b single line of text from the
     * console.
     *
-    * @param  fmt
-    *         A format string as described in <a
-    *         href="../util/Formatter.html#syntax">Format string syntax</a>.
+    * @pbrbm  fmt
+    *         A formbt string bs described in <b
+    *         href="../util/Formbtter.html#syntbx">Formbt string syntbx</b>.
     *
-    * @param  args
-    *         Arguments referenced by the format specifiers in the format
-    *         string.  If there are more arguments than format specifiers, the
-    *         extra arguments are ignored.  The maximum number of arguments is
-    *         limited by the maximum dimension of a Java array as defined by
-    *         <cite>The Java&trade; Virtual Machine Specification</cite>.
+    * @pbrbm  brgs
+    *         Arguments referenced by the formbt specifiers in the formbt
+    *         string.  If there bre more brguments thbn formbt specifiers, the
+    *         extrb brguments bre ignored.  The mbximum number of brguments is
+    *         limited by the mbximum dimension of b Jbvb brrby bs defined by
+    *         <cite>The Jbvb&trbde; Virtubl Mbchine Specificbtion</cite>.
     *
-    * @throws  IllegalFormatException
-    *          If a format string contains an illegal syntax, a format
-    *          specifier that is incompatible with the given arguments,
-    *          insufficient arguments given the format string, or other
-    *          illegal conditions.  For specification of all possible
-    *          formatting errors, see the <a
-    *          href="../util/Formatter.html#detail">Details</a> section
-    *          of the formatter class specification.
+    * @throws  IllegblFormbtException
+    *          If b formbt string contbins bn illegbl syntbx, b formbt
+    *          specifier thbt is incompbtible with the given brguments,
+    *          insufficient brguments given the formbt string, or other
+    *          illegbl conditions.  For specificbtion of bll possible
+    *          formbtting errors, see the <b
+    *          href="../util/Formbtter.html#detbil">Detbils</b> section
+    *          of the formbtter clbss specificbtion.
     *
     * @throws IOError
-    *         If an I/O error occurs.
+    *         If bn I/O error occurs.
     *
-    * @return  A string containing the line read from the console, not
-    *          including any line-termination characters, or <tt>null</tt>
-    *          if an end of stream has been reached.
+    * @return  A string contbining the line rebd from the console, not
+    *          including bny line-terminbtion chbrbcters, or <tt>null</tt>
+    *          if bn end of strebm hbs been rebched.
     */
-    public String readLine(String fmt, Object ... args) {
+    public String rebdLine(String fmt, Object ... brgs) {
         String line = null;
         synchronized (writeLock) {
-            synchronized(readLock) {
+            synchronized(rebdLock) {
                 if (fmt.length() != 0)
-                    pw.format(fmt, args);
+                    pw.formbt(fmt, brgs);
                 try {
-                    char[] ca = readline(false);
-                    if (ca != null)
-                        line = new String(ca);
-                } catch (IOException x) {
+                    chbr[] cb = rebdline(fblse);
+                    if (cb != null)
+                        line = new String(cb);
+                } cbtch (IOException x) {
                     throw new IOError(x);
                 }
             }
@@ -259,75 +259,75 @@ public final class Console implements Flushable
     }
 
    /**
-    * Reads a single line of text from the console.
+    * Rebds b single line of text from the console.
     *
     * @throws IOError
-    *         If an I/O error occurs.
+    *         If bn I/O error occurs.
     *
-    * @return  A string containing the line read from the console, not
-    *          including any line-termination characters, or <tt>null</tt>
-    *          if an end of stream has been reached.
+    * @return  A string contbining the line rebd from the console, not
+    *          including bny line-terminbtion chbrbcters, or <tt>null</tt>
+    *          if bn end of strebm hbs been rebched.
     */
-    public String readLine() {
-        return readLine("");
+    public String rebdLine() {
+        return rebdLine("");
     }
 
    /**
-    * Provides a formatted prompt, then reads a password or passphrase from
-    * the console with echoing disabled.
+    * Provides b formbtted prompt, then rebds b pbssword or pbssphrbse from
+    * the console with echoing disbbled.
     *
-    * @param  fmt
-    *         A format string as described in <a
-    *         href="../util/Formatter.html#syntax">Format string syntax</a>
+    * @pbrbm  fmt
+    *         A formbt string bs described in <b
+    *         href="../util/Formbtter.html#syntbx">Formbt string syntbx</b>
     *         for the prompt text.
     *
-    * @param  args
-    *         Arguments referenced by the format specifiers in the format
-    *         string.  If there are more arguments than format specifiers, the
-    *         extra arguments are ignored.  The maximum number of arguments is
-    *         limited by the maximum dimension of a Java array as defined by
-    *         <cite>The Java&trade; Virtual Machine Specification</cite>.
+    * @pbrbm  brgs
+    *         Arguments referenced by the formbt specifiers in the formbt
+    *         string.  If there bre more brguments thbn formbt specifiers, the
+    *         extrb brguments bre ignored.  The mbximum number of brguments is
+    *         limited by the mbximum dimension of b Jbvb brrby bs defined by
+    *         <cite>The Jbvb&trbde; Virtubl Mbchine Specificbtion</cite>.
     *
-    * @throws  IllegalFormatException
-    *          If a format string contains an illegal syntax, a format
-    *          specifier that is incompatible with the given arguments,
-    *          insufficient arguments given the format string, or other
-    *          illegal conditions.  For specification of all possible
-    *          formatting errors, see the <a
-    *          href="../util/Formatter.html#detail">Details</a>
-    *          section of the formatter class specification.
+    * @throws  IllegblFormbtException
+    *          If b formbt string contbins bn illegbl syntbx, b formbt
+    *          specifier thbt is incompbtible with the given brguments,
+    *          insufficient brguments given the formbt string, or other
+    *          illegbl conditions.  For specificbtion of bll possible
+    *          formbtting errors, see the <b
+    *          href="../util/Formbtter.html#detbil">Detbils</b>
+    *          section of the formbtter clbss specificbtion.
     *
     * @throws IOError
-    *         If an I/O error occurs.
+    *         If bn I/O error occurs.
     *
-    * @return  A character array containing the password or passphrase read
-    *          from the console, not including any line-termination characters,
-    *          or <tt>null</tt> if an end of stream has been reached.
+    * @return  A chbrbcter brrby contbining the pbssword or pbssphrbse rebd
+    *          from the console, not including bny line-terminbtion chbrbcters,
+    *          or <tt>null</tt> if bn end of strebm hbs been rebched.
     */
-    public char[] readPassword(String fmt, Object ... args) {
-        char[] passwd = null;
+    public chbr[] rebdPbssword(String fmt, Object ... brgs) {
+        chbr[] pbsswd = null;
         synchronized (writeLock) {
-            synchronized(readLock) {
+            synchronized(rebdLock) {
                 try {
-                    echoOff = echo(false);
-                } catch (IOException x) {
+                    echoOff = echo(fblse);
+                } cbtch (IOException x) {
                     throw new IOError(x);
                 }
                 IOError ioe = null;
                 try {
                     if (fmt.length() != 0)
-                        pw.format(fmt, args);
-                    passwd = readline(true);
-                } catch (IOException x) {
+                        pw.formbt(fmt, brgs);
+                    pbsswd = rebdline(true);
+                } cbtch (IOException x) {
                     ioe = new IOError(x);
-                } finally {
+                } finblly {
                     try {
                         echoOff = echo(true);
-                    } catch (IOException x) {
+                    } cbtch (IOException x) {
                         if (ioe == null)
                             ioe = new IOError(x);
                         else
-                            ioe.addSuppressed(x);
+                            ioe.bddSuppressed(x);
                     }
                     if (ioe != null)
                         throw ioe;
@@ -335,90 +335,90 @@ public final class Console implements Flushable
                 pw.println();
             }
         }
-        return passwd;
+        return pbsswd;
     }
 
    /**
-    * Reads a password or passphrase from the console with echoing disabled
+    * Rebds b pbssword or pbssphrbse from the console with echoing disbbled
     *
     * @throws IOError
-    *         If an I/O error occurs.
+    *         If bn I/O error occurs.
     *
-    * @return  A character array containing the password or passphrase read
-    *          from the console, not including any line-termination characters,
-    *          or <tt>null</tt> if an end of stream has been reached.
+    * @return  A chbrbcter brrby contbining the pbssword or pbssphrbse rebd
+    *          from the console, not including bny line-terminbtion chbrbcters,
+    *          or <tt>null</tt> if bn end of strebm hbs been rebched.
     */
-    public char[] readPassword() {
-        return readPassword("");
+    public chbr[] rebdPbssword() {
+        return rebdPbssword("");
     }
 
     /**
-     * Flushes the console and forces any buffered output to be written
-     * immediately .
+     * Flushes the console bnd forces bny buffered output to be written
+     * immedibtely .
      */
     public void flush() {
         pw.flush();
     }
 
-    private Object readLock;
-    private Object writeLock;
-    private Reader reader;
-    private Writer out;
-    private PrintWriter pw;
-    private Formatter formatter;
-    private Charset cs;
-    private char[] rcb;
-    private static native String encoding();
-    private static native boolean echo(boolean on) throws IOException;
-    private static boolean echoOff;
+    privbte Object rebdLock;
+    privbte Object writeLock;
+    privbte Rebder rebder;
+    privbte Writer out;
+    privbte PrintWriter pw;
+    privbte Formbtter formbtter;
+    privbte Chbrset cs;
+    privbte chbr[] rcb;
+    privbte stbtic nbtive String encoding();
+    privbte stbtic nbtive boolebn echo(boolebn on) throws IOException;
+    privbte stbtic boolebn echoOff;
 
-    private char[] readline(boolean zeroOut) throws IOException {
-        int len = reader.read(rcb, 0, rcb.length);
+    privbte chbr[] rebdline(boolebn zeroOut) throws IOException {
+        int len = rebder.rebd(rcb, 0, rcb.length);
         if (len < 0)
             return null;  //EOL
         if (rcb[len-1] == '\r')
-            len--;        //remove CR at end;
+            len--;        //remove CR bt end;
         else if (rcb[len-1] == '\n') {
-            len--;        //remove LF at end;
+            len--;        //remove LF bt end;
             if (len > 0 && rcb[len-1] == '\r')
                 len--;    //remove the CR, if there is one
         }
-        char[] b = new char[len];
+        chbr[] b = new chbr[len];
         if (len > 0) {
-            System.arraycopy(rcb, 0, b, 0, len);
+            System.brrbycopy(rcb, 0, b, 0, len);
             if (zeroOut) {
-                Arrays.fill(rcb, 0, len, ' ');
+                Arrbys.fill(rcb, 0, len, ' ');
             }
         }
         return b;
     }
 
-    private char[] grow() {
-        assert Thread.holdsLock(readLock);
-        char[] t = new char[rcb.length * 2];
-        System.arraycopy(rcb, 0, t, 0, rcb.length);
+    privbte chbr[] grow() {
+        bssert Threbd.holdsLock(rebdLock);
+        chbr[] t = new chbr[rcb.length * 2];
+        System.brrbycopy(rcb, 0, t, 0, rcb.length);
         rcb = t;
         return rcb;
     }
 
-    class LineReader extends Reader {
-        private Reader in;
-        private char[] cb;
-        private int nChars, nextChar;
-        boolean leftoverLF;
-        LineReader(Reader in) {
+    clbss LineRebder extends Rebder {
+        privbte Rebder in;
+        privbte chbr[] cb;
+        privbte int nChbrs, nextChbr;
+        boolebn leftoverLF;
+        LineRebder(Rebder in) {
             this.in = in;
-            cb = new char[1024];
-            nextChar = nChars = 0;
-            leftoverLF = false;
+            cb = new chbr[1024];
+            nextChbr = nChbrs = 0;
+            leftoverLF = fblse;
         }
         public void close () {}
-        public boolean ready() throws IOException {
-            //in.ready synchronizes on readLock already
-            return in.ready();
+        public boolebn rebdy() throws IOException {
+            //in.rebdy synchronizes on rebdLock blrebdy
+            return in.rebdy();
         }
 
-        public int read(char cbuf[], int offset, int length)
+        public int rebd(chbr cbuf[], int offset, int length)
             throws IOException
         {
             int off = offset;
@@ -427,24 +427,24 @@ public final class Console implements Flushable
                 end < 0 || end > cbuf.length) {
                 throw new IndexOutOfBoundsException();
             }
-            synchronized(readLock) {
-                boolean eof = false;
-                char c = 0;
+            synchronized(rebdLock) {
+                boolebn eof = fblse;
+                chbr c = 0;
                 for (;;) {
-                    if (nextChar >= nChars) {   //fill
+                    if (nextChbr >= nChbrs) {   //fill
                         int n = 0;
                         do {
-                            n = in.read(cb, 0, cb.length);
+                            n = in.rebd(cb, 0, cb.length);
                         } while (n == 0);
                         if (n > 0) {
-                            nChars = n;
-                            nextChar = 0;
+                            nChbrs = n;
+                            nextChbr = 0;
                             if (n < cb.length &&
                                 cb[n-1] != '\n' && cb[n-1] != '\r') {
                                 /*
-                                 * we're in canonical mode so each "fill" should
-                                 * come back with an eol. if there no lf or nl at
-                                 * the end of returned bytes we reached an eof.
+                                 * we're in cbnonicbl mode so ebch "fill" should
+                                 * come bbck with bn eol. if there no lf or nl bt
+                                 * the end of returned bytes we rebched bn eof.
                                  */
                                 eof = true;
                             }
@@ -454,24 +454,24 @@ public final class Console implements Flushable
                             return off - offset;
                         }
                     }
-                    if (leftoverLF && cbuf == rcb && cb[nextChar] == '\n') {
+                    if (leftoverLF && cbuf == rcb && cb[nextChbr] == '\n') {
                         /*
-                         * if invoked by our readline, skip the leftover, otherwise
+                         * if invoked by our rebdline, skip the leftover, otherwise
                          * return the LF.
                          */
-                        nextChar++;
+                        nextChbr++;
                     }
-                    leftoverLF = false;
-                    while (nextChar < nChars) {
-                        c = cbuf[off++] = cb[nextChar];
-                        cb[nextChar++] = 0;
+                    leftoverLF = fblse;
+                    while (nextChbr < nChbrs) {
+                        c = cbuf[off++] = cb[nextChbr];
+                        cb[nextChbr++] = 0;
                         if (c == '\n') {
                             return off - offset;
                         } else if (c == '\r') {
                             if (off == end) {
-                                /* no space left even the next is LF, so return
-                                 * whatever we have if the invoker is not our
-                                 * readLine()
+                                /* no spbce left even the next is LF, so return
+                                 * whbtever we hbve if the invoker is not our
+                                 * rebdLine()
                                  */
                                 if (cbuf == rcb) {
                                     cbuf = grow();
@@ -481,20 +481,20 @@ public final class Console implements Flushable
                                     return off - offset;
                                 }
                             }
-                            if (nextChar == nChars && in.ready()) {
+                            if (nextChbr == nChbrs && in.rebdy()) {
                                 /*
-                                 * we have a CR and we reached the end of
-                                 * the read in buffer, fill to make sure we
-                                 * don't miss a LF, if there is one, it's possible
-                                 * that it got cut off during last round reading
-                                 * simply because the read in buffer was full.
+                                 * we hbve b CR bnd we rebched the end of
+                                 * the rebd in buffer, fill to mbke sure we
+                                 * don't miss b LF, if there is one, it's possible
+                                 * thbt it got cut off during lbst round rebding
+                                 * simply becbuse the rebd in buffer wbs full.
                                  */
-                                nChars = in.read(cb, 0, cb.length);
-                                nextChar = 0;
+                                nChbrs = in.rebd(cb, 0, cb.length);
+                                nextChbr = 0;
                             }
-                            if (nextChar < nChars && cb[nextChar] == '\n') {
+                            if (nextChbr < nChbrs && cb[nextChbr] == '\n') {
                                 cbuf[off++] = '\n';
-                                nextChar++;
+                                nextChbr++;
                             }
                             return off - offset;
                         } else if (off == end) {
@@ -513,29 +513,29 @@ public final class Console implements Flushable
         }
     }
 
-    // Set up JavaIOAccess in SharedSecrets
-    static {
+    // Set up JbvbIOAccess in ShbredSecrets
+    stbtic {
         try {
-            // Add a shutdown hook to restore console's echo state should
-            // it be necessary.
-            sun.misc.SharedSecrets.getJavaLangAccess()
-                .registerShutdownHook(0 /* shutdown hook invocation order */,
-                    false /* only register if shutdown is not in progress */,
-                    new Runnable() {
+            // Add b shutdown hook to restore console's echo stbte should
+            // it be necessbry.
+            sun.misc.ShbredSecrets.getJbvbLbngAccess()
+                .registerShutdownHook(0 /* shutdown hook invocbtion order */,
+                    fblse /* only register if shutdown is not in progress */,
+                    new Runnbble() {
                         public void run() {
                             try {
                                 if (echoOff) {
                                     echo(true);
                                 }
-                            } catch (IOException x) { }
+                            } cbtch (IOException x) { }
                         }
                     });
-        } catch (IllegalStateException e) {
-            // shutdown is already in progress and console is first used
-            // by a shutdown hook
+        } cbtch (IllegblStbteException e) {
+            // shutdown is blrebdy in progress bnd console is first used
+            // by b shutdown hook
         }
 
-        sun.misc.SharedSecrets.setJavaIOAccess(new sun.misc.JavaIOAccess() {
+        sun.misc.ShbredSecrets.setJbvbIOAccess(new sun.misc.JbvbIOAccess() {
             public Console console() {
                 if (istty()) {
                     if (cons == null)
@@ -545,36 +545,36 @@ public final class Console implements Flushable
                 return null;
             }
 
-            public Charset charset() {
-                // This method is called in sun.security.util.Password,
-                // cons already exists when this method is called
+            public Chbrset chbrset() {
+                // This method is cblled in sun.security.util.Pbssword,
+                // cons blrebdy exists when this method is cblled
                 return cons.cs;
             }
         });
     }
-    private static Console cons;
-    private native static boolean istty();
-    private Console() {
-        readLock = new Object();
+    privbte stbtic Console cons;
+    privbte nbtive stbtic boolebn istty();
+    privbte Console() {
+        rebdLock = new Object();
         writeLock = new Object();
-        String csname = encoding();
-        if (csname != null) {
+        String csnbme = encoding();
+        if (csnbme != null) {
             try {
-                cs = Charset.forName(csname);
-            } catch (Exception x) {}
+                cs = Chbrset.forNbme(csnbme);
+            } cbtch (Exception x) {}
         }
         if (cs == null)
-            cs = Charset.defaultCharset();
-        out = StreamEncoder.forOutputStreamWriter(
-                  new FileOutputStream(FileDescriptor.out),
+            cs = Chbrset.defbultChbrset();
+        out = StrebmEncoder.forOutputStrebmWriter(
+                  new FileOutputStrebm(FileDescriptor.out),
                   writeLock,
                   cs);
         pw = new PrintWriter(out, true) { public void close() {} };
-        formatter = new Formatter(out);
-        reader = new LineReader(StreamDecoder.forInputStreamReader(
-                     new FileInputStream(FileDescriptor.in),
-                     readLock,
+        formbtter = new Formbtter(out);
+        rebder = new LineRebder(StrebmDecoder.forInputStrebmRebder(
+                     new FileInputStrebm(FileDescriptor.in),
+                     rebdLock,
                      cs));
-        rcb = new char[1024];
+        rcb = new chbr[1024];
     }
 }

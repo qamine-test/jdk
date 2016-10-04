@@ -1,85 +1,85 @@
 /*
- * Copyright (c) 2010, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package com.sun.media.sound;
+pbckbge com.sun.medib.sound;
 
-import javax.sound.midi.*;
+import jbvbx.sound.midi.*;
 
 
 /**
- * Helper class which allows to convert {@code Transmitter}
- * to {@code MidiDeviceTransmitter}.
+ * Helper clbss which bllows to convert {@code Trbnsmitter}
+ * to {@code MidiDeviceTrbnsmitter}.
  *
- * @author Alex Menkov
+ * @buthor Alex Menkov
  */
-public final class MidiDeviceTransmitterEnvelope implements MidiDeviceTransmitter {
+public finbl clbss MidiDeviceTrbnsmitterEnvelope implements MidiDeviceTrbnsmitter {
 
-    private final MidiDevice device;
-    private final Transmitter transmitter;
+    privbte finbl MidiDevice device;
+    privbte finbl Trbnsmitter trbnsmitter;
 
     /**
-     * Creates a new {@code MidiDeviceTransmitterEnvelope} object which
-     * envelops the specified {@code Transmitter}
-     * and is owned by the specified {@code MidiDevice}.
+     * Crebtes b new {@code MidiDeviceTrbnsmitterEnvelope} object which
+     * envelops the specified {@code Trbnsmitter}
+     * bnd is owned by the specified {@code MidiDevice}.
      *
-     * @param device the owner {@code MidiDevice}
-     * @param transmitter the {@code Transmitter} to be enveloped
+     * @pbrbm device the owner {@code MidiDevice}
+     * @pbrbm trbnsmitter the {@code Trbnsmitter} to be enveloped
      */
-    public MidiDeviceTransmitterEnvelope(MidiDevice device, Transmitter transmitter) {
-        if (device == null || transmitter == null) {
+    public MidiDeviceTrbnsmitterEnvelope(MidiDevice device, Trbnsmitter trbnsmitter) {
+        if (device == null || trbnsmitter == null) {
             throw new NullPointerException();
         }
         this.device = device;
-        this.transmitter = transmitter;
+        this.trbnsmitter = trbnsmitter;
     }
 
-    // Transmitter implementation
+    // Trbnsmitter implementbtion
     public void setReceiver(Receiver receiver) {
-        transmitter.setReceiver(receiver);
+        trbnsmitter.setReceiver(receiver);
     }
 
     public Receiver getReceiver() {
-        return transmitter.getReceiver();
+        return trbnsmitter.getReceiver();
     }
 
     public void close() {
-        transmitter.close();
+        trbnsmitter.close();
     }
 
 
-    // MidiDeviceReceiver implementation
+    // MidiDeviceReceiver implementbtion
     public MidiDevice getMidiDevice() {
         return device;
     }
 
     /**
-     * Obtains the transmitter enveloped
-     * by this {@code MidiDeviceTransmitterEnvelope} object.
+     * Obtbins the trbnsmitter enveloped
+     * by this {@code MidiDeviceTrbnsmitterEnvelope} object.
      *
-     * @return the enveloped transmitter
+     * @return the enveloped trbnsmitter
      */
-    public Transmitter getTransmitter() {
-        return transmitter;
+    public Trbnsmitter getTrbnsmitter() {
+        return trbnsmitter;
     }
 }

@@ -1,21 +1,21 @@
-#!/usr/sbin/dtrace -Zs
+#!/usr/sbin/dtrbce -Zs
 /*
- * Copyright (c) 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -34,39 +34,39 @@
 */
 
 /*
- * Usage:
- *    1. gc_time_stat.d -c "java ..." INTERVAL_SECS
- *    2. gc_time_stat.d -p JAVA_PID INTERVAL_SECS
+ * Usbge:
+ *    1. gc_time_stbt.d -c "jbvb ..." INTERVAL_SECS
+ *    2. gc_time_stbt.d -p JAVA_PID INTERVAL_SECS
  *
- * This script measures the duration of a time spent in GC.  The duration is
- * measured for every memory pool every INTERVAL_SECS seconds.  If
- * INTERVAL_SECS is not set then 10 seconds interval is used.
+ * This script mebsures the durbtion of b time spent in GC.  The durbtion is
+ * mebsured for every memory pool every INTERVAL_SECS seconds.  If
+ * INTERVAL_SECS is not set then 10 seconds intervbl is used.
  *
  */
 
-#pragma D option quiet
-#pragma D option destructive
-#pragma D option defaultargs
-#pragma D option aggrate=100ms
+#prbgmb D option quiet
+#prbgmb D option destructive
+#prbgmb D option defbultbrgs
+#prbgmb D option bggrbte=100ms
 
 
 string TEST_NAME;
-self char *str_ptr;
-self string mgr_name;
-self string pool_name;
+self chbr *str_ptr;
+self string mgr_nbme;
+self string pool_nbme;
 
 int INTERVAL_SECS;
 
 :::BEGIN
 {
-    SAMPLE_NAME = "hotspot GC tracing";
+    SAMPLE_NAME = "hotspot GC trbcing";
 
-    START_TIME = timestamp;
-    gc_total_time = 0;
-    gc_total_count = 0;
+    START_TIME = timestbmp;
+    gc_totbl_time = 0;
+    gc_totbl_count = 0;
 
     INTERVAL_SECS = $1 ? $1 : 10;
-    SAMPLING_TIME = timestamp + INTERVAL_SECS * 1000000000ull;
+    SAMPLING_TIME = timestbmp + INTERVAL_SECS * 1000000000ull;
 
     LINE_SEP = "--------------------------------------------------------";
 
@@ -76,128 +76,128 @@ int INTERVAL_SECS;
 
 /*
  * hotspot:::gc-begin
- *  arg0: uintptr_t,    boolean value which indicates
- *                      if this is to be a full GC or not
+ *  brg0: uintptr_t,    boolebn vblue which indicbtes
+ *                      if this is to be b full GC or not
  */
-hotspot$target:::gc-begin
+hotspot$tbrget:::gc-begin
 {
-    self->gc_ts = timestamp;
-    printf("\nGC started: %Y\n", walltimestamp);
-    printf("%20s | %-20s | %10s\n", "manager", "pool", "time (ms)");
+    self->gc_ts = timestbmp;
+    printf("\nGC stbrted: %Y\n", wblltimestbmp);
+    printf("%20s | %-20s | %10s\n", "mbnbger", "pool", "time (ms)");
     printf(" %s\n", LINE_SEP);
 }
 
-hotspot$target:::gc-end
+hotspot$tbrget:::gc-end
 /self->gc_ts/
 {
-    self->time = (timestamp - self->gc_ts) / 1000;
+    self->time = (timestbmp - self->gc_ts) / 1000;
 
     printf(" %s\n", LINE_SEP);
-    printf("   %40s | %10d\n", "GC total", self->time);
+    printf("   %40s | %10d\n", "GC totbl", self->time);
 
-    gc_total_time += self->time;
-    gc_total_count ++;
+    gc_totbl_time += self->time;
+    gc_totbl_count ++;
     self->gc_ts = 0;
 }
 
 /*
  * hotspot:::mem-pool-gc-begin, hotspot:::mem-pool-gc-end
- *  arg0: char*,        a pointer to mUTF-8 string data which contains the name
- *                          of the manager which manages this memory pool
- *  arg1: uintptr_t,    the length of the manager name (in bytes
- *  arg2: char*,        a pointer to mUTF-8 string data which contains the name
+ *  brg0: chbr*,        b pointer to mUTF-8 string dbtb which contbins the nbme
+ *                          of the mbnbger which mbnbges this memory pool
+ *  brg1: uintptr_t,    the length of the mbnbger nbme (in bytes
+ *  brg2: chbr*,        b pointer to mUTF-8 string dbtb which contbins the nbme
  *                          of the memory pool
- *  arg3: uintptr_t,    the length of the memory pool name (in bytes)
- *  arg4: uintptr_t,    the initial size of the memory pool (in bytes)
- *  arg5: uintptr_t,    the amount of memory in use in the memory pool
+ *  brg3: uintptr_t,    the length of the memory pool nbme (in bytes)
+ *  brg4: uintptr_t,    the initibl size of the memory pool (in bytes)
+ *  brg5: uintptr_t,    the bmount of memory in use in the memory pool
  *                          (in bytes)
- *  arg6: uintptr_t,    the the number of committed pages in the memory pool
- *  arg7: uintptr_t,    the the maximum size of the memory pool
+ *  brg6: uintptr_t,    the the number of committed pbges in the memory pool
+ *  brg7: uintptr_t,    the the mbximum size of the memory pool
  */
-hotspot$target:::mem-pool-gc-begin
+hotspot$tbrget:::mem-pool-gc-begin
 {
-    self->str_ptr = (char*) copyin(arg0, arg1+1);
-    self->str_ptr[arg1] = '\0';
-    self->mgr_name = (string) self->str_ptr;
+    self->str_ptr = (chbr*) copyin(brg0, brg1+1);
+    self->str_ptr[brg1] = '\0';
+    self->mgr_nbme = (string) self->str_ptr;
 
-    self->str_ptr = (char*) copyin(arg2, arg3+1);
-    self->str_ptr[arg3] = '\0';
-    self->pool_name = (string) self->str_ptr;
+    self->str_ptr = (chbr*) copyin(brg2, brg3+1);
+    self->str_ptr[brg3] = '\0';
+    self->pool_nbme = (string) self->str_ptr;
 
-    self->mem_pool_ts[self->mgr_name, self->pool_name] = timestamp;
+    self->mem_pool_ts[self->mgr_nbme, self->pool_nbme] = timestbmp;
 }
 
-hotspot$target:::mem-pool-gc-end
+hotspot$tbrget:::mem-pool-gc-end
 {
-    self->str_ptr = (char*) copyin(arg0, arg1+1);
-    self->str_ptr[arg1] = '\0';
-    self->mgr_name = (string) self->str_ptr;
+    self->str_ptr = (chbr*) copyin(brg0, brg1+1);
+    self->str_ptr[brg1] = '\0';
+    self->mgr_nbme = (string) self->str_ptr;
 
-    self->str_ptr = (char*) copyin(arg2, arg3+1);
-    self->str_ptr[arg3] = '\0';
-    self->pool_name = (string) self->str_ptr;
+    self->str_ptr = (chbr*) copyin(brg2, brg3+1);
+    self->str_ptr[brg3] = '\0';
+    self->pool_nbme = (string) self->str_ptr;
 
     self->time =
-        (timestamp - self->mem_pool_ts[self->mgr_name, self->pool_name]) / 1000;
+        (timestbmp - self->mem_pool_ts[self->mgr_nbme, self->pool_nbme]) / 1000;
 
     printf(
-        "%20s | %-20s | %10d\n", self->mgr_name, self->pool_name, self->time);
+        "%20s | %-20s | %10d\n", self->mgr_nbme, self->pool_nbme, self->time);
 
-    @mem_pool_total_time[self->mgr_name, self->pool_name] = sum(self->time);
-    self->mem_pool_ts[self->mgr_name, self->pool_name] = 0;
+    @mem_pool_totbl_time[self->mgr_nbme, self->pool_nbme] = sum(self->time);
+    self->mem_pool_ts[self->mgr_nbme, self->pool_nbme] = 0;
 
-    @mem_pool_count[self->mgr_name, self->pool_name] = count();
+    @mem_pool_count[self->mgr_nbme, self->pool_nbme] = count();
 }
 
 tick-1sec
-/timestamp > SAMPLING_TIME/
+/timestbmp > SAMPLING_TIME/
 {
-    trace_time = (timestamp - START_TIME) / 1000;
+    trbce_time = (timestbmp - START_TIME) / 1000;
 
     printf(" %s\n", LINE_SEP);
-    printf("\nGC statistics, time: %Y\n\n", walltimestamp);
-    printf("%20s | %-20s | %10s\n", "manager", "pool", "total time");
+    printf("\nGC stbtistics, time: %Y\n\n", wblltimestbmp);
+    printf("%20s | %-20s | %10s\n", "mbnbger", "pool", "totbl time");
     printf(" %s\n", LINE_SEP);
-    printa("%20s | %-20s | %10@d\n", @mem_pool_total_time);
+    printb("%20s | %-20s | %10@d\n", @mem_pool_totbl_time);
     printf(" %s\n", LINE_SEP);
-    printf("   %40s | %10d\n", "total", gc_total_time);
+    printf("   %40s | %10d\n", "totbl", gc_totbl_time);
 
     printf("\n");
-    printf("%20s | %-20s | %10s\n", "manager", "pool", "# of calls");
+    printf("%20s | %-20s | %10s\n", "mbnbger", "pool", "# of cblls");
     printf(" %s\n", LINE_SEP);
-    printa("%20s | %-20s | %10@d\n", @mem_pool_count);
+    printb("%20s | %-20s | %10@d\n", @mem_pool_count);
     printf(" %s\n", LINE_SEP);
-    printf("   %40s | %10d\n", "total", gc_total_count);
+    printf("   %40s | %10d\n", "totbl", gc_totbl_count);
 
-    SAMPLING_TIME = timestamp + INTERVAL_SECS * 1000000000ull;
+    SAMPLING_TIME = timestbmp + INTERVAL_SECS * 1000000000ull;
 }
 
 :::END
 {
-    trace_time = (timestamp - START_TIME) / 1000;
+    trbce_time = (timestbmp - START_TIME) / 1000;
 
     printf(" %s\n", LINE_SEP);
-    printf("\nGC statistics, time: %Y\n\n", walltimestamp);
-    printf("%20s | %-20s | %10s\n", "manager", "pool", "total time");
+    printf("\nGC stbtistics, time: %Y\n\n", wblltimestbmp);
+    printf("%20s | %-20s | %10s\n", "mbnbger", "pool", "totbl time");
     printf(" %s\n", LINE_SEP);
-    printa("%20s | %-20s | %10@d\n", @mem_pool_total_time);
+    printb("%20s | %-20s | %10@d\n", @mem_pool_totbl_time);
     printf(" %s\n", LINE_SEP);
-    printf("   %40s | %10d\n", "total", gc_total_time);
+    printf("   %40s | %10d\n", "totbl", gc_totbl_time);
 
     printf("\n");
-    printf("%20s | %-20s | %10s\n", "manager", "pool", "# of calls");
+    printf("%20s | %-20s | %10s\n", "mbnbger", "pool", "# of cblls");
     printf(" %s\n", LINE_SEP);
-    printa("%20s | %-20s | %10@d\n", @mem_pool_count);
+    printb("%20s | %-20s | %10@d\n", @mem_pool_count);
     printf(" %s\n", LINE_SEP);
-    printf("   %40s | %10d\n", "total", gc_total_count);
+    printf("   %40s | %10d\n", "totbl", gc_totbl_count);
 
 
     printf("\nEND of %s\n", SAMPLE_NAME);
 }
 
-syscall::rexit:entry,
-syscall::exit:entry
-/pid == $target/
+syscbll::rexit:entry,
+syscbll::exit:entry
+/pid == $tbrget/
 {
    exit(0);
 }

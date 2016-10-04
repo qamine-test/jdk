@@ -1,459 +1,459 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-// External Java Accessibility links:
+// Externbl Jbvb Accessibility links:
 //
-// <http://java.sun.com/j2se/1.4.2/docs/guide/access/index.html>
-// <http://www-106.ibm.com/developerworks/library/j-access/?n-j-10172>
-// <http://archives.java.sun.com/archives/java-access.html> (Sun's mailing list for Java accessibility)
+// <http://jbvb.sun.com/j2se/1.4.2/docs/guide/bccess/index.html>
+// <http://www-106.ibm.com/developerworks/librbry/j-bccess/?n-j-10172>
+// <http://brchives.jbvb.sun.com/brchives/jbvb-bccess.html> (Sun's mbiling list for Jbvb bccessibility)
 
-#import "JavaComponentAccessibility.h"
+#import "JbvbComponentAccessibility.h"
 
-#import "sun_lwawt_macosx_CAccessibility.h"
+#import "sun_lwbwt_mbcosx_CAccessibility.h"
 
 #import <AppKit/AppKit.h>
 
-#import <JavaNativeFoundation/JavaNativeFoundation.h>
-#import <JavaRuntimeSupport/JavaRuntimeSupport.h>
+#import <JbvbNbtiveFoundbtion/JbvbNbtiveFoundbtion.h>
+#import <JbvbRuntimeSupport/JbvbRuntimeSupport.h>
 
 #import <dlfcn.h>
 
-#import "JavaAccessibilityAction.h"
-#import "JavaAccessibilityUtilities.h"
-#import "JavaTextAccessibility.h"
-#import "ThreadUtilities.h"
+#import "JbvbAccessibilityAction.h"
+#import "JbvbAccessibilityUtilities.h"
+#import "JbvbTextAccessibility.h"
+#import "ThrebdUtilities.h"
 #import "AWTView.h"
 
 
-// these constants are duplicated in CAccessibility.java
+// these constbnts bre duplicbted in CAccessibility.jbvb
 #define JAVA_AX_ALL_CHILDREN (-1)
 #define JAVA_AX_SELECTED_CHILDREN (-2)
 #define JAVA_AX_VISIBLE_CHILDREN (-3)
-// If the value is >=0, it's an index
+// If the vblue is >=0, it's bn index
 
-static JNF_STATIC_MEMBER_CACHE(jm_getChildrenAndRoles, sjc_CAccessibility, "getChildrenAndRoles", "(Ljavax/accessibility/Accessible;Ljava/awt/Component;IZ)[Ljava/lang/Object;");
-static JNF_STATIC_MEMBER_CACHE(sjm_getAccessibleComponent, sjc_CAccessibility, "getAccessibleComponent", "(Ljavax/accessibility/Accessible;Ljava/awt/Component;)Ljavax/accessibility/AccessibleComponent;");
-static JNF_STATIC_MEMBER_CACHE(sjm_getAccessibleValue, sjc_CAccessibility, "getAccessibleValue", "(Ljavax/accessibility/Accessible;Ljava/awt/Component;)Ljavax/accessibility/AccessibleValue;");
-static JNF_STATIC_MEMBER_CACHE(sjm_getAccessibleName, sjc_CAccessibility, "getAccessibleName", "(Ljavax/accessibility/Accessible;Ljava/awt/Component;)Ljava/lang/String;");
-static JNF_STATIC_MEMBER_CACHE(sjm_getAccessibleDescription, sjc_CAccessibility, "getAccessibleDescription", "(Ljavax/accessibility/Accessible;Ljava/awt/Component;)Ljava/lang/String;");
-static JNF_STATIC_MEMBER_CACHE(sjm_isFocusTraversable, sjc_CAccessibility, "isFocusTraversable", "(Ljavax/accessibility/Accessible;Ljava/awt/Component;)Z");
-static JNF_STATIC_MEMBER_CACHE(sjm_getAccessibleIndexInParent, sjc_CAccessibility, "getAccessibleIndexInParent", "(Ljavax/accessibility/Accessible;Ljava/awt/Component;)I");
+stbtic JNF_STATIC_MEMBER_CACHE(jm_getChildrenAndRoles, sjc_CAccessibility, "getChildrenAndRoles", "(Ljbvbx/bccessibility/Accessible;Ljbvb/bwt/Component;IZ)[Ljbvb/lbng/Object;");
+stbtic JNF_STATIC_MEMBER_CACHE(sjm_getAccessibleComponent, sjc_CAccessibility, "getAccessibleComponent", "(Ljbvbx/bccessibility/Accessible;Ljbvb/bwt/Component;)Ljbvbx/bccessibility/AccessibleComponent;");
+stbtic JNF_STATIC_MEMBER_CACHE(sjm_getAccessibleVblue, sjc_CAccessibility, "getAccessibleVblue", "(Ljbvbx/bccessibility/Accessible;Ljbvb/bwt/Component;)Ljbvbx/bccessibility/AccessibleVblue;");
+stbtic JNF_STATIC_MEMBER_CACHE(sjm_getAccessibleNbme, sjc_CAccessibility, "getAccessibleNbme", "(Ljbvbx/bccessibility/Accessible;Ljbvb/bwt/Component;)Ljbvb/lbng/String;");
+stbtic JNF_STATIC_MEMBER_CACHE(sjm_getAccessibleDescription, sjc_CAccessibility, "getAccessibleDescription", "(Ljbvbx/bccessibility/Accessible;Ljbvb/bwt/Component;)Ljbvb/lbng/String;");
+stbtic JNF_STATIC_MEMBER_CACHE(sjm_isFocusTrbversbble, sjc_CAccessibility, "isFocusTrbversbble", "(Ljbvbx/bccessibility/Accessible;Ljbvb/bwt/Component;)Z");
+stbtic JNF_STATIC_MEMBER_CACHE(sjm_getAccessibleIndexInPbrent, sjc_CAccessibility, "getAccessibleIndexInPbrent", "(Ljbvbx/bccessibility/Accessible;Ljbvb/bwt/Component;)I");
 
-static JNF_CLASS_CACHE(sjc_CAccessible, "sun/lwawt/macosx/CAccessible");
+stbtic JNF_CLASS_CACHE(sjc_CAccessible, "sun/lwbwt/mbcosx/CAccessible");
 
-static JNF_MEMBER_CACHE(jf_ptr, sjc_CAccessible, "ptr", "J");
-static JNF_STATIC_MEMBER_CACHE(sjm_getCAccessible, sjc_CAccessible, "getCAccessible", "(Ljavax/accessibility/Accessible;)Lsun/lwawt/macosx/CAccessible;");
-
-
-static jobject sAccessibilityClass = NULL;
-
-// sAttributeNamesForRoleCache holds the names of the attributes to which each java
-// AccessibleRole responds (see AccessibleRole.java).
-// This cache is queried before attempting to access a given attribute for a particular role.
-static NSMutableDictionary *sAttributeNamesForRoleCache = nil;
-static NSObject *sAttributeNamesLOCK = nil;
+stbtic JNF_MEMBER_CACHE(jf_ptr, sjc_CAccessible, "ptr", "J");
+stbtic JNF_STATIC_MEMBER_CACHE(sjm_getCAccessible, sjc_CAccessible, "getCAccessible", "(Ljbvbx/bccessibility/Accessible;)Lsun/lwbwt/mbcosx/CAccessible;");
 
 
-@interface TabGroupAccessibility : JavaComponentAccessibility {
-    NSInteger _numTabs;
+stbtic jobject sAccessibilityClbss = NULL;
+
+// sAttributeNbmesForRoleCbche holds the nbmes of the bttributes to which ebch jbvb
+// AccessibleRole responds (see AccessibleRole.jbvb).
+// This cbche is queried before bttempting to bccess b given bttribute for b pbrticulbr role.
+stbtic NSMutbbleDictionbry *sAttributeNbmesForRoleCbche = nil;
+stbtic NSObject *sAttributeNbmesLOCK = nil;
+
+
+@interfbce TbbGroupAccessibility : JbvbComponentAccessibility {
+    NSInteger _numTbbs;
 }
 
-- (id)currentTabWithEnv:(JNIEnv *)env withAxContext:(jobject)axContext;
-- (NSArray *)tabControlsWithEnv:(JNIEnv *)env withTabGroupAxContext:(jobject)axContext withTabCode:(NSInteger)whichTabs allowIgnored:(BOOL)allowIgnored;
-- (NSArray *)contentsWithEnv:(JNIEnv *)env withTabGroupAxContext:(jobject)axContext withTabCode:(NSInteger)whichTabs allowIgnored:(BOOL)allowIgnored;
-- (NSArray *)initializeAttributeNamesWithEnv:(JNIEnv *)env;
+- (id)currentTbbWithEnv:(JNIEnv *)env withAxContext:(jobject)bxContext;
+- (NSArrby *)tbbControlsWithEnv:(JNIEnv *)env withTbbGroupAxContext:(jobject)bxContext withTbbCode:(NSInteger)whichTbbs bllowIgnored:(BOOL)bllowIgnored;
+- (NSArrby *)contentsWithEnv:(JNIEnv *)env withTbbGroupAxContext:(jobject)bxContext withTbbCode:(NSInteger)whichTbbs bllowIgnored:(BOOL)bllowIgnored;
+- (NSArrby *)initiblizeAttributeNbmesWithEnv:(JNIEnv *)env;
 
-- (NSArray *)accessibilityArrayAttributeValues:(NSString *)attribute index:(NSUInteger)index maxCount:(NSUInteger)maxCount;
-- (NSArray *)accessibilityChildrenAttribute;
-- (id) accessibilityTabsAttribute;
-- (BOOL)accessibilityIsTabsAttributeSettable;
-- (NSArray *)accessibilityContentsAttribute;
-- (BOOL)accessibilityIsContentsAttributeSettable;
-- (id) accessibilityValueAttribute;
+- (NSArrby *)bccessibilityArrbyAttributeVblues:(NSString *)bttribute index:(NSUInteger)index mbxCount:(NSUInteger)mbxCount;
+- (NSArrby *)bccessibilityChildrenAttribute;
+- (id) bccessibilityTbbsAttribute;
+- (BOOL)bccessibilityIsTbbsAttributeSettbble;
+- (NSArrby *)bccessibilityContentsAttribute;
+- (BOOL)bccessibilityIsContentsAttributeSettbble;
+- (id) bccessibilityVblueAttribute;
 
 @end
 
 
-@interface TabGroupControlAccessibility : JavaComponentAccessibility {
-    jobject fTabGroupAxContext;
+@interfbce TbbGroupControlAccessibility : JbvbComponentAccessibility {
+    jobject fTbbGroupAxContext;
 }
-- (id)initWithParent:(NSObject *)parent withEnv:(JNIEnv *)env withAccessible:(jobject)accessible withIndex:(jint)index withTabGroup:(jobject)tabGroup withView:(NSView *)view withJavaRole:(NSString *)javaRole;
-- (jobject)tabGroup;
+- (id)initWithPbrent:(NSObject *)pbrent withEnv:(JNIEnv *)env withAccessible:(jobject)bccessible withIndex:(jint)index withTbbGroup:(jobject)tbbGroup withView:(NSView *)view withJbvbRole:(NSString *)jbvbRole;
+- (jobject)tbbGroup;
 - (void)getActionsWithEnv:(JNIEnv *)env;
 
-- (id)accessibilityValueAttribute;
+- (id)bccessibilityVblueAttribute;
 @end
 
 
-@interface ScrollAreaAccessibility : JavaComponentAccessibility {
+@interfbce ScrollArebAccessibility : JbvbComponentAccessibility {
 
 }
-- (NSArray *)initializeAttributeNamesWithEnv:(JNIEnv *)env;
-- (NSArray *)accessibilityContentsAttribute;
-- (BOOL)accessibilityIsContentsAttributeSettable;
-- (id)accessibilityVerticalScrollBarAttribute;
-- (BOOL)accessibilityIsVerticalScrollBarAttributeSettable;
-- (id)accessibilityHorizontalScrollBarAttribute;
-- (BOOL)accessibilityIsHorizontalScrollBarAttributeSettable;
+- (NSArrby *)initiblizeAttributeNbmesWithEnv:(JNIEnv *)env;
+- (NSArrby *)bccessibilityContentsAttribute;
+- (BOOL)bccessibilityIsContentsAttributeSettbble;
+- (id)bccessibilityVerticblScrollBbrAttribute;
+- (BOOL)bccessibilityIsVerticblScrollBbrAttributeSettbble;
+- (id)bccessibilityHorizontblScrollBbrAttribute;
+- (BOOL)bccessibilityIsHorizontblScrollBbrAttributeSettbble;
 @end
 
 
-@implementation JavaComponentAccessibility
+@implementbtion JbvbComponentAccessibility
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"%@(title:'%@', desc:'%@', value:'%@')", [self accessibilityRoleAttribute],
-        [self accessibilityTitleAttribute], [self accessibilityRoleDescriptionAttribute], [self accessibilityValueAttribute]];
+    return [NSString stringWithFormbt:@"%@(title:'%@', desc:'%@', vblue:'%@')", [self bccessibilityRoleAttribute],
+        [self bccessibilityTitleAttribute], [self bccessibilityRoleDescriptionAttribute], [self bccessibilityVblueAttribute]];
 }
 
-- (id)initWithParent:(NSObject *)parent withEnv:(JNIEnv *)env withAccessible:(jobject)accessible withIndex:(jint)index withView:(NSView *)view withJavaRole:(NSString *)javaRole
+- (id)initWithPbrent:(NSObject *)pbrent withEnv:(JNIEnv *)env withAccessible:(jobject)bccessible withIndex:(jint)index withView:(NSView *)view withJbvbRole:(NSString *)jbvbRole
 {
     self = [super init];
     if (self)
     {
-        fParent = [parent retain];
-        fView = [view retain];
-        fJavaRole = [javaRole retain];
+        fPbrent = [pbrent retbin];
+        fView = [view retbin];
+        fJbvbRole = [jbvbRole retbin];
 
-        fAccessible = JNFNewGlobalRef(env, accessible);
-        fComponent = JNFNewGlobalRef(env, [(AWTView *)fView awtComponent:env]);
+        fAccessible = JNFNewGlobblRef(env, bccessible);
+        fComponent = JNFNewGlobblRef(env, [(AWTView *)fView bwtComponent:env]);
 
         fIndex = index;
 
         fActions = nil;
-        fActionsLOCK = [[NSObject alloc] init];
+        fActionsLOCK = [[NSObject blloc] init];
     }
     return self;
 }
 
-- (void)unregisterFromCocoaAXSystem
+- (void)unregisterFromCocobAXSystem
 {
     AWT_ASSERT_APPKIT_THREAD;
-    static dispatch_once_t initialize_unregisterUniqueId_once;
-    static void (*unregisterUniqueId)(id);
-    dispatch_once(&initialize_unregisterUniqueId_once, ^{
-        void *jrsFwk = dlopen("/System/Library/Frameworks/JavaVM.framework/Frameworks/JavaRuntimeSupport.framework/JavaRuntimeSupport", RTLD_LAZY | RTLD_LOCAL);
+    stbtic dispbtch_once_t initiblize_unregisterUniqueId_once;
+    stbtic void (*unregisterUniqueId)(id);
+    dispbtch_once(&initiblize_unregisterUniqueId_once, ^{
+        void *jrsFwk = dlopen("/System/Librbry/Frbmeworks/JbvbVM.frbmework/Frbmeworks/JbvbRuntimeSupport.frbmework/JbvbRuntimeSupport", RTLD_LAZY | RTLD_LOCAL);
         unregisterUniqueId = dlsym(jrsFwk, "JRSAccessibilityUnregisterUniqueIdForUIElement");
     });
     if (unregisterUniqueId) unregisterUniqueId(self);
 }
 
-- (void)dealloc
+- (void)deblloc
 {
-    [self unregisterFromCocoaAXSystem];
+    [self unregisterFromCocobAXSystem];
 
-    JNIEnv *env = [ThreadUtilities getJNIEnvUncached];
+    JNIEnv *env = [ThrebdUtilities getJNIEnvUncbched];
 
-    JNFDeleteGlobalRef(env, fAccessible);
+    JNFDeleteGlobblRef(env, fAccessible);
     fAccessible = NULL;
 
-    JNFDeleteGlobalRef(env, fComponent);
+    JNFDeleteGlobblRef(env, fComponent);
     fComponent = NULL;
 
-    [fParent release];
-    fParent = nil;
+    [fPbrent relebse];
+    fPbrent = nil;
 
-    [fNSRole release];
+    [fNSRole relebse];
     fNSRole = nil;
 
-    [fJavaRole release];
-    fJavaRole = nil;
+    [fJbvbRole relebse];
+    fJbvbRole = nil;
 
-    [fView release];
+    [fView relebse];
     fView = nil;
 
-    [fActions release];
+    [fActions relebse];
     fActions = nil;
 
-    [fActionsLOCK release];
+    [fActionsLOCK relebse];
     fActionsLOCK = nil;
 
-    [super dealloc];
+    [super deblloc];
 }
 
-- (void)postValueChanged
+- (void)postVblueChbnged
 {
     AWT_ASSERT_APPKIT_THREAD;
-    NSAccessibilityPostNotification(self, NSAccessibilityValueChangedNotification);
+    NSAccessibilityPostNotificbtion(self, NSAccessibilityVblueChbngedNotificbtion);
 }
 
-- (void)postSelectionChanged
+- (void)postSelectionChbnged
 {
     AWT_ASSERT_APPKIT_THREAD;
-    NSAccessibilityPostNotification(self, NSAccessibilitySelectedTextChangedNotification);
+    NSAccessibilityPostNotificbtion(self, NSAccessibilitySelectedTextChbngedNotificbtion);
 }
 
-- (BOOL)isEqual:(id)anObject
+- (BOOL)isEqubl:(id)bnObject
 {
-    if (![anObject isKindOfClass:[self class]]) return NO;
-    JavaComponentAccessibility *accessibility = (JavaComponentAccessibility *)anObject;
+    if (![bnObject isKindOfClbss:[self clbss]]) return NO;
+    JbvbComponentAccessibility *bccessibility = (JbvbComponentAccessibility *)bnObject;
 
-    JNIEnv* env = [ThreadUtilities getJNIEnv];
-    return (*env)->IsSameObject(env, accessibility->fAccessible, fAccessible);
+    JNIEnv* env = [ThrebdUtilities getJNIEnv];
+    return (*env)->IsSbmeObject(env, bccessibility->fAccessible, fAccessible);
 }
 
-- (BOOL)isAccessibleWithEnv:(JNIEnv *)env forAccessible:(jobject)accessible
+- (BOOL)isAccessibleWithEnv:(JNIEnv *)env forAccessible:(jobject)bccessible
 {
-    return (*env)->IsSameObject(env, fAccessible, accessible);
+    return (*env)->IsSbmeObject(env, fAccessible, bccessible);
 }
 
-+ (void)initialize
++ (void)initiblize
 {
-    if (sAttributeNamesForRoleCache == nil) {
-        sAttributeNamesLOCK = [[NSObject alloc] init];
-        sAttributeNamesForRoleCache = [[NSMutableDictionary alloc] initWithCapacity:10];
+    if (sAttributeNbmesForRoleCbche == nil) {
+        sAttributeNbmesLOCK = [[NSObject blloc] init];
+        sAttributeNbmesForRoleCbche = [[NSMutbbleDictionbry blloc] initWithCbpbcity:10];
     }
 
     if (sRoles == nil) {
-        initializeRoles();
+        initiblizeRoles();
     }
 
-    if (sAccessibilityClass == NULL) {
-        JNF_STATIC_MEMBER_CACHE(jm_getAccessibility, sjc_CAccessibility, "getAccessibility", "([Ljava/lang/String;)Lsun/lwawt/macosx/CAccessibility;");
+    if (sAccessibilityClbss == NULL) {
+        JNF_STATIC_MEMBER_CACHE(jm_getAccessibility, sjc_CAccessibility, "getAccessibility", "([Ljbvb/lbng/String;)Lsun/lwbwt/mbcosx/CAccessibility;");
 
 #ifdef JAVA_AX_NO_IGNORES
-        NSArray *ignoredKeys = [NSArray array];
+        NSArrby *ignoredKeys = [NSArrby brrby];
 #else
-        NSArray *ignoredKeys = [sRoles allKeysForObject:JavaAccessibilityIgnore];
+        NSArrby *ignoredKeys = [sRoles bllKeysForObject:JbvbAccessibilityIgnore];
 #endif
-        jobjectArray result = NULL;
+        jobjectArrby result = NULL;
         jsize count = [ignoredKeys count];
 
-        JNIEnv *env = [ThreadUtilities getJNIEnv];
+        JNIEnv *env = [ThrebdUtilities getJNIEnv];
 
-        static JNF_CLASS_CACHE(jc_String, "java/lang/String");
-        result = JNFNewObjectArray(env, &jc_String, count);
+        stbtic JNF_CLASS_CACHE(jc_String, "jbvb/lbng/String");
+        result = JNFNewObjectArrby(env, &jc_String, count);
         if (!result) {
-            NSLog(@"In %s, can't create Java array of String objects", __FUNCTION__);
+            NSLog(@"In %s, cbn't crebte Jbvb brrby of String objects", __FUNCTION__);
             return;
         }
 
         NSInteger i;
         for (i = 0; i < count; i++) {
-            jstring jString = JNFNSToJavaString(env, [ignoredKeys objectAtIndex:i]);
-            (*env)->SetObjectArrayElement(env, result, i, jString);
-            (*env)->DeleteLocalRef(env, jString);
+            jstring jString = JNFNSToJbvbString(env, [ignoredKeys objectAtIndex:i]);
+            (*env)->SetObjectArrbyElement(env, result, i, jString);
+            (*env)->DeleteLocblRef(env, jString);
         }
 
-        sAccessibilityClass = JNFCallStaticObjectMethod(env, jm_getAccessibility, result); // AWT_THREADING Safe (known object)
+        sAccessibilityClbss = JNFCbllStbticObjectMethod(env, jm_getAccessibility, result); // AWT_THREADING Sbfe (known object)
     }
 }
 
-+ (void)postFocusChanged:(id)message
++ (void)postFocusChbnged:(id)messbge
 {
     AWT_ASSERT_APPKIT_THREAD;
-    NSAccessibilityPostNotification([NSApp accessibilityFocusedUIElement], NSAccessibilityFocusedUIElementChangedNotification);
+    NSAccessibilityPostNotificbtion([NSApp bccessibilityFocusedUIElement], NSAccessibilityFocusedUIElementChbngedNotificbtion);
 }
 
-+ (jobject) getCAccessible:(jobject)jaccessible withEnv:(JNIEnv *)env {
-    if (JNFIsInstanceOf(env, jaccessible, &sjc_CAccessible)) {
-        return jaccessible;
++ (jobject) getCAccessible:(jobject)jbccessible withEnv:(JNIEnv *)env {
+    if (JNFIsInstbnceOf(env, jbccessible, &sjc_CAccessible)) {
+        return jbccessible;
     }
-    else if (JNFIsInstanceOf(env, jaccessible, &sjc_Accessible)) {
-        return JNFCallStaticObjectMethod(env, sjm_getCAccessible, jaccessible);
+    else if (JNFIsInstbnceOf(env, jbccessible, &sjc_Accessible)) {
+        return JNFCbllStbticObjectMethod(env, sjm_getCAccessible, jbccessible);
     }
     return NULL;
 }
 
-+ (NSArray *)childrenOfParent:(JavaComponentAccessibility *)parent withEnv:(JNIEnv *)env withChildrenCode:(NSInteger)whichChildren allowIgnored:(BOOL)allowIgnored
++ (NSArrby *)childrenOfPbrent:(JbvbComponentAccessibility *)pbrent withEnv:(JNIEnv *)env withChildrenCode:(NSInteger)whichChildren bllowIgnored:(BOOL)bllowIgnored
 {
-    jobjectArray jchildrenAndRoles = JNFCallStaticObjectMethod(env, jm_getChildrenAndRoles, parent->fAccessible, parent->fComponent, whichChildren, allowIgnored); // AWT_THREADING Safe (AWTRunLoop)
+    jobjectArrby jchildrenAndRoles = JNFCbllStbticObjectMethod(env, jm_getChildrenAndRoles, pbrent->fAccessible, pbrent->fComponent, whichChildren, bllowIgnored); // AWT_THREADING Sbfe (AWTRunLoop)
     if (jchildrenAndRoles == NULL) return nil;
 
-    jsize arrayLen = (*env)->GetArrayLength(env, jchildrenAndRoles);
-    NSMutableArray *children = [NSMutableArray arrayWithCapacity:arrayLen/2]; //childrenAndRoles array contains two elements (child, role) for each child
+    jsize brrbyLen = (*env)->GetArrbyLength(env, jchildrenAndRoles);
+    NSMutbbleArrby *children = [NSMutbbleArrby brrbyWithCbpbcity:brrbyLen/2]; //childrenAndRoles brrby contbins two elements (child, role) for ebch child
 
     NSInteger i;
-    NSUInteger childIndex = (whichChildren >= 0) ? whichChildren : 0; // if we're getting one particular child, make sure to set its index correctly
-    for(i = 0; i < arrayLen; i+=2)
+    NSUInteger childIndex = (whichChildren >= 0) ? whichChildren : 0; // if we're getting one pbrticulbr child, mbke sure to set its index correctly
+    for(i = 0; i < brrbyLen; i+=2)
     {
-        jobject /* Accessible */ jchild = (*env)->GetObjectArrayElement(env, jchildrenAndRoles, i);
-        jobject /* String */ jchildJavaRole = (*env)->GetObjectArrayElement(env, jchildrenAndRoles, i+1);
+        jobject /* Accessible */ jchild = (*env)->GetObjectArrbyElement(env, jchildrenAndRoles, i);
+        jobject /* String */ jchildJbvbRole = (*env)->GetObjectArrbyElement(env, jchildrenAndRoles, i+1);
 
-        NSString *childJavaRole = nil;
-        if (jchildJavaRole != NULL) {
-            childJavaRole = JNFJavaToNSString(env, JNFGetObjectField(env, jchildJavaRole, sjf_key));
+        NSString *childJbvbRole = nil;
+        if (jchildJbvbRole != NULL) {
+            childJbvbRole = JNFJbvbToNSString(env, JNFGetObjectField(env, jchildJbvbRole, sjf_key));
         }
 
-        JavaComponentAccessibility *child = [self createWithParent:parent accessible:jchild role:childJavaRole index:childIndex withEnv:env withView:parent->fView];
-        [children addObject:child];
+        JbvbComponentAccessibility *child = [self crebteWithPbrent:pbrent bccessible:jchild role:childJbvbRole index:childIndex withEnv:env withView:pbrent->fView];
+        [children bddObject:child];
         childIndex++;
     }
 
     return children;
 }
 
-+ (JavaComponentAccessibility *)createWithAccessible:(jobject)jaccessible withEnv:(JNIEnv *)env withView:(NSView *)view
++ (JbvbComponentAccessibility *)crebteWithAccessible:(jobject)jbccessible withEnv:(JNIEnv *)env withView:(NSView *)view
 {
-    jobject jcomponent = [(AWTView *)view awtComponent:env];
-    jint index = JNFCallStaticIntMethod(env, sjm_getAccessibleIndexInParent, jaccessible, jcomponent);
-    NSString *javaRole = getJavaRole(env, jaccessible, jcomponent);
+    jobject jcomponent = [(AWTView *)view bwtComponent:env];
+    jint index = JNFCbllStbticIntMethod(env, sjm_getAccessibleIndexInPbrent, jbccessible, jcomponent);
+    NSString *jbvbRole = getJbvbRole(env, jbccessible, jcomponent);
 
-    return [self createWithAccessible:jaccessible role:javaRole index:index withEnv:env withView:view];
+    return [self crebteWithAccessible:jbccessible role:jbvbRole index:index withEnv:env withView:view];
 }
 
-+ (JavaComponentAccessibility *) createWithAccessible:(jobject)jaccessible role:(NSString *)javaRole index:(jint)index withEnv:(JNIEnv *)env withView:(NSView *)view
++ (JbvbComponentAccessibility *) crebteWithAccessible:(jobject)jbccessible role:(NSString *)jbvbRole index:(jint)index withEnv:(JNIEnv *)env withView:(NSView *)view
 {
-    return [self createWithParent:nil accessible:jaccessible role:javaRole index:index withEnv:env withView:view];
+    return [self crebteWithPbrent:nil bccessible:jbccessible role:jbvbRole index:index withEnv:env withView:view];
 }
 
-+ (JavaComponentAccessibility *) createWithParent:(JavaComponentAccessibility *)parent accessible:(jobject)jaccessible role:(NSString *)javaRole index:(jint)index withEnv:(JNIEnv *)env withView:(NSView *)view
++ (JbvbComponentAccessibility *) crebteWithPbrent:(JbvbComponentAccessibility *)pbrent bccessible:(jobject)jbccessible role:(NSString *)jbvbRole index:(jint)index withEnv:(JNIEnv *)env withView:(NSView *)view
 {
-    // try to fetch the jCAX from Java, and return autoreleased
-    jobject jCAX = [JavaComponentAccessibility getCAccessible:jaccessible withEnv:env];
+    // try to fetch the jCAX from Jbvb, bnd return butorelebsed
+    jobject jCAX = [JbvbComponentAccessibility getCAccessible:jbccessible withEnv:env];
     if (jCAX == NULL) return nil;
-    JavaComponentAccessibility *value = (JavaComponentAccessibility *) jlong_to_ptr(JNFGetLongField(env, jCAX, jf_ptr));
-    if (value != nil) return [[value retain] autorelease];
+    JbvbComponentAccessibility *vblue = (JbvbComponentAccessibility *) jlong_to_ptr(JNFGetLongField(env, jCAX, jf_ptr));
+    if (vblue != nil) return [[vblue retbin] butorelebse];
 
-    // otherwise, create a new instance
-    JavaComponentAccessibility *newChild = nil;
-    if ([javaRole isEqualToString:@"pagetablist"]) {
-        newChild = [TabGroupAccessibility alloc];
-    } else if ([javaRole isEqualToString:@"scrollpane"]) {
-        newChild = [ScrollAreaAccessibility alloc];
+    // otherwise, crebte b new instbnce
+    JbvbComponentAccessibility *newChild = nil;
+    if ([jbvbRole isEqublToString:@"pbgetbblist"]) {
+        newChild = [TbbGroupAccessibility blloc];
+    } else if ([jbvbRole isEqublToString:@"scrollpbne"]) {
+        newChild = [ScrollArebAccessibility blloc];
     } else {
-        NSString *nsRole = [sRoles objectForKey:javaRole];
-        if ([nsRole isEqualToString:NSAccessibilityStaticTextRole] || [nsRole isEqualToString:NSAccessibilityTextAreaRole] || [nsRole isEqualToString:NSAccessibilityTextFieldRole]) {
-            newChild = [JavaTextAccessibility alloc];
+        NSString *nsRole = [sRoles objectForKey:jbvbRole];
+        if ([nsRole isEqublToString:NSAccessibilityStbticTextRole] || [nsRole isEqublToString:NSAccessibilityTextArebRole] || [nsRole isEqublToString:NSAccessibilityTextFieldRole]) {
+            newChild = [JbvbTextAccessibility blloc];
         } else {
-            newChild = [JavaComponentAccessibility alloc];
+            newChild = [JbvbComponentAccessibility blloc];
         }
     }
 
-    // must init freshly -alloc'd object
-    [newChild initWithParent:parent withEnv:env withAccessible:jCAX withIndex:index withView:view withJavaRole:javaRole]; // must init new instance
+    // must init freshly -blloc'd object
+    [newChild initWithPbrent:pbrent withEnv:env withAccessible:jCAX withIndex:index withView:view withJbvbRole:jbvbRole]; // must init new instbnce
 
-    // must hard retain pointer poked into Java object
-    [newChild retain];
+    // must hbrd retbin pointer poked into Jbvb object
+    [newChild retbin];
     JNFSetLongField(env, jCAX, jf_ptr, ptr_to_jlong(newChild));
 
-    // return autoreleased instance
-    return [newChild autorelease];
+    // return butorelebsed instbnce
+    return [newChild butorelebse];
 }
 
-- (NSArray *)initializeAttributeNamesWithEnv:(JNIEnv *)env
+- (NSArrby *)initiblizeAttributeNbmesWithEnv:(JNIEnv *)env
 {
-    static JNF_STATIC_MEMBER_CACHE(jm_getInitialAttributeStates, sjc_CAccessibility, "getInitialAttributeStates", "(Ljavax/accessibility/Accessible;Ljava/awt/Component;)[Z");
+    stbtic JNF_STATIC_MEMBER_CACHE(jm_getInitiblAttributeStbtes, sjc_CAccessibility, "getInitiblAttributeStbtes", "(Ljbvbx/bccessibility/Accessible;Ljbvb/bwt/Component;)[Z");
 
-    NSMutableArray *attributeNames = [NSMutableArray arrayWithCapacity:10];
-    [attributeNames retain];
+    NSMutbbleArrby *bttributeNbmes = [NSMutbbleArrby brrbyWithCbpbcity:10];
+    [bttributeNbmes retbin];
 
-    // all elements respond to parent, role, role description, window, topLevelUIElement, help
-    [attributeNames addObject:NSAccessibilityParentAttribute];
-    [attributeNames addObject:NSAccessibilityRoleAttribute];
-    [attributeNames addObject:NSAccessibilityRoleDescriptionAttribute];
-    [attributeNames addObject:NSAccessibilityHelpAttribute];
+    // bll elements respond to pbrent, role, role description, window, topLevelUIElement, help
+    [bttributeNbmes bddObject:NSAccessibilityPbrentAttribute];
+    [bttributeNbmes bddObject:NSAccessibilityRoleAttribute];
+    [bttributeNbmes bddObject:NSAccessibilityRoleDescriptionAttribute];
+    [bttributeNbmes bddObject:NSAccessibilityHelpAttribute];
 
-    // cmcnote: AXMenu usually doesn't respond to window / topLevelUIElement. But menus within a Java app's window
-    // probably should. Should we use some role other than AXMenu / AXMenuBar for Java menus?
-    [attributeNames addObject:NSAccessibilityWindowAttribute];
-    [attributeNames addObject:NSAccessibilityTopLevelUIElementAttribute];
+    // cmcnote: AXMenu usublly doesn't respond to window / topLevelUIElement. But menus within b Jbvb bpp's window
+    // probbbly should. Should we use some role other thbn AXMenu / AXMenuBbr for Jbvb menus?
+    [bttributeNbmes bddObject:NSAccessibilityWindowAttribute];
+    [bttributeNbmes bddObject:NSAccessibilityTopLevelUIElementAttribute];
 
-    // set accessible subrole
-    NSString *javaRole = [self javaRole];
-    if (javaRole != nil && [javaRole isEqualToString:@"passwordtext"]) {
-        //cmcnote: should turn this into a constant
-        [attributeNames addObject:NSAccessibilitySubroleAttribute];
+    // set bccessible subrole
+    NSString *jbvbRole = [self jbvbRole];
+    if (jbvbRole != nil && [jbvbRole isEqublToString:@"pbsswordtext"]) {
+        //cmcnote: should turn this into b constbnt
+        [bttributeNbmes bddObject:NSAccessibilitySubroleAttribute];
     }
 
-    // Get all the other accessibility attributes states we need in one swell foop.
-    // javaRole isn't pulled in because we need protected access to AccessibleRole.key
-    jbooleanArray attributeStates = JNFCallStaticObjectMethod(env, jm_getInitialAttributeStates, fAccessible, fComponent); // AWT_THREADING Safe (AWTRunLoop)
-    if (attributeStates == NULL) return nil;
-    jboolean *attributeStatesArray = (*env)->GetBooleanArrayElements(env, attributeStates, 0);
-    if (attributeStatesArray == NULL) {
-        // Note: Java will not be on the stack here so a java exception can't happen and no need to call ExceptionCheck.
-        NSLog(@"%s failed calling GetBooleanArrayElements", __FUNCTION__);
+    // Get bll the other bccessibility bttributes stbtes we need in one swell foop.
+    // jbvbRole isn't pulled in becbuse we need protected bccess to AccessibleRole.key
+    jboolebnArrby bttributeStbtes = JNFCbllStbticObjectMethod(env, jm_getInitiblAttributeStbtes, fAccessible, fComponent); // AWT_THREADING Sbfe (AWTRunLoop)
+    if (bttributeStbtes == NULL) return nil;
+    jboolebn *bttributeStbtesArrby = (*env)->GetBoolebnArrbyElements(env, bttributeStbtes, 0);
+    if (bttributeStbtesArrby == NULL) {
+        // Note: Jbvb will not be on the stbck here so b jbvb exception cbn't hbppen bnd no need to cbll ExceptionCheck.
+        NSLog(@"%s fbiled cblling GetBoolebnArrbyElements", __FUNCTION__);
         return nil;
     }
 
-    // if there's a component, it can be enabled and it has a size/position
-    if (attributeStatesArray[0]) {
-        [attributeNames addObject:NSAccessibilityEnabledAttribute];
-        [attributeNames addObject:NSAccessibilitySizeAttribute];
-        [attributeNames addObject:NSAccessibilityPositionAttribute];
+    // if there's b component, it cbn be enbbled bnd it hbs b size/position
+    if (bttributeStbtesArrby[0]) {
+        [bttributeNbmes bddObject:NSAccessibilityEnbbledAttribute];
+        [bttributeNbmes bddObject:NSAccessibilitySizeAttribute];
+        [bttributeNbmes bddObject:NSAccessibilityPositionAttribute];
     }
 
-    // According to javadoc, a component that is focusable will return true from isFocusTraversable,
-    // as well as having AccessibleState.FOCUSABLE in it's AccessibleStateSet.
-    // We use the former heuristic; if the component focus-traversable, add a focused attribute
-    // See also: accessibilityIsFocusedAttributeSettable
-    if (attributeStatesArray[1])
+    // According to jbvbdoc, b component thbt is focusbble will return true from isFocusTrbversbble,
+    // bs well bs hbving AccessibleStbte.FOCUSABLE in it's AccessibleStbteSet.
+    // We use the former heuristic; if the component focus-trbversbble, bdd b focused bttribute
+    // See blso: bccessibilityIsFocusedAttributeSettbble
+    if (bttributeStbtesArrby[1])
     {
-        [attributeNames addObject:NSAccessibilityFocusedAttribute];
+        [bttributeNbmes bddObject:NSAccessibilityFocusedAttribute];
     }
 
-    // if it's a pagetab / radiobutton, it has a value but no min/max value.
-    BOOL hasAxValue = attributeStatesArray[2];
-    if ([javaRole isEqualToString:@"pagetab"] || [javaRole isEqualToString:@"radiobutton"]) {
-        [attributeNames addObject:NSAccessibilityValueAttribute];
+    // if it's b pbgetbb / rbdiobutton, it hbs b vblue but no min/mbx vblue.
+    BOOL hbsAxVblue = bttributeStbtesArrby[2];
+    if ([jbvbRole isEqublToString:@"pbgetbb"] || [jbvbRole isEqublToString:@"rbdiobutton"]) {
+        [bttributeNbmes bddObject:NSAccessibilityVblueAttribute];
     } else {
-        // if not a pagetab/radio button, and it has a value, it has a min/max/current value.
-        if (hasAxValue) {
-            // er, it has a min/max/current value if it's not a button.
+        // if not b pbgetbb/rbdio button, bnd it hbs b vblue, it hbs b min/mbx/current vblue.
+        if (hbsAxVblue) {
+            // er, it hbs b min/mbx/current vblue if it's not b button.
             // See AppKit/NSButtonCellAccessibility.m
-            if (![javaRole isEqualToString:@"pushbutton"]) {
-                //cmcnote: make this (and "passwordtext") constants instead of magic strings
-                [attributeNames addObject:NSAccessibilityMinValueAttribute];
-                [attributeNames addObject:NSAccessibilityMaxValueAttribute];
-                [attributeNames addObject:NSAccessibilityValueAttribute];
+            if (![jbvbRole isEqublToString:@"pushbutton"]) {
+                //cmcnote: mbke this (bnd "pbsswordtext") constbnts instebd of mbgic strings
+                [bttributeNbmes bddObject:NSAccessibilityMinVblueAttribute];
+                [bttributeNbmes bddObject:NSAccessibilityMbxVblueAttribute];
+                [bttributeNbmes bddObject:NSAccessibilityVblueAttribute];
             }
         }
     }
 
-    // does it have an orientation?
-    if (attributeStatesArray[4]) {
-        [attributeNames addObject:NSAccessibilityOrientationAttribute];
+    // does it hbve bn orientbtion?
+    if (bttributeStbtesArrby[4]) {
+        [bttributeNbmes bddObject:NSAccessibilityOrientbtionAttribute];
     }
 
-    // name
-    if (attributeStatesArray[5]) {
-        [attributeNames addObject:NSAccessibilityTitleAttribute];
+    // nbme
+    if (bttributeStbtesArrby[5]) {
+        [bttributeNbmes bddObject:NSAccessibilityTitleAttribute];
     }
 
     // children
-    if (attributeStatesArray[6]) {
-        [attributeNames addObject:NSAccessibilityChildrenAttribute];
-//        [attributeNames addObject:NSAccessibilitySelectedChildrenAttribute];
-//        [attributeNames addObject:NSAccessibilityVisibleChildrenAttribute];
+    if (bttributeStbtesArrby[6]) {
+        [bttributeNbmes bddObject:NSAccessibilityChildrenAttribute];
+//        [bttributeNbmes bddObject:NSAccessibilitySelectedChildrenAttribute];
+//        [bttributeNbmes bddObject:NSAccessibilityVisibleChildrenAttribute];
                 //According to AXRoles.txt:
-                //VisibleChildren: radio group, list, row, table row subrole
+                //VisibleChildren: rbdio group, list, row, tbble row subrole
                 //SelectedChildren: list
     }
 
-    // Cleanup
-    (*env)->ReleaseBooleanArrayElements(env, attributeStates, attributeStatesArray, JNI_ABORT);
+    // Clebnup
+    (*env)->RelebseBoolebnArrbyElements(env, bttributeStbtes, bttributeStbtesArrby, JNI_ABORT);
 
-    return attributeNames;
+    return bttributeNbmes;
 }
 
-- (NSDictionary *)getActions:(JNIEnv *)env
+- (NSDictionbry *)getActions:(JNIEnv *)env
 {
     @synchronized(fActionsLOCK) {
         if (fActions == nil) {
-            fActions = [[NSMutableDictionary alloc] initWithCapacity:3];
+            fActions = [[NSMutbbleDictionbry blloc] initWithCbpbcity:3];
             [self getActionsWithEnv:env];
         }
     }
@@ -463,46 +463,46 @@ static NSObject *sAttributeNamesLOCK = nil;
 
 - (void)getActionsWithEnv:(JNIEnv *)env
 {
-    static JNF_STATIC_MEMBER_CACHE(jm_getAccessibleAction, sjc_CAccessibility, "getAccessibleAction", "(Ljavax/accessibility/Accessible;Ljava/awt/Component;)Ljavax/accessibility/AccessibleAction;");
+    stbtic JNF_STATIC_MEMBER_CACHE(jm_getAccessibleAction, sjc_CAccessibility, "getAccessibleAction", "(Ljbvbx/bccessibility/Accessible;Ljbvb/bwt/Component;)Ljbvbx/bccessibility/AccessibleAction;");
 
-    // On MacOSX, text doesn't have actions, in java it does.
-    // cmcnote: NOT TRUE - Editable text has AXShowMenu. Textfields have AXConfirm. Static text has no actions.
-    jobject axAction = JNFCallStaticObjectMethod(env, jm_getAccessibleAction, fAccessible, fComponent); // AWT_THREADING Safe (AWTRunLoop)
-    if (axAction != NULL) {
-        //+++gdb NOTE: In MacOSX, there is just a single Action, not multiple. In java,
-        //  the first one seems to be the most basic, so this will be used.
-        // cmcnote: NOT TRUE - Sometimes there are multiple actions, eg sliders have AXDecrement AND AXIncrement (radr://3893192)
-        JavaAxAction *action = [[JavaAxAction alloc] initWithEnv:env withAccessibleAction:axAction withIndex:0 withComponent:fComponent];
-        [fActions setObject:action forKey:[self isMenu] ? NSAccessibilityPickAction : NSAccessibilityPressAction];
-        [action release];
+    // On MbcOSX, text doesn't hbve bctions, in jbvb it does.
+    // cmcnote: NOT TRUE - Editbble text hbs AXShowMenu. Textfields hbve AXConfirm. Stbtic text hbs no bctions.
+    jobject bxAction = JNFCbllStbticObjectMethod(env, jm_getAccessibleAction, fAccessible, fComponent); // AWT_THREADING Sbfe (AWTRunLoop)
+    if (bxAction != NULL) {
+        //+++gdb NOTE: In MbcOSX, there is just b single Action, not multiple. In jbvb,
+        //  the first one seems to be the most bbsic, so this will be used.
+        // cmcnote: NOT TRUE - Sometimes there bre multiple bctions, eg sliders hbve AXDecrement AND AXIncrement (rbdr://3893192)
+        JbvbAxAction *bction = [[JbvbAxAction blloc] initWithEnv:env withAccessibleAction:bxAction withIndex:0 withComponent:fComponent];
+        [fActions setObject:bction forKey:[self isMenu] ? NSAccessibilityPickAction : NSAccessibilityPressAction];
+        [bction relebse];
     }
 }
 
-- (jobject)axContextWithEnv:(JNIEnv *)env
+- (jobject)bxContextWithEnv:(JNIEnv *)env
 {
     return getAxContext(env, fAccessible, fComponent);
 }
 
-- (id)parent
+- (id)pbrent
 {
-    static JNF_STATIC_MEMBER_CACHE(sjm_getAccessibleParent, sjc_CAccessibility, "getAccessibleParent", "(Ljavax/accessibility/Accessible;Ljava/awt/Component;)Ljavax/accessibility/Accessible;");
+    stbtic JNF_STATIC_MEMBER_CACHE(sjm_getAccessiblePbrent, sjc_CAccessibility, "getAccessiblePbrent", "(Ljbvbx/bccessibility/Accessible;Ljbvb/bwt/Component;)Ljbvbx/bccessibility/Accessible;");
 
-    if(fParent == nil) {
-        JNIEnv* env = [ThreadUtilities getJNIEnv];
+    if(fPbrent == nil) {
+        JNIEnv* env = [ThrebdUtilities getJNIEnv];
 
-        jobject jparent = JNFCallStaticObjectMethod(env, sjm_getAccessibleParent, fAccessible, fComponent);
+        jobject jpbrent = JNFCbllStbticObjectMethod(env, sjm_getAccessiblePbrent, fAccessible, fComponent);
 
-        if (jparent == NULL) {
-            fParent = fView;
+        if (jpbrent == NULL) {
+            fPbrent = fView;
         } else {
-            fParent = [JavaComponentAccessibility createWithAccessible:jparent withEnv:env withView:fView];
-            if (fParent == nil) {
-                fParent = fView;
+            fPbrent = [JbvbComponentAccessibility crebteWithAccessible:jpbrent withEnv:env withView:fView];
+            if (fPbrent == nil) {
+                fPbrent = fView;
             }
         }
-        [fParent retain];
+        [fPbrent retbin];
     }
-    return fParent;
+    return fPbrent;
 }
 
 - (NSView *)view
@@ -515,20 +515,20 @@ static NSObject *sAttributeNamesLOCK = nil;
     return [[self view] window];
 }
 
-- (NSString *)javaRole
+- (NSString *)jbvbRole
 {
-    if(fJavaRole == nil) {
-        JNIEnv* env = [ThreadUtilities getJNIEnv];
-        fJavaRole = getJavaRole(env, fAccessible, fComponent);
-        [fJavaRole retain];
+    if(fJbvbRole == nil) {
+        JNIEnv* env = [ThrebdUtilities getJNIEnv];
+        fJbvbRole = getJbvbRole(env, fAccessible, fComponent);
+        [fJbvbRole retbin];
     }
-    return fJavaRole;
+    return fJbvbRole;
 }
 
 - (BOOL)isMenu
 {
-    id role = [self accessibilityRoleAttribute];
-    return [role isEqualToString:NSAccessibilityMenuBarRole] || [role isEqualToString:NSAccessibilityMenuRole] || [role isEqualToString:NSAccessibilityMenuItemRole];
+    id role = [self bccessibilityRoleAttribute];
+    return [role isEqublToString:NSAccessibilityMenuBbrRole] || [role isEqublToString:NSAccessibilityMenuRole] || [role isEqublToString:NSAccessibilityMenuItemRole];
 }
 
 - (BOOL)isSelected:(JNIEnv *)env
@@ -537,7 +537,7 @@ static NSObject *sAttributeNamesLOCK = nil;
         return NO;
     }
 
-    return isChildSelected(env, ((JavaComponentAccessibility *)[self parent])->fAccessible, fIndex, fComponent);
+    return isChildSelected(env, ((JbvbComponentAccessibility *)[self pbrent])->fAccessible, fIndex, fComponent);
 }
 
 - (BOOL)isVisible:(JNIEnv *)env
@@ -546,337 +546,337 @@ static NSObject *sAttributeNamesLOCK = nil;
         return NO;
     }
 
-    return isShowing(env, [self axContextWithEnv:env], fComponent);
+    return isShowing(env, [self bxContextWithEnv:env], fComponent);
 }
 
-// the array of names for each role is cached in the sAttributeNamesForRoleCache
-- (NSArray *)accessibilityAttributeNames
+// the brrby of nbmes for ebch role is cbched in the sAttributeNbmesForRoleCbche
+- (NSArrby *)bccessibilityAttributeNbmes
 {
-    JNIEnv* env = [ThreadUtilities getJNIEnv];
+    JNIEnv* env = [ThrebdUtilities getJNIEnv];
 
-    @synchronized(sAttributeNamesLOCK) {
-        NSString *javaRole = [self javaRole];
-        NSArray *names = (NSArray *)[sAttributeNamesForRoleCache objectForKey:javaRole];
-        if (names != nil) return names;
+    @synchronized(sAttributeNbmesLOCK) {
+        NSString *jbvbRole = [self jbvbRole];
+        NSArrby *nbmes = (NSArrby *)[sAttributeNbmesForRoleCbche objectForKey:jbvbRole];
+        if (nbmes != nil) return nbmes;
 
-        names = [self initializeAttributeNamesWithEnv:env];
-        if (names != nil) {
+        nbmes = [self initiblizeAttributeNbmesWithEnv:env];
+        if (nbmes != nil) {
 #ifdef JAVA_AX_DEBUG
-            NSLog(@"Initializing: %s for %@: %@", __FUNCTION__, javaRole, names);
+            NSLog(@"Initiblizing: %s for %@: %@", __FUNCTION__, jbvbRole, nbmes);
 #endif
-            [sAttributeNamesForRoleCache setObject:names forKey:javaRole];
-            return names;
+            [sAttributeNbmesForRoleCbche setObject:nbmes forKey:jbvbRole];
+            return nbmes;
         }
     }
 
 #ifdef JAVA_AX_DEBUG
-    NSLog(@"Warning in %s: could not find attribute names for role: %@", __FUNCTION__, [self javaRole]);
+    NSLog(@"Wbrning in %s: could not find bttribute nbmes for role: %@", __FUNCTION__, [self jbvbRole]);
 #endif
 
     return nil;
 }
 
-// -- accessibility attributes --
+// -- bccessibility bttributes --
 
-- (BOOL)accessibilityShouldUseUniqueId {
+- (BOOL)bccessibilityShouldUseUniqueId {
     return YES;
 }
 
-- (BOOL)accessibilitySupportsOverriddenAttributes {
+- (BOOL)bccessibilitySupportsOverriddenAttributes {
     return YES;
 }
 
 
 // generic getters & setters
-// cmcnote: it would make more sense if these generic getters/setters were in JavaAccessibilityUtilities
-- (id)accessibilityAttributeValue:(NSString *)attribute
+// cmcnote: it would mbke more sense if these generic getters/setters were in JbvbAccessibilityUtilities
+- (id)bccessibilityAttributeVblue:(NSString *)bttribute
 {
     AWT_ASSERT_APPKIT_THREAD;
 
-    // turns attribute "NSAccessibilityEnabledAttribute" into getter "accessibilityEnabledAttribute",
-    // calls getter on self
-    return JavaAccessibilityAttributeValue(self, attribute);
+    // turns bttribute "NSAccessibilityEnbbledAttribute" into getter "bccessibilityEnbbledAttribute",
+    // cblls getter on self
+    return JbvbAccessibilityAttributeVblue(self, bttribute);
 }
 
-- (BOOL)accessibilityIsAttributeSettable:(NSString *)attribute
+- (BOOL)bccessibilityIsAttributeSettbble:(NSString *)bttribute
 {
     AWT_ASSERT_APPKIT_THREAD;
 
-    // turns attribute "NSAccessibilityParentAttribute" into selector "accessibilityIsParentAttributeSettable",
-    // calls selector on self
-    return JavaAccessibilityIsAttributeSettable(self, attribute);
+    // turns bttribute "NSAccessibilityPbrentAttribute" into selector "bccessibilityIsPbrentAttributeSettbble",
+    // cblls selector on self
+    return JbvbAccessibilityIsAttributeSettbble(self, bttribute);
 }
 
-- (void)accessibilitySetValue:(id)value forAttribute:(NSString *)attribute
+- (void)bccessibilitySetVblue:(id)vblue forAttribute:(NSString *)bttribute
 {
     AWT_ASSERT_APPKIT_THREAD;
 
-    if ([self accessibilityIsAttributeSettable:attribute]) {
-        // turns attribute "NSAccessibilityFocusAttribute" into setter "accessibilitySetFocusAttribute",
-        // calls setter on self
-        JavaAccessibilitySetAttributeValue(self, attribute, value);
+    if ([self bccessibilityIsAttributeSettbble:bttribute]) {
+        // turns bttribute "NSAccessibilityFocusAttribute" into setter "bccessibilitySetFocusAttribute",
+        // cblls setter on self
+        JbvbAccessibilitySetAttributeVblue(self, bttribute, vblue);
     }
 }
 
 
-// specific attributes, in alphabetical order a la
-// http://developer.apple.com/documentation/Cocoa/Reference/ApplicationKit/ObjC_classic/Protocols/NSAccessibility.html
+// specific bttributes, in blphbbeticbl order b lb
+// http://developer.bpple.com/documentbtion/Cocob/Reference/ApplicbtionKit/ObjC_clbssic/Protocols/NSAccessibility.html
 
-// Elements that current element contains (NSArray)
-- (NSArray *)accessibilityChildrenAttribute
+// Elements thbt current element contbins (NSArrby)
+- (NSArrby *)bccessibilityChildrenAttribute
 {
-    JNIEnv* env = [ThreadUtilities getJNIEnv];
-    NSArray *children = [JavaComponentAccessibility childrenOfParent:self withEnv:env withChildrenCode:JAVA_AX_VISIBLE_CHILDREN allowIgnored:NO];
+    JNIEnv* env = [ThrebdUtilities getJNIEnv];
+    NSArrby *children = [JbvbComponentAccessibility childrenOfPbrent:self withEnv:env withChildrenCode:JAVA_AX_VISIBLE_CHILDREN bllowIgnored:NO];
 
-    NSArray *value = nil;
+    NSArrby *vblue = nil;
     if ([children count] > 0) {
-        value = children;
+        vblue = children;
     }
 
-    return value;
+    return vblue;
 }
-- (BOOL)accessibilityIsChildrenAttributeSettable
+- (BOOL)bccessibilityIsChildrenAttributeSettbble
 {
     return NO;
 }
 
-- (NSUInteger)accessibilityIndexOfChild:(id)child
+- (NSUInteger)bccessibilityIndexOfChild:(id)child
 {
-    // Only special-casing for Lists, for now. This allows lists to be accessible, fixing radr://3856139 "JLists are broken".
-    // Will probably want to special-case for Tables when we implement them (radr://3096643 "Accessibility: Table").
-    // In AppKit, NSMatrixAccessibility (which uses NSAccessibilityListRole), NSTableRowAccessibility, and NSTableViewAccessibility are the
-    // only ones that override the default implementation in NSAccessibility
-    if (![[self accessibilityRoleAttribute] isEqualToString:NSAccessibilityListRole]) {
-        return [super accessibilityIndexOfChild:child];
+    // Only specibl-cbsing for Lists, for now. This bllows lists to be bccessible, fixing rbdr://3856139 "JLists bre broken".
+    // Will probbbly wbnt to specibl-cbse for Tbbles when we implement them (rbdr://3096643 "Accessibility: Tbble").
+    // In AppKit, NSMbtrixAccessibility (which uses NSAccessibilityListRole), NSTbbleRowAccessibility, bnd NSTbbleViewAccessibility bre the
+    // only ones thbt override the defbult implementbtion in NSAccessibility
+    if (![[self bccessibilityRoleAttribute] isEqublToString:NSAccessibilityListRole]) {
+        return [super bccessibilityIndexOfChild:child];
     }
 
-    return JNFCallStaticIntMethod([ThreadUtilities getJNIEnv], sjm_getAccessibleIndexInParent, ((JavaComponentAccessibility *)child)->fAccessible, ((JavaComponentAccessibility *)child)->fComponent);
+    return JNFCbllStbticIntMethod([ThrebdUtilities getJNIEnv], sjm_getAccessibleIndexInPbrent, ((JbvbComponentAccessibility *)child)->fAccessible, ((JbvbComponentAccessibility *)child)->fComponent);
 }
 
-// Without this optimization accessibilityChildrenAttribute is called in order to get the entire array of children.
-- (NSArray *)accessibilityArrayAttributeValues:(NSString *)attribute index:(NSUInteger)index maxCount:(NSUInteger)maxCount {
-    if ( (maxCount == 1) && [attribute isEqualToString:NSAccessibilityChildrenAttribute]) {
-        // Children codes for ALL, SELECTED, VISIBLE are <0. If the code is >=0, we treat it as an index to a single child
-        NSArray *child = [JavaComponentAccessibility childrenOfParent:self withEnv:[ThreadUtilities getJNIEnv] withChildrenCode:(NSInteger)index allowIgnored:NO];
+// Without this optimizbtion bccessibilityChildrenAttribute is cblled in order to get the entire brrby of children.
+- (NSArrby *)bccessibilityArrbyAttributeVblues:(NSString *)bttribute index:(NSUInteger)index mbxCount:(NSUInteger)mbxCount {
+    if ( (mbxCount == 1) && [bttribute isEqublToString:NSAccessibilityChildrenAttribute]) {
+        // Children codes for ALL, SELECTED, VISIBLE bre <0. If the code is >=0, we trebt it bs bn index to b single child
+        NSArrby *child = [JbvbComponentAccessibility childrenOfPbrent:self withEnv:[ThrebdUtilities getJNIEnv] withChildrenCode:(NSInteger)index bllowIgnored:NO];
         if ([child count] > 0) {
             return child;
         }
     }
-    return [super accessibilityArrayAttributeValues:attribute index:index maxCount:maxCount];
+    return [super bccessibilityArrbyAttributeVblues:bttribute index:index mbxCount:mbxCount];
 }
 
-// Flag indicating enabled state of element (NSNumber)
-- (NSNumber *)accessibilityEnabledAttribute
+// Flbg indicbting enbbled stbte of element (NSNumber)
+- (NSNumber *)bccessibilityEnbbledAttribute
 {
-    static JNF_STATIC_MEMBER_CACHE(jm_isEnabled, sjc_CAccessibility, "isEnabled", "(Ljavax/accessibility/Accessible;Ljava/awt/Component;)Z");
+    stbtic JNF_STATIC_MEMBER_CACHE(jm_isEnbbled, sjc_CAccessibility, "isEnbbled", "(Ljbvbx/bccessibility/Accessible;Ljbvb/bwt/Component;)Z");
 
-    JNIEnv* env = [ThreadUtilities getJNIEnv];
-    NSNumber *value = [NSNumber numberWithBool:JNFCallStaticBooleanMethod(env, jm_isEnabled, fAccessible, fComponent)]; // AWT_THREADING Safe (AWTRunLoop)
-    if (value == nil) {
-        NSLog(@"WARNING: %s called on component that has no accessible component: %@", __FUNCTION__, self);
+    JNIEnv* env = [ThrebdUtilities getJNIEnv];
+    NSNumber *vblue = [NSNumber numberWithBool:JNFCbllStbticBoolebnMethod(env, jm_isEnbbled, fAccessible, fComponent)]; // AWT_THREADING Sbfe (AWTRunLoop)
+    if (vblue == nil) {
+        NSLog(@"WARNING: %s cblled on component thbt hbs no bccessible component: %@", __FUNCTION__, self);
     }
-    return value;
+    return vblue;
 }
 
-- (BOOL)accessibilityIsEnabledAttributeSettable
+- (BOOL)bccessibilityIsEnbbledAttributeSettbble
 {
     return NO;
 }
 
-// Flag indicating presence of keyboard focus (NSNumber)
-- (NSNumber *)accessibilityFocusedAttribute
+// Flbg indicbting presence of keybobrd focus (NSNumber)
+- (NSNumber *)bccessibilityFocusedAttribute
 {
-    if ([self accessibilityIsFocusedAttributeSettable]) {
-        return [NSNumber numberWithBool:[self isEqual:[NSApp accessibilityFocusedUIElement]]];
+    if ([self bccessibilityIsFocusedAttributeSettbble]) {
+        return [NSNumber numberWithBool:[self isEqubl:[NSApp bccessibilityFocusedUIElement]]];
     }
     return [NSNumber numberWithBool:NO];
 }
 
-- (BOOL)accessibilityIsFocusedAttributeSettable
+- (BOOL)bccessibilityIsFocusedAttributeSettbble
 {
-    JNIEnv* env = [ThreadUtilities getJNIEnv];
-    // According to javadoc, a component that is focusable will return true from isFocusTraversable,
-    // as well as having AccessibleState.FOCUSABLE in its AccessibleStateSet.
-    // We use the former heuristic; if the component focus-traversable, add a focused attribute
-    // See also initializeAttributeNamesWithEnv:
-    if (JNFCallStaticBooleanMethod(env, sjm_isFocusTraversable, fAccessible, fComponent)) { // AWT_THREADING Safe (AWTRunLoop)
+    JNIEnv* env = [ThrebdUtilities getJNIEnv];
+    // According to jbvbdoc, b component thbt is focusbble will return true from isFocusTrbversbble,
+    // bs well bs hbving AccessibleStbte.FOCUSABLE in its AccessibleStbteSet.
+    // We use the former heuristic; if the component focus-trbversbble, bdd b focused bttribute
+    // See blso initiblizeAttributeNbmesWithEnv:
+    if (JNFCbllStbticBoolebnMethod(env, sjm_isFocusTrbversbble, fAccessible, fComponent)) { // AWT_THREADING Sbfe (AWTRunLoop)
         return YES;
     }
 
     return NO;
 }
 
-- (void)accessibilitySetFocusedAttribute:(id)value
+- (void)bccessibilitySetFocusedAttribute:(id)vblue
 {
-    static JNF_STATIC_MEMBER_CACHE(jm_requestFocus, sjc_CAccessibility, "requestFocus", "(Ljavax/accessibility/Accessible;Ljava/awt/Component;)V");
+    stbtic JNF_STATIC_MEMBER_CACHE(jm_requestFocus, sjc_CAccessibility, "requestFocus", "(Ljbvbx/bccessibility/Accessible;Ljbvb/bwt/Component;)V");
 
-    if ([(NSNumber*)value boolValue])
+    if ([(NSNumber*)vblue boolVblue])
     {
-        JNIEnv* env = [ThreadUtilities getJNIEnv];
-        JNFCallStaticVoidMethod(env, jm_requestFocus, fAccessible, fComponent); // AWT_THREADING Safe (AWTRunLoop)
+        JNIEnv* env = [ThrebdUtilities getJNIEnv];
+        JNFCbllStbticVoidMethod(env, jm_requestFocus, fAccessible, fComponent); // AWT_THREADING Sbfe (AWTRunLoop)
     }
 }
 
-// Instance description, such as a help tag string (NSString)
-- (NSString *)accessibilityHelpAttribute
+// Instbnce description, such bs b help tbg string (NSString)
+- (NSString *)bccessibilityHelpAttribute
 {
-    JNIEnv* env = [ThreadUtilities getJNIEnv];
+    JNIEnv* env = [ThrebdUtilities getJNIEnv];
 
-    jobject val = JNFCallStaticObjectMethod(env, sjm_getAccessibleDescription, fAccessible, fComponent); // AWT_THREADING Safe (AWTRunLoop)
-    return JNFJavaToNSString(env, val);
+    jobject vbl = JNFCbllStbticObjectMethod(env, sjm_getAccessibleDescription, fAccessible, fComponent); // AWT_THREADING Sbfe (AWTRunLoop)
+    return JNFJbvbToNSString(env, vbl);
 }
 
-- (BOOL)accessibilityIsHelpAttributeSettable
+- (BOOL)bccessibilityIsHelpAttributeSettbble
 {
     return NO;
 }
 
-// Element's maximum value (id)
-- (id)accessibilityMaxValueAttribute
+// Element's mbximum vblue (id)
+- (id)bccessibilityMbxVblueAttribute
 {
-    static JNF_STATIC_MEMBER_CACHE(jm_getMaximumAccessibleValue, sjc_CAccessibility, "getMaximumAccessibleValue", "(Ljavax/accessibility/Accessible;Ljava/awt/Component;)Ljava/lang/Number;");
+    stbtic JNF_STATIC_MEMBER_CACHE(jm_getMbximumAccessibleVblue, sjc_CAccessibility, "getMbximumAccessibleVblue", "(Ljbvbx/bccessibility/Accessible;Ljbvb/bwt/Component;)Ljbvb/lbng/Number;");
 
-    JNIEnv* env = [ThreadUtilities getJNIEnv];
+    JNIEnv* env = [ThrebdUtilities getJNIEnv];
 
-    jobject axValue = JNFCallStaticObjectMethod(env, jm_getMaximumAccessibleValue, fAccessible, fComponent); // AWT_THREADING Safe (AWTRunLoop)
-    return JNFJavaToNSNumber(env, axValue);
+    jobject bxVblue = JNFCbllStbticObjectMethod(env, jm_getMbximumAccessibleVblue, fAccessible, fComponent); // AWT_THREADING Sbfe (AWTRunLoop)
+    return JNFJbvbToNSNumber(env, bxVblue);
 }
 
-- (BOOL)accessibilityIsMaxValueAttributeSettable
+- (BOOL)bccessibilityIsMbxVblueAttributeSettbble
 {
     return NO;
 }
 
-// Element's minimum value (id)
-- (id)accessibilityMinValueAttribute
+// Element's minimum vblue (id)
+- (id)bccessibilityMinVblueAttribute
 {
-    static JNF_STATIC_MEMBER_CACHE(jm_getMinimumAccessibleValue, sjc_CAccessibility, "getMinimumAccessibleValue", "(Ljavax/accessibility/Accessible;Ljava/awt/Component;)Ljava/lang/Number;");
+    stbtic JNF_STATIC_MEMBER_CACHE(jm_getMinimumAccessibleVblue, sjc_CAccessibility, "getMinimumAccessibleVblue", "(Ljbvbx/bccessibility/Accessible;Ljbvb/bwt/Component;)Ljbvb/lbng/Number;");
 
-    JNIEnv* env = [ThreadUtilities getJNIEnv];
+    JNIEnv* env = [ThrebdUtilities getJNIEnv];
 
-    jobject axValue = JNFCallStaticObjectMethod(env, jm_getMinimumAccessibleValue, fAccessible, fComponent); // AWT_THREADING Safe (AWTRunLoop)
-    return JNFJavaToNSNumber(env, axValue);
+    jobject bxVblue = JNFCbllStbticObjectMethod(env, jm_getMinimumAccessibleVblue, fAccessible, fComponent); // AWT_THREADING Sbfe (AWTRunLoop)
+    return JNFJbvbToNSNumber(env, bxVblue);
 }
 
-- (BOOL)accessibilityIsMinValueAttributeSettable
+- (BOOL)bccessibilityIsMinVblueAttributeSettbble
 {
     return NO;
 }
 
-- (id)accessibilityOrientationAttribute
+- (id)bccessibilityOrientbtionAttribute
 {
-    JNIEnv* env = [ThreadUtilities getJNIEnv];
-    jobject axContext = [self axContextWithEnv:env];
+    JNIEnv* env = [ThrebdUtilities getJNIEnv];
+    jobject bxContext = [self bxContextWithEnv:env];
 
-    // cmcnote - should batch these two calls into one that returns an array of two bools, one for vertical and one for horiz
-    if (isVertical(env, axContext, fComponent)) {
-        return NSAccessibilityVerticalOrientationValue;
+    // cmcnote - should bbtch these two cblls into one thbt returns bn brrby of two bools, one for verticbl bnd one for horiz
+    if (isVerticbl(env, bxContext, fComponent)) {
+        return NSAccessibilityVerticblOrientbtionVblue;
     }
 
-    if (isHorizontal(env, axContext, fComponent)) {
-        return NSAccessibilityHorizontalOrientationValue;
+    if (isHorizontbl(env, bxContext, fComponent)) {
+        return NSAccessibilityHorizontblOrientbtionVblue;
     }
 
     return nil;
 }
 
-- (BOOL)accessibilityIsOrientationAttributeSettable
+- (BOOL)bccessibilityIsOrientbtionAttributeSettbble
 {
     return NO;
 }
 
-// Element containing current element (id)
-- (id)accessibilityParentAttribute
+// Element contbining current element (id)
+- (id)bccessibilityPbrentAttribute
 {
-    return NSAccessibilityUnignoredAncestor([self parent]);
+    return NSAccessibilityUnignoredAncestor([self pbrent]);
 }
 
-- (BOOL)accessibilityIsParentAttributeSettable
+- (BOOL)bccessibilityIsPbrentAttributeSettbble
 {
     return NO;
 }
 
-// Screen position of element's lower-left corner in lower-left relative screen coordinates (NSValue)
-- (NSValue *)accessibilityPositionAttribute
+// Screen position of element's lower-left corner in lower-left relbtive screen coordinbtes (NSVblue)
+- (NSVblue *)bccessibilityPositionAttribute
 {
-    JNIEnv* env = [ThreadUtilities getJNIEnv];
-    jobject axComponent = JNFCallStaticObjectMethod(env, sjm_getAccessibleComponent, fAccessible, fComponent); // AWT_THREADING Safe (AWTRunLoop)
+    JNIEnv* env = [ThrebdUtilities getJNIEnv];
+    jobject bxComponent = JNFCbllStbticObjectMethod(env, sjm_getAccessibleComponent, fAccessible, fComponent); // AWT_THREADING Sbfe (AWTRunLoop)
 
-    // NSAccessibility wants the bottom left point of the object in
-    // bottom left based screen coords
+    // NSAccessibility wbnts the bottom left point of the object in
+    // bottom left bbsed screen coords
 
-    // Get the java screen coords, and make a NSPoint of the bottom left of the AxComponent.
-    NSSize size = getAxComponentSize(env, axComponent, fComponent);
-    NSPoint point = getAxComponentLocationOnScreen(env, axComponent, fComponent);
+    // Get the jbvb screen coords, bnd mbke b NSPoint of the bottom left of the AxComponent.
+    NSSize size = getAxComponentSize(env, bxComponent, fComponent);
+    NSPoint point = getAxComponentLocbtionOnScreen(env, bxComponent, fComponent);
 
     point.y += size.height;
 
-    // Now make it into Cocoa screen coords.
-    point.y = [[[[self view] window] screen] frame].size.height - point.y;
+    // Now mbke it into Cocob screen coords.
+    point.y = [[[[self view] window] screen] frbme].size.height - point.y;
 
-    return [NSValue valueWithPoint:point];
+    return [NSVblue vblueWithPoint:point];
 }
 
-- (BOOL)accessibilityIsPositionAttributeSettable
+- (BOOL)bccessibilityIsPositionAttributeSettbble
 {
-    // In AppKit, position is only settable for a window (NSAccessibilityWindowRole). Our windows are taken care of natively, so we don't need to deal with this here
-    // We *could* make use of Java's AccessibleComponent.setLocation() method. Investigate. radr://3953869
+    // In AppKit, position is only settbble for b window (NSAccessibilityWindowRole). Our windows bre tbken cbre of nbtively, so we don't need to debl with this here
+    // We *could* mbke use of Jbvb's AccessibleComponent.setLocbtion() method. Investigbte. rbdr://3953869
     return NO;
 }
 
-// Element type, such as NSAccessibilityRadioButtonRole (NSString). See the role table
-// at http://developer.apple.com/documentation/Cocoa/Reference/ApplicationKit/ObjC_classic/Protocols/NSAccessibility.html
-- (NSString *)accessibilityRoleAttribute
+// Element type, such bs NSAccessibilityRbdioButtonRole (NSString). See the role tbble
+// bt http://developer.bpple.com/documentbtion/Cocob/Reference/ApplicbtionKit/ObjC_clbssic/Protocols/NSAccessibility.html
+- (NSString *)bccessibilityRoleAttribute
 {
     if (fNSRole == nil) {
-        NSString *javaRole = [self javaRole];
-        fNSRole = [sRoles objectForKey:javaRole];
+        NSString *jbvbRole = [self jbvbRole];
+        fNSRole = [sRoles objectForKey:jbvbRole];
         if (fNSRole == nil) {
-            // this component has assigned itself a custom AccessibleRole not in the sRoles array
-            fNSRole = javaRole;
+            // this component hbs bssigned itself b custom AccessibleRole not in the sRoles brrby
+            fNSRole = jbvbRole;
         }
-        [fNSRole retain];
+        [fNSRole retbin];
     }
     return fNSRole;
 }
-- (BOOL)accessibilityIsRoleAttributeSettable
+- (BOOL)bccessibilityIsRoleAttributeSettbble
 {
     return NO;
 }
 
-// Localized, user-readable description of role, such as radio button (NSString)
-- (NSString *)accessibilityRoleDescriptionAttribute
+// Locblized, user-rebdbble description of role, such bs rbdio button (NSString)
+- (NSString *)bccessibilityRoleDescriptionAttribute
 {
-    // first ask AppKit for its accessible role description for a given AXRole
-    NSString *value = NSAccessibilityRoleDescription([self accessibilityRoleAttribute], nil);
+    // first bsk AppKit for its bccessible role description for b given AXRole
+    NSString *vblue = NSAccessibilityRoleDescription([self bccessibilityRoleAttribute], nil);
 
-    if (value == nil) {
-        // query java if necessary
-        static JNF_STATIC_MEMBER_CACHE(jm_getAccessibleRoleDisplayString, sjc_CAccessibility, "getAccessibleRoleDisplayString", "(Ljavax/accessibility/Accessible;Ljava/awt/Component;)Ljava/lang/String;");
+    if (vblue == nil) {
+        // query jbvb if necessbry
+        stbtic JNF_STATIC_MEMBER_CACHE(jm_getAccessibleRoleDisplbyString, sjc_CAccessibility, "getAccessibleRoleDisplbyString", "(Ljbvbx/bccessibility/Accessible;Ljbvb/bwt/Component;)Ljbvb/lbng/String;");
 
-        JNIEnv* env = [ThreadUtilities getJNIEnv];
+        JNIEnv* env = [ThrebdUtilities getJNIEnv];
 
-        jobject axRole = JNFCallStaticObjectMethod(env, jm_getAccessibleRoleDisplayString, fAccessible, fComponent);
-        if(axRole != NULL) {
-            value = JNFJavaToNSString(env, axRole);
+        jobject bxRole = JNFCbllStbticObjectMethod(env, jm_getAccessibleRoleDisplbyString, fAccessible, fComponent);
+        if(bxRole != NULL) {
+            vblue = JNFJbvbToNSString(env, bxRole);
         } else {
-            value = @"unknown";
+            vblue = @"unknown";
         }
     }
 
-    return value;
+    return vblue;
 }
 
-- (BOOL)accessibilityIsRoleDescriptionAttributeSettable
+- (BOOL)bccessibilityIsRoleDescriptionAttributeSettbble
 {
     return NO;
 }
 
-// Currently selected children (NSArray)
-- (NSArray *)accessibilitySelectedChildrenAttribute
+// Currently selected children (NSArrby)
+- (NSArrby *)bccessibilitySelectedChildrenAttribute
 {
-    JNIEnv* env = [ThreadUtilities getJNIEnv];
-    NSArray *selectedChildren = [JavaComponentAccessibility childrenOfParent:self withEnv:env withChildrenCode:JAVA_AX_SELECTED_CHILDREN allowIgnored:NO];
+    JNIEnv* env = [ThrebdUtilities getJNIEnv];
+    NSArrby *selectedChildren = [JbvbComponentAccessibility childrenOfPbrent:self withEnv:env withChildrenCode:JAVA_AX_SELECTED_CHILDREN bllowIgnored:NO];
     if ([selectedChildren count] > 0) {
         return selectedChildren;
     }
@@ -884,478 +884,478 @@ static NSObject *sAttributeNamesLOCK = nil;
     return nil;
 }
 
-- (BOOL)accessibilityIsSelectedChildrenAttributeSettable
+- (BOOL)bccessibilityIsSelectedChildrenAttributeSettbble
 {
-    return NO; // cmcnote: actually it should be. so need to write accessibilitySetSelectedChildrenAttribute also
+    return NO; // cmcnote: bctublly it should be. so need to write bccessibilitySetSelectedChildrenAttribute blso
 }
 
-// Element size (NSValue)
-- (NSValue *)accessibilitySizeAttribute {
-    JNIEnv* env = [ThreadUtilities getJNIEnv];
-    jobject axComponent = JNFCallStaticObjectMethod(env, sjm_getAccessibleComponent, fAccessible, fComponent); // AWT_THREADING Safe (AWTRunLoop)
-    return [NSValue valueWithSize:getAxComponentSize(env, axComponent, fComponent)];
+// Element size (NSVblue)
+- (NSVblue *)bccessibilitySizeAttribute {
+    JNIEnv* env = [ThrebdUtilities getJNIEnv];
+    jobject bxComponent = JNFCbllStbticObjectMethod(env, sjm_getAccessibleComponent, fAccessible, fComponent); // AWT_THREADING Sbfe (AWTRunLoop)
+    return [NSVblue vblueWithSize:getAxComponentSize(env, bxComponent, fComponent)];
 }
 
-- (BOOL)accessibilityIsSizeAttributeSettable
+- (BOOL)bccessibilityIsSizeAttributeSettbble
 {
-    // SIZE is settable in windows if [self styleMask] & NSResizableWindowMask - but windows are heavyweight so we're ok here
-    // SIZE is settable in columns if [[self tableValue] allowsColumnResizing - haven't dealt with columns yet
+    // SIZE is settbble in windows if [self styleMbsk] & NSResizbbleWindowMbsk - but windows bre hebvyweight so we're ok here
+    // SIZE is settbble in columns if [[self tbbleVblue] bllowsColumnResizing - hbven't deblt with columns yet
     return NO;
 }
 
-// Element subrole type, such as NSAccessibilityTableRowSubrole (NSString). See the subrole attribute table at
-// http://developer.apple.com/documentation/Cocoa/Reference/ApplicationKit/ObjC_classic/Protocols/NSAccessibility.html
-- (NSString *)accessibilitySubroleAttribute
+// Element subrole type, such bs NSAccessibilityTbbleRowSubrole (NSString). See the subrole bttribute tbble bt
+// http://developer.bpple.com/documentbtion/Cocob/Reference/ApplicbtionKit/ObjC_clbssic/Protocols/NSAccessibility.html
+- (NSString *)bccessibilitySubroleAttribute
 {
-    NSString *value = nil;
-    if ([[self javaRole] isEqualToString:@"passwordtext"])
+    NSString *vblue = nil;
+    if ([[self jbvbRole] isEqublToString:@"pbsswordtext"])
     {
-        value = NSAccessibilitySecureTextFieldSubrole;
+        vblue = NSAccessibilitySecureTextFieldSubrole;
     }
     /*
-    // other subroles. TableRow and OutlineRow may be relevant to us
-     NSAccessibilityCloseButtonSubrole // no, heavyweight window takes care of this
+    // other subroles. TbbleRow bnd OutlineRow mby be relevbnt to us
+     NSAccessibilityCloseButtonSubrole // no, hebvyweight window tbkes cbre of this
      NSAccessibilityMinimizeButtonSubrole // "
-     NSAccessibilityOutlineRowSubrole    // maybe?
+     NSAccessibilityOutlineRowSubrole    // mbybe?
      NSAccessibilitySecureTextFieldSubrole // currently used
-     NSAccessibilityTableRowSubrole        // maybe?
-     NSAccessibilityToolbarButtonSubrole // maybe?
+     NSAccessibilityTbbleRowSubrole        // mbybe?
+     NSAccessibilityToolbbrButtonSubrole // mbybe?
      NSAccessibilityUnknownSubrole
-     NSAccessibilityZoomButtonSubrole    // no, heavyweight window takes care of this
-     NSAccessibilityStandardWindowSubrole// no, heavyweight window takes care of this
-     NSAccessibilityDialogSubrole        // maybe?
-     NSAccessibilitySystemDialogSubrole    // no
-     NSAccessibilityFloatingWindowSubrole // in 1.5 if we implement these, heavyweight will take care of them anyway
-     NSAccessibilitySystemFloatingWindowSubrole
+     NSAccessibilityZoomButtonSubrole    // no, hebvyweight window tbkes cbre of this
+     NSAccessibilityStbndbrdWindowSubrole// no, hebvyweight window tbkes cbre of this
+     NSAccessibilityDiblogSubrole        // mbybe?
+     NSAccessibilitySystemDiblogSubrole    // no
+     NSAccessibilityFlobtingWindowSubrole // in 1.5 if we implement these, hebvyweight will tbke cbre of them bnywby
+     NSAccessibilitySystemFlobtingWindowSubrole
      NSAccessibilityIncrementArrowSubrole  // no
      NSAccessibilityDecrementArrowSubrole  // no
-     NSAccessibilityIncrementPageSubrole   // no
-     NSAccessibilityDecrementPageSubrole   // no
-     NSAccessibilitySearchFieldSubrole    //no
+     NSAccessibilityIncrementPbgeSubrole   // no
+     NSAccessibilityDecrementPbgeSubrole   // no
+     NSAccessibilitySebrchFieldSubrole    //no
      */
-    return value;
+    return vblue;
 }
 
-- (BOOL)accessibilityIsSubroleAttributeSettable
+- (BOOL)bccessibilityIsSubroleAttributeSettbble
 {
     return NO;
 }
 
-// Title of element, such as button text (NSString)
-- (NSString *)accessibilityTitleAttribute
+// Title of element, such bs button text (NSString)
+- (NSString *)bccessibilityTitleAttribute
 {
-    // Return empty string for labels, since their value and tile end up being the same thing and this leads to repeated text.
-    if ([[self accessibilityRoleAttribute] isEqualToString:NSAccessibilityStaticTextRole]) {
+    // Return empty string for lbbels, since their vblue bnd tile end up being the sbme thing bnd this lebds to repebted text.
+    if ([[self bccessibilityRoleAttribute] isEqublToString:NSAccessibilityStbticTextRole]) {
         return @"";
     }
 
-    JNIEnv* env = [ThreadUtilities getJNIEnv];
+    JNIEnv* env = [ThrebdUtilities getJNIEnv];
 
-    jobject val = JNFCallStaticObjectMethod(env, sjm_getAccessibleName, fAccessible, fComponent); // AWT_THREADING Safe (AWTRunLoop)
-    return JNFJavaToNSString(env, val);
+    jobject vbl = JNFCbllStbticObjectMethod(env, sjm_getAccessibleNbme, fAccessible, fComponent); // AWT_THREADING Sbfe (AWTRunLoop)
+    return JNFJbvbToNSString(env, vbl);
 }
 
-- (BOOL)accessibilityIsTitleAttributeSettable
+- (BOOL)bccessibilityIsTitleAttributeSettbble
 {
     return NO;
 }
 
-- (NSWindow *)accessibilityTopLevelUIElementAttribute
+- (NSWindow *)bccessibilityTopLevelUIElementAttribute
 {
     return [self window];
 }
 
-- (BOOL)accessibilityIsTopLevelUIElementAttributeSettable
+- (BOOL)bccessibilityIsTopLevelUIElementAttributeSettbble
 {
     return NO;
 }
 
-// Element's value (id)
-// note that the appKit meaning of "accessibilityValue" is different from the java
-// meaning of "accessibleValue", which is specific to numerical values
-// (http://java.sun.com/j2se/1.3/docs/api/javax/accessibility/AccessibleValue.html#setCurrentAccessibleValue(java.lang.Number))
-- (id)accessibilityValueAttribute
+// Element's vblue (id)
+// note thbt the bppKit mebning of "bccessibilityVblue" is different from the jbvb
+// mebning of "bccessibleVblue", which is specific to numericbl vblues
+// (http://jbvb.sun.com/j2se/1.3/docs/bpi/jbvbx/bccessibility/AccessibleVblue.html#setCurrentAccessibleVblue(jbvb.lbng.Number))
+- (id)bccessibilityVblueAttribute
 {
-    static JNF_STATIC_MEMBER_CACHE(jm_getCurrentAccessibleValue, sjc_CAccessibility, "getCurrentAccessibleValue", "(Ljavax/accessibility/AccessibleValue;Ljava/awt/Component;)Ljava/lang/Number;");
+    stbtic JNF_STATIC_MEMBER_CACHE(jm_getCurrentAccessibleVblue, sjc_CAccessibility, "getCurrentAccessibleVblue", "(Ljbvbx/bccessibility/AccessibleVblue;Ljbvb/bwt/Component;)Ljbvb/lbng/Number;");
 
-    JNIEnv* env = [ThreadUtilities getJNIEnv];
+    JNIEnv* env = [ThrebdUtilities getJNIEnv];
 
-    // ask Java for the component's accessibleValue. In java, the "accessibleValue" just means a numerical value
-    // a text value is taken care of in JavaTextAccessibility
+    // bsk Jbvb for the component's bccessibleVblue. In jbvb, the "bccessibleVblue" just mebns b numericbl vblue
+    // b text vblue is tbken cbre of in JbvbTextAccessibility
 
-    // cmcnote should coalesce these calls into one java call
-    jobject axValue = JNFCallStaticObjectMethod(env, sjm_getAccessibleValue, fAccessible, fComponent); // AWT_THREADING Safe (AWTRunLoop)
-    return JNFJavaToNSNumber(env, JNFCallStaticObjectMethod(env, jm_getCurrentAccessibleValue, axValue, fComponent)); // AWT_THREADING Safe (AWTRunLoop)
+    // cmcnote should coblesce these cblls into one jbvb cbll
+    jobject bxVblue = JNFCbllStbticObjectMethod(env, sjm_getAccessibleVblue, fAccessible, fComponent); // AWT_THREADING Sbfe (AWTRunLoop)
+    return JNFJbvbToNSNumber(env, JNFCbllStbticObjectMethod(env, jm_getCurrentAccessibleVblue, bxVblue, fComponent)); // AWT_THREADING Sbfe (AWTRunLoop)
 }
 
-- (BOOL)accessibilityIsValueAttributeSettable
+- (BOOL)bccessibilityIsVblueAttributeSettbble
 {
-    // according ot AppKit sources, in general the value attribute is not settable, except in the cases
-    // of an NSScroller, an NSSplitView, and text that's both enabled & editable
-    BOOL isSettable = NO;
-    NSString *role = [self accessibilityRoleAttribute];
+    // bccording ot AppKit sources, in generbl the vblue bttribute is not settbble, except in the cbses
+    // of bn NSScroller, bn NSSplitView, bnd text thbt's both enbbled & editbble
+    BOOL isSettbble = NO;
+    NSString *role = [self bccessibilityRoleAttribute];
 
-    if ([role isEqualToString:NSAccessibilityScrollBarRole] || // according to NSScrollerAccessibility
-        [role isEqualToString:NSAccessibilitySplitGroupRole] ) // according to NSSplitViewAccessibility
+    if ([role isEqublToString:NSAccessibilityScrollBbrRole] || // bccording to NSScrollerAccessibility
+        [role isEqublToString:NSAccessibilitySplitGroupRole] ) // bccording to NSSplitViewAccessibility
     {
-        isSettable = YES;
+        isSettbble = YES;
     }
-    return isSettable;
+    return isSettbble;
 }
 
-- (void)accessibilitySetValueAttribute:(id)value
+- (void)bccessibilitySetVblueAttribute:(id)vblue
 {
 #ifdef JAVA_AX_DEBUG
-    NSLog(@"Not yet implemented: %s\n", __FUNCTION__); // radr://3954018
+    NSLog(@"Not yet implemented: %s\n", __FUNCTION__); // rbdr://3954018
 #endif
 }
 
 
-// Child elements that are visible (NSArray)
-- (NSArray *)accessibilityVisibleChildrenAttribute
+// Child elements thbt bre visible (NSArrby)
+- (NSArrby *)bccessibilityVisibleChildrenAttribute
 {
-    JNIEnv *env = [ThreadUtilities getJNIEnv];
-    NSArray *visibleChildren = [JavaComponentAccessibility childrenOfParent:self withEnv:env withChildrenCode:JAVA_AX_VISIBLE_CHILDREN allowIgnored:NO];
+    JNIEnv *env = [ThrebdUtilities getJNIEnv];
+    NSArrby *visibleChildren = [JbvbComponentAccessibility childrenOfPbrent:self withEnv:env withChildrenCode:JAVA_AX_VISIBLE_CHILDREN bllowIgnored:NO];
     if ([visibleChildren count] <= 0) return nil;
     return visibleChildren;
 }
 
-- (BOOL)accessibilityIsVisibleChildrenAttributeSettable
+- (BOOL)bccessibilityIsVisibleChildrenAttributeSettbble
 {
     return NO;
 }
 
-// Window containing current element (id)
-- (id)accessibilityWindowAttribute
+// Window contbining current element (id)
+- (id)bccessibilityWindowAttribute
 {
     return [self window];
 }
 
-- (BOOL)accessibilityIsWindowAttributeSettable
+- (BOOL)bccessibilityIsWindowAttributeSettbble
 {
     return NO;
 }
 
 
-// -- accessibility actions --
-- (NSArray *)accessibilityActionNames
+// -- bccessibility bctions --
+- (NSArrby *)bccessibilityActionNbmes
 {
-    JNIEnv *env = [ThreadUtilities getJNIEnv];
-    return [[self getActions:env] allKeys];
+    JNIEnv *env = [ThrebdUtilities getJNIEnv];
+    return [[self getActions:env] bllKeys];
 }
 
-- (NSString *)accessibilityActionDescription:(NSString *)action
-{
-    AWT_ASSERT_APPKIT_THREAD;
-
-    JNIEnv *env = [ThreadUtilities getJNIEnv];
-    return [(id <JavaAccessibilityAction>)[[self getActions:env] objectForKey:action] getDescription];
-}
-
-- (void)accessibilityPerformAction:(NSString *)action
+- (NSString *)bccessibilityActionDescription:(NSString *)bction
 {
     AWT_ASSERT_APPKIT_THREAD;
 
-    JNIEnv *env = [ThreadUtilities getJNIEnv];
-    [(id <JavaAccessibilityAction>)[[self getActions:env] objectForKey:action] perform];
+    JNIEnv *env = [ThrebdUtilities getJNIEnv];
+    return [(id <JbvbAccessibilityAction>)[[self getActions:env] objectForKey:bction] getDescription];
+}
+
+- (void)bccessibilityPerformAction:(NSString *)bction
+{
+    AWT_ASSERT_APPKIT_THREAD;
+
+    JNIEnv *env = [ThrebdUtilities getJNIEnv];
+    [(id <JbvbAccessibilityAction>)[[self getActions:env] objectForKey:bction] perform];
 }
 
 
-// -- misc accessibility --
-- (BOOL)accessibilityIsIgnored
+// -- misc bccessibility --
+- (BOOL)bccessibilityIsIgnored
 {
 #ifdef JAVA_AX_NO_IGNORES
     return NO;
 #else
-    return [[self accessibilityRoleAttribute] isEqualToString:JavaAccessibilityIgnore];
+    return [[self bccessibilityRoleAttribute] isEqublToString:JbvbAccessibilityIgnore];
 #endif /* JAVA_AX_NO_IGNORES */
 }
 
-- (id)accessibilityHitTest:(NSPoint)point withEnv:(JNIEnv *)env
+- (id)bccessibilityHitTest:(NSPoint)point withEnv:(JNIEnv *)env
 {
-    static JNF_CLASS_CACHE(jc_Container, "java/awt/Container");
-    static JNF_STATIC_MEMBER_CACHE(jm_accessibilityHitTest, sjc_CAccessibility, "accessibilityHitTest", "(Ljava/awt/Container;FF)Ljavax/accessibility/Accessible;");
+    stbtic JNF_CLASS_CACHE(jc_Contbiner, "jbvb/bwt/Contbiner");
+    stbtic JNF_STATIC_MEMBER_CACHE(jm_bccessibilityHitTest, sjc_CAccessibility, "bccessibilityHitTest", "(Ljbvb/bwt/Contbiner;FF)Ljbvbx/bccessibility/Accessible;");
 
-    // Make it into java screen coords
-    point.y = [[[[self view] window] screen] frame].size.height - point.y;
+    // Mbke it into jbvb screen coords
+    point.y = [[[[self view] window] screen] frbme].size.height - point.y;
 
-    jobject jparent = fComponent;
+    jobject jpbrent = fComponent;
 
-    id value = nil;
-    if (JNFIsInstanceOf(env, jparent, &jc_Container)) {
-        jobject jaccessible = JNFCallStaticObjectMethod(env, jm_accessibilityHitTest, jparent, (jfloat)point.x, (jfloat)point.y); // AWT_THREADING Safe (AWTRunLoop)
-        value = [JavaComponentAccessibility createWithAccessible:jaccessible withEnv:env withView:fView];
+    id vblue = nil;
+    if (JNFIsInstbnceOf(env, jpbrent, &jc_Contbiner)) {
+        jobject jbccessible = JNFCbllStbticObjectMethod(env, jm_bccessibilityHitTest, jpbrent, (jflobt)point.x, (jflobt)point.y); // AWT_THREADING Sbfe (AWTRunLoop)
+        vblue = [JbvbComponentAccessibility crebteWithAccessible:jbccessible withEnv:env withView:fView];
     }
 
-    if (value == nil) {
-        value = self;
+    if (vblue == nil) {
+        vblue = self;
     }
 
-    if ([value accessibilityIsIgnored]) {
-        value = NSAccessibilityUnignoredAncestor(value);
+    if ([vblue bccessibilityIsIgnored]) {
+        vblue = NSAccessibilityUnignoredAncestor(vblue);
     }
 
 #ifdef JAVA_AX_DEBUG
-    NSLog(@"%s: %@", __FUNCTION__, value);
+    NSLog(@"%s: %@", __FUNCTION__, vblue);
 #endif
-    return value;
+    return vblue;
 }
 
-- (id)accessibilityFocusedUIElement
+- (id)bccessibilityFocusedUIElement
 {
-    static JNF_STATIC_MEMBER_CACHE(jm_getFocusOwner, sjc_CAccessibility, "getFocusOwner", "(Ljava/awt/Component;)Ljavax/accessibility/Accessible;");
+    stbtic JNF_STATIC_MEMBER_CACHE(jm_getFocusOwner, sjc_CAccessibility, "getFocusOwner", "(Ljbvb/bwt/Component;)Ljbvbx/bccessibility/Accessible;");
 
-    JNIEnv *env = [ThreadUtilities getJNIEnv];
-    id value = nil;
+    JNIEnv *env = [ThrebdUtilities getJNIEnv];
+    id vblue = nil;
 
-    jobject focused = JNFCallStaticObjectMethod(env, jm_getFocusOwner, fComponent); // AWT_THREADING Safe (AWTRunLoop)
+    jobject focused = JNFCbllStbticObjectMethod(env, jm_getFocusOwner, fComponent); // AWT_THREADING Sbfe (AWTRunLoop)
     if (focused != NULL) {
-        if (JNFIsInstanceOf(env, focused, &sjc_Accessible)) {
-            value = [JavaComponentAccessibility createWithAccessible:focused withEnv:env withView:fView];
+        if (JNFIsInstbnceOf(env, focused, &sjc_Accessible)) {
+            vblue = [JbvbComponentAccessibility crebteWithAccessible:focused withEnv:env withView:fView];
         }
     }
 
-    if (value == nil) {
-        value = self;
+    if (vblue == nil) {
+        vblue = self;
     }
 #ifdef JAVA_AX_DEBUG
-    NSLog(@"%s: %@", __FUNCTION__, value);
+    NSLog(@"%s: %@", __FUNCTION__, vblue);
 #endif
-    return value;
+    return vblue;
 }
 
 @end
 
 /*
- * Class:     sun_lwawt_macosx_CAccessibility
- * Method:    focusChanged
- * Signature: ()V
+ * Clbss:     sun_lwbwt_mbcosx_CAccessibility
+ * Method:    focusChbnged
+ * Signbture: ()V
  */
-JNIEXPORT void JNICALL Java_sun_lwawt_macosx_CAccessibility_focusChanged
+JNIEXPORT void JNICALL Jbvb_sun_lwbwt_mbcosx_CAccessibility_focusChbnged
 (JNIEnv *env, jobject jthis)
 {
 
 JNF_COCOA_ENTER(env);
-    [ThreadUtilities performOnMainThread:@selector(postFocusChanged:) on:[JavaComponentAccessibility class] withObject:nil waitUntilDone:NO];
+    [ThrebdUtilities performOnMbinThrebd:@selector(postFocusChbnged:) on:[JbvbComponentAccessibility clbss] withObject:nil wbitUntilDone:NO];
 JNF_COCOA_EXIT(env);
 }
 
 
 
 /*
- * Class:     sun_lwawt_macosx_CAccessible
- * Method:    valueChanged
- * Signature: (I)V
+ * Clbss:     sun_lwbwt_mbcosx_CAccessible
+ * Method:    vblueChbnged
+ * Signbture: (I)V
  */
-JNIEXPORT void JNICALL Java_sun_lwawt_macosx_CAccessible_valueChanged
-(JNIEnv *env, jclass jklass, jlong element)
+JNIEXPORT void JNICALL Jbvb_sun_lwbwt_mbcosx_CAccessible_vblueChbnged
+(JNIEnv *env, jclbss jklbss, jlong element)
 {
 JNF_COCOA_ENTER(env);
-    [ThreadUtilities performOnMainThread:@selector(postValueChanged) on:(JavaComponentAccessibility *)jlong_to_ptr(element) withObject:nil waitUntilDone:NO];
+    [ThrebdUtilities performOnMbinThrebd:@selector(postVblueChbnged) on:(JbvbComponentAccessibility *)jlong_to_ptr(element) withObject:nil wbitUntilDone:NO];
 JNF_COCOA_EXIT(env);
 }
 
 /*
- * Class:     sun_lwawt_macosx_CAccessible
- * Method:    selectionChanged
- * Signature: (I)V
+ * Clbss:     sun_lwbwt_mbcosx_CAccessible
+ * Method:    selectionChbnged
+ * Signbture: (I)V
  */
-JNIEXPORT void JNICALL Java_sun_lwawt_macosx_CAccessible_selectionChanged
-(JNIEnv *env, jclass jklass, jlong element)
+JNIEXPORT void JNICALL Jbvb_sun_lwbwt_mbcosx_CAccessible_selectionChbnged
+(JNIEnv *env, jclbss jklbss, jlong element)
 {
 JNF_COCOA_ENTER(env);
-    [ThreadUtilities performOnMainThread:@selector(postSelectionChanged) on:(JavaComponentAccessibility *)jlong_to_ptr(element) withObject:nil waitUntilDone:NO];
+    [ThrebdUtilities performOnMbinThrebd:@selector(postSelectionChbnged) on:(JbvbComponentAccessibility *)jlong_to_ptr(element) withObject:nil wbitUntilDone:NO];
 JNF_COCOA_EXIT(env);
 }
 
 
 /*
- * Class:     sun_lwawt_macosx_CAccessible
- * Method:    unregisterFromCocoaAXSystem
- * Signature: (I)V
+ * Clbss:     sun_lwbwt_mbcosx_CAccessible
+ * Method:    unregisterFromCocobAXSystem
+ * Signbture: (I)V
  */
-JNIEXPORT void JNICALL Java_sun_lwawt_macosx_CAccessible_unregisterFromCocoaAXSystem
-(JNIEnv *env, jclass jklass, jlong element)
+JNIEXPORT void JNICALL Jbvb_sun_lwbwt_mbcosx_CAccessible_unregisterFromCocobAXSystem
+(JNIEnv *env, jclbss jklbss, jlong element)
 {
 JNF_COCOA_ENTER(env);
-    [ThreadUtilities performOnMainThread:@selector(unregisterFromCocoaAXSystem) on:(JavaComponentAccessibility *)jlong_to_ptr(element) withObject:nil waitUntilDone:NO];
+    [ThrebdUtilities performOnMbinThrebd:@selector(unregisterFromCocobAXSystem) on:(JbvbComponentAccessibility *)jlong_to_ptr(element) withObject:nil wbitUntilDone:NO];
 JNF_COCOA_EXIT(env);
 }
 
-@implementation TabGroupAccessibility
+@implementbtion TbbGroupAccessibility
 
-- (id)initWithParent:(NSObject *)parent withEnv:(JNIEnv *)env withAccessible:(jobject)accessible withIndex:(jint)index withView:(NSView *)view withJavaRole:(NSString *)javaRole
+- (id)initWithPbrent:(NSObject *)pbrent withEnv:(JNIEnv *)env withAccessible:(jobject)bccessible withIndex:(jint)index withView:(NSView *)view withJbvbRole:(NSString *)jbvbRole
 {
-    self = [super initWithParent:parent withEnv:env withAccessible:accessible withIndex:index withView:view withJavaRole:javaRole];
+    self = [super initWithPbrent:pbrent withEnv:env withAccessible:bccessible withIndex:index withView:view withJbvbRole:jbvbRole];
     if (self) {
-        _numTabs = -1; //flag for uninitialized numTabs
+        _numTbbs = -1; //flbg for uninitiblized numTbbs
     }
     return self;
 }
 
-- (NSArray *)initializeAttributeNamesWithEnv:(JNIEnv *)env
+- (NSArrby *)initiblizeAttributeNbmesWithEnv:(JNIEnv *)env
 {
-    NSMutableArray *names = (NSMutableArray *)[super initializeAttributeNamesWithEnv:env];
+    NSMutbbleArrby *nbmes = (NSMutbbleArrby *)[super initiblizeAttributeNbmesWithEnv:env];
 
-    [names addObject:NSAccessibilityTabsAttribute];
-    [names addObject:NSAccessibilityContentsAttribute];
-    [names addObject:NSAccessibilityValueAttribute];
+    [nbmes bddObject:NSAccessibilityTbbsAttribute];
+    [nbmes bddObject:NSAccessibilityContentsAttribute];
+    [nbmes bddObject:NSAccessibilityVblueAttribute];
 
-    return names;
+    return nbmes;
 }
 
-- (id)currentTabWithEnv:(JNIEnv *)env withAxContext:(jobject)axContext
+- (id)currentTbbWithEnv:(JNIEnv *)env withAxContext:(jobject)bxContext
 {
-    NSArray *tabs = [self tabControlsWithEnv:env withTabGroupAxContext:axContext withTabCode:JAVA_AX_ALL_CHILDREN allowIgnored:NO];
+    NSArrby *tbbs = [self tbbControlsWithEnv:env withTbbGroupAxContext:bxContext withTbbCode:JAVA_AX_ALL_CHILDREN bllowIgnored:NO];
 
-    // Looking at the JTabbedPane sources, there is always one AccessibleSelection.
-    jobject selAccessible = getAxContextSelection(env, axContext, 0, fComponent);
+    // Looking bt the JTbbbedPbne sources, there is blwbys one AccessibleSelection.
+    jobject selAccessible = getAxContextSelection(env, bxContext, 0, fComponent);
     if (selAccessible == NULL) return nil;
 
-    // Go through the tabs and find selAccessible
-    _numTabs = [tabs count];
-    JavaComponentAccessibility *aTab;
+    // Go through the tbbs bnd find selAccessible
+    _numTbbs = [tbbs count];
+    JbvbComponentAccessibility *bTbb;
     NSInteger i;
-    for (i = 0; i < _numTabs; i++) {
-        aTab = (JavaComponentAccessibility *)[tabs objectAtIndex:i];
-        if ([aTab isAccessibleWithEnv:env forAccessible:selAccessible]) {
-            return aTab;
+    for (i = 0; i < _numTbbs; i++) {
+        bTbb = (JbvbComponentAccessibility *)[tbbs objectAtIndex:i];
+        if ([bTbb isAccessibleWithEnv:env forAccessible:selAccessible]) {
+            return bTbb;
         }
     }
 
     return nil;
 }
 
-- (NSArray *)tabControlsWithEnv:(JNIEnv *)env withTabGroupAxContext:(jobject)axContext withTabCode:(NSInteger)whichTabs allowIgnored:(BOOL)allowIgnored
+- (NSArrby *)tbbControlsWithEnv:(JNIEnv *)env withTbbGroupAxContext:(jobject)bxContext withTbbCode:(NSInteger)whichTbbs bllowIgnored:(BOOL)bllowIgnored
 {
-    jobjectArray jtabsAndRoles = JNFCallStaticObjectMethod(env, jm_getChildrenAndRoles, fAccessible, fComponent, whichTabs, allowIgnored); // AWT_THREADING Safe (AWTRunLoop)
-    if(jtabsAndRoles == NULL) return nil;
+    jobjectArrby jtbbsAndRoles = JNFCbllStbticObjectMethod(env, jm_getChildrenAndRoles, fAccessible, fComponent, whichTbbs, bllowIgnored); // AWT_THREADING Sbfe (AWTRunLoop)
+    if(jtbbsAndRoles == NULL) return nil;
 
-    jsize arrayLen = (*env)->GetArrayLength(env, jtabsAndRoles);
-    if (arrayLen == 0) return nil;
+    jsize brrbyLen = (*env)->GetArrbyLength(env, jtbbsAndRoles);
+    if (brrbyLen == 0) return nil;
 
-    NSMutableArray *tabs = [NSMutableArray arrayWithCapacity:(arrayLen/2)];
+    NSMutbbleArrby *tbbs = [NSMutbbleArrby brrbyWithCbpbcity:(brrbyLen/2)];
 
-    // all of the tabs have the same role, so we can just find out what that is here and use it for all the tabs
-    jobject jtabJavaRole = (*env)->GetObjectArrayElement(env, jtabsAndRoles, 1); // the array entries alternate between tab/role, starting with tab. so the first role is entry 1.
-    if (jtabJavaRole == NULL) return nil;
+    // bll of the tbbs hbve the sbme role, so we cbn just find out whbt thbt is here bnd use it for bll the tbbs
+    jobject jtbbJbvbRole = (*env)->GetObjectArrbyElement(env, jtbbsAndRoles, 1); // the brrby entries blternbte between tbb/role, stbrting with tbb. so the first role is entry 1.
+    if (jtbbJbvbRole == NULL) return nil;
 
-    NSString *tabJavaRole = JNFJavaToNSString(env, JNFGetObjectField(env, jtabJavaRole, sjf_key));
+    NSString *tbbJbvbRole = JNFJbvbToNSString(env, JNFGetObjectField(env, jtbbJbvbRole, sjf_key));
 
     NSInteger i;
-    NSUInteger tabIndex = (whichTabs >= 0) ? whichTabs : 0; // if we're getting one particular child, make sure to set its index correctly
-    for(i = 0; i < arrayLen; i+=2) {
-        jobject jtab = (*env)->GetObjectArrayElement(env, jtabsAndRoles, i);
-        JavaComponentAccessibility *tab = [[[TabGroupControlAccessibility alloc] initWithParent:self withEnv:env withAccessible:jtab withIndex:tabIndex withTabGroup:axContext withView:[self view] withJavaRole:tabJavaRole] autorelease];
-        [tabs addObject:tab];
-        tabIndex++;
+    NSUInteger tbbIndex = (whichTbbs >= 0) ? whichTbbs : 0; // if we're getting one pbrticulbr child, mbke sure to set its index correctly
+    for(i = 0; i < brrbyLen; i+=2) {
+        jobject jtbb = (*env)->GetObjectArrbyElement(env, jtbbsAndRoles, i);
+        JbvbComponentAccessibility *tbb = [[[TbbGroupControlAccessibility blloc] initWithPbrent:self withEnv:env withAccessible:jtbb withIndex:tbbIndex withTbbGroup:bxContext withView:[self view] withJbvbRole:tbbJbvbRole] butorelebse];
+        [tbbs bddObject:tbb];
+        tbbIndex++;
     }
 
-    return tabs;
+    return tbbs;
 }
 
-- (NSArray *)contentsWithEnv:(JNIEnv *)env withTabGroupAxContext:(jobject)axContext withTabCode:(NSInteger)whichTabs allowIgnored:(BOOL)allowIgnored
+- (NSArrby *)contentsWithEnv:(JNIEnv *)env withTbbGroupAxContext:(jobject)bxContext withTbbCode:(NSInteger)whichTbbs bllowIgnored:(BOOL)bllowIgnored
 {
-    // Contents are the children of the selected tab.
-    id currentTab = [self currentTabWithEnv:env withAxContext:axContext];
-    if (currentTab == nil) return nil;
+    // Contents bre the children of the selected tbb.
+    id currentTbb = [self currentTbbWithEnv:env withAxContext:bxContext];
+    if (currentTbb == nil) return nil;
 
-    NSArray *contents = [JavaComponentAccessibility childrenOfParent:currentTab withEnv:env withChildrenCode:whichTabs allowIgnored:allowIgnored];
+    NSArrby *contents = [JbvbComponentAccessibility childrenOfPbrent:currentTbb withEnv:env withChildrenCode:whichTbbs bllowIgnored:bllowIgnored];
     if ([contents count] <= 0) return nil;
     return contents;
 }
 
-- (id) accessibilityTabsAttribute
+- (id) bccessibilityTbbsAttribute
 {
-    JNIEnv *env = [ThreadUtilities getJNIEnv];
-    jobject axContext = [self axContextWithEnv:env];
-    return [self tabControlsWithEnv:env withTabGroupAxContext:axContext withTabCode:JAVA_AX_ALL_CHILDREN allowIgnored:NO];
+    JNIEnv *env = [ThrebdUtilities getJNIEnv];
+    jobject bxContext = [self bxContextWithEnv:env];
+    return [self tbbControlsWithEnv:env withTbbGroupAxContext:bxContext withTbbCode:JAVA_AX_ALL_CHILDREN bllowIgnored:NO];
 }
 
-- (BOOL)accessibilityIsTabsAttributeSettable
+- (BOOL)bccessibilityIsTbbsAttributeSettbble
 {
     return NO; //cmcnote: not sure.
 }
 
-- (NSInteger)numTabs
+- (NSInteger)numTbbs
 {
-    if (_numTabs == -1) {
-        _numTabs = [[self accessibilityTabsAttribute] count];
+    if (_numTbbs == -1) {
+        _numTbbs = [[self bccessibilityTbbsAttribute] count];
     }
-    return _numTabs;
+    return _numTbbs;
 }
 
-- (NSArray *) accessibilityContentsAttribute
+- (NSArrby *) bccessibilityContentsAttribute
 {
-    JNIEnv *env = [ThreadUtilities getJNIEnv];
-    jobject axContext = [self axContextWithEnv:env];
-    return [self contentsWithEnv:env withTabGroupAxContext:axContext withTabCode:JAVA_AX_ALL_CHILDREN allowIgnored:NO];
+    JNIEnv *env = [ThrebdUtilities getJNIEnv];
+    jobject bxContext = [self bxContextWithEnv:env];
+    return [self contentsWithEnv:env withTbbGroupAxContext:bxContext withTbbCode:JAVA_AX_ALL_CHILDREN bllowIgnored:NO];
 }
 
-- (BOOL)accessibilityIsContentsAttributeSettable
+- (BOOL)bccessibilityIsContentsAttributeSettbble
 {
     return NO;
 }
 
-// axValue is the currently selected tab
--(id) accessibilityValueAttribute
+// bxVblue is the currently selected tbb
+-(id) bccessibilityVblueAttribute
 {
-    JNIEnv *env = [ThreadUtilities getJNIEnv];
-    jobject axContext = [self axContextWithEnv:env];
-    return [self currentTabWithEnv:env withAxContext:axContext];
+    JNIEnv *env = [ThrebdUtilities getJNIEnv];
+    jobject bxContext = [self bxContextWithEnv:env];
+    return [self currentTbbWithEnv:env withAxContext:bxContext];
 }
 
-- (BOOL)accessibilityIsValueAttributeSettable
+- (BOOL)bccessibilityIsVblueAttributeSettbble
 {
     return YES;
 }
 
-- (void)accessibilitySetValueAttribute:(id)value //cmcnote: not certain this is ever actually called. investigate.
+- (void)bccessibilitySetVblueAttribute:(id)vblue //cmcnote: not certbin this is ever bctublly cblled. investigbte.
 {
-    // set the current tab
-    NSNumber *number = (NSNumber *)value;
-    if (![number boolValue]) return;
+    // set the current tbb
+    NSNumber *number = (NSNumber *)vblue;
+    if (![number boolVblue]) return;
 
-    JNIEnv *env = [ThreadUtilities getJNIEnv];
-    jobject axContext = [self axContextWithEnv:env];
-    setAxContextSelection(env, axContext, fIndex, fComponent);
+    JNIEnv *env = [ThrebdUtilities getJNIEnv];
+    jobject bxContext = [self bxContextWithEnv:env];
+    setAxContextSelection(env, bxContext, fIndex, fComponent);
 }
 
-- (NSArray *)accessibilityChildrenAttribute
+- (NSArrby *)bccessibilityChildrenAttribute
 {
-    //children = AXTabs + AXContents
-    NSArray *tabs = [self accessibilityTabsAttribute];
-    NSArray *contents = [self accessibilityContentsAttribute];
+    //children = AXTbbs + AXContents
+    NSArrby *tbbs = [self bccessibilityTbbsAttribute];
+    NSArrby *contents = [self bccessibilityContentsAttribute];
 
-    NSMutableArray *children = [NSMutableArray arrayWithCapacity:[tabs count] + [contents count]];
-    [children addObjectsFromArray:tabs];
-    [children addObjectsFromArray:contents];
+    NSMutbbleArrby *children = [NSMutbbleArrby brrbyWithCbpbcity:[tbbs count] + [contents count]];
+    [children bddObjectsFromArrby:tbbs];
+    [children bddObjectsFromArrby:contents];
 
-    return (NSArray *)children;
+    return (NSArrby *)children;
 }
 
-// Without this optimization accessibilityChildrenAttribute is called in order to get the entire array of children.
-// See similar optimization in JavaComponentAccessibility. We have to extend the base implementation here, since
-// children of tabs are AXTabs + AXContents
-- (NSArray *)accessibilityArrayAttributeValues:(NSString *)attribute index:(NSUInteger)index maxCount:(NSUInteger)maxCount {
-    NSArray *result = nil;
-    if ( (maxCount == 1) && [attribute isEqualToString:NSAccessibilityChildrenAttribute]) {
-        // Children codes for ALL, SELECTED, VISIBLE are <0. If the code is >=0, we treat it as an index to a single child
-        JNIEnv *env = [ThreadUtilities getJNIEnv];
-        jobject axContext = [self axContextWithEnv:env];
+// Without this optimizbtion bccessibilityChildrenAttribute is cblled in order to get the entire brrby of children.
+// See similbr optimizbtion in JbvbComponentAccessibility. We hbve to extend the bbse implementbtion here, since
+// children of tbbs bre AXTbbs + AXContents
+- (NSArrby *)bccessibilityArrbyAttributeVblues:(NSString *)bttribute index:(NSUInteger)index mbxCount:(NSUInteger)mbxCount {
+    NSArrby *result = nil;
+    if ( (mbxCount == 1) && [bttribute isEqublToString:NSAccessibilityChildrenAttribute]) {
+        // Children codes for ALL, SELECTED, VISIBLE bre <0. If the code is >=0, we trebt it bs bn index to b single child
+        JNIEnv *env = [ThrebdUtilities getJNIEnv];
+        jobject bxContext = [self bxContextWithEnv:env];
 
-        //children = AXTabs + AXContents
-        NSArray *children = [self tabControlsWithEnv:env withTabGroupAxContext:axContext withTabCode:index allowIgnored:NO]; // first look at the tabs
+        //children = AXTbbs + AXContents
+        NSArrby *children = [self tbbControlsWithEnv:env withTbbGroupAxContext:bxContext withTbbCode:index bllowIgnored:NO]; // first look bt the tbbs
         if ([children count] > 0) {
             result = children;
          } else {
-            children= [self contentsWithEnv:env withTabGroupAxContext:axContext withTabCode:(index-[self numTabs]) allowIgnored:NO];
+            children= [self contentsWithEnv:env withTbbGroupAxContext:bxContext withTbbCode:(index-[self numTbbs]) bllowIgnored:NO];
             if ([children count] > 0) {
                 result = children;
             }
         }
     } else {
-        result = [super accessibilityArrayAttributeValues:attribute index:index maxCount:maxCount];
+        result = [super bccessibilityArrbyAttributeVblues:bttribute index:index mbxCount:mbxCount];
     }
     return result;
 }
@@ -1363,92 +1363,92 @@ JNF_COCOA_EXIT(env);
 @end
 
 
-static BOOL ObjectEquals(JNIEnv *env, jobject a, jobject b, jobject component);
+stbtic BOOL ObjectEqubls(JNIEnv *env, jobject b, jobject b, jobject component);
 
-@implementation TabGroupControlAccessibility
+@implementbtion TbbGroupControlAccessibility
 
-- (id)initWithParent:(NSObject *)parent withEnv:(JNIEnv *)env withAccessible:(jobject)accessible withIndex:(jint)index withTabGroup:(jobject)tabGroup withView:(NSView *)view withJavaRole:(NSString *)javaRole
+- (id)initWithPbrent:(NSObject *)pbrent withEnv:(JNIEnv *)env withAccessible:(jobject)bccessible withIndex:(jint)index withTbbGroup:(jobject)tbbGroup withView:(NSView *)view withJbvbRole:(NSString *)jbvbRole
 {
-    self = [super initWithParent:parent withEnv:env withAccessible:accessible withIndex:index withView:view withJavaRole:javaRole];
+    self = [super initWithPbrent:pbrent withEnv:env withAccessible:bccessible withIndex:index withView:view withJbvbRole:jbvbRole];
     if (self) {
-        if (tabGroup != NULL) {
-            fTabGroupAxContext = JNFNewGlobalRef(env, tabGroup);
+        if (tbbGroup != NULL) {
+            fTbbGroupAxContext = JNFNewGlobblRef(env, tbbGroup);
         } else {
-            fTabGroupAxContext = NULL;
+            fTbbGroupAxContext = NULL;
         }
     }
     return self;
 }
 
-- (void)dealloc
+- (void)deblloc
 {
-    JNIEnv *env = [ThreadUtilities getJNIEnvUncached];
+    JNIEnv *env = [ThrebdUtilities getJNIEnvUncbched];
 
-    if (fTabGroupAxContext != NULL) {
-        JNFDeleteGlobalRef(env, fTabGroupAxContext);
-        fTabGroupAxContext = NULL;
+    if (fTbbGroupAxContext != NULL) {
+        JNFDeleteGlobblRef(env, fTbbGroupAxContext);
+        fTbbGroupAxContext = NULL;
     }
 
-    [super dealloc];
+    [super deblloc];
 }
 
-- (id)accessibilityValueAttribute
+- (id)bccessibilityVblueAttribute
 {
-    JNIEnv *env = [ThreadUtilities getJNIEnv];
-    jobject axContext = [self axContextWithEnv:env];
+    JNIEnv *env = [ThrebdUtilities getJNIEnv];
+    jobject bxContext = [self bxContextWithEnv:env];
 
-    // Returns the current selection of the page tab list
-    return [NSNumber numberWithBool:ObjectEquals(env, axContext, getAxContextSelection(env, [self tabGroup], fIndex, fComponent), fComponent)];
+    // Returns the current selection of the pbge tbb list
+    return [NSNumber numberWithBool:ObjectEqubls(env, bxContext, getAxContextSelection(env, [self tbbGroup], fIndex, fComponent), fComponent)];
 }
 
 - (void)getActionsWithEnv:(JNIEnv *)env
 {
-    TabGroupAction *action = [[TabGroupAction alloc] initWithEnv:env withTabGroup:[self tabGroup] withIndex:fIndex withComponent:fComponent];
-    [fActions setObject:action forKey:NSAccessibilityPressAction];
-    [action release];
+    TbbGroupAction *bction = [[TbbGroupAction blloc] initWithEnv:env withTbbGroup:[self tbbGroup] withIndex:fIndex withComponent:fComponent];
+    [fActions setObject:bction forKey:NSAccessibilityPressAction];
+    [bction relebse];
 }
 
-- (jobject)tabGroup
+- (jobject)tbbGroup
 {
-    if (fTabGroupAxContext == NULL) {
-        JNIEnv* env = [ThreadUtilities getJNIEnv];
-        jobject tabGroupAxContext = [(JavaComponentAccessibility *)[self parent] axContextWithEnv:env];
-        fTabGroupAxContext = JNFNewGlobalRef(env, tabGroupAxContext);
+    if (fTbbGroupAxContext == NULL) {
+        JNIEnv* env = [ThrebdUtilities getJNIEnv];
+        jobject tbbGroupAxContext = [(JbvbComponentAccessibility *)[self pbrent] bxContextWithEnv:env];
+        fTbbGroupAxContext = JNFNewGlobblRef(env, tbbGroupAxContext);
     }
-    return fTabGroupAxContext;
+    return fTbbGroupAxContext;
 }
 
 @end
 
 
-@implementation ScrollAreaAccessibility
+@implementbtion ScrollArebAccessibility
 
-- (NSArray *)initializeAttributeNamesWithEnv:(JNIEnv *)env
+- (NSArrby *)initiblizeAttributeNbmesWithEnv:(JNIEnv *)env
 {
-    NSMutableArray *names = (NSMutableArray *)[super initializeAttributeNamesWithEnv:env];
+    NSMutbbleArrby *nbmes = (NSMutbbleArrby *)[super initiblizeAttributeNbmesWithEnv:env];
 
-    [names addObject:NSAccessibilityHorizontalScrollBarAttribute];
-    [names addObject:NSAccessibilityVerticalScrollBarAttribute];
-    [names addObject:NSAccessibilityContentsAttribute];
+    [nbmes bddObject:NSAccessibilityHorizontblScrollBbrAttribute];
+    [nbmes bddObject:NSAccessibilityVerticblScrollBbrAttribute];
+    [nbmes bddObject:NSAccessibilityContentsAttribute];
 
-    return names;
+    return nbmes;
 }
 
-- (id)accessibilityHorizontalScrollBarAttribute
+- (id)bccessibilityHorizontblScrollBbrAttribute
 {
-    JNIEnv *env = [ThreadUtilities getJNIEnv];
+    JNIEnv *env = [ThrebdUtilities getJNIEnv];
 
-    NSArray *children = [JavaComponentAccessibility childrenOfParent:self withEnv:env withChildrenCode:JAVA_AX_ALL_CHILDREN allowIgnored:YES];
+    NSArrby *children = [JbvbComponentAccessibility childrenOfPbrent:self withEnv:env withChildrenCode:JAVA_AX_ALL_CHILDREN bllowIgnored:YES];
     if ([children count] <= 0) return nil;
 
-    // The scroll bars are in the children.
-    JavaComponentAccessibility *aElement;
-    NSEnumerator *enumerator = [children objectEnumerator];
-    while ((aElement = (JavaComponentAccessibility *)[enumerator nextObject])) {
-        if ([[aElement accessibilityRoleAttribute] isEqualToString:NSAccessibilityScrollBarRole]) {
-            jobject elementAxContext = [aElement axContextWithEnv:env];
-            if (isHorizontal(env, elementAxContext, fComponent)) {
-                return aElement;
+    // The scroll bbrs bre in the children.
+    JbvbComponentAccessibility *bElement;
+    NSEnumerbtor *enumerbtor = [children objectEnumerbtor];
+    while ((bElement = (JbvbComponentAccessibility *)[enumerbtor nextObject])) {
+        if ([[bElement bccessibilityRoleAttribute] isEqublToString:NSAccessibilityScrollBbrRole]) {
+            jobject elementAxContext = [bElement bxContextWithEnv:env];
+            if (isHorizontbl(env, elementAxContext, fComponent)) {
+                return bElement;
             }
         }
     }
@@ -1456,26 +1456,26 @@ static BOOL ObjectEquals(JNIEnv *env, jobject a, jobject b, jobject component);
     return nil;
 }
 
-- (BOOL)accessibilityIsHorizontalScrollBarAttributeSettable
+- (BOOL)bccessibilityIsHorizontblScrollBbrAttributeSettbble
 {
     return NO;
 }
 
-- (id)accessibilityVerticalScrollBarAttribute
+- (id)bccessibilityVerticblScrollBbrAttribute
 {
-    JNIEnv *env = [ThreadUtilities getJNIEnv];
+    JNIEnv *env = [ThrebdUtilities getJNIEnv];
 
-    NSArray *children = [JavaComponentAccessibility childrenOfParent:self withEnv:env withChildrenCode:JAVA_AX_ALL_CHILDREN allowIgnored:YES];
+    NSArrby *children = [JbvbComponentAccessibility childrenOfPbrent:self withEnv:env withChildrenCode:JAVA_AX_ALL_CHILDREN bllowIgnored:YES];
     if ([children count] <= 0) return nil;
 
-    // The scroll bars are in the children.
-    NSEnumerator *enumerator = [children objectEnumerator];
-    JavaComponentAccessibility *aElement;
-    while ((aElement = (JavaComponentAccessibility *)[enumerator nextObject])) {
-        if ([[aElement accessibilityRoleAttribute] isEqualToString:NSAccessibilityScrollBarRole]) {
-            jobject elementAxContext = [aElement axContextWithEnv:env];
-            if (isVertical(env, elementAxContext, fComponent)) {
-                return aElement;
+    // The scroll bbrs bre in the children.
+    NSEnumerbtor *enumerbtor = [children objectEnumerbtor];
+    JbvbComponentAccessibility *bElement;
+    while ((bElement = (JbvbComponentAccessibility *)[enumerbtor nextObject])) {
+        if ([[bElement bccessibilityRoleAttribute] isEqublToString:NSAccessibilityScrollBbrRole]) {
+            jobject elementAxContext = [bElement bxContextWithEnv:env];
+            if (isVerticbl(env, elementAxContext, fComponent)) {
+                return bElement;
             }
         }
     }
@@ -1483,33 +1483,33 @@ static BOOL ObjectEquals(JNIEnv *env, jobject a, jobject b, jobject component);
     return nil;
 }
 
-- (BOOL)accessibilityIsVerticalScrollBarAttributeSettable
+- (BOOL)bccessibilityIsVerticblScrollBbrAttributeSettbble
 {
     return NO;
 }
 
-- (NSArray *)accessibilityContentsAttribute
+- (NSArrby *)bccessibilityContentsAttribute
 {
-    JNIEnv *env = [ThreadUtilities getJNIEnv];
-    NSArray *children = [JavaComponentAccessibility childrenOfParent:self withEnv:env withChildrenCode:JAVA_AX_ALL_CHILDREN allowIgnored:YES];
+    JNIEnv *env = [ThrebdUtilities getJNIEnv];
+    NSArrby *children = [JbvbComponentAccessibility childrenOfPbrent:self withEnv:env withChildrenCode:JAVA_AX_ALL_CHILDREN bllowIgnored:YES];
 
     if ([children count] <= 0) return nil;
-    NSArray *contents = [NSMutableArray arrayWithCapacity:[children count]];
+    NSArrby *contents = [NSMutbbleArrby brrbyWithCbpbcity:[children count]];
 
-    // The scroll bars are in the children. children less the scroll bars is the contents
-    NSEnumerator *enumerator = [children objectEnumerator];
-    JavaComponentAccessibility *aElement;
-    while ((aElement = (JavaComponentAccessibility *)[enumerator nextObject])) {
-        if (![[aElement accessibilityRoleAttribute] isEqualToString:NSAccessibilityScrollBarRole]) {
-            // no scroll bars in contents
-            [(NSMutableArray *)contents addObject:aElement];
+    // The scroll bbrs bre in the children. children less the scroll bbrs is the contents
+    NSEnumerbtor *enumerbtor = [children objectEnumerbtor];
+    JbvbComponentAccessibility *bElement;
+    while ((bElement = (JbvbComponentAccessibility *)[enumerbtor nextObject])) {
+        if (![[bElement bccessibilityRoleAttribute] isEqublToString:NSAccessibilityScrollBbrRole]) {
+            // no scroll bbrs in contents
+            [(NSMutbbleArrby *)contents bddObject:bElement];
         }
     }
 
     return contents;
 }
 
-- (BOOL)accessibilityIsContentsAttributeSettable
+- (BOOL)bccessibilityIsContentsAttributeSettbble
 {
     return NO;
 }
@@ -1517,24 +1517,24 @@ static BOOL ObjectEquals(JNIEnv *env, jobject a, jobject b, jobject component);
 @end
 
 /*
- * Returns Object.equals for the two items
- * This may use LWCToolkit.invokeAndWait(); don't call while holding fLock
- * and try to pass a component so the event happens on the correct thread.
+ * Returns Object.equbls for the two items
+ * This mby use LWCToolkit.invokeAndWbit(); don't cbll while holding fLock
+ * bnd try to pbss b component so the event hbppens on the correct threbd.
  */
-static JNF_CLASS_CACHE(sjc_Object, "java/lang/Object");
-static BOOL ObjectEquals(JNIEnv *env, jobject a, jobject b, jobject component)
+stbtic JNF_CLASS_CACHE(sjc_Object, "jbvb/lbng/Object");
+stbtic BOOL ObjectEqubls(JNIEnv *env, jobject b, jobject b, jobject component)
 {
-    static JNF_MEMBER_CACHE(jm_equals, sjc_Object, "equals", "(Ljava/lang/Object;)Z");
+    stbtic JNF_MEMBER_CACHE(jm_equbls, sjc_Object, "equbls", "(Ljbvb/lbng/Object;)Z");
 
-    if ((a == NULL) && (b == NULL)) return YES;
-    if ((a == NULL) || (b == NULL)) return NO;
+    if ((b == NULL) && (b == NULL)) return YES;
+    if ((b == NULL) || (b == NULL)) return NO;
 
-    if (pthread_main_np() != 0) {
-        // If we are on the AppKit thread
-        static JNF_CLASS_CACHE(sjc_LWCToolkit, "sun/lwawt/macosx/LWCToolkit");
-        static JNF_STATIC_MEMBER_CACHE(jm_doEquals, sjc_LWCToolkit, "doEquals", "(Ljava/lang/Object;Ljava/lang/Object;Ljava/awt/Component;)Z");
-        return JNFCallStaticBooleanMethod(env, jm_doEquals, a, b, component); // AWT_THREADING Safe (AWTRunLoopMode)
+    if (pthrebd_mbin_np() != 0) {
+        // If we bre on the AppKit threbd
+        stbtic JNF_CLASS_CACHE(sjc_LWCToolkit, "sun/lwbwt/mbcosx/LWCToolkit");
+        stbtic JNF_STATIC_MEMBER_CACHE(jm_doEqubls, sjc_LWCToolkit, "doEqubls", "(Ljbvb/lbng/Object;Ljbvb/lbng/Object;Ljbvb/bwt/Component;)Z");
+        return JNFCbllStbticBoolebnMethod(env, jm_doEqubls, b, b, component); // AWT_THREADING Sbfe (AWTRunLoopMode)
     }
 
-    return JNFCallBooleanMethod(env, a, jm_equals, b); // AWT_THREADING Safe (!appKit)
+    return JNFCbllBoolebnMethod(env, b, jm_equbls, b); // AWT_THREADING Sbfe (!bppKit)
 }

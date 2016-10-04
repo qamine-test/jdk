@@ -1,97 +1,97 @@
 /*
- * Copyright (c) 2005, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2010, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.internal.spec;
+pbckbge sun.security.internbl.spec;
 
-import java.security.spec.AlgorithmParameterSpec;
+import jbvb.security.spec.AlgorithmPbrbmeterSpec;
 
-import javax.crypto.SecretKey;
+import jbvbx.crypto.SecretKey;
 
 /**
- * Parameters for the TLS PRF (pseudo-random function). The PRF function
+ * Pbrbmeters for the TLS PRF (pseudo-rbndom function). The PRF function
  * is defined in RFC 2246.
- * This class is used to initialize KeyGenerators of the type "TlsPrf".
+ * This clbss is used to initiblize KeyGenerbtors of the type "TlsPrf".
  *
- * <p>Instances of this class are immutable.
+ * <p>Instbnces of this clbss bre immutbble.
  *
  * @since   1.6
- * @author  Andreas Sterbenz
- * @deprecated Sun JDK internal use only --- WILL BE REMOVED in a future
- * release.
+ * @buthor  Andrebs Sterbenz
+ * @deprecbted Sun JDK internbl use only --- WILL BE REMOVED in b future
+ * relebse.
  */
-@Deprecated
-public class TlsPrfParameterSpec implements AlgorithmParameterSpec {
+@Deprecbted
+public clbss TlsPrfPbrbmeterSpec implements AlgorithmPbrbmeterSpec {
 
-    private final SecretKey secret;
-    private final String label;
-    private final byte[] seed;
-    private final int outputLength;
-    private final String prfHashAlg;
-    private final int prfHashLength;
-    private final int prfBlockSize;
+    privbte finbl SecretKey secret;
+    privbte finbl String lbbel;
+    privbte finbl byte[] seed;
+    privbte finbl int outputLength;
+    privbte finbl String prfHbshAlg;
+    privbte finbl int prfHbshLength;
+    privbte finbl int prfBlockSize;
 
     /**
-     * Constructs a new TlsPrfParameterSpec.
+     * Constructs b new TlsPrfPbrbmeterSpec.
      *
-     * @param secret the secret to use in the calculation (or null)
-     * @param label the label to use in the calculation
-     * @param seed the random seed to use in the calculation
-     * @param outputLength the length in bytes of the output key to be produced
-     * @param prfHashAlg the name of the TLS PRF hash algorithm to use.
-     *        Used only for TLS 1.2+.  TLS1.1 and earlier use a fixed PRF.
-     * @param prfHashLength the output length of the TLS PRF hash algorithm.
+     * @pbrbm secret the secret to use in the cblculbtion (or null)
+     * @pbrbm lbbel the lbbel to use in the cblculbtion
+     * @pbrbm seed the rbndom seed to use in the cblculbtion
+     * @pbrbm outputLength the length in bytes of the output key to be produced
+     * @pbrbm prfHbshAlg the nbme of the TLS PRF hbsh blgorithm to use.
+     *        Used only for TLS 1.2+.  TLS1.1 bnd ebrlier use b fixed PRF.
+     * @pbrbm prfHbshLength the output length of the TLS PRF hbsh blgorithm.
      *        Used only for TLS 1.2+.
-     * @param prfBlockSize the input block size of the TLS PRF hash algorithm.
+     * @pbrbm prfBlockSize the input block size of the TLS PRF hbsh blgorithm.
      *        Used only for TLS 1.2+.
      *
-     * @throws NullPointerException if label or seed is null
-     * @throws IllegalArgumentException if outputLength is negative
+     * @throws NullPointerException if lbbel or seed is null
+     * @throws IllegblArgumentException if outputLength is negbtive
      */
-    public TlsPrfParameterSpec(SecretKey secret, String label,
+    public TlsPrfPbrbmeterSpec(SecretKey secret, String lbbel,
             byte[] seed, int outputLength,
-            String prfHashAlg, int prfHashLength, int prfBlockSize) {
-        if ((label == null) || (seed == null)) {
-            throw new NullPointerException("label and seed must not be null");
+            String prfHbshAlg, int prfHbshLength, int prfBlockSize) {
+        if ((lbbel == null) || (seed == null)) {
+            throw new NullPointerException("lbbel bnd seed must not be null");
         }
         if (outputLength <= 0) {
-            throw new IllegalArgumentException("outputLength must be positive");
+            throw new IllegblArgumentException("outputLength must be positive");
         }
         this.secret = secret;
-        this.label = label;
+        this.lbbel = lbbel;
         this.seed = seed.clone();
         this.outputLength = outputLength;
-        this.prfHashAlg = prfHashAlg;
-        this.prfHashLength = prfHashLength;
+        this.prfHbshAlg = prfHbshAlg;
+        this.prfHbshLength = prfHbshLength;
         this.prfBlockSize = prfBlockSize;
     }
 
     /**
-     * Returns the secret to use in the PRF calculation, or null if there is no
+     * Returns the secret to use in the PRF cblculbtion, or null if there is no
      * secret.
      *
-     * @return the secret to use in the PRF calculation, or null if there is no
+     * @return the secret to use in the PRF cblculbtion, or null if there is no
      * secret.
      */
     public SecretKey getSecret() {
@@ -99,18 +99,18 @@ public class TlsPrfParameterSpec implements AlgorithmParameterSpec {
     }
 
     /**
-     * Returns the label to use in the PRF calcuation.
+     * Returns the lbbel to use in the PRF cblcubtion.
      *
-     * @return the label to use in the PRF calcuation.
+     * @return the lbbel to use in the PRF cblcubtion.
      */
-    public String getLabel() {
-        return label;
+    public String getLbbel() {
+        return lbbel;
     }
 
     /**
-     * Returns a copy of the seed to use in the PRF calcuation.
+     * Returns b copy of the seed to use in the PRF cblcubtion.
      *
-     * @return a copy of the seed to use in the PRF calcuation.
+     * @return b copy of the seed to use in the PRF cblcubtion.
      */
     public byte[] getSeed() {
         return seed.clone();
@@ -126,30 +126,30 @@ public class TlsPrfParameterSpec implements AlgorithmParameterSpec {
     }
 
     /**
-     * Obtains the PRF hash algorithm to use in the PRF calculation.
+     * Obtbins the PRF hbsh blgorithm to use in the PRF cblculbtion.
      *
-     * @return the hash algorithm, or null if no algorithm was specified.
+     * @return the hbsh blgorithm, or null if no blgorithm wbs specified.
      */
-    public String getPRFHashAlg() {
-        return prfHashAlg;
+    public String getPRFHbshAlg() {
+        return prfHbshAlg;
     }
 
     /**
-     * Obtains the length of PRF hash algorithm.
+     * Obtbins the length of PRF hbsh blgorithm.
      *
-     * It would have been preferred to use MessageDigest.getDigestLength(),
-     * but the API does not require implementations to support the method.
+     * It would hbve been preferred to use MessbgeDigest.getDigestLength(),
+     * but the API does not require implementbtions to support the method.
      *
-     * @return the hash algorithm length.
+     * @return the hbsh blgorithm length.
      */
-    public int getPRFHashLength() {
-        return prfHashLength;
+    public int getPRFHbshLength() {
+        return prfHbshLength;
     }
 
     /**
-     * Obtains the length of PRF hash algorithm.
+     * Obtbins the length of PRF hbsh blgorithm.
      *
-     * @return the hash algorithm length.
+     * @return the hbsh blgorithm length.
      */
     public int getPRFBlockSize() {
         return prfBlockSize;

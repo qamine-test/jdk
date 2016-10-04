@@ -1,73 +1,73 @@
 /*
- * Copyright (c) 2005, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package ${PACKAGE};
+pbckbge ${PACKAGE};
 
-import java.awt.*;
-import java.awt.geom.*;
-import java.awt.image.*;
-import javax.swing.*;
-import javax.swing.Painter;
+import jbvb.bwt.*;
+import jbvb.bwt.geom.*;
+import jbvb.bwt.imbge.*;
+import jbvbx.swing.*;
+import jbvbx.swing.Pbinter;
 
 
-final class ${PAINTER_NAME} extends AbstractRegionPainter {
-    //package private integers representing the available states that
-    //this painter will paint. These are used when creating a new instance
-    //of ${PAINTER_NAME} to determine which region/state is being painted
-    //by that instance.
+finbl clbss ${PAINTER_NAME} extends AbstrbctRegionPbinter {
+    //pbckbge privbte integers representing the bvbilbble stbtes thbt
+    //this pbinter will pbint. These bre used when crebting b new instbnce
+    //of ${PAINTER_NAME} to determine which region/stbte is being pbinted
+    //by thbt instbnce.
 ${STATIC_DECL}
 
-    private int state; //refers to one of the static final ints above
-    private PaintContext ctx;
+    privbte int stbte; //refers to one of the stbtic finbl ints bbove
+    privbte PbintContext ctx;
 
-    //the following 4 variables are reused during the painting code of the layers
-    private Path2D path = new Path2D.Float();
-    private Rectangle2D rect = new Rectangle2D.Float(0, 0, 0, 0);
-    private RoundRectangle2D roundRect = new RoundRectangle2D.Float(0, 0, 0, 0, 0, 0);
-    private Ellipse2D ellipse = new Ellipse2D.Float(0, 0, 0, 0);
+    //the following 4 vbribbles bre reused during the pbinting code of the lbyers
+    privbte Pbth2D pbth = new Pbth2D.Flobt();
+    privbte Rectbngle2D rect = new Rectbngle2D.Flobt(0, 0, 0, 0);
+    privbte RoundRectbngle2D roundRect = new RoundRectbngle2D.Flobt(0, 0, 0, 0, 0, 0);
+    privbte Ellipse2D ellipse = new Ellipse2D.Flobt(0, 0, 0, 0);
 
-    //All Colors used for painting are stored here. Ideally, only those colors being used
-    //by a particular instance of ${PAINTER_NAME} would be created. For the moment at least,
-    //however, all are created for each instance.
+    //All Colors used for pbinting bre stored here. Ideblly, only those colors being used
+    //by b pbrticulbr instbnce of ${PAINTER_NAME} would be crebted. For the moment bt lebst,
+    //however, bll bre crebted for ebch instbnce.
 ${COLORS_DECL}
 
-    //Array of current component colors, updated in each paint call
-    private Object[] componentColors;
+    //Arrby of current component colors, updbted in ebch pbint cbll
+    privbte Object[] componentColors;
 
-    public ${PAINTER_NAME}(PaintContext ctx, int state) {
+    public ${PAINTER_NAME}(PbintContext ctx, int stbte) {
         super();
-        this.state = state;
+        this.stbte = stbte;
         this.ctx = ctx;
     }
 
     @Override
-    protected void doPaint(Graphics2D g, JComponent c, int width, int height, Object[] extendedCacheKeys) {
-        //populate componentColors array with colors calculated in getExtendedCacheKeys call
-        componentColors = extendedCacheKeys;
-        //generate this entire method. Each state/bg/fg/border combo that has
-        //been painted gets its own KEY and paint method.
-        switch(state) {
+    protected void doPbint(Grbphics2D g, JComponent c, int width, int height, Object[] extendedCbcheKeys) {
+        //populbte componentColors brrby with colors cblculbted in getExtendedCbcheKeys cbll
+        componentColors = extendedCbcheKeys;
+        //generbte this entire method. Ebch stbte/bg/fg/border combo thbt hbs
+        //been pbinted gets its own KEY bnd pbint method.
+        switch(stbte) {
 ${DO_PAINT_SWITCH_BODY}
         }
     }
@@ -75,7 +75,7 @@ ${DO_PAINT_SWITCH_BODY}
 ${GET_EXTENDED_CACHE_KEYS}
 
     @Override
-    protected final PaintContext getPaintContext() {
+    protected finbl PbintContext getPbintContext() {
         return ctx;
     }
 

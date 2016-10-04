@@ -1,160 +1,160 @@
 /*
- * Copyright (c) 2008, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.awt.windows;
+pbckbge sun.bwt.windows;
 
-import java.awt.AlphaComposite;
-import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.GraphicsConfiguration;
-import java.awt.Image;
-import java.awt.Window;
-import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferInt;
-import java.awt.image.VolatileImage;
-import java.security.AccessController;
-import sun.awt.image.BufImgSurfaceData;
-import sun.java2d.DestSurfaceProvider;
-import sun.java2d.InvalidPipeException;
-import sun.java2d.Surface;
-import sun.java2d.pipe.RenderQueue;
-import sun.java2d.pipe.BufferedContext;
-import sun.java2d.pipe.hw.AccelGraphicsConfig;
-import sun.java2d.pipe.hw.AccelSurface;
-import sun.security.action.GetPropertyAction;
+import jbvb.bwt.AlphbComposite;
+import jbvb.bwt.Color;
+import jbvb.bwt.Grbphics2D;
+import jbvb.bwt.GrbphicsConfigurbtion;
+import jbvb.bwt.Imbge;
+import jbvb.bwt.Window;
+import jbvb.bwt.imbge.BufferedImbge;
+import jbvb.bwt.imbge.DbtbBufferInt;
+import jbvb.bwt.imbge.VolbtileImbge;
+import jbvb.security.AccessController;
+import sun.bwt.imbge.BufImgSurfbceDbtb;
+import sun.jbvb2d.DestSurfbceProvider;
+import sun.jbvb2d.InvblidPipeException;
+import sun.jbvb2d.Surfbce;
+import sun.jbvb2d.pipe.RenderQueue;
+import sun.jbvb2d.pipe.BufferedContext;
+import sun.jbvb2d.pipe.hw.AccelGrbphicsConfig;
+import sun.jbvb2d.pipe.hw.AccelSurfbce;
+import sun.security.bction.GetPropertyAction;
 
-import static java.awt.image.VolatileImage.*;
-import static sun.java2d.pipe.hw.AccelSurface.*;
-import static sun.java2d.pipe.hw.ContextCapabilities.*;
+import stbtic jbvb.bwt.imbge.VolbtileImbge.*;
+import stbtic sun.jbvb2d.pipe.hw.AccelSurfbce.*;
+import stbtic sun.jbvb2d.pipe.hw.ContextCbpbbilities.*;
 
 /**
- * This class handles the updates of the non-opaque windows.
- * The window associated with the peer is updated either given an image or
- * the window is repainted to an internal buffer which is then used to update
+ * This clbss hbndles the updbtes of the non-opbque windows.
+ * The window bssocibted with the peer is updbted either given bn imbge or
+ * the window is repbinted to bn internbl buffer which is then used to updbte
  * the window.
  *
- * Note: this class does not attempt to be thread safe, it is expected to be
- * called from a single thread (EDT).
+ * Note: this clbss does not bttempt to be threbd sbfe, it is expected to be
+ * cblled from b single threbd (EDT).
  */
-abstract class TranslucentWindowPainter {
+bbstrbct clbss TrbnslucentWindowPbinter {
 
     protected Window window;
     protected WWindowPeer peer;
 
-    // REMIND: we probably would want to remove this later
-    private static final boolean forceOpt  =
-        Boolean.valueOf(AccessController.doPrivileged(
-            new GetPropertyAction("sun.java2d.twp.forceopt", "false")));
-    private static final boolean forceSW  =
-        Boolean.valueOf(AccessController.doPrivileged(
-            new GetPropertyAction("sun.java2d.twp.forcesw", "false")));
+    // REMIND: we probbbly would wbnt to remove this lbter
+    privbte stbtic finbl boolebn forceOpt  =
+        Boolebn.vblueOf(AccessController.doPrivileged(
+            new GetPropertyAction("sun.jbvb2d.twp.forceopt", "fblse")));
+    privbte stbtic finbl boolebn forceSW  =
+        Boolebn.vblueOf(AccessController.doPrivileged(
+            new GetPropertyAction("sun.jbvb2d.twp.forcesw", "fblse")));
 
     /**
-     * Creates an instance of the painter for particular peer.
+     * Crebtes bn instbnce of the pbinter for pbrticulbr peer.
      */
-    public static TranslucentWindowPainter createInstance(WWindowPeer peer) {
-        GraphicsConfiguration gc = peer.getGraphicsConfiguration();
-        if (!forceSW && gc instanceof AccelGraphicsConfig) {
-            String gcName = gc.getClass().getSimpleName();
-            AccelGraphicsConfig agc = (AccelGraphicsConfig)gc;
-            // this is a heuristic to check that we have a pcix board
-            // (those have higher transfer rate from gpu to cpu)
-            if ((agc.getContextCapabilities().getCaps() & CAPS_PS30) != 0 ||
+    public stbtic TrbnslucentWindowPbinter crebteInstbnce(WWindowPeer peer) {
+        GrbphicsConfigurbtion gc = peer.getGrbphicsConfigurbtion();
+        if (!forceSW && gc instbnceof AccelGrbphicsConfig) {
+            String gcNbme = gc.getClbss().getSimpleNbme();
+            AccelGrbphicsConfig bgc = (AccelGrbphicsConfig)gc;
+            // this is b heuristic to check thbt we hbve b pcix bobrd
+            // (those hbve higher trbnsfer rbte from gpu to cpu)
+            if ((bgc.getContextCbpbbilities().getCbps() & CAPS_PS30) != 0 ||
                 forceOpt)
             {
-                // we check for name to avoid loading classes unnecessarily if
-                // a pipeline isn't enabled
-                if (gcName.startsWith("D3D")) {
-                    return new VIOptD3DWindowPainter(peer);
-                } else if (forceOpt && gcName.startsWith("WGL")) {
-                    // on some boards (namely, ATI, even on pcix bus) ogl is
-                    // very slow reading pixels back so for now it is disabled
+                // we check for nbme to bvoid lobding clbsses unnecessbrily if
+                // b pipeline isn't enbbled
+                if (gcNbme.stbrtsWith("D3D")) {
+                    return new VIOptD3DWindowPbinter(peer);
+                } else if (forceOpt && gcNbme.stbrtsWith("WGL")) {
+                    // on some bobrds (nbmely, ATI, even on pcix bus) ogl is
+                    // very slow rebding pixels bbck so for now it is disbbled
                     // unless forced
-                    return new VIOptWGLWindowPainter(peer);
+                    return new VIOptWGLWindowPbinter(peer);
                 }
             }
         }
-        return new BIWindowPainter(peer);
+        return new BIWindowPbinter(peer);
     }
 
-    protected TranslucentWindowPainter(WWindowPeer peer) {
+    protected TrbnslucentWindowPbinter(WWindowPeer peer) {
         this.peer = peer;
-        this.window = (Window)peer.getTarget();
+        this.window = (Window)peer.getTbrget();
     }
 
     /**
-     * Creates (if needed), clears (if requested) and returns the buffer
-     * for this painter.
+     * Crebtes (if needed), clebrs (if requested) bnd returns the buffer
+     * for this pbinter.
      */
-    protected abstract Image getBackBuffer(boolean clear);
+    protected bbstrbct Imbge getBbckBuffer(boolebn clebr);
 
     /**
-     * Updates the the window associated with this painter with the contents
-     * of the passed image.
-     * The image can not be null, and NPE will be thrown if it is.
+     * Updbtes the the window bssocibted with this pbinter with the contents
+     * of the pbssed imbge.
+     * The imbge cbn not be null, bnd NPE will be thrown if it is.
      */
-    protected abstract boolean update(Image bb);
+    protected bbstrbct boolebn updbte(Imbge bb);
 
     /**
-     * Flushes the resources associated with the painter. They will be
-     * recreated as needed.
+     * Flushes the resources bssocibted with the pbinter. They will be
+     * recrebted bs needed.
      */
-    public abstract void flush();
+    public bbstrbct void flush();
 
     /**
-     * Updates the window associated with the painter.
+     * Updbtes the window bssocibted with the pbinter.
      *
-     * @param repaint indicates if the window should be completely repainted
-     * to the back buffer using {@link java.awt.Window#paintAll} before update.
+     * @pbrbm repbint indicbtes if the window should be completely repbinted
+     * to the bbck buffer using {@link jbvb.bwt.Window#pbintAll} before updbte.
      */
-    public void updateWindow(boolean repaint) {
-        boolean done = false;
-        Image bb = getBackBuffer(repaint);
+    public void updbteWindow(boolebn repbint) {
+        boolebn done = fblse;
+        Imbge bb = getBbckBuffer(repbint);
         while (!done) {
-            if (repaint) {
-                Graphics2D g = (Graphics2D)bb.getGraphics();
+            if (repbint) {
+                Grbphics2D g = (Grbphics2D)bb.getGrbphics();
                 try {
-                    window.paintAll(g);
-                } finally {
+                    window.pbintAll(g);
+                } finblly {
                     g.dispose();
                 }
             }
 
-            done = update(bb);
+            done = updbte(bb);
             if (!done) {
-                repaint = true;
-                bb = getBackBuffer(true);
+                repbint = true;
+                bb = getBbckBuffer(true);
             }
         }
     }
 
-    private static final Image clearImage(Image bb) {
-        Graphics2D g = (Graphics2D)bb.getGraphics();
+    privbte stbtic finbl Imbge clebrImbge(Imbge bb) {
+        Grbphics2D g = (Grbphics2D)bb.getGrbphics();
         int w = bb.getWidth(null);
         int h = bb.getHeight(null);
 
-        g.setComposite(AlphaComposite.Src);
+        g.setComposite(AlphbComposite.Src);
         g.setColor(new Color(0, 0, 0, 0));
         g.fillRect(0, 0, w, h);
 
@@ -162,118 +162,118 @@ abstract class TranslucentWindowPainter {
     }
 
     /**
-     * A painter which uses BufferedImage as the internal buffer. The window
-     * is painted into this buffer, and the contents then are uploaded
-     * into the layered window.
+     * A pbinter which uses BufferedImbge bs the internbl buffer. The window
+     * is pbinted into this buffer, bnd the contents then bre uplobded
+     * into the lbyered window.
      *
-     * This painter handles all types of images passed to its paint(Image)
-     * method (VI, BI, regular Images).
+     * This pbinter hbndles bll types of imbges pbssed to its pbint(Imbge)
+     * method (VI, BI, regulbr Imbges).
      */
-    private static class BIWindowPainter extends TranslucentWindowPainter {
-        private BufferedImage backBuffer;
+    privbte stbtic clbss BIWindowPbinter extends TrbnslucentWindowPbinter {
+        privbte BufferedImbge bbckBuffer;
 
-        protected BIWindowPainter(WWindowPeer peer) {
+        protected BIWindowPbinter(WWindowPeer peer) {
             super(peer);
         }
 
         @Override
-        protected Image getBackBuffer(boolean clear) {
+        protected Imbge getBbckBuffer(boolebn clebr) {
             int w = window.getWidth();
             int h = window.getHeight();
-            if (backBuffer == null ||
-                backBuffer.getWidth() != w ||
-                backBuffer.getHeight() != h)
+            if (bbckBuffer == null ||
+                bbckBuffer.getWidth() != w ||
+                bbckBuffer.getHeight() != h)
             {
                 flush();
-                backBuffer = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB_PRE);
+                bbckBuffer = new BufferedImbge(w, h, BufferedImbge.TYPE_INT_ARGB_PRE);
             }
-            return clear ? (BufferedImage)clearImage(backBuffer) : backBuffer;
+            return clebr ? (BufferedImbge)clebrImbge(bbckBuffer) : bbckBuffer;
         }
 
         @Override
-        protected boolean update(Image bb) {
-            VolatileImage viBB = null;
+        protected boolebn updbte(Imbge bb) {
+            VolbtileImbge viBB = null;
 
-            if (bb instanceof BufferedImage) {
-                BufferedImage bi = (BufferedImage)bb;
-                int data[] =
-                    ((DataBufferInt)bi.getRaster().getDataBuffer()).getData();
-                peer.updateWindowImpl(data, bi.getWidth(), bi.getHeight());
+            if (bb instbnceof BufferedImbge) {
+                BufferedImbge bi = (BufferedImbge)bb;
+                int dbtb[] =
+                    ((DbtbBufferInt)bi.getRbster().getDbtbBuffer()).getDbtb();
+                peer.updbteWindowImpl(dbtb, bi.getWidth(), bi.getHeight());
                 return true;
-            } else if (bb instanceof VolatileImage) {
-                viBB = (VolatileImage)bb;
-                if (bb instanceof DestSurfaceProvider) {
-                    Surface s = ((DestSurfaceProvider)bb).getDestSurface();
-                    if (s instanceof BufImgSurfaceData) {
-                        // the image is probably lost, upload the data from the
-                        // backup surface to avoid creating another heap-based
-                        // image (the parent's buffer)
+            } else if (bb instbnceof VolbtileImbge) {
+                viBB = (VolbtileImbge)bb;
+                if (bb instbnceof DestSurfbceProvider) {
+                    Surfbce s = ((DestSurfbceProvider)bb).getDestSurfbce();
+                    if (s instbnceof BufImgSurfbceDbtb) {
+                        // the imbge is probbbly lost, uplobd the dbtb from the
+                        // bbckup surfbce to bvoid crebting bnother hebp-bbsed
+                        // imbge (the pbrent's buffer)
                         int w = viBB.getWidth();
                         int h = viBB.getHeight();
-                        BufImgSurfaceData bisd = (BufImgSurfaceData)s;
-                        int data[] = ((DataBufferInt)bisd.getRaster(0,0,w,h).
-                            getDataBuffer()).getData();
-                        peer.updateWindowImpl(data, w, h);
+                        BufImgSurfbceDbtb bisd = (BufImgSurfbceDbtb)s;
+                        int dbtb[] = ((DbtbBufferInt)bisd.getRbster(0,0,w,h).
+                            getDbtbBuffer()).getDbtb();
+                        peer.updbteWindowImpl(dbtb, w, h);
                         return true;
                     }
                 }
             }
 
-            // copy the passed image into our own buffer, then upload
-            BufferedImage bi = (BufferedImage)clearImage(backBuffer);
+            // copy the pbssed imbge into our own buffer, then uplobd
+            BufferedImbge bi = (BufferedImbge)clebrImbge(bbckBuffer);
 
-            int data[] =
-                ((DataBufferInt)bi.getRaster().getDataBuffer()).getData();
-            peer.updateWindowImpl(data, bi.getWidth(), bi.getHeight());
+            int dbtb[] =
+                ((DbtbBufferInt)bi.getRbster().getDbtbBuffer()).getDbtb();
+            peer.updbteWindowImpl(dbtb, bi.getWidth(), bi.getHeight());
 
             return (viBB != null ? !viBB.contentsLost() : true);
         }
 
         @Override
         public void flush() {
-            if (backBuffer != null) {
-                backBuffer.flush();
-                backBuffer = null;
+            if (bbckBuffer != null) {
+                bbckBuffer.flush();
+                bbckBuffer = null;
             }
         }
     }
 
     /**
-     * A version of the painter which uses VolatileImage as the internal buffer.
-     * The window is painted into this VI and then copied into the parent's
-     * Java heap-based buffer (which is then uploaded to the layered window)
+     * A version of the pbinter which uses VolbtileImbge bs the internbl buffer.
+     * The window is pbinted into this VI bnd then copied into the pbrent's
+     * Jbvb hebp-bbsed buffer (which is then uplobded to the lbyered window)
      */
-    private static class VIWindowPainter extends BIWindowPainter {
-        private VolatileImage viBB;
+    privbte stbtic clbss VIWindowPbinter extends BIWindowPbinter {
+        privbte VolbtileImbge viBB;
 
-        protected VIWindowPainter(WWindowPeer peer) {
+        protected VIWindowPbinter(WWindowPeer peer) {
             super(peer);
         }
 
         @Override
-        protected Image getBackBuffer(boolean clear) {
+        protected Imbge getBbckBuffer(boolebn clebr) {
             int w = window.getWidth();
             int h = window.getHeight();
-            GraphicsConfiguration gc = peer.getGraphicsConfiguration();
+            GrbphicsConfigurbtion gc = peer.getGrbphicsConfigurbtion();
 
             if (viBB == null || viBB.getWidth() != w || viBB.getHeight() != h ||
-                viBB.validate(gc) == IMAGE_INCOMPATIBLE)
+                viBB.vblidbte(gc) == IMAGE_INCOMPATIBLE)
             {
                 flush();
 
-                if (gc instanceof AccelGraphicsConfig) {
-                    AccelGraphicsConfig agc = ((AccelGraphicsConfig)gc);
-                    viBB = agc.createCompatibleVolatileImage(w, h,
+                if (gc instbnceof AccelGrbphicsConfig) {
+                    AccelGrbphicsConfig bgc = ((AccelGrbphicsConfig)gc);
+                    viBB = bgc.crebteCompbtibleVolbtileImbge(w, h,
                                                              TRANSLUCENT,
                                                              RT_PLAIN);
                 }
                 if (viBB == null) {
-                    viBB = gc.createCompatibleVolatileImage(w, h, TRANSLUCENT);
+                    viBB = gc.crebteCompbtibleVolbtileImbge(w, h, TRANSLUCENT);
                 }
-                viBB.validate(gc);
+                viBB.vblidbte(gc);
             }
 
-            return clear ? clearImage(viBB) : viBB;
+            return clebr ? clebrImbge(viBB) : viBB;
         }
 
         @Override
@@ -286,77 +286,77 @@ abstract class TranslucentWindowPainter {
     }
 
     /**
-     * Optimized version of hw painter. Uses VolatileImages for the
-     * buffer, and uses an optimized path to pull the data from those into
-     * the layered window, bypassing Java heap-based image.
+     * Optimized version of hw pbinter. Uses VolbtileImbges for the
+     * buffer, bnd uses bn optimized pbth to pull the dbtb from those into
+     * the lbyered window, bypbssing Jbvb hebp-bbsed imbge.
      */
-    private abstract static class VIOptWindowPainter extends VIWindowPainter {
+    privbte bbstrbct stbtic clbss VIOptWindowPbinter extends VIWindowPbinter {
 
-        protected VIOptWindowPainter(WWindowPeer peer) {
+        protected VIOptWindowPbinter(WWindowPeer peer) {
             super(peer);
         }
 
-        protected abstract boolean updateWindowAccel(long psdops, int w, int h);
+        protected bbstrbct boolebn updbteWindowAccel(long psdops, int w, int h);
 
         @Override
-        protected boolean update(Image bb) {
-            if (bb instanceof DestSurfaceProvider) {
-                Surface s = ((DestSurfaceProvider)bb).getDestSurface();
-                if (s instanceof AccelSurface) {
-                    final int w = bb.getWidth(null);
-                    final int h = bb.getHeight(null);
-                    final boolean arr[] = { false };
-                    final AccelSurface as = (AccelSurface)s;
-                    RenderQueue rq = as.getContext().getRenderQueue();
+        protected boolebn updbte(Imbge bb) {
+            if (bb instbnceof DestSurfbceProvider) {
+                Surfbce s = ((DestSurfbceProvider)bb).getDestSurfbce();
+                if (s instbnceof AccelSurfbce) {
+                    finbl int w = bb.getWidth(null);
+                    finbl int h = bb.getHeight(null);
+                    finbl boolebn brr[] = { fblse };
+                    finbl AccelSurfbce bs = (AccelSurfbce)s;
+                    RenderQueue rq = bs.getContext().getRenderQueue();
                     rq.lock();
                     try {
-                        BufferedContext.validateContext(as);
-                        rq.flushAndInvokeNow(new Runnable() {
+                        BufferedContext.vblidbteContext(bs);
+                        rq.flushAndInvokeNow(new Runnbble() {
                             @Override
                             public void run() {
-                                long psdops = as.getNativeOps();
-                                arr[0] = updateWindowAccel(psdops, w, h);
+                                long psdops = bs.getNbtiveOps();
+                                brr[0] = updbteWindowAccel(psdops, w, h);
                             }
                         });
-                    } catch (InvalidPipeException e) {
-                        // ignore, false will be returned
-                    } finally {
+                    } cbtch (InvblidPipeException e) {
+                        // ignore, fblse will be returned
+                    } finblly {
                         rq.unlock();
                     }
-                    return arr[0];
+                    return brr[0];
                 }
             }
-            return super.update(bb);
+            return super.updbte(bb);
         }
     }
 
-    private static class VIOptD3DWindowPainter extends VIOptWindowPainter {
+    privbte stbtic clbss VIOptD3DWindowPbinter extends VIOptWindowPbinter {
 
-        protected VIOptD3DWindowPainter(WWindowPeer peer) {
+        protected VIOptD3DWindowPbinter(WWindowPeer peer) {
             super(peer);
         }
 
         @Override
-        protected boolean updateWindowAccel(long psdops, int w, int h) {
-            // note: this method is executed on the toolkit thread, no sync is
-            // necessary at the native level, and a pointer to peer can be used
-            return sun.java2d.d3d.D3DSurfaceData.
-                updateWindowAccelImpl(psdops, peer.getData(), w, h);
+        protected boolebn updbteWindowAccel(long psdops, int w, int h) {
+            // note: this method is executed on the toolkit threbd, no sync is
+            // necessbry bt the nbtive level, bnd b pointer to peer cbn be used
+            return sun.jbvb2d.d3d.D3DSurfbceDbtb.
+                updbteWindowAccelImpl(psdops, peer.getDbtb(), w, h);
         }
     }
 
-    private static class VIOptWGLWindowPainter extends VIOptWindowPainter {
+    privbte stbtic clbss VIOptWGLWindowPbinter extends VIOptWindowPbinter {
 
-        protected VIOptWGLWindowPainter(WWindowPeer peer) {
+        protected VIOptWGLWindowPbinter(WWindowPeer peer) {
             super(peer);
         }
 
         @Override
-        protected boolean updateWindowAccel(long psdops, int w, int h) {
-            // note: part of this method which deals with GDI will be on the
-            // toolkit thread
-            return sun.java2d.opengl.WGLSurfaceData.
-                updateWindowAccelImpl(psdops, peer, w, h);
+        protected boolebn updbteWindowAccel(long psdops, int w, int h) {
+            // note: pbrt of this method which debls with GDI will be on the
+            // toolkit threbd
+            return sun.jbvb2d.opengl.WGLSurfbceDbtb.
+                updbteWindowAccelImpl(psdops, peer, w, h);
         }
     }
 }

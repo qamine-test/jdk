@@ -1,335 +1,335 @@
 /*
- * Copyright (c) 1994, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1994, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.lang;
+pbckbge jbvb.lbng;
 
 /**
- * The Boolean class wraps a value of the primitive type
- * {@code boolean} in an object. An object of type
- * {@code Boolean} contains a single field whose type is
- * {@code boolean}.
+ * The Boolebn clbss wrbps b vblue of the primitive type
+ * {@code boolebn} in bn object. An object of type
+ * {@code Boolebn} contbins b single field whose type is
+ * {@code boolebn}.
  * <p>
- * In addition, this class provides many methods for
- * converting a {@code boolean} to a {@code String} and a
- * {@code String} to a {@code boolean}, as well as other
- * constants and methods useful when dealing with a
- * {@code boolean}.
+ * In bddition, this clbss provides mbny methods for
+ * converting b {@code boolebn} to b {@code String} bnd b
+ * {@code String} to b {@code boolebn}, bs well bs other
+ * constbnts bnd methods useful when debling with b
+ * {@code boolebn}.
  *
- * @author  Arthur van Hoff
+ * @buthor  Arthur vbn Hoff
  * @since   1.0
  */
-public final class Boolean implements java.io.Serializable,
-                                      Comparable<Boolean>
+public finbl clbss Boolebn implements jbvb.io.Seriblizbble,
+                                      Compbrbble<Boolebn>
 {
     /**
-     * The {@code Boolean} object corresponding to the primitive
-     * value {@code true}.
+     * The {@code Boolebn} object corresponding to the primitive
+     * vblue {@code true}.
      */
-    public static final Boolean TRUE = new Boolean(true);
+    public stbtic finbl Boolebn TRUE = new Boolebn(true);
 
     /**
-     * The {@code Boolean} object corresponding to the primitive
-     * value {@code false}.
+     * The {@code Boolebn} object corresponding to the primitive
+     * vblue {@code fblse}.
      */
-    public static final Boolean FALSE = new Boolean(false);
+    public stbtic finbl Boolebn FALSE = new Boolebn(fblse);
 
     /**
-     * The Class object representing the primitive type boolean.
+     * The Clbss object representing the primitive type boolebn.
      *
      * @since   1.1
      */
-    @SuppressWarnings("unchecked")
-    public static final Class<Boolean> TYPE = (Class<Boolean>) Class.getPrimitiveClass("boolean");
+    @SuppressWbrnings("unchecked")
+    public stbtic finbl Clbss<Boolebn> TYPE = (Clbss<Boolebn>) Clbss.getPrimitiveClbss("boolebn");
 
     /**
-     * The value of the Boolean.
+     * The vblue of the Boolebn.
      *
-     * @serial
+     * @seribl
      */
-    private final boolean value;
+    privbte finbl boolebn vblue;
 
-    /** use serialVersionUID from JDK 1.0.2 for interoperability */
-    private static final long serialVersionUID = -3665804199014368530L;
+    /** use seriblVersionUID from JDK 1.0.2 for interoperbbility */
+    privbte stbtic finbl long seriblVersionUID = -3665804199014368530L;
 
     /**
-     * Allocates a {@code Boolean} object representing the
-     * {@code value} argument.
+     * Allocbtes b {@code Boolebn} object representing the
+     * {@code vblue} brgument.
      *
-     * <p><b>Note: It is rarely appropriate to use this constructor.
-     * Unless a <i>new</i> instance is required, the static factory
-     * {@link #valueOf(boolean)} is generally a better choice. It is
-     * likely to yield significantly better space and time performance.</b>
+     * <p><b>Note: It is rbrely bppropribte to use this constructor.
+     * Unless b <i>new</i> instbnce is required, the stbtic fbctory
+     * {@link #vblueOf(boolebn)} is generblly b better choice. It is
+     * likely to yield significbntly better spbce bnd time performbnce.</b>
      *
-     * @param   value   the value of the {@code Boolean}.
+     * @pbrbm   vblue   the vblue of the {@code Boolebn}.
      */
-    public Boolean(boolean value) {
-        this.value = value;
+    public Boolebn(boolebn vblue) {
+        this.vblue = vblue;
     }
 
     /**
-     * Allocates a {@code Boolean} object representing the value
-     * {@code true} if the string argument is not {@code null}
-     * and is equal, ignoring case, to the string {@code "true"}.
-     * Otherwise, allocate a {@code Boolean} object representing the
-     * value {@code false}. Examples:<p>
-     * {@code new Boolean("True")} produces a {@code Boolean} object
-     * that represents {@code true}.<br>
-     * {@code new Boolean("yes")} produces a {@code Boolean} object
-     * that represents {@code false}.
+     * Allocbtes b {@code Boolebn} object representing the vblue
+     * {@code true} if the string brgument is not {@code null}
+     * bnd is equbl, ignoring cbse, to the string {@code "true"}.
+     * Otherwise, bllocbte b {@code Boolebn} object representing the
+     * vblue {@code fblse}. Exbmples:<p>
+     * {@code new Boolebn("True")} produces b {@code Boolebn} object
+     * thbt represents {@code true}.<br>
+     * {@code new Boolebn("yes")} produces b {@code Boolebn} object
+     * thbt represents {@code fblse}.
      *
-     * @param   s   the string to be converted to a {@code Boolean}.
+     * @pbrbm   s   the string to be converted to b {@code Boolebn}.
      */
-    public Boolean(String s) {
-        this(parseBoolean(s));
+    public Boolebn(String s) {
+        this(pbrseBoolebn(s));
     }
 
     /**
-     * Parses the string argument as a boolean.  The {@code boolean}
-     * returned represents the value {@code true} if the string argument
-     * is not {@code null} and is equal, ignoring case, to the string
+     * Pbrses the string brgument bs b boolebn.  The {@code boolebn}
+     * returned represents the vblue {@code true} if the string brgument
+     * is not {@code null} bnd is equbl, ignoring cbse, to the string
      * {@code "true"}. <p>
-     * Example: {@code Boolean.parseBoolean("True")} returns {@code true}.<br>
-     * Example: {@code Boolean.parseBoolean("yes")} returns {@code false}.
+     * Exbmple: {@code Boolebn.pbrseBoolebn("True")} returns {@code true}.<br>
+     * Exbmple: {@code Boolebn.pbrseBoolebn("yes")} returns {@code fblse}.
      *
-     * @param      s   the {@code String} containing the boolean
-     *                 representation to be parsed
-     * @return     the boolean represented by the string argument
+     * @pbrbm      s   the {@code String} contbining the boolebn
+     *                 representbtion to be pbrsed
+     * @return     the boolebn represented by the string brgument
      * @since 1.5
      */
-    public static boolean parseBoolean(String s) {
-        return ((s != null) && s.equalsIgnoreCase("true"));
+    public stbtic boolebn pbrseBoolebn(String s) {
+        return ((s != null) && s.equblsIgnoreCbse("true"));
     }
 
     /**
-     * Returns the value of this {@code Boolean} object as a boolean
+     * Returns the vblue of this {@code Boolebn} object bs b boolebn
      * primitive.
      *
-     * @return  the primitive {@code boolean} value of this object.
+     * @return  the primitive {@code boolebn} vblue of this object.
      */
-    public boolean booleanValue() {
-        return value;
+    public boolebn boolebnVblue() {
+        return vblue;
     }
 
     /**
-     * Returns a {@code Boolean} instance representing the specified
-     * {@code boolean} value.  If the specified {@code boolean} value
-     * is {@code true}, this method returns {@code Boolean.TRUE};
-     * if it is {@code false}, this method returns {@code Boolean.FALSE}.
-     * If a new {@code Boolean} instance is not required, this method
-     * should generally be used in preference to the constructor
-     * {@link #Boolean(boolean)}, as this method is likely to yield
-     * significantly better space and time performance.
+     * Returns b {@code Boolebn} instbnce representing the specified
+     * {@code boolebn} vblue.  If the specified {@code boolebn} vblue
+     * is {@code true}, this method returns {@code Boolebn.TRUE};
+     * if it is {@code fblse}, this method returns {@code Boolebn.FALSE}.
+     * If b new {@code Boolebn} instbnce is not required, this method
+     * should generblly be used in preference to the constructor
+     * {@link #Boolebn(boolebn)}, bs this method is likely to yield
+     * significbntly better spbce bnd time performbnce.
      *
-     * @param  b a boolean value.
-     * @return a {@code Boolean} instance representing {@code b}.
+     * @pbrbm  b b boolebn vblue.
+     * @return b {@code Boolebn} instbnce representing {@code b}.
      * @since  1.4
      */
-    public static Boolean valueOf(boolean b) {
+    public stbtic Boolebn vblueOf(boolebn b) {
         return (b ? TRUE : FALSE);
     }
 
     /**
-     * Returns a {@code Boolean} with a value represented by the
-     * specified string.  The {@code Boolean} returned represents a
-     * true value if the string argument is not {@code null}
-     * and is equal, ignoring case, to the string {@code "true"}.
+     * Returns b {@code Boolebn} with b vblue represented by the
+     * specified string.  The {@code Boolebn} returned represents b
+     * true vblue if the string brgument is not {@code null}
+     * bnd is equbl, ignoring cbse, to the string {@code "true"}.
      *
-     * @param   s   a string.
-     * @return  the {@code Boolean} value represented by the string.
+     * @pbrbm   s   b string.
+     * @return  the {@code Boolebn} vblue represented by the string.
      */
-    public static Boolean valueOf(String s) {
-        return parseBoolean(s) ? TRUE : FALSE;
+    public stbtic Boolebn vblueOf(String s) {
+        return pbrseBoolebn(s) ? TRUE : FALSE;
     }
 
     /**
-     * Returns a {@code String} object representing the specified
-     * boolean.  If the specified boolean is {@code true}, then
+     * Returns b {@code String} object representing the specified
+     * boolebn.  If the specified boolebn is {@code true}, then
      * the string {@code "true"} will be returned, otherwise the
-     * string {@code "false"} will be returned.
+     * string {@code "fblse"} will be returned.
      *
-     * @param b the boolean to be converted
-     * @return the string representation of the specified {@code boolean}
+     * @pbrbm b the boolebn to be converted
+     * @return the string representbtion of the specified {@code boolebn}
      * @since 1.4
      */
-    public static String toString(boolean b) {
-        return b ? "true" : "false";
+    public stbtic String toString(boolebn b) {
+        return b ? "true" : "fblse";
     }
 
     /**
-     * Returns a {@code String} object representing this Boolean's
-     * value.  If this object represents the value {@code true},
-     * a string equal to {@code "true"} is returned. Otherwise, a
-     * string equal to {@code "false"} is returned.
+     * Returns b {@code String} object representing this Boolebn's
+     * vblue.  If this object represents the vblue {@code true},
+     * b string equbl to {@code "true"} is returned. Otherwise, b
+     * string equbl to {@code "fblse"} is returned.
      *
-     * @return  a string representation of this object.
+     * @return  b string representbtion of this object.
      */
     public String toString() {
-        return value ? "true" : "false";
+        return vblue ? "true" : "fblse";
     }
 
     /**
-     * Returns a hash code for this {@code Boolean} object.
+     * Returns b hbsh code for this {@code Boolebn} object.
      *
      * @return  the integer {@code 1231} if this object represents
      * {@code true}; returns the integer {@code 1237} if this
-     * object represents {@code false}.
+     * object represents {@code fblse}.
      */
     @Override
-    public int hashCode() {
-        return Boolean.hashCode(value);
+    public int hbshCode() {
+        return Boolebn.hbshCode(vblue);
     }
 
     /**
-     * Returns a hash code for a {@code boolean} value; compatible with
-     * {@code Boolean.hashCode()}.
+     * Returns b hbsh code for b {@code boolebn} vblue; compbtible with
+     * {@code Boolebn.hbshCode()}.
      *
-     * @param value the value to hash
-     * @return a hash code value for a {@code boolean} value.
+     * @pbrbm vblue the vblue to hbsh
+     * @return b hbsh code vblue for b {@code boolebn} vblue.
      * @since 1.8
      */
-    public static int hashCode(boolean value) {
-        return value ? 1231 : 1237;
+    public stbtic int hbshCode(boolebn vblue) {
+        return vblue ? 1231 : 1237;
     }
 
    /**
-     * Returns {@code true} if and only if the argument is not
-     * {@code null} and is a {@code Boolean} object that
-     * represents the same {@code boolean} value as this object.
+     * Returns {@code true} if bnd only if the brgument is not
+     * {@code null} bnd is b {@code Boolebn} object thbt
+     * represents the sbme {@code boolebn} vblue bs this object.
      *
-     * @param   obj   the object to compare with.
-     * @return  {@code true} if the Boolean objects represent the
-     *          same value; {@code false} otherwise.
+     * @pbrbm   obj   the object to compbre with.
+     * @return  {@code true} if the Boolebn objects represent the
+     *          sbme vblue; {@code fblse} otherwise.
      */
-    public boolean equals(Object obj) {
-        if (obj instanceof Boolean) {
-            return value == ((Boolean)obj).booleanValue();
+    public boolebn equbls(Object obj) {
+        if (obj instbnceof Boolebn) {
+            return vblue == ((Boolebn)obj).boolebnVblue();
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Returns {@code true} if and only if the system property
-     * named by the argument exists and is equal to the string
+     * Returns {@code true} if bnd only if the system property
+     * nbmed by the brgument exists bnd is equbl to the string
      * {@code "true"}. (Beginning with version 1.0.2 of the
-     * Java<small><sup>TM</sup></small> platform, the test of
-     * this string is case insensitive.) A system property is accessible
-     * through {@code getProperty}, a method defined by the
-     * {@code System} class.
+     * Jbvb<smbll><sup>TM</sup></smbll> plbtform, the test of
+     * this string is cbse insensitive.) A system property is bccessible
+     * through {@code getProperty}, b method defined by the
+     * {@code System} clbss.
      * <p>
-     * If there is no property with the specified name, or if the specified
-     * name is empty or null, then {@code false} is returned.
+     * If there is no property with the specified nbme, or if the specified
+     * nbme is empty or null, then {@code fblse} is returned.
      *
-     * @param   name   the system property name.
-     * @return  the {@code boolean} value of the system property.
-     * @throws  SecurityException for the same reasons as
+     * @pbrbm   nbme   the system property nbme.
+     * @return  the {@code boolebn} vblue of the system property.
+     * @throws  SecurityException for the sbme rebsons bs
      *          {@link System#getProperty(String) System.getProperty}
-     * @see     java.lang.System#getProperty(java.lang.String)
-     * @see     java.lang.System#getProperty(java.lang.String, java.lang.String)
+     * @see     jbvb.lbng.System#getProperty(jbvb.lbng.String)
+     * @see     jbvb.lbng.System#getProperty(jbvb.lbng.String, jbvb.lbng.String)
      */
-    public static boolean getBoolean(String name) {
-        boolean result = false;
+    public stbtic boolebn getBoolebn(String nbme) {
+        boolebn result = fblse;
         try {
-            result = parseBoolean(System.getProperty(name));
-        } catch (IllegalArgumentException | NullPointerException e) {
+            result = pbrseBoolebn(System.getProperty(nbme));
+        } cbtch (IllegblArgumentException | NullPointerException e) {
         }
         return result;
     }
 
     /**
-     * Compares this {@code Boolean} instance with another.
+     * Compbres this {@code Boolebn} instbnce with bnother.
      *
-     * @param   b the {@code Boolean} instance to be compared
-     * @return  zero if this object represents the same boolean value as the
-     *          argument; a positive value if this object represents true
-     *          and the argument represents false; and a negative value if
-     *          this object represents false and the argument represents true
-     * @throws  NullPointerException if the argument is {@code null}
-     * @see     Comparable
+     * @pbrbm   b the {@code Boolebn} instbnce to be compbred
+     * @return  zero if this object represents the sbme boolebn vblue bs the
+     *          brgument; b positive vblue if this object represents true
+     *          bnd the brgument represents fblse; bnd b negbtive vblue if
+     *          this object represents fblse bnd the brgument represents true
+     * @throws  NullPointerException if the brgument is {@code null}
+     * @see     Compbrbble
      * @since  1.5
      */
-    public int compareTo(Boolean b) {
-        return compare(this.value, b.value);
+    public int compbreTo(Boolebn b) {
+        return compbre(this.vblue, b.vblue);
     }
 
     /**
-     * Compares two {@code boolean} values.
-     * The value returned is identical to what would be returned by:
+     * Compbres two {@code boolebn} vblues.
+     * The vblue returned is identicbl to whbt would be returned by:
      * <pre>
-     *    Boolean.valueOf(x).compareTo(Boolean.valueOf(y))
+     *    Boolebn.vblueOf(x).compbreTo(Boolebn.vblueOf(y))
      * </pre>
      *
-     * @param  x the first {@code boolean} to compare
-     * @param  y the second {@code boolean} to compare
-     * @return the value {@code 0} if {@code x == y};
-     *         a value less than {@code 0} if {@code !x && y}; and
-     *         a value greater than {@code 0} if {@code x && !y}
+     * @pbrbm  x the first {@code boolebn} to compbre
+     * @pbrbm  y the second {@code boolebn} to compbre
+     * @return the vblue {@code 0} if {@code x == y};
+     *         b vblue less thbn {@code 0} if {@code !x && y}; bnd
+     *         b vblue grebter thbn {@code 0} if {@code x && !y}
      * @since 1.7
      */
-    public static int compare(boolean x, boolean y) {
+    public stbtic int compbre(boolebn x, boolebn y) {
         return (x == y) ? 0 : (x ? 1 : -1);
     }
 
     /**
-     * Returns the result of applying the logical AND operator to the
-     * specified {@code boolean} operands.
+     * Returns the result of bpplying the logicbl AND operbtor to the
+     * specified {@code boolebn} operbnds.
      *
-     * @param a the first operand
-     * @param b the second operand
-     * @return the logical AND of {@code a} and {@code b}
-     * @see java.util.function.BinaryOperator
+     * @pbrbm b the first operbnd
+     * @pbrbm b the second operbnd
+     * @return the logicbl AND of {@code b} bnd {@code b}
+     * @see jbvb.util.function.BinbryOperbtor
      * @since 1.8
      */
-    public static boolean logicalAnd(boolean a, boolean b) {
-        return a && b;
+    public stbtic boolebn logicblAnd(boolebn b, boolebn b) {
+        return b && b;
     }
 
     /**
-     * Returns the result of applying the logical OR operator to the
-     * specified {@code boolean} operands.
+     * Returns the result of bpplying the logicbl OR operbtor to the
+     * specified {@code boolebn} operbnds.
      *
-     * @param a the first operand
-     * @param b the second operand
-     * @return the logical OR of {@code a} and {@code b}
-     * @see java.util.function.BinaryOperator
+     * @pbrbm b the first operbnd
+     * @pbrbm b the second operbnd
+     * @return the logicbl OR of {@code b} bnd {@code b}
+     * @see jbvb.util.function.BinbryOperbtor
      * @since 1.8
      */
-    public static boolean logicalOr(boolean a, boolean b) {
-        return a || b;
+    public stbtic boolebn logicblOr(boolebn b, boolebn b) {
+        return b || b;
     }
 
     /**
-     * Returns the result of applying the logical XOR operator to the
-     * specified {@code boolean} operands.
+     * Returns the result of bpplying the logicbl XOR operbtor to the
+     * specified {@code boolebn} operbnds.
      *
-     * @param a the first operand
-     * @param b the second operand
-     * @return  the logical XOR of {@code a} and {@code b}
-     * @see java.util.function.BinaryOperator
+     * @pbrbm b the first operbnd
+     * @pbrbm b the second operbnd
+     * @return  the logicbl XOR of {@code b} bnd {@code b}
+     * @see jbvb.util.function.BinbryOperbtor
      * @since 1.8
      */
-    public static boolean logicalXor(boolean a, boolean b) {
-        return a ^ b;
+    public stbtic boolebn logicblXor(boolebn b, boolebn b) {
+        return b ^ b;
     }
 }

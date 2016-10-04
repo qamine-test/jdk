@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -28,109 +28,109 @@
 #include <process.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include <stdarg.h>
+#include <stdbrg.h>
 #include <string.h>
 #include <sys/types.h>
-#include <sys/stat.h>
+#include <sys/stbt.h>
 #include <wtypes.h>
 #include <commctrl.h>
 
 #include <jni.h>
-#include "java.h"
+#include "jbvb.h"
 #include "version_comp.h"
 
 #define JVM_DLL "jvm.dll"
-#define JAVA_DLL "java.dll"
+#define JAVA_DLL "jbvb.dll"
 
 /*
  * Prototypes.
  */
-static jboolean GetPublicJREHome(char *path, jint pathsize);
-static jboolean GetJVMPath(const char *jrepath, const char *jvmtype,
-                           char *jvmpath, jint jvmpathsize);
-static jboolean GetJREPath(char *path, jint pathsize);
+stbtic jboolebn GetPublicJREHome(chbr *pbth, jint pbthsize);
+stbtic jboolebn GetJVMPbth(const chbr *jrepbth, const chbr *jvmtype,
+                           chbr *jvmpbth, jint jvmpbthsize);
+stbtic jboolebn GetJREPbth(chbr *pbth, jint pbthsize);
 
-/* We supports warmup for UI stack that is performed in parallel
- * to VM initialization.
- * This helps to improve startup of UI application as warmup phase
- * might be long due to initialization of OS or hardware resources.
- * It is not CPU bound and therefore it does not interfere with VM init.
- * Obviously such warmup only has sense for UI apps and therefore it needs
- * to be explicitly requested by passing -Dsun.awt.warmup=true property
- * (this is always the case for plugin/javaws).
+/* We supports wbrmup for UI stbck thbt is performed in pbrbllel
+ * to VM initiblizbtion.
+ * This helps to improve stbrtup of UI bpplicbtion bs wbrmup phbse
+ * might be long due to initiblizbtion of OS or hbrdwbre resources.
+ * It is not CPU bound bnd therefore it does not interfere with VM init.
+ * Obviously such wbrmup only hbs sense for UI bpps bnd therefore it needs
+ * to be explicitly requested by pbssing -Dsun.bwt.wbrmup=true property
+ * (this is blwbys the cbse for plugin/jbvbws).
  *
- * Implementation launches new thread after VM starts and use it to perform
- * warmup code (platform dependent).
- * This thread is later reused as AWT toolkit thread as graphics toolkit
- * often assume that they are used from the same thread they were launched on.
+ * Implementbtion lbunches new threbd bfter VM stbrts bnd use it to perform
+ * wbrmup code (plbtform dependent).
+ * This threbd is lbter reused bs AWT toolkit threbd bs grbphics toolkit
+ * often bssume thbt they bre used from the sbme threbd they were lbunched on.
  *
- * At the moment we only support warmup for D3D. It only possible on windows
- * and only if other flags do not prohibit this (e.g. OpenGL support requested).
+ * At the moment we only support wbrmup for D3D. It only possible on windows
+ * bnd only if other flbgs do not prohibit this (e.g. OpenGL support requested).
  */
 #undef ENABLE_AWT_PRELOAD
-#ifndef JAVA_ARGS /* turn off AWT preloading for javac, jar, etc */
-    /* CR6999872: fastdebug crashes if awt library is loaded before JVM is
-     * initialized*/
+#ifndef JAVA_ARGS /* turn off AWT prelobding for jbvbc, jbr, etc */
+    /* CR6999872: fbstdebug crbshes if bwt librbry is lobded before JVM is
+     * initiblized*/
     #if !defined(DEBUG)
         #define ENABLE_AWT_PRELOAD
     #endif
 #endif
 
 #ifdef ENABLE_AWT_PRELOAD
-/* "AWT was preloaded" flag;
- * turned on by AWTPreload().
+/* "AWT wbs prelobded" flbg;
+ * turned on by AWTPrelobd().
  */
-int awtPreloaded = 0;
+int bwtPrelobded = 0;
 
-/* Calls a function with the name specified
+/* Cblls b function with the nbme specified
  * the function must be int(*fn)(void).
  */
-int AWTPreload(const char *funcName);
-/* stops AWT preloading */
-void AWTPreloadStop();
+int AWTPrelobd(const chbr *funcNbme);
+/* stops AWT prelobding */
+void AWTPrelobdStop();
 
-/* D3D preloading */
-/* -1: not initialized; 0: OFF, 1: ON */
-int awtPreloadD3D = -1;
-/* command line parameter to swith D3D preloading on */
-#define PARAM_PRELOAD_D3D "-Dsun.awt.warmup"
-/* D3D/OpenGL management parameters */
-#define PARAM_NODDRAW "-Dsun.java2d.noddraw"
-#define PARAM_D3D "-Dsun.java2d.d3d"
-#define PARAM_OPENGL "-Dsun.java2d.opengl"
-/* funtion in awt.dll (src/windows/native/sun/java2d/d3d/D3DPipelineManager.cpp) */
-#define D3D_PRELOAD_FUNC "preloadD3D"
+/* D3D prelobding */
+/* -1: not initiblized; 0: OFF, 1: ON */
+int bwtPrelobdD3D = -1;
+/* commbnd line pbrbmeter to swith D3D prelobding on */
+#define PARAM_PRELOAD_D3D "-Dsun.bwt.wbrmup"
+/* D3D/OpenGL mbnbgement pbrbmeters */
+#define PARAM_NODDRAW "-Dsun.jbvb2d.noddrbw"
+#define PARAM_D3D "-Dsun.jbvb2d.d3d"
+#define PARAM_OPENGL "-Dsun.jbvb2d.opengl"
+/* funtion in bwt.dll (src/windows/nbtive/sun/jbvb2d/d3d/D3DPipelineMbnbger.cpp) */
+#define D3D_PRELOAD_FUNC "prelobdD3D"
 
-/* Extracts value of a parameter with the specified name
- * from command line argument (returns pointer in the argument).
- * Returns NULL if the argument does not contains the parameter.
+/* Extrbcts vblue of b pbrbmeter with the specified nbme
+ * from commbnd line brgument (returns pointer in the brgument).
+ * Returns NULL if the brgument does not contbins the pbrbmeter.
  * e.g.:
- * GetParamValue("theParam", "theParam=value") returns pointer to "value".
+ * GetPbrbmVblue("thePbrbm", "thePbrbm=vblue") returns pointer to "vblue".
  */
-const char * GetParamValue(const char *paramName, const char *arg) {
-    int nameLen = JLI_StrLen(paramName);
-    if (JLI_StrNCmp(paramName, arg, nameLen) == 0) {
-        /* arg[nameLen] is valid (may contain final NULL) */
-        if (arg[nameLen] == '=') {
-            return arg + nameLen + 1;
+const chbr * GetPbrbmVblue(const chbr *pbrbmNbme, const chbr *brg) {
+    int nbmeLen = JLI_StrLen(pbrbmNbme);
+    if (JLI_StrNCmp(pbrbmNbme, brg, nbmeLen) == 0) {
+        /* brg[nbmeLen] is vblid (mby contbin finbl NULL) */
+        if (brg[nbmeLen] == '=') {
+            return brg + nbmeLen + 1;
         }
     }
     return NULL;
 }
 
-/* Checks if commandline argument contains property specified
- * and analyze it as boolean property (true/false).
- * Returns -1 if the argument does not contain the parameter;
- * Returns 1 if the argument contains the parameter and its value is "true";
- * Returns 0 if the argument contains the parameter and its value is "false".
+/* Checks if commbndline brgument contbins property specified
+ * bnd bnblyze it bs boolebn property (true/fblse).
+ * Returns -1 if the brgument does not contbin the pbrbmeter;
+ * Returns 1 if the brgument contbins the pbrbmeter bnd its vblue is "true";
+ * Returns 0 if the brgument contbins the pbrbmeter bnd its vblue is "fblse".
  */
-int GetBoolParamValue(const char *paramName, const char *arg) {
-    const char * paramValue = GetParamValue(paramName, arg);
-    if (paramValue != NULL) {
-        if (JLI_StrCaseCmp(paramValue, "true") == 0) {
+int GetBoolPbrbmVblue(const chbr *pbrbmNbme, const chbr *brg) {
+    const chbr * pbrbmVblue = GetPbrbmVblue(pbrbmNbme, brg);
+    if (pbrbmVblue != NULL) {
+        if (JLI_StrCbseCmp(pbrbmVblue, "true") == 0) {
             return 1;
         }
-        if (JLI_StrCaseCmp(paramValue, "false") == 0) {
+        if (JLI_StrCbseCmp(pbrbmVblue, "fblse") == 0) {
             return 0;
         }
     }
@@ -139,26 +139,26 @@ int GetBoolParamValue(const char *paramName, const char *arg) {
 #endif /* ENABLE_AWT_PRELOAD */
 
 
-static jboolean _isjavaw = JNI_FALSE;
+stbtic jboolebn _isjbvbw = JNI_FALSE;
 
 
-jboolean
-IsJavaw()
+jboolebn
+IsJbvbw()
 {
-    return _isjavaw;
+    return _isjbvbw;
 }
 
 /*
- * Returns the arch path, to get the current arch use the
- * macro GetArch, nbits here is ignored for now.
+ * Returns the brch pbth, to get the current brch use the
+ * mbcro GetArch, nbits here is ignored for now.
  */
-const char *
-GetArchPath(int nbits)
+const chbr *
+GetArchPbth(int nbits)
 {
 #ifdef _M_AMD64
-    return "amd64";
+    return "bmd64";
 #elif defined(_M_IA64)
-    return "ia64";
+    return "ib64";
 #else
     return "i386";
 #endif
@@ -168,84 +168,84 @@ GetArchPath(int nbits)
  *
  */
 void
-CreateExecutionEnvironment(int *pargc, char ***pargv,
-                           char *jrepath, jint so_jrepath,
-                           char *jvmpath, jint so_jvmpath,
-                           char *jvmcfg,  jint so_jvmcfg) {
-    char * jvmtype;
+CrebteExecutionEnvironment(int *pbrgc, chbr ***pbrgv,
+                           chbr *jrepbth, jint so_jrepbth,
+                           chbr *jvmpbth, jint so_jvmpbth,
+                           chbr *jvmcfg,  jint so_jvmcfg) {
+    chbr * jvmtype;
     int i = 0;
     int running = CURRENT_DATA_MODEL;
 
-    int wanted = running;
+    int wbnted = running;
 
-    char** argv = *pargv;
-    for (i = 1; i < *pargc ; i++) {
-        if (JLI_StrCmp(argv[i], "-J-d64") == 0 || JLI_StrCmp(argv[i], "-d64") == 0) {
-            wanted = 64;
+    chbr** brgv = *pbrgv;
+    for (i = 1; i < *pbrgc ; i++) {
+        if (JLI_StrCmp(brgv[i], "-J-d64") == 0 || JLI_StrCmp(brgv[i], "-d64") == 0) {
+            wbnted = 64;
             continue;
         }
-        if (JLI_StrCmp(argv[i], "-J-d32") == 0 || JLI_StrCmp(argv[i], "-d32") == 0) {
-            wanted = 32;
+        if (JLI_StrCmp(brgv[i], "-J-d32") == 0 || JLI_StrCmp(brgv[i], "-d32") == 0) {
+            wbnted = 32;
             continue;
         }
 
-        if (IsJavaArgs() && argv[i][0] != '-')
+        if (IsJbvbArgs() && brgv[i][0] != '-')
             continue;
-        if (argv[i][0] != '-')
-            break;
+        if (brgv[i][0] != '-')
+            brebk;
     }
-    if (running != wanted) {
-        JLI_ReportErrorMessage(JRE_ERROR2, wanted);
+    if (running != wbnted) {
+        JLI_ReportErrorMessbge(JRE_ERROR2, wbnted);
         exit(1);
     }
 
-    /* Find out where the JRE is that we will be using. */
-    if (!GetJREPath(jrepath, so_jrepath)) {
-        JLI_ReportErrorMessage(JRE_ERROR1);
+    /* Find out where the JRE is thbt we will be using. */
+    if (!GetJREPbth(jrepbth, so_jrepbth)) {
+        JLI_ReportErrorMessbge(JRE_ERROR1);
         exit(2);
     }
 
     JLI_Snprintf(jvmcfg, so_jvmcfg, "%s%slib%s%s%sjvm.cfg",
-        jrepath, FILESEP, FILESEP, (char*)GetArch(), FILESEP);
+        jrepbth, FILESEP, FILESEP, (chbr*)GetArch(), FILESEP);
 
     /* Find the specified JVM type */
-    if (ReadKnownVMs(jvmcfg, JNI_FALSE) < 1) {
-        JLI_ReportErrorMessage(CFG_ERROR7);
+    if (RebdKnownVMs(jvmcfg, JNI_FALSE) < 1) {
+        JLI_ReportErrorMessbge(CFG_ERROR7);
         exit(1);
     }
 
-    jvmtype = CheckJvmType(pargc, pargv, JNI_FALSE);
+    jvmtype = CheckJvmType(pbrgc, pbrgv, JNI_FALSE);
     if (JLI_StrCmp(jvmtype, "ERROR") == 0) {
-        JLI_ReportErrorMessage(CFG_ERROR9);
+        JLI_ReportErrorMessbge(CFG_ERROR9);
         exit(4);
     }
 
-    jvmpath[0] = '\0';
-    if (!GetJVMPath(jrepath, jvmtype, jvmpath, so_jvmpath)) {
-        JLI_ReportErrorMessage(CFG_ERROR8, jvmtype, jvmpath);
+    jvmpbth[0] = '\0';
+    if (!GetJVMPbth(jrepbth, jvmtype, jvmpbth, so_jvmpbth)) {
+        JLI_ReportErrorMessbge(CFG_ERROR8, jvmtype, jvmpbth);
         exit(4);
     }
-    /* If we got here, jvmpath has been correctly initialized. */
+    /* If we got here, jvmpbth hbs been correctly initiblized. */
 
-    /* Check if we need preload AWT */
+    /* Check if we need prelobd AWT */
 #ifdef ENABLE_AWT_PRELOAD
-    argv = *pargv;
-    for (i = 0; i < *pargc ; i++) {
-        /* Tests the "turn on" parameter only if not set yet. */
-        if (awtPreloadD3D < 0) {
-            if (GetBoolParamValue(PARAM_PRELOAD_D3D, argv[i]) == 1) {
-                awtPreloadD3D = 1;
+    brgv = *pbrgv;
+    for (i = 0; i < *pbrgc ; i++) {
+        /* Tests the "turn on" pbrbmeter only if not set yet. */
+        if (bwtPrelobdD3D < 0) {
+            if (GetBoolPbrbmVblue(PARAM_PRELOAD_D3D, brgv[i]) == 1) {
+                bwtPrelobdD3D = 1;
             }
         }
-        /* Test parameters which can disable preloading if not already disabled. */
-        if (awtPreloadD3D != 0) {
-            if (GetBoolParamValue(PARAM_NODDRAW, argv[i]) == 1
-                || GetBoolParamValue(PARAM_D3D, argv[i]) == 0
-                || GetBoolParamValue(PARAM_OPENGL, argv[i]) == 1)
+        /* Test pbrbmeters which cbn disbble prelobding if not blrebdy disbbled. */
+        if (bwtPrelobdD3D != 0) {
+            if (GetBoolPbrbmVblue(PARAM_NODDRAW, brgv[i]) == 1
+                || GetBoolPbrbmVblue(PARAM_D3D, brgv[i]) == 0
+                || GetBoolPbrbmVblue(PARAM_OPENGL, brgv[i]) == 1)
             {
-                awtPreloadD3D = 0;
-                /* no need to test the rest of the parameters */
-                break;
+                bwtPrelobdD3D = 0;
+                /* no need to test the rest of the pbrbmeters */
+                brebk;
             }
         }
     }
@@ -253,23 +253,23 @@ CreateExecutionEnvironment(int *pargc, char ***pargv,
 }
 
 
-static jboolean
-LoadMSVCRT()
+stbtic jboolebn
+LobdMSVCRT()
 {
     // Only do this once
-    static int loaded = 0;
-    char crtpath[MAXPATHLEN];
+    stbtic int lobded = 0;
+    chbr crtpbth[MAXPATHLEN];
 
-    if (!loaded) {
+    if (!lobded) {
         /*
-         * The Microsoft C Runtime Library needs to be loaded first.  A copy is
-         * assumed to be present in the "JRE path" directory.  If it is not found
-         * there (or "JRE path" fails to resolve), skip the explicit load and let
-         * nature take its course, which is likely to be a failure to execute.
-         * This is clearly completely specific to the exact compiler version
-         * which isn't very nice, but its hardly the only place.
-         * No attempt to look for compiler versions in between 2003 and 2010
-         * as we aren't supporting building with those.
+         * The Microsoft C Runtime Librbry needs to be lobded first.  A copy is
+         * bssumed to be present in the "JRE pbth" directory.  If it is not found
+         * there (or "JRE pbth" fbils to resolve), skip the explicit lobd bnd let
+         * nbture tbke its course, which is likely to be b fbilure to execute.
+         * This is clebrly completely specific to the exbct compiler version
+         * which isn't very nice, but its hbrdly the only plbce.
+         * No bttempt to look for compiler versions in between 2003 bnd 2010
+         * bs we bren't supporting building with those.
          */
 #ifdef _MSC_VER
 #if _MSC_VER < 1400
@@ -279,83 +279,83 @@ LoadMSVCRT()
 #define CRT_DLL "msvcr100.dll"
 #endif
 #ifdef CRT_DLL
-        if (GetJREPath(crtpath, MAXPATHLEN)) {
-            if (JLI_StrLen(crtpath) + JLI_StrLen("\\bin\\") +
+        if (GetJREPbth(crtpbth, MAXPATHLEN)) {
+            if (JLI_StrLen(crtpbth) + JLI_StrLen("\\bin\\") +
                     JLI_StrLen(CRT_DLL) >= MAXPATHLEN) {
-                JLI_ReportErrorMessage(JRE_ERROR11);
+                JLI_ReportErrorMessbge(JRE_ERROR11);
                 return JNI_FALSE;
             }
-            (void)JLI_StrCat(crtpath, "\\bin\\" CRT_DLL);   /* Add crt dll */
-            JLI_TraceLauncher("CRT path is %s\n", crtpath);
-            if (_access(crtpath, 0) == 0) {
-                if (LoadLibrary(crtpath) == 0) {
-                    JLI_ReportErrorMessage(DLL_ERROR4, crtpath);
+            (void)JLI_StrCbt(crtpbth, "\\bin\\" CRT_DLL);   /* Add crt dll */
+            JLI_TrbceLbuncher("CRT pbth is %s\n", crtpbth);
+            if (_bccess(crtpbth, 0) == 0) {
+                if (LobdLibrbry(crtpbth) == 0) {
+                    JLI_ReportErrorMessbge(DLL_ERROR4, crtpbth);
                     return JNI_FALSE;
                 }
             }
         }
 #endif /* CRT_DLL */
 #endif /* _MSC_VER */
-        loaded = 1;
+        lobded = 1;
     }
     return JNI_TRUE;
 }
 
 
 /*
- * Find path to JRE based on .exe's location or registry settings.
+ * Find pbth to JRE bbsed on .exe's locbtion or registry settings.
  */
-jboolean
-GetJREPath(char *path, jint pathsize)
+jboolebn
+GetJREPbth(chbr *pbth, jint pbthsize)
 {
-    char javadll[MAXPATHLEN];
-    struct stat s;
+    chbr jbvbdll[MAXPATHLEN];
+    struct stbt s;
 
-    if (GetApplicationHome(path, pathsize)) {
-        /* Is JRE co-located with the application? */
-        JLI_Snprintf(javadll, sizeof(javadll), "%s\\bin\\" JAVA_DLL, path);
-        if (stat(javadll, &s) == 0) {
-            JLI_TraceLauncher("JRE path is %s\n", path);
+    if (GetApplicbtionHome(pbth, pbthsize)) {
+        /* Is JRE co-locbted with the bpplicbtion? */
+        JLI_Snprintf(jbvbdll, sizeof(jbvbdll), "%s\\bin\\" JAVA_DLL, pbth);
+        if (stbt(jbvbdll, &s) == 0) {
+            JLI_TrbceLbuncher("JRE pbth is %s\n", pbth);
             return JNI_TRUE;
         }
 
-        /* Does this app ship a private JRE in <apphome>\jre directory? */
-        JLI_Snprintf(javadll, sizeof (javadll), "%s\\jre\\bin\\" JAVA_DLL, path);
-        if (stat(javadll, &s) == 0) {
-            JLI_StrCat(path, "\\jre");
-            JLI_TraceLauncher("JRE path is %s\n", path);
+        /* Does this bpp ship b privbte JRE in <bpphome>\jre directory? */
+        JLI_Snprintf(jbvbdll, sizeof (jbvbdll), "%s\\jre\\bin\\" JAVA_DLL, pbth);
+        if (stbt(jbvbdll, &s) == 0) {
+            JLI_StrCbt(pbth, "\\jre");
+            JLI_TrbceLbuncher("JRE pbth is %s\n", pbth);
             return JNI_TRUE;
         }
     }
 
-    /* Look for a public JRE on this machine. */
-    if (GetPublicJREHome(path, pathsize)) {
-        JLI_TraceLauncher("JRE path is %s\n", path);
+    /* Look for b public JRE on this mbchine. */
+    if (GetPublicJREHome(pbth, pbthsize)) {
+        JLI_TrbceLbuncher("JRE pbth is %s\n", pbth);
         return JNI_TRUE;
     }
 
-    JLI_ReportErrorMessage(JRE_ERROR8 JAVA_DLL);
+    JLI_ReportErrorMessbge(JRE_ERROR8 JAVA_DLL);
     return JNI_FALSE;
 
 }
 
 /*
- * Given a JRE location and a JVM type, construct what the name the
- * JVM shared library will be.  Return true, if such a library
- * exists, false otherwise.
+ * Given b JRE locbtion bnd b JVM type, construct whbt the nbme the
+ * JVM shbred librbry will be.  Return true, if such b librbry
+ * exists, fblse otherwise.
  */
-static jboolean
-GetJVMPath(const char *jrepath, const char *jvmtype,
-           char *jvmpath, jint jvmpathsize)
+stbtic jboolebn
+GetJVMPbth(const chbr *jrepbth, const chbr *jvmtype,
+           chbr *jvmpbth, jint jvmpbthsize)
 {
-    struct stat s;
+    struct stbt s;
     if (JLI_StrChr(jvmtype, '/') || JLI_StrChr(jvmtype, '\\')) {
-        JLI_Snprintf(jvmpath, jvmpathsize, "%s\\" JVM_DLL, jvmtype);
+        JLI_Snprintf(jvmpbth, jvmpbthsize, "%s\\" JVM_DLL, jvmtype);
     } else {
-        JLI_Snprintf(jvmpath, jvmpathsize, "%s\\bin\\%s\\" JVM_DLL,
-                     jrepath, jvmtype);
+        JLI_Snprintf(jvmpbth, jvmpbthsize, "%s\\bin\\%s\\" JVM_DLL,
+                     jrepbth, jvmtype);
     }
-    if (stat(jvmpath, &s) == 0) {
+    if (stbt(jvmpbth, &s) == 0) {
         return JNI_TRUE;
     } else {
         return JNI_FALSE;
@@ -363,37 +363,37 @@ GetJVMPath(const char *jrepath, const char *jvmtype,
 }
 
 /*
- * Load a jvm from "jvmpath" and initialize the invocation functions.
+ * Lobd b jvm from "jvmpbth" bnd initiblize the invocbtion functions.
  */
-jboolean
-LoadJavaVM(const char *jvmpath, InvocationFunctions *ifn)
+jboolebn
+LobdJbvbVM(const chbr *jvmpbth, InvocbtionFunctions *ifn)
 {
-    HINSTANCE handle;
+    HINSTANCE hbndle;
 
-    JLI_TraceLauncher("JVM path is %s\n", jvmpath);
+    JLI_TrbceLbuncher("JVM pbth is %s\n", jvmpbth);
 
     /*
-     * The Microsoft C Runtime Library needs to be loaded first.  A copy is
-     * assumed to be present in the "JRE path" directory.  If it is not found
-     * there (or "JRE path" fails to resolve), skip the explicit load and let
-     * nature take its course, which is likely to be a failure to execute.
+     * The Microsoft C Runtime Librbry needs to be lobded first.  A copy is
+     * bssumed to be present in the "JRE pbth" directory.  If it is not found
+     * there (or "JRE pbth" fbils to resolve), skip the explicit lobd bnd let
+     * nbture tbke its course, which is likely to be b fbilure to execute.
      *
      */
-    LoadMSVCRT();
+    LobdMSVCRT();
 
-    /* Load the Java VM DLL */
-    if ((handle = LoadLibrary(jvmpath)) == 0) {
-        JLI_ReportErrorMessage(DLL_ERROR4, (char *)jvmpath);
+    /* Lobd the Jbvb VM DLL */
+    if ((hbndle = LobdLibrbry(jvmpbth)) == 0) {
+        JLI_ReportErrorMessbge(DLL_ERROR4, (chbr *)jvmpbth);
         return JNI_FALSE;
     }
 
-    /* Now get the function addresses */
-    ifn->CreateJavaVM =
-        (void *)GetProcAddress(handle, "JNI_CreateJavaVM");
-    ifn->GetDefaultJavaVMInitArgs =
-        (void *)GetProcAddress(handle, "JNI_GetDefaultJavaVMInitArgs");
-    if (ifn->CreateJavaVM == 0 || ifn->GetDefaultJavaVMInitArgs == 0) {
-        JLI_ReportErrorMessage(JNI_ERROR1, (char *)jvmpath);
+    /* Now get the function bddresses */
+    ifn->CrebteJbvbVM =
+        (void *)GetProcAddress(hbndle, "JNI_CrebteJbvbVM");
+    ifn->GetDefbultJbvbVMInitArgs =
+        (void *)GetProcAddress(hbndle, "JNI_GetDefbultJbvbVMInitArgs");
+    if (ifn->CrebteJbvbVM == 0 || ifn->GetDefbultJbvbVMInitArgs == 0) {
+        JLI_ReportErrorMessbge(JNI_ERROR1, (chbr *)jvmpbth);
         return JNI_FALSE;
     }
 
@@ -401,100 +401,100 @@ LoadJavaVM(const char *jvmpath, InvocationFunctions *ifn)
 }
 
 /*
- * If app is "c:\foo\bin\javac", then put "c:\foo" into buf.
+ * If bpp is "c:\foo\bin\jbvbc", then put "c:\foo" into buf.
  */
-jboolean
-GetApplicationHome(char *buf, jint bufsize)
+jboolebn
+GetApplicbtionHome(chbr *buf, jint bufsize)
 {
-    char *cp;
-    GetModuleFileName(0, buf, bufsize);
-    *JLI_StrRChr(buf, '\\') = '\0'; /* remove .exe file name */
+    chbr *cp;
+    GetModuleFileNbme(0, buf, bufsize);
+    *JLI_StrRChr(buf, '\\') = '\0'; /* remove .exe file nbme */
     if ((cp = JLI_StrRChr(buf, '\\')) == 0) {
-        /* This happens if the application is in a drive root, and
+        /* This hbppens if the bpplicbtion is in b drive root, bnd
          * there is no bin directory. */
         buf[0] = '\0';
         return JNI_FALSE;
     }
-    *cp = '\0';  /* remove the bin\ part */
+    *cp = '\0';  /* remove the bin\ pbrt */
     return JNI_TRUE;
 }
 
 /*
- * Helpers to look in the registry for a public JRE.
+ * Helpers to look in the registry for b public JRE.
  */
-                    /* Same for 1.5.0, 1.5.1, 1.5.2 etc. */
-#define JRE_KEY     "Software\\JavaSoft\\Java Runtime Environment"
+                    /* Sbme for 1.5.0, 1.5.1, 1.5.2 etc. */
+#define JRE_KEY     "Softwbre\\JbvbSoft\\Jbvb Runtime Environment"
 
-static jboolean
-GetStringFromRegistry(HKEY key, const char *name, char *buf, jint bufsize)
+stbtic jboolebn
+GetStringFromRegistry(HKEY key, const chbr *nbme, chbr *buf, jint bufsize)
 {
     DWORD type, size;
 
-    if (RegQueryValueEx(key, name, 0, &type, 0, &size) == 0
+    if (RegQueryVblueEx(key, nbme, 0, &type, 0, &size) == 0
         && type == REG_SZ
         && (size < (unsigned int)bufsize)) {
-        if (RegQueryValueEx(key, name, 0, 0, buf, &size) == 0) {
+        if (RegQueryVblueEx(key, nbme, 0, 0, buf, &size) == 0) {
             return JNI_TRUE;
         }
     }
     return JNI_FALSE;
 }
 
-static jboolean
-GetPublicJREHome(char *buf, jint bufsize)
+stbtic jboolebn
+GetPublicJREHome(chbr *buf, jint bufsize)
 {
     HKEY key, subkey;
-    char version[MAXPATHLEN];
+    chbr version[MAXPATHLEN];
 
     /*
-     * Note: There is a very similar implementation of the following
-     * registry reading code in the Windows java control panel (javacp.cpl).
-     * If there are bugs here, a similar bug probably exists there.  Hence,
-     * changes here require inspection there.
+     * Note: There is b very similbr implementbtion of the following
+     * registry rebding code in the Windows jbvb control pbnel (jbvbcp.cpl).
+     * If there bre bugs here, b similbr bug probbbly exists there.  Hence,
+     * chbnges here require inspection there.
      */
 
     /* Find the current version of the JRE */
     if (RegOpenKeyEx(HKEY_LOCAL_MACHINE, JRE_KEY, 0, KEY_READ, &key) != 0) {
-        JLI_ReportErrorMessage(REG_ERROR1, JRE_KEY);
+        JLI_ReportErrorMessbge(REG_ERROR1, JRE_KEY);
         return JNI_FALSE;
     }
 
     if (!GetStringFromRegistry(key, "CurrentVersion",
                                version, sizeof(version))) {
-        JLI_ReportErrorMessage(REG_ERROR2, JRE_KEY);
+        JLI_ReportErrorMessbge(REG_ERROR2, JRE_KEY);
         RegCloseKey(key);
         return JNI_FALSE;
     }
 
     if (JLI_StrCmp(version, GetDotVersion()) != 0) {
-        JLI_ReportErrorMessage(REG_ERROR3, JRE_KEY, version, GetDotVersion()
+        JLI_ReportErrorMessbge(REG_ERROR3, JRE_KEY, version, GetDotVersion()
         );
         RegCloseKey(key);
         return JNI_FALSE;
     }
 
-    /* Find directory where the current version is installed. */
+    /* Find directory where the current version is instblled. */
     if (RegOpenKeyEx(key, version, 0, KEY_READ, &subkey) != 0) {
-        JLI_ReportErrorMessage(REG_ERROR1, JRE_KEY, version);
+        JLI_ReportErrorMessbge(REG_ERROR1, JRE_KEY, version);
         RegCloseKey(key);
         return JNI_FALSE;
     }
 
-    if (!GetStringFromRegistry(subkey, "JavaHome", buf, bufsize)) {
-        JLI_ReportErrorMessage(REG_ERROR4, JRE_KEY, version);
+    if (!GetStringFromRegistry(subkey, "JbvbHome", buf, bufsize)) {
+        JLI_ReportErrorMessbge(REG_ERROR4, JRE_KEY, version);
         RegCloseKey(key);
         RegCloseKey(subkey);
         return JNI_FALSE;
     }
 
-    if (JLI_IsTraceLauncher()) {
-        char micro[MAXPATHLEN];
+    if (JLI_IsTrbceLbuncher()) {
+        chbr micro[MAXPATHLEN];
         if (!GetStringFromRegistry(subkey, "MicroVersion", micro,
                                    sizeof(micro))) {
-            printf("Warning: Can't read MicroVersion\n");
+            printf("Wbrning: Cbn't rebd MicroVersion\n");
             micro[0] = '\0';
         }
-        printf("Version major.minor.micro = %s.%s\n", version, micro);
+        printf("Version mbjor.minor.micro = %s.%s\n", version, micro);
     }
 
     RegCloseKey(key);
@@ -503,128 +503,128 @@ GetPublicJREHome(char *buf, jint bufsize)
 }
 
 /*
- * Support for doing cheap, accurate interval timing.
+ * Support for doing chebp, bccurbte intervbl timing.
  */
-static jboolean counterAvailable = JNI_FALSE;
-static jboolean counterInitialized = JNI_FALSE;
-static LARGE_INTEGER counterFrequency;
+stbtic jboolebn counterAvbilbble = JNI_FALSE;
+stbtic jboolebn counterInitiblized = JNI_FALSE;
+stbtic LARGE_INTEGER counterFrequency;
 
 jlong CounterGet()
 {
     LARGE_INTEGER count;
 
-    if (!counterInitialized) {
-        counterAvailable = QueryPerformanceFrequency(&counterFrequency);
-        counterInitialized = JNI_TRUE;
+    if (!counterInitiblized) {
+        counterAvbilbble = QueryPerformbnceFrequency(&counterFrequency);
+        counterInitiblized = JNI_TRUE;
     }
-    if (!counterAvailable) {
+    if (!counterAvbilbble) {
         return 0;
     }
-    QueryPerformanceCounter(&count);
-    return (jlong)(count.QuadPart);
+    QueryPerformbnceCounter(&count);
+    return (jlong)(count.QubdPbrt);
 }
 
 jlong Counter2Micros(jlong counts)
 {
-    if (!counterAvailable || !counterInitialized) {
+    if (!counterAvbilbble || !counterInitiblized) {
         return 0;
     }
-    return (counts * 1000 * 1000)/counterFrequency.QuadPart;
+    return (counts * 1000 * 1000)/counterFrequency.QubdPbrt;
 }
 /*
- * windows snprintf does not guarantee a null terminator in the buffer,
- * if the computed size is equal to or greater than the buffer size,
- * as well as error conditions. This function guarantees a null terminator
- * under all these conditions. An unreasonable buffer or size will return
- * an error value. Under all other conditions this function will return the
- * size of the bytes actually written minus the null terminator, similar
- * to ansi snprintf api. Thus when calling this function the caller must
- * ensure storage for the null terminator.
+ * windows snprintf does not gubrbntee b null terminbtor in the buffer,
+ * if the computed size is equbl to or grebter thbn the buffer size,
+ * bs well bs error conditions. This function gubrbntees b null terminbtor
+ * under bll these conditions. An unrebsonbble buffer or size will return
+ * bn error vblue. Under bll other conditions this function will return the
+ * size of the bytes bctublly written minus the null terminbtor, similbr
+ * to bnsi snprintf bpi. Thus when cblling this function the cbller must
+ * ensure storbge for the null terminbtor.
  */
 int
-JLI_Snprintf(char* buffer, size_t size, const char* format, ...) {
+JLI_Snprintf(chbr* buffer, size_t size, const chbr* formbt, ...) {
     int rc;
-    va_list vl;
+    vb_list vl;
     if (size == 0 || buffer == NULL)
         return -1;
     buffer[0] = '\0';
-    va_start(vl, format);
-    rc = vsnprintf(buffer, size, format, vl);
-    va_end(vl);
-    /* force a null terminator, if something is amiss */
+    vb_stbrt(vl, formbt);
+    rc = vsnprintf(buffer, size, formbt, vl);
+    vb_end(vl);
+    /* force b null terminbtor, if something is bmiss */
     if (rc < 0) {
-        /* apply ansi semantics */
+        /* bpply bnsi sembntics */
         buffer[size - 1] = '\0';
         return size;
     } else if (rc == size) {
-        /* force a null terminator */
+        /* force b null terminbtor */
         buffer[size - 1] = '\0';
     }
     return rc;
 }
 
 void
-JLI_ReportErrorMessage(const char* fmt, ...) {
-    va_list vl;
-    va_start(vl,fmt);
+JLI_ReportErrorMessbge(const chbr* fmt, ...) {
+    vb_list vl;
+    vb_stbrt(vl,fmt);
 
-    if (IsJavaw()) {
-        char *message;
+    if (IsJbvbw()) {
+        chbr *messbge;
 
         /* get the length of the string we need */
         int n = _vscprintf(fmt, vl);
 
-        message = (char *)JLI_MemAlloc(n + 1);
-        _vsnprintf(message, n, fmt, vl);
-        message[n]='\0';
-        MessageBox(NULL, message, "Java Virtual Machine Launcher",
+        messbge = (chbr *)JLI_MemAlloc(n + 1);
+        _vsnprintf(messbge, n, fmt, vl);
+        messbge[n]='\0';
+        MessbgeBox(NULL, messbge, "Jbvb Virtubl Mbchine Lbuncher",
             (MB_OK|MB_ICONSTOP|MB_APPLMODAL));
-        JLI_MemFree(message);
+        JLI_MemFree(messbge);
     } else {
         vfprintf(stderr, fmt, vl);
         fprintf(stderr, "\n");
     }
-    va_end(vl);
+    vb_end(vl);
 }
 
 /*
- * Just like JLI_ReportErrorMessage, except that it concatenates the system
- * error message if any, its upto the calling routine to correctly
- * format the separation of the messages.
+ * Just like JLI_ReportErrorMessbge, except thbt it concbtenbtes the system
+ * error messbge if bny, its upto the cblling routine to correctly
+ * formbt the sepbrbtion of the messbges.
  */
 void
-JLI_ReportErrorMessageSys(const char *fmt, ...)
+JLI_ReportErrorMessbgeSys(const chbr *fmt, ...)
 {
-    va_list vl;
+    vb_list vl;
 
-    int save_errno = errno;
-    DWORD       errval;
-    jboolean freeit = JNI_FALSE;
-    char  *errtext = NULL;
+    int sbve_errno = errno;
+    DWORD       errvbl;
+    jboolebn freeit = JNI_FALSE;
+    chbr  *errtext = NULL;
 
-    va_start(vl, fmt);
+    vb_stbrt(vl, fmt);
 
-    if ((errval = GetLastError()) != 0) {               /* Platform SDK / DOS Error */
-        int n = FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM|
+    if ((errvbl = GetLbstError()) != 0) {               /* Plbtform SDK / DOS Error */
+        int n = FormbtMessbge(FORMAT_MESSAGE_FROM_SYSTEM|
             FORMAT_MESSAGE_IGNORE_INSERTS|FORMAT_MESSAGE_ALLOCATE_BUFFER,
-            NULL, errval, 0, (LPTSTR)&errtext, 0, NULL);
-        if (errtext == NULL || n == 0) {                /* Paranoia check */
+            NULL, errvbl, 0, (LPTSTR)&errtext, 0, NULL);
+        if (errtext == NULL || n == 0) {                /* Pbrbnoib check */
             errtext = "";
             n = 0;
         } else {
             freeit = JNI_TRUE;
-            if (n > 2) {                                /* Drop final CR, LF */
+            if (n > 2) {                                /* Drop finbl CR, LF */
                 if (errtext[n - 1] == '\n') n--;
                 if (errtext[n - 1] == '\r') n--;
                 errtext[n] = '\0';
             }
         }
-    } else {   /* C runtime error that has no corresponding DOS error code */
-        errtext = strerror(save_errno);
+    } else {   /* C runtime error thbt hbs no corresponding DOS error code */
+        errtext = strerror(sbve_errno);
     }
 
-    if (IsJavaw()) {
-        char *message;
+    if (IsJbvbw()) {
+        chbr *messbge;
         int mlen;
         /* get the length of the string we need */
         int len = mlen =  _vscprintf(fmt, vl) + 1;
@@ -632,18 +632,18 @@ JLI_ReportErrorMessageSys(const char *fmt, ...)
            mlen += (int)JLI_StrLen(errtext);
         }
 
-        message = (char *)JLI_MemAlloc(mlen);
-        _vsnprintf(message, len, fmt, vl);
-        message[len]='\0';
+        messbge = (chbr *)JLI_MemAlloc(mlen);
+        _vsnprintf(messbge, len, fmt, vl);
+        messbge[len]='\0';
 
         if (freeit) {
-           JLI_StrCat(message, errtext);
+           JLI_StrCbt(messbge, errtext);
         }
 
-        MessageBox(NULL, message, "Java Virtual Machine Launcher",
+        MessbgeBox(NULL, messbge, "Jbvb Virtubl Mbchine Lbuncher",
             (MB_OK|MB_ICONSTOP|MB_APPLMODAL));
 
-        JLI_MemFree(message);
+        JLI_MemFree(messbge);
     } else {
         vfprintf(stderr, fmt, vl);
         if (freeit) {
@@ -651,66 +651,66 @@ JLI_ReportErrorMessageSys(const char *fmt, ...)
         }
     }
     if (freeit) {
-        (void)LocalFree((HLOCAL)errtext);
+        (void)LocblFree((HLOCAL)errtext);
     }
-    va_end(vl);
+    vb_end(vl);
 }
 
 void  JLI_ReportExceptionDescription(JNIEnv * env) {
-    if (IsJavaw()) {
+    if (IsJbvbw()) {
        /*
-        * This code should be replaced by code which opens a window with
-        * the exception detail message, for now atleast put a dialog up.
+        * This code should be replbced by code which opens b window with
+        * the exception detbil messbge, for now btlebst put b diblog up.
         */
-        MessageBox(NULL, "A Java Exception has occurred.", "Java Virtual Machine Launcher",
+        MessbgeBox(NULL, "A Jbvb Exception hbs occurred.", "Jbvb Virtubl Mbchine Lbuncher",
                (MB_OK|MB_ICONSTOP|MB_APPLMODAL));
     } else {
         (*env)->ExceptionDescribe(env);
     }
 }
 
-jboolean
-ServerClassMachine() {
+jboolebn
+ServerClbssMbchine() {
     return (GetErgoPolicy() == ALWAYS_SERVER_CLASS) ? JNI_TRUE : JNI_FALSE;
 }
 
 /*
- * Determine if there is an acceptable JRE in the registry directory top_key.
- * Upon locating the "best" one, return a fully qualified path to it.
- * "Best" is defined as the most advanced JRE meeting the constraints
- * contained in the manifest_info. If no JRE in this directory meets the
- * constraints, return NULL.
+ * Determine if there is bn bcceptbble JRE in the registry directory top_key.
+ * Upon locbting the "best" one, return b fully qublified pbth to it.
+ * "Best" is defined bs the most bdvbnced JRE meeting the constrbints
+ * contbined in the mbnifest_info. If no JRE in this directory meets the
+ * constrbints, return NULL.
  *
- * It doesn't matter if we get an error reading the registry, or we just
- * don't find anything interesting in the directory.  We just return NULL
- * in either case.
+ * It doesn't mbtter if we get bn error rebding the registry, or we just
+ * don't find bnything interesting in the directory.  We just return NULL
+ * in either cbse.
  */
-static char *
-ProcessDir(manifest_info* info, HKEY top_key) {
+stbtic chbr *
+ProcessDir(mbnifest_info* info, HKEY top_key) {
     DWORD   index = 0;
     HKEY    ver_key;
-    char    name[MAXNAMELEN];
+    chbr    nbme[MAXNAMELEN];
     int     len;
-    char    *best = NULL;
+    chbr    *best = NULL;
 
     /*
-     * Enumerate "<top_key>/SOFTWARE/JavaSoft/Java Runtime Environment"
-     * searching for the best available version.
+     * Enumerbte "<top_key>/SOFTWARE/JbvbSoft/Jbvb Runtime Environment"
+     * sebrching for the best bvbilbble version.
      */
-    while (RegEnumKey(top_key, index, name, MAXNAMELEN) == ERROR_SUCCESS) {
+    while (RegEnumKey(top_key, index, nbme, MAXNAMELEN) == ERROR_SUCCESS) {
         index++;
-        if (JLI_AcceptableRelease(name, info->jre_version))
-            if ((best == NULL) || (JLI_ExactVersionId(name, best) > 0)) {
+        if (JLI_AcceptbbleRelebse(nbme, info->jre_version))
+            if ((best == NULL) || (JLI_ExbctVersionId(nbme, best) > 0)) {
                 if (best != NULL)
                     JLI_MemFree(best);
-                best = JLI_StringDup(name);
+                best = JLI_StringDup(nbme);
             }
     }
 
     /*
-     * Extract "JavaHome" from the "best" registry directory and return
-     * that path.  If no appropriate version was located, or there is an
-     * error in extracting the "JavaHome" string, return null.
+     * Extrbct "JbvbHome" from the "best" registry directory bnd return
+     * thbt pbth.  If no bppropribte version wbs locbted, or there is bn
+     * error in extrbcting the "JbvbHome" string, return null.
      */
     if (best == NULL)
         return (NULL);
@@ -724,7 +724,7 @@ ProcessDir(manifest_info* info, HKEY top_key) {
         }
         JLI_MemFree(best);
         len = MAXNAMELEN;
-        if (RegQueryValueEx(ver_key, "JavaHome", NULL, NULL, (LPBYTE)name, &len)
+        if (RegQueryVblueEx(ver_key, "JbvbHome", NULL, NULL, (LPBYTE)nbme, &len)
           != ERROR_SUCCESS) {
             if (ver_key != NULL)
                 RegCloseKey(ver_key);
@@ -732,33 +732,33 @@ ProcessDir(manifest_info* info, HKEY top_key) {
         }
         if (ver_key != NULL)
             RegCloseKey(ver_key);
-        return (JLI_StringDup(name));
+        return (JLI_StringDup(nbme));
     }
 }
 
 /*
- * This is the global entry point. It examines the host for the optimal
- * JRE to be used by scanning a set of registry entries.  This set of entries
- * is hardwired on Windows as "Software\JavaSoft\Java Runtime Environment"
+ * This is the globbl entry point. It exbmines the host for the optimbl
+ * JRE to be used by scbnning b set of registry entries.  This set of entries
+ * is hbrdwired on Windows bs "Softwbre\JbvbSoft\Jbvb Runtime Environment"
  * under the set of roots "{ HKEY_CURRENT_USER, HKEY_LOCAL_MACHINE }".
  *
- * This routine simply opens each of these registry directories before passing
+ * This routine simply opens ebch of these registry directories before pbssing
  * control onto ProcessDir().
  */
-char *
-LocateJRE(manifest_info* info) {
+chbr *
+LocbteJRE(mbnifest_info* info) {
     HKEY    key = NULL;
-    char    *path;
+    chbr    *pbth;
     int     key_index;
     HKEY    root_keys[2] = { HKEY_CURRENT_USER, HKEY_LOCAL_MACHINE };
 
     for (key_index = 0; key_index <= 1; key_index++) {
         if (RegOpenKeyEx(root_keys[key_index], JRE_KEY, 0, KEY_READ, &key)
           == ERROR_SUCCESS)
-            if ((path = ProcessDir(info, key)) != NULL) {
+            if ((pbth = ProcessDir(info, key)) != NULL) {
                 if (key != NULL)
                     RegCloseKey(key);
-                return (path);
+                return (pbth);
             }
         if (key != NULL)
             RegCloseKey(key);
@@ -767,129 +767,129 @@ LocateJRE(manifest_info* info) {
 }
 
 /*
- * Local helper routine to isolate a single token (option or argument)
- * from the command line.
+ * Locbl helper routine to isolbte b single token (option or brgument)
+ * from the commbnd line.
  *
- * This routine accepts a pointer to a character pointer.  The first
- * token (as defined by MSDN command-line argument syntax) is isolated
- * from that string.
+ * This routine bccepts b pointer to b chbrbcter pointer.  The first
+ * token (bs defined by MSDN commbnd-line brgument syntbx) is isolbted
+ * from thbt string.
  *
- * Upon return, the input character pointer pointed to by the parameter s
- * is updated to point to the remainding, unscanned, portion of the string,
- * or to a null character if the entire string has been consummed.
+ * Upon return, the input chbrbcter pointer pointed to by the pbrbmeter s
+ * is updbted to point to the rembinding, unscbnned, portion of the string,
+ * or to b null chbrbcter if the entire string hbs been consummed.
  *
- * This function returns a pointer to a null-terminated string which
- * contains the isolated first token, or to the null character if no
- * token could be isolated.
+ * This function returns b pointer to b null-terminbted string which
+ * contbins the isolbted first token, or to the null chbrbcter if no
+ * token could be isolbted.
  *
  * Note the side effect of modifying the input string s by the insertion
- * of a null character, making it two strings.
+ * of b null chbrbcter, mbking it two strings.
  *
- * See "Parsing C Command-Line Arguments" in the MSDN Library for the
- * parsing rule details.  The rule summary from that specification is:
+ * See "Pbrsing C Commbnd-Line Arguments" in the MSDN Librbry for the
+ * pbrsing rule detbils.  The rule summbry from thbt specificbtion is:
  *
- *  * Arguments are delimited by white space, which is either a space or a tab.
+ *  * Arguments bre delimited by white spbce, which is either b spbce or b tbb.
  *
- *  * A string surrounded by double quotation marks is interpreted as a single
- *    argument, regardless of white space contained within. A quoted string can
- *    be embedded in an argument. Note that the caret (^) is not recognized as
- *    an escape character or delimiter.
+ *  * A string surrounded by double quotbtion mbrks is interpreted bs b single
+ *    brgument, regbrdless of white spbce contbined within. A quoted string cbn
+ *    be embedded in bn brgument. Note thbt the cbret (^) is not recognized bs
+ *    bn escbpe chbrbcter or delimiter.
  *
- *  * A double quotation mark preceded by a backslash, \", is interpreted as a
- *    literal double quotation mark (").
+ *  * A double quotbtion mbrk preceded by b bbckslbsh, \", is interpreted bs b
+ *    literbl double quotbtion mbrk (").
  *
- *  * Backslashes are interpreted literally, unless they immediately precede a
- *    double quotation mark.
+ *  * Bbckslbshes bre interpreted literblly, unless they immedibtely precede b
+ *    double quotbtion mbrk.
  *
- *  * If an even number of backslashes is followed by a double quotation mark,
- *    then one backslash (\) is placed in the argv array for every pair of
- *    backslashes (\\), and the double quotation mark (") is interpreted as a
+ *  * If bn even number of bbckslbshes is followed by b double quotbtion mbrk,
+ *    then one bbckslbsh (\) is plbced in the brgv brrby for every pbir of
+ *    bbckslbshes (\\), bnd the double quotbtion mbrk (") is interpreted bs b
  *    string delimiter.
  *
- *  * If an odd number of backslashes is followed by a double quotation mark,
- *    then one backslash (\) is placed in the argv array for every pair of
- *    backslashes (\\) and the double quotation mark is interpreted as an
- *    escape sequence by the remaining backslash, causing a literal double
- *    quotation mark (") to be placed in argv.
+ *  * If bn odd number of bbckslbshes is followed by b double quotbtion mbrk,
+ *    then one bbckslbsh (\) is plbced in the brgv brrby for every pbir of
+ *    bbckslbshes (\\) bnd the double quotbtion mbrk is interpreted bs bn
+ *    escbpe sequence by the rembining bbckslbsh, cbusing b literbl double
+ *    quotbtion mbrk (") to be plbced in brgv.
  */
-static char*
-nextarg(char** s) {
-    char    *p = *s;
-    char    *head;
-    int     slashes = 0;
+stbtic chbr*
+nextbrg(chbr** s) {
+    chbr    *p = *s;
+    chbr    *hebd;
+    int     slbshes = 0;
     int     inquote = 0;
 
     /*
-     * Strip leading whitespace, which MSDN defines as only space or tab.
-     * (Hence, no locale specific "isspace" here.)
+     * Strip lebding whitespbce, which MSDN defines bs only spbce or tbb.
+     * (Hence, no locble specific "isspbce" here.)
      */
-    while (*p != (char)0 && (*p == ' ' || *p == '\t'))
+    while (*p != (chbr)0 && (*p == ' ' || *p == '\t'))
         p++;
-    head = p;                   /* Save the start of the token to return */
+    hebd = p;                   /* Sbve the stbrt of the token to return */
 
     /*
-     * Isolate a token from the command line.
+     * Isolbte b token from the commbnd line.
      */
-    while (*p != (char)0 && (inquote || !(*p == ' ' || *p == '\t'))) {
-        if (*p == '\\' && *(p+1) == '"' && slashes % 2 == 0)
+    while (*p != (chbr)0 && (inquote || !(*p == ' ' || *p == '\t'))) {
+        if (*p == '\\' && *(p+1) == '"' && slbshes % 2 == 0)
             p++;
         else if (*p == '"')
             inquote = !inquote;
-        slashes = (*p++ == '\\') ? slashes + 1 : 0;
+        slbshes = (*p++ == '\\') ? slbshes + 1 : 0;
     }
 
     /*
-     * If the token isolated isn't already terminated in a "char zero",
-     * then replace the whitespace character with one and move to the
-     * next character.
+     * If the token isolbted isn't blrebdy terminbted in b "chbr zero",
+     * then replbce the whitespbce chbrbcter with one bnd move to the
+     * next chbrbcter.
      */
-    if (*p != (char)0)
-        *p++ = (char)0;
+    if (*p != (chbr)0)
+        *p++ = (chbr)0;
 
     /*
-     * Update the parameter to point to the head of the remaining string
-     * reflecting the command line and return a pointer to the leading
-     * token which was isolated from the command line.
+     * Updbte the pbrbmeter to point to the hebd of the rembining string
+     * reflecting the commbnd line bnd return b pointer to the lebding
+     * token which wbs isolbted from the commbnd line.
      */
     *s = p;
-    return (head);
+    return (hebd);
 }
 
 /*
- * Local helper routine to return a string equivalent to the input string
- * s, but with quotes removed so the result is a string as would be found
- * in argv[].  The returned string should be freed by a call to JLI_MemFree().
+ * Locbl helper routine to return b string equivblent to the input string
+ * s, but with quotes removed so the result is b string bs would be found
+ * in brgv[].  The returned string should be freed by b cbll to JLI_MemFree().
  *
- * The rules for quoting (and escaped quotes) are:
+ * The rules for quoting (bnd escbped quotes) bre:
  *
- *  1 A double quotation mark preceded by a backslash, \", is interpreted as a
- *    literal double quotation mark (").
+ *  1 A double quotbtion mbrk preceded by b bbckslbsh, \", is interpreted bs b
+ *    literbl double quotbtion mbrk (").
  *
- *  2 Backslashes are interpreted literally, unless they immediately precede a
- *    double quotation mark.
+ *  2 Bbckslbshes bre interpreted literblly, unless they immedibtely precede b
+ *    double quotbtion mbrk.
  *
- *  3 If an even number of backslashes is followed by a double quotation mark,
- *    then one backslash (\) is placed in the argv array for every pair of
- *    backslashes (\\), and the double quotation mark (") is interpreted as a
+ *  3 If bn even number of bbckslbshes is followed by b double quotbtion mbrk,
+ *    then one bbckslbsh (\) is plbced in the brgv brrby for every pbir of
+ *    bbckslbshes (\\), bnd the double quotbtion mbrk (") is interpreted bs b
  *    string delimiter.
  *
- *  4 If an odd number of backslashes is followed by a double quotation mark,
- *    then one backslash (\) is placed in the argv array for every pair of
- *    backslashes (\\) and the double quotation mark is interpreted as an
- *    escape sequence by the remaining backslash, causing a literal double
- *    quotation mark (") to be placed in argv.
+ *  4 If bn odd number of bbckslbshes is followed by b double quotbtion mbrk,
+ *    then one bbckslbsh (\) is plbced in the brgv brrby for every pbir of
+ *    bbckslbshes (\\) bnd the double quotbtion mbrk is interpreted bs bn
+ *    escbpe sequence by the rembining bbckslbsh, cbusing b literbl double
+ *    quotbtion mbrk (") to be plbced in brgv.
  */
-static char*
-unquote(const char *s) {
-    const char *p = s;          /* Pointer to the tail of the original string */
-    char *un = (char*)JLI_MemAlloc(JLI_StrLen(s) + 1);  /* Ptr to unquoted string */
-    char *pun = un;             /* Pointer to the tail of the unquoted string */
+stbtic chbr*
+unquote(const chbr *s) {
+    const chbr *p = s;          /* Pointer to the tbil of the originbl string */
+    chbr *un = (chbr*)JLI_MemAlloc(JLI_StrLen(s) + 1);  /* Ptr to unquoted string */
+    chbr *pun = un;             /* Pointer to the tbil of the unquoted string */
 
     while (*p != '\0') {
         if (*p == '"') {
             p++;
         } else if (*p == '\\') {
-            const char *q = p + JLI_StrSpn(p,"\\");
+            const chbr *q = p + JLI_StrSpn(p,"\\");
             if (*q == '"')
                 do {
                     *pun++ = '\\';
@@ -907,141 +907,141 @@ unquote(const char *s) {
 }
 
 /*
- * Given a path to a jre to execute, this routine checks if this process
- * is indeed that jre.  If not, it exec's that jre.
+ * Given b pbth to b jre to execute, this routine checks if this process
+ * is indeed thbt jre.  If not, it exec's thbt jre.
  *
- * We want to actually check the paths rather than just the version string
- * built into the executable, so that given version specification will yield
- * the exact same Java environment, regardless of the version of the arbitrary
- * launcher we start with.
+ * We wbnt to bctublly check the pbths rbther thbn just the version string
+ * built into the executbble, so thbt given version specificbtion will yield
+ * the exbct sbme Jbvb environment, regbrdless of the version of the brbitrbry
+ * lbuncher we stbrt with.
  */
 void
-ExecJRE(char *jre, char **argv) {
+ExecJRE(chbr *jre, chbr **brgv) {
     jint     len;
-    char    path[MAXPATHLEN + 1];
+    chbr    pbth[MAXPATHLEN + 1];
 
-    const char *progname = GetProgramName();
+    const chbr *prognbme = GetProgrbmNbme();
 
     /*
-     * Resolve the real path to the currently running launcher.
+     * Resolve the rebl pbth to the currently running lbuncher.
      */
-    len = GetModuleFileName(NULL, path, MAXPATHLEN + 1);
+    len = GetModuleFileNbme(NULL, pbth, MAXPATHLEN + 1);
     if (len == 0 || len > MAXPATHLEN) {
-        JLI_ReportErrorMessageSys(JRE_ERROR9, progname);
+        JLI_ReportErrorMessbgeSys(JRE_ERROR9, prognbme);
         exit(1);
     }
 
-    JLI_TraceLauncher("ExecJRE: old: %s\n", path);
-    JLI_TraceLauncher("ExecJRE: new: %s\n", jre);
+    JLI_TrbceLbuncher("ExecJRE: old: %s\n", pbth);
+    JLI_TrbceLbuncher("ExecJRE: new: %s\n", jre);
 
     /*
-     * If the path to the selected JRE directory is a match to the initial
-     * portion of the path to the currently executing JRE, we have a winner!
+     * If the pbth to the selected JRE directory is b mbtch to the initibl
+     * portion of the pbth to the currently executing JRE, we hbve b winner!
      * If so, just return.
      */
-    if (JLI_StrNCaseCmp(jre, path, JLI_StrLen(jre)) == 0)
-        return;                 /* I am the droid you were looking for */
+    if (JLI_StrNCbseCmp(jre, pbth, JLI_StrLen(jre)) == 0)
+        return;                 /* I bm the droid you were looking for */
 
     /*
      * If this isn't the selected version, exec the selected version.
      */
-    JLI_Snprintf(path, sizeof(path), "%s\\bin\\%s.exe", jre, progname);
+    JLI_Snprintf(pbth, sizeof(pbth), "%s\\bin\\%s.exe", jre, prognbme);
 
     /*
-     * Although Windows has an execv() entrypoint, it doesn't actually
-     * overlay a process: it can only create a new process and terminate
-     * the old process.  Therefore, any processes waiting on the initial
-     * process wake up and they shouldn't.  Hence, a chain of pseudo-zombie
-     * processes must be retained to maintain the proper wait semantics.
-     * Fortunately the image size of the launcher isn't too large at this
+     * Although Windows hbs bn execv() entrypoint, it doesn't bctublly
+     * overlby b process: it cbn only crebte b new process bnd terminbte
+     * the old process.  Therefore, bny processes wbiting on the initibl
+     * process wbke up bnd they shouldn't.  Hence, b chbin of pseudo-zombie
+     * processes must be retbined to mbintbin the proper wbit sembntics.
+     * Fortunbtely the imbge size of the lbuncher isn't too lbrge bt this
      * time.
      *
-     * If it weren't for this semantic flaw, the code below would be ...
+     * If it weren't for this sembntic flbw, the code below would be ...
      *
-     *     execv(path, argv);
-     *     JLI_ReportErrorMessage("Error: Exec of %s failed\n", path);
+     *     execv(pbth, brgv);
+     *     JLI_ReportErrorMessbge("Error: Exec of %s fbiled\n", pbth);
      *     exit(1);
      *
-     * The incorrect exec semantics could be addressed by:
+     * The incorrect exec sembntics could be bddressed by:
      *
-     *     exit((int)spawnv(_P_WAIT, path, argv));
+     *     exit((int)spbwnv(_P_WAIT, pbth, brgv));
      *
-     * Unfortunately, a bug in Windows spawn/exec impementation prevents
-     * this from completely working.  All the Windows POSIX process creation
-     * interfaces are implemented as wrappers around the native Windows
-     * function CreateProcess().  CreateProcess() takes a single string
-     * to specify command line options and arguments, so the POSIX routine
-     * wrappers build a single string from the argv[] array and in the
-     * process, any quoting information is lost.
+     * Unfortunbtely, b bug in Windows spbwn/exec impementbtion prevents
+     * this from completely working.  All the Windows POSIX process crebtion
+     * interfbces bre implemented bs wrbppers bround the nbtive Windows
+     * function CrebteProcess().  CrebteProcess() tbkes b single string
+     * to specify commbnd line options bnd brguments, so the POSIX routine
+     * wrbppers build b single string from the brgv[] brrby bnd in the
+     * process, bny quoting informbtion is lost.
      *
-     * The solution to this to get the original command line, to process it
-     * to remove the new multiple JRE options (if any) as was done for argv
-     * in the common SelectVersion() routine and finally to pass it directly
-     * to the native CreateProcess() Windows process control interface.
+     * The solution to this to get the originbl commbnd line, to process it
+     * to remove the new multiple JRE options (if bny) bs wbs done for brgv
+     * in the common SelectVersion() routine bnd finblly to pbss it directly
+     * to the nbtive CrebteProcess() Windows process control interfbce.
      */
     {
-        char    *cmdline;
-        char    *p;
-        char    *np;
-        char    *ocl;
-        char    *ccl;
-        char    *unquoted;
+        chbr    *cmdline;
+        chbr    *p;
+        chbr    *np;
+        chbr    *ocl;
+        chbr    *ccl;
+        chbr    *unquoted;
         DWORD   exitCode;
         STARTUPINFO si;
         PROCESS_INFORMATION pi;
 
         /*
-         * The following code block gets and processes the original command
-         * line, replacing the argv[0] equivalent in the command line with
-         * the path to the new executable and removing the appropriate
-         * Multiple JRE support options. Note that similar logic exists
-         * in the platform independent SelectVersion routine, but is
-         * replicated here due to the syntax of CreateProcess().
+         * The following code block gets bnd processes the originbl commbnd
+         * line, replbcing the brgv[0] equivblent in the commbnd line with
+         * the pbth to the new executbble bnd removing the bppropribte
+         * Multiple JRE support options. Note thbt similbr logic exists
+         * in the plbtform independent SelectVersion routine, but is
+         * replicbted here due to the syntbx of CrebteProcess().
          *
-         * The magic "+ 4" characters added to the command line length are
-         * 2 possible quotes around the path (argv[0]), a space after the
-         * path and a terminating null character.
+         * The mbgic "+ 4" chbrbcters bdded to the commbnd line length bre
+         * 2 possible quotes bround the pbth (brgv[0]), b spbce bfter the
+         * pbth bnd b terminbting null chbrbcter.
          */
-        ocl = GetCommandLine();
+        ocl = GetCommbndLine();
         np = ccl = JLI_StringDup(ocl);
-        p = nextarg(&np);               /* Discard argv[0] */
-        cmdline = (char *)JLI_MemAlloc(JLI_StrLen(path) + JLI_StrLen(np) + 4);
-        if (JLI_StrChr(path, (int)' ') == NULL && JLI_StrChr(path, (int)'\t') == NULL)
-            cmdline = JLI_StrCpy(cmdline, path);
+        p = nextbrg(&np);               /* Discbrd brgv[0] */
+        cmdline = (chbr *)JLI_MemAlloc(JLI_StrLen(pbth) + JLI_StrLen(np) + 4);
+        if (JLI_StrChr(pbth, (int)' ') == NULL && JLI_StrChr(pbth, (int)'\t') == NULL)
+            cmdline = JLI_StrCpy(cmdline, pbth);
         else
-            cmdline = JLI_StrCat(JLI_StrCat(JLI_StrCpy(cmdline, "\""), path), "\"");
+            cmdline = JLI_StrCbt(JLI_StrCbt(JLI_StrCpy(cmdline, "\""), pbth), "\"");
 
-        while (*np != (char)0) {                /* While more command-line */
-            p = nextarg(&np);
-            if (*p != (char)0) {                /* If a token was isolated */
+        while (*np != (chbr)0) {                /* While more commbnd-line */
+            p = nextbrg(&np);
+            if (*p != (chbr)0) {                /* If b token wbs isolbted */
                 unquoted = unquote(p);
-                if (*unquoted == '-') {         /* Looks like an option */
-                    if (JLI_StrCmp(unquoted, "-classpath") == 0 ||
-                      JLI_StrCmp(unquoted, "-cp") == 0) {       /* Unique cp syntax */
-                        cmdline = JLI_StrCat(JLI_StrCat(cmdline, " "), p);
-                        p = nextarg(&np);
-                        if (*p != (char)0)      /* If a token was isolated */
-                            cmdline = JLI_StrCat(JLI_StrCat(cmdline, " "), p);
+                if (*unquoted == '-') {         /* Looks like bn option */
+                    if (JLI_StrCmp(unquoted, "-clbsspbth") == 0 ||
+                      JLI_StrCmp(unquoted, "-cp") == 0) {       /* Unique cp syntbx */
+                        cmdline = JLI_StrCbt(JLI_StrCbt(cmdline, " "), p);
+                        p = nextbrg(&np);
+                        if (*p != (chbr)0)      /* If b token wbs isolbted */
+                            cmdline = JLI_StrCbt(JLI_StrCbt(cmdline, " "), p);
                     } else if (JLI_StrNCmp(unquoted, "-version:", 9) != 0 &&
-                      JLI_StrCmp(unquoted, "-jre-restrict-search") != 0 &&
-                      JLI_StrCmp(unquoted, "-no-jre-restrict-search") != 0) {
-                        cmdline = JLI_StrCat(JLI_StrCat(cmdline, " "), p);
+                      JLI_StrCmp(unquoted, "-jre-restrict-sebrch") != 0 &&
+                      JLI_StrCmp(unquoted, "-no-jre-restrict-sebrch") != 0) {
+                        cmdline = JLI_StrCbt(JLI_StrCbt(cmdline, " "), p);
                     }
                 } else {                        /* End of options */
-                    cmdline = JLI_StrCat(JLI_StrCat(cmdline, " "), p);
-                    cmdline = JLI_StrCat(JLI_StrCat(cmdline, " "), np);
+                    cmdline = JLI_StrCbt(JLI_StrCbt(cmdline, " "), p);
+                    cmdline = JLI_StrCbt(JLI_StrCbt(cmdline, " "), np);
                     JLI_MemFree((void *)unquoted);
-                    break;
+                    brebk;
                 }
                 JLI_MemFree((void *)unquoted);
             }
         }
         JLI_MemFree((void *)ccl);
 
-        if (JLI_IsTraceLauncher()) {
+        if (JLI_IsTrbceLbuncher()) {
             np = ccl = JLI_StringDup(cmdline);
-            p = nextarg(&np);
-            printf("ReExec Command: %s (%s)\n", path, p);
+            p = nextbrg(&np);
+            printf("ReExec Commbnd: %s (%s)\n", pbth, p);
             printf("ReExec Args: %s\n", np);
             JLI_MemFree((void *)ccl);
         }
@@ -1049,177 +1049,177 @@ ExecJRE(char *jre, char **argv) {
         (void)fflush(stderr);
 
         /*
-         * The following code is modeled after a model presented in the
-         * Microsoft Technical Article "Moving Unix Applications to
-         * Windows NT" (March 6, 1994) and "Creating Processes" on MSDN
-         * (Februrary 2005).  It approximates UNIX spawn semantics with
-         * the parent waiting for termination of the child.
+         * The following code is modeled bfter b model presented in the
+         * Microsoft Technicbl Article "Moving Unix Applicbtions to
+         * Windows NT" (Mbrch 6, 1994) bnd "Crebting Processes" on MSDN
+         * (Februrbry 2005).  It bpproximbtes UNIX spbwn sembntics with
+         * the pbrent wbiting for terminbtion of the child.
          */
         memset(&si, 0, sizeof(si));
         si.cb =sizeof(STARTUPINFO);
         memset(&pi, 0, sizeof(pi));
 
-        if (!CreateProcess((LPCTSTR)path,       /* executable name */
-          (LPTSTR)cmdline,                      /* command line */
-          (LPSECURITY_ATTRIBUTES)NULL,          /* process security attr. */
-          (LPSECURITY_ATTRIBUTES)NULL,          /* thread security attr. */
-          (BOOL)TRUE,                           /* inherits system handles */
-          (DWORD)0,                             /* creation flags */
+        if (!CrebteProcess((LPCTSTR)pbth,       /* executbble nbme */
+          (LPTSTR)cmdline,                      /* commbnd line */
+          (LPSECURITY_ATTRIBUTES)NULL,          /* process security bttr. */
+          (LPSECURITY_ATTRIBUTES)NULL,          /* threbd security bttr. */
+          (BOOL)TRUE,                           /* inherits system hbndles */
+          (DWORD)0,                             /* crebtion flbgs */
           (LPVOID)NULL,                         /* environment block */
           (LPCTSTR)NULL,                        /* current directory */
-          (LPSTARTUPINFO)&si,                   /* (in) startup information */
-          (LPPROCESS_INFORMATION)&pi)) {        /* (out) process information */
-            JLI_ReportErrorMessageSys(SYS_ERROR1, path);
+          (LPSTARTUPINFO)&si,                   /* (in) stbrtup informbtion */
+          (LPPROCESS_INFORMATION)&pi)) {        /* (out) process informbtion */
+            JLI_ReportErrorMessbgeSys(SYS_ERROR1, pbth);
             exit(1);
         }
 
-        if (WaitForSingleObject(pi.hProcess, INFINITE) != WAIT_FAILED) {
+        if (WbitForSingleObject(pi.hProcess, INFINITE) != WAIT_FAILED) {
             if (GetExitCodeProcess(pi.hProcess, &exitCode) == FALSE)
                 exitCode = 1;
         } else {
-            JLI_ReportErrorMessage(SYS_ERROR2);
+            JLI_ReportErrorMessbge(SYS_ERROR2);
             exitCode = 1;
         }
 
-        CloseHandle(pi.hThread);
-        CloseHandle(pi.hProcess);
+        CloseHbndle(pi.hThrebd);
+        CloseHbndle(pi.hProcess);
 
         exit(exitCode);
     }
 }
 
 /*
- * Wrapper for platform dependent unsetenv function.
+ * Wrbpper for plbtform dependent unsetenv function.
  */
 int
-UnsetEnv(char *name)
+UnsetEnv(chbr *nbme)
 {
     int ret;
-    char *buf = JLI_MemAlloc(JLI_StrLen(name) + 2);
-    buf = JLI_StrCat(JLI_StrCpy(buf, name), "=");
+    chbr *buf = JLI_MemAlloc(JLI_StrLen(nbme) + 2);
+    buf = JLI_StrCbt(JLI_StrCpy(buf, nbme), "=");
     ret = _putenv(buf);
     JLI_MemFree(buf);
     return (ret);
 }
 
-/* --- Splash Screen shared library support --- */
+/* --- Splbsh Screen shbred librbry support --- */
 
-static const char* SPLASHSCREEN_SO = "\\bin\\splashscreen.dll";
+stbtic const chbr* SPLASHSCREEN_SO = "\\bin\\splbshscreen.dll";
 
-static HMODULE hSplashLib = NULL;
+stbtic HMODULE hSplbshLib = NULL;
 
-void* SplashProcAddress(const char* name) {
-    char libraryPath[MAXPATHLEN]; /* some extra space for JLI_StrCat'ing SPLASHSCREEN_SO */
+void* SplbshProcAddress(const chbr* nbme) {
+    chbr librbryPbth[MAXPATHLEN]; /* some extrb spbce for JLI_StrCbt'ing SPLASHSCREEN_SO */
 
-    if (!GetJREPath(libraryPath, MAXPATHLEN)) {
+    if (!GetJREPbth(librbryPbth, MAXPATHLEN)) {
         return NULL;
     }
-    if (JLI_StrLen(libraryPath)+JLI_StrLen(SPLASHSCREEN_SO) >= MAXPATHLEN) {
+    if (JLI_StrLen(librbryPbth)+JLI_StrLen(SPLASHSCREEN_SO) >= MAXPATHLEN) {
         return NULL;
     }
-    JLI_StrCat(libraryPath, SPLASHSCREEN_SO);
+    JLI_StrCbt(librbryPbth, SPLASHSCREEN_SO);
 
-    if (!hSplashLib) {
-        hSplashLib = LoadLibrary(libraryPath);
+    if (!hSplbshLib) {
+        hSplbshLib = LobdLibrbry(librbryPbth);
     }
-    if (hSplashLib) {
-        return GetProcAddress(hSplashLib, name);
+    if (hSplbshLib) {
+        return GetProcAddress(hSplbshLib, nbme);
     } else {
         return NULL;
     }
 }
 
-void SplashFreeLibrary() {
-    if (hSplashLib) {
-        FreeLibrary(hSplashLib);
-        hSplashLib = NULL;
+void SplbshFreeLibrbry() {
+    if (hSplbshLib) {
+        FreeLibrbry(hSplbshLib);
+        hSplbshLib = NULL;
     }
 }
 
-const char *
-jlong_format_specifier() {
+const chbr *
+jlong_formbt_specifier() {
     return "%I64d";
 }
 
 /*
- * Block current thread and continue execution in a new thread
+ * Block current threbd bnd continue execution in b new threbd
  */
 int
-ContinueInNewThread0(int (JNICALL *continuation)(void *), jlong stack_size, void * args) {
+ContinueInNewThrebd0(int (JNICALL *continubtion)(void *), jlong stbck_size, void * brgs) {
     int rslt = 0;
-    unsigned thread_id;
+    unsigned threbd_id;
 
 #ifndef STACK_SIZE_PARAM_IS_A_RESERVATION
 #define STACK_SIZE_PARAM_IS_A_RESERVATION  (0x10000)
 #endif
 
     /*
-     * STACK_SIZE_PARAM_IS_A_RESERVATION is what we want, but it's not
-     * supported on older version of Windows. Try first with the flag; and
-     * if that fails try again without the flag. See MSDN document or HotSpot
-     * source (os_win32.cpp) for details.
+     * STACK_SIZE_PARAM_IS_A_RESERVATION is whbt we wbnt, but it's not
+     * supported on older version of Windows. Try first with the flbg; bnd
+     * if thbt fbils try bgbin without the flbg. See MSDN document or HotSpot
+     * source (os_win32.cpp) for detbils.
      */
-    HANDLE thread_handle =
-      (HANDLE)_beginthreadex(NULL,
-                             (unsigned)stack_size,
-                             continuation,
-                             args,
+    HANDLE threbd_hbndle =
+      (HANDLE)_beginthrebdex(NULL,
+                             (unsigned)stbck_size,
+                             continubtion,
+                             brgs,
                              STACK_SIZE_PARAM_IS_A_RESERVATION,
-                             &thread_id);
-    if (thread_handle == NULL) {
-      thread_handle =
-      (HANDLE)_beginthreadex(NULL,
-                             (unsigned)stack_size,
-                             continuation,
-                             args,
+                             &threbd_id);
+    if (threbd_hbndle == NULL) {
+      threbd_hbndle =
+      (HANDLE)_beginthrebdex(NULL,
+                             (unsigned)stbck_size,
+                             continubtion,
+                             brgs,
                              0,
-                             &thread_id);
+                             &threbd_id);
     }
 
-    /* AWT preloading (AFTER main thread start) */
+    /* AWT prelobding (AFTER mbin threbd stbrt) */
 #ifdef ENABLE_AWT_PRELOAD
-    /* D3D preloading */
-    if (awtPreloadD3D != 0) {
-        char *envValue;
-        /* D3D routines checks env.var J2D_D3D if no appropriate
-         * command line params was specified
+    /* D3D prelobding */
+    if (bwtPrelobdD3D != 0) {
+        chbr *envVblue;
+        /* D3D routines checks env.vbr J2D_D3D if no bppropribte
+         * commbnd line pbrbms wbs specified
          */
-        envValue = getenv("J2D_D3D");
-        if (envValue != NULL && JLI_StrCaseCmp(envValue, "false") == 0) {
-            awtPreloadD3D = 0;
+        envVblue = getenv("J2D_D3D");
+        if (envVblue != NULL && JLI_StrCbseCmp(envVblue, "fblse") == 0) {
+            bwtPrelobdD3D = 0;
         }
-        /* Test that AWT preloading isn't disabled by J2D_D3D_PRELOAD env.var */
-        envValue = getenv("J2D_D3D_PRELOAD");
-        if (envValue != NULL && JLI_StrCaseCmp(envValue, "false") == 0) {
-            awtPreloadD3D = 0;
+        /* Test thbt AWT prelobding isn't disbbled by J2D_D3D_PRELOAD env.vbr */
+        envVblue = getenv("J2D_D3D_PRELOAD");
+        if (envVblue != NULL && JLI_StrCbseCmp(envVblue, "fblse") == 0) {
+            bwtPrelobdD3D = 0;
         }
-        if (awtPreloadD3D < 0) {
-            /* If awtPreloadD3D is still undefined (-1), test
-             * if it is turned on by J2D_D3D_PRELOAD env.var.
-             * By default it's turned OFF.
+        if (bwtPrelobdD3D < 0) {
+            /* If bwtPrelobdD3D is still undefined (-1), test
+             * if it is turned on by J2D_D3D_PRELOAD env.vbr.
+             * By defbult it's turned OFF.
              */
-            awtPreloadD3D = 0;
-            if (envValue != NULL && JLI_StrCaseCmp(envValue, "true") == 0) {
-                awtPreloadD3D = 1;
+            bwtPrelobdD3D = 0;
+            if (envVblue != NULL && JLI_StrCbseCmp(envVblue, "true") == 0) {
+                bwtPrelobdD3D = 1;
             }
          }
     }
-    if (awtPreloadD3D) {
-        AWTPreload(D3D_PRELOAD_FUNC);
+    if (bwtPrelobdD3D) {
+        AWTPrelobd(D3D_PRELOAD_FUNC);
     }
 #endif /* ENABLE_AWT_PRELOAD */
 
-    if (thread_handle) {
-      WaitForSingleObject(thread_handle, INFINITE);
-      GetExitCodeThread(thread_handle, &rslt);
-      CloseHandle(thread_handle);
+    if (threbd_hbndle) {
+      WbitForSingleObject(threbd_hbndle, INFINITE);
+      GetExitCodeThrebd(threbd_hbndle, &rslt);
+      CloseHbndle(threbd_hbndle);
     } else {
-      rslt = continuation(args);
+      rslt = continubtion(brgs);
     }
 
 #ifdef ENABLE_AWT_PRELOAD
-    if (awtPreloaded) {
-        AWTPreloadStop();
+    if (bwtPrelobded) {
+        AWTPrelobdStop();
     }
 #endif /* ENABLE_AWT_PRELOAD */
 
@@ -1227,133 +1227,133 @@ ContinueInNewThread0(int (JNICALL *continuation)(void *), jlong stack_size, void
 }
 
 /* Unix only, empty on windows. */
-void SetJavaLauncherPlatformProps() {}
+void SetJbvbLbuncherPlbtformProps() {}
 
 /*
- * The implementation for finding classes from the bootstrap
- * class loader, refer to java.h
+ * The implementbtion for finding clbsses from the bootstrbp
+ * clbss lobder, refer to jbvb.h
  */
-static FindClassFromBootLoader_t *findBootClass = NULL;
+stbtic FindClbssFromBootLobder_t *findBootClbss = NULL;
 
-jclass FindBootStrapClass(JNIEnv *env, const char *classname)
+jclbss FindBootStrbpClbss(JNIEnv *env, const chbr *clbssnbme)
 {
    HMODULE hJvm;
 
-   if (findBootClass == NULL) {
-       hJvm = GetModuleHandle(JVM_DLL);
+   if (findBootClbss == NULL) {
+       hJvm = GetModuleHbndle(JVM_DLL);
        if (hJvm == NULL) return NULL;
-       /* need to use the demangled entry point */
-       findBootClass = (FindClassFromBootLoader_t *)GetProcAddress(hJvm,
-            "JVM_FindClassFromBootLoader");
-       if (findBootClass == NULL) {
-          JLI_ReportErrorMessage(DLL_ERROR4, "JVM_FindClassFromBootLoader");
+       /* need to use the dembngled entry point */
+       findBootClbss = (FindClbssFromBootLobder_t *)GetProcAddress(hJvm,
+            "JVM_FindClbssFromBootLobder");
+       if (findBootClbss == NULL) {
+          JLI_ReportErrorMessbge(DLL_ERROR4, "JVM_FindClbssFromBootLobder");
           return NULL;
        }
    }
-   return findBootClass(env, classname);
+   return findBootClbss(env, clbssnbme);
 }
 
 void
-InitLauncher(boolean javaw)
+InitLbuncher(boolebn jbvbw)
 {
     INITCOMMONCONTROLSEX icx;
 
     /*
-     * Required for javaw mode MessageBox output as well as for
-     * HotSpot -XX:+ShowMessageBoxOnError in java mode, an empty
-     * flag field is sufficient to perform the basic UI initialization.
+     * Required for jbvbw mode MessbgeBox output bs well bs for
+     * HotSpot -XX:+ShowMessbgeBoxOnError in jbvb mode, bn empty
+     * flbg field is sufficient to perform the bbsic UI initiblizbtion.
      */
     memset(&icx, 0, sizeof(INITCOMMONCONTROLSEX));
     icx.dwSize = sizeof(INITCOMMONCONTROLSEX);
     InitCommonControlsEx(&icx);
-    _isjavaw = javaw;
-    JLI_SetTraceLauncher();
+    _isjbvbw = jbvbw;
+    JLI_SetTrbceLbuncher();
 }
 
 
 /* ============================== */
-/* AWT preloading */
+/* AWT prelobding */
 #ifdef ENABLE_AWT_PRELOAD
 
-typedef int FnPreloadStart(void);
-typedef void FnPreloadStop(void);
-static FnPreloadStop *fnPreloadStop = NULL;
-static HMODULE hPreloadAwt = NULL;
+typedef int FnPrelobdStbrt(void);
+typedef void FnPrelobdStop(void);
+stbtic FnPrelobdStop *fnPrelobdStop = NULL;
+stbtic HMODULE hPrelobdAwt = NULL;
 
 /*
- * Starts AWT preloading
+ * Stbrts AWT prelobding
  */
-int AWTPreload(const char *funcName)
+int AWTPrelobd(const chbr *funcNbme)
 {
     int result = -1;
-    /* load AWT library once (if several preload function should be called) */
-    if (hPreloadAwt == NULL) {
-        /* awt.dll is not loaded yet */
-        char libraryPath[MAXPATHLEN];
-        int jrePathLen = 0;
-        HMODULE hJava = NULL;
+    /* lobd AWT librbry once (if severbl prelobd function should be cblled) */
+    if (hPrelobdAwt == NULL) {
+        /* bwt.dll is not lobded yet */
+        chbr librbryPbth[MAXPATHLEN];
+        int jrePbthLen = 0;
+        HMODULE hJbvb = NULL;
         HMODULE hVerify = NULL;
 
         while (1) {
-            /* awt.dll depends on jvm.dll & java.dll;
-             * jvm.dll is already loaded, so we need only java.dll;
-             * java.dll depends on MSVCRT lib & verify.dll.
+            /* bwt.dll depends on jvm.dll & jbvb.dll;
+             * jvm.dll is blrebdy lobded, so we need only jbvb.dll;
+             * jbvb.dll depends on MSVCRT lib & verify.dll.
              */
-            if (!GetJREPath(libraryPath, MAXPATHLEN)) {
-                break;
+            if (!GetJREPbth(librbryPbth, MAXPATHLEN)) {
+                brebk;
             }
 
-            /* save path length */
-            jrePathLen = JLI_StrLen(libraryPath);
+            /* sbve pbth length */
+            jrePbthLen = JLI_StrLen(librbryPbth);
 
-            if (jrePathLen + JLI_StrLen("\\bin\\verify.dll") >= MAXPATHLEN) {
-              /* jre path is too long, the library path will not fit there;
-               * report and abort preloading
+            if (jrePbthLen + JLI_StrLen("\\bin\\verify.dll") >= MAXPATHLEN) {
+              /* jre pbth is too long, the librbry pbth will not fit there;
+               * report bnd bbort prelobding
                */
-              JLI_ReportErrorMessage(JRE_ERROR11);
-              break;
+              JLI_ReportErrorMessbge(JRE_ERROR11);
+              brebk;
             }
 
-            /* load msvcrt 1st */
-            LoadMSVCRT();
+            /* lobd msvcrt 1st */
+            LobdMSVCRT();
 
-            /* load verify.dll */
-            JLI_StrCat(libraryPath, "\\bin\\verify.dll");
-            hVerify = LoadLibrary(libraryPath);
+            /* lobd verify.dll */
+            JLI_StrCbt(librbryPbth, "\\bin\\verify.dll");
+            hVerify = LobdLibrbry(librbryPbth);
             if (hVerify == NULL) {
-                break;
+                brebk;
             }
 
-            /* restore jrePath */
-            libraryPath[jrePathLen] = 0;
-            /* load java.dll */
-            JLI_StrCat(libraryPath, "\\bin\\" JAVA_DLL);
-            hJava = LoadLibrary(libraryPath);
-            if (hJava == NULL) {
-                break;
+            /* restore jrePbth */
+            librbryPbth[jrePbthLen] = 0;
+            /* lobd jbvb.dll */
+            JLI_StrCbt(librbryPbth, "\\bin\\" JAVA_DLL);
+            hJbvb = LobdLibrbry(librbryPbth);
+            if (hJbvb == NULL) {
+                brebk;
             }
 
-            /* restore jrePath */
-            libraryPath[jrePathLen] = 0;
-            /* load awt.dll */
-            JLI_StrCat(libraryPath, "\\bin\\awt.dll");
-            hPreloadAwt = LoadLibrary(libraryPath);
-            if (hPreloadAwt == NULL) {
-                break;
+            /* restore jrePbth */
+            librbryPbth[jrePbthLen] = 0;
+            /* lobd bwt.dll */
+            JLI_StrCbt(librbryPbth, "\\bin\\bwt.dll");
+            hPrelobdAwt = LobdLibrbry(librbryPbth);
+            if (hPrelobdAwt == NULL) {
+                brebk;
             }
 
-            /* get "preloadStop" func ptr */
-            fnPreloadStop = (FnPreloadStop *)GetProcAddress(hPreloadAwt, "preloadStop");
+            /* get "prelobdStop" func ptr */
+            fnPrelobdStop = (FnPrelobdStop *)GetProcAddress(hPrelobdAwt, "prelobdStop");
 
-            break;
+            brebk;
         }
     }
 
-    if (hPreloadAwt != NULL) {
-        FnPreloadStart *fnInit = (FnPreloadStart *)GetProcAddress(hPreloadAwt, funcName);
+    if (hPrelobdAwt != NULL) {
+        FnPrelobdStbrt *fnInit = (FnPrelobdStbrt *)GetProcAddress(hPrelobdAwt, funcNbme);
         if (fnInit != NULL) {
-            /* don't forget to stop preloading */
-            awtPreloaded = 1;
+            /* don't forget to stop prelobding */
+            bwtPrelobded = 1;
 
             result = fnInit();
         }
@@ -1363,131 +1363,131 @@ int AWTPreload(const char *funcName)
 }
 
 /*
- * Terminates AWT preloading
+ * Terminbtes AWT prelobding
  */
-void AWTPreloadStop() {
-    if (fnPreloadStop != NULL) {
-        fnPreloadStop();
+void AWTPrelobdStop() {
+    if (fnPrelobdStop != NULL) {
+        fnPrelobdStop();
     }
 }
 
 #endif /* ENABLE_AWT_PRELOAD */
 
 int
-JVMInit(InvocationFunctions* ifn, jlong threadStackSize,
-        int argc, char **argv,
-        int mode, char *what, int ret)
+JVMInit(InvocbtionFunctions* ifn, jlong threbdStbckSize,
+        int brgc, chbr **brgv,
+        int mode, chbr *whbt, int ret)
 {
-    ShowSplashScreen();
-    return ContinueInNewThread(ifn, threadStackSize, argc, argv, mode, what, ret);
+    ShowSplbshScreen();
+    return ContinueInNewThrebd(ifn, threbdStbckSize, brgc, brgv, mode, whbt, ret);
 }
 
 void
-PostJVMInit(JNIEnv *env, jstring mainClass, JavaVM *vm)
+PostJVMInit(JNIEnv *env, jstring mbinClbss, JbvbVM *vm)
 {
-    // stubbed out for windows and *nixes.
+    // stubbed out for windows bnd *nixes.
 }
 
 void
-RegisterThread()
+RegisterThrebd()
 {
-    // stubbed out for windows and *nixes.
+    // stubbed out for windows bnd *nixes.
 }
 
 /*
- * on windows, we return a false to indicate this option is not applicable
+ * on windows, we return b fblse to indicbte this option is not bpplicbble
  */
-jboolean
-ProcessPlatformOption(const char *arg)
+jboolebn
+ProcessPlbtformOption(const chbr *brg)
 {
     return JNI_FALSE;
 }
 
 /*
- * At this point we have the arguments to the application, and we need to
- * check with original stdargs in order to compare which of these truly
- * needs expansion. cmdtoargs will specify this if it finds a bare
- * (unquoted) argument containing a glob character(s) ie. * or ?
+ * At this point we hbve the brguments to the bpplicbtion, bnd we need to
+ * check with originbl stdbrgs in order to compbre which of these truly
+ * needs expbnsion. cmdtobrgs will specify this if it finds b bbre
+ * (unquoted) brgument contbining b glob chbrbcter(s) ie. * or ?
  */
-jobjectArray
-CreateApplicationArgs(JNIEnv *env, char **strv, int argc)
+jobjectArrby
+CrebteApplicbtionArgs(JNIEnv *env, chbr **strv, int brgc)
 {
     int i, j, idx, tlen;
-    jobjectArray outArray, inArray;
-    char *ostart, *astart, **nargv;
-    jboolean needs_expansion = JNI_FALSE;
+    jobjectArrby outArrby, inArrby;
+    chbr *ostbrt, *bstbrt, **nbrgv;
+    jboolebn needs_expbnsion = JNI_FALSE;
     jmethodID mid;
-    int stdargc;
-    StdArg *stdargs;
-    jclass cls = GetLauncherHelperClass(env);
+    int stdbrgc;
+    StdArg *stdbrgs;
+    jclbss cls = GetLbuncherHelperClbss(env);
     NULL_CHECK0(cls);
 
-    if (argc == 0) {
-        return NewPlatformStringArray(env, strv, argc);
+    if (brgc == 0) {
+        return NewPlbtformStringArrby(env, strv, brgc);
     }
-    // the holy grail we need to compare with.
-    stdargs = JLI_GetStdArgs();
-    stdargc = JLI_GetStdArgc();
+    // the holy grbil we need to compbre with.
+    stdbrgs = JLI_GetStdArgs();
+    stdbrgc = JLI_GetStdArgc();
 
-    // sanity check, this should never happen
-    if (argc > stdargc) {
-        JLI_TraceLauncher("Warning: app args is larger than the original, %d %d\n", argc, stdargc);
-        JLI_TraceLauncher("passing arguments as-is.\n");
-        return NewPlatformStringArray(env, strv, argc);
-    }
-
-    // sanity check, match the args we have, to the holy grail
-    idx = stdargc - argc;
-    ostart = stdargs[idx].arg;
-    astart = strv[0];
-    // sanity check, ensure that the first argument of the arrays are the same
-    if (JLI_StrCmp(ostart, astart) != 0) {
-        // some thing is amiss the args don't match
-        JLI_TraceLauncher("Warning: app args parsing error\n");
-        JLI_TraceLauncher("passing arguments as-is\n");
-        return NewPlatformStringArray(env, strv, argc);
+    // sbnity check, this should never hbppen
+    if (brgc > stdbrgc) {
+        JLI_TrbceLbuncher("Wbrning: bpp brgs is lbrger thbn the originbl, %d %d\n", brgc, stdbrgc);
+        JLI_TrbceLbuncher("pbssing brguments bs-is.\n");
+        return NewPlbtformStringArrby(env, strv, brgc);
     }
 
-    // make a copy of the args which will be expanded in java if required.
-    nargv = (char **)JLI_MemAlloc(argc * sizeof(char*));
-    for (i = 0, j = idx; i < argc; i++, j++) {
-        jboolean arg_expand = (JLI_StrCmp(stdargs[j].arg, strv[i]) == 0)
-                                ? stdargs[j].has_wildcard
+    // sbnity check, mbtch the brgs we hbve, to the holy grbil
+    idx = stdbrgc - brgc;
+    ostbrt = stdbrgs[idx].brg;
+    bstbrt = strv[0];
+    // sbnity check, ensure thbt the first brgument of the brrbys bre the sbme
+    if (JLI_StrCmp(ostbrt, bstbrt) != 0) {
+        // some thing is bmiss the brgs don't mbtch
+        JLI_TrbceLbuncher("Wbrning: bpp brgs pbrsing error\n");
+        JLI_TrbceLbuncher("pbssing brguments bs-is\n");
+        return NewPlbtformStringArrby(env, strv, brgc);
+    }
+
+    // mbke b copy of the brgs which will be expbnded in jbvb if required.
+    nbrgv = (chbr **)JLI_MemAlloc(brgc * sizeof(chbr*));
+    for (i = 0, j = idx; i < brgc; i++, j++) {
+        jboolebn brg_expbnd = (JLI_StrCmp(stdbrgs[j].brg, strv[i]) == 0)
+                                ? stdbrgs[j].hbs_wildcbrd
                                 : JNI_FALSE;
-        if (needs_expansion == JNI_FALSE)
-            needs_expansion = arg_expand;
+        if (needs_expbnsion == JNI_FALSE)
+            needs_expbnsion = brg_expbnd;
 
-        // indicator char + String + NULL terminator, the java method will strip
-        // out the first character, the indicator character, so no matter what
-        // we add the indicator
+        // indicbtor chbr + String + NULL terminbtor, the jbvb method will strip
+        // out the first chbrbcter, the indicbtor chbrbcter, so no mbtter whbt
+        // we bdd the indicbtor
         tlen = 1 + JLI_StrLen(strv[i]) + 1;
-        nargv[i] = (char *) JLI_MemAlloc(tlen);
-        if (JLI_Snprintf(nargv[i], tlen, "%c%s", arg_expand ? 'T' : 'F',
+        nbrgv[i] = (chbr *) JLI_MemAlloc(tlen);
+        if (JLI_Snprintf(nbrgv[i], tlen, "%c%s", brg_expbnd ? 'T' : 'F',
                          strv[i]) < 0) {
             return NULL;
         }
-        JLI_TraceLauncher("%s\n", nargv[i]);
+        JLI_TrbceLbuncher("%s\n", nbrgv[i]);
     }
 
-    if (!needs_expansion) {
-        // clean up any allocated memory and return back the old arguments
-        for (i = 0 ; i < argc ; i++) {
-            JLI_MemFree(nargv[i]);
+    if (!needs_expbnsion) {
+        // clebn up bny bllocbted memory bnd return bbck the old brguments
+        for (i = 0 ; i < brgc ; i++) {
+            JLI_MemFree(nbrgv[i]);
         }
-        JLI_MemFree(nargv);
-        return NewPlatformStringArray(env, strv, argc);
+        JLI_MemFree(nbrgv);
+        return NewPlbtformStringArrby(env, strv, brgc);
     }
-    NULL_CHECK0(mid = (*env)->GetStaticMethodID(env, cls,
-                                                "expandArgs",
-                                                "([Ljava/lang/String;)[Ljava/lang/String;"));
+    NULL_CHECK0(mid = (*env)->GetStbticMethodID(env, cls,
+                                                "expbndArgs",
+                                                "([Ljbvb/lbng/String;)[Ljbvb/lbng/String;"));
 
-    // expand the arguments that require expansion, the java method will strip
-    // out the indicator character.
-    NULL_CHECK0(inArray = NewPlatformStringArray(env, nargv, argc));
-    outArray = (*env)->CallStaticObjectMethod(env, cls, mid, inArray);
-    for (i = 0; i < argc; i++) {
-        JLI_MemFree(nargv[i]);
+    // expbnd the brguments thbt require expbnsion, the jbvb method will strip
+    // out the indicbtor chbrbcter.
+    NULL_CHECK0(inArrby = NewPlbtformStringArrby(env, nbrgv, brgc));
+    outArrby = (*env)->CbllStbticObjectMethod(env, cls, mid, inArrby);
+    for (i = 0; i < brgc; i++) {
+        JLI_MemFree(nbrgv[i]);
     }
-    JLI_MemFree(nargv);
-    return outArray;
+    JLI_MemFree(nbrgv);
+    return outArrby;
 }

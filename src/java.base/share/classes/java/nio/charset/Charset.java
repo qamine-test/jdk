@@ -1,357 +1,357 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.nio.charset;
+pbckbge jbvb.nio.chbrset;
 
-import java.nio.ByteBuffer;
-import java.nio.CharBuffer;
-import java.nio.charset.spi.CharsetProvider;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Locale;
-import java.util.Map;
-import java.util.NoSuchElementException;
-import java.util.Set;
-import java.util.ServiceLoader;
-import java.util.ServiceConfigurationError;
-import java.util.SortedMap;
-import java.util.TreeMap;
-import sun.misc.ASCIICaseInsensitiveComparator;
-import sun.nio.cs.StandardCharsets;
-import sun.nio.cs.ThreadLocalCoders;
-import sun.security.action.GetPropertyAction;
+import jbvb.nio.ByteBuffer;
+import jbvb.nio.ChbrBuffer;
+import jbvb.nio.chbrset.spi.ChbrsetProvider;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import jbvb.util.Collections;
+import jbvb.util.HbshSet;
+import jbvb.util.Iterbtor;
+import jbvb.util.Locble;
+import jbvb.util.Mbp;
+import jbvb.util.NoSuchElementException;
+import jbvb.util.Set;
+import jbvb.util.ServiceLobder;
+import jbvb.util.ServiceConfigurbtionError;
+import jbvb.util.SortedMbp;
+import jbvb.util.TreeMbp;
+import sun.misc.ASCIICbseInsensitiveCompbrbtor;
+import sun.nio.cs.StbndbrdChbrsets;
+import sun.nio.cs.ThrebdLocblCoders;
+import sun.security.bction.GetPropertyAction;
 
 
 /**
- * A named mapping between sequences of sixteen-bit Unicode <a
- * href="../../lang/Character.html#unicode">code units</a> and sequences of
- * bytes.  This class defines methods for creating decoders and encoders and
- * for retrieving the various names associated with a charset.  Instances of
- * this class are immutable.
+ * A nbmed mbpping between sequences of sixteen-bit Unicode <b
+ * href="../../lbng/Chbrbcter.html#unicode">code units</b> bnd sequences of
+ * bytes.  This clbss defines methods for crebting decoders bnd encoders bnd
+ * for retrieving the vbrious nbmes bssocibted with b chbrset.  Instbnces of
+ * this clbss bre immutbble.
  *
- * <p> This class also defines static methods for testing whether a particular
- * charset is supported, for locating charset instances by name, and for
- * constructing a map that contains every charset for which support is
- * available in the current Java virtual machine.  Support for new charsets can
- * be added via the service-provider interface defined in the {@link
- * java.nio.charset.spi.CharsetProvider} class.
+ * <p> This clbss blso defines stbtic methods for testing whether b pbrticulbr
+ * chbrset is supported, for locbting chbrset instbnces by nbme, bnd for
+ * constructing b mbp thbt contbins every chbrset for which support is
+ * bvbilbble in the current Jbvb virtubl mbchine.  Support for new chbrsets cbn
+ * be bdded vib the service-provider interfbce defined in the {@link
+ * jbvb.nio.chbrset.spi.ChbrsetProvider} clbss.
  *
- * <p> All of the methods defined in this class are safe for use by multiple
- * concurrent threads.
+ * <p> All of the methods defined in this clbss bre sbfe for use by multiple
+ * concurrent threbds.
  *
  *
- * <a name="names"></a><a name="charenc"></a>
- * <h2>Charset names</h2>
+ * <b nbme="nbmes"></b><b nbme="chbrenc"></b>
+ * <h2>Chbrset nbmes</h2>
  *
- * <p> Charsets are named by strings composed of the following characters:
+ * <p> Chbrsets bre nbmed by strings composed of the following chbrbcters:
  *
  * <ul>
  *
- *   <li> The uppercase letters <tt>'A'</tt> through <tt>'Z'</tt>
- *        (<tt>'&#92;u0041'</tt>&nbsp;through&nbsp;<tt>'&#92;u005a'</tt>),
+ *   <li> The uppercbse letters <tt>'A'</tt> through <tt>'Z'</tt>
+ *        (<tt>'&#92;u0041'</tt>&nbsp;through&nbsp;<tt>'&#92;u005b'</tt>),
  *
- *   <li> The lowercase letters <tt>'a'</tt> through <tt>'z'</tt>
- *        (<tt>'&#92;u0061'</tt>&nbsp;through&nbsp;<tt>'&#92;u007a'</tt>),
+ *   <li> The lowercbse letters <tt>'b'</tt> through <tt>'z'</tt>
+ *        (<tt>'&#92;u0061'</tt>&nbsp;through&nbsp;<tt>'&#92;u007b'</tt>),
  *
  *   <li> The digits <tt>'0'</tt> through <tt>'9'</tt>
  *        (<tt>'&#92;u0030'</tt>&nbsp;through&nbsp;<tt>'&#92;u0039'</tt>),
  *
- *   <li> The dash character <tt>'-'</tt>
- *        (<tt>'&#92;u002d'</tt>,&nbsp;<small>HYPHEN-MINUS</small>),
+ *   <li> The dbsh chbrbcter <tt>'-'</tt>
+ *        (<tt>'&#92;u002d'</tt>,&nbsp;<smbll>HYPHEN-MINUS</smbll>),
  *
- *   <li> The plus character <tt>'+'</tt>
- *        (<tt>'&#92;u002b'</tt>,&nbsp;<small>PLUS SIGN</small>),
+ *   <li> The plus chbrbcter <tt>'+'</tt>
+ *        (<tt>'&#92;u002b'</tt>,&nbsp;<smbll>PLUS SIGN</smbll>),
  *
- *   <li> The period character <tt>'.'</tt>
- *        (<tt>'&#92;u002e'</tt>,&nbsp;<small>FULL STOP</small>),
+ *   <li> The period chbrbcter <tt>'.'</tt>
+ *        (<tt>'&#92;u002e'</tt>,&nbsp;<smbll>FULL STOP</smbll>),
  *
- *   <li> The colon character <tt>':'</tt>
- *        (<tt>'&#92;u003a'</tt>,&nbsp;<small>COLON</small>), and
+ *   <li> The colon chbrbcter <tt>':'</tt>
+ *        (<tt>'&#92;u003b'</tt>,&nbsp;<smbll>COLON</smbll>), bnd
  *
- *   <li> The underscore character <tt>'_'</tt>
- *        (<tt>'&#92;u005f'</tt>,&nbsp;<small>LOW&nbsp;LINE</small>).
+ *   <li> The underscore chbrbcter <tt>'_'</tt>
+ *        (<tt>'&#92;u005f'</tt>,&nbsp;<smbll>LOW&nbsp;LINE</smbll>).
  *
  * </ul>
  *
- * A charset name must begin with either a letter or a digit.  The empty string
- * is not a legal charset name.  Charset names are not case-sensitive; that is,
- * case is always ignored when comparing charset names.  Charset names
- * generally follow the conventions documented in <a
- * href="http://www.ietf.org/rfc/rfc2278.txt"><i>RFC&nbsp;2278:&nbsp;IANA Charset
- * Registration Procedures</i></a>.
+ * A chbrset nbme must begin with either b letter or b digit.  The empty string
+ * is not b legbl chbrset nbme.  Chbrset nbmes bre not cbse-sensitive; thbt is,
+ * cbse is blwbys ignored when compbring chbrset nbmes.  Chbrset nbmes
+ * generblly follow the conventions documented in <b
+ * href="http://www.ietf.org/rfc/rfc2278.txt"><i>RFC&nbsp;2278:&nbsp;IANA Chbrset
+ * Registrbtion Procedures</i></b>.
  *
- * <p> Every charset has a <i>canonical name</i> and may also have one or more
- * <i>aliases</i>.  The canonical name is returned by the {@link #name() name} method
- * of this class.  Canonical names are, by convention, usually in upper case.
- * The aliases of a charset are returned by the {@link #aliases() aliases}
+ * <p> Every chbrset hbs b <i>cbnonicbl nbme</i> bnd mby blso hbve one or more
+ * <i>blibses</i>.  The cbnonicbl nbme is returned by the {@link #nbme() nbme} method
+ * of this clbss.  Cbnonicbl nbmes bre, by convention, usublly in upper cbse.
+ * The blibses of b chbrset bre returned by the {@link #blibses() blibses}
  * method.
  *
- * <p><a name="hn">Some charsets have an <i>historical name</i> that is defined for
- * compatibility with previous versions of the Java platform.</a>  A charset's
- * historical name is either its canonical name or one of its aliases.  The
- * historical name is returned by the <tt>getEncoding()</tt> methods of the
- * {@link java.io.InputStreamReader#getEncoding InputStreamReader} and {@link
- * java.io.OutputStreamWriter#getEncoding OutputStreamWriter} classes.
+ * <p><b nbme="hn">Some chbrsets hbve bn <i>historicbl nbme</i> thbt is defined for
+ * compbtibility with previous versions of the Jbvb plbtform.</b>  A chbrset's
+ * historicbl nbme is either its cbnonicbl nbme or one of its blibses.  The
+ * historicbl nbme is returned by the <tt>getEncoding()</tt> methods of the
+ * {@link jbvb.io.InputStrebmRebder#getEncoding InputStrebmRebder} bnd {@link
+ * jbvb.io.OutputStrebmWriter#getEncoding OutputStrebmWriter} clbsses.
  *
- * <p><a name="iana"> </a>If a charset listed in the <a
- * href="http://www.iana.org/assignments/character-sets"><i>IANA Charset
- * Registry</i></a> is supported by an implementation of the Java platform then
- * its canonical name must be the name listed in the registry. Many charsets
- * are given more than one name in the registry, in which case the registry
- * identifies one of the names as <i>MIME-preferred</i>.  If a charset has more
- * than one registry name then its canonical name must be the MIME-preferred
- * name and the other names in the registry must be valid aliases.  If a
- * supported charset is not listed in the IANA registry then its canonical name
+ * <p><b nbme="ibnb"> </b>If b chbrset listed in the <b
+ * href="http://www.ibnb.org/bssignments/chbrbcter-sets"><i>IANA Chbrset
+ * Registry</i></b> is supported by bn implementbtion of the Jbvb plbtform then
+ * its cbnonicbl nbme must be the nbme listed in the registry. Mbny chbrsets
+ * bre given more thbn one nbme in the registry, in which cbse the registry
+ * identifies one of the nbmes bs <i>MIME-preferred</i>.  If b chbrset hbs more
+ * thbn one registry nbme then its cbnonicbl nbme must be the MIME-preferred
+ * nbme bnd the other nbmes in the registry must be vblid blibses.  If b
+ * supported chbrset is not listed in the IANA registry then its cbnonicbl nbme
  * must begin with one of the strings <tt>"X-"</tt> or <tt>"x-"</tt>.
  *
- * <p> The IANA charset registry does change over time, and so the canonical
- * name and the aliases of a particular charset may also change over time.  To
- * ensure compatibility it is recommended that no alias ever be removed from a
- * charset, and that if the canonical name of a charset is changed then its
- * previous canonical name be made into an alias.
+ * <p> The IANA chbrset registry does chbnge over time, bnd so the cbnonicbl
+ * nbme bnd the blibses of b pbrticulbr chbrset mby blso chbnge over time.  To
+ * ensure compbtibility it is recommended thbt no blibs ever be removed from b
+ * chbrset, bnd thbt if the cbnonicbl nbme of b chbrset is chbnged then its
+ * previous cbnonicbl nbme be mbde into bn blibs.
  *
  *
- * <h2>Standard charsets</h2>
+ * <h2>Stbndbrd chbrsets</h2>
  *
  *
  *
- * <p><a name="standard">Every implementation of the Java platform is required to support the
- * following standard charsets.</a>  Consult the release documentation for your
- * implementation to see if any other charsets are supported.  The behavior
- * of such optional charsets may differ between implementations.
+ * <p><b nbme="stbndbrd">Every implementbtion of the Jbvb plbtform is required to support the
+ * following stbndbrd chbrsets.</b>  Consult the relebse documentbtion for your
+ * implementbtion to see if bny other chbrsets bre supported.  The behbvior
+ * of such optionbl chbrsets mby differ between implementbtions.
  *
- * <blockquote><table width="80%" summary="Description of standard charsets">
- * <tr><th align="left">Charset</th><th align="left">Description</th></tr>
- * <tr><td valign=top><tt>US-ASCII</tt></td>
- *     <td>Seven-bit ASCII, a.k.a. <tt>ISO646-US</tt>,
- *         a.k.a. the Basic Latin block of the Unicode character set</td></tr>
- * <tr><td valign=top><tt>ISO-8859-1&nbsp;&nbsp;</tt></td>
- *     <td>ISO Latin Alphabet No. 1, a.k.a. <tt>ISO-LATIN-1</tt></td></tr>
- * <tr><td valign=top><tt>UTF-8</tt></td>
- *     <td>Eight-bit UCS Transformation Format</td></tr>
- * <tr><td valign=top><tt>UTF-16BE</tt></td>
- *     <td>Sixteen-bit UCS Transformation Format,
- *         big-endian byte&nbsp;order</td></tr>
- * <tr><td valign=top><tt>UTF-16LE</tt></td>
- *     <td>Sixteen-bit UCS Transformation Format,
- *         little-endian byte&nbsp;order</td></tr>
- * <tr><td valign=top><tt>UTF-16</tt></td>
- *     <td>Sixteen-bit UCS Transformation Format,
- *         byte&nbsp;order identified by an optional byte-order mark</td></tr>
- * </table></blockquote>
+ * <blockquote><tbble width="80%" summbry="Description of stbndbrd chbrsets">
+ * <tr><th blign="left">Chbrset</th><th blign="left">Description</th></tr>
+ * <tr><td vblign=top><tt>US-ASCII</tt></td>
+ *     <td>Seven-bit ASCII, b.k.b. <tt>ISO646-US</tt>,
+ *         b.k.b. the Bbsic Lbtin block of the Unicode chbrbcter set</td></tr>
+ * <tr><td vblign=top><tt>ISO-8859-1&nbsp;&nbsp;</tt></td>
+ *     <td>ISO Lbtin Alphbbet No. 1, b.k.b. <tt>ISO-LATIN-1</tt></td></tr>
+ * <tr><td vblign=top><tt>UTF-8</tt></td>
+ *     <td>Eight-bit UCS Trbnsformbtion Formbt</td></tr>
+ * <tr><td vblign=top><tt>UTF-16BE</tt></td>
+ *     <td>Sixteen-bit UCS Trbnsformbtion Formbt,
+ *         big-endibn byte&nbsp;order</td></tr>
+ * <tr><td vblign=top><tt>UTF-16LE</tt></td>
+ *     <td>Sixteen-bit UCS Trbnsformbtion Formbt,
+ *         little-endibn byte&nbsp;order</td></tr>
+ * <tr><td vblign=top><tt>UTF-16</tt></td>
+ *     <td>Sixteen-bit UCS Trbnsformbtion Formbt,
+ *         byte&nbsp;order identified by bn optionbl byte-order mbrk</td></tr>
+ * </tbble></blockquote>
  *
- * <p> The <tt>UTF-8</tt> charset is specified by <a
- * href="http://www.ietf.org/rfc/rfc2279.txt"><i>RFC&nbsp;2279</i></a>; the
- * transformation format upon which it is based is specified in
- * Amendment&nbsp;2 of ISO&nbsp;10646-1 and is also described in the <a
- * href="http://www.unicode.org/unicode/standard/standard.html"><i>Unicode
- * Standard</i></a>.
+ * <p> The <tt>UTF-8</tt> chbrset is specified by <b
+ * href="http://www.ietf.org/rfc/rfc2279.txt"><i>RFC&nbsp;2279</i></b>; the
+ * trbnsformbtion formbt upon which it is bbsed is specified in
+ * Amendment&nbsp;2 of ISO&nbsp;10646-1 bnd is blso described in the <b
+ * href="http://www.unicode.org/unicode/stbndbrd/stbndbrd.html"><i>Unicode
+ * Stbndbrd</i></b>.
  *
- * <p> The <tt>UTF-16</tt> charsets are specified by <a
- * href="http://www.ietf.org/rfc/rfc2781.txt"><i>RFC&nbsp;2781</i></a>; the
- * transformation formats upon which they are based are specified in
- * Amendment&nbsp;1 of ISO&nbsp;10646-1 and are also described in the <a
- * href="http://www.unicode.org/unicode/standard/standard.html"><i>Unicode
- * Standard</i></a>.
+ * <p> The <tt>UTF-16</tt> chbrsets bre specified by <b
+ * href="http://www.ietf.org/rfc/rfc2781.txt"><i>RFC&nbsp;2781</i></b>; the
+ * trbnsformbtion formbts upon which they bre bbsed bre specified in
+ * Amendment&nbsp;1 of ISO&nbsp;10646-1 bnd bre blso described in the <b
+ * href="http://www.unicode.org/unicode/stbndbrd/stbndbrd.html"><i>Unicode
+ * Stbndbrd</i></b>.
  *
- * <p> The <tt>UTF-16</tt> charsets use sixteen-bit quantities and are
- * therefore sensitive to byte order.  In these encodings the byte order of a
- * stream may be indicated by an initial <i>byte-order mark</i> represented by
- * the Unicode character <tt>'&#92;uFEFF'</tt>.  Byte-order marks are handled
- * as follows:
+ * <p> The <tt>UTF-16</tt> chbrsets use sixteen-bit qubntities bnd bre
+ * therefore sensitive to byte order.  In these encodings the byte order of b
+ * strebm mby be indicbted by bn initibl <i>byte-order mbrk</i> represented by
+ * the Unicode chbrbcter <tt>'&#92;uFEFF'</tt>.  Byte-order mbrks bre hbndled
+ * bs follows:
  *
  * <ul>
  *
- *   <li><p> When decoding, the <tt>UTF-16BE</tt> and <tt>UTF-16LE</tt>
- *   charsets interpret the initial byte-order marks as a <small>ZERO-WIDTH
- *   NON-BREAKING SPACE</small>; when encoding, they do not write
- *   byte-order marks. </p></li>
+ *   <li><p> When decoding, the <tt>UTF-16BE</tt> bnd <tt>UTF-16LE</tt>
+ *   chbrsets interpret the initibl byte-order mbrks bs b <smbll>ZERO-WIDTH
+ *   NON-BREAKING SPACE</smbll>; when encoding, they do not write
+ *   byte-order mbrks. </p></li>
 
  *
- *   <li><p> When decoding, the <tt>UTF-16</tt> charset interprets the
- *   byte-order mark at the beginning of the input stream to indicate the
- *   byte-order of the stream but defaults to big-endian if there is no
- *   byte-order mark; when encoding, it uses big-endian byte order and writes
- *   a big-endian byte-order mark. </p></li>
+ *   <li><p> When decoding, the <tt>UTF-16</tt> chbrset interprets the
+ *   byte-order mbrk bt the beginning of the input strebm to indicbte the
+ *   byte-order of the strebm but defbults to big-endibn if there is no
+ *   byte-order mbrk; when encoding, it uses big-endibn byte order bnd writes
+ *   b big-endibn byte-order mbrk. </p></li>
  *
  * </ul>
  *
- * In any case, byte order marks occurring after the first element of an
- * input sequence are not omitted since the same code is used to represent
- * <small>ZERO-WIDTH NON-BREAKING SPACE</small>.
+ * In bny cbse, byte order mbrks occurring bfter the first element of bn
+ * input sequence bre not omitted since the sbme code is used to represent
+ * <smbll>ZERO-WIDTH NON-BREAKING SPACE</smbll>.
  *
- * <p> Every instance of the Java virtual machine has a default charset, which
- * may or may not be one of the standard charsets.  The default charset is
- * determined during virtual-machine startup and typically depends upon the
- * locale and charset being used by the underlying operating system. </p>
+ * <p> Every instbnce of the Jbvb virtubl mbchine hbs b defbult chbrset, which
+ * mby or mby not be one of the stbndbrd chbrsets.  The defbult chbrset is
+ * determined during virtubl-mbchine stbrtup bnd typicblly depends upon the
+ * locble bnd chbrset being used by the underlying operbting system. </p>
  *
- * <p>The {@link StandardCharsets} class defines constants for each of the
- * standard charsets.
+ * <p>The {@link StbndbrdChbrsets} clbss defines constbnts for ebch of the
+ * stbndbrd chbrsets.
  *
  * <h2>Terminology</h2>
  *
- * <p> The name of this class is taken from the terms used in
- * <a href="http://www.ietf.org/rfc/rfc2278.txt"><i>RFC&nbsp;2278</i></a>.
- * In that document a <i>charset</i> is defined as the combination of
- * one or more coded character sets and a character-encoding scheme.
- * (This definition is confusing; some other software systems define
- * <i>charset</i> as a synonym for <i>coded character set</i>.)
+ * <p> The nbme of this clbss is tbken from the terms used in
+ * <b href="http://www.ietf.org/rfc/rfc2278.txt"><i>RFC&nbsp;2278</i></b>.
+ * In thbt document b <i>chbrset</i> is defined bs the combinbtion of
+ * one or more coded chbrbcter sets bnd b chbrbcter-encoding scheme.
+ * (This definition is confusing; some other softwbre systems define
+ * <i>chbrset</i> bs b synonym for <i>coded chbrbcter set</i>.)
  *
- * <p> A <i>coded character set</i> is a mapping between a set of abstract
- * characters and a set of integers.  US-ASCII, ISO&nbsp;8859-1,
- * JIS&nbsp;X&nbsp;0201, and Unicode are examples of coded character sets.
+ * <p> A <i>coded chbrbcter set</i> is b mbpping between b set of bbstrbct
+ * chbrbcters bnd b set of integers.  US-ASCII, ISO&nbsp;8859-1,
+ * JIS&nbsp;X&nbsp;0201, bnd Unicode bre exbmples of coded chbrbcter sets.
  *
- * <p> Some standards have defined a <i>character set</i> to be simply a
- * set of abstract characters without an associated assigned numbering.
- * An alphabet is an example of such a character set.  However, the subtle
- * distinction between <i>character set</i> and <i>coded character set</i>
- * is rarely used in practice; the former has become a short form for the
- * latter, including in the Java API specification.
+ * <p> Some stbndbrds hbve defined b <i>chbrbcter set</i> to be simply b
+ * set of bbstrbct chbrbcters without bn bssocibted bssigned numbering.
+ * An blphbbet is bn exbmple of such b chbrbcter set.  However, the subtle
+ * distinction between <i>chbrbcter set</i> bnd <i>coded chbrbcter set</i>
+ * is rbrely used in prbctice; the former hbs become b short form for the
+ * lbtter, including in the Jbvb API specificbtion.
  *
- * <p> A <i>character-encoding scheme</i> is a mapping between one or more
- * coded character sets and a set of octet (eight-bit byte) sequences.
- * UTF-8, UTF-16, ISO&nbsp;2022, and EUC are examples of
- * character-encoding schemes.  Encoding schemes are often associated with
- * a particular coded character set; UTF-8, for example, is used only to
- * encode Unicode.  Some schemes, however, are associated with multiple
- * coded character sets; EUC, for example, can be used to encode
- * characters in a variety of Asian coded character sets.
+ * <p> A <i>chbrbcter-encoding scheme</i> is b mbpping between one or more
+ * coded chbrbcter sets bnd b set of octet (eight-bit byte) sequences.
+ * UTF-8, UTF-16, ISO&nbsp;2022, bnd EUC bre exbmples of
+ * chbrbcter-encoding schemes.  Encoding schemes bre often bssocibted with
+ * b pbrticulbr coded chbrbcter set; UTF-8, for exbmple, is used only to
+ * encode Unicode.  Some schemes, however, bre bssocibted with multiple
+ * coded chbrbcter sets; EUC, for exbmple, cbn be used to encode
+ * chbrbcters in b vbriety of Asibn coded chbrbcter sets.
  *
- * <p> When a coded character set is used exclusively with a single
- * character-encoding scheme then the corresponding charset is usually
- * named for the coded character set; otherwise a charset is usually named
- * for the encoding scheme and, possibly, the locale of the coded
- * character sets that it supports.  Hence <tt>US-ASCII</tt> is both the
- * name of a coded character set and of the charset that encodes it, while
- * <tt>EUC-JP</tt> is the name of the charset that encodes the
- * JIS&nbsp;X&nbsp;0201, JIS&nbsp;X&nbsp;0208, and JIS&nbsp;X&nbsp;0212
- * coded character sets for the Japanese language.
+ * <p> When b coded chbrbcter set is used exclusively with b single
+ * chbrbcter-encoding scheme then the corresponding chbrset is usublly
+ * nbmed for the coded chbrbcter set; otherwise b chbrset is usublly nbmed
+ * for the encoding scheme bnd, possibly, the locble of the coded
+ * chbrbcter sets thbt it supports.  Hence <tt>US-ASCII</tt> is both the
+ * nbme of b coded chbrbcter set bnd of the chbrset thbt encodes it, while
+ * <tt>EUC-JP</tt> is the nbme of the chbrset thbt encodes the
+ * JIS&nbsp;X&nbsp;0201, JIS&nbsp;X&nbsp;0208, bnd JIS&nbsp;X&nbsp;0212
+ * coded chbrbcter sets for the Jbpbnese lbngubge.
  *
- * <p> The native character encoding of the Java programming language is
- * UTF-16.  A charset in the Java platform therefore defines a mapping
- * between sequences of sixteen-bit UTF-16 code units (that is, sequences
- * of chars) and sequences of bytes. </p>
+ * <p> The nbtive chbrbcter encoding of the Jbvb progrbmming lbngubge is
+ * UTF-16.  A chbrset in the Jbvb plbtform therefore defines b mbpping
+ * between sequences of sixteen-bit UTF-16 code units (thbt is, sequences
+ * of chbrs) bnd sequences of bytes. </p>
  *
  *
- * @author Mark Reinhold
- * @author JSR-51 Expert Group
+ * @buthor Mbrk Reinhold
+ * @buthor JSR-51 Expert Group
  * @since 1.4
  *
- * @see CharsetDecoder
- * @see CharsetEncoder
- * @see java.nio.charset.spi.CharsetProvider
- * @see java.lang.Character
+ * @see ChbrsetDecoder
+ * @see ChbrsetEncoder
+ * @see jbvb.nio.chbrset.spi.ChbrsetProvider
+ * @see jbvb.lbng.Chbrbcter
  */
 
-public abstract class Charset
-    implements Comparable<Charset>
+public bbstrbct clbss Chbrset
+    implements Compbrbble<Chbrset>
 {
 
-    /* -- Static methods -- */
+    /* -- Stbtic methods -- */
 
-    private static volatile String bugLevel = null;
+    privbte stbtic volbtile String bugLevel = null;
 
-    static boolean atBugLevel(String bl) {              // package-private
+    stbtic boolebn btBugLevel(String bl) {              // pbckbge-privbte
         String level = bugLevel;
         if (level == null) {
             if (!sun.misc.VM.isBooted())
-                return false;
+                return fblse;
             bugLevel = level = AccessController.doPrivileged(
                 new GetPropertyAction("sun.nio.cs.bugLevel", ""));
         }
-        return level.equals(bl);
+        return level.equbls(bl);
     }
 
     /**
-     * Checks that the given string is a legal charset name. </p>
+     * Checks thbt the given string is b legbl chbrset nbme. </p>
      *
-     * @param  s
-     *         A purported charset name
+     * @pbrbm  s
+     *         A purported chbrset nbme
      *
-     * @throws  IllegalCharsetNameException
-     *          If the given name is not a legal charset name
+     * @throws  IllegblChbrsetNbmeException
+     *          If the given nbme is not b legbl chbrset nbme
      */
-    private static void checkName(String s) {
+    privbte stbtic void checkNbme(String s) {
         int n = s.length();
-        if (!atBugLevel("1.4")) {
+        if (!btBugLevel("1.4")) {
             if (n == 0)
-                throw new IllegalCharsetNameException(s);
+                throw new IllegblChbrsetNbmeException(s);
         }
         for (int i = 0; i < n; i++) {
-            char c = s.charAt(i);
+            chbr c = s.chbrAt(i);
             if (c >= 'A' && c <= 'Z') continue;
-            if (c >= 'a' && c <= 'z') continue;
+            if (c >= 'b' && c <= 'z') continue;
             if (c >= '0' && c <= '9') continue;
             if (c == '-' && i != 0) continue;
             if (c == '+' && i != 0) continue;
             if (c == ':' && i != 0) continue;
             if (c == '_' && i != 0) continue;
             if (c == '.' && i != 0) continue;
-            throw new IllegalCharsetNameException(s);
+            throw new IllegblChbrsetNbmeException(s);
         }
     }
 
-    /* The standard set of charsets */
-    private static CharsetProvider standardProvider = new StandardCharsets();
+    /* The stbndbrd set of chbrsets */
+    privbte stbtic ChbrsetProvider stbndbrdProvider = new StbndbrdChbrsets();
 
-    // Cache of the most-recently-returned charsets,
-    // along with the names that were used to find them
+    // Cbche of the most-recently-returned chbrsets,
+    // blong with the nbmes thbt were used to find them
     //
-    private static volatile Object[] cache1 = null; // "Level 1" cache
-    private static volatile Object[] cache2 = null; // "Level 2" cache
+    privbte stbtic volbtile Object[] cbche1 = null; // "Level 1" cbche
+    privbte stbtic volbtile Object[] cbche2 = null; // "Level 2" cbche
 
-    private static void cache(String charsetName, Charset cs) {
-        cache2 = cache1;
-        cache1 = new Object[] { charsetName, cs };
+    privbte stbtic void cbche(String chbrsetNbme, Chbrset cs) {
+        cbche2 = cbche1;
+        cbche1 = new Object[] { chbrsetNbme, cs };
     }
 
-    // Creates an iterator that walks over the available providers, ignoring
-    // those whose lookup or instantiation causes a security exception to be
+    // Crebtes bn iterbtor thbt wblks over the bvbilbble providers, ignoring
+    // those whose lookup or instbntibtion cbuses b security exception to be
     // thrown.  Should be invoked with full privileges.
     //
-    private static Iterator<CharsetProvider> providers() {
-        return new Iterator<CharsetProvider>() {
+    privbte stbtic Iterbtor<ChbrsetProvider> providers() {
+        return new Iterbtor<ChbrsetProvider>() {
 
-                ClassLoader cl = ClassLoader.getSystemClassLoader();
-                ServiceLoader<CharsetProvider> sl =
-                    ServiceLoader.load(CharsetProvider.class, cl);
-                Iterator<CharsetProvider> i = sl.iterator();
+                ClbssLobder cl = ClbssLobder.getSystemClbssLobder();
+                ServiceLobder<ChbrsetProvider> sl =
+                    ServiceLobder.lobd(ChbrsetProvider.clbss, cl);
+                Iterbtor<ChbrsetProvider> i = sl.iterbtor();
 
-                CharsetProvider next = null;
+                ChbrsetProvider next = null;
 
-                private boolean getNext() {
+                privbte boolebn getNext() {
                     while (next == null) {
                         try {
-                            if (!i.hasNext())
-                                return false;
+                            if (!i.hbsNext())
+                                return fblse;
                             next = i.next();
-                        } catch (ServiceConfigurationError sce) {
-                            if (sce.getCause() instanceof SecurityException) {
+                        } cbtch (ServiceConfigurbtionError sce) {
+                            if (sce.getCbuse() instbnceof SecurityException) {
                                 // Ignore security exceptions
                                 continue;
                             }
@@ -361,55 +361,55 @@ public abstract class Charset
                     return true;
                 }
 
-                public boolean hasNext() {
+                public boolebn hbsNext() {
                     return getNext();
                 }
 
-                public CharsetProvider next() {
+                public ChbrsetProvider next() {
                     if (!getNext())
                         throw new NoSuchElementException();
-                    CharsetProvider n = next;
+                    ChbrsetProvider n = next;
                     next = null;
                     return n;
                 }
 
                 public void remove() {
-                    throw new UnsupportedOperationException();
+                    throw new UnsupportedOperbtionException();
                 }
 
             };
     }
 
-    // Thread-local gate to prevent recursive provider lookups
-    private static ThreadLocal<ThreadLocal<?>> gate =
-            new ThreadLocal<ThreadLocal<?>>();
+    // Threbd-locbl gbte to prevent recursive provider lookups
+    privbte stbtic ThrebdLocbl<ThrebdLocbl<?>> gbte =
+            new ThrebdLocbl<ThrebdLocbl<?>>();
 
-    private static Charset lookupViaProviders(final String charsetName) {
+    privbte stbtic Chbrset lookupVibProviders(finbl String chbrsetNbme) {
 
-        // The runtime startup sequence looks up standard charsets as a
-        // consequence of the VM's invocation of System.initializeSystemClass
-        // in order to, e.g., set system properties and encode filenames.  At
-        // that point the application class loader has not been initialized,
-        // however, so we can't look for providers because doing so will cause
-        // that loader to be prematurely initialized with incomplete
-        // information.
+        // The runtime stbrtup sequence looks up stbndbrd chbrsets bs b
+        // consequence of the VM's invocbtion of System.initiblizeSystemClbss
+        // in order to, e.g., set system properties bnd encode filenbmes.  At
+        // thbt point the bpplicbtion clbss lobder hbs not been initiblized,
+        // however, so we cbn't look for providers becbuse doing so will cbuse
+        // thbt lobder to be prembturely initiblized with incomplete
+        // informbtion.
         //
         if (!sun.misc.VM.isBooted())
             return null;
 
-        if (gate.get() != null)
+        if (gbte.get() != null)
             // Avoid recursive provider lookups
             return null;
         try {
-            gate.set(gate);
+            gbte.set(gbte);
 
             return AccessController.doPrivileged(
-                new PrivilegedAction<Charset>() {
-                    public Charset run() {
-                        for (Iterator<CharsetProvider> i = providers();
-                             i.hasNext();) {
-                            CharsetProvider cp = i.next();
-                            Charset cs = cp.charsetForName(charsetName);
+                new PrivilegedAction<Chbrset>() {
+                    public Chbrset run() {
+                        for (Iterbtor<ChbrsetProvider> i = providers();
+                             i.hbsNext();) {
+                            ChbrsetProvider cp = i.next();
+                            Chbrset cs = cp.chbrsetForNbme(chbrsetNbme);
                             if (cs != null)
                                 return cs;
                         }
@@ -417,28 +417,28 @@ public abstract class Charset
                     }
                 });
 
-        } finally {
-            gate.set(null);
+        } finblly {
+            gbte.set(null);
         }
     }
 
-    /* The extended set of charsets */
-    private static class ExtendedProviderHolder {
-        static final CharsetProvider extendedProvider = extendedProvider();
-        // returns ExtendedProvider, if installed
-        private static CharsetProvider extendedProvider() {
+    /* The extended set of chbrsets */
+    privbte stbtic clbss ExtendedProviderHolder {
+        stbtic finbl ChbrsetProvider extendedProvider = extendedProvider();
+        // returns ExtendedProvider, if instblled
+        privbte stbtic ChbrsetProvider extendedProvider() {
             return AccessController.doPrivileged(
-                       new PrivilegedAction<CharsetProvider>() {
-                           public CharsetProvider run() {
+                       new PrivilegedAction<ChbrsetProvider>() {
+                           public ChbrsetProvider run() {
                                 try {
-                                    Class<?> epc
-                                        = Class.forName("sun.nio.cs.ext.ExtendedCharsets");
-                                    return (CharsetProvider)epc.newInstance();
-                                } catch (ClassNotFoundException x) {
-                                    // Extended charsets not available
-                                    // (charsets.jar not present)
-                                } catch (InstantiationException |
-                                         IllegalAccessException x) {
+                                    Clbss<?> epc
+                                        = Clbss.forNbme("sun.nio.cs.ext.ExtendedChbrsets");
+                                    return (ChbrsetProvider)epc.newInstbnce();
+                                } cbtch (ClbssNotFoundException x) {
+                                    // Extended chbrsets not bvbilbble
+                                    // (chbrsets.jbr not present)
+                                } cbtch (InstbntibtionException |
+                                         IllegblAccessException x) {
                                   throw new Error(x);
                                 }
                                 return null;
@@ -447,471 +447,471 @@ public abstract class Charset
         }
     }
 
-    private static Charset lookupExtendedCharset(String charsetName) {
-        CharsetProvider ecp = ExtendedProviderHolder.extendedProvider;
-        return (ecp != null) ? ecp.charsetForName(charsetName) : null;
+    privbte stbtic Chbrset lookupExtendedChbrset(String chbrsetNbme) {
+        ChbrsetProvider ecp = ExtendedProviderHolder.extendedProvider;
+        return (ecp != null) ? ecp.chbrsetForNbme(chbrsetNbme) : null;
     }
 
-    private static Charset lookup(String charsetName) {
-        if (charsetName == null)
-            throw new IllegalArgumentException("Null charset name");
-        Object[] a;
-        if ((a = cache1) != null && charsetName.equals(a[0]))
-            return (Charset)a[1];
-        // We expect most programs to use one Charset repeatedly.
-        // We convey a hint to this effect to the VM by putting the
-        // level 1 cache miss code in a separate method.
-        return lookup2(charsetName);
+    privbte stbtic Chbrset lookup(String chbrsetNbme) {
+        if (chbrsetNbme == null)
+            throw new IllegblArgumentException("Null chbrset nbme");
+        Object[] b;
+        if ((b = cbche1) != null && chbrsetNbme.equbls(b[0]))
+            return (Chbrset)b[1];
+        // We expect most progrbms to use one Chbrset repebtedly.
+        // We convey b hint to this effect to the VM by putting the
+        // level 1 cbche miss code in b sepbrbte method.
+        return lookup2(chbrsetNbme);
     }
 
-    private static Charset lookup2(String charsetName) {
-        Object[] a;
-        if ((a = cache2) != null && charsetName.equals(a[0])) {
-            cache2 = cache1;
-            cache1 = a;
-            return (Charset)a[1];
+    privbte stbtic Chbrset lookup2(String chbrsetNbme) {
+        Object[] b;
+        if ((b = cbche2) != null && chbrsetNbme.equbls(b[0])) {
+            cbche2 = cbche1;
+            cbche1 = b;
+            return (Chbrset)b[1];
         }
-        Charset cs;
-        if ((cs = standardProvider.charsetForName(charsetName)) != null ||
-            (cs = lookupExtendedCharset(charsetName))           != null ||
-            (cs = lookupViaProviders(charsetName))              != null)
+        Chbrset cs;
+        if ((cs = stbndbrdProvider.chbrsetForNbme(chbrsetNbme)) != null ||
+            (cs = lookupExtendedChbrset(chbrsetNbme))           != null ||
+            (cs = lookupVibProviders(chbrsetNbme))              != null)
         {
-            cache(charsetName, cs);
+            cbche(chbrsetNbme, cs);
             return cs;
         }
 
-        /* Only need to check the name if we didn't find a charset for it */
-        checkName(charsetName);
+        /* Only need to check the nbme if we didn't find b chbrset for it */
+        checkNbme(chbrsetNbme);
         return null;
     }
 
     /**
-     * Tells whether the named charset is supported.
+     * Tells whether the nbmed chbrset is supported.
      *
-     * @param  charsetName
-     *         The name of the requested charset; may be either
-     *         a canonical name or an alias
+     * @pbrbm  chbrsetNbme
+     *         The nbme of the requested chbrset; mby be either
+     *         b cbnonicbl nbme or bn blibs
      *
-     * @return  <tt>true</tt> if, and only if, support for the named charset
-     *          is available in the current Java virtual machine
+     * @return  <tt>true</tt> if, bnd only if, support for the nbmed chbrset
+     *          is bvbilbble in the current Jbvb virtubl mbchine
      *
-     * @throws IllegalCharsetNameException
-     *         If the given charset name is illegal
+     * @throws IllegblChbrsetNbmeException
+     *         If the given chbrset nbme is illegbl
      *
-     * @throws  IllegalArgumentException
-     *          If the given <tt>charsetName</tt> is null
+     * @throws  IllegblArgumentException
+     *          If the given <tt>chbrsetNbme</tt> is null
      */
-    public static boolean isSupported(String charsetName) {
-        return (lookup(charsetName) != null);
+    public stbtic boolebn isSupported(String chbrsetNbme) {
+        return (lookup(chbrsetNbme) != null);
     }
 
     /**
-     * Returns a charset object for the named charset.
+     * Returns b chbrset object for the nbmed chbrset.
      *
-     * @param  charsetName
-     *         The name of the requested charset; may be either
-     *         a canonical name or an alias
+     * @pbrbm  chbrsetNbme
+     *         The nbme of the requested chbrset; mby be either
+     *         b cbnonicbl nbme or bn blibs
      *
-     * @return  A charset object for the named charset
+     * @return  A chbrset object for the nbmed chbrset
      *
-     * @throws  IllegalCharsetNameException
-     *          If the given charset name is illegal
+     * @throws  IllegblChbrsetNbmeException
+     *          If the given chbrset nbme is illegbl
      *
-     * @throws  IllegalArgumentException
-     *          If the given <tt>charsetName</tt> is null
+     * @throws  IllegblArgumentException
+     *          If the given <tt>chbrsetNbme</tt> is null
      *
-     * @throws  UnsupportedCharsetException
-     *          If no support for the named charset is available
-     *          in this instance of the Java virtual machine
+     * @throws  UnsupportedChbrsetException
+     *          If no support for the nbmed chbrset is bvbilbble
+     *          in this instbnce of the Jbvb virtubl mbchine
      */
-    public static Charset forName(String charsetName) {
-        Charset cs = lookup(charsetName);
+    public stbtic Chbrset forNbme(String chbrsetNbme) {
+        Chbrset cs = lookup(chbrsetNbme);
         if (cs != null)
             return cs;
-        throw new UnsupportedCharsetException(charsetName);
+        throw new UnsupportedChbrsetException(chbrsetNbme);
     }
 
-    // Fold charsets from the given iterator into the given map, ignoring
-    // charsets whose names already have entries in the map.
+    // Fold chbrsets from the given iterbtor into the given mbp, ignoring
+    // chbrsets whose nbmes blrebdy hbve entries in the mbp.
     //
-    private static void put(Iterator<Charset> i, Map<String,Charset> m) {
-        while (i.hasNext()) {
-            Charset cs = i.next();
-            if (!m.containsKey(cs.name()))
-                m.put(cs.name(), cs);
+    privbte stbtic void put(Iterbtor<Chbrset> i, Mbp<String,Chbrset> m) {
+        while (i.hbsNext()) {
+            Chbrset cs = i.next();
+            if (!m.contbinsKey(cs.nbme()))
+                m.put(cs.nbme(), cs);
         }
     }
 
     /**
-     * Constructs a sorted map from canonical charset names to charset objects.
+     * Constructs b sorted mbp from cbnonicbl chbrset nbmes to chbrset objects.
      *
-     * <p> The map returned by this method will have one entry for each charset
-     * for which support is available in the current Java virtual machine.  If
-     * two or more supported charsets have the same canonical name then the
-     * resulting map will contain just one of them; which one it will contain
+     * <p> The mbp returned by this method will hbve one entry for ebch chbrset
+     * for which support is bvbilbble in the current Jbvb virtubl mbchine.  If
+     * two or more supported chbrsets hbve the sbme cbnonicbl nbme then the
+     * resulting mbp will contbin just one of them; which one it will contbin
      * is not specified. </p>
      *
-     * <p> The invocation of this method, and the subsequent use of the
-     * resulting map, may cause time-consuming disk or network I/O operations
-     * to occur.  This method is provided for applications that need to
-     * enumerate all of the available charsets, for example to allow user
-     * charset selection.  This method is not used by the {@link #forName
-     * forName} method, which instead employs an efficient incremental lookup
-     * algorithm.
+     * <p> The invocbtion of this method, bnd the subsequent use of the
+     * resulting mbp, mby cbuse time-consuming disk or network I/O operbtions
+     * to occur.  This method is provided for bpplicbtions thbt need to
+     * enumerbte bll of the bvbilbble chbrsets, for exbmple to bllow user
+     * chbrset selection.  This method is not used by the {@link #forNbme
+     * forNbme} method, which instebd employs bn efficient incrementbl lookup
+     * blgorithm.
      *
-     * <p> This method may return different results at different times if new
-     * charset providers are dynamically made available to the current Java
-     * virtual machine.  In the absence of such changes, the charsets returned
-     * by this method are exactly those that can be retrieved via the {@link
-     * #forName forName} method.  </p>
+     * <p> This method mby return different results bt different times if new
+     * chbrset providers bre dynbmicblly mbde bvbilbble to the current Jbvb
+     * virtubl mbchine.  In the bbsence of such chbnges, the chbrsets returned
+     * by this method bre exbctly those thbt cbn be retrieved vib the {@link
+     * #forNbme forNbme} method.  </p>
      *
-     * @return An immutable, case-insensitive map from canonical charset names
-     *         to charset objects
+     * @return An immutbble, cbse-insensitive mbp from cbnonicbl chbrset nbmes
+     *         to chbrset objects
      */
-    public static SortedMap<String,Charset> availableCharsets() {
+    public stbtic SortedMbp<String,Chbrset> bvbilbbleChbrsets() {
         return AccessController.doPrivileged(
-            new PrivilegedAction<SortedMap<String,Charset>>() {
-                public SortedMap<String,Charset> run() {
-                    TreeMap<String,Charset> m =
-                        new TreeMap<String,Charset>(
-                            ASCIICaseInsensitiveComparator.CASE_INSENSITIVE_ORDER);
-                    put(standardProvider.charsets(), m);
-                    CharsetProvider ecp = ExtendedProviderHolder.extendedProvider;
+            new PrivilegedAction<SortedMbp<String,Chbrset>>() {
+                public SortedMbp<String,Chbrset> run() {
+                    TreeMbp<String,Chbrset> m =
+                        new TreeMbp<String,Chbrset>(
+                            ASCIICbseInsensitiveCompbrbtor.CASE_INSENSITIVE_ORDER);
+                    put(stbndbrdProvider.chbrsets(), m);
+                    ChbrsetProvider ecp = ExtendedProviderHolder.extendedProvider;
                     if (ecp != null)
-                        put(ecp.charsets(), m);
-                    for (Iterator<CharsetProvider> i = providers(); i.hasNext();) {
-                        CharsetProvider cp = i.next();
-                        put(cp.charsets(), m);
+                        put(ecp.chbrsets(), m);
+                    for (Iterbtor<ChbrsetProvider> i = providers(); i.hbsNext();) {
+                        ChbrsetProvider cp = i.next();
+                        put(cp.chbrsets(), m);
                     }
-                    return Collections.unmodifiableSortedMap(m);
+                    return Collections.unmodifibbleSortedMbp(m);
                 }
             });
     }
 
-    private static volatile Charset defaultCharset;
+    privbte stbtic volbtile Chbrset defbultChbrset;
 
     /**
-     * Returns the default charset of this Java virtual machine.
+     * Returns the defbult chbrset of this Jbvb virtubl mbchine.
      *
-     * <p> The default charset is determined during virtual-machine startup and
-     * typically depends upon the locale and charset of the underlying
-     * operating system.
+     * <p> The defbult chbrset is determined during virtubl-mbchine stbrtup bnd
+     * typicblly depends upon the locble bnd chbrset of the underlying
+     * operbting system.
      *
-     * @return  A charset object for the default charset
+     * @return  A chbrset object for the defbult chbrset
      *
      * @since 1.5
      */
-    public static Charset defaultCharset() {
-        if (defaultCharset == null) {
-            synchronized (Charset.class) {
+    public stbtic Chbrset defbultChbrset() {
+        if (defbultChbrset == null) {
+            synchronized (Chbrset.clbss) {
                 String csn = AccessController.doPrivileged(
                     new GetPropertyAction("file.encoding"));
-                Charset cs = lookup(csn);
+                Chbrset cs = lookup(csn);
                 if (cs != null)
-                    defaultCharset = cs;
+                    defbultChbrset = cs;
                 else
-                    defaultCharset = forName("UTF-8");
+                    defbultChbrset = forNbme("UTF-8");
             }
         }
-        return defaultCharset;
+        return defbultChbrset;
     }
 
 
-    /* -- Instance fields and methods -- */
+    /* -- Instbnce fields bnd methods -- */
 
-    private final String name;          // tickles a bug in oldjavac
-    private final String[] aliases;     // tickles a bug in oldjavac
-    private Set<String> aliasSet = null;
+    privbte finbl String nbme;          // tickles b bug in oldjbvbc
+    privbte finbl String[] blibses;     // tickles b bug in oldjbvbc
+    privbte Set<String> blibsSet = null;
 
     /**
-     * Initializes a new charset with the given canonical name and alias
+     * Initiblizes b new chbrset with the given cbnonicbl nbme bnd blibs
      * set.
      *
-     * @param  canonicalName
-     *         The canonical name of this charset
+     * @pbrbm  cbnonicblNbme
+     *         The cbnonicbl nbme of this chbrset
      *
-     * @param  aliases
-     *         An array of this charset's aliases, or null if it has no aliases
+     * @pbrbm  blibses
+     *         An brrby of this chbrset's blibses, or null if it hbs no blibses
      *
-     * @throws IllegalCharsetNameException
-     *         If the canonical name or any of the aliases are illegal
+     * @throws IllegblChbrsetNbmeException
+     *         If the cbnonicbl nbme or bny of the blibses bre illegbl
      */
-    protected Charset(String canonicalName, String[] aliases) {
-        checkName(canonicalName);
-        String[] as = (aliases == null) ? new String[0] : aliases;
-        for (int i = 0; i < as.length; i++)
-            checkName(as[i]);
-        this.name = canonicalName;
-        this.aliases = as;
+    protected Chbrset(String cbnonicblNbme, String[] blibses) {
+        checkNbme(cbnonicblNbme);
+        String[] bs = (blibses == null) ? new String[0] : blibses;
+        for (int i = 0; i < bs.length; i++)
+            checkNbme(bs[i]);
+        this.nbme = cbnonicblNbme;
+        this.blibses = bs;
     }
 
     /**
-     * Returns this charset's canonical name.
+     * Returns this chbrset's cbnonicbl nbme.
      *
-     * @return  The canonical name of this charset
+     * @return  The cbnonicbl nbme of this chbrset
      */
-    public final String name() {
-        return name;
+    public finbl String nbme() {
+        return nbme;
     }
 
     /**
-     * Returns a set containing this charset's aliases.
+     * Returns b set contbining this chbrset's blibses.
      *
-     * @return  An immutable set of this charset's aliases
+     * @return  An immutbble set of this chbrset's blibses
      */
-    public final Set<String> aliases() {
-        if (aliasSet != null)
-            return aliasSet;
-        int n = aliases.length;
-        HashSet<String> hs = new HashSet<String>(n);
+    public finbl Set<String> blibses() {
+        if (blibsSet != null)
+            return blibsSet;
+        int n = blibses.length;
+        HbshSet<String> hs = new HbshSet<String>(n);
         for (int i = 0; i < n; i++)
-            hs.add(aliases[i]);
-        aliasSet = Collections.unmodifiableSet(hs);
-        return aliasSet;
+            hs.bdd(blibses[i]);
+        blibsSet = Collections.unmodifibbleSet(hs);
+        return blibsSet;
     }
 
     /**
-     * Returns this charset's human-readable name for the default locale.
+     * Returns this chbrset's humbn-rebdbble nbme for the defbult locble.
      *
-     * <p> The default implementation of this method simply returns this
-     * charset's canonical name.  Concrete subclasses of this class may
-     * override this method in order to provide a localized display name. </p>
+     * <p> The defbult implementbtion of this method simply returns this
+     * chbrset's cbnonicbl nbme.  Concrete subclbsses of this clbss mby
+     * override this method in order to provide b locblized displby nbme. </p>
      *
-     * @return  The display name of this charset in the default locale
+     * @return  The displby nbme of this chbrset in the defbult locble
      */
-    public String displayName() {
-        return name;
+    public String displbyNbme() {
+        return nbme;
     }
 
     /**
-     * Tells whether or not this charset is registered in the <a
-     * href="http://www.iana.org/assignments/character-sets">IANA Charset
-     * Registry</a>.
+     * Tells whether or not this chbrset is registered in the <b
+     * href="http://www.ibnb.org/bssignments/chbrbcter-sets">IANA Chbrset
+     * Registry</b>.
      *
-     * @return  <tt>true</tt> if, and only if, this charset is known by its
+     * @return  <tt>true</tt> if, bnd only if, this chbrset is known by its
      *          implementor to be registered with the IANA
      */
-    public final boolean isRegistered() {
-        return !name.startsWith("X-") && !name.startsWith("x-");
+    public finbl boolebn isRegistered() {
+        return !nbme.stbrtsWith("X-") && !nbme.stbrtsWith("x-");
     }
 
     /**
-     * Returns this charset's human-readable name for the given locale.
+     * Returns this chbrset's humbn-rebdbble nbme for the given locble.
      *
-     * <p> The default implementation of this method simply returns this
-     * charset's canonical name.  Concrete subclasses of this class may
-     * override this method in order to provide a localized display name. </p>
+     * <p> The defbult implementbtion of this method simply returns this
+     * chbrset's cbnonicbl nbme.  Concrete subclbsses of this clbss mby
+     * override this method in order to provide b locblized displby nbme. </p>
      *
-     * @param  locale
-     *         The locale for which the display name is to be retrieved
+     * @pbrbm  locble
+     *         The locble for which the displby nbme is to be retrieved
      *
-     * @return  The display name of this charset in the given locale
+     * @return  The displby nbme of this chbrset in the given locble
      */
-    public String displayName(Locale locale) {
-        return name;
+    public String displbyNbme(Locble locble) {
+        return nbme;
     }
 
     /**
-     * Tells whether or not this charset contains the given charset.
+     * Tells whether or not this chbrset contbins the given chbrset.
      *
-     * <p> A charset <i>C</i> is said to <i>contain</i> a charset <i>D</i> if,
-     * and only if, every character representable in <i>D</i> is also
-     * representable in <i>C</i>.  If this relationship holds then it is
-     * guaranteed that every string that can be encoded in <i>D</i> can also be
-     * encoded in <i>C</i> without performing any replacements.
+     * <p> A chbrset <i>C</i> is sbid to <i>contbin</i> b chbrset <i>D</i> if,
+     * bnd only if, every chbrbcter representbble in <i>D</i> is blso
+     * representbble in <i>C</i>.  If this relbtionship holds then it is
+     * gubrbnteed thbt every string thbt cbn be encoded in <i>D</i> cbn blso be
+     * encoded in <i>C</i> without performing bny replbcements.
      *
-     * <p> That <i>C</i> contains <i>D</i> does not imply that each character
-     * representable in <i>C</i> by a particular byte sequence is represented
-     * in <i>D</i> by the same byte sequence, although sometimes this is the
-     * case.
+     * <p> Thbt <i>C</i> contbins <i>D</i> does not imply thbt ebch chbrbcter
+     * representbble in <i>C</i> by b pbrticulbr byte sequence is represented
+     * in <i>D</i> by the sbme byte sequence, blthough sometimes this is the
+     * cbse.
      *
-     * <p> Every charset contains itself.
+     * <p> Every chbrset contbins itself.
      *
-     * <p> This method computes an approximation of the containment relation:
-     * If it returns <tt>true</tt> then the given charset is known to be
-     * contained by this charset; if it returns <tt>false</tt>, however, then
-     * it is not necessarily the case that the given charset is not contained
-     * in this charset.
+     * <p> This method computes bn bpproximbtion of the contbinment relbtion:
+     * If it returns <tt>true</tt> then the given chbrset is known to be
+     * contbined by this chbrset; if it returns <tt>fblse</tt>, however, then
+     * it is not necessbrily the cbse thbt the given chbrset is not contbined
+     * in this chbrset.
      *
-     * @param   cs
-     *          The given charset
+     * @pbrbm   cs
+     *          The given chbrset
      *
-     * @return  <tt>true</tt> if the given charset is contained in this charset
+     * @return  <tt>true</tt> if the given chbrset is contbined in this chbrset
      */
-    public abstract boolean contains(Charset cs);
+    public bbstrbct boolebn contbins(Chbrset cs);
 
     /**
-     * Constructs a new decoder for this charset.
+     * Constructs b new decoder for this chbrset.
      *
-     * @return  A new decoder for this charset
+     * @return  A new decoder for this chbrset
      */
-    public abstract CharsetDecoder newDecoder();
+    public bbstrbct ChbrsetDecoder newDecoder();
 
     /**
-     * Constructs a new encoder for this charset.
+     * Constructs b new encoder for this chbrset.
      *
-     * @return  A new encoder for this charset
+     * @return  A new encoder for this chbrset
      *
-     * @throws  UnsupportedOperationException
-     *          If this charset does not support encoding
+     * @throws  UnsupportedOperbtionException
+     *          If this chbrset does not support encoding
      */
-    public abstract CharsetEncoder newEncoder();
+    public bbstrbct ChbrsetEncoder newEncoder();
 
     /**
-     * Tells whether or not this charset supports encoding.
+     * Tells whether or not this chbrset supports encoding.
      *
-     * <p> Nearly all charsets support encoding.  The primary exceptions are
-     * special-purpose <i>auto-detect</i> charsets whose decoders can determine
-     * which of several possible encoding schemes is in use by examining the
-     * input byte sequence.  Such charsets do not support encoding because
-     * there is no way to determine which encoding should be used on output.
-     * Implementations of such charsets should override this method to return
-     * <tt>false</tt>. </p>
+     * <p> Nebrly bll chbrsets support encoding.  The primbry exceptions bre
+     * specibl-purpose <i>buto-detect</i> chbrsets whose decoders cbn determine
+     * which of severbl possible encoding schemes is in use by exbmining the
+     * input byte sequence.  Such chbrsets do not support encoding becbuse
+     * there is no wby to determine which encoding should be used on output.
+     * Implementbtions of such chbrsets should override this method to return
+     * <tt>fblse</tt>. </p>
      *
-     * @return  <tt>true</tt> if, and only if, this charset supports encoding
+     * @return  <tt>true</tt> if, bnd only if, this chbrset supports encoding
      */
-    public boolean canEncode() {
+    public boolebn cbnEncode() {
         return true;
     }
 
     /**
-     * Convenience method that decodes bytes in this charset into Unicode
-     * characters.
+     * Convenience method thbt decodes bytes in this chbrset into Unicode
+     * chbrbcters.
      *
-     * <p> An invocation of this method upon a charset <tt>cs</tt> returns the
-     * same result as the expression
+     * <p> An invocbtion of this method upon b chbrset <tt>cs</tt> returns the
+     * sbme result bs the expression
      *
      * <pre>
      *     cs.newDecoder()
-     *       .onMalformedInput(CodingErrorAction.REPLACE)
-     *       .onUnmappableCharacter(CodingErrorAction.REPLACE)
+     *       .onMblformedInput(CodingErrorAction.REPLACE)
+     *       .onUnmbppbbleChbrbcter(CodingErrorAction.REPLACE)
      *       .decode(bb); </pre>
      *
-     * except that it is potentially more efficient because it can cache
-     * decoders between successive invocations.
+     * except thbt it is potentiblly more efficient becbuse it cbn cbche
+     * decoders between successive invocbtions.
      *
-     * <p> This method always replaces malformed-input and unmappable-character
-     * sequences with this charset's default replacement byte array.  In order
+     * <p> This method blwbys replbces mblformed-input bnd unmbppbble-chbrbcter
+     * sequences with this chbrset's defbult replbcement byte brrby.  In order
      * to detect such sequences, use the {@link
-     * CharsetDecoder#decode(java.nio.ByteBuffer)} method directly.  </p>
+     * ChbrsetDecoder#decode(jbvb.nio.ByteBuffer)} method directly.  </p>
      *
-     * @param  bb  The byte buffer to be decoded
+     * @pbrbm  bb  The byte buffer to be decoded
      *
-     * @return  A char buffer containing the decoded characters
+     * @return  A chbr buffer contbining the decoded chbrbcters
      */
-    public final CharBuffer decode(ByteBuffer bb) {
+    public finbl ChbrBuffer decode(ByteBuffer bb) {
         try {
-            return ThreadLocalCoders.decoderFor(this)
-                .onMalformedInput(CodingErrorAction.REPLACE)
-                .onUnmappableCharacter(CodingErrorAction.REPLACE)
+            return ThrebdLocblCoders.decoderFor(this)
+                .onMblformedInput(CodingErrorAction.REPLACE)
+                .onUnmbppbbleChbrbcter(CodingErrorAction.REPLACE)
                 .decode(bb);
-        } catch (CharacterCodingException x) {
-            throw new Error(x);         // Can't happen
+        } cbtch (ChbrbcterCodingException x) {
+            throw new Error(x);         // Cbn't hbppen
         }
     }
 
     /**
-     * Convenience method that encodes Unicode characters into bytes in this
-     * charset.
+     * Convenience method thbt encodes Unicode chbrbcters into bytes in this
+     * chbrset.
      *
-     * <p> An invocation of this method upon a charset <tt>cs</tt> returns the
-     * same result as the expression
+     * <p> An invocbtion of this method upon b chbrset <tt>cs</tt> returns the
+     * sbme result bs the expression
      *
      * <pre>
      *     cs.newEncoder()
-     *       .onMalformedInput(CodingErrorAction.REPLACE)
-     *       .onUnmappableCharacter(CodingErrorAction.REPLACE)
+     *       .onMblformedInput(CodingErrorAction.REPLACE)
+     *       .onUnmbppbbleChbrbcter(CodingErrorAction.REPLACE)
      *       .encode(bb); </pre>
      *
-     * except that it is potentially more efficient because it can cache
-     * encoders between successive invocations.
+     * except thbt it is potentiblly more efficient becbuse it cbn cbche
+     * encoders between successive invocbtions.
      *
-     * <p> This method always replaces malformed-input and unmappable-character
-     * sequences with this charset's default replacement string.  In order to
+     * <p> This method blwbys replbces mblformed-input bnd unmbppbble-chbrbcter
+     * sequences with this chbrset's defbult replbcement string.  In order to
      * detect such sequences, use the {@link
-     * CharsetEncoder#encode(java.nio.CharBuffer)} method directly.  </p>
+     * ChbrsetEncoder#encode(jbvb.nio.ChbrBuffer)} method directly.  </p>
      *
-     * @param  cb  The char buffer to be encoded
+     * @pbrbm  cb  The chbr buffer to be encoded
      *
-     * @return  A byte buffer containing the encoded characters
+     * @return  A byte buffer contbining the encoded chbrbcters
      */
-    public final ByteBuffer encode(CharBuffer cb) {
+    public finbl ByteBuffer encode(ChbrBuffer cb) {
         try {
-            return ThreadLocalCoders.encoderFor(this)
-                .onMalformedInput(CodingErrorAction.REPLACE)
-                .onUnmappableCharacter(CodingErrorAction.REPLACE)
+            return ThrebdLocblCoders.encoderFor(this)
+                .onMblformedInput(CodingErrorAction.REPLACE)
+                .onUnmbppbbleChbrbcter(CodingErrorAction.REPLACE)
                 .encode(cb);
-        } catch (CharacterCodingException x) {
-            throw new Error(x);         // Can't happen
+        } cbtch (ChbrbcterCodingException x) {
+            throw new Error(x);         // Cbn't hbppen
         }
     }
 
     /**
-     * Convenience method that encodes a string into bytes in this charset.
+     * Convenience method thbt encodes b string into bytes in this chbrset.
      *
-     * <p> An invocation of this method upon a charset <tt>cs</tt> returns the
-     * same result as the expression
+     * <p> An invocbtion of this method upon b chbrset <tt>cs</tt> returns the
+     * sbme result bs the expression
      *
      * <pre>
-     *     cs.encode(CharBuffer.wrap(s)); </pre>
+     *     cs.encode(ChbrBuffer.wrbp(s)); </pre>
      *
-     * @param  str  The string to be encoded
+     * @pbrbm  str  The string to be encoded
      *
-     * @return  A byte buffer containing the encoded characters
+     * @return  A byte buffer contbining the encoded chbrbcters
      */
-    public final ByteBuffer encode(String str) {
-        return encode(CharBuffer.wrap(str));
+    public finbl ByteBuffer encode(String str) {
+        return encode(ChbrBuffer.wrbp(str));
     }
 
     /**
-     * Compares this charset to another.
+     * Compbres this chbrset to bnother.
      *
-     * <p> Charsets are ordered by their canonical names, without regard to
-     * case. </p>
+     * <p> Chbrsets bre ordered by their cbnonicbl nbmes, without regbrd to
+     * cbse. </p>
      *
-     * @param  that
-     *         The charset to which this charset is to be compared
+     * @pbrbm  thbt
+     *         The chbrset to which this chbrset is to be compbred
      *
-     * @return A negative integer, zero, or a positive integer as this charset
-     *         is less than, equal to, or greater than the specified charset
+     * @return A negbtive integer, zero, or b positive integer bs this chbrset
+     *         is less thbn, equbl to, or grebter thbn the specified chbrset
      */
-    public final int compareTo(Charset that) {
-        return (name().compareToIgnoreCase(that.name()));
+    public finbl int compbreTo(Chbrset thbt) {
+        return (nbme().compbreToIgnoreCbse(thbt.nbme()));
     }
 
     /**
-     * Computes a hashcode for this charset.
+     * Computes b hbshcode for this chbrset.
      *
-     * @return  An integer hashcode
+     * @return  An integer hbshcode
      */
-    public final int hashCode() {
-        return name().hashCode();
+    public finbl int hbshCode() {
+        return nbme().hbshCode();
     }
 
     /**
-     * Tells whether or not this object is equal to another.
+     * Tells whether or not this object is equbl to bnother.
      *
-     * <p> Two charsets are equal if, and only if, they have the same canonical
-     * names.  A charset is never equal to any other type of object.  </p>
+     * <p> Two chbrsets bre equbl if, bnd only if, they hbve the sbme cbnonicbl
+     * nbmes.  A chbrset is never equbl to bny other type of object.  </p>
      *
-     * @return  <tt>true</tt> if, and only if, this charset is equal to the
+     * @return  <tt>true</tt> if, bnd only if, this chbrset is equbl to the
      *          given object
      */
-    public final boolean equals(Object ob) {
-        if (!(ob instanceof Charset))
-            return false;
+    public finbl boolebn equbls(Object ob) {
+        if (!(ob instbnceof Chbrset))
+            return fblse;
         if (this == ob)
             return true;
-        return name.equals(((Charset)ob).name());
+        return nbme.equbls(((Chbrset)ob).nbme());
     }
 
     /**
-     * Returns a string describing this charset.
+     * Returns b string describing this chbrset.
      *
-     * @return  A string describing this charset
+     * @return  A string describing this chbrset
      */
-    public final String toString() {
-        return name();
+    public finbl String toString() {
+        return nbme();
     }
 
 }

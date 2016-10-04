@@ -1,296 +1,296 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.plaf.metal;
+pbckbge jbvbx.swing.plbf.metbl;
 
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Color;
-import java.awt.Polygon;
+import jbvb.bwt.Dimension;
+import jbvb.bwt.Grbphics;
+import jbvb.bwt.Color;
+import jbvb.bwt.Polygon;
 
-import javax.swing.*;
+import jbvbx.swing.*;
 
-import javax.swing.plaf.basic.BasicArrowButton;
+import jbvbx.swing.plbf.bbsic.BbsicArrowButton;
 
 
 /**
- * JButton object for Metal scrollbar arrows.
+ * JButton object for Metbl scrollbbr brrows.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
- * @author Tom Santos
- * @author Steve Wilson
+ * @buthor Tom Sbntos
+ * @buthor Steve Wilson
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class MetalScrollButton extends BasicArrowButton
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public clbss MetblScrollButton extends BbsicArrowButton
 {
-  private static Color shadowColor;
-  private static Color highlightColor;
-  private boolean isFreeStanding = false;
+  privbte stbtic Color shbdowColor;
+  privbte stbtic Color highlightColor;
+  privbte boolebn isFreeStbnding = fblse;
 
-  private int buttonWidth;
+  privbte int buttonWidth;
 
         /**
-         * Constructs an instance of {@code MetalScrollButton}.
+         * Constructs bn instbnce of {@code MetblScrollButton}.
          *
-         * @param direction the direction
-         * @param width the width
-         * @param freeStanding the free standing value
+         * @pbrbm direction the direction
+         * @pbrbm width the width
+         * @pbrbm freeStbnding the free stbnding vblue
          */
-        public MetalScrollButton( int direction, int width, boolean freeStanding )
+        public MetblScrollButton( int direction, int width, boolebn freeStbnding )
         {
             super( direction );
 
-            shadowColor = UIManager.getColor("ScrollBar.darkShadow");
-            highlightColor = UIManager.getColor("ScrollBar.highlight");
+            shbdowColor = UIMbnbger.getColor("ScrollBbr.dbrkShbdow");
+            highlightColor = UIMbnbger.getColor("ScrollBbr.highlight");
 
             buttonWidth = width;
-            isFreeStanding = freeStanding;
+            isFreeStbnding = freeStbnding;
         }
 
         /**
-         * Sets the free standing value.
+         * Sets the free stbnding vblue.
          *
-         * @param freeStanding the free standing value
+         * @pbrbm freeStbnding the free stbnding vblue
          */
-        public void setFreeStanding( boolean freeStanding )
+        public void setFreeStbnding( boolebn freeStbnding )
         {
-            isFreeStanding = freeStanding;
+            isFreeStbnding = freeStbnding;
         }
 
-        public void paint( Graphics g )
+        public void pbint( Grbphics g )
         {
-            boolean leftToRight = MetalUtils.isLeftToRight(this);
-            boolean isEnabled = getParent().isEnabled();
+            boolebn leftToRight = MetblUtils.isLeftToRight(this);
+            boolebn isEnbbled = getPbrent().isEnbbled();
 
-            Color arrowColor = isEnabled ? MetalLookAndFeel.getControlInfo() : MetalLookAndFeel.getControlDisabled();
-            boolean isPressed = getModel().isPressed();
+            Color brrowColor = isEnbbled ? MetblLookAndFeel.getControlInfo() : MetblLookAndFeel.getControlDisbbled();
+            boolebn isPressed = getModel().isPressed();
             int width = getWidth();
             int height = getHeight();
             int w = width;
             int h = height;
-            int arrowHeight = (height+1) / 4;
-            int arrowWidth = (height+1) / 2;
+            int brrowHeight = (height+1) / 4;
+            int brrowWidth = (height+1) / 2;
 
             if ( isPressed )
             {
-                g.setColor( MetalLookAndFeel.getControlShadow() );
+                g.setColor( MetblLookAndFeel.getControlShbdow() );
             }
             else
             {
-                g.setColor( getBackground() );
+                g.setColor( getBbckground() );
             }
 
             g.fillRect( 0, 0, width, height );
 
             if ( getDirection() == NORTH )
             {
-                if ( !isFreeStanding ) {
+                if ( !isFreeStbnding ) {
                     height +=1;
-                    g.translate( 0, -1 );
+                    g.trbnslbte( 0, -1 );
                     width += 2;
                     if ( !leftToRight ) {
-                        g.translate( -1, 0 );
+                        g.trbnslbte( -1, 0 );
                     }
                 }
 
-                // Draw the arrow
-                g.setColor( arrowColor );
-                int startY = ((h+1) - arrowHeight) / 2;
-                int startX = (w / 2);
+                // Drbw the brrow
+                g.setColor( brrowColor );
+                int stbrtY = ((h+1) - brrowHeight) / 2;
+                int stbrtX = (w / 2);
 
-                for (int line = 0; line < arrowHeight; line++) {
-                    g.drawLine( startX-line, startY+line, startX +line+1, startY+line);
+                for (int line = 0; line < brrowHeight; line++) {
+                    g.drbwLine( stbrtX-line, stbrtY+line, stbrtX +line+1, stbrtY+line);
                 }
 
-                if (isEnabled) {
+                if (isEnbbled) {
                     g.setColor( highlightColor );
 
                     if ( !isPressed )
                     {
-                        g.drawLine( 1, 1, width - 3, 1 );
-                        g.drawLine( 1, 1, 1, height - 1 );
+                        g.drbwLine( 1, 1, width - 3, 1 );
+                        g.drbwLine( 1, 1, 1, height - 1 );
                     }
 
-                    g.drawLine( width - 1, 1, width - 1, height - 1 );
+                    g.drbwLine( width - 1, 1, width - 1, height - 1 );
 
-                    g.setColor( shadowColor );
-                    g.drawLine( 0, 0, width - 2, 0 );
-                    g.drawLine( 0, 0, 0, height - 1 );
-                    g.drawLine( width - 2, 2, width - 2, height - 1 );
+                    g.setColor( shbdowColor );
+                    g.drbwLine( 0, 0, width - 2, 0 );
+                    g.drbwLine( 0, 0, 0, height - 1 );
+                    g.drbwLine( width - 2, 2, width - 2, height - 1 );
                 } else {
-                    MetalUtils.drawDisabledBorder(g, 0, 0, width, height+1);
+                    MetblUtils.drbwDisbbledBorder(g, 0, 0, width, height+1);
                 }
-                if ( !isFreeStanding ) {
+                if ( !isFreeStbnding ) {
                     height -= 1;
-                    g.translate( 0, 1 );
+                    g.trbnslbte( 0, 1 );
                     width -= 2;
                     if ( !leftToRight ) {
-                        g.translate( 1, 0 );
+                        g.trbnslbte( 1, 0 );
                     }
                 }
             }
             else if ( getDirection() == SOUTH )
             {
-                if ( !isFreeStanding ) {
+                if ( !isFreeStbnding ) {
                     height += 1;
                     width += 2;
                     if ( !leftToRight ) {
-                        g.translate( -1, 0 );
+                        g.trbnslbte( -1, 0 );
                     }
                 }
 
-                // Draw the arrow
-                g.setColor( arrowColor );
+                // Drbw the brrow
+                g.setColor( brrowColor );
 
-                int startY = (((h+1) - arrowHeight) / 2)+ arrowHeight-1;
-                int startX = (w / 2);
+                int stbrtY = (((h+1) - brrowHeight) / 2)+ brrowHeight-1;
+                int stbrtX = (w / 2);
 
-                for (int line = 0; line < arrowHeight; line++) {
-                    g.drawLine( startX-line, startY-line, startX +line+1, startY-line);
+                for (int line = 0; line < brrowHeight; line++) {
+                    g.drbwLine( stbrtX-line, stbrtY-line, stbrtX +line+1, stbrtY-line);
                 }
 
-                if (isEnabled) {
+                if (isEnbbled) {
                     g.setColor( highlightColor );
 
                     if ( !isPressed )
                     {
-                        g.drawLine( 1, 0, width - 3, 0 );
-                        g.drawLine( 1, 0, 1, height - 3 );
+                        g.drbwLine( 1, 0, width - 3, 0 );
+                        g.drbwLine( 1, 0, 1, height - 3 );
                     }
 
-                    g.drawLine( 1, height - 1, width - 1, height - 1 );
-                    g.drawLine( width - 1, 0, width - 1, height - 1 );
+                    g.drbwLine( 1, height - 1, width - 1, height - 1 );
+                    g.drbwLine( width - 1, 0, width - 1, height - 1 );
 
-                    g.setColor( shadowColor );
-                    g.drawLine( 0, 0, 0, height - 2 );
-                    g.drawLine( width - 2, 0, width - 2, height - 2 );
-                    g.drawLine( 2, height - 2, width - 2, height - 2 );
+                    g.setColor( shbdowColor );
+                    g.drbwLine( 0, 0, 0, height - 2 );
+                    g.drbwLine( width - 2, 0, width - 2, height - 2 );
+                    g.drbwLine( 2, height - 2, width - 2, height - 2 );
                 } else {
-                    MetalUtils.drawDisabledBorder(g, 0,-1, width, height+1);
+                    MetblUtils.drbwDisbbledBorder(g, 0,-1, width, height+1);
                 }
 
-                if ( !isFreeStanding ) {
+                if ( !isFreeStbnding ) {
                     height -= 1;
                     width -= 2;
                     if ( !leftToRight ) {
-                        g.translate( 1, 0 );
+                        g.trbnslbte( 1, 0 );
                     }
                 }
             }
             else if ( getDirection() == EAST )
             {
-                if ( !isFreeStanding ) {
+                if ( !isFreeStbnding ) {
                     height += 2;
                     width += 1;
                 }
 
-                // Draw the arrow
-                g.setColor( arrowColor );
+                // Drbw the brrow
+                g.setColor( brrowColor );
 
-                int startX = (((w+1) - arrowHeight) / 2) + arrowHeight-1;
-                int startY = (h / 2);
+                int stbrtX = (((w+1) - brrowHeight) / 2) + brrowHeight-1;
+                int stbrtY = (h / 2);
 
-                for (int line = 0; line < arrowHeight; line++) {
-                    g.drawLine( startX-line, startY-line, startX -line, startY+line+1);
+                for (int line = 0; line < brrowHeight; line++) {
+                    g.drbwLine( stbrtX-line, stbrtY-line, stbrtX -line, stbrtY+line+1);
                 }
 
-                if (isEnabled) {
+                if (isEnbbled) {
                     g.setColor( highlightColor );
 
                     if ( !isPressed )
                     {
-                        g.drawLine( 0, 1, width - 3, 1 );
-                        g.drawLine( 0, 1, 0, height - 3 );
+                        g.drbwLine( 0, 1, width - 3, 1 );
+                        g.drbwLine( 0, 1, 0, height - 3 );
                     }
 
-                    g.drawLine( width - 1, 1, width - 1, height - 1 );
-                    g.drawLine( 0, height - 1, width - 1, height - 1 );
+                    g.drbwLine( width - 1, 1, width - 1, height - 1 );
+                    g.drbwLine( 0, height - 1, width - 1, height - 1 );
 
-                    g.setColor( shadowColor );
-                    g.drawLine( 0, 0,width - 2, 0 );
-                    g.drawLine( width - 2, 2, width - 2, height - 2 );
-                    g.drawLine( 0, height - 2, width - 2, height - 2 );
+                    g.setColor( shbdowColor );
+                    g.drbwLine( 0, 0,width - 2, 0 );
+                    g.drbwLine( width - 2, 2, width - 2, height - 2 );
+                    g.drbwLine( 0, height - 2, width - 2, height - 2 );
                 } else {
-                    MetalUtils.drawDisabledBorder(g,-1,0, width+1, height);
+                    MetblUtils.drbwDisbbledBorder(g,-1,0, width+1, height);
                 }
-                if ( !isFreeStanding ) {
+                if ( !isFreeStbnding ) {
                     height -= 2;
                     width -= 1;
                 }
             }
             else if ( getDirection() == WEST )
             {
-                if ( !isFreeStanding ) {
+                if ( !isFreeStbnding ) {
                     height += 2;
                     width += 1;
-                    g.translate( -1, 0 );
+                    g.trbnslbte( -1, 0 );
                 }
 
-                // Draw the arrow
-                g.setColor( arrowColor );
+                // Drbw the brrow
+                g.setColor( brrowColor );
 
-                int startX = (((w+1) - arrowHeight) / 2);
-                int startY = (h / 2);
+                int stbrtX = (((w+1) - brrowHeight) / 2);
+                int stbrtY = (h / 2);
 
 
-                for (int line = 0; line < arrowHeight; line++) {
-                    g.drawLine( startX+line, startY-line, startX +line, startY+line+1);
+                for (int line = 0; line < brrowHeight; line++) {
+                    g.drbwLine( stbrtX+line, stbrtY-line, stbrtX +line, stbrtY+line+1);
                 }
 
-                if (isEnabled) {
+                if (isEnbbled) {
                     g.setColor( highlightColor );
 
 
                     if ( !isPressed )
                     {
-                        g.drawLine( 1, 1, width - 1, 1 );
-                        g.drawLine( 1, 1, 1, height - 3 );
+                        g.drbwLine( 1, 1, width - 1, 1 );
+                        g.drbwLine( 1, 1, 1, height - 3 );
                     }
 
-                    g.drawLine( 1, height - 1, width - 1, height - 1 );
+                    g.drbwLine( 1, height - 1, width - 1, height - 1 );
 
-                    g.setColor( shadowColor );
-                    g.drawLine( 0, 0, width - 1, 0 );
-                    g.drawLine( 0, 0, 0, height - 2 );
-                    g.drawLine( 2, height - 2, width - 1, height - 2 );
+                    g.setColor( shbdowColor );
+                    g.drbwLine( 0, 0, width - 1, 0 );
+                    g.drbwLine( 0, 0, 0, height - 2 );
+                    g.drbwLine( 2, height - 2, width - 1, height - 2 );
                 } else {
-                    MetalUtils.drawDisabledBorder(g,0,0, width+1, height);
+                    MetblUtils.drbwDisbbledBorder(g,0,0, width+1, height);
                 }
 
-                if ( !isFreeStanding ) {
+                if ( !isFreeStbnding ) {
                     height -= 2;
                     width -= 1;
-                    g.translate( 1, 0 );
+                    g.trbnslbte( 1, 0 );
                 }
             }
         }
@@ -303,11 +303,11 @@ public class MetalScrollButton extends BasicArrowButton
             }
             else if ( getDirection() == SOUTH )
             {
-                return new Dimension( buttonWidth, buttonWidth - (isFreeStanding ? 1 : 2) );
+                return new Dimension( buttonWidth, buttonWidth - (isFreeStbnding ? 1 : 2) );
             }
             else if ( getDirection() == EAST )
             {
-                return new Dimension( buttonWidth - (isFreeStanding ? 1 : 2), buttonWidth );
+                return new Dimension( buttonWidth - (isFreeStbnding ? 1 : 2), buttonWidth );
             }
             else if ( getDirection() == WEST )
             {
@@ -324,7 +324,7 @@ public class MetalScrollButton extends BasicArrowButton
             return getPreferredSize();
         }
 
-        public Dimension getMaximumSize()
+        public Dimension getMbximumSize()
         {
             return new Dimension( Integer.MAX_VALUE, Integer.MAX_VALUE );
         }

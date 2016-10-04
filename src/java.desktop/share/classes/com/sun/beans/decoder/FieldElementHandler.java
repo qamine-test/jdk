@@ -1,189 +1,189 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package com.sun.beans.decoder;
+pbckbge com.sun.bebns.decoder;
 
-import com.sun.beans.finder.FieldFinder;
+import com.sun.bebns.finder.FieldFinder;
 
-import java.lang.reflect.Field;
+import jbvb.lbng.reflect.Field;
 
 /**
- * This class is intended to handle &lt;field&gt; element.
- * This element simplifies access to the fields.
- * If the {@code class} attribute is specified
- * this element accesses static field of specified class.
- * This element defines getter if it contains no argument.
- * It returns the value of the field in this case.
- * For example:<pre>
- * &lt;field name="TYPE" class="java.lang.Long"/&gt;</pre>
- * is equivalent to {@code Long.TYPE} in Java code.
- * This element defines setter if it contains one argument.
- * It does not return the value of the field in this case.
- * For example:<pre>
- * &lt;field name="id"&gt;&lt;int&gt;0&lt;/int&gt;&lt;/field&gt;</pre>
- * is equivalent to {@code id = 0} in Java code.
- * <p>The following attributes are supported:
+ * This clbss is intended to hbndle &lt;field&gt; element.
+ * This element simplifies bccess to the fields.
+ * If the {@code clbss} bttribute is specified
+ * this element bccesses stbtic field of specified clbss.
+ * This element defines getter if it contbins no brgument.
+ * It returns the vblue of the field in this cbse.
+ * For exbmple:<pre>
+ * &lt;field nbme="TYPE" clbss="jbvb.lbng.Long"/&gt;</pre>
+ * is equivblent to {@code Long.TYPE} in Jbvb code.
+ * This element defines setter if it contbins one brgument.
+ * It does not return the vblue of the field in this cbse.
+ * For exbmple:<pre>
+ * &lt;field nbme="id"&gt;&lt;int&gt;0&lt;/int&gt;&lt;/field&gt;</pre>
+ * is equivblent to {@code id = 0} in Jbvb code.
+ * <p>The following bttributes bre supported:
  * <dl>
- * <dt>name
- * <dd>the field name
- * <dt>class
- * <dd>the type is used for static fields only
+ * <dt>nbme
+ * <dd>the field nbme
+ * <dt>clbss
+ * <dd>the type is used for stbtic fields only
  * <dt>id
- * <dd>the identifier of the variable that is intended to store the result
+ * <dd>the identifier of the vbribble thbt is intended to store the result
  * </dl>
  *
  * @since 1.7
  *
- * @author Sergey A. Malenkov
+ * @buthor Sergey A. Mblenkov
  */
-final class FieldElementHandler extends AccessorElementHandler {
-    private Class<?> type;
+finbl clbss FieldElementHbndler extends AccessorElementHbndler {
+    privbte Clbss<?> type;
 
     /**
-     * Parses attributes of the element.
-     * The following attributes are supported:
+     * Pbrses bttributes of the element.
+     * The following bttributes bre supported:
      * <dl>
-     * <dt>name
-     * <dd>the field name
-     * <dt>class
-     * <dd>the type is used for static fields only
+     * <dt>nbme
+     * <dd>the field nbme
+     * <dt>clbss
+     * <dd>the type is used for stbtic fields only
      * <dt>id
-     * <dd>the identifier of the variable that is intended to store the result
+     * <dd>the identifier of the vbribble thbt is intended to store the result
      * </dl>
      *
-     * @param name   the attribute name
-     * @param value  the attribute value
+     * @pbrbm nbme   the bttribute nbme
+     * @pbrbm vblue  the bttribute vblue
      */
     @Override
-    public void addAttribute(String name, String value) {
-        if (name.equals("class")) { // NON-NLS: the attribute name
-            this.type = getOwner().findClass(value);
+    public void bddAttribute(String nbme, String vblue) {
+        if (nbme.equbls("clbss")) { // NON-NLS: the bttribute nbme
+            this.type = getOwner().findClbss(vblue);
         } else {
-            super.addAttribute(name, value);
+            super.bddAttribute(nbme, vblue);
         }
     }
 
     /**
-     * Tests whether the value of this element can be used
-     * as an argument of the element that contained in this one.
+     * Tests whether the vblue of this element cbn be used
+     * bs bn brgument of the element thbt contbined in this one.
      *
-     * @return {@code true} if the value of this element should be used
-     *         as an argument of the element that contained in this one,
-     *         {@code false} otherwise
+     * @return {@code true} if the vblue of this element should be used
+     *         bs bn brgument of the element thbt contbined in this one,
+     *         {@code fblse} otherwise
      */
     @Override
-    protected boolean isArgument() {
-        return super.isArgument() && (this.type != null); // only static accessor can be used an argument
+    protected boolebn isArgument() {
+        return super.isArgument() && (this.type != null); // only stbtic bccessor cbn be used bn brgument
     }
 
     /**
      * Returns the context of the field.
-     * The context of the static field is the class object.
-     * The context of the non-static field is the value of the parent element.
+     * The context of the stbtic field is the clbss object.
+     * The context of the non-stbtic field is the vblue of the pbrent element.
      *
      * @return the context of the field
      */
     @Override
-    protected Object getContextBean() {
+    protected Object getContextBebn() {
         return (this.type != null)
                 ? this.type
-                : super.getContextBean();
+                : super.getContextBebn();
     }
 
     /**
-     * Returns the value of the field with specified {@code name}.
+     * Returns the vblue of the field with specified {@code nbme}.
      *
-     * @param name  the name of the field
-     * @return the value of the specified field
+     * @pbrbm nbme  the nbme of the field
+     * @return the vblue of the specified field
      */
     @Override
-    protected Object getValue(String name) {
+    protected Object getVblue(String nbme) {
         try {
-            return getFieldValue(getContextBean(), name);
+            return getFieldVblue(getContextBebn(), nbme);
         }
-        catch (Exception exception) {
-            getOwner().handleException(exception);
+        cbtch (Exception exception) {
+            getOwner().hbndleException(exception);
         }
         return null;
     }
 
     /**
-     * Sets the new value for the field with specified {@code name}.
+     * Sets the new vblue for the field with specified {@code nbme}.
      *
-     * @param name   the name of the field
-     * @param value  the new value for the specified field
+     * @pbrbm nbme   the nbme of the field
+     * @pbrbm vblue  the new vblue for the specified field
      */
     @Override
-    protected void setValue(String name, Object value) {
+    protected void setVblue(String nbme, Object vblue) {
         try {
-            setFieldValue(getContextBean(), name, value);
+            setFieldVblue(getContextBebn(), nbme, vblue);
         }
-        catch (Exception exception) {
-            getOwner().handleException(exception);
+        cbtch (Exception exception) {
+            getOwner().hbndleException(exception);
         }
     }
 
     /**
-     * Performs the search of the field with specified {@code name}
-     * in specified context and returns its value.
+     * Performs the sebrch of the field with specified {@code nbme}
+     * in specified context bnd returns its vblue.
      *
-     * @param bean  the context bean that contains field
-     * @param name  the name of the field
-     * @return the value of the field
-     * @throws IllegalAccessException if the field is not accesible
+     * @pbrbm bebn  the context bebn thbt contbins field
+     * @pbrbm nbme  the nbme of the field
+     * @return the vblue of the field
+     * @throws IllegblAccessException if the field is not bccesible
      * @throws NoSuchFieldException   if the field is not found
      */
-    static Object getFieldValue(Object bean, String name) throws IllegalAccessException, NoSuchFieldException {
-        return findField(bean, name).get(bean);
+    stbtic Object getFieldVblue(Object bebn, String nbme) throws IllegblAccessException, NoSuchFieldException {
+        return findField(bebn, nbme).get(bebn);
     }
 
     /**
-     * Performs the search of the field with specified {@code name}
-     * in specified context and updates its value.
+     * Performs the sebrch of the field with specified {@code nbme}
+     * in specified context bnd updbtes its vblue.
      *
-     * @param bean   the context bean that contains field
-     * @param name   the name of the field
-     * @param value  the new value for the field
-     * @throws IllegalAccessException if the field is not accesible
+     * @pbrbm bebn   the context bebn thbt contbins field
+     * @pbrbm nbme   the nbme of the field
+     * @pbrbm vblue  the new vblue for the field
+     * @throws IllegblAccessException if the field is not bccesible
      * @throws NoSuchFieldException   if the field is not found
      */
-    private static void setFieldValue(Object bean, String name, Object value) throws IllegalAccessException, NoSuchFieldException {
-        findField(bean, name).set(bean, value);
+    privbte stbtic void setFieldVblue(Object bebn, String nbme, Object vblue) throws IllegblAccessException, NoSuchFieldException {
+        findField(bebn, nbme).set(bebn, vblue);
     }
 
     /**
-     * Performs the search of the field
-     * with specified {@code name} in specified context.
+     * Performs the sebrch of the field
+     * with specified {@code nbme} in specified context.
      *
-     * @param bean  the context bean that contains field
-     * @param name  the name of the field
-     * @return field object that represents found field
+     * @pbrbm bebn  the context bebn thbt contbins field
+     * @pbrbm nbme  the nbme of the field
+     * @return field object thbt represents found field
      * @throws NoSuchFieldException if the field is not found
      */
-    private static Field findField(Object bean, String name) throws NoSuchFieldException {
-        return (bean instanceof Class<?>)
-                ? FieldFinder.findStaticField((Class<?>) bean, name)
-                : FieldFinder.findField(bean.getClass(), name);
+    privbte stbtic Field findField(Object bebn, String nbme) throws NoSuchFieldException {
+        return (bebn instbnceof Clbss<?>)
+                ? FieldFinder.findStbticField((Clbss<?>) bebn, nbme)
+                : FieldFinder.findField(bebn.getClbss(), nbme);
     }
 }

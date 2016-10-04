@@ -1,46 +1,46 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-// This file is available under and governed by the GNU General Public
-// License version 2 only, as published by the Free Software Foundation.
-// However, the following notice accompanied the original version of this
+// This file is bvbilbble under bnd governed by the GNU Generbl Public
+// License version 2 only, bs published by the Free Softwbre Foundbtion.
+// However, the following notice bccompbnied the originbl version of this
 // file:
 //
 //---------------------------------------------------------------------------------
 //
-//  Little Color Management System
-//  Copyright (c) 1998-2012 Marti Maria Saguer
+//  Little Color Mbnbgement System
+//  Copyright (c) 1998-2012 Mbrti Mbrib Sbguer
 //
-// Permission is hereby granted, free of charge, to any person obtaining
-// a copy of this software and associated documentation files (the "Software"),
-// to deal in the Software without restriction, including without limitation
+// Permission is hereby grbnted, free of chbrge, to bny person obtbining
+// b copy of this softwbre bnd bssocibted documentbtion files (the "Softwbre"),
+// to debl in the Softwbre without restriction, including without limitbtion
 // the rights to use, copy, modify, merge, publish, distribute, sublicense,
-// and/or sell copies of the Software, and to permit persons to whom the Software
+// bnd/or sell copies of the Softwbre, bnd to permit persons to whom the Softwbre
 // is furnished to do so, subject to the following conditions:
 //
-// The above copyright notice and this permission notice shall be included in
-// all copies or substantial portions of the Software.
+// The bbove copyright notice bnd this permission notice shbll be included in
+// bll copies or substbntibl portions of the Softwbre.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO
@@ -53,18 +53,18 @@
 //---------------------------------------------------------------------------------
 //
 
-#include "lcms2_internal.h"
+#include "lcms2_internbl.h"
 
 
-// IT8.7 / CGATS.17-200x handling -----------------------------------------------------------------------------
+// IT8.7 / CGATS.17-200x hbndling -----------------------------------------------------------------------------
 
 
-#define MAXID        128     // Max length of identifier
-#define MAXSTR      1024     // Max length of string
-#define MAXTABLES    255     // Max Number of tables in a single stream
-#define MAXINCLUDE    20     // Max number of nested includes
+#define MAXID        128     // Mbx length of identifier
+#define MAXSTR      1024     // Mbx length of string
+#define MAXTABLES    255     // Mbx Number of tbbles in b single strebm
+#define MAXINCLUDE    20     // Mbx number of nested includes
 
-#define DEFAULT_DBL_FORMAT  "%.10g" // Double formatting
+#define DEFAULT_DBL_FORMAT  "%.10g" // Double formbtting
 
 #ifdef CMS_IS_WINDOWS_
 #    include <io.h>
@@ -79,13 +79,13 @@ typedef enum {
 
         SNONE,
         SINUM,      // Integer
-        SDNUM,      // Real
+        SDNUM,      // Rebl
         SIDENT,     // Identifier
         SSTRING,    // string
         SCOMMENT,   // comment
         SEOLN,      // End of line
-        SEOF,       // End of stream
-        SSYNERROR,  // Syntax error found on stream
+        SEOF,       // End of strebm
+        SSYNERROR,  // Syntbx error found on strebm
 
         // Keywords
 
@@ -100,7 +100,7 @@ typedef enum {
     } SYMBOL;
 
 
-// How to write the value
+// How to write the vblue
 typedef enum {
 
         WRITE_UNCOOKED,
@@ -111,15 +111,15 @@ typedef enum {
 
     } WRITEMODE;
 
-// Linked list of variable names
-typedef struct _KeyVal {
+// Linked list of vbribble nbmes
+typedef struct _KeyVbl {
 
-        struct _KeyVal*  Next;
-        char*            Keyword;       // Name of variable
-        struct _KeyVal*  NextSubkey;    // If key is a dictionary, points to the next item
-        char*            Subkey;        // If key is a dictionary, points to the subkey name
-        char*            Value;         // Points to value
-        WRITEMODE        WriteAs;       // How to write the value
+        struct _KeyVbl*  Next;
+        chbr*            Keyword;       // Nbme of vbribble
+        struct _KeyVbl*  NextSubkey;    // If key is b dictionbry, points to the next item
+        chbr*            Subkey;        // If key is b dictionbry, points to the subkey nbme
+        chbr*            Vblue;         // Points to vblue
+        WRITEMODE        WriteAs;       // How to write the vblue
 
    } KEYVALUE;
 
@@ -128,12 +128,12 @@ typedef struct _KeyVal {
 typedef struct _OwnedMem {
 
         struct _OwnedMem* Next;
-        void *            Ptr;          // Point to value
+        void *            Ptr;          // Point to vblue
 
    } OWNEDMEM;
 
-// Suballocator
-typedef struct _SubAllocator {
+// Subbllocbtor
+typedef struct _SubAllocbtor {
 
          cmsUInt8Number* Block;
          cmsUInt32Number BlockSize;
@@ -141,97 +141,97 @@ typedef struct _SubAllocator {
 
     } SUBALLOCATOR;
 
-// Table. Each individual table can hold properties and rows & cols
-typedef struct _Table {
+// Tbble. Ebch individubl tbble cbn hold properties bnd rows & cols
+typedef struct _Tbble {
 
-        char SheetType[MAXSTR];               // The first row of the IT8 (the type)
+        chbr SheetType[MAXSTR];               // The first row of the IT8 (the type)
 
-        int            nSamples, nPatches;    // Cols, Rows
-        int            SampleID;              // Pos of ID
+        int            nSbmples, nPbtches;    // Cols, Rows
+        int            SbmpleID;              // Pos of ID
 
-        KEYVALUE*      HeaderList;            // The properties
+        KEYVALUE*      HebderList;            // The properties
 
-        char**         DataFormat;            // The binary stream descriptor
-        char**         Data;                  // The binary stream
+        chbr**         DbtbFormbt;            // The binbry strebm descriptor
+        chbr**         Dbtb;                  // The binbry strebm
 
     } TABLE;
 
-// File stream being parsed
+// File strebm being pbrsed
 typedef struct _FileContext {
-        char           FileName[cmsMAX_PATH];    // File name if being readed from file
-        FILE*          Stream;                   // File stream or NULL if holded in memory
+        chbr           FileNbme[cmsMAX_PATH];    // File nbme if being rebded from file
+        FILE*          Strebm;                   // File strebm or NULL if holded in memory
     } FILECTX;
 
-// This struct hold all information about an open IT8 handler.
+// This struct hold bll informbtion bbout bn open IT8 hbndler.
 typedef struct {
 
 
-        cmsUInt32Number  TablesCount;                     // How many tables in this stream
-        cmsUInt32Number  nTable;                          // The actual table
+        cmsUInt32Number  TbblesCount;                     // How mbny tbbles in this strebm
+        cmsUInt32Number  nTbble;                          // The bctubl tbble
 
-        TABLE Tab[MAXTABLES];
+        TABLE Tbb[MAXTABLES];
 
-        // Memory management
-        OWNEDMEM*      MemorySink;            // The storage backend
-        SUBALLOCATOR   Allocator;             // String suballocator -- just to keep it fast
+        // Memory mbnbgement
+        OWNEDMEM*      MemorySink;            // The storbge bbckend
+        SUBALLOCATOR   Allocbtor;             // String subbllocbtor -- just to keep it fbst
 
-        // Parser state machine
+        // Pbrser stbte mbchine
         SYMBOL         sy;                    // Current symbol
-        int            ch;                    // Current character
+        int            ch;                    // Current chbrbcter
 
-        int            inum;                  // integer value
-        cmsFloat64Number         dnum;                  // real value
-        char           id[MAXID];             // identifier
-        char           str[MAXSTR];           // string
+        int            inum;                  // integer vblue
+        cmsFlobt64Number         dnum;                  // rebl vblue
+        chbr           id[MAXID];             // identifier
+        chbr           str[MAXSTR];           // string
 
-        // Allowed keywords & datasets. They have visibility on whole stream
-        KEYVALUE*     ValidKeywords;
-        KEYVALUE*     ValidSampleID;
+        // Allowed keywords & dbtbsets. They hbve visibility on whole strebm
+        KEYVALUE*     VblidKeywords;
+        KEYVALUE*     VblidSbmpleID;
 
-        char*          Source;                // Points to loc. being parsed
+        chbr*          Source;                // Points to loc. being pbrsed
         int            lineno;                // line counter for error reporting
 
-        FILECTX*       FileStack[MAXINCLUDE]; // Stack of files being parsed
-        int            IncludeSP;             // Include Stack Pointer
+        FILECTX*       FileStbck[MAXINCLUDE]; // Stbck of files being pbrsed
+        int            IncludeSP;             // Include Stbck Pointer
 
-        char*          MemoryBlock;           // The stream if holded in memory
+        chbr*          MemoryBlock;           // The strebm if holded in memory
 
-        char           DoubleFormatter[MAXID];// Printf-like 'cmsFloat64Number' formatter
+        chbr           DoubleFormbtter[MAXID];// Printf-like 'cmsFlobt64Number' formbtter
 
-        cmsContext    ContextID;              // The threading context
+        cmsContext    ContextID;              // The threbding context
 
    } cmsIT8;
 
 
-// The stream for save operations
+// The strebm for sbve operbtions
 typedef struct {
 
-        FILE* stream;   // For save-to-file behaviour
+        FILE* strebm;   // For sbve-to-file behbviour
 
-        cmsUInt8Number* Base;
-        cmsUInt8Number* Ptr;        // For save-to-mem behaviour
+        cmsUInt8Number* Bbse;
+        cmsUInt8Number* Ptr;        // For sbve-to-mem behbviour
         cmsUInt32Number Used;
-        cmsUInt32Number Max;
+        cmsUInt32Number Mbx;
 
     } SAVESTREAM;
 
 
-// ------------------------------------------------------ cmsIT8 parsing routines
+// ------------------------------------------------------ cmsIT8 pbrsing routines
 
 
 // A keyword
 typedef struct {
 
-        const char *id;
+        const chbr *id;
         SYMBOL sy;
 
    } KEYWORD;
 
-// The keyword->symbol translation table. Sorting is required.
-static const KEYWORD TabKeys[] = {
+// The keyword->symbol trbnslbtion tbble. Sorting is required.
+stbtic const KEYWORD TbbKeys[] = {
 
-        {"$INCLUDE",               SINCLUDE},   // This is an extension!
-        {".INCLUDE",               SINCLUDE},   // This is an extension!
+        {"$INCLUDE",               SINCLUDE},   // This is bn extension!
+        {".INCLUDE",               SINCLUDE},   // This is bn extension!
 
         {"BEGIN_DATA",             SBEGIN_DATA },
         {"BEGIN_DATA_FORMAT",      SBEGIN_DATA_FORMAT },
@@ -241,237 +241,237 @@ static const KEYWORD TabKeys[] = {
         {"KEYWORD",                SKEYWORD}
         };
 
-#define NUMKEYS (sizeof(TabKeys)/sizeof(KEYWORD))
+#define NUMKEYS (sizeof(TbbKeys)/sizeof(KEYWORD))
 
 // Predefined properties
 
 // A property
 typedef struct {
-        const char *id;    // The identifier
-        WRITEMODE as;      // How is supposed to be written
+        const chbr *id;    // The identifier
+        WRITEMODE bs;      // How is supposed to be written
     } PROPERTY;
 
-static PROPERTY PredefinedProperties[] = {
+stbtic PROPERTY PredefinedProperties[] = {
 
         {"NUMBER_OF_FIELDS", WRITE_UNCOOKED},    // Required - NUMBER OF FIELDS
         {"NUMBER_OF_SETS",   WRITE_UNCOOKED},    // Required - NUMBER OF SETS
-        {"ORIGINATOR",       WRITE_STRINGIFY},   // Required - Identifies the specific system, organization or individual that created the data file.
-        {"FILE_DESCRIPTOR",  WRITE_STRINGIFY},   // Required - Describes the purpose or contents of the data file.
-        {"CREATED",          WRITE_STRINGIFY},   // Required - Indicates date of creation of the data file.
-        {"DESCRIPTOR",       WRITE_STRINGIFY},   // Required  - Describes the purpose or contents of the data file.
-        {"DIFFUSE_GEOMETRY", WRITE_STRINGIFY},   // The diffuse geometry used. Allowed values are "sphere" or "opal".
+        {"ORIGINATOR",       WRITE_STRINGIFY},   // Required - Identifies the specific system, orgbnizbtion or individubl thbt crebted the dbtb file.
+        {"FILE_DESCRIPTOR",  WRITE_STRINGIFY},   // Required - Describes the purpose or contents of the dbtb file.
+        {"CREATED",          WRITE_STRINGIFY},   // Required - Indicbtes dbte of crebtion of the dbtb file.
+        {"DESCRIPTOR",       WRITE_STRINGIFY},   // Required  - Describes the purpose or contents of the dbtb file.
+        {"DIFFUSE_GEOMETRY", WRITE_STRINGIFY},   // The diffuse geometry used. Allowed vblues bre "sphere" or "opbl".
         {"MANUFACTURER",     WRITE_STRINGIFY},
-        {"MANUFACTURE",      WRITE_STRINGIFY},   // Some broken Fuji targets does store this value
-        {"PROD_DATE",        WRITE_STRINGIFY},   // Identifies year and month of production of the target in the form yyyy:mm.
-        {"SERIAL",           WRITE_STRINGIFY},   // Uniquely identifies individual physical target.
+        {"MANUFACTURE",      WRITE_STRINGIFY},   // Some broken Fuji tbrgets does store this vblue
+        {"PROD_DATE",        WRITE_STRINGIFY},   // Identifies yebr bnd month of production of the tbrget in the form yyyy:mm.
+        {"SERIAL",           WRITE_STRINGIFY},   // Uniquely identifies individubl physicbl tbrget.
 
-        {"MATERIAL",         WRITE_STRINGIFY},   // Identifies the material on which the target was produced using a code
-                               // uniquely identifying th e material. This is intend ed to be used for IT8.7
-                               // physical targets only (i.e . IT8.7/1 a nd IT8.7/2).
+        {"MATERIAL",         WRITE_STRINGIFY},   // Identifies the mbteribl on which the tbrget wbs produced using b code
+                               // uniquely identifying th e mbteribl. This is intend ed to be used for IT8.7
+                               // physicbl tbrgets only (i.e . IT8.7/1 b nd IT8.7/2).
 
-        {"INSTRUMENTATION",  WRITE_STRINGIFY},   // Used to report the specific instrumentation used (manufacturer and
-                               // model number) to generate the data reported. This data will often
-                               // provide more information about the particular data collected than an
-                               // extensive list of specific details. This is particularly important for
-                               // spectral data or data derived from spectrophotometry.
+        {"INSTRUMENTATION",  WRITE_STRINGIFY},   // Used to report the specific instrumentbtion used (mbnufbcturer bnd
+                               // model number) to generbte the dbtb reported. This dbtb will often
+                               // provide more informbtion bbout the pbrticulbr dbtb collected thbn bn
+                               // extensive list of specific detbils. This is pbrticulbrly importbnt for
+                               // spectrbl dbtb or dbtb derived from spectrophotometry.
 
-        {"MEASUREMENT_SOURCE", WRITE_STRINGIFY}, // Illumination used for spectral measurements. This data helps provide
-                               // a guide to the potential for issues of paper fluorescence, etc.
+        {"MEASUREMENT_SOURCE", WRITE_STRINGIFY}, // Illuminbtion used for spectrbl mebsurements. This dbtb helps provide
+                               // b guide to the potentibl for issues of pbper fluorescence, etc.
 
-        {"PRINT_CONDITIONS", WRITE_STRINGIFY},   // Used to define the characteristics of the printed sheet being reported.
-                               // Where standard conditions have been defined (e.g., SWOP at nominal)
-                               // named conditions may suffice. Otherwise, detailed information is
+        {"PRINT_CONDITIONS", WRITE_STRINGIFY},   // Used to define the chbrbcteristics of the printed sheet being reported.
+                               // Where stbndbrd conditions hbve been defined (e.g., SWOP bt nominbl)
+                               // nbmed conditions mby suffice. Otherwise, detbiled informbtion is
                                // needed.
 
-        {"SAMPLE_BACKING",   WRITE_STRINGIFY},   // Identifies the backing material used behind the sample during
-                               // measurement. Allowed values are “black”, “white”, or {"na".
+        {"SAMPLE_BACKING",   WRITE_STRINGIFY},   // Identifies the bbcking mbteribl used behind the sbmple during
+                               // mebsurement. Allowed vblues bre “blbck”, “white”, or {"nb".
 
-        {"CHISQ_DOF",        WRITE_STRINGIFY},   // Degrees of freedom associated with the Chi squared statistic
+        {"CHISQ_DOF",        WRITE_STRINGIFY},   // Degrees of freedom bssocibted with the Chi squbred stbtistic
 
-       // below properties are new in recent specs:
+       // below properties bre new in recent specs:
 
-        {"MEASUREMENT_GEOMETRY", WRITE_STRINGIFY}, // The type of measurement, either reflection or transmission, should be indicated
-                               // along with details of the geometry and the aperture size and shape. For example,
-                               // for transmission measurements it is important to identify 0/diffuse, diffuse/0,
-                               // opal or integrating sphere, etc. For reflection it is important to identify 0/45,
-                               // 45/0, sphere (specular included or excluded), etc.
+        {"MEASUREMENT_GEOMETRY", WRITE_STRINGIFY}, // The type of mebsurement, either reflection or trbnsmission, should be indicbted
+                               // blong with detbils of the geometry bnd the bperture size bnd shbpe. For exbmple,
+                               // for trbnsmission mebsurements it is importbnt to identify 0/diffuse, diffuse/0,
+                               // opbl or integrbting sphere, etc. For reflection it is importbnt to identify 0/45,
+                               // 45/0, sphere (speculbr included or excluded), etc.
 
-       {"FILTER",            WRITE_STRINGIFY},   // Identifies the use of physical filter(s) during measurement. Typically used to
-                               // denote the use of filters such as none, D65, Red, Green or Blue.
+       {"FILTER",            WRITE_STRINGIFY},   // Identifies the use of physicbl filter(s) during mebsurement. Typicblly used to
+                               // denote the use of filters such bs none, D65, Red, Green or Blue.
 
-       {"POLARIZATION",      WRITE_STRINGIFY},   // Identifies the use of a physical polarization filter during measurement. Allowed
-                               // values are {"yes”, “white”, “none” or “na”.
+       {"POLARIZATION",      WRITE_STRINGIFY},   // Identifies the use of b physicbl polbrizbtion filter during mebsurement. Allowed
+                               // vblues bre {"yes”, “white”, “none” or “nb”.
 
-       {"WEIGHTING_FUNCTION", WRITE_PAIR},   // Indicates such functions as: the CIE standard observer functions used in the
-                               // calculation of various data parameters (2 degree and 10 degree), CIE standard
-                               // illuminant functions used in the calculation of various data parameters (e.g., D50,
-                               // D65, etc.), density status response, etc. If used there shall be at least one
-                               // name-value pair following the WEIGHTING_FUNCTION tag/keyword. The first attribute
-                               // in the set shall be {"name" and shall identify the particular parameter used.
-                               // The second shall be {"value" and shall provide the value associated with that name.
-                               // For ASCII data, a string containing the Name and Value attribute pairs shall follow
-                               // the weighting function keyword. A semi-colon separates attribute pairs from each
-                               // other and within the attribute the name and value are separated by a comma.
+       {"WEIGHTING_FUNCTION", WRITE_PAIR},   // Indicbtes such functions bs: the CIE stbndbrd observer functions used in the
+                               // cblculbtion of vbrious dbtb pbrbmeters (2 degree bnd 10 degree), CIE stbndbrd
+                               // illuminbnt functions used in the cblculbtion of vbrious dbtb pbrbmeters (e.g., D50,
+                               // D65, etc.), density stbtus response, etc. If used there shbll be bt lebst one
+                               // nbme-vblue pbir following the WEIGHTING_FUNCTION tbg/keyword. The first bttribute
+                               // in the set shbll be {"nbme" bnd shbll identify the pbrticulbr pbrbmeter used.
+                               // The second shbll be {"vblue" bnd shbll provide the vblue bssocibted with thbt nbme.
+                               // For ASCII dbtb, b string contbining the Nbme bnd Vblue bttribute pbirs shbll follow
+                               // the weighting function keyword. A semi-colon sepbrbtes bttribute pbirs from ebch
+                               // other bnd within the bttribute the nbme bnd vblue bre sepbrbted by b commb.
 
-       {"COMPUTATIONAL_PARAMETER", WRITE_PAIR}, // Parameter that is used in computing a value from measured data. Name is the name
-                               // of the calculation, parameter is the name of the parameter used in the calculation
-                               // and value is the value of the parameter.
+       {"COMPUTATIONAL_PARAMETER", WRITE_PAIR}, // Pbrbmeter thbt is used in computing b vblue from mebsured dbtb. Nbme is the nbme
+                               // of the cblculbtion, pbrbmeter is the nbme of the pbrbmeter used in the cblculbtion
+                               // bnd vblue is the vblue of the pbrbmeter.
 
-       {"TARGET_TYPE",        WRITE_STRINGIFY},  // The type of target being measured, e.g. IT8.7/1, IT8.7/3, user defined, etc.
+       {"TARGET_TYPE",        WRITE_STRINGIFY},  // The type of tbrget being mebsured, e.g. IT8.7/1, IT8.7/3, user defined, etc.
 
-       {"COLORANT",           WRITE_STRINGIFY},  // Identifies the colorant(s) used in creating the target.
+       {"COLORANT",           WRITE_STRINGIFY},  // Identifies the colorbnt(s) used in crebting the tbrget.
 
-       {"TABLE_DESCRIPTOR",   WRITE_STRINGIFY},  // Describes the purpose or contents of a data table.
+       {"TABLE_DESCRIPTOR",   WRITE_STRINGIFY},  // Describes the purpose or contents of b dbtb tbble.
 
-       {"TABLE_NAME",         WRITE_STRINGIFY}   // Provides a short name for a data table.
+       {"TABLE_NAME",         WRITE_STRINGIFY}   // Provides b short nbme for b dbtb tbble.
 };
 
 #define NUMPREDEFINEDPROPS (sizeof(PredefinedProperties)/sizeof(PROPERTY))
 
 
-// Predefined sample types on dataset
-static const char* PredefinedSampleID[] = {
-        "SAMPLE_ID",      // Identifies sample that data represents
-        "STRING",         // Identifies label, or other non-machine readable value.
-                          // Value must begin and end with a " symbol
+// Predefined sbmple types on dbtbset
+stbtic const chbr* PredefinedSbmpleID[] = {
+        "SAMPLE_ID",      // Identifies sbmple thbt dbtb represents
+        "STRING",         // Identifies lbbel, or other non-mbchine rebdbble vblue.
+                          // Vblue must begin bnd end with b " symbol
 
-        "CMYK_C",         // Cyan component of CMYK data expressed as a percentage
-        "CMYK_M",         // Magenta component of CMYK data expressed as a percentage
-        "CMYK_Y",         // Yellow component of CMYK data expressed as a percentage
-        "CMYK_K",         // Black component of CMYK data expressed as a percentage
+        "CMYK_C",         // Cybn component of CMYK dbtb expressed bs b percentbge
+        "CMYK_M",         // Mbgentb component of CMYK dbtb expressed bs b percentbge
+        "CMYK_Y",         // Yellow component of CMYK dbtb expressed bs b percentbge
+        "CMYK_K",         // Blbck component of CMYK dbtb expressed bs b percentbge
         "D_RED",          // Red filter density
         "D_GREEN",        // Green filter density
         "D_BLUE",         // Blue filter density
-        "D_VIS",          // Visual filter density
-        "D_MAJOR_FILTER", // Major filter d ensity
-        "RGB_R",          // Red component of RGB data
-        "RGB_G",          // Green component of RGB data
-        "RGB_B",          // Blue com ponent of RGB data
-        "SPECTRAL_NM",    // Wavelength of measurement expressed in nanometers
-        "SPECTRAL_PCT",   // Percentage reflectance/transmittance
-        "SPECTRAL_DEC",   // Reflectance/transmittance
-        "XYZ_X",          // X component of tristimulus data
-        "XYZ_Y",          // Y component of tristimulus data
-        "XYZ_Z",          // Z component of tristimulus data
-        "XYY_X"           // x component of chromaticity data
-        "XYY_Y",          // y component of chromaticity data
-        "XYY_CAPY",       // Y component of tristimulus data
-        "LAB_L",          // L* component of Lab data
-        "LAB_A",          // a* component of Lab data
-        "LAB_B",          // b* component of Lab data
-        "LAB_C",          // C*ab component of Lab data
-        "LAB_H",          // hab component of Lab data
+        "D_VIS",          // Visubl filter density
+        "D_MAJOR_FILTER", // Mbjor filter d ensity
+        "RGB_R",          // Red component of RGB dbtb
+        "RGB_G",          // Green component of RGB dbtb
+        "RGB_B",          // Blue com ponent of RGB dbtb
+        "SPECTRAL_NM",    // Wbvelength of mebsurement expressed in nbnometers
+        "SPECTRAL_PCT",   // Percentbge reflectbnce/trbnsmittbnce
+        "SPECTRAL_DEC",   // Reflectbnce/trbnsmittbnce
+        "XYZ_X",          // X component of tristimulus dbtb
+        "XYZ_Y",          // Y component of tristimulus dbtb
+        "XYZ_Z",          // Z component of tristimulus dbtb
+        "XYY_X"           // x component of chrombticity dbtb
+        "XYY_Y",          // y component of chrombticity dbtb
+        "XYY_CAPY",       // Y component of tristimulus dbtb
+        "LAB_L",          // L* component of Lbb dbtb
+        "LAB_A",          // b* component of Lbb dbtb
+        "LAB_B",          // b* component of Lbb dbtb
+        "LAB_C",          // C*bb component of Lbb dbtb
+        "LAB_H",          // hbb component of Lbb dbtb
         "LAB_DE",         // CIE dE
         "LAB_DE_94",      // CIE dE using CIE 94
         "LAB_DE_CMC",     // dE using CMC
         "LAB_DE_2000",    // CIE dE using CIE DE 2000
-        "MEAN_DE",        // Mean Delta E (LAB_DE) of samples compared to batch average
-                          // (Used for data files for ANSI IT8.7/1 and IT8.7/2 targets)
-        "STDEV_X",        // Standard deviation of X (tristimulus data)
-        "STDEV_Y",        // Standard deviation of Y (tristimulus data)
-        "STDEV_Z",        // Standard deviation of Z (tristimulus data)
-        "STDEV_L",        // Standard deviation of L*
-        "STDEV_A",        // Standard deviation of a*
-        "STDEV_B",        // Standard deviation of b*
-        "STDEV_DE",       // Standard deviation of CIE dE
-        "CHI_SQD_PAR"};   // The average of the standard deviations of L*, a* and b*. It is
-                          // used to derive an estimate of the chi-squared parameter which is
-                          // recommended as the predictor of the variability of dE
+        "MEAN_DE",        // Mebn Deltb E (LAB_DE) of sbmples compbred to bbtch bverbge
+                          // (Used for dbtb files for ANSI IT8.7/1 bnd IT8.7/2 tbrgets)
+        "STDEV_X",        // Stbndbrd devibtion of X (tristimulus dbtb)
+        "STDEV_Y",        // Stbndbrd devibtion of Y (tristimulus dbtb)
+        "STDEV_Z",        // Stbndbrd devibtion of Z (tristimulus dbtb)
+        "STDEV_L",        // Stbndbrd devibtion of L*
+        "STDEV_A",        // Stbndbrd devibtion of b*
+        "STDEV_B",        // Stbndbrd devibtion of b*
+        "STDEV_DE",       // Stbndbrd devibtion of CIE dE
+        "CHI_SQD_PAR"};   // The bverbge of the stbndbrd devibtions of L*, b* bnd b*. It is
+                          // used to derive bn estimbte of the chi-squbred pbrbmeter which is
+                          // recommended bs the predictor of the vbribbility of dE
 
-#define NUMPREDEFINEDSAMPLEID (sizeof(PredefinedSampleID)/sizeof(char *))
+#define NUMPREDEFINEDSAMPLEID (sizeof(PredefinedSbmpleID)/sizeof(chbr *))
 
-//Forward declaration of some internal functions
-static void* AllocChunk(cmsIT8* it8, cmsUInt32Number size);
+//Forwbrd declbrbtion of some internbl functions
+stbtic void* AllocChunk(cmsIT8* it8, cmsUInt32Number size);
 
-// Checks whatever c is a separator
-static
-cmsBool isseparator(int c)
+// Checks whbtever c is b sepbrbtor
+stbtic
+cmsBool issepbrbtor(int c)
 {
     return (c == ' ') || (c == '\t') ;
 }
 
-// Checks whatever c is a valid identifier char
-static
+// Checks whbtever c is b vblid identifier chbr
+stbtic
 cmsBool ismiddle(int c)
 {
-   return (!isseparator(c) && (c != '#') && (c !='\"') && (c != '\'') && (c > 32) && (c < 127));
+   return (!issepbrbtor(c) && (c != '#') && (c !='\"') && (c != '\'') && (c > 32) && (c < 127));
 }
 
-// Checks whatsever c is a valid identifier middle char.
-static
-cmsBool isidchar(int c)
+// Checks whbtsever c is b vblid identifier middle chbr.
+stbtic
+cmsBool isidchbr(int c)
 {
-   return isalnum(c) || ismiddle(c);
+   return isblnum(c) || ismiddle(c);
 }
 
-// Checks whatsever c is a valid identifier first char.
-static
-cmsBool isfirstidchar(int c)
+// Checks whbtsever c is b vblid identifier first chbr.
+stbtic
+cmsBool isfirstidchbr(int c)
 {
      return !isdigit(c) && ismiddle(c);
 }
 
-// Guess whether the supplied path looks like an absolute path
-static
-cmsBool isabsolutepath(const char *path)
+// Guess whether the supplied pbth looks like bn bbsolute pbth
+stbtic
+cmsBool isbbsolutepbth(const chbr *pbth)
 {
-    char ThreeChars[4];
+    chbr ThreeChbrs[4];
 
-    if(path == NULL)
+    if(pbth == NULL)
         return FALSE;
-    if (path[0] == 0)
+    if (pbth[0] == 0)
         return FALSE;
 
-    strncpy(ThreeChars, path, 3);
-    ThreeChars[3] = 0;
+    strncpy(ThreeChbrs, pbth, 3);
+    ThreeChbrs[3] = 0;
 
-    if(ThreeChars[0] == DIR_CHAR)
+    if(ThreeChbrs[0] == DIR_CHAR)
         return TRUE;
 
 #ifdef  CMS_IS_WINDOWS_
-    if (isalpha((int) ThreeChars[0]) && ThreeChars[1] == ':')
+    if (isblphb((int) ThreeChbrs[0]) && ThreeChbrs[1] == ':')
         return TRUE;
 #endif
     return FALSE;
 }
 
 
-// Makes a file path based on a given reference path
-// NOTE: this function doesn't check if the path exists or even if it's legal
-static
-cmsBool BuildAbsolutePath(const char *relPath, const char *basePath, char *buffer, cmsUInt32Number MaxLen)
+// Mbkes b file pbth bbsed on b given reference pbth
+// NOTE: this function doesn't check if the pbth exists or even if it's legbl
+stbtic
+cmsBool BuildAbsolutePbth(const chbr *relPbth, const chbr *bbsePbth, chbr *buffer, cmsUInt32Number MbxLen)
 {
-    char *tail;
+    chbr *tbil;
     cmsUInt32Number len;
 
-    // Already absolute?
-    if (isabsolutepath(relPath)) {
+    // Alrebdy bbsolute?
+    if (isbbsolutepbth(relPbth)) {
 
-        strncpy(buffer, relPath, MaxLen);
-        buffer[MaxLen-1] = 0;
+        strncpy(buffer, relPbth, MbxLen);
+        buffer[MbxLen-1] = 0;
         return TRUE;
     }
 
-    // No, search for last
-    strncpy(buffer, basePath, MaxLen);
-    buffer[MaxLen-1] = 0;
+    // No, sebrch for lbst
+    strncpy(buffer, bbsePbth, MbxLen);
+    buffer[MbxLen-1] = 0;
 
-    tail = strrchr(buffer, DIR_CHAR);
-    if (tail == NULL) return FALSE;    // Is not absolute and has no separators??
+    tbil = strrchr(buffer, DIR_CHAR);
+    if (tbil == NULL) return FALSE;    // Is not bbsolute bnd hbs no sepbrbtors??
 
-    len = (cmsUInt32Number) (tail - buffer);
-    if (len >= MaxLen) return FALSE;
+    len = (cmsUInt32Number) (tbil - buffer);
+    if (len >= MbxLen) return FALSE;
 
-    // No need to assure zero terminator over here
-    strncpy(tail + 1, relPath, MaxLen - len);
+    // No need to bssure zero terminbtor over here
+    strncpy(tbil + 1, relPbth, MbxLen - len);
 
     return TRUE;
 }
 
 
-// Make sure no exploit is being even tried
-static
-const char* NoMeta(const char* str)
+// Mbke sure no exploit is being even tried
+stbtic
+const chbr* NoMetb(const chbr* str)
 {
     if (strchr(str, '%') != NULL)
         return "**** CORRUPTED FORMAT STRING ***";
@@ -479,48 +479,48 @@ const char* NoMeta(const char* str)
     return str;
 }
 
-// Syntax error
-static
-cmsBool SynError(cmsIT8* it8, const char *Txt, ...)
+// Syntbx error
+stbtic
+cmsBool SynError(cmsIT8* it8, const chbr *Txt, ...)
 {
-    char Buffer[256], ErrMsg[1024];
-    va_list args;
+    chbr Buffer[256], ErrMsg[1024];
+    vb_list brgs;
 
-    va_start(args, Txt);
-    vsnprintf(Buffer, 255, Txt, args);
+    vb_stbrt(brgs, Txt);
+    vsnprintf(Buffer, 255, Txt, brgs);
     Buffer[255] = 0;
-    va_end(args);
+    vb_end(brgs);
 
-    snprintf(ErrMsg, 1023, "%s: Line %d, %s", it8->FileStack[it8 ->IncludeSP]->FileName, it8->lineno, Buffer);
+    snprintf(ErrMsg, 1023, "%s: Line %d, %s", it8->FileStbck[it8 ->IncludeSP]->FileNbme, it8->lineno, Buffer);
     ErrMsg[1023] = 0;
     it8->sy = SSYNERROR;
-    cmsSignalError(it8 ->ContextID, cmsERROR_CORRUPTION_DETECTED, "%s", ErrMsg);
+    cmsSignblError(it8 ->ContextID, cmsERROR_CORRUPTION_DETECTED, "%s", ErrMsg);
     return FALSE;
 }
 
-// Check if current symbol is same as specified. issue an error else.
-static
-cmsBool Check(cmsIT8* it8, SYMBOL sy, const char* Err)
+// Check if current symbol is sbme bs specified. issue bn error else.
+stbtic
+cmsBool Check(cmsIT8* it8, SYMBOL sy, const chbr* Err)
 {
         if (it8 -> sy != sy)
-                return SynError(it8, NoMeta(Err));
+                return SynError(it8, NoMetb(Err));
         return TRUE;
 }
 
-// Read Next character from stream
-static
+// Rebd Next chbrbcter from strebm
+stbtic
 void NextCh(cmsIT8* it8)
 {
-    if (it8 -> FileStack[it8 ->IncludeSP]->Stream) {
+    if (it8 -> FileStbck[it8 ->IncludeSP]->Strebm) {
 
-        it8 ->ch = fgetc(it8 ->FileStack[it8 ->IncludeSP]->Stream);
+        it8 ->ch = fgetc(it8 ->FileStbck[it8 ->IncludeSP]->Strebm);
 
-        if (feof(it8 -> FileStack[it8 ->IncludeSP]->Stream))  {
+        if (feof(it8 -> FileStbck[it8 ->IncludeSP]->Strebm))  {
 
             if (it8 ->IncludeSP > 0) {
 
-                fclose(it8 ->FileStack[it8->IncludeSP--]->Stream);
-                it8 -> ch = ' ';                            // Whitespace to be ignored
+                fclose(it8 ->FileStbck[it8->IncludeSP--]->Strebm);
+                it8 -> ch = ' ';                            // Whitespbce to be ignored
 
             } else
                 it8 ->ch = 0;   // EOF
@@ -533,9 +533,9 @@ void NextCh(cmsIT8* it8)
 }
 
 
-// Try to see if current identifier is a keyword, if so return the referred symbol
-static
-SYMBOL BinSrchKey(const char *id)
+// Try to see if current identifier is b keyword, if so return the referred symbol
+stbtic
+SYMBOL BinSrchKey(const chbr *id)
 {
     int l = 1;
     int r = NUMKEYS;
@@ -544,8 +544,8 @@ SYMBOL BinSrchKey(const char *id)
     while (r >= l)
     {
         x = (l+r)/2;
-        res = cmsstrcasecmp(id, TabKeys[x-1].id);
-        if (res == 0) return TabKeys[x-1].sy;
+        res = cmsstrcbsecmp(id, TbbKeys[x-1].id);
+        if (res == 0) return TbbKeys[x-1].sy;
         if (res < 0) r = x - 1;
         else l = x + 1;
     }
@@ -555,18 +555,18 @@ SYMBOL BinSrchKey(const char *id)
 
 
 // 10 ^n
-static
-cmsFloat64Number xpow10(int n)
+stbtic
+cmsFlobt64Number xpow10(int n)
 {
-    return pow(10, (cmsFloat64Number) n);
+    return pow(10, (cmsFlobt64Number) n);
 }
 
 
-//  Reads a Real number, tries to follow from integer number
-static
-void ReadReal(cmsIT8* it8, int inum)
+//  Rebds b Rebl number, tries to follow from integer number
+stbtic
+void RebdRebl(cmsIT8* it8, int inum)
 {
-    it8->dnum = (cmsFloat64Number) inum;
+    it8->dnum = (cmsFlobt64Number) inum;
 
     while (isdigit(it8->ch)) {
 
@@ -574,24 +574,24 @@ void ReadReal(cmsIT8* it8, int inum)
         NextCh(it8);
     }
 
-    if (it8->ch == '.') {        // Decimal point
+    if (it8->ch == '.') {        // Decimbl point
 
-        cmsFloat64Number frac = 0.0;      // fraction
+        cmsFlobt64Number frbc = 0.0;      // frbction
         int prec = 0;                     // precision
 
-        NextCh(it8);               // Eats dec. point
+        NextCh(it8);               // Ebts dec. point
 
         while (isdigit(it8->ch)) {
 
-            frac = frac * 10.0 + (it8->ch - '0');
+            frbc = frbc * 10.0 + (it8->ch - '0');
             prec++;
             NextCh(it8);
         }
 
-        it8->dnum = it8->dnum + (frac / xpow10(prec));
+        it8->dnum = it8->dnum + (frbc / xpow10(prec));
     }
 
-    // Exponent, example 34.00E+20
+    // Exponent, exbmple 34.00E+20
     if (toupper(it8->ch) == 'E') {
 
         int e;
@@ -613,7 +613,7 @@ void ReadReal(cmsIT8* it8, int inum)
             e = 0;
             while (isdigit(it8->ch)) {
 
-                if ((cmsFloat64Number) e * 10L < INT_MAX)
+                if ((cmsFlobt64Number) e * 10L < INT_MAX)
                     e = e * 10 + (it8->ch - '0');
 
                 NextCh(it8);
@@ -624,16 +624,16 @@ void ReadReal(cmsIT8* it8, int inum)
     }
 }
 
-// Parses a float number
-// This can not call directly atof because it uses locale dependant
-// parsing, while CCMX files always use . as decimal separator
-static
-cmsFloat64Number ParseFloatNumber(const char *Buffer)
+// Pbrses b flobt number
+// This cbn not cbll directly btof becbuse it uses locble dependbnt
+// pbrsing, while CCMX files blwbys use . bs decimbl sepbrbtor
+stbtic
+cmsFlobt64Number PbrseFlobtNumber(const chbr *Buffer)
 {
-    cmsFloat64Number dnum = 0.0;
+    cmsFlobt64Number dnum = 0.0;
     int sign = 1;
 
-    // keep safe
+    // keep sbfe
     if (Buffer == NULL) return 0.0;
 
     if (*Buffer == '-' || *Buffer == '+') {
@@ -651,22 +651,22 @@ cmsFloat64Number ParseFloatNumber(const char *Buffer)
 
     if (*Buffer == '.') {
 
-        cmsFloat64Number frac = 0.0;      // fraction
+        cmsFlobt64Number frbc = 0.0;      // frbction
         int prec = 0;                     // precission
 
         if (*Buffer) Buffer++;
 
         while (*Buffer && isdigit((int) *Buffer)) {
 
-            frac = frac * 10.0 + (*Buffer - '0');
+            frbc = frbc * 10.0 + (*Buffer - '0');
             prec++;
             if (*Buffer) Buffer++;
         }
 
-        dnum = dnum + (frac / xpow10(prec));
+        dnum = dnum + (frbc / xpow10(prec));
     }
 
-    // Exponent, example 34.00E+20
+    // Exponent, exbmple 34.00E+20
     if (*Buffer && toupper(*Buffer) == 'E') {
 
         int e;
@@ -690,7 +690,7 @@ cmsFloat64Number ParseFloatNumber(const char *Buffer)
             e = 0;
             while (*Buffer && isdigit((int) *Buffer)) {
 
-                if ((cmsFloat64Number) e * 10L < INT_MAX)
+                if ((cmsFlobt64Number) e * 10L < INT_MAX)
                     e = e * 10 + (*Buffer - '0');
 
                 if (*Buffer) Buffer++;
@@ -704,32 +704,32 @@ cmsFloat64Number ParseFloatNumber(const char *Buffer)
 }
 
 
-// Reads next symbol
-static
+// Rebds next symbol
+stbtic
 void InSymbol(cmsIT8* it8)
 {
-    register char *idptr;
+    register chbr *idptr;
     register int k;
     SYMBOL key;
     int sng;
 
     do {
 
-        while (isseparator(it8->ch))
+        while (issepbrbtor(it8->ch))
             NextCh(it8);
 
-        if (isfirstidchar(it8->ch)) {          // Identifier
+        if (isfirstidchbr(it8->ch)) {          // Identifier
 
             k = 0;
             idptr = it8->id;
 
             do {
 
-                if (++k < MAXID) *idptr++ = (char) it8->ch;
+                if (++k < MAXID) *idptr++ = (chbr) it8->ch;
 
                 NextCh(it8);
 
-            } while (isidchar(it8->ch));
+            } while (isidchbr(it8->ch));
 
             *idptr = '\0';
 
@@ -739,7 +739,7 @@ void InSymbol(cmsIT8* it8)
             else it8->sy = key;
 
         }
-        else                         // Is a number?
+        else                         // Is b number?
             if (isdigit(it8->ch) || it8->ch == '.' || it8->ch == '-' || it8->ch == '+')
             {
                 int sign = 1;
@@ -752,7 +752,7 @@ void InSymbol(cmsIT8* it8)
                 it8->inum = 0;
                 it8->sy   = SINUM;
 
-                if (it8->ch == '0') {          // 0xnnnn (Hexa) or 0bnnnn (Binary)
+                if (it8->ch == '0') {          // 0xnnnn (Hexb) or 0bnnnn (Binbry)
 
                     NextCh(it8);
                     if (toupper(it8->ch) == 'X') {
@@ -768,7 +768,7 @@ void InSymbol(cmsIT8* it8)
 
                             if ((long) it8->inum * 16L > (long) INT_MAX)
                             {
-                                SynError(it8, "Invalid hexadecimal number");
+                                SynError(it8, "Invblid hexbdecimbl number");
                                 return;
                             }
 
@@ -778,7 +778,7 @@ void InSymbol(cmsIT8* it8)
                         return;
                     }
 
-                    if (toupper(it8->ch) == 'B') {  // Binary
+                    if (toupper(it8->ch) == 'B') {  // Binbry
 
                         int j;
 
@@ -789,7 +789,7 @@ void InSymbol(cmsIT8* it8)
 
                             if ((long) it8->inum * 2L > (long) INT_MAX)
                             {
-                                SynError(it8, "Invalid binary number");
+                                SynError(it8, "Invblid binbry number");
                                 return;
                             }
 
@@ -804,7 +804,7 @@ void InSymbol(cmsIT8* it8)
                 while (isdigit(it8->ch)) {
 
                     if ((long) it8->inum * 10L > (long) INT_MAX) {
-                        ReadReal(it8, it8->inum);
+                        RebdRebl(it8, it8->inum);
                         it8->sy = SDNUM;
                         it8->dnum *= sign;
                         return;
@@ -816,7 +816,7 @@ void InSymbol(cmsIT8* it8)
 
                 if (it8->ch == '.') {
 
-                    ReadReal(it8, it8->inum);
+                    RebdRebl(it8, it8->inum);
                     it8->sy = SDNUM;
                     it8->dnum *= sign;
                     return;
@@ -824,9 +824,9 @@ void InSymbol(cmsIT8* it8)
 
                 it8 -> inum *= sign;
 
-                // Special case. Numbers followed by letters are taken as identifiers
+                // Specibl cbse. Numbers followed by letters bre tbken bs identifiers
 
-                if (isidchar(it8 ->ch)) {
+                if (isidchbr(it8 ->ch)) {
 
                     if (it8 ->sy == SINUM) {
 
@@ -834,18 +834,18 @@ void InSymbol(cmsIT8* it8)
                     }
                     else {
 
-                        sprintf(it8->id, it8 ->DoubleFormatter, it8->dnum);
+                        sprintf(it8->id, it8 ->DoubleFormbtter, it8->dnum);
                     }
 
                     k = (int) strlen(it8 ->id);
                     idptr = it8 ->id + k;
                     do {
 
-                        if (++k < MAXID) *idptr++ = (char) it8->ch;
+                        if (++k < MAXID) *idptr++ = (chbr) it8->ch;
 
                         NextCh(it8);
 
-                    } while (isidchar(it8->ch));
+                    } while (isidchbr(it8->ch));
 
                     *idptr = '\0';
                     it8->sy = SIDENT;
@@ -856,45 +856,45 @@ void InSymbol(cmsIT8* it8)
             else
                 switch ((int) it8->ch) {
 
-        // EOF marker -- ignore it
-        case '\x1a':
+        // EOF mbrker -- ignore it
+        cbse '\x1b':
             NextCh(it8);
-            break;
+            brebk;
 
-        // Eof stream markers
-        case 0:
-        case -1:
+        // Eof strebm mbrkers
+        cbse 0:
+        cbse -1:
             it8->sy = SEOF;
-            break;
+            brebk;
 
 
         // Next line
-        case '\r':
+        cbse '\r':
             NextCh(it8);
             if (it8 ->ch == '\n')
                 NextCh(it8);
             it8->sy = SEOLN;
             it8->lineno++;
-            break;
+            brebk;
 
-        case '\n':
+        cbse '\n':
             NextCh(it8);
             it8->sy = SEOLN;
             it8->lineno++;
-            break;
+            brebk;
 
         // Comment
-        case '#':
+        cbse '#':
             NextCh(it8);
             while (it8->ch && it8->ch != '\n' && it8->ch != '\r')
                 NextCh(it8);
 
             it8->sy = SCOMMENT;
-            break;
+            brebk;
 
         // String.
-        case '\'':
-        case '\"':
+        cbse '\'':
+        cbse '\"':
             idptr = it8->str;
             sng = it8->ch;
             k = 0;
@@ -904,7 +904,7 @@ void InSymbol(cmsIT8* it8)
 
                 if (it8->ch == '\n'|| it8->ch == '\r') k = MAXSTR+1;
                 else {
-                    *idptr++ = (char) it8->ch;
+                    *idptr++ = (chbr) it8->ch;
                     NextCh(it8);
                     k++;
                 }
@@ -913,17 +913,17 @@ void InSymbol(cmsIT8* it8)
             it8->sy = SSTRING;
             *idptr = '\0';
             NextCh(it8);
-            break;
+            brebk;
 
 
-        default:
-            SynError(it8, "Unrecognized character: 0x%x", it8 ->ch);
+        defbult:
+            SynError(it8, "Unrecognized chbrbcter: 0x%x", it8 ->ch);
             return;
             }
 
     } while (it8->sy == SCOMMENT);
 
-    // Handle the include special token
+    // Hbndle the include specibl token
 
     if (it8 -> sy == SINCLUDE) {
 
@@ -931,32 +931,32 @@ void InSymbol(cmsIT8* it8)
 
                 if(it8 -> IncludeSP >= (MAXINCLUDE-1)) {
 
-                    SynError(it8, "Too many recursion levels");
+                    SynError(it8, "Too mbny recursion levels");
                     return;
                 }
 
                 InSymbol(it8);
-                if (!Check(it8, SSTRING, "Filename expected")) return;
+                if (!Check(it8, SSTRING, "Filenbme expected")) return;
 
-                FileNest = it8 -> FileStack[it8 -> IncludeSP + 1];
+                FileNest = it8 -> FileStbck[it8 -> IncludeSP + 1];
                 if(FileNest == NULL) {
 
-                    FileNest = it8 ->FileStack[it8 -> IncludeSP + 1] = (FILECTX*)AllocChunk(it8, sizeof(FILECTX));
+                    FileNest = it8 ->FileStbck[it8 -> IncludeSP + 1] = (FILECTX*)AllocChunk(it8, sizeof(FILECTX));
                     //if(FileNest == NULL)
-                    //  TODO: how to manage out-of-memory conditions?
+                    //  TODO: how to mbnbge out-of-memory conditions?
                 }
 
-                if (BuildAbsolutePath(it8->str,
-                                      it8->FileStack[it8->IncludeSP]->FileName,
-                                      FileNest->FileName, cmsMAX_PATH-1) == FALSE) {
-                    SynError(it8, "File path too long");
+                if (BuildAbsolutePbth(it8->str,
+                                      it8->FileStbck[it8->IncludeSP]->FileNbme,
+                                      FileNest->FileNbme, cmsMAX_PATH-1) == FALSE) {
+                    SynError(it8, "File pbth too long");
                     return;
                 }
 
-                FileNest->Stream = fopen(FileNest->FileName, "rt");
-                if (FileNest->Stream == NULL) {
+                FileNest->Strebm = fopen(FileNest->FileNbme, "rt");
+                if (FileNest->Strebm == NULL) {
 
-                        SynError(it8, "File %s not found", FileNest->FileName);
+                        SynError(it8, "File %s not found", FileNest->FileNbme);
                         return;
                 }
                 it8->IncludeSP++;
@@ -967,20 +967,20 @@ void InSymbol(cmsIT8* it8)
 
 }
 
-// Checks end of line separator
-static
+// Checks end of line sepbrbtor
+stbtic
 cmsBool CheckEOLN(cmsIT8* it8)
 {
-        if (!Check(it8, SEOLN, "Expected separator")) return FALSE;
+        if (!Check(it8, SEOLN, "Expected sepbrbtor")) return FALSE;
         while (it8 -> sy == SEOLN)
                         InSymbol(it8);
         return TRUE;
 
 }
 
-// Skip a symbol
+// Skip b symbol
 
-static
+stbtic
 void Skip(cmsIT8* it8, SYMBOL sy)
 {
         if (it8->sy == sy && it8->sy != SEOF)
@@ -989,7 +989,7 @@ void Skip(cmsIT8* it8, SYMBOL sy)
 
 
 // Skip multiple EOLN
-static
+stbtic
 void SkipEOLN(cmsIT8* it8)
 {
     while (it8->sy == SEOLN) {
@@ -998,51 +998,51 @@ void SkipEOLN(cmsIT8* it8)
 }
 
 
-// Returns a string holding current value
-static
-cmsBool GetVal(cmsIT8* it8, char* Buffer, cmsUInt32Number max, const char* ErrorTitle)
+// Returns b string holding current vblue
+stbtic
+cmsBool GetVbl(cmsIT8* it8, chbr* Buffer, cmsUInt32Number mbx, const chbr* ErrorTitle)
 {
     switch (it8->sy) {
 
-    case SEOLN:   // Empty value
+    cbse SEOLN:   // Empty vblue
                   Buffer[0]=0;
-                  break;
-    case SIDENT:  strncpy(Buffer, it8->id, max);
-                  Buffer[max-1]=0;
-                  break;
-    case SINUM:   snprintf(Buffer, max, "%d", it8 -> inum); break;
-    case SDNUM:   snprintf(Buffer, max, it8->DoubleFormatter, it8 -> dnum); break;
-    case SSTRING: strncpy(Buffer, it8->str, max);
-                  Buffer[max-1] = 0;
-                  break;
+                  brebk;
+    cbse SIDENT:  strncpy(Buffer, it8->id, mbx);
+                  Buffer[mbx-1]=0;
+                  brebk;
+    cbse SINUM:   snprintf(Buffer, mbx, "%d", it8 -> inum); brebk;
+    cbse SDNUM:   snprintf(Buffer, mbx, it8->DoubleFormbtter, it8 -> dnum); brebk;
+    cbse SSTRING: strncpy(Buffer, it8->str, mbx);
+                  Buffer[mbx-1] = 0;
+                  brebk;
 
 
-    default:
+    defbult:
          return SynError(it8, "%s", ErrorTitle);
     }
 
-    Buffer[max] = 0;
+    Buffer[mbx] = 0;
     return TRUE;
 }
 
-// ---------------------------------------------------------- Table
+// ---------------------------------------------------------- Tbble
 
-static
-TABLE* GetTable(cmsIT8* it8)
+stbtic
+TABLE* GetTbble(cmsIT8* it8)
 {
-   if ((it8 -> nTable >= it8 ->TablesCount)) {
+   if ((it8 -> nTbble >= it8 ->TbblesCount)) {
 
-           SynError(it8, "Table %d out of sequence", it8 -> nTable);
-           return it8 -> Tab;
+           SynError(it8, "Tbble %d out of sequence", it8 -> nTbble);
+           return it8 -> Tbb;
    }
 
-   return it8 ->Tab + it8 ->nTable;
+   return it8 ->Tbb + it8 ->nTbble;
 }
 
-// ---------------------------------------------------------- Memory management
+// ---------------------------------------------------------- Memory mbnbgement
 
 
-// Frees an allocator and owned memory
+// Frees bn bllocbtor bnd owned memory
 void CMSEXPORT cmsIT8Free(cmsHANDLE hIT8)
 {
    cmsIT8* it8 = (cmsIT8*) hIT8;
@@ -1070,16 +1070,16 @@ void CMSEXPORT cmsIT8Free(cmsHANDLE hIT8)
 }
 
 
-// Allocates a chunk of data, keep linked list
-static
+// Allocbtes b chunk of dbtb, keep linked list
+stbtic
 void* AllocBigBlock(cmsIT8* it8, cmsUInt32Number size)
 {
     OWNEDMEM* ptr1;
-    void* ptr = _cmsMallocZero(it8->ContextID, size);
+    void* ptr = _cmsMbllocZero(it8->ContextID, size);
 
     if (ptr != NULL) {
 
-        ptr1 = (OWNEDMEM*) _cmsMallocZero(it8 ->ContextID, sizeof(OWNEDMEM));
+        ptr1 = (OWNEDMEM*) _cmsMbllocZero(it8 ->ContextID, sizeof(OWNEDMEM));
 
         if (ptr1 == NULL) {
 
@@ -1096,67 +1096,67 @@ void* AllocBigBlock(cmsIT8* it8, cmsUInt32Number size)
 }
 
 
-// Suballocator.
-static
+// Subbllocbtor.
+stbtic
 void* AllocChunk(cmsIT8* it8, cmsUInt32Number size)
 {
-    cmsUInt32Number Free = it8 ->Allocator.BlockSize - it8 ->Allocator.Used;
+    cmsUInt32Number Free = it8 ->Allocbtor.BlockSize - it8 ->Allocbtor.Used;
     cmsUInt8Number* ptr;
 
     size = _cmsALIGNMEM(size);
 
     if (size > Free) {
 
-        if (it8 -> Allocator.BlockSize == 0)
+        if (it8 -> Allocbtor.BlockSize == 0)
 
-                it8 -> Allocator.BlockSize = 20*1024;
+                it8 -> Allocbtor.BlockSize = 20*1024;
         else
-                it8 ->Allocator.BlockSize *= 2;
+                it8 ->Allocbtor.BlockSize *= 2;
 
-        if (it8 ->Allocator.BlockSize < size)
-                it8 ->Allocator.BlockSize = size;
+        if (it8 ->Allocbtor.BlockSize < size)
+                it8 ->Allocbtor.BlockSize = size;
 
-        it8 ->Allocator.Used = 0;
-        it8 ->Allocator.Block = (cmsUInt8Number*)  AllocBigBlock(it8, it8 ->Allocator.BlockSize);
+        it8 ->Allocbtor.Used = 0;
+        it8 ->Allocbtor.Block = (cmsUInt8Number*)  AllocBigBlock(it8, it8 ->Allocbtor.BlockSize);
     }
 
-    ptr = it8 ->Allocator.Block + it8 ->Allocator.Used;
-    it8 ->Allocator.Used += size;
+    ptr = it8 ->Allocbtor.Block + it8 ->Allocbtor.Used;
+    it8 ->Allocbtor.Used += size;
 
     return (void*) ptr;
 
 }
 
 
-// Allocates a string
-static
-char *AllocString(cmsIT8* it8, const char* str)
+// Allocbtes b string
+stbtic
+chbr *AllocString(cmsIT8* it8, const chbr* str)
 {
     cmsUInt32Number Size = (cmsUInt32Number) strlen(str)+1;
-    char *ptr;
+    chbr *ptr;
 
 
-    ptr = (char *) AllocChunk(it8, Size);
+    ptr = (chbr *) AllocChunk(it8, Size);
     if (ptr) strncpy (ptr, str, Size-1);
 
     return ptr;
 }
 
-// Searches through linked list
+// Sebrches through linked list
 
-static
-cmsBool IsAvailableOnList(KEYVALUE* p, const char* Key, const char* Subkey, KEYVALUE** LastPtr)
+stbtic
+cmsBool IsAvbilbbleOnList(KEYVALUE* p, const chbr* Key, const chbr* Subkey, KEYVALUE** LbstPtr)
 {
-    if (LastPtr) *LastPtr = p;
+    if (LbstPtr) *LbstPtr = p;
 
     for (;  p != NULL; p = p->Next) {
 
-        if (LastPtr) *LastPtr = p;
+        if (LbstPtr) *LbstPtr = p;
 
-        if (*Key != '#') { // Comments are ignored
+        if (*Key != '#') { // Comments bre ignored
 
-            if (cmsstrcasecmp(Key, p->Keyword) == 0)
-                break;
+            if (cmsstrcbsecmp(Key, p->Keyword) == 0)
+                brebk;
         }
     }
 
@@ -1170,9 +1170,9 @@ cmsBool IsAvailableOnList(KEYVALUE* p, const char* Key, const char* Subkey, KEYV
 
         if (p ->Subkey == NULL) continue;
 
-        if (LastPtr) *LastPtr = p;
+        if (LbstPtr) *LbstPtr = p;
 
-        if (cmsstrcasecmp(Subkey, p->Subkey) == 0)
+        if (cmsstrcbsecmp(Subkey, p->Subkey) == 0)
             return TRUE;
     }
 
@@ -1181,27 +1181,27 @@ cmsBool IsAvailableOnList(KEYVALUE* p, const char* Key, const char* Subkey, KEYV
 
 
 
-// Add a property into a linked list
-static
-KEYVALUE* AddToList(cmsIT8* it8, KEYVALUE** Head, const char *Key, const char *Subkey, const char* xValue, WRITEMODE WriteAs)
+// Add b property into b linked list
+stbtic
+KEYVALUE* AddToList(cmsIT8* it8, KEYVALUE** Hebd, const chbr *Key, const chbr *Subkey, const chbr* xVblue, WRITEMODE WriteAs)
 {
     KEYVALUE* p;
-    KEYVALUE* last;
+    KEYVALUE* lbst;
 
 
-    // Check if property is already in list
+    // Check if property is blrebdy in list
 
-    if (IsAvailableOnList(*Head, Key, Subkey, &p)) {
+    if (IsAvbilbbleOnList(*Hebd, Key, Subkey, &p)) {
 
-        // This may work for editing properties
+        // This mby work for editing properties
 
-        //     return SynError(it8, "duplicate key <%s>", Key);
+        //     return SynError(it8, "duplicbte key <%s>", Key);
     }
     else {
 
-        last = p;
+        lbst = p;
 
-        // Allocate the container
+        // Allocbte the contbiner
         p = (KEYVALUE*) AllocChunk(it8, sizeof(KEYVALUE));
         if (p == NULL)
         {
@@ -1209,28 +1209,28 @@ KEYVALUE* AddToList(cmsIT8* it8, KEYVALUE** Head, const char *Key, const char *S
             return NULL;
         }
 
-        // Store name and value
+        // Store nbme bnd vblue
         p->Keyword = AllocString(it8, Key);
         p->Subkey = (Subkey == NULL) ? NULL : AllocString(it8, Subkey);
 
-        // Keep the container in our list
-        if (*Head == NULL) {
-            *Head = p;
+        // Keep the contbiner in our list
+        if (*Hebd == NULL) {
+            *Hebd = p;
         }
         else
         {
-            if (Subkey != NULL && last != NULL) {
+            if (Subkey != NULL && lbst != NULL) {
 
-                last->NextSubkey = p;
+                lbst->NextSubkey = p;
 
-                // If Subkey is not null, then last is the last property with the same key,
-                // but not necessarily is the last property in the list, so we need to move
-                // to the actual list end
-                while (last->Next != NULL)
-                         last = last->Next;
+                // If Subkey is not null, then lbst is the lbst property with the sbme key,
+                // but not necessbrily is the lbst property in the list, so we need to move
+                // to the bctubl list end
+                while (lbst->Next != NULL)
+                         lbst = lbst->Next;
             }
 
-            if (last != NULL) last->Next = p;
+            if (lbst != NULL) lbst->Next = p;
         }
 
         p->Next    = NULL;
@@ -1239,92 +1239,92 @@ KEYVALUE* AddToList(cmsIT8* it8, KEYVALUE** Head, const char *Key, const char *S
 
     p->WriteAs = WriteAs;
 
-    if (xValue != NULL) {
+    if (xVblue != NULL) {
 
-        p->Value   = AllocString(it8, xValue);
+        p->Vblue   = AllocString(it8, xVblue);
     }
     else {
-        p->Value   = NULL;
+        p->Vblue   = NULL;
     }
 
     return p;
 }
 
-static
-KEYVALUE* AddAvailableProperty(cmsIT8* it8, const char* Key, WRITEMODE as)
+stbtic
+KEYVALUE* AddAvbilbbleProperty(cmsIT8* it8, const chbr* Key, WRITEMODE bs)
 {
-    return AddToList(it8, &it8->ValidKeywords, Key, NULL, NULL, as);
+    return AddToList(it8, &it8->VblidKeywords, Key, NULL, NULL, bs);
 }
 
 
-static
-KEYVALUE* AddAvailableSampleID(cmsIT8* it8, const char* Key)
+stbtic
+KEYVALUE* AddAvbilbbleSbmpleID(cmsIT8* it8, const chbr* Key)
 {
-    return AddToList(it8, &it8->ValidSampleID, Key, NULL, NULL, WRITE_UNCOOKED);
+    return AddToList(it8, &it8->VblidSbmpleID, Key, NULL, NULL, WRITE_UNCOOKED);
 }
 
 
-static
-void AllocTable(cmsIT8* it8)
+stbtic
+void AllocTbble(cmsIT8* it8)
 {
     TABLE* t;
 
-    t = it8 ->Tab + it8 ->TablesCount;
+    t = it8 ->Tbb + it8 ->TbblesCount;
 
-    t->HeaderList = NULL;
-    t->DataFormat = NULL;
-    t->Data       = NULL;
+    t->HebderList = NULL;
+    t->DbtbFormbt = NULL;
+    t->Dbtb       = NULL;
 
-    it8 ->TablesCount++;
+    it8 ->TbblesCount++;
 }
 
 
-cmsInt32Number CMSEXPORT cmsIT8SetTable(cmsHANDLE  IT8, cmsUInt32Number nTable)
+cmsInt32Number CMSEXPORT cmsIT8SetTbble(cmsHANDLE  IT8, cmsUInt32Number nTbble)
 {
      cmsIT8* it8 = (cmsIT8*) IT8;
 
-     if (nTable >= it8 ->TablesCount) {
+     if (nTbble >= it8 ->TbblesCount) {
 
-         if (nTable == it8 ->TablesCount) {
+         if (nTbble == it8 ->TbblesCount) {
 
-             AllocTable(it8);
+             AllocTbble(it8);
          }
          else {
-             SynError(it8, "Table %d is out of sequence", nTable);
+             SynError(it8, "Tbble %d is out of sequence", nTbble);
              return -1;
          }
      }
 
-     it8 ->nTable = nTable;
+     it8 ->nTbble = nTbble;
 
-     return (cmsInt32Number) nTable;
+     return (cmsInt32Number) nTbble;
 }
 
 
 
-// Init an empty container
+// Init bn empty contbiner
 cmsHANDLE  CMSEXPORT cmsIT8Alloc(cmsContext ContextID)
 {
     cmsIT8* it8;
     cmsUInt32Number i;
 
-    it8 = (cmsIT8*) _cmsMallocZero(ContextID, sizeof(cmsIT8));
+    it8 = (cmsIT8*) _cmsMbllocZero(ContextID, sizeof(cmsIT8));
     if (it8 == NULL) return NULL;
 
-    AllocTable(it8);
+    AllocTbble(it8);
 
     it8->MemoryBlock = NULL;
     it8->MemorySink  = NULL;
 
-    it8 ->nTable = 0;
+    it8 ->nTbble = 0;
 
     it8->ContextID = ContextID;
-    it8->Allocator.Used = 0;
-    it8->Allocator.Block = NULL;
-    it8->Allocator.BlockSize = 0;
+    it8->Allocbtor.Used = 0;
+    it8->Allocbtor.Block = NULL;
+    it8->Allocbtor.BlockSize = 0;
 
-    it8->ValidKeywords = NULL;
-    it8->ValidSampleID = NULL;
+    it8->VblidKeywords = NULL;
+    it8->VblidSbmpleID = NULL;
 
     it8 -> sy = SNONE;
     it8 -> ch = ' ';
@@ -1332,246 +1332,246 @@ cmsHANDLE  CMSEXPORT cmsIT8Alloc(cmsContext ContextID)
     it8 -> inum = 0;
     it8 -> dnum = 0.0;
 
-    it8->FileStack[0] = (FILECTX*)AllocChunk(it8, sizeof(FILECTX));
+    it8->FileStbck[0] = (FILECTX*)AllocChunk(it8, sizeof(FILECTX));
     it8->IncludeSP   = 0;
     it8 -> lineno = 1;
 
-    strcpy(it8->DoubleFormatter, DEFAULT_DBL_FORMAT);
+    strcpy(it8->DoubleFormbtter, DEFAULT_DBL_FORMAT);
     cmsIT8SetSheetType((cmsHANDLE) it8, "CGATS.17");
 
-    // Initialize predefined properties & data
+    // Initiblize predefined properties & dbtb
 
     for (i=0; i < NUMPREDEFINEDPROPS; i++)
-            AddAvailableProperty(it8, PredefinedProperties[i].id, PredefinedProperties[i].as);
+            AddAvbilbbleProperty(it8, PredefinedProperties[i].id, PredefinedProperties[i].bs);
 
     for (i=0; i < NUMPREDEFINEDSAMPLEID; i++)
-            AddAvailableSampleID(it8, PredefinedSampleID[i]);
+            AddAvbilbbleSbmpleID(it8, PredefinedSbmpleID[i]);
 
 
    return (cmsHANDLE) it8;
 }
 
 
-const char* CMSEXPORT cmsIT8GetSheetType(cmsHANDLE hIT8)
+const chbr* CMSEXPORT cmsIT8GetSheetType(cmsHANDLE hIT8)
 {
-        return GetTable((cmsIT8*) hIT8)->SheetType;
+        return GetTbble((cmsIT8*) hIT8)->SheetType;
 }
 
-cmsBool CMSEXPORT cmsIT8SetSheetType(cmsHANDLE hIT8, const char* Type)
+cmsBool CMSEXPORT cmsIT8SetSheetType(cmsHANDLE hIT8, const chbr* Type)
 {
-        TABLE* t = GetTable((cmsIT8*) hIT8);
+        TABLE* t = GetTbble((cmsIT8*) hIT8);
 
         strncpy(t ->SheetType, Type, MAXSTR-1);
         t ->SheetType[MAXSTR-1] = 0;
         return TRUE;
 }
 
-cmsBool CMSEXPORT cmsIT8SetComment(cmsHANDLE hIT8, const char* Val)
+cmsBool CMSEXPORT cmsIT8SetComment(cmsHANDLE hIT8, const chbr* Vbl)
 {
     cmsIT8* it8 = (cmsIT8*) hIT8;
 
-    if (!Val) return FALSE;
-    if (!*Val) return FALSE;
+    if (!Vbl) return FALSE;
+    if (!*Vbl) return FALSE;
 
-    return AddToList(it8, &GetTable(it8)->HeaderList, "# ", NULL, Val, WRITE_UNCOOKED) != NULL;
+    return AddToList(it8, &GetTbble(it8)->HebderList, "# ", NULL, Vbl, WRITE_UNCOOKED) != NULL;
 }
 
-// Sets a property
-cmsBool CMSEXPORT cmsIT8SetPropertyStr(cmsHANDLE hIT8, const char* Key, const char *Val)
+// Sets b property
+cmsBool CMSEXPORT cmsIT8SetPropertyStr(cmsHANDLE hIT8, const chbr* Key, const chbr *Vbl)
 {
     cmsIT8* it8 = (cmsIT8*) hIT8;
 
-    if (!Val) return FALSE;
-    if (!*Val) return FALSE;
+    if (!Vbl) return FALSE;
+    if (!*Vbl) return FALSE;
 
-    return AddToList(it8, &GetTable(it8)->HeaderList, Key, NULL, Val, WRITE_STRINGIFY) != NULL;
+    return AddToList(it8, &GetTbble(it8)->HebderList, Key, NULL, Vbl, WRITE_STRINGIFY) != NULL;
 }
 
-cmsBool CMSEXPORT cmsIT8SetPropertyDbl(cmsHANDLE hIT8, const char* cProp, cmsFloat64Number Val)
+cmsBool CMSEXPORT cmsIT8SetPropertyDbl(cmsHANDLE hIT8, const chbr* cProp, cmsFlobt64Number Vbl)
 {
     cmsIT8* it8 = (cmsIT8*) hIT8;
-    char Buffer[1024];
+    chbr Buffer[1024];
 
-    sprintf(Buffer, it8->DoubleFormatter, Val);
+    sprintf(Buffer, it8->DoubleFormbtter, Vbl);
 
-    return AddToList(it8, &GetTable(it8)->HeaderList, cProp, NULL, Buffer, WRITE_UNCOOKED) != NULL;
+    return AddToList(it8, &GetTbble(it8)->HebderList, cProp, NULL, Buffer, WRITE_UNCOOKED) != NULL;
 }
 
-cmsBool CMSEXPORT cmsIT8SetPropertyHex(cmsHANDLE hIT8, const char* cProp, cmsUInt32Number Val)
+cmsBool CMSEXPORT cmsIT8SetPropertyHex(cmsHANDLE hIT8, const chbr* cProp, cmsUInt32Number Vbl)
 {
     cmsIT8* it8 = (cmsIT8*) hIT8;
-    char Buffer[1024];
+    chbr Buffer[1024];
 
-    sprintf(Buffer, "%u", Val);
+    sprintf(Buffer, "%u", Vbl);
 
-    return AddToList(it8, &GetTable(it8)->HeaderList, cProp, NULL, Buffer, WRITE_HEXADECIMAL) != NULL;
+    return AddToList(it8, &GetTbble(it8)->HebderList, cProp, NULL, Buffer, WRITE_HEXADECIMAL) != NULL;
 }
 
-cmsBool CMSEXPORT cmsIT8SetPropertyUncooked(cmsHANDLE hIT8, const char* Key, const char* Buffer)
-{
-    cmsIT8* it8 = (cmsIT8*) hIT8;
-
-    return AddToList(it8, &GetTable(it8)->HeaderList, Key, NULL, Buffer, WRITE_UNCOOKED) != NULL;
-}
-
-cmsBool CMSEXPORT cmsIT8SetPropertyMulti(cmsHANDLE hIT8, const char* Key, const char* SubKey, const char *Buffer)
+cmsBool CMSEXPORT cmsIT8SetPropertyUncooked(cmsHANDLE hIT8, const chbr* Key, const chbr* Buffer)
 {
     cmsIT8* it8 = (cmsIT8*) hIT8;
 
-    return AddToList(it8, &GetTable(it8)->HeaderList, Key, SubKey, Buffer, WRITE_PAIR) != NULL;
+    return AddToList(it8, &GetTbble(it8)->HebderList, Key, NULL, Buffer, WRITE_UNCOOKED) != NULL;
 }
 
-// Gets a property
-const char* CMSEXPORT cmsIT8GetProperty(cmsHANDLE hIT8, const char* Key)
+cmsBool CMSEXPORT cmsIT8SetPropertyMulti(cmsHANDLE hIT8, const chbr* Key, const chbr* SubKey, const chbr *Buffer)
+{
+    cmsIT8* it8 = (cmsIT8*) hIT8;
+
+    return AddToList(it8, &GetTbble(it8)->HebderList, Key, SubKey, Buffer, WRITE_PAIR) != NULL;
+}
+
+// Gets b property
+const chbr* CMSEXPORT cmsIT8GetProperty(cmsHANDLE hIT8, const chbr* Key)
 {
     cmsIT8* it8 = (cmsIT8*) hIT8;
     KEYVALUE* p;
 
-    if (IsAvailableOnList(GetTable(it8) -> HeaderList, Key, NULL, &p))
+    if (IsAvbilbbleOnList(GetTbble(it8) -> HebderList, Key, NULL, &p))
     {
-        return p -> Value;
+        return p -> Vblue;
     }
     return NULL;
 }
 
 
-cmsFloat64Number CMSEXPORT cmsIT8GetPropertyDbl(cmsHANDLE hIT8, const char* cProp)
+cmsFlobt64Number CMSEXPORT cmsIT8GetPropertyDbl(cmsHANDLE hIT8, const chbr* cProp)
 {
-    const char *v = cmsIT8GetProperty(hIT8, cProp);
+    const chbr *v = cmsIT8GetProperty(hIT8, cProp);
 
     if (v == NULL) return 0.0;
 
-    return ParseFloatNumber(v);
+    return PbrseFlobtNumber(v);
 }
 
-const char* CMSEXPORT cmsIT8GetPropertyMulti(cmsHANDLE hIT8, const char* Key, const char *SubKey)
+const chbr* CMSEXPORT cmsIT8GetPropertyMulti(cmsHANDLE hIT8, const chbr* Key, const chbr *SubKey)
 {
     cmsIT8* it8 = (cmsIT8*) hIT8;
     KEYVALUE* p;
 
-    if (IsAvailableOnList(GetTable(it8) -> HeaderList, Key, SubKey, &p)) {
-        return p -> Value;
+    if (IsAvbilbbleOnList(GetTbble(it8) -> HebderList, Key, SubKey, &p)) {
+        return p -> Vblue;
     }
     return NULL;
 }
 
-// ----------------------------------------------------------------- Datasets
+// ----------------------------------------------------------------- Dbtbsets
 
 
-static
-void AllocateDataFormat(cmsIT8* it8)
+stbtic
+void AllocbteDbtbFormbt(cmsIT8* it8)
 {
-    TABLE* t = GetTable(it8);
+    TABLE* t = GetTbble(it8);
 
-    if (t -> DataFormat) return;    // Already allocated
+    if (t -> DbtbFormbt) return;    // Alrebdy bllocbted
 
-    t -> nSamples  = (int) cmsIT8GetPropertyDbl(it8, "NUMBER_OF_FIELDS");
+    t -> nSbmples  = (int) cmsIT8GetPropertyDbl(it8, "NUMBER_OF_FIELDS");
 
-    if (t -> nSamples <= 0) {
+    if (t -> nSbmples <= 0) {
 
-        SynError(it8, "AllocateDataFormat: Unknown NUMBER_OF_FIELDS");
-        t -> nSamples = 10;
+        SynError(it8, "AllocbteDbtbFormbt: Unknown NUMBER_OF_FIELDS");
+        t -> nSbmples = 10;
         }
 
-    t -> DataFormat = (char**) AllocChunk (it8, ((cmsUInt32Number) t->nSamples + 1) * sizeof(char *));
-    if (t->DataFormat == NULL) {
+    t -> DbtbFormbt = (chbr**) AllocChunk (it8, ((cmsUInt32Number) t->nSbmples + 1) * sizeof(chbr *));
+    if (t->DbtbFormbt == NULL) {
 
-        SynError(it8, "AllocateDataFormat: Unable to allocate dataFormat array");
+        SynError(it8, "AllocbteDbtbFormbt: Unbble to bllocbte dbtbFormbt brrby");
     }
 
 }
 
-static
-const char *GetDataFormat(cmsIT8* it8, int n)
+stbtic
+const chbr *GetDbtbFormbt(cmsIT8* it8, int n)
 {
-    TABLE* t = GetTable(it8);
+    TABLE* t = GetTbble(it8);
 
-    if (t->DataFormat)
-        return t->DataFormat[n];
+    if (t->DbtbFormbt)
+        return t->DbtbFormbt[n];
 
     return NULL;
 }
 
-static
-cmsBool SetDataFormat(cmsIT8* it8, int n, const char *label)
+stbtic
+cmsBool SetDbtbFormbt(cmsIT8* it8, int n, const chbr *lbbel)
 {
-    TABLE* t = GetTable(it8);
+    TABLE* t = GetTbble(it8);
 
-    if (!t->DataFormat)
-        AllocateDataFormat(it8);
+    if (!t->DbtbFormbt)
+        AllocbteDbtbFormbt(it8);
 
-    if (n > t -> nSamples) {
-        SynError(it8, "More than NUMBER_OF_FIELDS fields.");
+    if (n > t -> nSbmples) {
+        SynError(it8, "More thbn NUMBER_OF_FIELDS fields.");
         return FALSE;
     }
 
-    if (t->DataFormat) {
-        t->DataFormat[n] = AllocString(it8, label);
+    if (t->DbtbFormbt) {
+        t->DbtbFormbt[n] = AllocString(it8, lbbel);
     }
 
     return TRUE;
 }
 
 
-cmsBool CMSEXPORT cmsIT8SetDataFormat(cmsHANDLE  h, int n, const char *Sample)
+cmsBool CMSEXPORT cmsIT8SetDbtbFormbt(cmsHANDLE  h, int n, const chbr *Sbmple)
 {
         cmsIT8* it8 = (cmsIT8*) h;
-        return SetDataFormat(it8, n, Sample);
+        return SetDbtbFormbt(it8, n, Sbmple);
 }
 
-static
-void AllocateDataSet(cmsIT8* it8)
+stbtic
+void AllocbteDbtbSet(cmsIT8* it8)
 {
-    TABLE* t = GetTable(it8);
+    TABLE* t = GetTbble(it8);
 
-    if (t -> Data) return;    // Already allocated
+    if (t -> Dbtb) return;    // Alrebdy bllocbted
 
-    t-> nSamples   = atoi(cmsIT8GetProperty(it8, "NUMBER_OF_FIELDS"));
-    t-> nPatches   = atoi(cmsIT8GetProperty(it8, "NUMBER_OF_SETS"));
+    t-> nSbmples   = btoi(cmsIT8GetProperty(it8, "NUMBER_OF_FIELDS"));
+    t-> nPbtches   = btoi(cmsIT8GetProperty(it8, "NUMBER_OF_SETS"));
 
-    t-> Data = (char**)AllocChunk (it8, ((cmsUInt32Number) t->nSamples + 1) * ((cmsUInt32Number) t->nPatches + 1) *sizeof (char*));
-    if (t->Data == NULL) {
+    t-> Dbtb = (chbr**)AllocChunk (it8, ((cmsUInt32Number) t->nSbmples + 1) * ((cmsUInt32Number) t->nPbtches + 1) *sizeof (chbr*));
+    if (t->Dbtb == NULL) {
 
-        SynError(it8, "AllocateDataSet: Unable to allocate data array");
+        SynError(it8, "AllocbteDbtbSet: Unbble to bllocbte dbtb brrby");
     }
 
 }
 
-static
-char* GetData(cmsIT8* it8, int nSet, int nField)
+stbtic
+chbr* GetDbtb(cmsIT8* it8, int nSet, int nField)
 {
-    TABLE* t = GetTable(it8);
-    int  nSamples   = t -> nSamples;
-    int  nPatches   = t -> nPatches;
+    TABLE* t = GetTbble(it8);
+    int  nSbmples   = t -> nSbmples;
+    int  nPbtches   = t -> nPbtches;
 
-    if (nSet >= nPatches || nField >= nSamples)
+    if (nSet >= nPbtches || nField >= nSbmples)
         return NULL;
 
-    if (!t->Data) return NULL;
-    return t->Data [nSet * nSamples + nField];
+    if (!t->Dbtb) return NULL;
+    return t->Dbtb [nSet * nSbmples + nField];
 }
 
-static
-cmsBool SetData(cmsIT8* it8, int nSet, int nField, const char *Val)
+stbtic
+cmsBool SetDbtb(cmsIT8* it8, int nSet, int nField, const chbr *Vbl)
 {
-    TABLE* t = GetTable(it8);
+    TABLE* t = GetTbble(it8);
 
-    if (!t->Data)
-        AllocateDataSet(it8);
+    if (!t->Dbtb)
+        AllocbteDbtbSet(it8);
 
-    if (!t->Data) return FALSE;
+    if (!t->Dbtb) return FALSE;
 
-    if (nSet > t -> nPatches || nSet < 0) {
+    if (nSet > t -> nPbtches || nSet < 0) {
 
-            return SynError(it8, "Patch %d out of range, there are %d patches", nSet, t -> nPatches);
+            return SynError(it8, "Pbtch %d out of rbnge, there bre %d pbtches", nSet, t -> nPbtches);
     }
 
-    if (nField > t ->nSamples || nField < 0) {
-            return SynError(it8, "Sample %d out of range, there are %d samples", nField, t ->nSamples);
+    if (nField > t ->nSbmples || nField < 0) {
+            return SynError(it8, "Sbmple %d out of rbnge, there bre %d sbmples", nField, t ->nSbmples);
 
     }
 
-    t->Data [nSet * t -> nSamples + nField] = AllocString(it8, Val);
+    t->Dbtb [nSet * t -> nSbmples + nField] = AllocString(it8, Vbl);
     return TRUE;
 }
 
@@ -1579,9 +1579,9 @@ cmsBool SetData(cmsIT8* it8, int nSet, int nField, const char *Val)
 // --------------------------------------------------------------- File I/O
 
 
-// Writes a string to file
-static
-void WriteStr(SAVESTREAM* f, const char *str)
+// Writes b string to file
+stbtic
+void WriteStr(SAVESTREAM* f, const chbr *str)
 {
     cmsUInt32Number len;
 
@@ -1593,21 +1593,21 @@ void WriteStr(SAVESTREAM* f, const char *str)
     f ->Used += len;
 
 
-    if (f ->stream) {   // Should I write it to a file?
+    if (f ->strebm) {   // Should I write it to b file?
 
-        if (fwrite(str, 1, len, f->stream) != len) {
-            cmsSignalError(0, cmsERROR_WRITE, "Write to file error in CGATS parser");
+        if (fwrite(str, 1, len, f->strebm) != len) {
+            cmsSignblError(0, cmsERROR_WRITE, "Write to file error in CGATS pbrser");
             return;
         }
 
     }
-    else {  // Or to a memory block?
+    else {  // Or to b memory block?
 
-        if (f ->Base) {   // Am I just counting the bytes?
+        if (f ->Bbse) {   // Am I just counting the bytes?
 
-            if (f ->Used > f ->Max) {
+            if (f ->Used > f ->Mbx) {
 
-                 cmsSignalError(0, cmsERROR_WRITE, "Write to memory overflows in CGATS parser");
+                 cmsSignblError(0, cmsERROR_WRITE, "Write to memory overflows in CGATS pbrser");
                  return;
             }
 
@@ -1619,41 +1619,41 @@ void WriteStr(SAVESTREAM* f, const char *str)
 }
 
 
-// Write formatted
+// Write formbtted
 
-static
-void Writef(SAVESTREAM* f, const char* frm, ...)
+stbtic
+void Writef(SAVESTREAM* f, const chbr* frm, ...)
 {
-    char Buffer[4096];
-    va_list args;
+    chbr Buffer[4096];
+    vb_list brgs;
 
-    va_start(args, frm);
-    vsnprintf(Buffer, 4095, frm, args);
+    vb_stbrt(brgs, frm);
+    vsnprintf(Buffer, 4095, frm, brgs);
     Buffer[4095] = 0;
     WriteStr(f, Buffer);
-    va_end(args);
+    vb_end(brgs);
 
 }
 
-// Writes full header
-static
-void WriteHeader(cmsIT8* it8, SAVESTREAM* fp)
+// Writes full hebder
+stbtic
+void WriteHebder(cmsIT8* it8, SAVESTREAM* fp)
 {
     KEYVALUE* p;
-    TABLE* t = GetTable(it8);
+    TABLE* t = GetTbble(it8);
 
     // Writes the type
     WriteStr(fp, t->SheetType);
     WriteStr(fp, "\n");
 
-    for (p = t->HeaderList; (p != NULL); p = p->Next)
+    for (p = t->HebderList; (p != NULL); p = p->Next)
     {
         if (*p ->Keyword == '#') {
 
-            char* Pt;
+            chbr* Pt;
 
             WriteStr(fp, "#\n# ");
-            for (Pt = p ->Value; *Pt; Pt++) {
+            for (Pt = p ->Vblue; *Pt; Pt++) {
 
 
                 Writef(fp, "%c", *Pt);
@@ -1668,7 +1668,7 @@ void WriteHeader(cmsIT8* it8, SAVESTREAM* fp)
         }
 
 
-        if (!IsAvailableOnList(it8-> ValidKeywords, p->Keyword, NULL, NULL)) {
+        if (!IsAvbilbbleOnList(it8-> VblidKeywords, p->Keyword, NULL, NULL)) {
 
 #ifdef CMS_STRICT_CGATS
             WriteStr(fp, "KEYWORD\t\"");
@@ -1676,35 +1676,35 @@ void WriteHeader(cmsIT8* it8, SAVESTREAM* fp)
             WriteStr(fp, "\"\n");
 #endif
 
-            AddAvailableProperty(it8, p->Keyword, WRITE_UNCOOKED);
+            AddAvbilbbleProperty(it8, p->Keyword, WRITE_UNCOOKED);
         }
 
         WriteStr(fp, p->Keyword);
-        if (p->Value) {
+        if (p->Vblue) {
 
             switch (p ->WriteAs) {
 
-            case WRITE_UNCOOKED:
-                    Writef(fp, "\t%s", p ->Value);
-                    break;
+            cbse WRITE_UNCOOKED:
+                    Writef(fp, "\t%s", p ->Vblue);
+                    brebk;
 
-            case WRITE_STRINGIFY:
-                    Writef(fp, "\t\"%s\"", p->Value );
-                    break;
+            cbse WRITE_STRINGIFY:
+                    Writef(fp, "\t\"%s\"", p->Vblue );
+                    brebk;
 
-            case WRITE_HEXADECIMAL:
-                    Writef(fp, "\t0x%X", atoi(p ->Value));
-                    break;
+            cbse WRITE_HEXADECIMAL:
+                    Writef(fp, "\t0x%X", btoi(p ->Vblue));
+                    brebk;
 
-            case WRITE_BINARY:
-                    Writef(fp, "\t0x%B", atoi(p ->Value));
-                    break;
+            cbse WRITE_BINARY:
+                    Writef(fp, "\t0x%B", btoi(p ->Vblue));
+                    brebk;
 
-            case WRITE_PAIR:
-                    Writef(fp, "\t\"%s,%s\"", p->Subkey, p->Value);
-                    break;
+            cbse WRITE_PAIR:
+                    Writef(fp, "\t\"%s,%s\"", p->Subkey, p->Vblue);
+                    brebk;
 
-            default: SynError(it8, "Unknown write mode %d", p ->WriteAs);
+            defbult: SynError(it8, "Unknown write mode %d", p ->WriteAs);
                      return;
             }
         }
@@ -1715,53 +1715,53 @@ void WriteHeader(cmsIT8* it8, SAVESTREAM* fp)
 }
 
 
-// Writes the data format
-static
-void WriteDataFormat(SAVESTREAM* fp, cmsIT8* it8)
+// Writes the dbtb formbt
+stbtic
+void WriteDbtbFormbt(SAVESTREAM* fp, cmsIT8* it8)
 {
-    int i, nSamples;
-    TABLE* t = GetTable(it8);
+    int i, nSbmples;
+    TABLE* t = GetTbble(it8);
 
-    if (!t -> DataFormat) return;
+    if (!t -> DbtbFormbt) return;
 
        WriteStr(fp, "BEGIN_DATA_FORMAT\n");
        WriteStr(fp, " ");
-       nSamples = atoi(cmsIT8GetProperty(it8, "NUMBER_OF_FIELDS"));
+       nSbmples = btoi(cmsIT8GetProperty(it8, "NUMBER_OF_FIELDS"));
 
-       for (i = 0; i < nSamples; i++) {
+       for (i = 0; i < nSbmples; i++) {
 
-              WriteStr(fp, t->DataFormat[i]);
-              WriteStr(fp, ((i == (nSamples-1)) ? "\n" : "\t"));
+              WriteStr(fp, t->DbtbFormbt[i]);
+              WriteStr(fp, ((i == (nSbmples-1)) ? "\n" : "\t"));
           }
 
        WriteStr (fp, "END_DATA_FORMAT\n");
 }
 
 
-// Writes data array
-static
-void WriteData(SAVESTREAM* fp, cmsIT8* it8)
+// Writes dbtb brrby
+stbtic
+void WriteDbtb(SAVESTREAM* fp, cmsIT8* it8)
 {
        int  i, j;
-       TABLE* t = GetTable(it8);
+       TABLE* t = GetTbble(it8);
 
-       if (!t->Data) return;
+       if (!t->Dbtb) return;
 
        WriteStr (fp, "BEGIN_DATA\n");
 
-       t->nPatches = atoi(cmsIT8GetProperty(it8, "NUMBER_OF_SETS"));
+       t->nPbtches = btoi(cmsIT8GetProperty(it8, "NUMBER_OF_SETS"));
 
-       for (i = 0; i < t-> nPatches; i++) {
+       for (i = 0; i < t-> nPbtches; i++) {
 
               WriteStr(fp, " ");
 
-              for (j = 0; j < t->nSamples; j++) {
+              for (j = 0; j < t->nSbmples; j++) {
 
-                     char *ptr = t->Data[i*t->nSamples+j];
+                     chbr *ptr = t->Dbtb[i*t->nSbmples+j];
 
                      if (ptr == NULL) WriteStr(fp, "\"\"");
                      else {
-                         // If value contains whitespace, enclose within quote
+                         // If vblue contbins whitespbce, enclose within quote
 
                          if (strchr(ptr, ' ') != NULL) {
 
@@ -1773,7 +1773,7 @@ void WriteData(SAVESTREAM* fp, cmsIT8* it8)
                             WriteStr(fp, ptr);
                      }
 
-                     WriteStr(fp, ((j == (t->nSamples-1)) ? "\n" : "\t"));
+                     WriteStr(fp, ((j == (t->nSbmples-1)) ? "\n" : "\t"));
               }
        }
        WriteStr (fp, "END_DATA\n");
@@ -1781,8 +1781,8 @@ void WriteData(SAVESTREAM* fp, cmsIT8* it8)
 
 
 
-// Saves whole file
-cmsBool CMSEXPORT cmsIT8SaveToFile(cmsHANDLE hIT8, const char* cFileName)
+// Sbves whole file
+cmsBool CMSEXPORT cmsIT8SbveToFile(cmsHANDLE hIT8, const chbr* cFileNbme)
 {
     SAVESTREAM sd;
     cmsUInt32Number i;
@@ -1790,25 +1790,25 @@ cmsBool CMSEXPORT cmsIT8SaveToFile(cmsHANDLE hIT8, const char* cFileName)
 
     memset(&sd, 0, sizeof(sd));
 
-    sd.stream = fopen(cFileName, "wt");
-    if (!sd.stream) return FALSE;
+    sd.strebm = fopen(cFileNbme, "wt");
+    if (!sd.strebm) return FALSE;
 
-    for (i=0; i < it8 ->TablesCount; i++) {
+    for (i=0; i < it8 ->TbblesCount; i++) {
 
-            cmsIT8SetTable(hIT8, i);
-            WriteHeader(it8, &sd);
-            WriteDataFormat(&sd, it8);
-            WriteData(&sd, it8);
+            cmsIT8SetTbble(hIT8, i);
+            WriteHebder(it8, &sd);
+            WriteDbtbFormbt(&sd, it8);
+            WriteDbtb(&sd, it8);
     }
 
-    if (fclose(sd.stream) != 0) return FALSE;
+    if (fclose(sd.strebm) != 0) return FALSE;
 
     return TRUE;
 }
 
 
-// Saves to memory
-cmsBool CMSEXPORT cmsIT8SaveToMem(cmsHANDLE hIT8, void *MemPtr, cmsUInt32Number* BytesNeeded)
+// Sbves to memory
+cmsBool CMSEXPORT cmsIT8SbveToMem(cmsHANDLE hIT8, void *MemPtr, cmsUInt32Number* BytesNeeded)
 {
     SAVESTREAM sd;
     cmsUInt32Number i;
@@ -1816,28 +1816,28 @@ cmsBool CMSEXPORT cmsIT8SaveToMem(cmsHANDLE hIT8, void *MemPtr, cmsUInt32Number*
 
     memset(&sd, 0, sizeof(sd));
 
-    sd.stream = NULL;
-    sd.Base   = (cmsUInt8Number*)  MemPtr;
-    sd.Ptr    = sd.Base;
+    sd.strebm = NULL;
+    sd.Bbse   = (cmsUInt8Number*)  MemPtr;
+    sd.Ptr    = sd.Bbse;
 
     sd.Used = 0;
 
-    if (sd.Base)
-        sd.Max  = *BytesNeeded;     // Write to memory?
+    if (sd.Bbse)
+        sd.Mbx  = *BytesNeeded;     // Write to memory?
     else
-        sd.Max  = 0;                // Just counting the needed bytes
+        sd.Mbx  = 0;                // Just counting the needed bytes
 
-    for (i=0; i < it8 ->TablesCount; i++) {
+    for (i=0; i < it8 ->TbblesCount; i++) {
 
-        cmsIT8SetTable(hIT8, i);
-        WriteHeader(it8, &sd);
-        WriteDataFormat(&sd, it8);
-        WriteData(&sd, it8);
+        cmsIT8SetTbble(hIT8, i);
+        WriteHebder(it8, &sd);
+        WriteDbtbFormbt(&sd, it8);
+        WriteDbtb(&sd, it8);
     }
 
-    sd.Used++;  // The \0 at the very end
+    sd.Used++;  // The \0 bt the very end
 
-    if (sd.Base)
+    if (sd.Bbse)
         *sd.Ptr = 0;
 
     *BytesNeeded = sd.Used;
@@ -1846,15 +1846,15 @@ cmsBool CMSEXPORT cmsIT8SaveToMem(cmsHANDLE hIT8, void *MemPtr, cmsUInt32Number*
 }
 
 
-// -------------------------------------------------------------- Higer level parsing
+// -------------------------------------------------------------- Higer level pbrsing
 
-static
-cmsBool DataFormatSection(cmsIT8* it8)
+stbtic
+cmsBool DbtbFormbtSection(cmsIT8* it8)
 {
     int iField = 0;
-    TABLE* t = GetTable(it8);
+    TABLE* t = GetTbble(it8);
 
-    InSymbol(it8);   // Eats "BEGIN_DATA_FORMAT"
+    InSymbol(it8);   // Ebts "BEGIN_DATA_FORMAT"
     CheckEOLN(it8);
 
     while (it8->sy != SEND_DATA_FORMAT &&
@@ -1864,10 +1864,10 @@ cmsBool DataFormatSection(cmsIT8* it8)
 
             if (it8->sy != SIDENT) {
 
-                return SynError(it8, "Sample type expected");
+                return SynError(it8, "Sbmple type expected");
             }
 
-            if (!SetDataFormat(it8, iField, it8->id)) return FALSE;
+            if (!SetDbtbFormbt(it8, iField, it8->id)) return FALSE;
             iField++;
 
             InSymbol(it8);
@@ -1878,8 +1878,8 @@ cmsBool DataFormatSection(cmsIT8* it8)
        Skip(it8, SEND_DATA_FORMAT);
        SkipEOLN(it8);
 
-       if (iField != t ->nSamples) {
-           SynError(it8, "Count mismatch. NUMBER_OF_FIELDS was %d, found %d\n", t ->nSamples, iField);
+       if (iField != t ->nSbmples) {
+           SynError(it8, "Count mismbtch. NUMBER_OF_FIELDS wbs %d, found %d\n", t ->nSbmples, iField);
 
 
        }
@@ -1889,23 +1889,23 @@ cmsBool DataFormatSection(cmsIT8* it8)
 
 
 
-static
-cmsBool DataSection (cmsIT8* it8)
+stbtic
+cmsBool DbtbSection (cmsIT8* it8)
 {
     int  iField = 0;
     int  iSet   = 0;
-    char Buffer[256];
-    TABLE* t = GetTable(it8);
+    chbr Buffer[256];
+    TABLE* t = GetTbble(it8);
 
-    InSymbol(it8);   // Eats "BEGIN_DATA"
+    InSymbol(it8);   // Ebts "BEGIN_DATA"
     CheckEOLN(it8);
 
-    if (!t->Data)
-        AllocateDataSet(it8);
+    if (!t->Dbtb)
+        AllocbteDbtbSet(it8);
 
     while (it8->sy != SEND_DATA && it8->sy != SEOF)
     {
-        if (iField >= t -> nSamples) {
+        if (iField >= t -> nSbmples) {
             iField = 0;
             iSet++;
 
@@ -1913,10 +1913,10 @@ cmsBool DataSection (cmsIT8* it8)
 
         if (it8->sy != SEND_DATA && it8->sy != SEOF) {
 
-            if (!GetVal(it8, Buffer, 255, "Sample data expected"))
+            if (!GetVbl(it8, Buffer, 255, "Sbmple dbtb expected"))
                 return FALSE;
 
-            if (!SetData(it8, iSet, iField, Buffer))
+            if (!SetDbtb(it8, iSet, iField, Buffer))
                 return FALSE;
 
             iField++;
@@ -1930,10 +1930,10 @@ cmsBool DataSection (cmsIT8* it8)
     Skip(it8, SEND_DATA);
     SkipEOLN(it8);
 
-    // Check for data completion.
+    // Check for dbtb completion.
 
-    if ((iSet+1) != t -> nPatches)
-        return SynError(it8, "Count mismatch. NUMBER_OF_SETS was %d, found %d\n", t ->nPatches, iSet+1);
+    if ((iSet+1) != t -> nPbtches)
+        return SynError(it8, "Count mismbtch. NUMBER_OF_SETS wbs %d, found %d\n", t ->nPbtches, iSet+1);
 
     return TRUE;
 }
@@ -1941,11 +1941,11 @@ cmsBool DataSection (cmsIT8* it8)
 
 
 
-static
-cmsBool HeaderSection(cmsIT8* it8)
+stbtic
+cmsBool HebderSection(cmsIT8* it8)
 {
-    char VarName[MAXID];
-    char Buffer[MAXSTR];
+    chbr VbrNbme[MAXID];
+    chbr Buffer[MAXSTR];
     KEYVALUE* Key;
 
         while (it8->sy != SEOF &&
@@ -1956,89 +1956,89 @@ cmsBool HeaderSection(cmsIT8* it8)
 
         switch (it8 -> sy) {
 
-        case SKEYWORD:
+        cbse SKEYWORD:
                 InSymbol(it8);
-                if (!GetVal(it8, Buffer, MAXSTR-1, "Keyword expected")) return FALSE;
-                if (!AddAvailableProperty(it8, Buffer, WRITE_UNCOOKED)) return FALSE;
+                if (!GetVbl(it8, Buffer, MAXSTR-1, "Keyword expected")) return FALSE;
+                if (!AddAvbilbbleProperty(it8, Buffer, WRITE_UNCOOKED)) return FALSE;
                 InSymbol(it8);
-                break;
+                brebk;
 
 
-        case SDATA_FORMAT_ID:
+        cbse SDATA_FORMAT_ID:
                 InSymbol(it8);
-                if (!GetVal(it8, Buffer, MAXSTR-1, "Keyword expected")) return FALSE;
-                if (!AddAvailableSampleID(it8, Buffer)) return FALSE;
+                if (!GetVbl(it8, Buffer, MAXSTR-1, "Keyword expected")) return FALSE;
+                if (!AddAvbilbbleSbmpleID(it8, Buffer)) return FALSE;
                 InSymbol(it8);
-                break;
+                brebk;
 
 
-        case SIDENT:
-                strncpy(VarName, it8->id, MAXID-1);
-                VarName[MAXID-1] = 0;
+        cbse SIDENT:
+                strncpy(VbrNbme, it8->id, MAXID-1);
+                VbrNbme[MAXID-1] = 0;
 
-                if (!IsAvailableOnList(it8-> ValidKeywords, VarName, NULL, &Key)) {
+                if (!IsAvbilbbleOnList(it8-> VblidKeywords, VbrNbme, NULL, &Key)) {
 
 #ifdef CMS_STRICT_CGATS
-                 return SynError(it8, "Undefined keyword '%s'", VarName);
+                 return SynError(it8, "Undefined keyword '%s'", VbrNbme);
 #else
-                    Key = AddAvailableProperty(it8, VarName, WRITE_UNCOOKED);
+                    Key = AddAvbilbbleProperty(it8, VbrNbme, WRITE_UNCOOKED);
                     if (Key == NULL) return FALSE;
 #endif
                 }
 
                 InSymbol(it8);
-                if (!GetVal(it8, Buffer, MAXSTR-1, "Property data expected")) return FALSE;
+                if (!GetVbl(it8, Buffer, MAXSTR-1, "Property dbtb expected")) return FALSE;
 
                 if(Key->WriteAs != WRITE_PAIR) {
-                    AddToList(it8, &GetTable(it8)->HeaderList, VarName, NULL, Buffer,
+                    AddToList(it8, &GetTbble(it8)->HebderList, VbrNbme, NULL, Buffer,
                                 (it8->sy == SSTRING) ? WRITE_STRINGIFY : WRITE_UNCOOKED);
                 }
                 else {
-                    const char *Subkey;
-                    char *Nextkey;
+                    const chbr *Subkey;
+                    chbr *Nextkey;
                     if (it8->sy != SSTRING)
-                        return SynError(it8, "Invalid value '%s' for property '%s'.", Buffer, VarName);
+                        return SynError(it8, "Invblid vblue '%s' for property '%s'.", Buffer, VbrNbme);
 
-                    // chop the string as a list of "subkey, value" pairs, using ';' as a separator
+                    // chop the string bs b list of "subkey, vblue" pbirs, using ';' bs b sepbrbtor
                     for (Subkey = Buffer; Subkey != NULL; Subkey = Nextkey)
                     {
-                        char *Value, *temp;
+                        chbr *Vblue, *temp;
 
-                        //  identify token pair boundary
-                        Nextkey = (char*) strchr(Subkey, ';');
+                        //  identify token pbir boundbry
+                        Nextkey = (chbr*) strchr(Subkey, ';');
                         if(Nextkey)
                             *Nextkey++ = '\0';
 
-                        // for each pair, split the subkey and the value
-                        Value = (char*) strrchr(Subkey, ',');
-                        if(Value == NULL)
-                            return SynError(it8, "Invalid value for property '%s'.", VarName);
+                        // for ebch pbir, split the subkey bnd the vblue
+                        Vblue = (chbr*) strrchr(Subkey, ',');
+                        if(Vblue == NULL)
+                            return SynError(it8, "Invblid vblue for property '%s'.", VbrNbme);
 
-                        // gobble the spaces before the coma, and the coma itself
-                        temp = Value++;
+                        // gobble the spbces before the comb, bnd the comb itself
+                        temp = Vblue++;
                         do *temp-- = '\0'; while(temp >= Subkey && *temp == ' ');
 
-                        // gobble any space at the right
-                        temp = Value + strlen(Value) - 1;
+                        // gobble bny spbce bt the right
+                        temp = Vblue + strlen(Vblue) - 1;
                         while(*temp == ' ') *temp-- = '\0';
 
                         // trim the strings from the left
                         Subkey += strspn(Subkey, " ");
-                        Value += strspn(Value, " ");
+                        Vblue += strspn(Vblue, " ");
 
-                        if(Subkey[0] == 0 || Value[0] == 0)
-                            return SynError(it8, "Invalid value for property '%s'.", VarName);
-                        AddToList(it8, &GetTable(it8)->HeaderList, VarName, Subkey, Value, WRITE_PAIR);
+                        if(Subkey[0] == 0 || Vblue[0] == 0)
+                            return SynError(it8, "Invblid vblue for property '%s'.", VbrNbme);
+                        AddToList(it8, &GetTbble(it8)->HebderList, VbrNbme, Subkey, Vblue, WRITE_PAIR);
                     }
                 }
 
                 InSymbol(it8);
-                break;
+                brebk;
 
 
-        case SEOLN: break;
+        cbse SEOLN: brebk;
 
-        default:
+        defbult:
                 return SynError(it8, "expected keyword or identifier");
         }
 
@@ -2050,17 +2050,17 @@ cmsBool HeaderSection(cmsIT8* it8)
 }
 
 
-static
-void ReadType(cmsIT8* it8, char* SheetTypePtr)
+stbtic
+void RebdType(cmsIT8* it8, chbr* SheetTypePtr)
 {
-    // First line is a very special case.
+    // First line is b very specibl cbse.
 
-    while (isseparator(it8->ch))
+    while (issepbrbtor(it8->ch))
             NextCh(it8);
 
     while (it8->ch != '\r' && it8 ->ch != '\n' && it8->ch != '\t' && it8 -> ch != -1) {
 
-        *SheetTypePtr++= (char) it8 ->ch;
+        *SheetTypePtr++= (chbr) it8 ->ch;
         NextCh(it8);
     }
 
@@ -2068,13 +2068,13 @@ void ReadType(cmsIT8* it8, char* SheetTypePtr)
 }
 
 
-static
-cmsBool ParseIT8(cmsIT8* it8, cmsBool nosheet)
+stbtic
+cmsBool PbrseIT8(cmsIT8* it8, cmsBool nosheet)
 {
-    char* SheetTypePtr = it8 ->Tab[0].SheetType;
+    chbr* SheetTypePtr = it8 ->Tbb[0].SheetType;
 
     if (nosheet == 0) {
-        ReadType(it8, SheetTypePtr);
+        RebdType(it8, SheetTypePtr);
     }
 
     InSymbol(it8);
@@ -2086,32 +2086,32 @@ cmsBool ParseIT8(cmsIT8* it8, cmsBool nosheet)
 
             switch (it8 -> sy) {
 
-            case SBEGIN_DATA_FORMAT:
-                    if (!DataFormatSection(it8)) return FALSE;
-                    break;
+            cbse SBEGIN_DATA_FORMAT:
+                    if (!DbtbFormbtSection(it8)) return FALSE;
+                    brebk;
 
-            case SBEGIN_DATA:
+            cbse SBEGIN_DATA:
 
-                    if (!DataSection(it8)) return FALSE;
+                    if (!DbtbSection(it8)) return FALSE;
 
                     if (it8 -> sy != SEOF) {
 
-                            AllocTable(it8);
-                            it8 ->nTable = it8 ->TablesCount - 1;
+                            AllocTbble(it8);
+                            it8 ->nTbble = it8 ->TbblesCount - 1;
 
-                            // Read sheet type if present. We only support identifier and string.
-                            // <ident> <eoln> is a type string
-                            // anything else, is not a type string
+                            // Rebd sheet type if present. We only support identifier bnd string.
+                            // <ident> <eoln> is b type string
+                            // bnything else, is not b type string
                             if (nosheet == 0) {
 
                                 if (it8 ->sy == SIDENT) {
 
-                                    // May be a type sheet or may be a prop value statement. We cannot use insymbol in
-                                    // this special case...
-                                     while (isseparator(it8->ch))
+                                    // Mby be b type sheet or mby be b prop vblue stbtement. We cbnnot use insymbol in
+                                    // this specibl cbse...
+                                     while (issepbrbtor(it8->ch))
                                          NextCh(it8);
 
-                                     // If a newline is found, then this is a type string
+                                     // If b newline is found, then this is b type string
                                     if (it8 ->ch == '\n' || it8->ch == '\r') {
 
                                          cmsIT8SetSheetType(it8, it8 ->id);
@@ -2124,7 +2124,7 @@ cmsBool ParseIT8(cmsIT8* it8, cmsBool nosheet)
                                     }
                                 }
                                 else
-                                    // Validate quoted strings
+                                    // Vblidbte quoted strings
                                     if (it8 ->sy == SSTRING) {
                                         cmsIT8SetSheetType(it8, it8 ->str);
                                         InSymbol(it8);
@@ -2132,14 +2132,14 @@ cmsBool ParseIT8(cmsIT8* it8, cmsBool nosheet)
                            }
 
                     }
-                    break;
+                    brebk;
 
-            case SEOLN:
+            cbse SEOLN:
                     SkipEOLN(it8);
-                    break;
+                    brebk;
 
-            default:
-                    if (!HeaderSection(it8)) return FALSE;
+            defbult:
+                    if (!HebderSection(it8)) return FALSE;
            }
 
     }
@@ -2151,87 +2151,87 @@ cmsBool ParseIT8(cmsIT8* it8, cmsBool nosheet)
 
 // Init usefull pointers
 
-static
+stbtic
 void CookPointers(cmsIT8* it8)
 {
     int idField, i;
-    char* Fld;
+    chbr* Fld;
     cmsUInt32Number j;
-    cmsUInt32Number nOldTable = it8 ->nTable;
+    cmsUInt32Number nOldTbble = it8 ->nTbble;
 
-    for (j=0; j < it8 ->TablesCount; j++) {
+    for (j=0; j < it8 ->TbblesCount; j++) {
 
-    TABLE* t = it8 ->Tab + j;
+    TABLE* t = it8 ->Tbb + j;
 
-    t -> SampleID = 0;
-    it8 ->nTable = j;
+    t -> SbmpleID = 0;
+    it8 ->nTbble = j;
 
-    for (idField = 0; idField < t -> nSamples; idField++)
+    for (idField = 0; idField < t -> nSbmples; idField++)
     {
-        if (t ->DataFormat == NULL){
+        if (t ->DbtbFormbt == NULL){
             SynError(it8, "Undefined DATA_FORMAT");
             return;
         }
 
-        Fld = t->DataFormat[idField];
+        Fld = t->DbtbFormbt[idField];
         if (!Fld) continue;
 
 
-        if (cmsstrcasecmp(Fld, "SAMPLE_ID") == 0) {
+        if (cmsstrcbsecmp(Fld, "SAMPLE_ID") == 0) {
 
-                    t -> SampleID = idField;
+                    t -> SbmpleID = idField;
 
-        for (i=0; i < t -> nPatches; i++) {
+        for (i=0; i < t -> nPbtches; i++) {
 
-                char *Data = GetData(it8, i, idField);
-                if (Data) {
-                    char Buffer[256];
+                chbr *Dbtb = GetDbtb(it8, i, idField);
+                if (Dbtb) {
+                    chbr Buffer[256];
 
-                    strncpy(Buffer, Data, 255);
+                    strncpy(Buffer, Dbtb, 255);
                     Buffer[255] = 0;
 
-                    if (strlen(Buffer) <= strlen(Data))
-                        strcpy(Data, Buffer);
+                    if (strlen(Buffer) <= strlen(Dbtb))
+                        strcpy(Dbtb, Buffer);
                     else
-                        SetData(it8, i, idField, Buffer);
+                        SetDbtb(it8, i, idField, Buffer);
 
                 }
                 }
 
         }
 
-        // "LABEL" is an extension. It keeps references to forward tables
+        // "LABEL" is bn extension. It keeps references to forwbrd tbbles
 
-        if ((cmsstrcasecmp(Fld, "LABEL") == 0) || Fld[0] == '$' ) {
+        if ((cmsstrcbsecmp(Fld, "LABEL") == 0) || Fld[0] == '$' ) {
 
-                    // Search for table references...
-                    for (i=0; i < t -> nPatches; i++) {
+                    // Sebrch for tbble references...
+                    for (i=0; i < t -> nPbtches; i++) {
 
-                            char *Label = GetData(it8, i, idField);
+                            chbr *Lbbel = GetDbtb(it8, i, idField);
 
-                            if (Label) {
+                            if (Lbbel) {
 
                                 cmsUInt32Number k;
 
-                                // This is the label, search for a table containing
+                                // This is the lbbel, sebrch for b tbble contbining
                                 // this property
 
-                                for (k=0; k < it8 ->TablesCount; k++) {
+                                for (k=0; k < it8 ->TbblesCount; k++) {
 
-                                    TABLE* Table = it8 ->Tab + k;
+                                    TABLE* Tbble = it8 ->Tbb + k;
                                     KEYVALUE* p;
 
-                                    if (IsAvailableOnList(Table->HeaderList, Label, NULL, &p)) {
+                                    if (IsAvbilbbleOnList(Tbble->HebderList, Lbbel, NULL, &p)) {
 
-                                        // Available, keep type and table
-                                        char Buffer[256];
+                                        // Avbilbble, keep type bnd tbble
+                                        chbr Buffer[256];
 
-                                        char *Type  = p ->Value;
-                                        int  nTable = (int) k;
+                                        chbr *Type  = p ->Vblue;
+                                        int  nTbble = (int) k;
 
-                                        snprintf(Buffer, 255, "%s %d %s", Label, nTable, Type );
+                                        snprintf(Buffer, 255, "%s %d %s", Lbbel, nTbble, Type );
 
-                                        SetData(it8, i, idField, Buffer);
+                                        SetDbtb(it8, i, idField, Buffer);
                                     }
                                 }
 
@@ -2246,19 +2246,19 @@ void CookPointers(cmsIT8* it8)
     }
     }
 
-    it8 ->nTable = nOldTable;
+    it8 ->nTbble = nOldTbble;
 }
 
-// Try to infere if the file is a CGATS/IT8 file at all. Read first line
-// that should be something like some printable characters plus a \n
-// returns 0 if this is not like a CGATS, or an integer otherwise. This integer is the number of words in first line?
-static
+// Try to infere if the file is b CGATS/IT8 file bt bll. Rebd first line
+// thbt should be something like some printbble chbrbcters plus b \n
+// returns 0 if this is not like b CGATS, or bn integer otherwise. This integer is the number of words in first line?
+stbtic
 int IsMyBlock(cmsUInt8Number* Buffer, int n)
 {
-    int words = 1, space = 0, quot = 0;
+    int words = 1, spbce = 0, quot = 0;
     int i;
 
-    if (n < 10) return 0;   // Too small
+    if (n < 10) return 0;   // Too smbll
 
     if (n > 132)
         n = 132;
@@ -2267,23 +2267,23 @@ int IsMyBlock(cmsUInt8Number* Buffer, int n)
 
         switch(Buffer[i])
         {
-        case '\n':
-        case '\r':
+        cbse '\n':
+        cbse '\r':
             return ((quot == 1) || (words > 2)) ? 0 : words;
-        case '\t':
-        case ' ':
-            if(!quot && !space)
-                space = 1;
-            break;
-        case '\"':
+        cbse '\t':
+        cbse ' ':
+            if(!quot && !spbce)
+                spbce = 1;
+            brebk;
+        cbse '\"':
             quot = !quot;
-            break;
-        default:
+            brebk;
+        defbult:
             if (Buffer[i] < 32) return 0;
             if (Buffer[i] > 127) return 0;
-            words += space;
-            space = 0;
-            break;
+            words += spbce;
+            spbce = 0;
+            brebk;
         }
     }
 
@@ -2291,20 +2291,20 @@ int IsMyBlock(cmsUInt8Number* Buffer, int n)
 }
 
 
-static
-cmsBool IsMyFile(const char* FileName)
+stbtic
+cmsBool IsMyFile(const chbr* FileNbme)
 {
    FILE *fp;
    cmsUInt32Number Size;
    cmsUInt8Number Ptr[133];
 
-   fp = fopen(FileName, "rt");
+   fp = fopen(FileNbme, "rt");
    if (!fp) {
-       cmsSignalError(0, cmsERROR_FILE, "File '%s' not found", FileName);
+       cmsSignblError(0, cmsERROR_FILE, "File '%s' not found", FileNbme);
        return FALSE;
    }
 
-   Size = (cmsUInt32Number) fread(Ptr, 1, 132, fp);
+   Size = (cmsUInt32Number) frebd(Ptr, 1, 132, fp);
 
    if (fclose(fp) != 0)
        return FALSE;
@@ -2317,7 +2317,7 @@ cmsBool IsMyFile(const char* FileName)
 // ---------------------------------------------------------- Exported routines
 
 
-cmsHANDLE  CMSEXPORT cmsIT8LoadFromMem(cmsContext ContextID, void *Ptr, cmsUInt32Number len)
+cmsHANDLE  CMSEXPORT cmsIT8LobdFromMem(cmsContext ContextID, void *Ptr, cmsUInt32Number len)
 {
     cmsHANDLE hIT8;
     cmsIT8*  it8;
@@ -2333,22 +2333,22 @@ cmsHANDLE  CMSEXPORT cmsIT8LoadFromMem(cmsContext ContextID, void *Ptr, cmsUInt3
     if (!hIT8) return NULL;
 
     it8 = (cmsIT8*) hIT8;
-    it8 ->MemoryBlock = (char*) _cmsMalloc(ContextID, len + 1);
+    it8 ->MemoryBlock = (chbr*) _cmsMblloc(ContextID, len + 1);
 
-    strncpy(it8 ->MemoryBlock, (const char*) Ptr, len);
+    strncpy(it8 ->MemoryBlock, (const chbr*) Ptr, len);
     it8 ->MemoryBlock[len] = 0;
 
-    strncpy(it8->FileStack[0]->FileName, "", cmsMAX_PATH-1);
+    strncpy(it8->FileStbck[0]->FileNbme, "", cmsMAX_PATH-1);
     it8-> Source = it8 -> MemoryBlock;
 
-    if (!ParseIT8(it8, type-1)) {
+    if (!PbrseIT8(it8, type-1)) {
 
         cmsIT8Free(hIT8);
         return FALSE;
     }
 
     CookPointers(it8);
-    it8 ->nTable = 0;
+    it8 ->nTbble = 0;
 
     _cmsFree(ContextID, it8->MemoryBlock);
     it8 -> MemoryBlock = NULL;
@@ -2359,16 +2359,16 @@ cmsHANDLE  CMSEXPORT cmsIT8LoadFromMem(cmsContext ContextID, void *Ptr, cmsUInt3
 }
 
 
-cmsHANDLE  CMSEXPORT cmsIT8LoadFromFile(cmsContext ContextID, const char* cFileName)
+cmsHANDLE  CMSEXPORT cmsIT8LobdFromFile(cmsContext ContextID, const chbr* cFileNbme)
 {
 
      cmsHANDLE hIT8;
      cmsIT8*  it8;
      int type;
 
-     _cmsAssert(cFileName != NULL);
+     _cmsAssert(cFileNbme != NULL);
 
-     type = IsMyFile(cFileName);
+     type = IsMyFile(cFileNbme);
      if (type == 0) return NULL;
 
      hIT8 = cmsIT8Alloc(ContextID);
@@ -2376,28 +2376,28 @@ cmsHANDLE  CMSEXPORT cmsIT8LoadFromFile(cmsContext ContextID, const char* cFileN
      if (!hIT8) return NULL;
 
 
-     it8 ->FileStack[0]->Stream = fopen(cFileName, "rt");
+     it8 ->FileStbck[0]->Strebm = fopen(cFileNbme, "rt");
 
-     if (!it8 ->FileStack[0]->Stream) {
+     if (!it8 ->FileStbck[0]->Strebm) {
          cmsIT8Free(hIT8);
          return NULL;
      }
 
 
-    strncpy(it8->FileStack[0]->FileName, cFileName, cmsMAX_PATH-1);
-    it8->FileStack[0]->FileName[cmsMAX_PATH-1] = 0;
+    strncpy(it8->FileStbck[0]->FileNbme, cFileNbme, cmsMAX_PATH-1);
+    it8->FileStbck[0]->FileNbme[cmsMAX_PATH-1] = 0;
 
-    if (!ParseIT8(it8, type-1)) {
+    if (!PbrseIT8(it8, type-1)) {
 
-            fclose(it8 ->FileStack[0]->Stream);
+            fclose(it8 ->FileStbck[0]->Strebm);
             cmsIT8Free(hIT8);
             return NULL;
     }
 
     CookPointers(it8);
-    it8 ->nTable = 0;
+    it8 ->nTbble = 0;
 
-    if (fclose(it8 ->FileStack[0]->Stream)!= 0) {
+    if (fclose(it8 ->FileStbck[0]->Strebm)!= 0) {
             cmsIT8Free(hIT8);
             return NULL;
     }
@@ -2406,72 +2406,72 @@ cmsHANDLE  CMSEXPORT cmsIT8LoadFromFile(cmsContext ContextID, const char* cFileN
 
 }
 
-int CMSEXPORT cmsIT8EnumDataFormat(cmsHANDLE hIT8, char ***SampleNames)
+int CMSEXPORT cmsIT8EnumDbtbFormbt(cmsHANDLE hIT8, chbr ***SbmpleNbmes)
 {
     cmsIT8* it8 = (cmsIT8*) hIT8;
     TABLE* t;
 
     _cmsAssert(hIT8 != NULL);
 
-    t = GetTable(it8);
+    t = GetTbble(it8);
 
-    if (SampleNames)
-        *SampleNames = t -> DataFormat;
-    return t -> nSamples;
+    if (SbmpleNbmes)
+        *SbmpleNbmes = t -> DbtbFormbt;
+    return t -> nSbmples;
 }
 
 
-cmsUInt32Number CMSEXPORT cmsIT8EnumProperties(cmsHANDLE hIT8, char ***PropertyNames)
+cmsUInt32Number CMSEXPORT cmsIT8EnumProperties(cmsHANDLE hIT8, chbr ***PropertyNbmes)
 {
     cmsIT8* it8 = (cmsIT8*) hIT8;
     KEYVALUE* p;
     cmsUInt32Number n;
-    char **Props;
+    chbr **Props;
     TABLE* t;
 
     _cmsAssert(hIT8 != NULL);
 
-    t = GetTable(it8);
+    t = GetTbble(it8);
 
-    // Pass#1 - count properties
+    // Pbss#1 - count properties
 
     n = 0;
-    for (p = t -> HeaderList;  p != NULL; p = p->Next) {
+    for (p = t -> HebderList;  p != NULL; p = p->Next) {
         n++;
     }
 
 
-    Props = (char **) AllocChunk(it8, sizeof(char *) * n);
+    Props = (chbr **) AllocChunk(it8, sizeof(chbr *) * n);
 
-    // Pass#2 - Fill pointers
+    // Pbss#2 - Fill pointers
     n = 0;
-    for (p = t -> HeaderList;  p != NULL; p = p->Next) {
+    for (p = t -> HebderList;  p != NULL; p = p->Next) {
         Props[n++] = p -> Keyword;
     }
 
-    *PropertyNames = Props;
+    *PropertyNbmes = Props;
     return n;
 }
 
-cmsUInt32Number CMSEXPORT cmsIT8EnumPropertyMulti(cmsHANDLE hIT8, const char* cProp, const char ***SubpropertyNames)
+cmsUInt32Number CMSEXPORT cmsIT8EnumPropertyMulti(cmsHANDLE hIT8, const chbr* cProp, const chbr ***SubpropertyNbmes)
 {
     cmsIT8* it8 = (cmsIT8*) hIT8;
     KEYVALUE *p, *tmp;
     cmsUInt32Number n;
-    const char **Props;
+    const chbr **Props;
     TABLE* t;
 
     _cmsAssert(hIT8 != NULL);
 
 
-    t = GetTable(it8);
+    t = GetTbble(it8);
 
-    if(!IsAvailableOnList(t->HeaderList, cProp, NULL, &p)) {
-        *SubpropertyNames = 0;
+    if(!IsAvbilbbleOnList(t->HebderList, cProp, NULL, &p)) {
+        *SubpropertyNbmes = 0;
         return 0;
     }
 
-    // Pass#1 - count properties
+    // Pbss#1 - count properties
 
     n = 0;
     for (tmp = p;  tmp != NULL; tmp = tmp->NextSubkey) {
@@ -2480,54 +2480,54 @@ cmsUInt32Number CMSEXPORT cmsIT8EnumPropertyMulti(cmsHANDLE hIT8, const char* cP
     }
 
 
-    Props = (const char **) AllocChunk(it8, sizeof(char *) * n);
+    Props = (const chbr **) AllocChunk(it8, sizeof(chbr *) * n);
 
-    // Pass#2 - Fill pointers
+    // Pbss#2 - Fill pointers
     n = 0;
     for (tmp = p;  tmp != NULL; tmp = tmp->NextSubkey) {
         if(tmp->Subkey != NULL)
             Props[n++] = p ->Subkey;
     }
 
-    *SubpropertyNames = Props;
+    *SubpropertyNbmes = Props;
     return n;
 }
 
-static
-int LocatePatch(cmsIT8* it8, const char* cPatch)
+stbtic
+int LocbtePbtch(cmsIT8* it8, const chbr* cPbtch)
 {
     int i;
-    const char *data;
-    TABLE* t = GetTable(it8);
+    const chbr *dbtb;
+    TABLE* t = GetTbble(it8);
 
-    for (i=0; i < t-> nPatches; i++) {
+    for (i=0; i < t-> nPbtches; i++) {
 
-        data = GetData(it8, i, t->SampleID);
+        dbtb = GetDbtb(it8, i, t->SbmpleID);
 
-        if (data != NULL) {
+        if (dbtb != NULL) {
 
-                if (cmsstrcasecmp(data, cPatch) == 0)
+                if (cmsstrcbsecmp(dbtb, cPbtch) == 0)
                         return i;
                 }
         }
 
-        // SynError(it8, "Couldn't find patch '%s'\n", cPatch);
+        // SynError(it8, "Couldn't find pbtch '%s'\n", cPbtch);
         return -1;
 }
 
 
-static
-int LocateEmptyPatch(cmsIT8* it8)
+stbtic
+int LocbteEmptyPbtch(cmsIT8* it8)
 {
     int i;
-    const char *data;
-    TABLE* t = GetTable(it8);
+    const chbr *dbtb;
+    TABLE* t = GetTbble(it8);
 
-    for (i=0; i < t-> nPatches; i++) {
+    for (i=0; i < t-> nPbtches; i++) {
 
-        data = GetData(it8, i, t->SampleID);
+        dbtb = GetDbtb(it8, i, t->SbmpleID);
 
-        if (data == NULL)
+        if (dbtb == NULL)
             return i;
 
     }
@@ -2535,17 +2535,17 @@ int LocateEmptyPatch(cmsIT8* it8)
     return -1;
 }
 
-static
-int LocateSample(cmsIT8* it8, const char* cSample)
+stbtic
+int LocbteSbmple(cmsIT8* it8, const chbr* cSbmple)
 {
     int i;
-    const char *fld;
-    TABLE* t = GetTable(it8);
+    const chbr *fld;
+    TABLE* t = GetTbble(it8);
 
-    for (i=0; i < t->nSamples; i++) {
+    for (i=0; i < t->nSbmples; i++) {
 
-        fld = GetDataFormat(it8, i);
-        if (cmsstrcasecmp(fld, cSample) == 0)
+        fld = GetDbtbFormbt(it8, i);
+        if (cmsstrcbsecmp(fld, cSbmple) == 0)
             return i;
     }
 
@@ -2554,96 +2554,96 @@ int LocateSample(cmsIT8* it8, const char* cSample)
 }
 
 
-int CMSEXPORT cmsIT8FindDataFormat(cmsHANDLE hIT8, const char* cSample)
+int CMSEXPORT cmsIT8FindDbtbFormbt(cmsHANDLE hIT8, const chbr* cSbmple)
 {
     cmsIT8* it8 = (cmsIT8*) hIT8;
 
     _cmsAssert(hIT8 != NULL);
 
-    return LocateSample(it8, cSample);
+    return LocbteSbmple(it8, cSbmple);
 }
 
 
 
-const char* CMSEXPORT cmsIT8GetDataRowCol(cmsHANDLE hIT8, int row, int col)
+const chbr* CMSEXPORT cmsIT8GetDbtbRowCol(cmsHANDLE hIT8, int row, int col)
 {
     cmsIT8* it8 = (cmsIT8*) hIT8;
 
     _cmsAssert(hIT8 != NULL);
 
-    return GetData(it8, row, col);
+    return GetDbtb(it8, row, col);
 }
 
 
-cmsFloat64Number CMSEXPORT cmsIT8GetDataRowColDbl(cmsHANDLE hIT8, int row, int col)
+cmsFlobt64Number CMSEXPORT cmsIT8GetDbtbRowColDbl(cmsHANDLE hIT8, int row, int col)
 {
-    const char* Buffer;
+    const chbr* Buffer;
 
-    Buffer = cmsIT8GetDataRowCol(hIT8, row, col);
+    Buffer = cmsIT8GetDbtbRowCol(hIT8, row, col);
 
     if (Buffer == NULL) return 0.0;
 
-    return ParseFloatNumber(Buffer);
+    return PbrseFlobtNumber(Buffer);
 }
 
 
-cmsBool CMSEXPORT cmsIT8SetDataRowCol(cmsHANDLE hIT8, int row, int col, const char* Val)
+cmsBool CMSEXPORT cmsIT8SetDbtbRowCol(cmsHANDLE hIT8, int row, int col, const chbr* Vbl)
 {
     cmsIT8* it8 = (cmsIT8*) hIT8;
 
     _cmsAssert(hIT8 != NULL);
 
-    return SetData(it8, row, col, Val);
+    return SetDbtb(it8, row, col, Vbl);
 }
 
 
-cmsBool CMSEXPORT cmsIT8SetDataRowColDbl(cmsHANDLE hIT8, int row, int col, cmsFloat64Number Val)
+cmsBool CMSEXPORT cmsIT8SetDbtbRowColDbl(cmsHANDLE hIT8, int row, int col, cmsFlobt64Number Vbl)
 {
     cmsIT8* it8 = (cmsIT8*) hIT8;
-    char Buff[256];
+    chbr Buff[256];
 
     _cmsAssert(hIT8 != NULL);
 
-    sprintf(Buff, it8->DoubleFormatter, Val);
+    sprintf(Buff, it8->DoubleFormbtter, Vbl);
 
-    return SetData(it8, row, col, Buff);
+    return SetDbtb(it8, row, col, Buff);
 }
 
 
 
-const char* CMSEXPORT cmsIT8GetData(cmsHANDLE hIT8, const char* cPatch, const char* cSample)
+const chbr* CMSEXPORT cmsIT8GetDbtb(cmsHANDLE hIT8, const chbr* cPbtch, const chbr* cSbmple)
 {
     cmsIT8* it8 = (cmsIT8*) hIT8;
     int iField, iSet;
 
     _cmsAssert(hIT8 != NULL);
 
-    iField = LocateSample(it8, cSample);
+    iField = LocbteSbmple(it8, cSbmple);
     if (iField < 0) {
         return NULL;
     }
 
-    iSet = LocatePatch(it8, cPatch);
+    iSet = LocbtePbtch(it8, cPbtch);
     if (iSet < 0) {
             return NULL;
     }
 
-    return GetData(it8, iSet, iField);
+    return GetDbtb(it8, iSet, iField);
 }
 
 
-cmsFloat64Number CMSEXPORT cmsIT8GetDataDbl(cmsHANDLE  it8, const char* cPatch, const char* cSample)
+cmsFlobt64Number CMSEXPORT cmsIT8GetDbtbDbl(cmsHANDLE  it8, const chbr* cPbtch, const chbr* cSbmple)
 {
-    const char* Buffer;
+    const chbr* Buffer;
 
-    Buffer = cmsIT8GetData(it8, cPatch, cSample);
+    Buffer = cmsIT8GetDbtb(it8, cPbtch, cSbmple);
 
-    return ParseFloatNumber(Buffer);
+    return PbrseFlobtNumber(Buffer);
 }
 
 
 
-cmsBool CMSEXPORT cmsIT8SetData(cmsHANDLE hIT8, const char* cPatch, const char* cSample, const char *Val)
+cmsBool CMSEXPORT cmsIT8SetDbtb(cmsHANDLE hIT8, const chbr* cPbtch, const chbr* cSbmple, const chbr *Vbl)
 {
     cmsIT8* it8 = (cmsIT8*) hIT8;
     int iField, iSet;
@@ -2651,98 +2651,98 @@ cmsBool CMSEXPORT cmsIT8SetData(cmsHANDLE hIT8, const char* cPatch, const char* 
 
     _cmsAssert(hIT8 != NULL);
 
-    t = GetTable(it8);
+    t = GetTbble(it8);
 
-    iField = LocateSample(it8, cSample);
+    iField = LocbteSbmple(it8, cSbmple);
 
     if (iField < 0)
         return FALSE;
 
-    if (t-> nPatches == 0) {
+    if (t-> nPbtches == 0) {
 
-        AllocateDataFormat(it8);
-        AllocateDataSet(it8);
+        AllocbteDbtbFormbt(it8);
+        AllocbteDbtbSet(it8);
         CookPointers(it8);
     }
 
-    if (cmsstrcasecmp(cSample, "SAMPLE_ID") == 0) {
+    if (cmsstrcbsecmp(cSbmple, "SAMPLE_ID") == 0) {
 
-        iSet   = LocateEmptyPatch(it8);
+        iSet   = LocbteEmptyPbtch(it8);
         if (iSet < 0) {
-            return SynError(it8, "Couldn't add more patches '%s'\n", cPatch);
+            return SynError(it8, "Couldn't bdd more pbtches '%s'\n", cPbtch);
         }
 
-        iField = t -> SampleID;
+        iField = t -> SbmpleID;
     }
     else {
-        iSet = LocatePatch(it8, cPatch);
+        iSet = LocbtePbtch(it8, cPbtch);
         if (iSet < 0) {
             return FALSE;
         }
     }
 
-    return SetData(it8, iSet, iField, Val);
+    return SetDbtb(it8, iSet, iField, Vbl);
 }
 
 
-cmsBool CMSEXPORT cmsIT8SetDataDbl(cmsHANDLE hIT8, const char* cPatch,
-                                   const char* cSample,
-                                   cmsFloat64Number Val)
+cmsBool CMSEXPORT cmsIT8SetDbtbDbl(cmsHANDLE hIT8, const chbr* cPbtch,
+                                   const chbr* cSbmple,
+                                   cmsFlobt64Number Vbl)
 {
     cmsIT8* it8 = (cmsIT8*) hIT8;
-    char Buff[256];
+    chbr Buff[256];
 
     _cmsAssert(hIT8 != NULL);
 
-    snprintf(Buff, 255, it8->DoubleFormatter, Val);
-    return cmsIT8SetData(hIT8, cPatch, cSample, Buff);
+    snprintf(Buff, 255, it8->DoubleFormbtter, Vbl);
+    return cmsIT8SetDbtb(hIT8, cPbtch, cSbmple, Buff);
 }
 
-// Buffer should get MAXSTR at least
+// Buffer should get MAXSTR bt lebst
 
-const char* CMSEXPORT cmsIT8GetPatchName(cmsHANDLE hIT8, int nPatch, char* buffer)
+const chbr* CMSEXPORT cmsIT8GetPbtchNbme(cmsHANDLE hIT8, int nPbtch, chbr* buffer)
 {
     cmsIT8* it8 = (cmsIT8*) hIT8;
     TABLE* t;
-    char* Data;
+    chbr* Dbtb;
 
     _cmsAssert(hIT8 != NULL);
 
-    t = GetTable(it8);
-    Data = GetData(it8, nPatch, t->SampleID);
+    t = GetTbble(it8);
+    Dbtb = GetDbtb(it8, nPbtch, t->SbmpleID);
 
-    if (!Data) return NULL;
-    if (!buffer) return Data;
+    if (!Dbtb) return NULL;
+    if (!buffer) return Dbtb;
 
-    strncpy(buffer, Data, MAXSTR-1);
+    strncpy(buffer, Dbtb, MAXSTR-1);
     buffer[MAXSTR-1] = 0;
     return buffer;
 }
 
-int CMSEXPORT cmsIT8GetPatchByName(cmsHANDLE hIT8, const char *cPatch)
+int CMSEXPORT cmsIT8GetPbtchByNbme(cmsHANDLE hIT8, const chbr *cPbtch)
 {
     _cmsAssert(hIT8 != NULL);
 
-    return LocatePatch((cmsIT8*)hIT8, cPatch);
+    return LocbtePbtch((cmsIT8*)hIT8, cPbtch);
 }
 
-cmsUInt32Number CMSEXPORT cmsIT8TableCount(cmsHANDLE hIT8)
+cmsUInt32Number CMSEXPORT cmsIT8TbbleCount(cmsHANDLE hIT8)
 {
     cmsIT8* it8 = (cmsIT8*) hIT8;
 
     _cmsAssert(hIT8 != NULL);
 
-    return it8 ->TablesCount;
+    return it8 ->TbblesCount;
 }
 
-// This handles the "LABEL" extension.
-// Label, nTable, Type
+// This hbndles the "LABEL" extension.
+// Lbbel, nTbble, Type
 
-int CMSEXPORT cmsIT8SetTableByLabel(cmsHANDLE hIT8, const char* cSet, const char* cField, const char* ExpectedType)
+int CMSEXPORT cmsIT8SetTbbleByLbbel(cmsHANDLE hIT8, const chbr* cSet, const chbr* cField, const chbr* ExpectedType)
 {
-    const char* cLabelFld;
-    char Type[256], Label[256];
-    int nTable;
+    const chbr* cLbbelFld;
+    chbr Type[256], Lbbel[256];
+    int nTbble;
 
     _cmsAssert(hIT8 != NULL);
 
@@ -2752,10 +2752,10 @@ int CMSEXPORT cmsIT8SetTableByLabel(cmsHANDLE hIT8, const char* cSet, const char
     if (cField == NULL)
             cField = "LABEL";
 
-    cLabelFld = cmsIT8GetData(hIT8, cSet, cField);
-    if (!cLabelFld) return -1;
+    cLbbelFld = cmsIT8GetDbtb(hIT8, cSet, cField);
+    if (!cLbbelFld) return -1;
 
-    if (sscanf(cLabelFld, "%255s %d %255s", Label, &nTable, Type) != 3)
+    if (sscbnf(cLbbelFld, "%255s %d %255s", Lbbel, &nTbble, Type) != 3)
             return -1;
 
     if (ExpectedType != NULL && *ExpectedType == 0)
@@ -2763,40 +2763,40 @@ int CMSEXPORT cmsIT8SetTableByLabel(cmsHANDLE hIT8, const char* cSet, const char
 
     if (ExpectedType) {
 
-        if (cmsstrcasecmp(Type, ExpectedType) != 0) return -1;
+        if (cmsstrcbsecmp(Type, ExpectedType) != 0) return -1;
     }
 
-    return cmsIT8SetTable(hIT8, nTable);
+    return cmsIT8SetTbble(hIT8, nTbble);
 }
 
 
-cmsBool CMSEXPORT cmsIT8SetIndexColumn(cmsHANDLE hIT8, const char* cSample)
+cmsBool CMSEXPORT cmsIT8SetIndexColumn(cmsHANDLE hIT8, const chbr* cSbmple)
 {
     cmsIT8* it8 = (cmsIT8*) hIT8;
     int pos;
 
     _cmsAssert(hIT8 != NULL);
 
-    pos = LocateSample(it8, cSample);
+    pos = LocbteSbmple(it8, cSbmple);
     if(pos == -1)
         return FALSE;
 
-    it8->Tab[it8->nTable].SampleID = pos;
+    it8->Tbb[it8->nTbble].SbmpleID = pos;
     return TRUE;
 }
 
 
-void CMSEXPORT cmsIT8DefineDblFormat(cmsHANDLE hIT8, const char* Formatter)
+void CMSEXPORT cmsIT8DefineDblFormbt(cmsHANDLE hIT8, const chbr* Formbtter)
 {
     cmsIT8* it8 = (cmsIT8*) hIT8;
 
     _cmsAssert(hIT8 != NULL);
 
-    if (Formatter == NULL)
-        strcpy(it8->DoubleFormatter, DEFAULT_DBL_FORMAT);
+    if (Formbtter == NULL)
+        strcpy(it8->DoubleFormbtter, DEFAULT_DBL_FORMAT);
     else
-        strncpy(it8->DoubleFormatter, Formatter, sizeof(it8->DoubleFormatter));
+        strncpy(it8->DoubleFormbtter, Formbtter, sizeof(it8->DoubleFormbtter));
 
-    it8 ->DoubleFormatter[sizeof(it8 ->DoubleFormatter)-1] = 0;
+    it8 ->DoubleFormbtter[sizeof(it8 ->DoubleFormbtter)-1] = 0;
 }
 

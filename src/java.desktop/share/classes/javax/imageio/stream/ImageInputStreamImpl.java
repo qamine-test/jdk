@@ -1,111 +1,111 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.imageio.stream;
+pbckbge jbvbx.imbgeio.strebm;
 
-import java.io.DataInputStream;
-import java.io.EOFException;
-import java.io.IOException;
-import java.nio.ByteOrder;
-import java.util.Stack;
-import javax.imageio.IIOException;
+import jbvb.io.DbtbInputStrebm;
+import jbvb.io.EOFException;
+import jbvb.io.IOException;
+import jbvb.nio.ByteOrder;
+import jbvb.util.Stbck;
+import jbvbx.imbgeio.IIOException;
 
 /**
- * An abstract class implementing the <code>ImageInputStream</code> interface.
- * This class is designed to reduce the number of methods that must
- * be implemented by subclasses.
+ * An bbstrbct clbss implementing the <code>ImbgeInputStrebm</code> interfbce.
+ * This clbss is designed to reduce the number of methods thbt must
+ * be implemented by subclbsses.
  *
- * <p> In particular, this class handles most or all of the details of
- * byte order interpretation, buffering, mark/reset, discarding,
- * closing, and disposing.
+ * <p> In pbrticulbr, this clbss hbndles most or bll of the detbils of
+ * byte order interpretbtion, buffering, mbrk/reset, discbrding,
+ * closing, bnd disposing.
  */
-public abstract class ImageInputStreamImpl implements ImageInputStream {
+public bbstrbct clbss ImbgeInputStrebmImpl implements ImbgeInputStrebm {
 
-    private Stack<Long> markByteStack = new Stack<>();
+    privbte Stbck<Long> mbrkByteStbck = new Stbck<>();
 
-    private Stack<Integer> markBitStack = new Stack<>();
+    privbte Stbck<Integer> mbrkBitStbck = new Stbck<>();
 
-    private boolean isClosed = false;
+    privbte boolebn isClosed = fblse;
 
-    // Length of the buffer used for readFully(type[], int, int)
-    private static final int BYTE_BUF_LENGTH = 8192;
+    // Length of the buffer used for rebdFully(type[], int, int)
+    privbte stbtic finbl int BYTE_BUF_LENGTH = 8192;
 
     /**
-     * Byte buffer used for readFully(type[], int, int).  Note that this
-     * array is also used for bulk reads in readShort(), readInt(), etc, so
-     * it should be large enough to hold a primitive value (i.e. >= 8 bytes).
-     * Also note that this array is package protected, so that it can be
-     * used by ImageOutputStreamImpl in a similar manner.
+     * Byte buffer used for rebdFully(type[], int, int).  Note thbt this
+     * brrby is blso used for bulk rebds in rebdShort(), rebdInt(), etc, so
+     * it should be lbrge enough to hold b primitive vblue (i.e. >= 8 bytes).
+     * Also note thbt this brrby is pbckbge protected, so thbt it cbn be
+     * used by ImbgeOutputStrebmImpl in b similbr mbnner.
      */
     byte[] byteBuf = new byte[BYTE_BUF_LENGTH];
 
     /**
-     * The byte order of the stream as an instance of the enumeration
-     * class <code>java.nio.ByteOrder</code>, where
-     * <code>ByteOrder.BIG_ENDIAN</code> indicates network byte order
-     * and <code>ByteOrder.LITTLE_ENDIAN</code> indicates the reverse
-     * order.  By default, the value is
+     * The byte order of the strebm bs bn instbnce of the enumerbtion
+     * clbss <code>jbvb.nio.ByteOrder</code>, where
+     * <code>ByteOrder.BIG_ENDIAN</code> indicbtes network byte order
+     * bnd <code>ByteOrder.LITTLE_ENDIAN</code> indicbtes the reverse
+     * order.  By defbult, the vblue is
      * <code>ByteOrder.BIG_ENDIAN</code>.
      */
     protected ByteOrder byteOrder = ByteOrder.BIG_ENDIAN;
 
     /**
-     * The current read position within the stream.  Subclasses are
-     * responsible for keeping this value current from any method they
-     * override that alters the read position.
+     * The current rebd position within the strebm.  Subclbsses bre
+     * responsible for keeping this vblue current from bny method they
+     * override thbt blters the rebd position.
      */
-    protected long streamPos;
+    protected long strebmPos;
 
     /**
-     * The current bit offset within the stream.  Subclasses are
-     * responsible for keeping this value current from any method they
-     * override that alters the bit offset.
+     * The current bit offset within the strebm.  Subclbsses bre
+     * responsible for keeping this vblue current from bny method they
+     * override thbt blters the bit offset.
      */
     protected int bitOffset;
 
     /**
-     * The position prior to which data may be discarded.  Seeking
-     * to a smaller position is not allowed.  <code>flushedPos</code>
-     * will always be {@literal >= 0}.
+     * The position prior to which dbtb mby be discbrded.  Seeking
+     * to b smbller position is not bllowed.  <code>flushedPos</code>
+     * will blwbys be {@literbl >= 0}.
      */
     protected long flushedPos = 0;
 
     /**
-     * Constructs an <code>ImageInputStreamImpl</code>.
+     * Constructs bn <code>ImbgeInputStrebmImpl</code>.
      */
-    public ImageInputStreamImpl() {
+    public ImbgeInputStrebmImpl() {
     }
 
     /**
-     * Throws an <code>IOException</code> if the stream has been closed.
-     * Subclasses may call this method from any of their methods that
-     * require the stream not to be closed.
+     * Throws bn <code>IOException</code> if the strebm hbs been closed.
+     * Subclbsses mby cbll this method from bny of their methods thbt
+     * require the strebm not to be closed.
      *
-     * @exception IOException if the stream is closed.
+     * @exception IOException if the strebm is closed.
      */
-    protected final void checkClosed() throws IOException {
+    protected finbl void checkClosed() throws IOException {
         if (isClosed) {
             throw new IOException("closed");
         }
@@ -120,71 +120,71 @@ public abstract class ImageInputStreamImpl implements ImageInputStream {
     }
 
     /**
-     * Reads a single byte from the stream and returns it as an
-     * <code>int</code> between 0 and 255.  If EOF is reached,
+     * Rebds b single byte from the strebm bnd returns it bs bn
+     * <code>int</code> between 0 bnd 255.  If EOF is rebched,
      * <code>-1</code> is returned.
      *
-     * <p> Subclasses must provide an implementation for this method.
-     * The subclass implementation should update the stream position
+     * <p> Subclbsses must provide bn implementbtion for this method.
+     * The subclbss implementbtion should updbte the strebm position
      * before exiting.
      *
-     * <p> The bit offset within the stream must be reset to zero before
-     * the read occurs.
+     * <p> The bit offset within the strebm must be reset to zero before
+     * the rebd occurs.
      *
-     * @return the value of the next byte in the stream, or <code>-1</code>
-     * if EOF is reached.
+     * @return the vblue of the next byte in the strebm, or <code>-1</code>
+     * if EOF is rebched.
      *
-     * @exception IOException if the stream has been closed.
+     * @exception IOException if the strebm hbs been closed.
      */
-    public abstract int read() throws IOException;
+    public bbstrbct int rebd() throws IOException;
 
     /**
-     * A convenience method that calls <code>read(b, 0, b.length)</code>.
+     * A convenience method thbt cblls <code>rebd(b, 0, b.length)</code>.
      *
-     * <p> The bit offset within the stream is reset to zero before
-     * the read occurs.
+     * <p> The bit offset within the strebm is reset to zero before
+     * the rebd occurs.
      *
-     * @return the number of bytes actually read, or <code>-1</code>
-     * to indicate EOF.
+     * @return the number of bytes bctublly rebd, or <code>-1</code>
+     * to indicbte EOF.
      *
      * @exception NullPointerException if <code>b</code> is
      * <code>null</code>.
-     * @exception IOException if an I/O error occurs.
+     * @exception IOException if bn I/O error occurs.
      */
-    public int read(byte[] b) throws IOException {
-        return read(b, 0, b.length);
+    public int rebd(byte[] b) throws IOException {
+        return rebd(b, 0, b.length);
     }
 
     /**
-     * Reads up to <code>len</code> bytes from the stream, and stores
-     * them into <code>b</code> starting at index <code>off</code>.
-     * If no bytes can be read because the end of the stream has been
-     * reached, <code>-1</code> is returned.
+     * Rebds up to <code>len</code> bytes from the strebm, bnd stores
+     * them into <code>b</code> stbrting bt index <code>off</code>.
+     * If no bytes cbn be rebd becbuse the end of the strebm hbs been
+     * rebched, <code>-1</code> is returned.
      *
-     * <p> The bit offset within the stream must be reset to zero before
-     * the read occurs.
+     * <p> The bit offset within the strebm must be reset to zero before
+     * the rebd occurs.
      *
-     * <p> Subclasses must provide an implementation for this method.
-     * The subclass implementation should update the stream position
+     * <p> Subclbsses must provide bn implementbtion for this method.
+     * The subclbss implementbtion should updbte the strebm position
      * before exiting.
      *
-     * @param b an array of bytes to be written to.
-     * @param off the starting position within <code>b</code> to write to.
-     * @param len the maximum number of bytes to read.
+     * @pbrbm b bn brrby of bytes to be written to.
+     * @pbrbm off the stbrting position within <code>b</code> to write to.
+     * @pbrbm len the mbximum number of bytes to rebd.
      *
-     * @return the number of bytes actually read, or <code>-1</code>
-     * to indicate EOF.
+     * @return the number of bytes bctublly rebd, or <code>-1</code>
+     * to indicbte EOF.
      *
      * @exception IndexOutOfBoundsException if <code>off</code> is
-     * negative, <code>len</code> is negative, or <code>off +
-     * len</code> is greater than <code>b.length</code>.
+     * negbtive, <code>len</code> is negbtive, or <code>off +
+     * len</code> is grebter thbn <code>b.length</code>.
      * @exception NullPointerException if <code>b</code> is
      * <code>null</code>.
-     * @exception IOException if an I/O error occurs.
+     * @exception IOException if bn I/O error occurs.
      */
-    public abstract int read(byte[] b, int off, int len) throws IOException;
+    public bbstrbct int rebd(byte[] b, int off, int len) throws IOException;
 
-    public void readBytes(IIOByteBuffer buf, int len) throws IOException {
+    public void rebdBytes(IIOByteBuffer buf, int len) throws IOException {
         if (len < 0) {
             throw new IndexOutOfBoundsException("len < 0!");
         }
@@ -192,40 +192,40 @@ public abstract class ImageInputStreamImpl implements ImageInputStream {
             throw new NullPointerException("buf == null!");
         }
 
-        byte[] data = new byte[len];
-        len = read(data, 0, len);
+        byte[] dbtb = new byte[len];
+        len = rebd(dbtb, 0, len);
 
-        buf.setData(data);
+        buf.setDbtb(dbtb);
         buf.setOffset(0);
         buf.setLength(len);
     }
 
-    public boolean readBoolean() throws IOException {
-        int ch = this.read();
+    public boolebn rebdBoolebn() throws IOException {
+        int ch = this.rebd();
         if (ch < 0) {
             throw new EOFException();
         }
         return (ch != 0);
     }
 
-    public byte readByte() throws IOException {
-        int ch = this.read();
+    public byte rebdByte() throws IOException {
+        int ch = this.rebd();
         if (ch < 0) {
             throw new EOFException();
         }
         return (byte)ch;
     }
 
-    public int readUnsignedByte() throws IOException {
-        int ch = this.read();
+    public int rebdUnsignedByte() throws IOException {
+        int ch = this.rebd();
         if (ch < 0) {
             throw new EOFException();
         }
         return ch;
     }
 
-    public short readShort() throws IOException {
-        if (read(byteBuf, 0, 2) < 0) {
+    public short rebdShort() throws IOException {
+        if (rebd(byteBuf, 0, 2) < 0) {
             throw new EOFException();
         }
 
@@ -238,16 +238,16 @@ public abstract class ImageInputStreamImpl implements ImageInputStream {
         }
     }
 
-    public int readUnsignedShort() throws IOException {
-        return ((int)readShort()) & 0xffff;
+    public int rebdUnsignedShort() throws IOException {
+        return ((int)rebdShort()) & 0xffff;
     }
 
-    public char readChar() throws IOException {
-        return (char)readShort();
+    public chbr rebdChbr() throws IOException {
+        return (chbr)rebdShort();
     }
 
-    public int readInt() throws IOException {
-        if (read(byteBuf, 0, 4) < 0) {
+    public int rebdInt() throws IOException {
+        if (rebd(byteBuf, 0, 4) < 0) {
             throw new EOFException();
         }
 
@@ -262,16 +262,16 @@ public abstract class ImageInputStreamImpl implements ImageInputStream {
         }
     }
 
-    public long readUnsignedInt() throws IOException {
-        return ((long)readInt()) & 0xffffffffL;
+    public long rebdUnsignedInt() throws IOException {
+        return ((long)rebdInt()) & 0xffffffffL;
     }
 
-    public long readLong() throws IOException {
-        // REMIND: Once 6277756 is fixed, we should do a bulk read of all 8
-        // bytes here as we do in readShort() and readInt() for even better
-        // performance (see 6347575 for details).
-        int i1 = readInt();
-        int i2 = readInt();
+    public long rebdLong() throws IOException {
+        // REMIND: Once 6277756 is fixed, we should do b bulk rebd of bll 8
+        // bytes here bs we do in rebdShort() bnd rebdInt() for even better
+        // performbnce (see 6347575 for detbils).
+        int i1 = rebdInt();
+        int i2 = rebdInt();
 
         if (byteOrder == ByteOrder.BIG_ENDIAN) {
             return ((long)i1 << 32) + (i2 & 0xFFFFFFFFL);
@@ -280,35 +280,35 @@ public abstract class ImageInputStreamImpl implements ImageInputStream {
         }
     }
 
-    public float readFloat() throws IOException {
-        return Float.intBitsToFloat(readInt());
+    public flobt rebdFlobt() throws IOException {
+        return Flobt.intBitsToFlobt(rebdInt());
     }
 
-    public double readDouble() throws IOException {
-        return Double.longBitsToDouble(readLong());
+    public double rebdDouble() throws IOException {
+        return Double.longBitsToDouble(rebdLong());
     }
 
-    public String readLine() throws IOException {
+    public String rebdLine() throws IOException {
         StringBuilder input = new StringBuilder();
         int c = -1;
-        boolean eol = false;
+        boolebn eol = fblse;
 
         while (!eol) {
-            switch (c = read()) {
-            case -1:
-            case '\n':
+            switch (c = rebd()) {
+            cbse -1:
+            cbse '\n':
                 eol = true;
-                break;
-            case '\r':
+                brebk;
+            cbse '\r':
                 eol = true;
-                long cur = getStreamPosition();
-                if ((read()) != '\n') {
+                long cur = getStrebmPosition();
+                if ((rebd()) != '\n') {
                     seek(cur);
                 }
-                break;
-            default:
-                input.append((char)c);
-                break;
+                brebk;
+            defbult:
+                input.bppend((chbr)c);
+                brebk;
             }
         }
 
@@ -318,20 +318,20 @@ public abstract class ImageInputStreamImpl implements ImageInputStream {
         return input.toString();
     }
 
-    public String readUTF() throws IOException {
+    public String rebdUTF() throws IOException {
         this.bitOffset = 0;
 
-        // Fix 4494369: method ImageInputStreamImpl.readUTF()
-        // does not work as specified (it should always assume
+        // Fix 4494369: method ImbgeInputStrebmImpl.rebdUTF()
+        // does not work bs specified (it should blwbys bssume
         // network byte order).
         ByteOrder oldByteOrder = getByteOrder();
         setByteOrder(ByteOrder.BIG_ENDIAN);
 
         String ret;
         try {
-            ret = DataInputStream.readUTF(this);
-        } catch (IOException e) {
-            // Restore the old byte order even if an exception occurs
+            ret = DbtbInputStrebm.rebdUTF(this);
+        } cbtch (IOException e) {
+            // Restore the old byte order even if bn exception occurs
             setByteOrder(oldByteOrder);
             throw e;
         }
@@ -340,7 +340,7 @@ public abstract class ImageInputStreamImpl implements ImageInputStream {
         return ret;
     }
 
-    public void readFully(byte[] b, int off, int len) throws IOException {
+    public void rebdFully(byte[] b, int off, int len) throws IOException {
         // Fix 4430357 - if off + len < 0, overflow occurred
         if (off < 0 || len < 0 || off + len > b.length || off + len < 0) {
             throw new IndexOutOfBoundsException
@@ -348,7 +348,7 @@ public abstract class ImageInputStreamImpl implements ImageInputStream {
         }
 
         while (len > 0) {
-            int nbytes = read(b, off, len);
+            int nbytes = rebd(b, off, len);
             if (nbytes == -1) {
                 throw new EOFException();
             }
@@ -357,11 +357,11 @@ public abstract class ImageInputStreamImpl implements ImageInputStream {
         }
     }
 
-    public void readFully(byte[] b) throws IOException {
-        readFully(b, 0, b.length);
+    public void rebdFully(byte[] b) throws IOException {
+        rebdFully(b, 0, b.length);
     }
 
-    public void readFully(short[] s, int off, int len) throws IOException {
+    public void rebdFully(short[] s, int off, int len) throws IOException {
         // Fix 4430357 - if off + len < 0, overflow occurred
         if (off < 0 || len < 0 || off + len > s.length || off + len < 0) {
             throw new IndexOutOfBoundsException
@@ -369,15 +369,15 @@ public abstract class ImageInputStreamImpl implements ImageInputStream {
         }
 
         while (len > 0) {
-            int nelts = Math.min(len, byteBuf.length/2);
-            readFully(byteBuf, 0, nelts*2);
+            int nelts = Mbth.min(len, byteBuf.length/2);
+            rebdFully(byteBuf, 0, nelts*2);
             toShorts(byteBuf, s, off, nelts);
             off += nelts;
             len -= nelts;
         }
     }
 
-    public void readFully(char[] c, int off, int len) throws IOException {
+    public void rebdFully(chbr[] c, int off, int len) throws IOException {
         // Fix 4430357 - if off + len < 0, overflow occurred
         if (off < 0 || len < 0 || off + len > c.length || off + len < 0) {
             throw new IndexOutOfBoundsException
@@ -385,15 +385,15 @@ public abstract class ImageInputStreamImpl implements ImageInputStream {
         }
 
         while (len > 0) {
-            int nelts = Math.min(len, byteBuf.length/2);
-            readFully(byteBuf, 0, nelts*2);
-            toChars(byteBuf, c, off, nelts);
+            int nelts = Mbth.min(len, byteBuf.length/2);
+            rebdFully(byteBuf, 0, nelts*2);
+            toChbrs(byteBuf, c, off, nelts);
             off += nelts;
             len -= nelts;
         }
     }
 
-    public void readFully(int[] i, int off, int len) throws IOException {
+    public void rebdFully(int[] i, int off, int len) throws IOException {
         // Fix 4430357 - if off + len < 0, overflow occurred
         if (off < 0 || len < 0 || off + len > i.length || off + len < 0) {
             throw new IndexOutOfBoundsException
@@ -401,15 +401,15 @@ public abstract class ImageInputStreamImpl implements ImageInputStream {
         }
 
         while (len > 0) {
-            int nelts = Math.min(len, byteBuf.length/4);
-            readFully(byteBuf, 0, nelts*4);
+            int nelts = Mbth.min(len, byteBuf.length/4);
+            rebdFully(byteBuf, 0, nelts*4);
             toInts(byteBuf, i, off, nelts);
             off += nelts;
             len -= nelts;
         }
     }
 
-    public void readFully(long[] l, int off, int len) throws IOException {
+    public void rebdFully(long[] l, int off, int len) throws IOException {
         // Fix 4430357 - if off + len < 0, overflow occurred
         if (off < 0 || len < 0 || off + len > l.length || off + len < 0) {
             throw new IndexOutOfBoundsException
@@ -417,15 +417,15 @@ public abstract class ImageInputStreamImpl implements ImageInputStream {
         }
 
         while (len > 0) {
-            int nelts = Math.min(len, byteBuf.length/8);
-            readFully(byteBuf, 0, nelts*8);
+            int nelts = Mbth.min(len, byteBuf.length/8);
+            rebdFully(byteBuf, 0, nelts*8);
             toLongs(byteBuf, l, off, nelts);
             off += nelts;
             len -= nelts;
         }
     }
 
-    public void readFully(float[] f, int off, int len) throws IOException {
+    public void rebdFully(flobt[] f, int off, int len) throws IOException {
         // Fix 4430357 - if off + len < 0, overflow occurred
         if (off < 0 || len < 0 || off + len > f.length || off + len < 0) {
             throw new IndexOutOfBoundsException
@@ -433,15 +433,15 @@ public abstract class ImageInputStreamImpl implements ImageInputStream {
         }
 
         while (len > 0) {
-            int nelts = Math.min(len, byteBuf.length/4);
-            readFully(byteBuf, 0, nelts*4);
-            toFloats(byteBuf, f, off, nelts);
+            int nelts = Mbth.min(len, byteBuf.length/4);
+            rebdFully(byteBuf, 0, nelts*4);
+            toFlobts(byteBuf, f, off, nelts);
             off += nelts;
             len -= nelts;
         }
     }
 
-    public void readFully(double[] d, int off, int len) throws IOException {
+    public void rebdFully(double[] d, int off, int len) throws IOException {
         // Fix 4430357 - if off + len < 0, overflow occurred
         if (off < 0 || len < 0 || off + len > d.length || off + len < 0) {
             throw new IndexOutOfBoundsException
@@ -449,15 +449,15 @@ public abstract class ImageInputStreamImpl implements ImageInputStream {
         }
 
         while (len > 0) {
-            int nelts = Math.min(len, byteBuf.length/8);
-            readFully(byteBuf, 0, nelts*8);
+            int nelts = Mbth.min(len, byteBuf.length/8);
+            rebdFully(byteBuf, 0, nelts*8);
             toDoubles(byteBuf, d, off, nelts);
             off += nelts;
             len -= nelts;
         }
     }
 
-    private void toShorts(byte[] b, short[] s, int off, int len) {
+    privbte void toShorts(byte[] b, short[] s, int off, int len) {
         int boff = 0;
         if (byteOrder == ByteOrder.BIG_ENDIAN) {
             for (int j = 0; j < len; j++) {
@@ -476,26 +476,26 @@ public abstract class ImageInputStreamImpl implements ImageInputStream {
         }
     }
 
-    private void toChars(byte[] b, char[] c, int off, int len) {
+    privbte void toChbrs(byte[] b, chbr[] c, int off, int len) {
         int boff = 0;
         if (byteOrder == ByteOrder.BIG_ENDIAN) {
             for (int j = 0; j < len; j++) {
                 int b0 = b[boff];
                 int b1 = b[boff + 1] & 0xff;
-                c[off + j] = (char)((b0 << 8) | b1);
+                c[off + j] = (chbr)((b0 << 8) | b1);
                 boff += 2;
             }
         } else {
             for (int j = 0; j < len; j++) {
                 int b0 = b[boff + 1];
                 int b1 = b[boff] & 0xff;
-                c[off + j] = (char)((b0 << 8) | b1);
+                c[off + j] = (chbr)((b0 << 8) | b1);
                 boff += 2;
             }
         }
     }
 
-    private void toInts(byte[] b, int[] i, int off, int len) {
+    privbte void toInts(byte[] b, int[] i, int off, int len) {
         int boff = 0;
         if (byteOrder == ByteOrder.BIG_ENDIAN) {
             for (int j = 0; j < len; j++) {
@@ -518,7 +518,7 @@ public abstract class ImageInputStreamImpl implements ImageInputStream {
         }
     }
 
-    private void toLongs(byte[] b, long[] l, int off, int len) {
+    privbte void toLongs(byte[] b, long[] l, int off, int len) {
         int boff = 0;
         if (byteOrder == ByteOrder.BIG_ENDIAN) {
             for (int j = 0; j < len; j++) {
@@ -557,7 +557,7 @@ public abstract class ImageInputStreamImpl implements ImageInputStream {
         }
     }
 
-    private void toFloats(byte[] b, float[] f, int off, int len) {
+    privbte void toFlobts(byte[] b, flobt[] f, int off, int len) {
         int boff = 0;
         if (byteOrder == ByteOrder.BIG_ENDIAN) {
             for (int j = 0; j < len; j++) {
@@ -566,7 +566,7 @@ public abstract class ImageInputStreamImpl implements ImageInputStream {
                 int b2 = b[boff + 2] & 0xff;
                 int b3 = b[boff + 3] & 0xff;
                 int i = (b0 << 24) | (b1 << 16) | (b2 << 8) | b3;
-                f[off + j] = Float.intBitsToFloat(i);
+                f[off + j] = Flobt.intBitsToFlobt(i);
                 boff += 4;
             }
         } else {
@@ -576,13 +576,13 @@ public abstract class ImageInputStreamImpl implements ImageInputStream {
                 int b2 = b[boff + 1] & 0xff;
                 int b3 = b[boff + 0] & 0xff;
                 int i = (b0 << 24) | (b1 << 16) | (b2 << 8) | b3;
-                f[off + j] = Float.intBitsToFloat(i);
+                f[off + j] = Flobt.intBitsToFlobt(i);
                 boff += 4;
             }
         }
     }
 
-    private void toDoubles(byte[] b, double[] d, int off, int len) {
+    privbte void toDoubles(byte[] b, double[] d, int off, int len) {
         int boff = 0;
         if (byteOrder == ByteOrder.BIG_ENDIAN) {
             for (int j = 0; j < len; j++) {
@@ -623,9 +623,9 @@ public abstract class ImageInputStreamImpl implements ImageInputStream {
         }
     }
 
-    public long getStreamPosition() throws IOException {
+    public long getStrebmPosition() throws IOException {
         checkClosed();
-        return streamPos;
+        return strebmPos;
     }
 
     public int getBitOffset() throws IOException {
@@ -636,176 +636,176 @@ public abstract class ImageInputStreamImpl implements ImageInputStream {
     public void setBitOffset(int bitOffset) throws IOException {
         checkClosed();
         if (bitOffset < 0 || bitOffset > 7) {
-            throw new IllegalArgumentException("bitOffset must be betwwen 0 and 7!");
+            throw new IllegblArgumentException("bitOffset must be betwwen 0 bnd 7!");
         }
         this.bitOffset = bitOffset;
     }
 
-    public int readBit() throws IOException {
+    public int rebdBit() throws IOException {
         checkClosed();
 
-        // Compute final bit offset before we call read() and seek()
+        // Compute finbl bit offset before we cbll rebd() bnd seek()
         int newBitOffset = (this.bitOffset + 1) & 0x7;
 
-        int val = read();
-        if (val == -1) {
+        int vbl = rebd();
+        if (vbl == -1) {
             throw new EOFException();
         }
 
         if (newBitOffset != 0) {
-            // Move byte position back if in the middle of a byte
-            seek(getStreamPosition() - 1);
-            // Shift the bit to be read to the rightmost position
-            val >>= 8 - newBitOffset;
+            // Move byte position bbck if in the middle of b byte
+            seek(getStrebmPosition() - 1);
+            // Shift the bit to be rebd to the rightmost position
+            vbl >>= 8 - newBitOffset;
         }
         this.bitOffset = newBitOffset;
 
-        return val & 0x1;
+        return vbl & 0x1;
     }
 
-    public long readBits(int numBits) throws IOException {
+    public long rebdBits(int numBits) throws IOException {
         checkClosed();
 
         if (numBits < 0 || numBits > 64) {
-            throw new IllegalArgumentException();
+            throw new IllegblArgumentException();
         }
         if (numBits == 0) {
             return 0L;
         }
 
-        // Have to read additional bits on the left equal to the bit offset
-        int bitsToRead = numBits + bitOffset;
+        // Hbve to rebd bdditionbl bits on the left equbl to the bit offset
+        int bitsToRebd = numBits + bitOffset;
 
-        // Compute final bit offset before we call read() and seek()
+        // Compute finbl bit offset before we cbll rebd() bnd seek()
         int newBitOffset = (this.bitOffset + numBits) & 0x7;
 
-        // Read a byte at a time, accumulate
-        long accum = 0L;
-        while (bitsToRead > 0) {
-            int val = read();
-            if (val == -1) {
+        // Rebd b byte bt b time, bccumulbte
+        long bccum = 0L;
+        while (bitsToRebd > 0) {
+            int vbl = rebd();
+            if (vbl == -1) {
                 throw new EOFException();
             }
 
-            accum <<= 8;
-            accum |= val;
-            bitsToRead -= 8;
+            bccum <<= 8;
+            bccum |= vbl;
+            bitsToRebd -= 8;
         }
 
-        // Move byte position back if in the middle of a byte
+        // Move byte position bbck if in the middle of b byte
         if (newBitOffset != 0) {
-            seek(getStreamPosition() - 1);
+            seek(getStrebmPosition() - 1);
         }
         this.bitOffset = newBitOffset;
 
-        // Shift away unwanted bits on the right.
-        accum >>>= (-bitsToRead); // Negative of bitsToRead == extra bits read
+        // Shift bwby unwbnted bits on the right.
+        bccum >>>= (-bitsToRebd); // Negbtive of bitsToRebd == extrb bits rebd
 
-        // Mask out unwanted bits on the left
-        accum &= (-1L >>> (64 - numBits));
+        // Mbsk out unwbnted bits on the left
+        bccum &= (-1L >>> (64 - numBits));
 
-        return accum;
+        return bccum;
     }
 
     /**
-     * Returns <code>-1L</code> to indicate that the stream has unknown
-     * length.  Subclasses must override this method to provide actual
-     * length information.
+     * Returns <code>-1L</code> to indicbte thbt the strebm hbs unknown
+     * length.  Subclbsses must override this method to provide bctubl
+     * length informbtion.
      *
-     * @return -1L to indicate unknown length.
+     * @return -1L to indicbte unknown length.
      */
     public long length() {
         return -1L;
     }
 
     /**
-     * Advances the current stream position by calling
-     * <code>seek(getStreamPosition() + n)</code>.
+     * Advbnces the current strebm position by cblling
+     * <code>seek(getStrebmPosition() + n)</code>.
      *
      * <p> The bit offset is reset to zero.
      *
-     * @param n the number of bytes to seek forward.
+     * @pbrbm n the number of bytes to seek forwbrd.
      *
-     * @return an <code>int</code> representing the number of bytes
+     * @return bn <code>int</code> representing the number of bytes
      * skipped.
      *
-     * @exception IOException if <code>getStreamPosition</code>
-     * throws an <code>IOException</code> when computing either
-     * the starting or ending position.
+     * @exception IOException if <code>getStrebmPosition</code>
+     * throws bn <code>IOException</code> when computing either
+     * the stbrting or ending position.
      */
     public int skipBytes(int n) throws IOException {
-        long pos = getStreamPosition();
+        long pos = getStrebmPosition();
         seek(pos + n);
-        return (int)(getStreamPosition() - pos);
+        return (int)(getStrebmPosition() - pos);
     }
 
     /**
-     * Advances the current stream position by calling
-     * <code>seek(getStreamPosition() + n)</code>.
+     * Advbnces the current strebm position by cblling
+     * <code>seek(getStrebmPosition() + n)</code>.
      *
      * <p> The bit offset is reset to zero.
      *
-     * @param n the number of bytes to seek forward.
+     * @pbrbm n the number of bytes to seek forwbrd.
      *
-     * @return a <code>long</code> representing the number of bytes
+     * @return b <code>long</code> representing the number of bytes
      * skipped.
      *
-     * @exception IOException if <code>getStreamPosition</code>
-     * throws an <code>IOException</code> when computing either
-     * the starting or ending position.
+     * @exception IOException if <code>getStrebmPosition</code>
+     * throws bn <code>IOException</code> when computing either
+     * the stbrting or ending position.
      */
     public long skipBytes(long n) throws IOException {
-        long pos = getStreamPosition();
+        long pos = getStrebmPosition();
         seek(pos + n);
-        return getStreamPosition() - pos;
+        return getStrebmPosition() - pos;
     }
 
     public void seek(long pos) throws IOException {
         checkClosed();
 
-        // This test also covers pos < 0
+        // This test blso covers pos < 0
         if (pos < flushedPos) {
             throw new IndexOutOfBoundsException("pos < flushedPos!");
         }
 
-        this.streamPos = pos;
+        this.strebmPos = pos;
         this.bitOffset = 0;
     }
 
     /**
-     * Pushes the current stream position onto a stack of marked
+     * Pushes the current strebm position onto b stbck of mbrked
      * positions.
      */
-    public void mark() {
+    public void mbrk() {
         try {
-            markByteStack.push(Long.valueOf(getStreamPosition()));
-            markBitStack.push(Integer.valueOf(getBitOffset()));
-        } catch (IOException e) {
+            mbrkByteStbck.push(Long.vblueOf(getStrebmPosition()));
+            mbrkBitStbck.push(Integer.vblueOf(getBitOffset()));
+        } cbtch (IOException e) {
         }
     }
 
     /**
-     * Resets the current stream byte and bit positions from the stack
-     * of marked positions.
+     * Resets the current strebm byte bnd bit positions from the stbck
+     * of mbrked positions.
      *
      * <p> An <code>IOException</code> will be thrown if the previous
-     * marked position lies in the discarded portion of the stream.
+     * mbrked position lies in the discbrded portion of the strebm.
      *
-     * @exception IOException if an I/O error occurs.
+     * @exception IOException if bn I/O error occurs.
      */
     public void reset() throws IOException {
-        if (markByteStack.empty()) {
+        if (mbrkByteStbck.empty()) {
             return;
         }
 
-        long pos = markByteStack.pop().longValue();
+        long pos = mbrkByteStbck.pop().longVblue();
         if (pos < flushedPos) {
             throw new IIOException
-                ("Previous marked position has been discarded!");
+                ("Previous mbrked position hbs been discbrded!");
         }
         seek(pos);
 
-        int offset = markBitStack.pop().intValue();
+        int offset = mbrkBitStbck.pop().intVblue();
         setBitOffset(offset);
     }
 
@@ -814,15 +814,15 @@ public abstract class ImageInputStreamImpl implements ImageInputStream {
         if (pos < flushedPos) {
             throw new IndexOutOfBoundsException("pos < flushedPos!");
         }
-        if (pos > getStreamPosition()) {
-            throw new IndexOutOfBoundsException("pos > getStreamPosition()!");
+        if (pos > getStrebmPosition()) {
+            throw new IndexOutOfBoundsException("pos > getStrebmPosition()!");
         }
-        // Invariant: flushedPos >= 0
+        // Invbribnt: flushedPos >= 0
         flushedPos = pos;
     }
 
     public void flush() throws IOException {
-        flushBefore(getStreamPosition());
+        flushBefore(getStrebmPosition());
     }
 
     public long getFlushedPosition() {
@@ -830,27 +830,27 @@ public abstract class ImageInputStreamImpl implements ImageInputStream {
     }
 
     /**
-     * Default implementation returns false.  Subclasses should
-     * override this if they cache data.
+     * Defbult implementbtion returns fblse.  Subclbsses should
+     * override this if they cbche dbtb.
      */
-    public boolean isCached() {
-        return false;
+    public boolebn isCbched() {
+        return fblse;
     }
 
     /**
-     * Default implementation returns false.  Subclasses should
-     * override this if they cache data in main memory.
+     * Defbult implementbtion returns fblse.  Subclbsses should
+     * override this if they cbche dbtb in mbin memory.
      */
-    public boolean isCachedMemory() {
-        return false;
+    public boolebn isCbchedMemory() {
+        return fblse;
     }
 
     /**
-     * Default implementation returns false.  Subclasses should
-     * override this if they cache data in a temporary file.
+     * Defbult implementbtion returns fblse.  Subclbsses should
+     * override this if they cbche dbtb in b temporbry file.
      */
-    public boolean isCachedFile() {
-        return false;
+    public boolebn isCbchedFile() {
+        return fblse;
     }
 
     public void close() throws IOException {
@@ -860,21 +860,21 @@ public abstract class ImageInputStreamImpl implements ImageInputStream {
     }
 
     /**
-     * Finalizes this object prior to garbage collection.  The
-     * <code>close</code> method is called to close any open input
-     * source.  This method should not be called from application
+     * Finblizes this object prior to gbrbbge collection.  The
+     * <code>close</code> method is cblled to close bny open input
+     * source.  This method should not be cblled from bpplicbtion
      * code.
      *
-     * @exception Throwable if an error occurs during superclass
-     * finalization.
+     * @exception Throwbble if bn error occurs during superclbss
+     * finblizbtion.
      */
-    protected void finalize() throws Throwable {
+    protected void finblize() throws Throwbble {
         if (!isClosed) {
             try {
                 close();
-            } catch (IOException e) {
+            } cbtch (IOException e) {
             }
         }
-        super.finalize();
+        super.finblize();
     }
 }

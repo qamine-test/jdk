@@ -1,63 +1,63 @@
 /*
- * Copyright (c) 1999, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.sound.midi;
+pbckbge jbvbx.sound.midi;
 
 
 /**
- * A <code>MidiUnavailableException</code> is thrown when a requested MIDI
- * component cannot be opened or created because it is unavailable.  This often
- * occurs when a device is in use by another application.  More generally, it
- * can occur when there is a finite number of a certain kind of resource that can
- * be used for some purpose, and all of them are already in use (perhaps all by
- * this application).  For an example of the latter case, see the
- * {@link Transmitter#setReceiver(Receiver) setReceiver} method of
- * <code>Transmitter</code>.
+ * A <code>MidiUnbvbilbbleException</code> is thrown when b requested MIDI
+ * component cbnnot be opened or crebted becbuse it is unbvbilbble.  This often
+ * occurs when b device is in use by bnother bpplicbtion.  More generblly, it
+ * cbn occur when there is b finite number of b certbin kind of resource thbt cbn
+ * be used for some purpose, bnd bll of them bre blrebdy in use (perhbps bll by
+ * this bpplicbtion).  For bn exbmple of the lbtter cbse, see the
+ * {@link Trbnsmitter#setReceiver(Receiver) setReceiver} method of
+ * <code>Trbnsmitter</code>.
  *
- * @author Kara Kytle
+ * @buthor Kbrb Kytle
  */
-public class MidiUnavailableException extends Exception {
-    private static final long serialVersionUID = 6093809578628944323L;
+public clbss MidiUnbvbilbbleException extends Exception {
+    privbte stbtic finbl long seriblVersionUID = 6093809578628944323L;
 
     /**
-     * Constructs a <code>MidiUnavailableException</code> that has
-     * <code>null</code> as its error detail message.
+     * Constructs b <code>MidiUnbvbilbbleException</code> thbt hbs
+     * <code>null</code> bs its error detbil messbge.
      */
-    public MidiUnavailableException() {
+    public MidiUnbvbilbbleException() {
 
         super();
     }
 
     /**
-     *  Constructs a <code>MidiUnavailableException</code> with the
-     * specified detail message.
+     *  Constructs b <code>MidiUnbvbilbbleException</code> with the
+     * specified detbil messbge.
      *
-     * @param message the string to display as an error detail message
+     * @pbrbm messbge the string to displby bs bn error detbil messbge
      */
-    public MidiUnavailableException(String message) {
+    public MidiUnbvbilbbleException(String messbge) {
 
-        super(message);
+        super(messbge);
     }
 }

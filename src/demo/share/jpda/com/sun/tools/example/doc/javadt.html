@@ -1,145 +1,145 @@
 <HTML>
 <HEAD>
-   <TITLE>Release notes for the javadt debugger</TITLE>
+   <TITLE>Relebse notes for the jbvbdt debugger</TITLE>
 </HEAD>
 <BODY BGCOLOR="#FFFFFF">
-<H1>Release notes for the javadt debugger</H1>
+<H1>Relebse notes for the jbvbdt debugger</H1>
 
 <P>
-As a demonstration of the 
-<A HREF="http://java.sun.com/j2se/1.4/docs/guide/jpda/architecture.html">
-Java<sup><font size=-2>TM</font></sup> Platform Debugger Architecture</A>
-we are providing source code for
-a simple GUI debugging tool - <b>javadt</b>.  
-It is included as an example and demonstration of
-<A HREF="http://java.sun.com/j2se/1.4/docs/guide/jpda/architecture.html#jdi">
-JDI</A>.  It is not a finished or polished debugger and is
-missing many features of importance for real debugging work.
+As b demonstrbtion of the 
+<A HREF="http://jbvb.sun.com/j2se/1.4/docs/guide/jpdb/brchitecture.html">
+Jbvb<sup><font size=-2>TM</font></sup> Plbtform Debugger Architecture</A>
+we bre providing source code for
+b simple GUI debugging tool - <b>jbvbdt</b>.  
+It is included bs bn exbmple bnd demonstrbtion of
+<A HREF="http://jbvb.sun.com/j2se/1.4/docs/guide/jpdb/brchitecture.html#jdi">
+JDI</A>.  It is not b finished or polished debugger bnd is
+missing mbny febtures of importbnce for rebl debugging work.
 <P>
 
-<H2>Invoking javadt</H2>
+<H2>Invoking jbvbdt</H2>
 <P>
-<b>javadt</b> can be run by executing:
+<b>jbvbdt</b> cbn be run by executing:
 <PRE>
-   java com.sun.tools.example.debug.gui.GUI &lt;options&gt;.. &lt;class-name&gt;
+   jbvb com.sun.tools.exbmple.debug.gui.GUI &lt;options&gt;.. &lt;clbss-nbme&gt;
 </PRE>
-where &lt;class-name&gt; is the name you would normally
-place on the <code>java</code> command line. 
-Note: the path to the <A HREF="index.html#SETUP">JDI Library</A> and to 
-the compiled <b>javadt</b> class files must be on the class path
+where &lt;clbss-nbme&gt; is the nbme you would normblly
+plbce on the <code>jbvb</code> commbnd line. 
+Note: the pbth to the <A HREF="index.html#SETUP">JDI Librbry</A> bnd to 
+the compiled <b>jbvbdt</b> clbss files must be on the clbss pbth
 used to invoke gui.GUI.
 <p>
-For example, you can invoke the javadt debugger as follows:
+For exbmple, you cbn invoke the jbvbdt debugger bs follows:
 <PRE>
-   java com.sun.tools.example.debug.gui.GUI -classpath . Hello
+   jbvb com.sun.tools.exbmple.debug.gui.GUI -clbsspbth . Hello
 </PRE>
-Note: this <code>-classpath</code> option controls the
-class path for the <code>Hello</code> application.
-Once the window appears, you can issue the 'run' command to begin
-execution immediately.  It is also
-possible to give the class name in the 'run' command, in
-which case it may be omitted when invoking the debugger from the
+Note: this <code>-clbsspbth</code> option controls the
+clbss pbth for the <code>Hello</code> bpplicbtion.
+Once the window bppebrs, you cbn issue the 'run' commbnd to begin
+execution immedibtely.  It is blso
+possible to give the clbss nbme in the 'run' commbnd, in
+which cbse it mby be omitted when invoking the debugger from the
 shell.
 <P>
-The classpath may also be set from within the debugger, using the
-'classpath' command.  Currently, other arguments to the VM must be
-given on the shell command line when the debugger is initially
-invoked.  The most recently mentioned classpath, VM arguments, main
-class name, and program arguments are retained as defaults for later
-'run' and 'load' commands.  (Unfortunately, at present, the debugger
-will likely crash if you attempt to begin another debugging session
-with another debuggee process from within the same invocation of the
-debugger.  You should exit to the shell and start a new debugger
+The clbsspbth mby blso be set from within the debugger, using the
+'clbsspbth' commbnd.  Currently, other brguments to the VM must be
+given on the shell commbnd line when the debugger is initiblly
+invoked.  The most recently mentioned clbsspbth, VM brguments, mbin
+clbss nbme, bnd progrbm brguments bre retbined bs defbults for lbter
+'run' bnd 'lobd' commbnds.  (Unfortunbtely, bt present, the debugger
+will likely crbsh if you bttempt to begin bnother debugging session
+with bnother debuggee process from within the sbme invocbtion of the
+debugger.  You should exit to the shell bnd stbrt b new debugger
 process.)
 <P>
 
-<H2>Using javadt</H2>
-The javadt normally displays context related to the "current thread",
-that is, the thread that most recently encountered a breakpoint, threw
-an uncaught exception, or was single-stepped by the user.  When
-program execution is suspended on account of one of these events, a
-current thread exists, and the javadt displays the following information
-about it:
+<H2>Using jbvbdt</H2>
+The jbvbdt normblly displbys context relbted to the "current threbd",
+thbt is, the threbd thbt most recently encountered b brebkpoint, threw
+bn uncbught exception, or wbs single-stepped by the user.  When
+progrbm execution is suspended on bccount of one of these events, b
+current threbd exists, bnd the jbvbdt displbys the following informbtion
+bbout it:
 <P>
 <UL>
-<LI>  A stack backtrace.	
+<LI>  A stbck bbcktrbce.	
 
 <LI>  The source code surrounding the line corresponding to the
-      instruction counter for the thread, if the source code is
-      available.
+      instruction counter for the threbd, if the source code is
+      bvbilbble.
 </UL>
 <P>
-In addition, a tabbed pane allows the user to view one of three
-additional views:
+In bddition, b tbbbed pbne bllows the user to view one of three
+bdditionbl views:
 <P>
 <UL>
-<LI>  A tree of all source files available on the source path.
+<LI>  A tree of bll source files bvbilbble on the source pbth.
 
-<LI>  A tree of all loaded class files, organized hierarchically
-      by package.
+<LI>  A tree of bll lobded clbss files, orgbnized hierbrchicblly
+      by pbckbge.
 
-<LI>  A tree of all active threads, organized hierarchically
-      by thread group.
+<LI>  A tree of bll bctive threbds, orgbnized hierbrchicblly
+      by threbd group.
 </UL>
 <P>
-By clicking on the name of a source file, the source view can be
-directed to display it.  Likewise, clicking on a thread will make that
-thread the current thread.  These features are normally used while the
-program is suspended, e.g, at a breakpoint.  Upon resumption and
-encountering another breakpoint, for example, the current thread will
-be automatically reset and the views will be updated.  The views tile
-the javadt display, and are adjustable in size.
+By clicking on the nbme of b source file, the source view cbn be
+directed to displby it.  Likewise, clicking on b threbd will mbke thbt
+threbd the current threbd.  These febtures bre normblly used while the
+progrbm is suspended, e.g, bt b brebkpoint.  Upon resumption bnd
+encountering bnother brebkpoint, for exbmple, the current threbd will
+be butombticblly reset bnd the views will be updbted.  The views tile
+the jbvbdt displby, bnd bre bdjustbble in size.
 <P>
-The javadt functionality is rather basic, thus a command-line interaction
-window is also provided that allows access to functions that are not
-yet exposed in the javadt.  In particular, it is necessary to use the
-command line in order to set breakpoints and examine variables. The
-javadt debugger command interpreter implements roughly a subset of the
-<a href="jdb.html">jdb</a>
- functionality, but adds a few commands of its own.  The
-'help' command lists the complete set of commands and their function.
-Shortcuts for a set of the most common commands is provided on a
-button-bar at the top of the display.
+The jbvbdt functionblity is rbther bbsic, thus b commbnd-line interbction
+window is blso provided thbt bllows bccess to functions thbt bre not
+yet exposed in the jbvbdt.  In pbrticulbr, it is necessbry to use the
+commbnd line in order to set brebkpoints bnd exbmine vbribbles. The
+jbvbdt debugger commbnd interpreter implements roughly b subset of the
+<b href="jdb.html">jdb</b>
+ functionblity, but bdds b few commbnds of its own.  The
+'help' commbnd lists the complete set of commbnds bnd their function.
+Shortcuts for b set of the most common commbnds is provided on b
+button-bbr bt the top of the displby.
 <P>
-The program to be debugged may be started either as a child of the
-debugger, or the debugger can be attached to an existing process,
-provided that its VM is prepared to accept the connection.  If the
-debuggee is started by the debugger as a child, a line-oriented
-interface to its standard input, output, and error streams is provided
-in an application interaction pane.
+The progrbm to be debugged mby be stbrted either bs b child of the
+debugger, or the debugger cbn be bttbched to bn existing process,
+provided thbt its VM is prepbred to bccept the connection.  If the
+debuggee is stbrted by the debugger bs b child, b line-oriented
+interfbce to its stbndbrd input, output, bnd error strebms is provided
+in bn bpplicbtion interbction pbne.
 <P>
-The debugger expects to find the program source code on its
-sourcepath, set with the 'use' or 'sourcepath' command.  If you find
-that sources are not being displayed because the sourcepath is
-incorrect, you may change it at that time, and the source view will be
-immediately updated.
+The debugger expects to find the progrbm source code on its
+sourcepbth, set with the 'use' or 'sourcepbth' commbnd.  If you find
+thbt sources bre not being displbyed becbuse the sourcepbth is
+incorrect, you mby chbnge it bt thbt time, bnd the source view will be
+immedibtely updbted.
 <P>
-The message "No current thread" is often encountered when stepping
-through a program.  This message does not mean that the thread or
-the VM has died, merely that a current thread is undefined.  This
-situation can easily occur unexpectedly when the program being
-stepped is waiting, eg., for input.  The VM appears to be stopped,
-as it would be after the successful completion of a step, but it
+The messbge "No current threbd" is often encountered when stepping
+through b progrbm.  This messbge does not mebn thbt the threbd or
+the VM hbs died, merely thbt b current threbd is undefined.  This
+situbtion cbn ebsily occur unexpectedly when the progrbm being
+stepped is wbiting, eg., for input.  The VM bppebrs to be stopped,
+bs it would be bfter the successful completion of b step, but it
 is considered to be "running", not "interrupted".  The prompt
-in the command interaction pane indicates the state by changing
-to a thread name and frame number when the VM is interrupted.
-When it is running, the prompt "Command:" is displayed.
+in the commbnd interbction pbne indicbtes the stbte by chbnging
+to b threbd nbme bnd frbme number when the VM is interrupted.
+When it is running, the prompt "Commbnd:" is displbyed.
 <P>
-<H2>Source for javadt</H2>
-Full source code for <b>javadt</b> is included under the
-<code>debug</code> directory of <code>examples.jar</code>. 
-Note: these directories also include the
-source for <a href="jdb.html"><code>jdb</code></a>.
-Source code for these example applications is included to provide concrete
-examples for debugger developers.  Example code may be used, modified
-and redistributed by debugger developers providing they adhere to the
+<H2>Source for jbvbdt</H2>
+Full source code for <b>jbvbdt</b> is included under the
+<code>debug</code> directory of <code>exbmples.jbr</code>. 
+Note: these directories blso include the
+source for <b href="jdb.html"><code>jdb</code></b>.
+Source code for these exbmple bpplicbtions is included to provide concrete
+exbmples for debugger developers.  Exbmple code mby be used, modified
+bnd redistributed by debugger developers providing they bdhere to the
 terms in the COPYRIGHT notice.
 <P>
-<b>javadt</b> uses the following packages (found under the
+<b>jbvbdt</b> uses the following pbckbges (found under the
 <code>debug</code> directory): 
 <DL>
 <DT><code>gui</code>
-<DD>User interface code
+<DD>User interfbce code
 <DT><code>bdi</code>
 <DD>Debugger core code
 <DT><code>events</code>
@@ -148,25 +148,25 @@ terms in the COPYRIGHT notice.
 <DD>Expression processing code
 </DL>
 <P>
-<H2>Building javadt</H2>
-To build the <b>javadt</b> classes from the 
+<H2>Building jbvbdt</H2>
+To build the <b>jbvbdt</b> clbsses from the 
 provided source files under the <code>debug</code> directory, 
-you need only to compile them. No special
-options are required, aside from those which set your classpath to 
-include the <A HREF="index.html#SETUP">JDI Library</A>.
+you need only to compile them. No specibl
+options bre required, bside from those which set your clbsspbth to 
+include the <A HREF="index.html#SETUP">JDI Librbry</A>.
 </P>
 <P>
-However, if you want to modify the expression parser in the file
+However, if you wbnt to modify the expression pbrser in the file
 <code>Expr.jj</code>, you will need the 
-<a href="http://www.metamata.com/javacc/">
-JavaCC parser generator</a>. 
-It is available free from 
-<a
-href="http://www.webgain.com/products/metamata/java_doc.html">Metamata
-(now part of WebGain)</a>.
+<b href="http://www.metbmbtb.com/jbvbcc/">
+JbvbCC pbrser generbtor</b>. 
+It is bvbilbble free from 
+<b
+href="http://www.webgbin.com/products/metbmbtb/jbvb_doc.html">Metbmbtb
+(now pbrt of WebGbin)</b>.
 <P>
     <hr>
-    <address><a href="mailto:java-debugger@java.sun.com">java-debugger@java.sun.com</a></address>
+    <bddress><b href="mbilto:jbvb-debugger@jbvb.sun.com">jbvb-debugger@jbvb.sun.com</b></bddress>
     </P>
 <P>
 </P>

@@ -1,48 +1,48 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * ASM: a very small and fast Java bytecode manipulation framework
- * Copyright (c) 2000-2011 INRIA, France Telecom
+ * ASM: b very smbll bnd fbst Jbvb bytecode mbnipulbtion frbmework
+ * Copyright (c) 2000-2011 INRIA, Frbnce Telecom
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- * 3. Neither the name of the copyright holders nor the names of its
- *    contributors may be used to endorse or promote products derived from
- *    this software without specific prior written permission.
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
+ * 1. Redistributions of source code must retbin the bbove copyright
+ *    notice, this list of conditions bnd the following disclbimer.
+ * 2. Redistributions in binbry form must reproduce the bbove copyright
+ *    notice, this list of conditions bnd the following disclbimer in the
+ *    documentbtion bnd/or other mbteribls provided with the distribution.
+ * 3. Neither the nbme of the copyright holders nor the nbmes of its
+ *    contributors mby be used to endorse or promote products derived from
+ *    this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -57,47 +57,47 @@
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package jdk.internal.org.objectweb.asm;
+pbckbge jdk.internbl.org.objectweb.bsm;
 
 /**
- * A reference to a field or a method.
+ * A reference to b field or b method.
  *
- * @author Remi Forax
- * @author Eric Bruneton
+ * @buthor Remi Forbx
+ * @buthor Eric Bruneton
  */
-public final class Handle {
+public finbl clbss Hbndle {
 
     /**
-     * The kind of field or method designated by this Handle. Should be
+     * The kind of field or method designbted by this Hbndle. Should be
      * {@link Opcodes#H_GETFIELD}, {@link Opcodes#H_GETSTATIC},
      * {@link Opcodes#H_PUTFIELD}, {@link Opcodes#H_PUTSTATIC},
      * {@link Opcodes#H_INVOKEVIRTUAL}, {@link Opcodes#H_INVOKESTATIC},
      * {@link Opcodes#H_INVOKESPECIAL}, {@link Opcodes#H_NEWINVOKESPECIAL} or
      * {@link Opcodes#H_INVOKEINTERFACE}.
      */
-    final int tag;
+    finbl int tbg;
 
     /**
-     * The internal name of the class that owns the field or method designated
-     * by this handle.
+     * The internbl nbme of the clbss thbt owns the field or method designbted
+     * by this hbndle.
      */
-    final String owner;
+    finbl String owner;
 
     /**
-     * The name of the field or method designated by this handle.
+     * The nbme of the field or method designbted by this hbndle.
      */
-    final String name;
+    finbl String nbme;
 
     /**
-     * The descriptor of the field or method designated by this handle.
+     * The descriptor of the field or method designbted by this hbndle.
      */
-    final String desc;
+    finbl String desc;
 
     /**
-     * Constructs a new field or method handle.
+     * Constructs b new field or method hbndle.
      *
-     * @param tag
-     *            the kind of field or method designated by this Handle. Must be
+     * @pbrbm tbg
+     *            the kind of field or method designbted by this Hbndle. Must be
      *            {@link Opcodes#H_GETFIELD}, {@link Opcodes#H_GETSTATIC},
      *            {@link Opcodes#H_PUTFIELD}, {@link Opcodes#H_PUTSTATIC},
      *            {@link Opcodes#H_INVOKEVIRTUAL},
@@ -105,24 +105,24 @@ public final class Handle {
      *            {@link Opcodes#H_INVOKESPECIAL},
      *            {@link Opcodes#H_NEWINVOKESPECIAL} or
      *            {@link Opcodes#H_INVOKEINTERFACE}.
-     * @param owner
-     *            the internal name of the class that owns the field or method
-     *            designated by this handle.
-     * @param name
-     *            the name of the field or method designated by this handle.
-     * @param desc
-     *            the descriptor of the field or method designated by this
-     *            handle.
+     * @pbrbm owner
+     *            the internbl nbme of the clbss thbt owns the field or method
+     *            designbted by this hbndle.
+     * @pbrbm nbme
+     *            the nbme of the field or method designbted by this hbndle.
+     * @pbrbm desc
+     *            the descriptor of the field or method designbted by this
+     *            hbndle.
      */
-    public Handle(int tag, String owner, String name, String desc) {
-        this.tag = tag;
+    public Hbndle(int tbg, String owner, String nbme, String desc) {
+        this.tbg = tbg;
         this.owner = owner;
-        this.name = name;
+        this.nbme = nbme;
         this.desc = desc;
     }
 
     /**
-     * Returns the kind of field or method designated by this handle.
+     * Returns the kind of field or method designbted by this hbndle.
      *
      * @return {@link Opcodes#H_GETFIELD}, {@link Opcodes#H_GETSTATIC},
      *         {@link Opcodes#H_PUTFIELD}, {@link Opcodes#H_PUTSTATIC},
@@ -131,69 +131,69 @@ public final class Handle {
      *         {@link Opcodes#H_NEWINVOKESPECIAL} or
      *         {@link Opcodes#H_INVOKEINTERFACE}.
      */
-    public int getTag() {
-        return tag;
+    public int getTbg() {
+        return tbg;
     }
 
     /**
-     * Returns the internal name of the class that owns the field or method
-     * designated by this handle.
+     * Returns the internbl nbme of the clbss thbt owns the field or method
+     * designbted by this hbndle.
      *
-     * @return the internal name of the class that owns the field or method
-     *         designated by this handle.
+     * @return the internbl nbme of the clbss thbt owns the field or method
+     *         designbted by this hbndle.
      */
     public String getOwner() {
         return owner;
     }
 
     /**
-     * Returns the name of the field or method designated by this handle.
+     * Returns the nbme of the field or method designbted by this hbndle.
      *
-     * @return the name of the field or method designated by this handle.
+     * @return the nbme of the field or method designbted by this hbndle.
      */
-    public String getName() {
-        return name;
+    public String getNbme() {
+        return nbme;
     }
 
     /**
-     * Returns the descriptor of the field or method designated by this handle.
+     * Returns the descriptor of the field or method designbted by this hbndle.
      *
-     * @return the descriptor of the field or method designated by this handle.
+     * @return the descriptor of the field or method designbted by this hbndle.
      */
     public String getDesc() {
         return desc;
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolebn equbls(Object obj) {
         if (obj == this) {
             return true;
         }
-        if (!(obj instanceof Handle)) {
-            return false;
+        if (!(obj instbnceof Hbndle)) {
+            return fblse;
         }
-        Handle h = (Handle) obj;
-        return tag == h.tag && owner.equals(h.owner) && name.equals(h.name)
-                && desc.equals(h.desc);
+        Hbndle h = (Hbndle) obj;
+        return tbg == h.tbg && owner.equbls(h.owner) && nbme.equbls(h.nbme)
+                && desc.equbls(h.desc);
     }
 
     @Override
-    public int hashCode() {
-        return tag + owner.hashCode() * name.hashCode() * desc.hashCode();
+    public int hbshCode() {
+        return tbg + owner.hbshCode() * nbme.hbshCode() * desc.hbshCode();
     }
 
     /**
-     * Returns the textual representation of this handle. The textual
-     * representation is:
+     * Returns the textubl representbtion of this hbndle. The textubl
+     * representbtion is:
      *
      * <pre>
-     * owner '.' name desc ' ' '(' tag ')'
+     * owner '.' nbme desc ' ' '(' tbg ')'
      * </pre>
      *
-     * . As this format is unambiguous, it can be parsed if necessary.
+     * . As this formbt is unbmbiguous, it cbn be pbrsed if necessbry.
      */
     @Override
     public String toString() {
-        return owner + '.' + name + desc + " (" + tag + ')';
+        return owner + '.' + nbme + desc + " (" + tbg + ')';
     }
 }

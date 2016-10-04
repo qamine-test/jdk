@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -27,17 +27,17 @@
  */
 
 /*
- * (C) Copyright Taligent, Inc. 1996, 1997 - All Rights Reserved
+ * (C) Copyright Tbligent, Inc. 1996, 1997 - All Rights Reserved
  * (C) Copyright IBM Corp. 1996 - 1999 - All Rights Reserved
  *
- * The original version of this source code and documentation
- * is copyrighted and owned by Taligent, Inc., a wholly-owned
- * subsidiary of IBM. These materials are provided under terms
- * of a License Agreement between Taligent and Sun. This technology
- * is protected by multiple US and International patents.
+ * The originbl version of this source code bnd documentbtion
+ * is copyrighted bnd owned by Tbligent, Inc., b wholly-owned
+ * subsidibry of IBM. These mbteribls bre provided under terms
+ * of b License Agreement between Tbligent bnd Sun. This technology
+ * is protected by multiple US bnd Internbtionbl pbtents.
  *
- * This notice and attribution to Taligent may not be removed.
- * Taligent is a registered trademark of Taligent, Inc.
+ * This notice bnd bttribution to Tbligent mby not be removed.
+ * Tbligent is b registered trbdembrk of Tbligent, Inc.
  *
  */
 
@@ -47,19 +47,19 @@
  * Copyright (C) 1991-2012 Unicode, Inc. All rights reserved. Distributed under
  * the Terms of Use in http://www.unicode.org/copyright.html.
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of the Unicode data files and any associated documentation (the "Data
- * Files") or Unicode software and any associated documentation (the
- * "Software") to deal in the Data Files or Software without restriction,
- * including without limitation the rights to use, copy, modify, merge,
- * publish, distribute, and/or sell copies of the Data Files or Software, and
- * to permit persons to whom the Data Files or Software are furnished to do so,
- * provided that (a) the above copyright notice(s) and this permission notice
- * appear with all copies of the Data Files or Software, (b) both the above
- * copyright notice(s) and this permission notice appear in associated
- * documentation, and (c) there is clear notice in each modified Data File or
- * in the Software as well as in the documentation associated with the Data
- * File(s) or Software that the data or software has been modified.
+ * Permission is hereby grbnted, free of chbrge, to bny person obtbining b copy
+ * of the Unicode dbtb files bnd bny bssocibted documentbtion (the "Dbtb
+ * Files") or Unicode softwbre bnd bny bssocibted documentbtion (the
+ * "Softwbre") to debl in the Dbtb Files or Softwbre without restriction,
+ * including without limitbtion the rights to use, copy, modify, merge,
+ * publish, distribute, bnd/or sell copies of the Dbtb Files or Softwbre, bnd
+ * to permit persons to whom the Dbtb Files or Softwbre bre furnished to do so,
+ * provided thbt (b) the bbove copyright notice(s) bnd this permission notice
+ * bppebr with bll copies of the Dbtb Files or Softwbre, (b) both the bbove
+ * copyright notice(s) bnd this permission notice bppebr in bssocibted
+ * documentbtion, bnd (c) there is clebr notice in ebch modified Dbtb File or
+ * in the Softwbre bs well bs in the documentbtion bssocibted with the Dbtb
+ * File(s) or Softwbre thbt the dbtb or softwbre hbs been modified.
  *
  * THE DATA FILES AND SOFTWARE ARE PROVIDED "AS IS", WITHOUT WARRANTY OF ANY
  * KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
@@ -71,36 +71,36 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE
  * OF THE DATA FILES OR SOFTWARE.
  *
- * Except as contained in this notice, the name of a copyright holder shall not
- * be used in advertising or otherwise to promote the sale, use or other
- * dealings in these Data Files or Software without prior written authorization
+ * Except bs contbined in this notice, the nbme of b copyright holder shbll not
+ * be used in bdvertising or otherwise to promote the sble, use or other
+ * deblings in these Dbtb Files or Softwbre without prior written buthorizbtion
  * of the copyright holder.
  */
 
-package sun.text.resources;
+pbckbge sun.text.resources;
 
-import sun.util.resources.ParallelListResourceBundle;
+import sun.util.resources.PbrbllelListResourceBundle;
 
-public class FormatData extends ParallelListResourceBundle {
+public clbss FormbtDbtb extends PbrbllelListResourceBundle {
     /**
      * Overrides ListResourceBundle
      */
     @Override
-    protected final Object[][] getContents() {
-        // Julian calendar era strings
-        final String[] julianEras = {
+    protected finbl Object[][] getContents() {
+        // Julibn cblendbr erb strings
+        finbl String[] julibnErbs = {
             "BC",
             "AD"
         };
 
-        // Thai Buddhist calendar era strings
-        final String[] buddhistEras = {
+        // Thbi Buddhist cblendbr erb strings
+        finbl String[] buddhistErbs = {
             "BC",     // BC
-            "B.E."    // Buddhist Era
+            "B.E."    // Buddhist Erb
         };
 
-        // Japanese imperial calendar era abbreviations
-        final String[] japaneseEraAbbrs = {
+        // Jbpbnese imperibl cblendbr erb bbbrevibtions
+        finbl String[] jbpbneseErbAbbrs = {
             "",
             "M",
             "T",
@@ -108,51 +108,51 @@ public class FormatData extends ParallelListResourceBundle {
             "H",
         };
 
-        // Japanese imperial calendar era strings
-        final String[] japaneseEras = {
+        // Jbpbnese imperibl cblendbr erb strings
+        finbl String[] jbpbneseErbs = {
             "",
             "Meiji",
-            "Taisho",
-            "Showa",
+            "Tbisho",
+            "Showb",
             "Heisei",
         };
 
         return new Object[][] {
-            { "MonthNames",
+            { "MonthNbmes",
                 new String[] {
-                    "January", // january
-                    "February", // february
-                    "March", // march
-                    "April", // april
-                    "May", // may
+                    "Jbnubry", // jbnubry
+                    "Februbry", // februbry
+                    "Mbrch", // mbrch
+                    "April", // bpril
+                    "Mby", // mby
                     "June", // june
                     "July", // july
-                    "August", // august
+                    "August", // bugust
                     "September", // september
                     "October", // october
                     "November", // november
                     "December", // december
-                    "" // month 13 if applicable
+                    "" // month 13 if bpplicbble
                 }
             },
-            { "MonthAbbreviations",
+            { "MonthAbbrevibtions",
                 new String[] {
-                    "Jan", // abb january
-                    "Feb", // abb february
-                    "Mar", // abb march
-                    "Apr", // abb april
-                    "May", // abb may
-                    "Jun", // abb june
-                    "Jul", // abb july
-                    "Aug", // abb august
-                    "Sep", // abb september
-                    "Oct", // abb october
-                    "Nov", // abb november
-                    "Dec", // abb december
-                    "" // abb month 13 if applicable
+                    "Jbn", // bbb jbnubry
+                    "Feb", // bbb februbry
+                    "Mbr", // bbb mbrch
+                    "Apr", // bbb bpril
+                    "Mby", // bbb mby
+                    "Jun", // bbb june
+                    "Jul", // bbb july
+                    "Aug", // bbb bugust
+                    "Sep", // bbb september
+                    "Oct", // bbb october
+                    "Nov", // bbb november
+                    "Dec", // bbb december
+                    "" // bbb month 13 if bpplicbble
                 }
             },
-            { "MonthNarrows",
+            { "MonthNbrrows",
                 new String[] {
                     "J",
                     "F",
@@ -169,29 +169,29 @@ public class FormatData extends ParallelListResourceBundle {
                     "",
                 }
             },
-            { "DayNames",
+            { "DbyNbmes",
                 new String[] {
-                    "Sunday", // Sunday
-                    "Monday", // Monday
-                    "Tuesday", // Tuesday
-                    "Wednesday", // Wednesday
-                    "Thursday", // Thursday
-                    "Friday", // Friday
-                    "Saturday" // Saturday
+                    "Sundby", // Sundby
+                    "Mondby", // Mondby
+                    "Tuesdby", // Tuesdby
+                    "Wednesdby", // Wednesdby
+                    "Thursdby", // Thursdby
+                    "Fridby", // Fridby
+                    "Sbturdby" // Sbturdby
                 }
             },
-            { "DayAbbreviations",
+            { "DbyAbbrevibtions",
                 new String[] {
-                    "Sun", // abb Sunday
-                    "Mon", // abb Monday
-                    "Tue", // abb Tuesday
-                    "Wed", // abb Wednesday
-                    "Thu", // abb Thursday
-                    "Fri", // abb Friday
-                    "Sat" // abb Saturday
+                    "Sun", // bbb Sundby
+                    "Mon", // bbb Mondby
+                    "Tue", // bbb Tuesdby
+                    "Wed", // bbb Wednesdby
+                    "Thu", // bbb Thursdby
+                    "Fri", // bbb Fridby
+                    "Sbt" // bbb Sbturdby
                 }
             },
-            { "DayNarrows",
+            { "DbyNbrrows",
                 new String[] {
                     "S",
                     "M",
@@ -202,104 +202,104 @@ public class FormatData extends ParallelListResourceBundle {
                     "S",
                 }
             },
-            { "AmPmMarkers",
+            { "AmPmMbrkers",
                 new String[] {
-                    "AM", // am marker
-                    "PM" // pm marker
+                    "AM", // bm mbrker
+                    "PM" // pm mbrker
                 }
             },
-            { "narrow.AmPmMarkers",
+            { "nbrrow.AmPmMbrkers",
                 new String[] {
-                    "a", // am marker
-                    "p"  // pm marker
+                    "b", // bm mbrker
+                    "p"  // pm mbrker
                 }
             },
-            { "Eras",
-                julianEras },
-            { "short.Eras",
-                julianEras },
-            { "narrow.Eras",
+            { "Erbs",
+                julibnErbs },
+            { "short.Erbs",
+                julibnErbs },
+            { "nbrrow.Erbs",
                 new String[] {
                     "B",
                     "A",
                 }
             },
-            { "buddhist.Eras",
-              buddhistEras
+            { "buddhist.Erbs",
+              buddhistErbs
             },
-            { "buddhist.short.Eras",
-              buddhistEras
+            { "buddhist.short.Erbs",
+              buddhistErbs
             },
-            { "buddhist.narrow.Eras",
-              buddhistEras
+            { "buddhist.nbrrow.Erbs",
+              buddhistErbs
             },
-            { "japanese.Eras",
-                japaneseEras },
-            { "japanese.short.Eras",
-                japaneseEraAbbrs
+            { "jbpbnese.Erbs",
+                jbpbneseErbs },
+            { "jbpbnese.short.Erbs",
+                jbpbneseErbAbbrs
             },
-            { "japanese.narrow.Eras",
-                japaneseEraAbbrs
+            { "jbpbnese.nbrrow.Erbs",
+                jbpbneseErbAbbrs
             },
-            { "japanese.FirstYear",
-                new String[] { // Japanese imperial calendar year name
+            { "jbpbnese.FirstYebr",
+                new String[] { // Jbpbnese imperibl cblendbr yebr nbme
                     // empty in English
                 }
             },
-            { "NumberPatterns",
+            { "NumberPbtterns",
                 new String[] {
-                    "#,##0.###;-#,##0.###", // decimal pattern
-                    "\u00a4 #,##0.00;-\u00a4 #,##0.00", // currency pattern
-                    "#,##0%" // percent pattern
+                    "#,##0.###;-#,##0.###", // decimbl pbttern
+                    "\u00b4 #,##0.00;-\u00b4 #,##0.00", // currency pbttern
+                    "#,##0%" // percent pbttern
                 }
             },
-            { "DefaultNumberingSystem", "" },
+            { "DefbultNumberingSystem", "" },
             { "NumberElements",
                 new String[] {
-                    ".", // decimal separator
-                    ",", // group (thousands) separator
-                    ";", // list separator
+                    ".", // decimbl sepbrbtor
+                    ",", // group (thousbnds) sepbrbtor
+                    ";", // list sepbrbtor
                     "%", // percent sign
-                    "0", // native 0 digit
-                    "#", // pattern digit
+                    "0", // nbtive 0 digit
+                    "#", // pbttern digit
                     "-", // minus sign
-                    "E", // exponential
+                    "E", // exponentibl
                     "\u2030", // per mille
                     "\u221e", // infinity
-                    "\ufffd" // NaN
+                    "\ufffd" // NbN
                 }
             },
-            { "arab.NumberElements",
+            { "brbb.NumberElements",
                 new String[] {
                     "\u066b",
                     "\u066c",
                     "\u061b",
-                    "\u066a",
+                    "\u066b",
                     "\u0660",
                     "#",
                     "-",
                     "\u0627\u0633",
                     "\u0609",
                     "\u221e",
-                    "NaN",
+                    "NbN",
                 }
             },
-            { "arabext.NumberElements",
+            { "brbbext.NumberElements",
                 new String[] {
                     "\u066b",
                     "\u066c",
                     "\u061b",
-                    "\u066a",
+                    "\u066b",
                     "\u06f0",
                     "#",
                     "-",
                     "\u00d7\u06f1\u06f0^",
                     "\u0609",
                     "\u221e",
-                    "NaN",
+                    "NbN",
                 }
             },
-            { "bali.NumberElements",
+            { "bbli.NumberElements",
                 new String[] {
                     ".",
                     ",",
@@ -311,7 +311,7 @@ public class FormatData extends ParallelListResourceBundle {
                     "E",
                     "\u2030",
                     "\u221e",
-                    "NaN",
+                    "NbN",
                 }
             },
             { "beng.NumberElements",
@@ -326,25 +326,25 @@ public class FormatData extends ParallelListResourceBundle {
                     "E",
                     "\u2030",
                     "\u221e",
-                    "NaN",
+                    "NbN",
                 }
             },
-            { "cham.NumberElements",
+            { "chbm.NumberElements",
                 new String[] {
                     ".",
                     ",",
                     ";",
                     "%",
-                    "\uaa50",
+                    "\ubb50",
                     "#",
                     "-",
                     "E",
                     "\u2030",
                     "\u221e",
-                    "NaN",
+                    "NbN",
                 }
             },
-            { "deva.NumberElements",
+            { "devb.NumberElements",
                 new String[] {
                     ".",
                     ",",
@@ -356,7 +356,7 @@ public class FormatData extends ParallelListResourceBundle {
                     "E",
                     "\u2030",
                     "\u221e",
-                    "NaN",
+                    "NbN",
                 }
             },
             { "fullwide.NumberElements",
@@ -371,7 +371,7 @@ public class FormatData extends ParallelListResourceBundle {
                     "E",
                     "\u2030",
                     "\u221e",
-                    "NaN",
+                    "NbN",
                 }
             },
             { "gujr.NumberElements",
@@ -380,13 +380,13 @@ public class FormatData extends ParallelListResourceBundle {
                     ",",
                     ";",
                     "%",
-                    "\u0ae6",
+                    "\u0be6",
                     "#",
                     "-",
                     "E",
                     "\u2030",
                     "\u221e",
-                    "NaN",
+                    "NbN",
                 }
             },
             { "guru.NumberElements",
@@ -395,43 +395,43 @@ public class FormatData extends ParallelListResourceBundle {
                     ",",
                     ";",
                     "%",
-                    "\u0a66",
+                    "\u0b66",
                     "#",
                     "-",
                     "E",
                     "\u2030",
                     "\u221e",
-                    "NaN",
+                    "NbN",
                 }
             },
-            { "java.NumberElements",
+            { "jbvb.NumberElements",
                 new String[] {
                     ".",
                     ",",
                     ";",
                     "%",
-                    "\ua9d0",
+                    "\ub9d0",
                     "#",
                     "-",
                     "E",
                     "\u2030",
                     "\u221e",
-                    "NaN",
+                    "NbN",
                 }
             },
-            { "kali.NumberElements",
+            { "kbli.NumberElements",
                 new String[] {
                     ".",
                     ",",
                     ";",
                     "%",
-                    "\ua900",
+                    "\ub900",
                     "#",
                     "-",
                     "E",
                     "\u2030",
                     "\u221e",
-                    "NaN",
+                    "NbN",
                 }
             },
             { "khmr.NumberElements",
@@ -446,10 +446,10 @@ public class FormatData extends ParallelListResourceBundle {
                     "E",
                     "\u2030",
                     "\u221e",
-                    "NaN",
+                    "NbN",
                 }
             },
-            { "knda.NumberElements",
+            { "kndb.NumberElements",
                 new String[] {
                     ".",
                     ",",
@@ -461,10 +461,10 @@ public class FormatData extends ParallelListResourceBundle {
                     "E",
                     "\u2030",
                     "\u221e",
-                    "NaN",
+                    "NbN",
                 }
             },
-            { "laoo.NumberElements",
+            { "lboo.NumberElements",
                 new String[] {
                     ".",
                     ",",
@@ -476,52 +476,52 @@ public class FormatData extends ParallelListResourceBundle {
                     "E",
                     "\u2030",
                     "\u221e",
-                    "NaN",
+                    "NbN",
                 }
             },
-            { "lana.NumberElements",
+            { "lbnb.NumberElements",
                 new String[] {
                     ".",
                     ",",
                     ";",
                     "%",
-                    "\u1a80",
+                    "\u1b80",
                     "#",
                     "-",
                     "E",
                     "\u2030",
                     "\u221e",
-                    "NaN",
+                    "NbN",
                 }
             },
-            { "lanatham.NumberElements",
+            { "lbnbthbm.NumberElements",
                 new String[] {
                     ".",
                     ",",
                     ";",
                     "%",
-                    "\u1a90",
+                    "\u1b90",
                     "#",
                     "-",
                     "E",
                     "\u2030",
                     "\u221e",
-                    "NaN",
+                    "NbN",
                 }
             },
-            { "latn.NumberElements",
+            { "lbtn.NumberElements",
                 new String[] {
-                    ".", // decimal separator
-                    ",", // group (thousands) separator
-                    ";", // list separator
+                    ".", // decimbl sepbrbtor
+                    ",", // group (thousbnds) sepbrbtor
+                    ";", // list sepbrbtor
                     "%", // percent sign
-                    "0", // native 0 digit
-                    "#", // pattern digit
+                    "0", // nbtive 0 digit
+                    "#", // pbttern digit
                     "-", // minus sign
-                    "E", // exponential
+                    "E", // exponentibl
                     "\u2030", // per mille
                     "\u221e", // infinity
-                    "\ufffd" // NaN
+                    "\ufffd" // NbN
                 }
             },
             { "lepc.NumberElements",
@@ -536,7 +536,7 @@ public class FormatData extends ParallelListResourceBundle {
                     "E",
                     "\u2030",
                     "\u221e",
-                    "NaN",
+                    "NbN",
                 }
             },
             { "limb.NumberElements",
@@ -551,7 +551,7 @@ public class FormatData extends ParallelListResourceBundle {
                     "E",
                     "\u2030",
                     "\u221e",
-                    "NaN",
+                    "NbN",
                 }
             },
             { "mlym.NumberElements",
@@ -566,7 +566,7 @@ public class FormatData extends ParallelListResourceBundle {
                     "E",
                     "\u2030",
                     "\u221e",
-                    "NaN",
+                    "NbN",
                 }
             },
             { "mong.NumberElements",
@@ -581,7 +581,7 @@ public class FormatData extends ParallelListResourceBundle {
                     "E",
                     "\u2030",
                     "\u221e",
-                    "NaN",
+                    "NbN",
                 }
             },
             { "mtei.NumberElements",
@@ -590,13 +590,13 @@ public class FormatData extends ParallelListResourceBundle {
                     ",",
                     ";",
                     "%",
-                    "\uabf0",
+                    "\ubbf0",
                     "#",
                     "-",
                     "E",
                     "\u2030",
                     "\u221e",
-                    "NaN",
+                    "NbN",
                 }
             },
             { "mymr.NumberElements",
@@ -611,10 +611,10 @@ public class FormatData extends ParallelListResourceBundle {
                     "E",
                     "\u2030",
                     "\u221e",
-                    "NaN",
+                    "NbN",
                 }
             },
-            { "mymrshan.NumberElements",
+            { "mymrshbn.NumberElements",
                 new String[] {
                     ".",
                     ",",
@@ -626,7 +626,7 @@ public class FormatData extends ParallelListResourceBundle {
                     "E",
                     "\u2030",
                     "\u221e",
-                    "NaN",
+                    "NbN",
                 }
             },
             { "nkoo.NumberElements",
@@ -641,7 +641,7 @@ public class FormatData extends ParallelListResourceBundle {
                     "E",
                     "\u2030",
                     "\u221e",
-                    "NaN",
+                    "NbN",
                 }
             },
             { "olck.NumberElements",
@@ -656,10 +656,10 @@ public class FormatData extends ParallelListResourceBundle {
                     "E",
                     "\u2030",
                     "\u221e",
-                    "NaN",
+                    "NbN",
                 }
             },
-            { "orya.NumberElements",
+            { "oryb.NumberElements",
                 new String[] {
                     ".",
                     ",",
@@ -671,22 +671,22 @@ public class FormatData extends ParallelListResourceBundle {
                     "E",
                     "\u2030",
                     "\u221e",
-                    "NaN",
+                    "NbN",
                 }
             },
-            { "saur.NumberElements",
+            { "sbur.NumberElements",
                 new String[] {
                     ".",
                     ",",
                     ";",
                     "%",
-                    "\ua8d0",
+                    "\ub8d0",
                     "#",
                     "-",
                     "E",
                     "\u2030",
                     "\u221e",
-                    "NaN",
+                    "NbN",
                 }
             },
             { "sund.NumberElements",
@@ -701,10 +701,10 @@ public class FormatData extends ParallelListResourceBundle {
                     "E",
                     "\u2030",
                     "\u221e",
-                    "NaN",
+                    "NbN",
                 }
             },
-            { "talu.NumberElements",
+            { "tblu.NumberElements",
                 new String[] {
                     ".",
                     ",",
@@ -716,10 +716,10 @@ public class FormatData extends ParallelListResourceBundle {
                     "E",
                     "\u2030",
                     "\u221e",
-                    "NaN",
+                    "NbN",
                 }
             },
-            { "tamldec.NumberElements",
+            { "tbmldec.NumberElements",
                 new String[] {
                     ".",
                     ",",
@@ -731,7 +731,7 @@ public class FormatData extends ParallelListResourceBundle {
                     "E",
                     "\u2030",
                     "\u221e",
-                    "NaN",
+                    "NbN",
                 }
             },
             { "telu.NumberElements",
@@ -746,22 +746,22 @@ public class FormatData extends ParallelListResourceBundle {
                     "E",
                     "\u2030",
                     "\u221e",
-                    "NaN",
+                    "NbN",
                 }
             },
-            { "thai.NumberElements",
+            { "thbi.NumberElements",
                 new String[] {
-                    ".", // decimal separator
-                    ",", // group (thousands) separator
-                    ";", // list separator
+                    ".", // decimbl sepbrbtor
+                    ",", // group (thousbnds) sepbrbtor
+                    ";", // list sepbrbtor
                     "%", // percent sign
-                    "\u0E50", // native 0 digit
-                    "#", // pattern digit
+                    "\u0E50", // nbtive 0 digit
+                    "#", // pbttern digit
                     "-", // minus sign
-                    "E", // exponential
+                    "E", // exponentibl
                     "\u2030", // per mille
                     "\u221e", // infinity
-                    "\ufffd" // NaN
+                    "\ufffd" // NbN
                 }
             },
             { "tibt.NumberElements",
@@ -776,91 +776,91 @@ public class FormatData extends ParallelListResourceBundle {
                     "E",
                     "\u2030",
                     "\u221e",
-                    "NaN",
+                    "NbN",
                 }
             },
-            { "vaii.NumberElements",
+            { "vbii.NumberElements",
                 new String[] {
                     ".",
                     ",",
                     ";",
                     "%",
-                    "\ua620",
+                    "\ub620",
                     "#",
                     "-",
                     "E",
                     "\u2030",
                     "\u221e",
-                    "NaN",
+                    "NbN",
                 }
             },
-            { "TimePatterns",
+            { "TimePbtterns",
                 new String[] {
-                    "h:mm:ss a z",        // full time pattern
-                    "h:mm:ss a z",        // long time pattern
-                    "h:mm:ss a",          // medium time pattern
-                    "h:mm a",             // short time pattern
+                    "h:mm:ss b z",        // full time pbttern
+                    "h:mm:ss b z",        // long time pbttern
+                    "h:mm:ss b",          // medium time pbttern
+                    "h:mm b",             // short time pbttern
                 }
             },
-            { "DatePatterns",
+            { "DbtePbtterns",
                 new String[] {
-                    "EEEE, MMMM d, yyyy", // full date pattern
-                    "MMMM d, yyyy",       // long date pattern
-                    "MMM d, yyyy",        // medium date pattern
-                    "M/d/yy",             // short date pattern
+                    "EEEE, MMMM d, yyyy", // full dbte pbttern
+                    "MMMM d, yyyy",       // long dbte pbttern
+                    "MMM d, yyyy",        // medium dbte pbttern
+                    "M/d/yy",             // short dbte pbttern
                 }
             },
-            { "DateTimePatterns",
+            { "DbteTimePbtterns",
                 new String[] {
-                    "{1} {0}"             // date-time pattern
+                    "{1} {0}"             // dbte-time pbttern
                 }
             },
-            { "buddhist.TimePatterns",
+            { "buddhist.TimePbtterns",
                 new String[] {
-                    "H:mm:ss z",          // full time pattern
-                    "H:mm:ss z",          // long time pattern
-                    "H:mm:ss",            // medium time pattern
-                    "H:mm",               // short time pattern
+                    "H:mm:ss z",          // full time pbttern
+                    "H:mm:ss z",          // long time pbttern
+                    "H:mm:ss",            // medium time pbttern
+                    "H:mm",               // short time pbttern
                 }
             },
-            { "buddhist.DatePatterns",
+            { "buddhist.DbtePbtterns",
                 new String[] {
-                    "EEEE d MMMM G yyyy", // full date pattern
-                    "d MMMM yyyy",        // long date pattern
-                    "d MMM yyyy",         // medium date pattern
-                    "d/M/yyyy",           // short date pattern
+                    "EEEE d MMMM G yyyy", // full dbte pbttern
+                    "d MMMM yyyy",        // long dbte pbttern
+                    "d MMM yyyy",         // medium dbte pbttern
+                    "d/M/yyyy",           // short dbte pbttern
                 }
             },
-            { "buddhist.DateTimePatterns",
+            { "buddhist.DbteTimePbtterns",
                 new String[] {
-                    "{1}, {0}"            // date-time pattern
+                    "{1}, {0}"            // dbte-time pbttern
                 }
             },
-            { "japanese.TimePatterns",
+            { "jbpbnese.TimePbtterns",
                 new String[] {
-                    "h:mm:ss a z",             // full time pattern
-                    "h:mm:ss a z",             // long time pattern
-                    "h:mm:ss a",               // medium time pattern
-                    "h:mm a",                  // short time pattern
+                    "h:mm:ss b z",             // full time pbttern
+                    "h:mm:ss b z",             // long time pbttern
+                    "h:mm:ss b",               // medium time pbttern
+                    "h:mm b",                  // short time pbttern
                 }
             },
-            { "japanese.DatePatterns",
+            { "jbpbnese.DbtePbtterns",
                 new String[] {
-                    "GGGG yyyy MMMM d (EEEE)", // full date pattern
-                    "GGGG yyyy MMMM d",        // long date pattern
-                    "GGGG yyyy MMM d",         // medium date pattern
-                    "Gy.MM.dd",                // short date pattern
+                    "GGGG yyyy MMMM d (EEEE)", // full dbte pbttern
+                    "GGGG yyyy MMMM d",        // long dbte pbttern
+                    "GGGG yyyy MMM d",         // medium dbte pbttern
+                    "Gy.MM.dd",                // short dbte pbttern
                 }
             },
-            { "japanese.DateTimePatterns",
+            { "jbpbnese.DbteTimePbtterns",
                 new String[] {
-                    "{1} {0}"                  // date-time pattern
+                    "{1} {0}"                  // dbte-time pbttern
                 }
             },
-            { "DateTimePatternChars", "GyMdkHmsSEDFwWahKzZ" },
+            { "DbteTimePbtternChbrs", "GyMdkHmsSEDFwWbhKzZ" },
 
-            // Workaround for islamic-umalqura name support (JDK-8015986)
-            { "calendarname.islamic-umalqura", "Islamic Umm al-Qura Calendar" },
+            // Workbround for islbmic-umblqurb nbme support (JDK-8015986)
+            { "cblendbrnbme.islbmic-umblqurb", "Islbmic Umm bl-Qurb Cblendbr" },
         };
     }
 }

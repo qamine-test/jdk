@@ -1,68 +1,68 @@
 /*
- * Copyright (c) 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
 /*
  * FUNCTION
- *      mlib_ImageThresh1 - thresholding
+ *      mlib_ImbgeThresh1 - thresholding
  *
  * SYNOPSIS
- *      mlib_status mlib_ImageThresh1(mlib_image       *dst,
- *                                    const mlib_image *src,
+ *      mlib_stbtus mlib_ImbgeThresh1(mlib_imbge       *dst,
+ *                                    const mlib_imbge *src,
  *                                    const mlib_s32   *thresh,
  *                                    const mlib_s32   *ghigh,
  *                                    const mlib_s32   *glow);
  *
  * ARGUMENT
- *      dst     pointer to output image
- *      src     pointer to input image
- *      thresh  array of thresholds
- *      ghigh   array of values above thresholds
- *      glow    array of values below thresholds
+ *      dst     pointer to output imbge
+ *      src     pointer to input imbge
+ *      thresh  brrby of thresholds
+ *      ghigh   brrby of vblues bbove thresholds
+ *      glow    brrby of vblues below thresholds
  *
  * RESTRICTION
- *      The images must have the same size, and the same number
- *      of channels.
- *      The images can have 1, 2, 3, or 4 channels.
- *      The images can be in MLIB_BYTE, MLIB_SHORT or MLIB_INT data type.
- *      The type of the output image can be MLIB_BIT, or the same as the
- *      type of the input image.
+ *      The imbges must hbve the sbme size, bnd the sbme number
+ *      of chbnnels.
+ *      The imbges cbn hbve 1, 2, 3, or 4 chbnnels.
+ *      The imbges cbn be in MLIB_BYTE, MLIB_SHORT or MLIB_INT dbtb type.
+ *      The type of the output imbge cbn be MLIB_BIT, or the sbme bs the
+ *      type of the input imbge.
  *
  * DESCRIPTION
- *      If the pixel band value is above the threshold for that channel,
- *      set the destination to the ghigh value for that channel.
- *      Otherwise, set the destination to the glow value for that channel.
+ *      If the pixel bbnd vblue is bbove the threshold for thbt chbnnel,
+ *      set the destinbtion to the ghigh vblue for thbt chbnnel.
+ *      Otherwise, set the destinbtion to the glow vblue for thbt chbnnel.
  *
  *                      +- glow[c]   src[x][y][c] <= thresh[c]
  *      dst[x][y][c]  = |
  *                      +- ghigh[c]  src[x][y][c] >  thresh[c]
  */
 
-#include "mlib_image.h"
-#include "mlib_ImageCheck.h"
-#include "mlib_c_ImageThresh1.h"
+#include "mlib_imbge.h"
+#include "mlib_ImbgeCheck.h"
+#include "mlib_c_ImbgeThresh1.h"
 
 /***************************************************************/
 #define STYPE           mlib_u8
@@ -123,7 +123,7 @@
 #define THRESH3(s0) DO_THRESH(s0, thresh3, glow3, ghigh3)
 
 /***************************************************************/
-void mlib_c_ImageThresh1_U81(PARAMS)
+void mlib_c_ImbgeThresh1_U81(PARAMS)
 {
   mlib_s32 *thresh = (void *)__thresh;
   mlib_s32 *ghigh = (void *)__ghigh;
@@ -145,7 +145,7 @@ void mlib_c_ImageThresh1_U81(PARAMS)
   for (i = 0; i < height; i++) {
 
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
     for (j = 0; j <= (width - 8); j += 8) {
       pdst_row[j] = THRESH0(psrc_row[j]);
@@ -168,7 +168,7 @@ void mlib_c_ImageThresh1_U81(PARAMS)
 }
 
 /***************************************************************/
-void mlib_c_ImageThresh1_U82(PARAMS)
+void mlib_c_ImbgeThresh1_U82(PARAMS)
 {
   mlib_s32 *thresh = (void *)__thresh;
   mlib_s32 *ghigh = (void *)__ghigh;
@@ -192,7 +192,7 @@ void mlib_c_ImageThresh1_U82(PARAMS)
   for (i = 0; i < height; i++) {
 
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
     for (j = 0; j <= (width - 8); j += 8) {
       pdst_row[j] = THRESH0(psrc_row[j]);
@@ -216,7 +216,7 @@ void mlib_c_ImageThresh1_U82(PARAMS)
 }
 
 /***************************************************************/
-void mlib_c_ImageThresh1_U83(PARAMS)
+void mlib_c_ImbgeThresh1_U83(PARAMS)
 {
   mlib_s32 *thresh = (void *)__thresh;
   mlib_s32 *ghigh = (void *)__ghigh;
@@ -241,7 +241,7 @@ void mlib_c_ImageThresh1_U83(PARAMS)
   for (i = 0; i < height; i++) {
 
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
     for (j = 0; j <= (width - 12); j += 12) {
       pdst_row[j] = THRESH0(psrc_row[j]);
@@ -270,7 +270,7 @@ void mlib_c_ImageThresh1_U83(PARAMS)
 }
 
 /***************************************************************/
-void mlib_c_ImageThresh1_U84(PARAMS)
+void mlib_c_ImbgeThresh1_U84(PARAMS)
 {
   mlib_s32 *thresh = (void *)__thresh;
   mlib_s32 *ghigh = (void *)__ghigh;
@@ -297,7 +297,7 @@ void mlib_c_ImageThresh1_U84(PARAMS)
   for (i = 0; i < height; i++) {
 
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
     for (j = 0; j <= (width - 8); j += 8) {
       pdst_row[j] = THRESH0(psrc_row[j]);
@@ -323,7 +323,7 @@ void mlib_c_ImageThresh1_U84(PARAMS)
 }
 
 /***************************************************************/
-void mlib_c_ImageThresh1_U81_1B(PARAMS,
+void mlib_c_ImbgeThresh1_U81_1B(PARAMS,
                                 mlib_s32 dbit_off)
 {
   mlib_s32 *thresh = (void *)__thresh;
@@ -332,7 +332,7 @@ void mlib_c_ImageThresh1_U81_1B(PARAMS,
   STYPE *psrc_row = psrc;
   mlib_u8 *pdst_row = pdst;
   TTYPE thresh0 = thresh[0];
-  mlib_s32 mhigh, mlow, emask, dst0;
+  mlib_s32 mhigh, mlow, embsk, dst0;
   mlib_s32 i, j, jbit, l;
 
   mhigh = (ghigh[0] > 0) ? 0xff : 0;
@@ -348,20 +348,20 @@ void mlib_c_ImageThresh1_U81_1B(PARAMS,
       if (nume > width)
         nume = width;
       dst0 = 0;
-      emask = 0;
+      embsk = 0;
 
       for (; j < nume; j++) {
-        emask |= (1 << (7 - (dbit_off + j)));
+        embsk |= (1 << (7 - (dbit_off + j)));
         dst0 |= THRESH1_CMP_SHIFT(psrc_row[j], thresh0, 7 - (dbit_off + j));
       }
 
       dst0 = (mhigh & dst0) | (mlow & ~dst0);
-      pdst_row[0] = (dst0 & emask) | (pdst_row[0] & ~emask);
+      pdst_row[0] = (dst0 & embsk) | (pdst_row[0] & ~embsk);
       jbit++;
     }
 
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
     for (; j <= (width - 16); j += 16) {
       dst0 = THRESH1_CMP_SHIFT(psrc_row[j], thresh0, 7) |
@@ -411,9 +411,9 @@ void mlib_c_ImageThresh1_U81_1B(PARAMS,
         l--;
       }
 
-      emask = (0xFF << (l + 1));
+      embsk = (0xFF << (l + 1));
       dst0 = (mhigh & dst0) | (mlow & ~dst0);
-      pdst_row[jbit] = (dst0 & emask) | (pdst_row[jbit] & ~emask);
+      pdst_row[jbit] = (dst0 & embsk) | (pdst_row[jbit] & ~embsk);
     }
 
     psrc_row += src_stride;
@@ -422,7 +422,7 @@ void mlib_c_ImageThresh1_U81_1B(PARAMS,
 }
 
 /***************************************************************/
-void mlib_c_ImageThresh1_U82_1B(PARAMS,
+void mlib_c_ImbgeThresh1_U82_1B(PARAMS,
                                 mlib_s32 dbit_off)
 {
   mlib_s32 *thresh = (void *)__thresh;
@@ -431,12 +431,12 @@ void mlib_c_ImageThresh1_U82_1B(PARAMS,
   STYPE *psrc_row = psrc;
   mlib_u8 *pdst_row = pdst;
   TTYPE thresh0 = thresh[0], thresh1 = thresh[1];
-  mlib_s32 mhigh0, mlow0, mhigh, mlow, emask, dst0;
+  mlib_s32 mhigh0, mlow0, mhigh, mlow, embsk, dst0;
   mlib_s32 i, j, jbit, l;
 
-  mhigh0 = (ghigh[0] > 0) ? 0xaaa : 0;
+  mhigh0 = (ghigh[0] > 0) ? 0xbbb : 0;
   mhigh0 |= (ghigh[1] > 0) ? 0x555 : 0;
-  mlow0 = (glow[0] > 0) ? 0xaaa : 0;
+  mlow0 = (glow[0] > 0) ? 0xbbb : 0;
   mlow0 |= (glow[1] > 0) ? 0x555 : 0;
 
   width *= 2;
@@ -456,30 +456,30 @@ void mlib_c_ImageThresh1_U82_1B(PARAMS,
       if (nume > width)
         nume = width;
       dst0 = 0;
-      emask = 0;
+      embsk = 0;
 
       for (; j <= (nume - 2); j += 2) {
-        emask |= (3 << (6 - (dbit_off + j)));
+        embsk |= (3 << (6 - (dbit_off + j)));
         dst0 |= THRESH1_CMP_SHIFT(psrc_row[j], thresh0, 7 - (dbit_off + j));
         dst0 |= THRESH1_CMP_SHIFT(psrc_row[j + 1], thresh1, 6 - (dbit_off + j));
       }
 
       if (j < nume) {
-        emask |= (1 << (7 - (dbit_off + j)));
+        embsk |= (1 << (7 - (dbit_off + j)));
         dst0 |= THRESH1_CMP_SHIFT(psrc_row[j], thresh0, 7 - (dbit_off + j));
-        /* swap threshes */
+        /* swbp threshes */
         thresh0 = thresh[1];
         thresh1 = thresh[0];
         j++;
       }
 
       dst0 = (mhigh & dst0) | (mlow & ~dst0);
-      pdst_row[0] = (dst0 & emask) | (pdst_row[0] & ~emask);
+      pdst_row[0] = (dst0 & embsk) | (pdst_row[0] & ~embsk);
       jbit++;
     }
 
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
     for (; j <= (width - 16); j += 16) {
       dst0 = THRESH1_CMP_SHIFT(psrc_row[j], thresh0, 7) |
@@ -535,9 +535,9 @@ void mlib_c_ImageThresh1_U82_1B(PARAMS,
         l--;
       }
 
-      emask = (0xFF << (l + 1));
+      embsk = (0xFF << (l + 1));
       dst0 = (mhigh & dst0) | (mlow & ~dst0);
-      pdst_row[jbit] = (dst0 & emask) | (pdst_row[jbit] & ~emask);
+      pdst_row[jbit] = (dst0 & embsk) | (pdst_row[jbit] & ~embsk);
     }
 
     psrc_row += src_stride;
@@ -546,7 +546,7 @@ void mlib_c_ImageThresh1_U82_1B(PARAMS,
 }
 
 /***************************************************************/
-void mlib_c_ImageThresh1_U83_1B(PARAMS,
+void mlib_c_ImbgeThresh1_U83_1B(PARAMS,
                                 mlib_s32 dbit_off)
 {
   mlib_s32 *thresh = (void *)__thresh;
@@ -556,7 +556,7 @@ void mlib_c_ImageThresh1_U83_1B(PARAMS,
   mlib_u8 *pdst_row = pdst;
   TTYPE thresh0, thresh1, thresh2, threshT;
   mlib_s32 mhigh = 0, mlow = 0;
-  mlib_s32 mhigh0, mlow0, mhigh1, mlow1, mhigh2, mlow2, emask, dst0, dst1;
+  mlib_s32 mhigh0, mlow0, mhigh1, mlow1, mhigh2, mlow2, embsk, dst0, dst1;
   mlib_s32 i, j, jbit, k, l;
 
   if (ghigh[0] > 0)
@@ -599,19 +599,19 @@ void mlib_c_ImageThresh1_U83_1B(PARAMS,
       if (nume > width)
         nume = width;
       dst0 = 0;
-      emask = 0;
+      embsk = 0;
 
       for (; j <= (nume - 3); j += 3) {
-        emask |= (7 << (5 - (dbit_off + j)));
+        embsk |= (7 << (5 - (dbit_off + j)));
         dst0 |= THRESH1_CMP_SHIFT(psrc_row[j], thresh0, 7 - (dbit_off + j));
         dst0 |= THRESH1_CMP_SHIFT(psrc_row[j + 1], thresh1, 6 - (dbit_off + j));
         dst0 |= THRESH1_CMP_SHIFT(psrc_row[j + 2], thresh2, 5 - (dbit_off + j));
       }
 
       for (; j < nume; j++) {
-        emask |= (1 << (7 - (dbit_off + j)));
+        embsk |= (1 << (7 - (dbit_off + j)));
         dst0 |= THRESH1_CMP_SHIFT(psrc_row[j], thresh0, 7 - (dbit_off + j));
-        /* swap threshes */
+        /* swbp threshes */
         threshT = thresh0;
         thresh0 = thresh1;
         thresh1 = thresh2;
@@ -619,7 +619,7 @@ void mlib_c_ImageThresh1_U83_1B(PARAMS,
       }
 
       dst0 = (mhigh0 & dst0) | (mlow0 & ~dst0);
-      pdst_row[0] = (dst0 & emask) | (pdst_row[0] & ~emask);
+      pdst_row[0] = (dst0 & embsk) | (pdst_row[0] & ~embsk);
       jbit++;
 
       mhigh0 = mhigh >> (9 - nume);
@@ -631,7 +631,7 @@ void mlib_c_ImageThresh1_U83_1B(PARAMS,
     }
 
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
     for (; j <= (width - 24); j += 24) {
       dst0 = (THRESH1_CMP_SHIFT(psrc_row[j], thresh0, 7) |
@@ -682,7 +682,7 @@ void mlib_c_ImageThresh1_U83_1B(PARAMS,
 
       l = (k + 7) >> 3;
       k = (l << 3) - k;
-      emask = (0xFF << k);
+      embsk = (0xFF << k);
 
       if (l == 3) {
         dst1 = dst0 >> 24;
@@ -693,7 +693,7 @@ void mlib_c_ImageThresh1_U83_1B(PARAMS,
         pdst_row[jbit + 1] = dst1;
         dst1 = (dst0 >> 8);
         dst1 = (mhigh2 & dst1) | (mlow2 & ~dst1);
-        pdst_row[jbit + 2] = (dst1 & emask) | (pdst_row[jbit + 2] & ~emask);
+        pdst_row[jbit + 2] = (dst1 & embsk) | (pdst_row[jbit + 2] & ~embsk);
       }
       else if (l == 2) {
         dst1 = dst0 >> 24;
@@ -701,12 +701,12 @@ void mlib_c_ImageThresh1_U83_1B(PARAMS,
         pdst_row[jbit] = dst1;
         dst1 = (dst0 >> 16);
         dst1 = (mhigh1 & dst1) | (mlow1 & ~dst1);
-        pdst_row[jbit + 1] = (dst1 & emask) | (pdst_row[jbit + 1] & ~emask);
+        pdst_row[jbit + 1] = (dst1 & embsk) | (pdst_row[jbit + 1] & ~embsk);
       }
       else {
         dst1 = dst0 >> 24;
         dst1 = (mhigh0 & dst1) | (mlow0 & ~dst1);
-        pdst_row[jbit] = (dst1 & emask) | (pdst_row[jbit] & ~emask);
+        pdst_row[jbit] = (dst1 & embsk) | (pdst_row[jbit] & ~embsk);
       }
     }
 
@@ -716,7 +716,7 @@ void mlib_c_ImageThresh1_U83_1B(PARAMS,
 }
 
 /***************************************************************/
-void mlib_c_ImageThresh1_U84_1B(PARAMS,
+void mlib_c_ImbgeThresh1_U84_1B(PARAMS,
                                 mlib_s32 dbit_off)
 {
   mlib_s32 *thresh = (void *)__thresh;
@@ -725,7 +725,7 @@ void mlib_c_ImageThresh1_U84_1B(PARAMS,
   STYPE *psrc_row = psrc;
   mlib_u8 *pdst_row = pdst;
   TTYPE thresh0, thresh1, thresh2, thresh3, threshT;
-  mlib_s32 mhigh0, mlow0, mhigh, mlow, emask, dst0;
+  mlib_s32 mhigh0, mlow0, mhigh, mlow, embsk, dst0;
   mlib_s32 i, j, jbit;
 
   mhigh0 = (ghigh[0] > 0) ? 0x8888 : 0;
@@ -757,10 +757,10 @@ void mlib_c_ImageThresh1_U84_1B(PARAMS,
       if (nume > width)
         nume = width;
       dst0 = 0;
-      emask = 0;
+      embsk = 0;
 
       for (; j <= (nume - 4); j += 4) {
-        emask |= (0xf << (4 - (dbit_off + j)));
+        embsk |= (0xf << (4 - (dbit_off + j)));
         dst0 |= THRESH1_CMP_SHIFT(psrc_row[j], thresh0, 7 - (dbit_off + j));
         dst0 |= THRESH1_CMP_SHIFT(psrc_row[j + 1], thresh1, 6 - (dbit_off + j));
         dst0 |= THRESH1_CMP_SHIFT(psrc_row[j + 2], thresh2, 5 - (dbit_off + j));
@@ -768,9 +768,9 @@ void mlib_c_ImageThresh1_U84_1B(PARAMS,
       }
 
       for (; j < nume; j++) {
-        emask |= (1 << (7 - (dbit_off + j)));
+        embsk |= (1 << (7 - (dbit_off + j)));
         dst0 |= THRESH1_CMP_SHIFT(psrc_row[j], thresh0, 7 - (dbit_off + j));
-        /* swap threshes */
+        /* swbp threshes */
         threshT = thresh0;
         thresh0 = thresh1;
         thresh1 = thresh2;
@@ -779,12 +779,12 @@ void mlib_c_ImageThresh1_U84_1B(PARAMS,
       }
 
       dst0 = (mhigh & dst0) | (mlow & ~dst0);
-      pdst_row[0] = (dst0 & emask) | (pdst_row[0] & ~emask);
+      pdst_row[0] = (dst0 & embsk) | (pdst_row[0] & ~embsk);
       jbit++;
     }
 
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
     for (; j <= (width - 16); j += 16) {
       dst0 = (THRESH1_CMP_SHIFT(psrc_row[j], thresh0, 7) |
@@ -835,9 +835,9 @@ void mlib_c_ImageThresh1_U84_1B(PARAMS,
               THRESH1_CMP_SHIFT(psrc_row[j + 5], thresh1, 2) |
               THRESH1_CMP_SHIFT(psrc_row[j + 6], thresh2, 1));
 
-      emask = (0xFF << (8 - (width - j)));
+      embsk = (0xFF << (8 - (width - j)));
       dst0 = (mhigh & dst0) | (mlow & ~dst0);
-      pdst_row[jbit] = (dst0 & emask) | (pdst_row[jbit] & ~emask);
+      pdst_row[jbit] = (dst0 & embsk) | (pdst_row[jbit] & ~embsk);
     }
 
     psrc_row += src_stride;

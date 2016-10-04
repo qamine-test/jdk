@@ -1,509 +1,509 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * (C) Copyright Taligent, Inc. 1996, 1997 - All Rights Reserved
+ * (C) Copyright Tbligent, Inc. 1996, 1997 - All Rights Reserved
  * (C) Copyright IBM Corp. 1996 - 1998 - All Rights Reserved
  *
- * The original version of this source code and documentation
- * is copyrighted and owned by Taligent, Inc., a wholly-owned
- * subsidiary of IBM. These materials are provided under terms
- * of a License Agreement between Taligent and Sun. This technology
- * is protected by multiple US and International patents.
+ * The originbl version of this source code bnd documentbtion
+ * is copyrighted bnd owned by Tbligent, Inc., b wholly-owned
+ * subsidibry of IBM. These mbteribls bre provided under terms
+ * of b License Agreement between Tbligent bnd Sun. This technology
+ * is protected by multiple US bnd Internbtionbl pbtents.
  *
- * This notice and attribution to Taligent may not be removed.
- * Taligent is a registered trademark of Taligent, Inc.
+ * This notice bnd bttribution to Tbligent mby not be removed.
+ * Tbligent is b registered trbdembrk of Tbligent, Inc.
  *
  */
 
-package sun.util.locale.provider;
+pbckbge sun.util.locble.provider;
 
-import java.lang.ref.ReferenceQueue;
-import java.lang.ref.SoftReference;
-import java.text.MessageFormat;
-import java.util.Calendar;
-import java.util.LinkedHashSet;
-import java.util.Locale;
-import java.util.Map;
-import java.util.ResourceBundle;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
-import sun.util.calendar.ZoneInfo;
-import sun.util.resources.LocaleData;
+import jbvb.lbng.ref.ReferenceQueue;
+import jbvb.lbng.ref.SoftReference;
+import jbvb.text.MessbgeFormbt;
+import jbvb.util.Cblendbr;
+import jbvb.util.LinkedHbshSet;
+import jbvb.util.Locble;
+import jbvb.util.Mbp;
+import jbvb.util.ResourceBundle;
+import jbvb.util.Set;
+import jbvb.util.concurrent.ConcurrentHbshMbp;
+import jbvb.util.concurrent.ConcurrentMbp;
+import sun.util.cblendbr.ZoneInfo;
+import sun.util.resources.LocbleDbtb;
 import sun.util.resources.OpenListResourceBundle;
-import sun.util.resources.ParallelListResourceBundle;
-import sun.util.resources.TimeZoneNamesBundle;
+import sun.util.resources.PbrbllelListResourceBundle;
+import sun.util.resources.TimeZoneNbmesBundle;
 
 /**
- * Central accessor to locale-dependent resources for JRE/CLDR provider adapters.
+ * Centrbl bccessor to locble-dependent resources for JRE/CLDR provider bdbpters.
  *
- * @author Masayoshi Okutsu
- * @author Naoto Sato
+ * @buthor Mbsbyoshi Okutsu
+ * @buthor Nboto Sbto
  */
-public class LocaleResources {
+public clbss LocbleResources {
 
-    private final Locale locale;
-    private final LocaleData localeData;
-    private final LocaleProviderAdapter.Type type;
+    privbte finbl Locble locble;
+    privbte finbl LocbleDbtb locbleDbtb;
+    privbte finbl LocbleProviderAdbpter.Type type;
 
-    // Resource cache
-    private ConcurrentMap<String, ResourceReference> cache = new ConcurrentHashMap<>();
-    private ReferenceQueue<Object> referenceQueue = new ReferenceQueue<>();
+    // Resource cbche
+    privbte ConcurrentMbp<String, ResourceReference> cbche = new ConcurrentHbshMbp<>();
+    privbte ReferenceQueue<Object> referenceQueue = new ReferenceQueue<>();
 
-    // cache key prefixes
-    private static final String BREAK_ITERATOR_INFO = "BII.";
-    private static final String CALENDAR_DATA = "CALD.";
-    private static final String COLLATION_DATA_CACHEKEY = "COLD";
-    private static final String DECIMAL_FORMAT_SYMBOLS_DATA_CACHEKEY = "DFSD";
-    private static final String CURRENCY_NAMES = "CN.";
-    private static final String LOCALE_NAMES = "LN.";
-    private static final String TIME_ZONE_NAMES = "TZN.";
-    private static final String ZONE_IDS_CACHEKEY = "ZID";
-    private static final String CALENDAR_NAMES = "CALN.";
-    private static final String NUMBER_PATTERNS_CACHEKEY = "NP";
-    private static final String DATE_TIME_PATTERN = "DTP.";
+    // cbche key prefixes
+    privbte stbtic finbl String BREAK_ITERATOR_INFO = "BII.";
+    privbte stbtic finbl String CALENDAR_DATA = "CALD.";
+    privbte stbtic finbl String COLLATION_DATA_CACHEKEY = "COLD";
+    privbte stbtic finbl String DECIMAL_FORMAT_SYMBOLS_DATA_CACHEKEY = "DFSD";
+    privbte stbtic finbl String CURRENCY_NAMES = "CN.";
+    privbte stbtic finbl String LOCALE_NAMES = "LN.";
+    privbte stbtic finbl String TIME_ZONE_NAMES = "TZN.";
+    privbte stbtic finbl String ZONE_IDS_CACHEKEY = "ZID";
+    privbte stbtic finbl String CALENDAR_NAMES = "CALN.";
+    privbte stbtic finbl String NUMBER_PATTERNS_CACHEKEY = "NP";
+    privbte stbtic finbl String DATE_TIME_PATTERN = "DTP.";
 
-    // null singleton cache value
-    private static final Object NULLOBJECT = new Object();
+    // null singleton cbche vblue
+    privbte stbtic finbl Object NULLOBJECT = new Object();
 
-    LocaleResources(ResourceBundleBasedAdapter adapter, Locale locale) {
-        this.locale = locale;
-        this.localeData = adapter.getLocaleData();
-        type = ((LocaleProviderAdapter)adapter).getAdapterType();
+    LocbleResources(ResourceBundleBbsedAdbpter bdbpter, Locble locble) {
+        this.locble = locble;
+        this.locbleDbtb = bdbpter.getLocbleDbtb();
+        type = ((LocbleProviderAdbpter)bdbpter).getAdbpterType();
     }
 
-    private void removeEmptyReferences() {
+    privbte void removeEmptyReferences() {
         Object ref;
         while ((ref = referenceQueue.poll()) != null) {
-            cache.remove(((ResourceReference)ref).getCacheKey());
+            cbche.remove(((ResourceReference)ref).getCbcheKey());
         }
     }
 
-    Object getBreakIteratorInfo(String key) {
+    Object getBrebkIterbtorInfo(String key) {
         Object biInfo;
-        String cacheKey = BREAK_ITERATOR_INFO + key;
+        String cbcheKey = BREAK_ITERATOR_INFO + key;
 
         removeEmptyReferences();
-        ResourceReference data = cache.get(cacheKey);
-        if (data == null || ((biInfo = data.get()) == null)) {
-           biInfo = localeData.getBreakIteratorInfo(locale).getObject(key);
-           cache.put(cacheKey, new ResourceReference(cacheKey, biInfo, referenceQueue));
+        ResourceReference dbtb = cbche.get(cbcheKey);
+        if (dbtb == null || ((biInfo = dbtb.get()) == null)) {
+           biInfo = locbleDbtb.getBrebkIterbtorInfo(locble).getObject(key);
+           cbche.put(cbcheKey, new ResourceReference(cbcheKey, biInfo, referenceQueue));
        }
 
        return biInfo;
     }
 
-    int getCalendarData(String key) {
-        Integer caldata;
-        String cacheKey = CALENDAR_DATA  + key;
+    int getCblendbrDbtb(String key) {
+        Integer cbldbtb;
+        String cbcheKey = CALENDAR_DATA  + key;
 
         removeEmptyReferences();
 
-        ResourceReference data = cache.get(cacheKey);
-        if (data == null || ((caldata = (Integer) data.get()) == null)) {
-            ResourceBundle rb = localeData.getCalendarData(locale);
-            if (rb.containsKey(key)) {
-                caldata = Integer.parseInt(rb.getString(key));
+        ResourceReference dbtb = cbche.get(cbcheKey);
+        if (dbtb == null || ((cbldbtb = (Integer) dbtb.get()) == null)) {
+            ResourceBundle rb = locbleDbtb.getCblendbrDbtb(locble);
+            if (rb.contbinsKey(key)) {
+                cbldbtb = Integer.pbrseInt(rb.getString(key));
             } else {
-                caldata = 0;
+                cbldbtb = 0;
             }
 
-            cache.put(cacheKey,
-                      new ResourceReference(cacheKey, (Object) caldata, referenceQueue));
+            cbche.put(cbcheKey,
+                      new ResourceReference(cbcheKey, (Object) cbldbtb, referenceQueue));
         }
 
-        return caldata;
+        return cbldbtb;
     }
 
-    public String getCollationData() {
+    public String getCollbtionDbtb() {
         String key = "Rule";
-        String coldata = "";
+        String coldbtb = "";
 
         removeEmptyReferences();
-        ResourceReference data = cache.get(COLLATION_DATA_CACHEKEY);
-        if (data == null || ((coldata = (String) data.get()) == null)) {
-            ResourceBundle rb = localeData.getCollationData(locale);
-            if (rb.containsKey(key)) {
-                coldata = rb.getString(key);
+        ResourceReference dbtb = cbche.get(COLLATION_DATA_CACHEKEY);
+        if (dbtb == null || ((coldbtb = (String) dbtb.get()) == null)) {
+            ResourceBundle rb = locbleDbtb.getCollbtionDbtb(locble);
+            if (rb.contbinsKey(key)) {
+                coldbtb = rb.getString(key);
             }
-            cache.put(COLLATION_DATA_CACHEKEY,
-                      new ResourceReference(COLLATION_DATA_CACHEKEY, (Object) coldata, referenceQueue));
+            cbche.put(COLLATION_DATA_CACHEKEY,
+                      new ResourceReference(COLLATION_DATA_CACHEKEY, (Object) coldbtb, referenceQueue));
         }
 
-        return coldata;
+        return coldbtb;
     }
 
-    public Object[] getDecimalFormatSymbolsData() {
-        Object[] dfsdata;
+    public Object[] getDecimblFormbtSymbolsDbtb() {
+        Object[] dfsdbtb;
 
         removeEmptyReferences();
-        ResourceReference data = cache.get(DECIMAL_FORMAT_SYMBOLS_DATA_CACHEKEY);
-        if (data == null || ((dfsdata = (Object[]) data.get()) == null)) {
-            // Note that only dfsdata[0] is prepared here in this method. Other
-            // elements are provided by the caller, yet they are cached here.
-            ResourceBundle rb = localeData.getNumberFormatData(locale);
-            dfsdata = new Object[3];
+        ResourceReference dbtb = cbche.get(DECIMAL_FORMAT_SYMBOLS_DATA_CACHEKEY);
+        if (dbtb == null || ((dfsdbtb = (Object[]) dbtb.get()) == null)) {
+            // Note thbt only dfsdbtb[0] is prepbred here in this method. Other
+            // elements bre provided by the cbller, yet they bre cbched here.
+            ResourceBundle rb = locbleDbtb.getNumberFormbtDbtb(locble);
+            dfsdbtb = new Object[3];
 
             // NumberElements look up. First, try the Unicode extension
             String numElemKey;
-            String numberType = locale.getUnicodeLocaleType("nu");
+            String numberType = locble.getUnicodeLocbleType("nu");
             if (numberType != null) {
                 numElemKey = numberType + ".NumberElements";
-                if (rb.containsKey(numElemKey)) {
-                    dfsdata[0] = rb.getStringArray(numElemKey);
+                if (rb.contbinsKey(numElemKey)) {
+                    dfsdbtb[0] = rb.getStringArrby(numElemKey);
                 }
             }
 
-            // Next, try DefaultNumberingSystem value
-            if (dfsdata[0] == null && rb.containsKey("DefaultNumberingSystem")) {
-                numElemKey = rb.getString("DefaultNumberingSystem") + ".NumberElements";
-                if (rb.containsKey(numElemKey)) {
-                    dfsdata[0] = rb.getStringArray(numElemKey);
+            // Next, try DefbultNumberingSystem vblue
+            if (dfsdbtb[0] == null && rb.contbinsKey("DefbultNumberingSystem")) {
+                numElemKey = rb.getString("DefbultNumberingSystem") + ".NumberElements";
+                if (rb.contbinsKey(numElemKey)) {
+                    dfsdbtb[0] = rb.getStringArrby(numElemKey);
                 }
             }
 
-            // Last resort. No need to check the availability.
+            // Lbst resort. No need to check the bvbilbbility.
             // Just let it throw MissingResourceException when needed.
-            if (dfsdata[0] == null) {
-                dfsdata[0] = rb.getStringArray("NumberElements");
+            if (dfsdbtb[0] == null) {
+                dfsdbtb[0] = rb.getStringArrby("NumberElements");
             }
 
-            cache.put(DECIMAL_FORMAT_SYMBOLS_DATA_CACHEKEY,
-                      new ResourceReference(DECIMAL_FORMAT_SYMBOLS_DATA_CACHEKEY, (Object) dfsdata, referenceQueue));
+            cbche.put(DECIMAL_FORMAT_SYMBOLS_DATA_CACHEKEY,
+                      new ResourceReference(DECIMAL_FORMAT_SYMBOLS_DATA_CACHEKEY, (Object) dfsdbtb, referenceQueue));
         }
 
-        return dfsdata;
+        return dfsdbtb;
     }
 
-    public String getCurrencyName(String key) {
-        Object currencyName = null;
-        String cacheKey = CURRENCY_NAMES + key;
+    public String getCurrencyNbme(String key) {
+        Object currencyNbme = null;
+        String cbcheKey = CURRENCY_NAMES + key;
 
         removeEmptyReferences();
-        ResourceReference data = cache.get(cacheKey);
+        ResourceReference dbtb = cbche.get(cbcheKey);
 
-        if (data != null && ((currencyName = data.get()) != null)) {
-            if (currencyName.equals(NULLOBJECT)) {
-                currencyName = null;
+        if (dbtb != null && ((currencyNbme = dbtb.get()) != null)) {
+            if (currencyNbme.equbls(NULLOBJECT)) {
+                currencyNbme = null;
             }
 
-            return (String) currencyName;
+            return (String) currencyNbme;
         }
 
-        OpenListResourceBundle olrb = localeData.getCurrencyNames(locale);
+        OpenListResourceBundle olrb = locbleDbtb.getCurrencyNbmes(locble);
 
-        if (olrb.containsKey(key)) {
-            currencyName = olrb.getObject(key);
-            cache.put(cacheKey,
-                      new ResourceReference(cacheKey, currencyName, referenceQueue));
+        if (olrb.contbinsKey(key)) {
+            currencyNbme = olrb.getObject(key);
+            cbche.put(cbcheKey,
+                      new ResourceReference(cbcheKey, currencyNbme, referenceQueue));
         }
 
-        return (String) currencyName;
+        return (String) currencyNbme;
     }
 
-    public String getLocaleName(String key) {
-        Object localeName = null;
-        String cacheKey = LOCALE_NAMES + key;
+    public String getLocbleNbme(String key) {
+        Object locbleNbme = null;
+        String cbcheKey = LOCALE_NAMES + key;
 
         removeEmptyReferences();
-        ResourceReference data = cache.get(cacheKey);
+        ResourceReference dbtb = cbche.get(cbcheKey);
 
-        if (data != null && ((localeName = data.get()) != null)) {
-            if (localeName.equals(NULLOBJECT)) {
-                localeName = null;
+        if (dbtb != null && ((locbleNbme = dbtb.get()) != null)) {
+            if (locbleNbme.equbls(NULLOBJECT)) {
+                locbleNbme = null;
             }
 
-            return (String) localeName;
+            return (String) locbleNbme;
         }
 
-        OpenListResourceBundle olrb = localeData.getLocaleNames(locale);
+        OpenListResourceBundle olrb = locbleDbtb.getLocbleNbmes(locble);
 
-        if (olrb.containsKey(key)) {
-            localeName = olrb.getObject(key);
-            cache.put(cacheKey,
-                      new ResourceReference(cacheKey, localeName, referenceQueue));
+        if (olrb.contbinsKey(key)) {
+            locbleNbme = olrb.getObject(key);
+            cbche.put(cbcheKey,
+                      new ResourceReference(cbcheKey, locbleNbme, referenceQueue));
         }
 
-        return (String) localeName;
+        return (String) locbleNbme;
     }
 
-    String[] getTimeZoneNames(String key, int size) {
-        String[] names = null;
-        String cacheKey = TIME_ZONE_NAMES + size + '.' + key;
+    String[] getTimeZoneNbmes(String key, int size) {
+        String[] nbmes = null;
+        String cbcheKey = TIME_ZONE_NAMES + size + '.' + key;
 
         removeEmptyReferences();
-        ResourceReference data = cache.get(cacheKey);
+        ResourceReference dbtb = cbche.get(cbcheKey);
 
-        if (data == null || ((names = (String[]) data.get()) == null)) {
-            TimeZoneNamesBundle tznb = localeData.getTimeZoneNames(locale);
-            if (tznb.containsKey(key)) {
-                names = tznb.getStringArray(key, size);
-                cache.put(cacheKey,
-                          new ResourceReference(cacheKey, (Object) names, referenceQueue));
+        if (dbtb == null || ((nbmes = (String[]) dbtb.get()) == null)) {
+            TimeZoneNbmesBundle tznb = locbleDbtb.getTimeZoneNbmes(locble);
+            if (tznb.contbinsKey(key)) {
+                nbmes = tznb.getStringArrby(key, size);
+                cbche.put(cbcheKey,
+                          new ResourceReference(cbcheKey, (Object) nbmes, referenceQueue));
             }
         }
 
-        return names;
+        return nbmes;
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWbrnings("unchecked")
     Set<String> getZoneIDs() {
         Set<String> zoneIDs = null;
 
         removeEmptyReferences();
-        ResourceReference data = cache.get(ZONE_IDS_CACHEKEY);
-        if (data == null || ((zoneIDs = (Set<String>) data.get()) == null)) {
-            TimeZoneNamesBundle rb = localeData.getTimeZoneNames(locale);
+        ResourceReference dbtb = cbche.get(ZONE_IDS_CACHEKEY);
+        if (dbtb == null || ((zoneIDs = (Set<String>) dbtb.get()) == null)) {
+            TimeZoneNbmesBundle rb = locbleDbtb.getTimeZoneNbmes(locble);
             zoneIDs = rb.keySet();
-            cache.put(ZONE_IDS_CACHEKEY,
+            cbche.put(ZONE_IDS_CACHEKEY,
                       new ResourceReference(ZONE_IDS_CACHEKEY, (Object) zoneIDs, referenceQueue));
         }
 
         return zoneIDs;
     }
 
-    // zoneStrings are cached separately in TimeZoneNameUtility.
+    // zoneStrings bre cbched sepbrbtely in TimeZoneNbmeUtility.
     String[][] getZoneStrings() {
-        TimeZoneNamesBundle rb = localeData.getTimeZoneNames(locale);
+        TimeZoneNbmesBundle rb = locbleDbtb.getTimeZoneNbmes(locble);
         Set<String> keyset = getZoneIDs();
-        // Use a LinkedHashSet to preseve the order
-        Set<String[]> value = new LinkedHashSet<>();
+        // Use b LinkedHbshSet to preseve the order
+        Set<String[]> vblue = new LinkedHbshSet<>();
         for (String key : keyset) {
-            value.add(rb.getStringArray(key));
+            vblue.bdd(rb.getStringArrby(key));
         }
 
-        // Add aliases data for CLDR
-        if (type == LocaleProviderAdapter.Type.CLDR) {
-            // Note: TimeZoneNamesBundle creates a String[] on each getStringArray call.
-            Map<String, String> aliases = ZoneInfo.getAliasTable();
-            for (String alias : aliases.keySet()) {
-                if (!keyset.contains(alias)) {
-                    String tzid = aliases.get(alias);
-                    if (keyset.contains(tzid)) {
-                        String[] val = rb.getStringArray(tzid);
-                        val[0] = alias;
-                        value.add(val);
+        // Add blibses dbtb for CLDR
+        if (type == LocbleProviderAdbpter.Type.CLDR) {
+            // Note: TimeZoneNbmesBundle crebtes b String[] on ebch getStringArrby cbll.
+            Mbp<String, String> blibses = ZoneInfo.getAlibsTbble();
+            for (String blibs : blibses.keySet()) {
+                if (!keyset.contbins(blibs)) {
+                    String tzid = blibses.get(blibs);
+                    if (keyset.contbins(tzid)) {
+                        String[] vbl = rb.getStringArrby(tzid);
+                        vbl[0] = blibs;
+                        vblue.bdd(vbl);
                     }
                 }
             }
         }
-        return value.toArray(new String[0][]);
+        return vblue.toArrby(new String[0][]);
     }
 
-    String[] getCalendarNames(String key) {
-        String[] names = null;
-        String cacheKey = CALENDAR_NAMES + key;
+    String[] getCblendbrNbmes(String key) {
+        String[] nbmes = null;
+        String cbcheKey = CALENDAR_NAMES + key;
 
         removeEmptyReferences();
-        ResourceReference data = cache.get(cacheKey);
+        ResourceReference dbtb = cbche.get(cbcheKey);
 
-        if (data == null || ((names = (String[]) data.get()) == null)) {
-            ResourceBundle rb = localeData.getDateFormatData(locale);
-            if (rb.containsKey(key)) {
-                names = rb.getStringArray(key);
-                cache.put(cacheKey,
-                          new ResourceReference(cacheKey, (Object) names, referenceQueue));
+        if (dbtb == null || ((nbmes = (String[]) dbtb.get()) == null)) {
+            ResourceBundle rb = locbleDbtb.getDbteFormbtDbtb(locble);
+            if (rb.contbinsKey(key)) {
+                nbmes = rb.getStringArrby(key);
+                cbche.put(cbcheKey,
+                          new ResourceReference(cbcheKey, (Object) nbmes, referenceQueue));
             }
         }
 
-        return names;
+        return nbmes;
     }
 
-    String[] getJavaTimeNames(String key) {
-        String[] names = null;
-        String cacheKey = CALENDAR_NAMES + key;
+    String[] getJbvbTimeNbmes(String key) {
+        String[] nbmes = null;
+        String cbcheKey = CALENDAR_NAMES + key;
 
         removeEmptyReferences();
-        ResourceReference data = cache.get(cacheKey);
+        ResourceReference dbtb = cbche.get(cbcheKey);
 
-        if (data == null || ((names = (String[]) data.get()) == null)) {
-            ResourceBundle rb = getJavaTimeFormatData();
-            if (rb.containsKey(key)) {
-                names = rb.getStringArray(key);
-                cache.put(cacheKey,
-                          new ResourceReference(cacheKey, (Object) names, referenceQueue));
+        if (dbtb == null || ((nbmes = (String[]) dbtb.get()) == null)) {
+            ResourceBundle rb = getJbvbTimeFormbtDbtb();
+            if (rb.contbinsKey(key)) {
+                nbmes = rb.getStringArrby(key);
+                cbche.put(cbcheKey,
+                          new ResourceReference(cbcheKey, (Object) nbmes, referenceQueue));
             }
         }
 
-        return names;
+        return nbmes;
     }
 
-    public String getDateTimePattern(int timeStyle, int dateStyle, Calendar cal) {
-        if (cal == null) {
-            cal = Calendar.getInstance(locale);
+    public String getDbteTimePbttern(int timeStyle, int dbteStyle, Cblendbr cbl) {
+        if (cbl == null) {
+            cbl = Cblendbr.getInstbnce(locble);
         }
-        return getDateTimePattern(null, timeStyle, dateStyle, cal.getCalendarType());
+        return getDbteTimePbttern(null, timeStyle, dbteStyle, cbl.getCblendbrType());
     }
 
     /**
-     * Returns a date-time format pattern
-     * @param timeStyle style of time; one of FULL, LONG, MEDIUM, SHORT in DateFormat,
+     * Returns b dbte-time formbt pbttern
+     * @pbrbm timeStyle style of time; one of FULL, LONG, MEDIUM, SHORT in DbteFormbt,
      *                  or -1 if not required
-     * @param dateStyle style of time; one of FULL, LONG, MEDIUM, SHORT in DateFormat,
+     * @pbrbm dbteStyle style of time; one of FULL, LONG, MEDIUM, SHORT in DbteFormbt,
      *                  or -1 if not required
-     * @param calType   the calendar type for the pattern
-     * @return the pattern string
+     * @pbrbm cblType   the cblendbr type for the pbttern
+     * @return the pbttern string
      */
-    public String getJavaTimeDateTimePattern(int timeStyle, int dateStyle, String calType) {
-        calType = CalendarDataUtility.normalizeCalendarType(calType);
-        String pattern;
-        pattern = getDateTimePattern("java.time.", timeStyle, dateStyle, calType);
-        if (pattern == null) {
-            pattern = getDateTimePattern(null, timeStyle, dateStyle, calType);
+    public String getJbvbTimeDbteTimePbttern(int timeStyle, int dbteStyle, String cblType) {
+        cblType = CblendbrDbtbUtility.normblizeCblendbrType(cblType);
+        String pbttern;
+        pbttern = getDbteTimePbttern("jbvb.time.", timeStyle, dbteStyle, cblType);
+        if (pbttern == null) {
+            pbttern = getDbteTimePbttern(null, timeStyle, dbteStyle, cblType);
         }
-        return pattern;
+        return pbttern;
     }
 
-    private String getDateTimePattern(String prefix, int timeStyle, int dateStyle, String calType) {
-        String pattern;
-        String timePattern = null;
-        String datePattern = null;
+    privbte String getDbteTimePbttern(String prefix, int timeStyle, int dbteStyle, String cblType) {
+        String pbttern;
+        String timePbttern = null;
+        String dbtePbttern = null;
 
         if (timeStyle >= 0) {
             if (prefix != null) {
-                timePattern = getDateTimePattern(prefix, "TimePatterns", timeStyle, calType);
+                timePbttern = getDbteTimePbttern(prefix, "TimePbtterns", timeStyle, cblType);
             }
-            if (timePattern == null) {
-                timePattern = getDateTimePattern(null, "TimePatterns", timeStyle, calType);
+            if (timePbttern == null) {
+                timePbttern = getDbteTimePbttern(null, "TimePbtterns", timeStyle, cblType);
             }
         }
-        if (dateStyle >= 0) {
+        if (dbteStyle >= 0) {
             if (prefix != null) {
-                datePattern = getDateTimePattern(prefix, "DatePatterns", dateStyle, calType);
+                dbtePbttern = getDbteTimePbttern(prefix, "DbtePbtterns", dbteStyle, cblType);
             }
-            if (datePattern == null) {
-                datePattern = getDateTimePattern(null, "DatePatterns", dateStyle, calType);
+            if (dbtePbttern == null) {
+                dbtePbttern = getDbteTimePbttern(null, "DbtePbtterns", dbteStyle, cblType);
             }
         }
         if (timeStyle >= 0) {
-            if (dateStyle >= 0) {
-                String dateTimePattern = null;
+            if (dbteStyle >= 0) {
+                String dbteTimePbttern = null;
                 if (prefix != null) {
-                    dateTimePattern = getDateTimePattern(prefix, "DateTimePatterns", 0, calType);
+                    dbteTimePbttern = getDbteTimePbttern(prefix, "DbteTimePbtterns", 0, cblType);
                 }
-                if (dateTimePattern == null) {
-                    dateTimePattern = getDateTimePattern(null, "DateTimePatterns", 0, calType);
+                if (dbteTimePbttern == null) {
+                    dbteTimePbttern = getDbteTimePbttern(null, "DbteTimePbtterns", 0, cblType);
                 }
-                switch (dateTimePattern) {
-                case "{1} {0}":
-                    pattern = datePattern + " " + timePattern;
-                    break;
-                case "{0} {1}":
-                    pattern = timePattern + " " + datePattern;
-                    break;
-                default:
-                    pattern = MessageFormat.format(dateTimePattern, timePattern, datePattern);
-                    break;
+                switch (dbteTimePbttern) {
+                cbse "{1} {0}":
+                    pbttern = dbtePbttern + " " + timePbttern;
+                    brebk;
+                cbse "{0} {1}":
+                    pbttern = timePbttern + " " + dbtePbttern;
+                    brebk;
+                defbult:
+                    pbttern = MessbgeFormbt.formbt(dbteTimePbttern, timePbttern, dbtePbttern);
+                    brebk;
                 }
             } else {
-                pattern = timePattern;
+                pbttern = timePbttern;
             }
-        } else if (dateStyle >= 0) {
-            pattern = datePattern;
+        } else if (dbteStyle >= 0) {
+            pbttern = dbtePbttern;
         } else {
-            throw new IllegalArgumentException("No date or time style specified");
+            throw new IllegblArgumentException("No dbte or time style specified");
         }
-        return pattern;
+        return pbttern;
     }
 
-    public String[] getNumberPatterns() {
-        String[] numberPatterns = null;
+    public String[] getNumberPbtterns() {
+        String[] numberPbtterns = null;
 
         removeEmptyReferences();
-        ResourceReference data = cache.get(NUMBER_PATTERNS_CACHEKEY);
+        ResourceReference dbtb = cbche.get(NUMBER_PATTERNS_CACHEKEY);
 
-        if (data == null || ((numberPatterns = (String[]) data.get()) == null)) {
-            ResourceBundle resource = localeData.getNumberFormatData(locale);
-            numberPatterns = resource.getStringArray("NumberPatterns");
-            cache.put(NUMBER_PATTERNS_CACHEKEY,
-                      new ResourceReference(NUMBER_PATTERNS_CACHEKEY, (Object) numberPatterns, referenceQueue));
+        if (dbtb == null || ((numberPbtterns = (String[]) dbtb.get()) == null)) {
+            ResourceBundle resource = locbleDbtb.getNumberFormbtDbtb(locble);
+            numberPbtterns = resource.getStringArrby("NumberPbtterns");
+            cbche.put(NUMBER_PATTERNS_CACHEKEY,
+                      new ResourceReference(NUMBER_PATTERNS_CACHEKEY, (Object) numberPbtterns, referenceQueue));
         }
 
-        return numberPatterns;
+        return numberPbtterns;
     }
 
     /**
-     * Returns the FormatData resource bundle of this LocaleResources.
-     * The FormatData should be used only for accessing extra
+     * Returns the FormbtDbtb resource bundle of this LocbleResources.
+     * The FormbtDbtb should be used only for bccessing extrb
      * resources required by JSR 310.
      */
-    public ResourceBundle getJavaTimeFormatData() {
-        ResourceBundle rb = localeData.getDateFormatData(locale);
-        if (rb instanceof ParallelListResourceBundle) {
-            localeData.setSupplementary((ParallelListResourceBundle) rb);
+    public ResourceBundle getJbvbTimeFormbtDbtb() {
+        ResourceBundle rb = locbleDbtb.getDbteFormbtDbtb(locble);
+        if (rb instbnceof PbrbllelListResourceBundle) {
+            locbleDbtb.setSupplementbry((PbrbllelListResourceBundle) rb);
         }
         return rb;
     }
 
-    private String getDateTimePattern(String prefix, String key, int styleIndex, String calendarType) {
+    privbte String getDbteTimePbttern(String prefix, String key, int styleIndex, String cblendbrType) {
         StringBuilder sb = new StringBuilder();
         if (prefix != null) {
-            sb.append(prefix);
+            sb.bppend(prefix);
         }
-        if (!"gregory".equals(calendarType)) {
-            sb.append(calendarType).append('.');
+        if (!"gregory".equbls(cblendbrType)) {
+            sb.bppend(cblendbrType).bppend('.');
         }
-        sb.append(key);
+        sb.bppend(key);
         String resourceKey = sb.toString();
-        String cacheKey = sb.insert(0, DATE_TIME_PATTERN).toString();
+        String cbcheKey = sb.insert(0, DATE_TIME_PATTERN).toString();
 
         removeEmptyReferences();
-        ResourceReference data = cache.get(cacheKey);
-        Object value = NULLOBJECT;
+        ResourceReference dbtb = cbche.get(cbcheKey);
+        Object vblue = NULLOBJECT;
 
-        if (data == null || ((value = data.get()) == null)) {
-            ResourceBundle r = (prefix != null) ? getJavaTimeFormatData() : localeData.getDateFormatData(locale);
-            if (r.containsKey(resourceKey)) {
-                value = r.getStringArray(resourceKey);
+        if (dbtb == null || ((vblue = dbtb.get()) == null)) {
+            ResourceBundle r = (prefix != null) ? getJbvbTimeFormbtDbtb() : locbleDbtb.getDbteFormbtDbtb(locble);
+            if (r.contbinsKey(resourceKey)) {
+                vblue = r.getStringArrby(resourceKey);
             } else {
-                assert !resourceKey.equals(key);
-                if (r.containsKey(key)) {
-                    value = r.getStringArray(key);
+                bssert !resourceKey.equbls(key);
+                if (r.contbinsKey(key)) {
+                    vblue = r.getStringArrby(key);
                 }
             }
-            cache.put(cacheKey,
-                      new ResourceReference(cacheKey, value, referenceQueue));
+            cbche.put(cbcheKey,
+                      new ResourceReference(cbcheKey, vblue, referenceQueue));
         }
-        if (value == NULLOBJECT) {
-            assert prefix != null;
+        if (vblue == NULLOBJECT) {
+            bssert prefix != null;
             return null;
         }
-        return ((String[])value)[styleIndex];
+        return ((String[])vblue)[styleIndex];
     }
 
-    private static class ResourceReference extends SoftReference<Object> {
-        private final String cacheKey;
+    privbte stbtic clbss ResourceReference extends SoftReference<Object> {
+        privbte finbl String cbcheKey;
 
-        ResourceReference(String cacheKey, Object o, ReferenceQueue<Object> q) {
+        ResourceReference(String cbcheKey, Object o, ReferenceQueue<Object> q) {
             super(o, q);
-            this.cacheKey = cacheKey;
+            this.cbcheKey = cbcheKey;
         }
 
-        String getCacheKey() {
-            return cacheKey;
+        String getCbcheKey() {
+            return cbcheKey;
         }
     }
 }

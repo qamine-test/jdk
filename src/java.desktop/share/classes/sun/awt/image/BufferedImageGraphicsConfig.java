@@ -1,55 +1,55 @@
 /*
- * Copyright (c) 1997, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt.image;
+pbckbge sun.bwt.imbge;
 
-import java.awt.AWTException;
-import java.awt.Component;
-import java.awt.Graphics2D;
-import java.awt.GraphicsConfiguration;
-import java.awt.GraphicsDevice;
-import java.awt.ImageCapabilities;
-import java.awt.Rectangle;
-import java.awt.Transparency;
-import java.awt.geom.AffineTransform;
-import java.awt.image.BufferedImage;
-import java.awt.image.ColorModel;
-import java.awt.image.DirectColorModel;
-import java.awt.image.Raster;
-import java.awt.image.VolatileImage;
-import java.awt.image.WritableRaster;
+import jbvb.bwt.AWTException;
+import jbvb.bwt.Component;
+import jbvb.bwt.Grbphics2D;
+import jbvb.bwt.GrbphicsConfigurbtion;
+import jbvb.bwt.GrbphicsDevice;
+import jbvb.bwt.ImbgeCbpbbilities;
+import jbvb.bwt.Rectbngle;
+import jbvb.bwt.Trbnspbrency;
+import jbvb.bwt.geom.AffineTrbnsform;
+import jbvb.bwt.imbge.BufferedImbge;
+import jbvb.bwt.imbge.ColorModel;
+import jbvb.bwt.imbge.DirectColorModel;
+import jbvb.bwt.imbge.Rbster;
+import jbvb.bwt.imbge.VolbtileImbge;
+import jbvb.bwt.imbge.WritbbleRbster;
 
-public class BufferedImageGraphicsConfig
-    extends GraphicsConfiguration
+public clbss BufferedImbgeGrbphicsConfig
+    extends GrbphicsConfigurbtion
 {
-    private static final int numconfigs = BufferedImage.TYPE_BYTE_BINARY;
-    private static BufferedImageGraphicsConfig configs[] =
-        new BufferedImageGraphicsConfig[numconfigs];
+    privbte stbtic finbl int numconfigs = BufferedImbge.TYPE_BYTE_BINARY;
+    privbte stbtic BufferedImbgeGrbphicsConfig configs[] =
+        new BufferedImbgeGrbphicsConfig[numconfigs];
 
-    public static BufferedImageGraphicsConfig getConfig(BufferedImage bImg) {
-        BufferedImageGraphicsConfig ret;
+    public stbtic BufferedImbgeGrbphicsConfig getConfig(BufferedImbge bImg) {
+        BufferedImbgeGrbphicsConfig ret;
         int type = bImg.getType();
         if (type > 0 && type < numconfigs) {
             ret = configs[type];
@@ -57,117 +57,117 @@ public class BufferedImageGraphicsConfig
                 return ret;
             }
         }
-        ret = new BufferedImageGraphicsConfig(bImg, null);
+        ret = new BufferedImbgeGrbphicsConfig(bImg, null);
         if (type > 0 && type < numconfigs) {
             configs[type] = ret;
         }
         return ret;
     }
 
-    GraphicsDevice gd;
+    GrbphicsDevice gd;
     ColorModel model;
-    Raster raster;
+    Rbster rbster;
     int width, height;
 
-    public BufferedImageGraphicsConfig(BufferedImage bufImg, Component comp) {
+    public BufferedImbgeGrbphicsConfig(BufferedImbge bufImg, Component comp) {
         if (comp == null) {
-            this.gd = new BufferedImageDevice(this);
+            this.gd = new BufferedImbgeDevice(this);
         } else {
-            Graphics2D g2d = (Graphics2D)comp.getGraphics();
-            this.gd = g2d.getDeviceConfiguration().getDevice();
+            Grbphics2D g2d = (Grbphics2D)comp.getGrbphics();
+            this.gd = g2d.getDeviceConfigurbtion().getDevice();
         }
         this.model = bufImg.getColorModel();
-        this.raster = bufImg.getRaster().createCompatibleWritableRaster(1, 1);
+        this.rbster = bufImg.getRbster().crebteCompbtibleWritbbleRbster(1, 1);
         this.width = bufImg.getWidth();
         this.height = bufImg.getHeight();
     }
 
     /**
-     * Return the graphics device associated with this configuration.
+     * Return the grbphics device bssocibted with this configurbtion.
      */
-    public GraphicsDevice getDevice() {
+    public GrbphicsDevice getDevice() {
         return gd;
     }
 
     /**
-     * Returns a BufferedImage with channel layout and color model
-     * compatible with this graphics configuration.  This method
-     * has nothing to do with memory-mapping
-     * a device.  This BufferedImage has
-     * a layout and color model
-     * that is closest to this native device configuration and thus
-     * can be optimally blitted to this device.
+     * Returns b BufferedImbge with chbnnel lbyout bnd color model
+     * compbtible with this grbphics configurbtion.  This method
+     * hbs nothing to do with memory-mbpping
+     * b device.  This BufferedImbge hbs
+     * b lbyout bnd color model
+     * thbt is closest to this nbtive device configurbtion bnd thus
+     * cbn be optimblly blitted to this device.
      */
-    public BufferedImage createCompatibleImage(int width, int height) {
-        WritableRaster wr = raster.createCompatibleWritableRaster(width, height);
-        return new BufferedImage(model, wr, model.isAlphaPremultiplied(), null);
+    public BufferedImbge crebteCompbtibleImbge(int width, int height) {
+        WritbbleRbster wr = rbster.crebteCompbtibleWritbbleRbster(width, height);
+        return new BufferedImbge(model, wr, model.isAlphbPremultiplied(), null);
     }
 
     /**
-     * Returns the color model associated with this configuration.
+     * Returns the color model bssocibted with this configurbtion.
      */
     public ColorModel getColorModel() {
         return model;
     }
 
     /**
-     * Returns the color model associated with this configuration that
-     * supports the specified transparency.
+     * Returns the color model bssocibted with this configurbtion thbt
+     * supports the specified trbnspbrency.
      */
-    public ColorModel getColorModel(int transparency) {
+    public ColorModel getColorModel(int trbnspbrency) {
 
-        if (model.getTransparency() == transparency) {
+        if (model.getTrbnspbrency() == trbnspbrency) {
             return model;
         }
-        switch (transparency) {
-        case Transparency.OPAQUE:
+        switch (trbnspbrency) {
+        cbse Trbnspbrency.OPAQUE:
             return new DirectColorModel(24, 0xff0000, 0xff00, 0xff);
-        case Transparency.BITMASK:
+        cbse Trbnspbrency.BITMASK:
             return new DirectColorModel(25, 0xff0000, 0xff00, 0xff, 0x1000000);
-        case Transparency.TRANSLUCENT:
-            return ColorModel.getRGBdefault();
-        default:
+        cbse Trbnspbrency.TRANSLUCENT:
+            return ColorModel.getRGBdefbult();
+        defbult:
             return null;
         }
     }
 
     /**
-     * Returns the default Transform for this configuration.  This
-     * Transform is typically the Identity transform for most normal
-     * screens.  Device coordinates for screen and printer devices will
-     * have the origin in the upper left-hand corner of the target region of
-     * the device, with X coordinates
-     * increasing to the right and Y coordinates increasing downwards.
-     * For image buffers, this Transform will be the Identity transform.
+     * Returns the defbult Trbnsform for this configurbtion.  This
+     * Trbnsform is typicblly the Identity trbnsform for most normbl
+     * screens.  Device coordinbtes for screen bnd printer devices will
+     * hbve the origin in the upper left-hbnd corner of the tbrget region of
+     * the device, with X coordinbtes
+     * increbsing to the right bnd Y coordinbtes increbsing downwbrds.
+     * For imbge buffers, this Trbnsform will be the Identity trbnsform.
      */
-    public AffineTransform getDefaultTransform() {
-        return new AffineTransform();
+    public AffineTrbnsform getDefbultTrbnsform() {
+        return new AffineTrbnsform();
     }
 
     /**
      *
-     * Returns a Transform that can be composed with the default Transform
-     * of a Graphics2D so that 72 units in user space will equal 1 inch
-     * in device space.
-     * Given a Graphics2D, g, one can reset the transformation to create
-     * such a mapping by using the following pseudocode:
+     * Returns b Trbnsform thbt cbn be composed with the defbult Trbnsform
+     * of b Grbphics2D so thbt 72 units in user spbce will equbl 1 inch
+     * in device spbce.
+     * Given b Grbphics2D, g, one cbn reset the trbnsformbtion to crebte
+     * such b mbpping by using the following pseudocode:
      * <pre>
-     *      GraphicsConfiguration gc = g.getGraphicsConfiguration();
+     *      GrbphicsConfigurbtion gc = g.getGrbphicsConfigurbtion();
      *
-     *      g.setTransform(gc.getDefaultTransform());
-     *      g.transform(gc.getNormalizingTransform());
+     *      g.setTrbnsform(gc.getDefbultTrbnsform());
+     *      g.trbnsform(gc.getNormblizingTrbnsform());
      * </pre>
-     * Note that sometimes this Transform will be identity (e.g. for
-     * printers or metafile output) and that this Transform is only
-     * as accurate as the information supplied by the underlying system.
-     * For image buffers, this Transform will be the Identity transform,
-     * since there is no valid distance measurement.
+     * Note thbt sometimes this Trbnsform will be identity (e.g. for
+     * printers or metbfile output) bnd thbt this Trbnsform is only
+     * bs bccurbte bs the informbtion supplied by the underlying system.
+     * For imbge buffers, this Trbnsform will be the Identity trbnsform,
+     * since there is no vblid distbnce mebsurement.
      */
-    public AffineTransform getNormalizingTransform() {
-        return new AffineTransform();
+    public AffineTrbnsform getNormblizingTrbnsform() {
+        return new AffineTrbnsform();
     }
 
-    public Rectangle getBounds() {
-        return new Rectangle(0, 0, width, height);
+    public Rectbngle getBounds() {
+        return new Rectbngle(0, 0, width, height);
     }
 }

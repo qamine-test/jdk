@@ -1,35 +1,35 @@
 /*
- * Copyright (c) 2001, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-#include "GlyphImageRef.h"
+#include "GlyphImbgeRef.h"
 
 #ifdef HEADLESS
-#include "SurfaceData.h"
+#include "SurfbceDbtb.h"
 #else
-#include "X11SurfaceData.h"
-#include "GraphicsPrimitiveMgr.h"
+#include "X11SurfbceDbtb.h"
+#include "GrbphicsPrimitiveMgr.h"
 #endif /* !HEADLESS */
 #include <jlong.h>
 
@@ -38,88 +38,88 @@
 
 #ifndef HEADLESS
 
-static jboolean checkPixmap(JNIEnv *env, AwtGraphicsConfigDataPtr cData)
+stbtic jboolebn checkPixmbp(JNIEnv *env, AwtGrbphicsConfigDbtbPtr cDbtb)
 {
-    XImage *img;
-    int image_size;
+    XImbge *img;
+    int imbge_size;
     Window root;
 
-    if (cData->monoImage == NULL) {
-        img = XCreateImage(awt_display, NULL, 1, XYBitmap, 0, 0,
+    if (cDbtb->monoImbge == NULL) {
+        img = XCrebteImbge(bwt_displby, NULL, 1, XYBitmbp, 0, 0,
                                    TEXT_BM_WIDTH, TEXT_BM_HEIGHT, 32, 0);
         if (img != NULL) {
-            image_size = img->bytes_per_line * TEXT_BM_HEIGHT;
-            // assert(BM_W and BM_H are not large enough to overflow);
-            img->data = (char *) malloc(image_size);
-            if (img->data == NULL) {
+            imbge_size = img->bytes_per_line * TEXT_BM_HEIGHT;
+            // bssert(BM_W bnd BM_H bre not lbrge enough to overflow);
+            img->dbtb = (chbr *) mblloc(imbge_size);
+            if (img->dbtb == NULL) {
                 XFree(img);
             } else {
-                // Force same bit/byte ordering
-                img->bitmap_bit_order = img->byte_order;
-                cData->monoImage = img;
+                // Force sbme bit/byte ordering
+                img->bitmbp_bit_order = img->byte_order;
+                cDbtb->monoImbge = img;
             }
         }
-        if (cData->monoImage == NULL) {
-            JNU_ThrowOutOfMemoryError(env, "Cannot allocate bitmap for text");
+        if (cDbtb->monoImbge == NULL) {
+            JNU_ThrowOutOfMemoryError(env, "Cbnnot bllocbte bitmbp for text");
             return JNI_FALSE;
         }
     }
-    if (cData->monoPixmap == 0 ||
-        cData->monoPixmapGC == NULL ||
-        cData->monoPixmapWidth != TEXT_BM_WIDTH ||
-        cData->monoPixmapHeight != TEXT_BM_HEIGHT)
+    if (cDbtb->monoPixmbp == 0 ||
+        cDbtb->monoPixmbpGC == NULL ||
+        cDbtb->monoPixmbpWidth != TEXT_BM_WIDTH ||
+        cDbtb->monoPixmbpHeight != TEXT_BM_HEIGHT)
     {
-        if (cData->monoPixmap != 0) {
-            XFreePixmap(awt_display, cData->monoPixmap);
-            cData->monoPixmap = 0;
+        if (cDbtb->monoPixmbp != 0) {
+            XFreePixmbp(bwt_displby, cDbtb->monoPixmbp);
+            cDbtb->monoPixmbp = 0;
         }
-        if (cData->monoPixmapGC != NULL) {
-            XFreeGC(awt_display, cData->monoPixmapGC);
-            cData->monoPixmapGC = 0;
+        if (cDbtb->monoPixmbpGC != NULL) {
+            XFreeGC(bwt_displby, cDbtb->monoPixmbpGC);
+            cDbtb->monoPixmbpGC = 0;
         }
-        root = RootWindow(awt_display, cData->awt_visInfo.screen);
-        cData->monoPixmap = XCreatePixmap(awt_display, root,
+        root = RootWindow(bwt_displby, cDbtb->bwt_visInfo.screen);
+        cDbtb->monoPixmbp = XCrebtePixmbp(bwt_displby, root,
                                           TEXT_BM_WIDTH, TEXT_BM_HEIGHT, 1);
-        if (cData->monoPixmap == 0) {
-            JNU_ThrowOutOfMemoryError(env, "Cannot allocate pixmap for text");
+        if (cDbtb->monoPixmbp == 0) {
+            JNU_ThrowOutOfMemoryError(env, "Cbnnot bllocbte pixmbp for text");
             return JNI_FALSE;
         }
-        cData->monoPixmapGC = XCreateGC(awt_display, cData->monoPixmap,
+        cDbtb->monoPixmbpGC = XCrebteGC(bwt_displby, cDbtb->monoPixmbp,
                                         0, NULL);
-        if (cData->monoPixmapGC == NULL) {
-            XFreePixmap(awt_display, cData->monoPixmap);
-            cData->monoPixmap = 0;
-            JNU_ThrowOutOfMemoryError(env, "Cannot allocate pixmap for text");
+        if (cDbtb->monoPixmbpGC == NULL) {
+            XFreePixmbp(bwt_displby, cDbtb->monoPixmbp);
+            cDbtb->monoPixmbp = 0;
+            JNU_ThrowOutOfMemoryError(env, "Cbnnot bllocbte pixmbp for text");
             return JNI_FALSE;
         }
-        XSetForeground(awt_display, cData->monoPixmapGC, 1);
-        XSetBackground(awt_display, cData->monoPixmapGC, 0);
-        cData->monoPixmapWidth = TEXT_BM_WIDTH;
-        cData->monoPixmapHeight = TEXT_BM_HEIGHT;
+        XSetForeground(bwt_displby, cDbtb->monoPixmbpGC, 1);
+        XSetBbckground(bwt_displby, cDbtb->monoPixmbpGC, 0);
+        cDbtb->monoPixmbpWidth = TEXT_BM_WIDTH;
+        cDbtb->monoPixmbpHeight = TEXT_BM_HEIGHT;
     }
     return JNI_TRUE;
 }
 
-static void FillBitmap(XImage *theImage,
-                       ImageRef *glyphs, jint totalGlyphs,
+stbtic void FillBitmbp(XImbge *theImbge,
+                       ImbgeRef *glyphs, jint totblGlyphs,
                        jint clipLeft, jint clipTop,
                        jint clipRight, jint clipBottom)
 {
     int glyphCounter;
-    int scan = theImage->bytes_per_line;
+    int scbn = theImbge->bytes_per_line;
     int y, left, top, right, bottom, width, height;
     jubyte *pPix;
     const jubyte *pixels;
     unsigned int rowBytes;
 
-    pPix = (jubyte *) theImage->data;
+    pPix = (jubyte *) theImbge->dbtb;
     glyphCounter = ((clipRight - clipLeft) + 7) >> 3;
     for (y = clipTop; y < clipBottom; y++) {
         memset(pPix, 0, glyphCounter);
-        pPix += scan;
+        pPix += scbn;
     }
 
-    for (glyphCounter = 0; glyphCounter < totalGlyphs; glyphCounter++) {
+    for (glyphCounter = 0; glyphCounter < totblGlyphs; glyphCounter++) {
         pixels = (const jubyte *)glyphs[glyphCounter].pixels;
         if (!pixels) {
             continue;
@@ -130,7 +130,7 @@ static void FillBitmap(XImage *theImage,
         width    = glyphs[glyphCounter].width;
         height   = glyphs[glyphCounter].height;
 
-        /* if any clipping required, modify parameters now */
+        /* if bny clipping required, modify pbrbmeters now */
         right  = left + width;
         bottom = top + height;
         if (left < clipLeft) {
@@ -154,9 +154,9 @@ static void FillBitmap(XImage *theImage,
         height = bottom - top;
         top -= clipTop;
         left -= clipLeft;
-        pPix = ((jubyte *) theImage->data) + (left >> 3) + top * scan;
+        pPix = ((jubyte *) theImbge->dbtb) + (left >> 3) + top * scbn;
         left &= 0x07;
-        if (theImage->bitmap_bit_order == MSBFirst) {
+        if (theImbge->bitmbp_bit_order == MSBFirst) {
             left = 0x80 >> left;
             do {
                 int x = 0, bx = 0;
@@ -174,7 +174,7 @@ static void FillBitmap(XImage *theImage,
                     bit >>= 1;
                 } while (++x < width);
                 pPix[bx] = (jubyte) pix;
-                pPix += scan;
+                pPix += scbn;
                 pixels += rowBytes;
             } while (--height > 0);
         } else {
@@ -195,7 +195,7 @@ static void FillBitmap(XImage *theImage,
                     bit <<= 1;
                 } while (++x < width);
                 pPix[bx] = (jubyte) pix;
-                pPix += scan;
+                pPix += scbn;
                 pixels += rowBytes;
             } while (--height > 0);
         }
@@ -204,18 +204,18 @@ static void FillBitmap(XImage *theImage,
 #endif /* !HEADLESS */
 
 JNIEXPORT void JNICALL
-AWTDrawGlyphList(JNIEnv *env, jobject xtr,
-                 jlong dstData, jlong gc,
-                 SurfaceDataBounds *bounds, ImageRef *glyphs, jint totalGlyphs)
+AWTDrbwGlyphList(JNIEnv *env, jobject xtr,
+                 jlong dstDbtb, jlong gc,
+                 SurfbceDbtbBounds *bounds, ImbgeRef *glyphs, jint totblGlyphs)
 {
 #ifndef HEADLESS
     GC xgc, theGC;
-    XImage *theImage;
-    Pixmap thePixmap;
-    XGCValues xgcv;
-    int scan, screen;
-    AwtGraphicsConfigDataPtr cData;
-    X11SDOps *xsdo = (X11SDOps *)jlong_to_ptr(dstData);
+    XImbge *theImbge;
+    Pixmbp thePixmbp;
+    XGCVblues xgcv;
+    int scbn, screen;
+    AwtGrbphicsConfigDbtbPtr cDbtb;
+    X11SDOps *xsdo = (X11SDOps *)jlong_to_ptr(dstDbtb);
     jint cx1, cy1, cx2, cy2;
 
     if (xsdo == NULL) {
@@ -227,22 +227,22 @@ AWTDrawGlyphList(JNIEnv *env, jobject xtr,
         return;
     }
 
-    screen = xsdo->configData->awt_visInfo.screen;
-    cData = getDefaultConfig(screen);
-    if (!checkPixmap(env, cData)) {
+    screen = xsdo->configDbtb->bwt_visInfo.screen;
+    cDbtb = getDefbultConfig(screen);
+    if (!checkPixmbp(env, cDbtb)) {
         return;
     }
-    theImage = cData->monoImage;
-    thePixmap = cData->monoPixmap;
-    theGC = cData->monoPixmapGC;
+    theImbge = cDbtb->monoImbge;
+    thePixmbp = cDbtb->monoPixmbp;
+    theGC = cDbtb->monoPixmbpGC;
 
-    scan = theImage->bytes_per_line;
+    scbn = theImbge->bytes_per_line;
 
     xgcv.fill_style = FillStippled;
-    xgcv.stipple = thePixmap;
+    xgcv.stipple = thePixmbp;
     xgcv.ts_x_origin = bounds->x1;
     xgcv.ts_y_origin = bounds->y1;
-    XChangeGC(awt_display, xgc,
+    XChbngeGC(bwt_displby, xgc,
               GCFillStyle | GCStipple | GCTileStipXOrigin | GCTileStipYOrigin,
               &xgcv);
 
@@ -256,32 +256,32 @@ AWTDrawGlyphList(JNIEnv *env, jobject xtr,
             cx2 = cx1 + TEXT_BM_WIDTH;
             if (cx2 > bounds->x2) cx2 = bounds->x2;
 
-            FillBitmap(theImage,
+            FillBitmbp(theImbge,
                        glyphs,
-                       totalGlyphs,
+                       totblGlyphs,
                        cx1, cy1, cx2, cy2);
 
-            // NOTE: Since we are tiling around by BM_W, BM_H offsets
-            // and thePixmap is BM_W x BM_H, we do not have to move
-            // the TSOrigin at each step since the stipple repeats
+            // NOTE: Since we bre tiling bround by BM_W, BM_H offsets
+            // bnd thePixmbp is BM_W x BM_H, we do not hbve to move
+            // the TSOrigin bt ebch step since the stipple repebts
             // every BM_W, BM_H units
-            XPutImage(awt_display, thePixmap, theGC, theImage,
+            XPutImbge(bwt_displby, thePixmbp, theGC, theImbge,
                       0, 0, 0, 0, cx2 - cx1, cy2 - cy1);
-            /* MGA on Linux doesn't pick up the new stipple image data,
-             * probably because it caches the image as a hardware pixmap
-             * and doesn't update it when the pixmap image data is changed.
-             * So if the loop is executed more than once, update the GC
-             * which triggers the required behaviour. This extra XChangeGC
-             * call only happens on large or rotated text so isn't a
-             * significant new overhead..
-             * This code needs to execute on a Solaris client too, in case
-             * we are remote displaying to a MGA.
+            /* MGA on Linux doesn't pick up the new stipple imbge dbtb,
+             * probbbly becbuse it cbches the imbge bs b hbrdwbre pixmbp
+             * bnd doesn't updbte it when the pixmbp imbge dbtb is chbnged.
+             * So if the loop is executed more thbn once, updbte the GC
+             * which triggers the required behbviour. This extrb XChbngeGC
+             * cbll only hbppens on lbrge or rotbted text so isn't b
+             * significbnt new overhebd..
+             * This code needs to execute on b Solbris client too, in cbse
+             * we bre remote displbying to b MGA.
              */
             if (cy1 != bounds->y1 || cx1 != bounds->x1) {
-                XChangeGC(awt_display, xgc, GCStipple, &xgcv);
+                XChbngeGC(bwt_displby, xgc, GCStipple, &xgcv);
             }
 
-            XFillRectangle(awt_display, xsdo->drawable, xgc,
+            XFillRectbngle(bwt_displby, xsdo->drbwbble, xgc,
                            cx1, cy1, cx2 - cx1, cy2 - cy1);
 
             cx1 = cx2;
@@ -289,7 +289,7 @@ AWTDrawGlyphList(JNIEnv *env, jobject xtr,
 
         cy1 = cy2;
     }
-    XSetFillStyle(awt_display, xgc, FillSolid);
+    XSetFillStyle(bwt_displby, xgc, FillSolid);
 
     X11SD_DirectRenderNotify(env, xsdo);
 #endif /* !HEADLESS */

@@ -1,158 +1,158 @@
 /*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-package com.sun.tools.example.debug.tty;
+pbckbge com.sun.tools.exbmple.debug.tty;
 
 import com.sun.jdi.request.EventRequest;
-import com.sun.jdi.event.ClassPrepareEvent;
+import com.sun.jdi.event.ClbssPrepbreEvent;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collections;
+import jbvb.util.List;
 
-class EventRequestSpecList {
+clbss EventRequestSpecList {
 
-    private static final int statusResolved = 1;
-    private static final int statusUnresolved = 2;
-    private static final int statusError = 3;
+    privbte stbtic finbl int stbtusResolved = 1;
+    privbte stbtic finbl int stbtusUnresolved = 2;
+    privbte stbtic finbl int stbtusError = 3;
 
-    // all specs
-    private List<EventRequestSpec> eventRequestSpecs = Collections.synchronizedList(
-                                                  new ArrayList<EventRequestSpec>());
+    // bll specs
+    privbte List<EventRequestSpec> eventRequestSpecs = Collections.synchronizedList(
+                                                  new ArrbyList<EventRequestSpec>());
 
     EventRequestSpecList() {
     }
 
     /**
-     * Resolve all deferred eventRequests waiting for 'refType'.
-     * @return true if it completes successfully, false on error.
+     * Resolve bll deferred eventRequests wbiting for 'refType'.
+     * @return true if it completes successfully, fblse on error.
      */
-    boolean resolve(ClassPrepareEvent event) {
-        boolean failure = false;
+    boolebn resolve(ClbssPrepbreEvent event) {
+        boolebn fbilure = fblse;
         synchronized(eventRequestSpecs) {
             for (EventRequestSpec spec : eventRequestSpecs) {
                 if (!spec.isResolved()) {
                     try {
                         EventRequest eventRequest = spec.resolve(event);
                         if (eventRequest != null) {
-                            MessageOutput.println("Set deferred", spec.toString());
+                            MessbgeOutput.println("Set deferred", spec.toString());
                         }
-                    } catch (Exception e) {
-                        MessageOutput.println("Unable to set deferred",
+                    } cbtch (Exception e) {
+                        MessbgeOutput.println("Unbble to set deferred",
                                               new Object [] {spec.toString(),
-                                                             spec.errorMessageFor(e)});
-                        failure = true;
+                                                             spec.errorMessbgeFor(e)});
+                        fbilure = true;
                     }
                 }
             }
         }
-        return !failure;
+        return !fbilure;
     }
 
     void resolveAll() {
         for (EventRequestSpec spec : eventRequestSpecs) {
             try {
-                EventRequest eventRequest = spec.resolveEagerly();
+                EventRequest eventRequest = spec.resolveEbgerly();
                 if (eventRequest != null) {
-                    MessageOutput.println("Set deferred", spec.toString());
+                    MessbgeOutput.println("Set deferred", spec.toString());
                 }
-            } catch (Exception e) {
+            } cbtch (Exception e) {
             }
         }
     }
 
-    boolean addEagerlyResolve(EventRequestSpec spec) {
+    boolebn bddEbgerlyResolve(EventRequestSpec spec) {
         try {
-            eventRequestSpecs.add(spec);
-            EventRequest eventRequest = spec.resolveEagerly();
+            eventRequestSpecs.bdd(spec);
+            EventRequest eventRequest = spec.resolveEbgerly();
             if (eventRequest != null) {
-                MessageOutput.println("Set", spec.toString());
+                MessbgeOutput.println("Set", spec.toString());
             }
             return true;
-        } catch (Exception exc) {
-            MessageOutput.println("Unable to set",
+        } cbtch (Exception exc) {
+            MessbgeOutput.println("Unbble to set",
                                   new Object [] {spec.toString(),
-                                                 spec.errorMessageFor(exc)});
-            return false;
+                                                 spec.errorMessbgeFor(exc)});
+            return fblse;
         }
     }
 
-    BreakpointSpec createBreakpoint(String classPattern, int line)
-        throws ClassNotFoundException {
+    BrebkpointSpec crebteBrebkpoint(String clbssPbttern, int line)
+        throws ClbssNotFoundException {
         ReferenceTypeSpec refSpec =
-            new PatternReferenceTypeSpec(classPattern);
-        return new BreakpointSpec(refSpec, line);
+            new PbtternReferenceTypeSpec(clbssPbttern);
+        return new BrebkpointSpec(refSpec, line);
     }
 
-    BreakpointSpec createBreakpoint(String classPattern,
+    BrebkpointSpec crebteBrebkpoint(String clbssPbttern,
                                  String methodId,
                                     List<String> methodArgs)
-                                throws MalformedMemberNameException,
-                                       ClassNotFoundException {
+                                throws MblformedMemberNbmeException,
+                                       ClbssNotFoundException {
         ReferenceTypeSpec refSpec =
-            new PatternReferenceTypeSpec(classPattern);
-        return new BreakpointSpec(refSpec, methodId, methodArgs);
+            new PbtternReferenceTypeSpec(clbssPbttern);
+        return new BrebkpointSpec(refSpec, methodId, methodArgs);
     }
 
-    EventRequestSpec createExceptionCatch(String classPattern,
-                                          boolean notifyCaught,
-                                          boolean notifyUncaught)
-                                            throws ClassNotFoundException {
+    EventRequestSpec crebteExceptionCbtch(String clbssPbttern,
+                                          boolebn notifyCbught,
+                                          boolebn notifyUncbught)
+                                            throws ClbssNotFoundException {
         ReferenceTypeSpec refSpec =
-            new PatternReferenceTypeSpec(classPattern);
-        return new ExceptionSpec(refSpec, notifyCaught, notifyUncaught);
+            new PbtternReferenceTypeSpec(clbssPbttern);
+        return new ExceptionSpec(refSpec, notifyCbught, notifyUncbught);
     }
 
-    WatchpointSpec createAccessWatchpoint(String classPattern,
+    WbtchpointSpec crebteAccessWbtchpoint(String clbssPbttern,
                                        String fieldId)
-                                      throws MalformedMemberNameException,
-                                             ClassNotFoundException {
+                                      throws MblformedMemberNbmeException,
+                                             ClbssNotFoundException {
         ReferenceTypeSpec refSpec =
-            new PatternReferenceTypeSpec(classPattern);
-        return new AccessWatchpointSpec(refSpec, fieldId);
+            new PbtternReferenceTypeSpec(clbssPbttern);
+        return new AccessWbtchpointSpec(refSpec, fieldId);
     }
 
-    WatchpointSpec createModificationWatchpoint(String classPattern,
+    WbtchpointSpec crebteModificbtionWbtchpoint(String clbssPbttern,
                                        String fieldId)
-                                      throws MalformedMemberNameException,
-                                             ClassNotFoundException {
+                                      throws MblformedMemberNbmeException,
+                                             ClbssNotFoundException {
         ReferenceTypeSpec refSpec =
-            new PatternReferenceTypeSpec(classPattern);
-        return new ModificationWatchpointSpec(refSpec, fieldId);
+            new PbtternReferenceTypeSpec(clbssPbttern);
+        return new ModificbtionWbtchpointSpec(refSpec, fieldId);
     }
 
-    boolean delete(EventRequestSpec proto) {
+    boolebn delete(EventRequestSpec proto) {
         synchronized (eventRequestSpecs) {
             int inx = eventRequestSpecs.indexOf(proto);
             if (inx != -1) {
@@ -161,15 +161,15 @@ class EventRequestSpecList {
                 eventRequestSpecs.remove(inx);
                 return true;
             } else {
-                return false;
+                return fblse;
             }
         }
     }
 
     List<EventRequestSpec> eventRequestSpecs() {
-       // We need to make a copy to avoid synchronization problems
+       // We need to mbke b copy to bvoid synchronizbtion problems
         synchronized (eventRequestSpecs) {
-            return new ArrayList<EventRequestSpec>(eventRequestSpecs);
+            return new ArrbyList<EventRequestSpec>(eventRequestSpecs);
         }
     }
 }

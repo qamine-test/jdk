@@ -1,74 +1,74 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package sun.security.ssl;
+pbckbge sun.security.ssl;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.util.Hashtable;
-import java.util.Arrays;
+import jbvb.io.ByteArrbyInputStrebm;
+import jbvb.io.IOException;
+import jbvb.util.Hbshtbble;
+import jbvb.util.Arrbys;
 
-import java.security.*;
-import javax.crypto.*;
-import javax.crypto.spec.IvParameterSpec;
-import javax.crypto.spec.GCMParameterSpec;
+import jbvb.security.*;
+import jbvbx.crypto.*;
+import jbvbx.crypto.spec.IvPbrbmeterSpec;
+import jbvbx.crypto.spec.GCMPbrbmeterSpec;
 
-import java.nio.*;
+import jbvb.nio.*;
 
 import sun.security.ssl.CipherSuite.*;
-import static sun.security.ssl.CipherSuite.*;
-import static sun.security.ssl.CipherSuite.CipherType.*;
+import stbtic sun.security.ssl.CipherSuite.*;
+import stbtic sun.security.ssl.CipherSuite.CipherType.*;
 
 import sun.misc.HexDumpEncoder;
 
 
 /**
- * This class handles bulk data enciphering/deciphering for each SSLv3
- * message.  This provides data confidentiality.  Stream ciphers (such
- * as RC4) don't need to do padding; block ciphers (e.g. DES) need it.
+ * This clbss hbndles bulk dbtb enciphering/deciphering for ebch SSLv3
+ * messbge.  This provides dbtb confidentiblity.  Strebm ciphers (such
+ * bs RC4) don't need to do pbdding; block ciphers (e.g. DES) need it.
  *
- * Individual instances are obtained by calling the static method
+ * Individubl instbnces bre obtbined by cblling the stbtic method
  * newCipherBox(), which should only be invoked by BulkCipher.newCipher().
  *
- * In RFC 2246, with bock ciphers in CBC mode, the Initialization
- * Vector (IV) for the first record is generated with the other keys
- * and secrets when the security parameters are set.  The IV for
- * subsequent records is the last ciphertext block from the previous
+ * In RFC 2246, with bock ciphers in CBC mode, the Initiblizbtion
+ * Vector (IV) for the first record is generbted with the other keys
+ * bnd secrets when the security pbrbmeters bre set.  The IV for
+ * subsequent records is the lbst ciphertext block from the previous
  * record.
  *
- * In RFC 4346, the implicit Initialization Vector (IV) is replaced
- * with an explicit IV to protect against CBC attacks.  RFC 4346
- * recommends two algorithms used to generated the per-record IV.
- * The implementation uses the algorithm (2)(b), as described at
+ * In RFC 4346, the implicit Initiblizbtion Vector (IV) is replbced
+ * with bn explicit IV to protect bgbinst CBC bttbcks.  RFC 4346
+ * recommends two blgorithms used to generbted the per-record IV.
+ * The implementbtion uses the blgorithm (2)(b), bs described bt
  * section 6.2.3.2 of RFC 4346.
  *
- * The usage of IV in CBC block cipher can be illustrated in
- * the following diagrams.
+ * The usbge of IV in CBC block cipher cbn be illustrbted in
+ * the following dibgrbms.
  *
- *   (random)
+ *   (rbndom)
  *        R         P1                    IV        C1
  *        |          |                     |         |
  *  SIV---+    |-----+    |-...            |-----    |------
@@ -80,136 +80,136 @@ import sun.misc.HexDumpEncoder;
  *        |----|     |----|           SIV--+    |----|     |-...
  *        |          |                     |       |
  *       IV         C1                     R      P1
- *                                     (discard)
+ *                                     (discbrd)
  *
  *       CBC Encryption                    CBC Decryption
  *
- * NOTE that any ciphering involved in key exchange (e.g. with RSA) is
- * handled separately.
+ * NOTE thbt bny ciphering involved in key exchbnge (e.g. with RSA) is
+ * hbndled sepbrbtely.
  *
- * @author David Brownell
- * @author Andreas Sterbenz
+ * @buthor Dbvid Brownell
+ * @buthor Andrebs Sterbenz
  */
-final class CipherBox {
+finbl clbss CipherBox {
 
-    // A CipherBox that implements the identity operation
-    final static CipherBox NULL = new CipherBox();
+    // A CipherBox thbt implements the identity operbtion
+    finbl stbtic CipherBox NULL = new CipherBox();
 
-    /* Class and subclass dynamic debugging support */
-    private static final Debug debug = Debug.getInstance("ssl");
+    /* Clbss bnd subclbss dynbmic debugging support */
+    privbte stbtic finbl Debug debug = Debug.getInstbnce("ssl");
 
     // the protocol version this cipher conforms to
-    private final ProtocolVersion protocolVersion;
+    privbte finbl ProtocolVersion protocolVersion;
 
     // cipher object
-    private final Cipher cipher;
+    privbte finbl Cipher cipher;
 
     /**
-     * secure random
+     * secure rbndom
      */
-    private SecureRandom random;
+    privbte SecureRbndom rbndom;
 
     /**
-     * fixed IV, the implicit nonce of AEAD cipher suite, only apply to
+     * fixed IV, the implicit nonce of AEAD cipher suite, only bpply to
      * AEAD cipher suites
      */
-    private final byte[] fixedIv;
+    privbte finbl byte[] fixedIv;
 
     /**
-     * the key, reserved only for AEAD cipher initialization
+     * the key, reserved only for AEAD cipher initiblizbtion
      */
-    private final Key key;
+    privbte finbl Key key;
 
     /**
-     * the operation mode, reserved for AEAD cipher initialization
+     * the operbtion mode, reserved for AEAD cipher initiblizbtion
      */
-    private final int mode;
+    privbte finbl int mode;
 
     /**
-     * the authentication tag size, only apply to AEAD cipher suites
+     * the buthenticbtion tbg size, only bpply to AEAD cipher suites
      */
-    private final int tagSize;
+    privbte finbl int tbgSize;
 
     /**
-     * the record IV length, only apply to AEAD cipher suites
+     * the record IV length, only bpply to AEAD cipher suites
      */
-    private final int recordIvSize;
+    privbte finbl int recordIvSize;
 
     /**
      * cipher type
      */
-    private final CipherType cipherType;
+    privbte finbl CipherType cipherType;
 
     /**
-     * Fixed masks of various block size, as the initial decryption IVs
-     * for TLS 1.1 or later.
+     * Fixed mbsks of vbrious block size, bs the initibl decryption IVs
+     * for TLS 1.1 or lbter.
      *
-     * For performance, we do not use random IVs. As the initial decryption
-     * IVs will be discarded by TLS decryption processes, so the fixed masks
-     * do not hurt cryptographic strength.
+     * For performbnce, we do not use rbndom IVs. As the initibl decryption
+     * IVs will be discbrded by TLS decryption processes, so the fixed mbsks
+     * do not hurt cryptogrbphic strength.
      */
-    private static Hashtable<Integer, IvParameterSpec> masks;
+    privbte stbtic Hbshtbble<Integer, IvPbrbmeterSpec> mbsks;
 
     /**
-     * NULL cipherbox. Identity operation, no encryption.
+     * NULL cipherbox. Identity operbtion, no encryption.
      */
-    private CipherBox() {
+    privbte CipherBox() {
         this.protocolVersion = ProtocolVersion.DEFAULT;
         this.cipher = null;
         this.cipherType = STREAM_CIPHER;
         this.fixedIv = new byte[0];
         this.key = null;
-        this.mode = Cipher.ENCRYPT_MODE;    // choose at random
-        this.random = null;
-        this.tagSize = 0;
+        this.mode = Cipher.ENCRYPT_MODE;    // choose bt rbndom
+        this.rbndom = null;
+        this.tbgSize = 0;
         this.recordIvSize = 0;
     }
 
     /**
-     * Construct a new CipherBox using the cipher transformation.
+     * Construct b new CipherBox using the cipher trbnsformbtion.
      *
-     * @exception NoSuchAlgorithmException if no appropriate JCE Cipher
-     * implementation could be found.
+     * @exception NoSuchAlgorithmException if no bppropribte JCE Cipher
+     * implementbtion could be found.
      */
-    private CipherBox(ProtocolVersion protocolVersion, BulkCipher bulkCipher,
-            SecretKey key, IvParameterSpec iv, SecureRandom random,
-            boolean encrypt) throws NoSuchAlgorithmException {
+    privbte CipherBox(ProtocolVersion protocolVersion, BulkCipher bulkCipher,
+            SecretKey key, IvPbrbmeterSpec iv, SecureRbndom rbndom,
+            boolebn encrypt) throws NoSuchAlgorithmException {
         try {
             this.protocolVersion = protocolVersion;
-            this.cipher = JsseJce.getCipher(bulkCipher.transformation);
+            this.cipher = JsseJce.getCipher(bulkCipher.trbnsformbtion);
             this.mode = encrypt ? Cipher.ENCRYPT_MODE : Cipher.DECRYPT_MODE;
 
-            if (random == null) {
-                random = JsseJce.getSecureRandom();
+            if (rbndom == null) {
+                rbndom = JsseJce.getSecureRbndom();
             }
-            this.random = random;
+            this.rbndom = rbndom;
             this.cipherType = bulkCipher.cipherType;
 
             /*
-             * RFC 4346 recommends two algorithms used to generated the
-             * per-record IV. The implementation uses the algorithm (2)(b),
-             * as described at section 6.2.3.2 of RFC 4346.
+             * RFC 4346 recommends two blgorithms used to generbted the
+             * per-record IV. The implementbtion uses the blgorithm (2)(b),
+             * bs described bt section 6.2.3.2 of RFC 4346.
              *
-             * As we don't care about the initial IV value for TLS 1.1 or
-             * later, so if the "iv" parameter is null, we use the default
-             * value generated by Cipher.init() for encryption, and a fixed
-             * mask for decryption.
+             * As we don't cbre bbout the initibl IV vblue for TLS 1.1 or
+             * lbter, so if the "iv" pbrbmeter is null, we use the defbult
+             * vblue generbted by Cipher.init() for encryption, bnd b fixed
+             * mbsk for decryption.
              */
             if (iv == null && bulkCipher.ivSize != 0 &&
                     mode == Cipher.DECRYPT_MODE &&
                     protocolVersion.v >= ProtocolVersion.TLS11.v) {
-                iv = getFixedMask(bulkCipher.ivSize);
+                iv = getFixedMbsk(bulkCipher.ivSize);
             }
 
             if (cipherType == AEAD_CIPHER) {
-                // AEAD must completely initialize the cipher for each packet,
-                // and so we save initialization parameters for packet
+                // AEAD must completely initiblize the cipher for ebch pbcket,
+                // bnd so we sbve initiblizbtion pbrbmeters for pbcket
                 // processing time.
 
-                // Set the tag size for AEAD cipher
-                tagSize = bulkCipher.tagSize;
+                // Set the tbg size for AEAD cipher
+                tbgSize = bulkCipher.tbgSize;
 
-                // Reserve the key for AEAD cipher initialization
+                // Reserve the key for AEAD cipher initiblizbtion
                 this.key = key;
 
                 fixedIv = iv.getIV();
@@ -221,68 +221,68 @@ final class CipherBox {
                 // Set the record IV length for AEAD cipher
                 recordIvSize = bulkCipher.ivSize - bulkCipher.fixedIvSize;
 
-                // DON'T initialize the cipher for AEAD!
+                // DON'T initiblize the cipher for AEAD!
             } else {
-                // CBC only requires one initialization during its lifetime
-                // (future packets/IVs set the proper CBC state), so we can
-                // initialize now.
+                // CBC only requires one initiblizbtion during its lifetime
+                // (future pbckets/IVs set the proper CBC stbte), so we cbn
+                // initiblize now.
 
-                // Zeroize the variables that only apply to AEAD cipher
-                this.tagSize = 0;
+                // Zeroize the vbribbles thbt only bpply to AEAD cipher
+                this.tbgSize = 0;
                 this.fixedIv = new byte[0];
                 this.recordIvSize = 0;
                 this.key = null;
 
-                // Initialize the cipher
-                cipher.init(mode, key, iv, random);
+                // Initiblize the cipher
+                cipher.init(mode, key, iv, rbndom);
             }
-        } catch (NoSuchAlgorithmException e) {
+        } cbtch (NoSuchAlgorithmException e) {
             throw e;
-        } catch (Exception e) {
+        } cbtch (Exception e) {
             throw new NoSuchAlgorithmException
-                    ("Could not create cipher " + bulkCipher, e);
-        } catch (ExceptionInInitializerError e) {
+                    ("Could not crebte cipher " + bulkCipher, e);
+        } cbtch (ExceptionInInitiblizerError e) {
             throw new NoSuchAlgorithmException
-                    ("Could not create cipher " + bulkCipher, e);
+                    ("Could not crebte cipher " + bulkCipher, e);
         }
     }
 
     /*
-     * Factory method to obtain a new CipherBox object.
+     * Fbctory method to obtbin b new CipherBox object.
      */
-    static CipherBox newCipherBox(ProtocolVersion version, BulkCipher cipher,
-            SecretKey key, IvParameterSpec iv, SecureRandom random,
-            boolean encrypt) throws NoSuchAlgorithmException {
-        if (cipher.allowed == false) {
+    stbtic CipherBox newCipherBox(ProtocolVersion version, BulkCipher cipher,
+            SecretKey key, IvPbrbmeterSpec iv, SecureRbndom rbndom,
+            boolebn encrypt) throws NoSuchAlgorithmException {
+        if (cipher.bllowed == fblse) {
             throw new NoSuchAlgorithmException("Unsupported cipher " + cipher);
         }
 
         if (cipher == B_NULL) {
             return NULL;
         } else {
-            return new CipherBox(version, cipher, key, iv, random, encrypt);
+            return new CipherBox(version, cipher, key, iv, rbndom, encrypt);
         }
     }
 
     /*
-     * Get a fixed mask, as the initial decryption IVs for TLS 1.1 or later.
+     * Get b fixed mbsk, bs the initibl decryption IVs for TLS 1.1 or lbter.
      */
-    private static IvParameterSpec getFixedMask(int ivSize) {
-        if (masks == null) {
-            masks = new Hashtable<Integer, IvParameterSpec>(5);
+    privbte stbtic IvPbrbmeterSpec getFixedMbsk(int ivSize) {
+        if (mbsks == null) {
+            mbsks = new Hbshtbble<Integer, IvPbrbmeterSpec>(5);
         }
 
-        IvParameterSpec iv = masks.get(ivSize);
+        IvPbrbmeterSpec iv = mbsks.get(ivSize);
         if (iv == null) {
-            iv = new IvParameterSpec(new byte[ivSize]);
-            masks.put(ivSize, iv);
+            iv = new IvPbrbmeterSpec(new byte[ivSize]);
+            mbsks.put(ivSize, iv);
         }
 
         return iv;
     }
 
     /*
-     * Encrypts a block of data, returning the size of the
+     * Encrypts b block of dbtb, returning the size of the
      * resulting block.
      */
     int encrypt(byte[] buf, int offset, int len) {
@@ -293,59 +293,59 @@ final class CipherBox {
         try {
             int blockSize = cipher.getBlockSize();
             if (cipherType == BLOCK_CIPHER) {
-                len = addPadding(buf, offset, len, blockSize);
+                len = bddPbdding(buf, offset, len, blockSize);
             }
 
-            if (debug != null && Debug.isOn("plaintext")) {
+            if (debug != null && Debug.isOn("plbintext")) {
                 try {
                     HexDumpEncoder hd = new HexDumpEncoder();
 
                     System.out.println(
-                        "Padded plaintext before ENCRYPTION:  len = "
+                        "Pbdded plbintext before ENCRYPTION:  len = "
                         + len);
                     hd.encodeBuffer(
-                        new ByteArrayInputStream(buf, offset, len),
+                        new ByteArrbyInputStrebm(buf, offset, len),
                         System.out);
-                } catch (IOException e) { }
+                } cbtch (IOException e) { }
             }
 
 
             if (cipherType == AEAD_CIPHER) {
                 try {
-                    return cipher.doFinal(buf, offset, len, buf, offset);
-                } catch (IllegalBlockSizeException | BadPaddingException ibe) {
-                    // unlikely to happen
+                    return cipher.doFinbl(buf, offset, len, buf, offset);
+                } cbtch (IllegblBlockSizeException | BbdPbddingException ibe) {
+                    // unlikely to hbppen
                     throw new RuntimeException(
                         "Cipher error in AEAD mode in JCE provider " +
-                        cipher.getProvider().getName(), ibe);
+                        cipher.getProvider().getNbme(), ibe);
                 }
             } else {
-                int newLen = cipher.update(buf, offset, len, buf, offset);
+                int newLen = cipher.updbte(buf, offset, len, buf, offset);
                 if (newLen != len) {
-                    // catch BouncyCastle buffering error
+                    // cbtch BouncyCbstle buffering error
                     throw new RuntimeException("Cipher buffering error " +
-                        "in JCE provider " + cipher.getProvider().getName());
+                        "in JCE provider " + cipher.getProvider().getNbme());
                 }
                 return newLen;
             }
-        } catch (ShortBufferException e) {
-            // unlikely to happen, we should have enough buffer space here
-            throw new ArrayIndexOutOfBoundsException(e.toString());
+        } cbtch (ShortBufferException e) {
+            // unlikely to hbppen, we should hbve enough buffer spbce here
+            throw new ArrbyIndexOutOfBoundsException(e.toString());
         }
     }
 
     /*
-     * Encrypts a ByteBuffer block of data, returning the size of the
+     * Encrypts b ByteBuffer block of dbtb, returning the size of the
      * resulting block.
      *
-     * The byte buffers position and limit initially define the amount
-     * to encrypt.  On return, the position and limit are
-     * set to last position padded/encrypted.  The limit may have changed
-     * because of the added padding bytes.
+     * The byte buffers position bnd limit initiblly define the bmount
+     * to encrypt.  On return, the position bnd limit bre
+     * set to lbst position pbdded/encrypted.  The limit mby hbve chbnged
+     * becbuse of the bdded pbdding bytes.
      */
     int encrypt(ByteBuffer bb, int outLimit) {
 
-        int len = bb.remaining();
+        int len = bb.rembining();
 
         if (cipher == null) {
             bb.position(bb.limit());
@@ -356,75 +356,75 @@ final class CipherBox {
 
         int blockSize = cipher.getBlockSize();
         if (cipherType == BLOCK_CIPHER) {
-            // addPadding adjusts pos/limit
-            len = addPadding(bb, blockSize);
+            // bddPbdding bdjusts pos/limit
+            len = bddPbdding(bb, blockSize);
             bb.position(pos);
         }
 
-        if (debug != null && Debug.isOn("plaintext")) {
+        if (debug != null && Debug.isOn("plbintext")) {
             try {
                 HexDumpEncoder hd = new HexDumpEncoder();
 
                 System.out.println(
-                    "Padded plaintext before ENCRYPTION:  len = "
+                    "Pbdded plbintext before ENCRYPTION:  len = "
                     + len);
-                hd.encodeBuffer(bb.duplicate(), System.out);
+                hd.encodeBuffer(bb.duplicbte(), System.out);
 
-            } catch (IOException e) { }
+            } cbtch (IOException e) { }
         }
 
         /*
-         * Encrypt "in-place".  This does not add its own padding.
+         * Encrypt "in-plbce".  This does not bdd its own pbdding.
          */
-        ByteBuffer dup = bb.duplicate();
+        ByteBuffer dup = bb.duplicbte();
         if (cipherType == AEAD_CIPHER) {
             try {
-                int outputSize = cipher.getOutputSize(dup.remaining());
-                if (outputSize > bb.remaining()) {
-                    // need to expand the limit of the output buffer for
-                    // the authentication tag.
+                int outputSize = cipher.getOutputSize(dup.rembining());
+                if (outputSize > bb.rembining()) {
+                    // need to expbnd the limit of the output buffer for
+                    // the buthenticbtion tbg.
                     //
-                    // DON'T worry about the buffer's capacity, we have
-                    // reserved space for the authentication tag.
+                    // DON'T worry bbout the buffer's cbpbcity, we hbve
+                    // reserved spbce for the buthenticbtion tbg.
                     if (outLimit < pos + outputSize) {
-                        // unlikely to happen
+                        // unlikely to hbppen
                         throw new ShortBufferException(
-                                    "need more space in output buffer");
+                                    "need more spbce in output buffer");
                     }
                     bb.limit(pos + outputSize);
                 }
-                int newLen = cipher.doFinal(dup, bb);
+                int newLen = cipher.doFinbl(dup, bb);
                 if (newLen != outputSize) {
                     throw new RuntimeException(
                             "Cipher buffering error in JCE provider " +
-                            cipher.getProvider().getName());
+                            cipher.getProvider().getNbme());
                 }
                 return newLen;
-            } catch (IllegalBlockSizeException |
-                           BadPaddingException | ShortBufferException ibse) {
-                // unlikely to happen
+            } cbtch (IllegblBlockSizeException |
+                           BbdPbddingException | ShortBufferException ibse) {
+                // unlikely to hbppen
                 throw new RuntimeException(
                         "Cipher error in AEAD mode in JCE provider " +
-                        cipher.getProvider().getName(), ibse);
+                        cipher.getProvider().getNbme(), ibse);
             }
         } else {
             int newLen;
             try {
-                newLen = cipher.update(dup, bb);
-            } catch (ShortBufferException sbe) {
-                // unlikely to happen
+                newLen = cipher.updbte(dup, bb);
+            } cbtch (ShortBufferException sbe) {
+                // unlikely to hbppen
                 throw new RuntimeException("Cipher buffering error " +
-                    "in JCE provider " + cipher.getProvider().getName());
+                    "in JCE provider " + cipher.getProvider().getNbme());
             }
 
             if (bb.position() != dup.position()) {
-                throw new RuntimeException("bytebuffer padding error");
+                throw new RuntimeException("bytebuffer pbdding error");
             }
 
             if (newLen != len) {
-                // catch BouncyCastle buffering error
+                // cbtch BouncyCbstle buffering error
                 throw new RuntimeException("Cipher buffering error " +
-                    "in JCE provider " + cipher.getProvider().getName());
+                    "in JCE provider " + cipher.getProvider().getNbme());
             }
             return newLen;
         }
@@ -432,24 +432,24 @@ final class CipherBox {
 
 
     /*
-     * Decrypts a block of data, returning the size of the
-     * resulting block if padding was required.
+     * Decrypts b block of dbtb, returning the size of the
+     * resulting block if pbdding wbs required.
      *
-     * For SSLv3 and TLSv1.0, with block ciphers in CBC mode the
-     * Initialization Vector (IV) for the first record is generated by
-     * the handshake protocol, the IV for subsequent records is the
-     * last ciphertext block from the previous record.
+     * For SSLv3 bnd TLSv1.0, with block ciphers in CBC mode the
+     * Initiblizbtion Vector (IV) for the first record is generbted by
+     * the hbndshbke protocol, the IV for subsequent records is the
+     * lbst ciphertext block from the previous record.
      *
-     * From TLSv1.1, the implicit IV is replaced with an explicit IV to
-     * protect against CBC attacks.
+     * From TLSv1.1, the implicit IV is replbced with bn explicit IV to
+     * protect bgbinst CBC bttbcks.
      *
-     * Differentiating between bad_record_mac and decryption_failed alerts
-     * may permit certain attacks against CBC mode. It is preferable to
-     * uniformly use the bad_record_mac alert to hide the specific type of
+     * Differentibting between bbd_record_mbc bnd decryption_fbiled blerts
+     * mby permit certbin bttbcks bgbinst CBC mode. It is preferbble to
+     * uniformly use the bbd_record_mbc blert to hide the specific type of
      * the error.
      */
     int decrypt(byte[] buf, int offset, int len,
-            int tagLen) throws BadPaddingException {
+            int tbgLen) throws BbdPbddingException {
         if (cipher == null) {
             return len;
         }
@@ -458,65 +458,65 @@ final class CipherBox {
             int newLen;
             if (cipherType == AEAD_CIPHER) {
                 try {
-                    newLen = cipher.doFinal(buf, offset, len, buf, offset);
-                } catch (IllegalBlockSizeException ibse) {
-                    // unlikely to happen
+                    newLen = cipher.doFinbl(buf, offset, len, buf, offset);
+                } cbtch (IllegblBlockSizeException ibse) {
+                    // unlikely to hbppen
                     throw new RuntimeException(
                         "Cipher error in AEAD mode in JCE provider " +
-                        cipher.getProvider().getName(), ibse);
+                        cipher.getProvider().getNbme(), ibse);
                 }
             } else {
-                newLen = cipher.update(buf, offset, len, buf, offset);
+                newLen = cipher.updbte(buf, offset, len, buf, offset);
                 if (newLen != len) {
-                    // catch BouncyCastle buffering error
+                    // cbtch BouncyCbstle buffering error
                     throw new RuntimeException("Cipher buffering error " +
-                        "in JCE provider " + cipher.getProvider().getName());
+                        "in JCE provider " + cipher.getProvider().getNbme());
                 }
             }
-            if (debug != null && Debug.isOn("plaintext")) {
+            if (debug != null && Debug.isOn("plbintext")) {
                 try {
                     HexDumpEncoder hd = new HexDumpEncoder();
 
                     System.out.println(
-                        "Padded plaintext after DECRYPTION:  len = "
+                        "Pbdded plbintext bfter DECRYPTION:  len = "
                         + newLen);
                     hd.encodeBuffer(
-                        new ByteArrayInputStream(buf, offset, newLen),
+                        new ByteArrbyInputStrebm(buf, offset, newLen),
                         System.out);
-                } catch (IOException e) { }
+                } cbtch (IOException e) { }
             }
 
             if (cipherType == BLOCK_CIPHER) {
                 int blockSize = cipher.getBlockSize();
-                newLen = removePadding(
-                    buf, offset, newLen, tagLen, blockSize, protocolVersion);
+                newLen = removePbdding(
+                    buf, offset, newLen, tbgLen, blockSize, protocolVersion);
 
                 if (protocolVersion.v >= ProtocolVersion.TLS11.v) {
                     if (newLen < blockSize) {
-                        throw new BadPaddingException("invalid explicit IV");
+                        throw new BbdPbddingException("invblid explicit IV");
                     }
                 }
             }
             return newLen;
-        } catch (ShortBufferException e) {
-            // unlikely to happen, we should have enough buffer space here
-            throw new ArrayIndexOutOfBoundsException(e.toString());
+        } cbtch (ShortBufferException e) {
+            // unlikely to hbppen, we should hbve enough buffer spbce here
+            throw new ArrbyIndexOutOfBoundsException(e.toString());
         }
     }
 
 
     /*
-     * Decrypts a block of data, returning the size of the
-     * resulting block if padding was required.  position and limit
-     * point to the end of the decrypted/depadded data.  The initial
-     * limit and new limit may be different, given we may
-     * have stripped off some padding bytes.
+     * Decrypts b block of dbtb, returning the size of the
+     * resulting block if pbdding wbs required.  position bnd limit
+     * point to the end of the decrypted/depbdded dbtb.  The initibl
+     * limit bnd new limit mby be different, given we mby
+     * hbve stripped off some pbdding bytes.
      *
      *  @see decrypt(byte[], int, int)
      */
-    int decrypt(ByteBuffer bb, int tagLen) throws BadPaddingException {
+    int decrypt(ByteBuffer bb, int tbgLen) throws BbdPbddingException {
 
-        int len = bb.remaining();
+        int len = bb.rembining();
 
         if (cipher == null) {
             bb.position(bb.limit());
@@ -525,126 +525,126 @@ final class CipherBox {
 
         try {
             /*
-             * Decrypt "in-place".
+             * Decrypt "in-plbce".
              */
             int pos = bb.position();
-            ByteBuffer dup = bb.duplicate();
+            ByteBuffer dup = bb.duplicbte();
             int newLen;
             if (cipherType == AEAD_CIPHER) {
                 try {
-                    newLen = cipher.doFinal(dup, bb);
-                } catch (IllegalBlockSizeException ibse) {
-                    // unlikely to happen
+                    newLen = cipher.doFinbl(dup, bb);
+                } cbtch (IllegblBlockSizeException ibse) {
+                    // unlikely to hbppen
                     throw new RuntimeException(
-                        "Cipher error in AEAD mode \"" + ibse.getMessage() +
-                        " \"in JCE provider " + cipher.getProvider().getName());
+                        "Cipher error in AEAD mode \"" + ibse.getMessbge() +
+                        " \"in JCE provider " + cipher.getProvider().getNbme());
                 }
             } else {
-                newLen = cipher.update(dup, bb);
+                newLen = cipher.updbte(dup, bb);
                 if (newLen != len) {
-                    // catch BouncyCastle buffering error
+                    // cbtch BouncyCbstle buffering error
                     throw new RuntimeException("Cipher buffering error " +
-                        "in JCE provider " + cipher.getProvider().getName());
+                        "in JCE provider " + cipher.getProvider().getNbme());
                 }
             }
 
-            // reset the limit to the end of the decryted data
+            // reset the limit to the end of the decryted dbtb
             bb.limit(pos + newLen);
 
-            if (debug != null && Debug.isOn("plaintext")) {
+            if (debug != null && Debug.isOn("plbintext")) {
                 try {
                     HexDumpEncoder hd = new HexDumpEncoder();
 
                     System.out.println(
-                        "Padded plaintext after DECRYPTION:  len = "
+                        "Pbdded plbintext bfter DECRYPTION:  len = "
                         + newLen);
 
                     hd.encodeBuffer(
-                        (ByteBuffer)bb.duplicate().position(pos), System.out);
-                } catch (IOException e) { }
+                        (ByteBuffer)bb.duplicbte().position(pos), System.out);
+                } cbtch (IOException e) { }
             }
 
             /*
-             * Remove the block padding.
+             * Remove the block pbdding.
              */
             if (cipherType == BLOCK_CIPHER) {
                 int blockSize = cipher.getBlockSize();
                 bb.position(pos);
-                newLen = removePadding(bb, tagLen, blockSize, protocolVersion);
+                newLen = removePbdding(bb, tbgLen, blockSize, protocolVersion);
 
-                // check the explicit IV of TLS v1.1 or later
+                // check the explicit IV of TLS v1.1 or lbter
                 if (protocolVersion.v >= ProtocolVersion.TLS11.v) {
                     if (newLen < blockSize) {
-                        throw new BadPaddingException("invalid explicit IV");
+                        throw new BbdPbddingException("invblid explicit IV");
                     }
 
-                    // reset the position to the end of the decrypted data
+                    // reset the position to the end of the decrypted dbtb
                     bb.position(bb.limit());
                 }
             }
             return newLen;
-        } catch (ShortBufferException e) {
-            // unlikely to happen, we should have enough buffer space here
-            throw new ArrayIndexOutOfBoundsException(e.toString());
+        } cbtch (ShortBufferException e) {
+            // unlikely to hbppen, we should hbve enough buffer spbce here
+            throw new ArrbyIndexOutOfBoundsException(e.toString());
         }
     }
 
-    private static int addPadding(byte[] buf, int offset, int len,
+    privbte stbtic int bddPbdding(byte[] buf, int offset, int len,
             int blockSize) {
         int     newlen = len + 1;
-        byte    pad;
+        byte    pbd;
         int     i;
 
         if ((newlen % blockSize) != 0) {
             newlen += blockSize - 1;
             newlen -= newlen % blockSize;
         }
-        pad = (byte) (newlen - len);
+        pbd = (byte) (newlen - len);
 
         if (buf.length < (newlen + offset)) {
-            throw new IllegalArgumentException("no space to pad buffer");
+            throw new IllegblArgumentException("no spbce to pbd buffer");
         }
 
         /*
-         * TLS version of the padding works for both SSLv3 and TLSv1
+         * TLS version of the pbdding works for both SSLv3 bnd TLSv1
          */
-        for (i = 0, offset += len; i < pad; i++) {
-            buf [offset++] = (byte) (pad - 1);
+        for (i = 0, offset += len; i < pbd; i++) {
+            buf [offset++] = (byte) (pbd - 1);
         }
         return newlen;
     }
 
     /*
-     * Apply the padding to the buffer.
+     * Apply the pbdding to the buffer.
      *
-     * Limit is advanced to the new buffer length.
-     * Position is equal to limit.
+     * Limit is bdvbnced to the new buffer length.
+     * Position is equbl to limit.
      */
-    private static int addPadding(ByteBuffer bb, int blockSize) {
+    privbte stbtic int bddPbdding(ByteBuffer bb, int blockSize) {
 
-        int     len = bb.remaining();
+        int     len = bb.rembining();
         int     offset = bb.position();
 
         int     newlen = len + 1;
-        byte    pad;
+        byte    pbd;
         int     i;
 
         if ((newlen % blockSize) != 0) {
             newlen += blockSize - 1;
             newlen -= newlen % blockSize;
         }
-        pad = (byte) (newlen - len);
+        pbd = (byte) (newlen - len);
 
         /*
-         * Update the limit to what will be padded.
+         * Updbte the limit to whbt will be pbdded.
          */
         bb.limit(newlen + offset);
 
         /*
-         * TLS version of the padding works for both SSLv3 and TLSv1
+         * TLS version of the pbdding works for both SSLv3 bnd TLSv1
          */
-        for (i = 0, offset += len; i < pad; i++) {
-            bb.put(offset++, (byte) (pad - 1));
+        for (i = 0, offset += len; i < pbd; i++) {
+            bb.put(offset++, (byte) (pbd - 1));
         }
 
         bb.position(offset);
@@ -654,28 +654,28 @@ final class CipherBox {
     }
 
     /*
-     * A constant-time check of the padding.
+     * A constbnt-time check of the pbdding.
      *
-     * NOTE that we are checking both the padding and the padLen bytes here.
+     * NOTE thbt we bre checking both the pbdding bnd the pbdLen bytes here.
      *
-     * The caller MUST ensure that the len parameter is a positive number.
+     * The cbller MUST ensure thbt the len pbrbmeter is b positive number.
      */
-    private static int[] checkPadding(
-            byte[] buf, int offset, int len, byte pad) {
+    privbte stbtic int[] checkPbdding(
+            byte[] buf, int offset, int len, byte pbd) {
 
         if (len <= 0) {
-            throw new RuntimeException("padding len must be positive");
+            throw new RuntimeException("pbdding len must be positive");
         }
 
-        // An array of hits is used to prevent Hotspot optimization for
-        // the purpose of a constant-time check.
-        int[] results = {0, 0};    // {missed #, matched #}
+        // An brrby of hits is used to prevent Hotspot optimizbtion for
+        // the purpose of b constbnt-time check.
+        int[] results = {0, 0};    // {missed #, mbtched #}
         for (int i = 0; i <= 256;) {
             for (int j = 0; j < len && i <= 256; j++, i++) {     // j <= i
-                if (buf[offset + j] != pad) {
-                    results[0]++;       // mismatched padding data
+                if (buf[offset + j] != pbd) {
+                    results[0]++;       // mismbtched pbdding dbtb
                 } else {
-                    results[1]++;       // matched padding data
+                    results[1]++;       // mbtched pbdding dbtb
                 }
             }
         }
@@ -684,28 +684,28 @@ final class CipherBox {
     }
 
     /*
-     * A constant-time check of the padding.
+     * A constbnt-time check of the pbdding.
      *
-     * NOTE that we are checking both the padding and the padLen bytes here.
+     * NOTE thbt we bre checking both the pbdding bnd the pbdLen bytes here.
      *
-     * The caller MUST ensure that the bb parameter has remaining.
+     * The cbller MUST ensure thbt the bb pbrbmeter hbs rembining.
      */
-    private static int[] checkPadding(ByteBuffer bb, byte pad) {
+    privbte stbtic int[] checkPbdding(ByteBuffer bb, byte pbd) {
 
-        if (!bb.hasRemaining()) {
-            throw new RuntimeException("hasRemaining() must be positive");
+        if (!bb.hbsRembining()) {
+            throw new RuntimeException("hbsRembining() must be positive");
         }
 
-        // An array of hits is used to prevent Hotspot optimization for
-        // the purpose of a constant-time check.
-        int[] results = {0, 0};    // {missed #, matched #}
-        bb.mark();
+        // An brrby of hits is used to prevent Hotspot optimizbtion for
+        // the purpose of b constbnt-time check.
+        int[] results = {0, 0};    // {missed #, mbtched #}
+        bb.mbrk();
         for (int i = 0; i <= 256; bb.reset()) {
-            for (; bb.hasRemaining() && i <= 256; i++) {
-                if (bb.get() != pad) {
-                    results[0]++;       // mismatched padding data
+            for (; bb.hbsRembining() && i <= 256; i++) {
+                if (bb.get() != pbd) {
+                    results[0]++;       // mismbtched pbdding dbtb
                 } else {
-                    results[1]++;       // matched padding data
+                    results[1]++;       // mbtched pbdding dbtb
                 }
             }
         }
@@ -714,100 +714,100 @@ final class CipherBox {
     }
 
     /*
-     * Typical TLS padding format for a 64 bit block cipher is as follows:
+     * Typicbl TLS pbdding formbt for b 64 bit block cipher is bs follows:
      *   xx xx xx xx xx xx xx 00
      *   xx xx xx xx xx xx 01 01
      *   ...
      *   xx 06 06 06 06 06 06 06
      *   07 07 07 07 07 07 07 07
-     * TLS also allows any amount of padding from 1 and 256 bytes as long
-     * as it makes the data a multiple of the block size
+     * TLS blso bllows bny bmount of pbdding from 1 bnd 256 bytes bs long
+     * bs it mbkes the dbtb b multiple of the block size
      */
-    private static int removePadding(byte[] buf, int offset, int len,
-            int tagLen, int blockSize,
-            ProtocolVersion protocolVersion) throws BadPaddingException {
+    privbte stbtic int removePbdding(byte[] buf, int offset, int len,
+            int tbgLen, int blockSize,
+            ProtocolVersion protocolVersion) throws BbdPbddingException {
 
-        // last byte is length byte (i.e. actual padding length - 1)
-        int padOffset = offset + len - 1;
-        int padLen = buf[padOffset] & 0xFF;
+        // lbst byte is length byte (i.e. bctubl pbdding length - 1)
+        int pbdOffset = offset + len - 1;
+        int pbdLen = buf[pbdOffset] & 0xFF;
 
-        int newLen = len - (padLen + 1);
-        if ((newLen - tagLen) < 0) {
-            // If the buffer is not long enough to contain the padding plus
-            // a MAC tag, do a dummy constant-time padding check.
+        int newLen = len - (pbdLen + 1);
+        if ((newLen - tbgLen) < 0) {
+            // If the buffer is not long enough to contbin the pbdding plus
+            // b MAC tbg, do b dummy constbnt-time pbdding check.
             //
-            // Note that it is a dummy check, so we won't care about what is
-            // the actual padding data.
-            checkPadding(buf, offset, len, (byte)(padLen & 0xFF));
+            // Note thbt it is b dummy check, so we won't cbre bbout whbt is
+            // the bctubl pbdding dbtb.
+            checkPbdding(buf, offset, len, (byte)(pbdLen & 0xFF));
 
-            throw new BadPaddingException("Invalid Padding length: " + padLen);
+            throw new BbdPbddingException("Invblid Pbdding length: " + pbdLen);
         }
 
-        // The padding data should be filled with the padding length value.
-        int[] results = checkPadding(buf, offset + newLen,
-                        padLen + 1, (byte)(padLen & 0xFF));
+        // The pbdding dbtb should be filled with the pbdding length vblue.
+        int[] results = checkPbdding(buf, offset + newLen,
+                        pbdLen + 1, (byte)(pbdLen & 0xFF));
         if (protocolVersion.v >= ProtocolVersion.TLS10.v) {
-            if (results[0] != 0) {          // padding data has invalid bytes
-                throw new BadPaddingException("Invalid TLS padding data");
+            if (results[0] != 0) {          // pbdding dbtb hbs invblid bytes
+                throw new BbdPbddingException("Invblid TLS pbdding dbtb");
             }
         } else { // SSLv3
             // SSLv3 requires 0 <= length byte < block size
-            // some implementations do 1 <= length byte <= block size,
-            // so accept that as well
-            // v3 does not require any particular value for the other bytes
-            if (padLen > blockSize) {
-                throw new BadPaddingException("Invalid SSLv3 padding");
+            // some implementbtions do 1 <= length byte <= block size,
+            // so bccept thbt bs well
+            // v3 does not require bny pbrticulbr vblue for the other bytes
+            if (pbdLen > blockSize) {
+                throw new BbdPbddingException("Invblid SSLv3 pbdding");
             }
         }
         return newLen;
     }
 
     /*
-     * Position/limit is equal the removed padding.
+     * Position/limit is equbl the removed pbdding.
      */
-    private static int removePadding(ByteBuffer bb,
-            int tagLen, int blockSize,
-            ProtocolVersion protocolVersion) throws BadPaddingException {
+    privbte stbtic int removePbdding(ByteBuffer bb,
+            int tbgLen, int blockSize,
+            ProtocolVersion protocolVersion) throws BbdPbddingException {
 
-        int len = bb.remaining();
+        int len = bb.rembining();
         int offset = bb.position();
 
-        // last byte is length byte (i.e. actual padding length - 1)
-        int padOffset = offset + len - 1;
-        int padLen = bb.get(padOffset) & 0xFF;
+        // lbst byte is length byte (i.e. bctubl pbdding length - 1)
+        int pbdOffset = offset + len - 1;
+        int pbdLen = bb.get(pbdOffset) & 0xFF;
 
-        int newLen = len - (padLen + 1);
-        if ((newLen - tagLen) < 0) {
-            // If the buffer is not long enough to contain the padding plus
-            // a MAC tag, do a dummy constant-time padding check.
+        int newLen = len - (pbdLen + 1);
+        if ((newLen - tbgLen) < 0) {
+            // If the buffer is not long enough to contbin the pbdding plus
+            // b MAC tbg, do b dummy constbnt-time pbdding check.
             //
-            // Note that it is a dummy check, so we won't care about what is
-            // the actual padding data.
-            checkPadding(bb.duplicate(), (byte)(padLen & 0xFF));
+            // Note thbt it is b dummy check, so we won't cbre bbout whbt is
+            // the bctubl pbdding dbtb.
+            checkPbdding(bb.duplicbte(), (byte)(pbdLen & 0xFF));
 
-            throw new BadPaddingException("Invalid Padding length: " + padLen);
+            throw new BbdPbddingException("Invblid Pbdding length: " + pbdLen);
         }
 
-        // The padding data should be filled with the padding length value.
-        int[] results = checkPadding(
-                (ByteBuffer)bb.duplicate().position(offset + newLen),
-                (byte)(padLen & 0xFF));
+        // The pbdding dbtb should be filled with the pbdding length vblue.
+        int[] results = checkPbdding(
+                (ByteBuffer)bb.duplicbte().position(offset + newLen),
+                (byte)(pbdLen & 0xFF));
         if (protocolVersion.v >= ProtocolVersion.TLS10.v) {
-            if (results[0] != 0) {          // padding data has invalid bytes
-                throw new BadPaddingException("Invalid TLS padding data");
+            if (results[0] != 0) {          // pbdding dbtb hbs invblid bytes
+                throw new BbdPbddingException("Invblid TLS pbdding dbtb");
             }
         } else { // SSLv3
             // SSLv3 requires 0 <= length byte < block size
-            // some implementations do 1 <= length byte <= block size,
-            // so accept that as well
-            // v3 does not require any particular value for the other bytes
-            if (padLen > blockSize) {
-                throw new BadPaddingException("Invalid SSLv3 padding");
+            // some implementbtions do 1 <= length byte <= block size,
+            // so bccept thbt bs well
+            // v3 does not require bny pbrticulbr vblue for the other bytes
+            if (pbdLen > blockSize) {
+                throw new BbdPbddingException("Invblid SSLv3 pbdding");
             }
         }
 
         /*
-         * Reset buffer limit to remove padding.
+         * Reset buffer limit to remove pbdding.
          */
         bb.position(offset + newLen);
         bb.limit(offset + newLen);
@@ -816,71 +816,71 @@ final class CipherBox {
     }
 
     /*
-     * Dispose of any intermediate state in the underlying cipher.
-     * For PKCS11 ciphers, this will release any attached sessions, and
-     * thus make finalization faster.
+     * Dispose of bny intermedibte stbte in the underlying cipher.
+     * For PKCS11 ciphers, this will relebse bny bttbched sessions, bnd
+     * thus mbke finblizbtion fbster.
      */
     void dispose() {
         try {
             if (cipher != null) {
-                // ignore return value.
-                cipher.doFinal();
+                // ignore return vblue.
+                cipher.doFinbl();
             }
-        } catch (Exception e) {
-            // swallow all types of exceptions.
+        } cbtch (Exception e) {
+            // swbllow bll types of exceptions.
         }
     }
 
     /*
      * Does the cipher use CBC mode?
      *
-     * @return true if the cipher use CBC mode, false otherwise.
+     * @return true if the cipher use CBC mode, fblse otherwise.
      */
-    boolean isCBCMode() {
+    boolebn isCBCMode() {
         return cipherType == BLOCK_CIPHER;
     }
 
     /*
      * Does the cipher use AEAD mode?
      *
-     * @return true if the cipher use AEAD mode, false otherwise.
+     * @return true if the cipher use AEAD mode, fblse otherwise.
      */
-    boolean isAEADMode() {
+    boolebn isAEADMode() {
         return cipherType == AEAD_CIPHER;
     }
 
     /*
      * Is the cipher null?
      *
-     * @return true if the cipher is null, false otherwise.
+     * @return true if the cipher is null, fblse otherwise.
      */
-    boolean isNullCipher() {
+    boolebn isNullCipher() {
         return cipher == null;
     }
 
     /*
      * Gets the explicit nonce/IV size of the cipher.
      *
-     * The returned value is the SecurityParameters.record_iv_length in
-     * RFC 4346/5246.  It is the size of explicit IV for CBC mode, and the
+     * The returned vblue is the SecurityPbrbmeters.record_iv_length in
+     * RFC 4346/5246.  It is the size of explicit IV for CBC mode, bnd the
      * size of explicit nonce for AEAD mode.
      *
      * @return the explicit nonce size of the cipher.
      */
     int getExplicitNonceSize() {
         switch (cipherType) {
-            case BLOCK_CIPHER:
+            cbse BLOCK_CIPHER:
                 // For block ciphers, the explicit IV length is of length
-                // SecurityParameters.record_iv_length, which is equal to
-                // the SecurityParameters.block_size.
+                // SecurityPbrbmeters.record_iv_length, which is equbl to
+                // the SecurityPbrbmeters.block_size.
                 if (protocolVersion.v >= ProtocolVersion.TLS11.v) {
                     return cipher.getBlockSize();
                 }
-                break;
-            case AEAD_CIPHER:
+                brebk;
+            cbse AEAD_CIPHER:
                 return recordIvSize;
-                        // It is also the length of sequence number, which is
-                        // used as the nonce_explicit for AEAD cipher suites.
+                        // It is blso the length of sequence number, which is
+                        // used bs the nonce_explicit for AEAD cipher suites.
         }
 
         return 0;
@@ -888,69 +888,69 @@ final class CipherBox {
 
     /*
      * Applies the explicit nonce/IV to this cipher. This method is used to
-     * decrypt an SSL/TLS input record.
+     * decrypt bn SSL/TLS input record.
      *
-     * The returned value is the SecurityParameters.record_iv_length in
-     * RFC 4346/5246.  It is the size of explicit IV for CBC mode, and the
+     * The returned vblue is the SecurityPbrbmeters.record_iv_length in
+     * RFC 4346/5246.  It is the size of explicit IV for CBC mode, bnd the
      * size of explicit nonce for AEAD mode.
      *
-     * @param  authenticator the authenticator to get the additional
-     *         authentication data
-     * @param  contentType the content type of the input record
-     * @param  bb the byte buffer to get the explicit nonce from
+     * @pbrbm  buthenticbtor the buthenticbtor to get the bdditionbl
+     *         buthenticbtion dbtb
+     * @pbrbm  contentType the content type of the input record
+     * @pbrbm  bb the byte buffer to get the explicit nonce from
      *
      * @return the explicit nonce size of the cipher.
      */
-    int applyExplicitNonce(Authenticator authenticator, byte contentType,
-            ByteBuffer bb) throws BadPaddingException {
+    int bpplyExplicitNonce(Authenticbtor buthenticbtor, byte contentType,
+            ByteBuffer bb) throws BbdPbddingException {
         switch (cipherType) {
-            case BLOCK_CIPHER:
-                // sanity check length of the ciphertext
-                int tagLen = (authenticator instanceof MAC) ?
-                                    ((MAC)authenticator).MAClen() : 0;
-                if (tagLen != 0) {
-                    if (!sanityCheck(tagLen, bb.remaining())) {
-                        throw new BadPaddingException(
-                                "ciphertext sanity check failed");
+            cbse BLOCK_CIPHER:
+                // sbnity check length of the ciphertext
+                int tbgLen = (buthenticbtor instbnceof MAC) ?
+                                    ((MAC)buthenticbtor).MAClen() : 0;
+                if (tbgLen != 0) {
+                    if (!sbnityCheck(tbgLen, bb.rembining())) {
+                        throw new BbdPbddingException(
+                                "ciphertext sbnity check fbiled");
                     }
                 }
 
                 // For block ciphers, the explicit IV length is of length
-                // SecurityParameters.record_iv_length, which is equal to
-                // the SecurityParameters.block_size.
+                // SecurityPbrbmeters.record_iv_length, which is equbl to
+                // the SecurityPbrbmeters.block_size.
                 if (protocolVersion.v >= ProtocolVersion.TLS11.v) {
                     return cipher.getBlockSize();
                 }
-                break;
-            case AEAD_CIPHER:
-                if (bb.remaining() < (recordIvSize + tagSize)) {
-                    throw new BadPaddingException(
-                                        "invalid AEAD cipher fragment");
+                brebk;
+            cbse AEAD_CIPHER:
+                if (bb.rembining() < (recordIvSize + tbgSize)) {
+                    throw new BbdPbddingException(
+                                        "invblid AEAD cipher frbgment");
                 }
 
-                // initialize the AEAD cipher for the unique IV
-                byte[] iv = Arrays.copyOf(fixedIv,
+                // initiblize the AEAD cipher for the unique IV
+                byte[] iv = Arrbys.copyOf(fixedIv,
                                     fixedIv.length + recordIvSize);
                 bb.get(iv, fixedIv.length, recordIvSize);
                 bb.position(bb.position() - recordIvSize);
-                GCMParameterSpec spec = new GCMParameterSpec(tagSize * 8, iv);
+                GCMPbrbmeterSpec spec = new GCMPbrbmeterSpec(tbgSize * 8, iv);
                 try {
-                    cipher.init(mode, key, spec, random);
-                } catch (InvalidKeyException |
-                            InvalidAlgorithmParameterException ikae) {
-                    // unlikely to happen
+                    cipher.init(mode, key, spec, rbndom);
+                } cbtch (InvblidKeyException |
+                            InvblidAlgorithmPbrbmeterException ikbe) {
+                    // unlikely to hbppen
                     throw new RuntimeException(
-                                "invalid key or spec in GCM mode", ikae);
+                                "invblid key or spec in GCM mode", ikbe);
                 }
 
-                // update the additional authentication data
-                byte[] aad = authenticator.acquireAuthenticationBytes(
-                        contentType, bb.remaining() - recordIvSize - tagSize);
-                cipher.updateAAD(aad);
+                // updbte the bdditionbl buthenticbtion dbtb
+                byte[] bbd = buthenticbtor.bcquireAuthenticbtionBytes(
+                        contentType, bb.rembining() - recordIvSize - tbgSize);
+                cipher.updbteAAD(bbd);
 
                 return recordIvSize;
-                        // It is also the length of sequence number, which is
-                        // used as the nonce_explicit for AEAD cipher suites.
+                        // It is blso the length of sequence number, which is
+                        // used bs the nonce_explicit for AEAD cipher suites.
         }
 
        return 0;
@@ -958,156 +958,156 @@ final class CipherBox {
 
     /*
      * Applies the explicit nonce/IV to this cipher. This method is used to
-     * decrypt an SSL/TLS input record.
+     * decrypt bn SSL/TLS input record.
      *
-     * The returned value is the SecurityParameters.record_iv_length in
-     * RFC 4346/5246.  It is the size of explicit IV for CBC mode, and the
+     * The returned vblue is the SecurityPbrbmeters.record_iv_length in
+     * RFC 4346/5246.  It is the size of explicit IV for CBC mode, bnd the
      * size of explicit nonce for AEAD mode.
      *
-     * @param  authenticator the authenticator to get the additional
-     *         authentication data
-     * @param  contentType the content type of the input record
-     * @param  buf the byte array to get the explicit nonce from
-     * @param  offset the offset of the byte buffer
-     * @param  cipheredLength the ciphered fragment length of the output
+     * @pbrbm  buthenticbtor the buthenticbtor to get the bdditionbl
+     *         buthenticbtion dbtb
+     * @pbrbm  contentType the content type of the input record
+     * @pbrbm  buf the byte brrby to get the explicit nonce from
+     * @pbrbm  offset the offset of the byte buffer
+     * @pbrbm  cipheredLength the ciphered frbgment length of the output
      *         record, it is the TLSCiphertext.length in RFC 4346/5246.
      *
      * @return the explicit nonce size of the cipher.
      */
-    int applyExplicitNonce(Authenticator authenticator,
+    int bpplyExplicitNonce(Authenticbtor buthenticbtor,
             byte contentType, byte[] buf, int offset,
-            int cipheredLength) throws BadPaddingException {
+            int cipheredLength) throws BbdPbddingException {
 
-        ByteBuffer bb = ByteBuffer.wrap(buf, offset, cipheredLength);
+        ByteBuffer bb = ByteBuffer.wrbp(buf, offset, cipheredLength);
 
-        return applyExplicitNonce(authenticator, contentType, bb);
+        return bpplyExplicitNonce(buthenticbtor, contentType, bb);
     }
 
     /*
-     * Creates the explicit nonce/IV to this cipher. This method is used to
-     * encrypt an SSL/TLS output record.
+     * Crebtes the explicit nonce/IV to this cipher. This method is used to
+     * encrypt bn SSL/TLS output record.
      *
-     * The size of the returned array is the SecurityParameters.record_iv_length
-     * in RFC 4346/5246.  It is the size of explicit IV for CBC mode, and the
+     * The size of the returned brrby is the SecurityPbrbmeters.record_iv_length
+     * in RFC 4346/5246.  It is the size of explicit IV for CBC mode, bnd the
      * size of explicit nonce for AEAD mode.
      *
-     * @param  authenticator the authenticator to get the additional
-     *         authentication data
-     * @param  contentType the content type of the input record
-     * @param  fragmentLength the fragment length of the output record, it is
+     * @pbrbm  buthenticbtor the buthenticbtor to get the bdditionbl
+     *         buthenticbtion dbtb
+     * @pbrbm  contentType the content type of the input record
+     * @pbrbm  frbgmentLength the frbgment length of the output record, it is
      *         the TLSCompressed.length in RFC 4346/5246.
      *
      * @return the explicit nonce of the cipher.
      */
-    byte[] createExplicitNonce(Authenticator authenticator,
-            byte contentType, int fragmentLength) {
+    byte[] crebteExplicitNonce(Authenticbtor buthenticbtor,
+            byte contentType, int frbgmentLength) {
 
         byte[] nonce = new byte[0];
         switch (cipherType) {
-            case BLOCK_CIPHER:
+            cbse BLOCK_CIPHER:
                 if (protocolVersion.v >= ProtocolVersion.TLS11.v) {
                     // For block ciphers, the explicit IV length is of length
-                    // SecurityParameters.record_iv_length, which is equal to
-                    // the SecurityParameters.block_size.
+                    // SecurityPbrbmeters.record_iv_length, which is equbl to
+                    // the SecurityPbrbmeters.block_size.
                     //
-                    // Generate a random number as the explicit IV parameter.
+                    // Generbte b rbndom number bs the explicit IV pbrbmeter.
                     nonce = new byte[cipher.getBlockSize()];
-                    random.nextBytes(nonce);
+                    rbndom.nextBytes(nonce);
                 }
-                break;
-            case AEAD_CIPHER:
-                // To be unique and aware of overflow-wrap, sequence number
-                // is used as the nonce_explicit of AEAD cipher suites.
-                nonce = authenticator.sequenceNumber();
+                brebk;
+            cbse AEAD_CIPHER:
+                // To be unique bnd bwbre of overflow-wrbp, sequence number
+                // is used bs the nonce_explicit of AEAD cipher suites.
+                nonce = buthenticbtor.sequenceNumber();
 
-                // initialize the AEAD cipher for the unique IV
-                byte[] iv = Arrays.copyOf(fixedIv,
+                // initiblize the AEAD cipher for the unique IV
+                byte[] iv = Arrbys.copyOf(fixedIv,
                                             fixedIv.length + nonce.length);
-                System.arraycopy(nonce, 0, iv, fixedIv.length, nonce.length);
-                GCMParameterSpec spec = new GCMParameterSpec(tagSize * 8, iv);
+                System.brrbycopy(nonce, 0, iv, fixedIv.length, nonce.length);
+                GCMPbrbmeterSpec spec = new GCMPbrbmeterSpec(tbgSize * 8, iv);
                 try {
-                    cipher.init(mode, key, spec, random);
-                } catch (InvalidKeyException |
-                            InvalidAlgorithmParameterException ikae) {
-                    // unlikely to happen
+                    cipher.init(mode, key, spec, rbndom);
+                } cbtch (InvblidKeyException |
+                            InvblidAlgorithmPbrbmeterException ikbe) {
+                    // unlikely to hbppen
                     throw new RuntimeException(
-                                "invalid key or spec in GCM mode", ikae);
+                                "invblid key or spec in GCM mode", ikbe);
                 }
 
-                // update the additional authentication data
-                byte[] aad = authenticator.acquireAuthenticationBytes(
-                                                contentType, fragmentLength);
-                cipher.updateAAD(aad);
-                break;
+                // updbte the bdditionbl buthenticbtion dbtb
+                byte[] bbd = buthenticbtor.bcquireAuthenticbtionBytes(
+                                                contentType, frbgmentLength);
+                cipher.updbteAAD(bbd);
+                brebk;
         }
 
         return nonce;
     }
 
     /*
-     * Is this cipher available?
+     * Is this cipher bvbilbble?
      *
-     * This method can only be called by CipherSuite.BulkCipher.isAvailable()
-     * to test the availability of a cipher suites.  Please DON'T use it in
-     * other places, otherwise, the behavior may be unexpected because we may
-     * initialize AEAD cipher improperly in the method.
+     * This method cbn only be cblled by CipherSuite.BulkCipher.isAvbilbble()
+     * to test the bvbilbbility of b cipher suites.  Plebse DON'T use it in
+     * other plbces, otherwise, the behbvior mby be unexpected becbuse we mby
+     * initiblize AEAD cipher improperly in the method.
      */
-    Boolean isAvailable() {
-        // We won't know whether a cipher for a particular key size is
-        // available until the cipher is successfully initialized.
+    Boolebn isAvbilbble() {
+        // We won't know whether b cipher for b pbrticulbr key size is
+        // bvbilbble until the cipher is successfully initiblized.
         //
-        // We do not initialize AEAD cipher in the constructor.  Need to
-        // initialize the cipher to ensure that the AEAD mode for a
-        // particular key size is supported.
+        // We do not initiblize AEAD cipher in the constructor.  Need to
+        // initiblize the cipher to ensure thbt the AEAD mode for b
+        // pbrticulbr key size is supported.
         if (cipherType == AEAD_CIPHER) {
             try {
-                Authenticator authenticator =
-                    new Authenticator(protocolVersion);
-                byte[] nonce = authenticator.sequenceNumber();
-                byte[] iv = Arrays.copyOf(fixedIv,
+                Authenticbtor buthenticbtor =
+                    new Authenticbtor(protocolVersion);
+                byte[] nonce = buthenticbtor.sequenceNumber();
+                byte[] iv = Arrbys.copyOf(fixedIv,
                                             fixedIv.length + nonce.length);
-                System.arraycopy(nonce, 0, iv, fixedIv.length, nonce.length);
-                GCMParameterSpec spec = new GCMParameterSpec(tagSize * 8, iv);
+                System.brrbycopy(nonce, 0, iv, fixedIv.length, nonce.length);
+                GCMPbrbmeterSpec spec = new GCMPbrbmeterSpec(tbgSize * 8, iv);
 
-                cipher.init(mode, key, spec, random);
-            } catch (Exception e) {
-                return Boolean.FALSE;
+                cipher.init(mode, key, spec, rbndom);
+            } cbtch (Exception e) {
+                return Boolebn.FALSE;
             }
-        }   // Otherwise, we have initialized the cipher in the constructor.
+        }   // Otherwise, we hbve initiblized the cipher in the constructor.
 
-        return Boolean.TRUE;
+        return Boolebn.TRUE;
     }
 
     /**
-     * Sanity check the length of a fragment before decryption.
+     * Sbnity check the length of b frbgment before decryption.
      *
-     * In CBC mode, check that the fragment length is one or multiple times
-     * of the block size of the cipher suite, and is at least one (one is the
-     * smallest size of padding in CBC mode) bigger than the tag size of the
-     * MAC algorithm except the explicit IV size for TLS 1.1 or later.
+     * In CBC mode, check thbt the frbgment length is one or multiple times
+     * of the block size of the cipher suite, bnd is bt lebst one (one is the
+     * smbllest size of pbdding in CBC mode) bigger thbn the tbg size of the
+     * MAC blgorithm except the explicit IV size for TLS 1.1 or lbter.
      *
-     * In non-CBC mode, check that the fragment length is not less than the
-     * tag size of the MAC algorithm.
+     * In non-CBC mode, check thbt the frbgment length is not less thbn the
+     * tbg size of the MAC blgorithm.
      *
-     * @return true if the length of a fragment matches above requirements
+     * @return true if the length of b frbgment mbtches bbove requirements
      */
-    private boolean sanityCheck(int tagLen, int fragmentLen) {
+    privbte boolebn sbnityCheck(int tbgLen, int frbgmentLen) {
         if (!isCBCMode()) {
-            return fragmentLen >= tagLen;
+            return frbgmentLen >= tbgLen;
         }
 
         int blockSize = cipher.getBlockSize();
-        if ((fragmentLen % blockSize) == 0) {
-            int minimal = tagLen + 1;
-            minimal = (minimal >= blockSize) ? minimal : blockSize;
+        if ((frbgmentLen % blockSize) == 0) {
+            int minimbl = tbgLen + 1;
+            minimbl = (minimbl >= blockSize) ? minimbl : blockSize;
             if (protocolVersion.v >= ProtocolVersion.TLS11.v) {
-                minimal += blockSize;   // plus the size of the explicit IV
+                minimbl += blockSize;   // plus the size of the explicit IV
             }
 
-            return (fragmentLen >= minimal);
+            return (frbgmentLen >= minimbl);
         }
 
-        return false;
+        return fblse;
     }
 
 }

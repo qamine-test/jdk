@@ -1,104 +1,104 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.lwawt.macosx;
+pbckbge sun.lwbwt.mbcosx;
 
-import java.awt.*;
-import java.awt.dnd.*;
+import jbvb.bwt.*;
+import jbvb.bwt.dnd.*;
 
-import sun.lwawt.*;
+import sun.lwbwt.*;
 
-public class CPrinterDialogPeer extends LWWindowPeer {
-    static {
-        // AWT has to be initialized for the native code to function correctly.
-        Toolkit.getDefaultToolkit();
+public clbss CPrinterDiblogPeer extends LWWindowPeer {
+    stbtic {
+        // AWT hbs to be initiblized for the nbtive code to function correctly.
+        Toolkit.getDefbultToolkit();
     }
 
-    Component fTarget;
+    Component fTbrget;
 
-    public CPrinterDialogPeer(CPrinterDialog target, PlatformComponent platformComponent,
-                              PlatformWindow platformWindow)
+    public CPrinterDiblogPeer(CPrinterDiblog tbrget, PlbtformComponent plbtformComponent,
+                              PlbtformWindow plbtformWindow)
     {
-        super(target, platformComponent, platformWindow, LWWindowPeer.PeerType.DIALOG);
-        //super(target);
-        fTarget = target;
-        super.initialize();
+        super(tbrget, plbtformComponent, plbtformWindow, LWWindowPeer.PeerType.DIALOG);
+        //super(tbrget);
+        fTbrget = tbrget;
+        super.initiblize();
     }
 
     protected void disposeImpl() {
-        LWCToolkit.targetDisposedPeer(fTarget, this);
+        LWCToolkit.tbrgetDisposedPeer(fTbrget, this);
     }
 
-    public void setVisible(boolean visible) {
+    public void setVisible(boolebn visible) {
         if (visible) {
-            new Thread(new Runnable() {
+            new Threbd(new Runnbble() {
                 public void run() {
-                    CPrinterDialog printerDialog = (CPrinterDialog)fTarget;
-                    printerDialog.setRetVal(printerDialog.showDialog());
-                    printerDialog.setVisible(false);
+                    CPrinterDiblog printerDiblog = (CPrinterDiblog)fTbrget;
+                    printerDiblog.setRetVbl(printerDiblog.showDiblog());
+                    printerDiblog.setVisible(fblse);
                 }
-            }).start();
+            }).stbrt();
         }
     }
 
     // unused methods.
     public void toFront() {}
-    public void toBack() {}
-    public void setResizable(boolean resizable) {}
-    public void setEnabled(boolean enable) {}
+    public void toBbck() {}
+    public void setResizbble(boolebn resizbble) {}
+    public void setEnbbled(boolebn enbble) {}
     public void setBounds(int x, int y, int width, int height) {}
-    public boolean handleEvent(Event e) { return false; }
+    public boolebn hbndleEvent(Event e) { return fblse; }
     public void setForeground(Color c) {}
-    public void setBackground(Color c) {}
+    public void setBbckground(Color c) {}
     public void setFont(Font f) {}
-    public boolean requestFocus(boolean temporary, boolean focusedWindowChangeAllowed) {
-        return false;
+    public boolebn requestFocus(boolebn temporbry, boolebn focusedWindowChbngeAllowed) {
+        return fblse;
     }
-    void start() {}
-    void invalidate(int x, int y, int width, int height) {}
-    public void addDropTarget(DropTarget dt) {}
-    public void removeDropTarget(DropTarget dt) {}
+    void stbrt() {}
+    void invblidbte(int x, int y, int width, int height) {}
+    public void bddDropTbrget(DropTbrget dt) {}
+    public void removeDropTbrget(DropTbrget dt) {}
 
     // 1.5 peer method
-    public boolean isRestackSupported() {
-        return false;
+    public boolebn isRestbckSupported() {
+        return fblse;
     }
 
     // 1.6 peer method
-    public void updateAlwaysOnTopState() {
-        // no-op, since we just show the native print dialog
+    public void updbteAlwbysOnTopStbte() {
+        // no-op, since we just show the nbtive print diblog
     }
 
     // 1.6 peer method
-    public void updateMinimumSize() {}
+    public void updbteMinimumSize() {}
 
     // 1.6 peer method
-    public void setModalBlocked(Dialog blocker, boolean blocked) {
-        // I don't think we care since this is a native dialog
+    public void setModblBlocked(Diblog blocker, boolebn blocked) {
+        // I don't think we cbre since this is b nbtive diblog
     }
 
     // 1.6 peer method
-    public void updateFocusableWindowState() {}
+    public void updbteFocusbbleWindowStbte() {}
 }

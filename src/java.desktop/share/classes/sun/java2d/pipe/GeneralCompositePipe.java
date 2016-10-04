@@ -1,137 +1,137 @@
 /*
- * Copyright (c) 1997, 2002, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2002, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.java2d.pipe;
+pbckbge sun.jbvb2d.pipe;
 
-import java.awt.AlphaComposite;
-import java.awt.CompositeContext;
-import java.awt.PaintContext;
-import java.awt.Rectangle;
-import java.awt.Shape;
-import java.awt.RenderingHints;
-import java.awt.image.ColorModel;
-import java.awt.image.BufferedImage;
-import java.awt.image.Raster;
-import java.awt.image.WritableRaster;
-import sun.awt.image.BufImgSurfaceData;
-import sun.java2d.SunGraphics2D;
-import sun.java2d.SurfaceData;
-import sun.java2d.loops.Blit;
-import sun.java2d.loops.MaskBlit;
-import sun.java2d.loops.CompositeType;
+import jbvb.bwt.AlphbComposite;
+import jbvb.bwt.CompositeContext;
+import jbvb.bwt.PbintContext;
+import jbvb.bwt.Rectbngle;
+import jbvb.bwt.Shbpe;
+import jbvb.bwt.RenderingHints;
+import jbvb.bwt.imbge.ColorModel;
+import jbvb.bwt.imbge.BufferedImbge;
+import jbvb.bwt.imbge.Rbster;
+import jbvb.bwt.imbge.WritbbleRbster;
+import sun.bwt.imbge.BufImgSurfbceDbtb;
+import sun.jbvb2d.SunGrbphics2D;
+import sun.jbvb2d.SurfbceDbtb;
+import sun.jbvb2d.loops.Blit;
+import sun.jbvb2d.loops.MbskBlit;
+import sun.jbvb2d.loops.CompositeType;
 
-public class GeneralCompositePipe implements CompositePipe {
-    class TileContext {
-        SunGraphics2D sunG2D;
-        PaintContext paintCtxt;
+public clbss GenerblCompositePipe implements CompositePipe {
+    clbss TileContext {
+        SunGrbphics2D sunG2D;
+        PbintContext pbintCtxt;
         CompositeContext compCtxt;
         ColorModel compModel;
-        Object pipeState;
+        Object pipeStbte;
 
-        public TileContext(SunGraphics2D sg, PaintContext pCtx,
+        public TileContext(SunGrbphics2D sg, PbintContext pCtx,
                            CompositeContext cCtx, ColorModel cModel) {
             sunG2D = sg;
-            paintCtxt = pCtx;
+            pbintCtxt = pCtx;
             compCtxt = cCtx;
             compModel = cModel;
         }
     }
 
-    public Object startSequence(SunGraphics2D sg, Shape s, Rectangle devR,
-                                int[] abox) {
+    public Object stbrtSequence(SunGrbphics2D sg, Shbpe s, Rectbngle devR,
+                                int[] bbox) {
         RenderingHints hints = sg.getRenderingHints();
         ColorModel model = sg.getDeviceColorModel();
-        PaintContext paintContext =
-            sg.paint.createContext(model, devR, s.getBounds2D(),
-                                   sg.cloneTransform(),
+        PbintContext pbintContext =
+            sg.pbint.crebteContext(model, devR, s.getBounds2D(),
+                                   sg.cloneTrbnsform(),
                                    hints);
         CompositeContext compositeContext =
-            sg.composite.createContext(paintContext.getColorModel(), model,
+            sg.composite.crebteContext(pbintContext.getColorModel(), model,
                                        hints);
-        return new TileContext(sg, paintContext, compositeContext, model);
+        return new TileContext(sg, pbintContext, compositeContext, model);
     }
 
-    public boolean needTile(Object ctx, int x, int y, int w, int h) {
+    public boolebn needTile(Object ctx, int x, int y, int w, int h) {
         return true;
     }
 
     /**
-    * GeneralCompositePipe.renderPathTile works with custom composite operator
-    * provided by an application
+    * GenerblCompositePipe.renderPbthTile works with custom composite operbtor
+    * provided by bn bpplicbtion
     */
-    public void renderPathTile(Object ctx,
-                               byte[] atile, int offset, int tilesize,
+    public void renderPbthTile(Object ctx,
+                               byte[] btile, int offset, int tilesize,
                                int x, int y, int w, int h) {
         TileContext context = (TileContext) ctx;
-        PaintContext paintCtxt = context.paintCtxt;
+        PbintContext pbintCtxt = context.pbintCtxt;
         CompositeContext compCtxt = context.compCtxt;
-        SunGraphics2D sg = context.sunG2D;
+        SunGrbphics2D sg = context.sunG2D;
 
-        Raster srcRaster = paintCtxt.getRaster(x, y, w, h);
-        ColorModel paintModel = paintCtxt.getColorModel();
+        Rbster srcRbster = pbintCtxt.getRbster(x, y, w, h);
+        ColorModel pbintModel = pbintCtxt.getColorModel();
 
-        Raster dstRaster;
-        Raster dstIn;
-        WritableRaster dstOut;
+        Rbster dstRbster;
+        Rbster dstIn;
+        WritbbleRbster dstOut;
 
-        SurfaceData sd = sg.getSurfaceData();
-        dstRaster = sd.getRaster(x, y, w, h);
-        if (dstRaster instanceof WritableRaster && atile == null) {
-            dstOut = (WritableRaster) dstRaster;
-            dstOut = dstOut.createWritableChild(x, y, w, h, 0, 0, null);
+        SurfbceDbtb sd = sg.getSurfbceDbtb();
+        dstRbster = sd.getRbster(x, y, w, h);
+        if (dstRbster instbnceof WritbbleRbster && btile == null) {
+            dstOut = (WritbbleRbster) dstRbster;
+            dstOut = dstOut.crebteWritbbleChild(x, y, w, h, 0, 0, null);
             dstIn = dstOut;
         } else {
-            dstIn = dstRaster.createChild(x, y, w, h, 0, 0, null);
-            dstOut = dstIn.createCompatibleWritableRaster();
+            dstIn = dstRbster.crebteChild(x, y, w, h, 0, 0, null);
+            dstOut = dstIn.crebteCompbtibleWritbbleRbster();
         }
 
-        compCtxt.compose(srcRaster, dstIn, dstOut);
+        compCtxt.compose(srcRbster, dstIn, dstOut);
 
-        if (dstRaster != dstOut && dstOut.getParent() != dstRaster) {
-            if (dstRaster instanceof WritableRaster && atile == null) {
-                ((WritableRaster) dstRaster).setDataElements(x, y, dstOut);
+        if (dstRbster != dstOut && dstOut.getPbrent() != dstRbster) {
+            if (dstRbster instbnceof WritbbleRbster && btile == null) {
+                ((WritbbleRbster) dstRbster).setDbtbElements(x, y, dstOut);
             } else {
                 ColorModel cm = sg.getDeviceColorModel();
-                BufferedImage resImg =
-                    new BufferedImage(cm, dstOut,
-                                      cm.isAlphaPremultiplied(),
+                BufferedImbge resImg =
+                    new BufferedImbge(cm, dstOut,
+                                      cm.isAlphbPremultiplied(),
                                       null);
-                SurfaceData resData = BufImgSurfaceData.createData(resImg);
-                if (atile == null) {
-                    Blit blit = Blit.getFromCache(resData.getSurfaceType(),
-                                                  CompositeType.SrcNoEa,
-                                                  sd.getSurfaceType());
-                    blit.Blit(resData, sd, AlphaComposite.Src, null,
+                SurfbceDbtb resDbtb = BufImgSurfbceDbtb.crebteDbtb(resImg);
+                if (btile == null) {
+                    Blit blit = Blit.getFromCbche(resDbtb.getSurfbceType(),
+                                                  CompositeType.SrcNoEb,
+                                                  sd.getSurfbceType());
+                    blit.Blit(resDbtb, sd, AlphbComposite.Src, null,
                               0, 0, x, y, w, h);
                 } else {
-                    MaskBlit blit = MaskBlit.getFromCache(resData.getSurfaceType(),
-                                                          CompositeType.SrcNoEa,
-                                                          sd.getSurfaceType());
-                    blit.MaskBlit(resData, sd, AlphaComposite.Src, null,
+                    MbskBlit blit = MbskBlit.getFromCbche(resDbtb.getSurfbceType(),
+                                                          CompositeType.SrcNoEb,
+                                                          sd.getSurfbceType());
+                    blit.MbskBlit(resDbtb, sd, AlphbComposite.Src, null,
                                   0, 0, x, y, w, h,
-                                  atile, offset, tilesize);
+                                  btile, offset, tilesize);
                 }
             }
         }
@@ -143,8 +143,8 @@ public class GeneralCompositePipe implements CompositePipe {
 
     public void endSequence(Object ctx) {
         TileContext context = (TileContext) ctx;
-        if (context.paintCtxt != null) {
-            context.paintCtxt.dispose();
+        if (context.pbintCtxt != null) {
+            context.pbintCtxt.dispose();
         }
         if (context.compCtxt != null) {
             context.compCtxt.dispose();

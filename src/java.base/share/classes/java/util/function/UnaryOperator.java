@@ -1,52 +1,52 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.util.function;
+pbckbge jbvb.util.function;
 
 /**
- * Represents an operation on a single operand that produces a result of the
- * same type as its operand.  This is a specialization of {@code Function} for
- * the case where the operand and result are of the same type.
+ * Represents bn operbtion on b single operbnd thbt produces b result of the
+ * sbme type bs its operbnd.  This is b speciblizbtion of {@code Function} for
+ * the cbse where the operbnd bnd result bre of the sbme type.
  *
- * <p>This is a <a href="package-summary.html">functional interface</a>
- * whose functional method is {@link #apply(Object)}.
+ * <p>This is b <b href="pbckbge-summbry.html">functionbl interfbce</b>
+ * whose functionbl method is {@link #bpply(Object)}.
  *
- * @param <T> the type of the operand and result of the operator
+ * @pbrbm <T> the type of the operbnd bnd result of the operbtor
  *
  * @see Function
  * @since 1.8
  */
-@FunctionalInterface
-public interface UnaryOperator<T> extends Function<T, T> {
+@FunctionblInterfbce
+public interfbce UnbryOperbtor<T> extends Function<T, T> {
 
     /**
-     * Returns a unary operator that always returns its input argument.
+     * Returns b unbry operbtor thbt blwbys returns its input brgument.
      *
-     * @param <T> the type of the input and output of the operator
-     * @return a unary operator that always returns its input argument
+     * @pbrbm <T> the type of the input bnd output of the operbtor
+     * @return b unbry operbtor thbt blwbys returns its input brgument
      */
-    static <T> UnaryOperator<T> identity() {
+    stbtic <T> UnbryOperbtor<T> identity() {
         return t -> t;
     }
 }

@@ -1,108 +1,108 @@
 /*
- * Copyright (c) 2000, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.jgss.spi;
+pbckbge sun.security.jgss.spi;
 
 import org.ietf.jgss.*;
-import java.security.Provider;
+import jbvb.security.Provider;
 
 /**
- * This interface is implemented by a mechanism specific credential
- * element. A GSSCredential is conceptually a container class of several
- * credential elements from different mechanisms.
+ * This interfbce is implemented by b mechbnism specific credentibl
+ * element. A GSSCredentibl is conceptublly b contbiner clbss of severbl
+ * credentibl elements from different mechbnisms.
  *
- * @author Mayank Upadhyay
+ * @buthor Mbybnk Upbdhyby
  */
-public interface GSSCredentialSpi {
+public interfbce GSSCredentiblSpi {
 
     public Provider getProvider();
 
     /**
-     * Called to invalidate this credential element and release
-     * any system recourses and cryptographic information owned
-     * by the credential.
+     * Cblled to invblidbte this credentibl element bnd relebse
+     * bny system recourses bnd cryptogrbphic informbtion owned
+     * by the credentibl.
      *
-     * @exception GSSException with major codes NO_CRED and FAILURE
+     * @exception GSSException with mbjor codes NO_CRED bnd FAILURE
      */
     public void dispose() throws GSSException;
 
     /**
-     * Returns the principal name for this credential. The name
-     * is in mechanism specific format.
+     * Returns the principbl nbme for this credentibl. The nbme
+     * is in mechbnism specific formbt.
      *
-     * @return GSSNameSpi representing principal name of this credential
-     * @exception GSSException may be thrown
+     * @return GSSNbmeSpi representing principbl nbme of this credentibl
+     * @exception GSSException mby be thrown
      */
-    public GSSNameSpi getName() throws GSSException;
+    public GSSNbmeSpi getNbme() throws GSSException;
 
     /**
-     * Returns the init lifetime remaining.
+     * Returns the init lifetime rembining.
      *
-     * @return the init lifetime remaining in seconds
-     * @exception GSSException may be thrown
+     * @return the init lifetime rembining in seconds
+     * @exception GSSException mby be thrown
      */
     public int getInitLifetime() throws GSSException;
 
 
     /**
-     * Returns the accept lifetime remaining.
+     * Returns the bccept lifetime rembining.
      *
-     * @return the accept lifetime remaining in seconds
-     * @exception GSSException may be thrown
+     * @return the bccept lifetime rembining in seconds
+     * @exception GSSException mby be thrown
      */
     public int getAcceptLifetime() throws GSSException;
 
     /**
-     * Determines if this credential element can be used by a context
-     * initiator.
-     * @return true if it can be used for initiating contexts
+     * Determines if this credentibl element cbn be used by b context
+     * initibtor.
+     * @return true if it cbn be used for initibting contexts
      */
-    public boolean isInitiatorCredential() throws GSSException;
+    public boolebn isInitibtorCredentibl() throws GSSException;
 
     /**
-     * Determines if this credential element can be used by a context
-     * acceptor.
-     * @return true if it can be used for accepting contexts
+     * Determines if this credentibl element cbn be used by b context
+     * bcceptor.
+     * @return true if it cbn be used for bccepting contexts
      */
-    public boolean isAcceptorCredential() throws GSSException;
+    public boolebn isAcceptorCredentibl() throws GSSException;
 
     /**
-     * Returns the oid representing the underlying credential
-     * mechanism oid.
+     * Returns the oid representing the underlying credentibl
+     * mechbnism oid.
      *
-     * @return the Oid for this credential mechanism
-     * @exception GSSException may be thrown
+     * @return the Oid for this credentibl mechbnism
+     * @exception GSSException mby be thrown
      */
-    public Oid getMechanism();
+    public Oid getMechbnism();
 
     /**
-     * Impersonates another client.
+     * Impersonbtes bnother client.
      *
-     * @param name the client to impersonate
-     * @return the new credential
-     * @exception GSSException may be thrown
+     * @pbrbm nbme the client to impersonbte
+     * @return the new credentibl
+     * @exception GSSException mby be thrown
      */
-    public GSSCredentialSpi impersonate(GSSNameSpi name) throws GSSException;
+    public GSSCredentiblSpi impersonbte(GSSNbmeSpi nbme) throws GSSException;
 }

@@ -1,123 +1,123 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.crypto;
+pbckbge jbvbx.crypto;
 
-import java.io.*;
+import jbvb.io.*;
 
 /**
- * A CipherOutputStream is composed of an OutputStream and a Cipher so
- * that write() methods first process the data before writing them out
- * to the underlying OutputStream.  The cipher must be fully
- * initialized before being used by a CipherOutputStream.
+ * A CipherOutputStrebm is composed of bn OutputStrebm bnd b Cipher so
+ * thbt write() methods first process the dbtb before writing them out
+ * to the underlying OutputStrebm.  The cipher must be fully
+ * initiblized before being used by b CipherOutputStrebm.
  *
- * <p> For example, if the cipher is initialized for encryption, the
- * CipherOutputStream will attempt to encrypt data before writing out the
- * encrypted data.
+ * <p> For exbmple, if the cipher is initiblized for encryption, the
+ * CipherOutputStrebm will bttempt to encrypt dbtb before writing out the
+ * encrypted dbtb.
  *
- * <p> This class adheres strictly to the semantics, especially the
- * failure semantics, of its ancestor classes
- * java.io.OutputStream and java.io.FilterOutputStream.  This class
- * has exactly those methods specified in its ancestor classes, and
- * overrides them all.  Moreover, this class catches all exceptions
- * that are not thrown by its ancestor classes.
+ * <p> This clbss bdheres strictly to the sembntics, especiblly the
+ * fbilure sembntics, of its bncestor clbsses
+ * jbvb.io.OutputStrebm bnd jbvb.io.FilterOutputStrebm.  This clbss
+ * hbs exbctly those methods specified in its bncestor clbsses, bnd
+ * overrides them bll.  Moreover, this clbss cbtches bll exceptions
+ * thbt bre not thrown by its bncestor clbsses.
  *
- * <p> It is crucial for a programmer using this class not to use
- * methods that are not defined or overriden in this class (such as a
- * new method or constructor that is later added to one of the super
- * classes), because the design and implementation of those methods
- * are unlikely to have considered security impact with regard to
- * CipherOutputStream.
+ * <p> It is crucibl for b progrbmmer using this clbss not to use
+ * methods thbt bre not defined or overriden in this clbss (such bs b
+ * new method or constructor thbt is lbter bdded to one of the super
+ * clbsses), becbuse the design bnd implementbtion of those methods
+ * bre unlikely to hbve considered security impbct with regbrd to
+ * CipherOutputStrebm.
  *
- * @author  Li Gong
- * @see     java.io.OutputStream
- * @see     java.io.FilterOutputStream
- * @see     javax.crypto.Cipher
- * @see     javax.crypto.CipherInputStream
+ * @buthor  Li Gong
+ * @see     jbvb.io.OutputStrebm
+ * @see     jbvb.io.FilterOutputStrebm
+ * @see     jbvbx.crypto.Cipher
+ * @see     jbvbx.crypto.CipherInputStrebm
  *
  * @since 1.4
  */
 
-public class CipherOutputStream extends FilterOutputStream {
+public clbss CipherOutputStrebm extends FilterOutputStrebm {
 
-    // the cipher engine to use to process stream data
-    private Cipher cipher;
+    // the cipher engine to use to process strebm dbtb
+    privbte Cipher cipher;
 
-    // the underlying output stream
-    private OutputStream output;
+    // the underlying output strebm
+    privbte OutputStrebm output;
 
-    /* the buffer holding one byte of incoming data */
-    private byte[] ibuffer = new byte[1];
+    /* the buffer holding one byte of incoming dbtb */
+    privbte byte[] ibuffer = new byte[1];
 
-    // the buffer holding data ready to be written out
-    private byte[] obuffer;
+    // the buffer holding dbtb rebdy to be written out
+    privbte byte[] obuffer;
 
-    // stream status
-    private boolean closed = false;
+    // strebm stbtus
+    privbte boolebn closed = fblse;
 
     /**
      *
-     * Constructs a CipherOutputStream from an OutputStream and a
+     * Constructs b CipherOutputStrebm from bn OutputStrebm bnd b
      * Cipher.
-     * <br>Note: if the specified output stream or cipher is
-     * null, a NullPointerException may be thrown later when
-     * they are used.
+     * <br>Note: if the specified output strebm or cipher is
+     * null, b NullPointerException mby be thrown lbter when
+     * they bre used.
      *
-     * @param os  the OutputStream object
-     * @param c   an initialized Cipher object
+     * @pbrbm os  the OutputStrebm object
+     * @pbrbm c   bn initiblized Cipher object
      */
-    public CipherOutputStream(OutputStream os, Cipher c) {
+    public CipherOutputStrebm(OutputStrebm os, Cipher c) {
         super(os);
         output = os;
         cipher = c;
     };
 
     /**
-     * Constructs a CipherOutputStream from an OutputStream without
-     * specifying a Cipher. This has the effect of constructing a
-     * CipherOutputStream using a NullCipher.
-     * <br>Note: if the specified output stream is null, a
-     * NullPointerException may be thrown later when it is used.
+     * Constructs b CipherOutputStrebm from bn OutputStrebm without
+     * specifying b Cipher. This hbs the effect of constructing b
+     * CipherOutputStrebm using b NullCipher.
+     * <br>Note: if the specified output strebm is null, b
+     * NullPointerException mby be thrown lbter when it is used.
      *
-     * @param os  the OutputStream object
+     * @pbrbm os  the OutputStrebm object
      */
-    protected CipherOutputStream(OutputStream os) {
+    protected CipherOutputStrebm(OutputStrebm os) {
         super(os);
         output = os;
         cipher = new NullCipher();
     }
 
     /**
-     * Writes the specified byte to this output stream.
+     * Writes the specified byte to this output strebm.
      *
-     * @param      b   the <code>byte</code>.
-     * @exception  IOException  if an I/O error occurs.
+     * @pbrbm      b   the <code>byte</code>.
+     * @exception  IOException  if bn I/O error occurs.
      */
     public void write(int b) throws IOException {
         ibuffer[0] = (byte) b;
-        obuffer = cipher.update(ibuffer, 0, 1);
+        obuffer = cipher.updbte(ibuffer, 0, 1);
         if (obuffer != null) {
             output.write(obuffer);
             obuffer = null;
@@ -125,34 +125,34 @@ public class CipherOutputStream extends FilterOutputStream {
     };
 
     /**
-     * Writes <code>b.length</code> bytes from the specified byte array
-     * to this output stream.
+     * Writes <code>b.length</code> bytes from the specified byte brrby
+     * to this output strebm.
      * <p>
      * The <code>write</code> method of
-     * <code>CipherOutputStream</code> calls the <code>write</code>
-     * method of three arguments with the three arguments
-     * <code>b</code>, <code>0</code>, and <code>b.length</code>.
+     * <code>CipherOutputStrebm</code> cblls the <code>write</code>
+     * method of three brguments with the three brguments
+     * <code>b</code>, <code>0</code>, bnd <code>b.length</code>.
      *
-     * @param      b   the data.
+     * @pbrbm      b   the dbtb.
      * @exception  NullPointerException if <code>b</code> is null.
-     * @exception  IOException  if an I/O error occurs.
-     * @see        javax.crypto.CipherOutputStream#write(byte[], int, int)
+     * @exception  IOException  if bn I/O error occurs.
+     * @see        jbvbx.crypto.CipherOutputStrebm#write(byte[], int, int)
      */
     public void write(byte b[]) throws IOException {
         write(b, 0, b.length);
     }
 
     /**
-     * Writes <code>len</code> bytes from the specified byte array
-     * starting at offset <code>off</code> to this output stream.
+     * Writes <code>len</code> bytes from the specified byte brrby
+     * stbrting bt offset <code>off</code> to this output strebm.
      *
-     * @param      b     the data.
-     * @param      off   the start offset in the data.
-     * @param      len   the number of bytes to write.
-     * @exception  IOException  if an I/O error occurs.
+     * @pbrbm      b     the dbtb.
+     * @pbrbm      off   the stbrt offset in the dbtb.
+     * @pbrbm      len   the number of bytes to write.
+     * @exception  IOException  if bn I/O error occurs.
      */
     public void write(byte b[], int off, int len) throws IOException {
-        obuffer = cipher.update(b, off, len);
+        obuffer = cipher.updbte(b, off, len);
         if (obuffer != null) {
             output.write(obuffer);
             obuffer = null;
@@ -160,17 +160,17 @@ public class CipherOutputStream extends FilterOutputStream {
     }
 
     /**
-     * Flushes this output stream by forcing any buffered output bytes
-     * that have already been processed by the encapsulated cipher object
+     * Flushes this output strebm by forcing bny buffered output bytes
+     * thbt hbve blrebdy been processed by the encbpsulbted cipher object
      * to be written out.
      *
-     * <p>Any bytes buffered by the encapsulated cipher
-     * and waiting to be processed by it will not be written out. For example,
-     * if the encapsulated cipher is a block cipher, and the total number of
-     * bytes written using one of the <code>write</code> methods is less than
+     * <p>Any bytes buffered by the encbpsulbted cipher
+     * bnd wbiting to be processed by it will not be written out. For exbmple,
+     * if the encbpsulbted cipher is b block cipher, bnd the totbl number of
+     * bytes written using one of the <code>write</code> methods is less thbn
      * the cipher's block size, no bytes will be written out.
      *
-     * @exception  IOException  if an I/O error occurs.
+     * @exception  IOException  if bn I/O error occurs.
      */
     public void flush() throws IOException {
         if (obuffer != null) {
@@ -181,19 +181,19 @@ public class CipherOutputStream extends FilterOutputStream {
     }
 
     /**
-     * Closes this output stream and releases any system resources
-     * associated with this stream.
+     * Closes this output strebm bnd relebses bny system resources
+     * bssocibted with this strebm.
      * <p>
-     * This method invokes the <code>doFinal</code> method of the encapsulated
-     * cipher object, which causes any bytes buffered by the encapsulated
-     * cipher to be processed. The result is written out by calling the
-     * <code>flush</code> method of this output stream.
+     * This method invokes the <code>doFinbl</code> method of the encbpsulbted
+     * cipher object, which cbuses bny bytes buffered by the encbpsulbted
+     * cipher to be processed. The result is written out by cblling the
+     * <code>flush</code> method of this output strebm.
      * <p>
-     * This method resets the encapsulated cipher object to its initial state
-     * and calls the <code>close</code> method of the underlying output
-     * stream.
+     * This method resets the encbpsulbted cipher object to its initibl stbte
+     * bnd cblls the <code>close</code> method of the underlying output
+     * strebm.
      *
-     * @exception  IOException  if an I/O error occurs.
+     * @exception  IOException  if bn I/O error occurs.
      */
     public void close() throws IOException {
         if (closed) {
@@ -202,13 +202,13 @@ public class CipherOutputStream extends FilterOutputStream {
 
         closed = true;
         try {
-            obuffer = cipher.doFinal();
-        } catch (IllegalBlockSizeException | BadPaddingException e) {
+            obuffer = cipher.doFinbl();
+        } cbtch (IllegblBlockSizeException | BbdPbddingException e) {
             obuffer = null;
         }
         try {
             flush();
-        } catch (IOException ignored) {}
+        } cbtch (IOException ignored) {}
         out.close();
     }
 }

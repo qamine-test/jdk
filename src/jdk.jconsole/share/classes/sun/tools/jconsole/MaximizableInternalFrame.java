@@ -1,313 +1,313 @@
 /*
- * Copyright (c) 2006, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.jconsole;
+pbckbge sun.tools.jconsole;
 
-import java.awt.*;
-import java.beans.*;
-import java.lang.reflect.*;
+import jbvb.bwt.*;
+import jbvb.bebns.*;
+import jbvb.lbng.reflect.*;
 
-import javax.swing.*;
-import javax.swing.border.*;
-import javax.swing.plaf.basic.*;
+import jbvbx.swing.*;
+import jbvbx.swing.border.*;
+import jbvbx.swing.plbf.bbsic.*;
 
 
 /**
- * This class is a temporary workaround for bug 4834918:
- * Win L&F: JInternalFrame should merge with JMenuBar when maximized.
- * It is not a general solution, but intended for use within the
- * limited scope of JConsole when running with XP/Vista styles.
+ * This clbss is b temporbry workbround for bug 4834918:
+ * Win L&F: JInternblFrbme should merge with JMenuBbr when mbximized.
+ * It is not b generbl solution, but intended for use within the
+ * limited scope of JConsole when running with XP/Vistb styles.
  */
-@SuppressWarnings("serial")
-public class MaximizableInternalFrame extends JInternalFrame {
-    private boolean isXP;
-    private JFrame mainFrame;
-    private JMenuBar mainMenuBar;
-    private String mainTitle;
-    private JComponent titlePane;
-    private Border normalBorder;
-    private PropertyChangeListener pcl;
+@SuppressWbrnings("seribl")
+public clbss MbximizbbleInternblFrbme extends JInternblFrbme {
+    privbte boolebn isXP;
+    privbte JFrbme mbinFrbme;
+    privbte JMenuBbr mbinMenuBbr;
+    privbte String mbinTitle;
+    privbte JComponent titlePbne;
+    privbte Border normblBorder;
+    privbte PropertyChbngeListener pcl;
 
-    public MaximizableInternalFrame(String title, boolean resizable,
-                                    boolean closable, boolean maximizable,
-                                    boolean iconifiable) {
-        super(title, resizable, closable, maximizable, iconifiable);
+    public MbximizbbleInternblFrbme(String title, boolebn resizbble,
+                                    boolebn closbble, boolebn mbximizbble,
+                                    boolebn iconifibble) {
+        super(title, resizbble, closbble, mbximizbble, iconifibble);
 
         init();
     }
 
-    private void init() {
-        normalBorder = getBorder();
-        isXP = normalBorder.getClass().getName().endsWith("XPBorder");
+    privbte void init() {
+        normblBorder = getBorder();
+        isXP = normblBorder.getClbss().getNbme().endsWith("XPBorder");
         if (isXP) {
-            setRootPaneCheckingEnabled(false);
-            titlePane = ((BasicInternalFrameUI)getUI()).getNorthPane();
+            setRootPbneCheckingEnbbled(fblse);
+            titlePbne = ((BbsicInternblFrbmeUI)getUI()).getNorthPbne();
 
             if (pcl == null) {
-                pcl = new PropertyChangeListener() {
-                    public void propertyChange(PropertyChangeEvent ev) {
-                        String prop = ev.getPropertyName();
-                        if (prop.equals("icon") ||
-                            prop.equals("maximum") ||
-                            prop.equals("closed")) {
+                pcl = new PropertyChbngeListener() {
+                    public void propertyChbnge(PropertyChbngeEvent ev) {
+                        String prop = ev.getPropertyNbme();
+                        if (prop.equbls("icon") ||
+                            prop.equbls("mbximum") ||
+                            prop.equbls("closed")) {
 
-                            updateFrame();
+                            updbteFrbme();
                         }
                     }
                 };
-                addPropertyChangeListener(pcl);
+                bddPropertyChbngeListener(pcl);
             }
         } else if (pcl != null) {
-            removePropertyChangeListener(pcl);
+            removePropertyChbngeListener(pcl);
             pcl = null;
         }
     }
 
-    private void updateFrame() {
-        JFrame mainFrame;
-        if (!isXP || (mainFrame = getMainFrame()) == null) {
+    privbte void updbteFrbme() {
+        JFrbme mbinFrbme;
+        if (!isXP || (mbinFrbme = getMbinFrbme()) == null) {
             return;
         }
-        JMenuBar menuBar = getMainMenuBar();
-        BasicInternalFrameUI ui = (BasicInternalFrameUI)getUI();
-        if (isMaximum() && !isIcon() && !isClosed()) {
-            if (ui.getNorthPane() != null) {
-                // Merge title bar into menu bar
-                mainTitle = mainFrame.getTitle();
-                mainFrame.setTitle(mainTitle + " - " + getTitle());
-                if (menuBar != null) {
-                    // Move buttons to menu bar
-                    updateButtonStates();
-                    menuBar.add(Box.createGlue());
-                    for (Component c : titlePane.getComponents()) {
-                        if (c instanceof JButton) {
-                            menuBar.add(c);
-                        } else if (c instanceof JLabel) {
+        JMenuBbr menuBbr = getMbinMenuBbr();
+        BbsicInternblFrbmeUI ui = (BbsicInternblFrbmeUI)getUI();
+        if (isMbximum() && !isIcon() && !isClosed()) {
+            if (ui.getNorthPbne() != null) {
+                // Merge title bbr into menu bbr
+                mbinTitle = mbinFrbme.getTitle();
+                mbinFrbme.setTitle(mbinTitle + " - " + getTitle());
+                if (menuBbr != null) {
+                    // Move buttons to menu bbr
+                    updbteButtonStbtes();
+                    menuBbr.bdd(Box.crebteGlue());
+                    for (Component c : titlePbne.getComponents()) {
+                        if (c instbnceof JButton) {
+                            menuBbr.bdd(c);
+                        } else if (c instbnceof JLbbel) {
                             // This is the system menu icon
-                            menuBar.add(Box.createHorizontalStrut(3), 0);
-                            menuBar.add(c, 1);
-                            menuBar.add(Box.createHorizontalStrut(3), 2);
+                            menuBbr.bdd(Box.crebteHorizontblStrut(3), 0);
+                            menuBbr.bdd(c, 1);
+                            menuBbr.bdd(Box.crebteHorizontblStrut(3), 2);
                         }
                     }
-                    ui.setNorthPane(null);
+                    ui.setNorthPbne(null);
                     setBorder(null);
                 }
             }
         } else {
-            if (ui.getNorthPane() == null) {
-                // Restore title bar
-                mainFrame.setTitle(mainTitle);
-                if (menuBar != null) {
-                    // Move buttons back to title bar
-                    for (Component c : menuBar.getComponents()) {
-                        if (c instanceof JButton || c instanceof JLabel) {
-                            titlePane.add(c);
-                        } else if (c instanceof Box.Filler) {
-                            menuBar.remove(c);
+            if (ui.getNorthPbne() == null) {
+                // Restore title bbr
+                mbinFrbme.setTitle(mbinTitle);
+                if (menuBbr != null) {
+                    // Move buttons bbck to title bbr
+                    for (Component c : menuBbr.getComponents()) {
+                        if (c instbnceof JButton || c instbnceof JLbbel) {
+                            titlePbne.bdd(c);
+                        } else if (c instbnceof Box.Filler) {
+                            menuBbr.remove(c);
                         }
                     }
-                    menuBar.repaint();
-                    updateButtonStates();
-                    ui.setNorthPane(titlePane);
-                    setBorder(normalBorder);
+                    menuBbr.repbint();
+                    updbteButtonStbtes();
+                    ui.setNorthPbne(titlePbne);
+                    setBorder(normblBorder);
                 }
             }
         }
     }
 
-    public void updateUI() {
-        boolean isMax = (isXP && getBorder() == null);
-        if (isMax) {
+    public void updbteUI() {
+        boolebn isMbx = (isXP && getBorder() == null);
+        if (isMbx) {
             try {
-                setMaximum(false);
-            } catch (PropertyVetoException ex) { }
+                setMbximum(fblse);
+            } cbtch (PropertyVetoException ex) { }
         }
-        super.updateUI();
+        super.updbteUI();
         init();
-        if (isMax) {
+        if (isMbx) {
             try {
-                setMaximum(true);
-            } catch (PropertyVetoException ex) { }
+                setMbximum(true);
+            } cbtch (PropertyVetoException ex) { }
         }
     }
 
-    private JFrame getMainFrame() {
-        if (mainFrame == null) {
-            JDesktopPane desktop = getDesktopPane();
+    privbte JFrbme getMbinFrbme() {
+        if (mbinFrbme == null) {
+            JDesktopPbne desktop = getDesktopPbne();
             if (desktop != null) {
-                mainFrame = (JFrame)SwingUtilities.getWindowAncestor(desktop);
+                mbinFrbme = (JFrbme)SwingUtilities.getWindowAncestor(desktop);
             }
         }
-        return mainFrame;
+        return mbinFrbme;
     }
 
-    private JMenuBar getMainMenuBar() {
-        if (mainMenuBar == null) {
-            JFrame mainFrame = getMainFrame();
-            if (mainFrame != null) {
-                mainMenuBar = mainFrame.getJMenuBar();
-                if (mainMenuBar != null &&
-                    !(mainMenuBar.getLayout() instanceof FixedMenuBarLayout)) {
+    privbte JMenuBbr getMbinMenuBbr() {
+        if (mbinMenuBbr == null) {
+            JFrbme mbinFrbme = getMbinFrbme();
+            if (mbinFrbme != null) {
+                mbinMenuBbr = mbinFrbme.getJMenuBbr();
+                if (mbinMenuBbr != null &&
+                    !(mbinMenuBbr.getLbyout() instbnceof FixedMenuBbrLbyout)) {
 
-                    mainMenuBar.setLayout(new FixedMenuBarLayout(mainMenuBar,
-                                                            BoxLayout.X_AXIS));
+                    mbinMenuBbr.setLbyout(new FixedMenuBbrLbyout(mbinMenuBbr,
+                                                            BoxLbyout.X_AXIS));
                 }
             }
         }
-        return mainMenuBar;
+        return mbinMenuBbr;
     }
 
     public void setTitle(String title) {
-        if (isXP && isMaximum()) {
-            if (getMainFrame() != null) {
-                getMainFrame().setTitle(mainTitle + " - " + title);
+        if (isXP && isMbximum()) {
+            if (getMbinFrbme() != null) {
+                getMbinFrbme().setTitle(mbinTitle + " - " + title);
             }
         }
         super.setTitle(title);
     }
 
 
-    private class FixedMenuBarLayout extends BoxLayout {
-        public FixedMenuBarLayout(Container target, int axis) {
-            super(target, axis);
+    privbte clbss FixedMenuBbrLbyout extends BoxLbyout {
+        public FixedMenuBbrLbyout(Contbiner tbrget, int bxis) {
+            super(tbrget, bxis);
         }
 
-        public void layoutContainer(Container target) {
-            super.layoutContainer(target);
+        public void lbyoutContbiner(Contbiner tbrget) {
+            super.lbyoutContbiner(tbrget);
 
-            for (Component c : target.getComponents()) {
-                if (c instanceof JButton) {
-                    int y = (target.getHeight() - c.getHeight()) / 2;
-                    c.setLocation(c.getX(), Math.max(2, y));
+            for (Component c : tbrget.getComponents()) {
+                if (c instbnceof JButton) {
+                    int y = (tbrget.getHeight() - c.getHeight()) / 2;
+                    c.setLocbtion(c.getX(), Mbth.mbx(2, y));
                 }
             }
         }
     }
 
 
-    // The rest of this class is messy and should not be relied upon. It
-    // uses reflection to access private, undocumented, and unsupported
-    // classes and fields.
+    // The rest of this clbss is messy bnd should not be relied upon. It
+    // uses reflection to bccess privbte, undocumented, bnd unsupported
+    // clbsses bnd fields.
     //
-    // Install icon wrappers to display MDI icons when the buttons
-    // are in the menubar.
+    // Instbll icon wrbppers to displby MDI icons when the buttons
+    // bre in the menubbr.
     //
-    // Please note that this will very likely fail in a future version
-    // of Swing, but at least it should fail silently.
+    // Plebse note thbt this will very likely fbil in b future version
+    // of Swing, but bt lebst it should fbil silently.
     //
-    private static Object WP_MINBUTTON, WP_RESTOREBUTTON, WP_CLOSEBUTTON,
+    privbte stbtic Object WP_MINBUTTON, WP_RESTOREBUTTON, WP_CLOSEBUTTON,
                           WP_MDIMINBUTTON, WP_MDIRESTOREBUTTON, WP_MDICLOSEBUTTON;
-    static {
+    stbtic {
         if (JConsole.IS_WIN) {
             try {
-                Class<?> Part =
-                    Class.forName("com.sun.java.swing.plaf.windows.TMSchema$Part");
-                if (Part != null) {
-                    WP_MINBUTTON        = Part.getField("WP_MINBUTTON").get(null);
-                    WP_RESTOREBUTTON    = Part.getField("WP_RESTOREBUTTON").get(null);
-                    WP_CLOSEBUTTON      = Part.getField("WP_CLOSEBUTTON").get(null);
-                    WP_MDIMINBUTTON     = Part.getField("WP_MDIMINBUTTON").get(null);
-                    WP_MDIRESTOREBUTTON = Part.getField("WP_MDIRESTOREBUTTON").get(null);
-                    WP_MDICLOSEBUTTON   = Part.getField("WP_MDICLOSEBUTTON").get(null);
+                Clbss<?> Pbrt =
+                    Clbss.forNbme("com.sun.jbvb.swing.plbf.windows.TMSchemb$Pbrt");
+                if (Pbrt != null) {
+                    WP_MINBUTTON        = Pbrt.getField("WP_MINBUTTON").get(null);
+                    WP_RESTOREBUTTON    = Pbrt.getField("WP_RESTOREBUTTON").get(null);
+                    WP_CLOSEBUTTON      = Pbrt.getField("WP_CLOSEBUTTON").get(null);
+                    WP_MDIMINBUTTON     = Pbrt.getField("WP_MDIMINBUTTON").get(null);
+                    WP_MDIRESTOREBUTTON = Pbrt.getField("WP_MDIRESTOREBUTTON").get(null);
+                    WP_MDICLOSEBUTTON   = Pbrt.getField("WP_MDICLOSEBUTTON").get(null);
                 }
 
-                for (String str : new String[] { "maximize", "minimize",
+                for (String str : new String[] { "mbximize", "minimize",
                                                  "iconify", "close" }) {
-                    String key = "InternalFrame." + str + "Icon";
-                    UIManager.put(key,
-                                  new MDIButtonIcon(UIManager.getIcon(key)));
+                    String key = "InternblFrbme." + str + "Icon";
+                    UIMbnbger.put(key,
+                                  new MDIButtonIcon(UIMbnbger.getIcon(key)));
                 }
-            } catch (ClassNotFoundException ex) {
+            } cbtch (ClbssNotFoundException ex) {
                 if (JConsole.debug) {
-                    ex.printStackTrace();
+                    ex.printStbckTrbce();
                 }
-            } catch (NoSuchFieldException ex) {
+            } cbtch (NoSuchFieldException ex) {
                 if (JConsole.debug) {
-                    ex.printStackTrace();
+                    ex.printStbckTrbce();
                 }
-            } catch (IllegalAccessException ex) {
+            } cbtch (IllegblAccessException ex) {
                 if (JConsole.debug) {
-                    ex.printStackTrace();
+                    ex.printStbckTrbce();
                 }
             }
         }
     }
 
 
-    // A wrapper class for the title pane button icons.
-    // This code should really go in the WindowsIconsFactory class.
-    private static class MDIButtonIcon implements Icon {
+    // A wrbpper clbss for the title pbne button icons.
+    // This code should reblly go in the WindowsIconsFbctory clbss.
+    privbte stbtic clbss MDIButtonIcon implements Icon {
         Icon windowsIcon;
-        Field part;
+        Field pbrt;
 
         MDIButtonIcon(Icon icon) {
             windowsIcon = icon;
 
             if (WP_MINBUTTON != null) {
                 try {
-                    part = windowsIcon.getClass().getDeclaredField("part");
-                    part.setAccessible(true);
-                } catch (NoSuchFieldException ex) {
+                    pbrt = windowsIcon.getClbss().getDeclbredField("pbrt");
+                    pbrt.setAccessible(true);
+                } cbtch (NoSuchFieldException ex) {
                     if (JConsole.debug) {
-                        ex.printStackTrace();
+                        ex.printStbckTrbce();
                     }
                 }
             }
         }
 
-        public void paintIcon(Component c, Graphics g, int x, int y) {
-            if (part != null) {
+        public void pbintIcon(Component c, Grbphics g, int x, int y) {
+            if (pbrt != null) {
                 try {
-                    Object v = part.get(windowsIcon);
+                    Object v = pbrt.get(windowsIcon);
 
-                    if (c.getParent() instanceof JMenuBar) {
+                    if (c.getPbrent() instbnceof JMenuBbr) {
                         // Use MDI icons
                         if (v == WP_MINBUTTON) {
-                            part.set(windowsIcon, WP_MDIMINBUTTON);
+                            pbrt.set(windowsIcon, WP_MDIMINBUTTON);
                         } else if (v == WP_RESTOREBUTTON) {
-                            part.set(windowsIcon, WP_MDIRESTOREBUTTON);
+                            pbrt.set(windowsIcon, WP_MDIRESTOREBUTTON);
                         } else if (v == WP_CLOSEBUTTON) {
-                            part.set(windowsIcon, WP_MDICLOSEBUTTON);
+                            pbrt.set(windowsIcon, WP_MDICLOSEBUTTON);
                         }
                     } else {
-                        // Use regular icons
+                        // Use regulbr icons
                         if (v == WP_MDIMINBUTTON) {
-                            part.set(windowsIcon, WP_MINBUTTON);
+                            pbrt.set(windowsIcon, WP_MINBUTTON);
                         } else if (v == WP_MDIRESTOREBUTTON) {
-                            part.set(windowsIcon, WP_RESTOREBUTTON);
+                            pbrt.set(windowsIcon, WP_RESTOREBUTTON);
                         } else if (v == WP_MDICLOSEBUTTON) {
-                            part.set(windowsIcon, WP_CLOSEBUTTON);
+                            pbrt.set(windowsIcon, WP_CLOSEBUTTON);
                         }
                     }
-                } catch (IllegalAccessException ex) {
+                } cbtch (IllegblAccessException ex) {
                     if (JConsole.debug) {
-                        ex.printStackTrace();
+                        ex.printStbckTrbce();
                     }
                 }
             }
-            windowsIcon.paintIcon(c, g, x, y);
+            windowsIcon.pbintIcon(c, g, x, y);
         }
 
         public int getIconWidth(){
@@ -320,25 +320,25 @@ public class MaximizableInternalFrame extends JInternalFrame {
     }
 
 
-    // Use reflection to invoke protected methods in BasicInternalFrameTitlePane
-    private Method setButtonIcons;
-    private Method enableActions;
+    // Use reflection to invoke protected methods in BbsicInternblFrbmeTitlePbne
+    privbte Method setButtonIcons;
+    privbte Method enbbleActions;
 
-    private void updateButtonStates() {
+    privbte void updbteButtonStbtes() {
         try {
             if (setButtonIcons == null) {
-                Class<? extends JComponent> cls = titlePane.getClass();
-                Class<?> superCls = cls.getSuperclass();
-                setButtonIcons = cls.getDeclaredMethod("setButtonIcons");
-                enableActions  = superCls.getDeclaredMethod("enableActions");
+                Clbss<? extends JComponent> cls = titlePbne.getClbss();
+                Clbss<?> superCls = cls.getSuperclbss();
+                setButtonIcons = cls.getDeclbredMethod("setButtonIcons");
+                enbbleActions  = superCls.getDeclbredMethod("enbbleActions");
                 setButtonIcons.setAccessible(true);
-                enableActions.setAccessible(true);
+                enbbleActions.setAccessible(true);
             }
-            setButtonIcons.invoke(titlePane);
-            enableActions.invoke(titlePane);
-        } catch (Exception ex) {
+            setButtonIcons.invoke(titlePbne);
+            enbbleActions.invoke(titlePbne);
+        } cbtch (Exception ex) {
             if (JConsole.debug) {
-                ex.printStackTrace();
+                ex.printStbckTrbce();
             }
         }
     }

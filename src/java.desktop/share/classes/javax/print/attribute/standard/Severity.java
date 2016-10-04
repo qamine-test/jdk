@@ -1,156 +1,156 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.print.attribute.standard;
+pbckbge jbvbx.print.bttribute.stbndbrd;
 
-import javax.print.attribute.EnumSyntax;
-import javax.print.attribute.Attribute;
+import jbvbx.print.bttribute.EnumSyntbx;
+import jbvbx.print.bttribute.Attribute;
 
 /**
- * Class Severity is a printing attribute class, an enumeration, that denotes
- * the severity of a {@link PrinterStateReason PrinterStateReason} attribute.
+ * Clbss Severity is b printing bttribute clbss, bn enumerbtion, thbt denotes
+ * the severity of b {@link PrinterStbteRebson PrinterStbteRebson} bttribute.
  * <P>
- * Instances of Severity do not appear in a Print Service's attribute set
- * directly. Rather, a {@link PrinterStateReasons PrinterStateReasons}
- * attribute appears in the Print Service's attribute set.
- *  The {@link PrinterStateReasons
- * PrinterStateReasons} attribute contains zero, one, or more than one {@link
- * PrinterStateReason PrinterStateReason} objects which pertain to the Print
- * Service's status, and each {@link PrinterStateReason PrinterStateReason}
- * object is associated with a Severity level of REPORT (least severe),
+ * Instbnces of Severity do not bppebr in b Print Service's bttribute set
+ * directly. Rbther, b {@link PrinterStbteRebsons PrinterStbteRebsons}
+ * bttribute bppebrs in the Print Service's bttribute set.
+ *  The {@link PrinterStbteRebsons
+ * PrinterStbteRebsons} bttribute contbins zero, one, or more thbn one {@link
+ * PrinterStbteRebson PrinterStbteRebson} objects which pertbin to the Print
+ * Service's stbtus, bnd ebch {@link PrinterStbteRebson PrinterStbteRebson}
+ * object is bssocibted with b Severity level of REPORT (lebst severe),
  * WARNING, or ERROR (most severe).
- * The printer adds a {@link PrinterStateReason
- * PrinterStateReason} object to the Print Service's
- * {@link PrinterStateReasons PrinterStateReasons} attribute when the
+ * The printer bdds b {@link PrinterStbteRebson
+ * PrinterStbteRebson} object to the Print Service's
+ * {@link PrinterStbteRebsons PrinterStbteRebsons} bttribute when the
  * corresponding condition becomes true
- * of the printer, and the printer removes the {@link PrinterStateReason
- * PrinterStateReason} object again when the corresponding condition becomes
- * false, regardless of whether the Print Service's overall
- * {@link PrinterState PrinterState} also changed.
+ * of the printer, bnd the printer removes the {@link PrinterStbteRebson
+ * PrinterStbteRebson} object bgbin when the corresponding condition becomes
+ * fblse, regbrdless of whether the Print Service's overbll
+ * {@link PrinterStbte PrinterStbte} blso chbnged.
  * <P>
- * <B>IPP Compatibility:</B>
- * <code>Severity.toString()</code> returns either "error", "warning", or
- * "report".  The string values returned by
- * each individual {@link PrinterStateReason} and
- * associated {@link Severity} object's <CODE>toString()</CODE>
- * methods, concatenated together with a hyphen (<CODE>"-"</CODE>) in
- * between, gives the IPP keyword value for a {@link PrinterStateReasons}.
- * The category name returned by <CODE>getName()</CODE> gives the IPP
- * attribute name.
+ * <B>IPP Compbtibility:</B>
+ * <code>Severity.toString()</code> returns either "error", "wbrning", or
+ * "report".  The string vblues returned by
+ * ebch individubl {@link PrinterStbteRebson} bnd
+ * bssocibted {@link Severity} object's <CODE>toString()</CODE>
+ * methods, concbtenbted together with b hyphen (<CODE>"-"</CODE>) in
+ * between, gives the IPP keyword vblue for b {@link PrinterStbteRebsons}.
+ * The cbtegory nbme returned by <CODE>getNbme()</CODE> gives the IPP
+ * bttribute nbme.
  *
- * @author  Alan Kaminsky
+ * @buthor  Albn Kbminsky
  */
-public final class Severity extends EnumSyntax implements Attribute {
+public finbl clbss Severity extends EnumSyntbx implements Attribute {
 
-    private static final long serialVersionUID = 8781881462717925380L;
+    privbte stbtic finbl long seriblVersionUID = 8781881462717925380L;
 
     /**
-     * Indicates that the {@link PrinterStateReason PrinterStateReason} is a
-     * "report" (least severe). An implementation may choose to omit some or
-     * all reports.
-     * Some reports specify finer granularity about the printer state;
-     * others serve as a precursor to a warning. A report must contain nothing
-     * that could affect the printed output.
+     * Indicbtes thbt the {@link PrinterStbteRebson PrinterStbteRebson} is b
+     * "report" (lebst severe). An implementbtion mby choose to omit some or
+     * bll reports.
+     * Some reports specify finer grbnulbrity bbout the printer stbte;
+     * others serve bs b precursor to b wbrning. A report must contbin nothing
+     * thbt could bffect the printed output.
      */
-    public static final Severity REPORT = new Severity (0);
+    public stbtic finbl Severity REPORT = new Severity (0);
 
     /**
-     * Indicates that the {@link PrinterStateReason PrinterStateReason} is a
-     * "warning." An implementation may choose to omit some or all warnings.
-     * Warnings serve as a precursor to an error. A warning must contain
-     * nothing  that prevents a job from completing, though in some cases the
-     * output may be of lower quality.
+     * Indicbtes thbt the {@link PrinterStbteRebson PrinterStbteRebson} is b
+     * "wbrning." An implementbtion mby choose to omit some or bll wbrnings.
+     * Wbrnings serve bs b precursor to bn error. A wbrning must contbin
+     * nothing  thbt prevents b job from completing, though in some cbses the
+     * output mby be of lower qublity.
      */
-    public static final Severity WARNING = new Severity (1);
+    public stbtic finbl Severity WARNING = new Severity (1);
 
     /**
-     * Indicates that the {@link PrinterStateReason PrinterStateReason} is an
-     * "error" (most severe). An implementation must include all errors.
-     * If this attribute contains one or more errors, the printer's
-     * {@link PrinterState PrinterState} must be STOPPED.
+     * Indicbtes thbt the {@link PrinterStbteRebson PrinterStbteRebson} is bn
+     * "error" (most severe). An implementbtion must include bll errors.
+     * If this bttribute contbins one or more errors, the printer's
+     * {@link PrinterStbte PrinterStbte} must be STOPPED.
      */
-    public static final Severity ERROR = new Severity (2);
+    public stbtic finbl Severity ERROR = new Severity (2);
 
     /**
-     * Construct a new severity enumeration value with the given integer
-     * value.
+     * Construct b new severity enumerbtion vblue with the given integer
+     * vblue.
      *
-     * @param  value  Integer value.
+     * @pbrbm  vblue  Integer vblue.
      */
-    protected Severity(int value) {
-        super (value);
+    protected Severity(int vblue) {
+        super (vblue);
     }
 
-    private static final String[] myStringTable = {
+    privbte stbtic finbl String[] myStringTbble = {
         "report",
-        "warning",
+        "wbrning",
         "error"
     };
 
-    private static final Severity[] myEnumValueTable = {
+    privbte stbtic finbl Severity[] myEnumVblueTbble = {
         REPORT,
         WARNING,
         ERROR
     };
 
     /**
-     * Returns the string table for class Severity.
+     * Returns the string tbble for clbss Severity.
      */
-    protected String[] getStringTable() {
-        return myStringTable;
+    protected String[] getStringTbble() {
+        return myStringTbble;
     }
 
     /**
-     * Returns the enumeration value table for class Severity.
+     * Returns the enumerbtion vblue tbble for clbss Severity.
      */
-    protected EnumSyntax[] getEnumValueTable() {
-        return myEnumValueTable;
+    protected EnumSyntbx[] getEnumVblueTbble() {
+        return myEnumVblueTbble;
     }
 
 
     /**
-     * Get the printing attribute class which is to be used as the "category"
-     * for this printing attribute value.
+     * Get the printing bttribute clbss which is to be used bs the "cbtegory"
+     * for this printing bttribute vblue.
      * <P>
-     * For class Severity, the category is class Severity itself.
+     * For clbss Severity, the cbtegory is clbss Severity itself.
      *
-     * @return  Printing attribute class (category), an instance of class
-     *          {@link java.lang.Class java.lang.Class}.
+     * @return  Printing bttribute clbss (cbtegory), bn instbnce of clbss
+     *          {@link jbvb.lbng.Clbss jbvb.lbng.Clbss}.
      */
-    public final Class<? extends Attribute> getCategory() {
-        return Severity.class;
+    public finbl Clbss<? extends Attribute> getCbtegory() {
+        return Severity.clbss;
     }
 
     /**
-     * Get the name of the category of which this attribute value is an
-     * instance.
+     * Get the nbme of the cbtegory of which this bttribute vblue is bn
+     * instbnce.
      * <P>
-     * For class Severit, the category name is <CODE>"severity"</CODE>.
+     * For clbss Severit, the cbtegory nbme is <CODE>"severity"</CODE>.
      *
-     * @return  Attribute category name.
+     * @return  Attribute cbtegory nbme.
      */
-    public final String getName() {
+    public finbl String getNbme() {
         return "severity";
     }
 

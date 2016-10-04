@@ -1,156 +1,156 @@
 /*
- * Copyright (c) 2009, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2009, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 /*
  *******************************************************************************
- * (C) Copyright IBM Corp. and others, 1996-2009 - All Rights Reserved         *
+ * (C) Copyright IBM Corp. bnd others, 1996-2009 - All Rights Reserved         *
  *                                                                             *
- * The original version of this source code and documentation is copyrighted   *
- * and owned by IBM, These materials are provided under terms of a License     *
- * Agreement between IBM and Sun. This technology is protected by multiple     *
- * US and International patents. This notice and attribution to IBM may not    *
+ * The originbl version of this source code bnd documentbtion is copyrighted   *
+ * bnd owned by IBM, These mbteribls bre provided under terms of b License     *
+ * Agreement between IBM bnd Sun. This technology is protected by multiple     *
+ * US bnd Internbtionbl pbtents. This notice bnd bttribution to IBM mby not    *
  * to removed.                                                                 *
  *******************************************************************************
  */
 
-/* FOOD FOR THOUGHT: currently the reordering modes are a mixture of
- * algorithm for direct BiDi, algorithm for inverse Bidi and the bizarre
- * concept of RUNS_ONLY which is a double operation.
- * It could be advantageous to divide this into 3 concepts:
- * a) Operation: direct / inverse / RUNS_ONLY
- * b) Direct algorithm: default / NUMBERS_SPECIAL / GROUP_NUMBERS_WITH_L
- * c) Inverse algorithm: default / INVERSE_LIKE_DIRECT / NUMBERS_SPECIAL
- * This would allow combinations not possible today like RUNS_ONLY with
+/* FOOD FOR THOUGHT: currently the reordering modes bre b mixture of
+ * blgorithm for direct BiDi, blgorithm for inverse Bidi bnd the bizbrre
+ * concept of RUNS_ONLY which is b double operbtion.
+ * It could be bdvbntbgeous to divide this into 3 concepts:
+ * b) Operbtion: direct / inverse / RUNS_ONLY
+ * b) Direct blgorithm: defbult / NUMBERS_SPECIAL / GROUP_NUMBERS_WITH_L
+ * c) Inverse blgorithm: defbult / INVERSE_LIKE_DIRECT / NUMBERS_SPECIAL
+ * This would bllow combinbtions not possible todby like RUNS_ONLY with
  * NUMBERS_SPECIAL.
- * Also allow to set INSERT_MARKS for the direct step of RUNS_ONLY and
+ * Also bllow to set INSERT_MARKS for the direct step of RUNS_ONLY bnd
  * REMOVE_CONTROLS for the inverse step.
- * Not all combinations would be supported, and probably not all do make sense.
- * This would need to document which ones are supported and what are the
- * fallbacks for unsupported combinations.
+ * Not bll combinbtions would be supported, bnd probbbly not bll do mbke sense.
+ * This would need to document which ones bre supported bnd whbt bre the
+ * fbllbbcks for unsupported combinbtions.
  */
 
-package sun.text.bidi;
+pbckbge sun.text.bidi;
 
-import java.io.IOException;
-import java.lang.reflect.Array;
-import java.text.AttributedCharacterIterator;
-import java.text.Bidi;
-import java.util.Arrays;
-import java.util.MissingResourceException;
-import sun.misc.JavaAWTFontAccess;
-import sun.misc.SharedSecrets;
-import sun.text.normalizer.UBiDiProps;
-import sun.text.normalizer.UCharacter;
-import sun.text.normalizer.UTF16;
+import jbvb.io.IOException;
+import jbvb.lbng.reflect.Arrby;
+import jbvb.text.AttributedChbrbcterIterbtor;
+import jbvb.text.Bidi;
+import jbvb.util.Arrbys;
+import jbvb.util.MissingResourceException;
+import sun.misc.JbvbAWTFontAccess;
+import sun.misc.ShbredSecrets;
+import sun.text.normblizer.UBiDiProps;
+import sun.text.normblizer.UChbrbcter;
+import sun.text.normblizer.UTF16;
 
 /**
  *
- * <h2>Bidi algorithm for ICU</h2>
+ * <h2>Bidi blgorithm for ICU</h2>
  *
- * This is an implementation of the Unicode Bidirectional algorithm. The
- * algorithm is defined in the <a
- * href="http://www.unicode.org/unicode/reports/tr9/">Unicode Standard Annex #9</a>,
- * version 13, also described in The Unicode Standard, Version 4.0 .
+ * This is bn implementbtion of the Unicode Bidirectionbl blgorithm. The
+ * blgorithm is defined in the <b
+ * href="http://www.unicode.org/unicode/reports/tr9/">Unicode Stbndbrd Annex #9</b>,
+ * version 13, blso described in The Unicode Stbndbrd, Version 4.0 .
  * <p>
  *
- * Note: Libraries that perform a bidirectional algorithm and reorder strings
- * accordingly are sometimes called "Storage Layout Engines". ICU's Bidi and
- * shaping (ArabicShaping) classes can be used at the core of such "Storage
- * Layout Engines".
+ * Note: Librbries thbt perform b bidirectionbl blgorithm bnd reorder strings
+ * bccordingly bre sometimes cblled "Storbge Lbyout Engines". ICU's Bidi bnd
+ * shbping (ArbbicShbping) clbsses cbn be used bt the core of such "Storbge
+ * Lbyout Engines".
  *
- * <h3>General remarks about the API:</h3>
+ * <h3>Generbl rembrks bbout the API:</h3>
  *
- * The &quot;limit&quot; of a sequence of characters is the position just after
- * their last character, i.e., one more than that position.
+ * The &quot;limit&quot; of b sequence of chbrbcters is the position just bfter
+ * their lbst chbrbcter, i.e., one more thbn thbt position.
  * <p>
  *
- * Some of the API methods provide access to &quot;runs&quot;. Such a
- * &quot;run&quot; is defined as a sequence of characters that are at the same
- * embedding level after performing the Bidi algorithm.
+ * Some of the API methods provide bccess to &quot;runs&quot;. Such b
+ * &quot;run&quot; is defined bs b sequence of chbrbcters thbt bre bt the sbme
+ * embedding level bfter performing the Bidi blgorithm.
  * <p>
  *
- * <h3>Basic concept: paragraph</h3>
- * A piece of text can be divided into several paragraphs by characters
- * with the Bidi class <code>Block Separator</code>. For handling of
- * paragraphs, see:
+ * <h3>Bbsic concept: pbrbgrbph</h3>
+ * A piece of text cbn be divided into severbl pbrbgrbphs by chbrbcters
+ * with the Bidi clbss <code>Block Sepbrbtor</code>. For hbndling of
+ * pbrbgrbphs, see:
  * <ul>
- * <li>{@link #countParagraphs}
- * <li>{@link #getParaLevel}
- * <li>{@link #getParagraph}
- * <li>{@link #getParagraphByIndex}
+ * <li>{@link #countPbrbgrbphs}
+ * <li>{@link #getPbrbLevel}
+ * <li>{@link #getPbrbgrbph}
+ * <li>{@link #getPbrbgrbphByIndex}
  * </ul>
  *
- * <h3>Basic concept: text direction</h3>
- * The direction of a piece of text may be:
+ * <h3>Bbsic concept: text direction</h3>
+ * The direction of b piece of text mby be:
  * <ul>
  * <li>{@link #LTR}
  * <li>{@link #RTL}
  * <li>{@link #MIXED}
  * </ul>
  *
- * <h3>Basic concept: levels</h3>
+ * <h3>Bbsic concept: levels</h3>
  *
- * Levels in this API represent embedding levels according to the Unicode
- * Bidirectional Algorithm.
- * Their low-order bit (even/odd value) indicates the visual direction.<p>
+ * Levels in this API represent embedding levels bccording to the Unicode
+ * Bidirectionbl Algorithm.
+ * Their low-order bit (even/odd vblue) indicbtes the visubl direction.<p>
  *
- * Levels can be abstract values when used for the
- * <code>paraLevel</code> and <code>embeddingLevels</code>
- * arguments of <code>setPara()</code>; there:
+ * Levels cbn be bbstrbct vblues when used for the
+ * <code>pbrbLevel</code> bnd <code>embeddingLevels</code>
+ * brguments of <code>setPbrb()</code>; there:
  * <ul>
- * <li>the high-order bit of an <code>embeddingLevels[]</code>
- * value indicates whether the using application is
- * specifying the level of a character to <i>override</i> whatever the
- * Bidi implementation would resolve it to.</li>
- * <li><code>paraLevel</code> can be set to the
- * pseudo-level values <code>LEVEL_DEFAULT_LTR</code>
- * and <code>LEVEL_DEFAULT_RTL</code>.</li>
+ * <li>the high-order bit of bn <code>embeddingLevels[]</code>
+ * vblue indicbtes whether the using bpplicbtion is
+ * specifying the level of b chbrbcter to <i>override</i> whbtever the
+ * Bidi implementbtion would resolve it to.</li>
+ * <li><code>pbrbLevel</code> cbn be set to the
+ * pseudo-level vblues <code>LEVEL_DEFAULT_LTR</code>
+ * bnd <code>LEVEL_DEFAULT_RTL</code>.</li>
  * </ul>
  *
- * <p>The related constants are not real, valid level values.
- * <code>DEFAULT_XXX</code> can be used to specify
- * a default for the paragraph level for
- * when the <code>setPara()</code> method
- * shall determine it but there is no
- * strongly typed character in the input.<p>
+ * <p>The relbted constbnts bre not rebl, vblid level vblues.
+ * <code>DEFAULT_XXX</code> cbn be used to specify
+ * b defbult for the pbrbgrbph level for
+ * when the <code>setPbrb()</code> method
+ * shbll determine it but there is no
+ * strongly typed chbrbcter in the input.<p>
  *
- * Note that the value for <code>LEVEL_DEFAULT_LTR</code> is even
- * and the one for <code>LEVEL_DEFAULT_RTL</code> is odd,
- * just like with normal LTR and RTL level values -
- * these special values are designed that way. Also, the implementation
- * assumes that MAX_EXPLICIT_LEVEL is odd.
+ * Note thbt the vblue for <code>LEVEL_DEFAULT_LTR</code> is even
+ * bnd the one for <code>LEVEL_DEFAULT_RTL</code> is odd,
+ * just like with normbl LTR bnd RTL level vblues -
+ * these specibl vblues bre designed thbt wby. Also, the implementbtion
+ * bssumes thbt MAX_EXPLICIT_LEVEL is odd.
  *
  * <ul><b>See Also:</b>
  * <li>{@link #LEVEL_DEFAULT_LTR}
  * <li>{@link #LEVEL_DEFAULT_RTL}
  * <li>{@link #LEVEL_OVERRIDE}
  * <li>{@link #MAX_EXPLICIT_LEVEL}
- * <li>{@link #setPara}
+ * <li>{@link #setPbrb}
  * </ul>
  *
- * <h3>Basic concept: Reordering Mode</h3>
- * Reordering mode values indicate which variant of the Bidi algorithm to
+ * <h3>Bbsic concept: Reordering Mode</h3>
+ * Reordering mode vblues indicbte which vbribnt of the Bidi blgorithm to
  * use.
  *
  * <ul><b>See Also:</b>
@@ -164,8 +164,8 @@ import sun.text.normalizer.UTF16;
  * <li>{@link #REORDER_INVERSE_FOR_NUMBERS_SPECIAL}
  * </ul>
  *
- * <h3>Basic concept: Reordering Options</h3>
- * Reordering options can be applied during Bidi text transformations.
+ * <h3>Bbsic concept: Reordering Options</h3>
+ * Reordering options cbn be bpplied during Bidi text trbnsformbtions.
  * <ul><b>See Also:</b>
  * <li>{@link #setReorderingOptions}
  * <li>{@link #OPTION_DEFAULT}
@@ -175,50 +175,50 @@ import sun.text.normalizer.UTF16;
  * </ul>
  *
  *
- * @author Simon Montagu, Matitiahu Allouche (ported from C code written by Markus W. Scherer)
- * @stable ICU 3.8
+ * @buthor Simon Montbgu, Mbtitibhu Allouche (ported from C code written by Mbrkus W. Scherer)
+ * @stbble ICU 3.8
  *
  *
- * <h4> Sample code for the ICU Bidi API </h4>
+ * <h4> Sbmple code for the ICU Bidi API </h4>
  *
- * <h5>Rendering a paragraph with the ICU Bidi API</h5>
+ * <h5>Rendering b pbrbgrbph with the ICU Bidi API</h5>
  *
- * This is (hypothetical) sample code that illustrates how the ICU Bidi API
- * could be used to render a paragraph of text. Rendering code depends highly on
- * the graphics system, therefore this sample code must make a lot of
- * assumptions, which may or may not match any existing graphics system's
+ * This is (hypotheticbl) sbmple code thbt illustrbtes how the ICU Bidi API
+ * could be used to render b pbrbgrbph of text. Rendering code depends highly on
+ * the grbphics system, therefore this sbmple code must mbke b lot of
+ * bssumptions, which mby or mby not mbtch bny existing grbphics system's
  * properties.
  *
  * <p>
- * The basic assumptions are:
+ * The bbsic bssumptions bre:
  * </p>
  * <ul>
- * <li>Rendering is done from left to right on a horizontal line.</li>
- * <li>A run of single-style, unidirectional text can be rendered at once.
+ * <li>Rendering is done from left to right on b horizontbl line.</li>
+ * <li>A run of single-style, unidirectionbl text cbn be rendered bt once.
  * </li>
- * <li>Such a run of text is passed to the graphics system with characters
- * (code units) in logical order.</li>
- * <li>The line-breaking algorithm is very complicated and Locale-dependent -
- * and therefore its implementation omitted from this sample code.</li>
+ * <li>Such b run of text is pbssed to the grbphics system with chbrbcters
+ * (code units) in logicbl order.</li>
+ * <li>The line-brebking blgorithm is very complicbted bnd Locble-dependent -
+ * bnd therefore its implementbtion omitted from this sbmple code.</li>
  * </ul>
  *
  * <pre>
  *
- *  package com.ibm.icu.dev.test.bidi;
+ *  pbckbge com.ibm.icu.dev.test.bidi;
  *
  *  import com.ibm.icu.text.Bidi;
  *  import com.ibm.icu.text.BidiRun;
  *
- *  public class Sample {
+ *  public clbss Sbmple {
  *
- *      static final int styleNormal = 0;
- *      static final int styleSelected = 1;
- *      static final int styleBold = 2;
- *      static final int styleItalics = 4;
- *      static final int styleSuper=8;
- *      static final int styleSub = 16;
+ *      stbtic finbl int styleNormbl = 0;
+ *      stbtic finbl int styleSelected = 1;
+ *      stbtic finbl int styleBold = 2;
+ *      stbtic finbl int styleItblics = 4;
+ *      stbtic finbl int styleSuper=8;
+ *      stbtic finbl int styleSub = 16;
  *
- *      static class StyleRun {
+ *      stbtic clbss StyleRun {
  *          int limit;
  *          int style;
  *
@@ -228,138 +228,138 @@ import sun.text.normalizer.UTF16;
  *          }
  *      }
  *
- *      static class Bounds {
- *          int start;
+ *      stbtic clbss Bounds {
+ *          int stbrt;
  *          int limit;
  *
- *          public Bounds(int start, int limit) {
- *              this.start = start;
+ *          public Bounds(int stbrt, int limit) {
+ *              this.stbrt = stbrt;
  *              this.limit = limit;
  *          }
  *      }
  *
- *      static int getTextWidth(String text, int start, int limit,
+ *      stbtic int getTextWidth(String text, int stbrt, int limit,
  *                              StyleRun[] styleRuns, int styleRunCount) {
- *          // simplistic way to compute the width
- *          return limit - start;
+ *          // simplistic wby to compute the width
+ *          return limit - stbrt;
  *      }
  *
- *      // set limit and StyleRun limit for a line
- *      // from text[start] and from styleRuns[styleRunStart]
- *      // using Bidi.getLogicalRun(...)
+ *      // set limit bnd StyleRun limit for b line
+ *      // from text[stbrt] bnd from styleRuns[styleRunStbrt]
+ *      // using Bidi.getLogicblRun(...)
  *      // returns line width
- *      static int getLineBreak(String text, Bounds line, Bidi para,
+ *      stbtic int getLineBrebk(String text, Bounds line, Bidi pbrb,
  *                              StyleRun styleRuns[], Bounds styleRun) {
  *          // dummy return
  *          return 0;
  *      }
  *
- *      // render runs on a line sequentially, always from left to right
+ *      // render runs on b line sequentiblly, blwbys from left to right
  *
- *      // prepare rendering a new line
- *      static void startLine(byte textDirection, int lineWidth) {
+ *      // prepbre rendering b new line
+ *      stbtic void stbrtLine(byte textDirection, int lineWidth) {
  *          System.out.println();
  *      }
  *
- *      // render a run of text and advance to the right by the run width
- *      // the text[start..limit-1] is always in logical order
- *      static void renderRun(String text, int start, int limit,
+ *      // render b run of text bnd bdvbnce to the right by the run width
+ *      // the text[stbrt..limit-1] is blwbys in logicbl order
+ *      stbtic void renderRun(String text, int stbrt, int limit,
  *                            byte textDirection, int style) {
  *      }
  *
- *      // We could compute a cross-product
- *      // from the style runs with the directional runs
- *      // and then reorder it.
- *      // Instead, here we iterate over each run type
- *      // and render the intersections -
- *      // with shortcuts in simple (and common) cases.
- *      // renderParagraph() is the main function.
+ *      // We could compute b cross-product
+ *      // from the style runs with the directionbl runs
+ *      // bnd then reorder it.
+ *      // Instebd, here we iterbte over ebch run type
+ *      // bnd render the intersections -
+ *      // with shortcuts in simple (bnd common) cbses.
+ *      // renderPbrbgrbph() is the mbin function.
  *
- *      // render a directional run with
+ *      // render b directionbl run with
  *      // (possibly) multiple style runs intersecting with it
- *      static void renderDirectionalRun(String text, int start, int limit,
+ *      stbtic void renderDirectionblRun(String text, int stbrt, int limit,
  *                                       byte direction, StyleRun styleRuns[],
  *                                       int styleRunCount) {
  *          int i;
  *
- *          // iterate over style runs
+ *          // iterbte over style runs
  *          if (direction == Bidi.LTR) {
  *              int styleLimit;
  *              for (i = 0; i < styleRunCount; ++i) {
  *                  styleLimit = styleRuns[i].limit;
- *                  if (start < styleLimit) {
+ *                  if (stbrt < styleLimit) {
  *                      if (styleLimit > limit) {
  *                          styleLimit = limit;
  *                      }
- *                      renderRun(text, start, styleLimit,
+ *                      renderRun(text, stbrt, styleLimit,
  *                                direction, styleRuns[i].style);
  *                      if (styleLimit == limit) {
- *                          break;
+ *                          brebk;
  *                      }
- *                      start = styleLimit;
+ *                      stbrt = styleLimit;
  *                  }
  *              }
  *          } else {
- *              int styleStart;
+ *              int styleStbrt;
  *
  *              for (i = styleRunCount-1; i >= 0; --i) {
  *                  if (i > 0) {
- *                      styleStart = styleRuns[i-1].limit;
+ *                      styleStbrt = styleRuns[i-1].limit;
  *                  } else {
- *                      styleStart = 0;
+ *                      styleStbrt = 0;
  *                  }
- *                  if (limit >= styleStart) {
- *                      if (styleStart < start) {
- *                          styleStart = start;
+ *                  if (limit >= styleStbrt) {
+ *                      if (styleStbrt < stbrt) {
+ *                          styleStbrt = stbrt;
  *                      }
- *                      renderRun(text, styleStart, limit, direction,
+ *                      renderRun(text, styleStbrt, limit, direction,
  *                                styleRuns[i].style);
- *                      if (styleStart == start) {
- *                          break;
+ *                      if (styleStbrt == stbrt) {
+ *                          brebk;
  *                      }
- *                      limit = styleStart;
+ *                      limit = styleStbrt;
  *                  }
  *              }
  *          }
  *      }
  *
- *      // the line object represents text[start..limit-1]
- *      static void renderLine(Bidi line, String text, int start, int limit,
+ *      // the line object represents text[stbrt..limit-1]
+ *      stbtic void renderLine(Bidi line, String text, int stbrt, int limit,
  *                             StyleRun styleRuns[], int styleRunCount) {
  *          byte direction = line.getDirection();
  *          if (direction != Bidi.MIXED) {
- *              // unidirectional
+ *              // unidirectionbl
  *              if (styleRunCount <= 1) {
- *                  renderRun(text, start, limit, direction, styleRuns[0].style);
+ *                  renderRun(text, stbrt, limit, direction, styleRuns[0].style);
  *              } else {
- *                  renderDirectionalRun(text, start, limit, direction,
+ *                  renderDirectionblRun(text, stbrt, limit, direction,
  *                                       styleRuns, styleRunCount);
  *              }
  *          } else {
- *              // mixed-directional
+ *              // mixed-directionbl
  *              int count, i;
  *              BidiRun run;
  *
  *              try {
  *                  count = line.countRuns();
- *              } catch (IllegalStateException e) {
- *                  e.printStackTrace();
+ *              } cbtch (IllegblStbteException e) {
+ *                  e.printStbckTrbce();
  *                  return;
  *              }
  *              if (styleRunCount <= 1) {
  *                  int style = styleRuns[0].style;
  *
- *                  // iterate over directional runs
+ *                  // iterbte over directionbl runs
  *                  for (i = 0; i < count; ++i) {
- *                      run = line.getVisualRun(i);
- *                      renderRun(text, run.getStart(), run.getLimit(),
+ *                      run = line.getVisublRun(i);
+ *                      renderRun(text, run.getStbrt(), run.getLimit(),
  *                                run.getDirection(), style);
  *                  }
  *              } else {
- *                  // iterate over both directional and style runs
+ *                  // iterbte over both directionbl bnd style runs
  *                  for (i = 0; i < count; ++i) {
- *                      run = line.getVisualRun(i);
- *                      renderDirectionalRun(text, run.getStart(),
+ *                      run = line.getVisublRun(i);
+ *                      renderDirectionblRun(text, run.getStbrt(),
  *                                           run.getLimit(), run.getDirection(),
  *                                           styleRuns, styleRunCount);
  *                  }
@@ -367,277 +367,277 @@ import sun.text.normalizer.UTF16;
  *          }
  *      }
  *
- *      static void renderParagraph(String text, byte textDirection,
+ *      stbtic void renderPbrbgrbph(String text, byte textDirection,
  *                                  StyleRun styleRuns[], int styleRunCount,
  *                                  int lineWidth) {
  *          int length = text.length();
- *          Bidi para = new Bidi();
+ *          Bidi pbrb = new Bidi();
  *          try {
- *              para.setPara(text,
+ *              pbrb.setPbrb(text,
  *                           textDirection != 0 ? Bidi.LEVEL_DEFAULT_RTL
  *                                              : Bidi.LEVEL_DEFAULT_LTR,
  *                           null);
- *          } catch (Exception e) {
- *              e.printStackTrace();
+ *          } cbtch (Exception e) {
+ *              e.printStbckTrbce();
  *              return;
  *          }
- *          byte paraLevel = (byte)(1 & para.getParaLevel());
- *          StyleRun styleRun = new StyleRun(length, styleNormal);
+ *          byte pbrbLevel = (byte)(1 & pbrb.getPbrbLevel());
+ *          StyleRun styleRun = new StyleRun(length, styleNormbl);
  *
  *          if (styleRuns == null || styleRunCount <= 0) {
  *              styleRuns = new StyleRun[1];
  *              styleRunCount = 1;
  *              styleRuns[0] = styleRun;
  *          }
- *          // assume styleRuns[styleRunCount-1].limit>=length
+ *          // bssume styleRuns[styleRunCount-1].limit>=length
  *
  *          int width = getTextWidth(text, 0, length, styleRuns, styleRunCount);
  *          if (width <= lineWidth) {
  *              // everything fits onto one line
  *
- *              // prepare rendering a new line from either left or right
- *              startLine(paraLevel, width);
+ *              // prepbre rendering b new line from either left or right
+ *              stbrtLine(pbrbLevel, width);
  *
- *              renderLine(para, text, 0, length, styleRuns, styleRunCount);
+ *              renderLine(pbrb, text, 0, length, styleRuns, styleRunCount);
  *          } else {
- *              // we need to render several lines
+ *              // we need to render severbl lines
  *              Bidi line = new Bidi(length, 0);
- *              int start = 0, limit;
- *              int styleRunStart = 0, styleRunLimit;
+ *              int stbrt = 0, limit;
+ *              int styleRunStbrt = 0, styleRunLimit;
  *
  *              for (;;) {
  *                  limit = length;
  *                  styleRunLimit = styleRunCount;
- *                  width = getLineBreak(text, new Bounds(start, limit),
- *                                       para, styleRuns,
- *                                       new Bounds(styleRunStart, styleRunLimit));
+ *                  width = getLineBrebk(text, new Bounds(stbrt, limit),
+ *                                       pbrb, styleRuns,
+ *                                       new Bounds(styleRunStbrt, styleRunLimit));
  *                  try {
- *                      line = para.setLine(start, limit);
- *                  } catch (Exception e) {
- *                      e.printStackTrace();
+ *                      line = pbrb.setLine(stbrt, limit);
+ *                  } cbtch (Exception e) {
+ *                      e.printStbckTrbce();
  *                      return;
  *                  }
- *                  // prepare rendering a new line
+ *                  // prepbre rendering b new line
  *                  // from either left or right
- *                  startLine(paraLevel, width);
+ *                  stbrtLine(pbrbLevel, width);
  *
- *                  if (styleRunStart > 0) {
- *                      int newRunCount = styleRuns.length - styleRunStart;
+ *                  if (styleRunStbrt > 0) {
+ *                      int newRunCount = styleRuns.length - styleRunStbrt;
  *                      StyleRun[] newRuns = new StyleRun[newRunCount];
- *                      System.arraycopy(styleRuns, styleRunStart, newRuns, 0,
+ *                      System.brrbycopy(styleRuns, styleRunStbrt, newRuns, 0,
  *                                       newRunCount);
- *                      renderLine(line, text, start, limit, newRuns,
- *                                 styleRunLimit - styleRunStart);
+ *                      renderLine(line, text, stbrt, limit, newRuns,
+ *                                 styleRunLimit - styleRunStbrt);
  *                  } else {
- *                      renderLine(line, text, start, limit, styleRuns,
- *                                 styleRunLimit - styleRunStart);
+ *                      renderLine(line, text, stbrt, limit, styleRuns,
+ *                                 styleRunLimit - styleRunStbrt);
  *                  }
  *                  if (limit == length) {
- *                      break;
+ *                      brebk;
  *                  }
- *                  start = limit;
- *                  styleRunStart = styleRunLimit - 1;
- *                  if (start >= styleRuns[styleRunStart].limit) {
- *                      ++styleRunStart;
+ *                  stbrt = limit;
+ *                  styleRunStbrt = styleRunLimit - 1;
+ *                  if (stbrt >= styleRuns[styleRunStbrt].limit) {
+ *                      ++styleRunStbrt;
  *                  }
  *              }
  *          }
  *      }
  *
- *      public static void main(String[] args)
+ *      public stbtic void mbin(String[] brgs)
  *      {
- *          renderParagraph("Some Latin text...", Bidi.LTR, null, 0, 80);
- *          renderParagraph("Some Hebrew text...", Bidi.RTL, null, 0, 60);
+ *          renderPbrbgrbph("Some Lbtin text...", Bidi.LTR, null, 0, 80);
+ *          renderPbrbgrbph("Some Hebrew text...", Bidi.RTL, null, 0, 60);
  *      }
  *  }
  *
  * </pre>
  */
 
-public class BidiBase {
+public clbss BidiBbse {
 
-    class Point {
+    clbss Point {
         int pos;    /* position in text */
-        int flag;   /* flag for LRM/RLM, before/after */
+        int flbg;   /* flbg for LRM/RLM, before/bfter */
     }
 
-    class InsertPoints {
+    clbss InsertPoints {
         int size;
         int confirmed;
         Point[] points = new Point[0];
     }
 
-    /** Paragraph level setting<p>
+    /** Pbrbgrbph level setting<p>
      *
-     * Constant indicating that the base direction depends on the first strong
-     * directional character in the text according to the Unicode Bidirectional
-     * Algorithm. If no strong directional character is present,
-     * then set the paragraph level to 0 (left-to-right).<p>
+     * Constbnt indicbting thbt the bbse direction depends on the first strong
+     * directionbl chbrbcter in the text bccording to the Unicode Bidirectionbl
+     * Algorithm. If no strong directionbl chbrbcter is present,
+     * then set the pbrbgrbph level to 0 (left-to-right).<p>
      *
-     * If this value is used in conjunction with reordering modes
+     * If this vblue is used in conjunction with reordering modes
      * <code>REORDER_INVERSE_LIKE_DIRECT</code> or
      * <code>REORDER_INVERSE_FOR_NUMBERS_SPECIAL</code>, the text to reorder
-     * is assumed to be visual LTR, and the text after reordering is required
-     * to be the corresponding logical string with appropriate contextual
+     * is bssumed to be visubl LTR, bnd the text bfter reordering is required
+     * to be the corresponding logicbl string with bppropribte contextubl
      * direction. The direction of the result string will be RTL if either
-     * the righmost or leftmost strong character of the source text is RTL
-     * or Arabic Letter, the direction will be LTR otherwise.<p>
+     * the righmost or leftmost strong chbrbcter of the source text is RTL
+     * or Arbbic Letter, the direction will be LTR otherwise.<p>
      *
-     * If reordering option <code>OPTION_INSERT_MARKS</code> is set, an RLM may
-     * be added at the beginning of the result string to ensure round trip
-     * (that the result string, when reordered back to visual, will produce
-     * the original source text).
+     * If reordering option <code>OPTION_INSERT_MARKS</code> is set, bn RLM mby
+     * be bdded bt the beginning of the result string to ensure round trip
+     * (thbt the result string, when reordered bbck to visubl, will produce
+     * the originbl source text).
      * @see #REORDER_INVERSE_LIKE_DIRECT
      * @see #REORDER_INVERSE_FOR_NUMBERS_SPECIAL
-     * @stable ICU 3.8
+     * @stbble ICU 3.8
      */
-    public static final byte INTERNAL_LEVEL_DEFAULT_LTR = (byte)0x7e;
+    public stbtic finbl byte INTERNAL_LEVEL_DEFAULT_LTR = (byte)0x7e;
 
-    /** Paragraph level setting<p>
+    /** Pbrbgrbph level setting<p>
      *
-     * Constant indicating that the base direction depends on the first strong
-     * directional character in the text according to the Unicode Bidirectional
-     * Algorithm. If no strong directional character is present,
-     * then set the paragraph level to 1 (right-to-left).<p>
+     * Constbnt indicbting thbt the bbse direction depends on the first strong
+     * directionbl chbrbcter in the text bccording to the Unicode Bidirectionbl
+     * Algorithm. If no strong directionbl chbrbcter is present,
+     * then set the pbrbgrbph level to 1 (right-to-left).<p>
      *
-     * If this value is used in conjunction with reordering modes
+     * If this vblue is used in conjunction with reordering modes
      * <code>REORDER_INVERSE_LIKE_DIRECT</code> or
      * <code>REORDER_INVERSE_FOR_NUMBERS_SPECIAL</code>, the text to reorder
-     * is assumed to be visual LTR, and the text after reordering is required
-     * to be the corresponding logical string with appropriate contextual
+     * is bssumed to be visubl LTR, bnd the text bfter reordering is required
+     * to be the corresponding logicbl string with bppropribte contextubl
      * direction. The direction of the result string will be RTL if either
-     * the righmost or leftmost strong character of the source text is RTL
-     * or Arabic Letter, or if the text contains no strong character;
+     * the righmost or leftmost strong chbrbcter of the source text is RTL
+     * or Arbbic Letter, or if the text contbins no strong chbrbcter;
      * the direction will be LTR otherwise.<p>
      *
-     * If reordering option <code>OPTION_INSERT_MARKS</code> is set, an RLM may
-     * be added at the beginning of the result string to ensure round trip
-     * (that the result string, when reordered back to visual, will produce
-     * the original source text).
+     * If reordering option <code>OPTION_INSERT_MARKS</code> is set, bn RLM mby
+     * be bdded bt the beginning of the result string to ensure round trip
+     * (thbt the result string, when reordered bbck to visubl, will produce
+     * the originbl source text).
      * @see #REORDER_INVERSE_LIKE_DIRECT
      * @see #REORDER_INVERSE_FOR_NUMBERS_SPECIAL
-     * @stable ICU 3.8
+     * @stbble ICU 3.8
      */
-    public static final byte INTERNAL_LEVEL_DEFAULT_RTL = (byte)0x7f;
+    public stbtic finbl byte INTERNAL_LEVEL_DEFAULT_RTL = (byte)0x7f;
 
     /**
-     * Maximum explicit embedding level.
-     * (The maximum resolved level can be up to <code>MAX_EXPLICIT_LEVEL+1</code>).
-     * @stable ICU 3.8
+     * Mbximum explicit embedding level.
+     * (The mbximum resolved level cbn be up to <code>MAX_EXPLICIT_LEVEL+1</code>).
+     * @stbble ICU 3.8
      */
-    public static final byte MAX_EXPLICIT_LEVEL = 61;
+    public stbtic finbl byte MAX_EXPLICIT_LEVEL = 61;
 
     /**
-     * Bit flag for level input.
-     * Overrides directional properties.
-     * @stable ICU 3.8
+     * Bit flbg for level input.
+     * Overrides directionbl properties.
+     * @stbble ICU 3.8
      */
-    public static final byte INTERNAL_LEVEL_OVERRIDE = (byte)0x80;
+    public stbtic finbl byte INTERNAL_LEVEL_OVERRIDE = (byte)0x80;
 
     /**
-     * Special value which can be returned by the mapping methods when a
-     * logical index has no corresponding visual index or vice-versa. This may
-     * happen for the logical-to-visual mapping of a Bidi control when option
+     * Specibl vblue which cbn be returned by the mbpping methods when b
+     * logicbl index hbs no corresponding visubl index or vice-versb. This mby
+     * hbppen for the logicbl-to-visubl mbpping of b Bidi control when option
      * <code>OPTION_REMOVE_CONTROLS</code> is
-     * specified. This can also happen for the visual-to-logical mapping of a
-     * Bidi mark (LRM or RLM) inserted by option
+     * specified. This cbn blso hbppen for the visubl-to-logicbl mbpping of b
+     * Bidi mbrk (LRM or RLM) inserted by option
      * <code>OPTION_INSERT_MARKS</code>.
-     * @see #getVisualIndex
-     * @see #getVisualMap
-     * @see #getLogicalIndex
-     * @see #getLogicalMap
+     * @see #getVisublIndex
+     * @see #getVisublMbp
+     * @see #getLogicblIndex
+     * @see #getLogicblMbp
      * @see #OPTION_INSERT_MARKS
      * @see #OPTION_REMOVE_CONTROLS
-     * @stable ICU 3.8
+     * @stbble ICU 3.8
      */
-    public static final int MAP_NOWHERE = -1;
+    public stbtic finbl int MAP_NOWHERE = -1;
 
     /**
-     * Mixed-directional text.
-     * @stable ICU 3.8
+     * Mixed-directionbl text.
+     * @stbble ICU 3.8
      */
-    public static final byte MIXED = 2;
+    public stbtic finbl byte MIXED = 2;
 
     /**
      * option bit for writeReordered():
-     * replace characters with the "mirrored" property in RTL runs
-     * by their mirror-image mappings
+     * replbce chbrbcters with the "mirrored" property in RTL runs
+     * by their mirror-imbge mbppings
      *
      * @see #writeReordered
-     * @stable ICU 3.8
+     * @stbble ICU 3.8
      */
-    public static final short DO_MIRRORING = 2;
+    public stbtic finbl short DO_MIRRORING = 2;
 
-    /** Reordering mode: Regular Logical to Visual Bidi algorithm according to Unicode.
+    /** Reordering mode: Regulbr Logicbl to Visubl Bidi blgorithm bccording to Unicode.
      * @see #setReorderingMode
-     * @stable ICU 3.8
+     * @stbble ICU 3.8
      */
-    private static final short REORDER_DEFAULT = 0;
+    privbte stbtic finbl short REORDER_DEFAULT = 0;
 
-    /** Reordering mode: Logical to Visual algorithm which handles numbers in
-     * a way which mimicks the behavior of Windows XP.
+    /** Reordering mode: Logicbl to Visubl blgorithm which hbndles numbers in
+     * b wby which mimicks the behbvior of Windows XP.
      * @see #setReorderingMode
-     * @stable ICU 3.8
+     * @stbble ICU 3.8
      */
-    private static final short REORDER_NUMBERS_SPECIAL = 1;
+    privbte stbtic finbl short REORDER_NUMBERS_SPECIAL = 1;
 
-    /** Reordering mode: Logical to Visual algorithm grouping numbers with
-     * adjacent R characters (reversible algorithm).
+    /** Reordering mode: Logicbl to Visubl blgorithm grouping numbers with
+     * bdjbcent R chbrbcters (reversible blgorithm).
      * @see #setReorderingMode
-     * @stable ICU 3.8
+     * @stbble ICU 3.8
      */
-    private static final short REORDER_GROUP_NUMBERS_WITH_R = 2;
+    privbte stbtic finbl short REORDER_GROUP_NUMBERS_WITH_R = 2;
 
-    /** Reordering mode: Reorder runs only to transform a Logical LTR string
-     * to the logical RTL string with the same display, or vice-versa.<br>
+    /** Reordering mode: Reorder runs only to trbnsform b Logicbl LTR string
+     * to the logicbl RTL string with the sbme displby, or vice-versb.<br>
      * If this mode is set together with option
      * <code>OPTION_INSERT_MARKS</code>, some Bidi controls in the source
-     * text may be removed and other controls may be added to produce the
-     * minimum combination which has the required display.
+     * text mby be removed bnd other controls mby be bdded to produce the
+     * minimum combinbtion which hbs the required displby.
      * @see #OPTION_INSERT_MARKS
      * @see #setReorderingMode
-     * @stable ICU 3.8
+     * @stbble ICU 3.8
      */
-    private static final short REORDER_RUNS_ONLY = 3;
+    privbte stbtic finbl short REORDER_RUNS_ONLY = 3;
 
-    /** Reordering mode: Visual to Logical algorithm which handles numbers
-     * like L (same algorithm as selected by <code>setInverse(true)</code>.
+    /** Reordering mode: Visubl to Logicbl blgorithm which hbndles numbers
+     * like L (sbme blgorithm bs selected by <code>setInverse(true)</code>.
      * @see #setInverse
      * @see #setReorderingMode
-     * @stable ICU 3.8
+     * @stbble ICU 3.8
      */
-    private static final short REORDER_INVERSE_NUMBERS_AS_L = 4;
+    privbte stbtic finbl short REORDER_INVERSE_NUMBERS_AS_L = 4;
 
-    /** Reordering mode: Visual to Logical algorithm equivalent to the regular
-     * Logical to Visual algorithm.
+    /** Reordering mode: Visubl to Logicbl blgorithm equivblent to the regulbr
+     * Logicbl to Visubl blgorithm.
      * @see #setReorderingMode
-     * @stable ICU 3.8
+     * @stbble ICU 3.8
      */
-    private static final short REORDER_INVERSE_LIKE_DIRECT = 5;
+    privbte stbtic finbl short REORDER_INVERSE_LIKE_DIRECT = 5;
 
-    /** Reordering mode: Inverse Bidi (Visual to Logical) algorithm for the
-     * <code>REORDER_NUMBERS_SPECIAL</code> Bidi algorithm.
+    /** Reordering mode: Inverse Bidi (Visubl to Logicbl) blgorithm for the
+     * <code>REORDER_NUMBERS_SPECIAL</code> Bidi blgorithm.
      * @see #setReorderingMode
-     * @stable ICU 3.8
+     * @stbble ICU 3.8
      */
-    private static final short REORDER_INVERSE_FOR_NUMBERS_SPECIAL = 6;
+    privbte stbtic finbl short REORDER_INVERSE_FOR_NUMBERS_SPECIAL = 6;
 
-    /* Reordering mode values must be ordered so that all the regular logical to
-     * visual modes come first, and all inverse Bidi modes come last.
+    /* Reordering mode vblues must be ordered so thbt bll the regulbr logicbl to
+     * visubl modes come first, bnd bll inverse Bidi modes come lbst.
      */
-    private static final short REORDER_LAST_LOGICAL_TO_VISUAL =
+    privbte stbtic finbl short REORDER_LAST_LOGICAL_TO_VISUAL =
             REORDER_NUMBERS_SPECIAL;
 
     /**
      * Option bit for <code>setReorderingOptions</code>:
-     * insert Bidi marks (LRM or RLM) when needed to ensure correct result of
-     * a reordering to a Logical order
+     * insert Bidi mbrks (LRM or RLM) when needed to ensure correct result of
+     * b reordering to b Logicbl order
      *
-     * <p>This option must be set or reset before calling
-     * <code>setPara</code>.</p>
+     * <p>This option must be set or reset before cblling
+     * <code>setPbrb</code>.</p>
      *
-     * <p>This option is significant only with reordering modes which generate
-     * a result with Logical order, specifically.</p>
+     * <p>This option is significbnt only with reordering modes which generbte
+     * b result with Logicbl order, specificblly.</p>
      * <ul>
      *   <li><code>REORDER_RUNS_ONLY</code></li>
      *   <li><code>REORDER_INVERSE_NUMBERS_AS_L</code></li>
@@ -646,26 +646,26 @@ public class BidiBase {
      * </ul>
      *
      * <p>If this option is set in conjunction with reordering mode
-     * <code>REORDER_INVERSE_NUMBERS_AS_L</code> or with calling
+     * <code>REORDER_INVERSE_NUMBERS_AS_L</code> or with cblling
      * <code>setInverse(true)</code>, it implies option
-     * <code>INSERT_LRM_FOR_NUMERIC</code> in calls to method
+     * <code>INSERT_LRM_FOR_NUMERIC</code> in cblls to method
      * <code>writeReordered()</code>.</p>
      *
-     * <p>For other reordering modes, a minimum number of LRM or RLM characters
-     * will be added to the source text after reordering it so as to ensure
-     * round trip, i.e. when applying the inverse reordering mode on the
-     * resulting logical text with removal of Bidi marks
-     * (option <code>OPTION_REMOVE_CONTROLS</code> set before calling
-     * <code>setPara()</code> or option
+     * <p>For other reordering modes, b minimum number of LRM or RLM chbrbcters
+     * will be bdded to the source text bfter reordering it so bs to ensure
+     * round trip, i.e. when bpplying the inverse reordering mode on the
+     * resulting logicbl text with removbl of Bidi mbrks
+     * (option <code>OPTION_REMOVE_CONTROLS</code> set before cblling
+     * <code>setPbrb()</code> or option
      * <code>REMOVE_BIDI_CONTROLS</code> in
-     * <code>writeReordered</code>), the result will be identical to the
-     * source text in the first transformation.
+     * <code>writeReordered</code>), the result will be identicbl to the
+     * source text in the first trbnsformbtion.
      *
      * <p>This option will be ignored if specified together with option
      * <code>OPTION_REMOVE_CONTROLS</code>. It inhibits option
-     * <code>REMOVE_BIDI_CONTROLS</code> in calls to method
-     * <code>writeReordered()</code> and it implies option
-     * <code>INSERT_LRM_FOR_NUMERIC</code> in calls to method
+     * <code>REMOVE_BIDI_CONTROLS</code> in cblls to method
+     * <code>writeReordered()</code> bnd it implies option
+     * <code>INSERT_LRM_FOR_NUMERIC</code> in cblls to method
      * <code>writeReordered()</code> if the reordering mode is
      * <code>REORDER_INVERSE_NUMBERS_AS_L</code>.</p>
      *
@@ -678,591 +678,591 @@ public class BidiBase {
      * @see #REORDER_INVERSE_NUMBERS_AS_L
      * @see #REORDER_INVERSE_LIKE_DIRECT
      * @see #REORDER_INVERSE_FOR_NUMBERS_SPECIAL
-     * @stable ICU 3.8
+     * @stbble ICU 3.8
      */
-    private static final int OPTION_INSERT_MARKS = 1;
+    privbte stbtic finbl int OPTION_INSERT_MARKS = 1;
 
     /**
      * Option bit for <code>setReorderingOptions</code>:
-     * remove Bidi control characters
+     * remove Bidi control chbrbcters
      *
-     * <p>This option must be set or reset before calling
-     * <code>setPara</code>.</p>
+     * <p>This option must be set or reset before cblling
+     * <code>setPbrb</code>.</p>
      *
      * <p>This option nullifies option
      * <code>OPTION_INSERT_MARKS</code>. It inhibits option
-     * <code>INSERT_LRM_FOR_NUMERIC</code> in calls to method
-     * <code>writeReordered()</code> and it implies option
-     * <code>REMOVE_BIDI_CONTROLS</code> in calls to that method.</p>
+     * <code>INSERT_LRM_FOR_NUMERIC</code> in cblls to method
+     * <code>writeReordered()</code> bnd it implies option
+     * <code>REMOVE_BIDI_CONTROLS</code> in cblls to thbt method.</p>
      *
      * @see #setReorderingMode
      * @see #setReorderingOptions
      * @see #OPTION_INSERT_MARKS
      * @see #INSERT_LRM_FOR_NUMERIC
      * @see #REMOVE_BIDI_CONTROLS
-     * @stable ICU 3.8
+     * @stbble ICU 3.8
      */
-    private static final int OPTION_REMOVE_CONTROLS = 2;
+    privbte stbtic finbl int OPTION_REMOVE_CONTROLS = 2;
 
     /**
      * Option bit for <code>setReorderingOptions</code>:
-     * process the output as part of a stream to be continued
+     * process the output bs pbrt of b strebm to be continued
      *
-     * <p>This option must be set or reset before calling
-     * <code>setPara</code>.</p>
+     * <p>This option must be set or reset before cblling
+     * <code>setPbrb</code>.</p>
      *
-     * <p>This option specifies that the caller is interested in processing
-     * large text object in parts. The results of the successive calls are
-     * expected to be concatenated by the caller. Only the call for the last
-     * part will have this option bit off.</p>
+     * <p>This option specifies thbt the cbller is interested in processing
+     * lbrge text object in pbrts. The results of the successive cblls bre
+     * expected to be concbtenbted by the cbller. Only the cbll for the lbst
+     * pbrt will hbve this option bit off.</p>
      *
-     * <p>When this option bit is on, <code>setPara()</code> may process
-     * less than the full source text in order to truncate the text at a
-     * meaningful boundary. The caller should call
-     * <code>getProcessedLength()</code> immediately after calling
-     * <code>setPara()</code> in order to determine how much of the source
-     * text has been processed. Source text beyond that length should be
-     * resubmitted in following calls to <code>setPara</code>. The
-     * processed length may be less than the length of the source text if a
-     * character preceding the last character of the source text constitutes a
-     * reasonable boundary (like a block separator) for text to be continued.<br>
-     * If the last character of the source text constitutes a reasonable
-     * boundary, the whole text will be processed at once.<br>
+     * <p>When this option bit is on, <code>setPbrb()</code> mby process
+     * less thbn the full source text in order to truncbte the text bt b
+     * mebningful boundbry. The cbller should cbll
+     * <code>getProcessedLength()</code> immedibtely bfter cblling
+     * <code>setPbrb()</code> in order to determine how much of the source
+     * text hbs been processed. Source text beyond thbt length should be
+     * resubmitted in following cblls to <code>setPbrb</code>. The
+     * processed length mby be less thbn the length of the source text if b
+     * chbrbcter preceding the lbst chbrbcter of the source text constitutes b
+     * rebsonbble boundbry (like b block sepbrbtor) for text to be continued.<br>
+     * If the lbst chbrbcter of the source text constitutes b rebsonbble
+     * boundbry, the whole text will be processed bt once.<br>
      * If nowhere in the source text there exists
-     * such a reasonable boundary, the processed length will be zero.<br>
-     * The caller should check for such an occurrence and do one of the following:
-     * <ul><li>submit a larger amount of text with a better chance to include
-     *         a reasonable boundary.</li>
-     *     <li>resubmit the same text after turning off option
+     * such b rebsonbble boundbry, the processed length will be zero.<br>
+     * The cbller should check for such bn occurrence bnd do one of the following:
+     * <ul><li>submit b lbrger bmount of text with b better chbnce to include
+     *         b rebsonbble boundbry.</li>
+     *     <li>resubmit the sbme text bfter turning off option
      *         <code>OPTION_STREAMING</code>.</li></ul>
-     * In all cases, this option should be turned off before processing the last
-     * part of the text.</p>
+     * In bll cbses, this option should be turned off before processing the lbst
+     * pbrt of the text.</p>
      *
      * <p>When the <code>OPTION_STREAMING</code> option is used, it is
-     * recommended to call <code>orderParagraphsLTR()</code> with argument
-     * <code>orderParagraphsLTR</code> set to <code>true</code> before calling
-     * <code>setPara()</code> so that later paragraphs may be concatenated to
-     * previous paragraphs on the right.
+     * recommended to cbll <code>orderPbrbgrbphsLTR()</code> with brgument
+     * <code>orderPbrbgrbphsLTR</code> set to <code>true</code> before cblling
+     * <code>setPbrb()</code> so thbt lbter pbrbgrbphs mby be concbtenbted to
+     * previous pbrbgrbphs on the right.
      * </p>
      *
      * @see #setReorderingMode
      * @see #setReorderingOptions
      * @see #getProcessedLength
-     * @see #orderParagraphsLTR
-     * @stable ICU 3.8
+     * @see #orderPbrbgrbphsLTR
+     * @stbble ICU 3.8
      */
-    private static final int OPTION_STREAMING = 4;
+    privbte stbtic finbl int OPTION_STREAMING = 4;
 
     /*
-     *   Comparing the description of the Bidi algorithm with this implementation
-     *   is easier with the same names for the Bidi types in the code as there.
-     *   See UCharacterDirection
+     *   Compbring the description of the Bidi blgorithm with this implementbtion
+     *   is ebsier with the sbme nbmes for the Bidi types in the code bs there.
+     *   See UChbrbcterDirection
      */
-    private static final byte L   = 0;
-    private static final byte R   = 1;
-    private static final byte EN  = 2;
-    private static final byte ES  = 3;
-    private static final byte ET  = 4;
-    private static final byte AN  = 5;
-    private static final byte CS  = 6;
-    static final byte B   = 7;
-    private static final byte S   = 8;
-    private static final byte WS  = 9;
-    private static final byte ON  = 10;
-    private static final byte LRE = 11;
-    private static final byte LRO = 12;
-    private static final byte AL  = 13;
-    private static final byte RLE = 14;
-    private static final byte RLO = 15;
-    private static final byte PDF = 16;
-    private static final byte NSM = 17;
-    private static final byte BN  = 18;
+    privbte stbtic finbl byte L   = 0;
+    privbte stbtic finbl byte R   = 1;
+    privbte stbtic finbl byte EN  = 2;
+    privbte stbtic finbl byte ES  = 3;
+    privbte stbtic finbl byte ET  = 4;
+    privbte stbtic finbl byte AN  = 5;
+    privbte stbtic finbl byte CS  = 6;
+    stbtic finbl byte B   = 7;
+    privbte stbtic finbl byte S   = 8;
+    privbte stbtic finbl byte WS  = 9;
+    privbte stbtic finbl byte ON  = 10;
+    privbte stbtic finbl byte LRE = 11;
+    privbte stbtic finbl byte LRO = 12;
+    privbte stbtic finbl byte AL  = 13;
+    privbte stbtic finbl byte RLE = 14;
+    privbte stbtic finbl byte RLO = 15;
+    privbte stbtic finbl byte PDF = 16;
+    privbte stbtic finbl byte NSM = 17;
+    privbte stbtic finbl byte BN  = 18;
 
-    private static final int MASK_R_AL = (1 << R | 1 << AL);
+    privbte stbtic finbl int MASK_R_AL = (1 << R | 1 << AL);
 
-    private static final char CR = '\r';
-    private static final char LF = '\n';
+    privbte stbtic finbl chbr CR = '\r';
+    privbte stbtic finbl chbr LF = '\n';
 
-    static final int LRM_BEFORE = 1;
-    static final int LRM_AFTER = 2;
-    static final int RLM_BEFORE = 4;
-    static final int RLM_AFTER = 8;
+    stbtic finbl int LRM_BEFORE = 1;
+    stbtic finbl int LRM_AFTER = 2;
+    stbtic finbl int RLM_BEFORE = 4;
+    stbtic finbl int RLM_AFTER = 8;
 
     /*
-     * reference to parent paragraph object (reference to self if this object is
-     * a paragraph object); set to null in a newly opened object; set to a
-     * real value after a successful execution of setPara or setLine
+     * reference to pbrent pbrbgrbph object (reference to self if this object is
+     * b pbrbgrbph object); set to null in b newly opened object; set to b
+     * rebl vblue bfter b successful execution of setPbrb or setLine
      */
-    BidiBase                paraBidi;
+    BidiBbse                pbrbBidi;
 
-    final UBiDiProps    bdp;
+    finbl UBiDiProps    bdp;
 
-    /* character array representing the current text */
-    char[]              text;
+    /* chbrbcter brrby representing the current text */
+    chbr[]              text;
 
     /* length of the current text */
-    int                 originalLength;
+    int                 originblLength;
 
     /* if the option OPTION_STREAMING is set, this is the length of
-     * text actually processed by <code>setPara</code>, which may be shorter
-     * than the original length. Otherwise, it is identical to the original
+     * text bctublly processed by <code>setPbrb</code>, which mby be shorter
+     * thbn the originbl length. Otherwise, it is identicbl to the originbl
      * length.
      */
     public int                 length;
 
-    /* if option OPTION_REMOVE_CONTROLS is set, and/or Bidi
-     * marks are allowed to be inserted in one of the reordering modes, the
-     * length of the result string may be different from the processed length.
+    /* if option OPTION_REMOVE_CONTROLS is set, bnd/or Bidi
+     * mbrks bre bllowed to be inserted in one of the reordering modes, the
+     * length of the result string mby be different from the processed length.
      */
     int                 resultLength;
 
-    /* indicators for whether memory may be allocated after construction */
-    boolean             mayAllocateText;
-    boolean             mayAllocateRuns;
+    /* indicbtors for whether memory mby be bllocbted bfter construction */
+    boolebn             mbyAllocbteText;
+    boolebn             mbyAllocbteRuns;
 
-    /* arrays with one value per text-character */
+    /* brrbys with one vblue per text-chbrbcter */
     byte[]              dirPropsMemory = new byte[1];
     byte[]              levelsMemory = new byte[1];
     byte[]              dirProps;
     byte[]              levels;
 
-    /* must block separators receive level 0? */
-    boolean             orderParagraphsLTR;
+    /* must block sepbrbtors receive level 0? */
+    boolebn             orderPbrbgrbphsLTR;
 
-    /* the paragraph level */
-    byte                paraLevel;
+    /* the pbrbgrbph level */
+    byte                pbrbLevel;
 
-    /* original paraLevel when contextual */
-    /* must be one of DEFAULT_xxx or 0 if not contextual */
-    byte                defaultParaLevel;
+    /* originbl pbrbLevel when contextubl */
+    /* must be one of DEFAULT_xxx or 0 if not contextubl */
+    byte                defbultPbrbLevel;
 
-    /* the following is set in setPara, used in processPropertySeq */
+    /* the following is set in setPbrb, used in processPropertySeq */
 
-    ImpTabPair          impTabPair;  /* reference to levels state table pair */
+    ImpTbbPbir          impTbbPbir;  /* reference to levels stbte tbble pbir */
 
-    /* the overall paragraph or line directionality*/
+    /* the overbll pbrbgrbph or line directionblity*/
     byte                direction;
 
-    /* flags is a bit set for which directional properties are in the text */
-    int                 flags;
+    /* flbgs is b bit set for which directionbl properties bre in the text */
+    int                 flbgs;
 
-    /* lastArabicPos is index to the last AL in the text, -1 if none */
-    int                 lastArabicPos;
+    /* lbstArbbicPos is index to the lbst AL in the text, -1 if none */
+    int                 lbstArbbicPos;
 
-    /* characters after trailingWSStart are WS and are */
-    /* implicitly at the paraLevel (rule (L1)) - levels may not reflect that */
-    int                 trailingWSStart;
+    /* chbrbcters bfter trbilingWSStbrt bre WS bnd bre */
+    /* implicitly bt the pbrbLevel (rule (L1)) - levels mby not reflect thbt */
+    int                 trbilingWSStbrt;
 
-    /* fields for paragraph handling */
-    int                 paraCount;       /* set in getDirProps() */
-    int[]               parasMemory = new int[1];
-    int[]               paras;           /* limits of paragraphs, filled in
+    /* fields for pbrbgrbph hbndling */
+    int                 pbrbCount;       /* set in getDirProps() */
+    int[]               pbrbsMemory = new int[1];
+    int[]               pbrbs;           /* limits of pbrbgrbphs, filled in
                                           ResolveExplicitLevels() or CheckExplicitLevels() */
 
-    /* for single paragraph text, we only need a tiny array of paras (no allocation) */
-    int[]               simpleParas = {0};
+    /* for single pbrbgrbph text, we only need b tiny brrby of pbrbs (no bllocbtion) */
+    int[]               simplePbrbs = {0};
 
     /* fields for line reordering */
     int                 runCount;     /* ==-1: runs not set up yet */
     BidiRun[]           runsMemory = new BidiRun[0];
     BidiRun[]           runs;
 
-    /* for non-mixed text, we only need a tiny array of runs (no allocation) */
+    /* for non-mixed text, we only need b tiny brrby of runs (no bllocbtion) */
     BidiRun[]           simpleRuns = {new BidiRun()};
 
-    /* mapping of runs in logical order to visual order */
-    int[]               logicalToVisualRunsMap;
+    /* mbpping of runs in logicbl order to visubl order */
+    int[]               logicblToVisublRunsMbp;
 
-    /* flag to indicate that the map has been updated */
-    boolean             isGoodLogicalToVisualRunsMap;
+    /* flbg to indicbte thbt the mbp hbs been updbted */
+    boolebn             isGoodLogicblToVisublRunsMbp;
 
-    /* for inverse Bidi with insertion of directional marks */
+    /* for inverse Bidi with insertion of directionbl mbrks */
     InsertPoints        insertPoints = new InsertPoints();
 
     /* for option OPTION_REMOVE_CONTROLS */
     int                 controlCount;
 
     /*
-     * Sometimes, bit values are more appropriate
-     * to deal with directionality properties.
-     * Abbreviations in these method names refer to names
-     * used in the Bidi algorithm.
+     * Sometimes, bit vblues bre more bppropribte
+     * to debl with directionblity properties.
+     * Abbrevibtions in these method nbmes refer to nbmes
+     * used in the Bidi blgorithm.
      */
-    static int DirPropFlag(byte dir) {
+    stbtic int DirPropFlbg(byte dir) {
         return (1 << dir);
     }
 
     /*
-     * The following bit is ORed to the property of characters in paragraphs
-     * with contextual RTL direction when paraLevel is contextual.
+     * The following bit is ORed to the property of chbrbcters in pbrbgrbphs
+     * with contextubl RTL direction when pbrbLevel is contextubl.
      */
-    static final byte CONTEXT_RTL_SHIFT = 6;
-    static final byte CONTEXT_RTL = (byte)(1<<CONTEXT_RTL_SHIFT);   // 0x40
-    static byte NoContextRTL(byte dir)
+    stbtic finbl byte CONTEXT_RTL_SHIFT = 6;
+    stbtic finbl byte CONTEXT_RTL = (byte)(1<<CONTEXT_RTL_SHIFT);   // 0x40
+    stbtic byte NoContextRTL(byte dir)
     {
         return (byte)(dir & ~CONTEXT_RTL);
     }
 
     /*
-     * The following is a variant of DirProp.DirPropFlag() which ignores the
+     * The following is b vbribnt of DirProp.DirPropFlbg() which ignores the
      * CONTEXT_RTL bit.
      */
-    static int DirPropFlagNC(byte dir) {
+    stbtic int DirPropFlbgNC(byte dir) {
         return (1<<(dir & ~CONTEXT_RTL));
     }
 
-    static final int DirPropFlagMultiRuns = DirPropFlag((byte)31);
+    stbtic finbl int DirPropFlbgMultiRuns = DirPropFlbg((byte)31);
 
-    /* to avoid some conditional statements, use tiny constant arrays */
-    static final int DirPropFlagLR[] = { DirPropFlag(L), DirPropFlag(R) };
-    static final int DirPropFlagE[] = { DirPropFlag(LRE), DirPropFlag(RLE) };
-    static final int DirPropFlagO[] = { DirPropFlag(LRO), DirPropFlag(RLO) };
+    /* to bvoid some conditionbl stbtements, use tiny constbnt brrbys */
+    stbtic finbl int DirPropFlbgLR[] = { DirPropFlbg(L), DirPropFlbg(R) };
+    stbtic finbl int DirPropFlbgE[] = { DirPropFlbg(LRE), DirPropFlbg(RLE) };
+    stbtic finbl int DirPropFlbgO[] = { DirPropFlbg(LRO), DirPropFlbg(RLO) };
 
-    static final int DirPropFlagLR(byte level) { return DirPropFlagLR[level & 1]; }
-    static final int DirPropFlagE(byte level)  { return DirPropFlagE[level & 1]; }
-    static final int DirPropFlagO(byte level)  { return DirPropFlagO[level & 1]; }
-
-    /*
-     *  are there any characters that are LTR?
-     */
-    static final int MASK_LTR =
-        DirPropFlag(L)|DirPropFlag(EN)|DirPropFlag(AN)|DirPropFlag(LRE)|DirPropFlag(LRO);
+    stbtic finbl int DirPropFlbgLR(byte level) { return DirPropFlbgLR[level & 1]; }
+    stbtic finbl int DirPropFlbgE(byte level)  { return DirPropFlbgE[level & 1]; }
+    stbtic finbl int DirPropFlbgO(byte level)  { return DirPropFlbgO[level & 1]; }
 
     /*
-     *  are there any characters that are RTL?
+     *  bre there bny chbrbcters thbt bre LTR?
      */
-    static final int MASK_RTL = DirPropFlag(R)|DirPropFlag(AL)|DirPropFlag(RLE)|DirPropFlag(RLO);
+    stbtic finbl int MASK_LTR =
+        DirPropFlbg(L)|DirPropFlbg(EN)|DirPropFlbg(AN)|DirPropFlbg(LRE)|DirPropFlbg(LRO);
+
+    /*
+     *  bre there bny chbrbcters thbt bre RTL?
+     */
+    stbtic finbl int MASK_RTL = DirPropFlbg(R)|DirPropFlbg(AL)|DirPropFlbg(RLE)|DirPropFlbg(RLO);
 
     /* explicit embedding codes */
-    private static final int MASK_LRX = DirPropFlag(LRE)|DirPropFlag(LRO);
-    private static final int MASK_RLX = DirPropFlag(RLE)|DirPropFlag(RLO);
-    private static final int MASK_EXPLICIT = MASK_LRX|MASK_RLX|DirPropFlag(PDF);
-    private static final int MASK_BN_EXPLICIT = DirPropFlag(BN)|MASK_EXPLICIT;
+    privbte stbtic finbl int MASK_LRX = DirPropFlbg(LRE)|DirPropFlbg(LRO);
+    privbte stbtic finbl int MASK_RLX = DirPropFlbg(RLE)|DirPropFlbg(RLO);
+    privbte stbtic finbl int MASK_EXPLICIT = MASK_LRX|MASK_RLX|DirPropFlbg(PDF);
+    privbte stbtic finbl int MASK_BN_EXPLICIT = DirPropFlbg(BN)|MASK_EXPLICIT;
 
-    /* paragraph and segment separators */
-    private static final int MASK_B_S = DirPropFlag(B)|DirPropFlag(S);
+    /* pbrbgrbph bnd segment sepbrbtors */
+    privbte stbtic finbl int MASK_B_S = DirPropFlbg(B)|DirPropFlbg(S);
 
-    /* all types that are counted as White Space or Neutral in some steps */
-    static final int MASK_WS = MASK_B_S|DirPropFlag(WS)|MASK_BN_EXPLICIT;
-    private static final int MASK_N = DirPropFlag(ON)|MASK_WS;
+    /* bll types thbt bre counted bs White Spbce or Neutrbl in some steps */
+    stbtic finbl int MASK_WS = MASK_B_S|DirPropFlbg(WS)|MASK_BN_EXPLICIT;
+    privbte stbtic finbl int MASK_N = DirPropFlbg(ON)|MASK_WS;
 
-    /* types that are neutrals or could becomes neutrals in (Wn) */
-    private static final int MASK_POSSIBLE_N = DirPropFlag(CS)|DirPropFlag(ES)|DirPropFlag(ET)|MASK_N;
+    /* types thbt bre neutrbls or could becomes neutrbls in (Wn) */
+    privbte stbtic finbl int MASK_POSSIBLE_N = DirPropFlbg(CS)|DirPropFlbg(ES)|DirPropFlbg(ET)|MASK_N;
 
     /*
-     * These types may be changed to "e",
+     * These types mby be chbnged to "e",
      * the embedding type (L or R) of the run,
-     * in the Bidi algorithm (N2)
+     * in the Bidi blgorithm (N2)
      */
-    static final int MASK_EMBEDDING = DirPropFlag(NSM)|MASK_POSSIBLE_N;
+    stbtic finbl int MASK_EMBEDDING = DirPropFlbg(NSM)|MASK_POSSIBLE_N;
 
     /*
-     *  the dirProp's L and R are defined to 0 and 1 values in UCharacterDirection.java
+     *  the dirProp's L bnd R bre defined to 0 bnd 1 vblues in UChbrbcterDirection.jbvb
      */
-    private static byte GetLRFromLevel(byte level)
+    privbte stbtic byte GetLRFromLevel(byte level)
     {
         return (byte)(level & 1);
     }
 
-    private static boolean IsDefaultLevel(byte level)
+    privbte stbtic boolebn IsDefbultLevel(byte level)
     {
         return ((level & INTERNAL_LEVEL_DEFAULT_LTR) == INTERNAL_LEVEL_DEFAULT_LTR);
     }
 
-    byte GetParaLevelAt(int index)
+    byte GetPbrbLevelAt(int index)
     {
-        return (defaultParaLevel != 0) ?
-                (byte)(dirProps[index]>>CONTEXT_RTL_SHIFT) : paraLevel;
+        return (defbultPbrbLevel != 0) ?
+                (byte)(dirProps[index]>>CONTEXT_RTL_SHIFT) : pbrbLevel;
     }
 
-    static boolean IsBidiControlChar(int c)
+    stbtic boolebn IsBidiControlChbr(int c)
     {
-        /* check for range 0x200c to 0x200f (ZWNJ, ZWJ, LRM, RLM) or
-                           0x202a to 0x202e (LRE, RLE, PDF, LRO, RLO) */
-        return (((c & 0xfffffffc) == 0x200c) || ((c >= 0x202a) && (c <= 0x202e)));
+        /* check for rbnge 0x200c to 0x200f (ZWNJ, ZWJ, LRM, RLM) or
+                           0x202b to 0x202e (LRE, RLE, PDF, LRO, RLO) */
+        return (((c & 0xfffffffc) == 0x200c) || ((c >= 0x202b) && (c <= 0x202e)));
     }
 
-    public void verifyValidPara()
+    public void verifyVblidPbrb()
     {
-        if (this != this.paraBidi) {
-            throw new IllegalStateException("");
+        if (this != this.pbrbBidi) {
+            throw new IllegblStbteException("");
         }
     }
 
-    public void verifyValidParaOrLine()
+    public void verifyVblidPbrbOrLine()
     {
-        BidiBase para = this.paraBidi;
-        /* verify Para */
-        if (this == para) {
+        BidiBbse pbrb = this.pbrbBidi;
+        /* verify Pbrb */
+        if (this == pbrb) {
             return;
         }
         /* verify Line */
-        if ((para == null) || (para != para.paraBidi)) {
-            throw new IllegalStateException();
+        if ((pbrb == null) || (pbrb != pbrb.pbrbBidi)) {
+            throw new IllegblStbteException();
         }
     }
 
-    public void verifyRange(int index, int start, int limit)
+    public void verifyRbnge(int index, int stbrt, int limit)
     {
-        if (index < start || index >= limit) {
-            throw new IllegalArgumentException("Value " + index +
-                      " is out of range " + start + " to " + limit);
+        if (index < stbrt || index >= limit) {
+            throw new IllegblArgumentException("Vblue " + index +
+                      " is out of rbnge " + stbrt + " to " + limit);
         }
     }
 
-    public void verifyIndex(int index, int start, int limit)
+    public void verifyIndex(int index, int stbrt, int limit)
     {
-        if (index < start || index >= limit) {
-            throw new ArrayIndexOutOfBoundsException("Index " + index +
-                      " is out of range " + start + " to " + limit);
+        if (index < stbrt || index >= limit) {
+            throw new ArrbyIndexOutOfBoundsException("Index " + index +
+                      " is out of rbnge " + stbrt + " to " + limit);
         }
     }
 
     /**
-     * Allocate a <code>Bidi</code> object with preallocated memory
-     * for internal structures.
-     * This method provides a <code>Bidi</code> object like the default constructor
-     * but it also preallocates memory for internal structures
-     * according to the sizings supplied by the caller.<p>
-     * The preallocation can be limited to some of the internal memory
-     * by setting some values to 0 here. That means that if, e.g.,
-     * <code>maxRunCount</code> cannot be reasonably predetermined and should not
-     * be set to <code>maxLength</code> (the only failproof value) to avoid
-     * wasting  memory, then <code>maxRunCount</code> could be set to 0 here
-     * and the internal structures that are associated with it will be allocated
-     * on demand, just like with the default constructor.
+     * Allocbte b <code>Bidi</code> object with prebllocbted memory
+     * for internbl structures.
+     * This method provides b <code>Bidi</code> object like the defbult constructor
+     * but it blso prebllocbtes memory for internbl structures
+     * bccording to the sizings supplied by the cbller.<p>
+     * The prebllocbtion cbn be limited to some of the internbl memory
+     * by setting some vblues to 0 here. Thbt mebns thbt if, e.g.,
+     * <code>mbxRunCount</code> cbnnot be rebsonbbly predetermined bnd should not
+     * be set to <code>mbxLength</code> (the only fbilproof vblue) to bvoid
+     * wbsting  memory, then <code>mbxRunCount</code> could be set to 0 here
+     * bnd the internbl structures thbt bre bssocibted with it will be bllocbted
+     * on dembnd, just like with the defbult constructor.
      *
-     * @param maxLength is the maximum text or line length that internal memory
-     *        will be preallocated for. An attempt to associate this object with a
-     *        longer text will fail, unless this value is 0, which leaves the allocation
-     *        up to the implementation.
+     * @pbrbm mbxLength is the mbximum text or line length thbt internbl memory
+     *        will be prebllocbted for. An bttempt to bssocibte this object with b
+     *        longer text will fbil, unless this vblue is 0, which lebves the bllocbtion
+     *        up to the implementbtion.
      *
-     * @param maxRunCount is the maximum anticipated number of same-level runs
-     *        that internal memory will be preallocated for. An attempt to access
-     *        visual runs on an object that was not preallocated for as many runs
-     *        as the text was actually resolved to will fail,
-     *        unless this value is 0, which leaves the allocation up to the implementation.<br><br>
-     *        The number of runs depends on the actual text and maybe anywhere between
-     *        1 and <code>maxLength</code>. It is typically small.
+     * @pbrbm mbxRunCount is the mbximum bnticipbted number of sbme-level runs
+     *        thbt internbl memory will be prebllocbted for. An bttempt to bccess
+     *        visubl runs on bn object thbt wbs not prebllocbted for bs mbny runs
+     *        bs the text wbs bctublly resolved to will fbil,
+     *        unless this vblue is 0, which lebves the bllocbtion up to the implementbtion.<br><br>
+     *        The number of runs depends on the bctubl text bnd mbybe bnywhere between
+     *        1 bnd <code>mbxLength</code>. It is typicblly smbll.
      *
-     * @throws IllegalArgumentException if maxLength or maxRunCount is less than 0
-     * @stable ICU 3.8
+     * @throws IllegblArgumentException if mbxLength or mbxRunCount is less thbn 0
+     * @stbble ICU 3.8
      */
-    public BidiBase(int maxLength, int maxRunCount)
+    public BidiBbse(int mbxLength, int mbxRunCount)
      {
-        /* check the argument values */
-        if (maxLength < 0 || maxRunCount < 0) {
-            throw new IllegalArgumentException();
+        /* check the brgument vblues */
+        if (mbxLength < 0 || mbxRunCount < 0) {
+            throw new IllegblArgumentException();
         }
 
-        /* reset the object, all reference variables null, all flags false,
-           all sizes 0.
-           In fact, we don't need to do anything, since class members are
-           initialized as zero when an instance is created.
+        /* reset the object, bll reference vbribbles null, bll flbgs fblse,
+           bll sizes 0.
+           In fbct, we don't need to do bnything, since clbss members bre
+           initiblized bs zero when bn instbnce is crebted.
          */
         /*
-        mayAllocateText = false;
-        mayAllocateRuns = false;
-        orderParagraphsLTR = false;
-        paraCount = 0;
+        mbyAllocbteText = fblse;
+        mbyAllocbteRuns = fblse;
+        orderPbrbgrbphsLTR = fblse;
+        pbrbCount = 0;
         runCount = 0;
-        trailingWSStart = 0;
-        flags = 0;
-        paraLevel = 0;
-        defaultParaLevel = 0;
+        trbilingWSStbrt = 0;
+        flbgs = 0;
+        pbrbLevel = 0;
+        defbultPbrbLevel = 0;
         direction = 0;
         */
         /* get Bidi properties */
         try {
             bdp = UBiDiProps.getSingleton();
         }
-        catch (IOException e) {
-            throw new MissingResourceException(e.getMessage(), "(BidiProps)", "");
+        cbtch (IOException e) {
+            throw new MissingResourceException(e.getMessbge(), "(BidiProps)", "");
         }
 
-        /* allocate memory for arrays as requested */
-        if (maxLength > 0) {
-            getInitialDirPropsMemory(maxLength);
-            getInitialLevelsMemory(maxLength);
+        /* bllocbte memory for brrbys bs requested */
+        if (mbxLength > 0) {
+            getInitiblDirPropsMemory(mbxLength);
+            getInitiblLevelsMemory(mbxLength);
         } else {
-            mayAllocateText = true;
+            mbyAllocbteText = true;
         }
 
-        if (maxRunCount > 0) {
-            // if maxRunCount == 1, use simpleRuns[]
-            if (maxRunCount > 1) {
-                getInitialRunsMemory(maxRunCount);
+        if (mbxRunCount > 0) {
+            // if mbxRunCount == 1, use simpleRuns[]
+            if (mbxRunCount > 1) {
+                getInitiblRunsMemory(mbxRunCount);
             }
         } else {
-            mayAllocateRuns = true;
+            mbyAllocbteRuns = true;
         }
     }
 
     /*
-     * We are allowed to allocate memory if object==null or
-     * mayAllocate==true for each array that we need.
+     * We bre bllowed to bllocbte memory if object==null or
+     * mbyAllocbte==true for ebch brrby thbt we need.
      *
      * Assume sizeNeeded>0.
-     * If object != null, then assume size > 0.
+     * If object != null, then bssume size > 0.
      */
-    private Object getMemory(String label, Object array, Class<?> arrayClass,
-            boolean mayAllocate, int sizeNeeded)
+    privbte Object getMemory(String lbbel, Object brrby, Clbss<?> brrbyClbss,
+            boolebn mbyAllocbte, int sizeNeeded)
     {
-        int len = Array.getLength(array);
+        int len = Arrby.getLength(brrby);
 
-        /* we have at least enough memory and must not allocate */
+        /* we hbve bt lebst enough memory bnd must not bllocbte */
         if (sizeNeeded == len) {
-            return array;
+            return brrby;
         }
-        if (!mayAllocate) {
-            /* we must not allocate */
+        if (!mbyAllocbte) {
+            /* we must not bllocbte */
             if (sizeNeeded <= len) {
-                return array;
+                return brrby;
             }
-            throw new OutOfMemoryError("Failed to allocate memory for "
-                                       + label);
+            throw new OutOfMemoryError("Fbiled to bllocbte memory for "
+                                       + lbbel);
         }
-        /* we may try to grow or shrink */
-        /* FOOD FOR THOUGHT: when shrinking it should be possible to avoid
-           the allocation altogether and rely on this.length */
+        /* we mby try to grow or shrink */
+        /* FOOD FOR THOUGHT: when shrinking it should be possible to bvoid
+           the bllocbtion bltogether bnd rely on this.length */
         try {
-            return Array.newInstance(arrayClass, sizeNeeded);
-        } catch (Exception e) {
-            throw new OutOfMemoryError("Failed to allocate memory for "
-                                       + label);
+            return Arrby.newInstbnce(brrbyClbss, sizeNeeded);
+        } cbtch (Exception e) {
+            throw new OutOfMemoryError("Fbiled to bllocbte memory for "
+                                       + lbbel);
         }
     }
 
-    /* helper methods for each allocated array */
-    private void getDirPropsMemory(boolean mayAllocate, int len)
+    /* helper methods for ebch bllocbted brrby */
+    privbte void getDirPropsMemory(boolebn mbyAllocbte, int len)
     {
-        Object array = getMemory("DirProps", dirPropsMemory, Byte.TYPE, mayAllocate, len);
-        dirPropsMemory = (byte[]) array;
+        Object brrby = getMemory("DirProps", dirPropsMemory, Byte.TYPE, mbyAllocbte, len);
+        dirPropsMemory = (byte[]) brrby;
     }
 
     void getDirPropsMemory(int len)
     {
-        getDirPropsMemory(mayAllocateText, len);
+        getDirPropsMemory(mbyAllocbteText, len);
     }
 
-    private void getLevelsMemory(boolean mayAllocate, int len)
+    privbte void getLevelsMemory(boolebn mbyAllocbte, int len)
     {
-        Object array = getMemory("Levels", levelsMemory, Byte.TYPE, mayAllocate, len);
-        levelsMemory = (byte[]) array;
+        Object brrby = getMemory("Levels", levelsMemory, Byte.TYPE, mbyAllocbte, len);
+        levelsMemory = (byte[]) brrby;
     }
 
     void getLevelsMemory(int len)
     {
-        getLevelsMemory(mayAllocateText, len);
+        getLevelsMemory(mbyAllocbteText, len);
     }
 
-    private void getRunsMemory(boolean mayAllocate, int len)
+    privbte void getRunsMemory(boolebn mbyAllocbte, int len)
     {
-        Object array = getMemory("Runs", runsMemory, BidiRun.class, mayAllocate, len);
-        runsMemory = (BidiRun[]) array;
+        Object brrby = getMemory("Runs", runsMemory, BidiRun.clbss, mbyAllocbte, len);
+        runsMemory = (BidiRun[]) brrby;
     }
 
     void getRunsMemory(int len)
     {
-        getRunsMemory(mayAllocateRuns, len);
+        getRunsMemory(mbyAllocbteRuns, len);
     }
 
-    /* additional methods used by constructor - always allow allocation */
-    private void getInitialDirPropsMemory(int len)
+    /* bdditionbl methods used by constructor - blwbys bllow bllocbtion */
+    privbte void getInitiblDirPropsMemory(int len)
     {
         getDirPropsMemory(true, len);
     }
 
-    private void getInitialLevelsMemory(int len)
+    privbte void getInitiblLevelsMemory(int len)
     {
         getLevelsMemory(true, len);
     }
 
-    private void getInitialParasMemory(int len)
+    privbte void getInitiblPbrbsMemory(int len)
     {
-        Object array = getMemory("Paras", parasMemory, Integer.TYPE, true, len);
-        parasMemory = (int[]) array;
+        Object brrby = getMemory("Pbrbs", pbrbsMemory, Integer.TYPE, true, len);
+        pbrbsMemory = (int[]) brrby;
     }
 
-    private void getInitialRunsMemory(int len)
+    privbte void getInitiblRunsMemory(int len)
     {
         getRunsMemory(true, len);
     }
 
 /* perform (P2)..(P3) ------------------------------------------------------- */
 
-    private void getDirProps()
+    privbte void getDirProps()
     {
         int i = 0, i0, i1;
-        flags = 0;          /* collect all directionalities in the text */
-        int uchar;
+        flbgs = 0;          /* collect bll directionblities in the text */
+        int uchbr;
         byte dirProp;
-        byte paraDirDefault = 0;   /* initialize to avoid compiler warnings */
-        boolean isDefaultLevel = IsDefaultLevel(paraLevel);
-        /* for inverse Bidi, the default para level is set to RTL if there is a
-           strong R or AL character at either end of the text                */
-        lastArabicPos = -1;
+        byte pbrbDirDefbult = 0;   /* initiblize to bvoid compiler wbrnings */
+        boolebn isDefbultLevel = IsDefbultLevel(pbrbLevel);
+        /* for inverse Bidi, the defbult pbrb level is set to RTL if there is b
+           strong R or AL chbrbcter bt either end of the text                */
+        lbstArbbicPos = -1;
         controlCount = 0;
 
-        final int NOT_CONTEXTUAL = 0;         /* 0: not contextual paraLevel */
-        final int LOOKING_FOR_STRONG = 1;     /* 1: looking for first strong char */
-        final int FOUND_STRONG_CHAR = 2;      /* 2: found first strong char       */
+        finbl int NOT_CONTEXTUAL = 0;         /* 0: not contextubl pbrbLevel */
+        finbl int LOOKING_FOR_STRONG = 1;     /* 1: looking for first strong chbr */
+        finbl int FOUND_STRONG_CHAR = 2;      /* 2: found first strong chbr       */
 
-        int state;
-        int paraStart = 0;                    /* index of first char in paragraph */
-        byte paraDir;                         /* == CONTEXT_RTL within paragraphs
-                                                 starting with strong R char      */
-        byte lastStrongDir=0;                 /* for default level & inverse Bidi */
-        int lastStrongLTR=0;                  /* for STREAMING option             */
+        int stbte;
+        int pbrbStbrt = 0;                    /* index of first chbr in pbrbgrbph */
+        byte pbrbDir;                         /* == CONTEXT_RTL within pbrbgrbphs
+                                                 stbrting with strong R chbr      */
+        byte lbstStrongDir=0;                 /* for defbult level & inverse Bidi */
+        int lbstStrongLTR=0;                  /* for STREAMING option             */
 
-        if (isDefaultLevel) {
-            paraDirDefault = ((paraLevel & 1) != 0) ? CONTEXT_RTL : 0;
-            paraDir = paraDirDefault;
-            lastStrongDir = paraDirDefault;
-            state = LOOKING_FOR_STRONG;
+        if (isDefbultLevel) {
+            pbrbDirDefbult = ((pbrbLevel & 1) != 0) ? CONTEXT_RTL : 0;
+            pbrbDir = pbrbDirDefbult;
+            lbstStrongDir = pbrbDirDefbult;
+            stbte = LOOKING_FOR_STRONG;
         } else {
-            state = NOT_CONTEXTUAL;
-            paraDir = 0;
+            stbte = NOT_CONTEXTUAL;
+            pbrbDir = 0;
         }
-        /* count paragraphs and determine the paragraph level (P2..P3) */
+        /* count pbrbgrbphs bnd determine the pbrbgrbph level (P2..P3) */
         /*
-         * see comment on constant fields:
-         * the LEVEL_DEFAULT_XXX values are designed so that
-         * their low-order bit alone yields the intended default
+         * see comment on constbnt fields:
+         * the LEVEL_DEFAULT_XXX vblues bre designed so thbt
+         * their low-order bit blone yields the intended defbult
          */
 
-        for (i = 0; i < originalLength; /* i is incremented in the loop */) {
+        for (i = 0; i < originblLength; /* i is incremented in the loop */) {
             i0 = i;                     /* index of first code unit */
-            uchar = UTF16.charAt(text, 0, originalLength, i);
-            i += Character.charCount(uchar);
-            i1 = i - 1; /* index of last code unit, gets the directional property */
+            uchbr = UTF16.chbrAt(text, 0, originblLength, i);
+            i += Chbrbcter.chbrCount(uchbr);
+            i1 = i - 1; /* index of lbst code unit, gets the directionbl property */
 
-            dirProp = (byte)bdp.getClass(uchar);
+            dirProp = (byte)bdp.getClbss(uchbr);
 
-            flags |= DirPropFlag(dirProp);
-            dirProps[i1] = (byte)(dirProp | paraDir);
+            flbgs |= DirPropFlbg(dirProp);
+            dirProps[i1] = (byte)(dirProp | pbrbDir);
             if (i1 > i0) {     /* set previous code units' properties to BN */
-                flags |= DirPropFlag(BN);
+                flbgs |= DirPropFlbg(BN);
                 do {
-                    dirProps[--i1] = (byte)(BN | paraDir);
+                    dirProps[--i1] = (byte)(BN | pbrbDir);
                 } while (i1 > i0);
             }
-            if (state == LOOKING_FOR_STRONG) {
+            if (stbte == LOOKING_FOR_STRONG) {
                 if (dirProp == L) {
-                    state = FOUND_STRONG_CHAR;
-                    if (paraDir != 0) {
-                        paraDir = 0;
-                        for (i1 = paraStart; i1 < i; i1++) {
+                    stbte = FOUND_STRONG_CHAR;
+                    if (pbrbDir != 0) {
+                        pbrbDir = 0;
+                        for (i1 = pbrbStbrt; i1 < i; i1++) {
                             dirProps[i1] &= ~CONTEXT_RTL;
                         }
                     }
                     continue;
                 }
                 if (dirProp == R || dirProp == AL) {
-                    state = FOUND_STRONG_CHAR;
-                    if (paraDir == 0) {
-                        paraDir = CONTEXT_RTL;
-                        for (i1 = paraStart; i1 < i; i1++) {
+                    stbte = FOUND_STRONG_CHAR;
+                    if (pbrbDir == 0) {
+                        pbrbDir = CONTEXT_RTL;
+                        for (i1 = pbrbStbrt; i1 < i; i1++) {
                             dirProps[i1] |= CONTEXT_RTL;
                         }
                     }
@@ -1270,53 +1270,53 @@ public class BidiBase {
                 }
             }
             if (dirProp == L) {
-                lastStrongDir = 0;
-                lastStrongLTR = i;      /* i is index to next character */
+                lbstStrongDir = 0;
+                lbstStrongLTR = i;      /* i is index to next chbrbcter */
             }
             else if (dirProp == R) {
-                lastStrongDir = CONTEXT_RTL;
+                lbstStrongDir = CONTEXT_RTL;
             }
             else if (dirProp == AL) {
-                lastStrongDir = CONTEXT_RTL;
-                lastArabicPos = i-1;
+                lbstStrongDir = CONTEXT_RTL;
+                lbstArbbicPos = i-1;
             }
             else if (dirProp == B) {
-                if (i < originalLength) {   /* B not last char in text */
-                    if (!((uchar == (int)CR) && (text[i] == (int)LF))) {
-                        paraCount++;
+                if (i < originblLength) {   /* B not lbst chbr in text */
+                    if (!((uchbr == (int)CR) && (text[i] == (int)LF))) {
+                        pbrbCount++;
                     }
-                    if (isDefaultLevel) {
-                        state=LOOKING_FOR_STRONG;
-                        paraStart = i;        /* i is index to next character */
-                        paraDir = paraDirDefault;
-                        lastStrongDir = paraDirDefault;
+                    if (isDefbultLevel) {
+                        stbte=LOOKING_FOR_STRONG;
+                        pbrbStbrt = i;        /* i is index to next chbrbcter */
+                        pbrbDir = pbrbDirDefbult;
+                        lbstStrongDir = pbrbDirDefbult;
                     }
                 }
             }
         }
-        if (isDefaultLevel) {
-            paraLevel = GetParaLevelAt(0);
+        if (isDefbultLevel) {
+            pbrbLevel = GetPbrbLevelAt(0);
         }
 
-        /* The following line does nothing new for contextual paraLevel, but is
-           needed for absolute paraLevel.                               */
-        flags |= DirPropFlagLR(paraLevel);
+        /* The following line does nothing new for contextubl pbrbLevel, but is
+           needed for bbsolute pbrbLevel.                               */
+        flbgs |= DirPropFlbgLR(pbrbLevel);
 
-        if (orderParagraphsLTR && (flags & DirPropFlag(B)) != 0) {
-            flags |= DirPropFlag(L);
+        if (orderPbrbgrbphsLTR && (flbgs & DirPropFlbg(B)) != 0) {
+            flbgs |= DirPropFlbg(L);
         }
     }
 
     /* perform (X1)..(X9) ------------------------------------------------------- */
 
-    /* determine if the text is mixed-directional or single-directional */
-    private byte directionFromFlags() {
-        /* if the text contains AN and neutrals, then some neutrals may become RTL */
-        if (!((flags & MASK_RTL) != 0 ||
-              ((flags & DirPropFlag(AN)) != 0 &&
-               (flags & MASK_POSSIBLE_N) != 0))) {
+    /* determine if the text is mixed-directionbl or single-directionbl */
+    privbte byte directionFromFlbgs() {
+        /* if the text contbins AN bnd neutrbls, then some neutrbls mby become RTL */
+        if (!((flbgs & MASK_RTL) != 0 ||
+              ((flbgs & DirPropFlbg(AN)) != 0 &&
+               (flbgs & MASK_POSSIBLE_N) != 0))) {
             return Bidi.DIRECTION_LEFT_TO_RIGHT;
-        } else if ((flags & MASK_LTR) == 0) {
+        } else if ((flbgs & MASK_LTR) == 0) {
             return Bidi.DIRECTION_RIGHT_TO_LEFT;
         } else {
             return MIXED;
@@ -1324,113 +1324,113 @@ public class BidiBase {
     }
 
     /*
-     * Resolve the explicit levels as specified by explicit embedding codes.
-     * Recalculate the flags to have them reflect the real properties
-     * after taking the explicit embeddings into account.
+     * Resolve the explicit levels bs specified by explicit embedding codes.
+     * Recblculbte the flbgs to hbve them reflect the rebl properties
+     * bfter tbking the explicit embeddings into bccount.
      *
-     * The Bidi algorithm is designed to result in the same behavior whether embedding
-     * levels are externally specified (from "styled text", supposedly the preferred
-     * method) or set by explicit embedding codes (LRx, RLx, PDF) in the plain text.
-     * That is why (X9) instructs to remove all explicit codes (and BN).
-     * However, in a real implementation, this removal of these codes and their index
-     * positions in the plain text is undesirable since it would result in
-     * reallocated, reindexed text.
-     * Instead, this implementation leaves the codes in there and just ignores them
+     * The Bidi blgorithm is designed to result in the sbme behbvior whether embedding
+     * levels bre externblly specified (from "styled text", supposedly the preferred
+     * method) or set by explicit embedding codes (LRx, RLx, PDF) in the plbin text.
+     * Thbt is why (X9) instructs to remove bll explicit codes (bnd BN).
+     * However, in b rebl implementbtion, this removbl of these codes bnd their index
+     * positions in the plbin text is undesirbble since it would result in
+     * rebllocbted, reindexed text.
+     * Instebd, this implementbtion lebves the codes in there bnd just ignores them
      * in the subsequent processing.
-     * In order to get the same reordering behavior, positions with a BN or an
-     * explicit embedding code just get the same level assigned as the last "real"
-     * character.
+     * In order to get the sbme reordering behbvior, positions with b BN or bn
+     * explicit embedding code just get the sbme level bssigned bs the lbst "rebl"
+     * chbrbcter.
      *
-     * Some implementations, not this one, then overwrite some of these
-     * directionality properties at "real" same-level-run boundaries by
-     * L or R codes so that the resolution of weak types can be performed on the
-     * entire paragraph at once instead of having to parse it once more and
-     * perform that resolution on same-level-runs.
+     * Some implementbtions, not this one, then overwrite some of these
+     * directionblity properties bt "rebl" sbme-level-run boundbries by
+     * L or R codes so thbt the resolution of webk types cbn be performed on the
+     * entire pbrbgrbph bt once instebd of hbving to pbrse it once more bnd
+     * perform thbt resolution on sbme-level-runs.
      * This limits the scope of the implicit rules in effectively
-     * the same way as the run limits.
+     * the sbme wby bs the run limits.
      *
-     * Instead, this implementation does not modify these codes.
-     * On one hand, the paragraph has to be scanned for same-level-runs, but
-     * on the other hand, this saves another loop to reset these codes,
-     * or saves making and modifying a copy of dirProps[].
-     *
-     *
-     * Note that (Pn) and (Xn) changed significantly from version 4 of the Bidi algorithm.
+     * Instebd, this implementbtion does not modify these codes.
+     * On one hbnd, the pbrbgrbph hbs to be scbnned for sbme-level-runs, but
+     * on the other hbnd, this sbves bnother loop to reset these codes,
+     * or sbves mbking bnd modifying b copy of dirProps[].
      *
      *
-     * Handling the stack of explicit levels (Xn):
+     * Note thbt (Pn) bnd (Xn) chbnged significbntly from version 4 of the Bidi blgorithm.
      *
-     * With the Bidi stack of explicit levels,
-     * as pushed with each LRE, RLE, LRO, and RLO and popped with each PDF,
+     *
+     * Hbndling the stbck of explicit levels (Xn):
+     *
+     * With the Bidi stbck of explicit levels,
+     * bs pushed with ebch LRE, RLE, LRO, bnd RLO bnd popped with ebch PDF,
      * the explicit level must never exceed MAX_EXPLICIT_LEVEL==61.
      *
-     * In order to have a correct push-pop semantics even in the case of overflows,
-     * there are two overflow counters:
-     * - countOver60 is incremented with each LRx at level 60
-     * - from level 60, one RLx increases the level to 61
-     * - countOver61 is incremented with each LRx and RLx at level 61
+     * In order to hbve b correct push-pop sembntics even in the cbse of overflows,
+     * there bre two overflow counters:
+     * - countOver60 is incremented with ebch LRx bt level 60
+     * - from level 60, one RLx increbses the level to 61
+     * - countOver61 is incremented with ebch LRx bnd RLx bt level 61
      *
-     * Popping levels with PDF must work in the opposite order so that level 61
-     * is correct at the correct point. Underflows (too many PDFs) must be checked.
+     * Popping levels with PDF must work in the opposite order so thbt level 61
+     * is correct bt the correct point. Underflows (too mbny PDFs) must be checked.
      *
-     * This implementation assumes that MAX_EXPLICIT_LEVEL is odd.
+     * This implementbtion bssumes thbt MAX_EXPLICIT_LEVEL is odd.
      */
-    private byte resolveExplicitLevels() {
+    privbte byte resolveExplicitLevels() {
         int i = 0;
         byte dirProp;
-        byte level = GetParaLevelAt(0);
+        byte level = GetPbrbLevelAt(0);
 
         byte dirct;
-        int paraIndex = 0;
+        int pbrbIndex = 0;
 
-        /* determine if the text is mixed-directional or single-directional */
-        dirct = directionFromFlags();
+        /* determine if the text is mixed-directionbl or single-directionbl */
+        dirct = directionFromFlbgs();
 
-        /* we may not need to resolve any explicit levels, but for multiple
-           paragraphs we want to loop on all chars to set the para boundaries */
-        if ((dirct != MIXED) && (paraCount == 1)) {
-            /* not mixed directionality: levels don't matter - trailingWSStart will be 0 */
-        } else if ((paraCount == 1) &&
-                   ((flags & MASK_EXPLICIT) == 0)) {
-            /* mixed, but all characters are at the same embedding level */
-            /* or we are in "inverse Bidi" */
-            /* and we don't have contextual multiple paragraphs with some B char */
-            /* set all levels to the paragraph level */
+        /* we mby not need to resolve bny explicit levels, but for multiple
+           pbrbgrbphs we wbnt to loop on bll chbrs to set the pbrb boundbries */
+        if ((dirct != MIXED) && (pbrbCount == 1)) {
+            /* not mixed directionblity: levels don't mbtter - trbilingWSStbrt will be 0 */
+        } else if ((pbrbCount == 1) &&
+                   ((flbgs & MASK_EXPLICIT) == 0)) {
+            /* mixed, but bll chbrbcters bre bt the sbme embedding level */
+            /* or we bre in "inverse Bidi" */
+            /* bnd we don't hbve contextubl multiple pbrbgrbphs with some B chbr */
+            /* set bll levels to the pbrbgrbph level */
             for (i = 0; i < length; ++i) {
                 levels[i] = level;
             }
         } else {
             /* continue to perform (Xn) */
 
-            /* (X1) level is set for all codes, embeddingLevel keeps track of the push/pop operations */
-            /* both variables may carry the LEVEL_OVERRIDE flag to indicate the override status */
+            /* (X1) level is set for bll codes, embeddingLevel keeps trbck of the push/pop operbtions */
+            /* both vbribbles mby cbrry the LEVEL_OVERRIDE flbg to indicbte the override stbtus */
             byte embeddingLevel = level;
             byte newLevel;
-            byte stackTop = 0;
+            byte stbckTop = 0;
 
-            byte[] stack = new byte[MAX_EXPLICIT_LEVEL];    /* we never push anything >=MAX_EXPLICIT_LEVEL */
+            byte[] stbck = new byte[MAX_EXPLICIT_LEVEL];    /* we never push bnything >=MAX_EXPLICIT_LEVEL */
             int countOver60 = 0;
             int countOver61 = 0;  /* count overflows of explicit levels */
 
-            /* recalculate the flags */
-            flags = 0;
+            /* recblculbte the flbgs */
+            flbgs = 0;
 
             for (i = 0; i < length; ++i) {
                 dirProp = NoContextRTL(dirProps[i]);
                 switch(dirProp) {
-                case LRE:
-                case LRO:
+                cbse LRE:
+                cbse LRO:
                     /* (X3, X5) */
-                    newLevel = (byte)((embeddingLevel+2) & ~(INTERNAL_LEVEL_OVERRIDE | 1)); /* least greater even level */
+                    newLevel = (byte)((embeddingLevel+2) & ~(INTERNAL_LEVEL_OVERRIDE | 1)); /* lebst grebter even level */
                     if (newLevel <= MAX_EXPLICIT_LEVEL) {
-                        stack[stackTop] = embeddingLevel;
-                        ++stackTop;
+                        stbck[stbckTop] = embeddingLevel;
+                        ++stbckTop;
                         embeddingLevel = newLevel;
                         if (dirProp == LRO) {
                             embeddingLevel |= INTERNAL_LEVEL_OVERRIDE;
                         }
                         /* we don't need to set LEVEL_OVERRIDE off for LRE
-                           since this has already been done for newLevel which is
+                           since this hbs blrebdy been done for newLevel which is
                            the source for embeddingLevel.
                          */
                     } else if ((embeddingLevel & ~INTERNAL_LEVEL_OVERRIDE) == MAX_EXPLICIT_LEVEL) {
@@ -1438,206 +1438,206 @@ public class BidiBase {
                     } else /* (embeddingLevel & ~INTERNAL_LEVEL_OVERRIDE) == MAX_EXPLICIT_LEVEL-1 */ {
                         ++countOver60;
                     }
-                    flags |= DirPropFlag(BN);
-                    break;
-                case RLE:
-                case RLO:
+                    flbgs |= DirPropFlbg(BN);
+                    brebk;
+                cbse RLE:
+                cbse RLO:
                     /* (X2, X4) */
-                    newLevel=(byte)(((embeddingLevel & ~INTERNAL_LEVEL_OVERRIDE) + 1) | 1); /* least greater odd level */
+                    newLevel=(byte)(((embeddingLevel & ~INTERNAL_LEVEL_OVERRIDE) + 1) | 1); /* lebst grebter odd level */
                     if (newLevel<=MAX_EXPLICIT_LEVEL) {
-                        stack[stackTop] = embeddingLevel;
-                        ++stackTop;
+                        stbck[stbckTop] = embeddingLevel;
+                        ++stbckTop;
                         embeddingLevel = newLevel;
                         if (dirProp == RLO) {
                             embeddingLevel |= INTERNAL_LEVEL_OVERRIDE;
                         }
                         /* we don't need to set LEVEL_OVERRIDE off for RLE
-                           since this has already been done for newLevel which is
+                           since this hbs blrebdy been done for newLevel which is
                            the source for embeddingLevel.
                          */
                     } else {
                         ++countOver61;
                     }
-                    flags |= DirPropFlag(BN);
-                    break;
-                case PDF:
+                    flbgs |= DirPropFlbg(BN);
+                    brebk;
+                cbse PDF:
                     /* (X7) */
-                    /* handle all the overflow cases first */
+                    /* hbndle bll the overflow cbses first */
                     if (countOver61 > 0) {
                         --countOver61;
                     } else if (countOver60 > 0 && (embeddingLevel & ~INTERNAL_LEVEL_OVERRIDE) != MAX_EXPLICIT_LEVEL) {
-                        /* handle LRx overflows from level 60 */
+                        /* hbndle LRx overflows from level 60 */
                         --countOver60;
-                    } else if (stackTop > 0) {
-                        /* this is the pop operation; it also pops level 61 while countOver60>0 */
-                        --stackTop;
-                        embeddingLevel = stack[stackTop];
+                    } else if (stbckTop > 0) {
+                        /* this is the pop operbtion; it blso pops level 61 while countOver60>0 */
+                        --stbckTop;
+                        embeddingLevel = stbck[stbckTop];
                     /* } else { (underflow) */
                     }
-                    flags |= DirPropFlag(BN);
-                    break;
-                case B:
-                    stackTop = 0;
+                    flbgs |= DirPropFlbg(BN);
+                    brebk;
+                cbse B:
+                    stbckTop = 0;
                     countOver60 = 0;
                     countOver61 = 0;
-                    level = GetParaLevelAt(i);
+                    level = GetPbrbLevelAt(i);
                     if ((i + 1) < length) {
-                        embeddingLevel = GetParaLevelAt(i+1);
+                        embeddingLevel = GetPbrbLevelAt(i+1);
                         if (!((text[i] == CR) && (text[i + 1] == LF))) {
-                            paras[paraIndex++] = i+1;
+                            pbrbs[pbrbIndex++] = i+1;
                         }
                     }
-                    flags |= DirPropFlag(B);
-                    break;
-                case BN:
-                    /* BN, LRE, RLE, and PDF are supposed to be removed (X9) */
-                    /* they will get their levels set correctly in adjustWSLevels() */
-                    flags |= DirPropFlag(BN);
-                    break;
-                default:
-                    /* all other types get the "real" level */
+                    flbgs |= DirPropFlbg(B);
+                    brebk;
+                cbse BN:
+                    /* BN, LRE, RLE, bnd PDF bre supposed to be removed (X9) */
+                    /* they will get their levels set correctly in bdjustWSLevels() */
+                    flbgs |= DirPropFlbg(BN);
+                    brebk;
+                defbult:
+                    /* bll other types get the "rebl" level */
                     if (level != embeddingLevel) {
                         level = embeddingLevel;
                         if ((level & INTERNAL_LEVEL_OVERRIDE) != 0) {
-                            flags |= DirPropFlagO(level) | DirPropFlagMultiRuns;
+                            flbgs |= DirPropFlbgO(level) | DirPropFlbgMultiRuns;
                         } else {
-                            flags |= DirPropFlagE(level) | DirPropFlagMultiRuns;
+                            flbgs |= DirPropFlbgE(level) | DirPropFlbgMultiRuns;
                         }
                     }
                     if ((level & INTERNAL_LEVEL_OVERRIDE) == 0) {
-                        flags |= DirPropFlag(dirProp);
+                        flbgs |= DirPropFlbg(dirProp);
                     }
-                    break;
+                    brebk;
                 }
 
                 /*
-                 * We need to set reasonable levels even on BN codes and
-                 * explicit codes because we will later look at same-level runs (X10).
+                 * We need to set rebsonbble levels even on BN codes bnd
+                 * explicit codes becbuse we will lbter look bt sbme-level runs (X10).
                  */
                 levels[i] = level;
             }
-            if ((flags & MASK_EMBEDDING) != 0) {
-                flags |= DirPropFlagLR(paraLevel);
+            if ((flbgs & MASK_EMBEDDING) != 0) {
+                flbgs |= DirPropFlbgLR(pbrbLevel);
             }
-            if (orderParagraphsLTR && (flags & DirPropFlag(B)) != 0) {
-                flags |= DirPropFlag(L);
+            if (orderPbrbgrbphsLTR && (flbgs & DirPropFlbg(B)) != 0) {
+                flbgs |= DirPropFlbg(L);
             }
 
-            /* subsequently, ignore the explicit codes and BN (X9) */
+            /* subsequently, ignore the explicit codes bnd BN (X9) */
 
-            /* again, determine if the text is mixed-directional or single-directional */
-            dirct = directionFromFlags();
+            /* bgbin, determine if the text is mixed-directionbl or single-directionbl */
+            dirct = directionFromFlbgs();
         }
 
         return dirct;
     }
 
     /*
-     * Use a pre-specified embedding levels array:
+     * Use b pre-specified embedding levels brrby:
      *
-     * Adjust the directional properties for overrides (->LEVEL_OVERRIDE),
-     * ignore all explicit codes (X9),
-     * and check all the preset levels.
+     * Adjust the directionbl properties for overrides (->LEVEL_OVERRIDE),
+     * ignore bll explicit codes (X9),
+     * bnd check bll the preset levels.
      *
-     * Recalculate the flags to have them reflect the real properties
-     * after taking the explicit embeddings into account.
+     * Recblculbte the flbgs to hbve them reflect the rebl properties
+     * bfter tbking the explicit embeddings into bccount.
      */
-    private byte checkExplicitLevels() {
+    privbte byte checkExplicitLevels() {
         byte dirProp;
         int i;
-        this.flags = 0;     /* collect all directionalities in the text */
+        this.flbgs = 0;     /* collect bll directionblities in the text */
         byte level;
-        int paraIndex = 0;
+        int pbrbIndex = 0;
 
         for (i = 0; i < length; ++i) {
             if (levels[i] == 0) {
-                levels[i] = paraLevel;
+                levels[i] = pbrbLevel;
             }
             if (MAX_EXPLICIT_LEVEL < (levels[i]&0x7f)) {
                 if ((levels[i] & INTERNAL_LEVEL_OVERRIDE) != 0) {
-                    levels[i] =  (byte)(paraLevel|INTERNAL_LEVEL_OVERRIDE);
+                    levels[i] =  (byte)(pbrbLevel|INTERNAL_LEVEL_OVERRIDE);
                 } else {
-                    levels[i] = paraLevel;
+                    levels[i] = pbrbLevel;
                 }
             }
             level = levels[i];
             dirProp = NoContextRTL(dirProps[i]);
             if ((level & INTERNAL_LEVEL_OVERRIDE) != 0) {
-                /* keep the override flag in levels[i] but adjust the flags */
-                level &= ~INTERNAL_LEVEL_OVERRIDE;     /* make the range check below simpler */
-                flags |= DirPropFlagO(level);
+                /* keep the override flbg in levels[i] but bdjust the flbgs */
+                level &= ~INTERNAL_LEVEL_OVERRIDE;     /* mbke the rbnge check below simpler */
+                flbgs |= DirPropFlbgO(level);
             } else {
-                /* set the flags */
-                flags |= DirPropFlagE(level) | DirPropFlag(dirProp);
+                /* set the flbgs */
+                flbgs |= DirPropFlbgE(level) | DirPropFlbg(dirProp);
             }
 
-            if ((level < GetParaLevelAt(i) &&
+            if ((level < GetPbrbLevelAt(i) &&
                     !((0 == level) && (dirProp == B))) ||
                     (MAX_EXPLICIT_LEVEL <level)) {
                 /* level out of bounds */
-                throw new IllegalArgumentException("level " + level +
-                                                   " out of bounds at index " + i);
+                throw new IllegblArgumentException("level " + level +
+                                                   " out of bounds bt index " + i);
             }
             if ((dirProp == B) && ((i + 1) < length)) {
                 if (!((text[i] == CR) && (text[i + 1] == LF))) {
-                    paras[paraIndex++] = i + 1;
+                    pbrbs[pbrbIndex++] = i + 1;
                 }
             }
         }
-        if ((flags&MASK_EMBEDDING) != 0) {
-            flags |= DirPropFlagLR(paraLevel);
+        if ((flbgs&MASK_EMBEDDING) != 0) {
+            flbgs |= DirPropFlbgLR(pbrbLevel);
         }
 
-        /* determine if the text is mixed-directional or single-directional */
-        return directionFromFlags();
+        /* determine if the text is mixed-directionbl or single-directionbl */
+        return directionFromFlbgs();
     }
 
     /*********************************************************************/
-    /* The Properties state machine table                                */
+    /* The Properties stbte mbchine tbble                                */
     /*********************************************************************/
     /*                                                                   */
-    /* All table cells are 8 bits:                                       */
-    /*      bits 0..4:  next state                                       */
-    /*      bits 5..7:  action to perform (if > 0)                       */
+    /* All tbble cells bre 8 bits:                                       */
+    /*      bits 0..4:  next stbte                                       */
+    /*      bits 5..7:  bction to perform (if > 0)                       */
     /*                                                                   */
-    /* Cells may be of format "n" where n represents the next state      */
+    /* Cells mby be of formbt "n" where n represents the next stbte      */
     /* (except for the rightmost column).                                */
-    /* Cells may also be of format "_(x,y)" where x represents an action */
-    /* to perform and y represents the next state.                       */
+    /* Cells mby blso be of formbt "_(x,y)" where x represents bn bction */
+    /* to perform bnd y represents the next stbte.                       */
     /*                                                                   */
     /*********************************************************************/
-    /* Definitions and type for properties state tables                  */
+    /* Definitions bnd type for properties stbte tbbles                  */
     /*********************************************************************/
-    private static final int IMPTABPROPS_COLUMNS = 14;
-    private static final int IMPTABPROPS_RES = IMPTABPROPS_COLUMNS - 1;
-    private static short GetStateProps(short cell) {
+    privbte stbtic finbl int IMPTABPROPS_COLUMNS = 14;
+    privbte stbtic finbl int IMPTABPROPS_RES = IMPTABPROPS_COLUMNS - 1;
+    privbte stbtic short GetStbteProps(short cell) {
         return (short)(cell & 0x1f);
     }
-    private static short GetActionProps(short cell) {
+    privbte stbtic short GetActionProps(short cell) {
         return (short)(cell >> 5);
     }
 
-    private static final short groupProp[] =          /* dirProp regrouped */
+    privbte stbtic finbl short groupProp[] =          /* dirProp regrouped */
     {
         /*  L   R   EN  ES  ET  AN  CS  B   S   WS  ON  LRE LRO AL  RLE RLO PDF NSM BN  */
         0,  1,  2,  7,  8,  3,  9,  6,  5,  4,  4,  10, 10, 12, 10, 10, 10, 11, 10
     };
-    private static final short _L  = 0;
-    private static final short _R  = 1;
-    private static final short _EN = 2;
-    private static final short _AN = 3;
-    private static final short _ON = 4;
-    private static final short _S  = 5;
-    private static final short _B  = 6; /* reduced dirProp */
+    privbte stbtic finbl short _L  = 0;
+    privbte stbtic finbl short _R  = 1;
+    privbte stbtic finbl short _EN = 2;
+    privbte stbtic finbl short _AN = 3;
+    privbte stbtic finbl short _ON = 4;
+    privbte stbtic finbl short _S  = 5;
+    privbte stbtic finbl short _B  = 6; /* reduced dirProp */
 
     /*********************************************************************/
     /*                                                                   */
     /*      PROPERTIES  STATE  TABLE                                     */
     /*                                                                   */
-    /* In table impTabProps,                                             */
-    /*      - the ON column regroups ON and WS                           */
+    /* In tbble impTbbProps,                                             */
+    /*      - the ON column regroups ON bnd WS                           */
     /*      - the BN column regroups BN, LRE, RLE, LRO, RLO, PDF         */
-    /*      - the Res column is the reduced property assigned to a run   */
+    /*      - the Res column is the reduced property bssigned to b run   */
     /*                                                                   */
     /* Action 1: process current run1, init new run1                     */
     /*        2: init new run2                                           */
@@ -1645,26 +1645,26 @@ public class BidiBase {
     /*        4: process run1, set run1=run2, init new run2              */
     /*                                                                   */
     /* Notes:                                                            */
-    /*  1) This table is used in resolveImplicitLevels().                */
-    /*  2) This table triggers actions when there is a change in the Bidi*/
-    /*     property of incoming characters (action 1).                   */
-    /*  3) Most such property sequences are processed immediately (in    */
-    /*     fact, passed to processPropertySeq().                         */
-    /*  4) However, numbers are assembled as one sequence. This means    */
-    /*     that undefined situations (like CS following digits, until    */
-    /*     it is known if the next char will be a digit) are held until  */
-    /*     following chars define them.                                  */
-    /*     Example: digits followed by CS, then comes another CS or ON;  */
-    /*              the digits will be processed, then the CS assigned   */
-    /*              as the start of an ON sequence (action 3).           */
-    /*  5) There are cases where more than one sequence must be          */
-    /*     processed, for instance digits followed by CS followed by L:  */
-    /*     the digits must be processed as one sequence, and the CS      */
-    /*     must be processed as an ON sequence, all this before starting */
-    /*     assembling chars for the opening L sequence.                  */
+    /*  1) This tbble is used in resolveImplicitLevels().                */
+    /*  2) This tbble triggers bctions when there is b chbnge in the Bidi*/
+    /*     property of incoming chbrbcters (bction 1).                   */
+    /*  3) Most such property sequences bre processed immedibtely (in    */
+    /*     fbct, pbssed to processPropertySeq().                         */
+    /*  4) However, numbers bre bssembled bs one sequence. This mebns    */
+    /*     thbt undefined situbtions (like CS following digits, until    */
+    /*     it is known if the next chbr will be b digit) bre held until  */
+    /*     following chbrs define them.                                  */
+    /*     Exbmple: digits followed by CS, then comes bnother CS or ON;  */
+    /*              the digits will be processed, then the CS bssigned   */
+    /*              bs the stbrt of bn ON sequence (bction 3).           */
+    /*  5) There bre cbses where more thbn one sequence must be          */
+    /*     processed, for instbnce digits followed by CS followed by L:  */
+    /*     the digits must be processed bs one sequence, bnd the CS      */
+    /*     must be processed bs bn ON sequence, bll this before stbrting */
+    /*     bssembling chbrs for the opening L sequence.                  */
     /*                                                                   */
     /*                                                                   */
-    private static final short impTabProps[][] =
+    privbte stbtic finbl short impTbbProps[][] =
     {
 /*                        L,     R,    EN,    AN,    ON,     S,     B,    ES,    ET,    CS,    BN,   NSM,    AL,  Res */
 /* 0 Init        */ {     1,     2,     4,     5,     7,    15,    17,     7,     9,     7,     0,     7,     3,  _ON },
@@ -1688,36 +1688,36 @@ public class BidiBase {
     };
 
     /*********************************************************************/
-    /* The levels state machine tables                                   */
+    /* The levels stbte mbchine tbbles                                   */
     /*********************************************************************/
     /*                                                                   */
-    /* All table cells are 8 bits:                                       */
-    /*      bits 0..3:  next state                                       */
-    /*      bits 4..7:  action to perform (if > 0)                       */
+    /* All tbble cells bre 8 bits:                                       */
+    /*      bits 0..3:  next stbte                                       */
+    /*      bits 4..7:  bction to perform (if > 0)                       */
     /*                                                                   */
-    /* Cells may be of format "n" where n represents the next state      */
+    /* Cells mby be of formbt "n" where n represents the next stbte      */
     /* (except for the rightmost column).                                */
-    /* Cells may also be of format "_(x,y)" where x represents an action */
-    /* to perform and y represents the next state.                       */
+    /* Cells mby blso be of formbt "_(x,y)" where x represents bn bction */
+    /* to perform bnd y represents the next stbte.                       */
     /*                                                                   */
-    /* This format limits each table to 16 states each and to 15 actions.*/
+    /* This formbt limits ebch tbble to 16 stbtes ebch bnd to 15 bctions.*/
     /*                                                                   */
     /*********************************************************************/
-    /* Definitions and type for levels state tables                      */
+    /* Definitions bnd type for levels stbte tbbles                      */
     /*********************************************************************/
-    private static final int IMPTABLEVELS_COLUMNS = _B + 2;
-    private static final int IMPTABLEVELS_RES = IMPTABLEVELS_COLUMNS - 1;
-    private static short GetState(byte cell) { return (short)(cell & 0x0f); }
-    private static short GetAction(byte cell) { return (short)(cell >> 4); }
+    privbte stbtic finbl int IMPTABLEVELS_COLUMNS = _B + 2;
+    privbte stbtic finbl int IMPTABLEVELS_RES = IMPTABLEVELS_COLUMNS - 1;
+    privbte stbtic short GetStbte(byte cell) { return (short)(cell & 0x0f); }
+    privbte stbtic short GetAction(byte cell) { return (short)(cell >> 4); }
 
-    private static class ImpTabPair {
-        byte[][][] imptab;
-        short[][] impact;
+    privbte stbtic clbss ImpTbbPbir {
+        byte[][][] imptbb;
+        short[][] impbct;
 
-        ImpTabPair(byte[][] table1, byte[][] table2,
-                   short[] act1, short[] act2) {
-            imptab = new byte[][][] {table1, table2};
-            impact = new short[][] {act1, act2};
+        ImpTbbPbir(byte[][] tbble1, byte[][] tbble2,
+                   short[] bct1, short[] bct2) {
+            imptbb = new byte[][][] {tbble1, tbble2};
+            impbct = new short[][] {bct1, bct2};
         }
     }
 
@@ -1725,40 +1725,40 @@ public class BidiBase {
     /*                                                                   */
     /*      LEVELS  STATE  TABLES                                        */
     /*                                                                   */
-    /* In all levels state tables,                                       */
-    /*      - state 0 is the initial state                               */
-    /*      - the Res column is the increment to add to the text level   */
+    /* In bll levels stbte tbbles,                                       */
+    /*      - stbte 0 is the initibl stbte                               */
+    /*      - the Res column is the increment to bdd to the text level   */
     /*        for this property sequence.                                */
     /*                                                                   */
-    /* The impact arrays for each table of a pair map the local action   */
-    /* numbers of the table to the total list of actions. For instance,  */
-    /* action 2 in a given table corresponds to the action number which  */
-    /* appears in entry [2] of the impact array for that table.          */
-    /* The first entry of all impact arrays must be 0.                   */
+    /* The impbct brrbys for ebch tbble of b pbir mbp the locbl bction   */
+    /* numbers of the tbble to the totbl list of bctions. For instbnce,  */
+    /* bction 2 in b given tbble corresponds to the bction number which  */
+    /* bppebrs in entry [2] of the impbct brrby for thbt tbble.          */
+    /* The first entry of bll impbct brrbys must be 0.                   */
     /*                                                                   */
-    /* Action 1: init conditional sequence                               */
-    /*        2: prepend conditional sequence to current sequence        */
+    /* Action 1: init conditionbl sequence                               */
+    /*        2: prepend conditionbl sequence to current sequence        */
     /*        3: set ON sequence to new level - 1                        */
     /*        4: init EN/AN/ON sequence                                  */
     /*        5: fix EN/AN/ON sequence followed by R                     */
     /*        6: set previous level sequence to level 2                  */
     /*                                                                   */
     /* Notes:                                                            */
-    /*  1) These tables are used in processPropertySeq(). The input      */
-    /*     is property sequences as determined by resolveImplicitLevels. */
-    /*  2) Most such property sequences are processed immediately        */
-    /*     (levels are assigned).                                        */
-    /*  3) However, some sequences cannot be assigned a final level till */
-    /*     one or more following sequences are received. For instance,   */
-    /*     ON following an R sequence within an even-level paragraph.    */
+    /*  1) These tbbles bre used in processPropertySeq(). The input      */
+    /*     is property sequences bs determined by resolveImplicitLevels. */
+    /*  2) Most such property sequences bre processed immedibtely        */
+    /*     (levels bre bssigned).                                        */
+    /*  3) However, some sequences cbnnot be bssigned b finbl level till */
+    /*     one or more following sequences bre received. For instbnce,   */
+    /*     ON following bn R sequence within bn even-level pbrbgrbph.    */
     /*     If the following sequence is R, the ON sequence will be       */
-    /*     assigned basic run level+1, and so will the R sequence.       */
-    /*  4) S is generally handled like ON, since its level will be fixed */
-    /*     to paragraph level in adjustWSLevels().                       */
+    /*     bssigned bbsic run level+1, bnd so will the R sequence.       */
+    /*  4) S is generblly hbndled like ON, since its level will be fixed */
+    /*     to pbrbgrbph level in bdjustWSLevels().                       */
     /*                                                                   */
 
-    private static final byte impTabL_DEFAULT[][] = /* Even paragraph level */
-        /*  In this table, conditional sequences receive the higher possible level
+    privbte stbtic finbl byte impTbbL_DEFAULT[][] = /* Even pbrbgrbph level */
+        /*  In this tbble, conditionbl sequences receive the higher possible level
             until proven otherwise.
         */
     {
@@ -1771,8 +1771,8 @@ public class BidiBase {
         /* 5 : AN+ON      */ {  0x20,     1,  0x20,     2,     5,     5,  0x20,  1 }
     };
 
-    private static final byte impTabR_DEFAULT[][] = /* Odd  paragraph level */
-        /*  In this table, conditional sequences receive the lower possible level
+    privbte stbtic finbl byte impTbbR_DEFAULT[][] = /* Odd  pbrbgrbph level */
+        /*  In this tbble, conditionbl sequences receive the lower possible level
             until proven otherwise.
         */
     {
@@ -1785,13 +1785,13 @@ public class BidiBase {
         /* 5 : L+AN+ON    */ {     1,     0,     1,     3,     5,     5,     0,  0 }
     };
 
-    private static final short[] impAct0 = {0,1,2,3,4,5,6};
+    privbte stbtic finbl short[] impAct0 = {0,1,2,3,4,5,6};
 
-    private static final ImpTabPair impTab_DEFAULT = new ImpTabPair(
-            impTabL_DEFAULT, impTabR_DEFAULT, impAct0, impAct0);
+    privbte stbtic finbl ImpTbbPbir impTbb_DEFAULT = new ImpTbbPbir(
+            impTbbL_DEFAULT, impTbbR_DEFAULT, impAct0, impAct0);
 
-    private static final byte impTabL_NUMBERS_SPECIAL[][] = { /* Even paragraph level */
-        /* In this table, conditional sequences receive the higher possible
+    privbte stbtic finbl byte impTbbL_NUMBERS_SPECIAL[][] = { /* Even pbrbgrbph level */
+        /* In this tbble, conditionbl sequences receive the higher possible
            level until proven otherwise.
         */
         /*                         L,     R,    EN,    AN,    ON,     S,     B, Res */
@@ -1801,12 +1801,12 @@ public class BidiBase {
         /* 3 : R+ON       */ {  0x20,     2,     4,     4,     3,     3,  0x20,  1 },
         /* 4 : R+EN/AN    */ {     0,     2,     4,     4,  0x13,  0x13,     0,  2 }
     };
-    private static final ImpTabPair impTab_NUMBERS_SPECIAL = new ImpTabPair(
-            impTabL_NUMBERS_SPECIAL, impTabR_DEFAULT, impAct0, impAct0);
+    privbte stbtic finbl ImpTbbPbir impTbb_NUMBERS_SPECIAL = new ImpTbbPbir(
+            impTbbL_NUMBERS_SPECIAL, impTbbR_DEFAULT, impAct0, impAct0);
 
-    private static final byte impTabL_GROUP_NUMBERS_WITH_R[][] = {
-        /* In this table, EN/AN+ON sequences receive levels as if associated with R
-           until proven that there is L or sor/eor on both sides. AN is handled like EN.
+    privbte stbtic finbl byte impTbbL_GROUP_NUMBERS_WITH_R[][] = {
+        /* In this tbble, EN/AN+ON sequences receive levels bs if bssocibted with R
+           until proven thbt there is L or sor/eor on both sides. AN is hbndled like EN.
         */
         /*                         L,     R,    EN,    AN,    ON,     S,     B, Res */
         /* 0 init         */ {     0,     3,  0x11,  0x11,     0,     0,     0,  0 },
@@ -1816,9 +1816,9 @@ public class BidiBase {
         /* 4 R+ON         */ {  0x20,     3,     5,     5,     4,  0x20,  0x20,  1 },
         /* 5 R+EN/AN      */ {     0,     3,     5,     5,  0x14,     0,     0,  2 }
     };
-    private static final byte impTabR_GROUP_NUMBERS_WITH_R[][] = {
-        /*  In this table, EN/AN+ON sequences receive levels as if associated with R
-            until proven that there is L on both sides. AN is handled like EN.
+    privbte stbtic finbl byte impTbbR_GROUP_NUMBERS_WITH_R[][] = {
+        /*  In this tbble, EN/AN+ON sequences receive levels bs if bssocibted with R
+            until proven thbt there is L on both sides. AN is hbndled like EN.
         */
         /*                         L,     R,    EN,    AN,    ON,     S,     B, Res */
         /* 0 init         */ {     2,     0,     1,     1,     0,     0,     0,  0 },
@@ -1827,13 +1827,13 @@ public class BidiBase {
         /* 3 L+ON         */ {  0x22,     0,     4,     4,     3,     0,     0,  0 },
         /* 4 L+EN/AN      */ {  0x22,     0,     4,     4,     3,     0,     0,  1 }
     };
-    private static final ImpTabPair impTab_GROUP_NUMBERS_WITH_R = new
-            ImpTabPair(impTabL_GROUP_NUMBERS_WITH_R,
-                       impTabR_GROUP_NUMBERS_WITH_R, impAct0, impAct0);
+    privbte stbtic finbl ImpTbbPbir impTbb_GROUP_NUMBERS_WITH_R = new
+            ImpTbbPbir(impTbbL_GROUP_NUMBERS_WITH_R,
+                       impTbbR_GROUP_NUMBERS_WITH_R, impAct0, impAct0);
 
-    private static final byte impTabL_INVERSE_NUMBERS_AS_L[][] = {
-        /* This table is identical to the Default LTR table except that EN and AN
-           are handled like L.
+    privbte stbtic finbl byte impTbbL_INVERSE_NUMBERS_AS_L[][] = {
+        /* This tbble is identicbl to the Defbult LTR tbble except thbt EN bnd AN
+           bre hbndled like L.
         */
         /*                         L,     R,    EN,    AN,    ON,     S,     B, Res */
         /* 0 : init       */ {     0,     1,     0,     0,     0,     0,     0,  0 },
@@ -1843,9 +1843,9 @@ public class BidiBase {
         /* 4 : R+ON       */ {  0x20,     1,  0x20,  0x20,     4,     4,  0x20,  1 },
         /* 5 : AN+ON      */ {  0x20,     1,  0x20,  0x20,     5,     5,  0x20,  1 }
     };
-    private static final byte impTabR_INVERSE_NUMBERS_AS_L[][] = {
-        /* This table is identical to the Default RTL table except that EN and AN
-           are handled like L.
+    privbte stbtic finbl byte impTbbR_INVERSE_NUMBERS_AS_L[][] = {
+        /* This tbble is identicbl to the Defbult RTL tbble except thbt EN bnd AN
+           bre hbndled like L.
         */
         /*                         L,     R,    EN,    AN,    ON,     S,     B, Res */
         /* 0 : init       */ {     1,     0,     1,     1,     0,     0,     0,  0 },
@@ -1855,12 +1855,12 @@ public class BidiBase {
         /* 4 : L+ON       */ {  0x21,     0,  0x21,  0x21,     4,     4,     0,  0 },
         /* 5 : L+AN+ON    */ {     1,     0,     1,     1,     5,     5,     0,  0 }
     };
-    private static final ImpTabPair impTab_INVERSE_NUMBERS_AS_L = new ImpTabPair
-            (impTabL_INVERSE_NUMBERS_AS_L, impTabR_INVERSE_NUMBERS_AS_L,
+    privbte stbtic finbl ImpTbbPbir impTbb_INVERSE_NUMBERS_AS_L = new ImpTbbPbir
+            (impTbbL_INVERSE_NUMBERS_AS_L, impTbbR_INVERSE_NUMBERS_AS_L,
              impAct0, impAct0);
 
-    private static final byte impTabR_INVERSE_LIKE_DIRECT[][] = {  /* Odd  paragraph level */
-        /*  In this table, conditional sequences receive the lower possible level
+    privbte stbtic finbl byte impTbbR_INVERSE_LIKE_DIRECT[][] = {  /* Odd  pbrbgrbph level */
+        /*  In this tbble, conditionbl sequences receive the lower possible level
             until proven otherwise.
         */
         /*                         L,     R,    EN,    AN,    ON,     S,     B, Res */
@@ -1872,12 +1872,12 @@ public class BidiBase {
         /* 5 : L+AN+ON    */ {  0x21,  0x30,     6,     4,     5,     5,  0x30,  2 },
         /* 6 : L+ON+EN    */ {  0x21,  0x30,     6,     4,     3,     3,  0x30,  1 }
     };
-    private static final short[] impAct1 = {0,1,11,12};
-    private static final ImpTabPair impTab_INVERSE_LIKE_DIRECT = new ImpTabPair(
-            impTabL_DEFAULT, impTabR_INVERSE_LIKE_DIRECT, impAct0, impAct1);
+    privbte stbtic finbl short[] impAct1 = {0,1,11,12};
+    privbte stbtic finbl ImpTbbPbir impTbb_INVERSE_LIKE_DIRECT = new ImpTbbPbir(
+            impTbbL_DEFAULT, impTbbR_INVERSE_LIKE_DIRECT, impAct0, impAct1);
 
-    private static final byte impTabL_INVERSE_LIKE_DIRECT_WITH_MARKS[][] = {
-        /* The case handled in this table is (visually):  R EN L
+    privbte stbtic finbl byte impTbbL_INVERSE_LIKE_DIRECT_WITH_MARKS[][] = {
+        /* The cbse hbndled in this tbble is (visublly):  R EN L
          */
         /*                         L,     R,    EN,    AN,    ON,     S,     B, Res */
         /* 0 : init       */ {     0,  0x63,     0,     1,     0,     0,     0,  0 },
@@ -1888,8 +1888,8 @@ public class BidiBase {
         /* 5 : R+EN       */ {  0x30,  0x43,     5,  0x56,  0x14,  0x30,  0x30,  4 },
         /* 6 : R+AN       */ {  0x30,  0x43,  0x55,     6,  0x14,  0x30,  0x30,  4 }
     };
-    private static final byte impTabR_INVERSE_LIKE_DIRECT_WITH_MARKS[][] = {
-        /* The cases handled in this table are (visually):  R EN L
+    privbte stbtic finbl byte impTbbR_INVERSE_LIKE_DIRECT_WITH_MARKS[][] = {
+        /* The cbses hbndled in this tbble bre (visublly):  R EN L
                                                             R L AN L
         */
         /*                         L,     R,    EN,    AN,    ON,     S,     B, Res */
@@ -1901,16 +1901,16 @@ public class BidiBase {
         /* 5 : L+ON+EN    */ {  0x53,  0x40,     5,  0x36,     4,  0x40,  0x40,  1 },
         /* 6 : L+AN       */ {  0x53,  0x40,     6,     6,     4,  0x40,  0x40,  3 }
     };
-    private static final short impAct2[] = {0,1,7,8,9,10};
-    private static final ImpTabPair impTab_INVERSE_LIKE_DIRECT_WITH_MARKS =
-            new ImpTabPair(impTabL_INVERSE_LIKE_DIRECT_WITH_MARKS,
-                           impTabR_INVERSE_LIKE_DIRECT_WITH_MARKS, impAct0, impAct2);
+    privbte stbtic finbl short impAct2[] = {0,1,7,8,9,10};
+    privbte stbtic finbl ImpTbbPbir impTbb_INVERSE_LIKE_DIRECT_WITH_MARKS =
+            new ImpTbbPbir(impTbbL_INVERSE_LIKE_DIRECT_WITH_MARKS,
+                           impTbbR_INVERSE_LIKE_DIRECT_WITH_MARKS, impAct0, impAct2);
 
-    private static final ImpTabPair impTab_INVERSE_FOR_NUMBERS_SPECIAL = new ImpTabPair(
-            impTabL_NUMBERS_SPECIAL, impTabR_INVERSE_LIKE_DIRECT, impAct0, impAct1);
+    privbte stbtic finbl ImpTbbPbir impTbb_INVERSE_FOR_NUMBERS_SPECIAL = new ImpTbbPbir(
+            impTbbL_NUMBERS_SPECIAL, impTbbR_INVERSE_LIKE_DIRECT, impAct0, impAct1);
 
-    private static final byte impTabL_INVERSE_FOR_NUMBERS_SPECIAL_WITH_MARKS[][] = {
-        /*  The case handled in this table is (visually):  R EN L
+    privbte stbtic finbl byte impTbbL_INVERSE_FOR_NUMBERS_SPECIAL_WITH_MARKS[][] = {
+        /*  The cbse hbndled in this tbble is (visublly):  R EN L
         */
         /*                         L,     R,    EN,    AN,    ON,     S,     B, Res */
         /* 0 : init       */ {     0,  0x62,     1,     1,     0,     0,     0,  0 },
@@ -1919,28 +1919,28 @@ public class BidiBase {
         /* 3 : R+ON       */ {  0x30,  0x42,  0x54,  0x54,     3,  0x30,  0x30,  3 },
         /* 4 : R+EN/AN    */ {  0x30,  0x42,     4,     4,  0x13,  0x30,  0x30,  4 }
     };
-    private static final ImpTabPair impTab_INVERSE_FOR_NUMBERS_SPECIAL_WITH_MARKS = new
-            ImpTabPair(impTabL_INVERSE_FOR_NUMBERS_SPECIAL_WITH_MARKS,
-                       impTabR_INVERSE_LIKE_DIRECT_WITH_MARKS, impAct0, impAct2);
+    privbte stbtic finbl ImpTbbPbir impTbb_INVERSE_FOR_NUMBERS_SPECIAL_WITH_MARKS = new
+            ImpTbbPbir(impTbbL_INVERSE_FOR_NUMBERS_SPECIAL_WITH_MARKS,
+                       impTbbR_INVERSE_LIKE_DIRECT_WITH_MARKS, impAct0, impAct2);
 
-    private class LevState {
-        byte[][] impTab;                /* level table pointer          */
-        short[] impAct;                 /* action map array             */
-        int startON;                    /* start of ON sequence         */
-        int startL2EN;                  /* start of level 2 sequence    */
-        int lastStrongRTL;              /* index of last found R or AL  */
-        short state;                    /* current state                */
+    privbte clbss LevStbte {
+        byte[][] impTbb;                /* level tbble pointer          */
+        short[] impAct;                 /* bction mbp brrby             */
+        int stbrtON;                    /* stbrt of ON sequence         */
+        int stbrtL2EN;                  /* stbrt of level 2 sequence    */
+        int lbstStrongRTL;              /* index of lbst found R or AL  */
+        short stbte;                    /* current stbte                */
         byte runLevel;                  /* run level before implicit solving */
     }
 
     /*------------------------------------------------------------------------*/
 
-    static final int FIRSTALLOC = 10;
+    stbtic finbl int FIRSTALLOC = 10;
     /*
-     *  param pos:     position where to insert
-     *  param flag:    one of LRM_BEFORE, LRM_AFTER, RLM_BEFORE, RLM_AFTER
+     *  pbrbm pos:     position where to insert
+     *  pbrbm flbg:    one of LRM_BEFORE, LRM_AFTER, RLM_BEFORE, RLM_AFTER
      */
-    private void addPoint(int pos, int flag)
+    privbte void bddPoint(int pos, int flbg)
     {
         Point point = new Point();
 
@@ -1950,172 +1950,172 @@ public class BidiBase {
             len = FIRSTALLOC;
         }
         if (insertPoints.size >= len) { /* no room for new point */
-            Point[] savePoints = insertPoints.points;
+            Point[] sbvePoints = insertPoints.points;
             insertPoints.points = new Point[len * 2];
-            System.arraycopy(savePoints, 0, insertPoints.points, 0, len);
+            System.brrbycopy(sbvePoints, 0, insertPoints.points, 0, len);
         }
         point.pos = pos;
-        point.flag = flag;
+        point.flbg = flbg;
         insertPoints.points[insertPoints.size] = point;
         insertPoints.size++;
     }
 
-    /* perform rules (Wn), (Nn), and (In) on a run of the text ------------------ */
+    /* perform rules (Wn), (Nn), bnd (In) on b run of the text ------------------ */
 
     /*
-     * This implementation of the (Wn) rules applies all rules in one pass.
-     * In order to do so, it needs a look-ahead of typically 1 character
-     * (except for W5: sequences of ET) and keeps track of changes
-     * in a rule Wp that affect a later Wq (p<q).
+     * This implementbtion of the (Wn) rules bpplies bll rules in one pbss.
+     * In order to do so, it needs b look-bhebd of typicblly 1 chbrbcter
+     * (except for W5: sequences of ET) bnd keeps trbck of chbnges
+     * in b rule Wp thbt bffect b lbter Wq (p<q).
      *
-     * The (Nn) and (In) rules are also performed in that same single loop,
-     * but effectively one iteration behind for white space.
+     * The (Nn) bnd (In) rules bre blso performed in thbt sbme single loop,
+     * but effectively one iterbtion behind for white spbce.
      *
-     * Since all implicit rules are performed in one step, it is not necessary
-     * to actually store the intermediate directional properties in dirProps[].
+     * Since bll implicit rules bre performed in one step, it is not necessbry
+     * to bctublly store the intermedibte directionbl properties in dirProps[].
      */
 
-    private void processPropertySeq(LevState levState, short _prop,
-            int start, int limit) {
+    privbte void processPropertySeq(LevStbte levStbte, short _prop,
+            int stbrt, int limit) {
         byte cell;
-        byte[][] impTab = levState.impTab;
-        short[] impAct = levState.impAct;
-        short oldStateSeq,actionSeq;
-        byte level, addLevel;
-        int start0, k;
+        byte[][] impTbb = levStbte.impTbb;
+        short[] impAct = levStbte.impAct;
+        short oldStbteSeq,bctionSeq;
+        byte level, bddLevel;
+        int stbrt0, k;
 
-        start0 = start;                 /* save original start position */
-        oldStateSeq = levState.state;
-        cell = impTab[oldStateSeq][_prop];
-        levState.state = GetState(cell);        /* isolate the new state */
-        actionSeq = impAct[GetAction(cell)];    /* isolate the action */
-        addLevel = impTab[levState.state][IMPTABLEVELS_RES];
+        stbrt0 = stbrt;                 /* sbve originbl stbrt position */
+        oldStbteSeq = levStbte.stbte;
+        cell = impTbb[oldStbteSeq][_prop];
+        levStbte.stbte = GetStbte(cell);        /* isolbte the new stbte */
+        bctionSeq = impAct[GetAction(cell)];    /* isolbte the bction */
+        bddLevel = impTbb[levStbte.stbte][IMPTABLEVELS_RES];
 
-        if (actionSeq != 0) {
-            switch (actionSeq) {
-            case 1:                     /* init ON seq */
-                levState.startON = start0;
-                break;
+        if (bctionSeq != 0) {
+            switch (bctionSeq) {
+            cbse 1:                     /* init ON seq */
+                levStbte.stbrtON = stbrt0;
+                brebk;
 
-            case 2:                     /* prepend ON seq to current seq */
-                start = levState.startON;
-                break;
+            cbse 2:                     /* prepend ON seq to current seq */
+                stbrt = levStbte.stbrtON;
+                brebk;
 
-            case 3:                     /* L or S after possible relevant EN/AN */
-                /* check if we had EN after R/AL */
-                if (levState.startL2EN >= 0) {
-                    addPoint(levState.startL2EN, LRM_BEFORE);
+            cbse 3:                     /* L or S bfter possible relevbnt EN/AN */
+                /* check if we hbd EN bfter R/AL */
+                if (levStbte.stbrtL2EN >= 0) {
+                    bddPoint(levStbte.stbrtL2EN, LRM_BEFORE);
                 }
-                levState.startL2EN = -1;  /* not within previous if since could also be -2 */
-                /* check if we had any relevant EN/AN after R/AL */
+                levStbte.stbrtL2EN = -1;  /* not within previous if since could blso be -2 */
+                /* check if we hbd bny relevbnt EN/AN bfter R/AL */
                 if ((insertPoints.points.length == 0) ||
                         (insertPoints.size <= insertPoints.confirmed)) {
-                    /* nothing, just clean up */
-                    levState.lastStrongRTL = -1;
-                    /* check if we have a pending conditional segment */
-                    level = impTab[oldStateSeq][IMPTABLEVELS_RES];
-                    if ((level & 1) != 0 && levState.startON > 0) { /* after ON */
-                        start = levState.startON;   /* reset to basic run level */
+                    /* nothing, just clebn up */
+                    levStbte.lbstStrongRTL = -1;
+                    /* check if we hbve b pending conditionbl segment */
+                    level = impTbb[oldStbteSeq][IMPTABLEVELS_RES];
+                    if ((level & 1) != 0 && levStbte.stbrtON > 0) { /* bfter ON */
+                        stbrt = levStbte.stbrtON;   /* reset to bbsic run level */
                     }
-                    if (_prop == _S) {              /* add LRM before S */
-                        addPoint(start0, LRM_BEFORE);
+                    if (_prop == _S) {              /* bdd LRM before S */
+                        bddPoint(stbrt0, LRM_BEFORE);
                         insertPoints.confirmed = insertPoints.size;
                     }
-                    break;
+                    brebk;
                 }
                 /* reset previous RTL cont to level for LTR text */
-                for (k = levState.lastStrongRTL + 1; k < start0; k++) {
-                    /* reset odd level, leave runLevel+2 as is */
+                for (k = levStbte.lbstStrongRTL + 1; k < stbrt0; k++) {
+                    /* reset odd level, lebve runLevel+2 bs is */
                     levels[k] = (byte)((levels[k] - 2) & ~1);
                 }
-                /* mark insert points as confirmed */
+                /* mbrk insert points bs confirmed */
                 insertPoints.confirmed = insertPoints.size;
-                levState.lastStrongRTL = -1;
-                if (_prop == _S) {           /* add LRM before S */
-                    addPoint(start0, LRM_BEFORE);
+                levStbte.lbstStrongRTL = -1;
+                if (_prop == _S) {           /* bdd LRM before S */
+                    bddPoint(stbrt0, LRM_BEFORE);
                     insertPoints.confirmed = insertPoints.size;
                 }
-                break;
+                brebk;
 
-            case 4:                     /* R/AL after possible relevant EN/AN */
-                /* just clean up */
+            cbse 4:                     /* R/AL bfter possible relevbnt EN/AN */
+                /* just clebn up */
                 if (insertPoints.points.length > 0)
-                    /* remove all non confirmed insert points */
+                    /* remove bll non confirmed insert points */
                     insertPoints.size = insertPoints.confirmed;
-                levState.startON = -1;
-                levState.startL2EN = -1;
-                levState.lastStrongRTL = limit - 1;
-                break;
+                levStbte.stbrtON = -1;
+                levStbte.stbrtL2EN = -1;
+                levStbte.lbstStrongRTL = limit - 1;
+                brebk;
 
-            case 5:                     /* EN/AN after R/AL + possible cont */
-                /* check for real AN */
-                if ((_prop == _AN) && (NoContextRTL(dirProps[start0]) == AN)) {
-                    /* real AN */
-                    if (levState.startL2EN == -1) { /* if no relevant EN already found */
-                        /* just note the righmost digit as a strong RTL */
-                        levState.lastStrongRTL = limit - 1;
-                        break;
+            cbse 5:                     /* EN/AN bfter R/AL + possible cont */
+                /* check for rebl AN */
+                if ((_prop == _AN) && (NoContextRTL(dirProps[stbrt0]) == AN)) {
+                    /* rebl AN */
+                    if (levStbte.stbrtL2EN == -1) { /* if no relevbnt EN blrebdy found */
+                        /* just note the righmost digit bs b strong RTL */
+                        levStbte.lbstStrongRTL = limit - 1;
+                        brebk;
                     }
-                    if (levState.startL2EN >= 0)  { /* after EN, no AN */
-                        addPoint(levState.startL2EN, LRM_BEFORE);
-                        levState.startL2EN = -2;
+                    if (levStbte.stbrtL2EN >= 0)  { /* bfter EN, no AN */
+                        bddPoint(levStbte.stbrtL2EN, LRM_BEFORE);
+                        levStbte.stbrtL2EN = -2;
                     }
                     /* note AN */
-                    addPoint(start0, LRM_BEFORE);
-                    break;
+                    bddPoint(stbrt0, LRM_BEFORE);
+                    brebk;
                 }
-                /* if first EN/AN after R/AL */
-                if (levState.startL2EN == -1) {
-                    levState.startL2EN = start0;
+                /* if first EN/AN bfter R/AL */
+                if (levStbte.stbrtL2EN == -1) {
+                    levStbte.stbrtL2EN = stbrt0;
                 }
-                break;
+                brebk;
 
-            case 6:                     /* note location of latest R/AL */
-                levState.lastStrongRTL = limit - 1;
-                levState.startON = -1;
-                break;
+            cbse 6:                     /* note locbtion of lbtest R/AL */
+                levStbte.lbstStrongRTL = limit - 1;
+                levStbte.stbrtON = -1;
+                brebk;
 
-            case 7:                     /* L after R+ON/EN/AN */
-                /* include possible adjacent number on the left */
-                for (k = start0-1; k >= 0 && ((levels[k] & 1) == 0); k--) {
+            cbse 7:                     /* L bfter R+ON/EN/AN */
+                /* include possible bdjbcent number on the left */
+                for (k = stbrt0-1; k >= 0 && ((levels[k] & 1) == 0); k--) {
                 }
                 if (k >= 0) {
-                    addPoint(k, RLM_BEFORE);    /* add RLM before */
+                    bddPoint(k, RLM_BEFORE);    /* bdd RLM before */
                     insertPoints.confirmed = insertPoints.size; /* confirm it */
                 }
-                levState.startON = start0;
-                break;
+                levStbte.stbrtON = stbrt0;
+                brebk;
 
-            case 8:                     /* AN after L */
-                /* AN numbers between L text on both sides may be trouble. */
-                /* tentatively bracket with LRMs; will be confirmed if followed by L */
-                addPoint(start0, LRM_BEFORE);   /* add LRM before */
-                addPoint(start0, LRM_AFTER);    /* add LRM after  */
-                break;
+            cbse 8:                     /* AN bfter L */
+                /* AN numbers between L text on both sides mby be trouble. */
+                /* tentbtively brbcket with LRMs; will be confirmed if followed by L */
+                bddPoint(stbrt0, LRM_BEFORE);   /* bdd LRM before */
+                bddPoint(stbrt0, LRM_AFTER);    /* bdd LRM bfter  */
+                brebk;
 
-            case 9:                     /* R after L+ON/EN/AN */
-                /* false alert, infirm LRMs around previous AN */
+            cbse 9:                     /* R bfter L+ON/EN/AN */
+                /* fblse blert, infirm LRMs bround previous AN */
                 insertPoints.size=insertPoints.confirmed;
-                if (_prop == _S) {          /* add RLM before S */
-                    addPoint(start0, RLM_BEFORE);
+                if (_prop == _S) {          /* bdd RLM before S */
+                    bddPoint(stbrt0, RLM_BEFORE);
                     insertPoints.confirmed = insertPoints.size;
                 }
-                break;
+                brebk;
 
-            case 10:                    /* L after L+ON/AN */
-                level = (byte)(levState.runLevel + addLevel);
-                for (k=levState.startON; k < start0; k++) {
+            cbse 10:                    /* L bfter L+ON/AN */
+                level = (byte)(levStbte.runLevel + bddLevel);
+                for (k=levStbte.stbrtON; k < stbrt0; k++) {
                     if (levels[k] < level) {
                         levels[k] = level;
                     }
                 }
                 insertPoints.confirmed = insertPoints.size;   /* confirm inserts */
-                levState.startON = start0;
-                break;
+                levStbte.stbrtON = stbrt0;
+                brebk;
 
-            case 11:                    /* L after L+ON+EN/AN/ON */
-                level = levState.runLevel;
-                for (k = start0-1; k >= levState.startON; k--) {
+            cbse 11:                    /* L bfter L+ON+EN/AN/ON */
+                level = levStbte.runLevel;
+                for (k = stbrt0-1; k >= levStbte.stbrtON; k--) {
                     if (levels[k] == level+3) {
                         while (levels[k] == level+3) {
                             levels[k--] -= 2;
@@ -2130,64 +2130,64 @@ public class BidiBase {
                     }
                     levels[k] = (byte)(level+1);
                 }
-                break;
+                brebk;
 
-            case 12:                    /* R after L+ON+EN/AN/ON */
-                level = (byte)(levState.runLevel+1);
-                for (k = start0-1; k >= levState.startON; k--) {
+            cbse 12:                    /* R bfter L+ON+EN/AN/ON */
+                level = (byte)(levStbte.runLevel+1);
+                for (k = stbrt0-1; k >= levStbte.stbrtON; k--) {
                     if (levels[k] > level) {
                         levels[k] -= 2;
                     }
                 }
-                break;
+                brebk;
 
-            default:                        /* we should never get here */
-                throw new IllegalStateException("Internal ICU error in processPropertySeq");
+            defbult:                        /* we should never get here */
+                throw new IllegblStbteException("Internbl ICU error in processPropertySeq");
             }
         }
-        if ((addLevel) != 0 || (start < start0)) {
-            level = (byte)(levState.runLevel + addLevel);
-            for (k = start; k < limit; k++) {
+        if ((bddLevel) != 0 || (stbrt < stbrt0)) {
+            level = (byte)(levStbte.runLevel + bddLevel);
+            for (k = stbrt; k < limit; k++) {
                 levels[k] = level;
             }
         }
     }
 
-    private void resolveImplicitLevels(int start, int limit, short sor, short eor)
+    privbte void resolveImplicitLevels(int stbrt, int limit, short sor, short eor)
     {
-        LevState levState = new LevState();
-        int i, start1, start2;
-        short oldStateImp, stateImp, actionImp;
+        LevStbte levStbte = new LevStbte();
+        int i, stbrt1, stbrt2;
+        short oldStbteImp, stbteImp, bctionImp;
         short gprop, resProp, cell;
         short nextStrongProp = R;
         int nextStrongPos = -1;
 
 
         /* check for RTL inverse Bidi mode */
-        /* FOOD FOR THOUGHT: in case of RTL inverse Bidi, it would make sense to
-         * loop on the text characters from end to start.
-         * This would need a different properties state table (at least different
-         * actions) and different levels state tables (maybe very similar to the
+        /* FOOD FOR THOUGHT: in cbse of RTL inverse Bidi, it would mbke sense to
+         * loop on the text chbrbcters from end to stbrt.
+         * This would need b different properties stbte tbble (bt lebst different
+         * bctions) bnd different levels stbte tbbles (mbybe very similbr to the
          * LTR corresponding ones.
          */
-        /* initialize for levels state table */
-        levState.startL2EN = -1;        /* used for INVERSE_LIKE_DIRECT_WITH_MARKS */
-        levState.lastStrongRTL = -1;    /* used for INVERSE_LIKE_DIRECT_WITH_MARKS */
-        levState.state = 0;
-        levState.runLevel = levels[start];
-        levState.impTab = impTabPair.imptab[levState.runLevel & 1];
-        levState.impAct = impTabPair.impact[levState.runLevel & 1];
-        processPropertySeq(levState, sor, start, start);
-        /* initialize for property state table */
-        if (dirProps[start] == NSM) {
-            stateImp = (short)(1 + sor);
+        /* initiblize for levels stbte tbble */
+        levStbte.stbrtL2EN = -1;        /* used for INVERSE_LIKE_DIRECT_WITH_MARKS */
+        levStbte.lbstStrongRTL = -1;    /* used for INVERSE_LIKE_DIRECT_WITH_MARKS */
+        levStbte.stbte = 0;
+        levStbte.runLevel = levels[stbrt];
+        levStbte.impTbb = impTbbPbir.imptbb[levStbte.runLevel & 1];
+        levStbte.impAct = impTbbPbir.impbct[levStbte.runLevel & 1];
+        processPropertySeq(levStbte, sor, stbrt, stbrt);
+        /* initiblize for property stbte tbble */
+        if (dirProps[stbrt] == NSM) {
+            stbteImp = (short)(1 + sor);
         } else {
-            stateImp = 0;
+            stbteImp = 0;
         }
-        start1 = start;
-        start2 = 0;
+        stbrt1 = stbrt;
+        stbrt2 = 0;
 
-        for (i = start; i <= limit; i++) {
+        for (i = stbrt; i <= limit; i++) {
             if (i >= limit) {
                 gprop = eor;
             } else {
@@ -2195,397 +2195,397 @@ public class BidiBase {
                 prop = NoContextRTL(dirProps[i]);
                 gprop = groupProp[prop];
             }
-            oldStateImp = stateImp;
-            cell = impTabProps[oldStateImp][gprop];
-            stateImp = GetStateProps(cell);     /* isolate the new state */
-            actionImp = GetActionProps(cell);   /* isolate the action */
-            if ((i == limit) && (actionImp == 0)) {
-                /* there is an unprocessed sequence if its property == eor   */
-                actionImp = 1;                  /* process the last sequence */
+            oldStbteImp = stbteImp;
+            cell = impTbbProps[oldStbteImp][gprop];
+            stbteImp = GetStbteProps(cell);     /* isolbte the new stbte */
+            bctionImp = GetActionProps(cell);   /* isolbte the bction */
+            if ((i == limit) && (bctionImp == 0)) {
+                /* there is bn unprocessed sequence if its property == eor   */
+                bctionImp = 1;                  /* process the lbst sequence */
             }
-            if (actionImp != 0) {
-                resProp = impTabProps[oldStateImp][IMPTABPROPS_RES];
-                switch (actionImp) {
-                case 1:             /* process current seq1, init new seq1 */
-                    processPropertySeq(levState, resProp, start1, i);
-                    start1 = i;
-                    break;
-                case 2:             /* init new seq2 */
-                    start2 = i;
-                    break;
-                case 3:             /* process seq1, process seq2, init new seq1 */
-                    processPropertySeq(levState, resProp, start1, start2);
-                    processPropertySeq(levState, _ON, start2, i);
-                    start1 = i;
-                    break;
-                case 4:             /* process seq1, set seq1=seq2, init new seq2 */
-                    processPropertySeq(levState, resProp, start1, start2);
-                    start1 = start2;
-                    start2 = i;
-                    break;
-                default:            /* we should never get here */
-                    throw new IllegalStateException("Internal ICU error in resolveImplicitLevels");
+            if (bctionImp != 0) {
+                resProp = impTbbProps[oldStbteImp][IMPTABPROPS_RES];
+                switch (bctionImp) {
+                cbse 1:             /* process current seq1, init new seq1 */
+                    processPropertySeq(levStbte, resProp, stbrt1, i);
+                    stbrt1 = i;
+                    brebk;
+                cbse 2:             /* init new seq2 */
+                    stbrt2 = i;
+                    brebk;
+                cbse 3:             /* process seq1, process seq2, init new seq1 */
+                    processPropertySeq(levStbte, resProp, stbrt1, stbrt2);
+                    processPropertySeq(levStbte, _ON, stbrt2, i);
+                    stbrt1 = i;
+                    brebk;
+                cbse 4:             /* process seq1, set seq1=seq2, init new seq2 */
+                    processPropertySeq(levStbte, resProp, stbrt1, stbrt2);
+                    stbrt1 = stbrt2;
+                    stbrt2 = i;
+                    brebk;
+                defbult:            /* we should never get here */
+                    throw new IllegblStbteException("Internbl ICU error in resolveImplicitLevels");
                 }
             }
         }
         /* flush possible pending sequence, e.g. ON */
-        processPropertySeq(levState, eor, limit, limit);
+        processPropertySeq(levStbte, eor, limit, limit);
     }
 
-    /* perform (L1) and (X9) ---------------------------------------------------- */
+    /* perform (L1) bnd (X9) ---------------------------------------------------- */
 
     /*
-     * Reset the embedding levels for some non-graphic characters (L1).
-     * This method also sets appropriate levels for BN, and
-     * explicit embedding types that are supposed to have been removed
-     * from the paragraph in (X9).
+     * Reset the embedding levels for some non-grbphic chbrbcters (L1).
+     * This method blso sets bppropribte levels for BN, bnd
+     * explicit embedding types thbt bre supposed to hbve been removed
+     * from the pbrbgrbph in (X9).
      */
-    private void adjustWSLevels() {
+    privbte void bdjustWSLevels() {
         int i;
 
-        if ((flags & MASK_WS) != 0) {
-            int flag;
-            i = trailingWSStart;
+        if ((flbgs & MASK_WS) != 0) {
+            int flbg;
+            i = trbilingWSStbrt;
             while (i > 0) {
-                /* reset a sequence of WS/BN before eop and B/S to the paragraph paraLevel */
-                while (i > 0 && ((flag = DirPropFlagNC(dirProps[--i])) & MASK_WS) != 0) {
-                    if (orderParagraphsLTR && (flag & DirPropFlag(B)) != 0) {
+                /* reset b sequence of WS/BN before eop bnd B/S to the pbrbgrbph pbrbLevel */
+                while (i > 0 && ((flbg = DirPropFlbgNC(dirProps[--i])) & MASK_WS) != 0) {
+                    if (orderPbrbgrbphsLTR && (flbg & DirPropFlbg(B)) != 0) {
                         levels[i] = 0;
                     } else {
-                        levels[i] = GetParaLevelAt(i);
+                        levels[i] = GetPbrbLevelAt(i);
                     }
                 }
 
-                /* reset BN to the next character's paraLevel until B/S, which restarts above loop */
-                /* here, i+1 is guaranteed to be <length */
+                /* reset BN to the next chbrbcter's pbrbLevel until B/S, which restbrts bbove loop */
+                /* here, i+1 is gubrbnteed to be <length */
                 while (i > 0) {
-                    flag = DirPropFlagNC(dirProps[--i]);
-                    if ((flag & MASK_BN_EXPLICIT) != 0) {
+                    flbg = DirPropFlbgNC(dirProps[--i]);
+                    if ((flbg & MASK_BN_EXPLICIT) != 0) {
                         levels[i] = levels[i + 1];
-                    } else if (orderParagraphsLTR && (flag & DirPropFlag(B)) != 0) {
+                    } else if (orderPbrbgrbphsLTR && (flbg & DirPropFlbg(B)) != 0) {
                         levels[i] = 0;
-                        break;
-                    } else if ((flag & MASK_B_S) != 0){
-                        levels[i] = GetParaLevelAt(i);
-                        break;
+                        brebk;
+                    } else if ((flbg & MASK_B_S) != 0){
+                        levels[i] = GetPbrbLevelAt(i);
+                        brebk;
                     }
                 }
             }
         }
     }
 
-    private int Bidi_Min(int x, int y) {
+    privbte int Bidi_Min(int x, int y) {
         return x < y ? x : y;
     }
 
-    private int Bidi_Abs(int x) {
+    privbte int Bidi_Abs(int x) {
         return x >= 0 ? x : -x;
     }
 
     /**
-     * Perform the Unicode Bidi algorithm. It is defined in the
-     * <a href="http://www.unicode.org/unicode/reports/tr9/">Unicode Standard Annex #9</a>,
+     * Perform the Unicode Bidi blgorithm. It is defined in the
+     * <b href="http://www.unicode.org/unicode/reports/tr9/">Unicode Stbndbrd Annex #9</b>,
      * version 13,
-     * also described in The Unicode Standard, Version 4.0 .<p>
+     * blso described in The Unicode Stbndbrd, Version 4.0 .<p>
      *
-     * This method takes a piece of plain text containing one or more paragraphs,
-     * with or without externally specified embedding levels from <i>styled</i>
-     * text and computes the left-right-directionality of each character.<p>
+     * This method tbkes b piece of plbin text contbining one or more pbrbgrbphs,
+     * with or without externblly specified embedding levels from <i>styled</i>
+     * text bnd computes the left-right-directionblity of ebch chbrbcter.<p>
      *
-     * If the entire text is all of the same directionality, then
-     * the method may not perform all the steps described by the algorithm,
-     * i.e., some levels may not be the same as if all steps were performed.
-     * This is not relevant for unidirectional text.<br>
-     * For example, in pure LTR text with numbers the numbers would get
-     * a resolved level of 2 higher than the surrounding text according to
-     * the algorithm. This implementation may set all resolved levels to
-     * the same value in such a case.<p>
+     * If the entire text is bll of the sbme directionblity, then
+     * the method mby not perform bll the steps described by the blgorithm,
+     * i.e., some levels mby not be the sbme bs if bll steps were performed.
+     * This is not relevbnt for unidirectionbl text.<br>
+     * For exbmple, in pure LTR text with numbers the numbers would get
+     * b resolved level of 2 higher thbn the surrounding text bccording to
+     * the blgorithm. This implementbtion mby set bll resolved levels to
+     * the sbme vblue in such b cbse.<p>
      *
-     * The text can be composed of multiple paragraphs. Occurrence of a block
-     * separator in the text terminates a paragraph, and whatever comes next starts
-     * a new paragraph. The exception to this rule is when a Carriage Return (CR)
-     * is followed by a Line Feed (LF). Both CR and LF are block separators, but
-     * in that case, the pair of characters is considered as terminating the
-     * preceding paragraph, and a new paragraph will be started by a character
-     * coming after the LF.
+     * The text cbn be composed of multiple pbrbgrbphs. Occurrence of b block
+     * sepbrbtor in the text terminbtes b pbrbgrbph, bnd whbtever comes next stbrts
+     * b new pbrbgrbph. The exception to this rule is when b Cbrribge Return (CR)
+     * is followed by b Line Feed (LF). Both CR bnd LF bre block sepbrbtors, but
+     * in thbt cbse, the pbir of chbrbcters is considered bs terminbting the
+     * preceding pbrbgrbph, bnd b new pbrbgrbph will be stbrted by b chbrbcter
+     * coming bfter the LF.
      *
-     * Although the text is passed here as a <code>String</code>, it is
-     * stored internally as an array of characters. Therefore the
-     * documentation will refer to indexes of the characters in the text.
+     * Although the text is pbssed here bs b <code>String</code>, it is
+     * stored internblly bs bn brrby of chbrbcters. Therefore the
+     * documentbtion will refer to indexes of the chbrbcters in the text.
      *
-     * @param text contains the text that the Bidi algorithm will be performed
-     *        on. This text can be retrieved with <code>getText()</code> or
+     * @pbrbm text contbins the text thbt the Bidi blgorithm will be performed
+     *        on. This text cbn be retrieved with <code>getText()</code> or
      *        <code>getTextAsString</code>.<br>
      *
-     * @param paraLevel specifies the default level for the text;
-     *        it is typically 0 (LTR) or 1 (RTL).
-     *        If the method shall determine the paragraph level from the text,
-     *        then <code>paraLevel</code> can be set to
+     * @pbrbm pbrbLevel specifies the defbult level for the text;
+     *        it is typicblly 0 (LTR) or 1 (RTL).
+     *        If the method shbll determine the pbrbgrbph level from the text,
+     *        then <code>pbrbLevel</code> cbn be set to
      *        either <code>LEVEL_DEFAULT_LTR</code>
-     *        or <code>LEVEL_DEFAULT_RTL</code>; if the text contains multiple
-     *        paragraphs, the paragraph level shall be determined separately for
-     *        each paragraph; if a paragraph does not include any strongly typed
-     *        character, then the desired default is used (0 for LTR or 1 for RTL).
-     *        Any other value between 0 and <code>MAX_EXPLICIT_LEVEL</code>
-     *        is also valid, with odd levels indicating RTL.
+     *        or <code>LEVEL_DEFAULT_RTL</code>; if the text contbins multiple
+     *        pbrbgrbphs, the pbrbgrbph level shbll be determined sepbrbtely for
+     *        ebch pbrbgrbph; if b pbrbgrbph does not include bny strongly typed
+     *        chbrbcter, then the desired defbult is used (0 for LTR or 1 for RTL).
+     *        Any other vblue between 0 bnd <code>MAX_EXPLICIT_LEVEL</code>
+     *        is blso vblid, with odd levels indicbting RTL.
      *
-     * @param embeddingLevels (in) may be used to preset the embedding and override levels,
-     *        ignoring characters like LRE and PDF in the text.
-     *        A level overrides the directional property of its corresponding
-     *        (same index) character if the level has the
+     * @pbrbm embeddingLevels (in) mby be used to preset the embedding bnd override levels,
+     *        ignoring chbrbcters like LRE bnd PDF in the text.
+     *        A level overrides the directionbl property of its corresponding
+     *        (sbme index) chbrbcter if the level hbs the
      *        <code>LEVEL_OVERRIDE</code> bit set.<br><br>
-     *        Except for that bit, it must be
-     *        <code>paraLevel<=embeddingLevels[]<=MAX_EXPLICIT_LEVEL</code>,
-     *        with one exception: a level of zero may be specified for a
-     *        paragraph separator even if <code>paraLevel&gt;0</code> when multiple
-     *        paragraphs are submitted in the same call to <code>setPara()</code>.<br><br>
-     *        <strong>Caution: </strong>A reference to this array, not a copy
+     *        Except for thbt bit, it must be
+     *        <code>pbrbLevel<=embeddingLevels[]<=MAX_EXPLICIT_LEVEL</code>,
+     *        with one exception: b level of zero mby be specified for b
+     *        pbrbgrbph sepbrbtor even if <code>pbrbLevel&gt;0</code> when multiple
+     *        pbrbgrbphs bre submitted in the sbme cbll to <code>setPbrb()</code>.<br><br>
+     *        <strong>Cbution: </strong>A reference to this brrby, not b copy
      *        of the levels, will be stored in the <code>Bidi</code> object;
      *        the <code>embeddingLevels</code>
-     *        should not be modified to avoid unexpected results on subsequent
-     *        Bidi operations. However, the <code>setPara()</code> and
-     *        <code>setLine()</code> methods may modify some or all of the
+     *        should not be modified to bvoid unexpected results on subsequent
+     *        Bidi operbtions. However, the <code>setPbrb()</code> bnd
+     *        <code>setLine()</code> methods mby modify some or bll of the
      *        levels.<br><br>
-     *        <strong>Note:</strong> the <code>embeddingLevels</code> array must
-     *        have one entry for each character in <code>text</code>.
+     *        <strong>Note:</strong> the <code>embeddingLevels</code> brrby must
+     *        hbve one entry for ebch chbrbcter in <code>text</code>.
      *
-     * @throws IllegalArgumentException if the values in embeddingLevels are
-     *         not within the allowed range
+     * @throws IllegblArgumentException if the vblues in embeddingLevels bre
+     *         not within the bllowed rbnge
      *
      * @see #LEVEL_DEFAULT_LTR
      * @see #LEVEL_DEFAULT_RTL
      * @see #LEVEL_OVERRIDE
      * @see #MAX_EXPLICIT_LEVEL
-     * @stable ICU 3.8
+     * @stbble ICU 3.8
      */
-    void setPara(String text, byte paraLevel, byte[] embeddingLevels)
+    void setPbrb(String text, byte pbrbLevel, byte[] embeddingLevels)
     {
         if (text == null) {
-            setPara(new char[0], paraLevel, embeddingLevels);
+            setPbrb(new chbr[0], pbrbLevel, embeddingLevels);
         } else {
-            setPara(text.toCharArray(), paraLevel, embeddingLevels);
+            setPbrb(text.toChbrArrby(), pbrbLevel, embeddingLevels);
         }
     }
 
     /**
-     * Perform the Unicode Bidi algorithm. It is defined in the
-     * <a href="http://www.unicode.org/unicode/reports/tr9/">Unicode Standard Annex #9</a>,
+     * Perform the Unicode Bidi blgorithm. It is defined in the
+     * <b href="http://www.unicode.org/unicode/reports/tr9/">Unicode Stbndbrd Annex #9</b>,
      * version 13,
-     * also described in The Unicode Standard, Version 4.0 .<p>
+     * blso described in The Unicode Stbndbrd, Version 4.0 .<p>
      *
-     * This method takes a piece of plain text containing one or more paragraphs,
-     * with or without externally specified embedding levels from <i>styled</i>
-     * text and computes the left-right-directionality of each character.<p>
+     * This method tbkes b piece of plbin text contbining one or more pbrbgrbphs,
+     * with or without externblly specified embedding levels from <i>styled</i>
+     * text bnd computes the left-right-directionblity of ebch chbrbcter.<p>
      *
-     * If the entire text is all of the same directionality, then
-     * the method may not perform all the steps described by the algorithm,
-     * i.e., some levels may not be the same as if all steps were performed.
-     * This is not relevant for unidirectional text.<br>
-     * For example, in pure LTR text with numbers the numbers would get
-     * a resolved level of 2 higher than the surrounding text according to
-     * the algorithm. This implementation may set all resolved levels to
-     * the same value in such a case.<p>
+     * If the entire text is bll of the sbme directionblity, then
+     * the method mby not perform bll the steps described by the blgorithm,
+     * i.e., some levels mby not be the sbme bs if bll steps were performed.
+     * This is not relevbnt for unidirectionbl text.<br>
+     * For exbmple, in pure LTR text with numbers the numbers would get
+     * b resolved level of 2 higher thbn the surrounding text bccording to
+     * the blgorithm. This implementbtion mby set bll resolved levels to
+     * the sbme vblue in such b cbse.<p>
      *
-     * The text can be composed of multiple paragraphs. Occurrence of a block
-     * separator in the text terminates a paragraph, and whatever comes next starts
-     * a new paragraph. The exception to this rule is when a Carriage Return (CR)
-     * is followed by a Line Feed (LF). Both CR and LF are block separators, but
-     * in that case, the pair of characters is considered as terminating the
-     * preceding paragraph, and a new paragraph will be started by a character
-     * coming after the LF.
+     * The text cbn be composed of multiple pbrbgrbphs. Occurrence of b block
+     * sepbrbtor in the text terminbtes b pbrbgrbph, bnd whbtever comes next stbrts
+     * b new pbrbgrbph. The exception to this rule is when b Cbrribge Return (CR)
+     * is followed by b Line Feed (LF). Both CR bnd LF bre block sepbrbtors, but
+     * in thbt cbse, the pbir of chbrbcters is considered bs terminbting the
+     * preceding pbrbgrbph, bnd b new pbrbgrbph will be stbrted by b chbrbcter
+     * coming bfter the LF.
      *
-     * The text is stored internally as an array of characters. Therefore the
-     * documentation will refer to indexes of the characters in the text.
+     * The text is stored internblly bs bn brrby of chbrbcters. Therefore the
+     * documentbtion will refer to indexes of the chbrbcters in the text.
      *
-     * @param chars contains the text that the Bidi algorithm will be performed
-     *        on. This text can be retrieved with <code>getText()</code> or
+     * @pbrbm chbrs contbins the text thbt the Bidi blgorithm will be performed
+     *        on. This text cbn be retrieved with <code>getText()</code> or
      *        <code>getTextAsString</code>.<br>
      *
-     * @param paraLevel specifies the default level for the text;
-     *        it is typically 0 (LTR) or 1 (RTL).
-     *        If the method shall determine the paragraph level from the text,
-     *        then <code>paraLevel</code> can be set to
+     * @pbrbm pbrbLevel specifies the defbult level for the text;
+     *        it is typicblly 0 (LTR) or 1 (RTL).
+     *        If the method shbll determine the pbrbgrbph level from the text,
+     *        then <code>pbrbLevel</code> cbn be set to
      *        either <code>LEVEL_DEFAULT_LTR</code>
-     *        or <code>LEVEL_DEFAULT_RTL</code>; if the text contains multiple
-     *        paragraphs, the paragraph level shall be determined separately for
-     *        each paragraph; if a paragraph does not include any strongly typed
-     *        character, then the desired default is used (0 for LTR or 1 for RTL).
-     *        Any other value between 0 and <code>MAX_EXPLICIT_LEVEL</code>
-     *        is also valid, with odd levels indicating RTL.
+     *        or <code>LEVEL_DEFAULT_RTL</code>; if the text contbins multiple
+     *        pbrbgrbphs, the pbrbgrbph level shbll be determined sepbrbtely for
+     *        ebch pbrbgrbph; if b pbrbgrbph does not include bny strongly typed
+     *        chbrbcter, then the desired defbult is used (0 for LTR or 1 for RTL).
+     *        Any other vblue between 0 bnd <code>MAX_EXPLICIT_LEVEL</code>
+     *        is blso vblid, with odd levels indicbting RTL.
      *
-     * @param embeddingLevels (in) may be used to preset the embedding and
-     *        override levels, ignoring characters like LRE and PDF in the text.
-     *        A level overrides the directional property of its corresponding
-     *        (same index) character if the level has the
+     * @pbrbm embeddingLevels (in) mby be used to preset the embedding bnd
+     *        override levels, ignoring chbrbcters like LRE bnd PDF in the text.
+     *        A level overrides the directionbl property of its corresponding
+     *        (sbme index) chbrbcter if the level hbs the
      *        <code>LEVEL_OVERRIDE</code> bit set.<br><br>
-     *        Except for that bit, it must be
-     *        <code>paraLevel<=embeddingLevels[]<=MAX_EXPLICIT_LEVEL</code>,
-     *        with one exception: a level of zero may be specified for a
-     *        paragraph separator even if <code>paraLevel&gt;0</code> when multiple
-     *        paragraphs are submitted in the same call to <code>setPara()</code>.<br><br>
-     *        <strong>Caution: </strong>A reference to this array, not a copy
+     *        Except for thbt bit, it must be
+     *        <code>pbrbLevel<=embeddingLevels[]<=MAX_EXPLICIT_LEVEL</code>,
+     *        with one exception: b level of zero mby be specified for b
+     *        pbrbgrbph sepbrbtor even if <code>pbrbLevel&gt;0</code> when multiple
+     *        pbrbgrbphs bre submitted in the sbme cbll to <code>setPbrb()</code>.<br><br>
+     *        <strong>Cbution: </strong>A reference to this brrby, not b copy
      *        of the levels, will be stored in the <code>Bidi</code> object;
      *        the <code>embeddingLevels</code>
-     *        should not be modified to avoid unexpected results on subsequent
-     *        Bidi operations. However, the <code>setPara()</code> and
-     *        <code>setLine()</code> methods may modify some or all of the
+     *        should not be modified to bvoid unexpected results on subsequent
+     *        Bidi operbtions. However, the <code>setPbrb()</code> bnd
+     *        <code>setLine()</code> methods mby modify some or bll of the
      *        levels.<br><br>
-     *        <strong>Note:</strong> the <code>embeddingLevels</code> array must
-     *        have one entry for each character in <code>text</code>.
+     *        <strong>Note:</strong> the <code>embeddingLevels</code> brrby must
+     *        hbve one entry for ebch chbrbcter in <code>text</code>.
      *
-     * @throws IllegalArgumentException if the values in embeddingLevels are
-     *         not within the allowed range
+     * @throws IllegblArgumentException if the vblues in embeddingLevels bre
+     *         not within the bllowed rbnge
      *
      * @see #LEVEL_DEFAULT_LTR
      * @see #LEVEL_DEFAULT_RTL
      * @see #LEVEL_OVERRIDE
      * @see #MAX_EXPLICIT_LEVEL
-     * @stable ICU 3.8
+     * @stbble ICU 3.8
      */
-    public void setPara(char[] chars, byte paraLevel, byte[] embeddingLevels)
+    public void setPbrb(chbr[] chbrs, byte pbrbLevel, byte[] embeddingLevels)
     {
-        /* check the argument values */
-        if (paraLevel < INTERNAL_LEVEL_DEFAULT_LTR) {
-            verifyRange(paraLevel, 0, MAX_EXPLICIT_LEVEL + 1);
+        /* check the brgument vblues */
+        if (pbrbLevel < INTERNAL_LEVEL_DEFAULT_LTR) {
+            verifyRbnge(pbrbLevel, 0, MAX_EXPLICIT_LEVEL + 1);
         }
-        if (chars == null) {
-            chars = new char[0];
+        if (chbrs == null) {
+            chbrs = new chbr[0];
         }
 
-        /* initialize the Bidi object */
-        this.paraBidi = null;          /* mark unfinished setPara */
-        this.text = chars;
-        this.length = this.originalLength = this.resultLength = text.length;
-        this.paraLevel = paraLevel;
+        /* initiblize the Bidi object */
+        this.pbrbBidi = null;          /* mbrk unfinished setPbrb */
+        this.text = chbrs;
+        this.length = this.originblLength = this.resultLength = text.length;
+        this.pbrbLevel = pbrbLevel;
         this.direction = Bidi.DIRECTION_LEFT_TO_RIGHT;
-        this.paraCount = 1;
+        this.pbrbCount = 1;
 
-        /* Allocate zero-length arrays instead of setting to null here; then
-         * checks for null in various places can be eliminated.
+        /* Allocbte zero-length brrbys instebd of setting to null here; then
+         * checks for null in vbrious plbces cbn be eliminbted.
          */
         dirProps = new byte[0];
         levels = new byte[0];
         runs = new BidiRun[0];
-        isGoodLogicalToVisualRunsMap = false;
-        insertPoints.size = 0;          /* clean up from last call */
-        insertPoints.confirmed = 0;     /* clean up from last call */
+        isGoodLogicblToVisublRunsMbp = fblse;
+        insertPoints.size = 0;          /* clebn up from lbst cbll */
+        insertPoints.confirmed = 0;     /* clebn up from lbst cbll */
 
         /*
-         * Save the original paraLevel if contextual; otherwise, set to 0.
+         * Sbve the originbl pbrbLevel if contextubl; otherwise, set to 0.
          */
-        if (IsDefaultLevel(paraLevel)) {
-            defaultParaLevel = paraLevel;
+        if (IsDefbultLevel(pbrbLevel)) {
+            defbultPbrbLevel = pbrbLevel;
         } else {
-            defaultParaLevel = 0;
+            defbultPbrbLevel = 0;
         }
 
         if (length == 0) {
             /*
-             * For an empty paragraph, create a Bidi object with the paraLevel and
-             * the flags and the direction set but without allocating zero-length arrays.
+             * For bn empty pbrbgrbph, crebte b Bidi object with the pbrbLevel bnd
+             * the flbgs bnd the direction set but without bllocbting zero-length brrbys.
              * There is nothing more to do.
              */
-            if (IsDefaultLevel(paraLevel)) {
-                this.paraLevel &= 1;
-                defaultParaLevel = 0;
+            if (IsDefbultLevel(pbrbLevel)) {
+                this.pbrbLevel &= 1;
+                defbultPbrbLevel = 0;
             }
-            if ((this.paraLevel & 1) != 0) {
-                flags = DirPropFlag(R);
+            if ((this.pbrbLevel & 1) != 0) {
+                flbgs = DirPropFlbg(R);
                 direction = Bidi.DIRECTION_RIGHT_TO_LEFT;
             } else {
-                flags = DirPropFlag(L);
+                flbgs = DirPropFlbg(L);
                 direction = Bidi.DIRECTION_LEFT_TO_RIGHT;
             }
 
             runCount = 0;
-            paraCount = 0;
-            paraBidi = this;         /* mark successful setPara */
+            pbrbCount = 0;
+            pbrbBidi = this;         /* mbrk successful setPbrb */
             return;
         }
 
         runCount = -1;
 
         /*
-         * Get the directional properties,
-         * the flags bit-set, and
-         * determine the paragraph level if necessary.
+         * Get the directionbl properties,
+         * the flbgs bit-set, bnd
+         * determine the pbrbgrbph level if necessbry.
          */
         getDirPropsMemory(length);
         dirProps = dirPropsMemory;
         getDirProps();
 
-        /* the processed length may have changed if OPTION_STREAMING is set */
-        trailingWSStart = length;  /* the levels[] will reflect the WS run */
+        /* the processed length mby hbve chbnged if OPTION_STREAMING is set */
+        trbilingWSStbrt = length;  /* the levels[] will reflect the WS run */
 
-        /* allocate paras memory */
-        if (paraCount > 1) {
-            getInitialParasMemory(paraCount);
-            paras = parasMemory;
-            paras[paraCount - 1] = length;
+        /* bllocbte pbrbs memory */
+        if (pbrbCount > 1) {
+            getInitiblPbrbsMemory(pbrbCount);
+            pbrbs = pbrbsMemory;
+            pbrbs[pbrbCount - 1] = length;
         } else {
-            /* initialize paras for single paragraph */
-            paras = simpleParas;
-            simpleParas[0] = length;
+            /* initiblize pbrbs for single pbrbgrbph */
+            pbrbs = simplePbrbs;
+            simplePbrbs[0] = length;
         }
 
-        /* are explicit levels specified? */
+        /* bre explicit levels specified? */
         if (embeddingLevels == null) {
-            /* no: determine explicit levels according to the (Xn) rules */
+            /* no: determine explicit levels bccording to the (Xn) rules */
             getLevelsMemory(length);
             levels = levelsMemory;
             direction = resolveExplicitLevels();
         } else {
-            /* set BN for all explicit codes, check that all levels are 0 or paraLevel..MAX_EXPLICIT_LEVEL */
+            /* set BN for bll explicit codes, check thbt bll levels bre 0 or pbrbLevel..MAX_EXPLICIT_LEVEL */
             levels = embeddingLevels;
             direction = checkExplicitLevels();
         }
 
         /*
-         * The steps after (X9) in the Bidi algorithm are performed only if
-         * the paragraph text has mixed directionality!
+         * The steps bfter (X9) in the Bidi blgorithm bre performed only if
+         * the pbrbgrbph text hbs mixed directionblity!
          */
         switch (direction) {
-        case Bidi.DIRECTION_LEFT_TO_RIGHT:
-            /* make sure paraLevel is even */
-            paraLevel = (byte)((paraLevel + 1) & ~1);
+        cbse Bidi.DIRECTION_LEFT_TO_RIGHT:
+            /* mbke sure pbrbLevel is even */
+            pbrbLevel = (byte)((pbrbLevel + 1) & ~1);
 
-            /* all levels are implicitly at paraLevel (important for getLevels()) */
-            trailingWSStart = 0;
-            break;
-        case Bidi.DIRECTION_RIGHT_TO_LEFT:
-            /* make sure paraLevel is odd */
-            paraLevel |= 1;
+            /* bll levels bre implicitly bt pbrbLevel (importbnt for getLevels()) */
+            trbilingWSStbrt = 0;
+            brebk;
+        cbse Bidi.DIRECTION_RIGHT_TO_LEFT:
+            /* mbke sure pbrbLevel is odd */
+            pbrbLevel |= 1;
 
-            /* all levels are implicitly at paraLevel (important for getLevels()) */
-            trailingWSStart = 0;
-            break;
-        default:
-            this.impTabPair = impTab_DEFAULT;
+            /* bll levels bre implicitly bt pbrbLevel (importbnt for getLevels()) */
+            trbilingWSStbrt = 0;
+            brebk;
+        defbult:
+            this.impTbbPbir = impTbb_DEFAULT;
 
             /*
-             * If there are no external levels specified and there
-             * are no significant explicit level codes in the text,
-             * then we can treat the entire paragraph as one run.
+             * If there bre no externbl levels specified bnd there
+             * bre no significbnt explicit level codes in the text,
+             * then we cbn trebt the entire pbrbgrbph bs one run.
              * Otherwise, we need to perform the following rules on runs of
-             * the text with the same embedding levels. (X10)
-             * "Significant" explicit level codes are ones that actually
-             * affect non-BN characters.
-             * Examples for "insignificant" ones are empty embeddings
+             * the text with the sbme embedding levels. (X10)
+             * "Significbnt" explicit level codes bre ones thbt bctublly
+             * bffect non-BN chbrbcters.
+             * Exbmples for "insignificbnt" ones bre empty embeddings
              * LRE-PDF, LRE-RLE-PDF-PDF, etc.
              */
-            if (embeddingLevels == null && paraCount <= 1 &&
-                (flags & DirPropFlagMultiRuns) == 0) {
+            if (embeddingLevels == null && pbrbCount <= 1 &&
+                (flbgs & DirPropFlbgMultiRuns) == 0) {
                 resolveImplicitLevels(0, length,
-                        GetLRFromLevel(GetParaLevelAt(0)),
-                        GetLRFromLevel(GetParaLevelAt(length - 1)));
+                        GetLRFromLevel(GetPbrbLevelAt(0)),
+                        GetLRFromLevel(GetPbrbLevelAt(length - 1)));
             } else {
-                /* sor, eor: start and end types of same-level-run */
-                int start, limit = 0;
+                /* sor, eor: stbrt bnd end types of sbme-level-run */
+                int stbrt, limit = 0;
                 byte level, nextLevel;
                 short sor, eor;
 
-                /* determine the first sor and set eor to it because of the loop body (sor=eor there) */
-                level = GetParaLevelAt(0);
+                /* determine the first sor bnd set eor to it becbuse of the loop body (sor=eor there) */
+                level = GetPbrbLevelAt(0);
                 nextLevel = levels[0];
                 if (level < nextLevel) {
                     eor = GetLRFromLevel(nextLevel);
@@ -2594,123 +2594,123 @@ public class BidiBase {
                 }
 
                 do {
-                    /* determine start and limit of the run (end points just behind the run) */
+                    /* determine stbrt bnd limit of the run (end points just behind the run) */
 
-                    /* the values for this run's start are the same as for the previous run's end */
-                    start = limit;
+                    /* the vblues for this run's stbrt bre the sbme bs for the previous run's end */
+                    stbrt = limit;
                     level = nextLevel;
-                    if ((start > 0) && (NoContextRTL(dirProps[start - 1]) == B)) {
-                        /* except if this is a new paragraph, then set sor = para level */
-                        sor = GetLRFromLevel(GetParaLevelAt(start));
+                    if ((stbrt > 0) && (NoContextRTL(dirProps[stbrt - 1]) == B)) {
+                        /* except if this is b new pbrbgrbph, then set sor = pbrb level */
+                        sor = GetLRFromLevel(GetPbrbLevelAt(stbrt));
                     } else {
                         sor = eor;
                     }
 
-                    /* search for the limit of this run */
+                    /* sebrch for the limit of this run */
                     while (++limit < length && levels[limit] == level) {}
 
                     /* get the correct level of the next run */
                     if (limit < length) {
                         nextLevel = levels[limit];
                     } else {
-                        nextLevel = GetParaLevelAt(length - 1);
+                        nextLevel = GetPbrbLevelAt(length - 1);
                     }
 
-                    /* determine eor from max(level, nextLevel); sor is last run's eor */
+                    /* determine eor from mbx(level, nextLevel); sor is lbst run's eor */
                     if ((level & ~INTERNAL_LEVEL_OVERRIDE) < (nextLevel & ~INTERNAL_LEVEL_OVERRIDE)) {
                         eor = GetLRFromLevel(nextLevel);
                     } else {
                         eor = GetLRFromLevel(level);
                     }
 
-                    /* if the run consists of overridden directional types, then there
-                       are no implicit types to be resolved */
+                    /* if the run consists of overridden directionbl types, then there
+                       bre no implicit types to be resolved */
                     if ((level & INTERNAL_LEVEL_OVERRIDE) == 0) {
-                        resolveImplicitLevels(start, limit, sor, eor);
+                        resolveImplicitLevels(stbrt, limit, sor, eor);
                     } else {
-                        /* remove the LEVEL_OVERRIDE flags */
+                        /* remove the LEVEL_OVERRIDE flbgs */
                         do {
-                            levels[start++] &= ~INTERNAL_LEVEL_OVERRIDE;
-                        } while (start < limit);
+                            levels[stbrt++] &= ~INTERNAL_LEVEL_OVERRIDE;
+                        } while (stbrt < limit);
                     }
                 } while (limit  < length);
             }
 
-            /* reset the embedding levels for some non-graphic characters (L1), (X9) */
-            adjustWSLevels();
+            /* reset the embedding levels for some non-grbphic chbrbcters (L1), (X9) */
+            bdjustWSLevels();
 
-            break;
+            brebk;
         }
 
         resultLength += insertPoints.size;
-        paraBidi = this;             /* mark successful setPara */
+        pbrbBidi = this;             /* mbrk successful setPbrb */
     }
 
     /**
-     * Perform the Unicode Bidi algorithm on a given paragraph, as defined in the
-     * <a href="http://www.unicode.org/unicode/reports/tr9/">Unicode Standard Annex #9</a>,
+     * Perform the Unicode Bidi blgorithm on b given pbrbgrbph, bs defined in the
+     * <b href="http://www.unicode.org/unicode/reports/tr9/">Unicode Stbndbrd Annex #9</b>,
      * version 13,
-     * also described in The Unicode Standard, Version 4.0 .<p>
+     * blso described in The Unicode Stbndbrd, Version 4.0 .<p>
      *
-     * This method takes a paragraph of text and computes the
-     * left-right-directionality of each character. The text should not
-     * contain any Unicode block separators.<p>
+     * This method tbkes b pbrbgrbph of text bnd computes the
+     * left-right-directionblity of ebch chbrbcter. The text should not
+     * contbin bny Unicode block sepbrbtors.<p>
      *
-     * The RUN_DIRECTION attribute in the text, if present, determines the base
-     * direction (left-to-right or right-to-left). If not present, the base
-     * direction is computed using the Unicode Bidirectional Algorithm,
-     * defaulting to left-to-right if there are no strong directional characters
-     * in the text. This attribute, if present, must be applied to all the text
-     * in the paragraph.<p>
+     * The RUN_DIRECTION bttribute in the text, if present, determines the bbse
+     * direction (left-to-right or right-to-left). If not present, the bbse
+     * direction is computed using the Unicode Bidirectionbl Algorithm,
+     * defbulting to left-to-right if there bre no strong directionbl chbrbcters
+     * in the text. This bttribute, if present, must be bpplied to bll the text
+     * in the pbrbgrbph.<p>
      *
-     * The BIDI_EMBEDDING attribute in the text, if present, represents
-     * embedding level information. Negative values from -1 to -62 indicate
-     * overrides at the absolute value of the level. Positive values from 1 to
-     * 62 indicate embeddings. Where values are zero or not defined, the base
-     * embedding level as determined by the base direction is assumed.<p>
+     * The BIDI_EMBEDDING bttribute in the text, if present, represents
+     * embedding level informbtion. Negbtive vblues from -1 to -62 indicbte
+     * overrides bt the bbsolute vblue of the level. Positive vblues from 1 to
+     * 62 indicbte embeddings. Where vblues bre zero or not defined, the bbse
+     * embedding level bs determined by the bbse direction is bssumed.<p>
      *
-     * The NUMERIC_SHAPING attribute in the text, if present, converts European
-     * digits to other decimal digits before running the bidi algorithm. This
-     * attribute, if present, must be applied to all the text in the paragraph.
+     * The NUMERIC_SHAPING bttribute in the text, if present, converts Europebn
+     * digits to other decimbl digits before running the bidi blgorithm. This
+     * bttribute, if present, must be bpplied to bll the text in the pbrbgrbph.
      *
-     * If the entire text is all of the same directionality, then
-     * the method may not perform all the steps described by the algorithm,
-     * i.e., some levels may not be the same as if all steps were performed.
-     * This is not relevant for unidirectional text.<br>
-     * For example, in pure LTR text with numbers the numbers would get
-     * a resolved level of 2 higher than the surrounding text according to
-     * the algorithm. This implementation may set all resolved levels to
-     * the same value in such a case.<p>
+     * If the entire text is bll of the sbme directionblity, then
+     * the method mby not perform bll the steps described by the blgorithm,
+     * i.e., some levels mby not be the sbme bs if bll steps were performed.
+     * This is not relevbnt for unidirectionbl text.<br>
+     * For exbmple, in pure LTR text with numbers the numbers would get
+     * b resolved level of 2 higher thbn the surrounding text bccording to
+     * the blgorithm. This implementbtion mby set bll resolved levels to
+     * the sbme vblue in such b cbse.<p>
      *
-     * @param paragraph a paragraph of text with optional character and
-     *        paragraph attribute information
-     * @stable ICU 3.8
+     * @pbrbm pbrbgrbph b pbrbgrbph of text with optionbl chbrbcter bnd
+     *        pbrbgrbph bttribute informbtion
+     * @stbble ICU 3.8
      */
-    public void setPara(AttributedCharacterIterator paragraph)
+    public void setPbrb(AttributedChbrbcterIterbtor pbrbgrbph)
     {
-        byte paraLvl;
-        char ch = paragraph.first();
-        Boolean runDirection =
-            (Boolean) paragraph.getAttribute(TextAttributeConstants.RUN_DIRECTION);
-        Object shaper = paragraph.getAttribute(TextAttributeConstants.NUMERIC_SHAPING);
+        byte pbrbLvl;
+        chbr ch = pbrbgrbph.first();
+        Boolebn runDirection =
+            (Boolebn) pbrbgrbph.getAttribute(TextAttributeConstbnts.RUN_DIRECTION);
+        Object shbper = pbrbgrbph.getAttribute(TextAttributeConstbnts.NUMERIC_SHAPING);
         if (runDirection == null) {
-            paraLvl = INTERNAL_LEVEL_DEFAULT_LTR;
+            pbrbLvl = INTERNAL_LEVEL_DEFAULT_LTR;
         } else {
-            paraLvl = (runDirection.equals(TextAttributeConstants.RUN_DIRECTION_LTR)) ?
+            pbrbLvl = (runDirection.equbls(TextAttributeConstbnts.RUN_DIRECTION_LTR)) ?
                         (byte)Bidi.DIRECTION_LEFT_TO_RIGHT : (byte)Bidi.DIRECTION_RIGHT_TO_LEFT;
         }
 
         byte[] lvls = null;
-        int len = paragraph.getEndIndex() - paragraph.getBeginIndex();
+        int len = pbrbgrbph.getEndIndex() - pbrbgrbph.getBeginIndex();
         byte[] embeddingLevels = new byte[len];
-        char[] txt = new char[len];
+        chbr[] txt = new chbr[len];
         int i = 0;
-        while (ch != AttributedCharacterIterator.DONE) {
+        while (ch != AttributedChbrbcterIterbtor.DONE) {
             txt[i] = ch;
             Integer embedding =
-                (Integer) paragraph.getAttribute(TextAttributeConstants.BIDI_EMBEDDING);
+                (Integer) pbrbgrbph.getAttribute(TextAttributeConstbnts.BIDI_EMBEDDING);
             if (embedding != null) {
-                byte level = embedding.byteValue();
+                byte level = embedding.byteVblue();
                 if (level == 0) {
                     /* no-op */
                 } else if (level < 0) {
@@ -2721,218 +2721,218 @@ public class BidiBase {
                     embeddingLevels[i] = level;
                 }
             }
-            ch = paragraph.next();
+            ch = pbrbgrbph.next();
             ++i;
         }
 
-        if (shaper != null) {
-            NumericShapings.shape(shaper, txt, 0, len);
+        if (shbper != null) {
+            NumericShbpings.shbpe(shbper, txt, 0, len);
         }
-        setPara(txt, paraLvl, lvls);
+        setPbrb(txt, pbrbLvl, lvls);
     }
 
     /**
-     * Specify whether block separators must be allocated level zero,
-     * so that successive paragraphs will progress from left to right.
-     * This method must be called before <code>setPara()</code>.
-     * Paragraph separators (B) may appear in the text.  Setting them to level zero
-     * means that all paragraph separators (including one possibly appearing
-     * in the last text position) are kept in the reordered text after the text
-     * that they follow in the source text.
-     * When this feature is not enabled, a paragraph separator at the last
+     * Specify whether block sepbrbtors must be bllocbted level zero,
+     * so thbt successive pbrbgrbphs will progress from left to right.
+     * This method must be cblled before <code>setPbrb()</code>.
+     * Pbrbgrbph sepbrbtors (B) mby bppebr in the text.  Setting them to level zero
+     * mebns thbt bll pbrbgrbph sepbrbtors (including one possibly bppebring
+     * in the lbst text position) bre kept in the reordered text bfter the text
+     * thbt they follow in the source text.
+     * When this febture is not enbbled, b pbrbgrbph sepbrbtor bt the lbst
      * position of the text before reordering will go to the first position
-     * of the reordered text when the paragraph level is odd.
+     * of the reordered text when the pbrbgrbph level is odd.
      *
-     * @param ordarParaLTR specifies whether paragraph separators (B) must
-     * receive level 0, so that successive paragraphs progress from left to right.
+     * @pbrbm ordbrPbrbLTR specifies whether pbrbgrbph sepbrbtors (B) must
+     * receive level 0, so thbt successive pbrbgrbphs progress from left to right.
      *
-     * @see #setPara
-     * @stable ICU 3.8
+     * @see #setPbrb
+     * @stbble ICU 3.8
      */
-    private void orderParagraphsLTR(boolean ordarParaLTR) {
-        orderParagraphsLTR = ordarParaLTR;
+    privbte void orderPbrbgrbphsLTR(boolebn ordbrPbrbLTR) {
+        orderPbrbgrbphsLTR = ordbrPbrbLTR;
     }
 
     /**
-     * Get the directionality of the text.
+     * Get the directionblity of the text.
      *
-     * @return a value of <code>LTR</code>, <code>RTL</code> or <code>MIXED</code>
-     *         that indicates if the entire text
-     *         represented by this object is unidirectional,
-     *         and which direction, or if it is mixed-directional.
+     * @return b vblue of <code>LTR</code>, <code>RTL</code> or <code>MIXED</code>
+     *         thbt indicbtes if the entire text
+     *         represented by this object is unidirectionbl,
+     *         bnd which direction, or if it is mixed-directionbl.
      *
-     * @throws IllegalStateException if this call is not preceded by a successful
-     *         call to <code>setPara</code> or <code>setLine</code>
+     * @throws IllegblStbteException if this cbll is not preceded by b successful
+     *         cbll to <code>setPbrb</code> or <code>setLine</code>
      *
      * @see #LTR
      * @see #RTL
      * @see #MIXED
-     * @stable ICU 3.8
+     * @stbble ICU 3.8
      */
-    private byte getDirection()
+    privbte byte getDirection()
     {
-        verifyValidParaOrLine();
+        verifyVblidPbrbOrLine();
         return direction;
     }
 
     /**
      * Get the length of the text.
      *
-     * @return The length of the text that the <code>Bidi</code> object was
-     *         created for.
+     * @return The length of the text thbt the <code>Bidi</code> object wbs
+     *         crebted for.
      *
-     * @throws IllegalStateException if this call is not preceded by a successful
-     *         call to <code>setPara</code> or <code>setLine</code>
-     * @stable ICU 3.8
+     * @throws IllegblStbteException if this cbll is not preceded by b successful
+     *         cbll to <code>setPbrb</code> or <code>setLine</code>
+     * @stbble ICU 3.8
      */
     public int getLength()
     {
-        verifyValidParaOrLine();
-        return originalLength;
+        verifyVblidPbrbOrLine();
+        return originblLength;
     }
 
-    /* paragraphs API methods ------------------------------------------------- */
+    /* pbrbgrbphs API methods ------------------------------------------------- */
 
     /**
-     * Get the paragraph level of the text.
+     * Get the pbrbgrbph level of the text.
      *
-     * @return The paragraph level. If there are multiple paragraphs, their
-     *         level may vary if the required paraLevel is LEVEL_DEFAULT_LTR or
-     *         LEVEL_DEFAULT_RTL.  In that case, the level of the first paragraph
+     * @return The pbrbgrbph level. If there bre multiple pbrbgrbphs, their
+     *         level mby vbry if the required pbrbLevel is LEVEL_DEFAULT_LTR or
+     *         LEVEL_DEFAULT_RTL.  In thbt cbse, the level of the first pbrbgrbph
      *         is returned.
      *
-     * @throws IllegalStateException if this call is not preceded by a successful
-     *         call to <code>setPara</code> or <code>setLine</code>
+     * @throws IllegblStbteException if this cbll is not preceded by b successful
+     *         cbll to <code>setPbrb</code> or <code>setLine</code>
      *
      * @see #LEVEL_DEFAULT_LTR
      * @see #LEVEL_DEFAULT_RTL
-     * @see #getParagraph
-     * @see #getParagraphByIndex
-     * @stable ICU 3.8
+     * @see #getPbrbgrbph
+     * @see #getPbrbgrbphByIndex
+     * @stbble ICU 3.8
      */
-    public byte getParaLevel()
+    public byte getPbrbLevel()
     {
-        verifyValidParaOrLine();
-        return paraLevel;
+        verifyVblidPbrbOrLine();
+        return pbrbLevel;
     }
 
     /**
-     * Get the index of a paragraph, given a position within the text.<p>
+     * Get the index of b pbrbgrbph, given b position within the text.<p>
      *
-     * @param charIndex is the index of a character within the text, in the
-     *        range <code>[0..getProcessedLength()-1]</code>.
+     * @pbrbm chbrIndex is the index of b chbrbcter within the text, in the
+     *        rbnge <code>[0..getProcessedLength()-1]</code>.
      *
-     * @return The index of the paragraph containing the specified position,
-     *         starting from 0.
+     * @return The index of the pbrbgrbph contbining the specified position,
+     *         stbrting from 0.
      *
-     * @throws IllegalStateException if this call is not preceded by a successful
-     *         call to <code>setPara</code> or <code>setLine</code>
-     * @throws IllegalArgumentException if charIndex is not within the legal range
+     * @throws IllegblStbteException if this cbll is not preceded by b successful
+     *         cbll to <code>setPbrb</code> or <code>setLine</code>
+     * @throws IllegblArgumentException if chbrIndex is not within the legbl rbnge
      *
      * @see com.ibm.icu.text.BidiRun
      * @see #getProcessedLength
-     * @stable ICU 3.8
+     * @stbble ICU 3.8
      */
-    public int getParagraphIndex(int charIndex)
+    public int getPbrbgrbphIndex(int chbrIndex)
     {
-        verifyValidParaOrLine();
-        BidiBase bidi = paraBidi;             /* get Para object if Line object */
-        verifyRange(charIndex, 0, bidi.length);
-        int paraIndex;
-        for (paraIndex = 0; charIndex >= bidi.paras[paraIndex]; paraIndex++) {
+        verifyVblidPbrbOrLine();
+        BidiBbse bidi = pbrbBidi;             /* get Pbrb object if Line object */
+        verifyRbnge(chbrIndex, 0, bidi.length);
+        int pbrbIndex;
+        for (pbrbIndex = 0; chbrIndex >= bidi.pbrbs[pbrbIndex]; pbrbIndex++) {
         }
-        return paraIndex;
+        return pbrbIndex;
     }
 
     /**
-     * <code>setLine()</code> returns a <code>Bidi</code> object to
-     * contain the reordering information, especially the resolved levels,
-     * for all the characters in a line of text. This line of text is
-     * specified by referring to a <code>Bidi</code> object representing
-     * this information for a piece of text containing one or more paragraphs,
-     * and by specifying a range of indexes in this text.<p>
-     * In the new line object, the indexes will range from 0 to <code>limit-start-1</code>.<p>
+     * <code>setLine()</code> returns b <code>Bidi</code> object to
+     * contbin the reordering informbtion, especiblly the resolved levels,
+     * for bll the chbrbcters in b line of text. This line of text is
+     * specified by referring to b <code>Bidi</code> object representing
+     * this informbtion for b piece of text contbining one or more pbrbgrbphs,
+     * bnd by specifying b rbnge of indexes in this text.<p>
+     * In the new line object, the indexes will rbnge from 0 to <code>limit-stbrt-1</code>.<p>
      *
-     * This is used after calling <code>setPara()</code>
-     * for a piece of text, and after line-breaking on that text.
-     * It is not necessary if each paragraph is treated as a single line.<p>
+     * This is used bfter cblling <code>setPbrb()</code>
+     * for b piece of text, bnd bfter line-brebking on thbt text.
+     * It is not necessbry if ebch pbrbgrbph is trebted bs b single line.<p>
      *
-     * After line-breaking, rules (L1) and (L2) for the treatment of
-     * trailing WS and for reordering are performed on
-     * a <code>Bidi</code> object that represents a line.<p>
+     * After line-brebking, rules (L1) bnd (L2) for the trebtment of
+     * trbiling WS bnd for reordering bre performed on
+     * b <code>Bidi</code> object thbt represents b line.<p>
      *
-     * <strong>Important: </strong>the line <code>Bidi</code> object may
-     * reference data within the global text <code>Bidi</code> object.
-     * You should not alter the content of the global text object until
-     * you are finished using the line object.
+     * <strong>Importbnt: </strong>the line <code>Bidi</code> object mby
+     * reference dbtb within the globbl text <code>Bidi</code> object.
+     * You should not blter the content of the globbl text object until
+     * you bre finished using the line object.
      *
-     * @param start is the line's first index into the text.
+     * @pbrbm stbrt is the line's first index into the text.
      *
-     * @param limit is just behind the line's last index into the text
-     *        (its last index +1).
+     * @pbrbm limit is just behind the line's lbst index into the text
+     *        (its lbst index +1).
      *
-     * @return a <code>Bidi</code> object that will now represent a line of the text.
+     * @return b <code>Bidi</code> object thbt will now represent b line of the text.
      *
-     * @throws IllegalStateException if this call is not preceded by a successful
-     *         call to <code>setPara</code>
-     * @throws IllegalArgumentException if start and limit are not in the range
-     *         <code>0&lt;=start&lt;limit&lt;=getProcessedLength()</code>,
-     *         or if the specified line crosses a paragraph boundary
+     * @throws IllegblStbteException if this cbll is not preceded by b successful
+     *         cbll to <code>setPbrb</code>
+     * @throws IllegblArgumentException if stbrt bnd limit bre not in the rbnge
+     *         <code>0&lt;=stbrt&lt;limit&lt;=getProcessedLength()</code>,
+     *         or if the specified line crosses b pbrbgrbph boundbry
      *
-     * @see #setPara
+     * @see #setPbrb
      * @see #getProcessedLength
-     * @stable ICU 3.8
+     * @stbble ICU 3.8
      */
-    public Bidi setLine(Bidi bidi, BidiBase bidiBase, Bidi newBidi, BidiBase newBidiBase, int start, int limit)
+    public Bidi setLine(Bidi bidi, BidiBbse bidiBbse, Bidi newBidi, BidiBbse newBidiBbse, int stbrt, int limit)
     {
-        verifyValidPara();
-        verifyRange(start, 0, limit);
-        verifyRange(limit, 0, length+1);
+        verifyVblidPbrb();
+        verifyRbnge(stbrt, 0, limit);
+        verifyRbnge(limit, 0, length+1);
 
-        return BidiLine.setLine(bidi, this, newBidi, newBidiBase, start, limit);
+        return BidiLine.setLine(bidi, this, newBidi, newBidiBbse, stbrt, limit);
     }
 
     /**
-     * Get the level for one character.
+     * Get the level for one chbrbcter.
      *
-     * @param charIndex the index of a character.
+     * @pbrbm chbrIndex the index of b chbrbcter.
      *
-     * @return The level for the character at <code>charIndex</code>.
+     * @return The level for the chbrbcter bt <code>chbrIndex</code>.
      *
-     * @throws IllegalStateException if this call is not preceded by a successful
-     *         call to <code>setPara</code> or <code>setLine</code>
-     * @throws IllegalArgumentException if charIndex is not in the range
-     *         <code>0&lt;=charIndex&lt;getProcessedLength()</code>
+     * @throws IllegblStbteException if this cbll is not preceded by b successful
+     *         cbll to <code>setPbrb</code> or <code>setLine</code>
+     * @throws IllegblArgumentException if chbrIndex is not in the rbnge
+     *         <code>0&lt;=chbrIndex&lt;getProcessedLength()</code>
      *
      * @see #getProcessedLength
-     * @stable ICU 3.8
+     * @stbble ICU 3.8
      */
-    public byte getLevelAt(int charIndex)
+    public byte getLevelAt(int chbrIndex)
     {
-        if (charIndex < 0 || charIndex >= length) {
-            return (byte)getBaseLevel();
+        if (chbrIndex < 0 || chbrIndex >= length) {
+            return (byte)getBbseLevel();
         }
-        verifyValidParaOrLine();
-        verifyRange(charIndex, 0, length);
-        return BidiLine.getLevelAt(this, charIndex);
+        verifyVblidPbrbOrLine();
+        verifyRbnge(chbrIndex, 0, length);
+        return BidiLine.getLevelAt(this, chbrIndex);
     }
 
     /**
-     * Get an array of levels for each character.<p>
+     * Get bn brrby of levels for ebch chbrbcter.<p>
      *
-     * Note that this method may allocate memory under some
-     * circumstances, unlike <code>getLevelAt()</code>.
+     * Note thbt this method mby bllocbte memory under some
+     * circumstbnces, unlike <code>getLevelAt()</code>.
      *
-     * @return The levels array for the text,
-     *         or <code>null</code> if an error occurs.
+     * @return The levels brrby for the text,
+     *         or <code>null</code> if bn error occurs.
      *
-     * @throws IllegalStateException if this call is not preceded by a successful
-     *         call to <code>setPara</code> or <code>setLine</code>
-     * @stable ICU 3.8
+     * @throws IllegblStbteException if this cbll is not preceded by b successful
+     *         cbll to <code>setPbrb</code> or <code>setLine</code>
+     * @stbble ICU 3.8
      */
-    private byte[] getLevels()
+    privbte byte[] getLevels()
     {
-        verifyValidParaOrLine();
+        verifyVblidPbrbOrLine();
         if (length <= 0) {
             return new byte[0];
         }
@@ -2941,339 +2941,339 @@ public class BidiBase {
 
     /**
      * Get the number of runs.
-     * This method may invoke the actual reordering on the
-     * <code>Bidi</code> object, after <code>setPara()</code>
-     * may have resolved only the levels of the text. Therefore,
-     * <code>countRuns()</code> may have to allocate memory,
-     * and may throw an exception if it fails to do so.
+     * This method mby invoke the bctubl reordering on the
+     * <code>Bidi</code> object, bfter <code>setPbrb()</code>
+     * mby hbve resolved only the levels of the text. Therefore,
+     * <code>countRuns()</code> mby hbve to bllocbte memory,
+     * bnd mby throw bn exception if it fbils to do so.
      *
      * @return The number of runs.
      *
-     * @throws IllegalStateException if this call is not preceded by a successful
-     *         call to <code>setPara</code> or <code>setLine</code>
-     * @stable ICU 3.8
+     * @throws IllegblStbteException if this cbll is not preceded by b successful
+     *         cbll to <code>setPbrb</code> or <code>setLine</code>
+     * @stbble ICU 3.8
      */
     public int countRuns()
     {
-        verifyValidParaOrLine();
+        verifyVblidPbrbOrLine();
         BidiLine.getRuns(this);
         return runCount;
     }
 
     /**
-     * Get a visual-to-logical index map (array) for the characters in the
-     * <code>Bidi</code> (paragraph or line) object.
+     * Get b visubl-to-logicbl index mbp (brrby) for the chbrbcters in the
+     * <code>Bidi</code> (pbrbgrbph or line) object.
      * <p>
-     * Some values in the map may be <code>MAP_NOWHERE</code> if the
-     * corresponding text characters are Bidi marks inserted in the visual
+     * Some vblues in the mbp mby be <code>MAP_NOWHERE</code> if the
+     * corresponding text chbrbcters bre Bidi mbrks inserted in the visubl
      * output by the option <code>OPTION_INSERT_MARKS</code>.
      * <p>
-     * When the visual output is altered by using options of
-     * <code>writeReordered()</code> such as <code>INSERT_LRM_FOR_NUMERIC</code>,
+     * When the visubl output is bltered by using options of
+     * <code>writeReordered()</code> such bs <code>INSERT_LRM_FOR_NUMERIC</code>,
      * <code>KEEP_BASE_COMBINING</code>, <code>OUTPUT_REVERSE</code>,
-     * <code>REMOVE_BIDI_CONTROLS</code>, the logical positions returned may not
-     * be correct. It is advised to use, when possible, reordering options
-     * such as {@link #OPTION_INSERT_MARKS} and {@link #OPTION_REMOVE_CONTROLS}.
+     * <code>REMOVE_BIDI_CONTROLS</code>, the logicbl positions returned mby not
+     * be correct. It is bdvised to use, when possible, reordering options
+     * such bs {@link #OPTION_INSERT_MARKS} bnd {@link #OPTION_REMOVE_CONTROLS}.
      *
-     * @return an array of <code>getResultLength()</code>
-     *        indexes which will reflect the reordering of the characters.<br><br>
-     *        The index map will result in
-     *        <code>indexMap[visualIndex]==logicalIndex</code>, where
-     *        <code>indexMap</code> represents the returned array.
+     * @return bn brrby of <code>getResultLength()</code>
+     *        indexes which will reflect the reordering of the chbrbcters.<br><br>
+     *        The index mbp will result in
+     *        <code>indexMbp[visublIndex]==logicblIndex</code>, where
+     *        <code>indexMbp</code> represents the returned brrby.
      *
-     * @throws IllegalStateException if this call is not preceded by a successful
-     *         call to <code>setPara</code> or <code>setLine</code>
+     * @throws IllegblStbteException if this cbll is not preceded by b successful
+     *         cbll to <code>setPbrb</code> or <code>setLine</code>
      *
-     * @see #getLogicalMap
-     * @see #getLogicalIndex
+     * @see #getLogicblMbp
+     * @see #getLogicblIndex
      * @see #getResultLength
      * @see #MAP_NOWHERE
      * @see #OPTION_INSERT_MARKS
      * @see #writeReordered
-     * @stable ICU 3.8
+     * @stbble ICU 3.8
      */
-    private int[] getVisualMap()
+    privbte int[] getVisublMbp()
     {
-        /* countRuns() checks successful call to setPara/setLine */
+        /* countRuns() checks successful cbll to setPbrb/setLine */
         countRuns();
         if (resultLength <= 0) {
             return new int[0];
         }
-        return BidiLine.getVisualMap(this);
+        return BidiLine.getVisublMbp(this);
     }
 
     /**
-     * This is a convenience method that does not use a <code>Bidi</code> object.
-     * It is intended to be used for when an application has determined the levels
-     * of objects (character sequences) and just needs to have them reordered (L2).
-     * This is equivalent to using <code>getVisualMap()</code> on a
+     * This is b convenience method thbt does not use b <code>Bidi</code> object.
+     * It is intended to be used for when bn bpplicbtion hbs determined the levels
+     * of objects (chbrbcter sequences) bnd just needs to hbve them reordered (L2).
+     * This is equivblent to using <code>getVisublMbp()</code> on b
      * <code>Bidi</code> object.
      *
-     * @param levels is an array of levels that have been determined by
-     *        the application.
+     * @pbrbm levels is bn brrby of levels thbt hbve been determined by
+     *        the bpplicbtion.
      *
-     * @return an array of <code>levels.length</code>
-     *        indexes which will reflect the reordering of the characters.<p>
-     *        The index map will result in
-     *        <code>indexMap[visualIndex]==logicalIndex</code>, where
-     *        <code>indexMap</code> represents the returned array.
+     * @return bn brrby of <code>levels.length</code>
+     *        indexes which will reflect the reordering of the chbrbcters.<p>
+     *        The index mbp will result in
+     *        <code>indexMbp[visublIndex]==logicblIndex</code>, where
+     *        <code>indexMbp</code> represents the returned brrby.
      *
-     * @stable ICU 3.8
+     * @stbble ICU 3.8
      */
-    private static int[] reorderVisual(byte[] levels)
+    privbte stbtic int[] reorderVisubl(byte[] levels)
     {
-        return BidiLine.reorderVisual(levels);
+        return BidiLine.reorderVisubl(levels);
     }
 
     /**
-     * Constant indicating that the base direction depends on the first strong
-     * directional character in the text according to the Unicode Bidirectional
-     * Algorithm. If no strong directional character is present, the base
+     * Constbnt indicbting thbt the bbse direction depends on the first strong
+     * directionbl chbrbcter in the text bccording to the Unicode Bidirectionbl
+     * Algorithm. If no strong directionbl chbrbcter is present, the bbse
      * direction is left-to-right.
-     * @stable ICU 3.8
+     * @stbble ICU 3.8
      */
-    private static final int INTERNAL_DIRECTION_DEFAULT_LEFT_TO_RIGHT = 0x7e;
+    privbte stbtic finbl int INTERNAL_DIRECTION_DEFAULT_LEFT_TO_RIGHT = 0x7e;
 
     /**
-     * Constant indicating that the base direction depends on the first strong
-     * directional character in the text according to the Unicode Bidirectional
-     * Algorithm. If no strong directional character is present, the base
+     * Constbnt indicbting thbt the bbse direction depends on the first strong
+     * directionbl chbrbcter in the text bccording to the Unicode Bidirectionbl
+     * Algorithm. If no strong directionbl chbrbcter is present, the bbse
      * direction is right-to-left.
-     * @stable ICU 3.8
+     * @stbble ICU 3.8
      */
-    private static final int INTERMAL_DIRECTION_DEFAULT_RIGHT_TO_LEFT = 0x7f;
+    privbte stbtic finbl int INTERMAL_DIRECTION_DEFAULT_RIGHT_TO_LEFT = 0x7f;
 
     /**
-     * Create Bidi from the given text, embedding, and direction information.
-     * The embeddings array may be null. If present, the values represent
-     * embedding level information. Negative values from -1 to -61 indicate
-     * overrides at the absolute value of the level. Positive values from 1 to
-     * 61 indicate embeddings. Where values are zero, the base embedding level
-     * as determined by the base direction is assumed.<p>
+     * Crebte Bidi from the given text, embedding, bnd direction informbtion.
+     * The embeddings brrby mby be null. If present, the vblues represent
+     * embedding level informbtion. Negbtive vblues from -1 to -61 indicbte
+     * overrides bt the bbsolute vblue of the level. Positive vblues from 1 to
+     * 61 indicbte embeddings. Where vblues bre zero, the bbse embedding level
+     * bs determined by the bbse direction is bssumed.<p>
      *
-     * Note: this constructor calls setPara() internally.
+     * Note: this constructor cblls setPbrb() internblly.
      *
-     * @param text an array containing the paragraph of text to process.
-     * @param textStart the index into the text array of the start of the
-     *        paragraph.
-     * @param embeddings an array containing embedding values for each character
-     *        in the paragraph. This can be null, in which case it is assumed
-     *        that there is no external embedding information.
-     * @param embStart the index into the embedding array of the start of the
-     *        paragraph.
-     * @param paragraphLength the length of the paragraph in the text and
-     *        embeddings arrays.
-     * @param flags a collection of flags that control the algorithm. The
-     *        algorithm understands the flags DIRECTION_LEFT_TO_RIGHT,
-     *        DIRECTION_RIGHT_TO_LEFT, DIRECTION_DEFAULT_LEFT_TO_RIGHT, and
-     *        DIRECTION_DEFAULT_RIGHT_TO_LEFT. Other values are reserved.
+     * @pbrbm text bn brrby contbining the pbrbgrbph of text to process.
+     * @pbrbm textStbrt the index into the text brrby of the stbrt of the
+     *        pbrbgrbph.
+     * @pbrbm embeddings bn brrby contbining embedding vblues for ebch chbrbcter
+     *        in the pbrbgrbph. This cbn be null, in which cbse it is bssumed
+     *        thbt there is no externbl embedding informbtion.
+     * @pbrbm embStbrt the index into the embedding brrby of the stbrt of the
+     *        pbrbgrbph.
+     * @pbrbm pbrbgrbphLength the length of the pbrbgrbph in the text bnd
+     *        embeddings brrbys.
+     * @pbrbm flbgs b collection of flbgs thbt control the blgorithm. The
+     *        blgorithm understbnds the flbgs DIRECTION_LEFT_TO_RIGHT,
+     *        DIRECTION_RIGHT_TO_LEFT, DIRECTION_DEFAULT_LEFT_TO_RIGHT, bnd
+     *        DIRECTION_DEFAULT_RIGHT_TO_LEFT. Other vblues bre reserved.
      *
-     * @throws IllegalArgumentException if the values in embeddings are
-     *         not within the allowed range
+     * @throws IllegblArgumentException if the vblues in embeddings bre
+     *         not within the bllowed rbnge
      *
      * @see #DIRECTION_LEFT_TO_RIGHT
      * @see #DIRECTION_RIGHT_TO_LEFT
      * @see #DIRECTION_DEFAULT_LEFT_TO_RIGHT
      * @see #DIRECTION_DEFAULT_RIGHT_TO_LEFT
-     * @stable ICU 3.8
+     * @stbble ICU 3.8
      */
-    public BidiBase(char[] text,
-             int textStart,
+    public BidiBbse(chbr[] text,
+             int textStbrt,
              byte[] embeddings,
-             int embStart,
-             int paragraphLength,
-             int flags)
+             int embStbrt,
+             int pbrbgrbphLength,
+             int flbgs)
      {
         this(0, 0);
-        byte paraLvl;
-        switch (flags) {
-        case Bidi.DIRECTION_LEFT_TO_RIGHT:
-        default:
-            paraLvl = Bidi.DIRECTION_LEFT_TO_RIGHT;
-            break;
-        case Bidi.DIRECTION_RIGHT_TO_LEFT:
-            paraLvl = Bidi.DIRECTION_RIGHT_TO_LEFT;
-            break;
-        case Bidi.DIRECTION_DEFAULT_LEFT_TO_RIGHT:
-            paraLvl = INTERNAL_LEVEL_DEFAULT_LTR;
-            break;
-        case Bidi.DIRECTION_DEFAULT_RIGHT_TO_LEFT:
-            paraLvl = INTERNAL_LEVEL_DEFAULT_RTL;
-            break;
+        byte pbrbLvl;
+        switch (flbgs) {
+        cbse Bidi.DIRECTION_LEFT_TO_RIGHT:
+        defbult:
+            pbrbLvl = Bidi.DIRECTION_LEFT_TO_RIGHT;
+            brebk;
+        cbse Bidi.DIRECTION_RIGHT_TO_LEFT:
+            pbrbLvl = Bidi.DIRECTION_RIGHT_TO_LEFT;
+            brebk;
+        cbse Bidi.DIRECTION_DEFAULT_LEFT_TO_RIGHT:
+            pbrbLvl = INTERNAL_LEVEL_DEFAULT_LTR;
+            brebk;
+        cbse Bidi.DIRECTION_DEFAULT_RIGHT_TO_LEFT:
+            pbrbLvl = INTERNAL_LEVEL_DEFAULT_RTL;
+            brebk;
         }
-        byte[] paraEmbeddings;
+        byte[] pbrbEmbeddings;
         if (embeddings == null) {
-            paraEmbeddings = null;
+            pbrbEmbeddings = null;
         } else {
-            paraEmbeddings = new byte[paragraphLength];
+            pbrbEmbeddings = new byte[pbrbgrbphLength];
             byte lev;
-            for (int i = 0; i < paragraphLength; i++) {
-                lev = embeddings[i + embStart];
+            for (int i = 0; i < pbrbgrbphLength; i++) {
+                lev = embeddings[i + embStbrt];
                 if (lev < 0) {
                     lev = (byte)((- lev) | INTERNAL_LEVEL_OVERRIDE);
                 } else if (lev == 0) {
-                    lev = paraLvl;
-                    if (paraLvl > MAX_EXPLICIT_LEVEL) {
+                    lev = pbrbLvl;
+                    if (pbrbLvl > MAX_EXPLICIT_LEVEL) {
                         lev &= 1;
                     }
                 }
-                paraEmbeddings[i] = lev;
+                pbrbEmbeddings[i] = lev;
             }
         }
-        if (textStart == 0 && embStart == 0 && paragraphLength == text.length) {
-            setPara(text, paraLvl, paraEmbeddings);
+        if (textStbrt == 0 && embStbrt == 0 && pbrbgrbphLength == text.length) {
+            setPbrb(text, pbrbLvl, pbrbEmbeddings);
         } else {
-            char[] paraText = new char[paragraphLength];
-            System.arraycopy(text, textStart, paraText, 0, paragraphLength);
-            setPara(paraText, paraLvl, paraEmbeddings);
+            chbr[] pbrbText = new chbr[pbrbgrbphLength];
+            System.brrbycopy(text, textStbrt, pbrbText, 0, pbrbgrbphLength);
+            setPbrb(pbrbText, pbrbLvl, pbrbEmbeddings);
         }
     }
 
     /**
-     * Return true if the line is not left-to-right or right-to-left. This means
-     * it either has mixed runs of left-to-right and right-to-left text, or the
-     * base direction differs from the direction of the only run of text.
+     * Return true if the line is not left-to-right or right-to-left. This mebns
+     * it either hbs mixed runs of left-to-right bnd right-to-left text, or the
+     * bbse direction differs from the direction of the only run of text.
      *
      * @return true if the line is not left-to-right or right-to-left.
      *
-     * @throws IllegalStateException if this call is not preceded by a successful
-     *         call to <code>setPara</code>
-     * @stable ICU 3.8
+     * @throws IllegblStbteException if this cbll is not preceded by b successful
+     *         cbll to <code>setPbrb</code>
+     * @stbble ICU 3.8
      */
-    public boolean isMixed()
+    public boolebn isMixed()
     {
         return (!isLeftToRight() && !isRightToLeft());
     }
 
     /**
-    * Return true if the line is all left-to-right text and the base direction
+    * Return true if the line is bll left-to-right text bnd the bbse direction
      * is left-to-right.
      *
-     * @return true if the line is all left-to-right text and the base direction
+     * @return true if the line is bll left-to-right text bnd the bbse direction
      *         is left-to-right.
      *
-     * @throws IllegalStateException if this call is not preceded by a successful
-     *         call to <code>setPara</code>
-     * @stable ICU 3.8
+     * @throws IllegblStbteException if this cbll is not preceded by b successful
+     *         cbll to <code>setPbrb</code>
+     * @stbble ICU 3.8
      */
-    public boolean isLeftToRight()
+    public boolebn isLeftToRight()
     {
-        return (getDirection() == Bidi.DIRECTION_LEFT_TO_RIGHT && (paraLevel & 1) == 0);
+        return (getDirection() == Bidi.DIRECTION_LEFT_TO_RIGHT && (pbrbLevel & 1) == 0);
     }
 
     /**
-     * Return true if the line is all right-to-left text, and the base direction
+     * Return true if the line is bll right-to-left text, bnd the bbse direction
      * is right-to-left
      *
-     * @return true if the line is all right-to-left text, and the base
+     * @return true if the line is bll right-to-left text, bnd the bbse
      *         direction is right-to-left
      *
-     * @throws IllegalStateException if this call is not preceded by a successful
-     *         call to <code>setPara</code>
-     * @stable ICU 3.8
+     * @throws IllegblStbteException if this cbll is not preceded by b successful
+     *         cbll to <code>setPbrb</code>
+     * @stbble ICU 3.8
      */
-    public boolean isRightToLeft()
+    public boolebn isRightToLeft()
     {
-        return (getDirection() == Bidi.DIRECTION_RIGHT_TO_LEFT && (paraLevel & 1) == 1);
+        return (getDirection() == Bidi.DIRECTION_RIGHT_TO_LEFT && (pbrbLevel & 1) == 1);
     }
 
     /**
-     * Return true if the base direction is left-to-right
+     * Return true if the bbse direction is left-to-right
      *
-     * @return true if the base direction is left-to-right
+     * @return true if the bbse direction is left-to-right
      *
-     * @throws IllegalStateException if this call is not preceded by a successful
-     *         call to <code>setPara</code> or <code>setLine</code>
+     * @throws IllegblStbteException if this cbll is not preceded by b successful
+     *         cbll to <code>setPbrb</code> or <code>setLine</code>
      *
-     * @stable ICU 3.8
+     * @stbble ICU 3.8
      */
-    public boolean baseIsLeftToRight()
+    public boolebn bbseIsLeftToRight()
     {
-        return (getParaLevel() == Bidi.DIRECTION_LEFT_TO_RIGHT);
+        return (getPbrbLevel() == Bidi.DIRECTION_LEFT_TO_RIGHT);
     }
 
     /**
-     * Return the base level (0 if left-to-right, 1 if right-to-left).
+     * Return the bbse level (0 if left-to-right, 1 if right-to-left).
      *
-     * @return the base level
+     * @return the bbse level
      *
-     * @throws IllegalStateException if this call is not preceded by a successful
-     *         call to <code>setPara</code> or <code>setLine</code>
+     * @throws IllegblStbteException if this cbll is not preceded by b successful
+     *         cbll to <code>setPbrb</code> or <code>setLine</code>
      *
-     * @stable ICU 3.8
+     * @stbble ICU 3.8
      */
-    public int getBaseLevel()
+    public int getBbseLevel()
     {
-        return getParaLevel();
+        return getPbrbLevel();
     }
 
     /**
-     * Compute the logical to visual run mapping
+     * Compute the logicbl to visubl run mbpping
      */
-    private void getLogicalToVisualRunsMap()
+    privbte void getLogicblToVisublRunsMbp()
     {
-        if (isGoodLogicalToVisualRunsMap) {
+        if (isGoodLogicblToVisublRunsMbp) {
             return;
         }
         int count = countRuns();
-        if ((logicalToVisualRunsMap == null) ||
-            (logicalToVisualRunsMap.length < count)) {
-            logicalToVisualRunsMap = new int[count];
+        if ((logicblToVisublRunsMbp == null) ||
+            (logicblToVisublRunsMbp.length < count)) {
+            logicblToVisublRunsMbp = new int[count];
         }
         int i;
         long[] keys = new long[count];
         for (i = 0; i < count; i++) {
-            keys[i] = ((long)(runs[i].start)<<32) + i;
+            keys[i] = ((long)(runs[i].stbrt)<<32) + i;
         }
-        Arrays.sort(keys);
+        Arrbys.sort(keys);
         for (i = 0; i < count; i++) {
-            logicalToVisualRunsMap[i] = (int)(keys[i] & 0x00000000FFFFFFFF);
+            logicblToVisublRunsMbp[i] = (int)(keys[i] & 0x00000000FFFFFFFF);
         }
         keys = null;
-        isGoodLogicalToVisualRunsMap = true;
+        isGoodLogicblToVisublRunsMbp = true;
     }
 
     /**
-     * Return the level of the nth logical run in this line.
+     * Return the level of the nth logicbl run in this line.
      *
-     * @param run the index of the run, between 0 and <code>countRuns()-1</code>
+     * @pbrbm run the index of the run, between 0 bnd <code>countRuns()-1</code>
      *
      * @return the level of the run
      *
-     * @throws IllegalStateException if this call is not preceded by a successful
-     *         call to <code>setPara</code> or <code>setLine</code>
-     * @throws IllegalArgumentException if <code>run</code> is not in
-     *         the range <code>0&lt;=run&lt;countRuns()</code>
-     * @stable ICU 3.8
+     * @throws IllegblStbteException if this cbll is not preceded by b successful
+     *         cbll to <code>setPbrb</code> or <code>setLine</code>
+     * @throws IllegblArgumentException if <code>run</code> is not in
+     *         the rbnge <code>0&lt;=run&lt;countRuns()</code>
+     * @stbble ICU 3.8
      */
     public int getRunLevel(int run)
     {
-        verifyValidParaOrLine();
+        verifyVblidPbrbOrLine();
         BidiLine.getRuns(this);
         if (run < 0 || run >= runCount) {
-            return getParaLevel();
+            return getPbrbLevel();
         }
-        getLogicalToVisualRunsMap();
-        return runs[logicalToVisualRunsMap[run]].level;
+        getLogicblToVisublRunsMbp();
+        return runs[logicblToVisublRunsMbp[run]].level;
     }
 
     /**
-     * Return the index of the character at the start of the nth logical run in
-     * this line, as an offset from the start of the line.
+     * Return the index of the chbrbcter bt the stbrt of the nth logicbl run in
+     * this line, bs bn offset from the stbrt of the line.
      *
-     * @param run the index of the run, between 0 and <code>countRuns()</code>
+     * @pbrbm run the index of the run, between 0 bnd <code>countRuns()</code>
      *
-     * @return the start of the run
+     * @return the stbrt of the run
      *
-     * @throws IllegalStateException if this call is not preceded by a successful
-     *         call to <code>setPara</code> or <code>setLine</code>
-     * @throws IllegalArgumentException if <code>run</code> is not in
-     *         the range <code>0&lt;=run&lt;countRuns()</code>
-     * @stable ICU 3.8
+     * @throws IllegblStbteException if this cbll is not preceded by b successful
+     *         cbll to <code>setPbrb</code> or <code>setLine</code>
+     * @throws IllegblArgumentException if <code>run</code> is not in
+     *         the rbnge <code>0&lt;=run&lt;countRuns()</code>
+     * @stbble ICU 3.8
      */
-    public int getRunStart(int run)
+    public int getRunStbrt(int run)
     {
-        verifyValidParaOrLine();
+        verifyVblidPbrbOrLine();
         BidiLine.getRuns(this);
         if (runCount == 1) {
             return 0;
@@ -3281,227 +3281,227 @@ public class BidiBase {
             return length;
         }
         verifyIndex(run, 0, runCount);
-        getLogicalToVisualRunsMap();
-        return runs[logicalToVisualRunsMap[run]].start;
+        getLogicblToVisublRunsMbp();
+        return runs[logicblToVisublRunsMbp[run]].stbrt;
     }
 
     /**
-     * Return the index of the character past the end of the nth logical run in
-     * this line, as an offset from the start of the line. For example, this
-     * will return the length of the line for the last run on the line.
+     * Return the index of the chbrbcter pbst the end of the nth logicbl run in
+     * this line, bs bn offset from the stbrt of the line. For exbmple, this
+     * will return the length of the line for the lbst run on the line.
      *
-     * @param run the index of the run, between 0 and <code>countRuns()</code>
+     * @pbrbm run the index of the run, between 0 bnd <code>countRuns()</code>
      *
      * @return the limit of the run
      *
-     * @throws IllegalStateException if this call is not preceded by a successful
-     *         call to <code>setPara</code> or <code>setLine</code>
-     * @throws IllegalArgumentException if <code>run</code> is not in
-     *         the range <code>0&lt;=run&lt;countRuns()</code>
-     * @stable ICU 3.8
+     * @throws IllegblStbteException if this cbll is not preceded by b successful
+     *         cbll to <code>setPbrb</code> or <code>setLine</code>
+     * @throws IllegblArgumentException if <code>run</code> is not in
+     *         the rbnge <code>0&lt;=run&lt;countRuns()</code>
+     * @stbble ICU 3.8
      */
     public int getRunLimit(int run)
     {
-        verifyValidParaOrLine();
+        verifyVblidPbrbOrLine();
         BidiLine.getRuns(this);
         if (runCount == 1) {
             return length;
         }
         verifyIndex(run, 0, runCount);
-        getLogicalToVisualRunsMap();
-        int idx = logicalToVisualRunsMap[run];
+        getLogicblToVisublRunsMbp();
+        int idx = logicblToVisublRunsMbp[run];
         int len = idx == 0 ? runs[idx].limit :
                                 runs[idx].limit - runs[idx-1].limit;
-        return runs[idx].start + len;
+        return runs[idx].stbrt + len;
     }
 
     /**
-     * Return true if the specified text requires bidi analysis. If this returns
-     * false, the text will display left-to-right. Clients can then avoid
-     * constructing a Bidi object. Text in the Arabic Presentation Forms area of
-     * Unicode is presumed to already be shaped and ordered for display, and so
-     * will not cause this method to return true.
+     * Return true if the specified text requires bidi bnblysis. If this returns
+     * fblse, the text will displby left-to-right. Clients cbn then bvoid
+     * constructing b Bidi object. Text in the Arbbic Presentbtion Forms breb of
+     * Unicode is presumed to blrebdy be shbped bnd ordered for displby, bnd so
+     * will not cbuse this method to return true.
      *
-     * @param text the text containing the characters to test
-     * @param start the start of the range of characters to test
-     * @param limit the limit of the range of characters to test
+     * @pbrbm text the text contbining the chbrbcters to test
+     * @pbrbm stbrt the stbrt of the rbnge of chbrbcters to test
+     * @pbrbm limit the limit of the rbnge of chbrbcters to test
      *
-     * @return true if the range of characters requires bidi analysis
+     * @return true if the rbnge of chbrbcters requires bidi bnblysis
      *
-     * @stable ICU 3.8
+     * @stbble ICU 3.8
      */
-    public static boolean requiresBidi(char[] text,
-            int start,
+    public stbtic boolebn requiresBidi(chbr[] text,
+            int stbrt,
             int limit)
     {
-        final int RTLMask = (1 << Bidi.DIRECTION_RIGHT_TO_LEFT |
+        finbl int RTLMbsk = (1 << Bidi.DIRECTION_RIGHT_TO_LEFT |
                 1 << AL |
                 1 << RLE |
                 1 << RLO |
                 1 << AN);
 
-        if (0 > start || start > limit || limit > text.length) {
-            throw new IllegalArgumentException("Value start " + start +
-                      " is out of range 0 to " + limit);
+        if (0 > stbrt || stbrt > limit || limit > text.length) {
+            throw new IllegblArgumentException("Vblue stbrt " + stbrt +
+                      " is out of rbnge 0 to " + limit);
         }
-        for (int i = start; i < limit; ++i) {
-            if (Character.isHighSurrogate(text[i]) && i < (limit-1) &&
-                Character.isLowSurrogate(text[i+1])) {
-                if (((1 << UCharacter.getDirection(Character.codePointAt(text, i))) & RTLMask) != 0) {
+        for (int i = stbrt; i < limit; ++i) {
+            if (Chbrbcter.isHighSurrogbte(text[i]) && i < (limit-1) &&
+                Chbrbcter.isLowSurrogbte(text[i+1])) {
+                if (((1 << UChbrbcter.getDirection(Chbrbcter.codePointAt(text, i))) & RTLMbsk) != 0) {
                     return true;
                 }
-            } else if (((1 << UCharacter.getDirection(text[i])) & RTLMask) != 0) {
+            } else if (((1 << UChbrbcter.getDirection(text[i])) & RTLMbsk) != 0) {
                 return true;
             }
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Reorder the objects in the array into visual order based on their levels.
-     * This is a utility method to use when you have a collection of objects
-     * representing runs of text in logical order, each run containing text at a
-     * single level. The elements at <code>index</code> from
-     * <code>objectStart</code> up to <code>objectStart + count</code> in the
-     * objects array will be reordered into visual order assuming
-     * each run of text has the level indicated by the corresponding element in
-     * the levels array (at <code>index - objectStart + levelStart</code>).
+     * Reorder the objects in the brrby into visubl order bbsed on their levels.
+     * This is b utility method to use when you hbve b collection of objects
+     * representing runs of text in logicbl order, ebch run contbining text bt b
+     * single level. The elements bt <code>index</code> from
+     * <code>objectStbrt</code> up to <code>objectStbrt + count</code> in the
+     * objects brrby will be reordered into visubl order bssuming
+     * ebch run of text hbs the level indicbted by the corresponding element in
+     * the levels brrby (bt <code>index - objectStbrt + levelStbrt</code>).
      *
-     * @param levels an array representing the bidi level of each object
-     * @param levelStart the start position in the levels array
-     * @param objects the array of objects to be reordered into visual order
-     * @param objectStart the start position in the objects array
-     * @param count the number of objects to reorder
-     * @stable ICU 3.8
+     * @pbrbm levels bn brrby representing the bidi level of ebch object
+     * @pbrbm levelStbrt the stbrt position in the levels brrby
+     * @pbrbm objects the brrby of objects to be reordered into visubl order
+     * @pbrbm objectStbrt the stbrt position in the objects brrby
+     * @pbrbm count the number of objects to reorder
+     * @stbble ICU 3.8
      */
-    public static void reorderVisually(byte[] levels,
-            int levelStart,
+    public stbtic void reorderVisublly(byte[] levels,
+            int levelStbrt,
             Object[] objects,
-            int objectStart,
+            int objectStbrt,
             int count)
     {
-        if (0 > levelStart || levels.length <= levelStart) {
-            throw new IllegalArgumentException("Value levelStart " +
-                      levelStart + " is out of range 0 to " +
+        if (0 > levelStbrt || levels.length <= levelStbrt) {
+            throw new IllegblArgumentException("Vblue levelStbrt " +
+                      levelStbrt + " is out of rbnge 0 to " +
                       (levels.length-1));
         }
-        if (0 > objectStart || objects.length <= objectStart) {
-            throw new IllegalArgumentException("Value objectStart " +
-                      levelStart + " is out of range 0 to " +
+        if (0 > objectStbrt || objects.length <= objectStbrt) {
+            throw new IllegblArgumentException("Vblue objectStbrt " +
+                      levelStbrt + " is out of rbnge 0 to " +
                       (objects.length-1));
         }
-        if (0 > count || objects.length < (objectStart+count)) {
-            throw new IllegalArgumentException("Value count " +
-                      levelStart + " is out of range 0 to " +
-                      (objects.length - objectStart));
+        if (0 > count || objects.length < (objectStbrt+count)) {
+            throw new IllegblArgumentException("Vblue count " +
+                      levelStbrt + " is out of rbnge 0 to " +
+                      (objects.length - objectStbrt));
         }
         byte[] reorderLevels = new byte[count];
-        System.arraycopy(levels, levelStart, reorderLevels, 0, count);
-        int[] indexMap = reorderVisual(reorderLevels);
+        System.brrbycopy(levels, levelStbrt, reorderLevels, 0, count);
+        int[] indexMbp = reorderVisubl(reorderLevels);
         Object[] temp = new Object[count];
-        System.arraycopy(objects, objectStart, temp, 0, count);
+        System.brrbycopy(objects, objectStbrt, temp, 0, count);
         for (int i = 0; i < count; ++i) {
-            objects[objectStart + i] = temp[indexMap[i]];
+            objects[objectStbrt + i] = temp[indexMbp[i]];
         }
     }
 
     /**
-     * Display the bidi internal state, used in debugging.
+     * Displby the bidi internbl stbte, used in debugging.
      */
     public String toString() {
-        StringBuilder buf = new StringBuilder(getClass().getName());
+        StringBuilder buf = new StringBuilder(getClbss().getNbme());
 
-        buf.append("[dir: ");
-        buf.append(direction);
-        buf.append(" baselevel: ");
-        buf.append(paraLevel);
-        buf.append(" length: ");
-        buf.append(length);
-        buf.append(" runs: ");
+        buf.bppend("[dir: ");
+        buf.bppend(direction);
+        buf.bppend(" bbselevel: ");
+        buf.bppend(pbrbLevel);
+        buf.bppend(" length: ");
+        buf.bppend(length);
+        buf.bppend(" runs: ");
         if (levels == null) {
-            buf.append("none");
+            buf.bppend("none");
         } else {
-            buf.append('[');
-            buf.append(levels[0]);
+            buf.bppend('[');
+            buf.bppend(levels[0]);
             for (int i = 1; i < levels.length; i++) {
-                buf.append(' ');
-                buf.append(levels[i]);
+                buf.bppend(' ');
+                buf.bppend(levels[i]);
             }
-            buf.append(']');
+            buf.bppend(']');
         }
-        buf.append(" text: [0x");
-        buf.append(Integer.toHexString(text[0]));
+        buf.bppend(" text: [0x");
+        buf.bppend(Integer.toHexString(text[0]));
         for (int i = 1; i < text.length; i++) {
-            buf.append(" 0x");
-            buf.append(Integer.toHexString(text[i]));
+            buf.bppend(" 0x");
+            buf.bppend(Integer.toHexString(text[i]));
         }
-        buf.append("]]");
+        buf.bppend("]]");
 
         return buf.toString();
     }
 
     /**
-     * A class that provides access to constants defined by
-     * java.awt.font.TextAttribute without creating a static dependency.
+     * A clbss thbt provides bccess to constbnts defined by
+     * jbvb.bwt.font.TextAttribute without crebting b stbtic dependency.
      */
-    private static class TextAttributeConstants {
-        // Make sure to load the AWT's TextAttribute class before using the constants, if any.
-        static {
+    privbte stbtic clbss TextAttributeConstbnts {
+        // Mbke sure to lobd the AWT's TextAttribute clbss before using the constbnts, if bny.
+        stbtic {
             try {
-                Class.forName("java.awt.font.TextAttribute", true, null);
-            } catch (ClassNotFoundException e) {}
+                Clbss.forNbme("jbvb.bwt.font.TextAttribute", true, null);
+            } cbtch (ClbssNotFoundException e) {}
         }
-        static final JavaAWTFontAccess jafa = SharedSecrets.getJavaAWTFontAccess();
+        stbtic finbl JbvbAWTFontAccess jbfb = ShbredSecrets.getJbvbAWTFontAccess();
 
         /**
-         * TextAttribute instances (or a fake Attribute type if
-         * java.awt.font.TextAttribute is not present)
+         * TextAttribute instbnces (or b fbke Attribute type if
+         * jbvb.bwt.font.TextAttribute is not present)
          */
-        static final AttributedCharacterIterator.Attribute RUN_DIRECTION =
+        stbtic finbl AttributedChbrbcterIterbtor.Attribute RUN_DIRECTION =
             getTextAttribute("RUN_DIRECTION");
-        static final AttributedCharacterIterator.Attribute NUMERIC_SHAPING =
+        stbtic finbl AttributedChbrbcterIterbtor.Attribute NUMERIC_SHAPING =
             getTextAttribute("NUMERIC_SHAPING");
-        static final AttributedCharacterIterator.Attribute BIDI_EMBEDDING =
+        stbtic finbl AttributedChbrbcterIterbtor.Attribute BIDI_EMBEDDING =
             getTextAttribute("BIDI_EMBEDDING");
 
         /**
          * TextAttribute.RUN_DIRECTION_LTR
          */
-        static final Boolean RUN_DIRECTION_LTR = (jafa == null) ?
-            Boolean.FALSE : (Boolean)jafa.getTextAttributeConstant("RUN_DIRECTION_LTR");
+        stbtic finbl Boolebn RUN_DIRECTION_LTR = (jbfb == null) ?
+            Boolebn.FALSE : (Boolebn)jbfb.getTextAttributeConstbnt("RUN_DIRECTION_LTR");
 
-        @SuppressWarnings("serial")
-        private static AttributedCharacterIterator.Attribute
-            getTextAttribute(String name)
+        @SuppressWbrnings("seribl")
+        privbte stbtic AttributedChbrbcterIterbtor.Attribute
+            getTextAttribute(String nbme)
         {
-            if (jafa == null) {
-                // fake attribute
-                return new AttributedCharacterIterator.Attribute(name) { };
+            if (jbfb == null) {
+                // fbke bttribute
+                return new AttributedChbrbcterIterbtor.Attribute(nbme) { };
             } else {
-                return (AttributedCharacterIterator.Attribute)jafa.getTextAttributeConstant(name);
+                return (AttributedChbrbcterIterbtor.Attribute)jbfb.getTextAttributeConstbnt(nbme);
             }
         }
     }
 
     /**
-     * A class that provides access to java.awt.font.NumericShaper without
-     * creating a static dependency.
+     * A clbss thbt provides bccess to jbvb.bwt.font.NumericShbper without
+     * crebting b stbtic dependency.
      */
-    private static class NumericShapings {
-        // Make sure to load the AWT's NumericShaper class before calling shape, if any.
-        static {
+    privbte stbtic clbss NumericShbpings {
+        // Mbke sure to lobd the AWT's NumericShbper clbss before cblling shbpe, if bny.
+        stbtic {
             try {
-                Class.forName("java.awt.font.NumericShaper", true, null);
-            } catch (ClassNotFoundException e) {}
+                Clbss.forNbme("jbvb.bwt.font.NumericShbper", true, null);
+            } cbtch (ClbssNotFoundException e) {}
         }
-        static final JavaAWTFontAccess jafa = SharedSecrets.getJavaAWTFontAccess();
+        stbtic finbl JbvbAWTFontAccess jbfb = ShbredSecrets.getJbvbAWTFontAccess();
 
         /**
-         * Invokes NumericShaping shape(text,start,count) method.
+         * Invokes NumericShbping shbpe(text,stbrt,count) method.
          */
-        static void shape(Object shaper, char[] text, int start, int count) {
-            if (jafa != null) {
-                jafa.shape(shaper, text, start, count);
+        stbtic void shbpe(Object shbper, chbr[] text, int stbrt, int count) {
+            if (jbfb != null) {
+                jbfb.shbpe(shbper, text, stbrt, count);
             }
         }
     }

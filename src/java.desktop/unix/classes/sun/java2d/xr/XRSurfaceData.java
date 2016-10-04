@@ -1,221 +1,221 @@
 /*
- * Copyright (c) 2010, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.java2d.xr;
+pbckbge sun.jbvb2d.xr;
 
-import java.awt.*;
-import java.awt.geom.*;
-import java.awt.image.*;
-import sun.awt.*;
-import sun.java2d.InvalidPipeException;
-import sun.java2d.SunGraphics2D;
-import sun.java2d.SurfaceData;
-import sun.java2d.SurfaceDataProxy;
-import sun.java2d.jules.*;
-import sun.java2d.loops.*;
-import sun.java2d.pipe.*;
-import sun.java2d.x11.*;
-import sun.font.FontManagerNativeLibrary;
+import jbvb.bwt.*;
+import jbvb.bwt.geom.*;
+import jbvb.bwt.imbge.*;
+import sun.bwt.*;
+import sun.jbvb2d.InvblidPipeException;
+import sun.jbvb2d.SunGrbphics2D;
+import sun.jbvb2d.SurfbceDbtb;
+import sun.jbvb2d.SurfbceDbtbProxy;
+import sun.jbvb2d.jules.*;
+import sun.jbvb2d.loops.*;
+import sun.jbvb2d.pipe.*;
+import sun.jbvb2d.x11.*;
+import sun.font.FontMbnbgerNbtiveLibrbry;
 
-public abstract class XRSurfaceData extends XSurfaceData {
+public bbstrbct clbss XRSurfbceDbtb extends XSurfbceDbtb {
     X11ComponentPeer peer;
-    XRGraphicsConfig graphicsConfig;
-    XRBackend renderQueue;
+    XRGrbphicsConfig grbphicsConfig;
+    XRBbckend renderQueue;
 
-    private RenderLoops solidloops;
+    privbte RenderLoops solidloops;
 
     protected int depth;
 
-    private static native void initIDs();
+    privbte stbtic nbtive void initIDs();
 
-    protected native void XRInitSurface(int depth, int width, int height,
-                                        long drawable, int pictFormat);
+    protected nbtive void XRInitSurfbce(int depth, int width, int height,
+                                        long drbwbble, int pictFormbt);
 
-    native void initXRPicture(long xsdo, int pictForm);
+    nbtive void initXRPicture(long xsdo, int pictForm);
 
-    native void freeXSDOPicture(long xsdo);
+    nbtive void freeXSDOPicture(long xsdo);
 
-    public static final String DESC_BYTE_A8_X11 = "Byte A8 Pixmap";
-    public static final String DESC_INT_RGB_X11 = "Integer RGB Pixmap";
-    public static final String DESC_INT_ARGB_X11 = "Integer ARGB-Pre Pixmap";
+    public stbtic finbl String DESC_BYTE_A8_X11 = "Byte A8 Pixmbp";
+    public stbtic finbl String DESC_INT_RGB_X11 = "Integer RGB Pixmbp";
+    public stbtic finbl String DESC_INT_ARGB_X11 = "Integer ARGB-Pre Pixmbp";
 
-    public static final SurfaceType
-        ByteA8X11 = SurfaceType.ByteGray.deriveSubType(DESC_BYTE_A8_X11);
-    public static final SurfaceType
-        IntRgbX11 = SurfaceType.IntRgb.deriveSubType(DESC_INT_RGB_X11);
-    public static final SurfaceType
-        IntArgbPreX11 = SurfaceType.IntArgbPre.deriveSubType(DESC_INT_ARGB_X11);
+    public stbtic finbl SurfbceType
+        ByteA8X11 = SurfbceType.ByteGrby.deriveSubType(DESC_BYTE_A8_X11);
+    public stbtic finbl SurfbceType
+        IntRgbX11 = SurfbceType.IntRgb.deriveSubType(DESC_INT_RGB_X11);
+    public stbtic finbl SurfbceType
+        IntArgbPreX11 = SurfbceType.IntArgbPre.deriveSubType(DESC_INT_ARGB_X11);
 
-    public Raster getRaster(int x, int y, int w, int h) {
-        throw new InternalError("not implemented yet");
+    public Rbster getRbster(int x, int y, int w, int h) {
+        throw new InternblError("not implemented yet");
     }
 
     protected XRRenderer xrpipe;
-    protected PixelToShapeConverter xrtxpipe;
+    protected PixelToShbpeConverter xrtxpipe;
     protected TextPipe xrtextpipe;
-    protected XRDrawImage xrDrawImage;
+    protected XRDrbwImbge xrDrbwImbge;
 
-    protected ShapeDrawPipe aaShapePipe;
-    protected PixelToShapeConverter aaPixelToShapeConv;
+    protected ShbpeDrbwPipe bbShbpePipe;
+    protected PixelToShbpeConverter bbPixelToShbpeConv;
 
-    public static void initXRSurfaceData() {
-        if (!isX11SurfaceDataInitialized()) {
-            FontManagerNativeLibrary.load();
+    public stbtic void initXRSurfbceDbtb() {
+        if (!isX11SurfbceDbtbInitiblized()) {
+            FontMbnbgerNbtiveLibrbry.lobd();
             initIDs();
             XRPMBlitLoops.register();
-            XRMaskFill.register();
-            XRMaskBlit.register();
+            XRMbskFill.register();
+            XRMbskBlit.register();
 
-            setX11SurfaceDataInitialized();
+            setX11SurfbceDbtbInitiblized();
         }
     }
 
     /**
-     * Synchronized accessor method for isDrawableValid.
+     * Synchronized bccessor method for isDrbwbbleVblid.
      */
-    protected boolean isXRDrawableValid() {
+    protected boolebn isXRDrbwbbleVblid() {
         try {
-            SunToolkit.awtLock();
-            return isDrawableValid();
-        } finally {
-            SunToolkit.awtUnlock();
+            SunToolkit.bwtLock();
+            return isDrbwbbleVblid();
+        } finblly {
+            SunToolkit.bwtUnlock();
         }
     }
 
     @Override
-    public SurfaceDataProxy makeProxyFor(SurfaceData srcData) {
-        return XRSurfaceDataProxy.createProxy(srcData, graphicsConfig);
+    public SurfbceDbtbProxy mbkeProxyFor(SurfbceDbtb srcDbtb) {
+        return XRSurfbceDbtbProxy.crebteProxy(srcDbtb, grbphicsConfig);
     }
 
     @Override
-    public void validatePipe(SunGraphics2D sg2d) {
+    public void vblidbtePipe(SunGrbphics2D sg2d) {
         TextPipe textpipe;
-        boolean validated = false;
+        boolebn vblidbted = fblse;
 
         /*
-         * The textpipe for now can't handle TexturePaint when extra-alpha is
+         * The textpipe for now cbn't hbndle TexturePbint when extrb-blphb is
          * specified nore XOR mode
          */
         if ((textpipe = getTextPipe(sg2d)) == null)
         {
-            super.validatePipe(sg2d);
+            super.vblidbtePipe(sg2d);
             textpipe = sg2d.textpipe;
-            validated = true;
+            vblidbted = true;
         }
 
-        PixelToShapeConverter txPipe = null;
+        PixelToShbpeConverter txPipe = null;
         XRRenderer nonTxPipe = null;
 
         /*
-         * TODO: Can we rely on the GC for ARGB32 surfaces?
+         * TODO: Cbn we rely on the GC for ARGB32 surfbces?
          */
-        if (sg2d.antialiasHint != SunHints.INTVAL_ANTIALIAS_ON) {
-            if (sg2d.paintState <= SunGraphics2D.PAINT_ALPHACOLOR) {
-                if (sg2d.compositeState <= SunGraphics2D.COMP_XOR) {
+        if (sg2d.bntiblibsHint != SunHints.INTVAL_ANTIALIAS_ON) {
+            if (sg2d.pbintStbte <= SunGrbphics2D.PAINT_ALPHACOLOR) {
+                if (sg2d.compositeStbte <= SunGrbphics2D.COMP_XOR) {
                     txPipe = xrtxpipe;
                     nonTxPipe = xrpipe;
                 }
-            } else if (sg2d.compositeState <= SunGraphics2D.COMP_ALPHA) {
-                if (XRPaints.isValid(sg2d)) {
+            } else if (sg2d.compositeStbte <= SunGrbphics2D.COMP_ALPHA) {
+                if (XRPbints.isVblid(sg2d)) {
                     txPipe = xrtxpipe;
                     nonTxPipe = xrpipe;
                 }
-                // custom paints handled by super.validatePipe() below
+                // custom pbints hbndled by super.vblidbtePipe() below
             }
         }
 
-        if (sg2d.antialiasHint == SunHints.INTVAL_ANTIALIAS_ON &&
-            JulesPathBuf.isCairoAvailable())
+        if (sg2d.bntiblibsHint == SunHints.INTVAL_ANTIALIAS_ON &&
+            JulesPbthBuf.isCbiroAvbilbble())
         {
-            sg2d.shapepipe = aaShapePipe;
-            sg2d.drawpipe = aaPixelToShapeConv;
-            sg2d.fillpipe = aaPixelToShapeConv;
+            sg2d.shbpepipe = bbShbpePipe;
+            sg2d.drbwpipe = bbPixelToShbpeConv;
+            sg2d.fillpipe = bbPixelToShbpeConv;
         } else {
             if (txPipe != null) {
-                if (sg2d.transformState >= SunGraphics2D.TRANSFORM_TRANSLATESCALE) {
-                    sg2d.drawpipe = txPipe;
+                if (sg2d.trbnsformStbte >= SunGrbphics2D.TRANSFORM_TRANSLATESCALE) {
+                    sg2d.drbwpipe = txPipe;
                     sg2d.fillpipe = txPipe;
-                } else if (sg2d.strokeState != SunGraphics2D.STROKE_THIN) {
-                    sg2d.drawpipe = txPipe;
+                } else if (sg2d.strokeStbte != SunGrbphics2D.STROKE_THIN) {
+                    sg2d.drbwpipe = txPipe;
                     sg2d.fillpipe = nonTxPipe;
                 } else {
-                    sg2d.drawpipe = nonTxPipe;
+                    sg2d.drbwpipe = nonTxPipe;
                     sg2d.fillpipe = nonTxPipe;
                 }
-                sg2d.shapepipe = nonTxPipe;
+                sg2d.shbpepipe = nonTxPipe;
             } else {
-                if (!validated) {
-                    super.validatePipe(sg2d);
+                if (!vblidbted) {
+                    super.vblidbtePipe(sg2d);
                 }
             }
         }
 
-        // install the text pipe based on our earlier decision
+        // instbll the text pipe bbsed on our ebrlier decision
         sg2d.textpipe = textpipe;
 
-        // always override the image pipe with the specialized XRender pipe
-        sg2d.imagepipe = xrDrawImage;
+        // blwbys override the imbge pipe with the speciblized XRender pipe
+        sg2d.imbgepipe = xrDrbwImbge;
     }
 
-    protected TextPipe getTextPipe(SunGraphics2D sg2d) {
-        boolean supportedPaint = sg2d.compositeState <= SunGraphics2D.COMP_ALPHA
-                && (sg2d.paintState <= SunGraphics2D.PAINT_ALPHACOLOR || sg2d.composite == null);
+    protected TextPipe getTextPipe(SunGrbphics2D sg2d) {
+        boolebn supportedPbint = sg2d.compositeStbte <= SunGrbphics2D.COMP_ALPHA
+                && (sg2d.pbintStbte <= SunGrbphics2D.PAINT_ALPHACOLOR || sg2d.composite == null);
 
-        boolean supportedCompOp = false;
-        if (sg2d.composite instanceof AlphaComposite) {
-            int compRule = ((AlphaComposite) sg2d.composite).getRule();
-            supportedCompOp = XRUtils.isMaskEvaluated(XRUtils.j2dAlphaCompToXR(compRule))
-                    || (compRule == AlphaComposite.SRC
-                                && sg2d.paintState <= SunGraphics2D.PAINT_ALPHACOLOR);
+        boolebn supportedCompOp = fblse;
+        if (sg2d.composite instbnceof AlphbComposite) {
+            int compRule = ((AlphbComposite) sg2d.composite).getRule();
+            supportedCompOp = XRUtils.isMbskEvblubted(XRUtils.j2dAlphbCompToXR(compRule))
+                    || (compRule == AlphbComposite.SRC
+                                && sg2d.pbintStbte <= SunGrbphics2D.PAINT_ALPHACOLOR);
         }
 
-        return (supportedPaint && supportedCompOp) ? xrtextpipe : null;
+        return (supportedPbint && supportedCompOp) ? xrtextpipe : null;
     }
 
-    protected MaskFill getMaskFill(SunGraphics2D sg2d) {
-        AlphaComposite aComp = null;
+    protected MbskFill getMbskFill(SunGrbphics2D sg2d) {
+        AlphbComposite bComp = null;
         if(sg2d.composite != null
-                && sg2d.composite instanceof AlphaComposite) {
-            aComp = (AlphaComposite) sg2d.composite;
+                && sg2d.composite instbnceof AlphbComposite) {
+            bComp = (AlphbComposite) sg2d.composite;
         }
 
-        boolean supportedPaint = sg2d.paintState <= SunGraphics2D.PAINT_ALPHACOLOR
-                || XRPaints.isValid(sg2d);
+        boolebn supportedPbint = sg2d.pbintStbte <= SunGrbphics2D.PAINT_ALPHACOLOR
+                || XRPbints.isVblid(sg2d);
 
-        boolean supportedCompOp = false;
-        if(aComp != null) {
-            int rule = aComp.getRule();
-            supportedCompOp = XRUtils.isMaskEvaluated(XRUtils.j2dAlphaCompToXR(rule));
+        boolebn supportedCompOp = fblse;
+        if(bComp != null) {
+            int rule = bComp.getRule();
+            supportedCompOp = XRUtils.isMbskEvblubted(XRUtils.j2dAlphbCompToXR(rule));
         }
 
-        return (supportedPaint && supportedCompOp) ?  super.getMaskFill(sg2d) : null;
+        return (supportedPbint && supportedCompOp) ?  super.getMbskFill(sg2d) : null;
     }
 
-    public RenderLoops getRenderLoops(SunGraphics2D sg2d) {
-        if (sg2d.paintState <= SunGraphics2D.PAINT_ALPHACOLOR &&
-            sg2d.compositeState <= SunGraphics2D.COMP_ALPHA)
+    public RenderLoops getRenderLoops(SunGrbphics2D sg2d) {
+        if (sg2d.pbintStbte <= SunGrbphics2D.PAINT_ALPHACOLOR &&
+            sg2d.compositeStbte <= SunGrbphics2D.COMP_ALPHA)
         {
             return solidloops;
         }
@@ -223,37 +223,37 @@ public abstract class XRSurfaceData extends XSurfaceData {
         return super.getRenderLoops(sg2d);
     }
 
-    public GraphicsConfiguration getDeviceConfiguration() {
-        return graphicsConfig;
+    public GrbphicsConfigurbtion getDeviceConfigurbtion() {
+        return grbphicsConfig;
     }
 
     /**
-     * Method for instantiating a Window SurfaceData
+     * Method for instbntibting b Window SurfbceDbtb
      */
-    public static XRWindowSurfaceData createData(X11ComponentPeer peer) {
-        XRGraphicsConfig gc = getGC(peer);
-        return new XRWindowSurfaceData(peer, gc, gc.getSurfaceType());
+    public stbtic XRWindowSurfbceDbtb crebteDbtb(X11ComponentPeer peer) {
+        XRGrbphicsConfig gc = getGC(peer);
+        return new XRWindowSurfbceDbtb(peer, gc, gc.getSurfbceType());
     }
 
     /**
-     * Method for instantiating a Pixmap SurfaceData (offscreen).
-     * If the surface * is opaque a 24-bit/RGB surface is chosen,
-     * otherwise a 32-bit ARGB surface.
+     * Method for instbntibting b Pixmbp SurfbceDbtb (offscreen).
+     * If the surfbce * is opbque b 24-bit/RGB surfbce is chosen,
+     * otherwise b 32-bit ARGB surfbce.
      */
-    public static XRPixmapSurfaceData createData(XRGraphicsConfig gc,
+    public stbtic XRPixmbpSurfbceDbtb crebteDbtb(XRGrbphicsConfig gc,
                                                  int width, int height,
-                                                 ColorModel cm, Image image,
-                                                 long drawable,
-                                                 int transparency) {
+                                                 ColorModel cm, Imbge imbge,
+                                                 long drbwbble,
+                                                 int trbnspbrency) {
         int depth;
-        // If we have a 32 bit color model for the window it needs
-        // alpha to support translucency of the window so we need
-        //  to upgrade what was requested for the surface.
+        // If we hbve b 32 bit color model for the window it needs
+        // blphb to support trbnslucency of the window so we need
+        //  to upgrbde whbt wbs requested for the surfbce.
         if (gc.getColorModel().getPixelSize() == 32) {
            depth = 32;
-           transparency = Transparency.TRANSLUCENT;
+           trbnspbrency = Trbnspbrency.TRANSLUCENT;
         } else {
-            depth = transparency > Transparency.OPAQUE ? 32 : 24;
+            depth = trbnspbrency > Trbnspbrency.OPAQUE ? 32 : 24;
         }
 
         if (depth == 24) {
@@ -264,427 +264,427 @@ public abstract class XRSurfaceData extends XSurfaceData {
                                       0x000000FF, 0xFF000000);
         }
 
-        return new XRPixmapSurfaceData
-            (gc, width, height, image, getSurfaceType(gc, transparency),
-             cm, drawable, transparency,
-             XRUtils.getPictureFormatForTransparency(transparency), depth);
+        return new XRPixmbpSurfbceDbtb
+            (gc, width, height, imbge, getSurfbceType(gc, trbnspbrency),
+             cm, drbwbble, trbnspbrency,
+             XRUtils.getPictureFormbtForTrbnspbrency(trbnspbrency), depth);
     }
 
-    protected XRSurfaceData(X11ComponentPeer peer, XRGraphicsConfig gc,
-        SurfaceType sType, ColorModel cm, int depth, int transparency)
+    protected XRSurfbceDbtb(X11ComponentPeer peer, XRGrbphicsConfig gc,
+        SurfbceType sType, ColorModel cm, int depth, int trbnspbrency)
     {
         super(sType, cm);
         this.peer = peer;
-        this.graphicsConfig = gc;
-        this.solidloops = graphicsConfig.getSolidLoops(sType);
+        this.grbphicsConfig = gc;
+        this.solidloops = grbphicsConfig.getSolidLoops(sType);
         this.depth = depth;
-        initOps(peer, graphicsConfig, depth);
+        initOps(peer, grbphicsConfig, depth);
 
         setBlitProxyKey(gc.getProxyKey());
     }
 
-    protected XRSurfaceData(XRBackend renderQueue) {
-        super(XRSurfaceData.IntRgbX11,
+    protected XRSurfbceDbtb(XRBbckend renderQueue) {
+        super(XRSurfbceDbtb.IntRgbX11,
               new DirectColorModel(24, 0x00FF0000, 0x0000FF00, 0x000000FF));
         this.renderQueue = renderQueue;
     }
 
     /**
-     * Inits the XRender-data-structures which belong to the XRSurfaceData.
+     * Inits the XRender-dbtb-structures which belong to the XRSurfbceDbtb.
      *
-     * @param pictureFormat
+     * @pbrbm pictureFormbt
      */
-    public void initXRender(int pictureFormat) {
+    public void initXRender(int pictureFormbt) {
         try {
-            SunToolkit.awtLock();
-            initXRPicture(getNativeOps(), pictureFormat);
-            renderQueue = XRCompositeManager.getInstance(this).getBackend();
-            maskBuffer = XRCompositeManager.getInstance(this);
-        } catch (Throwable ex) {
-            ex.printStackTrace();
-        } finally {
-            SunToolkit.awtUnlock();
+            SunToolkit.bwtLock();
+            initXRPicture(getNbtiveOps(), pictureFormbt);
+            renderQueue = XRCompositeMbnbger.getInstbnce(this).getBbckend();
+            mbskBuffer = XRCompositeMbnbger.getInstbnce(this);
+        } cbtch (Throwbble ex) {
+            ex.printStbckTrbce();
+        } finblly {
+            SunToolkit.bwtUnlock();
         }
     }
 
-    public static XRGraphicsConfig getGC(X11ComponentPeer peer) {
+    public stbtic XRGrbphicsConfig getGC(X11ComponentPeer peer) {
         if (peer != null) {
-            return (XRGraphicsConfig) peer.getGraphicsConfiguration();
+            return (XRGrbphicsConfig) peer.getGrbphicsConfigurbtion();
         } else {
-            GraphicsEnvironment env =
-                GraphicsEnvironment.getLocalGraphicsEnvironment();
-            GraphicsDevice gd = env.getDefaultScreenDevice();
-            return (XRGraphicsConfig) gd.getDefaultConfiguration();
+            GrbphicsEnvironment env =
+                GrbphicsEnvironment.getLocblGrbphicsEnvironment();
+            GrbphicsDevice gd = env.getDefbultScreenDevice();
+            return (XRGrbphicsConfig) gd.getDefbultConfigurbtion();
         }
     }
 
     /**
-     * Returns a boolean indicating whether or not a copyArea from the given
-     * rectangle source coordinates might be incomplete and result in X11
-     * GraphicsExposure events being generated from XCopyArea. This method
-     * allows the SurfaceData copyArea method to determine if it needs to set
-     * the GraphicsExposures attribute of the X11 GC to True or False to receive
-     * or avoid the events.
+     * Returns b boolebn indicbting whether or not b copyAreb from the given
+     * rectbngle source coordinbtes might be incomplete bnd result in X11
+     * GrbphicsExposure events being generbted from XCopyAreb. This method
+     * bllows the SurfbceDbtb copyAreb method to determine if it needs to set
+     * the GrbphicsExposures bttribute of the X11 GC to True or Fblse to receive
+     * or bvoid the events.
      *
-     * @return true if there is any chance that an XCopyArea from the given
-     *         source coordinates could produce any X11 Exposure events.
+     * @return true if there is bny chbnce thbt bn XCopyAreb from the given
+     *         source coordinbtes could produce bny X11 Exposure events.
      */
-    public abstract boolean canSourceSendExposures(int x, int y, int w, int h);
+    public bbstrbct boolebn cbnSourceSendExposures(int x, int y, int w, int h);
 
     /**
-     * CopyArea is implemented using the "old" X11 GC, therefor clip and
-     * needExposures have to be validated against that GC. Pictures and GCs
-     * don't share state.
+     * CopyAreb is implemented using the "old" X11 GC, therefor clip bnd
+     * needExposures hbve to be vblidbted bgbinst thbt GC. Pictures bnd GCs
+     * don't shbre stbte.
      */
-    public void validateCopyAreaGC(Region gcClip, boolean needExposures) {
-        if (validatedGCClip != gcClip) {
+    public void vblidbteCopyArebGC(Region gcClip, boolebn needExposures) {
+        if (vblidbtedGCClip != gcClip) {
             if (gcClip != null)
-                renderQueue.setGCClipRectangles(xgc, gcClip);
-            validatedGCClip = gcClip;
+                renderQueue.setGCClipRectbngles(xgc, gcClip);
+            vblidbtedGCClip = gcClip;
         }
 
-        if (validatedExposures != needExposures) {
-            validatedExposures = needExposures;
+        if (vblidbtedExposures != needExposures) {
+            vblidbtedExposures = needExposures;
             renderQueue.setGCExposures(xgc, needExposures);
         }
 
-        if (validatedXorComp != null) {
+        if (vblidbtedXorComp != null) {
             renderQueue.setGCMode(xgc, true);
-            renderQueue.setGCForeground(xgc, validatedGCForegroundPixel);
-            validatedXorComp = null;
+            renderQueue.setGCForeground(xgc, vblidbtedGCForegroundPixel);
+            vblidbtedXorComp = null;
         }
     }
 
-    public boolean copyArea(SunGraphics2D sg2d, int x, int y, int w, int h,
+    public boolebn copyAreb(SunGrbphics2D sg2d, int x, int y, int w, int h,
                             int dx, int dy) {
         if (xrpipe == null) {
-            if (!isXRDrawableValid()) {
+            if (!isXRDrbwbbleVblid()) {
                 return true;
             }
-            makePipes();
+            mbkePipes();
         }
-        CompositeType comptype = sg2d.imageComp;
-        if (sg2d.transformState < SunGraphics2D.TRANSFORM_TRANSLATESCALE &&
-            (CompositeType.SrcOverNoEa.equals(comptype) ||
-             CompositeType.SrcNoEa.equals(comptype)))
+        CompositeType comptype = sg2d.imbgeComp;
+        if (sg2d.trbnsformStbte < SunGrbphics2D.TRANSFORM_TRANSLATESCALE &&
+            (CompositeType.SrcOverNoEb.equbls(comptype) ||
+             CompositeType.SrcNoEb.equbls(comptype)))
         {
-            x += sg2d.transX;
-            y += sg2d.transY;
+            x += sg2d.trbnsX;
+            y += sg2d.trbnsY;
             try {
-                SunToolkit.awtLock();
-                boolean needExposures = canSourceSendExposures(x, y, w, h);
-                validateCopyAreaGC(sg2d.getCompClip(), needExposures);
-                renderQueue.copyArea(xid, xid, xgc, x, y, w, h, x + dx, y + dy);
-            } finally {
-                SunToolkit.awtUnlock();
+                SunToolkit.bwtLock();
+                boolebn needExposures = cbnSourceSendExposures(x, y, w, h);
+                vblidbteCopyArebGC(sg2d.getCompClip(), needExposures);
+                renderQueue.copyAreb(xid, xid, xgc, x, y, w, h, x + dx, y + dy);
+            } finblly {
+                SunToolkit.bwtUnlock();
             }
             return true;
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Returns the XRender SurfaceType which is able to fullfill the specified
-     * transparency requirement.
+     * Returns the XRender SurfbceType which is bble to fullfill the specified
+     * trbnspbrency requirement.
      */
-    public static SurfaceType getSurfaceType(XRGraphicsConfig gc,
-                                             int transparency) {
-        SurfaceType sType = null;
+    public stbtic SurfbceType getSurfbceType(XRGrbphicsConfig gc,
+                                             int trbnspbrency) {
+        SurfbceType sType = null;
 
-        switch (transparency) {
-        case Transparency.OPAQUE:
-            sType = XRSurfaceData.IntRgbX11;
-            break;
+        switch (trbnspbrency) {
+        cbse Trbnspbrency.OPAQUE:
+            sType = XRSurfbceDbtb.IntRgbX11;
+            brebk;
 
-        case Transparency.BITMASK:
-        case Transparency.TRANSLUCENT:
-            sType = XRSurfaceData.IntArgbPreX11;
-            break;
+        cbse Trbnspbrency.BITMASK:
+        cbse Trbnspbrency.TRANSLUCENT:
+            sType = XRSurfbceDbtb.IntArgbPreX11;
+            brebk;
         }
 
         return sType;
     }
 
-    public void invalidate() {
-        if (isValid()) {
-            setInvalid();
-            super.invalidate();
+    public void invblidbte() {
+        if (isVblid()) {
+            setInvblid();
+            super.invblidbte();
         }
     }
 
-    private long xgc; // GC is still used for copyArea
-    private int validatedGCForegroundPixel = 0;
-    private XORComposite validatedXorComp;
-    private int xid;
+    privbte long xgc; // GC is still used for copyAreb
+    privbte int vblidbtedGCForegroundPixel = 0;
+    privbte XORComposite vblidbtedXorComp;
+    privbte int xid;
     public int picture;
-    public XRCompositeManager maskBuffer;
+    public XRCompositeMbnbger mbskBuffer;
 
-    private Region validatedClip;
-    private Region validatedGCClip;
-    private boolean validatedExposures = true;
+    privbte Region vblidbtedClip;
+    privbte Region vblidbtedGCClip;
+    privbte boolebn vblidbtedExposures = true;
 
-    boolean transformInUse = false;
-    AffineTransform validatedSourceTransform = new AffineTransform();
-    AffineTransform staticSrcTx = null;
-    int validatedRepeat = XRUtils.RepeatNone;
-    int validatedFilter = XRUtils.FAST;
+    boolebn trbnsformInUse = fblse;
+    AffineTrbnsform vblidbtedSourceTrbnsform = new AffineTrbnsform();
+    AffineTrbnsform stbticSrcTx = null;
+    int vblidbtedRepebt = XRUtils.RepebtNone;
+    int vblidbtedFilter = XRUtils.FAST;
 
     /**
-     * Validates an XRSurfaceData when used as source. Note that the clip is
-     * applied when used as source as well as destination.
+     * Vblidbtes bn XRSurfbceDbtb when used bs source. Note thbt the clip is
+     * bpplied when used bs source bs well bs destinbtion.
      */
-    void validateAsSource(AffineTransform sxForm, int repeat, int filter) {
+    void vblidbteAsSource(AffineTrbnsform sxForm, int repebt, int filter) {
 
-        if (validatedClip != null) {
-            validatedClip = null;
-            renderQueue.setClipRectangles(picture, null);
+        if (vblidbtedClip != null) {
+            vblidbtedClip = null;
+            renderQueue.setClipRectbngles(picture, null);
         }
 
-        if (validatedRepeat != repeat && repeat != -1) {
-            validatedRepeat = repeat;
-            renderQueue.setPictureRepeat(picture, repeat);
+        if (vblidbtedRepebt != repebt && repebt != -1) {
+            vblidbtedRepebt = repebt;
+            renderQueue.setPictureRepebt(picture, repebt);
         }
 
         if (sxForm == null) {
-            if (transformInUse) {
-                validatedSourceTransform.setToIdentity();
-                renderQueue.setPictureTransform(picture,
-                                                validatedSourceTransform);
-                transformInUse = false;
+            if (trbnsformInUse) {
+                vblidbtedSourceTrbnsform.setToIdentity();
+                renderQueue.setPictureTrbnsform(picture,
+                                                vblidbtedSourceTrbnsform);
+                trbnsformInUse = fblse;
             }
-        } else if (!transformInUse ||
-                   (transformInUse && !sxForm.equals(validatedSourceTransform))) {
+        } else if (!trbnsformInUse ||
+                   (trbnsformInUse && !sxForm.equbls(vblidbtedSourceTrbnsform))) {
 
-            validatedSourceTransform.setTransform(sxForm.getScaleX(),
-                                                  sxForm.getShearY(),
-                                                  sxForm.getShearX(),
-                                                  sxForm.getScaleY(),
-                                                  sxForm.getTranslateX(),
-                                                  sxForm.getTranslateY());
+            vblidbtedSourceTrbnsform.setTrbnsform(sxForm.getScbleX(),
+                                                  sxForm.getShebrY(),
+                                                  sxForm.getShebrX(),
+                                                  sxForm.getScbleY(),
+                                                  sxForm.getTrbnslbteX(),
+                                                  sxForm.getTrbnslbteY());
 
-            AffineTransform srcTransform = validatedSourceTransform;
-            if(staticSrcTx != null) {
-                // Apply static transform set when used as texture or gradient.
-                // Create a copy to not modify validatedSourceTransform as
-                // this would confuse the validation logic.
-                srcTransform = new AffineTransform(validatedSourceTransform);
-                srcTransform.preConcatenate(staticSrcTx);
+            AffineTrbnsform srcTrbnsform = vblidbtedSourceTrbnsform;
+            if(stbticSrcTx != null) {
+                // Apply stbtic trbnsform set when used bs texture or grbdient.
+                // Crebte b copy to not modify vblidbtedSourceTrbnsform bs
+                // this would confuse the vblidbtion logic.
+                srcTrbnsform = new AffineTrbnsform(vblidbtedSourceTrbnsform);
+                srcTrbnsform.preConcbtenbte(stbticSrcTx);
             }
 
-            renderQueue.setPictureTransform(picture, srcTransform);
-            transformInUse = true;
+            renderQueue.setPictureTrbnsform(picture, srcTrbnsform);
+            trbnsformInUse = true;
         }
 
-        if (filter != validatedFilter && filter != -1) {
+        if (filter != vblidbtedFilter && filter != -1) {
             renderQueue.setFilter(picture, filter);
-            validatedFilter = filter;
+            vblidbtedFilter = filter;
         }
     }
 
     /**
-     * Validates the Surface when used as destination.
+     * Vblidbtes the Surfbce when used bs destinbtion.
      */
-    public void validateAsDestination(SunGraphics2D sg2d, Region clip) {
-        if (!isValid()) {
-            throw new InvalidPipeException("bounds changed");
+    public void vblidbteAsDestinbtion(SunGrbphics2D sg2d, Region clip) {
+        if (!isVblid()) {
+            throw new InvblidPipeException("bounds chbnged");
         }
 
-        boolean updateGCClip = false;
-        if (clip != validatedClip) {
-            renderQueue.setClipRectangles(picture, clip);
-            validatedClip = clip;
-            updateGCClip = true;
+        boolebn updbteGCClip = fblse;
+        if (clip != vblidbtedClip) {
+            renderQueue.setClipRectbngles(picture, clip);
+            vblidbtedClip = clip;
+            updbteGCClip = true;
         }
 
-        if (sg2d != null && sg2d.compositeState == SunGraphics2D.COMP_XOR) {
-            if (validatedXorComp != sg2d.getComposite()) {
-                validatedXorComp = (XORComposite) sg2d.getComposite();
-                renderQueue.setGCMode(xgc, false);
+        if (sg2d != null && sg2d.compositeStbte == SunGrbphics2D.COMP_XOR) {
+            if (vblidbtedXorComp != sg2d.getComposite()) {
+                vblidbtedXorComp = (XORComposite) sg2d.getComposite();
+                renderQueue.setGCMode(xgc, fblse);
             }
 
-            // validate pixel
+            // vblidbte pixel
             int pixel = sg2d.pixel;
-            if (validatedGCForegroundPixel != pixel) {
-                int xorpixelmod = validatedXorComp.getXorPixel();
+            if (vblidbtedGCForegroundPixel != pixel) {
+                int xorpixelmod = vblidbtedXorComp.getXorPixel();
                 renderQueue.setGCForeground(xgc, pixel ^ xorpixelmod);
-                validatedGCForegroundPixel = pixel;
+                vblidbtedGCForegroundPixel = pixel;
             }
 
-            if (updateGCClip) {
-                renderQueue.setGCClipRectangles(xgc, clip);
+            if (updbteGCClip) {
+                renderQueue.setGCClipRectbngles(xgc, clip);
             }
         }
     }
 
-    public synchronized void makePipes() { /*
+    public synchronized void mbkePipes() { /*
                                             * TODO: Why is this synchronized,
-                                            * but access not?
+                                            * but bccess not?
                                             */
         if (xrpipe == null) {
             try {
-                SunToolkit.awtLock();
-                xgc = XCreateGC(getNativeOps());
+                SunToolkit.bwtLock();
+                xgc = XCrebteGC(getNbtiveOps());
 
-                xrpipe = new XRRenderer(maskBuffer.getMaskBuffer());
-                xrtxpipe = new PixelToShapeConverter(xrpipe);
-                xrtextpipe = maskBuffer.getTextRenderer();
-                xrDrawImage = new XRDrawImage();
+                xrpipe = new XRRenderer(mbskBuffer.getMbskBuffer());
+                xrtxpipe = new PixelToShbpeConverter(xrpipe);
+                xrtextpipe = mbskBuffer.getTextRenderer();
+                xrDrbwImbge = new XRDrbwImbge();
 
-                if (JulesPathBuf.isCairoAvailable()) {
-                    aaShapePipe =
-                       new JulesShapePipe(XRCompositeManager.getInstance(this));
-                    aaPixelToShapeConv = new PixelToShapeConverter(aaShapePipe);
+                if (JulesPbthBuf.isCbiroAvbilbble()) {
+                    bbShbpePipe =
+                       new JulesShbpePipe(XRCompositeMbnbger.getInstbnce(this));
+                    bbPixelToShbpeConv = new PixelToShbpeConverter(bbShbpePipe);
                 }
-            } finally {
-                SunToolkit.awtUnlock();
+            } finblly {
+                SunToolkit.bwtUnlock();
             }
         }
     }
 
-    public static class XRWindowSurfaceData extends XRSurfaceData {
-        public XRWindowSurfaceData(X11ComponentPeer peer,
-                                   XRGraphicsConfig gc, SurfaceType sType) {
+    public stbtic clbss XRWindowSurfbceDbtb extends XRSurfbceDbtb {
+        public XRWindowSurfbceDbtb(X11ComponentPeer peer,
+                                   XRGrbphicsConfig gc, SurfbceType sType) {
             super(peer, gc, sType, peer.getColorModel(),
-                  peer.getColorModel().getPixelSize(), Transparency.OPAQUE);
+                  peer.getColorModel().getPixelSize(), Trbnspbrency.OPAQUE);
 
-            if (isXRDrawableValid()) {
+            if (isXRDrbwbbleVblid()) {
                 initXRender(XRUtils.
-                    getPictureFormatForTransparency(Transparency.OPAQUE));
-                makePipes();
+                    getPictureFormbtForTrbnspbrency(Trbnspbrency.OPAQUE));
+                mbkePipes();
             }
         }
 
-        public SurfaceData getReplacement() {
-            return peer.getSurfaceData();
+        public SurfbceDbtb getReplbcement() {
+            return peer.getSurfbceDbtb();
         }
 
-        public Rectangle getBounds() {
-            Rectangle r = peer.getBounds();
+        public Rectbngle getBounds() {
+            Rectbngle r = peer.getBounds();
             r.x = r.y = 0;
             return r;
         }
 
         @Override
-        public boolean canSourceSendExposures(int x, int y, int w, int h) {
+        public boolebn cbnSourceSendExposures(int x, int y, int w, int h) {
             return true;
         }
 
         /**
-         * Returns destination Component associated with this SurfaceData.
+         * Returns destinbtion Component bssocibted with this SurfbceDbtb.
          */
-        public Object getDestination() {
-            return peer.getTarget();
+        public Object getDestinbtion() {
+            return peer.getTbrget();
         }
 
-       public void invalidate() {
+       public void invblidbte() {
            try {
-               SunToolkit.awtLock();
-               freeXSDOPicture(getNativeOps());
-           }finally {
-               SunToolkit.awtUnlock();
+               SunToolkit.bwtLock();
+               freeXSDOPicture(getNbtiveOps());
+           }finblly {
+               SunToolkit.bwtUnlock();
            }
 
-           super.invalidate();
+           super.invblidbte();
        }
     }
 
-    public static class XRInternalSurfaceData extends XRSurfaceData {
-        public XRInternalSurfaceData(XRBackend renderQueue, int pictXid) {
+    public stbtic clbss XRInternblSurfbceDbtb extends XRSurfbceDbtb {
+        public XRInternblSurfbceDbtb(XRBbckend renderQueue, int pictXid) {
           super(renderQueue);
           this.picture = pictXid;
-          this.transformInUse = false;
+          this.trbnsformInUse = fblse;
         }
 
-        public boolean canSourceSendExposures(int x, int y, int w, int h) {
-            return false;
+        public boolebn cbnSourceSendExposures(int x, int y, int w, int h) {
+            return fblse;
         }
 
-        public Rectangle getBounds() {
+        public Rectbngle getBounds() {
             return null;
         }
 
-        public Object getDestination() {
+        public Object getDestinbtion() {
             return null;
         }
 
-        public SurfaceData getReplacement() {
+        public SurfbceDbtb getReplbcement() {
             return null;
         }
     }
 
-    public static class XRPixmapSurfaceData extends XRSurfaceData {
-        Image offscreenImage;
+    public stbtic clbss XRPixmbpSurfbceDbtb extends XRSurfbceDbtb {
+        Imbge offscreenImbge;
         int width;
         int height;
-        int transparency;
+        int trbnspbrency;
 
-        public XRPixmapSurfaceData(XRGraphicsConfig gc, int width, int height,
-                                   Image image, SurfaceType sType,
-                                   ColorModel cm, long drawable,
-                                   int transparency, int pictFormat,
+        public XRPixmbpSurfbceDbtb(XRGrbphicsConfig gc, int width, int height,
+                                   Imbge imbge, SurfbceType sType,
+                                   ColorModel cm, long drbwbble,
+                                   int trbnspbrency, int pictFormbt,
                                    int depth) {
-            super(null, gc, sType, cm, depth, transparency);
+            super(null, gc, sType, cm, depth, trbnspbrency);
             this.width = width;
             this.height = height;
-            offscreenImage = image;
-            this.transparency = transparency;
-            initSurface(depth, width, height, drawable, pictFormat);
+            offscreenImbge = imbge;
+            this.trbnspbrency = trbnspbrency;
+            initSurfbce(depth, width, height, drbwbble, pictFormbt);
 
-            initXRender(pictFormat);
-            makePipes();
+            initXRender(pictFormbt);
+            mbkePipes();
         }
 
-        public void initSurface(int depth, int width, int height,
-                                long drawable, int pictFormat) {
+        public void initSurfbce(int depth, int width, int height,
+                                long drbwbble, int pictFormbt) {
             try {
-                SunToolkit.awtLock();
-                XRInitSurface(depth, width, height, drawable, pictFormat);
-            } finally {
-                SunToolkit.awtUnlock();
+                SunToolkit.bwtLock();
+                XRInitSurfbce(depth, width, height, drbwbble, pictFormbt);
+            } finblly {
+                SunToolkit.bwtUnlock();
             }
         }
 
-        public SurfaceData getReplacement() {
-            return restoreContents(offscreenImage);
+        public SurfbceDbtb getReplbcement() {
+            return restoreContents(offscreenImbge);
         }
 
         /**
-         * Need this since the surface data is created with the color model of
-         * the target GC, which is always opaque. But in SunGraphics2D.blitSD we
-         * choose loops based on the transparency on the source SD, so it could
-         * choose wrong loop (blit instead of blitbg, for example).
+         * Need this since the surfbce dbtb is crebted with the color model of
+         * the tbrget GC, which is blwbys opbque. But in SunGrbphics2D.blitSD we
+         * choose loops bbsed on the trbnspbrency on the source SD, so it could
+         * choose wrong loop (blit instebd of blitbg, for exbmple).
          */
-        public int getTransparency() {
-            return transparency;
+        public int getTrbnspbrency() {
+            return trbnspbrency;
         }
 
-        public Rectangle getBounds() {
-            return new Rectangle(width, height);
+        public Rectbngle getBounds() {
+            return new Rectbngle(width, height);
         }
 
         @Override
-        public boolean canSourceSendExposures(int x, int y, int w, int h) {
+        public boolebn cbnSourceSendExposures(int x, int y, int w, int h) {
             return (x < 0 || y < 0 || (x + w) > width || (y + h) > height);
         }
 
         public void flush() {
             /*
-             * We need to invalidate the surface before disposing the native
-             * Drawable and Picture. This way if an application tries to render
-             * to an already flushed XRSurfaceData, we will notice in the
-             * validate() method above that it has been invalidated, and we will
-             * avoid using those native resources that have already been
+             * We need to invblidbte the surfbce before disposing the nbtive
+             * Drbwbble bnd Picture. This wby if bn bpplicbtion tries to render
+             * to bn blrebdy flushed XRSurfbceDbtb, we will notice in the
+             * vblidbte() method bbove thbt it hbs been invblidbted, bnd we will
+             * bvoid using those nbtive resources thbt hbve blrebdy been
              * disposed.
              */
-            invalidate();
-            flushNativeSurface();
+            invblidbte();
+            flushNbtiveSurfbce();
         }
 
         /**
-         * Returns destination Image associated with this SurfaceData.
+         * Returns destinbtion Imbge bssocibted with this SurfbceDbtb.
          */
-        public Object getDestination() {
-            return offscreenImage;
+        public Object getDestinbtion() {
+            return offscreenImbge;
         }
     }
 
@@ -692,14 +692,14 @@ public abstract class XRSurfaceData extends XSurfaceData {
         return xgc;
     }
 
-    public static class LazyPipe extends ValidatePipe {
-        public boolean validate(SunGraphics2D sg2d) {
-            XRSurfaceData xsd = (XRSurfaceData) sg2d.surfaceData;
-            if (!xsd.isXRDrawableValid()) {
-                return false;
+    public stbtic clbss LbzyPipe extends VblidbtePipe {
+        public boolebn vblidbte(SunGrbphics2D sg2d) {
+            XRSurfbceDbtb xsd = (XRSurfbceDbtb) sg2d.surfbceDbtb;
+            if (!xsd.isXRDrbwbbleVblid()) {
+                return fblse;
             }
-            xsd.makePipes();
-            return super.validate(sg2d);
+            xsd.mbkePipes();
+            return super.vblidbte(sg2d);
         }
     }
 
@@ -711,11 +711,11 @@ public abstract class XRSurfaceData extends XSurfaceData {
         return xid;
     }
 
-    public XRGraphicsConfig getGraphicsConfig() {
-        return graphicsConfig;
+    public XRGrbphicsConfig getGrbphicsConfig() {
+        return grbphicsConfig;
     }
 
-    public void setStaticSrcTx(AffineTransform staticSrcTx) {
-        this.staticSrcTx = staticSrcTx;
+    public void setStbticSrcTx(AffineTrbnsform stbticSrcTx) {
+        this.stbticSrcTx = stbticSrcTx;
     }
 }

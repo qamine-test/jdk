@@ -1,40 +1,40 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
  *
  *  (C) Copyright IBM Corp. 1999 All Rights Reserved.
- *  Copyright 1997 The Open Group Research Institute.  All rights reserved.
+ *  Copyright 1997 The Open Group Resebrch Institute.  All rights reserved.
  */
 
-package sun.security.krb5.internal;
+pbckbge sun.security.krb5.internbl;
 
 import sun.security.krb5.*;
 import sun.security.util.*;
-import java.util.Vector;
-import java.io.IOException;
-import java.math.BigInteger;
+import jbvb.util.Vector;
+import jbvb.io.IOException;
+import jbvb.mbth.BigInteger;
 
 /**
  * Implements the ASN.1 KDC-REQ-BODY type.
@@ -42,63 +42,63 @@ import java.math.BigInteger;
  * <xmp>
  * KDC-REQ-BODY ::= SEQUENCE {
  *      kdc-options             [0] KDCOptions,
- *      cname                   [1] PrincipalName OPTIONAL
+ *      cnbme                   [1] PrincipblNbme OPTIONAL
  *                                    -- Used only in AS-REQ --,
- *      realm                   [2] Realm
- *                                    -- Server's realm
+ *      reblm                   [2] Reblm
+ *                                    -- Server's reblm
  *                                    -- Also client's in AS-REQ --,
- *      sname                   [3] PrincipalName OPTIONAL,
+ *      snbme                   [3] PrincipblNbme OPTIONAL,
  *      from                    [4] KerberosTime OPTIONAL,
  *      till                    [5] KerberosTime,
  *      rtime                   [6] KerberosTime OPTIONAL,
  *      nonce                   [7] UInt32,
  *      etype                   [8] SEQUENCE OF Int32 -- EncryptionType
  *                                    -- in preference order --,
- *      addresses               [9] HostAddresses OPTIONAL,
- *      enc-authorization-data  [10] EncryptedData OPTIONAL
- *                                    -- AuthorizationData --,
- *      additional-tickets      [11] SEQUENCE OF Ticket OPTIONAL
+ *      bddresses               [9] HostAddresses OPTIONAL,
+ *      enc-buthorizbtion-dbtb  [10] EncryptedDbtb OPTIONAL
+ *                                    -- AuthorizbtionDbtb --,
+ *      bdditionbl-tickets      [11] SEQUENCE OF Ticket OPTIONAL
  *                                       -- NOTE: not empty
  * }
  * </xmp>
  *
  * <p>
  * This definition reflects the Network Working Group RFC 4120
- * specification available at
- * <a href="http://www.ietf.org/rfc/rfc4120.txt">
- * http://www.ietf.org/rfc/rfc4120.txt</a>.
+ * specificbtion bvbilbble bt
+ * <b href="http://www.ietf.org/rfc/rfc4120.txt">
+ * http://www.ietf.org/rfc/rfc4120.txt</b>.
  */
 
-public class KDCReqBody {
+public clbss KDCReqBody {
     public KDCOptions kdcOptions;
-    public PrincipalName cname; //optional in ASReq only
-    public PrincipalName sname; //optional
-    public KerberosTime from; //optional
+    public PrincipblNbme cnbme; //optionbl in ASReq only
+    public PrincipblNbme snbme; //optionbl
+    public KerberosTime from; //optionbl
     public KerberosTime till;
-    public KerberosTime rtime; //optional
-    public HostAddresses addresses; //optional
+    public KerberosTime rtime; //optionbl
+    public HostAddresses bddresses; //optionbl
 
-    private int nonce;
-    private int[] eType = null; //a sequence; not optional
-    private EncryptedData encAuthorizationData; //optional
-    private Ticket[] additionalTickets; //optional
+    privbte int nonce;
+    privbte int[] eType = null; //b sequence; not optionbl
+    privbte EncryptedDbtb encAuthorizbtionDbtb; //optionbl
+    privbte Ticket[] bdditionblTickets; //optionbl
 
     public KDCReqBody(
             KDCOptions new_kdcOptions,
-            PrincipalName new_cname, //optional in ASReq only
-            PrincipalName new_sname, //optional
-            KerberosTime new_from, //optional
+            PrincipblNbme new_cnbme, //optionbl in ASReq only
+            PrincipblNbme new_snbme, //optionbl
+            KerberosTime new_from, //optionbl
             KerberosTime new_till,
-            KerberosTime new_rtime, //optional
+            KerberosTime new_rtime, //optionbl
             int new_nonce,
-            int[] new_eType, //a sequence; not optional
-            HostAddresses new_addresses, //optional
-            EncryptedData new_encAuthorizationData, //optional
-            Ticket[] new_additionalTickets //optional
+            int[] new_eType, //b sequence; not optionbl
+            HostAddresses new_bddresses, //optionbl
+            EncryptedDbtb new_encAuthorizbtionDbtb, //optionbl
+            Ticket[] new_bdditionblTickets //optionbl
             ) throws IOException {
         kdcOptions = new_kdcOptions;
-        cname = new_cname;
-        sname = new_sname;
+        cnbme = new_cnbme;
+        snbme = new_snbme;
         from = new_from;
         till = new_till;
         rtime = new_rtime;
@@ -106,72 +106,72 @@ public class KDCReqBody {
         if (new_eType != null) {
             eType = new_eType.clone();
         }
-        addresses = new_addresses;
-        encAuthorizationData = new_encAuthorizationData;
-        if (new_additionalTickets != null) {
-            additionalTickets = new Ticket[new_additionalTickets.length];
-            for (int i = 0; i < new_additionalTickets.length; i++) {
-                if (new_additionalTickets[i] == null) {
-                    throw new IOException("Cannot create a KDCReqBody");
+        bddresses = new_bddresses;
+        encAuthorizbtionDbtb = new_encAuthorizbtionDbtb;
+        if (new_bdditionblTickets != null) {
+            bdditionblTickets = new Ticket[new_bdditionblTickets.length];
+            for (int i = 0; i < new_bdditionblTickets.length; i++) {
+                if (new_bdditionblTickets[i] == null) {
+                    throw new IOException("Cbnnot crebte b KDCReqBody");
                 } else {
-                    additionalTickets[i] = (Ticket)new_additionalTickets[i].clone();
+                    bdditionblTickets[i] = (Ticket)new_bdditionblTickets[i].clone();
                 }
             }
         }
     }
 
     /**
-     * Constructs a KDCReqBody object.
-     * @param encoding a DER-encoded data.
-     * @param msgType an int indicating whether it's KRB_AS_REQ or KRB_TGS_REQ type.
-     * @exception Asn1Exception if an error occurs while decoding an ASN1 encoded data.
-     * @exception IOException if an I/O error occurs while reading encoded data.
-     * @exception RealmException if an error occurs while constructing a Realm object from the encoded data.
+     * Constructs b KDCReqBody object.
+     * @pbrbm encoding b DER-encoded dbtb.
+     * @pbrbm msgType bn int indicbting whether it's KRB_AS_REQ or KRB_TGS_REQ type.
+     * @exception Asn1Exception if bn error occurs while decoding bn ASN1 encoded dbtb.
+     * @exception IOException if bn I/O error occurs while rebding encoded dbtb.
+     * @exception ReblmException if bn error occurs while constructing b Reblm object from the encoded dbtb.
      *
      */
-    public KDCReqBody(DerValue encoding, int msgType)
-            throws Asn1Exception, RealmException, KrbException, IOException {
-        DerValue der, subDer;
-        addresses = null;
-        encAuthorizationData = null;
-        additionalTickets = null;
-        if (encoding.getTag() != DerValue.tag_Sequence) {
+    public KDCReqBody(DerVblue encoding, int msgType)
+            throws Asn1Exception, ReblmException, KrbException, IOException {
+        DerVblue der, subDer;
+        bddresses = null;
+        encAuthorizbtionDbtb = null;
+        bdditionblTickets = null;
+        if (encoding.getTbg() != DerVblue.tbg_Sequence) {
             throw new Asn1Exception(Krb5.ASN1_BAD_ID);
         }
-        kdcOptions = KDCOptions.parse(encoding.getData(), (byte)0x00, false);
+        kdcOptions = KDCOptions.pbrse(encoding.getDbtb(), (byte)0x00, fblse);
 
-        // cname only appears in AS-REQ and it shares the realm field with
-        // sname. This is the only place where realm comes after the name.
-        // We first give cname a fake realm and reassign it the correct
-        // realm after the realm field is read.
-        cname = PrincipalName.parse(encoding.getData(), (byte)0x01, true,
-                new Realm("PLACEHOLDER"));
-        if ((msgType != Krb5.KRB_AS_REQ) && (cname != null)) {
+        // cnbme only bppebrs in AS-REQ bnd it shbres the reblm field with
+        // snbme. This is the only plbce where reblm comes bfter the nbme.
+        // We first give cnbme b fbke reblm bnd rebssign it the correct
+        // reblm bfter the reblm field is rebd.
+        cnbme = PrincipblNbme.pbrse(encoding.getDbtb(), (byte)0x01, true,
+                new Reblm("PLACEHOLDER"));
+        if ((msgType != Krb5.KRB_AS_REQ) && (cnbme != null)) {
             throw new Asn1Exception(Krb5.ASN1_BAD_ID);
         }
-        Realm realm = Realm.parse(encoding.getData(), (byte)0x02, false);
-        if (cname != null) {
-            cname = new PrincipalName(
-                    cname.getNameType(), cname.getNameStrings(), realm);
+        Reblm reblm = Reblm.pbrse(encoding.getDbtb(), (byte)0x02, fblse);
+        if (cnbme != null) {
+            cnbme = new PrincipblNbme(
+                    cnbme.getNbmeType(), cnbme.getNbmeStrings(), reblm);
         }
-        sname = PrincipalName.parse(encoding.getData(), (byte)0x03, true, realm);
-        from = KerberosTime.parse(encoding.getData(), (byte)0x04, true);
-        till = KerberosTime.parse(encoding.getData(), (byte)0x05, false);
-        rtime = KerberosTime.parse(encoding.getData(), (byte)0x06, true);
-        der = encoding.getData().getDerValue();
-        if ((der.getTag() & (byte)0x1F) == (byte)0x07) {
-            nonce = der.getData().getBigInteger().intValue();
+        snbme = PrincipblNbme.pbrse(encoding.getDbtb(), (byte)0x03, true, reblm);
+        from = KerberosTime.pbrse(encoding.getDbtb(), (byte)0x04, true);
+        till = KerberosTime.pbrse(encoding.getDbtb(), (byte)0x05, fblse);
+        rtime = KerberosTime.pbrse(encoding.getDbtb(), (byte)0x06, true);
+        der = encoding.getDbtb().getDerVblue();
+        if ((der.getTbg() & (byte)0x1F) == (byte)0x07) {
+            nonce = der.getDbtb().getBigInteger().intVblue();
         } else {
             throw new Asn1Exception(Krb5.ASN1_BAD_ID);
         }
-        der = encoding.getData().getDerValue();
+        der = encoding.getDbtb().getDerVblue();
         Vector<Integer> v = new Vector<>();
-        if ((der.getTag() & (byte)0x1F) == (byte)0x08) {
-            subDer = der.getData().getDerValue();
+        if ((der.getTbg() & (byte)0x1F) == (byte)0x08) {
+            subDer = der.getDbtb().getDerVblue();
 
-            if (subDer.getTag() == DerValue.tag_SequenceOf) {
-                while(subDer.getData().available() > 0) {
-                    v.addElement(subDer.getData().getBigInteger().intValue());
+            if (subDer.getTbg() == DerVblue.tbg_SequenceOf) {
+                while(subDer.getDbtb().bvbilbble() > 0) {
+                    v.bddElement(subDer.getDbtb().getBigInteger().intVblue());
                 }
                 eType = new int[v.size()];
                 for (int i = 0; i < v.size(); i++) {
@@ -183,97 +183,97 @@ public class KDCReqBody {
         } else {
             throw new Asn1Exception(Krb5.ASN1_BAD_ID);
         }
-        if (encoding.getData().available() > 0) {
-            addresses = HostAddresses.parse(encoding.getData(), (byte)0x09, true);
+        if (encoding.getDbtb().bvbilbble() > 0) {
+            bddresses = HostAddresses.pbrse(encoding.getDbtb(), (byte)0x09, true);
         }
-        if (encoding.getData().available() > 0) {
-            encAuthorizationData = EncryptedData.parse(encoding.getData(), (byte)0x0A, true);
+        if (encoding.getDbtb().bvbilbble() > 0) {
+            encAuthorizbtionDbtb = EncryptedDbtb.pbrse(encoding.getDbtb(), (byte)0x0A, true);
         }
-        if (encoding.getData().available() > 0) {
+        if (encoding.getDbtb().bvbilbble() > 0) {
             Vector<Ticket> tempTickets = new Vector<>();
-            der = encoding.getData().getDerValue();
-            if ((der.getTag() & (byte)0x1F) == (byte)0x0B) {
-                subDer = der.getData().getDerValue();
-                if (subDer.getTag() == DerValue.tag_SequenceOf) {
-                    while (subDer.getData().available() > 0) {
-                        tempTickets.addElement(new Ticket(subDer.getData().getDerValue()));
+            der = encoding.getDbtb().getDerVblue();
+            if ((der.getTbg() & (byte)0x1F) == (byte)0x0B) {
+                subDer = der.getDbtb().getDerVblue();
+                if (subDer.getTbg() == DerVblue.tbg_SequenceOf) {
+                    while (subDer.getDbtb().bvbilbble() > 0) {
+                        tempTickets.bddElement(new Ticket(subDer.getDbtb().getDerVblue()));
                     }
                 } else {
                     throw new Asn1Exception(Krb5.ASN1_BAD_ID);
                 }
                 if (tempTickets.size() > 0) {
-                    additionalTickets = new Ticket[tempTickets.size()];
-                    tempTickets.copyInto(additionalTickets);
+                    bdditionblTickets = new Ticket[tempTickets.size()];
+                    tempTickets.copyInto(bdditionblTickets);
                 }
             } else {
                 throw new Asn1Exception(Krb5.ASN1_BAD_ID);
             }
         }
-        if (encoding.getData().available() > 0) {
+        if (encoding.getDbtb().bvbilbble() > 0) {
             throw new Asn1Exception(Krb5.ASN1_BAD_ID);
         }
     }
 
     /**
-     * Encodes this object to an OutputStream.
+     * Encodes this object to bn OutputStrebm.
      *
-     * @return an byte array of encoded data.
-     * @exception Asn1Exception if an error occurs while decoding an ASN1 encoded data.
-     * @exception IOException if an I/O error occurs while reading encoded data.
+     * @return bn byte brrby of encoded dbtb.
+     * @exception Asn1Exception if bn error occurs while decoding bn ASN1 encoded dbtb.
+     * @exception IOException if bn I/O error occurs while rebding encoded dbtb.
      *
      */
-    public byte[] asn1Encode(int msgType) throws Asn1Exception, IOException {
-        Vector<DerValue> v = new Vector<>();
-        v.addElement(new DerValue(DerValue.createTag(DerValue.TAG_CONTEXT, true, (byte)0x00), kdcOptions.asn1Encode()));
+    public byte[] bsn1Encode(int msgType) throws Asn1Exception, IOException {
+        Vector<DerVblue> v = new Vector<>();
+        v.bddElement(new DerVblue(DerVblue.crebteTbg(DerVblue.TAG_CONTEXT, true, (byte)0x00), kdcOptions.bsn1Encode()));
         if (msgType == Krb5.KRB_AS_REQ) {
-            if (cname != null) {
-                v.addElement(new DerValue(DerValue.createTag(DerValue.TAG_CONTEXT, true, (byte)0x01), cname.asn1Encode()));
+            if (cnbme != null) {
+                v.bddElement(new DerVblue(DerVblue.crebteTbg(DerVblue.TAG_CONTEXT, true, (byte)0x01), cnbme.bsn1Encode()));
             }
         }
-        if (sname != null) {
-            v.addElement(new DerValue(DerValue.createTag(DerValue.TAG_CONTEXT, true, (byte)0x02), sname.getRealm().asn1Encode()));
-            v.addElement(new DerValue(DerValue.createTag(DerValue.TAG_CONTEXT, true, (byte)0x03), sname.asn1Encode()));
-        } else if (cname != null) {
-            v.addElement(new DerValue(DerValue.createTag(DerValue.TAG_CONTEXT, true, (byte)0x02), cname.getRealm().asn1Encode()));
+        if (snbme != null) {
+            v.bddElement(new DerVblue(DerVblue.crebteTbg(DerVblue.TAG_CONTEXT, true, (byte)0x02), snbme.getReblm().bsn1Encode()));
+            v.bddElement(new DerVblue(DerVblue.crebteTbg(DerVblue.TAG_CONTEXT, true, (byte)0x03), snbme.bsn1Encode()));
+        } else if (cnbme != null) {
+            v.bddElement(new DerVblue(DerVblue.crebteTbg(DerVblue.TAG_CONTEXT, true, (byte)0x02), cnbme.getReblm().bsn1Encode()));
         }
         if (from != null) {
-            v.addElement(new DerValue(DerValue.createTag(DerValue.TAG_CONTEXT, true, (byte)0x04), from.asn1Encode()));
+            v.bddElement(new DerVblue(DerVblue.crebteTbg(DerVblue.TAG_CONTEXT, true, (byte)0x04), from.bsn1Encode()));
         }
-        v.addElement(new DerValue(DerValue.createTag(DerValue.TAG_CONTEXT, true, (byte)0x05), till.asn1Encode()));
+        v.bddElement(new DerVblue(DerVblue.crebteTbg(DerVblue.TAG_CONTEXT, true, (byte)0x05), till.bsn1Encode()));
         if (rtime != null) {
-            v.addElement(new DerValue(DerValue.createTag(DerValue.TAG_CONTEXT, true, (byte)0x06), rtime.asn1Encode()));
+            v.bddElement(new DerVblue(DerVblue.crebteTbg(DerVblue.TAG_CONTEXT, true, (byte)0x06), rtime.bsn1Encode()));
         }
-        DerOutputStream temp = new DerOutputStream();
-        temp.putInteger(BigInteger.valueOf(nonce));
-        v.addElement(new DerValue(DerValue.createTag(DerValue.TAG_CONTEXT, true, (byte)0x07), temp.toByteArray()));
-        //revisit, if empty eType sequences are allowed
-        temp = new DerOutputStream();
+        DerOutputStrebm temp = new DerOutputStrebm();
+        temp.putInteger(BigInteger.vblueOf(nonce));
+        v.bddElement(new DerVblue(DerVblue.crebteTbg(DerVblue.TAG_CONTEXT, true, (byte)0x07), temp.toByteArrby()));
+        //revisit, if empty eType sequences bre bllowed
+        temp = new DerOutputStrebm();
         for (int i = 0; i < eType.length; i++) {
-            temp.putInteger(BigInteger.valueOf(eType[i]));
+            temp.putInteger(BigInteger.vblueOf(eType[i]));
         }
-        DerOutputStream eTypetemp = new DerOutputStream();
-        eTypetemp.write(DerValue.tag_SequenceOf, temp);
-        v.addElement(new DerValue(DerValue.createTag(DerValue.TAG_CONTEXT, true, (byte)0x08), eTypetemp.toByteArray()));
-        if (addresses != null) {
-            v.addElement(new DerValue(DerValue.createTag(DerValue.TAG_CONTEXT, true, (byte)0x09), addresses.asn1Encode()));
+        DerOutputStrebm eTypetemp = new DerOutputStrebm();
+        eTypetemp.write(DerVblue.tbg_SequenceOf, temp);
+        v.bddElement(new DerVblue(DerVblue.crebteTbg(DerVblue.TAG_CONTEXT, true, (byte)0x08), eTypetemp.toByteArrby()));
+        if (bddresses != null) {
+            v.bddElement(new DerVblue(DerVblue.crebteTbg(DerVblue.TAG_CONTEXT, true, (byte)0x09), bddresses.bsn1Encode()));
         }
-        if (encAuthorizationData != null) {
-            v.addElement(new DerValue(DerValue.createTag(DerValue.TAG_CONTEXT, true, (byte)0x0A), encAuthorizationData.asn1Encode()));
+        if (encAuthorizbtionDbtb != null) {
+            v.bddElement(new DerVblue(DerVblue.crebteTbg(DerVblue.TAG_CONTEXT, true, (byte)0x0A), encAuthorizbtionDbtb.bsn1Encode()));
         }
-        if (additionalTickets != null && additionalTickets.length > 0) {
-            temp = new DerOutputStream();
-            for (int i = 0; i < additionalTickets.length; i++) {
-                temp.write(additionalTickets[i].asn1Encode());
+        if (bdditionblTickets != null && bdditionblTickets.length > 0) {
+            temp = new DerOutputStrebm();
+            for (int i = 0; i < bdditionblTickets.length; i++) {
+                temp.write(bdditionblTickets[i].bsn1Encode());
             }
-            DerOutputStream ticketsTemp = new DerOutputStream();
-            ticketsTemp.write(DerValue.tag_SequenceOf, temp);
-            v.addElement(new DerValue(DerValue.createTag(DerValue.TAG_CONTEXT, true, (byte)0x0B), ticketsTemp.toByteArray()));
+            DerOutputStrebm ticketsTemp = new DerOutputStrebm();
+            ticketsTemp.write(DerVblue.tbg_SequenceOf, temp);
+            v.bddElement(new DerVblue(DerVblue.crebteTbg(DerVblue.TAG_CONTEXT, true, (byte)0x0B), ticketsTemp.toByteArrby()));
         }
-        DerValue der[] = new DerValue[v.size()];
+        DerVblue der[] = new DerVblue[v.size()];
         v.copyInto(der);
-        temp = new DerOutputStream();
+        temp = new DerOutputStrebm();
         temp.putSequence(der);
-        return temp.toByteArray();
+        return temp.toByteArrby();
     }
 
     public int getNonce() {

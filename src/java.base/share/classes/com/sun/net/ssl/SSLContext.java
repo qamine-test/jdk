@@ -1,64 +1,64 @@
 /*
- * Copyright (c) 2000, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2007, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * NOTE:  this file was copied from javax.net.ssl.SSLContext
+ * NOTE:  this file wbs copied from jbvbx.net.ssl.SSLContext
  */
 
-package com.sun.net.ssl;
+pbckbge com.sun.net.ssl;
 
-import java.security.*;
-import java.util.*;
-import javax.net.ssl.*;
+import jbvb.security.*;
+import jbvb.util.*;
+import jbvbx.net.ssl.*;
 
-import sun.security.ssl.SSLSocketFactoryImpl;
-import sun.security.ssl.SSLServerSocketFactoryImpl;
+import sun.security.ssl.SSLSocketFbctoryImpl;
+import sun.security.ssl.SSLServerSocketFbctoryImpl;
 
 /**
- * Instances of this class represent a secure socket protocol
- * implementation which acts as a factory for secure socket
- * factories. This class is initialized with an optional set of
- * key and trust managers and source of secure random bytes.
+ * Instbnces of this clbss represent b secure socket protocol
+ * implementbtion which bcts bs b fbctory for secure socket
+ * fbctories. This clbss is initiblized with bn optionbl set of
+ * key bnd trust mbnbgers bnd source of secure rbndom bytes.
  *
- * @deprecated As of JDK 1.4, this implementation-specific class was
- *      replaced by {@link javax.net.ssl.SSLContext}.
+ * @deprecbted As of JDK 1.4, this implementbtion-specific clbss wbs
+ *      replbced by {@link jbvbx.net.ssl.SSLContext}.
  */
-@Deprecated
-public class SSLContext {
-    private Provider provider;
+@Deprecbted
+public clbss SSLContext {
+    privbte Provider provider;
 
-    private SSLContextSpi contextSpi;
+    privbte SSLContextSpi contextSpi;
 
-    private String protocol;
+    privbte String protocol;
 
     /**
-     * Creates an SSLContext object.
+     * Crebtes bn SSLContext object.
      *
-     * @param contextSpi the delegate
-     * @param provider the provider
-     * @param algorithm the algorithm
+     * @pbrbm contextSpi the delegbte
+     * @pbrbm provider the provider
+     * @pbrbm blgorithm the blgorithm
      */
     protected SSLContext(SSLContextSpi contextSpi, Provider provider,
         String protocol) {
@@ -68,18 +68,18 @@ public class SSLContext {
     }
 
     /**
-     * Generates a <code>SSLContext</code> object that implements the
+     * Generbtes b <code>SSLContext</code> object thbt implements the
      * specified secure socket protocol.
      *
-     * @param protocol the standard name of the requested protocol.
+     * @pbrbm protocol the stbndbrd nbme of the requested protocol.
      *
      * @return the new <code>SSLContext</code> object
      *
      * @exception NoSuchAlgorithmException if the specified protocol is not
-     * available in the default provider package or any of the other provider
-     * packages that were searched.
+     * bvbilbble in the defbult provider pbckbge or bny of the other provider
+     * pbckbges thbt were sebrched.
      */
-    public static SSLContext getInstance(String protocol)
+    public stbtic SSLContext getInstbnce(String protocol)
         throws NoSuchAlgorithmException
     {
         try {
@@ -87,30 +87,30 @@ public class SSLContext {
                                                 (String) null);
             return new SSLContext((SSLContextSpi)objs[0], (Provider)objs[1],
                 protocol);
-        } catch (NoSuchProviderException e) {
+        } cbtch (NoSuchProviderException e) {
             throw new NoSuchAlgorithmException(protocol + " not found");
         }
     }
 
     /**
-     * Generates a <code>SSLContext</code> object that implements the
+     * Generbtes b <code>SSLContext</code> object thbt implements the
      * specified secure socket protocol.
      *
-     * @param protocol the standard name of the requested protocol.
-     * @param provider the name of the provider
+     * @pbrbm protocol the stbndbrd nbme of the requested protocol.
+     * @pbrbm provider the nbme of the provider
      *
      * @return the new <code>SSLContext</code> object
      *
      * @exception NoSuchAlgorithmException if the specified protocol is not
-     * available from the specified provider.
-     * @exception NoSuchProviderException if the specified provider has not
+     * bvbilbble from the specified provider.
+     * @exception NoSuchProviderException if the specified provider hbs not
      * been configured.
      */
-    public static SSLContext getInstance(String protocol, String provider)
+    public stbtic SSLContext getInstbnce(String protocol, String provider)
         throws NoSuchAlgorithmException, NoSuchProviderException
     {
         if (provider == null || provider.length() == 0)
-            throw new IllegalArgumentException("missing provider");
+            throw new IllegblArgumentException("missing provider");
         Object[] objs = SSLSecurity.getImpl(protocol, "SSLContext",
                                             provider);
         return new SSLContext((SSLContextSpi)objs[0], (Provider)objs[1],
@@ -118,22 +118,22 @@ public class SSLContext {
     }
 
     /**
-     * Generates a <code>SSLContext</code> object that implements the
+     * Generbtes b <code>SSLContext</code> object thbt implements the
      * specified secure socket protocol.
      *
-     * @param protocol the standard name of the requested protocol.
-     * @param provider an instance of the provider
+     * @pbrbm protocol the stbndbrd nbme of the requested protocol.
+     * @pbrbm provider bn instbnce of the provider
      *
      * @return the new <code>SSLContext</code> object
      *
      * @exception NoSuchAlgorithmException if the specified protocol is not
-     * available from the specified provider.
+     * bvbilbble from the specified provider.
      */
-    public static SSLContext getInstance(String protocol, Provider provider)
+    public stbtic SSLContext getInstbnce(String protocol, Provider provider)
         throws NoSuchAlgorithmException
     {
         if (provider == null)
-            throw new IllegalArgumentException("missing provider");
+            throw new IllegblArgumentException("missing provider");
         Object[] objs = SSLSecurity.getImpl(protocol, "SSLContext",
                                             provider);
         return new SSLContext((SSLContextSpi)objs[0], (Provider)objs[1],
@@ -141,15 +141,15 @@ public class SSLContext {
     }
 
     /**
-     * Returns the protocol name of this <code>SSLContext</code> object.
+     * Returns the protocol nbme of this <code>SSLContext</code> object.
      *
-     * <p>This is the same name that was specified in one of the
-     * <code>getInstance</code> calls that created this
+     * <p>This is the sbme nbme thbt wbs specified in one of the
+     * <code>getInstbnce</code> cblls thbt crebted this
      * <code>SSLContext</code> object.
      *
-     * @return the protocol name of this <code>SSLContext</code> object.
+     * @return the protocol nbme of this <code>SSLContext</code> object.
      */
-    public final String getProtocol() {
+    public finbl String getProtocol() {
         return this.protocol;
     }
 
@@ -158,44 +158,44 @@ public class SSLContext {
      *
      * @return the provider of this <code>SSLContext</code> object
      */
-    public final Provider getProvider() {
+    public finbl Provider getProvider() {
         return this.provider;
     }
 
     /**
-     * Initializes this context. Either of the first two parameters
-     * may be null in which case the installed security providers will
-     * be searched for the highest priority implementation of the
-     * appropriate factory. Likewise, the secure random parameter may
-     * be null in which case the default implementation will be used.
+     * Initiblizes this context. Either of the first two pbrbmeters
+     * mby be null in which cbse the instblled security providers will
+     * be sebrched for the highest priority implementbtion of the
+     * bppropribte fbctory. Likewise, the secure rbndom pbrbmeter mby
+     * be null in which cbse the defbult implementbtion will be used.
      *
-     * @param km the sources of authentication keys or null
-     * @param tm the sources of peer authentication trust decisions or null
-     * @param random the source of randomness for this generator or null
+     * @pbrbm km the sources of buthenticbtion keys or null
+     * @pbrbm tm the sources of peer buthenticbtion trust decisions or null
+     * @pbrbm rbndom the source of rbndomness for this generbtor or null
      */
-    public final void init(KeyManager[] km, TrustManager[] tm,
-                                SecureRandom random)
-        throws KeyManagementException {
-        contextSpi.engineInit(km, tm, random);
+    public finbl void init(KeyMbnbger[] km, TrustMbnbger[] tm,
+                                SecureRbndom rbndom)
+        throws KeyMbnbgementException {
+        contextSpi.engineInit(km, tm, rbndom);
     }
 
     /**
-     * Returns a <code>SocketFactory</code> object for this
+     * Returns b <code>SocketFbctory</code> object for this
      * context.
      *
-     * @return the factory
+     * @return the fbctory
      */
-    public final SSLSocketFactory getSocketFactory() {
-        return contextSpi.engineGetSocketFactory();
+    public finbl SSLSocketFbctory getSocketFbctory() {
+        return contextSpi.engineGetSocketFbctory();
     }
 
     /**
-     * Returns a <code>ServerSocketFactory</code> object for
+     * Returns b <code>ServerSocketFbctory</code> object for
      * this context.
      *
-     * @return the factory
+     * @return the fbctory
      */
-    public final SSLServerSocketFactory getServerSocketFactory() {
-        return contextSpi.engineGetServerSocketFactory();
+    public finbl SSLServerSocketFbctory getServerSocketFbctory() {
+        return contextSpi.engineGetServerSocketFbctory();
     }
 }

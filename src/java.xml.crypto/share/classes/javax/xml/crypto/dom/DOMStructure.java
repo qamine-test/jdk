@@ -1,73 +1,73 @@
 /*
- * Copyright (c) 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 /*
- * $Id: DOMStructure.java,v 1.6 2005/05/09 18:33:26 mullan Exp $
+ * $Id: DOMStructure.jbvb,v 1.6 2005/05/09 18:33:26 mullbn Exp $
  */
-package javax.xml.crypto.dom;
+pbckbge jbvbx.xml.crypto.dom;
 
 import org.w3c.dom.Node;
-import javax.xml.crypto.XMLStructure;
-import javax.xml.crypto.dsig.XMLSignature;
+import jbvbx.xml.crypto.XMLStructure;
+import jbvbx.xml.crypto.dsig.XMLSignbture;
 
 /**
- * A DOM-specific {@link XMLStructure}. The purpose of this class is to
- * allow a DOM node to be used to represent extensible content (any elements
- * or mixed content) in XML Signature structures.
+ * A DOM-specific {@link XMLStructure}. The purpose of this clbss is to
+ * bllow b DOM node to be used to represent extensible content (bny elements
+ * or mixed content) in XML Signbture structures.
  *
- * <p>If a sequence of nodes is needed, the node contained in the
- * <code>DOMStructure</code> is the first node of the sequence and successive
- * nodes can be accessed by invoking {@link Node#getNextSibling}.
+ * <p>If b sequence of nodes is needed, the node contbined in the
+ * <code>DOMStructure</code> is the first node of the sequence bnd successive
+ * nodes cbn be bccessed by invoking {@link Node#getNextSibling}.
  *
- * <p>If the owner document of the <code>DOMStructure</code> is different than
- * the target document of an <code>XMLSignature</code>, the
- * {@link XMLSignature#sign(XMLSignContext)} method imports the node into the
- * target document before generating the signature.
+ * <p>If the owner document of the <code>DOMStructure</code> is different thbn
+ * the tbrget document of bn <code>XMLSignbture</code>, the
+ * {@link XMLSignbture#sign(XMLSignContext)} method imports the node into the
+ * tbrget document before generbting the signbture.
  *
- * @author Sean Mullan
- * @author JSR 105 Expert Group
+ * @buthor Sebn Mullbn
+ * @buthor JSR 105 Expert Group
  * @since 1.6
  */
-public class DOMStructure implements XMLStructure {
+public clbss DOMStructure implements XMLStructure {
 
-    private final Node node;
+    privbte finbl Node node;
 
     /**
-     * Creates a <code>DOMStructure</code> containing the specified node.
+     * Crebtes b <code>DOMStructure</code> contbining the specified node.
      *
-     * @param node the node
+     * @pbrbm node the node
      * @throws NullPointerException if <code>node</code> is <code>null</code>
      */
     public DOMStructure(Node node) {
         if (node == null) {
-            throw new NullPointerException("node cannot be null");
+            throw new NullPointerException("node cbnnot be null");
         }
         this.node = node;
     }
 
     /**
-     * Returns the node contained in this <code>DOMStructure</code>.
+     * Returns the node contbined in this <code>DOMStructure</code>.
      *
      * @return the node
      */
@@ -78,11 +78,11 @@ public class DOMStructure implements XMLStructure {
     /**
      * @throws NullPointerException {@inheritDoc}
      */
-    public boolean isFeatureSupported(String feature) {
-        if (feature == null) {
+    public boolebn isFebtureSupported(String febture) {
+        if (febture == null) {
             throw new NullPointerException();
         } else {
-            return false;
+            return fblse;
         }
     }
 }

@@ -1,1273 +1,1273 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.imageio.metadata;
+pbckbge jbvbx.imbgeio.metbdbtb;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.MissingResourceException;
-import java.util.ResourceBundle;
-import javax.imageio.ImageTypeSpecifier;
-import com.sun.imageio.plugins.common.StandardMetadataFormat;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collection;
+import jbvb.util.HbshMbp;
+import jbvb.util.Iterbtor;
+import jbvb.util.List;
+import jbvb.util.Locble;
+import jbvb.util.Mbp;
+import jbvb.util.MissingResourceException;
+import jbvb.util.ResourceBundle;
+import jbvbx.imbgeio.ImbgeTypeSpecifier;
+import com.sun.imbgeio.plugins.common.StbndbrdMetbdbtbFormbt;
 
 /**
- * A concrete class providing a reusable implementation of the
- * <code>IIOMetadataFormat</code> interface.  In addition, a static
- * instance representing the standard, plug-in neutral
- * <code>javax_imageio_1.0</code> format is provided by the
- * <code>getStandardFormatInstance</code> method.
+ * A concrete clbss providing b reusbble implementbtion of the
+ * <code>IIOMetbdbtbFormbt</code> interfbce.  In bddition, b stbtic
+ * instbnce representing the stbndbrd, plug-in neutrbl
+ * <code>jbvbx_imbgeio_1.0</code> formbt is provided by the
+ * <code>getStbndbrdFormbtInstbnce</code> method.
  *
- * <p> In order to supply localized descriptions of elements and
- * attributes, a <code>ResourceBundle</code> with a base name of
- * <code>this.getClass().getName() + "Resources"</code> should be
- * supplied via the usual mechanism used by
- * <code>ResourceBundle.getBundle</code>.  Briefly, the subclasser
- * supplies one or more additional classes according to a naming
- * convention (by default, the fully-qualified name of the subclass
- * extending <code>IIMetadataFormatImpl</code>, plus the string
- * "Resources", plus the country, language, and variant codes
- * separated by underscores).  At run time, calls to
+ * <p> In order to supply locblized descriptions of elements bnd
+ * bttributes, b <code>ResourceBundle</code> with b bbse nbme of
+ * <code>this.getClbss().getNbme() + "Resources"</code> should be
+ * supplied vib the usubl mechbnism used by
+ * <code>ResourceBundle.getBundle</code>.  Briefly, the subclbsser
+ * supplies one or more bdditionbl clbsses bccording to b nbming
+ * convention (by defbult, the fully-qublified nbme of the subclbss
+ * extending <code>IIMetbdbtbFormbtImpl</code>, plus the string
+ * "Resources", plus the country, lbngubge, bnd vbribnt codes
+ * sepbrbted by underscores).  At run time, cblls to
  * <code>getElementDescription</code> or
- * <code>getAttributeDescription</code> will attempt to load such
- * classes dynamically according to the supplied locale, and will use
- * either the element name, or the element name followed by a '/'
- * character followed by the attribute name as a key.  This key will
+ * <code>getAttributeDescription</code> will bttempt to lobd such
+ * clbsses dynbmicblly bccording to the supplied locble, bnd will use
+ * either the element nbme, or the element nbme followed by b '/'
+ * chbrbcter followed by the bttribute nbme bs b key.  This key will
  * be supplied to the <code>ResourceBundle</code>'s
- * <code>getString</code> method, and the resulting localized
- * description of the node or attribute is returned.
+ * <code>getString</code> method, bnd the resulting locblized
+ * description of the node or bttribute is returned.
  *
- * <p> The subclass may supply a different base name for the resource
- * bundles using the <code>setResourceBaseName</code> method.
+ * <p> The subclbss mby supply b different bbse nbme for the resource
+ * bundles using the <code>setResourceBbseNbme</code> method.
  *
- * <p> A subclass may choose its own localization mechanism, if so
- * desired, by overriding the supplied implementations of
- * <code>getElementDescription</code> and
+ * <p> A subclbss mby choose its own locblizbtion mechbnism, if so
+ * desired, by overriding the supplied implementbtions of
+ * <code>getElementDescription</code> bnd
  * <code>getAttributeDescription</code>.
  *
- * @see ResourceBundle#getBundle(String,Locale)
+ * @see ResourceBundle#getBundle(String,Locble)
  *
  */
-public abstract class IIOMetadataFormatImpl implements IIOMetadataFormat {
+public bbstrbct clbss IIOMetbdbtbFormbtImpl implements IIOMetbdbtbFormbt {
 
     /**
-     * A <code>String</code> constant containing the standard format
-     * name, <code>"javax_imageio_1.0"</code>.
+     * A <code>String</code> constbnt contbining the stbndbrd formbt
+     * nbme, <code>"jbvbx_imbgeio_1.0"</code>.
      */
-    public static final String standardMetadataFormatName =
-        "javax_imageio_1.0";
+    public stbtic finbl String stbndbrdMetbdbtbFormbtNbme =
+        "jbvbx_imbgeio_1.0";
 
-    private static IIOMetadataFormat standardFormat = null;
+    privbte stbtic IIOMetbdbtbFormbt stbndbrdFormbt = null;
 
-    private String resourceBaseName = this.getClass().getName() + "Resources";
+    privbte String resourceBbseNbme = this.getClbss().getNbme() + "Resources";
 
-    private String rootName;
+    privbte String rootNbme;
 
-    // Element name (String) -> Element
-    private HashMap<String, Element> elementMap = new HashMap<>();
+    // Element nbme (String) -> Element
+    privbte HbshMbp<String, Element> elementMbp = new HbshMbp<>();
 
-    class Element {
-        String elementName;
+    clbss Element {
+        String elementNbme;
 
         int childPolicy;
         int minChildren = 0;
-        int maxChildren = 0;
+        int mbxChildren = 0;
 
-        // Child names (Strings)
-        List<String> childList = new ArrayList<>();
+        // Child nbmes (Strings)
+        List<String> childList = new ArrbyList<>();
 
-        // Parent names (Strings)
-        List<String> parentList = new ArrayList<>();
+        // Pbrent nbmes (Strings)
+        List<String> pbrentList = new ArrbyList<>();
 
-        // List of attribute names in the order they were added
-        List<String> attrList = new ArrayList<>();
-        // Attr name (String) -> Attribute
-        Map<String, Attribute> attrMap = new HashMap<>();
+        // List of bttribute nbmes in the order they were bdded
+        List<String> bttrList = new ArrbyList<>();
+        // Attr nbme (String) -> Attribute
+        Mbp<String, Attribute> bttrMbp = new HbshMbp<>();
 
-        ObjectValue<?> objectValue;
+        ObjectVblue<?> objectVblue;
     }
 
-    class Attribute {
-        String attrName;
+    clbss Attribute {
+        String bttrNbme;
 
-        int valueType = VALUE_ARBITRARY;
-        int dataType;
-        boolean required;
-        String defaultValue = null;
+        int vblueType = VALUE_ARBITRARY;
+        int dbtbType;
+        boolebn required;
+        String defbultVblue = null;
 
-        // enumeration
-        List<String> enumeratedValues;
+        // enumerbtion
+        List<String> enumerbtedVblues;
 
-        // range
-        String minValue;
-        String maxValue;
+        // rbnge
+        String minVblue;
+        String mbxVblue;
 
         // list
         int listMinLength;
-        int listMaxLength;
+        int listMbxLength;
     }
 
-    class ObjectValue<T> {
-        int valueType = VALUE_NONE;
-        // ? extends T So that ObjectValue<Object> can take Class<?>
-        Class<? extends T> classType = null;
-        T defaultValue = null;
+    clbss ObjectVblue<T> {
+        int vblueType = VALUE_NONE;
+        // ? extends T So thbt ObjectVblue<Object> cbn tbke Clbss<?>
+        Clbss<? extends T> clbssType = null;
+        T defbultVblue = null;
 
-        // Meaningful only if valueType == VALUE_ENUMERATION
-        List<? extends T> enumeratedValues = null;
+        // Mebningful only if vblueType == VALUE_ENUMERATION
+        List<? extends T> enumerbtedVblues = null;
 
-        // Meaningful only if valueType == VALUE_RANGE
-        Comparable<? super T> minValue = null;
-        Comparable<? super T> maxValue = null;
+        // Mebningful only if vblueType == VALUE_RANGE
+        Compbrbble<? super T> minVblue = null;
+        Compbrbble<? super T> mbxVblue = null;
 
-        // Meaningful only if valueType == VALUE_LIST
-        int arrayMinLength = 0;
-        int arrayMaxLength = 0;
+        // Mebningful only if vblueType == VALUE_LIST
+        int brrbyMinLength = 0;
+        int brrbyMbxLength = 0;
     }
 
     /**
-     * Constructs a blank <code>IIOMetadataFormatImpl</code> instance,
-     * with a given root element name and child policy (other than
-     * <code>CHILD_POLICY_REPEAT</code>).  Additional elements, and
-     * their attributes and <code>Object</code> reference information
-     * may be added using the various <code>add</code> methods.
+     * Constructs b blbnk <code>IIOMetbdbtbFormbtImpl</code> instbnce,
+     * with b given root element nbme bnd child policy (other thbn
+     * <code>CHILD_POLICY_REPEAT</code>).  Additionbl elements, bnd
+     * their bttributes bnd <code>Object</code> reference informbtion
+     * mby be bdded using the vbrious <code>bdd</code> methods.
      *
-     * @param rootName the name of the root element.
-     * @param childPolicy one of the <code>CHILD_POLICY_*</code> constants,
-     * other than <code>CHILD_POLICY_REPEAT</code>.
+     * @pbrbm rootNbme the nbme of the root element.
+     * @pbrbm childPolicy one of the <code>CHILD_POLICY_*</code> constbnts,
+     * other thbn <code>CHILD_POLICY_REPEAT</code>.
      *
-     * @exception IllegalArgumentException if <code>rootName</code> is
+     * @exception IllegblArgumentException if <code>rootNbme</code> is
      * <code>null</code>.
-     * @exception IllegalArgumentException if <code>childPolicy</code> is
-     * not one of the predefined constants.
+     * @exception IllegblArgumentException if <code>childPolicy</code> is
+     * not one of the predefined constbnts.
      */
-    public IIOMetadataFormatImpl(String rootName,
+    public IIOMetbdbtbFormbtImpl(String rootNbme,
                                  int childPolicy) {
-        if (rootName == null) {
-            throw new IllegalArgumentException("rootName == null!");
+        if (rootNbme == null) {
+            throw new IllegblArgumentException("rootNbme == null!");
         }
         if (childPolicy < CHILD_POLICY_EMPTY ||
             childPolicy > CHILD_POLICY_MAX ||
             childPolicy == CHILD_POLICY_REPEAT) {
-            throw new IllegalArgumentException("Invalid value for childPolicy!");
+            throw new IllegblArgumentException("Invblid vblue for childPolicy!");
         }
 
-        this.rootName = rootName;
+        this.rootNbme = rootNbme;
 
         Element root = new Element();
-        root.elementName = rootName;
+        root.elementNbme = rootNbme;
         root.childPolicy = childPolicy;
 
-        elementMap.put(rootName, root);
+        elementMbp.put(rootNbme, root);
     }
 
     /**
-     * Constructs a blank <code>IIOMetadataFormatImpl</code> instance,
-     * with a given root element name and a child policy of
-     * <code>CHILD_POLICY_REPEAT</code>.  Additional elements, and
-     * their attributes and <code>Object</code> reference information
-     * may be added using the various <code>add</code> methods.
+     * Constructs b blbnk <code>IIOMetbdbtbFormbtImpl</code> instbnce,
+     * with b given root element nbme bnd b child policy of
+     * <code>CHILD_POLICY_REPEAT</code>.  Additionbl elements, bnd
+     * their bttributes bnd <code>Object</code> reference informbtion
+     * mby be bdded using the vbrious <code>bdd</code> methods.
      *
-     * @param rootName the name of the root element.
-     * @param minChildren the minimum number of children of the node.
-     * @param maxChildren the maximum number of children of the node.
+     * @pbrbm rootNbme the nbme of the root element.
+     * @pbrbm minChildren the minimum number of children of the node.
+     * @pbrbm mbxChildren the mbximum number of children of the node.
      *
-     * @exception IllegalArgumentException if <code>rootName</code> is
+     * @exception IllegblArgumentException if <code>rootNbme</code> is
      * <code>null</code>.
-     * @exception IllegalArgumentException if <code>minChildren</code>
-     * is negative or larger than <code>maxChildren</code>.
+     * @exception IllegblArgumentException if <code>minChildren</code>
+     * is negbtive or lbrger thbn <code>mbxChildren</code>.
      */
-    public IIOMetadataFormatImpl(String rootName,
+    public IIOMetbdbtbFormbtImpl(String rootNbme,
                                  int minChildren,
-                                 int maxChildren) {
-        if (rootName == null) {
-            throw new IllegalArgumentException("rootName == null!");
+                                 int mbxChildren) {
+        if (rootNbme == null) {
+            throw new IllegblArgumentException("rootNbme == null!");
         }
         if (minChildren < 0) {
-            throw new IllegalArgumentException("minChildren < 0!");
+            throw new IllegblArgumentException("minChildren < 0!");
         }
-        if (minChildren > maxChildren) {
-            throw new IllegalArgumentException("minChildren > maxChildren!");
+        if (minChildren > mbxChildren) {
+            throw new IllegblArgumentException("minChildren > mbxChildren!");
         }
 
         Element root = new Element();
-        root.elementName = rootName;
+        root.elementNbme = rootNbme;
         root.childPolicy = CHILD_POLICY_REPEAT;
         root.minChildren = minChildren;
-        root.maxChildren = maxChildren;
+        root.mbxChildren = mbxChildren;
 
-        this.rootName = rootName;
-        elementMap.put(rootName, root);
+        this.rootNbme = rootNbme;
+        elementMbp.put(rootNbme, root);
     }
 
     /**
-     * Sets a new base name for locating <code>ResourceBundle</code>s
-     * containing descriptions of elements and attributes for this
-     * format.
+     * Sets b new bbse nbme for locbting <code>ResourceBundle</code>s
+     * contbining descriptions of elements bnd bttributes for this
+     * formbt.
      *
-     * <p> Prior to the first time this method is called, the base
-     * name will be equal to <code>this.getClass().getName() +
+     * <p> Prior to the first time this method is cblled, the bbse
+     * nbme will be equbl to <code>this.getClbss().getNbme() +
      * "Resources"</code>.
      *
-     * @param resourceBaseName a <code>String</code> containing the new
-     * base name.
+     * @pbrbm resourceBbseNbme b <code>String</code> contbining the new
+     * bbse nbme.
      *
-     * @exception IllegalArgumentException if
-     * <code>resourceBaseName</code> is <code>null</code>.
+     * @exception IllegblArgumentException if
+     * <code>resourceBbseNbme</code> is <code>null</code>.
      *
-     * @see #getResourceBaseName
+     * @see #getResourceBbseNbme
      */
-    protected void setResourceBaseName(String resourceBaseName) {
-        if (resourceBaseName == null) {
-            throw new IllegalArgumentException("resourceBaseName == null!");
+    protected void setResourceBbseNbme(String resourceBbseNbme) {
+        if (resourceBbseNbme == null) {
+            throw new IllegblArgumentException("resourceBbseNbme == null!");
         }
-        this.resourceBaseName = resourceBaseName;
+        this.resourceBbseNbme = resourceBbseNbme;
     }
 
     /**
-     * Returns the currently set base name for locating
+     * Returns the currently set bbse nbme for locbting
      * <code>ResourceBundle</code>s.
      *
-     * @return a <code>String</code> containing the base name.
+     * @return b <code>String</code> contbining the bbse nbme.
      *
-     * @see #setResourceBaseName
+     * @see #setResourceBbseNbme
      */
-    protected String getResourceBaseName() {
-        return resourceBaseName;
+    protected String getResourceBbseNbme() {
+        return resourceBbseNbme;
     }
 
     /**
-     * Utility method for locating an element.
+     * Utility method for locbting bn element.
      *
-     * @param mustAppear if <code>true</code>, throw an
-     * <code>IllegalArgumentException</code> if no such node exists;
-     * if <code>false</code>, just return null.
+     * @pbrbm mustAppebr if <code>true</code>, throw bn
+     * <code>IllegblArgumentException</code> if no such node exists;
+     * if <code>fblse</code>, just return null.
      */
-    private Element getElement(String elementName, boolean mustAppear) {
-        if (mustAppear && (elementName == null)) {
-            throw new IllegalArgumentException("element name is null!");
+    privbte Element getElement(String elementNbme, boolebn mustAppebr) {
+        if (mustAppebr && (elementNbme == null)) {
+            throw new IllegblArgumentException("element nbme is null!");
         }
-        Element element = elementMap.get(elementName);
-        if (mustAppear && (element == null)) {
-            throw new IllegalArgumentException("No such element: " +
-                                               elementName);
+        Element element = elementMbp.get(elementNbme);
+        if (mustAppebr && (element == null)) {
+            throw new IllegblArgumentException("No such element: " +
+                                               elementNbme);
         }
         return element;
     }
 
-    private Element getElement(String elementName) {
-        return getElement(elementName, true);
+    privbte Element getElement(String elementNbme) {
+        return getElement(elementNbme, true);
     }
 
-    // Utility method for locating an attribute
-    private Attribute getAttribute(String elementName, String attrName) {
-        Element element = getElement(elementName);
-        Attribute attr = element.attrMap.get(attrName);
-        if (attr == null) {
-            throw new IllegalArgumentException("No such attribute \"" +
-                                               attrName + "\"!");
+    // Utility method for locbting bn bttribute
+    privbte Attribute getAttribute(String elementNbme, String bttrNbme) {
+        Element element = getElement(elementNbme);
+        Attribute bttr = element.bttrMbp.get(bttrNbme);
+        if (bttr == null) {
+            throw new IllegblArgumentException("No such bttribute \"" +
+                                               bttrNbme + "\"!");
         }
-        return attr;
+        return bttr;
     }
 
     // Setup
 
     /**
-     * Adds a new element type to this metadata document format with a
-     * child policy other than <code>CHILD_POLICY_REPEAT</code>.
+     * Adds b new element type to this metbdbtb document formbt with b
+     * child policy other thbn <code>CHILD_POLICY_REPEAT</code>.
      *
-     * @param elementName the name of the new element.
-     * @param parentName the name of the element that will be the
-     * parent of the new element.
-     * @param childPolicy one of the <code>CHILD_POLICY_*</code>
-     * constants, other than <code>CHILD_POLICY_REPEAT</code>,
-     * indicating the child policy of the new element.
+     * @pbrbm elementNbme the nbme of the new element.
+     * @pbrbm pbrentNbme the nbme of the element thbt will be the
+     * pbrent of the new element.
+     * @pbrbm childPolicy one of the <code>CHILD_POLICY_*</code>
+     * constbnts, other thbn <code>CHILD_POLICY_REPEAT</code>,
+     * indicbting the child policy of the new element.
      *
-     * @exception IllegalArgumentException if <code>parentName</code>
-     * is <code>null</code>, or is not a legal element name for this
-     * format.
-     * @exception IllegalArgumentException if <code>childPolicy</code>
-     * is not one of the predefined constants.
+     * @exception IllegblArgumentException if <code>pbrentNbme</code>
+     * is <code>null</code>, or is not b legbl element nbme for this
+     * formbt.
+     * @exception IllegblArgumentException if <code>childPolicy</code>
+     * is not one of the predefined constbnts.
      */
-    protected void addElement(String elementName,
-                              String parentName,
+    protected void bddElement(String elementNbme,
+                              String pbrentNbme,
                               int childPolicy) {
-        Element parent = getElement(parentName);
+        Element pbrent = getElement(pbrentNbme);
         if (childPolicy < CHILD_POLICY_EMPTY ||
             childPolicy > CHILD_POLICY_MAX ||
             childPolicy == CHILD_POLICY_REPEAT) {
-            throw new IllegalArgumentException
-                ("Invalid value for childPolicy!");
+            throw new IllegblArgumentException
+                ("Invblid vblue for childPolicy!");
         }
 
         Element element = new Element();
-        element.elementName = elementName;
+        element.elementNbme = elementNbme;
         element.childPolicy = childPolicy;
 
-        parent.childList.add(elementName);
-        element.parentList.add(parentName);
+        pbrent.childList.bdd(elementNbme);
+        element.pbrentList.bdd(pbrentNbme);
 
-        elementMap.put(elementName, element);
+        elementMbp.put(elementNbme, element);
     }
 
     /**
-     * Adds a new element type to this metadata document format with a
+     * Adds b new element type to this metbdbtb document formbt with b
      * child policy of <code>CHILD_POLICY_REPEAT</code>.
      *
-     * @param elementName the name of the new element.
-     * @param parentName the name of the element that will be the
-     * parent of the new element.
-     * @param minChildren the minimum number of children of the node.
-     * @param maxChildren the maximum number of children of the node.
+     * @pbrbm elementNbme the nbme of the new element.
+     * @pbrbm pbrentNbme the nbme of the element thbt will be the
+     * pbrent of the new element.
+     * @pbrbm minChildren the minimum number of children of the node.
+     * @pbrbm mbxChildren the mbximum number of children of the node.
      *
-     * @exception IllegalArgumentException if <code>parentName</code>
-     * is <code>null</code>, or is not a legal element name for this
-     * format.
-     * @exception IllegalArgumentException if <code>minChildren</code>
-     * is negative or larger than <code>maxChildren</code>.
+     * @exception IllegblArgumentException if <code>pbrentNbme</code>
+     * is <code>null</code>, or is not b legbl element nbme for this
+     * formbt.
+     * @exception IllegblArgumentException if <code>minChildren</code>
+     * is negbtive or lbrger thbn <code>mbxChildren</code>.
      */
-    protected void addElement(String elementName,
-                              String parentName,
+    protected void bddElement(String elementNbme,
+                              String pbrentNbme,
                               int minChildren,
-                              int maxChildren) {
-        Element parent = getElement(parentName);
+                              int mbxChildren) {
+        Element pbrent = getElement(pbrentNbme);
         if (minChildren < 0) {
-            throw new IllegalArgumentException("minChildren < 0!");
+            throw new IllegblArgumentException("minChildren < 0!");
         }
-        if (minChildren > maxChildren) {
-            throw new IllegalArgumentException("minChildren > maxChildren!");
+        if (minChildren > mbxChildren) {
+            throw new IllegblArgumentException("minChildren > mbxChildren!");
         }
 
         Element element = new Element();
-        element.elementName = elementName;
+        element.elementNbme = elementNbme;
         element.childPolicy = CHILD_POLICY_REPEAT;
         element.minChildren = minChildren;
-        element.maxChildren = maxChildren;
+        element.mbxChildren = mbxChildren;
 
-        parent.childList.add(elementName);
-        element.parentList.add(parentName);
+        pbrent.childList.bdd(elementNbme);
+        element.pbrentList.bdd(pbrentNbme);
 
-        elementMap.put(elementName, element);
+        elementMbp.put(elementNbme, element);
     }
 
     /**
-     * Adds an existing element to the list of legal children for a
-     * given parent node type.
+     * Adds bn existing element to the list of legbl children for b
+     * given pbrent node type.
      *
-     * @param parentName the name of the element that will be the
-     * new parent of the element.
-     * @param elementName the name of the element to be added as a
+     * @pbrbm pbrentNbme the nbme of the element thbt will be the
+     * new pbrent of the element.
+     * @pbrbm elementNbme the nbme of the element to be bdded bs b
      * child.
      *
-     * @exception IllegalArgumentException if <code>elementName</code>
-     * is <code>null</code>, or is not a legal element name for this
-     * format.
-     * @exception IllegalArgumentException if <code>parentName</code>
-     * is <code>null</code>, or is not a legal element name for this
-     * format.
+     * @exception IllegblArgumentException if <code>elementNbme</code>
+     * is <code>null</code>, or is not b legbl element nbme for this
+     * formbt.
+     * @exception IllegblArgumentException if <code>pbrentNbme</code>
+     * is <code>null</code>, or is not b legbl element nbme for this
+     * formbt.
      */
-    protected void addChildElement(String elementName, String parentName) {
-        Element parent = getElement(parentName);
-        Element element = getElement(elementName);
-        parent.childList.add(elementName);
-        element.parentList.add(parentName);
+    protected void bddChildElement(String elementNbme, String pbrentNbme) {
+        Element pbrent = getElement(pbrentNbme);
+        Element element = getElement(elementNbme);
+        pbrent.childList.bdd(elementNbme);
+        element.pbrentList.bdd(pbrentNbme);
     }
 
     /**
-     * Removes an element from the format.  If no element with the
-     * given name was present, nothing happens and no exception is
+     * Removes bn element from the formbt.  If no element with the
+     * given nbme wbs present, nothing hbppens bnd no exception is
      * thrown.
      *
-     * @param elementName the name of the element to be removed.
+     * @pbrbm elementNbme the nbme of the element to be removed.
      */
-    protected void removeElement(String elementName) {
-        Element element = getElement(elementName, false);
+    protected void removeElement(String elementNbme) {
+        Element element = getElement(elementNbme, fblse);
         if (element != null) {
-            Iterator<String> iter = element.parentList.iterator();
-            while (iter.hasNext()) {
-                String parentName = iter.next();
-                Element parent = getElement(parentName, false);
-                if (parent != null) {
-                    parent.childList.remove(elementName);
+            Iterbtor<String> iter = element.pbrentList.iterbtor();
+            while (iter.hbsNext()) {
+                String pbrentNbme = iter.next();
+                Element pbrent = getElement(pbrentNbme, fblse);
+                if (pbrent != null) {
+                    pbrent.childList.remove(elementNbme);
                 }
             }
-            elementMap.remove(elementName);
+            elementMbp.remove(elementNbme);
         }
     }
 
     /**
-     * Adds a new attribute to a previously defined element that may
-     * be set to an arbitrary value.
+     * Adds b new bttribute to b previously defined element thbt mby
+     * be set to bn brbitrbry vblue.
      *
-     * @param elementName the name of the element.
-     * @param attrName the name of the attribute being added.
-     * @param dataType the data type (string format) of the attribute,
-     * one of the <code>DATATYPE_*</code> constants.
-     * @param required <code>true</code> if the attribute must be present.
-     * @param defaultValue the default value for the attribute, or
+     * @pbrbm elementNbme the nbme of the element.
+     * @pbrbm bttrNbme the nbme of the bttribute being bdded.
+     * @pbrbm dbtbType the dbtb type (string formbt) of the bttribute,
+     * one of the <code>DATATYPE_*</code> constbnts.
+     * @pbrbm required <code>true</code> if the bttribute must be present.
+     * @pbrbm defbultVblue the defbult vblue for the bttribute, or
      * <code>null</code>.
      *
-     * @exception IllegalArgumentException if <code>elementName</code>
-     * is <code>null</code>, or is not a legal element name for this
-     * format.
-     * @exception IllegalArgumentException if <code>attrName</code> is
+     * @exception IllegblArgumentException if <code>elementNbme</code>
+     * is <code>null</code>, or is not b legbl element nbme for this
+     * formbt.
+     * @exception IllegblArgumentException if <code>bttrNbme</code> is
      * <code>null</code>.
-     * @exception IllegalArgumentException if <code>dataType</code> is
-     * not one of the predefined constants.
+     * @exception IllegblArgumentException if <code>dbtbType</code> is
+     * not one of the predefined constbnts.
      */
-    protected void addAttribute(String elementName,
-                                String attrName,
-                                int dataType,
-                                boolean required,
-                                String defaultValue) {
-        Element element = getElement(elementName);
-        if (attrName == null) {
-            throw new IllegalArgumentException("attrName == null!");
+    protected void bddAttribute(String elementNbme,
+                                String bttrNbme,
+                                int dbtbType,
+                                boolebn required,
+                                String defbultVblue) {
+        Element element = getElement(elementNbme);
+        if (bttrNbme == null) {
+            throw new IllegblArgumentException("bttrNbme == null!");
         }
-        if (dataType < DATATYPE_STRING || dataType > DATATYPE_DOUBLE) {
-            throw new IllegalArgumentException("Invalid value for dataType!");
+        if (dbtbType < DATATYPE_STRING || dbtbType > DATATYPE_DOUBLE) {
+            throw new IllegblArgumentException("Invblid vblue for dbtbType!");
         }
 
-        Attribute attr = new Attribute();
-        attr.attrName = attrName;
-        attr.valueType = VALUE_ARBITRARY;
-        attr.dataType = dataType;
-        attr.required = required;
-        attr.defaultValue = defaultValue;
+        Attribute bttr = new Attribute();
+        bttr.bttrNbme = bttrNbme;
+        bttr.vblueType = VALUE_ARBITRARY;
+        bttr.dbtbType = dbtbType;
+        bttr.required = required;
+        bttr.defbultVblue = defbultVblue;
 
-        element.attrList.add(attrName);
-        element.attrMap.put(attrName, attr);
+        element.bttrList.bdd(bttrNbme);
+        element.bttrMbp.put(bttrNbme, bttr);
     }
 
     /**
-     * Adds a new attribute to a previously defined element that will
-     * be defined by a set of enumerated values.
+     * Adds b new bttribute to b previously defined element thbt will
+     * be defined by b set of enumerbted vblues.
      *
-     * @param elementName the name of the element.
-     * @param attrName the name of the attribute being added.
-     * @param dataType the data type (string format) of the attribute,
-     * one of the <code>DATATYPE_*</code> constants.
-     * @param required <code>true</code> if the attribute must be present.
-     * @param defaultValue the default value for the attribute, or
+     * @pbrbm elementNbme the nbme of the element.
+     * @pbrbm bttrNbme the nbme of the bttribute being bdded.
+     * @pbrbm dbtbType the dbtb type (string formbt) of the bttribute,
+     * one of the <code>DATATYPE_*</code> constbnts.
+     * @pbrbm required <code>true</code> if the bttribute must be present.
+     * @pbrbm defbultVblue the defbult vblue for the bttribute, or
      * <code>null</code>.
-     * @param enumeratedValues a <code>List</code> of
-     * <code>String</code>s containing the legal values for the
-     * attribute.
+     * @pbrbm enumerbtedVblues b <code>List</code> of
+     * <code>String</code>s contbining the legbl vblues for the
+     * bttribute.
      *
-     * @exception IllegalArgumentException if <code>elementName</code>
-     * is <code>null</code>, or is not a legal element name for this
-     * format.
-     * @exception IllegalArgumentException if <code>attrName</code> is
+     * @exception IllegblArgumentException if <code>elementNbme</code>
+     * is <code>null</code>, or is not b legbl element nbme for this
+     * formbt.
+     * @exception IllegblArgumentException if <code>bttrNbme</code> is
      * <code>null</code>.
-     * @exception IllegalArgumentException if <code>dataType</code> is
-     * not one of the predefined constants.
-     * @exception IllegalArgumentException if
-     * <code>enumeratedValues</code> is <code>null</code>.
-     * @exception IllegalArgumentException if
-     * <code>enumeratedValues</code> does not contain at least one
+     * @exception IllegblArgumentException if <code>dbtbType</code> is
+     * not one of the predefined constbnts.
+     * @exception IllegblArgumentException if
+     * <code>enumerbtedVblues</code> is <code>null</code>.
+     * @exception IllegblArgumentException if
+     * <code>enumerbtedVblues</code> does not contbin bt lebst one
      * entry.
-     * @exception IllegalArgumentException if
-     * <code>enumeratedValues</code> contains an element that is not a
+     * @exception IllegblArgumentException if
+     * <code>enumerbtedVblues</code> contbins bn element thbt is not b
      * <code>String</code> or is <code>null</code>.
      */
-    protected void addAttribute(String elementName,
-                                String attrName,
-                                int dataType,
-                                boolean required,
-                                String defaultValue,
-                                List<String> enumeratedValues) {
-        Element element = getElement(elementName);
-        if (attrName == null) {
-            throw new IllegalArgumentException("attrName == null!");
+    protected void bddAttribute(String elementNbme,
+                                String bttrNbme,
+                                int dbtbType,
+                                boolebn required,
+                                String defbultVblue,
+                                List<String> enumerbtedVblues) {
+        Element element = getElement(elementNbme);
+        if (bttrNbme == null) {
+            throw new IllegblArgumentException("bttrNbme == null!");
         }
-        if (dataType < DATATYPE_STRING || dataType > DATATYPE_DOUBLE) {
-            throw new IllegalArgumentException("Invalid value for dataType!");
+        if (dbtbType < DATATYPE_STRING || dbtbType > DATATYPE_DOUBLE) {
+            throw new IllegblArgumentException("Invblid vblue for dbtbType!");
         }
-        if (enumeratedValues == null) {
-            throw new IllegalArgumentException("enumeratedValues == null!");
+        if (enumerbtedVblues == null) {
+            throw new IllegblArgumentException("enumerbtedVblues == null!");
         }
-        if (enumeratedValues.size() == 0) {
-            throw new IllegalArgumentException("enumeratedValues is empty!");
+        if (enumerbtedVblues.size() == 0) {
+            throw new IllegblArgumentException("enumerbtedVblues is empty!");
         }
-        Iterator<String> iter = enumeratedValues.iterator();
-        while (iter.hasNext()) {
+        Iterbtor<String> iter = enumerbtedVblues.iterbtor();
+        while (iter.hbsNext()) {
             Object o = iter.next();
             if (o == null) {
-                throw new IllegalArgumentException
-                    ("enumeratedValues contains a null!");
+                throw new IllegblArgumentException
+                    ("enumerbtedVblues contbins b null!");
             }
-            if (!(o instanceof String)) {
-                throw new IllegalArgumentException
-                    ("enumeratedValues contains a non-String value!");
+            if (!(o instbnceof String)) {
+                throw new IllegblArgumentException
+                    ("enumerbtedVblues contbins b non-String vblue!");
             }
         }
 
-        Attribute attr = new Attribute();
-        attr.attrName = attrName;
-        attr.valueType = VALUE_ENUMERATION;
-        attr.dataType = dataType;
-        attr.required = required;
-        attr.defaultValue = defaultValue;
-        attr.enumeratedValues = enumeratedValues;
+        Attribute bttr = new Attribute();
+        bttr.bttrNbme = bttrNbme;
+        bttr.vblueType = VALUE_ENUMERATION;
+        bttr.dbtbType = dbtbType;
+        bttr.required = required;
+        bttr.defbultVblue = defbultVblue;
+        bttr.enumerbtedVblues = enumerbtedVblues;
 
-        element.attrList.add(attrName);
-        element.attrMap.put(attrName, attr);
+        element.bttrList.bdd(bttrNbme);
+        element.bttrMbp.put(bttrNbme, bttr);
     }
 
     /**
-     * Adds a new attribute to a previously defined element that will
-     * be defined by a range of values.
+     * Adds b new bttribute to b previously defined element thbt will
+     * be defined by b rbnge of vblues.
      *
-     * @param elementName the name of the element.
-     * @param attrName the name of the attribute being added.
-     * @param dataType the data type (string format) of the attribute,
-     * one of the <code>DATATYPE_*</code> constants.
-     * @param required <code>true</code> if the attribute must be present.
-     * @param defaultValue the default value for the attribute, or
+     * @pbrbm elementNbme the nbme of the element.
+     * @pbrbm bttrNbme the nbme of the bttribute being bdded.
+     * @pbrbm dbtbType the dbtb type (string formbt) of the bttribute,
+     * one of the <code>DATATYPE_*</code> constbnts.
+     * @pbrbm required <code>true</code> if the bttribute must be present.
+     * @pbrbm defbultVblue the defbult vblue for the bttribute, or
      * <code>null</code>.
-     * @param minValue the smallest (inclusive or exclusive depending
-     * on the value of <code>minInclusive</code>) legal value for the
-     * attribute, as a <code>String</code>.
-     * @param maxValue the largest (inclusive or exclusive depending
-     * on the value of <code>minInclusive</code>) legal value for the
-     * attribute, as a <code>String</code>.
-     * @param minInclusive <code>true</code> if <code>minValue</code>
+     * @pbrbm minVblue the smbllest (inclusive or exclusive depending
+     * on the vblue of <code>minInclusive</code>) legbl vblue for the
+     * bttribute, bs b <code>String</code>.
+     * @pbrbm mbxVblue the lbrgest (inclusive or exclusive depending
+     * on the vblue of <code>minInclusive</code>) legbl vblue for the
+     * bttribute, bs b <code>String</code>.
+     * @pbrbm minInclusive <code>true</code> if <code>minVblue</code>
      * is inclusive.
-     * @param maxInclusive <code>true</code> if <code>maxValue</code>
+     * @pbrbm mbxInclusive <code>true</code> if <code>mbxVblue</code>
      * is inclusive.
      *
-     * @exception IllegalArgumentException if <code>elementName</code>
-     * is <code>null</code>, or is not a legal element name for this
-     * format.
-     * @exception IllegalArgumentException if <code>attrName</code> is
+     * @exception IllegblArgumentException if <code>elementNbme</code>
+     * is <code>null</code>, or is not b legbl element nbme for this
+     * formbt.
+     * @exception IllegblArgumentException if <code>bttrNbme</code> is
      * <code>null</code>.
-     * @exception IllegalArgumentException if <code>dataType</code> is
-     * not one of the predefined constants.
+     * @exception IllegblArgumentException if <code>dbtbType</code> is
+     * not one of the predefined constbnts.
      */
-    protected void addAttribute(String elementName,
-                                String attrName,
-                                int dataType,
-                                boolean required,
-                                String defaultValue,
-                                String minValue,
-                                String maxValue,
-                                boolean minInclusive,
-                                boolean maxInclusive) {
-        Element element = getElement(elementName);
-        if (attrName == null) {
-            throw new IllegalArgumentException("attrName == null!");
+    protected void bddAttribute(String elementNbme,
+                                String bttrNbme,
+                                int dbtbType,
+                                boolebn required,
+                                String defbultVblue,
+                                String minVblue,
+                                String mbxVblue,
+                                boolebn minInclusive,
+                                boolebn mbxInclusive) {
+        Element element = getElement(elementNbme);
+        if (bttrNbme == null) {
+            throw new IllegblArgumentException("bttrNbme == null!");
         }
-        if (dataType < DATATYPE_STRING || dataType > DATATYPE_DOUBLE) {
-            throw new IllegalArgumentException("Invalid value for dataType!");
+        if (dbtbType < DATATYPE_STRING || dbtbType > DATATYPE_DOUBLE) {
+            throw new IllegblArgumentException("Invblid vblue for dbtbType!");
         }
 
-        Attribute attr = new Attribute();
-        attr.attrName = attrName;
-        attr.valueType = VALUE_RANGE;
+        Attribute bttr = new Attribute();
+        bttr.bttrNbme = bttrNbme;
+        bttr.vblueType = VALUE_RANGE;
         if (minInclusive) {
-            attr.valueType |= VALUE_RANGE_MIN_INCLUSIVE_MASK;
+            bttr.vblueType |= VALUE_RANGE_MIN_INCLUSIVE_MASK;
         }
-        if (maxInclusive) {
-            attr.valueType |= VALUE_RANGE_MAX_INCLUSIVE_MASK;
+        if (mbxInclusive) {
+            bttr.vblueType |= VALUE_RANGE_MAX_INCLUSIVE_MASK;
         }
-        attr.dataType = dataType;
-        attr.required = required;
-        attr.defaultValue = defaultValue;
-        attr.minValue = minValue;
-        attr.maxValue = maxValue;
+        bttr.dbtbType = dbtbType;
+        bttr.required = required;
+        bttr.defbultVblue = defbultVblue;
+        bttr.minVblue = minVblue;
+        bttr.mbxVblue = mbxVblue;
 
-        element.attrList.add(attrName);
-        element.attrMap.put(attrName, attr);
+        element.bttrList.bdd(bttrNbme);
+        element.bttrMbp.put(bttrNbme, bttr);
     }
 
     /**
-     * Adds a new attribute to a previously defined element that will
-     * be defined by a list of values.
+     * Adds b new bttribute to b previously defined element thbt will
+     * be defined by b list of vblues.
      *
-     * @param elementName the name of the element.
-     * @param attrName the name of the attribute being added.
-     * @param dataType the data type (string format) of the attribute,
-     * one of the <code>DATATYPE_*</code> constants.
-     * @param required <code>true</code> if the attribute must be present.
-     * @param listMinLength the smallest legal number of list items.
-     * @param listMaxLength the largest legal number of list items.
+     * @pbrbm elementNbme the nbme of the element.
+     * @pbrbm bttrNbme the nbme of the bttribute being bdded.
+     * @pbrbm dbtbType the dbtb type (string formbt) of the bttribute,
+     * one of the <code>DATATYPE_*</code> constbnts.
+     * @pbrbm required <code>true</code> if the bttribute must be present.
+     * @pbrbm listMinLength the smbllest legbl number of list items.
+     * @pbrbm listMbxLength the lbrgest legbl number of list items.
      *
-     * @exception IllegalArgumentException if <code>elementName</code>
-     * is <code>null</code>, or is not a legal element name for this
-     * format.
-     * @exception IllegalArgumentException if <code>attrName</code> is
+     * @exception IllegblArgumentException if <code>elementNbme</code>
+     * is <code>null</code>, or is not b legbl element nbme for this
+     * formbt.
+     * @exception IllegblArgumentException if <code>bttrNbme</code> is
      * <code>null</code>.
-     * @exception IllegalArgumentException if <code>dataType</code> is
-     * not one of the predefined constants.
-     * @exception IllegalArgumentException if
-     * <code>listMinLength</code> is negative or larger than
-     * <code>listMaxLength</code>.
+     * @exception IllegblArgumentException if <code>dbtbType</code> is
+     * not one of the predefined constbnts.
+     * @exception IllegblArgumentException if
+     * <code>listMinLength</code> is negbtive or lbrger thbn
+     * <code>listMbxLength</code>.
      */
-    protected void addAttribute(String elementName,
-                                String attrName,
-                                int dataType,
-                                boolean required,
+    protected void bddAttribute(String elementNbme,
+                                String bttrNbme,
+                                int dbtbType,
+                                boolebn required,
                                 int listMinLength,
-                                int listMaxLength) {
-        Element element = getElement(elementName);
-        if (attrName == null) {
-            throw new IllegalArgumentException("attrName == null!");
+                                int listMbxLength) {
+        Element element = getElement(elementNbme);
+        if (bttrNbme == null) {
+            throw new IllegblArgumentException("bttrNbme == null!");
         }
-        if (dataType < DATATYPE_STRING || dataType > DATATYPE_DOUBLE) {
-            throw new IllegalArgumentException("Invalid value for dataType!");
+        if (dbtbType < DATATYPE_STRING || dbtbType > DATATYPE_DOUBLE) {
+            throw new IllegblArgumentException("Invblid vblue for dbtbType!");
         }
-        if (listMinLength < 0 || listMinLength > listMaxLength) {
-            throw new IllegalArgumentException("Invalid list bounds!");
+        if (listMinLength < 0 || listMinLength > listMbxLength) {
+            throw new IllegblArgumentException("Invblid list bounds!");
         }
 
-        Attribute attr = new Attribute();
-        attr.attrName = attrName;
-        attr.valueType = VALUE_LIST;
-        attr.dataType = dataType;
-        attr.required = required;
-        attr.listMinLength = listMinLength;
-        attr.listMaxLength = listMaxLength;
+        Attribute bttr = new Attribute();
+        bttr.bttrNbme = bttrNbme;
+        bttr.vblueType = VALUE_LIST;
+        bttr.dbtbType = dbtbType;
+        bttr.required = required;
+        bttr.listMinLength = listMinLength;
+        bttr.listMbxLength = listMbxLength;
 
-        element.attrList.add(attrName);
-        element.attrMap.put(attrName, attr);
+        element.bttrList.bdd(bttrNbme);
+        element.bttrMbp.put(bttrNbme, bttr);
     }
 
     /**
-     * Adds a new attribute to a previously defined element that will
-     * be defined by the enumerated values <code>TRUE</code> and
-     * <code>FALSE</code>, with a datatype of
+     * Adds b new bttribute to b previously defined element thbt will
+     * be defined by the enumerbted vblues <code>TRUE</code> bnd
+     * <code>FALSE</code>, with b dbtbtype of
      * <code>DATATYPE_BOOLEAN</code>.
      *
-     * @param elementName the name of the element.
-     * @param attrName the name of the attribute being added.
-     * @param hasDefaultValue <code>true</code> if a default value
+     * @pbrbm elementNbme the nbme of the element.
+     * @pbrbm bttrNbme the nbme of the bttribute being bdded.
+     * @pbrbm hbsDefbultVblue <code>true</code> if b defbult vblue
      * should be present.
-     * @param defaultValue the default value for the attribute as a
-     * <code>boolean</code>, ignored if <code>hasDefaultValue</code>
-     * is <code>false</code>.
+     * @pbrbm defbultVblue the defbult vblue for the bttribute bs b
+     * <code>boolebn</code>, ignored if <code>hbsDefbultVblue</code>
+     * is <code>fblse</code>.
      *
-     * @exception IllegalArgumentException if <code>elementName</code>
-     * is <code>null</code>, or is not a legal element name for this
-     * format.
-     * @exception IllegalArgumentException if <code>attrName</code> is
+     * @exception IllegblArgumentException if <code>elementNbme</code>
+     * is <code>null</code>, or is not b legbl element nbme for this
+     * formbt.
+     * @exception IllegblArgumentException if <code>bttrNbme</code> is
      * <code>null</code>.
      */
-    protected void addBooleanAttribute(String elementName,
-                                       String attrName,
-                                       boolean hasDefaultValue,
-                                       boolean defaultValue) {
-        List<String> values = new ArrayList<>();
-        values.add("TRUE");
-        values.add("FALSE");
+    protected void bddBoolebnAttribute(String elementNbme,
+                                       String bttrNbme,
+                                       boolebn hbsDefbultVblue,
+                                       boolebn defbultVblue) {
+        List<String> vblues = new ArrbyList<>();
+        vblues.bdd("TRUE");
+        vblues.bdd("FALSE");
 
-        String dval = null;
-        if (hasDefaultValue) {
-            dval = defaultValue ? "TRUE" : "FALSE";
+        String dvbl = null;
+        if (hbsDefbultVblue) {
+            dvbl = defbultVblue ? "TRUE" : "FALSE";
         }
-        addAttribute(elementName,
-                     attrName,
+        bddAttribute(elementNbme,
+                     bttrNbme,
                      DATATYPE_BOOLEAN,
                      true,
-                     dval,
-                     values);
+                     dvbl,
+                     vblues);
     }
 
     /**
-     * Removes an attribute from a previously defined element.  If no
-     * attribute with the given name was present in the given element,
-     * nothing happens and no exception is thrown.
+     * Removes bn bttribute from b previously defined element.  If no
+     * bttribute with the given nbme wbs present in the given element,
+     * nothing hbppens bnd no exception is thrown.
      *
-     * @param elementName the name of the element.
-     * @param attrName the name of the attribute being removed.
+     * @pbrbm elementNbme the nbme of the element.
+     * @pbrbm bttrNbme the nbme of the bttribute being removed.
      *
-     * @exception IllegalArgumentException if <code>elementName</code>
-     * is <code>null</code>, or is not a legal element name for this format.
+     * @exception IllegblArgumentException if <code>elementNbme</code>
+     * is <code>null</code>, or is not b legbl element nbme for this formbt.
      */
-    protected void removeAttribute(String elementName, String attrName) {
-        Element element = getElement(elementName);
-        element.attrList.remove(attrName);
-        element.attrMap.remove(attrName);
+    protected void removeAttribute(String elementNbme, String bttrNbme) {
+        Element element = getElement(elementNbme);
+        element.bttrList.remove(bttrNbme);
+        element.bttrMbp.remove(bttrNbme);
     }
 
     /**
-     * Allows an <code>Object</code> reference of a given class type
-     * to be stored in nodes implementing the named element.  The
-     * value of the <code>Object</code> is unconstrained other than by
-     * its class type.
+     * Allows bn <code>Object</code> reference of b given clbss type
+     * to be stored in nodes implementing the nbmed element.  The
+     * vblue of the <code>Object</code> is unconstrbined other thbn by
+     * its clbss type.
      *
-     * <p> If an <code>Object</code> reference was previously allowed,
-     * the previous settings are overwritten.
+     * <p> If bn <code>Object</code> reference wbs previously bllowed,
+     * the previous settings bre overwritten.
      *
-     * @param elementName the name of the element.
-     * @param classType a <code>Class</code> variable indicating the
-     * legal class type for the object value.
-     * @param required <code>true</code> if an object value must be present.
-     * @param defaultValue the default value for the
+     * @pbrbm elementNbme the nbme of the element.
+     * @pbrbm clbssType b <code>Clbss</code> vbribble indicbting the
+     * legbl clbss type for the object vblue.
+     * @pbrbm required <code>true</code> if bn object vblue must be present.
+     * @pbrbm defbultVblue the defbult vblue for the
      * <code>Object</code> reference, or <code>null</code>.
-     * @param <T> the type of the object.
+     * @pbrbm <T> the type of the object.
      *
-     * @exception IllegalArgumentException if <code>elementName</code>
-     * is <code>null</code>, or is not a legal element name for this format.
+     * @exception IllegblArgumentException if <code>elementNbme</code>
+     * is <code>null</code>, or is not b legbl element nbme for this formbt.
      */
-    protected <T> void addObjectValue(String elementName,
-                                      Class<T> classType,
-                                      boolean required,
-                                      T defaultValue)
+    protected <T> void bddObjectVblue(String elementNbme,
+                                      Clbss<T> clbssType,
+                                      boolebn required,
+                                      T defbultVblue)
     {
-        Element element = getElement(elementName);
-        ObjectValue<T> obj = new ObjectValue<>();
-        obj.valueType = VALUE_ARBITRARY;
-        obj.classType = classType;
-        obj.defaultValue = defaultValue;
+        Element element = getElement(elementNbme);
+        ObjectVblue<T> obj = new ObjectVblue<>();
+        obj.vblueType = VALUE_ARBITRARY;
+        obj.clbssType = clbssType;
+        obj.defbultVblue = defbultVblue;
 
-        element.objectValue = obj;
+        element.objectVblue = obj;
     }
 
     /**
-     * Allows an <code>Object</code> reference of a given class type
-     * to be stored in nodes implementing the named element.  The
-     * value of the <code>Object</code> must be one of the values
-     * given by <code>enumeratedValues</code>.
+     * Allows bn <code>Object</code> reference of b given clbss type
+     * to be stored in nodes implementing the nbmed element.  The
+     * vblue of the <code>Object</code> must be one of the vblues
+     * given by <code>enumerbtedVblues</code>.
      *
-     * <p> If an <code>Object</code> reference was previously allowed,
-     * the previous settings are overwritten.
+     * <p> If bn <code>Object</code> reference wbs previously bllowed,
+     * the previous settings bre overwritten.
      *
-     * @param elementName the name of the element.
-     * @param classType a <code>Class</code> variable indicating the
-     * legal class type for the object value.
-     * @param required <code>true</code> if an object value must be present.
-     * @param defaultValue the default value for the
+     * @pbrbm elementNbme the nbme of the element.
+     * @pbrbm clbssType b <code>Clbss</code> vbribble indicbting the
+     * legbl clbss type for the object vblue.
+     * @pbrbm required <code>true</code> if bn object vblue must be present.
+     * @pbrbm defbultVblue the defbult vblue for the
      * <code>Object</code> reference, or <code>null</code>.
-     * @param enumeratedValues a <code>List</code> of
-     * <code>Object</code>s containing the legal values for the
+     * @pbrbm enumerbtedVblues b <code>List</code> of
+     * <code>Object</code>s contbining the legbl vblues for the
      * object reference.
-     * @param <T> the type of the object.
+     * @pbrbm <T> the type of the object.
      *
-     * @exception IllegalArgumentException if <code>elementName</code>
-     * is <code>null</code>, or is not a legal element name for this format.
-     * @exception IllegalArgumentException if
-     * <code>enumeratedValues</code> is <code>null</code>.
-     * @exception IllegalArgumentException if
-     * <code>enumeratedValues</code> does not contain at least one
+     * @exception IllegblArgumentException if <code>elementNbme</code>
+     * is <code>null</code>, or is not b legbl element nbme for this formbt.
+     * @exception IllegblArgumentException if
+     * <code>enumerbtedVblues</code> is <code>null</code>.
+     * @exception IllegblArgumentException if
+     * <code>enumerbtedVblues</code> does not contbin bt lebst one
      * entry.
-     * @exception IllegalArgumentException if
-     * <code>enumeratedValues</code> contains an element that is not
-     * an instance of the class type denoted by <code>classType</code>
+     * @exception IllegblArgumentException if
+     * <code>enumerbtedVblues</code> contbins bn element thbt is not
+     * bn instbnce of the clbss type denoted by <code>clbssType</code>
      * or is <code>null</code>.
      */
-    protected <T> void addObjectValue(String elementName,
-                                      Class<T> classType,
-                                      boolean required,
-                                      T defaultValue,
-                                      List<? extends T> enumeratedValues)
+    protected <T> void bddObjectVblue(String elementNbme,
+                                      Clbss<T> clbssType,
+                                      boolebn required,
+                                      T defbultVblue,
+                                      List<? extends T> enumerbtedVblues)
     {
-        Element element = getElement(elementName);
-        if (enumeratedValues == null) {
-            throw new IllegalArgumentException("enumeratedValues == null!");
+        Element element = getElement(elementNbme);
+        if (enumerbtedVblues == null) {
+            throw new IllegblArgumentException("enumerbtedVblues == null!");
         }
-        if (enumeratedValues.size() == 0) {
-            throw new IllegalArgumentException("enumeratedValues is empty!");
+        if (enumerbtedVblues.size() == 0) {
+            throw new IllegblArgumentException("enumerbtedVblues is empty!");
         }
-        Iterator<? extends T> iter = enumeratedValues.iterator();
-        while (iter.hasNext()) {
+        Iterbtor<? extends T> iter = enumerbtedVblues.iterbtor();
+        while (iter.hbsNext()) {
             Object o = iter.next();
             if (o == null) {
-                throw new IllegalArgumentException("enumeratedValues contains a null!");
+                throw new IllegblArgumentException("enumerbtedVblues contbins b null!");
             }
-            if (!classType.isInstance(o)) {
-                throw new IllegalArgumentException("enumeratedValues contains a value not of class classType!");
+            if (!clbssType.isInstbnce(o)) {
+                throw new IllegblArgumentException("enumerbtedVblues contbins b vblue not of clbss clbssType!");
             }
         }
 
-        ObjectValue<T> obj = new ObjectValue<>();
-        obj.valueType = VALUE_ENUMERATION;
-        obj.classType = classType;
-        obj.defaultValue = defaultValue;
-        obj.enumeratedValues = enumeratedValues;
+        ObjectVblue<T> obj = new ObjectVblue<>();
+        obj.vblueType = VALUE_ENUMERATION;
+        obj.clbssType = clbssType;
+        obj.defbultVblue = defbultVblue;
+        obj.enumerbtedVblues = enumerbtedVblues;
 
-        element.objectValue = obj;
+        element.objectVblue = obj;
     }
 
     /**
-     * Allows an <code>Object</code> reference of a given class type
-     * to be stored in nodes implementing the named element.  The
-     * value of the <code>Object</code> must be within the range given
-     * by <code>minValue</code> and <code>maxValue</code>.
-     * Furthermore, the class type must implement the
-     * <code>Comparable</code> interface.
+     * Allows bn <code>Object</code> reference of b given clbss type
+     * to be stored in nodes implementing the nbmed element.  The
+     * vblue of the <code>Object</code> must be within the rbnge given
+     * by <code>minVblue</code> bnd <code>mbxVblue</code>.
+     * Furthermore, the clbss type must implement the
+     * <code>Compbrbble</code> interfbce.
      *
-     * <p> If an <code>Object</code> reference was previously allowed,
-     * the previous settings are overwritten.
+     * <p> If bn <code>Object</code> reference wbs previously bllowed,
+     * the previous settings bre overwritten.
      *
-     * @param elementName the name of the element.
-     * @param classType a <code>Class</code> variable indicating the
-     * legal class type for the object value.
-     * @param defaultValue the default value for the
-     * @param minValue the smallest (inclusive or exclusive depending
-     * on the value of <code>minInclusive</code>) legal value for the
-     * object value, as a <code>String</code>.
-     * @param maxValue the largest (inclusive or exclusive depending
-     * on the value of <code>minInclusive</code>) legal value for the
-     * object value, as a <code>String</code>.
-     * @param minInclusive <code>true</code> if <code>minValue</code>
+     * @pbrbm elementNbme the nbme of the element.
+     * @pbrbm clbssType b <code>Clbss</code> vbribble indicbting the
+     * legbl clbss type for the object vblue.
+     * @pbrbm defbultVblue the defbult vblue for the
+     * @pbrbm minVblue the smbllest (inclusive or exclusive depending
+     * on the vblue of <code>minInclusive</code>) legbl vblue for the
+     * object vblue, bs b <code>String</code>.
+     * @pbrbm mbxVblue the lbrgest (inclusive or exclusive depending
+     * on the vblue of <code>minInclusive</code>) legbl vblue for the
+     * object vblue, bs b <code>String</code>.
+     * @pbrbm minInclusive <code>true</code> if <code>minVblue</code>
      * is inclusive.
-     * @param maxInclusive <code>true</code> if <code>maxValue</code>
+     * @pbrbm mbxInclusive <code>true</code> if <code>mbxVblue</code>
      * is inclusive.
-     * @param <T> the type of the object.
+     * @pbrbm <T> the type of the object.
      *
-     * @exception IllegalArgumentException if <code>elementName</code>
-     * is <code>null</code>, or is not a legal element name for this
-     * format.
+     * @exception IllegblArgumentException if <code>elementNbme</code>
+     * is <code>null</code>, or is not b legbl element nbme for this
+     * formbt.
      */
-    protected <T extends Object & Comparable<? super T>> void
-        addObjectValue(String elementName,
-                       Class<T> classType,
-                       T defaultValue,
-                       Comparable<? super T> minValue,
-                       Comparable<? super T> maxValue,
-                       boolean minInclusive,
-                       boolean maxInclusive)
+    protected <T extends Object & Compbrbble<? super T>> void
+        bddObjectVblue(String elementNbme,
+                       Clbss<T> clbssType,
+                       T defbultVblue,
+                       Compbrbble<? super T> minVblue,
+                       Compbrbble<? super T> mbxVblue,
+                       boolebn minInclusive,
+                       boolebn mbxInclusive)
     {
-        Element element = getElement(elementName);
-        ObjectValue<T> obj = new ObjectValue<>();
-        obj.valueType = VALUE_RANGE;
+        Element element = getElement(elementNbme);
+        ObjectVblue<T> obj = new ObjectVblue<>();
+        obj.vblueType = VALUE_RANGE;
         if (minInclusive) {
-            obj.valueType |= VALUE_RANGE_MIN_INCLUSIVE_MASK;
+            obj.vblueType |= VALUE_RANGE_MIN_INCLUSIVE_MASK;
         }
-        if (maxInclusive) {
-            obj.valueType |= VALUE_RANGE_MAX_INCLUSIVE_MASK;
+        if (mbxInclusive) {
+            obj.vblueType |= VALUE_RANGE_MAX_INCLUSIVE_MASK;
         }
-        obj.classType = classType;
-        obj.defaultValue = defaultValue;
-        obj.minValue = minValue;
-        obj.maxValue = maxValue;
+        obj.clbssType = clbssType;
+        obj.defbultVblue = defbultVblue;
+        obj.minVblue = minVblue;
+        obj.mbxVblue = mbxVblue;
 
-        element.objectValue = obj;
+        element.objectVblue = obj;
     }
 
     /**
-     * Allows an <code>Object</code> reference of a given class type
-     * to be stored in nodes implementing the named element.  The
-     * value of the <code>Object</code> must an array of objects of
-     * class type given by <code>classType</code>, with at least
-     * <code>arrayMinLength</code> and at most
-     * <code>arrayMaxLength</code> elements.
+     * Allows bn <code>Object</code> reference of b given clbss type
+     * to be stored in nodes implementing the nbmed element.  The
+     * vblue of the <code>Object</code> must bn brrby of objects of
+     * clbss type given by <code>clbssType</code>, with bt lebst
+     * <code>brrbyMinLength</code> bnd bt most
+     * <code>brrbyMbxLength</code> elements.
      *
-     * <p> If an <code>Object</code> reference was previously allowed,
-     * the previous settings are overwritten.
+     * <p> If bn <code>Object</code> reference wbs previously bllowed,
+     * the previous settings bre overwritten.
      *
-     * @param elementName the name of the element.
-     * @param classType a <code>Class</code> variable indicating the
-     * legal class type for the object value.
-     * @param arrayMinLength the smallest legal length for the array.
-     * @param arrayMaxLength the largest legal length for the array.
+     * @pbrbm elementNbme the nbme of the element.
+     * @pbrbm clbssType b <code>Clbss</code> vbribble indicbting the
+     * legbl clbss type for the object vblue.
+     * @pbrbm brrbyMinLength the smbllest legbl length for the brrby.
+     * @pbrbm brrbyMbxLength the lbrgest legbl length for the brrby.
      *
-     * @exception IllegalArgumentException if <code>elementName</code> is
-     * not a legal element name for this format.
+     * @exception IllegblArgumentException if <code>elementNbme</code> is
+     * not b legbl element nbme for this formbt.
      */
-    protected void addObjectValue(String elementName,
-                                  Class<?> classType,
-                                  int arrayMinLength,
-                                  int arrayMaxLength) {
-        Element element = getElement(elementName);
-        ObjectValue<Object> obj = new ObjectValue<>();
-        obj.valueType = VALUE_LIST;
-        obj.classType = classType;
-        obj.arrayMinLength = arrayMinLength;
-        obj.arrayMaxLength = arrayMaxLength;
+    protected void bddObjectVblue(String elementNbme,
+                                  Clbss<?> clbssType,
+                                  int brrbyMinLength,
+                                  int brrbyMbxLength) {
+        Element element = getElement(elementNbme);
+        ObjectVblue<Object> obj = new ObjectVblue<>();
+        obj.vblueType = VALUE_LIST;
+        obj.clbssType = clbssType;
+        obj.brrbyMinLength = brrbyMinLength;
+        obj.brrbyMbxLength = brrbyMbxLength;
 
-        element.objectValue = obj;
+        element.objectVblue = obj;
     }
 
     /**
-     * Disallows an <code>Object</code> reference from being stored in
-     * nodes implementing the named element.
+     * Disbllows bn <code>Object</code> reference from being stored in
+     * nodes implementing the nbmed element.
      *
-     * @param elementName the name of the element.
+     * @pbrbm elementNbme the nbme of the element.
      *
-     * @exception IllegalArgumentException if <code>elementName</code> is
-     * not a legal element name for this format.
+     * @exception IllegblArgumentException if <code>elementNbme</code> is
+     * not b legbl element nbme for this formbt.
      */
-    protected void removeObjectValue(String elementName) {
-        Element element = getElement(elementName);
-        element.objectValue = null;
+    protected void removeObjectVblue(String elementNbme) {
+        Element element = getElement(elementNbme);
+        element.objectVblue = null;
     }
 
     // Utility method
 
-    // Methods from IIOMetadataFormat
+    // Methods from IIOMetbdbtbFormbt
 
     // Root
 
-    public String getRootName() {
-        return rootName;
+    public String getRootNbme() {
+        return rootNbme;
     }
 
     // Multiplicity
 
-    public abstract boolean canNodeAppear(String elementName,
-                                          ImageTypeSpecifier imageType);
+    public bbstrbct boolebn cbnNodeAppebr(String elementNbme,
+                                          ImbgeTypeSpecifier imbgeType);
 
-    public int getElementMinChildren(String elementName) {
-        Element element = getElement(elementName);
+    public int getElementMinChildren(String elementNbme) {
+        Element element = getElement(elementNbme);
         if (element.childPolicy != CHILD_POLICY_REPEAT) {
-            throw new IllegalArgumentException("Child policy not CHILD_POLICY_REPEAT!");
+            throw new IllegblArgumentException("Child policy not CHILD_POLICY_REPEAT!");
         }
         return element.minChildren;
     }
 
-    public int getElementMaxChildren(String elementName) {
-        Element element = getElement(elementName);
+    public int getElementMbxChildren(String elementNbme) {
+        Element element = getElement(elementNbme);
         if (element.childPolicy != CHILD_POLICY_REPEAT) {
-            throw new IllegalArgumentException("Child policy not CHILD_POLICY_REPEAT!");
+            throw new IllegblArgumentException("Child policy not CHILD_POLICY_REPEAT!");
         }
-        return element.maxChildren;
+        return element.mbxChildren;
     }
 
-    private String getResource(String key, Locale locale) {
-        if (locale == null) {
-            locale = Locale.getDefault();
+    privbte String getResource(String key, Locble locble) {
+        if (locble == null) {
+            locble = Locble.getDefbult();
         }
 
         /**
-         * If an applet supplies an implementation of IIOMetadataFormat and
+         * If bn bpplet supplies bn implementbtion of IIOMetbdbtbFormbt bnd
          * resource bundles, then the resource bundle will need to be
-         * accessed via the applet class loader. So first try the context
-         * class loader to locate the resource bundle.
-         * If that throws MissingResourceException, then try the
-         * system class loader.
+         * bccessed vib the bpplet clbss lobder. So first try the context
+         * clbss lobder to locbte the resource bundle.
+         * If thbt throws MissingResourceException, then try the
+         * system clbss lobder.
          */
-        ClassLoader loader =
-            java.security.AccessController.doPrivileged(
-                new java.security.PrivilegedAction<ClassLoader>() {
-                   public ClassLoader run() {
-                       return Thread.currentThread().getContextClassLoader();
+        ClbssLobder lobder =
+            jbvb.security.AccessController.doPrivileged(
+                new jbvb.security.PrivilegedAction<ClbssLobder>() {
+                   public ClbssLobder run() {
+                       return Threbd.currentThrebd().getContextClbssLobder();
                    }
             });
 
         ResourceBundle bundle = null;
         try {
-            bundle = ResourceBundle.getBundle(resourceBaseName,
-                                              locale, loader);
-        } catch (MissingResourceException mre) {
+            bundle = ResourceBundle.getBundle(resourceBbseNbme,
+                                              locble, lobder);
+        } cbtch (MissingResourceException mre) {
             try {
-                bundle = ResourceBundle.getBundle(resourceBaseName, locale);
-            } catch (MissingResourceException mre1) {
+                bundle = ResourceBundle.getBundle(resourceBbseNbme, locble);
+            } cbtch (MissingResourceException mre1) {
                 return null;
             }
         }
 
         try {
             return bundle.getString(key);
-        } catch (MissingResourceException e) {
+        } cbtch (MissingResourceException e) {
             return null;
         }
     }
 
     /**
-     * Returns a <code>String</code> containing a description of the
-     * named element, or <code>null</code>.  The description will be
-     * localized for the supplied <code>Locale</code> if possible.
+     * Returns b <code>String</code> contbining b description of the
+     * nbmed element, or <code>null</code>.  The description will be
+     * locblized for the supplied <code>Locble</code> if possible.
      *
-     * <p> The default implementation will first locate a
-     * <code>ResourceBundle</code> using the current resource base
-     * name set by <code>setResourceBaseName</code> and the supplied
-     * <code>Locale</code>, using the fallback mechanism described in
-     * the comments for <code>ResourceBundle.getBundle</code>.  If a
-     * <code>ResourceBundle</code> is found, the element name will be
-     * used as a key to its <code>getString</code> method, and the
+     * <p> The defbult implementbtion will first locbte b
+     * <code>ResourceBundle</code> using the current resource bbse
+     * nbme set by <code>setResourceBbseNbme</code> bnd the supplied
+     * <code>Locble</code>, using the fbllbbck mechbnism described in
+     * the comments for <code>ResourceBundle.getBundle</code>.  If b
+     * <code>ResourceBundle</code> is found, the element nbme will be
+     * used bs b key to its <code>getString</code> method, bnd the
      * result returned.  If no <code>ResourceBundle</code> is found,
      * or no such key is present, <code>null</code> will be returned.
      *
-     * <p> If <code>locale</code> is <code>null</code>, the current
-     * default <code>Locale</code> returned by <code>Locale.getLocale</code>
+     * <p> If <code>locble</code> is <code>null</code>, the current
+     * defbult <code>Locble</code> returned by <code>Locble.getLocble</code>
      * will be used.
      *
-     * @param elementName the name of the element.
-     * @param locale the <code>Locale</code> for which localization
-     * will be attempted.
+     * @pbrbm elementNbme the nbme of the element.
+     * @pbrbm locble the <code>Locble</code> for which locblizbtion
+     * will be bttempted.
      *
      * @return the element description.
      *
-     * @exception IllegalArgumentException if <code>elementName</code>
-     * is <code>null</code>, or is not a legal element name for this format.
+     * @exception IllegblArgumentException if <code>elementNbme</code>
+     * is <code>null</code>, or is not b legbl element nbme for this formbt.
      *
-     * @see #setResourceBaseName
+     * @see #setResourceBbseNbme
      */
-    public String getElementDescription(String elementName,
-                                        Locale locale) {
-        Element element = getElement(elementName);
-        return getResource(elementName, locale);
+    public String getElementDescription(String elementNbme,
+                                        Locble locble) {
+        Element element = getElement(elementNbme);
+        return getResource(elementNbme, locble);
     }
 
     // Children
 
-    public int getChildPolicy(String elementName) {
-        Element element = getElement(elementName);
+    public int getChildPolicy(String elementNbme) {
+        Element element = getElement(elementNbme);
         return element.childPolicy;
     }
 
-    public String[] getChildNames(String elementName) {
-        Element element = getElement(elementName);
+    public String[] getChildNbmes(String elementNbme) {
+        Element element = getElement(elementNbme);
         if (element.childPolicy == CHILD_POLICY_EMPTY) {
             return null;
         }
-        return element.childList.toArray(new String[0]);
+        return element.childList.toArrby(new String[0]);
     }
 
     // Attributes
 
-    public String[] getAttributeNames(String elementName) {
-        Element element = getElement(elementName);
-        List<String> names = element.attrList;
+    public String[] getAttributeNbmes(String elementNbme) {
+        Element element = getElement(elementNbme);
+        List<String> nbmes = element.bttrList;
 
-        String[] result = new String[names.size()];
-        return names.toArray(result);
+        String[] result = new String[nbmes.size()];
+        return nbmes.toArrby(result);
     }
 
-    public int getAttributeValueType(String elementName, String attrName) {
-        Attribute attr = getAttribute(elementName, attrName);
-        return attr.valueType;
+    public int getAttributeVblueType(String elementNbme, String bttrNbme) {
+        Attribute bttr = getAttribute(elementNbme, bttrNbme);
+        return bttr.vblueType;
     }
 
-    public int getAttributeDataType(String elementName, String attrName) {
-        Attribute attr = getAttribute(elementName, attrName);
-        return attr.dataType;
+    public int getAttributeDbtbType(String elementNbme, String bttrNbme) {
+        Attribute bttr = getAttribute(elementNbme, bttrNbme);
+        return bttr.dbtbType;
     }
 
-    public boolean isAttributeRequired(String elementName, String attrName) {
-        Attribute attr = getAttribute(elementName, attrName);
-        return attr.required;
+    public boolebn isAttributeRequired(String elementNbme, String bttrNbme) {
+        Attribute bttr = getAttribute(elementNbme, bttrNbme);
+        return bttr.required;
     }
 
-    public String getAttributeDefaultValue(String elementName,
-                                           String attrName) {
-        Attribute attr = getAttribute(elementName, attrName);
-        return attr.defaultValue;
+    public String getAttributeDefbultVblue(String elementNbme,
+                                           String bttrNbme) {
+        Attribute bttr = getAttribute(elementNbme, bttrNbme);
+        return bttr.defbultVblue;
     }
 
-    public String[] getAttributeEnumerations(String elementName,
-                                             String attrName) {
-        Attribute attr = getAttribute(elementName, attrName);
-        if (attr.valueType != VALUE_ENUMERATION) {
-            throw new IllegalArgumentException
-                ("Attribute not an enumeration!");
+    public String[] getAttributeEnumerbtions(String elementNbme,
+                                             String bttrNbme) {
+        Attribute bttr = getAttribute(elementNbme, bttrNbme);
+        if (bttr.vblueType != VALUE_ENUMERATION) {
+            throw new IllegblArgumentException
+                ("Attribute not bn enumerbtion!");
         }
 
-        List<String> values = attr.enumeratedValues;
-        String[] result = new String[values.size()];
-        return values.toArray(result);
+        List<String> vblues = bttr.enumerbtedVblues;
+        String[] result = new String[vblues.size()];
+        return vblues.toArrby(result);
     }
 
-    public String getAttributeMinValue(String elementName, String attrName) {
-        Attribute attr = getAttribute(elementName, attrName);
-        if (attr.valueType != VALUE_RANGE &&
-            attr.valueType != VALUE_RANGE_MIN_INCLUSIVE &&
-            attr.valueType != VALUE_RANGE_MAX_INCLUSIVE &&
-            attr.valueType != VALUE_RANGE_MIN_MAX_INCLUSIVE) {
-            throw new IllegalArgumentException("Attribute not a range!");
+    public String getAttributeMinVblue(String elementNbme, String bttrNbme) {
+        Attribute bttr = getAttribute(elementNbme, bttrNbme);
+        if (bttr.vblueType != VALUE_RANGE &&
+            bttr.vblueType != VALUE_RANGE_MIN_INCLUSIVE &&
+            bttr.vblueType != VALUE_RANGE_MAX_INCLUSIVE &&
+            bttr.vblueType != VALUE_RANGE_MIN_MAX_INCLUSIVE) {
+            throw new IllegblArgumentException("Attribute not b rbnge!");
         }
 
-        return attr.minValue;
+        return bttr.minVblue;
     }
 
-    public String getAttributeMaxValue(String elementName, String attrName) {
-        Attribute attr = getAttribute(elementName, attrName);
-        if (attr.valueType != VALUE_RANGE &&
-            attr.valueType != VALUE_RANGE_MIN_INCLUSIVE &&
-            attr.valueType != VALUE_RANGE_MAX_INCLUSIVE &&
-            attr.valueType != VALUE_RANGE_MIN_MAX_INCLUSIVE) {
-            throw new IllegalArgumentException("Attribute not a range!");
+    public String getAttributeMbxVblue(String elementNbme, String bttrNbme) {
+        Attribute bttr = getAttribute(elementNbme, bttrNbme);
+        if (bttr.vblueType != VALUE_RANGE &&
+            bttr.vblueType != VALUE_RANGE_MIN_INCLUSIVE &&
+            bttr.vblueType != VALUE_RANGE_MAX_INCLUSIVE &&
+            bttr.vblueType != VALUE_RANGE_MIN_MAX_INCLUSIVE) {
+            throw new IllegblArgumentException("Attribute not b rbnge!");
         }
 
-        return attr.maxValue;
+        return bttr.mbxVblue;
     }
 
-    public int getAttributeListMinLength(String elementName, String attrName) {
-        Attribute attr = getAttribute(elementName, attrName);
-        if (attr.valueType != VALUE_LIST) {
-            throw new IllegalArgumentException("Attribute not a list!");
+    public int getAttributeListMinLength(String elementNbme, String bttrNbme) {
+        Attribute bttr = getAttribute(elementNbme, bttrNbme);
+        if (bttr.vblueType != VALUE_LIST) {
+            throw new IllegblArgumentException("Attribute not b list!");
         }
 
-        return attr.listMinLength;
+        return bttr.listMinLength;
     }
 
-    public int getAttributeListMaxLength(String elementName, String attrName) {
-        Attribute attr = getAttribute(elementName, attrName);
-        if (attr.valueType != VALUE_LIST) {
-            throw new IllegalArgumentException("Attribute not a list!");
+    public int getAttributeListMbxLength(String elementNbme, String bttrNbme) {
+        Attribute bttr = getAttribute(elementNbme, bttrNbme);
+        if (bttr.vblueType != VALUE_LIST) {
+            throw new IllegblArgumentException("Attribute not b list!");
         }
 
-        return attr.listMaxLength;
+        return bttr.listMbxLength;
     }
 
     /**
-     * Returns a <code>String</code> containing a description of the
-     * named attribute, or <code>null</code>.  The description will be
-     * localized for the supplied <code>Locale</code> if possible.
+     * Returns b <code>String</code> contbining b description of the
+     * nbmed bttribute, or <code>null</code>.  The description will be
+     * locblized for the supplied <code>Locble</code> if possible.
      *
-     * <p> The default implementation will first locate a
-     * <code>ResourceBundle</code> using the current resource base
-     * name set by <code>setResourceBaseName</code> and the supplied
-     * <code>Locale</code>, using the fallback mechanism described in
-     * the comments for <code>ResourceBundle.getBundle</code>.  If a
-     * <code>ResourceBundle</code> is found, the element name followed
-     * by a "/" character followed by the attribute name
-     * (<code>elementName + "/" + attrName</code>) will be used as a
-     * key to its <code>getString</code> method, and the result
+     * <p> The defbult implementbtion will first locbte b
+     * <code>ResourceBundle</code> using the current resource bbse
+     * nbme set by <code>setResourceBbseNbme</code> bnd the supplied
+     * <code>Locble</code>, using the fbllbbck mechbnism described in
+     * the comments for <code>ResourceBundle.getBundle</code>.  If b
+     * <code>ResourceBundle</code> is found, the element nbme followed
+     * by b "/" chbrbcter followed by the bttribute nbme
+     * (<code>elementNbme + "/" + bttrNbme</code>) will be used bs b
+     * key to its <code>getString</code> method, bnd the result
      * returned.  If no <code>ResourceBundle</code> is found, or no
      * such key is present, <code>null</code> will be returned.
      *
-     * <p> If <code>locale</code> is <code>null</code>, the current
-     * default <code>Locale</code> returned by <code>Locale.getLocale</code>
+     * <p> If <code>locble</code> is <code>null</code>, the current
+     * defbult <code>Locble</code> returned by <code>Locble.getLocble</code>
      * will be used.
      *
-     * @param elementName the name of the element.
-     * @param attrName the name of the attribute.
-     * @param locale the <code>Locale</code> for which localization
-     * will be attempted, or <code>null</code>.
+     * @pbrbm elementNbme the nbme of the element.
+     * @pbrbm bttrNbme the nbme of the bttribute.
+     * @pbrbm locble the <code>Locble</code> for which locblizbtion
+     * will be bttempted, or <code>null</code>.
      *
-     * @return the attribute description.
+     * @return the bttribute description.
      *
-     * @exception IllegalArgumentException if <code>elementName</code>
-     * is <code>null</code>, or is not a legal element name for this format.
-     * @exception IllegalArgumentException if <code>attrName</code> is
-     * <code>null</code> or is not a legal attribute name for this
+     * @exception IllegblArgumentException if <code>elementNbme</code>
+     * is <code>null</code>, or is not b legbl element nbme for this formbt.
+     * @exception IllegblArgumentException if <code>bttrNbme</code> is
+     * <code>null</code> or is not b legbl bttribute nbme for this
      * element.
      *
-     * @see #setResourceBaseName
+     * @see #setResourceBbseNbme
      */
-    public String getAttributeDescription(String elementName,
-                                          String attrName,
-                                          Locale locale) {
-        Element element = getElement(elementName);
-        if (attrName == null) {
-            throw new IllegalArgumentException("attrName == null!");
+    public String getAttributeDescription(String elementNbme,
+                                          String bttrNbme,
+                                          Locble locble) {
+        Element element = getElement(elementNbme);
+        if (bttrNbme == null) {
+            throw new IllegblArgumentException("bttrNbme == null!");
         }
-        Attribute attr = element.attrMap.get(attrName);
-        if (attr == null) {
-            throw new IllegalArgumentException("No such attribute!");
+        Attribute bttr = element.bttrMbp.get(bttrNbme);
+        if (bttr == null) {
+            throw new IllegblArgumentException("No such bttribute!");
         }
 
-        String key = elementName + "/" + attrName;
-        return getResource(key, locale);
+        String key = elementNbme + "/" + bttrNbme;
+        return getResource(key, locble);
     }
 
-    private ObjectValue<?> getObjectValue(String elementName) {
-        Element element = getElement(elementName);
-        ObjectValue<?> objv = element.objectValue;
+    privbte ObjectVblue<?> getObjectVblue(String elementNbme) {
+        Element element = getElement(elementNbme);
+        ObjectVblue<?> objv = element.objectVblue;
         if (objv == null) {
-            throw new IllegalArgumentException("No object within element " +
-                                               elementName + "!");
+            throw new IllegblArgumentException("No object within element " +
+                                               elementNbme + "!");
         }
         return objv;
     }
 
-    public int getObjectValueType(String elementName) {
-        Element element = getElement(elementName);
-        ObjectValue<?> objv = element.objectValue;
+    public int getObjectVblueType(String elementNbme) {
+        Element element = getElement(elementNbme);
+        ObjectVblue<?> objv = element.objectVblue;
         if (objv == null) {
             return VALUE_NONE;
         }
-        return objv.valueType;
+        return objv.vblueType;
     }
 
-    public Class<?> getObjectClass(String elementName) {
-        ObjectValue<?> objv = getObjectValue(elementName);
-        return objv.classType;
+    public Clbss<?> getObjectClbss(String elementNbme) {
+        ObjectVblue<?> objv = getObjectVblue(elementNbme);
+        return objv.clbssType;
     }
 
-    public Object getObjectDefaultValue(String elementName) {
-        ObjectValue<?> objv = getObjectValue(elementName);
-        return objv.defaultValue;
+    public Object getObjectDefbultVblue(String elementNbme) {
+        ObjectVblue<?> objv = getObjectVblue(elementNbme);
+        return objv.defbultVblue;
     }
 
-    public Object[] getObjectEnumerations(String elementName) {
-        ObjectValue<?> objv = getObjectValue(elementName);
-        if (objv.valueType != VALUE_ENUMERATION) {
-            throw new IllegalArgumentException("Not an enumeration!");
+    public Object[] getObjectEnumerbtions(String elementNbme) {
+        ObjectVblue<?> objv = getObjectVblue(elementNbme);
+        if (objv.vblueType != VALUE_ENUMERATION) {
+            throw new IllegblArgumentException("Not bn enumerbtion!");
         }
-        List<?> vlist = objv.enumeratedValues;
-        Object[] values = new Object[vlist.size()];
-        return vlist.toArray(values);
+        List<?> vlist = objv.enumerbtedVblues;
+        Object[] vblues = new Object[vlist.size()];
+        return vlist.toArrby(vblues);
     }
 
-    public Comparable<?> getObjectMinValue(String elementName) {
-        ObjectValue<?> objv = getObjectValue(elementName);
-        if ((objv.valueType & VALUE_RANGE) != VALUE_RANGE) {
-            throw new IllegalArgumentException("Not a range!");
+    public Compbrbble<?> getObjectMinVblue(String elementNbme) {
+        ObjectVblue<?> objv = getObjectVblue(elementNbme);
+        if ((objv.vblueType & VALUE_RANGE) != VALUE_RANGE) {
+            throw new IllegblArgumentException("Not b rbnge!");
         }
-        return objv.minValue;
+        return objv.minVblue;
     }
 
-    public Comparable<?> getObjectMaxValue(String elementName) {
-        ObjectValue<?> objv = getObjectValue(elementName);
-        if ((objv.valueType & VALUE_RANGE) != VALUE_RANGE) {
-            throw new IllegalArgumentException("Not a range!");
+    public Compbrbble<?> getObjectMbxVblue(String elementNbme) {
+        ObjectVblue<?> objv = getObjectVblue(elementNbme);
+        if ((objv.vblueType & VALUE_RANGE) != VALUE_RANGE) {
+            throw new IllegblArgumentException("Not b rbnge!");
         }
-        return objv.maxValue;
+        return objv.mbxVblue;
     }
 
-    public int getObjectArrayMinLength(String elementName) {
-        ObjectValue<?> objv = getObjectValue(elementName);
-        if (objv.valueType != VALUE_LIST) {
-            throw new IllegalArgumentException("Not a list!");
+    public int getObjectArrbyMinLength(String elementNbme) {
+        ObjectVblue<?> objv = getObjectVblue(elementNbme);
+        if (objv.vblueType != VALUE_LIST) {
+            throw new IllegblArgumentException("Not b list!");
         }
-        return objv.arrayMinLength;
+        return objv.brrbyMinLength;
     }
 
-    public int getObjectArrayMaxLength(String elementName) {
-        ObjectValue<?> objv = getObjectValue(elementName);
-        if (objv.valueType != VALUE_LIST) {
-            throw new IllegalArgumentException("Not a list!");
+    public int getObjectArrbyMbxLength(String elementNbme) {
+        ObjectVblue<?> objv = getObjectVblue(elementNbme);
+        if (objv.vblueType != VALUE_LIST) {
+            throw new IllegblArgumentException("Not b list!");
         }
-        return objv.arrayMaxLength;
+        return objv.brrbyMbxLength;
     }
 
-    // Standard format descriptor
+    // Stbndbrd formbt descriptor
 
-    private synchronized static void createStandardFormat() {
-        if (standardFormat == null) {
-            standardFormat = new StandardMetadataFormat();
+    privbte synchronized stbtic void crebteStbndbrdFormbt() {
+        if (stbndbrdFormbt == null) {
+            stbndbrdFormbt = new StbndbrdMetbdbtbFormbt();
         }
     }
 
     /**
-     * Returns an <code>IIOMetadataFormat</code> object describing the
-     * standard, plug-in neutral <code>javax.imageio_1.0</code>
-     * metadata document format described in the comment of the
-     * <code>javax.imageio.metadata</code> package.
+     * Returns bn <code>IIOMetbdbtbFormbt</code> object describing the
+     * stbndbrd, plug-in neutrbl <code>jbvbx.imbgeio_1.0</code>
+     * metbdbtb document formbt described in the comment of the
+     * <code>jbvbx.imbgeio.metbdbtb</code> pbckbge.
      *
-     * @return a predefined <code>IIOMetadataFormat</code> instance.
+     * @return b predefined <code>IIOMetbdbtbFormbt</code> instbnce.
      */
-    public static IIOMetadataFormat getStandardFormatInstance() {
-        createStandardFormat();
-        return standardFormat;
+    public stbtic IIOMetbdbtbFormbt getStbndbrdFormbtInstbnce() {
+        crebteStbndbrdFormbt();
+        return stbndbrdFormbt;
     }
 }

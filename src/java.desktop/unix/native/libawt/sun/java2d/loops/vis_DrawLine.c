@@ -1,51 +1,51 @@
 /*
- * Copyright (c) 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 #if !defined(JAVA2D_NO_MLIB) || defined(MLIB_ADD_SUFF)
 
 #include <vis_proto.h>
-#include "java2d_Mlib.h"
+#include "jbvb2d_Mlib.h"
 
 /***************************************************************/
 
-#define SET_PIX(index, chan)   \
-    pPix[chan] = pix##chan
+#define SET_PIX(index, chbn)   \
+    pPix[chbn] = pix##chbn
 
-#define XOR_PIX(index, chan)   \
-    pPix[chan] ^= pix##chan
+#define XOR_PIX(index, chbn)   \
+    pPix[chbn] ^= pix##chbn
 
 /***************************************************************/
 
 #define EXTRA_1(FUNC, ANYTYPE, NCHAN, DO_PIX)
 #define EXTRA_3(FUNC, ANYTYPE, NCHAN, DO_PIX)
 #define EXTRA_4(FUNC, ANYTYPE, NCHAN, DO_PIX)                                \
-    if ((((jint)pPix | scan) & 3) == 0) {                                    \
+    if ((((jint)pPix | scbn) & 3) == 0) {                                    \
         mlib_s32 s_pixel = pixel, r_pixel;                                   \
-        *(mlib_f32*)&r_pixel = vis_ldfa_ASI_PL(&s_pixel);                    \
-        ADD_SUFF(AnyInt##FUNC)(pRasInfo, x1, y1, r_pixel, steps, error,      \
-                               bumpmajormask, errmajor, bumpminormask,       \
+        *(mlib_f32*)&r_pixel = vis_ldfb_ASI_PL(&s_pixel);                    \
+        ADD_SUFF(AnyInt##FUNC)(pRbsInfo, x1, y1, r_pixel, steps, error,      \
+                               bumpmbjormbsk, errmbjor, bumpminormbsk,       \
                                errminor, pPrim, pCompInfo);                  \
         return;                                                              \
     }
@@ -58,55 +58,55 @@
 /***************************************************************/
 
 #define DEFINE_SET_LINE(FUNC, ANYTYPE, NCHAN, DO_PIX)                  \
-void ADD_SUFF(ANYTYPE##FUNC)(SurfaceDataRasInfo * pRasInfo,            \
+void ADD_SUFF(ANYTYPE##FUNC)(SurfbceDbtbRbsInfo * pRbsInfo,            \
                              jint x1,                                  \
                              jint y1,                                  \
                              jint pixel,                               \
                              jint steps,                               \
                              jint error,                               \
-                             jint bumpmajormask,                       \
-                             jint errmajor,                            \
-                             jint bumpminormask,                       \
+                             jint bumpmbjormbsk,                       \
+                             jint errmbjor,                            \
+                             jint bumpminormbsk,                       \
                              jint errminor,                            \
-                             NativePrimitive * pPrim,                  \
+                             NbtivePrimitive * pPrim,                  \
                              CompositeInfo * pCompInfo)                \
 {                                                                      \
-    ANYTYPE##DataType *pPix = (void *)(pRasInfo->rasBase);             \
-    mlib_s32 scan = pRasInfo->scanStride;                              \
-    mlib_s32 bumpmajor, bumpminor, mask;                               \
+    ANYTYPE##DbtbType *pPix = (void *)(pRbsInfo->rbsBbse);             \
+    mlib_s32 scbn = pRbsInfo->scbnStride;                              \
+    mlib_s32 bumpmbjor, bumpminor, mbsk;                               \
     GET_PIXEL(pix);                                                    \
     EXTRACT_CONST_##NCHAN(pix);                                        \
                                                                        \
     EXTRA_##NCHAN(FUNC, AnyInt, NCHAN, DO_PIX);                        \
                                                                        \
-    PTR_ADD(pPix, y1 * scan + x1 * ANYTYPE##PixelStride);              \
+    PTR_ADD(pPix, y1 * scbn + x1 * ANYTYPE##PixelStride);              \
                                                                        \
-    errminor += errmajor;                                              \
+    errminor += errmbjor;                                              \
                                                                        \
-    if (bumpmajormask & 0x1) bumpmajor =  ANYTYPE##PixelStride; else   \
-    if (bumpmajormask & 0x2) bumpmajor = -ANYTYPE##PixelStride; else   \
-    if (bumpmajormask & 0x4) bumpmajor =  scan; else                   \
-        bumpmajor = - scan;                                            \
+    if (bumpmbjormbsk & 0x1) bumpmbjor =  ANYTYPE##PixelStride; else   \
+    if (bumpmbjormbsk & 0x2) bumpmbjor = -ANYTYPE##PixelStride; else   \
+    if (bumpmbjormbsk & 0x4) bumpmbjor =  scbn; else                   \
+        bumpmbjor = - scbn;                                            \
                                                                        \
-    if (bumpminormask & 0x1) bumpminor =  ANYTYPE##PixelStride; else   \
-    if (bumpminormask & 0x2) bumpminor = -ANYTYPE##PixelStride; else   \
-    if (bumpminormask & 0x4) bumpminor =  scan; else                   \
-    if (bumpminormask & 0x8) bumpminor = -scan; else                   \
+    if (bumpminormbsk & 0x1) bumpminor =  ANYTYPE##PixelStride; else   \
+    if (bumpminormbsk & 0x2) bumpminor = -ANYTYPE##PixelStride; else   \
+    if (bumpminormbsk & 0x4) bumpminor =  scbn; else                   \
+    if (bumpminormbsk & 0x8) bumpminor = -scbn; else                   \
         bumpminor = 0;                                                 \
                                                                        \
-    if (errmajor == 0) {                                               \
+    if (errmbjor == 0) {                                               \
         do {                                                           \
             PROCESS_PIX_##NCHAN(DO_PIX);                               \
-            PTR_ADD(pPix, bumpmajor);                                  \
+            PTR_ADD(pPix, bumpmbjor);                                  \
         } while (--steps > 0);                                         \
         return;                                                        \
     }                                                                  \
                                                                        \
     do {                                                               \
         PROCESS_PIX_##NCHAN(DO_PIX);                                   \
-        mask = error >> 31;                                            \
-        PTR_ADD(pPix, bumpmajor + (bumpminor &~ mask));                \
-        error += errmajor - (errminor &~ mask);                        \
+        mbsk = error >> 31;                                            \
+        PTR_ADD(pPix, bumpmbjor + (bumpminor &~ mbsk));                \
+        error += errmbjor - (errminor &~ mbsk);                        \
     } while (--steps > 0);                                             \
 }
 
@@ -120,9 +120,9 @@ DEFINE_SET_LINE(SetLine, Any4Byte, 4, SET_PIX)
 
 #undef  GET_PIXEL
 #define GET_PIXEL(pix)                                 \
-    mlib_s32 xorpixel = pCompInfo->details.xorPixel;   \
-    mlib_s32 alphamask = pCompInfo->alphaMask;         \
-    mlib_s32 pix = (pixel ^ xorpixel) &~ alphamask
+    mlib_s32 xorpixel = pCompInfo->detbils.xorPixel;   \
+    mlib_s32 blphbmbsk = pCompInfo->blphbMbsk;         \
+    mlib_s32 pix = (pixel ^ xorpixel) &~ blphbmbsk
 
 #undef  EXTRA_4
 #define EXTRA_4(FUNC, ANYTYPE, NCHAN, DO_PIX)

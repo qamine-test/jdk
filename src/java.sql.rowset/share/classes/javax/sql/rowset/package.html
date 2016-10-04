@@ -1,304 +1,304 @@
-<!DOCTYPE doctype PUBLIC "-//w3c//dtd html 4.0 transitional//en">
+<!DOCTYPE doctype PUBLIC "-//w3c//dtd html 4.0 trbnsitionbl//en">
 <html>
-<head>
+<hebd>
                                     
-  <meta http-equiv="Content-Type"
- content="text/html; charset=iso-8859-1">
+  <metb http-equiv="Content-Type"
+ content="text/html; chbrset=iso-8859-1">
 <!--
-Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+Copyright (c) 2003, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
 DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 
-This code is free software; you can redistribute it and/or modify it
-under the terms of the GNU General Public License version 2 only, as
-published by the Free Software Foundation.  Oracle designates this
-particular file as subject to the "Classpath" exception as provided
-by Oracle in the LICENSE file that accompanied this code.
+This code is free softwbre; you cbn redistribute it bnd/or modify it
+under the terms of the GNU Generbl Public License version 2 only, bs
+published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+by Orbcle in the LICENSE file thbt bccompbnied this code.
 
-This code is distributed in the hope that it will be useful, but WITHOUT
-ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-version 2 for more details (a copy is included in the LICENSE file that
-accompanied this code).
+This code is distributed in the hope thbt it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+version 2 for more detbils (b copy is included in the LICENSE file thbt
+bccompbnied this code).
 
-You should have received a copy of the GNU General Public License version
-2 along with this work; if not, write to the Free Software Foundation,
-Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+You should hbve received b copy of the GNU Generbl Public License version
+2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 
-Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-or visit www.oracle.com if you need additional information or have any
+Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
 questions.
 
 -->
-  <title>javax.sql.rowset Package</title>
-</head>
+  <title>jbvbx.sql.rowset Pbckbge</title>
+</hebd>
   <body bgcolor="#ffffff">
 
-<!-- Description clause -->
-Standard interfaces and base classes for JDBC <code>RowSet</code>
-implementations. This package contains interfaces and classes 
-that a standard <code>RowSet</code> implementation either implements or extends.
+<!-- Description clbuse -->
+Stbndbrd interfbces bnd bbse clbsses for JDBC <code>RowSet</code>
+implementbtions. This pbckbge contbins interfbces bnd clbsses 
+thbt b stbndbrd <code>RowSet</code> implementbtion either implements or extends.
 
 
-<h2>Table of Contents</h2>
+<h2>Tbble of Contents</h2>
 <ul>
-<li><a href="#pkgspec">1.0 Package Specification</a>
-<li><a href="#stdrowset">2.0 Standard RowSet Definitions</a>
-<li><a href="#impl">3.0 Implementer's Guide</a>
-<li><a href="#relspec">4.0 Related Specifications</a>
-<li><a href="#reldocs">5.0 Related Documentation</a>
+<li><b href="#pkgspec">1.0 Pbckbge Specificbtion</b>
+<li><b href="#stdrowset">2.0 Stbndbrd RowSet Definitions</b>
+<li><b href="#impl">3.0 Implementer's Guide</b>
+<li><b href="#relspec">4.0 Relbted Specificbtions</b>
+<li><b href="#reldocs">5.0 Relbted Documentbtion</b>
 </ul>
 
-<h3><a name="pkgspec">1.0 Package Specification</a></h3>
-This package specifies five standard JDBC <code>RowSet</code> interfaces.
+<h3><b nbme="pkgspec">1.0 Pbckbge Specificbtion</b></h3>
+This pbckbge specifies five stbndbrd JDBC <code>RowSet</code> interfbces.
  All five extend the 
-<a href="../RowSet.html">RowSet</a> interface described in the JDBC 3.0
-specification.  It is anticipated that additional definitions
-of more specialized JDBC <code>RowSet</code> types will emerge as this technology 
-matures. Future definitions <i>should</i> be specified as subinterfaces using 
-inheritance similar to the way it is used in this specification.
+<b href="../RowSet.html">RowSet</b> interfbce described in the JDBC 3.0
+specificbtion.  It is bnticipbted thbt bdditionbl definitions
+of more speciblized JDBC <code>RowSet</code> types will emerge bs this technology 
+mbtures. Future definitions <i>should</i> be specified bs subinterfbces using 
+inheritbnce similbr to the wby it is used in this specificbtion.
 <p>
-<i>Note:</i> The interface definitions provided in this package form the basis for
-all compliant JDBC <code>RowSet</code> implementations. Vendors and more advanced
-developers who intend to provide their own compliant <code>RowSet</code> implementations 
-should pay particular attention to the assertions detailed in specification
-interfaces. 
+<i>Note:</i> The interfbce definitions provided in this pbckbge form the bbsis for
+bll complibnt JDBC <code>RowSet</code> implementbtions. Vendors bnd more bdvbnced
+developers who intend to provide their own complibnt <code>RowSet</code> implementbtions 
+should pby pbrticulbr bttention to the bssertions detbiled in specificbtion
+interfbces. 
 
-<h3><a name="stdrowset">2.0 Standard RowSet Definitions</a></h3>
+<h3><b nbme="stdrowset">2.0 Stbndbrd RowSet Definitions</b></h3>
 <ul>
-<li><a href="JdbcRowSet.html"><b><code>JdbcRowSet</code></b></a> - A wrapper around 
-a <tt>ResultSet</tt> object that makes it possible to use the result set as a 
-JavaBeans&trade; component. Thus,
-a <tt>JdbcRowSet</tt> object can be a Bean that any tool
-makes available for assembling an application as part of a component based
-architecture . A <tt>JdbcRowSet</tt> object is a connected <code>RowSet</code>
-object, that is, it 
-<b>must</b> continually maintain its connection to its data source using a JDBC
-technology-enabled driver ("JDBC driver"). In addition, a <code>JdbcRowSet</code>
-object provides a fully updatable and scrollable tabular 
-data structure as defined in the JDBC 3.0 specification.
+<li><b href="JdbcRowSet.html"><b><code>JdbcRowSet</code></b></b> - A wrbpper bround 
+b <tt>ResultSet</tt> object thbt mbkes it possible to use the result set bs b 
+JbvbBebns&trbde; component. Thus,
+b <tt>JdbcRowSet</tt> object cbn be b Bebn thbt bny tool
+mbkes bvbilbble for bssembling bn bpplicbtion bs pbrt of b component bbsed
+brchitecture . A <tt>JdbcRowSet</tt> object is b connected <code>RowSet</code>
+object, thbt is, it 
+<b>must</b> continublly mbintbin its connection to its dbtb source using b JDBC
+technology-enbbled driver ("JDBC driver"). In bddition, b <code>JdbcRowSet</code>
+object provides b fully updbtbble bnd scrollbble tbbulbr 
+dbtb structure bs defined in the JDBC 3.0 specificbtion.
 
-<li><a href="CachedRowSet.html">
-<b><code>CachedRowSet</code>&trade;</b></a>
- - A <tt>CachedRowSet</tt> object is a JavaBeans&trade;
- component that is scrollable, updatable, serializable, and generally disconnected from
- the source of its data. A <tt>CachedRowSet</tt> object
-typically contains rows from a result set, but it can also contain rows from any
-file with a tabular format, such as a spreadsheet. <tt>CachedRowSet</tt> implementations 
-<b>must</b> use the <tt>SyncFactory</tt> to manage and obtain pluggable
-<code>SyncProvider</code> objects to provide synchronization between the
-disconnected <code>RowSet</code> object and the originating data source. 
-Typically a <code>SyncProvider</code> implementation relies upon a JDBC
-driver to obtain connectivity to a particular data source.
-Further details on this mechanism are discussed in the <a
-href="spi/package-summary.html"><code>javax.sql.rowset.spi</code></a> package
-specification.
+<li><b href="CbchedRowSet.html">
+<b><code>CbchedRowSet</code>&trbde;</b></b>
+ - A <tt>CbchedRowSet</tt> object is b JbvbBebns&trbde;
+ component thbt is scrollbble, updbtbble, seriblizbble, bnd generblly disconnected from
+ the source of its dbtb. A <tt>CbchedRowSet</tt> object
+typicblly contbins rows from b result set, but it cbn blso contbin rows from bny
+file with b tbbulbr formbt, such bs b sprebdsheet. <tt>CbchedRowSet</tt> implementbtions 
+<b>must</b> use the <tt>SyncFbctory</tt> to mbnbge bnd obtbin pluggbble
+<code>SyncProvider</code> objects to provide synchronizbtion between the
+disconnected <code>RowSet</code> object bnd the originbting dbtb source. 
+Typicblly b <code>SyncProvider</code> implementbtion relies upon b JDBC
+driver to obtbin connectivity to b pbrticulbr dbtb source.
+Further detbils on this mechbnism bre discussed in the <b
+href="spi/pbckbge-summbry.html"><code>jbvbx.sql.rowset.spi</code></b> pbckbge
+specificbtion.
 
-<li><a href="WebRowSet.html"><b><code>WebRowSet</code></b></a> - A 
-<code>WebRowSet</code> object is an extension of <tt>CachedRowSet</tt>
-that can read and write a <code>RowSet</code> object in a well formed XML format.
-This class calls an <a href="spi/XmlReader.html"><code>XmlReader</code></a> object 
-(an extension of the <a href="../RowSetReader.html"><code>RowSetReader</code></a>
-interface) to read a rowset in XML format. It calls an 
-<a href="spi/XmlWriter.html"><code>XmlWriter</code></a> object (an extension of the 
-<a href="../RowSetWriter.html"><code>RowSetWriter</code></a> interface) 
-to write a rowset in XML format. The reader and writer required by
-<code>WebRowSet</code> objects are provided by the
-<code>SyncFactory</code> in the form of <code>SyncProvider</code>
-implementations. In order to ensure well formed XML usage, a standard generic XML
-Schema is defined and published at
-<a href="http://java.sun.com/xml/ns/jdbc/webrowset.xsd">
-<code>http://java.sun.com/xml/ns/jdbc/webrowset.xsd</code></a>.
+<li><b href="WebRowSet.html"><b><code>WebRowSet</code></b></b> - A 
+<code>WebRowSet</code> object is bn extension of <tt>CbchedRowSet</tt>
+thbt cbn rebd bnd write b <code>RowSet</code> object in b well formed XML formbt.
+This clbss cblls bn <b href="spi/XmlRebder.html"><code>XmlRebder</code></b> object 
+(bn extension of the <b href="../RowSetRebder.html"><code>RowSetRebder</code></b>
+interfbce) to rebd b rowset in XML formbt. It cblls bn 
+<b href="spi/XmlWriter.html"><code>XmlWriter</code></b> object (bn extension of the 
+<b href="../RowSetWriter.html"><code>RowSetWriter</code></b> interfbce) 
+to write b rowset in XML formbt. The rebder bnd writer required by
+<code>WebRowSet</code> objects bre provided by the
+<code>SyncFbctory</code> in the form of <code>SyncProvider</code>
+implementbtions. In order to ensure well formed XML usbge, b stbndbrd generic XML
+Schemb is defined bnd published bt
+<b href="http://jbvb.sun.com/xml/ns/jdbc/webrowset.xsd">
+<code>http://jbvb.sun.com/xml/ns/jdbc/webrowset.xsd</code></b>.
 
-<li><a href="FilteredRowSet.html"><b><code>FilteredRowSet</code></b></a> - A
-<tt>FilteredRowSet</tt> object provides filtering functionality in a programmatic
-and extensible way. There are many instances when a <tt>RowSet</tt> <code>object</code>
-has a need to provide filtering in its contents without sacrificing the disconnected
-environment, thus saving the expense of having to create a connection to the data source.
-Solutions to this need vary from providing heavyweight full scale 
-SQL query abilities, to portable components, to more lightweight 
-approaches. A <code>FilteredRowSet</code> object consumes
-an implementation of the <a href="Predicate.html"><code>Predicate</code></a> 
-interface, which <b>may</b> define a filter at run time. In turn, a
-<code>FilteredRowSet</code> object is tasked with enforcing the set filter for both
-inbound and outbound read and write operations. That is, all filters can be
-considered as bi-directional. No standard filters are defined;
-however, sufficient mechanics are specified to permit any required filter to be
+<li><b href="FilteredRowSet.html"><b><code>FilteredRowSet</code></b></b> - A
+<tt>FilteredRowSet</tt> object provides filtering functionblity in b progrbmmbtic
+bnd extensible wby. There bre mbny instbnces when b <tt>RowSet</tt> <code>object</code>
+hbs b need to provide filtering in its contents without sbcrificing the disconnected
+environment, thus sbving the expense of hbving to crebte b connection to the dbtb source.
+Solutions to this need vbry from providing hebvyweight full scble 
+SQL query bbilities, to portbble components, to more lightweight 
+bpprobches. A <code>FilteredRowSet</code> object consumes
+bn implementbtion of the <b href="Predicbte.html"><code>Predicbte</code></b> 
+interfbce, which <b>mby</b> define b filter bt run time. In turn, b
+<code>FilteredRowSet</code> object is tbsked with enforcing the set filter for both
+inbound bnd outbound rebd bnd write operbtions. Thbt is, bll filters cbn be
+considered bs bi-directionbl. No stbndbrd filters bre defined;
+however, sufficient mechbnics bre specified to permit bny required filter to be
 implemented.
 
-<li><a href="JoinRowSet.html"><b><code>JoinRowSet</code></b></a> - The <tt>JoinRowSet</tt>
-interface  describes a mechanism by which relationships can be established between 
-two or more standard <code>RowSet</code> implementations. Any number of <tt>RowSet</tt>
- objects can be added to a <tt>JoinRowSet</tt> object provided  the <tt>RowSet</tt>objects 
-can be related  in a SQL <tt>JOIN</tt> like fashion. By definition, the SQL <tt>JOIN</tt> 
-statement  is used to combine the data contained in two (<i>or more</i>) relational
-database tables based upon a common attribute. By establishing and then enforcing
-column matches, a <tt>JoinRowSet</tt> object establishes relationships between
-<tt>RowSet</tt> instances without the need to touch the originating data source.     
+<li><b href="JoinRowSet.html"><b><code>JoinRowSet</code></b></b> - The <tt>JoinRowSet</tt>
+interfbce  describes b mechbnism by which relbtionships cbn be estbblished between 
+two or more stbndbrd <code>RowSet</code> implementbtions. Any number of <tt>RowSet</tt>
+ objects cbn be bdded to b <tt>JoinRowSet</tt> object provided  the <tt>RowSet</tt>objects 
+cbn be relbted  in b SQL <tt>JOIN</tt> like fbshion. By definition, the SQL <tt>JOIN</tt> 
+stbtement  is used to combine the dbtb contbined in two (<i>or more</i>) relbtionbl
+dbtbbbse tbbles bbsed upon b common bttribute. By estbblishing bnd then enforcing
+column mbtches, b <tt>JoinRowSet</tt> object estbblishes relbtionships between
+<tt>RowSet</tt> instbnces without the need to touch the originbting dbtb source.     
 </ul>
 
-<h3><a name="impl">3.0 Implementer's Guide</a></h3>
-Compliant implementations of JDBC <code>RowSet</code> Implementations 
-<b>must</b> follow the assertions described in this specification. In accordance
-with the terms of the <a href="http://www.jcp.org">Java Community Process</a>, a
-Test Compatibility Kit (TCK) can be licensed to ensure compatibility with the
-specification. The following paragraphs outline a number of starting points for
-implementers of the standard JDBC <code>RowSet</code> definitions. Implementers
-should also consult the <i>Implementer's Guide</i> in the <a
-href="spi/package-summary.html">javax.sql.rowset.spi</a> package for guidelines
-on <a href="spi/SyncProvider.html"><code>SyncProvider</code></a> implementations.
+<h3><b nbme="impl">3.0 Implementer's Guide</b></h3>
+Complibnt implementbtions of JDBC <code>RowSet</code> Implementbtions 
+<b>must</b> follow the bssertions described in this specificbtion. In bccordbnce
+with the terms of the <b href="http://www.jcp.org">Jbvb Community Process</b>, b
+Test Compbtibility Kit (TCK) cbn be licensed to ensure compbtibility with the
+specificbtion. The following pbrbgrbphs outline b number of stbrting points for
+implementers of the stbndbrd JDBC <code>RowSet</code> definitions. Implementers
+should blso consult the <i>Implementer's Guide</i> in the <b
+href="spi/pbckbge-summbry.html">jbvbx.sql.rowset.spi</b> pbckbge for guidelines
+on <b href="spi/SyncProvider.html"><code>SyncProvider</code></b> implementbtions.
 
 <ul>
 <li><b>3.1 Constructor</b>
 <p>
-    All <code>RowSet</code> implementations <strong>must</strong> provide a
-no-argument constructor.
+    All <code>RowSet</code> implementbtions <strong>must</strong> provide b
+no-brgument constructor.
 </li>
-<li><b>3.2 Role of the <code>BaseRowSet</code> Class</b>
+<li><b>3.2 Role of the <code>BbseRowSet</code> Clbss</b>
 <p>
-A compliant JDBC <code>RowSet</code> implementation <b>must</b> implement one or more 
-standard interfaces specified in this package and and <b>may</b> extend the 
-<a href="BaseRowSet.html"><code>BaseRowSet</code></a> abstract class. For example, a 
-<code>CachedRowSet</code> implementation must implement the <code>CachedRowSet</code>
-interface and extend the <code>BaseRowSet</code> abstract class. The
-<code>BaseRowSet</code> class provides the standard architecture on which all
-<code>RowSet</code> implementations should be built, regardless of whether the
-<code>RowSet</code> objects exist in a connected or disconnected environment.
-The <tt>BaseRowSet</tt> abstract class provides any <tt>RowSet</tt> implementation
-with its base functionality, including property manipulation and event notification
-that is fully compliant with <a href="http://java.sun.com/products/javabeans">JavaBeans</a> 
-component requirements. As an example, all implementations provided in the
-reference implementations (contained in the <tt>com.sun.rowset</tt> package) use
-the <tt>BaseRowSet</tt> class as a basis for their implementations.            
+A complibnt JDBC <code>RowSet</code> implementbtion <b>must</b> implement one or more 
+stbndbrd interfbces specified in this pbckbge bnd bnd <b>mby</b> extend the 
+<b href="BbseRowSet.html"><code>BbseRowSet</code></b> bbstrbct clbss. For exbmple, b 
+<code>CbchedRowSet</code> implementbtion must implement the <code>CbchedRowSet</code>
+interfbce bnd extend the <code>BbseRowSet</code> bbstrbct clbss. The
+<code>BbseRowSet</code> clbss provides the stbndbrd brchitecture on which bll
+<code>RowSet</code> implementbtions should be built, regbrdless of whether the
+<code>RowSet</code> objects exist in b connected or disconnected environment.
+The <tt>BbseRowSet</tt> bbstrbct clbss provides bny <tt>RowSet</tt> implementbtion
+with its bbse functionblity, including property mbnipulbtion bnd event notificbtion
+thbt is fully complibnt with <b href="http://jbvb.sun.com/products/jbvbbebns">JbvbBebns</b> 
+component requirements. As bn exbmple, bll implementbtions provided in the
+reference implementbtions (contbined in the <tt>com.sun.rowset</tt> pbckbge) use
+the <tt>BbseRowSet</tt> clbss bs b bbsis for their implementbtions.            
 <P>
-The following table illustrates the features that the <code>BaseRowSet</code>
-abstract class provides.
+The following tbble illustrbtes the febtures thbt the <code>BbseRowSet</code>
+bbstrbct clbss provides.
   <blockquote>                    
-    <table cellpadding="2" cellspacing="2" border="1" width="75%">
+    <tbble cellpbdding="2" cellspbcing="2" border="1" width="75%">
           <tbody>
             <tr>
-              <td valign="top"><b>Feature</b><br>
+              <td vblign="top"><b>Febture</b><br>
               </td>
-              <td valign="top"><b>Details</b><br>
-              </td>
-            </tr>
-            <tr>
-              <td valign="top">Properties<br>
-              </td>
-              <td valign="top">Provides standard JavaBeans property manipulation
-  mechanisms to allow applications to get and set <code>RowSet</code> command and
-property  values. Refer to the   documentation of the <tt>javax.sql.RowSet</tt>
-interface  (available in the JDBC 3.0 specification) for more details on
-the standard  <code>RowSet</code> properties.<br>
+              <td vblign="top"><b>Detbils</b><br>
               </td>
             </tr>
             <tr>
-              <td valign="top">Event notification<br>
+              <td vblign="top">Properties<br>
               </td>
-              <td valign="top">Provides standard JavaBeans event notifications
-  to registered event listeners. Refer to the documentation of <tt>javax.sql.RowSetEvent
-           </tt> interface (available in the JDBC 3.0 specification) for
-more  details on how  to register and handle standard RowSet events generated
-by  compliant implementations.<br>
-              </td>
-            </tr>
-            <tr>
-              <td valign="top">Setters for a RowSet object's command<br>
-              </td>
-              <td valign="top">Provides a complete set of setter methods
-                 for setting RowSet command parameters.<br>
+              <td vblign="top">Provides stbndbrd JbvbBebns property mbnipulbtion
+  mechbnisms to bllow bpplicbtions to get bnd set <code>RowSet</code> commbnd bnd
+property  vblues. Refer to the   documentbtion of the <tt>jbvbx.sql.RowSet</tt>
+interfbce  (bvbilbble in the JDBC 3.0 specificbtion) for more detbils on
+the stbndbrd  <code>RowSet</code> properties.<br>
               </td>
             </tr>
             <tr>
-              <td valign="top">Streams<br>
+              <td vblign="top">Event notificbtion<br>
               </td>
-              <td valign="top">Provides fields for storing of stream instances
-  in addition to providing a set of constants for stream type designation.<br>
+              <td vblign="top">Provides stbndbrd JbvbBebns event notificbtions
+  to registered event listeners. Refer to the documentbtion of <tt>jbvbx.sql.RowSetEvent
+           </tt> interfbce (bvbilbble in the JDBC 3.0 specificbtion) for
+more  detbils on how  to register bnd hbndle stbndbrd RowSet events generbted
+by  complibnt implementbtions.<br>
+              </td>
+            </tr>
+            <tr>
+              <td vblign="top">Setters for b RowSet object's commbnd<br>
+              </td>
+              <td vblign="top">Provides b complete set of setter methods
+                 for setting RowSet commbnd pbrbmeters.<br>
+              </td>
+            </tr>
+            <tr>
+              <td vblign="top">Strebms<br>
+              </td>
+              <td vblign="top">Provides fields for storing of strebm instbnces
+  in bddition to providing b set of constbnts for strebm type designbtion.<br>
               </td>
             </tr>
       </tbody>
-    </table>
+    </tbble>
     </blockquote>
 
 <li><b>3.3 Connected RowSet Requirements</b>
 <p>
-The <code>JdbcRowSet</code> describes a <code>RowSet</code> object that <b>must</b> always
-be connected to the originating data source. Implementations of the <code>JdbcRowSet</code>
-should ensure that this connection is provided solely by a JDBC driver. 
-Furthermore, <code>RowSet</code> objects that are implementations of the 
-<code>JdbcRowSet</code> interface and are therefore operating in a connected environment
-do not use the <code>SyncFactory</code> to obtain a <code>RowSetReader</code> object
-or a <code>RowSetWriter</code> object. They can safely rely on the JDBC driver to
-supply their needs by virtue of the presence of an underlying updatable and scrollable
-<code>ResultSet</code> implementation.
+The <code>JdbcRowSet</code> describes b <code>RowSet</code> object thbt <b>must</b> blwbys
+be connected to the originbting dbtb source. Implementbtions of the <code>JdbcRowSet</code>
+should ensure thbt this connection is provided solely by b JDBC driver. 
+Furthermore, <code>RowSet</code> objects thbt bre implementbtions of the 
+<code>JdbcRowSet</code> interfbce bnd bre therefore operbting in b connected environment
+do not use the <code>SyncFbctory</code> to obtbin b <code>RowSetRebder</code> object
+or b <code>RowSetWriter</code> object. They cbn sbfely rely on the JDBC driver to
+supply their needs by virtue of the presence of bn underlying updbtbble bnd scrollbble
+<code>ResultSet</code> implementbtion.
 
 <li>
 <b>3.4 Disconnected RowSet Requirements</b>
 <p> 
-A disconnected <code>RowSet</code> object, such as a <code>CachedRowSet</code> object, 
-<b>should</b> delegate  
-connection management to a <code>SyncProvider</code> object provided by the 
-<code>SyncFactory</code>. To ensure fully disconnected semantics, all 
+A disconnected <code>RowSet</code> object, such bs b <code>CbchedRowSet</code> object, 
+<b>should</b> delegbte  
+connection mbnbgement to b <code>SyncProvider</code> object provided by the 
+<code>SyncFbctory</code>. To ensure fully disconnected sembntics, bll 
 disconnected <code>RowSet</code> objects <b>must</b> ensure
-that the original connection made to the data source to populate the <code>RowSet</code> 
-object is closed to permit the garbage collector to recover and release resources. The
-<code>SyncProvider</code> object ensures that the critical JDBC properties are 
-maintained in order to re-establish a connection to the data source when a 
-synchronization is required. A disconnected <code>RowSet</code> object should 
-therefore ensure that no 
-extraneous references remain on the <code>Connection</code> object.
+thbt the originbl connection mbde to the dbtb source to populbte the <code>RowSet</code> 
+object is closed to permit the gbrbbge collector to recover bnd relebse resources. The
+<code>SyncProvider</code> object ensures thbt the criticbl JDBC properties bre 
+mbintbined in order to re-estbblish b connection to the dbtb source when b 
+synchronizbtion is required. A disconnected <code>RowSet</code> object should 
+therefore ensure thbt no 
+extrbneous references rembin on the <code>Connection</code> object.
 
-<li><b>3.5 Role of RowSetMetaDataImpl</b>
+<li><b>3.5 Role of RowSetMetbDbtbImpl</b>
 <p>
-The <code>RowsetMetaDataImpl</code> class is a utility class that provides an implementation of the
-<a href="../RowSetMetaData.html">RowSetMetaData</a> interface, supplying standard setter
-method implementations for metadata for both connected and disconnected 
-<code>RowSet</code> objects. All implementations are free to use this standard
-implementation but are not required to do so.
+The <code>RowsetMetbDbtbImpl</code> clbss is b utility clbss thbt provides bn implementbtion of the
+<b href="../RowSetMetbDbtb.html">RowSetMetbDbtb</b> interfbce, supplying stbndbrd setter
+method implementbtions for metbdbtb for both connected bnd disconnected 
+<code>RowSet</code> objects. All implementbtions bre free to use this stbndbrd
+implementbtion but bre not required to do so.
 
-<li><b>3.6 RowSetWarning Class</b>
+<li><b>3.6 RowSetWbrning Clbss</b>
 <p>
-The <code>RowSetWarning</code> class provides warnings that can be set
-on <code>RowSet</code> implementations.
-Similar to <a href="../../../java/sql/SQLWarning.html">SQLWarning</a> objects,
-<code>RowSetWarning</code>  objects are silently chained to the object whose method
-caused the warning to be thrown. All <code>RowSet</code> implementations <b>should</b>  
-ensure that this chaining occurs if a warning is generated and also ensure that the
-warnings are available via the <code>getRowSetWarnings</code> method defined in either
-the <code>JdbcRowSet</code> interface or the <code>CachedRowSet</code> interface. 
-After a warning has been retrieved with one of the
-<code>getRowSetWarnings</code> methods, the <code>RowSetWarning</code> method
-<code>getNextWarning</code> can be called on it to retrieve any warnings that might
-be chained on it.  If a warning is returned, <code>getNextWarning</code> can be called
-on it, and so on until there are no more warnings.
+The <code>RowSetWbrning</code> clbss provides wbrnings thbt cbn be set
+on <code>RowSet</code> implementbtions.
+Similbr to <b href="../../../jbvb/sql/SQLWbrning.html">SQLWbrning</b> objects,
+<code>RowSetWbrning</code>  objects bre silently chbined to the object whose method
+cbused the wbrning to be thrown. All <code>RowSet</code> implementbtions <b>should</b>  
+ensure thbt this chbining occurs if b wbrning is generbted bnd blso ensure thbt the
+wbrnings bre bvbilbble vib the <code>getRowSetWbrnings</code> method defined in either
+the <code>JdbcRowSet</code> interfbce or the <code>CbchedRowSet</code> interfbce. 
+After b wbrning hbs been retrieved with one of the
+<code>getRowSetWbrnings</code> methods, the <code>RowSetWbrning</code> method
+<code>getNextWbrning</code> cbn be cblled on it to retrieve bny wbrnings thbt might
+be chbined on it.  If b wbrning is returned, <code>getNextWbrning</code> cbn be cblled
+on it, bnd so on until there bre no more wbrnings.
 
-<li><b>3.7 The Joinable Interface</b>
+<li><b>3.7 The Joinbble Interfbce</b>
 <P>
-The <code>Joinable</code> interface provides both connected and disconnected 
-<code>RowSet</code> objects with the capability to be added to a 
-<code>JoinRowSet</code> object in an SQL <code>JOIN</code> operation.
-A <code>RowSet</code> object that has  implemented the <code>Joinable</code> 
-interface can set a match column, retrieve a match column, or unset a match column.
-A <code>JoinRowSet</code> object can then use the <code>RowSet</code> object's
-match column as a basis for adding the <code>RowSet</code> object.
+The <code>Joinbble</code> interfbce provides both connected bnd disconnected 
+<code>RowSet</code> objects with the cbpbbility to be bdded to b 
+<code>JoinRowSet</code> object in bn SQL <code>JOIN</code> operbtion.
+A <code>RowSet</code> object thbt hbs  implemented the <code>Joinbble</code> 
+interfbce cbn set b mbtch column, retrieve b mbtch column, or unset b mbtch column.
+A <code>JoinRowSet</code> object cbn then use the <code>RowSet</code> object's
+mbtch column bs b bbsis for bdding the <code>RowSet</code> object.
 </li>
 
-<li><b>3.8 The RowSetFactory Interface</b>
+<li><b>3.8 The RowSetFbctory Interfbce</b>
     <p>
-        A <code>RowSetFactory</code> implementation <strong>must</strong>
+        A <code>RowSetFbctory</code> implementbtion <strong>must</strong>
         be provided.
 </li>
 </ul>
 
-<h3><a name="relspec">4.0 Related Specifications</a></h3>
+<h3><b nbme="relspec">4.0 Relbted Specificbtions</b></h3>
 <ul>
-<li><a href="https://jcp.org/en/jsr/detail?id=221">JDBC 4.2 Specification</a>
-<li><a href="http://www.w3.org/XML/Schema">XML Schema</a>
+<li><b href="https://jcp.org/en/jsr/detbil?id=221">JDBC 4.2 Specificbtion</b>
+<li><b href="http://www.w3.org/XML/Schemb">XML Schemb</b>
 </ul>
 
-<h3><a name="reldocs">5.0 Related Documentation</a></h3>
+<h3><b nbme="reldocs">5.0 Relbted Documentbtion</b></h3>
 <ul>
-<li><a href="http://docs.oracle.com/javase/tutorial/jdbc/basics/rowset.html">
-JDBC RowSet Tutorial</a>      
+<li><b href="http://docs.orbcle.com/jbvbse/tutoribl/jdbc/bbsics/rowset.html">
+JDBC RowSet Tutoribl</b>      
 </ul>
 </body>
 </html>

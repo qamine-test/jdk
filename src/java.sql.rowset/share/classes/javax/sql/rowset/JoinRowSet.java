@@ -1,537 +1,537 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.sql.rowset;
+pbckbge jbvbx.sql.rowset;
 
-import java.sql.*;
-import javax.sql.*;
-import javax.naming.*;
-import java.io.*;
-import java.math.*;
-import java.util.*;
+import jbvb.sql.*;
+import jbvbx.sql.*;
+import jbvbx.nbming.*;
+import jbvb.io.*;
+import jbvb.mbth.*;
+import jbvb.util.*;
 
-import javax.sql.rowset.*;
+import jbvbx.sql.rowset.*;
 
 /**
- * The <code>JoinRowSet</code> interface provides a mechanism for combining related
- * data from different <code>RowSet</code> objects into one <code>JoinRowSet</code>
- * object, which represents an SQL <code>JOIN</code>.
- * In other words, a <code>JoinRowSet</code> object acts as a
- * container for the data from <code>RowSet</code> objects that form an SQL
- * <code>JOIN</code> relationship.
+ * The <code>JoinRowSet</code> interfbce provides b mechbnism for combining relbted
+ * dbtb from different <code>RowSet</code> objects into one <code>JoinRowSet</code>
+ * object, which represents bn SQL <code>JOIN</code>.
+ * In other words, b <code>JoinRowSet</code> object bcts bs b
+ * contbiner for the dbtb from <code>RowSet</code> objects thbt form bn SQL
+ * <code>JOIN</code> relbtionship.
  * <P>
- * The <code>Joinable</code> interface provides the methods for setting,
- * retrieving, and unsetting a match column, the basis for
- * establishing an SQL <code>JOIN</code> relationship. The match column may
- * alternatively be set by supplying it to the appropriate version of the
- * <code>JointRowSet</code> method <code>addRowSet</code>.
+ * The <code>Joinbble</code> interfbce provides the methods for setting,
+ * retrieving, bnd unsetting b mbtch column, the bbsis for
+ * estbblishing bn SQL <code>JOIN</code> relbtionship. The mbtch column mby
+ * blternbtively be set by supplying it to the bppropribte version of the
+ * <code>JointRowSet</code> method <code>bddRowSet</code>.
  *
  * <h3>1.0 Overview</h3>
- * Disconnected <code>RowSet</code> objects (<code>CachedRowSet</code> objects
- * and implementations extending the <code>CachedRowSet</code> interface)
- * do not have a standard way to establish an SQL <code>JOIN</code> between
- * <code>RowSet</code> objects without the expensive operation of
- * reconnecting to the data source. The <code>JoinRowSet</code>
- * interface is specifically designed to address this need.
+ * Disconnected <code>RowSet</code> objects (<code>CbchedRowSet</code> objects
+ * bnd implementbtions extending the <code>CbchedRowSet</code> interfbce)
+ * do not hbve b stbndbrd wby to estbblish bn SQL <code>JOIN</code> between
+ * <code>RowSet</code> objects without the expensive operbtion of
+ * reconnecting to the dbtb source. The <code>JoinRowSet</code>
+ * interfbce is specificblly designed to bddress this need.
  * <P>
  * Any <code>RowSet</code> object
- * can be added to a <code>JoinRowSet</code> object to become
- * part of an SQL <code>JOIN</code> relationship. This means that both connected
- * and disconnected <code>RowSet</code> objects can be part of a <code>JOIN</code>.
- * <code>RowSet</code> objects operating in a connected environment
- * (<code>JdbcRowSet</code> objects) are
- * encouraged to use the database to which they are already
- * connected to establish SQL <code>JOIN</code> relationships between
- * tables directly. However, it is possible for a
- * <code>JdbcRowSet</code> object to be added to a <code>JoinRowSet</code> object
- * if necessary.
+ * cbn be bdded to b <code>JoinRowSet</code> object to become
+ * pbrt of bn SQL <code>JOIN</code> relbtionship. This mebns thbt both connected
+ * bnd disconnected <code>RowSet</code> objects cbn be pbrt of b <code>JOIN</code>.
+ * <code>RowSet</code> objects operbting in b connected environment
+ * (<code>JdbcRowSet</code> objects) bre
+ * encourbged to use the dbtbbbse to which they bre blrebdy
+ * connected to estbblish SQL <code>JOIN</code> relbtionships between
+ * tbbles directly. However, it is possible for b
+ * <code>JdbcRowSet</code> object to be bdded to b <code>JoinRowSet</code> object
+ * if necessbry.
  * <P>
- * Any number of <code>RowSet</code> objects can be added to an
- * instance of <code>JoinRowSet</code> provided that they
- * can be related in an SQL <code>JOIN</code>.
- * By definition, the SQL <code>JOIN</code> statement is used to
- * combine the data contained in two or more relational database tables based
- * upon a common attribute. The <code>Joinable</code> interface provides the methods
- * for establishing a common attribute, which is done by setting a
- * <i>match column</i>. The match column commonly coincides with
- * the primary key, but there is
- * no requirement that the match column be the same as the primary key.
- * By establishing and then enforcing column matches,
- * a <code>JoinRowSet</code> object establishes <code>JOIN</code> relationships
- * between <code>RowSet</code> objects without the assistance of an available
- * relational database.
+ * Any number of <code>RowSet</code> objects cbn be bdded to bn
+ * instbnce of <code>JoinRowSet</code> provided thbt they
+ * cbn be relbted in bn SQL <code>JOIN</code>.
+ * By definition, the SQL <code>JOIN</code> stbtement is used to
+ * combine the dbtb contbined in two or more relbtionbl dbtbbbse tbbles bbsed
+ * upon b common bttribute. The <code>Joinbble</code> interfbce provides the methods
+ * for estbblishing b common bttribute, which is done by setting b
+ * <i>mbtch column</i>. The mbtch column commonly coincides with
+ * the primbry key, but there is
+ * no requirement thbt the mbtch column be the sbme bs the primbry key.
+ * By estbblishing bnd then enforcing column mbtches,
+ * b <code>JoinRowSet</code> object estbblishes <code>JOIN</code> relbtionships
+ * between <code>RowSet</code> objects without the bssistbnce of bn bvbilbble
+ * relbtionbl dbtbbbse.
  * <P>
- * The type of <code>JOIN</code> to be established is determined by setting
- * one of the <code>JoinRowSet</code> constants using the method
- * <code>setJoinType</code>. The following SQL <code>JOIN</code> types can be set:
+ * The type of <code>JOIN</code> to be estbblished is determined by setting
+ * one of the <code>JoinRowSet</code> constbnts using the method
+ * <code>setJoinType</code>. The following SQL <code>JOIN</code> types cbn be set:
  * <UL>
  *  <LI><code>CROSS_JOIN</code>
  *  <LI><code>FULL_JOIN</code>
- *  <LI><code>INNER_JOIN</code> - the default if no <code>JOIN</code> type has been set
+ *  <LI><code>INNER_JOIN</code> - the defbult if no <code>JOIN</code> type hbs been set
  *  <LI><code>LEFT_OUTER_JOIN</code>
  *  <LI><code>RIGHT_OUTER_JOIN</code>
  * </UL>
- * Note that if no type is set, the <code>JOIN</code> will automatically be an
+ * Note thbt if no type is set, the <code>JOIN</code> will butombticblly be bn
  * inner join. The comments for the fields in the
- * <code>JoinRowSet</code> interface explain these <code>JOIN</code> types, which are
- * standard SQL <code>JOIN</code> types.
+ * <code>JoinRowSet</code> interfbce explbin these <code>JOIN</code> types, which bre
+ * stbndbrd SQL <code>JOIN</code> types.
  *
- * <h3>2.0 Using a <code>JoinRowSet</code> Object for Creating a <code>JOIN</code></h3>
- * When a <code>JoinRowSet</code> object is created, it is empty.
- * The first <code>RowSet</code> object to be added becomes the basis for the
- * <code>JOIN</code> relationship.
- * Applications must determine which column in each of the
- * <code>RowSet</code> objects to be added to the <code>JoinRowSet</code> object
- * should be the match column. All of the
- * <code>RowSet</code> objects must contain a match column, and the values in
- * each match column must be ones that can be compared to values in the other match
- * columns. The columns do not have to have the same name, though they often do,
- * and they do not have to store the exact same data type as long as the data types
- * can be compared.
+ * <h3>2.0 Using b <code>JoinRowSet</code> Object for Crebting b <code>JOIN</code></h3>
+ * When b <code>JoinRowSet</code> object is crebted, it is empty.
+ * The first <code>RowSet</code> object to be bdded becomes the bbsis for the
+ * <code>JOIN</code> relbtionship.
+ * Applicbtions must determine which column in ebch of the
+ * <code>RowSet</code> objects to be bdded to the <code>JoinRowSet</code> object
+ * should be the mbtch column. All of the
+ * <code>RowSet</code> objects must contbin b mbtch column, bnd the vblues in
+ * ebch mbtch column must be ones thbt cbn be compbred to vblues in the other mbtch
+ * columns. The columns do not hbve to hbve the sbme nbme, though they often do,
+ * bnd they do not hbve to store the exbct sbme dbtb type bs long bs the dbtb types
+ * cbn be compbred.
  * <P>
- * A match column can be be set in two ways:
+ * A mbtch column cbn be be set in two wbys:
  * <ul>
- *  <li>By calling the <code>Joinable</code> method <code>setMatchColumn</code><br>
- *  This is the only method that can set the match column before a <code>RowSet</code>
- *  object is added to a <code>JoinRowSet</code> object. The <code>RowSet</code> object
- *  must have implemented the <code>Joinable</code> interface in order to use the method
- *  <code>setMatchColumn</code>. Once the match column value
- *  has been set, this method can be used to reset the match column at any time.
- *  <li>By calling one of the versions of the <code>JoinRowSet</code> method
- *  <code>addRowSet</code> that takes a column name or number (or an array of
- *  column names or numbers)<BR>
- *  Four of the five <code>addRowSet</code> methods take a match column as a parameter.
- *  These four methods set or reset the match column at the time a <code>RowSet</code>
- *  object is being added to a <code>JoinRowSet</code> object.
+ *  <li>By cblling the <code>Joinbble</code> method <code>setMbtchColumn</code><br>
+ *  This is the only method thbt cbn set the mbtch column before b <code>RowSet</code>
+ *  object is bdded to b <code>JoinRowSet</code> object. The <code>RowSet</code> object
+ *  must hbve implemented the <code>Joinbble</code> interfbce in order to use the method
+ *  <code>setMbtchColumn</code>. Once the mbtch column vblue
+ *  hbs been set, this method cbn be used to reset the mbtch column bt bny time.
+ *  <li>By cblling one of the versions of the <code>JoinRowSet</code> method
+ *  <code>bddRowSet</code> thbt tbkes b column nbme or number (or bn brrby of
+ *  column nbmes or numbers)<BR>
+ *  Four of the five <code>bddRowSet</code> methods tbke b mbtch column bs b pbrbmeter.
+ *  These four methods set or reset the mbtch column bt the time b <code>RowSet</code>
+ *  object is being bdded to b <code>JoinRowSet</code> object.
  * </ul>
- * <h3>3.0 Sample Usage</h3>
+ * <h3>3.0 Sbmple Usbge</h3>
  * <p>
- * The following code fragment adds two <code>CachedRowSet</code>
- * objects to a <code>JoinRowSet</code> object. Note that in this example,
- * no SQL <code>JOIN</code> type is set, so the default <code>JOIN</code> type,
- * which is <i>INNER_JOIN</i>, is established.
+ * The following code frbgment bdds two <code>CbchedRowSet</code>
+ * objects to b <code>JoinRowSet</code> object. Note thbt in this exbmple,
+ * no SQL <code>JOIN</code> type is set, so the defbult <code>JOIN</code> type,
+ * which is <i>INNER_JOIN</i>, is estbblished.
  * <p>
- * In the following code fragment, the table <code>EMPLOYEES</code>, whose match
- * column is set to the first column (<code>EMP_ID</code>), is added to the
+ * In the following code frbgment, the tbble <code>EMPLOYEES</code>, whose mbtch
+ * column is set to the first column (<code>EMP_ID</code>), is bdded to the
  * <code>JoinRowSet</code> object <i>jrs</i>. Then
- * the table <code>ESSP_BONUS_PLAN</code>, whose match column is likewise
- * the <code>EMP_ID</code> column, is added. When this second
- * table is added to <i>jrs</i>, only the rows in
- * <code>ESSP_BONUS_PLAN</code> whose <code>EMP_ID</code> value matches an
- * <code>EMP_ID</code> value in the <code>EMPLOYEES</code> table are added.
- * In this case, everyone in the bonus plan is an employee, so all of the rows
- * in the table <code>ESSP_BONUS_PLAN</code> are added to the <code>JoinRowSet</code>
- * object.  In this example, both <code>CachedRowSet</code> objects being added
- * have implemented the <code>Joinable</code> interface and can therefore call
- * the <code>Joinable</code> method <code>setMatchColumn</code>.
+ * the tbble <code>ESSP_BONUS_PLAN</code>, whose mbtch column is likewise
+ * the <code>EMP_ID</code> column, is bdded. When this second
+ * tbble is bdded to <i>jrs</i>, only the rows in
+ * <code>ESSP_BONUS_PLAN</code> whose <code>EMP_ID</code> vblue mbtches bn
+ * <code>EMP_ID</code> vblue in the <code>EMPLOYEES</code> tbble bre bdded.
+ * In this cbse, everyone in the bonus plbn is bn employee, so bll of the rows
+ * in the tbble <code>ESSP_BONUS_PLAN</code> bre bdded to the <code>JoinRowSet</code>
+ * object.  In this exbmple, both <code>CbchedRowSet</code> objects being bdded
+ * hbve implemented the <code>Joinbble</code> interfbce bnd cbn therefore cbll
+ * the <code>Joinbble</code> method <code>setMbtchColumn</code>.
  * <PRE>
  *     JoinRowSet jrs = new JoinRowSetImpl();
  *
  *     ResultSet rs1 = stmt.executeQuery("SELECT * FROM EMPLOYEES");
- *     CachedRowSet empl = new CachedRowSetImpl();
- *     empl.populate(rs1);
- *     empl.setMatchColumn(1);
- *     jrs.addRowSet(empl);
+ *     CbchedRowSet empl = new CbchedRowSetImpl();
+ *     empl.populbte(rs1);
+ *     empl.setMbtchColumn(1);
+ *     jrs.bddRowSet(empl);
  *
  *     ResultSet rs2 = stmt.executeQuery("SELECT * FROM ESSP_BONUS_PLAN");
- *     CachedRowSet bonus = new CachedRowSetImpl();
- *     bonus.populate(rs2);
- *     bonus.setMatchColumn(1); // EMP_ID is the first column
- *     jrs.addRowSet(bonus);
+ *     CbchedRowSet bonus = new CbchedRowSetImpl();
+ *     bonus.populbte(rs2);
+ *     bonus.setMbtchColumn(1); // EMP_ID is the first column
+ *     jrs.bddRowSet(bonus);
  * </PRE>
  * <P>
- * At this point, <i>jrs</i> is an inside JOIN of the two <code>RowSet</code> objects
- * based on their <code>EMP_ID</code> columns. The application can now browse the
- * combined data as if it were browsing one single <code>RowSet</code> object.
- * Because <i>jrs</i> is itself a <code>RowSet</code> object, an application can
- * navigate or modify it using <code>RowSet</code> methods.
+ * At this point, <i>jrs</i> is bn inside JOIN of the two <code>RowSet</code> objects
+ * bbsed on their <code>EMP_ID</code> columns. The bpplicbtion cbn now browse the
+ * combined dbtb bs if it were browsing one single <code>RowSet</code> object.
+ * Becbuse <i>jrs</i> is itself b <code>RowSet</code> object, bn bpplicbtion cbn
+ * nbvigbte or modify it using <code>RowSet</code> methods.
  * <PRE>
  *     jrs.first();
  *     int employeeID = jrs.getInt(1);
- *     String employeeName = jrs.getString(2);
+ *     String employeeNbme = jrs.getString(2);
  * </PRE>
  * <P>
- * Note that because the SQL <code>JOIN</code> must be enforced when an application
- * adds a second or subsequent <code>RowSet</code> object, there
- * may be an initial degradation in performance while the <code>JOIN</code> is
+ * Note thbt becbuse the SQL <code>JOIN</code> must be enforced when bn bpplicbtion
+ * bdds b second or subsequent <code>RowSet</code> object, there
+ * mby be bn initibl degrbdbtion in performbnce while the <code>JOIN</code> is
  * being performed.
  * <P>
- * The following code fragment adds an additional <code>CachedRowSet</code> object.
- * In this case, the match column (<code>EMP_ID</code>) is set when the
- * <code>CachedRowSet</code> object is added to the <code>JoinRowSet</code> object.
+ * The following code frbgment bdds bn bdditionbl <code>CbchedRowSet</code> object.
+ * In this cbse, the mbtch column (<code>EMP_ID</code>) is set when the
+ * <code>CbchedRowSet</code> object is bdded to the <code>JoinRowSet</code> object.
  * <PRE>
  *     ResultSet rs3 = stmt.executeQuery("SELECT * FROM 401K_CONTRIB");
- *     CachedRowSet fourO1k = new CachedRowSetImpl();
- *     four01k.populate(rs3);
- *     jrs.addRowSet(four01k, 1);
+ *     CbchedRowSet fourO1k = new CbchedRowSetImpl();
+ *     four01k.populbte(rs3);
+ *     jrs.bddRowSet(four01k, 1);
  * </PRE>
  * <P>
- * The <code>JoinRowSet</code> object <i>jrs</i> now contains values from all three
- * tables. The data in each row in <i>four01k</i> in which the value for the
- * <code>EMP_ID</code> column matches a value for the <code>EMP_ID</code> column
- * in <i>jrs</i> has been added to <i>jrs</i>.
+ * The <code>JoinRowSet</code> object <i>jrs</i> now contbins vblues from bll three
+ * tbbles. The dbtb in ebch row in <i>four01k</i> in which the vblue for the
+ * <code>EMP_ID</code> column mbtches b vblue for the <code>EMP_ID</code> column
+ * in <i>jrs</i> hbs been bdded to <i>jrs</i>.
  *
  * <h3>4.0 <code>JoinRowSet</code> Methods</h3>
- * The <code>JoinRowSet</code> interface supplies several methods for adding
- * <code>RowSet</code> objects and for getting information about the
+ * The <code>JoinRowSet</code> interfbce supplies severbl methods for bdding
+ * <code>RowSet</code> objects bnd for getting informbtion bbout the
  * <code>JoinRowSet</code> object.
  * <UL>
- *   <LI>Methods for adding one or more <code>RowSet</code> objects<BR>
- *       These methods allow an application to add one <code>RowSet</code> object
- *       at a time or to add multiple <code>RowSet</code> objects at one time. In
- *       either case, the methods may specify the match column for each
- *       <code>RowSet</code> object being added.
- *   <LI>Methods for getting information<BR>
+ *   <LI>Methods for bdding one or more <code>RowSet</code> objects<BR>
+ *       These methods bllow bn bpplicbtion to bdd one <code>RowSet</code> object
+ *       bt b time or to bdd multiple <code>RowSet</code> objects bt one time. In
+ *       either cbse, the methods mby specify the mbtch column for ebch
+ *       <code>RowSet</code> object being bdded.
+ *   <LI>Methods for getting informbtion<BR>
  *       One method retrieves the <code>RowSet</code> objects in the
- *       <code>JoinRowSet</code> object, and another method retrieves the
- *       <code>RowSet</code> names.  A third method retrieves either the SQL
- *       <code>WHERE</code> clause used behind the scenes to form the
- *       <code>JOIN</code> or a text description of what the <code>WHERE</code>
- *       clause does.
- *   <LI>Methods related to the type of <code>JOIN</code><BR>
- *       One method sets the <code>JOIN</code> type, and five methods find out whether
- *       the <code>JoinRowSet</code> object supports a given type.
- *   <LI>A method to make a separate copy of the <code>JoinRowSet</code> object<BR>
- *       This method creates a copy that can be persisted to the data source.
+ *       <code>JoinRowSet</code> object, bnd bnother method retrieves the
+ *       <code>RowSet</code> nbmes.  A third method retrieves either the SQL
+ *       <code>WHERE</code> clbuse used behind the scenes to form the
+ *       <code>JOIN</code> or b text description of whbt the <code>WHERE</code>
+ *       clbuse does.
+ *   <LI>Methods relbted to the type of <code>JOIN</code><BR>
+ *       One method sets the <code>JOIN</code> type, bnd five methods find out whether
+ *       the <code>JoinRowSet</code> object supports b given type.
+ *   <LI>A method to mbke b sepbrbte copy of the <code>JoinRowSet</code> object<BR>
+ *       This method crebtes b copy thbt cbn be persisted to the dbtb source.
  * </UL>
  *
  * @since 1.5
  */
 
-public interface JoinRowSet extends WebRowSet {
+public interfbce JoinRowSet extends WebRowSet {
 
     /**
      * Adds the given <code>RowSet</code> object to this <code>JoinRowSet</code>
      * object. If the <code>RowSet</code> object
-     * is the first to be added to this <code>JoinRowSet</code>
-     * object, it forms the basis of the <code>JOIN</code> relationship to be
-     * established.
+     * is the first to be bdded to this <code>JoinRowSet</code>
+     * object, it forms the bbsis of the <code>JOIN</code> relbtionship to be
+     * estbblished.
      * <P>
      * This method should be used only when the given <code>RowSet</code>
-     * object already has a match column that was set with the <code>Joinable</code>
-     * method <code>setMatchColumn</code>.
+     * object blrebdy hbs b mbtch column thbt wbs set with the <code>Joinbble</code>
+     * method <code>setMbtchColumn</code>.
      * <p>
-     * Note: A <code>Joinable</code> object is any <code>RowSet</code> object
-     * that has implemented the <code>Joinable</code> interface.
+     * Note: A <code>Joinbble</code> object is bny <code>RowSet</code> object
+     * thbt hbs implemented the <code>Joinbble</code> interfbce.
      *
-     * @param rowset the <code>RowSet</code> object that is to be added to this
+     * @pbrbm rowset the <code>RowSet</code> object thbt is to be bdded to this
      *        <code>JoinRowSet</code> object; it must implement the
-     *        <code>Joinable</code> interface and have a match column set
-     * @throws SQLException if (1) an empty rowset is added to the to this
-     *         <code>JoinRowSet</code> object, (2) a match column has not been
+     *        <code>Joinbble</code> interfbce bnd hbve b mbtch column set
+     * @throws SQLException if (1) bn empty rowset is bdded to the to this
+     *         <code>JoinRowSet</code> object, (2) b mbtch column hbs not been
      *         set for <i>rowset</i>, or (3) <i>rowset</i>
-     *         violates the active <code>JOIN</code>
-     * @see Joinable#setMatchColumn
+     *         violbtes the bctive <code>JOIN</code>
+     * @see Joinbble#setMbtchColumn
      */
-    public void addRowSet(Joinable rowset) throws SQLException;
+    public void bddRowSet(Joinbble rowset) throws SQLException;
 
     /**
      * Adds the given <code>RowSet</code> object to this <code>JoinRowSet</code>
-     * object and sets the designated column as the match column for
+     * object bnd sets the designbted column bs the mbtch column for
      * the <code>RowSet</code> object. If the <code>RowSet</code> object
-     * is the first to be added to this <code>JoinRowSet</code>
-     * object, it forms the basis of the <code>JOIN</code> relationship to be
-     * established.
+     * is the first to be bdded to this <code>JoinRowSet</code>
+     * object, it forms the bbsis of the <code>JOIN</code> relbtionship to be
+     * estbblished.
      * <P>
-     * This method should be used when <i>RowSet</i> does not already have a match
+     * This method should be used when <i>RowSet</i> does not blrebdy hbve b mbtch
      * column set.
      *
-     * @param rowset the <code>RowSet</code> object that is to be added to this
-     *        <code>JoinRowSet</code> object; it may implement the
-     *        <code>Joinable</code> interface
-     * @param columnIdx an <code>int</code> that identifies the column to become the
-     *         match column
-     * @throws SQLException if (1) <i>rowset</i> is an empty rowset or
-     *         (2) <i>rowset</i> violates the active <code>JOIN</code>
-     * @see Joinable#unsetMatchColumn
+     * @pbrbm rowset the <code>RowSet</code> object thbt is to be bdded to this
+     *        <code>JoinRowSet</code> object; it mby implement the
+     *        <code>Joinbble</code> interfbce
+     * @pbrbm columnIdx bn <code>int</code> thbt identifies the column to become the
+     *         mbtch column
+     * @throws SQLException if (1) <i>rowset</i> is bn empty rowset or
+     *         (2) <i>rowset</i> violbtes the bctive <code>JOIN</code>
+     * @see Joinbble#unsetMbtchColumn
      */
-    public void addRowSet(RowSet rowset, int columnIdx) throws SQLException;
+    public void bddRowSet(RowSet rowset, int columnIdx) throws SQLException;
 
     /**
-     * Adds <i>rowset</i> to this <code>JoinRowSet</code> object and
-     * sets the designated column as the match column. If <i>rowset</i>
-     * is the first to be added to this <code>JoinRowSet</code>
-     * object, it forms the basis for the <code>JOIN</code> relationship to be
-     * established.
+     * Adds <i>rowset</i> to this <code>JoinRowSet</code> object bnd
+     * sets the designbted column bs the mbtch column. If <i>rowset</i>
+     * is the first to be bdded to this <code>JoinRowSet</code>
+     * object, it forms the bbsis for the <code>JOIN</code> relbtionship to be
+     * estbblished.
      * <P>
      * This method should be used when the given <code>RowSet</code> object
-     * does not already have a match column.
+     * does not blrebdy hbve b mbtch column.
      *
-     * @param rowset the <code>RowSet</code> object that is to be added to this
-     *        <code>JoinRowSet</code> object; it may implement the
-     *        <code>Joinable</code> interface
-     * @param columnName the <code>String</code> object giving the name of the
-     *        column to be set as the match column
-     * @throws SQLException if (1) <i>rowset</i> is an empty rowset or
-     *         (2) the match column for <i>rowset</i> does not satisfy the
+     * @pbrbm rowset the <code>RowSet</code> object thbt is to be bdded to this
+     *        <code>JoinRowSet</code> object; it mby implement the
+     *        <code>Joinbble</code> interfbce
+     * @pbrbm columnNbme the <code>String</code> object giving the nbme of the
+     *        column to be set bs the mbtch column
+     * @throws SQLException if (1) <i>rowset</i> is bn empty rowset or
+     *         (2) the mbtch column for <i>rowset</i> does not sbtisfy the
      *         conditions of the <code>JOIN</code>
      */
-     public void addRowSet(RowSet rowset,
-                           String columnName) throws SQLException;
+     public void bddRowSet(RowSet rowset,
+                           String columnNbme) throws SQLException;
 
     /**
-     * Adds one or more <code>RowSet</code> objects contained in the given
-     * array of <code>RowSet</code> objects to this <code>JoinRowSet</code>
-     * object and sets the match column for
-     * each of the <code>RowSet</code> objects to the match columns
-     * in the given array of column indexes. The first element in
-     * <i>columnIdx</i> is set as the match column for the first
+     * Adds one or more <code>RowSet</code> objects contbined in the given
+     * brrby of <code>RowSet</code> objects to this <code>JoinRowSet</code>
+     * object bnd sets the mbtch column for
+     * ebch of the <code>RowSet</code> objects to the mbtch columns
+     * in the given brrby of column indexes. The first element in
+     * <i>columnIdx</i> is set bs the mbtch column for the first
      * <code>RowSet</code> object in <i>rowset</i>, the second element of
-     * <i>columnIdx</i> is set as the match column for the second element
-     * in <i>rowset</i>, and so on.
+     * <i>columnIdx</i> is set bs the mbtch column for the second element
+     * in <i>rowset</i>, bnd so on.
      * <P>
-     * The first <code>RowSet</code> object added to this <code>JoinRowSet</code>
-     * object forms the basis for the <code>JOIN</code> relationship.
+     * The first <code>RowSet</code> object bdded to this <code>JoinRowSet</code>
+     * object forms the bbsis for the <code>JOIN</code> relbtionship.
      * <P>
      * This method should be used when the given <code>RowSet</code> object
-     * does not already have a match column.
+     * does not blrebdy hbve b mbtch column.
      *
-     * @param rowset an array of one or more <code>RowSet</code> objects
-     *        to be added to the <code>JOIN</code>; it may implement the
-     *        <code>Joinable</code> interface
-     * @param columnIdx an array of <code>int</code> values indicating the index(es)
-     *        of the columns to be set as the match columns for the <code>RowSet</code>
+     * @pbrbm rowset bn brrby of one or more <code>RowSet</code> objects
+     *        to be bdded to the <code>JOIN</code>; it mby implement the
+     *        <code>Joinbble</code> interfbce
+     * @pbrbm columnIdx bn brrby of <code>int</code> vblues indicbting the index(es)
+     *        of the columns to be set bs the mbtch columns for the <code>RowSet</code>
      *        objects in <i>rowset</i>
-     * @throws SQLException if (1) an empty rowset is added to this
-     *         <code>JoinRowSet</code> object, (2) a match column is not set
-     *         for a <code>RowSet</code> object in <i>rowset</i>, or (3)
-     *         a <code>RowSet</code> object being added violates the active
+     * @throws SQLException if (1) bn empty rowset is bdded to this
+     *         <code>JoinRowSet</code> object, (2) b mbtch column is not set
+     *         for b <code>RowSet</code> object in <i>rowset</i>, or (3)
+     *         b <code>RowSet</code> object being bdded violbtes the bctive
      *         <code>JOIN</code>
      */
-    public void addRowSet(RowSet[] rowset,
+    public void bddRowSet(RowSet[] rowset,
                           int[] columnIdx) throws SQLException;
 
     /**
-     * Adds one or more <code>RowSet</code> objects contained in the given
-     * array of <code>RowSet</code> objects to this <code>JoinRowSet</code>
-     * object and sets the match column for
-     * each of the <code>RowSet</code> objects to the match columns
-     * in the given array of column names. The first element in
-     * <i>columnName</i> is set as the match column for the first
+     * Adds one or more <code>RowSet</code> objects contbined in the given
+     * brrby of <code>RowSet</code> objects to this <code>JoinRowSet</code>
+     * object bnd sets the mbtch column for
+     * ebch of the <code>RowSet</code> objects to the mbtch columns
+     * in the given brrby of column nbmes. The first element in
+     * <i>columnNbme</i> is set bs the mbtch column for the first
      * <code>RowSet</code> object in <i>rowset</i>, the second element of
-     * <i>columnName</i> is set as the match column for the second element
-     * in <i>rowset</i>, and so on.
+     * <i>columnNbme</i> is set bs the mbtch column for the second element
+     * in <i>rowset</i>, bnd so on.
      * <P>
-     * The first <code>RowSet</code> object added to this <code>JoinRowSet</code>
-     * object forms the basis for the <code>JOIN</code> relationship.
+     * The first <code>RowSet</code> object bdded to this <code>JoinRowSet</code>
+     * object forms the bbsis for the <code>JOIN</code> relbtionship.
      * <P>
      * This method should be used when the given <code>RowSet</code> object(s)
-     * does not already have a match column.
+     * does not blrebdy hbve b mbtch column.
      *
-     * @param rowset an array of one or more <code>RowSet</code> objects
-     *        to be added to the <code>JOIN</code>; it may implement the
-     *        <code>Joinable</code> interface
-     * @param columnName an array of <code>String</code> values indicating the
-     *        names of the columns to be set as the match columns for the
+     * @pbrbm rowset bn brrby of one or more <code>RowSet</code> objects
+     *        to be bdded to the <code>JOIN</code>; it mby implement the
+     *        <code>Joinbble</code> interfbce
+     * @pbrbm columnNbme bn brrby of <code>String</code> vblues indicbting the
+     *        nbmes of the columns to be set bs the mbtch columns for the
      *        <code>RowSet</code> objects in <i>rowset</i>
-     * @throws SQLException if (1) an empty rowset is added to this
-     *         <code>JoinRowSet</code> object, (2) a match column is not set
-     *         for a <code>RowSet</code> object in <i>rowset</i>, or (3)
-     *         a <code>RowSet</code> object being added violates the active
+     * @throws SQLException if (1) bn empty rowset is bdded to this
+     *         <code>JoinRowSet</code> object, (2) b mbtch column is not set
+     *         for b <code>RowSet</code> object in <i>rowset</i>, or (3)
+     *         b <code>RowSet</code> object being bdded violbtes the bctive
      *         <code>JOIN</code>
      */
-    public void addRowSet(RowSet[] rowset,
-                          String[] columnName) throws SQLException;
+    public void bddRowSet(RowSet[] rowset,
+                          String[] columnNbme) throws SQLException;
 
     /**
-     * Returns a <code>Collection</code> object containing the
-     * <code>RowSet</code> objects that have been added to this
+     * Returns b <code>Collection</code> object contbining the
+     * <code>RowSet</code> objects thbt hbve been bdded to this
      * <code>JoinRowSet</code> object.
-     * This should return the 'n' number of RowSet contained
-     * within the <code>JOIN</code> and maintain any updates that have occurred while in
+     * This should return the 'n' number of RowSet contbined
+     * within the <code>JOIN</code> bnd mbintbin bny updbtes thbt hbve occurred while in
      * this union.
      *
-     * @return a <code>Collection</code> object consisting of the
-     *        <code>RowSet</code> objects added to this <code>JoinRowSet</code>
+     * @return b <code>Collection</code> object consisting of the
+     *        <code>RowSet</code> objects bdded to this <code>JoinRowSet</code>
      *        object
-     * @throws SQLException if an error occurs generating the
+     * @throws SQLException if bn error occurs generbting the
      *         <code>Collection</code> object to be returned
      */
-    public Collection<?> getRowSets() throws java.sql.SQLException;
+    public Collection<?> getRowSets() throws jbvb.sql.SQLException;
 
     /**
-     * Returns a <code>String</code> array containing the names of the
-     *         <code>RowSet</code> objects added to this <code>JoinRowSet</code>
+     * Returns b <code>String</code> brrby contbining the nbmes of the
+     *         <code>RowSet</code> objects bdded to this <code>JoinRowSet</code>
      *         object.
      *
-     * @return a <code>String</code> array of the names of the
+     * @return b <code>String</code> brrby of the nbmes of the
      *         <code>RowSet</code> objects in this <code>JoinRowSet</code>
      *         object
-     * @throws SQLException if an error occurs retrieving the names of
+     * @throws SQLException if bn error occurs retrieving the nbmes of
      *         the <code>RowSet</code> objects
-     * @see CachedRowSet#setTableName
+     * @see CbchedRowSet#setTbbleNbme
      */
-    public String[] getRowSetNames() throws java.sql.SQLException;
+    public String[] getRowSetNbmes() throws jbvb.sql.SQLException;
 
     /**
-     * Creates a new <code>CachedRowSet</code> object containing the
-     * data in this <code>JoinRowSet</code> object, which can be saved
-     * to a data source using the <code>SyncProvider</code> object for
-     * the <code>CachedRowSet</code> object.
+     * Crebtes b new <code>CbchedRowSet</code> object contbining the
+     * dbtb in this <code>JoinRowSet</code> object, which cbn be sbved
+     * to b dbtb source using the <code>SyncProvider</code> object for
+     * the <code>CbchedRowSet</code> object.
      * <P>
-     * If any updates or modifications have been applied to the JoinRowSet
-     * the CachedRowSet returned by the method will not be able to persist
-     * it's changes back to the originating rows and tables in the
-     * in the datasource. The CachedRowSet instance returned should not
-     * contain modification data and it should clear all properties of
-     * it's originating SQL statement. An application should reset the
-     * SQL statement using the <code>RowSet.setCommand</code> method.
+     * If bny updbtes or modificbtions hbve been bpplied to the JoinRowSet
+     * the CbchedRowSet returned by the method will not be bble to persist
+     * it's chbnges bbck to the originbting rows bnd tbbles in the
+     * in the dbtbsource. The CbchedRowSet instbnce returned should not
+     * contbin modificbtion dbtb bnd it should clebr bll properties of
+     * it's originbting SQL stbtement. An bpplicbtion should reset the
+     * SQL stbtement using the <code>RowSet.setCommbnd</code> method.
      * <p>
-     * In order to allow changes to be persisted back to the datasource
-     * to the originating tables, the <code>acceptChanges</code> method
-     * should be used and called on a JoinRowSet object instance. Implementations
-     * can leverage the internal data and update tracking in their
-     * implementations to interact with the SyncProvider to persist any
-     * changes.
+     * In order to bllow chbnges to be persisted bbck to the dbtbsource
+     * to the originbting tbbles, the <code>bcceptChbnges</code> method
+     * should be used bnd cblled on b JoinRowSet object instbnce. Implementbtions
+     * cbn leverbge the internbl dbtb bnd updbte trbcking in their
+     * implementbtions to interbct with the SyncProvider to persist bny
+     * chbnges.
      *
-     * @return a CachedRowSet containing the contents of the JoinRowSet
-     * @throws SQLException if an error occurs assembling the CachedRowSet
+     * @return b CbchedRowSet contbining the contents of the JoinRowSet
+     * @throws SQLException if bn error occurs bssembling the CbchedRowSet
      * object
-     * @see javax.sql.RowSet
-     * @see javax.sql.rowset.CachedRowSet
-     * @see javax.sql.rowset.spi.SyncProvider
+     * @see jbvbx.sql.RowSet
+     * @see jbvbx.sql.rowset.CbchedRowSet
+     * @see jbvbx.sql.rowset.spi.SyncProvider
      */
-    public CachedRowSet toCachedRowSet() throws java.sql.SQLException;
+    public CbchedRowSet toCbchedRowSet() throws jbvb.sql.SQLException;
 
     /**
-     * Indicates if CROSS_JOIN is supported by a JoinRowSet
-     * implementation
+     * Indicbtes if CROSS_JOIN is supported by b JoinRowSet
+     * implementbtion
      *
-     * @return true if the CROSS_JOIN is supported; false otherwise
+     * @return true if the CROSS_JOIN is supported; fblse otherwise
      */
-    public boolean supportsCrossJoin();
+    public boolebn supportsCrossJoin();
 
     /**
-     * Indicates if INNER_JOIN is supported by a JoinRowSet
-     * implementation
+     * Indicbtes if INNER_JOIN is supported by b JoinRowSet
+     * implementbtion
      *
-     * @return true is the INNER_JOIN is supported; false otherwise
+     * @return true is the INNER_JOIN is supported; fblse otherwise
      */
-    public boolean supportsInnerJoin();
+    public boolebn supportsInnerJoin();
 
     /**
-     * Indicates if LEFT_OUTER_JOIN is supported by a JoinRowSet
-     * implementation
+     * Indicbtes if LEFT_OUTER_JOIN is supported by b JoinRowSet
+     * implementbtion
      *
-     * @return true is the LEFT_OUTER_JOIN is supported; false otherwise
+     * @return true is the LEFT_OUTER_JOIN is supported; fblse otherwise
      */
-    public boolean supportsLeftOuterJoin();
+    public boolebn supportsLeftOuterJoin();
 
     /**
-     * Indicates if RIGHT_OUTER_JOIN is supported by a JoinRowSet
-     * implementation
+     * Indicbtes if RIGHT_OUTER_JOIN is supported by b JoinRowSet
+     * implementbtion
      *
-     * @return true is the RIGHT_OUTER_JOIN is supported; false otherwise
+     * @return true is the RIGHT_OUTER_JOIN is supported; fblse otherwise
      */
-    public boolean supportsRightOuterJoin();
+    public boolebn supportsRightOuterJoin();
 
     /**
-     * Indicates if FULL_JOIN is supported by a JoinRowSet
-     * implementation
+     * Indicbtes if FULL_JOIN is supported by b JoinRowSet
+     * implementbtion
      *
-     * @return true is the FULL_JOIN is supported; false otherwise
+     * @return true is the FULL_JOIN is supported; fblse otherwise
      */
-    public boolean supportsFullJoin();
+    public boolebn supportsFullJoin();
 
     /**
-     * Allow the application to adjust the type of <code>JOIN</code> imposed
-     * on tables contained within the JoinRowSet object instance.
-     * Implementations should throw a SQLException if they do
-     * not support a given <code>JOIN</code> type.
+     * Allow the bpplicbtion to bdjust the type of <code>JOIN</code> imposed
+     * on tbbles contbined within the JoinRowSet object instbnce.
+     * Implementbtions should throw b SQLException if they do
+     * not support b given <code>JOIN</code> type.
      *
-     * @param joinType the standard JoinRowSet.XXX static field definition
-     * of a SQL <code>JOIN</code> to re-configure a JoinRowSet instance on
+     * @pbrbm joinType the stbndbrd JoinRowSet.XXX stbtic field definition
+     * of b SQL <code>JOIN</code> to re-configure b JoinRowSet instbnce on
      * the fly.
-     * @throws SQLException if an unsupported <code>JOIN</code> type is set
+     * @throws SQLException if bn unsupported <code>JOIN</code> type is set
      * @see #getJoinType
      */
     public void setJoinType(int joinType) throws SQLException;
 
     /**
-     * Return a SQL-like description of the WHERE clause being used
-     * in a JoinRowSet object. An implementation can describe
-     * the WHERE clause of the SQL <code>JOIN</code> by supplying a SQL
-     * strings description of <code>JOIN</code> or provide a textual
-     * description to assist applications using a <code>JoinRowSet</code>
+     * Return b SQL-like description of the WHERE clbuse being used
+     * in b JoinRowSet object. An implementbtion cbn describe
+     * the WHERE clbuse of the SQL <code>JOIN</code> by supplying b SQL
+     * strings description of <code>JOIN</code> or provide b textubl
+     * description to bssist bpplicbtions using b <code>JoinRowSet</code>
      *
-     * @return whereClause a textual or SQL description of the logical
-     * WHERE clause used in the JoinRowSet instance
-     * @throws SQLException if an error occurs in generating a representation
-     * of the WHERE clause.
+     * @return whereClbuse b textubl or SQL description of the logicbl
+     * WHERE clbuse used in the JoinRowSet instbnce
+     * @throws SQLException if bn error occurs in generbting b representbtion
+     * of the WHERE clbuse.
      */
-    public String getWhereClause() throws SQLException;
+    public String getWhereClbuse() throws SQLException;
 
     /**
-     * Returns a <code>int</code> describing the set SQL <code>JOIN</code> type
-     * governing this JoinRowSet instance. The returned type will be one of
-     * standard JoinRowSet types: <code>CROSS_JOIN</code>, <code>INNER_JOIN</code>,
+     * Returns b <code>int</code> describing the set SQL <code>JOIN</code> type
+     * governing this JoinRowSet instbnce. The returned type will be one of
+     * stbndbrd JoinRowSet types: <code>CROSS_JOIN</code>, <code>INNER_JOIN</code>,
      * <code>LEFT_OUTER_JOIN</code>, <code>RIGHT_OUTER_JOIN</code> or
      * <code>FULL_JOIN</code>.
      *
-     * @return joinType one of the standard JoinRowSet static field
-     *     definitions of a SQL <code>JOIN</code>. <code>JoinRowSet.INNER_JOIN</code>
-     *     is returned as the default <code>JOIN</code> type is no type has been
+     * @return joinType one of the stbndbrd JoinRowSet stbtic field
+     *     definitions of b SQL <code>JOIN</code>. <code>JoinRowSet.INNER_JOIN</code>
+     *     is returned bs the defbult <code>JOIN</code> type is no type hbs been
      *     explicitly set.
-     * @throws SQLException if an error occurs determining the SQL <code>JOIN</code>
-     *     type supported by the JoinRowSet instance.
+     * @throws SQLException if bn error occurs determining the SQL <code>JOIN</code>
+     *     type supported by the JoinRowSet instbnce.
      * @see #setJoinType
      */
     public int getJoinType() throws SQLException;
 
     /**
-     * An ANSI-style <code>JOIN</code> providing a cross product of two tables
+     * An ANSI-style <code>JOIN</code> providing b cross product of two tbbles
      */
-    public static int CROSS_JOIN = 0;
+    public stbtic int CROSS_JOIN = 0;
 
     /**
-     * An ANSI-style <code>JOIN</code> providing a inner join between two tables. Any
-     * unmatched rows in either table of the join should be discarded.
+     * An ANSI-style <code>JOIN</code> providing b inner join between two tbbles. Any
+     * unmbtched rows in either tbble of the join should be discbrded.
      */
-    public static int INNER_JOIN = 1;
+    public stbtic int INNER_JOIN = 1;
 
     /**
-     * An ANSI-style <code>JOIN</code> providing a left outer join between two
-     * tables. In SQL, this is described where all records should be
-     * returned from the left side of the JOIN statement.
+     * An ANSI-style <code>JOIN</code> providing b left outer join between two
+     * tbbles. In SQL, this is described where bll records should be
+     * returned from the left side of the JOIN stbtement.
      */
-    public static int LEFT_OUTER_JOIN = 2;
+    public stbtic int LEFT_OUTER_JOIN = 2;
 
     /**
-     * An ANSI-style <code>JOIN</code> providing a right outer join between
-     * two tables. In SQL, this is described where all records from the
-     * table on the right side of the JOIN statement even if the table
-     * on the left has no matching record.
+     * An ANSI-style <code>JOIN</code> providing b right outer join between
+     * two tbbles. In SQL, this is described where bll records from the
+     * tbble on the right side of the JOIN stbtement even if the tbble
+     * on the left hbs no mbtching record.
      */
-    public static int RIGHT_OUTER_JOIN = 3;
+    public stbtic int RIGHT_OUTER_JOIN = 3;
 
     /**
-     * An ANSI-style <code>JOIN</code> providing a a full JOIN. Specifies that all
-     * rows from either table be returned regardless of matching
-     * records on the other table.
+     * An ANSI-style <code>JOIN</code> providing b b full JOIN. Specifies thbt bll
+     * rows from either tbble be returned regbrdless of mbtching
+     * records on the other tbble.
      */
-    public static int FULL_JOIN = 4;
+    public stbtic int FULL_JOIN = 4;
 
 
 }

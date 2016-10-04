@@ -1,335 +1,335 @@
 /*
- * Copyright (c) 1998, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2004, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.sound.midi;
+pbckbge jbvbx.sound.midi;
 
 
 /**
- * A <code>MidiChannel</code> object represents a single MIDI channel.
- * Generally, each <code>MidiChannel</code> method processes a like-named MIDI
- * "channel voice" or "channel mode" message as defined by the MIDI specification. However,
- * <code>MidiChannel</code> adds some "get" methods  that retrieve the value
- * most recently set by one of the standard MIDI channel messages.  Similarly,
- * methods for per-channel solo and mute have been added.
+ * A <code>MidiChbnnel</code> object represents b single MIDI chbnnel.
+ * Generblly, ebch <code>MidiChbnnel</code> method processes b like-nbmed MIDI
+ * "chbnnel voice" or "chbnnel mode" messbge bs defined by the MIDI specificbtion. However,
+ * <code>MidiChbnnel</code> bdds some "get" methods  thbt retrieve the vblue
+ * most recently set by one of the stbndbrd MIDI chbnnel messbges.  Similbrly,
+ * methods for per-chbnnel solo bnd mute hbve been bdded.
  * <p>
- * A <code>{@link Synthesizer}</code> object has a collection
- * of <code>MidiChannels</code>, usually one for each of the 16 channels
- * prescribed by the MIDI 1.0 specification.  The <code>Synthesizer</code>
- * generates sound when its <code>MidiChannels</code> receive
- * <code>noteOn</code> messages.
+ * A <code>{@link Synthesizer}</code> object hbs b collection
+ * of <code>MidiChbnnels</code>, usublly one for ebch of the 16 chbnnels
+ * prescribed by the MIDI 1.0 specificbtion.  The <code>Synthesizer</code>
+ * generbtes sound when its <code>MidiChbnnels</code> receive
+ * <code>noteOn</code> messbges.
  * <p>
- * See the MIDI 1.0 Specification for more information about the prescribed
- * behavior of the MIDI channel messages, which are not exhaustively
- * documented here.  The specification is titled <code>MIDI Reference:
- * The Complete MIDI 1.0 Detailed Specification</code>, and is published by
- * the MIDI Manufacturer's Association (<a href = http://www.midi.org>
- * http://www.midi.org</a>).
+ * See the MIDI 1.0 Specificbtion for more informbtion bbout the prescribed
+ * behbvior of the MIDI chbnnel messbges, which bre not exhbustively
+ * documented here.  The specificbtion is titled <code>MIDI Reference:
+ * The Complete MIDI 1.0 Detbiled Specificbtion</code>, bnd is published by
+ * the MIDI Mbnufbcturer's Associbtion (<b href = http://www.midi.org>
+ * http://www.midi.org</b>).
  * <p>
- * MIDI was originally a protocol for reporting the gestures of a keyboard
- * musician.  This genesis is visible in the <code>MidiChannel</code> API, which
- * preserves such MIDI concepts as key number, key velocity, and key pressure.
- * It should be understood that the MIDI data does not necessarily originate
- * with a keyboard player (the source could be a different kind of musician, or
- * software).  Some devices might generate constant values for velocity
- * and pressure, regardless of how the note was performed.
- * Also, the MIDI specification often leaves it up to the
- * synthesizer to use the data in the way the implementor sees fit.  For
- * example, velocity data need not always be mapped to volume and/or brightness.
+ * MIDI wbs originblly b protocol for reporting the gestures of b keybobrd
+ * musicibn.  This genesis is visible in the <code>MidiChbnnel</code> API, which
+ * preserves such MIDI concepts bs key number, key velocity, bnd key pressure.
+ * It should be understood thbt the MIDI dbtb does not necessbrily originbte
+ * with b keybobrd plbyer (the source could be b different kind of musicibn, or
+ * softwbre).  Some devices might generbte constbnt vblues for velocity
+ * bnd pressure, regbrdless of how the note wbs performed.
+ * Also, the MIDI specificbtion often lebves it up to the
+ * synthesizer to use the dbtb in the wby the implementor sees fit.  For
+ * exbmple, velocity dbtb need not blwbys be mbpped to volume bnd/or brightness.
  *
- * @see Synthesizer#getChannels
+ * @see Synthesizer#getChbnnels
  *
- * @author David Rivas
- * @author Kara Kytle
+ * @buthor Dbvid Rivbs
+ * @buthor Kbrb Kytle
  */
 
-public interface MidiChannel {
+public interfbce MidiChbnnel {
 
     /**
-     * Starts the specified note sounding.  The key-down velocity
-     * usually controls the note's volume and/or brightness.
-     * If <code>velocity</code> is zero, this method instead acts like
-     * {@link #noteOff(int)}, terminating the note.
+     * Stbrts the specified note sounding.  The key-down velocity
+     * usublly controls the note's volume bnd/or brightness.
+     * If <code>velocity</code> is zero, this method instebd bcts like
+     * {@link #noteOff(int)}, terminbting the note.
      *
-     * @param noteNumber the MIDI note number, from 0 to 127 (60 = Middle C)
-     * @param velocity the speed with which the key was depressed
+     * @pbrbm noteNumber the MIDI note number, from 0 to 127 (60 = Middle C)
+     * @pbrbm velocity the speed with which the key wbs depressed
      *
      * @see #noteOff(int, int)
      */
     public void noteOn(int noteNumber, int velocity);
 
     /**
-     * Turns the specified note off.  The key-up velocity, if not ignored, can
-     * be used to affect how quickly the note decays.
-     * In any case, the note might not die away instantaneously; its decay
-     * rate is determined by the internals of the <code>Instrument</code>.
-     * If the Hold Pedal (a controller; see
-     * {@link #controlChange(int, int) controlChange})
-     * is down, the effect of this method is deferred until the pedal is
-     * released.
+     * Turns the specified note off.  The key-up velocity, if not ignored, cbn
+     * be used to bffect how quickly the note decbys.
+     * In bny cbse, the note might not die bwby instbntbneously; its decby
+     * rbte is determined by the internbls of the <code>Instrument</code>.
+     * If the Hold Pedbl (b controller; see
+     * {@link #controlChbnge(int, int) controlChbnge})
+     * is down, the effect of this method is deferred until the pedbl is
+     * relebsed.
      *
      *
-     * @param noteNumber the MIDI note number, from 0 to 127 (60 = Middle C)
-     * @param velocity the speed with which the key was released
+     * @pbrbm noteNumber the MIDI note number, from 0 to 127 (60 = Middle C)
+     * @pbrbm velocity the speed with which the key wbs relebsed
      *
      * @see #noteOff(int)
      * @see #noteOn
-     * @see #allNotesOff
-     * @see #allSoundOff
+     * @see #bllNotesOff
+     * @see #bllSoundOff
      */
     public void noteOff(int noteNumber, int velocity);
 
     /**
      * Turns the specified note off.
      *
-     * @param noteNumber the MIDI note number, from 0 to 127 (60 = Middle C)
+     * @pbrbm noteNumber the MIDI note number, from 0 to 127 (60 = Middle C)
      *
      * @see #noteOff(int, int)
      */
     public void noteOff(int noteNumber);
 
     /**
-     * Reacts to a change in the specified note's key pressure.
+     * Rebcts to b chbnge in the specified note's key pressure.
      * Polyphonic key pressure
-     * allows a keyboard player to press multiple keys simultaneously, each
-     * with a different amount of pressure.  The pressure, if not ignored,
-     * is typically used to vary such features as the volume, brightness,
-     * or vibrato of the note.
+     * bllows b keybobrd plbyer to press multiple keys simultbneously, ebch
+     * with b different bmount of pressure.  The pressure, if not ignored,
+     * is typicblly used to vbry such febtures bs the volume, brightness,
+     * or vibrbto of the note.
      *
-     * It is possible that the underlying synthesizer
-     * does not support this MIDI message. In order
-     * to verify that <code>setPolyPressure</code>
-     * was successful, use <code>getPolyPressure</code>.
+     * It is possible thbt the underlying synthesizer
+     * does not support this MIDI messbge. In order
+     * to verify thbt <code>setPolyPressure</code>
+     * wbs successful, use <code>getPolyPressure</code>.
      *
-     * @param noteNumber the MIDI note number, from 0 to 127 (60 = Middle C)
-     * @param pressure value for the specified key, from 0 to 127 (127 =
-     * maximum pressure)
+     * @pbrbm noteNumber the MIDI note number, from 0 to 127 (60 = Middle C)
+     * @pbrbm pressure vblue for the specified key, from 0 to 127 (127 =
+     * mbximum pressure)
      *
      * @see #getPolyPressure(int)
      */
     public void setPolyPressure(int noteNumber, int pressure);
 
     /**
-     * Obtains the pressure with which the specified key is being depressed.
+     * Obtbins the pressure with which the specified key is being depressed.
      *
-     * @param noteNumber the MIDI note number, from 0 to 127 (60 = Middle C)
+     * @pbrbm noteNumber the MIDI note number, from 0 to 127 (60 = Middle C)
      *
      * If the device does not support setting poly pressure,
-     * this method always returns 0. Calling
-     * <code>setPolyPressure</code> will have no effect then.
+     * this method blwbys returns 0. Cblling
+     * <code>setPolyPressure</code> will hbve no effect then.
      *
-     * @return the amount of pressure for that note, from 0 to 127
-     * (127 = maximum pressure)
+     * @return the bmount of pressure for thbt note, from 0 to 127
+     * (127 = mbximum pressure)
      *
      * @see #setPolyPressure(int, int)
      */
     public int getPolyPressure(int noteNumber);
 
     /**
-     * Reacts to a change in the keyboard pressure.  Channel
-     * pressure indicates how hard the keyboard player is depressing
-     * the entire keyboard.  This can be the maximum or
-     * average of the per-key pressure-sensor values, as set by
-     * <code>setPolyPressure</code>.  More commonly, it is a measurement of
-     * a single sensor on a device that doesn't implement polyphonic key
-     * pressure.  Pressure can be used to control various aspects of the sound,
-     * as described under {@link #setPolyPressure(int, int) setPolyPressure}.
+     * Rebcts to b chbnge in the keybobrd pressure.  Chbnnel
+     * pressure indicbtes how hbrd the keybobrd plbyer is depressing
+     * the entire keybobrd.  This cbn be the mbximum or
+     * bverbge of the per-key pressure-sensor vblues, bs set by
+     * <code>setPolyPressure</code>.  More commonly, it is b mebsurement of
+     * b single sensor on b device thbt doesn't implement polyphonic key
+     * pressure.  Pressure cbn be used to control vbrious bspects of the sound,
+     * bs described under {@link #setPolyPressure(int, int) setPolyPressure}.
      *
-     * It is possible that the underlying synthesizer
-     * does not support this MIDI message. In order
-     * to verify that <code>setChannelPressure</code>
-     * was successful, use <code>getChannelPressure</code>.
+     * It is possible thbt the underlying synthesizer
+     * does not support this MIDI messbge. In order
+     * to verify thbt <code>setChbnnelPressure</code>
+     * wbs successful, use <code>getChbnnelPressure</code>.
      *
-     * @param pressure the pressure with which the keyboard is being depressed,
-     * from 0 to 127 (127 = maximum pressure)
+     * @pbrbm pressure the pressure with which the keybobrd is being depressed,
+     * from 0 to 127 (127 = mbximum pressure)
      * @see #setPolyPressure(int, int)
-     * @see #getChannelPressure
+     * @see #getChbnnelPressure
      */
-    public void setChannelPressure(int pressure);
+    public void setChbnnelPressure(int pressure);
 
     /**
-     * Obtains the channel's keyboard pressure.
-     * If the device does not support setting channel pressure,
-     * this method always returns 0. Calling
-     * <code>setChannelPressure</code> will have no effect then.
+     * Obtbins the chbnnel's keybobrd pressure.
+     * If the device does not support setting chbnnel pressure,
+     * this method blwbys returns 0. Cblling
+     * <code>setChbnnelPressure</code> will hbve no effect then.
      *
-     * @return the amount of pressure for that note,
-     *         from 0 to 127 (127 = maximum pressure)
+     * @return the bmount of pressure for thbt note,
+     *         from 0 to 127 (127 = mbximum pressure)
      *
-     * @see #setChannelPressure(int)
+     * @see #setChbnnelPressure(int)
      */
-    public int getChannelPressure();
+    public int getChbnnelPressure();
 
     /**
-     * Reacts to a change in the specified controller's value.  A controller
-     * is some control other than a keyboard key, such as a
-     * switch, slider, pedal, wheel, or breath-pressure sensor.
-     * The MIDI 1.0 Specification provides standard numbers for typical
-     * controllers on MIDI devices, and describes the intended effect
+     * Rebcts to b chbnge in the specified controller's vblue.  A controller
+     * is some control other thbn b keybobrd key, such bs b
+     * switch, slider, pedbl, wheel, or brebth-pressure sensor.
+     * The MIDI 1.0 Specificbtion provides stbndbrd numbers for typicbl
+     * controllers on MIDI devices, bnd describes the intended effect
      * for some of the controllers.
-     * The way in which an
-     * <code>Instrument</code> reacts to a controller change may be
+     * The wby in which bn
+     * <code>Instrument</code> rebcts to b controller chbnge mby be
      * specific to the <code>Instrument</code>.
      * <p>
-     * The MIDI 1.0 Specification defines both 7-bit controllers
-     * and 14-bit controllers.  Continuous controllers, such
-     * as wheels and sliders, typically have 14 bits (two MIDI bytes),
-     * while discrete controllers, such as switches, typically have 7 bits
-     * (one MIDI byte).  Refer to the specification to see the
-     * expected resolution for each type of control.
+     * The MIDI 1.0 Specificbtion defines both 7-bit controllers
+     * bnd 14-bit controllers.  Continuous controllers, such
+     * bs wheels bnd sliders, typicblly hbve 14 bits (two MIDI bytes),
+     * while discrete controllers, such bs switches, typicblly hbve 7 bits
+     * (one MIDI byte).  Refer to the specificbtion to see the
+     * expected resolution for ebch type of control.
      * <p>
-     * Controllers 64 through 95 (0x40 - 0x5F) allow 7-bit precision.
-     * The value of a 7-bit controller is set completely by the
-     * <code>value</code> argument.  An additional set of controllers
+     * Controllers 64 through 95 (0x40 - 0x5F) bllow 7-bit precision.
+     * The vblue of b 7-bit controller is set completely by the
+     * <code>vblue</code> brgument.  An bdditionbl set of controllers
      * provide 14-bit precision by using two controller numbers, one
-     * for the most significant 7 bits and another for the least significant
+     * for the most significbnt 7 bits bnd bnother for the lebst significbnt
      * 7 bits.  Controller numbers 0 through 31 (0x00 - 0x1F) control the
-     * most significant 7 bits of 14-bit controllers; controller numbers
-     * 32 through 63 (0x20 - 0x3F) control the least significant 7 bits of
-     * these controllers.  For example, controller number 7 (0x07) controls
-     * the upper 7 bits of the channel volume controller, and controller
+     * most significbnt 7 bits of 14-bit controllers; controller numbers
+     * 32 through 63 (0x20 - 0x3F) control the lebst significbnt 7 bits of
+     * these controllers.  For exbmple, controller number 7 (0x07) controls
+     * the upper 7 bits of the chbnnel volume controller, bnd controller
      * number 39 (0x27) controls the lower 7 bits.
-     * The value of a 14-bit controller is determined
-     * by the interaction of the two halves.  When the most significant 7 bits
-     * of a controller are set (using controller numbers 0 through 31), the
-     * lower 7 bits are automatically set to 0.  The corresponding controller
-     * number for the lower 7 bits may then be used to further modulate the
-     * controller value.
+     * The vblue of b 14-bit controller is determined
+     * by the interbction of the two hblves.  When the most significbnt 7 bits
+     * of b controller bre set (using controller numbers 0 through 31), the
+     * lower 7 bits bre butombticblly set to 0.  The corresponding controller
+     * number for the lower 7 bits mby then be used to further modulbte the
+     * controller vblue.
      *
-     * It is possible that the underlying synthesizer
-     * does not support a specific controller message. In order
-     * to verify that a call to <code>controlChange</code>
-     * was successful, use <code>getController</code>.
+     * It is possible thbt the underlying synthesizer
+     * does not support b specific controller messbge. In order
+     * to verify thbt b cbll to <code>controlChbnge</code>
+     * wbs successful, use <code>getController</code>.
      *
-     * @param controller the controller number (0 to 127; see the MIDI
-     * 1.0 Specification for the interpretation)
-     * @param value the value to which the specified controller is changed (0 to 127)
+     * @pbrbm controller the controller number (0 to 127; see the MIDI
+     * 1.0 Specificbtion for the interpretbtion)
+     * @pbrbm vblue the vblue to which the specified controller is chbnged (0 to 127)
      *
      * @see #getController(int)
      */
-    public void controlChange(int controller, int value);
+    public void controlChbnge(int controller, int vblue);
 
     /**
-     * Obtains the current value of the specified controller.  The return
-     * value is represented with 7 bits. For 14-bit controllers, the MSB and
-     * LSB controller value needs to be obtained separately. For example,
-     * the 14-bit value of the volume controller can be calculated by
-     * multiplying the value of controller 7 (0x07, channel volume MSB)
-     * with 128 and adding the
-     * value of controller 39 (0x27, channel volume LSB).
+     * Obtbins the current vblue of the specified controller.  The return
+     * vblue is represented with 7 bits. For 14-bit controllers, the MSB bnd
+     * LSB controller vblue needs to be obtbined sepbrbtely. For exbmple,
+     * the 14-bit vblue of the volume controller cbn be cblculbted by
+     * multiplying the vblue of controller 7 (0x07, chbnnel volume MSB)
+     * with 128 bnd bdding the
+     * vblue of controller 39 (0x27, chbnnel volume LSB).
      *
-     * If the device does not support setting a specific controller,
-     * this method returns 0 for that controller.
-     * Calling <code>controlChange</code> will have no effect then.
+     * If the device does not support setting b specific controller,
+     * this method returns 0 for thbt controller.
+     * Cblling <code>controlChbnge</code> will hbve no effect then.
      *
-     * @param controller the number of the controller whose value is desired.
-     * The allowed range is 0-127; see the MIDI
-     * 1.0 Specification for the interpretation.
+     * @pbrbm controller the number of the controller whose vblue is desired.
+     * The bllowed rbnge is 0-127; see the MIDI
+     * 1.0 Specificbtion for the interpretbtion.
      *
-     * @return the current value of the specified controller (0 to 127)
+     * @return the current vblue of the specified controller (0 to 127)
      *
-     * @see #controlChange(int, int)
+     * @see #controlChbnge(int, int)
      */
     public int getController(int controller);
 
     /**
-     * Changes a program (patch).  This selects a specific
-     * instrument from the currently selected bank of instruments.
+     * Chbnges b progrbm (pbtch).  This selects b specific
+     * instrument from the currently selected bbnk of instruments.
      * <p>
-     * The MIDI specification does not
-     * dictate whether notes that are already sounding should switch
-     * to the new instrument (timbre) or continue with their original timbre
-     * until terminated by a note-off.
+     * The MIDI specificbtion does not
+     * dictbte whether notes thbt bre blrebdy sounding should switch
+     * to the new instrument (timbre) or continue with their originbl timbre
+     * until terminbted by b note-off.
      * <p>
-     * The program number is zero-based (expressed from 0 to 127).
-     * Note that MIDI hardware displays and literature about MIDI
-     * typically use the range 1 to 128 instead.
+     * The progrbm number is zero-bbsed (expressed from 0 to 127).
+     * Note thbt MIDI hbrdwbre displbys bnd literbture bbout MIDI
+     * typicblly use the rbnge 1 to 128 instebd.
      *
-     * It is possible that the underlying synthesizer
-     * does not support a specific program. In order
-     * to verify that a call to <code>programChange</code>
-     * was successful, use <code>getProgram</code>.
+     * It is possible thbt the underlying synthesizer
+     * does not support b specific progrbm. In order
+     * to verify thbt b cbll to <code>progrbmChbnge</code>
+     * wbs successful, use <code>getProgrbm</code>.
      *
-     * @param program the program number to switch to (0 to 127)
+     * @pbrbm progrbm the progrbm number to switch to (0 to 127)
      *
-     * @see #programChange(int, int)
-     * @see #getProgram()
+     * @see #progrbmChbnge(int, int)
+     * @see #getProgrbm()
      */
-    public void programChange(int program);
+    public void progrbmChbnge(int progrbm);
 
     /**
-     * Changes the program using bank and program (patch) numbers.
+     * Chbnges the progrbm using bbnk bnd progrbm (pbtch) numbers.
      *
-     * It is possible that the underlying synthesizer
-     * does not support a specific bank, or program. In order
-     * to verify that a call to <code>programChange</code>
-     * was successful, use <code>getProgram</code> and
+     * It is possible thbt the underlying synthesizer
+     * does not support b specific bbnk, or progrbm. In order
+     * to verify thbt b cbll to <code>progrbmChbnge</code>
+     * wbs successful, use <code>getProgrbm</code> bnd
      * <code>getController</code>.
-     * Since banks are changed by way of control changes,
-     * you can verify the current bank with the following
-     * statement:
+     * Since bbnks bre chbnged by wby of control chbnges,
+     * you cbn verify the current bbnk with the following
+     * stbtement:
      * <pre>
-     *   int bank = (getController(0) * 128)
+     *   int bbnk = (getController(0) * 128)
      *              + getController(32);
      * </pre>
      *
-     * @param bank the bank number to switch to (0 to 16383)
-     * @param program the program (patch) to use in the specified bank (0 to 127)
-     * @see #programChange(int)
-     * @see #getProgram()
+     * @pbrbm bbnk the bbnk number to switch to (0 to 16383)
+     * @pbrbm progrbm the progrbm (pbtch) to use in the specified bbnk (0 to 127)
+     * @see #progrbmChbnge(int)
+     * @see #getProgrbm()
      */
-    public void programChange(int bank, int program);
+    public void progrbmChbnge(int bbnk, int progrbm);
 
     /**
-     * Obtains the current program number for this channel.
-     * @return the program number of the currently selected patch
-     * @see Patch#getProgram
-     * @see Synthesizer#loadInstrument
-     * @see #programChange(int)
+     * Obtbins the current progrbm number for this chbnnel.
+     * @return the progrbm number of the currently selected pbtch
+     * @see Pbtch#getProgrbm
+     * @see Synthesizer#lobdInstrument
+     * @see #progrbmChbnge(int)
      */
-    public int getProgram();
+    public int getProgrbm();
 
     /**
-     * Changes the pitch offset for all notes on this channel.
-     * This affects all currently sounding notes as well as subsequent ones.
-     * (For pitch bend to cease, the value needs to be reset to the
+     * Chbnges the pitch offset for bll notes on this chbnnel.
+     * This bffects bll currently sounding notes bs well bs subsequent ones.
+     * (For pitch bend to cebse, the vblue needs to be reset to the
      * center position.)
-     * <p> The MIDI specification
-     * stipulates that pitch bend be a 14-bit value, where zero
-     * is maximum downward bend, 16383 is maximum upward bend, and
-     * 8192 is the center (no pitch bend).  The actual
-     * amount of pitch change is not specified; it can be changed by
-     * a pitch-bend sensitivity setting.  However, the General MIDI
-     * specification says that the default range should be two semitones
-     * up and down from center.
+     * <p> The MIDI specificbtion
+     * stipulbtes thbt pitch bend be b 14-bit vblue, where zero
+     * is mbximum downwbrd bend, 16383 is mbximum upwbrd bend, bnd
+     * 8192 is the center (no pitch bend).  The bctubl
+     * bmount of pitch chbnge is not specified; it cbn be chbnged by
+     * b pitch-bend sensitivity setting.  However, the Generbl MIDI
+     * specificbtion sbys thbt the defbult rbnge should be two semitones
+     * up bnd down from center.
      *
-     * It is possible that the underlying synthesizer
-     * does not support this MIDI message. In order
-     * to verify that <code>setPitchBend</code>
-     * was successful, use <code>getPitchBend</code>.
+     * It is possible thbt the underlying synthesizer
+     * does not support this MIDI messbge. In order
+     * to verify thbt <code>setPitchBend</code>
+     * wbs successful, use <code>getPitchBend</code>.
      *
-     * @param bend the amount of pitch change, as a nonnegative 14-bit value
+     * @pbrbm bend the bmount of pitch chbnge, bs b nonnegbtive 14-bit vblue
      * (8192 = no bend)
      *
      * @see #getPitchBend
@@ -337,201 +337,201 @@ public interface MidiChannel {
     public void setPitchBend(int bend);
 
     /**
-     * Obtains the upward or downward pitch offset for this channel.
+     * Obtbins the upwbrd or downwbrd pitch offset for this chbnnel.
      * If the device does not support setting pitch bend,
-     * this method always returns 8192. Calling
-     * <code>setPitchBend</code> will have no effect then.
+     * this method blwbys returns 8192. Cblling
+     * <code>setPitchBend</code> will hbve no effect then.
      *
-     * @return bend amount, as a nonnegative 14-bit value (8192 = no bend)
+     * @return bend bmount, bs b nonnegbtive 14-bit vblue (8192 = no bend)
      *
      * @see #setPitchBend(int)
      */
     public int getPitchBend();
 
     /**
-     * Resets all the implemented controllers to their default values.
+     * Resets bll the implemented controllers to their defbult vblues.
      *
-     * @see #controlChange(int, int)
+     * @see #controlChbnge(int, int)
      */
     public void resetAllControllers();
 
     /**
-     * Turns off all notes that are currently sounding on this channel.
-     * The notes might not die away instantaneously; their decay
-     * rate is determined by the internals of the <code>Instrument</code>.
-     * If the Hold Pedal controller (see
-     * {@link #controlChange(int, int) controlChange})
-     * is down, the effect of this method is deferred until the pedal is
-     * released.
+     * Turns off bll notes thbt bre currently sounding on this chbnnel.
+     * The notes might not die bwby instbntbneously; their decby
+     * rbte is determined by the internbls of the <code>Instrument</code>.
+     * If the Hold Pedbl controller (see
+     * {@link #controlChbnge(int, int) controlChbnge})
+     * is down, the effect of this method is deferred until the pedbl is
+     * relebsed.
      *
-     * @see #allSoundOff
+     * @see #bllSoundOff
      * @see #noteOff(int)
      */
-    public void allNotesOff();
+    public void bllNotesOff();
 
     /**
-     * Immediately turns off all sounding notes on this channel, ignoring the
-     * state of the Hold Pedal and the internal decay rate of the current
+     * Immedibtely turns off bll sounding notes on this chbnnel, ignoring the
+     * stbte of the Hold Pedbl bnd the internbl decby rbte of the current
      * <code>Instrument</code>.
      *
-     * @see #allNotesOff
+     * @see #bllNotesOff
      */
-    public void allSoundOff();
+    public void bllSoundOff();
 
     /**
-     * Turns local control on or off.  The default is for local control
-     * to be on.  The "on" setting means that if a device is capable
-     * of both synthesizing sound and transmitting MIDI messages,
-     * it will synthesize sound in response to the note-on and
-     * note-off messages that it itself transmits.  It will also respond
-     * to messages received from other transmitting devices.
-     * The "off" setting means that the synthesizer will ignore its
-     * own transmitted MIDI messages, but not those received from other devices.
+     * Turns locbl control on or off.  The defbult is for locbl control
+     * to be on.  The "on" setting mebns thbt if b device is cbpbble
+     * of both synthesizing sound bnd trbnsmitting MIDI messbges,
+     * it will synthesize sound in response to the note-on bnd
+     * note-off messbges thbt it itself trbnsmits.  It will blso respond
+     * to messbges received from other trbnsmitting devices.
+     * The "off" setting mebns thbt the synthesizer will ignore its
+     * own trbnsmitted MIDI messbges, but not those received from other devices.
      *
-     * It is possible that the underlying synthesizer
-     * does not support local control. In order
-     * to verify that a call to <code>localControl</code>
-     * was successful, check the return value.
+     * It is possible thbt the underlying synthesizer
+     * does not support locbl control. In order
+     * to verify thbt b cbll to <code>locblControl</code>
+     * wbs successful, check the return vblue.
      *
-     * @param on <code>true</code> to turn local control on, <code>false</code>
-     *  to turn local control off
-     * @return the new local-control value, or false
-     *         if local control is not supported
+     * @pbrbm on <code>true</code> to turn locbl control on, <code>fblse</code>
+     *  to turn locbl control off
+     * @return the new locbl-control vblue, or fblse
+     *         if locbl control is not supported
      *
      */
-    public boolean localControl(boolean on);
+    public boolebn locblControl(boolebn on);
 
     /**
-     * Turns mono mode on or off.  In mono mode, the channel synthesizes
-     * only one note at a time.  In poly mode (identical to mono mode off),
-     * the channel can synthesize multiple notes simultaneously.
-     * The default is mono off (poly mode on).
+     * Turns mono mode on or off.  In mono mode, the chbnnel synthesizes
+     * only one note bt b time.  In poly mode (identicbl to mono mode off),
+     * the chbnnel cbn synthesize multiple notes simultbneously.
+     * The defbult is mono off (poly mode on).
      * <p>
      * "Mono" is short for the word "monophonic," which in this context
-     * is opposed to the word "polyphonic" and refers to a single synthesizer
-     * voice per MIDI channel.  It
-     * has nothing to do with how many audio channels there might be
-     * (as in "monophonic" versus "stereophonic" recordings).
+     * is opposed to the word "polyphonic" bnd refers to b single synthesizer
+     * voice per MIDI chbnnel.  It
+     * hbs nothing to do with how mbny budio chbnnels there might be
+     * (bs in "monophonic" versus "stereophonic" recordings).
      *
-     * It is possible that the underlying synthesizer
+     * It is possible thbt the underlying synthesizer
      * does not support mono mode. In order
-     * to verify that a call to <code>setMono</code>
-     * was successful, use <code>getMono</code>.
+     * to verify thbt b cbll to <code>setMono</code>
+     * wbs successful, use <code>getMono</code>.
      *
-     * @param on <code>true</code> to turn mono mode on, <code>false</code> to
-     * turn it off (which means turning poly mode on).
+     * @pbrbm on <code>true</code> to turn mono mode on, <code>fblse</code> to
+     * turn it off (which mebns turning poly mode on).
      *
      * @see #getMono
-     * @see VoiceStatus
+     * @see VoiceStbtus
      */
-    public void setMono(boolean on);
+    public void setMono(boolebn on);
 
     /**
-     * Obtains the current mono/poly mode.
-     * Synthesizers that do not allow changing mono/poly mode
-     * will always return the same value, regardless
-     * of calls to <code>setMono</code>.
+     * Obtbins the current mono/poly mode.
+     * Synthesizers thbt do not bllow chbnging mono/poly mode
+     * will blwbys return the sbme vblue, regbrdless
+     * of cblls to <code>setMono</code>.
      * @return <code>true</code> if mono mode is on, otherwise
-     * <code>false</code> (meaning poly mode is on).
+     * <code>fblse</code> (mebning poly mode is on).
      *
-     * @see #setMono(boolean)
+     * @see #setMono(boolebn)
      */
-    public boolean getMono();
+    public boolebn getMono();
 
     /**
-     * Turns omni mode on or off.  In omni mode, the channel responds
-     * to messages sent on all channels.  When omni is off, the channel
-     * responds only to messages sent on its channel number.
-     * The default is omni off.
+     * Turns omni mode on or off.  In omni mode, the chbnnel responds
+     * to messbges sent on bll chbnnels.  When omni is off, the chbnnel
+     * responds only to messbges sent on its chbnnel number.
+     * The defbult is omni off.
      *
-     * It is possible that the underlying synthesizer
+     * It is possible thbt the underlying synthesizer
      * does not support omni mode. In order
-     * to verify that <code>setOmni</code>
-     * was successful, use <code>getOmni</code>.
+     * to verify thbt <code>setOmni</code>
+     * wbs successful, use <code>getOmni</code>.
      *
-     * @param on <code>true</code> to turn omni mode on, <code>false</code> to
+     * @pbrbm on <code>true</code> to turn omni mode on, <code>fblse</code> to
      * turn it off.
      *
      * @see #getOmni
-     * @see VoiceStatus
+     * @see VoiceStbtus
      */
-    public void setOmni(boolean on);
+    public void setOmni(boolebn on);
 
     /**
-     * Obtains the current omni mode.
-     * Synthesizers that do not allow changing the omni mode
-     * will always return the same value, regardless
-     * of calls to <code>setOmni</code>.
+     * Obtbins the current omni mode.
+     * Synthesizers thbt do not bllow chbnging the omni mode
+     * will blwbys return the sbme vblue, regbrdless
+     * of cblls to <code>setOmni</code>.
      * @return <code>true</code> if omni mode is on, otherwise
-     * <code>false</code> (meaning omni mode is off).
+     * <code>fblse</code> (mebning omni mode is off).
      *
-     * @see #setOmni(boolean)
+     * @see #setOmni(boolebn)
      */
-    public boolean getOmni();
+    public boolebn getOmni();
 
     /**
-     * Sets the mute state for this channel. A value of
-     * <code>true</code> means the channel is to be muted, <code>false</code>
-     * means the channel can sound (if other channels are not soloed).
+     * Sets the mute stbte for this chbnnel. A vblue of
+     * <code>true</code> mebns the chbnnel is to be muted, <code>fblse</code>
+     * mebns the chbnnel cbn sound (if other chbnnels bre not soloed).
      * <p>
-     * Unlike {@link #allSoundOff()}, this method
-     * applies to only a specific channel, not to all channels.  Further, it
-     * silences not only currently sounding notes, but also subsequently
+     * Unlike {@link #bllSoundOff()}, this method
+     * bpplies to only b specific chbnnel, not to bll chbnnels.  Further, it
+     * silences not only currently sounding notes, but blso subsequently
      * received notes.
      *
-     * It is possible that the underlying synthesizer
-     * does not support muting channels. In order
-     * to verify that a call to <code>setMute</code>
-     * was successful, use <code>getMute</code>.
+     * It is possible thbt the underlying synthesizer
+     * does not support muting chbnnels. In order
+     * to verify thbt b cbll to <code>setMute</code>
+     * wbs successful, use <code>getMute</code>.
      *
-     * @param mute the new mute state
+     * @pbrbm mute the new mute stbte
      *
      * @see #getMute
-     * @see #setSolo(boolean)
+     * @see #setSolo(boolebn)
      */
-    public void setMute(boolean mute);
+    public void setMute(boolebn mute);
 
     /**
-     * Obtains the current mute state for this channel.
+     * Obtbins the current mute stbte for this chbnnel.
      * If the underlying synthesizer does not support
-     * muting this channel, this method always returns
-     * <code>false</code>.
+     * muting this chbnnel, this method blwbys returns
+     * <code>fblse</code>.
      *
-     * @return <code>true</code> the channel is muted,
-     *         or <code>false</code> if not
+     * @return <code>true</code> the chbnnel is muted,
+     *         or <code>fblse</code> if not
      *
-     * @see #setMute(boolean)
+     * @see #setMute(boolebn)
      */
-    public boolean getMute();
+    public boolebn getMute();
 
     /**
-     * Sets the solo state for this channel.
-     * If <code>solo</code> is <code>true</code> only this channel
-     * and other soloed channels will sound. If <code>solo</code>
-     * is <code>false</code> then only other soloed channels will
-     * sound, unless no channels are soloed, in which case all
-     * unmuted channels will sound.
+     * Sets the solo stbte for this chbnnel.
+     * If <code>solo</code> is <code>true</code> only this chbnnel
+     * bnd other soloed chbnnels will sound. If <code>solo</code>
+     * is <code>fblse</code> then only other soloed chbnnels will
+     * sound, unless no chbnnels bre soloed, in which cbse bll
+     * unmuted chbnnels will sound.
      *
-     * It is possible that the underlying synthesizer
-     * does not support solo channels. In order
-     * to verify that a call to <code>setSolo</code>
-     * was successful, use <code>getSolo</code>.
+     * It is possible thbt the underlying synthesizer
+     * does not support solo chbnnels. In order
+     * to verify thbt b cbll to <code>setSolo</code>
+     * wbs successful, use <code>getSolo</code>.
      *
-     * @param soloState new solo state for the channel
+     * @pbrbm soloStbte new solo stbte for the chbnnel
      * @see #getSolo()
      */
-    public void setSolo(boolean soloState);
+    public void setSolo(boolebn soloStbte);
 
     /**
-     * Obtains the current solo state for this channel.
+     * Obtbins the current solo stbte for this chbnnel.
      * If the underlying synthesizer does not support
-     * solo on this channel, this method always returns
-     * <code>false</code>.
+     * solo on this chbnnel, this method blwbys returns
+     * <code>fblse</code>.
      *
-     * @return <code>true</code> the channel is solo,
-     *         or <code>false</code> if not
+     * @return <code>true</code> the chbnnel is solo,
+     *         or <code>fblse</code> if not
      *
-     * @see #setSolo(boolean)
+     * @see #setSolo(boolebn)
      */
-    public boolean getSolo();
+    public boolebn getSolo();
 }

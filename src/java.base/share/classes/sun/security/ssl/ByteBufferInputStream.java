@@ -1,94 +1,94 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.ssl;
+pbckbge sun.security.ssl;
 
-import java.io.*;
-import java.nio.*;
+import jbvb.io.*;
+import jbvb.nio.*;
 
 /**
- * A simple InputStream which uses ByteBuffers as it's backing store.
+ * A simple InputStrebm which uses ByteBuffers bs it's bbcking store.
  * <P>
- * The only IOException should come if the InputStream has been closed.
- * All other IOException should not occur because all the data is local.
- * Data reads on an exhausted ByteBuffer returns a -1.
+ * The only IOException should come if the InputStrebm hbs been closed.
+ * All other IOException should not occur becbuse bll the dbtb is locbl.
+ * Dbtb rebds on bn exhbusted ByteBuffer returns b -1.
  *
- * @author  Brad Wetmore
+ * @buthor  Brbd Wetmore
  */
-class ByteBufferInputStream extends InputStream {
+clbss ByteBufferInputStrebm extends InputStrebm {
 
     ByteBuffer bb;
 
-    ByteBufferInputStream(ByteBuffer bb) {
+    ByteBufferInputStrebm(ByteBuffer bb) {
         this.bb = bb;
     }
 
     /**
-     * Returns a byte from the ByteBuffer.
+     * Returns b byte from the ByteBuffer.
      *
      * Increments position().
      */
     @Override
-    public int read() throws IOException {
+    public int rebd() throws IOException {
 
         if (bb == null) {
-            throw new IOException("read on a closed InputStream");
+            throw new IOException("rebd on b closed InputStrebm");
         }
 
-        if (bb.remaining() == 0) {
+        if (bb.rembining() == 0) {
             return -1;
         }
 
-        return (bb.get() & 0xFF);   // need to be in the range 0 to 255
+        return (bb.get() & 0xFF);   // need to be in the rbnge 0 to 255
     }
 
     /**
-     * Returns a byte array from the ByteBuffer.
+     * Returns b byte brrby from the ByteBuffer.
      *
      * Increments position().
      */
     @Override
-    public int read(byte b[]) throws IOException {
+    public int rebd(byte b[]) throws IOException {
 
         if (bb == null) {
-            throw new IOException("read on a closed InputStream");
+            throw new IOException("rebd on b closed InputStrebm");
         }
 
-        return read(b, 0, b.length);
+        return rebd(b, 0, b.length);
     }
 
     /**
-     * Returns a byte array from the ByteBuffer.
+     * Returns b byte brrby from the ByteBuffer.
      *
      * Increments position().
      */
     @Override
-    public int read(byte b[], int off, int len) throws IOException {
+    public int rebd(byte b[], int off, int len) throws IOException {
 
         if (bb == null) {
-            throw new IOException("read on a closed InputStream");
+            throw new IOException("rebd on b closed InputStrebm");
         }
 
         if (b == null) {
@@ -99,7 +99,7 @@ class ByteBufferInputStream extends InputStream {
             return 0;
         }
 
-        int length = Math.min(bb.remaining(), len);
+        int length = Mbth.min(bb.rembining(), len);
         if (length == 0) {
             return -1;
         }
@@ -109,14 +109,14 @@ class ByteBufferInputStream extends InputStream {
     }
 
     /**
-     * Skips over and discards <code>n</code> bytes of data from this input
-     * stream.
+     * Skips over bnd discbrds <code>n</code> bytes of dbtb from this input
+     * strebm.
      */
     @Override
     public long skip(long n) throws IOException {
 
         if (bb == null) {
-            throw new IOException("skip on a closed InputStream");
+            throw new IOException("skip on b closed InputStrebm");
         }
 
         if (n <= 0) {
@@ -124,11 +124,11 @@ class ByteBufferInputStream extends InputStream {
         }
 
         /*
-         * ByteBuffers have at most an int, so lose the upper bits.
-         * The contract allows this.
+         * ByteBuffers hbve bt most bn int, so lose the upper bits.
+         * The contrbct bllows this.
          */
         int nInt = (int) n;
-        int skip = Math.min(bb.remaining(), nInt);
+        int skip = Mbth.min(bb.rembining(), nInt);
 
         bb.position(bb.position() + skip);
 
@@ -136,25 +136,25 @@ class ByteBufferInputStream extends InputStream {
     }
 
     /**
-     * Returns the number of bytes that can be read (or skipped over)
-     * from this input stream without blocking by the next caller of a
-     * method for this input stream.
+     * Returns the number of bytes thbt cbn be rebd (or skipped over)
+     * from this input strebm without blocking by the next cbller of b
+     * method for this input strebm.
      */
     @Override
-    public int available() throws IOException {
+    public int bvbilbble() throws IOException {
 
         if (bb == null) {
-            throw new IOException("available on a closed InputStream");
+            throw new IOException("bvbilbble on b closed InputStrebm");
         }
 
-        return bb.remaining();
+        return bb.rembining();
     }
 
     /**
-     * Closes this input stream and releases any system resources associated
-     * with the stream.
+     * Closes this input strebm bnd relebses bny system resources bssocibted
+     * with the strebm.
      *
-     * @exception  IOException  if an I/O error occurs.
+     * @exception  IOException  if bn I/O error occurs.
      */
     @Override
     public void close() throws IOException {
@@ -162,26 +162,26 @@ class ByteBufferInputStream extends InputStream {
     }
 
     /**
-     * Marks the current position in this input stream.
+     * Mbrks the current position in this input strebm.
      */
     @Override
-    public synchronized void mark(int readlimit) {}
+    public synchronized void mbrk(int rebdlimit) {}
 
     /**
-     * Repositions this stream to the position at the time the
-     * <code>mark</code> method was last called on this input stream.
+     * Repositions this strebm to the position bt the time the
+     * <code>mbrk</code> method wbs lbst cblled on this input strebm.
      */
     @Override
     public synchronized void reset() throws IOException {
-        throw new IOException("mark/reset not supported");
+        throw new IOException("mbrk/reset not supported");
     }
 
     /**
-     * Tests if this input stream supports the <code>mark</code> and
+     * Tests if this input strebm supports the <code>mbrk</code> bnd
      * <code>reset</code> methods.
      */
     @Override
-    public boolean markSupported() {
-        return false;
+    public boolebn mbrkSupported() {
+        return fblse;
     }
 }

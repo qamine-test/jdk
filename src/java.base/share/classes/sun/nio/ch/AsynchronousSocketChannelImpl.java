@@ -1,359 +1,359 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.nio.ch;
+pbckbge sun.nio.ch;
 
-import java.nio.ByteBuffer;
-import java.nio.channels.*;
-import java.net.SocketOption;
-import java.net.StandardSocketOptions;
-import java.net.SocketAddress;
-import java.net.InetSocketAddress;
-import java.io.IOException;
-import java.io.FileDescriptor;
-import java.util.Set;
-import java.util.HashSet;
-import java.util.Collections;
-import java.util.concurrent.*;
-import java.util.concurrent.locks.*;
+import jbvb.nio.ByteBuffer;
+import jbvb.nio.chbnnels.*;
+import jbvb.net.SocketOption;
+import jbvb.net.StbndbrdSocketOptions;
+import jbvb.net.SocketAddress;
+import jbvb.net.InetSocketAddress;
+import jbvb.io.IOException;
+import jbvb.io.FileDescriptor;
+import jbvb.util.Set;
+import jbvb.util.HbshSet;
+import jbvb.util.Collections;
+import jbvb.util.concurrent.*;
+import jbvb.util.concurrent.locks.*;
 import sun.net.NetHooks;
 import sun.net.ExtendedOptionsImpl;
 
 /**
- * Base implementation of AsynchronousSocketChannel
+ * Bbse implementbtion of AsynchronousSocketChbnnel
  */
 
-abstract class AsynchronousSocketChannelImpl
-    extends AsynchronousSocketChannel
-    implements Cancellable, Groupable
+bbstrbct clbss AsynchronousSocketChbnnelImpl
+    extends AsynchronousSocketChbnnel
+    implements Cbncellbble, Groupbble
 {
-    protected final FileDescriptor fd;
+    protected finbl FileDescriptor fd;
 
-    // protects state, localAddress, and remoteAddress
-    protected final Object stateLock = new Object();
+    // protects stbte, locblAddress, bnd remoteAddress
+    protected finbl Object stbteLock = new Object();
 
-    protected volatile InetSocketAddress localAddress = null;
-    protected volatile InetSocketAddress remoteAddress = null;
+    protected volbtile InetSocketAddress locblAddress = null;
+    protected volbtile InetSocketAddress remoteAddress = null;
 
-    // State, increases monotonically
-    static final int ST_UNINITIALIZED = -1;
-    static final int ST_UNCONNECTED = 0;
-    static final int ST_PENDING = 1;
-    static final int ST_CONNECTED = 2;
-    protected volatile int state = ST_UNINITIALIZED;
+    // Stbte, increbses monotonicblly
+    stbtic finbl int ST_UNINITIALIZED = -1;
+    stbtic finbl int ST_UNCONNECTED = 0;
+    stbtic finbl int ST_PENDING = 1;
+    stbtic finbl int ST_CONNECTED = 2;
+    protected volbtile int stbte = ST_UNINITIALIZED;
 
-    // reading state
-    private final Object readLock = new Object();
-    private boolean reading;
-    private boolean readShutdown;
-    private boolean readKilled;     // further reading disallowed due to timeout
+    // rebding stbte
+    privbte finbl Object rebdLock = new Object();
+    privbte boolebn rebding;
+    privbte boolebn rebdShutdown;
+    privbte boolebn rebdKilled;     // further rebding disbllowed due to timeout
 
-    // writing state
-    private final Object writeLock = new Object();
-    private boolean writing;
-    private boolean writeShutdown;
-    private boolean writeKilled;    // further writing disallowed due to timeout
+    // writing stbte
+    privbte finbl Object writeLock = new Object();
+    privbte boolebn writing;
+    privbte boolebn writeShutdown;
+    privbte boolebn writeKilled;    // further writing disbllowed due to timeout
 
     // close support
-    private final ReadWriteLock closeLock = new ReentrantReadWriteLock();
-    private volatile boolean open = true;
+    privbte finbl RebdWriteLock closeLock = new ReentrbntRebdWriteLock();
+    privbte volbtile boolebn open = true;
 
-    // set true when exclusive binding is on and SO_REUSEADDR is emulated
-    private boolean isReuseAddress;
+    // set true when exclusive binding is on bnd SO_REUSEADDR is emulbted
+    privbte boolebn isReuseAddress;
 
-    AsynchronousSocketChannelImpl(AsynchronousChannelGroupImpl group)
+    AsynchronousSocketChbnnelImpl(AsynchronousChbnnelGroupImpl group)
         throws IOException
     {
         super(group.provider());
         this.fd = Net.socket(true);
-        this.state = ST_UNCONNECTED;
+        this.stbte = ST_UNCONNECTED;
     }
 
-    // Constructor for sockets obtained from AsynchronousServerSocketChannelImpl
-    AsynchronousSocketChannelImpl(AsynchronousChannelGroupImpl group,
+    // Constructor for sockets obtbined from AsynchronousServerSocketChbnnelImpl
+    AsynchronousSocketChbnnelImpl(AsynchronousChbnnelGroupImpl group,
                                   FileDescriptor fd,
                                   InetSocketAddress remote)
         throws IOException
     {
         super(group.provider());
         this.fd = fd;
-        this.state = ST_CONNECTED;
-        this.localAddress = Net.localAddress(fd);
+        this.stbte = ST_CONNECTED;
+        this.locblAddress = Net.locblAddress(fd);
         this.remoteAddress = remote;
     }
 
     @Override
-    public final boolean isOpen() {
+    public finbl boolebn isOpen() {
         return open;
     }
 
     /**
-     * Marks beginning of access to file descriptor/handle
+     * Mbrks beginning of bccess to file descriptor/hbndle
      */
-    final void begin() throws IOException {
-        closeLock.readLock().lock();
+    finbl void begin() throws IOException {
+        closeLock.rebdLock().lock();
         if (!isOpen())
-            throw new ClosedChannelException();
+            throw new ClosedChbnnelException();
     }
 
     /**
-     * Marks end of access to file descriptor/handle
+     * Mbrks end of bccess to file descriptor/hbndle
      */
-    final void end() {
-        closeLock.readLock().unlock();
+    finbl void end() {
+        closeLock.rebdLock().unlock();
     }
 
     /**
-     * Invoked to close socket and release other resources.
+     * Invoked to close socket bnd relebse other resources.
      */
-    abstract void implClose() throws IOException;
+    bbstrbct void implClose() throws IOException;
 
     @Override
-    public final void close() throws IOException {
-        // synchronize with any threads initiating asynchronous operations
+    public finbl void close() throws IOException {
+        // synchronize with bny threbds initibting bsynchronous operbtions
         closeLock.writeLock().lock();
         try {
             if (!open)
-                return;     // already closed
-            open = false;
-        } finally {
+                return;     // blrebdy closed
+            open = fblse;
+        } finblly {
             closeLock.writeLock().unlock();
         }
         implClose();
     }
 
-    final void enableReading(boolean killed) {
-        synchronized (readLock) {
-            reading = false;
+    finbl void enbbleRebding(boolebn killed) {
+        synchronized (rebdLock) {
+            rebding = fblse;
             if (killed)
-                readKilled = true;
+                rebdKilled = true;
         }
     }
 
-    final void enableReading() {
-        enableReading(false);
+    finbl void enbbleRebding() {
+        enbbleRebding(fblse);
     }
 
-    final void enableWriting(boolean killed) {
+    finbl void enbbleWriting(boolebn killed) {
         synchronized (writeLock) {
-            writing = false;
+            writing = fblse;
             if (killed)
                 writeKilled = true;
         }
     }
 
-    final void enableWriting() {
-        enableWriting(false);
+    finbl void enbbleWriting() {
+        enbbleWriting(fblse);
     }
 
-    final void killReading() {
-        synchronized (readLock) {
-            readKilled = true;
+    finbl void killRebding() {
+        synchronized (rebdLock) {
+            rebdKilled = true;
         }
     }
 
-    final void killWriting() {
+    finbl void killWriting() {
         synchronized (writeLock) {
             writeKilled = true;
         }
     }
 
-    final void killConnect() {
-        // when a connect is cancelled then the connection may have been
-        // established so prevent reading or writing.
-        killReading();
+    finbl void killConnect() {
+        // when b connect is cbncelled then the connection mby hbve been
+        // estbblished so prevent rebding or writing.
+        killRebding();
         killWriting();
     }
 
     /**
-     * Invoked by connect to initiate the connect operation.
+     * Invoked by connect to initibte the connect operbtion.
      */
-    abstract <A> Future<Void> implConnect(SocketAddress remote,
-                                          A attachment,
-                                          CompletionHandler<Void,? super A> handler);
+    bbstrbct <A> Future<Void> implConnect(SocketAddress remote,
+                                          A bttbchment,
+                                          CompletionHbndler<Void,? super A> hbndler);
 
     @Override
-    public final Future<Void> connect(SocketAddress remote) {
+    public finbl Future<Void> connect(SocketAddress remote) {
         return implConnect(remote, null, null);
     }
 
     @Override
-    public final <A> void connect(SocketAddress remote,
-                                  A attachment,
-                                  CompletionHandler<Void,? super A> handler)
+    public finbl <A> void connect(SocketAddress remote,
+                                  A bttbchment,
+                                  CompletionHbndler<Void,? super A> hbndler)
     {
-        if (handler == null)
-            throw new NullPointerException("'handler' is null");
-        implConnect(remote, attachment, handler);
+        if (hbndler == null)
+            throw new NullPointerException("'hbndler' is null");
+        implConnect(remote, bttbchment, hbndler);
     }
 
     /**
-     * Invoked by read to initiate the I/O operation.
+     * Invoked by rebd to initibte the I/O operbtion.
      */
-    abstract <V extends Number,A> Future<V> implRead(boolean isScatteringRead,
+    bbstrbct <V extends Number,A> Future<V> implRebd(boolebn isScbtteringRebd,
                                                      ByteBuffer dst,
                                                      ByteBuffer[] dsts,
                                                      long timeout,
                                                      TimeUnit unit,
-                                                     A attachment,
-                                                     CompletionHandler<V,? super A> handler);
+                                                     A bttbchment,
+                                                     CompletionHbndler<V,? super A> hbndler);
 
-    @SuppressWarnings("unchecked")
-    private <V extends Number,A> Future<V> read(boolean isScatteringRead,
+    @SuppressWbrnings("unchecked")
+    privbte <V extends Number,A> Future<V> rebd(boolebn isScbtteringRebd,
                                                 ByteBuffer dst,
                                                 ByteBuffer[] dsts,
                                                 long timeout,
                                                 TimeUnit unit,
-                                                A att,
-                                                CompletionHandler<V,? super A> handler)
+                                                A btt,
+                                                CompletionHbndler<V,? super A> hbndler)
     {
         if (!isOpen()) {
-            Throwable e = new ClosedChannelException();
-            if (handler == null)
-                return CompletedFuture.withFailure(e);
-            Invoker.invoke(this, handler, att, null, e);
+            Throwbble e = new ClosedChbnnelException();
+            if (hbndler == null)
+                return CompletedFuture.withFbilure(e);
+            Invoker.invoke(this, hbndler, btt, null, e);
             return null;
         }
 
         if (remoteAddress == null)
             throw new NotYetConnectedException();
 
-        boolean hasSpaceToRead = isScatteringRead || dst.hasRemaining();
-        boolean shutdown = false;
+        boolebn hbsSpbceToRebd = isScbtteringRebd || dst.hbsRembining();
+        boolebn shutdown = fblse;
 
-        // check and update state
-        synchronized (readLock) {
-            if (readKilled)
-                throw new IllegalStateException("Reading not allowed due to timeout or cancellation");
-            if (reading)
-                throw new ReadPendingException();
-            if (readShutdown) {
+        // check bnd updbte stbte
+        synchronized (rebdLock) {
+            if (rebdKilled)
+                throw new IllegblStbteException("Rebding not bllowed due to timeout or cbncellbtion");
+            if (rebding)
+                throw new RebdPendingException();
+            if (rebdShutdown) {
                 shutdown = true;
             } else {
-                if (hasSpaceToRead) {
-                    reading = true;
+                if (hbsSpbceToRebd) {
+                    rebding = true;
                 }
             }
         }
 
-        // immediately complete with -1 if shutdown for read
-        // immediately complete with 0 if no space remaining
-        if (shutdown || !hasSpaceToRead) {
+        // immedibtely complete with -1 if shutdown for rebd
+        // immedibtely complete with 0 if no spbce rembining
+        if (shutdown || !hbsSpbceToRebd) {
             Number result;
-            if (isScatteringRead) {
-                result = (shutdown) ? Long.valueOf(-1L) : Long.valueOf(0L);
+            if (isScbtteringRebd) {
+                result = (shutdown) ? Long.vblueOf(-1L) : Long.vblueOf(0L);
             } else {
                 result = (shutdown) ? -1 : 0;
             }
-            if (handler == null)
+            if (hbndler == null)
                 return CompletedFuture.withResult((V)result);
-            Invoker.invoke(this, handler, att, (V)result, null);
+            Invoker.invoke(this, hbndler, btt, (V)result, null);
             return null;
         }
 
-        return implRead(isScatteringRead, dst, dsts, timeout, unit, att, handler);
+        return implRebd(isScbtteringRebd, dst, dsts, timeout, unit, btt, hbndler);
     }
 
     @Override
-    public final Future<Integer> read(ByteBuffer dst) {
-        if (dst.isReadOnly())
-            throw new IllegalArgumentException("Read-only buffer");
-        return read(false, dst, null, 0L, TimeUnit.MILLISECONDS, null, null);
+    public finbl Future<Integer> rebd(ByteBuffer dst) {
+        if (dst.isRebdOnly())
+            throw new IllegblArgumentException("Rebd-only buffer");
+        return rebd(fblse, dst, null, 0L, TimeUnit.MILLISECONDS, null, null);
     }
 
     @Override
-    public final <A> void read(ByteBuffer dst,
+    public finbl <A> void rebd(ByteBuffer dst,
                                long timeout,
                                TimeUnit unit,
-                               A attachment,
-                               CompletionHandler<Integer,? super A> handler)
+                               A bttbchment,
+                               CompletionHbndler<Integer,? super A> hbndler)
     {
-        if (handler == null)
-            throw new NullPointerException("'handler' is null");
-        if (dst.isReadOnly())
-            throw new IllegalArgumentException("Read-only buffer");
-        read(false, dst, null, timeout, unit, attachment, handler);
+        if (hbndler == null)
+            throw new NullPointerException("'hbndler' is null");
+        if (dst.isRebdOnly())
+            throw new IllegblArgumentException("Rebd-only buffer");
+        rebd(fblse, dst, null, timeout, unit, bttbchment, hbndler);
     }
 
     @Override
-    public final <A> void read(ByteBuffer[] dsts,
+    public finbl <A> void rebd(ByteBuffer[] dsts,
                                int offset,
                                int length,
                                long timeout,
                                TimeUnit unit,
-                               A attachment,
-                               CompletionHandler<Long,? super A> handler)
+                               A bttbchment,
+                               CompletionHbndler<Long,? super A> hbndler)
     {
-        if (handler == null)
-            throw new NullPointerException("'handler' is null");
+        if (hbndler == null)
+            throw new NullPointerException("'hbndler' is null");
         if ((offset < 0) || (length < 0) || (offset > dsts.length - length))
             throw new IndexOutOfBoundsException();
         ByteBuffer[] bufs = Util.subsequence(dsts, offset, length);
         for (int i=0; i<bufs.length; i++) {
-            if (bufs[i].isReadOnly())
-                throw new IllegalArgumentException("Read-only buffer");
+            if (bufs[i].isRebdOnly())
+                throw new IllegblArgumentException("Rebd-only buffer");
         }
-        read(true, null, bufs, timeout, unit, attachment, handler);
+        rebd(true, null, bufs, timeout, unit, bttbchment, hbndler);
     }
 
     /**
-     * Invoked by write to initiate the I/O operation.
+     * Invoked by write to initibte the I/O operbtion.
      */
-    abstract <V extends Number,A> Future<V> implWrite(boolean isGatheringWrite,
+    bbstrbct <V extends Number,A> Future<V> implWrite(boolebn isGbtheringWrite,
                                                       ByteBuffer src,
                                                       ByteBuffer[] srcs,
                                                       long timeout,
                                                       TimeUnit unit,
-                                                      A attachment,
-                                                      CompletionHandler<V,? super A> handler);
+                                                      A bttbchment,
+                                                      CompletionHbndler<V,? super A> hbndler);
 
-    @SuppressWarnings("unchecked")
-    private <V extends Number,A> Future<V> write(boolean isGatheringWrite,
+    @SuppressWbrnings("unchecked")
+    privbte <V extends Number,A> Future<V> write(boolebn isGbtheringWrite,
                                                  ByteBuffer src,
                                                  ByteBuffer[] srcs,
                                                  long timeout,
                                                  TimeUnit unit,
-                                                 A att,
-                                                 CompletionHandler<V,? super A> handler)
+                                                 A btt,
+                                                 CompletionHbndler<V,? super A> hbndler)
     {
-        boolean hasDataToWrite = isGatheringWrite || src.hasRemaining();
+        boolebn hbsDbtbToWrite = isGbtheringWrite || src.hbsRembining();
 
-        boolean closed = false;
+        boolebn closed = fblse;
         if (isOpen()) {
             if (remoteAddress == null)
                 throw new NotYetConnectedException();
-            // check and update state
+            // check bnd updbte stbte
             synchronized (writeLock) {
                 if (writeKilled)
-                    throw new IllegalStateException("Writing not allowed due to timeout or cancellation");
+                    throw new IllegblStbteException("Writing not bllowed due to timeout or cbncellbtion");
                 if (writing)
                     throw new WritePendingException();
                 if (writeShutdown) {
                     closed = true;
                 } else {
-                    if (hasDataToWrite)
+                    if (hbsDbtbToWrite)
                         writing = true;
                 }
             }
@@ -361,193 +361,193 @@ abstract class AsynchronousSocketChannelImpl
             closed = true;
         }
 
-        // channel is closed or shutdown for write
+        // chbnnel is closed or shutdown for write
         if (closed) {
-            Throwable e = new ClosedChannelException();
-            if (handler == null)
-                return CompletedFuture.withFailure(e);
-            Invoker.invoke(this, handler, att, null, e);
+            Throwbble e = new ClosedChbnnelException();
+            if (hbndler == null)
+                return CompletedFuture.withFbilure(e);
+            Invoker.invoke(this, hbndler, btt, null, e);
             return null;
         }
 
-        // nothing to write so complete immediately
-        if (!hasDataToWrite) {
-            Number result = (isGatheringWrite) ? (Number)0L : (Number)0;
-            if (handler == null)
+        // nothing to write so complete immedibtely
+        if (!hbsDbtbToWrite) {
+            Number result = (isGbtheringWrite) ? (Number)0L : (Number)0;
+            if (hbndler == null)
                 return CompletedFuture.withResult((V)result);
-            Invoker.invoke(this, handler, att, (V)result, null);
+            Invoker.invoke(this, hbndler, btt, (V)result, null);
             return null;
         }
 
-        return implWrite(isGatheringWrite, src, srcs, timeout, unit, att, handler);
+        return implWrite(isGbtheringWrite, src, srcs, timeout, unit, btt, hbndler);
     }
 
     @Override
-    public final Future<Integer> write(ByteBuffer src) {
-        return write(false, src, null, 0L, TimeUnit.MILLISECONDS, null, null);
+    public finbl Future<Integer> write(ByteBuffer src) {
+        return write(fblse, src, null, 0L, TimeUnit.MILLISECONDS, null, null);
     }
 
     @Override
-    public final <A> void write(ByteBuffer src,
+    public finbl <A> void write(ByteBuffer src,
                                 long timeout,
                                 TimeUnit unit,
-                                A attachment,
-                                CompletionHandler<Integer,? super A> handler)
+                                A bttbchment,
+                                CompletionHbndler<Integer,? super A> hbndler)
     {
-        if (handler == null)
-            throw new NullPointerException("'handler' is null");
-        write(false, src, null, timeout, unit, attachment, handler);
+        if (hbndler == null)
+            throw new NullPointerException("'hbndler' is null");
+        write(fblse, src, null, timeout, unit, bttbchment, hbndler);
     }
 
     @Override
-    public final <A> void  write(ByteBuffer[] srcs,
+    public finbl <A> void  write(ByteBuffer[] srcs,
                                  int offset,
                                  int length,
                                  long timeout,
                                  TimeUnit unit,
-                                 A attachment,
-                                 CompletionHandler<Long,? super A> handler)
+                                 A bttbchment,
+                                 CompletionHbndler<Long,? super A> hbndler)
     {
-        if (handler == null)
-            throw new NullPointerException("'handler' is null");
+        if (hbndler == null)
+            throw new NullPointerException("'hbndler' is null");
         if ((offset < 0) || (length < 0) || (offset > srcs.length - length))
             throw new IndexOutOfBoundsException();
         srcs = Util.subsequence(srcs, offset, length);
-        write(true, null, srcs, timeout, unit, attachment, handler);
+        write(true, null, srcs, timeout, unit, bttbchment, hbndler);
     }
 
     @Override
-    public final AsynchronousSocketChannel bind(SocketAddress local)
+    public finbl AsynchronousSocketChbnnel bind(SocketAddress locbl)
         throws IOException
     {
         try {
             begin();
-            synchronized (stateLock) {
-                if (state == ST_PENDING)
+            synchronized (stbteLock) {
+                if (stbte == ST_PENDING)
                     throw new ConnectionPendingException();
-                if (localAddress != null)
-                    throw new AlreadyBoundException();
-                InetSocketAddress isa = (local == null) ?
-                    new InetSocketAddress(0) : Net.checkAddress(local);
-                SecurityManager sm = System.getSecurityManager();
+                if (locblAddress != null)
+                    throw new AlrebdyBoundException();
+                InetSocketAddress isb = (locbl == null) ?
+                    new InetSocketAddress(0) : Net.checkAddress(locbl);
+                SecurityMbnbger sm = System.getSecurityMbnbger();
                 if (sm != null) {
-                    sm.checkListen(isa.getPort());
+                    sm.checkListen(isb.getPort());
                 }
-                NetHooks.beforeTcpBind(fd, isa.getAddress(), isa.getPort());
-                Net.bind(fd, isa.getAddress(), isa.getPort());
-                localAddress = Net.localAddress(fd);
+                NetHooks.beforeTcpBind(fd, isb.getAddress(), isb.getPort());
+                Net.bind(fd, isb.getAddress(), isb.getPort());
+                locblAddress = Net.locblAddress(fd);
             }
-        } finally {
+        } finblly {
             end();
         }
         return this;
     }
 
     @Override
-    public final SocketAddress getLocalAddress() throws IOException {
+    public finbl SocketAddress getLocblAddress() throws IOException {
         if (!isOpen())
-            throw new ClosedChannelException();
-         return Net.getRevealedLocalAddress(localAddress);
+            throw new ClosedChbnnelException();
+         return Net.getRevebledLocblAddress(locblAddress);
     }
 
     @Override
-    public final <T> AsynchronousSocketChannel setOption(SocketOption<T> name, T value)
+    public finbl <T> AsynchronousSocketChbnnel setOption(SocketOption<T> nbme, T vblue)
         throws IOException
     {
-        if (name == null)
+        if (nbme == null)
             throw new NullPointerException();
-        if (!supportedOptions().contains(name))
-            throw new UnsupportedOperationException("'" + name + "' not supported");
+        if (!supportedOptions().contbins(nbme))
+            throw new UnsupportedOperbtionException("'" + nbme + "' not supported");
 
         try {
             begin();
             if (writeShutdown)
-                throw new IOException("Connection has been shutdown for writing");
-            if (name == StandardSocketOptions.SO_REUSEADDR &&
+                throw new IOException("Connection hbs been shutdown for writing");
+            if (nbme == StbndbrdSocketOptions.SO_REUSEADDR &&
                     Net.useExclusiveBind())
             {
-                // SO_REUSEADDR emulated when using exclusive bind
-                isReuseAddress = (Boolean)value;
+                // SO_REUSEADDR emulbted when using exclusive bind
+                isReuseAddress = (Boolebn)vblue;
             } else {
-                Net.setSocketOption(fd, Net.UNSPEC, name, value);
+                Net.setSocketOption(fd, Net.UNSPEC, nbme, vblue);
             }
             return this;
-        } finally {
+        } finblly {
             end();
         }
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public final <T> T getOption(SocketOption<T> name) throws IOException {
-        if (name == null)
+    @SuppressWbrnings("unchecked")
+    public finbl <T> T getOption(SocketOption<T> nbme) throws IOException {
+        if (nbme == null)
             throw new NullPointerException();
-        if (!supportedOptions().contains(name))
-            throw new UnsupportedOperationException("'" + name + "' not supported");
+        if (!supportedOptions().contbins(nbme))
+            throw new UnsupportedOperbtionException("'" + nbme + "' not supported");
 
         try {
             begin();
-            if (name == StandardSocketOptions.SO_REUSEADDR &&
+            if (nbme == StbndbrdSocketOptions.SO_REUSEADDR &&
                     Net.useExclusiveBind())
             {
-                // SO_REUSEADDR emulated when using exclusive bind
-                return (T)Boolean.valueOf(isReuseAddress);
+                // SO_REUSEADDR emulbted when using exclusive bind
+                return (T)Boolebn.vblueOf(isReuseAddress);
             }
-            return (T) Net.getSocketOption(fd, Net.UNSPEC, name);
-        } finally {
+            return (T) Net.getSocketOption(fd, Net.UNSPEC, nbme);
+        } finblly {
             end();
         }
     }
 
-    private static class DefaultOptionsHolder {
-        static final Set<SocketOption<?>> defaultOptions = defaultOptions();
+    privbte stbtic clbss DefbultOptionsHolder {
+        stbtic finbl Set<SocketOption<?>> defbultOptions = defbultOptions();
 
-        private static Set<SocketOption<?>> defaultOptions() {
-            HashSet<SocketOption<?>> set = new HashSet<SocketOption<?>>(5);
-            set.add(StandardSocketOptions.SO_SNDBUF);
-            set.add(StandardSocketOptions.SO_RCVBUF);
-            set.add(StandardSocketOptions.SO_KEEPALIVE);
-            set.add(StandardSocketOptions.SO_REUSEADDR);
-            set.add(StandardSocketOptions.TCP_NODELAY);
+        privbte stbtic Set<SocketOption<?>> defbultOptions() {
+            HbshSet<SocketOption<?>> set = new HbshSet<SocketOption<?>>(5);
+            set.bdd(StbndbrdSocketOptions.SO_SNDBUF);
+            set.bdd(StbndbrdSocketOptions.SO_RCVBUF);
+            set.bdd(StbndbrdSocketOptions.SO_KEEPALIVE);
+            set.bdd(StbndbrdSocketOptions.SO_REUSEADDR);
+            set.bdd(StbndbrdSocketOptions.TCP_NODELAY);
             if (ExtendedOptionsImpl.flowSupported()) {
-                set.add(jdk.net.ExtendedSocketOptions.SO_FLOW_SLA);
+                set.bdd(jdk.net.ExtendedSocketOptions.SO_FLOW_SLA);
             }
-            return Collections.unmodifiableSet(set);
+            return Collections.unmodifibbleSet(set);
         }
     }
 
     @Override
-    public final Set<SocketOption<?>> supportedOptions() {
-        return DefaultOptionsHolder.defaultOptions;
+    public finbl Set<SocketOption<?>> supportedOptions() {
+        return DefbultOptionsHolder.defbultOptions;
     }
 
     @Override
-    public final SocketAddress getRemoteAddress() throws IOException {
+    public finbl SocketAddress getRemoteAddress() throws IOException {
         if (!isOpen())
-            throw new ClosedChannelException();
+            throw new ClosedChbnnelException();
         return remoteAddress;
     }
 
     @Override
-    public final AsynchronousSocketChannel shutdownInput() throws IOException {
+    public finbl AsynchronousSocketChbnnel shutdownInput() throws IOException {
         try {
             begin();
             if (remoteAddress == null)
                 throw new NotYetConnectedException();
-            synchronized (readLock) {
-                if (!readShutdown) {
+            synchronized (rebdLock) {
+                if (!rebdShutdown) {
                     Net.shutdown(fd, Net.SHUT_RD);
-                    readShutdown = true;
+                    rebdShutdown = true;
                 }
             }
-        } finally {
+        } finblly {
             end();
         }
         return this;
     }
 
     @Override
-    public final AsynchronousSocketChannel shutdownOutput() throws IOException {
+    public finbl AsynchronousSocketChbnnel shutdownOutput() throws IOException {
         try {
             begin();
             if (remoteAddress == null)
@@ -558,48 +558,48 @@ abstract class AsynchronousSocketChannelImpl
                     writeShutdown = true;
                 }
             }
-        } finally {
+        } finblly {
             end();
         }
         return this;
     }
 
     @Override
-    public final String toString() {
+    public finbl String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(this.getClass().getName());
-        sb.append('[');
-        synchronized (stateLock) {
+        sb.bppend(this.getClbss().getNbme());
+        sb.bppend('[');
+        synchronized (stbteLock) {
             if (!isOpen()) {
-                sb.append("closed");
+                sb.bppend("closed");
             } else {
-                switch (state) {
-                case ST_UNCONNECTED:
-                    sb.append("unconnected");
-                    break;
-                case ST_PENDING:
-                    sb.append("connection-pending");
-                    break;
-                case ST_CONNECTED:
-                    sb.append("connected");
-                    if (readShutdown)
-                        sb.append(" ishut");
+                switch (stbte) {
+                cbse ST_UNCONNECTED:
+                    sb.bppend("unconnected");
+                    brebk;
+                cbse ST_PENDING:
+                    sb.bppend("connection-pending");
+                    brebk;
+                cbse ST_CONNECTED:
+                    sb.bppend("connected");
+                    if (rebdShutdown)
+                        sb.bppend(" ishut");
                     if (writeShutdown)
-                        sb.append(" oshut");
-                    break;
+                        sb.bppend(" oshut");
+                    brebk;
                 }
-                if (localAddress != null) {
-                    sb.append(" local=");
-                    sb.append(
-                            Net.getRevealedLocalAddressAsString(localAddress));
+                if (locblAddress != null) {
+                    sb.bppend(" locbl=");
+                    sb.bppend(
+                            Net.getRevebledLocblAddressAsString(locblAddress));
                 }
                 if (remoteAddress != null) {
-                    sb.append(" remote=");
-                    sb.append(remoteAddress.toString());
+                    sb.bppend(" remote=");
+                    sb.bppend(remoteAddress.toString());
                 }
             }
         }
-        sb.append(']');
+        sb.bppend(']');
         return sb.toString();
     }
 }

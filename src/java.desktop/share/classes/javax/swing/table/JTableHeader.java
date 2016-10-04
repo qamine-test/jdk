@@ -1,380 +1,380 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.table;
+pbckbge jbvbx.swing.tbble;
 
-import sun.swing.table.DefaultTableCellHeaderRenderer;
+import sun.swing.tbble.DefbultTbbleCellHebderRenderer;
 
-import java.util.*;
-import java.awt.*;
-import java.awt.event.*;
+import jbvb.util.*;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
 
-import javax.swing.*;
-import javax.swing.event.*;
-import javax.swing.plaf.*;
-import javax.accessibility.*;
+import jbvbx.swing.*;
+import jbvbx.swing.event.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.bccessibility.*;
 
-import java.beans.PropertyChangeListener;
-import java.beans.Transient;
+import jbvb.bebns.PropertyChbngeListener;
+import jbvb.bebns.Trbnsient;
 
-import java.io.ObjectOutputStream;
-import java.io.ObjectInputStream;
-import java.io.IOException;
+import jbvb.io.ObjectOutputStrebm;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.IOException;
 
 
 /**
- * This is the object which manages the header of the <code>JTable</code>.
+ * This is the object which mbnbges the hebder of the <code>JTbble</code>.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
- * @author Alan Chung
- * @author Philip Milne
- * @see javax.swing.JTable
+ * @buthor Albn Chung
+ * @buthor Philip Milne
+ * @see jbvbx.swing.JTbble
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class JTableHeader extends JComponent implements TableColumnModelListener, Accessible
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public clbss JTbbleHebder extends JComponent implements TbbleColumnModelListener, Accessible
 {
     /**
-     * @see #getUIClassID
-     * @see #readObject
+     * @see #getUIClbssID
+     * @see #rebdObject
      */
-    private static final String uiClassID = "TableHeaderUI";
+    privbte stbtic finbl String uiClbssID = "TbbleHebderUI";
 
 //
-// Instance Variables
+// Instbnce Vbribbles
 //
     /**
-     * The table for which this object is the header;
-     * the default is <code>null</code>.
+     * The tbble for which this object is the hebder;
+     * the defbult is <code>null</code>.
      */
-    protected JTable table;
+    protected JTbble tbble;
 
     /**
-     * The <code>TableColumnModel</code> of the table header.
+     * The <code>TbbleColumnModel</code> of the tbble hebder.
      */
-    protected TableColumnModel  columnModel;
+    protected TbbleColumnModel  columnModel;
 
     /**
-     * If true, reordering of columns are allowed by the user;
-     * the default is true.
+     * If true, reordering of columns bre bllowed by the user;
+     * the defbult is true.
      */
-    protected boolean   reorderingAllowed;
+    protected boolebn   reorderingAllowed;
 
     /**
-     * If true, resizing of columns are allowed by the user;
-     * the default is true.
+     * If true, resizing of columns bre bllowed by the user;
+     * the defbult is true.
      */
-    protected boolean   resizingAllowed;
+    protected boolebn   resizingAllowed;
 
     /**
-     * Obsolete as of Java 2 platform v1.3.  Real time repaints, in response
-     * to column dragging or resizing, are now unconditional.
+     * Obsolete bs of Jbvb 2 plbtform v1.3.  Rebl time repbints, in response
+     * to column drbgging or resizing, bre now unconditionbl.
      */
     /*
-     * If this flag is true, then the header will repaint the table as
-     * a column is dragged or resized; the default is true.
+     * If this flbg is true, then the hebder will repbint the tbble bs
+     * b column is drbgged or resized; the defbult is true.
      */
-    protected boolean   updateTableInRealTime;
+    protected boolebn   updbteTbbleInReblTime;
 
     /** The index of the column being resized. <code>null</code> if not resizing. */
-    transient protected TableColumn     resizingColumn;
+    trbnsient protected TbbleColumn     resizingColumn;
 
-    /** The index of the column being dragged. <code>null</code> if not dragging. */
-    transient protected TableColumn     draggedColumn;
+    /** The index of the column being drbgged. <code>null</code> if not drbgging. */
+    trbnsient protected TbbleColumn     drbggedColumn;
 
-    /** The distance from its original position the column has been dragged. */
-    transient protected int     draggedDistance;
+    /** The distbnce from its originbl position the column hbs been drbgged. */
+    trbnsient protected int     drbggedDistbnce;
 
     /**
-      *  The default renderer to be used when a <code>TableColumn</code>
-      *  does not define a <code>headerRenderer</code>.
+      *  The defbult renderer to be used when b <code>TbbleColumn</code>
+      *  does not define b <code>hebderRenderer</code>.
       */
-    private TableCellRenderer defaultRenderer;
+    privbte TbbleCellRenderer defbultRenderer;
 
 //
 // Constructors
 //
 
     /**
-     *  Constructs a <code>JTableHeader</code> with a default
-     *  <code>TableColumnModel</code>.
+     *  Constructs b <code>JTbbleHebder</code> with b defbult
+     *  <code>TbbleColumnModel</code>.
      *
-     * @see #createDefaultColumnModel
+     * @see #crebteDefbultColumnModel
      */
-    public JTableHeader() {
+    public JTbbleHebder() {
         this(null);
     }
 
     /**
-     *  Constructs a <code>JTableHeader</code> which is initialized with
-     *  <code>cm</code> as the column model.  If <code>cm</code> is
-     *  <code>null</code> this method will initialize the table header
-     *  with a default <code>TableColumnModel</code>.
+     *  Constructs b <code>JTbbleHebder</code> which is initiblized with
+     *  <code>cm</code> bs the column model.  If <code>cm</code> is
+     *  <code>null</code> this method will initiblize the tbble hebder
+     *  with b defbult <code>TbbleColumnModel</code>.
      *
-     * @param cm        the column model for the table
-     * @see #createDefaultColumnModel
+     * @pbrbm cm        the column model for the tbble
+     * @see #crebteDefbultColumnModel
      */
-    public JTableHeader(TableColumnModel cm) {
+    public JTbbleHebder(TbbleColumnModel cm) {
         super();
 
-        //setFocusable(false); // for strict win/mac compatibility mode,
+        //setFocusbble(fblse); // for strict win/mbc compbtibility mode,
                                // this method should be invoked
 
         if (cm == null)
-            cm = createDefaultColumnModel();
+            cm = crebteDefbultColumnModel();
         setColumnModel(cm);
 
-        // Initialize local ivars
-        initializeLocalVars();
+        // Initiblize locbl ivbrs
+        initiblizeLocblVbrs();
 
         // Get UI going
-        updateUI();
+        updbteUI();
     }
 
 //
-// Local behavior attributes
+// Locbl behbvior bttributes
 //
 
     /**
-     *  Sets the table associated with this header.
-     *  @param  table   the new table
-     *  @beaninfo
+     *  Sets the tbble bssocibted with this hebder.
+     *  @pbrbm  tbble   the new tbble
+     *  @bebninfo
      *   bound: true
-     *   description: The table associated with this header.
+     *   description: The tbble bssocibted with this hebder.
      */
-    public void setTable(JTable table) {
-        JTable old = this.table;
-        this.table = table;
-        firePropertyChange("table", old, table);
+    public void setTbble(JTbble tbble) {
+        JTbble old = this.tbble;
+        this.tbble = tbble;
+        firePropertyChbnge("tbble", old, tbble);
     }
 
     /**
-      *  Returns the table associated with this header.
-      *  @return  the <code>table</code> property
+      *  Returns the tbble bssocibted with this hebder.
+      *  @return  the <code>tbble</code> property
       */
-    public JTable getTable() {
-        return table;
+    public JTbble getTbble() {
+        return tbble;
     }
 
     /**
-     *  Sets whether the user can drag column headers to reorder columns.
+     *  Sets whether the user cbn drbg column hebders to reorder columns.
      *
-     * @param   reorderingAllowed       true if the table view should allow
-     *                                  reordering; otherwise false
+     * @pbrbm   reorderingAllowed       true if the tbble view should bllow
+     *                                  reordering; otherwise fblse
      * @see     #getReorderingAllowed
-     * @beaninfo
+     * @bebninfo
      *  bound: true
-     *  description: Whether the user can drag column headers to reorder columns.
+     *  description: Whether the user cbn drbg column hebders to reorder columns.
      */
-    public void setReorderingAllowed(boolean reorderingAllowed) {
-        boolean old = this.reorderingAllowed;
+    public void setReorderingAllowed(boolebn reorderingAllowed) {
+        boolebn old = this.reorderingAllowed;
         this.reorderingAllowed = reorderingAllowed;
-        firePropertyChange("reorderingAllowed", old, reorderingAllowed);
+        firePropertyChbnge("reorderingAllowed", old, reorderingAllowed);
     }
 
     /**
-     * Returns true if the user is allowed to rearrange columns by
-     * dragging their headers, false otherwise. The default is true. You can
-     * rearrange columns programmatically regardless of this setting.
+     * Returns true if the user is bllowed to rebrrbnge columns by
+     * drbgging their hebders, fblse otherwise. The defbult is true. You cbn
+     * rebrrbnge columns progrbmmbticblly regbrdless of this setting.
      *
      * @return  the <code>reorderingAllowed</code> property
      * @see     #setReorderingAllowed
      */
-    public boolean getReorderingAllowed() {
+    public boolebn getReorderingAllowed() {
         return reorderingAllowed;
     }
 
     /**
-     *  Sets whether the user can resize columns by dragging between headers.
+     *  Sets whether the user cbn resize columns by drbgging between hebders.
      *
-     * @param   resizingAllowed         true if table view should allow
+     * @pbrbm   resizingAllowed         true if tbble view should bllow
      *                                  resizing
      * @see     #getResizingAllowed
-     * @beaninfo
+     * @bebninfo
      *  bound: true
-     *  description: Whether the user can resize columns by dragging between headers.
+     *  description: Whether the user cbn resize columns by drbgging between hebders.
      */
-    public void setResizingAllowed(boolean resizingAllowed) {
-        boolean old = this.resizingAllowed;
+    public void setResizingAllowed(boolebn resizingAllowed) {
+        boolebn old = this.resizingAllowed;
         this.resizingAllowed = resizingAllowed;
-        firePropertyChange("resizingAllowed", old, resizingAllowed);
+        firePropertyChbnge("resizingAllowed", old, resizingAllowed);
     }
 
     /**
-     * Returns true if the user is allowed to resize columns by dragging
-     * between their headers, false otherwise. The default is true. You can
-     * resize columns programmatically regardless of this setting.
+     * Returns true if the user is bllowed to resize columns by drbgging
+     * between their hebders, fblse otherwise. The defbult is true. You cbn
+     * resize columns progrbmmbticblly regbrdless of this setting.
      *
      * @return  the <code>resizingAllowed</code> property
      * @see     #setResizingAllowed
      */
-    public boolean getResizingAllowed() {
+    public boolebn getResizingAllowed() {
         return resizingAllowed;
     }
 
     /**
-     * Returns the the dragged column, if and only if, a drag is in
+     * Returns the the drbgged column, if bnd only if, b drbg is in
      * process, otherwise returns <code>null</code>.
      *
-     * @return  the dragged column, if a drag is in
+     * @return  the drbgged column, if b drbg is in
      *          process, otherwise returns <code>null</code>
-     * @see     #getDraggedDistance
+     * @see     #getDrbggedDistbnce
      */
-    public TableColumn getDraggedColumn() {
-        return draggedColumn;
+    public TbbleColumn getDrbggedColumn() {
+        return drbggedColumn;
     }
 
     /**
-     * Returns the column's horizontal distance from its original
-     * position, if and only if, a drag is in process. Otherwise, the
-     * the return value is meaningless.
+     * Returns the column's horizontbl distbnce from its originbl
+     * position, if bnd only if, b drbg is in process. Otherwise, the
+     * the return vblue is mebningless.
      *
-     * @return  the column's horizontal distance from its original
-     *          position, if a drag is in process, otherwise the return
-     *          value is meaningless
-     * @see     #getDraggedColumn
+     * @return  the column's horizontbl distbnce from its originbl
+     *          position, if b drbg is in process, otherwise the return
+     *          vblue is mebningless
+     * @see     #getDrbggedColumn
      */
-    public int getDraggedDistance() {
-        return draggedDistance;
+    public int getDrbggedDistbnce() {
+        return drbggedDistbnce;
     }
 
     /**
      * Returns the resizing column.  If no column is being
      * resized this method returns <code>null</code>.
      *
-     * @return  the resizing column, if a resize is in process, otherwise
+     * @return  the resizing column, if b resize is in process, otherwise
      *          returns <code>null</code>
      */
-    public TableColumn getResizingColumn() {
+    public TbbleColumn getResizingColumn() {
         return resizingColumn;
     }
 
     /**
-     * Obsolete as of Java 2 platform v1.3.  Real time repaints, in response to
-     * column dragging or resizing, are now unconditional.
+     * Obsolete bs of Jbvb 2 plbtform v1.3.  Rebl time repbints, in response to
+     * column drbgging or resizing, bre now unconditionbl.
      */
     /*
-     *  Sets whether the body of the table updates in real time when
-     *  a column is resized or dragged.
+     *  Sets whether the body of the tbble updbtes in rebl time when
+     *  b column is resized or drbgged.
      *
-     * @param   flag                    true if tableView should update
-     *                                  the body of the table in real time
-     * @see #getUpdateTableInRealTime
+     * @pbrbm   flbg                    true if tbbleView should updbte
+     *                                  the body of the tbble in rebl time
+     * @see #getUpdbteTbbleInReblTime
      */
-    public void setUpdateTableInRealTime(boolean flag) {
-        updateTableInRealTime = flag;
+    public void setUpdbteTbbleInReblTime(boolebn flbg) {
+        updbteTbbleInReblTime = flbg;
     }
 
     /**
-     * Obsolete as of Java 2 platform v1.3.  Real time repaints, in response to
-     * column dragging or resizing, are now unconditional.
+     * Obsolete bs of Jbvb 2 plbtform v1.3.  Rebl time repbints, in response to
+     * column drbgging or resizing, bre now unconditionbl.
      */
     /*
-     * Returns true if the body of the table view updates in real
-     * time when a column is resized or dragged.  User can set this flag to
-     * false to speed up the table's response to user resize or drag actions.
-     * The default is true.
+     * Returns true if the body of the tbble view updbtes in rebl
+     * time when b column is resized or drbgged.  User cbn set this flbg to
+     * fblse to speed up the tbble's response to user resize or drbg bctions.
+     * The defbult is true.
      *
-     * @return  true if the table updates in real time
-     * @see #setUpdateTableInRealTime
+     * @return  true if the tbble updbtes in rebl time
+     * @see #setUpdbteTbbleInReblTime
      */
-    public boolean getUpdateTableInRealTime() {
-        return updateTableInRealTime;
+    public boolebn getUpdbteTbbleInReblTime() {
+        return updbteTbbleInReblTime;
     }
 
     /**
-     * Sets the default renderer to be used when no <code>headerRenderer</code>
-     * is defined by a <code>TableColumn</code>.
-     * @param  defaultRenderer  the default renderer
+     * Sets the defbult renderer to be used when no <code>hebderRenderer</code>
+     * is defined by b <code>TbbleColumn</code>.
+     * @pbrbm  defbultRenderer  the defbult renderer
      * @since 1.3
      */
-    public void setDefaultRenderer(TableCellRenderer defaultRenderer) {
-        this.defaultRenderer = defaultRenderer;
+    public void setDefbultRenderer(TbbleCellRenderer defbultRenderer) {
+        this.defbultRenderer = defbultRenderer;
     }
 
     /**
-     * Returns the default renderer used when no <code>headerRenderer</code>
-     * is defined by a <code>TableColumn</code>.
-     * @return the default renderer
+     * Returns the defbult renderer used when no <code>hebderRenderer</code>
+     * is defined by b <code>TbbleColumn</code>.
+     * @return the defbult renderer
      * @since 1.3
      */
-    @Transient
-    public TableCellRenderer getDefaultRenderer() {
-        return defaultRenderer;
+    @Trbnsient
+    public TbbleCellRenderer getDefbultRenderer() {
+        return defbultRenderer;
     }
 
     /**
-     * Returns the index of the column that <code>point</code> lies in, or -1 if it
+     * Returns the index of the column thbt <code>point</code> lies in, or -1 if it
      * lies out of bounds.
      *
-     * @param point  if this <code>point</code> lies within a column, the index of
-     *               that column will be returned; otherwise it is out of bounds
-     *               and -1 is returned
+     * @pbrbm point  if this <code>point</code> lies within b column, the index of
+     *               thbt column will be returned; otherwise it is out of bounds
+     *               bnd -1 is returned
      *
-     * @return  the index of the column that <code>point</code> lies in, or -1 if it
+     * @return  the index of the column thbt <code>point</code> lies in, or -1 if it
      *          lies out of bounds
      */
     public int columnAtPoint(Point point) {
         int x = point.x;
-        if (!getComponentOrientation().isLeftToRight()) {
+        if (!getComponentOrientbtion().isLeftToRight()) {
             x = getWidthInRightToLeft() - x - 1;
         }
         return getColumnModel().getColumnIndexAtX(x);
     }
 
     /**
-     * Returns the rectangle containing the header tile at <code>column</code>.
-     * When the <code>column</code> parameter is out of bounds this method uses the
-     * same conventions as the <code>JTable</code> method <code>getCellRect</code>.
+     * Returns the rectbngle contbining the hebder tile bt <code>column</code>.
+     * When the <code>column</code> pbrbmeter is out of bounds this method uses the
+     * sbme conventions bs the <code>JTbble</code> method <code>getCellRect</code>.
      *
-     * @param column  index of the column
+     * @pbrbm column  index of the column
      *
-     * @return  the rectangle containing the header tile at <code>column</code>
-     * @see JTable#getCellRect
+     * @return  the rectbngle contbining the hebder tile bt <code>column</code>
+     * @see JTbble#getCellRect
      */
-    public Rectangle getHeaderRect(int column) {
-        Rectangle r = new Rectangle();
-        TableColumnModel cm = getColumnModel();
+    public Rectbngle getHebderRect(int column) {
+        Rectbngle r = new Rectbngle();
+        TbbleColumnModel cm = getColumnModel();
 
         r.height = getHeight();
 
         if (column < 0) {
             // x = width = 0;
-            if( !getComponentOrientation().isLeftToRight() ) {
+            if( !getComponentOrientbtion().isLeftToRight() ) {
                 r.x = getWidthInRightToLeft();
             }
         }
         else if (column >= cm.getColumnCount()) {
-            if( getComponentOrientation().isLeftToRight() ) {
+            if( getComponentOrientbtion().isLeftToRight() ) {
                 r.x = getWidth();
             }
         }
@@ -382,7 +382,7 @@ public class JTableHeader extends JComponent implements TableColumnModelListener
             for(int i = 0; i < column; i++) {
                 r.x += cm.getColumn(i).getWidth();
             }
-            if( !getComponentOrientation().isLeftToRight() ) {
+            if( !getComponentOrientbtion().isLeftToRight() ) {
                 r.x = getWidthInRightToLeft() - r.x - cm.getColumn(column).getWidth();
             }
 
@@ -394,8 +394,8 @@ public class JTableHeader extends JComponent implements TableColumnModelListener
 
     /**
      * Allows the renderer's tips to be used if there is text set.
-     * @param  event  the location of the event identifies the proper
-     *                          renderer and, therefore, the proper tip
+     * @pbrbm  event  the locbtion of the event identifies the proper
+     *                          renderer bnd, therefore, the proper tip
      * @return the tool tip for this component
      */
     public String getToolTipText(MouseEvent event) {
@@ -403,25 +403,25 @@ public class JTableHeader extends JComponent implements TableColumnModelListener
         Point p = event.getPoint();
         int column;
 
-        // Locate the renderer under the event location
+        // Locbte the renderer under the event locbtion
         if ((column = columnAtPoint(p)) != -1) {
-            TableColumn aColumn = columnModel.getColumn(column);
-            TableCellRenderer renderer = aColumn.getHeaderRenderer();
+            TbbleColumn bColumn = columnModel.getColumn(column);
+            TbbleCellRenderer renderer = bColumn.getHebderRenderer();
             if (renderer == null) {
-                renderer = defaultRenderer;
+                renderer = defbultRenderer;
             }
-            Component component = renderer.getTableCellRendererComponent(
-                              getTable(), aColumn.getHeaderValue(), false, false,
+            Component component = renderer.getTbbleCellRendererComponent(
+                              getTbble(), bColumn.getHebderVblue(), fblse, fblse,
                               -1, column);
 
-            // Now have to see if the component is a JComponent before
+            // Now hbve to see if the component is b JComponent before
             // getting the tip
-            if (component instanceof JComponent) {
-                // Convert the event to the renderer's coordinate system
+            if (component instbnceof JComponent) {
+                // Convert the event to the renderer's coordinbte system
                 MouseEvent newEvent;
-                Rectangle cellRect = getHeaderRect(column);
+                Rectbngle cellRect = getHebderRect(column);
 
-                p.translate(-cellRect.x, -cellRect.y);
+                p.trbnslbte(-cellRect.x, -cellRect.y);
                 newEvent = new MouseEvent(component, event.getID(),
                                           event.getWhen(), event.getModifiers(),
                                           p.x, p.y, event.getXOnScreen(), event.getYOnScreen(),
@@ -440,312 +440,312 @@ public class JTableHeader extends JComponent implements TableColumnModelListener
     }
 
 //
-// Managing TableHeaderUI
+// Mbnbging TbbleHebderUI
 //
 
     /**
-     * Returns the look and feel (L&amp;F) object that renders this component.
+     * Returns the look bnd feel (L&bmp;F) object thbt renders this component.
      *
-     * @return the <code>TableHeaderUI</code> object that renders this component
+     * @return the <code>TbbleHebderUI</code> object thbt renders this component
      */
-    public TableHeaderUI getUI() {
-        return (TableHeaderUI)ui;
+    public TbbleHebderUI getUI() {
+        return (TbbleHebderUI)ui;
     }
 
     /**
-     * Sets the look and feel (L&amp;F) object that renders this component.
+     * Sets the look bnd feel (L&bmp;F) object thbt renders this component.
      *
-     * @param ui  the <code>TableHeaderUI</code> L&amp;F object
-     * @see UIDefaults#getUI
+     * @pbrbm ui  the <code>TbbleHebderUI</code> L&bmp;F object
+     * @see UIDefbults#getUI
      */
-    public void setUI(TableHeaderUI ui){
+    public void setUI(TbbleHebderUI ui){
         if (this.ui != ui) {
             super.setUI(ui);
-            repaint();
+            repbint();
         }
     }
 
     /**
-     * Notification from the <code>UIManager</code> that the look and feel
-     * (L&amp;F) has changed.
-     * Replaces the current UI object with the latest version from the
-     * <code>UIManager</code>.
+     * Notificbtion from the <code>UIMbnbger</code> thbt the look bnd feel
+     * (L&bmp;F) hbs chbnged.
+     * Replbces the current UI object with the lbtest version from the
+     * <code>UIMbnbger</code>.
      *
-     * @see JComponent#updateUI
+     * @see JComponent#updbteUI
      */
-    public void updateUI(){
-        setUI((TableHeaderUI)UIManager.getUI(this));
+    public void updbteUI(){
+        setUI((TbbleHebderUI)UIMbnbger.getUI(this));
 
-        TableCellRenderer renderer = getDefaultRenderer();
-        if (renderer instanceof Component) {
-            SwingUtilities.updateComponentTreeUI((Component)renderer);
+        TbbleCellRenderer renderer = getDefbultRenderer();
+        if (renderer instbnceof Component) {
+            SwingUtilities.updbteComponentTreeUI((Component)renderer);
         }
     }
 
 
     /**
-     * Returns the suffix used to construct the name of the look and feel
-     * (L&amp;F) class used to render this component.
-     * @return the string "TableHeaderUI"
+     * Returns the suffix used to construct the nbme of the look bnd feel
+     * (L&bmp;F) clbss used to render this component.
+     * @return the string "TbbleHebderUI"
      *
-     * @return "TableHeaderUI"
-     * @see JComponent#getUIClassID
-     * @see UIDefaults#getUI
+     * @return "TbbleHebderUI"
+     * @see JComponent#getUIClbssID
+     * @see UIDefbults#getUI
      */
-    public String getUIClassID() {
-        return uiClassID;
+    public String getUIClbssID() {
+        return uiClbssID;
     }
 
 
 //
-// Managing models
+// Mbnbging models
 //
 
 
     /**
-     *  Sets the column model for this table to <code>newModel</code> and registers
-     *  for listener notifications from the new column model.
+     *  Sets the column model for this tbble to <code>newModel</code> bnd registers
+     *  for listener notificbtions from the new column model.
      *
-     * @param   columnModel     the new data source for this table
-     * @exception IllegalArgumentException
+     * @pbrbm   columnModel     the new dbtb source for this tbble
+     * @exception IllegblArgumentException
      *                          if <code>newModel</code> is <code>null</code>
      * @see     #getColumnModel
-     * @beaninfo
+     * @bebninfo
      *  bound: true
-     *  description: The object governing the way columns appear in the view.
+     *  description: The object governing the wby columns bppebr in the view.
      */
-    public void setColumnModel(TableColumnModel columnModel) {
+    public void setColumnModel(TbbleColumnModel columnModel) {
         if (columnModel == null) {
-            throw new IllegalArgumentException("Cannot set a null ColumnModel");
+            throw new IllegblArgumentException("Cbnnot set b null ColumnModel");
         }
-        TableColumnModel old = this.columnModel;
+        TbbleColumnModel old = this.columnModel;
         if (columnModel != old) {
             if (old != null) {
                 old.removeColumnModelListener(this);
             }
             this.columnModel = columnModel;
-            columnModel.addColumnModelListener(this);
+            columnModel.bddColumnModelListener(this);
 
-            firePropertyChange("columnModel", old, columnModel);
-            resizeAndRepaint();
+            firePropertyChbnge("columnModel", old, columnModel);
+            resizeAndRepbint();
         }
     }
 
     /**
-     * Returns the <code>TableColumnModel</code> that contains all column information
-     * of this table header.
+     * Returns the <code>TbbleColumnModel</code> thbt contbins bll column informbtion
+     * of this tbble hebder.
      *
      * @return  the <code>columnModel</code> property
      * @see     #setColumnModel
      */
-    public TableColumnModel getColumnModel() {
+    public TbbleColumnModel getColumnModel() {
         return columnModel;
     }
 
 //
-// Implementing TableColumnModelListener interface
+// Implementing TbbleColumnModelListener interfbce
 //
 
     /**
-     * Invoked when a column is added to the table column model.
+     * Invoked when b column is bdded to the tbble column model.
      * <p>
-     * Application code will not use these methods explicitly, they
-     * are used internally by <code>JTable</code>.
+     * Applicbtion code will not use these methods explicitly, they
+     * bre used internblly by <code>JTbble</code>.
      *
-     * @param e  the event received
-     * @see TableColumnModelListener
+     * @pbrbm e  the event received
+     * @see TbbleColumnModelListener
      */
-    public void columnAdded(TableColumnModelEvent e) { resizeAndRepaint(); }
+    public void columnAdded(TbbleColumnModelEvent e) { resizeAndRepbint(); }
 
 
     /**
-     * Invoked when a column is removed from the table column model.
+     * Invoked when b column is removed from the tbble column model.
      * <p>
-     * Application code will not use these methods explicitly, they
-     * are used internally by <code>JTable</code>.
+     * Applicbtion code will not use these methods explicitly, they
+     * bre used internblly by <code>JTbble</code>.
      *
-     * @param e  the event received
-     * @see TableColumnModelListener
+     * @pbrbm e  the event received
+     * @see TbbleColumnModelListener
      */
-    public void columnRemoved(TableColumnModelEvent e) { resizeAndRepaint(); }
+    public void columnRemoved(TbbleColumnModelEvent e) { resizeAndRepbint(); }
 
 
     /**
-     * Invoked when a column is repositioned.
+     * Invoked when b column is repositioned.
      * <p>
-     * Application code will not use these methods explicitly, they
-     * are used internally by <code>JTable</code>.
+     * Applicbtion code will not use these methods explicitly, they
+     * bre used internblly by <code>JTbble</code>.
      *
-     * @param e the event received
-     * @see TableColumnModelListener
+     * @pbrbm e the event received
+     * @see TbbleColumnModelListener
      */
-    public void columnMoved(TableColumnModelEvent e) { repaint(); }
+    public void columnMoved(TbbleColumnModelEvent e) { repbint(); }
 
 
     /**
-     * Invoked when a column is moved due to a margin change.
+     * Invoked when b column is moved due to b mbrgin chbnge.
      * <p>
-     * Application code will not use these methods explicitly, they
-     * are used internally by <code>JTable</code>.
+     * Applicbtion code will not use these methods explicitly, they
+     * bre used internblly by <code>JTbble</code>.
      *
-     * @param e the event received
-     * @see TableColumnModelListener
+     * @pbrbm e the event received
+     * @see TbbleColumnModelListener
      */
-    public void columnMarginChanged(ChangeEvent e) { resizeAndRepaint(); }
+    public void columnMbrginChbnged(ChbngeEvent e) { resizeAndRepbint(); }
 
 
-    // --Redrawing the header is slow in cell selection mode.
-    // --Since header selection is ugly and it is always clear from the
-    // --view which columns are selected, don't redraw the header.
+    // --Redrbwing the hebder is slow in cell selection mode.
+    // --Since hebder selection is ugly bnd it is blwbys clebr from the
+    // --view which columns bre selected, don't redrbw the hebder.
     /**
-     * Invoked when the selection model of the <code>TableColumnModel</code>
-     * is changed.  This method currently has no effect (the header is not
-     * redrawn).
+     * Invoked when the selection model of the <code>TbbleColumnModel</code>
+     * is chbnged.  This method currently hbs no effect (the hebder is not
+     * redrbwn).
      * <p>
-     * Application code will not use these methods explicitly, they
-     * are used internally by <code>JTable</code>.
+     * Applicbtion code will not use these methods explicitly, they
+     * bre used internblly by <code>JTbble</code>.
      *
-     * @param e the event received
-     * @see TableColumnModelListener
+     * @pbrbm e the event received
+     * @see TbbleColumnModelListener
      */
-    public void columnSelectionChanged(ListSelectionEvent e) { } // repaint(); }
+    public void columnSelectionChbnged(ListSelectionEvent e) { } // repbint(); }
 
 //
-//  Package Methods
+//  Pbckbge Methods
 //
 
     /**
-     *  Returns the default column model object which is
-     *  a <code>DefaultTableColumnModel</code>.  A subclass can override this
-     *  method to return a different column model object
+     *  Returns the defbult column model object which is
+     *  b <code>DefbultTbbleColumnModel</code>.  A subclbss cbn override this
+     *  method to return b different column model object
      *
-     * @return the default column model object
+     * @return the defbult column model object
      */
-    protected TableColumnModel createDefaultColumnModel() {
-        return new DefaultTableColumnModel();
+    protected TbbleColumnModel crebteDefbultColumnModel() {
+        return new DefbultTbbleColumnModel();
     }
 
     /**
-     *  Returns a default renderer to be used when no header renderer
-     *  is defined by a <code>TableColumn</code>.
+     *  Returns b defbult renderer to be used when no hebder renderer
+     *  is defined by b <code>TbbleColumn</code>.
      *
-     *  @return the default table column renderer
+     *  @return the defbult tbble column renderer
      * @since 1.3
      */
-    protected TableCellRenderer createDefaultRenderer() {
-        return new DefaultTableCellHeaderRenderer();
+    protected TbbleCellRenderer crebteDefbultRenderer() {
+        return new DefbultTbbleCellHebderRenderer();
     }
 
 
     /**
-     * Initializes the local variables and properties with default values.
+     * Initiblizes the locbl vbribbles bnd properties with defbult vblues.
      * Used by the constructor methods.
      */
-    protected void initializeLocalVars() {
-        setOpaque(true);
-        table = null;
+    protected void initiblizeLocblVbrs() {
+        setOpbque(true);
+        tbble = null;
         reorderingAllowed = true;
         resizingAllowed = true;
-        draggedColumn = null;
-        draggedDistance = 0;
+        drbggedColumn = null;
+        drbggedDistbnce = 0;
         resizingColumn = null;
-        updateTableInRealTime = true;
+        updbteTbbleInReblTime = true;
 
-        // I'm registered to do tool tips so we can draw tips for the
+        // I'm registered to do tool tips so we cbn drbw tips for the
         // renderers
-        ToolTipManager toolTipManager = ToolTipManager.sharedInstance();
-        toolTipManager.registerComponent(this);
-        setDefaultRenderer(createDefaultRenderer());
+        ToolTipMbnbger toolTipMbnbger = ToolTipMbnbger.shbredInstbnce();
+        toolTipMbnbger.registerComponent(this);
+        setDefbultRenderer(crebteDefbultRenderer());
     }
 
     /**
-     * Sizes the header and marks it as needing display.  Equivalent
-     * to <code>revalidate</code> followed by <code>repaint</code>.
+     * Sizes the hebder bnd mbrks it bs needing displby.  Equivblent
+     * to <code>revblidbte</code> followed by <code>repbint</code>.
      */
-    public void resizeAndRepaint() {
-        revalidate();
-        repaint();
+    public void resizeAndRepbint() {
+        revblidbte();
+        repbint();
     }
 
     /**
-      *  Sets the header's <code>draggedColumn</code> to <code>aColumn</code>.
+      *  Sets the hebder's <code>drbggedColumn</code> to <code>bColumn</code>.
       *  <p>
-      *  Application code will not use this method explicitly, it is used
-      *  internally by the column dragging mechanism.
+      *  Applicbtion code will not use this method explicitly, it is used
+      *  internblly by the column drbgging mechbnism.
       *
-      *  @param  aColumn  the column being dragged, or <code>null</code> if
-      *                 no column is being dragged
+      *  @pbrbm  bColumn  the column being drbgged, or <code>null</code> if
+      *                 no column is being drbgged
       */
-    public void setDraggedColumn(TableColumn aColumn) {
-        draggedColumn = aColumn;
+    public void setDrbggedColumn(TbbleColumn bColumn) {
+        drbggedColumn = bColumn;
     }
 
     /**
-      *  Sets the header's <code>draggedDistance</code> to <code>distance</code>.
-      *  @param distance  the distance dragged
+      *  Sets the hebder's <code>drbggedDistbnce</code> to <code>distbnce</code>.
+      *  @pbrbm distbnce  the distbnce drbgged
       */
-    public void setDraggedDistance(int distance) {
-        draggedDistance = distance;
+    public void setDrbggedDistbnce(int distbnce) {
+        drbggedDistbnce = distbnce;
     }
 
     /**
-      *  Sets the header's <code>resizingColumn</code> to <code>aColumn</code>.
+      *  Sets the hebder's <code>resizingColumn</code> to <code>bColumn</code>.
       *  <p>
-      *  Application code will not use this method explicitly, it
-      *  is used internally by the column sizing mechanism.
+      *  Applicbtion code will not use this method explicitly, it
+      *  is used internblly by the column sizing mechbnism.
       *
-      *  @param  aColumn  the column being resized, or <code>null</code> if
+      *  @pbrbm  bColumn  the column being resized, or <code>null</code> if
       *                 no column is being resized
       */
-    public void setResizingColumn(TableColumn aColumn) {
-        resizingColumn = aColumn;
+    public void setResizingColumn(TbbleColumn bColumn) {
+        resizingColumn = bColumn;
     }
 
     /**
-     * See <code>readObject</code> and <code>writeObject</code> in
+     * See <code>rebdObject</code> bnd <code>writeObject</code> in
      * <code>JComponent</code> for more
-     * information about serialization in Swing.
+     * informbtion bbout seriblizbtion in Swing.
      */
-    private void writeObject(ObjectOutputStream s) throws IOException {
-        s.defaultWriteObject();
-        if ((ui != null) && (getUIClassID().equals(uiClassID))) {
-            ui.installUI(this);
+    privbte void writeObject(ObjectOutputStrebm s) throws IOException {
+        s.defbultWriteObject();
+        if ((ui != null) && (getUIClbssID().equbls(uiClbssID))) {
+            ui.instbllUI(this);
         }
     }
 
-    private int getWidthInRightToLeft() {
-        if ((table != null) &&
-            (table.getAutoResizeMode() != JTable.AUTO_RESIZE_OFF)) {
-            return table.getWidth();
+    privbte int getWidthInRightToLeft() {
+        if ((tbble != null) &&
+            (tbble.getAutoResizeMode() != JTbble.AUTO_RESIZE_OFF)) {
+            return tbble.getWidth();
         }
         return super.getWidth();
     }
 
     /**
-     * Returns a string representation of this <code>JTableHeader</code>. This method
-     * is intended to be used only for debugging purposes, and the
-     * content and format of the returned string may vary between
-     * implementations. The returned string may be empty but may not
+     * Returns b string representbtion of this <code>JTbbleHebder</code>. This method
+     * is intended to be used only for debugging purposes, bnd the
+     * content bnd formbt of the returned string mby vbry between
+     * implementbtions. The returned string mby be empty but mby not
      * be <code>null</code>.
      * <P>
-     * Overriding <code>paramString</code> to provide information about the
-     * specific new aspects of the JFC components.
+     * Overriding <code>pbrbmString</code> to provide informbtion bbout the
+     * specific new bspects of the JFC components.
      *
-     * @return  a string representation of this <code>JTableHeader</code>
+     * @return  b string representbtion of this <code>JTbbleHebder</code>
      */
-    protected String paramString() {
+    protected String pbrbmString() {
         String reorderingAllowedString = (reorderingAllowed ?
-                                          "true" : "false");
+                                          "true" : "fblse");
         String resizingAllowedString = (resizingAllowed ?
-                                        "true" : "false");
-        String updateTableInRealTimeString = (updateTableInRealTime ?
-                                              "true" : "false");
+                                        "true" : "fblse");
+        String updbteTbbleInReblTimeString = (updbteTbbleInReblTime ?
+                                              "true" : "fblse");
 
-        return super.paramString() +
-        ",draggedDistance=" + draggedDistance +
+        return super.pbrbmString() +
+        ",drbggedDistbnce=" + drbggedDistbnce +
         ",reorderingAllowed=" + reorderingAllowedString +
         ",resizingAllowed=" + resizingAllowedString +
-        ",updateTableInRealTime=" + updateTableInRealTimeString;
+        ",updbteTbbleInReblTime=" + updbteTbbleInReblTimeString;
     }
 
 /////////////////
@@ -753,47 +753,47 @@ public class JTableHeader extends JComponent implements TableColumnModelListener
 ////////////////
 
     /**
-     * Gets the AccessibleContext associated with this JTableHeader.
-     * For JTableHeaders, the AccessibleContext takes the form of an
-     * AccessibleJTableHeader.
-     * A new AccessibleJTableHeader instance is created if necessary.
+     * Gets the AccessibleContext bssocibted with this JTbbleHebder.
+     * For JTbbleHebders, the AccessibleContext tbkes the form of bn
+     * AccessibleJTbbleHebder.
+     * A new AccessibleJTbbleHebder instbnce is crebted if necessbry.
      *
-     * @return an AccessibleJTableHeader that serves as the
-     *         AccessibleContext of this JTableHeader
+     * @return bn AccessibleJTbbleHebder thbt serves bs the
+     *         AccessibleContext of this JTbbleHebder
      */
     public AccessibleContext getAccessibleContext() {
-        if (accessibleContext == null) {
-            accessibleContext = new AccessibleJTableHeader();
+        if (bccessibleContext == null) {
+            bccessibleContext = new AccessibleJTbbleHebder();
         }
-        return accessibleContext;
+        return bccessibleContext;
     }
 
     //
-    // *** should also implement AccessibleSelection?
-    // *** and what's up with keyboard navigation/manipulation?
+    // *** should blso implement AccessibleSelection?
+    // *** bnd whbt's up with keybobrd nbvigbtion/mbnipulbtion?
     //
     /**
-     * This class implements accessibility support for the
-     * <code>JTableHeader</code> class.  It provides an implementation of the
-     * Java Accessibility API appropriate to table header user-interface
+     * This clbss implements bccessibility support for the
+     * <code>JTbbleHebder</code> clbss.  It provides bn implementbtion of the
+     * Jbvb Accessibility API bppropribte to tbble hebder user-interfbce
      * elements.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Seriblized objects of this clbss will not be compbtible with
+     * future Swing relebses. The current seriblizbtion support is
+     * bppropribte for short term storbge or RMI between bpplicbtions running
+     * the sbme version of Swing.  As of 1.4, support for long term storbge
+     * of bll JbvbBebns&trbde;
+     * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+     * Plebse see {@link jbvb.bebns.XMLEncoder}.
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    protected class AccessibleJTableHeader extends AccessibleJComponent {
+    @SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+    protected clbss AccessibleJTbbleHebder extends AccessibleJComponent {
 
         /**
          * Get the role of this object.
          *
-         * @return an instance of AccessibleRole describing the role of the
+         * @return bn instbnce of AccessibleRole describing the role of the
          * object
          * @see AccessibleRole
          */
@@ -802,109 +802,109 @@ public class JTableHeader extends JComponent implements TableColumnModelListener
         }
 
         /**
-         * Returns the Accessible child, if one exists, contained at the local
-         * coordinate Point.
+         * Returns the Accessible child, if one exists, contbined bt the locbl
+         * coordinbte Point.
          *
-         * @param p The point defining the top-left corner of the Accessible,
-         * given in the coordinate space of the object's parent.
-         * @return the Accessible, if it exists, at the specified location;
+         * @pbrbm p The point defining the top-left corner of the Accessible,
+         * given in the coordinbte spbce of the object's pbrent.
+         * @return the Accessible, if it exists, bt the specified locbtion;
          * else null
          */
         public Accessible getAccessibleAt(Point p) {
             int column;
 
-            // Locate the renderer under the Point
-            if ((column = JTableHeader.this.columnAtPoint(p)) != -1) {
-                TableColumn aColumn = JTableHeader.this.columnModel.getColumn(column);
-                TableCellRenderer renderer = aColumn.getHeaderRenderer();
+            // Locbte the renderer under the Point
+            if ((column = JTbbleHebder.this.columnAtPoint(p)) != -1) {
+                TbbleColumn bColumn = JTbbleHebder.this.columnModel.getColumn(column);
+                TbbleCellRenderer renderer = bColumn.getHebderRenderer();
                 if (renderer == null) {
-                    if (defaultRenderer != null) {
-                        renderer = defaultRenderer;
+                    if (defbultRenderer != null) {
+                        renderer = defbultRenderer;
                     } else {
                         return null;
                     }
                 }
-                Component component = renderer.getTableCellRendererComponent(
-                                  JTableHeader.this.getTable(),
-                                  aColumn.getHeaderValue(), false, false,
+                Component component = renderer.getTbbleCellRendererComponent(
+                                  JTbbleHebder.this.getTbble(),
+                                  bColumn.getHebderVblue(), fblse, fblse,
                                   -1, column);
 
-                return new AccessibleJTableHeaderEntry(column, JTableHeader.this, JTableHeader.this.table);
+                return new AccessibleJTbbleHebderEntry(column, JTbbleHebder.this, JTbbleHebder.this.tbble);
             } else {
                 return null;
             }
         }
 
         /**
-         * Returns the number of accessible children in the object.  If all
-         * of the children of this object implement Accessible, than this
+         * Returns the number of bccessible children in the object.  If bll
+         * of the children of this object implement Accessible, thbn this
          * method should return the number of children of this object.
          *
-         * @return the number of accessible children in the object.
+         * @return the number of bccessible children in the object.
          */
         public int getAccessibleChildrenCount() {
-            return JTableHeader.this.columnModel.getColumnCount();
+            return JTbbleHebder.this.columnModel.getColumnCount();
         }
 
         /**
          * Return the nth Accessible child of the object.
          *
-         * @param i zero-based index of child
+         * @pbrbm i zero-bbsed index of child
          * @return the nth Accessible child of the object
          */
         public Accessible getAccessibleChild(int i) {
             if (i < 0 || i >= getAccessibleChildrenCount()) {
                 return null;
             } else {
-                TableColumn aColumn = JTableHeader.this.columnModel.getColumn(i)
+                TbbleColumn bColumn = JTbbleHebder.this.columnModel.getColumn(i)
 ;
-                TableCellRenderer renderer = aColumn.getHeaderRenderer();
+                TbbleCellRenderer renderer = bColumn.getHebderRenderer();
                 if (renderer == null) {
-                    if (defaultRenderer != null) {
-                        renderer = defaultRenderer;
+                    if (defbultRenderer != null) {
+                        renderer = defbultRenderer;
                     } else {
                         return null;
                     }
                 }
-                Component component = renderer.getTableCellRendererComponent(
-                                  JTableHeader.this.getTable(),
-                                  aColumn.getHeaderValue(), false, false,
+                Component component = renderer.getTbbleCellRendererComponent(
+                                  JTbbleHebder.this.getTbble(),
+                                  bColumn.getHebderVblue(), fblse, fblse,
                                   -1, i);
 
-                return new AccessibleJTableHeaderEntry(i, JTableHeader.this, JTableHeader.this.table);
+                return new AccessibleJTbbleHebderEntry(i, JTbbleHebder.this, JTbbleHebder.this.tbble);
             }
         }
 
       /**
-       * This class provides an implementation of the Java Accessibility
-       * API appropriate for JTableHeader entries.
+       * This clbss provides bn implementbtion of the Jbvb Accessibility
+       * API bppropribte for JTbbleHebder entries.
        */
-        protected class AccessibleJTableHeaderEntry extends AccessibleContext
+        protected clbss AccessibleJTbbleHebderEntry extends AccessibleContext
             implements Accessible, AccessibleComponent  {
 
-            private JTableHeader parent;
-            private int column;
-            private JTable table;
+            privbte JTbbleHebder pbrent;
+            privbte int column;
+            privbte JTbble tbble;
 
             /**
-             *  Constructs an AccessiblJTableHeaaderEntry
+             *  Constructs bn AccessiblJTbbleHebbderEntry
              * @since 1.4
              *
-             * @param c  the column index
-             * @param p  the parent <code>JTableHeader</code>
-             * @param t  the table <code>JTable</code>
+             * @pbrbm c  the column index
+             * @pbrbm p  the pbrent <code>JTbbleHebder</code>
+             * @pbrbm t  the tbble <code>JTbble</code>
              */
-            public AccessibleJTableHeaderEntry(int c, JTableHeader p, JTable t) {
-                parent = p;
+            public AccessibleJTbbleHebderEntry(int c, JTbbleHebder p, JTbble t) {
+                pbrent = p;
                 column = c;
-                table = t;
-                this.setAccessibleParent(parent);
+                tbble = t;
+                this.setAccessiblePbrent(pbrent);
             }
 
             /**
-             * Get the AccessibleContext associated with this object.
-             * In the implementation of the Java Accessibility API
-             * for this class, returns this object, which serves as
+             * Get the AccessibleContext bssocibted with this object.
+             * In the implementbtion of the Jbvb Accessibility API
+             * for this clbss, returns this object, which serves bs
              * its own AccessibleContext.
              *
              * @return this object
@@ -913,54 +913,54 @@ public class JTableHeader extends JComponent implements TableColumnModelListener
                 return this;
             }
 
-            private AccessibleContext getCurrentAccessibleContext() {
-                TableColumnModel tcm = table.getColumnModel();
+            privbte AccessibleContext getCurrentAccessibleContext() {
+                TbbleColumnModel tcm = tbble.getColumnModel();
                 if (tcm != null) {
-                    // Fixes 4772355 - ArrayOutOfBoundsException in
-                    // JTableHeader
+                    // Fixes 4772355 - ArrbyOutOfBoundsException in
+                    // JTbbleHebder
                     if (column < 0 || column >= tcm.getColumnCount()) {
                         return null;
                     }
-                    TableColumn aColumn = tcm.getColumn(column);
-                    TableCellRenderer renderer = aColumn.getHeaderRenderer();
+                    TbbleColumn bColumn = tcm.getColumn(column);
+                    TbbleCellRenderer renderer = bColumn.getHebderRenderer();
                     if (renderer == null) {
-                        if (defaultRenderer != null) {
-                            renderer = defaultRenderer;
+                        if (defbultRenderer != null) {
+                            renderer = defbultRenderer;
                         } else {
                             return null;
                         }
                     }
-                    Component c = renderer.getTableCellRendererComponent(
-                                      JTableHeader.this.getTable(),
-                                      aColumn.getHeaderValue(), false, false,
+                    Component c = renderer.getTbbleCellRendererComponent(
+                                      JTbbleHebder.this.getTbble(),
+                                      bColumn.getHebderVblue(), fblse, fblse,
                                       -1, column);
-                    if (c instanceof Accessible) {
+                    if (c instbnceof Accessible) {
                         return ((Accessible) c).getAccessibleContext();
                     }
                 }
                 return null;
             }
 
-            private Component getCurrentComponent() {
-                TableColumnModel tcm = table.getColumnModel();
+            privbte Component getCurrentComponent() {
+                TbbleColumnModel tcm = tbble.getColumnModel();
                 if (tcm != null) {
-                    // Fixes 4772355 - ArrayOutOfBoundsException in
-                    // JTableHeader
+                    // Fixes 4772355 - ArrbyOutOfBoundsException in
+                    // JTbbleHebder
                     if (column < 0 || column >= tcm.getColumnCount()) {
                         return null;
                     }
-                    TableColumn aColumn = tcm.getColumn(column);
-                    TableCellRenderer renderer = aColumn.getHeaderRenderer();
+                    TbbleColumn bColumn = tcm.getColumn(column);
+                    TbbleCellRenderer renderer = bColumn.getHebderRenderer();
                     if (renderer == null) {
-                        if (defaultRenderer != null) {
-                            renderer = defaultRenderer;
+                        if (defbultRenderer != null) {
+                            renderer = defbultRenderer;
                         } else {
                             return null;
                         }
                     }
-                    return renderer.getTableCellRendererComponent(
-                                      JTableHeader.this.getTable(),
-                                      aColumn.getHeaderValue(), false, false,
+                    return renderer.getTbbleCellRendererComponent(
+                                      JTbbleHebder.this.getTbble(),
+                                      bColumn.getHebderVblue(), fblse, fblse,
                                       -1, column);
                 } else {
                     return null;
@@ -969,34 +969,34 @@ public class JTableHeader extends JComponent implements TableColumnModelListener
 
         // AccessibleContext methods
 
-            public String getAccessibleName() {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac != null) {
-                    String name = ac.getAccessibleName();
-                    if ((name != null) && (name != "")) {
-                        // return the cell renderer's AccessibleName
-                        return name;
+            public String getAccessibleNbme() {
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc != null) {
+                    String nbme = bc.getAccessibleNbme();
+                    if ((nbme != null) && (nbme != "")) {
+                        // return the cell renderer's AccessibleNbme
+                        return nbme;
                     }
                 }
-                if ((accessibleName != null) && (accessibleName != "")) {
-                    return accessibleName;
+                if ((bccessibleNbme != null) && (bccessibleNbme != "")) {
+                    return bccessibleNbme;
                 } else {
-                    // fall back to the client property
-                    String name = (String)getClientProperty(AccessibleContext.ACCESSIBLE_NAME_PROPERTY);
-                    if (name != null) {
-                        return name;
+                    // fbll bbck to the client property
+                    String nbme = (String)getClientProperty(AccessibleContext.ACCESSIBLE_NAME_PROPERTY);
+                    if (nbme != null) {
+                        return nbme;
                     } else {
-                        return table.getColumnName(column);
+                        return tbble.getColumnNbme(column);
                     }
                 }
             }
 
-            public void setAccessibleName(String s) {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac != null) {
-                    ac.setAccessibleName(s);
+            public void setAccessibleNbme(String s) {
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc != null) {
+                    bc.setAccessibleNbme(s);
                 } else {
-                    super.setAccessibleName(s);
+                    super.setAccessibleNbme(s);
                 }
             }
 
@@ -1004,93 +1004,93 @@ public class JTableHeader extends JComponent implements TableColumnModelListener
             // *** should check toolTip text for desc. (needs MouseEvent)
             //
             public String getAccessibleDescription() {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac != null) {
-                    return ac.getAccessibleDescription();
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc != null) {
+                    return bc.getAccessibleDescription();
                 } else {
                     return super.getAccessibleDescription();
                 }
             }
 
             public void setAccessibleDescription(String s) {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac != null) {
-                    ac.setAccessibleDescription(s);
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc != null) {
+                    bc.setAccessibleDescription(s);
                 } else {
                     super.setAccessibleDescription(s);
                 }
             }
 
             public AccessibleRole getAccessibleRole() {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac != null) {
-                    return ac.getAccessibleRole();
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc != null) {
+                    return bc.getAccessibleRole();
                 } else {
                     return AccessibleRole.COLUMN_HEADER;
                 }
             }
 
-            public AccessibleStateSet getAccessibleStateSet() {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac != null) {
-                    AccessibleStateSet states = ac.getAccessibleStateSet();
+            public AccessibleStbteSet getAccessibleStbteSet() {
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc != null) {
+                    AccessibleStbteSet stbtes = bc.getAccessibleStbteSet();
                     if (isShowing()) {
-                        states.add(AccessibleState.SHOWING);
+                        stbtes.bdd(AccessibleStbte.SHOWING);
                     }
-                    return states;
+                    return stbtes;
                 } else {
-                    return new AccessibleStateSet();  // must be non null?
+                    return new AccessibleStbteSet();  // must be non null?
                 }
             }
 
-            public int getAccessibleIndexInParent() {
+            public int getAccessibleIndexInPbrent() {
                 return column;
             }
 
             public int getAccessibleChildrenCount() {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac != null) {
-                    return ac.getAccessibleChildrenCount();
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc != null) {
+                    return bc.getAccessibleChildrenCount();
                 } else {
                     return 0;
                 }
             }
 
             public Accessible getAccessibleChild(int i) {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac != null) {
-                    Accessible accessibleChild = ac.getAccessibleChild(i);
-                    ac.setAccessibleParent(this);
-                    return accessibleChild;
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc != null) {
+                    Accessible bccessibleChild = bc.getAccessibleChild(i);
+                    bc.setAccessiblePbrent(this);
+                    return bccessibleChild;
                 } else {
                     return null;
                 }
             }
 
-            public Locale getLocale() {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac != null) {
-                    return ac.getLocale();
+            public Locble getLocble() {
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc != null) {
+                    return bc.getLocble();
                 } else {
                     return null;
                 }
             }
 
-            public void addPropertyChangeListener(PropertyChangeListener l) {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac != null) {
-                    ac.addPropertyChangeListener(l);
+            public void bddPropertyChbngeListener(PropertyChbngeListener l) {
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc != null) {
+                    bc.bddPropertyChbngeListener(l);
                 } else {
-                    super.addPropertyChangeListener(l);
+                    super.bddPropertyChbngeListener(l);
                 }
             }
 
-            public void removePropertyChangeListener(PropertyChangeListener l) {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac != null) {
-                    ac.removePropertyChangeListener(l);
+            public void removePropertyChbngeListener(PropertyChbngeListener l) {
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc != null) {
+                    bc.removePropertyChbngeListener(l);
                 } else {
-                    super.removePropertyChangeListener(l);
+                    super.removePropertyChbngeListener(l);
                 }
             }
 
@@ -1099,10 +1099,10 @@ public class JTableHeader extends JComponent implements TableColumnModelListener
             }
 
            /**
-            * Get the AccessibleComponent associated with this object.  In the
-            * implementation of the Java Accessibility API for this class,
+            * Get the AccessibleComponent bssocibted with this object.  In the
+            * implementbtion of the Jbvb Accessibility API for this clbss,
             * return this object, which is responsible for implementing the
-            * AccessibleComponent interface on behalf of itself.
+            * AccessibleComponent interfbce on behblf of itself.
             *
             * @return this object
             */
@@ -1118,43 +1118,43 @@ public class JTableHeader extends JComponent implements TableColumnModelListener
                 return getCurrentAccessibleContext().getAccessibleText();
             }
 
-            public AccessibleValue getAccessibleValue() {
-                return getCurrentAccessibleContext().getAccessibleValue();
+            public AccessibleVblue getAccessibleVblue() {
+                return getCurrentAccessibleContext().getAccessibleVblue();
             }
 
 
         // AccessibleComponent methods
 
-            public Color getBackground() {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    return ((AccessibleComponent) ac).getBackground();
+            public Color getBbckground() {
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc instbnceof AccessibleComponent) {
+                    return ((AccessibleComponent) bc).getBbckground();
                 } else {
                     Component c = getCurrentComponent();
                     if (c != null) {
-                        return c.getBackground();
+                        return c.getBbckground();
                     } else {
                         return null;
                     }
                 }
             }
 
-            public void setBackground(Color c) {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    ((AccessibleComponent) ac).setBackground(c);
+            public void setBbckground(Color c) {
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc instbnceof AccessibleComponent) {
+                    ((AccessibleComponent) bc).setBbckground(c);
                 } else {
                     Component cp = getCurrentComponent();
                     if (cp != null) {
-                        cp.setBackground(c);
+                        cp.setBbckground(c);
                     }
                 }
             }
 
             public Color getForeground() {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    return ((AccessibleComponent) ac).getForeground();
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc instbnceof AccessibleComponent) {
+                    return ((AccessibleComponent) bc).getForeground();
                 } else {
                     Component c = getCurrentComponent();
                     if (c != null) {
@@ -1166,9 +1166,9 @@ public class JTableHeader extends JComponent implements TableColumnModelListener
             }
 
             public void setForeground(Color c) {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    ((AccessibleComponent) ac).setForeground(c);
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc instbnceof AccessibleComponent) {
+                    ((AccessibleComponent) bc).setForeground(c);
                 } else {
                     Component cp = getCurrentComponent();
                     if (cp != null) {
@@ -1178,17 +1178,17 @@ public class JTableHeader extends JComponent implements TableColumnModelListener
             }
 
             public Cursor getCursor() {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    return ((AccessibleComponent) ac).getCursor();
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc instbnceof AccessibleComponent) {
+                    return ((AccessibleComponent) bc).getCursor();
                 } else {
                     Component c = getCurrentComponent();
                     if (c != null) {
                         return c.getCursor();
                     } else {
-                        Accessible ap = getAccessibleParent();
-                        if (ap instanceof AccessibleComponent) {
-                            return ((AccessibleComponent) ap).getCursor();
+                        Accessible bp = getAccessiblePbrent();
+                        if (bp instbnceof AccessibleComponent) {
+                            return ((AccessibleComponent) bp).getCursor();
                         } else {
                             return null;
                         }
@@ -1197,9 +1197,9 @@ public class JTableHeader extends JComponent implements TableColumnModelListener
             }
 
             public void setCursor(Cursor c) {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    ((AccessibleComponent) ac).setCursor(c);
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc instbnceof AccessibleComponent) {
+                    ((AccessibleComponent) bc).setCursor(c);
                 } else {
                     Component cp = getCurrentComponent();
                     if (cp != null) {
@@ -1209,9 +1209,9 @@ public class JTableHeader extends JComponent implements TableColumnModelListener
             }
 
             public Font getFont() {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    return ((AccessibleComponent) ac).getFont();
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc instbnceof AccessibleComponent) {
+                    return ((AccessibleComponent) bc).getFont();
                 } else {
                     Component c = getCurrentComponent();
                     if (c != null) {
@@ -1223,9 +1223,9 @@ public class JTableHeader extends JComponent implements TableColumnModelListener
             }
 
             public void setFont(Font f) {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    ((AccessibleComponent) ac).setFont(f);
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc instbnceof AccessibleComponent) {
+                    ((AccessibleComponent) bc).setFont(f);
                 } else {
                     Component c = getCurrentComponent();
                     if (c != null) {
@@ -1235,9 +1235,9 @@ public class JTableHeader extends JComponent implements TableColumnModelListener
             }
 
             public FontMetrics getFontMetrics(Font f) {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    return ((AccessibleComponent) ac).getFontMetrics(f);
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc instbnceof AccessibleComponent) {
+                    return ((AccessibleComponent) bc).getFontMetrics(f);
                 } else {
                     Component c = getCurrentComponent();
                     if (c != null) {
@@ -1248,50 +1248,50 @@ public class JTableHeader extends JComponent implements TableColumnModelListener
                 }
             }
 
-            public boolean isEnabled() {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    return ((AccessibleComponent) ac).isEnabled();
+            public boolebn isEnbbled() {
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc instbnceof AccessibleComponent) {
+                    return ((AccessibleComponent) bc).isEnbbled();
                 } else {
                     Component c = getCurrentComponent();
                     if (c != null) {
-                        return c.isEnabled();
+                        return c.isEnbbled();
                     } else {
-                        return false;
+                        return fblse;
                     }
                 }
             }
 
-            public void setEnabled(boolean b) {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    ((AccessibleComponent) ac).setEnabled(b);
+            public void setEnbbled(boolebn b) {
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc instbnceof AccessibleComponent) {
+                    ((AccessibleComponent) bc).setEnbbled(b);
                 } else {
                     Component c = getCurrentComponent();
                     if (c != null) {
-                        c.setEnabled(b);
+                        c.setEnbbled(b);
                     }
                 }
             }
 
-            public boolean isVisible() {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    return ((AccessibleComponent) ac).isVisible();
+            public boolebn isVisible() {
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc instbnceof AccessibleComponent) {
+                    return ((AccessibleComponent) bc).isVisible();
                 } else {
                     Component c = getCurrentComponent();
                     if (c != null) {
                         return c.isVisible();
                     } else {
-                        return false;
+                        return fblse;
                     }
                 }
             }
 
-            public void setVisible(boolean b) {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    ((AccessibleComponent) ac).setVisible(b);
+            public void setVisible(boolebn b) {
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc instbnceof AccessibleComponent) {
+                    ((AccessibleComponent) bc).setVisible(b);
                 } else {
                     Component c = getCurrentComponent();
                     if (c != null) {
@@ -1300,87 +1300,87 @@ public class JTableHeader extends JComponent implements TableColumnModelListener
                 }
             }
 
-            public boolean isShowing() {
-                if (isVisible() && JTableHeader.this.isShowing()) {
+            public boolebn isShowing() {
+                if (isVisible() && JTbbleHebder.this.isShowing()) {
                     return true;
                 } else {
-                    return false;
+                    return fblse;
                 }
             }
 
-            public boolean contains(Point p) {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    Rectangle r = ((AccessibleComponent) ac).getBounds();
-                    return r.contains(p);
+            public boolebn contbins(Point p) {
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc instbnceof AccessibleComponent) {
+                    Rectbngle r = ((AccessibleComponent) bc).getBounds();
+                    return r.contbins(p);
                 } else {
                     Component c = getCurrentComponent();
                     if (c != null) {
-                        Rectangle r = c.getBounds();
-                        return r.contains(p);
+                        Rectbngle r = c.getBounds();
+                        return r.contbins(p);
                     } else {
-                        return getBounds().contains(p);
+                        return getBounds().contbins(p);
                     }
                 }
             }
 
-            public Point getLocationOnScreen() {
-                if (parent != null) {
-                    Point parentLocation = parent.getLocationOnScreen();
-                    Point componentLocation = getLocation();
-                    componentLocation.translate(parentLocation.x, parentLocation.y);
-                    return componentLocation;
+            public Point getLocbtionOnScreen() {
+                if (pbrent != null) {
+                    Point pbrentLocbtion = pbrent.getLocbtionOnScreen();
+                    Point componentLocbtion = getLocbtion();
+                    componentLocbtion.trbnslbte(pbrentLocbtion.x, pbrentLocbtion.y);
+                    return componentLocbtion;
                 } else {
                     return null;
                 }
             }
 
-            public Point getLocation() {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    Rectangle r = ((AccessibleComponent) ac).getBounds();
-                    return r.getLocation();
+            public Point getLocbtion() {
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc instbnceof AccessibleComponent) {
+                    Rectbngle r = ((AccessibleComponent) bc).getBounds();
+                    return r.getLocbtion();
                 } else {
                     Component c = getCurrentComponent();
                     if (c != null) {
-                        Rectangle r = c.getBounds();
-                        return r.getLocation();
+                        Rectbngle r = c.getBounds();
+                        return r.getLocbtion();
                     } else {
-                        return getBounds().getLocation();
+                        return getBounds().getLocbtion();
                     }
                 }
             }
 
-            public void setLocation(Point p) {
-//                if ((parent != null)  && (parent.contains(p))) {
-//                    ensureIndexIsVisible(indexInParent);
+            public void setLocbtion(Point p) {
+//                if ((pbrent != null)  && (pbrent.contbins(p))) {
+//                    ensureIndexIsVisible(indexInPbrent);
 //                }
             }
 
-            public Rectangle getBounds() {
-                  Rectangle r = table.getCellRect(-1, column, false);
+            public Rectbngle getBounds() {
+                  Rectbngle r = tbble.getCellRect(-1, column, fblse);
                   r.y = 0;
                   return r;
 
-//                AccessibleContext ac = getCurrentAccessibleContext();
-//                if (ac instanceof AccessibleComponent) {
-//                    return ((AccessibleComponent) ac).getBounds();
+//                AccessibleContext bc = getCurrentAccessibleContext();
+//                if (bc instbnceof AccessibleComponent) {
+//                    return ((AccessibleComponent) bc).getBounds();
 //                } else {
 //                  Component c = getCurrentComponent();
 //                  if (c != null) {
 //                      return c.getBounds();
 //                  } else {
-//                      Rectangle r = table.getCellRect(-1, column, false);
+//                      Rectbngle r = tbble.getCellRect(-1, column, fblse);
 //                      r.y = 0;
 //                      return r;
 //                  }
 //              }
             }
 
-            public void setBounds(Rectangle r) {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    ((AccessibleComponent) ac).setBounds(r);
+            public void setBounds(Rectbngle r) {
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc instbnceof AccessibleComponent) {
+                    ((AccessibleComponent) bc).setBounds(r);
                 } else {
                     Component c = getCurrentComponent();
                     if (c != null) {
@@ -1391,14 +1391,14 @@ public class JTableHeader extends JComponent implements TableColumnModelListener
 
             public Dimension getSize() {
                 return getBounds().getSize();
-//                AccessibleContext ac = getCurrentAccessibleContext();
-//                if (ac instanceof AccessibleComponent) {
-//                    Rectangle r = ((AccessibleComponent) ac).getBounds();
+//                AccessibleContext bc = getCurrentAccessibleContext();
+//                if (bc instbnceof AccessibleComponent) {
+//                    Rectbngle r = ((AccessibleComponent) bc).getBounds();
 //                    return r.getSize();
 //                } else {
 //                    Component c = getCurrentComponent();
 //                    if (c != null) {
-//                        Rectangle r = c.getBounds();
+//                        Rectbngle r = c.getBounds();
 //                        return r.getSize();
 //                    } else {
 //                        return getBounds().getSize();
@@ -1407,9 +1407,9 @@ public class JTableHeader extends JComponent implements TableColumnModelListener
             }
 
             public void setSize (Dimension d) {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    ((AccessibleComponent) ac).setSize(d);
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc instbnceof AccessibleComponent) {
+                    ((AccessibleComponent) bc).setSize(d);
                 } else {
                     Component c = getCurrentComponent();
                     if (c != null) {
@@ -1419,32 +1419,32 @@ public class JTableHeader extends JComponent implements TableColumnModelListener
             }
 
             public Accessible getAccessibleAt(Point p) {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    return ((AccessibleComponent) ac).getAccessibleAt(p);
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc instbnceof AccessibleComponent) {
+                    return ((AccessibleComponent) bc).getAccessibleAt(p);
                 } else {
                     return null;
                 }
             }
 
-            public boolean isFocusTraversable() {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    return ((AccessibleComponent) ac).isFocusTraversable();
+            public boolebn isFocusTrbversbble() {
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc instbnceof AccessibleComponent) {
+                    return ((AccessibleComponent) bc).isFocusTrbversbble();
                 } else {
                     Component c = getCurrentComponent();
                     if (c != null) {
-                        return c.isFocusTraversable();
+                        return c.isFocusTrbversbble();
                     } else {
-                        return false;
+                        return fblse;
                     }
                 }
             }
 
             public void requestFocus() {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    ((AccessibleComponent) ac).requestFocus();
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc instbnceof AccessibleComponent) {
+                    ((AccessibleComponent) bc).requestFocus();
                 } else {
                     Component c = getCurrentComponent();
                     if (c != null) {
@@ -1453,22 +1453,22 @@ public class JTableHeader extends JComponent implements TableColumnModelListener
                 }
             }
 
-            public void addFocusListener(FocusListener l) {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    ((AccessibleComponent) ac).addFocusListener(l);
+            public void bddFocusListener(FocusListener l) {
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc instbnceof AccessibleComponent) {
+                    ((AccessibleComponent) bc).bddFocusListener(l);
                 } else {
                     Component c = getCurrentComponent();
                     if (c != null) {
-                        c.addFocusListener(l);
+                        c.bddFocusListener(l);
                     }
                 }
             }
 
             public void removeFocusListener(FocusListener l) {
-                AccessibleContext ac = getCurrentAccessibleContext();
-                if (ac instanceof AccessibleComponent) {
-                    ((AccessibleComponent) ac).removeFocusListener(l);
+                AccessibleContext bc = getCurrentAccessibleContext();
+                if (bc instbnceof AccessibleComponent) {
+                    ((AccessibleComponent) bc).removeFocusListener(l);
                 } else {
                     Component c = getCurrentComponent();
                     if (c != null) {
@@ -1477,8 +1477,8 @@ public class JTableHeader extends JComponent implements TableColumnModelListener
                 }
             }
 
-        } // inner class AccessibleJTableHeaderElement
+        } // inner clbss AccessibleJTbbleHebderElement
 
-    }  // inner class AccessibleJTableHeader
+    }  // inner clbss AccessibleJTbbleHebder
 
-}  // End of Class JTableHeader
+}  // End of Clbss JTbbleHebder

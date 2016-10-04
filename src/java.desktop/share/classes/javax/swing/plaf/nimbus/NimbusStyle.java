@@ -1,515 +1,515 @@
 /*
- * Copyright (c) 2005, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.plaf.nimbus;
+pbckbge jbvbx.swing.plbf.nimbus;
 
-import javax.swing.Painter;
+import jbvbx.swing.Pbinter;
 
-import javax.swing.JComponent;
-import javax.swing.UIDefaults;
-import javax.swing.UIManager;
-import javax.swing.plaf.ColorUIResource;
-import javax.swing.plaf.synth.ColorType;
-import static javax.swing.plaf.synth.SynthConstants.*;
-import javax.swing.plaf.synth.SynthContext;
-import javax.swing.plaf.synth.SynthPainter;
-import javax.swing.plaf.synth.SynthStyle;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Insets;
-import java.lang.ref.WeakReference;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import jbvbx.swing.JComponent;
+import jbvbx.swing.UIDefbults;
+import jbvbx.swing.UIMbnbger;
+import jbvbx.swing.plbf.ColorUIResource;
+import jbvbx.swing.plbf.synth.ColorType;
+import stbtic jbvbx.swing.plbf.synth.SynthConstbnts.*;
+import jbvbx.swing.plbf.synth.SynthContext;
+import jbvbx.swing.plbf.synth.SynthPbinter;
+import jbvbx.swing.plbf.synth.SynthStyle;
+import jbvb.bwt.Color;
+import jbvb.bwt.Font;
+import jbvb.bwt.Insets;
+import jbvb.lbng.ref.WebkReference;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collections;
+import jbvb.util.Compbrbtor;
+import jbvb.util.HbshMbp;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.TreeMbp;
 
 /**
- * <p>A SynthStyle implementation used by Nimbus. Each Region that has been
- * registered with the NimbusLookAndFeel will have an associated NimbusStyle.
- * Third party components that are registered with the NimbusLookAndFeel will
- * therefore be handed a NimbusStyle from the look and feel from the
+ * <p>A SynthStyle implementbtion used by Nimbus. Ebch Region thbt hbs been
+ * registered with the NimbusLookAndFeel will hbve bn bssocibted NimbusStyle.
+ * Third pbrty components thbt bre registered with the NimbusLookAndFeel will
+ * therefore be hbnded b NimbusStyle from the look bnd feel from the
  * #getStyle(JComponent, Region) method.</p>
  *
- * <p>This class properly reads and retrieves values placed in the UIDefaults
- * according to the standard Nimbus naming conventions. It will create and
- * retrieve painters, fonts, colors, and other data stored there.</p>
+ * <p>This clbss properly rebds bnd retrieves vblues plbced in the UIDefbults
+ * bccording to the stbndbrd Nimbus nbming conventions. It will crebte bnd
+ * retrieve pbinters, fonts, colors, bnd other dbtb stored there.</p>
  *
- * <p>NimbusStyle also supports the ability to override settings on a per
- * component basis. NimbusStyle checks the component's client property map for
- * "Nimbus.Overrides". If the value associated with this key is an instance of
- * UIDefaults, then the values in that defaults table will override the standard
- * Nimbus defaults in UIManager, but for that component instance only.</p>
+ * <p>NimbusStyle blso supports the bbility to override settings on b per
+ * component bbsis. NimbusStyle checks the component's client property mbp for
+ * "Nimbus.Overrides". If the vblue bssocibted with this key is bn instbnce of
+ * UIDefbults, then the vblues in thbt defbults tbble will override the stbndbrd
+ * Nimbus defbults in UIMbnbger, but for thbt component instbnce only.</p>
  *
- * <p>Optionally, you may specify the client property
- * "Nimbus.Overrides.InheritDefaults". If true, this client property indicates
- * that the defaults located in UIManager should first be read, and then
- * replaced with defaults located in the component client properties. If false,
- * then only the defaults located in the component client property map will
- * be used. If not specified, it is assumed to be true.</p>
+ * <p>Optionblly, you mby specify the client property
+ * "Nimbus.Overrides.InheritDefbults". If true, this client property indicbtes
+ * thbt the defbults locbted in UIMbnbger should first be rebd, bnd then
+ * replbced with defbults locbted in the component client properties. If fblse,
+ * then only the defbults locbted in the component client property mbp will
+ * be used. If not specified, it is bssumed to be true.</p>
  *
- * <p>You must specify "Nimbus.Overrides" for "Nimbus.Overrides.InheritDefaults"
- * to have any effect. "Nimbus.Overrides" indicates whether there are any
- * overrides, while "Nimbus.Overrides.InheritDefaults" indicates whether those
- * overrides should first be initialized with the defaults from UIManager.</p>
+ * <p>You must specify "Nimbus.Overrides" for "Nimbus.Overrides.InheritDefbults"
+ * to hbve bny effect. "Nimbus.Overrides" indicbtes whether there bre bny
+ * overrides, while "Nimbus.Overrides.InheritDefbults" indicbtes whether those
+ * overrides should first be initiblized with the defbults from UIMbnbger.</p>
  *
- * <p>The NimbusStyle is reloaded whenever a property change event is fired
- * for a component for "Nimbus.Overrides" or "Nimbus.Overrides.InheritDefaults".
- * So for example, setting a new UIDefaults on a component would cause the
- * style to be reloaded.</p>
+ * <p>The NimbusStyle is relobded whenever b property chbnge event is fired
+ * for b component for "Nimbus.Overrides" or "Nimbus.Overrides.InheritDefbults".
+ * So for exbmple, setting b new UIDefbults on b component would cbuse the
+ * style to be relobded.</p>
  *
- * <p>The values are only read out of UIManager once, and then cached. If
- * you need to read the values again (for example, if the UI is being reloaded),
- * then discard this NimbusStyle and read a new one from NimbusLookAndFeel
+ * <p>The vblues bre only rebd out of UIMbnbger once, bnd then cbched. If
+ * you need to rebd the vblues bgbin (for exbmple, if the UI is being relobded),
+ * then discbrd this NimbusStyle bnd rebd b new one from NimbusLookAndFeel
  * using NimbusLookAndFeel.getStyle.</p>
  *
- * <p>The primary API of interest in this class for 3rd party component authors
- * are the three methods which retrieve painters: #getBackgroundPainter,
- * #getForegroundPainter, and #getBorderPainter.</p>
+ * <p>The primbry API of interest in this clbss for 3rd pbrty component buthors
+ * bre the three methods which retrieve pbinters: #getBbckgroundPbinter,
+ * #getForegroundPbinter, bnd #getBorderPbinter.</p>
  *
- * <p>NimbusStyle allows you to specify custom states, or modify the order of
- * states. Synth (and thus Nimbus) has the concept of a "state". For example,
- * a JButton might be in the "MOUSE_OVER" state, or the "ENABLED" state, or the
- * "DISABLED" state. These are all "standard" states which are defined in synth,
- * and which apply to all synth Regions.</p>
+ * <p>NimbusStyle bllows you to specify custom stbtes, or modify the order of
+ * stbtes. Synth (bnd thus Nimbus) hbs the concept of b "stbte". For exbmple,
+ * b JButton might be in the "MOUSE_OVER" stbte, or the "ENABLED" stbte, or the
+ * "DISABLED" stbte. These bre bll "stbndbrd" stbtes which bre defined in synth,
+ * bnd which bpply to bll synth Regions.</p>
  *
- * <p>Sometimes, however, you need to have a custom state. For example, you
- * want JButton to render differently if it's parent is a JToolbar. In Nimbus,
- * you specify these custom states by including a special key in UIDefaults.
- * The following UIDefaults entries define three states for this button:</p>
+ * <p>Sometimes, however, you need to hbve b custom stbte. For exbmple, you
+ * wbnt JButton to render differently if it's pbrent is b JToolbbr. In Nimbus,
+ * you specify these custom stbtes by including b specibl key in UIDefbults.
+ * The following UIDefbults entries define three stbtes for this button:</p>
  *
  * <pre><code>
- *     JButton.States = Enabled, Disabled, Toolbar
- *     JButton[Enabled].backgroundPainter = somePainter
- *     JButton[Disabled].background = BLUE
- *     JButton[Toolbar].backgroundPainter = someOtherPaint
+ *     JButton.Stbtes = Enbbled, Disbbled, Toolbbr
+ *     JButton[Enbbled].bbckgroundPbinter = somePbinter
+ *     JButton[Disbbled].bbckground = BLUE
+ *     JButton[Toolbbr].bbckgroundPbinter = someOtherPbint
  * </code></pre>
  *
- * <p>As you can see, the <code>JButton.States</code> entry lists the states
- * that the JButton style will support. You then specify the settings for
- * each state. If you do not specify the <code>JButton.States</code> entry,
- * then the standard Synth states will be assumed. If you specify the entry
- * but the list of states is empty or null, then the standard synth states
- * will be assumed.</p>
+ * <p>As you cbn see, the <code>JButton.Stbtes</code> entry lists the stbtes
+ * thbt the JButton style will support. You then specify the settings for
+ * ebch stbte. If you do not specify the <code>JButton.Stbtes</code> entry,
+ * then the stbndbrd Synth stbtes will be bssumed. If you specify the entry
+ * but the list of stbtes is empty or null, then the stbndbrd synth stbtes
+ * will be bssumed.</p>
  *
- * @author Richard Bair
- * @author Jasper Potts
+ * @buthor Richbrd Bbir
+ * @buthor Jbsper Potts
  */
-public final class NimbusStyle extends SynthStyle {
-    /* Keys and scales for large/small/mini components, based on Apples sizes */
-    public static final String LARGE_KEY = "large";
-    public static final String SMALL_KEY = "small";
-    public static final String MINI_KEY = "mini";
-    public static final double LARGE_SCALE = 1.15;
-    public static final double SMALL_SCALE = 0.857;
-    public static final double MINI_SCALE = 0.714;
+public finbl clbss NimbusStyle extends SynthStyle {
+    /* Keys bnd scbles for lbrge/smbll/mini components, bbsed on Apples sizes */
+    public stbtic finbl String LARGE_KEY = "lbrge";
+    public stbtic finbl String SMALL_KEY = "smbll";
+    public stbtic finbl String MINI_KEY = "mini";
+    public stbtic finbl double LARGE_SCALE = 1.15;
+    public stbtic finbl double SMALL_SCALE = 0.857;
+    public stbtic finbl double MINI_SCALE = 0.714;
 
     /**
-     * Special constant used for performance reasons during the get() method.
-     * If get() runs through all of the search locations and determines that
-     * there is no value, then NULL will be placed into the values map. This way
-     * on subsequent lookups it will simply extract NULL, see it, and return
-     * null rather than continuing the lookup procedure.
+     * Specibl constbnt used for performbnce rebsons during the get() method.
+     * If get() runs through bll of the sebrch locbtions bnd determines thbt
+     * there is no vblue, then NULL will be plbced into the vblues mbp. This wby
+     * on subsequent lookups it will simply extrbct NULL, see it, bnd return
+     * null rbther thbn continuing the lookup procedure.
      */
-    private static final Object NULL = '\0';
+    privbte stbtic finbl Object NULL = '\0';
     /**
-     * <p>The Color to return from getColorForState if it would otherwise have
+     * <p>The Color to return from getColorForStbte if it would otherwise hbve
      * returned null.</p>
      *
-     * <p>Returning null from getColorForState is a very bad thing, as it causes
-     * the AWT peer for the component to install a SystemColor, which is not a
-     * UIResource. As a result, if <code>null</code> is returned from
-     * getColorForState, then thereafter the color is not updated for other
-     * states or on LAF changes or updates. This DEFAULT_COLOR is used to
-     * ensure that a ColorUIResource is always returned from
-     * getColorForState.</p>
+     * <p>Returning null from getColorForStbte is b very bbd thing, bs it cbuses
+     * the AWT peer for the component to instbll b SystemColor, which is not b
+     * UIResource. As b result, if <code>null</code> is returned from
+     * getColorForStbte, then therebfter the color is not updbted for other
+     * stbtes or on LAF chbnges or updbtes. This DEFAULT_COLOR is used to
+     * ensure thbt b ColorUIResource is blwbys returned from
+     * getColorForStbte.</p>
      */
-    private static final Color DEFAULT_COLOR = new ColorUIResource(Color.BLACK);
+    privbte stbtic finbl Color DEFAULT_COLOR = new ColorUIResource(Color.BLACK);
     /**
-     * Simple Comparator for ordering the RuntimeStates according to their
-     * rank.
+     * Simple Compbrbtor for ordering the RuntimeStbtes bccording to their
+     * rbnk.
      */
-    private static final Comparator<RuntimeState> STATE_COMPARATOR =
-        new Comparator<RuntimeState>() {
+    privbte stbtic finbl Compbrbtor<RuntimeStbte> STATE_COMPARATOR =
+        new Compbrbtor<RuntimeStbte>() {
             @Override
-            public int compare(RuntimeState a, RuntimeState b) {
-                return a.state - b.state;
+            public int compbre(RuntimeStbte b, RuntimeStbte b) {
+                return b.stbte - b.stbte;
             }
         };
     /**
-     * The prefix for the component or region that this NimbusStyle
-     * represents. This prefix is used to lookup state in the UIManager.
+     * The prefix for the component or region thbt this NimbusStyle
+     * represents. This prefix is used to lookup stbte in the UIMbnbger.
      * It should be something like Button or Slider.Thumb or "MyButton" or
-     * ComboBox."ComboBox.arrowButton" or "MyComboBox"."ComboBox.arrowButton"
+     * ComboBox."ComboBox.brrowButton" or "MyComboBox"."ComboBox.brrowButton"
      */
-    private String prefix;
+    privbte String prefix;
     /**
-     * The SynthPainter that will be returned from this NimbusStyle. The
-     * SynthPainter returned will be a SynthPainterImpl, which will in turn
-     * delegate back to this NimbusStyle for the proper Painter (not
-     * SynthPainter) to use for painting the foreground, background, or border.
+     * The SynthPbinter thbt will be returned from this NimbusStyle. The
+     * SynthPbinter returned will be b SynthPbinterImpl, which will in turn
+     * delegbte bbck to this NimbusStyle for the proper Pbinter (not
+     * SynthPbinter) to use for pbinting the foreground, bbckground, or border.
      */
-    private SynthPainter painter;
+    privbte SynthPbinter pbinter;
     /**
-     * Data structure containing all of the defaults, insets, states, and other
-     * values associated with this style. This instance refers to default
-     * values, and are used when no overrides are discovered in the client
-     * properties of a component. These values are lazily created on first
-     * access.
+     * Dbtb structure contbining bll of the defbults, insets, stbtes, bnd other
+     * vblues bssocibted with this style. This instbnce refers to defbult
+     * vblues, bnd bre used when no overrides bre discovered in the client
+     * properties of b component. These vblues bre lbzily crebted on first
+     * bccess.
      */
-    private Values values;
+    privbte Vblues vblues;
 
     /**
-     * A temporary CacheKey used to perform lookups. This pattern avoids
-     * creating useless garbage keys, or concatenating strings, etc.
+     * A temporbry CbcheKey used to perform lookups. This pbttern bvoids
+     * crebting useless gbrbbge keys, or concbtenbting strings, etc.
      */
-    private CacheKey tmpKey = new CacheKey("", 0);
+    privbte CbcheKey tmpKey = new CbcheKey("", 0);
 
     /**
-     * Some NimbusStyles are created for a specific component only. In Nimbus,
-     * this happens whenever the component has as a client property a
-     * UIDefaults which overrides (or supplements) those defaults found in
-     * UIManager.
+     * Some NimbusStyles bre crebted for b specific component only. In Nimbus,
+     * this hbppens whenever the component hbs bs b client property b
+     * UIDefbults which overrides (or supplements) those defbults found in
+     * UIMbnbger.
      */
-    private WeakReference<JComponent> component;
+    privbte WebkReference<JComponent> component;
 
     /**
-     * Create a new NimbusStyle. Only the prefix must be supplied. At the
-     * appropriate time, installDefaults will be called. At that point, all of
-     * the state information will be pulled from UIManager and stored locally
+     * Crebte b new NimbusStyle. Only the prefix must be supplied. At the
+     * bppropribte time, instbllDefbults will be cblled. At thbt point, bll of
+     * the stbte informbtion will be pulled from UIMbnbger bnd stored locblly
      * within this style.
      *
-     * @param prefix Something like Button or Slider.Thumb or
-     *        org.jdesktop.swingx.JXStatusBar or ComboBox."ComboBox.arrowButton"
-     * @param c an optional reference to a component that this NimbusStyle
-     *        should be associated with. This is only used when the component
-     *        has Nimbus overrides registered in its client properties and
+     * @pbrbm prefix Something like Button or Slider.Thumb or
+     *        org.jdesktop.swingx.JXStbtusBbr or ComboBox."ComboBox.brrowButton"
+     * @pbrbm c bn optionbl reference to b component thbt this NimbusStyle
+     *        should be bssocibted with. This is only used when the component
+     *        hbs Nimbus overrides registered in its client properties bnd
      *        should be null otherwise.
      */
     NimbusStyle(String prefix, JComponent c) {
         if (c != null) {
-            this.component = new WeakReference<JComponent>(c);
+            this.component = new WebkReference<JComponent>(c);
         }
         this.prefix = prefix;
-        this.painter = new SynthPainterImpl(this);
+        this.pbinter = new SynthPbinterImpl(this);
     }
 
     /**
      * {@inheritDoc}
      *
-     * Overridden to cause this style to populate itself with data from
-     * UIDefaults, if necessary.
+     * Overridden to cbuse this style to populbte itself with dbtb from
+     * UIDefbults, if necessbry.
      */
-    @Override public void installDefaults(SynthContext ctx) {
-        validate();
+    @Override public void instbllDefbults(SynthContext ctx) {
+        vblidbte();
 
-        //delegate to the superclass to install defaults such as background,
-        //foreground, font, and opaque onto the swing component.
-        super.installDefaults(ctx);
+        //delegbte to the superclbss to instbll defbults such bs bbckground,
+        //foreground, font, bnd opbque onto the swing component.
+        super.instbllDefbults(ctx);
     }
 
     /**
-     * Pulls data out of UIDefaults, if it has not done so already, and sets
-     * up the internal state.
+     * Pulls dbtb out of UIDefbults, if it hbs not done so blrebdy, bnd sets
+     * up the internbl stbte.
      */
-    private void validate() {
-        // a non-null values object is the flag we use to determine whether
-        // to reparse from UIManager.
-        if (values != null) return;
+    privbte void vblidbte() {
+        // b non-null vblues object is the flbg we use to determine whether
+        // to repbrse from UIMbnbger.
+        if (vblues != null) return;
 
-        // reconstruct this NimbusStyle based on the entries in the UIManager
-        // and possibly based on any overrides within the component's
-        // client properties (assuming such a component exists and contains
-        // any Nimbus.Overrides)
-        values = new Values();
+        // reconstruct this NimbusStyle bbsed on the entries in the UIMbnbger
+        // bnd possibly bbsed on bny overrides within the component's
+        // client properties (bssuming such b component exists bnd contbins
+        // bny Nimbus.Overrides)
+        vblues = new Vblues();
 
-        Map<String, Object> defaults =
-                ((NimbusLookAndFeel) UIManager.getLookAndFeel()).
-                        getDefaultsForPrefix(prefix);
+        Mbp<String, Object> defbults =
+                ((NimbusLookAndFeel) UIMbnbger.getLookAndFeel()).
+                        getDefbultsForPrefix(prefix);
 
         // inspect the client properties for the key "Nimbus.Overrides". If the
-        // value is an instance of UIDefaults, then these defaults are used
-        // in place of, or in addition to, the defaults in UIManager.
+        // vblue is bn instbnce of UIDefbults, then these defbults bre used
+        // in plbce of, or in bddition to, the defbults in UIMbnbger.
         if (component != null) {
-            // We know component.get() is non-null here, as if the component
+            // We know component.get() is non-null here, bs if the component
             // were GC'ed, we wouldn't be processing its style.
             Object o = component.get().getClientProperty("Nimbus.Overrides");
-            if (o instanceof UIDefaults) {
+            if (o instbnceof UIDefbults) {
                 Object i = component.get().getClientProperty(
-                        "Nimbus.Overrides.InheritDefaults");
-                boolean inherit = i instanceof Boolean ? (Boolean)i : true;
-                UIDefaults d = (UIDefaults)o;
-                TreeMap<String, Object> map = new TreeMap<String, Object>();
+                        "Nimbus.Overrides.InheritDefbults");
+                boolebn inherit = i instbnceof Boolebn ? (Boolebn)i : true;
+                UIDefbults d = (UIDefbults)o;
+                TreeMbp<String, Object> mbp = new TreeMbp<String, Object>();
                 for (Object obj : d.keySet()) {
-                    if (obj instanceof String) {
+                    if (obj instbnceof String) {
                         String key = (String)obj;
-                        if (key.startsWith(prefix)) {
-                            map.put(key, d.get(key));
+                        if (key.stbrtsWith(prefix)) {
+                            mbp.put(key, d.get(key));
                         }
                     }
                 }
                 if (inherit) {
-                    defaults.putAll(map);
+                    defbults.putAll(mbp);
                 } else {
-                    defaults = map;
+                    defbults = mbp;
                 }
             }
         }
 
-        //a list of the different types of states used by this style. This
-        //list may contain only "standard" states (those defined by Synth),
-        //or it may contain custom states, or it may contain only "standard"
-        //states but list them in a non-standard order.
-        List<State<?>> states = new ArrayList<>();
-        //a map of state name to code
-        Map<String,Integer> stateCodes = new HashMap<>();
-        //This is a list of runtime "state" context objects. These contain
-        //the values associated with each state.
-        List<RuntimeState> runtimeStates = new ArrayList<>();
+        //b list of the different types of stbtes used by this style. This
+        //list mby contbin only "stbndbrd" stbtes (those defined by Synth),
+        //or it mby contbin custom stbtes, or it mby contbin only "stbndbrd"
+        //stbtes but list them in b non-stbndbrd order.
+        List<Stbte<?>> stbtes = new ArrbyList<>();
+        //b mbp of stbte nbme to code
+        Mbp<String,Integer> stbteCodes = new HbshMbp<>();
+        //This is b list of runtime "stbte" context objects. These contbin
+        //the vblues bssocibted with ebch stbte.
+        List<RuntimeStbte> runtimeStbtes = new ArrbyList<>();
 
-        //determine whether there are any custom states, or custom state
-        //order. If so, then read all those custom states and define the
-        //"values" stateTypes to be a non-null array.
-        //Otherwise, let the "values" stateTypes be null to indicate that
-        //there are no custom states or custom state ordering
-        String statesString = (String)defaults.get(prefix + ".States");
-        if (statesString != null) {
-            String s[] = statesString.split(",");
+        //determine whether there bre bny custom stbtes, or custom stbte
+        //order. If so, then rebd bll those custom stbtes bnd define the
+        //"vblues" stbteTypes to be b non-null brrby.
+        //Otherwise, let the "vblues" stbteTypes be null to indicbte thbt
+        //there bre no custom stbtes or custom stbte ordering
+        String stbtesString = (String)defbults.get(prefix + ".Stbtes");
+        if (stbtesString != null) {
+            String s[] = stbtesString.split(",");
             for (int i=0; i<s.length; i++) {
                 s[i] = s[i].trim();
-                if (!State.isStandardStateName(s[i])) {
-                    //this is a non-standard state name, so look for the
-                    //custom state associated with it
-                    String stateName = prefix + "." + s[i];
-                    State<?> customState = (State)defaults.get(stateName);
-                    if (customState != null) {
-                        states.add(customState);
+                if (!Stbte.isStbndbrdStbteNbme(s[i])) {
+                    //this is b non-stbndbrd stbte nbme, so look for the
+                    //custom stbte bssocibted with it
+                    String stbteNbme = prefix + "." + s[i];
+                    Stbte<?> customStbte = (Stbte)defbults.get(stbteNbme);
+                    if (customStbte != null) {
+                        stbtes.bdd(customStbte);
                     }
                 } else {
-                    states.add(State.getStandardState(s[i]));
+                    stbtes.bdd(Stbte.getStbndbrdStbte(s[i]));
                 }
             }
 
-            //if there were any states defined, then set the stateTypes array
-            //to be non-null. Otherwise, leave it null (meaning, use the
-            //standard synth states).
-            if (states.size() > 0) {
-                values.stateTypes = states.toArray(new State<?>[states.size()]);
+            //if there were bny stbtes defined, then set the stbteTypes brrby
+            //to be non-null. Otherwise, lebve it null (mebning, use the
+            //stbndbrd synth stbtes).
+            if (stbtes.size() > 0) {
+                vblues.stbteTypes = stbtes.toArrby(new Stbte<?>[stbtes.size()]);
             }
 
-            //assign codes for each of the state types
+            //bssign codes for ebch of the stbte types
             int code = 1;
-            for (State<?> state : states) {
-                stateCodes.put(state.getName(), code);
+            for (Stbte<?> stbte : stbtes) {
+                stbteCodes.put(stbte.getNbme(), code);
                 code <<= 1;
             }
         } else {
-            //since there were no custom states defined, setup the list of
-            //standard synth states. Note that the "v.stateTypes" is not
-            //being set here, indicating that at runtime the state selection
-            //routines should use standard synth states instead of custom
-            //states. I do need to popuplate this temp list now though, so that
-            //the remainder of this method will function as expected.
-            states.add(State.Enabled);
-            states.add(State.MouseOver);
-            states.add(State.Pressed);
-            states.add(State.Disabled);
-            states.add(State.Focused);
-            states.add(State.Selected);
-            states.add(State.Default);
+            //since there were no custom stbtes defined, setup the list of
+            //stbndbrd synth stbtes. Note thbt the "v.stbteTypes" is not
+            //being set here, indicbting thbt bt runtime the stbte selection
+            //routines should use stbndbrd synth stbtes instebd of custom
+            //stbtes. I do need to popuplbte this temp list now though, so thbt
+            //the rembinder of this method will function bs expected.
+            stbtes.bdd(Stbte.Enbbled);
+            stbtes.bdd(Stbte.MouseOver);
+            stbtes.bdd(Stbte.Pressed);
+            stbtes.bdd(Stbte.Disbbled);
+            stbtes.bdd(Stbte.Focused);
+            stbtes.bdd(Stbte.Selected);
+            stbtes.bdd(Stbte.Defbult);
 
-            //assign codes for the states
-            stateCodes.put("Enabled", ENABLED);
-            stateCodes.put("MouseOver", MOUSE_OVER);
-            stateCodes.put("Pressed", PRESSED);
-            stateCodes.put("Disabled", DISABLED);
-            stateCodes.put("Focused", FOCUSED);
-            stateCodes.put("Selected", SELECTED);
-            stateCodes.put("Default", DEFAULT);
+            //bssign codes for the stbtes
+            stbteCodes.put("Enbbled", ENABLED);
+            stbteCodes.put("MouseOver", MOUSE_OVER);
+            stbteCodes.put("Pressed", PRESSED);
+            stbteCodes.put("Disbbled", DISABLED);
+            stbteCodes.put("Focused", FOCUSED);
+            stbteCodes.put("Selected", SELECTED);
+            stbteCodes.put("Defbult", DEFAULT);
         }
 
-        //Now iterate over all the keys in the defaults table
-        for (String key : defaults.keySet()) {
-            //The key is something like JButton.Enabled.backgroundPainter,
-            //or JButton.States, or JButton.background.
+        //Now iterbte over bll the keys in the defbults tbble
+        for (String key : defbults.keySet()) {
+            //The key is something like JButton.Enbbled.bbckgroundPbinter,
+            //or JButton.Stbtes, or JButton.bbckground.
             //Remove the "JButton." portion of the key
             String temp = key.substring(prefix.length());
-            //if there is a " or : then we skip it because it is a subregion
+            //if there is b " or : then we skip it becbuse it is b subregion
             //of some kind
             if (temp.indexOf('"') != -1 || temp.indexOf(':') != -1) continue;
-            //remove the separator
+            //remove the sepbrbtor
             temp = temp.substring(1);
-            //At this point, temp may be any of the following:
-            //background
-            //[Enabled].background
-            //[Enabled+MouseOver].background
+            //At this point, temp mby be bny of the following:
+            //bbckground
+            //[Enbbled].bbckground
+            //[Enbbled+MouseOver].bbckground
             //property.foo
 
-            //parse out the states and the property
-            String stateString = null;
+            //pbrse out the stbtes bnd the property
+            String stbteString = null;
             String property = null;
-            int bracketIndex = temp.indexOf(']');
-            if (bracketIndex < 0) {
-                //there is not a state string, so property = temp
+            int brbcketIndex = temp.indexOf(']');
+            if (brbcketIndex < 0) {
+                //there is not b stbte string, so property = temp
                 property = temp;
             } else {
-                stateString = temp.substring(0, bracketIndex);
-                property = temp.substring(bracketIndex + 2);
+                stbteString = temp.substring(0, brbcketIndex);
+                property = temp.substring(brbcketIndex + 2);
             }
 
-            //now that I have the state (if any) and the property, get the
-            //value for this property and install it where it belongs
-            if (stateString == null) {
-                //there was no state, just a property. Check for the custom
-                //"contentMargins" property (which is handled specially by
-                //Synth/Nimbus). Also check for the property being "States",
-                //in which case it is not a real property and should be ignored.
-                //otherwise, assume it is a property and install it on the
-                //values object
-                if ("contentMargins".equals(property)) {
-                    values.contentMargins = (Insets)defaults.get(key);
-                } else if ("States".equals(property)) {
+            //now thbt I hbve the stbte (if bny) bnd the property, get the
+            //vblue for this property bnd instbll it where it belongs
+            if (stbteString == null) {
+                //there wbs no stbte, just b property. Check for the custom
+                //"contentMbrgins" property (which is hbndled speciblly by
+                //Synth/Nimbus). Also check for the property being "Stbtes",
+                //in which cbse it is not b rebl property bnd should be ignored.
+                //otherwise, bssume it is b property bnd instbll it on the
+                //vblues object
+                if ("contentMbrgins".equbls(property)) {
+                    vblues.contentMbrgins = (Insets)defbults.get(key);
+                } else if ("Stbtes".equbls(property)) {
                     //ignore
                 } else {
-                    values.defaults.put(property, defaults.get(key));
+                    vblues.defbults.put(property, defbults.get(key));
                 }
             } else {
-                //it is possible that the developer has a malformed UIDefaults
-                //entry, such that something was specified in the place of
-                //the State portion of the key but it wasn't a state. In this
-                //case, skip will be set to true
-                boolean skip = false;
-                //this variable keeps track of the int value associated with
-                //the state. See SynthState for details.
-                int componentState = 0;
-                //Multiple states may be specified in the string, such as
-                //Enabled+MouseOver
-                String[] stateParts = stateString.split("\\+");
-                //For each state, we need to find the State object associated
-                //with it, or skip it if it cannot be found.
-                for (String s : stateParts) {
-                    if (stateCodes.containsKey(s)) {
-                        componentState |= stateCodes.get(s);
+                //it is possible thbt the developer hbs b mblformed UIDefbults
+                //entry, such thbt something wbs specified in the plbce of
+                //the Stbte portion of the key but it wbsn't b stbte. In this
+                //cbse, skip will be set to true
+                boolebn skip = fblse;
+                //this vbribble keeps trbck of the int vblue bssocibted with
+                //the stbte. See SynthStbte for detbils.
+                int componentStbte = 0;
+                //Multiple stbtes mby be specified in the string, such bs
+                //Enbbled+MouseOver
+                String[] stbtePbrts = stbteString.split("\\+");
+                //For ebch stbte, we need to find the Stbte object bssocibted
+                //with it, or skip it if it cbnnot be found.
+                for (String s : stbtePbrts) {
+                    if (stbteCodes.contbinsKey(s)) {
+                        componentStbte |= stbteCodes.get(s);
                     } else {
-                        //Was not a state. Maybe it was a subregion or something
+                        //Wbs not b stbte. Mbybe it wbs b subregion or something
                         //skip it.
                         skip = true;
-                        break;
+                        brebk;
                     }
                 }
 
                 if (skip) continue;
 
-                //find the RuntimeState for this State
-                RuntimeState rs = null;
-                for (RuntimeState s : runtimeStates) {
-                    if (s.state == componentState) {
+                //find the RuntimeStbte for this Stbte
+                RuntimeStbte rs = null;
+                for (RuntimeStbte s : runtimeStbtes) {
+                    if (s.stbte == componentStbte) {
                         rs = s;
-                        break;
+                        brebk;
                     }
                 }
 
-                //couldn't find the runtime state, so create a new one
+                //couldn't find the runtime stbte, so crebte b new one
                 if (rs == null) {
-                    rs = new RuntimeState(componentState, stateString);
-                    runtimeStates.add(rs);
+                    rs = new RuntimeStbte(componentStbte, stbteString);
+                    runtimeStbtes.bdd(rs);
                 }
 
-                //check for a couple special properties, such as for the
-                //painters. If these are found, then set the specially on
-                //the runtime state. Else, it is just a normal property,
-                //so put it in the UIDefaults associated with that runtime
-                //state
-                if ("backgroundPainter".equals(property)) {
-                    rs.backgroundPainter = getPainter(defaults, key);
-                } else if ("foregroundPainter".equals(property)) {
-                    rs.foregroundPainter = getPainter(defaults, key);
-                } else if ("borderPainter".equals(property)) {
-                    rs.borderPainter = getPainter(defaults, key);
+                //check for b couple specibl properties, such bs for the
+                //pbinters. If these bre found, then set the speciblly on
+                //the runtime stbte. Else, it is just b normbl property,
+                //so put it in the UIDefbults bssocibted with thbt runtime
+                //stbte
+                if ("bbckgroundPbinter".equbls(property)) {
+                    rs.bbckgroundPbinter = getPbinter(defbults, key);
+                } else if ("foregroundPbinter".equbls(property)) {
+                    rs.foregroundPbinter = getPbinter(defbults, key);
+                } else if ("borderPbinter".equbls(property)) {
+                    rs.borderPbinter = getPbinter(defbults, key);
                 } else {
-                    rs.defaults.put(property, defaults.get(key));
+                    rs.defbults.put(property, defbults.get(key));
                 }
             }
         }
 
-        //now that I've collected all the runtime states, I'll sort them based
-        //on their integer "state" (see SynthState for how this works).
-        Collections.sort(runtimeStates, STATE_COMPARATOR);
+        //now thbt I've collected bll the runtime stbtes, I'll sort them bbsed
+        //on their integer "stbte" (see SynthStbte for how this works).
+        Collections.sort(runtimeStbtes, STATE_COMPARATOR);
 
-        //finally, set the array of runtime states on the values object
-        values.states = runtimeStates.toArray(new RuntimeState[runtimeStates.size()]);
+        //finblly, set the brrby of runtime stbtes on the vblues object
+        vblues.stbtes = runtimeStbtes.toArrby(new RuntimeStbte[runtimeStbtes.size()]);
     }
 
-    private Painter<Object> getPainter(Map<String, Object> defaults, String key) {
-        Object p = defaults.get(key);
-        if (p instanceof UIDefaults.LazyValue) {
-            p = ((UIDefaults.LazyValue)p).createValue(UIManager.getDefaults());
+    privbte Pbinter<Object> getPbinter(Mbp<String, Object> defbults, String key) {
+        Object p = defbults.get(key);
+        if (p instbnceof UIDefbults.LbzyVblue) {
+            p = ((UIDefbults.LbzyVblue)p).crebteVblue(UIMbnbger.getDefbults());
         }
-        @SuppressWarnings("unchecked")
-        Painter<Object> tmp = (p instanceof Painter ? (Painter)p : null);
+        @SuppressWbrnings("unchecked")
+        Pbinter<Object> tmp = (p instbnceof Pbinter ? (Pbinter)p : null);
         return tmp;
     }
 
     /**
      * {@inheritDoc}
      *
-     * Overridden to cause this style to populate itself with data from
-     * UIDefaults, if necessary.
+     * Overridden to cbuse this style to populbte itself with dbtb from
+     * UIDefbults, if necessbry.
      */
     @Override public Insets getInsets(SynthContext ctx, Insets in) {
         if (in == null) {
             in = new Insets(0, 0, 0, 0);
         }
 
-        Values v = getValues(ctx);
+        Vblues v = getVblues(ctx);
 
-        if (v.contentMargins == null) {
+        if (v.contentMbrgins == null) {
             in.bottom = in.top = in.left = in.right = 0;
             return in;
         } else {
-            in.bottom = v.contentMargins.bottom;
-            in.top = v.contentMargins.top;
-            in.left = v.contentMargins.left;
-            in.right = v.contentMargins.right;
-            // Account for scale
-            // The key "JComponent.sizeVariant" is used to match Apple's LAF
-            String scaleKey = (String)ctx.getComponent().getClientProperty(
-                    "JComponent.sizeVariant");
-            if (scaleKey != null){
-                if (LARGE_KEY.equals(scaleKey)){
+            in.bottom = v.contentMbrgins.bottom;
+            in.top = v.contentMbrgins.top;
+            in.left = v.contentMbrgins.left;
+            in.right = v.contentMbrgins.right;
+            // Account for scble
+            // The key "JComponent.sizeVbribnt" is used to mbtch Apple's LAF
+            String scbleKey = (String)ctx.getComponent().getClientProperty(
+                    "JComponent.sizeVbribnt");
+            if (scbleKey != null){
+                if (LARGE_KEY.equbls(scbleKey)){
                     in.bottom *= LARGE_SCALE;
                     in.top *= LARGE_SCALE;
                     in.left *= LARGE_SCALE;
                     in.right *= LARGE_SCALE;
-                } else if (SMALL_KEY.equals(scaleKey)){
+                } else if (SMALL_KEY.equbls(scbleKey)){
                     in.bottom *= SMALL_SCALE;
                     in.top *= SMALL_SCALE;
                     in.left *= SMALL_SCALE;
                     in.right *= SMALL_SCALE;
-                } else if (MINI_KEY.equals(scaleKey)){
+                } else if (MINI_KEY.equbls(scbleKey)){
                     in.bottom *= MINI_SCALE;
                     in.top *= MINI_SCALE;
                     in.left *= MINI_SCALE;
@@ -523,31 +523,31 @@ public final class NimbusStyle extends SynthStyle {
     /**
      * {@inheritDoc}
      *
-     * <p>Overridden to cause this style to populate itself with data from
-     * UIDefaults, if necessary.</p>
+     * <p>Overridden to cbuse this style to populbte itself with dbtb from
+     * UIDefbults, if necessbry.</p>
      *
-     * <p>In addition, NimbusStyle handles ColorTypes slightly differently from
+     * <p>In bddition, NimbusStyle hbndles ColorTypes slightly differently from
      * Synth.</p>
      * <ul>
-     *  <li>ColorType.BACKGROUND will equate to the color stored in UIDefaults
-     *      named "background".</li>
-     *  <li>ColorType.TEXT_BACKGROUND will equate to the color stored in
-     *      UIDefaults named "textBackground".</li>
-     *  <li>ColorType.FOREGROUND will equate to the color stored in UIDefaults
-     *      named "textForeground".</li>
-     *  <li>ColorType.TEXT_FOREGROUND will equate to the color stored in
-     *      UIDefaults named "textForeground".</li>
+     *  <li>ColorType.BACKGROUND will equbte to the color stored in UIDefbults
+     *      nbmed "bbckground".</li>
+     *  <li>ColorType.TEXT_BACKGROUND will equbte to the color stored in
+     *      UIDefbults nbmed "textBbckground".</li>
+     *  <li>ColorType.FOREGROUND will equbte to the color stored in UIDefbults
+     *      nbmed "textForeground".</li>
+     *  <li>ColorType.TEXT_FOREGROUND will equbte to the color stored in
+     *      UIDefbults nbmed "textForeground".</li>
      * </ul>
      */
-    @Override protected Color getColorForState(SynthContext ctx, ColorType type) {
+    @Override protected Color getColorForStbte(SynthContext ctx, ColorType type) {
         String key = null;
         if (type == ColorType.BACKGROUND) {
-            key = "background";
+            key = "bbckground";
         } else if (type == ColorType.FOREGROUND) {
-            //map FOREGROUND as TEXT_FOREGROUND
+            //mbp FOREGROUND bs TEXT_FOREGROUND
             key = "textForeground";
         } else if (type == ColorType.TEXT_BACKGROUND) {
-            key = "textBackground";
+            key = "textBbckground";
         } else if (type == ColorType.TEXT_FOREGROUND) {
             key = "textForeground";
         } else if (type == ColorType.FOCUS) {
@@ -558,7 +558,7 @@ public final class NimbusStyle extends SynthStyle {
             return DEFAULT_COLOR;
         }
         Color c = (Color) get(ctx, key);
-        //if all else fails, return a default color (which is a ColorUIResource)
+        //if bll else fbils, return b defbult color (which is b ColorUIResource)
         if (c == null) c = DEFAULT_COLOR;
         return c;
     }
@@ -566,26 +566,26 @@ public final class NimbusStyle extends SynthStyle {
     /**
      * {@inheritDoc}
      *
-     * Overridden to cause this style to populate itself with data from
-     * UIDefaults, if necessary. If a value named "font" is not found in
-     * UIDefaults, then the "defaultFont" font in UIDefaults will be returned
-     * instead.
+     * Overridden to cbuse this style to populbte itself with dbtb from
+     * UIDefbults, if necessbry. If b vblue nbmed "font" is not found in
+     * UIDefbults, then the "defbultFont" font in UIDefbults will be returned
+     * instebd.
      */
-    @Override protected Font getFontForState(SynthContext ctx) {
+    @Override protected Font getFontForStbte(SynthContext ctx) {
         Font f = (Font)get(ctx, "font");
-        if (f == null) f = UIManager.getFont("defaultFont");
+        if (f == null) f = UIMbnbger.getFont("defbultFont");
 
-        // Account for scale
-        // The key "JComponent.sizeVariant" is used to match Apple's LAF
-        String scaleKey = (String)ctx.getComponent().getClientProperty(
-                "JComponent.sizeVariant");
-        if (scaleKey != null){
-            if (LARGE_KEY.equals(scaleKey)){
-                f = f.deriveFont(Math.round(f.getSize2D()*LARGE_SCALE));
-            } else if (SMALL_KEY.equals(scaleKey)){
-                f = f.deriveFont(Math.round(f.getSize2D()*SMALL_SCALE));
-            } else if (MINI_KEY.equals(scaleKey)){
-                f = f.deriveFont(Math.round(f.getSize2D()*MINI_SCALE));
+        // Account for scble
+        // The key "JComponent.sizeVbribnt" is used to mbtch Apple's LAF
+        String scbleKey = (String)ctx.getComponent().getClientProperty(
+                "JComponent.sizeVbribnt");
+        if (scbleKey != null){
+            if (LARGE_KEY.equbls(scbleKey)){
+                f = f.deriveFont(Mbth.round(f.getSize2D()*LARGE_SCALE));
+            } else if (SMALL_KEY.equbls(scbleKey)){
+                f = f.deriveFont(Mbth.round(f.getSize2D()*SMALL_SCALE));
+            } else if (MINI_KEY.equbls(scbleKey)){
+                f = f.deriveFont(Mbth.round(f.getSize2D()*MINI_SCALE));
             }
         }
         return f;
@@ -594,405 +594,405 @@ public final class NimbusStyle extends SynthStyle {
     /**
      * {@inheritDoc}
      *
-     * Returns the SynthPainter for this style, which ends up delegating to
-     * the Painters installed in this style.
+     * Returns the SynthPbinter for this style, which ends up delegbting to
+     * the Pbinters instblled in this style.
      */
-    @Override public SynthPainter getPainter(SynthContext ctx) {
-        return painter;
+    @Override public SynthPbinter getPbinter(SynthContext ctx) {
+        return pbinter;
     }
 
     /**
      * {@inheritDoc}
      *
-     * Overridden to cause this style to populate itself with data from
-     * UIDefaults, if necessary. If opacity is not specified in UI defaults,
-     * then it defaults to being non-opaque.
+     * Overridden to cbuse this style to populbte itself with dbtb from
+     * UIDefbults, if necessbry. If opbcity is not specified in UI defbults,
+     * then it defbults to being non-opbque.
      */
-    @Override public boolean isOpaque(SynthContext ctx) {
-        // Force Table CellRenderers to be opaque
-        if ("Table.cellRenderer".equals(ctx.getComponent().getName())) {
+    @Override public boolebn isOpbque(SynthContext ctx) {
+        // Force Tbble CellRenderers to be opbque
+        if ("Tbble.cellRenderer".equbls(ctx.getComponent().getNbme())) {
             return true;
         }
-        Boolean opaque = (Boolean)get(ctx, "opaque");
-        return opaque == null ? false : opaque;
+        Boolebn opbque = (Boolebn)get(ctx, "opbque");
+        return opbque == null ? fblse : opbque;
     }
 
     /**
      * {@inheritDoc}
      *
-     * <p>Overridden to cause this style to populate itself with data from
-     * UIDefaults, if necessary.</p>
+     * <p>Overridden to cbuse this style to populbte itself with dbtb from
+     * UIDefbults, if necessbry.</p>
      *
-     * <p>Properties in UIDefaults may be specified in a chained manner. For
-     * example:
+     * <p>Properties in UIDefbults mby be specified in b chbined mbnner. For
+     * exbmple:
      * <pre>
-     * background
-     * Button.opacity
-     * Button.Enabled.foreground
-     * Button.Enabled+Selected.background
+     * bbckground
+     * Button.opbcity
+     * Button.Enbbled.foreground
+     * Button.Enbbled+Selected.bbckground
      * </pre>
      *
-     * <p>In this example, suppose you were in the Enabled+Selected state and
-     * searched for "foreground". In this case, we first check for
-     * Button.Enabled+Selected.foreground, but no such color exists. We then
-     * fall back to the next valid state, in this case,
-     * Button.Enabled.foreground, and have a match. So we return it.</p>
+     * <p>In this exbmple, suppose you were in the Enbbled+Selected stbte bnd
+     * sebrched for "foreground". In this cbse, we first check for
+     * Button.Enbbled+Selected.foreground, but no such color exists. We then
+     * fbll bbck to the next vblid stbte, in this cbse,
+     * Button.Enbbled.foreground, bnd hbve b mbtch. So we return it.</p>
      *
-     * <p>Again, if we were in the state Enabled and looked for "background", we
-     * wouldn't find it in Button.Enabled, or in Button, but would at the top
-     * level in UIManager. So we return that value.</p>
+     * <p>Agbin, if we were in the stbte Enbbled bnd looked for "bbckground", we
+     * wouldn't find it in Button.Enbbled, or in Button, but would bt the top
+     * level in UIMbnbger. So we return thbt vblue.</p>
      *
-     * <p>One special note: the "key" passed to this method could be of the form
-     * "background" or "Button.background" where "Button" equals the prefix
-     * passed to the NimbusStyle constructor. In either case, it looks for
-     * "background".</p>
+     * <p>One specibl note: the "key" pbssed to this method could be of the form
+     * "bbckground" or "Button.bbckground" where "Button" equbls the prefix
+     * pbssed to the NimbusStyle constructor. In either cbse, it looks for
+     * "bbckground".</p>
      *
-     * @param ctx SynthContext identifying requester
-     * @param key must not be null
+     * @pbrbm ctx SynthContext identifying requester
+     * @pbrbm key must not be null
      */
     @Override public Object get(SynthContext ctx, Object key) {
-        Values v = getValues(ctx);
+        Vblues v = getVblues(ctx);
 
         // strip off the prefix, if there is one.
         String fullKey = key.toString();
-        String partialKey = fullKey.substring(fullKey.indexOf('.') + 1);
+        String pbrtiblKey = fullKey.substring(fullKey.indexOf('.') + 1);
 
         Object obj = null;
-        int xstate = getExtendedState(ctx, v);
+        int xstbte = getExtendedStbte(ctx, v);
 
-        // check the cache
-        tmpKey.init(partialKey, xstate);
-        obj = v.cache.get(tmpKey);
-        boolean wasInCache = obj != null;
-        if (!wasInCache){
-            // Search exact matching states and then lesser matching states
-            RuntimeState s = null;
-            int[] lastIndex = new int[] {-1};
+        // check the cbche
+        tmpKey.init(pbrtiblKey, xstbte);
+        obj = v.cbche.get(tmpKey);
+        boolebn wbsInCbche = obj != null;
+        if (!wbsInCbche){
+            // Sebrch exbct mbtching stbtes bnd then lesser mbtching stbtes
+            RuntimeStbte s = null;
+            int[] lbstIndex = new int[] {-1};
             while (obj == null &&
-                    (s = getNextState(v.states, lastIndex, xstate)) != null) {
-                obj = s.defaults.get(partialKey);
+                    (s = getNextStbte(v.stbtes, lbstIndex, xstbte)) != null) {
+                obj = s.defbults.get(pbrtiblKey);
             }
-            // Search Region Defaults
-            if (obj == null && v.defaults != null) {
-                obj = v.defaults.get(partialKey);
+            // Sebrch Region Defbults
+            if (obj == null && v.defbults != null) {
+                obj = v.defbults.get(pbrtiblKey);
             }
             // return found object
-            // Search UIManager Defaults
-            if (obj == null) obj = UIManager.get(fullKey);
-            // Search Synth Defaults for InputMaps
-            if (obj == null && partialKey.equals("focusInputMap")) {
+            // Sebrch UIMbnbger Defbults
+            if (obj == null) obj = UIMbnbger.get(fullKey);
+            // Sebrch Synth Defbults for InputMbps
+            if (obj == null && pbrtiblKey.equbls("focusInputMbp")) {
                 obj = super.get(ctx, fullKey);
             }
-            // if all we got was a null, store this fact for later use
-            v.cache.put(new CacheKey(partialKey, xstate),
+            // if bll we got wbs b null, store this fbct for lbter use
+            v.cbche.put(new CbcheKey(pbrtiblKey, xstbte),
                     obj == null ? NULL : obj);
         }
         // return found object
         return obj == NULL ? null : obj;
     }
 
-    @SuppressWarnings("unchecked")
-    private static Painter<Object> paintFilter(@SuppressWarnings("rawtypes") Painter painter) {
-        return (Painter<Object>) painter;
+    @SuppressWbrnings("unchecked")
+    privbte stbtic Pbinter<Object> pbintFilter(@SuppressWbrnings("rbwtypes") Pbinter pbinter) {
+        return (Pbinter<Object>) pbinter;
     }
 
 
     /**
-     * Gets the appropriate background Painter, if there is one, for the state
-     * specified in the given SynthContext. This method does appropriate
-     * fallback searching, as described in #get.
+     * Gets the bppropribte bbckground Pbinter, if there is one, for the stbte
+     * specified in the given SynthContext. This method does bppropribte
+     * fbllbbck sebrching, bs described in #get.
      *
-     * @param ctx The SynthContext. Must not be null.
-     * @return The background painter associated for the given state, or null if
+     * @pbrbm ctx The SynthContext. Must not be null.
+     * @return The bbckground pbinter bssocibted for the given stbte, or null if
      * none could be found.
      */
-    public Painter<Object> getBackgroundPainter(SynthContext ctx) {
-        Values v = getValues(ctx);
-        int xstate = getExtendedState(ctx, v);
-        Painter<Object> p = null;
+    public Pbinter<Object> getBbckgroundPbinter(SynthContext ctx) {
+        Vblues v = getVblues(ctx);
+        int xstbte = getExtendedStbte(ctx, v);
+        Pbinter<Object> p = null;
 
-        // check the cache
-        tmpKey.init("backgroundPainter$$instance", xstate);
-        p = paintFilter((Painter)v.cache.get(tmpKey));
+        // check the cbche
+        tmpKey.init("bbckgroundPbinter$$instbnce", xstbte);
+        p = pbintFilter((Pbinter)v.cbche.get(tmpKey));
         if (p != null) return p;
 
-        // not in cache, so lookup and store in cache
-        RuntimeState s = null;
-        int[] lastIndex = new int[] {-1};
-        while ((s = getNextState(v.states, lastIndex, xstate)) != null) {
-            if (s.backgroundPainter != null) {
-                p = paintFilter(s.backgroundPainter);
-                break;
+        // not in cbche, so lookup bnd store in cbche
+        RuntimeStbte s = null;
+        int[] lbstIndex = new int[] {-1};
+        while ((s = getNextStbte(v.stbtes, lbstIndex, xstbte)) != null) {
+            if (s.bbckgroundPbinter != null) {
+                p = pbintFilter(s.bbckgroundPbinter);
+                brebk;
             }
         }
-        if (p == null) p = paintFilter((Painter)get(ctx, "backgroundPainter"));
+        if (p == null) p = pbintFilter((Pbinter)get(ctx, "bbckgroundPbinter"));
         if (p != null) {
-            v.cache.put(new CacheKey("backgroundPainter$$instance", xstate), p);
+            v.cbche.put(new CbcheKey("bbckgroundPbinter$$instbnce", xstbte), p);
         }
         return p;
     }
 
     /**
-     * Gets the appropriate foreground Painter, if there is one, for the state
-     * specified in the given SynthContext. This method does appropriate
-     * fallback searching, as described in #get.
+     * Gets the bppropribte foreground Pbinter, if there is one, for the stbte
+     * specified in the given SynthContext. This method does bppropribte
+     * fbllbbck sebrching, bs described in #get.
      *
-     * @param ctx The SynthContext. Must not be null.
-     * @return The foreground painter associated for the given state, or null if
+     * @pbrbm ctx The SynthContext. Must not be null.
+     * @return The foreground pbinter bssocibted for the given stbte, or null if
      * none could be found.
      */
-    public Painter<Object> getForegroundPainter(SynthContext ctx) {
-        Values v = getValues(ctx);
-        int xstate = getExtendedState(ctx, v);
-        Painter<Object> p = null;
+    public Pbinter<Object> getForegroundPbinter(SynthContext ctx) {
+        Vblues v = getVblues(ctx);
+        int xstbte = getExtendedStbte(ctx, v);
+        Pbinter<Object> p = null;
 
-        // check the cache
-        tmpKey.init("foregroundPainter$$instance", xstate);
-        p = paintFilter((Painter)v.cache.get(tmpKey));
+        // check the cbche
+        tmpKey.init("foregroundPbinter$$instbnce", xstbte);
+        p = pbintFilter((Pbinter)v.cbche.get(tmpKey));
         if (p != null) return p;
 
-        // not in cache, so lookup and store in cache
-        RuntimeState s = null;
-        int[] lastIndex = new int[] {-1};
-        while ((s = getNextState(v.states, lastIndex, xstate)) != null) {
-            if (s.foregroundPainter != null) {
-                p = paintFilter(s.foregroundPainter);
-                break;
+        // not in cbche, so lookup bnd store in cbche
+        RuntimeStbte s = null;
+        int[] lbstIndex = new int[] {-1};
+        while ((s = getNextStbte(v.stbtes, lbstIndex, xstbte)) != null) {
+            if (s.foregroundPbinter != null) {
+                p = pbintFilter(s.foregroundPbinter);
+                brebk;
             }
         }
-        if (p == null) p = paintFilter((Painter)get(ctx, "foregroundPainter"));
+        if (p == null) p = pbintFilter((Pbinter)get(ctx, "foregroundPbinter"));
         if (p != null) {
-            v.cache.put(new CacheKey("foregroundPainter$$instance", xstate), p);
+            v.cbche.put(new CbcheKey("foregroundPbinter$$instbnce", xstbte), p);
         }
         return p;
     }
 
     /**
-     * Gets the appropriate border Painter, if there is one, for the state
-     * specified in the given SynthContext. This method does appropriate
-     * fallback searching, as described in #get.
+     * Gets the bppropribte border Pbinter, if there is one, for the stbte
+     * specified in the given SynthContext. This method does bppropribte
+     * fbllbbck sebrching, bs described in #get.
      *
-     * @param ctx The SynthContext. Must not be null.
-     * @return The border painter associated for the given state, or null if
+     * @pbrbm ctx The SynthContext. Must not be null.
+     * @return The border pbinter bssocibted for the given stbte, or null if
      * none could be found.
      */
-    public Painter<Object> getBorderPainter(SynthContext ctx) {
-        Values v = getValues(ctx);
-        int xstate = getExtendedState(ctx, v);
-        Painter<Object> p = null;
+    public Pbinter<Object> getBorderPbinter(SynthContext ctx) {
+        Vblues v = getVblues(ctx);
+        int xstbte = getExtendedStbte(ctx, v);
+        Pbinter<Object> p = null;
 
-        // check the cache
-        tmpKey.init("borderPainter$$instance", xstate);
-        p = paintFilter((Painter)v.cache.get(tmpKey));
+        // check the cbche
+        tmpKey.init("borderPbinter$$instbnce", xstbte);
+        p = pbintFilter((Pbinter)v.cbche.get(tmpKey));
         if (p != null) return p;
 
-        // not in cache, so lookup and store in cache
-        RuntimeState s = null;
-        int[] lastIndex = new int[] {-1};
-        while ((s = getNextState(v.states, lastIndex, xstate)) != null) {
-            if (s.borderPainter != null) {
-                p = paintFilter(s.borderPainter);
-                break;
+        // not in cbche, so lookup bnd store in cbche
+        RuntimeStbte s = null;
+        int[] lbstIndex = new int[] {-1};
+        while ((s = getNextStbte(v.stbtes, lbstIndex, xstbte)) != null) {
+            if (s.borderPbinter != null) {
+                p = pbintFilter(s.borderPbinter);
+                brebk;
             }
         }
-        if (p == null) p = paintFilter((Painter)get(ctx, "borderPainter"));
+        if (p == null) p = pbintFilter((Pbinter)get(ctx, "borderPbinter"));
         if (p != null) {
-            v.cache.put(new CacheKey("borderPainter$$instance", xstate), p);
+            v.cbche.put(new CbcheKey("borderPbinter$$instbnce", xstbte), p);
         }
         return p;
     }
 
     /**
-     * Utility method which returns the proper Values based on the given
-     * SynthContext. Ensures that parsing of the values has occurred, or
-     * reoccurs as necessary.
+     * Utility method which returns the proper Vblues bbsed on the given
+     * SynthContext. Ensures thbt pbrsing of the vblues hbs occurred, or
+     * reoccurs bs necessbry.
      *
-     * @param ctx The SynthContext
-     * @return a non-null values reference
+     * @pbrbm ctx The SynthContext
+     * @return b non-null vblues reference
      */
-    private Values getValues(SynthContext ctx) {
-        validate();
-        return values;
+    privbte Vblues getVblues(SynthContext ctx) {
+        vblidbte();
+        return vblues;
     }
 
     /**
-     * Simple utility method that searches the given array of Strings for the
-     * given string. This method is only called from getExtendedState if
-     * the developer has specified a specific state for the component to be
-     * in (ie, has "wedged" the component in that state) by specifying
-     * they client property "Nimbus.State".
+     * Simple utility method thbt sebrches the given brrby of Strings for the
+     * given string. This method is only cblled from getExtendedStbte if
+     * the developer hbs specified b specific stbte for the component to be
+     * in (ie, hbs "wedged" the component in thbt stbte) by specifying
+     * they client property "Nimbus.Stbte".
      *
-     * @param names a non-null array of strings
-     * @param name the name to look for in the array
-     * @return true or false based on whether the given name is in the array
+     * @pbrbm nbmes b non-null brrby of strings
+     * @pbrbm nbme the nbme to look for in the brrby
+     * @return true or fblse bbsed on whether the given nbme is in the brrby
      */
-    private boolean contains(String[] names, String name) {
-        assert name != null;
-        for (int i=0; i<names.length; i++) {
-            if (name.equals(names[i])) {
+    privbte boolebn contbins(String[] nbmes, String nbme) {
+        bssert nbme != null;
+        for (int i=0; i<nbmes.length; i++) {
+            if (nbme.equbls(nbmes[i])) {
                 return true;
             }
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * <p>Gets the extended state for a given synth context. Nimbus supports the
-     * ability to define custom states. The algorithm used for choosing what
-     * style information to use for a given state requires a single integer
-     * bit string where each bit in the integer represents a different state
-     * that the component is in. This method uses the componentState as
-     * reported in the SynthContext, in addition to custom states, to determine
-     * what this extended state is.</p>
+     * <p>Gets the extended stbte for b given synth context. Nimbus supports the
+     * bbility to define custom stbtes. The blgorithm used for choosing whbt
+     * style informbtion to use for b given stbte requires b single integer
+     * bit string where ebch bit in the integer represents b different stbte
+     * thbt the component is in. This method uses the componentStbte bs
+     * reported in the SynthContext, in bddition to custom stbtes, to determine
+     * whbt this extended stbte is.</p>
      *
-     * <p>In addition, this method checks the component in the given context
-     * for a client property called "Nimbus.State". If one exists, then it will
-     * decompose the String associated with that property to determine what
-     * state to return. In this way, the developer can force a component to be
-     * in a specific state, regardless of what the "real" state of the component
+     * <p>In bddition, this method checks the component in the given context
+     * for b client property cblled "Nimbus.Stbte". If one exists, then it will
+     * decompose the String bssocibted with thbt property to determine whbt
+     * stbte to return. In this wby, the developer cbn force b component to be
+     * in b specific stbte, regbrdless of whbt the "rebl" stbte of the component
      * is.</p>
      *
-     * <p>The string associated with "Nimbus.State" would be of the form:
-     * <pre>Enabled+CustomState+MouseOver</pre></p>
+     * <p>The string bssocibted with "Nimbus.Stbte" would be of the form:
+     * <pre>Enbbled+CustomStbte+MouseOver</pre></p>
      *
-     * @param ctx
-     * @param v
+     * @pbrbm ctx
+     * @pbrbm v
      * @return
      */
-    @SuppressWarnings({"unchecked", "rawtypes"})
-    private int getExtendedState(SynthContext ctx, Values v) {
+    @SuppressWbrnings({"unchecked", "rbwtypes"})
+    privbte int getExtendedStbte(SynthContext ctx, Vblues v) {
         JComponent c = ctx.getComponent();
-        int xstate = 0;
-        int mask = 1;
-        //check for the Nimbus.State client property
-        //Performance NOTE: getClientProperty ends up inside a synchronized
-        //block, so there is some potential for performance issues here, however
-        //I'm not certain that there is one on a modern VM.
-        Object property = c.getClientProperty("Nimbus.State");
+        int xstbte = 0;
+        int mbsk = 1;
+        //check for the Nimbus.Stbte client property
+        //Performbnce NOTE: getClientProperty ends up inside b synchronized
+        //block, so there is some potentibl for performbnce issues here, however
+        //I'm not certbin thbt there is one on b modern VM.
+        Object property = c.getClientProperty("Nimbus.Stbte");
         if (property != null) {
-            String stateNames = property.toString();
-            String[] states = stateNames.split("\\+");
-            if (v.stateTypes == null){
-                // standard states only
-                for (String stateStr : states) {
-                    State.StandardState s = State.getStandardState(stateStr);
-                    if (s != null) xstate |= s.getState();
+            String stbteNbmes = property.toString();
+            String[] stbtes = stbteNbmes.split("\\+");
+            if (v.stbteTypes == null){
+                // stbndbrd stbtes only
+                for (String stbteStr : stbtes) {
+                    Stbte.StbndbrdStbte s = Stbte.getStbndbrdStbte(stbteStr);
+                    if (s != null) xstbte |= s.getStbte();
                 }
             } else {
-                // custom states
-                for (State<?> s : v.stateTypes) {
-                    if (contains(states, s.getName())) {
-                        xstate |= mask;
+                // custom stbtes
+                for (Stbte<?> s : v.stbteTypes) {
+                    if (contbins(stbtes, s.getNbme())) {
+                        xstbte |= mbsk;
                     }
-                    mask <<= 1;
+                    mbsk <<= 1;
                 }
             }
         } else {
-            //if there are no custom states defined, then simply return the
-            //state that Synth reported
-            if (v.stateTypes == null) return ctx.getComponentState();
+            //if there bre no custom stbtes defined, then simply return the
+            //stbte thbt Synth reported
+            if (v.stbteTypes == null) return ctx.getComponentStbte();
 
-            //there are custom states on this values, so I'll have to iterate
-            //over them all and return a custom extended state
-            int state = ctx.getComponentState();
-            for (State s : v.stateTypes) {
-                if (s.isInState(c, state)) {
-                    xstate |= mask;
+            //there bre custom stbtes on this vblues, so I'll hbve to iterbte
+            //over them bll bnd return b custom extended stbte
+            int stbte = ctx.getComponentStbte();
+            for (Stbte s : v.stbteTypes) {
+                if (s.isInStbte(c, stbte)) {
+                    xstbte |= mbsk;
                 }
-                mask <<= 1;
+                mbsk <<= 1;
             }
         }
-        return xstate;
+        return xstbte;
     }
 
     /**
-     * <p>Gets the RuntimeState that most closely matches the state in the given
-     * context, but is less specific than the given "lastState". Essentially,
-     * this allows you to search for the next best state.</p>
+     * <p>Gets the RuntimeStbte thbt most closely mbtches the stbte in the given
+     * context, but is less specific thbn the given "lbstStbte". Essentiblly,
+     * this bllows you to sebrch for the next best stbte.</p>
      *
-     * <p>For example, if you had the following three states:
+     * <p>For exbmple, if you hbd the following three stbtes:
      * <pre>
-     * Enabled
-     * Enabled+Pressed
-     * Disabled
+     * Enbbled
+     * Enbbled+Pressed
+     * Disbbled
      * </pre>
-     * And you wanted to find the state that best represented
-     * ENABLED+PRESSED+FOCUSED and <code>lastState</code> was null (or an
-     * empty array, or an array with a single int with index == -1), then
-     * Enabled+Pressed would be returned. If you then call this method again but
-     * pass the index of Enabled+Pressed as the "lastState", then
-     * Enabled would be returned. If you call this method a third time and pass
-     * the index of Enabled in as the <code>lastState</code>, then null would be
+     * And you wbnted to find the stbte thbt best represented
+     * ENABLED+PRESSED+FOCUSED bnd <code>lbstStbte</code> wbs null (or bn
+     * empty brrby, or bn brrby with b single int with index == -1), then
+     * Enbbled+Pressed would be returned. If you then cbll this method bgbin but
+     * pbss the index of Enbbled+Pressed bs the "lbstStbte", then
+     * Enbbled would be returned. If you cbll this method b third time bnd pbss
+     * the index of Enbbled in bs the <code>lbstStbte</code>, then null would be
      * returned.</p>
      *
-     * <p>The actual code path for determining the proper state is the same as
+     * <p>The bctubl code pbth for determining the proper stbte is the sbme bs
      * in Synth.</p>
      *
-     * @param ctx
-     * @param lastState a 1 element array, allowing me to do pass-by-reference.
+     * @pbrbm ctx
+     * @pbrbm lbstStbte b 1 element brrby, bllowing me to do pbss-by-reference.
      * @return
      */
-    private RuntimeState getNextState(RuntimeState[] states,
-                                      int[] lastState,
-                                      int xstate) {
-        // Use the StateInfo with the most bits that matches that of state.
-        // If there are none, then fallback to
-        // the StateInfo with a state of 0, indicating it'll match anything.
+    privbte RuntimeStbte getNextStbte(RuntimeStbte[] stbtes,
+                                      int[] lbstStbte,
+                                      int xstbte) {
+        // Use the StbteInfo with the most bits thbt mbtches thbt of stbte.
+        // If there bre none, then fbllbbck to
+        // the StbteInfo with b stbte of 0, indicbting it'll mbtch bnything.
 
-        // Consider if we have 3 StateInfos a, b and c with states:
+        // Consider if we hbve 3 StbteInfos b, b bnd c with stbtes:
         // SELECTED, SELECTED | ENABLED, 0
         //
-        // Input                          Return Value
+        // Input                          Return Vblue
         // -----                          ------------
-        // SELECTED                       a
+        // SELECTED                       b
         // SELECTED | ENABLED             b
         // MOUSE_OVER                     c
         // SELECTED | ENABLED | FOCUSED   b
         // ENABLED                        c
 
-        if (states != null && states.length > 0) {
+        if (stbtes != null && stbtes.length > 0) {
             int bestCount = 0;
             int bestIndex = -1;
             int wildIndex = -1;
 
-            //if xstate is 0, then search for the runtime state with component
-            //state of 0. That is, find the exact match and return it.
-            if (xstate == 0) {
-                for (int counter = states.length - 1; counter >= 0; counter--) {
-                    if (states[counter].state == 0) {
-                        lastState[0] = counter;
-                        return states[counter];
+            //if xstbte is 0, then sebrch for the runtime stbte with component
+            //stbte of 0. Thbt is, find the exbct mbtch bnd return it.
+            if (xstbte == 0) {
+                for (int counter = stbtes.length - 1; counter >= 0; counter--) {
+                    if (stbtes[counter].stbte == 0) {
+                        lbstStbte[0] = counter;
+                        return stbtes[counter];
                     }
                 }
-                //an exact match couldn't be found, so there was no match.
-                lastState[0] = -1;
+                //bn exbct mbtch couldn't be found, so there wbs no mbtch.
+                lbstStbte[0] = -1;
                 return null;
             }
 
-            //xstate is some value != 0
+            //xstbte is some vblue != 0
 
-            //determine from which index to start looking. If lastState[0] is -1
-            //then we know to start from the end of the state array. Otherwise,
-            //we start at the lastIndex - 1.
-            int lastStateIndex = lastState == null || lastState[0] == -1 ?
-                states.length : lastState[0];
+            //determine from which index to stbrt looking. If lbstStbte[0] is -1
+            //then we know to stbrt from the end of the stbte brrby. Otherwise,
+            //we stbrt bt the lbstIndex - 1.
+            int lbstStbteIndex = lbstStbte == null || lbstStbte[0] == -1 ?
+                stbtes.length : lbstStbte[0];
 
-            for (int counter = lastStateIndex - 1; counter >= 0; counter--) {
-                int oState = states[counter].state;
+            for (int counter = lbstStbteIndex - 1; counter >= 0; counter--) {
+                int oStbte = stbtes[counter].stbte;
 
-                if (oState == 0) {
+                if (oStbte == 0) {
                     if (wildIndex == -1) {
                         wildIndex = counter;
                     }
-                } else if ((xstate & oState) == oState) {
-                    // This is key, we need to make sure all bits of the
-                    // StateInfo match, otherwise a StateInfo with
-                    // SELECTED | ENABLED would match ENABLED, which we
-                    // don't want.
+                } else if ((xstbte & oStbte) == oStbte) {
+                    // This is key, we need to mbke sure bll bits of the
+                    // StbteInfo mbtch, otherwise b StbteInfo with
+                    // SELECTED | ENABLED would mbtch ENABLED, which we
+                    // don't wbnt.
 
                     // This comes from BigInteger.bitCnt
-                    int bitCount = oState;
-                    bitCount -= (0xaaaaaaaa & bitCount) >>> 1;
+                    int bitCount = oStbte;
+                    bitCount -= (0xbbbbbbbb & bitCount) >>> 1;
                     bitCount = (bitCount & 0x33333333) + ((bitCount >>> 2) &
                             0x33333333);
                     bitCount = bitCount + (bitCount >>> 4) & 0x0f0f0f0f;
@@ -1006,122 +1006,122 @@ public final class NimbusStyle extends SynthStyle {
                 }
             }
             if (bestIndex != -1) {
-                lastState[0] = bestIndex;
-                return states[bestIndex];
+                lbstStbte[0] = bestIndex;
+                return stbtes[bestIndex];
             }
             if (wildIndex != -1) {
-                lastState[0] = wildIndex;
-                return states[wildIndex];
+                lbstStbte[0] = wildIndex;
+                return stbtes[wildIndex];
             }
         }
-        lastState[0] = -1;
+        lbstStbte[0] = -1;
         return null;
     }
 
     /**
-     * Contains values such as the UIDefaults and painters associated with
-     * a state. Whereas <code>State</code> represents a distinct state that a
-     * component can be in (such as Enabled), this class represents the colors,
-     * fonts, painters, etc associated with some state for this
+     * Contbins vblues such bs the UIDefbults bnd pbinters bssocibted with
+     * b stbte. Wherebs <code>Stbte</code> represents b distinct stbte thbt b
+     * component cbn be in (such bs Enbbled), this clbss represents the colors,
+     * fonts, pbinters, etc bssocibted with some stbte for this
      * style.
      */
-    private final class RuntimeState implements Cloneable {
-        int state;
-        Painter<Object> backgroundPainter;
-        Painter<Object> foregroundPainter;
-        Painter<Object> borderPainter;
-        String stateName;
-        UIDefaults defaults = new UIDefaults(10, .7f);
+    privbte finbl clbss RuntimeStbte implements Clonebble {
+        int stbte;
+        Pbinter<Object> bbckgroundPbinter;
+        Pbinter<Object> foregroundPbinter;
+        Pbinter<Object> borderPbinter;
+        String stbteNbme;
+        UIDefbults defbults = new UIDefbults(10, .7f);
 
-        private RuntimeState(int state, String stateName) {
-            this.state = state;
-            this.stateName = stateName;
+        privbte RuntimeStbte(int stbte, String stbteNbme) {
+            this.stbte = stbte;
+            this.stbteNbme = stbteNbme;
         }
 
         @Override
         public String toString() {
-            return stateName;
+            return stbteNbme;
         }
 
         @Override
-        public RuntimeState clone() {
-            RuntimeState clone = new RuntimeState(state, stateName);
-            clone.backgroundPainter = backgroundPainter;
-            clone.foregroundPainter = foregroundPainter;
-            clone.borderPainter = borderPainter;
-            clone.defaults.putAll(defaults);
+        public RuntimeStbte clone() {
+            RuntimeStbte clone = new RuntimeStbte(stbte, stbteNbme);
+            clone.bbckgroundPbinter = bbckgroundPbinter;
+            clone.foregroundPbinter = foregroundPbinter;
+            clone.borderPbinter = borderPbinter;
+            clone.defbults.putAll(defbults);
             return clone;
         }
     }
 
     /**
-     * Essentially a struct of data for a style. A default instance of this
-     * class is used by NimbusStyle. Additional instances exist for each
-     * component that has overrides.
+     * Essentiblly b struct of dbtb for b style. A defbult instbnce of this
+     * clbss is used by NimbusStyle. Additionbl instbnces exist for ebch
+     * component thbt hbs overrides.
      */
-    private static final class Values {
+    privbte stbtic finbl clbss Vblues {
         /**
-         * The list of State types. A State represents a type of state, such
-         * as Enabled, Default, WindowFocused, etc. These can be custom states.
+         * The list of Stbte types. A Stbte represents b type of stbte, such
+         * bs Enbbled, Defbult, WindowFocused, etc. These cbn be custom stbtes.
          */
-        State<?>[] stateTypes = null;
+        Stbte<?>[] stbteTypes = null;
         /**
-         * The list of actual runtime state representations. These can represent things such
-         * as Enabled + Focused. Thus, they differ from States in that they contain
-         * several states together, and have associated properties, data, etc.
+         * The list of bctubl runtime stbte representbtions. These cbn represent things such
+         * bs Enbbled + Focused. Thus, they differ from Stbtes in thbt they contbin
+         * severbl stbtes together, bnd hbve bssocibted properties, dbtb, etc.
          */
-        RuntimeState[] states = null;
+        RuntimeStbte[] stbtes = null;
         /**
-         * The content margins for this region.
+         * The content mbrgins for this region.
          */
-        Insets contentMargins;
+        Insets contentMbrgins;
         /**
-         * Defaults on the region/component level.
+         * Defbults on the region/component level.
          */
-        UIDefaults defaults = new UIDefaults(10, .7f);
+        UIDefbults defbults = new UIDefbults(10, .7f);
         /**
-         * Simple cache. After a value has been looked up, it is stored
-         * in this cache for later retrieval. The key is a concatenation of
-         * the property being looked up, two dollar signs, and the extended
-         * state. So for example:
+         * Simple cbche. After b vblue hbs been looked up, it is stored
+         * in this cbche for lbter retrievbl. The key is b concbtenbtion of
+         * the property being looked up, two dollbr signs, bnd the extended
+         * stbte. So for exbmple:
          *
-         * foo.bar$$2353
+         * foo.bbr$$2353
          */
-        Map<CacheKey,Object> cache = new HashMap<CacheKey,Object>();
+        Mbp<CbcheKey,Object> cbche = new HbshMbp<CbcheKey,Object>();
     }
 
     /**
-     * This implementation presupposes that key is never null and that
-     * the two keys being checked for equality are never null
+     * This implementbtion presupposes thbt key is never null bnd thbt
+     * the two keys being checked for equblity bre never null
      */
-    private static final class CacheKey {
-        private String key;
-        private int xstate;
+    privbte stbtic finbl clbss CbcheKey {
+        privbte String key;
+        privbte int xstbte;
 
-        CacheKey(Object key, int xstate) {
-            init(key, xstate);
+        CbcheKey(Object key, int xstbte) {
+            init(key, xstbte);
         }
 
-        void init(Object key, int xstate) {
+        void init(Object key, int xstbte) {
             this.key = key.toString();
-            this.xstate = xstate;
+            this.xstbte = xstbte;
         }
 
         @Override
-        public boolean equals(Object obj) {
-            final CacheKey other = (CacheKey) obj;
-            if (obj == null) return false;
-            if (this.xstate != other.xstate) return false;
-            if (!this.key.equals(other.key)) return false;
+        public boolebn equbls(Object obj) {
+            finbl CbcheKey other = (CbcheKey) obj;
+            if (obj == null) return fblse;
+            if (this.xstbte != other.xstbte) return fblse;
+            if (!this.key.equbls(other.key)) return fblse;
             return true;
         }
 
         @Override
-        public int hashCode() {
-            int hash = 3;
-            hash = 29 * hash + this.key.hashCode();
-            hash = 29 * hash + this.xstate;
-            return hash;
+        public int hbshCode() {
+            int hbsh = 3;
+            hbsh = 29 * hbsh + this.key.hbshCode();
+            hbsh = 29 * hbsh + this.xstbte;
+            return hbsh;
         }
     }
 }

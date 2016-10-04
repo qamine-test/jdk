@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 2005, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -27,98 +27,98 @@
  *******************************************************************************
  * (C) Copyright IBM Corp. 1996-2005 - All Rights Reserved                     *
  *                                                                             *
- * The original version of this source code and documentation is copyrighted   *
- * and owned by IBM, These materials are provided under terms of a License     *
- * Agreement between IBM and Sun. This technology is protected by multiple     *
- * US and International patents. This notice and attribution to IBM may not    *
+ * The originbl version of this source code bnd documentbtion is copyrighted   *
+ * bnd owned by IBM, These mbteribls bre provided under terms of b License     *
+ * Agreement between IBM bnd Sun. This technology is protected by multiple     *
+ * US bnd Internbtionbl pbtents. This notice bnd bttribution to IBM mby not    *
  * to removed.                                                                 *
  *******************************************************************************
  */
 
-package sun.text.normalizer;
+pbckbge sun.text.normblizer;
 
-import java.text.ParsePosition;
+import jbvb.text.PbrsePosition;
 
 /**
- * An interface that defines both lookup protocol and parsing of
- * symbolic names.
+ * An interfbce thbt defines both lookup protocol bnd pbrsing of
+ * symbolic nbmes.
  *
- * <p>A symbol table maintains two kinds of mappings.  The first is
- * between symbolic names and their values.  For example, if the
- * variable with the name "start" is set to the value "alpha"
- * (perhaps, though not necessarily, through an expression such as
- * "$start=alpha"), then the call lookup("start") will return the
- * char[] array ['a', 'l', 'p', 'h', 'a'].
+ * <p>A symbol tbble mbintbins two kinds of mbppings.  The first is
+ * between symbolic nbmes bnd their vblues.  For exbmple, if the
+ * vbribble with the nbme "stbrt" is set to the vblue "blphb"
+ * (perhbps, though not necessbrily, through bn expression such bs
+ * "$stbrt=blphb"), then the cbll lookup("stbrt") will return the
+ * chbr[] brrby ['b', 'l', 'p', 'h', 'b'].
  *
- * <p>The second kind of mapping is between character values and
- * UnicodeMatcher objects.  This is used by RuleBasedTransliterator,
- * which uses characters in the private use area to represent objects
- * such as UnicodeSets.  If U+E015 is mapped to the UnicodeSet [a-z],
- * then lookupMatcher(0xE015) will return the UnicodeSet [a-z].
+ * <p>The second kind of mbpping is between chbrbcter vblues bnd
+ * UnicodeMbtcher objects.  This is used by RuleBbsedTrbnsliterbtor,
+ * which uses chbrbcters in the privbte use breb to represent objects
+ * such bs UnicodeSets.  If U+E015 is mbpped to the UnicodeSet [b-z],
+ * then lookupMbtcher(0xE015) will return the UnicodeSet [b-z].
  *
- * <p>Finally, a symbol table defines parsing behavior for symbolic
- * names.  All symbolic names start with the SYMBOL_REF character.
- * When a parser encounters this character, it calls parseReference()
- * with the position immediately following the SYMBOL_REF.  The symbol
- * table parses the name, if there is one, and returns it.
+ * <p>Finblly, b symbol tbble defines pbrsing behbvior for symbolic
+ * nbmes.  All symbolic nbmes stbrt with the SYMBOL_REF chbrbcter.
+ * When b pbrser encounters this chbrbcter, it cblls pbrseReference()
+ * with the position immedibtely following the SYMBOL_REF.  The symbol
+ * tbble pbrses the nbme, if there is one, bnd returns it.
  *
- * @draft ICU 2.8
- * @deprecated This is a draft API and might change in a future release of ICU.
+ * @drbft ICU 2.8
+ * @deprecbted This is b drbft API bnd might chbnge in b future relebse of ICU.
  */
-@Deprecated
-public interface SymbolTable {
+@Deprecbted
+public interfbce SymbolTbble {
 
     /**
-     * The character preceding a symbol reference name.
-     * @draft ICU 2.8
-     * @deprecated This is a draft API and might change in a future release of ICU.
+     * The chbrbcter preceding b symbol reference nbme.
+     * @drbft ICU 2.8
+     * @deprecbted This is b drbft API bnd might chbnge in b future relebse of ICU.
      */
-    @Deprecated
-    static final char SYMBOL_REF = '$';
+    @Deprecbted
+    stbtic finbl chbr SYMBOL_REF = '$';
 
     /**
-     * Lookup the characters associated with this string and return it.
-     * Return <tt>null</tt> if no such name exists.  The resultant
-     * array may have length zero.
-     * @param s the symbolic name to lookup
-     * @return a char array containing the name's value, or null if
-     * there is no mapping for s.
-     * @draft ICU 2.8
-     * @deprecated This is a draft API and might change in a future release of ICU.
+     * Lookup the chbrbcters bssocibted with this string bnd return it.
+     * Return <tt>null</tt> if no such nbme exists.  The resultbnt
+     * brrby mby hbve length zero.
+     * @pbrbm s the symbolic nbme to lookup
+     * @return b chbr brrby contbining the nbme's vblue, or null if
+     * there is no mbpping for s.
+     * @drbft ICU 2.8
+     * @deprecbted This is b drbft API bnd might chbnge in b future relebse of ICU.
      */
-    @Deprecated
-    char[] lookup(String s);
+    @Deprecbted
+    chbr[] lookup(String s);
 
     /**
-     * Lookup the UnicodeMatcher associated with the given character, and
+     * Lookup the UnicodeMbtcher bssocibted with the given chbrbcter, bnd
      * return it.  Return <tt>null</tt> if not found.
-     * @param ch a 32-bit code point from 0 to 0x10FFFF inclusive.
-     * @return the UnicodeMatcher object represented by the given
-     * character, or null if there is no mapping for ch.
-     * @draft ICU 2.8
-     * @deprecated This is a draft API and might change in a future release of ICU.
+     * @pbrbm ch b 32-bit code point from 0 to 0x10FFFF inclusive.
+     * @return the UnicodeMbtcher object represented by the given
+     * chbrbcter, or null if there is no mbpping for ch.
+     * @drbft ICU 2.8
+     * @deprecbted This is b drbft API bnd might chbnge in b future relebse of ICU.
      */
-    @Deprecated
-    UnicodeMatcher lookupMatcher(int ch);
+    @Deprecbted
+    UnicodeMbtcher lookupMbtcher(int ch);
 
     /**
-     * Parse a symbol reference name from the given string, starting
-     * at the given position.  If no valid symbol reference name is
-     * found, return null and leave pos unchanged.  That is, if the
-     * character at pos cannot start a name, or if pos is at or after
-     * text.length(), then return null.  This indicates an isolated
-     * SYMBOL_REF character.
-     * @param text the text to parse for the name
-     * @param pos on entry, the index of the first character to parse.
-     * This is the character following the SYMBOL_REF character.  On
-     * exit, the index after the last parsed character.  If the parse
-     * failed, pos is unchanged on exit.
-     * @param limit the index after the last character to be parsed.
-     * @return the parsed name, or null if there is no valid symbolic
-     * name at the given position.
-     * @draft ICU 2.8
-     * @deprecated This is a draft API and might change in a future release of ICU.
+     * Pbrse b symbol reference nbme from the given string, stbrting
+     * bt the given position.  If no vblid symbol reference nbme is
+     * found, return null bnd lebve pos unchbnged.  Thbt is, if the
+     * chbrbcter bt pos cbnnot stbrt b nbme, or if pos is bt or bfter
+     * text.length(), then return null.  This indicbtes bn isolbted
+     * SYMBOL_REF chbrbcter.
+     * @pbrbm text the text to pbrse for the nbme
+     * @pbrbm pos on entry, the index of the first chbrbcter to pbrse.
+     * This is the chbrbcter following the SYMBOL_REF chbrbcter.  On
+     * exit, the index bfter the lbst pbrsed chbrbcter.  If the pbrse
+     * fbiled, pos is unchbnged on exit.
+     * @pbrbm limit the index bfter the lbst chbrbcter to be pbrsed.
+     * @return the pbrsed nbme, or null if there is no vblid symbolic
+     * nbme bt the given position.
+     * @drbft ICU 2.8
+     * @deprecbted This is b drbft API bnd might chbnge in b future relebse of ICU.
      */
-    @Deprecated
-    String parseReference(String text, ParsePosition pos, int limit);
+    @Deprecbted
+    String pbrseReference(String text, PbrsePosition pos, int limit);
 }

@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -27,91 +27,91 @@
  **********************************************************************
  **********************************************************************
  **********************************************************************
- *** COPYRIGHT (c) Eastman Kodak Company, 1997                      ***
- *** As  an unpublished  work pursuant to Title 17 of the United    ***
- *** States Code.  All rights reserved.                             ***
+ *** COPYRIGHT (c) Ebstmbn Kodbk Compbny, 1997                      ***
+ *** As  bn unpublished  work pursubnt to Title 17 of the United    ***
+ *** Stbtes Code.  All rights reserved.                             ***
  **********************************************************************
  **********************************************************************
  **********************************************************************/
 
-package java.awt.color;
+pbckbge jbvb.bwt.color;
 
-import sun.java2d.cmm.Profile;
-import sun.java2d.cmm.ProfileDeferralInfo;
+import sun.jbvb2d.cmm.Profile;
+import sun.jbvb2d.cmm.ProfileDeferrblInfo;
 
 /**
  *
- * The ICC_ProfileRGB class is a subclass of the ICC_Profile class
- * that represents profiles which meet the following criteria:
+ * The ICC_ProfileRGB clbss is b subclbss of the ICC_Profile clbss
+ * thbt represents profiles which meet the following criterib:
  * <ul>
- * <li>The profile's color space type is RGB.</li>
- * <li>The profile includes the <code>redColorantTag</code>,
- * <code>greenColorantTag</code>, <code>blueColorantTag</code>,
- * <code>redTRCTag</code>, <code>greenTRCTag</code>,
- * <code>blueTRCTag</code>, and <code>mediaWhitePointTag</code> tags.</li>
+ * <li>The profile's color spbce type is RGB.</li>
+ * <li>The profile includes the <code>redColorbntTbg</code>,
+ * <code>greenColorbntTbg</code>, <code>blueColorbntTbg</code>,
+ * <code>redTRCTbg</code>, <code>greenTRCTbg</code>,
+ * <code>blueTRCTbg</code>, bnd <code>medibWhitePointTbg</code> tbgs.</li>
  * </ul>
- * The <code>ICC_Profile</code> <code>getInstance</code> method will
- * return an <code>ICC_ProfileRGB</code> object when these conditions are met.
- * Three-component, matrix-based input profiles and RGB display profiles are
- * examples of this type of profile.
+ * The <code>ICC_Profile</code> <code>getInstbnce</code> method will
+ * return bn <code>ICC_ProfileRGB</code> object when these conditions bre met.
+ * Three-component, mbtrix-bbsed input profiles bnd RGB displby profiles bre
+ * exbmples of this type of profile.
  * <p>
- * This profile class provides color transform matrices and lookup tables
- * that Java or native methods can use directly to
- * optimize color conversion in some cases.
+ * This profile clbss provides color trbnsform mbtrices bnd lookup tbbles
+ * thbt Jbvb or nbtive methods cbn use directly to
+ * optimize color conversion in some cbses.
  * <p>
- * To transform from a device profile color space to the CIEXYZ Profile
- * Connection Space, each device color component is first linearized by
- * a lookup through the corresponding tone reproduction curve (TRC).
- * The resulting linear RGB components are converted to the CIEXYZ PCS
- * using a a 3x3 matrix constructed from the RGB colorants.
+ * To trbnsform from b device profile color spbce to the CIEXYZ Profile
+ * Connection Spbce, ebch device color component is first linebrized by
+ * b lookup through the corresponding tone reproduction curve (TRC).
+ * The resulting linebr RGB components bre converted to the CIEXYZ PCS
+ * using b b 3x3 mbtrix constructed from the RGB colorbnts.
  * <pre>
  *
- * &nbsp;               linearR = redTRC[deviceR]
+ * &nbsp;               linebrR = redTRC[deviceR]
  *
- * &nbsp;               linearG = greenTRC[deviceG]
+ * &nbsp;               linebrG = greenTRC[deviceG]
  *
- * &nbsp;               linearB = blueTRC[deviceB]
+ * &nbsp;               linebrB = blueTRC[deviceB]
  *
  * &nbsp; _      _       _                                             _   _         _
- * &nbsp;[  PCSX  ]     [  redColorantX  greenColorantX  blueColorantX  ] [  linearR  ]
+ * &nbsp;[  PCSX  ]     [  redColorbntX  greenColorbntX  blueColorbntX  ] [  linebrR  ]
  * &nbsp;[        ]     [                                               ] [           ]
- * &nbsp;[  PCSY  ]  =  [  redColorantY  greenColorantY  blueColorantY  ] [  linearG  ]
+ * &nbsp;[  PCSY  ]  =  [  redColorbntY  greenColorbntY  blueColorbntY  ] [  linebrG  ]
  * &nbsp;[        ]     [                                               ] [           ]
- * &nbsp;[_ PCSZ _]     [_ redColorantZ  greenColorantZ  blueColorantZ _] [_ linearB _]
+ * &nbsp;[_ PCSZ _]     [_ redColorbntZ  greenColorbntZ  blueColorbntZ _] [_ linebrB _]
  *
  * </pre>
- * The inverse transform is performed by converting PCS XYZ components to linear
- * RGB components through the inverse of the above 3x3 matrix, and then converting
- * linear RGB to device RGB through inverses of the TRCs.
+ * The inverse trbnsform is performed by converting PCS XYZ components to linebr
+ * RGB components through the inverse of the bbove 3x3 mbtrix, bnd then converting
+ * linebr RGB to device RGB through inverses of the TRCs.
  */
 
 
 
-public class ICC_ProfileRGB
+public clbss ICC_ProfileRGB
 extends ICC_Profile {
 
-    static final long serialVersionUID = 8505067385152579334L;
+    stbtic finbl long seriblVersionUID = 8505067385152579334L;
 
     /**
-     * Used to get a gamma value or TRC for the red component.
+     * Used to get b gbmmb vblue or TRC for the red component.
      */
-    public static final int REDCOMPONENT = 0;
+    public stbtic finbl int REDCOMPONENT = 0;
 
     /**
-     * Used to get a gamma value or TRC for the green component.
+     * Used to get b gbmmb vblue or TRC for the green component.
      */
-    public static final int GREENCOMPONENT = 1;
+    public stbtic finbl int GREENCOMPONENT = 1;
 
     /**
-     * Used to get a gamma value or TRC for the blue component.
+     * Used to get b gbmmb vblue or TRC for the blue component.
      */
-    public static final int BLUECOMPONENT = 2;
+    public stbtic finbl int BLUECOMPONENT = 2;
 
 
     /**
-     * Constructs an new <code>ICC_ProfileRGB</code> from a CMM ID.
+     * Constructs bn new <code>ICC_ProfileRGB</code> from b CMM ID.
      *
-     * @param p The CMM ID for the profile.
+     * @pbrbm p The CMM ID for the profile.
      *
      */
     ICC_ProfileRGB(Profile p) {
@@ -119,162 +119,162 @@ extends ICC_Profile {
     }
 
     /**
-     * Constructs a new <code>ICC_ProfileRGB</code> from a
-     * ProfileDeferralInfo object.
+     * Constructs b new <code>ICC_ProfileRGB</code> from b
+     * ProfileDeferrblInfo object.
      *
-     * @param pdi
+     * @pbrbm pdi
      */
-    ICC_ProfileRGB(ProfileDeferralInfo pdi) {
+    ICC_ProfileRGB(ProfileDeferrblInfo pdi) {
         super(pdi);
     }
 
 
     /**
-     * Returns an array that contains the components of the profile's
-     * <CODE>mediaWhitePointTag</CODE>.
+     * Returns bn brrby thbt contbins the components of the profile's
+     * <CODE>medibWhitePointTbg</CODE>.
      *
-     * @return A 3-element <CODE>float</CODE> array containing the x, y,
-     * and z components of the profile's <CODE>mediaWhitePointTag</CODE>.
+     * @return A 3-element <CODE>flobt</CODE> brrby contbining the x, y,
+     * bnd z components of the profile's <CODE>medibWhitePointTbg</CODE>.
      */
-    public float[] getMediaWhitePoint() {
-        return super.getMediaWhitePoint();
+    public flobt[] getMedibWhitePoint() {
+        return super.getMedibWhitePoint();
     }
 
 
     /**
-     * Returns a 3x3 <CODE>float</CODE> matrix constructed from the
-     * X, Y, and Z components of the profile's <CODE>redColorantTag</CODE>,
-     * <CODE>greenColorantTag</CODE>, and <CODE>blueColorantTag</CODE>.
+     * Returns b 3x3 <CODE>flobt</CODE> mbtrix constructed from the
+     * X, Y, bnd Z components of the profile's <CODE>redColorbntTbg</CODE>,
+     * <CODE>greenColorbntTbg</CODE>, bnd <CODE>blueColorbntTbg</CODE>.
      * <p>
-     * This matrix can be used for color transforms in the forward
-     * direction of the profile--from the profile color space
+     * This mbtrix cbn be used for color trbnsforms in the forwbrd
+     * direction of the profile--from the profile color spbce
      * to the CIEXYZ PCS.
      *
-     * @return A 3x3 <CODE>float</CODE> array that contains the x, y, and z
-     * components of the profile's <CODE>redColorantTag</CODE>,
-     * <CODE>greenColorantTag</CODE>, and <CODE>blueColorantTag</CODE>.
+     * @return A 3x3 <CODE>flobt</CODE> brrby thbt contbins the x, y, bnd z
+     * components of the profile's <CODE>redColorbntTbg</CODE>,
+     * <CODE>greenColorbntTbg</CODE>, bnd <CODE>blueColorbntTbg</CODE>.
      */
-    public float[][] getMatrix() {
-        float[][] theMatrix = new float[3][3];
-        float[] tmpMatrix;
+    public flobt[][] getMbtrix() {
+        flobt[][] theMbtrix = new flobt[3][3];
+        flobt[] tmpMbtrix;
 
-        tmpMatrix = getXYZTag(ICC_Profile.icSigRedColorantTag);
-        theMatrix[0][0] = tmpMatrix[0];
-        theMatrix[1][0] = tmpMatrix[1];
-        theMatrix[2][0] = tmpMatrix[2];
-        tmpMatrix = getXYZTag(ICC_Profile.icSigGreenColorantTag);
-        theMatrix[0][1] = tmpMatrix[0];
-        theMatrix[1][1] = tmpMatrix[1];
-        theMatrix[2][1] = tmpMatrix[2];
-        tmpMatrix = getXYZTag(ICC_Profile.icSigBlueColorantTag);
-        theMatrix[0][2] = tmpMatrix[0];
-        theMatrix[1][2] = tmpMatrix[1];
-        theMatrix[2][2] = tmpMatrix[2];
-        return theMatrix;
+        tmpMbtrix = getXYZTbg(ICC_Profile.icSigRedColorbntTbg);
+        theMbtrix[0][0] = tmpMbtrix[0];
+        theMbtrix[1][0] = tmpMbtrix[1];
+        theMbtrix[2][0] = tmpMbtrix[2];
+        tmpMbtrix = getXYZTbg(ICC_Profile.icSigGreenColorbntTbg);
+        theMbtrix[0][1] = tmpMbtrix[0];
+        theMbtrix[1][1] = tmpMbtrix[1];
+        theMbtrix[2][1] = tmpMbtrix[2];
+        tmpMbtrix = getXYZTbg(ICC_Profile.icSigBlueColorbntTbg);
+        theMbtrix[0][2] = tmpMbtrix[0];
+        theMbtrix[1][2] = tmpMbtrix[1];
+        theMbtrix[2][2] = tmpMbtrix[2];
+        return theMbtrix;
     }
 
     /**
-     * Returns a gamma value representing the tone reproduction curve
-     * (TRC) for a particular component.  The component parameter
+     * Returns b gbmmb vblue representing the tone reproduction curve
+     * (TRC) for b pbrticulbr component.  The component pbrbmeter
      * must be one of REDCOMPONENT, GREENCOMPONENT, or BLUECOMPONENT.
      * <p>
      * If the profile
      * represents the TRC for the corresponding component
-     * as a table rather than a single gamma value, an
-     * exception is thrown.  In this case the actual table
-     * can be obtained through the {@link #getTRC(int)} method.
-     * When using a gamma value,
-     * the linear component (R, G, or B) is computed as follows:
+     * bs b tbble rbther thbn b single gbmmb vblue, bn
+     * exception is thrown.  In this cbse the bctubl tbble
+     * cbn be obtbined through the {@link #getTRC(int)} method.
+     * When using b gbmmb vblue,
+     * the linebr component (R, G, or B) is computed bs follows:
      * <pre>
      *
-     * &nbsp;                                         gamma
-     * &nbsp;        linearComponent = deviceComponent
+     * &nbsp;                                         gbmmb
+     * &nbsp;        linebrComponent = deviceComponent
      *
      *</pre>
-     * @param component The <CODE>ICC_ProfileRGB</CODE> constant that
-     * represents the component whose TRC you want to retrieve
-     * @return the gamma value as a float.
-     * @exception ProfileDataException if the profile does not specify
-     *            the corresponding TRC as a single gamma value.
+     * @pbrbm component The <CODE>ICC_ProfileRGB</CODE> constbnt thbt
+     * represents the component whose TRC you wbnt to retrieve
+     * @return the gbmmb vblue bs b flobt.
+     * @exception ProfileDbtbException if the profile does not specify
+     *            the corresponding TRC bs b single gbmmb vblue.
      */
-    public float getGamma(int component) {
-    float theGamma;
-    int theSignature;
+    public flobt getGbmmb(int component) {
+    flobt theGbmmb;
+    int theSignbture;
 
         switch (component) {
-        case REDCOMPONENT:
-            theSignature = ICC_Profile.icSigRedTRCTag;
-            break;
+        cbse REDCOMPONENT:
+            theSignbture = ICC_Profile.icSigRedTRCTbg;
+            brebk;
 
-        case GREENCOMPONENT:
-            theSignature = ICC_Profile.icSigGreenTRCTag;
-            break;
+        cbse GREENCOMPONENT:
+            theSignbture = ICC_Profile.icSigGreenTRCTbg;
+            brebk;
 
-        case BLUECOMPONENT:
-            theSignature = ICC_Profile.icSigBlueTRCTag;
-            break;
+        cbse BLUECOMPONENT:
+            theSignbture = ICC_Profile.icSigBlueTRCTbg;
+            brebk;
 
-        default:
-            throw new IllegalArgumentException("Must be Red, Green, or Blue");
+        defbult:
+            throw new IllegblArgumentException("Must be Red, Green, or Blue");
         }
 
-        theGamma = super.getGamma(theSignature);
+        theGbmmb = super.getGbmmb(theSignbture);
 
-        return theGamma;
+        return theGbmmb;
     }
 
     /**
-     * Returns the TRC for a particular component as an array.
+     * Returns the TRC for b pbrticulbr component bs bn brrby.
      * Component must be <code>REDCOMPONENT</code>,
      * <code>GREENCOMPONENT</code>, or <code>BLUECOMPONENT</code>.
-     * Otherwise the returned array
-     * represents a lookup table where the input component value
-     * is conceptually in the range [0.0, 1.0].  Value 0.0 maps
-     * to array index 0 and value 1.0 maps to array index length-1.
-     * Interpolation might be used to generate output values for
-     * input values that do not map exactly to an index in the
-     * array.  Output values also map linearly to the range [0.0, 1.0].
-     * Value 0.0 is represented by an array value of 0x0000 and
-     * value 1.0 by 0xFFFF.  In other words, the values are really unsigned
-     * <code>short</code> values even though they are returned in a
-     * <code>short</code> array.
+     * Otherwise the returned brrby
+     * represents b lookup tbble where the input component vblue
+     * is conceptublly in the rbnge [0.0, 1.0].  Vblue 0.0 mbps
+     * to brrby index 0 bnd vblue 1.0 mbps to brrby index length-1.
+     * Interpolbtion might be used to generbte output vblues for
+     * input vblues thbt do not mbp exbctly to bn index in the
+     * brrby.  Output vblues blso mbp linebrly to the rbnge [0.0, 1.0].
+     * Vblue 0.0 is represented by bn brrby vblue of 0x0000 bnd
+     * vblue 1.0 by 0xFFFF.  In other words, the vblues bre reblly unsigned
+     * <code>short</code> vblues even though they bre returned in b
+     * <code>short</code> brrby.
      *
-     * If the profile has specified the corresponding TRC
-     * as linear (gamma = 1.0) or as a simple gamma value, this method
-     * throws an exception.  In this case, the {@link #getGamma(int)}
-     * method should be used to get the gamma value.
+     * If the profile hbs specified the corresponding TRC
+     * bs linebr (gbmmb = 1.0) or bs b simple gbmmb vblue, this method
+     * throws bn exception.  In this cbse, the {@link #getGbmmb(int)}
+     * method should be used to get the gbmmb vblue.
      *
-     * @param component The <CODE>ICC_ProfileRGB</CODE> constant that
-     * represents the component whose TRC you want to retrieve:
+     * @pbrbm component The <CODE>ICC_ProfileRGB</CODE> constbnt thbt
+     * represents the component whose TRC you wbnt to retrieve:
      * <CODE>REDCOMPONENT</CODE>, <CODE>GREENCOMPONENT</CODE>, or
      * <CODE>BLUECOMPONENT</CODE>.
      *
-     * @return a short array representing the TRC.
-     * @exception ProfileDataException if the profile does not specify
-     *            the corresponding TRC as a table.
+     * @return b short brrby representing the TRC.
+     * @exception ProfileDbtbException if the profile does not specify
+     *            the corresponding TRC bs b tbble.
      */
     public short[] getTRC(int component) {
     short[] theTRC;
-    int theSignature;
+    int theSignbture;
 
         switch (component) {
-        case REDCOMPONENT:
-            theSignature = ICC_Profile.icSigRedTRCTag;
-            break;
+        cbse REDCOMPONENT:
+            theSignbture = ICC_Profile.icSigRedTRCTbg;
+            brebk;
 
-        case GREENCOMPONENT:
-            theSignature = ICC_Profile.icSigGreenTRCTag;
-            break;
+        cbse GREENCOMPONENT:
+            theSignbture = ICC_Profile.icSigGreenTRCTbg;
+            brebk;
 
-        case BLUECOMPONENT:
-            theSignature = ICC_Profile.icSigBlueTRCTag;
-            break;
+        cbse BLUECOMPONENT:
+            theSignbture = ICC_Profile.icSigBlueTRCTbg;
+            brebk;
 
-        default:
-            throw new IllegalArgumentException("Must be Red, Green, or Blue");
+        defbult:
+            throw new IllegblArgumentException("Must be Red, Green, or Blue");
         }
 
-        theTRC = super.getTRC(theSignature);
+        theTRC = super.getTRC(theSignbture);
 
         return theTRC;
     }

@@ -1,67 +1,67 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package sun.awt.X11;
+pbckbge sun.bwt.X11;
 
-import java.awt.Component;
-import java.awt.Graphics;
+import jbvb.bwt.Component;
+import jbvb.bwt.Grbphics;
 
-import sun.awt.RepaintArea;
+import sun.bwt.RepbintAreb;
 
 /**
- * The <code>RepaintArea</code> is a geometric construct created for the
- * purpose of holding the geometry of several coalesced paint events.
- * This geometry is accessed synchronously, although it is written such
- * that painting may still be executed asynchronously.
+ * The <code>RepbintAreb</code> is b geometric construct crebted for the
+ * purpose of holding the geometry of severbl coblesced pbint events.
+ * This geometry is bccessed synchronously, blthough it is written such
+ * thbt pbinting mby still be executed bsynchronously.
  *
- * @author      Eric Hawkes
+ * @buthor      Eric Hbwkes
  */
-final class XRepaintArea extends RepaintArea {
+finbl clbss XRepbintAreb extends RepbintAreb {
 
     /**
-     * Calls <code>Component.update(Graphics)</code> with given Graphics.
+     * Cblls <code>Component.updbte(Grbphics)</code> with given Grbphics.
      */
-    protected void updateComponent(Component comp, Graphics g) {
+    protected void updbteComponent(Component comp, Grbphics g) {
         if (comp != null) {
-            // We don't call peer.paintPeer() here, because we shouldn't paint
-            // native component when processing UPDATE events.
-            super.updateComponent(comp, g);
+            // We don't cbll peer.pbintPeer() here, becbuse we shouldn't pbint
+            // nbtive component when processing UPDATE events.
+            super.updbteComponent(comp, g);
         }
     }
 
     /**
-     * Calls <code>Component.paint(Graphics)</code> with given Graphics.
+     * Cblls <code>Component.pbint(Grbphics)</code> with given Grbphics.
      */
-    protected void paintComponent(Component comp, Graphics g) {
+    protected void pbintComponent(Component comp, Grbphics g) {
         if (comp != null) {
-            final XComponentPeer peer = (XComponentPeer) comp.getPeer();
+            finbl XComponentPeer peer = (XComponentPeer) comp.getPeer();
             if (peer != null) {
-                peer.paintPeer(g);
+                peer.pbintPeer(g);
             }
-            super.paintComponent(comp, g);
+            super.pbintComponent(comp, g);
         }
     }
 }

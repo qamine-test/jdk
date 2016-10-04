@@ -1,234 +1,234 @@
 /*
- * Copyright (c) 2003, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.management;
+pbckbge sun.mbnbgement;
 
-import java.util.regex.*;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.Iterator;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.TreeMap;
-import sun.management.counter.*;
+import jbvb.util.regex.*;
+import jbvb.util.List;
+import jbvb.util.ListIterbtor;
+import jbvb.util.Iterbtor;
+import jbvb.util.ArrbyList;
+import jbvb.util.Mbp;
+import jbvb.util.TreeMbp;
+import sun.mbnbgement.counter.*;
 
 /**
- * Implementation class of HotspotCompilationMBean interface.
+ * Implementbtion clbss of HotspotCompilbtionMBebn interfbce.
  *
- * Internal, uncommitted management interface for Hotspot compilation
+ * Internbl, uncommitted mbnbgement interfbce for Hotspot compilbtion
  * system.
  *
  */
-class HotspotCompilation
-    implements HotspotCompilationMBean {
+clbss HotspotCompilbtion
+    implements HotspotCompilbtionMBebn {
 
-    private VMManagement jvm;
+    privbte VMMbnbgement jvm;
 
     /**
-     * Constructor of HotspotRuntime class.
+     * Constructor of HotspotRuntime clbss.
      */
-    HotspotCompilation(VMManagement vm) {
+    HotspotCompilbtion(VMMbnbgement vm) {
         jvm = vm;
         initCompilerCounters();
     }
 
-    // Performance counter support
-    private static final String JAVA_CI    = "java.ci.";
-    private static final String COM_SUN_CI = "com.sun.ci.";
-    private static final String SUN_CI     = "sun.ci.";
-    private static final String CI_COUNTER_NAME_PATTERN =
+    // Performbnce counter support
+    privbte stbtic finbl String JAVA_CI    = "jbvb.ci.";
+    privbte stbtic finbl String COM_SUN_CI = "com.sun.ci.";
+    privbte stbtic finbl String SUN_CI     = "sun.ci.";
+    privbte stbtic finbl String CI_COUNTER_NAME_PATTERN =
         JAVA_CI + "|" + COM_SUN_CI + "|" + SUN_CI;
 
-    private LongCounter compilerThreads;
-    private LongCounter totalCompiles;
-    private LongCounter totalBailouts;
-    private LongCounter totalInvalidates;
-    private LongCounter nmethodCodeSize;
-    private LongCounter nmethodSize;
-    private StringCounter lastMethod;
-    private LongCounter lastSize;
-    private LongCounter lastType;
-    private StringCounter lastFailedMethod;
-    private LongCounter lastFailedType;
-    private StringCounter lastInvalidatedMethod;
-    private LongCounter lastInvalidatedType;
+    privbte LongCounter compilerThrebds;
+    privbte LongCounter totblCompiles;
+    privbte LongCounter totblBbilouts;
+    privbte LongCounter totblInvblidbtes;
+    privbte LongCounter nmethodCodeSize;
+    privbte LongCounter nmethodSize;
+    privbte StringCounter lbstMethod;
+    privbte LongCounter lbstSize;
+    privbte LongCounter lbstType;
+    privbte StringCounter lbstFbiledMethod;
+    privbte LongCounter lbstFbiledType;
+    privbte StringCounter lbstInvblidbtedMethod;
+    privbte LongCounter lbstInvblidbtedType;
 
-    private class CompilerThreadInfo {
+    privbte clbss CompilerThrebdInfo {
         int index;
-        String name;
+        String nbme;
         StringCounter method;
         LongCounter type;
         LongCounter compiles;
         LongCounter time;
-        CompilerThreadInfo(String bname, int index) {
-            String basename = bname + "." + index + ".";
-            this.name = bname + "-" + index;
-            this.method = (StringCounter) lookup(basename + "method");
-            this.type = (LongCounter) lookup(basename + "type");
-            this.compiles = (LongCounter) lookup(basename + "compiles");
-            this.time = (LongCounter) lookup(basename + "time");
+        CompilerThrebdInfo(String bnbme, int index) {
+            String bbsenbme = bnbme + "." + index + ".";
+            this.nbme = bnbme + "-" + index;
+            this.method = (StringCounter) lookup(bbsenbme + "method");
+            this.type = (LongCounter) lookup(bbsenbme + "type");
+            this.compiles = (LongCounter) lookup(bbsenbme + "compiles");
+            this.time = (LongCounter) lookup(bbsenbme + "time");
         }
-        CompilerThreadInfo(String bname) {
-            String basename = bname + ".";
-            this.name = bname;
-            this.method = (StringCounter) lookup(basename + "method");
-            this.type = (LongCounter) lookup(basename + "type");
-            this.compiles = (LongCounter) lookup(basename + "compiles");
-            this.time = (LongCounter) lookup(basename + "time");
+        CompilerThrebdInfo(String bnbme) {
+            String bbsenbme = bnbme + ".";
+            this.nbme = bnbme;
+            this.method = (StringCounter) lookup(bbsenbme + "method");
+            this.type = (LongCounter) lookup(bbsenbme + "type");
+            this.compiles = (LongCounter) lookup(bbsenbme + "compiles");
+            this.time = (LongCounter) lookup(bbsenbme + "time");
         }
 
-        CompilerThreadStat getCompilerThreadStat() {
-            MethodInfo minfo = new MethodInfo(method.stringValue(),
-                                              (int) type.longValue(),
+        CompilerThrebdStbt getCompilerThrebdStbt() {
+            MethodInfo minfo = new MethodInfo(method.stringVblue(),
+                                              (int) type.longVblue(),
                                               -1);
-            return new CompilerThreadStat(name,
-                                          compiles.longValue(),
-                                          time.longValue(),
+            return new CompilerThrebdStbt(nbme,
+                                          compiles.longVblue(),
+                                          time.longVblue(),
                                           minfo);
         }
     }
-    private CompilerThreadInfo[] threads;
-    private int numActiveThreads; // number of active compiler threads
+    privbte CompilerThrebdInfo[] threbds;
+    privbte int numActiveThrebds; // number of bctive compiler threbds
 
-    private Map<String, Counter> counters;
-    private Counter lookup(String name) {
+    privbte Mbp<String, Counter> counters;
+    privbte Counter lookup(String nbme) {
         Counter c = null;
 
-        // Only one counter exists with the specified name in the
-        // current implementation.  We first look up in the SUN_CI namespace
-        // since most counters are in SUN_CI namespace.
+        // Only one counter exists with the specified nbme in the
+        // current implementbtion.  We first look up in the SUN_CI nbmespbce
+        // since most counters bre in SUN_CI nbmespbce.
 
-        if ((c = counters.get(SUN_CI + name)) != null) {
+        if ((c = counters.get(SUN_CI + nbme)) != null) {
             return c;
         }
-        if ((c = counters.get(COM_SUN_CI + name)) != null) {
+        if ((c = counters.get(COM_SUN_CI + nbme)) != null) {
             return c;
         }
-        if ((c = counters.get(JAVA_CI + name)) != null) {
+        if ((c = counters.get(JAVA_CI + nbme)) != null) {
             return c;
         }
 
-        // FIXME: should tolerate if counter doesn't exist
-        throw new AssertionError("Counter " + name + " does not exist");
+        // FIXME: should tolerbte if counter doesn't exist
+        throw new AssertionError("Counter " + nbme + " does not exist");
     }
 
-    private void initCompilerCounters() {
-        // Build a tree map of the current list of performance counters
-        counters = new TreeMap<>();
-        for (Counter c: getInternalCompilerCounters()) {
-            counters.put(c.getName(), c);
+    privbte void initCompilerCounters() {
+        // Build b tree mbp of the current list of performbnce counters
+        counters = new TreeMbp<>();
+        for (Counter c: getInternblCompilerCounters()) {
+            counters.put(c.getNbme(), c);
         }
 
-        compilerThreads = (LongCounter) lookup("threads");
-        totalCompiles = (LongCounter) lookup("totalCompiles");
-        totalBailouts = (LongCounter) lookup("totalBailouts");
-        totalInvalidates = (LongCounter) lookup("totalInvalidates");
+        compilerThrebds = (LongCounter) lookup("threbds");
+        totblCompiles = (LongCounter) lookup("totblCompiles");
+        totblBbilouts = (LongCounter) lookup("totblBbilouts");
+        totblInvblidbtes = (LongCounter) lookup("totblInvblidbtes");
         nmethodCodeSize = (LongCounter) lookup("nmethodCodeSize");
         nmethodSize = (LongCounter) lookup("nmethodSize");
-        lastMethod = (StringCounter) lookup("lastMethod");
-        lastSize = (LongCounter) lookup("lastSize");
-        lastType = (LongCounter) lookup("lastType");
-        lastFailedMethod = (StringCounter) lookup("lastFailedMethod");
-        lastFailedType = (LongCounter) lookup("lastFailedType");
-        lastInvalidatedMethod = (StringCounter) lookup("lastInvalidatedMethod");
-        lastInvalidatedType = (LongCounter) lookup("lastInvalidatedType");
+        lbstMethod = (StringCounter) lookup("lbstMethod");
+        lbstSize = (LongCounter) lookup("lbstSize");
+        lbstType = (LongCounter) lookup("lbstType");
+        lbstFbiledMethod = (StringCounter) lookup("lbstFbiledMethod");
+        lbstFbiledType = (LongCounter) lookup("lbstFbiledType");
+        lbstInvblidbtedMethod = (StringCounter) lookup("lbstInvblidbtedMethod");
+        lbstInvblidbtedType = (LongCounter) lookup("lbstInvblidbtedType");
 
-        numActiveThreads = (int) compilerThreads.longValue();
+        numActiveThrebds = (int) compilerThrebds.longVblue();
 
-        // Allocate CompilerThreadInfo for compilerThread and adaptorThread
-        threads = new CompilerThreadInfo[numActiveThreads+1];
+        // Allocbte CompilerThrebdInfo for compilerThrebd bnd bdbptorThrebd
+        threbds = new CompilerThrebdInfo[numActiveThrebds+1];
 
-        // AdaptorThread has index 0
-        if (counters.containsKey(SUN_CI + "adapterThread.compiles")) {
-            threads[0] = new CompilerThreadInfo("adapterThread", 0);
-            numActiveThreads++;
+        // AdbptorThrebd hbs index 0
+        if (counters.contbinsKey(SUN_CI + "bdbpterThrebd.compiles")) {
+            threbds[0] = new CompilerThrebdInfo("bdbpterThrebd", 0);
+            numActiveThrebds++;
         } else {
-            threads[0] = null;
+            threbds[0] = null;
         }
 
-        for (int i = 1; i < threads.length; i++) {
-            threads[i] = new CompilerThreadInfo("compilerThread", i-1);
+        for (int i = 1; i < threbds.length; i++) {
+            threbds[i] = new CompilerThrebdInfo("compilerThrebd", i-1);
         }
     }
 
-    public int getCompilerThreadCount() {
-        return numActiveThreads;
+    public int getCompilerThrebdCount() {
+        return numActiveThrebds;
     }
 
-    public long getTotalCompileCount() {
-        return totalCompiles.longValue();
+    public long getTotblCompileCount() {
+        return totblCompiles.longVblue();
     }
 
-    public long getBailoutCompileCount() {
-        return totalBailouts.longValue();
+    public long getBbiloutCompileCount() {
+        return totblBbilouts.longVblue();
     }
 
-    public long getInvalidatedCompileCount() {
-        return totalInvalidates.longValue();
+    public long getInvblidbtedCompileCount() {
+        return totblInvblidbtes.longVblue();
     }
 
     public long getCompiledMethodCodeSize() {
-        return nmethodCodeSize.longValue();
+        return nmethodCodeSize.longVblue();
     }
 
     public long getCompiledMethodSize() {
-        return nmethodSize.longValue();
+        return nmethodSize.longVblue();
     }
 
-    public java.util.List<CompilerThreadStat> getCompilerThreadStats() {
-        List<CompilerThreadStat> list = new ArrayList<>(threads.length);
+    public jbvb.util.List<CompilerThrebdStbt> getCompilerThrebdStbts() {
+        List<CompilerThrebdStbt> list = new ArrbyList<>(threbds.length);
         int i = 0;
-        if (threads[0] == null) {
-            // no adaptor thread
+        if (threbds[0] == null) {
+            // no bdbptor threbd
             i = 1;
         }
-        for (; i < threads.length; i++) {
-            list.add(threads[i].getCompilerThreadStat());
+        for (; i < threbds.length; i++) {
+            list.bdd(threbds[i].getCompilerThrebdStbt());
         }
         return list;
     }
 
-    public MethodInfo getLastCompile() {
-        return new MethodInfo(lastMethod.stringValue(),
-                              (int) lastType.longValue(),
-                              (int) lastSize.longValue());
+    public MethodInfo getLbstCompile() {
+        return new MethodInfo(lbstMethod.stringVblue(),
+                              (int) lbstType.longVblue(),
+                              (int) lbstSize.longVblue());
     }
 
-    public MethodInfo getFailedCompile() {
-        return new MethodInfo(lastFailedMethod.stringValue(),
-                              (int) lastFailedType.longValue(),
+    public MethodInfo getFbiledCompile() {
+        return new MethodInfo(lbstFbiledMethod.stringVblue(),
+                              (int) lbstFbiledType.longVblue(),
                               -1);
     }
 
-    public MethodInfo getInvalidatedCompile() {
-        return new MethodInfo(lastInvalidatedMethod.stringValue(),
-                              (int) lastInvalidatedType.longValue(),
+    public MethodInfo getInvblidbtedCompile() {
+        return new MethodInfo(lbstInvblidbtedMethod.stringVblue(),
+                              (int) lbstInvblidbtedType.longVblue(),
                               -1);
     }
 
-    public java.util.List<Counter> getInternalCompilerCounters() {
-        return jvm.getInternalCounters(CI_COUNTER_NAME_PATTERN);
+    public jbvb.util.List<Counter> getInternblCompilerCounters() {
+        return jvm.getInternblCounters(CI_COUNTER_NAME_PATTERN);
     }
 }

@@ -1,112 +1,112 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing;
+pbckbge jbvbx.swing;
 
-import java.util.*;
-import java.io.Serializable;
+import jbvb.util.*;
+import jbvb.io.Seriblizbble;
 
 
 /**
- * A simple implementation of <code>SpinnerModel</code> whose
- * values are defined by an array or a <code>List</code>.
- * For example to create a model defined by
- * an array of the names of the days of the week:
+ * A simple implementbtion of <code>SpinnerModel</code> whose
+ * vblues bre defined by bn brrby or b <code>List</code>.
+ * For exbmple to crebte b model defined by
+ * bn brrby of the nbmes of the dbys of the week:
  * <pre>
- * String[] days = new DateFormatSymbols().getWeekdays();
- * SpinnerModel model = new SpinnerListModel(Arrays.asList(days).subList(1, 8));
+ * String[] dbys = new DbteFormbtSymbols().getWeekdbys();
+ * SpinnerModel model = new SpinnerListModel(Arrbys.bsList(dbys).subList(1, 8));
  * </pre>
- * This class only stores a reference to the array or <code>List</code>
- * so if an element of the underlying sequence changes, it's up
- * to the application to notify the <code>ChangeListeners</code> by calling
- * <code>fireStateChanged</code>.
+ * This clbss only stores b reference to the brrby or <code>List</code>
+ * so if bn element of the underlying sequence chbnges, it's up
+ * to the bpplicbtion to notify the <code>ChbngeListeners</code> by cblling
+ * <code>fireStbteChbnged</code>.
  * <p>
- * This model inherits a <code>ChangeListener</code>.
- * The <code>ChangeListener</code>s are notified whenever the
- * model's <code>value</code> or <code>list</code> properties changes.
+ * This model inherits b <code>ChbngeListener</code>.
+ * The <code>ChbngeListener</code>s bre notified whenever the
+ * model's <code>vblue</code> or <code>list</code> properties chbnges.
  *
  * @see JSpinner
  * @see SpinnerModel
- * @see AbstractSpinnerModel
+ * @see AbstrbctSpinnerModel
  * @see SpinnerNumberModel
- * @see SpinnerDateModel
+ * @see SpinnerDbteModel
  *
- * @author Hans Muller
+ * @buthor Hbns Muller
  * @since 1.4
  */
-@SuppressWarnings("serial") // Superclass is not serializable across versions
-public class SpinnerListModel extends AbstractSpinnerModel implements Serializable
+@SuppressWbrnings("seribl") // Superclbss is not seriblizbble bcross versions
+public clbss SpinnerListModel extends AbstrbctSpinnerModel implements Seriblizbble
 {
-    private List<?> list;
-    private int index;
+    privbte List<?> list;
+    privbte int index;
 
 
     /**
-     * Constructs a <code>SpinnerModel</code> whose sequence of
-     * values is defined by the specified <code>List</code>.
-     * The initial value (<i>current element</i>)
-     * of the model will be <code>values.get(0)</code>.
-     * If <code>values</code> is <code>null</code> or has zero
-     * size, an <code>IllegalArugmentException</code> is thrown.
+     * Constructs b <code>SpinnerModel</code> whose sequence of
+     * vblues is defined by the specified <code>List</code>.
+     * The initibl vblue (<i>current element</i>)
+     * of the model will be <code>vblues.get(0)</code>.
+     * If <code>vblues</code> is <code>null</code> or hbs zero
+     * size, bn <code>IllegblArugmentException</code> is thrown.
      *
-     * @param values the sequence this model represents
-     * @throws IllegalArgumentException if <code>values</code> is
+     * @pbrbm vblues the sequence this model represents
+     * @throws IllegblArgumentException if <code>vblues</code> is
      *    <code>null</code> or zero size
      */
-    public SpinnerListModel(List<?> values) {
-        if (values == null || values.size() == 0) {
-            throw new IllegalArgumentException("SpinnerListModel(List) expects non-null non-empty List");
+    public SpinnerListModel(List<?> vblues) {
+        if (vblues == null || vblues.size() == 0) {
+            throw new IllegblArgumentException("SpinnerListModel(List) expects non-null non-empty List");
         }
-        this.list = values;
+        this.list = vblues;
         this.index = 0;
     }
 
 
     /**
-     * Constructs a <code>SpinnerModel</code> whose sequence of values
-     * is defined by the specified array.  The initial value of the model
-     * will be <code>values[0]</code>.  If <code>values</code> is
-     * <code>null</code> or has zero length, an
-     * <code>IllegalArgumentException</code> is thrown.
+     * Constructs b <code>SpinnerModel</code> whose sequence of vblues
+     * is defined by the specified brrby.  The initibl vblue of the model
+     * will be <code>vblues[0]</code>.  If <code>vblues</code> is
+     * <code>null</code> or hbs zero length, bn
+     * <code>IllegblArgumentException</code> is thrown.
      *
-     * @param values the sequence this model represents
-     * @throws IllegalArgumentException if <code>values</code> is
+     * @pbrbm vblues the sequence this model represents
+     * @throws IllegblArgumentException if <code>vblues</code> is
      *    <code>null</code> or zero length
      */
-    public SpinnerListModel(Object[] values) {
-        if (values == null || values.length == 0) {
-            throw new IllegalArgumentException("SpinnerListModel(Object[]) expects non-null non-empty Object[]");
+    public SpinnerListModel(Object[] vblues) {
+        if (vblues == null || vblues.length == 0) {
+            throw new IllegblArgumentException("SpinnerListModel(Object[]) expects non-null non-empty Object[]");
         }
-        this.list = Arrays.asList(values);
+        this.list = Arrbys.bsList(vblues);
         this.index = 0;
     }
 
 
     /**
-     * Constructs an effectively empty <code>SpinnerListModel</code>.
-     * The model's list will contain a single
+     * Constructs bn effectively empty <code>SpinnerListModel</code>.
+     * The model's list will contbin b single
      * <code>"empty"</code> string element.
      */
     public SpinnerListModel() {
@@ -115,9 +115,9 @@ public class SpinnerListModel extends AbstractSpinnerModel implements Serializab
 
 
     /**
-     * Returns the <code>List</code> that defines the sequence for this model.
+     * Returns the <code>List</code> thbt defines the sequence for this model.
      *
-     * @return the value of the <code>list</code> property
+     * @return the vblue of the <code>list</code> property
      * @see #setList
      */
     public List<?> getList() {
@@ -126,26 +126,26 @@ public class SpinnerListModel extends AbstractSpinnerModel implements Serializab
 
 
     /**
-     * Changes the list that defines this sequence and resets the index
-     * of the models <code>value</code> to zero.  Note that <code>list</code>
-     * is not copied, the model just stores a reference to it.
+     * Chbnges the list thbt defines this sequence bnd resets the index
+     * of the models <code>vblue</code> to zero.  Note thbt <code>list</code>
+     * is not copied, the model just stores b reference to it.
      * <p>
-     * This method fires a <code>ChangeEvent</code> if <code>list</code> is
-     * not equal to the current list.
+     * This method fires b <code>ChbngeEvent</code> if <code>list</code> is
+     * not equbl to the current list.
      *
-     * @param list the sequence that this model represents
-     * @throws IllegalArgumentException if <code>list</code> is
+     * @pbrbm list the sequence thbt this model represents
+     * @throws IllegblArgumentException if <code>list</code> is
      *    <code>null</code> or zero length
      * @see #getList
      */
     public void setList(List<?> list) {
         if ((list == null) || (list.size() == 0)) {
-            throw new IllegalArgumentException("invalid list");
+            throw new IllegblArgumentException("invblid list");
         }
-        if (!list.equals(this.list)) {
+        if (!list.equbls(this.list)) {
             this.list = list;
             index = 0;
-            fireStateChanged();
+            fireStbteChbnged();
         }
     }
 
@@ -153,95 +153,95 @@ public class SpinnerListModel extends AbstractSpinnerModel implements Serializab
     /**
      * Returns the current element of the sequence.
      *
-     * @return the <code>value</code> property
-     * @see SpinnerModel#getValue
-     * @see #setValue
+     * @return the <code>vblue</code> property
+     * @see SpinnerModel#getVblue
+     * @see #setVblue
      */
-    public Object getValue() {
+    public Object getVblue() {
         return list.get(index);
     }
 
 
     /**
-     * Changes the current element of the sequence and notifies
-     * <code>ChangeListeners</code>.  If the specified
-     * value is not equal to an element of the underlying sequence
-     * then an <code>IllegalArgumentException</code> is thrown.
-     * In the following example the <code>setValue</code> call
-     * would cause an exception to be thrown:
+     * Chbnges the current element of the sequence bnd notifies
+     * <code>ChbngeListeners</code>.  If the specified
+     * vblue is not equbl to bn element of the underlying sequence
+     * then bn <code>IllegblArgumentException</code> is thrown.
+     * In the following exbmple the <code>setVblue</code> cbll
+     * would cbuse bn exception to be thrown:
      * <pre>
-     * String[] values = {"one", "two", "free", "four"};
-     * SpinnerModel model = new SpinnerListModel(values);
-     * model.setValue("TWO");
+     * String[] vblues = {"one", "two", "free", "four"};
+     * SpinnerModel model = new SpinnerListModel(vblues);
+     * model.setVblue("TWO");
      * </pre>
      *
-     * @param elt the sequence element that will be model's current value
-     * @throws IllegalArgumentException if the specified value isn't allowed
-     * @see SpinnerModel#setValue
-     * @see #getValue
+     * @pbrbm elt the sequence element thbt will be model's current vblue
+     * @throws IllegblArgumentException if the specified vblue isn't bllowed
+     * @see SpinnerModel#setVblue
+     * @see #getVblue
      */
-    public void setValue(Object elt) {
+    public void setVblue(Object elt) {
         int index = list.indexOf(elt);
         if (index == -1) {
-            throw new IllegalArgumentException("invalid sequence element");
+            throw new IllegblArgumentException("invblid sequence element");
         }
         else if (index != this.index) {
             this.index = index;
-            fireStateChanged();
+            fireStbteChbnged();
         }
     }
 
 
     /**
-     * Returns the next legal value of the underlying sequence or
-     * <code>null</code> if value is already the last element.
+     * Returns the next legbl vblue of the underlying sequence or
+     * <code>null</code> if vblue is blrebdy the lbst element.
      *
-     * @return the next legal value of the underlying sequence or
-     *     <code>null</code> if value is already the last element
-     * @see SpinnerModel#getNextValue
-     * @see #getPreviousValue
+     * @return the next legbl vblue of the underlying sequence or
+     *     <code>null</code> if vblue is blrebdy the lbst element
+     * @see SpinnerModel#getNextVblue
+     * @see #getPreviousVblue
      */
-    public Object getNextValue() {
+    public Object getNextVblue() {
         return (index >= (list.size() - 1)) ? null : list.get(index + 1);
     }
 
 
     /**
      * Returns the previous element of the underlying sequence or
-     * <code>null</code> if value is already the first element.
+     * <code>null</code> if vblue is blrebdy the first element.
      *
      * @return the previous element of the underlying sequence or
-     *     <code>null</code> if value is already the first element
-     * @see SpinnerModel#getPreviousValue
-     * @see #getNextValue
+     *     <code>null</code> if vblue is blrebdy the first element
+     * @see SpinnerModel#getPreviousVblue
+     * @see #getNextVblue
      */
-    public Object getPreviousValue() {
+    public Object getPreviousVblue() {
         return (index <= 0) ? null : list.get(index - 1);
     }
 
 
     /**
-     * Returns the next object that starts with <code>substring</code>.
+     * Returns the next object thbt stbrts with <code>substring</code>.
      *
-     * @param substring the string to be matched
-     * @return the match
+     * @pbrbm substring the string to be mbtched
+     * @return the mbtch
      */
-    Object findNextMatch(String substring) {
-        int max = list.size();
+    Object findNextMbtch(String substring) {
+        int mbx = list.size();
 
-        if (max == 0) {
+        if (mbx == 0) {
             return null;
         }
         int counter = index;
 
         do {
-            Object value = list.get(counter);
-            String string = value.toString();
+            Object vblue = list.get(counter);
+            String string = vblue.toString();
 
-            if (string != null && string.startsWith(substring)) {
-                return value;
+            if (string != null && string.stbrtsWith(substring)) {
+                return vblue;
             }
-            counter = (counter + 1) % max;
+            counter = (counter + 1) % mbx;
         } while (counter != index);
         return null;
     }

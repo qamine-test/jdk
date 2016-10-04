@@ -1,336 +1,336 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.net;
+pbckbge jbvb.net;
 
-import java.util.Enumeration;
-import java.util.Vector;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.StringTokenizer;
-import java.net.InetAddress;
-import java.security.Permission;
-import java.security.PermissionCollection;
-import java.security.PrivilegedAction;
-import java.security.AccessController;
-import java.security.Security;
-import java.io.Serializable;
-import java.io.ObjectStreamField;
-import java.io.ObjectOutputStream;
-import java.io.ObjectInputStream;
-import java.io.IOException;
+import jbvb.util.Enumerbtion;
+import jbvb.util.Vector;
+import jbvb.util.List;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collections;
+import jbvb.util.StringTokenizer;
+import jbvb.net.InetAddress;
+import jbvb.security.Permission;
+import jbvb.security.PermissionCollection;
+import jbvb.security.PrivilegedAction;
+import jbvb.security.AccessController;
+import jbvb.security.Security;
+import jbvb.io.Seriblizbble;
+import jbvb.io.ObjectStrebmField;
+import jbvb.io.ObjectOutputStrebm;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.IOException;
 import sun.net.util.IPAddressUtil;
-import sun.net.RegisteredDomain;
+import sun.net.RegisteredDombin;
 import sun.net.PortConfig;
-import sun.security.util.SecurityConstants;
+import sun.security.util.SecurityConstbnts;
 import sun.security.util.Debug;
 
 
 /**
- * This class represents access to a network via sockets.
- * A SocketPermission consists of a
- * host specification and a set of "actions" specifying ways to
- * connect to that host. The host is specified as
+ * This clbss represents bccess to b network vib sockets.
+ * A SocketPermission consists of b
+ * host specificbtion bnd b set of "bctions" specifying wbys to
+ * connect to thbt host. The host is specified bs
  * <pre>
- *    host = (hostname | IPv4address | iPv6reference) [:portrange]
- *    portrange = portnumber | -portnumber | portnumber-[portnumber]
+ *    host = (hostnbme | IPv4bddress | iPv6reference) [:portrbnge]
+ *    portrbnge = portnumber | -portnumber | portnumber-[portnumber]
  * </pre>
- * The host is expressed as a DNS name, as a numerical IP address,
- * or as "localhost" (for the local machine).
- * The wildcard "*" may be included once in a DNS name host
- * specification. If it is included, it must be in the leftmost
- * position, as in "*.sun.com".
+ * The host is expressed bs b DNS nbme, bs b numericbl IP bddress,
+ * or bs "locblhost" (for the locbl mbchine).
+ * The wildcbrd "*" mby be included once in b DNS nbme host
+ * specificbtion. If it is included, it must be in the leftmost
+ * position, bs in "*.sun.com".
  * <p>
- * The format of the IPv6reference should follow that specified in <a
- * href="http://www.ietf.org/rfc/rfc2732.txt"><i>RFC&nbsp;2732: Format
- * for Literal IPv6 Addresses in URLs</i></a>:
+ * The formbt of the IPv6reference should follow thbt specified in <b
+ * href="http://www.ietf.org/rfc/rfc2732.txt"><i>RFC&nbsp;2732: Formbt
+ * for Literbl IPv6 Addresses in URLs</i></b>:
  * <pre>
- *    ipv6reference = "[" IPv6address "]"
+ *    ipv6reference = "[" IPv6bddress "]"
  *</pre>
- * For example, you can construct a SocketPermission instance
- * as the following:
+ * For exbmple, you cbn construct b SocketPermission instbnce
+ * bs the following:
  * <pre>
- *    String hostAddress = inetaddress.getHostAddress();
- *    if (inetaddress instanceof Inet6Address) {
- *        sp = new SocketPermission("[" + hostAddress + "]:" + port, action);
+ *    String hostAddress = inetbddress.getHostAddress();
+ *    if (inetbddress instbnceof Inet6Address) {
+ *        sp = new SocketPermission("[" + hostAddress + "]:" + port, bction);
  *    } else {
- *        sp = new SocketPermission(hostAddress + ":" + port, action);
+ *        sp = new SocketPermission(hostAddress + ":" + port, bction);
  *    }
  * </pre>
  * or
  * <pre>
  *    String host = url.getHost();
- *    sp = new SocketPermission(host + ":" + port, action);
+ *    sp = new SocketPermission(host + ":" + port, bction);
  * </pre>
  * <p>
  * The <A HREF="Inet6Address.html#lform">full uncompressed form</A> of
- * an IPv6 literal address is also valid.
+ * bn IPv6 literbl bddress is blso vblid.
  * <p>
- * The port or portrange is optional. A port specification of the
- * form "N-", where <i>N</i> is a port number, signifies all ports
- * numbered <i>N</i> and above, while a specification of the
- * form "-N" indicates all ports numbered <i>N</i> and below.
- * The special port value {@code 0} refers to the entire <i>ephemeral</i>
- * port range. This is a fixed range of ports a system may use to
- * allocate dynamic ports from. The actual range may be system dependent.
+ * The port or portrbnge is optionbl. A port specificbtion of the
+ * form "N-", where <i>N</i> is b port number, signifies bll ports
+ * numbered <i>N</i> bnd bbove, while b specificbtion of the
+ * form "-N" indicbtes bll ports numbered <i>N</i> bnd below.
+ * The specibl port vblue {@code 0} refers to the entire <i>ephemerbl</i>
+ * port rbnge. This is b fixed rbnge of ports b system mby use to
+ * bllocbte dynbmic ports from. The bctubl rbnge mby be system dependent.
  * <p>
- * The possible ways to connect to the host are
+ * The possible wbys to connect to the host bre
  * <pre>
- * accept
+ * bccept
  * connect
  * listen
  * resolve
  * </pre>
- * The "listen" action is only meaningful when used with "localhost" and
- * means the ability to bind to a specified port.
- * The "resolve" action is implied when any of the other actions are present.
- * The action "resolve" refers to host/ip name service lookups.
+ * The "listen" bction is only mebningful when used with "locblhost" bnd
+ * mebns the bbility to bind to b specified port.
+ * The "resolve" bction is implied when bny of the other bctions bre present.
+ * The bction "resolve" refers to host/ip nbme service lookups.
  * <P>
- * The actions string is converted to lowercase before processing.
- * <p>As an example of the creation and meaning of SocketPermissions,
- * note that if the following permission:
+ * The bctions string is converted to lowercbse before processing.
+ * <p>As bn exbmple of the crebtion bnd mebning of SocketPermissions,
+ * note thbt if the following permission:
  *
  * <pre>
- *   p1 = new SocketPermission("puffin.eng.sun.com:7777", "connect,accept");
+ *   p1 = new SocketPermission("puffin.eng.sun.com:7777", "connect,bccept");
  * </pre>
  *
- * is granted to some code, it allows that code to connect to port 7777 on
- * {@code puffin.eng.sun.com}, and to accept connections on that port.
+ * is grbnted to some code, it bllows thbt code to connect to port 7777 on
+ * {@code puffin.eng.sun.com}, bnd to bccept connections on thbt port.
  *
- * <p>Similarly, if the following permission:
+ * <p>Similbrly, if the following permission:
  *
  * <pre>
- *   p2 = new SocketPermission("localhost:1024-", "accept,connect,listen");
+ *   p2 = new SocketPermission("locblhost:1024-", "bccept,connect,listen");
  * </pre>
  *
- * is granted to some code, it allows that code to
- * accept connections on, connect to, or listen on any port between
- * 1024 and 65535 on the local host.
+ * is grbnted to some code, it bllows thbt code to
+ * bccept connections on, connect to, or listen on bny port between
+ * 1024 bnd 65535 on the locbl host.
  *
- * <p>Note: Granting code permission to accept or make connections to remote
- * hosts may be dangerous because malevolent code can then more easily
- * transfer and share confidential data among parties who may not
- * otherwise have access to the data.
+ * <p>Note: Grbnting code permission to bccept or mbke connections to remote
+ * hosts mby be dbngerous becbuse mblevolent code cbn then more ebsily
+ * trbnsfer bnd shbre confidentibl dbtb bmong pbrties who mby not
+ * otherwise hbve bccess to the dbtb.
  *
- * @see java.security.Permissions
+ * @see jbvb.security.Permissions
  * @see SocketPermission
  *
  *
- * @author Marianne Mueller
- * @author Roland Schemers
+ * @buthor Mbribnne Mueller
+ * @buthor Rolbnd Schemers
  *
- * @serial exclude
+ * @seribl exclude
  */
 
-public final class SocketPermission extends Permission
-    implements java.io.Serializable
+public finbl clbss SocketPermission extends Permission
+    implements jbvb.io.Seriblizbble
 {
-    private static final long serialVersionUID = -7204263841984476862L;
+    privbte stbtic finbl long seriblVersionUID = -7204263841984476862L;
 
     /**
      * Connect to host:port
      */
-    private final static int CONNECT    = 0x1;
+    privbte finbl stbtic int CONNECT    = 0x1;
 
     /**
      * Listen on host:port
      */
-    private final static int LISTEN     = 0x2;
+    privbte finbl stbtic int LISTEN     = 0x2;
 
     /**
-     * Accept a connection from host:port
+     * Accept b connection from host:port
      */
-    private final static int ACCEPT     = 0x4;
+    privbte finbl stbtic int ACCEPT     = 0x4;
 
     /**
      * Resolve DNS queries
      */
-    private final static int RESOLVE    = 0x8;
+    privbte finbl stbtic int RESOLVE    = 0x8;
 
     /**
-     * No actions
+     * No bctions
      */
-    private final static int NONE               = 0x0;
+    privbte finbl stbtic int NONE               = 0x0;
 
     /**
-     * All actions
+     * All bctions
      */
-    private final static int ALL        = CONNECT|LISTEN|ACCEPT|RESOLVE;
+    privbte finbl stbtic int ALL        = CONNECT|LISTEN|ACCEPT|RESOLVE;
 
-    // various port constants
-    private static final int PORT_MIN = 0;
-    private static final int PORT_MAX = 65535;
-    private static final int PRIV_PORT_MAX = 1023;
-    private static final int DEF_EPH_LOW = 49152;
+    // vbrious port constbnts
+    privbte stbtic finbl int PORT_MIN = 0;
+    privbte stbtic finbl int PORT_MAX = 65535;
+    privbte stbtic finbl int PRIV_PORT_MAX = 1023;
+    privbte stbtic finbl int DEF_EPH_LOW = 49152;
 
-    // the actions mask
-    private transient int mask;
+    // the bctions mbsk
+    privbte trbnsient int mbsk;
 
     /**
-     * the actions string.
+     * the bctions string.
      *
-     * @serial
+     * @seribl
      */
 
-    private String actions; // Left null as long as possible, then
-                            // created and re-used in the getAction function.
+    privbte String bctions; // Left null bs long bs possible, then
+                            // crebted bnd re-used in the getAction function.
 
-    // hostname part as it is passed
-    private transient String hostname;
+    // hostnbme pbrt bs it is pbssed
+    privbte trbnsient String hostnbme;
 
-    // the canonical name of the host
-    // in the case of "*.foo.com", cname is ".foo.com".
+    // the cbnonicbl nbme of the host
+    // in the cbse of "*.foo.com", cnbme is ".foo.com".
 
-    private transient String cname;
+    privbte trbnsient String cnbme;
 
-    // all the IP addresses of the host
-    private transient InetAddress[] addresses;
+    // bll the IP bddresses of the host
+    privbte trbnsient InetAddress[] bddresses;
 
-    // true if the hostname is a wildcard (e.g. "*.sun.com")
-    private transient boolean wildcard;
+    // true if the hostnbme is b wildcbrd (e.g. "*.sun.com")
+    privbte trbnsient boolebn wildcbrd;
 
-    // true if we were initialized with a single numeric IP address
-    private transient boolean init_with_ip;
+    // true if we were initiblized with b single numeric IP bddress
+    privbte trbnsient boolebn init_with_ip;
 
-    // true if this SocketPermission represents an invalid/unknown host
-    // used for implies when the delayed lookup has already failed
-    private transient boolean invalid;
+    // true if this SocketPermission represents bn invblid/unknown host
+    // used for implies when the delbyed lookup hbs blrebdy fbiled
+    privbte trbnsient boolebn invblid;
 
-    // port range on host
-    private transient int[] portrange;
+    // port rbnge on host
+    privbte trbnsient int[] portrbnge;
 
-    private transient boolean defaultDeny = false;
+    privbte trbnsient boolebn defbultDeny = fblse;
 
-    // true if this SocketPermission represents a hostname
-    // that failed our reverse mapping heuristic test
-    private transient boolean untrusted;
-    private transient boolean trusted;
+    // true if this SocketPermission represents b hostnbme
+    // thbt fbiled our reverse mbpping heuristic test
+    privbte trbnsient boolebn untrusted;
+    privbte trbnsient boolebn trusted;
 
-    // true if the sun.net.trustNameService system property is set
-    private static boolean trustNameService;
+    // true if the sun.net.trustNbmeService system property is set
+    privbte stbtic boolebn trustNbmeService;
 
-    private static Debug debug = null;
-    private static boolean debugInit = false;
+    privbte stbtic Debug debug = null;
+    privbte stbtic boolebn debugInit = fblse;
 
-    // lazy initializer
-    private static class EphemeralRange {
-        static final int low = initEphemeralPorts("low", DEF_EPH_LOW);
-            static final int high = initEphemeralPorts("high", PORT_MAX);
+    // lbzy initiblizer
+    privbte stbtic clbss EphemerblRbnge {
+        stbtic finbl int low = initEphemerblPorts("low", DEF_EPH_LOW);
+            stbtic finbl int high = initEphemerblPorts("high", PORT_MAX);
     };
 
-    static {
-        Boolean tmp = java.security.AccessController.doPrivileged(
-                new sun.security.action.GetBooleanAction("sun.net.trustNameService"));
-        trustNameService = tmp.booleanValue();
+    stbtic {
+        Boolebn tmp = jbvb.security.AccessController.doPrivileged(
+                new sun.security.bction.GetBoolebnAction("sun.net.trustNbmeService"));
+        trustNbmeService = tmp.boolebnVblue();
     }
 
-    private static synchronized Debug getDebug() {
+    privbte stbtic synchronized Debug getDebug() {
         if (!debugInit) {
-            debug = Debug.getInstance("access");
+            debug = Debug.getInstbnce("bccess");
             debugInit = true;
         }
         return debug;
     }
 
     /**
-     * Creates a new SocketPermission object with the specified actions.
-     * The host is expressed as a DNS name, or as a numerical IP address.
-     * Optionally, a port or a portrange may be supplied (separated
-     * from the DNS name or IP address by a colon).
+     * Crebtes b new SocketPermission object with the specified bctions.
+     * The host is expressed bs b DNS nbme, or bs b numericbl IP bddress.
+     * Optionblly, b port or b portrbnge mby be supplied (sepbrbted
+     * from the DNS nbme or IP bddress by b colon).
      * <p>
-     * To specify the local machine, use "localhost" as the <i>host</i>.
-     * Also note: An empty <i>host</i> String ("") is equivalent to "localhost".
+     * To specify the locbl mbchine, use "locblhost" bs the <i>host</i>.
+     * Also note: An empty <i>host</i> String ("") is equivblent to "locblhost".
      * <p>
-     * The <i>actions</i> parameter contains a comma-separated list of the
-     * actions granted for the specified host (and port(s)). Possible actions are
-     * "connect", "listen", "accept", "resolve", or
-     * any combination of those. "resolve" is automatically added
-     * when any of the other three are specified.
+     * The <i>bctions</i> pbrbmeter contbins b commb-sepbrbted list of the
+     * bctions grbnted for the specified host (bnd port(s)). Possible bctions bre
+     * "connect", "listen", "bccept", "resolve", or
+     * bny combinbtion of those. "resolve" is butombticblly bdded
+     * when bny of the other three bre specified.
      * <p>
-     * Examples of SocketPermission instantiation are the following:
+     * Exbmples of SocketPermission instbntibtion bre the following:
      * <pre>
-     *    nr = new SocketPermission("www.catalog.com", "connect");
+     *    nr = new SocketPermission("www.cbtblog.com", "connect");
      *    nr = new SocketPermission("www.sun.com:80", "connect");
      *    nr = new SocketPermission("*.sun.com", "connect");
      *    nr = new SocketPermission("*.edu", "resolve");
      *    nr = new SocketPermission("204.160.241.0", "connect");
-     *    nr = new SocketPermission("localhost:1024-65535", "listen");
+     *    nr = new SocketPermission("locblhost:1024-65535", "listen");
      *    nr = new SocketPermission("204.160.241.0:1024-65535", "connect");
      * </pre>
      *
-     * @param host the hostname or IPaddress of the computer, optionally
-     * including a colon followed by a port or port range.
-     * @param action the action string.
+     * @pbrbm host the hostnbme or IPbddress of the computer, optionblly
+     * including b colon followed by b port or port rbnge.
+     * @pbrbm bction the bction string.
      */
-    public SocketPermission(String host, String action) {
+    public SocketPermission(String host, String bction) {
         super(getHost(host));
-        // name initialized to getHost(host); NPE detected in getHost()
-        init(getName(), getMask(action));
+        // nbme initiblized to getHost(host); NPE detected in getHost()
+        init(getNbme(), getMbsk(bction));
     }
 
 
-    SocketPermission(String host, int mask) {
+    SocketPermission(String host, int mbsk) {
         super(getHost(host));
-        // name initialized to getHost(host); NPE detected in getHost()
-        init(getName(), mask);
+        // nbme initiblized to getHost(host); NPE detected in getHost()
+        init(getNbme(), mbsk);
     }
 
-    private void setDeny() {
-        defaultDeny = true;
+    privbte void setDeny() {
+        defbultDeny = true;
     }
 
-    private static String getHost(String host) {
-        if (host.equals("")) {
-            return "localhost";
+    privbte stbtic String getHost(String host) {
+        if (host.equbls("")) {
+            return "locblhost";
         } else {
-            /* IPv6 literal address used in this context should follow
-             * the format specified in RFC 2732;
-             * if not, we try to solve the unambiguous case
+            /* IPv6 literbl bddress used in this context should follow
+             * the formbt specified in RFC 2732;
+             * if not, we try to solve the unbmbiguous cbse
              */
             int ind;
-            if (host.charAt(0) != '[') {
-                if ((ind = host.indexOf(':')) != host.lastIndexOf(':')) {
-                    /* More than one ":", meaning IPv6 address is not
-                     * in RFC 2732 format;
-                     * We will rectify user errors for all unambiguious cases
+            if (host.chbrAt(0) != '[') {
+                if ((ind = host.indexOf(':')) != host.lbstIndexOf(':')) {
+                    /* More thbn one ":", mebning IPv6 bddress is not
+                     * in RFC 2732 formbt;
+                     * We will rectify user errors for bll unbmbiguious cbses
                      */
                     StringTokenizer st = new StringTokenizer(host, ":");
                     int tokens = st.countTokens();
                     if (tokens == 9) {
-                        // IPv6 address followed by port
-                        ind = host.lastIndexOf(':');
+                        // IPv6 bddress followed by port
+                        ind = host.lbstIndexOf(':');
                         host = "[" + host.substring(0, ind) + "]" +
                             host.substring(ind);
                     } else if (tokens == 8 && host.indexOf("::") == -1) {
-                        // IPv6 address only, not followed by port
+                        // IPv6 bddress only, not followed by port
                         host = "[" + host + "]";
                     } else {
-                        // could be ambiguous
-                        throw new IllegalArgumentException("Ambiguous"+
-                                                           " hostport part");
+                        // could be bmbiguous
+                        throw new IllegblArgumentException("Ambiguous"+
+                                                           " hostport pbrt");
                     }
                 }
             }
@@ -338,143 +338,143 @@ public final class SocketPermission extends Permission
         }
     }
 
-    private int[] parsePort(String port)
+    privbte int[] pbrsePort(String port)
         throws Exception
     {
 
-        if (port == null || port.equals("") || port.equals("*")) {
+        if (port == null || port.equbls("") || port.equbls("*")) {
             return new int[] {PORT_MIN, PORT_MAX};
         }
 
-        int dash = port.indexOf('-');
+        int dbsh = port.indexOf('-');
 
-        if (dash == -1) {
-            int p = Integer.parseInt(port);
+        if (dbsh == -1) {
+            int p = Integer.pbrseInt(port);
             return new int[] {p, p};
         } else {
-            String low = port.substring(0, dash);
-            String high = port.substring(dash+1);
+            String low = port.substring(0, dbsh);
+            String high = port.substring(dbsh+1);
             int l,h;
 
-            if (low.equals("")) {
+            if (low.equbls("")) {
                 l = PORT_MIN;
             } else {
-                l = Integer.parseInt(low);
+                l = Integer.pbrseInt(low);
             }
 
-            if (high.equals("")) {
+            if (high.equbls("")) {
                 h = PORT_MAX;
             } else {
-                h = Integer.parseInt(high);
+                h = Integer.pbrseInt(high);
             }
             if (l < 0 || h < 0 || h<l)
-                throw new IllegalArgumentException("invalid port range");
+                throw new IllegblArgumentException("invblid port rbnge");
 
             return new int[] {l, h};
         }
     }
 
     /**
-     * Returns true if the permission has specified zero
-     * as its value (or lower bound) signifying the ephemeral range
+     * Returns true if the permission hbs specified zero
+     * bs its vblue (or lower bound) signifying the ephemerbl rbnge
      */
-    private boolean includesEphemerals() {
-        return portrange[0] == 0;
+    privbte boolebn includesEphemerbls() {
+        return portrbnge[0] == 0;
     }
 
     /**
-     * Initialize the SocketPermission object. We don't do any DNS lookups
-     * as this point, instead we hold off until the implies method is
-     * called.
+     * Initiblize the SocketPermission object. We don't do bny DNS lookups
+     * bs this point, instebd we hold off until the implies method is
+     * cblled.
      */
-    private void init(String host, int mask) {
-        // Set the integer mask that represents the actions
+    privbte void init(String host, int mbsk) {
+        // Set the integer mbsk thbt represents the bctions
 
-        if ((mask & ALL) != mask)
-            throw new IllegalArgumentException("invalid actions mask");
+        if ((mbsk & ALL) != mbsk)
+            throw new IllegblArgumentException("invblid bctions mbsk");
 
-        // always OR in RESOLVE if we allow any of the others
-        this.mask = mask | RESOLVE;
+        // blwbys OR in RESOLVE if we bllow bny of the others
+        this.mbsk = mbsk | RESOLVE;
 
-        // Parse the host name.  A name has up to three components, the
-        // hostname, a port number, or two numbers representing a port
-        // range.   "www.sun.com:8080-9090" is a valid host name.
+        // Pbrse the host nbme.  A nbme hbs up to three components, the
+        // hostnbme, b port number, or two numbers representing b port
+        // rbnge.   "www.sun.com:8080-9090" is b vblid host nbme.
 
-        // With IPv6 an address can be 2010:836B:4179::836B:4179
-        // An IPv6 address needs to be enclose in []
+        // With IPv6 bn bddress cbn be 2010:836B:4179::836B:4179
+        // An IPv6 bddress needs to be enclose in []
         // For ex: [2010:836B:4179::836B:4179]:8080-9090
-        // Refer to RFC 2732 for more information.
+        // Refer to RFC 2732 for more informbtion.
 
         int rb = 0 ;
-        int start = 0, end = 0;
+        int stbrt = 0, end = 0;
         int sep = -1;
         String hostport = host;
-        if (host.charAt(0) == '[') {
-            start = 1;
+        if (host.chbrAt(0) == '[') {
+            stbrt = 1;
             rb = host.indexOf(']');
             if (rb != -1) {
-                host = host.substring(start, rb);
+                host = host.substring(stbrt, rb);
             } else {
                 throw new
-                    IllegalArgumentException("invalid host/port: "+host);
+                    IllegblArgumentException("invblid host/port: "+host);
             }
             sep = hostport.indexOf(':', rb+1);
         } else {
-            start = 0;
+            stbrt = 0;
             sep = host.indexOf(':', rb);
             end = sep;
             if (sep != -1) {
-                host = host.substring(start, end);
+                host = host.substring(stbrt, end);
             }
         }
 
         if (sep != -1) {
             String port = hostport.substring(sep+1);
             try {
-                portrange = parsePort(port);
-            } catch (Exception e) {
+                portrbnge = pbrsePort(port);
+            } cbtch (Exception e) {
                 throw new
-                    IllegalArgumentException("invalid port range: "+port);
+                    IllegblArgumentException("invblid port rbnge: "+port);
             }
         } else {
-            portrange = new int[] { PORT_MIN, PORT_MAX };
+            portrbnge = new int[] { PORT_MIN, PORT_MAX };
         }
 
-        hostname = host;
+        hostnbme = host;
 
-        // is this a domain wildcard specification
-        if (host.lastIndexOf('*') > 0) {
+        // is this b dombin wildcbrd specificbtion
+        if (host.lbstIndexOf('*') > 0) {
             throw new
-               IllegalArgumentException("invalid host wildcard specification");
-        } else if (host.startsWith("*")) {
-            wildcard = true;
-            if (host.equals("*")) {
-                cname = "";
-            } else if (host.startsWith("*.")) {
-                cname = host.substring(1).toLowerCase();
+               IllegblArgumentException("invblid host wildcbrd specificbtion");
+        } else if (host.stbrtsWith("*")) {
+            wildcbrd = true;
+            if (host.equbls("*")) {
+                cnbme = "";
+            } else if (host.stbrtsWith("*.")) {
+                cnbme = host.substring(1).toLowerCbse();
             } else {
               throw new
-               IllegalArgumentException("invalid host wildcard specification");
+               IllegblArgumentException("invblid host wildcbrd specificbtion");
             }
             return;
         } else {
             if (host.length() > 0) {
-                // see if we are being initialized with an IP address.
-                char ch = host.charAt(0);
-                if (ch == ':' || Character.digit(ch, 16) != -1) {
-                    byte ip[] = IPAddressUtil.textToNumericFormatV4(host);
+                // see if we bre being initiblized with bn IP bddress.
+                chbr ch = host.chbrAt(0);
+                if (ch == ':' || Chbrbcter.digit(ch, 16) != -1) {
+                    byte ip[] = IPAddressUtil.textToNumericFormbtV4(host);
                     if (ip == null) {
-                        ip = IPAddressUtil.textToNumericFormatV6(host);
+                        ip = IPAddressUtil.textToNumericFormbtV6(host);
                     }
                     if (ip != null) {
                         try {
-                            addresses =
+                            bddresses =
                                 new InetAddress[]
                                 {InetAddress.getByAddress(ip) };
                             init_with_ip = true;
-                        } catch (UnknownHostException uhe) {
-                            // this shouldn't happen
-                            invalid = true;
+                        } cbtch (UnknownHostException uhe) {
+                            // this shouldn't hbppen
+                            invblid = true;
                         }
                     }
                 }
@@ -483,48 +483,48 @@ public final class SocketPermission extends Permission
     }
 
     /**
-     * Convert an action string to an integer actions mask.
+     * Convert bn bction string to bn integer bctions mbsk.
      *
-     * @param action the action string
-     * @return the action mask
+     * @pbrbm bction the bction string
+     * @return the bction mbsk
      */
-    private static int getMask(String action) {
+    privbte stbtic int getMbsk(String bction) {
 
-        if (action == null) {
-            throw new NullPointerException("action can't be null");
+        if (bction == null) {
+            throw new NullPointerException("bction cbn't be null");
         }
 
-        if (action.equals("")) {
-            throw new IllegalArgumentException("action can't be empty");
+        if (bction.equbls("")) {
+            throw new IllegblArgumentException("bction cbn't be empty");
         }
 
-        int mask = NONE;
+        int mbsk = NONE;
 
-        // Use object identity comparison against known-interned strings for
-        // performance benefit (these values are used heavily within the JDK).
-        if (action == SecurityConstants.SOCKET_RESOLVE_ACTION) {
+        // Use object identity compbrison bgbinst known-interned strings for
+        // performbnce benefit (these vblues bre used hebvily within the JDK).
+        if (bction == SecurityConstbnts.SOCKET_RESOLVE_ACTION) {
             return RESOLVE;
-        } else if (action == SecurityConstants.SOCKET_CONNECT_ACTION) {
+        } else if (bction == SecurityConstbnts.SOCKET_CONNECT_ACTION) {
             return CONNECT;
-        } else if (action == SecurityConstants.SOCKET_LISTEN_ACTION) {
+        } else if (bction == SecurityConstbnts.SOCKET_LISTEN_ACTION) {
             return LISTEN;
-        } else if (action == SecurityConstants.SOCKET_ACCEPT_ACTION) {
+        } else if (bction == SecurityConstbnts.SOCKET_ACCEPT_ACTION) {
             return ACCEPT;
-        } else if (action == SecurityConstants.SOCKET_CONNECT_ACCEPT_ACTION) {
+        } else if (bction == SecurityConstbnts.SOCKET_CONNECT_ACCEPT_ACTION) {
             return CONNECT|ACCEPT;
         }
 
-        char[] a = action.toCharArray();
+        chbr[] b = bction.toChbrArrby();
 
-        int i = a.length - 1;
+        int i = b.length - 1;
         if (i < 0)
-            return mask;
+            return mbsk;
 
         while (i != -1) {
-            char c;
+            chbr c;
 
-            // skip whitespace
-            while ((i!=-1) && ((c = a[i]) == ' ' ||
+            // skip whitespbce
+            while ((i!=-1) && ((c = b[i]) == ' ' ||
                                c == '\r' ||
                                c == '\n' ||
                                c == '\f' ||
@@ -532,268 +532,268 @@ public final class SocketPermission extends Permission
                 i--;
 
             // check for the known strings
-            int matchlen;
+            int mbtchlen;
 
-            if (i >= 6 && (a[i-6] == 'c' || a[i-6] == 'C') &&
-                          (a[i-5] == 'o' || a[i-5] == 'O') &&
-                          (a[i-4] == 'n' || a[i-4] == 'N') &&
-                          (a[i-3] == 'n' || a[i-3] == 'N') &&
-                          (a[i-2] == 'e' || a[i-2] == 'E') &&
-                          (a[i-1] == 'c' || a[i-1] == 'C') &&
-                          (a[i] == 't' || a[i] == 'T'))
+            if (i >= 6 && (b[i-6] == 'c' || b[i-6] == 'C') &&
+                          (b[i-5] == 'o' || b[i-5] == 'O') &&
+                          (b[i-4] == 'n' || b[i-4] == 'N') &&
+                          (b[i-3] == 'n' || b[i-3] == 'N') &&
+                          (b[i-2] == 'e' || b[i-2] == 'E') &&
+                          (b[i-1] == 'c' || b[i-1] == 'C') &&
+                          (b[i] == 't' || b[i] == 'T'))
             {
-                matchlen = 7;
-                mask |= CONNECT;
+                mbtchlen = 7;
+                mbsk |= CONNECT;
 
-            } else if (i >= 6 && (a[i-6] == 'r' || a[i-6] == 'R') &&
-                                 (a[i-5] == 'e' || a[i-5] == 'E') &&
-                                 (a[i-4] == 's' || a[i-4] == 'S') &&
-                                 (a[i-3] == 'o' || a[i-3] == 'O') &&
-                                 (a[i-2] == 'l' || a[i-2] == 'L') &&
-                                 (a[i-1] == 'v' || a[i-1] == 'V') &&
-                                 (a[i] == 'e' || a[i] == 'E'))
+            } else if (i >= 6 && (b[i-6] == 'r' || b[i-6] == 'R') &&
+                                 (b[i-5] == 'e' || b[i-5] == 'E') &&
+                                 (b[i-4] == 's' || b[i-4] == 'S') &&
+                                 (b[i-3] == 'o' || b[i-3] == 'O') &&
+                                 (b[i-2] == 'l' || b[i-2] == 'L') &&
+                                 (b[i-1] == 'v' || b[i-1] == 'V') &&
+                                 (b[i] == 'e' || b[i] == 'E'))
             {
-                matchlen = 7;
-                mask |= RESOLVE;
+                mbtchlen = 7;
+                mbsk |= RESOLVE;
 
-            } else if (i >= 5 && (a[i-5] == 'l' || a[i-5] == 'L') &&
-                                 (a[i-4] == 'i' || a[i-4] == 'I') &&
-                                 (a[i-3] == 's' || a[i-3] == 'S') &&
-                                 (a[i-2] == 't' || a[i-2] == 'T') &&
-                                 (a[i-1] == 'e' || a[i-1] == 'E') &&
-                                 (a[i] == 'n' || a[i] == 'N'))
+            } else if (i >= 5 && (b[i-5] == 'l' || b[i-5] == 'L') &&
+                                 (b[i-4] == 'i' || b[i-4] == 'I') &&
+                                 (b[i-3] == 's' || b[i-3] == 'S') &&
+                                 (b[i-2] == 't' || b[i-2] == 'T') &&
+                                 (b[i-1] == 'e' || b[i-1] == 'E') &&
+                                 (b[i] == 'n' || b[i] == 'N'))
             {
-                matchlen = 6;
-                mask |= LISTEN;
+                mbtchlen = 6;
+                mbsk |= LISTEN;
 
-            } else if (i >= 5 && (a[i-5] == 'a' || a[i-5] == 'A') &&
-                                 (a[i-4] == 'c' || a[i-4] == 'C') &&
-                                 (a[i-3] == 'c' || a[i-3] == 'C') &&
-                                 (a[i-2] == 'e' || a[i-2] == 'E') &&
-                                 (a[i-1] == 'p' || a[i-1] == 'P') &&
-                                 (a[i] == 't' || a[i] == 'T'))
+            } else if (i >= 5 && (b[i-5] == 'b' || b[i-5] == 'A') &&
+                                 (b[i-4] == 'c' || b[i-4] == 'C') &&
+                                 (b[i-3] == 'c' || b[i-3] == 'C') &&
+                                 (b[i-2] == 'e' || b[i-2] == 'E') &&
+                                 (b[i-1] == 'p' || b[i-1] == 'P') &&
+                                 (b[i] == 't' || b[i] == 'T'))
             {
-                matchlen = 6;
-                mask |= ACCEPT;
+                mbtchlen = 6;
+                mbsk |= ACCEPT;
 
             } else {
-                // parse error
-                throw new IllegalArgumentException(
-                        "invalid permission: " + action);
+                // pbrse error
+                throw new IllegblArgumentException(
+                        "invblid permission: " + bction);
             }
 
-            // make sure we didn't just match the tail of a word
-            // like "ackbarfaccept".  Also, skip to the comma.
-            boolean seencomma = false;
-            while (i >= matchlen && !seencomma) {
-                switch(a[i-matchlen]) {
-                case ',':
-                    seencomma = true;
-                    break;
-                case ' ': case '\r': case '\n':
-                case '\f': case '\t':
-                    break;
-                default:
-                    throw new IllegalArgumentException(
-                            "invalid permission: " + action);
+            // mbke sure we didn't just mbtch the tbil of b word
+            // like "bckbbrfbccept".  Also, skip to the commb.
+            boolebn seencommb = fblse;
+            while (i >= mbtchlen && !seencommb) {
+                switch(b[i-mbtchlen]) {
+                cbse ',':
+                    seencommb = true;
+                    brebk;
+                cbse ' ': cbse '\r': cbse '\n':
+                cbse '\f': cbse '\t':
+                    brebk;
+                defbult:
+                    throw new IllegblArgumentException(
+                            "invblid permission: " + bction);
                 }
                 i--;
             }
 
-            // point i at the location of the comma minus one (or -1).
-            i -= matchlen;
+            // point i bt the locbtion of the commb minus one (or -1).
+            i -= mbtchlen;
         }
 
-        return mask;
+        return mbsk;
     }
 
-    private boolean isUntrusted()
+    privbte boolebn isUntrusted()
         throws UnknownHostException
     {
-        if (trusted) return false;
-        if (invalid || untrusted) return true;
+        if (trusted) return fblse;
+        if (invblid || untrusted) return true;
         try {
-            if (!trustNameService && (defaultDeny ||
-                sun.net.www.URLConnection.isProxiedHost(hostname))) {
-                if (this.cname == null) {
-                    this.getCanonName();
+            if (!trustNbmeService && (defbultDeny ||
+                sun.net.www.URLConnection.isProxiedHost(hostnbme))) {
+                if (this.cnbme == null) {
+                    this.getCbnonNbme();
                 }
-                if (!match(cname, hostname)) {
-                    // Last chance
-                    if (!authorized(hostname, addresses[0].getAddress())) {
+                if (!mbtch(cnbme, hostnbme)) {
+                    // Lbst chbnce
+                    if (!buthorized(hostnbme, bddresses[0].getAddress())) {
                         untrusted = true;
                         Debug debug = getDebug();
-                        if (debug != null && Debug.isOn("failure")) {
-                            debug.println("socket access restriction: proxied host " + "(" + addresses[0] + ")" + " does not match " + cname + " from reverse lookup");
+                        if (debug != null && Debug.isOn("fbilure")) {
+                            debug.println("socket bccess restriction: proxied host " + "(" + bddresses[0] + ")" + " does not mbtch " + cnbme + " from reverse lookup");
                         }
                         return true;
                     }
                 }
                 trusted = true;
             }
-        } catch (UnknownHostException uhe) {
-            invalid = true;
+        } cbtch (UnknownHostException uhe) {
+            invblid = true;
             throw uhe;
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * attempt to get the fully qualified domain name
+     * bttempt to get the fully qublified dombin nbme
      *
      */
-    void getCanonName()
+    void getCbnonNbme()
         throws UnknownHostException
     {
-        if (cname != null || invalid || untrusted) return;
+        if (cnbme != null || invblid || untrusted) return;
 
-        // attempt to get the canonical name
+        // bttempt to get the cbnonicbl nbme
 
         try {
-            // first get the IP addresses if we don't have them yet
-            // this is because we need the IP address to then get
+            // first get the IP bddresses if we don't hbve them yet
+            // this is becbuse we need the IP bddress to then get
             // FQDN.
-            if (addresses == null) {
+            if (bddresses == null) {
                 getIP();
             }
 
-            // we have to do this check, otherwise we might not
-            // get the fully qualified domain name
+            // we hbve to do this check, otherwise we might not
+            // get the fully qublified dombin nbme
             if (init_with_ip) {
-                cname = addresses[0].getHostName(false).toLowerCase();
+                cnbme = bddresses[0].getHostNbme(fblse).toLowerCbse();
             } else {
-             cname = InetAddress.getByName(addresses[0].getHostAddress()).
-                                              getHostName(false).toLowerCase();
+             cnbme = InetAddress.getByNbme(bddresses[0].getHostAddress()).
+                                              getHostNbme(fblse).toLowerCbse();
             }
-        } catch (UnknownHostException uhe) {
-            invalid = true;
+        } cbtch (UnknownHostException uhe) {
+            invblid = true;
             throw uhe;
         }
     }
 
-    private transient String cdomain, hdomain;
+    privbte trbnsient String cdombin, hdombin;
 
-    private boolean match(String cname, String hname) {
-        String a = cname.toLowerCase();
-        String b = hname.toLowerCase();
-        if (a.startsWith(b)  &&
-            ((a.length() == b.length()) || (a.charAt(b.length()) == '.')))
+    privbte boolebn mbtch(String cnbme, String hnbme) {
+        String b = cnbme.toLowerCbse();
+        String b = hnbme.toLowerCbse();
+        if (b.stbrtsWith(b)  &&
+            ((b.length() == b.length()) || (b.chbrAt(b.length()) == '.')))
             return true;
-        if (cdomain == null) {
-            cdomain = RegisteredDomain.getRegisteredDomain(a);
+        if (cdombin == null) {
+            cdombin = RegisteredDombin.getRegisteredDombin(b);
         }
-        if (hdomain == null) {
-            hdomain = RegisteredDomain.getRegisteredDomain(b);
+        if (hdombin == null) {
+            hdombin = RegisteredDombin.getRegisteredDombin(b);
         }
 
-        return cdomain.length() != 0 && hdomain.length() != 0
-                        && cdomain.equals(hdomain);
+        return cdombin.length() != 0 && hdombin.length() != 0
+                        && cdombin.equbls(hdombin);
     }
 
-    private boolean authorized(String cname, byte[] addr) {
-        if (addr.length == 4)
-            return authorizedIPv4(cname, addr);
-        else if (addr.length == 16)
-            return authorizedIPv6(cname, addr);
+    privbte boolebn buthorized(String cnbme, byte[] bddr) {
+        if (bddr.length == 4)
+            return buthorizedIPv4(cnbme, bddr);
+        else if (bddr.length == 16)
+            return buthorizedIPv6(cnbme, bddr);
         else
-            return false;
+            return fblse;
     }
 
-    private boolean authorizedIPv4(String cname, byte[] addr) {
-        String authHost = "";
-        InetAddress auth;
+    privbte boolebn buthorizedIPv4(String cnbme, byte[] bddr) {
+        String buthHost = "";
+        InetAddress buth;
 
         try {
-            authHost = "auth." +
-                        (addr[3] & 0xff) + "." + (addr[2] & 0xff) + "." +
-                        (addr[1] & 0xff) + "." + (addr[0] & 0xff) +
-                        ".in-addr.arpa";
-            // Following check seems unnecessary
-            // auth = InetAddress.getAllByName0(authHost, false)[0];
-            authHost = hostname + '.' + authHost;
-            auth = InetAddress.getAllByName0(authHost, false)[0];
-            if (auth.equals(InetAddress.getByAddress(addr))) {
+            buthHost = "buth." +
+                        (bddr[3] & 0xff) + "." + (bddr[2] & 0xff) + "." +
+                        (bddr[1] & 0xff) + "." + (bddr[0] & 0xff) +
+                        ".in-bddr.brpb";
+            // Following check seems unnecessbry
+            // buth = InetAddress.getAllByNbme0(buthHost, fblse)[0];
+            buthHost = hostnbme + '.' + buthHost;
+            buth = InetAddress.getAllByNbme0(buthHost, fblse)[0];
+            if (buth.equbls(InetAddress.getByAddress(bddr))) {
                 return true;
             }
             Debug debug = getDebug();
-            if (debug != null && Debug.isOn("failure")) {
-                debug.println("socket access restriction: IP address of " + auth + " != " + InetAddress.getByAddress(addr));
+            if (debug != null && Debug.isOn("fbilure")) {
+                debug.println("socket bccess restriction: IP bddress of " + buth + " != " + InetAddress.getByAddress(bddr));
             }
-        } catch (UnknownHostException uhe) {
+        } cbtch (UnknownHostException uhe) {
             Debug debug = getDebug();
-            if (debug != null && Debug.isOn("failure")) {
-                debug.println("socket access restriction: forward lookup failed for " + authHost);
+            if (debug != null && Debug.isOn("fbilure")) {
+                debug.println("socket bccess restriction: forwbrd lookup fbiled for " + buthHost);
             }
         }
-        return false;
+        return fblse;
     }
 
-    private boolean authorizedIPv6(String cname, byte[] addr) {
-        String authHost = "";
-        InetAddress auth;
+    privbte boolebn buthorizedIPv6(String cnbme, byte[] bddr) {
+        String buthHost = "";
+        InetAddress buth;
 
         try {
             StringBuilder sb = new StringBuilder(39);
 
             for (int i = 15; i >= 0; i--) {
-                sb.append(Integer.toHexString(((addr[i]) & 0x0f)));
-                sb.append('.');
-                sb.append(Integer.toHexString(((addr[i] >> 4) & 0x0f)));
-                sb.append('.');
+                sb.bppend(Integer.toHexString(((bddr[i]) & 0x0f)));
+                sb.bppend('.');
+                sb.bppend(Integer.toHexString(((bddr[i] >> 4) & 0x0f)));
+                sb.bppend('.');
             }
-            authHost = "auth." + sb.toString() + "IP6.ARPA";
-            //auth = InetAddress.getAllByName0(authHost, false)[0];
-            authHost = hostname + '.' + authHost;
-            auth = InetAddress.getAllByName0(authHost, false)[0];
-            if (auth.equals(InetAddress.getByAddress(addr)))
+            buthHost = "buth." + sb.toString() + "IP6.ARPA";
+            //buth = InetAddress.getAllByNbme0(buthHost, fblse)[0];
+            buthHost = hostnbme + '.' + buthHost;
+            buth = InetAddress.getAllByNbme0(buthHost, fblse)[0];
+            if (buth.equbls(InetAddress.getByAddress(bddr)))
                 return true;
             Debug debug = getDebug();
-            if (debug != null && Debug.isOn("failure")) {
-                debug.println("socket access restriction: IP address of " + auth + " != " + InetAddress.getByAddress(addr));
+            if (debug != null && Debug.isOn("fbilure")) {
+                debug.println("socket bccess restriction: IP bddress of " + buth + " != " + InetAddress.getByAddress(bddr));
             }
-        } catch (UnknownHostException uhe) {
+        } cbtch (UnknownHostException uhe) {
             Debug debug = getDebug();
-            if (debug != null && Debug.isOn("failure")) {
-                debug.println("socket access restriction: forward lookup failed for " + authHost);
+            if (debug != null && Debug.isOn("fbilure")) {
+                debug.println("socket bccess restriction: forwbrd lookup fbiled for " + buthHost);
             }
         }
-        return false;
+        return fblse;
     }
 
 
     /**
-     * get IP addresses. Sets invalid to true if we can't get them.
+     * get IP bddresses. Sets invblid to true if we cbn't get them.
      *
      */
     void getIP()
         throws UnknownHostException
     {
-        if (addresses != null || wildcard || invalid) return;
+        if (bddresses != null || wildcbrd || invblid) return;
 
         try {
-            // now get all the IP addresses
+            // now get bll the IP bddresses
             String host;
-            if (getName().charAt(0) == '[') {
-                // Literal IPv6 address
-                host = getName().substring(1, getName().indexOf(']'));
+            if (getNbme().chbrAt(0) == '[') {
+                // Literbl IPv6 bddress
+                host = getNbme().substring(1, getNbme().indexOf(']'));
             } else {
-                int i = getName().indexOf(':');
+                int i = getNbme().indexOf(':');
                 if (i == -1)
-                    host = getName();
+                    host = getNbme();
                 else {
-                    host = getName().substring(0,i);
+                    host = getNbme().substring(0,i);
                 }
             }
 
-            addresses =
-                new InetAddress[] {InetAddress.getAllByName0(host, false)[0]};
+            bddresses =
+                new InetAddress[] {InetAddress.getAllByNbme0(host, fblse)[0]};
 
-        } catch (UnknownHostException uhe) {
-            invalid = true;
+        } cbtch (UnknownHostException uhe) {
+            invblid = true;
             throw uhe;
-        }  catch (IndexOutOfBoundsException iobe) {
-            invalid = true;
-            throw new UnknownHostException(getName());
+        }  cbtch (IndexOutOfBoundsException iobe) {
+            invblid = true;
+            throw new UnknownHostException(getNbme());
         }
     }
 
@@ -801,374 +801,374 @@ public final class SocketPermission extends Permission
      * Checks if this socket permission object "implies" the
      * specified permission.
      * <P>
-     * More specifically, this method first ensures that all of the following
-     * are true (and returns false if any of them are not):
+     * More specificblly, this method first ensures thbt bll of the following
+     * bre true (bnd returns fblse if bny of them bre not):
      * <ul>
-     * <li> <i>p</i> is an instanceof SocketPermission,
-     * <li> <i>p</i>'s actions are a proper subset of this
-     * object's actions, and
-     * <li> <i>p</i>'s port range is included in this port range. Note:
-     * port range is ignored when p only contains the action, 'resolve'.
+     * <li> <i>p</i> is bn instbnceof SocketPermission,
+     * <li> <i>p</i>'s bctions bre b proper subset of this
+     * object's bctions, bnd
+     * <li> <i>p</i>'s port rbnge is included in this port rbnge. Note:
+     * port rbnge is ignored when p only contbins the bction, 'resolve'.
      * </ul>
      *
-     * Then {@code implies} checks each of the following, in order,
-     * and for each returns true if the stated condition is true:
+     * Then {@code implies} checks ebch of the following, in order,
+     * bnd for ebch returns true if the stbted condition is true:
      * <ul>
-     * <li> If this object was initialized with a single IP address and one of <i>p</i>'s
-     * IP addresses is equal to this object's IP address.
-     * <li>If this object is a wildcard domain (such as *.sun.com), and
-     * <i>p</i>'s canonical name (the name without any preceding *)
-     * ends with this object's canonical host name. For example, *.sun.com
+     * <li> If this object wbs initiblized with b single IP bddress bnd one of <i>p</i>'s
+     * IP bddresses is equbl to this object's IP bddress.
+     * <li>If this object is b wildcbrd dombin (such bs *.sun.com), bnd
+     * <i>p</i>'s cbnonicbl nbme (the nbme without bny preceding *)
+     * ends with this object's cbnonicbl host nbme. For exbmple, *.sun.com
      * implies *.eng.sun.com.
-     * <li>If this object was not initialized with a single IP address, and one of this
-     * object's IP addresses equals one of <i>p</i>'s IP addresses.
-     * <li>If this canonical name equals <i>p</i>'s canonical name.
+     * <li>If this object wbs not initiblized with b single IP bddress, bnd one of this
+     * object's IP bddresses equbls one of <i>p</i>'s IP bddresses.
+     * <li>If this cbnonicbl nbme equbls <i>p</i>'s cbnonicbl nbme.
      * </ul>
      *
-     * If none of the above are true, {@code implies} returns false.
-     * @param p the permission to check against.
+     * If none of the bbove bre true, {@code implies} returns fblse.
+     * @pbrbm p the permission to check bgbinst.
      *
      * @return true if the specified permission is implied by this object,
-     * false if not.
+     * fblse if not.
      */
-    public boolean implies(Permission p) {
+    public boolebn implies(Permission p) {
         int i,j;
 
-        if (!(p instanceof SocketPermission))
-            return false;
+        if (!(p instbnceof SocketPermission))
+            return fblse;
 
         if (p == this)
             return true;
 
-        SocketPermission that = (SocketPermission) p;
+        SocketPermission thbt = (SocketPermission) p;
 
-        return ((this.mask & that.mask) == that.mask) &&
-                                        impliesIgnoreMask(that);
+        return ((this.mbsk & thbt.mbsk) == thbt.mbsk) &&
+                                        impliesIgnoreMbsk(thbt);
     }
 
     /**
-     * Checks if the incoming Permission's action are a proper subset of
-     * the this object's actions.
+     * Checks if the incoming Permission's bction bre b proper subset of
+     * the this object's bctions.
      * <P>
      * Check, in the following order:
      * <ul>
-     * <li> Checks that "p" is an instanceof a SocketPermission
-     * <li> Checks that "p"'s actions are a proper subset of the
-     * current object's actions.
-     * <li> Checks that "p"'s port range is included in this port range
-     * <li> If this object was initialized with an IP address, checks that
-     *      one of "p"'s IP addresses is equal to this object's IP address.
-     * <li> If either object is a wildcard domain (i.e., "*.sun.com"),
-     *      attempt to match based on the wildcard.
-     * <li> If this object was not initialized with an IP address, attempt
-     *      to find a match based on the IP addresses in both objects.
-     * <li> Attempt to match on the canonical hostnames of both objects.
+     * <li> Checks thbt "p" is bn instbnceof b SocketPermission
+     * <li> Checks thbt "p"'s bctions bre b proper subset of the
+     * current object's bctions.
+     * <li> Checks thbt "p"'s port rbnge is included in this port rbnge
+     * <li> If this object wbs initiblized with bn IP bddress, checks thbt
+     *      one of "p"'s IP bddresses is equbl to this object's IP bddress.
+     * <li> If either object is b wildcbrd dombin (i.e., "*.sun.com"),
+     *      bttempt to mbtch bbsed on the wildcbrd.
+     * <li> If this object wbs not initiblized with bn IP bddress, bttempt
+     *      to find b mbtch bbsed on the IP bddresses in both objects.
+     * <li> Attempt to mbtch on the cbnonicbl hostnbmes of both objects.
      * </ul>
-     * @param that the incoming permission request
+     * @pbrbm thbt the incoming permission request
      *
-     * @return true if "permission" is a proper subset of the current object,
-     * false if not.
+     * @return true if "permission" is b proper subset of the current object,
+     * fblse if not.
      */
-    boolean impliesIgnoreMask(SocketPermission that) {
+    boolebn impliesIgnoreMbsk(SocketPermission thbt) {
         int i,j;
 
-        if ((that.mask & RESOLVE) != that.mask) {
+        if ((thbt.mbsk & RESOLVE) != thbt.mbsk) {
 
-            // check simple port range
-            if ((that.portrange[0] < this.portrange[0]) ||
-                    (that.portrange[1] > this.portrange[1])) {
+            // check simple port rbnge
+            if ((thbt.portrbnge[0] < this.portrbnge[0]) ||
+                    (thbt.portrbnge[1] > this.portrbnge[1])) {
 
-                // if either includes the ephemeral range, do full check
-                if (this.includesEphemerals() || that.includesEphemerals()) {
-                    if (!inRange(this.portrange[0], this.portrange[1],
-                                     that.portrange[0], that.portrange[1]))
+                // if either includes the ephemerbl rbnge, do full check
+                if (this.includesEphemerbls() || thbt.includesEphemerbls()) {
+                    if (!inRbnge(this.portrbnge[0], this.portrbnge[1],
+                                     thbt.portrbnge[0], thbt.portrbnge[1]))
                     {
-                                return false;
+                                return fblse;
                     }
                 } else {
-                    return false;
+                    return fblse;
                 }
             }
         }
 
-        // allow a "*" wildcard to always match anything
-        if (this.wildcard && "".equals(this.cname))
+        // bllow b "*" wildcbrd to blwbys mbtch bnything
+        if (this.wildcbrd && "".equbls(this.cnbme))
             return true;
 
-        // return if either one of these NetPerm objects are invalid...
-        if (this.invalid || that.invalid) {
-            return compareHostnames(that);
+        // return if either one of these NetPerm objects bre invblid...
+        if (this.invblid || thbt.invblid) {
+            return compbreHostnbmes(thbt);
         }
 
         try {
-            if (this.init_with_ip) { // we only check IP addresses
-                if (that.wildcard)
-                    return false;
+            if (this.init_with_ip) { // we only check IP bddresses
+                if (thbt.wildcbrd)
+                    return fblse;
 
-                if (that.init_with_ip) {
-                    return (this.addresses[0].equals(that.addresses[0]));
+                if (thbt.init_with_ip) {
+                    return (this.bddresses[0].equbls(thbt.bddresses[0]));
                 } else {
-                    if (that.addresses == null) {
-                        that.getIP();
+                    if (thbt.bddresses == null) {
+                        thbt.getIP();
                     }
-                    for (i=0; i < that.addresses.length; i++) {
-                        if (this.addresses[0].equals(that.addresses[i]))
+                    for (i=0; i < thbt.bddresses.length; i++) {
+                        if (this.bddresses[0].equbls(thbt.bddresses[i]))
                             return true;
                     }
                 }
-                // since "this" was initialized with an IP address, we
-                // don't check any other cases
-                return false;
+                // since "this" wbs initiblized with bn IP bddress, we
+                // don't check bny other cbses
+                return fblse;
             }
 
-            // check and see if we have any wildcards...
-            if (this.wildcard || that.wildcard) {
-                // if they are both wildcards, return true iff
-                // that's cname ends with this cname (i.e., *.sun.com
+            // check bnd see if we hbve bny wildcbrds...
+            if (this.wildcbrd || thbt.wildcbrd) {
+                // if they bre both wildcbrds, return true iff
+                // thbt's cnbme ends with this cnbme (i.e., *.sun.com
                 // implies *.eng.sun.com)
-                if (this.wildcard && that.wildcard)
-                    return (that.cname.endsWith(this.cname));
+                if (this.wildcbrd && thbt.wildcbrd)
+                    return (thbt.cnbme.endsWith(this.cnbme));
 
-                // a non-wildcard can't imply a wildcard
-                if (that.wildcard)
-                    return false;
+                // b non-wildcbrd cbn't imply b wildcbrd
+                if (thbt.wildcbrd)
+                    return fblse;
 
-                // this is a wildcard, lets see if that's cname ends with
+                // this is b wildcbrd, lets see if thbt's cnbme ends with
                 // it...
-                if (that.cname == null) {
-                    that.getCanonName();
+                if (thbt.cnbme == null) {
+                    thbt.getCbnonNbme();
                 }
-                return (that.cname.endsWith(this.cname));
+                return (thbt.cnbme.endsWith(this.cnbme));
             }
 
-            // comapare IP addresses
-            if (this.addresses == null) {
+            // combpbre IP bddresses
+            if (this.bddresses == null) {
                 this.getIP();
             }
 
-            if (that.addresses == null) {
-                that.getIP();
+            if (thbt.bddresses == null) {
+                thbt.getIP();
             }
 
-            if (!(that.init_with_ip && this.isUntrusted())) {
-                for (j = 0; j < this.addresses.length; j++) {
-                    for (i=0; i < that.addresses.length; i++) {
-                        if (this.addresses[j].equals(that.addresses[i]))
+            if (!(thbt.init_with_ip && this.isUntrusted())) {
+                for (j = 0; j < this.bddresses.length; j++) {
+                    for (i=0; i < thbt.bddresses.length; i++) {
+                        if (this.bddresses[j].equbls(thbt.bddresses[i]))
                             return true;
                     }
                 }
 
-                // XXX: if all else fails, compare hostnames?
-                // Do we really want this?
-                if (this.cname == null) {
-                    this.getCanonName();
+                // XXX: if bll else fbils, compbre hostnbmes?
+                // Do we reblly wbnt this?
+                if (this.cnbme == null) {
+                    this.getCbnonNbme();
                 }
 
-                if (that.cname == null) {
-                    that.getCanonName();
+                if (thbt.cnbme == null) {
+                    thbt.getCbnonNbme();
                 }
 
-                return (this.cname.equalsIgnoreCase(that.cname));
+                return (this.cnbme.equblsIgnoreCbse(thbt.cnbme));
             }
 
-        } catch (UnknownHostException uhe) {
-            return compareHostnames(that);
+        } cbtch (UnknownHostException uhe) {
+            return compbreHostnbmes(thbt);
         }
 
-        // make sure the first thing that is done here is to return
-        // false. If not, uncomment the return false in the above catch.
+        // mbke sure the first thing thbt is done here is to return
+        // fblse. If not, uncomment the return fblse in the bbove cbtch.
 
-        return false;
+        return fblse;
     }
 
-    private boolean compareHostnames(SocketPermission that) {
-        // we see if the original names/IPs passed in were equal.
+    privbte boolebn compbreHostnbmes(SocketPermission thbt) {
+        // we see if the originbl nbmes/IPs pbssed in were equbl.
 
-        String thisHost = hostname;
-        String thatHost = that.hostname;
+        String thisHost = hostnbme;
+        String thbtHost = thbt.hostnbme;
 
         if (thisHost == null) {
-            return false;
-        } else if (this.wildcard) {
-            final int cnameLength = this.cname.length();
-            return thatHost.regionMatches(true,
-                                          (thatHost.length() - cnameLength),
-                                          this.cname, 0, cnameLength);
+            return fblse;
+        } else if (this.wildcbrd) {
+            finbl int cnbmeLength = this.cnbme.length();
+            return thbtHost.regionMbtches(true,
+                                          (thbtHost.length() - cnbmeLength),
+                                          this.cnbme, 0, cnbmeLength);
         } else {
-            return thisHost.equalsIgnoreCase(thatHost);
+            return thisHost.equblsIgnoreCbse(thbtHost);
         }
     }
 
     /**
-     * Checks two SocketPermission objects for equality.
+     * Checks two SocketPermission objects for equblity.
      *
-     * @param obj the object to test for equality with this object.
+     * @pbrbm obj the object to test for equblity with this object.
      *
-     * @return true if <i>obj</i> is a SocketPermission, and has the
-     *  same hostname, port range, and actions as this
-     *  SocketPermission object. However, port range will be ignored
-     *  in the comparison if <i>obj</i> only contains the action, 'resolve'.
+     * @return true if <i>obj</i> is b SocketPermission, bnd hbs the
+     *  sbme hostnbme, port rbnge, bnd bctions bs this
+     *  SocketPermission object. However, port rbnge will be ignored
+     *  in the compbrison if <i>obj</i> only contbins the bction, 'resolve'.
      */
-    public boolean equals(Object obj) {
+    public boolebn equbls(Object obj) {
         if (obj == this)
             return true;
 
-        if (! (obj instanceof SocketPermission))
-            return false;
+        if (! (obj instbnceof SocketPermission))
+            return fblse;
 
-        SocketPermission that = (SocketPermission) obj;
+        SocketPermission thbt = (SocketPermission) obj;
 
         //this is (overly?) complex!!!
 
-        // check the mask first
-        if (this.mask != that.mask) return false;
+        // check the mbsk first
+        if (this.mbsk != thbt.mbsk) return fblse;
 
-        if ((that.mask & RESOLVE) != that.mask) {
-            // now check the port range...
-            if ((this.portrange[0] != that.portrange[0]) ||
-                (this.portrange[1] != that.portrange[1])) {
-                return false;
+        if ((thbt.mbsk & RESOLVE) != thbt.mbsk) {
+            // now check the port rbnge...
+            if ((this.portrbnge[0] != thbt.portrbnge[0]) ||
+                (this.portrbnge[1] != thbt.portrbnge[1])) {
+                return fblse;
             }
         }
 
-        // short cut. This catches:
-        //  "crypto" equal to "crypto", or
-        // "1.2.3.4" equal to "1.2.3.4.", or
-        //  "*.edu" equal to "*.edu", but it
-        //  does not catch "crypto" equal to
+        // short cut. This cbtches:
+        //  "crypto" equbl to "crypto", or
+        // "1.2.3.4" equbl to "1.2.3.4.", or
+        //  "*.edu" equbl to "*.edu", but it
+        //  does not cbtch "crypto" equbl to
         // "crypto.eng.sun.com".
 
-        if (this.getName().equalsIgnoreCase(that.getName())) {
+        if (this.getNbme().equblsIgnoreCbse(thbt.getNbme())) {
             return true;
         }
 
-        // we now attempt to get the Canonical (FQDN) name and
-        // compare that. If this fails, about all we can do is return
-        // false.
+        // we now bttempt to get the Cbnonicbl (FQDN) nbme bnd
+        // compbre thbt. If this fbils, bbout bll we cbn do is return
+        // fblse.
 
         try {
-            this.getCanonName();
-            that.getCanonName();
-        } catch (UnknownHostException uhe) {
-            return false;
+            this.getCbnonNbme();
+            thbt.getCbnonNbme();
+        } cbtch (UnknownHostException uhe) {
+            return fblse;
         }
 
-        if (this.invalid || that.invalid)
-            return false;
+        if (this.invblid || thbt.invblid)
+            return fblse;
 
-        if (this.cname != null) {
-            return this.cname.equalsIgnoreCase(that.cname);
+        if (this.cnbme != null) {
+            return this.cnbme.equblsIgnoreCbse(thbt.cnbme);
         }
 
-        return false;
+        return fblse;
     }
 
     /**
-     * Returns the hash code value for this object.
+     * Returns the hbsh code vblue for this object.
      *
-     * @return a hash code value for this object.
+     * @return b hbsh code vblue for this object.
      */
 
-    public int hashCode() {
+    public int hbshCode() {
         /*
-         * If this SocketPermission was initialized with an IP address
-         * or a wildcard, use getName().hashCode(), otherwise use
-         * the hashCode() of the host name returned from
-         * java.net.InetAddress.getHostName method.
+         * If this SocketPermission wbs initiblized with bn IP bddress
+         * or b wildcbrd, use getNbme().hbshCode(), otherwise use
+         * the hbshCode() of the host nbme returned from
+         * jbvb.net.InetAddress.getHostNbme method.
          */
 
-        if (init_with_ip || wildcard) {
-            return this.getName().hashCode();
+        if (init_with_ip || wildcbrd) {
+            return this.getNbme().hbshCode();
         }
 
         try {
-            getCanonName();
-        } catch (UnknownHostException uhe) {
+            getCbnonNbme();
+        } cbtch (UnknownHostException uhe) {
 
         }
 
-        if (invalid || cname == null)
-            return this.getName().hashCode();
+        if (invblid || cnbme == null)
+            return this.getNbme().hbshCode();
         else
-            return this.cname.hashCode();
+            return this.cnbme.hbshCode();
     }
 
     /**
-     * Return the current action mask.
+     * Return the current bction mbsk.
      *
-     * @return the actions mask.
+     * @return the bctions mbsk.
      */
 
-    int getMask() {
-        return mask;
+    int getMbsk() {
+        return mbsk;
     }
 
     /**
-     * Returns the "canonical string representation" of the actions in the
-     * specified mask.
-     * Always returns present actions in the following order:
-     * connect, listen, accept, resolve.
+     * Returns the "cbnonicbl string representbtion" of the bctions in the
+     * specified mbsk.
+     * Alwbys returns present bctions in the following order:
+     * connect, listen, bccept, resolve.
      *
-     * @param mask a specific integer action mask to translate into a string
-     * @return the canonical string representation of the actions
+     * @pbrbm mbsk b specific integer bction mbsk to trbnslbte into b string
+     * @return the cbnonicbl string representbtion of the bctions
      */
-    private static String getActions(int mask)
+    privbte stbtic String getActions(int mbsk)
     {
         StringBuilder sb = new StringBuilder();
-        boolean comma = false;
+        boolebn commb = fblse;
 
-        if ((mask & CONNECT) == CONNECT) {
-            comma = true;
-            sb.append("connect");
+        if ((mbsk & CONNECT) == CONNECT) {
+            commb = true;
+            sb.bppend("connect");
         }
 
-        if ((mask & LISTEN) == LISTEN) {
-            if (comma) sb.append(',');
-            else comma = true;
-            sb.append("listen");
+        if ((mbsk & LISTEN) == LISTEN) {
+            if (commb) sb.bppend(',');
+            else commb = true;
+            sb.bppend("listen");
         }
 
-        if ((mask & ACCEPT) == ACCEPT) {
-            if (comma) sb.append(',');
-            else comma = true;
-            sb.append("accept");
+        if ((mbsk & ACCEPT) == ACCEPT) {
+            if (commb) sb.bppend(',');
+            else commb = true;
+            sb.bppend("bccept");
         }
 
 
-        if ((mask & RESOLVE) == RESOLVE) {
-            if (comma) sb.append(',');
-            else comma = true;
-            sb.append("resolve");
+        if ((mbsk & RESOLVE) == RESOLVE) {
+            if (commb) sb.bppend(',');
+            else commb = true;
+            sb.bppend("resolve");
         }
 
         return sb.toString();
     }
 
     /**
-     * Returns the canonical string representation of the actions.
-     * Always returns present actions in the following order:
-     * connect, listen, accept, resolve.
+     * Returns the cbnonicbl string representbtion of the bctions.
+     * Alwbys returns present bctions in the following order:
+     * connect, listen, bccept, resolve.
      *
-     * @return the canonical string representation of the actions.
+     * @return the cbnonicbl string representbtion of the bctions.
      */
     public String getActions()
     {
-        if (actions == null)
-            actions = getActions(this.mask);
+        if (bctions == null)
+            bctions = getActions(this.mbsk);
 
-        return actions;
+        return bctions;
     }
 
     /**
-     * Returns a new PermissionCollection object for storing SocketPermission
+     * Returns b new PermissionCollection object for storing SocketPermission
      * objects.
      * <p>
-     * SocketPermission objects must be stored in a manner that allows them
-     * to be inserted into the collection in any order, but that also enables the
+     * SocketPermission objects must be stored in b mbnner thbt bllows them
+     * to be inserted into the collection in bny order, but thbt blso enbbles the
      * PermissionCollection {@code implies}
-     * method to be implemented in an efficient (and consistent) manner.
+     * method to be implemented in bn efficient (bnd consistent) mbnner.
      *
-     * @return a new PermissionCollection object suitable for storing SocketPermissions.
+     * @return b new PermissionCollection object suitbble for storing SocketPermissions.
      */
 
     public PermissionCollection newPermissionCollection() {
@@ -1176,47 +1176,47 @@ public final class SocketPermission extends Permission
     }
 
     /**
-     * WriteObject is called to save the state of the SocketPermission
-     * to a stream. The actions are serialized, and the superclass
-     * takes care of the name.
+     * WriteObject is cblled to sbve the stbte of the SocketPermission
+     * to b strebm. The bctions bre seriblized, bnd the superclbss
+     * tbkes cbre of the nbme.
      */
-    private synchronized void writeObject(java.io.ObjectOutputStream s)
+    privbte synchronized void writeObject(jbvb.io.ObjectOutputStrebm s)
         throws IOException
     {
-        // Write out the actions. The superclass takes care of the name
-        // call getActions to make sure actions field is initialized
-        if (actions == null)
+        // Write out the bctions. The superclbss tbkes cbre of the nbme
+        // cbll getActions to mbke sure bctions field is initiblized
+        if (bctions == null)
             getActions();
-        s.defaultWriteObject();
+        s.defbultWriteObject();
     }
 
     /**
-     * readObject is called to restore the state of the SocketPermission from
-     * a stream.
+     * rebdObject is cblled to restore the stbte of the SocketPermission from
+     * b strebm.
      */
-    private synchronized void readObject(java.io.ObjectInputStream s)
-         throws IOException, ClassNotFoundException
+    privbte synchronized void rebdObject(jbvb.io.ObjectInputStrebm s)
+         throws IOException, ClbssNotFoundException
     {
-        // Read in the action, then initialize the rest
-        s.defaultReadObject();
-        init(getName(),getMask(actions));
+        // Rebd in the bction, then initiblize the rest
+        s.defbultRebdObject();
+        init(getNbme(),getMbsk(bctions));
     }
 
     /**
-     * Check the system/security property for the ephemeral port range
+     * Check the system/security property for the ephemerbl port rbnge
      * for this system. The suffix is either "high" or "low"
      */
-    private static int initEphemeralPorts(String suffix, int defval) {
+    privbte stbtic int initEphemerblPorts(String suffix, int defvbl) {
         return AccessController.doPrivileged(
             new PrivilegedAction<Integer>(){
                 public Integer run() {
-                    int val = Integer.getInteger(
-                            "jdk.net.ephemeralPortRange."+suffix, -1
+                    int vbl = Integer.getInteger(
+                            "jdk.net.ephemerblPortRbnge."+suffix, -1
                     );
-                    if (val != -1) {
-                        return val;
+                    if (vbl != -1) {
+                        return vbl;
                     } else {
-                        return suffix.equals("low") ?
+                        return suffix.equbls("low") ?
                             PortConfig.getLower() : PortConfig.getUpper();
                     }
                 }
@@ -1225,89 +1225,89 @@ public final class SocketPermission extends Permission
     }
 
     /**
-     * Check if the target range is within the policy range
-     * together with the ephemeral range for this platform
-     * (if policy includes ephemeral range)
+     * Check if the tbrget rbnge is within the policy rbnge
+     * together with the ephemerbl rbnge for this plbtform
+     * (if policy includes ephemerbl rbnge)
      */
-    private static boolean inRange(
-        int policyLow, int policyHigh, int targetLow, int targetHigh
+    privbte stbtic boolebn inRbnge(
+        int policyLow, int policyHigh, int tbrgetLow, int tbrgetHigh
     )
     {
-        final int ephemeralLow = EphemeralRange.low;
-        final int ephemeralHigh = EphemeralRange.high;
+        finbl int ephemerblLow = EphemerblRbnge.low;
+        finbl int ephemerblHigh = EphemerblRbnge.high;
 
-        if (targetLow == 0) {
-            // check policy includes ephemeral range
-            if (!inRange(policyLow, policyHigh, ephemeralLow, ephemeralHigh)) {
-                return false;
+        if (tbrgetLow == 0) {
+            // check policy includes ephemerbl rbnge
+            if (!inRbnge(policyLow, policyHigh, ephemerblLow, ephemerblHigh)) {
+                return fblse;
             }
-            if (targetHigh == 0) {
+            if (tbrgetHigh == 0) {
                 // nothing left to do
                 return true;
             }
-            // continue check with first real port number
-            targetLow = 1;
+            // continue check with first rebl port number
+            tbrgetLow = 1;
         }
 
         if (policyLow == 0 && policyHigh == 0) {
-            // ephemeral range only
-            return targetLow >= ephemeralLow && targetHigh <= ephemeralHigh;
+            // ephemerbl rbnge only
+            return tbrgetLow >= ephemerblLow && tbrgetHigh <= ephemerblHigh;
         }
 
         if (policyLow != 0) {
             // simple check of policy only
-            return targetLow >= policyLow && targetHigh <= policyHigh;
+            return tbrgetLow >= policyLow && tbrgetHigh <= policyHigh;
         }
 
-        // policyLow == 0 which means possibly two ranges to check
+        // policyLow == 0 which mebns possibly two rbnges to check
 
-        // first check if policy and ephem range overlap/contiguous
+        // first check if policy bnd ephem rbnge overlbp/contiguous
 
-        if (policyHigh >= ephemeralLow - 1) {
-            return targetHigh <= ephemeralHigh;
+        if (policyHigh >= ephemerblLow - 1) {
+            return tbrgetHigh <= ephemerblHigh;
         }
 
-        // policy and ephem range do not overlap
+        // policy bnd ephem rbnge do not overlbp
 
-        // target range must lie entirely inside policy range or eph range
+        // tbrget rbnge must lie entirely inside policy rbnge or eph rbnge
 
-        return  (targetLow <= policyHigh && targetHigh <= policyHigh) ||
-                (targetLow >= ephemeralLow && targetHigh <= ephemeralHigh);
+        return  (tbrgetLow <= policyHigh && tbrgetHigh <= policyHigh) ||
+                (tbrgetLow >= ephemerblLow && tbrgetHigh <= ephemerblHigh);
     }
     /*
     public String toString()
     {
         StringBuffer s = new StringBuffer(super.toString() + "\n" +
-            "cname = " + cname + "\n" +
-            "wildcard = " + wildcard + "\n" +
-            "invalid = " + invalid + "\n" +
-            "portrange = " + portrange[0] + "," + portrange[1] + "\n");
-        if (addresses != null) for (int i=0; i<addresses.length; i++) {
-            s.append( addresses[i].getHostAddress());
-            s.append("\n");
+            "cnbme = " + cnbme + "\n" +
+            "wildcbrd = " + wildcbrd + "\n" +
+            "invblid = " + invblid + "\n" +
+            "portrbnge = " + portrbnge[0] + "," + portrbnge[1] + "\n");
+        if (bddresses != null) for (int i=0; i<bddresses.length; i++) {
+            s.bppend( bddresses[i].getHostAddress());
+            s.bppend("\n");
         } else {
-            s.append("(no addresses)\n");
+            s.bppend("(no bddresses)\n");
         }
 
         return s.toString();
     }
 
-    public static void main(String args[]) throws Exception {
-        SocketPermission this_ = new SocketPermission(args[0], "connect");
-        SocketPermission that_ = new SocketPermission(args[1], "connect");
+    public stbtic void mbin(String brgs[]) throws Exception {
+        SocketPermission this_ = new SocketPermission(brgs[0], "connect");
+        SocketPermission thbt_ = new SocketPermission(brgs[1], "connect");
         System.out.println("-----\n");
-        System.out.println("this.implies(that) = " + this_.implies(that_));
+        System.out.println("this.implies(thbt) = " + this_.implies(thbt_));
         System.out.println("-----\n");
         System.out.println("this = "+this_);
         System.out.println("-----\n");
-        System.out.println("that = "+that_);
+        System.out.println("thbt = "+thbt_);
         System.out.println("-----\n");
 
         SocketPermissionCollection nps = new SocketPermissionCollection();
-        nps.add(this_);
-        nps.add(new SocketPermission("www-leland.stanford.edu","connect"));
-        nps.add(new SocketPermission("www-sun.com","connect"));
-        System.out.println("nps.implies(that) = " + nps.implies(that_));
+        nps.bdd(this_);
+        nps.bdd(new SocketPermission("www-lelbnd.stbnford.edu","connect"));
+        nps.bdd(new SocketPermission("www-sun.com","connect"));
+        System.out.println("nps.implies(thbt) = " + nps.implies(thbt_));
         System.out.println("-----\n");
     }
     */
@@ -1315,81 +1315,81 @@ public final class SocketPermission extends Permission
 
 /**
 
-if (init'd with IP, key is IP as string)
-if wildcard, its the wild card
-else its the cname?
+if (init'd with IP, key is IP bs string)
+if wildcbrd, its the wild cbrd
+else its the cnbme?
 
  *
- * @see java.security.Permission
- * @see java.security.Permissions
- * @see java.security.PermissionCollection
+ * @see jbvb.security.Permission
+ * @see jbvb.security.Permissions
+ * @see jbvb.security.PermissionCollection
  *
  *
- * @author Roland Schemers
+ * @buthor Rolbnd Schemers
  *
- * @serial include
+ * @seribl include
  */
 
-final class SocketPermissionCollection extends PermissionCollection
-    implements Serializable
+finbl clbss SocketPermissionCollection extends PermissionCollection
+    implements Seriblizbble
 {
-    // Not serialized; see serialization section at end of class
-    private transient List<SocketPermission> perms;
+    // Not seriblized; see seriblizbtion section bt end of clbss
+    privbte trbnsient List<SocketPermission> perms;
 
     /**
-     * Create an empty SocketPermissions object.
+     * Crebte bn empty SocketPermissions object.
      *
      */
 
     public SocketPermissionCollection() {
-        perms = new ArrayList<SocketPermission>();
+        perms = new ArrbyList<SocketPermission>();
     }
 
     /**
-     * Adds a permission to the SocketPermissions. The key for the hash is
-     * the name in the case of wildcards, or all the IP addresses.
+     * Adds b permission to the SocketPermissions. The key for the hbsh is
+     * the nbme in the cbse of wildcbrds, or bll the IP bddresses.
      *
-     * @param permission the Permission object to add.
+     * @pbrbm permission the Permission object to bdd.
      *
-     * @exception IllegalArgumentException - if the permission is not a
+     * @exception IllegblArgumentException - if the permission is not b
      *                                       SocketPermission
      *
      * @exception SecurityException - if this SocketPermissionCollection object
-     *                                has been marked readonly
+     *                                hbs been mbrked rebdonly
      */
-    public void add(Permission permission) {
-        if (! (permission instanceof SocketPermission))
-            throw new IllegalArgumentException("invalid permission: "+
+    public void bdd(Permission permission) {
+        if (! (permission instbnceof SocketPermission))
+            throw new IllegblArgumentException("invblid permission: "+
                                                permission);
-        if (isReadOnly())
+        if (isRebdOnly())
             throw new SecurityException(
-                "attempt to add a Permission to a readonly PermissionCollection");
+                "bttempt to bdd b Permission to b rebdonly PermissionCollection");
 
-        // optimization to ensure perms most likely to be tested
-        // show up early (4301064)
+        // optimizbtion to ensure perms most likely to be tested
+        // show up ebrly (4301064)
         synchronized (this) {
-            perms.add(0, (SocketPermission)permission);
+            perms.bdd(0, (SocketPermission)permission);
         }
     }
 
     /**
-     * Check and see if this collection of permissions implies the permissions
+     * Check bnd see if this collection of permissions implies the permissions
      * expressed in "permission".
      *
-     * @param permission the Permission object to compare
+     * @pbrbm permission the Permission object to compbre
      *
-     * @return true if "permission" is a proper subset of a permission in
-     * the collection, false if not.
+     * @return true if "permission" is b proper subset of b permission in
+     * the collection, fblse if not.
      */
 
-    public boolean implies(Permission permission)
+    public boolebn implies(Permission permission)
     {
-        if (! (permission instanceof SocketPermission))
-                return false;
+        if (! (permission instbnceof SocketPermission))
+                return fblse;
 
         SocketPermission np = (SocketPermission) permission;
 
-        int desired = np.getMask();
+        int desired = np.getMbsk();
         int effective = 0;
         int needed = desired;
 
@@ -1399,88 +1399,88 @@ final class SocketPermissionCollection extends PermissionCollection
             for (int i = 0; i < len; i++) {
                 SocketPermission x = perms.get(i);
                 //System.out.println("  trying "+x);
-                if (((needed & x.getMask()) != 0) && x.impliesIgnoreMask(np)) {
-                    effective |=  x.getMask();
+                if (((needed & x.getMbsk()) != 0) && x.impliesIgnoreMbsk(np)) {
+                    effective |=  x.getMbsk();
                     if ((effective & desired) == desired)
                         return true;
                     needed = (desired ^ effective);
                 }
             }
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Returns an enumeration of all the SocketPermission objects in the
-     * container.
+     * Returns bn enumerbtion of bll the SocketPermission objects in the
+     * contbiner.
      *
-     * @return an enumeration of all the SocketPermission objects.
+     * @return bn enumerbtion of bll the SocketPermission objects.
      */
 
-    @SuppressWarnings("unchecked")
-    public Enumeration<Permission> elements() {
-        // Convert Iterator into Enumeration
+    @SuppressWbrnings("unchecked")
+    public Enumerbtion<Permission> elements() {
+        // Convert Iterbtor into Enumerbtion
         synchronized (this) {
-            return Collections.enumeration((List<Permission>)(List)perms);
+            return Collections.enumerbtion((List<Permission>)(List)perms);
         }
     }
 
-    private static final long serialVersionUID = 2787186408602843674L;
+    privbte stbtic finbl long seriblVersionUID = 2787186408602843674L;
 
-    // Need to maintain serialization interoperability with earlier releases,
-    // which had the serializable field:
+    // Need to mbintbin seriblizbtion interoperbbility with ebrlier relebses,
+    // which hbd the seriblizbble field:
 
     //
     // The SocketPermissions for this set.
-    // @serial
+    // @seribl
     //
-    // private Vector permissions;
+    // privbte Vector permissions;
 
     /**
-     * @serialField permissions java.util.Vector
+     * @seriblField permissions jbvb.util.Vector
      *     A list of the SocketPermissions for this set.
      */
-    private static final ObjectStreamField[] serialPersistentFields = {
-        new ObjectStreamField("permissions", Vector.class),
+    privbte stbtic finbl ObjectStrebmField[] seriblPersistentFields = {
+        new ObjectStrebmField("permissions", Vector.clbss),
     };
 
     /**
-     * @serialData "permissions" field (a Vector containing the SocketPermissions).
+     * @seriblDbtb "permissions" field (b Vector contbining the SocketPermissions).
      */
     /*
-     * Writes the contents of the perms field out as a Vector for
-     * serialization compatibility with earlier releases.
+     * Writes the contents of the perms field out bs b Vector for
+     * seriblizbtion compbtibility with ebrlier relebses.
      */
-    private void writeObject(ObjectOutputStream out) throws IOException {
-        // Don't call out.defaultWriteObject()
+    privbte void writeObject(ObjectOutputStrebm out) throws IOException {
+        // Don't cbll out.defbultWriteObject()
 
         // Write out Vector
         Vector<SocketPermission> permissions = new Vector<>(perms.size());
 
         synchronized (this) {
-            permissions.addAll(perms);
+            permissions.bddAll(perms);
         }
 
-        ObjectOutputStream.PutField pfields = out.putFields();
+        ObjectOutputStrebm.PutField pfields = out.putFields();
         pfields.put("permissions", permissions);
         out.writeFields();
     }
 
     /*
-     * Reads in a Vector of SocketPermissions and saves them in the perms field.
+     * Rebds in b Vector of SocketPermissions bnd sbves them in the perms field.
      */
-    private void readObject(ObjectInputStream in)
-        throws IOException, ClassNotFoundException
+    privbte void rebdObject(ObjectInputStrebm in)
+        throws IOException, ClbssNotFoundException
     {
-        // Don't call in.defaultReadObject()
+        // Don't cbll in.defbultRebdObject()
 
-        // Read in serialized fields
-        ObjectInputStream.GetField gfields = in.readFields();
+        // Rebd in seriblized fields
+        ObjectInputStrebm.GetField gfields = in.rebdFields();
 
-        // Get the one we want
-        @SuppressWarnings("unchecked")
+        // Get the one we wbnt
+        @SuppressWbrnings("unchecked")
         Vector<SocketPermission> permissions = (Vector<SocketPermission>)gfields.get("permissions", null);
-        perms = new ArrayList<SocketPermission>(permissions.size());
-        perms.addAll(permissions);
+        perms = new ArrbyList<SocketPermission>(permissions.size());
+        perms.bddAll(permissions);
     }
 }

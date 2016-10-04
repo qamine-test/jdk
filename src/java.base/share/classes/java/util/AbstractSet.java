@@ -1,180 +1,180 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.util;
+pbckbge jbvb.util;
 
 /**
- * This class provides a skeletal implementation of the <tt>Set</tt>
- * interface to minimize the effort required to implement this
- * interface. <p>
+ * This clbss provides b skeletbl implementbtion of the <tt>Set</tt>
+ * interfbce to minimize the effort required to implement this
+ * interfbce. <p>
  *
- * The process of implementing a set by extending this class is identical
- * to that of implementing a Collection by extending AbstractCollection,
- * except that all of the methods and constructors in subclasses of this
- * class must obey the additional constraints imposed by the <tt>Set</tt>
- * interface (for instance, the add method must not permit addition of
- * multiple instances of an object to a set).<p>
+ * The process of implementing b set by extending this clbss is identicbl
+ * to thbt of implementing b Collection by extending AbstrbctCollection,
+ * except thbt bll of the methods bnd constructors in subclbsses of this
+ * clbss must obey the bdditionbl constrbints imposed by the <tt>Set</tt>
+ * interfbce (for instbnce, the bdd method must not permit bddition of
+ * multiple instbnces of bn object to b set).<p>
  *
- * Note that this class does not override any of the implementations from
- * the <tt>AbstractCollection</tt> class.  It merely adds implementations
- * for <tt>equals</tt> and <tt>hashCode</tt>.<p>
+ * Note thbt this clbss does not override bny of the implementbtions from
+ * the <tt>AbstrbctCollection</tt> clbss.  It merely bdds implementbtions
+ * for <tt>equbls</tt> bnd <tt>hbshCode</tt>.<p>
  *
- * This class is a member of the
- * <a href="{@docRoot}/../technotes/guides/collections/index.html">
- * Java Collections Framework</a>.
+ * This clbss is b member of the
+ * <b href="{@docRoot}/../technotes/guides/collections/index.html">
+ * Jbvb Collections Frbmework</b>.
  *
- * @param <E> the type of elements maintained by this set
+ * @pbrbm <E> the type of elements mbintbined by this set
  *
- * @author  Josh Bloch
- * @author  Neal Gafter
+ * @buthor  Josh Bloch
+ * @buthor  Nebl Gbfter
  * @see Collection
- * @see AbstractCollection
+ * @see AbstrbctCollection
  * @see Set
  * @since 1.2
  */
 
-public abstract class AbstractSet<E> extends AbstractCollection<E> implements Set<E> {
+public bbstrbct clbss AbstrbctSet<E> extends AbstrbctCollection<E> implements Set<E> {
     /**
-     * Sole constructor.  (For invocation by subclass constructors, typically
+     * Sole constructor.  (For invocbtion by subclbss constructors, typicblly
      * implicit.)
      */
-    protected AbstractSet() {
+    protected AbstrbctSet() {
     }
 
-    // Comparison and hashing
+    // Compbrison bnd hbshing
 
     /**
-     * Compares the specified object with this set for equality.  Returns
-     * <tt>true</tt> if the given object is also a set, the two sets have
-     * the same size, and every member of the given set is contained in
-     * this set.  This ensures that the <tt>equals</tt> method works
-     * properly across different implementations of the <tt>Set</tt>
-     * interface.<p>
+     * Compbres the specified object with this set for equblity.  Returns
+     * <tt>true</tt> if the given object is blso b set, the two sets hbve
+     * the sbme size, bnd every member of the given set is contbined in
+     * this set.  This ensures thbt the <tt>equbls</tt> method works
+     * properly bcross different implementbtions of the <tt>Set</tt>
+     * interfbce.<p>
      *
-     * This implementation first checks if the specified object is this
+     * This implementbtion first checks if the specified object is this
      * set; if so it returns <tt>true</tt>.  Then, it checks if the
-     * specified object is a set whose size is identical to the size of
-     * this set; if not, it returns false.  If so, it returns
-     * <tt>containsAll((Collection) o)</tt>.
+     * specified object is b set whose size is identicbl to the size of
+     * this set; if not, it returns fblse.  If so, it returns
+     * <tt>contbinsAll((Collection) o)</tt>.
      *
-     * @param o object to be compared for equality with this set
-     * @return <tt>true</tt> if the specified object is equal to this set
+     * @pbrbm o object to be compbred for equblity with this set
+     * @return <tt>true</tt> if the specified object is equbl to this set
      */
-    public boolean equals(Object o) {
+    public boolebn equbls(Object o) {
         if (o == this)
             return true;
 
-        if (!(o instanceof Set))
-            return false;
+        if (!(o instbnceof Set))
+            return fblse;
         Collection<?> c = (Collection<?>) o;
         if (c.size() != size())
-            return false;
+            return fblse;
         try {
-            return containsAll(c);
-        } catch (ClassCastException unused)   {
-            return false;
-        } catch (NullPointerException unused) {
-            return false;
+            return contbinsAll(c);
+        } cbtch (ClbssCbstException unused)   {
+            return fblse;
+        } cbtch (NullPointerException unused) {
+            return fblse;
         }
     }
 
     /**
-     * Returns the hash code value for this set.  The hash code of a set is
-     * defined to be the sum of the hash codes of the elements in the set,
-     * where the hash code of a <tt>null</tt> element is defined to be zero.
-     * This ensures that <tt>s1.equals(s2)</tt> implies that
-     * <tt>s1.hashCode()==s2.hashCode()</tt> for any two sets <tt>s1</tt>
-     * and <tt>s2</tt>, as required by the general contract of
-     * {@link Object#hashCode}.
+     * Returns the hbsh code vblue for this set.  The hbsh code of b set is
+     * defined to be the sum of the hbsh codes of the elements in the set,
+     * where the hbsh code of b <tt>null</tt> element is defined to be zero.
+     * This ensures thbt <tt>s1.equbls(s2)</tt> implies thbt
+     * <tt>s1.hbshCode()==s2.hbshCode()</tt> for bny two sets <tt>s1</tt>
+     * bnd <tt>s2</tt>, bs required by the generbl contrbct of
+     * {@link Object#hbshCode}.
      *
-     * <p>This implementation iterates over the set, calling the
-     * <tt>hashCode</tt> method on each element in the set, and adding up
+     * <p>This implementbtion iterbtes over the set, cblling the
+     * <tt>hbshCode</tt> method on ebch element in the set, bnd bdding up
      * the results.
      *
-     * @return the hash code value for this set
-     * @see Object#equals(Object)
-     * @see Set#equals(Object)
+     * @return the hbsh code vblue for this set
+     * @see Object#equbls(Object)
+     * @see Set#equbls(Object)
      */
-    public int hashCode() {
+    public int hbshCode() {
         int h = 0;
-        Iterator<E> i = iterator();
-        while (i.hasNext()) {
+        Iterbtor<E> i = iterbtor();
+        while (i.hbsNext()) {
             E obj = i.next();
             if (obj != null)
-                h += obj.hashCode();
+                h += obj.hbshCode();
         }
         return h;
     }
 
     /**
-     * Removes from this set all of its elements that are contained in the
-     * specified collection (optional operation).  If the specified
-     * collection is also a set, this operation effectively modifies this
-     * set so that its value is the <i>asymmetric set difference</i> of
+     * Removes from this set bll of its elements thbt bre contbined in the
+     * specified collection (optionbl operbtion).  If the specified
+     * collection is blso b set, this operbtion effectively modifies this
+     * set so thbt its vblue is the <i>bsymmetric set difference</i> of
      * the two sets.
      *
-     * <p>This implementation determines which is the smaller of this set
-     * and the specified collection, by invoking the <tt>size</tt>
-     * method on each.  If this set has fewer elements, then the
-     * implementation iterates over this set, checking each element
-     * returned by the iterator in turn to see if it is contained in
-     * the specified collection.  If it is so contained, it is removed
-     * from this set with the iterator's <tt>remove</tt> method.  If
-     * the specified collection has fewer elements, then the
-     * implementation iterates over the specified collection, removing
-     * from this set each element returned by the iterator, using this
+     * <p>This implementbtion determines which is the smbller of this set
+     * bnd the specified collection, by invoking the <tt>size</tt>
+     * method on ebch.  If this set hbs fewer elements, then the
+     * implementbtion iterbtes over this set, checking ebch element
+     * returned by the iterbtor in turn to see if it is contbined in
+     * the specified collection.  If it is so contbined, it is removed
+     * from this set with the iterbtor's <tt>remove</tt> method.  If
+     * the specified collection hbs fewer elements, then the
+     * implementbtion iterbtes over the specified collection, removing
+     * from this set ebch element returned by the iterbtor, using this
      * set's <tt>remove</tt> method.
      *
-     * <p>Note that this implementation will throw an
-     * <tt>UnsupportedOperationException</tt> if the iterator returned by the
-     * <tt>iterator</tt> method does not implement the <tt>remove</tt> method.
+     * <p>Note thbt this implementbtion will throw bn
+     * <tt>UnsupportedOperbtionException</tt> if the iterbtor returned by the
+     * <tt>iterbtor</tt> method does not implement the <tt>remove</tt> method.
      *
-     * @param  c collection containing elements to be removed from this set
-     * @return <tt>true</tt> if this set changed as a result of the call
-     * @throws UnsupportedOperationException if the <tt>removeAll</tt> operation
+     * @pbrbm  c collection contbining elements to be removed from this set
+     * @return <tt>true</tt> if this set chbnged bs b result of the cbll
+     * @throws UnsupportedOperbtionException if the <tt>removeAll</tt> operbtion
      *         is not supported by this set
-     * @throws ClassCastException if the class of an element of this set
-     *         is incompatible with the specified collection
-     * (<a href="Collection.html#optional-restrictions">optional</a>)
-     * @throws NullPointerException if this set contains a null element and the
+     * @throws ClbssCbstException if the clbss of bn element of this set
+     *         is incompbtible with the specified collection
+     * (<b href="Collection.html#optionbl-restrictions">optionbl</b>)
+     * @throws NullPointerException if this set contbins b null element bnd the
      *         specified collection does not permit null elements
-     * (<a href="Collection.html#optional-restrictions">optional</a>),
+     * (<b href="Collection.html#optionbl-restrictions">optionbl</b>),
      *         or if the specified collection is null
      * @see #remove(Object)
-     * @see #contains(Object)
+     * @see #contbins(Object)
      */
-    public boolean removeAll(Collection<?> c) {
+    public boolebn removeAll(Collection<?> c) {
         Objects.requireNonNull(c);
-        boolean modified = false;
+        boolebn modified = fblse;
 
         if (size() > c.size()) {
             for (Object e : c)
                 modified |= remove(e);
         } else {
-            for (Iterator<?> i = iterator(); i.hasNext(); ) {
-                if (c.contains(i.next())) {
+            for (Iterbtor<?> i = iterbtor(); i.hbsNext(); ) {
+                if (c.contbins(i.next())) {
                     i.remove();
                     modified = true;
                 }

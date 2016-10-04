@@ -1,20 +1,20 @@
 #
-# Copyright (c) 2002, 2007, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2002, 2007, Orbcle bnd/or its bffilibtes. All rights reserved.
 #
-# Redistribution and use in source and binary forms, with or without
-# modification, are permitted provided that the following conditions
-# are met:
+# Redistribution bnd use in source bnd binbry forms, with or without
+# modificbtion, bre permitted provided thbt the following conditions
+# bre met:
 #
-#   - Redistributions of source code must retain the above copyright
-#     notice, this list of conditions and the following disclaimer.
+#   - Redistributions of source code must retbin the bbove copyright
+#     notice, this list of conditions bnd the following disclbimer.
 #
-#   - Redistributions in binary form must reproduce the above copyright
-#     notice, this list of conditions and the following disclaimer in the
-#     documentation and/or other materials provided with the distribution.
+#   - Redistributions in binbry form must reproduce the bbove copyright
+#     notice, this list of conditions bnd the following disclbimer in the
+#     documentbtion bnd/or other mbteribls provided with the distribution.
 #
-#   - Neither the name of Oracle nor the names of its
-#     contributors may be used to endorse or promote products derived
-#     from this software without specific prior written permission.
+#   - Neither the nbme of Orbcle nor the nbmes of its
+#     contributors mby be used to endorse or promote products derived
+#     from this softwbre without specific prior written permission.
 #
 # THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
 # IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -35,77 +35,77 @@ DIST=dist
 RESOURCES=resources
 
 J2DBENCH_CLASSES = \
-	$(CLASSES)/j2dbench/J2DBench.class \
-	$(CLASSES)/j2dbench/Destinations.class \
-	$(CLASSES)/j2dbench/Group.class \
-	$(CLASSES)/j2dbench/Result.class \
-	$(CLASSES)/j2dbench/Modifier.class \
-	$(CLASSES)/j2dbench/Node.class \
-	$(CLASSES)/j2dbench/Option.class \
-	$(CLASSES)/j2dbench/ResultSet.class \
-	$(CLASSES)/j2dbench/TestEnvironment.class \
-	$(CLASSES)/j2dbench/Test.class \
-	$(CLASSES)/j2dbench/ui/EnableButton.class \
-	$(CLASSES)/j2dbench/ui/CompactLayout.class \
-	$(CLASSES)/j2dbench/tests/ImageTests.class \
-	$(CLASSES)/j2dbench/tests/RenderTests.class \
-	$(CLASSES)/j2dbench/tests/PixelTests.class \
-	$(CLASSES)/j2dbench/tests/MiscTests.class \
-	$(CLASSES)/j2dbench/tests/iio/IIOTests.class \
-	$(CLASSES)/j2dbench/tests/iio/InputTests.class \
-	$(CLASSES)/j2dbench/tests/iio/InputImageTests.class \
-	$(CLASSES)/j2dbench/tests/iio/InputStreamTests.class \
-	$(CLASSES)/j2dbench/tests/iio/OutputTests.class \
-	$(CLASSES)/j2dbench/tests/iio/OutputImageTests.class \
-	$(CLASSES)/j2dbench/tests/iio/OutputStreamTests.class \
-	$(CLASSES)/j2dbench/tests/text/TextConstructionTests.class \
-	$(CLASSES)/j2dbench/tests/text/TextMeasureTests.class \
-	$(CLASSES)/j2dbench/tests/text/TextRenderTests.class \
-	$(CLASSES)/j2dbench/tests/text/TextTests.class \
-	$(CLASSES)/j2dbench/tests/GraphicsTests.class
+	$(CLASSES)/j2dbench/J2DBench.clbss \
+	$(CLASSES)/j2dbench/Destinbtions.clbss \
+	$(CLASSES)/j2dbench/Group.clbss \
+	$(CLASSES)/j2dbench/Result.clbss \
+	$(CLASSES)/j2dbench/Modifier.clbss \
+	$(CLASSES)/j2dbench/Node.clbss \
+	$(CLASSES)/j2dbench/Option.clbss \
+	$(CLASSES)/j2dbench/ResultSet.clbss \
+	$(CLASSES)/j2dbench/TestEnvironment.clbss \
+	$(CLASSES)/j2dbench/Test.clbss \
+	$(CLASSES)/j2dbench/ui/EnbbleButton.clbss \
+	$(CLASSES)/j2dbench/ui/CompbctLbyout.clbss \
+	$(CLASSES)/j2dbench/tests/ImbgeTests.clbss \
+	$(CLASSES)/j2dbench/tests/RenderTests.clbss \
+	$(CLASSES)/j2dbench/tests/PixelTests.clbss \
+	$(CLASSES)/j2dbench/tests/MiscTests.clbss \
+	$(CLASSES)/j2dbench/tests/iio/IIOTests.clbss \
+	$(CLASSES)/j2dbench/tests/iio/InputTests.clbss \
+	$(CLASSES)/j2dbench/tests/iio/InputImbgeTests.clbss \
+	$(CLASSES)/j2dbench/tests/iio/InputStrebmTests.clbss \
+	$(CLASSES)/j2dbench/tests/iio/OutputTests.clbss \
+	$(CLASSES)/j2dbench/tests/iio/OutputImbgeTests.clbss \
+	$(CLASSES)/j2dbench/tests/iio/OutputStrebmTests.clbss \
+	$(CLASSES)/j2dbench/tests/text/TextConstructionTests.clbss \
+	$(CLASSES)/j2dbench/tests/text/TextMebsureTests.clbss \
+	$(CLASSES)/j2dbench/tests/text/TextRenderTests.clbss \
+	$(CLASSES)/j2dbench/tests/text/TextTests.clbss \
+	$(CLASSES)/j2dbench/tests/GrbphicsTests.clbss
 
 J2DANALYZER_CLASSES = \
-	$(CLASSES)/j2dbench/report/IIOComparator.class \
-	$(CLASSES)/j2dbench/report/HTMLSeriesReporter.class \
-	$(CLASSES)/j2dbench/report/J2DAnalyzer.class \
-	$(CLASSES)/j2dbench/report/XMLHTMLReporter.class
+	$(CLASSES)/j2dbench/report/IIOCompbrbtor.clbss \
+	$(CLASSES)/j2dbench/report/HTMLSeriesReporter.clbss \
+	$(CLASSES)/j2dbench/report/J2DAnblyzer.clbss \
+	$(CLASSES)/j2dbench/report/XMLHTMLReporter.clbss
 
 J2DBENCH_RESOURCES = \
-	$(CLASSES)/j2dbench/tests/iio/images \
-	$(CLASSES)/j2dbench/tests/text/textdata
+	$(CLASSES)/j2dbench/tests/iio/imbges \
+	$(CLASSES)/j2dbench/tests/text/textdbtb
 
-SCM_DIRs = .hg .svn CVS RCS SCCS Codemgr_wsdata deleted_files
+SCM_DIRs = .hg .svn CVS RCS SCCS Codemgr_wsdbtb deleted_files
 
-all: mkdirs J2DBench.jar J2DAnalyzer.jar
+bll: mkdirs J2DBench.jbr J2DAnblyzer.jbr
 
-run: mkdirs J2DBench.jar
-	java -jar J2DBench.jar
+run: mkdirs J2DBench.jbr
+	jbvb -jbr J2DBench.jbr
 
-analyze: mkdirs J2DAnalyzer.jar
-	java -jar J2DAnalyzer.jar
+bnblyze: mkdirs J2DAnblyzer.jbr
+	jbvb -jbr J2DAnblyzer.jbr
 
-J2DBench.jar: \
+J2DBench.jbr: \
 	$(J2DBENCH_CLASSES) $(J2DBENCH_RESOURCES) \
-	$(CLASSES)/j2dbench.manifest
-	jar cvmf $(CLASSES)/j2dbench.manifest $(DIST)/J2DBench.jar -C $(CLASSES) j2dbench
+	$(CLASSES)/j2dbench.mbnifest
+	jbr cvmf $(CLASSES)/j2dbench.mbnifest $(DIST)/J2DBench.jbr -C $(CLASSES) j2dbench
 
-J2DAnalyzer.jar: $(J2DANALYZER_CLASSES) $(CLASSES)/j2danalyzer.manifest
-	jar cvmf $(CLASSES)/j2danalyzer.manifest \
-		$(DIST)/J2DAnalyzer.jar -C $(CLASSES) j2dbench/report
+J2DAnblyzer.jbr: $(J2DANALYZER_CLASSES) $(CLASSES)/j2dbnblyzer.mbnifest
+	jbr cvmf $(CLASSES)/j2dbnblyzer.mbnifest \
+		$(DIST)/J2DAnblyzer.jbr -C $(CLASSES) j2dbench/report
 
-$(CLASSES)/j2dbench/tests/iio/images: $(RESOURCES)/images
+$(CLASSES)/j2dbench/tests/iio/imbges: $(RESOURCES)/imbges
 	cp -r $< $@
 	cd $@ && rm -rf $(SCM_DIRs)
 
-$(CLASSES)/j2dbench/tests/text/textdata: $(RESOURCES)/textdata
+$(CLASSES)/j2dbench/tests/text/textdbtb: $(RESOURCES)/textdbtb
 	cp -r $< $@
 	cd $@ && rm -rf $(SCM_DIRs)
 
-$(CLASSES)/j2dbench.manifest:
-	echo "Main-Class: j2dbench.J2DBench" > $@
+$(CLASSES)/j2dbench.mbnifest:
+	echo "Mbin-Clbss: j2dbench.J2DBench" > $@
 
-$(CLASSES)/j2danalyzer.manifest:
-	echo "Main-Class: j2dbench.report.J2DAnalyzer" > $@
+$(CLASSES)/j2dbnblyzer.mbnifest:
+	echo "Mbin-Clbss: j2dbench.report.J2DAnblyzer" > $@
 
 $(DIST):
 	mkdir $(DIST)
@@ -114,9 +114,9 @@ $(CLASSES):
 
 mkdirs: $(DIST) $(CLASSES)
 
-$(CLASSES)/j2dbench/%.class: $(SOURCEPATH)/j2dbench/%.java
-	javac -source 1.2 -target 1.2 -d $(CLASSES) -sourcepath $(SOURCEPATH) $<
+$(CLASSES)/j2dbench/%.clbss: $(SOURCEPATH)/j2dbench/%.jbvb
+	jbvbc -source 1.2 -tbrget 1.2 -d $(CLASSES) -sourcepbth $(SOURCEPATH) $<
 
-clean:
+clebn:
 	rm -rf $(CLASSES)
 	rm -rf $(DIST)

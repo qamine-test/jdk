@@ -1,234 +1,234 @@
 /*
- * Copyright (c) 1999, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.management;
+pbckbge jbvbx.mbnbgement;
 
-import com.sun.jmx.defaults.JmxProperties;
-import com.sun.jmx.defaults.ServiceName;
-import com.sun.jmx.mbeanserver.Util;
+import com.sun.jmx.defbults.JmxProperties;
+import com.sun.jmx.defbults.ServiceNbme;
+import com.sun.jmx.mbebnserver.Util;
 
 /**
- * Represents  the MBean server from the management point of view.
- * The MBeanServerDelegate MBean emits the MBeanServerNotifications when
- * an MBean is registered/unregistered in the MBean server.
+ * Represents  the MBebn server from the mbnbgement point of view.
+ * The MBebnServerDelegbte MBebn emits the MBebnServerNotificbtions when
+ * bn MBebn is registered/unregistered in the MBebn server.
  *
  * @since 1.5
  */
-public class MBeanServerDelegate implements MBeanServerDelegateMBean,
-                                            NotificationEmitter   {
+public clbss MBebnServerDelegbte implements MBebnServerDelegbteMBebn,
+                                            NotificbtionEmitter   {
 
-    /** The MBean server agent identification.*/
-    private String mbeanServerId ;
+    /** The MBebn server bgent identificbtion.*/
+    privbte String mbebnServerId ;
 
-    /** The NotificationBroadcasterSupport object that sends the
-        notifications */
-    private final NotificationBroadcasterSupport broadcaster;
+    /** The NotificbtionBrobdcbsterSupport object thbt sends the
+        notificbtions */
+    privbte finbl NotificbtionBrobdcbsterSupport brobdcbster;
 
-    private static long oldStamp = 0;
-    private final long stamp;
-    private long sequenceNumber = 1;
+    privbte stbtic long oldStbmp = 0;
+    privbte finbl long stbmp;
+    privbte long sequenceNumber = 1;
 
-    private static final MBeanNotificationInfo[] notifsInfo;
+    privbte stbtic finbl MBebnNotificbtionInfo[] notifsInfo;
 
-    static {
-        final String[] types  = {
-            MBeanServerNotification.UNREGISTRATION_NOTIFICATION,
-            MBeanServerNotification.REGISTRATION_NOTIFICATION
+    stbtic {
+        finbl String[] types  = {
+            MBebnServerNotificbtion.UNREGISTRATION_NOTIFICATION,
+            MBebnServerNotificbtion.REGISTRATION_NOTIFICATION
         };
-        notifsInfo = new MBeanNotificationInfo[1];
+        notifsInfo = new MBebnNotificbtionInfo[1];
         notifsInfo[0] =
-            new MBeanNotificationInfo(types,
-                    "javax.management.MBeanServerNotification",
-                    "Notifications sent by the MBeanServerDelegate MBean");
+            new MBebnNotificbtionInfo(types,
+                    "jbvbx.mbnbgement.MBebnServerNotificbtion",
+                    "Notificbtions sent by the MBebnServerDelegbte MBebn");
     }
 
     /**
-     * Create a MBeanServerDelegate object.
+     * Crebte b MBebnServerDelegbte object.
      */
-    public MBeanServerDelegate () {
-        stamp = getStamp();
-        broadcaster = new NotificationBroadcasterSupport() ;
+    public MBebnServerDelegbte () {
+        stbmp = getStbmp();
+        brobdcbster = new NotificbtionBrobdcbsterSupport() ;
     }
 
 
     /**
-     * Returns the MBean server agent identity.
+     * Returns the MBebn server bgent identity.
      *
      * @return the identity.
      */
-    public synchronized String getMBeanServerId() {
-        if (mbeanServerId == null) {
-            String localHost;
+    public synchronized String getMBebnServerId() {
+        if (mbebnServerId == null) {
+            String locblHost;
             try {
-                localHost = java.net.InetAddress.getLocalHost().getHostName();
-            } catch (java.net.UnknownHostException e) {
-                JmxProperties.MISC_LOGGER.finest("Can't get local host name, " +
-                        "using \"localhost\" instead. Cause is: "+e);
-                localHost = "localhost";
+                locblHost = jbvb.net.InetAddress.getLocblHost().getHostNbme();
+            } cbtch (jbvb.net.UnknownHostException e) {
+                JmxProperties.MISC_LOGGER.finest("Cbn't get locbl host nbme, " +
+                        "using \"locblhost\" instebd. Cbuse is: "+e);
+                locblHost = "locblhost";
             }
-            mbeanServerId = localHost + "_" + stamp;
+            mbebnServerId = locblHost + "_" + stbmp;
         }
-        return mbeanServerId;
+        return mbebnServerId;
     }
 
     /**
-     * Returns the full name of the JMX specification implemented
+     * Returns the full nbme of the JMX specificbtion implemented
      * by this product.
      *
-     * @return the specification name.
+     * @return the specificbtion nbme.
      */
-    public String getSpecificationName() {
-        return ServiceName.JMX_SPEC_NAME;
+    public String getSpecificbtionNbme() {
+        return ServiceNbme.JMX_SPEC_NAME;
     }
 
     /**
-     * Returns the version of the JMX specification implemented
+     * Returns the version of the JMX specificbtion implemented
      * by this product.
      *
-     * @return the specification version.
+     * @return the specificbtion version.
      */
-    public String getSpecificationVersion() {
-        return ServiceName.JMX_SPEC_VERSION;
+    public String getSpecificbtionVersion() {
+        return ServiceNbme.JMX_SPEC_VERSION;
     }
 
     /**
-     * Returns the vendor of the JMX specification implemented
+     * Returns the vendor of the JMX specificbtion implemented
      * by this product.
      *
-     * @return the specification vendor.
+     * @return the specificbtion vendor.
      */
-    public String getSpecificationVendor() {
-        return ServiceName.JMX_SPEC_VENDOR;
+    public String getSpecificbtionVendor() {
+        return ServiceNbme.JMX_SPEC_VENDOR;
     }
 
     /**
-     * Returns the JMX implementation name (the name of this product).
+     * Returns the JMX implementbtion nbme (the nbme of this product).
      *
-     * @return the implementation name.
+     * @return the implementbtion nbme.
      */
-    public String getImplementationName() {
-        return ServiceName.JMX_IMPL_NAME;
+    public String getImplementbtionNbme() {
+        return ServiceNbme.JMX_IMPL_NAME;
     }
 
     /**
-     * Returns the JMX implementation version (the version of this product).
+     * Returns the JMX implementbtion version (the version of this product).
      *
-     * @return the implementation version.
+     * @return the implementbtion version.
      */
-    public String getImplementationVersion() {
+    public String getImplementbtionVersion() {
         try {
-            return System.getProperty("java.runtime.version");
-        } catch (SecurityException e) {
+            return System.getProperty("jbvb.runtime.version");
+        } cbtch (SecurityException e) {
             return "";
         }
     }
 
     /**
-     * Returns the JMX implementation vendor (the vendor of this product).
+     * Returns the JMX implementbtion vendor (the vendor of this product).
      *
-     * @return the implementation vendor.
+     * @return the implementbtion vendor.
      */
-    public String getImplementationVendor()  {
-        return ServiceName.JMX_IMPL_VENDOR;
+    public String getImplementbtionVendor()  {
+        return ServiceNbme.JMX_IMPL_VENDOR;
     }
 
-    // From NotificationEmitter extends NotificationBroacaster
+    // From NotificbtionEmitter extends NotificbtionBrobcbster
     //
-    public MBeanNotificationInfo[] getNotificationInfo() {
-        final int len = MBeanServerDelegate.notifsInfo.length;
-        final MBeanNotificationInfo[] infos =
-        new MBeanNotificationInfo[len];
-        System.arraycopy(MBeanServerDelegate.notifsInfo,0,infos,0,len);
+    public MBebnNotificbtionInfo[] getNotificbtionInfo() {
+        finbl int len = MBebnServerDelegbte.notifsInfo.length;
+        finbl MBebnNotificbtionInfo[] infos =
+        new MBebnNotificbtionInfo[len];
+        System.brrbycopy(MBebnServerDelegbte.notifsInfo,0,infos,0,len);
         return infos;
     }
 
-    // From NotificationEmitter extends NotificationBroacaster
+    // From NotificbtionEmitter extends NotificbtionBrobcbster
     //
     public synchronized
-        void addNotificationListener(NotificationListener listener,
-                                     NotificationFilter filter,
-                                     Object handback)
-        throws IllegalArgumentException {
-        broadcaster.addNotificationListener(listener,filter,handback) ;
+        void bddNotificbtionListener(NotificbtionListener listener,
+                                     NotificbtionFilter filter,
+                                     Object hbndbbck)
+        throws IllegblArgumentException {
+        brobdcbster.bddNotificbtionListener(listener,filter,hbndbbck) ;
     }
 
-    // From NotificationEmitter extends NotificationBroacaster
+    // From NotificbtionEmitter extends NotificbtionBrobcbster
     //
     public synchronized
-        void removeNotificationListener(NotificationListener listener,
-                                        NotificationFilter filter,
-                                        Object handback)
+        void removeNotificbtionListener(NotificbtionListener listener,
+                                        NotificbtionFilter filter,
+                                        Object hbndbbck)
         throws ListenerNotFoundException {
-        broadcaster.removeNotificationListener(listener,filter,handback) ;
+        brobdcbster.removeNotificbtionListener(listener,filter,hbndbbck) ;
     }
 
-    // From NotificationEmitter extends NotificationBroacaster
+    // From NotificbtionEmitter extends NotificbtionBrobcbster
     //
     public synchronized
-        void removeNotificationListener(NotificationListener listener)
+        void removeNotificbtionListener(NotificbtionListener listener)
         throws ListenerNotFoundException {
-        broadcaster.removeNotificationListener(listener) ;
+        brobdcbster.removeNotificbtionListener(listener) ;
     }
 
     /**
-     * Enables the MBean server to send a notification.
-     * If the passed <var>notification</var> has a sequence number lesser
-     * or equal to 0, then replace it with the delegate's own sequence
+     * Enbbles the MBebn server to send b notificbtion.
+     * If the pbssed <vbr>notificbtion</vbr> hbs b sequence number lesser
+     * or equbl to 0, then replbce it with the delegbte's own sequence
      * number.
-     * @param notification The notification to send.
+     * @pbrbm notificbtion The notificbtion to send.
      *
      */
-    public void sendNotification(Notification notification) {
-        if (notification.getSequenceNumber() < 1) {
+    public void sendNotificbtion(Notificbtion notificbtion) {
+        if (notificbtion.getSequenceNumber() < 1) {
             synchronized (this) {
-                notification.setSequenceNumber(this.sequenceNumber++);
+                notificbtion.setSequenceNumber(this.sequenceNumber++);
             }
         }
-        broadcaster.sendNotification(notification);
+        brobdcbster.sendNotificbtion(notificbtion);
     }
 
     /**
-     * Defines the default ObjectName of the MBeanServerDelegate.
+     * Defines the defbult ObjectNbme of the MBebnServerDelegbte.
      *
      * @since 1.6
      */
-    public static final ObjectName DELEGATE_NAME =
-            Util.newObjectName("JMImplementation:type=MBeanServerDelegate");
+    public stbtic finbl ObjectNbme DELEGATE_NAME =
+            Util.newObjectNbme("JMImplementbtion:type=MBebnServerDelegbte");
 
-    /* Return a timestamp that is monotonically increasing even if
-       System.currentTimeMillis() isn't (for example, if you call this
-       constructor more than once in the same millisecond, or if the
-       clock always returns the same value).  This means that the ids
-       for a given JVM will always be distinact, though there is no
-       such guarantee for two different JVMs.  */
-    private static synchronized long getStamp() {
+    /* Return b timestbmp thbt is monotonicblly increbsing even if
+       System.currentTimeMillis() isn't (for exbmple, if you cbll this
+       constructor more thbn once in the sbme millisecond, or if the
+       clock blwbys returns the sbme vblue).  This mebns thbt the ids
+       for b given JVM will blwbys be distinbct, though there is no
+       such gubrbntee for two different JVMs.  */
+    privbte stbtic synchronized long getStbmp() {
         long s = System.currentTimeMillis();
-        if (oldStamp >= s) {
-            s = oldStamp + 1;
+        if (oldStbmp >= s) {
+            s = oldStbmp + 1;
         }
-        oldStamp = s;
+        oldStbmp = s;
         return s;
     }
 }

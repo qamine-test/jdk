@@ -1,559 +1,559 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Trbnsitionbl//EN">
 <html>
-  <head>
-    <title>Synth File Format</title>
+  <hebd>
+    <title>Synth File Formbt</title>
   <style type="text/css">
-div.dtd-fragment {
+div.dtd-frbgment {
     width: 100%;
     border: none;
-    background-color: #eee;
+    bbckground-color: #eee;
 }
-pre.dtd-fragment {
-    margin-left: 0;
+pre.dtd-frbgment {
+    mbrgin-left: 0;
 }
-div.example {
+div.exbmple {
     width: 100%;
-    color: maroon;
+    color: mbroon;
 }
   </style>
-  </head>
+  </hebd>
 
   <body>
-    <h2><a name="file">File Format</a></h2>
+    <h2><b nbme="file">File Formbt</b></h2>
     <p>
-      Synth's file format (<a href="synth.dtd">dtd</a>)
-      allows for specifying all the pieces
-      necessary to create your own look and feel. A synth file is
-      loaded by way of the <A HREF="../../../../../javax/swing/plaf/synth/SynthLookAndFeel.html#load(java.io.InputStream,%20java.lang.Class)">SynthLookAndFeel.load(InputStream, Class)</a> or
-      <a href="../../../../../javax/swing/plaf/synth/SynthLookAndFeel.html#load(java.net.URL)">SynthLookAndFeel.load(URL)</a> methods.
-      The following example uses the <code>load</code> method to configure 
-      a <code>SynthLookAndFeel</code> and sets it as the current look
-      and feel:
+      Synth's file formbt (<b href="synth.dtd">dtd</b>)
+      bllows for specifying bll the pieces
+      necessbry to crebte your own look bnd feel. A synth file is
+      lobded by wby of the <A HREF="../../../../../jbvbx/swing/plbf/synth/SynthLookAndFeel.html#lobd(jbvb.io.InputStrebm,%20jbvb.lbng.Clbss)">SynthLookAndFeel.lobd(InputStrebm, Clbss)</b> or
+      <b href="../../../../../jbvbx/swing/plbf/synth/SynthLookAndFeel.html#lobd(jbvb.net.URL)">SynthLookAndFeel.lobd(URL)</b> methods.
+      The following exbmple uses the <code>lobd</code> method to configure 
+      b <code>SynthLookAndFeel</code> bnd sets it bs the current look
+      bnd feel:
     </p>
-    <div class="example">
+    <div clbss="exbmple">
       <pre>
-  SynthLookAndFeel laf = new SynthLookAndFeel();
-  laf.load(MyClass.class.getResourceAsStream("laf.xml"), MyClass.class);
-  UIManager.setLookAndFeel(laf);
+  SynthLookAndFeel lbf = new SynthLookAndFeel();
+  lbf.lobd(MyClbss.clbss.getResourceAsStrebm("lbf.xml"), MyClbss.clbss);
+  UIMbnbger.setLookAndFeel(lbf);
       </pre>
     </div>
     <p>
-      This example loads the look and feel from an input stream, using
-      the specified class as the resource base to resolve paths.
-      It is also possible to load a look and feel from an arbitrary URL
-      as in the following example.
+      This exbmple lobds the look bnd feel from bn input strebm, using
+      the specified clbss bs the resource bbse to resolve pbths.
+      It is blso possible to lobd b look bnd feel from bn brbitrbry URL
+      bs in the following exbmple.
     </p>
-    <div class="example">
+    <div clbss="exbmple">
       <pre>
-  SynthLookAndFeel laf = new SynthLookAndFeel();
-  laf.load(new URL("file:///C:/java/synth/laf/laf.xml"));
-  UIManager.setLookAndFeel(laf);
+  SynthLookAndFeel lbf = new SynthLookAndFeel();
+  lbf.lobd(new URL("file:///C:/jbvb/synth/lbf/lbf.xml"));
+  UIMbnbger.setLookAndFeel(lbf);
       </pre>
     </div>
     <p>
-      The method <a href="../../../../../javax/swing/plaf/synth/SynthLookAndFeel.html#load(java.net.URL)">SynthLookAndFeel.load(URL)</a> can be
-      used, for instance, to load a look and feel from any of the following:
+      The method <b href="../../../../../jbvbx/swing/plbf/synth/SynthLookAndFeel.html#lobd(jbvb.net.URL)">SynthLookAndFeel.lobd(URL)</b> cbn be
+      used, for instbnce, to lobd b look bnd feel from bny of the following:
     </p>
     <ul>
-      <li>File, e.g. <code>file:///C:/java/synth/laf/laf.xml</code></li>
-      <li>Web server, e.g. <code>http://host/laf.xml</code></li>
+      <li>File, e.g. <code>file:///C:/jbvb/synth/lbf/lbf.xml</code></li>
+      <li>Web server, e.g. <code>http://host/lbf.xml</code></li>
       <li>JAR file, e.g.
-        <code>jar:file:///C:/synth-laf.jar!/laf.xml</code></li>
+        <code>jbr:file:///C:/synth-lbf.jbr!/lbf.xml</code></li>
       <li>Remote JAR file, e.g.
-        <code>jar:http://host/synth-laf.jar!/laf.xml</code></li>
+        <code>jbr:http://host/synth-lbf.jbr!/lbf.xml</code></li>
     </ul>
     <p>
-      While the DTD for synth is specified, the parser is not validating.
-      Parsing will fail only if a necessary attribute is not
+      While the DTD for synth is specified, the pbrser is not vblidbting.
+      Pbrsing will fbil only if b necessbry bttribute is not
       specified, or of the wrong type.
 
     <h3>The synth element</h3>
-<div class="dtd-fragment">
-<pre class="dtd-fragment">
-&lt;!ELEMENT <a name="e.synth">synth</a> ((<a href="#ee.beansPersistance">%beansPersistance;</a>) | <a href="#e.style">style</a> | <a href="#e.bind">bind</a> | <a href="#e.font">font</a> | <a href="#e.color">color</a> |
-                 <a href="#e.imagePainter">imagePainter</a> | <a href="#e.imageIcon">imageIcon</a> | <a href="#e.defaultsProperty">defaultsProperty</a>)*>
+<div clbss="dtd-frbgment">
+<pre clbss="dtd-frbgment">
+&lt;!ELEMENT <b nbme="e.synth">synth</b> ((<b href="#ee.bebnsPersistbnce">%bebnsPersistbnce;</b>) | <b href="#e.style">style</b> | <b href="#e.bind">bind</b> | <b href="#e.font">font</b> | <b href="#e.color">color</b> |
+                 <b href="#e.imbgePbinter">imbgePbinter</b> | <b href="#e.imbgeIcon">imbgeIcon</b> | <b href="#e.defbultsProperty">defbultsProperty</b>)*>
 &lt;!ATTLIST synth
-          <a href="#synth.version">version</a>              CDATA          #IMPLIED
+          <b href="#synth.version">version</b>              CDATA          #IMPLIED
 &gt;
 </pre>
 </div>
     <p><em>Attribute definitions</em></p>
-    <dl><dt><a name="synth.version"><samp>version</samp></a></dt>
-	<dd>File format version, should be 1</dd>
+    <dl><dt><b nbme="synth.version"><sbmp>version</sbmp></b></dt>
+	<dd>File formbt version, should be 1</dd>
     </dl>
     <p>
-      The <a href="#e.synth">synth</a> element contains all the other
-      elements that make up a SynthLookAndFeel definition.
+      The <b href="#e.synth">synth</b> element contbins bll the other
+      elements thbt mbke up b SynthLookAndFeel definition.
     </p>
 
       
     <h3>The style element</h3>
-<div class="dtd-fragment">
-<pre class="dtd-fragment">
-&lt;!ELEMENT <a name="e.style">style</a> (<a href="#e.property">property</a> | <a href="#e.defaultsProperty">defaultsProperty</a> | <a href="#e.state">state</a> | <a href="#e.font">font</a> | <a href="#e.graphicsUtils">graphicsUtils</a> |
-                 <a href="#e.insets">insets</a> | <a href="#e.painter">painter</a> | <a href="#e.imagePainter">imagePainter</a> | <a href="#e.opaque">opaque</a> | (<a href="#ee.beansPersistance">%beansPersistance;</a>) |
-                 <a href="#e.imageIcon">imageIcon</a>)*>
+<div clbss="dtd-frbgment">
+<pre clbss="dtd-frbgment">
+&lt;!ELEMENT <b nbme="e.style">style</b> (<b href="#e.property">property</b> | <b href="#e.defbultsProperty">defbultsProperty</b> | <b href="#e.stbte">stbte</b> | <b href="#e.font">font</b> | <b href="#e.grbphicsUtils">grbphicsUtils</b> |
+                 <b href="#e.insets">insets</b> | <b href="#e.pbinter">pbinter</b> | <b href="#e.imbgePbinter">imbgePbinter</b> | <b href="#e.opbque">opbque</b> | (<b href="#ee.bebnsPersistbnce">%bebnsPersistbnce;</b>) |
+                 <b href="#e.imbgeIcon">imbgeIcon</b>)*>
 &lt;!ATTLIST style
-          <a href="#style.id">id</a>              ID          #IMPLIED
-          <a href="#style.clone">clone</a>           IDREF       #IMPLIED
+          <b href="#style.id">id</b>              ID          #IMPLIED
+          <b href="#style.clone">clone</b>           IDREF       #IMPLIED
 &gt;
 </pre>
 </div>
     <p><em>Attribute definitions</em></p>
     <dl>
-      <dt><a name="style.id"><samp>id</samp></a></dt>
+      <dt><b nbme="style.id"><sbmp>id</sbmp></b></dt>
       <dd>Unique identifier for the style.</dd>
-      <dt><a name="style.clone"><samp>clone</samp></a></dt>
-      <dd>Identifier of a previously defined style that is copied
-	    and used for the new style. This provides a conveniant
-	    mechanism for overriding only a portion of an existing
+      <dt><b nbme="style.clone"><sbmp>clone</sbmp></b></dt>
+      <dd>Identifier of b previously defined style thbt is copied
+	    bnd used for the new style. This provides b convenibnt
+	    mechbnism for overriding only b portion of bn existing
 	    style.</dd>
     </dl>
     <p>
-      A style element corresponds to a
+      A style element corresponds to b
       <code>SynthStyle</code>, with the child elements specifying
-      properties that apply to all states or state elements which
-      contain properties specific to a particular state. The following
-      example creates an opaque style with the id <code>button</code>,
-      insets of 4, 4, 4, 4 and a font of Dialog 12.
+      properties thbt bpply to bll stbtes or stbte elements which
+      contbin properties specific to b pbrticulbr stbte. The following
+      exbmple crebtes bn opbque style with the id <code>button</code>,
+      insets of 4, 4, 4, 4 bnd b font of Diblog 12.
     </p>
-    <div class="example">
+    <div clbss="exbmple">
       <pre>
 &lt;style id="button">
-  &lt;opaque value="true"/>
+  &lt;opbque vblue="true"/>
   &lt;insets top="4" left="4" right="4" bottom="4"/>
-  &lt;font name="Dialog" size="12"/>
+  &lt;font nbme="Diblog" size="12"/>
 &lt;/style>
       </pre>
     </div>
     <p>
-      The following example creates a new style with an id of
-      <code>clonedButton</code> that is a copy of the
-      style with id <code>button</code> and has a font of Dialog,
-      14. The resulting style will be opaque, have insets of 4, 4, 4,
-      4 and a font of Dialog 14.
+      The following exbmple crebtes b new style with bn id of
+      <code>clonedButton</code> thbt is b copy of the
+      style with id <code>button</code> bnd hbs b font of Diblog,
+      14. The resulting style will be opbque, hbve insets of 4, 4, 4,
+      4 bnd b font of Diblog 14.
     </p>
-    <div class="example">
+    <div clbss="exbmple">
       <pre>
 &lt;style id="clonedButton" clone="button">
-  &lt;font name="Dialog" size="14"/>
+  &lt;font nbme="Diblog" size="14"/>
 &lt;/style>
       </pre>
     </div>
 
-    <h3>The state element</h3>
-<div class="dtd-fragment">
-<pre class="dtd-fragment">
-&lt;!ELEMENT <a name="e.state">state</a> (<a href="#e.color">color</a> | <a href="#e.font">font</a> | <a href="#e.painter">painter</a> | <a href="#e.imagePainter">imagePainter</a> | (<a href="#ee.beansPersistance">%beansPersistance;</a>) |
-                 <a href="#e.property">property</a> |  <a href="#e.imageIcon">imageIcon</a>)*>
-&lt;!ATTLIST state
-          <a href="#state.id">id</a>              ID             #IMPLIED
-          <a href="#state.clone">clone</a>           IDREF          #IMPLIED
-          <a href="#state.value">value</a>           CDATA          #IMPLIED
-          <a href="#state.idref">idref</a>           IDREF          #IMPLIED
+    <h3>The stbte element</h3>
+<div clbss="dtd-frbgment">
+<pre clbss="dtd-frbgment">
+&lt;!ELEMENT <b nbme="e.stbte">stbte</b> (<b href="#e.color">color</b> | <b href="#e.font">font</b> | <b href="#e.pbinter">pbinter</b> | <b href="#e.imbgePbinter">imbgePbinter</b> | (<b href="#ee.bebnsPersistbnce">%bebnsPersistbnce;</b>) |
+                 <b href="#e.property">property</b> |  <b href="#e.imbgeIcon">imbgeIcon</b>)*>
+&lt;!ATTLIST stbte
+          <b href="#stbte.id">id</b>              ID             #IMPLIED
+          <b href="#stbte.clone">clone</b>           IDREF          #IMPLIED
+          <b href="#stbte.vblue">vblue</b>           CDATA          #IMPLIED
+          <b href="#stbte.idref">idref</b>           IDREF          #IMPLIED
 &gt;
 </pre>
 </div>
     <p><em>Attribute definitions</em></p>
     <dl>
-      <dt><a name="state.id"><samp>id</samp></a></dt>
-      <dd>Unique identifier for the state.</dd>
-      <dt><a name="state.clone"><samp>clone</samp></a></dt>
-      <dd>Identifier of a previously defined state that is copied
-	and used for the new state.</dd>
-      <dt><a name="state.value"><samp>value</samp></a></dt>
-      <dd>Identifies the state of the Component the properties are to apply
-	to. This is a list of: ENABLED,
+      <dt><b nbme="stbte.id"><sbmp>id</sbmp></b></dt>
+      <dd>Unique identifier for the stbte.</dd>
+      <dt><b nbme="stbte.clone"><sbmp>clone</sbmp></b></dt>
+      <dd>Identifier of b previously defined stbte thbt is copied
+	bnd used for the new stbte.</dd>
+      <dt><b nbme="stbte.vblue"><sbmp>vblue</sbmp></b></dt>
+      <dd>Identifies the stbte of the Component the properties bre to bpply
+	to. This is b list of: ENABLED,
 	MOUSE_OVER, PRESSED, DISABLED, FOCUSED, SELECTED or
-	DEFAULT. Multiple states should
-	be separated by 'and.' If you do not specify a value, the
-	contents apply to all states.
-      <dt><a name="state.idref"><samp>idref</samp></a></dt>
-      <dd>Indicates this state should be the same as a previously
-	    defined state. This is useful for multiple styles that
-	    wish to share the same visual properties for a particular
-	    state.
+	DEFAULT. Multiple stbtes should
+	be sepbrbted by 'bnd.' If you do not specify b vblue, the
+	contents bpply to bll stbtes.
+      <dt><b nbme="stbte.idref"><sbmp>idref</sbmp></b></dt>
+      <dd>Indicbtes this stbte should be the sbme bs b previously
+	    defined stbte. This is useful for multiple styles thbt
+	    wish to shbre the sbme visubl properties for b pbrticulbr
+	    stbte.
       </dd>
     </dl>
     <p>
-      The <a href="#e.state">state</a> element specifies the visual
-      properties that are to be used for
-      a particular state of a component. For example, you could
-      specify the background color when the Component is enabled should look
-      different than the background color when the component is
-      disabled. Not all Components support all states. For example, a
-      <code>Panel</code> only supports the states ENABLED and DISABLED.
+      The <b href="#e.stbte">stbte</b> element specifies the visubl
+      properties thbt bre to be used for
+      b pbrticulbr stbte of b component. For exbmple, you could
+      specify the bbckground color when the Component is enbbled should look
+      different thbn the bbckground color when the component is
+      disbbled. Not bll Components support bll stbtes. For exbmple, b
+      <code>Pbnel</code> only supports the stbtes ENABLED bnd DISABLED.
     </p>
     <p>
-      The following example creates a state with a red background that
-      will be used when the component is in an a selected and pressed state:
+      The following exbmple crebtes b stbte with b red bbckground thbt
+      will be used when the component is in bn b selected bnd pressed stbte:
     </p>
-    <div class="example">
+    <div clbss="exbmple">
     <pre>
-&lt;state value="SELECTED AND PRESSED">
-  &lt;color value="RED" type="BACKGROUND"/>
-&lt;/state>
+&lt;stbte vblue="SELECTED AND PRESSED">
+  &lt;color vblue="RED" type="BACKGROUND"/>
+&lt;/stbte>
     </pre>
 </div>
     <p>
-      The state with the most individual matches will be
-      chosen. For example, the following defines two states:
+      The stbte with the most individubl mbtches will be
+      chosen. For exbmple, the following defines two stbtes:
     </p>
-    <div class="example">
+    <div clbss="exbmple">
       <pre>
-&lt;state value="SELECTED and PRESSED" id="one">
-  &lt;color value="RED" type="BACKGROUND"/>
-&lt;/state>
-&lt;state value="SELECTED" id="two">
-  &lt;color value="RED" type="BACKGROUND"/>
-&lt;/state>
+&lt;stbte vblue="SELECTED bnd PRESSED" id="one">
+  &lt;color vblue="RED" type="BACKGROUND"/>
+&lt;/stbte>
+&lt;stbte vblue="SELECTED" id="two">
+  &lt;color vblue="RED" type="BACKGROUND"/>
+&lt;/stbte>
     </pre>
 </div>
     <p>
-      State <code>one</code> is used when the Component is SELECTED
-      and PRESSED, and state <code>two</code> when the Component is
-      SELECTED. If the state of the Component 
-      contains at least SELECTED and PRESSED, state <code>one</code> will be
-      chosen, otherwise if the state is SELECTED, but not does not
-      contain PRESSED, state <code>two</code> will be used.
+      Stbte <code>one</code> is used when the Component is SELECTED
+      bnd PRESSED, bnd stbte <code>two</code> when the Component is
+      SELECTED. If the stbte of the Component 
+      contbins bt lebst SELECTED bnd PRESSED, stbte <code>one</code> will be
+      chosen, otherwise if the stbte is SELECTED, but not does not
+      contbin PRESSED, stbte <code>two</code> will be used.
 
     <h3>The font element</h3>
-<div class="dtd-fragment">
-<pre class="dtd-fragment">
-&lt;!ELEMENT <a name="e.font">font</a> EMPTY>
+<div clbss="dtd-frbgment">
+<pre clbss="dtd-frbgment">
+&lt;!ELEMENT <b nbme="e.font">font</b> EMPTY>
 &lt;!ATTLIST font
-          <a href="#font.id">id</a>              ID             #IMPLIED
-          <a href="#font.idref">clone</a>           IDREF          #IMPLIED
-          <a href="#font.name">name</a>            CDATA          #IMPLIED
-          <a href="#font.style">style</a>           CDATA          #IMPLIED
-          <a href="#font.size">size</a>            CDATA          #IMPLIED
+          <b href="#font.id">id</b>              ID             #IMPLIED
+          <b href="#font.idref">clone</b>           IDREF          #IMPLIED
+          <b href="#font.nbme">nbme</b>            CDATA          #IMPLIED
+          <b href="#font.style">style</b>           CDATA          #IMPLIED
+          <b href="#font.size">size</b>            CDATA          #IMPLIED
 &gt;
 </pre>
 </div>
     <p><em>Attribute definitions</em></p>
     <dl>
-      <dt><a name="font.id"><samp>id</samp></a></dt>
+      <dt><b nbme="font.id"><sbmp>id</sbmp></b></dt>
       <dd>Unique identifier for the Font.</dd>
-      <dt><a name="font.idref"><samp>idref</samp></a></dt>
-      <dd>Identifier of a previously defined font.</dd>
-      <dt><a name="font.name"><samp>name</samp></a></dt>
-      <dd>Name of the font.
-      <dt><a name="font.style"><samp>style</samp></a></dt>
-      <dd>Style of the font. This is a list of the styles defined by
-	Font separated by spaces: PLAIN, BOLD or ITALIC. If
+      <dt><b nbme="font.idref"><sbmp>idref</sbmp></b></dt>
+      <dd>Identifier of b previously defined font.</dd>
+      <dt><b nbme="font.nbme"><sbmp>nbme</sbmp></b></dt>
+      <dd>Nbme of the font.
+      <dt><b nbme="font.style"><sbmp>style</sbmp></b></dt>
+      <dd>Style of the font. This is b list of the styles defined by
+	Font sepbrbted by spbces: PLAIN, BOLD or ITALIC. If
 	unspecified PLAIN is used.
       </dd>
-      <dt><a name="font.size"><samp>size</samp></a></dt>
+      <dt><b nbme="font.size"><sbmp>size</sbmp></b></dt>
       <dd>Size of the font, in pixels</dd>
     </dl>
     <p>
-      Defines the font for the current <a href="#e.state">state</a>,
-      or <a href="#e.style">style</a>. You must
-      specify either an <a href="#font.idref">idref</a> or a
-      <a href="#font.name">name</a> and <a href="#font.size">size</a>.
+      Defines the font for the current <b href="#e.stbte">stbte</b>,
+      or <b href="#e.style">style</b>. You must
+      specify either bn <b href="#font.idref">idref</b> or b
+      <b href="#font.nbme">nbme</b> bnd <b href="#font.size">size</b>.
     </p>
     <p>
-      The following example creates a style with a Font of
-      Dialog 12 Bold.
+      The following exbmple crebtes b style with b Font of
+      Diblog 12 Bold.
     </p>
-    <div class="example">
+    <div clbss="exbmple">
       <pre>
 &lt;style id="test">
-  &lt;font name="DIALOG" size="12" style="BOLD"/>
+  &lt;font nbme="DIALOG" size="12" style="BOLD"/>
 &lt;/style>
     </pre>
 </div>
     <p>
-      The following example creates a style with a font of
-      Dialog 12 Bold that will be used if the component is ENABLED,
-      otherwise Dialog 12 Italic will be used.
+      The following exbmple crebtes b style with b font of
+      Diblog 12 Bold thbt will be used if the component is ENABLED,
+      otherwise Diblog 12 Itblic will be used.
     </p>
-    <div class="example">
+    <div clbss="exbmple">
       <pre>
 &lt;style id="test">
-  &lt;font name="DIALOG" size="12" style="ITALIC"/>
-  &lt;state value="ENABLED">
-    &lt;font name="DIALOG" size="12" style="BOLD"/>
-  &lt;/state>
+  &lt;font nbme="DIALOG" size="12" style="ITALIC"/>
+  &lt;stbte vblue="ENABLED">
+    &lt;font nbme="DIALOG" size="12" style="BOLD"/>
+  &lt;/stbte>
 &lt;/style>
     </pre>
 </div>
     <p>
-      While you can supply a different font per state, in general
-      widgets will NOT revalidate when the state changes, so that you
-      may run into sizing problems if you try to use a font with a
-      significantly different size for different states.
+      While you cbn supply b different font per stbte, in generbl
+      widgets will NOT revblidbte when the stbte chbnges, so thbt you
+      mby run into sizing problems if you try to use b font with b
+      significbntly different size for different stbtes.
     </p>
 
 
     <h3>The color element</h3>
-<div class="dtd-fragment">
-<pre class="dtd-fragment">
-&lt;!ELEMENT <a name="e.color">color</a> EMPTY>
+<div clbss="dtd-frbgment">
+<pre clbss="dtd-frbgment">
+&lt;!ELEMENT <b nbme="e.color">color</b> EMPTY>
 &lt;!ATTLIST color
-          <a href="#color.id">id</a>              ID             #IMPLIED
-          <a href="#color.idref">idref</a>           IDREF          #IMPLIED
-          <a href="#color.type">type</a>            CDATA          #IMPLIED
-          <a href="#color.value">value</a>           CDATA          #IMPLIED
+          <b href="#color.id">id</b>              ID             #IMPLIED
+          <b href="#color.idref">idref</b>           IDREF          #IMPLIED
+          <b href="#color.type">type</b>            CDATA          #IMPLIED
+          <b href="#color.vblue">vblue</b>           CDATA          #IMPLIED
 &gt;
 </pre>
 </div>
     <p><em>Attribute definitions</em></p>
     <dl>
-      <dt><a name="color.id"><samp>id</samp></a></dt>
+      <dt><b nbme="color.id"><sbmp>id</sbmp></b></dt>
       <dd>Unique identifier for the color.</dd>
-      <dt><a name="color.idref"><samp>idref</samp></a></dt>
-      <dd>Identifier of a previously defined color.</dd>
-      <dt><a name="color.type"><samp>type</samp></a></dt>
+      <dt><b nbme="color.idref"><sbmp>idref</sbmp></b></dt>
+      <dd>Identifier of b previously defined color.</dd>
+      <dt><b nbme="color.type"><sbmp>type</sbmp></b></dt>
       <dd>Describes where this color should be used. This is
-	    typically one of the constants defined by ColorType:
+	    typicblly one of the constbnts defined by ColorType:
 	    FOREGROUND, BACKGROUND, TEXT_FOREGROUND, TEXT_BACKGROUND
-	    or FOCUS. Alternatively you can specify the complete path
-	    to a class and field, for example
-	    javax.swing.plaf.synth.ColorType.FOREGROUND, this
-	    is useful for subclasses of synth that define additional
+	    or FOCUS. Alternbtively you cbn specify the complete pbth
+	    to b clbss bnd field, for exbmple
+	    jbvbx.swing.plbf.synth.ColorType.FOREGROUND, this
+	    is useful for subclbsses of synth thbt define bdditionbl
 	    color types.
       </dd>
-      <dt><a name="color.value"><samp>value</samp></a></dt>
+      <dt><b nbme="color.vblue"><sbmp>vblue</sbmp></b></dt>
       <dd>
-        Value for the color. This accepts the following forms. 
+        Vblue for the color. This bccepts the following forms. 
         <ul>
-          <li>The name of a constant in the <code>Color</code> class,
-            for example <code> RED</code>. 
-          <li>A hex value of the form <code>#RRGGBB</code> where
+          <li>The nbme of b constbnt in the <code>Color</code> clbss,
+            for exbmple <code> RED</code>. 
+          <li>A hex vblue of the form <code>#RRGGBB</code> where
             <code>RR</code> gives the red component, <code>GG</code>
-            the green component and <code>BB</code> the blue
-            component. You need not specify all color components. For
-            example, <code>#123</code> is equivalent to <code>#000123</code>.
-          <li>A hex value of the form <code>#ARRGGBB</code> or
-            <code>#AARRGGBB</code>. This is useful for alpha values
-            other than <code>0xFF</code>. The form
-            <code>#ARRGGBB</code> is equivalent to
+            the green component bnd <code>BB</code> the blue
+            component. You need not specify bll color components. For
+            exbmple, <code>#123</code> is equivblent to <code>#000123</code>.
+          <li>A hex vblue of the form <code>#ARRGGBB</code> or
+            <code>#AARRGGBB</code>. This is useful for blphb vblues
+            other thbn <code>0xFF</code>. The form
+            <code>#ARRGGBB</code> is equivblent to
             <code>#0ARRGGBB</code>. 
         </ul>
       </dd>
     </dl>
     <p>
-      <a href="#e.color">Color</a> defines a color and what portion of
-      the Component it should be applied to. The following example
-      will use a background color of RED when the component is
-      enabled.
+      <b href="#e.color">Color</b> defines b color bnd whbt portion of
+      the Component it should be bpplied to. The following exbmple
+      will use b bbckground color of RED when the component is
+      enbbled.
     </p>
-    <div class="example">
+    <div clbss="exbmple">
       <pre>
-&lt;state value="ENABLED">
-  &lt;color value="RED" type="BACKGROUND"/>
-&lt;/state>
+&lt;stbte vblue="ENABLED">
+  &lt;color vblue="RED" type="BACKGROUND"/>
+&lt;/stbte>
     </pre>
 </div>
     <p>
-      The following example will have a red background when the
-      Component is enabled, otherwise blue.
+      The following exbmple will hbve b red bbckground when the
+      Component is enbbled, otherwise blue.
     </p>
-    <div class="example">
+    <div clbss="exbmple">
       <pre>
 &lt;style id="test">
-  &lt;state value="ENABLED">
-    &lt;color value="RED" type="BACKGROUND"/>
-  &lt;/state>
-  &lt;state>
-    &lt;color value="#00FF00" type="BACKGROUND"/>
-  &lt;/state>
+  &lt;stbte vblue="ENABLED">
+    &lt;color vblue="RED" type="BACKGROUND"/>
+  &lt;/stbte>
+  &lt;stbte>
+    &lt;color vblue="#00FF00" type="BACKGROUND"/>
+  &lt;/stbte>
 &lt;/style>
     </pre>
 </div>
 
     <h3>The property element</h3>
-<div class="dtd-fragment">
-<pre class="dtd-fragment">
-&lt;!ELEMENT <a name="e.property">property</a> EMPTY>
+<div clbss="dtd-frbgment">
+<pre clbss="dtd-frbgment">
+&lt;!ELEMENT <b nbme="e.property">property</b> EMPTY>
 &lt;!ATTLIST property
-          <a href="#property.key">key</a>               CDATA                                             #REQUIRED
-          <a href="#property.type">type</a>              (idref|boolean|dimension|insets|integer|string)          "idref"
-          <a href="#property.value">value</a>             CDATA                                             #REQUIRED
+          <b href="#property.key">key</b>               CDATA                                             #REQUIRED
+          <b href="#property.type">type</b>              (idref|boolebn|dimension|insets|integer|string)          "idref"
+          <b href="#property.vblue">vblue</b>             CDATA                                             #REQUIRED
 &gt;
 </pre>
 </div>
     <p><em>Attribute definitions</em></p>
     <dl>
-      <dt><a name="property.key"><samp>key</samp></a></dt>
-      <dd>Name of the property.</dd>
-      <dt><a name="property.type"><samp>type</samp></a></dt>
-      <dd>Indicates the type of the property.</dd>
-      <dt><a name="property.value"><samp>value</samp></a></dt>
-      <dd>Value for the property. For boolean properties this will be
-	be true or false, for integer properties this will be a
-	valid integer, for dimensions this will be the width and
-	height separated by a space, for insets properties this will
-	be the top, left, bottom and right separated by a space and
-	for idref properties this will be the unique id of a
+      <dt><b nbme="property.key"><sbmp>key</sbmp></b></dt>
+      <dd>Nbme of the property.</dd>
+      <dt><b nbme="property.type"><sbmp>type</sbmp></b></dt>
+      <dd>Indicbtes the type of the property.</dd>
+      <dt><b nbme="property.vblue"><sbmp>vblue</sbmp></b></dt>
+      <dd>Vblue for the property. For boolebn properties this will be
+	be true or fblse, for integer properties this will be b
+	vblid integer, for dimensions this will be the width bnd
+	height sepbrbted by b spbce, for insets properties this will
+	be the top, left, bottom bnd right sepbrbted by b spbce bnd
+	for idref properties this will be the unique id of b
 	previously defined object.</dd>
     </dl>
     <p>
-      <a href="#e.property">Property</a> elements are used to add key value pairs to a
-      <code>SynthStyle</code> that can be accessed by way of the
-      <code>get</code> method. Many <code>Component</code>s use the
-      key value pairs for configuring their visual appearance. Refer to
-      <a href="componentProperties.html">property table</a> for a list of the
-      properties each <code>Component</code> supports. The following
-      creates the properties
-      <code>ScrollBar.allowsAbsolutePositioning</code>,
-      <code>OptionPane.minimumSize</code>,
-      <code>ScrollPane.viewportBorderInsets</code>,
-      <code>Tree.rowHeight</code> and <code>foreground</code> with the
-      values false, a dimensions of 262x90, an insets of 5, 5, 5, 5,
-      the integer 20 and an instance of the
-      class ArrowButtonPainter.
+      <b href="#e.property">Property</b> elements bre used to bdd key vblue pbirs to b
+      <code>SynthStyle</code> thbt cbn be bccessed by wby of the
+      <code>get</code> method. Mbny <code>Component</code>s use the
+      key vblue pbirs for configuring their visubl bppebrbnce. Refer to
+      <b href="componentProperties.html">property tbble</b> for b list of the
+      properties ebch <code>Component</code> supports. The following
+      crebtes the properties
+      <code>ScrollBbr.bllowsAbsolutePositioning</code>,
+      <code>OptionPbne.minimumSize</code>,
+      <code>ScrollPbne.viewportBorderInsets</code>,
+      <code>Tree.rowHeight</code> bnd <code>foreground</code> with the
+      vblues fblse, b dimensions of 262x90, bn insets of 5, 5, 5, 5,
+      the integer 20 bnd bn instbnce of the
+      clbss ArrowButtonPbinter.
     </p>
-    <div class="example">
+    <div clbss="exbmple">
       <pre>
 &lt;style id="test">
-  &lt;property key="ScrollBar.allowsAbsolutePositioning" type="boolean" value="false"/>
-  &lt;property key="OptionPane.minimumSize" type="dimension" value="262 90"/>
-  &lt;property key="ScrollPane.viewportBorderInsets" type="insets" value="5 5 5 5"/>
-  &lt;property key="Tree.rowHeight" type="integer" value="20"/>
-  &lt;object class="ArrowButtonPainter" id="ArrowButtonPainter"/>
-  &lt;property key="foreground" type="idref" value="ArrowButtonPainter"/>
+  &lt;property key="ScrollBbr.bllowsAbsolutePositioning" type="boolebn" vblue="fblse"/>
+  &lt;property key="OptionPbne.minimumSize" type="dimension" vblue="262 90"/>
+  &lt;property key="ScrollPbne.viewportBorderInsets" type="insets" vblue="5 5 5 5"/>
+  &lt;property key="Tree.rowHeight" type="integer" vblue="20"/>
+  &lt;object clbss="ArrowButtonPbinter" id="ArrowButtonPbinter"/>
+  &lt;property key="foreground" type="idref" vblue="ArrowButtonPbinter"/>
 &lt;/style>
     </pre>
 </div>
     <p>
-      You can also specify properties that are to apply to specific
-      states.  Whether or not the property is accessed for each state
-      depends upon how the property is used.  For example, the
-      following specifies a default icon and an icon to use while the
+      You cbn blso specify properties thbt bre to bpply to specific
+      stbtes.  Whether or not the property is bccessed for ebch stbte
+      depends upon how the property is used.  For exbmple, the
+      following specifies b defbult icon bnd bn icon to use while the
       mouse is over the component.
     </p>
-    <div class="example">
+    <div clbss="exbmple">
       <pre>
 &lt;style id="test">
-  &lt;imageIcon id="defaultIcon" path="resources/myImage.png"/>
-  &lt;property key="RadioButton.icon" value="defaultIcon"/>
-  &lt;state value="MOUSE_OVER">
-    &lt;imageIcon id="mouseOverIcon" path="resources/myMouseOverImage.png"/>
-    &lt;property key="RadioButton.icon" value="mouseOverIcon"/>
-  &lt;/state>
+  &lt;imbgeIcon id="defbultIcon" pbth="resources/myImbge.png"/>
+  &lt;property key="RbdioButton.icon" vblue="defbultIcon"/>
+  &lt;stbte vblue="MOUSE_OVER">
+    &lt;imbgeIcon id="mouseOverIcon" pbth="resources/myMouseOverImbge.png"/>
+    &lt;property key="RbdioButton.icon" vblue="mouseOverIcon"/>
+  &lt;/stbte>
 &lt;/style>
     </pre>
 </div>
-<div class="dtd-fragment">
-<pre class="dtd-fragment">
-&lt;!ELEMENT <a name="e.defaultsProperty">defaultsProperty</a> EMPTY>
-&lt;!ATTLIST defaultsProperty
-          <a href="#defaultsProperty.key">key</a>               CDATA                                             #REQUIRED
-          <a href="#defaultsProperty.type">type</a>              (idref|boolean|dimension|insets|integer|string)   "idref"
-          <a href="#defaultsProperty.value">value</a>             CDATA                                             #REQUIRED
+<div clbss="dtd-frbgment">
+<pre clbss="dtd-frbgment">
+&lt;!ELEMENT <b nbme="e.defbultsProperty">defbultsProperty</b> EMPTY>
+&lt;!ATTLIST defbultsProperty
+          <b href="#defbultsProperty.key">key</b>               CDATA                                             #REQUIRED
+          <b href="#defbultsProperty.type">type</b>              (idref|boolebn|dimension|insets|integer|string)   "idref"
+          <b href="#defbultsProperty.vblue">vblue</b>             CDATA                                             #REQUIRED
 &gt;
 </pre>
 </div>
     <p><em>Attribute definitions</em></p>
     <dl>
-      <dt><a name="defaultsProperty.key"><samp>key</samp></a></dt>
-      <dd>Name of the property.</dd>
-      <dt><a name="defaultsProperty.type"><samp>type</samp></a></dt>
-      <dd>Indicates the type of the property.</dd>
-      <dt><a name="defaultsProperty.value"><samp>value</samp></a></dt>
-      <dd>Value for the property. For boolean properties this will be
-	true or false, for integer properties this will be a
-	valid integer, for dimensions this will be the width and
-	height separated by a space, for insets properties this will
-	be the top, left, bottom and right separated by a space and
-	for idref properties this will be the unique id of a
+      <dt><b nbme="defbultsProperty.key"><sbmp>key</sbmp></b></dt>
+      <dd>Nbme of the property.</dd>
+      <dt><b nbme="defbultsProperty.type"><sbmp>type</sbmp></b></dt>
+      <dd>Indicbtes the type of the property.</dd>
+      <dt><b nbme="defbultsProperty.vblue"><sbmp>vblue</sbmp></b></dt>
+      <dd>Vblue for the property. For boolebn properties this will be
+	true or fblse, for integer properties this will be b
+	vblid integer, for dimensions this will be the width bnd
+	height sepbrbted by b spbce, for insets properties this will
+	be the top, left, bottom bnd right sepbrbted by b spbce bnd
+	for idref properties this will be the unique id of b
 	previously defined object.</dd>
     </dl>
     <p>
-      <a href="#e.defaultsProperty">DefaultsProperty</a> elements are
-      used to define properties that will be placed in the
-      <code>UIDefaults</code> table that <code>SynthLookAndFeel</code>
-      supplies to the <code>UIManager</code>. The following assigns the
-      the Color red to the value Table.focusCellForeground.
+      <b href="#e.defbultsProperty">DefbultsProperty</b> elements bre
+      used to define properties thbt will be plbced in the
+      <code>UIDefbults</code> tbble thbt <code>SynthLookAndFeel</code>
+      supplies to the <code>UIMbnbger</code>. The following bssigns the
+      the Color red to the vblue Tbble.focusCellForeground.
     </p>
-    <div class="example">
+    <div clbss="exbmple">
       <pre>
 &lt;style id="test">
-  &lt;object class="javax.swing.plaf.ColorUIResource" id="color">
+  &lt;object clbss="jbvbx.swing.plbf.ColorUIResource" id="color">
     &lt;int>255&lt;/int>
     &lt;int>0&lt;/int>
     &lt;int>0&lt;/int>
   &lt;/object>
-  &lt;defaultsProperty key="Table.focusCellForeground" type="idref" value="color"/>
+  &lt;defbultsProperty key="Tbble.focusCellForeground" type="idref" vblue="color"/>
 &lt;/style>
     </pre>
 </div>
     <p>
-      This value could then be asked by way of
-      <code>UIManager.get("Table.focusCellForeground")</code>.
+      This vblue could then be bsked by wby of
+      <code>UIMbnbger.get("Tbble.focusCellForeground")</code>.
     </p>
 
-    <h3>The graphicsUtils element</h3>
-<div class="dtd-fragment">
-<pre class="dtd-fragment">
-&lt;!ELEMENT <a name="e.graphicsUtils">graphicsUtils</a> EMPTY>
-&lt;!ATTLIST graphicsUtils
-          <a href="#graphicsUtils.idref">idref</a>           IDREF             #REQUIRED
+    <h3>The grbphicsUtils element</h3>
+<div clbss="dtd-frbgment">
+<pre clbss="dtd-frbgment">
+&lt;!ELEMENT <b nbme="e.grbphicsUtils">grbphicsUtils</b> EMPTY>
+&lt;!ATTLIST grbphicsUtils
+          <b href="#grbphicsUtils.idref">idref</b>           IDREF             #REQUIRED
 &gt;
 </pre>
 </div>
     <p><em>Attribute definitions</em></p>
     <dl>
-      <dt><a name="graphicsUtils.idref"><samp>idref</samp></a></dt>
-      <dd>Identifer of a previously defined SynthGraphicsUtils object
-	that is to be used as the SynthGraphicsUtils for the current
-	<a href="#e.style">style</a>.</dd>
+      <dt><b nbme="grbphicsUtils.idref"><sbmp>idref</sbmp></b></dt>
+      <dd>Identifer of b previously defined SynthGrbphicsUtils object
+	thbt is to be used bs the SynthGrbphicsUtils for the current
+	<b href="#e.style">style</b>.</dd>
     </dl>
     <p>
-      <a href="#e.graphicsUtils">GraphicsUtils</a> elements are
-      used to define the SynthGraphicsUtils that the current
-      <a href="#e.style">style</a> will use. The following example
-      creates a style with an instance of CustomGraphicsUtils for the
-      SynthGraphicsUtils.
+      <b href="#e.grbphicsUtils">GrbphicsUtils</b> elements bre
+      used to define the SynthGrbphicsUtils thbt the current
+      <b href="#e.style">style</b> will use. The following exbmple
+      crebtes b style with bn instbnce of CustomGrbphicsUtils for the
+      SynthGrbphicsUtils.
     </p>
-    <div class="example">
+    <div clbss="exbmple">
       <pre>
 &lt;style id="test">
-  &lt;object class="CustomGraphicsUtils" id="graphics"/>
-  &lt;graphicsUtils idref="graphics"/>
+  &lt;object clbss="CustomGrbphicsUtils" id="grbphics"/>
+  &lt;grbphicsUtils idref="grbphics"/>
 &lt;/style>
     </pre>
 </div>
 
     <h3>The insets element</h3>
-<div class="dtd-fragment">
-<pre class="dtd-fragment">
-&lt;!ELEMENT <a name="e.insets">insets</a> EMPTY>
+<div clbss="dtd-frbgment">
+<pre clbss="dtd-frbgment">
+&lt;!ELEMENT <b nbme="e.insets">insets</b> EMPTY>
 &lt;!ATTLIST insets
-          <a href="#insets.id">id</a>           ID             #IMPLIED
-          <a href="#insets.idref">idref</a>        IDREF          #IMPLIED
-          <a href="#insets.top">top</a>          CDATA          #IMPLIED
-          <a href="#insets.bottom">bottom</a>       CDATA          #IMPLIED
-          <a href="#insets.left">left</a>         CDATA          #IMPLIED
-          <a href="#insets.right">right</a>        CDATA          #IMPLIED
+          <b href="#insets.id">id</b>           ID             #IMPLIED
+          <b href="#insets.idref">idref</b>        IDREF          #IMPLIED
+          <b href="#insets.top">top</b>          CDATA          #IMPLIED
+          <b href="#insets.bottom">bottom</b>       CDATA          #IMPLIED
+          <b href="#insets.left">left</b>         CDATA          #IMPLIED
+          <b href="#insets.right">right</b>        CDATA          #IMPLIED
 &gt;
 </pre>
 </div>
     <p><em>Attribute definitions</em></p>
     <dl>
-      <dt><a name="insets.id"><samp>id</samp></a></dt>
+      <dt><b nbme="insets.id"><sbmp>id</sbmp></b></dt>
       <dd>Unique identifier for the Insets.</dd>
-      <dt><a name="insets.idref"><samp>idref</samp></a></dt>
-      <dd>Identifier of a previously defined Insets.</dd>
-      <dt><a name="insets.top"><samp>top</samp></a></dt>
+      <dt><b nbme="insets.idref"><sbmp>idref</sbmp></b></dt>
+      <dd>Identifier of b previously defined Insets.</dd>
+      <dt><b nbme="insets.top"><sbmp>top</sbmp></b></dt>
       <dd>Top component of the Insets.</dd>
-      <dt><a name="insets.bottom"><samp>bottom</samp></a></dt>
+      <dt><b nbme="insets.bottom"><sbmp>bottom</sbmp></b></dt>
       <dd>Bottom component of the Insets.</dd>
-      <dt><a name="insets.left"><samp>left</samp></a></dt>
+      <dt><b nbme="insets.left"><sbmp>left</sbmp></b></dt>
       <dd>Left component of the Insets.</dd>
-      <dt><a name="insets.right"><samp>right</samp></a></dt>
+      <dt><b nbme="insets.right"><sbmp>right</sbmp></b></dt>
       <dd>Right component of the Insets.</dd>
     </dl>
     <p>
-      <a href="#e.insets">Insets</a> elements are
-      used to define the Insets for the current <a href="#e.style">style</a>.
-      The insets will be set on any Components the
-      <a href="#e.style">style</a> is associated with. The following
-      example creates a style with insets of 1, 2, 3, 0.
+      <b href="#e.insets">Insets</b> elements bre
+      used to define the Insets for the current <b href="#e.style">style</b>.
+      The insets will be set on bny Components the
+      <b href="#e.style">style</b> is bssocibted with. The following
+      exbmple crebtes b style with insets of 1, 2, 3, 0.
     </p>
-    <div class="example">
+    <div clbss="exbmple">
       <pre>
 &lt;style id="test">
   &lt;insets top="1" bottom="2" left="3"/>
@@ -562,416 +562,416 @@ div.example {
 </div>
 
     <h3>The bind element</h3>
-<div class="dtd-fragment">
-<pre class="dtd-fragment">
-&lt;!ELEMENT <a name="e.bind">bind</a> EMPTY>
+<div clbss="dtd-frbgment">
+<pre clbss="dtd-frbgment">
+&lt;!ELEMENT <b nbme="e.bind">bind</b> EMPTY>
 &lt;!ATTLIST bind
-          <a href="#bind.style">style</a>        IDREF             #REQUIRED
-          <a href="#bind.type">type</a>         (name|region)     #REQUIRED
-          <a href="#bind.key">key</a>          CDATA             #REQUIRED
+          <b href="#bind.style">style</b>        IDREF             #REQUIRED
+          <b href="#bind.type">type</b>         (nbme|region)     #REQUIRED
+          <b href="#bind.key">key</b>          CDATA             #REQUIRED
 &gt;
 </pre>
 </div>
     <p><em>Attribute definitions</em></p>
     <dl>
-      <dt><a name="bind.style"><samp>style</samp></a></dt>
-      <dd>Unique identifier of a previously defined style.</dd>
-      <dt><a name="bind.type"><samp>type</samp></a></dt>
-      <dd>One of name or region. For type name component.getName() is used,
-	otherwise the name of the Region is used.</dd>
-      <dt><a name="bind.key"><samp>key</samp></a></dt>
-      <dd>Regular expression applied to the name of the Component, or the
-	name of the Region, depending upon the value of
-	<a href="#bind.type">type</a>.</dd>
+      <dt><b nbme="bind.style"><sbmp>style</sbmp></b></dt>
+      <dd>Unique identifier of b previously defined style.</dd>
+      <dt><b nbme="bind.type"><sbmp>type</sbmp></b></dt>
+      <dd>One of nbme or region. For type nbme component.getNbme() is used,
+	otherwise the nbme of the Region is used.</dd>
+      <dt><b nbme="bind.key"><sbmp>key</sbmp></b></dt>
+      <dd>Regulbr expression bpplied to the nbme of the Component, or the
+	nbme of the Region, depending upon the vblue of
+	<b href="#bind.type">type</b>.</dd>
     </dl>
     <p>
-      <a href="#e.bind">Bind</a> elements specify which Regions a style
-      is to be used for. The following example applies the
-      <a href="#e.style">style</a> test to any Component whose name
-      starts with <code>test</code>.
+      <b href="#e.bind">Bind</b> elements specify which Regions b style
+      is to be used for. The following exbmple bpplies the
+      <b href="#e.style">style</b> test to bny Component whose nbme
+      stbrts with <code>test</code>.
     </p>
-    <div class="example">
+    <div clbss="exbmple">
       <pre>
 &lt;style id="test">
   &lt;insets top="1" bottom="2" left="3"/>
 &lt;/style>
-&lt;bind style="test" type="name" key="test.*"/>
+&lt;bind style="test" type="nbme" key="test.*"/>
     </pre>
 </div>
     <p>
-      Numerous styles may apply to a region, in which case each of
-      the matching styles is merged into a resulting style that is used.
-      Precedence is given to styles defined later in the file. For example,
-      the following defines two styles, a and b. Style a is applied to any
-      component with a name starting with test, and style b is used for
+      Numerous styles mby bpply to b region, in which cbse ebch of
+      the mbtching styles is merged into b resulting style thbt is used.
+      Precedence is given to styles defined lbter in the file. For exbmple,
+      the following defines two styles, b bnd b. Style b is bpplied to bny
+      component with b nbme stbrting with test, bnd style b is used for
       button regions.
     </p>
-    <div class="example">
+    <div clbss="exbmple">
       <pre>
-&lt;style id="a">
-  &lt;font name="DIALOG" size="12" style="ITALIC"/>
+&lt;style id="b">
+  &lt;font nbme="DIALOG" size="12" style="ITALIC"/>
   &lt;insets top="1" bottom="2" left="3"/>
 &lt;/style>
-&lt;bind style="a" type="name" key="test.*"/>
+&lt;bind style="b" type="nbme" key="test.*"/>
 &lt;style id="b">
-  &lt;font name="DIALOG" size="12" style="BOLD"/>
+  &lt;font nbme="DIALOG" size="12" style="BOLD"/>
 &lt;/style>
 &lt;bind style="b" type="region" key="button"/>
     </pre>
 </div>
     <p>
-      For a button with the name test this is equivalent to:
+      For b button with the nbme test this is equivblent to:
     </p>
-    <div class="example">
+    <div clbss="exbmple">
       <pre>
 &lt;style>
-  &lt;font name="DIALOG" size="12" style="BOLD"/>
+  &lt;font nbme="DIALOG" size="12" style="BOLD"/>
   &lt;insets top="1" bottom="2" left="3"/>
 &lt;/style>
     </pre>
 </div>
     <p>
-      Merging happens for states of a style as well.
+      Merging hbppens for stbtes of b style bs well.
     </p>
-    <div class="example">
+    <div clbss="exbmple">
       <pre>
-&lt;style id="a">
-  &lt;font name="DIALOG" size="12" style="ITALIC"/>
-  &lt;insets top="1" bottom="2" left="3"/>
-  &lt;state value="ENABLED">
-    &lt;object id="customPainter" class="CustomPainter"/>
-    &lt;painter idref="customPainter"/>
-  &lt;/state>
-&lt;/style>
-&lt;bind style="a" type="name" key="test.*"/>
 &lt;style id="b">
-  &lt;font name="DIALOG" size="12" style="BOLD"/>
-  &lt;state value="ENABLED">
-    &lt;font name="Lucida" size="12" style="ITALIC"/>
-  &lt;/state>
+  &lt;font nbme="DIALOG" size="12" style="ITALIC"/>
+  &lt;insets top="1" bottom="2" left="3"/>
+  &lt;stbte vblue="ENABLED">
+    &lt;object id="customPbinter" clbss="CustomPbinter"/>
+    &lt;pbinter idref="customPbinter"/>
+  &lt;/stbte>
+&lt;/style>
+&lt;bind style="b" type="nbme" key="test.*"/>
+&lt;style id="b">
+  &lt;font nbme="DIALOG" size="12" style="BOLD"/>
+  &lt;stbte vblue="ENABLED">
+    &lt;font nbme="Lucidb" size="12" style="ITALIC"/>
+  &lt;/stbte>
 &lt;/style>
 &lt;bind style="b" type="region" key="button"/>
     </pre>
 </div>
     <p>
-      For a button with the name test this is equivalent to:
+      For b button with the nbme test this is equivblent to:
     </p>
-    <div class="example">
+    <div clbss="exbmple">
       <pre>
 &lt;style>
-  &lt;font name="DIALOG" size="12" style="BOLD"/>
+  &lt;font nbme="DIALOG" size="12" style="BOLD"/>
   &lt;insets top="1" bottom="2" left="3"/>
-  &lt;state value="ENABLED">
-    &lt;object id="customPainter" class="CustomPainter"/>
-    &lt;painter idref="customPainter"/>
-    &lt;font name="Lucida" size="12" style="ITALIC"/>
-  &lt;/state>
+  &lt;stbte vblue="ENABLED">
+    &lt;object id="customPbinter" clbss="CustomPbinter"/>
+    &lt;pbinter idref="customPbinter"/>
+    &lt;font nbme="Lucidb" size="12" style="ITALIC"/>
+  &lt;/stbte>
 &lt;/style>
     </pre>
 </div>
 
-    <h3>The painter element</h3>
-<div class="dtd-fragment">
-<pre class="dtd-fragment">
-&lt;!ELEMENT <a name="e.painter">painter</a> EMPTY>
-&lt;!ATTLIST painter
-          <a href="#painter.idref">idref</a>                 IDREF          #IMPLIED
-          <a href="#painter.method">method</a>                CDATA          #IMPLIED
-          <a href="#painter.direction">direction</a>             (north|south|east|west|top|left|bottom|right|horizontal|vertical|horizontal_split|vertical_split)          #IMPLIED
+    <h3>The pbinter element</h3>
+<div clbss="dtd-frbgment">
+<pre clbss="dtd-frbgment">
+&lt;!ELEMENT <b nbme="e.pbinter">pbinter</b> EMPTY>
+&lt;!ATTLIST pbinter
+          <b href="#pbinter.idref">idref</b>                 IDREF          #IMPLIED
+          <b href="#pbinter.method">method</b>                CDATA          #IMPLIED
+          <b href="#pbinter.direction">direction</b>             (north|south|ebst|west|top|left|bottom|right|horizontbl|verticbl|horizontbl_split|verticbl_split)          #IMPLIED
 &gt;
 </pre>
 </div>
     <p><em>Attribute definitions</em></p>
     <dl>
-      <dt><a name="painter.idref"><samp>idref</samp></a></dt>
-      <dd>Identifier of a previously defined SynthPainter.</dd>
-      <dt><a name="painter.method"><samp>method</samp></a></dt>
-      <dd>Identifies the SynthPainter method this is to be used for. The name
-	corresponds to the method name of a paint method in SynthPainter
-	with the paint prefix dropped, the remainder is case
-	insensitive (using the latin1 case folding rules).
-	For example SynthPainter.paintButtonBackground is identified by
-	'buttonBackground' or 'buttonbackground'. If this is
-	not specified the painter is used for all methods that don't have a
-	a specific painter for them.</dd>
-      <dt><a name="painter.direction"><samp>direction</samp></a></dt>
-      <dd>Identifies the direction, or orientation, this painter is to be
-	used for. This is only useful for the SynthPainter methods that take
-	a direction or orientation. If this is not specified the painter is
-	used for all directions.</dd>
+      <dt><b nbme="pbinter.idref"><sbmp>idref</sbmp></b></dt>
+      <dd>Identifier of b previously defined SynthPbinter.</dd>
+      <dt><b nbme="pbinter.method"><sbmp>method</sbmp></b></dt>
+      <dd>Identifies the SynthPbinter method this is to be used for. The nbme
+	corresponds to the method nbme of b pbint method in SynthPbinter
+	with the pbint prefix dropped, the rembinder is cbse
+	insensitive (using the lbtin1 cbse folding rules).
+	For exbmple SynthPbinter.pbintButtonBbckground is identified by
+	'buttonBbckground' or 'buttonbbckground'. If this is
+	not specified the pbinter is used for bll methods thbt don't hbve b
+	b specific pbinter for them.</dd>
+      <dt><b nbme="pbinter.direction"><sbmp>direction</sbmp></b></dt>
+      <dd>Identifies the direction, or orientbtion, this pbinter is to be
+	used for. This is only useful for the SynthPbinter methods thbt tbke
+	b direction or orientbtion. If this is not specified the pbinter is
+	used for bll directions.</dd>
     </dl>
     <p>
-      <a href="#e.painter">Painter</a> defines a SynthPainter for the current
-      style or the state of the current style. The following example
-      binds an instance of the class <code>MyPainter</code>
-      which must be a <code>SynthPainter</code> to the style <code>test</code>.
+      <b href="#e.pbinter">Pbinter</b> defines b SynthPbinter for the current
+      style or the stbte of the current style. The following exbmple
+      binds bn instbnce of the clbss <code>MyPbinter</code>
+      which must be b <code>SynthPbinter</code> to the style <code>test</code>.
     </p>
-    <div class="example">
+    <div clbss="exbmple">
       <pre>
 &lt;style id="test">
-  &lt;object class="MyPainter" id="MyPainter"/>
-  &lt;painter idref="MyPainter"/>
+  &lt;object clbss="MyPbinter" id="MyPbinter"/>
+  &lt;pbinter idref="MyPbinter"/>
 &lt;/style>
     </pre>
 </div>
     <p>
-      The painter that is used for a particular method and state is determined
-      as follows:
+      The pbinter thbt is used for b pbrticulbr method bnd stbte is determined
+      bs follows:
     <ol>
-      <li>Painter specified for the current state, method and direction.
-      <li>Painter specified for the current state and method.
-      <li>Painter specified for the current state.
-      <li>Painter specified for the style, method and direction.
-      <li>Painter specified for the style and method.
-      <li>Painter specified for the style.
+      <li>Pbinter specified for the current stbte, method bnd direction.
+      <li>Pbinter specified for the current stbte bnd method.
+      <li>Pbinter specified for the current stbte.
+      <li>Pbinter specified for the style, method bnd direction.
+      <li>Pbinter specified for the style bnd method.
+      <li>Pbinter specified for the style.
     </ol>
     <p>
       Consider the following:
     </p>
-    <div class="example">
+    <div clbss="exbmple">
       <pre>
 &lt;style id="test">
-  &lt;painter idref="fallbackPainter"/>
-  &lt;painter idref="styleButtonBackgroundPainter" method="buttonBackground"/>
-  &lt;state value="SELECTED">
-    &lt;painter idref="stateFallbackPainter"/>
-    &lt;painter idref="stateButtonBackgroundPainter" method="buttonBackground"/>
-  &lt;/state>
+  &lt;pbinter idref="fbllbbckPbinter"/>
+  &lt;pbinter idref="styleButtonBbckgroundPbinter" method="buttonBbckground"/>
+  &lt;stbte vblue="SELECTED">
+    &lt;pbinter idref="stbteFbllbbckPbinter"/>
+    &lt;pbinter idref="stbteButtonBbckgroundPbinter" method="buttonBbckground"/>
+  &lt;/stbte>
 &lt;/style>
       </pre>
     </div>
     <p>
-      The following outlines which painter will be used for what
-      SynthPainter method:
+      The following outlines which pbinter will be used for whbt
+      SynthPbinter method:
     </p>
-    <table border=1 summary="Painters for SynthPainter methods">
-      <tr><th>State<th>Method<th>Painter
-	<tr><td>SELECTED<td>paintButtonBackground<td>stateButtonBackgroundPainter
-	<tr><td>SELECTED<td>Anything but paintButtonBackground<td>stateFallbackPainter
-	<tr><td>Anything but SELECTED<td>paintButtonBackground<td>styleButtonBackgroundPainter
-	<tr><td>Anything but SELECTED<td>Anything but paintButtonBackground<td>fallbackPainter
-    </table>
+    <tbble border=1 summbry="Pbinters for SynthPbinter methods">
+      <tr><th>Stbte<th>Method<th>Pbinter
+	<tr><td>SELECTED<td>pbintButtonBbckground<td>stbteButtonBbckgroundPbinter
+	<tr><td>SELECTED<td>Anything but pbintButtonBbckground<td>stbteFbllbbckPbinter
+	<tr><td>Anything but SELECTED<td>pbintButtonBbckground<td>styleButtonBbckgroundPbinter
+	<tr><td>Anything but SELECTED<td>Anything but pbintButtonBbckground<td>fbllbbckPbinter
+    </tbble>
 
     <p>
-      When several identical painters are declared, they are aggregated into
-      a single one. Two painters are identical if their <em>direction</em> and
-      <em>method</em> attributes values are equal. Consider the following:
+      When severbl identicbl pbinters bre declbred, they bre bggregbted into
+      b single one. Two pbinters bre identicbl if their <em>direction</em> bnd
+      <em>method</em> bttributes vblues bre equbl. Consider the following:
     </p>
 
-	<div class="example">
+	<div clbss="exbmple">
 	  <pre>
-&lt;style id="panelStyle"&gt;
-  &lt;imagePainter method="panelBackground" path="red.png" /&gt;
-  &lt;imagePainter method="panelBackground" path="green.png" /&gt;
-  &lt;imagePainter method="panelBackground" path="blue.png" /&gt;
+&lt;style id="pbnelStyle"&gt;
+  &lt;imbgePbinter method="pbnelBbckground" pbth="red.png" /&gt;
+  &lt;imbgePbinter method="pbnelBbckground" pbth="green.png" /&gt;
+  &lt;imbgePbinter method="pbnelBbckground" pbth="blue.png" /&gt;
 &lt;/style&gt;
 	  </pre>
 	</div>
 
 	<p>
-	  These three painters are identical for they use the same method and the
-	  same direction (all directions by default). Synth aggregates these painters
-	  to create a single one that will paint its children painters in the order
-	  of declaration. Hence, Synth will first paint the red picture, then the green
-	  one and finally the blue one. Each child painter can be seen as a layer of
-	  the aggregate painter.
+	  These three pbinters bre identicbl for they use the sbme method bnd the
+	  sbme direction (bll directions by defbult). Synth bggregbtes these pbinters
+	  to crebte b single one thbt will pbint its children pbinters in the order
+	  of declbrbtion. Hence, Synth will first pbint the red picture, then the green
+	  one bnd finblly the blue one. Ebch child pbinter cbn be seen bs b lbyer of
+	  the bggregbte pbinter.
 	</p>
 	<p>
-	  Painter aggregation, or multi-layering, is very useful to reuse elements.
-	  Imagine you want to use an highlight effect on buttons and on selected
-	  menu items. With painter aggregation, you just need to create a separate
-	  highlighting painter instead of having buttons and menu items painters
-	  handle it.
+	  Pbinter bggregbtion, or multi-lbyering, is very useful to reuse elements.
+	  Imbgine you wbnt to use bn highlight effect on buttons bnd on selected
+	  menu items. With pbinter bggregbtion, you just need to crebte b sepbrbte
+	  highlighting pbinter instebd of hbving buttons bnd menu items pbinters
+	  hbndle it.
 	</p>
 
-    <h3>The imagePainter element</h3>
-<div class="dtd-fragment">
-<pre class="dtd-fragment">
-&lt;!ELEMENT <a name="e.imagePainter">imagePainter</a> EMPTY>
-&lt;!ATTLIST imagePainter
-          <a href="#imagePainter.id">id</a>                    ID             #IMPLIED
-          <a href="#imagePainter.method">method</a>                CDATA          #IMPLIED
-          <a href="#imagePainter.direction">direction</a>             (north|south|east|west|top|left|bottom|right|horizontal|vertical|horizontal_split|vertical_split)          #IMPLIED
-          <a href="#imagePainter.path">path</a>                  CDATA          #REQUIRED
-          <a href="#imagePainter.sourceInsets">sourceInsets</a>          CDATA          #IMPLIED
-          <a href="#imagePainter.destinationInsets">destinationInsets</a>     CDATA          #IMPLIED
-          <a href="#imagePainter.painterCenter">paintCenter</a>           (true|false)   "true"
-          <a href="#imagePainter.stretch">stretch</a>               (true|false)   "true"
-          <a href="#imagePainter.center">center</a>                (true|false)   "false"
+    <h3>The imbgePbinter element</h3>
+<div clbss="dtd-frbgment">
+<pre clbss="dtd-frbgment">
+&lt;!ELEMENT <b nbme="e.imbgePbinter">imbgePbinter</b> EMPTY>
+&lt;!ATTLIST imbgePbinter
+          <b href="#imbgePbinter.id">id</b>                    ID             #IMPLIED
+          <b href="#imbgePbinter.method">method</b>                CDATA          #IMPLIED
+          <b href="#imbgePbinter.direction">direction</b>             (north|south|ebst|west|top|left|bottom|right|horizontbl|verticbl|horizontbl_split|verticbl_split)          #IMPLIED
+          <b href="#imbgePbinter.pbth">pbth</b>                  CDATA          #REQUIRED
+          <b href="#imbgePbinter.sourceInsets">sourceInsets</b>          CDATA          #IMPLIED
+          <b href="#imbgePbinter.destinbtionInsets">destinbtionInsets</b>     CDATA          #IMPLIED
+          <b href="#imbgePbinter.pbinterCenter">pbintCenter</b>           (true|fblse)   "true"
+          <b href="#imbgePbinter.stretch">stretch</b>               (true|fblse)   "true"
+          <b href="#imbgePbinter.center">center</b>                (true|fblse)   "fblse"
 &gt;
 </pre>
 </div>
     <p><em>Attribute definitions</em></p>
     <dl>
-      <dt><a name="imagePainter.id"><samp>id</samp></a></dt>
-      <dd>Unique identifier for the imagePainter.</dd>
-      <dt><a name="imagePainter.method"><samp>method</samp></a></dt>
-      <dd>Identifies the SynthPainter method this is to be used for. The name
-	corresponds to the method name of a paint method in SynthPainter
-	with the paint prefix dropped, the remainder is case
-	insensitive (using the latin1 case folding rules).
-	For example SynthPainter.paintButtonBackground is identified by
-	'buttonBackground' or 'buttonbackground'. If this is
-	not specified the painter is used for all methods that don't have a
-	a specific painter for them.</dd>
-      <dt><a name="imagePainter.direction"><samp>direction</samp></a></dt>
-      <dd>Identifies the direction, or orientation, this image is to be
-	used for. This is only useful for the SynthPainter methods that take
-	a direction or orientation. If this is not specified the image is
-	used for all directions.</dd>
-      <dt><a name="imagePainter.path"><samp>path</samp></a></dt>
-      <dd>Path to the image. Path to the image.  If SynthLookAndFeel.load is
-    passed a Class this will use the Class method getResource (with with the
-    Class suplied to the load method). If load is passed a URL this will use the
-    URL constructor URL(context, path) to resolve the path.</dd>
-      <dt><a name="imagePainter.sourceInsets"><samp>sourceInsets</samp></a></dt>
-      <dd>Insets on the source image. This is top, left, bottom, right with
-	each component separated by a space.</dd>
-      <dt><a name="imagePainter.destinationInsets"><samp>destinationInsets</samp></a></dt>
-      <dd>Insets of the destination image. This is top, left, bottom, right with
-	each component separated by a space. If not specified the
-	<a href="#imagePainter.sourceInsets">sourceInsets</a> are used.</dd>
-      <dt><a name="imagePainter.painterCenter"><samp>paintCenter</samp></a></dt>
-      <dd>Whether or not the center of the image should be drawn.</dd>
-      <dt><a name="imagePainter.stretch"><samp>stretch</samp></a></dt>
-      <dd>Whether or not the north, south, east and west components of the
-	resulting image should be scaled or tiled.</dd>
-      <dt><a name="imagePainter.center"><samp>center</samp></a></dt>
-      <dd>Whether or not the image is centered.</dd>
+      <dt><b nbme="imbgePbinter.id"><sbmp>id</sbmp></b></dt>
+      <dd>Unique identifier for the imbgePbinter.</dd>
+      <dt><b nbme="imbgePbinter.method"><sbmp>method</sbmp></b></dt>
+      <dd>Identifies the SynthPbinter method this is to be used for. The nbme
+	corresponds to the method nbme of b pbint method in SynthPbinter
+	with the pbint prefix dropped, the rembinder is cbse
+	insensitive (using the lbtin1 cbse folding rules).
+	For exbmple SynthPbinter.pbintButtonBbckground is identified by
+	'buttonBbckground' or 'buttonbbckground'. If this is
+	not specified the pbinter is used for bll methods thbt don't hbve b
+	b specific pbinter for them.</dd>
+      <dt><b nbme="imbgePbinter.direction"><sbmp>direction</sbmp></b></dt>
+      <dd>Identifies the direction, or orientbtion, this imbge is to be
+	used for. This is only useful for the SynthPbinter methods thbt tbke
+	b direction or orientbtion. If this is not specified the imbge is
+	used for bll directions.</dd>
+      <dt><b nbme="imbgePbinter.pbth"><sbmp>pbth</sbmp></b></dt>
+      <dd>Pbth to the imbge. Pbth to the imbge.  If SynthLookAndFeel.lobd is
+    pbssed b Clbss this will use the Clbss method getResource (with with the
+    Clbss suplied to the lobd method). If lobd is pbssed b URL this will use the
+    URL constructor URL(context, pbth) to resolve the pbth.</dd>
+      <dt><b nbme="imbgePbinter.sourceInsets"><sbmp>sourceInsets</sbmp></b></dt>
+      <dd>Insets on the source imbge. This is top, left, bottom, right with
+	ebch component sepbrbted by b spbce.</dd>
+      <dt><b nbme="imbgePbinter.destinbtionInsets"><sbmp>destinbtionInsets</sbmp></b></dt>
+      <dd>Insets of the destinbtion imbge. This is top, left, bottom, right with
+	ebch component sepbrbted by b spbce. If not specified the
+	<b href="#imbgePbinter.sourceInsets">sourceInsets</b> bre used.</dd>
+      <dt><b nbme="imbgePbinter.pbinterCenter"><sbmp>pbintCenter</sbmp></b></dt>
+      <dd>Whether or not the center of the imbge should be drbwn.</dd>
+      <dt><b nbme="imbgePbinter.stretch"><sbmp>stretch</sbmp></b></dt>
+      <dd>Whether or not the north, south, ebst bnd west components of the
+	resulting imbge should be scbled or tiled.</dd>
+      <dt><b nbme="imbgePbinter.center"><sbmp>center</sbmp></b></dt>
+      <dd>Whether or not the imbge is centered.</dd>
     </dl>
     <p>
-      The <a href="#e.imagePainter">ImagePainter</a> element defines a
-      painter for the current style or state that will render using
-      the specified image.  ImagePainter offers two distinct rendering
-      modes.  The first mode is used to center an image in the space
+      The <b href="#e.imbgePbinter">ImbgePbinter</b> element defines b
+      pbinter for the current style or stbte thbt will render using
+      the specified imbge.  ImbgePbinter offers two distinct rendering
+      modes.  The first mode is used to center bn imbge in the spbce
       provided.  This is 
-      commonly used in rendering decorations on top of a widget, for
-      example, to specify an arrow for a scroll button use the center
-      mode. The following example illustrates this:
-    <div class="example">
+      commonly used in rendering decorbtions on top of b widget, for
+      exbmple, to specify bn brrow for b scroll button use the center
+      mode. The following exbmple illustrbtes this:
+    <div clbss="exbmple">
       <pre>
 &lt;style id="test">
-  &lt;imagePainter path="resources/myImage.png" center="true"/>
+  &lt;imbgePbinter pbth="resources/myImbge.png" center="true"/>
 &lt;/style>
     </pre>
 </div>
     <p>
-      The second mode is used in scaling an image to fit in the
-      provided space.  In this mode sourceInsets is used to specify a
-      border around an image where the north, south, east and west
-      edges of the border are either stretched or tiled (stretch
-      attribute), the four corners of the border drawn in place, and
+      The second mode is used in scbling bn imbge to fit in the
+      provided spbce.  In this mode sourceInsets is used to specify b
+      border bround bn imbge where the north, south, ebst bnd west
+      edges of the border bre either stretched or tiled (stretch
+      bttribute), the four corners of the border drbwn in plbce, bnd
       the center is stretched.  In this mode you must specify
-      sourceInsets.  The following example illustrates an
-      ImagePainter that is using the image MyImage.png and insets of 2
-      all the way around:
+      sourceInsets.  The following exbmple illustrbtes bn
+      ImbgePbinter thbt is using the imbge MyImbge.png bnd insets of 2
+      bll the wby bround:
     </p>
-    <div class="example">
+    <div clbss="exbmple">
       <pre>
 &lt;style id="test">
-  &lt;imagePainter path="resources/myImage.png"
+  &lt;imbgePbinter pbth="resources/myImbge.png"
                 sourceInsets="2 2 2 2"/>
 &lt;/style>
     </pre>
 </div>
     <p>
-      Refer to the description of the <a href="#e.painter">painter</a>
-      element for details as to the precedence in choosing a painter and to
-      understand how identical painters are handled.
+      Refer to the description of the <b href="#e.pbinter">pbinter</b>
+      element for detbils bs to the precedence in choosing b pbinter bnd to
+      understbnd how identicbl pbinters bre hbndled.
 	
 
-    <h3>The imageIcon element</h3>
-<div class="dtd-fragment">
-<pre class="dtd-fragment">
-&lt;!ELEMENT <a name="e.imageIcon">imageIcon</a> EMPTY>
-&lt;!ATTLIST imageIcon
-          <a href="#imageIcon.id">id</a>                    ID             #REQUIRED
-          <a href="#imageIcon.path">path</a>                  CDATA          #REQUIRED
+    <h3>The imbgeIcon element</h3>
+<div clbss="dtd-frbgment">
+<pre clbss="dtd-frbgment">
+&lt;!ELEMENT <b nbme="e.imbgeIcon">imbgeIcon</b> EMPTY>
+&lt;!ATTLIST imbgeIcon
+          <b href="#imbgeIcon.id">id</b>                    ID             #REQUIRED
+          <b href="#imbgeIcon.pbth">pbth</b>                  CDATA          #REQUIRED
 &gt;
 </pre>
 </div>
     <p><em>Attribute definitions</em></p>
     <dl>
-      <dt><a name="imageIcon.id"><samp>id</samp></a></dt>
-      <dd>Unique identifier for the imageIcon.</dd>
-      <dt><a name="imageIcon.path"><samp>path</samp></a></dt>
-      <dd>Path to the image. This uses the Class method
-	getResource to resolve the path, with the Class supplied to
-	SynthLookAndFeel.load.</dd>
+      <dt><b nbme="imbgeIcon.id"><sbmp>id</sbmp></b></dt>
+      <dd>Unique identifier for the imbgeIcon.</dd>
+      <dt><b nbme="imbgeIcon.pbth"><sbmp>pbth</sbmp></b></dt>
+      <dd>Pbth to the imbge. This uses the Clbss method
+	getResource to resolve the pbth, with the Clbss supplied to
+	SynthLookAndFeel.lobd.</dd>
     </dl>
     <p>
-      <a href="#e.imageIcon">ImageIcon</a> is used to assign an Icon
-      implementation that is wrapping an Image to a unique identifier.
-      This is typically used for properties that take an Icon. The following
-      example binds an ImageIcon to the property RadioButton.icon.
+      <b href="#e.imbgeIcon">ImbgeIcon</b> is used to bssign bn Icon
+      implementbtion thbt is wrbpping bn Imbge to b unique identifier.
+      This is typicblly used for properties thbt tbke bn Icon. The following
+      exbmple binds bn ImbgeIcon to the property RbdioButton.icon.
     </p>
-    <div class="example">
+    <div clbss="exbmple">
       <pre>
 &lt;style id="test">
-  &lt;imageIcon id="icon" path="resources/myImage.png"/>
-  &lt;property key="RadioButton.icon" value="icon"/>
+  &lt;imbgeIcon id="icon" pbth="resources/myImbge.png"/>
+  &lt;property key="RbdioButton.icon" vblue="icon"/>
 &lt;/style>
     </pre>
 </div>
 
-   <h3>The opaque element</h3>
-<div class="dtd-fragment">
-<pre class="dtd-fragment">
-&lt;!ELEMENT <a name="e.opaque">opaque</a> EMPTY>
-&lt;!ATTLIST opaque
-          <a href="#opaque.value">value</a>              (true|false)   "true"
+   <h3>The opbque element</h3>
+<div clbss="dtd-frbgment">
+<pre clbss="dtd-frbgment">
+&lt;!ELEMENT <b nbme="e.opbque">opbque</b> EMPTY>
+&lt;!ATTLIST opbque
+          <b href="#opbque.vblue">vblue</b>              (true|fblse)   "true"
 &gt;
 </pre>
 </div>
     <p><em>Attribute definitions</em></p>
     <dl>
-      <dt><a name="opaque.value"><samp>id</samp></a></dt>
-      <dd>Whether or not the style should be opaque, if unspecified the style
-	is opaque.</dd>
+      <dt><b nbme="opbque.vblue"><sbmp>id</sbmp></b></dt>
+      <dd>Whether or not the style should be opbque, if unspecified the style
+	is opbque.</dd>
     </dl>
     <p>
-      The <a href="#e.opaque">opaque</a> element indicates whether or
-      not any Components the style is associated with are to be made opaque.
-      The painter will be asked to paint regardless of the opacity
-      of the associated Component. The following example creates a style
-      that is not opaque.
+      The <b href="#e.opbque">opbque</b> element indicbtes whether or
+      not bny Components the style is bssocibted with bre to be mbde opbque.
+      The pbinter will be bsked to pbint regbrdless of the opbcity
+      of the bssocibted Component. The following exbmple crebtes b style
+      thbt is not opbque.
     </p>
-    <div class="example">
+    <div clbss="exbmple">
       <pre>
 &lt;style id="test">
-  &lt;opaque value="FALSE">
-  &lt;painter idref="painter"/>
+  &lt;opbque vblue="FALSE">
+  &lt;pbinter idref="pbinter"/>
 &lt;/style>
     </pre>
 </div>
 
-    <h3><a name="ee.beansPersistance">The beansPersistance entity</a></h3>
+    <h3><b nbme="ee.bebnsPersistbnce">The bebnsPersistbnce entity</b></h3>
     <p>
-      Beans persistance can be used to embed any Object. This is
-      typically used for embedding your own Painters, but can be used
-      for other arbritrary objects as well. Refer to <a
-							href="http://java.sun.com/products/jfc/tsc/articles/persistence3/">http://java.sun.com/products/jfc/tsc/articles/persistence3/</a> for details on beans persistance.
+      Bebns persistbnce cbn be used to embed bny Object. This is
+      typicblly used for embedding your own Pbinters, but cbn be used
+      for other brbritrbry objects bs well. Refer to <b
+							href="http://jbvb.sun.com/products/jfc/tsc/brticles/persistence3/">http://jbvb.sun.com/products/jfc/tsc/brticles/persistence3/</b> for detbils on bebns persistbnce.
 
 
-    <h3>Backing Style</h3>
+    <h3>Bbcking Style</h3>
     <p>
-      In creating a Synth file it's good practice to create a backing
-      style that is used by all components.  This will make sure that
-      any components that do not match a specific style will have
-      a default font, foreground, background and opacity. The
-      following example illustrates this:
-    <div class="example">
+      In crebting b Synth file it's good prbctice to crebte b bbcking
+      style thbt is used by bll components.  This will mbke sure thbt
+      bny components thbt do not mbtch b specific style will hbve
+      b defbult font, foreground, bbckground bnd opbcity. The
+      following exbmple illustrbtes this:
+    <div clbss="exbmple">
       <pre>
 &lt;synth>
-  &lt;style id="backingStyle">
-    &lt;opaque value="true"/>
-    &lt;font name="Dialog" size="12"/>
-    &lt;state>
-      &lt;color value="BLACK" type="BACKGROUND"/>
-      &lt;color value="WHITE" type="FOREGROUND"/>
-    &lt;/state>
+  &lt;style id="bbckingStyle">
+    &lt;opbque vblue="true"/>
+    &lt;font nbme="Diblog" size="12"/>
+    &lt;stbte>
+      &lt;color vblue="BLACK" type="BACKGROUND"/>
+      &lt;color vblue="WHITE" type="FOREGROUND"/>
+    &lt;/stbte>
   &lt;/style>
-  &lt;bind style="backingStyle" type="region" key=".*"/>
+  &lt;bind style="bbckingStyle" type="region" key=".*"/>
 &lt;/synth>
       </pre>
     </div>

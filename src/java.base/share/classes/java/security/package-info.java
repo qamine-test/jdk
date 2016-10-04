@@ -1,112 +1,112 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /**
- * Provides the classes and interfaces for the security framework.
- * This includes classes that implement an easily configurable,
- * fine-grained access control security architecture.
- * This package also supports
- * the generation and storage of cryptographic public key pairs,
- * as well as a number of exportable cryptographic operations
- * including those for message digest and signature generation.  Finally,
- * this package provides classes that support signed/guarded objects
- * and secure random number generation.
+ * Provides the clbsses bnd interfbces for the security frbmework.
+ * This includes clbsses thbt implement bn ebsily configurbble,
+ * fine-grbined bccess control security brchitecture.
+ * This pbckbge blso supports
+ * the generbtion bnd storbge of cryptogrbphic public key pbirs,
+ * bs well bs b number of exportbble cryptogrbphic operbtions
+ * including those for messbge digest bnd signbture generbtion.  Finblly,
+ * this pbckbge provides clbsses thbt support signed/gubrded objects
+ * bnd secure rbndom number generbtion.
  *
- * Many of the classes provided in this package (the cryptographic
- * and secure random number generator classes in particular) are
- * provider-based.  The class itself defines a programming interface
- * to which applications may write.  The implementations themselves may
- * then be written by independent third-party vendors and plugged
- * in seamlessly as needed.  Therefore application developers may
- * take advantage of any number of provider-based implementations
- * without having to add or rewrite code.
+ * Mbny of the clbsses provided in this pbckbge (the cryptogrbphic
+ * bnd secure rbndom number generbtor clbsses in pbrticulbr) bre
+ * provider-bbsed.  The clbss itself defines b progrbmming interfbce
+ * to which bpplicbtions mby write.  The implementbtions themselves mby
+ * then be written by independent third-pbrty vendors bnd plugged
+ * in sebmlessly bs needed.  Therefore bpplicbtion developers mby
+ * tbke bdvbntbge of bny number of provider-bbsed implementbtions
+ * without hbving to bdd or rewrite code.
  *
- * <h2>Package Specification</h2>
+ * <h2>Pbckbge Specificbtion</h2>
  *
  * <ul>
- *   <li><a href="{@docRoot}/../technotes/guides/security/crypto/CryptoSpec.html">
- *     <b>Java&trade;
- *     Cryptography Architecture (JCA) Reference Guide</b></a></li>
+ *   <li><b href="{@docRoot}/../technotes/guides/security/crypto/CryptoSpec.html">
+ *     <b>Jbvb&trbde;
+ *     Cryptogrbphy Architecture (JCA) Reference Guide</b></b></li>
  *
- *   <li>PKCS #8: Private-Key Information Syntax Standard, Version 1.2,
+ *   <li>PKCS #8: Privbte-Key Informbtion Syntbx Stbndbrd, Version 1.2,
  *     November 1993</li>
  *
- *   <li><a href="{@docRoot}/../technotes/guides/security/StandardNames.html">
- *     <b>Java&trade;
- *     Cryptography Architecture Standard Algorithm Name
- *     Documentation</b></a></li>
+ *   <li><b href="{@docRoot}/../technotes/guides/security/StbndbrdNbmes.html">
+ *     <b>Jbvb&trbde;
+ *     Cryptogrbphy Architecture Stbndbrd Algorithm Nbme
+ *     Documentbtion</b></b></li>
  * </ul>
  *
- * <h2>Related Documentation</h2>
+ * <h2>Relbted Documentbtion</h2>
  *
- * For further documentation, please see:
+ * For further documentbtion, plebse see:
  * <ul>
- *   <li><a href=
+ *   <li><b href=
  *     "{@docRoot}/../technotes/guides/security/spec/security-spec.doc.html">
- *     <b>Java&trade;
- *     SE Platform Security Architecture</b></a></li>
+ *     <b>Jbvb&trbde;
+ *     SE Plbtform Security Architecture</b></b></li>
  *
- *   <li><a href=
+ *   <li><b href=
  *     "{@docRoot}/../technotes/guides/security/crypto/HowToImplAProvider.html">
- *     <b>How to Implement a Provider in the
- *     Java&trade; Cryptography Architecture
- *     </b></a></li>
+ *     <b>How to Implement b Provider in the
+ *     Jbvb&trbde; Cryptogrbphy Architecture
+ *     </b></b></li>
  *
- *   <li><a href=
+ *   <li><b href=
  *     "{@docRoot}/../technotes/guides/security/PolicyFiles.html"><b>
- *     Default Policy Implementation and Policy File Syntax
- *     </b></a></li>
+ *     Defbult Policy Implementbtion bnd Policy File Syntbx
+ *     </b></b></li>
  *
- *   <li><a href=
+ *   <li><b href=
  *     "{@docRoot}/../technotes/guides/security/permissions.html"><b>
  *     Permissions in the
- *     Java&trade; SE Development Kit (JDK)
- *     </b></a></li>
+ *     Jbvb&trbde; SE Development Kit (JDK)
+ *     </b></b></li>
  *
- *   <li><a href=
- *     "{@docRoot}/../technotes/guides/security/SecurityToolsSummary.html"><b>
- *     Summary of Tools for
- *     Java&trade; Platform Security
- *     </b></a></li>
+ *   <li><b href=
+ *     "{@docRoot}/../technotes/guides/security/SecurityToolsSummbry.html"><b>
+ *     Summbry of Tools for
+ *     Jbvb&trbde; Plbtform Security
+ *     </b></b></li>
  *
  *   <li><b>keytool</b>
- *     (<a href="{@docRoot}/../technotes/tools/unix/keytool.html">
- *       for Solaris/Linux</a>)
- *     (<a href="{@docRoot}/../technotes/tools/windows/keytool.html">
- *       for Windows</a>)
+ *     (<b href="{@docRoot}/../technotes/tools/unix/keytool.html">
+ *       for Solbris/Linux</b>)
+ *     (<b href="{@docRoot}/../technotes/tools/windows/keytool.html">
+ *       for Windows</b>)
  *     </li>
  *
- *   <li><b>jarsigner</b>
- *     (<a href="{@docRoot}/../technotes/tools/unix/jarsigner.html">
- *       for Solaris/Linux</a>)
- *     (<a href="{@docRoot}/../technotes/tools/windows/jarsigner.html">
- *       for Windows</a>)
+ *   <li><b>jbrsigner</b>
+ *     (<b href="{@docRoot}/../technotes/tools/unix/jbrsigner.html">
+ *       for Solbris/Linux</b>)
+ *     (<b href="{@docRoot}/../technotes/tools/windows/jbrsigner.html">
+ *       for Windows</b>)
  *     </li>
  *
  * </ul>
  *
  * @since 1.1
  */
-package java.security;
+pbckbge jbvb.security;

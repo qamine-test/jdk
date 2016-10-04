@@ -2,22 +2,22 @@
  * Copyright 2012, 2013 SAP AG. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  *
  */
@@ -26,33 +26,33 @@
 #include <sys/ldr.h>
 #include <errno.h>
 
-#include "porting_aix.h"
+#include "porting_bix.h"
 
-static unsigned char dladdr_buffer[0x4000];
+stbtic unsigned chbr dlbddr_buffer[0x4000];
 
-static void fill_dll_info(void) {
-  int rc = loadquery(L_GETINFO,dladdr_buffer, sizeof(dladdr_buffer));
+stbtic void fill_dll_info(void) {
+  int rc = lobdquery(L_GETINFO,dlbddr_buffer, sizeof(dlbddr_buffer));
   if (rc == -1) {
-    fprintf(stderr, "loadquery failed (%d %s)", errno, strerror(errno));
+    fprintf(stderr, "lobdquery fbiled (%d %s)", errno, strerror(errno));
     fflush(stderr);
   }
 }
 
-static int dladdr_dont_reload(void* addr, Dl_info* info) {
-  const struct ld_info* p = (struct ld_info*) dladdr_buffer;
-  info->dli_fbase = 0; info->dli_fname = 0;
-  info->dli_sname = 0; info->dli_saddr = 0;
+stbtic int dlbddr_dont_relobd(void* bddr, Dl_info* info) {
+  const struct ld_info* p = (struct ld_info*) dlbddr_buffer;
+  info->dli_fbbse = 0; info->dli_fnbme = 0;
+  info->dli_snbme = 0; info->dli_sbddr = 0;
   for (;;) {
-    if (addr >= p->ldinfo_textorg &&
-        addr < (((char*)p->ldinfo_textorg) + p->ldinfo_textsize)) {
-      info->dli_fname = p->ldinfo_filename;
-      info->dli_fbase = p->ldinfo_textorg;
+    if (bddr >= p->ldinfo_textorg &&
+        bddr < (((chbr*)p->ldinfo_textorg) + p->ldinfo_textsize)) {
+      info->dli_fnbme = p->ldinfo_filenbme;
+      info->dli_fbbse = p->ldinfo_textorg;
       return 1; /* [sic] */
     }
     if (!p->ldinfo_next) {
-      break;
+      brebk;
     }
-    p = (struct ld_info*)(((char*)p) + p->ldinfo_next);
+    p = (struct ld_info*)(((chbr*)p) + p->ldinfo_next);
   }
   return 0; /* [sic] */
 }
@@ -60,25 +60,25 @@ static int dladdr_dont_reload(void* addr, Dl_info* info) {
 #ifdef __cplusplus
 extern "C"
 #endif
-int dladdr(void *addr, Dl_info *info) {
-  static int loaded = 0;
-  if (!loaded) {
+int dlbddr(void *bddr, Dl_info *info) {
+  stbtic int lobded = 0;
+  if (!lobded) {
     fill_dll_info();
-    loaded = 1;
+    lobded = 1;
   }
-  if (!addr) {
+  if (!bddr) {
     return 0;  /* [sic] */
   }
   /* Address could be AIX function descriptor? */
-  void* const addr0 = *( (void**) addr );
-  int rc = dladdr_dont_reload(addr, info);
+  void* const bddr0 = *( (void**) bddr );
+  int rc = dlbddr_dont_relobd(bddr, info);
   if (rc == 0) {
-    rc = dladdr_dont_reload(addr0, info);
+    rc = dlbddr_dont_relobd(bddr0, info);
     if (rc == 0) { /* [sic] */
-      fill_dll_info(); /* refill, maybe loadquery info is outdated */
-      rc = dladdr_dont_reload(addr, info);
+      fill_dll_info(); /* refill, mbybe lobdquery info is outdbted */
+      rc = dlbddr_dont_relobd(bddr, info);
       if (rc == 0) {
-        rc = dladdr_dont_reload(addr0, info);
+        rc = dlbddr_dont_relobd(bddr0, info);
       }
     }
   }

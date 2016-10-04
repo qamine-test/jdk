@@ -1,83 +1,83 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.rsa;
+pbckbge sun.security.rsb;
 
-import java.io.IOException;
-import java.math.BigInteger;
+import jbvb.io.IOException;
+import jbvb.mbth.BigInteger;
 
-import java.security.*;
-import java.security.interfaces.*;
+import jbvb.security.*;
+import jbvb.security.interfbces.*;
 
 import sun.security.util.*;
 import sun.security.x509.AlgorithmId;
 import sun.security.pkcs.PKCS8Key;
 
 /**
- * Key implementation for RSA private keys, CRT form. For non-CRT private
- * keys, see RSAPrivateKeyImpl. We need separate classes to ensure
- * correct behavior in instanceof checks, etc.
+ * Key implementbtion for RSA privbte keys, CRT form. For non-CRT privbte
+ * keys, see RSAPrivbteKeyImpl. We need sepbrbte clbsses to ensure
+ * correct behbvior in instbnceof checks, etc.
  *
- * Note: RSA keys must be at least 512 bits long
+ * Note: RSA keys must be bt lebst 512 bits long
  *
- * @see RSAPrivateKeyImpl
- * @see RSAKeyFactory
+ * @see RSAPrivbteKeyImpl
+ * @see RSAKeyFbctory
  *
  * @since   1.5
- * @author  Andreas Sterbenz
+ * @buthor  Andrebs Sterbenz
  */
-public final class RSAPrivateCrtKeyImpl
-        extends PKCS8Key implements RSAPrivateCrtKey {
+public finbl clbss RSAPrivbteCrtKeyImpl
+        extends PKCS8Key implements RSAPrivbteCrtKey {
 
-    private static final long serialVersionUID = -1326088454257084918L;
+    privbte stbtic finbl long seriblVersionUID = -1326088454257084918L;
 
-    private BigInteger n;       // modulus
-    private BigInteger e;       // public exponent
-    private BigInteger d;       // private exponent
-    private BigInteger p;       // prime p
-    private BigInteger q;       // prime q
-    private BigInteger pe;      // prime exponent p
-    private BigInteger qe;      // prime exponent q
-    private BigInteger coeff;   // CRT coeffcient
+    privbte BigInteger n;       // modulus
+    privbte BigInteger e;       // public exponent
+    privbte BigInteger d;       // privbte exponent
+    privbte BigInteger p;       // prime p
+    privbte BigInteger q;       // prime q
+    privbte BigInteger pe;      // prime exponent p
+    privbte BigInteger qe;      // prime exponent q
+    privbte BigInteger coeff;   // CRT coeffcient
 
-    // algorithmId used to identify RSA keys
-    final static AlgorithmId rsaId =
+    // blgorithmId used to identify RSA keys
+    finbl stbtic AlgorithmId rsbId =
         new AlgorithmId(AlgorithmId.RSAEncryption_oid);
 
     /**
-     * Generate a new key from its encoding. Returns a CRT key if possible
-     * and a non-CRT key otherwise. Used by RSAKeyFactory.
+     * Generbte b new key from its encoding. Returns b CRT key if possible
+     * bnd b non-CRT key otherwise. Used by RSAKeyFbctory.
      */
-    public static RSAPrivateKey newKey(byte[] encoded)
-            throws InvalidKeyException {
-        RSAPrivateCrtKeyImpl key = new RSAPrivateCrtKeyImpl(encoded);
+    public stbtic RSAPrivbteKey newKey(byte[] encoded)
+            throws InvblidKeyException {
+        RSAPrivbteCrtKeyImpl key = new RSAPrivbteCrtKeyImpl(encoded);
         if (key.getPublicExponent().signum() == 0) {
-            // public exponent is missing, return a non-CRT key
-            return new RSAPrivateKeyImpl(
+            // public exponent is missing, return b non-CRT key
+            return new RSAPrivbteKeyImpl(
                 key.getModulus(),
-                key.getPrivateExponent()
+                key.getPrivbteExponent()
             );
         } else {
             return key;
@@ -85,20 +85,20 @@ public final class RSAPrivateCrtKeyImpl
     }
 
     /**
-     * Construct a key from its encoding. Called from newKey above.
+     * Construct b key from its encoding. Cblled from newKey bbove.
      */
-    RSAPrivateCrtKeyImpl(byte[] encoded) throws InvalidKeyException {
+    RSAPrivbteCrtKeyImpl(byte[] encoded) throws InvblidKeyException {
         decode(encoded);
-        RSAKeyFactory.checkRSAProviderKeyLengths(n.bitLength(), e);
+        RSAKeyFbctory.checkRSAProviderKeyLengths(n.bitLength(), e);
     }
 
     /**
-     * Construct a key from its components. Used by the
-     * RSAKeyFactory and the RSAKeyPairGenerator.
+     * Construct b key from its components. Used by the
+     * RSAKeyFbctory bnd the RSAKeyPbirGenerbtor.
      */
-    RSAPrivateCrtKeyImpl(BigInteger n, BigInteger e, BigInteger d,
+    RSAPrivbteCrtKeyImpl(BigInteger n, BigInteger e, BigInteger d,
             BigInteger p, BigInteger q, BigInteger pe, BigInteger qe,
-            BigInteger coeff) throws InvalidKeyException {
+            BigInteger coeff) throws InvblidKeyException {
         this.n = n;
         this.e = e;
         this.d = d;
@@ -107,12 +107,12 @@ public final class RSAPrivateCrtKeyImpl
         this.pe = pe;
         this.qe = qe;
         this.coeff = coeff;
-        RSAKeyFactory.checkRSAProviderKeyLengths(n.bitLength(), e);
+        RSAKeyFbctory.checkRSAProviderKeyLengths(n.bitLength(), e);
 
-        // generate the encoding
-        algid = rsaId;
+        // generbte the encoding
+        blgid = rsbId;
         try {
-            DerOutputStream out = new DerOutputStream();
+            DerOutputStrebm out = new DerOutputStrebm();
             out.putInteger(0); // version must be 0
             out.putInteger(n);
             out.putInteger(e);
@@ -122,12 +122,12 @@ public final class RSAPrivateCrtKeyImpl
             out.putInteger(pe);
             out.putInteger(qe);
             out.putInteger(coeff);
-            DerValue val =
-                new DerValue(DerValue.tag_Sequence, out.toByteArray());
-            key = val.toByteArray();
-        } catch (IOException exc) {
+            DerVblue vbl =
+                new DerVblue(DerVblue.tbg_Sequence, out.toByteArrby());
+            key = vbl.toByteArrby();
+        } cbtch (IOException exc) {
             // should never occur
-            throw new InvalidKeyException(exc);
+            throw new InvblidKeyException(exc);
         }
     }
 
@@ -147,7 +147,7 @@ public final class RSAPrivateCrtKeyImpl
     }
 
     // see JCA doc
-    public BigInteger getPrivateExponent() {
+    public BigInteger getPrivbteExponent() {
         return d;
     }
 
@@ -177,51 +177,51 @@ public final class RSAPrivateCrtKeyImpl
     }
 
     /**
-     * Parse the key. Called by PKCS8Key.
+     * Pbrse the key. Cblled by PKCS8Key.
      */
-    protected void parseKeyBits() throws InvalidKeyException {
+    protected void pbrseKeyBits() throws InvblidKeyException {
         try {
-            DerInputStream in = new DerInputStream(key);
-            DerValue derValue = in.getDerValue();
-            if (derValue.tag != DerValue.tag_Sequence) {
-                throw new IOException("Not a SEQUENCE");
+            DerInputStrebm in = new DerInputStrebm(key);
+            DerVblue derVblue = in.getDerVblue();
+            if (derVblue.tbg != DerVblue.tbg_Sequence) {
+                throw new IOException("Not b SEQUENCE");
             }
-            DerInputStream data = derValue.data;
-            int version = data.getInteger();
+            DerInputStrebm dbtb = derVblue.dbtb;
+            int version = dbtb.getInteger();
             if (version != 0) {
                 throw new IOException("Version must be 0");
             }
-            n = getBigInteger(data);
-            e = getBigInteger(data);
-            d = getBigInteger(data);
-            p = getBigInteger(data);
-            q = getBigInteger(data);
-            pe = getBigInteger(data);
-            qe = getBigInteger(data);
-            coeff = getBigInteger(data);
-            if (derValue.data.available() != 0) {
-                throw new IOException("Extra data available");
+            n = getBigInteger(dbtb);
+            e = getBigInteger(dbtb);
+            d = getBigInteger(dbtb);
+            p = getBigInteger(dbtb);
+            q = getBigInteger(dbtb);
+            pe = getBigInteger(dbtb);
+            qe = getBigInteger(dbtb);
+            coeff = getBigInteger(dbtb);
+            if (derVblue.dbtb.bvbilbble() != 0) {
+                throw new IOException("Extrb dbtb bvbilbble");
             }
-        } catch (IOException e) {
-            throw new InvalidKeyException("Invalid RSA private key", e);
+        } cbtch (IOException e) {
+            throw new InvblidKeyException("Invblid RSA privbte key", e);
         }
     }
 
     /**
-     * Read a BigInteger from the DerInputStream.
+     * Rebd b BigInteger from the DerInputStrebm.
      */
-    static BigInteger getBigInteger(DerInputStream data) throws IOException {
-        BigInteger b = data.getBigInteger();
+    stbtic BigInteger getBigInteger(DerInputStrebm dbtb) throws IOException {
+        BigInteger b = dbtb.getBigInteger();
 
         /*
-         * Some implementations do not correctly encode ASN.1 INTEGER values
-         * in 2's complement format, resulting in a negative integer when
-         * decoded. Correct the error by converting it to a positive integer.
+         * Some implementbtions do not correctly encode ASN.1 INTEGER vblues
+         * in 2's complement formbt, resulting in b negbtive integer when
+         * decoded. Correct the error by converting it to b positive integer.
          *
          * See CR 6255949
          */
         if (b.signum() < 0) {
-            b = new BigInteger(1, b.toByteArray());
+            b = new BigInteger(1, b.toByteArrby());
         }
         return b;
     }

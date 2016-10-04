@@ -1,58 +1,58 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.imageio.metadata;
+pbckbge jbvbx.imbgeio.metbdbtb;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import jbvb.util.ArrbyList;
+import jbvb.util.Iterbtor;
+import jbvb.util.List;
 
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.DOMException;
-import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.NbmedNodeMbp;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.TypeInfo;
-import org.w3c.dom.UserDataHandler;
+import org.w3c.dom.UserDbtbHbndler;
 
 
-class IIODOMException extends DOMException {
-    private static final long serialVersionUID = -4369510142067447468L;
+clbss IIODOMException extends DOMException {
+    privbte stbtic finbl long seriblVersionUID = -4369510142067447468L;
 
-    public IIODOMException(short code, String message) {
-        super(code, message);
+    public IIODOMException(short code, String messbge) {
+        super(code, messbge);
     }
 }
 
-class IIONamedNodeMap implements NamedNodeMap {
+clbss IIONbmedNodeMbp implements NbmedNodeMbp {
 
     List<? extends Node> nodes;
 
-    public IIONamedNodeMap(List<? extends Node> nodes) {
+    public IIONbmedNodeMbp(List<? extends Node> nodes) {
         this.nodes = nodes;
     }
 
@@ -60,11 +60,11 @@ class IIONamedNodeMap implements NamedNodeMap {
         return nodes.size();
     }
 
-    public Node getNamedItem(String name) {
-        Iterator<? extends Node> iter = nodes.iterator();
-        while (iter.hasNext()) {
+    public Node getNbmedItem(String nbme) {
+        Iterbtor<? extends Node> iter = nodes.iterbtor();
+        while (iter.hbsNext()) {
             Node node = iter.next();
-            if (name.equals(node.getNodeName())) {
+            if (nbme.equbls(node.getNodeNbme())) {
                 return node;
             }
         }
@@ -77,39 +77,39 @@ class IIONamedNodeMap implements NamedNodeMap {
         return node;
     }
 
-    public Node removeNamedItem(java.lang.String name) {
+    public Node removeNbmedItem(jbvb.lbng.String nbme) {
         throw new DOMException(DOMException.NO_MODIFICATION_ALLOWED_ERR,
-                               "This NamedNodeMap is read-only!");
+                               "This NbmedNodeMbp is rebd-only!");
     }
 
-    public Node setNamedItem(Node arg) {
+    public Node setNbmedItem(Node brg) {
         throw new DOMException(DOMException.NO_MODIFICATION_ALLOWED_ERR,
-                               "This NamedNodeMap is read-only!");
+                               "This NbmedNodeMbp is rebd-only!");
     }
 
     /**
-     * Equivalent to <code>getNamedItem(localName)</code>.
+     * Equivblent to <code>getNbmedItem(locblNbme)</code>.
      */
-    public Node getNamedItemNS(String namespaceURI, String localName) {
-        return getNamedItem(localName);
+    public Node getNbmedItemNS(String nbmespbceURI, String locblNbme) {
+        return getNbmedItem(locblNbme);
     }
 
     /**
-     * Equivalent to <code>setNamedItem(arg)</code>.
+     * Equivblent to <code>setNbmedItem(brg)</code>.
      */
-    public Node setNamedItemNS(Node arg) {
-        return setNamedItem(arg);
+    public Node setNbmedItemNS(Node brg) {
+        return setNbmedItem(brg);
     }
 
     /**
-     * Equivalent to <code>removeNamedItem(localName)</code>.
+     * Equivblent to <code>removeNbmedItem(locblNbme)</code>.
      */
-    public Node removeNamedItemNS(String namespaceURI, String localName) {
-        return removeNamedItem(localName);
+    public Node removeNbmedItemNS(String nbmespbceURI, String locblNbme) {
+        return removeNbmedItem(locblNbme);
     }
 }
 
-class IIONodeList implements NodeList {
+clbss IIONodeList implements NodeList {
 
     List<? extends Node> nodes;
 
@@ -129,48 +129,48 @@ class IIONodeList implements NodeList {
     }
 }
 
-class IIOAttr extends IIOMetadataNode implements Attr {
+clbss IIOAttr extends IIOMetbdbtbNode implements Attr {
 
     Element owner;
-    String name;
-    String value;
+    String nbme;
+    String vblue;
 
-    public IIOAttr(Element owner, String name, String value) {
+    public IIOAttr(Element owner, String nbme, String vblue) {
         this.owner = owner;
-        this.name = name;
-        this.value = value;
+        this.nbme = nbme;
+        this.vblue = vblue;
     }
 
-    public String getName() {
-        return name;
+    public String getNbme() {
+        return nbme;
     }
 
-    public String getNodeName() {
-        return name;
+    public String getNodeNbme() {
+        return nbme;
     }
 
     public short getNodeType() {
         return ATTRIBUTE_NODE;
     }
 
-    public boolean getSpecified() {
+    public boolebn getSpecified() {
         return true;
     }
 
-    public String getValue() {
-        return value;
+    public String getVblue() {
+        return vblue;
     }
 
-    public String getNodeValue() {
-        return value;
+    public String getNodeVblue() {
+        return vblue;
     }
 
-    public void setValue(String value) {
-        this.value = value;
+    public void setVblue(String vblue) {
+        this.vblue = vblue;
     }
 
-    public void setNodeValue(String value) {
-        this.value = value;
+    public void setNodeVblue(String vblue) {
+        this.vblue = vblue;
     }
 
     public Element getOwnerElement() {
@@ -181,201 +181,201 @@ class IIOAttr extends IIOMetadataNode implements Attr {
         this.owner = owner;
     }
 
-    /** This method is new in the DOM L3 for Attr interface.
-     * Could throw DOMException here, but its probably OK
-     * to always return false. One reason for this, is we have no good
-     * way to document this exception, since this class, IIOAttr,
-     * is not a public class. The rest of the methods that throw
-     * DOMException are publically documented as such on IIOMetadataNode.
-     * @return false
+    /** This method is new in the DOM L3 for Attr interfbce.
+     * Could throw DOMException here, but its probbbly OK
+     * to blwbys return fblse. One rebson for this, is we hbve no good
+     * wby to document this exception, since this clbss, IIOAttr,
+     * is not b public clbss. The rest of the methods thbt throw
+     * DOMException bre publicblly documented bs such on IIOMetbdbtbNode.
+     * @return fblse
      */
-    public boolean isId() {
-        return false;
+    public boolebn isId() {
+        return fblse;
     }
 
 
 }
 
 /**
- * A class representing a node in a meta-data tree, which implements
- * the <a
- * href="../../../../api/org/w3c/dom/Element.html">
- * <code>org.w3c.dom.Element</code></a> interface and additionally allows
- * for the storage of non-textual objects via the
- * <code>getUserObject</code> and <code>setUserObject</code> methods.
+ * A clbss representing b node in b metb-dbtb tree, which implements
+ * the <b
+ * href="../../../../bpi/org/w3c/dom/Element.html">
+ * <code>org.w3c.dom.Element</code></b> interfbce bnd bdditionblly bllows
+ * for the storbge of non-textubl objects vib the
+ * <code>getUserObject</code> bnd <code>setUserObject</code> methods.
  *
- * <p> This class is not intended to be used for general XML
- * processing. In particular, <code>Element</code> nodes created
- * within the Image I/O API are not compatible with those created by
- * Sun's standard implementation of the <code>org.w3.dom</code> API.
- * In particular, the implementation is tuned for simple uses and may
+ * <p> This clbss is not intended to be used for generbl XML
+ * processing. In pbrticulbr, <code>Element</code> nodes crebted
+ * within the Imbge I/O API bre not compbtible with those crebted by
+ * Sun's stbndbrd implementbtion of the <code>org.w3.dom</code> API.
+ * In pbrticulbr, the implementbtion is tuned for simple uses bnd mby
  * not perform well for intensive processing.
  *
- * <p> Namespaces are ignored in this implementation.  The terms "tag
- * name" and "node name" are always considered to be synonymous.
+ * <p> Nbmespbces bre ignored in this implementbtion.  The terms "tbg
+ * nbme" bnd "node nbme" bre blwbys considered to be synonymous.
  *
  * <em>Note:</em>
- * The DOM Level 3 specification added a number of new methods to the
- * {@code Node}, {@code Element} and {@code Attr} interfaces that are not
- * of value to the {@code IIOMetadataNode} implementation or specification.
+ * The DOM Level 3 specificbtion bdded b number of new methods to the
+ * {@code Node}, {@code Element} bnd {@code Attr} interfbces thbt bre not
+ * of vblue to the {@code IIOMetbdbtbNode} implementbtion or specificbtion.
  *
- * Calling such methods on an {@code IIOMetadataNode}, or an {@code Attr}
- * instance returned from an {@code IIOMetadataNode} will result in a
+ * Cblling such methods on bn {@code IIOMetbdbtbNode}, or bn {@code Attr}
+ * instbnce returned from bn {@code IIOMetbdbtbNode} will result in b
  * {@code DOMException} being thrown.
  *
- * @see IIOMetadata#getAsTree
- * @see IIOMetadata#setFromTree
- * @see IIOMetadata#mergeTree
+ * @see IIOMetbdbtb#getAsTree
+ * @see IIOMetbdbtb#setFromTree
+ * @see IIOMetbdbtb#mergeTree
  *
  */
-public class IIOMetadataNode implements Element, NodeList {
+public clbss IIOMetbdbtbNode implements Element, NodeList {
 
     /**
-     * The name of the node as a <code>String</code>.
+     * The nbme of the node bs b <code>String</code>.
      */
-    private String nodeName = null;
+    privbte String nodeNbme = null;
 
     /**
-     * The value of the node as a <code>String</code>.  The Image I/O
-     * API typically does not make use of the node value.
+     * The vblue of the node bs b <code>String</code>.  The Imbge I/O
+     * API typicblly does not mbke use of the node vblue.
      */
-    private String nodeValue = null;
+    privbte String nodeVblue = null;
 
     /**
-     * The <code>Object</code> value associated with this node.
+     * The <code>Object</code> vblue bssocibted with this node.
      */
-    private Object userObject = null;
+    privbte Object userObject = null;
 
     /**
-     * The parent node of this node, or <code>null</code> if this node
+     * The pbrent node of this node, or <code>null</code> if this node
      * forms the root of its own tree.
      */
-    private IIOMetadataNode parent = null;
+    privbte IIOMetbdbtbNode pbrent = null;
 
     /**
      * The number of child nodes.
      */
-    private int numChildren = 0;
+    privbte int numChildren = 0;
 
     /**
      * The first (leftmost) child node of this node, or
-     * <code>null</code> if this node is a leaf node.
+     * <code>null</code> if this node is b lebf node.
      */
-    private IIOMetadataNode firstChild = null;
+    privbte IIOMetbdbtbNode firstChild = null;
 
     /**
-     * The last (rightmost) child node of this node, or
-     * <code>null</code> if this node is a leaf node.
+     * The lbst (rightmost) child node of this node, or
+     * <code>null</code> if this node is b lebf node.
      */
-    private IIOMetadataNode lastChild = null;
+    privbte IIOMetbdbtbNode lbstChild = null;
 
     /**
      * The next (right) sibling node of this node, or
-     * <code>null</code> if this node is its parent's last child node.
+     * <code>null</code> if this node is its pbrent's lbst child node.
      */
-    private IIOMetadataNode nextSibling = null;
+    privbte IIOMetbdbtbNode nextSibling = null;
 
     /**
      * The previous (left) sibling node of this node, or
-     * <code>null</code> if this node is its parent's first child node.
+     * <code>null</code> if this node is its pbrent's first child node.
      */
-    private IIOMetadataNode previousSibling = null;
+    privbte IIOMetbdbtbNode previousSibling = null;
 
     /**
      * A <code>List</code> of <code>IIOAttr</code> nodes representing
-     * attributes.
+     * bttributes.
      */
-    private List<IIOAttr> attributes = new ArrayList<>();
+    privbte List<IIOAttr> bttributes = new ArrbyList<>();
 
     /**
-     * Constructs an empty <code>IIOMetadataNode</code>.
+     * Constructs bn empty <code>IIOMetbdbtbNode</code>.
      */
-    public IIOMetadataNode() {}
+    public IIOMetbdbtbNode() {}
 
     /**
-     * Constructs an <code>IIOMetadataNode</code> with a given node
-     * name.
+     * Constructs bn <code>IIOMetbdbtbNode</code> with b given node
+     * nbme.
      *
-     * @param nodeName the name of the node, as a <code>String</code>.
+     * @pbrbm nodeNbme the nbme of the node, bs b <code>String</code>.
      */
-    public IIOMetadataNode(String nodeName) {
-        this.nodeName = nodeName;
+    public IIOMetbdbtbNode(String nodeNbme) {
+        this.nodeNbme = nodeNbme;
     }
 
     /**
-     * Check that the node is either <code>null</code> or an
-     * <code>IIOMetadataNode</code>.
+     * Check thbt the node is either <code>null</code> or bn
+     * <code>IIOMetbdbtbNode</code>.
      */
-    private void checkNode(Node node) throws DOMException {
+    privbte void checkNode(Node node) throws DOMException {
         if (node == null) {
             return;
         }
-        if (!(node instanceof IIOMetadataNode)) {
+        if (!(node instbnceof IIOMetbdbtbNode)) {
             throw new IIODOMException(DOMException.WRONG_DOCUMENT_ERR,
-                                      "Node not an IIOMetadataNode!");
+                                      "Node not bn IIOMetbdbtbNode!");
         }
     }
 
     // Methods from Node
 
     /**
-     * Returns the node name associated with this node.
+     * Returns the node nbme bssocibted with this node.
      *
-     * @return the node name, as a <code>String</code>.
+     * @return the node nbme, bs b <code>String</code>.
      */
-    public String getNodeName() {
-        return nodeName;
+    public String getNodeNbme() {
+        return nodeNbme;
     }
 
     /**
-     * Returns the value associated with this node.
+     * Returns the vblue bssocibted with this node.
      *
-     * @return the node value, as a <code>String</code>.
+     * @return the node vblue, bs b <code>String</code>.
      */
-    public String getNodeValue(){
-        return nodeValue;
+    public String getNodeVblue(){
+        return nodeVblue;
     }
 
     /**
-     * Sets the <code>String</code> value associated with this node.
+     * Sets the <code>String</code> vblue bssocibted with this node.
      */
-    public void setNodeValue(String nodeValue) {
-        this.nodeValue = nodeValue;
+    public void setNodeVblue(String nodeVblue) {
+        this.nodeVblue = nodeVblue;
     }
 
     /**
-     * Returns the node type, which is always
+     * Returns the node type, which is blwbys
      * <code>ELEMENT_NODE</code>.
      *
-     * @return the <code>short</code> value <code>ELEMENT_NODE</code>.
+     * @return the <code>short</code> vblue <code>ELEMENT_NODE</code>.
      */
     public short getNodeType() {
         return ELEMENT_NODE;
     }
 
     /**
-     * Returns the parent of this node.  A <code>null</code> value
-     * indicates that the node is the root of its own tree.  To add a
-     * node to an existing tree, use one of the
-     * <code>insertBefore</code>, <code>replaceChild</code>, or
-     * <code>appendChild</code> methods.
+     * Returns the pbrent of this node.  A <code>null</code> vblue
+     * indicbtes thbt the node is the root of its own tree.  To bdd b
+     * node to bn existing tree, use one of the
+     * <code>insertBefore</code>, <code>replbceChild</code>, or
+     * <code>bppendChild</code> methods.
      *
-     * @return the parent, as a <code>Node</code>.
+     * @return the pbrent, bs b <code>Node</code>.
      *
      * @see #insertBefore
-     * @see #replaceChild
-     * @see #appendChild
+     * @see #replbceChild
+     * @see #bppendChild
      */
-    public Node getParentNode() {
-        return parent;
+    public Node getPbrentNode() {
+        return pbrent;
     }
 
     /**
-     * Returns a <code>NodeList</code> that contains all children of this node.
-     * If there are no children, this is a <code>NodeList</code> containing
+     * Returns b <code>NodeList</code> thbt contbins bll children of this node.
+     * If there bre no children, this is b <code>NodeList</code> contbining
      * no nodes.
      *
-     * @return the children as a <code>NodeList</code>
+     * @return the children bs b <code>NodeList</code>
      */
     public NodeList getChildNodes() {
         return this;
@@ -383,9 +383,9 @@ public class IIOMetadataNode implements Element, NodeList {
 
     /**
      * Returns the first child of this node, or <code>null</code> if
-     * the node has no children.
+     * the node hbs no children.
      *
-     * @return the first child, as a <code>Node</code>, or
+     * @return the first child, bs b <code>Node</code>, or
      * <code>null</code>
      */
     public Node getFirstChild() {
@@ -393,21 +393,21 @@ public class IIOMetadataNode implements Element, NodeList {
     }
 
     /**
-     * Returns the last child of this node, or <code>null</code> if
-     * the node has no children.
+     * Returns the lbst child of this node, or <code>null</code> if
+     * the node hbs no children.
      *
-     * @return the last child, as a <code>Node</code>, or
+     * @return the lbst child, bs b <code>Node</code>, or
      * <code>null</code>.
      */
-    public Node getLastChild() {
-        return lastChild;
+    public Node getLbstChild() {
+        return lbstChild;
     }
 
     /**
      * Returns the previous sibling of this node, or <code>null</code>
-     * if this node has no previous sibling.
+     * if this node hbs no previous sibling.
      *
-     * @return the previous sibling, as a <code>Node</code>, or
+     * @return the previous sibling, bs b <code>Node</code>, or
      * <code>null</code>.
      */
     public Node getPreviousSibling() {
@@ -416,9 +416,9 @@ public class IIOMetadataNode implements Element, NodeList {
 
     /**
      * Returns the next sibling of this node, or <code>null</code> if
-     * the node has no next sibling.
+     * the node hbs no next sibling.
      *
-     * @return the next sibling, as a <code>Node</code>, or
+     * @return the next sibling, bs b <code>Node</code>, or
      * <code>null</code>.
      */
     public Node getNextSibling() {
@@ -426,19 +426,19 @@ public class IIOMetadataNode implements Element, NodeList {
     }
 
     /**
-     * Returns a <code>NamedNodeMap</code> containing the attributes of
+     * Returns b <code>NbmedNodeMbp</code> contbining the bttributes of
      * this node.
      *
-     * @return a <code>NamedNodeMap</code> containing the attributes of
+     * @return b <code>NbmedNodeMbp</code> contbining the bttributes of
      * this node.
      */
-    public NamedNodeMap getAttributes() {
-        return new IIONamedNodeMap(attributes);
+    public NbmedNodeMbp getAttributes() {
+        return new IIONbmedNodeMbp(bttributes);
     }
 
     /**
-     * Returns <code>null</code>, since <code>IIOMetadataNode</code>s
-     * do not belong to any <code>Document</code>.
+     * Returns <code>null</code>, since <code>IIOMetbdbtbNode</code>s
+     * do not belong to bny <code>Document</code>.
      *
      * @return <code>null</code>.
      */
@@ -449,37 +449,37 @@ public class IIOMetadataNode implements Element, NodeList {
     /**
      * Inserts the node <code>newChild</code> before the existing
      * child node <code>refChild</code>. If <code>refChild</code> is
-     * <code>null</code>, insert <code>newChild</code> at the end of
+     * <code>null</code>, insert <code>newChild</code> bt the end of
      * the list of children.
      *
-     * @param newChild the <code>Node</code> to insert.
-     * @param refChild the reference <code>Node</code>.
+     * @pbrbm newChild the <code>Node</code> to insert.
+     * @pbrbm refChild the reference <code>Node</code>.
      *
      * @return the node being inserted.
      *
-     * @exception IllegalArgumentException if <code>newChild</code> is
+     * @exception IllegblArgumentException if <code>newChild</code> is
      * <code>null</code>.
      */
     public Node insertBefore(Node newChild,
                              Node refChild) {
         if (newChild == null) {
-            throw new IllegalArgumentException("newChild == null!");
+            throw new IllegblArgumentException("newChild == null!");
         }
 
         checkNode(newChild);
         checkNode(refChild);
 
-        IIOMetadataNode newChildNode = (IIOMetadataNode)newChild;
-        IIOMetadataNode refChildNode = (IIOMetadataNode)refChild;
+        IIOMetbdbtbNode newChildNode = (IIOMetbdbtbNode)newChild;
+        IIOMetbdbtbNode refChildNode = (IIOMetbdbtbNode)refChild;
 
-        // Siblings, can be null.
-        IIOMetadataNode previous = null;
-        IIOMetadataNode next = null;
+        // Siblings, cbn be null.
+        IIOMetbdbtbNode previous = null;
+        IIOMetbdbtbNode next = null;
 
         if (refChild == null) {
-            previous = this.lastChild;
+            previous = this.lbstChild;
             next = null;
-            this.lastChild = newChildNode;
+            this.lbstChild = newChildNode;
         } else {
             previous = refChildNode.previousSibling;
             next = refChildNode;
@@ -492,7 +492,7 @@ public class IIOMetadataNode implements Element, NodeList {
             next.previousSibling = newChildNode;
         }
 
-        newChildNode.parent = this;
+        newChildNode.pbrent = this;
         newChildNode.previousSibling = previous;
         newChildNode.nextSibling = next;
 
@@ -506,32 +506,32 @@ public class IIOMetadataNode implements Element, NodeList {
     }
 
     /**
-     * Replaces the child node <code>oldChild</code> with
-     * <code>newChild</code> in the list of children, and returns the
+     * Replbces the child node <code>oldChild</code> with
+     * <code>newChild</code> in the list of children, bnd returns the
      * <code>oldChild</code> node.
      *
-     * @param newChild the <code>Node</code> to insert.
-     * @param oldChild the <code>Node</code> to be replaced.
+     * @pbrbm newChild the <code>Node</code> to insert.
+     * @pbrbm oldChild the <code>Node</code> to be replbced.
      *
-     * @return the node replaced.
+     * @return the node replbced.
      *
-     * @exception IllegalArgumentException if <code>newChild</code> is
+     * @exception IllegblArgumentException if <code>newChild</code> is
      * <code>null</code>.
      */
-    public Node replaceChild(Node newChild,
+    public Node replbceChild(Node newChild,
                              Node oldChild) {
         if (newChild == null) {
-            throw new IllegalArgumentException("newChild == null!");
+            throw new IllegblArgumentException("newChild == null!");
         }
 
         checkNode(newChild);
         checkNode(oldChild);
 
-        IIOMetadataNode newChildNode = (IIOMetadataNode)newChild;
-        IIOMetadataNode oldChildNode = (IIOMetadataNode)oldChild;
+        IIOMetbdbtbNode newChildNode = (IIOMetbdbtbNode)newChild;
+        IIOMetbdbtbNode oldChildNode = (IIOMetbdbtbNode)oldChild;
 
-        IIOMetadataNode previous = oldChildNode.previousSibling;
-        IIOMetadataNode next = oldChildNode.nextSibling;
+        IIOMetbdbtbNode previous = oldChildNode.previousSibling;
+        IIOMetbdbtbNode next = oldChildNode.nextSibling;
 
         if (previous != null) {
             previous.nextSibling = newChildNode;
@@ -540,18 +540,18 @@ public class IIOMetadataNode implements Element, NodeList {
             next.previousSibling = newChildNode;
         }
 
-        newChildNode.parent = this;
+        newChildNode.pbrent = this;
         newChildNode.previousSibling = previous;
         newChildNode.nextSibling = next;
 
         if (firstChild == oldChildNode) {
             firstChild = newChildNode;
         }
-        if (lastChild == oldChildNode) {
-            lastChild = newChildNode;
+        if (lbstChild == oldChildNode) {
+            lbstChild = newChildNode;
         }
 
-        oldChildNode.parent = null;
+        oldChildNode.pbrent = null;
         oldChildNode.previousSibling = null;
         oldChildNode.nextSibling = null;
 
@@ -559,26 +559,26 @@ public class IIOMetadataNode implements Element, NodeList {
     }
 
     /**
-     * Removes the child node indicated by <code>oldChild</code> from
-     * the list of children, and returns it.
+     * Removes the child node indicbted by <code>oldChild</code> from
+     * the list of children, bnd returns it.
      *
-     * @param oldChild the <code>Node</code> to be removed.
+     * @pbrbm oldChild the <code>Node</code> to be removed.
      *
      * @return the node removed.
      *
-     * @exception IllegalArgumentException if <code>oldChild</code> is
+     * @exception IllegblArgumentException if <code>oldChild</code> is
      * <code>null</code>.
      */
     public Node removeChild(Node oldChild) {
         if (oldChild == null) {
-            throw new IllegalArgumentException("oldChild == null!");
+            throw new IllegblArgumentException("oldChild == null!");
         }
         checkNode(oldChild);
 
-        IIOMetadataNode oldChildNode = (IIOMetadataNode)oldChild;
+        IIOMetbdbtbNode oldChildNode = (IIOMetbdbtbNode)oldChild;
 
-        IIOMetadataNode previous = oldChildNode.previousSibling;
-        IIOMetadataNode next = oldChildNode.nextSibling;
+        IIOMetbdbtbNode previous = oldChildNode.previousSibling;
+        IIOMetbdbtbNode next = oldChildNode.nextSibling;
 
         if (previous != null) {
             previous.nextSibling = next;
@@ -590,11 +590,11 @@ public class IIOMetadataNode implements Element, NodeList {
         if (this.firstChild == oldChildNode) {
             this.firstChild = next;
         }
-        if (this.lastChild == oldChildNode) {
-            this.lastChild = previous;
+        if (this.lbstChild == oldChildNode) {
+            this.lbstChild = previous;
         }
 
-        oldChildNode.parent = null;
+        oldChildNode.pbrent = null;
         oldChildNode.previousSibling = null;
         oldChildNode.nextSibling = null;
 
@@ -606,16 +606,16 @@ public class IIOMetadataNode implements Element, NodeList {
      * Adds the node <code>newChild</code> to the end of the list of
      * children of this node.
      *
-     * @param newChild the <code>Node</code> to insert.
+     * @pbrbm newChild the <code>Node</code> to insert.
      *
-     * @return the node added.
+     * @return the node bdded.
      *
-     * @exception IllegalArgumentException if <code>newChild</code> is
+     * @exception IllegblArgumentException if <code>newChild</code> is
      * <code>null</code>.
      */
-    public Node appendChild(Node newChild) {
+    public Node bppendChild(Node newChild) {
         if (newChild == null) {
-            throw new IllegalArgumentException("newChild == null!");
+            throw new IllegblArgumentException("newChild == null!");
         }
         checkNode(newChild);
 
@@ -624,38 +624,38 @@ public class IIOMetadataNode implements Element, NodeList {
     }
 
     /**
-     * Returns <code>true</code> if this node has child nodes.
+     * Returns <code>true</code> if this node hbs child nodes.
      *
-     * @return <code>true</code> if this node has children.
+     * @return <code>true</code> if this node hbs children.
      */
-    public boolean hasChildNodes() {
+    public boolebn hbsChildNodes() {
         return numChildren > 0;
     }
 
     /**
-     * Returns a duplicate of this node.  The duplicate node has no
-     * parent (<code>getParentNode</code> returns <code>null</code>).
-     * If a shallow clone is being performed (<code>deep</code> is
-     * <code>false</code>), the new node will not have any children or
-     * siblings.  If a deep clone is being performed, the new node
-     * will form the root of a complete cloned subtree.
+     * Returns b duplicbte of this node.  The duplicbte node hbs no
+     * pbrent (<code>getPbrentNode</code> returns <code>null</code>).
+     * If b shbllow clone is being performed (<code>deep</code> is
+     * <code>fblse</code>), the new node will not hbve bny children or
+     * siblings.  If b deep clone is being performed, the new node
+     * will form the root of b complete cloned subtree.
      *
-     * @param deep if <code>true</code>, recursively clone the subtree
-     * under the specified node; if <code>false</code>, clone only the
+     * @pbrbm deep if <code>true</code>, recursively clone the subtree
+     * under the specified node; if <code>fblse</code>, clone only the
      * node itself.
      *
-     * @return the duplicate node.
+     * @return the duplicbte node.
      */
-    public Node cloneNode(boolean deep) {
-        IIOMetadataNode newNode = new IIOMetadataNode(this.nodeName);
+    public Node cloneNode(boolebn deep) {
+        IIOMetbdbtbNode newNode = new IIOMetbdbtbNode(this.nodeNbme);
         newNode.setUserObject(getUserObject());
         // Attributes
 
         if (deep) {
-            for (IIOMetadataNode child = firstChild;
+            for (IIOMetbdbtbNode child = firstChild;
                  child != null;
                  child = child.nextSibling) {
-                newNode.appendChild(child.cloneNode(true));
+                newNode.bppendChild(child.cloneNode(true));
             }
         }
 
@@ -663,34 +663,34 @@ public class IIOMetadataNode implements Element, NodeList {
     }
 
     /**
-     * Does nothing, since <code>IIOMetadataNode</code>s do not
-     * contain <code>Text</code> children.
+     * Does nothing, since <code>IIOMetbdbtbNode</code>s do not
+     * contbin <code>Text</code> children.
      */
-    public void normalize() {
+    public void normblize() {
     }
 
     /**
-     * Returns <code>false</code> since DOM features are not
+     * Returns <code>fblse</code> since DOM febtures bre not
      * supported.
      *
-     * @return <code>false</code>.
+     * @return <code>fblse</code>.
      *
-     * @param feature a <code>String</code>, which is ignored.
-     * @param version a <code>String</code>, which is ignored.
+     * @pbrbm febture b <code>String</code>, which is ignored.
+     * @pbrbm version b <code>String</code>, which is ignored.
      */
-    public boolean isSupported(String feature, String version) {
-        return false;
+    public boolebn isSupported(String febture, String version) {
+        return fblse;
     }
 
     /**
-     * Returns <code>null</code>, since namespaces are not supported.
+     * Returns <code>null</code>, since nbmespbces bre not supported.
      */
-    public String getNamespaceURI() throws DOMException {
+    public String getNbmespbceURI() throws DOMException {
         return null;
     }
 
     /**
-     * Returns <code>null</code>, since namespaces are not supported.
+     * Returns <code>null</code>, since nbmespbces bre not supported.
      *
      * @return <code>null</code>.
      *
@@ -701,9 +701,9 @@ public class IIOMetadataNode implements Element, NodeList {
     }
 
     /**
-     * Does nothing, since namespaces are not supported.
+     * Does nothing, since nbmespbces bre not supported.
      *
-     * @param prefix a <code>String</code>, which is ignored.
+     * @pbrbm prefix b <code>String</code>, which is ignored.
      *
      * @see #getPrefix
      */
@@ -711,120 +711,120 @@ public class IIOMetadataNode implements Element, NodeList {
     }
 
     /**
-     * Equivalent to <code>getNodeName</code>.
+     * Equivblent to <code>getNodeNbme</code>.
      *
-     * @return the node name, as a <code>String</code>.
+     * @return the node nbme, bs b <code>String</code>.
      */
-    public String getLocalName() {
-        return nodeName;
+    public String getLocblNbme() {
+        return nodeNbme;
     }
 
     // Methods from Element
 
 
     /**
-     * Equivalent to <code>getNodeName</code>.
+     * Equivblent to <code>getNodeNbme</code>.
      *
-     * @return the node name, as a <code>String</code>
+     * @return the node nbme, bs b <code>String</code>
      */
-    public String getTagName() {
-        return nodeName;
+    public String getTbgNbme() {
+        return nodeNbme;
     }
 
     /**
-     * Retrieves an attribute value by name.
-     * @param name The name of the attribute to retrieve.
-     * @return The <code>Attr</code> value as a string, or the empty string
-     * if that attribute does not have a specified or default value.
+     * Retrieves bn bttribute vblue by nbme.
+     * @pbrbm nbme The nbme of the bttribute to retrieve.
+     * @return The <code>Attr</code> vblue bs b string, or the empty string
+     * if thbt bttribute does not hbve b specified or defbult vblue.
      */
-    public String getAttribute(String name) {
-        Attr attr = getAttributeNode(name);
-        if (attr == null) {
+    public String getAttribute(String nbme) {
+        Attr bttr = getAttributeNode(nbme);
+        if (bttr == null) {
             return "";
         }
-        return attr.getValue();
+        return bttr.getVblue();
     }
 
     /**
-     * Equivalent to <code>getAttribute(localName)</code>.
+     * Equivblent to <code>getAttribute(locblNbme)</code>.
      *
      * @see #setAttributeNS
      */
-    public String getAttributeNS(String namespaceURI, String localName) {
-        return getAttribute(localName);
+    public String getAttributeNS(String nbmespbceURI, String locblNbme) {
+        return getAttribute(locblNbme);
     }
 
-    public void setAttribute(String name, String value) {
-        // Name must be valid unicode chars
-        boolean valid = true;
-        char[] chs = name.toCharArray();
+    public void setAttribute(String nbme, String vblue) {
+        // Nbme must be vblid unicode chbrs
+        boolebn vblid = true;
+        chbr[] chs = nbme.toChbrArrby();
         for (int i=0;i<chs.length;i++) {
             if (chs[i] >= 0xfffe) {
-                valid = false;
-                break;
+                vblid = fblse;
+                brebk;
             }
         }
-        if (!valid) {
+        if (!vblid) {
             throw new IIODOMException(DOMException.INVALID_CHARACTER_ERR,
-                                      "Attribute name is illegal!");
+                                      "Attribute nbme is illegbl!");
         }
-        removeAttribute(name, false);
-        attributes.add(new IIOAttr(this, name, value));
+        removeAttribute(nbme, fblse);
+        bttributes.bdd(new IIOAttr(this, nbme, vblue));
     }
 
     /**
-     * Equivalent to <code>setAttribute(qualifiedName, value)</code>.
+     * Equivblent to <code>setAttribute(qublifiedNbme, vblue)</code>.
      *
      * @see #getAttributeNS
      */
-    public void setAttributeNS(String namespaceURI,
-                               String qualifiedName, String value) {
-        setAttribute(qualifiedName, value);
+    public void setAttributeNS(String nbmespbceURI,
+                               String qublifiedNbme, String vblue) {
+        setAttribute(qublifiedNbme, vblue);
     }
 
-    public void removeAttribute(String name) {
-        removeAttribute(name, true);
+    public void removeAttribute(String nbme) {
+        removeAttribute(nbme, true);
     }
 
-    private void removeAttribute(String name, boolean checkPresent) {
-        int numAttributes = attributes.size();
+    privbte void removeAttribute(String nbme, boolebn checkPresent) {
+        int numAttributes = bttributes.size();
         for (int i = 0; i < numAttributes; i++) {
-            IIOAttr attr = attributes.get(i);
-            if (name.equals(attr.getName())) {
-                attr.setOwnerElement(null);
-                attributes.remove(i);
+            IIOAttr bttr = bttributes.get(i);
+            if (nbme.equbls(bttr.getNbme())) {
+                bttr.setOwnerElement(null);
+                bttributes.remove(i);
                 return;
             }
         }
 
-        // If we get here, the attribute doesn't exist
+        // If we get here, the bttribute doesn't exist
         if (checkPresent) {
             throw new IIODOMException(DOMException.NOT_FOUND_ERR,
-                                      "No such attribute!");
+                                      "No such bttribute!");
         }
     }
 
     /**
-     * Equivalent to <code>removeAttribute(localName)</code>.
+     * Equivblent to <code>removeAttribute(locblNbme)</code>.
      */
-    public void removeAttributeNS(String namespaceURI,
-                                  String localName) {
-        removeAttribute(localName);
+    public void removeAttributeNS(String nbmespbceURI,
+                                  String locblNbme) {
+        removeAttribute(locblNbme);
     }
 
-    public Attr getAttributeNode(String name) {
-        Node node = getAttributes().getNamedItem(name);
+    public Attr getAttributeNode(String nbme) {
+        Node node = getAttributes().getNbmedItem(nbme);
         return (Attr)node;
     }
 
     /**
-     * Equivalent to <code>getAttributeNode(localName)</code>.
+     * Equivblent to <code>getAttributeNode(locblNbme)</code>.
      *
      * @see #setAttributeNodeNS
      */
-   public Attr getAttributeNodeNS(String namespaceURI,
-                                   String localName) {
-        return getAttributeNode(localName);
+   public Attr getAttributeNodeNS(String nbmespbceURI,
+                                   String locblNbme) {
+        return getAttributeNode(locblNbme);
     }
 
     public Attr setAttributeNode(Attr newAttr) throws DOMException {
@@ -834,32 +834,32 @@ public class IIOMetadataNode implements Element, NodeList {
                 return null;
             } else {
                 throw new DOMException(DOMException.INUSE_ATTRIBUTE_ERR,
-                                       "Attribute is already in use");
+                                       "Attribute is blrebdy in use");
             }
         }
 
-        IIOAttr attr;
-        if (newAttr instanceof IIOAttr) {
-            attr = (IIOAttr)newAttr;
-            attr.setOwnerElement(this);
+        IIOAttr bttr;
+        if (newAttr instbnceof IIOAttr) {
+            bttr = (IIOAttr)newAttr;
+            bttr.setOwnerElement(this);
         } else {
-            attr = new IIOAttr(this,
-                               newAttr.getName(),
-                               newAttr.getValue());
+            bttr = new IIOAttr(this,
+                               newAttr.getNbme(),
+                               newAttr.getVblue());
         }
 
-        Attr oldAttr = getAttributeNode(attr.getName());
+        Attr oldAttr = getAttributeNode(bttr.getNbme());
         if (oldAttr != null) {
             removeAttributeNode(oldAttr);
         }
 
-        attributes.add(attr);
+        bttributes.bdd(bttr);
 
         return oldAttr;
     }
 
     /**
-     * Equivalent to <code>setAttributeNode(newAttr)</code>.
+     * Equivblent to <code>setAttributeNode(newAttr)</code>.
      *
      * @see #getAttributeNodeNS
      */
@@ -868,50 +868,50 @@ public class IIOMetadataNode implements Element, NodeList {
     }
 
     public Attr removeAttributeNode(Attr oldAttr) {
-        removeAttribute(oldAttr.getName());
+        removeAttribute(oldAttr.getNbme());
         return oldAttr;
     }
 
-    public NodeList getElementsByTagName(String name) {
-        List<Node> l = new ArrayList<>();
-        getElementsByTagName(name, l);
+    public NodeList getElementsByTbgNbme(String nbme) {
+        List<Node> l = new ArrbyList<>();
+        getElementsByTbgNbme(nbme, l);
         return new IIONodeList(l);
     }
 
-    private void getElementsByTagName(String name, List<Node> l) {
-        if (nodeName.equals(name)) {
-            l.add(this);
+    privbte void getElementsByTbgNbme(String nbme, List<Node> l) {
+        if (nodeNbme.equbls(nbme)) {
+            l.bdd(this);
         }
 
         Node child = getFirstChild();
         while (child != null) {
-            ((IIOMetadataNode)child).getElementsByTagName(name, l);
+            ((IIOMetbdbtbNode)child).getElementsByTbgNbme(nbme, l);
             child = child.getNextSibling();
         }
     }
 
     /**
-     * Equivalent to <code>getElementsByTagName(localName)</code>.
+     * Equivblent to <code>getElementsByTbgNbme(locblNbme)</code>.
      */
-    public NodeList getElementsByTagNameNS(String namespaceURI,
-                                           String localName) {
-        return getElementsByTagName(localName);
+    public NodeList getElementsByTbgNbmeNS(String nbmespbceURI,
+                                           String locblNbme) {
+        return getElementsByTbgNbme(locblNbme);
     }
 
-    public boolean hasAttributes() {
-        return attributes.size() > 0;
+    public boolebn hbsAttributes() {
+        return bttributes.size() > 0;
     }
 
-    public boolean hasAttribute(String name) {
-        return getAttributeNode(name) != null;
+    public boolebn hbsAttribute(String nbme) {
+        return getAttributeNode(nbme) != null;
     }
 
     /**
-     * Equivalent to <code>hasAttribute(localName)</code>.
+     * Equivblent to <code>hbsAttribute(locblNbme)</code>.
      */
-    public boolean hasAttributeNS(String namespaceURI,
-                                  String localName) {
-        return hasAttribute(localName);
+    public boolebn hbsAttributeNS(String nbmespbceURI,
+                                  String locblNbme) {
+        return hbsAttribute(locblNbme);
     }
 
     // Methods from NodeList
@@ -933,7 +933,7 @@ public class IIOMetadataNode implements Element, NodeList {
     }
 
     /**
-     * Returns the <code>Object</code> value associated with this node.
+     * Returns the <code>Object</code> vblue bssocibted with this node.
      *
      * @return the user <code>Object</code>.
      *
@@ -944,9 +944,9 @@ public class IIOMetadataNode implements Element, NodeList {
     }
 
     /**
-     * Sets the value associated with this node.
+     * Sets the vblue bssocibted with this node.
      *
-     * @param userObject the user <code>Object</code>.
+     * @pbrbm userObject the user <code>Object</code>.
      *
      * @see #getUserObject
      */
@@ -954,143 +954,143 @@ public class IIOMetadataNode implements Element, NodeList {
         this.userObject = userObject;
     }
 
-    // Start of dummy methods for DOM L3.
+    // Stbrt of dummy methods for DOM L3.
 
     /**
-     * This DOM Level 3 method is not supported for {@code IIOMetadataNode}
-     * and will throw a {@code DOMException}.
-     * @throws DOMException - always.
+     * This DOM Level 3 method is not supported for {@code IIOMetbdbtbNode}
+     * bnd will throw b {@code DOMException}.
+     * @throws DOMException - blwbys.
      */
-    public void setIdAttribute(String name,
-                               boolean isId)
+    public void setIdAttribute(String nbme,
+                               boolebn isId)
                                throws DOMException {
         throw new DOMException(DOMException.NOT_SUPPORTED_ERR,
                                "Method not supported");
     }
 
     /**
-     * This DOM Level 3 method is not supported for {@code IIOMetadataNode}
-     * and will throw a {@code DOMException}.
-     * @throws DOMException - always.
+     * This DOM Level 3 method is not supported for {@code IIOMetbdbtbNode}
+     * bnd will throw b {@code DOMException}.
+     * @throws DOMException - blwbys.
      */
-    public void setIdAttributeNS(String namespaceURI,
-                                 String localName,
-                                 boolean isId)
+    public void setIdAttributeNS(String nbmespbceURI,
+                                 String locblNbme,
+                                 boolebn isId)
                                  throws DOMException {
         throw new DOMException(DOMException.NOT_SUPPORTED_ERR,
                                "Method not supported");
     }
 
     /**
-     * This DOM Level 3 method is not supported for {@code IIOMetadataNode}
-     * and will throw a {@code DOMException}.
-     * @throws DOMException - always.
+     * This DOM Level 3 method is not supported for {@code IIOMetbdbtbNode}
+     * bnd will throw b {@code DOMException}.
+     * @throws DOMException - blwbys.
      */
     public void setIdAttributeNode(Attr idAttr,
-                                   boolean isId)
+                                   boolebn isId)
                                    throws DOMException {
         throw new DOMException(DOMException.NOT_SUPPORTED_ERR,
                                "Method not supported");
     }
 
     /**
-     * This DOM Level 3 method is not supported for {@code IIOMetadataNode}
-     * and will throw a {@code DOMException}.
-     * @throws DOMException - always.
+     * This DOM Level 3 method is not supported for {@code IIOMetbdbtbNode}
+     * bnd will throw b {@code DOMException}.
+     * @throws DOMException - blwbys.
      */
-    public TypeInfo getSchemaTypeInfo() throws DOMException {
+    public TypeInfo getSchembTypeInfo() throws DOMException {
         throw new DOMException(DOMException.NOT_SUPPORTED_ERR,
                                "Method not supported");
     }
 
     /**
-     * This DOM Level 3 method is not supported for {@code IIOMetadataNode}
-     * and will throw a {@code DOMException}.
-     * @throws DOMException - always.
+     * This DOM Level 3 method is not supported for {@code IIOMetbdbtbNode}
+     * bnd will throw b {@code DOMException}.
+     * @throws DOMException - blwbys.
      */
-    public Object setUserData(String key,
-                              Object data,
-                              UserDataHandler handler) throws DOMException {
+    public Object setUserDbtb(String key,
+                              Object dbtb,
+                              UserDbtbHbndler hbndler) throws DOMException {
         throw new DOMException(DOMException.NOT_SUPPORTED_ERR,
                                "Method not supported");
     }
 
     /**
-     * This DOM Level 3 method is not supported for {@code IIOMetadataNode}
-     * and will throw a {@code DOMException}.
-     * @throws DOMException - always.
+     * This DOM Level 3 method is not supported for {@code IIOMetbdbtbNode}
+     * bnd will throw b {@code DOMException}.
+     * @throws DOMException - blwbys.
      */
-    public Object getUserData(String key) throws DOMException {
+    public Object getUserDbtb(String key) throws DOMException {
         throw new DOMException(DOMException.NOT_SUPPORTED_ERR,
                                "Method not supported");
     }
 
     /**
-     * This DOM Level 3 method is not supported for {@code IIOMetadataNode}
-     * and will throw a {@code DOMException}.
-     * @throws DOMException - always.
+     * This DOM Level 3 method is not supported for {@code IIOMetbdbtbNode}
+     * bnd will throw b {@code DOMException}.
+     * @throws DOMException - blwbys.
      */
-    public Object getFeature(String feature, String version)
+    public Object getFebture(String febture, String version)
                               throws DOMException {
         throw new DOMException(DOMException.NOT_SUPPORTED_ERR,
                                "Method not supported");
     }
 
     /**
-     * This DOM Level 3 method is not supported for {@code IIOMetadataNode}
-     * and will throw a {@code DOMException}.
-     * @throws DOMException - always.
+     * This DOM Level 3 method is not supported for {@code IIOMetbdbtbNode}
+     * bnd will throw b {@code DOMException}.
+     * @throws DOMException - blwbys.
      */
-    public boolean isSameNode(Node node) throws DOMException {
+    public boolebn isSbmeNode(Node node) throws DOMException {
         throw new DOMException(DOMException.NOT_SUPPORTED_ERR,
                                "Method not supported");
     }
 
     /**
-     * This DOM Level 3 method is not supported for {@code IIOMetadataNode}
-     * and will throw a {@code DOMException}.
-     * @throws DOMException - always.
+     * This DOM Level 3 method is not supported for {@code IIOMetbdbtbNode}
+     * bnd will throw b {@code DOMException}.
+     * @throws DOMException - blwbys.
      */
-    public boolean isEqualNode(Node node) throws DOMException {
+    public boolebn isEqublNode(Node node) throws DOMException {
         throw new DOMException(DOMException.NOT_SUPPORTED_ERR,
                                "Method not supported");
     }
 
     /**
-     * This DOM Level 3 method is not supported for {@code IIOMetadataNode}
-     * and will throw a {@code DOMException}.
-     * @throws DOMException - always.
+     * This DOM Level 3 method is not supported for {@code IIOMetbdbtbNode}
+     * bnd will throw b {@code DOMException}.
+     * @throws DOMException - blwbys.
      */
-    public String lookupNamespaceURI(String prefix) throws DOMException {
+    public String lookupNbmespbceURI(String prefix) throws DOMException {
         throw new DOMException(DOMException.NOT_SUPPORTED_ERR,
                                "Method not supported");
     }
 
     /**
-     * This DOM Level 3 method is not supported for {@code IIOMetadataNode}
-     * and will throw a {@code DOMException}.
-     * @throws DOMException - always.
+     * This DOM Level 3 method is not supported for {@code IIOMetbdbtbNode}
+     * bnd will throw b {@code DOMException}.
+     * @throws DOMException - blwbys.
      */
-    public boolean isDefaultNamespace(String namespaceURI)
+    public boolebn isDefbultNbmespbce(String nbmespbceURI)
                                                throws DOMException {
         throw new DOMException(DOMException.NOT_SUPPORTED_ERR,
                                "Method not supported");
     }
 
     /**
-     * This DOM Level 3 method is not supported for {@code IIOMetadataNode}
-     * and will throw a {@code DOMException}.
-     * @throws DOMException - always.
+     * This DOM Level 3 method is not supported for {@code IIOMetbdbtbNode}
+     * bnd will throw b {@code DOMException}.
+     * @throws DOMException - blwbys.
      */
-    public String lookupPrefix(String namespaceURI) throws DOMException {
+    public String lookupPrefix(String nbmespbceURI) throws DOMException {
         throw new DOMException(DOMException.NOT_SUPPORTED_ERR,
                                "Method not supported");
     }
 
     /**
-     * This DOM Level 3 method is not supported for {@code IIOMetadataNode}
-     * and will throw a {@code DOMException}.
-     * @throws DOMException - always.
+     * This DOM Level 3 method is not supported for {@code IIOMetbdbtbNode}
+     * bnd will throw b {@code DOMException}.
+     * @throws DOMException - blwbys.
      */
     public String getTextContent() throws DOMException {
         throw new DOMException(DOMException.NOT_SUPPORTED_ERR,
@@ -1098,9 +1098,9 @@ public class IIOMetadataNode implements Element, NodeList {
     }
 
     /**
-     * This DOM Level 3 method is not supported for {@code IIOMetadataNode}
-     * and will throw a {@code DOMException}.
-     * @throws DOMException - always.
+     * This DOM Level 3 method is not supported for {@code IIOMetbdbtbNode}
+     * bnd will throw b {@code DOMException}.
+     * @throws DOMException - blwbys.
      */
     public void setTextContent(String textContent) throws DOMException {
         throw new DOMException(DOMException.NOT_SUPPORTED_ERR,
@@ -1108,22 +1108,22 @@ public class IIOMetadataNode implements Element, NodeList {
     }
 
     /**
-     * This DOM Level 3 method is not supported for {@code IIOMetadataNode}
-     * and will throw a {@code DOMException}.
-     * @throws DOMException - always.
+     * This DOM Level 3 method is not supported for {@code IIOMetbdbtbNode}
+     * bnd will throw b {@code DOMException}.
+     * @throws DOMException - blwbys.
      */
-    public short compareDocumentPosition(Node other)
+    public short compbreDocumentPosition(Node other)
                                          throws DOMException {
         throw new DOMException(DOMException.NOT_SUPPORTED_ERR,
                                "Method not supported");
     }
 
     /**
-     * This DOM Level 3 method is not supported for {@code IIOMetadataNode}
-     * and will throw a {@code DOMException}.
-     * @throws DOMException - always.
+     * This DOM Level 3 method is not supported for {@code IIOMetbdbtbNode}
+     * bnd will throw b {@code DOMException}.
+     * @throws DOMException - blwbys.
      */
-    public String getBaseURI() throws DOMException {
+    public String getBbseURI() throws DOMException {
         throw new DOMException(DOMException.NOT_SUPPORTED_ERR,
                                "Method not supported");
     }

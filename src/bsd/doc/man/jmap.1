@@ -1,143 +1,143 @@
 '\" t
-.\"  Copyright (c) 2004, 2013, Oracle and/or its affiliates. All rights reserved.
+.\"  Copyright (c) 2004, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
 .\"
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
-.\" This code is free software; you can redistribute it and/or modify it
-.\" under the terms of the GNU General Public License version 2 only, as
-.\" published by the Free Software Foundation.
+.\" This code is free softwbre; you cbn redistribute it bnd/or modify it
+.\" under the terms of the GNU Generbl Public License version 2 only, bs
+.\" published by the Free Softwbre Foundbtion.
 .\"
-.\" This code is distributed in the hope that it will be useful, but WITHOUT
-.\" ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
-.\" version 2 for more details (a copy is included in the LICENSE file that
-.\" accompanied this code).
+.\" This code is distributed in the hope thbt it will be useful, but WITHOUT
+.\" ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU Generbl Public License
+.\" version 2 for more detbils (b copy is included in the LICENSE file thbt
+.\" bccompbnied this code).
 .\"
-.\" You should have received a copy of the GNU General Public License version
-.\" 2 along with this work; if not, write to the Free Software Foundation,
-.\" Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\" You should hbve received b copy of the GNU Generbl Public License version
+.\" 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+.\" Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 .\"
-.\" Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-.\" or visit www.oracle.com if you need additional information or have any
+.\" Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+.\" or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
 .\" questions.
 .\"
 .\"     Arch: generic
-.\"     Software: JDK 8
-.\"     Date: 21 November 2013
+.\"     Softwbre: JDK 8
+.\"     Dbte: 21 November 2013
 .\"     SectDesc: Troubleshooting Tools
-.\"     Title: jmap.1
+.\"     Title: jmbp.1
 .\"
 .if n .pl 99999
-.TH jmap 1 "21 November 2013" "JDK 8" "Troubleshooting Tools"
+.TH jmbp 1 "21 November 2013" "JDK 8" "Troubleshooting Tools"
 .\" -----------------------------------------------------------------
-.\" * Define some portability stuff
+.\" * Define some portbbility stuff
 .\" -----------------------------------------------------------------
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.\" http://bugs.debian.org/507673
-.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" http://bugs.debibn.org/507673
+.\" http://lists.gnu.org/brchive/html/groff/2009-02/msg00013.html
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.ie \n(.g .ds Aq \(aq
+.ie \n(.g .ds Aq \(bq
 .el       .ds Aq '
 .\" -----------------------------------------------------------------
-.\" * set default formatting
+.\" * set defbult formbtting
 .\" -----------------------------------------------------------------
-.\" disable hyphenation
+.\" disbble hyphenbtion
 .nh
-.\" disable justification (adjust text to left margin only)
-.ad l
+.\" disbble justificbtion (bdjust text to left mbrgin only)
+.bd l
 .\" -----------------------------------------------------------------
 .\" * MAIN CONTENT STARTS HERE *
 .\" -----------------------------------------------------------------
 
 .SH NAME    
-jmap \- Prints shared object memory maps or heap memory details for a process, core file, or remote debug server\&. This command is experimental and unsupported\&.
+jmbp \- Prints shbred object memory mbps or hebp memory detbils for b process, core file, or remote debug server\&. This commbnd is experimentbl bnd unsupported\&.
 .SH SYNOPSIS    
 .sp     
 .nf     
 
-\fBjmap\fR [ \fIoptions\fR ] \fIpid\fR
+\fBjmbp\fR [ \fIoptions\fR ] \fIpid\fR
 .fi     
 .nf     
 
-\fBjmap\fR [ \fIoptions\fR ] \fIexecutable\fR \fIcore\fR
+\fBjmbp\fR [ \fIoptions\fR ] \fIexecutbble\fR \fIcore\fR
 .fi     
 .nf     
 
-\fBjmap\fR [ \fIoptions\fR ] [ \fIpid\fR ] \fIserver\-id\fR@ ] \fIremote\-hostname\-or\-IP\fR
+\fBjmbp\fR [ \fIoptions\fR ] [ \fIpid\fR ] \fIserver\-id\fR@ ] \fIremote\-hostnbme\-or\-IP\fR
 .fi     
 .sp     
 .TP     
 \fIoptions\fR
-The command-line options\&. See Options\&.
+The commbnd-line options\&. See Options\&.
 .TP     
 \fIpid\fR
-The process ID for which the memory map is to be printed\&. The process must be a Java process\&. To get a list of Java processes running on a machine, use the jps(1) command\&.
+The process ID for which the memory mbp is to be printed\&. The process must be b Jbvb process\&. To get b list of Jbvb processes running on b mbchine, use the jps(1) commbnd\&.
 .TP     
-\fIexecutable\fR
-The Java executable from which the core dump was produced\&.
+\fIexecutbble\fR
+The Jbvb executbble from which the core dump wbs produced\&.
 .TP     
 \fIcore\fR
-The core file for which the memory map is to be printed\&.
+The core file for which the memory mbp is to be printed\&.
 .TP     
-\fIremote-hostname-or-IP\fR
-The remote debug server \f3hostname\fR or \f3IP\fR address\&. See jsadebugd(1)\&.
+\fIremote-hostnbme-or-IP\fR
+The remote debug server \f3hostnbme\fR or \f3IP\fR bddress\&. See jsbdebugd(1)\&.
 .TP     
 \fIserver-id\fR
-An optional unique ID to use when multiple debug servers are running on the same remote host\&.
+An optionbl unique ID to use when multiple debug servers bre running on the sbme remote host\&.
 .SH DESCRIPTION    
-The \f3jmap\fR command prints shared object memory maps or heap memory details of a specified process, core file, or remote debug server\&. If the specified process is running on a 64-bit Java Virtual Machine (JVM), then you might need to specify the \f3-J-d64\fR option, for example: \f3jmap\fR\f3-J-d64 -heap pid\fR\&.
+The \f3jmbp\fR commbnd prints shbred object memory mbps or hebp memory detbils of b specified process, core file, or remote debug server\&. If the specified process is running on b 64-bit Jbvb Virtubl Mbchine (JVM), then you might need to specify the \f3-J-d64\fR option, for exbmple: \f3jmbp\fR\f3-J-d64 -hebp pid\fR\&.
 .PP
-\fINote:\fR This utility is unsupported and might not be available in future releases of the JDK\&. On Windows Systems where the \f3dbgeng\&.dll\fR file is not present, Debugging Tools For Windows must be installed to make these tools work\&. The \f3PATH\fR environment variable should contain the location of the \f3jvm\&.dll\fR file that is used by the target process or the location from which the crash dump file was produced, for example: \f3set PATH=%JDK_HOME%\ejre\ebin\eclient;%PATH%\fR\&.
+\fINote:\fR This utility is unsupported bnd might not be bvbilbble in future relebses of the JDK\&. On Windows Systems where the \f3dbgeng\&.dll\fR file is not present, Debugging Tools For Windows must be instblled to mbke these tools work\&. The \f3PATH\fR environment vbribble should contbin the locbtion of the \f3jvm\&.dll\fR file thbt is used by the tbrget process or the locbtion from which the crbsh dump file wbs produced, for exbmple: \f3set PATH=%JDK_HOME%\ejre\ebin\eclient;%PATH%\fR\&.
 .SH OPTIONS    
 .TP     
 <no option>
-When no option is used, the \f3jmap\fR command prints shared object mappings\&. For each shared object loaded in the target JVM, the start address, size of the mapping, and the full path of the shared object file are printed\&. This behavior is similar to the Oracle Solaris \f3pmap\fR utility\&.
+When no option is used, the \f3jmbp\fR commbnd prints shbred object mbppings\&. For ebch shbred object lobded in the tbrget JVM, the stbrt bddress, size of the mbpping, bnd the full pbth of the shbred object file bre printed\&. This behbvior is similbr to the Orbcle Solbris \f3pmbp\fR utility\&.
 .TP
--dump:[live,] format=b, file=\fIfilename\fR
+-dump:[live,] formbt=b, file=\fIfilenbme\fR
 .br
-Dumps the Java heap in \f3hprof\fR binary format to \f3filename\fR\&. The \f3live\fR suboption is optional, but when specified, only the active objects in the heap are dumped\&. To browse the heap dump, you can use the jhat(1) command to read the generated file\&.
+Dumps the Jbvb hebp in \f3hprof\fR binbry formbt to \f3filenbme\fR\&. The \f3live\fR suboption is optionbl, but when specified, only the bctive objects in the hebp bre dumped\&. To browse the hebp dump, you cbn use the jhbt(1) commbnd to rebd the generbted file\&.
 .TP
--finalizerinfo
+-finblizerinfo
 .br
-Prints information about objects that are awaiting finalization\&.
+Prints informbtion bbout objects thbt bre bwbiting finblizbtion\&.
 .TP
--heap
+-hebp
 .br
-Prints a heap summary of the garbage collection used, the head configuration, and generation-wise heap usage\&. In addition, the number and size of interned Strings are printed\&.
+Prints b hebp summbry of the gbrbbge collection used, the hebd configurbtion, bnd generbtion-wise hebp usbge\&. In bddition, the number bnd size of interned Strings bre printed\&.
 .TP
 -histo[:live]
 .br
-Prints a histogram of the heap\&. For each Java class, the number of objects, memory size in bytes, and the fully qualified class names are printed\&. The JVM internal class names are printed with an asterisk (*) prefix\&. If the \f3live\fR suboption is specified, then only active objects are counted\&.
+Prints b histogrbm of the hebp\&. For ebch Jbvb clbss, the number of objects, memory size in bytes, bnd the fully qublified clbss nbmes bre printed\&. The JVM internbl clbss nbmes bre printed with bn bsterisk (*) prefix\&. If the \f3live\fR suboption is specified, then only bctive objects bre counted\&.
 .TP
--clstats
+-clstbts
 .br
-Prints class loader wise statistics of Java heap\&. For each class loader, its name, how active it is, address, parent class loader, and the number and size of classes it has loaded are printed\&.
+Prints clbss lobder wise stbtistics of Jbvb hebp\&. For ebch clbss lobder, its nbme, how bctive it is, bddress, pbrent clbss lobder, bnd the number bnd size of clbsses it hbs lobded bre printed\&.
 .TP
 -F
 .br
-Force\&. Use this option with the \f3jmap -dump\fR or \f3jmap -histo\fR option when the pid does not respond\&. The \f3live\fR suboption is not supported in this mode\&.
+Force\&. Use this option with the \f3jmbp -dump\fR or \f3jmbp -histo\fR option when the pid does not respond\&. The \f3live\fR suboption is not supported in this mode\&.
 .TP
 -h
 .br
-Prints a help message\&.
+Prints b help messbge\&.
 .TP
 -help
 .br
-Prints a help message\&.
+Prints b help messbge\&.
 .TP
--J\fIflag\fR
+-J\fIflbg\fR
 .br
-Passes \f3flag\fR to the Java Virtual Machine where the \f3jmap\fR command is running\&.
+Pbsses \f3flbg\fR to the Jbvb Virtubl Mbchine where the \f3jmbp\fR commbnd is running\&.
 .SH SEE\ ALSO    
 .TP 0.2i    
 \(bu
-jhat(1)
+jhbt(1)
 .TP 0.2i    
 \(bu
 jps(1)
 .TP 0.2i    
 \(bu
-jsadebugd(1)
+jsbdebugd(1)
 .RE
 .br
 'pl 8.5i

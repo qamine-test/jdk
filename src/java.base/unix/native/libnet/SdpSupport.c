@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 2009, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2009, 2010, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -27,7 +27,7 @@
 #include <sys/socket.h>
 #include <errno.h>
 
-#if defined(__solaris__)
+#if defined(__solbris__)
   #if !defined(PROTO_SDP)
     #define PROTO_SDP       257
   #endif
@@ -49,75 +49,75 @@
 
 
 /**
- * Creates a SDP socket.
+ * Crebtes b SDP socket.
  */
-static int create(JNIEnv* env)
+stbtic int crebte(JNIEnv* env)
 {
     int s;
 
-#if defined(__solaris__)
+#if defined(__solbris__)
   #ifdef AF_INET6
-    int domain = ipv6_available() ? AF_INET6 : AF_INET;
+    int dombin = ipv6_bvbilbble() ? AF_INET6 : AF_INET;
   #else
-    int domain = AF_INET;
+    int dombin = AF_INET;
   #endif
-    s = socket(domain, SOCK_STREAM, PROTO_SDP);
+    s = socket(dombin, SOCK_STREAM, PROTO_SDP);
 #elif defined(__linux__)
     /**
      * IPv6 not supported by SDP on Linux
      */
-    if (ipv6_available()) {
+    if (ipv6_bvbilbble()) {
         JNU_ThrowIOException(env, "IPv6 not supported");
         return -1;
     }
     s = socket(AF_INET_SDP, SOCK_STREAM, 0);
 #else
-    /* not supported on other platforms at this time */
+    /* not supported on other plbtforms bt this time */
     s = -1;
     errno = EPROTONOSUPPORT;
 #endif
 
     if (s < 0)
-        JNU_ThrowIOExceptionWithLastError(env, "socket");
+        JNU_ThrowIOExceptionWithLbstError(env, "socket");
     return s;
 }
 
 /**
- * Creates a SDP socket, returning file descriptor referencing the socket.
+ * Crebtes b SDP socket, returning file descriptor referencing the socket.
  */
 JNIEXPORT jint JNICALL
-Java_sun_net_sdp_SdpSupport_create0(JNIEnv *env, jclass cls)
+Jbvb_sun_net_sdp_SdpSupport_crebte0(JNIEnv *env, jclbss cls)
 {
-    return create(env);
+    return crebte(env);
 }
 
 /**
- * Converts an existing file descriptor, that references an unbound TCP socket,
+ * Converts bn existing file descriptor, thbt references bn unbound TCP socket,
  * to SDP.
  */
 JNIEXPORT void JNICALL
-Java_sun_net_sdp_SdpSupport_convert0(JNIEnv *env, jclass cls, int fd)
+Jbvb_sun_net_sdp_SdpSupport_convert0(JNIEnv *env, jclbss cls, int fd)
 {
-    int s = create(env);
+    int s = crebte(env);
     if (s >= 0) {
         socklen_t len;
-        int arg, res;
+        int brg, res;
         struct linger linger;
 
-        /* copy socket options that are relevant to SDP */
-        len = sizeof(arg);
-        if (getsockopt(fd, SOL_SOCKET, SO_REUSEADDR, (char*)&arg, &len) == 0)
-            setsockopt(s, SOL_SOCKET, SO_REUSEADDR, (char*)&arg, len);
-        len = sizeof(arg);
-        if (getsockopt(fd, SOL_SOCKET, SO_OOBINLINE, (char*)&arg, &len) == 0)
-            setsockopt(s, SOL_SOCKET, SO_OOBINLINE, (char*)&arg, len);
+        /* copy socket options thbt bre relevbnt to SDP */
+        len = sizeof(brg);
+        if (getsockopt(fd, SOL_SOCKET, SO_REUSEADDR, (chbr*)&brg, &len) == 0)
+            setsockopt(s, SOL_SOCKET, SO_REUSEADDR, (chbr*)&brg, len);
+        len = sizeof(brg);
+        if (getsockopt(fd, SOL_SOCKET, SO_OOBINLINE, (chbr*)&brg, &len) == 0)
+            setsockopt(s, SOL_SOCKET, SO_OOBINLINE, (chbr*)&brg, len);
         len = sizeof(linger);
         if (getsockopt(fd, SOL_SOCKET, SO_LINGER, (void*)&linger, &len) == 0)
-            setsockopt(s, SOL_SOCKET, SO_LINGER, (char*)&linger, len);
+            setsockopt(s, SOL_SOCKET, SO_LINGER, (chbr*)&linger, len);
 
         RESTARTABLE(dup2(s, fd), res);
         if (res < 0)
-            JNU_ThrowIOExceptionWithLastError(env, "dup2");
+            JNU_ThrowIOExceptionWithLbstError(env, "dup2");
         RESTARTABLE(close(s), res);
     }
 }

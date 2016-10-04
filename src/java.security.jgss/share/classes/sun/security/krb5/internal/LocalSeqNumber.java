@@ -1,89 +1,89 @@
 /*
- * Copyright (c) 2000, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2007, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
  *
  *  (C) Copyright IBM Corp. 1999 All Rights Reserved.
- *  Copyright 1997 The Open Group Research Institute.  All rights reserved.
+ *  Copyright 1997 The Open Group Resebrch Institute.  All rights reserved.
  */
 
-package sun.security.krb5.internal;
+pbckbge sun.security.krb5.internbl;
 
 import sun.security.krb5.Confounder;
 
-public class LocalSeqNumber implements SeqNumber {
-    private int lastSeqNumber;
+public clbss LocblSeqNumber implements SeqNumber {
+    privbte int lbstSeqNumber;
 
-    public LocalSeqNumber() {
-        randInit();
+    public LocblSeqNumber() {
+        rbndInit();
     }
 
-    public LocalSeqNumber(int start) {
-        init(start);
+    public LocblSeqNumber(int stbrt) {
+        init(stbrt);
     }
 
-    public LocalSeqNumber(Integer start) {
-        init(start.intValue());
+    public LocblSeqNumber(Integer stbrt) {
+        init(stbrt.intVblue());
     }
 
-    public synchronized void randInit() {
+    public synchronized void rbndInit() {
         /*
-         * Sequence numbers fall in the range 0 through 2^32 - 1 and wrap
-         * to zero following the value 2^32 - 1.
-         * Previous implementations used signed sequence numbers.
-         * Workaround implementation incompatibilities by not generating
-         * initial sequence numbers greater than 2^30, as done
+         * Sequence numbers fbll in the rbnge 0 through 2^32 - 1 bnd wrbp
+         * to zero following the vblue 2^32 - 1.
+         * Previous implementbtions used signed sequence numbers.
+         * Workbround implementbtion incompbtibilities by not generbting
+         * initibl sequence numbers grebter thbn 2^30, bs done
          * in MIT distribution.
          */
-        // get the random confounder
-        byte[] data = Confounder.bytes(4);
-        data[0] = (byte)(data[0] & 0x3f);
-        int result = ((data[3] & 0xff) |
-                        ((data[2] & 0xff) << 8) |
-                        ((data[1] & 0xff) << 16) |
-                        ((data[0] & 0xff) << 24));
+        // get the rbndom confounder
+        byte[] dbtb = Confounder.bytes(4);
+        dbtb[0] = (byte)(dbtb[0] & 0x3f);
+        int result = ((dbtb[3] & 0xff) |
+                        ((dbtb[2] & 0xff) << 8) |
+                        ((dbtb[1] & 0xff) << 16) |
+                        ((dbtb[0] & 0xff) << 24));
         if (result == 0) {
            result = 1;
         }
-        lastSeqNumber = result;
+        lbstSeqNumber = result;
     }
 
-    public synchronized void init(int start) {
-        lastSeqNumber = start;
+    public synchronized void init(int stbrt) {
+        lbstSeqNumber = stbrt;
     }
 
     public synchronized int current() {
-        return lastSeqNumber;
+        return lbstSeqNumber;
     }
 
     public synchronized int next() {
-        return lastSeqNumber + 1;
+        return lbstSeqNumber + 1;
     }
 
     public synchronized int step() {
-        return ++lastSeqNumber;
+        return ++lbstSeqNumber;
     }
 
 }

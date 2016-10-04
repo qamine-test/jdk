@@ -1,145 +1,145 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.sql.rowset.serial;
+pbckbge jbvbx.sql.rowset.seribl;
 
-import java.sql.*;
-import java.io.*;
-import java.util.*;
+import jbvb.sql.*;
+import jbvb.io.*;
+import jbvb.util.*;
 
 /**
- * A serialized mapping of a <code>Ref</code> object, which is the mapping in the
- * Java programming language of an SQL <code>REF</code> value.
+ * A seriblized mbpping of b <code>Ref</code> object, which is the mbpping in the
+ * Jbvb progrbmming lbngubge of bn SQL <code>REF</code> vblue.
  * <p>
- * The <code>SerialRef</code> class provides a constructor  for
- * creating a <code>SerialRef</code> instance from a <code>Ref</code>
- * object and provides methods for getting and setting the <code>Ref</code> object.
+ * The <code>SeriblRef</code> clbss provides b constructor  for
+ * crebting b <code>SeriblRef</code> instbnce from b <code>Ref</code>
+ * object bnd provides methods for getting bnd setting the <code>Ref</code> object.
  *
- * <h3> Thread safety </h3>
+ * <h3> Threbd sbfety </h3>
  *
- * A SerialRef is not safe for use by multiple concurrent threads.  If a
- * SerialRef is to be used by more than one thread then access to the SerialRef
- * should be controlled by appropriate synchronization.
+ * A SeriblRef is not sbfe for use by multiple concurrent threbds.  If b
+ * SeriblRef is to be used by more thbn one threbd then bccess to the SeriblRef
+ * should be controlled by bppropribte synchronizbtion.
  *
  * @since 1.5
  */
-public class SerialRef implements Ref, Serializable, Cloneable {
+public clbss SeriblRef implements Ref, Seriblizbble, Clonebble {
 
     /**
-     * String containing the base type name.
-     * @serial
+     * String contbining the bbse type nbme.
+     * @seribl
      */
-    private String baseTypeName;
+    privbte String bbseTypeNbme;
 
     /**
-     * This will store the type <code>Ref</code> as an <code>Object</code>.
+     * This will store the type <code>Ref</code> bs bn <code>Object</code>.
      */
-    private Object object;
+    privbte Object object;
 
     /**
-     * Private copy of the Ref reference.
+     * Privbte copy of the Ref reference.
      */
-    private Ref reference;
+    privbte Ref reference;
 
     /**
-     * Constructs a <code>SerialRef</code> object from the given <code>Ref</code>
+     * Constructs b <code>SeriblRef</code> object from the given <code>Ref</code>
      * object.
      *
-     * @param ref a Ref object; cannot be <code>null</code>
-     * @throws SQLException if a database access occurs; if <code>ref</code>
-     *     is <code>null</code>; or if the <code>Ref</code> object returns a
-     *     <code>null</code> value base type name.
-     * @throws SerialException if an error occurs serializing the <code>Ref</code>
+     * @pbrbm ref b Ref object; cbnnot be <code>null</code>
+     * @throws SQLException if b dbtbbbse bccess occurs; if <code>ref</code>
+     *     is <code>null</code>; or if the <code>Ref</code> object returns b
+     *     <code>null</code> vblue bbse type nbme.
+     * @throws SeriblException if bn error occurs seriblizing the <code>Ref</code>
      *     object
      */
-    public SerialRef(Ref ref) throws SerialException, SQLException {
+    public SeriblRef(Ref ref) throws SeriblException, SQLException {
         if (ref == null) {
-            throw new SQLException("Cannot instantiate a SerialRef object " +
-                "with a null Ref object");
+            throw new SQLException("Cbnnot instbntibte b SeriblRef object " +
+                "with b null Ref object");
         }
         reference = ref;
         object = ref;
-        if (ref.getBaseTypeName() == null) {
-            throw new SQLException("Cannot instantiate a SerialRef object " +
-                "that returns a null base type name");
+        if (ref.getBbseTypeNbme() == null) {
+            throw new SQLException("Cbnnot instbntibte b SeriblRef object " +
+                "thbt returns b null bbse type nbme");
         } else {
-            baseTypeName = ref.getBaseTypeName();
+            bbseTypeNbme = ref.getBbseTypeNbme();
         }
     }
 
     /**
-     * Returns a string describing the base type name of the <code>Ref</code>.
+     * Returns b string describing the bbse type nbme of the <code>Ref</code>.
      *
-     * @return a string of the base type name of the Ref
-     * @throws SerialException in no Ref object has been set
+     * @return b string of the bbse type nbme of the Ref
+     * @throws SeriblException in no Ref object hbs been set
      */
-    public String getBaseTypeName() throws SerialException {
-        return baseTypeName;
+    public String getBbseTypeNbme() throws SeriblException {
+        return bbseTypeNbme;
     }
 
     /**
-     * Returns an <code>Object</code> representing the SQL structured type
-     * to which this <code>SerialRef</code> object refers.  The attributes
-     * of the structured type are mapped according to the given type map.
+     * Returns bn <code>Object</code> representing the SQL structured type
+     * to which this <code>SeriblRef</code> object refers.  The bttributes
+     * of the structured type bre mbpped bccording to the given type mbp.
      *
-     * @param map a <code>java.util.Map</code> object containing zero or
-     *        more entries, with each entry consisting of 1) a <code>String</code>
-     *        giving the fully qualified name of a UDT and 2) the
-     *        <code>Class</code> object for the <code>SQLData</code> implementation
-     *        that defines how the UDT is to be mapped
-     * @return an object instance resolved from the Ref reference and mapped
-     *        according to the supplied type map
-     * @throws SerialException if an error is encountered in the reference
+     * @pbrbm mbp b <code>jbvb.util.Mbp</code> object contbining zero or
+     *        more entries, with ebch entry consisting of 1) b <code>String</code>
+     *        giving the fully qublified nbme of b UDT bnd 2) the
+     *        <code>Clbss</code> object for the <code>SQLDbtb</code> implementbtion
+     *        thbt defines how the UDT is to be mbpped
+     * @return bn object instbnce resolved from the Ref reference bnd mbpped
+     *        bccording to the supplied type mbp
+     * @throws SeriblException if bn error is encountered in the reference
      *        resolution
      */
-    public Object getObject(java.util.Map<String,Class<?>> map)
-        throws SerialException
+    public Object getObject(jbvb.util.Mbp<String,Clbss<?>> mbp)
+        throws SeriblException
     {
-        map = new Hashtable<String, Class<?>>(map);
+        mbp = new Hbshtbble<String, Clbss<?>>(mbp);
         if (object != null) {
-            return map.get(object);
+            return mbp.get(object);
         } else {
-            throw new SerialException("The object is not set");
+            throw new SeriblException("The object is not set");
         }
     }
 
     /**
-     * Returns an <code>Object</code> representing the SQL structured type
-     * to which this <code>SerialRef</code> object refers.
+     * Returns bn <code>Object</code> representing the SQL structured type
+     * to which this <code>SeriblRef</code> object refers.
      *
-     * @return an object instance resolved from the Ref reference
-     * @throws SerialException if an error is encountered in the reference
+     * @return bn object instbnce resolved from the Ref reference
+     * @throws SeriblException if bn error is encountered in the reference
      *         resolution
      */
-    public Object getObject() throws SerialException {
+    public Object getObject() throws SeriblException {
 
         if (reference != null) {
             try {
                 return reference.getObject();
-            } catch (SQLException e) {
-                throw new SerialException("SQLException: " + e.getMessage());
+            } cbtch (SQLException e) {
+                throw new SeriblException("SQLException: " + e.getMessbge());
             }
         }
 
@@ -148,111 +148,111 @@ public class SerialRef implements Ref, Serializable, Cloneable {
         }
 
 
-        throw new SerialException("The object is not set");
+        throw new SeriblException("The object is not set");
 
     }
 
     /**
-     * Sets the SQL structured type that this <code>SerialRef</code> object
+     * Sets the SQL structured type thbt this <code>SeriblRef</code> object
      * references to the given <code>Object</code> object.
      *
-     * @param obj an <code>Object</code> representing the SQL structured type
+     * @pbrbm obj bn <code>Object</code> representing the SQL structured type
      *        to be referenced
-     * @throws SerialException if an error is encountered generating the
-     * the structured type referenced by this <code>SerialRef</code> object
+     * @throws SeriblException if bn error is encountered generbting the
+     * the structured type referenced by this <code>SeriblRef</code> object
      */
-    public void setObject(Object obj) throws SerialException {
+    public void setObject(Object obj) throws SeriblException {
         try {
             reference.setObject(obj);
-        } catch (SQLException e) {
-            throw new SerialException("SQLException: " + e.getMessage());
+        } cbtch (SQLException e) {
+            throw new SeriblException("SQLException: " + e.getMessbge());
         }
         object = obj;
     }
 
     /**
-     * Compares this SerialRef to the specified object.  The result is {@code
-     * true} if and only if the argument is not {@code null} and is a {@code
-     * SerialRef} object that represents the same object as this
+     * Compbres this SeriblRef to the specified object.  The result is {@code
+     * true} if bnd only if the brgument is not {@code null} bnd is b {@code
+     * SeriblRef} object thbt represents the sbme object bs this
      * object.
      *
-     * @param  obj The object to compare this {@code SerialRef} against
+     * @pbrbm  obj The object to compbre this {@code SeriblRef} bgbinst
      *
-     * @return  {@code true} if the given object represents a {@code SerialRef}
-     *          equivalent to this SerialRef, {@code false} otherwise
+     * @return  {@code true} if the given object represents b {@code SeriblRef}
+     *          equivblent to this SeriblRef, {@code fblse} otherwise
      *
      */
-    public boolean equals(Object obj) {
+    public boolebn equbls(Object obj) {
         if (this == obj) {
             return true;
         }
-        if(obj instanceof SerialRef) {
-            SerialRef ref = (SerialRef)obj;
-            return baseTypeName.equals(ref.baseTypeName) &&
-                    object.equals(ref.object);
+        if(obj instbnceof SeriblRef) {
+            SeriblRef ref = (SeriblRef)obj;
+            return bbseTypeNbme.equbls(ref.bbseTypeNbme) &&
+                    object.equbls(ref.object);
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Returns a hash code for this {@code SerialRef}.
-     * @return  a hash code value for this object.
+     * Returns b hbsh code for this {@code SeriblRef}.
+     * @return  b hbsh code vblue for this object.
      */
-    public int hashCode() {
-        return (31 + object.hashCode()) * 31 + baseTypeName.hashCode();
+    public int hbshCode() {
+        return (31 + object.hbshCode()) * 31 + bbseTypeNbme.hbshCode();
     }
 
     /**
-     * Returns a clone of this {@code SerialRef}.
+     * Returns b clone of this {@code SeriblRef}.
      * The underlying {@code Ref} object will be set to null.
      *
-     * @return  a clone of this SerialRef
+     * @return  b clone of this SeriblRef
      */
     public Object clone() {
         try {
-            SerialRef ref = (SerialRef) super.clone();
+            SeriblRef ref = (SeriblRef) super.clone();
             ref.reference = null;
             return ref;
-        } catch (CloneNotSupportedException ex) {
-            // this shouldn't happen, since we are Cloneable
-            throw new InternalError();
+        } cbtch (CloneNotSupportedException ex) {
+            // this shouldn't hbppen, since we bre Clonebble
+            throw new InternblError();
         }
 
     }
 
     /**
-     * readObject is called to restore the state of the SerialRef from
-     * a stream.
+     * rebdObject is cblled to restore the stbte of the SeriblRef from
+     * b strebm.
      */
-    private void readObject(ObjectInputStream s)
-            throws IOException, ClassNotFoundException {
-        ObjectInputStream.GetField fields = s.readFields();
+    privbte void rebdObject(ObjectInputStrebm s)
+            throws IOException, ClbssNotFoundException {
+        ObjectInputStrebm.GetField fields = s.rebdFields();
         object = fields.get("object", null);
-        baseTypeName = (String) fields.get("baseTypeName", null);
+        bbseTypeNbme = (String) fields.get("bbseTypeNbme", null);
         reference = (Ref) fields.get("reference", null);
     }
 
     /**
-     * writeObject is called to save the state of the SerialRef
-     * to a stream.
+     * writeObject is cblled to sbve the stbte of the SeriblRef
+     * to b strebm.
      */
-    private void writeObject(ObjectOutputStream s)
-            throws IOException, ClassNotFoundException {
+    privbte void writeObject(ObjectOutputStrebm s)
+            throws IOException, ClbssNotFoundException {
 
-        ObjectOutputStream.PutField fields = s.putFields();
-        fields.put("baseTypeName", baseTypeName);
+        ObjectOutputStrebm.PutField fields = s.putFields();
+        fields.put("bbseTypeNbme", bbseTypeNbme);
         fields.put("object", object);
-        // Note: this check to see if it is an instance of Serializable
-        // is for backwards compatibiity
-        fields.put("reference", reference instanceof Serializable ? reference : null);
+        // Note: this check to see if it is bn instbnce of Seriblizbble
+        // is for bbckwbrds compbtibiity
+        fields.put("reference", reference instbnceof Seriblizbble ? reference : null);
         s.writeFields();
     }
 
     /**
-     * The identifier that assists in the serialization of this <code>SerialRef</code>
+     * The identifier thbt bssists in the seriblizbtion of this <code>SeriblRef</code>
      * object.
      */
-    static final long serialVersionUID = -4727123500609662274L;
+    stbtic finbl long seriblVersionUID = -4727123500609662274L;
 
 
 }

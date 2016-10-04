@@ -1,75 +1,75 @@
 /*
- * Copyright (c) 2002, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.misc;
+pbckbge sun.misc;
 
-import java.net.URL;
-import java.io.File;
-import sun.net.www.ParseUtil;
+import jbvb.net.URL;
+import jbvb.io.File;
+import sun.net.www.PbrseUtil;
 
 /**
- * (Windows) Platform specific handling for file: URLs . In particular deals
- * with network paths mapping them to UNCs.
+ * (Windows) Plbtform specific hbndling for file: URLs . In pbrticulbr debls
+ * with network pbths mbpping them to UNCs.
  *
- * @author      Michael McMahon
+ * @buthor      Michbel McMbhon
  */
 
-public class FileURLMapper {
+public clbss FileURLMbpper {
 
     URL url;
     String file;
 
-    public FileURLMapper (URL url) {
+    public FileURLMbpper (URL url) {
         this.url = url;
     }
 
     /**
-     * @returns the platform specific path corresponding to the URL, and in particular
-     *  returns a UNC when the authority contains a hostname
+     * @returns the plbtform specific pbth corresponding to the URL, bnd in pbrticulbr
+     *  returns b UNC when the buthority contbins b hostnbme
      */
 
-    public String getPath () {
+    public String getPbth () {
         if (file != null) {
             return file;
         }
         String host = url.getHost();
-        if (host != null && !host.equals("") &&
-            !"localhost".equalsIgnoreCase(host)) {
+        if (host != null && !host.equbls("") &&
+            !"locblhost".equblsIgnoreCbse(host)) {
             String rest = url.getFile();
-            String s = host + ParseUtil.decode (url.getFile());
-            file = "\\\\"+ s.replace('/', '\\');
+            String s = host + PbrseUtil.decode (url.getFile());
+            file = "\\\\"+ s.replbce('/', '\\');
             return file;
         }
-        String path = url.getFile().replace('/', '\\');
-        file = ParseUtil.decode(path);
+        String pbth = url.getFile().replbce('/', '\\');
+        file = PbrseUtil.decode(pbth);
         return file;
     }
 
-    public boolean exists() {
-        String path = getPath();
-        File f = new File (path);
+    public boolebn exists() {
+        String pbth = getPbth();
+        File f = new File (pbth);
         return f.exists();
     }
 }

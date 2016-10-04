@@ -1,77 +1,77 @@
 /*
- * Copyright (c) 2003, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package java.rmi.server;
+pbckbge jbvb.rmi.server;
 
-import java.io.InvalidObjectException;
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Method;
-import java.lang.reflect.Proxy;
-import java.rmi.Remote;
-import java.rmi.UnexpectedException;
-import java.rmi.activation.Activatable;
-import java.util.Map;
-import java.util.WeakHashMap;
+import jbvb.io.InvblidObjectException;
+import jbvb.lbng.reflect.InvocbtionHbndler;
+import jbvb.lbng.reflect.Method;
+import jbvb.lbng.reflect.Proxy;
+import jbvb.rmi.Remote;
+import jbvb.rmi.UnexpectedException;
+import jbvb.rmi.bctivbtion.Activbtbble;
+import jbvb.util.Mbp;
+import jbvb.util.WebkHbshMbp;
 import sun.rmi.server.Util;
-import sun.rmi.server.WeakClassHashMap;
+import sun.rmi.server.WebkClbssHbshMbp;
 
 /**
- * An implementation of the <code>InvocationHandler</code> interface for
- * use with Java Remote Method Invocation (Java RMI).  This invocation
- * handler can be used in conjunction with a dynamic proxy instance as a
- * replacement for a pregenerated stub class.
+ * An implementbtion of the <code>InvocbtionHbndler</code> interfbce for
+ * use with Jbvb Remote Method Invocbtion (Jbvb RMI).  This invocbtion
+ * hbndler cbn be used in conjunction with b dynbmic proxy instbnce bs b
+ * replbcement for b pregenerbted stub clbss.
  *
- * <p>Applications are not expected to use this class directly.  A remote
- * object exported to use a dynamic proxy with {@link UnicastRemoteObject}
- * or {@link Activatable} has an instance of this class as that proxy's
- * invocation handler.
+ * <p>Applicbtions bre not expected to use this clbss directly.  A remote
+ * object exported to use b dynbmic proxy with {@link UnicbstRemoteObject}
+ * or {@link Activbtbble} hbs bn instbnce of this clbss bs thbt proxy's
+ * invocbtion hbndler.
  *
- * @author  Ann Wollrath
+ * @buthor  Ann Wollrbth
  * @since   1.5
  **/
-public class RemoteObjectInvocationHandler
+public clbss RemoteObjectInvocbtionHbndler
     extends RemoteObject
-    implements InvocationHandler
+    implements InvocbtionHbndler
 {
-    private static final long serialVersionUID = 2L;
+    privbte stbtic finbl long seriblVersionUID = 2L;
 
     /**
-     * A weak hash map, mapping classes to weak hash maps that map
-     * method objects to method hashes.
+     * A webk hbsh mbp, mbpping clbsses to webk hbsh mbps thbt mbp
+     * method objects to method hbshes.
      **/
-    private static final MethodToHash_Maps methodToHash_Maps =
-        new MethodToHash_Maps();
+    privbte stbtic finbl MethodToHbsh_Mbps methodToHbsh_Mbps =
+        new MethodToHbsh_Mbps();
 
     /**
-     * Creates a new <code>RemoteObjectInvocationHandler</code> constructed
+     * Crebtes b new <code>RemoteObjectInvocbtionHbndler</code> constructed
      * with the specified <code>RemoteRef</code>.
      *
-     * @param ref the remote ref
+     * @pbrbm ref the remote ref
      *
      * @throws NullPointerException if <code>ref</code> is <code>null</code>
      **/
-    public RemoteObjectInvocationHandler(RemoteRef ref) {
+    public RemoteObjectInvocbtionHbndler(RemoteRef ref) {
         super(ref);
         if (ref == null) {
             throw new NullPointerException();
@@ -79,133 +79,133 @@ public class RemoteObjectInvocationHandler
     }
 
     /**
-     * Processes a method invocation made on the encapsulating
-     * proxy instance, <code>proxy</code>, and returns the result.
+     * Processes b method invocbtion mbde on the encbpsulbting
+     * proxy instbnce, <code>proxy</code>, bnd returns the result.
      *
-     * <p><code>RemoteObjectInvocationHandler</code> implements this method
-     * as follows:
+     * <p><code>RemoteObjectInvocbtionHbndler</code> implements this method
+     * bs follows:
      *
      * <p>If <code>method</code> is one of the following methods, it
-     * is processed as described below:
+     * is processed bs described below:
      *
      * <ul>
      *
-     * <li>{@link Object#hashCode Object.hashCode}: Returns the hash
-     * code value for the proxy.
+     * <li>{@link Object#hbshCode Object.hbshCode}: Returns the hbsh
+     * code vblue for the proxy.
      *
-     * <li>{@link Object#equals Object.equals}: Returns <code>true</code>
-     * if the argument (<code>args[0]</code>) is an instance of a dynamic
-     * proxy class and this invocation handler is equal to the invocation
-     * handler of that argument, and returns <code>false</code> otherwise.
+     * <li>{@link Object#equbls Object.equbls}: Returns <code>true</code>
+     * if the brgument (<code>brgs[0]</code>) is bn instbnce of b dynbmic
+     * proxy clbss bnd this invocbtion hbndler is equbl to the invocbtion
+     * hbndler of thbt brgument, bnd returns <code>fblse</code> otherwise.
      *
-     * <li>{@link Object#toString Object.toString}: Returns a string
-     * representation of the proxy.
+     * <li>{@link Object#toString Object.toString}: Returns b string
+     * representbtion of the proxy.
      * </ul>
      *
-     * <p>Otherwise, a remote call is made as follows:
+     * <p>Otherwise, b remote cbll is mbde bs follows:
      *
      * <ul>
-     * <li>If <code>proxy</code> is not an instance of the interface
-     * {@link Remote}, then an {@link IllegalArgumentException} is thrown.
+     * <li>If <code>proxy</code> is not bn instbnce of the interfbce
+     * {@link Remote}, then bn {@link IllegblArgumentException} is thrown.
      *
      * <li>Otherwise, the {@link RemoteRef#invoke invoke} method is invoked
-     * on this invocation handler's <code>RemoteRef</code>, passing
-     * <code>proxy</code>, <code>method</code>, <code>args</code>, and the
-     * method hash (defined in section 8.3 of the "Java Remote Method
-     * Invocation (RMI) Specification") for <code>method</code>, and the
+     * on this invocbtion hbndler's <code>RemoteRef</code>, pbssing
+     * <code>proxy</code>, <code>method</code>, <code>brgs</code>, bnd the
+     * method hbsh (defined in section 8.3 of the "Jbvb Remote Method
+     * Invocbtion (RMI) Specificbtion") for <code>method</code>, bnd the
      * result is returned.
      *
-     * <li>If an exception is thrown by <code>RemoteRef.invoke</code> and
-     * that exception is a checked exception that is not assignable to any
-     * exception in the <code>throws</code> clause of the method
-     * implemented by the <code>proxy</code>'s class, then that exception
-     * is wrapped in an {@link UnexpectedException} and the wrapped
+     * <li>If bn exception is thrown by <code>RemoteRef.invoke</code> bnd
+     * thbt exception is b checked exception thbt is not bssignbble to bny
+     * exception in the <code>throws</code> clbuse of the method
+     * implemented by the <code>proxy</code>'s clbss, then thbt exception
+     * is wrbpped in bn {@link UnexpectedException} bnd the wrbpped
      * exception is thrown.  Otherwise, the exception thrown by
      * <code>invoke</code> is thrown by this method.
      * </ul>
      *
-     * <p>The semantics of this method are unspecified if the
-     * arguments could not have been produced by an instance of some
-     * valid dynamic proxy class containing this invocation handler.
+     * <p>The sembntics of this method bre unspecified if the
+     * brguments could not hbve been produced by bn instbnce of some
+     * vblid dynbmic proxy clbss contbining this invocbtion hbndler.
      *
-     * @param proxy the proxy instance that the method was invoked on
-     * @param method the <code>Method</code> instance corresponding to the
-     * interface method invoked on the proxy instance
-     * @param args an array of objects containing the values of the
-     * arguments passed in the method invocation on the proxy instance, or
-     * <code>null</code> if the method takes no arguments
-     * @return the value to return from the method invocation on the proxy
-     * instance
-     * @throws  Throwable the exception to throw from the method invocation
-     * on the proxy instance
+     * @pbrbm proxy the proxy instbnce thbt the method wbs invoked on
+     * @pbrbm method the <code>Method</code> instbnce corresponding to the
+     * interfbce method invoked on the proxy instbnce
+     * @pbrbm brgs bn brrby of objects contbining the vblues of the
+     * brguments pbssed in the method invocbtion on the proxy instbnce, or
+     * <code>null</code> if the method tbkes no brguments
+     * @return the vblue to return from the method invocbtion on the proxy
+     * instbnce
+     * @throws  Throwbble the exception to throw from the method invocbtion
+     * on the proxy instbnce
      **/
-    public Object invoke(Object proxy, Method method, Object[] args)
-        throws Throwable
+    public Object invoke(Object proxy, Method method, Object[] brgs)
+        throws Throwbble
     {
-        if (method.getDeclaringClass() == Object.class) {
-            return invokeObjectMethod(proxy, method, args);
+        if (method.getDeclbringClbss() == Object.clbss) {
+            return invokeObjectMethod(proxy, method, brgs);
         } else {
-            return invokeRemoteMethod(proxy, method, args);
+            return invokeRemoteMethod(proxy, method, brgs);
         }
     }
 
     /**
-     * Handles java.lang.Object methods.
+     * Hbndles jbvb.lbng.Object methods.
      **/
-    private Object invokeObjectMethod(Object proxy,
+    privbte Object invokeObjectMethod(Object proxy,
                                       Method method,
-                                      Object[] args)
+                                      Object[] brgs)
     {
-        String name = method.getName();
+        String nbme = method.getNbme();
 
-        if (name.equals("hashCode")) {
-            return hashCode();
+        if (nbme.equbls("hbshCode")) {
+            return hbshCode();
 
-        } else if (name.equals("equals")) {
-            Object obj = args[0];
+        } else if (nbme.equbls("equbls")) {
+            Object obj = brgs[0];
             return
                 proxy == obj ||
                 (obj != null &&
-                 Proxy.isProxyClass(obj.getClass()) &&
-                 equals(Proxy.getInvocationHandler(obj)));
+                 Proxy.isProxyClbss(obj.getClbss()) &&
+                 equbls(Proxy.getInvocbtionHbndler(obj)));
 
-        } else if (name.equals("toString")) {
+        } else if (nbme.equbls("toString")) {
             return proxyToString(proxy);
 
         } else {
-            throw new IllegalArgumentException(
+            throw new IllegblArgumentException(
                 "unexpected Object method: " + method);
         }
     }
 
     /**
-     * Handles remote methods.
+     * Hbndles remote methods.
      **/
-    private Object invokeRemoteMethod(Object proxy,
+    privbte Object invokeRemoteMethod(Object proxy,
                                       Method method,
-                                      Object[] args)
+                                      Object[] brgs)
         throws Exception
     {
         try {
-            if (!(proxy instanceof Remote)) {
-                throw new IllegalArgumentException(
-                    "proxy not Remote instance");
+            if (!(proxy instbnceof Remote)) {
+                throw new IllegblArgumentException(
+                    "proxy not Remote instbnce");
             }
-            return ref.invoke((Remote) proxy, method, args,
-                              getMethodHash(method));
-        } catch (Exception e) {
-            if (!(e instanceof RuntimeException)) {
-                Class<?> cl = proxy.getClass();
+            return ref.invoke((Remote) proxy, method, brgs,
+                              getMethodHbsh(method));
+        } cbtch (Exception e) {
+            if (!(e instbnceof RuntimeException)) {
+                Clbss<?> cl = proxy.getClbss();
                 try {
-                    method = cl.getMethod(method.getName(),
-                                          method.getParameterTypes());
-                } catch (NoSuchMethodException nsme) {
-                    throw (IllegalArgumentException)
-                        new IllegalArgumentException().initCause(nsme);
+                    method = cl.getMethod(method.getNbme(),
+                                          method.getPbrbmeterTypes());
+                } cbtch (NoSuchMethodException nsme) {
+                    throw (IllegblArgumentException)
+                        new IllegblArgumentException().initCbuse(nsme);
                 }
-                Class<?> thrownType = e.getClass();
-                for (Class<?> declaredType : method.getExceptionTypes()) {
-                    if (declaredType.isAssignableFrom(thrownType)) {
+                Clbss<?> thrownType = e.getClbss();
+                for (Clbss<?> declbredType : method.getExceptionTypes()) {
+                    if (declbredType.isAssignbbleFrom(thrownType)) {
                         throw e;
                     }
                 }
@@ -216,66 +216,66 @@ public class RemoteObjectInvocationHandler
     }
 
     /**
-     * Returns a string representation for a proxy that uses this invocation
-     * handler.
+     * Returns b string representbtion for b proxy thbt uses this invocbtion
+     * hbndler.
      **/
-    private String proxyToString(Object proxy) {
-        Class<?>[] interfaces = proxy.getClass().getInterfaces();
-        if (interfaces.length == 0) {
+    privbte String proxyToString(Object proxy) {
+        Clbss<?>[] interfbces = proxy.getClbss().getInterfbces();
+        if (interfbces.length == 0) {
             return "Proxy[" + this + "]";
         }
-        String iface = interfaces[0].getName();
-        if (iface.equals("java.rmi.Remote") && interfaces.length > 1) {
-            iface = interfaces[1].getName();
+        String ifbce = interfbces[0].getNbme();
+        if (ifbce.equbls("jbvb.rmi.Remote") && interfbces.length > 1) {
+            ifbce = interfbces[1].getNbme();
         }
-        int dot = iface.lastIndexOf('.');
+        int dot = ifbce.lbstIndexOf('.');
         if (dot >= 0) {
-            iface = iface.substring(dot + 1);
+            ifbce = ifbce.substring(dot + 1);
         }
-        return "Proxy[" + iface + "," + this + "]";
+        return "Proxy[" + ifbce + "," + this + "]";
     }
 
     /**
-     * @throws InvalidObjectException unconditionally
+     * @throws InvblidObjectException unconditionblly
      **/
-    private void readObjectNoData() throws InvalidObjectException {
-        throw new InvalidObjectException("no data in stream; class: " +
-                                         this.getClass().getName());
+    privbte void rebdObjectNoDbtb() throws InvblidObjectException {
+        throw new InvblidObjectException("no dbtb in strebm; clbss: " +
+                                         this.getClbss().getNbme());
     }
 
     /**
-     * Returns the method hash for the specified method.  Subsequent calls
-     * to "getMethodHash" passing the same method argument should be faster
-     * since this method caches internally the result of the method to
-     * method hash mapping.  The method hash is calculated using the
-     * "computeMethodHash" method.
+     * Returns the method hbsh for the specified method.  Subsequent cblls
+     * to "getMethodHbsh" pbssing the sbme method brgument should be fbster
+     * since this method cbches internblly the result of the method to
+     * method hbsh mbpping.  The method hbsh is cblculbted using the
+     * "computeMethodHbsh" method.
      *
-     * @param method the remote method
-     * @return the method hash for the specified method
+     * @pbrbm method the remote method
+     * @return the method hbsh for the specified method
      */
-    private static long getMethodHash(Method method) {
-        return methodToHash_Maps.get(method.getDeclaringClass()).get(method);
+    privbte stbtic long getMethodHbsh(Method method) {
+        return methodToHbsh_Mbps.get(method.getDeclbringClbss()).get(method);
     }
 
     /**
-     * A weak hash map, mapping classes to weak hash maps that map
-     * method objects to method hashes.
+     * A webk hbsh mbp, mbpping clbsses to webk hbsh mbps thbt mbp
+     * method objects to method hbshes.
      **/
-    private static class MethodToHash_Maps
-        extends WeakClassHashMap<Map<Method,Long>>
+    privbte stbtic clbss MethodToHbsh_Mbps
+        extends WebkClbssHbshMbp<Mbp<Method,Long>>
     {
-        MethodToHash_Maps() {}
+        MethodToHbsh_Mbps() {}
 
-        protected Map<Method,Long> computeValue(Class<?> remoteClass) {
-            return new WeakHashMap<Method,Long>() {
+        protected Mbp<Method,Long> computeVblue(Clbss<?> remoteClbss) {
+            return new WebkHbshMbp<Method,Long>() {
                 public synchronized Long get(Object key) {
-                    Long hash = super.get(key);
-                    if (hash == null) {
+                    Long hbsh = super.get(key);
+                    if (hbsh == null) {
                         Method method = (Method) key;
-                        hash = Util.computeMethodHash(method);
-                        put(method, hash);
+                        hbsh = Util.computeMethodHbsh(method);
+                        put(method, hbsh);
                     }
-                    return hash;
+                    return hbsh;
                 }
             };
         }

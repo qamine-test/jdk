@@ -1,286 +1,286 @@
 /*
- * Copyright (c) 2007, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-#include "sun_java2d_d3d_D3DGraphicsDevice.h"
-#include "D3DGraphicsDevice.h"
-#include "D3DPipelineManager.h"
+#include "sun_jbvb2d_d3d_D3DGrbphicsDevice.h"
+#include "D3DGrbphicsDevice.h"
+#include "D3DPipelineMbnbger.h"
 #include "D3DRenderQueue.h"
-#include "Trace.h"
-#include "awt_Toolkit.h"
-#include "awt_Window.h"
+#include "Trbce.h"
+#include "bwt_Toolkit.h"
+#include "bwt_Window.h"
 
-extern jobject CreateDisplayMode(JNIEnv* env, jint width, jint height,
-                                 jint bitDepth, jint refreshRate);
-extern void addDisplayMode(JNIEnv* env, jobject arrayList, jint width,
-                           jint height, jint bitDepth, jint refreshRate);
+extern jobject CrebteDisplbyMode(JNIEnv* env, jint width, jint height,
+                                 jint bitDepth, jint refreshRbte);
+extern void bddDisplbyMode(JNIEnv* env, jobject brrbyList, jint width,
+                           jint height, jint bitDepth, jint refreshRbte);
 
 extern "C" {
 /*
- * Class:     sun_java2d_d3d_D3DGraphicsDevice
+ * Clbss:     sun_jbvb2d_d3d_D3DGrbphicsDevice
  * Method:    initD3D
- * Signature: ()Z
+ * Signbture: ()Z
  */
-JNIEXPORT jboolean JNICALL Java_sun_java2d_d3d_D3DGraphicsDevice_initD3D
-  (JNIEnv *env, jclass)
+JNIEXPORT jboolebn JNICALL Jbvb_sun_jbvb2d_d3d_D3DGrbphicsDevice_initD3D
+  (JNIEnv *env, jclbss)
 {
-    J2dTraceLn(J2D_TRACE_INFO, "D3DGD_initD3D");
+    J2dTrbceLn(J2D_TRACE_INFO, "D3DGD_initD3D");
 
-    jboolean result = D3DInitializer::GetInstance().EnsureInited()
+    jboolebn result = D3DInitiblizer::GetInstbnce().EnsureInited()
                       ? JNI_TRUE : JNI_FALSE;
-    J2dTraceLn1(J2D_TRACE_INFO, "D3DGD_initD3D: result=%x", result);
+    J2dTrbceLn1(J2D_TRACE_INFO, "D3DGD_initD3D: result=%x", result);
     return result;
 }
 
 /*
- * Class:     sun_java2d_d3d_D3DGraphicsDevice
- * Method:    getDeviceIdNative
- * Signature: (I)Ljava/lang/String;
+ * Clbss:     sun_jbvb2d_d3d_D3DGrbphicsDevice
+ * Method:    getDeviceIdNbtive
+ * Signbture: (I)Ljbvb/lbng/String;
  */
-JNIEXPORT jstring JNICALL Java_sun_java2d_d3d_D3DGraphicsDevice_getDeviceIdNative
-  (JNIEnv *env, jclass d3dsdc, jint gdiScreen)
+JNIEXPORT jstring JNICALL Jbvb_sun_jbvb2d_d3d_D3DGrbphicsDevice_getDeviceIdNbtive
+  (JNIEnv *env, jclbss d3dsdc, jint gdiScreen)
 {
-    D3DPipelineManager *pMgr;
-    UINT adapter;
-    D3DADAPTER_IDENTIFIER9 aid;
+    D3DPipelineMbnbger *pMgr;
+    UINT bdbpter;
+    D3DADAPTER_IDENTIFIER9 bid;
     IDirect3D9 *pd3d9;
 
-    J2dTraceLn(J2D_TRACE_INFO, "D3DGD_getDeviceIdNative");
+    J2dTrbceLn(J2D_TRACE_INFO, "D3DGD_getDeviceIdNbtive");
 
-    pMgr = D3DPipelineManager::GetInstance();
+    pMgr = D3DPipelineMbnbger::GetInstbnce();
     RETURN_STATUS_IF_NULL(pMgr, NULL);
     pd3d9 = pMgr->GetD3DObject();
     RETURN_STATUS_IF_NULL(pd3d9, NULL);
 
-    adapter = pMgr->GetAdapterOrdinalForScreen(gdiScreen);
-    if (FAILED(pd3d9->GetAdapterIdentifier(adapter, 0, &aid))) {
+    bdbpter = pMgr->GetAdbpterOrdinblForScreen(gdiScreen);
+    if (FAILED(pd3d9->GetAdbpterIdentifier(bdbpter, 0, &bid))) {
         return NULL;
     }
 
-    // ('%d.' will take no more than 6+1 chars since we are printing a WORD)
+    // ('%d.' will tbke no more thbn 6+1 chbrs since we bre printing b WORD)
     //            AAAA&BBBB MAX_DEVICE_IDENTIFIER_STRING (%d.%d.%d.%d)0
     size_t len = (4+1+4  +1+MAX_DEVICE_IDENTIFIER_STRING+1 +1+(6+1)*4+1 +1);
-    WCHAR *pAdapterId = new WCHAR[len];
-    RETURN_STATUS_IF_NULL(pAdapterId, NULL);
+    WCHAR *pAdbpterId = new WCHAR[len];
+    RETURN_STATUS_IF_NULL(pAdbpterId, NULL);
 
-    _snwprintf(pAdapterId, len, L"%x&%x %S (%d.%d.%d.%d)",
-               0xffff & aid.VendorId, 0xffff & aid.DeviceId, aid.Description,
-               HIWORD(aid.DriverVersion.HighPart),
-               LOWORD(aid.DriverVersion.HighPart),
-               HIWORD(aid.DriverVersion.LowPart),
-               LOWORD(aid.DriverVersion.LowPart));
-    // _snwprintf doesn't add 0 at the end if the formatted string didn't fit
-    // in the buffer so we have to make sure it is null terminated
-    pAdapterId[len-1] = (WCHAR)0;
+    _snwprintf(pAdbpterId, len, L"%x&%x %S (%d.%d.%d.%d)",
+               0xffff & bid.VendorId, 0xffff & bid.DeviceId, bid.Description,
+               HIWORD(bid.DriverVersion.HighPbrt),
+               LOWORD(bid.DriverVersion.HighPbrt),
+               HIWORD(bid.DriverVersion.LowPbrt),
+               LOWORD(bid.DriverVersion.LowPbrt));
+    // _snwprintf doesn't bdd 0 bt the end if the formbtted string didn't fit
+    // in the buffer so we hbve to mbke sure it is null terminbted
+    pAdbpterId[len-1] = (WCHAR)0;
 
-    J2dTraceLn1(J2D_TRACE_VERBOSE, "  id=%S", pAdapterId);
+    J2dTrbceLn1(J2D_TRACE_VERBOSE, "  id=%S", pAdbpterId);
 
-    jstring ret = JNU_NewStringPlatform(env, pAdapterId);
+    jstring ret = JNU_NewStringPlbtform(env, pAdbpterId);
 
-    delete pAdapterId;
+    delete pAdbpterId;
 
     return ret;
 }
 
 /*
- * Class:     sun_java2d_d3d_D3DGraphicsDevice
- * Method:    getDeviceCapsNative
- * Signature: (I)I
+ * Clbss:     sun_jbvb2d_d3d_D3DGrbphicsDevice
+ * Method:    getDeviceCbpsNbtive
+ * Signbture: (I)I
  */
 JNIEXPORT jint JNICALL
-Java_sun_java2d_d3d_D3DGraphicsDevice_getDeviceCapsNative
-  (JNIEnv *env, jclass d3dsdc, jint gdiScreen)
+Jbvb_sun_jbvb2d_d3d_D3DGrbphicsDevice_getDeviceCbpsNbtive
+  (JNIEnv *env, jclbss d3dsdc, jint gdiScreen)
 {
-    D3DPipelineManager *pMgr;
+    D3DPipelineMbnbger *pMgr;
     D3DContext *pCtx;
-    UINT adapter;
+    UINT bdbpter;
 
-    J2dRlsTraceLn(J2D_TRACE_INFO, "D3DGD_getDeviceCapsNative");
+    J2dRlsTrbceLn(J2D_TRACE_INFO, "D3DGD_getDeviceCbpsNbtive");
 
-    pMgr = D3DPipelineManager::GetInstance();
+    pMgr = D3DPipelineMbnbger::GetInstbnce();
     RETURN_STATUS_IF_NULL(pMgr, CAPS_EMPTY);
-    adapter = pMgr->GetAdapterOrdinalForScreen(gdiScreen);
+    bdbpter = pMgr->GetAdbpterOrdinblForScreen(gdiScreen);
 
-    if (FAILED(pMgr->GetD3DContext(adapter, &pCtx))) {
-        J2dRlsTraceLn1(J2D_TRACE_ERROR,
-                      "D3DGD_getDeviceCapsNative: device %d disabled", adapter);
+    if (FAILED(pMgr->GetD3DContext(bdbpter, &pCtx))) {
+        J2dRlsTrbceLn1(J2D_TRACE_ERROR,
+                      "D3DGD_getDeviceCbpsNbtive: device %d disbbled", bdbpter);
         return CAPS_EMPTY;
     }
-    return pCtx->GetContextCaps();
+    return pCtx->GetContextCbps();
 }
 
 /*
- * Class:     sun_java2d_d3d_D3DGraphicsDevice
- * Method:    enterFullScreenExclusiveNative
- * Signature: (IJ)V
+ * Clbss:     sun_jbvb2d_d3d_D3DGrbphicsDevice
+ * Method:    enterFullScreenExclusiveNbtive
+ * Signbture: (IJ)V
  */
-JNIEXPORT jboolean JNICALL
-Java_sun_java2d_d3d_D3DGraphicsDevice_enterFullScreenExclusiveNative
-  (JNIEnv *env, jclass gdc, jint gdiScreen, jlong window)
+JNIEXPORT jboolebn JNICALL
+Jbvb_sun_jbvb2d_d3d_D3DGrbphicsDevice_enterFullScreenExclusiveNbtive
+  (JNIEnv *env, jclbss gdc, jint gdiScreen, jlong window)
 {
     HRESULT res;
-    D3DPipelineManager *pMgr;
+    D3DPipelineMbnbger *pMgr;
     D3DContext *pCtx;
     HWND hWnd;
     AwtWindow *w;
-    D3DPRESENT_PARAMETERS newParams, *pCurParams;
+    D3DPRESENT_PARAMETERS newPbrbms, *pCurPbrbms;
     D3DDISPLAYMODE dm;
-    UINT adapter;
+    UINT bdbpter;
 
-    J2dTraceLn(J2D_TRACE_INFO, "D3DGD_enterFullScreenExclusiveNative");
+    J2dTrbceLn(J2D_TRACE_INFO, "D3DGD_enterFullScreenExclusiveNbtive");
 
-    RETURN_STATUS_IF_NULL(pMgr = D3DPipelineManager::GetInstance(), JNI_FALSE);
-    adapter = pMgr->GetAdapterOrdinalForScreen(gdiScreen);
+    RETURN_STATUS_IF_NULL(pMgr = D3DPipelineMbnbger::GetInstbnce(), JNI_FALSE);
+    bdbpter = pMgr->GetAdbpterOrdinblForScreen(gdiScreen);
 
-    if (FAILED(res = pMgr->GetD3DContext(adapter, &pCtx))) {
-        D3DRQ_MarkLostIfNeeded(res, D3DRQ_GetCurrentDestination());
+    if (FAILED(res = pMgr->GetD3DContext(bdbpter, &pCtx))) {
+        D3DRQ_MbrkLostIfNeeded(res, D3DRQ_GetCurrentDestinbtion());
         return JNI_FALSE;
     }
 
     w = (AwtWindow *)AwtComponent::GetComponent((HWND)window);
     if (w == NULL || !::IsWindow(hWnd = w->GetTopLevelHWnd())) {
-        J2dTraceLn(J2D_TRACE_WARNING,
-                   "D3DGD_enterFullScreenExclusiveNative: disposed window");
+        J2dTrbceLn(J2D_TRACE_WARNING,
+                   "D3DGD_enterFullScreenExclusiveNbtive: disposed window");
         return JNI_FALSE;
     }
 
-    // REMIND: should we also move the non-topleve window from
-    // being on top here (it's moved to front in GraphicsDevice.setFSW())?
+    // REMIND: should we blso move the non-topleve window from
+    // being on top here (it's moved to front in GrbphicsDevice.setFSW())?
 
-    pCtx->Get3DObject()->GetAdapterDisplayMode(adapter, &dm);
-    pCurParams = pCtx->GetPresentationParams();
+    pCtx->Get3DObject()->GetAdbpterDisplbyMode(bdbpter, &dm);
+    pCurPbrbms = pCtx->GetPresentbtionPbrbms();
 
-    // let the mananger know that we're entering the fs mode, it will
+    // let the mbnbnger know thbt we're entering the fs mode, it will
     // set the proper current focus window for us, which ConfigureContext will
-    // use when creating the device
-    pMgr->SetFSFocusWindow(adapter, hWnd);
+    // use when crebting the device
+    pMgr->SetFSFocusWindow(bdbpter, hWnd);
 
-    newParams = *pCurParams;
-    newParams.hDeviceWindow = hWnd;
-    newParams.Windowed = FALSE;
-    newParams.BackBufferCount = 1;
-    newParams.BackBufferFormat = dm.Format;
-    newParams.FullScreen_RefreshRateInHz = dm.RefreshRate;
-    newParams.BackBufferWidth = dm.Width;
-    newParams.BackBufferHeight = dm.Height;
-    newParams.PresentationInterval = D3DPRESENT_INTERVAL_DEFAULT;
-    newParams.SwapEffect = D3DSWAPEFFECT_DISCARD;
+    newPbrbms = *pCurPbrbms;
+    newPbrbms.hDeviceWindow = hWnd;
+    newPbrbms.Windowed = FALSE;
+    newPbrbms.BbckBufferCount = 1;
+    newPbrbms.BbckBufferFormbt = dm.Formbt;
+    newPbrbms.FullScreen_RefreshRbteInHz = dm.RefreshRbte;
+    newPbrbms.BbckBufferWidth = dm.Width;
+    newPbrbms.BbckBufferHeight = dm.Height;
+    newPbrbms.PresentbtionIntervbl = D3DPRESENT_INTERVAL_DEFAULT;
+    newPbrbms.SwbpEffect = D3DSWAPEFFECT_DISCARD;
 
-    res = pCtx->ConfigureContext(&newParams);
-    D3DRQ_MarkLostIfNeeded(res, D3DRQ_GetCurrentDestination());
+    res = pCtx->ConfigureContext(&newPbrbms);
+    D3DRQ_MbrkLostIfNeeded(res, D3DRQ_GetCurrentDestinbtion());
     return SUCCEEDED(res);
 }
 
 /*
- * Class:     sun_java2d_d3d_D3DGraphicsDevice
- * Method:    exitFullScreenExclusiveNative
- * Signature: (I)V
+ * Clbss:     sun_jbvb2d_d3d_D3DGrbphicsDevice
+ * Method:    exitFullScreenExclusiveNbtive
+ * Signbture: (I)V
  */
-JNIEXPORT jboolean JNICALL
-Java_sun_java2d_d3d_D3DGraphicsDevice_exitFullScreenExclusiveNative
-  (JNIEnv *env, jclass gdc, jint gdiScreen)
+JNIEXPORT jboolebn JNICALL
+Jbvb_sun_jbvb2d_d3d_D3DGrbphicsDevice_exitFullScreenExclusiveNbtive
+  (JNIEnv *env, jclbss gdc, jint gdiScreen)
 {
     HRESULT res;
-    D3DPipelineManager *pMgr;
+    D3DPipelineMbnbger *pMgr;
     D3DContext *pCtx;
-    D3DPRESENT_PARAMETERS newParams, *pCurParams;
-    UINT adapter;
+    D3DPRESENT_PARAMETERS newPbrbms, *pCurPbrbms;
+    UINT bdbpter;
 
-    J2dTraceLn(J2D_TRACE_INFO, "D3DGD_exitFullScreenExclusiveNative");
+    J2dTrbceLn(J2D_TRACE_INFO, "D3DGD_exitFullScreenExclusiveNbtive");
 
-    RETURN_STATUS_IF_NULL(pMgr = D3DPipelineManager::GetInstance(), JNI_FALSE);
-    adapter = pMgr->GetAdapterOrdinalForScreen(gdiScreen);
+    RETURN_STATUS_IF_NULL(pMgr = D3DPipelineMbnbger::GetInstbnce(), JNI_FALSE);
+    bdbpter = pMgr->GetAdbpterOrdinblForScreen(gdiScreen);
 
-    if (FAILED(res = pMgr->GetD3DContext(adapter, &pCtx))) {
-        D3DRQ_MarkLostIfNeeded(res, D3DRQ_GetCurrentDestination());
+    if (FAILED(res = pMgr->GetD3DContext(bdbpter, &pCtx))) {
+        D3DRQ_MbrkLostIfNeeded(res, D3DRQ_GetCurrentDestinbtion());
         return JNI_FALSE;
     }
 
-    pCurParams = pCtx->GetPresentationParams();
+    pCurPbrbms = pCtx->GetPresentbtionPbrbms();
 
-    newParams = *pCurParams;
-    // we're exiting fs, the device window can be 0
-    newParams.hDeviceWindow = 0;
-    newParams.Windowed = TRUE;
-    newParams.BackBufferFormat = D3DFMT_UNKNOWN;
-    newParams.BackBufferCount = 1;
-    newParams.FullScreen_RefreshRateInHz = 0;
-    newParams.BackBufferWidth = 0;
-    newParams.BackBufferHeight = 0;
-    newParams.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;
-    newParams.SwapEffect = D3DSWAPEFFECT_COPY;
+    newPbrbms = *pCurPbrbms;
+    // we're exiting fs, the device window cbn be 0
+    newPbrbms.hDeviceWindow = 0;
+    newPbrbms.Windowed = TRUE;
+    newPbrbms.BbckBufferFormbt = D3DFMT_UNKNOWN;
+    newPbrbms.BbckBufferCount = 1;
+    newPbrbms.FullScreen_RefreshRbteInHz = 0;
+    newPbrbms.BbckBufferWidth = 0;
+    newPbrbms.BbckBufferHeight = 0;
+    newPbrbms.PresentbtionIntervbl = D3DPRESENT_INTERVAL_IMMEDIATE;
+    newPbrbms.SwbpEffect = D3DSWAPEFFECT_COPY;
 
-    res = pCtx->ConfigureContext(&newParams);
-    D3DRQ_MarkLostIfNeeded(res, D3DRQ_GetCurrentDestination());
+    res = pCtx->ConfigureContext(&newPbrbms);
+    D3DRQ_MbrkLostIfNeeded(res, D3DRQ_GetCurrentDestinbtion());
 
-    // exited fs, update current focus window
-    // note that we call this after this adapter exited fs mode so that
-    // the rest of the adapters can be reset
-    pMgr->SetFSFocusWindow(adapter, 0);
+    // exited fs, updbte current focus window
+    // note thbt we cbll this bfter this bdbpter exited fs mode so thbt
+    // the rest of the bdbpters cbn be reset
+    pMgr->SetFSFocusWindow(bdbpter, 0);
 
     return SUCCEEDED(res);
 }
 
 /*
- * Class:     sun_java2d_d3d_D3DGraphicsDevice
- * Method:    configDisplayModeNative
- * Signature: (IJIIII)V
+ * Clbss:     sun_jbvb2d_d3d_D3DGrbphicsDevice
+ * Method:    configDisplbyModeNbtive
+ * Signbture: (IJIIII)V
  */
 JNIEXPORT void JNICALL
-Java_sun_java2d_d3d_D3DGraphicsDevice_configDisplayModeNative
-  (JNIEnv *env, jclass gdc, jint gdiScreen, jlong window,
-   jint width, jint height, jint bitDepth, jint refreshRate)
+Jbvb_sun_jbvb2d_d3d_D3DGrbphicsDevice_configDisplbyModeNbtive
+  (JNIEnv *env, jclbss gdc, jint gdiScreen, jlong window,
+   jint width, jint height, jint bitDepth, jint refreshRbte)
 {
     HRESULT res;
-    D3DPipelineManager *pMgr;
+    D3DPipelineMbnbger *pMgr;
     D3DContext *pCtx;
-    D3DPRESENT_PARAMETERS newParams, *pCurParams;
-    UINT adapter;
+    D3DPRESENT_PARAMETERS newPbrbms, *pCurPbrbms;
+    UINT bdbpter;
 
-    J2dTraceLn(J2D_TRACE_INFO, "D3DGD_configDisplayModeNative");
+    J2dTrbceLn(J2D_TRACE_INFO, "D3DGD_configDisplbyModeNbtive");
 
-    RETURN_IF_NULL(pMgr = D3DPipelineManager::GetInstance());
-    adapter = pMgr->GetAdapterOrdinalForScreen(gdiScreen);
+    RETURN_IF_NULL(pMgr = D3DPipelineMbnbger::GetInstbnce());
+    bdbpter = pMgr->GetAdbpterOrdinblForScreen(gdiScreen);
 
-    if (FAILED(res = pMgr->GetD3DContext(adapter, &pCtx))) {
-        D3DRQ_MarkLostIfNeeded(res, D3DRQ_GetCurrentDestination());
+    if (FAILED(res = pMgr->GetD3DContext(bdbpter, &pCtx))) {
+        D3DRQ_MbrkLostIfNeeded(res, D3DRQ_GetCurrentDestinbtion());
         return;
     }
 
-    pCurParams = pCtx->GetPresentationParams();
+    pCurPbrbms = pCtx->GetPresentbtionPbrbms();
 
-    newParams = *pCurParams;
-    newParams.BackBufferWidth = width;
-    newParams.BackBufferHeight = height;
-    newParams.FullScreen_RefreshRateInHz = refreshRate;
-    newParams.PresentationInterval = D3DPRESENT_INTERVAL_DEFAULT;
-    // we leave the swap effect so that it's more likely
-    // to be the one user selected initially
-//    newParams.SwapEffect = D3DSWAPEFFECT_DISCARD;
+    newPbrbms = *pCurPbrbms;
+    newPbrbms.BbckBufferWidth = width;
+    newPbrbms.BbckBufferHeight = height;
+    newPbrbms.FullScreen_RefreshRbteInHz = refreshRbte;
+    newPbrbms.PresentbtionIntervbl = D3DPRESENT_INTERVAL_DEFAULT;
+    // we lebve the swbp effect so thbt it's more likely
+    // to be the one user selected initiblly
+//    newPbrbms.SwbpEffect = D3DSWAPEFFECT_DISCARD;
 
     if (bitDepth == 32) {
-        newParams.BackBufferFormat = D3DFMT_X8R8G8B8;
+        newPbrbms.BbckBufferFormbt = D3DFMT_X8R8G8B8;
     } else if (bitDepth == 16) {
         UINT modeNum;
         D3DDISPLAYMODE mode;
@@ -289,199 +289,199 @@ Java_sun_java2d_d3d_D3DGraphicsDevice_configDisplayModeNative
 
         RETURN_IF_NULL(pd3d9 = pMgr->GetD3DObject());
 
-        modesCount = pd3d9->GetAdapterModeCount(adapter, D3DFMT_R5G6B5);
+        modesCount = pd3d9->GetAdbpterModeCount(bdbpter, D3DFMT_R5G6B5);
         if (modesCount == 0) {
-            modesCount = pd3d9->GetAdapterModeCount(adapter, D3DFMT_X1R5G5B5);
+            modesCount = pd3d9->GetAdbpterModeCount(bdbpter, D3DFMT_X1R5G5B5);
         }
 
-        newParams.BackBufferFormat = D3DFMT_UNKNOWN;
+        newPbrbms.BbckBufferFormbt = D3DFMT_UNKNOWN;
         for (modeNum = 0; modeNum < modesCount; modeNum++) {
-            if (SUCCEEDED(pd3d9->EnumAdapterModes(adapter, D3DFMT_R5G6B5,
+            if (SUCCEEDED(pd3d9->EnumAdbpterModes(bdbpter, D3DFMT_R5G6B5,
                                                   modeNum, &mode)))
             {
                 if (mode.Width == width && mode.Height == height &&
-                    mode.RefreshRate == refreshRate)
+                    mode.RefreshRbte == refreshRbte)
                 {
                     // prefer 565 over 555
-                    if (mode.Format == D3DFMT_R5G6B5) {
-                        newParams.BackBufferFormat = D3DFMT_R5G6B5;
-                        break;
-                    } else if (mode.Format == D3DFMT_X1R5G5B5) {
-                        newParams.BackBufferFormat = D3DFMT_X1R5G5B5;
+                    if (mode.Formbt == D3DFMT_R5G6B5) {
+                        newPbrbms.BbckBufferFormbt = D3DFMT_R5G6B5;
+                        brebk;
+                    } else if (mode.Formbt == D3DFMT_X1R5G5B5) {
+                        newPbrbms.BbckBufferFormbt = D3DFMT_X1R5G5B5;
                     }
                 }
             }
         }
-        if (newParams.BackBufferFormat == D3DFMT_UNKNOWN) {
-            J2dRlsTraceLn(J2D_TRACE_ERROR,
-                          "D3DGD_configDisplayModeNative: no 16-bit formats");
+        if (newPbrbms.BbckBufferFormbt == D3DFMT_UNKNOWN) {
+            J2dRlsTrbceLn(J2D_TRACE_ERROR,
+                          "D3DGD_configDisplbyModeNbtive: no 16-bit formbts");
             return;
         }
     } else {
-        J2dRlsTraceLn1(J2D_TRACE_ERROR,
-                       "D3DGD_configDisplayModeNative: unsupported depth: %d",
+        J2dRlsTrbceLn1(J2D_TRACE_ERROR,
+                       "D3DGD_configDisplbyModeNbtive: unsupported depth: %d",
                        bitDepth);
         return;
     }
 
-    J2dTraceLn4(J2D_TRACE_VERBOSE, "  changing to dm: %dx%dx%d@%d",
-                newParams.BackBufferWidth, newParams.BackBufferHeight,
-                bitDepth, refreshRate);
-    J2dTraceLn1(J2D_TRACE_VERBOSE, "  selected backbuffer format: %d",
-                newParams.BackBufferFormat);
+    J2dTrbceLn4(J2D_TRACE_VERBOSE, "  chbnging to dm: %dx%dx%d@%d",
+                newPbrbms.BbckBufferWidth, newPbrbms.BbckBufferHeight,
+                bitDepth, refreshRbte);
+    J2dTrbceLn1(J2D_TRACE_VERBOSE, "  selected bbckbuffer formbt: %d",
+                newPbrbms.BbckBufferFormbt);
 
-    res = pCtx->ConfigureContext(&newParams);
+    res = pCtx->ConfigureContext(&newPbrbms);
     if (SUCCEEDED(res)) {
         // the full screen window doesn't receive WM_SIZE event when
-        // the display mode changes (it does get resized though) so we need to
-        // generate the event ourselves
-        ::SendMessage(newParams.hDeviceWindow, WM_SIZE, width, height);
+        // the displby mode chbnges (it does get resized though) so we need to
+        // generbte the event ourselves
+        ::SendMessbge(newPbrbms.hDeviceWindow, WM_SIZE, width, height);
     }
-    D3DRQ_MarkLostIfNeeded(res, D3DRQ_GetCurrentDestination());
+    D3DRQ_MbrkLostIfNeeded(res, D3DRQ_GetCurrentDestinbtion());
 }
 
 
 /*
- * Class:     sun_java2d_d3d_D3DGraphicsDevice
- * Method:    getCurrentDisplayModeNative
- * Signature: (I)Ljava/awt/DisplayMode;
+ * Clbss:     sun_jbvb2d_d3d_D3DGrbphicsDevice
+ * Method:    getCurrentDisplbyModeNbtive
+ * Signbture: (I)Ljbvb/bwt/DisplbyMode;
  */
 JNIEXPORT jobject JNICALL
-Java_sun_java2d_d3d_D3DGraphicsDevice_getCurrentDisplayModeNative
-  (JNIEnv *env, jclass gdc, jint gdiScreen)
+Jbvb_sun_jbvb2d_d3d_D3DGrbphicsDevice_getCurrentDisplbyModeNbtive
+  (JNIEnv *env, jclbss gdc, jint gdiScreen)
 {
-    D3DPipelineManager *pMgr;
+    D3DPipelineMbnbger *pMgr;
     IDirect3D9 *pd3d9;
     jobject ret = NULL;
     D3DDISPLAYMODE mode;
-    UINT adapter;
+    UINT bdbpter;
 
-    J2dTraceLn(J2D_TRACE_INFO, "D3DGD_getCurrentDisplayModeNative");
+    J2dTrbceLn(J2D_TRACE_INFO, "D3DGD_getCurrentDisplbyModeNbtive");
 
-    RETURN_STATUS_IF_NULL(pMgr = D3DPipelineManager::GetInstance(), NULL);
+    RETURN_STATUS_IF_NULL(pMgr = D3DPipelineMbnbger::GetInstbnce(), NULL);
     RETURN_STATUS_IF_NULL(pd3d9 = pMgr->GetD3DObject(), NULL);
-    adapter = pMgr->GetAdapterOrdinalForScreen(gdiScreen);
+    bdbpter = pMgr->GetAdbpterOrdinblForScreen(gdiScreen);
 
-    if (SUCCEEDED(pd3d9->GetAdapterDisplayMode(adapter, &mode))) {
+    if (SUCCEEDED(pd3d9->GetAdbpterDisplbyMode(bdbpter, &mode))) {
         int bitDepth = -1;
-        // these are the only three valid screen formats
-        switch (mode.Format) {
-            case D3DFMT_X8R8G8B8: bitDepth = 32; break;
-            case D3DFMT_R5G6B5:
-            case D3DFMT_X1R5G5B5: bitDepth = 16; break;
+        // these bre the only three vblid screen formbts
+        switch (mode.Formbt) {
+            cbse D3DFMT_X8R8G8B8: bitDepth = 32; brebk;
+            cbse D3DFMT_R5G6B5:
+            cbse D3DFMT_X1R5G5B5: bitDepth = 16; brebk;
         }
-        J2dTraceLn4(J2D_TRACE_VERBOSE,
+        J2dTrbceLn4(J2D_TRACE_VERBOSE,
                     "  current dm: %dx%dx%d@%d",
-                    mode.Width, mode.Height, bitDepth, mode.RefreshRate);
-        ret = CreateDisplayMode(env, mode.Width, mode.Height, bitDepth,
-                                mode.RefreshRate);
+                    mode.Width, mode.Height, bitDepth, mode.RefreshRbte);
+        ret = CrebteDisplbyMode(env, mode.Width, mode.Height, bitDepth,
+                                mode.RefreshRbte);
     }
     return ret;
 }
 
 /*
- * Class:     sun_java2d_d3d_D3DGraphicsDevice
- * Method:    enumDisplayModesNative
- * Signature: (ILjava/util/ArrayList;)V
+ * Clbss:     sun_jbvb2d_d3d_D3DGrbphicsDevice
+ * Method:    enumDisplbyModesNbtive
+ * Signbture: (ILjbvb/util/ArrbyList;)V
  */
 JNIEXPORT void JNICALL
-Java_sun_java2d_d3d_D3DGraphicsDevice_enumDisplayModesNative
-  (JNIEnv *env, jclass gdc, jint gdiScreen, jobject arrayList)
+Jbvb_sun_jbvb2d_d3d_D3DGrbphicsDevice_enumDisplbyModesNbtive
+  (JNIEnv *env, jclbss gdc, jint gdiScreen, jobject brrbyList)
 {
-    D3DPipelineManager *pMgr;
+    D3DPipelineMbnbger *pMgr;
     IDirect3D9 *pd3d9;
     jobject ret = NULL;
     D3DDISPLAYMODE mode;
-    UINT formatNum, modeNum, modesCount;
-    UINT adapter;
-    // EnumAdapterModes treats 555 and 565 formats as equivalents
-    static D3DFORMAT formats[] =
+    UINT formbtNum, modeNum, modesCount;
+    UINT bdbpter;
+    // EnumAdbpterModes trebts 555 bnd 565 formbts bs equivblents
+    stbtic D3DFORMAT formbts[] =
       { D3DFMT_X8R8G8B8, D3DFMT_R5G6B5 };
 
-    J2dTraceLn(J2D_TRACE_INFO, "D3DGD_enumDisplayModesNative");
+    J2dTrbceLn(J2D_TRACE_INFO, "D3DGD_enumDisplbyModesNbtive");
 
-    RETURN_IF_NULL(pMgr = D3DPipelineManager::GetInstance());
+    RETURN_IF_NULL(pMgr = D3DPipelineMbnbger::GetInstbnce());
     RETURN_IF_NULL(pd3d9 = pMgr->GetD3DObject());
-    adapter = pMgr->GetAdapterOrdinalForScreen(gdiScreen);
+    bdbpter = pMgr->GetAdbpterOrdinblForScreen(gdiScreen);
 
-    for (formatNum = 0; formatNum < (sizeof formats)/(sizeof *formats); formatNum++) {
-        modesCount = pd3d9->GetAdapterModeCount(adapter, formats[formatNum]);
+    for (formbtNum = 0; formbtNum < (sizeof formbts)/(sizeof *formbts); formbtNum++) {
+        modesCount = pd3d9->GetAdbpterModeCount(bdbpter, formbts[formbtNum]);
         for (modeNum = 0; modeNum < modesCount; modeNum++) {
-            if (SUCCEEDED(pd3d9->EnumAdapterModes(adapter, formats[formatNum],
+            if (SUCCEEDED(pd3d9->EnumAdbpterModes(bdbpter, formbts[formbtNum],
                                                   modeNum, &mode)))
             {
                 int bitDepth = -1;
-                // these are the only three valid screen formats,
-                // 30-bit is returned as X8R8G8B8
-                switch (mode.Format) {
-                    case D3DFMT_X8R8G8B8: bitDepth = 32; break;
-                    case D3DFMT_R5G6B5:
-                    case D3DFMT_X1R5G5B5: bitDepth = 16; break;
+                // these bre the only three vblid screen formbts,
+                // 30-bit is returned bs X8R8G8B8
+                switch (mode.Formbt) {
+                    cbse D3DFMT_X8R8G8B8: bitDepth = 32; brebk;
+                    cbse D3DFMT_R5G6B5:
+                    cbse D3DFMT_X1R5G5B5: bitDepth = 16; brebk;
                 }
-                J2dTraceLn4(J2D_TRACE_VERBOSE, "  found dm: %dx%dx%d@%d",
-                            mode.Width, mode.Height, bitDepth,mode.RefreshRate);
-                addDisplayMode(env, arrayList, mode.Width, mode.Height,
-                               bitDepth, mode.RefreshRate);
+                J2dTrbceLn4(J2D_TRACE_VERBOSE, "  found dm: %dx%dx%d@%d",
+                            mode.Width, mode.Height, bitDepth,mode.RefreshRbte);
+                bddDisplbyMode(env, brrbyList, mode.Width, mode.Height,
+                               bitDepth, mode.RefreshRbte);
             }
         }
     }
 }
 
 /*
- * Class:     sun_java2d_d3d_D3DGraphicsDevice
- * Method:    getAvailableAcceleratedMemoryNative
- * Signature: (I)J
+ * Clbss:     sun_jbvb2d_d3d_D3DGrbphicsDevice
+ * Method:    getAvbilbbleAccelerbtedMemoryNbtive
+ * Signbture: (I)J
  */
 JNIEXPORT jlong JNICALL
-Java_sun_java2d_d3d_D3DGraphicsDevice_getAvailableAcceleratedMemoryNative
-  (JNIEnv *env, jclass gdc, jint gdiScreen)
+Jbvb_sun_jbvb2d_d3d_D3DGrbphicsDevice_getAvbilbbleAccelerbtedMemoryNbtive
+  (JNIEnv *env, jclbss gdc, jint gdiScreen)
 {
-    // REMIND: looks like Direct3D provides information about texture memory
-    // only via IDirect3DDevice9::GetAvailableTextureMem, however, it
-    // seems to report the same amount as direct draw used to.
+    // REMIND: looks like Direct3D provides informbtion bbout texture memory
+    // only vib IDirect3DDevice9::GetAvbilbbleTextureMem, however, it
+    // seems to report the sbme bmount bs direct drbw used to.
     HRESULT res;
-    D3DPipelineManager *pMgr;
+    D3DPipelineMbnbger *pMgr;
     D3DContext *pCtx;
     IDirect3DDevice9 *pd3dDevice;
-    UINT adapter;
+    UINT bdbpter;
 
-    J2dTraceLn(J2D_TRACE_INFO, "D3DGD_getAvailableAcceleratedMemoryNative");
+    J2dTrbceLn(J2D_TRACE_INFO, "D3DGD_getAvbilbbleAccelerbtedMemoryNbtive");
 
-    RETURN_STATUS_IF_NULL(pMgr = D3DPipelineManager::GetInstance(), 0L);
-    adapter = pMgr->GetAdapterOrdinalForScreen(gdiScreen);
+    RETURN_STATUS_IF_NULL(pMgr = D3DPipelineMbnbger::GetInstbnce(), 0L);
+    bdbpter = pMgr->GetAdbpterOrdinblForScreen(gdiScreen);
 
-    if (FAILED(res = pMgr->GetD3DContext(adapter, &pCtx))) {
-        D3DRQ_MarkLostIfNeeded(res, D3DRQ_GetCurrentDestination());
+    if (FAILED(res = pMgr->GetD3DContext(bdbpter, &pCtx))) {
+        D3DRQ_MbrkLostIfNeeded(res, D3DRQ_GetCurrentDestinbtion());
         return 0L;
     }
     RETURN_STATUS_IF_NULL(pd3dDevice = pCtx->Get3DDevice(), 0L);
 
-    UINT mem = pd3dDevice->GetAvailableTextureMem();
-    J2dTraceLn1(J2D_TRACE_VERBOSE, "  available memory=%d", mem);
+    UINT mem = pd3dDevice->GetAvbilbbleTextureMem();
+    J2dTrbceLn1(J2D_TRACE_VERBOSE, "  bvbilbble memory=%d", mem);
     return mem;
 }
 
 /*
- * Class:     sun_java2d_d3d_D3DGraphicsDevice
- * Method:    isD3DAvailableOnDeviceNative
- * Signature: (I)Z
+ * Clbss:     sun_jbvb2d_d3d_D3DGrbphicsDevice
+ * Method:    isD3DAvbilbbleOnDeviceNbtive
+ * Signbture: (I)Z
  */
-JNIEXPORT jboolean JNICALL
-Java_sun_java2d_d3d_D3DGraphicsDevice_isD3DAvailableOnDeviceNative
-  (JNIEnv *env, jclass gdc, jint gdiScreen)
+JNIEXPORT jboolebn JNICALL
+Jbvb_sun_jbvb2d_d3d_D3DGrbphicsDevice_isD3DAvbilbbleOnDeviceNbtive
+  (JNIEnv *env, jclbss gdc, jint gdiScreen)
 {
     HRESULT res;
-    D3DPipelineManager *pMgr;
+    D3DPipelineMbnbger *pMgr;
     D3DContext *pCtx;
-    UINT adapter;
+    UINT bdbpter;
 
-    J2dTraceLn(J2D_TRACE_INFO, "D3DGD_isD3DAvailableOnDeviceNative");
+    J2dTrbceLn(J2D_TRACE_INFO, "D3DGD_isD3DAvbilbbleOnDeviceNbtive");
 
-    RETURN_STATUS_IF_NULL(pMgr = D3DPipelineManager::GetInstance(), JNI_FALSE);
-    adapter = pMgr->GetAdapterOrdinalForScreen(gdiScreen);
+    RETURN_STATUS_IF_NULL(pMgr = D3DPipelineMbnbger::GetInstbnce(), JNI_FALSE);
+    bdbpter = pMgr->GetAdbpterOrdinblForScreen(gdiScreen);
 
-    if (FAILED(res = pMgr->GetD3DContext(adapter, &pCtx))) {
-        D3DRQ_MarkLostIfNeeded(res, D3DRQ_GetCurrentDestination());
+    if (FAILED(res = pMgr->GetD3DContext(bdbpter, &pCtx))) {
+        D3DRQ_MbrkLostIfNeeded(res, D3DRQ_GetCurrentDestinbtion());
         return JNI_FALSE;
     }
 

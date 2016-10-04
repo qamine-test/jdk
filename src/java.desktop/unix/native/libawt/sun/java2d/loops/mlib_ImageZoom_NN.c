@@ -1,62 +1,62 @@
 /*
- * Copyright (c) 2003, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
  * FUNCTION
- *      mlib_ImageZoom - image scaling with edge condition
+ *      mlib_ImbgeZoom - imbge scbling with edge condition
  *
  * SYNOPSIS
- *      mlib_status mlib_ImageZoom(mlib_image       *dst,
- *                                 const mlib_image *src,
+ *      mlib_stbtus mlib_ImbgeZoom(mlib_imbge       *dst,
+ *                                 const mlib_imbge *src,
  *                                 mlib_f32         zoomx,
  *                                 mlib_f32         zoomy,
  *                                 mlib_filter      filter,
  *                                 mlib_edge        edge)
  *
  * ARGUMENTS
- *      dst       Pointer to destination image
- *      src       Pointer to source image
- *      zoomx     X zoom factor.
- *      zoomy     Y zoom factor.
- *      filter    Type of resampling filter.
+ *      dst       Pointer to destinbtion imbge
+ *      src       Pointer to source imbge
+ *      zoomx     X zoom fbctor.
+ *      zoomy     Y zoom fbctor.
+ *      filter    Type of resbmpling filter.
  *      edge      Type of edge condition.
  *
  * DESCRIPTION
- *  The center of the source image is mapped to the center of the
- *  destination image.
+ *  The center of the source imbge is mbpped to the center of the
+ *  destinbtion imbge.
  *
- *  The upper-left corner pixel of an image is located at (0.5, 0.5).
+ *  The upper-left corner pixel of bn imbge is locbted bt (0.5, 0.5).
  *
- *  The resampling filter can be one of the following:
+ *  The resbmpling filter cbn be one of the following:
  *    MLIB_NEAREST
  *    MLIB_BILINEAR
  *    MLIB_BICUBIC
  *    MLIB_BICUBIC2
  *
- *  The edge condition can be one of the following:
- *    MLIB_EDGE_DST_NO_WRITE  (default)
+ *  The edge condition cbn be one of the following:
+ *    MLIB_EDGE_DST_NO_WRITE  (defbult)
  *    MLIB_EDGE_DST_FILL_ZERO
  *    MLIB_EDGE_OP_NEAREST
  *    MLIB_EDGE_SRC_EXTEND
@@ -64,16 +64,16 @@
  */
 
 #ifdef MACOSX
-#include <machine/endian.h>
+#include <mbchine/endibn.h>
 #endif
-#include <mlib_image.h>
-#include <mlib_ImageZoom.h>
+#include <mlib_imbge.h>
+#include <mlib_ImbgeZoom.h>
 
-#define MLIB_COPY_FUNC  mlib_ImageCopy_na
+#define MLIB_COPY_FUNC  mlib_ImbgeCopy_nb
 
 /***************************************************************/
 
-#ifdef i386 /* do not perform the coping by mlib_d64 data type for x86 */
+#ifdef i386 /* do not perform the coping by mlib_d64 dbtb type for x86 */
 
 typedef struct {
   mlib_s32 int0, int1;
@@ -81,11 +81,11 @@ typedef struct {
 
 #define TYPE_64  two_int
 
-#else /* i386 ( do not perform the coping by mlib_d64 data type for x86 ) */
+#else /* i386 ( do not perform the coping by mlib_d64 dbtb type for x86 ) */
 
 #define TYPE_64  mlib_d64
 
-#endif /* i386 ( do not perform the coping by mlib_d64 data type for x86 ) */
+#endif /* i386 ( do not perform the coping by mlib_d64 dbtb type for x86 ) */
 
 /***************************************************************/
 
@@ -104,7 +104,7 @@ typedef union {
 
 #ifdef _LITTLE_ENDIAN
 
-static const mlib_u32 mlib_bit_mask4[16] = {
+stbtic const mlib_u32 mlib_bit_mbsk4[16] = {
   0x00000000u, 0xFF000000u, 0x00FF0000u, 0xFFFF0000u,
   0x0000FF00u, 0xFF00FF00u, 0x00FFFF00u, 0xFFFFFF00u,
   0x000000FFu, 0xFF0000FFu, 0x00FF00FFu, 0xFFFF00FFu,
@@ -113,7 +113,7 @@ static const mlib_u32 mlib_bit_mask4[16] = {
 
 #else /* _LITTLE_ENDIAN */
 
-static const mlib_u32 mlib_bit_mask4[16] = {
+stbtic const mlib_u32 mlib_bit_mbsk4[16] = {
   0x00000000u, 0x000000FFu, 0x0000FF00u, 0x0000FFFFu,
   0x00FF0000u, 0x00FF00FFu, 0x00FFFF00u, 0x00FFFFFFu,
   0xFF000000u, 0xFF0000FFu, 0xFF00FF00u, 0xFF00FFFFu,
@@ -144,7 +144,7 @@ static const mlib_u32 mlib_bit_mask4[16] = {
 
 /***************************************************************/
 
-mlib_status mlib_ImageZoom_BIT_1_Nearest(mlib_work_image *param,
+mlib_stbtus mlib_ImbgeZoom_BIT_1_Nebrest(mlib_work_imbge *pbrbm,
                                          mlib_s32        s_bitoff,
                                          mlib_s32        d_bitoff)
 {
@@ -155,7 +155,7 @@ mlib_status mlib_ImageZoom_BIT_1_Nearest(mlib_work_image *param,
   mlib_s32 dstX = GetElemSubStruct(current, dstX);
   mlib_u8 *sl = sp - (srcX >> MLIB_SHIFT), *dl = dp - dstX, *dt;
   mlib_s32 bit, res, k, y_step = -1;
-  mlib_s32 num0, n_al, mask0, mask1;
+  mlib_s32 num0, n_bl, mbsk0, mbsk1;
 
   srcX += (s_bitoff << MLIB_SHIFT);
   dstX += d_bitoff;
@@ -165,26 +165,26 @@ mlib_status mlib_ImageZoom_BIT_1_Nearest(mlib_work_image *param,
   if (num0 > width)
     num0 = width;
   num0 &= 7;
-  mask0 = ((0xFF00 >> num0) & 0xFF) >> (dstX & 7);
-  n_al = width - num0;
-  mask1 = ((0xFF00 >> (n_al & 7)) & 0xFF);
+  mbsk0 = ((0xFF00 >> num0) & 0xFF) >> (dstX & 7);
+  n_bl = width - num0;
+  mbsk1 = ((0xFF00 >> (n_bl & 7)) & 0xFF);
 
   y = GetElemSubStruct(current, srcY) & MLIB_MASK;
 
-  if (n_al > BUFF_SIZE) {
-    buff = mlib_malloc(sizeof(mlib_s32) * n_al);
+  if (n_bl > BUFF_SIZE) {
+    buff = mlib_mblloc(sizeof(mlib_s32) * n_bl);
 
     if (buff == NULL)
       return MLIB_FAILURE;
   }
 
-/* save shifts for bit extracting */
+/* sbve shifts for bit extrbcting */
   x = srcX + num0 * dx;
 #if 0
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
-  for (i = 0; i < (n_al >> 3); i++) {
+  for (i = 0; i < (n_bl >> 3); i++) {
     buff[8 * i] = (((x >> MLIB_SHIFT)) & 7) | (x & ~BYTE_POS_MASK);
     x += dx;
     buff[8 * i + 1] = (((x >> MLIB_SHIFT) - 1) & 7) | (x & ~BYTE_POS_MASK);
@@ -203,12 +203,12 @@ mlib_status mlib_ImageZoom_BIT_1_Nearest(mlib_work_image *param,
     x += dx;
   }
 
-  x_last = x;
+  x_lbst = x;
 #else /* 0 */
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
-  for (i = 0; i < (n_al >> 3); i++) {
+  for (i = 0; i < (n_bl >> 3); i++) {
     buff[8 * i] = (((x >> MLIB_SHIFT)) & 7);
     x += dx;
     buff[8 * i + 1] = (((x >> MLIB_SHIFT) - 1) & 7);
@@ -236,27 +236,27 @@ mlib_status mlib_ImageZoom_BIT_1_Nearest(mlib_work_image *param,
       dt = dp - dst_stride;
 
       if (num0) {
-        dp[0] = (dp[0] & ~mask0) | (*dt++ & mask0);
+        dp[0] = (dp[0] & ~mbsk0) | (*dt++ & mbsk0);
         dp++;
       }
 
 #if 0
-      MLIB_COPY_FUNC(dt, dp, n_al >> 3);
+      MLIB_COPY_FUNC(dt, dp, n_bl >> 3);
 
-      if (n_al & 7) {
-        dp[n_al >> 3] = (dp[n_al >> 3] & ~mask1) | (dt[n_al >> 3] & mask1);
+      if (n_bl & 7) {
+        dp[n_bl >> 3] = (dp[n_bl >> 3] & ~mbsk1) | (dt[n_bl >> 3] & mbsk1);
       }
 
 #else /* 0 */
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
-      for (i = 0; i < (n_al >> 3); i++) {
+      for (i = 0; i < (n_bl >> 3); i++) {
         dp[i] = dt[i];
       }
 
-      if (n_al & 7) {
-        dp[i] = (dp[i] & ~mask1) | (dt[i] & mask1);
+      if (n_bl & 7) {
+        dp[i] = (dp[i] & ~mbsk1) | (dt[i] & mbsk1);
       }
 
 #endif /* 0 */
@@ -267,7 +267,7 @@ mlib_status mlib_ImageZoom_BIT_1_Nearest(mlib_work_image *param,
       dp = dl + (dstX >> 3);
 
       if (num0) {
-        mlib_s32 res = dp[0] & ~mask0;
+        mlib_s32 res = dp[0] & ~mbsk0;
 
         for (k = dstX; k < (dstX + num0); k++) {
           bit = 7 - (k & 7);
@@ -280,9 +280,9 @@ mlib_status mlib_ImageZoom_BIT_1_Nearest(mlib_work_image *param,
       }
 
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
-      for (i = 0; i < (n_al >> 3); i++) {
+      for (i = 0; i < (n_bl >> 3); i++) {
 #if 0
         res = ((sl[buff[8 * i] >> (MLIB_SHIFT + 3)] << buff[8 * i]) & 0x8080);
         res |= ((sl[buff[8 * i + 1] >> (MLIB_SHIFT + 3)] << buff[8 * i + 1]) & 0x4040);
@@ -313,10 +313,10 @@ mlib_status mlib_ImageZoom_BIT_1_Nearest(mlib_work_image *param,
         dp[i] = res | (res >> 8);
       }
 
-      if (mask1) {
-        mlib_s32 res = dp[i] & ~mask1;
+      if (mbsk1) {
+        mlib_s32 res = dp[i] & ~mbsk1;
 
-        for (k = 0; k < (n_al & 7); k++) {
+        for (k = 0; k < (n_bl & 7); k++) {
           bit = 7 - (k & 7);
           res |=
             (((sl[x >> (MLIB_SHIFT + 3)] >> (7 - (x >> MLIB_SHIFT) & 7)) & 1) << bit);
@@ -412,19 +412,19 @@ typedef struct {
 
 /***************************************************************/
 
-mlib_status mlib_ImageZoom_BitToGray_1_Nearest(mlib_work_image *param,
+mlib_stbtus mlib_ImbgeZoom_BitToGrby_1_Nebrest(mlib_work_imbge *pbrbm,
                                                mlib_s32        s_bitoff,
                                                const mlib_s32  *ghigh,
                                                const mlib_s32  *glow)
 {
   VARIABLE(mlib_u8);
   mlib_s32 i;
-  DTYPE gray_mask[256], dd, dd_old, *da, dtmp, dtmp1;
-  mlib_u32 *pgray = (mlib_u32 *) gray_mask;
+  DTYPE grby_mbsk[256], dd, dd_old, *db, dtmp, dtmp1;
+  mlib_u32 *pgrby = (mlib_u32 *) grby_mbsk;
   mlib_u8 buff_loc[2 * BUFF_SIZE], *buff = buff_loc;
-  mlib_u8 *sl, *dl, gray_val[2];
+  mlib_u8 *sl, *dl, grby_vbl[2];
   mlib_s32 srcX = GetElemSubStruct(current, srcX);
-  mlib_u32 gray_val0, gray_val1;
+  mlib_u32 grby_vbl0, grby_vbl1;
   mlib_s32 width8, res, y_step = -1;
   mlib_s32 k;
 
@@ -436,16 +436,16 @@ mlib_status mlib_ImageZoom_BitToGray_1_Nearest(mlib_work_image *param,
   width8 = width / 8;
 
   if (width8 > 2 * BUFF_SIZE) {
-    buff = mlib_malloc(width8 * sizeof(mlib_u8));
+    buff = mlib_mblloc(width8 * sizeof(mlib_u8));
 
     if (buff == NULL)
       return MLIB_FAILURE;
   }
 
-/* save shifts for bit extracting */
+/* sbve shifts for bit extrbcting */
   x = srcX;
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
   for (i = 0; i < width8; i++) {
     buff[8 * i] = (((x >> MLIB_SHIFT)) & 7);
@@ -466,33 +466,33 @@ mlib_status mlib_ImageZoom_BitToGray_1_Nearest(mlib_work_image *param,
     x += dx;
   }
 
-/* calculate lookup table */
-  gray_val0 = CLAMP_U8(glow[0]);
-  gray_val1 = CLAMP_U8(ghigh[0]);
-  gray_val[0] = gray_val0;
-  gray_val[1] = gray_val1;
-  gray_val0 |= (gray_val0 << 8);
-  gray_val0 |= (gray_val0 << 16);
-  gray_val1 |= (gray_val1 << 8);
-  gray_val1 |= (gray_val1 << 16);
+/* cblculbte lookup tbble */
+  grby_vbl0 = CLAMP_U8(glow[0]);
+  grby_vbl1 = CLAMP_U8(ghigh[0]);
+  grby_vbl[0] = grby_vbl0;
+  grby_vbl[1] = grby_vbl1;
+  grby_vbl0 |= (grby_vbl0 << 8);
+  grby_vbl0 |= (grby_vbl0 << 16);
+  grby_vbl1 |= (grby_vbl1 << 8);
+  grby_vbl1 |= (grby_vbl1 << 16);
 
   for (i = 0; i < 16; i++) {
-    mlib_u32 v, mask = mlib_bit_mask4[i];
+    mlib_u32 v, mbsk = mlib_bit_mbsk4[i];
 
-    v = (gray_val0 & ~mask) | (gray_val1 & mask);
+    v = (grby_vbl0 & ~mbsk) | (grby_vbl1 & mbsk);
 
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
     for (j = 0; j < 16; j++) {
-      pgray[2 * (16 * i + j)] = v;
+      pgrby[2 * (16 * i + j)] = v;
     }
 
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
     for (j = 0; j < 16; j++) {
-      pgray[2 * (i + 16 * j) + 1] = v;
+      pgrby[2 * (i + 16 * j) + 1] = v;
     }
   }
 
@@ -502,23 +502,23 @@ mlib_status mlib_ImageZoom_BitToGray_1_Nearest(mlib_work_image *param,
       MLIB_COPY_FUNC((mlib_u8 *) dl - dst_stride, dl, width);
     }
     else {
-      mlib_s32 off = (mlib_addr) dl & 7;
+      mlib_s32 off = (mlib_bddr) dl & 7;
 
-      da = (DTYPE *) (dl - off);
+      db = (DTYPE *) (dl - off);
       x = srcX;
 
-      if (off) {                                           /* not aligned */
-        DTYPE mask;
-        MASK(mask);
+      if (off) {                                           /* not bligned */
+        DTYPE mbsk;
+        MASK(mbsk);
         off *= 8;
 #ifdef _LITTLE_ENDIAN
-        LSHIFT(dd_old, da[0], 64 - off);
+        LSHIFT(dd_old, db[0], 64 - off);
 #else /* _LITTLE_ENDIAN */
-        RSHIFT(dd_old, da[0], 64 - off);
+        RSHIFT(dd_old, db[0], 64 - off);
 #endif /* _LITTLE_ENDIAN */
 
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
         for (i = 0; i < (width / 8); i++) {
           res = ((sl[x >> (MLIB_SHIFT + 3)] << buff[8 * i]) & 0x8080);
@@ -539,37 +539,37 @@ mlib_status mlib_ImageZoom_BitToGray_1_Nearest(mlib_work_image *param,
           x += dx;
 
           res = (res & 0xff) | (res >> 8);
-          dd = gray_mask[res];
+          dd = grby_mbsk[res];
 #ifdef _LITTLE_ENDIAN
-/* *da++ = (dd_old >> (64 - off)) | (dd << off);*/
+/* *db++ = (dd_old >> (64 - off)) | (dd << off);*/
           RSHIFT(dd_old, dd_old, 64 - off);
           LSHIFT(dtmp, dd, off);
 #else /* _LITTLE_ENDIAN */
-/* *da++ = (dd_old << (64 - off)) | (dd >> off);*/
+/* *db++ = (dd_old << (64 - off)) | (dd >> off);*/
           LSHIFT(dd_old, dd_old, 64 - off);
           RSHIFT(dtmp, dd, off);
 #endif /* _LITTLE_ENDIAN */
-          LOGIC(*da++, dd_old, dtmp, |);
+          LOGIC(*db++, dd_old, dtmp, |);
           dd_old = dd;
         }
 
 #ifdef _LITTLE_ENDIAN
-/* da[0] = (dd_old >> (64 - off)) | (da[0] & ((mlib_u64)((mlib_s64) -1) << off));*/
-        LSHIFT(dtmp, mask, off);
-        LOGIC(dtmp, da[0], dtmp, &);
+/* db[0] = (dd_old >> (64 - off)) | (db[0] & ((mlib_u64)((mlib_s64) -1) << off));*/
+        LSHIFT(dtmp, mbsk, off);
+        LOGIC(dtmp, db[0], dtmp, &);
         RSHIFT(dtmp1, dd_old, 64 - off);
 #else /* _LITTLE_ENDIAN */
-/* da[0] = (dd_old << (64 - off)) | (da[0] & ((mlib_u64)((mlib_s64) -1) >> off));*/
-        RSHIFT(dtmp, mask, off);
-        LOGIC(dtmp, da[0], dtmp, &);
+/* db[0] = (dd_old << (64 - off)) | (db[0] & ((mlib_u64)((mlib_s64) -1) >> off));*/
+        RSHIFT(dtmp, mbsk, off);
+        LOGIC(dtmp, db[0], dtmp, &);
         LSHIFT(dtmp1, dd_old, 64 - off);
 #endif /* _LITTLE_ENDIAN */
-        LOGIC(da[0], dtmp, dtmp1, |);
+        LOGIC(db[0], dtmp, dtmp1, |);
       }
-      else {                                               /* aligned */
+      else {                                               /* bligned */
 
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
         for (i = 0; i < (width / 8); i++) {
           res = ((sl[x >> (MLIB_SHIFT + 3)] << buff[8 * i]) & 0x8080);
@@ -590,7 +590,7 @@ mlib_status mlib_ImageZoom_BitToGray_1_Nearest(mlib_work_image *param,
           x += dx;
 
           res = (res & 0xff) | (res >> 8);
-          *da++ = gray_mask[res];
+          *db++ = grby_mbsk[res];
         }
       }
 
@@ -599,7 +599,7 @@ mlib_status mlib_ImageZoom_BitToGray_1_Nearest(mlib_work_image *param,
 
         for (k = 0; k < (width & 7); k++) {
           dp[k] =
-            gray_val[(sl[x >> (MLIB_SHIFT + 3)] >> (7 - (x >> MLIB_SHIFT) & 7)) & 1];
+            grby_vbl[(sl[x >> (MLIB_SHIFT + 3)] >> (7 - (x >> MLIB_SHIFT) & 7)) & 1];
           x += dx;
         }
       }
@@ -619,7 +619,7 @@ mlib_status mlib_ImageZoom_BitToGray_1_Nearest(mlib_work_image *param,
 
 /***************************************************************/
 
-mlib_status mlib_ImageZoom_U8_2_Nearest(mlib_work_image *param)
+mlib_stbtus mlib_ImbgeZoom_U8_2_Nebrest(mlib_work_imbge *pbrbm)
 {
   VARIABLE(mlib_u8);
   mlib_s32 i;
@@ -642,7 +642,7 @@ mlib_status mlib_ImageZoom_U8_2_Nearest(mlib_work_image *param)
       tmp1 = tsp[cx + 1];
 
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
       for (i = 0; i < width - 1; i++, tdp += 2) {
         tdp[0] = tmp0;
@@ -669,7 +669,7 @@ mlib_status mlib_ImageZoom_U8_2_Nearest(mlib_work_image *param)
 
 /***************************************************************/
 
-mlib_status mlib_ImageZoom_U8_4_Nearest(mlib_work_image *param)
+mlib_stbtus mlib_ImbgeZoom_U8_4_Nebrest(mlib_work_imbge *pbrbm)
 {
   VARIABLE(mlib_u8);
   mlib_s32 i;
@@ -689,7 +689,7 @@ mlib_status mlib_ImageZoom_U8_4_Nearest(mlib_work_image *param)
       tdp = dp;
       x = GetElemSubStruct(current, srcX) & MLIB_MASK;
 
-      if (((mlib_addr) tdp | (mlib_addr) tsp) & 1) {       /* sp & dp pointers not aligned */
+      if (((mlib_bddr) tdp | (mlib_bddr) tsp) & 1) {       /* sp & dp pointers not bligned */
 
         cx = (x >> (MLIB_SHIFT - 2)) & ~3;
         tmp0 = tsp[cx];
@@ -698,7 +698,7 @@ mlib_status mlib_ImageZoom_U8_4_Nearest(mlib_work_image *param)
         tmp3 = tsp[cx + 3];
 
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
         for (i = 0; i < width - 1; i++) {
           tdp[0] = tmp0;
@@ -729,7 +729,7 @@ mlib_status mlib_ImageZoom_U8_4_Nearest(mlib_work_image *param)
         utmp1 = *(mlib_u16 *) (tsp + cx + 2);
 
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
         for (i = 0; i < width - 1; i++) {
           *(mlib_u16 *) tdp = utmp0;
@@ -761,7 +761,7 @@ mlib_status mlib_ImageZoom_U8_4_Nearest(mlib_work_image *param)
 
 /***************************************************************/
 
-mlib_status mlib_ImageZoom_S16_2_Nearest(mlib_work_image *param)
+mlib_stbtus mlib_ImbgeZoom_S16_2_Nebrest(mlib_work_imbge *pbrbm)
 {
   VARIABLE(mlib_u16);
   mlib_s32 i;
@@ -782,14 +782,14 @@ mlib_status mlib_ImageZoom_S16_2_Nearest(mlib_work_image *param)
       tdp = (mlib_u8 *) dp;
       x = GetElemSubStruct(current, srcX) & MLIB_MASK;
 
-      if (((mlib_addr) tdp | (mlib_addr) tsp) & 3) {       /* sp & dp pointers not aligned */
+      if (((mlib_bddr) tdp | (mlib_bddr) tsp) & 3) {       /* sp & dp pointers not bligned */
 
         cx = (x >> (MLIB_SHIFT - 2)) & ~3;
         tmp0 = *(mlib_u16 *) (tsp + cx);
         tmp1 = *(mlib_u16 *) (tsp + cx + 2);
 
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
         for (i = 0; i < width - 1; i++, tdp += 4) {
 
@@ -812,7 +812,7 @@ mlib_status mlib_ImageZoom_S16_2_Nearest(mlib_work_image *param)
         utmp = *(mlib_u32 *) (tsp + cx);
 
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
         for (i = 0; i < width - 1; i++, tdp += 4) {
 
@@ -839,7 +839,7 @@ mlib_status mlib_ImageZoom_S16_2_Nearest(mlib_work_image *param)
 
 /***************************************************************/
 
-mlib_status mlib_ImageZoom_S16_4_Nearest(mlib_work_image *param)
+mlib_stbtus mlib_ImbgeZoom_S16_4_Nebrest(mlib_work_imbge *pbrbm)
 {
   VARIABLE(mlib_u16);
   mlib_s32 i;
@@ -861,15 +861,15 @@ mlib_status mlib_ImageZoom_S16_4_Nearest(mlib_work_image *param)
       tdp = (mlib_u8 *) dp;
       x = GetElemSubStruct(current, srcX) & MLIB_MASK;
 
-      if (((mlib_addr) tdp | (mlib_addr) tsp) & 7) {
-        if (((mlib_addr) tdp | (mlib_addr) tsp) & 3) {
+      if (((mlib_bddr) tdp | (mlib_bddr) tsp) & 7) {
+        if (((mlib_bddr) tdp | (mlib_bddr) tsp) & 3) {
 
           cx = (x >> (MLIB_SHIFT - 3)) & ~7;
           tmp0 = *(mlib_u16 *) (tsp + cx);
           tmp1 = *(mlib_u16 *) (tsp + cx + 2);
 
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
           for (i = 0; i < width - 1; i++) {
 
@@ -898,14 +898,14 @@ mlib_status mlib_ImageZoom_S16_4_Nearest(mlib_work_image *param)
           *(mlib_u16 *) (tdp + 4) = tmp2;
           *(mlib_u16 *) (tdp + 6) = tmp3;
         }
-        else {                                             /* align to word */
+        else {                                             /* blign to word */
 
           cx = (x >> (MLIB_SHIFT - 3)) & ~7;
           ftmp0 = *(mlib_f32 *) (tsp + cx);
           ftmp1 = *(mlib_f32 *) (tsp + cx + 4);
 
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
           for (i = 0; i < width - 1; i++) {
 
@@ -925,13 +925,13 @@ mlib_status mlib_ImageZoom_S16_4_Nearest(mlib_work_image *param)
           *(mlib_f32 *) (tdp + 4) = ftmp1;
         }
       }
-      else {                                               /* align to mlib_d64 word */
+      else {                                               /* blign to mlib_d64 word */
 
         cx = (x >> (MLIB_SHIFT - 3)) & ~7;
         dtmp = *(TYPE_64 *) (tsp + cx);
 
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
         for (i = 0; i < width - 1; i++) {
 
@@ -961,7 +961,7 @@ mlib_status mlib_ImageZoom_S16_4_Nearest(mlib_work_image *param)
 
 /***************************************************************/
 
-mlib_status mlib_ImageZoom_S32_1_Nearest(mlib_work_image *param)
+mlib_stbtus mlib_ImbgeZoom_S32_1_Nebrest(mlib_work_imbge *pbrbm)
 {
   VARIABLE(mlib_s32);
   mlib_s32 *dl = dp, *tsp;
@@ -980,13 +980,13 @@ mlib_status mlib_ImageZoom_S32_1_Nearest(mlib_work_image *param)
 
       x = GetElemSubStruct(current, srcX) & MLIB_MASK;
 
-      if ((mlib_addr) dp & 7) {
+      if ((mlib_bddr) dp & 7) {
         *dp++ = tsp[x >> MLIB_SHIFT];
         x += dx;
       }
 
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
       for (; dp <= dend - 2; dp += 2) {
         d64_2_f32 dd;
@@ -1014,18 +1014,18 @@ mlib_status mlib_ImageZoom_S32_1_Nearest(mlib_work_image *param)
 
 /***************************************************************/
 
-mlib_status mlib_ImageZoom_S32_2_Nearest(mlib_work_image *param)
+mlib_stbtus mlib_ImbgeZoom_S32_2_Nebrest(mlib_work_imbge *pbrbm)
 {
   VARIABLE(mlib_s32);
   mlib_s32 i;
   mlib_u8 *tsp;
-  mlib_s32 cx, y_step = -1, tmp0, tmp1, tmp2, tmp3, x_max;
+  mlib_s32 cx, y_step = -1, tmp0, tmp1, tmp2, tmp3, x_mbx;
   TYPE_64 dtmp0;
 
   tsp = (mlib_u8 *) sp;
   y = GetElemSubStruct(current, srcY) & MLIB_MASK;
 
-  x_max = (param->sline_size) << MLIB_SHIFT;
+  x_mbx = (pbrbm->sline_size) << MLIB_SHIFT;
 
   for (j = 0; j < height; j++) {
 
@@ -1035,10 +1035,10 @@ mlib_status mlib_ImageZoom_S32_2_Nearest(mlib_work_image *param)
     else {
       x = GetElemSubStruct(current, srcX) & MLIB_MASK;
 
-      if (!(((mlib_addr) dp | (mlib_addr) tsp) & 7)) {
+      if (!(((mlib_bddr) dp | (mlib_bddr) tsp) & 7)) {
 
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
         for (i = 0; i < width; i++) {
           cx = (x >> (MLIB_SHIFT - 3)) & ~7;
@@ -1053,13 +1053,13 @@ mlib_status mlib_ImageZoom_S32_2_Nearest(mlib_work_image *param)
         x += dx;
         tmp0 = *(mlib_s32 *) (tsp + cx);
         tmp1 = *(mlib_s32 *) (tsp + cx + 4);
-        cx = ((x >> (MLIB_SHIFT - 3)) & ~7) & ((x - x_max) >> 31);
+        cx = ((x >> (MLIB_SHIFT - 3)) & ~7) & ((x - x_mbx) >> 31);
         x += dx;
         tmp2 = *(mlib_s32 *) (tsp + cx);
         tmp3 = *(mlib_s32 *) (tsp + cx + 4);
 
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
         for (i = 0; i <= width - 2; i += 2) {
           dp[2 * i] = tmp0;
@@ -1067,11 +1067,11 @@ mlib_status mlib_ImageZoom_S32_2_Nearest(mlib_work_image *param)
           dp[2 * i + 2] = tmp2;
           dp[2 * i + 3] = tmp3;
 
-          cx = ((x >> (MLIB_SHIFT - 3)) & ~7) & ((x - x_max) >> 31);
+          cx = ((x >> (MLIB_SHIFT - 3)) & ~7) & ((x - x_mbx) >> 31);
           x += dx;
           tmp0 = *(mlib_s32 *) (tsp + cx);
           tmp1 = *(mlib_s32 *) (tsp + cx + 4);
-          cx = ((x >> (MLIB_SHIFT - 3)) & ~7) & ((x - x_max) >> 31);
+          cx = ((x >> (MLIB_SHIFT - 3)) & ~7) & ((x - x_mbx) >> 31);
           x += dx;
           tmp2 = *(mlib_s32 *) (tsp + cx);
           tmp3 = *(mlib_s32 *) (tsp + cx + 4);
@@ -1096,7 +1096,7 @@ mlib_status mlib_ImageZoom_S32_2_Nearest(mlib_work_image *param)
 
 /***************************************************************/
 
-mlib_status mlib_ImageZoom_S32_3_Nearest(mlib_work_image *param)
+mlib_stbtus mlib_ImbgeZoom_S32_3_Nebrest(mlib_work_imbge *pbrbm)
 {
   VARIABLE(mlib_s32);
   mlib_s32 i;
@@ -1124,7 +1124,7 @@ mlib_status mlib_ImageZoom_S32_3_Nearest(mlib_work_image *param)
       x += dx;
 
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
       for (i = 0; i < width - 1; i++) {
         dp[3 * i + 0] = tmp0;
@@ -1156,7 +1156,7 @@ mlib_status mlib_ImageZoom_S32_3_Nearest(mlib_work_image *param)
 
 /***************************************************************/
 
-mlib_status mlib_ImageZoom_S32_4_Nearest(mlib_work_image *param)
+mlib_stbtus mlib_ImbgeZoom_S32_4_Nebrest(mlib_work_imbge *pbrbm)
 {
   VARIABLE(mlib_s32);
   mlib_s32 i;
@@ -1175,7 +1175,7 @@ mlib_status mlib_ImageZoom_S32_4_Nearest(mlib_work_image *param)
     else {
       x = GetElemSubStruct(current, srcX) & MLIB_MASK;
 
-      if (((mlib_addr) dp | (mlib_addr) tsp) & 7) {
+      if (((mlib_bddr) dp | (mlib_bddr) tsp) & 7) {
         cx = (x >> (MLIB_SHIFT - 4)) & ~15;
         x += dx;
 
@@ -1188,7 +1188,7 @@ mlib_status mlib_ImageZoom_S32_4_Nearest(mlib_work_image *param)
         x += dx;
 
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
         for (i = 0; i < width - 1; i++) {
           dp[4 * i + 0] = tmp0;
@@ -1222,7 +1222,7 @@ mlib_status mlib_ImageZoom_S32_4_Nearest(mlib_work_image *param)
         x += dx;
 
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
         for (i = 0; i < width - 1; i++) {
           *(TYPE_64 *) (dp + 4 * i) = dtmp0;
@@ -1252,7 +1252,7 @@ mlib_status mlib_ImageZoom_S32_4_Nearest(mlib_work_image *param)
 
 /***************************************************************/
 
-mlib_status mlib_ImageZoom_D64_1_Nearest(mlib_work_image *param)
+mlib_stbtus mlib_ImbgeZoom_D64_1_Nebrest(mlib_work_imbge *pbrbm)
 {
   VARIABLE(TYPE_64);
   mlib_s32 i;
@@ -1266,7 +1266,7 @@ mlib_status mlib_ImageZoom_D64_1_Nearest(mlib_work_image *param)
     x = GetElemSubStruct(current, srcX) & MLIB_MASK;
 
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
     for (i = 0; i < width; i++) {
       cx = x >> MLIB_SHIFT;
@@ -1287,7 +1287,7 @@ mlib_status mlib_ImageZoom_D64_1_Nearest(mlib_work_image *param)
 
 /***************************************************************/
 
-mlib_status mlib_ImageZoom_D64_2_Nearest(mlib_work_image *param)
+mlib_stbtus mlib_ImbgeZoom_D64_2_Nebrest(mlib_work_imbge *pbrbm)
 {
   VARIABLE(TYPE_64);
   mlib_s32 i;
@@ -1301,7 +1301,7 @@ mlib_status mlib_ImageZoom_D64_2_Nearest(mlib_work_image *param)
     x = GetElemSubStruct(current, srcX) & MLIB_MASK;
 
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
     for (i = 0; i < width; i++) {
       cx = (x >> (MLIB_SHIFT - 1)) & ~1;
@@ -1324,7 +1324,7 @@ mlib_status mlib_ImageZoom_D64_2_Nearest(mlib_work_image *param)
 
 /***************************************************************/
 
-mlib_status mlib_ImageZoom_D64_3_Nearest(mlib_work_image *param)
+mlib_stbtus mlib_ImbgeZoom_D64_3_Nebrest(mlib_work_imbge *pbrbm)
 {
   VARIABLE(TYPE_64);
   mlib_s32 i;
@@ -1347,7 +1347,7 @@ mlib_status mlib_ImageZoom_D64_3_Nearest(mlib_work_image *param)
     x += dx;
 
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
     for (i = 0; i < width - 1; i++) {
       dp[3 * i] = tmp;
@@ -1376,7 +1376,7 @@ mlib_status mlib_ImageZoom_D64_3_Nearest(mlib_work_image *param)
 
 /***************************************************************/
 
-mlib_status mlib_ImageZoom_D64_4_Nearest(mlib_work_image *param)
+mlib_stbtus mlib_ImbgeZoom_D64_4_Nebrest(mlib_work_imbge *pbrbm)
 {
   VARIABLE(TYPE_64);
   mlib_s32 i;
@@ -1400,7 +1400,7 @@ mlib_status mlib_ImageZoom_D64_4_Nearest(mlib_work_image *param)
     x += dx;
 
 #ifdef __SUNPRO_C
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
 #endif /* __SUNPRO_C */
     for (i = 0; i < width - 1; i++) {
       dp[4 * i] = tmp;

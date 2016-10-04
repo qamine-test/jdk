@@ -1,90 +1,90 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.apple.laf;
+pbckbge com.bpple.lbf;
 
-import java.awt.*;
+import jbvb.bwt.*;
 
-import javax.swing.border.Border;
+import jbvbx.swing.border.Border;
 
-import apple.laf.JRSUIConstants.Widget;
+import bpple.lbf.JRSUIConstbnts.Widget;
 
-import com.apple.laf.AquaUtilControlSize.*;
-import com.apple.laf.AquaUtils.RecyclableSingletonFromDefaultConstructor;
+import com.bpple.lbf.AqubUtilControlSize.*;
+import com.bpple.lbf.AqubUtils.RecyclbbleSingletonFromDefbultConstructor;
 
-public abstract class AquaGroupBorder extends AquaBorder {
-    static final RecyclableSingletonFromDefaultConstructor<? extends Border> tabbedPaneGroupBorder = new RecyclableSingletonFromDefaultConstructor<TabbedPane>(TabbedPane.class);
-    public static Border getTabbedPaneGroupBorder() {
-        return tabbedPaneGroupBorder.get();
+public bbstrbct clbss AqubGroupBorder extends AqubBorder {
+    stbtic finbl RecyclbbleSingletonFromDefbultConstructor<? extends Border> tbbbedPbneGroupBorder = new RecyclbbleSingletonFromDefbultConstructor<TbbbedPbne>(TbbbedPbne.clbss);
+    public stbtic Border getTbbbedPbneGroupBorder() {
+        return tbbbedPbneGroupBorder.get();
     }
 
-    static final RecyclableSingletonFromDefaultConstructor<? extends Border> titleBorderGroupBorder = new RecyclableSingletonFromDefaultConstructor<Titled>(Titled.class);
-    public static Border getBorderForTitledBorder() {
+    stbtic finbl RecyclbbleSingletonFromDefbultConstructor<? extends Border> titleBorderGroupBorder = new RecyclbbleSingletonFromDefbultConstructor<Titled>(Titled.clbss);
+    public stbtic Border getBorderForTitledBorder() {
         return titleBorderGroupBorder.get();
     }
 
-    static final RecyclableSingletonFromDefaultConstructor<? extends Border> titlelessGroupBorder = new RecyclableSingletonFromDefaultConstructor<Titleless>(Titleless.class);
-    public static Border getTitlelessBorder() {
+    stbtic finbl RecyclbbleSingletonFromDefbultConstructor<? extends Border> titlelessGroupBorder = new RecyclbbleSingletonFromDefbultConstructor<Titleless>(Titleless.clbss);
+    public stbtic Border getTitlelessBorder() {
         return titlelessGroupBorder.get();
     }
 
-    protected AquaGroupBorder(final SizeVariant sizeVariant) {
-        super(new SizeDescriptor(sizeVariant));
-        painter.state.set(Widget.FRAME_GROUP_BOX);
+    protected AqubGroupBorder(finbl SizeVbribnt sizeVbribnt) {
+        super(new SizeDescriptor(sizeVbribnt));
+        pbinter.stbte.set(Widget.FRAME_GROUP_BOX);
     }
 
-    public void paintBorder(final Component c, final Graphics g, int x, int y, int width, int height) {
+    public void pbintBorder(finbl Component c, finbl Grbphics g, int x, int y, int width, int height) {
         // sg2d.setColor(Color.MAGENTA);
-        // sg2d.drawRect(x, y, width - 1, height - 1);
+        // sg2d.drbwRect(x, y, width - 1, height - 1);
 
-        final Insets internalInsets = sizeVariant.insets;
-        x += internalInsets.left;
-        y += internalInsets.top;
-        width -= (internalInsets.left + internalInsets.right);
-        height -= (internalInsets.top + internalInsets.bottom);
+        finbl Insets internblInsets = sizeVbribnt.insets;
+        x += internblInsets.left;
+        y += internblInsets.top;
+        width -= (internblInsets.left + internblInsets.right);
+        height -= (internblInsets.top + internblInsets.bottom);
 
-        painter.paint(g, c, x, y, width, height);
+        pbinter.pbint(g, c, x, y, width, height);
         // sg2d.setColor(Color.ORANGE);
-        // sg2d.drawRect(x, y, width, height);
+        // sg2d.drbwRect(x, y, width, height);
     }
 
-    protected static class TabbedPane extends AquaGroupBorder {
-        public TabbedPane() {
-            super(new SizeVariant().alterMargins(8, 12, 8, 12).alterInsets(5, 5, 7, 5));
+    protected stbtic clbss TbbbedPbne extends AqubGroupBorder {
+        public TbbbedPbne() {
+            super(new SizeVbribnt().blterMbrgins(8, 12, 8, 12).blterInsets(5, 5, 7, 5));
         }
     }
 
-    protected static class Titled extends AquaGroupBorder {
+    protected stbtic clbss Titled extends AqubGroupBorder {
         public Titled() {
-            super(new SizeVariant().alterMargins(16, 20, 16, 20).alterInsets(16, 5, 4, 5));
+            super(new SizeVbribnt().blterMbrgins(16, 20, 16, 20).blterInsets(16, 5, 4, 5));
         }
     }
 
-    protected static class Titleless extends AquaGroupBorder {
+    protected stbtic clbss Titleless extends AqubGroupBorder {
         public Titleless() {
-            super(new SizeVariant().alterMargins(8, 12, 8, 12).alterInsets(3, 5, 1, 5));
+            super(new SizeVbribnt().blterMbrgins(8, 12, 8, 12).blterInsets(3, 5, 1, 5));
         }
     }
 }

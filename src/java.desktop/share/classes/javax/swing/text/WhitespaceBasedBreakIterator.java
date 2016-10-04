@@ -1,94 +1,94 @@
 /*
- * Copyright (c) 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.text;
+pbckbge jbvbx.swing.text;
 
-import java.text.BreakIterator;
-import java.text.CharacterIterator;
-import java.text.StringCharacterIterator;
-import java.util.Arrays;
+import jbvb.text.BrebkIterbtor;
+import jbvb.text.ChbrbcterIterbtor;
+import jbvb.text.StringChbrbcterIterbtor;
+import jbvb.util.Arrbys;
 
 /**
- * A simple whitespace-based BreakIterator implementation.
+ * A simple whitespbce-bbsed BrebkIterbtor implementbtion.
  *
- * @author Sergey Groznyh
+ * @buthor Sergey Groznyh
  */
-class WhitespaceBasedBreakIterator extends BreakIterator {
-    private char[] text = new char[0];
-    private int[] breaks = new int[] { 0 } ;
-    private int pos = 0;
+clbss WhitespbceBbsedBrebkIterbtor extends BrebkIterbtor {
+    privbte chbr[] text = new chbr[0];
+    privbte int[] brebks = new int[] { 0 } ;
+    privbte int pos = 0;
 
     /**
-     * Calculate break positions eagerly parallel to reading text.
+     * Cblculbte brebk positions ebgerly pbrbllel to rebding text.
      */
-    public void setText(CharacterIterator ci) {
+    public void setText(ChbrbcterIterbtor ci) {
         int begin = ci.getBeginIndex();
-        text = new char[ci.getEndIndex() - begin];
-        int[] breaks0 = new int[text.length + 1];
+        text = new chbr[ci.getEndIndex() - begin];
+        int[] brebks0 = new int[text.length + 1];
         int brIx = 0;
-        breaks0[brIx++] = begin;
+        brebks0[brIx++] = begin;
 
-        int charIx = 0;
-        boolean inWs = false;
-        for (char c = ci.first(); c != CharacterIterator.DONE; c = ci.next()) {
-            text[charIx] = c;
-            boolean ws = Character.isWhitespace(c);
+        int chbrIx = 0;
+        boolebn inWs = fblse;
+        for (chbr c = ci.first(); c != ChbrbcterIterbtor.DONE; c = ci.next()) {
+            text[chbrIx] = c;
+            boolebn ws = Chbrbcter.isWhitespbce(c);
             if (inWs && !ws) {
-                breaks0[brIx++] = charIx + begin;
+                brebks0[brIx++] = chbrIx + begin;
             }
             inWs = ws;
-            charIx++;
+            chbrIx++;
         }
         if (text.length > 0) {
-            breaks0[brIx++] = text.length + begin;
+            brebks0[brIx++] = text.length + begin;
         }
-        System.arraycopy(breaks0, 0, breaks = new int[brIx], 0, brIx);
+        System.brrbycopy(brebks0, 0, brebks = new int[brIx], 0, brIx);
     }
 
-    public CharacterIterator getText() {
-        return new StringCharacterIterator(new String(text));
+    public ChbrbcterIterbtor getText() {
+        return new StringChbrbcterIterbtor(new String(text));
     }
 
     public int first() {
-        return breaks[pos = 0];
+        return brebks[pos = 0];
     }
 
-    public int last() {
-        return breaks[pos = breaks.length - 1];
+    public int lbst() {
+        return brebks[pos = brebks.length - 1];
     }
 
     public int current() {
-        return breaks[pos];
+        return brebks[pos];
     }
 
     public int next() {
-        return (pos == breaks.length - 1 ? DONE : breaks[++pos]);
+        return (pos == brebks.length - 1 ? DONE : brebks[++pos]);
     }
 
     public int previous() {
-        return (pos == 0 ? DONE : breaks[--pos]);
+        return (pos == 0 ? DONE : brebks[--pos]);
     }
 
     public int next(int n) {
@@ -96,24 +96,24 @@ class WhitespaceBasedBreakIterator extends BreakIterator {
     }
 
     public int following(int n) {
-        return adjacent(n, 1);
+        return bdjbcent(n, 1);
     }
 
     public int preceding(int n) {
-        return adjacent(n, -1);
+        return bdjbcent(n, -1);
     }
 
-    private int checkhit(int hit) {
-        if ((hit < 0) || (hit >= breaks.length)) {
+    privbte int checkhit(int hit) {
+        if ((hit < 0) || (hit >= brebks.length)) {
             return DONE;
         } else {
-            return breaks[pos = hit];
+            return brebks[pos = hit];
         }
     }
 
-    private int adjacent(int n, int bias) {
-        int hit = Arrays.binarySearch(breaks, n);
-        int offset = (hit < 0 ? (bias < 0 ? -1 : -2) : 0);
-        return checkhit(Math.abs(hit) + bias + offset);
+    privbte int bdjbcent(int n, int bibs) {
+        int hit = Arrbys.binbrySebrch(brebks, n);
+        int offset = (hit < 0 ? (bibs < 0 ? -1 : -2) : 0);
+        return checkhit(Mbth.bbs(hit) + bibs + offset);
     }
 }

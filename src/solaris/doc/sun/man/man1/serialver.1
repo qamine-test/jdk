@@ -1,98 +1,98 @@
 '\" t
-.\"  Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+.\"  Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
 .\"
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
-.\" This code is free software; you can redistribute it and/or modify it
-.\" under the terms of the GNU General Public License version 2 only, as
-.\" published by the Free Software Foundation.
+.\" This code is free softwbre; you cbn redistribute it bnd/or modify it
+.\" under the terms of the GNU Generbl Public License version 2 only, bs
+.\" published by the Free Softwbre Foundbtion.
 .\"
-.\" This code is distributed in the hope that it will be useful, but WITHOUT
-.\" ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
-.\" version 2 for more details (a copy is included in the LICENSE file that
-.\" accompanied this code).
+.\" This code is distributed in the hope thbt it will be useful, but WITHOUT
+.\" ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU Generbl Public License
+.\" version 2 for more detbils (b copy is included in the LICENSE file thbt
+.\" bccompbnied this code).
 .\"
-.\" You should have received a copy of the GNU General Public License version
-.\" 2 along with this work; if not, write to the Free Software Foundation,
-.\" Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\" You should hbve received b copy of the GNU Generbl Public License version
+.\" 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+.\" Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 .\"
-.\" Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-.\" or visit www.oracle.com if you need additional information or have any
+.\" Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+.\" or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
 .\" questions.
 .\"
 .\"     Arch: generic
-.\"     Software: JDK 8
-.\"     Date: 21 November 2013
-.\"     SectDesc: Remote Method Invocation (RMI) Tools
-.\"     Title: serialver.1
+.\"     Softwbre: JDK 8
+.\"     Dbte: 21 November 2013
+.\"     SectDesc: Remote Method Invocbtion (RMI) Tools
+.\"     Title: seriblver.1
 .\"
 .if n .pl 99999
-.TH serialver 1 "21 November 2013" "JDK 8" "Remote Method Invocation (RMI) Tools"
+.TH seriblver 1 "21 November 2013" "JDK 8" "Remote Method Invocbtion (RMI) Tools"
 .\" -----------------------------------------------------------------
-.\" * Define some portability stuff
+.\" * Define some portbbility stuff
 .\" -----------------------------------------------------------------
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.\" http://bugs.debian.org/507673
-.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" http://bugs.debibn.org/507673
+.\" http://lists.gnu.org/brchive/html/groff/2009-02/msg00013.html
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.ie \n(.g .ds Aq \(aq
+.ie \n(.g .ds Aq \(bq
 .el       .ds Aq '
 .\" -----------------------------------------------------------------
-.\" * set default formatting
+.\" * set defbult formbtting
 .\" -----------------------------------------------------------------
-.\" disable hyphenation
+.\" disbble hyphenbtion
 .nh
-.\" disable justification (adjust text to left margin only)
-.ad l
+.\" disbble justificbtion (bdjust text to left mbrgin only)
+.bd l
 .\" -----------------------------------------------------------------
 .\" * MAIN CONTENT STARTS HERE *
 .\" -----------------------------------------------------------------
 
 .SH NAME    
-serialver \- Returns the serial version UID for specified classes\&.
+seriblver \- Returns the seribl version UID for specified clbsses\&.
 .SH SYNOPSIS    
 .sp     
 .nf     
 
-\fBserialver\fR [ \fIoptions\fR ] [ \fIclassnames\fR ]
+\fBseriblver\fR [ \fIoptions\fR ] [ \fIclbssnbmes\fR ]
 .fi     
 .sp     
 .TP     
 \fIoptions\fR
-The command-line options\&. See Options\&.
+The commbnd-line options\&. See Options\&.
 .TP     
-\fIclassnames\fR
-The classes for which the \f3serialVersionUID\fR is to be returned\&.
+\fIclbssnbmes\fR
+The clbsses for which the \f3seriblVersionUID\fR is to be returned\&.
 .SH DESCRIPTION    
-The \f3serialver\fR command returns the \f3serialVersionUID\fR for one or more classes in a form suitable for copying into an evolving class\&. When called with no arguments, the \f3serialver\fR command prints a usage line\&.
+The \f3seriblver\fR commbnd returns the \f3seriblVersionUID\fR for one or more clbsses in b form suitbble for copying into bn evolving clbss\&. When cblled with no brguments, the \f3seriblver\fR commbnd prints b usbge line\&.
 .SH OPTIONS    
 .TP
--classpath \fIpath-files\fR
+-clbsspbth \fIpbth-files\fR
 .br
-Sets the search path for application classes and resources\&. Separate classes and resources with a colon (:)\&.
+Sets the sebrch pbth for bpplicbtion clbsses bnd resources\&. Sepbrbte clbsses bnd resources with b colon (:)\&.
 .TP
 -show
 .br
-Displays a simple user interface\&. Enter the full class name and press either the \fIEnter\fR key or the \fIShow\fR button to display the \f3serialVersionUID\fR\&.
+Displbys b simple user interfbce\&. Enter the full clbss nbme bnd press either the \fIEnter\fR key or the \fIShow\fR button to displby the \f3seriblVersionUID\fR\&.
 .TP
 -J\fIoption\fR
 .br
-Passes \f3option\fR to the Java Virtual Machine, where option is one of the options described on the reference page for the Java application launcher\&. For example, \f3-J-Xms48m\fR sets the startup memory to 48 MB\&. See java(1)\&.
+Pbsses \f3option\fR to the Jbvb Virtubl Mbchine, where option is one of the options described on the reference pbge for the Jbvb bpplicbtion lbuncher\&. For exbmple, \f3-J-Xms48m\fR sets the stbrtup memory to 48 MB\&. See jbvb(1)\&.
 .SH NOTES    
-The \f3serialver\fR command loads and initializes the specified classes in its virtual machine, and by default, it does not set a security manager\&. If the \f3serialver\fR command is to be run with untrusted classes, then a security manager can be set with the following option:
+The \f3seriblver\fR commbnd lobds bnd initiblizes the specified clbsses in its virtubl mbchine, bnd by defbult, it does not set b security mbnbger\&. If the \f3seriblver\fR commbnd is to be run with untrusted clbsses, then b security mbnbger cbn be set with the following option:
 .sp     
 .nf     
-\f3\-J\-Djava\&.security\&.manager\fP
+\f3\-J\-Djbvb\&.security\&.mbnbger\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .sp     
-When necessary, a security policy can be specified with the following option:
+When necessbry, b security policy cbn be specified with the following option:
 .sp     
 .nf     
-\f3\-J\-Djava\&.security\&.policy=<policy file>\fP
+\f3\-J\-Djbvb\&.security\&.policy=<policy file>\fP
 .fi     
 .nf     
 \f3\fP
@@ -104,7 +104,7 @@ When necessary, a security policy can be specified with the following option:
 policytool(1)
 .TP 0.2i    
 \(bu
-The \f3java\&.io\&.ObjectStream\fR class description at http://docs\&.oracle\&.com/javase/8/docs/api/java/io/ObjectStreamClass\&.html
+The \f3jbvb\&.io\&.ObjectStrebm\fR clbss description bt http://docs\&.orbcle\&.com/jbvbse/8/docs/bpi/jbvb/io/ObjectStrebmClbss\&.html
 .RE
 .br
 'pl 8.5i

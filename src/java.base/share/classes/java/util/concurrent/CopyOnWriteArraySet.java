@@ -1,127 +1,127 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * Written by Doug Lea with assistance from members of JCP JSR-166
- * Expert Group and released to the public domain, as explained at
- * http://creativecommons.org/publicdomain/zero/1.0/
+ * Written by Doug Leb with bssistbnce from members of JCP JSR-166
+ * Expert Group bnd relebsed to the public dombin, bs explbined bt
+ * http://crebtivecommons.org/publicdombin/zero/1.0/
  */
 
-package java.util.concurrent;
-import java.util.Collection;
-import java.util.Set;
-import java.util.AbstractSet;
-import java.util.Iterator;
-import java.util.Spliterator;
-import java.util.Spliterators;
-import java.util.function.Predicate;
-import java.util.function.Consumer;
+pbckbge jbvb.util.concurrent;
+import jbvb.util.Collection;
+import jbvb.util.Set;
+import jbvb.util.AbstrbctSet;
+import jbvb.util.Iterbtor;
+import jbvb.util.Spliterbtor;
+import jbvb.util.Spliterbtors;
+import jbvb.util.function.Predicbte;
+import jbvb.util.function.Consumer;
 
 /**
- * A {@link java.util.Set} that uses an internal {@link CopyOnWriteArrayList}
- * for all of its operations.  Thus, it shares the same basic properties:
+ * A {@link jbvb.util.Set} thbt uses bn internbl {@link CopyOnWriteArrbyList}
+ * for bll of its operbtions.  Thus, it shbres the sbme bbsic properties:
  * <ul>
- *  <li>It is best suited for applications in which set sizes generally
- *       stay small, read-only operations
- *       vastly outnumber mutative operations, and you need
- *       to prevent interference among threads during traversal.
- *  <li>It is thread-safe.
- *  <li>Mutative operations ({@code add}, {@code set}, {@code remove}, etc.)
- *      are expensive since they usually entail copying the entire underlying
- *      array.
- *  <li>Iterators do not support the mutative {@code remove} operation.
- *  <li>Traversal via iterators is fast and cannot encounter
- *      interference from other threads. Iterators rely on
- *      unchanging snapshots of the array at the time the iterators were
+ *  <li>It is best suited for bpplicbtions in which set sizes generblly
+ *       stby smbll, rebd-only operbtions
+ *       vbstly outnumber mutbtive operbtions, bnd you need
+ *       to prevent interference bmong threbds during trbversbl.
+ *  <li>It is threbd-sbfe.
+ *  <li>Mutbtive operbtions ({@code bdd}, {@code set}, {@code remove}, etc.)
+ *      bre expensive since they usublly entbil copying the entire underlying
+ *      brrby.
+ *  <li>Iterbtors do not support the mutbtive {@code remove} operbtion.
+ *  <li>Trbversbl vib iterbtors is fbst bnd cbnnot encounter
+ *      interference from other threbds. Iterbtors rely on
+ *      unchbnging snbpshots of the brrby bt the time the iterbtors were
  *      constructed.
  * </ul>
  *
- * <p><b>Sample Usage.</b> The following code sketch uses a
- * copy-on-write set to maintain a set of Handler objects that
- * perform some action upon state updates.
+ * <p><b>Sbmple Usbge.</b> The following code sketch uses b
+ * copy-on-write set to mbintbin b set of Hbndler objects thbt
+ * perform some bction upon stbte updbtes.
  *
  *  <pre> {@code
- * class Handler { void handle(); ... }
+ * clbss Hbndler { void hbndle(); ... }
  *
- * class X {
- *   private final CopyOnWriteArraySet<Handler> handlers
- *     = new CopyOnWriteArraySet<Handler>();
- *   public void addHandler(Handler h) { handlers.add(h); }
+ * clbss X {
+ *   privbte finbl CopyOnWriteArrbySet<Hbndler> hbndlers
+ *     = new CopyOnWriteArrbySet<Hbndler>();
+ *   public void bddHbndler(Hbndler h) { hbndlers.bdd(h); }
  *
- *   private long internalState;
- *   private synchronized void changeState() { internalState = ...; }
+ *   privbte long internblStbte;
+ *   privbte synchronized void chbngeStbte() { internblStbte = ...; }
  *
- *   public void update() {
- *     changeState();
- *     for (Handler handler : handlers)
- *       handler.handle();
+ *   public void updbte() {
+ *     chbngeStbte();
+ *     for (Hbndler hbndler : hbndlers)
+ *       hbndler.hbndle();
  *   }
  * }}</pre>
  *
- * <p>This class is a member of the
- * <a href="{@docRoot}/../technotes/guides/collections/index.html">
- * Java Collections Framework</a>.
+ * <p>This clbss is b member of the
+ * <b href="{@docRoot}/../technotes/guides/collections/index.html">
+ * Jbvb Collections Frbmework</b>.
  *
- * @see CopyOnWriteArrayList
+ * @see CopyOnWriteArrbyList
  * @since 1.5
- * @author Doug Lea
- * @param <E> the type of elements held in this collection
+ * @buthor Doug Leb
+ * @pbrbm <E> the type of elements held in this collection
  */
-public class CopyOnWriteArraySet<E> extends AbstractSet<E>
-        implements java.io.Serializable {
-    private static final long serialVersionUID = 5457747651344034263L;
+public clbss CopyOnWriteArrbySet<E> extends AbstrbctSet<E>
+        implements jbvb.io.Seriblizbble {
+    privbte stbtic finbl long seriblVersionUID = 5457747651344034263L;
 
-    private final CopyOnWriteArrayList<E> al;
+    privbte finbl CopyOnWriteArrbyList<E> bl;
 
     /**
-     * Creates an empty set.
+     * Crebtes bn empty set.
      */
-    public CopyOnWriteArraySet() {
-        al = new CopyOnWriteArrayList<E>();
+    public CopyOnWriteArrbySet() {
+        bl = new CopyOnWriteArrbyList<E>();
     }
 
     /**
-     * Creates a set containing all of the elements of the specified
+     * Crebtes b set contbining bll of the elements of the specified
      * collection.
      *
-     * @param c the collection of elements to initially contain
+     * @pbrbm c the collection of elements to initiblly contbin
      * @throws NullPointerException if the specified collection is null
      */
-    public CopyOnWriteArraySet(Collection<? extends E> c) {
-        if (c.getClass() == CopyOnWriteArraySet.class) {
-            @SuppressWarnings("unchecked") CopyOnWriteArraySet<E> cc =
-                (CopyOnWriteArraySet<E>)c;
-            al = new CopyOnWriteArrayList<E>(cc.al);
+    public CopyOnWriteArrbySet(Collection<? extends E> c) {
+        if (c.getClbss() == CopyOnWriteArrbySet.clbss) {
+            @SuppressWbrnings("unchecked") CopyOnWriteArrbySet<E> cc =
+                (CopyOnWriteArrbySet<E>)c;
+            bl = new CopyOnWriteArrbyList<E>(cc.bl);
         }
         else {
-            al = new CopyOnWriteArrayList<E>();
-            al.addAllAbsent(c);
+            bl = new CopyOnWriteArrbyList<E>();
+            bl.bddAllAbsent(c);
         }
     }
 
@@ -131,303 +131,303 @@ public class CopyOnWriteArraySet<E> extends AbstractSet<E>
      * @return the number of elements in this set
      */
     public int size() {
-        return al.size();
+        return bl.size();
     }
 
     /**
-     * Returns {@code true} if this set contains no elements.
+     * Returns {@code true} if this set contbins no elements.
      *
-     * @return {@code true} if this set contains no elements
+     * @return {@code true} if this set contbins no elements
      */
-    public boolean isEmpty() {
-        return al.isEmpty();
+    public boolebn isEmpty() {
+        return bl.isEmpty();
     }
 
     /**
-     * Returns {@code true} if this set contains the specified element.
-     * More formally, returns {@code true} if and only if this set
-     * contains an element {@code e} such that
-     * <tt>(o==null&nbsp;?&nbsp;e==null&nbsp;:&nbsp;o.equals(e))</tt>.
+     * Returns {@code true} if this set contbins the specified element.
+     * More formblly, returns {@code true} if bnd only if this set
+     * contbins bn element {@code e} such thbt
+     * <tt>(o==null&nbsp;?&nbsp;e==null&nbsp;:&nbsp;o.equbls(e))</tt>.
      *
-     * @param o element whose presence in this set is to be tested
-     * @return {@code true} if this set contains the specified element
+     * @pbrbm o element whose presence in this set is to be tested
+     * @return {@code true} if this set contbins the specified element
      */
-    public boolean contains(Object o) {
-        return al.contains(o);
+    public boolebn contbins(Object o) {
+        return bl.contbins(o);
     }
 
     /**
-     * Returns an array containing all of the elements in this set.
-     * If this set makes any guarantees as to what order its elements
-     * are returned by its iterator, this method must return the
-     * elements in the same order.
+     * Returns bn brrby contbining bll of the elements in this set.
+     * If this set mbkes bny gubrbntees bs to whbt order its elements
+     * bre returned by its iterbtor, this method must return the
+     * elements in the sbme order.
      *
-     * <p>The returned array will be "safe" in that no references to it
-     * are maintained by this set.  (In other words, this method must
-     * allocate a new array even if this set is backed by an array).
-     * The caller is thus free to modify the returned array.
+     * <p>The returned brrby will be "sbfe" in thbt no references to it
+     * bre mbintbined by this set.  (In other words, this method must
+     * bllocbte b new brrby even if this set is bbcked by bn brrby).
+     * The cbller is thus free to modify the returned brrby.
      *
-     * <p>This method acts as bridge between array-based and collection-based
+     * <p>This method bcts bs bridge between brrby-bbsed bnd collection-bbsed
      * APIs.
      *
-     * @return an array containing all the elements in this set
+     * @return bn brrby contbining bll the elements in this set
      */
-    public Object[] toArray() {
-        return al.toArray();
+    public Object[] toArrby() {
+        return bl.toArrby();
     }
 
     /**
-     * Returns an array containing all of the elements in this set; the
-     * runtime type of the returned array is that of the specified array.
-     * If the set fits in the specified array, it is returned therein.
-     * Otherwise, a new array is allocated with the runtime type of the
-     * specified array and the size of this set.
+     * Returns bn brrby contbining bll of the elements in this set; the
+     * runtime type of the returned brrby is thbt of the specified brrby.
+     * If the set fits in the specified brrby, it is returned therein.
+     * Otherwise, b new brrby is bllocbted with the runtime type of the
+     * specified brrby bnd the size of this set.
      *
-     * <p>If this set fits in the specified array with room to spare
-     * (i.e., the array has more elements than this set), the element in
-     * the array immediately following the end of the set is set to
+     * <p>If this set fits in the specified brrby with room to spbre
+     * (i.e., the brrby hbs more elements thbn this set), the element in
+     * the brrby immedibtely following the end of the set is set to
      * {@code null}.  (This is useful in determining the length of this
-     * set <i>only</i> if the caller knows that this set does not contain
-     * any null elements.)
+     * set <i>only</i> if the cbller knows thbt this set does not contbin
+     * bny null elements.)
      *
-     * <p>If this set makes any guarantees as to what order its elements
-     * are returned by its iterator, this method must return the elements
-     * in the same order.
+     * <p>If this set mbkes bny gubrbntees bs to whbt order its elements
+     * bre returned by its iterbtor, this method must return the elements
+     * in the sbme order.
      *
-     * <p>Like the {@link #toArray()} method, this method acts as bridge between
-     * array-based and collection-based APIs.  Further, this method allows
-     * precise control over the runtime type of the output array, and may,
-     * under certain circumstances, be used to save allocation costs.
+     * <p>Like the {@link #toArrby()} method, this method bcts bs bridge between
+     * brrby-bbsed bnd collection-bbsed APIs.  Further, this method bllows
+     * precise control over the runtime type of the output brrby, bnd mby,
+     * under certbin circumstbnces, be used to sbve bllocbtion costs.
      *
-     * <p>Suppose {@code x} is a set known to contain only strings.
-     * The following code can be used to dump the set into a newly allocated
-     * array of {@code String}:
+     * <p>Suppose {@code x} is b set known to contbin only strings.
+     * The following code cbn be used to dump the set into b newly bllocbted
+     * brrby of {@code String}:
      *
-     *  <pre> {@code String[] y = x.toArray(new String[0]);}</pre>
+     *  <pre> {@code String[] y = x.toArrby(new String[0]);}</pre>
      *
-     * Note that {@code toArray(new Object[0])} is identical in function to
-     * {@code toArray()}.
+     * Note thbt {@code toArrby(new Object[0])} is identicbl in function to
+     * {@code toArrby()}.
      *
-     * @param a the array into which the elements of this set are to be
-     *        stored, if it is big enough; otherwise, a new array of the same
-     *        runtime type is allocated for this purpose.
-     * @return an array containing all the elements in this set
-     * @throws ArrayStoreException if the runtime type of the specified array
-     *         is not a supertype of the runtime type of every element in this
+     * @pbrbm b the brrby into which the elements of this set bre to be
+     *        stored, if it is big enough; otherwise, b new brrby of the sbme
+     *        runtime type is bllocbted for this purpose.
+     * @return bn brrby contbining bll the elements in this set
+     * @throws ArrbyStoreException if the runtime type of the specified brrby
+     *         is not b supertype of the runtime type of every element in this
      *         set
-     * @throws NullPointerException if the specified array is null
+     * @throws NullPointerException if the specified brrby is null
      */
-    public <T> T[] toArray(T[] a) {
-        return al.toArray(a);
+    public <T> T[] toArrby(T[] b) {
+        return bl.toArrby(b);
     }
 
     /**
-     * Removes all of the elements from this set.
-     * The set will be empty after this call returns.
+     * Removes bll of the elements from this set.
+     * The set will be empty bfter this cbll returns.
      */
-    public void clear() {
-        al.clear();
+    public void clebr() {
+        bl.clebr();
     }
 
     /**
      * Removes the specified element from this set if it is present.
-     * More formally, removes an element {@code e} such that
-     * <tt>(o==null&nbsp;?&nbsp;e==null&nbsp;:&nbsp;o.equals(e))</tt>,
-     * if this set contains such an element.  Returns {@code true} if
-     * this set contained the element (or equivalently, if this set
-     * changed as a result of the call).  (This set will not contain the
-     * element once the call returns.)
+     * More formblly, removes bn element {@code e} such thbt
+     * <tt>(o==null&nbsp;?&nbsp;e==null&nbsp;:&nbsp;o.equbls(e))</tt>,
+     * if this set contbins such bn element.  Returns {@code true} if
+     * this set contbined the element (or equivblently, if this set
+     * chbnged bs b result of the cbll).  (This set will not contbin the
+     * element once the cbll returns.)
      *
-     * @param o object to be removed from this set, if present
-     * @return {@code true} if this set contained the specified element
+     * @pbrbm o object to be removed from this set, if present
+     * @return {@code true} if this set contbined the specified element
      */
-    public boolean remove(Object o) {
-        return al.remove(o);
+    public boolebn remove(Object o) {
+        return bl.remove(o);
     }
 
     /**
-     * Adds the specified element to this set if it is not already present.
-     * More formally, adds the specified element {@code e} to this set if
-     * the set contains no element {@code e2} such that
-     * <tt>(e==null&nbsp;?&nbsp;e2==null&nbsp;:&nbsp;e.equals(e2))</tt>.
-     * If this set already contains the element, the call leaves the set
-     * unchanged and returns {@code false}.
+     * Adds the specified element to this set if it is not blrebdy present.
+     * More formblly, bdds the specified element {@code e} to this set if
+     * the set contbins no element {@code e2} such thbt
+     * <tt>(e==null&nbsp;?&nbsp;e2==null&nbsp;:&nbsp;e.equbls(e2))</tt>.
+     * If this set blrebdy contbins the element, the cbll lebves the set
+     * unchbnged bnd returns {@code fblse}.
      *
-     * @param e element to be added to this set
-     * @return {@code true} if this set did not already contain the specified
+     * @pbrbm e element to be bdded to this set
+     * @return {@code true} if this set did not blrebdy contbin the specified
      *         element
      */
-    public boolean add(E e) {
-        return al.addIfAbsent(e);
+    public boolebn bdd(E e) {
+        return bl.bddIfAbsent(e);
     }
 
     /**
-     * Returns {@code true} if this set contains all of the elements of the
-     * specified collection.  If the specified collection is also a set, this
-     * method returns {@code true} if it is a <i>subset</i> of this set.
+     * Returns {@code true} if this set contbins bll of the elements of the
+     * specified collection.  If the specified collection is blso b set, this
+     * method returns {@code true} if it is b <i>subset</i> of this set.
      *
-     * @param  c collection to be checked for containment in this set
-     * @return {@code true} if this set contains all of the elements of the
+     * @pbrbm  c collection to be checked for contbinment in this set
+     * @return {@code true} if this set contbins bll of the elements of the
      *         specified collection
      * @throws NullPointerException if the specified collection is null
-     * @see #contains(Object)
+     * @see #contbins(Object)
      */
-    public boolean containsAll(Collection<?> c) {
-        return al.containsAll(c);
+    public boolebn contbinsAll(Collection<?> c) {
+        return bl.contbinsAll(c);
     }
 
     /**
-     * Adds all of the elements in the specified collection to this set if
-     * they're not already present.  If the specified collection is also a
-     * set, the {@code addAll} operation effectively modifies this set so
-     * that its value is the <i>union</i> of the two sets.  The behavior of
-     * this operation is undefined if the specified collection is modified
-     * while the operation is in progress.
+     * Adds bll of the elements in the specified collection to this set if
+     * they're not blrebdy present.  If the specified collection is blso b
+     * set, the {@code bddAll} operbtion effectively modifies this set so
+     * thbt its vblue is the <i>union</i> of the two sets.  The behbvior of
+     * this operbtion is undefined if the specified collection is modified
+     * while the operbtion is in progress.
      *
-     * @param  c collection containing elements to be added to this set
-     * @return {@code true} if this set changed as a result of the call
+     * @pbrbm  c collection contbining elements to be bdded to this set
+     * @return {@code true} if this set chbnged bs b result of the cbll
      * @throws NullPointerException if the specified collection is null
-     * @see #add(Object)
+     * @see #bdd(Object)
      */
-    public boolean addAll(Collection<? extends E> c) {
-        return al.addAllAbsent(c) > 0;
+    public boolebn bddAll(Collection<? extends E> c) {
+        return bl.bddAllAbsent(c) > 0;
     }
 
     /**
-     * Removes from this set all of its elements that are contained in the
-     * specified collection.  If the specified collection is also a set,
-     * this operation effectively modifies this set so that its value is the
-     * <i>asymmetric set difference</i> of the two sets.
+     * Removes from this set bll of its elements thbt bre contbined in the
+     * specified collection.  If the specified collection is blso b set,
+     * this operbtion effectively modifies this set so thbt its vblue is the
+     * <i>bsymmetric set difference</i> of the two sets.
      *
-     * @param  c collection containing elements to be removed from this set
-     * @return {@code true} if this set changed as a result of the call
-     * @throws ClassCastException if the class of an element of this set
-     *         is incompatible with the specified collection (optional)
-     * @throws NullPointerException if this set contains a null element and the
-     *         specified collection does not permit null elements (optional),
+     * @pbrbm  c collection contbining elements to be removed from this set
+     * @return {@code true} if this set chbnged bs b result of the cbll
+     * @throws ClbssCbstException if the clbss of bn element of this set
+     *         is incompbtible with the specified collection (optionbl)
+     * @throws NullPointerException if this set contbins b null element bnd the
+     *         specified collection does not permit null elements (optionbl),
      *         or if the specified collection is null
      * @see #remove(Object)
      */
-    public boolean removeAll(Collection<?> c) {
-        return al.removeAll(c);
+    public boolebn removeAll(Collection<?> c) {
+        return bl.removeAll(c);
     }
 
     /**
-     * Retains only the elements in this set that are contained in the
-     * specified collection.  In other words, removes from this set all of
-     * its elements that are not contained in the specified collection.  If
-     * the specified collection is also a set, this operation effectively
-     * modifies this set so that its value is the <i>intersection</i> of the
+     * Retbins only the elements in this set thbt bre contbined in the
+     * specified collection.  In other words, removes from this set bll of
+     * its elements thbt bre not contbined in the specified collection.  If
+     * the specified collection is blso b set, this operbtion effectively
+     * modifies this set so thbt its vblue is the <i>intersection</i> of the
      * two sets.
      *
-     * @param  c collection containing elements to be retained in this set
-     * @return {@code true} if this set changed as a result of the call
-     * @throws ClassCastException if the class of an element of this set
-     *         is incompatible with the specified collection (optional)
-     * @throws NullPointerException if this set contains a null element and the
-     *         specified collection does not permit null elements (optional),
+     * @pbrbm  c collection contbining elements to be retbined in this set
+     * @return {@code true} if this set chbnged bs b result of the cbll
+     * @throws ClbssCbstException if the clbss of bn element of this set
+     *         is incompbtible with the specified collection (optionbl)
+     * @throws NullPointerException if this set contbins b null element bnd the
+     *         specified collection does not permit null elements (optionbl),
      *         or if the specified collection is null
      * @see #remove(Object)
      */
-    public boolean retainAll(Collection<?> c) {
-        return al.retainAll(c);
+    public boolebn retbinAll(Collection<?> c) {
+        return bl.retbinAll(c);
     }
 
     /**
-     * Returns an iterator over the elements contained in this set
-     * in the order in which these elements were added.
+     * Returns bn iterbtor over the elements contbined in this set
+     * in the order in which these elements were bdded.
      *
-     * <p>The returned iterator provides a snapshot of the state of the set
-     * when the iterator was constructed. No synchronization is needed while
-     * traversing the iterator. The iterator does <em>NOT</em> support the
+     * <p>The returned iterbtor provides b snbpshot of the stbte of the set
+     * when the iterbtor wbs constructed. No synchronizbtion is needed while
+     * trbversing the iterbtor. The iterbtor does <em>NOT</em> support the
      * {@code remove} method.
      *
-     * @return an iterator over the elements in this set
+     * @return bn iterbtor over the elements in this set
      */
-    public Iterator<E> iterator() {
-        return al.iterator();
+    public Iterbtor<E> iterbtor() {
+        return bl.iterbtor();
     }
 
     /**
-     * Compares the specified object with this set for equality.
-     * Returns {@code true} if the specified object is the same object
-     * as this object, or if it is also a {@link Set} and the elements
-     * returned by an {@linkplain Set#iterator() iterator} over the
-     * specified set are the same as the elements returned by an
-     * iterator over this set.  More formally, the two iterators are
-     * considered to return the same elements if they return the same
-     * number of elements and for every element {@code e1} returned by
-     * the iterator over the specified set, there is an element
-     * {@code e2} returned by the iterator over this set such that
-     * {@code (e1==null ? e2==null : e1.equals(e2))}.
+     * Compbres the specified object with this set for equblity.
+     * Returns {@code true} if the specified object is the sbme object
+     * bs this object, or if it is blso b {@link Set} bnd the elements
+     * returned by bn {@linkplbin Set#iterbtor() iterbtor} over the
+     * specified set bre the sbme bs the elements returned by bn
+     * iterbtor over this set.  More formblly, the two iterbtors bre
+     * considered to return the sbme elements if they return the sbme
+     * number of elements bnd for every element {@code e1} returned by
+     * the iterbtor over the specified set, there is bn element
+     * {@code e2} returned by the iterbtor over this set such thbt
+     * {@code (e1==null ? e2==null : e1.equbls(e2))}.
      *
-     * @param o object to be compared for equality with this set
-     * @return {@code true} if the specified object is equal to this set
+     * @pbrbm o object to be compbred for equblity with this set
+     * @return {@code true} if the specified object is equbl to this set
      */
-    public boolean equals(Object o) {
+    public boolebn equbls(Object o) {
         if (o == this)
             return true;
-        if (!(o instanceof Set))
-            return false;
+        if (!(o instbnceof Set))
+            return fblse;
         Set<?> set = (Set<?>)(o);
-        Iterator<?> it = set.iterator();
+        Iterbtor<?> it = set.iterbtor();
 
-        // Uses O(n^2) algorithm that is only appropriate
-        // for small sets, which CopyOnWriteArraySets should be.
+        // Uses O(n^2) blgorithm thbt is only bppropribte
+        // for smbll sets, which CopyOnWriteArrbySets should be.
 
-        //  Use a single snapshot of underlying array
-        Object[] elements = al.getArray();
+        //  Use b single snbpshot of underlying brrby
+        Object[] elements = bl.getArrby();
         int len = elements.length;
-        // Mark matched elements to avoid re-checking
-        boolean[] matched = new boolean[len];
+        // Mbrk mbtched elements to bvoid re-checking
+        boolebn[] mbtched = new boolebn[len];
         int k = 0;
-        outer: while (it.hasNext()) {
+        outer: while (it.hbsNext()) {
             if (++k > len)
-                return false;
+                return fblse;
             Object x = it.next();
             for (int i = 0; i < len; ++i) {
-                if (!matched[i] && eq(x, elements[i])) {
-                    matched[i] = true;
+                if (!mbtched[i] && eq(x, elements[i])) {
+                    mbtched[i] = true;
                     continue outer;
                 }
             }
-            return false;
+            return fblse;
         }
         return k == len;
     }
 
-    public boolean removeIf(Predicate<? super E> filter) {
-        return al.removeIf(filter);
+    public boolebn removeIf(Predicbte<? super E> filter) {
+        return bl.removeIf(filter);
     }
 
-    public void forEach(Consumer<? super E> action) {
-        al.forEach(action);
+    public void forEbch(Consumer<? super E> bction) {
+        bl.forEbch(bction);
     }
 
     /**
-     * Returns a {@link Spliterator} over the elements in this set in the order
-     * in which these elements were added.
+     * Returns b {@link Spliterbtor} over the elements in this set in the order
+     * in which these elements were bdded.
      *
-     * <p>The {@code Spliterator} reports {@link Spliterator#IMMUTABLE},
-     * {@link Spliterator#DISTINCT}, {@link Spliterator#SIZED}, and
-     * {@link Spliterator#SUBSIZED}.
+     * <p>The {@code Spliterbtor} reports {@link Spliterbtor#IMMUTABLE},
+     * {@link Spliterbtor#DISTINCT}, {@link Spliterbtor#SIZED}, bnd
+     * {@link Spliterbtor#SUBSIZED}.
      *
-     * <p>The spliterator provides a snapshot of the state of the set
-     * when the spliterator was constructed. No synchronization is needed while
-     * operating on the spliterator.
+     * <p>The spliterbtor provides b snbpshot of the stbte of the set
+     * when the spliterbtor wbs constructed. No synchronizbtion is needed while
+     * operbting on the spliterbtor.
      *
-     * @return a {@code Spliterator} over the elements in this set
+     * @return b {@code Spliterbtor} over the elements in this set
      * @since 1.8
      */
-    public Spliterator<E> spliterator() {
-        return Spliterators.spliterator
-            (al.getArray(), Spliterator.IMMUTABLE | Spliterator.DISTINCT);
+    public Spliterbtor<E> spliterbtor() {
+        return Spliterbtors.spliterbtor
+            (bl.getArrby(), Spliterbtor.IMMUTABLE | Spliterbtor.DISTINCT);
     }
 
     /**
-     * Tests for equality, coping with nulls.
+     * Tests for equblity, coping with nulls.
      */
-    private static boolean eq(Object o1, Object o2) {
-        return (o1 == null) ? o2 == null : o1.equals(o2);
+    privbte stbtic boolebn eq(Object o1, Object o2) {
+        return (o1 == null) ? o2 == null : o1.equbls(o2);
     }
 }

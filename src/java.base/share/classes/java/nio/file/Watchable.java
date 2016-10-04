@@ -1,127 +1,127 @@
 /*
- * Copyright (c) 2007, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.nio.file;
+pbckbge jbvb.nio.file;
 
-import java.io.IOException;
+import jbvb.io.IOException;
 
 /**
- * An object that may be registered with a watch service so that it can be
- * <em>watched</em> for changes and events.
+ * An object thbt mby be registered with b wbtch service so thbt it cbn be
+ * <em>wbtched</em> for chbnges bnd events.
  *
- * <p> This interface defines the {@link #register register} method to register
- * the object with a {@link WatchService} returning a {@link WatchKey} to
- * represent the registration. An object may be registered with more than one
- * watch service. Registration with a watch service is cancelled by invoking the
- * key's {@link WatchKey#cancel cancel} method.
+ * <p> This interfbce defines the {@link #register register} method to register
+ * the object with b {@link WbtchService} returning b {@link WbtchKey} to
+ * represent the registrbtion. An object mby be registered with more thbn one
+ * wbtch service. Registrbtion with b wbtch service is cbncelled by invoking the
+ * key's {@link WbtchKey#cbncel cbncel} method.
  *
  * @since 1.7
  *
- * @see Path#register
+ * @see Pbth#register
  */
 
-public interface Watchable {
+public interfbce Wbtchbble {
 
     /**
-     * Registers an object with a watch service.
+     * Registers bn object with b wbtch service.
      *
      * <p> If the file system object identified by this object is currently
-     * registered with the watch service then the watch key, representing that
-     * registration, is returned after changing the event set or modifiers to
-     * those specified by the {@code events} and {@code modifiers} parameters.
-     * Changing the event set does not cause pending events for the object to be
-     * discarded. Objects are automatically registered for the {@link
-     * StandardWatchEventKinds#OVERFLOW OVERFLOW} event. This event is not
-     * required to be present in the array of events.
+     * registered with the wbtch service then the wbtch key, representing thbt
+     * registrbtion, is returned bfter chbnging the event set or modifiers to
+     * those specified by the {@code events} bnd {@code modifiers} pbrbmeters.
+     * Chbnging the event set does not cbuse pending events for the object to be
+     * discbrded. Objects bre butombticblly registered for the {@link
+     * StbndbrdWbtchEventKinds#OVERFLOW OVERFLOW} event. This event is not
+     * required to be present in the brrby of events.
      *
-     * <p> Otherwise the file system object has not yet been registered with the
-     * given watch service, so it is registered and the resulting new key is
+     * <p> Otherwise the file system object hbs not yet been registered with the
+     * given wbtch service, so it is registered bnd the resulting new key is
      * returned.
      *
-     * <p> Implementations of this interface should specify the events they
+     * <p> Implementbtions of this interfbce should specify the events they
      * support.
      *
-     * @param   watcher
-     *          the watch service to which this object is to be registered
-     * @param   events
+     * @pbrbm   wbtcher
+     *          the wbtch service to which this object is to be registered
+     * @pbrbm   events
      *          the events for which this object should be registered
-     * @param   modifiers
-     *          the modifiers, if any, that modify how the object is registered
+     * @pbrbm   modifiers
+     *          the modifiers, if bny, thbt modify how the object is registered
      *
-     * @return  a key representing the registration of this object with the
-     *          given watch service
+     * @return  b key representing the registrbtion of this object with the
+     *          given wbtch service
      *
-     * @throws  UnsupportedOperationException
-     *          if unsupported events or modifiers are specified
-     * @throws  IllegalArgumentException
-     *          if an invalid of combination of events are modifiers are specified
-     * @throws  ClosedWatchServiceException
-     *          if the watch service is closed
+     * @throws  UnsupportedOperbtionException
+     *          if unsupported events or modifiers bre specified
+     * @throws  IllegblArgumentException
+     *          if bn invblid of combinbtion of events bre modifiers bre specified
+     * @throws  ClosedWbtchServiceException
+     *          if the wbtch service is closed
      * @throws  IOException
-     *          if an I/O error occurs
+     *          if bn I/O error occurs
      * @throws  SecurityException
-     *          if a security manager is installed and it denies an unspecified
-     *          permission required to monitor this object. Implementations of
-     *          this interface should specify the permission checks.
+     *          if b security mbnbger is instblled bnd it denies bn unspecified
+     *          permission required to monitor this object. Implementbtions of
+     *          this interfbce should specify the permission checks.
      */
-    WatchKey register(WatchService watcher,
-                      WatchEvent.Kind<?>[] events,
-                      WatchEvent.Modifier... modifiers)
+    WbtchKey register(WbtchService wbtcher,
+                      WbtchEvent.Kind<?>[] events,
+                      WbtchEvent.Modifier... modifiers)
         throws IOException;
 
 
     /**
-     * Registers an object with a watch service.
+     * Registers bn object with b wbtch service.
      *
-     * <p> An invocation of this method behaves in exactly the same way as the
-     * invocation
+     * <p> An invocbtion of this method behbves in exbctly the sbme wby bs the
+     * invocbtion
      * <pre>
-     *     watchable.{@link #register(WatchService,WatchEvent.Kind[],WatchEvent.Modifier[]) register}(watcher, events, new WatchEvent.Modifier[0]);
+     *     wbtchbble.{@link #register(WbtchService,WbtchEvent.Kind[],WbtchEvent.Modifier[]) register}(wbtcher, events, new WbtchEvent.Modifier[0]);
      * </pre>
      *
-     * @param   watcher
-     *          the watch service to which this object is to be registered
-     * @param   events
+     * @pbrbm   wbtcher
+     *          the wbtch service to which this object is to be registered
+     * @pbrbm   events
      *          the events for which this object should be registered
      *
-     * @return  a key representing the registration of this object with the
-     *          given watch service
+     * @return  b key representing the registrbtion of this object with the
+     *          given wbtch service
      *
-     * @throws  UnsupportedOperationException
-     *          if unsupported events are specified
-     * @throws  IllegalArgumentException
-     *          if an invalid of combination of events are specified
-     * @throws  ClosedWatchServiceException
-     *          if the watch service is closed
+     * @throws  UnsupportedOperbtionException
+     *          if unsupported events bre specified
+     * @throws  IllegblArgumentException
+     *          if bn invblid of combinbtion of events bre specified
+     * @throws  ClosedWbtchServiceException
+     *          if the wbtch service is closed
      * @throws  IOException
-     *          if an I/O error occurs
+     *          if bn I/O error occurs
      * @throws  SecurityException
-     *          if a security manager is installed and it denies an unspecified
-     *          permission required to monitor this object. Implementations of
-     *          this interface should specify the permission checks.
+     *          if b security mbnbger is instblled bnd it denies bn unspecified
+     *          permission required to monitor this object. Implementbtions of
+     *          this interfbce should specify the permission checks.
      */
-    WatchKey register(WatchService watcher, WatchEvent.Kind<?>... events)
+    WbtchKey register(WbtchService wbtcher, WbtchEvent.Kind<?>... events)
         throws IOException;
 }

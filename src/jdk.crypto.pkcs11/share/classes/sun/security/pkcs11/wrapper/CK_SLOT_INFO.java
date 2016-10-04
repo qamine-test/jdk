@@ -2,34 +2,34 @@
  * reserved comment block
  * DO NOT REMOVE OR ALTER!
  */
-/* Copyright  (c) 2002 Graz University of Technology. All rights reserved.
+/* Copyright  (c) 2002 Grbz University of Technology. All rights reserved.
  *
- * Redistribution and use in  source and binary forms, with or without
- * modification, are permitted  provided that the following conditions are met:
+ * Redistribution bnd use in  source bnd binbry forms, with or without
+ * modificbtion, bre permitted  provided thbt the following conditions bre met:
  *
- * 1. Redistributions of  source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ * 1. Redistributions of  source code must retbin the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer.
  *
- * 2. Redistributions in  binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ * 2. Redistributions in  binbry form must reproduce the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer in the documentbtion
+ *    bnd/or other mbteribls provided with the distribution.
  *
- * 3. The end-user documentation included with the redistribution, if any, must
- *    include the following acknowledgment:
+ * 3. The end-user documentbtion included with the redistribution, if bny, must
+ *    include the following bcknowledgment:
  *
- *    "This product includes software developed by IAIK of Graz University of
+ *    "This product includes softwbre developed by IAIK of Grbz University of
  *     Technology."
  *
- *    Alternately, this acknowledgment may appear in the software itself, if
- *    and wherever such third-party acknowledgments normally appear.
+ *    Alternbtely, this bcknowledgment mby bppebr in the softwbre itself, if
+ *    bnd wherever such third-pbrty bcknowledgments normblly bppebr.
  *
- * 4. The names "Graz University of Technology" and "IAIK of Graz University of
+ * 4. The nbmes "Grbz University of Technology" bnd "IAIK of Grbz University of
  *    Technology" must not be used to endorse or promote products derived from
- *    this software without prior written permission.
+ *    this softwbre without prior written permission.
  *
- * 5. Products derived from this software may not be called
- *    "IAIK PKCS Wrapper", nor may "IAIK" appear in their name, without prior
- *    written permission of Graz University of Technology.
+ * 5. Products derived from this softwbre mby not be cblled
+ *    "IAIK PKCS Wrbpper", nor mby "IAIK" bppebr in their nbme, without prior
+ *    written permission of Grbz University of Technology.
  *
  *  THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESSED OR IMPLIED
  *  WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
@@ -45,117 +45,117 @@
  *  POSSIBILITY  OF SUCH DAMAGE.
  */
 
-package sun.security.pkcs11.wrapper;
+pbckbge sun.security.pkcs11.wrbpper;
 
 
 
 /**
- * class CK_SLOT_INFO provides information about a slot.<p>
+ * clbss CK_SLOT_INFO provides informbtion bbout b slot.<p>
  * <B>PKCS#11 structure:</B>
  * <PRE>
  *  typedef struct CK_SLOT_INFO {&nbsp;&nbsp;
  *    CK_UTF8CHAR slotDescription[64];&nbsp;&nbsp;
- *    CK_UTF8CHAR manufacturerID[32];&nbsp;&nbsp;
- *    CK_FLAGS flags;&nbsp;&nbsp;
- *    CK_VERSION hardwareVersion;&nbsp;&nbsp;
- *    CK_VERSION firmwareVersion;&nbsp;&nbsp;
+ *    CK_UTF8CHAR mbnufbcturerID[32];&nbsp;&nbsp;
+ *    CK_FLAGS flbgs;&nbsp;&nbsp;
+ *    CK_VERSION hbrdwbreVersion;&nbsp;&nbsp;
+ *    CK_VERSION firmwbreVersion;&nbsp;&nbsp;
  *  } CK_SLOT_INFO;
  * </PRE>
  *
- * @author Karl Scheibelhofer <Karl.Scheibelhofer@iaik.at>
- * @author Martin Schlaeffer <schlaeff@sbox.tugraz.at>
+ * @buthor Kbrl Scheibelhofer <Kbrl.Scheibelhofer@ibik.bt>
+ * @buthor Mbrtin Schlbeffer <schlbeff@sbox.tugrbz.bt>
  */
-public class CK_SLOT_INFO {
+public clbss CK_SLOT_INFO {
 
-    /* slotDescription and manufacturerID have been changed from
+    /* slotDescription bnd mbnufbcturerID hbve been chbnged from
      * CK_CHAR to CK_UTF8CHAR for v2.11. */
 
     /**
-     * must be blank padded and only the first 64 chars will be used<p>
+     * must be blbnk pbdded bnd only the first 64 chbrs will be used<p>
      * <B>PKCS#11:</B>
      * <PRE>
      *   CK_UTF8CHAR slotDescription[64];
      * </PRE>
      */
-    public char[] slotDescription;
+    public chbr[] slotDescription;
 
     /**
-     * must be blank padded and only the first 32 chars will be used<p>
+     * must be blbnk pbdded bnd only the first 32 chbrs will be used<p>
      * <B>PKCS#11:</B>
      * <PRE>
-     *   CK_UTF8CHAR manufacturerID[32];
+     *   CK_UTF8CHAR mbnufbcturerID[32];
      * </PRE>
      */
-    public char[] manufacturerID;
+    public chbr[] mbnufbcturerID;
 
     /**
      * <B>PKCS#11:</B>
      * <PRE>
-     *   CK_FLAGS flags;
+     *   CK_FLAGS flbgs;
      * </PRE>
      */
-    public long flags;
+    public long flbgs;
 
-    /* hardwareVersion and firmwareVersion are new for v2.0 */
+    /* hbrdwbreVersion bnd firmwbreVersion bre new for v2.0 */
     /**
-     * version of hardware<p>
+     * version of hbrdwbre<p>
      * <B>PKCS#11:</B>
      * <PRE>
-     *   CK_VERSION hardwareVersion;
+     *   CK_VERSION hbrdwbreVersion;
      * </PRE>
      */
-    public CK_VERSION hardwareVersion;
+    public CK_VERSION hbrdwbreVersion;
 
     /**
-     * version of firmware<p>
+     * version of firmwbre<p>
      * <B>PKCS#11:</B>
      * <PRE>
-     *   CK_VERSION firmwareVersion;
+     *   CK_VERSION firmwbreVersion;
      * </PRE>
      */
-    public CK_VERSION firmwareVersion;
+    public CK_VERSION firmwbreVersion;
 
-    public CK_SLOT_INFO(char[] slotDesc, char[] vendor,
-                        long flags, CK_VERSION hwVer, CK_VERSION fwVer) {
+    public CK_SLOT_INFO(chbr[] slotDesc, chbr[] vendor,
+                        long flbgs, CK_VERSION hwVer, CK_VERSION fwVer) {
         this.slotDescription = slotDesc;
-        this.manufacturerID = vendor;
-        this.flags = flags;
-        this.hardwareVersion = hwVer;
-        this.firmwareVersion = fwVer;
+        this.mbnufbcturerID = vendor;
+        this.flbgs = flbgs;
+        this.hbrdwbreVersion = hwVer;
+        this.firmwbreVersion = fwVer;
     }
 
     /**
-     * Returns the string representation of CK_SLOT_INFO.
+     * Returns the string representbtion of CK_SLOT_INFO.
      *
-     * @return the string representation of CK_SLOT_INFO
+     * @return the string representbtion of CK_SLOT_INFO
      */
     public String toString() {
         StringBuilder sb = new StringBuilder();
 
-        sb.append(Constants.INDENT);
-        sb.append("slotDescription: ");
-        sb.append(new String(slotDescription));
-        sb.append(Constants.NEWLINE);
+        sb.bppend(Constbnts.INDENT);
+        sb.bppend("slotDescription: ");
+        sb.bppend(new String(slotDescription));
+        sb.bppend(Constbnts.NEWLINE);
 
-        sb.append(Constants.INDENT);
-        sb.append("manufacturerID: ");
-        sb.append(new String(manufacturerID));
-        sb.append(Constants.NEWLINE);
+        sb.bppend(Constbnts.INDENT);
+        sb.bppend("mbnufbcturerID: ");
+        sb.bppend(new String(mbnufbcturerID));
+        sb.bppend(Constbnts.NEWLINE);
 
-        sb.append(Constants.INDENT);
-        sb.append("flags: ");
-        sb.append(Functions.slotInfoFlagsToString(flags));
-        sb.append(Constants.NEWLINE);
+        sb.bppend(Constbnts.INDENT);
+        sb.bppend("flbgs: ");
+        sb.bppend(Functions.slotInfoFlbgsToString(flbgs));
+        sb.bppend(Constbnts.NEWLINE);
 
-        sb.append(Constants.INDENT);
-        sb.append("hardwareVersion: ");
-        sb.append(hardwareVersion.toString());
-        sb.append(Constants.NEWLINE);
+        sb.bppend(Constbnts.INDENT);
+        sb.bppend("hbrdwbreVersion: ");
+        sb.bppend(hbrdwbreVersion.toString());
+        sb.bppend(Constbnts.NEWLINE);
 
-        sb.append(Constants.INDENT);
-        sb.append("firmwareVersion: ");
-        sb.append(firmwareVersion.toString());
-        //buffer.append(Constants.NEWLINE);
+        sb.bppend(Constbnts.INDENT);
+        sb.bppend("firmwbreVersion: ");
+        sb.bppend(firmwbreVersion.toString());
+        //buffer.bppend(Constbnts.NEWLINE);
 
         return sb.toString() ;
     }

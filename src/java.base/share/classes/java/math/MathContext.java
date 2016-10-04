@@ -1,161 +1,161 @@
 /*
- * Copyright (c) 2003, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2007, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * Portions Copyright IBM Corporation, 1997, 2001. All Rights Reserved.
+ * Portions Copyright IBM Corporbtion, 1997, 2001. All Rights Reserved.
  */
 
-package java.math;
-import java.io.*;
+pbckbge jbvb.mbth;
+import jbvb.io.*;
 
 /**
- * Immutable objects which encapsulate the context settings which
- * describe certain rules for numerical operators, such as those
- * implemented by the {@link BigDecimal} class.
+ * Immutbble objects which encbpsulbte the context settings which
+ * describe certbin rules for numericbl operbtors, such bs those
+ * implemented by the {@link BigDecimbl} clbss.
  *
- * <p>The base-independent settings are:
+ * <p>The bbse-independent settings bre:
  * <ol>
  * <li>{@code precision}:
- * the number of digits to be used for an operation; results are
+ * the number of digits to be used for bn operbtion; results bre
  * rounded to this precision
  *
  * <li>{@code roundingMode}:
- * a {@link RoundingMode} object which specifies the algorithm to be
+ * b {@link RoundingMode} object which specifies the blgorithm to be
  * used for rounding.
  * </ol>
  *
- * @see     BigDecimal
+ * @see     BigDecimbl
  * @see     RoundingMode
- * @author  Mike Cowlishaw
- * @author  Joseph D. Darcy
+ * @buthor  Mike Cowlishbw
+ * @buthor  Joseph D. Dbrcy
  * @since 1.5
  */
 
-public final class MathContext implements Serializable {
+public finbl clbss MbthContext implements Seriblizbble {
 
-    /* ----- Constants ----- */
+    /* ----- Constbnts ----- */
 
-    // defaults for constructors
-    private static final int DEFAULT_DIGITS = 9;
-    private static final RoundingMode DEFAULT_ROUNDINGMODE = RoundingMode.HALF_UP;
-    // Smallest values for digits (Maximum is Integer.MAX_VALUE)
-    private static final int MIN_DIGITS = 0;
+    // defbults for constructors
+    privbte stbtic finbl int DEFAULT_DIGITS = 9;
+    privbte stbtic finbl RoundingMode DEFAULT_ROUNDINGMODE = RoundingMode.HALF_UP;
+    // Smbllest vblues for digits (Mbximum is Integer.MAX_VALUE)
+    privbte stbtic finbl int MIN_DIGITS = 0;
 
-    // Serialization version
-    private static final long serialVersionUID = 5579720004786848255L;
+    // Seriblizbtion version
+    privbte stbtic finbl long seriblVersionUID = 5579720004786848255L;
 
     /* ----- Public Properties ----- */
     /**
-     *  A {@code MathContext} object whose settings have the values
-     *  required for unlimited precision arithmetic.
-     *  The values of the settings are:
+     *  A {@code MbthContext} object whose settings hbve the vblues
+     *  required for unlimited precision brithmetic.
+     *  The vblues of the settings bre:
      *  <code>
      *  precision=0 roundingMode=HALF_UP
      *  </code>
      */
-    public static final MathContext UNLIMITED =
-        new MathContext(0, RoundingMode.HALF_UP);
+    public stbtic finbl MbthContext UNLIMITED =
+        new MbthContext(0, RoundingMode.HALF_UP);
 
     /**
-     *  A {@code MathContext} object with a precision setting
-     *  matching the IEEE 754R Decimal32 format, 7 digits, and a
+     *  A {@code MbthContext} object with b precision setting
+     *  mbtching the IEEE 754R Decimbl32 formbt, 7 digits, bnd b
      *  rounding mode of {@link RoundingMode#HALF_EVEN HALF_EVEN}, the
-     *  IEEE 754R default.
+     *  IEEE 754R defbult.
      */
-    public static final MathContext DECIMAL32 =
-        new MathContext(7, RoundingMode.HALF_EVEN);
+    public stbtic finbl MbthContext DECIMAL32 =
+        new MbthContext(7, RoundingMode.HALF_EVEN);
 
     /**
-     *  A {@code MathContext} object with a precision setting
-     *  matching the IEEE 754R Decimal64 format, 16 digits, and a
+     *  A {@code MbthContext} object with b precision setting
+     *  mbtching the IEEE 754R Decimbl64 formbt, 16 digits, bnd b
      *  rounding mode of {@link RoundingMode#HALF_EVEN HALF_EVEN}, the
-     *  IEEE 754R default.
+     *  IEEE 754R defbult.
      */
-    public static final MathContext DECIMAL64 =
-        new MathContext(16, RoundingMode.HALF_EVEN);
+    public stbtic finbl MbthContext DECIMAL64 =
+        new MbthContext(16, RoundingMode.HALF_EVEN);
 
     /**
-     *  A {@code MathContext} object with a precision setting
-     *  matching the IEEE 754R Decimal128 format, 34 digits, and a
+     *  A {@code MbthContext} object with b precision setting
+     *  mbtching the IEEE 754R Decimbl128 formbt, 34 digits, bnd b
      *  rounding mode of {@link RoundingMode#HALF_EVEN HALF_EVEN}, the
-     *  IEEE 754R default.
+     *  IEEE 754R defbult.
      */
-    public static final MathContext DECIMAL128 =
-        new MathContext(34, RoundingMode.HALF_EVEN);
+    public stbtic finbl MbthContext DECIMAL128 =
+        new MbthContext(34, RoundingMode.HALF_EVEN);
 
-    /* ----- Shared Properties ----- */
+    /* ----- Shbred Properties ----- */
     /**
-     * The number of digits to be used for an operation.  A value of 0
-     * indicates that unlimited precision (as many digits as are
-     * required) will be used.  Note that leading zeros (in the
-     * coefficient of a number) are never significant.
+     * The number of digits to be used for bn operbtion.  A vblue of 0
+     * indicbtes thbt unlimited precision (bs mbny digits bs bre
+     * required) will be used.  Note thbt lebding zeros (in the
+     * coefficient of b number) bre never significbnt.
      *
-     * <p>{@code precision} will always be non-negative.
+     * <p>{@code precision} will blwbys be non-negbtive.
      *
-     * @serial
+     * @seribl
      */
-    final int precision;
+    finbl int precision;
 
     /**
-     * The rounding algorithm to be used for an operation.
+     * The rounding blgorithm to be used for bn operbtion.
      *
      * @see RoundingMode
-     * @serial
+     * @seribl
      */
-    final RoundingMode roundingMode;
+    finbl RoundingMode roundingMode;
 
     /* ----- Constructors ----- */
 
     /**
-     * Constructs a new {@code MathContext} with the specified
-     * precision and the {@link RoundingMode#HALF_UP HALF_UP} rounding
+     * Constructs b new {@code MbthContext} with the specified
+     * precision bnd the {@link RoundingMode#HALF_UP HALF_UP} rounding
      * mode.
      *
-     * @param setPrecision The non-negative {@code int} precision setting.
-     * @throws IllegalArgumentException if the {@code setPrecision} parameter is less
-     *         than zero.
+     * @pbrbm setPrecision The non-negbtive {@code int} precision setting.
+     * @throws IllegblArgumentException if the {@code setPrecision} pbrbmeter is less
+     *         thbn zero.
      */
-    public MathContext(int setPrecision) {
+    public MbthContext(int setPrecision) {
         this(setPrecision, DEFAULT_ROUNDINGMODE);
         return;
     }
 
     /**
-     * Constructs a new {@code MathContext} with a specified
-     * precision and rounding mode.
+     * Constructs b new {@code MbthContext} with b specified
+     * precision bnd rounding mode.
      *
-     * @param setPrecision The non-negative {@code int} precision setting.
-     * @param setRoundingMode The rounding mode to use.
-     * @throws IllegalArgumentException if the {@code setPrecision} parameter is less
-     *         than zero.
-     * @throws NullPointerException if the rounding mode argument is {@code null}
+     * @pbrbm setPrecision The non-negbtive {@code int} precision setting.
+     * @pbrbm setRoundingMode The rounding mode to use.
+     * @throws IllegblArgumentException if the {@code setPrecision} pbrbmeter is less
+     *         thbn zero.
+     * @throws NullPointerException if the rounding mode brgument is {@code null}
      */
-    public MathContext(int setPrecision,
+    public MbthContext(int setPrecision,
                        RoundingMode setRoundingMode) {
         if (setPrecision < MIN_DIGITS)
-            throw new IllegalArgumentException("Digits < 0");
+            throw new IllegblArgumentException("Digits < 0");
         if (setRoundingMode == null)
             throw new NullPointerException("null RoundingMode");
 
@@ -165,51 +165,51 @@ public final class MathContext implements Serializable {
     }
 
     /**
-     * Constructs a new {@code MathContext} from a string.
+     * Constructs b new {@code MbthContext} from b string.
      *
-     * The string must be in the same format as that produced by the
+     * The string must be in the sbme formbt bs thbt produced by the
      * {@link #toString} method.
      *
-     * <p>An {@code IllegalArgumentException} is thrown if the precision
-     * section of the string is out of range ({@code < 0}) or the string is
-     * not in the format created by the {@link #toString} method.
+     * <p>An {@code IllegblArgumentException} is thrown if the precision
+     * section of the string is out of rbnge ({@code < 0}) or the string is
+     * not in the formbt crebted by the {@link #toString} method.
      *
-     * @param val The string to be parsed
-     * @throws IllegalArgumentException if the precision section is out of range
-     * or of incorrect format
-     * @throws NullPointerException if the argument is {@code null}
+     * @pbrbm vbl The string to be pbrsed
+     * @throws IllegblArgumentException if the precision section is out of rbnge
+     * or of incorrect formbt
+     * @throws NullPointerException if the brgument is {@code null}
      */
-    public MathContext(String val) {
-        boolean bad = false;
+    public MbthContext(String vbl) {
+        boolebn bbd = fblse;
         int setPrecision;
-        if (val == null)
+        if (vbl == null)
             throw new NullPointerException("null String");
-        try { // any error here is a string format problem
-            if (!val.startsWith("precision=")) throw new RuntimeException();
-            int fence = val.indexOf(' ');    // could be -1
-            int off = 10;                     // where value starts
-            setPrecision = Integer.parseInt(val.substring(10, fence));
+        try { // bny error here is b string formbt problem
+            if (!vbl.stbrtsWith("precision=")) throw new RuntimeException();
+            int fence = vbl.indexOf(' ');    // could be -1
+            int off = 10;                     // where vblue stbrts
+            setPrecision = Integer.pbrseInt(vbl.substring(10, fence));
 
-            if (!val.startsWith("roundingMode=", fence+1))
+            if (!vbl.stbrtsWith("roundingMode=", fence+1))
                 throw new RuntimeException();
             off = fence + 1 + 13;
-            String str = val.substring(off, val.length());
-            roundingMode = RoundingMode.valueOf(str);
-        } catch (RuntimeException re) {
-            throw new IllegalArgumentException("bad string format");
+            String str = vbl.substring(off, vbl.length());
+            roundingMode = RoundingMode.vblueOf(str);
+        } cbtch (RuntimeException re) {
+            throw new IllegblArgumentException("bbd string formbt");
         }
 
         if (setPrecision < MIN_DIGITS)
-            throw new IllegalArgumentException("Digits < 0");
-        // the other parameters cannot be invalid if we got here
+            throw new IllegblArgumentException("Digits < 0");
+        // the other pbrbmeters cbnnot be invblid if we got here
         precision = setPrecision;
     }
 
     /**
      * Returns the {@code precision} setting.
-     * This value is always non-negative.
+     * This vblue is blwbys non-negbtive.
      *
-     * @return an {@code int} which is the value of the {@code precision}
+     * @return bn {@code int} which is the vblue of the {@code precision}
      *         setting
      */
     public int getPrecision() {
@@ -228,7 +228,7 @@ public final class MathContext implements Serializable {
      * {@link  RoundingMode#UNNECESSARY}, or
      * {@link  RoundingMode#UP}.
      *
-     * @return a {@code RoundingMode} object which is the value of the
+     * @return b {@code RoundingMode} object which is the vblue of the
      *         {@code roundingMode} setting
      */
 
@@ -237,89 +237,89 @@ public final class MathContext implements Serializable {
     }
 
     /**
-     * Compares this {@code MathContext} with the specified
-     * {@code Object} for equality.
+     * Compbres this {@code MbthContext} with the specified
+     * {@code Object} for equblity.
      *
-     * @param  x {@code Object} to which this {@code MathContext} is to
-     *         be compared.
-     * @return {@code true} if and only if the specified {@code Object} is
-     *         a {@code MathContext} object which has exactly the same
-     *         settings as this object
+     * @pbrbm  x {@code Object} to which this {@code MbthContext} is to
+     *         be compbred.
+     * @return {@code true} if bnd only if the specified {@code Object} is
+     *         b {@code MbthContext} object which hbs exbctly the sbme
+     *         settings bs this object
      */
-    public boolean equals(Object x){
-        MathContext mc;
-        if (!(x instanceof MathContext))
-            return false;
-        mc = (MathContext) x;
+    public boolebn equbls(Object x){
+        MbthContext mc;
+        if (!(x instbnceof MbthContext))
+            return fblse;
+        mc = (MbthContext) x;
         return mc.precision == this.precision
-            && mc.roundingMode == this.roundingMode; // no need for .equals()
+            && mc.roundingMode == this.roundingMode; // no need for .equbls()
     }
 
     /**
-     * Returns the hash code for this {@code MathContext}.
+     * Returns the hbsh code for this {@code MbthContext}.
      *
-     * @return hash code for this {@code MathContext}
+     * @return hbsh code for this {@code MbthContext}
      */
-    public int hashCode() {
-        return this.precision + roundingMode.hashCode() * 59;
+    public int hbshCode() {
+        return this.precision + roundingMode.hbshCode() * 59;
     }
 
     /**
-     * Returns the string representation of this {@code MathContext}.
+     * Returns the string representbtion of this {@code MbthContext}.
      * The {@code String} returned represents the settings of the
-     * {@code MathContext} object as two space-delimited words
-     * (separated by a single space character, <tt>'&#92;u0020'</tt>,
-     * and with no leading or trailing white space), as follows:
+     * {@code MbthContext} object bs two spbce-delimited words
+     * (sepbrbted by b single spbce chbrbcter, <tt>'&#92;u0020'</tt>,
+     * bnd with no lebding or trbiling white spbce), bs follows:
      * <ol>
      * <li>
-     * The string {@code "precision="}, immediately followed
-     * by the value of the precision setting as a numeric string as if
-     * generated by the {@link Integer#toString(int) Integer.toString}
+     * The string {@code "precision="}, immedibtely followed
+     * by the vblue of the precision setting bs b numeric string bs if
+     * generbted by the {@link Integer#toString(int) Integer.toString}
      * method.
      *
      * <li>
-     * The string {@code "roundingMode="}, immediately
-     * followed by the value of the {@code roundingMode} setting as a
-     * word.  This word will be the same as the name of the
-     * corresponding public constant in the {@link RoundingMode}
+     * The string {@code "roundingMode="}, immedibtely
+     * followed by the vblue of the {@code roundingMode} setting bs b
+     * word.  This word will be the sbme bs the nbme of the
+     * corresponding public constbnt in the {@link RoundingMode}
      * enum.
      * </ol>
      * <p>
-     * For example:
+     * For exbmple:
      * <pre>
      * precision=9 roundingMode=HALF_UP
      * </pre>
      *
-     * Additional words may be appended to the result of
-     * {@code toString} in the future if more properties are added to
-     * this class.
+     * Additionbl words mby be bppended to the result of
+     * {@code toString} in the future if more properties bre bdded to
+     * this clbss.
      *
-     * @return a {@code String} representing the context settings
+     * @return b {@code String} representing the context settings
      */
-    public java.lang.String toString() {
+    public jbvb.lbng.String toString() {
         return "precision=" +           precision + " " +
                "roundingMode=" +        roundingMode.toString();
     }
 
-    // Private methods
+    // Privbte methods
 
     /**
-     * Reconstitute the {@code MathContext} instance from a stream (that is,
-     * deserialize it).
+     * Reconstitute the {@code MbthContext} instbnce from b strebm (thbt is,
+     * deseriblize it).
      *
-     * @param s the stream being read.
+     * @pbrbm s the strebm being rebd.
      */
-    private void readObject(java.io.ObjectInputStream s)
-        throws java.io.IOException, ClassNotFoundException {
-        s.defaultReadObject();     // read in all fields
-        // validate possibly bad fields
+    privbte void rebdObject(jbvb.io.ObjectInputStrebm s)
+        throws jbvb.io.IOException, ClbssNotFoundException {
+        s.defbultRebdObject();     // rebd in bll fields
+        // vblidbte possibly bbd fields
         if (precision < MIN_DIGITS) {
-            String message = "MathContext: invalid digits in stream";
-            throw new java.io.StreamCorruptedException(message);
+            String messbge = "MbthContext: invblid digits in strebm";
+            throw new jbvb.io.StrebmCorruptedException(messbge);
         }
         if (roundingMode == null) {
-            String message = "MathContext: null roundingMode in stream";
-            throw new java.io.StreamCorruptedException(message);
+            String messbge = "MbthContext: null roundingMode in strebm";
+            throw new jbvb.io.StrebmCorruptedException(messbge);
         }
     }
 

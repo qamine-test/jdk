@@ -1,147 +1,147 @@
 /*
- * Copyright (c) 2004, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2007, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.jvmstat.perfdata.monitor.protocol.local;
+pbckbge sun.jvmstbt.perfdbtb.monitor.protocol.locbl;
 
-import sun.jvmstat.monitor.*;
-import sun.jvmstat.monitor.event.*;
-import java.util.*;
-import java.util.regex.*;
-import java.io.*;
+import sun.jvmstbt.monitor.*;
+import sun.jvmstbt.monitor.event.*;
+import jbvb.util.*;
+import jbvb.util.regex.*;
+import jbvb.io.*;
 
 /**
- * Class for managing the LocalMonitoredVm instances on the local system.
+ * Clbss for mbnbging the LocblMonitoredVm instbnces on the locbl system.
  * <p>
- * This class is responsible for the mechanism that detects the active
- * HotSpot Java Virtual Machines on the local host and possibly for a
- * specific user. The ability to detect all possible HotSpot Java Virtual
- * Machines on the local host may be limited by the permissions of the
- * principal running this JVM.
+ * This clbss is responsible for the mechbnism thbt detects the bctive
+ * HotSpot Jbvb Virtubl Mbchines on the locbl host bnd possibly for b
+ * specific user. The bbility to detect bll possible HotSpot Jbvb Virtubl
+ * Mbchines on the locbl host mby be limited by the permissions of the
+ * principbl running this JVM.
  *
- * @author Brian Doherty
+ * @buthor Bribn Doherty
  * @since 1.5
  */
-public class LocalVmManager {
-    private String userName;                 // user name for monitored jvm
-    private File tmpdir;
-    private Pattern userPattern;
-    private Matcher userMatcher;
-    private FilenameFilter userFilter;
-    private Pattern filePattern;
-    private Matcher fileMatcher;
-    private FilenameFilter fileFilter;
-    private Pattern tmpFilePattern;
-    private Matcher tmpFileMatcher;
-    private FilenameFilter tmpFileFilter;
+public clbss LocblVmMbnbger {
+    privbte String userNbme;                 // user nbme for monitored jvm
+    privbte File tmpdir;
+    privbte Pbttern userPbttern;
+    privbte Mbtcher userMbtcher;
+    privbte FilenbmeFilter userFilter;
+    privbte Pbttern filePbttern;
+    privbte Mbtcher fileMbtcher;
+    privbte FilenbmeFilter fileFilter;
+    privbte Pbttern tmpFilePbttern;
+    privbte Mbtcher tmpFileMbtcher;
+    privbte FilenbmeFilter tmpFileFilter;
 
     /**
-     * Creates a LocalVmManager instance for the local system.
+     * Crebtes b LocblVmMbnbger instbnce for the locbl system.
      * <p>
-     * Manages LocalMonitoredVm instances for which the principal
-     * has appropriate permissions.
+     * Mbnbges LocblMonitoredVm instbnces for which the principbl
+     * hbs bppropribte permissions.
      */
-    public LocalVmManager() {
+    public LocblVmMbnbger() {
         this(null);
     }
 
     /**
-     * Creates a LocalVmManager instance for the given user.
+     * Crebtes b LocblVmMbnbger instbnce for the given user.
      * <p>
-     * Manages LocalMonitoredVm instances for all JVMs owned by the specified
+     * Mbnbges LocblMonitoredVm instbnces for bll JVMs owned by the specified
      * user.
      *
-     * @param user the name of the user
+     * @pbrbm user the nbme of the user
      */
-    public LocalVmManager(String user) {
-        this.userName = user;
+    public LocblVmMbnbger(String user) {
+        this.userNbme = user;
 
-        if (userName == null) {
-            tmpdir = new File(PerfDataFile.getTempDirectory());
-            userPattern = Pattern.compile(PerfDataFile.userDirNamePattern);
-            userMatcher = userPattern.matcher("");
+        if (userNbme == null) {
+            tmpdir = new File(PerfDbtbFile.getTempDirectory());
+            userPbttern = Pbttern.compile(PerfDbtbFile.userDirNbmePbttern);
+            userMbtcher = userPbttern.mbtcher("");
 
-            userFilter = new FilenameFilter() {
-                public boolean accept(File dir, String name) {
-                    userMatcher.reset(name);
-                    return userMatcher.lookingAt();
+            userFilter = new FilenbmeFilter() {
+                public boolebn bccept(File dir, String nbme) {
+                    userMbtcher.reset(nbme);
+                    return userMbtcher.lookingAt();
                 }
             };
         } else {
-            tmpdir = new File(PerfDataFile.getTempDirectory(userName));
+            tmpdir = new File(PerfDbtbFile.getTempDirectory(userNbme));
         }
 
-        filePattern = Pattern.compile(PerfDataFile.fileNamePattern);
-        fileMatcher = filePattern.matcher("");
+        filePbttern = Pbttern.compile(PerfDbtbFile.fileNbmePbttern);
+        fileMbtcher = filePbttern.mbtcher("");
 
-        fileFilter = new FilenameFilter() {
-            public boolean accept(File dir, String name) {
-                fileMatcher.reset(name);
-                return fileMatcher.matches();
+        fileFilter = new FilenbmeFilter() {
+            public boolebn bccept(File dir, String nbme) {
+                fileMbtcher.reset(nbme);
+                return fileMbtcher.mbtches();
             }
         };
 
-        tmpFilePattern = Pattern.compile(PerfDataFile.tmpFileNamePattern);
-        tmpFileMatcher = tmpFilePattern.matcher("");
+        tmpFilePbttern = Pbttern.compile(PerfDbtbFile.tmpFileNbmePbttern);
+        tmpFileMbtcher = tmpFilePbttern.mbtcher("");
 
-        tmpFileFilter = new FilenameFilter() {
-            public boolean accept(File dir, String name) {
-                tmpFileMatcher.reset(name);
-                return tmpFileMatcher.matches();
+        tmpFileFilter = new FilenbmeFilter() {
+            public boolebn bccept(File dir, String nbme) {
+                tmpFileMbtcher.reset(nbme);
+                return tmpFileMbtcher.mbtches();
             }
         };
     }
 
     /**
-     * Return the current set of monitorable Java Virtual Machines.
+     * Return the current set of monitorbble Jbvb Virtubl Mbchines.
      * <p>
-     * The set returned by this method depends on the user name passed
-     * to the constructor. If no user name was specified, then this
-     * method will return all candidate JVMs on the system. Otherwise,
-     * only the JVMs for the given user will be returned. This assumes
-     * that principal associated with this JVM has the appropriate
-     * permissions to access the target set of JVMs.
+     * The set returned by this method depends on the user nbme pbssed
+     * to the constructor. If no user nbme wbs specified, then this
+     * method will return bll cbndidbte JVMs on the system. Otherwise,
+     * only the JVMs for the given user will be returned. This bssumes
+     * thbt principbl bssocibted with this JVM hbs the bppropribte
+     * permissions to bccess the tbrget set of JVMs.
      *
-     * @return Set - the Set of monitorable Java Virtual Machines
+     * @return Set - the Set of monitorbble Jbvb Virtubl Mbchines
      */
-    public synchronized Set<Integer> activeVms() {
+    public synchronized Set<Integer> bctiveVms() {
         /*
-         * This method is synchronized because the Matcher object used by
-         * fileFilter is not safe for concurrent use, and this method is
-         * called by multiple threads. Before this method was synchronized,
-         * we'd see strange file names being matched by the matcher.
+         * This method is synchronized becbuse the Mbtcher object used by
+         * fileFilter is not sbfe for concurrent use, bnd this method is
+         * cblled by multiple threbds. Before this method wbs synchronized,
+         * we'd see strbnge file nbmes being mbtched by the mbtcher.
          */
-        Set<Integer> jvmSet = new HashSet<Integer>();
+        Set<Integer> jvmSet = new HbshSet<Integer>();
 
         if (! tmpdir.isDirectory()) {
             return jvmSet;
         }
 
-        if (userName == null) {
+        if (userNbme == null) {
             /*
-             * get a list of all of the user temporary directories and
-             * iterate over the list to find any files within those directories.
+             * get b list of bll of the user temporbry directories bnd
+             * iterbte over the list to find bny files within those directories.
              */
             File[] dirs = tmpdir.listFiles(userFilter);
 
@@ -150,23 +150,23 @@ public class LocalVmManager {
                     continue;
                 }
 
-                // get a list of files from the directory
+                // get b list of files from the directory
                 File[] files = dirs[i].listFiles(fileFilter);
 
                 if (files != null) {
                     for (int j = 0; j < files.length; j++) {
-                        if (files[j].isFile() && files[j].canRead()) {
-                            jvmSet.add(
-                                    PerfDataFile.getLocalVmId(files[j]));
+                        if (files[j].isFile() && files[j].cbnRebd()) {
+                            jvmSet.bdd(
+                                    PerfDbtbFile.getLocblVmId(files[j]));
                         }
                     }
                 }
             }
         } else {
             /*
-             * Check if the user directory can be accessed. Any of these
-             * conditions may have asynchronously changed between subsequent
-             * calls to this method.
+             * Check if the user directory cbn be bccessed. Any of these
+             * conditions mby hbve bsynchronously chbnged between subsequent
+             * cblls to this method.
              */
 
             // get the list of files from the specified user directory
@@ -174,21 +174,21 @@ public class LocalVmManager {
 
             if (files != null) {
                 for (int j = 0; j < files.length; j++) {
-                    if (files[j].isFile() && files[j].canRead()) {
-                        jvmSet.add(
-                                PerfDataFile.getLocalVmId(files[j]));
+                    if (files[j].isFile() && files[j].cbnRebd()) {
+                        jvmSet.bdd(
+                                PerfDbtbFile.getLocblVmId(files[j]));
                     }
                 }
             }
         }
 
-        // look for any 1.4.1 files
+        // look for bny 1.4.1 files
         File[] files = tmpdir.listFiles(tmpFileFilter);
         if (files != null) {
             for (int j = 0; j < files.length; j++) {
-                if (files[j].isFile() && files[j].canRead()) {
-                    jvmSet.add(
-                            PerfDataFile.getLocalVmId(files[j]));
+                if (files[j].isFile() && files[j].cbnRebd()) {
+                    jvmSet.bdd(
+                            PerfDbtbFile.getLocblVmId(files[j]));
                 }
             }
         }

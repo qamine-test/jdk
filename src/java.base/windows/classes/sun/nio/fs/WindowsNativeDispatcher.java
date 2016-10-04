@@ -1,390 +1,390 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.nio.fs;
+pbckbge sun.nio.fs;
 
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import sun.misc.Unsafe;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import sun.misc.Unsbfe;
 
 /**
- * Win32 and library calls.
+ * Win32 bnd librbry cblls.
  */
 
-class WindowsNativeDispatcher {
-    private WindowsNativeDispatcher() { }
+clbss WindowsNbtiveDispbtcher {
+    privbte WindowsNbtiveDispbtcher() { }
 
     /**
-     * HANDLE CreateFile(
-     *   LPCTSTR lpFileName,
+     * HANDLE CrebteFile(
+     *   LPCTSTR lpFileNbme,
      *   DWORD dwDesiredAccess,
-     *   DWORD dwShareMode,
+     *   DWORD dwShbreMode,
      *   LPSECURITY_ATTRIBUTES lpSecurityAttributes,
-     *   DWORD dwCreationDisposition,
-     *   DWORD dwFlagsAndAttributes,
-     *   HANDLE hTemplateFile
+     *   DWORD dwCrebtionDisposition,
+     *   DWORD dwFlbgsAndAttributes,
+     *   HANDLE hTemplbteFile
      * )
      */
-    static long CreateFile(String path,
+    stbtic long CrebteFile(String pbth,
                            int dwDesiredAccess,
-                           int dwShareMode,
+                           int dwShbreMode,
                            long lpSecurityAttributes,
-                           int dwCreationDisposition,
-                           int dwFlagsAndAttributes)
+                           int dwCrebtionDisposition,
+                           int dwFlbgsAndAttributes)
         throws WindowsException
     {
-        NativeBuffer buffer = asNativeBuffer(path);
+        NbtiveBuffer buffer = bsNbtiveBuffer(pbth);
         try {
-            return CreateFile0(buffer.address(),
+            return CrebteFile0(buffer.bddress(),
                                dwDesiredAccess,
-                               dwShareMode,
+                               dwShbreMode,
                                lpSecurityAttributes,
-                               dwCreationDisposition,
-                               dwFlagsAndAttributes);
-        } finally {
-            buffer.release();
+                               dwCrebtionDisposition,
+                               dwFlbgsAndAttributes);
+        } finblly {
+            buffer.relebse();
         }
     }
-    static long CreateFile(String path,
+    stbtic long CrebteFile(String pbth,
                            int dwDesiredAccess,
-                           int dwShareMode,
-                           int dwCreationDisposition,
-                           int dwFlagsAndAttributes)
+                           int dwShbreMode,
+                           int dwCrebtionDisposition,
+                           int dwFlbgsAndAttributes)
         throws WindowsException
     {
-        return CreateFile(path, dwDesiredAccess, dwShareMode, 0L,
-                          dwCreationDisposition, dwFlagsAndAttributes);
+        return CrebteFile(pbth, dwDesiredAccess, dwShbreMode, 0L,
+                          dwCrebtionDisposition, dwFlbgsAndAttributes);
     }
-    private static native long CreateFile0(long lpFileName,
+    privbte stbtic nbtive long CrebteFile0(long lpFileNbme,
                                            int dwDesiredAccess,
-                                           int dwShareMode,
+                                           int dwShbreMode,
                                            long lpSecurityAttributes,
-                                           int dwCreationDisposition,
-                                           int dwFlagsAndAttributes)
+                                           int dwCrebtionDisposition,
+                                           int dwFlbgsAndAttributes)
         throws WindowsException;
 
     /**
-     * CloseHandle(
+     * CloseHbndle(
      *   HANDLE hObject
      * )
      */
-    static native void CloseHandle(long handle);
+    stbtic nbtive void CloseHbndle(long hbndle);
 
     /**
      * DeleteFile(
-     *   LPCTSTR lpFileName
+     *   LPCTSTR lpFileNbme
      * )
      */
-    static void DeleteFile(String path) throws WindowsException {
-        NativeBuffer buffer = asNativeBuffer(path);
+    stbtic void DeleteFile(String pbth) throws WindowsException {
+        NbtiveBuffer buffer = bsNbtiveBuffer(pbth);
         try {
-            DeleteFile0(buffer.address());
-        } finally {
-            buffer.release();
+            DeleteFile0(buffer.bddress());
+        } finblly {
+            buffer.relebse();
         }
     }
-    private static native void DeleteFile0(long lpFileName)
+    privbte stbtic nbtive void DeleteFile0(long lpFileNbme)
         throws WindowsException;
 
     /**
-     * CreateDirectory(
-     *   LPCTSTR lpPathName,
+     * CrebteDirectory(
+     *   LPCTSTR lpPbthNbme,
      *   LPSECURITY_ATTRIBUTES lpSecurityAttributes
      * )
      */
-    static void CreateDirectory(String path, long lpSecurityAttributes) throws WindowsException {
-        NativeBuffer buffer = asNativeBuffer(path);
+    stbtic void CrebteDirectory(String pbth, long lpSecurityAttributes) throws WindowsException {
+        NbtiveBuffer buffer = bsNbtiveBuffer(pbth);
         try {
-            CreateDirectory0(buffer.address(), lpSecurityAttributes);
-        } finally {
-            buffer.release();
+            CrebteDirectory0(buffer.bddress(), lpSecurityAttributes);
+        } finblly {
+            buffer.relebse();
         }
     }
-    private static native void CreateDirectory0(long lpFileName, long lpSecurityAttributes)
+    privbte stbtic nbtive void CrebteDirectory0(long lpFileNbme, long lpSecurityAttributes)
         throws WindowsException;
 
     /**
      * RemoveDirectory(
-     *   LPCTSTR lpPathName
+     *   LPCTSTR lpPbthNbme
      * )
      */
-    static void RemoveDirectory(String path) throws WindowsException {
-        NativeBuffer buffer = asNativeBuffer(path);
+    stbtic void RemoveDirectory(String pbth) throws WindowsException {
+        NbtiveBuffer buffer = bsNbtiveBuffer(pbth);
         try {
-            RemoveDirectory0(buffer.address());
-        } finally {
-            buffer.release();
+            RemoveDirectory0(buffer.bddress());
+        } finblly {
+            buffer.relebse();
         }
     }
-    private static native void RemoveDirectory0(long lpFileName)
+    privbte stbtic nbtive void RemoveDirectory0(long lpFileNbme)
         throws WindowsException;
 
     /**
-     * Marks a file as a sparse file.
+     * Mbrks b file bs b spbrse file.
      *
      * DeviceIoControl(
      *   FSCTL_SET_SPARSE
      * )
      */
-    static native void DeviceIoControlSetSparse(long handle)
+    stbtic nbtive void DeviceIoControlSetSpbrse(long hbndle)
         throws WindowsException;
 
     /**
-     * Retrieves the reparse point data associated with the file or directory.
+     * Retrieves the repbrse point dbtb bssocibted with the file or directory.
      *
      * DeviceIoControl(
      *   FSCTL_GET_REPARSE_POINT
      * )
      */
-    static native void DeviceIoControlGetReparsePoint(long handle,
+    stbtic nbtive void DeviceIoControlGetRepbrsePoint(long hbndle,
         long bufferAddress, int bufferSize) throws WindowsException;
 
     /**
      * HANDLE FindFirstFile(
-     *   LPCTSTR lpFileName,
-     *   LPWIN32_FIND_DATA lpFindFileData
+     *   LPCTSTR lpFileNbme,
+     *   LPWIN32_FIND_DATA lpFindFileDbtb
      * )
      */
-    static FirstFile FindFirstFile(String path) throws WindowsException {
-        NativeBuffer buffer = asNativeBuffer(path);
+    stbtic FirstFile FindFirstFile(String pbth) throws WindowsException {
+        NbtiveBuffer buffer = bsNbtiveBuffer(pbth);
         try {
-            FirstFile data = new FirstFile();
-            FindFirstFile0(buffer.address(), data);
-            return data;
-        } finally {
-            buffer.release();
+            FirstFile dbtb = new FirstFile();
+            FindFirstFile0(buffer.bddress(), dbtb);
+            return dbtb;
+        } finblly {
+            buffer.relebse();
         }
     }
-    static class FirstFile {
-        private long handle;
-        private String name;
-        private int attributes;
+    stbtic clbss FirstFile {
+        privbte long hbndle;
+        privbte String nbme;
+        privbte int bttributes;
 
-        private FirstFile() { }
-        public long handle()    { return handle; }
-        public String name()    { return name; }
-        public int attributes() { return attributes; }
+        privbte FirstFile() { }
+        public long hbndle()    { return hbndle; }
+        public String nbme()    { return nbme; }
+        public int bttributes() { return bttributes; }
     }
-    private static native void FindFirstFile0(long lpFileName, FirstFile obj)
+    privbte stbtic nbtive void FindFirstFile0(long lpFileNbme, FirstFile obj)
         throws WindowsException;
 
     /**
      * HANDLE FindFirstFile(
-     *   LPCTSTR lpFileName,
-     *   LPWIN32_FIND_DATA lpFindFileData
+     *   LPCTSTR lpFileNbme,
+     *   LPWIN32_FIND_DATA lpFindFileDbtb
      * )
      */
-    static long FindFirstFile(String path, long address) throws WindowsException {
-        NativeBuffer buffer = asNativeBuffer(path);
+    stbtic long FindFirstFile(String pbth, long bddress) throws WindowsException {
+        NbtiveBuffer buffer = bsNbtiveBuffer(pbth);
         try {
-            return FindFirstFile1(buffer.address(), address);
-        } finally {
-            buffer.release();
+            return FindFirstFile1(buffer.bddress(), bddress);
+        } finblly {
+            buffer.relebse();
         }
     }
-    private static native long FindFirstFile1(long lpFileName, long address)
+    privbte stbtic nbtive long FindFirstFile1(long lpFileNbme, long bddress)
         throws WindowsException;
 
     /**
      * FindNextFile(
      *   HANDLE hFindFile,
-     *   LPWIN32_FIND_DATA lpFindFileData
+     *   LPWIN32_FIND_DATA lpFindFileDbtb
      * )
      *
-     * @return  lpFindFileData->cFileName or null
+     * @return  lpFindFileDbtb->cFileNbme or null
      */
-    static native String FindNextFile(long handle, long address)
+    stbtic nbtive String FindNextFile(long hbndle, long bddress)
         throws WindowsException;
 
     /**
-     * HANDLE FindFirstStreamW(
-     *   LPCWSTR lpFileName,
+     * HANDLE FindFirstStrebmW(
+     *   LPCWSTR lpFileNbme,
      *   STREAM_INFO_LEVELS InfoLevel,
-     *   LPVOID lpFindStreamData,
-     *   DWORD dwFlags
+     *   LPVOID lpFindStrebmDbtb,
+     *   DWORD dwFlbgs
      * )
      */
-    static FirstStream FindFirstStream(String path) throws WindowsException {
-        NativeBuffer buffer = asNativeBuffer(path);
+    stbtic FirstStrebm FindFirstStrebm(String pbth) throws WindowsException {
+        NbtiveBuffer buffer = bsNbtiveBuffer(pbth);
         try {
-            FirstStream data = new FirstStream();
-            FindFirstStream0(buffer.address(), data);
-            if (data.handle() == WindowsConstants.INVALID_HANDLE_VALUE)
+            FirstStrebm dbtb = new FirstStrebm();
+            FindFirstStrebm0(buffer.bddress(), dbtb);
+            if (dbtb.hbndle() == WindowsConstbnts.INVALID_HANDLE_VALUE)
                 return null;
-            return data;
-        } finally {
-            buffer.release();
+            return dbtb;
+        } finblly {
+            buffer.relebse();
         }
     }
-    static class FirstStream {
-        private long handle;
-        private String name;
+    stbtic clbss FirstStrebm {
+        privbte long hbndle;
+        privbte String nbme;
 
-        private FirstStream() { }
-        public long handle()    { return handle; }
-        public String name()    { return name; }
+        privbte FirstStrebm() { }
+        public long hbndle()    { return hbndle; }
+        public String nbme()    { return nbme; }
     }
-    private static native void FindFirstStream0(long lpFileName, FirstStream obj)
+    privbte stbtic nbtive void FindFirstStrebm0(long lpFileNbme, FirstStrebm obj)
         throws WindowsException;
 
     /*
-     * FindNextStreamW(
-     *   HANDLE hFindStream,
-     *   LPVOID lpFindStreamData
+     * FindNextStrebmW(
+     *   HANDLE hFindStrebm,
+     *   LPVOID lpFindStrebmDbtb
      * )
      */
-    static native String FindNextStream(long handle) throws WindowsException;
+    stbtic nbtive String FindNextStrebm(long hbndle) throws WindowsException;
 
     /**
      * FindClose(
      *   HANDLE hFindFile
      * )
      */
-    static native void FindClose(long handle) throws WindowsException;
+    stbtic nbtive void FindClose(long hbndle) throws WindowsException;
 
     /**
-     * GetFileInformationByHandle(
+     * GetFileInformbtionByHbndle(
      *   HANDLE hFile,
-     *   LPBY_HANDLE_FILE_INFORMATION lpFileInformation
+     *   LPBY_HANDLE_FILE_INFORMATION lpFileInformbtion
      * )
      */
-    static native void GetFileInformationByHandle(long handle, long address)
+    stbtic nbtive void GetFileInformbtionByHbndle(long hbndle, long bddress)
         throws WindowsException;
 
     /**
      * CopyFileEx(
-     *   LPCWSTR lpExistingFileName
-     *   LPCWSTR lpNewFileName,
+     *   LPCWSTR lpExistingFileNbme
+     *   LPCWSTR lpNewFileNbme,
      *   LPPROGRESS_ROUTINE lpProgressRoutine
-     *   LPVOID lpData,
-     *   LPBOOL pbCancel,
-     *   DWORD dwCopyFlags
+     *   LPVOID lpDbtb,
+     *   LPBOOL pbCbncel,
+     *   DWORD dwCopyFlbgs
      * )
      */
-    static void CopyFileEx(String source, String target, int flags,
-                           long addressToPollForCancel)
+    stbtic void CopyFileEx(String source, String tbrget, int flbgs,
+                           long bddressToPollForCbncel)
         throws WindowsException
     {
-        NativeBuffer sourceBuffer = asNativeBuffer(source);
-        NativeBuffer targetBuffer = asNativeBuffer(target);
+        NbtiveBuffer sourceBuffer = bsNbtiveBuffer(source);
+        NbtiveBuffer tbrgetBuffer = bsNbtiveBuffer(tbrget);
         try {
-            CopyFileEx0(sourceBuffer.address(), targetBuffer.address(), flags,
-                        addressToPollForCancel);
-        } finally {
-            targetBuffer.release();
-            sourceBuffer.release();
+            CopyFileEx0(sourceBuffer.bddress(), tbrgetBuffer.bddress(), flbgs,
+                        bddressToPollForCbncel);
+        } finblly {
+            tbrgetBuffer.relebse();
+            sourceBuffer.relebse();
         }
     }
-    private static native void CopyFileEx0(long existingAddress, long newAddress,
-        int flags, long addressToPollForCancel) throws WindowsException;
+    privbte stbtic nbtive void CopyFileEx0(long existingAddress, long newAddress,
+        int flbgs, long bddressToPollForCbncel) throws WindowsException;
 
     /**
      * MoveFileEx(
-     *   LPCTSTR lpExistingFileName,
-     *   LPCTSTR lpNewFileName,
-     *   DWORD dwFlags
+     *   LPCTSTR lpExistingFileNbme,
+     *   LPCTSTR lpNewFileNbme,
+     *   DWORD dwFlbgs
      * )
      */
-    static void MoveFileEx(String source, String target, int flags)
+    stbtic void MoveFileEx(String source, String tbrget, int flbgs)
         throws WindowsException
     {
-        NativeBuffer sourceBuffer = asNativeBuffer(source);
-        NativeBuffer targetBuffer = asNativeBuffer(target);
+        NbtiveBuffer sourceBuffer = bsNbtiveBuffer(source);
+        NbtiveBuffer tbrgetBuffer = bsNbtiveBuffer(tbrget);
         try {
-            MoveFileEx0(sourceBuffer.address(), targetBuffer.address(), flags);
-        } finally {
-            targetBuffer.release();
-            sourceBuffer.release();
+            MoveFileEx0(sourceBuffer.bddress(), tbrgetBuffer.bddress(), flbgs);
+        } finblly {
+            tbrgetBuffer.relebse();
+            sourceBuffer.relebse();
         }
     }
-    private static native void MoveFileEx0(long existingAddress, long newAddress,
-        int flags) throws WindowsException;
+    privbte stbtic nbtive void MoveFileEx0(long existingAddress, long newAddress,
+        int flbgs) throws WindowsException;
 
     /**
      * DWORD GetFileAttributes(
-     *   LPCTSTR lpFileName
+     *   LPCTSTR lpFileNbme
      * )
      */
-    static int GetFileAttributes(String path) throws WindowsException {
-        NativeBuffer buffer = asNativeBuffer(path);
+    stbtic int GetFileAttributes(String pbth) throws WindowsException {
+        NbtiveBuffer buffer = bsNbtiveBuffer(pbth);
         try {
-            return GetFileAttributes0(buffer.address());
-        } finally {
-            buffer.release();
+            return GetFileAttributes0(buffer.bddress());
+        } finblly {
+            buffer.relebse();
         }
     }
-    private static native int GetFileAttributes0(long lpFileName)
+    privbte stbtic nbtive int GetFileAttributes0(long lpFileNbme)
         throws WindowsException;
 
     /**
      * SetFileAttributes(
-     *   LPCTSTR lpFileName,
+     *   LPCTSTR lpFileNbme,
      *   DWORD dwFileAttributes
      */
-    static void SetFileAttributes(String path, int dwFileAttributes)
+    stbtic void SetFileAttributes(String pbth, int dwFileAttributes)
         throws WindowsException
     {
-        NativeBuffer buffer = asNativeBuffer(path);
+        NbtiveBuffer buffer = bsNbtiveBuffer(pbth);
         try {
-            SetFileAttributes0(buffer.address(), dwFileAttributes);
-        } finally {
-            buffer.release();
+            SetFileAttributes0(buffer.bddress(), dwFileAttributes);
+        } finblly {
+            buffer.relebse();
         }
     }
-    private static native void SetFileAttributes0(long lpFileName,
+    privbte stbtic nbtive void SetFileAttributes0(long lpFileNbme,
         int dwFileAttributes) throws WindowsException;
 
     /**
      * GetFileAttributesEx(
-     *   LPCTSTR lpFileName,
+     *   LPCTSTR lpFileNbme,
      *   GET_FILEEX_INFO_LEVELS fInfoLevelId,
-     *   LPVOID lpFileInformation
+     *   LPVOID lpFileInformbtion
      * );
      */
-    static void GetFileAttributesEx(String path, long address) throws WindowsException {
-        NativeBuffer buffer = asNativeBuffer(path);
+    stbtic void GetFileAttributesEx(String pbth, long bddress) throws WindowsException {
+        NbtiveBuffer buffer = bsNbtiveBuffer(pbth);
         try {
-            GetFileAttributesEx0(buffer.address(), address);
-        } finally {
-            buffer.release();
+            GetFileAttributesEx0(buffer.bddress(), bddress);
+        } finblly {
+            buffer.relebse();
         }
     }
-    private static native void GetFileAttributesEx0(long lpFileName, long address)
+    privbte stbtic nbtive void GetFileAttributesEx0(long lpFileNbme, long bddress)
         throws WindowsException;
     /**
      * SetFileTime(
      *   HANDLE hFile,
-     *   CONST FILETIME *lpCreationTime,
-     *   CONST FILETIME *lpLastAccessTime,
-     *   CONST FILETIME *lpLastWriteTime
+     *   CONST FILETIME *lpCrebtionTime,
+     *   CONST FILETIME *lpLbstAccessTime,
+     *   CONST FILETIME *lpLbstWriteTime
      * )
      */
-    static native void SetFileTime(long handle,
-                                   long createTime,
-                                   long lastAccessTime,
-                                   long lastWriteTime)
+    stbtic nbtive void SetFileTime(long hbndle,
+                                   long crebteTime,
+                                   long lbstAccessTime,
+                                   long lbstWriteTime)
         throws WindowsException;
 
     /**
@@ -392,259 +392,259 @@ class WindowsNativeDispatcher {
      *   HANDLE hFile
      * )
      */
-    static native void SetEndOfFile(long handle) throws WindowsException;
+    stbtic nbtive void SetEndOfFile(long hbndle) throws WindowsException;
 
     /**
-     * DWORD GetLogicalDrives(VOID)
+     * DWORD GetLogicblDrives(VOID)
      */
-    static native int GetLogicalDrives() throws WindowsException;
+    stbtic nbtive int GetLogicblDrives() throws WindowsException;
 
     /**
-     * GetVolumeInformation(
-     *   LPCTSTR lpRootPathName,
-     *   LPTSTR lpVolumeNameBuffer,
-     *   DWORD nVolumeNameSize,
-     *   LPDWORD lpVolumeSerialNumber,
-     *   LPDWORD lpMaximumComponentLength,
-     *   LPDWORD lpFileSystemFlags,
-     *   LPTSTR lpFileSystemNameBuffer,
-     *   DWORD nFileSystemNameSize
+     * GetVolumeInformbtion(
+     *   LPCTSTR lpRootPbthNbme,
+     *   LPTSTR lpVolumeNbmeBuffer,
+     *   DWORD nVolumeNbmeSize,
+     *   LPDWORD lpVolumeSeriblNumber,
+     *   LPDWORD lpMbximumComponentLength,
+     *   LPDWORD lpFileSystemFlbgs,
+     *   LPTSTR lpFileSystemNbmeBuffer,
+     *   DWORD nFileSystemNbmeSize
      * )
      */
-    static VolumeInformation GetVolumeInformation(String root)
+    stbtic VolumeInformbtion GetVolumeInformbtion(String root)
         throws WindowsException
     {
-        NativeBuffer buffer = asNativeBuffer(root);
+        NbtiveBuffer buffer = bsNbtiveBuffer(root);
         try {
-            VolumeInformation info = new VolumeInformation();
-            GetVolumeInformation0(buffer.address(), info);
+            VolumeInformbtion info = new VolumeInformbtion();
+            GetVolumeInformbtion0(buffer.bddress(), info);
             return info;
-        } finally {
-            buffer.release();
+        } finblly {
+            buffer.relebse();
         }
     }
-    static class VolumeInformation {
-        private String fileSystemName;
-        private String volumeName;
-        private int volumeSerialNumber;
-        private int flags;
-        private VolumeInformation() { }
+    stbtic clbss VolumeInformbtion {
+        privbte String fileSystemNbme;
+        privbte String volumeNbme;
+        privbte int volumeSeriblNumber;
+        privbte int flbgs;
+        privbte VolumeInformbtion() { }
 
-        public String fileSystemName()      { return fileSystemName; }
-        public String volumeName()          { return volumeName; }
-        public int volumeSerialNumber()     { return volumeSerialNumber; }
-        public int flags()                  { return flags; }
+        public String fileSystemNbme()      { return fileSystemNbme; }
+        public String volumeNbme()          { return volumeNbme; }
+        public int volumeSeriblNumber()     { return volumeSeriblNumber; }
+        public int flbgs()                  { return flbgs; }
     }
-    private static native void GetVolumeInformation0(long lpRoot,
-                                                     VolumeInformation obj)
+    privbte stbtic nbtive void GetVolumeInformbtion0(long lpRoot,
+                                                     VolumeInformbtion obj)
         throws WindowsException;
 
     /**
      * UINT GetDriveType(
-     *   LPCTSTR lpRootPathName
+     *   LPCTSTR lpRootPbthNbme
      * )
      */
-    static int GetDriveType(String root) throws WindowsException {
-        NativeBuffer buffer = asNativeBuffer(root);
+    stbtic int GetDriveType(String root) throws WindowsException {
+        NbtiveBuffer buffer = bsNbtiveBuffer(root);
         try {
-            return GetDriveType0(buffer.address());
-        } finally {
-            buffer.release();
+            return GetDriveType0(buffer.bddress());
+        } finblly {
+            buffer.relebse();
         }
     }
-    private static native int GetDriveType0(long lpRoot) throws WindowsException;
+    privbte stbtic nbtive int GetDriveType0(long lpRoot) throws WindowsException;
 
     /**
-     * GetDiskFreeSpaceEx(
-     *   LPCTSTR lpDirectoryName,
-     *   PULARGE_INTEGER lpFreeBytesAvailableToCaller,
-     *   PULARGE_INTEGER lpTotalNumberOfBytes,
-     *   PULARGE_INTEGER lpTotalNumberOfFreeBytes
+     * GetDiskFreeSpbceEx(
+     *   LPCTSTR lpDirectoryNbme,
+     *   PULARGE_INTEGER lpFreeBytesAvbilbbleToCbller,
+     *   PULARGE_INTEGER lpTotblNumberOfBytes,
+     *   PULARGE_INTEGER lpTotblNumberOfFreeBytes
      * )
      */
-    static DiskFreeSpace GetDiskFreeSpaceEx(String path)
+    stbtic DiskFreeSpbce GetDiskFreeSpbceEx(String pbth)
         throws WindowsException
     {
-        NativeBuffer buffer = asNativeBuffer(path);
+        NbtiveBuffer buffer = bsNbtiveBuffer(pbth);
         try {
-            DiskFreeSpace space = new DiskFreeSpace();
-            GetDiskFreeSpaceEx0(buffer.address(), space);
-            return space;
-        } finally {
-            buffer.release();
+            DiskFreeSpbce spbce = new DiskFreeSpbce();
+            GetDiskFreeSpbceEx0(buffer.bddress(), spbce);
+            return spbce;
+        } finblly {
+            buffer.relebse();
         }
     }
-    static class DiskFreeSpace {
-        private long freeBytesAvailable;
-        private long totalNumberOfBytes;
-        private long totalNumberOfFreeBytes;
-        private DiskFreeSpace() { }
+    stbtic clbss DiskFreeSpbce {
+        privbte long freeBytesAvbilbble;
+        privbte long totblNumberOfBytes;
+        privbte long totblNumberOfFreeBytes;
+        privbte DiskFreeSpbce() { }
 
-        public long freeBytesAvailable()      { return freeBytesAvailable; }
-        public long totalNumberOfBytes()      { return totalNumberOfBytes; }
-        public long totalNumberOfFreeBytes()  { return totalNumberOfFreeBytes; }
+        public long freeBytesAvbilbble()      { return freeBytesAvbilbble; }
+        public long totblNumberOfBytes()      { return totblNumberOfBytes; }
+        public long totblNumberOfFreeBytes()  { return totblNumberOfFreeBytes; }
     }
-    private static native void GetDiskFreeSpaceEx0(long lpDirectoryName,
-                                                   DiskFreeSpace obj)
+    privbte stbtic nbtive void GetDiskFreeSpbceEx0(long lpDirectoryNbme,
+                                                   DiskFreeSpbce obj)
         throws WindowsException;
 
 
     /**
-     * GetVolumePathName(
-     *   LPCTSTR lpszFileName,
-     *   LPTSTR lpszVolumePathName,
+     * GetVolumePbthNbme(
+     *   LPCTSTR lpszFileNbme,
+     *   LPTSTR lpszVolumePbthNbme,
      *   DWORD cchBufferLength
      * )
      *
-     * @return  lpFileName
+     * @return  lpFileNbme
      */
-    static String GetVolumePathName(String path) throws WindowsException {
-        NativeBuffer buffer = asNativeBuffer(path);
+    stbtic String GetVolumePbthNbme(String pbth) throws WindowsException {
+        NbtiveBuffer buffer = bsNbtiveBuffer(pbth);
         try {
-            return GetVolumePathName0(buffer.address());
-        } finally {
-            buffer.release();
+            return GetVolumePbthNbme0(buffer.bddress());
+        } finblly {
+            buffer.relebse();
         }
     }
-    private static native String GetVolumePathName0(long lpFileName)
+    privbte stbtic nbtive String GetVolumePbthNbme0(long lpFileNbme)
         throws WindowsException;
 
 
     /**
-     * InitializeSecurityDescriptor(
+     * InitiblizeSecurityDescriptor(
      *   PSECURITY_DESCRIPTOR pSecurityDescriptor,
      *   DWORD dwRevision
      * )
      */
-    static native void InitializeSecurityDescriptor(long sdAddress)
+    stbtic nbtive void InitiblizeSecurityDescriptor(long sdAddress)
         throws WindowsException;
 
     /**
-     * InitializeAcl(
+     * InitiblizeAcl(
      *   PACL pAcl,
      *   DWORD nAclLength,
      *   DWORD dwAclRevision
      * )
      */
-    static native void InitializeAcl(long aclAddress, int size)
+    stbtic nbtive void InitiblizeAcl(long bclAddress, int size)
          throws WindowsException;
 
     /**
      * GetFileSecurity(
-     *   LPCTSTR lpFileName,
-     *   SECURITY_INFORMATION RequestedInformation,
+     *   LPCTSTR lpFileNbme,
+     *   SECURITY_INFORMATION RequestedInformbtion,
      *   PSECURITY_DESCRIPTOR pSecurityDescriptor,
      *   DWORD nLength,
      *   LPDWORD lpnLengthNeeded
      * )
      */
-    static int GetFileSecurity(String path,
-                               int requestedInformation,
+    stbtic int GetFileSecurity(String pbth,
+                               int requestedInformbtion,
                                long pSecurityDescriptor,
                                int nLength) throws WindowsException
     {
-        NativeBuffer buffer = asNativeBuffer(path);
+        NbtiveBuffer buffer = bsNbtiveBuffer(pbth);
         try {
-            return GetFileSecurity0(buffer.address(), requestedInformation,
+            return GetFileSecurity0(buffer.bddress(), requestedInformbtion,
                 pSecurityDescriptor, nLength);
-        } finally {
-            buffer.release();
+        } finblly {
+            buffer.relebse();
         }
     }
-    private static native int GetFileSecurity0(long lpFileName,
-                                               int requestedInformation,
+    privbte stbtic nbtive int GetFileSecurity0(long lpFileNbme,
+                                               int requestedInformbtion,
                                                long pSecurityDescriptor,
                                                int nLength) throws WindowsException;
 
     /**
      * SetFileSecurity(
-     *   LPCTSTR lpFileName,
-     *   SECURITY_INFORMATION SecurityInformation,
+     *   LPCTSTR lpFileNbme,
+     *   SECURITY_INFORMATION SecurityInformbtion,
      *   PSECURITY_DESCRIPTOR pSecurityDescriptor
      * )
      */
-    static void SetFileSecurity(String path,
-                                int securityInformation,
+    stbtic void SetFileSecurity(String pbth,
+                                int securityInformbtion,
                                 long pSecurityDescriptor)
         throws WindowsException
     {
-        NativeBuffer buffer = asNativeBuffer(path);
+        NbtiveBuffer buffer = bsNbtiveBuffer(pbth);
         try {
-            SetFileSecurity0(buffer.address(), securityInformation,
+            SetFileSecurity0(buffer.bddress(), securityInformbtion,
                 pSecurityDescriptor);
-        } finally {
-            buffer.release();
+        } finblly {
+            buffer.relebse();
         }
     }
-    static native void SetFileSecurity0(long lpFileName, int securityInformation,
+    stbtic nbtive void SetFileSecurity0(long lpFileNbme, int securityInformbtion,
         long pSecurityDescriptor) throws WindowsException;
 
     /**
      * GetSecurityDescriptorOwner(
      *   PSECURITY_DESCRIPTOR pSecurityDescriptor
      *   PSID *pOwner,
-     *   LPBOOL lpbOwnerDefaulted
+     *   LPBOOL lpbOwnerDefbulted
      * )
      *
      * @return  pOwner
      */
-    static native long GetSecurityDescriptorOwner(long pSecurityDescriptor)
+    stbtic nbtive long GetSecurityDescriptorOwner(long pSecurityDescriptor)
         throws WindowsException;
 
     /**
      * SetSecurityDescriptorOwner(
      *   PSECURITY_DESCRIPTOR pSecurityDescriptor,
      *   PSID pOwner,
-     *   BOOL bOwnerDefaulted
+     *   BOOL bOwnerDefbulted
      * )
      */
-    static native void SetSecurityDescriptorOwner(long pSecurityDescriptor,
+    stbtic nbtive void SetSecurityDescriptorOwner(long pSecurityDescriptor,
                                                   long pOwner)
         throws WindowsException;
 
     /**
-     * GetSecurityDescriptorDacl(
+     * GetSecurityDescriptorDbcl(
      *   PSECURITY_DESCRIPTOR pSecurityDescriptor,
-     *   LPBOOL lpbDaclPresent,
-     *   PACL *pDacl,
-     *   LPBOOL lpbDaclDefaulted
+     *   LPBOOL lpbDbclPresent,
+     *   PACL *pDbcl,
+     *   LPBOOL lpbDbclDefbulted
      * )
      */
-    static native long GetSecurityDescriptorDacl(long pSecurityDescriptor);
+    stbtic nbtive long GetSecurityDescriptorDbcl(long pSecurityDescriptor);
 
     /**
-     * SetSecurityDescriptorDacl(
+     * SetSecurityDescriptorDbcl(
      *   PSECURITY_DESCRIPTOR pSecurityDescriptor,
-     *   BOOL bDaclPresent,
-     *   PACL pDacl,
-     *   BOOL bDaclDefaulted
+     *   BOOL bDbclPresent,
+     *   PACL pDbcl,
+     *   BOOL bDbclDefbulted
      * )
      */
-    static native void SetSecurityDescriptorDacl(long pSecurityDescriptor, long pAcl)
+    stbtic nbtive void SetSecurityDescriptorDbcl(long pSecurityDescriptor, long pAcl)
         throws WindowsException;
 
 
     /**
-     * GetAclInformation(
+     * GetAclInformbtion(
      *   PACL pAcl,
-     *   LPVOID pAclInformation,
-     *   DWORD nAclInformationLength,
-     *   ACL_INFORMATION_CLASS dwAclInformationClass
+     *   LPVOID pAclInformbtion,
+     *   DWORD nAclInformbtionLength,
+     *   ACL_INFORMATION_CLASS dwAclInformbtionClbss
      * )
      */
-    static AclInformation GetAclInformation(long aclAddress) {
-        AclInformation info = new AclInformation();
-        GetAclInformation0(aclAddress, info);
+    stbtic AclInformbtion GetAclInformbtion(long bclAddress) {
+        AclInformbtion info = new AclInformbtion();
+        GetAclInformbtion0(bclAddress, info);
         return info;
     }
-    static class AclInformation {
-        private int aceCount;
-        private AclInformation() { }
+    stbtic clbss AclInformbtion {
+        privbte int bceCount;
+        privbte AclInformbtion() { }
 
-        public int aceCount()   { return aceCount; }
+        public int bceCount()   { return bceCount; }
     }
-    private static native void GetAclInformation0(long aclAddress,
-        AclInformation obj);
+    privbte stbtic nbtive void GetAclInformbtion0(long bclAddress,
+        AclInformbtion obj);
 
     /**
      * GetAce(
@@ -653,86 +653,86 @@ class WindowsNativeDispatcher {
      *   LPVOID *pAce
      * )
      */
-    static native long GetAce(long aclAddress, int aceIndex);
+    stbtic nbtive long GetAce(long bclAddress, int bceIndex);
 
     /**
      * AddAccessAllowedAceEx(
      *   PACL pAcl,
      *   DWORD dwAceRevision,
-     *   DWORD AceFlags,
-     *   DWORD AccessMask,
+     *   DWORD AceFlbgs,
+     *   DWORD AccessMbsk,
      *   PSID pSid
      * )
      */
-    static native void AddAccessAllowedAceEx(long aclAddress, int flags,
-        int mask, long sidAddress) throws WindowsException;
+    stbtic nbtive void AddAccessAllowedAceEx(long bclAddress, int flbgs,
+        int mbsk, long sidAddress) throws WindowsException;
 
     /**
      * AddAccessDeniedAceEx(
      *   PACL pAcl,
      *   DWORD dwAceRevision,
-     *   DWORD AceFlags,
-     *   DWORD AccessMask,
+     *   DWORD AceFlbgs,
+     *   DWORD AccessMbsk,
      *   PSID pSid
      * )
      */
-    static native void AddAccessDeniedAceEx(long aclAddress, int flags,
-        int mask, long sidAddress) throws WindowsException;
+    stbtic nbtive void AddAccessDeniedAceEx(long bclAddress, int flbgs,
+        int mbsk, long sidAddress) throws WindowsException;
 
     /**
      * LookupAccountSid(
-     *   LPCTSTR lpSystemName,
+     *   LPCTSTR lpSystemNbme,
      *   PSID Sid,
-     *   LPTSTR Name,
-     *   LPDWORD cbName,
-     *   LPTSTR ReferencedDomainName,
-     *   LPDWORD cbReferencedDomainName,
+     *   LPTSTR Nbme,
+     *   LPDWORD cbNbme,
+     *   LPTSTR ReferencedDombinNbme,
+     *   LPDWORD cbReferencedDombinNbme,
      *   PSID_NAME_USE peUse
      * )
      */
-    static Account LookupAccountSid(long sidAddress) throws WindowsException {
-        Account acc = new Account();
-        LookupAccountSid0(sidAddress, acc);
-        return acc;
+    stbtic Account LookupAccountSid(long sidAddress) throws WindowsException {
+        Account bcc = new Account();
+        LookupAccountSid0(sidAddress, bcc);
+        return bcc;
     }
-    static class Account {
-        private String domain;
-        private String name;
-        private int use;
-        private Account() { }
+    stbtic clbss Account {
+        privbte String dombin;
+        privbte String nbme;
+        privbte int use;
+        privbte Account() { }
 
-        public String domain()  { return domain; }
-        public String name()    { return name; }
+        public String dombin()  { return dombin; }
+        public String nbme()    { return nbme; }
         public int use()        { return use; }
     }
-    private static native void LookupAccountSid0(long sidAddress, Account obj)
+    privbte stbtic nbtive void LookupAccountSid0(long sidAddress, Account obj)
         throws WindowsException;
 
     /**
-     * LookupAccountName(
-     *   LPCTSTR lpSystemName,
-     *   LPCTSTR lpAccountName,
+     * LookupAccountNbme(
+     *   LPCTSTR lpSystemNbme,
+     *   LPCTSTR lpAccountNbme,
      *   PSID Sid,
      *   LPDWORD cbSid,
-     *   LPTSTR ReferencedDomainName,
-     *   LPDWORD cbReferencedDomainName,
+     *   LPTSTR ReferencedDombinNbme,
+     *   LPDWORD cbReferencedDombinNbme,
      *   PSID_NAME_USE peUse
      * )
      *
      * @return  cbSid
      */
-    static int LookupAccountName(String accountName,
+    stbtic int LookupAccountNbme(String bccountNbme,
                                  long pSid,
                                  int cbSid) throws WindowsException
     {
-        NativeBuffer buffer = asNativeBuffer(accountName);
+        NbtiveBuffer buffer = bsNbtiveBuffer(bccountNbme);
         try {
-            return LookupAccountName0(buffer.address(), pSid, cbSid);
-        } finally {
-            buffer.release();
+            return LookupAccountNbme0(buffer.bddress(), pSid, cbSid);
+        } finblly {
+            buffer.relebse();
         }
     }
-    private static native int LookupAccountName0(long lpAccountName, long pSid,
+    privbte stbtic nbtive int LookupAccountNbme0(long lpAccountNbme, long pSid,
         int cbSid) throws WindowsException;
 
     /**
@@ -740,7 +740,7 @@ class WindowsNativeDispatcher {
      *   PSID pSid
      * )
      */
-    static native int GetLengthSid(long sidAddress);
+    stbtic nbtive int GetLengthSid(long sidAddress);
 
     /**
      * ConvertSidToStringSid(
@@ -750,7 +750,7 @@ class WindowsNativeDispatcher {
      *
      * @return  StringSid
      */
-    static native String ConvertSidToStringSid(long sidAddress)
+    stbtic nbtive String ConvertSidToStringSid(long sidAddress)
         throws WindowsException;
 
     /**
@@ -761,87 +761,87 @@ class WindowsNativeDispatcher {
      *
      * @return  pSid
      */
-    static long ConvertStringSidToSid(String sidString)
+    stbtic long ConvertStringSidToSid(String sidString)
         throws WindowsException
     {
-        NativeBuffer buffer = asNativeBuffer(sidString);
+        NbtiveBuffer buffer = bsNbtiveBuffer(sidString);
         try {
-            return ConvertStringSidToSid0(buffer.address());
-        } finally {
-            buffer.release();
+            return ConvertStringSidToSid0(buffer.bddress());
+        } finblly {
+            buffer.relebse();
         }
     }
-    private static native long ConvertStringSidToSid0(long lpStringSid)
+    privbte stbtic nbtive long ConvertStringSidToSid0(long lpStringSid)
         throws WindowsException;
 
     /**
      * HANDLE GetCurrentProcess(VOID)
      */
-    static native long GetCurrentProcess();
+    stbtic nbtive long GetCurrentProcess();
 
     /**
-     * HANDLE GetCurrentThread(VOID)
+     * HANDLE GetCurrentThrebd(VOID)
      */
-    static native long GetCurrentThread();
+    stbtic nbtive long GetCurrentThrebd();
 
     /**
      * OpenProcessToken(
-     *   HANDLE ProcessHandle,
+     *   HANDLE ProcessHbndle,
      *   DWORD DesiredAccess,
-     *   PHANDLE TokenHandle
+     *   PHANDLE TokenHbndle
      * )
      */
-    static native long OpenProcessToken(long hProcess, int desiredAccess)
+    stbtic nbtive long OpenProcessToken(long hProcess, int desiredAccess)
         throws WindowsException;
 
     /**
-     * OpenThreadToken(
-     *   HANDLE ThreadHandle,
+     * OpenThrebdToken(
+     *   HANDLE ThrebdHbndle,
      *   DWORD DesiredAccess,
      *   BOOL OpenAsSelf,
-     *   PHANDLE TokenHandle
+     *   PHANDLE TokenHbndle
      * )
      */
-    static native long OpenThreadToken(long hThread, int desiredAccess,
-        boolean openAsSelf) throws WindowsException;
+    stbtic nbtive long OpenThrebdToken(long hThrebd, int desiredAccess,
+        boolebn openAsSelf) throws WindowsException;
 
     /**
      */
-    static native long DuplicateTokenEx(long hThread, int desiredAccess)
+    stbtic nbtive long DuplicbteTokenEx(long hThrebd, int desiredAccess)
         throws WindowsException;
 
     /**
-     * SetThreadToken(
-     *   PHANDLE Thread,
+     * SetThrebdToken(
+     *   PHANDLE Threbd,
      *   HANDLE Token
      * )
      */
-    static native void SetThreadToken(long thread, long hToken)
+    stbtic nbtive void SetThrebdToken(long threbd, long hToken)
         throws WindowsException;
 
     /**
-     * GetTokenInformation(
-     *   HANDLE TokenHandle,
-     *   TOKEN_INFORMATION_CLASS TokenInformationClass,
-     *   LPVOID TokenInformation,
-     *   DWORD TokenInformationLength,
+     * GetTokenInformbtion(
+     *   HANDLE TokenHbndle,
+     *   TOKEN_INFORMATION_CLASS TokenInformbtionClbss,
+     *   LPVOID TokenInformbtion,
+     *   DWORD TokenInformbtionLength,
      *   PDWORD ReturnLength
      * )
      */
-    static native int GetTokenInformation(long token, int tokenInfoClass,
+    stbtic nbtive int GetTokenInformbtion(long token, int tokenInfoClbss,
         long pTokenInfo, int tokenInfoLength) throws WindowsException;
 
     /**
      * AdjustTokenPrivileges(
-     *   HANDLE TokenHandle,
-     *   BOOL DisableAllPrivileges
-     *   PTOKEN_PRIVILEGES NewState
+     *   HANDLE TokenHbndle,
+     *   BOOL DisbbleAllPrivileges
+     *   PTOKEN_PRIVILEGES NewStbte
      *   DWORD BufferLength
      *   PTOKEN_PRIVILEGES
      *   PDWORD ReturnLength
      * )
      */
-    static native void AdjustTokenPrivileges(long token, long luid, int attributes)
+    stbtic nbtive void AdjustTokenPrivileges(long token, long luid, int bttributes)
         throws WindowsException;
 
 
@@ -850,233 +850,233 @@ class WindowsNativeDispatcher {
      *   PSECURITY_DESCRIPTOR pSecurityDescriptor,
      *   HANDLE ClientToken,
      *   DWORD DesiredAccess,
-     *   PGENERIC_MAPPING GenericMapping,
+     *   PGENERIC_MAPPING GenericMbpping,
      *   PPRIVILEGE_SET PrivilegeSet,
      *   LPDWORD PrivilegeSetLength,
-     *   LPDWORD GrantedAccess,
-     *   LPBOOL AccessStatus
+     *   LPDWORD GrbntedAccess,
+     *   LPBOOL AccessStbtus
      * )
      */
-    static native boolean AccessCheck(long token, long securityInfo, int accessMask,
-        int genericRead, int genericWrite, int genericExecute, int genericAll)
+    stbtic nbtive boolebn AccessCheck(long token, long securityInfo, int bccessMbsk,
+        int genericRebd, int genericWrite, int genericExecute, int genericAll)
         throws WindowsException;
 
     /**
      */
-    static long LookupPrivilegeValue(String name) throws WindowsException {
-        NativeBuffer buffer = asNativeBuffer(name);
+    stbtic long LookupPrivilegeVblue(String nbme) throws WindowsException {
+        NbtiveBuffer buffer = bsNbtiveBuffer(nbme);
         try {
-            return LookupPrivilegeValue0(buffer.address());
-        } finally {
-            buffer.release();
+            return LookupPrivilegeVblue0(buffer.bddress());
+        } finblly {
+            buffer.relebse();
         }
     }
-    private static native long LookupPrivilegeValue0(long lpName)
+    privbte stbtic nbtive long LookupPrivilegeVblue0(long lpNbme)
         throws WindowsException;
 
     /**
-     * CreateSymbolicLink(
-     *   LPCWSTR lpSymlinkFileName,
-     *   LPCWSTR lpTargetFileName,
-     *   DWORD dwFlags
+     * CrebteSymbolicLink(
+     *   LPCWSTR lpSymlinkFileNbme,
+     *   LPCWSTR lpTbrgetFileNbme,
+     *   DWORD dwFlbgs
      * )
      */
-    static void CreateSymbolicLink(String link, String target, int flags)
+    stbtic void CrebteSymbolicLink(String link, String tbrget, int flbgs)
         throws WindowsException
     {
-        NativeBuffer linkBuffer = asNativeBuffer(link);
-        NativeBuffer targetBuffer = asNativeBuffer(target);
+        NbtiveBuffer linkBuffer = bsNbtiveBuffer(link);
+        NbtiveBuffer tbrgetBuffer = bsNbtiveBuffer(tbrget);
         try {
-            CreateSymbolicLink0(linkBuffer.address(), targetBuffer.address(),
-                                flags);
-        } finally {
-            targetBuffer.release();
-            linkBuffer.release();
+            CrebteSymbolicLink0(linkBuffer.bddress(), tbrgetBuffer.bddress(),
+                                flbgs);
+        } finblly {
+            tbrgetBuffer.relebse();
+            linkBuffer.relebse();
         }
     }
-    private static native void CreateSymbolicLink0(long linkAddress,
-        long targetAddress, int flags) throws WindowsException;
+    privbte stbtic nbtive void CrebteSymbolicLink0(long linkAddress,
+        long tbrgetAddress, int flbgs) throws WindowsException;
 
     /**
-     * CreateHardLink(
-     *    LPCTSTR lpFileName,
-     *    LPCTSTR lpExistingFileName,
+     * CrebteHbrdLink(
+     *    LPCTSTR lpFileNbme,
+     *    LPCTSTR lpExistingFileNbme,
      *    LPSECURITY_ATTRIBUTES lpSecurityAttributes
      * )
      */
-    static void CreateHardLink(String newFile, String existingFile)
+    stbtic void CrebteHbrdLink(String newFile, String existingFile)
         throws WindowsException
     {
-        NativeBuffer newFileBuffer = asNativeBuffer(newFile);
-        NativeBuffer existingFileBuffer = asNativeBuffer(existingFile);
+        NbtiveBuffer newFileBuffer = bsNbtiveBuffer(newFile);
+        NbtiveBuffer existingFileBuffer = bsNbtiveBuffer(existingFile);
         try {
-            CreateHardLink0(newFileBuffer.address(), existingFileBuffer.address());
-        } finally {
-            existingFileBuffer.release();
-            newFileBuffer.release();
+            CrebteHbrdLink0(newFileBuffer.bddress(), existingFileBuffer.bddress());
+        } finblly {
+            existingFileBuffer.relebse();
+            newFileBuffer.relebse();
         }
     }
-    private static native void CreateHardLink0(long newFileBuffer,
+    privbte stbtic nbtive void CrebteHbrdLink0(long newFileBuffer,
         long existingFileBuffer) throws WindowsException;
 
     /**
-     * GetFullPathName(
-     *   LPCTSTR lpFileName,
+     * GetFullPbthNbme(
+     *   LPCTSTR lpFileNbme,
      *   DWORD nBufferLength,
      *   LPTSTR lpBuffer,
-     *   LPTSTR *lpFilePart
+     *   LPTSTR *lpFilePbrt
      * )
      */
-    static String GetFullPathName(String path) throws WindowsException {
-        NativeBuffer buffer = asNativeBuffer(path);
+    stbtic String GetFullPbthNbme(String pbth) throws WindowsException {
+        NbtiveBuffer buffer = bsNbtiveBuffer(pbth);
         try {
-            return GetFullPathName0(buffer.address());
-        } finally {
-            buffer.release();
+            return GetFullPbthNbme0(buffer.bddress());
+        } finblly {
+            buffer.relebse();
         }
     }
-    private static native String GetFullPathName0(long pathAddress)
+    privbte stbtic nbtive String GetFullPbthNbme0(long pbthAddress)
         throws WindowsException;
 
     /**
-     * GetFinalPathNameByHandle(
+     * GetFinblPbthNbmeByHbndle(
      *   HANDLE hFile,
-     *   LPTSTR lpszFilePath,
-     *   DWORD cchFilePath,
-     *   DWORD dwFlags
+     *   LPTSTR lpszFilePbth,
+     *   DWORD cchFilePbth,
+     *   DWORD dwFlbgs
      * )
      */
-    static native String GetFinalPathNameByHandle(long handle)
+    stbtic nbtive String GetFinblPbthNbmeByHbndle(long hbndle)
         throws WindowsException;
 
     /**
-     * FormatMessage(
-     *   DWORD dwFlags,
+     * FormbtMessbge(
+     *   DWORD dwFlbgs,
      *   LPCVOID lpSource,
-     *   DWORD dwMessageId,
-     *   DWORD dwLanguageId,
+     *   DWORD dwMessbgeId,
+     *   DWORD dwLbngubgeId,
      *   LPTSTR lpBuffer,
      *   DWORD nSize,
-     *   va_list *Arguments
+     *   vb_list *Arguments
      * )
      */
-    static native String FormatMessage(int errorCode);
+    stbtic nbtive String FormbtMessbge(int errorCode);
 
     /**
-     * LocalFree(
+     * LocblFree(
      *   HLOCAL hMem
      * )
      */
-    static native void LocalFree(long address);
+    stbtic nbtive void LocblFree(long bddress);
 
     /**
-     * HANDLE CreateIoCompletionPort (
-     *   HANDLE FileHandle,
+     * HANDLE CrebteIoCompletionPort (
+     *   HANDLE FileHbndle,
      *   HANDLE ExistingCompletionPort,
      *   ULONG_PTR CompletionKey,
-     *   DWORD NumberOfConcurrentThreads
+     *   DWORD NumberOfConcurrentThrebds
      * )
      */
-    static native long CreateIoCompletionPort(long fileHandle, long existingPort,
+    stbtic nbtive long CrebteIoCompletionPort(long fileHbndle, long existingPort,
         long completionKey) throws WindowsException;
 
 
     /**
-     * GetQueuedCompletionStatus(
+     * GetQueuedCompletionStbtus(
      *   HANDLE CompletionPort,
-     *   LPDWORD lpNumberOfBytesTransferred,
+     *   LPDWORD lpNumberOfBytesTrbnsferred,
      *   PULONG_PTR lpCompletionKey,
-     *   LPOVERLAPPED *lpOverlapped,
+     *   LPOVERLAPPED *lpOverlbpped,
      *   DWORD dwMilliseconds
      */
-    static CompletionStatus GetQueuedCompletionStatus(long completionPort)
+    stbtic CompletionStbtus GetQueuedCompletionStbtus(long completionPort)
         throws WindowsException
     {
-        CompletionStatus status = new CompletionStatus();
-        GetQueuedCompletionStatus0(completionPort, status);
-        return status;
+        CompletionStbtus stbtus = new CompletionStbtus();
+        GetQueuedCompletionStbtus0(completionPort, stbtus);
+        return stbtus;
     }
-    static class CompletionStatus {
-        private int error;
-        private int bytesTransferred;
-        private long completionKey;
-        private CompletionStatus() { }
+    stbtic clbss CompletionStbtus {
+        privbte int error;
+        privbte int bytesTrbnsferred;
+        privbte long completionKey;
+        privbte CompletionStbtus() { }
 
         int error() { return error; }
-        int bytesTransferred() { return bytesTransferred; }
+        int bytesTrbnsferred() { return bytesTrbnsferred; }
         long completionKey() { return completionKey; }
     }
-    private static native void GetQueuedCompletionStatus0(long completionPort,
-        CompletionStatus status) throws WindowsException;
+    privbte stbtic nbtive void GetQueuedCompletionStbtus0(long completionPort,
+        CompletionStbtus stbtus) throws WindowsException;
 
     /**
-     * PostQueuedCompletionStatus(
+     * PostQueuedCompletionStbtus(
      *   HANDLE CompletionPort,
-     *   DWORD dwNumberOfBytesTransferred,
+     *   DWORD dwNumberOfBytesTrbnsferred,
      *   ULONG_PTR dwCompletionKey,
-     *   LPOVERLAPPED lpOverlapped
+     *   LPOVERLAPPED lpOverlbpped
      * )
      */
-    static native void PostQueuedCompletionStatus(long completionPort,
+    stbtic nbtive void PostQueuedCompletionStbtus(long completionPort,
         long completionKey) throws WindowsException;
 
     /**
-     * ReadDirectoryChangesW(
+     * RebdDirectoryChbngesW(
      *   HANDLE hDirectory,
      *   LPVOID lpBuffer,
      *   DWORD nBufferLength,
-     *   BOOL bWatchSubtree,
+     *   BOOL bWbtchSubtree,
      *   DWORD dwNotifyFilter,
      *   LPDWORD lpBytesReturned,
-     *   LPOVERLAPPED lpOverlapped,
+     *   LPOVERLAPPED lpOverlbpped,
      *   LPOVERLAPPED_COMPLETION_ROUTINE lpCompletionRoutine
      * )
      */
-    static native void ReadDirectoryChangesW(long hDirectory,
+    stbtic nbtive void RebdDirectoryChbngesW(long hDirectory,
                                              long bufferAddress,
                                              int bufferLength,
-                                             boolean watchSubTree,
+                                             boolebn wbtchSubTree,
                                              int filter,
                                              long bytesReturnedAddress,
-                                             long pOverlapped)
+                                             long pOverlbpped)
         throws WindowsException;
 
     /**
-     * BackupRead(
+     * BbckupRebd(
      *   HANDLE hFile,
      *   LPBYTE lpBuffer,
-     *   DWORD nNumberOfBytesToRead,
-     *   LPDWORD lpNumberOfBytesRead,
+     *   DWORD nNumberOfBytesToRebd,
+     *   LPDWORD lpNumberOfBytesRebd,
      *   BOOL bAbort,
      *   BOOL bProcessSecurity,
      *   LPVOID* lpContext
      * )
      */
-    static BackupResult BackupRead(long hFile,
+    stbtic BbckupResult BbckupRebd(long hFile,
                                    long bufferAddress,
                                    int bufferSize,
-                                   boolean abort,
+                                   boolebn bbort,
                                    long context)
         throws WindowsException
     {
-        BackupResult result = new BackupResult();
-        BackupRead0(hFile, bufferAddress, bufferSize, abort, context, result);
+        BbckupResult result = new BbckupResult();
+        BbckupRebd0(hFile, bufferAddress, bufferSize, bbort, context, result);
         return result;
     }
-    static class BackupResult {
-        private int bytesTransferred;
-        private long context;
-        private BackupResult() { }
+    stbtic clbss BbckupResult {
+        privbte int bytesTrbnsferred;
+        privbte long context;
+        privbte BbckupResult() { }
 
-        int bytesTransferred() { return bytesTransferred; }
+        int bytesTrbnsferred() { return bytesTrbnsferred; }
         long context() { return context; }
     }
-    private static native void BackupRead0(long hFile, long bufferAddress,
-        int bufferSize, boolean abort, long context, BackupResult result)
+    privbte stbtic nbtive void BbckupRebd0(long hFile, long bufferAddress,
+        int bufferSize, boolebn bbort, long context, BbckupResult result)
         throws WindowsException;
 
     /**
-     * BackupSeek(
+     * BbckupSeek(
      *   HANDLE hFile,
      *   DWORD dwLowBytesToSeek,
      *   DWORD dwHighBytesToSeek,
@@ -1085,47 +1085,47 @@ class WindowsNativeDispatcher {
      *   LPVOID* lpContext
      * )
      */
-    static native void BackupSeek(long hFile, long bytesToSeek, long context)
+    stbtic nbtive void BbckupSeek(long hFile, long bytesToSeek, long context)
         throws WindowsException;
 
 
-    // -- support for copying String with a NativeBuffer --
+    // -- support for copying String with b NbtiveBuffer --
 
-    private static final Unsafe unsafe = Unsafe.getUnsafe();
+    privbte stbtic finbl Unsbfe unsbfe = Unsbfe.getUnsbfe();
 
-    static NativeBuffer asNativeBuffer(String s) {
+    stbtic NbtiveBuffer bsNbtiveBuffer(String s) {
         int stringLengthInBytes = s.length() << 1;
-        int sizeInBytes = stringLengthInBytes + 2;  // char terminator
+        int sizeInBytes = stringLengthInBytes + 2;  // chbr terminbtor
 
-        // get a native buffer of sufficient size
-        NativeBuffer buffer = NativeBuffers.getNativeBufferFromCache(sizeInBytes);
+        // get b nbtive buffer of sufficient size
+        NbtiveBuffer buffer = NbtiveBuffers.getNbtiveBufferFromCbche(sizeInBytes);
         if (buffer == null) {
-            buffer = NativeBuffers.allocNativeBuffer(sizeInBytes);
+            buffer = NbtiveBuffers.bllocNbtiveBuffer(sizeInBytes);
         } else {
-            // buffer already contains the string contents
+            // buffer blrebdy contbins the string contents
             if (buffer.owner() == s)
                 return buffer;
         }
 
-        // copy into buffer and zero terminate
-        char[] chars = s.toCharArray();
-        unsafe.copyMemory(chars, Unsafe.ARRAY_CHAR_BASE_OFFSET, null,
-            buffer.address(), (long)stringLengthInBytes);
-        unsafe.putChar(buffer.address() + stringLengthInBytes, (char)0);
+        // copy into buffer bnd zero terminbte
+        chbr[] chbrs = s.toChbrArrby();
+        unsbfe.copyMemory(chbrs, Unsbfe.ARRAY_CHAR_BASE_OFFSET, null,
+            buffer.bddress(), (long)stringLengthInBytes);
+        unsbfe.putChbr(buffer.bddress() + stringLengthInBytes, (chbr)0);
         buffer.setOwner(s);
         return buffer;
     }
 
-    // -- native library initialization --
+    // -- nbtive librbry initiblizbtion --
 
-    private static native void initIDs();
+    privbte stbtic nbtive void initIDs();
 
-    static {
+    stbtic {
         AccessController.doPrivileged(new PrivilegedAction<Void>() {
             public Void run() {
-                // nio.dll has dependency on net.dll
-                System.loadLibrary("net");
-                System.loadLibrary("nio");
+                // nio.dll hbs dependency on net.dll
+                System.lobdLibrbry("net");
+                System.lobdLibrbry("nio");
                 return null;
         }});
         initIDs();

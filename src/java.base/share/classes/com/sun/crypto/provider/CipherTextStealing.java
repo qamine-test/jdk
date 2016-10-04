@@ -1,216 +1,216 @@
 /*
- * Copyright (c) 2004, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.crypto.provider;
+pbckbge com.sun.crypto.provider;
 
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.ShortBufferException;
+import jbvbx.crypto.IllegblBlockSizeException;
+import jbvbx.crypto.ShortBufferException;
 
 /**
- * This class represents ciphers in cipher text stealing (CTS) mode.
- * <br>CTS provides a way to allow block ciphers to operate on partial
- * blocks without padding, and all bits of the message go through
- * the encryption algorithm, rather than simply being XOR'd.
- * <br>More details can be found in RFC 2040 section 8 "Description
+ * This clbss represents ciphers in cipher text stebling (CTS) mode.
+ * <br>CTS provides b wby to bllow block ciphers to operbte on pbrtibl
+ * blocks without pbdding, bnd bll bits of the messbge go through
+ * the encryption blgorithm, rbther thbn simply being XOR'd.
+ * <br>More detbils cbn be found in RFC 2040 section 8 "Description
  * of RC5-CTS".
  *
- * <p>This mode is implemented independently of a particular cipher.
- * Ciphers to which this mode should apply (e.g., DES) must be
+ * <p>This mode is implemented independently of b pbrticulbr cipher.
+ * Ciphers to which this mode should bpply (e.g., DES) must be
  * <i>plugged-in</i> using the constructor.
  *
- * <p>NOTE#1: CTS requires the input data to be at least one block
- * long. Thus, callers of this class has to buffer the input data
- * to make sure the input data passed to encryptFinal()/decryptFinal()
- * is not shorter than a block.
- * <p>NOTE#2: This class does not deal with buffering or padding
- * just like all other cipher mode implementations.
+ * <p>NOTE#1: CTS requires the input dbtb to be bt lebst one block
+ * long. Thus, cbllers of this clbss hbs to buffer the input dbtb
+ * to mbke sure the input dbtb pbssed to encryptFinbl()/decryptFinbl()
+ * is not shorter thbn b block.
+ * <p>NOTE#2: This clbss does not debl with buffering or pbdding
+ * just like bll other cipher mode implementbtions.
  *
- * @author Valerie Peng
+ * @buthor Vblerie Peng
  */
 
-final class CipherTextStealing extends CipherBlockChaining {
+finbl clbss CipherTextStebling extends CipherBlockChbining {
 
-    CipherTextStealing(SymmetricCipher embeddedCipher) {
+    CipherTextStebling(SymmetricCipher embeddedCipher) {
         super(embeddedCipher);
     }
 
     /**
-     * Gets the name of this feedback mode.
+     * Gets the nbme of this feedbbck mode.
      *
      * @return the string <code>CBC</code>
      */
-    String getFeedback() {
+    String getFeedbbck() {
         return "CTS";
     }
 
     /**
-     * Performs the last encryption operation.
+     * Performs the lbst encryption operbtion.
      *
-     * <p>The input plain text <code>plain</code>, starting at
-     * <code>plainOffset</code> and ending at
-     * <code>(plainOffset + len - 1)</code>, is encrypted.
-     * The result is stored in <code>cipher</code>, starting at
+     * <p>The input plbin text <code>plbin</code>, stbrting bt
+     * <code>plbinOffset</code> bnd ending bt
+     * <code>(plbinOffset + len - 1)</code>, is encrypted.
+     * The result is stored in <code>cipher</code>, stbrting bt
      * <code>cipherOffset</code>.
      *
-     * <p>It is the application's responsibility to make sure that
-     * <code>plainLen</code> is a multiple of the embedded cipher's block size,
-     * as any excess bytes are ignored.
+     * <p>It is the bpplicbtion's responsibility to mbke sure thbt
+     * <code>plbinLen</code> is b multiple of the embedded cipher's block size,
+     * bs bny excess bytes bre ignored.
      *
-     * @param plain the buffer with the input data to be encrypted
-     * @param plainOffset the offset in <code>plain</code>
-     * @param plainLen the length of the input data
-     * @param cipher the buffer for the result
-     * @param cipherOffset the offset in <code>cipher</code>
-     * @return the number of bytes placed into <code>cipher</code>
+     * @pbrbm plbin the buffer with the input dbtb to be encrypted
+     * @pbrbm plbinOffset the offset in <code>plbin</code>
+     * @pbrbm plbinLen the length of the input dbtb
+     * @pbrbm cipher the buffer for the result
+     * @pbrbm cipherOffset the offset in <code>cipher</code>
+     * @return the number of bytes plbced into <code>cipher</code>
      */
-    int encryptFinal(byte[] plain, int plainOffset, int plainLen,
+    int encryptFinbl(byte[] plbin, int plbinOffset, int plbinLen,
                      byte[] cipher, int cipherOffset)
-        throws IllegalBlockSizeException {
+        throws IllegblBlockSizeException {
 
-        if (plainLen < blockSize) {
-            throw new IllegalBlockSizeException("input is too short!");
-        } else if (plainLen == blockSize) {
-            encrypt(plain, plainOffset, plainLen, cipher, cipherOffset);
+        if (plbinLen < blockSize) {
+            throw new IllegblBlockSizeException("input is too short!");
+        } else if (plbinLen == blockSize) {
+            encrypt(plbin, plbinOffset, plbinLen, cipher, cipherOffset);
         } else {
-            // number of bytes in the last block
-            int nLeft = plainLen % blockSize;
+            // number of bytes in the lbst block
+            int nLeft = plbinLen % blockSize;
             if (nLeft == 0) {
-                encrypt(plain, plainOffset, plainLen, cipher, cipherOffset);
-                // swap the last two blocks after encryption
-                int lastBlkIndex = cipherOffset + plainLen - blockSize;
-                int nextToLastBlkIndex = lastBlkIndex - blockSize;
+                encrypt(plbin, plbinOffset, plbinLen, cipher, cipherOffset);
+                // swbp the lbst two blocks bfter encryption
+                int lbstBlkIndex = cipherOffset + plbinLen - blockSize;
+                int nextToLbstBlkIndex = lbstBlkIndex - blockSize;
                 byte[] tmp = new byte[blockSize];
-                System.arraycopy(cipher, lastBlkIndex, tmp, 0, blockSize);
-                System.arraycopy(cipher, nextToLastBlkIndex,
-                                 cipher, lastBlkIndex, blockSize);
-                System.arraycopy(tmp, 0, cipher, nextToLastBlkIndex,
+                System.brrbycopy(cipher, lbstBlkIndex, tmp, 0, blockSize);
+                System.brrbycopy(cipher, nextToLbstBlkIndex,
+                                 cipher, lbstBlkIndex, blockSize);
+                System.brrbycopy(tmp, 0, cipher, nextToLbstBlkIndex,
                                  blockSize);
             } else {
-                int newPlainLen = plainLen - (blockSize + nLeft);
-                if (newPlainLen > 0) {
-                    encrypt(plain, plainOffset, newPlainLen, cipher,
+                int newPlbinLen = plbinLen - (blockSize + nLeft);
+                if (newPlbinLen > 0) {
+                    encrypt(plbin, plbinOffset, newPlbinLen, cipher,
                             cipherOffset);
-                    plainOffset += newPlainLen;
-                    cipherOffset += newPlainLen;
+                    plbinOffset += newPlbinLen;
+                    cipherOffset += newPlbinLen;
                 }
 
-                // Do final CTS step for last two blocks (the second of which
-                // may or may not be incomplete).
+                // Do finbl CTS step for lbst two blocks (the second of which
+                // mby or mby not be incomplete).
                 byte[] tmp = new byte[blockSize];
-                // now encrypt the next-to-last block
+                // now encrypt the next-to-lbst block
                 for (int i = 0; i < blockSize; i++) {
-                    tmp[i] = (byte) (plain[plainOffset+i] ^ r[i]);
+                    tmp[i] = (byte) (plbin[plbinOffset+i] ^ r[i]);
                 }
                 byte[] tmp2 = new byte[blockSize];
                 embeddedCipher.encryptBlock(tmp, 0, tmp2, 0);
-                System.arraycopy(tmp2, 0, cipher,
+                System.brrbycopy(tmp2, 0, cipher,
                                  cipherOffset+blockSize, nLeft);
-                // encrypt the last block
+                // encrypt the lbst block
                 for (int i=0; i<nLeft; i++) {
                     tmp2[i] = (byte)
-                        (plain[plainOffset+blockSize+i] ^ tmp2[i]);
+                        (plbin[plbinOffset+blockSize+i] ^ tmp2[i]);
                 }
                 embeddedCipher.encryptBlock(tmp2, 0, cipher, cipherOffset);
             }
         }
-        return plainLen;
+        return plbinLen;
     }
 
     /**
-     * Performs decryption operation.
+     * Performs decryption operbtion.
      *
-     * <p>The input cipher text <code>cipher</code>, starting at
-     * <code>cipherOffset</code> and ending at
+     * <p>The input cipher text <code>cipher</code>, stbrting bt
+     * <code>cipherOffset</code> bnd ending bt
      * <code>(cipherOffset + len - 1)</code>, is decrypted.
-     * The result is stored in <code>plain</code>, starting at
-     * <code>plainOffset</code>.
+     * The result is stored in <code>plbin</code>, stbrting bt
+     * <code>plbinOffset</code>.
      *
-     * <p>It is the application's responsibility to make sure that
-     * <code>cipherLen</code> is a multiple of the embedded cipher's block
-     * size, as any excess bytes are ignored.
+     * <p>It is the bpplicbtion's responsibility to mbke sure thbt
+     * <code>cipherLen</code> is b multiple of the embedded cipher's block
+     * size, bs bny excess bytes bre ignored.
      *
-     * <p>It is also the application's responsibility to make sure that
-     * <code>init</code> has been called before this method is called.
-     * (This check is omitted here, to avoid double checking.)
+     * <p>It is blso the bpplicbtion's responsibility to mbke sure thbt
+     * <code>init</code> hbs been cblled before this method is cblled.
+     * (This check is omitted here, to bvoid double checking.)
      *
-     * @param cipher the buffer with the input data to be decrypted
-     * @param cipherOffset the offset in <code>cipherOffset</code>
-     * @param cipherLen the length of the input data
-     * @param plain the buffer for the result
-     * @param plainOffset the offset in <code>plain</code>
-     * @return the number of bytes placed into <code>plain</code>
+     * @pbrbm cipher the buffer with the input dbtb to be decrypted
+     * @pbrbm cipherOffset the offset in <code>cipherOffset</code>
+     * @pbrbm cipherLen the length of the input dbtb
+     * @pbrbm plbin the buffer for the result
+     * @pbrbm plbinOffset the offset in <code>plbin</code>
+     * @return the number of bytes plbced into <code>plbin</code>
      */
-    int decryptFinal(byte[] cipher, int cipherOffset, int cipherLen,
-                     byte[] plain, int plainOffset)
-        throws IllegalBlockSizeException {
+    int decryptFinbl(byte[] cipher, int cipherOffset, int cipherLen,
+                     byte[] plbin, int plbinOffset)
+        throws IllegblBlockSizeException {
         if (cipherLen < blockSize) {
-            throw new IllegalBlockSizeException("input is too short!");
+            throw new IllegblBlockSizeException("input is too short!");
         } else if (cipherLen == blockSize) {
-            decrypt(cipher, cipherOffset, cipherLen, plain, plainOffset);
+            decrypt(cipher, cipherOffset, cipherLen, plbin, plbinOffset);
         } else {
-            // number of bytes in the last block
+            // number of bytes in the lbst block
             int nLeft = cipherLen % blockSize;
             if (nLeft == 0) {
-                // swap the last two blocks before decryption
-                int lastBlkIndex = cipherOffset + cipherLen - blockSize;
-                int nextToLastBlkIndex =
+                // swbp the lbst two blocks before decryption
+                int lbstBlkIndex = cipherOffset + cipherLen - blockSize;
+                int nextToLbstBlkIndex =
                     cipherOffset + cipherLen - 2*blockSize;
                 byte[] tmp = new byte[2*blockSize];
-                System.arraycopy(cipher, lastBlkIndex, tmp, 0, blockSize);
-                System.arraycopy(cipher, nextToLastBlkIndex,
+                System.brrbycopy(cipher, lbstBlkIndex, tmp, 0, blockSize);
+                System.brrbycopy(cipher, nextToLbstBlkIndex,
                                  tmp, blockSize, blockSize);
                 int cipherLen2 = cipherLen-2*blockSize;
-                decrypt(cipher, cipherOffset, cipherLen2, plain, plainOffset);
-                decrypt(tmp, 0, 2*blockSize, plain, plainOffset+cipherLen2);
+                decrypt(cipher, cipherOffset, cipherLen2, plbin, plbinOffset);
+                decrypt(tmp, 0, 2*blockSize, plbin, plbinOffset+cipherLen2);
             } else {
                 int newCipherLen = cipherLen-(blockSize+nLeft);
                 if (newCipherLen > 0) {
-                    decrypt(cipher, cipherOffset, newCipherLen, plain,
-                            plainOffset);
+                    decrypt(cipher, cipherOffset, newCipherLen, plbin,
+                            plbinOffset);
                     cipherOffset += newCipherLen;
-                    plainOffset += newCipherLen;
+                    plbinOffset += newCipherLen;
                 }
-                // Do final CTS step for last two blocks (the second of which
-                // may or may not be incomplete).
+                // Do finbl CTS step for lbst two blocks (the second of which
+                // mby or mby not be incomplete).
 
-                // now decrypt the next-to-last block
+                // now decrypt the next-to-lbst block
                 byte[] tmp = new byte[blockSize];
                 embeddedCipher.decryptBlock(cipher, cipherOffset, tmp, 0);
                 for (int i = 0; i < nLeft; i++) {
-                    plain[plainOffset+blockSize+i] =
+                    plbin[plbinOffset+blockSize+i] =
                         (byte) (cipher[cipherOffset+blockSize+i] ^ tmp[i]);
                 }
 
-                // decrypt the last block
-                System.arraycopy(cipher, cipherOffset+blockSize, tmp, 0,
+                // decrypt the lbst block
+                System.brrbycopy(cipher, cipherOffset+blockSize, tmp, 0,
                                  nLeft);
-                embeddedCipher.decryptBlock(tmp, 0, plain, plainOffset);
-                //System.arraycopy(r, 0, tmp, 0, r.length);
+                embeddedCipher.decryptBlock(tmp, 0, plbin, plbinOffset);
+                //System.brrbycopy(r, 0, tmp, 0, r.length);
                 for (int i=0; i<blockSize; i++) {
-                    plain[plainOffset+i] = (byte)
-                        (plain[plainOffset+i]^r[i]);
+                    plbin[plbinOffset+i] = (byte)
+                        (plbin[plbinOffset+i]^r[i]);
                 }
             }
         }

@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -29,19 +29,19 @@
  * Copyright (C) 1991-2012 Unicode, Inc. All rights reserved. Distributed under
  * the Terms of Use in http://www.unicode.org/copyright.html.
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of the Unicode data files and any associated documentation (the "Data
- * Files") or Unicode software and any associated documentation (the
- * "Software") to deal in the Data Files or Software without restriction,
- * including without limitation the rights to use, copy, modify, merge,
- * publish, distribute, and/or sell copies of the Data Files or Software, and
- * to permit persons to whom the Data Files or Software are furnished to do so,
- * provided that (a) the above copyright notice(s) and this permission notice
- * appear with all copies of the Data Files or Software, (b) both the above
- * copyright notice(s) and this permission notice appear in associated
- * documentation, and (c) there is clear notice in each modified Data File or
- * in the Software as well as in the documentation associated with the Data
- * File(s) or Software that the data or software has been modified.
+ * Permission is hereby grbnted, free of chbrge, to bny person obtbining b copy
+ * of the Unicode dbtb files bnd bny bssocibted documentbtion (the "Dbtb
+ * Files") or Unicode softwbre bnd bny bssocibted documentbtion (the
+ * "Softwbre") to debl in the Dbtb Files or Softwbre without restriction,
+ * including without limitbtion the rights to use, copy, modify, merge,
+ * publish, distribute, bnd/or sell copies of the Dbtb Files or Softwbre, bnd
+ * to permit persons to whom the Dbtb Files or Softwbre bre furnished to do so,
+ * provided thbt (b) the bbove copyright notice(s) bnd this permission notice
+ * bppebr with bll copies of the Dbtb Files or Softwbre, (b) both the bbove
+ * copyright notice(s) bnd this permission notice bppebr in bssocibted
+ * documentbtion, bnd (c) there is clebr notice in ebch modified Dbtb File or
+ * in the Softwbre bs well bs in the documentbtion bssocibted with the Dbtb
+ * File(s) or Softwbre thbt the dbtb or softwbre hbs been modified.
  *
  * THE DATA FILES AND SOFTWARE ARE PROVIDED "AS IS", WITHOUT WARRANTY OF ANY
  * KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
@@ -53,23 +53,23 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE
  * OF THE DATA FILES OR SOFTWARE.
  *
- * Except as contained in this notice, the name of a copyright holder shall not
- * be used in advertising or otherwise to promote the sale, use or other
- * dealings in these Data Files or Software without prior written authorization
+ * Except bs contbined in this notice, the nbme of b copyright holder shbll not
+ * be used in bdvertising or otherwise to promote the sble, use or other
+ * deblings in these Dbtb Files or Softwbre without prior written buthorizbtion
  * of the copyright holder.
  */
 
-//  Note: this file has been generated by a tool.
+//  Note: this file hbs been generbted by b tool.
 
-package sun.text.resources.th;
+pbckbge sun.text.resources.th;
 
 import sun.util.resources.OpenListResourceBundle;
 
-public class JavaTimeSupplementary_th extends OpenListResourceBundle {
+public clbss JbvbTimeSupplementbry_th extends OpenListResourceBundle {
     @Override
-    protected final Object[][] getContents() {
+    protected finbl Object[][] getContents() {
         return new Object[][] {
-            { "QuarterAbbreviations",
+            { "QubrterAbbrevibtions",
                 new String[] {
                     "Q1",
                     "Q2",
@@ -77,15 +77,15 @@ public class JavaTimeSupplementary_th extends OpenListResourceBundle {
                     "Q4",
                 }
             },
-            { "QuarterNames",
+            { "QubrterNbmes",
                 new String[] {
-                    "\u0e44\u0e15\u0e23\u0e21\u0e32\u0e2a 1",
-                    "\u0e44\u0e15\u0e23\u0e21\u0e32\u0e2a 2",
-                    "\u0e44\u0e15\u0e23\u0e21\u0e32\u0e2a 3",
-                    "\u0e44\u0e15\u0e23\u0e21\u0e32\u0e2a 4",
+                    "\u0e44\u0e15\u0e23\u0e21\u0e32\u0e2b 1",
+                    "\u0e44\u0e15\u0e23\u0e21\u0e32\u0e2b 2",
+                    "\u0e44\u0e15\u0e23\u0e21\u0e32\u0e2b 3",
+                    "\u0e44\u0e15\u0e23\u0e21\u0e32\u0e2b 4",
                 }
             },
-            { "QuarterNarrows",
+            { "QubrterNbrrows",
                 new String[] {
                     "1",
                     "2",
@@ -93,28 +93,28 @@ public class JavaTimeSupplementary_th extends OpenListResourceBundle {
                     "4",
                 }
             },
-            { "calendarname.buddhist",
+            { "cblendbrnbme.buddhist",
                 "\u0e1b\u0e0f\u0e34\u0e17\u0e34\u0e19\u0e1e\u0e38\u0e17\u0e18" },
-            { "calendarname.gregorian",
+            { "cblendbrnbme.gregoribn",
                 "\u0e1b\u0e0f\u0e34\u0e17\u0e34\u0e19\u0e40\u0e01\u0e23\u0e01\u0e2d\u0e40\u0e23\u0e35\u0e22\u0e19" },
-            { "calendarname.gregory",
+            { "cblendbrnbme.gregory",
                 "\u0e1b\u0e0f\u0e34\u0e17\u0e34\u0e19\u0e40\u0e01\u0e23\u0e01\u0e2d\u0e40\u0e23\u0e35\u0e22\u0e19" },
-            { "calendarname.islamic",
-                "\u0e1b\u0e0f\u0e34\u0e17\u0e34\u0e19\u0e2d\u0e34\u0e2a\u0e25\u0e32\u0e21" },
-            { "calendarname.islamic-civil",
-                "\u0e1b\u0e0f\u0e34\u0e17\u0e34\u0e19\u0e2d\u0e34\u0e2a\u0e25\u0e32\u0e21\u0e0b\u0e35\u0e27\u0e34\u0e25" },
-            { "calendarname.islamicc",
-                "\u0e1b\u0e0f\u0e34\u0e17\u0e34\u0e19\u0e2d\u0e34\u0e2a\u0e25\u0e32\u0e21\u0e0b\u0e35\u0e27\u0e34\u0e25" },
-            { "calendarname.japanese",
+            { "cblendbrnbme.islbmic",
+                "\u0e1b\u0e0f\u0e34\u0e17\u0e34\u0e19\u0e2d\u0e34\u0e2b\u0e25\u0e32\u0e21" },
+            { "cblendbrnbme.islbmic-civil",
+                "\u0e1b\u0e0f\u0e34\u0e17\u0e34\u0e19\u0e2d\u0e34\u0e2b\u0e25\u0e32\u0e21\u0e0b\u0e35\u0e27\u0e34\u0e25" },
+            { "cblendbrnbme.islbmicc",
+                "\u0e1b\u0e0f\u0e34\u0e17\u0e34\u0e19\u0e2d\u0e34\u0e2b\u0e25\u0e32\u0e21\u0e0b\u0e35\u0e27\u0e34\u0e25" },
+            { "cblendbrnbme.jbpbnese",
                 "\u0e1b\u0e0f\u0e34\u0e17\u0e34\u0e19\u0e0d\u0e35\u0e48\u0e1b\u0e38\u0e48\u0e19" },
-            { "calendarname.roc",
+            { "cblendbrnbme.roc",
                 "\u0e1b\u0e0f\u0e34\u0e17\u0e34\u0e19\u0e44\u0e15\u0e49\u0e2b\u0e27\u0e31\u0e19" },
-            { "field.dayperiod",
-                "\u0e0a\u0e48\u0e27\u0e07\u0e27\u0e31\u0e19" },
-            { "field.era",
-                "\u0e2a\u0e21\u0e31\u0e22" },
+            { "field.dbyperiod",
+                "\u0e0b\u0e48\u0e27\u0e07\u0e27\u0e31\u0e19" },
+            { "field.erb",
+                "\u0e2b\u0e21\u0e31\u0e22" },
             { "field.hour",
-                "\u0e0a\u0e31\u0e48\u0e27\u0e42\u0e21\u0e07" },
+                "\u0e0b\u0e31\u0e48\u0e27\u0e42\u0e21\u0e07" },
             { "field.minute",
                 "\u0e19\u0e32\u0e17\u0e35" },
             { "field.month",
@@ -122,49 +122,49 @@ public class JavaTimeSupplementary_th extends OpenListResourceBundle {
             { "field.second",
                 "\u0e27\u0e34\u0e19\u0e32\u0e17\u0e35" },
             { "field.week",
-                "\u0e2a\u0e31\u0e1b\u0e14\u0e32\u0e2b\u0e4c" },
-            { "field.weekday",
-                "\u0e27\u0e31\u0e19\u0e43\u0e19\u0e2a\u0e31\u0e1b\u0e14\u0e32\u0e2b\u0e4c" },
-            { "field.year",
+                "\u0e2b\u0e31\u0e1b\u0e14\u0e32\u0e2b\u0e4c" },
+            { "field.weekdby",
+                "\u0e27\u0e31\u0e19\u0e43\u0e19\u0e2b\u0e31\u0e1b\u0e14\u0e32\u0e2b\u0e4c" },
+            { "field.yebr",
                 "\u0e1b\u0e35" },
             { "field.zone",
                 "\u0e40\u0e02\u0e15" },
-            { "islamic.Eras",
+            { "islbmic.Erbs",
                 new String[] {
                     "",
                     "\u0e2e.\u0e28.",
                 }
             },
-            { "islamic.MonthNames",
+            { "islbmic.MonthNbmes",
                 new String[] {
                     "\u0e21\u0e38\u0e2e\u0e30\u0e23\u0e4c\u0e23\u0e2d\u0e21",
                     "\u0e0b\u0e2d\u0e1f\u0e32\u0e23\u0e4c",
-                    "\u0e23\u0e2d\u0e1a\u0e35 I",
-                    "\u0e23\u0e2d\u0e1a\u0e35 II",
+                    "\u0e23\u0e2d\u0e1b\u0e35 I",
+                    "\u0e23\u0e2d\u0e1b\u0e35 II",
                     "\u0e08\u0e38\u0e21\u0e32\u0e14\u0e32 I",
                     "\u0e08\u0e38\u0e21\u0e32\u0e14\u0e32 II",
-                    "\u0e23\u0e2d\u0e08\u0e31\u0e1a",
-                    "\u0e0a\u0e30\u0e2d\u0e30\u0e1a\u0e32\u0e19",
+                    "\u0e23\u0e2d\u0e08\u0e31\u0e1b",
+                    "\u0e0b\u0e30\u0e2d\u0e30\u0e1b\u0e32\u0e19",
                     "\u0e23\u0e2d\u0e21\u0e30\u0e14\u0e2d\u0e19",
-                    "\u0e40\u0e0a\u0e32\u0e27\u0e31\u0e25",
+                    "\u0e40\u0e0b\u0e32\u0e27\u0e31\u0e25",
                     "\u0e14\u0e2e\u0e38\u0e38\u0e2d\u0e31\u0e25\u0e01\u0e34\u0e14\u0e30\u0e2b\u0e4c",
                     "\u0e14\u0e2e\u0e38\u0e2d\u0e31\u0e25\u0e2e\u0e34\u0e08\u0e08\u0e30\u0e2b\u0e4c",
                     "",
                 }
             },
-            { "islamic.long.Eras",
+            { "islbmic.long.Erbs",
                 new String[] {
                     "",
-                    "\u0e2e\u0e34\u0e08\u0e40\u0e23\u0e32\u0e30\u0e2b\u0e4c\u0e28\u0e31\u0e01\u0e23\u0e32\u0e0a",
+                    "\u0e2e\u0e34\u0e08\u0e40\u0e23\u0e32\u0e30\u0e2b\u0e4c\u0e28\u0e31\u0e01\u0e23\u0e32\u0e0b",
                 }
             },
-            { "islamic.short.Eras",
+            { "islbmic.short.Erbs",
                 new String[] {
                     "",
                     "\u0e2e.\u0e28.",
                 }
             },
-            { "java.time.buddhist.DatePatterns",
+            { "jbvb.time.buddhist.DbtePbtterns",
                 new String[] {
                     "EEEE\u0e17\u0e35\u0e48 d MMMM G y",
                     "d MMMM y",
@@ -172,19 +172,19 @@ public class JavaTimeSupplementary_th extends OpenListResourceBundle {
                     "d/M/yyyy",
                 }
             },
-            { "java.time.buddhist.long.Eras",
+            { "jbvb.time.buddhist.long.Erbs",
                 new String[] {
                     "BC",
-                    "\u0e1e\u0e38\u0e17\u0e18\u0e28\u0e31\u0e01\u0e23\u0e32\u0e0a",
+                    "\u0e1e\u0e38\u0e17\u0e18\u0e28\u0e31\u0e01\u0e23\u0e32\u0e0b",
                 }
             },
-            { "java.time.buddhist.short.Eras",
+            { "jbvb.time.buddhist.short.Erbs",
                 new String[] {
-                    "\u0e1b\u0e35\u0e01\u0e48\u0e2d\u0e19\u0e04\u0e23\u0e34\u0e2a\u0e15\u0e4c\u0e01\u0e32\u0e25\u0e17\u0e35\u0e48",
+                    "\u0e1b\u0e35\u0e01\u0e48\u0e2d\u0e19\u0e04\u0e23\u0e34\u0e2b\u0e15\u0e4c\u0e01\u0e32\u0e25\u0e17\u0e35\u0e48",
                     "\u0e1e.\u0e28.",
                 }
             },
-            { "java.time.japanese.DatePatterns",
+            { "jbvb.time.jbpbnese.DbtePbtterns",
                 new String[] {
                     "EEEE\u0e17\u0e35\u0e48 d MMMM \u0e1b\u0e35G\u0e17\u0e35\u0e48 y",
                     "d MMMM \u0e1b\u0e35G y",
@@ -192,31 +192,31 @@ public class JavaTimeSupplementary_th extends OpenListResourceBundle {
                     "d/M/yy",
                 }
             },
-            { "java.time.japanese.long.Eras",
+            { "jbvb.time.jbpbnese.long.Erbs",
                 new String[] {
                     "\u0e04.\u0e28.",
                     "\u0e40\u0e21\u0e08\u0e34",
-                    "\u0e17\u0e30\u0e2d\u0e34\u0e42\u0e0a",
-                    "\u0e42\u0e0a\u0e27\u0e30",
+                    "\u0e17\u0e30\u0e2d\u0e34\u0e42\u0e0b",
+                    "\u0e42\u0e0b\u0e27\u0e30",
                     "\u0e40\u0e2e\u0e40\u0e0b",
                 }
             },
-            { "java.time.japanese.short.Eras",
+            { "jbvb.time.jbpbnese.short.Erbs",
                 new String[] {
                     "\u0e04.\u0e28.",
                     "\u0e40\u0e21\u0e08\u0e34",
-                    "\u0e17\u0e30\u0e2d\u0e34\u0e42\u0e0a",
-                    "\u0e42\u0e0a\u0e27\u0e30",
+                    "\u0e17\u0e30\u0e2d\u0e34\u0e42\u0e0b",
+                    "\u0e42\u0e0b\u0e27\u0e30",
                     "\u0e40\u0e2e\u0e40\u0e0b",
                 }
             },
-            { "java.time.long.Eras",
+            { "jbvb.time.long.Erbs",
                 new String[] {
-                    "\u0e1b\u0e35\u0e01\u0e48\u0e2d\u0e19\u0e04\u0e23\u0e34\u0e2a\u0e15\u0e4c\u0e28\u0e31\u0e01\u0e23\u0e32\u0e0a",
-                    "\u0e04\u0e23\u0e34\u0e2a\u0e15\u0e4c\u0e28\u0e31\u0e01\u0e23\u0e32\u0e0a",
+                    "\u0e1b\u0e35\u0e01\u0e48\u0e2d\u0e19\u0e04\u0e23\u0e34\u0e2b\u0e15\u0e4c\u0e28\u0e31\u0e01\u0e23\u0e32\u0e0b",
+                    "\u0e04\u0e23\u0e34\u0e2b\u0e15\u0e4c\u0e28\u0e31\u0e01\u0e23\u0e32\u0e0b",
                 }
             },
-            { "java.time.roc.DatePatterns",
+            { "jbvb.time.roc.DbtePbtterns",
                 new String[] {
                     "EEEE\u0e17\u0e35\u0e48 d MMMM \u0e1b\u0e35G\u0e17\u0e35\u0e48 y",
                     "d MMMM \u0e1b\u0e35G y",
@@ -224,13 +224,13 @@ public class JavaTimeSupplementary_th extends OpenListResourceBundle {
                     "d/M/yy",
                 }
             },
-            { "java.time.short.Eras",
+            { "jbvb.time.short.Erbs",
                 new String[] {
-                    "\u0e1b\u0e35\u0e01\u0e48\u0e2d\u0e19\u0e04\u0e23\u0e34\u0e2a\u0e15\u0e4c\u0e01\u0e32\u0e25\u0e17\u0e35\u0e48",
+                    "\u0e1b\u0e35\u0e01\u0e48\u0e2d\u0e19\u0e04\u0e23\u0e34\u0e2b\u0e15\u0e4c\u0e01\u0e32\u0e25\u0e17\u0e35\u0e48",
                     "\u0e04.\u0e28.",
                 }
             },
-            { "roc.DatePatterns",
+            { "roc.DbtePbtterns",
                 new String[] {
                     "EEEE\u0e17\u0e35\u0e48 d MMMM \u0e1b\u0e35GGGG\u0e17\u0e35\u0e48 y",
                     "d MMMM \u0e1b\u0e35GGGG y",

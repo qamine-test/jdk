@@ -1,185 +1,185 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.smartcardio;
+pbckbge jbvbx.smbrtcbrdio;
 
-import java.util.Arrays;
+import jbvb.util.Arrbys;
 
 /**
- * A response APDU as defined in ISO/IEC 7816-4. It consists of a conditional
- * body and a two byte trailer.
- * This class does not attempt to verify that the APDU encodes a semantically
- * valid response.
+ * A response APDU bs defined in ISO/IEC 7816-4. It consists of b conditionbl
+ * body bnd b two byte trbiler.
+ * This clbss does not bttempt to verify thbt the APDU encodes b sembnticblly
+ * vblid response.
  *
- * <p>Instances of this class are immutable. Where data is passed in or out
- * via byte arrays, defensive cloning is performed.
+ * <p>Instbnces of this clbss bre immutbble. Where dbtb is pbssed in or out
+ * vib byte brrbys, defensive cloning is performed.
  *
- * @see CommandAPDU
- * @see CardChannel#transmit CardChannel.transmit
+ * @see CommbndAPDU
+ * @see CbrdChbnnel#trbnsmit CbrdChbnnel.trbnsmit
  *
  * @since   1.6
- * @author  Andreas Sterbenz
- * @author  JSR 268 Expert Group
+ * @buthor  Andrebs Sterbenz
+ * @buthor  JSR 268 Expert Group
  */
-public final class ResponseAPDU implements java.io.Serializable {
+public finbl clbss ResponseAPDU implements jbvb.io.Seriblizbble {
 
-    private static final long serialVersionUID = 6962744978375594225L;
+    privbte stbtic finbl long seriblVersionUID = 6962744978375594225L;
 
-    /** @serial */
-    private byte[] apdu;
+    /** @seribl */
+    privbte byte[] bpdu;
 
     /**
-     * Constructs a ResponseAPDU from a byte array containing the complete
-     * APDU contents (conditional body and trailed).
+     * Constructs b ResponseAPDU from b byte brrby contbining the complete
+     * APDU contents (conditionbl body bnd trbiled).
      *
-     * <p>Note that the byte array is cloned to protect against subsequent
-     * modification.
+     * <p>Note thbt the byte brrby is cloned to protect bgbinst subsequent
+     * modificbtion.
      *
-     * @param apdu the complete response APDU
+     * @pbrbm bpdu the complete response APDU
      *
-     * @throws NullPointerException if apdu is null
-     * @throws IllegalArgumentException if apdu.length is less than 2
+     * @throws NullPointerException if bpdu is null
+     * @throws IllegblArgumentException if bpdu.length is less thbn 2
      */
-    public ResponseAPDU(byte[] apdu) {
-        apdu = apdu.clone();
-        check(apdu);
-        this.apdu = apdu;
+    public ResponseAPDU(byte[] bpdu) {
+        bpdu = bpdu.clone();
+        check(bpdu);
+        this.bpdu = bpdu;
     }
 
-    private static void check(byte[] apdu) {
-        if (apdu.length < 2) {
-            throw new IllegalArgumentException("apdu must be at least 2 bytes long");
+    privbte stbtic void check(byte[] bpdu) {
+        if (bpdu.length < 2) {
+            throw new IllegblArgumentException("bpdu must be bt lebst 2 bytes long");
         }
     }
 
     /**
-     * Returns the number of data bytes in the response body (Nr) or 0 if this
-     * APDU has no body. This call is equivalent to
-     * <code>getData().length</code>.
+     * Returns the number of dbtb bytes in the response body (Nr) or 0 if this
+     * APDU hbs no body. This cbll is equivblent to
+     * <code>getDbtb().length</code>.
      *
-     * @return the number of data bytes in the response body or 0 if this APDU
-     * has no body.
+     * @return the number of dbtb bytes in the response body or 0 if this APDU
+     * hbs no body.
      */
     public int getNr() {
-        return apdu.length - 2;
+        return bpdu.length - 2;
     }
 
     /**
-     * Returns a copy of the data bytes in the response body. If this APDU as
-     * no body, this method returns a byte array with a length of zero.
+     * Returns b copy of the dbtb bytes in the response body. If this APDU bs
+     * no body, this method returns b byte brrby with b length of zero.
      *
-     * @return a copy of the data bytes in the response body or the empty
-     *    byte array if this APDU has no body.
+     * @return b copy of the dbtb bytes in the response body or the empty
+     *    byte brrby if this APDU hbs no body.
      */
-    public byte[] getData() {
-        byte[] data = new byte[apdu.length - 2];
-        System.arraycopy(apdu, 0, data, 0, data.length);
-        return data;
+    public byte[] getDbtb() {
+        byte[] dbtb = new byte[bpdu.length - 2];
+        System.brrbycopy(bpdu, 0, dbtb, 0, dbtb.length);
+        return dbtb;
     }
 
     /**
-     * Returns the value of the status byte SW1 as a value between 0 and 255.
+     * Returns the vblue of the stbtus byte SW1 bs b vblue between 0 bnd 255.
      *
-     * @return the value of the status byte SW1 as a value between 0 and 255.
+     * @return the vblue of the stbtus byte SW1 bs b vblue between 0 bnd 255.
      */
     public int getSW1() {
-        return apdu[apdu.length - 2] & 0xff;
+        return bpdu[bpdu.length - 2] & 0xff;
     }
 
     /**
-     * Returns the value of the status byte SW2 as a value between 0 and 255.
+     * Returns the vblue of the stbtus byte SW2 bs b vblue between 0 bnd 255.
      *
-     * @return the value of the status byte SW2 as a value between 0 and 255.
+     * @return the vblue of the stbtus byte SW2 bs b vblue between 0 bnd 255.
      */
     public int getSW2() {
-        return apdu[apdu.length - 1] & 0xff;
+        return bpdu[bpdu.length - 1] & 0xff;
     }
 
     /**
-     * Returns the value of the status bytes SW1 and SW2 as a single
-     * status word SW.
-     * It is defined as
+     * Returns the vblue of the stbtus bytes SW1 bnd SW2 bs b single
+     * stbtus word SW.
+     * It is defined bs
      * {@code (getSW1() << 8) | getSW2()}
      *
-     * @return the value of the status word SW.
+     * @return the vblue of the stbtus word SW.
      */
     public int getSW() {
         return (getSW1() << 8) | getSW2();
     }
 
     /**
-     * Returns a copy of the bytes in this APDU.
+     * Returns b copy of the bytes in this APDU.
      *
-     * @return a copy of the bytes in this APDU.
+     * @return b copy of the bytes in this APDU.
      */
     public byte[] getBytes() {
-        return apdu.clone();
+        return bpdu.clone();
     }
 
     /**
-     * Returns a string representation of this response APDU.
+     * Returns b string representbtion of this response APDU.
      *
-     * @return a String representation of this response APDU.
+     * @return b String representbtion of this response APDU.
      */
     public String toString() {
-        return "ResponseAPDU: " + apdu.length + " bytes, SW="
+        return "ResponseAPDU: " + bpdu.length + " bytes, SW="
             + Integer.toHexString(getSW());
     }
 
     /**
-     * Compares the specified object with this response APDU for equality.
-     * Returns true if the given object is also a ResponseAPDU and its bytes are
-     * identical to the bytes in this ResponseAPDU.
+     * Compbres the specified object with this response APDU for equblity.
+     * Returns true if the given object is blso b ResponseAPDU bnd its bytes bre
+     * identicbl to the bytes in this ResponseAPDU.
      *
-     * @param obj the object to be compared for equality with this response APDU
-     * @return true if the specified object is equal to this response APDU
+     * @pbrbm obj the object to be compbred for equblity with this response APDU
+     * @return true if the specified object is equbl to this response APDU
      */
-    public boolean equals(Object obj) {
+    public boolebn equbls(Object obj) {
         if (this == obj) {
             return true;
         }
-        if (obj instanceof ResponseAPDU == false) {
-            return false;
+        if (obj instbnceof ResponseAPDU == fblse) {
+            return fblse;
         }
         ResponseAPDU other = (ResponseAPDU)obj;
-        return Arrays.equals(this.apdu, other.apdu);
+        return Arrbys.equbls(this.bpdu, other.bpdu);
     }
 
     /**
-     * Returns the hash code value for this response APDU.
+     * Returns the hbsh code vblue for this response APDU.
      *
-     * @return the hash code value for this response APDU.
+     * @return the hbsh code vblue for this response APDU.
      */
-    public int hashCode() {
-        return Arrays.hashCode(apdu);
+    public int hbshCode() {
+        return Arrbys.hbshCode(bpdu);
     }
 
-    private void readObject(java.io.ObjectInputStream in)
-            throws java.io.IOException, ClassNotFoundException {
-        apdu = (byte[])in.readUnshared();
-        check(apdu);
+    privbte void rebdObject(jbvb.io.ObjectInputStrebm in)
+            throws jbvb.io.IOException, ClbssNotFoundException {
+        bpdu = (byte[])in.rebdUnshbred();
+        check(bpdu);
     }
 
 }

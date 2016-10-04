@@ -1,48 +1,48 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * ASM: a very small and fast Java bytecode manipulation framework
- * Copyright (c) 2000-2011 INRIA, France Telecom
+ * ASM: b very smbll bnd fbst Jbvb bytecode mbnipulbtion frbmework
+ * Copyright (c) 2000-2011 INRIA, Frbnce Telecom
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- * 3. Neither the name of the copyright holders nor the names of its
- *    contributors may be used to endorse or promote products derived from
- *    this software without specific prior written permission.
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
+ * 1. Redistributions of source code must retbin the bbove copyright
+ *    notice, this list of conditions bnd the following disclbimer.
+ * 2. Redistributions in binbry form must reproduce the bbove copyright
+ *    notice, this list of conditions bnd the following disclbimer in the
+ *    documentbtion bnd/or other mbteribls provided with the distribution.
+ * 3. Neither the nbme of the copyright holders nor the nbmes of its
+ *    contributors mby be used to endorse or promote products derived from
+ *    this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -56,209 +56,209 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
-package jdk.internal.org.objectweb.asm.tree;
+pbckbge jdk.internbl.org.objectweb.bsm.tree;
 
-import java.util.ArrayList;
-import java.util.List;
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
 
-import jdk.internal.org.objectweb.asm.AnnotationVisitor;
-import jdk.internal.org.objectweb.asm.Attribute;
-import jdk.internal.org.objectweb.asm.ClassVisitor;
-import jdk.internal.org.objectweb.asm.FieldVisitor;
-import jdk.internal.org.objectweb.asm.Opcodes;
-import jdk.internal.org.objectweb.asm.TypePath;
+import jdk.internbl.org.objectweb.bsm.AnnotbtionVisitor;
+import jdk.internbl.org.objectweb.bsm.Attribute;
+import jdk.internbl.org.objectweb.bsm.ClbssVisitor;
+import jdk.internbl.org.objectweb.bsm.FieldVisitor;
+import jdk.internbl.org.objectweb.bsm.Opcodes;
+import jdk.internbl.org.objectweb.bsm.TypePbth;
 
 /**
- * A node that represents a field.
+ * A node thbt represents b field.
  *
- * @author Eric Bruneton
+ * @buthor Eric Bruneton
  */
-public class FieldNode extends FieldVisitor {
+public clbss FieldNode extends FieldVisitor {
 
     /**
-     * The field's access flags (see {@link jdk.internal.org.objectweb.asm.Opcodes}). This
-     * field also indicates if the field is synthetic and/or deprecated.
+     * The field's bccess flbgs (see {@link jdk.internbl.org.objectweb.bsm.Opcodes}). This
+     * field blso indicbtes if the field is synthetic bnd/or deprecbted.
      */
-    public int access;
+    public int bccess;
 
     /**
-     * The field's name.
+     * The field's nbme.
      */
-    public String name;
+    public String nbme;
 
     /**
-     * The field's descriptor (see {@link jdk.internal.org.objectweb.asm.Type}).
+     * The field's descriptor (see {@link jdk.internbl.org.objectweb.bsm.Type}).
      */
     public String desc;
 
     /**
-     * The field's signature. May be <tt>null</tt>.
+     * The field's signbture. Mby be <tt>null</tt>.
      */
-    public String signature;
+    public String signbture;
 
     /**
-     * The field's initial value. This field, which may be <tt>null</tt> if the
-     * field does not have an initial value, must be an {@link Integer}, a
-     * {@link Float}, a {@link Long}, a {@link Double} or a {@link String}.
+     * The field's initibl vblue. This field, which mby be <tt>null</tt> if the
+     * field does not hbve bn initibl vblue, must be bn {@link Integer}, b
+     * {@link Flobt}, b {@link Long}, b {@link Double} or b {@link String}.
      */
-    public Object value;
+    public Object vblue;
 
     /**
-     * The runtime visible annotations of this field. This list is a list of
-     * {@link AnnotationNode} objects. May be <tt>null</tt>.
+     * The runtime visible bnnotbtions of this field. This list is b list of
+     * {@link AnnotbtionNode} objects. Mby be <tt>null</tt>.
      *
-     * @associates jdk.internal.org.objectweb.asm.tree.AnnotationNode
-     * @label visible
+     * @bssocibtes jdk.internbl.org.objectweb.bsm.tree.AnnotbtionNode
+     * @lbbel visible
      */
-    public List<AnnotationNode> visibleAnnotations;
+    public List<AnnotbtionNode> visibleAnnotbtions;
 
     /**
-     * The runtime invisible annotations of this field. This list is a list of
-     * {@link AnnotationNode} objects. May be <tt>null</tt>.
+     * The runtime invisible bnnotbtions of this field. This list is b list of
+     * {@link AnnotbtionNode} objects. Mby be <tt>null</tt>.
      *
-     * @associates jdk.internal.org.objectweb.asm.tree.AnnotationNode
-     * @label invisible
+     * @bssocibtes jdk.internbl.org.objectweb.bsm.tree.AnnotbtionNode
+     * @lbbel invisible
      */
-    public List<AnnotationNode> invisibleAnnotations;
+    public List<AnnotbtionNode> invisibleAnnotbtions;
 
     /**
-     * The runtime visible type annotations of this field. This list is a list
-     * of {@link TypeAnnotationNode} objects. May be <tt>null</tt>.
+     * The runtime visible type bnnotbtions of this field. This list is b list
+     * of {@link TypeAnnotbtionNode} objects. Mby be <tt>null</tt>.
      *
-     * @associates jdk.internal.org.objectweb.asm.tree.TypeAnnotationNode
-     * @label visible
+     * @bssocibtes jdk.internbl.org.objectweb.bsm.tree.TypeAnnotbtionNode
+     * @lbbel visible
      */
-    public List<TypeAnnotationNode> visibleTypeAnnotations;
+    public List<TypeAnnotbtionNode> visibleTypeAnnotbtions;
 
     /**
-     * The runtime invisible type annotations of this field. This list is a list
-     * of {@link TypeAnnotationNode} objects. May be <tt>null</tt>.
+     * The runtime invisible type bnnotbtions of this field. This list is b list
+     * of {@link TypeAnnotbtionNode} objects. Mby be <tt>null</tt>.
      *
-     * @associates jdk.internal.org.objectweb.asm.tree.TypeAnnotationNode
-     * @label invisible
+     * @bssocibtes jdk.internbl.org.objectweb.bsm.tree.TypeAnnotbtionNode
+     * @lbbel invisible
      */
-    public List<TypeAnnotationNode> invisibleTypeAnnotations;
+    public List<TypeAnnotbtionNode> invisibleTypeAnnotbtions;
 
     /**
-     * The non standard attributes of this field. This list is a list of
-     * {@link Attribute} objects. May be <tt>null</tt>.
+     * The non stbndbrd bttributes of this field. This list is b list of
+     * {@link Attribute} objects. Mby be <tt>null</tt>.
      *
-     * @associates jdk.internal.org.objectweb.asm.Attribute
+     * @bssocibtes jdk.internbl.org.objectweb.bsm.Attribute
      */
-    public List<Attribute> attrs;
+    public List<Attribute> bttrs;
 
     /**
-     * Constructs a new {@link FieldNode}. <i>Subclasses must not use this
-     * constructor</i>. Instead, they must use the
+     * Constructs b new {@link FieldNode}. <i>Subclbsses must not use this
+     * constructor</i>. Instebd, they must use the
      * {@link #FieldNode(int, int, String, String, String, Object)} version.
      *
-     * @param access
-     *            the field's access flags (see
-     *            {@link jdk.internal.org.objectweb.asm.Opcodes}). This parameter also
-     *            indicates if the field is synthetic and/or deprecated.
-     * @param name
-     *            the field's name.
-     * @param desc
-     *            the field's descriptor (see {@link jdk.internal.org.objectweb.asm.Type
+     * @pbrbm bccess
+     *            the field's bccess flbgs (see
+     *            {@link jdk.internbl.org.objectweb.bsm.Opcodes}). This pbrbmeter blso
+     *            indicbtes if the field is synthetic bnd/or deprecbted.
+     * @pbrbm nbme
+     *            the field's nbme.
+     * @pbrbm desc
+     *            the field's descriptor (see {@link jdk.internbl.org.objectweb.bsm.Type
      *            Type}).
-     * @param signature
-     *            the field's signature.
-     * @param value
-     *            the field's initial value. This parameter, which may be
-     *            <tt>null</tt> if the field does not have an initial value,
-     *            must be an {@link Integer}, a {@link Float}, a {@link Long}, a
-     *            {@link Double} or a {@link String}.
-     * @throws IllegalStateException
-     *             If a subclass calls this constructor.
+     * @pbrbm signbture
+     *            the field's signbture.
+     * @pbrbm vblue
+     *            the field's initibl vblue. This pbrbmeter, which mby be
+     *            <tt>null</tt> if the field does not hbve bn initibl vblue,
+     *            must be bn {@link Integer}, b {@link Flobt}, b {@link Long}, b
+     *            {@link Double} or b {@link String}.
+     * @throws IllegblStbteException
+     *             If b subclbss cblls this constructor.
      */
-    public FieldNode(final int access, final String name, final String desc,
-            final String signature, final Object value) {
-        this(Opcodes.ASM5, access, name, desc, signature, value);
-        if (getClass() != FieldNode.class) {
-            throw new IllegalStateException();
+    public FieldNode(finbl int bccess, finbl String nbme, finbl String desc,
+            finbl String signbture, finbl Object vblue) {
+        this(Opcodes.ASM5, bccess, nbme, desc, signbture, vblue);
+        if (getClbss() != FieldNode.clbss) {
+            throw new IllegblStbteException();
         }
     }
 
     /**
-     * Constructs a new {@link FieldNode}. <i>Subclasses must not use this
+     * Constructs b new {@link FieldNode}. <i>Subclbsses must not use this
      * constructor</i>.
      *
-     * @param api
+     * @pbrbm bpi
      *            the ASM API version implemented by this visitor. Must be one
      *            of {@link Opcodes#ASM4} or {@link Opcodes#ASM5}.
-     * @param access
-     *            the field's access flags (see
-     *            {@link jdk.internal.org.objectweb.asm.Opcodes}). This parameter also
-     *            indicates if the field is synthetic and/or deprecated.
-     * @param name
-     *            the field's name.
-     * @param desc
-     *            the field's descriptor (see {@link jdk.internal.org.objectweb.asm.Type
+     * @pbrbm bccess
+     *            the field's bccess flbgs (see
+     *            {@link jdk.internbl.org.objectweb.bsm.Opcodes}). This pbrbmeter blso
+     *            indicbtes if the field is synthetic bnd/or deprecbted.
+     * @pbrbm nbme
+     *            the field's nbme.
+     * @pbrbm desc
+     *            the field's descriptor (see {@link jdk.internbl.org.objectweb.bsm.Type
      *            Type}).
-     * @param signature
-     *            the field's signature.
-     * @param value
-     *            the field's initial value. This parameter, which may be
-     *            <tt>null</tt> if the field does not have an initial value,
-     *            must be an {@link Integer}, a {@link Float}, a {@link Long}, a
-     *            {@link Double} or a {@link String}.
+     * @pbrbm signbture
+     *            the field's signbture.
+     * @pbrbm vblue
+     *            the field's initibl vblue. This pbrbmeter, which mby be
+     *            <tt>null</tt> if the field does not hbve bn initibl vblue,
+     *            must be bn {@link Integer}, b {@link Flobt}, b {@link Long}, b
+     *            {@link Double} or b {@link String}.
      */
-    public FieldNode(final int api, final int access, final String name,
-            final String desc, final String signature, final Object value) {
-        super(api);
-        this.access = access;
-        this.name = name;
+    public FieldNode(finbl int bpi, finbl int bccess, finbl String nbme,
+            finbl String desc, finbl String signbture, finbl Object vblue) {
+        super(bpi);
+        this.bccess = bccess;
+        this.nbme = nbme;
         this.desc = desc;
-        this.signature = signature;
-        this.value = value;
+        this.signbture = signbture;
+        this.vblue = vblue;
     }
 
     // ------------------------------------------------------------------------
-    // Implementation of the FieldVisitor abstract class
+    // Implementbtion of the FieldVisitor bbstrbct clbss
     // ------------------------------------------------------------------------
 
     @Override
-    public AnnotationVisitor visitAnnotation(final String desc,
-            final boolean visible) {
-        AnnotationNode an = new AnnotationNode(desc);
+    public AnnotbtionVisitor visitAnnotbtion(finbl String desc,
+            finbl boolebn visible) {
+        AnnotbtionNode bn = new AnnotbtionNode(desc);
         if (visible) {
-            if (visibleAnnotations == null) {
-                visibleAnnotations = new ArrayList<AnnotationNode>(1);
+            if (visibleAnnotbtions == null) {
+                visibleAnnotbtions = new ArrbyList<AnnotbtionNode>(1);
             }
-            visibleAnnotations.add(an);
+            visibleAnnotbtions.bdd(bn);
         } else {
-            if (invisibleAnnotations == null) {
-                invisibleAnnotations = new ArrayList<AnnotationNode>(1);
+            if (invisibleAnnotbtions == null) {
+                invisibleAnnotbtions = new ArrbyList<AnnotbtionNode>(1);
             }
-            invisibleAnnotations.add(an);
+            invisibleAnnotbtions.bdd(bn);
         }
-        return an;
+        return bn;
     }
 
     @Override
-    public AnnotationVisitor visitTypeAnnotation(int typeRef,
-            TypePath typePath, String desc, boolean visible) {
-        TypeAnnotationNode an = new TypeAnnotationNode(typeRef, typePath, desc);
+    public AnnotbtionVisitor visitTypeAnnotbtion(int typeRef,
+            TypePbth typePbth, String desc, boolebn visible) {
+        TypeAnnotbtionNode bn = new TypeAnnotbtionNode(typeRef, typePbth, desc);
         if (visible) {
-            if (visibleTypeAnnotations == null) {
-                visibleTypeAnnotations = new ArrayList<TypeAnnotationNode>(1);
+            if (visibleTypeAnnotbtions == null) {
+                visibleTypeAnnotbtions = new ArrbyList<TypeAnnotbtionNode>(1);
             }
-            visibleTypeAnnotations.add(an);
+            visibleTypeAnnotbtions.bdd(bn);
         } else {
-            if (invisibleTypeAnnotations == null) {
-                invisibleTypeAnnotations = new ArrayList<TypeAnnotationNode>(1);
+            if (invisibleTypeAnnotbtions == null) {
+                invisibleTypeAnnotbtions = new ArrbyList<TypeAnnotbtionNode>(1);
             }
-            invisibleTypeAnnotations.add(an);
+            invisibleTypeAnnotbtions.bdd(bn);
         }
-        return an;
+        return bn;
     }
 
     @Override
-    public void visitAttribute(final Attribute attr) {
-        if (attrs == null) {
-            attrs = new ArrayList<Attribute>(1);
+    public void visitAttribute(finbl Attribute bttr) {
+        if (bttrs == null) {
+            bttrs = new ArrbyList<Attribute>(1);
         }
-        attrs.add(attr);
+        bttrs.bdd(bttr);
     }
 
     @Override
@@ -270,66 +270,66 @@ public class FieldNode extends FieldVisitor {
     // ------------------------------------------------------------------------
 
     /**
-     * Checks that this field node is compatible with the given ASM API version.
-     * This methods checks that this node, and all its nodes recursively, do not
-     * contain elements that were introduced in more recent versions of the ASM
-     * API than the given version.
+     * Checks thbt this field node is compbtible with the given ASM API version.
+     * This methods checks thbt this node, bnd bll its nodes recursively, do not
+     * contbin elements thbt were introduced in more recent versions of the ASM
+     * API thbn the given version.
      *
-     * @param api
-     *            an ASM API version. Must be one of {@link Opcodes#ASM4} or
+     * @pbrbm bpi
+     *            bn ASM API version. Must be one of {@link Opcodes#ASM4} or
      *            {@link Opcodes#ASM5}.
      */
-    public void check(final int api) {
-        if (api == Opcodes.ASM4) {
-            if (visibleTypeAnnotations != null
-                    && visibleTypeAnnotations.size() > 0) {
+    public void check(finbl int bpi) {
+        if (bpi == Opcodes.ASM4) {
+            if (visibleTypeAnnotbtions != null
+                    && visibleTypeAnnotbtions.size() > 0) {
                 throw new RuntimeException();
             }
-            if (invisibleTypeAnnotations != null
-                    && invisibleTypeAnnotations.size() > 0) {
+            if (invisibleTypeAnnotbtions != null
+                    && invisibleTypeAnnotbtions.size() > 0) {
                 throw new RuntimeException();
             }
         }
     }
 
     /**
-     * Makes the given class visitor visit this field.
+     * Mbkes the given clbss visitor visit this field.
      *
-     * @param cv
-     *            a class visitor.
+     * @pbrbm cv
+     *            b clbss visitor.
      */
-    public void accept(final ClassVisitor cv) {
-        FieldVisitor fv = cv.visitField(access, name, desc, signature, value);
+    public void bccept(finbl ClbssVisitor cv) {
+        FieldVisitor fv = cv.visitField(bccess, nbme, desc, signbture, vblue);
         if (fv == null) {
             return;
         }
         int i, n;
-        n = visibleAnnotations == null ? 0 : visibleAnnotations.size();
+        n = visibleAnnotbtions == null ? 0 : visibleAnnotbtions.size();
         for (i = 0; i < n; ++i) {
-            AnnotationNode an = visibleAnnotations.get(i);
-            an.accept(fv.visitAnnotation(an.desc, true));
+            AnnotbtionNode bn = visibleAnnotbtions.get(i);
+            bn.bccept(fv.visitAnnotbtion(bn.desc, true));
         }
-        n = invisibleAnnotations == null ? 0 : invisibleAnnotations.size();
+        n = invisibleAnnotbtions == null ? 0 : invisibleAnnotbtions.size();
         for (i = 0; i < n; ++i) {
-            AnnotationNode an = invisibleAnnotations.get(i);
-            an.accept(fv.visitAnnotation(an.desc, false));
+            AnnotbtionNode bn = invisibleAnnotbtions.get(i);
+            bn.bccept(fv.visitAnnotbtion(bn.desc, fblse));
         }
-        n = visibleTypeAnnotations == null ? 0 : visibleTypeAnnotations.size();
+        n = visibleTypeAnnotbtions == null ? 0 : visibleTypeAnnotbtions.size();
         for (i = 0; i < n; ++i) {
-            TypeAnnotationNode an = visibleTypeAnnotations.get(i);
-            an.accept(fv.visitTypeAnnotation(an.typeRef, an.typePath, an.desc,
+            TypeAnnotbtionNode bn = visibleTypeAnnotbtions.get(i);
+            bn.bccept(fv.visitTypeAnnotbtion(bn.typeRef, bn.typePbth, bn.desc,
                     true));
         }
-        n = invisibleTypeAnnotations == null ? 0 : invisibleTypeAnnotations
+        n = invisibleTypeAnnotbtions == null ? 0 : invisibleTypeAnnotbtions
                 .size();
         for (i = 0; i < n; ++i) {
-            TypeAnnotationNode an = invisibleTypeAnnotations.get(i);
-            an.accept(fv.visitTypeAnnotation(an.typeRef, an.typePath, an.desc,
-                    false));
+            TypeAnnotbtionNode bn = invisibleTypeAnnotbtions.get(i);
+            bn.bccept(fv.visitTypeAnnotbtion(bn.typeRef, bn.typePbth, bn.desc,
+                    fblse));
         }
-        n = attrs == null ? 0 : attrs.size();
+        n = bttrs == null ? 0 : bttrs.size();
         for (i = 0; i < n; ++i) {
-            fv.visitAttribute(attrs.get(i));
+            fv.visitAttribute(bttrs.get(i));
         }
         fv.visitEnd();
     }

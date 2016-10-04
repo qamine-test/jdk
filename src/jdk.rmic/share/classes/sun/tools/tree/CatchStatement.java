@@ -1,63 +1,63 @@
 /*
- * Copyright (c) 1994, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1994, 2004, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.tree;
+pbckbge sun.tools.tree;
 
-import sun.tools.java.*;
-import sun.tools.asm.Assembler;
-import sun.tools.asm.LocalVariable;
-import sun.tools.asm.Label;
-import java.io.PrintStream;
-import java.util.Hashtable;
+import sun.tools.jbvb.*;
+import sun.tools.bsm.Assembler;
+import sun.tools.bsm.LocblVbribble;
+import sun.tools.bsm.Lbbel;
+import jbvb.io.PrintStrebm;
+import jbvb.util.Hbshtbble;
 
 /**
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file bre not pbrt of bny
+ * supported API.  Code thbt depends on them does so bt its own risk:
+ * they bre subject to chbnge or removbl without notice.
  */
 public
-class CatchStatement extends Statement {
+clbss CbtchStbtement extends Stbtement {
     int mod;
     Expression texpr;
     Identifier id;
-    Statement body;
-    LocalMember field;
+    Stbtement body;
+    LocblMember field;
 
     /**
      * Constructor
      */
-    public CatchStatement(long where, Expression texpr, IdentifierToken id, Statement body) {
+    public CbtchStbtement(long where, Expression texpr, IdentifierToken id, Stbtement body) {
         super(CATCH, where);
         this.mod = id.getModifiers();
         this.texpr = texpr;
-        this.id = id.getName();
+        this.id = id.getNbme();
         this.body = body;
     }
-    /** @deprecated */
-    @Deprecated
-    public CatchStatement(long where, Expression texpr, Identifier id, Statement body) {
+    /** @deprecbted */
+    @Deprecbted
+    public CbtchStbtement(long where, Expression texpr, Identifier id, Stbtement body) {
         super(CATCH, where);
         this.texpr = texpr;
         this.id = id;
@@ -65,37 +65,37 @@ class CatchStatement extends Statement {
     }
 
     /**
-     * Check statement
+     * Check stbtement
      */
-    Vset check(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp) {
-        vset = reach(env, vset);
+    Vset check(Environment env, Context ctx, Vset vset, Hbshtbble<Object, Object> exp) {
+        vset = rebch(env, vset);
         ctx = new Context(ctx, this);
         Type type = texpr.toType(env, ctx);
 
         try {
-            if (ctx.getLocalField(id) != null) {
-                env.error(where, "local.redefined", id);
+            if (ctx.getLocblField(id) != null) {
+                env.error(where, "locbl.redefined", id);
             }
 
             if (type.isType(TC_ERROR)) {
-                // error message printed out elsewhere
+                // error messbge printed out elsewhere
             } else if (!type.isType(TC_CLASS)) {
-                env.error(where, "catch.not.throwable", type);
+                env.error(where, "cbtch.not.throwbble", type);
             } else {
-                ClassDefinition def = env.getClassDefinition(type);
-                if (!def.subClassOf(env,
-                               env.getClassDeclaration(idJavaLangThrowable))) {
-                    env.error(where, "catch.not.throwable", def);
+                ClbssDefinition def = env.getClbssDefinition(type);
+                if (!def.subClbssOf(env,
+                               env.getClbssDeclbrbtion(idJbvbLbngThrowbble))) {
+                    env.error(where, "cbtch.not.throwbble", def);
                 }
             }
 
-            field = new LocalMember(where, ctx.field.getClassDefinition(), mod, type, id);
-            ctx.declare(env, field);
-            vset.addVar(field.number);
+            field = new LocblMember(where, ctx.field.getClbssDefinition(), mod, type, id);
+            ctx.declbre(env, field);
+            vset.bddVbr(field.number);
 
             return body.check(env, ctx, vset, exp);
-        } catch (ClassNotFound e) {
-            env.error(where, "class.not.found", e.name, opNames[op]);
+        } cbtch (ClbssNotFound e) {
+            env.error(where, "clbss.not.found", e.nbme, opNbmes[op]);
             return vset;
         }
     }
@@ -103,10 +103,10 @@ class CatchStatement extends Statement {
     /**
      * Inline
      */
-    public Statement inline(Environment env, Context ctx) {
+    public Stbtement inline(Environment env, Context ctx) {
         ctx = new Context(ctx, this);
         if (field.isUsed()) {
-            ctx.declare(env, field);
+            ctx.declbre(env, field);
         }
         if (body != null) {
             body = body.inline(env, ctx);
@@ -115,12 +115,12 @@ class CatchStatement extends Statement {
     }
 
     /**
-     * Create a copy of the statement for method inlining
+     * Crebte b copy of the stbtement for method inlining
      */
-    public Statement copyInline(Context ctx, boolean valNeeded) {
-        CatchStatement s = (CatchStatement)clone();
+    public Stbtement copyInline(Context ctx, boolebn vblNeeded) {
+        CbtchStbtement s = (CbtchStbtement)clone();
         if (body != null) {
-            s.body = body.copyInline(ctx, valNeeded);
+            s.body = body.copyInline(ctx, vblNeeded);
         }
         if (field != null) {
             s.field = field.copyInline(ctx);
@@ -129,7 +129,7 @@ class CatchStatement extends Statement {
     }
 
     /**
-     * Compute cost of inlining this statement
+     * Compute cost of inlining this stbtement
      */
     public int costInline(int thresh, Environment env, Context ctx){
         int cost = 1;
@@ -142,26 +142,26 @@ class CatchStatement extends Statement {
     /**
      * Code
      */
-    public void code(Environment env, Context ctx, Assembler asm) {
+    public void code(Environment env, Context ctx, Assembler bsm) {
         CodeContext newctx = new CodeContext(ctx, this);
         if (field.isUsed()) {
-            newctx.declare(env, field);
-            asm.add(where, opc_astore, new LocalVariable(field, field.number));
+            newctx.declbre(env, field);
+            bsm.bdd(where, opc_bstore, new LocblVbribble(field, field.number));
         } else {
-            asm.add(where, opc_pop);
+            bsm.bdd(where, opc_pop);
         }
         if (body != null) {
-            body.code(env, newctx, asm);
+            body.code(env, newctx, bsm);
         }
-        //asm.add(newctx.breakLabel);
+        //bsm.bdd(newctx.brebkLbbel);
     }
 
     /**
      * Print
      */
-    public void print(PrintStream out, int indent) {
+    public void print(PrintStrebm out, int indent) {
         super.print(out, indent);
-        out.print("catch (");
+        out.print("cbtch (");
         texpr.print(out);
         out.print(" " + id + ") ");
         if (body != null) {

@@ -1,228 +1,228 @@
 /*
- * Copyright (c) 2010, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.lang.invoke;
+pbckbge jbvb.lbng.invoke;
 
 /**
  * <p>
- * A {@code SwitchPoint} is an object which can publish state transitions to other threads.
- * A switch point is initially in the <em>valid</em> state, but may at any time be
- * changed to the <em>invalid</em> state.  Invalidation cannot be reversed.
- * A switch point can combine a <em>guarded pair</em> of method handles into a
- * <em>guarded delegator</em>.
- * The guarded delegator is a method handle which delegates to one of the old method handles.
- * The state of the switch point determines which of the two gets the delegation.
+ * A {@code SwitchPoint} is bn object which cbn publish stbte trbnsitions to other threbds.
+ * A switch point is initiblly in the <em>vblid</em> stbte, but mby bt bny time be
+ * chbnged to the <em>invblid</em> stbte.  Invblidbtion cbnnot be reversed.
+ * A switch point cbn combine b <em>gubrded pbir</em> of method hbndles into b
+ * <em>gubrded delegbtor</em>.
+ * The gubrded delegbtor is b method hbndle which delegbtes to one of the old method hbndles.
+ * The stbte of the switch point determines which of the two gets the delegbtion.
  * <p>
- * A single switch point may be used to control any number of method handles.
- * (Indirectly, therefore, it can control any number of call sites.)
- * This is done by using the single switch point as a factory for combining
- * any number of guarded method handle pairs into guarded delegators.
+ * A single switch point mby be used to control bny number of method hbndles.
+ * (Indirectly, therefore, it cbn control bny number of cbll sites.)
+ * This is done by using the single switch point bs b fbctory for combining
+ * bny number of gubrded method hbndle pbirs into gubrded delegbtors.
  * <p>
- * When a guarded delegator is created from a guarded pair, the pair
- * is wrapped in a new method handle {@code M},
- * which is permanently associated with the switch point that created it.
- * Each pair consists of a target {@code T} and a fallback {@code F}.
- * While the switch point is valid, invocations to {@code M} are delegated to {@code T}.
- * After it is invalidated, invocations are delegated to {@code F}.
+ * When b gubrded delegbtor is crebted from b gubrded pbir, the pbir
+ * is wrbpped in b new method hbndle {@code M},
+ * which is permbnently bssocibted with the switch point thbt crebted it.
+ * Ebch pbir consists of b tbrget {@code T} bnd b fbllbbck {@code F}.
+ * While the switch point is vblid, invocbtions to {@code M} bre delegbted to {@code T}.
+ * After it is invblidbted, invocbtions bre delegbted to {@code F}.
  * <p>
- * Invalidation is global and immediate, as if the switch point contained a
- * volatile boolean variable consulted on every call to {@code M}.
- * The invalidation is also permanent, which means the switch point
- * can change state only once.
- * The switch point will always delegate to {@code F} after being invalidated.
- * At that point {@code guardWithTest} may ignore {@code T} and return {@code F}.
+ * Invblidbtion is globbl bnd immedibte, bs if the switch point contbined b
+ * volbtile boolebn vbribble consulted on every cbll to {@code M}.
+ * The invblidbtion is blso permbnent, which mebns the switch point
+ * cbn chbnge stbte only once.
+ * The switch point will blwbys delegbte to {@code F} bfter being invblidbted.
+ * At thbt point {@code gubrdWithTest} mby ignore {@code T} bnd return {@code F}.
  * <p>
- * Here is an example of a switch point in action:
+ * Here is bn exbmple of b switch point in bction:
  * <blockquote><pre>{@code
-MethodHandle MH_strcat = MethodHandles.lookup()
-    .findVirtual(String.class, "concat", MethodType.methodType(String.class, String.class));
+MethodHbndle MH_strcbt = MethodHbndles.lookup()
+    .findVirtubl(String.clbss, "concbt", MethodType.methodType(String.clbss, String.clbss));
 SwitchPoint spt = new SwitchPoint();
-assert(!spt.hasBeenInvalidated());
-// the following steps may be repeated to re-use the same switch point:
-MethodHandle worker1 = MH_strcat;
-MethodHandle worker2 = MethodHandles.permuteArguments(MH_strcat, MH_strcat.type(), 1, 0);
-MethodHandle worker = spt.guardWithTest(worker1, worker2);
-assertEquals("method", (String) worker.invokeExact("met", "hod"));
-SwitchPoint.invalidateAll(new SwitchPoint[]{ spt });
-assert(spt.hasBeenInvalidated());
-assertEquals("hodmet", (String) worker.invokeExact("met", "hod"));
+bssert(!spt.hbsBeenInvblidbted());
+// the following steps mby be repebted to re-use the sbme switch point:
+MethodHbndle worker1 = MH_strcbt;
+MethodHbndle worker2 = MethodHbndles.permuteArguments(MH_strcbt, MH_strcbt.type(), 1, 0);
+MethodHbndle worker = spt.gubrdWithTest(worker1, worker2);
+bssertEqubls("method", (String) worker.invokeExbct("met", "hod"));
+SwitchPoint.invblidbteAll(new SwitchPoint[]{ spt });
+bssert(spt.hbsBeenInvblidbted());
+bssertEqubls("hodmet", (String) worker.invokeExbct("met", "hod"));
  * }</pre></blockquote>
- * <p style="font-size:smaller;">
+ * <p style="font-size:smbller;">
  * <em>Discussion:</em>
- * Switch points are useful without subclassing.  They may also be subclassed.
- * This may be useful in order to associate application-specific invalidation logic
+ * Switch points bre useful without subclbssing.  They mby blso be subclbssed.
+ * This mby be useful in order to bssocibte bpplicbtion-specific invblidbtion logic
  * with the switch point.
- * Notice that there is no permanent association between a switch point and
- * the method handles it produces and consumes.
- * The garbage collector may collect method handles produced or consumed
- * by a switch point independently of the lifetime of the switch point itself.
- * <p style="font-size:smaller;">
- * <em>Implementation Note:</em>
- * A switch point behaves as if implemented on top of {@link MutableCallSite},
- * approximately as follows:
+ * Notice thbt there is no permbnent bssocibtion between b switch point bnd
+ * the method hbndles it produces bnd consumes.
+ * The gbrbbge collector mby collect method hbndles produced or consumed
+ * by b switch point independently of the lifetime of the switch point itself.
+ * <p style="font-size:smbller;">
+ * <em>Implementbtion Note:</em>
+ * A switch point behbves bs if implemented on top of {@link MutbbleCbllSite},
+ * bpproximbtely bs follows:
  * <blockquote><pre>{@code
-public class SwitchPoint {
-  private static final MethodHandle
-    K_true  = MethodHandles.constant(boolean.class, true),
-    K_false = MethodHandles.constant(boolean.class, false);
-  private final MutableCallSite mcs;
-  private final MethodHandle mcsInvoker;
+public clbss SwitchPoint {
+  privbte stbtic finbl MethodHbndle
+    K_true  = MethodHbndles.constbnt(boolebn.clbss, true),
+    K_fblse = MethodHbndles.constbnt(boolebn.clbss, fblse);
+  privbte finbl MutbbleCbllSite mcs;
+  privbte finbl MethodHbndle mcsInvoker;
   public SwitchPoint() {
-    this.mcs = new MutableCallSite(K_true);
-    this.mcsInvoker = mcs.dynamicInvoker();
+    this.mcs = new MutbbleCbllSite(K_true);
+    this.mcsInvoker = mcs.dynbmicInvoker();
   }
-  public MethodHandle guardWithTest(
-                MethodHandle target, MethodHandle fallback) {
-    // Note:  mcsInvoker is of type ()boolean.
-    // Target and fallback may take any arguments, but must have the same type.
-    return MethodHandles.guardWithTest(this.mcsInvoker, target, fallback);
+  public MethodHbndle gubrdWithTest(
+                MethodHbndle tbrget, MethodHbndle fbllbbck) {
+    // Note:  mcsInvoker is of type ()boolebn.
+    // Tbrget bnd fbllbbck mby tbke bny brguments, but must hbve the sbme type.
+    return MethodHbndles.gubrdWithTest(this.mcsInvoker, tbrget, fbllbbck);
   }
-  public static void invalidateAll(SwitchPoint[] spts) {
-    List&lt;MutableCallSite&gt; mcss = new ArrayList&lt;&gt;();
-    for (SwitchPoint spt : spts)  mcss.add(spt.mcs);
-    for (MutableCallSite mcs : mcss)  mcs.setTarget(K_false);
-    MutableCallSite.syncAll(mcss.toArray(new MutableCallSite[0]));
+  public stbtic void invblidbteAll(SwitchPoint[] spts) {
+    List&lt;MutbbleCbllSite&gt; mcss = new ArrbyList&lt;&gt;();
+    for (SwitchPoint spt : spts)  mcss.bdd(spt.mcs);
+    for (MutbbleCbllSite mcs : mcss)  mcs.setTbrget(K_fblse);
+    MutbbleCbllSite.syncAll(mcss.toArrby(new MutbbleCbllSite[0]));
   }
 }
  * }</pre></blockquote>
- * @author Remi Forax, JSR 292 EG
+ * @buthor Remi Forbx, JSR 292 EG
  */
-public class SwitchPoint {
-    private static final MethodHandle
-        K_true  = MethodHandles.constant(boolean.class, true),
-        K_false = MethodHandles.constant(boolean.class, false);
+public clbss SwitchPoint {
+    privbte stbtic finbl MethodHbndle
+        K_true  = MethodHbndles.constbnt(boolebn.clbss, true),
+        K_fblse = MethodHbndles.constbnt(boolebn.clbss, fblse);
 
-    private final MutableCallSite mcs;
-    private final MethodHandle mcsInvoker;
+    privbte finbl MutbbleCbllSite mcs;
+    privbte finbl MethodHbndle mcsInvoker;
 
     /**
-     * Creates a new switch point.
+     * Crebtes b new switch point.
      */
     public SwitchPoint() {
-        this.mcs = new MutableCallSite(K_true);
-        this.mcsInvoker = mcs.dynamicInvoker();
+        this.mcs = new MutbbleCbllSite(K_true);
+        this.mcsInvoker = mcs.dynbmicInvoker();
     }
 
     /**
-     * Determines if this switch point has been invalidated yet.
+     * Determines if this switch point hbs been invblidbted yet.
      *
-     * <p style="font-size:smaller;">
+     * <p style="font-size:smbller;">
      * <em>Discussion:</em>
-     * Because of the one-way nature of invalidation, once a switch point begins
-     * to return true for {@code hasBeenInvalidated},
-     * it will always do so in the future.
-     * On the other hand, a valid switch point visible to other threads may
-     * be invalidated at any moment, due to a request by another thread.
-     * <p style="font-size:smaller;">
-     * Since invalidation is a global and immediate operation,
-     * the execution of this query, on a valid switchpoint,
-     * must be internally sequenced with any
-     * other threads that could cause invalidation.
-     * This query may therefore be expensive.
-     * The recommended way to build a boolean-valued method handle
-     * which queries the invalidation state of a switch point {@code s} is
-     * to call {@code s.guardWithTest} on
-     * {@link MethodHandles#constant constant} true and false method handles.
+     * Becbuse of the one-wby nbture of invblidbtion, once b switch point begins
+     * to return true for {@code hbsBeenInvblidbted},
+     * it will blwbys do so in the future.
+     * On the other hbnd, b vblid switch point visible to other threbds mby
+     * be invblidbted bt bny moment, due to b request by bnother threbd.
+     * <p style="font-size:smbller;">
+     * Since invblidbtion is b globbl bnd immedibte operbtion,
+     * the execution of this query, on b vblid switchpoint,
+     * must be internblly sequenced with bny
+     * other threbds thbt could cbuse invblidbtion.
+     * This query mby therefore be expensive.
+     * The recommended wby to build b boolebn-vblued method hbndle
+     * which queries the invblidbtion stbte of b switch point {@code s} is
+     * to cbll {@code s.gubrdWithTest} on
+     * {@link MethodHbndles#constbnt constbnt} true bnd fblse method hbndles.
      *
-     * @return true if this switch point has been invalidated
+     * @return true if this switch point hbs been invblidbted
      */
-    public boolean hasBeenInvalidated() {
-        return (mcs.getTarget() != K_true);
+    public boolebn hbsBeenInvblidbted() {
+        return (mcs.getTbrget() != K_true);
     }
 
     /**
-     * Returns a method handle which always delegates either to the target or the fallback.
-     * The method handle will delegate to the target exactly as long as the switch point is valid.
-     * After that, it will permanently delegate to the fallback.
+     * Returns b method hbndle which blwbys delegbtes either to the tbrget or the fbllbbck.
+     * The method hbndle will delegbte to the tbrget exbctly bs long bs the switch point is vblid.
+     * After thbt, it will permbnently delegbte to the fbllbbck.
      * <p>
-     * The target and fallback must be of exactly the same method type,
-     * and the resulting combined method handle will also be of this type.
+     * The tbrget bnd fbllbbck must be of exbctly the sbme method type,
+     * bnd the resulting combined method hbndle will blso be of this type.
      *
-     * @param target the method handle selected by the switch point as long as it is valid
-     * @param fallback the method handle selected by the switch point after it is invalidated
-     * @return a combined method handle which always calls either the target or fallback
-     * @throws NullPointerException if either argument is null
-     * @throws IllegalArgumentException if the two method types do not match
-     * @see MethodHandles#guardWithTest
+     * @pbrbm tbrget the method hbndle selected by the switch point bs long bs it is vblid
+     * @pbrbm fbllbbck the method hbndle selected by the switch point bfter it is invblidbted
+     * @return b combined method hbndle which blwbys cblls either the tbrget or fbllbbck
+     * @throws NullPointerException if either brgument is null
+     * @throws IllegblArgumentException if the two method types do not mbtch
+     * @see MethodHbndles#gubrdWithTest
      */
-    public MethodHandle guardWithTest(MethodHandle target, MethodHandle fallback) {
-        if (mcs.getTarget() == K_false)
-            return fallback;  // already invalid
-        return MethodHandles.guardWithTest(mcsInvoker, target, fallback);
+    public MethodHbndle gubrdWithTest(MethodHbndle tbrget, MethodHbndle fbllbbck) {
+        if (mcs.getTbrget() == K_fblse)
+            return fbllbbck;  // blrebdy invblid
+        return MethodHbndles.gubrdWithTest(mcsInvoker, tbrget, fbllbbck);
     }
 
     /**
-     * Sets all of the given switch points into the invalid state.
-     * After this call executes, no thread will observe any of the
-     * switch points to be in a valid state.
+     * Sets bll of the given switch points into the invblid stbte.
+     * After this cbll executes, no threbd will observe bny of the
+     * switch points to be in b vblid stbte.
      * <p>
-     * This operation is likely to be expensive and should be used sparingly.
-     * If possible, it should be buffered for batch processing on sets of switch points.
+     * This operbtion is likely to be expensive bnd should be used spbringly.
+     * If possible, it should be buffered for bbtch processing on sets of switch points.
      * <p>
-     * If {@code switchPoints} contains a null element,
-     * a {@code NullPointerException} will be raised.
-     * In this case, some non-null elements in the array may be
-     * processed before the method returns abnormally.
-     * Which elements these are (if any) is implementation-dependent.
+     * If {@code switchPoints} contbins b null element,
+     * b {@code NullPointerException} will be rbised.
+     * In this cbse, some non-null elements in the brrby mby be
+     * processed before the method returns bbnormblly.
+     * Which elements these bre (if bny) is implementbtion-dependent.
      *
-     * <p style="font-size:smaller;">
+     * <p style="font-size:smbller;">
      * <em>Discussion:</em>
-     * For performance reasons, {@code invalidateAll} is not a virtual method
-     * on a single switch point, but rather applies to a set of switch points.
-     * Some implementations may incur a large fixed overhead cost
-     * for processing one or more invalidation operations,
-     * but a small incremental cost for each additional invalidation.
-     * In any case, this operation is likely to be costly, since
-     * other threads may have to be somehow interrupted
-     * in order to make them notice the updated switch point state.
-     * However, it may be observed that a single call to invalidate
-     * several switch points has the same formal effect as many calls,
-     * each on just one of the switch points.
+     * For performbnce rebsons, {@code invblidbteAll} is not b virtubl method
+     * on b single switch point, but rbther bpplies to b set of switch points.
+     * Some implementbtions mby incur b lbrge fixed overhebd cost
+     * for processing one or more invblidbtion operbtions,
+     * but b smbll incrementbl cost for ebch bdditionbl invblidbtion.
+     * In bny cbse, this operbtion is likely to be costly, since
+     * other threbds mby hbve to be somehow interrupted
+     * in order to mbke them notice the updbted switch point stbte.
+     * However, it mby be observed thbt b single cbll to invblidbte
+     * severbl switch points hbs the sbme formbl effect bs mbny cblls,
+     * ebch on just one of the switch points.
      *
-     * <p style="font-size:smaller;">
-     * <em>Implementation Note:</em>
-     * Simple implementations of {@code SwitchPoint} may use
-     * a private {@link MutableCallSite} to publish the state of a switch point.
-     * In such an implementation, the {@code invalidateAll} method can
-     * simply change the call site's target, and issue one call to
-     * {@linkplain MutableCallSite#syncAll synchronize} all the
-     * private call sites.
+     * <p style="font-size:smbller;">
+     * <em>Implementbtion Note:</em>
+     * Simple implementbtions of {@code SwitchPoint} mby use
+     * b privbte {@link MutbbleCbllSite} to publish the stbte of b switch point.
+     * In such bn implementbtion, the {@code invblidbteAll} method cbn
+     * simply chbnge the cbll site's tbrget, bnd issue one cbll to
+     * {@linkplbin MutbbleCbllSite#syncAll synchronize} bll the
+     * privbte cbll sites.
      *
-     * @param switchPoints an array of call sites to be synchronized
-     * @throws NullPointerException if the {@code switchPoints} array reference is null
-     *                              or the array contains a null
+     * @pbrbm switchPoints bn brrby of cbll sites to be synchronized
+     * @throws NullPointerException if the {@code switchPoints} brrby reference is null
+     *                              or the brrby contbins b null
      */
-    public static void invalidateAll(SwitchPoint[] switchPoints) {
+    public stbtic void invblidbteAll(SwitchPoint[] switchPoints) {
         if (switchPoints.length == 0)  return;
-        MutableCallSite[] sites = new MutableCallSite[switchPoints.length];
+        MutbbleCbllSite[] sites = new MutbbleCbllSite[switchPoints.length];
         for (int i = 0; i < switchPoints.length; i++) {
             SwitchPoint spt = switchPoints[i];
-            if (spt == null)  break;  // MSC.syncAll will trigger a NPE
+            if (spt == null)  brebk;  // MSC.syncAll will trigger b NPE
             sites[i] = spt.mcs;
-            spt.mcs.setTarget(K_false);
+            spt.mcs.setTbrget(K_fblse);
         }
-        MutableCallSite.syncAll(sites);
+        MutbbleCbllSite.syncAll(sites);
     }
 }

@@ -1,175 +1,175 @@
 /*
- * Copyright (c) 1997, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.x509;
+pbckbge sun.security.x509;
 
-import java.io.IOException;
+import jbvb.io.IOException;
 
 import sun.security.util.*;
 
 /**
- * This class implements the OIDName as required by the GeneralNames
+ * This clbss implements the OIDNbme bs required by the GenerblNbmes
  * ASN.1 object.
  *
- * @author Amit Kapoor
- * @author Hemma Prafullchandra
- * @see GeneralName
- * @see GeneralNames
- * @see GeneralNameInterface
+ * @buthor Amit Kbpoor
+ * @buthor Hemmb Prbfullchbndrb
+ * @see GenerblNbme
+ * @see GenerblNbmes
+ * @see GenerblNbmeInterfbce
  */
-public class OIDName implements GeneralNameInterface {
-     private ObjectIdentifier oid;
+public clbss OIDNbme implements GenerblNbmeInterfbce {
+     privbte ObjectIdentifier oid;
 
     /**
-     * Create the OIDName object from the passed encoded Der value.
+     * Crebte the OIDNbme object from the pbssed encoded Der vblue.
      *
-     * @param derValue the encoded DER OIDName.
+     * @pbrbm derVblue the encoded DER OIDNbme.
      * @exception IOException on error.
      */
-    public OIDName(DerValue derValue) throws IOException {
-        oid = derValue.getOID();
+    public OIDNbme(DerVblue derVblue) throws IOException {
+        oid = derVblue.getOID();
     }
 
     /**
-     * Create the OIDName object with the specified name.
+     * Crebte the OIDNbme object with the specified nbme.
      *
-     * @param name the OIDName.
+     * @pbrbm nbme the OIDNbme.
      */
-    public OIDName(ObjectIdentifier oid) {
+    public OIDNbme(ObjectIdentifier oid) {
         this.oid = oid;
     }
 
     /**
-     * Create the OIDName from the String form of the OID
+     * Crebte the OIDNbme from the String form of the OID
      *
-     * @param name the OIDName in form "x.y.z..."
+     * @pbrbm nbme the OIDNbme in form "x.y.z..."
      * @throws IOException on error
      */
-    public OIDName(String name) throws IOException {
+    public OIDNbme(String nbme) throws IOException {
         try {
-            oid = new ObjectIdentifier(name);
-        } catch (Exception e) {
-            throw new IOException("Unable to create OIDName: " + e);
+            oid = new ObjectIdentifier(nbme);
+        } cbtch (Exception e) {
+            throw new IOException("Unbble to crebte OIDNbme: " + e);
         }
     }
 
     /**
-     * Return the type of the GeneralName.
+     * Return the type of the GenerblNbme.
      */
     public int getType() {
-        return (GeneralNameInterface.NAME_OID);
+        return (GenerblNbmeInterfbce.NAME_OID);
     }
 
     /**
-     * Encode the OID name into the DerOutputStream.
+     * Encode the OID nbme into the DerOutputStrebm.
      *
-     * @param out the DER stream to encode the OIDName to.
+     * @pbrbm out the DER strebm to encode the OIDNbme to.
      * @exception IOException on encoding errors.
      */
-    public void encode(DerOutputStream out) throws IOException {
+    public void encode(DerOutputStrebm out) throws IOException {
         out.putOID(oid);
     }
 
     /**
-     * Convert the name into user readable string.
+     * Convert the nbme into user rebdbble string.
      */
     public String toString() {
-        return ("OIDName: " + oid.toString());
+        return ("OIDNbme: " + oid.toString());
     }
 
     /**
-     * Returns this OID name.
+     * Returns this OID nbme.
      */
     public ObjectIdentifier getOID() {
         return oid;
     }
 
     /**
-     * Compares this name with another, for equality.
+     * Compbres this nbme with bnother, for equblity.
      *
-     * @return true iff the names are identical
+     * @return true iff the nbmes bre identicbl
      */
-    public boolean equals(Object obj) {
+    public boolebn equbls(Object obj) {
         if (this == obj)
             return true;
 
-        if (!(obj instanceof OIDName))
-            return false;
+        if (!(obj instbnceof OIDNbme))
+            return fblse;
 
-        OIDName other = (OIDName)obj;
+        OIDNbme other = (OIDNbme)obj;
 
-        return oid.equals((Object)other.oid);
+        return oid.equbls((Object)other.oid);
     }
 
     /**
-     * Returns the hash code value for this object.
+     * Returns the hbsh code vblue for this object.
      *
-     * @return a hash code value for this object.
+     * @return b hbsh code vblue for this object.
      */
-    public int hashCode() {
-        return oid.hashCode();
+    public int hbshCode() {
+        return oid.hbshCode();
     }
 
     /**
-     * Return type of constraint inputName places on this name:<ul>
-     *   <li>NAME_DIFF_TYPE = -1: input name is different type from name (i.e. does not constrain).
-     *   <li>NAME_MATCH = 0: input name matches name.
-     *   <li>NAME_NARROWS = 1: input name narrows name (is lower in the naming subtree)
-     *   <li>NAME_WIDENS = 2: input name widens name (is higher in the naming subtree)
-     *   <li>NAME_SAME_TYPE = 3: input name does not match or narrow name, but is same type.
-     * </ul>.  These results are used in checking NameConstraints during
-     * certification path verification.
+     * Return type of constrbint inputNbme plbces on this nbme:<ul>
+     *   <li>NAME_DIFF_TYPE = -1: input nbme is different type from nbme (i.e. does not constrbin).
+     *   <li>NAME_MATCH = 0: input nbme mbtches nbme.
+     *   <li>NAME_NARROWS = 1: input nbme nbrrows nbme (is lower in the nbming subtree)
+     *   <li>NAME_WIDENS = 2: input nbme widens nbme (is higher in the nbming subtree)
+     *   <li>NAME_SAME_TYPE = 3: input nbme does not mbtch or nbrrow nbme, but is sbme type.
+     * </ul>.  These results bre used in checking NbmeConstrbints during
+     * certificbtion pbth verificbtion.
      *
-     * @param inputName to be checked for being constrained
-     * @returns constraint type above
-     * @throws UnsupportedOperationException if name is not exact match, but narrowing and widening are
-     *          not supported for this name type.
+     * @pbrbm inputNbme to be checked for being constrbined
+     * @returns constrbint type bbove
+     * @throws UnsupportedOperbtionException if nbme is not exbct mbtch, but nbrrowing bnd widening bre
+     *          not supported for this nbme type.
      */
-    public int constrains(GeneralNameInterface inputName) throws UnsupportedOperationException {
-        int constraintType;
-        if (inputName == null)
-            constraintType = NAME_DIFF_TYPE;
-        else if (inputName.getType() != NAME_OID)
-            constraintType = NAME_DIFF_TYPE;
-        else if (this.equals((OIDName)inputName))
-            constraintType = NAME_MATCH;
+    public int constrbins(GenerblNbmeInterfbce inputNbme) throws UnsupportedOperbtionException {
+        int constrbintType;
+        if (inputNbme == null)
+            constrbintType = NAME_DIFF_TYPE;
+        else if (inputNbme.getType() != NAME_OID)
+            constrbintType = NAME_DIFF_TYPE;
+        else if (this.equbls((OIDNbme)inputNbme))
+            constrbintType = NAME_MATCH;
         else
-            //widens and narrows not defined in RFC2459 for OIDName (aka registeredID)
-            throw new UnsupportedOperationException("Narrowing and widening are not supported for OIDNames");
-        return constraintType;
+            //widens bnd nbrrows not defined in RFC2459 for OIDNbme (bkb registeredID)
+            throw new UnsupportedOperbtionException("Nbrrowing bnd widening bre not supported for OIDNbmes");
+        return constrbintType;
     }
 
     /**
-     * Return subtree depth of this name for purposes of determining
-     * NameConstraints minimum and maximum bounds and for calculating
-     * path lengths in name subtrees.
+     * Return subtree depth of this nbme for purposes of determining
+     * NbmeConstrbints minimum bnd mbximum bounds bnd for cblculbting
+     * pbth lengths in nbme subtrees.
      *
-     * @returns distance of name from root
-     * @throws UnsupportedOperationException if not supported for this name type
+     * @returns distbnce of nbme from root
+     * @throws UnsupportedOperbtionException if not supported for this nbme type
      */
-    public int subtreeDepth() throws UnsupportedOperationException {
-        throw new UnsupportedOperationException("subtreeDepth() not supported for OIDName.");
+    public int subtreeDepth() throws UnsupportedOperbtionException {
+        throw new UnsupportedOperbtionException("subtreeDepth() not supported for OIDNbme.");
    }
 }

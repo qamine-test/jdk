@@ -3,333 +3,333 @@
 <ldml>
 	<identity>
 		<version number="$Revision: 6546 $"/>
-		<generation date="$Date: 2012-02-08 03:32:35 +0900 (Wed, 08 Feb 2012) $"/>
-		<language type="tzm"/>
+		<generbtion dbte="$Dbte: 2012-02-08 03:32:35 +0900 (Wed, 08 Feb 2012) $"/>
+		<lbngubge type="tzm"/>
 	</identity>
-	<localeDisplayNames>
-		<languages>
-			<language type="ak">Takanit</language>
-			<language type="am">Tamharit</language>
-			<language type="ar">Taεrabt</language>
-			<language type="be">Tabilarusit</language>
-			<language type="bg">Tabelɣarit</language>
-			<language type="bn">Tabinɣalit</language>
-			<language type="cs">Tačikt</language>
-			<language type="de">Talmanit</language>
-			<language type="el">Tayunanit</language>
-			<language type="en">Tanglizt</language>
-			<language type="es">tasbelyunit</language>
-			<language type="fa">Tafarisit</language>
-			<language type="fr">Tafṛansist</language>
-			<language type="ha">Tahawsat</language>
-			<language type="hi">Tahindit</language>
-			<language type="hu">Tahenɣarit</language>
-			<language type="id">Tindunisit</language>
-			<language type="ig">Tigbut</language>
-			<language type="it">Taṭalyant</language>
-			<language type="ja">Tajappunit</language>
-			<language type="jv">Tajavanit</language>
-			<language type="km">Taxmert ,Talammast</language>
-			<language type="ko">Takurit</language>
-			<language type="ms">Tamalizit</language>
-			<language type="my">Taburmanit</language>
-			<language type="ne">Tanippalit</language>
-			<language type="nl">Tahulanḍit</language>
-			<language type="pa">Tabenjabit</language>
-			<language type="pl">Tappulunit</language>
-			<language type="pt">Taburtuɣalit</language>
-			<language type="ro">Taṛumanit</language>
-			<language type="ru">Tarusit</language>
-			<language type="rw">Tarwandit</language>
-			<language type="so">Taṣumalit</language>
-			<language type="sv">Taswidit</language>
-			<language type="ta">Tatamilt</language>
-			<language type="th">Taṭayt</language>
-			<language type="tr">Taturkit</language>
-			<language type="tzm">Tamaziɣt</language>
-			<language type="uk">Tukranit</language>
-			<language type="ur">Turdut</language>
-			<language type="vi">Taviṭnamit</language>
-			<language type="yo">Tayurubat</language>
-			<language type="zh">Tacinwit,Mandarin</language>
-			<language type="zu">tazulut</language>
-		</languages>
+	<locbleDisplbyNbmes>
+		<lbngubges>
+			<lbngubge type="bk">Tbkbnit</lbngubge>
+			<lbngubge type="bm">Tbmhbrit</lbngubge>
+			<lbngubge type="br">Tbεrbbt</lbngubge>
+			<lbngubge type="be">Tbbilbrusit</lbngubge>
+			<lbngubge type="bg">Tbbelɣbrit</lbngubge>
+			<lbngubge type="bn">Tbbinɣblit</lbngubge>
+			<lbngubge type="cs">Tbčikt</lbngubge>
+			<lbngubge type="de">Tblmbnit</lbngubge>
+			<lbngubge type="el">Tbyunbnit</lbngubge>
+			<lbngubge type="en">Tbnglizt</lbngubge>
+			<lbngubge type="es">tbsbelyunit</lbngubge>
+			<lbngubge type="fb">Tbfbrisit</lbngubge>
+			<lbngubge type="fr">Tbfṛbnsist</lbngubge>
+			<lbngubge type="hb">Tbhbwsbt</lbngubge>
+			<lbngubge type="hi">Tbhindit</lbngubge>
+			<lbngubge type="hu">Tbhenɣbrit</lbngubge>
+			<lbngubge type="id">Tindunisit</lbngubge>
+			<lbngubge type="ig">Tigbut</lbngubge>
+			<lbngubge type="it">Tbṭblybnt</lbngubge>
+			<lbngubge type="jb">Tbjbppunit</lbngubge>
+			<lbngubge type="jv">Tbjbvbnit</lbngubge>
+			<lbngubge type="km">Tbxmert ,Tblbmmbst</lbngubge>
+			<lbngubge type="ko">Tbkurit</lbngubge>
+			<lbngubge type="ms">Tbmblizit</lbngubge>
+			<lbngubge type="my">Tbburmbnit</lbngubge>
+			<lbngubge type="ne">Tbnippblit</lbngubge>
+			<lbngubge type="nl">Tbhulbnḍit</lbngubge>
+			<lbngubge type="pb">Tbbenjbbit</lbngubge>
+			<lbngubge type="pl">Tbppulunit</lbngubge>
+			<lbngubge type="pt">Tbburtuɣblit</lbngubge>
+			<lbngubge type="ro">Tbṛumbnit</lbngubge>
+			<lbngubge type="ru">Tbrusit</lbngubge>
+			<lbngubge type="rw">Tbrwbndit</lbngubge>
+			<lbngubge type="so">Tbṣumblit</lbngubge>
+			<lbngubge type="sv">Tbswidit</lbngubge>
+			<lbngubge type="tb">Tbtbmilt</lbngubge>
+			<lbngubge type="th">Tbṭbyt</lbngubge>
+			<lbngubge type="tr">Tbturkit</lbngubge>
+			<lbngubge type="tzm">Tbmbziɣt</lbngubge>
+			<lbngubge type="uk">Tukrbnit</lbngubge>
+			<lbngubge type="ur">Turdut</lbngubge>
+			<lbngubge type="vi">Tbviṭnbmit</lbngubge>
+			<lbngubge type="yo">Tbyurubbt</lbngubge>
+			<lbngubge type="zh">Tbcinwit,Mbndbrin</lbngubge>
+			<lbngubge type="zu">tbzulut</lbngubge>
+		</lbngubges>
 		<territories>
-			<territory type="AD">Anḍurra</territory>
-			<territory type="AE">Imarat Tiεrabin Tidduklin</territory>
-			<territory type="AF">Afɣanistan</territory>
-			<territory type="AG">Antigwa d Barbuda</territory>
-			<territory type="AI">Angwilla</territory>
-			<territory type="AL">Albanya</territory>
-			<territory type="AM">Arminya</territory>
-			<territory type="AN">Antil Tihulanḍiyyin</territory>
-			<territory type="AO">Angula</territory>
+			<territory type="AD">Anḍurrb</territory>
+			<territory type="AE">Imbrbt Tiεrbbin Tidduklin</territory>
+			<territory type="AF">Afɣbnistbn</territory>
+			<territory type="AG">Antigwb d Bbrbudb</territory>
+			<territory type="AI">Angwillb</territory>
+			<territory type="AL">Albbnyb</territory>
+			<territory type="AM">Arminyb</territory>
+			<territory type="AN">Antil Tihulbnḍiyyin</territory>
+			<territory type="AO">Angulb</territory>
 			<territory type="AR">Arjuntin</territory>
-			<territory type="AS">Samwa Imirikaniyyin</territory>
-			<territory type="AT">Ustriyya</territory>
-			<territory type="AU">Usṭralya</territory>
-			<territory type="AW">Aruba</territory>
-			<territory type="AZ">Azerbiǧan</territory>
-			<territory type="BA">Busna-d-Hirsik</territory>
-			<territory type="BB">Barbadus</territory>
-			<territory type="BD">Bangladic</territory>
-			<territory type="BE">Beljika</territory>
-			<territory type="BF">Burkina Fasu</territory>
-			<territory type="BG">Belɣarya</territory>
-			<territory type="BH">Baḥrayn</territory>
+			<territory type="AS">Sbmwb Imirikbniyyin</territory>
+			<territory type="AT">Ustriyyb</territory>
+			<territory type="AU">Usṭrblyb</territory>
+			<territory type="AW">Arubb</territory>
+			<territory type="AZ">Azerbiǧbn</territory>
+			<territory type="BA">Busnb-d-Hirsik</territory>
+			<territory type="BB">Bbrbbdus</territory>
+			<territory type="BD">Bbnglbdic</territory>
+			<territory type="BE">Beljikb</territory>
+			<territory type="BF">Burkinb Fbsu</territory>
+			<territory type="BG">Belɣbryb</territory>
+			<territory type="BH">Bbḥrbyn</territory>
 			<territory type="BI">Burundi</territory>
 			<territory type="BJ">Binin</territory>
-			<territory type="BM">Birmuda</territory>
-			<territory type="BN">Brunay</territory>
-			<territory type="BO">Bulivya</territory>
-			<territory type="BR">Bṛazil</territory>
-			<territory type="BS">Bahamas</territory>
-			<territory type="BT">Buṭan</territory>
-			<territory type="BW">Butswana</territory>
-			<territory type="BY">Bilarusya</territory>
+			<territory type="BM">Birmudb</territory>
+			<territory type="BN">Brunby</territory>
+			<territory type="BO">Bulivyb</territory>
+			<territory type="BR">Bṛbzil</territory>
+			<territory type="BS">Bbhbmbs</territory>
+			<territory type="BT">Buṭbn</territory>
+			<territory type="BW">Butswbnb</territory>
+			<territory type="BY">Bilbrusyb</territory>
 			<territory type="BZ">Biliz</territory>
-			<territory type="CA">Kanada</territory>
-			<territory type="CD">Tagduda Tadimuqraṭit n Kungu</territory>
-			<territory type="CF">Tagduda n Afrika Wammas</territory>
+			<territory type="CA">Kbnbdb</territory>
+			<territory type="CD">Tbgdudb Tbdimuqrbṭit n Kungu</territory>
+			<territory type="CF">Tbgdudb n Afrikb Wbmmbs</territory>
 			<territory type="CG">Kungu</territory>
-			<territory type="CH">Swisra</territory>
-			<territory type="CI">Taɣazut n Uszer</territory>
+			<territory type="CH">Swisrb</territory>
+			<territory type="CI">Tbɣbzut n Uszer</territory>
 			<territory type="CK">Tigzirin n Kuk</territory>
 			<territory type="CL">Ccili</territory>
-			<territory type="CM">Kamerun</territory>
+			<territory type="CM">Kbmerun</territory>
 			<territory type="CN">Ṣṣin</territory>
-			<territory type="CO">Kulumbya</territory>
-			<territory type="CR">Kusṭa Rika</territory>
-			<territory type="CS">Ṣiṛbya d Muntinigru</territory>
-			<territory type="CU">kuba</territory>
-			<territory type="CV">Tigzirin n Iɣf Uzegzaw</territory>
+			<territory type="CO">Kulumbyb</territory>
+			<territory type="CR">Kusṭb Rikb</territory>
+			<territory type="CS">Ṣiṛbyb d Muntinigru</territory>
+			<territory type="CU">kubb</territory>
+			<territory type="CV">Tigzirin n Iɣf Uzegzbw</territory>
 			<territory type="CY">Qubrus</territory>
-			<territory type="CZ">Tagduda n Čik</territory>
-			<territory type="DE">Almanya</territory>
+			<territory type="CZ">Tbgdudb n Čik</territory>
+			<territory type="DE">Almbnyb</territory>
 			<territory type="DJ">Ǧibuti</territory>
-			<territory type="DK">Danmark</territory>
-			<territory type="DM">Ḍuminika</territory>
-			<territory type="DO">Tagduda n Ḍuminikan</territory>
-			<territory type="DZ">Dzayer</territory>
-			<territory type="EC">Ikwaḍur</territory>
-			<territory type="EE">Isṭunya</territory>
+			<territory type="DK">Dbnmbrk</territory>
+			<territory type="DM">Ḍuminikb</territory>
+			<territory type="DO">Tbgdudb n Ḍuminikbn</territory>
+			<territory type="DZ">Dzbyer</territory>
+			<territory type="EC">Ikwbḍur</territory>
+			<territory type="EE">Isṭunyb</territory>
 			<territory type="EG">Miṣr</territory>
-			<territory type="ER">Iritrya</territory>
-			<territory type="ES">Sbanya</territory>
-			<territory type="ET">Ityupya</territory>
-			<territory type="FI">Finlanḍa</territory>
+			<territory type="ER">Iritryb</territory>
+			<territory type="ES">Sbbnyb</territory>
+			<territory type="ET">Ityupyb</territory>
+			<territory type="FI">Finlbnḍb</territory>
 			<territory type="FJ">Fiji</territory>
-			<territory type="FK">Tigzirin n Falkland</territory>
-			<territory type="FM">Mikrunizya</territory>
-			<territory type="FR">Fṛansa</territory>
-			<territory type="GA">Gabun</territory>
-			<territory type="GB">Tagelda Taddukelt</territory>
-			<territory type="GD">Grinada</territory>
-			<territory type="GE">Jyurjya</territory>
-			<territory type="GF">Guyana Tafransist</territory>
-			<territory type="GH">Ɣana</territory>
-			<territory type="GI">Jibralṭar</territory>
-			<territory type="GL">Grinlanḍa</territory>
-			<territory type="GM">Gambya</territory>
-			<territory type="GN">Ɣinya</territory>
-			<territory type="GP">Gwadalup</territory>
-			<territory type="GQ">Ɣinya Tikwaṭur it</territory>
-			<territory type="GR">Yunan</territory>
-			<territory type="GT">Gwatimala</territory>
-			<territory type="GU">Gwam</territory>
-			<territory type="GW">Ɣinya-Bissaw</territory>
-			<territory type="GY">Guyana</territory>
-			<territory type="HN">Hinduras</territory>
-			<territory type="HR">Krwatya</territory>
-			<territory type="HT">Hayti</territory>
-			<territory type="HU">Henɣarya</territory>
-			<territory type="ID">Indunizya</territory>
-			<territory type="IE">Irlanḍa</territory>
-			<territory type="IL">Israeil</territory>
+			<territory type="FK">Tigzirin n Fblklbnd</territory>
+			<territory type="FM">Mikrunizyb</territory>
+			<territory type="FR">Fṛbnsb</territory>
+			<territory type="GA">Gbbun</territory>
+			<territory type="GB">Tbgeldb Tbddukelt</territory>
+			<territory type="GD">Grinbdb</territory>
+			<territory type="GE">Jyurjyb</territory>
+			<territory type="GF">Guybnb Tbfrbnsist</territory>
+			<territory type="GH">Ɣbnb</territory>
+			<territory type="GI">Jibrblṭbr</territory>
+			<territory type="GL">Grinlbnḍb</territory>
+			<territory type="GM">Gbmbyb</territory>
+			<territory type="GN">Ɣinyb</territory>
+			<territory type="GP">Gwbdblup</territory>
+			<territory type="GQ">Ɣinyb Tikwbṭur it</territory>
+			<territory type="GR">Yunbn</territory>
+			<territory type="GT">Gwbtimblb</territory>
+			<territory type="GU">Gwbm</territory>
+			<territory type="GW">Ɣinyb-Bissbw</territory>
+			<territory type="GY">Guybnb</territory>
+			<territory type="HN">Hindurbs</territory>
+			<territory type="HR">Krwbtyb</territory>
+			<territory type="HT">Hbyti</territory>
+			<territory type="HU">Henɣbryb</territory>
+			<territory type="ID">Indunizyb</territory>
+			<territory type="IE">Irlbnḍb</territory>
+			<territory type="IL">Isrbeil</territory>
 			<territory type="IN">Hind</territory>
-			<territory type="IO">Amur n Agaraw Uhindi Ubṛiṭani</territory>
-			<territory type="IQ">Ɛiraq</territory>
-			<territory type="IR">Iran</territory>
-			<territory type="IS">Islanḍa</territory>
-			<territory type="IT">Iṭalya</territory>
-			<territory type="JM">Jamayka</territory>
+			<territory type="IO">Amur n Agbrbw Uhindi Ubṛiṭbni</territory>
+			<territory type="IQ">Ɛirbq</territory>
+			<territory type="IR">Irbn</territory>
+			<territory type="IS">Islbnḍb</territory>
+			<territory type="IT">Iṭblyb</territory>
+			<territory type="JM">Jbmbykb</territory>
 			<territory type="JO">Urḍun</territory>
-			<territory type="JP">Jjappun</territory>
-			<territory type="KE">Kinya</territory>
-			<territory type="KG">Kirɣistan</territory>
-			<territory type="KH">Kambudj</territory>
-			<territory type="KI">Kiribati</territory>
+			<territory type="JP">Jjbppun</territory>
+			<territory type="KE">Kinyb</territory>
+			<territory type="KG">Kirɣistbn</territory>
+			<territory type="KH">Kbmbudj</territory>
+			<territory type="KI">Kiribbti</territory>
 			<territory type="KM">Qumur</territory>
-			<territory type="KN">Santekits d Nivis</territory>
-			<territory type="KP">Kurya Tugafat</territory>
-			<territory type="KR">Kurya Tunẓult</territory>
-			<territory type="KW">Kuwwayt</territory>
-			<territory type="KY">Tigzirin n Kayman</territory>
-			<territory type="KZ">Kazaxistan</territory>
-			<territory type="LA">Laws</territory>
-			<territory type="LB">Lubnan</territory>
-			<territory type="LC">Santelusya</territory>
-			<territory type="LI">Lictencṭayn</territory>
-			<territory type="LK">Srilanka</territory>
-			<territory type="LR">Libirya</territory>
+			<territory type="KN">Sbntekits d Nivis</territory>
+			<territory type="KP">Kuryb Tugbfbt</territory>
+			<territory type="KR">Kuryb Tunẓult</territory>
+			<territory type="KW">Kuwwbyt</territory>
+			<territory type="KY">Tigzirin n Kbymbn</territory>
+			<territory type="KZ">Kbzbxistbn</territory>
+			<territory type="LA">Lbws</territory>
+			<territory type="LB">Lubnbn</territory>
+			<territory type="LC">Sbntelusyb</territory>
+			<territory type="LI">Lictencṭbyn</territory>
+			<territory type="LK">Srilbnkb</territory>
+			<territory type="LR">Libiryb</territory>
 			<territory type="LS">Lisuṭu</territory>
-			<territory type="LT">Litwanya</territory>
+			<territory type="LT">Litwbnyb</territory>
 			<territory type="LU">Liksumburg</territory>
-			<territory type="LV">Liṭṭunya</territory>
-			<territory type="LY">Libya</territory>
+			<territory type="LV">Liṭṭunyb</territory>
+			<territory type="LY">Libyb</territory>
 			<territory type="MA">Meṛṛuk</territory>
-			<territory type="MC">Munaku</territory>
-			<territory type="MD">Mulḍavya</territory>
-			<territory type="MG">Madaɣacqar</territory>
-			<territory type="MH">Tigzirin n Marcal</territory>
-			<territory type="MK">Maqdunya</territory>
-			<territory type="ML">Mali</territory>
-			<territory type="MM">Myanmar</territory>
-			<territory type="MN">Manɣulya</territory>
-			<territory type="MP">Tigzirin n Maryana Tugafat</territory>
-			<territory type="MQ">Martinik</territory>
-			<territory type="MR">Muritanya</territory>
-			<territory type="MS">Muntsirra</territory>
-			<territory type="MT">Malṭa</territory>
+			<territory type="MC">Munbku</territory>
+			<territory type="MD">Mulḍbvyb</territory>
+			<territory type="MG">Mbdbɣbcqbr</territory>
+			<territory type="MH">Tigzirin n Mbrcbl</territory>
+			<territory type="MK">Mbqdunyb</territory>
+			<territory type="ML">Mbli</territory>
+			<territory type="MM">Mybnmbr</territory>
+			<territory type="MN">Mbnɣulyb</territory>
+			<territory type="MP">Tigzirin n Mbrybnb Tugbfbt</territory>
+			<territory type="MQ">Mbrtinik</territory>
+			<territory type="MR">Muritbnyb</territory>
+			<territory type="MS">Muntsirrb</territory>
+			<territory type="MT">Mblṭb</territory>
 			<territory type="MU">Muris</territory>
-			<territory type="MV">Maldiv</territory>
-			<territory type="MW">Malawi</territory>
+			<territory type="MV">Mbldiv</territory>
+			<territory type="MW">Mblbwi</territory>
 			<territory type="MX">Miksik</territory>
-			<territory type="MY">Malizya</territory>
-			<territory type="MZ">Muzambiq</territory>
-			<territory type="NA">Namibya</territory>
-			<territory type="NC">kalidunya Tamaynut</territory>
+			<territory type="MY">Mblizyb</territory>
+			<territory type="MZ">Muzbmbiq</territory>
+			<territory type="NA">Nbmibyb</territory>
+			<territory type="NC">kblidunyb Tbmbynut</territory>
 			<territory type="NE">Nnijer</territory>
 			<territory type="NF">Tigzirt Nurfulk</territory>
-			<territory type="NG">Nijiria</territory>
-			<territory type="NI">Nikaragwa</territory>
-			<territory type="NL">Hulanḍa</territory>
+			<territory type="NG">Nijirib</territory>
+			<territory type="NI">Nikbrbgwb</territory>
+			<territory type="NL">Hulbnḍb</territory>
 			<territory type="NO">Nnurwij</territory>
-			<territory type="NP">Nippal</territory>
-			<territory type="NR">Nawru</territory>
+			<territory type="NP">Nippbl</territory>
+			<territory type="NR">Nbwru</territory>
 			<territory type="NU">Niwi</territory>
-			<territory type="NZ">Zilanḍa Tamaynut</territory>
-			<territory type="OM">Ɛumman</territory>
-			<territory type="PA">Panama</territory>
+			<territory type="NZ">Zilbnḍb Tbmbynut</territory>
+			<territory type="OM">Ɛummbn</territory>
+			<territory type="PA">Pbnbmb</territory>
 			<territory type="PE">Piru</territory>
-			<territory type="PF">Pulinizya Tafransist</territory>
-			<territory type="PG">Papwa Ɣinya Tamaynut</territory>
+			<territory type="PF">Pulinizyb Tbfrbnsist</territory>
+			<territory type="PG">Pbpwb Ɣinyb Tbmbynut</territory>
 			<territory type="PH">Filippin</territory>
-			<territory type="PK">Pakistan</territory>
-			<territory type="PL">Pulunya</territory>
-			<territory type="PM">Santepyir d Mikelun</territory>
+			<territory type="PK">Pbkistbn</territory>
+			<territory type="PL">Pulunyb</territory>
+			<territory type="PM">Sbntepyir d Mikelun</territory>
 			<territory type="PN">Pitkirn</territory>
 			<territory type="PR">Purturiku</territory>
-			<territory type="PS">Agemmaḍ Ugut d Ɣazza Ifilisṭiniyen</territory>
-			<territory type="PT">Purtuɣal</territory>
-			<territory type="PW">Palu</territory>
-			<territory type="PY">Paragway</territory>
-			<territory type="QA">Qaṭar</territory>
+			<territory type="PS">Agemmbḍ Ugut d Ɣbzzb Ifilisṭiniyen</territory>
+			<territory type="PT">Purtuɣbl</territory>
+			<territory type="PW">Pblu</territory>
+			<territory type="PY">Pbrbgwby</territory>
+			<territory type="QA">Qbṭbr</territory>
 			<territory type="RE">Riyyunyun</territory>
-			<territory type="RO">Ṛumanya</territory>
-			<territory type="RU">Rusya</territory>
-			<territory type="RW">Ruwwanḍa</territory>
-			<territory type="SA">Ssaεudiyya Taεrabt</territory>
-			<territory type="SB">Tigzirin n Salumun</territory>
+			<territory type="RO">Ṛumbnyb</territory>
+			<territory type="RU">Rusyb</territory>
+			<territory type="RW">Ruwwbnḍb</territory>
+			<territory type="SA">Ssbεudiyyb Tbεrbbt</territory>
+			<territory type="SB">Tigzirin n Sblumun</territory>
 			<territory type="SC">Ssicil</territory>
-			<territory type="SD">Ssudan</territory>
+			<territory type="SD">Ssudbn</territory>
 			<territory type="SE">Ssewwid</territory>
-			<territory type="SG">Sanɣafura</territory>
-			<territory type="SH">Santehilin</territory>
-			<territory type="SI">Sluvinya</territory>
-			<territory type="SK">Sluvakya</territory>
-			<territory type="SL">Siralyun</territory>
-			<territory type="SM">Sanmarinu</territory>
-			<territory type="SN">Ssiniɣal</territory>
-			<territory type="SO">Ṣṣumal</territory>
-			<territory type="SR">Surinam</territory>
-			<territory type="ST">Sawṭumi d Prinsip</territory>
-			<territory type="SV">Salvaḍur</territory>
-			<territory type="SY">Surya</territory>
-			<territory type="SZ">Swazilanḍa</territory>
-			<territory type="TC">Tigzirin Turkiyyin d Tikaykusin</territory>
-			<territory type="TD">Tcad</territory>
+			<territory type="SG">Sbnɣbfurb</territory>
+			<territory type="SH">Sbntehilin</territory>
+			<territory type="SI">Sluvinyb</territory>
+			<territory type="SK">Sluvbkyb</territory>
+			<territory type="SL">Sirblyun</territory>
+			<territory type="SM">Sbnmbrinu</territory>
+			<territory type="SN">Ssiniɣbl</territory>
+			<territory type="SO">Ṣṣumbl</territory>
+			<territory type="SR">Surinbm</territory>
+			<territory type="ST">Sbwṭumi d Prinsip</territory>
+			<territory type="SV">Sblvbḍur</territory>
+			<territory type="SY">Suryb</territory>
+			<territory type="SZ">Swbzilbnḍb</territory>
+			<territory type="TC">Tigzirin Turkiyyin d Tikbykusin</territory>
+			<territory type="TD">Tcbd</territory>
 			<territory type="TG">Ṭṭugu</territory>
-			<territory type="TH">Ṭaylanḍa</territory>
-			<territory type="TJ">Ṭaǧikistan</territory>
+			<territory type="TH">Ṭbylbnḍb</territory>
+			<territory type="TJ">Ṭbǧikistbn</territory>
 			<territory type="TK">Tuklu</territory>
-			<territory type="TL">Timur Tagmuṭ</territory>
-			<territory type="TM">Turkmanistan</territory>
+			<territory type="TL">Timur Tbgmuṭ</territory>
+			<territory type="TM">Turkmbnistbn</territory>
 			<territory type="TN">Tunes</territory>
-			<territory type="TO">Ṭunga</territory>
-			<territory type="TR">Turkya</territory>
-			<territory type="TT">Trinidad d Ṭubagu</territory>
-			<territory type="TV">Ṭuvalu</territory>
-			<territory type="TW">Ṭaywan</territory>
-			<territory type="TZ">Ṭanzanya</territory>
-			<territory type="UA">Ukranya</territory>
-			<territory type="UG">Uɣanda</territory>
-			<territory type="US">Iwunak Idduklen n Amirika</territory>
-			<territory type="UY">Urugway</territory>
-			<territory type="UZ">Uzbakistan</territory>
-			<territory type="VA">Awank iɣrem n Vatikan</territory>
-			<territory type="VC">Santevinsent d Grinadin</territory>
-			<territory type="VE">Vinzwilla</territory>
-			<territory type="VG">Tigzirin (Virgin) Tibṛiṭaniyin</territory>
-			<territory type="VI">Tigzirin n Virjin n Iwunak Yedduklen</territory>
-			<territory type="VN">Viṭnam</territory>
-			<territory type="VU">Vanwatu</territory>
-			<territory type="WF">Walis d Futuna</territory>
-			<territory type="WS">Samwa</territory>
-			<territory type="YE">Yaman</territory>
-			<territory type="YT">Mayuṭ</territory>
-			<territory type="ZA">Tafrikt Tunẓul</territory>
-			<territory type="ZM">Zambya</territory>
-			<territory type="ZW">Zimbabwi</territory>
+			<territory type="TO">Ṭungb</territory>
+			<territory type="TR">Turkyb</territory>
+			<territory type="TT">Trinidbd d Ṭubbgu</territory>
+			<territory type="TV">Ṭuvblu</territory>
+			<territory type="TW">Ṭbywbn</territory>
+			<territory type="TZ">Ṭbnzbnyb</territory>
+			<territory type="UA">Ukrbnyb</territory>
+			<territory type="UG">Uɣbndb</territory>
+			<territory type="US">Iwunbk Idduklen n Amirikb</territory>
+			<territory type="UY">Urugwby</territory>
+			<territory type="UZ">Uzbbkistbn</territory>
+			<territory type="VA">Awbnk iɣrem n Vbtikbn</territory>
+			<territory type="VC">Sbntevinsent d Grinbdin</territory>
+			<territory type="VE">Vinzwillb</territory>
+			<territory type="VG">Tigzirin (Virgin) Tibṛiṭbniyin</territory>
+			<territory type="VI">Tigzirin n Virjin n Iwunbk Yedduklen</territory>
+			<territory type="VN">Viṭnbm</territory>
+			<territory type="VU">Vbnwbtu</territory>
+			<territory type="WF">Wblis d Futunb</territory>
+			<territory type="WS">Sbmwb</territory>
+			<territory type="YE">Ybmbn</territory>
+			<territory type="YT">Mbyuṭ</territory>
+			<territory type="ZA">Tbfrikt Tunẓul</territory>
+			<territory type="ZM">Zbmbyb</territory>
+			<territory type="ZW">Zimbbbwi</territory>
 		</territories>
-	</localeDisplayNames>
-	<characters>
-		<exemplarCharacters>[a b c d ḍ e ɛ f g {gʷ} ɣ h ḥ i j k {kʷ} l m n q r ṛ s ṣ t ṭ u w x y z]</exemplarCharacters>
-		<exemplarCharacters type="auxiliary">[o p v]</exemplarCharacters>
-		<exemplarCharacters type="index">[A B C D Ḍ E Ɛ F G Ɣ H Ḥ I J K L M N Q R Ṛ S Ṣ T Ṭ U W X Y Z]</exemplarCharacters>
-	</characters>
+	</locbleDisplbyNbmes>
+	<chbrbcters>
+		<exemplbrChbrbcters>[b b c d ḍ e ɛ f g {gʷ} ɣ h ḥ i j k {kʷ} l m n q r ṛ s ṣ t ṭ u w x y z]</exemplbrChbrbcters>
+		<exemplbrChbrbcters type="buxilibry">[o p v]</exemplbrChbrbcters>
+		<exemplbrChbrbcters type="index">[A B C D Ḍ E Ɛ F G Ɣ H Ḥ I J K L M N Q R Ṛ S Ṣ T Ṭ U W X Y Z]</exemplbrChbrbcters>
+	</chbrbcters>
 	<delimiters>
-		<quotationStart>“</quotationStart>
-		<quotationEnd>”</quotationEnd>
-		<alternateQuotationStart>‘</alternateQuotationStart>
-		<alternateQuotationEnd>’</alternateQuotationEnd>
+		<quotbtionStbrt>“</quotbtionStbrt>
+		<quotbtionEnd>”</quotbtionEnd>
+		<blternbteQuotbtionStbrt>‘</blternbteQuotbtionStbrt>
+		<blternbteQuotbtionEnd>’</blternbteQuotbtionEnd>
 	</delimiters>
-	<dates>
-		<calendars>
-			<calendar type="gregorian">
+	<dbtes>
+		<cblendbrs>
+			<cblendbr type="gregoribn">
 				<months>
-					<monthContext type="format">
-						<monthWidth type="abbreviated">
+					<monthContext type="formbt">
+						<monthWidth type="bbbrevibted">
 							<month type="1">Yen</month>
 							<month type="2">Yeb</month>
-							<month type="3">Mar</month>
+							<month type="3">Mbr</month>
 							<month type="4">Ibr</month>
-							<month type="5">May</month>
+							<month type="5">Mby</month>
 							<month type="6">Yun</month>
 							<month type="7">Yul</month>
 							<month type="8">Ɣuc</month>
 							<month type="9">Cut</month>
 							<month type="10">Kṭu</month>
-							<month type="11">Nwa</month>
+							<month type="11">Nwb</month>
 							<month type="12">Duj</month>
 						</monthWidth>
 						<monthWidth type="wide">
-							<month type="1">Yennayer</month>
-							<month type="2">Yebrayer</month>
-							<month type="3">Mars</month>
+							<month type="1">Yennbyer</month>
+							<month type="2">Yebrbyer</month>
+							<month type="3">Mbrs</month>
 							<month type="4">Ibrir</month>
-							<month type="5">Mayyu</month>
+							<month type="5">Mbyyu</month>
 							<month type="6">Yunyu</month>
 							<month type="7">Yulyuz</month>
 							<month type="8">Ɣuct</month>
-							<month type="9">Cutanbir</month>
+							<month type="9">Cutbnbir</month>
 							<month type="10">Kṭuber</month>
-							<month type="11">Nwanbir</month>
-							<month type="12">Dujanbir</month>
+							<month type="11">Nwbnbir</month>
+							<month type="12">Dujbnbir</month>
 						</monthWidth>
 					</monthContext>
-					<monthContext type="stand-alone">
-						<monthWidth type="narrow">
+					<monthContext type="stbnd-blone">
+						<monthWidth type="nbrrow">
 							<month type="1">Y</month>
 							<month type="2">Y</month>
 							<month type="3">M</month>
@@ -345,367 +345,367 @@
 						</monthWidth>
 					</monthContext>
 				</months>
-				<days>
-					<dayContext type="format">
-						<dayWidth type="abbreviated">
-							<day type="sun">Asa</day>
-							<day type="mon">Ayn</day>
-							<day type="tue">Asn</day>
-							<day type="wed">Akr</day>
-							<day type="thu">Akw</day>
-							<day type="fri">Asm</day>
-							<day type="sat">Asḍ</day>
-						</dayWidth>
-						<dayWidth type="wide">
-							<day type="sun">Asamas</day>
-							<day type="mon">Aynas</day>
-							<day type="tue">Asinas</day>
-							<day type="wed">Akras</day>
-							<day type="thu">Akwas</day>
-							<day type="fri">Asimwas</day>
-							<day type="sat">Asiḍyas</day>
-						</dayWidth>
-					</dayContext>
-					<dayContext type="stand-alone">
-						<dayWidth type="narrow">
-							<day type="sun">A</day>
-							<day type="mon">A</day>
-							<day type="tue">A</day>
-							<day type="wed">A</day>
-							<day type="thu">A</day>
-							<day type="fri">A</day>
-							<day type="sat">A</day>
-						</dayWidth>
-					</dayContext>
-				</days>
-				<quarters>
-					<quarterContext type="format">
-						<quarterWidth type="abbreviated">
-							<quarter type="1">IA1</quarter>
-							<quarter type="2">IA2</quarter>
-							<quarter type="3">IA3</quarter>
-							<quarter type="4">IA4</quarter>
-						</quarterWidth>
-						<quarterWidth type="wide">
-							<quarter type="1">Imir adamsan 1</quarter>
-							<quarter type="2">Imir adamsan 2</quarter>
-							<quarter type="3">Imir adamsan 3</quarter>
-							<quarter type="4">Imir adamsan 4</quarter>
-						</quarterWidth>
-					</quarterContext>
-				</quarters>
-				<dayPeriods>
-					<dayPeriodContext type="format">
-						<dayPeriodWidth type="wide">
-							<dayPeriod type="am">Zdat azal</dayPeriod>
-							<dayPeriod type="pm">Ḍeffir aza</dayPeriod>
-						</dayPeriodWidth>
-					</dayPeriodContext>
-				</dayPeriods>
-				<eras>
-					<eraNames>
-						<era type="0">Zdat Ɛisa (TAƔ)</era>
-						<era type="1">Ḍeffir Ɛisa (TAƔ)</era>
-					</eraNames>
-					<eraAbbr>
-						<era type="0">ZƐ</era>
-						<era type="1">ḌƐ</era>
-					</eraAbbr>
-				</eras>
-				<dateFormats>
-					<dateFormatLength type="full">
-						<dateFormat>
-							<pattern>EEEE, d MMMM y</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="long">
-						<dateFormat>
-							<pattern>d MMMM y</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="medium">
-						<dateFormat>
-							<pattern>d MMM y</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="short">
-						<dateFormat>
-							<pattern>dd/MM/yyyy</pattern>
-						</dateFormat>
-					</dateFormatLength>
-				</dateFormats>
-				<timeFormats>
-					<timeFormatLength type="full">
-						<timeFormat>
-							<pattern>h:mm:ss a zzzz</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="long">
-						<timeFormat>
-							<pattern>h:mm:ss a z</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="medium">
-						<timeFormat>
-							<pattern>h:mm:ss a</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="short">
-						<timeFormat>
-							<pattern>h:mm a</pattern>
-						</timeFormat>
-					</timeFormatLength>
-				</timeFormats>
-				<dateTimeFormats>
-					<availableFormats>
-						<dateFormatItem id="d">d</dateFormatItem>
-						<dateFormatItem id="hm">h:mm a</dateFormatItem>
-						<dateFormatItem id="Hm">HH:mm</dateFormatItem>
-						<dateFormatItem id="Hms">HH:mm:ss</dateFormatItem>
-						<dateFormatItem id="M">L</dateFormatItem>
-						<dateFormatItem id="Md">M/d</dateFormatItem>
-						<dateFormatItem id="MEd">E, M/d</dateFormatItem>
-						<dateFormatItem id="MMM">LLL</dateFormatItem>
-						<dateFormatItem id="MMMd">MMM d</dateFormatItem>
-						<dateFormatItem id="MMMEd">E, MMM d</dateFormatItem>
-						<dateFormatItem id="MMMMd">MMMM d</dateFormatItem>
-						<dateFormatItem id="MMMMEd">E, MMMM d</dateFormatItem>
-						<dateFormatItem id="ms">mm:ss</dateFormatItem>
-						<dateFormatItem id="y">y</dateFormatItem>
-						<dateFormatItem id="yM">M/y</dateFormatItem>
-						<dateFormatItem id="yMEd">E, M/d/y</dateFormatItem>
-						<dateFormatItem id="yMMM">MMM y</dateFormatItem>
-						<dateFormatItem id="yMMMEd">E, MMM d, y</dateFormatItem>
-						<dateFormatItem id="yMMMM">MMMM y</dateFormatItem>
-						<dateFormatItem id="yQ">Q y</dateFormatItem>
-						<dateFormatItem id="yQQQ">QQQ y</dateFormatItem>
-					</availableFormats>
-				</dateTimeFormats>
+				<dbys>
+					<dbyContext type="formbt">
+						<dbyWidth type="bbbrevibted">
+							<dby type="sun">Asb</dby>
+							<dby type="mon">Ayn</dby>
+							<dby type="tue">Asn</dby>
+							<dby type="wed">Akr</dby>
+							<dby type="thu">Akw</dby>
+							<dby type="fri">Asm</dby>
+							<dby type="sbt">Asḍ</dby>
+						</dbyWidth>
+						<dbyWidth type="wide">
+							<dby type="sun">Asbmbs</dby>
+							<dby type="mon">Aynbs</dby>
+							<dby type="tue">Asinbs</dby>
+							<dby type="wed">Akrbs</dby>
+							<dby type="thu">Akwbs</dby>
+							<dby type="fri">Asimwbs</dby>
+							<dby type="sbt">Asiḍybs</dby>
+						</dbyWidth>
+					</dbyContext>
+					<dbyContext type="stbnd-blone">
+						<dbyWidth type="nbrrow">
+							<dby type="sun">A</dby>
+							<dby type="mon">A</dby>
+							<dby type="tue">A</dby>
+							<dby type="wed">A</dby>
+							<dby type="thu">A</dby>
+							<dby type="fri">A</dby>
+							<dby type="sbt">A</dby>
+						</dbyWidth>
+					</dbyContext>
+				</dbys>
+				<qubrters>
+					<qubrterContext type="formbt">
+						<qubrterWidth type="bbbrevibted">
+							<qubrter type="1">IA1</qubrter>
+							<qubrter type="2">IA2</qubrter>
+							<qubrter type="3">IA3</qubrter>
+							<qubrter type="4">IA4</qubrter>
+						</qubrterWidth>
+						<qubrterWidth type="wide">
+							<qubrter type="1">Imir bdbmsbn 1</qubrter>
+							<qubrter type="2">Imir bdbmsbn 2</qubrter>
+							<qubrter type="3">Imir bdbmsbn 3</qubrter>
+							<qubrter type="4">Imir bdbmsbn 4</qubrter>
+						</qubrterWidth>
+					</qubrterContext>
+				</qubrters>
+				<dbyPeriods>
+					<dbyPeriodContext type="formbt">
+						<dbyPeriodWidth type="wide">
+							<dbyPeriod type="bm">Zdbt bzbl</dbyPeriod>
+							<dbyPeriod type="pm">Ḍeffir bzb</dbyPeriod>
+						</dbyPeriodWidth>
+					</dbyPeriodContext>
+				</dbyPeriods>
+				<erbs>
+					<erbNbmes>
+						<erb type="0">Zdbt Ɛisb (TAƔ)</erb>
+						<erb type="1">Ḍeffir Ɛisb (TAƔ)</erb>
+					</erbNbmes>
+					<erbAbbr>
+						<erb type="0">ZƐ</erb>
+						<erb type="1">ḌƐ</erb>
+					</erbAbbr>
+				</erbs>
+				<dbteFormbts>
+					<dbteFormbtLength type="full">
+						<dbteFormbt>
+							<pbttern>EEEE, d MMMM y</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+					<dbteFormbtLength type="long">
+						<dbteFormbt>
+							<pbttern>d MMMM y</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+					<dbteFormbtLength type="medium">
+						<dbteFormbt>
+							<pbttern>d MMM y</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+					<dbteFormbtLength type="short">
+						<dbteFormbt>
+							<pbttern>dd/MM/yyyy</pbttern>
+						</dbteFormbt>
+					</dbteFormbtLength>
+				</dbteFormbts>
+				<timeFormbts>
+					<timeFormbtLength type="full">
+						<timeFormbt>
+							<pbttern>h:mm:ss b zzzz</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+					<timeFormbtLength type="long">
+						<timeFormbt>
+							<pbttern>h:mm:ss b z</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+					<timeFormbtLength type="medium">
+						<timeFormbt>
+							<pbttern>h:mm:ss b</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+					<timeFormbtLength type="short">
+						<timeFormbt>
+							<pbttern>h:mm b</pbttern>
+						</timeFormbt>
+					</timeFormbtLength>
+				</timeFormbts>
+				<dbteTimeFormbts>
+					<bvbilbbleFormbts>
+						<dbteFormbtItem id="d">d</dbteFormbtItem>
+						<dbteFormbtItem id="hm">h:mm b</dbteFormbtItem>
+						<dbteFormbtItem id="Hm">HH:mm</dbteFormbtItem>
+						<dbteFormbtItem id="Hms">HH:mm:ss</dbteFormbtItem>
+						<dbteFormbtItem id="M">L</dbteFormbtItem>
+						<dbteFormbtItem id="Md">M/d</dbteFormbtItem>
+						<dbteFormbtItem id="MEd">E, M/d</dbteFormbtItem>
+						<dbteFormbtItem id="MMM">LLL</dbteFormbtItem>
+						<dbteFormbtItem id="MMMd">MMM d</dbteFormbtItem>
+						<dbteFormbtItem id="MMMEd">E, MMM d</dbteFormbtItem>
+						<dbteFormbtItem id="MMMMd">MMMM d</dbteFormbtItem>
+						<dbteFormbtItem id="MMMMEd">E, MMMM d</dbteFormbtItem>
+						<dbteFormbtItem id="ms">mm:ss</dbteFormbtItem>
+						<dbteFormbtItem id="y">y</dbteFormbtItem>
+						<dbteFormbtItem id="yM">M/y</dbteFormbtItem>
+						<dbteFormbtItem id="yMEd">E, M/d/y</dbteFormbtItem>
+						<dbteFormbtItem id="yMMM">MMM y</dbteFormbtItem>
+						<dbteFormbtItem id="yMMMEd">E, MMM d, y</dbteFormbtItem>
+						<dbteFormbtItem id="yMMMM">MMMM y</dbteFormbtItem>
+						<dbteFormbtItem id="yQ">Q y</dbteFormbtItem>
+						<dbteFormbtItem id="yQQQ">QQQ y</dbteFormbtItem>
+					</bvbilbbleFormbts>
+				</dbteTimeFormbts>
 				<fields>
-					<field type="era">
-						<displayName>Tallit</displayName>
+					<field type="erb">
+						<displbyNbme>Tbllit</displbyNbme>
 					</field>
-					<field type="year">
-						<displayName>Asseggas</displayName>
+					<field type="yebr">
+						<displbyNbme>Asseggbs</displbyNbme>
 					</field>
 					<field type="month">
-						<displayName>Ayur</displayName>
+						<displbyNbme>Ayur</displbyNbme>
 					</field>
 					<field type="week">
-						<displayName>Imalass</displayName>
+						<displbyNbme>Imblbss</displbyNbme>
 					</field>
-					<field type="day">
-						<displayName>Ass</displayName>
-						<relative type="-1">Assenaṭ</relative>
-						<relative type="0">Assa</relative>
-						<relative type="1">Asekka</relative>
+					<field type="dby">
+						<displbyNbme>Ass</displbyNbme>
+						<relbtive type="-1">Assenbṭ</relbtive>
+						<relbtive type="0">Assb</relbtive>
+						<relbtive type="1">Asekkb</relbtive>
 					</field>
-					<field type="weekday">
-						<displayName>Ass n Imalass</displayName>
+					<field type="weekdby">
+						<displbyNbme>Ass n Imblbss</displbyNbme>
 					</field>
-					<field type="dayperiod">
-						<displayName>Zdat azal/Deffir azal</displayName>
+					<field type="dbyperiod">
+						<displbyNbme>Zdbt bzbl/Deffir bzbl</displbyNbme>
 					</field>
 					<field type="hour">
-						<displayName>Tasragt</displayName>
+						<displbyNbme>Tbsrbgt</displbyNbme>
 					</field>
 					<field type="minute">
-						<displayName>Tusdat</displayName>
+						<displbyNbme>Tusdbt</displbyNbme>
 					</field>
 					<field type="second">
-						<displayName>Tusnat</displayName>
+						<displbyNbme>Tusnbt</displbyNbme>
 					</field>
 					<field type="zone">
-						<displayName>Aseglem asergan</displayName>
+						<displbyNbme>Aseglem bsergbn</displbyNbme>
 					</field>
 				</fields>
-			</calendar>
-		</calendars>
-	</dates>
+			</cblendbr>
+		</cblendbrs>
+	</dbtes>
 	<numbers>
-		<symbols numberSystem="latn">
-			<decimal>,</decimal>
+		<symbols numberSystem="lbtn">
+			<decimbl>,</decimbl>
 			<group> </group>
 		</symbols>
-		<currencyFormats numberSystem="latn">
-			<currencyFormatLength>
-				<currencyFormat>
-					<pattern>#,##0.00 ¤</pattern>
-				</currencyFormat>
-			</currencyFormatLength>
-		</currencyFormats>
+		<currencyFormbts numberSystem="lbtn">
+			<currencyFormbtLength>
+				<currencyFormbt>
+					<pbttern>#,##0.00 ¤</pbttern>
+				</currencyFormbt>
+			</currencyFormbtLength>
+		</currencyFormbts>
 		<currencies>
 			<currency type="AED">
-				<displayName>Derhem Uymarati</displayName>
+				<displbyNbme>Derhem Uymbrbti</displbyNbme>
 			</currency>
 			<currency type="AOA">
-				<displayName>Kwanza Unguli</displayName>
+				<displbyNbme>Kwbnzb Unguli</displbyNbme>
 			</currency>
 			<currency type="AUD">
-				<displayName>Ḍular Usṭrali</displayName>
+				<displbyNbme>Ḍulbr Usṭrbli</displbyNbme>
 			</currency>
 			<currency type="BHD">
-				<displayName>Ḍinar Ubaḥrayni</displayName>
+				<displbyNbme>Ḍinbr Ubbḥrbyni</displbyNbme>
 			</currency>
 			<currency type="BIF">
-				<displayName>Frank Uburundi</displayName>
+				<displbyNbme>Frbnk Uburundi</displbyNbme>
 			</currency>
 			<currency type="BWP">
-				<displayName>Pula Ubutswani</displayName>
+				<displbyNbme>Pulb Ubutswbni</displbyNbme>
 			</currency>
 			<currency type="CAD">
-				<displayName>Ḍular Ukanadi</displayName>
+				<displbyNbme>Ḍulbr Ukbnbdi</displbyNbme>
 			</currency>
 			<currency type="CDF">
-				<displayName>Frank Ukunguli</displayName>
+				<displbyNbme>Frbnk Ukunguli</displbyNbme>
 			</currency>
 			<currency type="CHF">
-				<displayName>Frank Uswisri</displayName>
+				<displbyNbme>Frbnk Uswisri</displbyNbme>
 			</currency>
 			<currency type="CNY">
-				<displayName>Ywan Renminbi Ucinwi</displayName>
+				<displbyNbme>Ywbn Renminbi Ucinwi</displbyNbme>
 			</currency>
 			<currency type="CVE">
-				<displayName>Iskudu Ukabuvirdyani</displayName>
+				<displbyNbme>Iskudu Ukbbuvirdybni</displbyNbme>
 			</currency>
 			<currency type="DJF">
-				<displayName>Frank Uğibuti</displayName>
+				<displbyNbme>Frbnk Uğibuti</displbyNbme>
 			</currency>
 			<currency type="DZD">
-				<displayName>Ḍinar Udzayri</displayName>
+				<displbyNbme>Ḍinbr Udzbyri</displbyNbme>
 			</currency>
 			<currency type="EGP">
-				<displayName>Junih Umiṣṛi</displayName>
+				<displbyNbme>Junih Umiṣṛi</displbyNbme>
 			</currency>
 			<currency type="ERN">
-				<displayName>Nakfa Uyritri</displayName>
+				<displbyNbme>Nbkfb Uyritri</displbyNbme>
 			</currency>
 			<currency type="ETB">
-				<displayName>Birr Uyityuppi</displayName>
+				<displbyNbme>Birr Uyityuppi</displbyNbme>
 			</currency>
 			<currency type="EUR">
-				<displayName>Uṛu</displayName>
+				<displbyNbme>Uṛu</displbyNbme>
 			</currency>
 			<currency type="GBP">
-				<displayName>Junih Usterlini Ubriṭani</displayName>
+				<displbyNbme>Junih Usterlini Ubriṭbni</displbyNbme>
 			</currency>
 			<currency type="GHC">
-				<displayName>Sidi Uɣani</displayName>
+				<displbyNbme>Sidi Uɣbni</displbyNbme>
 			</currency>
 			<currency type="GMD">
-				<displayName>Dalasi Agambi</displayName>
+				<displbyNbme>Dblbsi Agbmbi</displbyNbme>
 			</currency>
 			<currency type="GNS">
-				<displayName>Frank Uɣini</displayName>
+				<displbyNbme>Frbnk Uɣini</displbyNbme>
 			</currency>
 			<currency type="INR">
-				<displayName>Rupi Uḥindi</displayName>
+				<displbyNbme>Rupi Uḥindi</displbyNbme>
 			</currency>
 			<currency type="JPY">
-				<displayName>Yann Ujappuni</displayName>
+				<displbyNbme>Ybnn Ujbppuni</displbyNbme>
 			</currency>
 			<currency type="KES">
-				<displayName>Cillin Ukini</displayName>
+				<displbyNbme>Cillin Ukini</displbyNbme>
 			</currency>
 			<currency type="KMF">
-				<displayName>Frank Uqumuri</displayName>
+				<displbyNbme>Frbnk Uqumuri</displbyNbme>
 			</currency>
 			<currency type="LRD">
-				<displayName>Ḍular Ulibiri</displayName>
+				<displbyNbme>Ḍulbr Ulibiri</displbyNbme>
 			</currency>
 			<currency type="LSL">
-				<displayName>Luti Ulusuṭi</displayName>
+				<displbyNbme>Luti Ulusuṭi</displbyNbme>
 			</currency>
 			<currency type="LYD">
-				<displayName>Ḍinar Ulibi</displayName>
+				<displbyNbme>Ḍinbr Ulibi</displbyNbme>
 			</currency>
 			<currency type="MAD">
-				<displayName>Derhem Umeṛṛuki</displayName>
+				<displbyNbme>Derhem Umeṛṛuki</displbyNbme>
 			</currency>
 			<currency type="MGA">
-				<displayName>Aryari Umalɣaci</displayName>
+				<displbyNbme>Arybri Umblɣbci</displbyNbme>
 			</currency>
 			<currency type="MRO">
-				<displayName>Uqiyya Umuritani</displayName>
+				<displbyNbme>Uqiyyb Umuritbni</displbyNbme>
 			</currency>
 			<currency type="MUR">
-				<displayName>Rupi Umurisi</displayName>
+				<displbyNbme>Rupi Umurisi</displbyNbme>
 			</currency>
 			<currency type="MWK">
-				<displayName>Kwača Umalawi</displayName>
+				<displbyNbme>Kwbčb Umblbwi</displbyNbme>
 			</currency>
 			<currency type="MZM">
-				<displayName>Mitikal Umuzambiqi</displayName>
+				<displbyNbme>Mitikbl Umuzbmbiqi</displbyNbme>
 			</currency>
 			<currency type="NAD">
-				<displayName>Ḍular Unamibi</displayName>
+				<displbyNbme>Ḍulbr Unbmibi</displbyNbme>
 			</currency>
 			<currency type="NGN">
-				<displayName>Nayra Unijiri</displayName>
+				<displbyNbme>Nbyrb Unijiri</displbyNbme>
 			</currency>
 			<currency type="RWF">
-				<displayName>Frank Urwandi</displayName>
+				<displbyNbme>Frbnk Urwbndi</displbyNbme>
 			</currency>
 			<currency type="SAR">
-				<displayName>Ryal Usaεudi</displayName>
+				<displbyNbme>Rybl Usbεudi</displbyNbme>
 			</currency>
 			<currency type="SCR">
-				<displayName>Rupi Usicili</displayName>
+				<displbyNbme>Rupi Usicili</displbyNbme>
 			</currency>
 			<currency type="SDG">
-				<displayName>Junih Usudani</displayName>
+				<displbyNbme>Junih Usudbni</displbyNbme>
 			</currency>
 			<currency type="SDP">
-				<displayName>Junih Usudani (1956–2007)</displayName>
+				<displbyNbme>Junih Usudbni (1956–2007)</displbyNbme>
 			</currency>
 			<currency type="SHP">
-				<displayName>Junih Usantehilini</displayName>
+				<displbyNbme>Junih Usbntehilini</displbyNbme>
 			</currency>
 			<currency type="SLL">
-				<displayName>Lyun Usirralyuni</displayName>
+				<displbyNbme>Lyun Usirrblyuni</displbyNbme>
 			</currency>
 			<currency type="SOS">
-				<displayName>Cilin Uṣumali</displayName>
+				<displbyNbme>Cilin Uṣumbli</displbyNbme>
 			</currency>
 			<currency type="STD">
-				<displayName>Dubra Usawṭumi</displayName>
+				<displbyNbme>Dubrb Usbwṭumi</displbyNbme>
 			</currency>
 			<currency type="SZL">
-				<displayName>Lilanjini Uswazi</displayName>
+				<displbyNbme>Lilbnjini Uswbzi</displbyNbme>
 			</currency>
 			<currency type="TND">
-				<displayName>Ḍinar Utunsi</displayName>
+				<displbyNbme>Ḍinbr Utunsi</displbyNbme>
 			</currency>
 			<currency type="TZS">
-				<displayName>Cilin Uṭanzani</displayName>
+				<displbyNbme>Cilin Uṭbnzbni</displbyNbme>
 			</currency>
 			<currency type="UGX">
-				<displayName>Cilin Uɣandi (1966-1987)</displayName>
+				<displbyNbme>Cilin Uɣbndi (1966-1987)</displbyNbme>
 			</currency>
 			<currency type="USD">
-				<displayName>Ḍular Umirikani</displayName>
+				<displbyNbme>Ḍulbr Umirikbni</displbyNbme>
 			</currency>
 			<currency type="XAF">
-				<displayName>Frank CFA (BEAC)</displayName>
+				<displbyNbme>Frbnk CFA (BEAC)</displbyNbme>
 			</currency>
 			<currency type="XOF">
-				<displayName>Frank CFA (BCEAO)</displayName>
+				<displbyNbme>Frbnk CFA (BCEAO)</displbyNbme>
 			</currency>
 			<currency type="ZAR">
-				<displayName>Rand Ufriki Unzul</displayName>
+				<displbyNbme>Rbnd Ufriki Unzul</displbyNbme>
 			</currency>
 			<currency type="ZMK">
-				<displayName>Kwača Uzambi</displayName>
+				<displbyNbme>Kwbčb Uzbmbi</displbyNbme>
 			</currency>
 			<currency type="ZWD">
-				<displayName>Ḍular Uzimbabwi</displayName>
+				<displbyNbme>Ḍulbr Uzimbbbwi</displbyNbme>
 			</currency>
 		</currencies>
 	</numbers>
 	<posix>
-		<messages>
+		<messbges>
 			<yesstr>Yeh:Y</yesstr>
 			<nostr>Uhu:U</nostr>
-		</messages>
+		</messbges>
 	</posix>
 </ldml>

@@ -1,359 +1,359 @@
 /*
- * Copyright (c) 2002, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package sun.security.ssl;
+pbckbge sun.security.ssl;
 
-import java.io.ByteArrayOutputStream;
-import java.security.*;
-import java.util.Locale;
+import jbvb.io.ByteArrbyOutputStrebm;
+import jbvb.security.*;
+import jbvb.util.Locble;
 
 /**
- * Abstraction for the SSL/TLS hash of all handshake messages that is
- * maintained to verify the integrity of the negotiation. Internally,
- * it consists of an MD5 and an SHA1 digest. They are used in the client
- * and server finished messages and in certificate verify messages (if sent).
+ * Abstrbction for the SSL/TLS hbsh of bll hbndshbke messbges thbt is
+ * mbintbined to verify the integrity of the negotibtion. Internblly,
+ * it consists of bn MD5 bnd bn SHA1 digest. They bre used in the client
+ * bnd server finished messbges bnd in certificbte verify messbges (if sent).
  *
- * This class transparently deals with cloneable and non-cloneable digests.
+ * This clbss trbnspbrently debls with clonebble bnd non-clonebble digests.
  *
- * This class now supports TLS 1.2 also. The key difference for TLS 1.2
- * is that you cannot determine the hash algorithms for CertificateVerify
- * at a early stage. On the other hand, it's simpler than TLS 1.1 (and earlier)
- * that there is no messy MD5+SHA1 digests.
+ * This clbss now supports TLS 1.2 blso. The key difference for TLS 1.2
+ * is thbt you cbnnot determine the hbsh blgorithms for CertificbteVerify
+ * bt b ebrly stbge. On the other hbnd, it's simpler thbn TLS 1.1 (bnd ebrlier)
+ * thbt there is no messy MD5+SHA1 digests.
  *
- * You need to obey these conventions when using this class:
+ * You need to obey these conventions when using this clbss:
  *
- * 1. protocolDetermined(version) should be called when the negotiated
+ * 1. protocolDetermined(version) should be cblled when the negotibted
  * protocol version is determined.
  *
- * 2. Before protocolDetermined() is called, only update(), and reset()
- * and setFinishedAlg() can be called.
+ * 2. Before protocolDetermined() is cblled, only updbte(), bnd reset()
+ * bnd setFinishedAlg() cbn be cblled.
  *
- * 3. After protocolDetermined() is called, reset() cannot be called.
+ * 3. After protocolDetermined() is cblled, reset() cbnnot be cblled.
  *
- * 4. After protocolDetermined() is called, if the version is pre-TLS 1.2,
- * getFinishedHash() cannot be called. Otherwise,
- * getMD5Clone() and getSHAClone() cannot be called.
+ * 4. After protocolDetermined() is cblled, if the version is pre-TLS 1.2,
+ * getFinishedHbsh() cbnnot be cblled. Otherwise,
+ * getMD5Clone() bnd getSHAClone() cbnnot be cblled.
  *
- * 5. getMD5Clone() and getSHAClone() can only be called after
- * protocolDetermined() is called and version is pre-TLS 1.2.
+ * 5. getMD5Clone() bnd getSHAClone() cbn only be cblled bfter
+ * protocolDetermined() is cblled bnd version is pre-TLS 1.2.
  *
- * 6. getFinishedHash() can only be called after protocolDetermined()
- * and setFinishedAlg() have been called and the version is TLS 1.2.
+ * 6. getFinishedHbsh() cbn only be cblled bfter protocolDetermined()
+ * bnd setFinishedAlg() hbve been cblled bnd the version is TLS 1.2.
  *
- * Suggestion: Call protocolDetermined() and setFinishedAlg()
- * as early as possible.
+ * Suggestion: Cbll protocolDetermined() bnd setFinishedAlg()
+ * bs ebrly bs possible.
  *
- * Example:
+ * Exbmple:
  * <pre>
- * HandshakeHash hh = new HandshakeHash(...)
+ * HbndshbkeHbsh hh = new HbndshbkeHbsh(...)
  * hh.protocolDetermined(ProtocolVersion.TLS12);
- * hh.update(clientHelloBytes);
+ * hh.updbte(clientHelloBytes);
  * hh.setFinishedAlg("SHA-256");
- * hh.update(serverHelloBytes);
+ * hh.updbte(serverHelloBytes);
  * ...
- * hh.update(CertificateVerifyBytes);
+ * hh.updbte(CertificbteVerifyBytes);
  * ...
- * hh.update(finished1);
- * byte[] finDigest1 = hh.getFinishedHash();
- * hh.update(finished2);
- * byte[] finDigest2 = hh.getFinishedHash();
+ * hh.updbte(finished1);
+ * byte[] finDigest1 = hh.getFinishedHbsh();
+ * hh.updbte(finished2);
+ * byte[] finDigest2 = hh.getFinishedHbsh();
  * </pre>
  */
-final class HandshakeHash {
+finbl clbss HbndshbkeHbsh {
 
     // Common
 
     // -1:  unknown
     //  1:  <=TLS 1.1
     //  2:  TLS 1.2
-    private int version = -1;
-    private ByteArrayOutputStream data = new ByteArrayOutputStream();
+    privbte int version = -1;
+    privbte ByteArrbyOutputStrebm dbtb = new ByteArrbyOutputStrebm();
 
     // For TLS 1.1
-    private MessageDigest md5, sha;
-    private final int clonesNeeded;    // needs to be saved for later use
+    privbte MessbgeDigest md5, shb;
+    privbte finbl int clonesNeeded;    // needs to be sbved for lbter use
 
     // For TLS 1.2
-    private MessageDigest finMD;
+    privbte MessbgeDigest finMD;
 
     /**
-     * Create a new HandshakeHash. needCertificateVerify indicates whether
-     * a hash for the certificate verify message is required.
+     * Crebte b new HbndshbkeHbsh. needCertificbteVerify indicbtes whether
+     * b hbsh for the certificbte verify messbge is required.
      */
-    HandshakeHash(boolean needCertificateVerify) {
-        clonesNeeded = needCertificateVerify ? 3 : 2;
+    HbndshbkeHbsh(boolebn needCertificbteVerify) {
+        clonesNeeded = needCertificbteVerify ? 3 : 2;
     }
 
-    void update(byte[] b, int offset, int len) {
+    void updbte(byte[] b, int offset, int len) {
         switch (version) {
-            case 1:
-                md5.update(b, offset, len);
-                sha.update(b, offset, len);
-                break;
-            default:
+            cbse 1:
+                md5.updbte(b, offset, len);
+                shb.updbte(b, offset, len);
+                brebk;
+            defbult:
                 if (finMD != null) {
-                    finMD.update(b, offset, len);
+                    finMD.updbte(b, offset, len);
                 }
-                data.write(b, offset, len);
-                break;
+                dbtb.write(b, offset, len);
+                brebk;
         }
     }
 
     /**
-     * Reset the remaining digests. Note this does *not* reset the number of
-     * digest clones that can be obtained. Digests that have already been
-     * cloned and are gone remain gone.
+     * Reset the rembining digests. Note this does *not* reset the number of
+     * digest clones thbt cbn be obtbined. Digests thbt hbve blrebdy been
+     * cloned bnd bre gone rembin gone.
      */
     void reset() {
         if (version != -1) {
             throw new RuntimeException(
-                    "reset() can be only be called before protocolDetermined");
+                    "reset() cbn be only be cblled before protocolDetermined");
         }
-        data.reset();
+        dbtb.reset();
     }
 
 
     void protocolDetermined(ProtocolVersion pv) {
 
-        // Do not set again, will ignore
+        // Do not set bgbin, will ignore
         if (version != -1) return;
 
-        version = pv.compareTo(ProtocolVersion.TLS12) >= 0 ? 2 : 1;
+        version = pv.compbreTo(ProtocolVersion.TLS12) >= 0 ? 2 : 1;
         switch (version) {
-            case 1:
-                // initiate md5, sha and call update on saved array
+            cbse 1:
+                // initibte md5, shb bnd cbll updbte on sbved brrby
                 try {
-                    md5 = CloneableDigest.getDigest("MD5", clonesNeeded);
-                    sha = CloneableDigest.getDigest("SHA", clonesNeeded);
-                } catch (NoSuchAlgorithmException e) {
+                    md5 = ClonebbleDigest.getDigest("MD5", clonesNeeded);
+                    shb = ClonebbleDigest.getDigest("SHA", clonesNeeded);
+                } cbtch (NoSuchAlgorithmException e) {
                     throw new RuntimeException
-                                ("Algorithm MD5 or SHA not available", e);
+                                ("Algorithm MD5 or SHA not bvbilbble", e);
                 }
-                byte[] bytes = data.toByteArray();
-                update(bytes, 0, bytes.length);
-                break;
-            case 2:
-                break;
+                byte[] bytes = dbtb.toByteArrby();
+                updbte(bytes, 0, bytes.length);
+                brebk;
+            cbse 2:
+                brebk;
         }
     }
 
     /////////////////////////////////////////////////////////////
-    // Below are old methods for pre-TLS 1.1
+    // Below bre old methods for pre-TLS 1.1
     /////////////////////////////////////////////////////////////
 
     /**
-     * Return a new MD5 digest updated with all data hashed so far.
+     * Return b new MD5 digest updbted with bll dbtb hbshed so fbr.
      */
-    MessageDigest getMD5Clone() {
+    MessbgeDigest getMD5Clone() {
         if (version != 1) {
             throw new RuntimeException(
-                    "getMD5Clone() can be only be called for TLS 1.1");
+                    "getMD5Clone() cbn be only be cblled for TLS 1.1");
         }
         return cloneDigest(md5);
     }
 
     /**
-     * Return a new SHA digest updated with all data hashed so far.
+     * Return b new SHA digest updbted with bll dbtb hbshed so fbr.
      */
-    MessageDigest getSHAClone() {
+    MessbgeDigest getSHAClone() {
         if (version != 1) {
             throw new RuntimeException(
-                    "getSHAClone() can be only be called for TLS 1.1");
+                    "getSHAClone() cbn be only be cblled for TLS 1.1");
         }
-        return cloneDigest(sha);
+        return cloneDigest(shb);
     }
 
-    private static MessageDigest cloneDigest(MessageDigest digest) {
+    privbte stbtic MessbgeDigest cloneDigest(MessbgeDigest digest) {
         try {
-            return (MessageDigest)digest.clone();
-        } catch (CloneNotSupportedException e) {
-            // cannot occur for digests generated via CloneableDigest
+            return (MessbgeDigest)digest.clone();
+        } cbtch (CloneNotSupportedException e) {
+            // cbnnot occur for digests generbted vib ClonebbleDigest
             throw new RuntimeException("Could not clone digest", e);
         }
     }
 
     /////////////////////////////////////////////////////////////
-    // Below are new methods for TLS 1.2
+    // Below bre new methods for TLS 1.2
     /////////////////////////////////////////////////////////////
 
-    private static String normalizeAlgName(String alg) {
-        alg = alg.toUpperCase(Locale.US);
-        if (alg.startsWith("SHA")) {
-            if (alg.length() == 3) {
+    privbte stbtic String normblizeAlgNbme(String blg) {
+        blg = blg.toUpperCbse(Locble.US);
+        if (blg.stbrtsWith("SHA")) {
+            if (blg.length() == 3) {
                 return "SHA-1";
             }
-            if (alg.charAt(3) != '-') {
-                return "SHA-" + alg.substring(3);
+            if (blg.chbrAt(3) != '-') {
+                return "SHA-" + blg.substring(3);
             }
         }
-        return alg;
+        return blg;
     }
     /**
-     * Specifies the hash algorithm used in Finished. This should be called
-     * based in info in ServerHello.
-     * Can be called multiple times.
+     * Specifies the hbsh blgorithm used in Finished. This should be cblled
+     * bbsed in info in ServerHello.
+     * Cbn be cblled multiple times.
      */
     void setFinishedAlg(String s) {
         if (s == null) {
             throw new RuntimeException(
-                    "setFinishedAlg's argument cannot be null");
+                    "setFinishedAlg's brgument cbnnot be null");
         }
 
-        // Can be called multiple times, but only set once
+        // Cbn be cblled multiple times, but only set once
         if (finMD != null) return;
 
         try {
-            finMD = CloneableDigest.getDigest(normalizeAlgName(s), 2);
-        } catch (NoSuchAlgorithmException e) {
+            finMD = ClonebbleDigest.getDigest(normblizeAlgNbme(s), 2);
+        } cbtch (NoSuchAlgorithmException e) {
             throw new Error(e);
         }
-        finMD.update(data.toByteArray());
+        finMD.updbte(dbtb.toByteArrby());
     }
 
-    byte[] getAllHandshakeMessages() {
-        return data.toByteArray();
+    byte[] getAllHbndshbkeMessbges() {
+        return dbtb.toByteArrby();
     }
 
     /**
-     * Calculates the hash in Finished. Must be called after setFinishedAlg().
-     * This method can be called twice, for Finished messages of the server
-     * side and client side respectively.
+     * Cblculbtes the hbsh in Finished. Must be cblled bfter setFinishedAlg().
+     * This method cbn be cblled twice, for Finished messbges of the server
+     * side bnd client side respectively.
      */
-    byte[] getFinishedHash() {
+    byte[] getFinishedHbsh() {
         try {
             return cloneDigest(finMD).digest();
-        } catch (Exception e) {
+        } cbtch (Exception e) {
             throw new Error("BAD");
         }
     }
 }
 
 /**
- * A wrapper for MessageDigests that simulates cloning of non-cloneable
- * digests. It uses the standard MessageDigest API and therefore can be used
- * transparently in place of a regular digest.
+ * A wrbpper for MessbgeDigests thbt simulbtes cloning of non-clonebble
+ * digests. It uses the stbndbrd MessbgeDigest API bnd therefore cbn be used
+ * trbnspbrently in plbce of b regulbr digest.
  *
- * Note that we extend the MessageDigest class directly rather than
- * MessageDigestSpi. This works because MessageDigest was originally designed
- * this way in the JDK 1.1 days which allows us to avoid creating an internal
+ * Note thbt we extend the MessbgeDigest clbss directly rbther thbn
+ * MessbgeDigestSpi. This works becbuse MessbgeDigest wbs originblly designed
+ * this wby in the JDK 1.1 dbys which bllows us to bvoid crebting bn internbl
  * provider.
  *
- * It can be "cloned" a limited number of times, which is specified at
- * construction time. This is achieved by internally maintaining n digests
- * in parallel. Consequently, it is only 1/n-th times as fast as the original
+ * It cbn be "cloned" b limited number of times, which is specified bt
+ * construction time. This is bchieved by internblly mbintbining n digests
+ * in pbrbllel. Consequently, it is only 1/n-th times bs fbst bs the originbl
  * digest.
  *
- * Example:
- *   MessageDigest md = CloneableDigest.getDigest("SHA", 2);
- *   md.update(data1);
- *   MessageDigest md2 = (MessageDigest)md.clone();
- *   md2.update(data2);
- *   byte[] d1 = md2.digest(); // digest of data1 || data2
- *   md.update(data3);
- *   byte[] d2 = md.digest();  // digest of data1 || data3
+ * Exbmple:
+ *   MessbgeDigest md = ClonebbleDigest.getDigest("SHA", 2);
+ *   md.updbte(dbtb1);
+ *   MessbgeDigest md2 = (MessbgeDigest)md.clone();
+ *   md2.updbte(dbtb2);
+ *   byte[] d1 = md2.digest(); // digest of dbtb1 || dbtb2
+ *   md.updbte(dbtb3);
+ *   byte[] d2 = md.digest();  // digest of dbtb1 || dbtb3
  *
- * This class is not thread safe.
+ * This clbss is not threbd sbfe.
  *
  */
-final class CloneableDigest extends MessageDigest implements Cloneable {
+finbl clbss ClonebbleDigest extends MessbgeDigest implements Clonebble {
 
     /**
-     * The individual MessageDigests. Initially, all elements are non-null.
-     * When clone() is called, the non-null element with the maximum index is
-     * returned and the array element set to null.
+     * The individubl MessbgeDigests. Initiblly, bll elements bre non-null.
+     * When clone() is cblled, the non-null element with the mbximum index is
+     * returned bnd the brrby element set to null.
      *
-     * All non-null element are always in the same state.
+     * All non-null element bre blwbys in the sbme stbte.
      */
-    private final MessageDigest[] digests;
+    privbte finbl MessbgeDigest[] digests;
 
-    private CloneableDigest(MessageDigest digest, int n, String algorithm)
+    privbte ClonebbleDigest(MessbgeDigest digest, int n, String blgorithm)
             throws NoSuchAlgorithmException {
-        super(algorithm);
-        digests = new MessageDigest[n];
+        super(blgorithm);
+        digests = new MessbgeDigest[n];
         digests[0] = digest;
         for (int i = 1; i < n; i++) {
-            digests[i] = JsseJce.getMessageDigest(algorithm);
+            digests[i] = JsseJce.getMessbgeDigest(blgorithm);
         }
     }
 
     /**
-     * Return a MessageDigest for the given algorithm that can be cloned the
-     * specified number of times. If the default implementation supports
-     * cloning, it is returned. Otherwise, an instance of this class is
+     * Return b MessbgeDigest for the given blgorithm thbt cbn be cloned the
+     * specified number of times. If the defbult implementbtion supports
+     * cloning, it is returned. Otherwise, bn instbnce of this clbss is
      * returned.
      */
-    static MessageDigest getDigest(String algorithm, int n)
+    stbtic MessbgeDigest getDigest(String blgorithm, int n)
             throws NoSuchAlgorithmException {
-        MessageDigest digest = JsseJce.getMessageDigest(algorithm);
+        MessbgeDigest digest = JsseJce.getMessbgeDigest(blgorithm);
         try {
             digest.clone();
-            // already cloneable, use it
+            // blrebdy clonebble, use it
             return digest;
-        } catch (CloneNotSupportedException e) {
-            return new CloneableDigest(digest, n, algorithm);
+        } cbtch (CloneNotSupportedException e) {
+            return new ClonebbleDigest(digest, n, blgorithm);
         }
     }
 
     /**
-     * Check if this object is still usable. If it has already been cloned the
-     * maximum number of times, there are no digests left and this object can no
+     * Check if this object is still usbble. If it hbs blrebdy been cloned the
+     * mbximum number of times, there bre no digests left bnd this object cbn no
      * longer be used.
      */
-    private void checkState() {
-        // XXX handshaking currently doesn't stop updating hashes...
+    privbte void checkStbte() {
+        // XXX hbndshbking currently doesn't stop updbting hbshes...
         // if (digests[0] == null) {
-        //     throw new IllegalStateException("no digests left");
+        //     throw new IllegblStbteException("no digests left");
         // }
     }
 
     @Override
     protected int engineGetDigestLength() {
-        checkState();
+        checkStbte();
         return digests[0].getDigestLength();
     }
 
     @Override
-    protected void engineUpdate(byte b) {
-        checkState();
+    protected void engineUpdbte(byte b) {
+        checkStbte();
         for (int i = 0; (i < digests.length) && (digests[i] != null); i++) {
-            digests[i].update(b);
+            digests[i].updbte(b);
         }
     }
 
     @Override
-    protected void engineUpdate(byte[] b, int offset, int len) {
-        checkState();
+    protected void engineUpdbte(byte[] b, int offset, int len) {
+        checkStbte();
         for (int i = 0; (i < digests.length) && (digests[i] != null); i++) {
-            digests[i].update(b, offset, len);
+            digests[i].updbte(b, offset, len);
         }
     }
 
     @Override
     protected byte[] engineDigest() {
-        checkState();
+        checkStbte();
         byte[] digest = digests[0].digest();
         digestReset();
         return digest;
@@ -362,18 +362,18 @@ final class CloneableDigest extends MessageDigest implements Cloneable {
     @Override
     protected int engineDigest(byte[] buf, int offset, int len)
             throws DigestException {
-        checkState();
+        checkStbte();
         int n = digests[0].digest(buf, offset, len);
         digestReset();
         return n;
     }
 
     /**
-     * Reset all digests after a digest() call. digests[0] has already been
-     * implicitly reset by the digest() call and does not need to be reset
-     * again.
+     * Reset bll digests bfter b digest() cbll. digests[0] hbs blrebdy been
+     * implicitly reset by the digest() cbll bnd does not need to be reset
+     * bgbin.
      */
-    private void digestReset() {
+    privbte void digestReset() {
         for (int i = 1; (i < digests.length) && (digests[i] != null); i++) {
             digests[i].reset();
         }
@@ -381,7 +381,7 @@ final class CloneableDigest extends MessageDigest implements Cloneable {
 
     @Override
     protected void engineReset() {
-        checkState();
+        checkStbte();
         for (int i = 0; (i < digests.length) && (digests[i] != null); i++) {
             digests[i].reset();
         }
@@ -389,16 +389,16 @@ final class CloneableDigest extends MessageDigest implements Cloneable {
 
     @Override
     public Object clone() {
-        checkState();
+        checkStbte();
         for (int i = digests.length - 1; i >= 0; i--) {
             if (digests[i] != null) {
-                MessageDigest digest = digests[i];
+                MessbgeDigest digest = digests[i];
                 digests[i] = null;
                 return digest;
             }
         }
-        // cannot occur
-        throw new InternalError();
+        // cbnnot occur
+        throw new InternblError();
     }
 
 }

@@ -1,762 +1,762 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing;
+pbckbge jbvbx.swing;
 
-import java.applet.Applet;
-import java.awt.*;
-import java.awt.event.*;
-import java.beans.*;
-import java.security.AccessController;
-import javax.accessibility.*;
-import javax.swing.plaf.RootPaneUI;
-import java.util.Vector;
-import java.io.Serializable;
-import javax.swing.border.*;
-import sun.awt.AWTAccessor;
-import sun.security.action.GetBooleanAction;
+import jbvb.bpplet.Applet;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvb.bebns.*;
+import jbvb.security.AccessController;
+import jbvbx.bccessibility.*;
+import jbvbx.swing.plbf.RootPbneUI;
+import jbvb.util.Vector;
+import jbvb.io.Seriblizbble;
+import jbvbx.swing.border.*;
+import sun.bwt.AWTAccessor;
+import sun.security.bction.GetBoolebnAction;
 
 
 /**
- * A lightweight container used behind the scenes by
- * <code>JFrame</code>, <code>JDialog</code>, <code>JWindow</code>,
- * <code>JApplet</code>, and <code>JInternalFrame</code>.
- * For task-oriented information on functionality provided by root panes
- * see <a href="http://docs.oracle.com/javase/tutorial/uiswing/components/rootpane.html">How to Use Root Panes</a>,
- * a section in <em>The Java Tutorial</em>.
+ * A lightweight contbiner used behind the scenes by
+ * <code>JFrbme</code>, <code>JDiblog</code>, <code>JWindow</code>,
+ * <code>JApplet</code>, bnd <code>JInternblFrbme</code>.
+ * For tbsk-oriented informbtion on functionblity provided by root pbnes
+ * see <b href="http://docs.orbcle.com/jbvbse/tutoribl/uiswing/components/rootpbne.html">How to Use Root Pbnes</b>,
+ * b section in <em>The Jbvb Tutoribl</em>.
  *
  * <p>
- * The following image shows the relationships between
- * the classes that use root panes.
- * <p style="text-align:center"><img src="doc-files/JRootPane-1.gif"
- * alt="The following text describes this graphic."
+ * The following imbge shows the relbtionships between
+ * the clbsses thbt use root pbnes.
+ * <p style="text-blign:center"><img src="doc-files/JRootPbne-1.gif"
+ * blt="The following text describes this grbphic."
  * HEIGHT=484 WIDTH=629></p>
- * The &quot;heavyweight&quot; components (those that delegate to a peer, or native
- * component on the host system) are shown with a darker, heavier box. The four
- * heavyweight JFC/Swing containers (<code>JFrame</code>, <code>JDialog</code>,
- * <code>JWindow</code>, and <code>JApplet</code>) are
- * shown in relation to the AWT classes they extend.
- * These four components are the
- * only heavyweight containers in the Swing library. The lightweight container
- * <code>JInternalFrame</code> is also shown.
- * All five of these JFC/Swing containers implement the
- * <code>RootPaneContainer</code> interface,
- * and they all delegate their operations to a
- * <code>JRootPane</code> (shown with a little "handle" on top).
+ * The &quot;hebvyweight&quot; components (those thbt delegbte to b peer, or nbtive
+ * component on the host system) bre shown with b dbrker, hebvier box. The four
+ * hebvyweight JFC/Swing contbiners (<code>JFrbme</code>, <code>JDiblog</code>,
+ * <code>JWindow</code>, bnd <code>JApplet</code>) bre
+ * shown in relbtion to the AWT clbsses they extend.
+ * These four components bre the
+ * only hebvyweight contbiners in the Swing librbry. The lightweight contbiner
+ * <code>JInternblFrbme</code> is blso shown.
+ * All five of these JFC/Swing contbiners implement the
+ * <code>RootPbneContbiner</code> interfbce,
+ * bnd they bll delegbte their operbtions to b
+ * <code>JRootPbne</code> (shown with b little "hbndle" on top).
  * <blockquote>
- * <b>Note:</b> The <code>JComponent</code> method <code>getRootPane</code>
- * can be used to obtain the <code>JRootPane</code> that contains
- * a given component.
+ * <b>Note:</b> The <code>JComponent</code> method <code>getRootPbne</code>
+ * cbn be used to obtbin the <code>JRootPbne</code> thbt contbins
+ * b given component.
  * </blockquote>
- * <table style="float:right" border="0" summary="layout">
+ * <tbble style="flobt:right" border="0" summbry="lbyout">
  * <tr>
- * <td align="center">
- * <img src="doc-files/JRootPane-2.gif"
- * alt="The following text describes this graphic." HEIGHT=386 WIDTH=349>
+ * <td blign="center">
+ * <img src="doc-files/JRootPbne-2.gif"
+ * blt="The following text describes this grbphic." HEIGHT=386 WIDTH=349>
  * </td>
  * </tr>
- * </table>
- * The diagram at right shows the structure of a <code>JRootPane</code>.
- * A <code>JRootpane</code> is made up of a <code>glassPane</code>,
- * an optional <code>menuBar</code>, and a <code>contentPane</code>.
- * (The <code>JLayeredPane</code> manages the <code>menuBar</code>
- * and the <code>contentPane</code>.)
- * The <code>glassPane</code> sits over the top of everything,
- * where it is in a position to intercept mouse movements.
- * Since the <code>glassPane</code> (like the <code>contentPane</code>)
- * can be an arbitrary component, it is also possible to set up the
- * <code>glassPane</code> for drawing. Lines and images on the
- * <code>glassPane</code> can then range
- * over the frames underneath without being limited by their boundaries.
+ * </tbble>
+ * The dibgrbm bt right shows the structure of b <code>JRootPbne</code>.
+ * A <code>JRootpbne</code> is mbde up of b <code>glbssPbne</code>,
+ * bn optionbl <code>menuBbr</code>, bnd b <code>contentPbne</code>.
+ * (The <code>JLbyeredPbne</code> mbnbges the <code>menuBbr</code>
+ * bnd the <code>contentPbne</code>.)
+ * The <code>glbssPbne</code> sits over the top of everything,
+ * where it is in b position to intercept mouse movements.
+ * Since the <code>glbssPbne</code> (like the <code>contentPbne</code>)
+ * cbn be bn brbitrbry component, it is blso possible to set up the
+ * <code>glbssPbne</code> for drbwing. Lines bnd imbges on the
+ * <code>glbssPbne</code> cbn then rbnge
+ * over the frbmes undernebth without being limited by their boundbries.
  * <p>
- * Although the <code>menuBar</code> component is optional,
- * the <code>layeredPane</code>, <code>contentPane</code>,
- * and <code>glassPane</code> always exist.
- * Attempting to set them to <code>null</code> generates an exception.
+ * Although the <code>menuBbr</code> component is optionbl,
+ * the <code>lbyeredPbne</code>, <code>contentPbne</code>,
+ * bnd <code>glbssPbne</code> blwbys exist.
+ * Attempting to set them to <code>null</code> generbtes bn exception.
  * <p>
- * To add components to the <code>JRootPane</code> (other than the
- * optional menu bar), you add the object to the <code>contentPane</code>
- * of the <code>JRootPane</code>, like this:
+ * To bdd components to the <code>JRootPbne</code> (other thbn the
+ * optionbl menu bbr), you bdd the object to the <code>contentPbne</code>
+ * of the <code>JRootPbne</code>, like this:
  * <pre>
- *       rootPane.getContentPane().add(child);
+ *       rootPbne.getContentPbne().bdd(child);
  * </pre>
- * The same principle holds true for setting layout managers, removing
- * components, listing children, etc. All these methods are invoked on
- * the <code>contentPane</code> instead of on the <code>JRootPane</code>.
+ * The sbme principle holds true for setting lbyout mbnbgers, removing
+ * components, listing children, etc. All these methods bre invoked on
+ * the <code>contentPbne</code> instebd of on the <code>JRootPbne</code>.
  * <blockquote>
- * <b>Note:</b> The default layout manager for the <code>contentPane</code> is
- *  a <code>BorderLayout</code> manager. However, the <code>JRootPane</code>
- *  uses a custom <code>LayoutManager</code>.
- *  So, when you want to change the layout manager for the components you added
- *  to a <code>JRootPane</code>, be sure to use code like this:
+ * <b>Note:</b> The defbult lbyout mbnbger for the <code>contentPbne</code> is
+ *  b <code>BorderLbyout</code> mbnbger. However, the <code>JRootPbne</code>
+ *  uses b custom <code>LbyoutMbnbger</code>.
+ *  So, when you wbnt to chbnge the lbyout mbnbger for the components you bdded
+ *  to b <code>JRootPbne</code>, be sure to use code like this:
  * <pre>
- *    rootPane.getContentPane().setLayout(new BoxLayout());
+ *    rootPbne.getContentPbne().setLbyout(new BoxLbyout());
  * </pre></blockquote>
- * If a <code>JMenuBar</code> component is set on the <code>JRootPane</code>,
- * it is positioned along the upper edge of the frame.
- * The <code>contentPane</code> is adjusted in location and size to
- * fill the remaining area.
- * (The <code>JMenuBar</code> and the <code>contentPane</code> are added to the
- * <code>layeredPane</code> component at the
- * <code>JLayeredPane.FRAME_CONTENT_LAYER</code> layer.)
+ * If b <code>JMenuBbr</code> component is set on the <code>JRootPbne</code>,
+ * it is positioned blong the upper edge of the frbme.
+ * The <code>contentPbne</code> is bdjusted in locbtion bnd size to
+ * fill the rembining breb.
+ * (The <code>JMenuBbr</code> bnd the <code>contentPbne</code> bre bdded to the
+ * <code>lbyeredPbne</code> component bt the
+ * <code>JLbyeredPbne.FRAME_CONTENT_LAYER</code> lbyer.)
  * <p>
- * The <code>layeredPane</code> is the parent of all children in the
- * <code>JRootPane</code> -- both as the direct parent of the menu and
- * the grandparent of all components added to the <code>contentPane</code>.
- * It is an instance of <code>JLayeredPane</code>,
- * which provides the ability to add components at several layers.
- * This capability is very useful when working with menu popups,
- * dialog boxes, and dragging -- situations in which you need to place
- * a component on top of all other components in the pane.
+ * The <code>lbyeredPbne</code> is the pbrent of bll children in the
+ * <code>JRootPbne</code> -- both bs the direct pbrent of the menu bnd
+ * the grbndpbrent of bll components bdded to the <code>contentPbne</code>.
+ * It is bn instbnce of <code>JLbyeredPbne</code>,
+ * which provides the bbility to bdd components bt severbl lbyers.
+ * This cbpbbility is very useful when working with menu popups,
+ * diblog boxes, bnd drbgging -- situbtions in which you need to plbce
+ * b component on top of bll other components in the pbne.
  * <p>
- * The <code>glassPane</code> sits on top of all other components in the
- * <code>JRootPane</code>.
- * That provides a convenient place to draw above all other components,
- * and makes it possible to intercept mouse events,
- * which is useful both for dragging and for drawing.
- * Developers can use <code>setVisible</code> on the <code>glassPane</code>
- * to control when the <code>glassPane</code> displays over the other children.
- * By default the <code>glassPane</code> is not visible.
+ * The <code>glbssPbne</code> sits on top of bll other components in the
+ * <code>JRootPbne</code>.
+ * Thbt provides b convenient plbce to drbw bbove bll other components,
+ * bnd mbkes it possible to intercept mouse events,
+ * which is useful both for drbgging bnd for drbwing.
+ * Developers cbn use <code>setVisible</code> on the <code>glbssPbne</code>
+ * to control when the <code>glbssPbne</code> displbys over the other children.
+ * By defbult the <code>glbssPbne</code> is not visible.
  * <p>
- * The custom <code>LayoutManager</code> used by <code>JRootPane</code>
- * ensures that:
+ * The custom <code>LbyoutMbnbger</code> used by <code>JRootPbne</code>
+ * ensures thbt:
  * <OL>
- * <LI>The <code>glassPane</code> fills the entire viewable
- *     area of the <code>JRootPane</code> (bounds - insets).
- * <LI>The <code>layeredPane</code> fills the entire viewable area of the
- *     <code>JRootPane</code>. (bounds - insets)
- * <LI>The <code>menuBar</code> is positioned at the upper edge of the
- *     <code>layeredPane</code>.
- * <LI>The <code>contentPane</code> fills the entire viewable area,
- *     minus the <code>menuBar</code>, if present.
+ * <LI>The <code>glbssPbne</code> fills the entire viewbble
+ *     breb of the <code>JRootPbne</code> (bounds - insets).
+ * <LI>The <code>lbyeredPbne</code> fills the entire viewbble breb of the
+ *     <code>JRootPbne</code>. (bounds - insets)
+ * <LI>The <code>menuBbr</code> is positioned bt the upper edge of the
+ *     <code>lbyeredPbne</code>.
+ * <LI>The <code>contentPbne</code> fills the entire viewbble breb,
+ *     minus the <code>menuBbr</code>, if present.
  * </OL>
- * Any other views in the <code>JRootPane</code> view hierarchy are ignored.
+ * Any other views in the <code>JRootPbne</code> view hierbrchy bre ignored.
  * <p>
- * If you replace the <code>LayoutManager</code> of the <code>JRootPane</code>,
- * you are responsible for managing all of these views.
- * So ordinarily you will want to be sure that you
- * change the layout manager for the <code>contentPane</code> rather than
- * for the <code>JRootPane</code> itself!
+ * If you replbce the <code>LbyoutMbnbger</code> of the <code>JRootPbne</code>,
+ * you bre responsible for mbnbging bll of these views.
+ * So ordinbrily you will wbnt to be sure thbt you
+ * chbnge the lbyout mbnbger for the <code>contentPbne</code> rbther thbn
+ * for the <code>JRootPbne</code> itself!
  * <p>
- * The painting architecture of Swing requires an opaque
+ * The pbinting brchitecture of Swing requires bn opbque
  * <code>JComponent</code>
- * to exist in the containment hierarchy above all other components. This is
- * typically provided by way of the content pane. If you replace the content
- * pane, it is recommended that you make the content pane opaque
- * by way of <code>setOpaque(true)</code>. Additionally, if the content pane
- * overrides <code>paintComponent</code>, it
- * will need to completely fill in the background in an opaque color in
- * <code>paintComponent</code>.
+ * to exist in the contbinment hierbrchy bbove bll other components. This is
+ * typicblly provided by wby of the content pbne. If you replbce the content
+ * pbne, it is recommended thbt you mbke the content pbne opbque
+ * by wby of <code>setOpbque(true)</code>. Additionblly, if the content pbne
+ * overrides <code>pbintComponent</code>, it
+ * will need to completely fill in the bbckground in bn opbque color in
+ * <code>pbintComponent</code>.
  * <p>
- * <strong>Warning:</strong> Swing is not thread safe. For more
- * information see <a
- * href="package-summary.html#threading">Swing's Threading
- * Policy</a>.
+ * <strong>Wbrning:</strong> Swing is not threbd sbfe. For more
+ * informbtion see <b
+ * href="pbckbge-summbry.html#threbding">Swing's Threbding
+ * Policy</b>.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
- * @see JLayeredPane
- * @see JMenuBar
+ * @see JLbyeredPbne
+ * @see JMenuBbr
  * @see JWindow
- * @see JFrame
- * @see JDialog
+ * @see JFrbme
+ * @see JDiblog
  * @see JApplet
- * @see JInternalFrame
+ * @see JInternblFrbme
  * @see JComponent
- * @see BoxLayout
+ * @see BoxLbyout
  *
- * @see <a href="http://java.sun.com/products/jfc/tsc/articles/mixing/">
- * Mixing Heavy and Light Components</a>
+ * @see <b href="http://jbvb.sun.com/products/jfc/tsc/brticles/mixing/">
+ * Mixing Hebvy bnd Light Components</b>
  *
- * @author David Kloba
+ * @buthor Dbvid Klobb
  * @since 1.2
  */
-/// PENDING(klobad) Who should be opaque in this component?
-@SuppressWarnings("serial")
-public class JRootPane extends JComponent implements Accessible {
+/// PENDING(klobbd) Who should be opbque in this component?
+@SuppressWbrnings("seribl")
+public clbss JRootPbne extends JComponent implements Accessible {
 
-    private static final String uiClassID = "RootPaneUI";
+    privbte stbtic finbl String uiClbssID = "RootPbneUI";
 
     /**
-     * Whether or not we should dump the stack when true double buffering
-     * is disabled. Default is false.
+     * Whether or not we should dump the stbck when true double buffering
+     * is disbbled. Defbult is fblse.
      */
-    private static final boolean LOG_DISABLE_TRUE_DOUBLE_BUFFERING;
+    privbte stbtic finbl boolebn LOG_DISABLE_TRUE_DOUBLE_BUFFERING;
 
     /**
-     * Whether or not we should ignore requests to disable true double
-     * buffering. Default is false.
+     * Whether or not we should ignore requests to disbble true double
+     * buffering. Defbult is fblse.
      */
-    private static final boolean IGNORE_DISABLE_TRUE_DOUBLE_BUFFERING;
+    privbte stbtic finbl boolebn IGNORE_DISABLE_TRUE_DOUBLE_BUFFERING;
 
     /**
-     * Constant used for the windowDecorationStyle property. Indicates that
-     * the <code>JRootPane</code> should not provide any sort of
-     * Window decorations.
+     * Constbnt used for the windowDecorbtionStyle property. Indicbtes thbt
+     * the <code>JRootPbne</code> should not provide bny sort of
+     * Window decorbtions.
      *
      * @since 1.4
      */
-    public static final int NONE = 0;
+    public stbtic finbl int NONE = 0;
 
     /**
-     * Constant used for the windowDecorationStyle property. Indicates that
-     * the <code>JRootPane</code> should provide decorations appropriate for
-     * a Frame.
+     * Constbnt used for the windowDecorbtionStyle property. Indicbtes thbt
+     * the <code>JRootPbne</code> should provide decorbtions bppropribte for
+     * b Frbme.
      *
      * @since 1.4
      */
-    public static final int FRAME = 1;
+    public stbtic finbl int FRAME = 1;
 
     /**
-     * Constant used for the windowDecorationStyle property. Indicates that
-     * the <code>JRootPane</code> should provide decorations appropriate for
-     * a Dialog.
+     * Constbnt used for the windowDecorbtionStyle property. Indicbtes thbt
+     * the <code>JRootPbne</code> should provide decorbtions bppropribte for
+     * b Diblog.
      *
      * @since 1.4
      */
-    public static final int PLAIN_DIALOG = 2;
+    public stbtic finbl int PLAIN_DIALOG = 2;
 
     /**
-     * Constant used for the windowDecorationStyle property. Indicates that
-     * the <code>JRootPane</code> should provide decorations appropriate for
-     * a Dialog used to display an informational message.
+     * Constbnt used for the windowDecorbtionStyle property. Indicbtes thbt
+     * the <code>JRootPbne</code> should provide decorbtions bppropribte for
+     * b Diblog used to displby bn informbtionbl messbge.
      *
      * @since 1.4
      */
-    public static final int INFORMATION_DIALOG = 3;
+    public stbtic finbl int INFORMATION_DIALOG = 3;
 
     /**
-     * Constant used for the windowDecorationStyle property. Indicates that
-     * the <code>JRootPane</code> should provide decorations appropriate for
-     * a Dialog used to display an error message.
+     * Constbnt used for the windowDecorbtionStyle property. Indicbtes thbt
+     * the <code>JRootPbne</code> should provide decorbtions bppropribte for
+     * b Diblog used to displby bn error messbge.
      *
      * @since 1.4
      */
-    public static final int ERROR_DIALOG = 4;
+    public stbtic finbl int ERROR_DIALOG = 4;
 
     /**
-     * Constant used for the windowDecorationStyle property. Indicates that
-     * the <code>JRootPane</code> should provide decorations appropriate for
-     * a Dialog used to display a <code>JColorChooser</code>.
+     * Constbnt used for the windowDecorbtionStyle property. Indicbtes thbt
+     * the <code>JRootPbne</code> should provide decorbtions bppropribte for
+     * b Diblog used to displby b <code>JColorChooser</code>.
      *
      * @since 1.4
      */
-    public static final int COLOR_CHOOSER_DIALOG = 5;
+    public stbtic finbl int COLOR_CHOOSER_DIALOG = 5;
 
     /**
-     * Constant used for the windowDecorationStyle property. Indicates that
-     * the <code>JRootPane</code> should provide decorations appropriate for
-     * a Dialog used to display a <code>JFileChooser</code>.
+     * Constbnt used for the windowDecorbtionStyle property. Indicbtes thbt
+     * the <code>JRootPbne</code> should provide decorbtions bppropribte for
+     * b Diblog used to displby b <code>JFileChooser</code>.
      *
      * @since 1.4
      */
-    public static final int FILE_CHOOSER_DIALOG = 6;
+    public stbtic finbl int FILE_CHOOSER_DIALOG = 6;
 
     /**
-     * Constant used for the windowDecorationStyle property. Indicates that
-     * the <code>JRootPane</code> should provide decorations appropriate for
-     * a Dialog used to present a question to the user.
+     * Constbnt used for the windowDecorbtionStyle property. Indicbtes thbt
+     * the <code>JRootPbne</code> should provide decorbtions bppropribte for
+     * b Diblog used to present b question to the user.
      *
      * @since 1.4
      */
-    public static final int QUESTION_DIALOG = 7;
+    public stbtic finbl int QUESTION_DIALOG = 7;
 
     /**
-     * Constant used for the windowDecorationStyle property. Indicates that
-     * the <code>JRootPane</code> should provide decorations appropriate for
-     * a Dialog used to display a warning message.
+     * Constbnt used for the windowDecorbtionStyle property. Indicbtes thbt
+     * the <code>JRootPbne</code> should provide decorbtions bppropribte for
+     * b Diblog used to displby b wbrning messbge.
      *
      * @since 1.4
      */
-    public static final int WARNING_DIALOG = 8;
+    public stbtic finbl int WARNING_DIALOG = 8;
 
-    private int windowDecorationStyle;
+    privbte int windowDecorbtionStyle;
 
-    /** The menu bar. */
-    protected JMenuBar menuBar;
+    /** The menu bbr. */
+    protected JMenuBbr menuBbr;
 
-    /** The content pane. */
-    protected Container contentPane;
+    /** The content pbne. */
+    protected Contbiner contentPbne;
 
-    /** The layered pane that manages the menu bar and content pane. */
-    protected JLayeredPane layeredPane;
+    /** The lbyered pbne thbt mbnbges the menu bbr bnd content pbne. */
+    protected JLbyeredPbne lbyeredPbne;
 
     /**
-     * The glass pane that overlays the menu bar and content pane,
-     *  so it can intercept mouse movements and such.
+     * The glbss pbne thbt overlbys the menu bbr bnd content pbne,
+     *  so it cbn intercept mouse movements bnd such.
      */
-    protected Component glassPane;
+    protected Component glbssPbne;
     /**
-     * The button that gets activated when the pane has the focus and
-     * a UI-specific action like pressing the <b>Enter</b> key occurs.
+     * The button thbt gets bctivbted when the pbne hbs the focus bnd
+     * b UI-specific bction like pressing the <b>Enter</b> key occurs.
      */
-    protected JButton defaultButton;
+    protected JButton defbultButton;
     /**
-     * As of Java 2 platform v1.3 this unusable field is no longer used.
-     * To override the default button you should replace the <code>Action</code>
-     * in the <code>JRootPane</code>'s <code>ActionMap</code>. Please refer to
-     * the key bindings specification for further details.
+     * As of Jbvb 2 plbtform v1.3 this unusbble field is no longer used.
+     * To override the defbult button you should replbce the <code>Action</code>
+     * in the <code>JRootPbne</code>'s <code>ActionMbp</code>. Plebse refer to
+     * the key bindings specificbtion for further detbils.
      *
-     * @deprecated As of Java 2 platform v1.3.
-     *  @see #defaultButton
+     * @deprecbted As of Jbvb 2 plbtform v1.3.
+     *  @see #defbultButton
      */
-    @Deprecated
-    protected DefaultAction defaultPressAction;
+    @Deprecbted
+    protected DefbultAction defbultPressAction;
     /**
-     * As of Java 2 platform v1.3 this unusable field is no longer used.
-     * To override the default button you should replace the <code>Action</code>
-     * in the <code>JRootPane</code>'s <code>ActionMap</code>. Please refer to
-     * the key bindings specification for further details.
+     * As of Jbvb 2 plbtform v1.3 this unusbble field is no longer used.
+     * To override the defbult button you should replbce the <code>Action</code>
+     * in the <code>JRootPbne</code>'s <code>ActionMbp</code>. Plebse refer to
+     * the key bindings specificbtion for further detbils.
      *
-     * @deprecated As of Java 2 platform v1.3.
-     *  @see #defaultButton
+     * @deprecbted As of Jbvb 2 plbtform v1.3.
+     *  @see #defbultButton
      */
-    @Deprecated
-    protected DefaultAction defaultReleaseAction;
+    @Deprecbted
+    protected DefbultAction defbultRelebseAction;
 
     /**
-     * Whether or not true double buffering should be used.  This is typically
-     * true, but may be set to false in special situations.  For example,
-     * heavy weight popups (backed by a window) set this to false.
+     * Whether or not true double buffering should be used.  This is typicblly
+     * true, but mby be set to fblse in specibl situbtions.  For exbmple,
+     * hebvy weight popups (bbcked by b window) set this to fblse.
      */
-    boolean useTrueDoubleBuffering = true;
+    boolebn useTrueDoubleBuffering = true;
 
-    static {
+    stbtic {
         LOG_DISABLE_TRUE_DOUBLE_BUFFERING =
-            AccessController.doPrivileged(new GetBooleanAction(
-                                   "swing.logDoubleBufferingDisable"));
+            AccessController.doPrivileged(new GetBoolebnAction(
+                                   "swing.logDoubleBufferingDisbble"));
         IGNORE_DISABLE_TRUE_DOUBLE_BUFFERING =
-            AccessController.doPrivileged(new GetBooleanAction(
-                                   "swing.ignoreDoubleBufferingDisable"));
+            AccessController.doPrivileged(new GetBoolebnAction(
+                                   "swing.ignoreDoubleBufferingDisbble"));
     }
 
     /**
-     * Creates a <code>JRootPane</code>, setting up its
-     * <code>glassPane</code>, <code>layeredPane</code>,
-     * and <code>contentPane</code>.
+     * Crebtes b <code>JRootPbne</code>, setting up its
+     * <code>glbssPbne</code>, <code>lbyeredPbne</code>,
+     * bnd <code>contentPbne</code>.
      */
-    public JRootPane() {
-        setGlassPane(createGlassPane());
-        setLayeredPane(createLayeredPane());
-        setContentPane(createContentPane());
-        setLayout(createRootLayout());
+    public JRootPbne() {
+        setGlbssPbne(crebteGlbssPbne());
+        setLbyeredPbne(crebteLbyeredPbne());
+        setContentPbne(crebteContentPbne());
+        setLbyout(crebteRootLbyout());
         setDoubleBuffered(true);
-        updateUI();
+        updbteUI();
     }
 
     /**
      * {@inheritDoc}
      * @since 1.6
      */
-    public void setDoubleBuffered(boolean aFlag) {
-        if (isDoubleBuffered() != aFlag) {
-            super.setDoubleBuffered(aFlag);
-            RepaintManager.currentManager(this).doubleBufferingChanged(this);
+    public void setDoubleBuffered(boolebn bFlbg) {
+        if (isDoubleBuffered() != bFlbg) {
+            super.setDoubleBuffered(bFlbg);
+            RepbintMbnbger.currentMbnbger(this).doubleBufferingChbnged(this);
         }
     }
 
     /**
-     * Returns a constant identifying the type of Window decorations the
-     * <code>JRootPane</code> is providing.
+     * Returns b constbnt identifying the type of Window decorbtions the
+     * <code>JRootPbne</code> is providing.
      *
      * @return One of <code>NONE</code>, <code>FRAME</code>,
      *        <code>PLAIN_DIALOG</code>, <code>INFORMATION_DIALOG</code>,
      *        <code>ERROR_DIALOG</code>, <code>COLOR_CHOOSER_DIALOG</code>,
      *        <code>FILE_CHOOSER_DIALOG</code>, <code>QUESTION_DIALOG</code> or
      *        <code>WARNING_DIALOG</code>.
-     * @see #setWindowDecorationStyle
+     * @see #setWindowDecorbtionStyle
      * @since 1.4
      */
-    public int getWindowDecorationStyle() {
-        return windowDecorationStyle;
+    public int getWindowDecorbtionStyle() {
+        return windowDecorbtionStyle;
     }
 
     /**
-     * Sets the type of Window decorations (such as borders, widgets for
-     * closing a Window, title ...) the <code>JRootPane</code> should
-     * provide. The default is to provide no Window decorations
+     * Sets the type of Window decorbtions (such bs borders, widgets for
+     * closing b Window, title ...) the <code>JRootPbne</code> should
+     * provide. The defbult is to provide no Window decorbtions
      * (<code>NONE</code>).
      * <p>
-     * This is only a hint, and some look and feels may not support
+     * This is only b hint, bnd some look bnd feels mby not support
      * this.
-     * This is a bound property.
+     * This is b bound property.
      *
-     * @param windowDecorationStyle Constant identifying Window decorations
+     * @pbrbm windowDecorbtionStyle Constbnt identifying Window decorbtions
      *        to provide.
-     * @see JDialog#setDefaultLookAndFeelDecorated
-     * @see JFrame#setDefaultLookAndFeelDecorated
-     * @see LookAndFeel#getSupportsWindowDecorations
-     * @throws IllegalArgumentException if <code>style</code> is
+     * @see JDiblog#setDefbultLookAndFeelDecorbted
+     * @see JFrbme#setDefbultLookAndFeelDecorbted
+     * @see LookAndFeel#getSupportsWindowDecorbtions
+     * @throws IllegblArgumentException if <code>style</code> is
      *        not one of: <code>NONE</code>, <code>FRAME</code>,
      *        <code>PLAIN_DIALOG</code>, <code>INFORMATION_DIALOG</code>,
      *        <code>ERROR_DIALOG</code>, <code>COLOR_CHOOSER_DIALOG</code>,
      *        <code>FILE_CHOOSER_DIALOG</code>, <code>QUESTION_DIALOG</code>, or
      *        <code>WARNING_DIALOG</code>.
      * @since 1.4
-     * @beaninfo
+     * @bebninfo
      *        bound: true
-     *         enum: NONE                   JRootPane.NONE
-     *               FRAME                  JRootPane.FRAME
-     *               PLAIN_DIALOG           JRootPane.PLAIN_DIALOG
-     *               INFORMATION_DIALOG     JRootPane.INFORMATION_DIALOG
-     *               ERROR_DIALOG           JRootPane.ERROR_DIALOG
-     *               COLOR_CHOOSER_DIALOG   JRootPane.COLOR_CHOOSER_DIALOG
-     *               FILE_CHOOSER_DIALOG    JRootPane.FILE_CHOOSER_DIALOG
-     *               QUESTION_DIALOG        JRootPane.QUESTION_DIALOG
-     *               WARNING_DIALOG         JRootPane.WARNING_DIALOG
+     *         enum: NONE                   JRootPbne.NONE
+     *               FRAME                  JRootPbne.FRAME
+     *               PLAIN_DIALOG           JRootPbne.PLAIN_DIALOG
+     *               INFORMATION_DIALOG     JRootPbne.INFORMATION_DIALOG
+     *               ERROR_DIALOG           JRootPbne.ERROR_DIALOG
+     *               COLOR_CHOOSER_DIALOG   JRootPbne.COLOR_CHOOSER_DIALOG
+     *               FILE_CHOOSER_DIALOG    JRootPbne.FILE_CHOOSER_DIALOG
+     *               QUESTION_DIALOG        JRootPbne.QUESTION_DIALOG
+     *               WARNING_DIALOG         JRootPbne.WARNING_DIALOG
      *       expert: true
-     *    attribute: visualUpdate true
-     *  description: Identifies the type of Window decorations to provide
+     *    bttribute: visublUpdbte true
+     *  description: Identifies the type of Window decorbtions to provide
      */
-    public void setWindowDecorationStyle(int windowDecorationStyle) {
-        if (windowDecorationStyle < 0 ||
-                  windowDecorationStyle > WARNING_DIALOG) {
-            throw new IllegalArgumentException("Invalid decoration style");
+    public void setWindowDecorbtionStyle(int windowDecorbtionStyle) {
+        if (windowDecorbtionStyle < 0 ||
+                  windowDecorbtionStyle > WARNING_DIALOG) {
+            throw new IllegblArgumentException("Invblid decorbtion style");
         }
-        int oldWindowDecorationStyle = getWindowDecorationStyle();
-        this.windowDecorationStyle = windowDecorationStyle;
-        firePropertyChange("windowDecorationStyle",
-                            oldWindowDecorationStyle,
-                            windowDecorationStyle);
+        int oldWindowDecorbtionStyle = getWindowDecorbtionStyle();
+        this.windowDecorbtionStyle = windowDecorbtionStyle;
+        firePropertyChbnge("windowDecorbtionStyle",
+                            oldWindowDecorbtionStyle,
+                            windowDecorbtionStyle);
     }
 
     /**
-     * Returns the L&amp;F object that renders this component.
+     * Returns the L&bmp;F object thbt renders this component.
      *
-     * @return <code>LabelUI</code> object
+     * @return <code>LbbelUI</code> object
      * @since 1.3
      */
-    public RootPaneUI getUI() {
-        return (RootPaneUI)ui;
+    public RootPbneUI getUI() {
+        return (RootPbneUI)ui;
     }
 
     /**
-     * Sets the L&amp;F object that renders this component.
+     * Sets the L&bmp;F object thbt renders this component.
      *
-     * @param ui  the <code>LabelUI</code> L&amp;F object
-     * @see UIDefaults#getUI
-     * @beaninfo
+     * @pbrbm ui  the <code>LbbelUI</code> L&bmp;F object
+     * @see UIDefbults#getUI
+     * @bebninfo
      *        bound: true
      *       hidden: true
      *      expert: true
-     *    attribute: visualUpdate true
-     *  description: The UI object that implements the Component's LookAndFeel.
+     *    bttribute: visublUpdbte true
+     *  description: The UI object thbt implements the Component's LookAndFeel.
      * @since 1.3
      */
-    public void setUI(RootPaneUI ui) {
+    public void setUI(RootPbneUI ui) {
         super.setUI(ui);
     }
 
 
     /**
-     * Resets the UI property to a value from the current look and feel.
+     * Resets the UI property to b vblue from the current look bnd feel.
      *
-     * @see JComponent#updateUI
+     * @see JComponent#updbteUI
      */
-    public void updateUI() {
-        setUI((RootPaneUI)UIManager.getUI(this));
+    public void updbteUI() {
+        setUI((RootPbneUI)UIMbnbger.getUI(this));
     }
 
 
     /**
-     * Returns a string that specifies the name of the L&amp;F class
-     * that renders this component.
+     * Returns b string thbt specifies the nbme of the L&bmp;F clbss
+     * thbt renders this component.
      *
-     * @return the string "RootPaneUI"
+     * @return the string "RootPbneUI"
      *
-     * @see JComponent#getUIClassID
-     * @see UIDefaults#getUI
+     * @see JComponent#getUIClbssID
+     * @see UIDefbults#getUI
      */
-    public String getUIClassID() {
-        return uiClassID;
+    public String getUIClbssID() {
+        return uiClbssID;
     }
 
     /**
-      * Called by the constructor methods to create the default
-      * <code>layeredPane</code>.
-      * Bt default it creates a new <code>JLayeredPane</code>.
-      * @return the default <code>layeredPane</code>
+      * Cblled by the constructor methods to crebte the defbult
+      * <code>lbyeredPbne</code>.
+      * Bt defbult it crebtes b new <code>JLbyeredPbne</code>.
+      * @return the defbult <code>lbyeredPbne</code>
       */
-    protected JLayeredPane createLayeredPane() {
-        JLayeredPane p = new JLayeredPane();
-        p.setName(this.getName()+".layeredPane");
+    protected JLbyeredPbne crebteLbyeredPbne() {
+        JLbyeredPbne p = new JLbyeredPbne();
+        p.setNbme(this.getNbme()+".lbyeredPbne");
         return p;
     }
 
     /**
-     * Called by the constructor methods to create the default
-     * <code>contentPane</code>.
-     * By default this method creates a new <code>JComponent</code> add sets a
-     * <code>BorderLayout</code> as its <code>LayoutManager</code>.
-     * @return the default <code>contentPane</code>
+     * Cblled by the constructor methods to crebte the defbult
+     * <code>contentPbne</code>.
+     * By defbult this method crebtes b new <code>JComponent</code> bdd sets b
+     * <code>BorderLbyout</code> bs its <code>LbyoutMbnbger</code>.
+     * @return the defbult <code>contentPbne</code>
      */
-    protected Container createContentPane() {
-        JComponent c = new JPanel();
-        c.setName(this.getName()+".contentPane");
-        c.setLayout(new BorderLayout() {
-            /* This BorderLayout subclass maps a null constraint to CENTER.
-             * Although the reference BorderLayout also does this, some VMs
-             * throw an IllegalArgumentException.
+    protected Contbiner crebteContentPbne() {
+        JComponent c = new JPbnel();
+        c.setNbme(this.getNbme()+".contentPbne");
+        c.setLbyout(new BorderLbyout() {
+            /* This BorderLbyout subclbss mbps b null constrbint to CENTER.
+             * Although the reference BorderLbyout blso does this, some VMs
+             * throw bn IllegblArgumentException.
              */
-            public void addLayoutComponent(Component comp, Object constraints) {
-                if (constraints == null) {
-                    constraints = BorderLayout.CENTER;
+            public void bddLbyoutComponent(Component comp, Object constrbints) {
+                if (constrbints == null) {
+                    constrbints = BorderLbyout.CENTER;
                 }
-                super.addLayoutComponent(comp, constraints);
+                super.bddLbyoutComponent(comp, constrbints);
             }
         });
         return c;
     }
 
     /**
-      * Called by the constructor methods to create the default
-      * <code>glassPane</code>.
-      * By default this method creates a new <code>JComponent</code>
-      * with visibility set to false.
-      * @return the default <code>glassPane</code>
+      * Cblled by the constructor methods to crebte the defbult
+      * <code>glbssPbne</code>.
+      * By defbult this method crebtes b new <code>JComponent</code>
+      * with visibility set to fblse.
+      * @return the defbult <code>glbssPbne</code>
       */
-    protected Component createGlassPane() {
-        JComponent c = new JPanel();
-        c.setName(this.getName()+".glassPane");
-        c.setVisible(false);
-        ((JPanel)c).setOpaque(false);
+    protected Component crebteGlbssPbne() {
+        JComponent c = new JPbnel();
+        c.setNbme(this.getNbme()+".glbssPbne");
+        c.setVisible(fblse);
+        ((JPbnel)c).setOpbque(fblse);
         return c;
     }
 
     /**
-     * Called by the constructor methods to create the default
-     * <code>layoutManager</code>.
-     * @return the default <code>layoutManager</code>.
+     * Cblled by the constructor methods to crebte the defbult
+     * <code>lbyoutMbnbger</code>.
+     * @return the defbult <code>lbyoutMbnbger</code>.
      */
-    protected LayoutManager createRootLayout() {
-        return new RootLayout();
+    protected LbyoutMbnbger crebteRootLbyout() {
+        return new RootLbyout();
     }
 
     /**
-     * Adds or changes the menu bar used in the layered pane.
-     * @param menu the <code>JMenuBar</code> to add
+     * Adds or chbnges the menu bbr used in the lbyered pbne.
+     * @pbrbm menu the <code>JMenuBbr</code> to bdd
      */
-    public void setJMenuBar(JMenuBar menu) {
-        if(menuBar != null && menuBar.getParent() == layeredPane)
-            layeredPane.remove(menuBar);
-        menuBar = menu;
+    public void setJMenuBbr(JMenuBbr menu) {
+        if(menuBbr != null && menuBbr.getPbrent() == lbyeredPbne)
+            lbyeredPbne.remove(menuBbr);
+        menuBbr = menu;
 
-        if(menuBar != null)
-            layeredPane.add(menuBar, JLayeredPane.FRAME_CONTENT_LAYER);
+        if(menuBbr != null)
+            lbyeredPbne.bdd(menuBbr, JLbyeredPbne.FRAME_CONTENT_LAYER);
     }
 
     /**
-     * Specifies the menu bar value.
-     * @deprecated As of Swing version 1.0.3
-     *  replaced by <code>setJMenuBar(JMenuBar menu)</code>.
-     * @param menu the <code>JMenuBar</code> to add.
+     * Specifies the menu bbr vblue.
+     * @deprecbted As of Swing version 1.0.3
+     *  replbced by <code>setJMenuBbr(JMenuBbr menu)</code>.
+     * @pbrbm menu the <code>JMenuBbr</code> to bdd.
      */
-    @Deprecated
-    public void setMenuBar(JMenuBar menu){
-        if(menuBar != null && menuBar.getParent() == layeredPane)
-            layeredPane.remove(menuBar);
-        menuBar = menu;
+    @Deprecbted
+    public void setMenuBbr(JMenuBbr menu){
+        if(menuBbr != null && menuBbr.getPbrent() == lbyeredPbne)
+            lbyeredPbne.remove(menuBbr);
+        menuBbr = menu;
 
-        if(menuBar != null)
-            layeredPane.add(menuBar, JLayeredPane.FRAME_CONTENT_LAYER);
+        if(menuBbr != null)
+            lbyeredPbne.bdd(menuBbr, JLbyeredPbne.FRAME_CONTENT_LAYER);
     }
 
     /**
-     * Returns the menu bar from the layered pane.
-     * @return the <code>JMenuBar</code> used in the pane
+     * Returns the menu bbr from the lbyered pbne.
+     * @return the <code>JMenuBbr</code> used in the pbne
      */
-    public JMenuBar getJMenuBar() { return menuBar; }
+    public JMenuBbr getJMenuBbr() { return menuBbr; }
 
     /**
-     * Returns the menu bar value.
-     * @deprecated As of Swing version 1.0.3
-     *  replaced by <code>getJMenuBar()</code>.
-     * @return the <code>JMenuBar</code> used in the pane
+     * Returns the menu bbr vblue.
+     * @deprecbted As of Swing version 1.0.3
+     *  replbced by <code>getJMenuBbr()</code>.
+     * @return the <code>JMenuBbr</code> used in the pbne
      */
-    @Deprecated
-    public JMenuBar getMenuBar() { return menuBar; }
+    @Deprecbted
+    public JMenuBbr getMenuBbr() { return menuBbr; }
 
     /**
-     * Sets the content pane -- the container that holds the components
-     * parented by the root pane.
+     * Sets the content pbne -- the contbiner thbt holds the components
+     * pbrented by the root pbne.
      * <p>
-     * Swing's painting architecture requires an opaque <code>JComponent</code>
-     * in the containment hierarchy. This is typically provided by the
-     * content pane. If you replace the content pane it is recommended you
-     * replace it with an opaque <code>JComponent</code>.
+     * Swing's pbinting brchitecture requires bn opbque <code>JComponent</code>
+     * in the contbinment hierbrchy. This is typicblly provided by the
+     * content pbne. If you replbce the content pbne it is recommended you
+     * replbce it with bn opbque <code>JComponent</code>.
      *
-     * @param content the <code>Container</code> to use for component-contents
-     * @exception java.awt.IllegalComponentStateException (a runtime
-     *            exception) if the content pane parameter is <code>null</code>
+     * @pbrbm content the <code>Contbiner</code> to use for component-contents
+     * @exception jbvb.bwt.IllegblComponentStbteException (b runtime
+     *            exception) if the content pbne pbrbmeter is <code>null</code>
      */
-    public void setContentPane(Container content) {
+    public void setContentPbne(Contbiner content) {
         if(content == null)
-            throw new IllegalComponentStateException("contentPane cannot be set to null.");
-        if(contentPane != null && contentPane.getParent() == layeredPane)
-            layeredPane.remove(contentPane);
-        contentPane = content;
+            throw new IllegblComponentStbteException("contentPbne cbnnot be set to null.");
+        if(contentPbne != null && contentPbne.getPbrent() == lbyeredPbne)
+            lbyeredPbne.remove(contentPbne);
+        contentPbne = content;
 
-        layeredPane.add(contentPane, JLayeredPane.FRAME_CONTENT_LAYER);
+        lbyeredPbne.bdd(contentPbne, JLbyeredPbne.FRAME_CONTENT_LAYER);
     }
 
     /**
-     * Returns the content pane -- the container that holds the components
-     * parented by the root pane.
+     * Returns the content pbne -- the contbiner thbt holds the components
+     * pbrented by the root pbne.
      *
-     * @return the <code>Container</code> that holds the component-contents
+     * @return the <code>Contbiner</code> thbt holds the component-contents
      */
-    public Container getContentPane() { return contentPane; }
+    public Contbiner getContentPbne() { return contentPbne; }
 
-// PENDING(klobad) Should this reparent the contentPane and MenuBar?
+// PENDING(klobbd) Should this repbrent the contentPbne bnd MenuBbr?
     /**
-     * Sets the layered pane for the root pane. The layered pane
-     * typically holds a content pane and an optional <code>JMenuBar</code>.
+     * Sets the lbyered pbne for the root pbne. The lbyered pbne
+     * typicblly holds b content pbne bnd bn optionbl <code>JMenuBbr</code>.
      *
-     * @param layered  the <code>JLayeredPane</code> to use
-     * @exception java.awt.IllegalComponentStateException (a runtime
-     *            exception) if the layered pane parameter is <code>null</code>
+     * @pbrbm lbyered  the <code>JLbyeredPbne</code> to use
+     * @exception jbvb.bwt.IllegblComponentStbteException (b runtime
+     *            exception) if the lbyered pbne pbrbmeter is <code>null</code>
      */
-    public void setLayeredPane(JLayeredPane layered) {
-        if(layered == null)
-            throw new IllegalComponentStateException("layeredPane cannot be set to null.");
-        if(layeredPane != null && layeredPane.getParent() == this)
-            this.remove(layeredPane);
-        layeredPane = layered;
+    public void setLbyeredPbne(JLbyeredPbne lbyered) {
+        if(lbyered == null)
+            throw new IllegblComponentStbteException("lbyeredPbne cbnnot be set to null.");
+        if(lbyeredPbne != null && lbyeredPbne.getPbrent() == this)
+            this.remove(lbyeredPbne);
+        lbyeredPbne = lbyered;
 
-        this.add(layeredPane, -1);
+        this.bdd(lbyeredPbne, -1);
     }
     /**
-     * Gets the layered pane used by the root pane. The layered pane
-     * typically holds a content pane and an optional <code>JMenuBar</code>.
+     * Gets the lbyered pbne used by the root pbne. The lbyered pbne
+     * typicblly holds b content pbne bnd bn optionbl <code>JMenuBbr</code>.
      *
-     * @return the <code>JLayeredPane</code> currently in use
+     * @return the <code>JLbyeredPbne</code> currently in use
      */
-    public JLayeredPane getLayeredPane() { return layeredPane; }
+    public JLbyeredPbne getLbyeredPbne() { return lbyeredPbne; }
 
     /**
-     * Sets a specified <code>Component</code> to be the glass pane for this
-     * root pane.  The glass pane should normally be a lightweight,
-     * transparent component, because it will be made visible when
-     * ever the root pane needs to grab input events.
+     * Sets b specified <code>Component</code> to be the glbss pbne for this
+     * root pbne.  The glbss pbne should normblly be b lightweight,
+     * trbnspbrent component, becbuse it will be mbde visible when
+     * ever the root pbne needs to grbb input events.
      * <p>
-     * The new glass pane's visibility is changed to match that of
-     * the current glass pane.  An implication of this is that care
-     * must be taken when you want to replace the glass pane and
-     * make it visible.  Either of the following will work:
+     * The new glbss pbne's visibility is chbnged to mbtch thbt of
+     * the current glbss pbne.  An implicbtion of this is thbt cbre
+     * must be tbken when you wbnt to replbce the glbss pbne bnd
+     * mbke it visible.  Either of the following will work:
      * <pre>
-     *   root.setGlassPane(newGlassPane);
-     *   newGlassPane.setVisible(true);
+     *   root.setGlbssPbne(newGlbssPbne);
+     *   newGlbssPbne.setVisible(true);
      * </pre>
      * or:
      * <pre>
-     *   root.getGlassPane().setVisible(true);
-     *   root.setGlassPane(newGlassPane);
+     *   root.getGlbssPbne().setVisible(true);
+     *   root.setGlbssPbne(newGlbssPbne);
      * </pre>
      *
-     * @param glass the <code>Component</code> to use as the glass pane
-     *              for this <code>JRootPane</code>
-     * @exception NullPointerException if the <code>glass</code> parameter is
+     * @pbrbm glbss the <code>Component</code> to use bs the glbss pbne
+     *              for this <code>JRootPbne</code>
+     * @exception NullPointerException if the <code>glbss</code> pbrbmeter is
      *          <code>null</code>
      */
-    public void setGlassPane(Component glass) {
-        if (glass == null) {
-            throw new NullPointerException("glassPane cannot be set to null.");
+    public void setGlbssPbne(Component glbss) {
+        if (glbss == null) {
+            throw new NullPointerException("glbssPbne cbnnot be set to null.");
         }
 
-        AWTAccessor.getComponentAccessor().setMixingCutoutShape(glass,
-                new Rectangle());
+        AWTAccessor.getComponentAccessor().setMixingCutoutShbpe(glbss,
+                new Rectbngle());
 
-        boolean visible = false;
-        if (glassPane != null && glassPane.getParent() == this) {
-            this.remove(glassPane);
-            visible = glassPane.isVisible();
+        boolebn visible = fblse;
+        if (glbssPbne != null && glbssPbne.getPbrent() == this) {
+            this.remove(glbssPbne);
+            visible = glbssPbne.isVisible();
         }
 
-        glass.setVisible(visible);
-        glassPane = glass;
-        this.add(glassPane, 0);
+        glbss.setVisible(visible);
+        glbssPbne = glbss;
+        this.bdd(glbssPbne, 0);
         if (visible) {
-            repaint();
+            repbint();
         }
     }
 
     /**
-     * Returns the current glass pane for this <code>JRootPane</code>.
-     * @return the current glass pane
-     * @see #setGlassPane
+     * Returns the current glbss pbne for this <code>JRootPbne</code>.
+     * @return the current glbss pbne
+     * @see #setGlbssPbne
      */
-    public Component getGlassPane() {
-        return glassPane;
+    public Component getGlbssPbne() {
+        return glbssPbne;
     }
 
     /**
-     * If a descendant of this <code>JRootPane</code> calls
-     * <code>revalidate</code>, validate from here on down.
+     * If b descendbnt of this <code>JRootPbne</code> cblls
+     * <code>revblidbte</code>, vblidbte from here on down.
      *<p>
-     * Deferred requests to layout a component and its descendents again.
-     * For example, calls to <code>revalidate</code>, are pushed upwards to
-     * either a <code>JRootPane</code> or a <code>JScrollPane</code>
-     * because both classes override <code>isValidateRoot</code> to return true.
+     * Deferred requests to lbyout b component bnd its descendents bgbin.
+     * For exbmple, cblls to <code>revblidbte</code>, bre pushed upwbrds to
+     * either b <code>JRootPbne</code> or b <code>JScrollPbne</code>
+     * becbuse both clbsses override <code>isVblidbteRoot</code> to return true.
      *
-     * @see JComponent#isValidateRoot
-     * @see java.awt.Container#isValidateRoot
+     * @see JComponent#isVblidbteRoot
+     * @see jbvb.bwt.Contbiner#isVblidbteRoot
      * @return true
      */
     @Override
-    public boolean isValidateRoot() {
+    public boolebn isVblidbteRoot() {
         return true;
     }
 
     /**
-     * The <code>glassPane</code> and <code>contentPane</code>
-     * have the same bounds, which means <code>JRootPane</code>
-     * does not tiles its children and this should return false.
-     * On the other hand, the <code>glassPane</code>
-     * is normally not visible, and so this can return true if the
-     * <code>glassPane</code> isn't visible. Therefore, the
-     * return value here depends upon the visibility of the
-     * <code>glassPane</code>.
+     * The <code>glbssPbne</code> bnd <code>contentPbne</code>
+     * hbve the sbme bounds, which mebns <code>JRootPbne</code>
+     * does not tiles its children bnd this should return fblse.
+     * On the other hbnd, the <code>glbssPbne</code>
+     * is normblly not visible, bnd so this cbn return true if the
+     * <code>glbssPbne</code> isn't visible. Therefore, the
+     * return vblue here depends upon the visibility of the
+     * <code>glbssPbne</code>.
      *
-     * @return true if this component's children don't overlap
+     * @return true if this component's children don't overlbp
      */
-    public boolean isOptimizedDrawingEnabled() {
-        return !glassPane.isVisible();
+    public boolebn isOptimizedDrbwingEnbbled() {
+        return !glbssPbne.isVisible();
     }
 
     /**
      * {@inheritDoc}
      */
-    public void addNotify() {
-        super.addNotify();
-        enableEvents(AWTEvent.KEY_EVENT_MASK);
+    public void bddNotify() {
+        super.bddNotify();
+        enbbleEvents(AWTEvent.KEY_EVENT_MASK);
     }
 
     /**
@@ -768,270 +768,270 @@ public class JRootPane extends JComponent implements Accessible {
 
 
     /**
-     * Sets the <code>defaultButton</code> property,
-     * which determines the current default button for this <code>JRootPane</code>.
-     * The default button is the button which will be activated
-     * when a UI-defined activation event (typically the <b>Enter</b> key)
-     * occurs in the root pane regardless of whether or not the button
-     * has keyboard focus (unless there is another component within
-     * the root pane which consumes the activation event,
-     * such as a <code>JTextPane</code>).
-     * For default activation to work, the button must be an enabled
-     * descendent of the root pane when activation occurs.
-     * To remove a default button from this root pane, set this
+     * Sets the <code>defbultButton</code> property,
+     * which determines the current defbult button for this <code>JRootPbne</code>.
+     * The defbult button is the button which will be bctivbted
+     * when b UI-defined bctivbtion event (typicblly the <b>Enter</b> key)
+     * occurs in the root pbne regbrdless of whether or not the button
+     * hbs keybobrd focus (unless there is bnother component within
+     * the root pbne which consumes the bctivbtion event,
+     * such bs b <code>JTextPbne</code>).
+     * For defbult bctivbtion to work, the button must be bn enbbled
+     * descendent of the root pbne when bctivbtion occurs.
+     * To remove b defbult button from this root pbne, set this
      * property to <code>null</code>.
      *
-     * @see JButton#isDefaultButton
-     * @param defaultButton the <code>JButton</code> which is to be the default button
+     * @see JButton#isDefbultButton
+     * @pbrbm defbultButton the <code>JButton</code> which is to be the defbult button
      *
-     * @beaninfo
-     *  description: The button activated by default in this root pane
+     * @bebninfo
+     *  description: The button bctivbted by defbult in this root pbne
      */
-    public void setDefaultButton(JButton defaultButton) {
-        JButton oldDefault = this.defaultButton;
+    public void setDefbultButton(JButton defbultButton) {
+        JButton oldDefbult = this.defbultButton;
 
-        if (oldDefault != defaultButton) {
-            this.defaultButton = defaultButton;
+        if (oldDefbult != defbultButton) {
+            this.defbultButton = defbultButton;
 
-            if (oldDefault != null) {
-                oldDefault.repaint();
+            if (oldDefbult != null) {
+                oldDefbult.repbint();
             }
-            if (defaultButton != null) {
-                defaultButton.repaint();
+            if (defbultButton != null) {
+                defbultButton.repbint();
             }
         }
 
-        firePropertyChange("defaultButton", oldDefault, defaultButton);
+        firePropertyChbnge("defbultButton", oldDefbult, defbultButton);
     }
 
     /**
-     * Returns the value of the <code>defaultButton</code> property.
-     * @return the <code>JButton</code> which is currently the default button
-     * @see #setDefaultButton
+     * Returns the vblue of the <code>defbultButton</code> property.
+     * @return the <code>JButton</code> which is currently the defbult button
+     * @see #setDefbultButton
      */
-    public JButton getDefaultButton() {
-        return defaultButton;
+    public JButton getDefbultButton() {
+        return defbultButton;
     }
 
-    final void setUseTrueDoubleBuffering(boolean useTrueDoubleBuffering) {
+    finbl void setUseTrueDoubleBuffering(boolebn useTrueDoubleBuffering) {
         this.useTrueDoubleBuffering = useTrueDoubleBuffering;
     }
 
-    final boolean getUseTrueDoubleBuffering() {
+    finbl boolebn getUseTrueDoubleBuffering() {
         return useTrueDoubleBuffering;
     }
 
-    final void disableTrueDoubleBuffering() {
+    finbl void disbbleTrueDoubleBuffering() {
         if (useTrueDoubleBuffering) {
             if (!IGNORE_DISABLE_TRUE_DOUBLE_BUFFERING) {
                 if (LOG_DISABLE_TRUE_DOUBLE_BUFFERING) {
-                    System.out.println("Disabling true double buffering for " +
+                    System.out.println("Disbbling true double buffering for " +
                                        this);
-                    Thread.dumpStack();
+                    Threbd.dumpStbck();
                 }
-                useTrueDoubleBuffering = false;
-                RepaintManager.currentManager(this).
-                        doubleBufferingChanged(this);
+                useTrueDoubleBuffering = fblse;
+                RepbintMbnbger.currentMbnbger(this).
+                        doubleBufferingChbnged(this);
             }
         }
     }
 
-    @SuppressWarnings("serial")
-    static class DefaultAction extends AbstractAction {
+    @SuppressWbrnings("seribl")
+    stbtic clbss DefbultAction extends AbstrbctAction {
         JButton owner;
-        JRootPane root;
-        boolean press;
-        DefaultAction(JRootPane root, boolean press) {
+        JRootPbne root;
+        boolebn press;
+        DefbultAction(JRootPbne root, boolebn press) {
             this.root = root;
             this.press = press;
         }
         public void setOwner(JButton owner) {
             this.owner = owner;
         }
-        public void actionPerformed(ActionEvent e) {
-            if (owner != null && SwingUtilities.getRootPane(owner) == root) {
+        public void bctionPerformed(ActionEvent e) {
+            if (owner != null && SwingUtilities.getRootPbne(owner) == root) {
                 ButtonModel model = owner.getModel();
                 if (press) {
                     model.setArmed(true);
                     model.setPressed(true);
                 } else {
-                    model.setPressed(false);
+                    model.setPressed(fblse);
                 }
             }
         }
-        public boolean isEnabled() {
-            return owner.getModel().isEnabled();
+        public boolebn isEnbbled() {
+            return owner.getModel().isEnbbled();
         }
     }
 
 
     /**
-     * Overridden to enforce the position of the glass component as
+     * Overridden to enforce the position of the glbss component bs
      * the zero child.
      *
-     * @param comp the component to be enhanced
-     * @param constraints the constraints to be respected
-     * @param index the index
+     * @pbrbm comp the component to be enhbnced
+     * @pbrbm constrbints the constrbints to be respected
+     * @pbrbm index the index
      */
-    protected void addImpl(Component comp, Object constraints, int index) {
-        super.addImpl(comp, constraints, index);
+    protected void bddImpl(Component comp, Object constrbints, int index) {
+        super.bddImpl(comp, constrbints, index);
 
-        /// We are making sure the glassPane is on top.
-        if(glassPane != null
-            && glassPane.getParent() == this
-            && getComponent(0) != glassPane) {
-            add(glassPane, 0);
+        /// We bre mbking sure the glbssPbne is on top.
+        if(glbssPbne != null
+            && glbssPbne.getPbrent() == this
+            && getComponent(0) != glbssPbne) {
+            bdd(glbssPbne, 0);
         }
     }
 
 
 ///////////////////////////////////////////////////////////////////////////////
-//// Begin Inner Classes
+//// Begin Inner Clbsses
 ///////////////////////////////////////////////////////////////////////////////
 
 
     /**
-     * A custom layout manager that is responsible for the layout of
-     * layeredPane, glassPane, and menuBar.
+     * A custom lbyout mbnbger thbt is responsible for the lbyout of
+     * lbyeredPbne, glbssPbne, bnd menuBbr.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Seriblized objects of this clbss will not be compbtible with
+     * future Swing relebses. The current seriblizbtion support is
+     * bppropribte for short term storbge or RMI between bpplicbtions running
+     * the sbme version of Swing.  As of 1.4, support for long term storbge
+     * of bll JbvbBebns&trbde;
+     * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+     * Plebse see {@link jbvb.bebns.XMLEncoder}.
      */
-    @SuppressWarnings("serial")
-    protected class RootLayout implements LayoutManager2, Serializable
+    @SuppressWbrnings("seribl")
+    protected clbss RootLbyout implements LbyoutMbnbger2, Seriblizbble
     {
         /**
-         * Returns the amount of space the layout would like to have.
+         * Returns the bmount of spbce the lbyout would like to hbve.
          *
-         * @param parent the Container for which this layout manager
+         * @pbrbm pbrent the Contbiner for which this lbyout mbnbger
          * is being used
-         * @return a Dimension object containing the layout's preferred size
+         * @return b Dimension object contbining the lbyout's preferred size
          */
-        public Dimension preferredLayoutSize(Container parent) {
+        public Dimension preferredLbyoutSize(Contbiner pbrent) {
             Dimension rd, mbd;
             Insets i = getInsets();
 
-            if(contentPane != null) {
-                rd = contentPane.getPreferredSize();
+            if(contentPbne != null) {
+                rd = contentPbne.getPreferredSize();
             } else {
-                rd = parent.getSize();
+                rd = pbrent.getSize();
             }
-            if(menuBar != null && menuBar.isVisible()) {
-                mbd = menuBar.getPreferredSize();
+            if(menuBbr != null && menuBbr.isVisible()) {
+                mbd = menuBbr.getPreferredSize();
             } else {
                 mbd = new Dimension(0, 0);
             }
-            return new Dimension(Math.max(rd.width, mbd.width) + i.left + i.right,
+            return new Dimension(Mbth.mbx(rd.width, mbd.width) + i.left + i.right,
                                         rd.height + mbd.height + i.top + i.bottom);
         }
 
         /**
-         * Returns the minimum amount of space the layout needs.
+         * Returns the minimum bmount of spbce the lbyout needs.
          *
-         * @param parent the Container for which this layout manager
+         * @pbrbm pbrent the Contbiner for which this lbyout mbnbger
          * is being used
-         * @return a Dimension object containing the layout's minimum size
+         * @return b Dimension object contbining the lbyout's minimum size
          */
-        public Dimension minimumLayoutSize(Container parent) {
+        public Dimension minimumLbyoutSize(Contbiner pbrent) {
             Dimension rd, mbd;
             Insets i = getInsets();
-            if(contentPane != null) {
-                rd = contentPane.getMinimumSize();
+            if(contentPbne != null) {
+                rd = contentPbne.getMinimumSize();
             } else {
-                rd = parent.getSize();
+                rd = pbrent.getSize();
             }
-            if(menuBar != null && menuBar.isVisible()) {
-                mbd = menuBar.getMinimumSize();
+            if(menuBbr != null && menuBbr.isVisible()) {
+                mbd = menuBbr.getMinimumSize();
             } else {
                 mbd = new Dimension(0, 0);
             }
-            return new Dimension(Math.max(rd.width, mbd.width) + i.left + i.right,
+            return new Dimension(Mbth.mbx(rd.width, mbd.width) + i.left + i.right,
                         rd.height + mbd.height + i.top + i.bottom);
         }
 
         /**
-         * Returns the maximum amount of space the layout can use.
+         * Returns the mbximum bmount of spbce the lbyout cbn use.
          *
-         * @param target the Container for which this layout manager
+         * @pbrbm tbrget the Contbiner for which this lbyout mbnbger
          * is being used
-         * @return a Dimension object containing the layout's maximum size
+         * @return b Dimension object contbining the lbyout's mbximum size
          */
-        public Dimension maximumLayoutSize(Container target) {
+        public Dimension mbximumLbyoutSize(Contbiner tbrget) {
             Dimension rd, mbd;
             Insets i = getInsets();
-            if(menuBar != null && menuBar.isVisible()) {
-                mbd = menuBar.getMaximumSize();
+            if(menuBbr != null && menuBbr.isVisible()) {
+                mbd = menuBbr.getMbximumSize();
             } else {
                 mbd = new Dimension(0, 0);
             }
-            if(contentPane != null) {
-                rd = contentPane.getMaximumSize();
+            if(contentPbne != null) {
+                rd = contentPbne.getMbximumSize();
             } else {
-                // This is silly, but should stop an overflow error
+                // This is silly, but should stop bn overflow error
                 rd = new Dimension(Integer.MAX_VALUE,
                         Integer.MAX_VALUE - i.top - i.bottom - mbd.height - 1);
             }
-            return new Dimension(Math.min(rd.width, mbd.width) + i.left + i.right,
+            return new Dimension(Mbth.min(rd.width, mbd.width) + i.left + i.right,
                                          rd.height + mbd.height + i.top + i.bottom);
         }
 
         /**
-         * Instructs the layout manager to perform the layout for the specified
-         * container.
+         * Instructs the lbyout mbnbger to perform the lbyout for the specified
+         * contbiner.
          *
-         * @param parent the Container for which this layout manager
+         * @pbrbm pbrent the Contbiner for which this lbyout mbnbger
          * is being used
          */
-        public void layoutContainer(Container parent) {
-            Rectangle b = parent.getBounds();
+        public void lbyoutContbiner(Contbiner pbrent) {
+            Rectbngle b = pbrent.getBounds();
             Insets i = getInsets();
             int contentY = 0;
             int w = b.width - i.right - i.left;
             int h = b.height - i.top - i.bottom;
 
-            if(layeredPane != null) {
-                layeredPane.setBounds(i.left, i.top, w, h);
+            if(lbyeredPbne != null) {
+                lbyeredPbne.setBounds(i.left, i.top, w, h);
             }
-            if(glassPane != null) {
-                glassPane.setBounds(i.left, i.top, w, h);
+            if(glbssPbne != null) {
+                glbssPbne.setBounds(i.left, i.top, w, h);
             }
-            // Note: This is laying out the children in the layeredPane,
-            // technically, these are not our children.
-            if(menuBar != null && menuBar.isVisible()) {
-                Dimension mbd = menuBar.getPreferredSize();
-                menuBar.setBounds(0, 0, w, mbd.height);
+            // Note: This is lbying out the children in the lbyeredPbne,
+            // technicblly, these bre not our children.
+            if(menuBbr != null && menuBbr.isVisible()) {
+                Dimension mbd = menuBbr.getPreferredSize();
+                menuBbr.setBounds(0, 0, w, mbd.height);
                 contentY += mbd.height;
             }
-            if(contentPane != null) {
-                contentPane.setBounds(0, contentY, w, h - contentY);
+            if(contentPbne != null) {
+                contentPbne.setBounds(0, contentY, w, h - contentY);
             }
         }
 
-        public void addLayoutComponent(String name, Component comp) {}
-        public void removeLayoutComponent(Component comp) {}
-        public void addLayoutComponent(Component comp, Object constraints) {}
-        public float getLayoutAlignmentX(Container target) { return 0.0f; }
-        public float getLayoutAlignmentY(Container target) { return 0.0f; }
-        public void invalidateLayout(Container target) {}
+        public void bddLbyoutComponent(String nbme, Component comp) {}
+        public void removeLbyoutComponent(Component comp) {}
+        public void bddLbyoutComponent(Component comp, Object constrbints) {}
+        public flobt getLbyoutAlignmentX(Contbiner tbrget) { return 0.0f; }
+        public flobt getLbyoutAlignmentY(Contbiner tbrget) { return 0.0f; }
+        public void invblidbteLbyout(Contbiner tbrget) {}
     }
 
     /**
-     * Returns a string representation of this <code>JRootPane</code>.
+     * Returns b string representbtion of this <code>JRootPbne</code>.
      * This method is intended to be used only for debugging purposes,
-     * and the content and format of the returned string may vary between
-     * implementations. The returned string may be empty but may not
+     * bnd the content bnd formbt of the returned string mby vbry between
+     * implementbtions. The returned string mby be empty but mby not
      * be <code>null</code>.
      *
-     * @return  a string representation of this <code>JRootPane</code>.
+     * @return  b string representbtion of this <code>JRootPbne</code>.
      */
-    protected String paramString() {
-        return super.paramString();
+    protected String pbrbmString() {
+        return super.pbrbmString();
     }
 
 /////////////////
@@ -1039,42 +1039,42 @@ public class JRootPane extends JComponent implements Accessible {
 ////////////////
 
     /**
-     * Gets the <code>AccessibleContext</code> associated with this
-     * <code>JRootPane</code>. For root panes, the
-     * <code>AccessibleContext</code> takes the form of an
-     * <code>AccessibleJRootPane</code>.
-     * A new <code>AccessibleJRootPane</code> instance is created if necessary.
+     * Gets the <code>AccessibleContext</code> bssocibted with this
+     * <code>JRootPbne</code>. For root pbnes, the
+     * <code>AccessibleContext</code> tbkes the form of bn
+     * <code>AccessibleJRootPbne</code>.
+     * A new <code>AccessibleJRootPbne</code> instbnce is crebted if necessbry.
      *
-     * @return an <code>AccessibleJRootPane</code> that serves as the
-     *         <code>AccessibleContext</code> of this <code>JRootPane</code>
+     * @return bn <code>AccessibleJRootPbne</code> thbt serves bs the
+     *         <code>AccessibleContext</code> of this <code>JRootPbne</code>
      */
     public AccessibleContext getAccessibleContext() {
-        if (accessibleContext == null) {
-            accessibleContext = new AccessibleJRootPane();
+        if (bccessibleContext == null) {
+            bccessibleContext = new AccessibleJRootPbne();
         }
-        return accessibleContext;
+        return bccessibleContext;
     }
 
     /**
-     * This class implements accessibility support for the
-     * <code>JRootPane</code> class.  It provides an implementation of the
-     * Java Accessibility API appropriate to root pane user-interface elements.
+     * This clbss implements bccessibility support for the
+     * <code>JRootPbne</code> clbss.  It provides bn implementbtion of the
+     * Jbvb Accessibility API bppropribte to root pbne user-interfbce elements.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Seriblized objects of this clbss will not be compbtible with
+     * future Swing relebses. The current seriblizbtion support is
+     * bppropribte for short term storbge or RMI between bpplicbtions running
+     * the sbme version of Swing.  As of 1.4, support for long term storbge
+     * of bll JbvbBebns&trbde;
+     * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+     * Plebse see {@link jbvb.bebns.XMLEncoder}.
      */
-    @SuppressWarnings("serial")
-    protected class AccessibleJRootPane extends AccessibleJComponent {
+    @SuppressWbrnings("seribl")
+    protected clbss AccessibleJRootPbne extends AccessibleJComponent {
         /**
          * Get the role of this object.
          *
-         * @return an instance of AccessibleRole describing the role of
+         * @return bn instbnce of AccessibleRole describing the role of
          * the object
          */
         public AccessibleRole getAccessibleRole() {
@@ -1082,9 +1082,9 @@ public class JRootPane extends JComponent implements Accessible {
         }
 
         /**
-         * Returns the number of accessible children of the object.
+         * Returns the number of bccessible children of the object.
          *
-         * @return the number of accessible children of the object.
+         * @return the number of bccessible children of the object.
          */
         public int getAccessibleChildrenCount() {
             return super.getAccessibleChildrenCount();
@@ -1092,16 +1092,16 @@ public class JRootPane extends JComponent implements Accessible {
 
         /**
          * Returns the specified Accessible child of the object.  The Accessible
-         * children of an Accessible object are zero-based, so the first child
-         * of an Accessible child is at index 0, the second child is at index 1,
-         * and so on.
+         * children of bn Accessible object bre zero-bbsed, so the first child
+         * of bn Accessible child is bt index 0, the second child is bt index 1,
+         * bnd so on.
          *
-         * @param i zero-based index of child
+         * @pbrbm i zero-bbsed index of child
          * @return the Accessible child of the object
          * @see #getAccessibleChildrenCount
          */
         public Accessible getAccessibleChild(int i) {
             return super.getAccessibleChild(i);
         }
-    } // inner class AccessibleJRootPane
+    } // inner clbss AccessibleJRootPbne
 }

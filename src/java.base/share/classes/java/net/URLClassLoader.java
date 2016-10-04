@@ -1,307 +1,307 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.net;
+pbckbge jbvb.net;
 
-import java.io.Closeable;
-import java.io.File;
-import java.io.FilePermission;
-import java.io.IOException;
-import java.io.InputStream;
-import java.security.AccessControlContext;
-import java.security.AccessController;
-import java.security.CodeSigner;
-import java.security.CodeSource;
-import java.security.Permission;
-import java.security.PermissionCollection;
-import java.security.PrivilegedAction;
-import java.security.PrivilegedExceptionAction;
-import java.security.SecureClassLoader;
-import java.util.Enumeration;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Objects;
-import java.util.Set;
-import java.util.WeakHashMap;
-import java.util.jar.Attributes;
-import java.util.jar.Attributes.Name;
-import java.util.jar.JarFile;
-import java.util.jar.Manifest;
+import jbvb.io.Closebble;
+import jbvb.io.File;
+import jbvb.io.FilePermission;
+import jbvb.io.IOException;
+import jbvb.io.InputStrebm;
+import jbvb.security.AccessControlContext;
+import jbvb.security.AccessController;
+import jbvb.security.CodeSigner;
+import jbvb.security.CodeSource;
+import jbvb.security.Permission;
+import jbvb.security.PermissionCollection;
+import jbvb.security.PrivilegedAction;
+import jbvb.security.PrivilegedExceptionAction;
+import jbvb.security.SecureClbssLobder;
+import jbvb.util.Enumerbtion;
+import jbvb.util.List;
+import jbvb.util.NoSuchElementException;
+import jbvb.util.Objects;
+import jbvb.util.Set;
+import jbvb.util.WebkHbshMbp;
+import jbvb.util.jbr.Attributes;
+import jbvb.util.jbr.Attributes.Nbme;
+import jbvb.util.jbr.JbrFile;
+import jbvb.util.jbr.Mbnifest;
 import sun.misc.Resource;
-import sun.misc.URLClassPath;
-import sun.net.www.ParseUtil;
-import sun.security.util.SecurityConstants;
+import sun.misc.URLClbssPbth;
+import sun.net.www.PbrseUtil;
+import sun.security.util.SecurityConstbnts;
 
 /**
- * This class loader is used to load classes and resources from a search
- * path of URLs referring to both JAR files and directories. Any URL that
- * ends with a '/' is assumed to refer to a directory. Otherwise, the URL
- * is assumed to refer to a JAR file which will be opened as needed.
+ * This clbss lobder is used to lobd clbsses bnd resources from b sebrch
+ * pbth of URLs referring to both JAR files bnd directories. Any URL thbt
+ * ends with b '/' is bssumed to refer to b directory. Otherwise, the URL
+ * is bssumed to refer to b JAR file which will be opened bs needed.
  * <p>
- * The AccessControlContext of the thread that created the instance of
- * URLClassLoader will be used when subsequently loading classes and
+ * The AccessControlContext of the threbd thbt crebted the instbnce of
+ * URLClbssLobder will be used when subsequently lobding clbsses bnd
  * resources.
  * <p>
- * The classes that are loaded are by default granted permission only to
- * access the URLs specified when the URLClassLoader was created.
+ * The clbsses thbt bre lobded bre by defbult grbnted permission only to
+ * bccess the URLs specified when the URLClbssLobder wbs crebted.
  *
- * @author  David Connelly
+ * @buthor  Dbvid Connelly
  * @since   1.2
  */
-public class URLClassLoader extends SecureClassLoader implements Closeable {
-    /* The search path for classes and resources */
-    private final URLClassPath ucp;
+public clbss URLClbssLobder extends SecureClbssLobder implements Closebble {
+    /* The sebrch pbth for clbsses bnd resources */
+    privbte finbl URLClbssPbth ucp;
 
-    /* The context to be used when loading classes and resources */
-    private final AccessControlContext acc;
-
-    /**
-     * Constructs a new URLClassLoader for the given URLs. The URLs will be
-     * searched in the order specified for classes and resources after first
-     * searching in the specified parent class loader. Any URL that ends with
-     * a '/' is assumed to refer to a directory. Otherwise, the URL is assumed
-     * to refer to a JAR file which will be downloaded and opened as needed.
-     *
-     * <p>If there is a security manager, this method first
-     * calls the security manager's {@code checkCreateClassLoader} method
-     * to ensure creation of a class loader is allowed.
-     *
-     * @param urls the URLs from which to load classes and resources
-     * @param parent the parent class loader for delegation
-     * @exception  SecurityException  if a security manager exists and its
-     *             {@code checkCreateClassLoader} method doesn't allow
-     *             creation of a class loader.
-     * @exception  NullPointerException if {@code urls} is {@code null}.
-     * @see SecurityManager#checkCreateClassLoader
-     */
-    public URLClassLoader(URL[] urls, ClassLoader parent) {
-        super(parent);
-        // this is to make the stack depth consistent with 1.1
-        SecurityManager security = System.getSecurityManager();
-        if (security != null) {
-            security.checkCreateClassLoader();
-        }
-        ucp = new URLClassPath(urls);
-        this.acc = AccessController.getContext();
-    }
-
-    URLClassLoader(URL[] urls, ClassLoader parent,
-                   AccessControlContext acc) {
-        super(parent);
-        // this is to make the stack depth consistent with 1.1
-        SecurityManager security = System.getSecurityManager();
-        if (security != null) {
-            security.checkCreateClassLoader();
-        }
-        ucp = new URLClassPath(urls);
-        this.acc = acc;
-    }
+    /* The context to be used when lobding clbsses bnd resources */
+    privbte finbl AccessControlContext bcc;
 
     /**
-     * Constructs a new URLClassLoader for the specified URLs using the
-     * default delegation parent {@code ClassLoader}. The URLs will
-     * be searched in the order specified for classes and resources after
-     * first searching in the parent class loader. Any URL that ends with
-     * a '/' is assumed to refer to a directory. Otherwise, the URL is
-     * assumed to refer to a JAR file which will be downloaded and opened
-     * as needed.
+     * Constructs b new URLClbssLobder for the given URLs. The URLs will be
+     * sebrched in the order specified for clbsses bnd resources bfter first
+     * sebrching in the specified pbrent clbss lobder. Any URL thbt ends with
+     * b '/' is bssumed to refer to b directory. Otherwise, the URL is bssumed
+     * to refer to b JAR file which will be downlobded bnd opened bs needed.
      *
-     * <p>If there is a security manager, this method first
-     * calls the security manager's {@code checkCreateClassLoader} method
-     * to ensure creation of a class loader is allowed.
+     * <p>If there is b security mbnbger, this method first
+     * cblls the security mbnbger's {@code checkCrebteClbssLobder} method
+     * to ensure crebtion of b clbss lobder is bllowed.
      *
-     * @param urls the URLs from which to load classes and resources
-     *
-     * @exception  SecurityException  if a security manager exists and its
-     *             {@code checkCreateClassLoader} method doesn't allow
-     *             creation of a class loader.
+     * @pbrbm urls the URLs from which to lobd clbsses bnd resources
+     * @pbrbm pbrent the pbrent clbss lobder for delegbtion
+     * @exception  SecurityException  if b security mbnbger exists bnd its
+     *             {@code checkCrebteClbssLobder} method doesn't bllow
+     *             crebtion of b clbss lobder.
      * @exception  NullPointerException if {@code urls} is {@code null}.
-     * @see SecurityManager#checkCreateClassLoader
+     * @see SecurityMbnbger#checkCrebteClbssLobder
      */
-    public URLClassLoader(URL[] urls) {
+    public URLClbssLobder(URL[] urls, ClbssLobder pbrent) {
+        super(pbrent);
+        // this is to mbke the stbck depth consistent with 1.1
+        SecurityMbnbger security = System.getSecurityMbnbger();
+        if (security != null) {
+            security.checkCrebteClbssLobder();
+        }
+        ucp = new URLClbssPbth(urls);
+        this.bcc = AccessController.getContext();
+    }
+
+    URLClbssLobder(URL[] urls, ClbssLobder pbrent,
+                   AccessControlContext bcc) {
+        super(pbrent);
+        // this is to mbke the stbck depth consistent with 1.1
+        SecurityMbnbger security = System.getSecurityMbnbger();
+        if (security != null) {
+            security.checkCrebteClbssLobder();
+        }
+        ucp = new URLClbssPbth(urls);
+        this.bcc = bcc;
+    }
+
+    /**
+     * Constructs b new URLClbssLobder for the specified URLs using the
+     * defbult delegbtion pbrent {@code ClbssLobder}. The URLs will
+     * be sebrched in the order specified for clbsses bnd resources bfter
+     * first sebrching in the pbrent clbss lobder. Any URL thbt ends with
+     * b '/' is bssumed to refer to b directory. Otherwise, the URL is
+     * bssumed to refer to b JAR file which will be downlobded bnd opened
+     * bs needed.
+     *
+     * <p>If there is b security mbnbger, this method first
+     * cblls the security mbnbger's {@code checkCrebteClbssLobder} method
+     * to ensure crebtion of b clbss lobder is bllowed.
+     *
+     * @pbrbm urls the URLs from which to lobd clbsses bnd resources
+     *
+     * @exception  SecurityException  if b security mbnbger exists bnd its
+     *             {@code checkCrebteClbssLobder} method doesn't bllow
+     *             crebtion of b clbss lobder.
+     * @exception  NullPointerException if {@code urls} is {@code null}.
+     * @see SecurityMbnbger#checkCrebteClbssLobder
+     */
+    public URLClbssLobder(URL[] urls) {
         super();
-        // this is to make the stack depth consistent with 1.1
-        SecurityManager security = System.getSecurityManager();
+        // this is to mbke the stbck depth consistent with 1.1
+        SecurityMbnbger security = System.getSecurityMbnbger();
         if (security != null) {
-            security.checkCreateClassLoader();
+            security.checkCrebteClbssLobder();
         }
-        ucp = new URLClassPath(urls);
-        this.acc = AccessController.getContext();
+        ucp = new URLClbssPbth(urls);
+        this.bcc = AccessController.getContext();
     }
 
-    URLClassLoader(URL[] urls, AccessControlContext acc) {
+    URLClbssLobder(URL[] urls, AccessControlContext bcc) {
         super();
-        // this is to make the stack depth consistent with 1.1
-        SecurityManager security = System.getSecurityManager();
+        // this is to mbke the stbck depth consistent with 1.1
+        SecurityMbnbger security = System.getSecurityMbnbger();
         if (security != null) {
-            security.checkCreateClassLoader();
+            security.checkCrebteClbssLobder();
         }
-        ucp = new URLClassPath(urls);
-        this.acc = acc;
+        ucp = new URLClbssPbth(urls);
+        this.bcc = bcc;
     }
 
     /**
-     * Constructs a new URLClassLoader for the specified URLs, parent
-     * class loader, and URLStreamHandlerFactory. The parent argument
-     * will be used as the parent class loader for delegation. The
-     * factory argument will be used as the stream handler factory to
-     * obtain protocol handlers when creating new jar URLs.
+     * Constructs b new URLClbssLobder for the specified URLs, pbrent
+     * clbss lobder, bnd URLStrebmHbndlerFbctory. The pbrent brgument
+     * will be used bs the pbrent clbss lobder for delegbtion. The
+     * fbctory brgument will be used bs the strebm hbndler fbctory to
+     * obtbin protocol hbndlers when crebting new jbr URLs.
      *
-     * <p>If there is a security manager, this method first
-     * calls the security manager's {@code checkCreateClassLoader} method
-     * to ensure creation of a class loader is allowed.
+     * <p>If there is b security mbnbger, this method first
+     * cblls the security mbnbger's {@code checkCrebteClbssLobder} method
+     * to ensure crebtion of b clbss lobder is bllowed.
      *
-     * @param urls the URLs from which to load classes and resources
-     * @param parent the parent class loader for delegation
-     * @param factory the URLStreamHandlerFactory to use when creating URLs
+     * @pbrbm urls the URLs from which to lobd clbsses bnd resources
+     * @pbrbm pbrent the pbrent clbss lobder for delegbtion
+     * @pbrbm fbctory the URLStrebmHbndlerFbctory to use when crebting URLs
      *
-     * @exception  SecurityException  if a security manager exists and its
-     *             {@code checkCreateClassLoader} method doesn't allow
-     *             creation of a class loader.
+     * @exception  SecurityException  if b security mbnbger exists bnd its
+     *             {@code checkCrebteClbssLobder} method doesn't bllow
+     *             crebtion of b clbss lobder.
      * @exception  NullPointerException if {@code urls} is {@code null}.
-     * @see SecurityManager#checkCreateClassLoader
+     * @see SecurityMbnbger#checkCrebteClbssLobder
      */
-    public URLClassLoader(URL[] urls, ClassLoader parent,
-                          URLStreamHandlerFactory factory) {
-        super(parent);
-        // this is to make the stack depth consistent with 1.1
-        SecurityManager security = System.getSecurityManager();
+    public URLClbssLobder(URL[] urls, ClbssLobder pbrent,
+                          URLStrebmHbndlerFbctory fbctory) {
+        super(pbrent);
+        // this is to mbke the stbck depth consistent with 1.1
+        SecurityMbnbger security = System.getSecurityMbnbger();
         if (security != null) {
-            security.checkCreateClassLoader();
+            security.checkCrebteClbssLobder();
         }
-        ucp = new URLClassPath(urls, factory);
-        acc = AccessController.getContext();
+        ucp = new URLClbssPbth(urls, fbctory);
+        bcc = AccessController.getContext();
     }
 
-    /* A map (used as a set) to keep track of closeable local resources
-     * (either JarFiles or FileInputStreams). We don't care about
+    /* A mbp (used bs b set) to keep trbck of closebble locbl resources
+     * (either JbrFiles or FileInputStrebms). We don't cbre bbout
      * Http resources since they don't need to be closed.
      *
-     * If the resource is coming from a jar file
-     * we keep a (weak) reference to the JarFile object which can
-     * be closed if URLClassLoader.close() called. Due to jar file
-     * caching there will typically be only one JarFile object
-     * per underlying jar file.
+     * If the resource is coming from b jbr file
+     * we keep b (webk) reference to the JbrFile object which cbn
+     * be closed if URLClbssLobder.close() cblled. Due to jbr file
+     * cbching there will typicblly be only one JbrFile object
+     * per underlying jbr file.
      *
-     * For file resources, which is probably a less common situation
-     * we have to keep a weak reference to each stream.
+     * For file resources, which is probbbly b less common situbtion
+     * we hbve to keep b webk reference to ebch strebm.
      */
 
-    private WeakHashMap<Closeable,Void>
-        closeables = new WeakHashMap<>();
+    privbte WebkHbshMbp<Closebble,Void>
+        closebbles = new WebkHbshMbp<>();
 
     /**
-     * Returns an input stream for reading the specified resource.
-     * If this loader is closed, then any resources opened by this method
+     * Returns bn input strebm for rebding the specified resource.
+     * If this lobder is closed, then bny resources opened by this method
      * will be closed.
      *
-     * <p> The search order is described in the documentation for {@link
+     * <p> The sebrch order is described in the documentbtion for {@link
      * #getResource(String)}.  </p>
      *
-     * @param  name
-     *         The resource name
+     * @pbrbm  nbme
+     *         The resource nbme
      *
-     * @return  An input stream for reading the resource, or {@code null}
+     * @return  An input strebm for rebding the resource, or {@code null}
      *          if the resource could not be found
      *
      * @since  1.7
      */
-    public InputStream getResourceAsStream(String name) {
-        URL url = getResource(name);
+    public InputStrebm getResourceAsStrebm(String nbme) {
+        URL url = getResource(nbme);
         try {
             if (url == null) {
                 return null;
             }
             URLConnection urlc = url.openConnection();
-            InputStream is = urlc.getInputStream();
-            if (urlc instanceof JarURLConnection) {
-                JarURLConnection juc = (JarURLConnection)urlc;
-                JarFile jar = juc.getJarFile();
-                synchronized (closeables) {
-                    if (!closeables.containsKey(jar)) {
-                        closeables.put(jar, null);
+            InputStrebm is = urlc.getInputStrebm();
+            if (urlc instbnceof JbrURLConnection) {
+                JbrURLConnection juc = (JbrURLConnection)urlc;
+                JbrFile jbr = juc.getJbrFile();
+                synchronized (closebbles) {
+                    if (!closebbles.contbinsKey(jbr)) {
+                        closebbles.put(jbr, null);
                     }
                 }
-            } else if (urlc instanceof sun.net.www.protocol.file.FileURLConnection) {
-                synchronized (closeables) {
-                    closeables.put(is, null);
+            } else if (urlc instbnceof sun.net.www.protocol.file.FileURLConnection) {
+                synchronized (closebbles) {
+                    closebbles.put(is, null);
                 }
             }
             return is;
-        } catch (IOException e) {
+        } cbtch (IOException e) {
             return null;
         }
     }
 
    /**
-    * Closes this URLClassLoader, so that it can no longer be used to load
-    * new classes or resources that are defined by this loader.
-    * Classes and resources defined by any of this loader's parents in the
-    * delegation hierarchy are still accessible. Also, any classes or resources
-    * that are already loaded, are still accessible.
+    * Closes this URLClbssLobder, so thbt it cbn no longer be used to lobd
+    * new clbsses or resources thbt bre defined by this lobder.
+    * Clbsses bnd resources defined by bny of this lobder's pbrents in the
+    * delegbtion hierbrchy bre still bccessible. Also, bny clbsses or resources
+    * thbt bre blrebdy lobded, bre still bccessible.
     * <p>
-    * In the case of jar: and file: URLs, it also closes any files
-    * that were opened by it. If another thread is loading a
-    * class when the {@code close} method is invoked, then the result of
-    * that load is undefined.
+    * In the cbse of jbr: bnd file: URLs, it blso closes bny files
+    * thbt were opened by it. If bnother threbd is lobding b
+    * clbss when the {@code close} method is invoked, then the result of
+    * thbt lobd is undefined.
     * <p>
-    * The method makes a best effort attempt to close all opened files,
-    * by catching {@link IOException}s internally. Unchecked exceptions
-    * and errors are not caught. Calling close on an already closed
-    * loader has no effect.
+    * The method mbkes b best effort bttempt to close bll opened files,
+    * by cbtching {@link IOException}s internblly. Unchecked exceptions
+    * bnd errors bre not cbught. Cblling close on bn blrebdy closed
+    * lobder hbs no effect.
     *
-    * @exception IOException if closing any file opened by this class loader
-    * resulted in an IOException. Any such exceptions are caught internally.
-    * If only one is caught, then it is re-thrown. If more than one exception
-    * is caught, then the second and following exceptions are added
-    * as suppressed exceptions of the first one caught, which is then re-thrown.
+    * @exception IOException if closing bny file opened by this clbss lobder
+    * resulted in bn IOException. Any such exceptions bre cbught internblly.
+    * If only one is cbught, then it is re-thrown. If more thbn one exception
+    * is cbught, then the second bnd following exceptions bre bdded
+    * bs suppressed exceptions of the first one cbught, which is then re-thrown.
     *
-    * @exception SecurityException if a security manager is set, and it denies
-    *   {@link RuntimePermission}{@code ("closeClassLoader")}
+    * @exception SecurityException if b security mbnbger is set, bnd it denies
+    *   {@link RuntimePermission}{@code ("closeClbssLobder")}
     *
     * @since 1.7
     */
     public void close() throws IOException {
-        SecurityManager security = System.getSecurityManager();
+        SecurityMbnbger security = System.getSecurityMbnbger();
         if (security != null) {
-            security.checkPermission(new RuntimePermission("closeClassLoader"));
+            security.checkPermission(new RuntimePermission("closeClbssLobder"));
         }
-        List<IOException> errors = ucp.closeLoaders();
+        List<IOException> errors = ucp.closeLobders();
 
-        // now close any remaining streams.
+        // now close bny rembining strebms.
 
-        synchronized (closeables) {
-            Set<Closeable> keys = closeables.keySet();
-            for (Closeable c : keys) {
+        synchronized (closebbles) {
+            Set<Closebble> keys = closebbles.keySet();
+            for (Closebble c : keys) {
                 try {
                     c.close();
-                } catch (IOException ioex) {
-                    errors.add(ioex);
+                } cbtch (IOException ioex) {
+                    errors.bdd(ioex);
                 }
             }
-            closeables.clear();
+            closebbles.clebr();
         }
 
         if (errors.isEmpty()) {
@@ -310,97 +310,97 @@ public class URLClassLoader extends SecureClassLoader implements Closeable {
 
         IOException firstex = errors.remove(0);
 
-        // Suppress any remaining exceptions
+        // Suppress bny rembining exceptions
 
         for (IOException error: errors) {
-            firstex.addSuppressed(error);
+            firstex.bddSuppressed(error);
         }
         throw firstex;
     }
 
     /**
-     * Appends the specified URL to the list of URLs to search for
-     * classes and resources.
+     * Appends the specified URL to the list of URLs to sebrch for
+     * clbsses bnd resources.
      * <p>
-     * If the URL specified is {@code null} or is already in the
-     * list of URLs, or if this loader is closed, then invoking this
-     * method has no effect.
+     * If the URL specified is {@code null} or is blrebdy in the
+     * list of URLs, or if this lobder is closed, then invoking this
+     * method hbs no effect.
      *
-     * @param url the URL to be added to the search path of URLs
+     * @pbrbm url the URL to be bdded to the sebrch pbth of URLs
      */
-    protected void addURL(URL url) {
-        ucp.addURL(url);
+    protected void bddURL(URL url) {
+        ucp.bddURL(url);
     }
 
     /**
-     * Returns the search path of URLs for loading classes and resources.
-     * This includes the original list of URLs specified to the constructor,
-     * along with any URLs subsequently appended by the addURL() method.
-     * @return the search path of URLs for loading classes and resources.
+     * Returns the sebrch pbth of URLs for lobding clbsses bnd resources.
+     * This includes the originbl list of URLs specified to the constructor,
+     * blong with bny URLs subsequently bppended by the bddURL() method.
+     * @return the sebrch pbth of URLs for lobding clbsses bnd resources.
      */
     public URL[] getURLs() {
         return ucp.getURLs();
     }
 
     /**
-     * Finds and loads the class with the specified name from the URL search
-     * path. Any URLs referring to JAR files are loaded and opened as needed
-     * until the class is found.
+     * Finds bnd lobds the clbss with the specified nbme from the URL sebrch
+     * pbth. Any URLs referring to JAR files bre lobded bnd opened bs needed
+     * until the clbss is found.
      *
-     * @param name the name of the class
-     * @return the resulting class
-     * @exception ClassNotFoundException if the class could not be found,
-     *            or if the loader is closed.
-     * @exception NullPointerException if {@code name} is {@code null}.
+     * @pbrbm nbme the nbme of the clbss
+     * @return the resulting clbss
+     * @exception ClbssNotFoundException if the clbss could not be found,
+     *            or if the lobder is closed.
+     * @exception NullPointerException if {@code nbme} is {@code null}.
      */
-    protected Class<?> findClass(final String name)
-         throws ClassNotFoundException
+    protected Clbss<?> findClbss(finbl String nbme)
+         throws ClbssNotFoundException
     {
         try {
             return AccessController.doPrivileged(
-                new PrivilegedExceptionAction<Class<?>>() {
-                    public Class<?> run() throws ClassNotFoundException {
-                        String path = name.replace('.', '/').concat(".class");
-                        Resource res = ucp.getResource(path, false);
+                new PrivilegedExceptionAction<Clbss<?>>() {
+                    public Clbss<?> run() throws ClbssNotFoundException {
+                        String pbth = nbme.replbce('.', '/').concbt(".clbss");
+                        Resource res = ucp.getResource(pbth, fblse);
                         if (res != null) {
                             try {
-                                return defineClass(name, res);
-                            } catch (IOException e) {
-                                throw new ClassNotFoundException(name, e);
+                                return defineClbss(nbme, res);
+                            } cbtch (IOException e) {
+                                throw new ClbssNotFoundException(nbme, e);
                             }
                         } else {
-                            throw new ClassNotFoundException(name);
+                            throw new ClbssNotFoundException(nbme);
                         }
                     }
-                }, acc);
-        } catch (java.security.PrivilegedActionException pae) {
-            throw (ClassNotFoundException) pae.getException();
+                }, bcc);
+        } cbtch (jbvb.security.PrivilegedActionException pbe) {
+            throw (ClbssNotFoundException) pbe.getException();
         }
     }
 
     /*
-     * Retrieve the package using the specified package name.
-     * If non-null, verify the package using the specified code
-     * source and manifest.
+     * Retrieve the pbckbge using the specified pbckbge nbme.
+     * If non-null, verify the pbckbge using the specified code
+     * source bnd mbnifest.
      */
-    private Package getAndVerifyPackage(String pkgname,
-                                        Manifest man, URL url) {
-        Package pkg = getPackage(pkgname);
+    privbte Pbckbge getAndVerifyPbckbge(String pkgnbme,
+                                        Mbnifest mbn, URL url) {
+        Pbckbge pkg = getPbckbge(pkgnbme);
         if (pkg != null) {
-            // Package found, so check package sealing.
-            if (pkg.isSealed()) {
-                // Verify that code source URL is the same.
-                if (!pkg.isSealed(url)) {
+            // Pbckbge found, so check pbckbge sebling.
+            if (pkg.isSebled()) {
+                // Verify thbt code source URL is the sbme.
+                if (!pkg.isSebled(url)) {
                     throw new SecurityException(
-                        "sealing violation: package " + pkgname + " is sealed");
+                        "sebling violbtion: pbckbge " + pkgnbme + " is sebled");
                 }
             } else {
-                // Make sure we are not attempting to seal the package
-                // at this code source URL.
-                if ((man != null) && isSealed(pkgname, man)) {
+                // Mbke sure we bre not bttempting to sebl the pbckbge
+                // bt this code source URL.
+                if ((mbn != null) && isSebled(pkgnbme, mbn)) {
                     throw new SecurityException(
-                        "sealing violation: can't seal package " + pkgname +
-                        ": already loaded");
+                        "sebling violbtion: cbn't sebl pbckbge " + pkgnbme +
+                        ": blrebdy lobded");
                 }
             }
         }
@@ -408,177 +408,177 @@ public class URLClassLoader extends SecureClassLoader implements Closeable {
     }
 
     /*
-     * Defines a Class using the class bytes obtained from the specified
-     * Resource. The resulting Class must be resolved before it can be
+     * Defines b Clbss using the clbss bytes obtbined from the specified
+     * Resource. The resulting Clbss must be resolved before it cbn be
      * used.
      */
-    private Class<?> defineClass(String name, Resource res) throws IOException {
-        long t0 = System.nanoTime();
-        int i = name.lastIndexOf('.');
+    privbte Clbss<?> defineClbss(String nbme, Resource res) throws IOException {
+        long t0 = System.nbnoTime();
+        int i = nbme.lbstIndexOf('.');
         URL url = res.getCodeSourceURL();
         if (i != -1) {
-            String pkgname = name.substring(0, i);
-            // Check if package already loaded.
-            Manifest man = res.getManifest();
-            if (getAndVerifyPackage(pkgname, man, url) == null) {
+            String pkgnbme = nbme.substring(0, i);
+            // Check if pbckbge blrebdy lobded.
+            Mbnifest mbn = res.getMbnifest();
+            if (getAndVerifyPbckbge(pkgnbme, mbn, url) == null) {
                 try {
-                    if (man != null) {
-                        definePackage(pkgname, man, url);
+                    if (mbn != null) {
+                        definePbckbge(pkgnbme, mbn, url);
                     } else {
-                        definePackage(pkgname, null, null, null, null, null, null, null);
+                        definePbckbge(pkgnbme, null, null, null, null, null, null, null);
                     }
-                } catch (IllegalArgumentException iae) {
-                    // parallel-capable class loaders: re-verify in case of a
-                    // race condition
-                    if (getAndVerifyPackage(pkgname, man, url) == null) {
-                        // Should never happen
-                        throw new AssertionError("Cannot find package " +
-                                                 pkgname);
+                } cbtch (IllegblArgumentException ibe) {
+                    // pbrbllel-cbpbble clbss lobders: re-verify in cbse of b
+                    // rbce condition
+                    if (getAndVerifyPbckbge(pkgnbme, mbn, url) == null) {
+                        // Should never hbppen
+                        throw new AssertionError("Cbnnot find pbckbge " +
+                                                 pkgnbme);
                     }
                 }
             }
         }
-        // Now read the class bytes and define the class
-        java.nio.ByteBuffer bb = res.getByteBuffer();
+        // Now rebd the clbss bytes bnd define the clbss
+        jbvb.nio.ByteBuffer bb = res.getByteBuffer();
         if (bb != null) {
             // Use (direct) ByteBuffer:
             CodeSigner[] signers = res.getCodeSigners();
             CodeSource cs = new CodeSource(url, signers);
-            sun.misc.PerfCounter.getReadClassBytesTime().addElapsedTimeFrom(t0);
-            return defineClass(name, bb, cs);
+            sun.misc.PerfCounter.getRebdClbssBytesTime().bddElbpsedTimeFrom(t0);
+            return defineClbss(nbme, bb, cs);
         } else {
             byte[] b = res.getBytes();
-            // must read certificates AFTER reading bytes.
+            // must rebd certificbtes AFTER rebding bytes.
             CodeSigner[] signers = res.getCodeSigners();
             CodeSource cs = new CodeSource(url, signers);
-            sun.misc.PerfCounter.getReadClassBytesTime().addElapsedTimeFrom(t0);
-            return defineClass(name, b, 0, b.length, cs);
+            sun.misc.PerfCounter.getRebdClbssBytesTime().bddElbpsedTimeFrom(t0);
+            return defineClbss(nbme, b, 0, b.length, cs);
         }
     }
 
     /**
-     * Defines a new package by name in this ClassLoader. The attributes
-     * contained in the specified Manifest will be used to obtain package
-     * version and sealing information. For sealed packages, the additional
-     * URL specifies the code source URL from which the package was loaded.
+     * Defines b new pbckbge by nbme in this ClbssLobder. The bttributes
+     * contbined in the specified Mbnifest will be used to obtbin pbckbge
+     * version bnd sebling informbtion. For sebled pbckbges, the bdditionbl
+     * URL specifies the code source URL from which the pbckbge wbs lobded.
      *
-     * @param name  the package name
-     * @param man   the Manifest containing package version and sealing
-     *              information
-     * @param url   the code source url for the package, or null if none
-     * @exception   IllegalArgumentException if the package name duplicates
-     *              an existing package either in this class loader or one
-     *              of its ancestors
-     * @return the newly defined Package object
+     * @pbrbm nbme  the pbckbge nbme
+     * @pbrbm mbn   the Mbnifest contbining pbckbge version bnd sebling
+     *              informbtion
+     * @pbrbm url   the code source url for the pbckbge, or null if none
+     * @exception   IllegblArgumentException if the pbckbge nbme duplicbtes
+     *              bn existing pbckbge either in this clbss lobder or one
+     *              of its bncestors
+     * @return the newly defined Pbckbge object
      */
-    protected Package definePackage(String name, Manifest man, URL url)
-        throws IllegalArgumentException
+    protected Pbckbge definePbckbge(String nbme, Mbnifest mbn, URL url)
+        throws IllegblArgumentException
     {
-        String path = name.replace('.', '/').concat("/");
+        String pbth = nbme.replbce('.', '/').concbt("/");
         String specTitle = null, specVersion = null, specVendor = null;
         String implTitle = null, implVersion = null, implVendor = null;
-        String sealed = null;
-        URL sealBase = null;
+        String sebled = null;
+        URL seblBbse = null;
 
-        Attributes attr = man.getAttributes(path);
-        if (attr != null) {
-            specTitle   = attr.getValue(Name.SPECIFICATION_TITLE);
-            specVersion = attr.getValue(Name.SPECIFICATION_VERSION);
-            specVendor  = attr.getValue(Name.SPECIFICATION_VENDOR);
-            implTitle   = attr.getValue(Name.IMPLEMENTATION_TITLE);
-            implVersion = attr.getValue(Name.IMPLEMENTATION_VERSION);
-            implVendor  = attr.getValue(Name.IMPLEMENTATION_VENDOR);
-            sealed      = attr.getValue(Name.SEALED);
+        Attributes bttr = mbn.getAttributes(pbth);
+        if (bttr != null) {
+            specTitle   = bttr.getVblue(Nbme.SPECIFICATION_TITLE);
+            specVersion = bttr.getVblue(Nbme.SPECIFICATION_VERSION);
+            specVendor  = bttr.getVblue(Nbme.SPECIFICATION_VENDOR);
+            implTitle   = bttr.getVblue(Nbme.IMPLEMENTATION_TITLE);
+            implVersion = bttr.getVblue(Nbme.IMPLEMENTATION_VERSION);
+            implVendor  = bttr.getVblue(Nbme.IMPLEMENTATION_VENDOR);
+            sebled      = bttr.getVblue(Nbme.SEALED);
         }
-        attr = man.getMainAttributes();
-        if (attr != null) {
+        bttr = mbn.getMbinAttributes();
+        if (bttr != null) {
             if (specTitle == null) {
-                specTitle = attr.getValue(Name.SPECIFICATION_TITLE);
+                specTitle = bttr.getVblue(Nbme.SPECIFICATION_TITLE);
             }
             if (specVersion == null) {
-                specVersion = attr.getValue(Name.SPECIFICATION_VERSION);
+                specVersion = bttr.getVblue(Nbme.SPECIFICATION_VERSION);
             }
             if (specVendor == null) {
-                specVendor = attr.getValue(Name.SPECIFICATION_VENDOR);
+                specVendor = bttr.getVblue(Nbme.SPECIFICATION_VENDOR);
             }
             if (implTitle == null) {
-                implTitle = attr.getValue(Name.IMPLEMENTATION_TITLE);
+                implTitle = bttr.getVblue(Nbme.IMPLEMENTATION_TITLE);
             }
             if (implVersion == null) {
-                implVersion = attr.getValue(Name.IMPLEMENTATION_VERSION);
+                implVersion = bttr.getVblue(Nbme.IMPLEMENTATION_VERSION);
             }
             if (implVendor == null) {
-                implVendor = attr.getValue(Name.IMPLEMENTATION_VENDOR);
+                implVendor = bttr.getVblue(Nbme.IMPLEMENTATION_VENDOR);
             }
-            if (sealed == null) {
-                sealed = attr.getValue(Name.SEALED);
+            if (sebled == null) {
+                sebled = bttr.getVblue(Nbme.SEALED);
             }
         }
-        if ("true".equalsIgnoreCase(sealed)) {
-            sealBase = url;
+        if ("true".equblsIgnoreCbse(sebled)) {
+            seblBbse = url;
         }
-        return definePackage(name, specTitle, specVersion, specVendor,
-                             implTitle, implVersion, implVendor, sealBase);
+        return definePbckbge(nbme, specTitle, specVersion, specVendor,
+                             implTitle, implVersion, implVendor, seblBbse);
     }
 
     /*
-     * Returns true if the specified package name is sealed according to the
-     * given manifest.
+     * Returns true if the specified pbckbge nbme is sebled bccording to the
+     * given mbnifest.
      */
-    private boolean isSealed(String name, Manifest man) {
-        String path = name.replace('.', '/').concat("/");
-        Attributes attr = man.getAttributes(path);
-        String sealed = null;
-        if (attr != null) {
-            sealed = attr.getValue(Name.SEALED);
+    privbte boolebn isSebled(String nbme, Mbnifest mbn) {
+        String pbth = nbme.replbce('.', '/').concbt("/");
+        Attributes bttr = mbn.getAttributes(pbth);
+        String sebled = null;
+        if (bttr != null) {
+            sebled = bttr.getVblue(Nbme.SEALED);
         }
-        if (sealed == null) {
-            if ((attr = man.getMainAttributes()) != null) {
-                sealed = attr.getValue(Name.SEALED);
+        if (sebled == null) {
+            if ((bttr = mbn.getMbinAttributes()) != null) {
+                sebled = bttr.getVblue(Nbme.SEALED);
             }
         }
-        return "true".equalsIgnoreCase(sealed);
+        return "true".equblsIgnoreCbse(sebled);
     }
 
     /**
-     * Finds the resource with the specified name on the URL search path.
+     * Finds the resource with the specified nbme on the URL sebrch pbth.
      *
-     * @param name the name of the resource
-     * @return a {@code URL} for the resource, or {@code null}
-     * if the resource could not be found, or if the loader is closed.
+     * @pbrbm nbme the nbme of the resource
+     * @return b {@code URL} for the resource, or {@code null}
+     * if the resource could not be found, or if the lobder is closed.
      */
-    public URL findResource(final String name) {
+    public URL findResource(finbl String nbme) {
         /*
-         * The same restriction to finding classes applies to resources
+         * The sbme restriction to finding clbsses bpplies to resources
          */
         URL url = AccessController.doPrivileged(
             new PrivilegedAction<URL>() {
                 public URL run() {
-                    return ucp.findResource(name, true);
+                    return ucp.findResource(nbme, true);
                 }
-            }, acc);
+            }, bcc);
 
         return url != null ? ucp.checkURL(url) : null;
     }
 
     /**
-     * Returns an Enumeration of URLs representing all of the resources
-     * on the URL search path having the specified name.
+     * Returns bn Enumerbtion of URLs representing bll of the resources
+     * on the URL sebrch pbth hbving the specified nbme.
      *
-     * @param name the resource name
-     * @exception IOException if an I/O exception occurs
-     * @return an {@code Enumeration} of {@code URL}s
-     *         If the loader is closed, the Enumeration will be empty.
+     * @pbrbm nbme the resource nbme
+     * @exception IOException if bn I/O exception occurs
+     * @return bn {@code Enumerbtion} of {@code URL}s
+     *         If the lobder is closed, the Enumerbtion will be empty.
      */
-    public Enumeration<URL> findResources(final String name)
+    public Enumerbtion<URL> findResources(finbl String nbme)
         throws IOException
     {
-        final Enumeration<URL> e = ucp.findResources(name, true);
+        finbl Enumerbtion<URL> e = ucp.findResources(nbme, true);
 
-        return new Enumeration<URL>() {
-            private URL url = null;
+        return new Enumerbtion<URL>() {
+            privbte URL url = null;
 
-            private boolean next() {
+            privbte boolebn next() {
                 if (url != null) {
                     return true;
                 }
@@ -586,13 +586,13 @@ public class URLClassLoader extends SecureClassLoader implements Closeable {
                     URL u = AccessController.doPrivileged(
                         new PrivilegedAction<URL>() {
                             public URL run() {
-                                if (!e.hasMoreElements())
+                                if (!e.hbsMoreElements())
                                     return null;
                                 return e.nextElement();
                             }
-                        }, acc);
+                        }, bcc);
                     if (u == null)
-                        break;
+                        brebk;
                     url = ucp.checkURL(u);
                 } while (url == null);
                 return url != null;
@@ -607,7 +607,7 @@ public class URLClassLoader extends SecureClassLoader implements Closeable {
                 return u;
             }
 
-            public boolean hasMoreElements() {
+            public boolebn hbsMoreElements() {
                 return next();
             }
         };
@@ -615,33 +615,33 @@ public class URLClassLoader extends SecureClassLoader implements Closeable {
 
     /**
      * Returns the permissions for the given codesource object.
-     * The implementation of this method first calls super.getPermissions
-     * and then adds permissions based on the URL of the codesource.
+     * The implementbtion of this method first cblls super.getPermissions
+     * bnd then bdds permissions bbsed on the URL of the codesource.
      * <p>
-     * If the protocol of this URL is "jar", then the permission granted
-     * is based on the permission that is required by the URL of the Jar
+     * If the protocol of this URL is "jbr", then the permission grbnted
+     * is bbsed on the permission thbt is required by the URL of the Jbr
      * file.
      * <p>
-     * If the protocol is "file" and there is an authority component, then
-     * permission to connect to and accept connections from that authority
-     * may be granted. If the protocol is "file"
-     * and the path specifies a file, then permission to read that
-     * file is granted. If protocol is "file" and the path is
-     * a directory, permission is granted to read all files
-     * and (recursively) all files and subdirectories contained in
-     * that directory.
+     * If the protocol is "file" bnd there is bn buthority component, then
+     * permission to connect to bnd bccept connections from thbt buthority
+     * mby be grbnted. If the protocol is "file"
+     * bnd the pbth specifies b file, then permission to rebd thbt
+     * file is grbnted. If protocol is "file" bnd the pbth is
+     * b directory, permission is grbnted to rebd bll files
+     * bnd (recursively) bll files bnd subdirectories contbined in
+     * thbt directory.
      * <p>
      * If the protocol is not "file", then permission
-     * to connect to and accept connections from the URL's host is granted.
-     * @param codesource the codesource
+     * to connect to bnd bccept connections from the URL's host is grbnted.
+     * @pbrbm codesource the codesource
      * @exception NullPointerException if {@code codesource} is {@code null}.
-     * @return the permissions granted to the codesource
+     * @return the permissions grbnted to the codesource
      */
     protected PermissionCollection getPermissions(CodeSource codesource)
     {
         PermissionCollection perms = super.getPermissions(codesource);
 
-        URL url = codesource.getLocation();
+        URL url = codesource.getLocbtion();
 
         Permission p;
         URLConnection urlConnection;
@@ -649,152 +649,152 @@ public class URLClassLoader extends SecureClassLoader implements Closeable {
         try {
             urlConnection = url.openConnection();
             p = urlConnection.getPermission();
-        } catch (java.io.IOException ioe) {
+        } cbtch (jbvb.io.IOException ioe) {
             p = null;
             urlConnection = null;
         }
 
-        if (p instanceof FilePermission) {
-            // if the permission has a separator char on the end,
-            // it means the codebase is a directory, and we need
-            // to add an additional permission to read recursively
-            String path = p.getName();
-            if (path.endsWith(File.separator)) {
-                path += "-";
-                p = new FilePermission(path, SecurityConstants.FILE_READ_ACTION);
+        if (p instbnceof FilePermission) {
+            // if the permission hbs b sepbrbtor chbr on the end,
+            // it mebns the codebbse is b directory, bnd we need
+            // to bdd bn bdditionbl permission to rebd recursively
+            String pbth = p.getNbme();
+            if (pbth.endsWith(File.sepbrbtor)) {
+                pbth += "-";
+                p = new FilePermission(pbth, SecurityConstbnts.FILE_READ_ACTION);
             }
-        } else if ((p == null) && (url.getProtocol().equals("file"))) {
-            String path = url.getFile().replace('/', File.separatorChar);
-            path = ParseUtil.decode(path);
-            if (path.endsWith(File.separator))
-                path += "-";
-            p =  new FilePermission(path, SecurityConstants.FILE_READ_ACTION);
+        } else if ((p == null) && (url.getProtocol().equbls("file"))) {
+            String pbth = url.getFile().replbce('/', File.sepbrbtorChbr);
+            pbth = PbrseUtil.decode(pbth);
+            if (pbth.endsWith(File.sepbrbtor))
+                pbth += "-";
+            p =  new FilePermission(pbth, SecurityConstbnts.FILE_READ_ACTION);
         } else {
             /**
-             * Not loading from a 'file:' URL so we want to give the class
-             * permission to connect to and accept from the remote host
-             * after we've made sure the host is the correct one and is valid.
+             * Not lobding from b 'file:' URL so we wbnt to give the clbss
+             * permission to connect to bnd bccept from the remote host
+             * bfter we've mbde sure the host is the correct one bnd is vblid.
              */
             URL locUrl = url;
-            if (urlConnection instanceof JarURLConnection) {
-                locUrl = ((JarURLConnection)urlConnection).getJarFileURL();
+            if (urlConnection instbnceof JbrURLConnection) {
+                locUrl = ((JbrURLConnection)urlConnection).getJbrFileURL();
             }
             String host = locUrl.getHost();
             if (host != null && (host.length() > 0))
                 p = new SocketPermission(host,
-                                         SecurityConstants.SOCKET_CONNECT_ACCEPT_ACTION);
+                                         SecurityConstbnts.SOCKET_CONNECT_ACCEPT_ACTION);
         }
 
-        // make sure the person that created this class loader
-        // would have this permission
+        // mbke sure the person thbt crebted this clbss lobder
+        // would hbve this permission
 
         if (p != null) {
-            final SecurityManager sm = System.getSecurityManager();
+            finbl SecurityMbnbger sm = System.getSecurityMbnbger();
             if (sm != null) {
-                final Permission fp = p;
+                finbl Permission fp = p;
                 AccessController.doPrivileged(new PrivilegedAction<Void>() {
                     public Void run() throws SecurityException {
                         sm.checkPermission(fp);
                         return null;
                     }
-                }, acc);
+                }, bcc);
             }
-            perms.add(p);
+            perms.bdd(p);
         }
         return perms;
     }
 
     /**
-     * Creates a new instance of URLClassLoader for the specified
-     * URLs and parent class loader. If a security manager is
-     * installed, the {@code loadClass} method of the URLClassLoader
+     * Crebtes b new instbnce of URLClbssLobder for the specified
+     * URLs bnd pbrent clbss lobder. If b security mbnbger is
+     * instblled, the {@code lobdClbss} method of the URLClbssLobder
      * returned by this method will invoke the
-     * {@code SecurityManager.checkPackageAccess} method before
-     * loading the class.
+     * {@code SecurityMbnbger.checkPbckbgeAccess} method before
+     * lobding the clbss.
      *
-     * @param urls the URLs to search for classes and resources
-     * @param parent the parent class loader for delegation
+     * @pbrbm urls the URLs to sebrch for clbsses bnd resources
+     * @pbrbm pbrent the pbrent clbss lobder for delegbtion
      * @exception  NullPointerException if {@code urls} is {@code null}.
-     * @return the resulting class loader
+     * @return the resulting clbss lobder
      */
-    public static URLClassLoader newInstance(final URL[] urls,
-                                             final ClassLoader parent) {
-        // Save the caller's context
-        final AccessControlContext acc = AccessController.getContext();
-        // Need a privileged block to create the class loader
-        URLClassLoader ucl = AccessController.doPrivileged(
-            new PrivilegedAction<URLClassLoader>() {
-                public URLClassLoader run() {
-                    return new FactoryURLClassLoader(urls, parent, acc);
+    public stbtic URLClbssLobder newInstbnce(finbl URL[] urls,
+                                             finbl ClbssLobder pbrent) {
+        // Sbve the cbller's context
+        finbl AccessControlContext bcc = AccessController.getContext();
+        // Need b privileged block to crebte the clbss lobder
+        URLClbssLobder ucl = AccessController.doPrivileged(
+            new PrivilegedAction<URLClbssLobder>() {
+                public URLClbssLobder run() {
+                    return new FbctoryURLClbssLobder(urls, pbrent, bcc);
                 }
             });
         return ucl;
     }
 
     /**
-     * Creates a new instance of URLClassLoader for the specified
-     * URLs and default parent class loader. If a security manager is
-     * installed, the {@code loadClass} method of the URLClassLoader
+     * Crebtes b new instbnce of URLClbssLobder for the specified
+     * URLs bnd defbult pbrent clbss lobder. If b security mbnbger is
+     * instblled, the {@code lobdClbss} method of the URLClbssLobder
      * returned by this method will invoke the
-     * {@code SecurityManager.checkPackageAccess} before
-     * loading the class.
+     * {@code SecurityMbnbger.checkPbckbgeAccess} before
+     * lobding the clbss.
      *
-     * @param urls the URLs to search for classes and resources
+     * @pbrbm urls the URLs to sebrch for clbsses bnd resources
      * @exception  NullPointerException if {@code urls} is {@code null}.
-     * @return the resulting class loader
+     * @return the resulting clbss lobder
      */
-    public static URLClassLoader newInstance(final URL[] urls) {
-        // Save the caller's context
-        final AccessControlContext acc = AccessController.getContext();
-        // Need a privileged block to create the class loader
-        URLClassLoader ucl = AccessController.doPrivileged(
-            new PrivilegedAction<URLClassLoader>() {
-                public URLClassLoader run() {
-                    return new FactoryURLClassLoader(urls, acc);
+    public stbtic URLClbssLobder newInstbnce(finbl URL[] urls) {
+        // Sbve the cbller's context
+        finbl AccessControlContext bcc = AccessController.getContext();
+        // Need b privileged block to crebte the clbss lobder
+        URLClbssLobder ucl = AccessController.doPrivileged(
+            new PrivilegedAction<URLClbssLobder>() {
+                public URLClbssLobder run() {
+                    return new FbctoryURLClbssLobder(urls, bcc);
                 }
             });
         return ucl;
     }
 
-    static {
-        sun.misc.SharedSecrets.setJavaNetAccess (
-            new sun.misc.JavaNetAccess() {
-                public URLClassPath getURLClassPath (URLClassLoader u) {
+    stbtic {
+        sun.misc.ShbredSecrets.setJbvbNetAccess (
+            new sun.misc.JbvbNetAccess() {
+                public URLClbssPbth getURLClbssPbth (URLClbssLobder u) {
                     return u.ucp;
                 }
             }
         );
-        ClassLoader.registerAsParallelCapable();
+        ClbssLobder.registerAsPbrbllelCbpbble();
     }
 }
 
-final class FactoryURLClassLoader extends URLClassLoader {
+finbl clbss FbctoryURLClbssLobder extends URLClbssLobder {
 
-    static {
-        ClassLoader.registerAsParallelCapable();
+    stbtic {
+        ClbssLobder.registerAsPbrbllelCbpbble();
     }
 
-    FactoryURLClassLoader(URL[] urls, ClassLoader parent,
-                          AccessControlContext acc) {
-        super(urls, parent, acc);
+    FbctoryURLClbssLobder(URL[] urls, ClbssLobder pbrent,
+                          AccessControlContext bcc) {
+        super(urls, pbrent, bcc);
     }
 
-    FactoryURLClassLoader(URL[] urls, AccessControlContext acc) {
-        super(urls, acc);
+    FbctoryURLClbssLobder(URL[] urls, AccessControlContext bcc) {
+        super(urls, bcc);
     }
 
-    public final Class<?> loadClass(String name, boolean resolve)
-        throws ClassNotFoundException
+    public finbl Clbss<?> lobdClbss(String nbme, boolebn resolve)
+        throws ClbssNotFoundException
     {
-        // First check if we have permission to access the package. This
-        // should go away once we've added support for exported packages.
-        SecurityManager sm = System.getSecurityManager();
+        // First check if we hbve permission to bccess the pbckbge. This
+        // should go bwby once we've bdded support for exported pbckbges.
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null) {
-            int i = name.lastIndexOf('.');
+            int i = nbme.lbstIndexOf('.');
             if (i != -1) {
-                sm.checkPackageAccess(name.substring(0, i));
+                sm.checkPbckbgeAccess(nbme.substring(0, i));
             }
         }
-        return super.loadClass(name, resolve);
+        return super.lobdClbss(nbme, resolve);
     }
 }

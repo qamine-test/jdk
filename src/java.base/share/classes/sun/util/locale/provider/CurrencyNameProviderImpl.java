@@ -1,124 +1,124 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.util.locale.provider;
+pbckbge sun.util.locble.provider;
 
-import java.util.Locale;
-import java.util.Set;
-import java.util.spi.CurrencyNameProvider;
+import jbvb.util.Locble;
+import jbvb.util.Set;
+import jbvb.util.spi.CurrencyNbmeProvider;
 
 /**
- * Concrete implementation of the
- * {@link java.util.spi.CurrencyNameProvider CurrencyNameProvider} class
- * for the JRE LocaleProviderAdapter.
+ * Concrete implementbtion of the
+ * {@link jbvb.util.spi.CurrencyNbmeProvider CurrencyNbmeProvider} clbss
+ * for the JRE LocbleProviderAdbpter.
  *
- * @author Naoto Sato
- * @author Masayoshi Okutsu
+ * @buthor Nboto Sbto
+ * @buthor Mbsbyoshi Okutsu
  */
-public class CurrencyNameProviderImpl extends CurrencyNameProvider
-                                      implements AvailableLanguageTags {
-    private final LocaleProviderAdapter.Type type;
-    private final Set<String> langtags;
+public clbss CurrencyNbmeProviderImpl extends CurrencyNbmeProvider
+                                      implements AvbilbbleLbngubgeTbgs {
+    privbte finbl LocbleProviderAdbpter.Type type;
+    privbte finbl Set<String> lbngtbgs;
 
-    public CurrencyNameProviderImpl(LocaleProviderAdapter.Type type, Set<String> langtags) {
+    public CurrencyNbmeProviderImpl(LocbleProviderAdbpter.Type type, Set<String> lbngtbgs) {
         this.type = type;
-        this.langtags = langtags;
+        this.lbngtbgs = lbngtbgs;
     }
 
     @Override
-    public Set<String> getAvailableLanguageTags() {
-        return langtags;
+    public Set<String> getAvbilbbleLbngubgeTbgs() {
+        return lbngtbgs;
     }
 
     /**
-     * Returns an array of all locales for which this locale service provider
-     * can provide localized objects or names.
+     * Returns bn brrby of bll locbles for which this locble service provider
+     * cbn provide locblized objects or nbmes.
      *
-     * @return An array of all locales for which this locale service provider
-     * can provide localized objects or names.
+     * @return An brrby of bll locbles for which this locble service provider
+     * cbn provide locblized objects or nbmes.
      */
     @Override
-    public Locale[] getAvailableLocales() {
-        return LocaleProviderAdapter.toLocaleArray(langtags);
+    public Locble[] getAvbilbbleLocbles() {
+        return LocbleProviderAdbpter.toLocbleArrby(lbngtbgs);
     }
 
     /**
-     * Gets the symbol of the given currency code for the specified locale.
-     * For example, for "USD" (US Dollar), the symbol is "$" if the specified
-     * locale is the US, while for other locales it may be "US$". If no
-     * symbol can be determined, null should be returned.
+     * Gets the symbol of the given currency code for the specified locble.
+     * For exbmple, for "USD" (US Dollbr), the symbol is "$" if the specified
+     * locble is the US, while for other locbles it mby be "US$". If no
+     * symbol cbn be determined, null should be returned.
      *
-     * @param currencyCode the ISO 4217 currency code, which
-     *     consists of three upper-case letters between 'A' (U+0041) and
+     * @pbrbm currencyCode the ISO 4217 currency code, which
+     *     consists of three upper-cbse letters between 'A' (U+0041) bnd
      *     'Z' (U+005A)
-     * @param locale the desired locale
-     * @return the symbol of the given currency code for the specified locale, or null if
-     *     the symbol is not available for the locale
+     * @pbrbm locble the desired locble
+     * @return the symbol of the given currency code for the specified locble, or null if
+     *     the symbol is not bvbilbble for the locble
      * @exception NullPointerException if <code>currencyCode</code> or
-     *     <code>locale</code> is null
-     * @exception IllegalArgumentException if <code>currencyCode</code> is not in
-     *     the form of three upper-case letters, or <code>locale</code> isn't
-     *     one of the locales returned from
-     *     {@link java.util.spi.LocaleServiceProvider#getAvailableLocales()
-     *     getAvailableLocales()}.
-     * @see java.util.Currency#getSymbol(java.util.Locale)
+     *     <code>locble</code> is null
+     * @exception IllegblArgumentException if <code>currencyCode</code> is not in
+     *     the form of three upper-cbse letters, or <code>locble</code> isn't
+     *     one of the locbles returned from
+     *     {@link jbvb.util.spi.LocbleServiceProvider#getAvbilbbleLocbles()
+     *     getAvbilbbleLocbles()}.
+     * @see jbvb.util.Currency#getSymbol(jbvb.util.Locble)
      */
     @Override
-    public String getSymbol(String currencyCode, Locale locale) {
-        return getString(currencyCode.toUpperCase(Locale.ROOT), locale);
+    public String getSymbol(String currencyCode, Locble locble) {
+        return getString(currencyCode.toUpperCbse(Locble.ROOT), locble);
     }
 
     /**
-     * Returns a name for the currency that is appropriate for display to the
-     * user.  The default implementation returns null.
+     * Returns b nbme for the currency thbt is bppropribte for displby to the
+     * user.  The defbult implementbtion returns null.
      *
-     * @param currencyCode the ISO 4217 currency code, which
-     *     consists of three upper-case letters between 'A' (U+0041) and
+     * @pbrbm currencyCode the ISO 4217 currency code, which
+     *     consists of three upper-cbse letters between 'A' (U+0041) bnd
      *     'Z' (U+005A)
-     * @param locale the desired locale
-     * @return the name for the currency that is appropriate for display to the
-     *     user, or null if the name is not available for the locale
-     * @exception IllegalArgumentException if <code>currencyCode</code> is not in
-     *     the form of three upper-case letters, or <code>locale</code> isn't
-     *     one of the locales returned from
-     *     {@link java.util.spi.LocaleServiceProvider#getAvailableLocales()
-     *     getAvailableLocales()}.
+     * @pbrbm locble the desired locble
+     * @return the nbme for the currency thbt is bppropribte for displby to the
+     *     user, or null if the nbme is not bvbilbble for the locble
+     * @exception IllegblArgumentException if <code>currencyCode</code> is not in
+     *     the form of three upper-cbse letters, or <code>locble</code> isn't
+     *     one of the locbles returned from
+     *     {@link jbvb.util.spi.LocbleServiceProvider#getAvbilbbleLocbles()
+     *     getAvbilbbleLocbles()}.
      * @exception NullPointerException if <code>currencyCode</code> or
-     *     <code>locale</code> is <code>null</code>
+     *     <code>locble</code> is <code>null</code>
      * @since 1.7
      */
     @Override
-    public String getDisplayName(String currencyCode, Locale locale) {
-        return getString(currencyCode.toLowerCase(Locale.ROOT), locale);
+    public String getDisplbyNbme(String currencyCode, Locble locble) {
+        return getString(currencyCode.toLowerCbse(Locble.ROOT), locble);
     }
 
-    private String getString(String key, Locale locale) {
-        if (locale == null) {
+    privbte String getString(String key, Locble locble) {
+        if (locble == null) {
             throw new NullPointerException();
         }
 
-        return LocaleProviderAdapter.forType(type).getLocaleResources(locale).getCurrencyName(key);
+        return LocbleProviderAdbpter.forType(type).getLocbleResources(locble).getCurrencyNbme(key);
     }
 }

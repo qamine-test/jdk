@@ -1,221 +1,221 @@
 /*
- * Copyright (c) 2000, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
  *  (C) Copyright IBM Corp. 1999 All Rights Reserved.
- *  Copyright 1997 The Open Group Research Institute.  All rights reserved.
+ *  Copyright 1997 The Open Group Resebrch Institute.  All rights reserved.
  */
 
-package sun.security.krb5.internal.tools;
+pbckbge sun.security.krb5.internbl.tools;
 
 import sun.security.krb5.*;
-import sun.security.krb5.internal.*;
-import sun.security.krb5.internal.ccache.*;
-import java.io.File;
-import java.io.IOException;
-import java.util.StringTokenizer;
-import java.util.Vector;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.FileInputStream;
+import sun.security.krb5.internbl.*;
+import sun.security.krb5.internbl.ccbche.*;
+import jbvb.io.File;
+import jbvb.io.IOException;
+import jbvb.util.StringTokenizer;
+import jbvb.util.Vector;
+import jbvb.io.BufferedRebder;
+import jbvb.io.InputStrebmRebder;
+import jbvb.io.FileInputStrebm;
 
 /**
- * Maintains user-specific options or default settings when the user requests
- * a KDC ticket using Kinit.
+ * Mbintbins user-specific options or defbult settings when the user requests
+ * b KDC ticket using Kinit.
  *
- * @author Yanni Zhang
- * @author Ram Marti
+ * @buthor Ybnni Zhbng
+ * @buthor Rbm Mbrti
  */
-class KinitOptions {
-    public boolean validate = false;
+clbss KinitOptions {
+    public boolebn vblidbte = fblse;
 
-    // forwardable and proxiable flags have two states:
-    // -1 - flag set to be not forwardable or proxiable;
-    // 1 - flag set to be forwardable or proxiable.
-    public short forwardable = -1;
-    public short proxiable = -1;
-    public boolean renew = false;
+    // forwbrdbble bnd proxibble flbgs hbve two stbtes:
+    // -1 - flbg set to be not forwbrdbble or proxibble;
+    // 1 - flbg set to be forwbrdbble or proxibble.
+    public short forwbrdbble = -1;
+    public short proxibble = -1;
+    public boolebn renew = fblse;
     public KerberosTime lifetime;
-    public KerberosTime renewable_lifetime;
-    public String target_service;
-    public String keytab_file;
-    public String cachename;
-    private PrincipalName principal;
-    public String realm;
-    char[] password = null;
-    public boolean keytab;
-    private boolean DEBUG = Krb5.DEBUG;
-    private boolean includeAddresses = true; // default.
-    private boolean useKeytab = false; // default = false.
-    private String ktabName; // keytab file name
+    public KerberosTime renewbble_lifetime;
+    public String tbrget_service;
+    public String keytbb_file;
+    public String cbchenbme;
+    privbte PrincipblNbme principbl;
+    public String reblm;
+    chbr[] pbssword = null;
+    public boolebn keytbb;
+    privbte boolebn DEBUG = Krb5.DEBUG;
+    privbte boolebn includeAddresses = true; // defbult.
+    privbte boolebn useKeytbb = fblse; // defbult = fblse.
+    privbte String ktbbNbme; // keytbb file nbme
 
-    public KinitOptions() throws RuntimeException, RealmException {
-        // no args were specified in the command line;
-        // use default values
-        cachename = FileCredentialsCache.getDefaultCacheName();
-        if (cachename == null) {
-            throw new RuntimeException("default cache name error");
+    public KinitOptions() throws RuntimeException, ReblmException {
+        // no brgs were specified in the commbnd line;
+        // use defbult vblues
+        cbchenbme = FileCredentiblsCbche.getDefbultCbcheNbme();
+        if (cbchenbme == null) {
+            throw new RuntimeException("defbult cbche nbme error");
         }
-        principal = getDefaultPrincipal();
+        principbl = getDefbultPrincipbl();
     }
 
-    public void setKDCRealm(String r) throws RealmException {
-        realm = r;
+    public void setKDCReblm(String r) throws ReblmException {
+        reblm = r;
     }
 
-    public String getKDCRealm() {
-        if (realm == null) {
-            if (principal != null) {
-                return principal.getRealmString();
+    public String getKDCReblm() {
+        if (reblm == null) {
+            if (principbl != null) {
+                return principbl.getReblmString();
             }
         }
         return null;
     }
 
-    public KinitOptions(String[] args)
+    public KinitOptions(String[] brgs)
         throws KrbException, RuntimeException, IOException {
-        // currently we provide support for -f -p -c principal options
-        String p = null; // store principal
+        // currently we provide support for -f -p -c principbl options
+        String p = null; // store principbl
 
-        for (int i = 0; i < args.length; i++) {
-            if (args[i].equals("-f")) {
-                forwardable = 1;
-            } else if (args[i].equals("-p")) {
-                proxiable = 1;
-            } else if (args[i].equals("-c")) {
+        for (int i = 0; i < brgs.length; i++) {
+            if (brgs[i].equbls("-f")) {
+                forwbrdbble = 1;
+            } else if (brgs[i].equbls("-p")) {
+                proxibble = 1;
+            } else if (brgs[i].equbls("-c")) {
 
-                if (args[i + 1].startsWith("-")) {
-                    throw new IllegalArgumentException("input format " +
+                if (brgs[i + 1].stbrtsWith("-")) {
+                    throw new IllegblArgumentException("input formbt " +
                                                        " not correct: " +
                                                        " -c  option " +
                                                        "must be followed " +
-                                                       "by the cache name");
+                                                       "by the cbche nbme");
                 }
-                cachename = args[++i];
-                if ((cachename.length() >= 5) &&
-                    cachename.substring(0, 5).equalsIgnoreCase("FILE:")) {
-                    cachename = cachename.substring(5);
+                cbchenbme = brgs[++i];
+                if ((cbchenbme.length() >= 5) &&
+                    cbchenbme.substring(0, 5).equblsIgnoreCbse("FILE:")) {
+                    cbchenbme = cbchenbme.substring(5);
                 };
-            } else if (args[i].equals("-A")) {
-                includeAddresses = false;
-            } else if (args[i].equals("-k")) {
-                useKeytab = true;
-            } else if (args[i].equals("-t")) {
-                if (ktabName != null) {
-                    throw new IllegalArgumentException
-                        ("-t option/keytab file name repeated");
-                } else if (i + 1 < args.length) {
-                    ktabName = args[++i];
+            } else if (brgs[i].equbls("-A")) {
+                includeAddresses = fblse;
+            } else if (brgs[i].equbls("-k")) {
+                useKeytbb = true;
+            } else if (brgs[i].equbls("-t")) {
+                if (ktbbNbme != null) {
+                    throw new IllegblArgumentException
+                        ("-t option/keytbb file nbme repebted");
+                } else if (i + 1 < brgs.length) {
+                    ktbbNbme = brgs[++i];
                 } else {
-                    throw new IllegalArgumentException
-                        ("-t option requires keytab file name");
+                    throw new IllegblArgumentException
+                        ("-t option requires keytbb file nbme");
                 }
 
-                useKeytab = true;
-            } else if (args[i].equalsIgnoreCase("-help")) {
+                useKeytbb = true;
+            } else if (brgs[i].equblsIgnoreCbse("-help")) {
                 printHelp();
                 System.exit(0);
-            } else if (p == null) { // Haven't yet processed a "principal"
-                p = args[i];
+            } else if (p == null) { // Hbven't yet processed b "principbl"
+                p = brgs[i];
                 try {
-                    principal = new PrincipalName(p);
-                } catch (Exception e) {
-                    throw new IllegalArgumentException("invalid " +
-                                                       "Principal name: " + p +
-                                                       e.getMessage());
+                    principbl = new PrincipblNbme(p);
+                } cbtch (Exception e) {
+                    throw new IllegblArgumentException("invblid " +
+                                                       "Principbl nbme: " + p +
+                                                       e.getMessbge());
                 }
-            } else if (this.password == null) {
-                // Have already processed a Principal, this must be a password
-                password = args[i].toCharArray();
+            } else if (this.pbssword == null) {
+                // Hbve blrebdy processed b Principbl, this must be b pbssword
+                pbssword = brgs[i].toChbrArrby();
             } else {
-                throw new IllegalArgumentException("too many parameters");
+                throw new IllegblArgumentException("too mbny pbrbmeters");
             }
         }
-        // we should get cache name before getting the default principal name
-        if (cachename == null) {
-            cachename = FileCredentialsCache.getDefaultCacheName();
-            if (cachename == null) {
-                throw new RuntimeException("default cache name error");
+        // we should get cbche nbme before getting the defbult principbl nbme
+        if (cbchenbme == null) {
+            cbchenbme = FileCredentiblsCbche.getDefbultCbcheNbme();
+            if (cbchenbme == null) {
+                throw new RuntimeException("defbult cbche nbme error");
             }
         }
-        if (principal == null) {
-            principal = getDefaultPrincipal();
+        if (principbl == null) {
+            principbl = getDefbultPrincipbl();
         }
     }
 
-    PrincipalName getDefaultPrincipal() {
+    PrincipblNbme getDefbultPrincipbl() {
 
-        // get default principal name from the cachename if it is
-        // available.
+        // get defbult principbl nbme from the cbchenbme if it is
+        // bvbilbble.
 
         try {
-            CCacheInputStream cis =
-                new CCacheInputStream(new FileInputStream(cachename));
+            CCbcheInputStrebm cis =
+                new CCbcheInputStrebm(new FileInputStrebm(cbchenbme));
             int version;
-            if ((version = cis.readVersion()) ==
-                    FileCCacheConstants.KRB5_FCC_FVNO_4) {
-                cis.readTag();
+            if ((version = cis.rebdVersion()) ==
+                    FileCCbcheConstbnts.KRB5_FCC_FVNO_4) {
+                cis.rebdTbg();
             } else {
-                if (version == FileCCacheConstants.KRB5_FCC_FVNO_1 ||
-                        version == FileCCacheConstants.KRB5_FCC_FVNO_2) {
-                    cis.setNativeByteOrder();
+                if (version == FileCCbcheConstbnts.KRB5_FCC_FVNO_1 ||
+                        version == FileCCbcheConstbnts.KRB5_FCC_FVNO_2) {
+                    cis.setNbtiveByteOrder();
                 }
             }
-            PrincipalName p = cis.readPrincipal(version);
+            PrincipblNbme p = cis.rebdPrincipbl(version);
             cis.close();
             if (DEBUG) {
-                System.out.println(">>>KinitOptions principal name from "+
-                                   "the cache is :" + p);
+                System.out.println(">>>KinitOptions principbl nbme from "+
+                                   "the cbche is :" + p);
             }
             return p;
-        } catch (IOException e) {
-            // ignore any exceptions; we will use the user name as the
-            // principal name
+        } cbtch (IOException e) {
+            // ignore bny exceptions; we will use the user nbme bs the
+            // principbl nbme
             if (DEBUG) {
-                e.printStackTrace();
+                e.printStbckTrbce();
             }
-        } catch (RealmException e) {
+        } cbtch (ReblmException e) {
             if (DEBUG) {
-                e.printStackTrace();
+                e.printStbckTrbce();
             }
         }
 
-        String username = System.getProperty("user.name");
+        String usernbme = System.getProperty("user.nbme");
         if (DEBUG) {
-            System.out.println(">>>KinitOptions default username is :"
-                               + username);
+            System.out.println(">>>KinitOptions defbult usernbme is :"
+                               + usernbme);
         }
         try {
-            PrincipalName p = new PrincipalName(username);
+            PrincipblNbme p = new PrincipblNbme(usernbme);
             return p;
-        } catch (RealmException e) {
+        } cbtch (ReblmException e) {
             // ignore exception , return null
             if (DEBUG) {
-                System.out.println ("Exception in getting principal " +
-                                    "name " + e.getMessage());
-                e.printStackTrace();
+                System.out.println ("Exception in getting principbl " +
+                                    "nbme " + e.getMessbge());
+                e.printStbckTrbce();
             }
         }
         return null;
@@ -223,38 +223,38 @@ class KinitOptions {
 
 
     void printHelp() {
-        System.out.println("Usage: kinit " +
-                           "[-A] [-f] [-p] [-c cachename] " +
-                           "[[-k [-t keytab_file_name]] [principal] " +
-                           "[password]");
-        System.out.println("\tavailable options to " +
+        System.out.println("Usbge: kinit " +
+                           "[-A] [-f] [-p] [-c cbchenbme] " +
+                           "[[-k [-t keytbb_file_nbme]] [principbl] " +
+                           "[pbssword]");
+        System.out.println("\tbvbilbble options to " +
                            "Kerberos 5 ticket request:");
-        System.out.println("\t    -A   do not include addresses");
-        System.out.println("\t    -f   forwardable");
-        System.out.println("\t    -p   proxiable");
-        System.out.println("\t    -c   cache name " +
-                           "(i.e., FILE:\\d:\\myProfiles\\mykrb5cache)");
-        System.out.println("\t    -k   use keytab");
-        System.out.println("\t    -t   keytab file name");
-        System.out.println("\t    principal   the principal name "+
-                           "(i.e., qweadf@ATHENA.MIT.EDU qweadf)");
-        System.out.println("\t    password   " +
-                           "the principal's Kerberos password");
+        System.out.println("\t    -A   do not include bddresses");
+        System.out.println("\t    -f   forwbrdbble");
+        System.out.println("\t    -p   proxibble");
+        System.out.println("\t    -c   cbche nbme " +
+                           "(i.e., FILE:\\d:\\myProfiles\\mykrb5cbche)");
+        System.out.println("\t    -k   use keytbb");
+        System.out.println("\t    -t   keytbb file nbme");
+        System.out.println("\t    principbl   the principbl nbme "+
+                           "(i.e., qwebdf@ATHENA.MIT.EDU qwebdf)");
+        System.out.println("\t    pbssword   " +
+                           "the principbl's Kerberos pbssword");
     }
 
-    public boolean getAddressOption() {
+    public boolebn getAddressOption() {
         return includeAddresses;
     }
 
-    public boolean useKeytabFile() {
-        return useKeytab;
+    public boolebn useKeytbbFile() {
+        return useKeytbb;
     }
 
-    public String keytabFileName() {
-        return ktabName;
+    public String keytbbFileNbme() {
+        return ktbbNbme;
     }
 
-    public PrincipalName getPrincipal() {
-        return principal;
+    public PrincipblNbme getPrincipbl() {
+        return principbl;
     }
 }

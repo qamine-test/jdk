@@ -1,277 +1,277 @@
 /* 
- * Copyright (c) 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  * 
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  * 
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  * 
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  * 
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-This directory contains source code to perform a wide variety of image
-conversions for the Java AWT.
+This directory contbins source code to perform b wide vbriety of imbge
+conversions for the Jbvb AWT.
 
-The image conversion process is controlled by a function skeleton
-defined in the include file <img_scaleloop.h> which invokes a number
-of macros in different categories to perform the work of reading and
-decoding the input pixels and then scaling, dithering, and storing the
-pixels in the destination image structure.  Each part of that process
-can be implemented in one of several different ways depending on the
-type of input data and output representation needed and depending on
-the speed and quality desired.
+The imbge conversion process is controlled by b function skeleton
+defined in the include file <img_scbleloop.h> which invokes b number
+of mbcros in different cbtegories to perform the work of rebding bnd
+decoding the input pixels bnd then scbling, dithering, bnd storing the
+pixels in the destinbtion imbge structure.  Ebch pbrt of thbt process
+cbn be implemented in one of severbl different wbys depending on the
+type of input dbtb bnd output representbtion needed bnd depending on
+the speed bnd qublity desired.
 
-The conversion process as defined by <img_scaleloop.h> can be broken
-down into the following categories:
+The conversion process bs defined by <img_scbleloop.h> cbn be broken
+down into the following cbtegories:
 
-	Fetching	retrieving pixels from the source pixel data
-	Decoding	decoding source pixels into color/alpha information
-	Scaling		resampling source data for a different resolution
-	Encoding	converting source colors into a destination pixel
-	Alpha		converting alpha values into masks or alpha channels
-	Storing		storing the final pixels in the destination image
+	Fetching	retrieving pixels from the source pixel dbtb
+	Decoding	decoding source pixels into color/blphb informbtion
+	Scbling		resbmpling source dbtb for b different resolution
+	Encoding	converting source colors into b destinbtion pixel
+	Alphb		converting blphb vblues into mbsks or blphb chbnnels
+	Storing		storing the finbl pixels in the destinbtion imbge
 
-Each category defines a number of different macros that are used by the
-code skeleton in <img_scaleloop.h> to perform the work of converting
-the images.  The macros for each category are all implemented by a
-number of other header files with multiple implementations provided
-for each category depending on the particular type of input or output
-data desired.  The files which implement the various categories are as
+Ebch cbtegory defines b number of different mbcros thbt bre used by the
+code skeleton in <img_scbleloop.h> to perform the work of converting
+the imbges.  The mbcros for ebch cbtegory bre bll implemented by b
+number of other hebder files with multiple implementbtions provided
+for ebch cbtegory depending on the pbrticulbr type of input or output
+dbtb desired.  The files which implement the vbrious cbtegories bre bs
 follows:
 
     Fetching
-	<img_input8.h>		Fetch 8 bit pixels from a byte array
-	<img_input32.h>		Fetch 32 bit pixels from a int array
+	<img_input8.h>		Fetch 8 bit pixels from b byte brrby
+	<img_input32.h>		Fetch 32 bit pixels from b int brrby
 	<img_input8_32.h>	Fetch 8 or 32 bit pixels
 
     Decoding
     	<img_icm.h>		Decode IndexColorModel pixels
     	<img_dcm.h>		Decode DirectColorModel pixels
-    	<img_dcm8.h>		Decode DirectColorModel pixels with at
-				    least 8 bits per component
-    	<img_anycm.h>		Decode any type of ColorModel's pixels (with
-				    native handling of Index and Direct)
+    	<img_dcm8.h>		Decode DirectColorModel pixels with bt
+				    lebst 8 bits per component
+    	<img_bnycm.h>		Decode bny type of ColorModel's pixels (with
+				    nbtive hbndling of Index bnd Direct)
 
-    Scaling
-    	<img_noscale.h>		Don't scale input data at all
-	<img_replscale.h>	Nearest Neighbor scaling - replicate or
-				    omit pixels as necessary
+    Scbling
+    	<img_noscble.h>		Don't scble input dbtb bt bll
+	<img_replscble.h>	Nebrest Neighbor scbling - replicbte or
+				    omit pixels bs necessbry
 
     Encoding
-	<img_nodither.h>	No encoding at all (only for 24-bit images)
+	<img_nodither.h>	No encoding bt bll (only for 24-bit imbges)
 	<img_dir8dither.h>	Compose DirectColor pixels, 8-bits/component 
 	<img_dirdither.h>	Compose DirectColor pixels up to 8-bits/comp
-	<img_fsgray.h>		Floyd-Steinberg error diffusion, gray ramp
-				    (requires TopDownLeftRight source data)
-	<img_fscolor.h>		Floyd-Steinberg error diffusion, RGB color map
-				    (requires TopDownLeftRight source data)
-	<img_fsdither.h>	Floyd-Steinberg error diffusion, RGB or gray
-				    (requires TopDownLeftRight source data)
-	<img_ordgray.h>		unsigned ordered dither error, gray ramp
-	<img_ordclruns.h>	unsigned ordered dither error, RGB color map
-	<img_ordclrsgn.h>	signed ordered dither error, RGB color map
-	<img_orddither.h>	unsigned ordered dither error, RGB or gray
-				    (must also include ordclrsgn or ordclruns)
+	<img_fsgrby.h>		Floyd-Steinberg error diffusion, grby rbmp
+				    (requires TopDownLeftRight source dbtb)
+	<img_fscolor.h>		Floyd-Steinberg error diffusion, RGB color mbp
+				    (requires TopDownLeftRight source dbtb)
+	<img_fsdither.h>	Floyd-Steinberg error diffusion, RGB or grby
+				    (requires TopDownLeftRight source dbtb)
+	<img_ordgrby.h>		unsigned ordered dither error, grby rbmp
+	<img_ordclruns.h>	unsigned ordered dither error, RGB color mbp
+	<img_ordclrsgn.h>	signed ordered dither error, RGB color mbp
+	<img_orddither.h>	unsigned ordered dither error, RGB or grby
+				    (must blso include ordclrsgn or ordclruns)
 
-    Alpha
-    	<img_opaque.h>		No alpha processing (must be opaque input)
-    	<img_alpha.h>		Produce 1-bit transparency masks from alpha
-				    data using an ordered dithering technique
+    Alphb
+    	<img_opbque.h>		No blphb processing (must be opbque input)
+    	<img_blphb.h>		Produce 1-bit trbnspbrency mbsks from blphb
+				    dbtb using bn ordered dithering technique
 
     Storing
-    	<img_output8.h>		Store 8-bit pixels in a byte array
-    	<img_output16.h>	Store 16-bit pixels in a short array
-    	<img_output24.h>	Store 24-bit pixels in a byte triplet array
-    	<img_output32.h>	Store 32-bit pixels in an int array
+    	<img_output8.h>		Store 8-bit pixels in b byte brrby
+    	<img_output16.h>	Store 16-bit pixels in b short brrby
+    	<img_output24.h>	Store 24-bit pixels in b byte triplet brrby
+    	<img_output32.h>	Store 32-bit pixels in bn int brrby
     	<img_output8_16_24.h>	Store 8, 16 or 24 bit pixels
     	<img_output8_16_32.h>	Store 8, 16 or 32 bit pixels
     	<img_output8_32.h>	Store 8 or 32 bit pixels
 
-Some of these header files also require a number of definitions to be
-provided by the platform implementor.  These definitions are usually
-placed in a file called "img_util_md.h" and included when defining an
-actual image scaling function (see below).  Most of the definitions
-can be implemented using either macros or functions unless indicated
-below.  Here is a list of the various required definitions and the
-files or categories which rely on them:
+Some of these hebder files blso require b number of definitions to be
+provided by the plbtform implementor.  These definitions bre usublly
+plbced in b file cblled "img_util_md.h" bnd included when defining bn
+bctubl imbge scbling function (see below).  Most of the definitions
+cbn be implemented using either mbcros or functions unless indicbted
+below.  Here is b list of the vbrious required definitions bnd the
+files or cbtegories which rely on them:
 
-used by <img_alpha.h>
+used by <img_blphb.h>
 
-    typedef [integer base type] MaskBits;
-	Specifies the base type for transparency mask manipulation.
-	Some platforms may manipulate masks 8-bits at a time and others
-	may manipulate them 32-bits at a time.
+    typedef [integer bbse type] MbskBits;
+	Specifies the bbse type for trbnspbrency mbsk mbnipulbtion.
+	Some plbtforms mby mbnipulbte mbsks 8-bits bt b time bnd others
+	mby mbnipulbte them 32-bits bt b time.
 
-    MaskBits *ImgInitMask(cvdata);
-	Create a transparency mask buffer and return a handle to it.
-	The buffer will be created on the fly whenever the first
-	transparent pixel is encountered.  If no transparent pixels
-	are ever encountered, there will be no reason to create a
-	mask.  The buffer should be initialized to opacity values
-	where any existing opaque converted data resides and to
-	transparency values where there is no data yet.
+    MbskBits *ImgInitMbsk(cvdbtb);
+	Crebte b trbnspbrency mbsk buffer bnd return b hbndle to it.
+	The buffer will be crebted on the fly whenever the first
+	trbnspbrent pixel is encountered.  If no trbnspbrent pixels
+	bre ever encountered, there will be no rebson to crebte b
+	mbsk.  The buffer should be initiblized to opbcity vblues
+	where bny existing opbque converted dbtb resides bnd to
+	trbnspbrency vblues where there is no dbtb yet.
 
-    int MaskScan(cvdata);
-    	Return the size of a single scan line in the output mask buffer
-	in MaskBits sized units.  If the mask data is being buffered a
-	scan line at a time, then return 0 to indicate that successive
-	scan lines should overwrite each other in the single row-sized
+    int MbskScbn(cvdbtb);
+    	Return the size of b single scbn line in the output mbsk buffer
+	in MbskBits sized units.  If the mbsk dbtb is being buffered b
+	scbn line bt b time, then return 0 to indicbte thbt successive
+	scbn lines should overwrite ebch other in the single row-sized
 	buffer.
 
-    int MaskOffset(x);
-    	Return the index into an array of MaskBits elements where the
-	data for the indicated x coordinate resides.  This is typically
-	(x >> (sizeof(MaskBits) * 8)).
+    int MbskOffset(x);
+    	Return the index into bn brrby of MbskBits elements where the
+	dbtb for the indicbted x coordinbte resides.  This is typicblly
+	(x >> (sizeof(MbskBits) * 8)).
 
-    int MaskInit(x);
-    	Return a number with the appropriate single bit set for modifying
-	the mask location for the indicated x coordinate.  This is
-	typically (1 << (x & ((sizeof(MaskBits) * 8) - 1))).
+    int MbskInit(x);
+    	Return b number with the bppropribte single bit set for modifying
+	the mbsk locbtion for the indicbted x coordinbte.  This is
+	typicblly (1 << (x & ((sizeof(MbskBits) * 8) - 1))).
 
-    void SetOpaqueBit(mask, bit);
-    	Perform the necessary logical operation on the accumulator "mask"
-	with the indicated "bit" to indicate an opaque pixel.  If bits set
-	to 1 represent opacity, then this operation is typically defined
-	as (mask |= bit).  Note that SetOpaqueBit must be implemented as
-	a macro since the first argument, the mask accumulator, must be
+    void SetOpbqueBit(mbsk, bit);
+    	Perform the necessbry logicbl operbtion on the bccumulbtor "mbsk"
+	with the indicbted "bit" to indicbte bn opbque pixel.  If bits set
+	to 1 represent opbcity, then this operbtion is typicblly defined
+	bs (mbsk |= bit).  Note thbt SetOpbqueBit must be implemented bs
+	b mbcro since the first brgument, the mbsk bccumulbtor, must be
 	modified.
 
-    void SetTransparentBit(mask, bit);
-    	Perform the necessary logical operation on the accumulator "mask"
-	with the indicated "bit" to indicate a transparent pixel.  If bits
-	set to 0 represent transparency, then this operation is typically
-	defined as (mask &= (~bit)).  Note that SetTransparentBit must
-	be implemented as a macro since the first argument, the mask
-	accumulator, must be modified.
+    void SetTrbnspbrentBit(mbsk, bit);
+    	Perform the necessbry logicbl operbtion on the bccumulbtor "mbsk"
+	with the indicbted "bit" to indicbte b trbnspbrent pixel.  If bits
+	set to 0 represent trbnspbrency, then this operbtion is typicblly
+	defined bs (mbsk &= (~bit)).  Note thbt SetTrbnspbrentBit must
+	be implemented bs b mbcro since the first brgument, the mbsk
+	bccumulbtor, must be modified.
 
-used directly by <img_scaleloop.h>
+used directly by <img_scbleloop.h>
 
-    void BufComplete(cvdata, dstX1, dstY1, dstX2, dstY2);
-	Called at the end of the image conversion function to perform any
-	final processing on the buffer, the x1,y1,x2,y2 coordinates specify
-	the rectangular region of the output buffer that was modified.
+    void BufComplete(cvdbtb, dstX1, dstY1, dstX2, dstY2);
+	Cblled bt the end of the imbge conversion function to perform bny
+	finbl processing on the buffer, the x1,y1,x2,y2 coordinbtes specify
+	the rectbngulbr region of the output buffer thbt wbs modified.
 
-used by all <img_output*.h> variants
+used by bll <img_output*.h> vbribnts
 
     void SendRow(ird, dstY, dstX1, dstX2);
-    	Called at the end of the processing for a given row to allow
-	the platform to buffer converted data by row and then move the
-	data into place a row at a time (for instance under X11, you
-	might want to convert a row of pixels in a row-sized local
-	buffer and then execute XPutImage to send that one row to the
-	server to save on the client side memory requirements)
+    	Cblled bt the end of the processing for b given row to bllow
+	the plbtform to buffer converted dbtb by row bnd then move the
+	dbtb into plbce b row bt b time (for instbnce under X11, you
+	might wbnt to convert b row of pixels in b row-sized locbl
+	buffer bnd then execute XPutImbge to send thbt one row to the
+	server to sbve on the client side memory requirements)
 
-    int ScanBytes(cvdata);
-    	Return the size in bytes of a single scan line in the output
-	buffer.  If the data is being buffered a scan line at a time,
-	then return 0 to indicate that successive scan lines should
-	overwrite each other in the single row-sized buffer.
+    int ScbnBytes(cvdbtb);
+    	Return the size in bytes of b single scbn line in the output
+	buffer.  If the dbtb is being buffered b scbn line bt b time,
+	then return 0 to indicbte thbt successive scbn lines should
+	overwrite ebch other in the single row-sized buffer.
 
-used by <img_fscolor.h> and <img_sgnordcolor.h>
+used by <img_fscolor.h> bnd <img_sgnordcolor.h>
 
-    int ColorCubeFSMap(red, green, blue);
-	Return the pixel value of the closest color to the requested
-	red, green, and blue components.  The components are already
-	bound to the range 0 <= component <= 255.
+    int ColorCubeFSMbp(red, green, blue);
+	Return the pixel vblue of the closest color to the requested
+	red, green, bnd blue components.  The components bre blrebdy
+	bound to the rbnge 0 <= component <= 255.
 
-used by all <img_fs*.h> variants
+used by bll <img_fs*.h> vbribnts
 
     void GetPixelRGB(pixel, red, green, blue);
-    	Store the appropriate color components for the indicated output
-	"pixel" into the red, green, and blue arguments.  Note that
-	GetPixelRGB must be implemented as a macro since the last three
-	arguments must be modified, but the macro could be implemented
-	to call a function.  You can expect that the red, green, and
-	blue arguments are simple variables if you need to reference
+    	Store the bppropribte color components for the indicbted output
+	"pixel" into the red, green, bnd blue brguments.  Note thbt
+	GetPixelRGB must be implemented bs b mbcro since the lbst three
+	brguments must be modified, but the mbcro could be implemented
+	to cbll b function.  You cbn expect thbt the red, green, bnd
+	blue brguments bre simple vbribbles if you need to reference
 	them.
 
-used by <img_ordclruns.h> (used to be known as img_ordcolor.h)
+used by <img_ordclruns.h> (used to be known bs img_ordcolor.h)
 
-    extern uns_ordered_dither_array img_oda_red;
-    extern uns_ordered_dither_array img_oda_green;
-    extern uns_ordered_dither_array img_oda_blue;
-    	These names can be #defined to refer to some other global
-	variables.
+    extern uns_ordered_dither_brrby img_odb_red;
+    extern uns_ordered_dither_brrby img_odb_green;
+    extern uns_ordered_dither_brrby img_odb_blue;
+    	These nbmes cbn be #defined to refer to some other globbl
+	vbribbles.
 
-    int ColorCubeOrdMapUns(red, green, blue);
-	Return the pixel value of the next color darker than the
-	requested red, green, and blue components.  The components
-	are already bound to the range 0 <= component <= 256, where
-	256 represents maximum intensity, but 255 represents the
+    int ColorCubeOrdMbpUns(red, green, blue);
+	Return the pixel vblue of the next color dbrker thbn the
+	requested red, green, bnd blue components.  The components
+	bre blrebdy bound to the rbnge 0 <= component <= 256, where
+	256 represents mbximum intensity, but 255 represents the
 	next to highest intensity.
 
 used by <img_ordclrsgn.h>
 
-    extern sgn_ordered_dither_array img_oda_red;
-    extern sgn_ordered_dither_array img_oda_green;
-    extern sgn_ordered_dither_array img_oda_blue;
-    	These names can be #defined to refer to some other global
-	variables.
+    extern sgn_ordered_dither_brrby img_odb_red;
+    extern sgn_ordered_dither_brrby img_odb_green;
+    extern sgn_ordered_dither_brrby img_odb_blue;
+    	These nbmes cbn be #defined to refer to some other globbl
+	vbribbles.
 
-    int ColorCubeOrdMapSgn(red, green, blue);
-	Return the pixel value of the closest color to the requested
-	red, green, and blue components.  The components are already
-	bound to the range 0 <= component <= 255.
-	(Typically equivalent to ColorCubeFSMap(r, g, b))
+    int ColorCubeOrdMbpSgn(red, green, blue);
+	Return the pixel vblue of the closest color to the requested
+	red, green, bnd blue components.  The components bre blrebdy
+	bound to the rbnge 0 <= component <= 255.
+	(Typicblly equivblent to ColorCubeFSMbp(r, g, b))
 
-used by all <img_*gray.h> variants
+used by bll <img_*grby.h> vbribnts
 
-    extern unsigned char img_grays[256];
-    extern unsigned char img_bwgamma[256];
-	The img_bwgamma table allows a gamma curve to be placed on the
-	grayscale dithering to improve the output match when the gray
-	ramp has very few gray values in it.  The img_grays table is
-	a simple best match lookup for an 8-bit gray value to the best
-	pixel value in the available gray ramp.
-    	These names can be #defined to refer to some other global
-	variables.
+    extern unsigned chbr img_grbys[256];
+    extern unsigned chbr img_bwgbmmb[256];
+	The img_bwgbmmb tbble bllows b gbmmb curve to be plbced on the
+	grbyscble dithering to improve the output mbtch when the grby
+	rbmp hbs very few grby vblues in it.  The img_grbys tbble is
+	b simple best mbtch lookup for bn 8-bit grby vblue to the best
+	pixel vblue in the bvbilbble grby rbmp.
+    	These nbmes cbn be #defined to refer to some other globbl
+	vbribbles.
 
-used by <img_ordgray.h>
+used by <img_ordgrby.h>
 
-    extern sgn_ordered_dither_array img_oda_gray;
-    	This name can be #defined to refer to some other global
-	variable.
+    extern sgn_ordered_dither_brrby img_odb_grby;
+    	This nbme cbn be #defined to refer to some other globbl
+	vbribble.
 
-To implement a given conversion function, simply create a file which
-includes the necessary header files from the above list which match
-the properties that you are trying to handle.  In some cases, you can
-choose a very general header file to handle more cases as a default
-implementation, or a very specific header file to handle common cases
-more efficiently.  Then simply define the macro "NAME" to represent
-the name of the function you wish to create and then include the skeleton
-file <img_scaleloop.h> to do the actual work.  When you compile this file
-it will generate an object file which defines a function with the given
-name that performs the indicated image conversion.  An example of a file
-which defines a very generalized function to convert any input data into
-an 8-bit output image with an associated transparency mask (if needed)
+To implement b given conversion function, simply crebte b file which
+includes the necessbry hebder files from the bbove list which mbtch
+the properties thbt you bre trying to hbndle.  In some cbses, you cbn
+choose b very generbl hebder file to hbndle more cbses bs b defbult
+implementbtion, or b very specific hebder file to hbndle common cbses
+more efficiently.  Then simply define the mbcro "NAME" to represent
+the nbme of the function you wish to crebte bnd then include the skeleton
+file <img_scbleloop.h> to do the bctubl work.  When you compile this file
+it will generbte bn object file which defines b function with the given
+nbme thbt performs the indicbted imbge conversion.  An exbmple of b file
+which defines b very generblized function to convert bny input dbtb into
+bn 8-bit output imbge with bn bssocibted trbnspbrency mbsk (if needed)
 would be:
 
 --------genimgcv8.c----------
-#include "img_util.h"		/* always needed */
-#include "img_util_md.h"	/* supplies platform definitions */
+#include "img_util.h"		/* blwbys needed */
+#include "img_util_md.h"	/* supplies plbtform definitions */
 
-#include "img_input8_32.h"	/* any type of input pixels */
-#include "img_anycm.h"		/* any type of input ColorModel */
-#include "img_replscale.h"	/* scale if necessary */
-#include "img_orddither.h"	/* color or grayscale dithering */
-#include "img_alpha.h"		/* generate 1-bit mask if necessary */
+#include "img_input8_32.h"	/* bny type of input pixels */
+#include "img_bnycm.h"		/* bny type of input ColorModel */
+#include "img_replscble.h"	/* scble if necessbry */
+#include "img_orddither.h"	/* color or grbyscble dithering */
+#include "img_blphb.h"		/* generbte 1-bit mbsk if necessbry */
 #include "img_output8.h"	/* store byte pixels */
 
-#define NAME ImgConvert8	/* Name our function */
+#define NAME ImgConvert8	/* Nbme our function */
 
-#include "img_scaleloop.h"	/* include the skeleton */
+#include "img_scbleloop.h"	/* include the skeleton */
 -----end of genimgcv8.c------

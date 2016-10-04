@@ -1,231 +1,231 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package sun.reflect.misc;
+pbckbge sun.reflect.misc;
 
-import java.lang.reflect.Member;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
-import java.lang.reflect.Proxy;
-import java.util.Arrays;
+import jbvb.lbng.reflect.Member;
+import jbvb.lbng.reflect.Method;
+import jbvb.lbng.reflect.Modifier;
+import jbvb.lbng.reflect.Proxy;
+import jbvb.util.Arrbys;
 import sun.reflect.Reflection;
-import sun.security.util.SecurityConstants;
+import sun.security.util.SecurityConstbnts;
 
-public final class ReflectUtil {
+public finbl clbss ReflectUtil {
 
-    private ReflectUtil() {
+    privbte ReflectUtil() {
     }
 
-    public static Class<?> forName(String name)
-        throws ClassNotFoundException {
-        checkPackageAccess(name);
-        return Class.forName(name);
+    public stbtic Clbss<?> forNbme(String nbme)
+        throws ClbssNotFoundException {
+        checkPbckbgeAccess(nbme);
+        return Clbss.forNbme(nbme);
     }
 
-    public static Object newInstance(Class<?> cls)
-        throws InstantiationException, IllegalAccessException {
-        checkPackageAccess(cls);
-        return cls.newInstance();
+    public stbtic Object newInstbnce(Clbss<?> cls)
+        throws InstbntibtionException, IllegblAccessException {
+        checkPbckbgeAccess(cls);
+        return cls.newInstbnce();
     }
 
     /*
      * Reflection.ensureMemberAccess is overly-restrictive
-     * due to a bug. We awkwardly work around it for now.
+     * due to b bug. We bwkwbrdly work bround it for now.
      */
-    public static void ensureMemberAccess(Class<?> currentClass,
-                                          Class<?> memberClass,
-                                          Object target,
+    public stbtic void ensureMemberAccess(Clbss<?> currentClbss,
+                                          Clbss<?> memberClbss,
+                                          Object tbrget,
                                           int modifiers)
-        throws IllegalAccessException
+        throws IllegblAccessException
     {
-        if (target == null && Modifier.isProtected(modifiers)) {
+        if (tbrget == null && Modifier.isProtected(modifiers)) {
             int mods = modifiers;
             mods = mods & (~Modifier.PROTECTED);
             mods = mods | Modifier.PUBLIC;
 
             /*
-             * See if we fail because of class modifiers
+             * See if we fbil becbuse of clbss modifiers
              */
-            Reflection.ensureMemberAccess(currentClass,
-                                          memberClass,
-                                          target,
+            Reflection.ensureMemberAccess(currentClbss,
+                                          memberClbss,
+                                          tbrget,
                                           mods);
             try {
                 /*
-                 * We're still here so class access was ok.
-                 * Now try with default field access.
+                 * We're still here so clbss bccess wbs ok.
+                 * Now try with defbult field bccess.
                  */
                 mods = mods & (~Modifier.PUBLIC);
-                Reflection.ensureMemberAccess(currentClass,
-                                              memberClass,
-                                              target,
+                Reflection.ensureMemberAccess(currentClbss,
+                                              memberClbss,
+                                              tbrget,
                                               mods);
                 /*
-                 * We're still here so access is ok without
+                 * We're still here so bccess is ok without
                  * checking for protected.
                  */
                 return;
-            } catch (IllegalAccessException e) {
+            } cbtch (IllegblAccessException e) {
                 /*
-                 * Access failed but we're 'protected' so
+                 * Access fbiled but we're 'protected' so
                  * if the test below succeeds then we're ok.
                  */
-                if (isSubclassOf(currentClass, memberClass)) {
+                if (isSubclbssOf(currentClbss, memberClbss)) {
                     return;
                 } else {
                     throw e;
                 }
             }
         } else {
-            Reflection.ensureMemberAccess(currentClass,
-                                          memberClass,
-                                          target,
+            Reflection.ensureMemberAccess(currentClbss,
+                                          memberClbss,
+                                          tbrget,
                                           modifiers);
         }
     }
 
-    private static boolean isSubclassOf(Class<?> queryClass,
-                                        Class<?> ofClass)
+    privbte stbtic boolebn isSubclbssOf(Clbss<?> queryClbss,
+                                        Clbss<?> ofClbss)
     {
-        while (queryClass != null) {
-            if (queryClass == ofClass) {
+        while (queryClbss != null) {
+            if (queryClbss == ofClbss) {
                 return true;
             }
-            queryClass = queryClass.getSuperclass();
+            queryClbss = queryClbss.getSuperclbss();
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Does a conservative approximation of member access check. Use this if
-     * you don't have an actual 'userland' caller Class/ClassLoader available.
-     * This might be more restrictive than a precise member access check where
-     * you have a caller, but should never allow a member access that is
+     * Does b conservbtive bpproximbtion of member bccess check. Use this if
+     * you don't hbve bn bctubl 'userlbnd' cbller Clbss/ClbssLobder bvbilbble.
+     * This might be more restrictive thbn b precise member bccess check where
+     * you hbve b cbller, but should never bllow b member bccess thbt is
      * forbidden.
      *
-     * @param m the {@code Member} about to be accessed
+     * @pbrbm m the {@code Member} bbout to be bccessed
      */
-    public static void conservativeCheckMemberAccess(Member m) throws SecurityException{
-        final SecurityManager sm = System.getSecurityManager();
+    public stbtic void conservbtiveCheckMemberAccess(Member m) throws SecurityException{
+        finbl SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm == null)
             return;
 
-        // Check for package access on the declaring class.
+        // Check for pbckbge bccess on the declbring clbss.
         //
-        // In addition, unless the member and the declaring class are both
-        // public check for access declared member permissions.
+        // In bddition, unless the member bnd the declbring clbss bre both
+        // public check for bccess declbred member permissions.
         //
-        // This is done regardless of ClassLoader relations between the {@code
-        // Member m} and any potential caller.
+        // This is done regbrdless of ClbssLobder relbtions between the {@code
+        // Member m} bnd bny potentibl cbller.
 
-        final Class<?> declaringClass = m.getDeclaringClass();
+        finbl Clbss<?> declbringClbss = m.getDeclbringClbss();
 
-        checkPackageAccess(declaringClass);
+        checkPbckbgeAccess(declbringClbss);
 
         if (Modifier.isPublic(m.getModifiers()) &&
-                Modifier.isPublic(declaringClass.getModifiers()))
+                Modifier.isPublic(declbringClbss.getModifiers()))
             return;
 
-        // Check for declared member access.
-        sm.checkPermission(SecurityConstants.CHECK_MEMBER_ACCESS_PERMISSION);
+        // Check for declbred member bccess.
+        sm.checkPermission(SecurityConstbnts.CHECK_MEMBER_ACCESS_PERMISSION);
     }
 
     /**
-     * Checks package access on the given class.
+     * Checks pbckbge bccess on the given clbss.
      *
-     * If it is a {@link Proxy#isProxyClass(java.lang.Class)} that implements
-     * a non-public interface (i.e. may be in a non-restricted package),
-     * also check the package access on the proxy interfaces.
+     * If it is b {@link Proxy#isProxyClbss(jbvb.lbng.Clbss)} thbt implements
+     * b non-public interfbce (i.e. mby be in b non-restricted pbckbge),
+     * blso check the pbckbge bccess on the proxy interfbces.
      */
-    public static void checkPackageAccess(Class<?> clazz) {
-        checkPackageAccess(clazz.getName());
-        if (isNonPublicProxyClass(clazz)) {
-            checkProxyPackageAccess(clazz);
+    public stbtic void checkPbckbgeAccess(Clbss<?> clbzz) {
+        checkPbckbgeAccess(clbzz.getNbme());
+        if (isNonPublicProxyClbss(clbzz)) {
+            checkProxyPbckbgeAccess(clbzz);
         }
     }
 
     /**
-     * Checks package access on the given classname.
-     * This method is typically called when the Class instance is not
-     * available and the caller attempts to load a class on behalf
-     * the true caller (application).
+     * Checks pbckbge bccess on the given clbssnbme.
+     * This method is typicblly cblled when the Clbss instbnce is not
+     * bvbilbble bnd the cbller bttempts to lobd b clbss on behblf
+     * the true cbller (bpplicbtion).
      */
-    public static void checkPackageAccess(String name) {
-        SecurityManager s = System.getSecurityManager();
+    public stbtic void checkPbckbgeAccess(String nbme) {
+        SecurityMbnbger s = System.getSecurityMbnbger();
         if (s != null) {
-            String cname = name.replace('/', '.');
-            if (cname.startsWith("[")) {
-                int b = cname.lastIndexOf('[') + 2;
-                if (b > 1 && b < cname.length()) {
-                    cname = cname.substring(b);
+            String cnbme = nbme.replbce('/', '.');
+            if (cnbme.stbrtsWith("[")) {
+                int b = cnbme.lbstIndexOf('[') + 2;
+                if (b > 1 && b < cnbme.length()) {
+                    cnbme = cnbme.substring(b);
                 }
             }
-            int i = cname.lastIndexOf('.');
+            int i = cnbme.lbstIndexOf('.');
             if (i != -1) {
-                s.checkPackageAccess(cname.substring(0, i));
+                s.checkPbckbgeAccess(cnbme.substring(0, i));
             }
         }
     }
 
-    public static boolean isPackageAccessible(Class<?> clazz) {
+    public stbtic boolebn isPbckbgeAccessible(Clbss<?> clbzz) {
         try {
-            checkPackageAccess(clazz);
-        } catch (SecurityException e) {
-            return false;
+            checkPbckbgeAccess(clbzz);
+        } cbtch (SecurityException e) {
+            return fblse;
         }
         return true;
     }
 
-    // Returns true if p is an ancestor of cl i.e. class loader 'p' can
-    // be found in the cl's delegation chain
-    private static boolean isAncestor(ClassLoader p, ClassLoader cl) {
-        ClassLoader acl = cl;
+    // Returns true if p is bn bncestor of cl i.e. clbss lobder 'p' cbn
+    // be found in the cl's delegbtion chbin
+    privbte stbtic boolebn isAncestor(ClbssLobder p, ClbssLobder cl) {
+        ClbssLobder bcl = cl;
         do {
-            acl = acl.getParent();
-            if (p == acl) {
+            bcl = bcl.getPbrent();
+            if (p == bcl) {
                 return true;
             }
-        } while (acl != null);
-        return false;
+        } while (bcl != null);
+        return fblse;
     }
 
     /**
-     * Returns true if package access check is needed for reflective
-     * access from a class loader 'from' to classes or members in
-     * a class defined by class loader 'to'.  This method returns true
-     * if 'from' is not the same as or an ancestor of 'to'.  All code
-     * in a system domain are granted with all permission and so this
-     * method returns false if 'from' class loader is a class loader
-     * loading system classes.  On the other hand, if a class loader
-     * attempts to access system domain classes, it requires package
-     * access check and this method will return true.
+     * Returns true if pbckbge bccess check is needed for reflective
+     * bccess from b clbss lobder 'from' to clbsses or members in
+     * b clbss defined by clbss lobder 'to'.  This method returns true
+     * if 'from' is not the sbme bs or bn bncestor of 'to'.  All code
+     * in b system dombin bre grbnted with bll permission bnd so this
+     * method returns fblse if 'from' clbss lobder is b clbss lobder
+     * lobding system clbsses.  On the other hbnd, if b clbss lobder
+     * bttempts to bccess system dombin clbsses, it requires pbckbge
+     * bccess check bnd this method will return true.
      */
-    public static boolean needsPackageAccessCheck(ClassLoader from, ClassLoader to) {
+    public stbtic boolebn needsPbckbgeAccessCheck(ClbssLobder from, ClbssLobder to) {
         if (from == null || from == to)
-            return false;
+            return fblse;
 
         if (to == null)
             return true;
@@ -234,113 +234,113 @@ public final class ReflectUtil {
     }
 
     /**
-     * Check package access on the proxy interfaces that the given proxy class
+     * Check pbckbge bccess on the proxy interfbces thbt the given proxy clbss
      * implements.
      *
-     * @param clazz Proxy class object
+     * @pbrbm clbzz Proxy clbss object
      */
-    public static void checkProxyPackageAccess(Class<?> clazz) {
-        SecurityManager s = System.getSecurityManager();
+    public stbtic void checkProxyPbckbgeAccess(Clbss<?> clbzz) {
+        SecurityMbnbger s = System.getSecurityMbnbger();
         if (s != null) {
-            // check proxy interfaces if the given class is a proxy class
-            if (Proxy.isProxyClass(clazz)) {
-                for (Class<?> intf : clazz.getInterfaces()) {
-                    checkPackageAccess(intf);
+            // check proxy interfbces if the given clbss is b proxy clbss
+            if (Proxy.isProxyClbss(clbzz)) {
+                for (Clbss<?> intf : clbzz.getInterfbces()) {
+                    checkPbckbgeAccess(intf);
                 }
             }
         }
     }
 
     /**
-     * Access check on the interfaces that a proxy class implements and throw
-     * {@code SecurityException} if it accesses a restricted package from
-     * the caller's class loader.
+     * Access check on the interfbces thbt b proxy clbss implements bnd throw
+     * {@code SecurityException} if it bccesses b restricted pbckbge from
+     * the cbller's clbss lobder.
      *
-     * @param ccl the caller's class loader
-     * @param interfaces the list of interfaces that a proxy class implements
+     * @pbrbm ccl the cbller's clbss lobder
+     * @pbrbm interfbces the list of interfbces thbt b proxy clbss implements
      */
-    public static void checkProxyPackageAccess(ClassLoader ccl,
-                                               Class<?>... interfaces)
+    public stbtic void checkProxyPbckbgeAccess(ClbssLobder ccl,
+                                               Clbss<?>... interfbces)
     {
-        SecurityManager sm = System.getSecurityManager();
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null) {
-            for (Class<?> intf : interfaces) {
-                ClassLoader cl = intf.getClassLoader();
-                if (needsPackageAccessCheck(ccl, cl)) {
-                    checkPackageAccess(intf);
+            for (Clbss<?> intf : interfbces) {
+                ClbssLobder cl = intf.getClbssLobder();
+                if (needsPbckbgeAccessCheck(ccl, cl)) {
+                    checkPbckbgeAccess(intf);
                 }
             }
         }
     }
 
-    // Note that bytecode instrumentation tools may exclude 'sun.*'
-    // classes but not generated proxy classes and so keep it in com.sun.*
-    public static final String PROXY_PACKAGE = "com.sun.proxy";
+    // Note thbt bytecode instrumentbtion tools mby exclude 'sun.*'
+    // clbsses but not generbted proxy clbsses bnd so keep it in com.sun.*
+    public stbtic finbl String PROXY_PACKAGE = "com.sun.proxy";
 
     /**
-     * Test if the given class is a proxy class that implements
-     * non-public interface.  Such proxy class may be in a non-restricted
-     * package that bypasses checkPackageAccess.
+     * Test if the given clbss is b proxy clbss thbt implements
+     * non-public interfbce.  Such proxy clbss mby be in b non-restricted
+     * pbckbge thbt bypbsses checkPbckbgeAccess.
      */
-    public static boolean isNonPublicProxyClass(Class<?> cls) {
-        String name = cls.getName();
-        int i = name.lastIndexOf('.');
-        String pkg = (i != -1) ? name.substring(0, i) : "";
-        return Proxy.isProxyClass(cls) && !pkg.equals(PROXY_PACKAGE);
+    public stbtic boolebn isNonPublicProxyClbss(Clbss<?> cls) {
+        String nbme = cls.getNbme();
+        int i = nbme.lbstIndexOf('.');
+        String pkg = (i != -1) ? nbme.substring(0, i) : "";
+        return Proxy.isProxyClbss(cls) && !pkg.equbls(PROXY_PACKAGE);
     }
 
     /**
-     * Check if the given method is a method declared in the proxy interface
-     * implemented by the given proxy instance.
+     * Check if the given method is b method declbred in the proxy interfbce
+     * implemented by the given proxy instbnce.
      *
-     * @param proxy a proxy instance
-     * @param method an interface method dispatched to a InvocationHandler
+     * @pbrbm proxy b proxy instbnce
+     * @pbrbm method bn interfbce method dispbtched to b InvocbtionHbndler
      *
-     * @throws IllegalArgumentException if the given proxy or method is invalid.
+     * @throws IllegblArgumentException if the given proxy or method is invblid.
      */
-    public static void checkProxyMethod(Object proxy, Method method) {
-        // check if it is a valid proxy instance
-        if (proxy == null || !Proxy.isProxyClass(proxy.getClass())) {
-            throw new IllegalArgumentException("Not a Proxy instance");
+    public stbtic void checkProxyMethod(Object proxy, Method method) {
+        // check if it is b vblid proxy instbnce
+        if (proxy == null || !Proxy.isProxyClbss(proxy.getClbss())) {
+            throw new IllegblArgumentException("Not b Proxy instbnce");
 }
-        if (Modifier.isStatic(method.getModifiers())) {
-            throw new IllegalArgumentException("Can't handle static method");
+        if (Modifier.isStbtic(method.getModifiers())) {
+            throw new IllegblArgumentException("Cbn't hbndle stbtic method");
         }
 
-        Class<?> c = method.getDeclaringClass();
-        if (c == Object.class) {
-            String name = method.getName();
-            if (name.equals("hashCode") || name.equals("equals") || name.equals("toString")) {
+        Clbss<?> c = method.getDeclbringClbss();
+        if (c == Object.clbss) {
+            String nbme = method.getNbme();
+            if (nbme.equbls("hbshCode") || nbme.equbls("equbls") || nbme.equbls("toString")) {
                 return;
             }
         }
 
-        if (isSuperInterface(proxy.getClass(), c)) {
+        if (isSuperInterfbce(proxy.getClbss(), c)) {
             return;
         }
 
-        // disallow any method not declared in one of the proxy intefaces
-        throw new IllegalArgumentException("Can't handle: " + method);
+        // disbllow bny method not declbred in one of the proxy intefbces
+        throw new IllegblArgumentException("Cbn't hbndle: " + method);
     }
 
-    private static boolean isSuperInterface(Class<?> c, Class<?> intf) {
-        for (Class<?> i : c.getInterfaces()) {
+    privbte stbtic boolebn isSuperInterfbce(Clbss<?> c, Clbss<?> intf) {
+        for (Clbss<?> i : c.getInterfbces()) {
             if (i == intf) {
                 return true;
             }
-            if (isSuperInterface(i, intf)) {
+            if (isSuperInterfbce(i, intf)) {
                 return true;
             }
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Checks if {@code Class cls} is a VM-anonymous class
-     * as defined by {@link sun.misc.Unsafe#defineAnonymousClass}
-     * (not to be confused with a Java Language anonymous inner class).
+     * Checks if {@code Clbss cls} is b VM-bnonymous clbss
+     * bs defined by {@link sun.misc.Unsbfe#defineAnonymousClbss}
+     * (not to be confused with b Jbvb Lbngubge bnonymous inner clbss).
      */
-    public static boolean isVMAnonymousClass(Class<?> cls) {
-        return cls.getName().indexOf('/') > -1;
+    public stbtic boolebn isVMAnonymousClbss(Clbss<?> cls) {
+        return cls.getNbme().indexOf('/') > -1;
     }
 }

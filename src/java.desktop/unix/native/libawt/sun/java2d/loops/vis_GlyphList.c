@@ -1,40 +1,40 @@
 /*
- * Copyright (c) 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 #if !defined(JAVA2D_NO_MLIB) || defined(MLIB_ADD_SUFF)
 
 #include <vis_proto.h>
-#include "vis_AlphaMacros.h"
+#include "vis_AlphbMbcros.h"
 
 /***************************************************************/
 
 #define STORE_INT      \
     *dst = fgpixel
 
-#define STORE_D64(TSIZE, dst, mask)    \
-    vis_pst_##TSIZE(fgpixel_d, dst, mask)
+#define STORE_D64(TSIZE, dst, mbsk)    \
+    vis_pst_##TSIZE(fgpixel_d, dst, mbsk)
 
 /***************************************************************/
 
@@ -80,20 +80,20 @@
     width = right - left;                                      \
     height = bottom - top;                                     \
                                                                \
-    dstBase = pRasInfo->rasBase;                               \
-    PTR_ADD(dstBase, top*scan + TSIZE*left)
+    dstBbse = pRbsInfo->rbsBbse;                               \
+    PTR_ADD(dstBbse, top*scbn + TSIZE*left)
 
 /***************************************************************/
 
-void ADD_SUFF(AnyByteDrawGlyphList)(GLYPH_LIST_PARAMS)
+void ADD_SUFF(AnyByteDrbwGlyphList)(GLYPH_LIST_PARAMS)
 {
     mlib_s32 glyphCounter;
-    mlib_s32 scan = pRasInfo->scanStride;
-    mlib_u8  *dstBase;
+    mlib_s32 scbn = pRbsInfo->scbnStride;
+    mlib_u8  *dstBbse;
     mlib_s32 j;
     mlib_d64 fgpixel_d;
     mlib_d64 dzero;
-    mlib_s32 pix, mask0, mask1, mask_h, mask_l, off;
+    mlib_s32 pix, mbsk0, mbsk1, mbsk_h, mbsk_l, off;
     mlib_f32 fzero;
 
     INIT_FG
@@ -102,7 +102,7 @@ void ADD_SUFF(AnyByteDrawGlyphList)(GLYPH_LIST_PARAMS)
     dzero = vis_fzero();
     D64_FROM_U8x8(fgpixel_d, fgpixel);
 
-    for (glyphCounter = 0; glyphCounter < totalGlyphs; glyphCounter++) {
+    for (glyphCounter = 0; glyphCounter < totblGlyphs; glyphCounter++) {
         DEF_GLYPH(1);
 
         for (j = 0; j < height; j++) {
@@ -110,7 +110,7 @@ void ADD_SUFF(AnyByteDrawGlyphList)(GLYPH_LIST_PARAMS)
             mlib_u8 *dst, *dst_end;
             mlib_d64 ss, s0, s1;
 
-            dst = (void*)dstBase;
+            dst = (void*)dstBbse;
             dst_end = dst + width;
 
             while (((mlib_s32)dst & 7) && (dst < dst_end)) {
@@ -121,21 +121,21 @@ void ADD_SUFF(AnyByteDrawGlyphList)(GLYPH_LIST_PARAMS)
 
             off = (mlib_s32)src & 7;
             ss = *(mlib_d64*)(src - off);
-            mask_h = vis_fcmpne16(vis_fpmerge(vis_read_hi(ss), fzero), dzero);
-            mask_l = vis_fcmpne16(vis_fpmerge(vis_read_lo(ss), fzero), dzero);
-            mask1 = (mask_h << 4) | mask_l;
+            mbsk_h = vis_fcmpne16(vis_fpmerge(vis_rebd_hi(ss), fzero), dzero);
+            mbsk_l = vis_fcmpne16(vis_fpmerge(vis_rebd_lo(ss), fzero), dzero);
+            mbsk1 = (mbsk_h << 4) | mbsk_l;
 
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
             for (; dst <= (dst_end - 8); dst += 8) {
-                mask0 = mask1;
+                mbsk0 = mbsk1;
                 src += 8;
                 ss = *(mlib_d64*)(src - off);
-                s0 = vis_fpmerge(vis_read_hi(ss), fzero);
-                s1 = vis_fpmerge(vis_read_lo(ss), fzero);
-                mask_h = vis_fcmpne16(s0, dzero);
-                mask_l = vis_fcmpne16(s1, dzero);
-                mask1 = (mask_h << 4) | mask_l;
-                STORE_D64(8, dst, (mask0 << off) | (mask1 >> (8 - off)));
+                s0 = vis_fpmerge(vis_rebd_hi(ss), fzero);
+                s1 = vis_fpmerge(vis_rebd_lo(ss), fzero);
+                mbsk_h = vis_fcmpne16(s0, dzero);
+                mbsk_l = vis_fcmpne16(s1, dzero);
+                mbsk1 = (mbsk_h << 4) | mbsk_l;
+                STORE_D64(8, dst, (mbsk0 << off) | (mbsk1 >> (8 - off)));
             }
 
             while (dst < dst_end) {
@@ -144,7 +144,7 @@ void ADD_SUFF(AnyByteDrawGlyphList)(GLYPH_LIST_PARAMS)
                 dst++;
             }
 
-            PTR_ADD(dstBase, scan);
+            PTR_ADD(dstBbse, scbn);
             pixels += rowBytes;
         }
     }
@@ -152,15 +152,15 @@ void ADD_SUFF(AnyByteDrawGlyphList)(GLYPH_LIST_PARAMS)
 
 /***************************************************************/
 
-void ADD_SUFF(AnyShortDrawGlyphList)(GLYPH_LIST_PARAMS)
+void ADD_SUFF(AnyShortDrbwGlyphList)(GLYPH_LIST_PARAMS)
 {
     mlib_s32 glyphCounter;
-    mlib_s32 scan = pRasInfo->scanStride;
-    mlib_u8  *dstBase;
+    mlib_s32 scbn = pRbsInfo->scbnStride;
+    mlib_u8  *dstBbse;
     mlib_s32 j;
     mlib_d64 fgpixel_d;
     mlib_d64 dzero;
-    mlib_s32 pix, mask0, mask1, off;
+    mlib_s32 pix, mbsk0, mbsk1, off;
     mlib_f32 fzero;
 
     INIT_FG
@@ -169,7 +169,7 @@ void ADD_SUFF(AnyShortDrawGlyphList)(GLYPH_LIST_PARAMS)
     dzero = vis_fzero();
     D64_FROM_U16x4(fgpixel_d, fgpixel);
 
-    for (glyphCounter = 0; glyphCounter < totalGlyphs; glyphCounter++) {
+    for (glyphCounter = 0; glyphCounter < totblGlyphs; glyphCounter++) {
         DEF_GLYPH(2);
 
         for (j = 0; j < height; j++) {
@@ -177,7 +177,7 @@ void ADD_SUFF(AnyShortDrawGlyphList)(GLYPH_LIST_PARAMS)
             mlib_u16 *dst, *dst_end;
             mlib_f32 ss;
 
-            dst = (void*)dstBase;
+            dst = (void*)dstBbse;
             dst_end = dst + width;
 
             while (((mlib_s32)dst & 7) && (dst < dst_end)) {
@@ -188,15 +188,15 @@ void ADD_SUFF(AnyShortDrawGlyphList)(GLYPH_LIST_PARAMS)
 
             off = (mlib_s32)src & 3;
             ss = *(mlib_f32*)(src - off);
-            mask1 = vis_fcmpne16(vis_fpmerge(ss, fzero), dzero);
+            mbsk1 = vis_fcmpne16(vis_fpmerge(ss, fzero), dzero);
 
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
             for (; dst <= (dst_end - 4); dst += 4) {
-                mask0 = mask1;
+                mbsk0 = mbsk1;
                 src += 4;
                 ss = *(mlib_f32*)(src - off);
-                mask1 = vis_fcmpne16(vis_fpmerge(ss, fzero), dzero);
-                STORE_D64(16, dst, (mask0 << off) | (mask1 >> (4 - off)));
+                mbsk1 = vis_fcmpne16(vis_fpmerge(ss, fzero), dzero);
+                STORE_D64(16, dst, (mbsk0 << off) | (mbsk1 >> (4 - off)));
             }
 
             while (dst < dst_end) {
@@ -205,7 +205,7 @@ void ADD_SUFF(AnyShortDrawGlyphList)(GLYPH_LIST_PARAMS)
                 dst++;
             }
 
-            PTR_ADD(dstBase, scan);
+            PTR_ADD(dstBbse, scbn);
             pixels += rowBytes;
         }
     }
@@ -213,15 +213,15 @@ void ADD_SUFF(AnyShortDrawGlyphList)(GLYPH_LIST_PARAMS)
 
 /***************************************************************/
 
-void ADD_SUFF(AnyIntDrawGlyphList)(GLYPH_LIST_PARAMS)
+void ADD_SUFF(AnyIntDrbwGlyphList)(GLYPH_LIST_PARAMS)
 {
     mlib_s32 glyphCounter;
-    mlib_s32 scan = pRasInfo->scanStride;
-    mlib_u8  *dstBase;
+    mlib_s32 scbn = pRbsInfo->scbnStride;
+    mlib_u8  *dstBbse;
     mlib_s32 j;
     mlib_d64 fgpixel_d;
     mlib_d64 dzero;
-    mlib_s32 pix, mask0, mask1, mask, off;
+    mlib_s32 pix, mbsk0, mbsk1, mbsk, off;
     mlib_f32 fzero;
 
     INIT_FG
@@ -230,7 +230,7 @@ void ADD_SUFF(AnyIntDrawGlyphList)(GLYPH_LIST_PARAMS)
     dzero = vis_fzero();
     fgpixel_d = vis_to_double_dup(fgpixel);
 
-    for (glyphCounter = 0; glyphCounter < totalGlyphs; glyphCounter++) {
+    for (glyphCounter = 0; glyphCounter < totblGlyphs; glyphCounter++) {
         DEF_GLYPH(4);
 
         for (j = 0; j < height; j++) {
@@ -238,7 +238,7 @@ void ADD_SUFF(AnyIntDrawGlyphList)(GLYPH_LIST_PARAMS)
             mlib_u32 *dst, *dst_end;
             mlib_f32 ss;
 
-            dst = (void*)dstBase;
+            dst = (void*)dstBbse;
             dst_end = dst + width;
 
             while (((mlib_s32)dst & 7) && (dst < dst_end)) {
@@ -249,17 +249,17 @@ void ADD_SUFF(AnyIntDrawGlyphList)(GLYPH_LIST_PARAMS)
 
             off = (mlib_s32)src & 3;
             ss = *(mlib_f32*)(src - off);
-            mask1 = vis_fcmpne16(vis_fpmerge(ss, fzero), dzero);
+            mbsk1 = vis_fcmpne16(vis_fpmerge(ss, fzero), dzero);
 
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
             for (; dst <= (dst_end - 4); dst += 4) {
-                mask0 = mask1;
+                mbsk0 = mbsk1;
                 src += 4;
                 ss = *(mlib_f32*)(src - off);
-                mask1 = vis_fcmpne16(vis_fpmerge(ss, fzero), dzero);
-                mask = (mask0 << off) | (mask1 >> (4 - off));
-                STORE_D64(32, dst, mask >> 2);
-                STORE_D64(32, dst + 2, mask);
+                mbsk1 = vis_fcmpne16(vis_fpmerge(ss, fzero), dzero);
+                mbsk = (mbsk0 << off) | (mbsk1 >> (4 - off));
+                STORE_D64(32, dst, mbsk >> 2);
+                STORE_D64(32, dst + 2, mbsk);
             }
 
             while (dst < dst_end) {
@@ -268,7 +268,7 @@ void ADD_SUFF(AnyIntDrawGlyphList)(GLYPH_LIST_PARAMS)
                 dst++;
             }
 
-            PTR_ADD(dstBase, scan);
+            PTR_ADD(dstBbse, scbn);
             pixels += rowBytes;
         }
     }
@@ -276,39 +276,39 @@ void ADD_SUFF(AnyIntDrawGlyphList)(GLYPH_LIST_PARAMS)
 
 /***************************************************************/
 
-void ADD_SUFF(Any4ByteDrawGlyphList)(GLYPH_LIST_PARAMS)
+void ADD_SUFF(Any4ByteDrbwGlyphList)(GLYPH_LIST_PARAMS)
 {
     mlib_d64 buff[BUFF_SIZE/2];
     void     *pbuff = buff;
     mlib_s32 glyphCounter;
-    mlib_s32 scan = pRasInfo->scanStride;
-    mlib_u8  *dstBase;
+    mlib_s32 scbn = pRbsInfo->scbnStride;
+    mlib_u8  *dstBbse;
     mlib_s32 j;
     mlib_d64 fgpixel_d;
     mlib_d64 dzero;
-    mlib_s32 pix, mask0, mask1, mask, off;
+    mlib_s32 pix, mbsk0, mbsk1, mbsk, off;
     mlib_f32 fzero, fgpixel_f;
-    mlib_s32 max_width = BUFF_SIZE;
+    mlib_s32 mbx_width = BUFF_SIZE;
 
     INIT_FG
 
     fzero = vis_fzeros();
     dzero = vis_fzero();
-    fgpixel_f = vis_ldfa_ASI_PL(&fgpixel);
-    fgpixel_d = vis_freg_pair(fgpixel_f, fgpixel_f);
+    fgpixel_f = vis_ldfb_ASI_PL(&fgpixel);
+    fgpixel_d = vis_freg_pbir(fgpixel_f, fgpixel_f);
     fgpixel = *(mlib_u32*)&fgpixel_f;
 
-    for (glyphCounter = 0; glyphCounter < totalGlyphs; glyphCounter++) {
+    for (glyphCounter = 0; glyphCounter < totblGlyphs; glyphCounter++) {
         DEF_GLYPH(4);
 
-        if (((mlib_s32)dstBase | scan) & 3) {
-            if (width > max_width) {
+        if (((mlib_s32)dstBbse | scbn) & 3) {
+            if (width > mbx_width) {
                 if (pbuff != buff) {
                     mlib_free(pbuff);
                 }
-                pbuff = mlib_malloc(width*sizeof(mlib_s32));
+                pbuff = mlib_mblloc(width*sizeof(mlib_s32));
                 if (pbuff == NULL) return;
-                max_width = width;
+                mbx_width = width;
             }
         }
 
@@ -317,11 +317,11 @@ void ADD_SUFF(Any4ByteDrawGlyphList)(GLYPH_LIST_PARAMS)
             mlib_u32 *dst, *dst_end;
             mlib_f32 ss;
 
-            if ((mlib_s32)dstBase & 3) {
-                COPY_NA(dstBase, pbuff, width*sizeof(mlib_s32));
+            if ((mlib_s32)dstBbse & 3) {
+                COPY_NA(dstBbse, pbuff, width*sizeof(mlib_s32));
                 dst = pbuff;
             } else {
-                dst = (void*)dstBase;
+                dst = (void*)dstBbse;
             }
             dst_end = dst + width;
 
@@ -333,17 +333,17 @@ void ADD_SUFF(Any4ByteDrawGlyphList)(GLYPH_LIST_PARAMS)
 
             off = (mlib_s32)src & 3;
             ss = *(mlib_f32*)(src - off);
-            mask1 = vis_fcmpne16(vis_fpmerge(ss, fzero), dzero);
+            mbsk1 = vis_fcmpne16(vis_fpmerge(ss, fzero), dzero);
 
-#pragma pipeloop(0)
+#prbgmb pipeloop(0)
             for (; dst <= (dst_end - 4); dst += 4) {
-                mask0 = mask1;
+                mbsk0 = mbsk1;
                 src += 4;
                 ss = *(mlib_f32*)(src - off);
-                mask1 = vis_fcmpne16(vis_fpmerge(ss, fzero), dzero);
-                mask = (mask0 << off) | (mask1 >> (4 - off));
-                STORE_D64(32, dst, mask >> 2);
-                STORE_D64(32, dst + 2, mask);
+                mbsk1 = vis_fcmpne16(vis_fpmerge(ss, fzero), dzero);
+                mbsk = (mbsk0 << off) | (mbsk1 >> (4 - off));
+                STORE_D64(32, dst, mbsk >> 2);
+                STORE_D64(32, dst + 2, mbsk);
             }
 
             while (dst < dst_end) {
@@ -352,11 +352,11 @@ void ADD_SUFF(Any4ByteDrawGlyphList)(GLYPH_LIST_PARAMS)
                 dst++;
             }
 
-            if ((mlib_s32)dstBase & 3) {
-                COPY_NA(pbuff, dstBase, width*sizeof(mlib_s32));
+            if ((mlib_s32)dstBbse & 3) {
+                COPY_NA(pbuff, dstBbse, width*sizeof(mlib_s32));
             }
 
-            PTR_ADD(dstBase, scan);
+            PTR_ADD(dstBbse, scbn);
             pixels += rowBytes;
         }
     }

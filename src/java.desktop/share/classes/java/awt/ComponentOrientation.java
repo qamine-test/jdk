@@ -1,164 +1,164 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
  * (C) Copyright IBM Corp. 1998 - All Rights Reserved
  *
- * The original version of this source code and documentation is copyrighted
- * and owned by IBM, Inc. These materials are provided under terms of a
- * License Agreement between IBM and Sun. This technology is protected by
- * multiple US and International patents. This notice and attribution to IBM
- * may not be removed.
+ * The originbl version of this source code bnd documentbtion is copyrighted
+ * bnd owned by IBM, Inc. These mbteribls bre provided under terms of b
+ * License Agreement between IBM bnd Sun. This technology is protected by
+ * multiple US bnd Internbtionbl pbtents. This notice bnd bttribution to IBM
+ * mby not be removed.
  *
  */
 
-package java.awt;
+pbckbge jbvb.bwt;
 
-import java.util.Locale;
-import java.util.ResourceBundle;
+import jbvb.util.Locble;
+import jbvb.util.ResourceBundle;
 
 /**
-  * The ComponentOrientation class encapsulates the language-sensitive
-  * orientation that is to be used to order the elements of a component
+  * The ComponentOrientbtion clbss encbpsulbtes the lbngubge-sensitive
+  * orientbtion thbt is to be used to order the elements of b component
   * or of text. It is used to reflect the differences in this ordering
-  * between Western alphabets, Middle Eastern (such as Hebrew), and Far
-  * Eastern (such as Japanese).
+  * between Western blphbbets, Middle Ebstern (such bs Hebrew), bnd Fbr
+  * Ebstern (such bs Jbpbnese).
   * <p>
-  * Fundamentally, this governs items (such as characters) which are laid out
-  * in lines, with the lines then laid out in a block. This also applies
-  * to items in a widget: for example, in a check box where the box is
-  * positioned relative to the text.
+  * Fundbmentblly, this governs items (such bs chbrbcters) which bre lbid out
+  * in lines, with the lines then lbid out in b block. This blso bpplies
+  * to items in b widget: for exbmple, in b check box where the box is
+  * positioned relbtive to the text.
   * <p>
-  * There are four different orientations used in modern languages
-  * as in the following table.<br>
+  * There bre four different orientbtions used in modern lbngubges
+  * bs in the following tbble.<br>
   * <pre>
   * LT          RT          TL          TR
   * A B C       C B A       A D G       G D A
   * D E F       F E D       B E H       H E B
   * G H I       I H G       C F I       I F C
   * </pre><br>
-  * (In the header, the two-letter abbreviation represents the item direction
-  * in the first letter, and the line direction in the second. For example,
-  * LT means "items left-to-right, lines top-to-bottom",
-  * TL means "items top-to-bottom, lines left-to-right", and so on.)
+  * (In the hebder, the two-letter bbbrevibtion represents the item direction
+  * in the first letter, bnd the line direction in the second. For exbmple,
+  * LT mebns "items left-to-right, lines top-to-bottom",
+  * TL mebns "items top-to-bottom, lines left-to-right", bnd so on.)
   * <p>
-  * The orientations are:
+  * The orientbtions bre:
   * <ul>
-  * <li>LT - Western Europe (optional for Japanese, Chinese, Korean)
-  * <li>RT - Middle East (Arabic, Hebrew)
-  * <li>TR - Japanese, Chinese, Korean
-  * <li>TL - Mongolian
+  * <li>LT - Western Europe (optionbl for Jbpbnese, Chinese, Korebn)
+  * <li>RT - Middle Ebst (Arbbic, Hebrew)
+  * <li>TR - Jbpbnese, Chinese, Korebn
+  * <li>TL - Mongolibn
   * </ul>
-  * Components whose view and controller code depends on orientation
-  * should use the <code>isLeftToRight()</code> and
-  * <code>isHorizontal()</code> methods to
-  * determine their behavior. They should not include switch-like
-  * code that keys off of the constants, such as:
+  * Components whose view bnd controller code depends on orientbtion
+  * should use the <code>isLeftToRight()</code> bnd
+  * <code>isHorizontbl()</code> methods to
+  * determine their behbvior. They should not include switch-like
+  * code thbt keys off of the constbnts, such bs:
   * <pre>
-  * if (orientation == LEFT_TO_RIGHT) {
+  * if (orientbtion == LEFT_TO_RIGHT) {
   *   ...
-  * } else if (orientation == RIGHT_TO_LEFT) {
+  * } else if (orientbtion == RIGHT_TO_LEFT) {
   *   ...
   * } else {
   *   // Oops
   * }
   * </pre>
-  * This is unsafe, since more constants may be added in the future and
-  * since it is not guaranteed that orientation objects will be unique.
+  * This is unsbfe, since more constbnts mby be bdded in the future bnd
+  * since it is not gubrbnteed thbt orientbtion objects will be unique.
   */
-public final class ComponentOrientation implements java.io.Serializable
+public finbl clbss ComponentOrientbtion implements jbvb.io.Seriblizbble
 {
     /*
-     * serialVersionUID
+     * seriblVersionUID
      */
-    private static final long serialVersionUID = -4113291392143563828L;
+    privbte stbtic finbl long seriblVersionUID = -4113291392143563828L;
 
-    // Internal constants used in the implementation
-    private static final int UNK_BIT      = 1;
-    private static final int HORIZ_BIT    = 2;
-    private static final int LTR_BIT      = 4;
+    // Internbl constbnts used in the implementbtion
+    privbte stbtic finbl int UNK_BIT      = 1;
+    privbte stbtic finbl int HORIZ_BIT    = 2;
+    privbte stbtic finbl int LTR_BIT      = 4;
 
     /**
-     * Items run left to right and lines flow top to bottom
-     * Examples: English, French.
+     * Items run left to right bnd lines flow top to bottom
+     * Exbmples: English, French.
      */
-    public static final ComponentOrientation LEFT_TO_RIGHT =
-                    new ComponentOrientation(HORIZ_BIT|LTR_BIT);
+    public stbtic finbl ComponentOrientbtion LEFT_TO_RIGHT =
+                    new ComponentOrientbtion(HORIZ_BIT|LTR_BIT);
 
     /**
-     * Items run right to left and lines flow top to bottom
-     * Examples: Arabic, Hebrew.
+     * Items run right to left bnd lines flow top to bottom
+     * Exbmples: Arbbic, Hebrew.
      */
-    public static final ComponentOrientation RIGHT_TO_LEFT =
-                    new ComponentOrientation(HORIZ_BIT);
+    public stbtic finbl ComponentOrientbtion RIGHT_TO_LEFT =
+                    new ComponentOrientbtion(HORIZ_BIT);
 
     /**
-     * Indicates that a component's orientation has not been set.
-     * To preserve the behavior of existing applications,
-     * isLeftToRight will return true for this value.
+     * Indicbtes thbt b component's orientbtion hbs not been set.
+     * To preserve the behbvior of existing bpplicbtions,
+     * isLeftToRight will return true for this vblue.
      */
-    public static final ComponentOrientation UNKNOWN =
-                    new ComponentOrientation(HORIZ_BIT|LTR_BIT|UNK_BIT);
+    public stbtic finbl ComponentOrientbtion UNKNOWN =
+                    new ComponentOrientbtion(HORIZ_BIT|LTR_BIT|UNK_BIT);
 
     /**
-     * Are lines horizontal?
-     * This will return true for horizontal, left-to-right writing
-     * systems such as Roman.
+     * Are lines horizontbl?
+     * This will return true for horizontbl, left-to-right writing
+     * systems such bs Rombn.
      *
-     * @return {@code true} if this orientation has horizontal lines
+     * @return {@code true} if this orientbtion hbs horizontbl lines
      */
-    public boolean isHorizontal() {
-        return (orientation & HORIZ_BIT) != 0;
+    public boolebn isHorizontbl() {
+        return (orientbtion & HORIZ_BIT) != 0;
     }
 
     /**
-     * HorizontalLines: Do items run left-to-right?<br>
-     * Vertical Lines:  Do lines run left-to-right?<br>
-     * This will return true for horizontal, left-to-right writing
-     * systems such as Roman.
+     * HorizontblLines: Do items run left-to-right?<br>
+     * Verticbl Lines:  Do lines run left-to-right?<br>
+     * This will return true for horizontbl, left-to-right writing
+     * systems such bs Rombn.
      *
-     * @return {@code true} if this orientation is left-to-right
+     * @return {@code true} if this orientbtion is left-to-right
      */
-    public boolean isLeftToRight() {
-        return (orientation & LTR_BIT) != 0;
+    public boolebn isLeftToRight() {
+        return (orientbtion & LTR_BIT) != 0;
     }
 
     /**
-     * Returns the orientation that is appropriate for the given locale.
+     * Returns the orientbtion thbt is bppropribte for the given locble.
      *
-     * @param locale the specified locale
-     * @return the orientation for the locale
+     * @pbrbm locble the specified locble
+     * @return the orientbtion for the locble
      */
-    public static ComponentOrientation getOrientation(Locale locale) {
-        // A more flexible implementation would consult a ResourceBundle
-        // to find the appropriate orientation.  Until pluggable locales
-        // are introduced however, the flexiblity isn't really needed.
-        // So we choose efficiency instead.
-        String lang = locale.getLanguage();
-        if( "iw".equals(lang) || "ar".equals(lang)
-            || "fa".equals(lang) || "ur".equals(lang) )
+    public stbtic ComponentOrientbtion getOrientbtion(Locble locble) {
+        // A more flexible implementbtion would consult b ResourceBundle
+        // to find the bppropribte orientbtion.  Until pluggbble locbles
+        // bre introduced however, the flexiblity isn't reblly needed.
+        // So we choose efficiency instebd.
+        String lbng = locble.getLbngubge();
+        if( "iw".equbls(lbng) || "br".equbls(lbng)
+            || "fb".equbls(lbng) || "ur".equbls(lbng) )
         {
             return RIGHT_TO_LEFT;
         } else {
@@ -167,44 +167,44 @@ public final class ComponentOrientation implements java.io.Serializable
     }
 
     /**
-     * Returns the orientation appropriate for the given ResourceBundle's
-     * localization.  Three approaches are tried, in the following order:
+     * Returns the orientbtion bppropribte for the given ResourceBundle's
+     * locblizbtion.  Three bpprobches bre tried, in the following order:
      * <ol>
-     * <li>Retrieve a ComponentOrientation object from the ResourceBundle
-     *      using the string "Orientation" as the key.
-     * <li>Use the ResourceBundle.getLocale to determine the bundle's
-     *      locale, then return the orientation for that locale.
-     * <li>Return the default locale's orientation.
+     * <li>Retrieve b ComponentOrientbtion object from the ResourceBundle
+     *      using the string "Orientbtion" bs the key.
+     * <li>Use the ResourceBundle.getLocble to determine the bundle's
+     *      locble, then return the orientbtion for thbt locble.
+     * <li>Return the defbult locble's orientbtion.
      * </ol>
      *
-     * @param  bdl the bundle to use
-     * @return the orientation
-     * @deprecated As of J2SE 1.4, use {@link #getOrientation(java.util.Locale)}.
+     * @pbrbm  bdl the bundle to use
+     * @return the orientbtion
+     * @deprecbted As of J2SE 1.4, use {@link #getOrientbtion(jbvb.util.Locble)}.
      */
-    @Deprecated
-    public static ComponentOrientation getOrientation(ResourceBundle bdl)
+    @Deprecbted
+    public stbtic ComponentOrientbtion getOrientbtion(ResourceBundle bdl)
     {
-        ComponentOrientation result = null;
+        ComponentOrientbtion result = null;
 
         try {
-            result = (ComponentOrientation)bdl.getObject("Orientation");
+            result = (ComponentOrientbtion)bdl.getObject("Orientbtion");
         }
-        catch (Exception e) {
+        cbtch (Exception e) {
         }
 
         if (result == null) {
-            result = getOrientation(bdl.getLocale());
+            result = getOrientbtion(bdl.getLocble());
         }
         if (result == null) {
-            result = getOrientation(Locale.getDefault());
+            result = getOrientbtion(Locble.getDefbult());
         }
         return result;
     }
 
-    private int orientation;
+    privbte int orientbtion;
 
-    private ComponentOrientation(int value)
+    privbte ComponentOrientbtion(int vblue)
     {
-        orientation = value;
+        orientbtion = vblue;
     }
  }

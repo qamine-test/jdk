@@ -1,95 +1,95 @@
 /*
- * Copyright (c) 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.jvmstat.perfdata.monitor.protocol.local;
+pbckbge sun.jvmstbt.perfdbtb.monitor.protocol.locbl;
 
 import sun.misc.Perf;
-import sun.jvmstat.monitor.*;
-import sun.jvmstat.perfdata.monitor.*;
-import java.util.*;
-import java.io.*;
-import java.nio.ByteBuffer;
-import java.nio.channels.FileChannel;
-import java.lang.reflect.Constructor;
-import java.security.AccessController;
+import sun.jvmstbt.monitor.*;
+import sun.jvmstbt.perfdbtb.monitor.*;
+import jbvb.util.*;
+import jbvb.io.*;
+import jbvb.nio.ByteBuffer;
+import jbvb.nio.chbnnels.FileChbnnel;
+import jbvb.lbng.reflect.Constructor;
+import jbvb.security.AccessController;
 
 /**
- * The concrete PerfDataBuffer implementation for the <em>local:</em>
- * protocol for the HotSpot PerfData monitoring implementation.
+ * The concrete PerfDbtbBuffer implementbtion for the <em>locbl:</em>
+ * protocol for the HotSpot PerfDbtb monitoring implementbtion.
  * <p>
- * This class is responsible for acquiring access to the shared memory
- * instrumentation buffer for the target HotSpot Java Virtual Machine.
+ * This clbss is responsible for bcquiring bccess to the shbred memory
+ * instrumentbtion buffer for the tbrget HotSpot Jbvb Virtubl Mbchine.
  *
- * @author Brian Doherty
+ * @buthor Bribn Doherty
  * @since 1.5
  */
-// Suppreess unchecked conversion warning at line 34.
-//@SuppressWarnings("unchecked")
-public class PerfDataBuffer extends AbstractPerfDataBuffer {
-    private static final Perf perf = AccessController.doPrivileged(new Perf.GetPerfAction());
+// Suppreess unchecked conversion wbrning bt line 34.
+//@SuppressWbrnings("unchecked")
+public clbss PerfDbtbBuffer extends AbstrbctPerfDbtbBuffer {
+    privbte stbtic finbl Perf perf = AccessController.doPrivileged(new Perf.GetPerfAction());
 
     /**
-     * Create a PerfDataBuffer instance for accessing the specified
-     * instrumentation buffer.
+     * Crebte b PerfDbtbBuffer instbnce for bccessing the specified
+     * instrumentbtion buffer.
      *
-     * @param vmid the <em>local:</em> URI specifying the target JVM.
+     * @pbrbm vmid the <em>locbl:</em> URI specifying the tbrget JVM.
      *
      * @throws MonitorException
      */
-    public PerfDataBuffer(VmIdentifier vmid) throws MonitorException {
+    public PerfDbtbBuffer(VmIdentifier vmid) throws MonitorException {
         try {
-            // Try 1.4.2 and later first
-            ByteBuffer bb = perf.attach(vmid.getLocalVmId(), vmid.getMode());
-            createPerfDataBuffer(bb, vmid.getLocalVmId());
+            // Try 1.4.2 bnd lbter first
+            ByteBuffer bb = perf.bttbch(vmid.getLocblVmId(), vmid.getMode());
+            crebtePerfDbtbBuffer(bb, vmid.getLocblVmId());
 
-        } catch (IllegalArgumentException e) {
-            // now try 1.4.1 by attempting to directly map the files.
+        } cbtch (IllegblArgumentException e) {
+            // now try 1.4.1 by bttempting to directly mbp the files.
             try {
-                String filename = PerfDataFile.getTempDirectory()
-                                  + PerfDataFile.dirNamePrefix
-                                  + Integer.toString(vmid.getLocalVmId());
+                String filenbme = PerfDbtbFile.getTempDirectory()
+                                  + PerfDbtbFile.dirNbmePrefix
+                                  + Integer.toString(vmid.getLocblVmId());
 
-                File f = new File(filename);
+                File f = new File(filenbme);
 
-                FileChannel fc = new RandomAccessFile(f, "r").getChannel();
-                ByteBuffer bb = fc.map(FileChannel.MapMode.READ_ONLY, 0L,
+                FileChbnnel fc = new RbndomAccessFile(f, "r").getChbnnel();
+                ByteBuffer bb = fc.mbp(FileChbnnel.MbpMode.READ_ONLY, 0L,
                                        (int)fc.size());
                 fc.close();
-                createPerfDataBuffer(bb, vmid.getLocalVmId());
+                crebtePerfDbtbBuffer(bb, vmid.getLocblVmId());
 
-            } catch (FileNotFoundException e2) {
-                // re-throw the exception from the 1.4.2 attach method
-                throw new MonitorException(vmid.getLocalVmId() + " not found",
+            } cbtch (FileNotFoundException e2) {
+                // re-throw the exception from the 1.4.2 bttbch method
+                throw new MonitorException(vmid.getLocblVmId() + " not found",
                                            e);
-            } catch (IOException e2) {
-                throw new MonitorException("Could not map 1.4.1 file for "
-                                           + vmid.getLocalVmId(), e2);
+            } cbtch (IOException e2) {
+                throw new MonitorException("Could not mbp 1.4.1 file for "
+                                           + vmid.getLocblVmId(), e2);
             }
-        } catch (IOException e) {
-            throw new MonitorException("Could not attach to "
-                                       + vmid.getLocalVmId(), e);
+        } cbtch (IOException e) {
+            throw new MonitorException("Could not bttbch to "
+                                       + vmid.getLocblVmId(), e);
         }
     }
 }

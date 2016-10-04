@@ -1,120 +1,120 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.management.snmp.util;
+pbckbge sun.mbnbgement.snmp.util;
 
 import com.sun.jmx.snmp.SnmpOid;
 
-import java.io.Serializable;
+import jbvb.io.Seriblizbble;
 
-import java.util.Comparator;
-import java.util.Arrays;
-import java.util.TreeMap;
-import java.util.List;
-import java.util.Iterator;
+import jbvb.util.Compbrbtor;
+import jbvb.util.Arrbys;
+import jbvb.util.TreeMbp;
+import jbvb.util.List;
+import jbvb.util.Iterbtor;
 
-import java.lang.ref.WeakReference;
+import jbvb.lbng.ref.WebkReference;
 
 /**
- * This abstract class implements a weak cache that holds table data.
- * <p>The table data is stored in an instance of
- * {@link SnmpCachedData}, which is kept in a {@link WeakReference}.
- * If the WeakReference is null or empty, the cached data is recomputed.</p>
+ * This bbstrbct clbss implements b webk cbche thbt holds tbble dbtb.
+ * <p>The tbble dbtb is stored in bn instbnce of
+ * {@link SnmpCbchedDbtb}, which is kept in b {@link WebkReference}.
+ * If the WebkReference is null or empty, the cbched dbtb is recomputed.</p>
  *
- * <p><b>NOTE: This class is not synchronized, subclasses must implement
- *          the appropriate synchronization when needed.</b></p>
+ * <p><b>NOTE: This clbss is not synchronized, subclbsses must implement
+ *          the bppropribte synchronizbtion when needed.</b></p>
  **/
-@SuppressWarnings("serial") // JDK implementation class
-public abstract class SnmpTableCache implements Serializable {
+@SuppressWbrnings("seribl") // JDK implementbtion clbss
+public bbstrbct clbss SnmpTbbleCbche implements Seriblizbble {
 
     /**
-     * Interval of time in ms during which the cached table data
-     * is considered valid.
+     * Intervbl of time in ms during which the cbched tbble dbtb
+     * is considered vblid.
      **/
-    protected long validity;
+    protected long vblidity;
 
     /**
-     * A weak refernce holding cached table data.
+     * A webk refernce holding cbched tbble dbtb.
      **/
-    protected transient WeakReference<SnmpCachedData> datas;
+    protected trbnsient WebkReference<SnmpCbchedDbtb> dbtbs;
 
     /**
-     * true if the given cached table data is obsolete.
+     * true if the given cbched tbble dbtb is obsolete.
      **/
-    protected boolean isObsolete(SnmpCachedData cached) {
-        if (cached   == null) return true;
-        if (validity < 0)     return false;
-        return ((System.currentTimeMillis() - cached.lastUpdated) > validity);
+    protected boolebn isObsolete(SnmpCbchedDbtb cbched) {
+        if (cbched   == null) return true;
+        if (vblidity < 0)     return fblse;
+        return ((System.currentTimeMillis() - cbched.lbstUpdbted) > vblidity);
     }
 
     /**
-     * Returns the cached table data.
-     * Returns null if the cached data is obsolete, or if there is no
-     * cached data, or if the cached data was garbage collected.
-     * @return a still valid cached data or null.
+     * Returns the cbched tbble dbtb.
+     * Returns null if the cbched dbtb is obsolete, or if there is no
+     * cbched dbtb, or if the cbched dbtb wbs gbrbbge collected.
+     * @return b still vblid cbched dbtb or null.
      **/
-    protected SnmpCachedData getCachedDatas() {
-        if (datas == null) return null;
-        final SnmpCachedData cached = datas.get();
-        if ((cached == null) || isObsolete(cached)) return null;
-        return cached;
+    protected SnmpCbchedDbtb getCbchedDbtbs() {
+        if (dbtbs == null) return null;
+        finbl SnmpCbchedDbtb cbched = dbtbs.get();
+        if ((cbched == null) || isObsolete(cbched)) return null;
+        return cbched;
     }
 
     /**
-     * Returns the cached table data, if it is still valid,
+     * Returns the cbched tbble dbtb, if it is still vblid,
      * or recompute it if it is obsolete.
      * <p>
-     * When cache data is recomputed, store it in the weak reference,
-     * unless {@link #validity} is 0: then the data will not be stored
-     * at all.<br>
-     * This method calls {@link #isObsolete(SnmpCachedData)} to determine
-     * whether the cached data is obsolete, and {
-     * {@link #updateCachedDatas(Object)} to recompute it.
+     * When cbche dbtb is recomputed, store it in the webk reference,
+     * unless {@link #vblidity} is 0: then the dbtb will not be stored
+     * bt bll.<br>
+     * This method cblls {@link #isObsolete(SnmpCbchedDbtb)} to determine
+     * whether the cbched dbtb is obsolete, bnd {
+     * {@link #updbteCbchedDbtbs(Object)} to recompute it.
      * </p>
-     * @param context A context object.
-     * @return the valid cached data, or the recomputed table data.
+     * @pbrbm context A context object.
+     * @return the vblid cbched dbtb, or the recomputed tbble dbtb.
      **/
-    protected synchronized SnmpCachedData getTableDatas(Object context) {
-        final SnmpCachedData cached   = getCachedDatas();
-        if (cached != null) return cached;
-        final SnmpCachedData computedDatas = updateCachedDatas(context);
-        if (validity != 0) datas = new WeakReference<>(computedDatas);
-        return computedDatas;
+    protected synchronized SnmpCbchedDbtb getTbbleDbtbs(Object context) {
+        finbl SnmpCbchedDbtb cbched   = getCbchedDbtbs();
+        if (cbched != null) return cbched;
+        finbl SnmpCbchedDbtb computedDbtbs = updbteCbchedDbtbs(context);
+        if (vblidity != 0) dbtbs = new WebkReference<>(computedDbtbs);
+        return computedDbtbs;
     }
 
     /**
-     * Recompute cached data.
-     * @param context A context object, as passed to
-     *        {@link #getTableDatas(Object)}
+     * Recompute cbched dbtb.
+     * @pbrbm context A context object, bs pbssed to
+     *        {@link #getTbbleDbtbs(Object)}
      **/
-    protected abstract SnmpCachedData updateCachedDatas(Object context);
+    protected bbstrbct SnmpCbchedDbtb updbteCbchedDbtbs(Object context);
 
     /**
-     * Return a table handler that holds the table data.
-     * This method should return the cached table data if it is still
-     * valid, recompute it and cache the new value if it's not.
+     * Return b tbble hbndler thbt holds the tbble dbtb.
+     * This method should return the cbched tbble dbtb if it is still
+     * vblid, recompute it bnd cbche the new vblue if it's not.
      **/
-    public abstract SnmpTableHandler getTableHandler();
+    public bbstrbct SnmpTbbleHbndler getTbbleHbndler();
 
 }

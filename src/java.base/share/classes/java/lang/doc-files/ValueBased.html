@@ -1,42 +1,42 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html lang="en">
-<head>
-  <title>Value-based Classes</title>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Trbnsitionbl//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lbng="en">
+<hebd>
+  <title>Vblue-bbsed Clbsses</title>
   <link rel="stylesheet" type="text/css" href="../../../stylesheet.css" title="Style">
-</head>
+</hebd>
 <body>
-<h2 id="ValueBased">Value-based Classes</h2>
+<h2 id="VblueBbsed">Vblue-bbsed Clbsses</h2>
 
-Some classes, such as <code>java.util.Optional</code> and
-<code>java.time.LocalDateTime</code>, are <em>value-based</em>.  Instances of a
-value-based class:
+Some clbsses, such bs <code>jbvb.util.Optionbl</code> bnd
+<code>jbvb.time.LocblDbteTime</code>, bre <em>vblue-bbsed</em>.  Instbnces of b
+vblue-bbsed clbss:
 <ul>
-    <li>are final and immutable (though may contain references to mutable
+    <li>bre finbl bnd immutbble (though mby contbin references to mutbble
         objects);</li>
-    <li>have implementations of <code>equals</code>,
-        <code>hashCode</code>, and <code>toString</code> which are computed
-        solely from the instance's state and not from its identity or the state
-        of any other object or variable;</li>
-    <li>make no use of identity-sensitive operations such as reference
-        equality (<code>==</code>) between instances, identity hash code of
-        instances, or synchronization on an instances's intrinsic lock;</li>
-    <li>are considered equal solely based on <code>equals()</code>, not
-        based on reference equality (<code>==</code>);</li>
-    <li>do not have accessible constructors, but are instead instantiated
-        through factory methods which make no committment as to the identity
-        of returned instances;</li>
-    <li>are <em>freely substitutable</em> when equal, meaning that interchanging
-        any two instances <code>x</code> and <code>y</code> that are equal
-        according to <code>equals()</code> in any computation or method
-        invocation should produce no visible change in behavior.
+    <li>hbve implementbtions of <code>equbls</code>,
+        <code>hbshCode</code>, bnd <code>toString</code> which bre computed
+        solely from the instbnce's stbte bnd not from its identity or the stbte
+        of bny other object or vbribble;</li>
+    <li>mbke no use of identity-sensitive operbtions such bs reference
+        equblity (<code>==</code>) between instbnces, identity hbsh code of
+        instbnces, or synchronizbtion on bn instbnces's intrinsic lock;</li>
+    <li>bre considered equbl solely bbsed on <code>equbls()</code>, not
+        bbsed on reference equblity (<code>==</code>);</li>
+    <li>do not hbve bccessible constructors, but bre instebd instbntibted
+        through fbctory methods which mbke no committment bs to the identity
+        of returned instbnces;</li>
+    <li>bre <em>freely substitutbble</em> when equbl, mebning thbt interchbnging
+        bny two instbnces <code>x</code> bnd <code>y</code> thbt bre equbl
+        bccording to <code>equbls()</code> in bny computbtion or method
+        invocbtion should produce no visible chbnge in behbvior.
     </li>
 </ul>
 
-<p>A program may produce unpredictable results if it attempts to distinguish two
-    references to equal values of a value-based class, whether directly via reference
-    equality or indirectly via an appeal to synchronization, identity hashing,
-    serialization, or any other identity-sensitive mechanism.  Use of such
-    identity-sensitive operations on instances of value-based classes may have
-    unpredictable effects and should be avoided.</p>
+<p>A progrbm mby produce unpredictbble results if it bttempts to distinguish two
+    references to equbl vblues of b vblue-bbsed clbss, whether directly vib reference
+    equblity or indirectly vib bn bppebl to synchronizbtion, identity hbshing,
+    seriblizbtion, or bny other identity-sensitive mechbnism.  Use of such
+    identity-sensitive operbtions on instbnces of vblue-bbsed clbsses mby hbve
+    unpredictbble effects bnd should be bvoided.</p>
 </body>
 </html>

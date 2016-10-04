@@ -1,93 +1,93 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.net;
+pbckbge jbvb.net;
 
 /**
- * The class Authenticator represents an object that knows how to obtain
- * authentication for a network connection.  Usually, it will do this
- * by prompting the user for information.
+ * The clbss Authenticbtor represents bn object thbt knows how to obtbin
+ * buthenticbtion for b network connection.  Usublly, it will do this
+ * by prompting the user for informbtion.
  * <p>
- * Applications use this class by overriding {@link
- * #getPasswordAuthentication()} in a sub-class. This method will
- * typically use the various getXXX() accessor methods to get information
- * about the entity requesting authentication. It must then acquire a
- * username and password either by interacting with the user or through
- * some other non-interactive means. The credentials are then returned
- * as a {@link PasswordAuthentication} return value.
+ * Applicbtions use this clbss by overriding {@link
+ * #getPbsswordAuthenticbtion()} in b sub-clbss. This method will
+ * typicblly use the vbrious getXXX() bccessor methods to get informbtion
+ * bbout the entity requesting buthenticbtion. It must then bcquire b
+ * usernbme bnd pbssword either by interbcting with the user or through
+ * some other non-interbctive mebns. The credentibls bre then returned
+ * bs b {@link PbsswordAuthenticbtion} return vblue.
  * <p>
- * An instance of this concrete sub-class is then registered
- * with the system by calling {@link #setDefault(Authenticator)}.
- * When authentication is required, the system will invoke one of the
- * requestPasswordAuthentication() methods which in turn will call the
- * getPasswordAuthentication() method of the registered object.
+ * An instbnce of this concrete sub-clbss is then registered
+ * with the system by cblling {@link #setDefbult(Authenticbtor)}.
+ * When buthenticbtion is required, the system will invoke one of the
+ * requestPbsswordAuthenticbtion() methods which in turn will cbll the
+ * getPbsswordAuthenticbtion() method of the registered object.
  * <p>
- * All methods that request authentication have a default implementation
- * that fails.
+ * All methods thbt request buthenticbtion hbve b defbult implementbtion
+ * thbt fbils.
  *
- * @see java.net.Authenticator#setDefault(java.net.Authenticator)
- * @see java.net.Authenticator#getPasswordAuthentication()
+ * @see jbvb.net.Authenticbtor#setDefbult(jbvb.net.Authenticbtor)
+ * @see jbvb.net.Authenticbtor#getPbsswordAuthenticbtion()
  *
- * @author  Bill Foote
+ * @buthor  Bill Foote
  * @since   1.2
  */
 
-// There are no abstract methods, but to be useful the user must
-// subclass.
-public abstract
-class Authenticator {
+// There bre no bbstrbct methods, but to be useful the user must
+// subclbss.
+public bbstrbct
+clbss Authenticbtor {
 
-    // The system-wide authenticator object.  See setDefault().
-    private static Authenticator theAuthenticator;
+    // The system-wide buthenticbtor object.  See setDefbult().
+    privbte stbtic Authenticbtor theAuthenticbtor;
 
-    private String requestingHost;
-    private InetAddress requestingSite;
-    private int requestingPort;
-    private String requestingProtocol;
-    private String requestingPrompt;
-    private String requestingScheme;
-    private URL requestingURL;
-    private RequestorType requestingAuthType;
+    privbte String requestingHost;
+    privbte InetAddress requestingSite;
+    privbte int requestingPort;
+    privbte String requestingProtocol;
+    privbte String requestingPrompt;
+    privbte String requestingScheme;
+    privbte URL requestingURL;
+    privbte RequestorType requestingAuthType;
 
     /**
-     * The type of the entity requesting authentication.
+     * The type of the entity requesting buthenticbtion.
      *
      * @since 1.5
      */
     public enum RequestorType {
         /**
-         * Entity requesting authentication is a HTTP proxy server.
+         * Entity requesting buthenticbtion is b HTTP proxy server.
          */
         PROXY,
         /**
-         * Entity requesting authentication is a HTTP origin server.
+         * Entity requesting buthenticbtion is b HTTP origin server.
          */
         SERVER
     }
 
-    private void reset() {
+    privbte void reset() {
         requestingHost = null;
         requestingSite = null;
         requestingPort = -1;
@@ -100,192 +100,192 @@ class Authenticator {
 
 
     /**
-     * Sets the authenticator that will be used by the networking code
-     * when a proxy or an HTTP server asks for authentication.
+     * Sets the buthenticbtor thbt will be used by the networking code
+     * when b proxy or bn HTTP server bsks for buthenticbtion.
      * <p>
-     * First, if there is a security manager, its {@code checkPermission}
-     * method is called with a
-     * {@code NetPermission("setDefaultAuthenticator")} permission.
-     * This may result in a java.lang.SecurityException.
+     * First, if there is b security mbnbger, its {@code checkPermission}
+     * method is cblled with b
+     * {@code NetPermission("setDefbultAuthenticbtor")} permission.
+     * This mby result in b jbvb.lbng.SecurityException.
      *
-     * @param   a       The authenticator to be set. If a is {@code null} then
-     *                  any previously set authenticator is removed.
+     * @pbrbm   b       The buthenticbtor to be set. If b is {@code null} then
+     *                  bny previously set buthenticbtor is removed.
      *
      * @throws SecurityException
-     *        if a security manager exists and its
-     *        {@code checkPermission} method doesn't allow
-     *        setting the default authenticator.
+     *        if b security mbnbger exists bnd its
+     *        {@code checkPermission} method doesn't bllow
+     *        setting the defbult buthenticbtor.
      *
-     * @see SecurityManager#checkPermission
-     * @see java.net.NetPermission
+     * @see SecurityMbnbger#checkPermission
+     * @see jbvb.net.NetPermission
      */
-    public synchronized static void setDefault(Authenticator a) {
-        SecurityManager sm = System.getSecurityManager();
+    public synchronized stbtic void setDefbult(Authenticbtor b) {
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null) {
-            NetPermission setDefaultPermission
-                = new NetPermission("setDefaultAuthenticator");
-            sm.checkPermission(setDefaultPermission);
+            NetPermission setDefbultPermission
+                = new NetPermission("setDefbultAuthenticbtor");
+            sm.checkPermission(setDefbultPermission);
         }
 
-        theAuthenticator = a;
+        theAuthenticbtor = b;
     }
 
     /**
-     * Ask the authenticator that has been registered with the system
-     * for a password.
+     * Ask the buthenticbtor thbt hbs been registered with the system
+     * for b pbssword.
      * <p>
-     * First, if there is a security manager, its {@code checkPermission}
-     * method is called with a
-     * {@code NetPermission("requestPasswordAuthentication")} permission.
-     * This may result in a java.lang.SecurityException.
+     * First, if there is b security mbnbger, its {@code checkPermission}
+     * method is cblled with b
+     * {@code NetPermission("requestPbsswordAuthenticbtion")} permission.
+     * This mby result in b jbvb.lbng.SecurityException.
      *
-     * @param addr The InetAddress of the site requesting authorization,
+     * @pbrbm bddr The InetAddress of the site requesting buthorizbtion,
      *             or null if not known.
-     * @param port the port for the requested connection
-     * @param protocol The protocol that's requesting the connection
-     *          ({@link java.net.Authenticator#getRequestingProtocol()})
-     * @param prompt A prompt string for the user
-     * @param scheme The authentication scheme
+     * @pbrbm port the port for the requested connection
+     * @pbrbm protocol The protocol thbt's requesting the connection
+     *          ({@link jbvb.net.Authenticbtor#getRequestingProtocol()})
+     * @pbrbm prompt A prompt string for the user
+     * @pbrbm scheme The buthenticbtion scheme
      *
-     * @return The username/password, or null if one can't be gotten.
+     * @return The usernbme/pbssword, or null if one cbn't be gotten.
      *
      * @throws SecurityException
-     *        if a security manager exists and its
-     *        {@code checkPermission} method doesn't allow
-     *        the password authentication request.
+     *        if b security mbnbger exists bnd its
+     *        {@code checkPermission} method doesn't bllow
+     *        the pbssword buthenticbtion request.
      *
-     * @see SecurityManager#checkPermission
-     * @see java.net.NetPermission
+     * @see SecurityMbnbger#checkPermission
+     * @see jbvb.net.NetPermission
      */
-    public static PasswordAuthentication requestPasswordAuthentication(
-                                            InetAddress addr,
+    public stbtic PbsswordAuthenticbtion requestPbsswordAuthenticbtion(
+                                            InetAddress bddr,
                                             int port,
                                             String protocol,
                                             String prompt,
                                             String scheme) {
 
-        SecurityManager sm = System.getSecurityManager();
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null) {
             NetPermission requestPermission
-                = new NetPermission("requestPasswordAuthentication");
+                = new NetPermission("requestPbsswordAuthenticbtion");
             sm.checkPermission(requestPermission);
         }
 
-        Authenticator a = theAuthenticator;
-        if (a == null) {
+        Authenticbtor b = theAuthenticbtor;
+        if (b == null) {
             return null;
         } else {
-            synchronized(a) {
-                a.reset();
-                a.requestingSite = addr;
-                a.requestingPort = port;
-                a.requestingProtocol = protocol;
-                a.requestingPrompt = prompt;
-                a.requestingScheme = scheme;
-                return a.getPasswordAuthentication();
+            synchronized(b) {
+                b.reset();
+                b.requestingSite = bddr;
+                b.requestingPort = port;
+                b.requestingProtocol = protocol;
+                b.requestingPrompt = prompt;
+                b.requestingScheme = scheme;
+                return b.getPbsswordAuthenticbtion();
             }
         }
     }
 
     /**
-     * Ask the authenticator that has been registered with the system
-     * for a password. This is the preferred method for requesting a password
-     * because the hostname can be provided in cases where the InetAddress
-     * is not available.
+     * Ask the buthenticbtor thbt hbs been registered with the system
+     * for b pbssword. This is the preferred method for requesting b pbssword
+     * becbuse the hostnbme cbn be provided in cbses where the InetAddress
+     * is not bvbilbble.
      * <p>
-     * First, if there is a security manager, its {@code checkPermission}
-     * method is called with a
-     * {@code NetPermission("requestPasswordAuthentication")} permission.
-     * This may result in a java.lang.SecurityException.
+     * First, if there is b security mbnbger, its {@code checkPermission}
+     * method is cblled with b
+     * {@code NetPermission("requestPbsswordAuthenticbtion")} permission.
+     * This mby result in b jbvb.lbng.SecurityException.
      *
-     * @param host The hostname of the site requesting authentication.
-     * @param addr The InetAddress of the site requesting authentication,
+     * @pbrbm host The hostnbme of the site requesting buthenticbtion.
+     * @pbrbm bddr The InetAddress of the site requesting buthenticbtion,
      *             or null if not known.
-     * @param port the port for the requested connection.
-     * @param protocol The protocol that's requesting the connection
-     *          ({@link java.net.Authenticator#getRequestingProtocol()})
-     * @param prompt A prompt string for the user which identifies the authentication realm.
-     * @param scheme The authentication scheme
+     * @pbrbm port the port for the requested connection.
+     * @pbrbm protocol The protocol thbt's requesting the connection
+     *          ({@link jbvb.net.Authenticbtor#getRequestingProtocol()})
+     * @pbrbm prompt A prompt string for the user which identifies the buthenticbtion reblm.
+     * @pbrbm scheme The buthenticbtion scheme
      *
-     * @return The username/password, or null if one can't be gotten.
+     * @return The usernbme/pbssword, or null if one cbn't be gotten.
      *
      * @throws SecurityException
-     *        if a security manager exists and its
-     *        {@code checkPermission} method doesn't allow
-     *        the password authentication request.
+     *        if b security mbnbger exists bnd its
+     *        {@code checkPermission} method doesn't bllow
+     *        the pbssword buthenticbtion request.
      *
-     * @see SecurityManager#checkPermission
-     * @see java.net.NetPermission
+     * @see SecurityMbnbger#checkPermission
+     * @see jbvb.net.NetPermission
      * @since 1.4
      */
-    public static PasswordAuthentication requestPasswordAuthentication(
+    public stbtic PbsswordAuthenticbtion requestPbsswordAuthenticbtion(
                                             String host,
-                                            InetAddress addr,
+                                            InetAddress bddr,
                                             int port,
                                             String protocol,
                                             String prompt,
                                             String scheme) {
 
-        SecurityManager sm = System.getSecurityManager();
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null) {
             NetPermission requestPermission
-                = new NetPermission("requestPasswordAuthentication");
+                = new NetPermission("requestPbsswordAuthenticbtion");
             sm.checkPermission(requestPermission);
         }
 
-        Authenticator a = theAuthenticator;
-        if (a == null) {
+        Authenticbtor b = theAuthenticbtor;
+        if (b == null) {
             return null;
         } else {
-            synchronized(a) {
-                a.reset();
-                a.requestingHost = host;
-                a.requestingSite = addr;
-                a.requestingPort = port;
-                a.requestingProtocol = protocol;
-                a.requestingPrompt = prompt;
-                a.requestingScheme = scheme;
-                return a.getPasswordAuthentication();
+            synchronized(b) {
+                b.reset();
+                b.requestingHost = host;
+                b.requestingSite = bddr;
+                b.requestingPort = port;
+                b.requestingProtocol = protocol;
+                b.requestingPrompt = prompt;
+                b.requestingScheme = scheme;
+                return b.getPbsswordAuthenticbtion();
             }
         }
     }
 
     /**
-     * Ask the authenticator that has been registered with the system
-     * for a password.
+     * Ask the buthenticbtor thbt hbs been registered with the system
+     * for b pbssword.
      * <p>
-     * First, if there is a security manager, its {@code checkPermission}
-     * method is called with a
-     * {@code NetPermission("requestPasswordAuthentication")} permission.
-     * This may result in a java.lang.SecurityException.
+     * First, if there is b security mbnbger, its {@code checkPermission}
+     * method is cblled with b
+     * {@code NetPermission("requestPbsswordAuthenticbtion")} permission.
+     * This mby result in b jbvb.lbng.SecurityException.
      *
-     * @param host The hostname of the site requesting authentication.
-     * @param addr The InetAddress of the site requesting authorization,
+     * @pbrbm host The hostnbme of the site requesting buthenticbtion.
+     * @pbrbm bddr The InetAddress of the site requesting buthorizbtion,
      *             or null if not known.
-     * @param port the port for the requested connection
-     * @param protocol The protocol that's requesting the connection
-     *          ({@link java.net.Authenticator#getRequestingProtocol()})
-     * @param prompt A prompt string for the user
-     * @param scheme The authentication scheme
-     * @param url The requesting URL that caused the authentication
-     * @param reqType The type (server or proxy) of the entity requesting
-     *              authentication.
+     * @pbrbm port the port for the requested connection
+     * @pbrbm protocol The protocol thbt's requesting the connection
+     *          ({@link jbvb.net.Authenticbtor#getRequestingProtocol()})
+     * @pbrbm prompt A prompt string for the user
+     * @pbrbm scheme The buthenticbtion scheme
+     * @pbrbm url The requesting URL thbt cbused the buthenticbtion
+     * @pbrbm reqType The type (server or proxy) of the entity requesting
+     *              buthenticbtion.
      *
-     * @return The username/password, or null if one can't be gotten.
+     * @return The usernbme/pbssword, or null if one cbn't be gotten.
      *
      * @throws SecurityException
-     *        if a security manager exists and its
-     *        {@code checkPermission} method doesn't allow
-     *        the password authentication request.
+     *        if b security mbnbger exists bnd its
+     *        {@code checkPermission} method doesn't bllow
+     *        the pbssword buthenticbtion request.
      *
-     * @see SecurityManager#checkPermission
-     * @see java.net.NetPermission
+     * @see SecurityMbnbger#checkPermission
+     * @see jbvb.net.NetPermission
      *
      * @since 1.5
      */
-    public static PasswordAuthentication requestPasswordAuthentication(
+    public stbtic PbsswordAuthenticbtion requestPbsswordAuthenticbtion(
                                     String host,
-                                    InetAddress addr,
+                                    InetAddress bddr,
                                     int port,
                                     String protocol,
                                     String prompt,
@@ -293,114 +293,114 @@ class Authenticator {
                                     URL url,
                                     RequestorType reqType) {
 
-        SecurityManager sm = System.getSecurityManager();
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null) {
             NetPermission requestPermission
-                = new NetPermission("requestPasswordAuthentication");
+                = new NetPermission("requestPbsswordAuthenticbtion");
             sm.checkPermission(requestPermission);
         }
 
-        Authenticator a = theAuthenticator;
-        if (a == null) {
+        Authenticbtor b = theAuthenticbtor;
+        if (b == null) {
             return null;
         } else {
-            synchronized(a) {
-                a.reset();
-                a.requestingHost = host;
-                a.requestingSite = addr;
-                a.requestingPort = port;
-                a.requestingProtocol = protocol;
-                a.requestingPrompt = prompt;
-                a.requestingScheme = scheme;
-                a.requestingURL = url;
-                a.requestingAuthType = reqType;
-                return a.getPasswordAuthentication();
+            synchronized(b) {
+                b.reset();
+                b.requestingHost = host;
+                b.requestingSite = bddr;
+                b.requestingPort = port;
+                b.requestingProtocol = protocol;
+                b.requestingPrompt = prompt;
+                b.requestingScheme = scheme;
+                b.requestingURL = url;
+                b.requestingAuthType = reqType;
+                return b.getPbsswordAuthenticbtion();
             }
         }
     }
 
     /**
-     * Gets the {@code hostname} of the
-     * site or proxy requesting authentication, or {@code null}
-     * if not available.
+     * Gets the {@code hostnbme} of the
+     * site or proxy requesting buthenticbtion, or {@code null}
+     * if not bvbilbble.
      *
-     * @return the hostname of the connection requiring authentication, or null
-     *          if it's not available.
+     * @return the hostnbme of the connection requiring buthenticbtion, or null
+     *          if it's not bvbilbble.
      * @since 1.4
      */
-    protected final String getRequestingHost() {
+    protected finbl String getRequestingHost() {
         return requestingHost;
     }
 
     /**
      * Gets the {@code InetAddress} of the
-     * site requesting authorization, or {@code null}
-     * if not available.
+     * site requesting buthorizbtion, or {@code null}
+     * if not bvbilbble.
      *
-     * @return the InetAddress of the site requesting authorization, or null
-     *          if it's not available.
+     * @return the InetAddress of the site requesting buthorizbtion, or null
+     *          if it's not bvbilbble.
      */
-    protected final InetAddress getRequestingSite() {
+    protected finbl InetAddress getRequestingSite() {
         return requestingSite;
     }
 
     /**
      * Gets the port number for the requested connection.
-     * @return an {@code int} indicating the
+     * @return bn {@code int} indicbting the
      * port for the requested connection.
      */
-    protected final int getRequestingPort() {
+    protected finbl int getRequestingPort() {
         return requestingPort;
     }
 
     /**
-     * Give the protocol that's requesting the connection.  Often this
-     * will be based on a URL, but in a future JDK it could be, for
-     * example, "SOCKS" for a password-protected SOCKS5 firewall.
+     * Give the protocol thbt's requesting the connection.  Often this
+     * will be bbsed on b URL, but in b future JDK it could be, for
+     * exbmple, "SOCKS" for b pbssword-protected SOCKS5 firewbll.
      *
-     * @return the protocol, optionally followed by "/version", where
-     *          version is a version number.
+     * @return the protocol, optionblly followed by "/version", where
+     *          version is b version number.
      *
-     * @see java.net.URL#getProtocol()
+     * @see jbvb.net.URL#getProtocol()
      */
-    protected final String getRequestingProtocol() {
+    protected finbl String getRequestingProtocol() {
         return requestingProtocol;
     }
 
     /**
      * Gets the prompt string given by the requestor.
      *
-     * @return the prompt string given by the requestor (realm for
+     * @return the prompt string given by the requestor (reblm for
      *          http requests)
      */
-    protected final String getRequestingPrompt() {
+    protected finbl String getRequestingPrompt() {
         return requestingPrompt;
     }
 
     /**
      * Gets the scheme of the requestor (the HTTP scheme
-     * for an HTTP firewall, for example).
+     * for bn HTTP firewbll, for exbmple).
      *
      * @return the scheme of the requestor
      *
      */
-    protected final String getRequestingScheme() {
+    protected finbl String getRequestingScheme() {
         return requestingScheme;
     }
 
     /**
-     * Called when password authorization is needed.  Subclasses should
-     * override the default implementation, which returns null.
-     * @return The PasswordAuthentication collected from the
+     * Cblled when pbssword buthorizbtion is needed.  Subclbsses should
+     * override the defbult implementbtion, which returns null.
+     * @return The PbsswordAuthenticbtion collected from the
      *          user, or null if none is provided.
      */
-    protected PasswordAuthentication getPasswordAuthentication() {
+    protected PbsswordAuthenticbtion getPbsswordAuthenticbtion() {
         return null;
     }
 
     /**
-     * Returns the URL that resulted in this
-     * request for authentication.
+     * Returns the URL thbt resulted in this
+     * request for buthenticbtion.
      *
      * @since 1.5
      *
@@ -412,11 +412,11 @@ class Authenticator {
     }
 
     /**
-     * Returns whether the requestor is a Proxy or a Server.
+     * Returns whether the requestor is b Proxy or b Server.
      *
      * @since 1.5
      *
-     * @return the authentication type of the requestor
+     * @return the buthenticbtion type of the requestor
      *
      */
     protected RequestorType getRequestorType () {

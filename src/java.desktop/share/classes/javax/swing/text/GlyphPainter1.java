@@ -1,250 +1,250 @@
 /*
- * Copyright (c) 1999, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.text;
+pbckbge jbvbx.swing.text;
 
-import java.awt.*;
+import jbvb.bwt.*;
 
 /**
- * A class to perform rendering of the glyphs.
- * This can be implemented to be stateless, or
- * to hold some information as a cache to
- * facilitate faster rendering and model/view
- * translation.  At a minimum, the GlyphPainter
- * allows a View implementation to perform its
- * duties independent of a particular version
- * of JVM and selection of capabilities (i.e.
- * shaping for i18n, etc).
+ * A clbss to perform rendering of the glyphs.
+ * This cbn be implemented to be stbteless, or
+ * to hold some informbtion bs b cbche to
+ * fbcilitbte fbster rendering bnd model/view
+ * trbnslbtion.  At b minimum, the GlyphPbinter
+ * bllows b View implementbtion to perform its
+ * duties independent of b pbrticulbr version
+ * of JVM bnd selection of cbpbbilities (i.e.
+ * shbping for i18n, etc).
  * <p>
- * This implementation is intended for operation
- * under the JDK1.1 API of the Java Platform.
- * Since the JDK is backward compatible with
- * JDK1.1 API, this class will also function on
- * Java 2.  The JDK introduces improved
- * API for rendering text however, so the GlyphPainter2
+ * This implementbtion is intended for operbtion
+ * under the JDK1.1 API of the Jbvb Plbtform.
+ * Since the JDK is bbckwbrd compbtible with
+ * JDK1.1 API, this clbss will blso function on
+ * Jbvb 2.  The JDK introduces improved
+ * API for rendering text however, so the GlyphPbinter2
  * is recommended for the DK.
  *
- * @author  Timothy Prinzing
+ * @buthor  Timothy Prinzing
  * @see GlyphView
  */
-class GlyphPainter1 extends GlyphView.GlyphPainter {
+clbss GlyphPbinter1 extends GlyphView.GlyphPbinter {
 
     /**
-     * Determine the span the glyphs given a start location
-     * (for tab expansion).
+     * Determine the spbn the glyphs given b stbrt locbtion
+     * (for tbb expbnsion).
      */
-    public float getSpan(GlyphView v, int p0, int p1,
-                         TabExpander e, float x) {
+    public flobt getSpbn(GlyphView v, int p0, int p1,
+                         TbbExpbnder e, flobt x) {
         sync(v);
         Segment text = v.getText(p0, p1);
-        int[] justificationData = getJustificationData(v);
-        int width = Utilities.getTabbedTextWidth(v, text, metrics, (int) x, e, p0,
-                                                 justificationData);
-        SegmentCache.releaseSharedSegment(text);
+        int[] justificbtionDbtb = getJustificbtionDbtb(v);
+        int width = Utilities.getTbbbedTextWidth(v, text, metrics, (int) x, e, p0,
+                                                 justificbtionDbtb);
+        SegmentCbche.relebseShbredSegment(text);
         return width;
     }
 
-    public float getHeight(GlyphView v) {
+    public flobt getHeight(GlyphView v) {
         sync(v);
         return metrics.getHeight();
     }
 
     /**
-     * Fetches the ascent above the baseline for the glyphs
-     * corresponding to the given range in the model.
+     * Fetches the bscent bbove the bbseline for the glyphs
+     * corresponding to the given rbnge in the model.
      */
-    public float getAscent(GlyphView v) {
+    public flobt getAscent(GlyphView v) {
         sync(v);
         return metrics.getAscent();
     }
 
     /**
-     * Fetches the descent below the baseline for the glyphs
-     * corresponding to the given range in the model.
+     * Fetches the descent below the bbseline for the glyphs
+     * corresponding to the given rbnge in the model.
      */
-    public float getDescent(GlyphView v) {
+    public flobt getDescent(GlyphView v) {
         sync(v);
         return metrics.getDescent();
     }
 
     /**
-     * Paints the glyphs representing the given range.
+     * Pbints the glyphs representing the given rbnge.
      */
-    public void paint(GlyphView v, Graphics g, Shape a, int p0, int p1) {
+    public void pbint(GlyphView v, Grbphics g, Shbpe b, int p0, int p1) {
         sync(v);
         Segment text;
-        TabExpander expander = v.getTabExpander();
-        Rectangle alloc = (a instanceof Rectangle) ? (Rectangle)a : a.getBounds();
+        TbbExpbnder expbnder = v.getTbbExpbnder();
+        Rectbngle blloc = (b instbnceof Rectbngle) ? (Rectbngle)b : b.getBounds();
 
-        // determine the x coordinate to render the glyphs
-        int x = alloc.x;
-        int p = v.getStartOffset();
-        int[] justificationData = getJustificationData(v);
+        // determine the x coordinbte to render the glyphs
+        int x = blloc.x;
+        int p = v.getStbrtOffset();
+        int[] justificbtionDbtb = getJustificbtionDbtb(v);
         if (p != p0) {
             text = v.getText(p, p0);
-            int width = Utilities.getTabbedTextWidth(v, text, metrics, x, expander, p,
-                                                     justificationData);
+            int width = Utilities.getTbbbedTextWidth(v, text, metrics, x, expbnder, p,
+                                                     justificbtionDbtb);
             x += width;
-            SegmentCache.releaseSharedSegment(text);
+            SegmentCbche.relebseShbredSegment(text);
         }
 
-        // determine the y coordinate to render the glyphs
-        int y = alloc.y + metrics.getHeight() - metrics.getDescent();
+        // determine the y coordinbte to render the glyphs
+        int y = blloc.y + metrics.getHeight() - metrics.getDescent();
 
         // render the glyphs
         text = v.getText(p0, p1);
         g.setFont(metrics.getFont());
 
-        Utilities.drawTabbedText(v, text, x, y, g, expander,p0,
-                                 justificationData);
-        SegmentCache.releaseSharedSegment(text);
+        Utilities.drbwTbbbedText(v, text, x, y, g, expbnder,p0,
+                                 justificbtionDbtb);
+        SegmentCbche.relebseShbredSegment(text);
     }
 
-    public Shape modelToView(GlyphView v, int pos, Position.Bias bias,
-                             Shape a) throws BadLocationException {
+    public Shbpe modelToView(GlyphView v, int pos, Position.Bibs bibs,
+                             Shbpe b) throws BbdLocbtionException {
 
         sync(v);
-        Rectangle alloc = (a instanceof Rectangle) ? (Rectangle)a : a.getBounds();
-        int p0 = v.getStartOffset();
+        Rectbngle blloc = (b instbnceof Rectbngle) ? (Rectbngle)b : b.getBounds();
+        int p0 = v.getStbrtOffset();
         int p1 = v.getEndOffset();
-        TabExpander expander = v.getTabExpander();
+        TbbExpbnder expbnder = v.getTbbExpbnder();
         Segment text;
 
         if(pos == p1) {
-            // The caller of this is left to right and borders a right to
-            // left view, return our end location.
-            return new Rectangle(alloc.x + alloc.width, alloc.y, 0,
+            // The cbller of this is left to right bnd borders b right to
+            // left view, return our end locbtion.
+            return new Rectbngle(blloc.x + blloc.width, blloc.y, 0,
                                  metrics.getHeight());
         }
         if ((pos >= p0) && (pos <= p1)) {
-            // determine range to the left of the position
+            // determine rbnge to the left of the position
             text = v.getText(p0, pos);
-            int[] justificationData = getJustificationData(v);
-            int width = Utilities.getTabbedTextWidth(v, text, metrics, alloc.x, expander, p0,
-                                                     justificationData);
-            SegmentCache.releaseSharedSegment(text);
-            return new Rectangle(alloc.x + width, alloc.y, 0, metrics.getHeight());
+            int[] justificbtionDbtb = getJustificbtionDbtb(v);
+            int width = Utilities.getTbbbedTextWidth(v, text, metrics, blloc.x, expbnder, p0,
+                                                     justificbtionDbtb);
+            SegmentCbche.relebseShbredSegment(text);
+            return new Rectbngle(blloc.x + width, blloc.y, 0, metrics.getHeight());
         }
-        throw new BadLocationException("modelToView - can't convert", p1);
+        throw new BbdLocbtionException("modelToView - cbn't convert", p1);
     }
 
     /**
-     * Provides a mapping from the view coordinate space to the logical
-     * coordinate space of the model.
+     * Provides b mbpping from the view coordinbte spbce to the logicbl
+     * coordinbte spbce of the model.
      *
-     * @param v the view containing the view coordinates
-     * @param x the X coordinate
-     * @param y the Y coordinate
-     * @param a the allocated region to render into
-     * @param biasReturn always returns <code>Position.Bias.Forward</code>
-     *   as the zero-th element of this array
-     * @return the location within the model that best represents the
+     * @pbrbm v the view contbining the view coordinbtes
+     * @pbrbm x the X coordinbte
+     * @pbrbm y the Y coordinbte
+     * @pbrbm b the bllocbted region to render into
+     * @pbrbm bibsReturn blwbys returns <code>Position.Bibs.Forwbrd</code>
+     *   bs the zero-th element of this brrby
+     * @return the locbtion within the model thbt best represents the
      *  given point in the view
      * @see View#viewToModel
      */
-    public int viewToModel(GlyphView v, float x, float y, Shape a,
-                           Position.Bias[] biasReturn) {
+    public int viewToModel(GlyphView v, flobt x, flobt y, Shbpe b,
+                           Position.Bibs[] bibsReturn) {
 
         sync(v);
-        Rectangle alloc = (a instanceof Rectangle) ? (Rectangle)a : a.getBounds();
-        int p0 = v.getStartOffset();
+        Rectbngle blloc = (b instbnceof Rectbngle) ? (Rectbngle)b : b.getBounds();
+        int p0 = v.getStbrtOffset();
         int p1 = v.getEndOffset();
-        TabExpander expander = v.getTabExpander();
+        TbbExpbnder expbnder = v.getTbbExpbnder();
         Segment text = v.getText(p0, p1);
-        int[] justificationData = getJustificationData(v);
-        int offs = Utilities.getTabbedTextOffset(v, text, metrics,
-                                                 alloc.x, (int) x, expander, p0,
-                                                 justificationData);
-        SegmentCache.releaseSharedSegment(text);
-        int retValue = p0 + offs;
-        if(retValue == p1) {
-            // No need to return backward bias as GlyphPainter1 is used for
+        int[] justificbtionDbtb = getJustificbtionDbtb(v);
+        int offs = Utilities.getTbbbedTextOffset(v, text, metrics,
+                                                 blloc.x, (int) x, expbnder, p0,
+                                                 justificbtionDbtb);
+        SegmentCbche.relebseShbredSegment(text);
+        int retVblue = p0 + offs;
+        if(retVblue == p1) {
+            // No need to return bbckwbrd bibs bs GlyphPbinter1 is used for
             // ltr text only.
-            retValue--;
+            retVblue--;
         }
-        biasReturn[0] = Position.Bias.Forward;
-        return retValue;
+        bibsReturn[0] = Position.Bibs.Forwbrd;
+        return retVblue;
     }
 
     /**
-     * Determines the best location (in the model) to break
+     * Determines the best locbtion (in the model) to brebk
      * the given view.
-     * This method attempts to break on a whitespace
-     * location.  If a whitespace location can't be found, the
-     * nearest character location is returned.
+     * This method bttempts to brebk on b whitespbce
+     * locbtion.  If b whitespbce locbtion cbn't be found, the
+     * nebrest chbrbcter locbtion is returned.
      *
-     * @param v the view
-     * @param p0 the location in the model where the
-     *  fragment should start its representation >= 0
-     * @param pos the graphic location along the axis that the
-     *  broken view would occupy >= 0; this may be useful for
-     *  things like tab calculations
-     * @param len specifies the distance into the view
-     *  where a potential break is desired >= 0
-     * @return the model location desired for a break
-     * @see View#breakView
+     * @pbrbm v the view
+     * @pbrbm p0 the locbtion in the model where the
+     *  frbgment should stbrt its representbtion >= 0
+     * @pbrbm pos the grbphic locbtion blong the bxis thbt the
+     *  broken view would occupy >= 0; this mby be useful for
+     *  things like tbb cblculbtions
+     * @pbrbm len specifies the distbnce into the view
+     *  where b potentibl brebk is desired >= 0
+     * @return the model locbtion desired for b brebk
+     * @see View#brebkView
      */
-    public int getBoundedPosition(GlyphView v, int p0, float x, float len) {
+    public int getBoundedPosition(GlyphView v, int p0, flobt x, flobt len) {
         sync(v);
-        TabExpander expander = v.getTabExpander();
+        TbbExpbnder expbnder = v.getTbbExpbnder();
         Segment s = v.getText(p0, v.getEndOffset());
-        int[] justificationData = getJustificationData(v);
-        int index = Utilities.getTabbedTextOffset(v, s, metrics, (int)x, (int)(x+len),
-                                                  expander, p0, false,
-                                                  justificationData);
-        SegmentCache.releaseSharedSegment(s);
+        int[] justificbtionDbtb = getJustificbtionDbtb(v);
+        int index = Utilities.getTbbbedTextOffset(v, s, metrics, (int)x, (int)(x+len),
+                                                  expbnder, p0, fblse,
+                                                  justificbtionDbtb);
+        SegmentCbche.relebseShbredSegment(s);
         int p1 = p0 + index;
         return p1;
     }
 
     void sync(GlyphView v) {
         Font f = v.getFont();
-        if ((metrics == null) || (! f.equals(metrics.getFont()))) {
-            // fetch a new FontMetrics
-            Container c = v.getContainer();
+        if ((metrics == null) || (! f.equbls(metrics.getFont()))) {
+            // fetch b new FontMetrics
+            Contbiner c = v.getContbiner();
             metrics = (c != null) ? c.getFontMetrics(f) :
-                Toolkit.getDefaultToolkit().getFontMetrics(f);
+                Toolkit.getDefbultToolkit().getFontMetrics(f);
         }
     }
 
 
 
     /**
-     * @return justificationData from the ParagraphRow this GlyphView
-     * is in or {@code null} if no justification is needed
+     * @return justificbtionDbtb from the PbrbgrbphRow this GlyphView
+     * is in or {@code null} if no justificbtion is needed
      */
-    private int[] getJustificationData(GlyphView v) {
-        View parent = v.getParent();
+    privbte int[] getJustificbtionDbtb(GlyphView v) {
+        View pbrent = v.getPbrent();
         int [] ret = null;
-        if (parent instanceof ParagraphView.Row) {
-            ParagraphView.Row row = ((ParagraphView.Row) parent);
-            ret = row.justificationData;
+        if (pbrent instbnceof PbrbgrbphView.Row) {
+            PbrbgrbphView.Row row = ((PbrbgrbphView.Row) pbrent);
+            ret = row.justificbtionDbtb;
         }
         return ret;
     }
 
-    // --- variables ---------------------------------------------
+    // --- vbribbles ---------------------------------------------
 
     FontMetrics metrics;
 }

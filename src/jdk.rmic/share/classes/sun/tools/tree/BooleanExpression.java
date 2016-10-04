@@ -1,98 +1,98 @@
 /*
- * Copyright (c) 1994, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1994, 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.tree;
+pbckbge sun.tools.tree;
 
-import sun.tools.java.*;
-import sun.tools.asm.Assembler;
-import sun.tools.asm.Label;
-import java.io.PrintStream;
-import java.util.Hashtable;
+import sun.tools.jbvb.*;
+import sun.tools.bsm.Assembler;
+import sun.tools.bsm.Lbbel;
+import jbvb.io.PrintStrebm;
+import jbvb.util.Hbshtbble;
 
 /**
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file bre not pbrt of bny
+ * supported API.  Code thbt depends on them does so bt its own risk:
+ * they bre subject to chbnge or removbl without notice.
  */
 public
-class BooleanExpression extends ConstantExpression {
-    boolean value;
+clbss BoolebnExpression extends ConstbntExpression {
+    boolebn vblue;
 
     /**
      * Constructor
      */
-    public BooleanExpression(long where, boolean value) {
-        super(BOOLEANVAL, where, Type.tBoolean);
-        this.value = value;
+    public BoolebnExpression(long where, boolebn vblue) {
+        super(BOOLEANVAL, where, Type.tBoolebn);
+        this.vblue = vblue;
     }
 
     /**
-     * Get the value
+     * Get the vblue
      */
-    public Object getValue() {
-        return value ? 1 : 0;
+    public Object getVblue() {
+        return vblue ? 1 : 0;
     }
 
     /**
-     * Check if the expression is equal to a value
+     * Check if the expression is equbl to b vblue
      */
-    public boolean equals(boolean b) {
-        return value == b;
+    public boolebn equbls(boolebn b) {
+        return vblue == b;
     }
 
 
     /**
-     * Check if the expression is equal to its default static value
+     * Check if the expression is equbl to its defbult stbtic vblue
      */
-    public boolean equalsDefault() {
-        return !value;
+    public boolebn equblsDefbult() {
+        return !vblue;
     }
 
 
     /*
-     * Check a "not" expression.
+     * Check b "not" expression.
      *
-     * cvars is modified so that
-     *    cvar.vsTrue indicates variables with a known value if
+     * cvbrs is modified so thbt
+     *    cvbr.vsTrue indicbtes vbribbles with b known vblue if
      *         the expression is true.
-     *    cvars.vsFalse indicates variables with a known value if
-     *         the expression is false
+     *    cvbrs.vsFblse indicbtes vbribbles with b known vblue if
+     *         the expression is fblse
      *
-     * For constant expressions, set the side that corresponds to our
-     * already known value to vset.  Set the side that corresponds to the
-     * other way to "impossible"
+     * For constbnt expressions, set the side thbt corresponds to our
+     * blrebdy known vblue to vset.  Set the side thbt corresponds to the
+     * other wby to "impossible"
      */
 
     public void checkCondition(Environment env, Context ctx,
-                               Vset vset, Hashtable<Object, Object> exp, ConditionVars cvars) {
-        if (value) {
-            cvars.vsFalse = Vset.DEAD_END;
-            cvars.vsTrue = vset;
+                               Vset vset, Hbshtbble<Object, Object> exp, ConditionVbrs cvbrs) {
+        if (vblue) {
+            cvbrs.vsFblse = Vset.DEAD_END;
+            cvbrs.vsTrue = vset;
         } else {
-            cvars.vsFalse = vset;
-            cvars.vsTrue = Vset.DEAD_END;
+            cvbrs.vsFblse = vset;
+            cvbrs.vsTrue = Vset.DEAD_END;
         }
     }
 
@@ -100,19 +100,19 @@ class BooleanExpression extends ConstantExpression {
     /**
      * Code
      */
-    void codeBranch(Environment env, Context ctx, Assembler asm, Label lbl, boolean whenTrue) {
-        if (value == whenTrue) {
-            asm.add(where, opc_goto, lbl);
+    void codeBrbnch(Environment env, Context ctx, Assembler bsm, Lbbel lbl, boolebn whenTrue) {
+        if (vblue == whenTrue) {
+            bsm.bdd(where, opc_goto, lbl);
         }
     }
-    public void codeValue(Environment env, Context ctx, Assembler asm) {
-        asm.add(where, opc_ldc, value ? 1 : 0);
+    public void codeVblue(Environment env, Context ctx, Assembler bsm) {
+        bsm.bdd(where, opc_ldc, vblue ? 1 : 0);
     }
 
     /**
      * Print
      */
-    public void print(PrintStream out) {
-        out.print(value ? "true" : "false");
+    public void print(PrintStrebm out) {
+        out.print(vblue ? "true" : "fblse");
     }
 }

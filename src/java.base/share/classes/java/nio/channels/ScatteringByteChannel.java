@@ -1,162 +1,162 @@
 /*
- * Copyright (c) 2000, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2006, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.nio.channels;
+pbckbge jbvb.nio.chbnnels;
 
-import java.io.IOException;
-import java.nio.ByteBuffer;
+import jbvb.io.IOException;
+import jbvb.nio.ByteBuffer;
 
 
 /**
- * A channel that can read bytes into a sequence of buffers.
+ * A chbnnel thbt cbn rebd bytes into b sequence of buffers.
  *
- * <p> A <i>scattering</i> read operation reads, in a single invocation, a
- * sequence of bytes into one or more of a given sequence of buffers.
- * Scattering reads are often useful when implementing network protocols or
- * file formats that, for example, group data into segments consisting of one
- * or more fixed-length headers followed by a variable-length body.  Similar
- * <i>gathering</i> write operations are defined in the {@link
- * GatheringByteChannel} interface.  </p>
+ * <p> A <i>scbttering</i> rebd operbtion rebds, in b single invocbtion, b
+ * sequence of bytes into one or more of b given sequence of buffers.
+ * Scbttering rebds bre often useful when implementing network protocols or
+ * file formbts thbt, for exbmple, group dbtb into segments consisting of one
+ * or more fixed-length hebders followed by b vbribble-length body.  Similbr
+ * <i>gbthering</i> write operbtions bre defined in the {@link
+ * GbtheringByteChbnnel} interfbce.  </p>
  *
  *
- * @author Mark Reinhold
- * @author JSR-51 Expert Group
+ * @buthor Mbrk Reinhold
+ * @buthor JSR-51 Expert Group
  * @since 1.4
  */
 
-public interface ScatteringByteChannel
-    extends ReadableByteChannel
+public interfbce ScbtteringByteChbnnel
+    extends RebdbbleByteChbnnel
 {
 
     /**
-     * Reads a sequence of bytes from this channel into a subsequence of the
+     * Rebds b sequence of bytes from this chbnnel into b subsequence of the
      * given buffers.
      *
-     * <p> An invocation of this method attempts to read up to <i>r</i> bytes
-     * from this channel, where <i>r</i> is the total number of bytes remaining
-     * the specified subsequence of the given buffer array, that is,
+     * <p> An invocbtion of this method bttempts to rebd up to <i>r</i> bytes
+     * from this chbnnel, where <i>r</i> is the totbl number of bytes rembining
+     * the specified subsequence of the given buffer brrby, thbt is,
      *
      * <blockquote><pre>
-     * dsts[offset].remaining()
-     *     + dsts[offset+1].remaining()
-     *     + ... + dsts[offset+length-1].remaining()</pre></blockquote>
+     * dsts[offset].rembining()
+     *     + dsts[offset+1].rembining()
+     *     + ... + dsts[offset+length-1].rembining()</pre></blockquote>
      *
-     * at the moment that this method is invoked.
+     * bt the moment thbt this method is invoked.
      *
-     * <p> Suppose that a byte sequence of length <i>n</i> is read, where
+     * <p> Suppose thbt b byte sequence of length <i>n</i> is rebd, where
      * <tt>0</tt>&nbsp;<tt>&lt;=</tt>&nbsp;<i>n</i>&nbsp;<tt>&lt;=</tt>&nbsp;<i>r</i>.
-     * Up to the first <tt>dsts[offset].remaining()</tt> bytes of this sequence
-     * are transferred into buffer <tt>dsts[offset]</tt>, up to the next
-     * <tt>dsts[offset+1].remaining()</tt> bytes are transferred into buffer
-     * <tt>dsts[offset+1]</tt>, and so forth, until the entire byte sequence
-     * is transferred into the given buffers.  As many bytes as possible are
-     * transferred into each buffer, hence the final position of each updated
-     * buffer, except the last updated buffer, is guaranteed to be equal to
-     * that buffer's limit.
+     * Up to the first <tt>dsts[offset].rembining()</tt> bytes of this sequence
+     * bre trbnsferred into buffer <tt>dsts[offset]</tt>, up to the next
+     * <tt>dsts[offset+1].rembining()</tt> bytes bre trbnsferred into buffer
+     * <tt>dsts[offset+1]</tt>, bnd so forth, until the entire byte sequence
+     * is trbnsferred into the given buffers.  As mbny bytes bs possible bre
+     * trbnsferred into ebch buffer, hence the finbl position of ebch updbted
+     * buffer, except the lbst updbted buffer, is gubrbnteed to be equbl to
+     * thbt buffer's limit.
      *
-     * <p> This method may be invoked at any time.  If another thread has
-     * already initiated a read operation upon this channel, however, then an
-     * invocation of this method will block until the first operation is
+     * <p> This method mby be invoked bt bny time.  If bnother threbd hbs
+     * blrebdy initibted b rebd operbtion upon this chbnnel, however, then bn
+     * invocbtion of this method will block until the first operbtion is
      * complete. </p>
      *
-     * @param  dsts
-     *         The buffers into which bytes are to be transferred
+     * @pbrbm  dsts
+     *         The buffers into which bytes bre to be trbnsferred
      *
-     * @param  offset
-     *         The offset within the buffer array of the first buffer into
-     *         which bytes are to be transferred; must be non-negative and no
-     *         larger than <tt>dsts.length</tt>
+     * @pbrbm  offset
+     *         The offset within the buffer brrby of the first buffer into
+     *         which bytes bre to be trbnsferred; must be non-negbtive bnd no
+     *         lbrger thbn <tt>dsts.length</tt>
      *
-     * @param  length
-     *         The maximum number of buffers to be accessed; must be
-     *         non-negative and no larger than
+     * @pbrbm  length
+     *         The mbximum number of buffers to be bccessed; must be
+     *         non-negbtive bnd no lbrger thbn
      *         <tt>dsts.length</tt>&nbsp;-&nbsp;<tt>offset</tt>
      *
-     * @return The number of bytes read, possibly zero,
-     *         or <tt>-1</tt> if the channel has reached end-of-stream
+     * @return The number of bytes rebd, possibly zero,
+     *         or <tt>-1</tt> if the chbnnel hbs rebched end-of-strebm
      *
      * @throws  IndexOutOfBoundsException
-     *          If the preconditions on the <tt>offset</tt> and <tt>length</tt>
-     *          parameters do not hold
+     *          If the preconditions on the <tt>offset</tt> bnd <tt>length</tt>
+     *          pbrbmeters do not hold
      *
-     * @throws  NonReadableChannelException
-     *          If this channel was not opened for reading
+     * @throws  NonRebdbbleChbnnelException
+     *          If this chbnnel wbs not opened for rebding
      *
-     * @throws  ClosedChannelException
-     *          If this channel is closed
+     * @throws  ClosedChbnnelException
+     *          If this chbnnel is closed
      *
      * @throws  AsynchronousCloseException
-     *          If another thread closes this channel
-     *          while the read operation is in progress
+     *          If bnother threbd closes this chbnnel
+     *          while the rebd operbtion is in progress
      *
      * @throws  ClosedByInterruptException
-     *          If another thread interrupts the current thread
-     *          while the read operation is in progress, thereby
-     *          closing the channel and setting the current thread's
-     *          interrupt status
+     *          If bnother threbd interrupts the current threbd
+     *          while the rebd operbtion is in progress, thereby
+     *          closing the chbnnel bnd setting the current threbd's
+     *          interrupt stbtus
      *
      * @throws  IOException
      *          If some other I/O error occurs
      */
-    public long read(ByteBuffer[] dsts, int offset, int length)
+    public long rebd(ByteBuffer[] dsts, int offset, int length)
         throws IOException;
 
     /**
-     * Reads a sequence of bytes from this channel into the given buffers.
+     * Rebds b sequence of bytes from this chbnnel into the given buffers.
      *
-     * <p> An invocation of this method of the form <tt>c.read(dsts)</tt>
-     * behaves in exactly the same manner as the invocation
+     * <p> An invocbtion of this method of the form <tt>c.rebd(dsts)</tt>
+     * behbves in exbctly the sbme mbnner bs the invocbtion
      *
      * <blockquote><pre>
-     * c.read(dsts, 0, dsts.length);</pre></blockquote>
+     * c.rebd(dsts, 0, dsts.length);</pre></blockquote>
      *
-     * @param  dsts
-     *         The buffers into which bytes are to be transferred
+     * @pbrbm  dsts
+     *         The buffers into which bytes bre to be trbnsferred
      *
-     * @return The number of bytes read, possibly zero,
-     *         or <tt>-1</tt> if the channel has reached end-of-stream
+     * @return The number of bytes rebd, possibly zero,
+     *         or <tt>-1</tt> if the chbnnel hbs rebched end-of-strebm
      *
-     * @throws  NonReadableChannelException
-     *          If this channel was not opened for reading
+     * @throws  NonRebdbbleChbnnelException
+     *          If this chbnnel wbs not opened for rebding
      *
-     * @throws  ClosedChannelException
-     *          If this channel is closed
+     * @throws  ClosedChbnnelException
+     *          If this chbnnel is closed
      *
      * @throws  AsynchronousCloseException
-     *          If another thread closes this channel
-     *          while the read operation is in progress
+     *          If bnother threbd closes this chbnnel
+     *          while the rebd operbtion is in progress
      *
      * @throws  ClosedByInterruptException
-     *          If another thread interrupts the current thread
-     *          while the read operation is in progress, thereby
-     *          closing the channel and setting the current thread's
-     *          interrupt status
+     *          If bnother threbd interrupts the current threbd
+     *          while the rebd operbtion is in progress, thereby
+     *          closing the chbnnel bnd setting the current threbd's
+     *          interrupt stbtus
      *
      * @throws  IOException
      *          If some other I/O error occurs
      */
-    public long read(ByteBuffer[] dsts) throws IOException;
+    public long rebd(ByteBuffer[] dsts) throws IOException;
 
 }

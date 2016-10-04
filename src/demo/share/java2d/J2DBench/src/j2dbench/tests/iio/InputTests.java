@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,121 +30,121 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-package j2dbench.tests.iio;
+pbckbge j2dbench.tests.iio;
 
-import java.io.BufferedInputStream;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.URL;
-import javax.imageio.ImageIO;
-import javax.imageio.spi.IIORegistry;
-import javax.imageio.spi.ImageInputStreamSpi;
-import javax.imageio.stream.FileCacheImageInputStream;
-import javax.imageio.stream.FileImageInputStream;
-import javax.imageio.stream.ImageInputStream;
-import javax.imageio.stream.MemoryCacheImageInputStream;
+import jbvb.io.BufferedInputStrebm;
+import jbvb.io.ByteArrbyInputStrebm;
+import jbvb.io.ByteArrbyOutputStrebm;
+import jbvb.io.File;
+import jbvb.io.FileInputStrebm;
+import jbvb.io.IOException;
+import jbvb.io.InputStrebm;
+import jbvb.io.OutputStrebm;
+import jbvb.net.URL;
+import jbvbx.imbgeio.ImbgeIO;
+import jbvbx.imbgeio.spi.IIORegistry;
+import jbvbx.imbgeio.spi.ImbgeInputStrebmSpi;
+import jbvbx.imbgeio.strebm.FileCbcheImbgeInputStrebm;
+import jbvbx.imbgeio.strebm.FileImbgeInputStrebm;
+import jbvbx.imbgeio.strebm.ImbgeInputStrebm;
+import jbvbx.imbgeio.strebm.MemoryCbcheImbgeInputStrebm;
 
 import j2dbench.Group;
 import j2dbench.Option;
 import j2dbench.Result;
 import j2dbench.TestEnvironment;
 
-abstract class InputTests extends IIOTests {
+bbstrbct clbss InputTests extends IIOTests {
 
-    protected static final int INPUT_FILE        = 1;
-    protected static final int INPUT_URL         = 2;
-    protected static final int INPUT_ARRAY       = 3;
-    protected static final int INPUT_FILECHANNEL = 4;
+    protected stbtic finbl int INPUT_FILE        = 1;
+    protected stbtic finbl int INPUT_URL         = 2;
+    protected stbtic finbl int INPUT_ARRAY       = 3;
+    protected stbtic finbl int INPUT_FILECHANNEL = 4;
 
-    protected static ImageInputStreamSpi fileChannelIISSpi;
-    static {
-        if (hasImageIO) {
-            ImageIO.scanForPlugins();
-            IIORegistry registry = IIORegistry.getDefaultInstance();
-            java.util.Iterator spis =
-                registry.getServiceProviders(ImageInputStreamSpi.class, false);
-            while (spis.hasNext()) {
-                ImageInputStreamSpi spi = (ImageInputStreamSpi)spis.next();
-                String klass = spi.getClass().getName();
-                if (klass.endsWith("ChannelImageInputStreamSpi")) {
-                    fileChannelIISSpi = spi;
-                    break;
+    protected stbtic ImbgeInputStrebmSpi fileChbnnelIISSpi;
+    stbtic {
+        if (hbsImbgeIO) {
+            ImbgeIO.scbnForPlugins();
+            IIORegistry registry = IIORegistry.getDefbultInstbnce();
+            jbvb.util.Iterbtor spis =
+                registry.getServiceProviders(ImbgeInputStrebmSpi.clbss, fblse);
+            while (spis.hbsNext()) {
+                ImbgeInputStrebmSpi spi = (ImbgeInputStrebmSpi)spis.next();
+                String klbss = spi.getClbss().getNbme();
+                if (klbss.endsWith("ChbnnelImbgeInputStrebmSpi")) {
+                    fileChbnnelIISSpi = spi;
+                    brebk;
                 }
             }
         }
     }
 
-    protected static Group inputRoot;
-    protected static Group inputOptRoot;
+    protected stbtic Group inputRoot;
+    protected stbtic Group inputOptRoot;
 
-    protected static Group generalOptRoot;
-    protected static Group.EnableSet generalSourceRoot;
-    protected static Option sourceFileOpt;
-    protected static Option sourceUrlOpt;
-    protected static Option sourceByteArrayOpt;
+    protected stbtic Group generblOptRoot;
+    protected stbtic Group.EnbbleSet generblSourceRoot;
+    protected stbtic Option sourceFileOpt;
+    protected stbtic Option sourceUrlOpt;
+    protected stbtic Option sourceByteArrbyOpt;
 
-    protected static Group imageioGeneralOptRoot;
-    protected static Option sourceFileChannelOpt;
-    protected static Option useCacheTog;
+    protected stbtic Group imbgeioGenerblOptRoot;
+    protected stbtic Option sourceFileChbnnelOpt;
+    protected stbtic Option useCbcheTog;
 
-    public static void init() {
-        inputRoot = new Group(iioRoot, "input", "Input Benchmarks");
-        inputRoot.setTabbed();
+    public stbtic void init() {
+        inputRoot = new Group(iioRoot, "input", "Input Benchmbrks");
+        inputRoot.setTbbbed();
 
         // Options
         inputOptRoot = new Group(inputRoot, "opts", "Options");
 
-        // General Options
-        generalOptRoot = new Group(inputOptRoot,
-                                   "general", "General Options");
-        generalSourceRoot = new Group.EnableSet(generalOptRoot,
+        // Generbl Options
+        generblOptRoot = new Group(inputOptRoot,
+                                   "generbl", "Generbl Options");
+        generblSourceRoot = new Group.EnbbleSet(generblOptRoot,
                                                 "source", "Sources");
         sourceFileOpt = new InputType("file", "File", INPUT_FILE);
         sourceUrlOpt = new InputType("url", "URL", INPUT_URL);
-        sourceByteArrayOpt = new InputType("byteArray", "byte[]", INPUT_ARRAY);
+        sourceByteArrbyOpt = new InputType("byteArrby", "byte[]", INPUT_ARRAY);
 
-        if (hasImageIO) {
-            // Image I/O Options
-            imageioGeneralOptRoot = new Group(inputOptRoot,
-                                              "imageio", "Image I/O Options");
-            if (fileChannelIISSpi != null) {
-                sourceFileChannelOpt =
-                    new InputType("fileChannel", "FileChannel",
+        if (hbsImbgeIO) {
+            // Imbge I/O Options
+            imbgeioGenerblOptRoot = new Group(inputOptRoot,
+                                              "imbgeio", "Imbge I/O Options");
+            if (fileChbnnelIISSpi != null) {
+                sourceFileChbnnelOpt =
+                    new InputType("fileChbnnel", "FileChbnnel",
                                   INPUT_FILECHANNEL);
             }
-            useCacheTog = new Option.Toggle(imageioGeneralOptRoot, "useCache",
-                                            "ImageIO.setUseCache()",
+            useCbcheTog = new Option.Toggle(imbgeioGenerblOptRoot, "useCbche",
+                                            "ImbgeIO.setUseCbche()",
                                             Option.Toggle.Off);
         }
 
-        InputImageTests.init();
-        if (hasImageIO) {
-            InputStreamTests.init();
+        InputImbgeTests.init();
+        if (hbsImbgeIO) {
+            InputStrebmTests.init();
         }
     }
 
-    protected InputTests(Group parent, String nodeName, String description) {
-        super(parent, nodeName, description);
+    protected InputTests(Group pbrent, String nodeNbme, String description) {
+        super(pbrent, nodeNbme, description);
     }
 
-    protected static class InputType extends Option.Enable {
-        private int type;
+    protected stbtic clbss InputType extends Option.Enbble {
+        privbte int type;
 
-        public InputType(String nodeName, String description, int type) {
-            super(generalSourceRoot, nodeName, description, false);
+        public InputType(String nodeNbme, String description, int type) {
+            super(generblSourceRoot, nodeNbme, description, fblse);
             this.type = type;
         }
 
@@ -152,30 +152,30 @@ abstract class InputTests extends IIOTests {
             return type;
         }
 
-        public String getAbbreviatedModifierDescription(Object value) {
-            return getModifierValueName(value);
+        public String getAbbrevibtedModifierDescription(Object vblue) {
+            return getModifierVblueNbme(vblue);
         }
 
-        public String getModifierValueName(Object val) {
-            return getNodeName();
+        public String getModifierVblueNbme(Object vbl) {
+            return getNodeNbme();
         }
     }
 
-    protected static abstract class Context {
+    protected stbtic bbstrbct clbss Context {
         int size;
         Object input;
         int inputType;
-        InputStream origStream;
+        InputStrebm origStrebm;
 
         Context(TestEnvironment env, Result result) {
-            size = env.getIntValue(sizeList);
-            if (hasImageIO) {
-                if (env.getModifier(useCacheTog) != null) {
-                    ImageIO.setUseCache(env.isEnabled(useCacheTog));
+            size = env.getIntVblue(sizeList);
+            if (hbsImbgeIO) {
+                if (env.getModifier(useCbcheTog) != null) {
+                    ImbgeIO.setUseCbche(env.isEnbbled(useCbcheTog));
                 }
             }
 
-            InputType t = (InputType)env.getModifier(generalSourceRoot);
+            InputType t = (InputType)env.getModifier(generblSourceRoot);
             inputType = t.getType();
         }
 
@@ -185,10 +185,10 @@ abstract class InputTests extends IIOTests {
                 (inputType == INPUT_FILECHANNEL))
             {
                 try {
-                    // REMIND: this approach will fail for GIF on pre-1.6 VM's
-                    //         (since earlier releases do not include a
-                    //         GIFImageWriter in the core JDK)
-                    File inputfile = File.createTempFile("iio", ".tmp");
+                    // REMIND: this bpprobch will fbil for GIF on pre-1.6 VM's
+                    //         (since ebrlier relebses do not include b
+                    //         GIFImbgeWriter in the core JDK)
+                    File inputfile = File.crebteTempFile("iio", ".tmp");
                     inputfile.deleteOnExit();
                     initContents(inputfile);
                     if (inputType == INPUT_FILE) {
@@ -198,78 +198,78 @@ abstract class InputTests extends IIOTests {
                     } else { // inputType == INPUT_URL
                         try {
                             input = inputfile.toURI().toURL();
-                        } catch (Exception e) {
-                            System.err.println("error creating URL");
+                        } cbtch (Exception e) {
+                            System.err.println("error crebting URL");
                         }
                     }
-                } catch (IOException e) {
-                    System.err.println("error creating image file");
-                    e.printStackTrace();
+                } cbtch (IOException e) {
+                    System.err.println("error crebting imbge file");
+                    e.printStbckTrbce();
                 }
             } else {
-                ByteArrayOutputStream out;
+                ByteArrbyOutputStrebm out;
                 try {
-                    out = new ByteArrayOutputStream();
+                    out = new ByteArrbyOutputStrebm();
                     initContents(out);
-                } catch (IOException e) {
-                    System.err.println("error creating image array");
-                    e.printStackTrace();
+                } cbtch (IOException e) {
+                    System.err.println("error crebting imbge brrby");
+                    e.printStbckTrbce();
                     return;
                 }
-                input = out.toByteArray();
+                input = out.toByteArrby();
             }
         }
 
-        abstract void initContents(File f) throws IOException;
-        abstract void initContents(OutputStream out) throws IOException;
+        bbstrbct void initContents(File f) throws IOException;
+        bbstrbct void initContents(OutputStrebm out) throws IOException;
 
-        ImageInputStream createImageInputStream() throws IOException {
-            ImageInputStream iis;
-            BufferedInputStream bis;
+        ImbgeInputStrebm crebteImbgeInputStrebm() throws IOException {
+            ImbgeInputStrebm iis;
+            BufferedInputStrebm bis;
             switch (inputType) {
-            case INPUT_FILE:
-                iis = new FileImageInputStream((File)input);
-                break;
-            case INPUT_URL:
-                origStream = ((URL)input).openStream();
-                bis = new BufferedInputStream(origStream);
-                if (ImageIO.getUseCache()) {
-                    iis = new FileCacheImageInputStream(bis, null);
+            cbse INPUT_FILE:
+                iis = new FileImbgeInputStrebm((File)input);
+                brebk;
+            cbse INPUT_URL:
+                origStrebm = ((URL)input).openStrebm();
+                bis = new BufferedInputStrebm(origStrebm);
+                if (ImbgeIO.getUseCbche()) {
+                    iis = new FileCbcheImbgeInputStrebm(bis, null);
                 } else {
-                    iis = new MemoryCacheImageInputStream(bis);
+                    iis = new MemoryCbcheImbgeInputStrebm(bis);
                 }
-                break;
-            case INPUT_ARRAY:
-                origStream = new ByteArrayInputStream((byte[])input);
-                bis = new BufferedInputStream(origStream);
-                if (ImageIO.getUseCache()) {
-                    iis = new FileCacheImageInputStream(bis, null);
+                brebk;
+            cbse INPUT_ARRAY:
+                origStrebm = new ByteArrbyInputStrebm((byte[])input);
+                bis = new BufferedInputStrebm(origStrebm);
+                if (ImbgeIO.getUseCbche()) {
+                    iis = new FileCbcheImbgeInputStrebm(bis, null);
                 } else {
-                    iis = new MemoryCacheImageInputStream(bis);
+                    iis = new MemoryCbcheImbgeInputStrebm(bis);
                 }
-                break;
-            case INPUT_FILECHANNEL:
-                FileInputStream fis = new FileInputStream((File)input);
-                origStream = fis;
-                java.nio.channels.FileChannel fc = fis.getChannel();
-                iis = fileChannelIISSpi.createInputStreamInstance(fc, false,
+                brebk;
+            cbse INPUT_FILECHANNEL:
+                FileInputStrebm fis = new FileInputStrebm((File)input);
+                origStrebm = fis;
+                jbvb.nio.chbnnels.FileChbnnel fc = fis.getChbnnel();
+                iis = fileChbnnelIISSpi.crebteInputStrebmInstbnce(fc, fblse,
                                                                   null);
-                break;
-            default:
+                brebk;
+            defbult:
                 iis = null;
-                break;
+                brebk;
             }
             return iis;
         }
 
-        void closeOriginalStream() throws IOException {
-            if (origStream != null) {
-                origStream.close();
-                origStream = null;
+        void closeOriginblStrebm() throws IOException {
+            if (origStrebm != null) {
+                origStrebm.close();
+                origStrebm = null;
             }
         }
 
-        void cleanup(TestEnvironment env) {
+        void clebnup(TestEnvironment env) {
         }
     }
 }

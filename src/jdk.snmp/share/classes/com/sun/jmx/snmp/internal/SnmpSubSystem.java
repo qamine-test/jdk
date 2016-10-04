@@ -1,73 +1,73 @@
 /*
- * Copyright (c) 2001, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package com.sun.jmx.snmp.internal;
+pbckbge com.sun.jmx.snmp.internbl;
 
 import com.sun.jmx.snmp.SnmpEngine;
 import com.sun.jmx.snmp.SnmpUnknownModelException;
-import java.util.Hashtable;
+import jbvb.util.Hbshtbble;
 /**
- * SNMP sub system interface. To allow engine framework integration, a sub system must implement this interface. A sub system is a model manager. Every model is identified by an ID. A sub system can retrieve a previously registered model using this ID.
- * <P> Every sub system is associated to its SNMP engine.
- * <p><b>This API is a Sun Microsystems internal API  and is subject
- * to change without notice.</b></p>
+ * SNMP sub system interfbce. To bllow engine frbmework integrbtion, b sub system must implement this interfbce. A sub system is b model mbnbger. Every model is identified by bn ID. A sub system cbn retrieve b previously registered model using this ID.
+ * <P> Every sub system is bssocibted to its SNMP engine.
+ * <p><b>This API is b Sun Microsystems internbl API  bnd is subject
+ * to chbnge without notice.</b></p>
  */
-public interface SnmpSubSystem {
+public interfbce SnmpSubSystem {
     /**
-     * Returns the associated engine.
+     * Returns the bssocibted engine.
      * @return The engine.
      */
     public SnmpEngine getEngine();
 
     /**
-     * Adds a model to this sub system.
-     * @param id The model ID.
-     * @param model The model to add.
+     * Adds b model to this sub system.
+     * @pbrbm id The model ID.
+     * @pbrbm model The model to bdd.
      */
-    public void addModel(int id, SnmpModel model);
+    public void bddModel(int id, SnmpModel model);
 
     /**
-     * Removes a model from this sub system.
-     * @param id The model ID to remove.
+     * Removes b model from this sub system.
+     * @pbrbm id The model ID to remove.
      * @return The removed model.
      */
     public SnmpModel removeModel(int id) throws SnmpUnknownModelException;
 
     /**
-     * Gets a model from this sub system.
-     * @param id The model ID to get.
+     * Gets b model from this sub system.
+     * @pbrbm id The model ID to get.
      * @return The model.
      */
     public SnmpModel getModel(int id) throws SnmpUnknownModelException;
 
     /**
-     * Returns the set of model Ids that have been registered within the sub system.
+     * Returns the set of model Ids thbt hbve been registered within the sub system.
      */
     public int[] getModelIds();
 
     /**
-     * Returns the set of model names that have been registered within the sub system.
+     * Returns the set of model nbmes thbt hbve been registered within the sub system.
      */
-    public String[] getModelNames();
+    public String[] getModelNbmes();
 }

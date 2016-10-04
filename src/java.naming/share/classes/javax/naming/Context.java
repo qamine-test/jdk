@@ -1,1089 +1,1089 @@
 /*
- * Copyright (c) 1999, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.naming;
+pbckbge jbvbx.nbming;
 
-import java.util.Hashtable;
+import jbvb.util.Hbshtbble;
 
 /**
- * This interface represents a naming context, which
- * consists of a set of name-to-object bindings.
- * It contains methods for examining and updating these bindings.
+ * This interfbce represents b nbming context, which
+ * consists of b set of nbme-to-object bindings.
+ * It contbins methods for exbmining bnd updbting these bindings.
  *
- * <h1>Names</h1>
- * Each name passed as an argument to a <tt>Context</tt> method is relative
- * to that context.  The empty name is used to name the context itself.
- * A name parameter may never be null.
+ * <h1>Nbmes</h1>
+ * Ebch nbme pbssed bs bn brgument to b <tt>Context</tt> method is relbtive
+ * to thbt context.  The empty nbme is used to nbme the context itself.
+ * A nbme pbrbmeter mby never be null.
  * <p>
- * Most of the methods have overloaded versions with one taking a
- * <code>Name</code> parameter and one taking a <code>String</code>.
- * These overloaded versions are equivalent in that if
- * the <code>Name</code> and <code>String</code> parameters are just
- * different representations of the same name, then the overloaded
- * versions of the same methods behave the same.
+ * Most of the methods hbve overlobded versions with one tbking b
+ * <code>Nbme</code> pbrbmeter bnd one tbking b <code>String</code>.
+ * These overlobded versions bre equivblent in thbt if
+ * the <code>Nbme</code> bnd <code>String</code> pbrbmeters bre just
+ * different representbtions of the sbme nbme, then the overlobded
+ * versions of the sbme methods behbve the sbme.
  * In the method descriptions below, only one version is fully documented.
- * The second version instead has a link to the first:  the same
- * documentation applies to both.
+ * The second version instebd hbs b link to the first:  the sbme
+ * documentbtion bpplies to both.
  * <p>
- * For systems that support federation, <tt>String</tt> name arguments to
- * <tt>Context</tt> methods are composite names. Name arguments that are
- * instances of <tt>CompositeName</tt> are treated as composite names,
- * while <tt>Name</tt> arguments that are not instances of
- * <tt>CompositeName</tt> are treated as compound names (which might be
- * instances of <tt>CompoundName</tt> or other implementations of compound
- * names). This allows the results of <tt>NameParser.parse()</tt> to be used as
- * arguments to the <tt>Context</tt> methods.
- * Prior to JNDI 1.2, all name arguments were treated as composite names.
+ * For systems thbt support federbtion, <tt>String</tt> nbme brguments to
+ * <tt>Context</tt> methods bre composite nbmes. Nbme brguments thbt bre
+ * instbnces of <tt>CompositeNbme</tt> bre trebted bs composite nbmes,
+ * while <tt>Nbme</tt> brguments thbt bre not instbnces of
+ * <tt>CompositeNbme</tt> bre trebted bs compound nbmes (which might be
+ * instbnces of <tt>CompoundNbme</tt> or other implementbtions of compound
+ * nbmes). This bllows the results of <tt>NbmePbrser.pbrse()</tt> to be used bs
+ * brguments to the <tt>Context</tt> methods.
+ * Prior to JNDI 1.2, bll nbme brguments were trebted bs composite nbmes.
  *<p>
- * Furthermore, for systems that support federation, all names returned
- * in a <tt>NamingEnumeration</tt>
- * from <tt>list()</tt> and <tt>listBindings()</tt> are composite names
- * represented as strings.
- * See <tt>CompositeName</tt> for the string syntax of names.
+ * Furthermore, for systems thbt support federbtion, bll nbmes returned
+ * in b <tt>NbmingEnumerbtion</tt>
+ * from <tt>list()</tt> bnd <tt>listBindings()</tt> bre composite nbmes
+ * represented bs strings.
+ * See <tt>CompositeNbme</tt> for the string syntbx of nbmes.
  *<p>
- * For systems that do not support federation, the name arguments (in
- * either <tt>Name</tt> or <tt>String</tt> forms) and the names returned in
- * <tt>NamingEnumeration</tt> may be names in their own namespace rather than
- * names in a composite namespace, at the discretion of the service
+ * For systems thbt do not support federbtion, the nbme brguments (in
+ * either <tt>Nbme</tt> or <tt>String</tt> forms) bnd the nbmes returned in
+ * <tt>NbmingEnumerbtion</tt> mby be nbmes in their own nbmespbce rbther thbn
+ * nbmes in b composite nbmespbce, bt the discretion of the service
  * provider.
  *
  *<h1>Exceptions</h1>
- * All the methods in this interface can throw a <tt>NamingException</tt> or
- * any of its subclasses. See <tt>NamingException</tt> and their subclasses
- * for details on each exception.
+ * All the methods in this interfbce cbn throw b <tt>NbmingException</tt> or
+ * bny of its subclbsses. See <tt>NbmingException</tt> bnd their subclbsses
+ * for detbils on ebch exception.
  *
  *<h1>Concurrent Access</h1>
- * A Context instance is not guaranteed to be synchronized against
- * concurrent access by multiple threads.  Threads that need to access
- * a single Context instance concurrently should synchronize amongst
- * themselves and provide the necessary locking.  Multiple threads
- * each manipulating a different Context instance need not
- * synchronize.  Note that the {@link #lookup(Name) <tt>lookup</tt>}
- * method, when passed an empty name, will return a new Context instance
- * representing the same naming context.
+ * A Context instbnce is not gubrbnteed to be synchronized bgbinst
+ * concurrent bccess by multiple threbds.  Threbds thbt need to bccess
+ * b single Context instbnce concurrently should synchronize bmongst
+ * themselves bnd provide the necessbry locking.  Multiple threbds
+ * ebch mbnipulbting b different Context instbnce need not
+ * synchronize.  Note thbt the {@link #lookup(Nbme) <tt>lookup</tt>}
+ * method, when pbssed bn empty nbme, will return b new Context instbnce
+ * representing the sbme nbming context.
  *<p>
  * For purposes of concurrency control,
- * a Context operation that returns a <tt>NamingEnumeration</tt> is
- * not considered to have completed while the enumeration is still in
- * use, or while any referrals generated by that operation are still
+ * b Context operbtion thbt returns b <tt>NbmingEnumerbtion</tt> is
+ * not considered to hbve completed while the enumerbtion is still in
+ * use, or while bny referrbls generbted by thbt operbtion bre still
  * being followed.
  *
  *
- *<h1>Parameters</h1>
- * A <tt>Name</tt> parameter passed to any method of the
- * <tt>Context</tt> interface or one of its subinterfaces
+ *<h1>Pbrbmeters</h1>
+ * A <tt>Nbme</tt> pbrbmeter pbssed to bny method of the
+ * <tt>Context</tt> interfbce or one of its subinterfbces
  * will not be modified by the service provider.
- * The service provider may keep a reference to it
- * for the duration of the operation, including any enumeration of the
- * method's results and the processing of any referrals generated.
- * The caller should not modify the object during this time.
- * A <tt>Name</tt> returned by any such method is owned by the caller.
- * The caller may subsequently modify it; the service provider may not.
+ * The service provider mby keep b reference to it
+ * for the durbtion of the operbtion, including bny enumerbtion of the
+ * method's results bnd the processing of bny referrbls generbted.
+ * The cbller should not modify the object during this time.
+ * A <tt>Nbme</tt> returned by bny such method is owned by the cbller.
+ * The cbller mby subsequently modify it; the service provider mby not.
  *
  *
  *<h1>Environment Properties</h1>
  *<p>
- * JNDI applications need a way to communicate various preferences
- * and properties that define the environment in which naming and
- * directory services are accessed. For example, a context might
- * require specification of security credentials in order to access
- * the service. Another context might require that server configuration
- * information be supplied. These are referred to as the <em>environment</em>
- * of a context. The <tt>Context</tt> interface provides methods for
- * retrieving and updating this environment.
+ * JNDI bpplicbtions need b wby to communicbte vbrious preferences
+ * bnd properties thbt define the environment in which nbming bnd
+ * directory services bre bccessed. For exbmple, b context might
+ * require specificbtion of security credentibls in order to bccess
+ * the service. Another context might require thbt server configurbtion
+ * informbtion be supplied. These bre referred to bs the <em>environment</em>
+ * of b context. The <tt>Context</tt> interfbce provides methods for
+ * retrieving bnd updbting this environment.
  *<p>
- * The environment is inherited from the parent context as
- * context methods proceed from one context to the next. Changes to
- * the environment of one context do not directly affect those
+ * The environment is inherited from the pbrent context bs
+ * context methods proceed from one context to the next. Chbnges to
+ * the environment of one context do not directly bffect those
  * of other contexts.
  *<p>
- * It is implementation-dependent when environment properties are used
- * and/or verified for validity.  For example, some of the
- * security-related properties are used by service providers to "log in"
- * to the directory.  This login process might occur at the time the
- * context is created, or the first time a method is invoked on the
- * context.  When, and whether this occurs at all, is
- * implementation-dependent.  When environment properties are added or
- * removed from the context, verifying the validity of the changes is again
- * implementation-dependent. For example, verification of some properties
- * might occur at the time the change is made, or at the time the next
- * operation is performed on the context, or not at all.
+ * It is implementbtion-dependent when environment properties bre used
+ * bnd/or verified for vblidity.  For exbmple, some of the
+ * security-relbted properties bre used by service providers to "log in"
+ * to the directory.  This login process might occur bt the time the
+ * context is crebted, or the first time b method is invoked on the
+ * context.  When, bnd whether this occurs bt bll, is
+ * implementbtion-dependent.  When environment properties bre bdded or
+ * removed from the context, verifying the vblidity of the chbnges is bgbin
+ * implementbtion-dependent. For exbmple, verificbtion of some properties
+ * might occur bt the time the chbnge is mbde, or bt the time the next
+ * operbtion is performed on the context, or not bt bll.
  *<p>
- * Any object with a reference to a context may examine that context's
- * environment.  Sensitive information such as clear-text
- * passwords should not be stored there unless the implementation is
+ * Any object with b reference to b context mby exbmine thbt context's
+ * environment.  Sensitive informbtion such bs clebr-text
+ * pbsswords should not be stored there unless the implementbtion is
  * known to protect it.
  *
  *<p>
- *<a name=RESOURCEFILES></a>
+ *<b nbme=RESOURCEFILES></b>
  *<h1>Resource Files</h1>
  *<p>
- * To simplify the task of setting up the environment
- * required by a JNDI application,
- * application components and service providers may be distributed
- * along with <em>resource files.</em>
- * A JNDI resource file is a file in the properties file format (see
- * {@link java.util.Properties#load <tt>java.util.Properties</tt>}),
- * containing a list of key/value pairs.
- * The key is the name of the property (e.g. "java.naming.factory.object")
- * and the value is a string in the format defined
- * for that property.  Here is an example of a JNDI resource file:
+ * To simplify the tbsk of setting up the environment
+ * required by b JNDI bpplicbtion,
+ * bpplicbtion components bnd service providers mby be distributed
+ * blong with <em>resource files.</em>
+ * A JNDI resource file is b file in the properties file formbt (see
+ * {@link jbvb.util.Properties#lobd <tt>jbvb.util.Properties</tt>}),
+ * contbining b list of key/vblue pbirs.
+ * The key is the nbme of the property (e.g. "jbvb.nbming.fbctory.object")
+ * bnd the vblue is b string in the formbt defined
+ * for thbt property.  Here is bn exbmple of b JNDI resource file:
  *
  * <blockquote>{@code
- * java.naming.factory.object=com.sun.jndi.ldap.AttrsToCorba:com.wiz.from.Person
- * java.naming.factory.state=com.sun.jndi.ldap.CorbaToAttrs:com.wiz.from.Person
- * java.naming.factory.control=com.sun.jndi.ldap.ResponseControlFactory
+ * jbvb.nbming.fbctory.object=com.sun.jndi.ldbp.AttrsToCorbb:com.wiz.from.Person
+ * jbvb.nbming.fbctory.stbte=com.sun.jndi.ldbp.CorbbToAttrs:com.wiz.from.Person
+ * jbvb.nbming.fbctory.control=com.sun.jndi.ldbp.ResponseControlFbctory
  * }</blockquote>
  *
- * The JNDI class library reads the resource files and makes the property
- * values freely available.  Thus JNDI resource files should be considered
- * to be "world readable", and sensitive information such as clear-text
- * passwords should not be stored there.
+ * The JNDI clbss librbry rebds the resource files bnd mbkes the property
+ * vblues freely bvbilbble.  Thus JNDI resource files should be considered
+ * to be "world rebdbble", bnd sensitive informbtion such bs clebr-text
+ * pbsswords should not be stored there.
  *<p>
- * There are two kinds of JNDI resource files:
- * <em>provider</em> and <em>application</em>.
+ * There bre two kinds of JNDI resource files:
+ * <em>provider</em> bnd <em>bpplicbtion</em>.
  *
  * <h2>Provider Resource Files</h2>
  *
- * Each service provider has an optional resource that lists properties
- * specific to that provider.  The name of this resource is:
+ * Ebch service provider hbs bn optionbl resource thbt lists properties
+ * specific to thbt provider.  The nbme of this resource is:
  * <blockquote>
  * [<em>prefix</em>/]<tt>jndiprovider.properties</tt>
  * </blockquote>
  * where <em>prefix</em> is
- * the package name of the provider's context implementation(s),
- * with each period (".") converted to a slash ("/").
+ * the pbckbge nbme of the provider's context implementbtion(s),
+ * with ebch period (".") converted to b slbsh ("/").
  *
- * For example, suppose a service provider defines a context
- * implementation with class name <tt>com.sun.jndi.ldap.LdapCtx</tt>.
- * The provider resource for this provider is named
- * <tt>com/sun/jndi/ldap/jndiprovider.properties</tt>.  If the class is
- * not in a package, the resource's name is simply
+ * For exbmple, suppose b service provider defines b context
+ * implementbtion with clbss nbme <tt>com.sun.jndi.ldbp.LdbpCtx</tt>.
+ * The provider resource for this provider is nbmed
+ * <tt>com/sun/jndi/ldbp/jndiprovider.properties</tt>.  If the clbss is
+ * not in b pbckbge, the resource's nbme is simply
  * <tt>jndiprovider.properties</tt>.
  *
  * <p>
- * <a name=LISTPROPS></a>
- * Certain methods in the JNDI class library make use of the standard
- * JNDI properties that specify lists of JNDI factories:
+ * <b nbme=LISTPROPS></b>
+ * Certbin methods in the JNDI clbss librbry mbke use of the stbndbrd
+ * JNDI properties thbt specify lists of JNDI fbctories:
  * <ul>
- * <li>java.naming.factory.object
- * <li>java.naming.factory.state
- * <li>java.naming.factory.control
- * <li>java.naming.factory.url.pkgs
+ * <li>jbvb.nbming.fbctory.object
+ * <li>jbvb.nbming.fbctory.stbte
+ * <li>jbvb.nbming.fbctory.control
+ * <li>jbvb.nbming.fbctory.url.pkgs
  * </ul>
- * The JNDI library will consult the provider resource file
- * when determining the values of these properties.
- * Properties other than these may be set in the provider
- * resource file at the discretion of the service provider.
- * The service provider's documentation should clearly state which
- * properties are allowed; other properties in the file will be ignored.
+ * The JNDI librbry will consult the provider resource file
+ * when determining the vblues of these properties.
+ * Properties other thbn these mby be set in the provider
+ * resource file bt the discretion of the service provider.
+ * The service provider's documentbtion should clebrly stbte which
+ * properties bre bllowed; other properties in the file will be ignored.
  *
- * <h2>Application Resource Files</h2>
+ * <h2>Applicbtion Resource Files</h2>
  *
- * When an application is deployed, it will generally have several
- * codebase directories and JARs in its classpath. JNDI locates (using
- * {@link ClassLoader#getResources <tt>ClassLoader.getResources()</tt>})
- * all <em>application resource files</em> named <tt>jndi.properties</tt>
- * in the classpath.
- * In addition, if the file <i>java.home</i><tt>/lib/jndi.properties</tt>
- * exists and is readable,
- * JNDI treats it as an additional application resource file.
- * (<i>java.home</i> indicates the
- * directory named by the <tt>java.home</tt> system property.)
- * All of the properties contained in these files are placed
- * into the environment of the initial context.  This environment
+ * When bn bpplicbtion is deployed, it will generblly hbve severbl
+ * codebbse directories bnd JARs in its clbsspbth. JNDI locbtes (using
+ * {@link ClbssLobder#getResources <tt>ClbssLobder.getResources()</tt>})
+ * bll <em>bpplicbtion resource files</em> nbmed <tt>jndi.properties</tt>
+ * in the clbsspbth.
+ * In bddition, if the file <i>jbvb.home</i><tt>/lib/jndi.properties</tt>
+ * exists bnd is rebdbble,
+ * JNDI trebts it bs bn bdditionbl bpplicbtion resource file.
+ * (<i>jbvb.home</i> indicbtes the
+ * directory nbmed by the <tt>jbvb.home</tt> system property.)
+ * All of the properties contbined in these files bre plbced
+ * into the environment of the initibl context.  This environment
  * is then inherited by other contexts.
  *
  * <p>
- * For each property found in more than one application resource file,
- * JNDI uses the first value found or, in a few cases where it makes
- * sense to do so, it concatenates all of the values (details are given
+ * For ebch property found in more thbn one bpplicbtion resource file,
+ * JNDI uses the first vblue found or, in b few cbses where it mbkes
+ * sense to do so, it concbtenbtes bll of the vblues (detbils bre given
  * below).
- * For example, if the "java.naming.factory.object" property is found in
+ * For exbmple, if the "jbvb.nbming.fbctory.object" property is found in
  * three <tt>jndi.properties</tt> resource files, the
- * list of object factories is a concatenation of the property
- * values from all three files.
- * Using this scheme, each deployable component is responsible for
- * listing the factories that it exports.  JNDI automatically
- * collects and uses all of these export lists when searching for factory
- * classes.
+ * list of object fbctories is b concbtenbtion of the property
+ * vblues from bll three files.
+ * Using this scheme, ebch deploybble component is responsible for
+ * listing the fbctories thbt it exports.  JNDI butombticblly
+ * collects bnd uses bll of these export lists when sebrching for fbctory
+ * clbsses.
  *
- * <h2>Search Algorithm for Properties</h2>
+ * <h2>Sebrch Algorithm for Properties</h2>
  *
- * When JNDI constructs an initial context, the context's environment
- * is initialized with properties defined in the environment parameter
- * passed to the constructor, the system properties,
- * and the application resource files.  See
- * <a href=InitialContext.html#ENVIRONMENT><tt>InitialContext</tt></a>
- * for details.
- * This initial environment is then inherited by other context instances.
+ * When JNDI constructs bn initibl context, the context's environment
+ * is initiblized with properties defined in the environment pbrbmeter
+ * pbssed to the constructor, the system properties,
+ * bnd the bpplicbtion resource files.  See
+ * <b href=InitiblContext.html#ENVIRONMENT><tt>InitiblContext</tt></b>
+ * for detbils.
+ * This initibl environment is then inherited by other context instbnces.
  *
  * <p>
- * When the JNDI class library needs to determine
- * the value of a property, it does so by merging
- * the values from the following two sources, in order:
+ * When the JNDI clbss librbry needs to determine
+ * the vblue of b property, it does so by merging
+ * the vblues from the following two sources, in order:
  * <ol>
- * <li>The environment of the context being operated on.
+ * <li>The environment of the context being operbted on.
  * <li>The provider resource file (<tt>jndiprovider.properties</tt>)
- * for the context being operated on.
+ * for the context being operbted on.
  * </ol>
- * For each property found in both of these two sources,
- * JNDI determines the property's value as follows.  If the property is
- * one of the standard JNDI properties that specify a list of JNDI
- * factories (listed <a href=#LISTPROPS>above</a>), the values are
- * concatenated into a single colon-separated list.  For other
- * properties, only the first value found is used.
+ * For ebch property found in both of these two sources,
+ * JNDI determines the property's vblue bs follows.  If the property is
+ * one of the stbndbrd JNDI properties thbt specify b list of JNDI
+ * fbctories (listed <b href=#LISTPROPS>bbove</b>), the vblues bre
+ * concbtenbted into b single colon-sepbrbted list.  For other
+ * properties, only the first vblue found is used.
  *
  * <p>
- * When a service provider needs to determine the value of a property,
- * it will generally take that value directly from the environment.
- * A service provider may define provider-specific properties
- * to be placed in its own provider resource file.  In that
- * case it should merge values as described in the previous paragraph.
+ * When b service provider needs to determine the vblue of b property,
+ * it will generblly tbke thbt vblue directly from the environment.
+ * A service provider mby define provider-specific properties
+ * to be plbced in its own provider resource file.  In thbt
+ * cbse it should merge vblues bs described in the previous pbrbgrbph.
  *
  * <p>
- * In this way, each service provider developer can specify a list of
- * factories to use with that service provider. These can be modified by
- * the application resources specified by the deployer of the application,
- * which in turn can be modified by the user.
+ * In this wby, ebch service provider developer cbn specify b list of
+ * fbctories to use with thbt service provider. These cbn be modified by
+ * the bpplicbtion resources specified by the deployer of the bpplicbtion,
+ * which in turn cbn be modified by the user.
  *
- * @author Rosanna Lee
- * @author Scott Seligman
- * @author R. Vasudevan
+ * @buthor Rosbnnb Lee
+ * @buthor Scott Seligmbn
+ * @buthor R. Vbsudevbn
  *
  * @since 1.3
  */
 
-public interface Context {
+public interfbce Context {
 
     /**
-     * Retrieves the named object.
-     * If <tt>name</tt> is empty, returns a new instance of this context
-     * (which represents the same naming context as this context, but its
-     * environment may be modified independently and it may be accessed
+     * Retrieves the nbmed object.
+     * If <tt>nbme</tt> is empty, returns b new instbnce of this context
+     * (which represents the sbme nbming context bs this context, but its
+     * environment mby be modified independently bnd it mby be bccessed
      * concurrently).
      *
-     * @param name
-     *          the name of the object to look up
-     * @return  the object bound to <tt>name</tt>
-     * @throws  NamingException if a naming exception is encountered
+     * @pbrbm nbme
+     *          the nbme of the object to look up
+     * @return  the object bound to <tt>nbme</tt>
+     * @throws  NbmingException if b nbming exception is encountered
      *
      * @see #lookup(String)
-     * @see #lookupLink(Name)
+     * @see #lookupLink(Nbme)
      */
-    public Object lookup(Name name) throws NamingException;
+    public Object lookup(Nbme nbme) throws NbmingException;
 
     /**
-     * Retrieves the named object.
-     * See {@link #lookup(Name)} for details.
-     * @param name
-     *          the name of the object to look up
-     * @return  the object bound to <tt>name</tt>
-     * @throws  NamingException if a naming exception is encountered
+     * Retrieves the nbmed object.
+     * See {@link #lookup(Nbme)} for detbils.
+     * @pbrbm nbme
+     *          the nbme of the object to look up
+     * @return  the object bound to <tt>nbme</tt>
+     * @throws  NbmingException if b nbming exception is encountered
      */
-    public Object lookup(String name) throws NamingException;
+    public Object lookup(String nbme) throws NbmingException;
 
     /**
-     * Binds a name to an object.
-     * All intermediate contexts and the target context (that named by all
-     * but terminal atomic component of the name) must already exist.
+     * Binds b nbme to bn object.
+     * All intermedibte contexts bnd the tbrget context (thbt nbmed by bll
+     * but terminbl btomic component of the nbme) must blrebdy exist.
      *
-     * @param name
-     *          the name to bind; may not be empty
-     * @param obj
+     * @pbrbm nbme
+     *          the nbme to bind; mby not be empty
+     * @pbrbm obj
      *          the object to bind; possibly null
-     * @throws  NameAlreadyBoundException if name is already bound
-     * @throws  javax.naming.directory.InvalidAttributesException
-     *          if object did not supply all mandatory attributes
-     * @throws  NamingException if a naming exception is encountered
+     * @throws  NbmeAlrebdyBoundException if nbme is blrebdy bound
+     * @throws  jbvbx.nbming.directory.InvblidAttributesException
+     *          if object did not supply bll mbndbtory bttributes
+     * @throws  NbmingException if b nbming exception is encountered
      *
      * @see #bind(String, Object)
-     * @see #rebind(Name, Object)
-     * @see javax.naming.directory.DirContext#bind(Name, Object,
-     *          javax.naming.directory.Attributes)
+     * @see #rebind(Nbme, Object)
+     * @see jbvbx.nbming.directory.DirContext#bind(Nbme, Object,
+     *          jbvbx.nbming.directory.Attributes)
      */
-    public void bind(Name name, Object obj) throws NamingException;
+    public void bind(Nbme nbme, Object obj) throws NbmingException;
 
     /**
-     * Binds a name to an object.
-     * See {@link #bind(Name, Object)} for details.
+     * Binds b nbme to bn object.
+     * See {@link #bind(Nbme, Object)} for detbils.
      *
-     * @param name
-     *          the name to bind; may not be empty
-     * @param obj
+     * @pbrbm nbme
+     *          the nbme to bind; mby not be empty
+     * @pbrbm obj
      *          the object to bind; possibly null
-     * @throws  NameAlreadyBoundException if name is already bound
-     * @throws  javax.naming.directory.InvalidAttributesException
-     *          if object did not supply all mandatory attributes
-     * @throws  NamingException if a naming exception is encountered
+     * @throws  NbmeAlrebdyBoundException if nbme is blrebdy bound
+     * @throws  jbvbx.nbming.directory.InvblidAttributesException
+     *          if object did not supply bll mbndbtory bttributes
+     * @throws  NbmingException if b nbming exception is encountered
      */
-    public void bind(String name, Object obj) throws NamingException;
+    public void bind(String nbme, Object obj) throws NbmingException;
 
     /**
-     * Binds a name to an object, overwriting any existing binding.
-     * All intermediate contexts and the target context (that named by all
-     * but terminal atomic component of the name) must already exist.
+     * Binds b nbme to bn object, overwriting bny existing binding.
+     * All intermedibte contexts bnd the tbrget context (thbt nbmed by bll
+     * but terminbl btomic component of the nbme) must blrebdy exist.
      *
-     * <p> If the object is a <tt>DirContext</tt>, any existing attributes
-     * associated with the name are replaced with those of the object.
-     * Otherwise, any existing attributes associated with the name remain
-     * unchanged.
+     * <p> If the object is b <tt>DirContext</tt>, bny existing bttributes
+     * bssocibted with the nbme bre replbced with those of the object.
+     * Otherwise, bny existing bttributes bssocibted with the nbme rembin
+     * unchbnged.
      *
-     * @param name
-     *          the name to bind; may not be empty
-     * @param obj
+     * @pbrbm nbme
+     *          the nbme to bind; mby not be empty
+     * @pbrbm obj
      *          the object to bind; possibly null
-     * @throws  javax.naming.directory.InvalidAttributesException
-     *          if object did not supply all mandatory attributes
-     * @throws  NamingException if a naming exception is encountered
+     * @throws  jbvbx.nbming.directory.InvblidAttributesException
+     *          if object did not supply bll mbndbtory bttributes
+     * @throws  NbmingException if b nbming exception is encountered
      *
      * @see #rebind(String, Object)
-     * @see #bind(Name, Object)
-     * @see javax.naming.directory.DirContext#rebind(Name, Object,
-     *          javax.naming.directory.Attributes)
-     * @see javax.naming.directory.DirContext
+     * @see #bind(Nbme, Object)
+     * @see jbvbx.nbming.directory.DirContext#rebind(Nbme, Object,
+     *          jbvbx.nbming.directory.Attributes)
+     * @see jbvbx.nbming.directory.DirContext
      */
-    public void rebind(Name name, Object obj) throws NamingException;
+    public void rebind(Nbme nbme, Object obj) throws NbmingException;
 
     /**
-     * Binds a name to an object, overwriting any existing binding.
-     * See {@link #rebind(Name, Object)} for details.
+     * Binds b nbme to bn object, overwriting bny existing binding.
+     * See {@link #rebind(Nbme, Object)} for detbils.
      *
-     * @param name
-     *          the name to bind; may not be empty
-     * @param obj
+     * @pbrbm nbme
+     *          the nbme to bind; mby not be empty
+     * @pbrbm obj
      *          the object to bind; possibly null
-     * @throws  javax.naming.directory.InvalidAttributesException
-     *          if object did not supply all mandatory attributes
-     * @throws  NamingException if a naming exception is encountered
+     * @throws  jbvbx.nbming.directory.InvblidAttributesException
+     *          if object did not supply bll mbndbtory bttributes
+     * @throws  NbmingException if b nbming exception is encountered
      */
-    public void rebind(String name, Object obj) throws NamingException;
+    public void rebind(String nbme, Object obj) throws NbmingException;
 
     /**
-     * Unbinds the named object.
-     * Removes the terminal atomic name in <code>name</code>
-     * from the target context--that named by all but the terminal
-     * atomic part of <code>name</code>.
+     * Unbinds the nbmed object.
+     * Removes the terminbl btomic nbme in <code>nbme</code>
+     * from the tbrget context--thbt nbmed by bll but the terminbl
+     * btomic pbrt of <code>nbme</code>.
      *
      * <p> This method is idempotent.
-     * It succeeds even if the terminal atomic name
-     * is not bound in the target context, but throws
-     * <tt>NameNotFoundException</tt>
-     * if any of the intermediate contexts do not exist.
+     * It succeeds even if the terminbl btomic nbme
+     * is not bound in the tbrget context, but throws
+     * <tt>NbmeNotFoundException</tt>
+     * if bny of the intermedibte contexts do not exist.
      *
-     * <p> Any attributes associated with the name are removed.
-     * Intermediate contexts are not changed.
+     * <p> Any bttributes bssocibted with the nbme bre removed.
+     * Intermedibte contexts bre not chbnged.
      *
-     * @param name
-     *          the name to unbind; may not be empty
-     * @throws  NameNotFoundException if an intermediate context does not exist
-     * @throws  NamingException if a naming exception is encountered
+     * @pbrbm nbme
+     *          the nbme to unbind; mby not be empty
+     * @throws  NbmeNotFoundException if bn intermedibte context does not exist
+     * @throws  NbmingException if b nbming exception is encountered
      * @see #unbind(String)
      */
-    public void unbind(Name name) throws NamingException;
+    public void unbind(Nbme nbme) throws NbmingException;
 
     /**
-     * Unbinds the named object.
-     * See {@link #unbind(Name)} for details.
+     * Unbinds the nbmed object.
+     * See {@link #unbind(Nbme)} for detbils.
      *
-     * @param name
-     *          the name to unbind; may not be empty
-     * @throws  NameNotFoundException if an intermediate context does not exist
-     * @throws  NamingException if a naming exception is encountered
+     * @pbrbm nbme
+     *          the nbme to unbind; mby not be empty
+     * @throws  NbmeNotFoundException if bn intermedibte context does not exist
+     * @throws  NbmingException if b nbming exception is encountered
      */
-    public void unbind(String name) throws NamingException;
+    public void unbind(String nbme) throws NbmingException;
 
     /**
-     * Binds a new name to the object bound to an old name, and unbinds
-     * the old name.  Both names are relative to this context.
-     * Any attributes associated with the old name become associated
-     * with the new name.
-     * Intermediate contexts of the old name are not changed.
+     * Binds b new nbme to the object bound to bn old nbme, bnd unbinds
+     * the old nbme.  Both nbmes bre relbtive to this context.
+     * Any bttributes bssocibted with the old nbme become bssocibted
+     * with the new nbme.
+     * Intermedibte contexts of the old nbme bre not chbnged.
      *
-     * @param oldName
-     *          the name of the existing binding; may not be empty
-     * @param newName
-     *          the name of the new binding; may not be empty
-     * @throws  NameAlreadyBoundException if <tt>newName</tt> is already bound
-     * @throws  NamingException if a naming exception is encountered
+     * @pbrbm oldNbme
+     *          the nbme of the existing binding; mby not be empty
+     * @pbrbm newNbme
+     *          the nbme of the new binding; mby not be empty
+     * @throws  NbmeAlrebdyBoundException if <tt>newNbme</tt> is blrebdy bound
+     * @throws  NbmingException if b nbming exception is encountered
      *
-     * @see #rename(String, String)
-     * @see #bind(Name, Object)
-     * @see #rebind(Name, Object)
+     * @see #renbme(String, String)
+     * @see #bind(Nbme, Object)
+     * @see #rebind(Nbme, Object)
      */
-    public void rename(Name oldName, Name newName) throws NamingException;
+    public void renbme(Nbme oldNbme, Nbme newNbme) throws NbmingException;
 
     /**
-     * Binds a new name to the object bound to an old name, and unbinds
-     * the old name.
-     * See {@link #rename(Name, Name)} for details.
+     * Binds b new nbme to the object bound to bn old nbme, bnd unbinds
+     * the old nbme.
+     * See {@link #renbme(Nbme, Nbme)} for detbils.
      *
-     * @param oldName
-     *          the name of the existing binding; may not be empty
-     * @param newName
-     *          the name of the new binding; may not be empty
-     * @throws  NameAlreadyBoundException if <tt>newName</tt> is already bound
-     * @throws  NamingException if a naming exception is encountered
+     * @pbrbm oldNbme
+     *          the nbme of the existing binding; mby not be empty
+     * @pbrbm newNbme
+     *          the nbme of the new binding; mby not be empty
+     * @throws  NbmeAlrebdyBoundException if <tt>newNbme</tt> is blrebdy bound
+     * @throws  NbmingException if b nbming exception is encountered
      */
-    public void rename(String oldName, String newName) throws NamingException;
+    public void renbme(String oldNbme, String newNbme) throws NbmingException;
 
     /**
-     * Enumerates the names bound in the named context, along with the
-     * class names of objects bound to them.
-     * The contents of any subcontexts are not included.
+     * Enumerbtes the nbmes bound in the nbmed context, blong with the
+     * clbss nbmes of objects bound to them.
+     * The contents of bny subcontexts bre not included.
      *
-     * <p> If a binding is added to or removed from this context,
-     * its effect on an enumeration previously returned is undefined.
+     * <p> If b binding is bdded to or removed from this context,
+     * its effect on bn enumerbtion previously returned is undefined.
      *
-     * @param name
-     *          the name of the context to list
-     * @return  an enumeration of the names and class names of the
-     *          bindings in this context.  Each element of the
-     *          enumeration is of type <tt>NameClassPair</tt>.
-     * @throws  NamingException if a naming exception is encountered
+     * @pbrbm nbme
+     *          the nbme of the context to list
+     * @return  bn enumerbtion of the nbmes bnd clbss nbmes of the
+     *          bindings in this context.  Ebch element of the
+     *          enumerbtion is of type <tt>NbmeClbssPbir</tt>.
+     * @throws  NbmingException if b nbming exception is encountered
      *
      * @see #list(String)
-     * @see #listBindings(Name)
-     * @see NameClassPair
+     * @see #listBindings(Nbme)
+     * @see NbmeClbssPbir
      */
-    public NamingEnumeration<NameClassPair> list(Name name)
-        throws NamingException;
+    public NbmingEnumerbtion<NbmeClbssPbir> list(Nbme nbme)
+        throws NbmingException;
 
     /**
-     * Enumerates the names bound in the named context, along with the
-     * class names of objects bound to them.
-     * See {@link #list(Name)} for details.
+     * Enumerbtes the nbmes bound in the nbmed context, blong with the
+     * clbss nbmes of objects bound to them.
+     * See {@link #list(Nbme)} for detbils.
      *
-     * @param name
-     *          the name of the context to list
-     * @return  an enumeration of the names and class names of the
-     *          bindings in this context.  Each element of the
-     *          enumeration is of type <tt>NameClassPair</tt>.
-     * @throws  NamingException if a naming exception is encountered
+     * @pbrbm nbme
+     *          the nbme of the context to list
+     * @return  bn enumerbtion of the nbmes bnd clbss nbmes of the
+     *          bindings in this context.  Ebch element of the
+     *          enumerbtion is of type <tt>NbmeClbssPbir</tt>.
+     * @throws  NbmingException if b nbming exception is encountered
      */
-    public NamingEnumeration<NameClassPair> list(String name)
-        throws NamingException;
+    public NbmingEnumerbtion<NbmeClbssPbir> list(String nbme)
+        throws NbmingException;
 
     /**
-     * Enumerates the names bound in the named context, along with the
+     * Enumerbtes the nbmes bound in the nbmed context, blong with the
      * objects bound to them.
-     * The contents of any subcontexts are not included.
+     * The contents of bny subcontexts bre not included.
      *
-     * <p> If a binding is added to or removed from this context,
-     * its effect on an enumeration previously returned is undefined.
+     * <p> If b binding is bdded to or removed from this context,
+     * its effect on bn enumerbtion previously returned is undefined.
      *
-     * @param name
-     *          the name of the context to list
-     * @return  an enumeration of the bindings in this context.
-     *          Each element of the enumeration is of type
+     * @pbrbm nbme
+     *          the nbme of the context to list
+     * @return  bn enumerbtion of the bindings in this context.
+     *          Ebch element of the enumerbtion is of type
      *          <tt>Binding</tt>.
-     * @throws  NamingException if a naming exception is encountered
+     * @throws  NbmingException if b nbming exception is encountered
      *
      * @see #listBindings(String)
-     * @see #list(Name)
+     * @see #list(Nbme)
      * @see Binding
       */
-    public NamingEnumeration<Binding> listBindings(Name name)
-        throws NamingException;
+    public NbmingEnumerbtion<Binding> listBindings(Nbme nbme)
+        throws NbmingException;
 
     /**
-     * Enumerates the names bound in the named context, along with the
+     * Enumerbtes the nbmes bound in the nbmed context, blong with the
      * objects bound to them.
-     * See {@link #listBindings(Name)} for details.
+     * See {@link #listBindings(Nbme)} for detbils.
      *
-     * @param name
-     *          the name of the context to list
-     * @return  an enumeration of the bindings in this context.
-     *          Each element of the enumeration is of type
+     * @pbrbm nbme
+     *          the nbme of the context to list
+     * @return  bn enumerbtion of the bindings in this context.
+     *          Ebch element of the enumerbtion is of type
      *          <tt>Binding</tt>.
-     * @throws  NamingException if a naming exception is encountered
+     * @throws  NbmingException if b nbming exception is encountered
      */
-    public NamingEnumeration<Binding> listBindings(String name)
-        throws NamingException;
+    public NbmingEnumerbtion<Binding> listBindings(String nbme)
+        throws NbmingException;
 
     /**
-     * Destroys the named context and removes it from the namespace.
-     * Any attributes associated with the name are also removed.
-     * Intermediate contexts are not destroyed.
+     * Destroys the nbmed context bnd removes it from the nbmespbce.
+     * Any bttributes bssocibted with the nbme bre blso removed.
+     * Intermedibte contexts bre not destroyed.
      *
      * <p> This method is idempotent.
-     * It succeeds even if the terminal atomic name
-     * is not bound in the target context, but throws
-     * <tt>NameNotFoundException</tt>
-     * if any of the intermediate contexts do not exist.
+     * It succeeds even if the terminbl btomic nbme
+     * is not bound in the tbrget context, but throws
+     * <tt>NbmeNotFoundException</tt>
+     * if bny of the intermedibte contexts do not exist.
      *
-     * <p> In a federated naming system, a context from one naming system
-     * may be bound to a name in another.  One can subsequently
-     * look up and perform operations on the foreign context using a
-     * composite name.  However, an attempt destroy the context using
-     * this composite name will fail with
-     * <tt>NotContextException</tt>, because the foreign context is not
-     * a "subcontext" of the context in which it is bound.
-     * Instead, use <tt>unbind()</tt> to remove the
+     * <p> In b federbted nbming system, b context from one nbming system
+     * mby be bound to b nbme in bnother.  One cbn subsequently
+     * look up bnd perform operbtions on the foreign context using b
+     * composite nbme.  However, bn bttempt destroy the context using
+     * this composite nbme will fbil with
+     * <tt>NotContextException</tt>, becbuse the foreign context is not
+     * b "subcontext" of the context in which it is bound.
+     * Instebd, use <tt>unbind()</tt> to remove the
      * binding of the foreign context.  Destroying the foreign context
-     * requires that the <tt>destroySubcontext()</tt> be performed
-     * on a context from the foreign context's "native" naming system.
+     * requires thbt the <tt>destroySubcontext()</tt> be performed
+     * on b context from the foreign context's "nbtive" nbming system.
      *
-     * @param name
-     *          the name of the context to be destroyed; may not be empty
-     * @throws  NameNotFoundException if an intermediate context does not exist
-     * @throws  NotContextException if the name is bound but does not name a
-     *          context, or does not name a context of the appropriate type
-     * @throws  ContextNotEmptyException if the named context is not empty
-     * @throws  NamingException if a naming exception is encountered
+     * @pbrbm nbme
+     *          the nbme of the context to be destroyed; mby not be empty
+     * @throws  NbmeNotFoundException if bn intermedibte context does not exist
+     * @throws  NotContextException if the nbme is bound but does not nbme b
+     *          context, or does not nbme b context of the bppropribte type
+     * @throws  ContextNotEmptyException if the nbmed context is not empty
+     * @throws  NbmingException if b nbming exception is encountered
      *
      * @see #destroySubcontext(String)
      */
-    public void destroySubcontext(Name name) throws NamingException;
+    public void destroySubcontext(Nbme nbme) throws NbmingException;
 
     /**
-     * Destroys the named context and removes it from the namespace.
-     * See {@link #destroySubcontext(Name)} for details.
+     * Destroys the nbmed context bnd removes it from the nbmespbce.
+     * See {@link #destroySubcontext(Nbme)} for detbils.
      *
-     * @param name
-     *          the name of the context to be destroyed; may not be empty
-     * @throws  NameNotFoundException if an intermediate context does not exist
-     * @throws  NotContextException if the name is bound but does not name a
-     *          context, or does not name a context of the appropriate type
-     * @throws  ContextNotEmptyException if the named context is not empty
-     * @throws  NamingException if a naming exception is encountered
+     * @pbrbm nbme
+     *          the nbme of the context to be destroyed; mby not be empty
+     * @throws  NbmeNotFoundException if bn intermedibte context does not exist
+     * @throws  NotContextException if the nbme is bound but does not nbme b
+     *          context, or does not nbme b context of the bppropribte type
+     * @throws  ContextNotEmptyException if the nbmed context is not empty
+     * @throws  NbmingException if b nbming exception is encountered
      */
-    public void destroySubcontext(String name) throws NamingException;
+    public void destroySubcontext(String nbme) throws NbmingException;
 
     /**
-     * Creates and binds a new context.
-     * Creates a new context with the given name and binds it in
-     * the target context (that named by all but terminal atomic
-     * component of the name).  All intermediate contexts and the
-     * target context must already exist.
+     * Crebtes bnd binds b new context.
+     * Crebtes b new context with the given nbme bnd binds it in
+     * the tbrget context (thbt nbmed by bll but terminbl btomic
+     * component of the nbme).  All intermedibte contexts bnd the
+     * tbrget context must blrebdy exist.
      *
-     * @param name
-     *          the name of the context to create; may not be empty
-     * @return  the newly created context
+     * @pbrbm nbme
+     *          the nbme of the context to crebte; mby not be empty
+     * @return  the newly crebted context
      *
-     * @throws  NameAlreadyBoundException if name is already bound
-     * @throws  javax.naming.directory.InvalidAttributesException
-     *          if creation of the subcontext requires specification of
-     *          mandatory attributes
-     * @throws  NamingException if a naming exception is encountered
+     * @throws  NbmeAlrebdyBoundException if nbme is blrebdy bound
+     * @throws  jbvbx.nbming.directory.InvblidAttributesException
+     *          if crebtion of the subcontext requires specificbtion of
+     *          mbndbtory bttributes
+     * @throws  NbmingException if b nbming exception is encountered
      *
-     * @see #createSubcontext(String)
-     * @see javax.naming.directory.DirContext#createSubcontext
+     * @see #crebteSubcontext(String)
+     * @see jbvbx.nbming.directory.DirContext#crebteSubcontext
      */
-    public Context createSubcontext(Name name) throws NamingException;
+    public Context crebteSubcontext(Nbme nbme) throws NbmingException;
 
     /**
-     * Creates and binds a new context.
-     * See {@link #createSubcontext(Name)} for details.
+     * Crebtes bnd binds b new context.
+     * See {@link #crebteSubcontext(Nbme)} for detbils.
      *
-     * @param name
-     *          the name of the context to create; may not be empty
-     * @return  the newly created context
+     * @pbrbm nbme
+     *          the nbme of the context to crebte; mby not be empty
+     * @return  the newly crebted context
      *
-     * @throws  NameAlreadyBoundException if name is already bound
-     * @throws  javax.naming.directory.InvalidAttributesException
-     *          if creation of the subcontext requires specification of
-     *          mandatory attributes
-     * @throws  NamingException if a naming exception is encountered
+     * @throws  NbmeAlrebdyBoundException if nbme is blrebdy bound
+     * @throws  jbvbx.nbming.directory.InvblidAttributesException
+     *          if crebtion of the subcontext requires specificbtion of
+     *          mbndbtory bttributes
+     * @throws  NbmingException if b nbming exception is encountered
      */
-    public Context createSubcontext(String name) throws NamingException;
+    public Context crebteSubcontext(String nbme) throws NbmingException;
 
     /**
-     * Retrieves the named object, following links except
-     * for the terminal atomic component of the name.
-     * If the object bound to <tt>name</tt> is not a link,
+     * Retrieves the nbmed object, following links except
+     * for the terminbl btomic component of the nbme.
+     * If the object bound to <tt>nbme</tt> is not b link,
      * returns the object itself.
      *
-     * @param name
-     *          the name of the object to look up
-     * @return  the object bound to <tt>name</tt>, not following the
-     *          terminal link (if any).
-     * @throws  NamingException if a naming exception is encountered
+     * @pbrbm nbme
+     *          the nbme of the object to look up
+     * @return  the object bound to <tt>nbme</tt>, not following the
+     *          terminbl link (if bny).
+     * @throws  NbmingException if b nbming exception is encountered
      *
      * @see #lookupLink(String)
      */
-    public Object lookupLink(Name name) throws NamingException;
+    public Object lookupLink(Nbme nbme) throws NbmingException;
 
     /**
-     * Retrieves the named object, following links except
-     * for the terminal atomic component of the name.
-     * See {@link #lookupLink(Name)} for details.
+     * Retrieves the nbmed object, following links except
+     * for the terminbl btomic component of the nbme.
+     * See {@link #lookupLink(Nbme)} for detbils.
      *
-     * @param name
-     *          the name of the object to look up
-     * @return  the object bound to <tt>name</tt>, not following the
-     *          terminal link (if any)
-     * @throws  NamingException if a naming exception is encountered
+     * @pbrbm nbme
+     *          the nbme of the object to look up
+     * @return  the object bound to <tt>nbme</tt>, not following the
+     *          terminbl link (if bny)
+     * @throws  NbmingException if b nbming exception is encountered
      */
-    public Object lookupLink(String name) throws NamingException;
+    public Object lookupLink(String nbme) throws NbmingException;
 
     /**
-     * Retrieves the parser associated with the named context.
-     * In a federation of namespaces, different naming systems will
-     * parse names differently.  This method allows an application
-     * to get a parser for parsing names into their atomic components
-     * using the naming convention of a particular naming system.
-     * Within any single naming system, <tt>NameParser</tt> objects
-     * returned by this method must be equal (using the <tt>equals()</tt>
+     * Retrieves the pbrser bssocibted with the nbmed context.
+     * In b federbtion of nbmespbces, different nbming systems will
+     * pbrse nbmes differently.  This method bllows bn bpplicbtion
+     * to get b pbrser for pbrsing nbmes into their btomic components
+     * using the nbming convention of b pbrticulbr nbming system.
+     * Within bny single nbming system, <tt>NbmePbrser</tt> objects
+     * returned by this method must be equbl (using the <tt>equbls()</tt>
      * test).
      *
-     * @param name
-     *          the name of the context from which to get the parser
-     * @return  a name parser that can parse compound names into their atomic
+     * @pbrbm nbme
+     *          the nbme of the context from which to get the pbrser
+     * @return  b nbme pbrser thbt cbn pbrse compound nbmes into their btomic
      *          components
-     * @throws  NamingException if a naming exception is encountered
+     * @throws  NbmingException if b nbming exception is encountered
      *
-     * @see #getNameParser(String)
-     * @see CompoundName
+     * @see #getNbmePbrser(String)
+     * @see CompoundNbme
      */
-    public NameParser getNameParser(Name name) throws NamingException;
+    public NbmePbrser getNbmePbrser(Nbme nbme) throws NbmingException;
 
     /**
-     * Retrieves the parser associated with the named context.
-     * See {@link #getNameParser(Name)} for details.
+     * Retrieves the pbrser bssocibted with the nbmed context.
+     * See {@link #getNbmePbrser(Nbme)} for detbils.
      *
-     * @param name
-     *          the name of the context from which to get the parser
-     * @return  a name parser that can parse compound names into their atomic
+     * @pbrbm nbme
+     *          the nbme of the context from which to get the pbrser
+     * @return  b nbme pbrser thbt cbn pbrse compound nbmes into their btomic
      *          components
-     * @throws  NamingException if a naming exception is encountered
+     * @throws  NbmingException if b nbming exception is encountered
      */
-    public NameParser getNameParser(String name) throws NamingException;
+    public NbmePbrser getNbmePbrser(String nbme) throws NbmingException;
 
     /**
-     * Composes the name of this context with a name relative to
+     * Composes the nbme of this context with b nbme relbtive to
      * this context.
-     * Given a name (<code>name</code>) relative to this context, and
-     * the name (<code>prefix</code>) of this context relative to one
-     * of its ancestors, this method returns the composition of the
-     * two names using the syntax appropriate for the naming
-     * system(s) involved.  That is, if <code>name</code> names an
-     * object relative to this context, the result is the name of the
-     * same object, but relative to the ancestor context.  None of the
-     * names may be null.
+     * Given b nbme (<code>nbme</code>) relbtive to this context, bnd
+     * the nbme (<code>prefix</code>) of this context relbtive to one
+     * of its bncestors, this method returns the composition of the
+     * two nbmes using the syntbx bppropribte for the nbming
+     * system(s) involved.  Thbt is, if <code>nbme</code> nbmes bn
+     * object relbtive to this context, the result is the nbme of the
+     * sbme object, but relbtive to the bncestor context.  None of the
+     * nbmes mby be null.
      * <p>
-     * For example, if this context is named "wiz.com" relative
-     * to the initial context, then
+     * For exbmple, if this context is nbmed "wiz.com" relbtive
+     * to the initibl context, then
      * <pre>
-     *  composeName("east", "wiz.com")  </pre>
-     * might return <code>"east.wiz.com"</code>.
-     * If instead this context is named "org/research", then
+     *  composeNbme("ebst", "wiz.com")  </pre>
+     * might return <code>"ebst.wiz.com"</code>.
+     * If instebd this context is nbmed "org/resebrch", then
      * <pre>
-     *  composeName("user/jane", "org/research")        </pre>
-     * might return <code>"org/research/user/jane"</code> while
+     *  composeNbme("user/jbne", "org/resebrch")        </pre>
+     * might return <code>"org/resebrch/user/jbne"</code> while
      * <pre>
-     *  composeName("user/jane", "research")    </pre>
-     * returns <code>"research/user/jane"</code>.
+     *  composeNbme("user/jbne", "resebrch")    </pre>
+     * returns <code>"resebrch/user/jbne"</code>.
      *
-     * @param name
-     *          a name relative to this context
-     * @param prefix
-     *          the name of this context relative to one of its ancestors
-     * @return  the composition of <code>prefix</code> and <code>name</code>
-     * @throws  NamingException if a naming exception is encountered
+     * @pbrbm nbme
+     *          b nbme relbtive to this context
+     * @pbrbm prefix
+     *          the nbme of this context relbtive to one of its bncestors
+     * @return  the composition of <code>prefix</code> bnd <code>nbme</code>
+     * @throws  NbmingException if b nbming exception is encountered
      *
-     * @see #composeName(String, String)
+     * @see #composeNbme(String, String)
      */
-    public Name composeName(Name name, Name prefix)
-        throws NamingException;
+    public Nbme composeNbme(Nbme nbme, Nbme prefix)
+        throws NbmingException;
 
     /**
-     * Composes the name of this context with a name relative to
+     * Composes the nbme of this context with b nbme relbtive to
      * this context.
-     * See {@link #composeName(Name, Name)} for details.
+     * See {@link #composeNbme(Nbme, Nbme)} for detbils.
      *
-     * @param name
-     *          a name relative to this context
-     * @param prefix
-     *          the name of this context relative to one of its ancestors
-     * @return  the composition of <code>prefix</code> and <code>name</code>
-     * @throws  NamingException if a naming exception is encountered
+     * @pbrbm nbme
+     *          b nbme relbtive to this context
+     * @pbrbm prefix
+     *          the nbme of this context relbtive to one of its bncestors
+     * @return  the composition of <code>prefix</code> bnd <code>nbme</code>
+     * @throws  NbmingException if b nbming exception is encountered
      */
-    public String composeName(String name, String prefix)
-            throws NamingException;
+    public String composeNbme(String nbme, String prefix)
+            throws NbmingException;
 
     /**
-     * Adds a new environment property to the environment of this
-     * context.  If the property already exists, its value is overwritten.
-     * See class description for more details on environment properties.
+     * Adds b new environment property to the environment of this
+     * context.  If the property blrebdy exists, its vblue is overwritten.
+     * See clbss description for more detbils on environment properties.
      *
-     * @param propName
-     *          the name of the environment property to add; may not be null
-     * @param propVal
-     *          the value of the property to add; may not be null
-     * @return  the previous value of the property, or null if the property was
+     * @pbrbm propNbme
+     *          the nbme of the environment property to bdd; mby not be null
+     * @pbrbm propVbl
+     *          the vblue of the property to bdd; mby not be null
+     * @return  the previous vblue of the property, or null if the property wbs
      *          not in the environment before
-     * @throws  NamingException if a naming exception is encountered
+     * @throws  NbmingException if b nbming exception is encountered
      *
      * @see #getEnvironment()
      * @see #removeFromEnvironment(String)
      */
-    public Object addToEnvironment(String propName, Object propVal)
-        throws NamingException;
+    public Object bddToEnvironment(String propNbme, Object propVbl)
+        throws NbmingException;
 
     /**
-     * Removes an environment property from the environment of this
-     * context.  See class description for more details on environment
+     * Removes bn environment property from the environment of this
+     * context.  See clbss description for more detbils on environment
      * properties.
      *
-     * @param propName
-     *          the name of the environment property to remove; may not be null
-     * @return  the previous value of the property, or null if the property was
+     * @pbrbm propNbme
+     *          the nbme of the environment property to remove; mby not be null
+     * @return  the previous vblue of the property, or null if the property wbs
      *          not in the environment
-     * @throws  NamingException if a naming exception is encountered
+     * @throws  NbmingException if b nbming exception is encountered
      *
      * @see #getEnvironment()
-     * @see #addToEnvironment(String, Object)
+     * @see #bddToEnvironment(String, Object)
      */
-    public Object removeFromEnvironment(String propName)
-        throws NamingException;
+    public Object removeFromEnvironment(String propNbme)
+        throws NbmingException;
 
     /**
      * Retrieves the environment in effect for this context.
-     * See class description for more details on environment properties.
+     * See clbss description for more detbils on environment properties.
      *
-     * <p> The caller should not make any changes to the object returned:
+     * <p> The cbller should not mbke bny chbnges to the object returned:
      * their effect on the context is undefined.
-     * The environment of this context may be changed using
-     * <tt>addToEnvironment()</tt> and <tt>removeFromEnvironment()</tt>.
+     * The environment of this context mby be chbnged using
+     * <tt>bddToEnvironment()</tt> bnd <tt>removeFromEnvironment()</tt>.
      *
      * @return  the environment of this context; never null
-     * @throws  NamingException if a naming exception is encountered
+     * @throws  NbmingException if b nbming exception is encountered
      *
-     * @see #addToEnvironment(String, Object)
+     * @see #bddToEnvironment(String, Object)
      * @see #removeFromEnvironment(String)
      */
-    public Hashtable<?,?> getEnvironment() throws NamingException;
+    public Hbshtbble<?,?> getEnvironment() throws NbmingException;
 
     /**
      * Closes this context.
-     * This method releases this context's resources immediately, instead of
-     * waiting for them to be released automatically by the garbage collector.
+     * This method relebses this context's resources immedibtely, instebd of
+     * wbiting for them to be relebsed butombticblly by the gbrbbge collector.
      *
-     * <p> This method is idempotent:  invoking it on a context that has
-     * already been closed has no effect.  Invoking any other method
-     * on a closed context is not allowed, and results in undefined behaviour.
+     * <p> This method is idempotent:  invoking it on b context thbt hbs
+     * blrebdy been closed hbs no effect.  Invoking bny other method
+     * on b closed context is not bllowed, bnd results in undefined behbviour.
      *
-     * @throws  NamingException if a naming exception is encountered
+     * @throws  NbmingException if b nbming exception is encountered
      */
-    public void close() throws NamingException;
+    public void close() throws NbmingException;
 
     /**
-     * Retrieves the full name of this context within its own namespace.
+     * Retrieves the full nbme of this context within its own nbmespbce.
      *
-     * <p> Many naming services have a notion of a "full name" for objects
-     * in their respective namespaces.  For example, an LDAP entry has
-     * a distinguished name, and a DNS record has a fully qualified name.
-     * This method allows the client application to retrieve this name.
-     * The string returned by this method is not a JNDI composite name
-     * and should not be passed directly to context methods.
-     * In naming systems for which the notion of full name does not
-     * make sense, <tt>OperationNotSupportedException</tt> is thrown.
+     * <p> Mbny nbming services hbve b notion of b "full nbme" for objects
+     * in their respective nbmespbces.  For exbmple, bn LDAP entry hbs
+     * b distinguished nbme, bnd b DNS record hbs b fully qublified nbme.
+     * This method bllows the client bpplicbtion to retrieve this nbme.
+     * The string returned by this method is not b JNDI composite nbme
+     * bnd should not be pbssed directly to context methods.
+     * In nbming systems for which the notion of full nbme does not
+     * mbke sense, <tt>OperbtionNotSupportedException</tt> is thrown.
      *
-     * @return  this context's name in its own namespace; never null
-     * @throws  OperationNotSupportedException if the naming system does
-     *          not have the notion of a full name
-     * @throws  NamingException if a naming exception is encountered
+     * @return  this context's nbme in its own nbmespbce; never null
+     * @throws  OperbtionNotSupportedException if the nbming system does
+     *          not hbve the notion of b full nbme
+     * @throws  NbmingException if b nbming exception is encountered
      *
      * @since 1.3
      */
-    public String getNameInNamespace() throws NamingException;
+    public String getNbmeInNbmespbce() throws NbmingException;
 
-// public static final:  JLS says recommended style is to omit these modifiers
-// because they are the default
+// public stbtic finbl:  JLS sbys recommended style is to omit these modifiers
+// becbuse they bre the defbult
 
     /**
-     * Constant that holds the name of the environment property
-     * for specifying the initial context factory to use. The value
-     * of the property should be the fully qualified class name
-     * of the factory class that will create an initial context.
-     * This property may be specified in the environment parameter
-     * passed to the initial context constructor,
-     * a system property, or an application resource file.
-     * If it is not specified in any of these sources,
-     * <tt>NoInitialContextException</tt> is thrown when an initial
-     * context is required to complete an operation.
+     * Constbnt thbt holds the nbme of the environment property
+     * for specifying the initibl context fbctory to use. The vblue
+     * of the property should be the fully qublified clbss nbme
+     * of the fbctory clbss thbt will crebte bn initibl context.
+     * This property mby be specified in the environment pbrbmeter
+     * pbssed to the initibl context constructor,
+     * b system property, or bn bpplicbtion resource file.
+     * If it is not specified in bny of these sources,
+     * <tt>NoInitiblContextException</tt> is thrown when bn initibl
+     * context is required to complete bn operbtion.
      *
-     * <p> The value of this constant is "java.naming.factory.initial".
+     * <p> The vblue of this constbnt is "jbvb.nbming.fbctory.initibl".
      *
-     * @see InitialContext
-     * @see javax.naming.directory.InitialDirContext
-     * @see javax.naming.spi.NamingManager#getInitialContext
-     * @see javax.naming.spi.InitialContextFactory
-     * @see NoInitialContextException
-     * @see #addToEnvironment(String, Object)
+     * @see InitiblContext
+     * @see jbvbx.nbming.directory.InitiblDirContext
+     * @see jbvbx.nbming.spi.NbmingMbnbger#getInitiblContext
+     * @see jbvbx.nbming.spi.InitiblContextFbctory
+     * @see NoInitiblContextException
+     * @see #bddToEnvironment(String, Object)
      * @see #removeFromEnvironment(String)
      */
-    String INITIAL_CONTEXT_FACTORY = "java.naming.factory.initial";
+    String INITIAL_CONTEXT_FACTORY = "jbvb.nbming.fbctory.initibl";
 
     /**
-     * Constant that holds the name of the environment property
-     * for specifying the list of object factories to use. The value
-     * of the property should be a colon-separated list of the fully
-     * qualified class names of factory classes that will create an object
-     * given information about the object.
-     * This property may be specified in the environment, a system property,
+     * Constbnt thbt holds the nbme of the environment property
+     * for specifying the list of object fbctories to use. The vblue
+     * of the property should be b colon-sepbrbted list of the fully
+     * qublified clbss nbmes of fbctory clbsses thbt will crebte bn object
+     * given informbtion bbout the object.
+     * This property mby be specified in the environment, b system property,
      * or one or more resource files.
      *
-     * <p> The value of this constant is "java.naming.factory.object".
+     * <p> The vblue of this constbnt is "jbvb.nbming.fbctory.object".
      *
-     * @see javax.naming.spi.NamingManager#getObjectInstance
-     * @see javax.naming.spi.ObjectFactory
-     * @see #addToEnvironment(String, Object)
+     * @see jbvbx.nbming.spi.NbmingMbnbger#getObjectInstbnce
+     * @see jbvbx.nbming.spi.ObjectFbctory
+     * @see #bddToEnvironment(String, Object)
      * @see #removeFromEnvironment(String)
      */
-    String OBJECT_FACTORIES = "java.naming.factory.object";
+    String OBJECT_FACTORIES = "jbvb.nbming.fbctory.object";
 
     /**
-     * Constant that holds the name of the environment property
-     * for specifying the list of state factories to use. The value
-     * of the property should be a colon-separated list of the fully
-     * qualified class names of state factory classes that will be used
-     * to get an object's state given the object itself.
-     * This property may be specified in the environment, a system property,
+     * Constbnt thbt holds the nbme of the environment property
+     * for specifying the list of stbte fbctories to use. The vblue
+     * of the property should be b colon-sepbrbted list of the fully
+     * qublified clbss nbmes of stbte fbctory clbsses thbt will be used
+     * to get bn object's stbte given the object itself.
+     * This property mby be specified in the environment, b system property,
      * or one or more resource files.
      *
-     * <p> The value of this constant is "java.naming.factory.state".
+     * <p> The vblue of this constbnt is "jbvb.nbming.fbctory.stbte".
      *
-     * @see javax.naming.spi.NamingManager#getStateToBind
-     * @see javax.naming.spi.StateFactory
-     * @see #addToEnvironment(String, Object)
+     * @see jbvbx.nbming.spi.NbmingMbnbger#getStbteToBind
+     * @see jbvbx.nbming.spi.StbteFbctory
+     * @see #bddToEnvironment(String, Object)
      * @see #removeFromEnvironment(String)
      * @since 1.3
      */
-    String STATE_FACTORIES = "java.naming.factory.state";
+    String STATE_FACTORIES = "jbvb.nbming.fbctory.stbte";
 
     /**
-     * Constant that holds the name of the environment property
-     * for specifying the list of package prefixes to use when
-     * loading in URL context factories. The value
-     * of the property should be a colon-separated list of package
-     * prefixes for the class name of the factory class that will create
-     * a URL context factory.
-     * This property may be specified in the environment, a system property,
+     * Constbnt thbt holds the nbme of the environment property
+     * for specifying the list of pbckbge prefixes to use when
+     * lobding in URL context fbctories. The vblue
+     * of the property should be b colon-sepbrbted list of pbckbge
+     * prefixes for the clbss nbme of the fbctory clbss thbt will crebte
+     * b URL context fbctory.
+     * This property mby be specified in the environment, b system property,
      * or one or more resource files.
-     * The prefix <tt>com.sun.jndi.url</tt> is always appended to
-     * the possibly empty list of package prefixes.
+     * The prefix <tt>com.sun.jndi.url</tt> is blwbys bppended to
+     * the possibly empty list of pbckbge prefixes.
      *
-     * <p> The value of this constant is "java.naming.factory.url.pkgs".
+     * <p> The vblue of this constbnt is "jbvb.nbming.fbctory.url.pkgs".
      *
-     * @see javax.naming.spi.NamingManager#getObjectInstance
-     * @see javax.naming.spi.NamingManager#getURLContext
-     * @see javax.naming.spi.ObjectFactory
-     * @see #addToEnvironment(String, Object)
+     * @see jbvbx.nbming.spi.NbmingMbnbger#getObjectInstbnce
+     * @see jbvbx.nbming.spi.NbmingMbnbger#getURLContext
+     * @see jbvbx.nbming.spi.ObjectFbctory
+     * @see #bddToEnvironment(String, Object)
      * @see #removeFromEnvironment(String)
      */
-    String URL_PKG_PREFIXES = "java.naming.factory.url.pkgs";
+    String URL_PKG_PREFIXES = "jbvb.nbming.fbctory.url.pkgs";
 
     /**
-     * Constant that holds the name of the environment property
-     * for specifying configuration information for the service provider
-     * to use. The value of the property should contain a URL string
-     * (e.g. "ldap://somehost:389").
-     * This property may be specified in the environment, a system property,
-     * or a resource file.
-     * If it is not specified in any of these sources,
-     * the default configuration is determined by the service provider.
+     * Constbnt thbt holds the nbme of the environment property
+     * for specifying configurbtion informbtion for the service provider
+     * to use. The vblue of the property should contbin b URL string
+     * (e.g. "ldbp://somehost:389").
+     * This property mby be specified in the environment, b system property,
+     * or b resource file.
+     * If it is not specified in bny of these sources,
+     * the defbult configurbtion is determined by the service provider.
      *
-     * <p> The value of this constant is "java.naming.provider.url".
+     * <p> The vblue of this constbnt is "jbvb.nbming.provider.url".
      *
-     * @see #addToEnvironment(String, Object)
+     * @see #bddToEnvironment(String, Object)
      * @see #removeFromEnvironment(String)
      */
-    String PROVIDER_URL = "java.naming.provider.url";
+    String PROVIDER_URL = "jbvb.nbming.provider.url";
 
     /**
-     * Constant that holds the name of the environment property
-     * for specifying the DNS host and domain names to use for the
-     * JNDI URL context (for example, "dns://somehost/wiz.com").
-     * This property may be specified in the environment, a system property,
-     * or a resource file.
-     * If it is not specified in any of these sources
-     * and the program attempts to use a JNDI URL containing a DNS name,
-     * a <tt>ConfigurationException</tt> will be thrown.
+     * Constbnt thbt holds the nbme of the environment property
+     * for specifying the DNS host bnd dombin nbmes to use for the
+     * JNDI URL context (for exbmple, "dns://somehost/wiz.com").
+     * This property mby be specified in the environment, b system property,
+     * or b resource file.
+     * If it is not specified in bny of these sources
+     * bnd the progrbm bttempts to use b JNDI URL contbining b DNS nbme,
+     * b <tt>ConfigurbtionException</tt> will be thrown.
      *
-     * <p> The value of this constant is "java.naming.dns.url".
+     * <p> The vblue of this constbnt is "jbvb.nbming.dns.url".
      *
-     * @see #addToEnvironment(String, Object)
+     * @see #bddToEnvironment(String, Object)
      * @see #removeFromEnvironment(String)
      */
-    String DNS_URL = "java.naming.dns.url";
+    String DNS_URL = "jbvb.nbming.dns.url";
 
     /**
-     * Constant that holds the name of the environment property for
-     * specifying the authoritativeness of the service requested.
-     * If the value of the property is the string "true", it means
-     * that the access is to the most authoritative source (i.e. bypass
-     * any cache or replicas). If the value is anything else,
-     * the source need not be (but may be) authoritative.
-     * If unspecified, the value defaults to "false".
+     * Constbnt thbt holds the nbme of the environment property for
+     * specifying the buthoritbtiveness of the service requested.
+     * If the vblue of the property is the string "true", it mebns
+     * thbt the bccess is to the most buthoritbtive source (i.e. bypbss
+     * bny cbche or replicbs). If the vblue is bnything else,
+     * the source need not be (but mby be) buthoritbtive.
+     * If unspecified, the vblue defbults to "fblse".
      *
-     * <p> The value of this constant is "java.naming.authoritative".
+     * <p> The vblue of this constbnt is "jbvb.nbming.buthoritbtive".
      *
-     * @see #addToEnvironment(String, Object)
+     * @see #bddToEnvironment(String, Object)
      * @see #removeFromEnvironment(String)
      */
-    String AUTHORITATIVE = "java.naming.authoritative";
+    String AUTHORITATIVE = "jbvb.nbming.buthoritbtive";
 
     /**
-     * Constant that holds the name of the environment property for
-     * specifying the batch size to use when returning data via the
-     * service's protocol. This is a hint to the provider to return
-     * the results of operations in batches of the specified size, so
-     * the provider can optimize its performance and usage of resources.
-     * The value of the property is the string representation of an
+     * Constbnt thbt holds the nbme of the environment property for
+     * specifying the bbtch size to use when returning dbtb vib the
+     * service's protocol. This is b hint to the provider to return
+     * the results of operbtions in bbtches of the specified size, so
+     * the provider cbn optimize its performbnce bnd usbge of resources.
+     * The vblue of the property is the string representbtion of bn
      * integer.
-     * If unspecified, the batch size is determined by the service
+     * If unspecified, the bbtch size is determined by the service
      * provider.
      *
-     * <p> The value of this constant is "java.naming.batchsize".
+     * <p> The vblue of this constbnt is "jbvb.nbming.bbtchsize".
      *
-     * @see #addToEnvironment(String, Object)
+     * @see #bddToEnvironment(String, Object)
      * @see #removeFromEnvironment(String)
      */
-    String BATCHSIZE = "java.naming.batchsize";
+    String BATCHSIZE = "jbvb.nbming.bbtchsize";
 
     /**
-     * Constant that holds the name of the environment property for
-     * specifying how referrals encountered by the service provider
-     * are to be processed. The value of the property is one of the
+     * Constbnt thbt holds the nbme of the environment property for
+     * specifying how referrbls encountered by the service provider
+     * bre to be processed. The vblue of the property is one of the
      * following strings:
      * <dl>
      * <dt>"follow"
-     * <dd>follow referrals automatically
+     * <dd>follow referrbls butombticblly
      * <dt>"ignore"
-     * <dd>ignore referrals
+     * <dd>ignore referrbls
      * <dt>"throw"
-     * <dd>throw <tt>ReferralException</tt> when a referral is encountered.
+     * <dd>throw <tt>ReferrblException</tt> when b referrbl is encountered.
      * </dl>
-     * If this property is not specified, the default is
+     * If this property is not specified, the defbult is
      * determined by the provider.
      *
-     * <p> The value of this constant is "java.naming.referral".
+     * <p> The vblue of this constbnt is "jbvb.nbming.referrbl".
      *
-     * @see #addToEnvironment(String, Object)
+     * @see #bddToEnvironment(String, Object)
      * @see #removeFromEnvironment(String)
      */
-    String REFERRAL = "java.naming.referral";
+    String REFERRAL = "jbvb.nbming.referrbl";
 
     /**
-     * Constant that holds the name of the environment property for
+     * Constbnt thbt holds the nbme of the environment property for
      * specifying the security protocol to use.
-     * Its value is a string determined by the service provider
+     * Its vblue is b string determined by the service provider
      * (e.g. "ssl").
      * If this property is unspecified,
-     * the behaviour is determined by the service provider.
+     * the behbviour is determined by the service provider.
      *
-     * <p> The value of this constant is "java.naming.security.protocol".
+     * <p> The vblue of this constbnt is "jbvb.nbming.security.protocol".
      *
-     * @see #addToEnvironment(String, Object)
+     * @see #bddToEnvironment(String, Object)
      * @see #removeFromEnvironment(String)
      */
-    String SECURITY_PROTOCOL = "java.naming.security.protocol";
+    String SECURITY_PROTOCOL = "jbvb.nbming.security.protocol";
 
     /**
-     * Constant that holds the name of the environment property for
+     * Constbnt thbt holds the nbme of the environment property for
      * specifying the security level to use.
-     * Its value is one of the following strings:
+     * Its vblue is one of the following strings:
      * "none", "simple", "strong".
      * If this property is unspecified,
-     * the behaviour is determined by the service provider.
+     * the behbviour is determined by the service provider.
      *
-     * <p> The value of this constant is "java.naming.security.authentication".
+     * <p> The vblue of this constbnt is "jbvb.nbming.security.buthenticbtion".
      *
-     * @see #addToEnvironment(String, Object)
+     * @see #bddToEnvironment(String, Object)
      * @see #removeFromEnvironment(String)
      */
-    String SECURITY_AUTHENTICATION = "java.naming.security.authentication";
+    String SECURITY_AUTHENTICATION = "jbvb.nbming.security.buthenticbtion";
 
     /**
-     * Constant that holds the name of the environment property for
-     * specifying the identity of the principal for authenticating
-     * the caller to the service. The format of the principal
-     * depends on the authentication scheme.
+     * Constbnt thbt holds the nbme of the environment property for
+     * specifying the identity of the principbl for buthenticbting
+     * the cbller to the service. The formbt of the principbl
+     * depends on the buthenticbtion scheme.
      * If this property is unspecified,
-     * the behaviour is determined by the service provider.
+     * the behbviour is determined by the service provider.
      *
-     * <p> The value of this constant is "java.naming.security.principal".
+     * <p> The vblue of this constbnt is "jbvb.nbming.security.principbl".
      *
-     * @see #addToEnvironment(String, Object)
+     * @see #bddToEnvironment(String, Object)
      * @see #removeFromEnvironment(String)
      */
-    String SECURITY_PRINCIPAL = "java.naming.security.principal";
+    String SECURITY_PRINCIPAL = "jbvb.nbming.security.principbl";
 
     /**
-     * Constant that holds the name of the environment property for
-     * specifying the credentials of the principal for authenticating
-     * the caller to the service. The value of the property depends
-     * on the authentication scheme. For example, it could be a hashed
-     * password, clear-text password, key, certificate, and so on.
+     * Constbnt thbt holds the nbme of the environment property for
+     * specifying the credentibls of the principbl for buthenticbting
+     * the cbller to the service. The vblue of the property depends
+     * on the buthenticbtion scheme. For exbmple, it could be b hbshed
+     * pbssword, clebr-text pbssword, key, certificbte, bnd so on.
      * If this property is unspecified,
-     * the behaviour is determined by the service provider.
+     * the behbviour is determined by the service provider.
      *
-     * <p> The value of this constant is "java.naming.security.credentials".
+     * <p> The vblue of this constbnt is "jbvb.nbming.security.credentibls".
      *
-     * @see #addToEnvironment(String, Object)
+     * @see #bddToEnvironment(String, Object)
      * @see #removeFromEnvironment(String)
      */
 
-    String SECURITY_CREDENTIALS = "java.naming.security.credentials";
+    String SECURITY_CREDENTIALS = "jbvb.nbming.security.credentibls";
     /**
-     * Constant that holds the name of the environment property for
-     * specifying the preferred language to use with the service.
-     * The value of the property is a colon-separated list of language
-     * tags as defined in RFC 1766.
+     * Constbnt thbt holds the nbme of the environment property for
+     * specifying the preferred lbngubge to use with the service.
+     * The vblue of the property is b colon-sepbrbted list of lbngubge
+     * tbgs bs defined in RFC 1766.
      * If this property is unspecified,
-     * the language preference is determined by the service provider.
+     * the lbngubge preference is determined by the service provider.
      *
-     * <p> The value of this constant is "java.naming.language".
+     * <p> The vblue of this constbnt is "jbvb.nbming.lbngubge".
      *
-     * @see #addToEnvironment(String, Object)
+     * @see #bddToEnvironment(String, Object)
      * @see #removeFromEnvironment(String)
      */
-    String LANGUAGE = "java.naming.language";
+    String LANGUAGE = "jbvb.nbming.lbngubge";
 
     /**
-     * @deprecated An environment property with this name is ignored
-     *             while constructing an initial context.
-     * This constant was originally used as a property name to specify an
-     * {@code Applet} to retrieve parameters from, when creating an initial
-     * context. Currently any applet properties that need to be passed to an
-     * initial context should be copied into the environment hashtable:
+     * @deprecbted An environment property with this nbme is ignored
+     *             while constructing bn initibl context.
+     * This constbnt wbs originblly used bs b property nbme to specify bn
+     * {@code Applet} to retrieve pbrbmeters from, when crebting bn initibl
+     * context. Currently bny bpplet properties thbt need to be pbssed to bn
+     * initibl context should be copied into the environment hbshtbble:
      * <pre>{@code
-     *     Hashtable env = new Hashtable();
+     *     Hbshtbble env = new Hbshtbble();
      *     env.put(Context.INITIAL_CONTEXT_FACTORY,
-     *       ((Applet) this).getParameter(Context.INITIAL_CONTEXT_FACTORY));
+     *       ((Applet) this).getPbrbmeter(Context.INITIAL_CONTEXT_FACTORY));
      *     env.put(Context.PROVIDER_URL,
-     *       ((Applet) this).getParameter(Context.PROVIDER_URL));
+     *       ((Applet) this).getPbrbmeter(Context.PROVIDER_URL));
      *     // ... other properties ...
      *
-     *     Context ctx = new InitialContext(env);
+     *     Context ctx = new InitiblContext(env);
      * }</pre>
      *
      * @since 1.3
      */
-    @Deprecated
-    String APPLET = "java.naming.applet";
+    @Deprecbted
+    String APPLET = "jbvb.nbming.bpplet";
 };

@@ -1,61 +1,61 @@
 /*
- * Copyright (c) 1999, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2010, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.java2d.loops;
+pbckbge sun.jbvb2d.loops;
 
-import java.awt.image.BufferedImage;
-import java.awt.AlphaComposite;
-import java.util.HashMap;
+import jbvb.bwt.imbge.BufferedImbge;
+import jbvb.bwt.AlphbComposite;
+import jbvb.util.HbshMbp;
 
 /**
- * A CompositeType object provides a chained description of a type of
- * algorithm for color compositing.  The object will provide a single
- * String constant descriptor which is one way of describing a particular
- * compositing algorithm as well as a pointer to another CompositeType
- * which describes a more general algorithm for achieving the same result.
+ * A CompositeType object provides b chbined description of b type of
+ * blgorithm for color compositing.  The object will provide b single
+ * String constbnt descriptor which is one wby of describing b pbrticulbr
+ * compositing blgorithm bs well bs b pointer to bnother CompositeType
+ * which describes b more generbl blgorithm for bchieving the sbme result.
  * <p>
- * A description of a more specific algorithm is considered a "subtype"
- * and a description of a more general algorithm is considered a "supertype".
- * Thus, the deriveSubType method provides a way to create a new CompositeType
- * that is related to but more specific than an existing CompositeType and
- * the getSuperType method provides a way to ask a given CompositeType
- * for a more general algorithm to achieve the same result.
+ * A description of b more specific blgorithm is considered b "subtype"
+ * bnd b description of b more generbl blgorithm is considered b "supertype".
+ * Thus, the deriveSubType method provides b wby to crebte b new CompositeType
+ * thbt is relbted to but more specific thbn bn existing CompositeType bnd
+ * the getSuperType method provides b wby to bsk b given CompositeType
+ * for b more generbl blgorithm to bchieve the sbme result.
  * <p>
- * Note that you cannot construct a brand new root for a chain since
- * the constructor is private.  Every chain of types must at some point
+ * Note thbt you cbnnot construct b brbnd new root for b chbin since
+ * the constructor is privbte.  Every chbin of types must bt some point
  * derive from the Any node provided here using the deriveSubType()
- * method.  The presence of this common Any node on every chain
- * ensures that all chains end with the DESC_ANY descriptor so that
- * a suitable General GraphicsPrimitive object can be obtained for
- * the indicated algorithm if all of the more specific searches fail.
+ * method.  The presence of this common Any node on every chbin
+ * ensures thbt bll chbins end with the DESC_ANY descriptor so thbt
+ * b suitbble Generbl GrbphicsPrimitive object cbn be obtbined for
+ * the indicbted blgorithm if bll of the more specific sebrches fbil.
  */
-public final class CompositeType {
+public finbl clbss CompositeType {
 
-    private static int unusedUID = 1;
-    private static final HashMap<String,Integer> compositeUIDMap =
-        new HashMap<String,Integer>(100);
+    privbte stbtic int unusedUID = 1;
+    privbte stbtic finbl HbshMbp<String,Integer> compositeUIDMbp =
+        new HbshMbp<String,Integer>(100);
 
     /*
      * CONSTANTS USED BY ALL PRIMITIVES TO DESCRIBE THE COMPOSITING
@@ -63,115 +63,115 @@ public final class CompositeType {
      */
 
     /**
-     * algorithm is a general algorithm that uses a CompositeContext
+     * blgorithm is b generbl blgorithm thbt uses b CompositeContext
      * to do the rendering.
      */
-    public static final String DESC_ANY      = "Any CompositeContext";
+    public stbtic finbl String DESC_ANY      = "Any CompositeContext";
 
     /**
-     * constant used to describe the Graphics.setXORMode() algorithm
+     * constbnt used to describe the Grbphics.setXORMode() blgorithm
      */
-    public static final String DESC_XOR      = "XOR mode";
+    public stbtic finbl String DESC_XOR      = "XOR mode";
 
     /**
-     * constants used to describe the various AlphaComposite
-     * algorithms.
+     * constbnts used to describe the vbrious AlphbComposite
+     * blgorithms.
      */
-    public static final String DESC_CLEAR     = "Porter-Duff Clear";
-    public static final String DESC_SRC       = "Porter-Duff Src";
-    public static final String DESC_DST       = "Porter-Duff Dst";
-    public static final String DESC_SRC_OVER  = "Porter-Duff Src Over Dst";
-    public static final String DESC_DST_OVER  = "Porter-Duff Dst Over Src";
-    public static final String DESC_SRC_IN    = "Porter-Duff Src In Dst";
-    public static final String DESC_DST_IN    = "Porter-Duff Dst In Src";
-    public static final String DESC_SRC_OUT   = "Porter-Duff Src HeldOutBy Dst";
-    public static final String DESC_DST_OUT   = "Porter-Duff Dst HeldOutBy Src";
-    public static final String DESC_SRC_ATOP  = "Porter-Duff Src Atop Dst";
-    public static final String DESC_DST_ATOP  = "Porter-Duff Dst Atop Src";
-    public static final String DESC_ALPHA_XOR = "Porter-Duff Xor";
+    public stbtic finbl String DESC_CLEAR     = "Porter-Duff Clebr";
+    public stbtic finbl String DESC_SRC       = "Porter-Duff Src";
+    public stbtic finbl String DESC_DST       = "Porter-Duff Dst";
+    public stbtic finbl String DESC_SRC_OVER  = "Porter-Duff Src Over Dst";
+    public stbtic finbl String DESC_DST_OVER  = "Porter-Duff Dst Over Src";
+    public stbtic finbl String DESC_SRC_IN    = "Porter-Duff Src In Dst";
+    public stbtic finbl String DESC_DST_IN    = "Porter-Duff Dst In Src";
+    public stbtic finbl String DESC_SRC_OUT   = "Porter-Duff Src HeldOutBy Dst";
+    public stbtic finbl String DESC_DST_OUT   = "Porter-Duff Dst HeldOutBy Src";
+    public stbtic finbl String DESC_SRC_ATOP  = "Porter-Duff Src Atop Dst";
+    public stbtic finbl String DESC_DST_ATOP  = "Porter-Duff Dst Atop Src";
+    public stbtic finbl String DESC_ALPHA_XOR = "Porter-Duff Xor";
 
     /**
-     * constants used to describe the two common cases of
-     * AlphaComposite algorithms that are simpler if there
-     * is not extraAlpha.
+     * constbnts used to describe the two common cbses of
+     * AlphbComposite blgorithms thbt bre simpler if there
+     * is not extrbAlphb.
      */
-    public static final String
-        DESC_SRC_NO_EA      = "Porter-Duff Src, No Extra Alpha";
-    public static final String
-        DESC_SRC_OVER_NO_EA = "Porter-Duff SrcOverDst, No Extra Alpha";
+    public stbtic finbl String
+        DESC_SRC_NO_EA      = "Porter-Duff Src, No Extrb Alphb";
+    public stbtic finbl String
+        DESC_SRC_OVER_NO_EA = "Porter-Duff SrcOverDst, No Extrb Alphb";
 
     /**
-     * constant used to describe an algorithm that implements all 8 of
+     * constbnt used to describe bn blgorithm thbt implements bll 8 of
      * the Porter-Duff rules in one Primitive.
      */
-    public static final String DESC_ANY_ALPHA = "Any AlphaComposite Rule";
+    public stbtic finbl String DESC_ANY_ALPHA = "Any AlphbComposite Rule";
 
     /*
      * END OF COMPOSITE ALGORITHM TYPE CONSTANTS
      */
 
     /**
-     * The root CompositeType object for all chains of algorithm descriptions.
+     * The root CompositeType object for bll chbins of blgorithm descriptions.
      */
-    public static final CompositeType
+    public stbtic finbl CompositeType
         Any           = new CompositeType(null, DESC_ANY);
 
     /*
      * START OF CompositeeType OBJECTS FOR THE VARIOUS CONSTANTS
      */
 
-    public static final CompositeType
-        General       = Any;
+    public stbtic finbl CompositeType
+        Generbl       = Any;
 
-    public static final CompositeType
-        AnyAlpha      = General.deriveSubType(DESC_ANY_ALPHA);
-    public static final CompositeType
-        Xor           = General.deriveSubType(DESC_XOR);
+    public stbtic finbl CompositeType
+        AnyAlphb      = Generbl.deriveSubType(DESC_ANY_ALPHA);
+    public stbtic finbl CompositeType
+        Xor           = Generbl.deriveSubType(DESC_XOR);
 
-    public static final CompositeType
-        Clear         = AnyAlpha.deriveSubType(DESC_CLEAR);
-    public static final CompositeType
-        Src           = AnyAlpha.deriveSubType(DESC_SRC);
-    public static final CompositeType
-        Dst           = AnyAlpha.deriveSubType(DESC_DST);
-    public static final CompositeType
-        SrcOver       = AnyAlpha.deriveSubType(DESC_SRC_OVER);
-    public static final CompositeType
-        DstOver       = AnyAlpha.deriveSubType(DESC_DST_OVER);
-    public static final CompositeType
-        SrcIn         = AnyAlpha.deriveSubType(DESC_SRC_IN);
-    public static final CompositeType
-        DstIn         = AnyAlpha.deriveSubType(DESC_DST_IN);
-    public static final CompositeType
-        SrcOut        = AnyAlpha.deriveSubType(DESC_SRC_OUT);
-    public static final CompositeType
-        DstOut        = AnyAlpha.deriveSubType(DESC_DST_OUT);
-    public static final CompositeType
-        SrcAtop       = AnyAlpha.deriveSubType(DESC_SRC_ATOP);
-    public static final CompositeType
-        DstAtop       = AnyAlpha.deriveSubType(DESC_DST_ATOP);
-    public static final CompositeType
-        AlphaXor      = AnyAlpha.deriveSubType(DESC_ALPHA_XOR);
+    public stbtic finbl CompositeType
+        Clebr         = AnyAlphb.deriveSubType(DESC_CLEAR);
+    public stbtic finbl CompositeType
+        Src           = AnyAlphb.deriveSubType(DESC_SRC);
+    public stbtic finbl CompositeType
+        Dst           = AnyAlphb.deriveSubType(DESC_DST);
+    public stbtic finbl CompositeType
+        SrcOver       = AnyAlphb.deriveSubType(DESC_SRC_OVER);
+    public stbtic finbl CompositeType
+        DstOver       = AnyAlphb.deriveSubType(DESC_DST_OVER);
+    public stbtic finbl CompositeType
+        SrcIn         = AnyAlphb.deriveSubType(DESC_SRC_IN);
+    public stbtic finbl CompositeType
+        DstIn         = AnyAlphb.deriveSubType(DESC_DST_IN);
+    public stbtic finbl CompositeType
+        SrcOut        = AnyAlphb.deriveSubType(DESC_SRC_OUT);
+    public stbtic finbl CompositeType
+        DstOut        = AnyAlphb.deriveSubType(DESC_DST_OUT);
+    public stbtic finbl CompositeType
+        SrcAtop       = AnyAlphb.deriveSubType(DESC_SRC_ATOP);
+    public stbtic finbl CompositeType
+        DstAtop       = AnyAlphb.deriveSubType(DESC_DST_ATOP);
+    public stbtic finbl CompositeType
+        AlphbXor      = AnyAlphb.deriveSubType(DESC_ALPHA_XOR);
 
-    public static final CompositeType
-        SrcNoEa       = Src.deriveSubType(DESC_SRC_NO_EA);
-    public static final CompositeType
-        SrcOverNoEa   = SrcOver.deriveSubType(DESC_SRC_OVER_NO_EA);
+    public stbtic finbl CompositeType
+        SrcNoEb       = Src.deriveSubType(DESC_SRC_NO_EA);
+    public stbtic finbl CompositeType
+        SrcOverNoEb   = SrcOver.deriveSubType(DESC_SRC_OVER_NO_EA);
 
     /*
-     * A special CompositeType for the case where we are filling in
-     * SrcOverNoEa mode with an opaque color.  In that case then the
-     * best loop for us to use would be a SrcNoEa loop, but what if
-     * there is no such loop?  In that case then we would end up
-     * backing off to a Src loop (which should still be fine) or an
-     * AnyAlpha loop which would be slower than a SrcOver loop in
-     * most cases.
-     * The fix is to use the following chain which looks for loops
+     * A specibl CompositeType for the cbse where we bre filling in
+     * SrcOverNoEb mode with bn opbque color.  In thbt cbse then the
+     * best loop for us to use would be b SrcNoEb loop, but whbt if
+     * there is no such loop?  In thbt cbse then we would end up
+     * bbcking off to b Src loop (which should still be fine) or bn
+     * AnyAlphb loop which would be slower thbn b SrcOver loop in
+     * most cbses.
+     * The fix is to use the following chbin which looks for loops
      * in the following order:
-     *    SrcNoEa, Src, SrcOverNoEa, SrcOver, AnyAlpha
+     *    SrcNoEb, Src, SrcOverNoEb, SrcOver, AnyAlphb
      */
-    public static final CompositeType
-        OpaqueSrcOverNoEa = SrcOverNoEa.deriveSubType(DESC_SRC)
+    public stbtic finbl CompositeType
+        OpbqueSrcOverNoEb = SrcOverNoEb.deriveSubType(DESC_SRC)
                                        .deriveSubType(DESC_SRC_NO_EA);
 
     /*
@@ -179,78 +179,78 @@ public final class CompositeType {
      */
 
     /**
-     * Return a new CompositeType object which uses this object as its
-     * more general "supertype" descriptor.  If no operation can be
-     * found that implements the algorithm described more exactly
-     * by desc, then this object will define the more general
-     * compositing algorithm that can be used instead.
+     * Return b new CompositeType object which uses this object bs its
+     * more generbl "supertype" descriptor.  If no operbtion cbn be
+     * found thbt implements the blgorithm described more exbctly
+     * by desc, then this object will define the more generbl
+     * compositing blgorithm thbt cbn be used instebd.
      */
     public CompositeType deriveSubType(String desc) {
         return new CompositeType(this, desc);
     }
 
     /**
-     * Return a CompositeType object for the specified AlphaComposite
+     * Return b CompositeType object for the specified AlphbComposite
      * rule.
      */
-    public static CompositeType forAlphaComposite(AlphaComposite ac) {
-        switch (ac.getRule()) {
-        case AlphaComposite.CLEAR:
-            return Clear;
-        case AlphaComposite.SRC:
-            if (ac.getAlpha() >= 1.0f) {
-                return SrcNoEa;
+    public stbtic CompositeType forAlphbComposite(AlphbComposite bc) {
+        switch (bc.getRule()) {
+        cbse AlphbComposite.CLEAR:
+            return Clebr;
+        cbse AlphbComposite.SRC:
+            if (bc.getAlphb() >= 1.0f) {
+                return SrcNoEb;
             } else {
                 return Src;
             }
-        case AlphaComposite.DST:
+        cbse AlphbComposite.DST:
             return Dst;
-        case AlphaComposite.SRC_OVER:
-            if (ac.getAlpha() >= 1.0f) {
-                return SrcOverNoEa;
+        cbse AlphbComposite.SRC_OVER:
+            if (bc.getAlphb() >= 1.0f) {
+                return SrcOverNoEb;
             } else {
                 return SrcOver;
             }
-        case AlphaComposite.DST_OVER:
+        cbse AlphbComposite.DST_OVER:
             return DstOver;
-        case AlphaComposite.SRC_IN:
+        cbse AlphbComposite.SRC_IN:
             return SrcIn;
-        case AlphaComposite.DST_IN:
+        cbse AlphbComposite.DST_IN:
             return DstIn;
-        case AlphaComposite.SRC_OUT:
+        cbse AlphbComposite.SRC_OUT:
             return SrcOut;
-        case AlphaComposite.DST_OUT:
+        cbse AlphbComposite.DST_OUT:
             return DstOut;
-        case AlphaComposite.SRC_ATOP:
+        cbse AlphbComposite.SRC_ATOP:
             return SrcAtop;
-        case AlphaComposite.DST_ATOP:
+        cbse AlphbComposite.DST_ATOP:
             return DstAtop;
-        case AlphaComposite.XOR:
-            return AlphaXor;
-        default:
-            throw new InternalError("Unrecognized alpha rule");
+        cbse AlphbComposite.XOR:
+            return AlphbXor;
+        defbult:
+            throw new InternblError("Unrecognized blphb rule");
         }
     }
 
-    private int uniqueID;
-    private String desc;
-    private CompositeType next;
+    privbte int uniqueID;
+    privbte String desc;
+    privbte CompositeType next;
 
-    private CompositeType(CompositeType parent, String desc) {
-        next = parent;
+    privbte CompositeType(CompositeType pbrent, String desc) {
+        next = pbrent;
         this.desc = desc;
-        this.uniqueID = makeUniqueID(desc);
+        this.uniqueID = mbkeUniqueID(desc);
     }
 
-    public synchronized static final int makeUniqueID(String desc) {
-        Integer i = compositeUIDMap.get(desc);
+    public synchronized stbtic finbl int mbkeUniqueID(String desc) {
+        Integer i = compositeUIDMbp.get(desc);
 
         if (i == null) {
             if (unusedUID > 255) {
-                throw new InternalError("composite type id overflow");
+                throw new InternblError("composite type id overflow");
             }
             i = unusedUID++;
-            compositeUIDMap.put(desc, i);
+            compositeUIDMbp.put(desc, i);
         }
         return i;
     }
@@ -267,11 +267,11 @@ public final class CompositeType {
         return next;
     }
 
-    public int hashCode() {
-        return desc.hashCode();
+    public int hbshCode() {
+        return desc.hbshCode();
     }
 
-    public boolean isDerivedFrom(CompositeType other) {
+    public boolebn isDerivedFrom(CompositeType other) {
         CompositeType comptype = this;
         do {
             if (comptype.desc == other.desc) {
@@ -279,14 +279,14 @@ public final class CompositeType {
             }
             comptype = comptype.next;
         } while (comptype != null);
-        return false;
+        return fblse;
     }
 
-    public boolean equals(Object o) {
-        if (o instanceof CompositeType) {
+    public boolebn equbls(Object o) {
+        if (o instbnceof CompositeType) {
             return (((CompositeType) o).uniqueID == this.uniqueID);
         }
-        return false;
+        return fblse;
     }
 
     public String toString() {

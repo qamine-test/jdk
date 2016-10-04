@@ -1,51 +1,51 @@
 /*
- * Copyright (c) 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package com.sun.media.sound;
+pbckbge com.sun.medib.sound;
 
 /**
- * ModelAbstractChannelMixer is ready for use class to implement
- * ModelChannelMixer interface.
+ * ModelAbstrbctChbnnelMixer is rebdy for use clbss to implement
+ * ModelChbnnelMixer interfbce.
  *
- * @author Karl Helgason
+ * @buthor Kbrl Helgbson
  */
-public abstract class ModelAbstractChannelMixer implements ModelChannelMixer {
+public bbstrbct clbss ModelAbstrbctChbnnelMixer implements ModelChbnnelMixer {
 
-    public abstract boolean process(float[][] buffer, int offset, int len);
+    public bbstrbct boolebn process(flobt[][] buffer, int offset, int len);
 
-    public abstract void stop();
+    public bbstrbct void stop();
 
-    public void allNotesOff() {
+    public void bllNotesOff() {
     }
 
-    public void allSoundOff() {
+    public void bllSoundOff() {
     }
 
-    public void controlChange(int controller, int value) {
+    public void controlChbnge(int controller, int vblue) {
     }
 
-    public int getChannelPressure() {
+    public int getChbnnelPressure() {
         return 0;
     }
 
@@ -53,16 +53,16 @@ public abstract class ModelAbstractChannelMixer implements ModelChannelMixer {
         return 0;
     }
 
-    public boolean getMono() {
-        return false;
+    public boolebn getMono() {
+        return fblse;
     }
 
-    public boolean getMute() {
-        return false;
+    public boolebn getMute() {
+        return fblse;
     }
 
-    public boolean getOmni() {
-        return false;
+    public boolebn getOmni() {
+        return fblse;
     }
 
     public int getPitchBend() {
@@ -73,16 +73,16 @@ public abstract class ModelAbstractChannelMixer implements ModelChannelMixer {
         return 0;
     }
 
-    public int getProgram() {
+    public int getProgrbm() {
         return 0;
     }
 
-    public boolean getSolo() {
-        return false;
+    public boolebn getSolo() {
+        return fblse;
     }
 
-    public boolean localControl(boolean on) {
-        return false;
+    public boolebn locblControl(boolebn on) {
+        return fblse;
     }
 
     public void noteOff(int noteNumber) {
@@ -94,25 +94,25 @@ public abstract class ModelAbstractChannelMixer implements ModelChannelMixer {
     public void noteOn(int noteNumber, int velocity) {
     }
 
-    public void programChange(int program) {
+    public void progrbmChbnge(int progrbm) {
     }
 
-    public void programChange(int bank, int program) {
+    public void progrbmChbnge(int bbnk, int progrbm) {
     }
 
     public void resetAllControllers() {
     }
 
-    public void setChannelPressure(int pressure) {
+    public void setChbnnelPressure(int pressure) {
     }
 
-    public void setMono(boolean on) {
+    public void setMono(boolebn on) {
     }
 
-    public void setMute(boolean mute) {
+    public void setMute(boolebn mute) {
     }
 
-    public void setOmni(boolean on) {
+    public void setOmni(boolebn on) {
     }
 
     public void setPitchBend(int bend) {
@@ -121,6 +121,6 @@ public abstract class ModelAbstractChannelMixer implements ModelChannelMixer {
     public void setPolyPressure(int noteNumber, int pressure) {
     }
 
-    public void setSolo(boolean soloState) {
+    public void setSolo(boolebn soloStbte) {
     }
 }

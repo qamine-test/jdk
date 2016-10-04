@@ -1,155 +1,155 @@
 /*
- * Copyright (c) 1998, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2007, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package com.sun.jmx.snmp.agent;
+pbckbge com.sun.jmx.snmp.bgent;
 
 
 
-// java imports
+// jbvb imports
 //
-import java.util.Vector;
-import java.io.IOException;
+import jbvb.util.Vector;
+import jbvb.io.IOException;
 
 // jmx imports
 //
 import com.sun.jmx.snmp.SnmpOid;
-import com.sun.jmx.snmp.SnmpStatusException;
+import com.sun.jmx.snmp.SnmpStbtusException;
 
 /**
- * The logical link between an SNMP MIB and the SNMP communication stack.
+ * The logicbl link between bn SNMP MIB bnd the SNMP communicbtion stbck.
  *
- * <p><b>This API is a Sun Microsystems internal API  and is subject
- * to change without notice.</b></p>
+ * <p><b>This API is b Sun Microsystems internbl API  bnd is subject
+ * to chbnge without notice.</b></p>
  */
 
-public interface SnmpMibHandler {
+public interfbce SnmpMibHbndler {
 
     /**
-     * Adds a new MIB in the SNMP MIB handler.
-     * This method is called automatically by {@link com.sun.jmx.snmp.agent.SnmpMibAgent#setSnmpAdaptor(SnmpMibHandler)} and
-     * {@link com.sun.jmx.snmp.agent.SnmpMibAgent#setSnmpAdaptorName(ObjectName)} and should not be called directly.
+     * Adds b new MIB in the SNMP MIB hbndler.
+     * This method is cblled butombticblly by {@link com.sun.jmx.snmp.bgent.SnmpMibAgent#setSnmpAdbptor(SnmpMibHbndler)} bnd
+     * {@link com.sun.jmx.snmp.bgent.SnmpMibAgent#setSnmpAdbptorNbme(ObjectNbme)} bnd should not be cblled directly.
      *
-     * @param mib The MIB to add.
+     * @pbrbm mib The MIB to bdd.
      *
-     * @return A reference on the SNMP MIB handler.
+     * @return A reference on the SNMP MIB hbndler.
      *
-     * @exception IllegalArgumentException If the parameter is null.
+     * @exception IllegblArgumentException If the pbrbmeter is null.
      */
-    public SnmpMibHandler addMib(SnmpMibAgent mib) throws IllegalArgumentException;
+    public SnmpMibHbndler bddMib(SnmpMibAgent mib) throws IllegblArgumentException;
 
 /**
-     * Adds a new MIB in the SNMP MIB handler.
+     * Adds b new MIB in the SNMP MIB hbndler.
      *
-     * @param mib The MIB to add.
-     * @param oids The array of oid used to add the mib. Each oid is a root oid for the mib.
-     * @return A reference on the SNMP MIB handler.
+     * @pbrbm mib The MIB to bdd.
+     * @pbrbm oids The brrby of oid used to bdd the mib. Ebch oid is b root oid for the mib.
+     * @return A reference on the SNMP MIB hbndler.
      *
-     * @exception IllegalArgumentException If the parameter is null.
-     *
-     * @since 1.5
-     */
-    public SnmpMibHandler addMib(SnmpMibAgent mib, SnmpOid[] oids) throws IllegalArgumentException;
-
-    /**
-     * Adds a new contextualized MIB in the SNMP MIB handler.
-     *
-     * @param mib The MIB to add.
-     * @param contextName The MIB context name. If null is passed, will be registered in the default context.
-     *
-     * @return A reference to the SNMP MIB handler.
-     *
-     * @exception IllegalArgumentException If the parameter is null.
+     * @exception IllegblArgumentException If the pbrbmeter is null.
      *
      * @since 1.5
      */
-    public SnmpMibHandler addMib(SnmpMibAgent mib, String contextName)
-        throws IllegalArgumentException;
+    public SnmpMibHbndler bddMib(SnmpMibAgent mib, SnmpOid[] oids) throws IllegblArgumentException;
 
     /**
-     * Adds a new contextualized MIB in the SNMP MIB handler.
+     * Adds b new contextublized MIB in the SNMP MIB hbndler.
      *
-     * @param mib The MIB to add.
-     * @param contextName The MIB context name. If null is passed, will be registered in the default context.
-     * @param oids The array of oid used to add the mib. Each oid is a root oid for the mib.
+     * @pbrbm mib The MIB to bdd.
+     * @pbrbm contextNbme The MIB context nbme. If null is pbssed, will be registered in the defbult context.
      *
-     * @return A reference to the SNMP MIB handler.
+     * @return A reference to the SNMP MIB hbndler.
      *
-     * @exception IllegalArgumentException If the parameter is null.
+     * @exception IllegblArgumentException If the pbrbmeter is null.
      *
      * @since 1.5
      */
-    public SnmpMibHandler addMib(SnmpMibAgent mib, String contextName, SnmpOid[] oids)
-        throws IllegalArgumentException;
+    public SnmpMibHbndler bddMib(SnmpMibAgent mib, String contextNbme)
+        throws IllegblArgumentException;
 
     /**
-     * Removes the specified MIB from the SNMP protocol adaptor.
-     * This method is called automatically by {@link com.sun.jmx.snmp.agent.SnmpMibAgent#setSnmpAdaptor(SnmpMibHandler)} and
-     * {@link com.sun.jmx.snmp.agent.SnmpMibAgent#setSnmpAdaptorName(ObjectName)} and should not be called directly.
+     * Adds b new contextublized MIB in the SNMP MIB hbndler.
      *
-     * @param mib The MIB to be removed.
+     * @pbrbm mib The MIB to bdd.
+     * @pbrbm contextNbme The MIB context nbme. If null is pbssed, will be registered in the defbult context.
+     * @pbrbm oids The brrby of oid used to bdd the mib. Ebch oid is b root oid for the mib.
      *
-     * @return <CODE>true</CODE> if the specified <CODE>mib</CODE> was a MIB included in the SNMP MIB handler,
-     * <CODE>false</CODE> otherwise.
+     * @return A reference to the SNMP MIB hbndler.
+     *
+     * @exception IllegblArgumentException If the pbrbmeter is null.
+     *
+     * @since 1.5
      */
-    public boolean removeMib(SnmpMibAgent mib);
+    public SnmpMibHbndler bddMib(SnmpMibAgent mib, String contextNbme, SnmpOid[] oids)
+        throws IllegblArgumentException;
+
+    /**
+     * Removes the specified MIB from the SNMP protocol bdbptor.
+     * This method is cblled butombticblly by {@link com.sun.jmx.snmp.bgent.SnmpMibAgent#setSnmpAdbptor(SnmpMibHbndler)} bnd
+     * {@link com.sun.jmx.snmp.bgent.SnmpMibAgent#setSnmpAdbptorNbme(ObjectNbme)} bnd should not be cblled directly.
+     *
+     * @pbrbm mib The MIB to be removed.
+     *
+     * @return <CODE>true</CODE> if the specified <CODE>mib</CODE> wbs b MIB included in the SNMP MIB hbndler,
+     * <CODE>fblse</CODE> otherwise.
+     */
+    public boolebn removeMib(SnmpMibAgent mib);
   /**
-     * Removes the specified MIB from the SNMP protocol adaptor.
-     * This method is called automatically by {@link com.sun.jmx.snmp.agent.SnmpMibAgent#setSnmpAdaptor(SnmpMibHandler)} and
-     * {@link com.sun.jmx.snmp.agent.SnmpMibAgent#setSnmpAdaptorName(ObjectName)} and should not be called directly.
+     * Removes the specified MIB from the SNMP protocol bdbptor.
+     * This method is cblled butombticblly by {@link com.sun.jmx.snmp.bgent.SnmpMibAgent#setSnmpAdbptor(SnmpMibHbndler)} bnd
+     * {@link com.sun.jmx.snmp.bgent.SnmpMibAgent#setSnmpAdbptorNbme(ObjectNbme)} bnd should not be cblled directly.
      *
-     * @param mib The MIB to be removed.
-     * @param oids The oid the MIB was previously registered for.
-     * @return <CODE>true</CODE> if the specified <CODE>mib</CODE> was a MIB included in the SNMP MIB handler,
-     * <CODE>false</CODE> otherwise.
+     * @pbrbm mib The MIB to be removed.
+     * @pbrbm oids The oid the MIB wbs previously registered for.
+     * @return <CODE>true</CODE> if the specified <CODE>mib</CODE> wbs b MIB included in the SNMP MIB hbndler,
+     * <CODE>fblse</CODE> otherwise.
      *
      * @since 1.5
      */
-    public boolean removeMib(SnmpMibAgent mib, SnmpOid[] oids);
+    public boolebn removeMib(SnmpMibAgent mib, SnmpOid[] oids);
      /**
-     * Removes the specified MIB from the SNMP protocol adaptor.
+     * Removes the specified MIB from the SNMP protocol bdbptor.
      *
-     * @param mib The MIB to be removed.
-     * @param contextName The context name used at registration time.
+     * @pbrbm mib The MIB to be removed.
+     * @pbrbm contextNbme The context nbme used bt registrbtion time.
      *
-     * @return <CODE>true</CODE> if the specified <CODE>mib</CODE> was a MIB included in the SNMP MIB handler,
-     * <CODE>false</CODE> otherwise.
+     * @return <CODE>true</CODE> if the specified <CODE>mib</CODE> wbs b MIB included in the SNMP MIB hbndler,
+     * <CODE>fblse</CODE> otherwise.
      *
      * @since 1.5
      */
-    public boolean removeMib(SnmpMibAgent mib, String contextName);
+    public boolebn removeMib(SnmpMibAgent mib, String contextNbme);
      /**
-     * Removes the specified MIB from the SNMP protocol adaptor.
+     * Removes the specified MIB from the SNMP protocol bdbptor.
      *
-     * @param mib The MIB to be removed.
-     * @param contextName The context name used at registration time.
-     * @param oids The oid the MIB was previously registered for.
-     * @return <CODE>true</CODE> if the specified <CODE>mib</CODE> was a MIB included in the SNMP MIB handler,
-     * <CODE>false</CODE> otherwise.
+     * @pbrbm mib The MIB to be removed.
+     * @pbrbm contextNbme The context nbme used bt registrbtion time.
+     * @pbrbm oids The oid the MIB wbs previously registered for.
+     * @return <CODE>true</CODE> if the specified <CODE>mib</CODE> wbs b MIB included in the SNMP MIB hbndler,
+     * <CODE>fblse</CODE> otherwise.
      *
      * @since 1.5
      */
-    public boolean removeMib(SnmpMibAgent mib, String contextName, SnmpOid[] oids);
+    public boolebn removeMib(SnmpMibAgent mib, String contextNbme, SnmpOid[] oids);
 }

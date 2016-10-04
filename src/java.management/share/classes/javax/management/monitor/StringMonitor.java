@@ -1,62 +1,62 @@
 /*
- * Copyright (c) 1999, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2007, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.management.monitor;
+pbckbge jbvbx.mbnbgement.monitor;
 
-import static com.sun.jmx.defaults.JmxProperties.MONITOR_LOGGER;
-import java.util.logging.Level;
-import javax.management.ObjectName;
-import javax.management.MBeanNotificationInfo;
-import static javax.management.monitor.MonitorNotification.*;
+import stbtic com.sun.jmx.defbults.JmxProperties.MONITOR_LOGGER;
+import jbvb.util.logging.Level;
+import jbvbx.mbnbgement.ObjectNbme;
+import jbvbx.mbnbgement.MBebnNotificbtionInfo;
+import stbtic jbvbx.mbnbgement.monitor.MonitorNotificbtion.*;
 
 /**
- * Defines a monitor MBean designed to observe the values of a string
- * attribute.
+ * Defines b monitor MBebn designed to observe the vblues of b string
+ * bttribute.
  * <P>
- * A string monitor sends notifications as follows:
+ * A string monitor sends notificbtions bs follows:
  * <UL>
- * <LI> if the attribute value matches the string to compare value,
- *      a {@link MonitorNotification#STRING_TO_COMPARE_VALUE_MATCHED
- *      match notification} is sent.
- *      The notify match flag must be set to <CODE>true</CODE>.
- *      <BR>Subsequent matchings of the string to compare values do not
- *      cause further notifications unless
- *      the attribute value differs from the string to compare value.
- * <LI> if the attribute value differs from the string to compare value,
- *      a {@link MonitorNotification#STRING_TO_COMPARE_VALUE_DIFFERED
- *      differ notification} is sent.
- *      The notify differ flag must be set to <CODE>true</CODE>.
- *      <BR>Subsequent differences from the string to compare value do
- *      not cause further notifications unless
- *      the attribute value matches the string to compare value.
+ * <LI> if the bttribute vblue mbtches the string to compbre vblue,
+ *      b {@link MonitorNotificbtion#STRING_TO_COMPARE_VALUE_MATCHED
+ *      mbtch notificbtion} is sent.
+ *      The notify mbtch flbg must be set to <CODE>true</CODE>.
+ *      <BR>Subsequent mbtchings of the string to compbre vblues do not
+ *      cbuse further notificbtions unless
+ *      the bttribute vblue differs from the string to compbre vblue.
+ * <LI> if the bttribute vblue differs from the string to compbre vblue,
+ *      b {@link MonitorNotificbtion#STRING_TO_COMPARE_VALUE_DIFFERED
+ *      differ notificbtion} is sent.
+ *      The notify differ flbg must be set to <CODE>true</CODE>.
+ *      <BR>Subsequent differences from the string to compbre vblue do
+ *      not cbuse further notificbtions unless
+ *      the bttribute vblue mbtches the string to compbre vblue.
  * </UL>
  *
  *
  * @since 1.5
  */
-public class StringMonitor extends Monitor implements StringMonitorMBean {
+public clbss StringMonitor extends Monitor implements StringMonitorMBebn {
 
     /*
      * ------------------------------------------
@@ -64,20 +64,20 @@ public class StringMonitor extends Monitor implements StringMonitorMBean {
      * ------------------------------------------
      */
 
-    static class StringMonitorObservedObject extends ObservedObject {
+    stbtic clbss StringMonitorObservedObject extends ObservedObject {
 
-        public StringMonitorObservedObject(ObjectName observedObject) {
+        public StringMonitorObservedObject(ObjectNbme observedObject) {
             super(observedObject);
         }
 
-        public final synchronized int getStatus() {
-            return status;
+        public finbl synchronized int getStbtus() {
+            return stbtus;
         }
-        public final synchronized void setStatus(int status) {
-            this.status = status;
+        public finbl synchronized void setStbtus(int stbtus) {
+            this.stbtus = stbtus;
         }
 
-        private int status;
+        privbte int stbtus;
     }
 
     /*
@@ -87,26 +87,26 @@ public class StringMonitor extends Monitor implements StringMonitorMBean {
      */
 
     /**
-     * String to compare with the observed attribute.
-     * <BR>The default value is an empty character sequence.
+     * String to compbre with the observed bttribute.
+     * <BR>The defbult vblue is bn empty chbrbcter sequence.
      */
-    private String stringToCompare = "";
+    privbte String stringToCompbre = "";
 
     /**
-     * Flag indicating if the string monitor notifies when matching
-     * the string to compare.
-     * <BR>The default value is set to <CODE>false</CODE>.
+     * Flbg indicbting if the string monitor notifies when mbtching
+     * the string to compbre.
+     * <BR>The defbult vblue is set to <CODE>fblse</CODE>.
      */
-    private boolean notifyMatch = false;
+    privbte boolebn notifyMbtch = fblse;
 
     /**
-     * Flag indicating if the string monitor notifies when differing
-     * from the string to compare.
-     * <BR>The default value is set to <CODE>false</CODE>.
+     * Flbg indicbting if the string monitor notifies when differing
+     * from the string to compbre.
+     * <BR>The defbult vblue is set to <CODE>fblse</CODE>.
      */
-    private boolean notifyDiffer = false;
+    privbte boolebn notifyDiffer = fblse;
 
-    private static final String[] types = {
+    privbte stbtic finbl String[] types = {
         RUNTIME_ERROR,
         OBSERVED_OBJECT_ERROR,
         OBSERVED_ATTRIBUTE_ERROR,
@@ -115,18 +115,18 @@ public class StringMonitor extends Monitor implements StringMonitorMBean {
         STRING_TO_COMPARE_VALUE_DIFFERED
     };
 
-    private static final MBeanNotificationInfo[] notifsInfo = {
-        new MBeanNotificationInfo(
+    privbte stbtic finbl MBebnNotificbtionInfo[] notifsInfo = {
+        new MBebnNotificbtionInfo(
             types,
-            "javax.management.monitor.MonitorNotification",
-            "Notifications sent by the StringMonitor MBean")
+            "jbvbx.mbnbgement.monitor.MonitorNotificbtion",
+            "Notificbtions sent by the StringMonitor MBebn")
     };
 
-    // Flags needed to implement the matching/differing mechanism.
+    // Flbgs needed to implement the mbtching/differing mechbnism.
     //
-    private static final int MATCHING                   = 0;
-    private static final int DIFFERING                  = 1;
-    private static final int MATCHING_OR_DIFFERING      = 2;
+    privbte stbtic finbl int MATCHING                   = 0;
+    privbte stbtic finbl int DIFFERING                  = 1;
+    privbte stbtic finbl int MATCHING_OR_DIFFERING      = 2;
 
     /*
      * ------------------------------------------
@@ -135,7 +135,7 @@ public class StringMonitor extends Monitor implements StringMonitorMBean {
      */
 
     /**
-     * Default constructor.
+     * Defbult constructor.
      */
     public StringMonitor() {
     }
@@ -147,22 +147,22 @@ public class StringMonitor extends Monitor implements StringMonitorMBean {
      */
 
     /**
-     * Starts the string monitor.
+     * Stbrts the string monitor.
      */
-    public synchronized void start() {
+    public synchronized void stbrt() {
         if (isActive()) {
-            MONITOR_LOGGER.logp(Level.FINER, StringMonitor.class.getName(),
-                    "start", "the monitor is already active");
+            MONITOR_LOGGER.logp(Level.FINER, StringMonitor.clbss.getNbme(),
+                    "stbrt", "the monitor is blrebdy bctive");
             return;
         }
-        // Reset values.
+        // Reset vblues.
         //
         for (ObservedObject o : observedObjects) {
-            final StringMonitorObservedObject smo =
+            finbl StringMonitorObservedObject smo =
                 (StringMonitorObservedObject) o;
-            smo.setStatus(MATCHING_OR_DIFFERING);
+            smo.setStbtus(MATCHING_OR_DIFFERING);
         }
-        doStart();
+        doStbrt();
     }
 
     /**
@@ -176,175 +176,175 @@ public class StringMonitor extends Monitor implements StringMonitorMBean {
     //--------------------
 
     /**
-     * Gets the derived gauge of the specified object, if this object is
-     * contained in the set of observed MBeans, or <code>null</code> otherwise.
+     * Gets the derived gbuge of the specified object, if this object is
+     * contbined in the set of observed MBebns, or <code>null</code> otherwise.
      *
-     * @param object the name of the MBean whose derived gauge is required.
+     * @pbrbm object the nbme of the MBebn whose derived gbuge is required.
      *
-     * @return The derived gauge of the specified object.
+     * @return The derived gbuge of the specified object.
      *
      */
     @Override
-    public synchronized String getDerivedGauge(ObjectName object) {
-        return (String) super.getDerivedGauge(object);
+    public synchronized String getDerivedGbuge(ObjectNbme object) {
+        return (String) super.getDerivedGbuge(object);
     }
 
     /**
-     * Gets the derived gauge timestamp of the specified object, if
-     * this object is contained in the set of observed MBeans, or
+     * Gets the derived gbuge timestbmp of the specified object, if
+     * this object is contbined in the set of observed MBebns, or
      * <code>0</code> otherwise.
      *
-     * @param object the name of the object whose derived gauge
-     * timestamp is to be returned.
+     * @pbrbm object the nbme of the object whose derived gbuge
+     * timestbmp is to be returned.
      *
-     * @return The derived gauge timestamp of the specified object.
+     * @return The derived gbuge timestbmp of the specified object.
      *
      */
     @Override
-    public synchronized long getDerivedGaugeTimeStamp(ObjectName object) {
-        return super.getDerivedGaugeTimeStamp(object);
+    public synchronized long getDerivedGbugeTimeStbmp(ObjectNbme object) {
+        return super.getDerivedGbugeTimeStbmp(object);
     }
 
     /**
-     * Returns the derived gauge of the first object in the set of
-     * observed MBeans.
+     * Returns the derived gbuge of the first object in the set of
+     * observed MBebns.
      *
-     * @return The derived gauge.
+     * @return The derived gbuge.
      *
-     * @deprecated As of JMX 1.2, replaced by
-     * {@link #getDerivedGauge(ObjectName)}
+     * @deprecbted As of JMX 1.2, replbced by
+     * {@link #getDerivedGbuge(ObjectNbme)}
      */
-    @Deprecated
-    public synchronized String getDerivedGauge() {
+    @Deprecbted
+    public synchronized String getDerivedGbuge() {
         if (observedObjects.isEmpty()) {
             return null;
         } else {
-            return (String) observedObjects.get(0).getDerivedGauge();
+            return (String) observedObjects.get(0).getDerivedGbuge();
         }
     }
 
     /**
-     * Gets the derived gauge timestamp of the first object in the set
-     * of observed MBeans.
+     * Gets the derived gbuge timestbmp of the first object in the set
+     * of observed MBebns.
      *
-     * @return The derived gauge timestamp.
+     * @return The derived gbuge timestbmp.
      *
-     * @deprecated As of JMX 1.2, replaced by
-     * {@link #getDerivedGaugeTimeStamp(ObjectName)}
+     * @deprecbted As of JMX 1.2, replbced by
+     * {@link #getDerivedGbugeTimeStbmp(ObjectNbme)}
      */
-    @Deprecated
-    public synchronized long getDerivedGaugeTimeStamp() {
+    @Deprecbted
+    public synchronized long getDerivedGbugeTimeStbmp() {
         if (observedObjects.isEmpty()) {
             return 0;
         } else {
-            return observedObjects.get(0).getDerivedGaugeTimeStamp();
+            return observedObjects.get(0).getDerivedGbugeTimeStbmp();
         }
     }
 
     /**
-     * Gets the string to compare with the observed attribute common
-     * to all observed MBeans.
+     * Gets the string to compbre with the observed bttribute common
+     * to bll observed MBebns.
      *
-     * @return The string value.
+     * @return The string vblue.
      *
-     * @see #setStringToCompare
+     * @see #setStringToCompbre
      */
-    public synchronized String getStringToCompare() {
-        return stringToCompare;
+    public synchronized String getStringToCompbre() {
+        return stringToCompbre;
     }
 
     /**
-     * Sets the string to compare with the observed attribute common
-     * to all observed MBeans.
+     * Sets the string to compbre with the observed bttribute common
+     * to bll observed MBebns.
      *
-     * @param value The string value.
+     * @pbrbm vblue The string vblue.
      *
-     * @exception IllegalArgumentException The specified
-     * string to compare is null.
+     * @exception IllegblArgumentException The specified
+     * string to compbre is null.
      *
-     * @see #getStringToCompare
+     * @see #getStringToCompbre
      */
-    public synchronized void setStringToCompare(String value)
-        throws IllegalArgumentException {
+    public synchronized void setStringToCompbre(String vblue)
+        throws IllegblArgumentException {
 
-        if (value == null) {
-            throw new IllegalArgumentException("Null string to compare");
+        if (vblue == null) {
+            throw new IllegblArgumentException("Null string to compbre");
         }
 
-        if (stringToCompare.equals(value))
+        if (stringToCompbre.equbls(vblue))
             return;
-        stringToCompare = value;
+        stringToCompbre = vblue;
 
-        // Reset values.
+        // Reset vblues.
         //
         for (ObservedObject o : observedObjects) {
-            final StringMonitorObservedObject smo =
+            finbl StringMonitorObservedObject smo =
                 (StringMonitorObservedObject) o;
-            smo.setStatus(MATCHING_OR_DIFFERING);
+            smo.setStbtus(MATCHING_OR_DIFFERING);
         }
     }
 
     /**
-     * Gets the matching notification's on/off switch value common to
-     * all observed MBeans.
+     * Gets the mbtching notificbtion's on/off switch vblue common to
+     * bll observed MBebns.
      *
      * @return <CODE>true</CODE> if the string monitor notifies when
-     * matching the string to compare, <CODE>false</CODE> otherwise.
+     * mbtching the string to compbre, <CODE>fblse</CODE> otherwise.
      *
-     * @see #setNotifyMatch
+     * @see #setNotifyMbtch
      */
-    public synchronized boolean getNotifyMatch() {
-        return notifyMatch;
+    public synchronized boolebn getNotifyMbtch() {
+        return notifyMbtch;
     }
 
     /**
-     * Sets the matching notification's on/off switch value common to
-     * all observed MBeans.
+     * Sets the mbtching notificbtion's on/off switch vblue common to
+     * bll observed MBebns.
      *
-     * @param value The matching notification's on/off switch value.
+     * @pbrbm vblue The mbtching notificbtion's on/off switch vblue.
      *
-     * @see #getNotifyMatch
+     * @see #getNotifyMbtch
      */
-    public synchronized void setNotifyMatch(boolean value) {
-        if (notifyMatch == value)
+    public synchronized void setNotifyMbtch(boolebn vblue) {
+        if (notifyMbtch == vblue)
             return;
-        notifyMatch = value;
+        notifyMbtch = vblue;
     }
 
     /**
-     * Gets the differing notification's on/off switch value common to
-     * all observed MBeans.
+     * Gets the differing notificbtion's on/off switch vblue common to
+     * bll observed MBebns.
      *
      * @return <CODE>true</CODE> if the string monitor notifies when
-     * differing from the string to compare, <CODE>false</CODE> otherwise.
+     * differing from the string to compbre, <CODE>fblse</CODE> otherwise.
      *
      * @see #setNotifyDiffer
      */
-    public synchronized boolean getNotifyDiffer() {
+    public synchronized boolebn getNotifyDiffer() {
         return notifyDiffer;
     }
 
     /**
-     * Sets the differing notification's on/off switch value common to
-     * all observed MBeans.
+     * Sets the differing notificbtion's on/off switch vblue common to
+     * bll observed MBebns.
      *
-     * @param value The differing notification's on/off switch value.
+     * @pbrbm vblue The differing notificbtion's on/off switch vblue.
      *
      * @see #getNotifyDiffer
      */
-    public synchronized void setNotifyDiffer(boolean value) {
-        if (notifyDiffer == value)
+    public synchronized void setNotifyDiffer(boolebn vblue) {
+        if (notifyDiffer == vblue)
             return;
-        notifyDiffer = value;
+        notifyDiffer = vblue;
     }
 
     /**
-     * Returns a <CODE>NotificationInfo</CODE> object containing the name of
-     * the Java class of the notification and the notification types sent by
+     * Returns b <CODE>NotificbtionInfo</CODE> object contbining the nbme of
+     * the Jbvb clbss of the notificbtion bnd the notificbtion types sent by
      * the string monitor.
      */
     @Override
-    public MBeanNotificationInfo[] getNotificationInfo() {
+    public MBebnNotificbtionInfo[] getNotificbtionInfo() {
         return notifsInfo.clone();
     }
 
@@ -355,102 +355,102 @@ public class StringMonitor extends Monitor implements StringMonitorMBean {
      */
 
     /**
-     * Factory method for ObservedObject creation.
+     * Fbctory method for ObservedObject crebtion.
      *
      * @since 1.6
      */
     @Override
-    ObservedObject createObservedObject(ObjectName object) {
-        final StringMonitorObservedObject smo =
+    ObservedObject crebteObservedObject(ObjectNbme object) {
+        finbl StringMonitorObservedObject smo =
             new StringMonitorObservedObject(object);
-        smo.setStatus(MATCHING_OR_DIFFERING);
+        smo.setStbtus(MATCHING_OR_DIFFERING);
         return smo;
     }
 
     /**
-     * Check that the type of the supplied observed attribute
-     * value is one of the value types supported by this monitor.
+     * Check thbt the type of the supplied observed bttribute
+     * vblue is one of the vblue types supported by this monitor.
      */
     @Override
-    synchronized boolean isComparableTypeValid(ObjectName object,
-                                               String attribute,
-                                               Comparable<?> value) {
-        // Check that the observed attribute is of type "String".
+    synchronized boolebn isCompbrbbleTypeVblid(ObjectNbme object,
+                                               String bttribute,
+                                               Compbrbble<?> vblue) {
+        // Check thbt the observed bttribute is of type "String".
         //
-        if (value instanceof String) {
+        if (vblue instbnceof String) {
             return true;
         }
-        return false;
+        return fblse;
     }
 
     @Override
-    synchronized void onErrorNotification(MonitorNotification notification) {
-        final StringMonitorObservedObject o = (StringMonitorObservedObject)
-            getObservedObject(notification.getObservedObject());
+    synchronized void onErrorNotificbtion(MonitorNotificbtion notificbtion) {
+        finbl StringMonitorObservedObject o = (StringMonitorObservedObject)
+            getObservedObject(notificbtion.getObservedObject());
         if (o == null)
             return;
 
-        // Reset values.
+        // Reset vblues.
         //
-        o.setStatus(MATCHING_OR_DIFFERING);
+        o.setStbtus(MATCHING_OR_DIFFERING);
     }
 
     @Override
-    synchronized MonitorNotification buildAlarmNotification(
-                                               ObjectName object,
-                                               String attribute,
-                                               Comparable<?> value) {
+    synchronized MonitorNotificbtion buildAlbrmNotificbtion(
+                                               ObjectNbme object,
+                                               String bttribute,
+                                               Compbrbble<?> vblue) {
         String type = null;
         String msg = null;
         Object trigger = null;
 
-        final StringMonitorObservedObject o =
+        finbl StringMonitorObservedObject o =
             (StringMonitorObservedObject) getObservedObject(object);
         if (o == null)
             return null;
 
-        // Send matching notification if notifyMatch is true.
-        // Send differing notification if notifyDiffer is true.
+        // Send mbtching notificbtion if notifyMbtch is true.
+        // Send differing notificbtion if notifyDiffer is true.
         //
-        if (o.getStatus() == MATCHING_OR_DIFFERING) {
-            if (o.getDerivedGauge().equals(stringToCompare)) {
-                if (notifyMatch) {
+        if (o.getStbtus() == MATCHING_OR_DIFFERING) {
+            if (o.getDerivedGbuge().equbls(stringToCompbre)) {
+                if (notifyMbtch) {
                     type = STRING_TO_COMPARE_VALUE_MATCHED;
                     msg = "";
-                    trigger = stringToCompare;
+                    trigger = stringToCompbre;
                 }
-                o.setStatus(DIFFERING);
+                o.setStbtus(DIFFERING);
             } else {
                 if (notifyDiffer) {
                     type = STRING_TO_COMPARE_VALUE_DIFFERED;
                     msg = "";
-                    trigger = stringToCompare;
+                    trigger = stringToCompbre;
                 }
-                o.setStatus(MATCHING);
+                o.setStbtus(MATCHING);
             }
         } else {
-            if (o.getStatus() == MATCHING) {
-                if (o.getDerivedGauge().equals(stringToCompare)) {
-                    if (notifyMatch) {
+            if (o.getStbtus() == MATCHING) {
+                if (o.getDerivedGbuge().equbls(stringToCompbre)) {
+                    if (notifyMbtch) {
                         type = STRING_TO_COMPARE_VALUE_MATCHED;
                         msg = "";
-                        trigger = stringToCompare;
+                        trigger = stringToCompbre;
                     }
-                    o.setStatus(DIFFERING);
+                    o.setStbtus(DIFFERING);
                 }
-            } else if (o.getStatus() == DIFFERING) {
-                if (!o.getDerivedGauge().equals(stringToCompare)) {
+            } else if (o.getStbtus() == DIFFERING) {
+                if (!o.getDerivedGbuge().equbls(stringToCompbre)) {
                     if (notifyDiffer) {
                         type = STRING_TO_COMPARE_VALUE_DIFFERED;
                         msg = "";
-                        trigger = stringToCompare;
+                        trigger = stringToCompbre;
                     }
-                    o.setStatus(MATCHING);
+                    o.setStbtus(MATCHING);
                 }
             }
         }
 
-        return new MonitorNotification(type,
+        return new MonitorNotificbtion(type,
                                        this,
                                        0,
                                        0,

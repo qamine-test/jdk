@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 2001, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -27,50 +27,50 @@
 #ifndef _DEVICES_H_
 #define _DEVICES_H_
 
-#include "awt.h"
-#include "awt_Toolkit.h"
-#include "awt_Win32GraphicsDevice.h"
+#include "bwt.h"
+#include "bwt_Toolkit.h"
+#include "bwt_Win32GrbphicsDevice.h"
 
-class AwtWin32GraphicsDevice;
+clbss AwtWin32GrbphicsDevice;
 
-class Devices {
+clbss Devices {
 
 public:
-static Devices*                 GetInstance();
-static BOOL                     UpdateInstance(JNIEnv *env);
+stbtic Devices*                 GetInstbnce();
+stbtic BOOL                     UpdbteInstbnce(JNIEnv *env);
        int                      GetNumDevices() { return numDevices; }
-       AwtWin32GraphicsDevice*  GetDeviceReference(int index, BOOL adjust = TRUE);
-       AwtWin32GraphicsDevice*  GetDevice(int index, BOOL adjust = TRUE);
-       int                      Release();
-       AwtWin32GraphicsDevice** GetRawArray();
+       AwtWin32GrbphicsDevice*  GetDeviceReference(int index, BOOL bdjust = TRUE);
+       AwtWin32GrbphicsDevice*  GetDevice(int index, BOOL bdjust = TRUE);
+       int                      Relebse();
+       AwtWin32GrbphicsDevice** GetRbwArrby();
 
-       class InstanceAccess {
+       clbss InstbnceAccess {
        public:
-           INLINE   InstanceAccess() { devices = Devices::GetInstance(); }
-           INLINE  ~InstanceAccess() { devices->Release(); }
-           Devices* operator->()     { return devices; }
-        private:
+           INLINE   InstbnceAccess() { devices = Devices::GetInstbnce(); }
+           INLINE  ~InstbnceAccess() { devices->Relebse(); }
+           Devices* operbtor->()     { return devices; }
+        privbte:
            Devices* devices;
-           // prevent bad things like copying or getting address of
-           InstanceAccess& operator=(const InstanceAccess&);
-           InstanceAccess* operator&();
+           // prevent bbd things like copying or getting bddress of
+           InstbnceAccess& operbtor=(const InstbnceAccess&);
+           InstbnceAccess* operbtor&();
        };
-friend class InstanceAccess;
+friend clbss InstbnceAccess;
 
-private:
+privbte:
                                 Devices(int numElements);
        void                     AddReference();
 
-       AwtWin32GraphicsDevice** devices;
+       AwtWin32GrbphicsDevice** devices;
        int                      refCount;
        int                      numDevices;
 
-static Devices*                 theInstance;
-static CriticalSection          arrayLock;
+stbtic Devices*                 theInstbnce;
+stbtic CriticblSection          brrbyLock;
 
 };
 
-// Some helper functions (from awt_MMStub.h/cpp)
+// Some helper functions (from bwt_MMStub.h/cpp)
 
 BOOL WINAPI MonitorBounds (HMONITOR, RECT*);
 

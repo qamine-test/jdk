@@ -1,407 +1,407 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
  *
  *  (C) Copyright IBM Corp. 1999 All Rights Reserved.
- *  Copyright 1997 The Open Group Research Institute.  All rights reserved.
+ *  Copyright 1997 The Open Group Resebrch Institute.  All rights reserved.
  */
-package sun.security.jgss.spi;
+pbckbge sun.security.jgss.spi;
 
 import org.ietf.jgss.*;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.security.Provider;
+import jbvb.io.InputStrebm;
+import jbvb.io.OutputStrebm;
+import jbvb.security.Provider;
 import com.sun.security.jgss.*;
 
 /**
- * This interface is implemented by a mechanism specific instance of a GSS
+ * This interfbce is implemented by b mechbnism specific instbnce of b GSS
  * security context.
- * A GSSContextSpi object can be thought of having 3 states:
- *    -before initialization
- *    -during initialization with its peer
- *    -after it is established
+ * A GSSContextSpi object cbn be thought of hbving 3 stbtes:
+ *    -before initiblizbtion
+ *    -during initiblizbtion with its peer
+ *    -bfter it is estbblished
  * <p>
- * The context options can only be requested in state 1. In state 3,
- * the per message operations are available to the callers. The get
+ * The context options cbn only be requested in stbte 1. In stbte 3,
+ * the per messbge operbtions bre bvbilbble to the cbllers. The get
  * methods for the context options will return the requested options
- * while in state 1 and 2, and the established values in state 3.
- * Some mechanisms may allow the access to the per-message operations
- * and the context flags before the context is fully established. The
- * isProtReady method is used to indicate that these services are
- * available.
+ * while in stbte 1 bnd 2, bnd the estbblished vblues in stbte 3.
+ * Some mechbnisms mby bllow the bccess to the per-messbge operbtions
+ * bnd the context flbgs before the context is fully estbblished. The
+ * isProtRebdy method is used to indicbte thbt these services bre
+ * bvbilbble.
  *<p>
  * <strong>
- * Context establishment tokens are defined in a mechanism independent
- * format in section 3.1 of RFC 2743. The GSS-Framework will add
- * and remove the mechanism independent header portion of this token format
- * depending on whether a token is received or is being sent. The mechanism
- * should only generate or expect to read the inner-context token portion..
+ * Context estbblishment tokens bre defined in b mechbnism independent
+ * formbt in section 3.1 of RFC 2743. The GSS-Frbmework will bdd
+ * bnd remove the mechbnism independent hebder portion of this token formbt
+ * depending on whether b token is received or is being sent. The mechbnism
+ * should only generbte or expect to rebd the inner-context token portion..
  * <p>
- * On the other hands, tokens used for per-message calls are generated
- * entirely by the mechanism. It is possible that the mechanism chooses to
- * encase inner-level per-message tokens in a header similar to that used
- * for initial tokens, however, this is upto the mechanism to do. The token
- * to/from the per-message calls are opaque to the GSS-Framework.
+ * On the other hbnds, tokens used for per-messbge cblls bre generbted
+ * entirely by the mechbnism. It is possible thbt the mechbnism chooses to
+ * encbse inner-level per-messbge tokens in b hebder similbr to thbt used
+ * for initibl tokens, however, this is upto the mechbnism to do. The token
+ * to/from the per-messbge cblls bre opbque to the GSS-Frbmework.
  * </strong>
  * <p>
- * An attempt has been made to allow for reading the peer's tokens from an
- * InputStream and writing tokens for the peer to an OutputStream. This
- * allows applications to pass in streams that are obtained from their network
- * connections and thus minimize the buffer copies that will happen. This
- * is especially important for tokens generated by wrap() which are
- * proportional in size to the length of the application data being
- * wrapped, and are probably also the most frequently used type of tokens.
+ * An bttempt hbs been mbde to bllow for rebding the peer's tokens from bn
+ * InputStrebm bnd writing tokens for the peer to bn OutputStrebm. This
+ * bllows bpplicbtions to pbss in strebms thbt bre obtbined from their network
+ * connections bnd thus minimize the buffer copies thbt will hbppen. This
+ * is especiblly importbnt for tokens generbted by wrbp() which bre
+ * proportionbl in size to the length of the bpplicbtion dbtb being
+ * wrbpped, bnd bre probbbly blso the most frequently used type of tokens.
  * <p>
- * It is anticipated that most applications will want to use wrap() in a
- * fashion where they obtain the application bytes to wrap from a byte[]
- * but want to output the wrap token straight to an
- * OutputStream. Similarly, they will want to use unwrap() where they read
- * the token directly form an InputStream but output it to some byte[] for
- * the application to process. Unfortunately the high level GSS bindings
- * do not contain overloaded forms of wrap() and unwrap() that do just
- * this, however we have accomodated those cases here with the expectation
- * that this will be rolled into the high level bindings sooner or later.
+ * It is bnticipbted thbt most bpplicbtions will wbnt to use wrbp() in b
+ * fbshion where they obtbin the bpplicbtion bytes to wrbp from b byte[]
+ * but wbnt to output the wrbp token strbight to bn
+ * OutputStrebm. Similbrly, they will wbnt to use unwrbp() where they rebd
+ * the token directly form bn InputStrebm but output it to some byte[] for
+ * the bpplicbtion to process. Unfortunbtely the high level GSS bindings
+ * do not contbin overlobded forms of wrbp() bnd unwrbp() thbt do just
+ * this, however we hbve bccomodbted those cbses here with the expectbtion
+ * thbt this will be rolled into the high level bindings sooner or lbter.
  *
- * @author Mayank Upadhyay
+ * @buthor Mbybnk Upbdhyby
  */
 
-public interface GSSContextSpi {
+public interfbce GSSContextSpi {
 
     public Provider getProvider();
 
-    // The specification for the following methods mirrors the
-    // specification of the same methods in the GSSContext interface, as
+    // The specificbtion for the following methods mirrors the
+    // specificbtion of the sbme methods in the GSSContext interfbce, bs
     // defined in RFC 2853.
 
     public void requestLifetime(int lifetime) throws GSSException;
 
-    public void requestMutualAuth(boolean state) throws GSSException;
+    public void requestMutublAuth(boolebn stbte) throws GSSException;
 
-    public void requestReplayDet(boolean state) throws GSSException;
+    public void requestReplbyDet(boolebn stbte) throws GSSException;
 
-    public void requestSequenceDet(boolean state) throws GSSException;
+    public void requestSequenceDet(boolebn stbte) throws GSSException;
 
-    public void requestCredDeleg(boolean state) throws GSSException;
+    public void requestCredDeleg(boolebn stbte) throws GSSException;
 
-    public void requestAnonymity(boolean state) throws GSSException;
+    public void requestAnonymity(boolebn stbte) throws GSSException;
 
-    public void requestConf(boolean state) throws GSSException;
+    public void requestConf(boolebn stbte) throws GSSException;
 
-    public void requestInteg(boolean state) throws GSSException;
+    public void requestInteg(boolebn stbte) throws GSSException;
 
-    public void requestDelegPolicy(boolean state) throws GSSException;
+    public void requestDelegPolicy(boolebn stbte) throws GSSException;
 
-    public void setChannelBinding(ChannelBinding cb) throws GSSException;
+    public void setChbnnelBinding(ChbnnelBinding cb) throws GSSException;
 
-    public boolean getCredDelegState();
+    public boolebn getCredDelegStbte();
 
-    public boolean getMutualAuthState();
+    public boolebn getMutublAuthStbte();
 
-    public boolean getReplayDetState();
+    public boolebn getReplbyDetStbte();
 
-    public boolean getSequenceDetState();
+    public boolebn getSequenceDetStbte();
 
-    public boolean getAnonymityState();
+    public boolebn getAnonymityStbte();
 
-    public boolean getDelegPolicyState();
+    public boolebn getDelegPolicyStbte();
 
-    public boolean isTransferable() throws GSSException;
+    public boolebn isTrbnsferbble() throws GSSException;
 
-    public boolean isProtReady();
+    public boolebn isProtRebdy();
 
-    public boolean isInitiator();
+    public boolebn isInitibtor();
 
-    public boolean getConfState();
+    public boolebn getConfStbte();
 
-    public boolean getIntegState();
+    public boolebn getIntegStbte();
 
     public int getLifetime();
 
-    public boolean isEstablished();
+    public boolebn isEstbblished();
 
-    public GSSNameSpi getSrcName() throws GSSException;
+    public GSSNbmeSpi getSrcNbme() throws GSSException;
 
-    public GSSNameSpi getTargName() throws GSSException;
+    public GSSNbmeSpi getTbrgNbme() throws GSSException;
 
     public Oid getMech() throws GSSException;
 
-    public GSSCredentialSpi getDelegCred() throws GSSException;
+    public GSSCredentiblSpi getDelegCred() throws GSSException;
 
     /**
-     * Initiator context establishment call. This method may be
-     * required to be called several times. A CONTINUE_NEEDED return
-     * call indicates that more calls are needed after the next token
+     * Initibtor context estbblishment cbll. This method mby be
+     * required to be cblled severbl times. A CONTINUE_NEEDED return
+     * cbll indicbtes thbt more cblls bre needed bfter the next token
      * is received from the peer.
      * <p>
-     * This method is called by the GSS-Framework when the application
-     * calls the initSecContext method on the GSSContext implementation
-     * that it has a reference to.
+     * This method is cblled by the GSS-Frbmework when the bpplicbtion
+     * cblls the initSecContext method on the GSSContext implementbtion
+     * thbt it hbs b reference to.
      * <p>
-     * All overloaded forms of GSSContext.initSecContext() can be handled
-     * with this mechanism level initSecContext. Since the output token
-     * from this method is a fixed size, not exeedingly large, and a one
-     * time deal, an overloaded form that takes an OutputStream has not
-     * been defined. The GSS-Framwork can write the returned byte[] to any
-     * application provided OutputStream. Similarly, any application input
-     * int he form of byte arrays will be wrapped in an input stream by the
-     * GSS-Framework and then passed here.
+     * All overlobded forms of GSSContext.initSecContext() cbn be hbndled
+     * with this mechbnism level initSecContext. Since the output token
+     * from this method is b fixed size, not exeedingly lbrge, bnd b one
+     * time debl, bn overlobded form thbt tbkes bn OutputStrebm hbs not
+     * been defined. The GSS-Frbmwork cbn write the returned byte[] to bny
+     * bpplicbtion provided OutputStrebm. Similbrly, bny bpplicbtion input
+     * int he form of byte brrbys will be wrbpped in bn input strebm by the
+     * GSS-Frbmework bnd then pbssed here.
      * <p>
      * <strong>
-     * The GSS-Framework will strip off the leading mechanism independent
-     * GSS-API header. In other words, only the mechanism specific
-     * inner-context token of RFC 2743 section 3.1 will be available on the
-     * InputStream.
+     * The GSS-Frbmework will strip off the lebding mechbnism independent
+     * GSS-API hebder. In other words, only the mechbnism specific
+     * inner-context token of RFC 2743 section 3.1 will be bvbilbble on the
+     * InputStrebm.
      * </strong>
      *
-     * @param is contains the inner context token portion of the GSS token
-     * received from the peer. On the first call to initSecContext, there
+     * @pbrbm is contbins the inner context token portion of the GSS token
+     * received from the peer. On the first cbll to initSecContext, there
      * will be no token hence it will be ignored.
-     * @param mechTokenSize the size of the inner context token as read by
-     * the GSS-Framework from the mechanism independent GSS-API level
-     * header.
-     * @return any inner-context token required to be sent to the peer as
-     * part of a GSS token. The mechanism should not add the mechanism
-     * independent part of the token. The GSS-Framework will add that on
-     * the way out.
-     * @exception GSSException may be thrown
+     * @pbrbm mechTokenSize the size of the inner context token bs rebd by
+     * the GSS-Frbmework from the mechbnism independent GSS-API level
+     * hebder.
+     * @return bny inner-context token required to be sent to the peer bs
+     * pbrt of b GSS token. The mechbnism should not bdd the mechbnism
+     * independent pbrt of the token. The GSS-Frbmework will bdd thbt on
+     * the wby out.
+     * @exception GSSException mby be thrown
      */
-    public byte[] initSecContext(InputStream is, int mechTokenSize)
+    public byte[] initSecContext(InputStrebm is, int mechTokenSize)
                         throws GSSException;
 
     /**
-     * Acceptor's context establishment call. This method may be
-     * required to be called several times. A CONTINUE_NEEDED return
-     * call indicates that more calls are needed after the next token
+     * Acceptor's context estbblishment cbll. This method mby be
+     * required to be cblled severbl times. A CONTINUE_NEEDED return
+     * cbll indicbtes thbt more cblls bre needed bfter the next token
      * is received from the peer.
      * <p>
-     * This method is called by the GSS-Framework when the application
-     * calls the acceptSecContext method on the GSSContext implementation
-     * that it has a reference to.
+     * This method is cblled by the GSS-Frbmework when the bpplicbtion
+     * cblls the bcceptSecContext method on the GSSContext implementbtion
+     * thbt it hbs b reference to.
      * <p>
-     * All overloaded forms of GSSContext.acceptSecContext() can be handled
-     * with this mechanism level acceptSecContext. Since the output token
-     * from this method is a fixed size, not exeedingly large, and a one
-     * time deal, an overloaded form that takes an OutputStream has not
-     * been defined. The GSS-Framwork can write the returned byte[] to any
-     * application provided OutputStream. Similarly, any application input
-     * int he form of byte arrays will be wrapped in an input stream by the
-     * GSS-Framework and then passed here.
+     * All overlobded forms of GSSContext.bcceptSecContext() cbn be hbndled
+     * with this mechbnism level bcceptSecContext. Since the output token
+     * from this method is b fixed size, not exeedingly lbrge, bnd b one
+     * time debl, bn overlobded form thbt tbkes bn OutputStrebm hbs not
+     * been defined. The GSS-Frbmwork cbn write the returned byte[] to bny
+     * bpplicbtion provided OutputStrebm. Similbrly, bny bpplicbtion input
+     * int he form of byte brrbys will be wrbpped in bn input strebm by the
+     * GSS-Frbmework bnd then pbssed here.
      * <p>
      * <strong>
-     * The GSS-Framework will strip off the leading mechanism independent
-     * GSS-API header. In other words, only the mechanism specific
-     * inner-context token of RFC 2743 section 3.1 will be available on the
-     * InputStream.
+     * The GSS-Frbmework will strip off the lebding mechbnism independent
+     * GSS-API hebder. In other words, only the mechbnism specific
+     * inner-context token of RFC 2743 section 3.1 will be bvbilbble on the
+     * InputStrebm.
      * </strong>
      *
-     * @param is contains the inner context token portion of the GSS token
+     * @pbrbm is contbins the inner context token portion of the GSS token
      * received from the peer.
-     * @param mechTokenSize the size of the inner context token as read by
-     * the GSS-Framework from the mechanism independent GSS-API level
-     * header.
-     * @return any inner-context token required to be sent to the peer as
-     * part of a GSS token. The mechanism should not add the mechanism
-     * independent part of the token. The GSS-Framework will add that on
-     * the way out.
-     * @exception GSSException may be thrown
+     * @pbrbm mechTokenSize the size of the inner context token bs rebd by
+     * the GSS-Frbmework from the mechbnism independent GSS-API level
+     * hebder.
+     * @return bny inner-context token required to be sent to the peer bs
+     * pbrt of b GSS token. The mechbnism should not bdd the mechbnism
+     * independent pbrt of the token. The GSS-Frbmework will bdd thbt on
+     * the wby out.
+     * @exception GSSException mby be thrown
      */
-    public byte[] acceptSecContext(InputStream is, int mechTokenSize)
+    public byte[] bcceptSecContext(InputStrebm is, int mechTokenSize)
                         throws GSSException;
 
     /**
-     * Queries the context for largest data size to accommodate
-     * the specified protection and for the token to remain less then
-     * maxTokSize.
+     * Queries the context for lbrgest dbtb size to bccommodbte
+     * the specified protection bnd for the token to rembin less then
+     * mbxTokSize.
      *
-     * @param qop the quality of protection that the context will be
-     *    asked to provide.
-     * @param confReq a flag indicating whether confidentiality will be
+     * @pbrbm qop the qublity of protection thbt the context will be
+     *    bsked to provide.
+     * @pbrbm confReq b flbg indicbting whether confidentiblity will be
      *    requested or not
-     * @param outputSize the maximum size of the output token
-     * @return the maximum size for the input message that can be
-     *    provided to the wrap() method in order to guarantee that these
-     *    requirements are met.
-     * @exception GSSException may be thrown
+     * @pbrbm outputSize the mbximum size of the output token
+     * @return the mbximum size for the input messbge thbt cbn be
+     *    provided to the wrbp() method in order to gubrbntee thbt these
+     *    requirements bre met.
+     * @exception GSSException mby be thrown
      */
-    public int getWrapSizeLimit(int qop, boolean confReq, int maxTokSize)
+    public int getWrbpSizeLimit(int qop, boolebn confReq, int mbxTokSize)
                         throws GSSException;
 
     /**
-     * Provides per-message token encapsulation.
+     * Provides per-messbge token encbpsulbtion.
      *
-     * @param is the user-provided message to be protected
-     * @param os the token to be sent to the peer. It includes
-     *    the message from <i>is</i> with the requested protection.
-     * @param msgPro on input it contains the requested qop and
-     *    confidentiality state, on output, the applied values
-     * @exception GSSException may be thrown
-     * @see unwrap
+     * @pbrbm is the user-provided messbge to be protected
+     * @pbrbm os the token to be sent to the peer. It includes
+     *    the messbge from <i>is</i> with the requested protection.
+     * @pbrbm msgPro on input it contbins the requested qop bnd
+     *    confidentiblity stbte, on output, the bpplied vblues
+     * @exception GSSException mby be thrown
+     * @see unwrbp
      */
-    public void wrap(InputStream is, OutputStream os, MessageProp msgProp)
+    public void wrbp(InputStrebm is, OutputStrebm os, MessbgeProp msgProp)
         throws GSSException;
 
     /**
-     * For apps that want simplicity and don't care about buffer copies.
+     * For bpps thbt wbnt simplicity bnd don't cbre bbout buffer copies.
      */
-    public byte[] wrap(byte inBuf[], int offset, int len,
-                       MessageProp msgProp) throws GSSException;
+    public byte[] wrbp(byte inBuf[], int offset, int len,
+                       MessbgeProp msgProp) throws GSSException;
 
     /**
-     * For apps that care about buffer copies but either cannot use streams
-     * or want to avoid them for whatever reason. (Say, they are using
+     * For bpps thbt cbre bbout buffer copies but either cbnnot use strebms
+     * or wbnt to bvoid them for whbtever rebson. (Sby, they bre using
      * block ciphers.)
      *
-     * NOTE: This method is not defined in public class org.ietf.jgss.GSSContext
+     * NOTE: This method is not defined in public clbss org.ietf.jgss.GSSContext
      *
-    public int wrap(byte inBuf[], int inOffset, int len,
+    public int wrbp(byte inBuf[], int inOffset, int len,
                     byte[] outBuf, int outOffset,
-                    MessageProp msgProp) throws GSSException;
+                    MessbgeProp msgProp) throws GSSException;
 
     */
 
     /**
-     * For apps that want to read from a specific application provided
-     * buffer but want to write directly to the network stream.
+     * For bpps thbt wbnt to rebd from b specific bpplicbtion provided
+     * buffer but wbnt to write directly to the network strebm.
      */
     /*
-     * Can be achieved by converting the input buffer to a
-     * ByteInputStream. Provided to keep the API consistent
-     * with unwrap.
+     * Cbn be bchieved by converting the input buffer to b
+     * ByteInputStrebm. Provided to keep the API consistent
+     * with unwrbp.
      *
-     * NOTE: This method is not defined in public class org.ietf.jgss.GSSContext
+     * NOTE: This method is not defined in public clbss org.ietf.jgss.GSSContext
      *
-    public void wrap(byte inBuf[], int offset, int len,
-                     OutputStream os, MessageProp msgProp)
+    public void wrbp(byte inBuf[], int offset, int len,
+                     OutputStrebm os, MessbgeProp msgProp)
         throws GSSException;
     */
 
     /**
-     * Retrieves the message token previously encapsulated in the wrap
-     * call.
+     * Retrieves the messbge token previously encbpsulbted in the wrbp
+     * cbll.
      *
-     * @param is the token from the peer
-     * @param os unprotected message data
-     * @param msgProp will contain the applied qop and confidentiality
-     *    of the input token and any informatory status values
-     * @exception GSSException may be thrown
-     * @see wrap
+     * @pbrbm is the token from the peer
+     * @pbrbm os unprotected messbge dbtb
+     * @pbrbm msgProp will contbin the bpplied qop bnd confidentiblity
+     *    of the input token bnd bny informbtory stbtus vblues
+     * @exception GSSException mby be thrown
+     * @see wrbp
      */
-    public void unwrap(InputStream is, OutputStream os,
-                        MessageProp msgProp) throws GSSException;
+    public void unwrbp(InputStrebm is, OutputStrebm os,
+                        MessbgeProp msgProp) throws GSSException;
 
     /**
-     * For apps that want simplicity and don't care about buffer copies.
+     * For bpps thbt wbnt simplicity bnd don't cbre bbout buffer copies.
      */
-    public byte[] unwrap(byte inBuf[], int offset, int len,
-                         MessageProp msgProp) throws GSSException;
+    public byte[] unwrbp(byte inBuf[], int offset, int len,
+                         MessbgeProp msgProp) throws GSSException;
 
     /**
-     * For apps that care about buffer copies but either cannot use streams
-     * or want to avoid them for whatever reason. (Say, they are using
+     * For bpps thbt cbre bbout buffer copies but either cbnnot use strebms
+     * or wbnt to bvoid them for whbtever rebson. (Sby, they bre using
      * block ciphers.)
      *
-     * NOTE: This method is not defined in public class org.ietf.jgss.GSSContext
+     * NOTE: This method is not defined in public clbss org.ietf.jgss.GSSContext
      *
-    public int unwrap(byte inBuf[], int inOffset, int len,
+    public int unwrbp(byte inBuf[], int inOffset, int len,
                       byte[] outBuf, int outOffset,
-                      MessageProp msgProp) throws GSSException;
+                      MessbgeProp msgProp) throws GSSException;
 
     */
 
     /**
-     * For apps that care about buffer copies and want to read
-     * straight from the network, but also want the output in a specific
-     * application provided buffer, say to reduce buffer allocation or
+     * For bpps thbt cbre bbout buffer copies bnd wbnt to rebd
+     * strbight from the network, but blso wbnt the output in b specific
+     * bpplicbtion provided buffer, sby to reduce buffer bllocbtion or
      * subsequent copy.
      *
-     * NOTE: This method is not defined in public class org.ietf.jgss.GSSContext
+     * NOTE: This method is not defined in public clbss org.ietf.jgss.GSSContext
      *
-    public int unwrap(InputStream is,
+    public int unwrbp(InputStrebm is,
                        byte[] outBuf, int outOffset,
-                       MessageProp msgProp) throws GSSException;
+                       MessbgeProp msgProp) throws GSSException;
     */
 
     /**
-     * Applies per-message integrity services.
+     * Applies per-messbge integrity services.
      *
-     * @param is the user-provided message
-     * @param os the token to be sent to the peer along with the
-     *    message token. The message token <b>is not</b> encapsulated.
-     * @param msgProp on input the desired QOP and output the applied QOP
+     * @pbrbm is the user-provided messbge
+     * @pbrbm os the token to be sent to the peer blong with the
+     *    messbge token. The messbge token <b>is not</b> encbpsulbted.
+     * @pbrbm msgProp on input the desired QOP bnd output the bpplied QOP
      * @exception GSSException
      */
-    public void getMIC(InputStream is, OutputStream os,
-                        MessageProp msgProp)
+    public void getMIC(InputStrebm is, OutputStrebm os,
+                        MessbgeProp msgProp)
                 throws GSSException;
 
     public byte[] getMIC(byte []inMsg, int offset, int len,
-                         MessageProp msgProp) throws GSSException;
+                         MessbgeProp msgProp) throws GSSException;
 
     /**
      * Checks the integrity of the supplied tokens.
-     * This token was previously generated by getMIC.
+     * This token wbs previously generbted by getMIC.
      *
-     * @param is token generated by getMIC
-     * @param msgStr the message to check integrity for
-     * @param msgProp will contain the applied QOP and confidentiality
-     *    states of the token as well as any informatory status codes
-     * @exception GSSException may be thrown
+     * @pbrbm is token generbted by getMIC
+     * @pbrbm msgStr the messbge to check integrity for
+     * @pbrbm msgProp will contbin the bpplied QOP bnd confidentiblity
+     *    stbtes of the token bs well bs bny informbtory stbtus codes
+     * @exception GSSException mby be thrown
      */
-    public void verifyMIC(InputStream is, InputStream msgStr,
-                           MessageProp mProp) throws GSSException;
+    public void verifyMIC(InputStrebm is, InputStrebm msgStr,
+                           MessbgeProp mProp) throws GSSException;
 
     public void verifyMIC(byte []inTok, int tokOffset, int tokLen,
                           byte[] inMsg, int msgOffset, int msgLen,
-                          MessageProp msgProp) throws GSSException;
+                          MessbgeProp msgProp) throws GSSException;
 
     /**
-     * Produces a token representing this context. After this call
-     * the context will no longer be usable until an import is
+     * Produces b token representing this context. After this cbll
+     * the context will no longer be usbble until bn import is
      * performed on the returned token.
      *
      * @return exported context token
-     * @exception GSSException may be thrown
+     * @exception GSSException mby be thrown
      */
     public byte[] export() throws GSSException;
 
     /**
-     * Releases context resources and terminates the
+     * Relebses context resources bnd terminbtes the
      * context between 2 peer.
      *
-     * @exception GSSException may be thrown
+     * @exception GSSException mby be thrown
      */
     public void dispose() throws GSSException;
 
     /**
-     * Return the mechanism-specific attribute associated with (@code type}.
+     * Return the mechbnism-specific bttribute bssocibted with (@code type}.
      *
-     * @param type the type of the attribute requested
-     * @return the attribute
+     * @pbrbm type the type of the bttribute requested
+     * @return the bttribute
      * @throws GSSException see {@link ExtendedGSSContext#inquireSecContext}
-     * for details
+     * for detbils
      */
     public Object inquireSecContext(InquireType type)
             throws GSSException;

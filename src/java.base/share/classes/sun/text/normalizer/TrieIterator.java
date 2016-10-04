@@ -1,392 +1,392 @@
 /*
- * Copyright (c) 2005, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2009, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 /*
  *******************************************************************************
- * (C) Copyright IBM Corp. and others, 1996-2009 - All Rights Reserved         *
+ * (C) Copyright IBM Corp. bnd others, 1996-2009 - All Rights Reserved         *
  *                                                                             *
- * The original version of this source code and documentation is copyrighted   *
- * and owned by IBM, These materials are provided under terms of a License     *
- * Agreement between IBM and Sun. This technology is protected by multiple     *
- * US and International patents. This notice and attribution to IBM may not    *
+ * The originbl version of this source code bnd documentbtion is copyrighted   *
+ * bnd owned by IBM, These mbteribls bre provided under terms of b License     *
+ * Agreement between IBM bnd Sun. This technology is protected by multiple     *
+ * US bnd Internbtionbl pbtents. This notice bnd bttribution to IBM mby not    *
  * to removed.                                                                 *
  *******************************************************************************
  */
 
-package sun.text.normalizer;
+pbckbge sun.text.normblizer;
 
 /**
- * <p>Class enabling iteration of the values in a Trie.</p>
- * <p>Result of each iteration contains the interval of codepoints that have
- * the same value type and the value type itself.</p>
- * <p>The comparison of each codepoint value is done via extract(), which the
- * default implementation is to return the value as it is.</p>
- * <p>Method extract() can be overwritten to perform manipulations on
- * codepoint values in order to perform specialized comparison.</p>
- * <p>TrieIterator is designed to be a generic iterator for the CharTrie
- * and the IntTrie, hence to accommodate both types of data, the return
- * result will be in terms of int (32 bit) values.</p>
- * <p>See com.ibm.icu.text.UCharacterTypeIterator for examples of use.</p>
+ * <p>Clbss enbbling iterbtion of the vblues in b Trie.</p>
+ * <p>Result of ebch iterbtion contbins the intervbl of codepoints thbt hbve
+ * the sbme vblue type bnd the vblue type itself.</p>
+ * <p>The compbrison of ebch codepoint vblue is done vib extrbct(), which the
+ * defbult implementbtion is to return the vblue bs it is.</p>
+ * <p>Method extrbct() cbn be overwritten to perform mbnipulbtions on
+ * codepoint vblues in order to perform speciblized compbrison.</p>
+ * <p>TrieIterbtor is designed to be b generic iterbtor for the ChbrTrie
+ * bnd the IntTrie, hence to bccommodbte both types of dbtb, the return
+ * result will be in terms of int (32 bit) vblues.</p>
+ * <p>See com.ibm.icu.text.UChbrbcterTypeIterbtor for exbmples of use.</p>
  * <p>Notes for porting utrie_enum from icu4c to icu4j:<br>
- * Internally, icu4c's utrie_enum performs all iterations in its body. In Java
- * sense, the caller will have to pass a object with a callback function
- * UTrieEnumRange(const void *context, UChar32 start, UChar32 limit,
- * uint32_t value) into utrie_enum. utrie_enum will then find ranges of
- * codepoints with the same value as determined by
- * UTrieEnumValue(const void *context, uint32_t value). for each range,
- * utrie_enum calls the callback function to perform a task. In this way,
- * icu4c performs the iteration within utrie_enum.
+ * Internblly, icu4c's utrie_enum performs bll iterbtions in its body. In Jbvb
+ * sense, the cbller will hbve to pbss b object with b cbllbbck function
+ * UTrieEnumRbnge(const void *context, UChbr32 stbrt, UChbr32 limit,
+ * uint32_t vblue) into utrie_enum. utrie_enum will then find rbnges of
+ * codepoints with the sbme vblue bs determined by
+ * UTrieEnumVblue(const void *context, uint32_t vblue). for ebch rbnge,
+ * utrie_enum cblls the cbllbbck function to perform b tbsk. In this wby,
+ * icu4c performs the iterbtion within utrie_enum.
  * To follow the JDK model, icu4j is slightly different from icu4c.
- * Instead of requesting the caller to implement an object for a callback.
- * The caller will have to implement a subclass of TrieIterator, fleshing out
- * the method extract(int) (equivalent to UTrieEnumValue). Independent of icu4j,
- * the caller will have to code his own iteration and flesh out the task
- * (equivalent to UTrieEnumRange) to be performed in the iteration loop.
+ * Instebd of requesting the cbller to implement bn object for b cbllbbck.
+ * The cbller will hbve to implement b subclbss of TrieIterbtor, fleshing out
+ * the method extrbct(int) (equivblent to UTrieEnumVblue). Independent of icu4j,
+ * the cbller will hbve to code his own iterbtion bnd flesh out the tbsk
+ * (equivblent to UTrieEnumRbnge) to be performed in the iterbtion loop.
  * </p>
- * <p>There are basically 3 usage scenarios for porting:</p>
- * <p>1) UTrieEnumValue is the only implemented callback then just implement a
- * subclass of TrieIterator and override the extract(int) method. The
- * extract(int) method is analogus to UTrieEnumValue callback.
+ * <p>There bre bbsicblly 3 usbge scenbrios for porting:</p>
+ * <p>1) UTrieEnumVblue is the only implemented cbllbbck then just implement b
+ * subclbss of TrieIterbtor bnd override the extrbct(int) method. The
+ * extrbct(int) method is bnblogus to UTrieEnumVblue cbllbbck.
  * </p>
- * <p>2) UTrieEnumValue and UTrieEnumRange both are implemented then implement
- * a subclass of TrieIterator, override the extract method and iterate, e.g
+ * <p>2) UTrieEnumVblue bnd UTrieEnumRbnge both bre implemented then implement
+ * b subclbss of TrieIterbtor, override the extrbct method bnd iterbte, e.g
  * </p>
- * <p>utrie_enum(&normTrie, _enumPropertyStartsValue, _enumPropertyStartsRange,
+ * <p>utrie_enum(&normTrie, _enumPropertyStbrtsVblue, _enumPropertyStbrtsRbnge,
  *               set);<br>
- * In Java :<br>
+ * In Jbvb :<br>
  * <pre>
- * class TrieIteratorImpl extends TrieIterator{
- *     public TrieIteratorImpl(Trie data){
- *         super(data);
+ * clbss TrieIterbtorImpl extends TrieIterbtor{
+ *     public TrieIterbtorImpl(Trie dbtb){
+ *         super(dbtb);
  *     }
- *     public int extract(int value){
- *         // port the implementation of _enumPropertyStartsValue here
+ *     public int extrbct(int vblue){
+ *         // port the implementbtion of _enumPropertyStbrtsVblue here
  *     }
  * }
  * ....
- * TrieIterator fcdIter  = new TrieIteratorImpl(fcdTrieImpl.fcdTrie);
+ * TrieIterbtor fcdIter  = new TrieIterbtorImpl(fcdTrieImpl.fcdTrie);
  * while(fcdIter.next(result)) {
- *     // port the implementation of _enumPropertyStartsRange
+ *     // port the implementbtion of _enumPropertyStbrtsRbnge
  * }
  * </pre>
  * </p>
- * <p>3) UTrieEnumRange is the only implemented callback then just implement
- * the while loop, when utrie_enum is called
+ * <p>3) UTrieEnumRbnge is the only implemented cbllbbck then just implement
+ * the while loop, when utrie_enum is cblled
  * <pre>
- * // utrie_enum(&fcdTrie, NULL, _enumPropertyStartsRange, set);
- * TrieIterator fcdIter  = new TrieIterator(fcdTrieImpl.fcdTrie);
+ * // utrie_enum(&fcdTrie, NULL, _enumPropertyStbrtsRbnge, set);
+ * TrieIterbtor fcdIter  = new TrieIterbtor(fcdTrieImpl.fcdTrie);
  * while(fcdIter.next(result)){
- *     set.add(result.start);
+ *     set.bdd(result.stbrt);
  * }
  * </pre>
  * </p>
- * @author synwee
+ * @buthor synwee
  * @see com.ibm.icu.impl.Trie
- * @see com.ibm.icu.lang.UCharacterTypeIterator
- * @since release 2.1, Jan 17 2002
+ * @see com.ibm.icu.lbng.UChbrbcterTypeIterbtor
+ * @since relebse 2.1, Jbn 17 2002
  */
-public class TrieIterator implements RangeValueIterator
+public clbss TrieIterbtor implements RbngeVblueIterbtor
 {
 
     // public constructor ---------------------------------------------
 
     /**
-    * TrieEnumeration constructor
-    * @param trie to be used
-    * @exception IllegalArgumentException throw when argument is null.
+    * TrieEnumerbtion constructor
+    * @pbrbm trie to be used
+    * @exception IllegblArgumentException throw when brgument is null.
     */
-    public TrieIterator(Trie trie)
+    public TrieIterbtor(Trie trie)
     {
         if (trie == null) {
-            throw new IllegalArgumentException(
-                                          "Argument trie cannot be null");
+            throw new IllegblArgumentException(
+                                          "Argument trie cbnnot be null");
         }
         m_trie_             = trie;
-        // synwee: check that extract belongs to the child class
-        m_initialValue_     = extract(m_trie_.getInitialValue());
+        // synwee: check thbt extrbct belongs to the child clbss
+        m_initiblVblue_     = extrbct(m_trie_.getInitiblVblue());
         reset();
     }
 
     // public methods -------------------------------------------------
 
     /**
-    * <p>Returns true if we are not at the end of the iteration, false
+    * <p>Returns true if we bre not bt the end of the iterbtion, fblse
     * otherwise.</p>
-    * <p>The next set of codepoints with the same value type will be
-    * calculated during this call and returned in the arguement element.</p>
-    * @param element return result
-    * @return true if we are not at the end of the iteration, false otherwise.
+    * <p>The next set of codepoints with the sbme vblue type will be
+    * cblculbted during this cbll bnd returned in the brguement element.</p>
+    * @pbrbm element return result
+    * @return true if we bre not bt the end of the iterbtion, fblse otherwise.
     * @exception NoSuchElementException - if no more elements exist.
-    * @see com.ibm.icu.util.RangeValueIterator.Element
+    * @see com.ibm.icu.util.RbngeVblueIterbtor.Element
     */
-    public final boolean next(Element element)
+    public finbl boolebn next(Element element)
     {
-        if (m_nextCodepoint_ > UCharacter.MAX_VALUE) {
-            return false;
+        if (m_nextCodepoint_ > UChbrbcter.MAX_VALUE) {
+            return fblse;
         }
-        if (m_nextCodepoint_ < UCharacter.SUPPLEMENTARY_MIN_VALUE &&
-            calculateNextBMPElement(element)) {
+        if (m_nextCodepoint_ < UChbrbcter.SUPPLEMENTARY_MIN_VALUE &&
+            cblculbteNextBMPElement(element)) {
             return true;
         }
-        calculateNextSupplementaryElement(element);
+        cblculbteNextSupplementbryElement(element);
         return true;
     }
 
     /**
-    * Resets the iterator to the beginning of the iteration
+    * Resets the iterbtor to the beginning of the iterbtion
     */
-    public final void reset()
+    public finbl void reset()
     {
         m_currentCodepoint_ = 0;
         m_nextCodepoint_    = 0;
         m_nextIndex_        = 0;
         m_nextBlock_ = m_trie_.m_index_[0] << Trie.INDEX_STAGE_2_SHIFT_;
         if (m_nextBlock_ == 0) {
-            m_nextValue_ = m_initialValue_;
+            m_nextVblue_ = m_initiblVblue_;
         }
         else {
-            m_nextValue_ = extract(m_trie_.getValue(m_nextBlock_));
+            m_nextVblue_ = extrbct(m_trie_.getVblue(m_nextBlock_));
         }
         m_nextBlockIndex_ = 0;
-        m_nextTrailIndexOffset_ = TRAIL_SURROGATE_INDEX_BLOCK_LENGTH_;
+        m_nextTrbilIndexOffset_ = TRAIL_SURROGATE_INDEX_BLOCK_LENGTH_;
     }
 
     // protected methods ----------------------------------------------
 
     /**
-    * Called by next() to extracts a 32 bit value from a trie value
-    * used for comparison.
-    * This method is to be overwritten if special manipulation is to be done
-    * to retrieve a relevant comparison.
-    * The default function is to return the value as it is.
-    * @param value a value from the trie
-    * @return extracted value
+    * Cblled by next() to extrbcts b 32 bit vblue from b trie vblue
+    * used for compbrison.
+    * This method is to be overwritten if specibl mbnipulbtion is to be done
+    * to retrieve b relevbnt compbrison.
+    * The defbult function is to return the vblue bs it is.
+    * @pbrbm vblue b vblue from the trie
+    * @return extrbcted vblue
     */
-    protected int extract(int value)
+    protected int extrbct(int vblue)
     {
-        return value;
+        return vblue;
     }
 
-    // private methods ------------------------------------------------
+    // privbte methods ------------------------------------------------
 
     /**
-    * Set the result values
-    * @param element return result object
-    * @param start codepoint of range
-    * @param limit (end + 1) codepoint of range
-    * @param value common value of range
+    * Set the result vblues
+    * @pbrbm element return result object
+    * @pbrbm stbrt codepoint of rbnge
+    * @pbrbm limit (end + 1) codepoint of rbnge
+    * @pbrbm vblue common vblue of rbnge
     */
-    private final void setResult(Element element, int start, int limit,
-                                 int value)
+    privbte finbl void setResult(Element element, int stbrt, int limit,
+                                 int vblue)
     {
-        element.start = start;
+        element.stbrt = stbrt;
         element.limit = limit;
-        element.value = value;
+        element.vblue = vblue;
     }
 
     /**
     * Finding the next element.
-    * This method is called just before returning the result of
+    * This method is cblled just before returning the result of
     * next().
-    * We always store the next element before it is requested.
-    * In the case that we have to continue calculations into the
-    * supplementary planes, a false will be returned.
-    * @param element return result object
-    * @return true if the next range is found, false if we have to proceed to
-    *         the supplementary range.
+    * We blwbys store the next element before it is requested.
+    * In the cbse thbt we hbve to continue cblculbtions into the
+    * supplementbry plbnes, b fblse will be returned.
+    * @pbrbm element return result object
+    * @return true if the next rbnge is found, fblse if we hbve to proceed to
+    *         the supplementbry rbnge.
     */
-    private final boolean calculateNextBMPElement(Element element)
+    privbte finbl boolebn cblculbteNextBMPElement(Element element)
     {
         int currentBlock    = m_nextBlock_;
-        int currentValue    = m_nextValue_;
+        int currentVblue    = m_nextVblue_;
         m_currentCodepoint_ = m_nextCodepoint_;
         m_nextCodepoint_ ++;
         m_nextBlockIndex_ ++;
-        if (!checkBlockDetail(currentValue)) {
+        if (!checkBlockDetbil(currentVblue)) {
             setResult(element, m_currentCodepoint_, m_nextCodepoint_,
-                      currentValue);
+                      currentVblue);
             return true;
         }
-        // synwee check that next block index == 0 here
-        // enumerate BMP - the main loop enumerates data blocks
-        while (m_nextCodepoint_ < UCharacter.SUPPLEMENTARY_MIN_VALUE) {
+        // synwee check thbt next block index == 0 here
+        // enumerbte BMP - the mbin loop enumerbtes dbtb blocks
+        while (m_nextCodepoint_ < UChbrbcter.SUPPLEMENTARY_MIN_VALUE) {
             m_nextIndex_ ++;
-            // because of the way the character is split to form the index
-            // the lead surrogate and trail surrogate can not be in the
-            // mid of a block
+            // becbuse of the wby the chbrbcter is split to form the index
+            // the lebd surrogbte bnd trbil surrogbte cbn not be in the
+            // mid of b block
             if (m_nextCodepoint_ == LEAD_SURROGATE_MIN_VALUE_) {
-                // skip lead surrogate code units,
-                // go to lead surrogate codepoints
+                // skip lebd surrogbte code units,
+                // go to lebd surrogbte codepoints
                 m_nextIndex_ = BMP_INDEX_LENGTH_;
             }
             else if (m_nextCodepoint_ == TRAIL_SURROGATE_MIN_VALUE_) {
-                // go back to regular BMP code points
+                // go bbck to regulbr BMP code points
                 m_nextIndex_ = m_nextCodepoint_ >> Trie.INDEX_STAGE_1_SHIFT_;
             }
 
             m_nextBlockIndex_ = 0;
-            if (!checkBlock(currentBlock, currentValue)) {
+            if (!checkBlock(currentBlock, currentVblue)) {
                 setResult(element, m_currentCodepoint_, m_nextCodepoint_,
-                          currentValue);
+                          currentVblue);
                 return true;
             }
         }
-        m_nextCodepoint_ --;   // step one back since this value has not been
+        m_nextCodepoint_ --;   // step one bbck since this vblue hbs not been
         m_nextBlockIndex_ --;  // retrieved yet.
-        return false;
+        return fblse;
     }
 
     /**
-    * Finds the next supplementary element.
-    * For each entry in the trie, the value to be delivered is passed through
-    * extract().
-    * We always store the next element before it is requested.
-    * Called after calculateNextBMP() completes its round of BMP characters.
-    * There is a slight difference in the usage of m_currentCodepoint_
-    * here as compared to calculateNextBMP(). Though both represents the
-    * lower bound of the next element, in calculateNextBMP() it gets set
-    * at the start of any loop, where-else, in calculateNextSupplementary()
-    * since m_currentCodepoint_ already contains the lower bound of the
-    * next element (passed down from calculateNextBMP()), we keep it till
-    * the end before resetting it to the new value.
-    * Note, if there are no more iterations, it will never get to here.
+    * Finds the next supplementbry element.
+    * For ebch entry in the trie, the vblue to be delivered is pbssed through
+    * extrbct().
+    * We blwbys store the next element before it is requested.
+    * Cblled bfter cblculbteNextBMP() completes its round of BMP chbrbcters.
+    * There is b slight difference in the usbge of m_currentCodepoint_
+    * here bs compbred to cblculbteNextBMP(). Though both represents the
+    * lower bound of the next element, in cblculbteNextBMP() it gets set
+    * bt the stbrt of bny loop, where-else, in cblculbteNextSupplementbry()
+    * since m_currentCodepoint_ blrebdy contbins the lower bound of the
+    * next element (pbssed down from cblculbteNextBMP()), we keep it till
+    * the end before resetting it to the new vblue.
+    * Note, if there bre no more iterbtions, it will never get to here.
     * Blocked out by next().
-    * @param element return result object
+    * @pbrbm element return result object
     */
-    private final void calculateNextSupplementaryElement(Element element)
+    privbte finbl void cblculbteNextSupplementbryElement(Element element)
     {
-        int currentValue = m_nextValue_;
+        int currentVblue = m_nextVblue_;
         int currentBlock = m_nextBlock_;
         m_nextCodepoint_ ++;
         m_nextBlockIndex_ ++;
 
-        if (UTF16.getTrailSurrogate(m_nextCodepoint_)
+        if (UTF16.getTrbilSurrogbte(m_nextCodepoint_)
                                         != UTF16.TRAIL_SURROGATE_MIN_VALUE) {
-            // this piece is only called when we are in the middle of a lead
-            // surrogate block
-            if (!checkNullNextTrailIndex() && !checkBlockDetail(currentValue)) {
+            // this piece is only cblled when we bre in the middle of b lebd
+            // surrogbte block
+            if (!checkNullNextTrbilIndex() && !checkBlockDetbil(currentVblue)) {
                 setResult(element, m_currentCodepoint_, m_nextCodepoint_,
-                          currentValue);
+                          currentVblue);
                 m_currentCodepoint_ = m_nextCodepoint_;
                 return;
             }
-            // we have cleared one block
+            // we hbve clebred one block
             m_nextIndex_ ++;
-            m_nextTrailIndexOffset_ ++;
-            if (!checkTrailBlock(currentBlock, currentValue)) {
+            m_nextTrbilIndexOffset_ ++;
+            if (!checkTrbilBlock(currentBlock, currentVblue)) {
                 setResult(element, m_currentCodepoint_, m_nextCodepoint_,
-                          currentValue);
+                          currentVblue);
                 m_currentCodepoint_ = m_nextCodepoint_;
                 return;
             }
         }
-        int nextLead  = UTF16.getLeadSurrogate(m_nextCodepoint_);
-        // enumerate supplementary code points
-        while (nextLead < TRAIL_SURROGATE_MIN_VALUE_) {
-            // lead surrogate access
-            int leadBlock =
-                   m_trie_.m_index_[nextLead >> Trie.INDEX_STAGE_1_SHIFT_] <<
+        int nextLebd  = UTF16.getLebdSurrogbte(m_nextCodepoint_);
+        // enumerbte supplementbry code points
+        while (nextLebd < TRAIL_SURROGATE_MIN_VALUE_) {
+            // lebd surrogbte bccess
+            int lebdBlock =
+                   m_trie_.m_index_[nextLebd >> Trie.INDEX_STAGE_1_SHIFT_] <<
                                                    Trie.INDEX_STAGE_2_SHIFT_;
-            if (leadBlock == m_trie_.m_dataOffset_) {
-                // no entries for a whole block of lead surrogates
-                if (currentValue != m_initialValue_) {
-                    m_nextValue_      = m_initialValue_;
+            if (lebdBlock == m_trie_.m_dbtbOffset_) {
+                // no entries for b whole block of lebd surrogbtes
+                if (currentVblue != m_initiblVblue_) {
+                    m_nextVblue_      = m_initiblVblue_;
                     m_nextBlock_      = 0;
                     m_nextBlockIndex_ = 0;
                     setResult(element, m_currentCodepoint_, m_nextCodepoint_,
-                              currentValue);
+                              currentVblue);
                     m_currentCodepoint_ = m_nextCodepoint_;
                     return;
                 }
 
-                nextLead += DATA_BLOCK_LENGTH_;
-                // number of total affected supplementary codepoints in one
+                nextLebd += DATA_BLOCK_LENGTH_;
+                // number of totbl bffected supplementbry codepoints in one
                 // block
-                // this is not a simple addition of
+                // this is not b simple bddition of
                 // DATA_BLOCK_SUPPLEMENTARY_LENGTH since we need to consider
-                // that we might have moved some of the codepoints
-                m_nextCodepoint_ = UCharacterProperty.getRawSupplementary(
-                                     (char)nextLead,
-                                     (char)UTF16.TRAIL_SURROGATE_MIN_VALUE);
+                // thbt we might hbve moved some of the codepoints
+                m_nextCodepoint_ = UChbrbcterProperty.getRbwSupplementbry(
+                                     (chbr)nextLebd,
+                                     (chbr)UTF16.TRAIL_SURROGATE_MIN_VALUE);
                 continue;
             }
-            if (m_trie_.m_dataManipulate_ == null) {
+            if (m_trie_.m_dbtbMbnipulbte_ == null) {
                 throw new NullPointerException(
-                            "The field DataManipulate in this Trie is null");
+                            "The field DbtbMbnipulbte in this Trie is null");
             }
-            // enumerate trail surrogates for this lead surrogate
-            m_nextIndex_ = m_trie_.m_dataManipulate_.getFoldingOffset(
-                               m_trie_.getValue(leadBlock +
-                                   (nextLead & Trie.INDEX_STAGE_3_MASK_)));
+            // enumerbte trbil surrogbtes for this lebd surrogbte
+            m_nextIndex_ = m_trie_.m_dbtbMbnipulbte_.getFoldingOffset(
+                               m_trie_.getVblue(lebdBlock +
+                                   (nextLebd & Trie.INDEX_STAGE_3_MASK_)));
             if (m_nextIndex_ <= 0) {
-                // no data for this lead surrogate
-                if (currentValue != m_initialValue_) {
-                    m_nextValue_      = m_initialValue_;
+                // no dbtb for this lebd surrogbte
+                if (currentVblue != m_initiblVblue_) {
+                    m_nextVblue_      = m_initiblVblue_;
                     m_nextBlock_      = 0;
                     m_nextBlockIndex_ = 0;
                     setResult(element, m_currentCodepoint_, m_nextCodepoint_,
-                              currentValue);
+                              currentVblue);
                     m_currentCodepoint_ = m_nextCodepoint_;
                     return;
                 }
                 m_nextCodepoint_ += TRAIL_SURROGATE_COUNT_;
             } else {
-                m_nextTrailIndexOffset_ = 0;
-                if (!checkTrailBlock(currentBlock, currentValue)) {
+                m_nextTrbilIndexOffset_ = 0;
+                if (!checkTrbilBlock(currentBlock, currentVblue)) {
                     setResult(element, m_currentCodepoint_, m_nextCodepoint_,
-                              currentValue);
+                              currentVblue);
                     m_currentCodepoint_ = m_nextCodepoint_;
                     return;
                 }
             }
-            nextLead ++;
+            nextLebd ++;
          }
 
-         // deliver last range
-         setResult(element, m_currentCodepoint_, UCharacter.MAX_VALUE + 1,
-                   currentValue);
+         // deliver lbst rbnge
+         setResult(element, m_currentCodepoint_, UChbrbcter.MAX_VALUE + 1,
+                   currentVblue);
     }
 
     /**
-    * Internal block value calculations
-    * Performs calculations on a data block to find codepoints in m_nextBlock_
-    * after the index m_nextBlockIndex_ that has the same value.
-    * Note m_*_ variables at this point is the next codepoint whose value
-    * has not been calculated.
-    * But when returned with false, it will be the last codepoint whose
-    * value has been calculated.
-    * @param currentValue the value which other codepoints are tested against
-    * @return true if the whole block has the same value as currentValue or if
-    *              the whole block has been calculated, false otherwise.
+    * Internbl block vblue cblculbtions
+    * Performs cblculbtions on b dbtb block to find codepoints in m_nextBlock_
+    * bfter the index m_nextBlockIndex_ thbt hbs the sbme vblue.
+    * Note m_*_ vbribbles bt this point is the next codepoint whose vblue
+    * hbs not been cblculbted.
+    * But when returned with fblse, it will be the lbst codepoint whose
+    * vblue hbs been cblculbted.
+    * @pbrbm currentVblue the vblue which other codepoints bre tested bgbinst
+    * @return true if the whole block hbs the sbme vblue bs currentVblue or if
+    *              the whole block hbs been cblculbted, fblse otherwise.
     */
-    private final boolean checkBlockDetail(int currentValue)
+    privbte finbl boolebn checkBlockDetbil(int currentVblue)
     {
         while (m_nextBlockIndex_ < DATA_BLOCK_LENGTH_) {
-            m_nextValue_ = extract(m_trie_.getValue(m_nextBlock_ +
+            m_nextVblue_ = extrbct(m_trie_.getVblue(m_nextBlock_ +
                                                     m_nextBlockIndex_));
-            if (m_nextValue_ != currentValue) {
-                return false;
+            if (m_nextVblue_ != currentVblue) {
+                return fblse;
             }
             ++ m_nextBlockIndex_;
             ++ m_nextCodepoint_;
@@ -395,154 +395,154 @@ public class TrieIterator implements RangeValueIterator
     }
 
     /**
-    * Internal block value calculations
-    * Performs calculations on a data block to find codepoints in m_nextBlock_
-    * that has the same value.
-    * Will call checkBlockDetail() if highlevel check fails.
-    * Note m_*_ variables at this point is the next codepoint whose value
-    * has not been calculated.
-    * @param currentBlock the initial block containing all currentValue
-    * @param currentValue the value which other codepoints are tested against
-    * @return true if the whole block has the same value as currentValue or if
-    *              the whole block has been calculated, false otherwise.
+    * Internbl block vblue cblculbtions
+    * Performs cblculbtions on b dbtb block to find codepoints in m_nextBlock_
+    * thbt hbs the sbme vblue.
+    * Will cbll checkBlockDetbil() if highlevel check fbils.
+    * Note m_*_ vbribbles bt this point is the next codepoint whose vblue
+    * hbs not been cblculbted.
+    * @pbrbm currentBlock the initibl block contbining bll currentVblue
+    * @pbrbm currentVblue the vblue which other codepoints bre tested bgbinst
+    * @return true if the whole block hbs the sbme vblue bs currentVblue or if
+    *              the whole block hbs been cblculbted, fblse otherwise.
     */
-    private final boolean checkBlock(int currentBlock, int currentValue)
+    privbte finbl boolebn checkBlock(int currentBlock, int currentVblue)
     {
         m_nextBlock_ = m_trie_.m_index_[m_nextIndex_] <<
                                                   Trie.INDEX_STAGE_2_SHIFT_;
         if (m_nextBlock_ == currentBlock &&
             (m_nextCodepoint_ - m_currentCodepoint_) >= DATA_BLOCK_LENGTH_) {
-            // the block is the same as the previous one, filled with
-            // currentValue
+            // the block is the sbme bs the previous one, filled with
+            // currentVblue
             m_nextCodepoint_ += DATA_BLOCK_LENGTH_;
         }
         else if (m_nextBlock_ == 0) {
-            // this is the all-initial-value block
-            if (currentValue != m_initialValue_) {
-                m_nextValue_      = m_initialValue_;
+            // this is the bll-initibl-vblue block
+            if (currentVblue != m_initiblVblue_) {
+                m_nextVblue_      = m_initiblVblue_;
                 m_nextBlockIndex_ = 0;
-                return false;
+                return fblse;
             }
             m_nextCodepoint_ += DATA_BLOCK_LENGTH_;
         }
         else {
-            if (!checkBlockDetail(currentValue)) {
-                return false;
+            if (!checkBlockDetbil(currentVblue)) {
+                return fblse;
             }
         }
         return true;
     }
 
     /**
-    * Internal block value calculations
-    * Performs calculations on multiple data blocks for a set of trail
-    * surrogates to find codepoints in m_nextBlock_ that has the same value.
-    * Will call checkBlock() for internal block checks.
-    * Note m_*_ variables at this point is the next codepoint whose value
-    * has not been calculated.
-    * @param currentBlock the initial block containing all currentValue
-    * @param currentValue the value which other codepoints are tested against
-    * @return true if the whole block has the same value as currentValue or if
-    *              the whole block has been calculated, false otherwise.
+    * Internbl block vblue cblculbtions
+    * Performs cblculbtions on multiple dbtb blocks for b set of trbil
+    * surrogbtes to find codepoints in m_nextBlock_ thbt hbs the sbme vblue.
+    * Will cbll checkBlock() for internbl block checks.
+    * Note m_*_ vbribbles bt this point is the next codepoint whose vblue
+    * hbs not been cblculbted.
+    * @pbrbm currentBlock the initibl block contbining bll currentVblue
+    * @pbrbm currentVblue the vblue which other codepoints bre tested bgbinst
+    * @return true if the whole block hbs the sbme vblue bs currentVblue or if
+    *              the whole block hbs been cblculbted, fblse otherwise.
     */
-    private final boolean checkTrailBlock(int currentBlock,
-                                          int currentValue)
+    privbte finbl boolebn checkTrbilBlock(int currentBlock,
+                                          int currentVblue)
     {
-        // enumerate code points for this lead surrogate
-        while (m_nextTrailIndexOffset_ < TRAIL_SURROGATE_INDEX_BLOCK_LENGTH_)
+        // enumerbte code points for this lebd surrogbte
+        while (m_nextTrbilIndexOffset_ < TRAIL_SURROGATE_INDEX_BLOCK_LENGTH_)
         {
-            // if we ever reach here, we are at the start of a new block
+            // if we ever rebch here, we bre bt the stbrt of b new block
             m_nextBlockIndex_ = 0;
             // copy of most of the body of the BMP loop
-            if (!checkBlock(currentBlock, currentValue)) {
-                return false;
+            if (!checkBlock(currentBlock, currentVblue)) {
+                return fblse;
             }
-            m_nextTrailIndexOffset_ ++;
+            m_nextTrbilIndexOffset_ ++;
             m_nextIndex_ ++;
         }
         return true;
     }
 
     /**
-    * Checks if we are beginning at the start of a initial block.
-    * If we are then the rest of the codepoints in this initial block
-    * has the same values.
-    * We increment m_nextCodepoint_ and relevant data members if so.
-    * This is used only in for the supplementary codepoints because
-    * the offset to the trail indexes could be 0.
-    * @return true if we are at the start of a initial block.
+    * Checks if we bre beginning bt the stbrt of b initibl block.
+    * If we bre then the rest of the codepoints in this initibl block
+    * hbs the sbme vblues.
+    * We increment m_nextCodepoint_ bnd relevbnt dbtb members if so.
+    * This is used only in for the supplementbry codepoints becbuse
+    * the offset to the trbil indexes could be 0.
+    * @return true if we bre bt the stbrt of b initibl block.
     */
-    private final boolean checkNullNextTrailIndex()
+    privbte finbl boolebn checkNullNextTrbilIndex()
     {
         if (m_nextIndex_ <= 0) {
             m_nextCodepoint_ += TRAIL_SURROGATE_COUNT_ - 1;
-            int nextLead  = UTF16.getLeadSurrogate(m_nextCodepoint_);
-            int leadBlock =
-                   m_trie_.m_index_[nextLead >> Trie.INDEX_STAGE_1_SHIFT_] <<
+            int nextLebd  = UTF16.getLebdSurrogbte(m_nextCodepoint_);
+            int lebdBlock =
+                   m_trie_.m_index_[nextLebd >> Trie.INDEX_STAGE_1_SHIFT_] <<
                                                    Trie.INDEX_STAGE_2_SHIFT_;
-            if (m_trie_.m_dataManipulate_ == null) {
+            if (m_trie_.m_dbtbMbnipulbte_ == null) {
                 throw new NullPointerException(
-                            "The field DataManipulate in this Trie is null");
+                            "The field DbtbMbnipulbte in this Trie is null");
             }
-            m_nextIndex_ = m_trie_.m_dataManipulate_.getFoldingOffset(
-                               m_trie_.getValue(leadBlock +
-                                   (nextLead & Trie.INDEX_STAGE_3_MASK_)));
+            m_nextIndex_ = m_trie_.m_dbtbMbnipulbte_.getFoldingOffset(
+                               m_trie_.getVblue(lebdBlock +
+                                   (nextLebd & Trie.INDEX_STAGE_3_MASK_)));
             m_nextIndex_ --;
             m_nextBlockIndex_ =  DATA_BLOCK_LENGTH_;
             return true;
         }
-        return false;
+        return fblse;
     }
 
-    // private data members --------------------------------------------
+    // privbte dbtb members --------------------------------------------
 
     /**
-    * Size of the stage 1 BMP indexes
+    * Size of the stbge 1 BMP indexes
     */
-    private static final int BMP_INDEX_LENGTH_ =
+    privbte stbtic finbl int BMP_INDEX_LENGTH_ =
                                         0x10000 >> Trie.INDEX_STAGE_1_SHIFT_;
     /**
-    * Lead surrogate minimum value
+    * Lebd surrogbte minimum vblue
     */
-    private static final int LEAD_SURROGATE_MIN_VALUE_ = 0xD800;
+    privbte stbtic finbl int LEAD_SURROGATE_MIN_VALUE_ = 0xD800;
     /**
-    * Trail surrogate minimum value
+    * Trbil surrogbte minimum vblue
     */
-    private static final int TRAIL_SURROGATE_MIN_VALUE_ = 0xDC00;
+    privbte stbtic finbl int TRAIL_SURROGATE_MIN_VALUE_ = 0xDC00;
     /**
-    * Number of trail surrogate
+    * Number of trbil surrogbte
     */
-    private static final int TRAIL_SURROGATE_COUNT_ = 0x400;
+    privbte stbtic finbl int TRAIL_SURROGATE_COUNT_ = 0x400;
     /**
-    * Number of stage 1 indexes for supplementary calculations that maps to
-    * each lead surrogate character.
-    * See second pass into getRawOffset for the trail surrogate character.
-    * 10 for significant number of bits for trail surrogates, 5 for what we
-    * discard during shifting.
+    * Number of stbge 1 indexes for supplementbry cblculbtions thbt mbps to
+    * ebch lebd surrogbte chbrbcter.
+    * See second pbss into getRbwOffset for the trbil surrogbte chbrbcter.
+    * 10 for significbnt number of bits for trbil surrogbtes, 5 for whbt we
+    * discbrd during shifting.
     */
-    private static final int TRAIL_SURROGATE_INDEX_BLOCK_LENGTH_ =
+    privbte stbtic finbl int TRAIL_SURROGATE_INDEX_BLOCK_LENGTH_ =
                                     1 << (10 - Trie.INDEX_STAGE_1_SHIFT_);
     /**
-    * Number of data values in a stage 2 (data array) block.
+    * Number of dbtb vblues in b stbge 2 (dbtb brrby) block.
     */
-    private static final int DATA_BLOCK_LENGTH_ =
+    privbte stbtic finbl int DATA_BLOCK_LENGTH_ =
                                               1 << Trie.INDEX_STAGE_1_SHIFT_;
     /**
-    * Trie instance
+    * Trie instbnce
     */
-    private Trie m_trie_;
+    privbte Trie m_trie_;
     /**
-    * Initial value for trie values
+    * Initibl vblue for trie vblues
     */
-    private int m_initialValue_;
+    privbte int m_initiblVblue_;
     /**
-    * Next element results and data.
+    * Next element results bnd dbtb.
     */
-    private int m_currentCodepoint_;
-    private int m_nextCodepoint_;
-    private int m_nextValue_;
-    private int m_nextIndex_;
-    private int m_nextBlock_;
-    private int m_nextBlockIndex_;
-    private int m_nextTrailIndexOffset_;
+    privbte int m_currentCodepoint_;
+    privbte int m_nextCodepoint_;
+    privbte int m_nextVblue_;
+    privbte int m_nextIndex_;
+    privbte int m_nextBlock_;
+    privbte int m_nextBlockIndex_;
+    privbte int m_nextTrbilIndexOffset_;
 }

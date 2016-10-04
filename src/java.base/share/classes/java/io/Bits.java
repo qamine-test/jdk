@@ -1,67 +1,67 @@
 /*
- * Copyright (c) 2001, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2010, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.io;
+pbckbge jbvb.io;
 
 /**
- * Utility methods for packing/unpacking primitive values in/out of byte arrays
- * using big-endian byte ordering.
+ * Utility methods for pbcking/unpbcking primitive vblues in/out of byte brrbys
+ * using big-endibn byte ordering.
  */
-class Bits {
+clbss Bits {
 
     /*
-     * Methods for unpacking primitive values from byte arrays starting at
+     * Methods for unpbcking primitive vblues from byte brrbys stbrting bt
      * given offsets.
      */
 
-    static boolean getBoolean(byte[] b, int off) {
+    stbtic boolebn getBoolebn(byte[] b, int off) {
         return b[off] != 0;
     }
 
-    static char getChar(byte[] b, int off) {
-        return (char) ((b[off + 1] & 0xFF) +
+    stbtic chbr getChbr(byte[] b, int off) {
+        return (chbr) ((b[off + 1] & 0xFF) +
                        (b[off] << 8));
     }
 
-    static short getShort(byte[] b, int off) {
+    stbtic short getShort(byte[] b, int off) {
         return (short) ((b[off + 1] & 0xFF) +
                         (b[off] << 8));
     }
 
-    static int getInt(byte[] b, int off) {
+    stbtic int getInt(byte[] b, int off) {
         return ((b[off + 3] & 0xFF)      ) +
                ((b[off + 2] & 0xFF) <<  8) +
                ((b[off + 1] & 0xFF) << 16) +
                ((b[off    ]       ) << 24);
     }
 
-    static float getFloat(byte[] b, int off) {
-        return Float.intBitsToFloat(getInt(b, off));
+    stbtic flobt getFlobt(byte[] b, int off) {
+        return Flobt.intBitsToFlobt(getInt(b, off));
     }
 
-    static long getLong(byte[] b, int off) {
+    stbtic long getLong(byte[] b, int off) {
         return ((b[off + 7] & 0xFFL)      ) +
                ((b[off + 6] & 0xFFL) <<  8) +
                ((b[off + 5] & 0xFFL) << 16) +
@@ -72,52 +72,52 @@ class Bits {
                (((long) b[off])      << 56);
     }
 
-    static double getDouble(byte[] b, int off) {
+    stbtic double getDouble(byte[] b, int off) {
         return Double.longBitsToDouble(getLong(b, off));
     }
 
     /*
-     * Methods for packing primitive values into byte arrays starting at given
+     * Methods for pbcking primitive vblues into byte brrbys stbrting bt given
      * offsets.
      */
 
-    static void putBoolean(byte[] b, int off, boolean val) {
-        b[off] = (byte) (val ? 1 : 0);
+    stbtic void putBoolebn(byte[] b, int off, boolebn vbl) {
+        b[off] = (byte) (vbl ? 1 : 0);
     }
 
-    static void putChar(byte[] b, int off, char val) {
-        b[off + 1] = (byte) (val      );
-        b[off    ] = (byte) (val >>> 8);
+    stbtic void putChbr(byte[] b, int off, chbr vbl) {
+        b[off + 1] = (byte) (vbl      );
+        b[off    ] = (byte) (vbl >>> 8);
     }
 
-    static void putShort(byte[] b, int off, short val) {
-        b[off + 1] = (byte) (val      );
-        b[off    ] = (byte) (val >>> 8);
+    stbtic void putShort(byte[] b, int off, short vbl) {
+        b[off + 1] = (byte) (vbl      );
+        b[off    ] = (byte) (vbl >>> 8);
     }
 
-    static void putInt(byte[] b, int off, int val) {
-        b[off + 3] = (byte) (val       );
-        b[off + 2] = (byte) (val >>>  8);
-        b[off + 1] = (byte) (val >>> 16);
-        b[off    ] = (byte) (val >>> 24);
+    stbtic void putInt(byte[] b, int off, int vbl) {
+        b[off + 3] = (byte) (vbl       );
+        b[off + 2] = (byte) (vbl >>>  8);
+        b[off + 1] = (byte) (vbl >>> 16);
+        b[off    ] = (byte) (vbl >>> 24);
     }
 
-    static void putFloat(byte[] b, int off, float val) {
-        putInt(b, off,  Float.floatToIntBits(val));
+    stbtic void putFlobt(byte[] b, int off, flobt vbl) {
+        putInt(b, off,  Flobt.flobtToIntBits(vbl));
     }
 
-    static void putLong(byte[] b, int off, long val) {
-        b[off + 7] = (byte) (val       );
-        b[off + 6] = (byte) (val >>>  8);
-        b[off + 5] = (byte) (val >>> 16);
-        b[off + 4] = (byte) (val >>> 24);
-        b[off + 3] = (byte) (val >>> 32);
-        b[off + 2] = (byte) (val >>> 40);
-        b[off + 1] = (byte) (val >>> 48);
-        b[off    ] = (byte) (val >>> 56);
+    stbtic void putLong(byte[] b, int off, long vbl) {
+        b[off + 7] = (byte) (vbl       );
+        b[off + 6] = (byte) (vbl >>>  8);
+        b[off + 5] = (byte) (vbl >>> 16);
+        b[off + 4] = (byte) (vbl >>> 24);
+        b[off + 3] = (byte) (vbl >>> 32);
+        b[off + 2] = (byte) (vbl >>> 40);
+        b[off + 1] = (byte) (vbl >>> 48);
+        b[off    ] = (byte) (vbl >>> 56);
     }
 
-    static void putDouble(byte[] b, int off, double val) {
-        putLong(b, off, Double.doubleToLongBits(val));
+    stbtic void putDouble(byte[] b, int off, double vbl) {
+        putLong(b, off, Double.doubleToLongBits(vbl));
     }
 }

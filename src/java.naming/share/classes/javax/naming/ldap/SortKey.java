@@ -1,118 +1,118 @@
 /*
- * Copyright (c) 2003, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2004, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.naming.ldap;
+pbckbge jbvbx.nbming.ldbp;
 
 /**
- * A sort key and its associated sort parameters.
- * This class implements a sort key which is used by the LDAPv3
- * Control for server-side sorting of search results as defined in
- * <a href="http://www.ietf.org/rfc/rfc2891.txt">RFC 2891</a>.
+ * A sort key bnd its bssocibted sort pbrbmeters.
+ * This clbss implements b sort key which is used by the LDAPv3
+ * Control for server-side sorting of sebrch results bs defined in
+ * <b href="http://www.ietf.org/rfc/rfc2891.txt">RFC 2891</b>.
  *
  * @since 1.5
  * @see SortControl
- * @author Vincent Ryan
+ * @buthor Vincent Rybn
  */
-public class SortKey {
+public clbss SortKey {
 
     /*
-     * The ID of the attribute to sort by.
+     * The ID of the bttribute to sort by.
      */
-    private String attrID;
+    privbte String bttrID;
 
     /*
-     * The sort order. Ascending order, by default.
+     * The sort order. Ascending order, by defbult.
      */
-    private boolean reverseOrder = false;
+    privbte boolebn reverseOrder = fblse;
 
     /*
-     * The ID of the matching rule to use for ordering attribute values.
+     * The ID of the mbtching rule to use for ordering bttribute vblues.
      */
-    private String matchingRuleID = null;
+    privbte String mbtchingRuleID = null;
 
     /**
-     * Creates the default sort key for an attribute. Entries will be sorted
-     * according to the specified attribute in ascending order using the
-     * ordering matching rule defined for use with that attribute.
+     * Crebtes the defbult sort key for bn bttribute. Entries will be sorted
+     * bccording to the specified bttribute in bscending order using the
+     * ordering mbtching rule defined for use with thbt bttribute.
      *
-     * @param   attrID  The non-null ID of the attribute to be used as a sort
+     * @pbrbm   bttrID  The non-null ID of the bttribute to be used bs b sort
      *          key.
      */
-    public SortKey(String attrID) {
-        this.attrID = attrID;
+    public SortKey(String bttrID) {
+        this.bttrID = bttrID;
     }
 
     /**
-     * Creates a sort key for an attribute. Entries will be sorted according to
-     * the specified attribute in the specified sort order and using the
-     * specified matching rule, if supplied.
+     * Crebtes b sort key for bn bttribute. Entries will be sorted bccording to
+     * the specified bttribute in the specified sort order bnd using the
+     * specified mbtching rule, if supplied.
      *
-     * @param   attrID          The non-null ID of the attribute to be used as
-     *                          a sort key.
-     * @param   ascendingOrder  If true then entries are arranged in ascending
-     *                          order. Otherwise there are arranged in
+     * @pbrbm   bttrID          The non-null ID of the bttribute to be used bs
+     *                          b sort key.
+     * @pbrbm   bscendingOrder  If true then entries bre brrbnged in bscending
+     *                          order. Otherwise there bre brrbnged in
      *                          descending order.
-     * @param   matchingRuleID  The possibly null ID of the matching rule to
-     *                          use to order the attribute values. If not
-     *                          specified then the ordering matching rule
-     *                          defined for the sort key attribute is used.
+     * @pbrbm   mbtchingRuleID  The possibly null ID of the mbtching rule to
+     *                          use to order the bttribute vblues. If not
+     *                          specified then the ordering mbtching rule
+     *                          defined for the sort key bttribute is used.
      */
-    public SortKey(String attrID, boolean ascendingOrder,
-                    String matchingRuleID) {
+    public SortKey(String bttrID, boolebn bscendingOrder,
+                    String mbtchingRuleID) {
 
-        this.attrID = attrID;
-        reverseOrder = (! ascendingOrder);
-        this.matchingRuleID = matchingRuleID;
+        this.bttrID = bttrID;
+        reverseOrder = (! bscendingOrder);
+        this.mbtchingRuleID = mbtchingRuleID;
     }
 
     /**
-     * Retrieves the attribute ID of the sort key.
+     * Retrieves the bttribute ID of the sort key.
      *
      * @return    The non-null Attribute ID of the sort key.
      */
     public String getAttributeID() {
-        return attrID;
+        return bttrID;
     }
 
     /**
      * Determines the sort order.
      *
-     * @return    true if the sort order is ascending, false if descending.
+     * @return    true if the sort order is bscending, fblse if descending.
      */
-    public boolean isAscending() {
+    public boolebn isAscending() {
         return (! reverseOrder);
     }
 
     /**
-     * Retrieves the matching rule ID used to order the attribute values.
+     * Retrieves the mbtching rule ID used to order the bttribute vblues.
      *
-     * @return    The possibly null matching rule ID. If null then the
-     *            ordering matching rule defined for the sort key attribute
+     * @return    The possibly null mbtching rule ID. If null then the
+     *            ordering mbtching rule defined for the sort key bttribute
      *            is used.
      */
-    public String getMatchingRuleID() {
-        return matchingRuleID;
+    public String getMbtchingRuleID() {
+        return mbtchingRuleID;
     }
 }

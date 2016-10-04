@@ -1,64 +1,64 @@
 /*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-package com.sun.tools.example.debug.tty;
+pbckbge com.sun.tools.exbmple.debug.tty;
 
 import com.sun.jdi.*;
 import com.sun.jdi.event.*;
 import com.sun.jdi.request.EventRequest;
 
-public class EventHandler implements Runnable {
+public clbss EventHbndler implements Runnbble {
 
     EventNotifier notifier;
-    Thread thread;
-    volatile boolean connected = true;
-    boolean completed = false;
-    String shutdownMessageKey;
-    boolean stopOnVMStart;
+    Threbd threbd;
+    volbtile boolebn connected = true;
+    boolebn completed = fblse;
+    String shutdownMessbgeKey;
+    boolebn stopOnVMStbrt;
 
-    EventHandler(EventNotifier notifier, boolean stopOnVMStart) {
+    EventHbndler(EventNotifier notifier, boolebn stopOnVMStbrt) {
         this.notifier = notifier;
-        this.stopOnVMStart = stopOnVMStart;
-        this.thread = new Thread(this, "event-handler");
-        this.thread.start();
+        this.stopOnVMStbrt = stopOnVMStbrt;
+        this.threbd = new Threbd(this, "event-hbndler");
+        this.threbd.stbrt();
     }
 
     synchronized void shutdown() {
-        connected = false;  // force run() loop termination
-        thread.interrupt();
+        connected = fblse;  // force run() loop terminbtion
+        threbd.interrupt();
         while (!completed) {
-            try {wait();} catch (InterruptedException exc) {}
+            try {wbit();} cbtch (InterruptedException exc) {}
         }
     }
 
@@ -68,23 +68,23 @@ public class EventHandler implements Runnable {
         while (connected) {
             try {
                 EventSet eventSet = queue.remove();
-                boolean resumeStoppedApp = false;
-                EventIterator it = eventSet.eventIterator();
-                while (it.hasNext()) {
-                    resumeStoppedApp |= !handleEvent(it.nextEvent());
+                boolebn resumeStoppedApp = fblse;
+                EventIterbtor it = eventSet.eventIterbtor();
+                while (it.hbsNext()) {
+                    resumeStoppedApp |= !hbndleEvent(it.nextEvent());
                 }
 
                 if (resumeStoppedApp) {
                     eventSet.resume();
                 } else if (eventSet.suspendPolicy() == EventRequest.SUSPEND_ALL) {
-                    setCurrentThread(eventSet);
+                    setCurrentThrebd(eventSet);
                     notifier.vmInterrupted();
                 }
-            } catch (InterruptedException exc) {
-                // Do nothing. Any changes will be seen at top of loop.
-            } catch (VMDisconnectedException discExc) {
-                handleDisconnectedException();
-                break;
+            } cbtch (InterruptedException exc) {
+                // Do nothing. Any chbnges will be seen bt top of loop.
+            } cbtch (VMDisconnectedException discExc) {
+                hbndleDisconnectedException();
+                brebk;
             }
         }
         synchronized (this) {
@@ -93,194 +93,194 @@ public class EventHandler implements Runnable {
         }
     }
 
-    private boolean handleEvent(Event event) {
+    privbte boolebn hbndleEvent(Event event) {
         notifier.receivedEvent(event);
 
-        if (event instanceof ExceptionEvent) {
+        if (event instbnceof ExceptionEvent) {
             return exceptionEvent(event);
-        } else if (event instanceof BreakpointEvent) {
-            return breakpointEvent(event);
-        } else if (event instanceof WatchpointEvent) {
-            return fieldWatchEvent(event);
-        } else if (event instanceof StepEvent) {
+        } else if (event instbnceof BrebkpointEvent) {
+            return brebkpointEvent(event);
+        } else if (event instbnceof WbtchpointEvent) {
+            return fieldWbtchEvent(event);
+        } else if (event instbnceof StepEvent) {
             return stepEvent(event);
-        } else if (event instanceof MethodEntryEvent) {
+        } else if (event instbnceof MethodEntryEvent) {
             return methodEntryEvent(event);
-        } else if (event instanceof MethodExitEvent) {
+        } else if (event instbnceof MethodExitEvent) {
             return methodExitEvent(event);
-        } else if (event instanceof ClassPrepareEvent) {
-            return classPrepareEvent(event);
-        } else if (event instanceof ClassUnloadEvent) {
-            return classUnloadEvent(event);
-        } else if (event instanceof ThreadStartEvent) {
-            return threadStartEvent(event);
-        } else if (event instanceof ThreadDeathEvent) {
-            return threadDeathEvent(event);
-        } else if (event instanceof VMStartEvent) {
-            return vmStartEvent(event);
+        } else if (event instbnceof ClbssPrepbreEvent) {
+            return clbssPrepbreEvent(event);
+        } else if (event instbnceof ClbssUnlobdEvent) {
+            return clbssUnlobdEvent(event);
+        } else if (event instbnceof ThrebdStbrtEvent) {
+            return threbdStbrtEvent(event);
+        } else if (event instbnceof ThrebdDebthEvent) {
+            return threbdDebthEvent(event);
+        } else if (event instbnceof VMStbrtEvent) {
+            return vmStbrtEvent(event);
         } else {
-            return handleExitEvent(event);
+            return hbndleExitEvent(event);
         }
     }
 
-    private boolean vmDied = false;
-    private boolean handleExitEvent(Event event) {
-        if (event instanceof VMDeathEvent) {
+    privbte boolebn vmDied = fblse;
+    privbte boolebn hbndleExitEvent(Event event) {
+        if (event instbnceof VMDebthEvent) {
             vmDied = true;
-            return vmDeathEvent(event);
-        } else if (event instanceof VMDisconnectEvent) {
-            connected = false;
+            return vmDebthEvent(event);
+        } else if (event instbnceof VMDisconnectEvent) {
+            connected = fblse;
             if (!vmDied) {
                 vmDisconnectEvent(event);
             }
-            Env.shutdown(shutdownMessageKey);
-            return false;
+            Env.shutdown(shutdownMessbgeKey);
+            return fblse;
         } else {
-            throw new InternalError(MessageOutput.format("Unexpected event type",
-                                                         new Object[] {event.getClass()}));
+            throw new InternblError(MessbgeOutput.formbt("Unexpected event type",
+                                                         new Object[] {event.getClbss()}));
         }
     }
 
-    synchronized void handleDisconnectedException() {
+    synchronized void hbndleDisconnectedException() {
         /*
-         * A VMDisconnectedException has happened while dealing with
-         * another event. We need to flush the event queue, dealing only
-         * with exit events (VMDeath, VMDisconnect) so that we terminate
+         * A VMDisconnectedException hbs hbppened while debling with
+         * bnother event. We need to flush the event queue, debling only
+         * with exit events (VMDebth, VMDisconnect) so thbt we terminbte
          * correctly.
          */
         EventQueue queue = Env.vm().eventQueue();
         while (connected) {
             try {
                 EventSet eventSet = queue.remove();
-                EventIterator iter = eventSet.eventIterator();
-                while (iter.hasNext()) {
-                    handleExitEvent(iter.next());
+                EventIterbtor iter = eventSet.eventIterbtor();
+                while (iter.hbsNext()) {
+                    hbndleExitEvent(iter.next());
                 }
-            } catch (InterruptedException exc) {
+            } cbtch (InterruptedException exc) {
                 // ignore
-            } catch (InternalError exc) {
+            } cbtch (InternblError exc) {
                 // ignore
             }
         }
     }
 
-    private ThreadReference eventThread(Event event) {
-        if (event instanceof ClassPrepareEvent) {
-            return ((ClassPrepareEvent)event).thread();
-        } else if (event instanceof LocatableEvent) {
-            return ((LocatableEvent)event).thread();
-        } else if (event instanceof ThreadStartEvent) {
-            return ((ThreadStartEvent)event).thread();
-        } else if (event instanceof ThreadDeathEvent) {
-            return ((ThreadDeathEvent)event).thread();
-        } else if (event instanceof VMStartEvent) {
-            return ((VMStartEvent)event).thread();
+    privbte ThrebdReference eventThrebd(Event event) {
+        if (event instbnceof ClbssPrepbreEvent) {
+            return ((ClbssPrepbreEvent)event).threbd();
+        } else if (event instbnceof LocbtbbleEvent) {
+            return ((LocbtbbleEvent)event).threbd();
+        } else if (event instbnceof ThrebdStbrtEvent) {
+            return ((ThrebdStbrtEvent)event).threbd();
+        } else if (event instbnceof ThrebdDebthEvent) {
+            return ((ThrebdDebthEvent)event).threbd();
+        } else if (event instbnceof VMStbrtEvent) {
+            return ((VMStbrtEvent)event).threbd();
         } else {
             return null;
         }
     }
 
-    private void setCurrentThread(EventSet set) {
-        ThreadReference thread;
+    privbte void setCurrentThrebd(EventSet set) {
+        ThrebdReference threbd;
         if (set.size() > 0) {
             /*
-             * If any event in the set has a thread associated with it,
-             * they all will, so just grab the first one.
+             * If bny event in the set hbs b threbd bssocibted with it,
+             * they bll will, so just grbb the first one.
              */
-            Event event = set.iterator().next(); // Is there a better way?
-            thread = eventThread(event);
+            Event event = set.iterbtor().next(); // Is there b better wby?
+            threbd = eventThrebd(event);
         } else {
-            thread = null;
+            threbd = null;
         }
-        setCurrentThread(thread);
+        setCurrentThrebd(threbd);
     }
 
-    private void setCurrentThread(ThreadReference thread) {
-        ThreadInfo.invalidateAll();
-        ThreadInfo.setCurrentThread(thread);
+    privbte void setCurrentThrebd(ThrebdReference threbd) {
+        ThrebdInfo.invblidbteAll();
+        ThrebdInfo.setCurrentThrebd(threbd);
     }
 
-    private boolean vmStartEvent(Event event)  {
-        VMStartEvent se = (VMStartEvent)event;
-        notifier.vmStartEvent(se);
-        return stopOnVMStart;
+    privbte boolebn vmStbrtEvent(Event event)  {
+        VMStbrtEvent se = (VMStbrtEvent)event;
+        notifier.vmStbrtEvent(se);
+        return stopOnVMStbrt;
     }
 
-    private boolean breakpointEvent(Event event)  {
-        BreakpointEvent be = (BreakpointEvent)event;
-        notifier.breakpointEvent(be);
+    privbte boolebn brebkpointEvent(Event event)  {
+        BrebkpointEvent be = (BrebkpointEvent)event;
+        notifier.brebkpointEvent(be);
         return true;
     }
 
-    private boolean methodEntryEvent(Event event)  {
+    privbte boolebn methodEntryEvent(Event event)  {
         MethodEntryEvent me = (MethodEntryEvent)event;
         notifier.methodEntryEvent(me);
         return true;
     }
 
-    private boolean methodExitEvent(Event event)  {
+    privbte boolebn methodExitEvent(Event event)  {
         MethodExitEvent me = (MethodExitEvent)event;
         return notifier.methodExitEvent(me);
     }
 
-    private boolean fieldWatchEvent(Event event)  {
-        WatchpointEvent fwe = (WatchpointEvent)event;
-        notifier.fieldWatchEvent(fwe);
+    privbte boolebn fieldWbtchEvent(Event event)  {
+        WbtchpointEvent fwe = (WbtchpointEvent)event;
+        notifier.fieldWbtchEvent(fwe);
         return true;
     }
 
-    private boolean stepEvent(Event event)  {
+    privbte boolebn stepEvent(Event event)  {
         StepEvent se = (StepEvent)event;
         notifier.stepEvent(se);
         return true;
     }
 
-    private boolean classPrepareEvent(Event event)  {
-        ClassPrepareEvent cle = (ClassPrepareEvent)event;
-        notifier.classPrepareEvent(cle);
+    privbte boolebn clbssPrepbreEvent(Event event)  {
+        ClbssPrepbreEvent cle = (ClbssPrepbreEvent)event;
+        notifier.clbssPrepbreEvent(cle);
 
         if (!Env.specList.resolve(cle)) {
-            MessageOutput.lnprint("Stopping due to deferred breakpoint errors.");
+            MessbgeOutput.lnprint("Stopping due to deferred brebkpoint errors.");
             return true;
         } else {
-            return false;
+            return fblse;
         }
     }
 
-    private boolean classUnloadEvent(Event event)  {
-        ClassUnloadEvent cue = (ClassUnloadEvent)event;
-        notifier.classUnloadEvent(cue);
-        return false;
+    privbte boolebn clbssUnlobdEvent(Event event)  {
+        ClbssUnlobdEvent cue = (ClbssUnlobdEvent)event;
+        notifier.clbssUnlobdEvent(cue);
+        return fblse;
     }
 
-    private boolean exceptionEvent(Event event) {
+    privbte boolebn exceptionEvent(Event event) {
         ExceptionEvent ee = (ExceptionEvent)event;
         notifier.exceptionEvent(ee);
         return true;
     }
 
-    private boolean threadDeathEvent(Event event) {
-        ThreadDeathEvent tee = (ThreadDeathEvent)event;
-        ThreadInfo.removeThread(tee.thread());
-        return false;
+    privbte boolebn threbdDebthEvent(Event event) {
+        ThrebdDebthEvent tee = (ThrebdDebthEvent)event;
+        ThrebdInfo.removeThrebd(tee.threbd());
+        return fblse;
     }
 
-    private boolean threadStartEvent(Event event) {
-        ThreadStartEvent tse = (ThreadStartEvent)event;
-        ThreadInfo.addThread(tse.thread());
-        notifier.threadStartEvent(tse);
-        return false;
+    privbte boolebn threbdStbrtEvent(Event event) {
+        ThrebdStbrtEvent tse = (ThrebdStbrtEvent)event;
+        ThrebdInfo.bddThrebd(tse.threbd());
+        notifier.threbdStbrtEvent(tse);
+        return fblse;
     }
 
-    public boolean vmDeathEvent(Event event) {
-        shutdownMessageKey = "The application exited";
-        notifier.vmDeathEvent((VMDeathEvent)event);
-        return false;
+    public boolebn vmDebthEvent(Event event) {
+        shutdownMessbgeKey = "The bpplicbtion exited";
+        notifier.vmDebthEvent((VMDebthEvent)event);
+        return fblse;
     }
 
-    public boolean vmDisconnectEvent(Event event) {
-        shutdownMessageKey = "The application has been disconnected";
+    public boolebn vmDisconnectEvent(Event event) {
+        shutdownMessbgeKey = "The bpplicbtion hbs been disconnected";
         notifier.vmDisconnectEvent((VMDisconnectEvent)event);
-        return false;
+        return fblse;
     }
 }

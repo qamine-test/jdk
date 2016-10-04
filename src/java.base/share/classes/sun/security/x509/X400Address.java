@@ -1,423 +1,423 @@
 /*
- * Copyright (c) 2000, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.x509;
+pbckbge sun.security.x509;
 
-import java.io.IOException;
-import sun.security.util.DerValue;
-import sun.security.util.DerOutputStream;
+import jbvb.io.IOException;
+import sun.security.util.DerVblue;
+import sun.security.util.DerOutputStrebm;
 
 /**
- * This class defines the X400Address of the GeneralName choice.
+ * This clbss defines the X400Address of the GenerblNbme choice.
  * <p>
- * The ASN.1 syntax for this is:
+ * The ASN.1 syntbx for this is:
  * <pre>
  * ORAddress ::= SEQUENCE {
- *    built-in-standard-attributes BuiltInStandardAttributes,
- *    built-in-domain-defined-attributes
- *                         BuiltInDomainDefinedAttributes OPTIONAL,
- *    -- see also teletex-domain-defined-attributes
- *    extension-attributes ExtensionAttributes OPTIONAL }
- * --      The OR-address is semantically absent from the OR-name if the
- * --      built-in-standard-attribute sequence is empty and the
- * --      built-in-domain-defined-attributes and extension-attributes are
+ *    built-in-stbndbrd-bttributes BuiltInStbndbrdAttributes,
+ *    built-in-dombin-defined-bttributes
+ *                         BuiltInDombinDefinedAttributes OPTIONAL,
+ *    -- see blso teletex-dombin-defined-bttributes
+ *    extension-bttributes ExtensionAttributes OPTIONAL }
+ * --      The OR-bddress is sembnticblly bbsent from the OR-nbme if the
+ * --      built-in-stbndbrd-bttribute sequence is empty bnd the
+ * --      built-in-dombin-defined-bttributes bnd extension-bttributes bre
  * --      both omitted.
  *
- * --      Built-in Standard Attributes
+ * --      Built-in Stbndbrd Attributes
  *
- * BuiltInStandardAttributes ::= SEQUENCE {
- *    country-name CountryName OPTIONAL,
- *    administration-domain-name AdministrationDomainName OPTIONAL,
- *    network-address      [0] NetworkAddress OPTIONAL,
- *    -- see also extended-network-address
- *    terminal-identifier  [1] TerminalIdentifier OPTIONAL,
- *    private-domain-name  [2] PrivateDomainName OPTIONAL,
- *    organization-name    [3] OrganizationName OPTIONAL,
- *    -- see also teletex-organization-name
+ * BuiltInStbndbrdAttributes ::= SEQUENCE {
+ *    country-nbme CountryNbme OPTIONAL,
+ *    bdministrbtion-dombin-nbme AdministrbtionDombinNbme OPTIONAL,
+ *    network-bddress      [0] NetworkAddress OPTIONAL,
+ *    -- see blso extended-network-bddress
+ *    terminbl-identifier  [1] TerminblIdentifier OPTIONAL,
+ *    privbte-dombin-nbme  [2] PrivbteDombinNbme OPTIONAL,
+ *    orgbnizbtion-nbme    [3] OrgbnizbtionNbme OPTIONAL,
+ *    -- see blso teletex-orgbnizbtion-nbme
  *    numeric-user-identifier      [4] NumericUserIdentifier OPTIONAL,
- *    personal-name        [5] PersonalName OPTIONAL,
- *    -- see also teletex-personal-name
- *    organizational-unit-names    [6] OrganizationalUnitNames OPTIONAL
- *    -- see also teletex-organizational-unit-names -- }
+ *    personbl-nbme        [5] PersonblNbme OPTIONAL,
+ *    -- see blso teletex-personbl-nbme
+ *    orgbnizbtionbl-unit-nbmes    [6] OrgbnizbtionblUnitNbmes OPTIONAL
+ *    -- see blso teletex-orgbnizbtionbl-unit-nbmes -- }
  *
- * CountryName ::= [APPLICATION 1] CHOICE {
+ * CountryNbme ::= [APPLICATION 1] CHOICE {
  *    x121-dcc-code NumericString
- *                 (SIZE (ub-country-name-numeric-length)),
- *    iso-3166-alpha2-code PrintableString
- *                 (SIZE (ub-country-name-alpha-length)) }
+ *                 (SIZE (ub-country-nbme-numeric-length)),
+ *    iso-3166-blphb2-code PrintbbleString
+ *                 (SIZE (ub-country-nbme-blphb-length)) }
  *
- * AdministrationDomainName ::= [APPLICATION 2] CHOICE {
- *    numeric NumericString (SIZE (0..ub-domain-name-length)),
- *    printable PrintableString (SIZE (0..ub-domain-name-length)) }
+ * AdministrbtionDombinNbme ::= [APPLICATION 2] CHOICE {
+ *    numeric NumericString (SIZE (0..ub-dombin-nbme-length)),
+ *    printbble PrintbbleString (SIZE (0..ub-dombin-nbme-length)) }
  *
- * NetworkAddress ::= X121Address  -- see also extended-network-address
+ * NetworkAddress ::= X121Address  -- see blso extended-network-bddress
  *
- * X121Address ::= NumericString (SIZE (1..ub-x121-address-length))
+ * X121Address ::= NumericString (SIZE (1..ub-x121-bddress-length))
  *
- * TerminalIdentifier ::= PrintableString (SIZE (1..ub-terminal-id-length))
+ * TerminblIdentifier ::= PrintbbleString (SIZE (1..ub-terminbl-id-length))
  *
- * PrivateDomainName ::= CHOICE {
- *    numeric NumericString (SIZE (1..ub-domain-name-length)),
- *    printable PrintableString (SIZE (1..ub-domain-name-length)) }
+ * PrivbteDombinNbme ::= CHOICE {
+ *    numeric NumericString (SIZE (1..ub-dombin-nbme-length)),
+ *    printbble PrintbbleString (SIZE (1..ub-dombin-nbme-length)) }
  *
- * OrganizationName ::= PrintableString
- *                             (SIZE (1..ub-organization-name-length))
- * -- see also teletex-organization-name
+ * OrgbnizbtionNbme ::= PrintbbleString
+ *                             (SIZE (1..ub-orgbnizbtion-nbme-length))
+ * -- see blso teletex-orgbnizbtion-nbme
  *
  * NumericUserIdentifier ::= NumericString
  *                             (SIZE (1..ub-numeric-user-id-length))
  *
- * PersonalName ::= SET {
- *    surname [0] PrintableString (SIZE (1..ub-surname-length)),
- *    given-name [1] PrintableString
- *                         (SIZE (1..ub-given-name-length)) OPTIONAL,
- *    initials [2] PrintableString (SIZE (1..ub-initials-length)) OPTIONAL,
- *    generation-qualifier [3] PrintableString
- *                 (SIZE (1..ub-generation-qualifier-length)) OPTIONAL }
- * -- see also teletex-personal-name
+ * PersonblNbme ::= SET {
+ *    surnbme [0] PrintbbleString (SIZE (1..ub-surnbme-length)),
+ *    given-nbme [1] PrintbbleString
+ *                         (SIZE (1..ub-given-nbme-length)) OPTIONAL,
+ *    initibls [2] PrintbbleString (SIZE (1..ub-initibls-length)) OPTIONAL,
+ *    generbtion-qublifier [3] PrintbbleString
+ *                 (SIZE (1..ub-generbtion-qublifier-length)) OPTIONAL }
+ * -- see blso teletex-personbl-nbme
  *
- * OrganizationalUnitNames ::= SEQUENCE SIZE (1..ub-organizational-units)
- *                                         OF OrganizationalUnitName
- * -- see also teletex-organizational-unit-names
+ * OrgbnizbtionblUnitNbmes ::= SEQUENCE SIZE (1..ub-orgbnizbtionbl-units)
+ *                                         OF OrgbnizbtionblUnitNbme
+ * -- see blso teletex-orgbnizbtionbl-unit-nbmes
  *
- * OrganizationalUnitName ::= PrintableString (SIZE
- *                         (1..ub-organizational-unit-name-length))
+ * OrgbnizbtionblUnitNbme ::= PrintbbleString (SIZE
+ *                         (1..ub-orgbnizbtionbl-unit-nbme-length))
  *
- * --      Built-in Domain-defined Attributes
+ * --      Built-in Dombin-defined Attributes
  *
- * BuiltInDomainDefinedAttributes ::= SEQUENCE SIZE
- *                                 (1..ub-domain-defined-attributes) OF
- *                                 BuiltInDomainDefinedAttribute
+ * BuiltInDombinDefinedAttributes ::= SEQUENCE SIZE
+ *                                 (1..ub-dombin-defined-bttributes) OF
+ *                                 BuiltInDombinDefinedAttribute
  *
- * BuiltInDomainDefinedAttribute ::= SEQUENCE {
- *    type PrintableString (SIZE
- *                         (1..ub-domain-defined-attribute-type-length)),
- *    value PrintableString (SIZE
- *                         (1..ub-domain-defined-attribute-value-length))}
+ * BuiltInDombinDefinedAttribute ::= SEQUENCE {
+ *    type PrintbbleString (SIZE
+ *                         (1..ub-dombin-defined-bttribute-type-length)),
+ *    vblue PrintbbleString (SIZE
+ *                         (1..ub-dombin-defined-bttribute-vblue-length))}
  *
  * --      Extension Attributes
  *
- * ExtensionAttributes ::= SET SIZE (1..ub-extension-attributes) OF
+ * ExtensionAttributes ::= SET SIZE (1..ub-extension-bttributes) OF
  *                         ExtensionAttribute
  *
  * ExtensionAttribute ::=  SEQUENCE {
- *    extension-attribute-type [0] INTEGER (0..ub-extension-attributes),
- *    extension-attribute-value [1]
- *                         ANY DEFINED BY extension-attribute-type }
+ *    extension-bttribute-type [0] INTEGER (0..ub-extension-bttributes),
+ *    extension-bttribute-vblue [1]
+ *                         ANY DEFINED BY extension-bttribute-type }
  *
- * -- Extension types and attribute values
+ * -- Extension types bnd bttribute vblues
  * --
  *
- * common-name INTEGER ::= 1
+ * common-nbme INTEGER ::= 1
  *
- * CommonName ::= PrintableString (SIZE (1..ub-common-name-length))
+ * CommonNbme ::= PrintbbleString (SIZE (1..ub-common-nbme-length))
  *
- * teletex-common-name INTEGER ::= 2
+ * teletex-common-nbme INTEGER ::= 2
  *
- * TeletexCommonName ::= TeletexString (SIZE (1..ub-common-name-length))
+ * TeletexCommonNbme ::= TeletexString (SIZE (1..ub-common-nbme-length))
  *
- * teletex-organization-name INTEGER ::= 3
+ * teletex-orgbnizbtion-nbme INTEGER ::= 3
  *
- * TeletexOrganizationName ::=
- *                 TeletexString (SIZE (1..ub-organization-name-length))
+ * TeletexOrgbnizbtionNbme ::=
+ *                 TeletexString (SIZE (1..ub-orgbnizbtion-nbme-length))
  *
- * teletex-personal-name INTEGER ::= 4
+ * teletex-personbl-nbme INTEGER ::= 4
  *
- * TeletexPersonalName ::= SET {
- *    surname [0] TeletexString (SIZE (1..ub-surname-length)),
- *    given-name [1] TeletexString
- *                 (SIZE (1..ub-given-name-length)) OPTIONAL,
- *    initials [2] TeletexString (SIZE (1..ub-initials-length)) OPTIONAL,
- *    generation-qualifier [3] TeletexString (SIZE
- *                 (1..ub-generation-qualifier-length)) OPTIONAL }
+ * TeletexPersonblNbme ::= SET {
+ *    surnbme [0] TeletexString (SIZE (1..ub-surnbme-length)),
+ *    given-nbme [1] TeletexString
+ *                 (SIZE (1..ub-given-nbme-length)) OPTIONAL,
+ *    initibls [2] TeletexString (SIZE (1..ub-initibls-length)) OPTIONAL,
+ *    generbtion-qublifier [3] TeletexString (SIZE
+ *                 (1..ub-generbtion-qublifier-length)) OPTIONAL }
  *
- * teletex-organizational-unit-names INTEGER ::= 5
+ * teletex-orgbnizbtionbl-unit-nbmes INTEGER ::= 5
  *
- * TeletexOrganizationalUnitNames ::= SEQUENCE SIZE
- *         (1..ub-organizational-units) OF TeletexOrganizationalUnitName
+ * TeletexOrgbnizbtionblUnitNbmes ::= SEQUENCE SIZE
+ *         (1..ub-orgbnizbtionbl-units) OF TeletexOrgbnizbtionblUnitNbme
  *
- * TeletexOrganizationalUnitName ::= TeletexString
- *                         (SIZE (1..ub-organizational-unit-name-length))
+ * TeletexOrgbnizbtionblUnitNbme ::= TeletexString
+ *                         (SIZE (1..ub-orgbnizbtionbl-unit-nbme-length))
  *
- * pds-name INTEGER ::= 7
+ * pds-nbme INTEGER ::= 7
  *
- * PDSName ::= PrintableString (SIZE (1..ub-pds-name-length))
+ * PDSNbme ::= PrintbbleString (SIZE (1..ub-pds-nbme-length))
  *
- * physical-delivery-country-name INTEGER ::= 8
+ * physicbl-delivery-country-nbme INTEGER ::= 8
  *
- * PhysicalDeliveryCountryName ::= CHOICE {
- *    x121-dcc-code NumericString (SIZE (ub-country-name-numeric-length)),
- *    iso-3166-alpha2-code PrintableString
- *                         (SIZE (ub-country-name-alpha-length)) }
+ * PhysicblDeliveryCountryNbme ::= CHOICE {
+ *    x121-dcc-code NumericString (SIZE (ub-country-nbme-numeric-length)),
+ *    iso-3166-blphb2-code PrintbbleString
+ *                         (SIZE (ub-country-nbme-blphb-length)) }
  *
- * postal-code INTEGER ::= 9
+ * postbl-code INTEGER ::= 9
  *
- * PostalCode ::= CHOICE {
- *    numeric-code NumericString (SIZE (1..ub-postal-code-length)),
- *    printable-code PrintableString (SIZE (1..ub-postal-code-length)) }
+ * PostblCode ::= CHOICE {
+ *    numeric-code NumericString (SIZE (1..ub-postbl-code-length)),
+ *    printbble-code PrintbbleString (SIZE (1..ub-postbl-code-length)) }
  *
- * physical-delivery-office-name INTEGER ::= 10
+ * physicbl-delivery-office-nbme INTEGER ::= 10
  *
- * PhysicalDeliveryOfficeName ::= PDSParameter
+ * PhysicblDeliveryOfficeNbme ::= PDSPbrbmeter
  *
- * physical-delivery-office-number INTEGER ::= 11
+ * physicbl-delivery-office-number INTEGER ::= 11
  *
- * PhysicalDeliveryOfficeNumber ::= PDSParameter
+ * PhysicblDeliveryOfficeNumber ::= PDSPbrbmeter
  *
- * extension-OR-address-components INTEGER ::= 12
+ * extension-OR-bddress-components INTEGER ::= 12
  *
- * ExtensionORAddressComponents ::= PDSParameter
+ * ExtensionORAddressComponents ::= PDSPbrbmeter
  *
- * physical-delivery-personal-name INTEGER ::= 13
+ * physicbl-delivery-personbl-nbme INTEGER ::= 13
  *
- * PhysicalDeliveryPersonalName ::= PDSParameter
+ * PhysicblDeliveryPersonblNbme ::= PDSPbrbmeter
  *
- * physical-delivery-organization-name INTEGER ::= 14
+ * physicbl-delivery-orgbnizbtion-nbme INTEGER ::= 14
  *
- * PhysicalDeliveryOrganizationName ::= PDSParameter
+ * PhysicblDeliveryOrgbnizbtionNbme ::= PDSPbrbmeter
  *
- * extension-physical-delivery-address-components INTEGER ::= 15
+ * extension-physicbl-delivery-bddress-components INTEGER ::= 15
  *
- * ExtensionPhysicalDeliveryAddressComponents ::= PDSParameter
+ * ExtensionPhysicblDeliveryAddressComponents ::= PDSPbrbmeter
  *
- * unformatted-postal-address INTEGER ::= 16
+ * unformbtted-postbl-bddress INTEGER ::= 16
  *
- * UnformattedPostalAddress ::= SET {
- *    printable-address SEQUENCE SIZE (1..ub-pds-physical-address-lines) OF
- *            PrintableString (SIZE (1..ub-pds-parameter-length)) OPTIONAL,
+ * UnformbttedPostblAddress ::= SET {
+ *    printbble-bddress SEQUENCE SIZE (1..ub-pds-physicbl-bddress-lines) OF
+ *            PrintbbleString (SIZE (1..ub-pds-pbrbmeter-length)) OPTIONAL,
  *    teletex-string TeletexString
- *          (SIZE (1..ub-unformatted-address-length)) OPTIONAL }
+ *          (SIZE (1..ub-unformbtted-bddress-length)) OPTIONAL }
  *
- * street-address INTEGER ::= 17
+ * street-bddress INTEGER ::= 17
  *
- * StreetAddress ::= PDSParameter
+ * StreetAddress ::= PDSPbrbmeter
  *
- * post-office-box-address INTEGER ::= 18
+ * post-office-box-bddress INTEGER ::= 18
  *
- * PostOfficeBoxAddress ::= PDSParameter
+ * PostOfficeBoxAddress ::= PDSPbrbmeter
  *
- * poste-restante-address INTEGER ::= 19
+ * poste-restbnte-bddress INTEGER ::= 19
  *
- * PosteRestanteAddress ::= PDSParameter
+ * PosteRestbnteAddress ::= PDSPbrbmeter
  *
- * unique-postal-name INTEGER ::= 20
+ * unique-postbl-nbme INTEGER ::= 20
  *
- * UniquePostalName ::= PDSParameter
+ * UniquePostblNbme ::= PDSPbrbmeter
  *
- * local-postal-attributes INTEGER ::= 21
+ * locbl-postbl-bttributes INTEGER ::= 21
  *
- * LocalPostalAttributes ::= PDSParameter
+ * LocblPostblAttributes ::= PDSPbrbmeter
  *
- * PDSParameter ::= SET {
- *    printable-string PrintableString
- *                 (SIZE(1..ub-pds-parameter-length)) OPTIONAL,
+ * PDSPbrbmeter ::= SET {
+ *    printbble-string PrintbbleString
+ *                 (SIZE(1..ub-pds-pbrbmeter-length)) OPTIONAL,
  *    teletex-string TeletexString
- *                 (SIZE(1..ub-pds-parameter-length)) OPTIONAL }
+ *                 (SIZE(1..ub-pds-pbrbmeter-length)) OPTIONAL }
  *
- * extended-network-address INTEGER ::= 22
+ * extended-network-bddress INTEGER ::= 22
  *
  * ExtendedNetworkAddress ::= CHOICE {
- *    e163-4-address SEQUENCE {
+ *    e163-4-bddress SEQUENCE {
  *         number [0] NumericString (SIZE (1..ub-e163-4-number-length)),
- *         sub-address [1] NumericString
- *                 (SIZE (1..ub-e163-4-sub-address-length)) OPTIONAL },
- *    psap-address [0] PresentationAddress }
+ *         sub-bddress [1] NumericString
+ *                 (SIZE (1..ub-e163-4-sub-bddress-length)) OPTIONAL },
+ *    psbp-bddress [0] PresentbtionAddress }
  *
- * PresentationAddress ::= SEQUENCE {
+ * PresentbtionAddress ::= SEQUENCE {
  *         pSelector       [0] EXPLICIT OCTET STRING OPTIONAL,
  *         sSelector       [1] EXPLICIT OCTET STRING OPTIONAL,
  *         tSelector       [2] EXPLICIT OCTET STRING OPTIONAL,
  *         nAddresses      [3] EXPLICIT SET SIZE (1..MAX) OF OCTET STRING }
  *
- * terminal-type  INTEGER ::= 23
+ * terminbl-type  INTEGER ::= 23
  *
- * TerminalType ::= INTEGER {
+ * TerminblType ::= INTEGER {
  *    telex (3),
  *    teletex (4),
- *    g3-facsimile (5),
- *    g4-facsimile (6),
- *    ia5-terminal (7),
+ *    g3-fbcsimile (5),
+ *    g4-fbcsimile (6),
+ *    ib5-terminbl (7),
  *    videotex (8) } (0..ub-integer-options)
  *
- * --      Extension Domain-defined Attributes
+ * --      Extension Dombin-defined Attributes
  *
- * teletex-domain-defined-attributes INTEGER ::= 6
+ * teletex-dombin-defined-bttributes INTEGER ::= 6
  *
- * TeletexDomainDefinedAttributes ::= SEQUENCE SIZE
- *    (1..ub-domain-defined-attributes) OF TeletexDomainDefinedAttribute
+ * TeletexDombinDefinedAttributes ::= SEQUENCE SIZE
+ *    (1..ub-dombin-defined-bttributes) OF TeletexDombinDefinedAttribute
  *
- * TeletexDomainDefinedAttribute ::= SEQUENCE {
+ * TeletexDombinDefinedAttribute ::= SEQUENCE {
  *         type TeletexString
- *                (SIZE (1..ub-domain-defined-attribute-type-length)),
- *         value TeletexString
- *                (SIZE (1..ub-domain-defined-attribute-value-length)) }
+ *                (SIZE (1..ub-dombin-defined-bttribute-type-length)),
+ *         vblue TeletexString
+ *                (SIZE (1..ub-dombin-defined-bttribute-vblue-length)) }
  *
- * --  specifications of Upper Bounds shall be regarded as mandatory
- * --  from Annex B of ITU-T X.411 Reference Definition of MTS Parameter
+ * --  specificbtions of Upper Bounds shbll be regbrded bs mbndbtory
+ * --  from Annex B of ITU-T X.411 Reference Definition of MTS Pbrbmeter
  * --  Upper Bounds
  *
  * --      Upper Bounds
- * ub-name INTEGER ::=     32768
- * ub-common-name  INTEGER ::=     64
- * ub-locality-name        INTEGER ::=     128
- * ub-state-name   INTEGER ::=     128
- * ub-organization-name    INTEGER ::=     64
- * ub-organizational-unit-name     INTEGER ::=     64
+ * ub-nbme INTEGER ::=     32768
+ * ub-common-nbme  INTEGER ::=     64
+ * ub-locblity-nbme        INTEGER ::=     128
+ * ub-stbte-nbme   INTEGER ::=     128
+ * ub-orgbnizbtion-nbme    INTEGER ::=     64
+ * ub-orgbnizbtionbl-unit-nbme     INTEGER ::=     64
  * ub-title        INTEGER ::=     64
- * ub-match        INTEGER ::=     128
+ * ub-mbtch        INTEGER ::=     128
  *
- * ub-emailaddress-length INTEGER ::= 128
+ * ub-embilbddress-length INTEGER ::= 128
  *
- * ub-common-name-length INTEGER ::= 64
- * ub-country-name-alpha-length INTEGER ::= 2
- * ub-country-name-numeric-length INTEGER ::= 3
- * ub-domain-defined-attributes INTEGER ::= 4
- * ub-domain-defined-attribute-type-length INTEGER ::= 8
- * ub-domain-defined-attribute-value-length INTEGER ::= 128
- * ub-domain-name-length INTEGER ::= 16
- * ub-extension-attributes INTEGER ::= 256
+ * ub-common-nbme-length INTEGER ::= 64
+ * ub-country-nbme-blphb-length INTEGER ::= 2
+ * ub-country-nbme-numeric-length INTEGER ::= 3
+ * ub-dombin-defined-bttributes INTEGER ::= 4
+ * ub-dombin-defined-bttribute-type-length INTEGER ::= 8
+ * ub-dombin-defined-bttribute-vblue-length INTEGER ::= 128
+ * ub-dombin-nbme-length INTEGER ::= 16
+ * ub-extension-bttributes INTEGER ::= 256
  * ub-e163-4-number-length INTEGER ::= 15
- * ub-e163-4-sub-address-length INTEGER ::= 40
- * ub-generation-qualifier-length INTEGER ::= 3
- * ub-given-name-length INTEGER ::= 16
- * ub-initials-length INTEGER ::= 5
+ * ub-e163-4-sub-bddress-length INTEGER ::= 40
+ * ub-generbtion-qublifier-length INTEGER ::= 3
+ * ub-given-nbme-length INTEGER ::= 16
+ * ub-initibls-length INTEGER ::= 5
  * ub-integer-options INTEGER ::= 256
  * ub-numeric-user-id-length INTEGER ::= 32
- * ub-organization-name-length INTEGER ::= 64
- * ub-organizational-unit-name-length INTEGER ::= 32
- * ub-organizational-units INTEGER ::= 4
- * ub-pds-name-length INTEGER ::= 16
- * ub-pds-parameter-length INTEGER ::= 30
- * ub-pds-physical-address-lines INTEGER ::= 6
- * ub-postal-code-length INTEGER ::= 16
- * ub-surname-length INTEGER ::= 40
- * ub-terminal-id-length INTEGER ::= 24
- * ub-unformatted-address-length INTEGER ::= 180
- * ub-x121-address-length INTEGER ::= 16
+ * ub-orgbnizbtion-nbme-length INTEGER ::= 64
+ * ub-orgbnizbtionbl-unit-nbme-length INTEGER ::= 32
+ * ub-orgbnizbtionbl-units INTEGER ::= 4
+ * ub-pds-nbme-length INTEGER ::= 16
+ * ub-pds-pbrbmeter-length INTEGER ::= 30
+ * ub-pds-physicbl-bddress-lines INTEGER ::= 6
+ * ub-postbl-code-length INTEGER ::= 16
+ * ub-surnbme-length INTEGER ::= 40
+ * ub-terminbl-id-length INTEGER ::= 24
+ * ub-unformbtted-bddress-length INTEGER ::= 180
+ * ub-x121-bddress-length INTEGER ::= 16
  *
- * -- Note - upper bounds on string types, such as TeletexString, are
- * -- measured in characters.  Excepting PrintableString or IA5String, a
- * -- significantly greater number of octets will be required to hold
- * -- such a value.  As a minimum, 16 octets, or twice the specified upper
- * -- bound, whichever is the larger, should be allowed for TeletexString.
- * -- For UTF8String or UniversalString at least four times the upper
- * -- bound should be allowed.
+ * -- Note - upper bounds on string types, such bs TeletexString, bre
+ * -- mebsured in chbrbcters.  Excepting PrintbbleString or IA5String, b
+ * -- significbntly grebter number of octets will be required to hold
+ * -- such b vblue.  As b minimum, 16 octets, or twice the specified upper
+ * -- bound, whichever is the lbrger, should be bllowed for TeletexString.
+ * -- For UTF8String or UniversblString bt lebst four times the upper
+ * -- bound should be bllowed.
  * </pre>
  *
- * @author Anne Anderson
+ * @buthor Anne Anderson
  * @since       1.4
- * @see GeneralName
- * @see GeneralNames
- * @see GeneralNameInterface
+ * @see GenerblNbme
+ * @see GenerblNbmes
+ * @see GenerblNbmeInterfbce
  */
-public class X400Address implements GeneralNameInterface {
+public clbss X400Address implements GenerblNbmeInterfbce {
 
-    // Private data members
-    byte[] nameValue = null;
+    // Privbte dbtb members
+    byte[] nbmeVblue = null;
 
     /**
-     * Create the X400Address object from the specified byte array
+     * Crebte the X400Address object from the specified byte brrby
      *
-     * @param nameValue value of the name as a byte array
+     * @pbrbm nbmeVblue vblue of the nbme bs b byte brrby
      */
-    public X400Address(byte[] value) {
-        nameValue = value;
+    public X400Address(byte[] vblue) {
+        nbmeVblue = vblue;
     }
 
     /**
-     * Create the X400Address object from the passed encoded Der value.
+     * Crebte the X400Address object from the pbssed encoded Der vblue.
      *
-     * @param derValue the encoded DER X400Address.
+     * @pbrbm derVblue the encoded DER X400Address.
      * @exception IOException on error.
      */
-    public X400Address(DerValue derValue) throws IOException {
-        nameValue = derValue.toByteArray();
+    public X400Address(DerVblue derVblue) throws IOException {
+        nbmeVblue = derVblue.toByteArrby();
     }
 
     /**
-     * Return the type of the GeneralName.
+     * Return the type of the GenerblNbme.
      */
     public int getType() {
-        return (GeneralNameInterface.NAME_X400);
+        return (GenerblNbmeInterfbce.NAME_X400);
     }
 
     /**
-     * Encode the X400 name into the DerOutputStream.
+     * Encode the X400 nbme into the DerOutputStrebm.
      *
-     * @param out the DER stream to encode the X400Address to.
+     * @pbrbm out the DER strebm to encode the X400Address to.
      * @exception IOException on encoding errors.
      */
-    public void encode(DerOutputStream out) throws IOException {
-        DerValue derValue = new DerValue(nameValue);
-        out.putDerValue(derValue);
+    public void encode(DerOutputStrebm out) throws IOException {
+        DerVblue derVblue = new DerVblue(nbmeVblue);
+        out.putDerVblue(derVblue);
     }
 
     /**
-     * Return the printable string.
+     * Return the printbble string.
      */
     public String toString() {
-        return ("X400Address: <DER-encoded value>");
+        return ("X400Address: <DER-encoded vblue>");
     }
 
     /**
-     * Return type of constraint inputName places on this name:<ul>
-     *   <li>NAME_DIFF_TYPE = -1: input name is different type from name (i.e. does not constrain).
-     *   <li>NAME_MATCH = 0: input name matches name.
-     *   <li>NAME_NARROWS = 1: input name narrows name (is lower in the naming subtree)
-     *   <li>NAME_WIDENS = 2: input name widens name (is higher in the naming subtree)
-     *   <li>NAME_SAME_TYPE = 3: input name does not match or narrow name, but is same type.
-     * </ul>.  These results are used in checking NameConstraints during
-     * certification path verification.
+     * Return type of constrbint inputNbme plbces on this nbme:<ul>
+     *   <li>NAME_DIFF_TYPE = -1: input nbme is different type from nbme (i.e. does not constrbin).
+     *   <li>NAME_MATCH = 0: input nbme mbtches nbme.
+     *   <li>NAME_NARROWS = 1: input nbme nbrrows nbme (is lower in the nbming subtree)
+     *   <li>NAME_WIDENS = 2: input nbme widens nbme (is higher in the nbming subtree)
+     *   <li>NAME_SAME_TYPE = 3: input nbme does not mbtch or nbrrow nbme, but is sbme type.
+     * </ul>.  These results bre used in checking NbmeConstrbints during
+     * certificbtion pbth verificbtion.
      *
-     * @param inputName to be checked for being constrained
-     * @returns constraint type above
-     * @throws UnsupportedOperationException if name is same type, but comparison operations are
-     *          not supported for this name type.
+     * @pbrbm inputNbme to be checked for being constrbined
+     * @returns constrbint type bbove
+     * @throws UnsupportedOperbtionException if nbme is sbme type, but compbrison operbtions bre
+     *          not supported for this nbme type.
      */
-    public int constrains(GeneralNameInterface inputName) throws UnsupportedOperationException {
-        int constraintType;
-        if (inputName == null)
-            constraintType = NAME_DIFF_TYPE;
-        else if (inputName.getType() != NAME_X400)
-            constraintType = NAME_DIFF_TYPE;
+    public int constrbins(GenerblNbmeInterfbce inputNbme) throws UnsupportedOperbtionException {
+        int constrbintType;
+        if (inputNbme == null)
+            constrbintType = NAME_DIFF_TYPE;
+        else if (inputNbme.getType() != NAME_X400)
+            constrbintType = NAME_DIFF_TYPE;
         else
-            //Narrowing, widening, and match constraints not defined in rfc2459 for X400Address
-            throw new UnsupportedOperationException("Narrowing, widening, and match are not supported for X400Address.");
-        return constraintType;
+            //Nbrrowing, widening, bnd mbtch constrbints not defined in rfc2459 for X400Address
+            throw new UnsupportedOperbtionException("Nbrrowing, widening, bnd mbtch bre not supported for X400Address.");
+        return constrbintType;
     }
 
     /**
-     * Return subtree depth of this name for purposes of determining
-     * NameConstraints minimum and maximum bounds and for calculating
-     * path lengths in name subtrees.
+     * Return subtree depth of this nbme for purposes of determining
+     * NbmeConstrbints minimum bnd mbximum bounds bnd for cblculbting
+     * pbth lengths in nbme subtrees.
      *
-     * @returns distance of name from root
-     * @throws UnsupportedOperationException if not supported for this name type
+     * @returns distbnce of nbme from root
+     * @throws UnsupportedOperbtionException if not supported for this nbme type
      */
-    public int subtreeDepth() throws UnsupportedOperationException {
-        throw new UnsupportedOperationException("subtreeDepth not supported for X400Address");
+    public int subtreeDepth() throws UnsupportedOperbtionException {
+        throw new UnsupportedOperbtionException("subtreeDepth not supported for X400Address");
     }
 
 }

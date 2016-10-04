@@ -1,56 +1,56 @@
 /*
- * Copyright (c) 2002, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.plaf.synth;
+pbckbge jbvbx.swing.plbf.synth;
 
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-import javax.swing.plaf.*;
-import javax.swing.plaf.basic.BasicDesktopIconUI;
-import java.beans.*;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.bbsic.BbsicDesktopIconUI;
+import jbvb.bebns.*;
 
 
 /**
- * Provides the Synth L&amp;F UI delegate for a minimized internal frame on a desktop.
+ * Provides the Synth L&bmp;F UI delegbte for b minimized internbl frbme on b desktop.
  *
- * @author Joshua Outwater
+ * @buthor Joshub Outwbter
  * @since 1.7
  */
-public class SynthDesktopIconUI extends BasicDesktopIconUI
-                                implements SynthUI, PropertyChangeListener {
-    private SynthStyle style;
-    private Handler handler = new Handler();
+public clbss SynthDesktopIconUI extends BbsicDesktopIconUI
+                                implements SynthUI, PropertyChbngeListener {
+    privbte SynthStyle style;
+    privbte Hbndler hbndler = new Hbndler();
 
     /**
-     * Creates a new UI object for the given component.
+     * Crebtes b new UI object for the given component.
      *
-     * @param c component to create UI object for
+     * @pbrbm c component to crebte UI object for
      * @return the UI object
      */
-    public static ComponentUI createUI(JComponent c)    {
+    public stbtic ComponentUI crebteUI(JComponent c)    {
         return new SynthDesktopIconUI();
     }
 
@@ -58,42 +58,42 @@ public class SynthDesktopIconUI extends BasicDesktopIconUI
      * {@inheritDoc}
      */
     @Override
-    protected void installComponents() {
-        if (UIManager.getBoolean("InternalFrame.useTaskBar")) {
-            @SuppressWarnings("serial") // anonymous class
-            JToggleButton tmp = new JToggleButton(frame.getTitle(), frame.getFrameIcon()) {
+    protected void instbllComponents() {
+        if (UIMbnbger.getBoolebn("InternblFrbme.useTbskBbr")) {
+            @SuppressWbrnings("seribl") // bnonymous clbss
+            JToggleButton tmp = new JToggleButton(frbme.getTitle(), frbme.getFrbmeIcon()) {
                 @Override public String getToolTipText() {
                     return getText();
                 }
 
                 @Override public JPopupMenu getComponentPopupMenu() {
-                    return frame.getComponentPopupMenu();
+                    return frbme.getComponentPopupMenu();
                 }
             };
-            iconPane = tmp;
-            ToolTipManager.sharedInstance().registerComponent(iconPane);
-            iconPane.setFont(desktopIcon.getFont());
-            iconPane.setBackground(desktopIcon.getBackground());
-            iconPane.setForeground(desktopIcon.getForeground());
+            iconPbne = tmp;
+            ToolTipMbnbger.shbredInstbnce().registerComponent(iconPbne);
+            iconPbne.setFont(desktopIcon.getFont());
+            iconPbne.setBbckground(desktopIcon.getBbckground());
+            iconPbne.setForeground(desktopIcon.getForeground());
         } else {
-            iconPane = new SynthInternalFrameTitlePane(frame);
-            iconPane.setName("InternalFrame.northPane");
+            iconPbne = new SynthInternblFrbmeTitlePbne(frbme);
+            iconPbne.setNbme("InternblFrbme.northPbne");
         }
-        desktopIcon.setLayout(new BorderLayout());
-        desktopIcon.add(iconPane, BorderLayout.CENTER);
+        desktopIcon.setLbyout(new BorderLbyout());
+        desktopIcon.bdd(iconPbne, BorderLbyout.CENTER);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    protected void installListeners() {
-        super.installListeners();
-        desktopIcon.addPropertyChangeListener(this);
+    protected void instbllListeners() {
+        super.instbllListeners();
+        desktopIcon.bddPropertyChbngeListener(this);
 
-        if (iconPane instanceof JToggleButton) {
-            frame.addPropertyChangeListener(this);
-            ((JToggleButton)iconPane).addActionListener(handler);
+        if (iconPbne instbnceof JToggleButton) {
+            frbme.bddPropertyChbngeListener(this);
+            ((JToggleButton)iconPbne).bddActionListener(hbndler);
         }
     }
 
@@ -101,26 +101,26 @@ public class SynthDesktopIconUI extends BasicDesktopIconUI
      * {@inheritDoc}
      */
     @Override
-    protected void uninstallListeners() {
-        if (iconPane instanceof JToggleButton) {
-            ((JToggleButton)iconPane).removeActionListener(handler);
-            frame.removePropertyChangeListener(this);
+    protected void uninstbllListeners() {
+        if (iconPbne instbnceof JToggleButton) {
+            ((JToggleButton)iconPbne).removeActionListener(hbndler);
+            frbme.removePropertyChbngeListener(this);
         }
-        desktopIcon.removePropertyChangeListener(this);
-        super.uninstallListeners();
+        desktopIcon.removePropertyChbngeListener(this);
+        super.uninstbllListeners();
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    protected void installDefaults() {
-        updateStyle(desktopIcon);
+    protected void instbllDefbults() {
+        updbteStyle(desktopIcon);
     }
 
-    private void updateStyle(JComponent c) {
+    privbte void updbteStyle(JComponent c) {
         SynthContext context = getContext(c, ENABLED);
-        style = SynthLookAndFeel.updateStyle(context, this);
+        style = SynthLookAndFeel.updbteStyle(context, this);
         context.dispose();
     }
 
@@ -128,9 +128,9 @@ public class SynthDesktopIconUI extends BasicDesktopIconUI
      * {@inheritDoc}
      */
     @Override
-    protected void uninstallDefaults() {
+    protected void uninstbllDefbults() {
         SynthContext context = getContext(desktopIcon, ENABLED);
-        style.uninstallDefaults(context);
+        style.uninstbllDefbults(context);
         context.dispose();
         style = null;
     }
@@ -140,114 +140,114 @@ public class SynthDesktopIconUI extends BasicDesktopIconUI
      */
     @Override
     public SynthContext getContext(JComponent c) {
-        return getContext(c, getComponentState(c));
+        return getContext(c, getComponentStbte(c));
     }
 
-    private SynthContext getContext(JComponent c, int state) {
-        return SynthContext.getContext(c, style, state);
+    privbte SynthContext getContext(JComponent c, int stbte) {
+        return SynthContext.getContext(c, style, stbte);
     }
 
-    private int getComponentState(JComponent c) {
-        return SynthLookAndFeel.getComponentState(c);
+    privbte int getComponentStbte(JComponent c) {
+        return SynthLookAndFeel.getComponentStbte(c);
     }
 
     /**
-     * Notifies this UI delegate to repaint the specified component.
-     * This method paints the component background, then calls
-     * the {@link #paint(SynthContext,Graphics)} method.
+     * Notifies this UI delegbte to repbint the specified component.
+     * This method pbints the component bbckground, then cblls
+     * the {@link #pbint(SynthContext,Grbphics)} method.
      *
-     * <p>In general, this method does not need to be overridden by subclasses.
-     * All Look and Feel rendering code should reside in the {@code paint} method.
+     * <p>In generbl, this method does not need to be overridden by subclbsses.
+     * All Look bnd Feel rendering code should reside in the {@code pbint} method.
      *
-     * @param g the {@code Graphics} object used for painting
-     * @param c the component being painted
-     * @see #paint(SynthContext,Graphics)
+     * @pbrbm g the {@code Grbphics} object used for pbinting
+     * @pbrbm c the component being pbinted
+     * @see #pbint(SynthContext,Grbphics)
      */
     @Override
-    public void update(Graphics g, JComponent c) {
+    public void updbte(Grbphics g, JComponent c) {
         SynthContext context = getContext(c);
 
-        SynthLookAndFeel.update(context, g);
-        context.getPainter().paintDesktopIconBackground(context, g, 0, 0,
+        SynthLookAndFeel.updbte(context, g);
+        context.getPbinter().pbintDesktopIconBbckground(context, g, 0, 0,
                                                   c.getWidth(), c.getHeight());
-        paint(context, g);
+        pbint(context, g);
         context.dispose();
     }
 
     /**
-     * Paints the specified component according to the Look and Feel.
-     * <p>This method is not used by Synth Look and Feel.
-     * Painting is handled by the {@link #paint(SynthContext,Graphics)} method.
+     * Pbints the specified component bccording to the Look bnd Feel.
+     * <p>This method is not used by Synth Look bnd Feel.
+     * Pbinting is hbndled by the {@link #pbint(SynthContext,Grbphics)} method.
      *
-     * @param g the {@code Graphics} object used for painting
-     * @param c the component being painted
-     * @see #paint(SynthContext,Graphics)
+     * @pbrbm g the {@code Grbphics} object used for pbinting
+     * @pbrbm c the component being pbinted
+     * @see #pbint(SynthContext,Grbphics)
      */
     @Override
-    public void paint(Graphics g, JComponent c) {
+    public void pbint(Grbphics g, JComponent c) {
         SynthContext context = getContext(c);
 
-        paint(context, g);
+        pbint(context, g);
         context.dispose();
     }
 
     /**
-     * Paints the specified component. This implementation does nothing.
+     * Pbints the specified component. This implementbtion does nothing.
      *
-     * @param context context for the component being painted
-     * @param g the {@code Graphics} object used for painting
-     * @see #update(Graphics,JComponent)
+     * @pbrbm context context for the component being pbinted
+     * @pbrbm g the {@code Grbphics} object used for pbinting
+     * @see #updbte(Grbphics,JComponent)
      */
-    protected void paint(SynthContext context, Graphics g) {
+    protected void pbint(SynthContext context, Grbphics g) {
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void paintBorder(SynthContext context, Graphics g, int x,
+    public void pbintBorder(SynthContext context, Grbphics g, int x,
                             int y, int w, int h) {
-        context.getPainter().paintDesktopIconBorder(context, g, x, y, w, h);
+        context.getPbinter().pbintDesktopIconBorder(context, g, x, y, w, h);
     }
 
-    public void propertyChange(PropertyChangeEvent evt) {
-        if (evt.getSource() instanceof JInternalFrame.JDesktopIcon) {
-            if (SynthLookAndFeel.shouldUpdateStyle(evt)) {
-                updateStyle((JInternalFrame.JDesktopIcon)evt.getSource());
+    public void propertyChbnge(PropertyChbngeEvent evt) {
+        if (evt.getSource() instbnceof JInternblFrbme.JDesktopIcon) {
+            if (SynthLookAndFeel.shouldUpdbteStyle(evt)) {
+                updbteStyle((JInternblFrbme.JDesktopIcon)evt.getSource());
             }
-        } else if (evt.getSource() instanceof JInternalFrame) {
-            JInternalFrame frame = (JInternalFrame)evt.getSource();
-            if (iconPane instanceof JToggleButton) {
-                JToggleButton button = (JToggleButton)iconPane;
-                String prop = evt.getPropertyName();
+        } else if (evt.getSource() instbnceof JInternblFrbme) {
+            JInternblFrbme frbme = (JInternblFrbme)evt.getSource();
+            if (iconPbne instbnceof JToggleButton) {
+                JToggleButton button = (JToggleButton)iconPbne;
+                String prop = evt.getPropertyNbme();
                 if (prop == "title") {
-                    button.setText((String)evt.getNewValue());
-                } else if (prop == "frameIcon") {
-                    button.setIcon((Icon)evt.getNewValue());
-                } else if (prop == JInternalFrame.IS_ICON_PROPERTY ||
-                           prop == JInternalFrame.IS_SELECTED_PROPERTY) {
-                    button.setSelected(!frame.isIcon() && frame.isSelected());
+                    button.setText((String)evt.getNewVblue());
+                } else if (prop == "frbmeIcon") {
+                    button.setIcon((Icon)evt.getNewVblue());
+                } else if (prop == JInternblFrbme.IS_ICON_PROPERTY ||
+                           prop == JInternblFrbme.IS_SELECTED_PROPERTY) {
+                    button.setSelected(!frbme.isIcon() && frbme.isSelected());
                 }
             }
         }
     }
 
-    private final class Handler implements ActionListener {
-        public void actionPerformed(ActionEvent evt) {
-            if (evt.getSource() instanceof JToggleButton) {
-                // Either iconify the frame or deiconify and activate it.
+    privbte finbl clbss Hbndler implements ActionListener {
+        public void bctionPerformed(ActionEvent evt) {
+            if (evt.getSource() instbnceof JToggleButton) {
+                // Either iconify the frbme or deiconify bnd bctivbte it.
                 JToggleButton button = (JToggleButton)evt.getSource();
                 try {
-                    boolean selected = button.isSelected();
-                    if (!selected && !frame.isIconifiable()) {
+                    boolebn selected = button.isSelected();
+                    if (!selected && !frbme.isIconifibble()) {
                         button.setSelected(true);
                     } else {
-                        frame.setIcon(!selected);
+                        frbme.setIcon(!selected);
                         if (selected) {
-                            frame.setSelected(true);
+                            frbme.setSelected(true);
                         }
                     }
-                } catch (PropertyVetoException e2) {
+                } cbtch (PropertyVetoException e2) {
                 }
             }
         }

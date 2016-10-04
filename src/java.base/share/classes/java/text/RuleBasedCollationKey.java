@@ -1,107 +1,107 @@
 /*
- * Copyright (c) 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * (C) Copyright Taligent, Inc. 1996 - All Rights Reserved
+ * (C) Copyright Tbligent, Inc. 1996 - All Rights Reserved
  * (C) Copyright IBM Corp. 1996 - All Rights Reserved
  *
- *   The original version of this source code and documentation is copyrighted
- * and owned by Taligent, Inc., a wholly-owned subsidiary of IBM. These
- * materials are provided under terms of a License Agreement between Taligent
- * and Sun. This technology is protected by multiple US and International
- * patents. This notice and attribution to Taligent may not be removed.
- *   Taligent is a registered trademark of Taligent, Inc.
+ *   The originbl version of this source code bnd documentbtion is copyrighted
+ * bnd owned by Tbligent, Inc., b wholly-owned subsidibry of IBM. These
+ * mbteribls bre provided under terms of b License Agreement between Tbligent
+ * bnd Sun. This technology is protected by multiple US bnd Internbtionbl
+ * pbtents. This notice bnd bttribution to Tbligent mby not be removed.
+ *   Tbligent is b registered trbdembrk of Tbligent, Inc.
  *
  */
 
-package java.text;
+pbckbge jbvb.text;
 
 /**
- * A RuleBasedCollationKey is a concrete implementation of CollationKey class.
- * The RuleBasedCollationKey class is used by the RuleBasedCollator class.
+ * A RuleBbsedCollbtionKey is b concrete implementbtion of CollbtionKey clbss.
+ * The RuleBbsedCollbtionKey clbss is used by the RuleBbsedCollbtor clbss.
  */
 
-final class RuleBasedCollationKey extends CollationKey {
+finbl clbss RuleBbsedCollbtionKey extends CollbtionKey {
     /**
-     * Compare this RuleBasedCollationKey to target. The collation rules of the
-     * Collator object which created these keys are applied. <strong>Note:</strong>
-     * RuleBasedCollationKeys created by different Collators can not be compared.
-     * @param target target RuleBasedCollationKey
-     * @return Returns an integer value. Value is less than zero if this is less
-     * than target, value is zero if this and target are equal and value is greater than
-     * zero if this is greater than target.
-     * @see java.text.Collator#compare
+     * Compbre this RuleBbsedCollbtionKey to tbrget. The collbtion rules of the
+     * Collbtor object which crebted these keys bre bpplied. <strong>Note:</strong>
+     * RuleBbsedCollbtionKeys crebted by different Collbtors cbn not be compbred.
+     * @pbrbm tbrget tbrget RuleBbsedCollbtionKey
+     * @return Returns bn integer vblue. Vblue is less thbn zero if this is less
+     * thbn tbrget, vblue is zero if this bnd tbrget bre equbl bnd vblue is grebter thbn
+     * zero if this is grebter thbn tbrget.
+     * @see jbvb.text.Collbtor#compbre
      */
-    public int compareTo(CollationKey target)
+    public int compbreTo(CollbtionKey tbrget)
     {
-        int result = key.compareTo(((RuleBasedCollationKey)(target)).key);
-        if (result <= Collator.LESS)
-            return Collator.LESS;
-        else if (result >= Collator.GREATER)
-            return Collator.GREATER;
-        return Collator.EQUAL;
+        int result = key.compbreTo(((RuleBbsedCollbtionKey)(tbrget)).key);
+        if (result <= Collbtor.LESS)
+            return Collbtor.LESS;
+        else if (result >= Collbtor.GREATER)
+            return Collbtor.GREATER;
+        return Collbtor.EQUAL;
     }
 
     /**
-     * Compare this RuleBasedCollationKey and the target for equality.
-     * The collation rules of the Collator object which created these keys are applied.
-     * <strong>Note:</strong> RuleBasedCollationKeys created by different Collators can not be
-     * compared.
-     * @param target the RuleBasedCollationKey to compare to.
-     * @return Returns true if two objects are equal, false otherwise.
+     * Compbre this RuleBbsedCollbtionKey bnd the tbrget for equblity.
+     * The collbtion rules of the Collbtor object which crebted these keys bre bpplied.
+     * <strong>Note:</strong> RuleBbsedCollbtionKeys crebted by different Collbtors cbn not be
+     * compbred.
+     * @pbrbm tbrget the RuleBbsedCollbtionKey to compbre to.
+     * @return Returns true if two objects bre equbl, fblse otherwise.
      */
-    public boolean equals(Object target) {
-        if (this == target) return true;
-        if (target == null || !getClass().equals(target.getClass())) {
-            return false;
+    public boolebn equbls(Object tbrget) {
+        if (this == tbrget) return true;
+        if (tbrget == null || !getClbss().equbls(tbrget.getClbss())) {
+            return fblse;
         }
-        RuleBasedCollationKey other = (RuleBasedCollationKey)target;
-        return key.equals(other.key);
+        RuleBbsedCollbtionKey other = (RuleBbsedCollbtionKey)tbrget;
+        return key.equbls(other.key);
     }
 
     /**
-     * Creates a hash code for this RuleBasedCollationKey. The hash value is calculated on the
-     * key itself, not the String from which the key was created.  Thus
-     * if x and y are RuleBasedCollationKeys, then x.hashCode(x) == y.hashCode() if
-     * x.equals(y) is true.  This allows language-sensitive comparison in a hash table.
-     * See the CollatinKey class description for an example.
-     * @return the hash value based on the string's collation order.
+     * Crebtes b hbsh code for this RuleBbsedCollbtionKey. The hbsh vblue is cblculbted on the
+     * key itself, not the String from which the key wbs crebted.  Thus
+     * if x bnd y bre RuleBbsedCollbtionKeys, then x.hbshCode(x) == y.hbshCode() if
+     * x.equbls(y) is true.  This bllows lbngubge-sensitive compbrison in b hbsh tbble.
+     * See the CollbtinKey clbss description for bn exbmple.
+     * @return the hbsh vblue bbsed on the string's collbtion order.
      */
-    public int hashCode() {
-        return (key.hashCode());
+    public int hbshCode() {
+        return (key.hbshCode());
     }
 
     /**
-     * Converts the RuleBasedCollationKey to a sequence of bits. If two RuleBasedCollationKeys
-     * could be legitimately compared, then one could compare the byte arrays
-     * for each of those keys to obtain the same result.  Byte arrays are
-     * organized most significant byte first.
+     * Converts the RuleBbsedCollbtionKey to b sequence of bits. If two RuleBbsedCollbtionKeys
+     * could be legitimbtely compbred, then one could compbre the byte brrbys
+     * for ebch of those keys to obtbin the sbme result.  Byte brrbys bre
+     * orgbnized most significbnt byte first.
      */
-    public byte[] toByteArray() {
+    public byte[] toByteArrby() {
 
-        char[] src = key.toCharArray();
+        chbr[] src = key.toChbrArrby();
         byte[] dest = new byte[ 2*src.length ];
         int j = 0;
         for( int i=0; i<src.length; i++ ) {
@@ -112,12 +112,12 @@ final class RuleBasedCollationKey extends CollationKey {
     }
 
     /**
-     * A RuleBasedCollationKey can only be generated by Collator objects.
+     * A RuleBbsedCollbtionKey cbn only be generbted by Collbtor objects.
      */
-    RuleBasedCollationKey(String source, String key) {
+    RuleBbsedCollbtionKey(String source, String key) {
         super(source);
         this.key = key;
     }
-    private String key = null;
+    privbte String key = null;
 
 }

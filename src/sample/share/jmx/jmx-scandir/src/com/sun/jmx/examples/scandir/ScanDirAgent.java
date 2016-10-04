@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,90 +30,90 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-package com.sun.jmx.examples.scandir;
+pbckbge com.sun.jmx.exbmples.scbndir;
 
-import com.sun.jmx.examples.scandir.ScanManagerMXBean.ScanState;
-import java.io.IOException;
-import java.lang.management.ManagementFactory;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.TimeUnit;
-import java.util.logging.Logger;
-import javax.management.JMException;
-import javax.management.Notification;
-import javax.management.NotificationEmitter;
-import javax.management.NotificationListener;
+import com.sun.jmx.exbmples.scbndir.ScbnMbnbgerMXBebn.ScbnStbte;
+import jbvb.io.IOException;
+import jbvb.lbng.mbnbgement.MbnbgementFbctory;
+import jbvb.util.concurrent.BlockingQueue;
+import jbvb.util.concurrent.LinkedBlockingQueue;
+import jbvb.util.concurrent.TimeUnit;
+import jbvb.util.logging.Logger;
+import jbvbx.mbnbgement.JMException;
+import jbvbx.mbnbgement.Notificbtion;
+import jbvbx.mbnbgement.NotificbtionEmitter;
+import jbvbx.mbnbgement.NotificbtionListener;
 
 /**
  * <p>
- * The <code>ScanDirAgent</code> is the Agent class for the <i>scandir</i>
- * application.
- * This class contains the {@link #main} method to start a standalone
- * <i>scandir</i> application.
+ * The <code>ScbnDirAgent</code> is the Agent clbss for the <i>scbndir</i>
+ * bpplicbtion.
+ * This clbss contbins the {@link #mbin} method to stbrt b stbndblone
+ * <i>scbndir</i> bpplicbtion.
  * </p>
  * <p>
- * The {@link #main main()} method simply registers a {@link
- * ScanManagerMXBean} in the platform MBeanServer - see {@link #init init},
- * and then waits for someone to call {@link ScanManagerMXBean#close close}
- * on that MBean.
+ * The {@link #mbin mbin()} method simply registers b {@link
+ * ScbnMbnbgerMXBebn} in the plbtform MBebnServer - see {@link #init init},
+ * bnd then wbits for someone to cbll {@link ScbnMbnbgerMXBebn#close close}
+ * on thbt MBebn.
  * </p>
  * <p>
- * When the {@link ScanManagerMXBean} state is switched to {@link
- * ScanManagerMXBean.ScanState#CLOSED CLOSED}, {@link #cleanup cleanup} is
- * called, the {@link ScanManagerMXBean} is unregistered, and the application
- * terminates (i.e. the main thread completes).
+ * When the {@link ScbnMbnbgerMXBebn} stbte is switched to {@link
+ * ScbnMbnbgerMXBebn.ScbnStbte#CLOSED CLOSED}, {@link #clebnup clebnup} is
+ * cblled, the {@link ScbnMbnbgerMXBebn} is unregistered, bnd the bpplicbtion
+ * terminbtes (i.e. the mbin threbd completes).
  * </p>
- * @author Sun Microsystems, 2006 - All rights reserved.
+ * @buthor Sun Microsystems, 2006 - All rights reserved.
  **/
-public class ScanDirAgent {
+public clbss ScbnDirAgent {
 
     /**
-     * A logger for this class.
+     * A logger for this clbss.
      **/
-    private static final Logger LOG =
-            Logger.getLogger(ScanDirAgent.class.getName());
+    privbte stbtic finbl Logger LOG =
+            Logger.getLogger(ScbnDirAgent.clbss.getNbme());
 
-    // Proxy to the ScanManagerMXBean - created by init();
+    // Proxy to the ScbnMbnbgerMXBebn - crebted by init();
     //
-    private volatile ScanManagerMXBean proxy = null;
+    privbte volbtile ScbnMbnbgerMXBebn proxy = null;
 
-    // A queue to put received Notifications.
+    // A queue to put received Notificbtions.
     //
-    private final BlockingQueue<Notification> queue;
+    privbte finbl BlockingQueue<Notificbtion> queue;
 
-    // A listener that will put notifications into the queue.
+    // A listener thbt will put notificbtions into the queue.
     //
-    private final NotificationListener listener;
+    privbte finbl NotificbtionListener listener;
 
     /**
-     * Creates a new instance of ScanDirAgent
-     * You will need to call {@link #init()} later on in order to initialize
-     * the application.
-     * @see #main
+     * Crebtes b new instbnce of ScbnDirAgent
+     * You will need to cbll {@link #init()} lbter on in order to initiblize
+     * the bpplicbtion.
+     * @see #mbin
      **/
-    public ScanDirAgent() {
-        // Initialize the notification queue
-        queue = new LinkedBlockingQueue<Notification>();
+    public ScbnDirAgent() {
+        // Initiblize the notificbtion queue
+        queue = new LinkedBlockingQueue<Notificbtion>();
 
-        // Creates the listener.
-        listener = new NotificationListener() {
-            public void handleNotification(Notification notification,
-                                           Object handback) {
+        // Crebtes the listener.
+        listener = new NotificbtionListener() {
+            public void hbndleNotificbtion(Notificbtion notificbtion,
+                                           Object hbndbbck) {
                 try {
-                    // Just put the received notification in the queue.
-                    // It will be consumed later on by 'waitForClose()'
+                    // Just put the received notificbtion in the queue.
+                    // It will be consumed lbter on by 'wbitForClose()'
                     //
-                    LOG.finer("Queuing received notification "+notification);
-                    queue.put(notification);
-                } catch (InterruptedException ex) {
+                    LOG.finer("Queuing received notificbtion "+notificbtion);
+                    queue.put(notificbtion);
+                } cbtch (InterruptedException ex) {
                     // OK
                 }
             }
@@ -121,102 +121,102 @@ public class ScanDirAgent {
     }
 
     /**
-     * Initialize the application by registering a ScanManagerMXBean in
-     * the platform MBeanServer
-     * @throws java.io.IOException Registration failed for communication-related reasons.
-     * @throws javax.management.JMException Registration failed for JMX-related reasons.
+     * Initiblize the bpplicbtion by registering b ScbnMbnbgerMXBebn in
+     * the plbtform MBebnServer
+     * @throws jbvb.io.IOException Registrbtion fbiled for communicbtion-relbted rebsons.
+     * @throws jbvbx.mbnbgement.JMException Registrbtion fbiled for JMX-relbted rebsons.
      */
     public void init() throws IOException, JMException {
 
-        // Registers the ScanManagerMXBean singleton in the
-        // platform MBeanServer
+        // Registers the ScbnMbnbgerMXBebn singleton in the
+        // plbtform MBebnServer
         //
-        proxy = ScanManager.register();
+        proxy = ScbnMbnbger.register();
 
-        // Registers a NotificationListener with the ScanManagerMXBean in
-        // order to receive state changed notifications.
+        // Registers b NotificbtionListener with the ScbnMbnbgerMXBebn in
+        // order to receive stbte chbnged notificbtions.
         //
-        ((NotificationEmitter)proxy).addNotificationListener(listener,null,null);
+        ((NotificbtionEmitter)proxy).bddNotificbtionListener(listener,null,null);
     }
 
     /**
-     * Cleanup after close: unregister the ScanManagerMXBean singleton.
-     * @throws java.io.IOException Cleanup failed for communication-related reasons.
-     * @throws javax.management.JMException Cleanup failed for JMX-related reasons.
+     * Clebnup bfter close: unregister the ScbnMbnbgerMXBebn singleton.
+     * @throws jbvb.io.IOException Clebnup fbiled for communicbtion-relbted rebsons.
+     * @throws jbvbx.mbnbgement.JMException Clebnup fbiled for JMX-relbted rebsons.
      */
-    public void cleanup() throws IOException, JMException {
+    public void clebnup() throws IOException, JMException {
         try {
-            ((NotificationEmitter)proxy).
-                    removeNotificationListener(listener,null,null);
-        } finally {
-            ManagementFactory.getPlatformMBeanServer().
-                unregisterMBean(ScanManager.SCAN_MANAGER_NAME);
+            ((NotificbtionEmitter)proxy).
+                    removeNotificbtionListener(listener,null,null);
+        } finblly {
+            MbnbgementFbctory.getPlbtformMBebnServer().
+                unregisterMBebn(ScbnMbnbger.SCAN_MANAGER_NAME);
         }
     }
 
     /**
-     * Wait for someone to call 'close()' on the ScanManagerMXBean singleton.
-     * Every time its state changes, the ScanManagerMXBean emits a notification.
-     * We don't rely on the notification content (if we were using a remote
-     * connection, we could miss some notifications) - we simply use the
-     * state change notifications to react more quickly to state changes.
+     * Wbit for someone to cbll 'close()' on the ScbnMbnbgerMXBebn singleton.
+     * Every time its stbte chbnges, the ScbnMbnbgerMXBebn emits b notificbtion.
+     * We don't rely on the notificbtion content (if we were using b remote
+     * connection, we could miss some notificbtions) - we simply use the
+     * stbte chbnge notificbtions to rebct more quickly to stbte chbnges.
      * We do so simply by polling the {@link BlockingQueue} in which our
-     * listener is pushing notifications, and checking the ScanManagerMXBean
-     * state every time that a notification is received.
+     * listener is pushing notificbtions, bnd checking the ScbnMbnbgerMXBebn
+     * stbte every time thbt b notificbtion is received.
      * <p>
-     * We can do so because we know that once the ScanManagerMXBean state is
-     * switched to 'CLOSED', it will remain 'CLOSED' whatsoever. <br>
+     * We cbn do so becbuse we know thbt once the ScbnMbnbgerMXBebn stbte is
+     * switched to 'CLOSED', it will rembin 'CLOSED' whbtsoever. <br>
      * Therefore we don't need to concern ourselves with the possibility of
-     * missing the window in which the ScanManagerMXBean state's will be
-     * CLOSED, because that particular window stays opened forever.
+     * missing the window in which the ScbnMbnbgerMXBebn stbte's will be
+     * CLOSED, becbuse thbt pbrticulbr window stbys opened forever.
      * <p>
-     * Had we wanted to wait for 'RUNNING', we would have needed to apply
-     * a different strategy - e.g. by taking into account the actual content
-     * of the state changed notifications we received.
-     * @throws java.io.IOException wait failed - a communication problem occurred.
-     * @throws javax.management.JMException wait failed - the MBeanServer threw an exception.
+     * Hbd we wbnted to wbit for 'RUNNING', we would hbve needed to bpply
+     * b different strbtegy - e.g. by tbking into bccount the bctubl content
+     * of the stbte chbnged notificbtions we received.
+     * @throws jbvb.io.IOException wbit fbiled - b communicbtion problem occurred.
+     * @throws jbvbx.mbnbgement.JMException wbit fbiled - the MBebnServer threw bn exception.
      */
-    public void waitForClose() throws IOException, JMException {
+    public void wbitForClose() throws IOException, JMException {
 
-        // Wait until state is closed
-        while(proxy.getState() != ScanState.CLOSED ) {
+        // Wbit until stbte is closed
+        while(proxy.getStbte() != ScbnStbte.CLOSED ) {
             try {
-                // Wake up at least every 30 seconds - if we missed a
-                // notification - we will at least get a chance to
-                // call getState(). 30 seconds is obviously quite
-                // arbitrary - if this were a real daemon - id'be tempted
-                // to wait 30 minutes - knowing that any incoming
-                // notification will wake me up anyway.
-                // Note: we simply use the state change notifications to
-                // react more quickly to state changes: see javadoc above.
+                // Wbke up bt lebst every 30 seconds - if we missed b
+                // notificbtion - we will bt lebst get b chbnce to
+                // cbll getStbte(). 30 seconds is obviously quite
+                // brbitrbry - if this were b rebl dbemon - id'be tempted
+                // to wbit 30 minutes - knowing thbt bny incoming
+                // notificbtion will wbke me up bnywby.
+                // Note: we simply use the stbte chbnge notificbtions to
+                // rebct more quickly to stbte chbnges: see jbvbdoc bbove.
                 //
                 queue.poll(30,TimeUnit.SECONDS);
-            } catch (InterruptedException ex) {
+            } cbtch (InterruptedException ex) {
                 // OK
             }
         }
     }
 
     /**
-     * The agent's main: {@link #init registers} a {@link ScanManagerMXBean},
-     * {@link #waitForClose waits} until its state is {@link
-     * ScanManagerMXBean.ScanState#CLOSED CLOSED}, {@link #cleanup cleanup}
-     * and exits.
-     * @param args the command line arguments - ignored
-     * @throws java.io.IOException A communication problem occurred.
-     * @throws javax.management.JMException A JMX problem occurred.
+     * The bgent's mbin: {@link #init registers} b {@link ScbnMbnbgerMXBebn},
+     * {@link #wbitForClose wbits} until its stbte is {@link
+     * ScbnMbnbgerMXBebn.ScbnStbte#CLOSED CLOSED}, {@link #clebnup clebnup}
+     * bnd exits.
+     * @pbrbm brgs the commbnd line brguments - ignored
+     * @throws jbvb.io.IOException A communicbtion problem occurred.
+     * @throws jbvbx.mbnbgement.JMException A JMX problem occurred.
      */
-    public static void main(String[] args)
+    public stbtic void mbin(String[] brgs)
         throws IOException, JMException {
-        System.out.println("Initializing ScanManager...");
-        final ScanDirAgent agent = new ScanDirAgent();
-        agent.init();
+        System.out.println("Initiblizing ScbnMbnbger...");
+        finbl ScbnDirAgent bgent = new ScbnDirAgent();
+        bgent.init();
         try {
-            System.out.println("Waiting for ScanManager to close...");
-            agent.waitForClose();
-        } finally {
-            System.out.println("Cleaning up...");
-            agent.cleanup();
+            System.out.println("Wbiting for ScbnMbnbger to close...");
+            bgent.wbitForClose();
+        } finblly {
+            System.out.println("Clebning up...");
+            bgent.clebnup();
         }
     }
 }

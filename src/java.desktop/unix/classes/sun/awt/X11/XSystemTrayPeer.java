@@ -1,101 +1,101 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt.X11;
+pbckbge sun.bwt.X11;
 
-import java.awt.*;
-import java.awt.peer.SystemTrayPeer;
-import sun.awt.SunToolkit;
-import sun.awt.AppContext;
-import sun.awt.AWTAccessor;
-import sun.util.logging.PlatformLogger;
+import jbvb.bwt.*;
+import jbvb.bwt.peer.SystemTrbyPeer;
+import sun.bwt.SunToolkit;
+import sun.bwt.AppContext;
+import sun.bwt.AWTAccessor;
+import sun.util.logging.PlbtformLogger;
 
-public class XSystemTrayPeer implements SystemTrayPeer, XMSelectionListener {
-    private static final PlatformLogger log = PlatformLogger.getLogger("sun.awt.X11.XSystemTrayPeer");
+public clbss XSystemTrbyPeer implements SystemTrbyPeer, XMSelectionListener {
+    privbte stbtic finbl PlbtformLogger log = PlbtformLogger.getLogger("sun.bwt.X11.XSystemTrbyPeer");
 
-    SystemTray target;
-    static XSystemTrayPeer peerInstance; // there is only one SystemTray peer per application
+    SystemTrby tbrget;
+    stbtic XSystemTrbyPeer peerInstbnce; // there is only one SystemTrby peer per bpplicbtion
 
-    private volatile boolean available;
-    private final XMSelection selection = new XMSelection("_NET_SYSTEM_TRAY");
+    privbte volbtile boolebn bvbilbble;
+    privbte finbl XMSelection selection = new XMSelection("_NET_SYSTEM_TRAY");
 
-    private static final int SCREEN = 0;
-    private static final String SYSTEM_TRAY_PROPERTY_NAME = "systemTray";
-    private static final XAtom _NET_SYSTEM_TRAY = XAtom.get("_NET_SYSTEM_TRAY_S" + SCREEN);
-    private static final XAtom _XEMBED_INFO = XAtom.get("_XEMBED_INFO");
-    private static final XAtom _NET_SYSTEM_TRAY_OPCODE = XAtom.get("_NET_SYSTEM_TRAY_OPCODE");
-    private static final XAtom _NET_WM_ICON = XAtom.get("_NET_WM_ICON");
-    private static final long SYSTEM_TRAY_REQUEST_DOCK = 0;
+    privbte stbtic finbl int SCREEN = 0;
+    privbte stbtic finbl String SYSTEM_TRAY_PROPERTY_NAME = "systemTrby";
+    privbte stbtic finbl XAtom _NET_SYSTEM_TRAY = XAtom.get("_NET_SYSTEM_TRAY_S" + SCREEN);
+    privbte stbtic finbl XAtom _XEMBED_INFO = XAtom.get("_XEMBED_INFO");
+    privbte stbtic finbl XAtom _NET_SYSTEM_TRAY_OPCODE = XAtom.get("_NET_SYSTEM_TRAY_OPCODE");
+    privbte stbtic finbl XAtom _NET_WM_ICON = XAtom.get("_NET_WM_ICON");
+    privbte stbtic finbl long SYSTEM_TRAY_REQUEST_DOCK = 0;
 
-    XSystemTrayPeer(SystemTray target) {
-        this.target = target;
-        peerInstance = this;
+    XSystemTrbyPeer(SystemTrby tbrget) {
+        this.tbrget = tbrget;
+        peerInstbnce = this;
 
-        selection.addSelectionListener(this);
+        selection.bddSelectionListener(this);
 
         long selection_owner = selection.getOwner(SCREEN);
-        available = (selection_owner != XConstants.None);
+        bvbilbble = (selection_owner != XConstbnts.None);
 
-        if (log.isLoggable(PlatformLogger.Level.FINE)) {
-            log.fine(" check if system tray is available. selection owner: " + selection_owner);
+        if (log.isLoggbble(PlbtformLogger.Level.FINE)) {
+            log.fine(" check if system trby is bvbilbble. selection owner: " + selection_owner);
         }
     }
 
-    public void ownerChanged(int screen, XMSelection sel, long newOwner, long data, long timestamp) {
+    public void ownerChbnged(int screen, XMSelection sel, long newOwner, long dbtb, long timestbmp) {
         if (screen != SCREEN) {
             return;
         }
-        if (!available) {
-            available = true;
-            firePropertyChange(SYSTEM_TRAY_PROPERTY_NAME, null, target);
+        if (!bvbilbble) {
+            bvbilbble = true;
+            firePropertyChbnge(SYSTEM_TRAY_PROPERTY_NAME, null, tbrget);
         } else {
-            removeTrayPeers();
+            removeTrbyPeers();
         }
-        createTrayPeers();
+        crebteTrbyPeers();
     }
 
-    public void ownerDeath(int screen, XMSelection sel, long deadOwner) {
+    public void ownerDebth(int screen, XMSelection sel, long debdOwner) {
         if (screen != SCREEN) {
             return;
         }
-        if (available) {
-            available = false;
-            firePropertyChange(SYSTEM_TRAY_PROPERTY_NAME, target, null);
-            removeTrayPeers();
+        if (bvbilbble) {
+            bvbilbble = fblse;
+            firePropertyChbnge(SYSTEM_TRAY_PROPERTY_NAME, tbrget, null);
+            removeTrbyPeers();
         }
     }
 
-    public void selectionChanged(int screen, XMSelection sel, long owner, XPropertyEvent event) {
+    public void selectionChbnged(int screen, XMSelection sel, long owner, XPropertyEvent event) {
     }
 
-    public Dimension getTrayIconSize() {
-        return new Dimension(XTrayIconPeer.TRAY_ICON_HEIGHT, XTrayIconPeer.TRAY_ICON_WIDTH);
+    public Dimension getTrbyIconSize() {
+        return new Dimension(XTrbyIconPeer.TRAY_ICON_HEIGHT, XTrbyIconPeer.TRAY_ICON_WIDTH);
     }
 
-    boolean isAvailable() {
-        return available;
+    boolebn isAvbilbble() {
+        return bvbilbble;
     }
 
     void dispose() {
@@ -105,98 +105,98 @@ public class XSystemTrayPeer implements SystemTrayPeer, XMSelectionListener {
     // ***********************************************************************
     // ***********************************************************************
 
-    void addTrayIcon(XTrayIconPeer tiPeer) throws AWTException {
+    void bddTrbyIcon(XTrbyIconPeer tiPeer) throws AWTException {
         long selection_owner = selection.getOwner(SCREEN);
 
-        if (log.isLoggable(PlatformLogger.Level.FINE)) {
-            log.fine(" send SYSTEM_TRAY_REQUEST_DOCK message to owner: " + selection_owner);
+        if (log.isLoggbble(PlbtformLogger.Level.FINE)) {
+            log.fine(" send SYSTEM_TRAY_REQUEST_DOCK messbge to owner: " + selection_owner);
         }
 
-        if (selection_owner == XConstants.None) {
-            throw new AWTException("TrayIcon couldn't be displayed.");
+        if (selection_owner == XConstbnts.None) {
+            throw new AWTException("TrbyIcon couldn't be displbyed.");
         }
 
-        long tray_window = tiPeer.getWindow();
-        long data[] = new long[] {XEmbedHelper.XEMBED_VERSION, XEmbedHelper.XEMBED_MAPPED};
-        long data_ptr = Native.card32ToData(data);
+        long trby_window = tiPeer.getWindow();
+        long dbtb[] = new long[] {XEmbedHelper.XEMBED_VERSION, XEmbedHelper.XEMBED_MAPPED};
+        long dbtb_ptr = Nbtive.cbrd32ToDbtb(dbtb);
 
-        _XEMBED_INFO.setAtomData(tray_window, data_ptr, data.length);
+        _XEMBED_INFO.setAtomDbtb(trby_window, dbtb_ptr, dbtb.length);
 
-        sendMessage(selection_owner, SYSTEM_TRAY_REQUEST_DOCK, tray_window, 0, 0);
+        sendMessbge(selection_owner, SYSTEM_TRAY_REQUEST_DOCK, trby_window, 0, 0);
     }
 
-    void sendMessage(long win, long msg, long data1, long data2, long data3) {
-        XClientMessageEvent xev = new XClientMessageEvent();
+    void sendMessbge(long win, long msg, long dbtb1, long dbtb2, long dbtb3) {
+        XClientMessbgeEvent xev = new XClientMessbgeEvent();
 
         try {
-            xev.set_type(XConstants.ClientMessage);
+            xev.set_type(XConstbnts.ClientMessbge);
             xev.set_window(win);
-            xev.set_format(32);
-            xev.set_message_type(_NET_SYSTEM_TRAY_OPCODE.getAtom());
-            xev.set_data(0, 0);
-            xev.set_data(1, msg);
-            xev.set_data(2, data1);
-            xev.set_data(3, data2);
-            xev.set_data(4, data3);
+            xev.set_formbt(32);
+            xev.set_messbge_type(_NET_SYSTEM_TRAY_OPCODE.getAtom());
+            xev.set_dbtb(0, 0);
+            xev.set_dbtb(1, msg);
+            xev.set_dbtb(2, dbtb1);
+            xev.set_dbtb(3, dbtb2);
+            xev.set_dbtb(4, dbtb3);
 
-            XToolkit.awtLock();
+            XToolkit.bwtLock();
             try {
-                XlibWrapper.XSendEvent(XToolkit.getDisplay(), win, false,
-                                       XConstants.NoEventMask, xev.pData);
-            } finally {
-                XToolkit.awtUnlock();
+                XlibWrbpper.XSendEvent(XToolkit.getDisplby(), win, fblse,
+                                       XConstbnts.NoEventMbsk, xev.pDbtb);
+            } finblly {
+                XToolkit.bwtUnlock();
             }
-        } finally {
+        } finblly {
             xev.dispose();
         }
     }
 
-    static XSystemTrayPeer getPeerInstance() {
-        return peerInstance;
+    stbtic XSystemTrbyPeer getPeerInstbnce() {
+        return peerInstbnce;
     }
 
-    private void firePropertyChange(final String propertyName,
-                                    final Object oldValue,
-                                    final Object newValue) {
-        Runnable runnable = new Runnable() {
+    privbte void firePropertyChbnge(finbl String propertyNbme,
+                                    finbl Object oldVblue,
+                                    finbl Object newVblue) {
+        Runnbble runnbble = new Runnbble() {
                 public void run() {
-                    AWTAccessor.getSystemTrayAccessor()
-                        .firePropertyChange(target, propertyName, oldValue, newValue);
+                    AWTAccessor.getSystemTrbyAccessor()
+                        .firePropertyChbnge(tbrget, propertyNbme, oldVblue, newVblue);
                 }
             };
-        invokeOnEachAppContext(runnable);
+        invokeOnEbchAppContext(runnbble);
     }
 
-    private void createTrayPeers() {
-        Runnable runnable = new Runnable() {
+    privbte void crebteTrbyPeers() {
+        Runnbble runnbble = new Runnbble() {
                 public void run() {
-                    TrayIcon[] icons = target.getTrayIcons();
+                    TrbyIcon[] icons = tbrget.getTrbyIcons();
                     try {
-                        for (TrayIcon ti : icons) {
-                            AWTAccessor.getTrayIconAccessor().addNotify(ti);
+                        for (TrbyIcon ti : icons) {
+                            AWTAccessor.getTrbyIconAccessor().bddNotify(ti);
                         }
-                    } catch (AWTException e) {
+                    } cbtch (AWTException e) {
                     }
                 }
             };
-        invokeOnEachAppContext(runnable);
+        invokeOnEbchAppContext(runnbble);
     }
 
-    private void removeTrayPeers() {
-        Runnable runnable = new Runnable() {
+    privbte void removeTrbyPeers() {
+        Runnbble runnbble = new Runnbble() {
                 public void run() {
-                    TrayIcon[] icons = target.getTrayIcons();
-                    for (TrayIcon ti : icons) {
-                        AWTAccessor.getTrayIconAccessor().removeNotify(ti);
+                    TrbyIcon[] icons = tbrget.getTrbyIcons();
+                    for (TrbyIcon ti : icons) {
+                        AWTAccessor.getTrbyIconAccessor().removeNotify(ti);
                     }
                 }
             };
-        invokeOnEachAppContext(runnable);
+        invokeOnEbchAppContext(runnbble);
     }
 
-    private void invokeOnEachAppContext(Runnable runnable) {
-        for (AppContext appContext : AppContext.getAppContexts()) {
-            SunToolkit.invokeLaterOnAppContext(appContext, runnable);
+    privbte void invokeOnEbchAppContext(Runnbble runnbble) {
+        for (AppContext bppContext : AppContext.getAppContexts()) {
+            SunToolkit.invokeLbterOnAppContext(bppContext, runnbble);
         }
     }
 

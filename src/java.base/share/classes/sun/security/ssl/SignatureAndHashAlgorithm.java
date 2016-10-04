@@ -1,163 +1,163 @@
 /*
- * Copyright (c) 2010, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.ssl;
+pbckbge sun.security.ssl;
 
-import java.security.AlgorithmConstraints;
-import java.security.CryptoPrimitive;
-import java.security.PrivateKey;
+import jbvb.security.AlgorithmConstrbints;
+import jbvb.security.CryptoPrimitive;
+import jbvb.security.PrivbteKey;
 
-import java.util.Set;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.EnumSet;
-import java.util.TreeMap;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.ArrayList;
+import jbvb.util.Set;
+import jbvb.util.HbshSet;
+import jbvb.util.Mbp;
+import jbvb.util.EnumSet;
+import jbvb.util.TreeMbp;
+import jbvb.util.Collection;
+import jbvb.util.Collections;
+import jbvb.util.ArrbyList;
 
 import sun.security.util.KeyUtil;
 
 /**
- * Signature and hash algorithm.
+ * Signbture bnd hbsh blgorithm.
  *
- * [RFC5246] The client uses the "signature_algorithms" extension to
- * indicate to the server which signature/hash algorithm pairs may be
- * used in digital signatures.  The "extension_data" field of this
- * extension contains a "supported_signature_algorithms" value.
+ * [RFC5246] The client uses the "signbture_blgorithms" extension to
+ * indicbte to the server which signbture/hbsh blgorithm pbirs mby be
+ * used in digitbl signbtures.  The "extension_dbtb" field of this
+ * extension contbins b "supported_signbture_blgorithms" vblue.
  *
  *     enum {
- *         none(0), md5(1), sha1(2), sha224(3), sha256(4), sha384(5),
- *         sha512(6), (255)
- *     } HashAlgorithm;
+ *         none(0), md5(1), shb1(2), shb224(3), shb256(4), shb384(5),
+ *         shb512(6), (255)
+ *     } HbshAlgorithm;
  *
- *     enum { anonymous(0), rsa(1), dsa(2), ecdsa(3), (255) }
- *       SignatureAlgorithm;
+ *     enum { bnonymous(0), rsb(1), dsb(2), ecdsb(3), (255) }
+ *       SignbtureAlgorithm;
  *
  *     struct {
- *           HashAlgorithm hash;
- *           SignatureAlgorithm signature;
- *     } SignatureAndHashAlgorithm;
+ *           HbshAlgorithm hbsh;
+ *           SignbtureAlgorithm signbture;
+ *     } SignbtureAndHbshAlgorithm;
  */
-final class SignatureAndHashAlgorithm {
+finbl clbss SignbtureAndHbshAlgorithm {
 
-    // minimum priority for default enabled algorithms
-    final static int SUPPORTED_ALG_PRIORITY_MAX_NUM = 0x00F0;
+    // minimum priority for defbult enbbled blgorithms
+    finbl stbtic int SUPPORTED_ALG_PRIORITY_MAX_NUM = 0x00F0;
 
-    // performance optimization
-    private final static Set<CryptoPrimitive> SIGNATURE_PRIMITIVE_SET =
-        Collections.unmodifiableSet(EnumSet.of(CryptoPrimitive.SIGNATURE));
+    // performbnce optimizbtion
+    privbte finbl stbtic Set<CryptoPrimitive> SIGNATURE_PRIMITIVE_SET =
+        Collections.unmodifibbleSet(EnumSet.of(CryptoPrimitive.SIGNATURE));
 
-    // supported pairs of signature and hash algorithm
-    private final static Map<Integer, SignatureAndHashAlgorithm> supportedMap;
-    private final static Map<Integer, SignatureAndHashAlgorithm> priorityMap;
+    // supported pbirs of signbture bnd hbsh blgorithm
+    privbte finbl stbtic Mbp<Integer, SignbtureAndHbshAlgorithm> supportedMbp;
+    privbte finbl stbtic Mbp<Integer, SignbtureAndHbshAlgorithm> priorityMbp;
 
-    // the hash algorithm
-    private HashAlgorithm hash;
+    // the hbsh blgorithm
+    privbte HbshAlgorithm hbsh;
 
-    // id in 16 bit MSB format, i.e. 0x0603 for SHA512withECDSA
-    private int id;
+    // id in 16 bit MSB formbt, i.e. 0x0603 for SHA512withECDSA
+    privbte int id;
 
-    // the standard algorithm name, for example "SHA512withECDSA"
-    private String algorithm;
+    // the stbndbrd blgorithm nbme, for exbmple "SHA512withECDSA"
+    privbte String blgorithm;
 
     // Priority for the preference order. The lower the better.
     //
-    // If the algorithm is unsupported, its priority should be bigger
-    // than SUPPORTED_ALG_PRIORITY_MAX_NUM.
-    private int priority;
+    // If the blgorithm is unsupported, its priority should be bigger
+    // thbn SUPPORTED_ALG_PRIORITY_MAX_NUM.
+    privbte int priority;
 
-    // constructor for supported algorithm
-    private SignatureAndHashAlgorithm(HashAlgorithm hash,
-            SignatureAlgorithm signature, String algorithm, int priority) {
-        this.hash = hash;
-        this.algorithm = algorithm;
-        this.id = ((hash.value & 0xFF) << 8) | (signature.value & 0xFF);
+    // constructor for supported blgorithm
+    privbte SignbtureAndHbshAlgorithm(HbshAlgorithm hbsh,
+            SignbtureAlgorithm signbture, String blgorithm, int priority) {
+        this.hbsh = hbsh;
+        this.blgorithm = blgorithm;
+        this.id = ((hbsh.vblue & 0xFF) << 8) | (signbture.vblue & 0xFF);
         this.priority = priority;
     }
 
-    // constructor for unsupported algorithm
-    private SignatureAndHashAlgorithm(String algorithm, int id, int sequence) {
-        this.hash = HashAlgorithm.valueOf((id >> 8) & 0xFF);
-        this.algorithm = algorithm;
+    // constructor for unsupported blgorithm
+    privbte SignbtureAndHbshAlgorithm(String blgorithm, int id, int sequence) {
+        this.hbsh = HbshAlgorithm.vblueOf((id >> 8) & 0xFF);
+        this.blgorithm = blgorithm;
         this.id = id;
 
-        // add one more to the sequence number, in case that the number is zero
+        // bdd one more to the sequence number, in cbse thbt the number is zero
         this.priority = SUPPORTED_ALG_PRIORITY_MAX_NUM + sequence + 1;
     }
 
-    // Note that we do not use the sequence argument for supported algorithms,
-    // so please don't sort by comparing the objects read from handshake
-    // messages.
-    static SignatureAndHashAlgorithm valueOf(int hash,
-            int signature, int sequence) {
-        hash &= 0xFF;
-        signature &= 0xFF;
+    // Note thbt we do not use the sequence brgument for supported blgorithms,
+    // so plebse don't sort by compbring the objects rebd from hbndshbke
+    // messbges.
+    stbtic SignbtureAndHbshAlgorithm vblueOf(int hbsh,
+            int signbture, int sequence) {
+        hbsh &= 0xFF;
+        signbture &= 0xFF;
 
-        int id = (hash << 8) | signature;
-        SignatureAndHashAlgorithm signAlg = supportedMap.get(id);
+        int id = (hbsh << 8) | signbture;
+        SignbtureAndHbshAlgorithm signAlg = supportedMbp.get(id);
         if (signAlg == null) {
-            // unsupported algorithm
-            signAlg = new SignatureAndHashAlgorithm(
-                "Unknown (hash:0x" + Integer.toString(hash, 16) +
-                ", signature:0x" + Integer.toString(signature, 16) + ")",
+            // unsupported blgorithm
+            signAlg = new SignbtureAndHbshAlgorithm(
+                "Unknown (hbsh:0x" + Integer.toString(hbsh, 16) +
+                ", signbture:0x" + Integer.toString(signbture, 16) + ")",
                 id, sequence);
         }
 
         return signAlg;
     }
 
-    int getHashValue() {
+    int getHbshVblue() {
         return (id >> 8) & 0xFF;
     }
 
-    int getSignatureValue() {
+    int getSignbtureVblue() {
         return id & 0xFF;
     }
 
-    String getAlgorithmName() {
-        return algorithm;
+    String getAlgorithmNbme() {
+        return blgorithm;
     }
 
-    // return the size of a SignatureAndHashAlgorithm structure in TLS record
-    static int sizeInRecord() {
+    // return the size of b SignbtureAndHbshAlgorithm structure in TLS record
+    stbtic int sizeInRecord() {
         return 2;
     }
 
-    // Get local supported algorithm collection complying to
-    // algorithm constraints
-    static Collection<SignatureAndHashAlgorithm>
-            getSupportedAlgorithms(AlgorithmConstraints constraints) {
+    // Get locbl supported blgorithm collection complying to
+    // blgorithm constrbints
+    stbtic Collection<SignbtureAndHbshAlgorithm>
+            getSupportedAlgorithms(AlgorithmConstrbints constrbints) {
 
-        Collection<SignatureAndHashAlgorithm> supported = new ArrayList<>();
-        synchronized (priorityMap) {
-            for (SignatureAndHashAlgorithm sigAlg : priorityMap.values()) {
+        Collection<SignbtureAndHbshAlgorithm> supported = new ArrbyList<>();
+        synchronized (priorityMbp) {
+            for (SignbtureAndHbshAlgorithm sigAlg : priorityMbp.vblues()) {
                 if (sigAlg.priority <= SUPPORTED_ALG_PRIORITY_MAX_NUM &&
-                        constraints.permits(SIGNATURE_PRIMITIVE_SET,
-                                sigAlg.algorithm, null)) {
-                    supported.add(sigAlg);
+                        constrbints.permits(SIGNATURE_PRIMITIVE_SET,
+                                sigAlg.blgorithm, null)) {
+                    supported.bdd(sigAlg);
                 }
             }
         }
@@ -165,271 +165,271 @@ final class SignatureAndHashAlgorithm {
         return supported;
     }
 
-    // Get supported algorithm collection from an untrusted collection
-    static Collection<SignatureAndHashAlgorithm> getSupportedAlgorithms(
-            Collection<SignatureAndHashAlgorithm> algorithms ) {
-        Collection<SignatureAndHashAlgorithm> supported = new ArrayList<>();
-        for (SignatureAndHashAlgorithm sigAlg : algorithms) {
+    // Get supported blgorithm collection from bn untrusted collection
+    stbtic Collection<SignbtureAndHbshAlgorithm> getSupportedAlgorithms(
+            Collection<SignbtureAndHbshAlgorithm> blgorithms ) {
+        Collection<SignbtureAndHbshAlgorithm> supported = new ArrbyList<>();
+        for (SignbtureAndHbshAlgorithm sigAlg : blgorithms) {
             if (sigAlg.priority <= SUPPORTED_ALG_PRIORITY_MAX_NUM) {
-                supported.add(sigAlg);
+                supported.bdd(sigAlg);
             }
         }
 
         return supported;
     }
 
-    static String[] getAlgorithmNames(
-            Collection<SignatureAndHashAlgorithm> algorithms) {
-        ArrayList<String> algorithmNames = new ArrayList<>();
-        if (algorithms != null) {
-            for (SignatureAndHashAlgorithm sigAlg : algorithms) {
-                algorithmNames.add(sigAlg.algorithm);
+    stbtic String[] getAlgorithmNbmes(
+            Collection<SignbtureAndHbshAlgorithm> blgorithms) {
+        ArrbyList<String> blgorithmNbmes = new ArrbyList<>();
+        if (blgorithms != null) {
+            for (SignbtureAndHbshAlgorithm sigAlg : blgorithms) {
+                blgorithmNbmes.bdd(sigAlg.blgorithm);
             }
         }
 
-        String[] array = new String[algorithmNames.size()];
-        return algorithmNames.toArray(array);
+        String[] brrby = new String[blgorithmNbmes.size()];
+        return blgorithmNbmes.toArrby(brrby);
     }
 
-    static Set<String> getHashAlgorithmNames(
-            Collection<SignatureAndHashAlgorithm> algorithms) {
-        Set<String> algorithmNames = new HashSet<>();
-        if (algorithms != null) {
-            for (SignatureAndHashAlgorithm sigAlg : algorithms) {
-                if (sigAlg.hash.value > 0) {
-                    algorithmNames.add(sigAlg.hash.standardName);
+    stbtic Set<String> getHbshAlgorithmNbmes(
+            Collection<SignbtureAndHbshAlgorithm> blgorithms) {
+        Set<String> blgorithmNbmes = new HbshSet<>();
+        if (blgorithms != null) {
+            for (SignbtureAndHbshAlgorithm sigAlg : blgorithms) {
+                if (sigAlg.hbsh.vblue > 0) {
+                    blgorithmNbmes.bdd(sigAlg.hbsh.stbndbrdNbme);
                 }
             }
         }
 
-        return algorithmNames;
+        return blgorithmNbmes;
     }
 
-    static String getHashAlgorithmName(SignatureAndHashAlgorithm algorithm) {
-        return algorithm.hash.standardName;
+    stbtic String getHbshAlgorithmNbme(SignbtureAndHbshAlgorithm blgorithm) {
+        return blgorithm.hbsh.stbndbrdNbme;
     }
 
-    private static void supports(HashAlgorithm hash,
-            SignatureAlgorithm signature, String algorithm, int priority) {
+    privbte stbtic void supports(HbshAlgorithm hbsh,
+            SignbtureAlgorithm signbture, String blgorithm, int priority) {
 
-        SignatureAndHashAlgorithm pair =
-            new SignatureAndHashAlgorithm(hash, signature, algorithm, priority);
-        if (supportedMap.put(pair.id, pair) != null) {
+        SignbtureAndHbshAlgorithm pbir =
+            new SignbtureAndHbshAlgorithm(hbsh, signbture, blgorithm, priority);
+        if (supportedMbp.put(pbir.id, pbir) != null) {
             throw new RuntimeException(
-                "Duplicate SignatureAndHashAlgorithm definition, id: " +
-                pair.id);
+                "Duplicbte SignbtureAndHbshAlgorithm definition, id: " +
+                pbir.id);
         }
-        if (priorityMap.put(pair.priority, pair) != null) {
+        if (priorityMbp.put(pbir.priority, pbir) != null) {
             throw new RuntimeException(
-                "Duplicate SignatureAndHashAlgorithm definition, priority: " +
-                pair.priority);
+                "Duplicbte SignbtureAndHbshAlgorithm definition, priority: " +
+                pbir.priority);
         }
     }
 
-    static SignatureAndHashAlgorithm getPreferableAlgorithm(
-        Collection<SignatureAndHashAlgorithm> algorithms, String expected) {
+    stbtic SignbtureAndHbshAlgorithm getPreferbbleAlgorithm(
+        Collection<SignbtureAndHbshAlgorithm> blgorithms, String expected) {
 
-        return SignatureAndHashAlgorithm.getPreferableAlgorithm(
-                algorithms, expected, null);
+        return SignbtureAndHbshAlgorithm.getPreferbbleAlgorithm(
+                blgorithms, expected, null);
     }
 
-    static SignatureAndHashAlgorithm getPreferableAlgorithm(
-        Collection<SignatureAndHashAlgorithm> algorithms,
-        String expected, PrivateKey signingKey) {
+    stbtic SignbtureAndHbshAlgorithm getPreferbbleAlgorithm(
+        Collection<SignbtureAndHbshAlgorithm> blgorithms,
+        String expected, PrivbteKey signingKey) {
 
-        if (expected == null && !algorithms.isEmpty()) {
-            for (SignatureAndHashAlgorithm sigAlg : algorithms) {
+        if (expected == null && !blgorithms.isEmpty()) {
+            for (SignbtureAndHbshAlgorithm sigAlg : blgorithms) {
                 if (sigAlg.priority <= SUPPORTED_ALG_PRIORITY_MAX_NUM) {
                     return sigAlg;
                 }
             }
 
-            return null;  // no supported algorithm
+            return null;  // no supported blgorithm
         }
 
         if (expected == null ) {
-            return null;  // no expected algorithm, no supported algorithm
+            return null;  // no expected blgorithm, no supported blgorithm
         }
 
         /*
-         * Need to check RSA key length to match the length of hash value
+         * Need to check RSA key length to mbtch the length of hbsh vblue
          */
-        int maxDigestLength = Integer.MAX_VALUE;
+        int mbxDigestLength = Integer.MAX_VALUE;
         if (signingKey != null &&
-                "rsa".equalsIgnoreCase(signingKey.getAlgorithm()) &&
-                expected.equalsIgnoreCase("rsa")) {
+                "rsb".equblsIgnoreCbse(signingKey.getAlgorithm()) &&
+                expected.equblsIgnoreCbse("rsb")) {
             /*
-             * RSA keys of 512 bits have been shown to be practically
-             * breakable, it does not make much sense to use the strong
-             * hash algorithm for keys whose key size less than 512 bits.
-             * So it is not necessary to caculate the required max digest
-             * length exactly.
+             * RSA keys of 512 bits hbve been shown to be prbcticblly
+             * brebkbble, it does not mbke much sense to use the strong
+             * hbsh blgorithm for keys whose key size less thbn 512 bits.
+             * So it is not necessbry to cbculbte the required mbx digest
+             * length exbctly.
              *
-             * If key size is greater than or equals to 768, there is no max
-             * digest length limitation in currect implementation.
+             * If key size is grebter thbn or equbls to 768, there is no mbx
+             * digest length limitbtion in currect implementbtion.
              *
-             * If key size is greater than or equals to 512, but less than
-             * 768, the digest length should be less than or equal to 32 bytes.
+             * If key size is grebter thbn or equbls to 512, but less thbn
+             * 768, the digest length should be less thbn or equbl to 32 bytes.
              *
-             * If key size is less than 512, the  digest length should be
-             * less than or equal to 20 bytes.
+             * If key size is less thbn 512, the  digest length should be
+             * less thbn or equbl to 20 bytes.
              */
             int keySize = KeyUtil.getKeySize(signingKey);
             if (keySize >= 768) {
-                maxDigestLength = HashAlgorithm.SHA512.length;
+                mbxDigestLength = HbshAlgorithm.SHA512.length;
             } else if ((keySize >= 512) && (keySize < 768)) {
-                maxDigestLength = HashAlgorithm.SHA256.length;
+                mbxDigestLength = HbshAlgorithm.SHA256.length;
             } else if ((keySize > 0) && (keySize < 512)) {
-                maxDigestLength = HashAlgorithm.SHA1.length;
-            }   // Otherwise, cannot determine the key size, prefer the most
-                // preferable hash algorithm.
+                mbxDigestLength = HbshAlgorithm.SHA1.length;
+            }   // Otherwise, cbnnot determine the key size, prefer the most
+                // preferbble hbsh blgorithm.
         }
 
-        for (SignatureAndHashAlgorithm algorithm : algorithms) {
-            int signValue = algorithm.id & 0xFF;
-            if (expected.equalsIgnoreCase("rsa") &&
-                    signValue == SignatureAlgorithm.RSA.value) {
-                if (algorithm.hash.length <= maxDigestLength) {
-                    return algorithm;
+        for (SignbtureAndHbshAlgorithm blgorithm : blgorithms) {
+            int signVblue = blgorithm.id & 0xFF;
+            if (expected.equblsIgnoreCbse("rsb") &&
+                    signVblue == SignbtureAlgorithm.RSA.vblue) {
+                if (blgorithm.hbsh.length <= mbxDigestLength) {
+                    return blgorithm;
                 }
             } else if (
-                    (expected.equalsIgnoreCase("dsa") &&
-                        signValue == SignatureAlgorithm.DSA.value) ||
-                    (expected.equalsIgnoreCase("ecdsa") &&
-                        signValue == SignatureAlgorithm.ECDSA.value) ||
-                    (expected.equalsIgnoreCase("ec") &&
-                        signValue == SignatureAlgorithm.ECDSA.value)) {
-                return algorithm;
+                    (expected.equblsIgnoreCbse("dsb") &&
+                        signVblue == SignbtureAlgorithm.DSA.vblue) ||
+                    (expected.equblsIgnoreCbse("ecdsb") &&
+                        signVblue == SignbtureAlgorithm.ECDSA.vblue) ||
+                    (expected.equblsIgnoreCbse("ec") &&
+                        signVblue == SignbtureAlgorithm.ECDSA.vblue)) {
+                return blgorithm;
             }
         }
 
         return null;
     }
 
-    static enum HashAlgorithm {
+    stbtic enum HbshAlgorithm {
         UNDEFINED("undefined",        "", -1, -1),
         NONE(          "none",    "NONE",  0, -1),
         MD5(            "md5",     "MD5",  1, 16),
-        SHA1(          "sha1",   "SHA-1",  2, 20),
-        SHA224(      "sha224", "SHA-224",  3, 28),
-        SHA256(      "sha256", "SHA-256",  4, 32),
-        SHA384(      "sha384", "SHA-384",  5, 48),
-        SHA512(      "sha512", "SHA-512",  6, 64);
+        SHA1(          "shb1",   "SHA-1",  2, 20),
+        SHA224(      "shb224", "SHA-224",  3, 28),
+        SHA256(      "shb256", "SHA-256",  4, 32),
+        SHA384(      "shb384", "SHA-384",  5, 48),
+        SHA512(      "shb512", "SHA-512",  6, 64);
 
-        final String name;  // not the standard signature algorithm name
-                            // except the UNDEFINED, other names are defined
+        finbl String nbme;  // not the stbndbrd signbture blgorithm nbme
+                            // except the UNDEFINED, other nbmes bre defined
                             // by TLS 1.2 protocol
-        final String standardName; // the standard MessageDigest algorithm name
-        final int value;
-        final int length;   // digest length in bytes, -1 means not applicable
+        finbl String stbndbrdNbme; // the stbndbrd MessbgeDigest blgorithm nbme
+        finbl int vblue;
+        finbl int length;   // digest length in bytes, -1 mebns not bpplicbble
 
-        private HashAlgorithm(String name, String standardName,
-                int value, int length) {
-            this.name = name;
-            this.standardName = standardName;
-            this.value = value;
+        privbte HbshAlgorithm(String nbme, String stbndbrdNbme,
+                int vblue, int length) {
+            this.nbme = nbme;
+            this.stbndbrdNbme = stbndbrdNbme;
+            this.vblue = vblue;
             this.length = length;
         }
 
-        static HashAlgorithm valueOf(int value) {
-            HashAlgorithm algorithm = UNDEFINED;
-            switch (value) {
-                case 0:
-                    algorithm = NONE;
-                    break;
-                case 1:
-                    algorithm = MD5;
-                    break;
-                case 2:
-                    algorithm = SHA1;
-                    break;
-                case 3:
-                    algorithm = SHA224;
-                    break;
-                case 4:
-                    algorithm = SHA256;
-                    break;
-                case 5:
-                    algorithm = SHA384;
-                    break;
-                case 6:
-                    algorithm = SHA512;
-                    break;
+        stbtic HbshAlgorithm vblueOf(int vblue) {
+            HbshAlgorithm blgorithm = UNDEFINED;
+            switch (vblue) {
+                cbse 0:
+                    blgorithm = NONE;
+                    brebk;
+                cbse 1:
+                    blgorithm = MD5;
+                    brebk;
+                cbse 2:
+                    blgorithm = SHA1;
+                    brebk;
+                cbse 3:
+                    blgorithm = SHA224;
+                    brebk;
+                cbse 4:
+                    blgorithm = SHA256;
+                    brebk;
+                cbse 5:
+                    blgorithm = SHA384;
+                    brebk;
+                cbse 6:
+                    blgorithm = SHA512;
+                    brebk;
             }
 
-            return algorithm;
+            return blgorithm;
         }
     }
 
-    static enum SignatureAlgorithm {
+    stbtic enum SignbtureAlgorithm {
         UNDEFINED("undefined", -1),
-        ANONYMOUS("anonymous",  0),
-        RSA(            "rsa",  1),
-        DSA(            "dsa",  2),
-        ECDSA(        "ecdsa",  3);
+        ANONYMOUS("bnonymous",  0),
+        RSA(            "rsb",  1),
+        DSA(            "dsb",  2),
+        ECDSA(        "ecdsb",  3);
 
-        final String name;  // not the standard signature algorithm name
-                            // except the UNDEFINED, other names are defined
+        finbl String nbme;  // not the stbndbrd signbture blgorithm nbme
+                            // except the UNDEFINED, other nbmes bre defined
                             // by TLS 1.2 protocol
-        final int value;
+        finbl int vblue;
 
-        private SignatureAlgorithm(String name, int value) {
-            this.name = name;
-            this.value = value;
+        privbte SignbtureAlgorithm(String nbme, int vblue) {
+            this.nbme = nbme;
+            this.vblue = vblue;
         }
 
-        static SignatureAlgorithm valueOf(int value) {
-            SignatureAlgorithm algorithm = UNDEFINED;
-            switch (value) {
-                case 0:
-                    algorithm = ANONYMOUS;
-                    break;
-                case 1:
-                    algorithm = RSA;
-                    break;
-                case 2:
-                    algorithm = DSA;
-                    break;
-                case 3:
-                    algorithm = ECDSA;
-                    break;
+        stbtic SignbtureAlgorithm vblueOf(int vblue) {
+            SignbtureAlgorithm blgorithm = UNDEFINED;
+            switch (vblue) {
+                cbse 0:
+                    blgorithm = ANONYMOUS;
+                    brebk;
+                cbse 1:
+                    blgorithm = RSA;
+                    brebk;
+                cbse 2:
+                    blgorithm = DSA;
+                    brebk;
+                cbse 3:
+                    blgorithm = ECDSA;
+                    brebk;
             }
 
-            return algorithm;
+            return blgorithm;
         }
     }
 
-    static {
-        supportedMap = Collections.synchronizedSortedMap(
-            new TreeMap<Integer, SignatureAndHashAlgorithm>());
-        priorityMap = Collections.synchronizedSortedMap(
-            new TreeMap<Integer, SignatureAndHashAlgorithm>());
+    stbtic {
+        supportedMbp = Collections.synchronizedSortedMbp(
+            new TreeMbp<Integer, SignbtureAndHbshAlgorithm>());
+        priorityMbp = Collections.synchronizedSortedMbp(
+            new TreeMbp<Integer, SignbtureAndHbshAlgorithm>());
 
-        synchronized (supportedMap) {
+        synchronized (supportedMbp) {
             int p = SUPPORTED_ALG_PRIORITY_MAX_NUM;
-            supports(HashAlgorithm.MD5,         SignatureAlgorithm.RSA,
+            supports(HbshAlgorithm.MD5,         SignbtureAlgorithm.RSA,
                     "MD5withRSA",           --p);
-            supports(HashAlgorithm.SHA1,        SignatureAlgorithm.DSA,
+            supports(HbshAlgorithm.SHA1,        SignbtureAlgorithm.DSA,
                     "SHA1withDSA",          --p);
-            supports(HashAlgorithm.SHA1,        SignatureAlgorithm.RSA,
+            supports(HbshAlgorithm.SHA1,        SignbtureAlgorithm.RSA,
                     "SHA1withRSA",          --p);
-            supports(HashAlgorithm.SHA1,        SignatureAlgorithm.ECDSA,
+            supports(HbshAlgorithm.SHA1,        SignbtureAlgorithm.ECDSA,
                     "SHA1withECDSA",        --p);
-            supports(HashAlgorithm.SHA224,      SignatureAlgorithm.RSA,
+            supports(HbshAlgorithm.SHA224,      SignbtureAlgorithm.RSA,
                     "SHA224withRSA",        --p);
-            supports(HashAlgorithm.SHA224,      SignatureAlgorithm.ECDSA,
+            supports(HbshAlgorithm.SHA224,      SignbtureAlgorithm.ECDSA,
                     "SHA224withECDSA",      --p);
-            supports(HashAlgorithm.SHA256,      SignatureAlgorithm.RSA,
+            supports(HbshAlgorithm.SHA256,      SignbtureAlgorithm.RSA,
                     "SHA256withRSA",        --p);
-            supports(HashAlgorithm.SHA256,      SignatureAlgorithm.ECDSA,
+            supports(HbshAlgorithm.SHA256,      SignbtureAlgorithm.ECDSA,
                     "SHA256withECDSA",      --p);
-            supports(HashAlgorithm.SHA384,      SignatureAlgorithm.RSA,
+            supports(HbshAlgorithm.SHA384,      SignbtureAlgorithm.RSA,
                     "SHA384withRSA",        --p);
-            supports(HashAlgorithm.SHA384,      SignatureAlgorithm.ECDSA,
+            supports(HbshAlgorithm.SHA384,      SignbtureAlgorithm.ECDSA,
                     "SHA384withECDSA",      --p);
-            supports(HashAlgorithm.SHA512,      SignatureAlgorithm.RSA,
+            supports(HbshAlgorithm.SHA512,      SignbtureAlgorithm.RSA,
                     "SHA512withRSA",        --p);
-            supports(HashAlgorithm.SHA512,      SignatureAlgorithm.ECDSA,
+            supports(HbshAlgorithm.SHA512,      SignbtureAlgorithm.ECDSA,
                     "SHA512withECDSA",      --p);
         }
     }

@@ -1,146 +1,146 @@
 /*
- * Copyright (c) 2005, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.smartcardio;
+pbckbge sun.security.smbrtcbrdio;
 
-import java.util.*;
+import jbvb.util.*;
 
-import javax.smartcardio.*;
+import jbvbx.smbrtcbrdio.*;
 
-import static sun.security.smartcardio.PCSC.*;
+import stbtic sun.security.smbrtcbrdio.PCSC.*;
 
 /**
- * CardTerminal implementation.
+ * CbrdTerminbl implementbtion.
  *
  * @since   1.6
- * @author  Andreas Sterbenz
+ * @buthor  Andrebs Sterbenz
  */
-final class TerminalImpl extends CardTerminal {
+finbl clbss TerminblImpl extends CbrdTerminbl {
 
-    // native SCARDCONTEXT
-    final long contextId;
+    // nbtive SCARDCONTEXT
+    finbl long contextId;
 
-    // the name of this terminal (native PC/SC name)
-    final String name;
+    // the nbme of this terminbl (nbtive PC/SC nbme)
+    finbl String nbme;
 
-    private CardImpl card;
+    privbte CbrdImpl cbrd;
 
-    TerminalImpl(long contextId, String name) {
+    TerminblImpl(long contextId, String nbme) {
         this.contextId = contextId;
-        this.name = name;
+        this.nbme = nbme;
     }
 
-    public String getName() {
-        return name;
+    public String getNbme() {
+        return nbme;
     }
 
-    public synchronized Card connect(String protocol) throws CardException {
-        SecurityManager sm = System.getSecurityManager();
+    public synchronized Cbrd connect(String protocol) throws CbrdException {
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null) {
-            sm.checkPermission(new CardPermission(name, "connect"));
+            sm.checkPermission(new CbrdPermission(nbme, "connect"));
         }
-        if (card != null) {
-            if (card.isValid()) {
-                String cardProto = card.getProtocol();
-                if (protocol.equals("*") || protocol.equalsIgnoreCase(cardProto)) {
-                    return card;
+        if (cbrd != null) {
+            if (cbrd.isVblid()) {
+                String cbrdProto = cbrd.getProtocol();
+                if (protocol.equbls("*") || protocol.equblsIgnoreCbse(cbrdProto)) {
+                    return cbrd;
                 } else {
-                    throw new CardException("Cannot connect using " + protocol
-                        + ", connection already established using " + cardProto);
+                    throw new CbrdException("Cbnnot connect using " + protocol
+                        + ", connection blrebdy estbblished using " + cbrdProto);
                 }
             } else {
-                card = null;
+                cbrd = null;
             }
         }
         try {
-            card =  new CardImpl(this, protocol);
-            return card;
-        } catch (PCSCException e) {
+            cbrd =  new CbrdImpl(this, protocol);
+            return cbrd;
+        } cbtch (PCSCException e) {
             if (e.code == SCARD_W_REMOVED_CARD) {
-                throw new CardNotPresentException("No card present", e);
+                throw new CbrdNotPresentException("No cbrd present", e);
             } else {
-                throw new CardException("connect() failed", e);
+                throw new CbrdException("connect() fbiled", e);
             }
         }
     }
 
-    public boolean isCardPresent() throws CardException {
+    public boolebn isCbrdPresent() throws CbrdException {
         try {
-            int[] status = SCardGetStatusChange(contextId, 0,
-                    new int[] {SCARD_STATE_UNAWARE}, new String[] {name});
-            return (status[0] & SCARD_STATE_PRESENT) != 0;
-        } catch (PCSCException e) {
-            throw new CardException("isCardPresent() failed", e);
+            int[] stbtus = SCbrdGetStbtusChbnge(contextId, 0,
+                    new int[] {SCARD_STATE_UNAWARE}, new String[] {nbme});
+            return (stbtus[0] & SCARD_STATE_PRESENT) != 0;
+        } cbtch (PCSCException e) {
+            throw new CbrdException("isCbrdPresent() fbiled", e);
         }
     }
 
-    private boolean waitForCard(boolean wantPresent, long timeout) throws CardException {
+    privbte boolebn wbitForCbrd(boolebn wbntPresent, long timeout) throws CbrdException {
         if (timeout < 0) {
-            throw new IllegalArgumentException("timeout must not be negative");
+            throw new IllegblArgumentException("timeout must not be negbtive");
         }
         if (timeout == 0) {
             timeout = TIMEOUT_INFINITE;
         }
-        int[] status = new int[] {SCARD_STATE_UNAWARE};
-        String[] readers = new String[] {name};
+        int[] stbtus = new int[] {SCARD_STATE_UNAWARE};
+        String[] rebders = new String[] {nbme};
         try {
-            // check if card status already matches
-            status = SCardGetStatusChange(contextId, 0, status, readers);
-            boolean present = (status[0] & SCARD_STATE_PRESENT) != 0;
-            if (wantPresent == present) {
+            // check if cbrd stbtus blrebdy mbtches
+            stbtus = SCbrdGetStbtusChbnge(contextId, 0, stbtus, rebders);
+            boolebn present = (stbtus[0] & SCARD_STATE_PRESENT) != 0;
+            if (wbntPresent == present) {
                 return true;
             }
-            // no match, wait (until timeout expires)
+            // no mbtch, wbit (until timeout expires)
             long end = System.currentTimeMillis() + timeout;
-            while (wantPresent != present && timeout != 0) {
-              // set remaining timeout
+            while (wbntPresent != present && timeout != 0) {
+              // set rembining timeout
               if (timeout != TIMEOUT_INFINITE) {
-                timeout = Math.max(end - System.currentTimeMillis(), 0l);
+                timeout = Mbth.mbx(end - System.currentTimeMillis(), 0l);
               }
-              status = SCardGetStatusChange(contextId, timeout, status, readers);
-              present = (status[0] & SCARD_STATE_PRESENT) != 0;
+              stbtus = SCbrdGetStbtusChbnge(contextId, timeout, stbtus, rebders);
+              present = (stbtus[0] & SCARD_STATE_PRESENT) != 0;
             }
-            return wantPresent == present;
-        } catch (PCSCException e) {
+            return wbntPresent == present;
+        } cbtch (PCSCException e) {
             if (e.code == SCARD_E_TIMEOUT) {
-                return false;
+                return fblse;
             } else {
-                throw new CardException("waitForCard() failed", e);
+                throw new CbrdException("wbitForCbrd() fbiled", e);
             }
         }
     }
 
-    public boolean waitForCardPresent(long timeout) throws CardException {
-        return waitForCard(true, timeout);
+    public boolebn wbitForCbrdPresent(long timeout) throws CbrdException {
+        return wbitForCbrd(true, timeout);
     }
 
-    public boolean waitForCardAbsent(long timeout) throws CardException {
-        return waitForCard(false, timeout);
+    public boolebn wbitForCbrdAbsent(long timeout) throws CbrdException {
+        return wbitForCbrd(fblse, timeout);
     }
 
     public String toString() {
-        return "PC/SC terminal " + name;
+        return "PC/SC terminbl " + nbme;
     }
 }

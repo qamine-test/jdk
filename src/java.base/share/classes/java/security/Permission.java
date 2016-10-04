@@ -1,209 +1,209 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.security;
+pbckbge jbvb.security;
 
 /**
- * Abstract class for representing access to a system resource.
- * All permissions have a name (whose interpretation depends on the subclass),
- * as well as abstract functions for defining the semantics of the
- * particular Permission subclass.
+ * Abstrbct clbss for representing bccess to b system resource.
+ * All permissions hbve b nbme (whose interpretbtion depends on the subclbss),
+ * bs well bs bbstrbct functions for defining the sembntics of the
+ * pbrticulbr Permission subclbss.
  *
- * <p>Most Permission objects also include an "actions" list that tells the actions
- * that are permitted for the object.  For example,
- * for a {@code java.io.FilePermission} object, the permission name is
- * the pathname of a file (or directory), and the actions list
- * (such as "read, write") specifies which actions are granted for the
+ * <p>Most Permission objects blso include bn "bctions" list thbt tells the bctions
+ * thbt bre permitted for the object.  For exbmple,
+ * for b {@code jbvb.io.FilePermission} object, the permission nbme is
+ * the pbthnbme of b file (or directory), bnd the bctions list
+ * (such bs "rebd, write") specifies which bctions bre grbnted for the
  * specified file (or for files in the specified directory).
- * The actions list is optional for Permission objects, such as
- * {@code java.lang.RuntimePermission},
- * that don't need such a list; you either have the named permission (such
- * as "system.exit") or you don't.
+ * The bctions list is optionbl for Permission objects, such bs
+ * {@code jbvb.lbng.RuntimePermission},
+ * thbt don't need such b list; you either hbve the nbmed permission (such
+ * bs "system.exit") or you don't.
  *
- * <p>An important method that must be implemented by each subclass is
- * the {@code implies} method to compare Permissions. Basically,
- * "permission p1 implies permission p2" means that
- * if one is granted permission p1, one is naturally granted permission p2.
- * Thus, this is not an equality test, but rather more of a
+ * <p>An importbnt method thbt must be implemented by ebch subclbss is
+ * the {@code implies} method to compbre Permissions. Bbsicblly,
+ * "permission p1 implies permission p2" mebns thbt
+ * if one is grbnted permission p1, one is nbturblly grbnted permission p2.
+ * Thus, this is not bn equblity test, but rbther more of b
  * subset test.
  *
- * <P> Permission objects are similar to String objects in that they
- * are immutable once they have been created. Subclasses should not
- * provide methods that can change the state of a permission
- * once it has been created.
+ * <P> Permission objects bre similbr to String objects in thbt they
+ * bre immutbble once they hbve been crebted. Subclbsses should not
+ * provide methods thbt cbn chbnge the stbte of b permission
+ * once it hbs been crebted.
  *
  * @see Permissions
  * @see PermissionCollection
  *
  *
- * @author Marianne Mueller
- * @author Roland Schemers
+ * @buthor Mbribnne Mueller
+ * @buthor Rolbnd Schemers
  */
 
-public abstract class Permission implements Guard, java.io.Serializable {
+public bbstrbct clbss Permission implements Gubrd, jbvb.io.Seriblizbble {
 
-    private static final long serialVersionUID = -5636570222231596674L;
+    privbte stbtic finbl long seriblVersionUID = -5636570222231596674L;
 
-    private String name;
+    privbte String nbme;
 
     /**
-     * Constructs a permission with the specified name.
+     * Constructs b permission with the specified nbme.
      *
-     * @param name name of the Permission object being created.
+     * @pbrbm nbme nbme of the Permission object being crebted.
      *
      */
 
-    public Permission(String name) {
-        this.name = name;
+    public Permission(String nbme) {
+        this.nbme = nbme;
     }
 
     /**
-     * Implements the guard interface for a permission. The
-     * {@code SecurityManager.checkPermission} method is called,
-     * passing this permission object as the permission to check.
-     * Returns silently if access is granted. Otherwise, throws
-     * a SecurityException.
+     * Implements the gubrd interfbce for b permission. The
+     * {@code SecurityMbnbger.checkPermission} method is cblled,
+     * pbssing this permission object bs the permission to check.
+     * Returns silently if bccess is grbnted. Otherwise, throws
+     * b SecurityException.
      *
-     * @param object the object being guarded (currently ignored).
+     * @pbrbm object the object being gubrded (currently ignored).
      *
      * @throws SecurityException
-     *        if a security manager exists and its
-     *        {@code checkPermission} method doesn't allow access.
+     *        if b security mbnbger exists bnd its
+     *        {@code checkPermission} method doesn't bllow bccess.
      *
-     * @see Guard
-     * @see GuardedObject
-     * @see SecurityManager#checkPermission
+     * @see Gubrd
+     * @see GubrdedObject
+     * @see SecurityMbnbger#checkPermission
      *
      */
-    public void checkGuard(Object object) throws SecurityException {
-        SecurityManager sm = System.getSecurityManager();
+    public void checkGubrd(Object object) throws SecurityException {
+        SecurityMbnbger sm = System.getSecurityMbnbger();
         if (sm != null) sm.checkPermission(this);
     }
 
     /**
-     * Checks if the specified permission's actions are "implied by"
-     * this object's actions.
+     * Checks if the specified permission's bctions bre "implied by"
+     * this object's bctions.
      * <P>
-     * This must be implemented by subclasses of Permission, as they are the
-     * only ones that can impose semantics on a Permission object.
+     * This must be implemented by subclbsses of Permission, bs they bre the
+     * only ones thbt cbn impose sembntics on b Permission object.
      *
      * <p>The {@code implies} method is used by the AccessController to determine
-     * whether or not a requested permission is implied by another permission that
-     * is known to be valid in the current execution context.
+     * whether or not b requested permission is implied by bnother permission thbt
+     * is known to be vblid in the current execution context.
      *
-     * @param permission the permission to check against.
+     * @pbrbm permission the permission to check bgbinst.
      *
      * @return true if the specified permission is implied by this object,
-     * false if not.
+     * fblse if not.
      */
 
-    public abstract boolean implies(Permission permission);
+    public bbstrbct boolebn implies(Permission permission);
 
     /**
-     * Checks two Permission objects for equality.
+     * Checks two Permission objects for equblity.
      * <P>
-     * Do not use the {@code equals} method for making access control
+     * Do not use the {@code equbls} method for mbking bccess control
      * decisions; use the {@code implies} method.
      *
-     * @param obj the object we are testing for equality with this object.
+     * @pbrbm obj the object we bre testing for equblity with this object.
      *
-     * @return true if both Permission objects are equivalent.
+     * @return true if both Permission objects bre equivblent.
      */
 
-    public abstract boolean equals(Object obj);
+    public bbstrbct boolebn equbls(Object obj);
 
     /**
-     * Returns the hash code value for this Permission object.
+     * Returns the hbsh code vblue for this Permission object.
      * <P>
-     * The required {@code hashCode} behavior for Permission Objects is
+     * The required {@code hbshCode} behbvior for Permission Objects is
      * the following:
      * <ul>
-     * <li>Whenever it is invoked on the same Permission object more than
-     *     once during an execution of a Java application, the
-     *     {@code hashCode} method
-     *     must consistently return the same integer. This integer need not
-     *     remain consistent from one execution of an application to another
-     *     execution of the same application.
-     * <li>If two Permission objects are equal according to the
-     *     {@code equals}
-     *     method, then calling the {@code hashCode} method on each of the
-     *     two Permission objects must produce the same integer result.
+     * <li>Whenever it is invoked on the sbme Permission object more thbn
+     *     once during bn execution of b Jbvb bpplicbtion, the
+     *     {@code hbshCode} method
+     *     must consistently return the sbme integer. This integer need not
+     *     rembin consistent from one execution of bn bpplicbtion to bnother
+     *     execution of the sbme bpplicbtion.
+     * <li>If two Permission objects bre equbl bccording to the
+     *     {@code equbls}
+     *     method, then cblling the {@code hbshCode} method on ebch of the
+     *     two Permission objects must produce the sbme integer result.
      * </ul>
      *
-     * @return a hash code value for this object.
+     * @return b hbsh code vblue for this object.
      */
 
-    public abstract int hashCode();
+    public bbstrbct int hbshCode();
 
     /**
-     * Returns the name of this Permission.
-     * For example, in the case of a {@code java.io.FilePermission},
-     * the name will be a pathname.
+     * Returns the nbme of this Permission.
+     * For exbmple, in the cbse of b {@code jbvb.io.FilePermission},
+     * the nbme will be b pbthnbme.
      *
-     * @return the name of this Permission.
+     * @return the nbme of this Permission.
      *
      */
 
-    public final String getName() {
-        return name;
+    public finbl String getNbme() {
+        return nbme;
     }
 
     /**
-     * Returns the actions as a String. This is abstract
-     * so subclasses can defer creating a String representation until
-     * one is needed. Subclasses should always return actions in what they
+     * Returns the bctions bs b String. This is bbstrbct
+     * so subclbsses cbn defer crebting b String representbtion until
+     * one is needed. Subclbsses should blwbys return bctions in whbt they
      * consider to be their
-     * canonical form. For example, two FilePermission objects created via
+     * cbnonicbl form. For exbmple, two FilePermission objects crebted vib
      * the following:
      *
      * <pre>
-     *   perm1 = new FilePermission(p1,"read,write");
-     *   perm2 = new FilePermission(p2,"write,read");
+     *   perm1 = new FilePermission(p1,"rebd,write");
+     *   perm2 = new FilePermission(p2,"write,rebd");
      * </pre>
      *
      * both return
-     * "read,write" when the {@code getActions} method is invoked.
+     * "rebd,write" when the {@code getActions} method is invoked.
      *
-     * @return the actions of this Permission.
+     * @return the bctions of this Permission.
      *
      */
 
-    public abstract String getActions();
+    public bbstrbct String getActions();
 
     /**
-     * Returns an empty PermissionCollection for a given Permission object, or null if
-     * one is not defined. Subclasses of class Permission should
-     * override this if they need to store their permissions in a particular
-     * PermissionCollection object in order to provide the correct semantics
-     * when the {@code PermissionCollection.implies} method is called.
+     * Returns bn empty PermissionCollection for b given Permission object, or null if
+     * one is not defined. Subclbsses of clbss Permission should
+     * override this if they need to store their permissions in b pbrticulbr
+     * PermissionCollection object in order to provide the correct sembntics
+     * when the {@code PermissionCollection.implies} method is cblled.
      * If null is returned,
-     * then the caller of this method is free to store permissions of this
-     * type in any PermissionCollection they choose (one that uses a Hashtable,
-     * one that uses a Vector, etc).
+     * then the cbller of this method is free to store permissions of this
+     * type in bny PermissionCollection they choose (one thbt uses b Hbshtbble,
+     * one thbt uses b Vector, etc).
      *
-     * @return a new PermissionCollection object for this type of Permission, or
+     * @return b new PermissionCollection object for this type of Permission, or
      * null if one is not defined.
      */
 
@@ -212,20 +212,20 @@ public abstract class Permission implements Guard, java.io.Serializable {
     }
 
     /**
-     * Returns a string describing this Permission.  The convention is to
-     * specify the class name, the permission name, and the actions in
-     * the following format: '("ClassName" "name" "actions")', or
-     * '("ClassName" "name")' if actions list is null or empty.
+     * Returns b string describing this Permission.  The convention is to
+     * specify the clbss nbme, the permission nbme, bnd the bctions in
+     * the following formbt: '("ClbssNbme" "nbme" "bctions")', or
+     * '("ClbssNbme" "nbme")' if bctions list is null or empty.
      *
-     * @return information about this Permission.
+     * @return informbtion bbout this Permission.
      */
     public String toString() {
-        String actions = getActions();
-        if ((actions == null) || (actions.length() == 0)) { // OPTIONAL
-            return "(\"" + getClass().getName() + "\" \"" + name + "\")";
+        String bctions = getActions();
+        if ((bctions == null) || (bctions.length() == 0)) { // OPTIONAL
+            return "(\"" + getClbss().getNbme() + "\" \"" + nbme + "\")";
         } else {
-            return "(\"" + getClass().getName() + "\" \"" + name +
-                 "\" \"" + actions + "\")";
+            return "(\"" + getClbss().getNbme() + "\" \"" + nbme +
+                 "\" \"" + bctions + "\")";
         }
     }
 }

@@ -1,141 +1,141 @@
 /*
- * Copyright (c) 1999, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 #include <string.h>
 
-#include "jdwpTransport.h"
-#include "shmemBase.h"
+#include "jdwpTrbnsport.h"
+#include "shmemBbse.h"
 #include "sysShmem.h"
 #include "sys.h"
 
 /*
- * The Shared Memory Transport Library.
+ * The Shbred Memory Trbnsport Librbry.
  *
- * This module is an implementation of the Java Debug Wire Protocol Transport
- * Service Provider Interface - see src/share/javavm/export/jdwpTransport.h.
+ * This module is bn implementbtion of the Jbvb Debug Wire Protocol Trbnsport
+ * Service Provider Interfbce - see src/shbre/jbvbvm/export/jdwpTrbnsport.h.
  */
 
-static SharedMemoryTransport *transport = NULL;  /* maximum of 1 transport */
-static SharedMemoryConnection *connection = NULL;  /* maximum of 1 connection */
-static jdwpTransportCallback *callbacks;
-static jboolean initialized;
-static struct jdwpTransportNativeInterface_ interface;
-static jdwpTransportEnv single_env = (jdwpTransportEnv)&interface;
+stbtic ShbredMemoryTrbnsport *trbnsport = NULL;  /* mbximum of 1 trbnsport */
+stbtic ShbredMemoryConnection *connection = NULL;  /* mbximum of 1 connection */
+stbtic jdwpTrbnsportCbllbbck *cbllbbcks;
+stbtic jboolebn initiblized;
+stbtic struct jdwpTrbnsportNbtiveInterfbce_ interfbce;
+stbtic jdwpTrbnsportEnv single_env = (jdwpTrbnsportEnv)&interfbce;
 
 /*
- * Thread-local index to the per-thread error message
+ * Threbd-locbl index to the per-threbd error messbge
  */
-static int tlsIndex;
+stbtic int tlsIndex;
 
 /*
- * Return an error and record the error message associated with
- * the error. Note the if (1==1) { } usage here is to avoid
- * compilers complaining that a statement isn't reached which
- * will arise if the semicolon (;) appears after the macro,
+ * Return bn error bnd record the error messbge bssocibted with
+ * the error. Note the if (1==1) { } usbge here is to bvoid
+ * compilers complbining thbt b stbtement isn't rebched which
+ * will brise if the semicolon (;) bppebrs bfter the mbcro,
  */
 #define RETURN_ERROR(err, msg)          \
         if (1==1) {                     \
-            setLastError(err, msg);     \
+            setLbstError(err, msg);     \
             return err;                 \
         }
 
 /*
- * Return an I/O error and record the error message.
+ * Return bn I/O error bnd record the error messbge.
  */
 #define RETURN_IO_ERROR(msg)    RETURN_ERROR(JDWPTRANSPORT_ERROR_IO_ERROR, msg);
 
 
 /*
- * Set the error message for this thread. If the error is an I/O
- * error then augment the supplied error message with the textual
- * representation of the I/O error.
+ * Set the error messbge for this threbd. If the error is bn I/O
+ * error then bugment the supplied error messbge with the textubl
+ * representbtion of the I/O error.
  */
-static void
-setLastError(int err, char *newmsg) {
-    char buf[255];
-    char *msg;
+stbtic void
+setLbstError(int err, chbr *newmsg) {
+    chbr buf[255];
+    chbr *msg;
 
-    /* get any I/O first in case any system calls override errno */
+    /* get bny I/O first in cbse bny system cblls override errno */
     if (err == JDWPTRANSPORT_ERROR_IO_ERROR) {
-        if (shmemBase_getlasterror(buf, sizeof(buf)) != SYS_OK) {
+        if (shmemBbse_getlbsterror(buf, sizeof(buf)) != SYS_OK) {
             buf[0] = '\0';
         }
     }
 
-    /* free any current error */
-    msg = (char *)sysTlsGet(tlsIndex);
+    /* free bny current error */
+    msg = (chbr *)sysTlsGet(tlsIndex);
     if (msg != NULL) {
-        (*callbacks->free)(msg);
+        (*cbllbbcks->free)(msg);
     }
 
     /*
-     * For I/O errors append the I/O error message with to the
-     * supplied message. For all other errors just use the supplied
-     * message.
+     * For I/O errors bppend the I/O error messbge with to the
+     * supplied messbge. For bll other errors just use the supplied
+     * messbge.
      */
     if (err == JDWPTRANSPORT_ERROR_IO_ERROR) {
-        char *join_str = ": ";
+        chbr *join_str = ": ";
         int msg_len = (int)strlen(newmsg) + (int)strlen(join_str) +
                       (int)strlen(buf) + 3;
-        msg = (*callbacks->alloc)(msg_len);
+        msg = (*cbllbbcks->blloc)(msg_len);
         if (msg != NULL) {
             strcpy(msg, newmsg);
-            strcat(msg, join_str);
-            strcat(msg, buf);
+            strcbt(msg, join_str);
+            strcbt(msg, buf);
         }
     } else {
-        msg = (*callbacks->alloc)((int)strlen(newmsg)+1);
+        msg = (*cbllbbcks->blloc)((int)strlen(newmsg)+1);
         if (msg != NULL) {
             strcpy(msg, newmsg);
         }
     }
 
-    /* Put a pointer to the message in TLS */
+    /* Put b pointer to the messbge in TLS */
     sysTlsPut(tlsIndex, msg);
 }
 
-static jdwpTransportError
-handshake()
+stbtic jdwpTrbnsportError
+hbndshbke()
 {
-    char *hello = "JDWP-Handshake";
+    chbr *hello = "JDWP-Hbndshbke";
     unsigned int i;
 
     for (i=0; i<strlen(hello); i++) {
         jbyte b;
-        int rv = shmemBase_receiveByte(connection, &b);
+        int rv = shmemBbse_receiveByte(connection, &b);
         if (rv != 0) {
-            RETURN_IO_ERROR("receive failed during handshake");
+            RETURN_IO_ERROR("receive fbiled during hbndshbke");
         }
-        if ((char)b != hello[i]) {
-            RETURN_IO_ERROR("handshake failed - debugger sent unexpected message");
+        if ((chbr)b != hello[i]) {
+            RETURN_IO_ERROR("hbndshbke fbiled - debugger sent unexpected messbge");
         }
     }
 
     for (i=0; i<strlen(hello); i++) {
-        int rv = shmemBase_sendByte(connection, (jbyte)hello[i]);
+        int rv = shmemBbse_sendByte(connection, (jbyte)hello[i]);
         if (rv != 0) {
-            RETURN_IO_ERROR("write failed during handshake");
+            RETURN_IO_ERROR("write fbiled during hbndshbke");
         }
     }
 
@@ -144,163 +144,163 @@ handshake()
 
 
 /*
- * Return the capabilities of the shared memory transport. The shared
- * memory transport supports both the attach and accept timeouts but
- * doesn't support a handshake timeout.
+ * Return the cbpbbilities of the shbred memory trbnsport. The shbred
+ * memory trbnsport supports both the bttbch bnd bccept timeouts but
+ * doesn't support b hbndshbke timeout.
  */
-static jdwpTransportError JNICALL
-shmemGetCapabilities(jdwpTransportEnv* env, JDWPTransportCapabilities *capabilitiesPtr)
+stbtic jdwpTrbnsportError JNICALL
+shmemGetCbpbbilities(jdwpTrbnsportEnv* env, JDWPTrbnsportCbpbbilities *cbpbbilitiesPtr)
 {
-    JDWPTransportCapabilities result;
+    JDWPTrbnsportCbpbbilities result;
 
     memset(&result, 0, sizeof(result));
-    result.can_timeout_attach = JNI_TRUE;
-    result.can_timeout_accept = JNI_TRUE;
-    result.can_timeout_handshake = JNI_FALSE;
+    result.cbn_timeout_bttbch = JNI_TRUE;
+    result.cbn_timeout_bccept = JNI_TRUE;
+    result.cbn_timeout_hbndshbke = JNI_FALSE;
 
-    *capabilitiesPtr = result;
+    *cbpbbilitiesPtr = result;
 
     return JDWPTRANSPORT_ERROR_NONE;
 }
 
 
-static jdwpTransportError JNICALL
-shmemStartListening(jdwpTransportEnv* env, const char *address, char **actualAddress)
+stbtic jdwpTrbnsportError JNICALL
+shmemStbrtListening(jdwpTrbnsportEnv* env, const chbr *bddress, chbr **bctublAddress)
 {
     jint rc;
 
-    if (connection != NULL || transport != NULL) {
-        RETURN_ERROR(JDWPTRANSPORT_ERROR_ILLEGAL_STATE, "already connected or already listening");
+    if (connection != NULL || trbnsport != NULL) {
+        RETURN_ERROR(JDWPTRANSPORT_ERROR_ILLEGAL_STATE, "blrebdy connected or blrebdy listening");
     }
 
-    rc = shmemBase_listen(address, &transport);
+    rc = shmemBbse_listen(bddress, &trbnsport);
 
     /*
-     * If a name was selected by the function above, find it and return
-     * it in place of the original arg.
+     * If b nbme wbs selected by the function bbove, find it bnd return
+     * it in plbce of the originbl brg.
      */
     if (rc == SYS_OK) {
-        char *name;
-        char *name2;
-        rc = shmemBase_name(transport, &name);
+        chbr *nbme;
+        chbr *nbme2;
+        rc = shmemBbse_nbme(trbnsport, &nbme);
         if (rc == SYS_OK) {
-            name2 = (callbacks->alloc)((int)strlen(name) + 1);
-            if (name2 == NULL) {
+            nbme2 = (cbllbbcks->blloc)((int)strlen(nbme) + 1);
+            if (nbme2 == NULL) {
                 RETURN_ERROR(JDWPTRANSPORT_ERROR_OUT_OF_MEMORY, "out of memory");
             } else {
-                strcpy(name2, name);
-                *actualAddress = name2;
+                strcpy(nbme2, nbme);
+                *bctublAddress = nbme2;
             }
         }
     } else {
-        RETURN_IO_ERROR("failed to create shared memory listener");
+        RETURN_IO_ERROR("fbiled to crebte shbred memory listener");
     }
     return JDWPTRANSPORT_ERROR_NONE;
 }
 
-static jdwpTransportError JNICALL
-shmemAccept(jdwpTransportEnv* env, jlong acceptTimeout, jlong handshakeTimeout)
+stbtic jdwpTrbnsportError JNICALL
+shmemAccept(jdwpTrbnsportEnv* env, jlong bcceptTimeout, jlong hbndshbkeTimeout)
 {
     jint rc;
 
     if (connection != NULL) {
-        RETURN_ERROR(JDWPTRANSPORT_ERROR_ILLEGAL_STATE, "already connected");
+        RETURN_ERROR(JDWPTRANSPORT_ERROR_ILLEGAL_STATE, "blrebdy connected");
     }
-    if (transport == NULL) {
-        RETURN_ERROR(JDWPTRANSPORT_ERROR_ILLEGAL_STATE, "transport not listening");
+    if (trbnsport == NULL) {
+        RETURN_ERROR(JDWPTRANSPORT_ERROR_ILLEGAL_STATE, "trbnsport not listening");
     }
 
-    rc = shmemBase_accept(transport, (long)acceptTimeout, &connection);
+    rc = shmemBbse_bccept(trbnsport, (long)bcceptTimeout, &connection);
     if (rc != SYS_OK) {
         if (rc == SYS_TIMEOUT) {
-            RETURN_ERROR(JDWPTRANSPORT_ERROR_TIMEOUT, "Timed out waiting for connection");
+            RETURN_ERROR(JDWPTRANSPORT_ERROR_TIMEOUT, "Timed out wbiting for connection");
         } else {
-            RETURN_IO_ERROR("failed to accept shared memory connection");
+            RETURN_IO_ERROR("fbiled to bccept shbred memory connection");
         }
     }
 
-    rc = handshake();
+    rc = hbndshbke();
     if (rc != JDWPTRANSPORT_ERROR_NONE) {
-        shmemBase_closeConnection(connection);
+        shmemBbse_closeConnection(connection);
         connection = NULL;
     }
     return rc;
 }
 
-static jdwpTransportError JNICALL
-shmemStopListening(jdwpTransportEnv* env)
+stbtic jdwpTrbnsportError JNICALL
+shmemStopListening(jdwpTrbnsportEnv* env)
 {
-    if (transport != NULL) {
-        shmemBase_closeTransport(transport);
-        transport = NULL;
+    if (trbnsport != NULL) {
+        shmemBbse_closeTrbnsport(trbnsport);
+        trbnsport = NULL;
     }
     return JDWPTRANSPORT_ERROR_NONE;
 }
 
-static jdwpTransportError JNICALL
-shmemAttach(jdwpTransportEnv* env, const char *address, jlong attachTimeout, jlong handshakeTimeout)
+stbtic jdwpTrbnsportError JNICALL
+shmemAttbch(jdwpTrbnsportEnv* env, const chbr *bddress, jlong bttbchTimeout, jlong hbndshbkeTimeout)
 {
     jint rc;
 
     if (connection != NULL) {
-        RETURN_ERROR(JDWPTRANSPORT_ERROR_ILLEGAL_STATE, "already connected");
+        RETURN_ERROR(JDWPTRANSPORT_ERROR_ILLEGAL_STATE, "blrebdy connected");
     }
-    rc = shmemBase_attach(address, (long)attachTimeout, &connection);
+    rc = shmemBbse_bttbch(bddress, (long)bttbchTimeout, &connection);
     if (rc != SYS_OK) {
         if (rc == SYS_NOMEM) {
             RETURN_ERROR(JDWPTRANSPORT_ERROR_OUT_OF_MEMORY, "out of memory");
         }
         if (rc == SYS_TIMEOUT) {
-            RETURN_ERROR(JDWPTRANSPORT_ERROR_TIMEOUT, "Timed out waiting to attach");
+            RETURN_ERROR(JDWPTRANSPORT_ERROR_TIMEOUT, "Timed out wbiting to bttbch");
         }
-        RETURN_IO_ERROR("failed to attach to shared memory connection");
+        RETURN_IO_ERROR("fbiled to bttbch to shbred memory connection");
     }
 
-    rc = handshake();
+    rc = hbndshbke();
     if (rc != JDWPTRANSPORT_ERROR_NONE) {
-        shmemBase_closeConnection(connection);
+        shmemBbse_closeConnection(connection);
         connection = NULL;
     }
     return rc;
 }
 
-static jdwpTransportError JNICALL
-shmemWritePacket(jdwpTransportEnv* env, const jdwpPacket *packet)
+stbtic jdwpTrbnsportError JNICALL
+shmemWritePbcket(jdwpTrbnsportEnv* env, const jdwpPbcket *pbcket)
 {
-    if (packet == NULL) {
-        RETURN_ERROR(JDWPTRANSPORT_ERROR_ILLEGAL_ARGUMENT, "packet is null");
+    if (pbcket == NULL) {
+        RETURN_ERROR(JDWPTRANSPORT_ERROR_ILLEGAL_ARGUMENT, "pbcket is null");
     }
-    if (packet->type.cmd.len < 11) {
-        RETURN_ERROR(JDWPTRANSPORT_ERROR_ILLEGAL_ARGUMENT, "invalid length");
+    if (pbcket->type.cmd.len < 11) {
+        RETURN_ERROR(JDWPTRANSPORT_ERROR_ILLEGAL_ARGUMENT, "invblid length");
     }
     if (connection == NULL) {
         RETURN_ERROR(JDWPTRANSPORT_ERROR_ILLEGAL_STATE, "not connected");
     }
-    if (shmemBase_sendPacket(connection, packet) == SYS_OK) {
+    if (shmemBbse_sendPbcket(connection, pbcket) == SYS_OK) {
         return JDWPTRANSPORT_ERROR_NONE;
     } else {
-        RETURN_IO_ERROR("write packet failed");
+        RETURN_IO_ERROR("write pbcket fbiled");
     }
 }
 
-static jdwpTransportError JNICALL
-shmemReadPacket(jdwpTransportEnv* env, jdwpPacket *packet)
+stbtic jdwpTrbnsportError JNICALL
+shmemRebdPbcket(jdwpTrbnsportEnv* env, jdwpPbcket *pbcket)
 {
-    if (packet == NULL) {
-        RETURN_ERROR(JDWPTRANSPORT_ERROR_ILLEGAL_ARGUMENT, "packet is null");
+    if (pbcket == NULL) {
+        RETURN_ERROR(JDWPTRANSPORT_ERROR_ILLEGAL_ARGUMENT, "pbcket is null");
     }
     if (connection == NULL) {
         RETURN_ERROR(JDWPTRANSPORT_ERROR_ILLEGAL_STATE, "not connected");
     }
-    if (shmemBase_receivePacket(connection, packet) == SYS_OK) {
+    if (shmemBbse_receivePbcket(connection, pbcket) == SYS_OK) {
         return JDWPTRANSPORT_ERROR_NONE;
     } else {
-        RETURN_IO_ERROR("receive packet failed");
+        RETURN_IO_ERROR("receive pbcket fbiled");
     }
 }
 
-static jboolean JNICALL
-shmemIsOpen(jdwpTransportEnv* env)
+stbtic jboolebn JNICALL
+shmemIsOpen(jdwpTrbnsportEnv* env)
 {
     if (connection != NULL) {
         return JNI_TRUE;
@@ -309,28 +309,28 @@ shmemIsOpen(jdwpTransportEnv* env)
     }
 }
 
-static jdwpTransportError JNICALL
-shmemClose(jdwpTransportEnv* env)
+stbtic jdwpTrbnsportError JNICALL
+shmemClose(jdwpTrbnsportEnv* env)
 {
-    SharedMemoryConnection* current_connection = connection;
+    ShbredMemoryConnection* current_connection = connection;
     if (current_connection != NULL) {
         connection = NULL;
-        shmemBase_closeConnection(current_connection);
+        shmemBbse_closeConnection(current_connection);
     }
     return JDWPTRANSPORT_ERROR_NONE;
 }
 
 /*
- * Return the error message for this thread.
+ * Return the error messbge for this threbd.
  */
-static jdwpTransportError  JNICALL
-shmemGetLastError(jdwpTransportEnv* env, char **msgP)
+stbtic jdwpTrbnsportError  JNICALL
+shmemGetLbstError(jdwpTrbnsportEnv* env, chbr **msgP)
 {
-    char *msg = (char *)sysTlsGet(tlsIndex);
+    chbr *msg = (chbr *)sysTlsGet(tlsIndex);
     if (msg == NULL) {
         return JDWPTRANSPORT_ERROR_MSG_NOT_AVAILABLE;
     }
-    *msgP = (*callbacks->alloc)((int)strlen(msg)+1);
+    *msgP = (*cbllbbcks->blloc)((int)strlen(msg)+1);
     if (*msgP == NULL) {
         return JDWPTRANSPORT_ERROR_OUT_OF_MEMORY;
     }
@@ -339,40 +339,40 @@ shmemGetLastError(jdwpTransportEnv* env, char **msgP)
 }
 
 JNIEXPORT jint JNICALL
-jdwpTransport_OnLoad(JavaVM *vm, jdwpTransportCallback* cbTablePtr,
-                     jint version, jdwpTransportEnv** result)
+jdwpTrbnsport_OnLobd(JbvbVM *vm, jdwpTrbnsportCbllbbck* cbTbblePtr,
+                     jint version, jdwpTrbnsportEnv** result)
 {
     if (version != JDWPTRANSPORT_VERSION_1_0) {
         return JNI_EVERSION;
     }
-    if (initialized) {
+    if (initiblized) {
         /*
-         * This library doesn't support multiple environments (yet)
+         * This librbry doesn't support multiple environments (yet)
          */
         return JNI_EEXIST;
     }
-    initialized = JNI_TRUE;
+    initiblized = JNI_TRUE;
 
-    /* initialize base shared memory system */
-   (void) shmemBase_initialize(vm, cbTablePtr);
+    /* initiblize bbse shbred memory system */
+   (void) shmemBbse_initiblize(vm, cbTbblePtr);
 
-    /* save callbacks */
-    callbacks = cbTablePtr;
+    /* sbve cbllbbcks */
+    cbllbbcks = cbTbblePtr;
 
-    /* initialize interface table */
-    interface.GetCapabilities = &shmemGetCapabilities;
-    interface.Attach = &shmemAttach;
-    interface.StartListening = &shmemStartListening;
-    interface.StopListening = &shmemStopListening;
-    interface.Accept = &shmemAccept;
-    interface.IsOpen = &shmemIsOpen;
-    interface.Close = &shmemClose;
-    interface.ReadPacket = &shmemReadPacket;
-    interface.WritePacket = &shmemWritePacket;
-    interface.GetLastError = &shmemGetLastError;
+    /* initiblize interfbce tbble */
+    interfbce.GetCbpbbilities = &shmemGetCbpbbilities;
+    interfbce.Attbch = &shmemAttbch;
+    interfbce.StbrtListening = &shmemStbrtListening;
+    interfbce.StopListening = &shmemStopListening;
+    interfbce.Accept = &shmemAccept;
+    interfbce.IsOpen = &shmemIsOpen;
+    interfbce.Close = &shmemClose;
+    interfbce.RebdPbcket = &shmemRebdPbcket;
+    interfbce.WritePbcket = &shmemWritePbcket;
+    interfbce.GetLbstError = &shmemGetLbstError;
     *result = &single_env;
 
-    /* initialized TLS */
+    /* initiblized TLS */
     tlsIndex = sysTlsAlloc();
 
     return JNI_OK;

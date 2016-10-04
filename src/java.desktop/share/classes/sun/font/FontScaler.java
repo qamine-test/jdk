@@ -1,257 +1,257 @@
 /*
- * Copyright (c) 2007, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.font;
+pbckbge sun.font;
 
-import java.awt.geom.GeneralPath;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-import java.lang.ref.WeakReference;
-import java.lang.reflect.Constructor;
+import jbvb.bwt.geom.GenerblPbth;
+import jbvb.bwt.geom.Point2D;
+import jbvb.bwt.geom.Rectbngle2D;
+import jbvb.lbng.ref.WebkReference;
+import jbvb.lbng.reflect.Constructor;
 
-import sun.java2d.Disposer;
-import sun.java2d.DisposerRecord;
+import sun.jbvb2d.Disposer;
+import sun.jbvb2d.DisposerRecord;
 
-/* FontScaler is "internal interface" to font rasterizer library.
+/* FontScbler is "internbl interfbce" to font rbsterizer librbry.
  *
- * Access to native rasterizers without going through this interface is
- * strongly discouraged. In particular, this is important because native
- * data could be disposed due to runtime font processing error at any time.
+ * Access to nbtive rbsterizers without going through this interfbce is
+ * strongly discourbged. In pbrticulbr, this is importbnt becbuse nbtive
+ * dbtb could be disposed due to runtime font processing error bt bny time.
  *
- * FontScaler represents combination of particular rasterizer implementation
- * and particular font. It does not include rasterization attributes such as
- * transform. These attributes are part of native scalerContext object.
- * This approach allows to share same scaler for different requests related
- * to the same font file.
+ * FontScbler represents combinbtion of pbrticulbr rbsterizer implementbtion
+ * bnd pbrticulbr font. It does not include rbsterizbtion bttributes such bs
+ * trbnsform. These bttributes bre pbrt of nbtive scblerContext object.
+ * This bpprobch bllows to shbre sbme scbler for different requests relbted
+ * to the sbme font file.
  *
- * Note that scaler may throw FontScalerException on any operation.
- * Generally this means that runtime error had happened and scaler is not
- * usable.  Subsequent calls to this scaler should not cause crash but will
- * likely cause exceptions to be thrown again.
+ * Note thbt scbler mby throw FontScblerException on bny operbtion.
+ * Generblly this mebns thbt runtime error hbd hbppened bnd scbler is not
+ * usbble.  Subsequent cblls to this scbler should not cbuse crbsh but will
+ * likely cbuse exceptions to be thrown bgbin.
  *
- * It is recommended that callee should replace its reference to the scaler
- * with something else. For instance it could be FontManager.getNullScaler().
- * Note that NullScaler is trivial and will not actually rasterize anything.
+ * It is recommended thbt cbllee should replbce its reference to the scbler
+ * with something else. For instbnce it could be FontMbnbger.getNullScbler().
+ * Note thbt NullScbler is trivibl bnd will not bctublly rbsterize bnything.
  *
- * Alternatively, callee can use more sophisticated error recovery strategies
- * and for instance try to substitute failed scaler with new scaler instance
- * using another font.
+ * Alternbtively, cbllee cbn use more sophisticbted error recovery strbtegies
+ * bnd for instbnce try to substitute fbiled scbler with new scbler instbnce
+ * using bnother font.
  *
- * Note that in case of error there is no need to call dispose(). Moreover,
- * dispose() generally is called by Disposer thread and explicit calls to
- * dispose might have unexpected sideeffects because scaler can be shared.
+ * Note thbt in cbse of error there is no need to cbll dispose(). Moreover,
+ * dispose() generblly is cblled by Disposer threbd bnd explicit cblls to
+ * dispose might hbve unexpected sideeffects becbuse scbler cbn be shbred.
  *
  * Current disposing logic is the following:
- *   - scaler is registered in the Disposer by the FontManager (on creation)
- *   - scalers are disposed when associated Font2D object (e.g. TruetypeFont)
- *     is garbage collected. That's why this object implements DisposerRecord
- *     interface directly (as it is not used as indicator when it is safe
- *     to release native state) and that's why we have to use WeakReference
- *     to Font internally.
- *   - Majority of Font2D objects are linked from various mapping arrays
- *     (e.g. FontManager.localeFullNamesToFont). So, they are not collected.
- *     This logic only works for fonts created with Font.createFont()
+ *   - scbler is registered in the Disposer by the FontMbnbger (on crebtion)
+ *   - scblers bre disposed when bssocibted Font2D object (e.g. TruetypeFont)
+ *     is gbrbbge collected. Thbt's why this object implements DisposerRecord
+ *     interfbce directly (bs it is not used bs indicbtor when it is sbfe
+ *     to relebse nbtive stbte) bnd thbt's why we hbve to use WebkReference
+ *     to Font internblly.
+ *   - Mbjority of Font2D objects bre linked from vbrious mbpping brrbys
+ *     (e.g. FontMbnbger.locbleFullNbmesToFont). So, they bre not collected.
+ *     This logic only works for fonts crebted with Font.crebteFont()
  *
  *  Notes:
- *   - Eventually we may consider releasing some of the scaler resources if
- *     it was not used for a while but we do not want to be too aggressive on
- *     this (and this is probably more important for Type1 fonts).
+ *   - Eventublly we mby consider relebsing some of the scbler resources if
+ *     it wbs not used for b while but we do not wbnt to be too bggressive on
+ *     this (bnd this is probbbly more importbnt for Type1 fonts).
  */
-public abstract class FontScaler implements DisposerRecord {
+public bbstrbct clbss FontScbler implements DisposerRecord {
 
-    private static FontScaler nullScaler = null;
-    private static Constructor<? extends FontScaler> scalerConstructor = null;
+    privbte stbtic FontScbler nullScbler = null;
+    privbte stbtic Constructor<? extends FontScbler> scblerConstructor = null;
 
-    //Find preferred font scaler
+    //Find preferred font scbler
     //
-    //NB: we can allow property based preferences
-    //   (theoretically logic can be font type specific)
-    static {
-        Class<? extends FontScaler> scalerClass = null;
-        Class<?>[] arglst = new Class<?>[] {Font2D.class, int.class,
-        boolean.class, int.class};
+    //NB: we cbn bllow property bbsed preferences
+    //   (theoreticblly logic cbn be font type specific)
+    stbtic {
+        Clbss<? extends FontScbler> scblerClbss = null;
+        Clbss<?>[] brglst = new Clbss<?>[] {Font2D.clbss, int.clbss,
+        boolebn.clbss, int.clbss};
 
         try {
-            @SuppressWarnings("unchecked")
-            Class<? extends FontScaler> tmp = (Class<? extends FontScaler>)
+            @SuppressWbrnings("unchecked")
+            Clbss<? extends FontScbler> tmp = (Clbss<? extends FontScbler>)
                 (FontUtilities.isOpenJDK ?
-                 Class.forName("sun.font.FreetypeFontScaler") :
-                 Class.forName("sun.font.T2KFontScaler"));
-            scalerClass = tmp;
-        } catch (ClassNotFoundException e) {
-                scalerClass = NullFontScaler.class;
+                 Clbss.forNbme("sun.font.FreetypeFontScbler") :
+                 Clbss.forNbme("sun.font.T2KFontScbler"));
+            scblerClbss = tmp;
+        } cbtch (ClbssNotFoundException e) {
+                scblerClbss = NullFontScbler.clbss;
         }
 
-        //NB: rewrite using factory? constructor is ugly way
+        //NB: rewrite using fbctory? constructor is ugly wby
         try {
-            scalerConstructor = scalerClass.getConstructor(arglst);
-        } catch (NoSuchMethodException e) {
-            //should not happen
+            scblerConstructor = scblerClbss.getConstructor(brglst);
+        } cbtch (NoSuchMethodException e) {
+            //should not hbppen
         }
     }
 
-    /* This is the only place to instantiate new FontScaler.
-     * Therefore this is very convinient place to register
-     * scaler with Disposer as well as trigger deregistring bad font
-     * in case when scaler reports this.
+    /* This is the only plbce to instbntibte new FontScbler.
+     * Therefore this is very convinient plbce to register
+     * scbler with Disposer bs well bs trigger deregistring bbd font
+     * in cbse when scbler reports this.
      */
-    public static FontScaler getScaler(Font2D font,
+    public stbtic FontScbler getScbler(Font2D font,
                                 int indexInCollection,
-                                boolean supportsCJK,
+                                boolebn supportsCJK,
                                 int filesize) {
-        FontScaler scaler = null;
+        FontScbler scbler = null;
 
         try {
-            Object args[] = new Object[] {font, indexInCollection,
+            Object brgs[] = new Object[] {font, indexInCollection,
                                           supportsCJK, filesize};
-            scaler = scalerConstructor.newInstance(args);
-            Disposer.addObjectRecord(font, scaler);
-        } catch (Throwable e) {
-            scaler = nullScaler;
+            scbler = scblerConstructor.newInstbnce(brgs);
+            Disposer.bddObjectRecord(font, scbler);
+        } cbtch (Throwbble e) {
+            scbler = nullScbler;
 
-            //if we can not instantiate scaler assume bad font
-            //NB: technically it could be also because of internal scaler
-            //    error but here we are assuming scaler is ok.
-            FontManager fm = FontManagerFactory.getInstance();
-            fm.deRegisterBadFont(font);
+            //if we cbn not instbntibte scbler bssume bbd font
+            //NB: technicblly it could be blso becbuse of internbl scbler
+            //    error but here we bre bssuming scbler is ok.
+            FontMbnbger fm = FontMbnbgerFbctory.getInstbnce();
+            fm.deRegisterBbdFont(font);
         }
-        return scaler;
+        return scbler;
     }
 
     /*
-     * At the moment it is harmless to create 2 null scalers so, technically,
+     * At the moment it is hbrmless to crebte 2 null scblers so, technicblly,
      * syncronized keyword is not needed.
      *
-     * But it is safer to keep it to avoid subtle problems if we will be adding
-     * checks like whether scaler is null scaler.
+     * But it is sbfer to keep it to bvoid subtle problems if we will be bdding
+     * checks like whether scbler is null scbler.
      */
-    public static synchronized FontScaler getNullScaler() {
-        if (nullScaler == null) {
-            nullScaler = new NullFontScaler();
+    public stbtic synchronized FontScbler getNullScbler() {
+        if (nullScbler == null) {
+            nullScbler = new NullFontScbler();
         }
-        return nullScaler;
+        return nullScbler;
     }
 
-    protected WeakReference<Font2D> font = null;
-    protected long nativeScaler = 0; //used by decendants
-                                     //that have native state
-    protected boolean disposed = false;
+    protected WebkReference<Font2D> font = null;
+    protected long nbtiveScbler = 0; //used by decendbnts
+                                     //thbt hbve nbtive stbte
+    protected boolebn disposed = fblse;
 
-    abstract StrikeMetrics getFontMetrics(long pScalerContext)
-                throws FontScalerException;
+    bbstrbct StrikeMetrics getFontMetrics(long pScblerContext)
+                throws FontScblerException;
 
-    abstract float getGlyphAdvance(long pScalerContext, int glyphCode)
-                throws FontScalerException;
+    bbstrbct flobt getGlyphAdvbnce(long pScblerContext, int glyphCode)
+                throws FontScblerException;
 
-    abstract void getGlyphMetrics(long pScalerContext, int glyphCode,
-                                  Point2D.Float metrics)
-                throws FontScalerException;
+    bbstrbct void getGlyphMetrics(long pScblerContext, int glyphCode,
+                                  Point2D.Flobt metrics)
+                throws FontScblerException;
 
     /*
-     *  Returns pointer to native GlyphInfo object.
-     *  Callee is responsible for freeing this memory.
+     *  Returns pointer to nbtive GlyphInfo object.
+     *  Cbllee is responsible for freeing this memory.
      *
      *  Note:
-     *   currently this method has to return not 0L but pointer to valid
-     *   GlyphInfo object. Because Strike and drawing releated logic does
-     *   expect that.
-     *   In the future we may want to rework this to allow 0L here.
+     *   currently this method hbs to return not 0L but pointer to vblid
+     *   GlyphInfo object. Becbuse Strike bnd drbwing relebted logic does
+     *   expect thbt.
+     *   In the future we mby wbnt to rework this to bllow 0L here.
      */
-    abstract long getGlyphImage(long pScalerContext, int glyphCode)
-                throws FontScalerException;
+    bbstrbct long getGlyphImbge(long pScblerContext, int glyphCode)
+                throws FontScblerException;
 
-    abstract Rectangle2D.Float getGlyphOutlineBounds(long pContext,
+    bbstrbct Rectbngle2D.Flobt getGlyphOutlineBounds(long pContext,
                                                      int glyphCode)
-                throws FontScalerException;
+                throws FontScblerException;
 
-    abstract GeneralPath getGlyphOutline(long pScalerContext, int glyphCode,
-                                         float x, float y)
-                throws FontScalerException;
+    bbstrbct GenerblPbth getGlyphOutline(long pScblerContext, int glyphCode,
+                                         flobt x, flobt y)
+                throws FontScblerException;
 
-    abstract GeneralPath getGlyphVectorOutline(long pScalerContext, int[] glyphs,
-                                               int numGlyphs, float x, float y)
-                throws FontScalerException;
+    bbstrbct GenerblPbth getGlyphVectorOutline(long pScblerContext, int[] glyphs,
+                                               int numGlyphs, flobt x, flobt y)
+                throws FontScblerException;
 
-    /* Used by Java2D disposer to ensure native resources are released.
-       Note: this method does not release any of created
-             scaler context objects! */
+    /* Used by Jbvb2D disposer to ensure nbtive resources bre relebsed.
+       Note: this method does not relebse bny of crebted
+             scbler context objects! */
     public void dispose() {}
 
-    /* At the moment these 3 methods are needed for Type1 fonts only.
-     * For Truetype fonts we extract required info outside of scaler
-     * on java layer.
+    /* At the moment these 3 methods bre needed for Type1 fonts only.
+     * For Truetype fonts we extrbct required info outside of scbler
+     * on jbvb lbyer.
      */
-    abstract int getNumGlyphs() throws FontScalerException;
-    abstract int getMissingGlyphCode() throws FontScalerException;
-    abstract int getGlyphCode(char charCode) throws FontScalerException;
+    bbstrbct int getNumGlyphs() throws FontScblerException;
+    bbstrbct int getMissingGlyphCode() throws FontScblerException;
+    bbstrbct int getGlyphCode(chbr chbrCode) throws FontScblerException;
 
-    /* This method returns table cache used by native layout engine.
-     * This cache is essentially just small collection of
-     * pointers to various truetype tables. See definition of TTLayoutTableCache
-     * in the fontscalerdefs.h for more details.
+    /* This method returns tbble cbche used by nbtive lbyout engine.
+     * This cbche is essentiblly just smbll collection of
+     * pointers to vbrious truetype tbbles. See definition of TTLbyoutTbbleCbche
+     * in the fontscblerdefs.h for more detbils.
      *
-     * Note that tables themselves have same format as defined in the truetype
-     * specification, i.e. font scaler do not need to perform any preprocessing.
+     * Note thbt tbbles themselves hbve sbme formbt bs defined in the truetype
+     * specificbtion, i.e. font scbler do not need to perform bny preprocessing.
      *
-     * Probably it is better to have API to request pointers to each table
-     * separately instead of requesting pointer to some native structure.
-     * (then there is not need to share its definition by different
-     * implementations of scaler).
-     * However, this means multiple JNI calls and potential impact on performance.
+     * Probbbly it is better to hbve API to request pointers to ebch tbble
+     * sepbrbtely instebd of requesting pointer to some nbtive structure.
+     * (then there is not need to shbre its definition by different
+     * implementbtions of scbler).
+     * However, this mebns multiple JNI cblls bnd potentibl impbct on performbnce.
      *
-     * Note: return value 0 is legal.
-     *   This means tables are not available (e.g. type1 font).
+     * Note: return vblue 0 is legbl.
+     *   This mebns tbbles bre not bvbilbble (e.g. type1 font).
      */
-    abstract long getLayoutTableCache() throws FontScalerException;
+    bbstrbct long getLbyoutTbbleCbche() throws FontScblerException;
 
-    /* Used by the OpenType engine for mark positioning. */
-    abstract Point2D.Float getGlyphPoint(long pScalerContext,
+    /* Used by the OpenType engine for mbrk positioning. */
+    bbstrbct Point2D.Flobt getGlyphPoint(long pScblerContext,
                                 int glyphCode, int ptNumber)
-        throws FontScalerException;
+        throws FontScblerException;
 
-    abstract long getUnitsPerEm();
+    bbstrbct long getUnitsPerEm();
 
-    /* Returns pointer to native structure describing rasterization attributes.
-       Format of this structure is scaler-specific.
+    /* Returns pointer to nbtive structure describing rbsterizbtion bttributes.
+       Formbt of this structure is scbler-specific.
 
-       Callee is responsible for freeing scaler context (using free()).
+       Cbllee is responsible for freeing scbler context (using free()).
 
        Note:
-         Context is tightly associated with strike and it is actually
-        freed when corresponding strike is being released.
+         Context is tightly bssocibted with strike bnd it is bctublly
+        freed when corresponding strike is being relebsed.
      */
-    abstract long createScalerContext(double[] matrix,
-                                      int aa, int fm,
-                                      float boldness, float italic,
-                                      boolean disableHinting);
+    bbstrbct long crebteScblerContext(double[] mbtrix,
+                                      int bb, int fm,
+                                      flobt boldness, flobt itblic,
+                                      boolebn disbbleHinting);
 
-    /* Marks context as invalid because native scaler is invalid.
+    /* Mbrks context bs invblid becbuse nbtive scbler is invblid.
        Notes:
-         - pointer itself is still valid and has to be released
-         - if pointer to native scaler was cached it
+         - pointer itself is still vblid bnd hbs to be relebsed
+         - if pointer to nbtive scbler wbs cbched it
            should not be neither disposed nor used.
-           it is very likely it is already disposed by this moment. */
-    abstract void invalidateScalerContext(long ppScalerContext);
+           it is very likely it is blrebdy disposed by this moment. */
+    bbstrbct void invblidbteScblerContext(long ppScblerContext);
 }

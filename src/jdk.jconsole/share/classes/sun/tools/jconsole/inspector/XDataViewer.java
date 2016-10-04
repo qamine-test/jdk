@@ -1,146 +1,146 @@
 /*
- * Copyright (c) 2004, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.jconsole.inspector;
+pbckbge sun.tools.jconsole.inspector;
 
-import javax.swing.JTable;
-import javax.swing.JScrollPane;
-import javax.swing.JButton;
+import jbvbx.swing.JTbble;
+import jbvbx.swing.JScrollPbne;
+import jbvbx.swing.JButton;
 
-import java.awt.event.MouseListener;
-import java.awt.Component;
-import java.awt.Container;
+import jbvb.bwt.event.MouseListener;
+import jbvb.bwt.Component;
+import jbvb.bwt.Contbiner;
 
-import sun.tools.jconsole.MBeansTab;
-import sun.tools.jconsole.Messages;
+import sun.tools.jconsole.MBebnsTbb;
+import sun.tools.jconsole.Messbges;
 
-public class XDataViewer {
+public clbss XDbtbViewer {
 
-    public static final int OPEN = 1;
-    public static final int ARRAY = 2;
-    public static final int NUMERIC = 3;
-    public static final int NOT_SUPPORTED = 4;
+    public stbtic finbl int OPEN = 1;
+    public stbtic finbl int ARRAY = 2;
+    public stbtic finbl int NUMERIC = 3;
+    public stbtic finbl int NOT_SUPPORTED = 4;
 
-    private MBeansTab tab;
-    public XDataViewer(MBeansTab tab) {
-        this.tab = tab;
+    privbte MBebnsTbb tbb;
+    public XDbtbViewer(MBebnsTbb tbb) {
+        this.tbb = tbb;
     }
 
-    public static void registerForMouseEvent(Component comp,
+    public stbtic void registerForMouseEvent(Component comp,
                                              MouseListener mouseListener) {
-        if(comp instanceof JScrollPane) {
-            JScrollPane pane = (JScrollPane) comp;
-            comp = pane.getViewport().getView();
+        if(comp instbnceof JScrollPbne) {
+            JScrollPbne pbne = (JScrollPbne) comp;
+            comp = pbne.getViewport().getView();
         }
-        if(comp instanceof Container) {
-            Container container = (Container) comp;
-            Component[] components = container.getComponents();
+        if(comp instbnceof Contbiner) {
+            Contbiner contbiner = (Contbiner) comp;
+            Component[] components = contbiner.getComponents();
             for(int i = 0; i < components.length; i++) {
                 registerForMouseEvent(components[i], mouseListener);
             }
         }
 
-        //No registration for XOpenTypedata that are themselves clickable.
-        //No registration for JButton that are themselves clickable.
+        //No registrbtion for XOpenTypedbtb thbt bre themselves clickbble.
+        //No registrbtion for JButton thbt bre themselves clickbble.
         if(comp != null &&
-           (!(comp instanceof XOpenTypeViewer.XOpenTypeData) &&
-            !(comp instanceof JButton)) )
-            comp.addMouseListener(mouseListener);
+           (!(comp instbnceof XOpenTypeViewer.XOpenTypeDbtb) &&
+            !(comp instbnceof JButton)) )
+            comp.bddMouseListener(mouseListener);
     }
 
-    public static void dispose(MBeansTab tab) {
-        XPlottingViewer.dispose(tab);
+    public stbtic void dispose(MBebnsTbb tbb) {
+        XPlottingViewer.dispose(tbb);
     }
 
-    public static boolean isViewableValue(Object value) {
-        boolean ret = false;
-        if((ret = XArrayDataViewer.isViewableValue(value)))
+    public stbtic boolebn isViewbbleVblue(Object vblue) {
+        boolebn ret = fblse;
+        if((ret = XArrbyDbtbViewer.isViewbbleVblue(vblue)))
             return ret;
-        if((ret = XOpenTypeViewer.isViewableValue(value)))
+        if((ret = XOpenTypeViewer.isViewbbleVblue(vblue)))
             return ret;
-        if((ret = XPlottingViewer.isViewableValue(value)))
+        if((ret = XPlottingViewer.isViewbbleVblue(vblue)))
             return ret;
 
         return ret;
     }
 
-    public static int getViewerType(Object data) {
-        if(XArrayDataViewer.isViewableValue(data))
+    public stbtic int getViewerType(Object dbtb) {
+        if(XArrbyDbtbViewer.isViewbbleVblue(dbtb))
             return ARRAY;
-        if(XOpenTypeViewer.isViewableValue(data))
+        if(XOpenTypeViewer.isViewbbleVblue(dbtb))
             return OPEN;
-        if(XPlottingViewer.isViewableValue(data))
+        if(XPlottingViewer.isViewbbleVblue(dbtb))
             return NUMERIC;
 
         return NOT_SUPPORTED;
     }
 
-    public static String getActionLabel(int type) {
+    public stbtic String getActionLbbel(int type) {
         if(type == ARRAY ||
            type == OPEN)
-            return Messages.VISUALIZE;
+            return Messbges.VISUALIZE;
         if(type == NUMERIC)
-            return Messages.PLOT;
-        return Messages.EXPAND;
+            return Messbges.PLOT;
+        return Messbges.EXPAND;
     }
 
-    public Component createOperationViewer(Object value,
-                                           XMBean mbean) {
-        if(value instanceof Number) return null;
-        if(value instanceof Component) return (Component) value;
-        return createAttributeViewer(value, mbean, null, null);
+    public Component crebteOperbtionViewer(Object vblue,
+                                           XMBebn mbebn) {
+        if(vblue instbnceof Number) return null;
+        if(vblue instbnceof Component) return (Component) vblue;
+        return crebteAttributeViewer(vblue, mbebn, null, null);
     }
 
-    public static Component createNotificationViewer(Object value) {
+    public stbtic Component crebteNotificbtionViewer(Object vblue) {
         Component comp = null;
 
-        if(value instanceof Number) return null;
+        if(vblue instbnceof Number) return null;
 
-        if((comp = XArrayDataViewer.loadArray(value)) != null)
+        if((comp = XArrbyDbtbViewer.lobdArrby(vblue)) != null)
             return comp;
 
-        if((comp = XOpenTypeViewer.loadOpenType(value)) != null)
+        if((comp = XOpenTypeViewer.lobdOpenType(vblue)) != null)
             return comp;
 
         return comp;
     }
 
-    public Component createAttributeViewer(Object value,
-                                           XMBean mbean,
-                                           String attributeName,
-                                           JTable table) {
+    public Component crebteAttributeViewer(Object vblue,
+                                           XMBebn mbebn,
+                                           String bttributeNbme,
+                                           JTbble tbble) {
         Component comp = null;
-        if((comp = XArrayDataViewer.loadArray(value)) != null)
+        if((comp = XArrbyDbtbViewer.lobdArrby(vblue)) != null)
             return comp;
-        if((comp = XOpenTypeViewer.loadOpenType(value)) != null)
+        if((comp = XOpenTypeViewer.lobdOpenType(vblue)) != null)
             return comp;
-        if((comp = XPlottingViewer.loadPlotting(mbean,
-                                                attributeName,
-                                                value,
-                                                table,
-                                                tab)) != null)
+        if((comp = XPlottingViewer.lobdPlotting(mbebn,
+                                                bttributeNbme,
+                                                vblue,
+                                                tbble,
+                                                tbb)) != null)
             return comp;
 
         return comp;

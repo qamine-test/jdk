@@ -1,80 +1,80 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.java;
+pbckbge sun.tools.jbvb;
 
 /**
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file bre not pbrt of bny
+ * supported API.  Code thbt depends on them does so bt its own risk:
+ * they bre subject to chbnge or removbl without notice.
  */
-public interface RuntimeConstants {
+public interfbce RuntimeConstbnts {
 
-    /* Signature Characters */
-    char   SIGC_VOID                  = 'V';
+    /* Signbture Chbrbcters */
+    chbr   SIGC_VOID                  = 'V';
     String SIG_VOID                   = "V";
-    char   SIGC_BOOLEAN               = 'Z';
+    chbr   SIGC_BOOLEAN               = 'Z';
     String SIG_BOOLEAN                = "Z";
-    char   SIGC_BYTE                  = 'B';
+    chbr   SIGC_BYTE                  = 'B';
     String SIG_BYTE                   = "B";
-    char   SIGC_CHAR                  = 'C';
+    chbr   SIGC_CHAR                  = 'C';
     String SIG_CHAR                   = "C";
-    char   SIGC_SHORT                 = 'S';
+    chbr   SIGC_SHORT                 = 'S';
     String SIG_SHORT                  = "S";
-    char   SIGC_INT                   = 'I';
+    chbr   SIGC_INT                   = 'I';
     String SIG_INT                    = "I";
-    char   SIGC_LONG                  = 'J';
+    chbr   SIGC_LONG                  = 'J';
     String SIG_LONG                   = "J";
-    char   SIGC_FLOAT                 = 'F';
+    chbr   SIGC_FLOAT                 = 'F';
     String SIG_FLOAT                  = "F";
-    char   SIGC_DOUBLE                = 'D';
+    chbr   SIGC_DOUBLE                = 'D';
     String SIG_DOUBLE                 = "D";
-    char   SIGC_ARRAY                 = '[';
+    chbr   SIGC_ARRAY                 = '[';
     String SIG_ARRAY                  = "[";
-    char   SIGC_CLASS                 = 'L';
+    chbr   SIGC_CLASS                 = 'L';
     String SIG_CLASS                  = "L";
-    char   SIGC_METHOD                = '(';
+    chbr   SIGC_METHOD                = '(';
     String SIG_METHOD                 = "(";
-    char   SIGC_ENDCLASS              = ';';
+    chbr   SIGC_ENDCLASS              = ';';
     String SIG_ENDCLASS               = ";";
-    char   SIGC_ENDMETHOD             = ')';
+    chbr   SIGC_ENDMETHOD             = ')';
     String SIG_ENDMETHOD              = ")";
-    char   SIGC_PACKAGE               = '/';
+    chbr   SIGC_PACKAGE               = '/';
     String SIG_PACKAGE                = "/";
 
-    /* Class File Constants */
-    int JAVA_MAGIC                   = 0xcafebabe;
+    /* Clbss File Constbnts */
+    int JAVA_MAGIC                   = 0xcbfebbbe;
     int JAVA_MIN_SUPPORTED_VERSION   = 45;
     int JAVA_MAX_SUPPORTED_VERSION   = 52;
     int JAVA_MAX_SUPPORTED_MINOR_VERSION = 0;
 
-    /* Generate class file version for 1.1  by default */
+    /* Generbte clbss file version for 1.1  by defbult */
     int JAVA_DEFAULT_VERSION         = 45;
     int JAVA_DEFAULT_MINOR_VERSION   = 3;
 
-    /* Constant table */
+    /* Constbnt tbble */
     int CONSTANT_UTF8                = 1;
     int CONSTANT_UNICODE             = 2;
     int CONSTANT_INTEGER             = 3;
@@ -91,7 +91,7 @@ public interface RuntimeConstants {
     int CONSTANT_METHODTYPE          = 16;
     int CONSTANT_INVOKEDYNAMIC       = 18;
 
-    /* Access and modifier flags */
+    /* Access bnd modifier flbgs */
     int ACC_PUBLIC                   = 0x00000001;
     int ACC_PRIVATE                  = 0x00000002;
     int ACC_PROTECTED                = 0x00000004;
@@ -114,15 +114,15 @@ public interface RuntimeConstants {
     int T_DOUBLE                     = 0x00000007;
     int T_BYTE                       = 0x00000008;
     int T_SHORT                      = 0x00000009;
-    int T_INT                        = 0x0000000a;
+    int T_INT                        = 0x0000000b;
     int T_LONG                       = 0x0000000b;
 
     /* Opcodes */
     int opc_try                      = -3;
-    int opc_dead                     = -2;
-    int opc_label                    = -1;
+    int opc_debd                     = -2;
+    int opc_lbbel                    = -1;
     int opc_nop                      = 0;
-    int opc_aconst_null              = 1;
+    int opc_bconst_null              = 1;
     int opc_iconst_m1                = 2;
     int opc_iconst_0                 = 3;
     int opc_iconst_1                 = 4;
@@ -142,44 +142,44 @@ public interface RuntimeConstants {
     int opc_ldc                      = 18;
     int opc_ldc_w                    = 19;
     int opc_ldc2_w                   = 20;
-    int opc_iload                    = 21;
-    int opc_lload                    = 22;
-    int opc_fload                    = 23;
-    int opc_dload                    = 24;
-    int opc_aload                    = 25;
-    int opc_iload_0                  = 26;
-    int opc_iload_1                  = 27;
-    int opc_iload_2                  = 28;
-    int opc_iload_3                  = 29;
-    int opc_lload_0                  = 30;
-    int opc_lload_1                  = 31;
-    int opc_lload_2                  = 32;
-    int opc_lload_3                  = 33;
-    int opc_fload_0                  = 34;
-    int opc_fload_1                  = 35;
-    int opc_fload_2                  = 36;
-    int opc_fload_3                  = 37;
-    int opc_dload_0                  = 38;
-    int opc_dload_1                  = 39;
-    int opc_dload_2                  = 40;
-    int opc_dload_3                  = 41;
-    int opc_aload_0                  = 42;
-    int opc_aload_1                  = 43;
-    int opc_aload_2                  = 44;
-    int opc_aload_3                  = 45;
-    int opc_iaload                   = 46;
-    int opc_laload                   = 47;
-    int opc_faload                   = 48;
-    int opc_daload                   = 49;
-    int opc_aaload                   = 50;
-    int opc_baload                   = 51;
-    int opc_caload                   = 52;
-    int opc_saload                   = 53;
+    int opc_ilobd                    = 21;
+    int opc_llobd                    = 22;
+    int opc_flobd                    = 23;
+    int opc_dlobd                    = 24;
+    int opc_blobd                    = 25;
+    int opc_ilobd_0                  = 26;
+    int opc_ilobd_1                  = 27;
+    int opc_ilobd_2                  = 28;
+    int opc_ilobd_3                  = 29;
+    int opc_llobd_0                  = 30;
+    int opc_llobd_1                  = 31;
+    int opc_llobd_2                  = 32;
+    int opc_llobd_3                  = 33;
+    int opc_flobd_0                  = 34;
+    int opc_flobd_1                  = 35;
+    int opc_flobd_2                  = 36;
+    int opc_flobd_3                  = 37;
+    int opc_dlobd_0                  = 38;
+    int opc_dlobd_1                  = 39;
+    int opc_dlobd_2                  = 40;
+    int opc_dlobd_3                  = 41;
+    int opc_blobd_0                  = 42;
+    int opc_blobd_1                  = 43;
+    int opc_blobd_2                  = 44;
+    int opc_blobd_3                  = 45;
+    int opc_iblobd                   = 46;
+    int opc_lblobd                   = 47;
+    int opc_fblobd                   = 48;
+    int opc_dblobd                   = 49;
+    int opc_bblobd                   = 50;
+    int opc_bblobd                   = 51;
+    int opc_cblobd                   = 52;
+    int opc_sblobd                   = 53;
     int opc_istore                   = 54;
     int opc_lstore                   = 55;
     int opc_fstore                   = 56;
     int opc_dstore                   = 57;
-    int opc_astore                   = 58;
+    int opc_bstore                   = 58;
     int opc_istore_0                 = 59;
     int opc_istore_1                 = 60;
     int opc_istore_2                 = 61;
@@ -196,18 +196,18 @@ public interface RuntimeConstants {
     int opc_dstore_1                 = 72;
     int opc_dstore_2                 = 73;
     int opc_dstore_3                 = 74;
-    int opc_astore_0                 = 75;
-    int opc_astore_1                 = 76;
-    int opc_astore_2                 = 77;
-    int opc_astore_3                 = 78;
-    int opc_iastore                  = 79;
-    int opc_lastore                  = 80;
-    int opc_fastore                  = 81;
-    int opc_dastore                  = 82;
-    int opc_aastore                  = 83;
-    int opc_bastore                  = 84;
-    int opc_castore                  = 85;
-    int opc_sastore                  = 86;
+    int opc_bstore_0                 = 75;
+    int opc_bstore_1                 = 76;
+    int opc_bstore_2                 = 77;
+    int opc_bstore_3                 = 78;
+    int opc_ibstore                  = 79;
+    int opc_lbstore                  = 80;
+    int opc_fbstore                  = 81;
+    int opc_dbstore                  = 82;
+    int opc_bbstore                  = 83;
+    int opc_bbstore                  = 84;
+    int opc_cbstore                  = 85;
+    int opc_sbstore                  = 86;
     int opc_pop                      = 87;
     int opc_pop2                     = 88;
     int opc_dup                      = 89;
@@ -216,11 +216,11 @@ public interface RuntimeConstants {
     int opc_dup2                     = 92;
     int opc_dup2_x1                  = 93;
     int opc_dup2_x2                  = 94;
-    int opc_swap                     = 95;
-    int opc_iadd                     = 96;
-    int opc_ladd                     = 97;
-    int opc_fadd                     = 98;
-    int opc_dadd                     = 99;
+    int opc_swbp                     = 95;
+    int opc_ibdd                     = 96;
+    int opc_lbdd                     = 97;
+    int opc_fbdd                     = 98;
+    int opc_dbdd                     = 99;
     int opc_isub                     = 100;
     int opc_lsub                     = 101;
     int opc_fsub                     = 102;
@@ -247,8 +247,8 @@ public interface RuntimeConstants {
     int opc_lshr                     = 123;
     int opc_iushr                    = 124;
     int opc_lushr                    = 125;
-    int opc_iand                     = 126;
-    int opc_land                     = 127;
+    int opc_ibnd                     = 126;
+    int opc_lbnd                     = 127;
     int opc_ior                      = 128;
     int opc_lor                      = 129;
     int opc_ixor                     = 130;
@@ -286,49 +286,49 @@ public interface RuntimeConstants {
     int opc_if_icmpge                = 162;
     int opc_if_icmpgt                = 163;
     int opc_if_icmple                = 164;
-    int opc_if_acmpeq                = 165;
-    int opc_if_acmpne                = 166;
+    int opc_if_bcmpeq                = 165;
+    int opc_if_bcmpne                = 166;
     int opc_goto                     = 167;
     int opc_jsr                      = 168;
     int opc_ret                      = 169;
-    int opc_tableswitch              = 170;
+    int opc_tbbleswitch              = 170;
     int opc_lookupswitch             = 171;
     int opc_ireturn                  = 172;
     int opc_lreturn                  = 173;
     int opc_freturn                  = 174;
     int opc_dreturn                  = 175;
-    int opc_areturn                  = 176;
+    int opc_breturn                  = 176;
     int opc_return                   = 177;
-    int opc_getstatic                = 178;
-    int opc_putstatic                = 179;
+    int opc_getstbtic                = 178;
+    int opc_putstbtic                = 179;
     int opc_getfield                 = 180;
     int opc_putfield                 = 181;
-    int opc_invokevirtual            = 182;
-    int opc_invokespecial            = 183;
-    int opc_invokestatic             = 184;
-    int opc_invokeinterface          = 185;
-    int opc_invokedynamic            = 186;
+    int opc_invokevirtubl            = 182;
+    int opc_invokespecibl            = 183;
+    int opc_invokestbtic             = 184;
+    int opc_invokeinterfbce          = 185;
+    int opc_invokedynbmic            = 186;
     int opc_new                      = 187;
-    int opc_newarray                 = 188;
-    int opc_anewarray                = 189;
-    int opc_arraylength              = 190;
-    int opc_athrow                   = 191;
-    int opc_checkcast                = 192;
-    int opc_instanceof               = 193;
+    int opc_newbrrby                 = 188;
+    int opc_bnewbrrby                = 189;
+    int opc_brrbylength              = 190;
+    int opc_bthrow                   = 191;
+    int opc_checkcbst                = 192;
+    int opc_instbnceof               = 193;
     int opc_monitorenter             = 194;
     int opc_monitorexit              = 195;
     int opc_wide                     = 196;
-    int opc_multianewarray           = 197;
+    int opc_multibnewbrrby           = 197;
     int opc_ifnull                   = 198;
     int opc_ifnonnull                = 199;
     int opc_goto_w                   = 200;
     int opc_jsr_w                    = 201;
-    int opc_breakpoint               = 202;
+    int opc_brebkpoint               = 202;
 
-    /* Opcode Names */
-    String opcNames[] = {
+    /* Opcode Nbmes */
+    String opcNbmes[] = {
         "nop",
-        "aconst_null",
+        "bconst_null",
         "iconst_m1",
         "iconst_0",
         "iconst_1",
@@ -348,44 +348,44 @@ public interface RuntimeConstants {
         "ldc",
         "ldc_w",
         "ldc2_w",
-        "iload",
-        "lload",
-        "fload",
-        "dload",
-        "aload",
-        "iload_0",
-        "iload_1",
-        "iload_2",
-        "iload_3",
-        "lload_0",
-        "lload_1",
-        "lload_2",
-        "lload_3",
-        "fload_0",
-        "fload_1",
-        "fload_2",
-        "fload_3",
-        "dload_0",
-        "dload_1",
-        "dload_2",
-        "dload_3",
-        "aload_0",
-        "aload_1",
-        "aload_2",
-        "aload_3",
-        "iaload",
-        "laload",
-        "faload",
-        "daload",
-        "aaload",
-        "baload",
-        "caload",
-        "saload",
+        "ilobd",
+        "llobd",
+        "flobd",
+        "dlobd",
+        "blobd",
+        "ilobd_0",
+        "ilobd_1",
+        "ilobd_2",
+        "ilobd_3",
+        "llobd_0",
+        "llobd_1",
+        "llobd_2",
+        "llobd_3",
+        "flobd_0",
+        "flobd_1",
+        "flobd_2",
+        "flobd_3",
+        "dlobd_0",
+        "dlobd_1",
+        "dlobd_2",
+        "dlobd_3",
+        "blobd_0",
+        "blobd_1",
+        "blobd_2",
+        "blobd_3",
+        "iblobd",
+        "lblobd",
+        "fblobd",
+        "dblobd",
+        "bblobd",
+        "bblobd",
+        "cblobd",
+        "sblobd",
         "istore",
         "lstore",
         "fstore",
         "dstore",
-        "astore",
+        "bstore",
         "istore_0",
         "istore_1",
         "istore_2",
@@ -402,18 +402,18 @@ public interface RuntimeConstants {
         "dstore_1",
         "dstore_2",
         "dstore_3",
-        "astore_0",
-        "astore_1",
-        "astore_2",
-        "astore_3",
-        "iastore",
-        "lastore",
-        "fastore",
-        "dastore",
-        "aastore",
-        "bastore",
-        "castore",
-        "sastore",
+        "bstore_0",
+        "bstore_1",
+        "bstore_2",
+        "bstore_3",
+        "ibstore",
+        "lbstore",
+        "fbstore",
+        "dbstore",
+        "bbstore",
+        "bbstore",
+        "cbstore",
+        "sbstore",
         "pop",
         "pop2",
         "dup",
@@ -422,11 +422,11 @@ public interface RuntimeConstants {
         "dup2",
         "dup2_x1",
         "dup2_x2",
-        "swap",
-        "iadd",
-        "ladd",
-        "fadd",
-        "dadd",
+        "swbp",
+        "ibdd",
+        "lbdd",
+        "fbdd",
+        "dbdd",
         "isub",
         "lsub",
         "fsub",
@@ -453,8 +453,8 @@ public interface RuntimeConstants {
         "lshr",
         "iushr",
         "lushr",
-        "iand",
-        "land",
+        "ibnd",
+        "lbnd",
         "ior",
         "lor",
         "ixor",
@@ -492,44 +492,44 @@ public interface RuntimeConstants {
         "if_icmpge",
         "if_icmpgt",
         "if_icmple",
-        "if_acmpeq",
-        "if_acmpne",
+        "if_bcmpeq",
+        "if_bcmpne",
         "goto",
         "jsr",
         "ret",
-        "tableswitch",
+        "tbbleswitch",
         "lookupswitch",
         "ireturn",
         "lreturn",
         "freturn",
         "dreturn",
-        "areturn",
+        "breturn",
         "return",
-        "getstatic",
-        "putstatic",
+        "getstbtic",
+        "putstbtic",
         "getfield",
         "putfield",
-        "invokevirtual",
-        "invokespecial",
-        "invokestatic",
-        "invokeinterface",
-        "invokedynamic",
+        "invokevirtubl",
+        "invokespecibl",
+        "invokestbtic",
+        "invokeinterfbce",
+        "invokedynbmic",
         "new",
-        "newarray",
-        "anewarray",
-        "arraylength",
-        "athrow",
-        "checkcast",
-        "instanceof",
+        "newbrrby",
+        "bnewbrrby",
+        "brrbylength",
+        "bthrow",
+        "checkcbst",
+        "instbnceof",
         "monitorenter",
         "monitorexit",
         "wide",
-        "multianewarray",
+        "multibnewbrrby",
         "ifnull",
         "ifnonnull",
         "goto_w",
         "jsr_w",
-        "breakpoint"
+        "brebkpoint"
     };
 
     /* Opcode Lengths */

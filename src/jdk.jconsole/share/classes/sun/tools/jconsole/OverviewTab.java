@@ -1,109 +1,109 @@
 /*
- * Copyright (c) 2006, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.tools.jconsole;
+pbckbge sun.tools.jconsole;
 
-import java.awt.*;
-import java.util.ArrayList;
+import jbvb.bwt.*;
+import jbvb.util.ArrbyList;
 
-import javax.swing.*;
-import javax.swing.border.*;
+import jbvbx.swing.*;
+import jbvbx.swing.border.*;
 
 
-@SuppressWarnings("serial")
-class OverviewTab extends Tab {
-    JPanel gridPanel;
+@SuppressWbrnings("seribl")
+clbss OverviewTbb extends Tbb {
+    JPbnel gridPbnel;
     TimeComboBox timeComboBox;
 
-    public static String getTabName() {
-        return Messages.OVERVIEW;
+    public stbtic String getTbbNbme() {
+        return Messbges.OVERVIEW;
     }
 
-    public OverviewTab(VMPanel vmPanel) {
-        super(vmPanel, getTabName());
+    public OverviewTbb(VMPbnel vmPbnel) {
+        super(vmPbnel, getTbbNbme());
 
         setBorder(new EmptyBorder(4, 4, 3, 4));
-        setLayout(new BorderLayout());
+        setLbyout(new BorderLbyout());
 
-        JPanel topPanel     = new JPanel(new BorderLayout());
-        add(topPanel, BorderLayout.NORTH);
+        JPbnel topPbnel     = new JPbnel(new BorderLbyout());
+        bdd(topPbnel, BorderLbyout.NORTH);
 
-        JPanel controlPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 5));
-        topPanel.add(controlPanel, BorderLayout.CENTER);
+        JPbnel controlPbnel = new JPbnel(new FlowLbyout(FlowLbyout.CENTER, 20, 5));
+        topPbnel.bdd(controlPbnel, BorderLbyout.CENTER);
 
         timeComboBox = new TimeComboBox();
-        LabeledComponent lc = new LabeledComponent(Messages.TIME_RANGE_COLON,
-                                                   Resources.getMnemonicInt(Messages.TIME_RANGE_COLON),
+        LbbeledComponent lc = new LbbeledComponent(Messbges.TIME_RANGE_COLON,
+                                                   Resources.getMnemonicInt(Messbges.TIME_RANGE_COLON),
                                                    timeComboBox);
-        controlPanel.add(lc);
+        controlPbnel.bdd(lc);
 
-        gridPanel = new JPanel(new AutoGridLayout(10, 6));
-        gridPanel.setBorder(null);
-        JScrollPane sp = new JScrollPane(gridPanel);
+        gridPbnel = new JPbnel(new AutoGridLbyout(10, 6));
+        gridPbnel.setBorder(null);
+        JScrollPbne sp = new JScrollPbne(gridPbnel);
         sp.setBorder(null);
         sp.setViewportBorder(null);
-        add(sp, BorderLayout.CENTER);
+        bdd(sp, BorderLbyout.CENTER);
 
-        // Note that panels are added on first update
+        // Note thbt pbnels bre bdded on first updbte
     }
 
 
     public SwingWorker<?, ?> newSwingWorker() {
         return new SwingWorker<Object, Object>() {
-            public Object doInBackground() {
+            public Object doInBbckground() {
                 return null;
             }
 
             protected void done() {
-                if (gridPanel.getComponentCount() == 0) {
-                    final ArrayList<Plotter> plotters = new ArrayList<Plotter>();
-                    for (Tab tab : vmPanel.getTabs()) {
-                        OverviewPanel[] ops = tab.getOverviewPanels();
+                if (gridPbnel.getComponentCount() == 0) {
+                    finbl ArrbyList<Plotter> plotters = new ArrbyList<Plotter>();
+                    for (Tbb tbb : vmPbnel.getTbbs()) {
+                        OverviewPbnel[] ops = tbb.getOverviewPbnels();
                         if (ops != null) {
-                            for (OverviewPanel op : ops) {
-                                gridPanel.add(op);
+                            for (OverviewPbnel op : ops) {
+                                gridPbnel.bdd(op);
                                 Plotter plotter = op.getPlotter();
                                 if (plotter != null) {
-                                    plotters.add(plotter);
-                                    timeComboBox.addPlotter(plotter);
+                                    plotters.bdd(plotter);
+                                    timeComboBox.bddPlotter(plotter);
                                 }
                             }
                         }
                     }
                     if (plotters.size() > 0) {
-                        workerAdd(new Runnable() {
+                        workerAdd(new Runnbble() {
                             public void run() {
-                                ProxyClient proxyClient = vmPanel.getProxyClient();
+                                ProxyClient proxyClient = vmPbnel.getProxyClient();
                                 for (Plotter plotter : plotters) {
-                                    proxyClient.addWeakPropertyChangeListener(plotter);
+                                    proxyClient.bddWebkPropertyChbngeListener(plotter);
                                 }
                             }
                         });
                     }
-                    if (getParent() instanceof JTabbedPane) {
-                        Utilities.updateTransparency((JTabbedPane)getParent());
+                    if (getPbrent() instbnceof JTbbbedPbne) {
+                        Utilities.updbteTrbnspbrency((JTbbbedPbne)getPbrent());
                     }
                 }
             }
@@ -112,39 +112,39 @@ class OverviewTab extends Tab {
 
 
 
-    private class AutoGridLayout extends GridLayout {
-        public AutoGridLayout(int hGap, int vGap) {
-            super(0, 1, hGap, vGap);
+    privbte clbss AutoGridLbyout extends GridLbyout {
+        public AutoGridLbyout(int hGbp, int vGbp) {
+            super(0, 1, hGbp, vGbp);
         }
 
-        public Dimension preferredLayoutSize(Container parent) {
-            return minimumLayoutSize(parent);
+        public Dimension preferredLbyoutSize(Contbiner pbrent) {
+            return minimumLbyoutSize(pbrent);
         }
 
-        public Dimension minimumLayoutSize(Container parent) {
-            updateColumns(parent);
-            return super.minimumLayoutSize(parent);
+        public Dimension minimumLbyoutSize(Contbiner pbrent) {
+            updbteColumns(pbrent);
+            return super.minimumLbyoutSize(pbrent);
         }
 
-        private void updateColumns(Container parent) {
-            // Use the outer panel width, not the scrolling gridPanel
-            int parentWidth = OverviewTab.this.getWidth();
+        privbte void updbteColumns(Contbiner pbrent) {
+            // Use the outer pbnel width, not the scrolling gridPbnel
+            int pbrentWidth = OverviewTbb.this.getWidth();
 
             int columnWidth = 1;
 
-            for (Component c : parent.getComponents()) {
-                columnWidth = Math.max(columnWidth, c.getPreferredSize().width);
+            for (Component c : pbrent.getComponents()) {
+                columnWidth = Mbth.mbx(columnWidth, c.getPreferredSize().width);
             }
 
-            int n = parent.getComponentCount();
-            int maxCols = Math.min(n, parentWidth / columnWidth);
+            int n = pbrent.getComponentCount();
+            int mbxCols = Mbth.min(n, pbrentWidth / columnWidth);
 
-            for (int columns = maxCols; columns >= 1; columns--) {
+            for (int columns = mbxCols; columns >= 1; columns--) {
                 if (columns == 1) {
-                    setColumns(maxCols);
+                    setColumns(mbxCols);
                 } else if ((n % columns) == 0) {
                     setColumns(columns);
-                    break;
+                    brebk;
                 }
             }
         }

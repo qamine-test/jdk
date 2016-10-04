@@ -1,98 +1,98 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.filechooser;
+pbckbge jbvbx.swing.filechooser;
 
 
-import javax.swing.*;
+import jbvbx.swing.*;
 
-import java.awt.Image;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.text.MessageFormat;
-import java.util.List;
-import java.util.ArrayList;
-import java.lang.ref.WeakReference;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeEvent;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
+import jbvb.bwt.Imbge;
+import jbvb.io.File;
+import jbvb.io.FileNotFoundException;
+import jbvb.io.IOException;
+import jbvb.text.MessbgeFormbt;
+import jbvb.util.List;
+import jbvb.util.ArrbyList;
+import jbvb.lbng.ref.WebkReference;
+import jbvb.bebns.PropertyChbngeListener;
+import jbvb.bebns.PropertyChbngeEvent;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
 
-import sun.awt.shell.*;
+import sun.bwt.shell.*;
 
 /**
- * FileSystemView is JFileChooser's gateway to the
- * file system. Since the JDK1.1 File API doesn't allow
- * access to such information as root partitions, file type
- * information, or hidden file bits, this class is designed
- * to intuit as much OS-specific file system information as
+ * FileSystemView is JFileChooser's gbtewby to the
+ * file system. Since the JDK1.1 File API doesn't bllow
+ * bccess to such informbtion bs root pbrtitions, file type
+ * informbtion, or hidden file bits, this clbss is designed
+ * to intuit bs much OS-specific file system informbtion bs
  * possible.
  *
  * <p>
  *
- * Java Licensees may want to provide a different implementation of
- * FileSystemView to better handle a given operating system.
+ * Jbvb Licensees mby wbnt to provide b different implementbtion of
+ * FileSystemView to better hbndle b given operbting system.
  *
- * @author Jeff Dinkins
+ * @buthor Jeff Dinkins
  */
 
-// PENDING(jeff) - need to provide a specification for
-// how Mac/OS2/BeOS/etc file systems can modify FileSystemView
-// to handle their particular type of file system.
+// PENDING(jeff) - need to provide b specificbtion for
+// how Mbc/OS2/BeOS/etc file systems cbn modify FileSystemView
+// to hbndle their pbrticulbr type of file system.
 
-public abstract class FileSystemView {
+public bbstrbct clbss FileSystemView {
 
-    static FileSystemView windowsFileSystemView = null;
-    static FileSystemView unixFileSystemView = null;
-    //static FileSystemView macFileSystemView = null;
-    static FileSystemView genericFileSystemView = null;
+    stbtic FileSystemView windowsFileSystemView = null;
+    stbtic FileSystemView unixFileSystemView = null;
+    //stbtic FileSystemView mbcFileSystemView = null;
+    stbtic FileSystemView genericFileSystemView = null;
 
-    private boolean useSystemExtensionHiding =
-            UIManager.getDefaults().getBoolean("FileChooser.useSystemExtensionHiding");
+    privbte boolebn useSystemExtensionHiding =
+            UIMbnbger.getDefbults().getBoolebn("FileChooser.useSystemExtensionHiding");
 
-    public static FileSystemView getFileSystemView() {
-        if(File.separatorChar == '\\') {
+    public stbtic FileSystemView getFileSystemView() {
+        if(File.sepbrbtorChbr == '\\') {
             if(windowsFileSystemView == null) {
                 windowsFileSystemView = new WindowsFileSystemView();
             }
             return windowsFileSystemView;
         }
 
-        if(File.separatorChar == '/') {
+        if(File.sepbrbtorChbr == '/') {
             if(unixFileSystemView == null) {
                 unixFileSystemView = new UnixFileSystemView();
             }
             return unixFileSystemView;
         }
 
-        // if(File.separatorChar == ':') {
-        //    if(macFileSystemView == null) {
-        //      macFileSystemView = new MacFileSystemView();
+        // if(File.sepbrbtorChbr == ':') {
+        //    if(mbcFileSystemView == null) {
+        //      mbcFileSystemView = new MbcFileSystemView();
         //    }
-        //    return macFileSystemView;
+        //    return mbcFileSystemView;
         //}
 
         if(genericFileSystemView == null) {
@@ -102,19 +102,19 @@ public abstract class FileSystemView {
     }
 
     public FileSystemView() {
-        final WeakReference<FileSystemView> weakReference = new WeakReference<FileSystemView>(this);
+        finbl WebkReference<FileSystemView> webkReference = new WebkReference<FileSystemView>(this);
 
-        UIManager.addPropertyChangeListener(new PropertyChangeListener() {
-            public void propertyChange(PropertyChangeEvent evt) {
-                FileSystemView fileSystemView = weakReference.get();
+        UIMbnbger.bddPropertyChbngeListener(new PropertyChbngeListener() {
+            public void propertyChbnge(PropertyChbngeEvent evt) {
+                FileSystemView fileSystemView = webkReference.get();
 
                 if (fileSystemView == null) {
-                    // FileSystemView was destroyed
-                    UIManager.removePropertyChangeListener(this);
+                    // FileSystemView wbs destroyed
+                    UIMbnbger.removePropertyChbngeListener(this);
                 } else {
-                    if (evt.getPropertyName().equals("lookAndFeel")) {
+                    if (evt.getPropertyNbme().equbls("lookAndFeel")) {
                         fileSystemView.useSystemExtensionHiding =
-                                UIManager.getDefaults().getBoolean("FileChooser.useSystemExtensionHiding");
+                                UIMbnbger.getDefbults().getBoolebn("FileChooser.useSystemExtensionHiding");
                     }
                 }
             }
@@ -122,92 +122,92 @@ public abstract class FileSystemView {
     }
 
     /**
-     * Determines if the given file is a root in the navigable tree(s).
-     * Examples: Windows 98 has one root, the Desktop folder. DOS has one root
-     * per drive letter, <code>C:\</code>, <code>D:\</code>, etc. Unix has one root,
+     * Determines if the given file is b root in the nbvigbble tree(s).
+     * Exbmples: Windows 98 hbs one root, the Desktop folder. DOS hbs one root
+     * per drive letter, <code>C:\</code>, <code>D:\</code>, etc. Unix hbs one root,
      * the <code>"/"</code> directory.
      *
-     * The default implementation gets information from the <code>ShellFolder</code> class.
+     * The defbult implementbtion gets informbtion from the <code>ShellFolder</code> clbss.
      *
-     * @param f a <code>File</code> object representing a directory
-     * @return <code>true</code> if <code>f</code> is a root in the navigable tree.
+     * @pbrbm f b <code>File</code> object representing b directory
+     * @return <code>true</code> if <code>f</code> is b root in the nbvigbble tree.
      * @see #isFileSystemRoot
      */
-    public boolean isRoot(File f) {
+    public boolebn isRoot(File f) {
         if (f == null || !f.isAbsolute()) {
-            return false;
+            return fblse;
         }
 
         File[] roots = getRoots();
         for (File root : roots) {
-            if (root.equals(f)) {
+            if (root.equbls(f)) {
                 return true;
             }
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Returns true if the file (directory) can be visited.
-     * Returns false if the directory cannot be traversed.
+     * Returns true if the file (directory) cbn be visited.
+     * Returns fblse if the directory cbnnot be trbversed.
      *
-     * @param f the <code>File</code>
-     * @return <code>true</code> if the file/directory can be traversed, otherwise <code>false</code>
-     * @see JFileChooser#isTraversable
-     * @see FileView#isTraversable
+     * @pbrbm f the <code>File</code>
+     * @return <code>true</code> if the file/directory cbn be trbversed, otherwise <code>fblse</code>
+     * @see JFileChooser#isTrbversbble
+     * @see FileView#isTrbversbble
      * @since 1.4
      */
-    public Boolean isTraversable(File f) {
-        return Boolean.valueOf(f.isDirectory());
+    public Boolebn isTrbversbble(File f) {
+        return Boolebn.vblueOf(f.isDirectory());
     }
 
     /**
-     * Name of a file, directory, or folder as it would be displayed in
-     * a system file browser. Example from Windows: the "M:\" directory
-     * displays as "CD-ROM (M:)"
+     * Nbme of b file, directory, or folder bs it would be displbyed in
+     * b system file browser. Exbmple from Windows: the "M:\" directory
+     * displbys bs "CD-ROM (M:)"
      *
-     * The default implementation gets information from the ShellFolder class.
+     * The defbult implementbtion gets informbtion from the ShellFolder clbss.
      *
-     * @param f a <code>File</code> object
-     * @return the file name as it would be displayed by a native file chooser
-     * @see JFileChooser#getName
+     * @pbrbm f b <code>File</code> object
+     * @return the file nbme bs it would be displbyed by b nbtive file chooser
+     * @see JFileChooser#getNbme
      * @since 1.4
      */
-    public String getSystemDisplayName(File f) {
+    public String getSystemDisplbyNbme(File f) {
         if (f == null) {
             return null;
         }
 
-        String name = f.getName();
+        String nbme = f.getNbme();
 
-        if (!name.equals("..") && !name.equals(".") &&
+        if (!nbme.equbls("..") && !nbme.equbls(".") &&
                 (useSystemExtensionHiding || !isFileSystem(f) || isFileSystemRoot(f)) &&
-                (f instanceof ShellFolder || f.exists())) {
+                (f instbnceof ShellFolder || f.exists())) {
 
             try {
-                name = getShellFolder(f).getDisplayName();
-            } catch (FileNotFoundException e) {
+                nbme = getShellFolder(f).getDisplbyNbme();
+            } cbtch (FileNotFoundException e) {
                 return null;
             }
 
-            if (name == null || name.length() == 0) {
-                name = f.getPath(); // e.g. "/"
+            if (nbme == null || nbme.length() == 0) {
+                nbme = f.getPbth(); // e.g. "/"
             }
         }
 
-        return name;
+        return nbme;
     }
 
     /**
-     * Type description for a file, directory, or folder as it would be displayed in
-     * a system file browser. Example from Windows: the "Desktop" folder
-     * is described as "Desktop".
+     * Type description for b file, directory, or folder bs it would be displbyed in
+     * b system file browser. Exbmple from Windows: the "Desktop" folder
+     * is described bs "Desktop".
      *
-     * Override for platforms with native ShellFolder implementations.
+     * Override for plbtforms with nbtive ShellFolder implementbtions.
      *
-     * @param f a <code>File</code> object
-     * @return the file type description as it would be displayed by a native file chooser
-     * or null if no native information is available.
+     * @pbrbm f b <code>File</code> object
+     * @return the file type description bs it would be displbyed by b nbtive file chooser
+     * or null if no nbtive informbtion is bvbilbble.
      * @see JFileChooser#getTypeDescription
      * @since 1.4
      */
@@ -216,14 +216,14 @@ public abstract class FileSystemView {
     }
 
     /**
-     * Icon for a file, directory, or folder as it would be displayed in
-     * a system file browser. Example from Windows: the "M:\" directory
-     * displays a CD-ROM icon.
+     * Icon for b file, directory, or folder bs it would be displbyed in
+     * b system file browser. Exbmple from Windows: the "M:\" directory
+     * displbys b CD-ROM icon.
      *
-     * The default implementation gets information from the ShellFolder class.
+     * The defbult implementbtion gets informbtion from the ShellFolder clbss.
      *
-     * @param f a <code>File</code> object
-     * @return an icon as it would be displayed by a native file chooser
+     * @pbrbm f b <code>File</code> object
+     * @return bn icon bs it would be displbyed by b nbtive file chooser
      * @see JFileChooser#getIcon
      * @since 1.4
      */
@@ -236,86 +236,86 @@ public abstract class FileSystemView {
 
         try {
             sf = getShellFolder(f);
-        } catch (FileNotFoundException e) {
+        } cbtch (FileNotFoundException e) {
             return null;
         }
 
-        Image img = sf.getIcon(false);
+        Imbge img = sf.getIcon(fblse);
 
         if (img != null) {
-            return new ImageIcon(img, sf.getFolderType());
+            return new ImbgeIcon(img, sf.getFolderType());
         } else {
-            return UIManager.getIcon(f.isDirectory() ? "FileView.directoryIcon" : "FileView.fileIcon");
+            return UIMbnbger.getIcon(f.isDirectory() ? "FileView.directoryIcon" : "FileView.fileIcon");
         }
     }
 
     /**
-     * On Windows, a file can appear in multiple folders, other than its
-     * parent directory in the filesystem. Folder could for example be the
-     * "Desktop" folder which is not the same as file.getParentFile().
+     * On Windows, b file cbn bppebr in multiple folders, other thbn its
+     * pbrent directory in the filesystem. Folder could for exbmple be the
+     * "Desktop" folder which is not the sbme bs file.getPbrentFile().
      *
-     * @param folder a <code>File</code> object representing a directory or special folder
-     * @param file a <code>File</code> object
-     * @return <code>true</code> if <code>folder</code> is a directory or special folder and contains <code>file</code>.
+     * @pbrbm folder b <code>File</code> object representing b directory or specibl folder
+     * @pbrbm file b <code>File</code> object
+     * @return <code>true</code> if <code>folder</code> is b directory or specibl folder bnd contbins <code>file</code>.
      * @since 1.4
      */
-    public boolean isParent(File folder, File file) {
+    public boolebn isPbrent(File folder, File file) {
         if (folder == null || file == null) {
-            return false;
-        } else if (folder instanceof ShellFolder) {
-                File parent = file.getParentFile();
-                if (parent != null && parent.equals(folder)) {
+            return fblse;
+        } else if (folder instbnceof ShellFolder) {
+                File pbrent = file.getPbrentFile();
+                if (pbrent != null && pbrent.equbls(folder)) {
                     return true;
                 }
-            File[] children = getFiles(folder, false);
+            File[] children = getFiles(folder, fblse);
             for (File child : children) {
-                if (file.equals(child)) {
+                if (file.equbls(child)) {
                     return true;
                 }
             }
-            return false;
+            return fblse;
         } else {
-            return folder.equals(file.getParentFile());
+            return folder.equbls(file.getPbrentFile());
         }
     }
 
     /**
      *
-     * @param parent a <code>File</code> object representing a directory or special folder
-     * @param fileName a name of a file or folder which exists in <code>parent</code>
-     * @return a File object. This is normally constructed with <code>new
-     * File(parent, fileName)</code> except when parent and child are both
-     * special folders, in which case the <code>File</code> is a wrapper containing
-     * a <code>ShellFolder</code> object.
+     * @pbrbm pbrent b <code>File</code> object representing b directory or specibl folder
+     * @pbrbm fileNbme b nbme of b file or folder which exists in <code>pbrent</code>
+     * @return b File object. This is normblly constructed with <code>new
+     * File(pbrent, fileNbme)</code> except when pbrent bnd child bre both
+     * specibl folders, in which cbse the <code>File</code> is b wrbpper contbining
+     * b <code>ShellFolder</code> object.
      * @since 1.4
      */
-    public File getChild(File parent, String fileName) {
-        if (parent instanceof ShellFolder) {
-            File[] children = getFiles(parent, false);
+    public File getChild(File pbrent, String fileNbme) {
+        if (pbrent instbnceof ShellFolder) {
+            File[] children = getFiles(pbrent, fblse);
             for (File child : children) {
-                if (child.getName().equals(fileName)) {
+                if (child.getNbme().equbls(fileNbme)) {
                     return child;
                 }
             }
         }
-        return createFileObject(parent, fileName);
+        return crebteFileObject(pbrent, fileNbme);
     }
 
 
     /**
-     * Checks if <code>f</code> represents a real directory or file as opposed to a
-     * special folder such as <code>"Desktop"</code>. Used by UI classes to decide if
-     * a folder is selectable when doing directory choosing.
+     * Checks if <code>f</code> represents b rebl directory or file bs opposed to b
+     * specibl folder such bs <code>"Desktop"</code>. Used by UI clbsses to decide if
+     * b folder is selectbble when doing directory choosing.
      *
-     * @param f a <code>File</code> object
-     * @return <code>true</code> if <code>f</code> is a real file or directory.
+     * @pbrbm f b <code>File</code> object
+     * @return <code>true</code> if <code>f</code> is b rebl file or directory.
      * @since 1.4
      */
-    public boolean isFileSystem(File f) {
-        if (f instanceof ShellFolder) {
+    public boolebn isFileSystem(File f) {
+        if (f instbnceof ShellFolder) {
             ShellFolder sf = (ShellFolder)f;
-            // Shortcuts to directories are treated as not being file system objects,
-            // so that they are never returned by JFileChooser.
+            // Shortcuts to directories bre trebted bs not being file system objects,
+            // so thbt they bre never returned by JFileChooser.
             return sf.isFileSystem() && !(sf.isLink() && sf.isDirectory());
         } else {
             return true;
@@ -323,151 +323,151 @@ public abstract class FileSystemView {
     }
 
     /**
-     * Creates a new folder with a default folder name.
+     * Crebtes b new folder with b defbult folder nbme.
      *
-     * @param containingDir a {@code File} object denoting directory to contain the new folder
-     * @return a {@code File} object denoting the newly created folder
-     * @throws IOException if new folder could not be created
+     * @pbrbm contbiningDir b {@code File} object denoting directory to contbin the new folder
+     * @return b {@code File} object denoting the newly crebted folder
+     * @throws IOException if new folder could not be crebted
      */
-    public abstract File createNewFolder(File containingDir) throws IOException;
+    public bbstrbct File crebteNewFolder(File contbiningDir) throws IOException;
 
     /**
-     * Returns whether a file is hidden or not.
+     * Returns whether b file is hidden or not.
      *
-     * @param f a {@code File} object
-     * @return true if the given {@code File} denotes a hidden file
+     * @pbrbm f b {@code File} object
+     * @return true if the given {@code File} denotes b hidden file
      */
-    public boolean isHiddenFile(File f) {
+    public boolebn isHiddenFile(File f) {
         return f.isHidden();
     }
 
 
     /**
-     * Is dir the root of a tree in the file system, such as a drive
-     * or partition. Example: Returns true for "C:\" on Windows 98.
+     * Is dir the root of b tree in the file system, such bs b drive
+     * or pbrtition. Exbmple: Returns true for "C:\" on Windows 98.
      *
-     * @param dir a <code>File</code> object representing a directory
-     * @return <code>true</code> if <code>f</code> is a root of a filesystem
+     * @pbrbm dir b <code>File</code> object representing b directory
+     * @return <code>true</code> if <code>f</code> is b root of b filesystem
      * @see #isRoot
      * @since 1.4
      */
-    public boolean isFileSystemRoot(File dir) {
+    public boolebn isFileSystemRoot(File dir) {
         return ShellFolder.isFileSystemRoot(dir);
     }
 
     /**
-     * Used by UI classes to decide whether to display a special icon
-     * for drives or partitions, e.g. a "hard disk" icon.
+     * Used by UI clbsses to decide whether to displby b specibl icon
+     * for drives or pbrtitions, e.g. b "hbrd disk" icon.
      *
-     * The default implementation has no way of knowing, so always returns false.
+     * The defbult implementbtion hbs no wby of knowing, so blwbys returns fblse.
      *
-     * @param dir a directory
-     * @return <code>false</code> always
+     * @pbrbm dir b directory
+     * @return <code>fblse</code> blwbys
      * @since 1.4
      */
-    public boolean isDrive(File dir) {
-        return false;
+    public boolebn isDrive(File dir) {
+        return fblse;
     }
 
     /**
-     * Used by UI classes to decide whether to display a special icon
-     * for a floppy disk. Implies isDrive(dir).
+     * Used by UI clbsses to decide whether to displby b specibl icon
+     * for b floppy disk. Implies isDrive(dir).
      *
-     * The default implementation has no way of knowing, so always returns false.
+     * The defbult implementbtion hbs no wby of knowing, so blwbys returns fblse.
      *
-     * @param dir a directory
-     * @return <code>false</code> always
+     * @pbrbm dir b directory
+     * @return <code>fblse</code> blwbys
      * @since 1.4
      */
-    public boolean isFloppyDrive(File dir) {
-        return false;
+    public boolebn isFloppyDrive(File dir) {
+        return fblse;
     }
 
     /**
-     * Used by UI classes to decide whether to display a special icon
-     * for a computer node, e.g. "My Computer" or a network server.
+     * Used by UI clbsses to decide whether to displby b specibl icon
+     * for b computer node, e.g. "My Computer" or b network server.
      *
-     * The default implementation has no way of knowing, so always returns false.
+     * The defbult implementbtion hbs no wby of knowing, so blwbys returns fblse.
      *
-     * @param dir a directory
-     * @return <code>false</code> always
+     * @pbrbm dir b directory
+     * @return <code>fblse</code> blwbys
      * @since 1.4
      */
-    public boolean isComputerNode(File dir) {
+    public boolebn isComputerNode(File dir) {
         return ShellFolder.isComputerNode(dir);
     }
 
 
     /**
-     * Returns all root partitions on this system. For example, on
+     * Returns bll root pbrtitions on this system. For exbmple, on
      * Windows, this would be the "Desktop" folder, while on DOS this
      * would be the A: through Z: drives.
      *
-     * @return an array of {@code File} objects representing all root partitions
+     * @return bn brrby of {@code File} objects representing bll root pbrtitions
      *         on this system
      */
     public File[] getRoots() {
-        // Don't cache this array, because filesystem might change
+        // Don't cbche this brrby, becbuse filesystem might chbnge
         File[] roots = (File[])ShellFolder.get("roots");
 
         for (int i = 0; i < roots.length; i++) {
             if (isFileSystemRoot(roots[i])) {
-                roots[i] = createFileSystemRoot(roots[i]);
+                roots[i] = crebteFileSystemRoot(roots[i]);
             }
         }
         return roots;
     }
 
 
-    // Providing default implementations for the remaining methods
-    // because most OS file systems will likely be able to use this
-    // code. If a given OS can't, override these methods in its
-    // implementation.
+    // Providing defbult implementbtions for the rembining methods
+    // becbuse most OS file systems will likely be bble to use this
+    // code. If b given OS cbn't, override these methods in its
+    // implementbtion.
 
     public File getHomeDirectory() {
-        return createFileObject(System.getProperty("user.home"));
+        return crebteFileObject(System.getProperty("user.home"));
     }
 
     /**
-     * Return the user's default starting directory for the file chooser.
+     * Return the user's defbult stbrting directory for the file chooser.
      *
-     * @return a <code>File</code> object representing the default
-     *         starting folder
+     * @return b <code>File</code> object representing the defbult
+     *         stbrting folder
      * @since 1.4
      */
-    public File getDefaultDirectory() {
-        File f = (File)ShellFolder.get("fileChooserDefaultFolder");
+    public File getDefbultDirectory() {
+        File f = (File)ShellFolder.get("fileChooserDefbultFolder");
         if (isFileSystemRoot(f)) {
-            f = createFileSystemRoot(f);
+            f = crebteFileSystemRoot(f);
         }
         return f;
     }
 
     /**
-     * Returns a File object constructed in dir from the given filename.
+     * Returns b File object constructed in dir from the given filenbme.
      *
-     * @param dir an abstract pathname denoting a directory
-     * @param filename a {@code String} representation of a pathname
-     * @return a {@code File} object created from {@code dir} and {@code filename}
+     * @pbrbm dir bn bbstrbct pbthnbme denoting b directory
+     * @pbrbm filenbme b {@code String} representbtion of b pbthnbme
+     * @return b {@code File} object crebted from {@code dir} bnd {@code filenbme}
      */
-    public File createFileObject(File dir, String filename) {
+    public File crebteFileObject(File dir, String filenbme) {
         if(dir == null) {
-            return new File(filename);
+            return new File(filenbme);
         } else {
-            return new File(dir, filename);
+            return new File(dir, filenbme);
         }
     }
 
     /**
-     * Returns a File object constructed from the given path string.
+     * Returns b File object constructed from the given pbth string.
      *
-     * @param path {@code String} representation of path
-     * @return a {@code File} object created from the given {@code path}
+     * @pbrbm pbth {@code String} representbtion of pbth
+     * @return b {@code File} object crebted from the given {@code pbth}
      */
-    public File createFileObject(String path) {
-        File f = new File(path);
+    public File crebteFileObject(String pbth) {
+        File f = new File(pbth);
         if (isFileSystemRoot(f)) {
-            f = createFileSystemRoot(f);
+            f = crebteFileSystemRoot(f);
         }
         return f;
     }
@@ -476,68 +476,68 @@ public abstract class FileSystemView {
     /**
      * Gets the list of shown (i.e. not hidden) files.
      *
-     * @param dir the root directory of files to be returned
-     * @param useFileHiding determine if hidden files are returned
-     * @return an array of {@code File} objects representing files and
+     * @pbrbm dir the root directory of files to be returned
+     * @pbrbm useFileHiding determine if hidden files bre returned
+     * @return bn brrby of {@code File} objects representing files bnd
      *         directories in the given {@code dir}. It includes hidden
-     *         files if {@code useFileHiding} is false.
+     *         files if {@code useFileHiding} is fblse.
      */
-    public File[] getFiles(File dir, boolean useFileHiding) {
-        List<File> files = new ArrayList<File>();
+    public File[] getFiles(File dir, boolebn useFileHiding) {
+        List<File> files = new ArrbyList<File>();
 
-        // add all files in dir
-        if (!(dir instanceof ShellFolder)) {
+        // bdd bll files in dir
+        if (!(dir instbnceof ShellFolder)) {
             try {
                 dir = getShellFolder(dir);
-            } catch (FileNotFoundException e) {
+            } cbtch (FileNotFoundException e) {
                 return new File[0];
             }
         }
 
-        File[] names = ((ShellFolder) dir).listFiles(!useFileHiding);
+        File[] nbmes = ((ShellFolder) dir).listFiles(!useFileHiding);
 
-        if (names == null) {
+        if (nbmes == null) {
             return new File[0];
         }
 
-        for (File f : names) {
-            if (Thread.currentThread().isInterrupted()) {
-                break;
+        for (File f : nbmes) {
+            if (Threbd.currentThrebd().isInterrupted()) {
+                brebk;
             }
 
-            if (!(f instanceof ShellFolder)) {
+            if (!(f instbnceof ShellFolder)) {
                 if (isFileSystemRoot(f)) {
-                    f = createFileSystemRoot(f);
+                    f = crebteFileSystemRoot(f);
                 }
                 try {
                     f = ShellFolder.getShellFolder(f);
-                } catch (FileNotFoundException e) {
-                    // Not a valid file (wouldn't show in native file chooser)
-                    // Example: C:\pagefile.sys
+                } cbtch (FileNotFoundException e) {
+                    // Not b vblid file (wouldn't show in nbtive file chooser)
+                    // Exbmple: C:\pbgefile.sys
                     continue;
-                } catch (InternalError e) {
-                    // Not a valid file (wouldn't show in native file chooser)
-                    // Example C:\Winnt\Profiles\joe\history\History.IE5
+                } cbtch (InternblError e) {
+                    // Not b vblid file (wouldn't show in nbtive file chooser)
+                    // Exbmple C:\Winnt\Profiles\joe\history\History.IE5
                     continue;
                 }
             }
             if (!useFileHiding || !isHiddenFile(f)) {
-                files.add(f);
+                files.bdd(f);
             }
         }
 
-        return files.toArray(new File[files.size()]);
+        return files.toArrby(new File[files.size()]);
     }
 
 
 
     /**
-     * Returns the parent directory of <code>dir</code>.
-     * @param dir the <code>File</code> being queried
-     * @return the parent directory of <code>dir</code>, or
+     * Returns the pbrent directory of <code>dir</code>.
+     * @pbrbm dir the <code>File</code> being queried
+     * @return the pbrent directory of <code>dir</code>, or
      *   <code>null</code> if <code>dir</code> is <code>null</code>
      */
-    public File getParentDirectory(File dir) {
+    public File getPbrentDirectory(File dir) {
         if (dir == null || !dir.exists()) {
             return null;
         }
@@ -546,11 +546,11 @@ public abstract class FileSystemView {
 
         try {
             sf = getShellFolder(dir);
-        } catch (FileNotFoundException e) {
+        } cbtch (FileNotFoundException e) {
             return null;
         }
 
-        File psf = sf.getParentFile();
+        File psf = sf.getPbrentFile();
 
         if (psf == null) {
             return null;
@@ -559,11 +559,11 @@ public abstract class FileSystemView {
         if (isFileSystem(psf)) {
             File f = psf;
             if (!f.exists()) {
-                // This could be a node under "Network Neighborhood".
-                File ppsf = psf.getParentFile();
+                // This could be b node under "Network Neighborhood".
+                File ppsf = psf.getPbrentFile();
                 if (ppsf == null || !isFileSystem(ppsf)) {
-                    // We're mostly after the exists() override for windows below.
-                    f = createFileSystemRoot(f);
+                    // We're mostly bfter the exists() override for windows below.
+                    f = crebteFileSystemRoot(f);
                 }
             }
             return f;
@@ -573,37 +573,37 @@ public abstract class FileSystemView {
     }
 
     /**
-     * Throws {@code FileNotFoundException} if file not found or current thread was interrupted
+     * Throws {@code FileNotFoundException} if file not found or current threbd wbs interrupted
      */
     ShellFolder getShellFolder(File f) throws FileNotFoundException {
-        if (!(f instanceof ShellFolder) && !(f instanceof FileSystemRoot) && isFileSystemRoot(f)) {
-            f = createFileSystemRoot(f);
+        if (!(f instbnceof ShellFolder) && !(f instbnceof FileSystemRoot) && isFileSystemRoot(f)) {
+            f = crebteFileSystemRoot(f);
         }
 
         try {
             return ShellFolder.getShellFolder(f);
-        } catch (InternalError e) {
+        } cbtch (InternblError e) {
             System.err.println("FileSystemView.getShellFolder: f="+f);
-            e.printStackTrace();
+            e.printStbckTrbce();
             return null;
         }
     }
 
     /**
-     * Creates a new <code>File</code> object for <code>f</code> with correct
-     * behavior for a file system root directory.
+     * Crebtes b new <code>File</code> object for <code>f</code> with correct
+     * behbvior for b file system root directory.
      *
-     * @param f a <code>File</code> object representing a file system root
-     *          directory, for example "/" on Unix or "C:\" on Windows.
-     * @return a new <code>File</code> object
+     * @pbrbm f b <code>File</code> object representing b file system root
+     *          directory, for exbmple "/" on Unix or "C:\" on Windows.
+     * @return b new <code>File</code> object
      * @since 1.4
      */
-    protected File createFileSystemRoot(File f) {
+    protected File crebteFileSystemRoot(File f) {
         return new FileSystemRoot(f);
     }
 
-    @SuppressWarnings("serial") // Same-version serialization only
-    static class FileSystemRoot extends File {
+    @SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+    stbtic clbss FileSystemRoot extends File {
         public FileSystemRoot(File f) {
             super(f,"");
         }
@@ -612,45 +612,45 @@ public abstract class FileSystemView {
             super(s);
         }
 
-        public boolean isDirectory() {
+        public boolebn isDirectory() {
             return true;
         }
 
-        public String getName() {
-            return getPath();
+        public String getNbme() {
+            return getPbth();
         }
     }
 }
 
 /**
- * FileSystemView that handles some specific unix-isms.
+ * FileSystemView thbt hbndles some specific unix-isms.
  */
-class UnixFileSystemView extends FileSystemView {
+clbss UnixFileSystemView extends FileSystemView {
 
-    private static final String newFolderString =
-            UIManager.getString("FileChooser.other.newFolder");
-    private static final String newFolderNextString  =
-            UIManager.getString("FileChooser.other.newFolder.subsequent");
+    privbte stbtic finbl String newFolderString =
+            UIMbnbger.getString("FileChooser.other.newFolder");
+    privbte stbtic finbl String newFolderNextString  =
+            UIMbnbger.getString("FileChooser.other.newFolder.subsequent");
 
     /**
-     * Creates a new folder with a default folder name.
+     * Crebtes b new folder with b defbult folder nbme.
      */
-    public File createNewFolder(File containingDir) throws IOException {
-        if(containingDir == null) {
-            throw new IOException("Containing directory is null:");
+    public File crebteNewFolder(File contbiningDir) throws IOException {
+        if(contbiningDir == null) {
+            throw new IOException("Contbining directory is null:");
         }
         File newFolder;
-        // Unix - using OpenWindows' default folder name. Can't find one for Motif/CDE.
-        newFolder = createFileObject(containingDir, newFolderString);
+        // Unix - using OpenWindows' defbult folder nbme. Cbn't find one for Motif/CDE.
+        newFolder = crebteFileObject(contbiningDir, newFolderString);
         int i = 1;
         while (newFolder.exists() && i < 100) {
-            newFolder = createFileObject(containingDir, MessageFormat.format(
+            newFolder = crebteFileObject(contbiningDir, MessbgeFormbt.formbt(
                     newFolderNextString, i));
             i++;
         }
 
         if(newFolder.exists()) {
-            throw new IOException("Directory already exists:" + newFolder.getAbsolutePath());
+            throw new IOException("Directory blrebdy exists:" + newFolder.getAbsolutePbth());
         } else {
             newFolder.mkdirs();
         }
@@ -658,70 +658,70 @@ class UnixFileSystemView extends FileSystemView {
         return newFolder;
     }
 
-    public boolean isFileSystemRoot(File dir) {
-        return dir != null && dir.getAbsolutePath().equals("/");
+    public boolebn isFileSystemRoot(File dir) {
+        return dir != null && dir.getAbsolutePbth().equbls("/");
     }
 
-    public boolean isDrive(File dir) {
+    public boolebn isDrive(File dir) {
         return isFloppyDrive(dir);
     }
 
-    public boolean isFloppyDrive(File dir) {
-        // Could be looking at the path for Solaris, but wouldn't be reliable.
-        // For example:
-        // return (dir != null && dir.getAbsolutePath().toLowerCase().startsWith("/floppy"));
-        return false;
+    public boolebn isFloppyDrive(File dir) {
+        // Could be looking bt the pbth for Solbris, but wouldn't be relibble.
+        // For exbmple:
+        // return (dir != null && dir.getAbsolutePbth().toLowerCbse().stbrtsWith("/floppy"));
+        return fblse;
     }
 
-    public boolean isComputerNode(File dir) {
+    public boolebn isComputerNode(File dir) {
         if (dir != null) {
-            String parent = dir.getParent();
-            if (parent != null && parent.equals("/net")) {
+            String pbrent = dir.getPbrent();
+            if (pbrent != null && pbrent.equbls("/net")) {
                 return true;
             }
         }
-        return false;
+        return fblse;
     }
 }
 
 
 /**
- * FileSystemView that handles some specific windows concepts.
+ * FileSystemView thbt hbndles some specific windows concepts.
  */
-class WindowsFileSystemView extends FileSystemView {
+clbss WindowsFileSystemView extends FileSystemView {
 
-    private static final String newFolderString =
-            UIManager.getString("FileChooser.win32.newFolder");
-    private static final String newFolderNextString  =
-            UIManager.getString("FileChooser.win32.newFolder.subsequent");
+    privbte stbtic finbl String newFolderString =
+            UIMbnbger.getString("FileChooser.win32.newFolder");
+    privbte stbtic finbl String newFolderNextString  =
+            UIMbnbger.getString("FileChooser.win32.newFolder.subsequent");
 
-    public Boolean isTraversable(File f) {
-        return Boolean.valueOf(isFileSystemRoot(f) || isComputerNode(f) || f.isDirectory());
+    public Boolebn isTrbversbble(File f) {
+        return Boolebn.vblueOf(isFileSystemRoot(f) || isComputerNode(f) || f.isDirectory());
     }
 
-    public File getChild(File parent, String fileName) {
-        if (fileName.startsWith("\\")
-            && !fileName.startsWith("\\\\")
-            && isFileSystem(parent)) {
+    public File getChild(File pbrent, String fileNbme) {
+        if (fileNbme.stbrtsWith("\\")
+            && !fileNbme.stbrtsWith("\\\\")
+            && isFileSystem(pbrent)) {
 
-            //Path is relative to the root of parent's drive
-            String path = parent.getAbsolutePath();
-            if (path.length() >= 2
-                && path.charAt(1) == ':'
-                && Character.isLetter(path.charAt(0))) {
+            //Pbth is relbtive to the root of pbrent's drive
+            String pbth = pbrent.getAbsolutePbth();
+            if (pbth.length() >= 2
+                && pbth.chbrAt(1) == ':'
+                && Chbrbcter.isLetter(pbth.chbrAt(0))) {
 
-                return createFileObject(path.substring(0, 2) + fileName);
+                return crebteFileObject(pbth.substring(0, 2) + fileNbme);
             }
         }
-        return super.getChild(parent, fileName);
+        return super.getChild(pbrent, fileNbme);
     }
 
     /**
-     * Type description for a file, directory, or folder as it would be displayed in
-     * a system file browser. Example from Windows: the "Desktop" folder
-     * is described as "Desktop".
+     * Type description for b file, directory, or folder bs it would be displbyed in
+     * b system file browser. Exbmple from Windows: the "Desktop" folder
+     * is described bs "Desktop".
      *
-     * The Windows implementation gets information from the ShellFolder class.
+     * The Windows implementbtion gets informbtion from the ShellFolder clbss.
      */
     public String getSystemTypeDescription(File f) {
         if (f == null) {
@@ -730,7 +730,7 @@ class WindowsFileSystemView extends FileSystemView {
 
         try {
             return getShellFolder(f).getFolderType();
-        } catch (FileNotFoundException e) {
+        } cbtch (FileNotFoundException e) {
             return null;
         }
     }
@@ -744,23 +744,23 @@ class WindowsFileSystemView extends FileSystemView {
     }
 
     /**
-     * Creates a new folder with a default folder name.
+     * Crebtes b new folder with b defbult folder nbme.
      */
-    public File createNewFolder(File containingDir) throws IOException {
-        if(containingDir == null) {
-            throw new IOException("Containing directory is null:");
+    public File crebteNewFolder(File contbiningDir) throws IOException {
+        if(contbiningDir == null) {
+            throw new IOException("Contbining directory is null:");
         }
-        // Using NT's default folder name
-        File newFolder = createFileObject(containingDir, newFolderString);
+        // Using NT's defbult folder nbme
+        File newFolder = crebteFileObject(contbiningDir, newFolderString);
         int i = 2;
         while (newFolder.exists() && i < 100) {
-            newFolder = createFileObject(containingDir, MessageFormat.format(
+            newFolder = crebteFileObject(contbiningDir, MessbgeFormbt.formbt(
                 newFolderNextString, i));
             i++;
         }
 
         if(newFolder.exists()) {
-            throw new IOException("Directory already exists:" + newFolder.getAbsolutePath());
+            throw new IOException("Directory blrebdy exists:" + newFolder.getAbsolutePbth());
         } else {
             newFolder.mkdirs();
         }
@@ -768,41 +768,41 @@ class WindowsFileSystemView extends FileSystemView {
         return newFolder;
     }
 
-    public boolean isDrive(File dir) {
+    public boolebn isDrive(File dir) {
         return isFileSystemRoot(dir);
     }
 
-    public boolean isFloppyDrive(final File dir) {
-        String path = AccessController.doPrivileged(new PrivilegedAction<String>() {
+    public boolebn isFloppyDrive(finbl File dir) {
+        String pbth = AccessController.doPrivileged(new PrivilegedAction<String>() {
             public String run() {
-                return dir.getAbsolutePath();
+                return dir.getAbsolutePbth();
             }
         });
 
-        return path != null && (path.equals("A:\\") || path.equals("B:\\"));
+        return pbth != null && (pbth.equbls("A:\\") || pbth.equbls("B:\\"));
     }
 
     /**
-     * Returns a File object constructed from the given path string.
+     * Returns b File object constructed from the given pbth string.
      */
-    public File createFileObject(String path) {
-        // Check for missing backslash after drive letter such as "C:" or "C:filename"
-        if (path.length() >= 2 && path.charAt(1) == ':' && Character.isLetter(path.charAt(0))) {
-            if (path.length() == 2) {
-                path += "\\";
-            } else if (path.charAt(2) != '\\') {
-                path = path.substring(0, 2) + "\\" + path.substring(2);
+    public File crebteFileObject(String pbth) {
+        // Check for missing bbckslbsh bfter drive letter such bs "C:" or "C:filenbme"
+        if (pbth.length() >= 2 && pbth.chbrAt(1) == ':' && Chbrbcter.isLetter(pbth.chbrAt(0))) {
+            if (pbth.length() == 2) {
+                pbth += "\\";
+            } else if (pbth.chbrAt(2) != '\\') {
+                pbth = pbth.substring(0, 2) + "\\" + pbth.substring(2);
             }
         }
-        return super.createFileObject(path);
+        return super.crebteFileObject(pbth);
     }
 
-    @SuppressWarnings("serial") // anonymous class
-    protected File createFileSystemRoot(File f) {
-        // Problem: Removable drives on Windows return false on f.exists()
-        // Workaround: Override exists() to always return true.
+    @SuppressWbrnings("seribl") // bnonymous clbss
+    protected File crebteFileSystemRoot(File f) {
+        // Problem: Removbble drives on Windows return fblse on f.exists()
+        // Workbround: Override exists() to blwbys return true.
         return new FileSystemRoot(f) {
-            public boolean exists() {
+            public boolebn exists() {
                 return true;
             }
         };
@@ -811,25 +811,25 @@ class WindowsFileSystemView extends FileSystemView {
 }
 
 /**
- * Fallthrough FileSystemView in case we can't determine the OS.
+ * Fbllthrough FileSystemView in cbse we cbn't determine the OS.
  */
-class GenericFileSystemView extends FileSystemView {
+clbss GenericFileSystemView extends FileSystemView {
 
-    private static final String newFolderString =
-            UIManager.getString("FileChooser.other.newFolder");
+    privbte stbtic finbl String newFolderString =
+            UIMbnbger.getString("FileChooser.other.newFolder");
 
     /**
-     * Creates a new folder with a default folder name.
+     * Crebtes b new folder with b defbult folder nbme.
      */
-    public File createNewFolder(File containingDir) throws IOException {
-        if(containingDir == null) {
-            throw new IOException("Containing directory is null:");
+    public File crebteNewFolder(File contbiningDir) throws IOException {
+        if(contbiningDir == null) {
+            throw new IOException("Contbining directory is null:");
         }
-        // Using NT's default folder name
-        File newFolder = createFileObject(containingDir, newFolderString);
+        // Using NT's defbult folder nbme
+        File newFolder = crebteFileObject(contbiningDir, newFolderString);
 
         if(newFolder.exists()) {
-            throw new IOException("Directory already exists:" + newFolder.getAbsolutePath());
+            throw new IOException("Directory blrebdy exists:" + newFolder.getAbsolutePbth());
         } else {
             newFolder.mkdirs();
         }

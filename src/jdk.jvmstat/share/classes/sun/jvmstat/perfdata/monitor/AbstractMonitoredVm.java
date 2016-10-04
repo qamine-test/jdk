@@ -1,74 +1,74 @@
 /*
- * Copyright (c) 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.jvmstat.perfdata.monitor;
+pbckbge sun.jvmstbt.perfdbtb.monitor;
 
-import java.util.List;
-import java.lang.reflect.*;
-import java.io.*;
+import jbvb.util.List;
+import jbvb.lbng.reflect.*;
+import jbvb.io.*;
 
-import sun.jvmstat.monitor.*;
-import sun.jvmstat.monitor.remote.*;
-import sun.jvmstat.monitor.event.VmListener;
+import sun.jvmstbt.monitor.*;
+import sun.jvmstbt.monitor.remote.*;
+import sun.jvmstbt.monitor.event.VmListener;
 
 /**
- * Base class for all MonitoredVm implementations that utilize the
- * HotSpot PerfData instrumentation buffer as the communications
- * mechanism to the target Java Virtual Machine.
+ * Bbse clbss for bll MonitoredVm implementbtions thbt utilize the
+ * HotSpot PerfDbtb instrumentbtion buffer bs the communicbtions
+ * mechbnism to the tbrget Jbvb Virtubl Mbchine.
  *
- * @author Brian Doherty
+ * @buthor Bribn Doherty
  * @since 1.5
  */
-public abstract class AbstractMonitoredVm implements BufferedMonitoredVm {
+public bbstrbct clbss AbstrbctMonitoredVm implements BufferedMonitoredVm {
 
     /**
-     * The VmIdentifier for the target.
+     * The VmIdentifier for the tbrget.
      */
     protected VmIdentifier vmid;
 
     /**
-     * The shared memory instrumentation buffer for the target.
+     * The shbred memory instrumentbtion buffer for the tbrget.
      */
-    protected AbstractPerfDataBuffer pdb;
+    protected AbstrbctPerfDbtbBuffer pdb;
 
     /**
-     * The sampling interval, if the instrumentation buffer is acquired
-     * by sampling instead of shared memory mechanisms.
+     * The sbmpling intervbl, if the instrumentbtion buffer is bcquired
+     * by sbmpling instebd of shbred memory mechbnisms.
      */
-    protected int interval;
+    protected int intervbl;
 
     /**
-     * Create an AbstractMonitoredVm instance.
+     * Crebte bn AbstrbctMonitoredVm instbnce.
      *
-     * @param vmid the VmIdentifier for the target
-     * @param interval the initial sampling interval
+     * @pbrbm vmid the VmIdentifier for the tbrget
+     * @pbrbm intervbl the initibl sbmpling intervbl
      */
-    public AbstractMonitoredVm(VmIdentifier vmid, int interval)
+    public AbstrbctMonitoredVm(VmIdentifier vmid, int intervbl)
            throws MonitorException {
         this.vmid = vmid;
-        this.interval = interval;
+        this.intervbl = intervbl;
     }
 
     /**
@@ -81,55 +81,55 @@ public abstract class AbstractMonitoredVm implements BufferedMonitoredVm {
     /**
      * {@inheritDoc}
      */
-    public Monitor findByName(String name) throws MonitorException {
-        return pdb.findByName(name);
+    public Monitor findByNbme(String nbme) throws MonitorException {
+        return pdb.findByNbme(nbme);
     }
 
     /**
      * {@inheritDoc}
      */
-    public List<Monitor> findByPattern(String patternString) throws MonitorException {
-        return pdb.findByPattern(patternString);
+    public List<Monitor> findByPbttern(String pbtternString) throws MonitorException {
+        return pdb.findByPbttern(pbtternString);
     }
 
     /**
      * {@inheritDoc}
      */
-    public void detach() {
+    public void detbch() {
         /*
-         * no default action required because the detach operation for the
-         * native byte buffer is managed by the sun.misc.Perf class.
+         * no defbult bction required becbuse the detbch operbtion for the
+         * nbtive byte buffer is mbnbged by the sun.misc.Perf clbss.
          */
     }
 
 
-    /* ---- Methods to support polled MonitoredVm Implementations ----- */
+    /* ---- Methods to support polled MonitoredVm Implementbtions ----- */
 
     /**
      * {@inheritDoc}
      */
-    public void setInterval(int interval) {
-        this.interval = interval;
+    public void setIntervbl(int intervbl) {
+        this.intervbl = intervbl;
     }
 
     /**
      * {@inheritDoc}
      */
-    public int getInterval() {
-        return interval;
+    public int getIntervbl() {
+        return intervbl;
     }
 
     /**
      * {@inheritDoc}
      */
-    public void setLastException(Exception e) {
+    public void setLbstException(Exception e) {
         // XXX: implement
     }
 
     /**
      * {@inheritDoc}
      */
-    public Exception getLastException() {
+    public Exception getLbstException() {
         // XXX: implement
         return null;
     }
@@ -137,28 +137,28 @@ public abstract class AbstractMonitoredVm implements BufferedMonitoredVm {
     /**
      * {@inheritDoc}
      */
-    public void clearLastException() {
+    public void clebrLbstException() {
         // XXX: implement
     }
 
     /**
      * {@inheritDoc}
      */
-    public boolean isErrored() {
+    public boolebn isErrored() {
         // XXX: implement
-        return false;
+        return fblse;
     }
 
     /**
-     * Get a list of the inserted and removed monitors since last called.
+     * Get b list of the inserted bnd removed monitors since lbst cblled.
      *
-     * @return MonitorStatus - the status of available Monitors for the
-     *                         target Java Virtual Machine.
-     * @throws MonitorException Thrown if communications errors occur
-     *                          while communicating with the target.
+     * @return MonitorStbtus - the stbtus of bvbilbble Monitors for the
+     *                         tbrget Jbvb Virtubl Mbchine.
+     * @throws MonitorException Thrown if communicbtions errors occur
+     *                          while communicbting with the tbrget.
      */
-    public MonitorStatus getMonitorStatus() throws MonitorException {
-        return pdb.getMonitorStatus();
+    public MonitorStbtus getMonitorStbtus() throws MonitorException {
+        return pdb.getMonitorStbtus();
     }
 
 
@@ -167,15 +167,15 @@ public abstract class AbstractMonitoredVm implements BufferedMonitoredVm {
     /**
      * {@inheritDoc}
      */
-    public abstract void addVmListener(VmListener l);
+    public bbstrbct void bddVmListener(VmListener l);
 
     /**
      * {@inheritDoc}
      */
-    public abstract void removeVmListener(VmListener l);
+    public bbstrbct void removeVmListener(VmListener l);
 
 
-    /* ---- Methods to support BufferedMonitoredVm Implementations ---- */
+    /* ---- Methods to support BufferedMonitoredVm Implementbtions ---- */
 
     /**
      * {@inheritDoc}
@@ -187,7 +187,7 @@ public abstract class AbstractMonitoredVm implements BufferedMonitoredVm {
     /**
      * {@inheritDoc}
      */
-    public int getCapacity() {
-        return pdb.getCapacity();
+    public int getCbpbcity() {
+        return pdb.getCbpbcity();
     }
 }

@@ -1,23 +1,23 @@
-SampleTree demonstrates JTree features.  Each node of SampleTree has 7
-children, with each one drawn in a random font and color.  Each node is
-named after its font.  While the data isn't interesting, the example
-illustrates a number of features:
+SbmpleTree demonstrbtes JTree febtures.  Ebch node of SbmpleTree hbs 7
+children, with ebch one drbwn in b rbndom font bnd color.  Ebch node is
+nbmed bfter its font.  While the dbtb isn't interesting, the exbmple
+illustrbtes b number of febtures:
 
-- Dynamically loading children (see DynamicTreeNode.java)
-- Adding/removing/inserting/reloading (see the following inner
-  classes in SampleTree.java: AddAction, RemoveAction, InsertAction,
-  and ReloadAction)
-- Creating a custom cell renderer (see SampleTreeCellRenderer.java)
-- Subclassing JTreeModel for editing (see SampleTreeModel.java)
+- Dynbmicblly lobding children (see DynbmicTreeNode.jbvb)
+- Adding/removing/inserting/relobding (see the following inner
+  clbsses in SbmpleTree.jbvb: AddAction, RemoveAction, InsertAction,
+  bnd RelobdAction)
+- Crebting b custom cell renderer (see SbmpleTreeCellRenderer.jbvb)
+- Subclbssing JTreeModel for editing (see SbmpleTreeModel.jbvb)
 
 
-To run the SampleTree demo:
+To run the SbmpleTree demo:
 
-  java -jar SampleTree.jar
+  jbvb -jbr SbmpleTree.jbr
 
-These instructions assume that this installation's version of the java
-command is in your path.  If it isn't, then you should either
-specify the complete path to the java command or update your
-PATH environment variable as described in the installation
-instructions for the Java(TM) SE Development Kit.
+These instructions bssume thbt this instbllbtion's version of the jbvb
+commbnd is in your pbth.  If it isn't, then you should either
+specify the complete pbth to the jbvb commbnd or updbte your
+PATH environment vbribble bs described in the instbllbtion
+instructions for the Jbvb(TM) SE Development Kit.
 

@@ -1,170 +1,170 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt;
+pbckbge sun.bwt;
 
-import java.awt.*;
-import java.util.*;
+import jbvb.bwt.*;
+import jbvb.util.*;
 
-import sun.java2d.*;
+import sun.jbvb2d.*;
 
 /**
- * This is an implementation of a GraphicsEnvironment object for the default
- * local GraphicsEnvironment used by the Java Runtime Environment for Mac OS X
+ * This is bn implementbtion of b GrbphicsEnvironment object for the defbult
+ * locbl GrbphicsEnvironment used by the Jbvb Runtime Environment for Mbc OS X
  * GUI environments.
  *
- * @see GraphicsDevice
- * @see GraphicsConfiguration
+ * @see GrbphicsDevice
+ * @see GrbphicsConfigurbtion
  */
-public final class CGraphicsEnvironment extends SunGraphicsEnvironment {
+public finbl clbss CGrbphicsEnvironment extends SunGrbphicsEnvironment {
 
     /**
-     * Fetch an array of all valid CoreGraphics display identifiers.
+     * Fetch bn brrby of bll vblid CoreGrbphics displby identifiers.
      */
-    private static native int[] getDisplayIDs();
+    privbte stbtic nbtive int[] getDisplbyIDs();
 
     /**
-     * Fetch the CoreGraphics display ID for the 'main' display.
+     * Fetch the CoreGrbphics displby ID for the 'mbin' displby.
      */
-    private static native int getMainDisplayID();
+    privbte stbtic nbtive int getMbinDisplbyID();
 
     /**
-     * Noop function that just acts as an entry point for someone to force a
-     * static initialization of this class.
+     * Noop function thbt just bcts bs bn entry point for someone to force b
+     * stbtic initiblizbtion of this clbss.
      */
-    public static void init() { }
+    public stbtic void init() { }
 
-    static {
-        // Load libraries and initialize the Toolkit.
-        Toolkit.getDefaultToolkit();
-        // Install the correct surface manager factory.
-        SurfaceManagerFactory.setInstance(new MacosxSurfaceManagerFactory());
+    stbtic {
+        // Lobd librbries bnd initiblize the Toolkit.
+        Toolkit.getDefbultToolkit();
+        // Instbll the correct surfbce mbnbger fbctory.
+        SurfbceMbnbgerFbctory.setInstbnce(new MbcosxSurfbceMbnbgerFbctory());
     }
 
     /**
-     * Register the instance with CGDisplayRegisterReconfigurationCallback().
-     * The registration uses a weak global reference -- if our instance is
-     * garbage collected, the reference will be dropped.
+     * Register the instbnce with CGDisplbyRegisterReconfigurbtionCbllbbck().
+     * The registrbtion uses b webk globbl reference -- if our instbnce is
+     * gbrbbge collected, the reference will be dropped.
      *
-     * @return Return the registration context (a pointer).
+     * @return Return the registrbtion context (b pointer).
      */
-    private native long registerDisplayReconfiguration();
+    privbte nbtive long registerDisplbyReconfigurbtion();
 
     /**
-     * Remove the instance's registration with CGDisplayRemoveReconfigurationCallback()
+     * Remove the instbnce's registrbtion with CGDisplbyRemoveReconfigurbtionCbllbbck()
      */
-    private native void deregisterDisplayReconfiguration(long context);
+    privbte nbtive void deregisterDisplbyReconfigurbtion(long context);
 
-    /** Available CoreGraphics displays. */
-    private final Map<Integer, CGraphicsDevice> devices = new HashMap<>(5);
+    /** Avbilbble CoreGrbphics displbys. */
+    privbte finbl Mbp<Integer, CGrbphicsDevice> devices = new HbshMbp<>(5);
 
-    /** Reference to the display reconfiguration callback context. */
-    private final long displayReconfigContext;
+    /** Reference to the displby reconfigurbtion cbllbbck context. */
+    privbte finbl long displbyReconfigContext;
 
     /**
-     * Construct a new instance.
+     * Construct b new instbnce.
      */
-    public CGraphicsEnvironment() {
-        if (isHeadless()) {
-            displayReconfigContext = 0L;
+    public CGrbphicsEnvironment() {
+        if (isHebdless()) {
+            displbyReconfigContext = 0L;
             return;
         }
 
-        /* Populate the device table */
+        /* Populbte the device tbble */
         initDevices();
 
-        /* Register our display reconfiguration listener */
-        displayReconfigContext = registerDisplayReconfiguration();
-        if (displayReconfigContext == 0L) {
-            throw new RuntimeException("Could not register CoreGraphics display reconfiguration callback");
+        /* Register our displby reconfigurbtion listener */
+        displbyReconfigContext = registerDisplbyReconfigurbtion();
+        if (displbyReconfigContext == 0L) {
+            throw new RuntimeException("Could not register CoreGrbphics displby reconfigurbtion cbllbbck");
         }
     }
 
     /**
-     * Called by the CoreGraphics Display Reconfiguration Callback.
+     * Cblled by the CoreGrbphics Displby Reconfigurbtion Cbllbbck.
      *
-     * @param displayId CoreGraphics displayId
-     * @param removed   true if displayId was removed, false otherwise.
+     * @pbrbm displbyId CoreGrbphics displbyId
+     * @pbrbm removed   true if displbyId wbs removed, fblse otherwise.
      */
-    void _displayReconfiguration(final int displayId, final boolean removed) {
+    void _displbyReconfigurbtion(finbl int displbyId, finbl boolebn removed) {
         synchronized (this) {
-            if (removed && devices.containsKey(displayId)) {
-                final CGraphicsDevice gd = devices.remove(displayId);
-                gd.invalidate(getMainDisplayID());
-                gd.displayChanged();
+            if (removed && devices.contbinsKey(displbyId)) {
+                finbl CGrbphicsDevice gd = devices.remove(displbyId);
+                gd.invblidbte(getMbinDisplbyID());
+                gd.displbyChbnged();
             }
         }
         initDevices();
     }
 
     @Override
-    protected void finalize() throws Throwable {
+    protected void finblize() throws Throwbble {
         try {
-            super.finalize();
-        } finally {
-            deregisterDisplayReconfiguration(displayReconfigContext);
+            super.finblize();
+        } finblly {
+            deregisterDisplbyReconfigurbtion(displbyReconfigContext);
         }
     }
 
     /**
-     * (Re)create all CGraphicsDevices, reuses a devices if it is possible.
+     * (Re)crebte bll CGrbphicsDevices, reuses b devices if it is possible.
      */
-    private void initDevices() {
+    privbte void initDevices() {
         synchronized (this) {
-            final Map<Integer, CGraphicsDevice> old = new HashMap<>(devices);
-            devices.clear();
+            finbl Mbp<Integer, CGrbphicsDevice> old = new HbshMbp<>(devices);
+            devices.clebr();
 
-            int mainID = getMainDisplayID();
+            int mbinID = getMbinDisplbyID();
 
-            // initialization of the graphics device may change
-            // list of displays on hybrid systems via an activation
+            // initiblizbtion of the grbphics device mby chbnge
+            // list of displbys on hybrid systems vib bn bctivbtion
             // of discrete video.
-            // So, we initialize the main display first, and then
-            // retrieve actual list of displays.
-            if (!old.containsKey(mainID)) {
-                old.put(mainID, new CGraphicsDevice(mainID));
+            // So, we initiblize the mbin displby first, bnd then
+            // retrieve bctubl list of displbys.
+            if (!old.contbinsKey(mbinID)) {
+                old.put(mbinID, new CGrbphicsDevice(mbinID));
             }
 
-            for (final int id : getDisplayIDs()) {
-                devices.put(id, old.containsKey(id) ? old.get(id)
-                                                    : new CGraphicsDevice(id));
+            for (finbl int id : getDisplbyIDs()) {
+                devices.put(id, old.contbinsKey(id) ? old.get(id)
+                                                    : new CGrbphicsDevice(id));
             }
         }
-        displayChanged();
+        displbyChbnged();
     }
 
     @Override
-    public synchronized GraphicsDevice getDefaultScreenDevice() throws HeadlessException {
-        final int mainDisplayID = getMainDisplayID();
-        CGraphicsDevice d = devices.get(mainDisplayID);
+    public synchronized GrbphicsDevice getDefbultScreenDevice() throws HebdlessException {
+        finbl int mbinDisplbyID = getMbinDisplbyID();
+        CGrbphicsDevice d = devices.get(mbinDisplbyID);
         if (d == null) {
-            // we do not expect that this may happen, the only response
-            // is to re-initialize the list of devices
+            // we do not expect thbt this mby hbppen, the only response
+            // is to re-initiblize the list of devices
             initDevices();
 
-            d = devices.get(mainDisplayID);
+            d = devices.get(mbinDisplbyID);
             if (d == null) {
                 throw new AWTError("no screen devices");
             }
@@ -173,12 +173,12 @@ public final class CGraphicsEnvironment extends SunGraphicsEnvironment {
     }
 
     @Override
-    public synchronized GraphicsDevice[] getScreenDevices() throws HeadlessException {
-        return devices.values().toArray(new CGraphicsDevice[devices.values().size()]);
+    public synchronized GrbphicsDevice[] getScreenDevices() throws HebdlessException {
+        return devices.vblues().toArrby(new CGrbphicsDevice[devices.vblues().size()]);
     }
 
-    public synchronized GraphicsDevice getScreenDevice(int displayID) {
-        return devices.get(displayID);
+    public synchronized GrbphicsDevice getScreenDevice(int displbyID) {
+        return devices.get(displbyID);
     }
 
     @Override
@@ -187,16 +187,16 @@ public final class CGraphicsEnvironment extends SunGraphicsEnvironment {
     }
 
     @Override
-    protected GraphicsDevice makeScreenDevice(int screennum) {
-        throw new UnsupportedOperationException("This method is unused and should not be called in this implementation");
+    protected GrbphicsDevice mbkeScreenDevice(int screennum) {
+        throw new UnsupportedOperbtionException("This method is unused bnd should not be cblled in this implementbtion");
     }
 
     @Override
-    public boolean isDisplayLocal() {
+    public boolebn isDisplbyLocbl() {
        return true;
     }
 
-    static String[] sLogicalFonts = { "Serif", "SansSerif", "Monospaced", "Dialog", "DialogInput" };
+    stbtic String[] sLogicblFonts = { "Serif", "SbnsSerif", "Monospbced", "Diblog", "DiblogInput" };
 
     @Override
     public Font[] getAllFonts() {
@@ -204,15 +204,15 @@ public final class CGraphicsEnvironment extends SunGraphicsEnvironment {
         Font[] newFonts;
         Font[] superFonts = super.getAllFonts();
 
-        int numLogical = sLogicalFonts.length;
+        int numLogicbl = sLogicblFonts.length;
         int numOtherFonts = superFonts.length;
 
-        newFonts = new Font[numOtherFonts + numLogical];
-        System.arraycopy(superFonts,0,newFonts,numLogical,numOtherFonts);
+        newFonts = new Font[numOtherFonts + numLogicbl];
+        System.brrbycopy(superFonts,0,newFonts,numLogicbl,numOtherFonts);
 
-        for (int i = 0; i < numLogical; i++)
+        for (int i = 0; i < numLogicbl; i++)
         {
-            newFonts[i] = new Font(sLogicalFonts[i], Font.PLAIN, 1);
+            newFonts[i] = new Font(sLogicblFonts[i], Font.PLAIN, 1);
         }
         return newFonts;
     }

@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,75 +30,75 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-package com.sun.demo.scripting.jconsole;
+pbckbge com.sun.demo.scripting.jconsole;
 
 import com.sun.tools.jconsole.*;
-import java.io.*;
-import java.util.concurrent.CountDownLatch;
-import javax.script.*;
-import javax.swing.*;
-import java.util.*;
+import jbvb.io.*;
+import jbvb.util.concurrent.CountDownLbtch;
+import jbvbx.script.*;
+import jbvbx.swing.*;
+import jbvb.util.*;
 
 /**
- * This is script console plugin. This class uses javax.script API to create
- * interactive read-eval-print script shell within the jconsole GUI.
+ * This is script console plugin. This clbss uses jbvbx.script API to crebte
+ * interbctive rebd-evbl-print script shell within the jconsole GUI.
  */
-public class ScriptJConsolePlugin extends JConsolePlugin
-                     implements ScriptShellPanel.CommandProcessor {
-    // Panel for our tab
-    private volatile ScriptShellPanel window;
-    // Tabs that we add to jconsole GUI
-    private Map<String, JPanel> tabs;
+public clbss ScriptJConsolePlugin extends JConsolePlugin
+                     implements ScriptShellPbnel.CommbndProcessor {
+    // Pbnel for our tbb
+    privbte volbtile ScriptShellPbnel window;
+    // Tbbs thbt we bdd to jconsole GUI
+    privbte Mbp<String, JPbnel> tbbs;
 
-    // Script engine that evaluates scripts
-    private volatile ScriptEngine engine;
+    // Script engine thbt evblubtes scripts
+    privbte volbtile ScriptEngine engine;
 
-    // script engine initialization occurs in background.
-    // This latch is used to coorrdinate engine init and eval.
-    private CountDownLatch engineReady = new CountDownLatch(1);
+    // script engine initiblizbtion occurs in bbckground.
+    // This lbtch is used to coorrdinbte engine init bnd evbl.
+    privbte CountDownLbtch engineRebdy = new CountDownLbtch(1);
 
-    // File extension used for scripts of chosen language.
-    // For eg. ".js" for JavaScript, ".bsh" for BeanShell.
-    private String extension;
+    // File extension used for scripts of chosen lbngubge.
+    // For eg. ".js" for JbvbScript, ".bsh" for BebnShell.
+    privbte String extension;
 
-    // Prompt to print in the read-eval-print loop. This is
+    // Prompt to print in the rebd-evbl-print loop. This is
     // derived from the script file extension.
-    private volatile String prompt;
+    privbte volbtile String prompt;
 
     /**
-     * Constructor to create this plugin
+     * Constructor to crebte this plugin
      */
     public ScriptJConsolePlugin() {
     }
 
-    @Override public Map<String, JPanel> getTabs() {
-        // create ScriptEngine
-        createScriptEngine();
+    @Override public Mbp<String, JPbnel> getTbbs() {
+        // crebte ScriptEngine
+        crebteScriptEngine();
 
-        // create panel for tab
-        window = new ScriptShellPanel(this);
+        // crebte pbnel for tbb
+        window = new ScriptShellPbnel(this);
 
-        // add tab to tabs map
-        tabs = new HashMap<String, JPanel>();
-        tabs.put("Script Shell", window);
+        // bdd tbb to tbbs mbp
+        tbbs = new HbshMbp<String, JPbnel>();
+        tbbs.put("Script Shell", window);
 
-        new Thread(new Runnable() {
+        new Threbd(new Runnbble() {
             @Override
             public void run() {
-                // initialize the script engine
+                // initiblize the script engine
                 initScriptEngine();
-                engineReady.countDown();
+                engineRebdy.countDown();
             }
-        }).start();
-        return tabs;
+        }).stbrt();
+        return tbbs;
     }
 
     @Override public SwingWorker<?,?> newSwingWorker() {
@@ -115,110 +115,110 @@ public class ScriptJConsolePlugin extends JConsolePlugin
     }
 
     @Override
-    public String executeCommand(String cmd) {
+    public String executeCommbnd(String cmd) {
         String res;
         try {
-           engineReady.await();
-           Object tmp = engine.eval(cmd);
+           engineRebdy.bwbit();
+           Object tmp = engine.evbl(cmd);
            res = (tmp == null)? null : tmp.toString();
-        } catch (InterruptedException ie) {
-           res = ie.getMessage();
-        } catch (ScriptException se) {
-           res = se.getMessage();
+        } cbtch (InterruptedException ie) {
+           res = ie.getMessbge();
+        } cbtch (ScriptException se) {
+           res = se.getMessbge();
         }
         return res;
     }
 
-    //-- Internals only below this point
-    private void createScriptEngine() {
-        ScriptEngineManager manager = new ScriptEngineManager();
-        String language = getScriptLanguage();
-        engine = manager.getEngineByName(language);
+    //-- Internbls only below this point
+    privbte void crebteScriptEngine() {
+        ScriptEngineMbnbger mbnbger = new ScriptEngineMbnbger();
+        String lbngubge = getScriptLbngubge();
+        engine = mbnbger.getEngineByNbme(lbngubge);
         if (engine == null) {
-            throw new RuntimeException("cannot load " + language + " engine");
+            throw new RuntimeException("cbnnot lobd " + lbngubge + " engine");
         }
-        extension = engine.getFactory().getExtensions().get(0);
+        extension = engine.getFbctory().getExtensions().get(0);
         prompt = extension + ">";
-        engine.setBindings(createBindings(), ScriptContext.ENGINE_SCOPE);
+        engine.setBindings(crebteBindings(), ScriptContext.ENGINE_SCOPE);
     }
 
-    // Name of the System property used to select scripting language
-    private static final String LANGUAGE_KEY = "com.sun.demo.jconsole.console.language";
+    // Nbme of the System property used to select scripting lbngubge
+    privbte stbtic finbl String LANGUAGE_KEY = "com.sun.demo.jconsole.console.lbngubge";
 
-    private String getScriptLanguage() {
+    privbte String getScriptLbngubge() {
         // check whether explicit System property is set
-        String lang = System.getProperty(LANGUAGE_KEY);
-        if (lang == null) {
-            // default is JavaScript
-            lang = "JavaScript";
+        String lbng = System.getProperty(LANGUAGE_KEY);
+        if (lbng == null) {
+            // defbult is JbvbScript
+            lbng = "JbvbScript";
         }
-        return lang;
+        return lbng;
     }
 
-    // create Bindings that is backed by a synchronized HashMap
-    private Bindings createBindings() {
-        Map<String, Object> map =
-                Collections.synchronizedMap(new HashMap<String, Object>());
-        return new SimpleBindings(map);
+    // crebte Bindings thbt is bbcked by b synchronized HbshMbp
+    privbte Bindings crebteBindings() {
+        Mbp<String, Object> mbp =
+                Collections.synchronizedMbp(new HbshMbp<String, Object>());
+        return new SimpleBindings(mbp);
     }
 
-    // create and initialize script engine
-    private void initScriptEngine() {
-        // set pre-defined global variables
-        setGlobals();
-        // load pre-defined initialization file
-        loadInitFile();
-        // load current user's initialization file
-        loadUserInitFile();
+    // crebte bnd initiblize script engine
+    privbte void initScriptEngine() {
+        // set pre-defined globbl vbribbles
+        setGlobbls();
+        // lobd pre-defined initiblizbtion file
+        lobdInitFile();
+        // lobd current user's initiblizbtion file
+        lobdUserInitFile();
     }
 
-    // set pre-defined global variables for script
-    private void setGlobals() {
+    // set pre-defined globbl vbribbles for script
+    privbte void setGlobbls() {
         engine.put("engine", engine);
         engine.put("window", window);
         engine.put("plugin", this);
     }
 
-    // load initial script file (jconsole.<extension>)
-    private void loadInitFile() {
-        String oldFilename = (String) engine.get(ScriptEngine.FILENAME);
+    // lobd initibl script file (jconsole.<extension>)
+    privbte void lobdInitFile() {
+        String oldFilenbme = (String) engine.get(ScriptEngine.FILENAME);
         engine.put(ScriptEngine.FILENAME, "<built-in jconsole." + extension + ">");
         try {
-            Class<? extends ScriptJConsolePlugin> myClass = this.getClass();
-            InputStream stream = myClass.getResourceAsStream("/resources/jconsole." +
+            Clbss<? extends ScriptJConsolePlugin> myClbss = this.getClbss();
+            InputStrebm strebm = myClbss.getResourceAsStrebm("/resources/jconsole." +
                                        extension);
-            if (stream != null) {
-                engine.eval(new InputStreamReader(new BufferedInputStream(stream)));
+            if (strebm != null) {
+                engine.evbl(new InputStrebmRebder(new BufferedInputStrebm(strebm)));
             }
-        } catch (Exception exp) {
-            exp.printStackTrace();
-            // FIXME: What else I can do here??
-        } finally {
-            engine.put(ScriptEngine.FILENAME, oldFilename);
+        } cbtch (Exception exp) {
+            exp.printStbckTrbce();
+            // FIXME: Whbt else I cbn do here??
+        } finblly {
+            engine.put(ScriptEngine.FILENAME, oldFilenbme);
         }
     }
 
-    // load user's initial script file (~/jconsole.<extension>)
-    private void loadUserInitFile() {
-        String oldFilename = (String) engine.get(ScriptEngine.FILENAME);
+    // lobd user's initibl script file (~/jconsole.<extension>)
+    privbte void lobdUserInitFile() {
+        String oldFilenbme = (String) engine.get(ScriptEngine.FILENAME);
         String home = System.getProperty("user.home");
         if (home == null) {
-            // no user.home?? should not happen??
+            // no user.home?? should not hbppen??
             return;
         }
-        String fileName = home + File.separator + "jconsole." + extension;
-        if (! (new File(fileName).exists())) {
-            // user does not have ~/jconsole.<extension>
+        String fileNbme = home + File.sepbrbtor + "jconsole." + extension;
+        if (! (new File(fileNbme).exists())) {
+            // user does not hbve ~/jconsole.<extension>
             return;
         }
-        engine.put(ScriptEngine.FILENAME, fileName);
+        engine.put(ScriptEngine.FILENAME, fileNbme);
         try {
-            engine.eval(new FileReader(fileName));
-        } catch (Exception exp) {
-            exp.printStackTrace();
-            // FIXME: What else I can do here??
-        } finally {
-            engine.put(ScriptEngine.FILENAME, oldFilename);
+            engine.evbl(new FileRebder(fileNbme));
+        } cbtch (Exception exp) {
+            exp.printStbckTrbce();
+            // FIXME: Whbt else I cbn do here??
+        } finblly {
+            engine.put(ScriptEngine.FILENAME, oldFilenbme);
         }
     }
 }

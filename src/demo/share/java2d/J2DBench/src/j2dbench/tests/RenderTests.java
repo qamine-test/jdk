@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2002, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,174 +30,174 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-package j2dbench.tests;
+pbckbge j2dbench.tests;
 
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.AlphaComposite;
-import java.awt.Stroke;
-import java.awt.BasicStroke;
-import java.awt.GradientPaint;
-import java.awt.LinearGradientPaint;
-import java.awt.MultipleGradientPaint;
-import java.awt.MultipleGradientPaint.CycleMethod;
-import java.awt.MultipleGradientPaint.ColorSpaceType;
-import java.awt.RadialGradientPaint;
-import java.awt.RenderingHints;
-import java.awt.TexturePaint;
-import java.awt.geom.CubicCurve2D;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
-import java.io.PrintWriter;
-import java.util.ArrayList;
-import javax.swing.JComponent;
+import jbvb.bwt.Grbphics;
+import jbvb.bwt.Grbphics2D;
+import jbvb.bwt.Color;
+import jbvb.bwt.Dimension;
+import jbvb.bwt.AlphbComposite;
+import jbvb.bwt.Stroke;
+import jbvb.bwt.BbsicStroke;
+import jbvb.bwt.GrbdientPbint;
+import jbvb.bwt.LinebrGrbdientPbint;
+import jbvb.bwt.MultipleGrbdientPbint;
+import jbvb.bwt.MultipleGrbdientPbint.CycleMethod;
+import jbvb.bwt.MultipleGrbdientPbint.ColorSpbceType;
+import jbvb.bwt.RbdiblGrbdientPbint;
+import jbvb.bwt.RenderingHints;
+import jbvb.bwt.TexturePbint;
+import jbvb.bwt.geom.CubicCurve2D;
+import jbvb.bwt.geom.Ellipse2D;
+import jbvb.bwt.geom.Point2D;
+import jbvb.bwt.geom.Rectbngle2D;
+import jbvb.bwt.imbge.BufferedImbge;
+import jbvb.io.PrintWriter;
+import jbvb.util.ArrbyList;
+import jbvbx.swing.JComponent;
 
 import j2dbench.Group;
 import j2dbench.Node;
 import j2dbench.Option;
 import j2dbench.TestEnvironment;
 
-public abstract class RenderTests extends GraphicsTests {
-    static Group renderroot;
-    static Group renderoptroot;
-    static Group rendertestroot;
-    static Group rendershaperoot;
+public bbstrbct clbss RenderTests extends GrbphicsTests {
+    stbtic Group renderroot;
+    stbtic Group renderoptroot;
+    stbtic Group rendertestroot;
+    stbtic Group rendershbperoot;
 
-    static Option paintList;
-    static Option doAntialias;
-    static Option doAlphaColors;
-    static Option sizeList;
-    static Option strokeList;
+    stbtic Option pbintList;
+    stbtic Option doAntiblibs;
+    stbtic Option doAlphbColors;
+    stbtic Option sizeList;
+    stbtic Option strokeList;
 
-    static final int NUM_RANDOMCOLORS = 4096;
-    static final int NUM_RANDOMCOLORMASK = (NUM_RANDOMCOLORS - 1);
-    static Color randAlphaColors[];
-    static Color randOpaqueColors[];
+    stbtic finbl int NUM_RANDOMCOLORS = 4096;
+    stbtic finbl int NUM_RANDOMCOLORMASK = (NUM_RANDOMCOLORS - 1);
+    stbtic Color rbndAlphbColors[];
+    stbtic Color rbndOpbqueColors[];
 
-    static {
-        randOpaqueColors = new Color[NUM_RANDOMCOLORS];
-        randAlphaColors = new Color[NUM_RANDOMCOLORS];
+    stbtic {
+        rbndOpbqueColors = new Color[NUM_RANDOMCOLORS];
+        rbndAlphbColors = new Color[NUM_RANDOMCOLORS];
         for (int i = 0; i < NUM_RANDOMCOLORS; i++) {
-            int r = (int) (Math.random() * 255);
-            int g = (int) (Math.random() * 255);
-            int b = (int) (Math.random() * 255);
-            randOpaqueColors[i] = new Color(r, g, b);
-            randAlphaColors[i] = makeAlphaColor(randOpaqueColors[i], 32);
+            int r = (int) (Mbth.rbndom() * 255);
+            int g = (int) (Mbth.rbndom() * 255);
+            int b = (int) (Mbth.rbndom() * 255);
+            rbndOpbqueColors[i] = new Color(r, g, b);
+            rbndAlphbColors[i] = mbkeAlphbColor(rbndOpbqueColors[i], 32);
         }
     }
 
-    static boolean hasMultiGradient;
+    stbtic boolebn hbsMultiGrbdient;
 
-    static {
+    stbtic {
         try {
-            hasMultiGradient = (MultipleGradientPaint.class != null);
-        } catch (NoClassDefFoundError e) {
+            hbsMultiGrbdient = (MultipleGrbdientPbint.clbss != null);
+        } cbtch (NoClbssDefFoundError e) {
         }
     }
 
-    public static void init() {
-        renderroot = new Group(graphicsroot, "render", "Rendering Benchmarks");
+    public stbtic void init() {
+        renderroot = new Group(grbphicsroot, "render", "Rendering Benchmbrks");
         renderoptroot = new Group(renderroot, "opts", "Rendering Options");
         rendertestroot = new Group(renderroot, "tests", "Rendering Tests");
 
-        ArrayList paintStrs = new ArrayList();
-        ArrayList paintDescs = new ArrayList();
-        paintStrs.add("single");
-        paintDescs.add("Single Color");
-        paintStrs.add("random");
-        paintDescs.add("Random Color");
-        if (hasGraphics2D) {
-            paintStrs.add("gradient2");
-            paintDescs.add("2-color GradientPaint");
-            if (hasMultiGradient) {
-                paintStrs.add("linear2");
-                paintDescs.add("2-color LinearGradientPaint");
-                paintStrs.add("linear3");
-                paintDescs.add("3-color LinearGradientPaint");
-                paintStrs.add("radial2");
-                paintDescs.add("2-color RadialGradientPaint");
-                paintStrs.add("radial3");
-                paintDescs.add("3-color RadialGradientPaint");
+        ArrbyList pbintStrs = new ArrbyList();
+        ArrbyList pbintDescs = new ArrbyList();
+        pbintStrs.bdd("single");
+        pbintDescs.bdd("Single Color");
+        pbintStrs.bdd("rbndom");
+        pbintDescs.bdd("Rbndom Color");
+        if (hbsGrbphics2D) {
+            pbintStrs.bdd("grbdient2");
+            pbintDescs.bdd("2-color GrbdientPbint");
+            if (hbsMultiGrbdient) {
+                pbintStrs.bdd("linebr2");
+                pbintDescs.bdd("2-color LinebrGrbdientPbint");
+                pbintStrs.bdd("linebr3");
+                pbintDescs.bdd("3-color LinebrGrbdientPbint");
+                pbintStrs.bdd("rbdibl2");
+                pbintDescs.bdd("2-color RbdiblGrbdientPbint");
+                pbintStrs.bdd("rbdibl3");
+                pbintDescs.bdd("3-color RbdiblGrbdientPbint");
             }
-            paintStrs.add("texture20");
-            paintDescs.add("20x20 TexturePaint");
-            paintStrs.add("texture32");
-            paintDescs.add("32x32 TexturePaint");
+            pbintStrs.bdd("texture20");
+            pbintDescs.bdd("20x20 TexturePbint");
+            pbintStrs.bdd("texture32");
+            pbintDescs.bdd("32x32 TexturePbint");
         }
-        String[] paintStrArr = new String[paintStrs.size()];
-        paintStrArr = (String[])paintStrs.toArray(paintStrArr);
-        String[] paintDescArr = new String[paintDescs.size()];
-        paintDescArr = (String[])paintDescs.toArray(paintDescArr);
-        paintList =
+        String[] pbintStrArr = new String[pbintStrs.size()];
+        pbintStrArr = (String[])pbintStrs.toArrby(pbintStrArr);
+        String[] pbintDescArr = new String[pbintDescs.size()];
+        pbintDescArr = (String[])pbintDescs.toArrby(pbintDescArr);
+        pbintList =
             new Option.ObjectList(renderoptroot,
-                                  "paint", "Paint Type",
-                                  paintStrArr, paintStrArr,
-                                  paintStrArr, paintDescArr,
+                                  "pbint", "Pbint Type",
+                                  pbintStrArr, pbintStrArr,
+                                  pbintStrArr, pbintDescArr,
                                   0x1);
-        ((Option.ObjectList) paintList).setNumRows(5);
+        ((Option.ObjectList) pbintList).setNumRows(5);
 
-        // add special RandomColorOpt for backwards compatibility with
+        // bdd specibl RbndomColorOpt for bbckwbrds compbtibility with
         // older options files
-        new RandomColorOpt();
+        new RbndomColorOpt();
 
-        if (hasGraphics2D) {
-            doAlphaColors =
-                new Option.Toggle(renderoptroot, "alphacolor",
-                                  "Set the alpha of the paint to 0.125",
+        if (hbsGrbphics2D) {
+            doAlphbColors =
+                new Option.Toggle(renderoptroot, "blphbcolor",
+                                  "Set the blphb of the pbint to 0.125",
                                   Option.Toggle.Off);
-            doAntialias =
-                new Option.Toggle(renderoptroot, "antialias",
-                                  "Render shapes antialiased",
+            doAntiblibs =
+                new Option.Toggle(renderoptroot, "bntiblibs",
+                                  "Render shbpes bntiblibsed",
                                   Option.Toggle.Off);
             String strokeStrings[] = {
                 "width0",
                 "width1",
                 "width5",
                 "width20",
-                "dash0_5",
-                "dash1_5",
-                "dash5_20",
-                "dash20_50",
+                "dbsh0_5",
+                "dbsh1_5",
+                "dbsh5_20",
+                "dbsh20_50",
             };
             String strokeDescriptions[] = {
                 "Solid Thin lines",
                 "Solid Width 1 lines",
                 "Solid Width 5 lines",
                 "Solid Width 20 lines",
-                "Dashed Thin lines",
-                "Dashed Width 1 lines",
-                "Dashed Width 5 lines",
-                "Dashed Width 20 lines",
+                "Dbshed Thin lines",
+                "Dbshed Width 1 lines",
+                "Dbshed Width 5 lines",
+                "Dbshed Width 20 lines",
             };
-            BasicStroke strokeObjects[] = {
-                new BasicStroke(0f),
-                new BasicStroke(1f),
-                new BasicStroke(5f),
-                new BasicStroke(20f),
-                new BasicStroke(0f, BasicStroke.CAP_SQUARE,
-                                BasicStroke.JOIN_MITER, 10f,
-                                new float[] { 5f, 5f }, 0f),
-                new BasicStroke(1f, BasicStroke.CAP_SQUARE,
-                                BasicStroke.JOIN_MITER, 10f,
-                                new float[] { 5f, 5f }, 0f),
-                new BasicStroke(5f, BasicStroke.CAP_SQUARE,
-                                BasicStroke.JOIN_MITER, 10f,
-                                new float[] { 20f, 20f }, 0f),
-                new BasicStroke(20f, BasicStroke.CAP_SQUARE,
-                                BasicStroke.JOIN_MITER, 10f,
-                                new float[] { 50f, 50f }, 0f),
+            BbsicStroke strokeObjects[] = {
+                new BbsicStroke(0f),
+                new BbsicStroke(1f),
+                new BbsicStroke(5f),
+                new BbsicStroke(20f),
+                new BbsicStroke(0f, BbsicStroke.CAP_SQUARE,
+                                BbsicStroke.JOIN_MITER, 10f,
+                                new flobt[] { 5f, 5f }, 0f),
+                new BbsicStroke(1f, BbsicStroke.CAP_SQUARE,
+                                BbsicStroke.JOIN_MITER, 10f,
+                                new flobt[] { 5f, 5f }, 0f),
+                new BbsicStroke(5f, BbsicStroke.CAP_SQUARE,
+                                BbsicStroke.JOIN_MITER, 10f,
+                                new flobt[] { 20f, 20f }, 0f),
+                new BbsicStroke(20f, BbsicStroke.CAP_SQUARE,
+                                BbsicStroke.JOIN_MITER, 10f,
+                                new flobt[] { 50f, 50f }, 0f),
             };
             strokeList =
                 new Option.ObjectList(renderoptroot,
@@ -208,179 +208,179 @@ public abstract class RenderTests extends GraphicsTests {
             ((Option.ObjectList) strokeList).setNumRows(4);
         }
 
-        new DrawDiagonalLines();
-        new DrawHorizontalLines();
-        new DrawVerticalLines();
+        new DrbwDibgonblLines();
+        new DrbwHorizontblLines();
+        new DrbwVerticblLines();
         new FillRects();
-        new DrawRects();
-        new FillOvals();
-        new DrawOvals();
+        new DrbwRects();
+        new FillOvbls();
+        new DrbwOvbls();
         new FillPolys();
-        new DrawPolys();
+        new DrbwPolys();
 
-        if (hasGraphics2D) {
-            rendershaperoot = new Group(rendertestroot, "shape",
-                                        "Shape Rendering Tests");
+        if (hbsGrbphics2D) {
+            rendershbperoot = new Group(rendertestroot, "shbpe",
+                                        "Shbpe Rendering Tests");
 
             new FillCubics();
-            new DrawCubics();
+            new DrbwCubics();
             new FillEllipse2Ds();
-            new DrawEllipse2Ds();
+            new DrbwEllipse2Ds();
         }
     }
 
     /**
-     * This "virtual Node" implementation is here to maintain backward
-     * compatibility with older J2DBench releases, specifically those
-     * options files that were created before we added the gradient/texture
-     * paint options in JDK 6.  This class will translate the color settings
-     * from the old "randomcolor" option into the new "paint" option.
+     * This "virtubl Node" implementbtion is here to mbintbin bbckwbrd
+     * compbtibility with older J2DBench relebses, specificblly those
+     * options files thbt were crebted before we bdded the grbdient/texture
+     * pbint options in JDK 6.  This clbss will trbnslbte the color settings
+     * from the old "rbndomcolor" option into the new "pbint" option.
      */
-    private static class RandomColorOpt extends Node {
-        public RandomColorOpt() {
-            super(renderoptroot, "randomcolor",
-                  "Use random colors for each shape");
+    privbte stbtic clbss RbndomColorOpt extends Node {
+        public RbndomColorOpt() {
+            super(renderoptroot, "rbndomcolor",
+                  "Use rbndom colors for ebch shbpe");
         }
 
         public JComponent getJComponent() {
             return null;
         }
 
-        public void restoreDefault() {
+        public void restoreDefbult() {
             // no-op
         }
 
         public void write(PrintWriter pw) {
-            // no-op (the random/single choice will be saved as part of
-            // the new "paint" option added to J2DBench in JDK 6)
+            // no-op (the rbndom/single choice will be sbved bs pbrt of
+            // the new "pbint" option bdded to J2DBench in JDK 6)
         }
 
-        public String setOption(String key, String value) {
+        public String setOption(String key, String vblue) {
             String opts;
-            if (value.equals("On")) {
-                opts = "random";
-            } else if (value.equals("Off")) {
+            if (vblue.equbls("On")) {
+                opts = "rbndom";
+            } else if (vblue.equbls("Off")) {
                 opts = "single";
-            } else if (value.equals("Both")) {
-                opts = "random,single";
+            } else if (vblue.equbls("Both")) {
+                opts = "rbndom,single";
             } else {
-                return "Bad value";
+                return "Bbd vblue";
             }
-            return ((Option.ObjectList)paintList).setValueFromString(opts);
+            return ((Option.ObjectList)pbintList).setVblueFromString(opts);
         }
     }
 
-    public static class Context extends GraphicsTests.Context {
+    public stbtic clbss Context extends GrbphicsTests.Context {
         int colorindex;
         Color colorlist[];
     }
 
-    public RenderTests(Group parent, String nodeName, String description) {
-        super(parent, nodeName, description);
-        addDependencies(renderoptroot, true);
+    public RenderTests(Group pbrent, String nodeNbme, String description) {
+        super(pbrent, nodeNbme, description);
+        bddDependencies(renderoptroot, true);
     }
 
-    public GraphicsTests.Context createContext() {
+    public GrbphicsTests.Context crebteContext() {
         return new RenderTests.Context();
     }
 
-    public void initContext(TestEnvironment env, GraphicsTests.Context ctx) {
+    public void initContext(TestEnvironment env, GrbphicsTests.Context ctx) {
         super.initContext(env, ctx);
         RenderTests.Context rctx = (RenderTests.Context) ctx;
-        boolean alphacolor;
+        boolebn blphbcolor;
 
-        if (hasGraphics2D) {
-            Graphics2D g2d = (Graphics2D) rctx.graphics;
-            if (env.isEnabled(doAntialias)) {
+        if (hbsGrbphics2D) {
+            Grbphics2D g2d = (Grbphics2D) rctx.grbphics;
+            if (env.isEnbbled(doAntiblibs)) {
                 g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                                      RenderingHints.VALUE_ANTIALIAS_ON);
             }
-            alphacolor = env.isEnabled(doAlphaColors);
+            blphbcolor = env.isEnbbled(doAlphbColors);
             g2d.setStroke((Stroke) env.getModifier(strokeList));
         } else {
-            alphacolor = false;
+            blphbcolor = fblse;
         }
 
-        String paint = (String)env.getModifier(paintList);
-        if (paint.equals("single")) {
-            Color c = Color.darkGray;
-            if (alphacolor) {
-                c = makeAlphaColor(c, 32);
+        String pbint = (String)env.getModifier(pbintList);
+        if (pbint.equbls("single")) {
+            Color c = Color.dbrkGrby;
+            if (blphbcolor) {
+                c = mbkeAlphbColor(c, 32);
             }
-            rctx.graphics.setColor(c);
-        } else if (paint.equals("random")) {
-            rctx.colorlist = alphacolor ? randAlphaColors : randOpaqueColors;
-        } else if (paint.equals("gradient2")) {
-            Color[] colors = makeGradientColors(2, alphacolor);
-            Graphics2D g2d = (Graphics2D)rctx.graphics;
-            g2d.setPaint(new GradientPaint(0.0f, 0.0f, colors[0],
+            rctx.grbphics.setColor(c);
+        } else if (pbint.equbls("rbndom")) {
+            rctx.colorlist = blphbcolor ? rbndAlphbColors : rbndOpbqueColors;
+        } else if (pbint.equbls("grbdient2")) {
+            Color[] colors = mbkeGrbdientColors(2, blphbcolor);
+            Grbphics2D g2d = (Grbphics2D)rctx.grbphics;
+            g2d.setPbint(new GrbdientPbint(0.0f, 0.0f, colors[0],
                                            10.0f, 10.0f, colors[1], true));
-        } else if (paint.equals("linear2")) {
-            Graphics2D g2d = (Graphics2D)rctx.graphics;
-            g2d.setPaint(makeLinear(2, alphacolor));
-        } else if (paint.equals("linear3")) {
-            Graphics2D g2d = (Graphics2D)rctx.graphics;
-            g2d.setPaint(makeLinear(3, alphacolor));
-        } else if (paint.equals("radial2")) {
-            Graphics2D g2d = (Graphics2D)rctx.graphics;
-            g2d.setPaint(makeRadial(2, alphacolor));
-        } else if (paint.equals("radial3")) {
-            Graphics2D g2d = (Graphics2D)rctx.graphics;
-            g2d.setPaint(makeRadial(3, alphacolor));
-        } else if (paint.equals("texture20")) {
-            Graphics2D g2d = (Graphics2D)rctx.graphics;
-            g2d.setPaint(makeTexturePaint(20, alphacolor));
-        } else if (paint.equals("texture32")) {
-            Graphics2D g2d = (Graphics2D)rctx.graphics;
-            g2d.setPaint(makeTexturePaint(32, alphacolor));
+        } else if (pbint.equbls("linebr2")) {
+            Grbphics2D g2d = (Grbphics2D)rctx.grbphics;
+            g2d.setPbint(mbkeLinebr(2, blphbcolor));
+        } else if (pbint.equbls("linebr3")) {
+            Grbphics2D g2d = (Grbphics2D)rctx.grbphics;
+            g2d.setPbint(mbkeLinebr(3, blphbcolor));
+        } else if (pbint.equbls("rbdibl2")) {
+            Grbphics2D g2d = (Grbphics2D)rctx.grbphics;
+            g2d.setPbint(mbkeRbdibl(2, blphbcolor));
+        } else if (pbint.equbls("rbdibl3")) {
+            Grbphics2D g2d = (Grbphics2D)rctx.grbphics;
+            g2d.setPbint(mbkeRbdibl(3, blphbcolor));
+        } else if (pbint.equbls("texture20")) {
+            Grbphics2D g2d = (Grbphics2D)rctx.grbphics;
+            g2d.setPbint(mbkeTexturePbint(20, blphbcolor));
+        } else if (pbint.equbls("texture32")) {
+            Grbphics2D g2d = (Grbphics2D)rctx.grbphics;
+            g2d.setPbint(mbkeTexturePbint(32, blphbcolor));
         } else {
-            throw new InternalError("Invalid paint mode");
+            throw new InternblError("Invblid pbint mode");
         }
     }
 
-    private Color[] makeGradientColors(int numColors, boolean alpha) {
+    privbte Color[] mbkeGrbdientColors(int numColors, boolebn blphb) {
         Color[] colors = new Color[] {Color.red, Color.blue,
                                       Color.green, Color.yellow};
         Color[] ret = new Color[numColors];
         for (int i = 0; i < numColors; i++) {
-            ret[i] = alpha ? makeAlphaColor(colors[i], 32) : colors[i];
+            ret[i] = blphb ? mbkeAlphbColor(colors[i], 32) : colors[i];
         }
         return ret;
     }
 
-    private LinearGradientPaint makeLinear(int numColors, boolean alpha) {
-        float interval = 1.0f / (numColors - 1);
-        float[] fractions = new float[numColors];
-        for (int i = 0; i < fractions.length; i++) {
-            fractions[i] = i * interval;
+    privbte LinebrGrbdientPbint mbkeLinebr(int numColors, boolebn blphb) {
+        flobt intervbl = 1.0f / (numColors - 1);
+        flobt[] frbctions = new flobt[numColors];
+        for (int i = 0; i < frbctions.length; i++) {
+            frbctions[i] = i * intervbl;
         }
-        Color[] colors = makeGradientColors(numColors, alpha);
-        return new LinearGradientPaint(0.0f, 0.0f,
+        Color[] colors = mbkeGrbdientColors(numColors, blphb);
+        return new LinebrGrbdientPbint(0.0f, 0.0f,
                                        10.0f, 10.0f,
-                                       fractions, colors,
+                                       frbctions, colors,
                                        CycleMethod.REFLECT);
     }
 
-    private RadialGradientPaint makeRadial(int numColors, boolean alpha) {
-        float interval = 1.0f / (numColors - 1);
-        float[] fractions = new float[numColors];
-        for (int i = 0; i < fractions.length; i++) {
-            fractions[i] = i * interval;
+    privbte RbdiblGrbdientPbint mbkeRbdibl(int numColors, boolebn blphb) {
+        flobt intervbl = 1.0f / (numColors - 1);
+        flobt[] frbctions = new flobt[numColors];
+        for (int i = 0; i < frbctions.length; i++) {
+            frbctions[i] = i * intervbl;
         }
-        Color[] colors = makeGradientColors(numColors, alpha);
-        return new RadialGradientPaint(0.0f, 0.0f, 10.0f,
-                                       fractions, colors,
+        Color[] colors = mbkeGrbdientColors(numColors, blphb);
+        return new RbdiblGrbdientPbint(0.0f, 0.0f, 10.0f,
+                                       frbctions, colors,
                                        CycleMethod.REFLECT);
     }
 
-    private TexturePaint makeTexturePaint(int size, boolean alpha) {
+    privbte TexturePbint mbkeTexturePbint(int size, boolebn blphb) {
         int s2 = size / 2;
         int type =
-            alpha ? BufferedImage.TYPE_INT_ARGB : BufferedImage.TYPE_INT_RGB;
-        BufferedImage img = new BufferedImage(size, size, type);
-        Color[] colors = makeGradientColors(4, alpha);
-        Graphics2D g2d = img.createGraphics();
-        g2d.setComposite(AlphaComposite.Src);
+            blphb ? BufferedImbge.TYPE_INT_ARGB : BufferedImbge.TYPE_INT_RGB;
+        BufferedImbge img = new BufferedImbge(size, size, type);
+        Color[] colors = mbkeGrbdientColors(4, blphb);
+        Grbphics2D g2d = img.crebteGrbphics();
+        g2d.setComposite(AlphbComposite.Src);
         g2d.setColor(colors[0]);
         g2d.fillRect(0, 0, s2, s2);
         g2d.setColor(colors[1]);
@@ -390,17 +390,17 @@ public abstract class RenderTests extends GraphicsTests {
         g2d.setColor(colors[2]);
         g2d.fillRect(s2, s2, s2, s2);
         g2d.dispose();
-        Rectangle2D bounds = new Rectangle2D.Float(0, 0, size, size);
-        return new TexturePaint(img, bounds);
+        Rectbngle2D bounds = new Rectbngle2D.Flobt(0, 0, size, size);
+        return new TexturePbint(img, bounds);
     }
 
-    public static class DrawDiagonalLines extends RenderTests {
-        public DrawDiagonalLines() {
-            super(rendertestroot, "drawLine", "Draw Diagonal Lines");
+    public stbtic clbss DrbwDibgonblLines extends RenderTests {
+        public DrbwDibgonblLines() {
+            super(rendertestroot, "drbwLine", "Drbw Dibgonbl Lines");
         }
 
-        public int pixelsTouched(GraphicsTests.Context ctx) {
-            return Math.max(ctx.outdim.width, ctx.outdim.height);
+        public int pixelsTouched(GrbphicsTests.Context ctx) {
+            return Mbth.mbx(ctx.outdim.width, ctx.outdim.height);
         }
 
         public void runTest(Object ctx, int numReps) {
@@ -408,39 +408,39 @@ public abstract class RenderTests extends GraphicsTests {
             int size = rctx.size - 1;
             int x = rctx.initX;
             int y = rctx.initY;
-            Graphics g = rctx.graphics;
-            g.translate(rctx.orgX, rctx.orgY);
-            Color rCArray[] = rctx.colorlist;
+            Grbphics g = rctx.grbphics;
+            g.trbnslbte(rctx.orgX, rctx.orgY);
+            Color rCArrby[] = rctx.colorlist;
             int ci = rctx.colorindex;
-            if (rctx.animate) {
+            if (rctx.bnimbte) {
                 do {
-                    if (rCArray != null) {
-                        g.setColor(rCArray[ci++ & NUM_RANDOMCOLORMASK]);
+                    if (rCArrby != null) {
+                        g.setColor(rCArrby[ci++ & NUM_RANDOMCOLORMASK]);
                     }
-                    g.drawLine(x, y, x + size, y + size);
-                    if ((x -= 3) < 0) x += rctx.maxX;
-                    if ((y -= 1) < 0) y += rctx.maxY;
+                    g.drbwLine(x, y, x + size, y + size);
+                    if ((x -= 3) < 0) x += rctx.mbxX;
+                    if ((y -= 1) < 0) y += rctx.mbxY;
                 } while (--numReps > 0);
             } else {
                 do {
-                    if (rCArray != null) {
-                        g.setColor(rCArray[ci++ & NUM_RANDOMCOLORMASK]);
+                    if (rCArrby != null) {
+                        g.setColor(rCArrby[ci++ & NUM_RANDOMCOLORMASK]);
                     }
-                    g.drawLine(x, y, x + size, y + size);
+                    g.drbwLine(x, y, x + size, y + size);
                 } while (--numReps > 0);
             }
             rctx.colorindex = ci;
-            g.translate(-rctx.orgX, -rctx.orgY);
+            g.trbnslbte(-rctx.orgX, -rctx.orgY);
         }
     }
 
-    public static class DrawHorizontalLines extends RenderTests {
-        public DrawHorizontalLines() {
-            super(rendertestroot, "drawLineHoriz",
-                  "Draw Horizontal Lines");
+    public stbtic clbss DrbwHorizontblLines extends RenderTests {
+        public DrbwHorizontblLines() {
+            super(rendertestroot, "drbwLineHoriz",
+                  "Drbw Horizontbl Lines");
         }
 
-        public int pixelsTouched(GraphicsTests.Context ctx) {
+        public int pixelsTouched(GrbphicsTests.Context ctx) {
             return ctx.outdim.width;
         }
 
@@ -453,39 +453,39 @@ public abstract class RenderTests extends GraphicsTests {
             int size = rctx.size - 1;
             int x = rctx.initX;
             int y = rctx.initY;
-            Graphics g = rctx.graphics;
-            g.translate(rctx.orgX, rctx.orgY);
-            Color rCArray[] = rctx.colorlist;
+            Grbphics g = rctx.grbphics;
+            g.trbnslbte(rctx.orgX, rctx.orgY);
+            Color rCArrby[] = rctx.colorlist;
             int ci = rctx.colorindex;
-            if (rctx.animate) {
+            if (rctx.bnimbte) {
                 do {
-                    if (rCArray != null) {
-                        g.setColor(rCArray[ci++ & NUM_RANDOMCOLORMASK]);
+                    if (rCArrby != null) {
+                        g.setColor(rCArrby[ci++ & NUM_RANDOMCOLORMASK]);
                     }
-                    g.drawLine(x, y, x + size, y);
-                    if ((x -= 3) < 0) x += rctx.maxX;
-                    if ((y -= 1) < 0) y += rctx.maxY;
+                    g.drbwLine(x, y, x + size, y);
+                    if ((x -= 3) < 0) x += rctx.mbxX;
+                    if ((y -= 1) < 0) y += rctx.mbxY;
                 } while (--numReps > 0);
             } else {
                 do {
-                    if (rCArray != null) {
-                        g.setColor(rCArray[ci++ & NUM_RANDOMCOLORMASK]);
+                    if (rCArrby != null) {
+                        g.setColor(rCArrby[ci++ & NUM_RANDOMCOLORMASK]);
                     }
-                    g.drawLine(x, y, x + size, y);
+                    g.drbwLine(x, y, x + size, y);
                 } while (--numReps > 0);
             }
             rctx.colorindex = ci;
-            g.translate(-rctx.orgX, -rctx.orgY);
+            g.trbnslbte(-rctx.orgX, -rctx.orgY);
         }
     }
 
-    public static class DrawVerticalLines extends RenderTests {
-        public DrawVerticalLines() {
-            super(rendertestroot, "drawLineVert",
-                  "Draw Vertical Lines");
+    public stbtic clbss DrbwVerticblLines extends RenderTests {
+        public DrbwVerticblLines() {
+            super(rendertestroot, "drbwLineVert",
+                  "Drbw Verticbl Lines");
         }
 
-        public int pixelsTouched(GraphicsTests.Context ctx) {
+        public int pixelsTouched(GrbphicsTests.Context ctx) {
             return ctx.outdim.height;
         }
 
@@ -498,35 +498,35 @@ public abstract class RenderTests extends GraphicsTests {
             int size = rctx.size - 1;
             int x = rctx.initX;
             int y = rctx.initY;
-            Graphics g = rctx.graphics;
-            g.translate(rctx.orgX, rctx.orgY);
-            Color rCArray[] = rctx.colorlist;
+            Grbphics g = rctx.grbphics;
+            g.trbnslbte(rctx.orgX, rctx.orgY);
+            Color rCArrby[] = rctx.colorlist;
             int ci = rctx.colorindex;
-            if (rctx.animate) {
+            if (rctx.bnimbte) {
                 do {
-                    if (rCArray != null) {
-                        g.setColor(rCArray[ci++ & NUM_RANDOMCOLORMASK]);
+                    if (rCArrby != null) {
+                        g.setColor(rCArrby[ci++ & NUM_RANDOMCOLORMASK]);
                     }
-                    g.drawLine(x, y, x, y + size);
-                    if ((x -= 3) < 0) x += rctx.maxX;
-                    if ((y -= 1) < 0) y += rctx.maxY;
+                    g.drbwLine(x, y, x, y + size);
+                    if ((x -= 3) < 0) x += rctx.mbxX;
+                    if ((y -= 1) < 0) y += rctx.mbxY;
                 } while (--numReps > 0);
             } else {
                 do {
-                    if (rCArray != null) {
-                        g.setColor(rCArray[ci++ & NUM_RANDOMCOLORMASK]);
+                    if (rCArrby != null) {
+                        g.setColor(rCArrby[ci++ & NUM_RANDOMCOLORMASK]);
                     }
-                    g.drawLine(x, y, x, y + size);
+                    g.drbwLine(x, y, x, y + size);
                 } while (--numReps > 0);
             }
             rctx.colorindex = ci;
-            g.translate(-rctx.orgX, -rctx.orgY);
+            g.trbnslbte(-rctx.orgX, -rctx.orgY);
         }
     }
 
-    public static class FillRects extends RenderTests {
+    public stbtic clbss FillRects extends RenderTests {
         public FillRects() {
-            super(rendertestroot, "fillRect", "Fill Rectangles");
+            super(rendertestroot, "fillRect", "Fill Rectbngles");
         }
 
         public void runTest(Object ctx, int numReps) {
@@ -534,43 +534,43 @@ public abstract class RenderTests extends GraphicsTests {
             int size = rctx.size;
             int x = rctx.initX;
             int y = rctx.initY;
-            Graphics g = rctx.graphics;
-            g.translate(rctx.orgX, rctx.orgY);
-            Color rCArray[] = rctx.colorlist;
+            Grbphics g = rctx.grbphics;
+            g.trbnslbte(rctx.orgX, rctx.orgY);
+            Color rCArrby[] = rctx.colorlist;
             int ci = rctx.colorindex;
-            if (rctx.animate) {
+            if (rctx.bnimbte) {
                 do {
-                    if (rCArray != null) {
-                        g.setColor(rCArray[ci++ & NUM_RANDOMCOLORMASK]);
+                    if (rCArrby != null) {
+                        g.setColor(rCArrby[ci++ & NUM_RANDOMCOLORMASK]);
                     }
                     g.fillRect(x, y, size, size);
-                    if ((x -= 3) < 0) x += rctx.maxX;
-                    if ((y -= 1) < 0) y += rctx.maxY;
+                    if ((x -= 3) < 0) x += rctx.mbxX;
+                    if ((y -= 1) < 0) y += rctx.mbxY;
                 } while (--numReps > 0);
             } else {
                 do {
-                    if (rCArray != null) {
-                        g.setColor(rCArray[ci++ & NUM_RANDOMCOLORMASK]);
+                    if (rCArrby != null) {
+                        g.setColor(rCArrby[ci++ & NUM_RANDOMCOLORMASK]);
                     }
                     g.fillRect(x, y, size, size);
                 } while (--numReps > 0);
             }
             rctx.colorindex = ci;
-            g.translate(-rctx.orgX, -rctx.orgY);
+            g.trbnslbte(-rctx.orgX, -rctx.orgY);
         }
     }
 
-    public static class DrawRects extends RenderTests {
-        public DrawRects() {
-            super(rendertestroot, "drawRect", "Draw Rectangles");
+    public stbtic clbss DrbwRects extends RenderTests {
+        public DrbwRects() {
+            super(rendertestroot, "drbwRect", "Drbw Rectbngles");
         }
 
-        public int pixelsTouched(GraphicsTests.Context ctx) {
+        public int pixelsTouched(GrbphicsTests.Context ctx) {
             int w = ctx.outdim.width;
             int h = ctx.outdim.height;
             if (w < 2 || h < 2) {
-                // If one dimension is less than 2 then there is no
-                // gap in the middle, so we get a solid filled rectangle.
+                // If one dimension is less thbn 2 then there is no
+                // gbp in the middle, so we get b solid filled rectbngle.
                 return w * h;
             }
             return (w * 2) + ((h - 2) * 2);
@@ -581,42 +581,42 @@ public abstract class RenderTests extends GraphicsTests {
             int size = rctx.size - 1;
             int x = rctx.initX;
             int y = rctx.initY;
-            Graphics g = rctx.graphics;
-            g.translate(rctx.orgX, rctx.orgY);
-            Color rCArray[] = rctx.colorlist;
+            Grbphics g = rctx.grbphics;
+            g.trbnslbte(rctx.orgX, rctx.orgY);
+            Color rCArrby[] = rctx.colorlist;
             int ci = rctx.colorindex;
-            if (rctx.animate) {
+            if (rctx.bnimbte) {
                 do {
-                    if (rCArray != null) {
-                        g.setColor(rCArray[ci++ & NUM_RANDOMCOLORMASK]);
+                    if (rCArrby != null) {
+                        g.setColor(rCArrby[ci++ & NUM_RANDOMCOLORMASK]);
                     }
-                    g.drawRect(x, y, size, size);
-                    if ((x -= 3) < 0) x += rctx.maxX;
-                    if ((y -= 1) < 0) y += rctx.maxY;
+                    g.drbwRect(x, y, size, size);
+                    if ((x -= 3) < 0) x += rctx.mbxX;
+                    if ((y -= 1) < 0) y += rctx.mbxY;
                 } while (--numReps > 0);
             } else {
                 do {
-                    if (rCArray != null) {
-                        g.setColor(rCArray[ci++ & NUM_RANDOMCOLORMASK]);
+                    if (rCArrby != null) {
+                        g.setColor(rCArrby[ci++ & NUM_RANDOMCOLORMASK]);
                     }
-                    g.drawRect(x, y, size, size);
+                    g.drbwRect(x, y, size, size);
                 } while (--numReps > 0);
             }
             rctx.colorindex = ci;
-            g.translate(-rctx.orgX, -rctx.orgY);
+            g.trbnslbte(-rctx.orgX, -rctx.orgY);
         }
     }
 
-    public static class FillOvals extends RenderTests {
-        public FillOvals() {
-            super(rendertestroot, "fillOval", "Fill Ellipses");
+    public stbtic clbss FillOvbls extends RenderTests {
+        public FillOvbls() {
+            super(rendertestroot, "fillOvbl", "Fill Ellipses");
         }
 
-        public int pixelsTouched(GraphicsTests.Context ctx) {
-            // Approximated
-            double xaxis = ctx.outdim.width / 2.0;
-            double yaxis = ctx.outdim.height / 2.0;
-            return (int) (xaxis * yaxis * Math.PI);
+        public int pixelsTouched(GrbphicsTests.Context ctx) {
+            // Approximbted
+            double xbxis = ctx.outdim.width / 2.0;
+            double ybxis = ctx.outdim.height / 2.0;
+            return (int) (xbxis * ybxis * Mbth.PI);
         }
 
         public void runTest(Object ctx, int numReps) {
@@ -624,53 +624,53 @@ public abstract class RenderTests extends GraphicsTests {
             int size = rctx.size;
             int x = rctx.initX;
             int y = rctx.initY;
-            Graphics g = rctx.graphics;
-            g.translate(rctx.orgX, rctx.orgY);
-            Color rCArray[] = rctx.colorlist;
+            Grbphics g = rctx.grbphics;
+            g.trbnslbte(rctx.orgX, rctx.orgY);
+            Color rCArrby[] = rctx.colorlist;
             int ci = rctx.colorindex;
-            if (rctx.animate) {
+            if (rctx.bnimbte) {
                 do {
-                    if (rCArray != null) {
-                        g.setColor(rCArray[ci++ & NUM_RANDOMCOLORMASK]);
+                    if (rCArrby != null) {
+                        g.setColor(rCArrby[ci++ & NUM_RANDOMCOLORMASK]);
                     }
-                    g.fillOval(x, y, size, size);
-                    if ((x -= 3) < 0) x += rctx.maxX;
-                    if ((y -= 1) < 0) y += rctx.maxY;
+                    g.fillOvbl(x, y, size, size);
+                    if ((x -= 3) < 0) x += rctx.mbxX;
+                    if ((y -= 1) < 0) y += rctx.mbxY;
                 } while (--numReps > 0);
             } else {
                 do {
-                    if (rCArray != null) {
-                        g.setColor(rCArray[ci++ & NUM_RANDOMCOLORMASK]);
+                    if (rCArrby != null) {
+                        g.setColor(rCArrby[ci++ & NUM_RANDOMCOLORMASK]);
                     }
-                    g.fillOval(x, y, size, size);
+                    g.fillOvbl(x, y, size, size);
                 } while (--numReps > 0);
             }
             rctx.colorindex = ci;
-            g.translate(-rctx.orgX, -rctx.orgY);
+            g.trbnslbte(-rctx.orgX, -rctx.orgY);
         }
     }
 
-    public static class DrawOvals extends RenderTests {
-        public DrawOvals() {
-            super(rendertestroot, "drawOval", "Draw Ellipses");
+    public stbtic clbss DrbwOvbls extends RenderTests {
+        public DrbwOvbls() {
+            super(rendertestroot, "drbwOvbl", "Drbw Ellipses");
         }
 
-        public int pixelsTouched(GraphicsTests.Context ctx) {
+        public int pixelsTouched(GrbphicsTests.Context ctx) {
             /*
-             * Approximation: We figured that the vertical chord connecting
-             * the +45 deg and -45 deg points on the ellipse is about
-             * height/sqrt(2) pixels long.  Likewise, the horizontal chord
-             * connecting the +45 deg and +135 deg points on the ellipse is
-             * about width/sqrt(2) pixels long.  Each of these chords has
-             * a parallel on the opposite side of the respective axis (there
-             * are two horizontal chords and two vertical chords).  Altogether
-             * this gives a reasonable approximation of the total number of
-             * pixels touched by the ellipse, so we have:
+             * Approximbtion: We figured thbt the verticbl chord connecting
+             * the +45 deg bnd -45 deg points on the ellipse is bbout
+             * height/sqrt(2) pixels long.  Likewise, the horizontbl chord
+             * connecting the +45 deg bnd +135 deg points on the ellipse is
+             * bbout width/sqrt(2) pixels long.  Ebch of these chords hbs
+             * b pbrbllel on the opposite side of the respective bxis (there
+             * bre two horizontbl chords bnd two verticbl chords).  Altogether
+             * this gives b rebsonbble bpproximbtion of the totbl number of
+             * pixels touched by the ellipse, so we hbve:
              *     2*(w/sqrt(2)) + 2*(h/sqrt(2))
              *  == (2/sqrt(2))*(w+h)
              *  == (sqrt(2))*(w+h)
              */
-            return (int)(Math.sqrt(2.0)*(ctx.outdim.width+ctx.outdim.height));
+            return (int)(Mbth.sqrt(2.0)*(ctx.outdim.width+ctx.outdim.height));
         }
 
         public void runTest(Object ctx, int numReps) {
@@ -678,50 +678,50 @@ public abstract class RenderTests extends GraphicsTests {
             int size = rctx.size - 1;
             int x = rctx.initX;
             int y = rctx.initY;
-            Graphics g = rctx.graphics;
-            g.translate(rctx.orgX, rctx.orgY);
-            Color rCArray[] = rctx.colorlist;
+            Grbphics g = rctx.grbphics;
+            g.trbnslbte(rctx.orgX, rctx.orgY);
+            Color rCArrby[] = rctx.colorlist;
             int ci = rctx.colorindex;
-            if (rctx.animate) {
+            if (rctx.bnimbte) {
                 do {
-                    if (rCArray != null) {
-                        g.setColor(rCArray[ci++ & NUM_RANDOMCOLORMASK]);
+                    if (rCArrby != null) {
+                        g.setColor(rCArrby[ci++ & NUM_RANDOMCOLORMASK]);
                     }
-                    g.drawOval(x, y, size, size);
-                    if ((x -= 3) < 0) x += rctx.maxX;
-                    if ((y -= 1) < 0) y += rctx.maxY;
+                    g.drbwOvbl(x, y, size, size);
+                    if ((x -= 3) < 0) x += rctx.mbxX;
+                    if ((y -= 1) < 0) y += rctx.mbxY;
                 } while (--numReps > 0);
             } else {
                 do {
-                    if (rCArray != null) {
-                        g.setColor(rCArray[ci++ & NUM_RANDOMCOLORMASK]);
+                    if (rCArrby != null) {
+                        g.setColor(rCArrby[ci++ & NUM_RANDOMCOLORMASK]);
                     }
-                    g.drawOval(x, y, size, size);
+                    g.drbwOvbl(x, y, size, size);
                 } while (--numReps > 0);
             }
             rctx.colorindex = ci;
-            g.translate(-rctx.orgX, -rctx.orgY);
+            g.trbnslbte(-rctx.orgX, -rctx.orgY);
         }
     }
 
-    public static class FillPolys extends RenderTests {
+    public stbtic clbss FillPolys extends RenderTests {
         public FillPolys() {
-            super(rendertestroot, "fillPoly", "Fill Hexagonal Polygons");
+            super(rendertestroot, "fillPoly", "Fill Hexbgonbl Polygons");
         }
 
-        public int pixelsTouched(GraphicsTests.Context ctx) {
+        public int pixelsTouched(GrbphicsTests.Context ctx) {
             /*
-             * The polygon is a hexagon inscribed inside the square but
-             * missing a triangle at each of the four corners of size
+             * The polygon is b hexbgon inscribed inside the squbre but
+             * missing b tribngle bt ebch of the four corners of size
              * (w/4) by (h/2).
              *
-             * Putting 2 of these triangles together gives a rectangle
+             * Putting 2 of these tribngles together gives b rectbngle
              * of size (w/4) by (h/2).
              *
-             * Putting 2 of these rectangles together gives a total
-             * missing rectangle size of (w/2) by (h/2).
+             * Putting 2 of these rectbngles together gives b totbl
+             * missing rectbngle size of (w/2) by (h/2).
              *
-             * Thus, exactly one quarter of the whole square is not
+             * Thus, exbctly one qubrter of the whole squbre is not
              * touched by the filled polygon.
              */
             int size = ctx.outdim.width * ctx.outdim.height;
@@ -733,53 +733,53 @@ public abstract class RenderTests extends GraphicsTests {
             int size = rctx.size;
             int x = rctx.initX;
             int y = rctx.initY;
-            int hexaX[] = new int[6];
-            int hexaY[] = new int[6];
-            Graphics g = rctx.graphics;
-            g.translate(rctx.orgX, rctx.orgY);
-            Color rCArray[] = rctx.colorlist;
+            int hexbX[] = new int[6];
+            int hexbY[] = new int[6];
+            Grbphics g = rctx.grbphics;
+            g.trbnslbte(rctx.orgX, rctx.orgY);
+            Color rCArrby[] = rctx.colorlist;
             int ci = rctx.colorindex;
             do {
-                hexaX[0] = x;
-                hexaX[1] = hexaX[5] = x+size/4;
-                hexaX[2] = hexaX[4] = x+size-size/4;
-                hexaX[3] = x+size;
-                hexaY[1] = hexaY[2] = y;
-                hexaY[0] = hexaY[3] = y+size/2;
-                hexaY[4] = hexaY[5] = y+size;
+                hexbX[0] = x;
+                hexbX[1] = hexbX[5] = x+size/4;
+                hexbX[2] = hexbX[4] = x+size-size/4;
+                hexbX[3] = x+size;
+                hexbY[1] = hexbY[2] = y;
+                hexbY[0] = hexbY[3] = y+size/2;
+                hexbY[4] = hexbY[5] = y+size;
 
-                if (rCArray != null) {
-                    g.setColor(rCArray[ci++ & NUM_RANDOMCOLORMASK]);
+                if (rCArrby != null) {
+                    g.setColor(rCArrby[ci++ & NUM_RANDOMCOLORMASK]);
                 }
-                g.fillPolygon(hexaX, hexaY, 6);
-                if ((x -= 3) < 0) x += rctx.maxX;
-                if ((y -= 1) < 0) y += rctx.maxY;
+                g.fillPolygon(hexbX, hexbY, 6);
+                if ((x -= 3) < 0) x += rctx.mbxX;
+                if ((y -= 1) < 0) y += rctx.mbxY;
             } while (--numReps > 0);
             rctx.colorindex = ci;
-            g.translate(-rctx.orgX, -rctx.orgY);
+            g.trbnslbte(-rctx.orgX, -rctx.orgY);
         }
     }
 
-    public static class DrawPolys extends RenderTests {
-        public DrawPolys() {
-            super(rendertestroot, "drawPoly", "Draw Hexagonal Polygons");
+    public stbtic clbss DrbwPolys extends RenderTests {
+        public DrbwPolys() {
+            super(rendertestroot, "drbwPoly", "Drbw Hexbgonbl Polygons");
         }
 
-        public int pixelsTouched(GraphicsTests.Context ctx) {
+        public int pixelsTouched(GrbphicsTests.Context ctx) {
             /*
-             * The two horizontal segments have exactly two pixels per column.
-             * Since the diagonals are more vertical than horizontal, using
-             * h*2 would be a good way to count the pixels in those sections.
-             * We then have to figure out the size of the remainder of the
-             * horizontal lines at top and bottom to get the answer:
+             * The two horizontbl segments hbve exbctly two pixels per column.
+             * Since the dibgonbls bre more verticbl thbn horizontbl, using
+             * h*2 would be b good wby to count the pixels in those sections.
+             * We then hbve to figure out the size of the rembinder of the
+             * horizontbl lines bt top bnd bottom to get the bnswer:
              *
-             *     (diagonals less endpoints)*2 + (horizontals)*2
+             *     (dibgonbls less endpoints)*2 + (horizontbls)*2
              *
              *  or:
              *
              *     (h-2)*2 + ((x+w-1-w/4)-(x+w/4)+1)*2
              *
-             *  since (w == h == size), we then have:
+             *  since (w == h == size), we then hbve:
              *
              *     (size - size/4 - 1) * 4
              */
@@ -793,82 +793,82 @@ public abstract class RenderTests extends GraphicsTests {
 
         public void runTest(Object ctx, int numReps) {
             RenderTests.Context rctx = (RenderTests.Context) ctx;
-            // subtract 1 to account for the fact that lines are drawn to
-            // and including the final coordinate...
+            // subtrbct 1 to bccount for the fbct thbt lines bre drbwn to
+            // bnd including the finbl coordinbte...
             int size = rctx.size - 1;
             int x = rctx.initX;
             int y = rctx.initY;
-            int hexaX[] = new int[6];
-            int hexaY[] = new int[6];
-            Graphics g = rctx.graphics;
-            g.translate(rctx.orgX, rctx.orgY);
-            Color rCArray[] = rctx.colorlist;
+            int hexbX[] = new int[6];
+            int hexbY[] = new int[6];
+            Grbphics g = rctx.grbphics;
+            g.trbnslbte(rctx.orgX, rctx.orgY);
+            Color rCArrby[] = rctx.colorlist;
             int ci = rctx.colorindex;
             do {
-                hexaX[0] = x;
-                hexaX[1] = hexaX[5] = x+size/4;
-                hexaX[2] = hexaX[4] = x+size-size/4;
-                hexaX[3] = x+size;
-                hexaY[1] = hexaY[2] = y;
-                hexaY[0] = hexaY[3] = y+size/2;
-                hexaY[4] = hexaY[5] = y+size;
+                hexbX[0] = x;
+                hexbX[1] = hexbX[5] = x+size/4;
+                hexbX[2] = hexbX[4] = x+size-size/4;
+                hexbX[3] = x+size;
+                hexbY[1] = hexbY[2] = y;
+                hexbY[0] = hexbY[3] = y+size/2;
+                hexbY[4] = hexbY[5] = y+size;
 
-                if (rCArray != null) {
-                    g.setColor(rCArray[ci++ & NUM_RANDOMCOLORMASK]);
+                if (rCArrby != null) {
+                    g.setColor(rCArrby[ci++ & NUM_RANDOMCOLORMASK]);
                 }
-                g.drawPolygon(hexaX, hexaY, 6);
-                if ((x -= 3) < 0) x += rctx.maxX;
-                if ((y -= 1) < 0) y += rctx.maxY;
+                g.drbwPolygon(hexbX, hexbY, 6);
+                if ((x -= 3) < 0) x += rctx.mbxX;
+                if ((y -= 1) < 0) y += rctx.mbxY;
             } while (--numReps > 0);
             rctx.colorindex = ci;
-            g.translate(-rctx.orgX, -rctx.orgY);
+            g.trbnslbte(-rctx.orgX, -rctx.orgY);
         }
     }
 
-    public static class FillCubics extends RenderTests {
-        static final double relTmax = .5 - Math.sqrt(3) / 6;
-        static final double relYmax = ((6*relTmax - 9)*relTmax + 3)*relTmax;
+    public stbtic clbss FillCubics extends RenderTests {
+        stbtic finbl double relTmbx = .5 - Mbth.sqrt(3) / 6;
+        stbtic finbl double relYmbx = ((6*relTmbx - 9)*relTmbx + 3)*relTmbx;
 
         public FillCubics() {
-            super(rendershaperoot, "fillCubic", "Fill Bezier Curves");
+            super(rendershbperoot, "fillCubic", "Fill Bezier Curves");
         }
 
-        public int pixelsTouched(GraphicsTests.Context ctx) {
+        public int pixelsTouched(GrbphicsTests.Context ctx) {
             /*
-             * The cubic only touches 2 quadrants in the square, thus
-             * at least half of the square is unfilled.  The integrals
-             * to figure out the exact area are not trivial so for the
-             * other 2 quadrants, I'm going to guess that the cubic only
-             * encloses somewhere between 1/2 and 3/4ths of the pixels
-             * in those quadrants - we will say 5/8ths.  Thus only
-             * 5/16ths of the total square is filled.
+             * The cubic only touches 2 qubdrbnts in the squbre, thus
+             * bt lebst hblf of the squbre is unfilled.  The integrbls
+             * to figure out the exbct breb bre not trivibl so for the
+             * other 2 qubdrbnts, I'm going to guess thbt the cubic only
+             * encloses somewhere between 1/2 bnd 3/4ths of the pixels
+             * in those qubdrbnts - we will sby 5/8ths.  Thus only
+             * 5/16ths of the totbl squbre is filled.
              */
-            // Note: 2x2 ends up hitting exactly 1 pixel...
+            // Note: 2x2 ends up hitting exbctly 1 pixel...
             int size = ctx.size;
             if (size < 2) size = 2;
             return size * size * 5 / 16;
         }
 
-        public static class Context extends RenderTests.Context {
-            CubicCurve2D curve = new CubicCurve2D.Float();
+        public stbtic clbss Context extends RenderTests.Context {
+            CubicCurve2D curve = new CubicCurve2D.Flobt();
         }
 
-        public GraphicsTests.Context createContext() {
+        public GrbphicsTests.Context crebteContext() {
             return new FillCubics.Context();
         }
 
         public void runTest(Object ctx, int numReps) {
             FillCubics.Context cctx = (FillCubics.Context) ctx;
             int size = cctx.size;
-            // Note: 2x2 ends up hitting exactly 1 pixel...
+            // Note: 2x2 ends up hitting exbctly 1 pixel...
             if (size < 2) size = 2;
             int x = cctx.initX;
             int y = cctx.initY;
-            int cpoffset = (int) (size/relYmax/2);
+            int cpoffset = (int) (size/relYmbx/2);
             CubicCurve2D curve = cctx.curve;
-            Graphics2D g2d = (Graphics2D) cctx.graphics;
-            g2d.translate(cctx.orgX, cctx.orgY);
-            Color rCArray[] = cctx.colorlist;
+            Grbphics2D g2d = (Grbphics2D) cctx.grbphics;
+            g2d.trbnslbte(cctx.orgX, cctx.orgY);
+            Color rCArrby[] = cctx.colorlist;
             int ci = cctx.colorindex;
             do {
                 curve.setCurve(x, y+size/2.0,
@@ -876,53 +876,53 @@ public abstract class RenderTests extends GraphicsTests {
                                x+size/2.0, y+size/2.0+cpoffset,
                                x+size, y+size/2.0);
 
-                if (rCArray != null) {
-                    g2d.setColor(rCArray[ci++ & NUM_RANDOMCOLORMASK]);
+                if (rCArrby != null) {
+                    g2d.setColor(rCArrby[ci++ & NUM_RANDOMCOLORMASK]);
                 }
                 g2d.fill(curve);
-                if ((x -= 3) < 0) x += cctx.maxX;
-                if ((y -= 1) < 0) y += cctx.maxY;
+                if ((x -= 3) < 0) x += cctx.mbxX;
+                if ((y -= 1) < 0) y += cctx.mbxY;
             } while (--numReps > 0);
             cctx.colorindex = ci;
-            g2d.translate(-cctx.orgX, -cctx.orgY);
+            g2d.trbnslbte(-cctx.orgX, -cctx.orgY);
         }
     }
 
-    public static class DrawCubics extends RenderTests {
-        static final double relTmax = .5 - Math.sqrt(3) / 6;
-        static final double relYmax = ((6*relTmax - 9)*relTmax + 3)*relTmax;
+    public stbtic clbss DrbwCubics extends RenderTests {
+        stbtic finbl double relTmbx = .5 - Mbth.sqrt(3) / 6;
+        stbtic finbl double relYmbx = ((6*relTmbx - 9)*relTmbx + 3)*relTmbx;
 
-        public DrawCubics() {
-            super(rendershaperoot, "drawCubic", "Draw Bezier Curves");
+        public DrbwCubics() {
+            super(rendershbperoot, "drbwCubic", "Drbw Bezier Curves");
         }
 
-        public int pixelsTouched(GraphicsTests.Context ctx) {
-            // Gross approximation
+        public int pixelsTouched(GrbphicsTests.Context ctx) {
+            // Gross bpproximbtion
             int size = ctx.size;
             if (size < 2) size = 2;
             return size;
         }
 
-        public static class Context extends RenderTests.Context {
-            CubicCurve2D curve = new CubicCurve2D.Float();
+        public stbtic clbss Context extends RenderTests.Context {
+            CubicCurve2D curve = new CubicCurve2D.Flobt();
         }
 
-        public GraphicsTests.Context createContext() {
-            return new DrawCubics.Context();
+        public GrbphicsTests.Context crebteContext() {
+            return new DrbwCubics.Context();
         }
 
         public void runTest(Object ctx, int numReps) {
-            DrawCubics.Context cctx = (DrawCubics.Context) ctx;
+            DrbwCubics.Context cctx = (DrbwCubics.Context) ctx;
             int size = cctx.size;
-            // Note: 2x2 ends up hitting exactly 1 pixel...
+            // Note: 2x2 ends up hitting exbctly 1 pixel...
             if (size < 2) size = 2;
             int x = cctx.initX;
             int y = cctx.initY;
-            int cpoffset = (int) (size/relYmax/2);
+            int cpoffset = (int) (size/relYmbx/2);
             CubicCurve2D curve = cctx.curve;
-            Graphics2D g2d = (Graphics2D) cctx.graphics;
-            g2d.translate(cctx.orgX, cctx.orgY);
-            Color rCArray[] = cctx.colorlist;
+            Grbphics2D g2d = (Grbphics2D) cctx.grbphics;
+            g2d.trbnslbte(cctx.orgX, cctx.orgY);
+            Color rCArrby[] = cctx.colorlist;
             int ci = cctx.colorindex;
             do {
                 curve.setCurve(x, y+size/2.0,
@@ -930,35 +930,35 @@ public abstract class RenderTests extends GraphicsTests {
                                x+size/2.0, y+size/2.0+cpoffset,
                                x+size, y+size/2.0);
 
-                if (rCArray != null) {
-                    g2d.setColor(rCArray[ci++ & NUM_RANDOMCOLORMASK]);
+                if (rCArrby != null) {
+                    g2d.setColor(rCArrby[ci++ & NUM_RANDOMCOLORMASK]);
                 }
-                g2d.draw(curve);
-                if ((x -= 3) < 0) x += cctx.maxX;
-                if ((y -= 1) < 0) y += cctx.maxY;
+                g2d.drbw(curve);
+                if ((x -= 3) < 0) x += cctx.mbxX;
+                if ((y -= 1) < 0) y += cctx.mbxY;
             } while (--numReps > 0);
             cctx.colorindex = ci;
-            g2d.translate(-cctx.orgX, -cctx.orgY);
+            g2d.trbnslbte(-cctx.orgX, -cctx.orgY);
         }
     }
 
-    public static class FillEllipse2Ds extends RenderTests {
+    public stbtic clbss FillEllipse2Ds extends RenderTests {
         public FillEllipse2Ds() {
-            super(rendershaperoot, "fillEllipse2D", "Fill Ellipse2Ds");
+            super(rendershbperoot, "fillEllipse2D", "Fill Ellipse2Ds");
         }
 
-        public int pixelsTouched(GraphicsTests.Context ctx) {
-            // Approximated (copied from FillOvals.pixelsTouched())
-            double xaxis = ctx.outdim.width / 2.0;
-            double yaxis = ctx.outdim.height / 2.0;
-            return (int) (xaxis * yaxis * Math.PI);
+        public int pixelsTouched(GrbphicsTests.Context ctx) {
+            // Approximbted (copied from FillOvbls.pixelsTouched())
+            double xbxis = ctx.outdim.width / 2.0;
+            double ybxis = ctx.outdim.height / 2.0;
+            return (int) (xbxis * ybxis * Mbth.PI);
         }
 
-        public static class Context extends RenderTests.Context {
-            Ellipse2D ellipse = new Ellipse2D.Float();
+        public stbtic clbss Context extends RenderTests.Context {
+            Ellipse2D ellipse = new Ellipse2D.Flobt();
         }
 
-        public GraphicsTests.Context createContext() {
+        public GrbphicsTests.Context crebteContext() {
             return new FillEllipse2Ds.Context();
         }
 
@@ -968,63 +968,63 @@ public abstract class RenderTests extends GraphicsTests {
             int x = cctx.initX;
             int y = cctx.initY;
             Ellipse2D ellipse = cctx.ellipse;
-            Graphics2D g2d = (Graphics2D) cctx.graphics;
-            g2d.translate(cctx.orgX, cctx.orgY);
-            Color rCArray[] = cctx.colorlist;
+            Grbphics2D g2d = (Grbphics2D) cctx.grbphics;
+            g2d.trbnslbte(cctx.orgX, cctx.orgY);
+            Color rCArrby[] = cctx.colorlist;
             int ci = cctx.colorindex;
             do {
-                if (rCArray != null) {
-                    g2d.setColor(rCArray[ci++ & NUM_RANDOMCOLORMASK]);
+                if (rCArrby != null) {
+                    g2d.setColor(rCArrby[ci++ & NUM_RANDOMCOLORMASK]);
                 }
-                ellipse.setFrame(x, y, size, size);
+                ellipse.setFrbme(x, y, size, size);
                 g2d.fill(ellipse);
-                if ((x -= 3) < 0) x += cctx.maxX;
-                if ((y -= 1) < 0) y += cctx.maxY;
+                if ((x -= 3) < 0) x += cctx.mbxX;
+                if ((y -= 1) < 0) y += cctx.mbxY;
             } while (--numReps > 0);
             cctx.colorindex = ci;
-            g2d.translate(-cctx.orgX, -cctx.orgY);
+            g2d.trbnslbte(-cctx.orgX, -cctx.orgY);
         }
     }
 
-    public static class DrawEllipse2Ds extends RenderTests {
-        public DrawEllipse2Ds() {
-            super(rendershaperoot, "drawEllipse2D", "Draw Ellipse2Ds");
+    public stbtic clbss DrbwEllipse2Ds extends RenderTests {
+        public DrbwEllipse2Ds() {
+            super(rendershbperoot, "drbwEllipse2D", "Drbw Ellipse2Ds");
         }
 
-        public int pixelsTouched(GraphicsTests.Context ctx) {
-            // Approximated (copied from DrawOvals.pixelsTouched())
-            return (int)(Math.sqrt(2.0)*(ctx.outdim.width+ctx.outdim.height));
+        public int pixelsTouched(GrbphicsTests.Context ctx) {
+            // Approximbted (copied from DrbwOvbls.pixelsTouched())
+            return (int)(Mbth.sqrt(2.0)*(ctx.outdim.width+ctx.outdim.height));
         }
 
-        public static class Context extends RenderTests.Context {
-            Ellipse2D ellipse = new Ellipse2D.Float();
+        public stbtic clbss Context extends RenderTests.Context {
+            Ellipse2D ellipse = new Ellipse2D.Flobt();
         }
 
-        public GraphicsTests.Context createContext() {
-            return new DrawEllipse2Ds.Context();
+        public GrbphicsTests.Context crebteContext() {
+            return new DrbwEllipse2Ds.Context();
         }
 
         public void runTest(Object ctx, int numReps) {
-            DrawEllipse2Ds.Context cctx = (DrawEllipse2Ds.Context) ctx;
+            DrbwEllipse2Ds.Context cctx = (DrbwEllipse2Ds.Context) ctx;
             int size = cctx.size;
             int x = cctx.initX;
             int y = cctx.initY;
             Ellipse2D ellipse = cctx.ellipse;
-            Graphics2D g2d = (Graphics2D) cctx.graphics;
-            g2d.translate(cctx.orgX, cctx.orgY);
-            Color rCArray[] = cctx.colorlist;
+            Grbphics2D g2d = (Grbphics2D) cctx.grbphics;
+            g2d.trbnslbte(cctx.orgX, cctx.orgY);
+            Color rCArrby[] = cctx.colorlist;
             int ci = cctx.colorindex;
             do {
-                if (rCArray != null) {
-                    g2d.setColor(rCArray[ci++ & NUM_RANDOMCOLORMASK]);
+                if (rCArrby != null) {
+                    g2d.setColor(rCArrby[ci++ & NUM_RANDOMCOLORMASK]);
                 }
-                ellipse.setFrame(x, y, size, size);
-                g2d.draw(ellipse);
-                if ((x -= 3) < 0) x += cctx.maxX;
-                if ((y -= 1) < 0) y += cctx.maxY;
+                ellipse.setFrbme(x, y, size, size);
+                g2d.drbw(ellipse);
+                if ((x -= 3) < 0) x += cctx.mbxX;
+                if ((y -= 1) < 0) y += cctx.mbxY;
             } while (--numReps > 0);
             cctx.colorindex = ci;
-            g2d.translate(-cctx.orgX, -cctx.orgY);
+            g2d.trbnslbte(-cctx.orgX, -cctx.orgY);
         }
     }
 }

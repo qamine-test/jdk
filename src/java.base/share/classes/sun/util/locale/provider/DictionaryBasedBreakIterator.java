@@ -1,525 +1,525 @@
 /*
- * Copyright (c) 1999, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
  *
- * (C) Copyright Taligent, Inc. 1996, 1997 - All Rights Reserved
+ * (C) Copyright Tbligent, Inc. 1996, 1997 - All Rights Reserved
  * (C) Copyright IBM Corp. 1996 - 2002 - All Rights Reserved
  *
- * The original version of this source code and documentation
- * is copyrighted and owned by Taligent, Inc., a wholly-owned
- * subsidiary of IBM. These materials are provided under terms
- * of a License Agreement between Taligent and Sun. This technology
- * is protected by multiple US and International patents.
+ * The originbl version of this source code bnd documentbtion
+ * is copyrighted bnd owned by Tbligent, Inc., b wholly-owned
+ * subsidibry of IBM. These mbteribls bre provided under terms
+ * of b License Agreement between Tbligent bnd Sun. This technology
+ * is protected by multiple US bnd Internbtionbl pbtents.
  *
- * This notice and attribution to Taligent may not be removed.
- * Taligent is a registered trademark of Taligent, Inc.
+ * This notice bnd bttribution to Tbligent mby not be removed.
+ * Tbligent is b registered trbdembrk of Tbligent, Inc.
  */
 
-package sun.util.locale.provider;
+pbckbge sun.util.locble.provider;
 
-import java.io.IOException;
-import java.text.CharacterIterator;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Stack;
+import jbvb.io.IOException;
+import jbvb.text.ChbrbcterIterbtor;
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
+import jbvb.util.Stbck;
 
 /**
- * A subclass of RuleBasedBreakIterator that adds the ability to use a dictionary
- * to further subdivide ranges of text beyond what is possible using just the
- * state-table-based algorithm.  This is necessary, for example, to handle
- * word and line breaking in Thai, which doesn't use spaces between words.  The
- * state-table-based algorithm used by RuleBasedBreakIterator is used to divide
- * up text as far as possible, and then contiguous ranges of letters are
- * repeatedly compared against a list of known words (i.e., the dictionary)
+ * A subclbss of RuleBbsedBrebkIterbtor thbt bdds the bbility to use b dictionbry
+ * to further subdivide rbnges of text beyond whbt is possible using just the
+ * stbte-tbble-bbsed blgorithm.  This is necessbry, for exbmple, to hbndle
+ * word bnd line brebking in Thbi, which doesn't use spbces between words.  The
+ * stbte-tbble-bbsed blgorithm used by RuleBbsedBrebkIterbtor is used to divide
+ * up text bs fbr bs possible, bnd then contiguous rbnges of letters bre
+ * repebtedly compbred bgbinst b list of known words (i.e., the dictionbry)
  * to divide them up into words.
  *
- * DictionaryBasedBreakIterator uses the same rule language as RuleBasedBreakIterator,
- * but adds one more special substitution name: &lt;dictionary&gt;.  This substitution
- * name is used to identify characters in words in the dictionary.  The idea is that
- * if the iterator passes over a chunk of text that includes two or more characters
- * in a row that are included in &lt;dictionary&gt;, it goes back through that range and
- * derives additional break positions (if possible) using the dictionary.
+ * DictionbryBbsedBrebkIterbtor uses the sbme rule lbngubge bs RuleBbsedBrebkIterbtor,
+ * but bdds one more specibl substitution nbme: &lt;dictionbry&gt;.  This substitution
+ * nbme is used to identify chbrbcters in words in the dictionbry.  The ideb is thbt
+ * if the iterbtor pbsses over b chunk of text thbt includes two or more chbrbcters
+ * in b row thbt bre included in &lt;dictionbry&gt;, it goes bbck through thbt rbnge bnd
+ * derives bdditionbl brebk positions (if possible) using the dictionbry.
  *
- * DictionaryBasedBreakIterator is also constructed with the filename of a dictionary
- * file.  It follows a prescribed search path to locate the dictionary (right now,
- * it looks for it in /com/ibm/text/resources in each directory in the classpath,
- * and won't find it in JAR files, but this location is likely to change).  The
- * dictionary file is in a serialized binary format.  We have a very primitive (and
- * slow) BuildDictionaryFile utility for creating dictionary files, but aren't
- * currently making it public.  Contact us for help.
+ * DictionbryBbsedBrebkIterbtor is blso constructed with the filenbme of b dictionbry
+ * file.  It follows b prescribed sebrch pbth to locbte the dictionbry (right now,
+ * it looks for it in /com/ibm/text/resources in ebch directory in the clbsspbth,
+ * bnd won't find it in JAR files, but this locbtion is likely to chbnge).  The
+ * dictionbry file is in b seriblized binbry formbt.  We hbve b very primitive (bnd
+ * slow) BuildDictionbryFile utility for crebting dictionbry files, but bren't
+ * currently mbking it public.  Contbct us for help.
  */
-class DictionaryBasedBreakIterator extends RuleBasedBreakIterator {
+clbss DictionbryBbsedBrebkIterbtor extends RuleBbsedBrebkIterbtor {
 
     /**
-     * a list of known words that is used to divide up contiguous ranges of letters,
-     * stored in a compressed, indexed, format that offers fast access
+     * b list of known words thbt is used to divide up contiguous rbnges of letters,
+     * stored in b compressed, indexed, formbt thbt offers fbst bccess
      */
-    private BreakDictionary dictionary;
+    privbte BrebkDictionbry dictionbry;
 
     /**
-     * a list of flags indicating which character categories are contained in
-     * the dictionary file (this is used to determine which ranges of characters
-     * to apply the dictionary to)
+     * b list of flbgs indicbting which chbrbcter cbtegories bre contbined in
+     * the dictionbry file (this is used to determine which rbnges of chbrbcters
+     * to bpply the dictionbry to)
      */
-    private boolean[] categoryFlags;
+    privbte boolebn[] cbtegoryFlbgs;
 
     /**
-     * a temporary hiding place for the number of dictionary characters in the
-     * last range passed over by next()
+     * b temporbry hiding plbce for the number of dictionbry chbrbcters in the
+     * lbst rbnge pbssed over by next()
      */
-    private int dictionaryCharCount;
+    privbte int dictionbryChbrCount;
 
     /**
-     * when a range of characters is divided up using the dictionary, the break
-     * positions that are discovered are stored here, preventing us from having
-     * to use either the dictionary or the state table again until the iterator
-     * leaves this range of text
+     * when b rbnge of chbrbcters is divided up using the dictionbry, the brebk
+     * positions thbt bre discovered bre stored here, preventing us from hbving
+     * to use either the dictionbry or the stbte tbble bgbin until the iterbtor
+     * lebves this rbnge of text
      */
-    private int[] cachedBreakPositions;
+    privbte int[] cbchedBrebkPositions;
 
     /**
-     * if cachedBreakPositions is not null, this indicates which item in the
-     * cache the current iteration position refers to
+     * if cbchedBrebkPositions is not null, this indicbtes which item in the
+     * cbche the current iterbtion position refers to
      */
-    private int positionInCache;
+    privbte int positionInCbche;
 
     /**
-     * Constructs a DictionaryBasedBreakIterator.
-     * @param description Same as the description parameter on RuleBasedBreakIterator,
-     * except for the special meaning of "<dictionary>".  This parameter is just
-     * passed through to RuleBasedBreakIterator's constructor.
-     * @param dictionaryFilename The filename of the dictionary file to use
+     * Constructs b DictionbryBbsedBrebkIterbtor.
+     * @pbrbm description Sbme bs the description pbrbmeter on RuleBbsedBrebkIterbtor,
+     * except for the specibl mebning of "<dictionbry>".  This pbrbmeter is just
+     * pbssed through to RuleBbsedBrebkIterbtor's constructor.
+     * @pbrbm dictionbryFilenbme The filenbme of the dictionbry file to use
      */
-    DictionaryBasedBreakIterator(String dataFile, String dictionaryFile)
+    DictionbryBbsedBrebkIterbtor(String dbtbFile, String dictionbryFile)
                                         throws IOException {
-        super(dataFile);
-        byte[] tmp = super.getAdditionalData();
+        super(dbtbFile);
+        byte[] tmp = super.getAdditionblDbtb();
         if (tmp != null) {
-            prepareCategoryFlags(tmp);
-            super.setAdditionalData(null);
+            prepbreCbtegoryFlbgs(tmp);
+            super.setAdditionblDbtb(null);
         }
-        dictionary = new BreakDictionary(dictionaryFile);
+        dictionbry = new BrebkDictionbry(dictionbryFile);
     }
 
-    private void prepareCategoryFlags(byte[] data) {
-        categoryFlags = new boolean[data.length];
-        for (int i = 0; i < data.length; i++) {
-            categoryFlags[i] = (data[i] == (byte)1) ? true : false;
+    privbte void prepbreCbtegoryFlbgs(byte[] dbtb) {
+        cbtegoryFlbgs = new boolebn[dbtb.length];
+        for (int i = 0; i < dbtb.length; i++) {
+            cbtegoryFlbgs[i] = (dbtb[i] == (byte)1) ? true : fblse;
         }
     }
 
     @Override
-    public void setText(CharacterIterator newText) {
+    public void setText(ChbrbcterIterbtor newText) {
         super.setText(newText);
-        cachedBreakPositions = null;
-        dictionaryCharCount = 0;
-        positionInCache = 0;
+        cbchedBrebkPositions = null;
+        dictionbryChbrCount = 0;
+        positionInCbche = 0;
     }
 
     /**
-     * Sets the current iteration position to the beginning of the text.
-     * (i.e., the CharacterIterator's starting offset).
+     * Sets the current iterbtion position to the beginning of the text.
+     * (i.e., the ChbrbcterIterbtor's stbrting offset).
      * @return The offset of the beginning of the text.
      */
     @Override
     public int first() {
-        cachedBreakPositions = null;
-        dictionaryCharCount = 0;
-        positionInCache = 0;
+        cbchedBrebkPositions = null;
+        dictionbryChbrCount = 0;
+        positionInCbche = 0;
         return super.first();
     }
 
     /**
-     * Sets the current iteration position to the end of the text.
-     * (i.e., the CharacterIterator's ending offset).
-     * @return The text's past-the-end offset.
+     * Sets the current iterbtion position to the end of the text.
+     * (i.e., the ChbrbcterIterbtor's ending offset).
+     * @return The text's pbst-the-end offset.
      */
     @Override
-    public int last() {
-        cachedBreakPositions = null;
-        dictionaryCharCount = 0;
-        positionInCache = 0;
-        return super.last();
+    public int lbst() {
+        cbchedBrebkPositions = null;
+        dictionbryChbrCount = 0;
+        positionInCbche = 0;
+        return super.lbst();
     }
 
     /**
-     * Advances the iterator one step backwards.
-     * @return The position of the last boundary position before the
-     * current iteration position
+     * Advbnces the iterbtor one step bbckwbrds.
+     * @return The position of the lbst boundbry position before the
+     * current iterbtion position
      */
     @Override
     public int previous() {
-        CharacterIterator text = getText();
+        ChbrbcterIterbtor text = getText();
 
-        // if we have cached break positions and we're still in the range
-        // covered by them, just move one step backward in the cache
-        if (cachedBreakPositions != null && positionInCache > 0) {
-            --positionInCache;
-            text.setIndex(cachedBreakPositions[positionInCache]);
-            return cachedBreakPositions[positionInCache];
+        // if we hbve cbched brebk positions bnd we're still in the rbnge
+        // covered by them, just move one step bbckwbrd in the cbche
+        if (cbchedBrebkPositions != null && positionInCbche > 0) {
+            --positionInCbche;
+            text.setIndex(cbchedBrebkPositions[positionInCbche]);
+            return cbchedBrebkPositions[positionInCbche];
         }
 
-        // otherwise, dump the cache and use the inherited previous() method to move
-        // backward.  This may fill up the cache with new break positions, in which
-        // case we have to mark our position in the cache
+        // otherwise, dump the cbche bnd use the inherited previous() method to move
+        // bbckwbrd.  This mby fill up the cbche with new brebk positions, in which
+        // cbse we hbve to mbrk our position in the cbche
         else {
-            cachedBreakPositions = null;
+            cbchedBrebkPositions = null;
             int result = super.previous();
-            if (cachedBreakPositions != null) {
-                positionInCache = cachedBreakPositions.length - 2;
+            if (cbchedBrebkPositions != null) {
+                positionInCbche = cbchedBrebkPositions.length - 2;
             }
             return result;
         }
     }
 
     /**
-     * Sets the current iteration position to the last boundary position
+     * Sets the current iterbtion position to the lbst boundbry position
      * before the specified position.
-     * @param offset The position to begin searching from
-     * @return The position of the last boundary before "offset"
+     * @pbrbm offset The position to begin sebrching from
+     * @return The position of the lbst boundbry before "offset"
      */
     @Override
     public int preceding(int offset) {
-        CharacterIterator text = getText();
+        ChbrbcterIterbtor text = getText();
         checkOffset(offset, text);
 
-        // if we have no cached break positions, or "offset" is outside the
-        // range covered by the cache, we can just call the inherited routine
-        // (which will eventually call other routines in this class that may
-        // refresh the cache)
-        if (cachedBreakPositions == null || offset <= cachedBreakPositions[0] ||
-                offset > cachedBreakPositions[cachedBreakPositions.length - 1]) {
-            cachedBreakPositions = null;
+        // if we hbve no cbched brebk positions, or "offset" is outside the
+        // rbnge covered by the cbche, we cbn just cbll the inherited routine
+        // (which will eventublly cbll other routines in this clbss thbt mby
+        // refresh the cbche)
+        if (cbchedBrebkPositions == null || offset <= cbchedBrebkPositions[0] ||
+                offset > cbchedBrebkPositions[cbchedBrebkPositions.length - 1]) {
+            cbchedBrebkPositions = null;
             return super.preceding(offset);
         }
 
-        // on the other hand, if "offset" is within the range covered by the cache,
-        // then all we have to do is search the cache for the last break position
+        // on the other hbnd, if "offset" is within the rbnge covered by the cbche,
+        // then bll we hbve to do is sebrch the cbche for the lbst brebk position
         // before "offset"
         else {
-            positionInCache = 0;
-            while (positionInCache < cachedBreakPositions.length
-                   && offset > cachedBreakPositions[positionInCache]) {
-                ++positionInCache;
+            positionInCbche = 0;
+            while (positionInCbche < cbchedBrebkPositions.length
+                   && offset > cbchedBrebkPositions[positionInCbche]) {
+                ++positionInCbche;
             }
-            --positionInCache;
-            text.setIndex(cachedBreakPositions[positionInCache]);
+            --positionInCbche;
+            text.setIndex(cbchedBrebkPositions[positionInCbche]);
             return text.getIndex();
         }
     }
 
     /**
-     * Sets the current iteration position to the first boundary position after
+     * Sets the current iterbtion position to the first boundbry position bfter
      * the specified position.
-     * @param offset The position to begin searching forward from
-     * @return The position of the first boundary after "offset"
+     * @pbrbm offset The position to begin sebrching forwbrd from
+     * @return The position of the first boundbry bfter "offset"
      */
     @Override
     public int following(int offset) {
-        CharacterIterator text = getText();
+        ChbrbcterIterbtor text = getText();
         checkOffset(offset, text);
 
-        // if we have no cached break positions, or if "offset" is outside the
-        // range covered by the cache, then dump the cache and call our
-        // inherited following() method.  This will call other methods in this
-        // class that may refresh the cache.
-        if (cachedBreakPositions == null || offset < cachedBreakPositions[0] ||
-                offset >= cachedBreakPositions[cachedBreakPositions.length - 1]) {
-            cachedBreakPositions = null;
+        // if we hbve no cbched brebk positions, or if "offset" is outside the
+        // rbnge covered by the cbche, then dump the cbche bnd cbll our
+        // inherited following() method.  This will cbll other methods in this
+        // clbss thbt mby refresh the cbche.
+        if (cbchedBrebkPositions == null || offset < cbchedBrebkPositions[0] ||
+                offset >= cbchedBrebkPositions[cbchedBrebkPositions.length - 1]) {
+            cbchedBrebkPositions = null;
             return super.following(offset);
         }
 
-        // on the other hand, if "offset" is within the range covered by the
-        // cache, then just search the cache for the first break position
-        // after "offset"
+        // on the other hbnd, if "offset" is within the rbnge covered by the
+        // cbche, then just sebrch the cbche for the first brebk position
+        // bfter "offset"
         else {
-            positionInCache = 0;
-            while (positionInCache < cachedBreakPositions.length
-                   && offset >= cachedBreakPositions[positionInCache]) {
-                ++positionInCache;
+            positionInCbche = 0;
+            while (positionInCbche < cbchedBrebkPositions.length
+                   && offset >= cbchedBrebkPositions[positionInCbche]) {
+                ++positionInCbche;
             }
-            text.setIndex(cachedBreakPositions[positionInCache]);
+            text.setIndex(cbchedBrebkPositions[positionInCbche]);
             return text.getIndex();
         }
     }
 
     /**
-     * This is the implementation function for next().
+     * This is the implementbtion function for next().
      */
     @Override
-    protected int handleNext() {
-        CharacterIterator text = getText();
+    protected int hbndleNext() {
+        ChbrbcterIterbtor text = getText();
 
-        // if there are no cached break positions, or if we've just moved
-        // off the end of the range covered by the cache, we have to dump
-        // and possibly regenerate the cache
-        if (cachedBreakPositions == null ||
-            positionInCache == cachedBreakPositions.length - 1) {
+        // if there bre no cbched brebk positions, or if we've just moved
+        // off the end of the rbnge covered by the cbche, we hbve to dump
+        // bnd possibly regenerbte the cbche
+        if (cbchedBrebkPositions == null ||
+            positionInCbche == cbchedBrebkPositions.length - 1) {
 
-            // start by using the inherited handleNext() to find a tentative return
-            // value.   dictionaryCharCount tells us how many dictionary characters
-            // we passed over on our way to the tentative return value
-            int startPos = text.getIndex();
-            dictionaryCharCount = 0;
-            int result = super.handleNext();
+            // stbrt by using the inherited hbndleNext() to find b tentbtive return
+            // vblue.   dictionbryChbrCount tells us how mbny dictionbry chbrbcters
+            // we pbssed over on our wby to the tentbtive return vblue
+            int stbrtPos = text.getIndex();
+            dictionbryChbrCount = 0;
+            int result = super.hbndleNext();
 
-            // if we passed over more than one dictionary character, then we use
-            // divideUpDictionaryRange() to regenerate the cached break positions
-            // for the new range
-            if (dictionaryCharCount > 1 && result - startPos > 1) {
-                divideUpDictionaryRange(startPos, result);
+            // if we pbssed over more thbn one dictionbry chbrbcter, then we use
+            // divideUpDictionbryRbnge() to regenerbte the cbched brebk positions
+            // for the new rbnge
+            if (dictionbryChbrCount > 1 && result - stbrtPos > 1) {
+                divideUpDictionbryRbnge(stbrtPos, result);
             }
 
-            // otherwise, the value we got back from the inherited fuction
-            // is our return value, and we can dump the cache
+            // otherwise, the vblue we got bbck from the inherited fuction
+            // is our return vblue, bnd we cbn dump the cbche
             else {
-                cachedBreakPositions = null;
+                cbchedBrebkPositions = null;
                 return result;
             }
         }
 
-        // if the cache of break positions has been regenerated (or existed all
-        // along), then just advance to the next break position in the cache
-        // and return it
-        if (cachedBreakPositions != null) {
-            ++positionInCache;
-            text.setIndex(cachedBreakPositions[positionInCache]);
-            return cachedBreakPositions[positionInCache];
+        // if the cbche of brebk positions hbs been regenerbted (or existed bll
+        // blong), then just bdvbnce to the next brebk position in the cbche
+        // bnd return it
+        if (cbchedBrebkPositions != null) {
+            ++positionInCbche;
+            text.setIndex(cbchedBrebkPositions[positionInCbche]);
+            return cbchedBrebkPositions[positionInCbche];
         }
         return -9999;   // SHOULD NEVER GET HERE!
     }
 
     /**
-     * Looks up a character category for a character.
+     * Looks up b chbrbcter cbtegory for b chbrbcter.
      */
     @Override
-    protected int lookupCategory(int c) {
-        // this override of lookupCategory() exists only to keep track of whether we've
-        // passed over any dictionary characters.  It calls the inherited lookupCategory()
-        // to do the real work, and then checks whether its return value is one of the
-        // categories represented in the dictionary.  If it is, bump the dictionary-
-        // character count.
-        int result = super.lookupCategory(c);
-        if (result != RuleBasedBreakIterator.IGNORE && categoryFlags[result]) {
-            ++dictionaryCharCount;
+    protected int lookupCbtegory(int c) {
+        // this override of lookupCbtegory() exists only to keep trbck of whether we've
+        // pbssed over bny dictionbry chbrbcters.  It cblls the inherited lookupCbtegory()
+        // to do the rebl work, bnd then checks whether its return vblue is one of the
+        // cbtegories represented in the dictionbry.  If it is, bump the dictionbry-
+        // chbrbcter count.
+        int result = super.lookupCbtegory(c);
+        if (result != RuleBbsedBrebkIterbtor.IGNORE && cbtegoryFlbgs[result]) {
+            ++dictionbryChbrCount;
         }
         return result;
     }
 
     /**
-     * This is the function that actually implements the dictionary-based
-     * algorithm.  Given the endpoints of a range of text, it uses the
-     * dictionary to determine the positions of any boundaries in this
-     * range.  It stores all the boundary positions it discovers in
-     * cachedBreakPositions so that we only have to do this work once
-     * for each time we enter the range.
+     * This is the function thbt bctublly implements the dictionbry-bbsed
+     * blgorithm.  Given the endpoints of b rbnge of text, it uses the
+     * dictionbry to determine the positions of bny boundbries in this
+     * rbnge.  It stores bll the boundbry positions it discovers in
+     * cbchedBrebkPositions so thbt we only hbve to do this work once
+     * for ebch time we enter the rbnge.
      */
-    @SuppressWarnings("unchecked")
-    private void divideUpDictionaryRange(int startPos, int endPos) {
-        CharacterIterator text = getText();
+    @SuppressWbrnings("unchecked")
+    privbte void divideUpDictionbryRbnge(int stbrtPos, int endPos) {
+        ChbrbcterIterbtor text = getText();
 
-        // the range we're dividing may begin or end with non-dictionary characters
-        // (i.e., for line breaking, we may have leading or trailing punctuation
-        // that needs to be kept with the word).  Seek from the beginning of the
-        // range to the first dictionary character
-        text.setIndex(startPos);
+        // the rbnge we're dividing mby begin or end with non-dictionbry chbrbcters
+        // (i.e., for line brebking, we mby hbve lebding or trbiling punctubtion
+        // thbt needs to be kept with the word).  Seek from the beginning of the
+        // rbnge to the first dictionbry chbrbcter
+        text.setIndex(stbrtPos);
         int c = getCurrent();
-        int category = lookupCategory(c);
-        while (category == IGNORE || !categoryFlags[category]) {
+        int cbtegory = lookupCbtegory(c);
+        while (cbtegory == IGNORE || !cbtegoryFlbgs[cbtegory]) {
             c = getNext();
-            category = lookupCategory(c);
+            cbtegory = lookupCbtegory(c);
         }
 
-        // initialize.  We maintain two stacks: currentBreakPositions contains
-        // the list of break positions that will be returned if we successfully
-        // finish traversing the whole range now.  possibleBreakPositions lists
-        // all other possible word ends we've passed along the way.  (Whenever
-        // we reach an error [a sequence of characters that can't begin any word
-        // in the dictionary], we back up, possibly delete some breaks from
-        // currentBreakPositions, move a break from possibleBreakPositions
-        // to currentBreakPositions, and start over from there.  This process
-        // continues in this way until we either successfully make it all the way
-        // across the range, or exhaust all of our combinations of break
+        // initiblize.  We mbintbin two stbcks: currentBrebkPositions contbins
+        // the list of brebk positions thbt will be returned if we successfully
+        // finish trbversing the whole rbnge now.  possibleBrebkPositions lists
+        // bll other possible word ends we've pbssed blong the wby.  (Whenever
+        // we rebch bn error [b sequence of chbrbcters thbt cbn't begin bny word
+        // in the dictionbry], we bbck up, possibly delete some brebks from
+        // currentBrebkPositions, move b brebk from possibleBrebkPositions
+        // to currentBrebkPositions, bnd stbrt over from there.  This process
+        // continues in this wby until we either successfully mbke it bll the wby
+        // bcross the rbnge, or exhbust bll of our combinbtions of brebk
         // positions.)
-        Stack<Integer> currentBreakPositions = new Stack<>();
-        Stack<Integer> possibleBreakPositions = new Stack<>();
-        List<Integer> wrongBreakPositions = new ArrayList<>();
+        Stbck<Integer> currentBrebkPositions = new Stbck<>();
+        Stbck<Integer> possibleBrebkPositions = new Stbck<>();
+        List<Integer> wrongBrebkPositions = new ArrbyList<>();
 
-        // the dictionary is implemented as a trie, which is treated as a state
-        // machine.  -1 represents the end of a legal word.  Every word in the
-        // dictionary is represented by a path from the root node to -1.  A path
-        // that ends in state 0 is an illegal combination of characters.
-        int state = 0;
+        // the dictionbry is implemented bs b trie, which is trebted bs b stbte
+        // mbchine.  -1 represents the end of b legbl word.  Every word in the
+        // dictionbry is represented by b pbth from the root node to -1.  A pbth
+        // thbt ends in stbte 0 is bn illegbl combinbtion of chbrbcters.
+        int stbte = 0;
 
-        // these two variables are used for error handling.  We keep track of the
-        // farthest we've gotten through the range being divided, and the combination
-        // of breaks that got us that far.  If we use up all possible break
-        // combinations, the text contains an error or a word that's not in the
-        // dictionary.  In this case, we "bless" the break positions that got us the
-        // farthest as real break positions, and then start over from scratch with
-        // the character where the error occurred.
-        int farthestEndPoint = text.getIndex();
-        Stack<Integer> bestBreakPositions = null;
+        // these two vbribbles bre used for error hbndling.  We keep trbck of the
+        // fbrthest we've gotten through the rbnge being divided, bnd the combinbtion
+        // of brebks thbt got us thbt fbr.  If we use up bll possible brebk
+        // combinbtions, the text contbins bn error or b word thbt's not in the
+        // dictionbry.  In this cbse, we "bless" the brebk positions thbt got us the
+        // fbrthest bs rebl brebk positions, bnd then stbrt over from scrbtch with
+        // the chbrbcter where the error occurred.
+        int fbrthestEndPoint = text.getIndex();
+        Stbck<Integer> bestBrebkPositions = null;
 
-        // initialize (we always exit the loop with a break statement)
+        // initiblize (we blwbys exit the loop with b brebk stbtement)
         c = getCurrent();
         while (true) {
 
-            // if we can transition to state "-1" from our current state, we're
-            // on the last character of a legal word.  Push that position onto
-            // the possible-break-positions stack
-            if (dictionary.getNextState(state, 0) == -1) {
-                possibleBreakPositions.push(text.getIndex());
+            // if we cbn trbnsition to stbte "-1" from our current stbte, we're
+            // on the lbst chbrbcter of b legbl word.  Push thbt position onto
+            // the possible-brebk-positions stbck
+            if (dictionbry.getNextStbte(stbte, 0) == -1) {
+                possibleBrebkPositions.push(text.getIndex());
             }
 
-            // look up the new state to transition to in the dictionary
-            state = dictionary.getNextStateFromCharacter(state, c);
+            // look up the new stbte to trbnsition to in the dictionbry
+            stbte = dictionbry.getNextStbteFromChbrbcter(stbte, c);
 
-            // if the character we're sitting on causes us to transition to
-            // the "end of word" state, then it was a non-dictionary character
-            // and we've successfully traversed the whole range.  Drop out
+            // if the chbrbcter we're sitting on cbuses us to trbnsition to
+            // the "end of word" stbte, then it wbs b non-dictionbry chbrbcter
+            // bnd we've successfully trbversed the whole rbnge.  Drop out
             // of the loop.
-            if (state == -1) {
-                currentBreakPositions.push(text.getIndex());
-                break;
+            if (stbte == -1) {
+                currentBrebkPositions.push(text.getIndex());
+                brebk;
             }
 
-            // if the character we're sitting on causes us to transition to
-            // the error state, or if we've gone off the end of the range
-            // without transitioning to the "end of word" state, we've hit
-            // an error...
-            else if (state == 0 || text.getIndex() >= endPos) {
+            // if the chbrbcter we're sitting on cbuses us to trbnsition to
+            // the error stbte, or if we've gone off the end of the rbnge
+            // without trbnsitioning to the "end of word" stbte, we've hit
+            // bn error...
+            else if (stbte == 0 || text.getIndex() >= endPos) {
 
-                // if this is the farthest we've gotten, take note of it in
-                // case there's an error in the text
-                if (text.getIndex() > farthestEndPoint) {
-                    farthestEndPoint = text.getIndex();
+                // if this is the fbrthest we've gotten, tbke note of it in
+                // cbse there's bn error in the text
+                if (text.getIndex() > fbrthestEndPoint) {
+                    fbrthestEndPoint = text.getIndex();
 
-                    @SuppressWarnings("unchecked")
-                    Stack<Integer> currentBreakPositionsCopy = (Stack<Integer>) currentBreakPositions.clone();
+                    @SuppressWbrnings("unchecked")
+                    Stbck<Integer> currentBrebkPositionsCopy = (Stbck<Integer>) currentBrebkPositions.clone();
 
-                    bestBreakPositions = currentBreakPositionsCopy;
+                    bestBrebkPositions = currentBrebkPositionsCopy;
                 }
 
-                // wrongBreakPositions is a list of all break positions
-                // we've tried starting that didn't allow us to traverse
-                // all the way through the text.  Every time we pop a
-                // break position off of currentBreakPositions, we put it
-                // into wrongBreakPositions to avoid trying it again later.
-                // If we make it to this spot, we're either going to back
-                // up to a break in possibleBreakPositions and try starting
-                // over from there, or we've exhausted all possible break
-                // positions and are going to do the fallback procedure.
-                // This loop prevents us from messing with anything in
-                // possibleBreakPositions that didn't work as a starting
-                // point the last time we tried it (this is to prevent a bunch of
-                // repetitive checks from slowing down some extreme cases)
-                while (!possibleBreakPositions.isEmpty()
-                        && wrongBreakPositions.contains(possibleBreakPositions.peek())) {
-                    possibleBreakPositions.pop();
+                // wrongBrebkPositions is b list of bll brebk positions
+                // we've tried stbrting thbt didn't bllow us to trbverse
+                // bll the wby through the text.  Every time we pop b
+                // brebk position off of currentBrebkPositions, we put it
+                // into wrongBrebkPositions to bvoid trying it bgbin lbter.
+                // If we mbke it to this spot, we're either going to bbck
+                // up to b brebk in possibleBrebkPositions bnd try stbrting
+                // over from there, or we've exhbusted bll possible brebk
+                // positions bnd bre going to do the fbllbbck procedure.
+                // This loop prevents us from messing with bnything in
+                // possibleBrebkPositions thbt didn't work bs b stbrting
+                // point the lbst time we tried it (this is to prevent b bunch of
+                // repetitive checks from slowing down some extreme cbses)
+                while (!possibleBrebkPositions.isEmpty()
+                        && wrongBrebkPositions.contbins(possibleBrebkPositions.peek())) {
+                    possibleBrebkPositions.pop();
                 }
 
-                // if we've used up all possible break-position combinations, there's
-                // an error or an unknown word in the text.  In this case, we start
-                // over, treating the farthest character we've reached as the beginning
-                // of the range, and "blessing" the break positions that got us that
-                // far as real break positions
-                if (possibleBreakPositions.isEmpty()) {
-                    if (bestBreakPositions != null) {
-                        currentBreakPositions = bestBreakPositions;
-                        if (farthestEndPoint < endPos) {
-                            text.setIndex(farthestEndPoint + 1);
+                // if we've used up bll possible brebk-position combinbtions, there's
+                // bn error or bn unknown word in the text.  In this cbse, we stbrt
+                // over, trebting the fbrthest chbrbcter we've rebched bs the beginning
+                // of the rbnge, bnd "blessing" the brebk positions thbt got us thbt
+                // fbr bs rebl brebk positions
+                if (possibleBrebkPositions.isEmpty()) {
+                    if (bestBrebkPositions != null) {
+                        currentBrebkPositions = bestBrebkPositions;
+                        if (fbrthestEndPoint < endPos) {
+                            text.setIndex(fbrthestEndPoint + 1);
                         }
                         else {
-                            break;
+                            brebk;
                         }
                     }
                     else {
-                        if ((currentBreakPositions.size() == 0 ||
-                             currentBreakPositions.peek().intValue() != text.getIndex())
-                            && text.getIndex() != startPos) {
-                            currentBreakPositions.push(text.getIndex());
+                        if ((currentBrebkPositions.size() == 0 ||
+                             currentBrebkPositions.peek().intVblue() != text.getIndex())
+                            && text.getIndex() != stbrtPos) {
+                            currentBrebkPositions.push(text.getIndex());
                         }
                         getNext();
-                        currentBreakPositions.push(text.getIndex());
+                        currentBrebkPositions.push(text.getIndex());
                     }
                 }
 
-                // if we still have more break positions we can try, then promote the
-                // last break in possibleBreakPositions into currentBreakPositions,
-                // and get rid of all entries in currentBreakPositions that come after
-                // it.  Then back up to that position and start over from there (i.e.,
-                // treat that position as the beginning of a new word)
+                // if we still hbve more brebk positions we cbn try, then promote the
+                // lbst brebk in possibleBrebkPositions into currentBrebkPositions,
+                // bnd get rid of bll entries in currentBrebkPositions thbt come bfter
+                // it.  Then bbck up to thbt position bnd stbrt over from there (i.e.,
+                // trebt thbt position bs the beginning of b new word)
                 else {
-                    Integer temp = possibleBreakPositions.pop();
+                    Integer temp = possibleBrebkPositions.pop();
                     Integer temp2 = null;
-                    while (!currentBreakPositions.isEmpty() && temp.intValue() <
-                           currentBreakPositions.peek().intValue()) {
-                        temp2 = currentBreakPositions.pop();
-                        wrongBreakPositions.add(temp2);
+                    while (!currentBrebkPositions.isEmpty() && temp.intVblue() <
+                           currentBrebkPositions.peek().intVblue()) {
+                        temp2 = currentBrebkPositions.pop();
+                        wrongBrebkPositions.bdd(temp2);
                     }
-                    currentBreakPositions.push(temp);
-                    text.setIndex(currentBreakPositions.peek().intValue());
+                    currentBrebkPositions.push(temp);
+                    text.setIndex(currentBrebkPositions.peek().intVblue());
                 }
 
-                // re-sync "c" for the next go-round, and drop out of the loop if
-                // we've made it off the end of the range
+                // re-sync "c" for the next go-round, bnd drop out of the loop if
+                // we've mbde it off the end of the rbnge
                 c = getCurrent();
                 if (text.getIndex() >= endPos) {
-                    break;
+                    brebk;
                 }
             }
 
-            // if we didn't hit any exceptional conditions on this last iteration,
-            // just advance to the next character and loop
+            // if we didn't hit bny exceptionbl conditions on this lbst iterbtion,
+            // just bdvbnce to the next chbrbcter bnd loop
             else {
                 c = getNext();
             }
         }
 
-        // dump the last break position in the list, and replace it with the actual
-        // end of the range (which may be the same character, or may be further on
-        // because the range actually ended with non-dictionary characters we want to
+        // dump the lbst brebk position in the list, bnd replbce it with the bctubl
+        // end of the rbnge (which mby be the sbme chbrbcter, or mby be further on
+        // becbuse the rbnge bctublly ended with non-dictionbry chbrbcters we wbnt to
         // keep with the word)
-        if (!currentBreakPositions.isEmpty()) {
-            currentBreakPositions.pop();
+        if (!currentBrebkPositions.isEmpty()) {
+            currentBrebkPositions.pop();
         }
-        currentBreakPositions.push(endPos);
+        currentBrebkPositions.push(endPos);
 
-        // create a regular array to hold the break positions and copy
-        // the break positions from the stack to the array (in addition,
-        // our starting position goes into this array as a break position).
-        // This array becomes the cache of break positions used by next()
-        // and previous(), so this is where we actually refresh the cache.
-        cachedBreakPositions = new int[currentBreakPositions.size() + 1];
-        cachedBreakPositions[0] = startPos;
+        // crebte b regulbr brrby to hold the brebk positions bnd copy
+        // the brebk positions from the stbck to the brrby (in bddition,
+        // our stbrting position goes into this brrby bs b brebk position).
+        // This brrby becomes the cbche of brebk positions used by next()
+        // bnd previous(), so this is where we bctublly refresh the cbche.
+        cbchedBrebkPositions = new int[currentBrebkPositions.size() + 1];
+        cbchedBrebkPositions[0] = stbrtPos;
 
-        for (int i = 0; i < currentBreakPositions.size(); i++) {
-            cachedBreakPositions[i + 1] = currentBreakPositions.elementAt(i).intValue();
+        for (int i = 0; i < currentBrebkPositions.size(); i++) {
+            cbchedBrebkPositions[i + 1] = currentBrebkPositions.elementAt(i).intVblue();
         }
-        positionInCache = 0;
+        positionInCbche = 0;
     }
 }

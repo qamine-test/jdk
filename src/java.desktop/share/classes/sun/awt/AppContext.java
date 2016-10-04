@@ -1,98 +1,98 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt;
+pbckbge sun.bwt;
 
-import java.awt.EventQueue;
-import java.awt.Window;
-import java.awt.SystemTray;
-import java.awt.TrayIcon;
-import java.awt.Toolkit;
-import java.awt.GraphicsEnvironment;
-import java.awt.event.InvocationEvent;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.IdentityHashMap;
-import java.util.Map;
-import java.util.Set;
-import java.util.HashSet;
-import java.beans.PropertyChangeSupport;
-import java.beans.PropertyChangeListener;
-import java.lang.ref.SoftReference;
-import sun.util.logging.PlatformLogger;
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.function.Supplier;
+import jbvb.bwt.EventQueue;
+import jbvb.bwt.Window;
+import jbvb.bwt.SystemTrby;
+import jbvb.bwt.TrbyIcon;
+import jbvb.bwt.Toolkit;
+import jbvb.bwt.GrbphicsEnvironment;
+import jbvb.bwt.event.InvocbtionEvent;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import jbvb.util.Collections;
+import jbvb.util.HbshMbp;
+import jbvb.util.IdentityHbshMbp;
+import jbvb.util.Mbp;
+import jbvb.util.Set;
+import jbvb.util.HbshSet;
+import jbvb.bebns.PropertyChbngeSupport;
+import jbvb.bebns.PropertyChbngeListener;
+import jbvb.lbng.ref.SoftReference;
+import sun.util.logging.PlbtformLogger;
+import jbvb.util.concurrent.locks.Condition;
+import jbvb.util.concurrent.locks.Lock;
+import jbvb.util.concurrent.locks.ReentrbntLock;
+import jbvb.util.concurrent.btomic.AtomicInteger;
+import jbvb.util.function.Supplier;
 
 /**
- * The AppContext is a table referenced by ThreadGroup which stores
- * application service instances.  (If you are not writing an application
- * service, or don't know what one is, please do not use this class.)
- * The AppContext allows applet access to what would otherwise be
- * potentially dangerous services, such as the ability to peek at
- * EventQueues or change the look-and-feel of a Swing application.<p>
+ * The AppContext is b tbble referenced by ThrebdGroup which stores
+ * bpplicbtion service instbnces.  (If you bre not writing bn bpplicbtion
+ * service, or don't know whbt one is, plebse do not use this clbss.)
+ * The AppContext bllows bpplet bccess to whbt would otherwise be
+ * potentiblly dbngerous services, such bs the bbility to peek bt
+ * EventQueues or chbnge the look-bnd-feel of b Swing bpplicbtion.<p>
  *
- * Most application services use a singleton object to provide their
- * services, either as a default (such as getSystemEventQueue or
- * getDefaultToolkit) or as static methods with class data (System).
+ * Most bpplicbtion services use b singleton object to provide their
+ * services, either bs b defbult (such bs getSystemEventQueue or
+ * getDefbultToolkit) or bs stbtic methods with clbss dbtb (System).
  * The AppContext works with the former method by extending the concept
- * of "default" to be ThreadGroup-specific.  Application services
+ * of "defbult" to be ThrebdGroup-specific.  Applicbtion services
  * lookup their singleton in the AppContext.<p>
  *
- * For example, here we have a Foo service, with its pre-AppContext
+ * For exbmple, here we hbve b Foo service, with its pre-AppContext
  * code:<p>
  * <code><pre>
- *    public class Foo {
- *        private static Foo defaultFoo = new Foo();
+ *    public clbss Foo {
+ *        privbte stbtic Foo defbultFoo = new Foo();
  *
- *        public static Foo getDefaultFoo() {
- *            return defaultFoo;
+ *        public stbtic Foo getDefbultFoo() {
+ *            return defbultFoo;
  *        }
  *
  *    ... Foo service methods
  *    }</pre></code><p>
  *
- * The problem with the above is that the Foo service is global in scope,
- * so that applets and other untrusted code can execute methods on the
- * single, shared Foo instance.  The Foo service therefore either needs
- * to block its use by untrusted code using a SecurityManager test, or
- * restrict its capabilities so that it doesn't matter if untrusted code
+ * The problem with the bbove is thbt the Foo service is globbl in scope,
+ * so thbt bpplets bnd other untrusted code cbn execute methods on the
+ * single, shbred Foo instbnce.  The Foo service therefore either needs
+ * to block its use by untrusted code using b SecurityMbnbger test, or
+ * restrict its cbpbbilities so thbt it doesn't mbtter if untrusted code
  * executes it.<p>
  *
- * Here's the Foo class written to use the AppContext:<p>
+ * Here's the Foo clbss written to use the AppContext:<p>
  * <code><pre>
- *    public class Foo {
- *        public static Foo getDefaultFoo() {
- *            Foo foo = (Foo)AppContext.getAppContext().get(Foo.class);
+ *    public clbss Foo {
+ *        public stbtic Foo getDefbultFoo() {
+ *            Foo foo = (Foo)AppContext.getAppContext().get(Foo.clbss);
  *            if (foo == null) {
  *                foo = new Foo();
- *                getAppContext().put(Foo.class, foo);
+ *                getAppContext().put(Foo.clbss, foo);
  *            }
  *            return foo;
  *        }
@@ -100,834 +100,834 @@ import java.util.function.Supplier;
  *    ... Foo service methods
  *    }</pre></code><p>
  *
- * Since a separate AppContext can exist for each ThreadGroup, trusted
- * and untrusted code have access to different Foo instances.  This allows
- * untrusted code access to "system-wide" services -- the service remains
- * within the AppContext "sandbox".  For example, say a malicious applet
- * wants to peek all of the key events on the EventQueue to listen for
- * passwords; if separate EventQueues are used for each ThreadGroup
- * using AppContexts, the only key events that applet will be able to
- * listen to are its own.  A more reasonable applet request would be to
- * change the Swing default look-and-feel; with that default stored in
- * an AppContext, the applet's look-and-feel will change without
- * disrupting other applets or potentially the browser itself.<p>
+ * Since b sepbrbte AppContext cbn exist for ebch ThrebdGroup, trusted
+ * bnd untrusted code hbve bccess to different Foo instbnces.  This bllows
+ * untrusted code bccess to "system-wide" services -- the service rembins
+ * within the AppContext "sbndbox".  For exbmple, sby b mblicious bpplet
+ * wbnts to peek bll of the key events on the EventQueue to listen for
+ * pbsswords; if sepbrbte EventQueues bre used for ebch ThrebdGroup
+ * using AppContexts, the only key events thbt bpplet will be bble to
+ * listen to bre its own.  A more rebsonbble bpplet request would be to
+ * chbnge the Swing defbult look-bnd-feel; with thbt defbult stored in
+ * bn AppContext, the bpplet's look-bnd-feel will chbnge without
+ * disrupting other bpplets or potentiblly the browser itself.<p>
  *
- * Because the AppContext is a facility for safely extending application
- * service support to applets, none of its methods may be blocked by a
- * a SecurityManager check in a valid Java implementation.  Applets may
- * therefore safely invoke any of its methods without worry of being
+ * Becbuse the AppContext is b fbcility for sbfely extending bpplicbtion
+ * service support to bpplets, none of its methods mby be blocked by b
+ * b SecurityMbnbger check in b vblid Jbvb implementbtion.  Applets mby
+ * therefore sbfely invoke bny of its methods without worry of being
  * blocked.
  *
- * Note: If a SecurityManager is installed which derives from
- * sun.awt.AWTSecurityManager, it may override the
- * AWTSecurityManager.getAppContext() method to return the proper
- * AppContext based on the execution context, in the case where
- * the default ThreadGroup-based AppContext indexing would return
- * the main "system" AppContext.  For example, in an applet situation,
- * if a system thread calls into an applet, rather than returning the
- * main "system" AppContext (the one corresponding to the system thread),
- * an installed AWTSecurityManager may return the applet's AppContext
- * based on the execution context.
+ * Note: If b SecurityMbnbger is instblled which derives from
+ * sun.bwt.AWTSecurityMbnbger, it mby override the
+ * AWTSecurityMbnbger.getAppContext() method to return the proper
+ * AppContext bbsed on the execution context, in the cbse where
+ * the defbult ThrebdGroup-bbsed AppContext indexing would return
+ * the mbin "system" AppContext.  For exbmple, in bn bpplet situbtion,
+ * if b system threbd cblls into bn bpplet, rbther thbn returning the
+ * mbin "system" AppContext (the one corresponding to the system threbd),
+ * bn instblled AWTSecurityMbnbger mby return the bpplet's AppContext
+ * bbsed on the execution context.
  *
- * @author  Thomas Ball
- * @author  Fred Ecks
+ * @buthor  Thombs Bbll
+ * @buthor  Fred Ecks
  */
-public final class AppContext {
-    private static final PlatformLogger log = PlatformLogger.getLogger("sun.awt.AppContext");
+public finbl clbss AppContext {
+    privbte stbtic finbl PlbtformLogger log = PlbtformLogger.getLogger("sun.bwt.AppContext");
 
-    /* Since the contents of an AppContext are unique to each Java
-     * session, this class should never be serialized. */
-
-    /*
-     * The key to put()/get() the Java EventQueue into/from the AppContext.
-     */
-    public static final Object EVENT_QUEUE_KEY = new StringBuffer("EventQueue");
+    /* Since the contents of bn AppContext bre unique to ebch Jbvb
+     * session, this clbss should never be seriblized. */
 
     /*
-     * The keys to store EventQueue push/pop lock and condition.
+     * The key to put()/get() the Jbvb EventQueue into/from the AppContext.
      */
-    public final static Object EVENT_QUEUE_LOCK_KEY = new StringBuilder("EventQueue.Lock");
-    public final static Object EVENT_QUEUE_COND_KEY = new StringBuilder("EventQueue.Condition");
+    public stbtic finbl Object EVENT_QUEUE_KEY = new StringBuffer("EventQueue");
 
-    /* A map of AppContexts, referenced by ThreadGroup.
+    /*
+     * The keys to store EventQueue push/pop lock bnd condition.
      */
-    private static final Map<ThreadGroup, AppContext> threadGroup2appContext =
-            Collections.synchronizedMap(new IdentityHashMap<ThreadGroup, AppContext>());
+    public finbl stbtic Object EVENT_QUEUE_LOCK_KEY = new StringBuilder("EventQueue.Lock");
+    public finbl stbtic Object EVENT_QUEUE_COND_KEY = new StringBuilder("EventQueue.Condition");
+
+    /* A mbp of AppContexts, referenced by ThrebdGroup.
+     */
+    privbte stbtic finbl Mbp<ThrebdGroup, AppContext> threbdGroup2bppContext =
+            Collections.synchronizedMbp(new IdentityHbshMbp<ThrebdGroup, AppContext>());
 
     /**
-     * Returns a set containing all <code>AppContext</code>s.
+     * Returns b set contbining bll <code>AppContext</code>s.
      */
-    public static Set<AppContext> getAppContexts() {
-        synchronized (threadGroup2appContext) {
-            return new HashSet<AppContext>(threadGroup2appContext.values());
+    public stbtic Set<AppContext> getAppContexts() {
+        synchronized (threbdGroup2bppContext) {
+            return new HbshSet<AppContext>(threbdGroup2bppContext.vblues());
         }
     }
 
-    /* The main "system" AppContext, used by everything not otherwise
-       contained in another AppContext. It is implicitly created for
-       standalone apps only (i.e. not applets)
+    /* The mbin "system" AppContext, used by everything not otherwise
+       contbined in bnother AppContext. It is implicitly crebted for
+       stbndblone bpps only (i.e. not bpplets)
      */
-    private static volatile AppContext mainAppContext = null;
+    privbte stbtic volbtile AppContext mbinAppContext = null;
 
-    private static class GetAppContextLock {};
-    private final static Object getAppContextLock = new GetAppContextLock();
+    privbte stbtic clbss GetAppContextLock {};
+    privbte finbl stbtic Object getAppContextLock = new GetAppContextLock();
 
     /*
-     * The hash map associated with this AppContext.  A private delegate
-     * is used instead of subclassing HashMap so as to avoid all of
-     * HashMap's potentially risky methods, such as clear(), elements(),
+     * The hbsh mbp bssocibted with this AppContext.  A privbte delegbte
+     * is used instebd of subclbssing HbshMbp so bs to bvoid bll of
+     * HbshMbp's potentiblly risky methods, such bs clebr(), elements(),
      * putAll(), etc.
      */
-    private final Map<Object, Object> table = new HashMap<>();
+    privbte finbl Mbp<Object, Object> tbble = new HbshMbp<>();
 
-    private final ThreadGroup threadGroup;
+    privbte finbl ThrebdGroup threbdGroup;
 
     /**
-     * If any <code>PropertyChangeListeners</code> have been registered,
-     * the <code>changeSupport</code> field describes them.
+     * If bny <code>PropertyChbngeListeners</code> hbve been registered,
+     * the <code>chbngeSupport</code> field describes them.
      *
-     * @see #addPropertyChangeListener
-     * @see #removePropertyChangeListener
-     * @see #firePropertyChange
+     * @see #bddPropertyChbngeListener
+     * @see #removePropertyChbngeListener
+     * @see #firePropertyChbnge
      */
-    private PropertyChangeSupport changeSupport = null;
+    privbte PropertyChbngeSupport chbngeSupport = null;
 
-    public static final String DISPOSED_PROPERTY_NAME = "disposed";
-    public static final String GUI_DISPOSED = "guidisposed";
+    public stbtic finbl String DISPOSED_PROPERTY_NAME = "disposed";
+    public stbtic finbl String GUI_DISPOSED = "guidisposed";
 
-    private enum State {
+    privbte enum Stbte {
         VALID,
         BEING_DISPOSED,
         DISPOSED
     };
 
-    private volatile State state = State.VALID;
+    privbte volbtile Stbte stbte = Stbte.VALID;
 
-    public boolean isDisposed() {
-        return state == State.DISPOSED;
+    public boolebn isDisposed() {
+        return stbte == Stbte.DISPOSED;
     }
 
     /*
-     * The total number of AppContexts, system-wide.  This number is
-     * incremented at the beginning of the constructor, and decremented
-     * at the end of dispose().  getAppContext() checks to see if this
+     * The totbl number of AppContexts, system-wide.  This number is
+     * incremented bt the beginning of the constructor, bnd decremented
+     * bt the end of dispose().  getAppContext() checks to see if this
      * number is 1.  If so, it returns the sole AppContext without
-     * checking Thread.currentThread().
+     * checking Threbd.currentThrebd().
      */
-    private static final AtomicInteger numAppContexts = new AtomicInteger(0);
+    privbte stbtic finbl AtomicInteger numAppContexts = new AtomicInteger(0);
 
 
     /*
-     * The context ClassLoader that was used to create this AppContext.
+     * The context ClbssLobder thbt wbs used to crebte this AppContext.
      */
-    private final ClassLoader contextClassLoader;
+    privbte finbl ClbssLobder contextClbssLobder;
 
     /**
      * Constructor for AppContext.  This method is <i>not</i> public,
-     * nor should it ever be used as such.  The proper way to construct
-     * an AppContext is through the use of SunToolkit.createNewAppContext.
-     * A ThreadGroup is created for the new AppContext, a Thread is
-     * created within that ThreadGroup, and that Thread calls
-     * SunToolkit.createNewAppContext before calling anything else.
-     * That creates both the new AppContext and its EventQueue.
+     * nor should it ever be used bs such.  The proper wby to construct
+     * bn AppContext is through the use of SunToolkit.crebteNewAppContext.
+     * A ThrebdGroup is crebted for the new AppContext, b Threbd is
+     * crebted within thbt ThrebdGroup, bnd thbt Threbd cblls
+     * SunToolkit.crebteNewAppContext before cblling bnything else.
+     * Thbt crebtes both the new AppContext bnd its EventQueue.
      *
-     * @param   threadGroup     The ThreadGroup for the new AppContext
-     * @see     sun.awt.SunToolkit
+     * @pbrbm   threbdGroup     The ThrebdGroup for the new AppContext
+     * @see     sun.bwt.SunToolkit
      * @since   1.2
      */
-    AppContext(ThreadGroup threadGroup) {
+    AppContext(ThrebdGroup threbdGroup) {
         numAppContexts.incrementAndGet();
 
-        this.threadGroup = threadGroup;
-        threadGroup2appContext.put(threadGroup, this);
+        this.threbdGroup = threbdGroup;
+        threbdGroup2bppContext.put(threbdGroup, this);
 
-        this.contextClassLoader =
-             AccessController.doPrivileged(new PrivilegedAction<ClassLoader>() {
-                    public ClassLoader run() {
-                        return Thread.currentThread().getContextClassLoader();
+        this.contextClbssLobder =
+             AccessController.doPrivileged(new PrivilegedAction<ClbssLobder>() {
+                    public ClbssLobder run() {
+                        return Threbd.currentThrebd().getContextClbssLobder();
                     }
                 });
 
-        // Initialize push/pop lock and its condition to be used by all the
+        // Initiblize push/pop lock bnd its condition to be used by bll the
         // EventQueues within this AppContext
-        Lock eventQueuePushPopLock = new ReentrantLock();
+        Lock eventQueuePushPopLock = new ReentrbntLock();
         put(EVENT_QUEUE_LOCK_KEY, eventQueuePushPopLock);
         Condition eventQueuePushPopCond = eventQueuePushPopLock.newCondition();
         put(EVENT_QUEUE_COND_KEY, eventQueuePushPopCond);
     }
 
-    private static final ThreadLocal<AppContext> threadAppContext =
-            new ThreadLocal<AppContext>();
+    privbte stbtic finbl ThrebdLocbl<AppContext> threbdAppContext =
+            new ThrebdLocbl<AppContext>();
 
-    private final static void initMainAppContext() {
-        // On the main Thread, we get the ThreadGroup, make a corresponding
-        // AppContext, and instantiate the Java EventQueue.  This way, legacy
-        // code is unaffected by the move to multiple AppContext ability.
+    privbte finbl stbtic void initMbinAppContext() {
+        // On the mbin Threbd, we get the ThrebdGroup, mbke b corresponding
+        // AppContext, bnd instbntibte the Jbvb EventQueue.  This wby, legbcy
+        // code is unbffected by the move to multiple AppContext bbility.
         AccessController.doPrivileged(new PrivilegedAction<Void>() {
             public Void run() {
-                ThreadGroup currentThreadGroup =
-                        Thread.currentThread().getThreadGroup();
-                ThreadGroup parentThreadGroup = currentThreadGroup.getParent();
-                while (parentThreadGroup != null) {
-                    // Find the root ThreadGroup to construct our main AppContext
-                    currentThreadGroup = parentThreadGroup;
-                    parentThreadGroup = currentThreadGroup.getParent();
+                ThrebdGroup currentThrebdGroup =
+                        Threbd.currentThrebd().getThrebdGroup();
+                ThrebdGroup pbrentThrebdGroup = currentThrebdGroup.getPbrent();
+                while (pbrentThrebdGroup != null) {
+                    // Find the root ThrebdGroup to construct our mbin AppContext
+                    currentThrebdGroup = pbrentThrebdGroup;
+                    pbrentThrebdGroup = currentThrebdGroup.getPbrent();
                 }
 
-                mainAppContext = SunToolkit.createNewAppContext(currentThreadGroup);
+                mbinAppContext = SunToolkit.crebteNewAppContext(currentThrebdGroup);
                 return null;
             }
         });
     }
 
     /**
-     * Returns the appropriate AppContext for the caller,
-     * as determined by its ThreadGroup.  If the main "system" AppContext
-     * would be returned and there's an AWTSecurityManager installed, it
-     * is called to get the proper AppContext based on the execution
+     * Returns the bppropribte AppContext for the cbller,
+     * bs determined by its ThrebdGroup.  If the mbin "system" AppContext
+     * would be returned bnd there's bn AWTSecurityMbnbger instblled, it
+     * is cblled to get the proper AppContext bbsed on the execution
      * context.
      *
-     * @return  the AppContext for the caller.
-     * @see     java.lang.ThreadGroup
+     * @return  the AppContext for the cbller.
+     * @see     jbvb.lbng.ThrebdGroup
      * @since   1.2
      */
-    public final static AppContext getAppContext() {
-        // we are standalone app, return the main app context
-        if (numAppContexts.get() == 1 && mainAppContext != null) {
-            return mainAppContext;
+    public finbl stbtic AppContext getAppContext() {
+        // we bre stbndblone bpp, return the mbin bpp context
+        if (numAppContexts.get() == 1 && mbinAppContext != null) {
+            return mbinAppContext;
         }
 
-        AppContext appContext = threadAppContext.get();
+        AppContext bppContext = threbdAppContext.get();
 
-        if (null == appContext) {
-            appContext = AccessController.doPrivileged(new PrivilegedAction<AppContext>()
+        if (null == bppContext) {
+            bppContext = AccessController.doPrivileged(new PrivilegedAction<AppContext>()
             {
                 public AppContext run() {
-                    // Get the current ThreadGroup, and look for it and its
-                    // parents in the hash from ThreadGroup to AppContext --
-                    // it should be found, because we use createNewContext()
-                    // when new AppContext objects are created.
-                    ThreadGroup currentThreadGroup = Thread.currentThread().getThreadGroup();
-                    ThreadGroup threadGroup = currentThreadGroup;
+                    // Get the current ThrebdGroup, bnd look for it bnd its
+                    // pbrents in the hbsh from ThrebdGroup to AppContext --
+                    // it should be found, becbuse we use crebteNewContext()
+                    // when new AppContext objects bre crebted.
+                    ThrebdGroup currentThrebdGroup = Threbd.currentThrebd().getThrebdGroup();
+                    ThrebdGroup threbdGroup = currentThrebdGroup;
 
-                    // Special case: we implicitly create the main app context
-                    // if no contexts have been created yet. This covers standalone apps
-                    // and excludes applets because by the time applet starts
-                    // a number of contexts have already been created by the plugin.
+                    // Specibl cbse: we implicitly crebte the mbin bpp context
+                    // if no contexts hbve been crebted yet. This covers stbndblone bpps
+                    // bnd excludes bpplets becbuse by the time bpplet stbrts
+                    // b number of contexts hbve blrebdy been crebted by the plugin.
                     synchronized (getAppContextLock) {
                         if (numAppContexts.get() == 0) {
-                            if (System.getProperty("javaplugin.version") == null &&
-                                    System.getProperty("javawebstart.version") == null) {
-                                initMainAppContext();
-                            } else if (System.getProperty("javafx.version") != null &&
-                                    threadGroup.getParent() != null) {
-                                // Swing inside JavaFX case
-                                SunToolkit.createNewAppContext();
+                            if (System.getProperty("jbvbplugin.version") == null &&
+                                    System.getProperty("jbvbwebstbrt.version") == null) {
+                                initMbinAppContext();
+                            } else if (System.getProperty("jbvbfx.version") != null &&
+                                    threbdGroup.getPbrent() != null) {
+                                // Swing inside JbvbFX cbse
+                                SunToolkit.crebteNewAppContext();
                             }
                         }
                     }
 
-                    AppContext context = threadGroup2appContext.get(threadGroup);
+                    AppContext context = threbdGroup2bppContext.get(threbdGroup);
                     while (context == null) {
-                        threadGroup = threadGroup.getParent();
-                        if (threadGroup == null) {
-                            // We've got up to the root thread group and did not find an AppContext
-                            // Try to get it from the security manager
-                            SecurityManager securityManager = System.getSecurityManager();
-                            if (securityManager != null) {
-                                ThreadGroup smThreadGroup = securityManager.getThreadGroup();
-                                if (smThreadGroup != null) {
+                        threbdGroup = threbdGroup.getPbrent();
+                        if (threbdGroup == null) {
+                            // We've got up to the root threbd group bnd did not find bn AppContext
+                            // Try to get it from the security mbnbger
+                            SecurityMbnbger securityMbnbger = System.getSecurityMbnbger();
+                            if (securityMbnbger != null) {
+                                ThrebdGroup smThrebdGroup = securityMbnbger.getThrebdGroup();
+                                if (smThrebdGroup != null) {
                                     /*
-                                     * If we get this far then it's likely that
-                                     * the ThreadGroup does not actually belong
-                                     * to the applet, so do not cache it.
+                                     * If we get this fbr then it's likely thbt
+                                     * the ThrebdGroup does not bctublly belong
+                                     * to the bpplet, so do not cbche it.
                                      */
-                                    return threadGroup2appContext.get(smThreadGroup);
+                                    return threbdGroup2bppContext.get(smThrebdGroup);
                                 }
                             }
                             return null;
                         }
-                        context = threadGroup2appContext.get(threadGroup);
+                        context = threbdGroup2bppContext.get(threbdGroup);
                     }
 
-                    // In case we did anything in the above while loop, we add
-                    // all the intermediate ThreadGroups to threadGroup2appContext
-                    // so we won't spin again.
-                    for (ThreadGroup tg = currentThreadGroup; tg != threadGroup; tg = tg.getParent()) {
-                        threadGroup2appContext.put(tg, context);
+                    // In cbse we did bnything in the bbove while loop, we bdd
+                    // bll the intermedibte ThrebdGroups to threbdGroup2bppContext
+                    // so we won't spin bgbin.
+                    for (ThrebdGroup tg = currentThrebdGroup; tg != threbdGroup; tg = tg.getPbrent()) {
+                        threbdGroup2bppContext.put(tg, context);
                     }
 
-                    // Now we're done, so we cache the latest key/value pair.
-                    threadAppContext.set(context);
+                    // Now we're done, so we cbche the lbtest key/vblue pbir.
+                    threbdAppContext.set(context);
 
                     return context;
                 }
             });
         }
 
-        return appContext;
+        return bppContext;
     }
 
     /**
-     * Returns true if the specified AppContext is the main AppContext.
+     * Returns true if the specified AppContext is the mbin AppContext.
      *
-     * @param   ctx the context to compare with the main context
-     * @return  true if the specified AppContext is the main AppContext.
+     * @pbrbm   ctx the context to compbre with the mbin context
+     * @return  true if the specified AppContext is the mbin AppContext.
      * @since   1.8
      */
-    public final static boolean isMainContext(AppContext ctx) {
-        return (ctx != null && ctx == mainAppContext);
+    public finbl stbtic boolebn isMbinContext(AppContext ctx) {
+        return (ctx != null && ctx == mbinAppContext);
     }
 
-    private final static AppContext getExecutionAppContext() {
-        SecurityManager securityManager = System.getSecurityManager();
-        if ((securityManager != null) &&
-            (securityManager instanceof AWTSecurityManager))
+    privbte finbl stbtic AppContext getExecutionAppContext() {
+        SecurityMbnbger securityMbnbger = System.getSecurityMbnbger();
+        if ((securityMbnbger != null) &&
+            (securityMbnbger instbnceof AWTSecurityMbnbger))
         {
-            AWTSecurityManager awtSecMgr = (AWTSecurityManager) securityManager;
-            AppContext secAppContext = awtSecMgr.getAppContext();
-            return secAppContext; // Return what we're told
+            AWTSecurityMbnbger bwtSecMgr = (AWTSecurityMbnbger) securityMbnbger;
+            AppContext secAppContext = bwtSecMgr.getAppContext();
+            return secAppContext; // Return whbt we're told
         }
         return null;
     }
 
-    private long DISPOSAL_TIMEOUT = 5000;  // Default to 5-second timeout
-                                           // for disposal of all Frames
-                                           // (we wait for this time twice,
-                                           // once for dispose(), and once
-                                           // to clear the EventQueue).
+    privbte long DISPOSAL_TIMEOUT = 5000;  // Defbult to 5-second timeout
+                                           // for disposbl of bll Frbmes
+                                           // (we wbit for this time twice,
+                                           // once for dispose(), bnd once
+                                           // to clebr the EventQueue).
 
-    private long THREAD_INTERRUPT_TIMEOUT = 1000;
-                            // Default to 1-second timeout for all
-                            // interrupted Threads to exit, and another
-                            // 1 second for all stopped Threads to die.
+    privbte long THREAD_INTERRUPT_TIMEOUT = 1000;
+                            // Defbult to 1-second timeout for bll
+                            // interrupted Threbds to exit, bnd bnother
+                            // 1 second for bll stopped Threbds to die.
 
     /**
-     * Disposes of this AppContext, all of its top-level Frames, and
-     * all Threads and ThreadGroups contained within it.
+     * Disposes of this AppContext, bll of its top-level Frbmes, bnd
+     * bll Threbds bnd ThrebdGroups contbined within it.
      *
-     * This method must be called from a Thread which is not contained
+     * This method must be cblled from b Threbd which is not contbined
      * within this AppContext.
      *
-     * @exception  IllegalThreadStateException  if the current thread is
-     *                                    contained within this AppContext
+     * @exception  IllegblThrebdStbteException  if the current threbd is
+     *                                    contbined within this AppContext
      * @since      1.2
      */
-    public void dispose() throws IllegalThreadStateException {
-        // Check to be sure that the current Thread isn't in this AppContext
-        if (this.threadGroup.parentOf(Thread.currentThread().getThreadGroup())) {
-            throw new IllegalThreadStateException(
-                "Current Thread is contained within AppContext to be disposed."
+    public void dispose() throws IllegblThrebdStbteException {
+        // Check to be sure thbt the current Threbd isn't in this AppContext
+        if (this.threbdGroup.pbrentOf(Threbd.currentThrebd().getThrebdGroup())) {
+            throw new IllegblThrebdStbteException(
+                "Current Threbd is contbined within AppContext to be disposed."
               );
         }
 
         synchronized(this) {
-            if (this.state != State.VALID) {
-                return; // If already disposed or being disposed, bail.
+            if (this.stbte != Stbte.VALID) {
+                return; // If blrebdy disposed or being disposed, bbil.
             }
 
-            this.state = State.BEING_DISPOSED;
+            this.stbte = Stbte.BEING_DISPOSED;
         }
 
-        final PropertyChangeSupport changeSupport = this.changeSupport;
-        if (changeSupport != null) {
-            changeSupport.firePropertyChange(DISPOSED_PROPERTY_NAME, false, true);
+        finbl PropertyChbngeSupport chbngeSupport = this.chbngeSupport;
+        if (chbngeSupport != null) {
+            chbngeSupport.firePropertyChbnge(DISPOSED_PROPERTY_NAME, fblse, true);
         }
 
-        // First, we post an InvocationEvent to be run on the
-        // EventDispatchThread which disposes of all top-level Frames and TrayIcons
+        // First, we post bn InvocbtionEvent to be run on the
+        // EventDispbtchThrebd which disposes of bll top-level Frbmes bnd TrbyIcons
 
-        final Object notificationLock = new Object();
+        finbl Object notificbtionLock = new Object();
 
-        Runnable runnable = new Runnable() {
+        Runnbble runnbble = new Runnbble() {
             public void run() {
                 Window[] windowsToDispose = Window.getOwnerlessWindows();
                 for (Window w : windowsToDispose) {
                     try {
                         w.dispose();
-                    } catch (Throwable t) {
-                        log.finer("exception occurred while disposing app context", t);
+                    } cbtch (Throwbble t) {
+                        log.finer("exception occurred while disposing bpp context", t);
                     }
                 }
                 AccessController.doPrivileged(new PrivilegedAction<Void>() {
                         public Void run() {
-                            if (!GraphicsEnvironment.isHeadless() && SystemTray.isSupported())
+                            if (!GrbphicsEnvironment.isHebdless() && SystemTrby.isSupported())
                             {
-                                SystemTray systemTray = SystemTray.getSystemTray();
-                                TrayIcon[] trayIconsToDispose = systemTray.getTrayIcons();
-                                for (TrayIcon ti : trayIconsToDispose) {
-                                    systemTray.remove(ti);
+                                SystemTrby systemTrby = SystemTrby.getSystemTrby();
+                                TrbyIcon[] trbyIconsToDispose = systemTrby.getTrbyIcons();
+                                for (TrbyIcon ti : trbyIconsToDispose) {
+                                    systemTrby.remove(ti);
                                 }
                             }
                             return null;
                         }
                     });
-                // Alert PropertyChangeListeners that the GUI has been disposed.
-                if (changeSupport != null) {
-                    changeSupport.firePropertyChange(GUI_DISPOSED, false, true);
+                // Alert PropertyChbngeListeners thbt the GUI hbs been disposed.
+                if (chbngeSupport != null) {
+                    chbngeSupport.firePropertyChbnge(GUI_DISPOSED, fblse, true);
                 }
-                synchronized(notificationLock) {
-                    notificationLock.notifyAll(); // Notify caller that we're done
+                synchronized(notificbtionLock) {
+                    notificbtionLock.notifyAll(); // Notify cbller thbt we're done
                 }
             }
         };
-        synchronized(notificationLock) {
+        synchronized(notificbtionLock) {
             SunToolkit.postEvent(this,
-                new InvocationEvent(Toolkit.getDefaultToolkit(), runnable));
+                new InvocbtionEvent(Toolkit.getDefbultToolkit(), runnbble));
             try {
-                notificationLock.wait(DISPOSAL_TIMEOUT);
-            } catch (InterruptedException e) { }
+                notificbtionLock.wbit(DISPOSAL_TIMEOUT);
+            } cbtch (InterruptedException e) { }
         }
 
-        // Next, we post another InvocationEvent to the end of the
-        // EventQueue.  When it's executed, we know we've executed all
+        // Next, we post bnother InvocbtionEvent to the end of the
+        // EventQueue.  When it's executed, we know we've executed bll
         // events in the queue.
 
-        runnable = new Runnable() { public void run() {
-            synchronized(notificationLock) {
-                notificationLock.notifyAll(); // Notify caller that we're done
+        runnbble = new Runnbble() { public void run() {
+            synchronized(notificbtionLock) {
+                notificbtionLock.notifyAll(); // Notify cbller thbt we're done
             }
         } };
-        synchronized(notificationLock) {
+        synchronized(notificbtionLock) {
             SunToolkit.postEvent(this,
-                new InvocationEvent(Toolkit.getDefaultToolkit(), runnable));
+                new InvocbtionEvent(Toolkit.getDefbultToolkit(), runnbble));
             try {
-                notificationLock.wait(DISPOSAL_TIMEOUT);
-            } catch (InterruptedException e) { }
+                notificbtionLock.wbit(DISPOSAL_TIMEOUT);
+            } cbtch (InterruptedException e) { }
         }
 
-        // We are done with posting events, so change the state to disposed
+        // We bre done with posting events, so chbnge the stbte to disposed
         synchronized(this) {
-            this.state = State.DISPOSED;
+            this.stbte = Stbte.DISPOSED;
         }
 
-        // Next, we interrupt all Threads in the ThreadGroup
-        this.threadGroup.interrupt();
-            // Note, the EventDispatchThread we've interrupted may dump an
+        // Next, we interrupt bll Threbds in the ThrebdGroup
+        this.threbdGroup.interrupt();
+            // Note, the EventDispbtchThrebd we've interrupted mby dump bn
             // InterruptedException to the console here.  This needs to be
-            // fixed in the EventDispatchThread, not here.
+            // fixed in the EventDispbtchThrebd, not here.
 
-        // Next, we sleep 10ms at a time, waiting for all of the active
-        // Threads in the ThreadGroup to exit.
+        // Next, we sleep 10ms bt b time, wbiting for bll of the bctive
+        // Threbds in the ThrebdGroup to exit.
 
-        long startTime = System.currentTimeMillis();
-        long endTime = startTime + THREAD_INTERRUPT_TIMEOUT;
-        while ((this.threadGroup.activeCount() > 0) &&
+        long stbrtTime = System.currentTimeMillis();
+        long endTime = stbrtTime + THREAD_INTERRUPT_TIMEOUT;
+        while ((this.threbdGroup.bctiveCount() > 0) &&
                (System.currentTimeMillis() < endTime)) {
             try {
-                Thread.sleep(10);
-            } catch (InterruptedException e) { }
+                Threbd.sleep(10);
+            } cbtch (InterruptedException e) { }
         }
 
-        // Then, we stop any remaining Threads
-        this.threadGroup.stop();
+        // Then, we stop bny rembining Threbds
+        this.threbdGroup.stop();
 
-        // Next, we sleep 10ms at a time, waiting for all of the active
-        // Threads in the ThreadGroup to die.
+        // Next, we sleep 10ms bt b time, wbiting for bll of the bctive
+        // Threbds in the ThrebdGroup to die.
 
-        startTime = System.currentTimeMillis();
-        endTime = startTime + THREAD_INTERRUPT_TIMEOUT;
-        while ((this.threadGroup.activeCount() > 0) &&
+        stbrtTime = System.currentTimeMillis();
+        endTime = stbrtTime + THREAD_INTERRUPT_TIMEOUT;
+        while ((this.threbdGroup.bctiveCount() > 0) &&
                (System.currentTimeMillis() < endTime)) {
             try {
-                Thread.sleep(10);
-            } catch (InterruptedException e) { }
+                Threbd.sleep(10);
+            } cbtch (InterruptedException e) { }
         }
 
-        // Next, we remove this and all subThreadGroups from threadGroup2appContext
-        int numSubGroups = this.threadGroup.activeGroupCount();
+        // Next, we remove this bnd bll subThrebdGroups from threbdGroup2bppContext
+        int numSubGroups = this.threbdGroup.bctiveGroupCount();
         if (numSubGroups > 0) {
-            ThreadGroup [] subGroups = new ThreadGroup[numSubGroups];
-            numSubGroups = this.threadGroup.enumerate(subGroups);
+            ThrebdGroup [] subGroups = new ThrebdGroup[numSubGroups];
+            numSubGroups = this.threbdGroup.enumerbte(subGroups);
             for (int subGroup = 0; subGroup < numSubGroups; subGroup++) {
-                threadGroup2appContext.remove(subGroups[subGroup]);
+                threbdGroup2bppContext.remove(subGroups[subGroup]);
             }
         }
-        threadGroup2appContext.remove(this.threadGroup);
+        threbdGroup2bppContext.remove(this.threbdGroup);
 
-        threadAppContext.set(null);
+        threbdAppContext.set(null);
 
-        // Finally, we destroy the ThreadGroup entirely.
+        // Finblly, we destroy the ThrebdGroup entirely.
         try {
-            this.threadGroup.destroy();
-        } catch (IllegalThreadStateException e) {
-            // Fired if not all the Threads died, ignore it and proceed
+            this.threbdGroup.destroy();
+        } cbtch (IllegblThrebdStbteException e) {
+            // Fired if not bll the Threbds died, ignore it bnd proceed
         }
 
-        synchronized (table) {
-            this.table.clear(); // Clear out the Hashtable to ease garbage collection
+        synchronized (tbble) {
+            this.tbble.clebr(); // Clebr out the Hbshtbble to ebse gbrbbge collection
         }
 
         numAppContexts.decrementAndGet();
 
-        mostRecentKeyValue = null;
+        mostRecentKeyVblue = null;
     }
 
-    static final class PostShutdownEventRunnable implements Runnable {
-        private final AppContext appContext;
+    stbtic finbl clbss PostShutdownEventRunnbble implements Runnbble {
+        privbte finbl AppContext bppContext;
 
-        public PostShutdownEventRunnable(AppContext ac) {
-            appContext = ac;
+        public PostShutdownEventRunnbble(AppContext bc) {
+            bppContext = bc;
         }
 
         public void run() {
-            final EventQueue eq = (EventQueue)appContext.get(EVENT_QUEUE_KEY);
+            finbl EventQueue eq = (EventQueue)bppContext.get(EVENT_QUEUE_KEY);
             if (eq != null) {
                 eq.postEvent(AWTAutoShutdown.getShutdownEvent());
             }
         }
     }
 
-    static final class CreateThreadAction implements PrivilegedAction<Thread> {
-        private final AppContext appContext;
-        private final Runnable runnable;
+    stbtic finbl clbss CrebteThrebdAction implements PrivilegedAction<Threbd> {
+        privbte finbl AppContext bppContext;
+        privbte finbl Runnbble runnbble;
 
-        public CreateThreadAction(AppContext ac, Runnable r) {
-            appContext = ac;
-            runnable = r;
+        public CrebteThrebdAction(AppContext bc, Runnbble r) {
+            bppContext = bc;
+            runnbble = r;
         }
 
-        public Thread run() {
-            Thread t = new Thread(appContext.getThreadGroup(), runnable);
-            t.setContextClassLoader(appContext.getContextClassLoader());
-            t.setPriority(Thread.NORM_PRIORITY + 1);
-            t.setDaemon(true);
+        public Threbd run() {
+            Threbd t = new Threbd(bppContext.getThrebdGroup(), runnbble);
+            t.setContextClbssLobder(bppContext.getContextClbssLobder());
+            t.setPriority(Threbd.NORM_PRIORITY + 1);
+            t.setDbemon(true);
             return t;
         }
     }
 
-    static void stopEventDispatchThreads() {
-        for (AppContext appContext: getAppContexts()) {
-            if (appContext.isDisposed()) {
+    stbtic void stopEventDispbtchThrebds() {
+        for (AppContext bppContext: getAppContexts()) {
+            if (bppContext.isDisposed()) {
                 continue;
             }
-            Runnable r = new PostShutdownEventRunnable(appContext);
-            // For security reasons EventQueue.postEvent should only be called
-            // on a thread that belongs to the corresponding thread group.
-            if (appContext != AppContext.getAppContext()) {
-                // Create a thread that belongs to the thread group associated
-                // with the AppContext and invokes EventQueue.postEvent.
-                PrivilegedAction<Thread> action = new CreateThreadAction(appContext, r);
-                Thread thread = AccessController.doPrivileged(action);
-                thread.start();
+            Runnbble r = new PostShutdownEventRunnbble(bppContext);
+            // For security rebsons EventQueue.postEvent should only be cblled
+            // on b threbd thbt belongs to the corresponding threbd group.
+            if (bppContext != AppContext.getAppContext()) {
+                // Crebte b threbd thbt belongs to the threbd group bssocibted
+                // with the AppContext bnd invokes EventQueue.postEvent.
+                PrivilegedAction<Threbd> bction = new CrebteThrebdAction(bppContext, r);
+                Threbd threbd = AccessController.doPrivileged(bction);
+                threbd.stbrt();
             } else {
                 r.run();
             }
         }
     }
 
-    private MostRecentKeyValue mostRecentKeyValue = null;
-    private MostRecentKeyValue shadowMostRecentKeyValue = null;
+    privbte MostRecentKeyVblue mostRecentKeyVblue = null;
+    privbte MostRecentKeyVblue shbdowMostRecentKeyVblue = null;
 
     /**
-     * Returns the value to which the specified key is mapped in this context.
+     * Returns the vblue to which the specified key is mbpped in this context.
      *
-     * @param   key   a key in the AppContext.
-     * @return  the value to which the key is mapped in this AppContext;
-     *          <code>null</code> if the key is not mapped to any value.
+     * @pbrbm   key   b key in the AppContext.
+     * @return  the vblue to which the key is mbpped in this AppContext;
+     *          <code>null</code> if the key is not mbpped to bny vblue.
      * @see     #put(Object, Object)
      * @since   1.2
      */
     public Object get(Object key) {
         /*
-         * The most recent reference should be updated inside a synchronized
-         * block to avoid a race when put() and get() are executed in
-         * parallel on different threads.
+         * The most recent reference should be updbted inside b synchronized
+         * block to bvoid b rbce when put() bnd get() bre executed in
+         * pbrbllel on different threbds.
          */
-        synchronized (table) {
-            // Note: this most recent key/value caching is thread-hot.
-            // A simple test using SwingSet found that 72% of lookups
-            // were matched using the most recent key/value.  By instantiating
-            // a simple MostRecentKeyValue object on cache misses, the
-            // cache hits can be processed without synchronization.
+        synchronized (tbble) {
+            // Note: this most recent key/vblue cbching is threbd-hot.
+            // A simple test using SwingSet found thbt 72% of lookups
+            // were mbtched using the most recent key/vblue.  By instbntibting
+            // b simple MostRecentKeyVblue object on cbche misses, the
+            // cbche hits cbn be processed without synchronizbtion.
 
-            MostRecentKeyValue recent = mostRecentKeyValue;
+            MostRecentKeyVblue recent = mostRecentKeyVblue;
             if ((recent != null) && (recent.key == key)) {
-                return recent.value;
+                return recent.vblue;
             }
 
-            Object value = table.get(key);
-            if(mostRecentKeyValue == null) {
-                mostRecentKeyValue = new MostRecentKeyValue(key, value);
-                shadowMostRecentKeyValue = new MostRecentKeyValue(key, value);
+            Object vblue = tbble.get(key);
+            if(mostRecentKeyVblue == null) {
+                mostRecentKeyVblue = new MostRecentKeyVblue(key, vblue);
+                shbdowMostRecentKeyVblue = new MostRecentKeyVblue(key, vblue);
             } else {
-                MostRecentKeyValue auxKeyValue = mostRecentKeyValue;
-                shadowMostRecentKeyValue.setPair(key, value);
-                mostRecentKeyValue = shadowMostRecentKeyValue;
-                shadowMostRecentKeyValue = auxKeyValue;
+                MostRecentKeyVblue buxKeyVblue = mostRecentKeyVblue;
+                shbdowMostRecentKeyVblue.setPbir(key, vblue);
+                mostRecentKeyVblue = shbdowMostRecentKeyVblue;
+                shbdowMostRecentKeyVblue = buxKeyVblue;
             }
-            return value;
+            return vblue;
         }
     }
 
     /**
-     * Maps the specified <code>key</code> to the specified
-     * <code>value</code> in this AppContext.  Neither the key nor the
-     * value can be <code>null</code>.
+     * Mbps the specified <code>key</code> to the specified
+     * <code>vblue</code> in this AppContext.  Neither the key nor the
+     * vblue cbn be <code>null</code>.
      * <p>
-     * The value can be retrieved by calling the <code>get</code> method
-     * with a key that is equal to the original key.
+     * The vblue cbn be retrieved by cblling the <code>get</code> method
+     * with b key thbt is equbl to the originbl key.
      *
-     * @param      key     the AppContext key.
-     * @param      value   the value.
-     * @return     the previous value of the specified key in this
-     *             AppContext, or <code>null</code> if it did not have one.
-     * @exception  NullPointerException  if the key or value is
+     * @pbrbm      key     the AppContext key.
+     * @pbrbm      vblue   the vblue.
+     * @return     the previous vblue of the specified key in this
+     *             AppContext, or <code>null</code> if it did not hbve one.
+     * @exception  NullPointerException  if the key or vblue is
      *               <code>null</code>.
      * @see     #get(Object)
      * @since   1.2
      */
-    public Object put(Object key, Object value) {
-        synchronized (table) {
-            MostRecentKeyValue recent = mostRecentKeyValue;
+    public Object put(Object key, Object vblue) {
+        synchronized (tbble) {
+            MostRecentKeyVblue recent = mostRecentKeyVblue;
             if ((recent != null) && (recent.key == key))
-                recent.value = value;
-            return table.put(key, value);
+                recent.vblue = vblue;
+            return tbble.put(key, vblue);
         }
     }
 
     /**
-     * Removes the key (and its corresponding value) from this
+     * Removes the key (bnd its corresponding vblue) from this
      * AppContext. This method does nothing if the key is not in the
      * AppContext.
      *
-     * @param   key   the key that needs to be removed.
-     * @return  the value to which the key had been mapped in this AppContext,
-     *          or <code>null</code> if the key did not have a mapping.
+     * @pbrbm   key   the key thbt needs to be removed.
+     * @return  the vblue to which the key hbd been mbpped in this AppContext,
+     *          or <code>null</code> if the key did not hbve b mbpping.
      * @since   1.2
      */
     public Object remove(Object key) {
-        synchronized (table) {
-            MostRecentKeyValue recent = mostRecentKeyValue;
+        synchronized (tbble) {
+            MostRecentKeyVblue recent = mostRecentKeyVblue;
             if ((recent != null) && (recent.key == key))
-                recent.value = null;
-            return table.remove(key);
+                recent.vblue = null;
+            return tbble.remove(key);
         }
     }
 
     /**
-     * Returns the root ThreadGroup for all Threads contained within
+     * Returns the root ThrebdGroup for bll Threbds contbined within
      * this AppContext.
      * @since   1.2
      */
-    public ThreadGroup getThreadGroup() {
-        return threadGroup;
+    public ThrebdGroup getThrebdGroup() {
+        return threbdGroup;
     }
 
     /**
-     * Returns the context ClassLoader that was used to create this
+     * Returns the context ClbssLobder thbt wbs used to crebte this
      * AppContext.
      *
-     * @see java.lang.Thread#getContextClassLoader
+     * @see jbvb.lbng.Threbd#getContextClbssLobder
      */
-    public ClassLoader getContextClassLoader() {
-        return contextClassLoader;
+    public ClbssLobder getContextClbssLobder() {
+        return contextClbssLobder;
     }
 
     /**
-     * Returns a string representation of this AppContext.
+     * Returns b string representbtion of this AppContext.
      * @since   1.2
      */
     @Override
     public String toString() {
-        return getClass().getName() + "[threadGroup=" + threadGroup.getName() + "]";
+        return getClbss().getNbme() + "[threbdGroup=" + threbdGroup.getNbme() + "]";
     }
 
     /**
-     * Returns an array of all the property change listeners
+     * Returns bn brrby of bll the property chbnge listeners
      * registered on this component.
      *
-     * @return all of this component's <code>PropertyChangeListener</code>s
-     *         or an empty array if no property change
-     *         listeners are currently registered
+     * @return bll of this component's <code>PropertyChbngeListener</code>s
+     *         or bn empty brrby if no property chbnge
+     *         listeners bre currently registered
      *
-     * @see      #addPropertyChangeListener
-     * @see      #removePropertyChangeListener
-     * @see      #getPropertyChangeListeners(java.lang.String)
-     * @see      java.beans.PropertyChangeSupport#getPropertyChangeListeners
+     * @see      #bddPropertyChbngeListener
+     * @see      #removePropertyChbngeListener
+     * @see      #getPropertyChbngeListeners(jbvb.lbng.String)
+     * @see      jbvb.bebns.PropertyChbngeSupport#getPropertyChbngeListeners
      * @since    1.4
      */
-    public synchronized PropertyChangeListener[] getPropertyChangeListeners() {
-        if (changeSupport == null) {
-            return new PropertyChangeListener[0];
+    public synchronized PropertyChbngeListener[] getPropertyChbngeListeners() {
+        if (chbngeSupport == null) {
+            return new PropertyChbngeListener[0];
         }
-        return changeSupport.getPropertyChangeListeners();
+        return chbngeSupport.getPropertyChbngeListeners();
     }
 
     /**
-     * Adds a PropertyChangeListener to the listener list for a specific
-     * property. The specified property may be one of the following:
+     * Adds b PropertyChbngeListener to the listener list for b specific
+     * property. The specified property mby be one of the following:
      * <ul>
      *    <li>if this AppContext is disposed ("disposed")</li>
      * </ul>
      * <ul>
-     *    <li>if this AppContext's unowned Windows have been disposed
-     *    ("guidisposed").  Code to cleanup after the GUI is disposed
-     *    (such as LookAndFeel.uninitialize()) should execute in response to
-     *    this property being fired.  Notifications for the "guidisposed"
-     *    property are sent on the event dispatch thread.</li>
+     *    <li>if this AppContext's unowned Windows hbve been disposed
+     *    ("guidisposed").  Code to clebnup bfter the GUI is disposed
+     *    (such bs LookAndFeel.uninitiblize()) should execute in response to
+     *    this property being fired.  Notificbtions for the "guidisposed"
+     *    property bre sent on the event dispbtch threbd.</li>
      * </ul>
      * <p>
-     * If listener is null, no exception is thrown and no action is performed.
+     * If listener is null, no exception is thrown bnd no bction is performed.
      *
-     * @param propertyName one of the property names listed above
-     * @param listener the PropertyChangeListener to be added
+     * @pbrbm propertyNbme one of the property nbmes listed bbove
+     * @pbrbm listener the PropertyChbngeListener to be bdded
      *
-     * @see #removePropertyChangeListener(java.lang.String, java.beans.PropertyChangeListener)
-     * @see #getPropertyChangeListeners(java.lang.String)
-     * @see #addPropertyChangeListener(java.lang.String, java.beans.PropertyChangeListener)
+     * @see #removePropertyChbngeListener(jbvb.lbng.String, jbvb.bebns.PropertyChbngeListener)
+     * @see #getPropertyChbngeListeners(jbvb.lbng.String)
+     * @see #bddPropertyChbngeListener(jbvb.lbng.String, jbvb.bebns.PropertyChbngeListener)
      */
-    public synchronized void addPropertyChangeListener(
-                             String propertyName,
-                             PropertyChangeListener listener) {
+    public synchronized void bddPropertyChbngeListener(
+                             String propertyNbme,
+                             PropertyChbngeListener listener) {
         if (listener == null) {
             return;
         }
-        if (changeSupport == null) {
-            changeSupport = new PropertyChangeSupport(this);
+        if (chbngeSupport == null) {
+            chbngeSupport = new PropertyChbngeSupport(this);
         }
-        changeSupport.addPropertyChangeListener(propertyName, listener);
+        chbngeSupport.bddPropertyChbngeListener(propertyNbme, listener);
     }
 
     /**
-     * Removes a PropertyChangeListener from the listener list for a specific
-     * property. This method should be used to remove PropertyChangeListeners
-     * that were registered for a specific bound property.
+     * Removes b PropertyChbngeListener from the listener list for b specific
+     * property. This method should be used to remove PropertyChbngeListeners
+     * thbt were registered for b specific bound property.
      * <p>
-     * If listener is null, no exception is thrown and no action is performed.
+     * If listener is null, no exception is thrown bnd no bction is performed.
      *
-     * @param propertyName a valid property name
-     * @param listener the PropertyChangeListener to be removed
+     * @pbrbm propertyNbme b vblid property nbme
+     * @pbrbm listener the PropertyChbngeListener to be removed
      *
-     * @see #addPropertyChangeListener(java.lang.String, java.beans.PropertyChangeListener)
-     * @see #getPropertyChangeListeners(java.lang.String)
-     * @see #removePropertyChangeListener(java.beans.PropertyChangeListener)
+     * @see #bddPropertyChbngeListener(jbvb.lbng.String, jbvb.bebns.PropertyChbngeListener)
+     * @see #getPropertyChbngeListeners(jbvb.lbng.String)
+     * @see #removePropertyChbngeListener(jbvb.bebns.PropertyChbngeListener)
      */
-    public synchronized void removePropertyChangeListener(
-                             String propertyName,
-                             PropertyChangeListener listener) {
-        if (listener == null || changeSupport == null) {
+    public synchronized void removePropertyChbngeListener(
+                             String propertyNbme,
+                             PropertyChbngeListener listener) {
+        if (listener == null || chbngeSupport == null) {
             return;
         }
-        changeSupport.removePropertyChangeListener(propertyName, listener);
+        chbngeSupport.removePropertyChbngeListener(propertyNbme, listener);
     }
 
     /**
-     * Returns an array of all the listeners which have been associated
-     * with the named property.
+     * Returns bn brrby of bll the listeners which hbve been bssocibted
+     * with the nbmed property.
      *
-     * @return all of the <code>PropertyChangeListeners</code> associated with
-     *         the named property or an empty array if no listeners have
-     *         been added
+     * @return bll of the <code>PropertyChbngeListeners</code> bssocibted with
+     *         the nbmed property or bn empty brrby if no listeners hbve
+     *         been bdded
      *
-     * @see #addPropertyChangeListener(java.lang.String, java.beans.PropertyChangeListener)
-     * @see #removePropertyChangeListener(java.lang.String, java.beans.PropertyChangeListener)
-     * @see #getPropertyChangeListeners
+     * @see #bddPropertyChbngeListener(jbvb.lbng.String, jbvb.bebns.PropertyChbngeListener)
+     * @see #removePropertyChbngeListener(jbvb.lbng.String, jbvb.bebns.PropertyChbngeListener)
+     * @see #getPropertyChbngeListeners
      * @since 1.4
      */
-    public synchronized PropertyChangeListener[] getPropertyChangeListeners(
-                                                        String propertyName) {
-        if (changeSupport == null) {
-            return new PropertyChangeListener[0];
+    public synchronized PropertyChbngeListener[] getPropertyChbngeListeners(
+                                                        String propertyNbme) {
+        if (chbngeSupport == null) {
+            return new PropertyChbngeListener[0];
         }
-        return changeSupport.getPropertyChangeListeners(propertyName);
+        return chbngeSupport.getPropertyChbngeListeners(propertyNbme);
     }
 
-    // Set up JavaAWTAccess in SharedSecrets
-    static {
-        sun.misc.SharedSecrets.setJavaAWTAccess(new sun.misc.JavaAWTAccess() {
-            private boolean hasRootThreadGroup(final AppContext ecx) {
-                return AccessController.doPrivileged(new PrivilegedAction<Boolean>() {
+    // Set up JbvbAWTAccess in ShbredSecrets
+    stbtic {
+        sun.misc.ShbredSecrets.setJbvbAWTAccess(new sun.misc.JbvbAWTAccess() {
+            privbte boolebn hbsRootThrebdGroup(finbl AppContext ecx) {
+                return AccessController.doPrivileged(new PrivilegedAction<Boolebn>() {
                     @Override
-                    public Boolean run() {
-                        return ecx.threadGroup.getParent() == null;
+                    public Boolebn run() {
+                        return ecx.threbdGroup.getPbrent() == null;
                     }
                 });
             }
 
             /**
-             * Returns the AppContext used for applet logging isolation, or null if
-             * the default global context can be used.
-             * If there's no applet, or if the caller is a stand alone application,
-             * or running in the main app context, returns null.
-             * Otherwise, returns the AppContext of the calling applet.
-             * @return null if the global default context can be used,
-             *         an AppContext otherwise.
+             * Returns the AppContext used for bpplet logging isolbtion, or null if
+             * the defbult globbl context cbn be used.
+             * If there's no bpplet, or if the cbller is b stbnd blone bpplicbtion,
+             * or running in the mbin bpp context, returns null.
+             * Otherwise, returns the AppContext of the cblling bpplet.
+             * @return null if the globbl defbult context cbn be used,
+             *         bn AppContext otherwise.
              **/
             public Object getAppletContext() {
                 // There's no AppContext: return null.
-                // No need to call getAppContext() if numAppContext == 0:
-                // it means that no AppContext has been created yet, and
-                // we don't want to trigger the creation of a main app
+                // No need to cbll getAppContext() if numAppContext == 0:
+                // it mebns thbt no AppContext hbs been crebted yet, bnd
+                // we don't wbnt to trigger the crebtion of b mbin bpp
                 // context since we don't need it.
                 if (numAppContexts.get() == 0) return null;
 
-                // Get the context from the security manager
+                // Get the context from the security mbnbger
                 AppContext ecx = getExecutionAppContext();
 
-                // Not sure we really need to re-check numAppContexts here.
-                // If all applets have gone away then we could have a
-                // numAppContexts coming back to 0. So we recheck
-                // it here because we don't want to trigger the
-                // creation of a main AppContext in that case.
-                // This is probably not 100% MT-safe but should reduce
-                // the window of opportunity in which that issue could
-                // happen.
+                // Not sure we reblly need to re-check numAppContexts here.
+                // If bll bpplets hbve gone bwby then we could hbve b
+                // numAppContexts coming bbck to 0. So we recheck
+                // it here becbuse we don't wbnt to trigger the
+                // crebtion of b mbin AppContext in thbt cbse.
+                // This is probbbly not 100% MT-sbfe but should reduce
+                // the window of opportunity in which thbt issue could
+                // hbppen.
                 if (numAppContexts.get() > 0) {
-                   // Defaults to thread group caching.
-                   // This is probably not required as we only really need
-                   // isolation in a deployed applet environment, in which
-                   // case ecx will not be null when we reach here
-                   // However it helps emulate the deployed environment,
-                   // in tests for instance.
+                   // Defbults to threbd group cbching.
+                   // This is probbbly not required bs we only reblly need
+                   // isolbtion in b deployed bpplet environment, in which
+                   // cbse ecx will not be null when we rebch here
+                   // However it helps emulbte the deployed environment,
+                   // in tests for instbnce.
                    ecx = ecx != null ? ecx : getAppContext();
                 }
 
-                // getAppletContext() may be called when initializing the main
-                // app context - in which case mainAppContext will still be
-                // null. To work around this issue we simply use
-                // AppContext.threadGroup.getParent() == null instead, since
-                // mainAppContext is the only AppContext which should have
-                // the root TG as its thread group.
+                // getAppletContext() mby be cblled when initiblizing the mbin
+                // bpp context - in which cbse mbinAppContext will still be
+                // null. To work bround this issue we simply use
+                // AppContext.threbdGroup.getPbrent() == null instebd, since
+                // mbinAppContext is the only AppContext which should hbve
+                // the root TG bs its threbd group.
                 // See: JDK-8023258
-                final boolean isMainAppContext = ecx == null
-                    || mainAppContext == ecx
-                    || mainAppContext == null && hasRootThreadGroup(ecx);
+                finbl boolebn isMbinAppContext = ecx == null
+                    || mbinAppContext == ecx
+                    || mbinAppContext == null && hbsRootThrebdGroup(ecx);
 
-                return isMainAppContext ? null : ecx;
+                return isMbinAppContext ? null : ecx;
             }
 
         });
     }
 
-    public static <T> T getSoftReferenceValue(Object key,
+    public stbtic <T> T getSoftReferenceVblue(Object key,
             Supplier<T> supplier) {
 
-        final AppContext appContext = AppContext.getAppContext();
-        @SuppressWarnings("unchecked")
-        SoftReference<T> ref = (SoftReference<T>) appContext.get(key);
+        finbl AppContext bppContext = AppContext.getAppContext();
+        @SuppressWbrnings("unchecked")
+        SoftReference<T> ref = (SoftReference<T>) bppContext.get(key);
         if (ref != null) {
-            final T object = ref.get();
+            finbl T object = ref.get();
             if (object != null) {
                 return object;
             }
         }
-        final T object = supplier.get();
+        finbl T object = supplier.get();
         ref = new SoftReference<>(object);
-        appContext.put(key, ref);
+        bppContext.put(key, ref);
         return object;
     }
 }
 
-final class MostRecentKeyValue {
+finbl clbss MostRecentKeyVblue {
     Object key;
-    Object value;
-    MostRecentKeyValue(Object k, Object v) {
+    Object vblue;
+    MostRecentKeyVblue(Object k, Object v) {
         key = k;
-        value = v;
+        vblue = v;
     }
-    void setPair(Object k, Object v) {
+    void setPbir(Object k, Object v) {
         key = k;
-        value = v;
+        vblue = v;
     }
 }

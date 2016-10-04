@@ -1,100 +1,100 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package javax.management.remote;
+pbckbge jbvbx.mbnbgement.remote;
 
-import java.io.IOException;
-import java.io.InvalidObjectException;
-import java.io.ObjectInputStream;
-import java.io.Serializable;
-import javax.management.Notification;
+import jbvb.io.IOException;
+import jbvb.io.InvblidObjectException;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.Seriblizbble;
+import jbvbx.mbnbgement.Notificbtion;
 
 /**
- * <p>A (Notification, Listener ID) pair.</p>
- * <p>This class is used to associate an emitted notification
- *    with the listener ID to which it is targeted.</p>
+ * <p>A (Notificbtion, Listener ID) pbir.</p>
+ * <p>This clbss is used to bssocibte bn emitted notificbtion
+ *    with the listener ID to which it is tbrgeted.</p>
  *
  * @since 1.5
  */
-public class TargetedNotification implements Serializable {
+public clbss TbrgetedNotificbtion implements Seriblizbble {
 
-    private static final long serialVersionUID = 7676132089779300926L;
+    privbte stbtic finbl long seriblVersionUID = 7676132089779300926L;
 
-// If we replace Integer with int...
+// If we replbce Integer with int...
 //     /**
-//      * <p>Constructs a <code>TargetedNotification</code> object.  The
-//      * object contains a pair (Notification, Listener ID).
-//      * The Listener ID identifies the client listener to which that
-//      * notification is targeted. The client listener ID is one
-//      * previously returned by the connector server in response to an
-//      * <code>addNotificationListener</code> request.</p>
-//      * @param notification Notification emitted from the MBean server.
-//      * @param listenerID   The ID of the listener to which this
-//      *        notification is targeted.
+//      * <p>Constructs b <code>TbrgetedNotificbtion</code> object.  The
+//      * object contbins b pbir (Notificbtion, Listener ID).
+//      * The Listener ID identifies the client listener to which thbt
+//      * notificbtion is tbrgeted. The client listener ID is one
+//      * previously returned by the connector server in response to bn
+//      * <code>bddNotificbtionListener</code> request.</p>
+//      * @pbrbm notificbtion Notificbtion emitted from the MBebn server.
+//      * @pbrbm listenerID   The ID of the listener to which this
+//      *        notificbtion is tbrgeted.
 //      */
-//     public TargetedNotification(Notification notification,
+//     public TbrgetedNotificbtion(Notificbtion notificbtion,
 //                              int listenerID) {
-//      this.notif = notification;
+//      this.notif = notificbtion;
 //      this.id = listenerID;
 //     }
 
     /**
-     * <p>Constructs a <code>TargetedNotification</code> object.  The
-     * object contains a pair (Notification, Listener ID).
-     * The Listener ID identifies the client listener to which that
-     * notification is targeted. The client listener ID is one
-     * previously returned by the connector server in response to an
-     * <code>addNotificationListener</code> request.</p>
-     * @param notification Notification emitted from the MBean server.
-     * @param listenerID   The ID of the listener to which this
-     *        notification is targeted.
-     * @exception IllegalArgumentException if the <var>listenerID</var>
-     *        or <var>notification</var> is null.
+     * <p>Constructs b <code>TbrgetedNotificbtion</code> object.  The
+     * object contbins b pbir (Notificbtion, Listener ID).
+     * The Listener ID identifies the client listener to which thbt
+     * notificbtion is tbrgeted. The client listener ID is one
+     * previously returned by the connector server in response to bn
+     * <code>bddNotificbtionListener</code> request.</p>
+     * @pbrbm notificbtion Notificbtion emitted from the MBebn server.
+     * @pbrbm listenerID   The ID of the listener to which this
+     *        notificbtion is tbrgeted.
+     * @exception IllegblArgumentException if the <vbr>listenerID</vbr>
+     *        or <vbr>notificbtion</vbr> is null.
      */
-    public TargetedNotification(Notification notification,
+    public TbrgetedNotificbtion(Notificbtion notificbtion,
                                 Integer listenerID) {
-        validate(notification, listenerID);
-        // If we replace integer with int...
-        // this(notification,intValue(listenerID));
-        this.notif = notification;
+        vblidbte(notificbtion, listenerID);
+        // If we replbce integer with int...
+        // this(notificbtion,intVblue(listenerID));
+        this.notif = notificbtion;
         this.id = listenerID;
     }
 
     /**
-     * <p>The emitted notification.</p>
+     * <p>The emitted notificbtion.</p>
      *
-     * @return The notification.
+     * @return The notificbtion.
      */
-    public Notification getNotification() {
+    public Notificbtion getNotificbtion() {
         return notif;
     }
 
     /**
-     * <p>The ID of the listener to which the notification is
-     *    targeted.</p>
+     * <p>The ID of the listener to which the notificbtion is
+     *    tbrgeted.</p>
      *
      * @return The listener ID.
      */
@@ -103,49 +103,49 @@ public class TargetedNotification implements Serializable {
     }
 
     /**
-     * Returns a textual representation of this Targeted Notification.
+     * Returns b textubl representbtion of this Tbrgeted Notificbtion.
      *
-     * @return a String representation of this Targeted Notification.
+     * @return b String representbtion of this Tbrgeted Notificbtion.
      **/
     public String toString() {
         return "{" + notif + ", " + id + "}";
     }
 
     /**
-     * @serial A notification to transmit to the other side.
-     * @see #getNotification()
+     * @seribl A notificbtion to trbnsmit to the other side.
+     * @see #getNotificbtion()
      **/
-    private Notification notif;
+    privbte Notificbtion notif;
     /**
-     * @serial The ID of the listener to which the notification is
-     *         targeted.
+     * @seribl The ID of the listener to which the notificbtion is
+     *         tbrgeted.
      * @see #getListenerID()
      **/
-    private Integer id;
-    //private final int id;
+    privbte Integer id;
+    //privbte finbl int id;
 
-// Needed if we use int instead of Integer...
-//     private static int intValue(Integer id) {
+// Needed if we use int instebd of Integer...
+//     privbte stbtic int intVblue(Integer id) {
 //      if (id == null) throw new
-//          IllegalArgumentException("Invalid listener ID: null");
-//      return id.intValue();
+//          IllegblArgumentException("Invblid listener ID: null");
+//      return id.intVblue();
 //     }
 
-    private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {
-        ois.defaultReadObject();
+    privbte void rebdObject(ObjectInputStrebm ois) throws IOException, ClbssNotFoundException {
+        ois.defbultRebdObject();
         try {
-            validate(this.notif, this.id);
-        } catch (IllegalArgumentException e) {
-            throw new InvalidObjectException(e.getMessage());
+            vblidbte(this.notif, this.id);
+        } cbtch (IllegblArgumentException e) {
+            throw new InvblidObjectException(e.getMessbge());
         }
     }
 
-    private static void validate(Notification notif, Integer id) throws IllegalArgumentException {
+    privbte stbtic void vblidbte(Notificbtion notif, Integer id) throws IllegblArgumentException {
         if (notif == null) {
-            throw new IllegalArgumentException("Invalid notification: null");
+            throw new IllegblArgumentException("Invblid notificbtion: null");
         }
         if (id == null) {
-            throw new IllegalArgumentException("Invalid listener ID: null");
+            throw new IllegblArgumentException("Invblid listener ID: null");
         }
     }
 }

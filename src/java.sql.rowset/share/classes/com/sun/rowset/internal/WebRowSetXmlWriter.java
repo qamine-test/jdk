@@ -1,225 +1,225 @@
 /*
- * Copyright (c) 2003, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.rowset.internal;
+pbckbge com.sun.rowset.internbl;
 
 import com.sun.rowset.JdbcRowSetResourceBundle;
-import java.sql.*;
-import javax.sql.*;
-import java.io.*;
-import java.text.MessageFormat;
-import java.util.*;
+import jbvb.sql.*;
+import jbvbx.sql.*;
+import jbvb.io.*;
+import jbvb.text.MessbgeFormbt;
+import jbvb.util.*;
 
-import javax.sql.rowset.*;
-import javax.sql.rowset.spi.*;
+import jbvbx.sql.rowset.*;
+import jbvbx.sql.rowset.spi.*;
 
 /**
- * An implementation of the <code>XmlWriter</code> interface, which writes a
- * <code>WebRowSet</code> object to an output stream as an XML document.
+ * An implementbtion of the <code>XmlWriter</code> interfbce, which writes b
+ * <code>WebRowSet</code> object to bn output strebm bs bn XML document.
  */
 
-public class WebRowSetXmlWriter implements XmlWriter, Serializable {
+public clbss WebRowSetXmlWriter implements XmlWriter, Seriblizbble {
 
     /**
-     * The <code>java.io.Writer</code> object to which this <code>WebRowSetXmlWriter</code>
-     * object will write when its <code>writeXML</code> method is called. The value
-     * for this field is set with the <code>java.io.Writer</code> object given
-     * as the second argument to the <code>writeXML</code> method.
+     * The <code>jbvb.io.Writer</code> object to which this <code>WebRowSetXmlWriter</code>
+     * object will write when its <code>writeXML</code> method is cblled. The vblue
+     * for this field is set with the <code>jbvb.io.Writer</code> object given
+     * bs the second brgument to the <code>writeXML</code> method.
      */
-    private transient java.io.Writer writer;
+    privbte trbnsient jbvb.io.Writer writer;
 
     /**
-     * The <code>java.util.Stack</code> object that this <code>WebRowSetXmlWriter</code>
-     * object will use for storing the tags to be used for writing the calling
-     * <code>WebRowSet</code> object as an XML document.
+     * The <code>jbvb.util.Stbck</code> object thbt this <code>WebRowSetXmlWriter</code>
+     * object will use for storing the tbgs to be used for writing the cblling
+     * <code>WebRowSet</code> object bs bn XML document.
      */
-    private java.util.Stack<String> stack;
+    privbte jbvb.util.Stbck<String> stbck;
 
-    private  JdbcRowSetResourceBundle resBundle;
+    privbte  JdbcRowSetResourceBundle resBundle;
 
     public WebRowSetXmlWriter() {
 
         try {
            resBundle = JdbcRowSetResourceBundle.getJdbcRowSetResourceBundle();
-        } catch(IOException ioe) {
+        } cbtch(IOException ioe) {
             throw new RuntimeException(ioe);
         }
     }
 
     /**
-     * Writes the given <code>WebRowSet</code> object as an XML document
-     * using the given <code>java.io.Writer</code> object. The XML document
-     * will include the <code>WebRowSet</code> object's data, metadata, and
-     * properties.  If a data value has been updated, that information is also
+     * Writes the given <code>WebRowSet</code> object bs bn XML document
+     * using the given <code>jbvb.io.Writer</code> object. The XML document
+     * will include the <code>WebRowSet</code> object's dbtb, metbdbtb, bnd
+     * properties.  If b dbtb vblue hbs been updbted, thbt informbtion is blso
      * included.
      * <P>
-     * This method is called by the <code>XmlWriter</code> object that is
-     * referenced in the calling <code>WebRowSet</code> object's
+     * This method is cblled by the <code>XmlWriter</code> object thbt is
+     * referenced in the cblling <code>WebRowSet</code> object's
      * <code>xmlWriter</code> field.  The <code>XmlWriter.writeXML</code>
-     * method passes to this method the arguments that were supplied to it.
+     * method pbsses to this method the brguments thbt were supplied to it.
      *
-     * @param caller the <code>WebRowSet</code> object to be written; must
-     *        be a rowset for which this <code>WebRowSetXmlWriter</code> object
+     * @pbrbm cbller the <code>WebRowSet</code> object to be written; must
+     *        be b rowset for which this <code>WebRowSetXmlWriter</code> object
      *        is the writer
-     * @param wrt the <code>java.io.Writer</code> object to which
-     *        <code>caller</code> will be written
-     * @exception SQLException if a database access error occurs or
+     * @pbrbm wrt the <code>jbvb.io.Writer</code> object to which
+     *        <code>cbller</code> will be written
+     * @exception SQLException if b dbtbbbse bccess error occurs or
      *            this <code>WebRowSetXmlWriter</code> object is not the writer
      *            for the given rowset
      * @see XmlWriter#writeXML
      */
-    public void writeXML(WebRowSet caller, java.io.Writer wrt)
+    public void writeXML(WebRowSet cbller, jbvb.io.Writer wrt)
     throws SQLException {
 
-        // create a new stack for tag checking.
-        stack = new java.util.Stack<>();
+        // crebte b new stbck for tbg checking.
+        stbck = new jbvb.util.Stbck<>();
         writer = wrt;
-        writeRowSet(caller);
+        writeRowSet(cbller);
     }
 
     /**
-     * Writes the given <code>WebRowSet</code> object as an XML document
-     * using the given <code>java.io.OutputStream</code> object. The XML document
-     * will include the <code>WebRowSet</code> object's data, metadata, and
-     * properties.  If a data value has been updated, that information is also
+     * Writes the given <code>WebRowSet</code> object bs bn XML document
+     * using the given <code>jbvb.io.OutputStrebm</code> object. The XML document
+     * will include the <code>WebRowSet</code> object's dbtb, metbdbtb, bnd
+     * properties.  If b dbtb vblue hbs been updbted, thbt informbtion is blso
      * included.
      * <P>
-     * Using stream is a faster way than using <code>java.io.Writer<code/>
+     * Using strebm is b fbster wby thbn using <code>jbvb.io.Writer<code/>
      *
-     * This method is called by the <code>XmlWriter</code> object that is
-     * referenced in the calling <code>WebRowSet</code> object's
+     * This method is cblled by the <code>XmlWriter</code> object thbt is
+     * referenced in the cblling <code>WebRowSet</code> object's
      * <code>xmlWriter</code> field.  The <code>XmlWriter.writeXML</code>
-     * method passes to this method the arguments that were supplied to it.
+     * method pbsses to this method the brguments thbt were supplied to it.
      *
-     * @param caller the <code>WebRowSet</code> object to be written; must
-     *        be a rowset for which this <code>WebRowSetXmlWriter</code> object
+     * @pbrbm cbller the <code>WebRowSet</code> object to be written; must
+     *        be b rowset for which this <code>WebRowSetXmlWriter</code> object
      *        is the writer
-     * @param oStream the <code>java.io.OutputStream</code> object to which
-     *        <code>caller</code> will be written
-     * @throws SQLException if a database access error occurs or
+     * @pbrbm oStrebm the <code>jbvb.io.OutputStrebm</code> object to which
+     *        <code>cbller</code> will be written
+     * @throws SQLException if b dbtbbbse bccess error occurs or
      *            this <code>WebRowSetXmlWriter</code> object is not the writer
      *            for the given rowset
      * @see XmlWriter#writeXML
      */
-    public void writeXML(WebRowSet caller, java.io.OutputStream oStream)
+    public void writeXML(WebRowSet cbller, jbvb.io.OutputStrebm oStrebm)
     throws SQLException {
 
-        // create a new stack for tag checking.
-        stack = new java.util.Stack<>();
-        writer = new OutputStreamWriter(oStream);
-        writeRowSet(caller);
+        // crebte b new stbck for tbg checking.
+        stbck = new jbvb.util.Stbck<>();
+        writer = new OutputStrebmWriter(oStrebm);
+        writeRowSet(cbller);
     }
 
     /**
      *
      *
-     * @exception SQLException if a database access error occurs
+     * @exception SQLException if b dbtbbbse bccess error occurs
      */
-    private void writeRowSet(WebRowSet caller) throws SQLException {
+    privbte void writeRowSet(WebRowSet cbller) throws SQLException {
 
         try {
 
-            startHeader();
+            stbrtHebder();
 
-            writeProperties(caller);
-            writeMetaData(caller);
-            writeData(caller);
+            writeProperties(cbller);
+            writeMetbDbtb(cbller);
+            writeDbtb(cbller);
 
-            endHeader();
+            endHebder();
 
-        } catch (java.io.IOException ex) {
-            throw new SQLException(MessageFormat.format(resBundle.handleGetObject("wrsxmlwriter.ioex").toString(), ex.getMessage()));
+        } cbtch (jbvb.io.IOException ex) {
+            throw new SQLException(MessbgeFormbt.formbt(resBundle.hbndleGetObject("wrsxmlwriter.ioex").toString(), ex.getMessbge()));
         }
     }
 
-    private void startHeader() throws java.io.IOException {
+    privbte void stbrtHebder() throws jbvb.io.IOException {
 
-        setTag("webRowSet");
+        setTbg("webRowSet");
         writer.write("<?xml version=\"1.0\"?>\n");
-        writer.write("<webRowSet xmlns=\"http://java.sun.com/xml/ns/jdbc\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n");
-        writer.write("xsi:schemaLocation=\"http://java.sun.com/xml/ns/jdbc http://java.sun.com/xml/ns/jdbc/webrowset.xsd\">\n");
+        writer.write("<webRowSet xmlns=\"http://jbvb.sun.com/xml/ns/jdbc\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchemb-instbnce\"\n");
+        writer.write("xsi:schembLocbtion=\"http://jbvb.sun.com/xml/ns/jdbc http://jbvb.sun.com/xml/ns/jdbc/webrowset.xsd\">\n");
     }
 
-    private void endHeader() throws java.io.IOException {
-        endTag("webRowSet");
+    privbte void endHebder() throws jbvb.io.IOException {
+        endTbg("webRowSet");
     }
 
     /**
      *
      *
-     * @exception SQLException if a database access error occurs
+     * @exception SQLException if b dbtbbbse bccess error occurs
      */
-    private void writeProperties(WebRowSet caller) throws java.io.IOException {
+    privbte void writeProperties(WebRowSet cbller) throws jbvb.io.IOException {
 
         beginSection("properties");
 
         try {
-            propString("command", processSpecialCharacters(caller.getCommand()));
-            propInteger("concurrency", caller.getConcurrency());
-            propString("datasource", caller.getDataSourceName());
-            propBoolean("escape-processing",
-                    caller.getEscapeProcessing());
+            propString("commbnd", processSpeciblChbrbcters(cbller.getCommbnd()));
+            propInteger("concurrency", cbller.getConcurrency());
+            propString("dbtbsource", cbller.getDbtbSourceNbme());
+            propBoolebn("escbpe-processing",
+                    cbller.getEscbpeProcessing());
 
             try {
-                propInteger("fetch-direction", caller.getFetchDirection());
-            } catch(SQLException sqle) {
-                // it may be the case that fetch direction has not been set
+                propInteger("fetch-direction", cbller.getFetchDirection());
+            } cbtch(SQLException sqle) {
+                // it mby be the cbse thbt fetch direction hbs not been set
                 // fetchDir  == 0
-                // in that case it will throw a SQLException.
-                // To avoid that catch it here
+                // in thbt cbse it will throw b SQLException.
+                // To bvoid thbt cbtch it here
             }
 
-            propInteger("fetch-size", caller.getFetchSize());
-            propInteger("isolation-level",
-                    caller.getTransactionIsolation());
+            propInteger("fetch-size", cbller.getFetchSize());
+            propInteger("isolbtion-level",
+                    cbller.getTrbnsbctionIsolbtion());
 
             beginSection("key-columns");
 
-            int[] kc = caller.getKeyColumns();
+            int[] kc = cbller.getKeyColumns();
             for (int i = 0; kc != null && i < kc.length; i++)
                 propInteger("column", kc[i]);
 
             endSection("key-columns");
 
-            //Changed to beginSection and endSection for maps for proper indentation
-            beginSection("map");
-            Map<String, Class<?>> typeMap = caller.getTypeMap();
-            if(typeMap != null) {
-                for(Map.Entry<String, Class<?>> mm : typeMap.entrySet()) {
+            //Chbnged to beginSection bnd endSection for mbps for proper indentbtion
+            beginSection("mbp");
+            Mbp<String, Clbss<?>> typeMbp = cbller.getTypeMbp();
+            if(typeMbp != null) {
+                for(Mbp.Entry<String, Clbss<?>> mm : typeMbp.entrySet()) {
                     propString("type", mm.getKey());
-                    propString("class", mm.getValue().getName());
+                    propString("clbss", mm.getVblue().getNbme());
                 }
             }
-            endSection("map");
+            endSection("mbp");
 
-            propInteger("max-field-size", caller.getMaxFieldSize());
-            propInteger("max-rows", caller.getMaxRows());
-            propInteger("query-timeout", caller.getQueryTimeout());
-            propBoolean("read-only", caller.isReadOnly());
+            propInteger("mbx-field-size", cbller.getMbxFieldSize());
+            propInteger("mbx-rows", cbller.getMbxRows());
+            propInteger("query-timeout", cbller.getQueryTimeout());
+            propBoolebn("rebd-only", cbller.isRebdOnly());
 
-            int itype = caller.getType();
+            int itype = cbller.getType();
             String strType = "";
 
             if(itype == 1003) {
@@ -232,26 +232,26 @@ public class WebRowSetXmlWriter implements XmlWriter, Serializable {
 
             propString("rowset-type", strType);
 
-            propBoolean("show-deleted", caller.getShowDeleted());
-            propString("table-name", caller.getTableName());
-            propString("url", caller.getUrl());
+            propBoolebn("show-deleted", cbller.getShowDeleted());
+            propString("tbble-nbme", cbller.getTbbleNbme());
+            propString("url", cbller.getUrl());
 
             beginSection("sync-provider");
-            // Remove the string after "@xxxx"
+            // Remove the string bfter "@xxxx"
             // before writing it to the xml file.
-            String strProviderInstance = (caller.getSyncProvider()).toString();
-            String strProvider = strProviderInstance.substring(0, (caller.getSyncProvider()).toString().indexOf('@'));
+            String strProviderInstbnce = (cbller.getSyncProvider()).toString();
+            String strProvider = strProviderInstbnce.substring(0, (cbller.getSyncProvider()).toString().indexOf('@'));
 
-            propString("sync-provider-name", strProvider);
-            propString("sync-provider-vendor", "Oracle Corporation");
+            propString("sync-provider-nbme", strProvider);
+            propString("sync-provider-vendor", "Orbcle Corporbtion");
             propString("sync-provider-version", "1.0");
-            propInteger("sync-provider-grade", caller.getSyncProvider().getProviderGrade());
-            propInteger("data-source-lock", caller.getSyncProvider().getDataSourceLock());
+            propInteger("sync-provider-grbde", cbller.getSyncProvider().getProviderGrbde());
+            propInteger("dbtb-source-lock", cbller.getSyncProvider().getDbtbSourceLock());
 
             endSection("sync-provider");
 
-        } catch (SQLException ex) {
-            throw new java.io.IOException(MessageFormat.format(resBundle.handleGetObject("wrsxmlwriter.sqlex").toString(), ex.getMessage()));
+        } cbtch (SQLException ex) {
+            throw new jbvb.io.IOException(MessbgeFormbt.formbt(resBundle.hbndleGetObject("wrsxmlwriter.sqlex").toString(), ex.getMessbge()));
         }
 
         endSection("properties");
@@ -260,16 +260,16 @@ public class WebRowSetXmlWriter implements XmlWriter, Serializable {
     /**
      *
      *
-     * @exception SQLException if a database access error occurs
+     * @exception SQLException if b dbtbbbse bccess error occurs
      */
-    private void writeMetaData(WebRowSet caller) throws java.io.IOException {
+    privbte void writeMetbDbtb(WebRowSet cbller) throws jbvb.io.IOException {
         int columnCount;
 
-        beginSection("metadata");
+        beginSection("metbdbtb");
 
         try {
 
-            ResultSetMetaData rsmd = caller.getMetaData();
+            ResultSetMetbDbtb rsmd = cbller.getMetbDbtb();
             columnCount = rsmd.getColumnCount();
             propInteger("column-count", columnCount);
 
@@ -277,277 +277,277 @@ public class WebRowSetXmlWriter implements XmlWriter, Serializable {
                 beginSection("column-definition");
 
                 propInteger("column-index", colIndex);
-                propBoolean("auto-increment", rsmd.isAutoIncrement(colIndex));
-                propBoolean("case-sensitive", rsmd.isCaseSensitive(colIndex));
-                propBoolean("currency", rsmd.isCurrency(colIndex));
-                propInteger("nullable", rsmd.isNullable(colIndex));
-                propBoolean("signed", rsmd.isSigned(colIndex));
-                propBoolean("searchable", rsmd.isSearchable(colIndex));
-                propInteger("column-display-size",rsmd.getColumnDisplaySize(colIndex));
-                propString("column-label", rsmd.getColumnLabel(colIndex));
-                propString("column-name", rsmd.getColumnName(colIndex));
-                propString("schema-name", rsmd.getSchemaName(colIndex));
+                propBoolebn("buto-increment", rsmd.isAutoIncrement(colIndex));
+                propBoolebn("cbse-sensitive", rsmd.isCbseSensitive(colIndex));
+                propBoolebn("currency", rsmd.isCurrency(colIndex));
+                propInteger("nullbble", rsmd.isNullbble(colIndex));
+                propBoolebn("signed", rsmd.isSigned(colIndex));
+                propBoolebn("sebrchbble", rsmd.isSebrchbble(colIndex));
+                propInteger("column-displby-size",rsmd.getColumnDisplbySize(colIndex));
+                propString("column-lbbel", rsmd.getColumnLbbel(colIndex));
+                propString("column-nbme", rsmd.getColumnNbme(colIndex));
+                propString("schemb-nbme", rsmd.getSchembNbme(colIndex));
                 propInteger("column-precision", rsmd.getPrecision(colIndex));
-                propInteger("column-scale", rsmd.getScale(colIndex));
-                propString("table-name", rsmd.getTableName(colIndex));
-                propString("catalog-name", rsmd.getCatalogName(colIndex));
+                propInteger("column-scble", rsmd.getScble(colIndex));
+                propString("tbble-nbme", rsmd.getTbbleNbme(colIndex));
+                propString("cbtblog-nbme", rsmd.getCbtblogNbme(colIndex));
                 propInteger("column-type", rsmd.getColumnType(colIndex));
-                propString("column-type-name", rsmd.getColumnTypeName(colIndex));
+                propString("column-type-nbme", rsmd.getColumnTypeNbme(colIndex));
 
                 endSection("column-definition");
             }
-        } catch (SQLException ex) {
-            throw new java.io.IOException(MessageFormat.format(resBundle.handleGetObject("wrsxmlwriter.sqlex").toString(), ex.getMessage()));
+        } cbtch (SQLException ex) {
+            throw new jbvb.io.IOException(MessbgeFormbt.formbt(resBundle.hbndleGetObject("wrsxmlwriter.sqlex").toString(), ex.getMessbge()));
         }
 
-        endSection("metadata");
+        endSection("metbdbtb");
     }
 
     /**
      *
      *
-     * @exception SQLException if a database access error occurs
+     * @exception SQLException if b dbtbbbse bccess error occurs
      */
-    private void writeData(WebRowSet caller) throws java.io.IOException {
+    privbte void writeDbtb(WebRowSet cbller) throws jbvb.io.IOException {
         ResultSet rs;
 
         try {
-            ResultSetMetaData rsmd = caller.getMetaData();
+            ResultSetMetbDbtb rsmd = cbller.getMetbDbtb();
             int columnCount = rsmd.getColumnCount();
             int i;
 
-            beginSection("data");
+            beginSection("dbtb");
 
-            caller.beforeFirst();
-            caller.setShowDeleted(true);
-            while (caller.next()) {
-                if (caller.rowDeleted() && caller.rowInserted()) {
+            cbller.beforeFirst();
+            cbller.setShowDeleted(true);
+            while (cbller.next()) {
+                if (cbller.rowDeleted() && cbller.rowInserted()) {
                     beginSection("modifyRow");
-                } else if (caller.rowDeleted()) {
+                } else if (cbller.rowDeleted()) {
                     beginSection("deleteRow");
-                } else if (caller.rowInserted()) {
+                } else if (cbller.rowInserted()) {
                     beginSection("insertRow");
                 } else {
                     beginSection("currentRow");
                 }
 
                 for (i = 1; i <= columnCount; i++) {
-                    if (caller.columnUpdated(i)) {
-                        rs = caller.getOriginalRow();
+                    if (cbller.columnUpdbted(i)) {
+                        rs = cbller.getOriginblRow();
                         rs.next();
-                        beginTag("columnValue");
-                        writeValue(i, (RowSet)rs);
-                        endTag("columnValue");
-                        beginTag("updateRow");
-                        writeValue(i, caller);
-                        endTag("updateRow");
+                        beginTbg("columnVblue");
+                        writeVblue(i, (RowSet)rs);
+                        endTbg("columnVblue");
+                        beginTbg("updbteRow");
+                        writeVblue(i, cbller);
+                        endTbg("updbteRow");
                     } else {
-                        beginTag("columnValue");
-                        writeValue(i, caller);
-                        endTag("columnValue");
+                        beginTbg("columnVblue");
+                        writeVblue(i, cbller);
+                        endTbg("columnVblue");
                     }
                 }
 
                 endSection(); // this is unchecked
             }
-            endSection("data");
-        } catch (SQLException ex) {
-            throw new java.io.IOException(MessageFormat.format(resBundle.handleGetObject("wrsxmlwriter.sqlex").toString(), ex.getMessage()));
+            endSection("dbtb");
+        } cbtch (SQLException ex) {
+            throw new jbvb.io.IOException(MessbgeFormbt.formbt(resBundle.hbndleGetObject("wrsxmlwriter.sqlex").toString(), ex.getMessbge()));
         }
     }
 
-    private void writeValue(int idx, RowSet caller) throws java.io.IOException {
+    privbte void writeVblue(int idx, RowSet cbller) throws jbvb.io.IOException {
         try {
-            int type = caller.getMetaData().getColumnType(idx);
+            int type = cbller.getMetbDbtb().getColumnType(idx);
 
             switch (type) {
-                case java.sql.Types.BIT:
-                case java.sql.Types.BOOLEAN:
-                    boolean b = caller.getBoolean(idx);
-                    if (caller.wasNull())
+                cbse jbvb.sql.Types.BIT:
+                cbse jbvb.sql.Types.BOOLEAN:
+                    boolebn b = cbller.getBoolebn(idx);
+                    if (cbller.wbsNull())
                         writeNull();
                     else
-                        writeBoolean(b);
-                    break;
-                case java.sql.Types.TINYINT:
-                case java.sql.Types.SMALLINT:
-                    short s = caller.getShort(idx);
-                    if (caller.wasNull())
+                        writeBoolebn(b);
+                    brebk;
+                cbse jbvb.sql.Types.TINYINT:
+                cbse jbvb.sql.Types.SMALLINT:
+                    short s = cbller.getShort(idx);
+                    if (cbller.wbsNull())
                         writeNull();
                     else
                         writeShort(s);
-                    break;
-                case java.sql.Types.INTEGER:
-                    int i = caller.getInt(idx);
-                    if (caller.wasNull())
+                    brebk;
+                cbse jbvb.sql.Types.INTEGER:
+                    int i = cbller.getInt(idx);
+                    if (cbller.wbsNull())
                         writeNull();
                     else
                         writeInteger(i);
-                    break;
-                case java.sql.Types.BIGINT:
-                    long l = caller.getLong(idx);
-                    if (caller.wasNull())
+                    brebk;
+                cbse jbvb.sql.Types.BIGINT:
+                    long l = cbller.getLong(idx);
+                    if (cbller.wbsNull())
                         writeNull();
                     else
                         writeLong(l);
-                    break;
-                case java.sql.Types.REAL:
-                case java.sql.Types.FLOAT:
-                    float f = caller.getFloat(idx);
-                    if (caller.wasNull())
+                    brebk;
+                cbse jbvb.sql.Types.REAL:
+                cbse jbvb.sql.Types.FLOAT:
+                    flobt f = cbller.getFlobt(idx);
+                    if (cbller.wbsNull())
                         writeNull();
                     else
-                        writeFloat(f);
-                    break;
-                case java.sql.Types.DOUBLE:
-                    double d = caller.getDouble(idx);
-                    if (caller.wasNull())
+                        writeFlobt(f);
+                    brebk;
+                cbse jbvb.sql.Types.DOUBLE:
+                    double d = cbller.getDouble(idx);
+                    if (cbller.wbsNull())
                         writeNull();
                     else
                         writeDouble(d);
-                    break;
-                case java.sql.Types.NUMERIC:
-                case java.sql.Types.DECIMAL:
-                    writeBigDecimal(caller.getBigDecimal(idx));
-                    break;
-                case java.sql.Types.BINARY:
-                case java.sql.Types.VARBINARY:
-                case java.sql.Types.LONGVARBINARY:
-                    break;
-                case java.sql.Types.DATE:
-                    java.sql.Date date = caller.getDate(idx);
-                    if (caller.wasNull())
+                    brebk;
+                cbse jbvb.sql.Types.NUMERIC:
+                cbse jbvb.sql.Types.DECIMAL:
+                    writeBigDecimbl(cbller.getBigDecimbl(idx));
+                    brebk;
+                cbse jbvb.sql.Types.BINARY:
+                cbse jbvb.sql.Types.VARBINARY:
+                cbse jbvb.sql.Types.LONGVARBINARY:
+                    brebk;
+                cbse jbvb.sql.Types.DATE:
+                    jbvb.sql.Dbte dbte = cbller.getDbte(idx);
+                    if (cbller.wbsNull())
                         writeNull();
                     else
-                        writeLong(date.getTime());
-                    break;
-                case java.sql.Types.TIME:
-                    java.sql.Time time = caller.getTime(idx);
-                    if (caller.wasNull())
+                        writeLong(dbte.getTime());
+                    brebk;
+                cbse jbvb.sql.Types.TIME:
+                    jbvb.sql.Time time = cbller.getTime(idx);
+                    if (cbller.wbsNull())
                         writeNull();
                     else
                         writeLong(time.getTime());
-                    break;
-                case java.sql.Types.TIMESTAMP:
-                    java.sql.Timestamp ts = caller.getTimestamp(idx);
-                    if (caller.wasNull())
+                    brebk;
+                cbse jbvb.sql.Types.TIMESTAMP:
+                    jbvb.sql.Timestbmp ts = cbller.getTimestbmp(idx);
+                    if (cbller.wbsNull())
                         writeNull();
                     else
                         writeLong(ts.getTime());
-                    break;
-                case java.sql.Types.CHAR:
-                case java.sql.Types.VARCHAR:
-                case java.sql.Types.LONGVARCHAR:
-                    writeStringData(caller.getString(idx));
-                    break;
-                default:
-                    System.out.println(resBundle.handleGetObject("wsrxmlwriter.notproper").toString());
-                    //Need to take care of BLOB, CLOB, Array, Ref here
+                    brebk;
+                cbse jbvb.sql.Types.CHAR:
+                cbse jbvb.sql.Types.VARCHAR:
+                cbse jbvb.sql.Types.LONGVARCHAR:
+                    writeStringDbtb(cbller.getString(idx));
+                    brebk;
+                defbult:
+                    System.out.println(resBundle.hbndleGetObject("wsrxmlwriter.notproper").toString());
+                    //Need to tbke cbre of BLOB, CLOB, Arrby, Ref here
             }
-        } catch (SQLException ex) {
-            throw new java.io.IOException(resBundle.handleGetObject("wrsxmlwriter.failedwrite").toString()+ ex.getMessage());
+        } cbtch (SQLException ex) {
+            throw new jbvb.io.IOException(resBundle.hbndleGetObject("wrsxmlwriter.fbiledwrite").toString()+ ex.getMessbge());
         }
     }
 
     /*
-     * This begins a new tag with a indent
+     * This begins b new tbg with b indent
      *
      */
-    private void beginSection(String tag) throws java.io.IOException {
-        // store the current tag
-        setTag(tag);
+    privbte void beginSection(String tbg) throws jbvb.io.IOException {
+        // store the current tbg
+        setTbg(tbg);
 
-        writeIndent(stack.size());
+        writeIndent(stbck.size());
 
         // write it out
-        writer.write("<" + tag + ">\n");
+        writer.write("<" + tbg + ">\n");
     }
 
     /*
-     * This closes a tag started by beginTag with a indent
+     * This closes b tbg stbrted by beginTbg with b indent
      *
      */
-    private void endSection(String tag) throws java.io.IOException {
-        writeIndent(stack.size());
+    privbte void endSection(String tbg) throws jbvb.io.IOException {
+        writeIndent(stbck.size());
 
-        String beginTag = getTag();
+        String beginTbg = getTbg();
 
-        if(beginTag.indexOf("webRowSet") != -1) {
-            beginTag ="webRowSet";
+        if(beginTbg.indexOf("webRowSet") != -1) {
+            beginTbg ="webRowSet";
         }
 
-        if (tag.equals(beginTag) ) {
-            // get the current tag and write it out
-            writer.write("</" + beginTag + ">\n");
+        if (tbg.equbls(beginTbg) ) {
+            // get the current tbg bnd write it out
+            writer.write("</" + beginTbg + ">\n");
         } else {
             ;
         }
         writer.flush();
     }
 
-    private void endSection() throws java.io.IOException {
-        writeIndent(stack.size());
+    privbte void endSection() throws jbvb.io.IOException {
+        writeIndent(stbck.size());
 
-        // get the current tag and write it out
-        String beginTag = getTag();
-        writer.write("</" + beginTag + ">\n");
+        // get the current tbg bnd write it out
+        String beginTbg = getTbg();
+        writer.write("</" + beginTbg + ">\n");
 
         writer.flush();
     }
 
-    private void beginTag(String tag) throws java.io.IOException {
-        // store the current tag
-        setTag(tag);
+    privbte void beginTbg(String tbg) throws jbvb.io.IOException {
+        // store the current tbg
+        setTbg(tbg);
 
-        writeIndent(stack.size());
+        writeIndent(stbck.size());
 
-        // write tag out
-        writer.write("<" + tag + ">");
+        // write tbg out
+        writer.write("<" + tbg + ">");
     }
 
-    private void endTag(String tag) throws java.io.IOException {
-        String beginTag = getTag();
-        if (tag.equals(beginTag)) {
-            // get the current tag and write it out
-            writer.write("</" + beginTag + ">\n");
+    privbte void endTbg(String tbg) throws jbvb.io.IOException {
+        String beginTbg = getTbg();
+        if (tbg.equbls(beginTbg)) {
+            // get the current tbg bnd write it out
+            writer.write("</" + beginTbg + ">\n");
         } else {
             ;
         }
         writer.flush();
     }
 
-    private void emptyTag(String tag) throws java.io.IOException {
-        // write an emptyTag
-        writer.write("<" + tag + "/>");
+    privbte void emptyTbg(String tbg) throws jbvb.io.IOException {
+        // write bn emptyTbg
+        writer.write("<" + tbg + "/>");
     }
 
-    private void setTag(String tag) {
-        // add the tag to stack
-        stack.push(tag);
+    privbte void setTbg(String tbg) {
+        // bdd the tbg to stbck
+        stbck.push(tbg);
     }
 
-    private String getTag() {
-        return stack.pop();
+    privbte String getTbg() {
+        return stbck.pop();
     }
 
-    private void writeNull() throws java.io.IOException {
-        emptyTag("null");
+    privbte void writeNull() throws jbvb.io.IOException {
+        emptyTbg("null");
     }
 
-    private void writeStringData(String s) throws java.io.IOException {
+    privbte void writeStringDbtb(String s) throws jbvb.io.IOException {
         if (s == null) {
             writeNull();
-        } else if (s.equals("")) {
+        } else if (s.equbls("")) {
             writeEmptyString();
         } else {
 
-            s = processSpecialCharacters(s);
+            s = processSpeciblChbrbcters(s);
 
             writer.write(s);
         }
     }
 
-    private void writeString(String s) throws java.io.IOException {
+    privbte void writeString(String s) throws jbvb.io.IOException {
         if (s != null) {
             writer.write(s);
         } else  {
@@ -556,125 +556,125 @@ public class WebRowSetXmlWriter implements XmlWriter, Serializable {
     }
 
 
-    private void writeShort(short s) throws java.io.IOException {
+    privbte void writeShort(short s) throws jbvb.io.IOException {
         writer.write(Short.toString(s));
     }
 
-    private void writeLong(long l) throws java.io.IOException {
+    privbte void writeLong(long l) throws jbvb.io.IOException {
         writer.write(Long.toString(l));
     }
 
-    private void writeInteger(int i) throws java.io.IOException {
+    privbte void writeInteger(int i) throws jbvb.io.IOException {
         writer.write(Integer.toString(i));
     }
 
-    private void writeBoolean(boolean b) throws java.io.IOException {
-        writer.write(Boolean.valueOf(b).toString());
+    privbte void writeBoolebn(boolebn b) throws jbvb.io.IOException {
+        writer.write(Boolebn.vblueOf(b).toString());
     }
 
-    private void writeFloat(float f) throws java.io.IOException {
-        writer.write(Float.toString(f));
+    privbte void writeFlobt(flobt f) throws jbvb.io.IOException {
+        writer.write(Flobt.toString(f));
     }
 
-    private void writeDouble(double d) throws java.io.IOException {
+    privbte void writeDouble(double d) throws jbvb.io.IOException {
         writer.write(Double.toString(d));
     }
 
-    private void writeBigDecimal(java.math.BigDecimal bd) throws java.io.IOException {
+    privbte void writeBigDecimbl(jbvb.mbth.BigDecimbl bd) throws jbvb.io.IOException {
         if (bd != null)
             writer.write(bd.toString());
         else
-            emptyTag("null");
+            emptyTbg("null");
     }
 
-    private void writeIndent(int tabs) throws java.io.IOException {
+    privbte void writeIndent(int tbbs) throws jbvb.io.IOException {
         // indent...
-        for (int i = 1; i < tabs; i++) {
+        for (int i = 1; i < tbbs; i++) {
             writer.write("  ");
         }
     }
 
-    private void propString(String tag, String s) throws java.io.IOException {
-        beginTag(tag);
+    privbte void propString(String tbg, String s) throws jbvb.io.IOException {
+        beginTbg(tbg);
         writeString(s);
-        endTag(tag);
+        endTbg(tbg);
     }
 
-    private void propInteger(String tag, int i) throws java.io.IOException {
-        beginTag(tag);
+    privbte void propInteger(String tbg, int i) throws jbvb.io.IOException {
+        beginTbg(tbg);
         writeInteger(i);
-        endTag(tag);
+        endTbg(tbg);
     }
 
-    private void propBoolean(String tag, boolean b) throws java.io.IOException {
-        beginTag(tag);
-        writeBoolean(b);
-        endTag(tag);
+    privbte void propBoolebn(String tbg, boolebn b) throws jbvb.io.IOException {
+        beginTbg(tbg);
+        writeBoolebn(b);
+        endTbg(tbg);
     }
 
-    private void writeEmptyString() throws java.io.IOException {
-        emptyTag("emptyString");
+    privbte void writeEmptyString() throws jbvb.io.IOException {
+        emptyTbg("emptyString");
     }
     /**
-     * Purely for code coverage purposes..
+     * Purely for code coverbge purposes..
      */
-    public boolean writeData(RowSetInternal caller) {
-        return false;
+    public boolebn writeDbtb(RowSetInternbl cbller) {
+        return fblse;
     }
 
 
     /**
-     * This function has been added for the processing of special characters
-     * lik <,>,'," and & in the data to be serialized. These have to be taken
-     * of specifically or else there will be parsing error while trying to read
+     * This function hbs been bdded for the processing of specibl chbrbcters
+     * lik <,>,'," bnd & in the dbtb to be seriblized. These hbve to be tbken
+     * of specificblly or else there will be pbrsing error while trying to rebd
      * the contents of the XML file.
      **/
 
-    private String processSpecialCharacters(String s) {
+    privbte String processSpeciblChbrbcters(String s) {
 
         if(s == null) {
             return null;
         }
-        char []charStr = s.toCharArray();
-        String specialStr = "";
+        chbr []chbrStr = s.toChbrArrby();
+        String speciblStr = "";
 
-        for(int i = 0; i < charStr.length; i++) {
-            if(charStr[i] == '&') {
-                specialStr = specialStr.concat("&amp;");
-            } else if(charStr[i] == '<') {
-                specialStr = specialStr.concat("&lt;");
-            } else if(charStr[i] == '>') {
-                specialStr = specialStr.concat("&gt;");
-            } else if(charStr[i] == '\'') {
-                specialStr = specialStr.concat("&apos;");
-            } else if(charStr[i] == '\"') {
-                specialStr = specialStr.concat("&quot;");
+        for(int i = 0; i < chbrStr.length; i++) {
+            if(chbrStr[i] == '&') {
+                speciblStr = speciblStr.concbt("&bmp;");
+            } else if(chbrStr[i] == '<') {
+                speciblStr = speciblStr.concbt("&lt;");
+            } else if(chbrStr[i] == '>') {
+                speciblStr = speciblStr.concbt("&gt;");
+            } else if(chbrStr[i] == '\'') {
+                speciblStr = speciblStr.concbt("&bpos;");
+            } else if(chbrStr[i] == '\"') {
+                speciblStr = speciblStr.concbt("&quot;");
             } else {
-                specialStr = specialStr.concat(String.valueOf(charStr[i]));
+                speciblStr = speciblStr.concbt(String.vblueOf(chbrStr[i]));
             }
         }
 
-        s = specialStr;
+        s = speciblStr;
         return s;
     }
 
 
     /**
-     * This method re populates the resBundle
-     * during the deserialization process
+     * This method re populbtes the resBundle
+     * during the deseriblizbtion process
      *
      */
-    private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {
-        // Default state initialization happens here
-        ois.defaultReadObject();
-        // Initialization of transient Res Bundle happens here .
+    privbte void rebdObject(ObjectInputStrebm ois) throws IOException, ClbssNotFoundException {
+        // Defbult stbte initiblizbtion hbppens here
+        ois.defbultRebdObject();
+        // Initiblizbtion of trbnsient Res Bundle hbppens here .
         try {
            resBundle = JdbcRowSetResourceBundle.getJdbcRowSetResourceBundle();
-        } catch(IOException ioe) {
+        } cbtch(IOException ioe) {
             throw new RuntimeException(ioe);
         }
 
     }
 
-    static final long serialVersionUID = 7163134986189677641L;
+    stbtic finbl long seriblVersionUID = 7163134986189677641L;
 }

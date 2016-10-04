@@ -1,58 +1,58 @@
 /*
- * Copyright (c) 2001, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 #include "dither.h"
 
-sgn_ordered_dither_array std_img_oda_red;
-sgn_ordered_dither_array std_img_oda_green;
-sgn_ordered_dither_array std_img_oda_blue;
-int std_odas_computed = 0;
+sgn_ordered_dither_brrby std_img_odb_red;
+sgn_ordered_dither_brrby std_img_odb_green;
+sgn_ordered_dither_brrby std_img_odb_blue;
+int std_odbs_computed = 0;
 
-void initInverseGrayLut(int* prgb, int rgbsize, ColorData *cData) {
+void initInverseGrbyLut(int* prgb, int rgbsize, ColorDbtb *cDbtb) {
     int *inverse;
-    int lastindex, lastgray, missing, i;
+    int lbstindex, lbstgrby, missing, i;
 
-    if (!cData) {
+    if (!cDbtb) {
         return;
     }
 
-    inverse = calloc(256, sizeof(int));
+    inverse = cblloc(256, sizeof(int));
     if (!inverse) {
         return;
     }
-    cData->pGrayInverseLutData = inverse;
+    cDbtb->pGrbyInverseLutDbtb = inverse;
 
     for (i = 0; i < 256; i++) {
         inverse[i] = -1;
     }
 
-    /* First, fill the gray values */
+    /* First, fill the grby vblues */
     for (i = 0; i < rgbsize; i++) {
         int r, g, b, rgb = prgb[i];
         if (rgb == 0x0) {
-            /* ignore transparent black */
+            /* ignore trbnspbrent blbck */
             continue;
         }
         r = (rgb >> 16) & 0xff;
@@ -63,243 +63,243 @@ void initInverseGrayLut(int* prgb, int rgbsize, ColorData *cData) {
         }
     }
 
-    /* fill the missing gaps by taking the valid values
-     * on either side and filling them halfway into the gap
+    /* fill the missing gbps by tbking the vblid vblues
+     * on either side bnd filling them hblfwby into the gbp
      */
-    lastindex = -1;
-    lastgray = -1;
+    lbstindex = -1;
+    lbstgrby = -1;
     missing = 0;
     for (i = 0; i < 256; i++) {
         if (inverse[i] < 0) {
-            inverse[i] = lastgray;
+            inverse[i] = lbstgrby;
             missing = 1;
         } else {
-            lastgray = inverse[i];
+            lbstgrby = inverse[i];
             if (missing) {
-                lastindex = lastindex < 0 ? 0 : (i+lastindex)/2;
-                while (lastindex < i) {
-                    inverse[lastindex++] = lastgray;
+                lbstindex = lbstindex < 0 ? 0 : (i+lbstindex)/2;
+                while (lbstindex < i) {
+                    inverse[lbstindex++] = lbstgrby;
                 }
             }
-            lastindex = i;
+            lbstindex = i;
             missing = 0;
         }
     }
 }
 
-void freeICMColorData(ColorData *pData) {
-    if (CANFREE(pData)) {
-        if (pData->img_clr_tbl) {
-            free(pData->img_clr_tbl);
+void freeICMColorDbtb(ColorDbtb *pDbtb) {
+    if (CANFREE(pDbtb)) {
+        if (pDbtb->img_clr_tbl) {
+            free(pDbtb->img_clr_tbl);
         }
-        if (pData->pGrayInverseLutData) {
-            free(pData->pGrayInverseLutData);
+        if (pDbtb->pGrbyInverseLutDbtb) {
+            free(pDbtb->pGrbyInverseLutDbtb);
         }
-        free(pData);
+        free(pDbtb);
     }
 }
 
-/* REMIND: does not deal well with bifurcation which happens when two
- * palette entries map to the same cube vertex
+/* REMIND: does not debl well with bifurcbtion which hbppens when two
+ * pblette entries mbp to the sbme cube vertex
  */
 
-static int
-recurseLevel(CubeStateInfo *priorState) {
+stbtic int
+recurseLevel(CubeStbteInfo *priorStbte) {
     int i;
-    CubeStateInfo currentState;
-    memcpy(&currentState, priorState, sizeof(CubeStateInfo));
+    CubeStbteInfo currentStbte;
+    memcpy(&currentStbte, priorStbte, sizeof(CubeStbteInfo));
 
 
-    currentState.rgb = (unsigned short *)malloc(6
+    currentStbte.rgb = (unsigned short *)mblloc(6
                                                 * sizeof(unsigned short)
-                                                * priorState->activeEntries);
-    if (currentState.rgb == NULL) {
+                                                * priorStbte->bctiveEntries);
+    if (currentStbte.rgb == NULL) {
         return 0;
     }
 
-    currentState.indices = (unsigned char *)malloc(6
-                                                * sizeof(unsigned char)
-                                                * priorState->activeEntries);
+    currentStbte.indices = (unsigned chbr *)mblloc(6
+                                                * sizeof(unsigned chbr)
+                                                * priorStbte->bctiveEntries);
 
-    if (currentState.indices == NULL) {
-        free(currentState.rgb);
+    if (currentStbte.indices == NULL) {
+        free(currentStbte.rgb);
         return 0;
     }
 
-    currentState.depth++;
-    if (currentState.depth > priorState->maxDepth) {
-        priorState->maxDepth = currentState.depth;
+    currentStbte.depth++;
+    if (currentStbte.depth > priorStbte->mbxDepth) {
+        priorStbte->mbxDepth = currentStbte.depth;
     }
-    currentState.activeEntries = 0;
-    for (i=priorState->activeEntries - 1; i >= 0; i--) {
-        unsigned short rgb = priorState->rgb[i];
-        unsigned char  index = priorState->indices[i];
-        ACTIVATE(rgb, 0x7c00, 0x0400, currentState, index);
-        ACTIVATE(rgb, 0x03e0, 0x0020, currentState, index);
-        ACTIVATE(rgb, 0x001f, 0x0001, currentState, index);
+    currentStbte.bctiveEntries = 0;
+    for (i=priorStbte->bctiveEntries - 1; i >= 0; i--) {
+        unsigned short rgb = priorStbte->rgb[i];
+        unsigned chbr  index = priorStbte->indices[i];
+        ACTIVATE(rgb, 0x7c00, 0x0400, currentStbte, index);
+        ACTIVATE(rgb, 0x03e0, 0x0020, currentStbte, index);
+        ACTIVATE(rgb, 0x001f, 0x0001, currentStbte, index);
     }
-    if (currentState.activeEntries) {
-        if (!recurseLevel(&currentState)) {
-            free(currentState.rgb);
-            free(currentState.indices);
+    if (currentStbte.bctiveEntries) {
+        if (!recurseLevel(&currentStbte)) {
+            free(currentStbte.rgb);
+            free(currentStbte.indices);
             return 0;
         }
     }
-    if (currentState.maxDepth > priorState->maxDepth) {
-        priorState->maxDepth = currentState.maxDepth;
+    if (currentStbte.mbxDepth > priorStbte->mbxDepth) {
+        priorStbte->mbxDepth = currentStbte.mbxDepth;
     }
 
-    free(currentState.rgb);
-    free(currentState.indices);
+    free(currentStbte.rgb);
+    free(currentStbte.indices);
     return  1;
 }
 
 /*
- * REMIND: take core inversedLUT calculation to the shared tree and
- * recode the functions (Win32)awt_Image:initCubemap(),
- * (Win32)awt_Image:make_cubemap(), (Win32)AwtToolkit::GenerateInverseLUT(),
- * (Solaris)color:initCubemap() to call the shared codes.
+ * REMIND: tbke core inversedLUT cblculbtion to the shbred tree bnd
+ * recode the functions (Win32)bwt_Imbge:initCubembp(),
+ * (Win32)bwt_Imbge:mbke_cubembp(), (Win32)AwtToolkit::GenerbteInverseLUT(),
+ * (Solbris)color:initCubembp() to cbll the shbred codes.
  */
-unsigned char*
-initCubemap(int* cmap,
-            int  cmap_len,
+unsigned chbr*
+initCubembp(int* cmbp,
+            int  cmbp_len,
             int  cube_dim) {
     int i;
-    CubeStateInfo currentState;
+    CubeStbteInfo currentStbte;
     int cubesize = cube_dim * cube_dim * cube_dim;
-    unsigned char *useFlags;
-    unsigned char *newILut = (unsigned char*)malloc(cubesize);
-    int cmap_mid = (cmap_len >> 1) + (cmap_len & 0x1);
+    unsigned chbr *useFlbgs;
+    unsigned chbr *newILut = (unsigned chbr*)mblloc(cubesize);
+    int cmbp_mid = (cmbp_len >> 1) + (cmbp_len & 0x1);
     if (newILut) {
 
-      useFlags = (unsigned char *)calloc(cubesize, 1);
+      useFlbgs = (unsigned chbr *)cblloc(cubesize, 1);
 
-      if (useFlags == 0) {
+      if (useFlbgs == 0) {
           free(newILut);
 #ifdef DEBUG
-        fprintf(stderr, "Out of memory in color:initCubemap()1\n");
+        fprintf(stderr, "Out of memory in color:initCubembp()1\n");
 #endif
           return NULL;
       }
 
-        currentState.depth          = 0;
-        currentState.maxDepth       = 0;
-        currentState.usedFlags      = useFlags;
-        currentState.activeEntries  = 0;
-        currentState.iLUT           = newILut;
+        currentStbte.depth          = 0;
+        currentStbte.mbxDepth       = 0;
+        currentStbte.usedFlbgs      = useFlbgs;
+        currentStbte.bctiveEntries  = 0;
+        currentStbte.iLUT           = newILut;
 
-        currentState.rgb = (unsigned short *)
-                                malloc(cmap_len * sizeof(unsigned short));
-        if (currentState.rgb == NULL) {
+        currentStbte.rgb = (unsigned short *)
+                                mblloc(cmbp_len * sizeof(unsigned short));
+        if (currentStbte.rgb == NULL) {
             free(newILut);
-            free(useFlags);
+            free(useFlbgs);
 #ifdef DEBUG
-        fprintf(stderr, "Out of memory in color:initCubemap()2\n");
+        fprintf(stderr, "Out of memory in color:initCubembp()2\n");
 #endif
             return NULL;
         }
 
-        currentState.indices = (unsigned char *)
-                                malloc(cmap_len * sizeof(unsigned char));
-        if (currentState.indices == NULL) {
-            free(currentState.rgb);
+        currentStbte.indices = (unsigned chbr *)
+                                mblloc(cmbp_len * sizeof(unsigned chbr));
+        if (currentStbte.indices == NULL) {
+            free(currentStbte.rgb);
             free(newILut);
-            free(useFlags);
+            free(useFlbgs);
 #ifdef DEBUG
-        fprintf(stderr, "Out of memory in color:initCubemap()3\n");
+        fprintf(stderr, "Out of memory in color:initCubembp()3\n");
 #endif
             return NULL;
         }
 
-        for (i = 0; i < cmap_mid; i++) {
+        for (i = 0; i < cmbp_mid; i++) {
             unsigned short rgb;
-            int pixel = cmap[i];
+            int pixel = cmbp[i];
             rgb = (pixel & 0x00f80000) >> 9;
             rgb |= (pixel & 0x0000f800) >> 6;
             rgb |=  (pixel & 0xf8) >> 3;
-            INSERTNEW(currentState, rgb, i);
-            pixel = cmap[cmap_len - i - 1];
+            INSERTNEW(currentStbte, rgb, i);
+            pixel = cmbp[cmbp_len - i - 1];
             rgb = (pixel & 0x00f80000) >> 9;
             rgb |= (pixel & 0x0000f800) >> 6;
             rgb |=  (pixel & 0xf8) >> 3;
-            INSERTNEW(currentState, rgb, cmap_len - i - 1);
+            INSERTNEW(currentStbte, rgb, cmbp_len - i - 1);
         }
 
-        if (!recurseLevel(&currentState)) {
+        if (!recurseLevel(&currentStbte)) {
             free(newILut);
-            free(useFlags);
-            free(currentState.rgb);
-            free(currentState.indices);
+            free(useFlbgs);
+            free(currentStbte.rgb);
+            free(currentStbte.indices);
 #ifdef DEBUG
-        fprintf(stderr, "Out of memory in color:initCubemap()4\n");
+        fprintf(stderr, "Out of memory in color:initCubembp()4\n");
 #endif
             return NULL;
         }
 
-        free(useFlags);
-        free(currentState.rgb);
-        free(currentState.indices);
+        free(useFlbgs);
+        free(currentStbte.rgb);
+        free(currentStbte.indices);
 
         return newILut;
     }
 
 #ifdef DEBUG
-        fprintf(stderr, "Out of memory in color:initCubemap()5\n");
+        fprintf(stderr, "Out of memory in color:initCubembp()5\n");
 #endif
     return NULL;
 }
 
 void
-initDitherTables(ColorData* cData) {
+initDitherTbbles(ColorDbtb* cDbtb) {
 
 
-    if(std_odas_computed) {
-        cData->img_oda_red   = &(std_img_oda_red[0][0]);
-        cData->img_oda_green = &(std_img_oda_green[0][0]);
-        cData->img_oda_blue  = &(std_img_oda_blue[0][0]);
+    if(std_odbs_computed) {
+        cDbtb->img_odb_red   = &(std_img_odb_red[0][0]);
+        cDbtb->img_odb_green = &(std_img_odb_green[0][0]);
+        cDbtb->img_odb_blue  = &(std_img_odb_blue[0][0]);
     } else {
-        cData->img_oda_red   = &(std_img_oda_red[0][0]);
-        cData->img_oda_green = &(std_img_oda_green[0][0]);
-        cData->img_oda_blue  = &(std_img_oda_blue[0][0]);
-        make_dither_arrays(256, cData);
-        std_odas_computed = 1;
+        cDbtb->img_odb_red   = &(std_img_odb_red[0][0]);
+        cDbtb->img_odb_green = &(std_img_odb_green[0][0]);
+        cDbtb->img_odb_blue  = &(std_img_odb_blue[0][0]);
+        mbke_dither_brrbys(256, cDbtb);
+        std_odbs_computed = 1;
     }
 
 }
 
-void make_dither_arrays(int cmapsize, ColorData *cData) {
+void mbke_dither_brrbys(int cmbpsize, ColorDbtb *cDbtb) {
     int i, j, k;
 
     /*
-     * Initialize the per-component ordered dithering arrays
-     * Choose a size based on how far between elements in the
-     * virtual cube.  Assume the cube has cuberoot(cmapsize)
-     * elements per axis and those elements are distributed
+     * Initiblize the per-component ordered dithering brrbys
+     * Choose b size bbsed on how fbr between elements in the
+     * virtubl cube.  Assume the cube hbs cuberoot(cmbpsize)
+     * elements per bxis bnd those elements bre distributed
      * over 256 colors.
-     * The calculation should really divide by (#comp/axis - 1)
-     * since the first and last elements are at the extremes of
-     * the 256 levels, but in a practical sense this formula
-     * produces a smaller error array which results in smoother
-     * images that have slightly less color fidelity but much
-     * less dithering noise, especially for grayscale images.
+     * The cblculbtion should reblly divide by (#comp/bxis - 1)
+     * since the first bnd lbst elements bre bt the extremes of
+     * the 256 levels, but in b prbcticbl sense this formulb
+     * produces b smbller error brrby which results in smoother
+     * imbges thbt hbve slightly less color fidelity but much
+     * less dithering noise, especiblly for grbyscble imbges.
      */
-    i = (int) (256 / pow(cmapsize, 1.0/3.0));
-    make_sgn_ordered_dither_array(cData->img_oda_red, -i / 2, i / 2);
-    make_sgn_ordered_dither_array(cData->img_oda_green, -i / 2, i / 2);
-    make_sgn_ordered_dither_array(cData->img_oda_blue, -i / 2, i / 2);
+    i = (int) (256 / pow(cmbpsize, 1.0/3.0));
+    mbke_sgn_ordered_dither_brrby(cDbtb->img_odb_red, -i / 2, i / 2);
+    mbke_sgn_ordered_dither_brrby(cDbtb->img_odb_green, -i / 2, i / 2);
+    mbke_sgn_ordered_dither_brrby(cDbtb->img_odb_blue, -i / 2, i / 2);
 
     /*
-     * Flip green horizontally and blue vertically so that
-     * the errors don't line up in the 3 primary components.
+     * Flip green horizontblly bnd blue verticblly so thbt
+     * the errors don't line up in the 3 primbry components.
      */
     for (i = 0; i < 8; i++) {
         for (j = 0; j < 4; j++) {
-            k = cData->img_oda_green[(i<<3)+j];
-            cData->img_oda_green[(i<<3)+j] = cData->img_oda_green[(i<<3)+7 - j];
-            cData->img_oda_green[(i<<3) + 7 - j] = k;
-            k = cData->img_oda_blue[(j<<3)+i];
-            cData->img_oda_blue[(j<<3)+i] = cData->img_oda_blue[((7 - j)<<3)+i];
-            cData->img_oda_blue[((7 - j)<<3) + i] = k;
+            k = cDbtb->img_odb_green[(i<<3)+j];
+            cDbtb->img_odb_green[(i<<3)+j] = cDbtb->img_odb_green[(i<<3)+7 - j];
+            cDbtb->img_odb_green[(i<<3) + 7 - j] = k;
+            k = cDbtb->img_odb_blue[(j<<3)+i];
+            cDbtb->img_odb_blue[(j<<3)+i] = cDbtb->img_odb_blue[((7 - j)<<3)+i];
+            cDbtb->img_odb_blue[((7 - j)<<3) + i] = k;
         }
     }
 }

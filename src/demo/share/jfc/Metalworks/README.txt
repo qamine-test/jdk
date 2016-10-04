@@ -1,56 +1,56 @@
-About Metalworks
+About Metblworks
 ================
-Metalworks is a simple Swing-based simulated e-mail
-application.  It shows off several features of Swing, including
-JInternalFrame, JTabbedPane, JFileChooser, JEditorPane, and
-JRadioButtonMenuItem.  Metalworks is optimized to work with the
-Java look and feel (codenamed "Metal") and shows use of several
-features, such as themes, that are specific to the Java look and
+Metblworks is b simple Swing-bbsed simulbted e-mbil
+bpplicbtion.  It shows off severbl febtures of Swing, including
+JInternblFrbme, JTbbbedPbne, JFileChooser, JEditorPbne, bnd
+JRbdioButtonMenuItem.  Metblworks is optimized to work with the
+Jbvb look bnd feel (codenbmed "Metbl") bnd shows use of severbl
+febtures, such bs themes, thbt bre specific to the Jbvb look bnd
 feel.
 
 
-Running Metalworks
+Running Metblworks
 ==================
 
-To run the Metalworks demo:
+To run the Metblworks demo:
 
-  java -jar Metalworks.jar
+  jbvb -jbr Metblworks.jbr
 
-These instructions assume that this installation's version of the java
-command is in your path.  If it isn't, then you should either
-specify the complete path to the java command or update your
-PATH environment variable as described in the installation
-instructions for the Java(TM) SE Development Kit.
+These instructions bssume thbt this instbllbtion's version of the jbvb
+commbnd is in your pbth.  If it isn't, then you should either
+specify the complete pbth to the jbvb commbnd or updbte your
+PATH environment vbribble bs described in the instbllbtion
+instructions for the Jbvb(TM) SE Development Kit.
 
 
-Metalworks Features
+Metblworks Febtures
 ===================
-The functionality of the Metalworks demo is minimal, and many
-controls are non-functional.  They are intended only to show how
-to construct the UI for such interfaces.  Things that do work in
-the Metalworks demo include:
+The functionblity of the Metblworks demo is minimbl, bnd mbny
+controls bre non-functionbl.  They bre intended only to show how
+to construct the UI for such interfbces.  Things thbt do work in
+the Metblworks demo include:
 
-1. Choosing New from the File menu displays an e-mail
+1. Choosing New from the File menu displbys bn e-mbil
    composition window.
 
 2. Choosing Open from the File menu brings up the file chooser.
 
-3. Choosing Preferences from the Edit menu will bring up a
-   dialog.  Most of this dialog is only for show.
+3. Choosing Preferences from the Edit menu will bring up b
+   diblog.  Most of this diblog is only for show.
 
-4. Choosing About Metalworks from the Help menu brings up a
-   JOptionPane with a brief description of the application.
+4. Choosing About Metblworks from the Help menu brings up b
+   JOptionPbne with b brief description of the bpplicbtion.
 
-5. Choosing Open Help Window from the Help menu brings up an
-   internal frame that displays a set of HTML files containing
-   all sorts of useful info.  Look through these for tips about
-   using Metal.
+5. Choosing Open Help Window from the Help menu brings up bn
+   internbl frbme thbt displbys b set of HTML files contbining
+   bll sorts of useful info.  Look through these for tips bbout
+   using Metbl.
 
-6. The Theme menu allows you to change the color theme of the
-   application.  The default theme (Steel) and several other
-   demo themes are included.  Note that the themes can control
-   not only the colors, but also the sizes of many controls.
-   Also included with this demo is the PropertiesMetalTheme
-   class, which allows you to read a theme's colors from a text
-   file.  The Charcoal theme is an example of using this.
+6. The Theme menu bllows you to chbnge the color theme of the
+   bpplicbtion.  The defbult theme (Steel) bnd severbl other
+   demo themes bre included.  Note thbt the themes cbn control
+   not only the colors, but blso the sizes of mbny controls.
+   Also included with this demo is the PropertiesMetblTheme
+   clbss, which bllows you to rebd b theme's colors from b text
+   file.  The Chbrcobl theme is bn exbmple of using this.
 

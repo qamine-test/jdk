@@ -1,127 +1,127 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.nio.ch;
+pbckbge sun.nio.ch;
 
-import java.nio.channels.*;
-import java.util.concurrent.*;
-import java.nio.ByteBuffer;
-import java.nio.BufferOverflowException;
-import java.io.IOException;
-import java.io.FileDescriptor;
-import sun.misc.SharedSecrets;
-import sun.misc.JavaIOFileDescriptorAccess;
+import jbvb.nio.chbnnels.*;
+import jbvb.util.concurrent.*;
+import jbvb.nio.ByteBuffer;
+import jbvb.nio.BufferOverflowException;
+import jbvb.io.IOException;
+import jbvb.io.FileDescriptor;
+import sun.misc.ShbredSecrets;
+import sun.misc.JbvbIOFileDescriptorAccess;
 
 /**
- * Windows implementation of AsynchronousFileChannel using overlapped I/O.
+ * Windows implementbtion of AsynchronousFileChbnnel using overlbpped I/O.
  */
 
-public class WindowsAsynchronousFileChannelImpl
-    extends AsynchronousFileChannelImpl
-    implements Iocp.OverlappedChannel, Groupable
+public clbss WindowsAsynchronousFileChbnnelImpl
+    extends AsynchronousFileChbnnelImpl
+    implements Iocp.OverlbppedChbnnel, Groupbble
 {
-    private static final JavaIOFileDescriptorAccess fdAccess =
-        SharedSecrets.getJavaIOFileDescriptorAccess();
+    privbte stbtic finbl JbvbIOFileDescriptorAccess fdAccess =
+        ShbredSecrets.getJbvbIOFileDescriptorAccess();
 
-    // error when EOF is detected asynchronously.
-    private static final int ERROR_HANDLE_EOF = 38;
+    // error when EOF is detected bsynchronously.
+    privbte stbtic finbl int ERROR_HANDLE_EOF = 38;
 
-    // Lazy initialization of default I/O completion port
-    private static class DefaultIocpHolder {
-        static final Iocp defaultIocp = defaultIocp();
-        private static Iocp defaultIocp() {
+    // Lbzy initiblizbtion of defbult I/O completion port
+    privbte stbtic clbss DefbultIocpHolder {
+        stbtic finbl Iocp defbultIocp = defbultIocp();
+        privbte stbtic Iocp defbultIocp() {
             try {
-                return new Iocp(null, ThreadPool.createDefault()).start();
-            } catch (IOException ioe) {
-                throw new InternalError(ioe);
+                return new Iocp(null, ThrebdPool.crebteDefbult()).stbrt();
+            } cbtch (IOException ioe) {
+                throw new InternblError(ioe);
             }
         }
     }
 
-    // Used for force/truncate/size methods
-    private static final FileDispatcher nd = new FileDispatcherImpl();
+    // Used for force/truncbte/size methods
+    privbte stbtic finbl FileDispbtcher nd = new FileDispbtcherImpl();
 
-    // The handle is extracted for use in native methods invoked from this class.
-    private final long handle;
+    // The hbndle is extrbcted for use in nbtive methods invoked from this clbss.
+    privbte finbl long hbndle;
 
-    // The key that identifies the channel's association with the I/O port
-    private final int completionKey;
+    // The key thbt identifies the chbnnel's bssocibtion with the I/O port
+    privbte finbl int completionKey;
 
     // I/O completion port (group)
-    private final Iocp iocp;
+    privbte finbl Iocp iocp;
 
-    private final boolean isDefaultIocp;
+    privbte finbl boolebn isDefbultIocp;
 
-    // Caches OVERLAPPED structure for each outstanding I/O operation
-    private final PendingIoCache ioCache;
+    // Cbches OVERLAPPED structure for ebch outstbnding I/O operbtion
+    privbte finbl PendingIoCbche ioCbche;
 
 
-    private WindowsAsynchronousFileChannelImpl(FileDescriptor fdObj,
-                                               boolean reading,
-                                               boolean writing,
+    privbte WindowsAsynchronousFileChbnnelImpl(FileDescriptor fdObj,
+                                               boolebn rebding,
+                                               boolebn writing,
                                                Iocp iocp,
-                                               boolean isDefaultIocp)
+                                               boolebn isDefbultIocp)
         throws IOException
     {
-        super(fdObj, reading, writing, iocp.executor());
-        this.handle = fdAccess.getHandle(fdObj);
+        super(fdObj, rebding, writing, iocp.executor());
+        this.hbndle = fdAccess.getHbndle(fdObj);
         this.iocp = iocp;
-        this.isDefaultIocp = isDefaultIocp;
-        this.ioCache = new PendingIoCache();
-        this.completionKey = iocp.associate(this, handle);
+        this.isDefbultIocp = isDefbultIocp;
+        this.ioCbche = new PendingIoCbche();
+        this.completionKey = iocp.bssocibte(this, hbndle);
     }
 
-    public static AsynchronousFileChannel open(FileDescriptor fdo,
-                                               boolean reading,
-                                               boolean writing,
-                                               ThreadPool pool)
+    public stbtic AsynchronousFileChbnnel open(FileDescriptor fdo,
+                                               boolebn rebding,
+                                               boolebn writing,
+                                               ThrebdPool pool)
         throws IOException
     {
         Iocp iocp;
-        boolean isDefaultIocp;
+        boolebn isDefbultIocp;
         if (pool == null) {
-            iocp = DefaultIocpHolder.defaultIocp;
-            isDefaultIocp = true;
+            iocp = DefbultIocpHolder.defbultIocp;
+            isDefbultIocp = true;
         } else {
-            iocp = new Iocp(null, pool).start();
-            isDefaultIocp = false;
+            iocp = new Iocp(null, pool).stbrt();
+            isDefbultIocp = fblse;
         }
         try {
             return new
-                WindowsAsynchronousFileChannelImpl(fdo, reading, writing, iocp, isDefaultIocp);
-        } catch (IOException x) {
-            // error binding to port so need to close it (if created for this channel)
-            if (!isDefaultIocp)
+                WindowsAsynchronousFileChbnnelImpl(fdo, rebding, writing, iocp, isDefbultIocp);
+        } cbtch (IOException x) {
+            // error binding to port so need to close it (if crebted for this chbnnel)
+            if (!isDefbultIocp)
                 iocp.implClose();
             throw x;
         }
     }
 
     @Override
-    public <V,A> PendingFuture<V,A> getByOverlapped(long overlapped) {
-        return ioCache.remove(overlapped);
+    public <V,A> PendingFuture<V,A> getByOverlbpped(long overlbpped) {
+        return ioCbche.remove(overlbpped);
     }
 
     @Override
@@ -129,40 +129,40 @@ public class WindowsAsynchronousFileChannelImpl
         closeLock.writeLock().lock();
         try {
             if (closed)
-                return;     // already closed
+                return;     // blrebdy closed
             closed = true;
-        } finally {
+        } finblly {
             closeLock.writeLock().unlock();
         }
 
-        // invalidate all locks held for this channel
-        invalidateAllLocks();
+        // invblidbte bll locks held for this chbnnel
+        invblidbteAllLocks();
 
         // close the file
-        close0(handle);
+        close0(hbndle);
 
-        // waits until all I/O operations have completed
-        ioCache.close();
+        // wbits until bll I/O operbtions hbve completed
+        ioCbche.close();
 
-        // disassociate from port
-        iocp.disassociate(completionKey);
+        // disbssocibte from port
+        iocp.disbssocibte(completionKey);
 
-        // for the non-default group close the port
-        if (!isDefaultIocp)
-            iocp.detachFromThreadPool();
+        // for the non-defbult group close the port
+        if (!isDefbultIocp)
+            iocp.detbchFromThrebdPool();
     }
 
     @Override
-    public AsynchronousChannelGroupImpl group() {
+    public AsynchronousChbnnelGroupImpl group() {
         return iocp;
     }
 
     /**
-     * Translates Throwable to IOException
+     * Trbnslbtes Throwbble to IOException
      */
-    private static IOException toIOException(Throwable x) {
-        if (x instanceof IOException) {
-            if (x instanceof ClosedChannelException)
+    privbte stbtic IOException toIOException(Throwbble x) {
+        if (x instbnceof IOException) {
+            if (x instbnceof ClosedChbnnelException)
                 x = new AsynchronousCloseException();
             return (IOException)x;
         }
@@ -174,34 +174,34 @@ public class WindowsAsynchronousFileChannelImpl
         try {
             begin();
             return nd.size(fdObj);
-        } finally {
+        } finblly {
             end();
         }
     }
 
     @Override
-    public AsynchronousFileChannel truncate(long size) throws IOException {
+    public AsynchronousFileChbnnel truncbte(long size) throws IOException {
         if (size < 0)
-            throw new IllegalArgumentException("Negative size");
+            throw new IllegblArgumentException("Negbtive size");
         if (!writing)
-            throw new NonWritableChannelException();
+            throw new NonWritbbleChbnnelException();
         try {
             begin();
             if (size > nd.size(fdObj))
                 return this;
-            nd.truncate(fdObj, size);
-        } finally {
+            nd.truncbte(fdObj, size);
+        } finblly {
             end();
         }
         return this;
     }
 
     @Override
-    public void force(boolean metaData) throws IOException {
+    public void force(boolebn metbDbtb) throws IOException {
         try {
             begin();
-            nd.force(fdObj, metaData);
-        } finally {
+            nd.force(fdObj, metbDbtb);
+        } finblly {
             end();
         }
     }
@@ -209,14 +209,14 @@ public class WindowsAsynchronousFileChannelImpl
     // -- file locking --
 
     /**
-     * Task that initiates locking operation and handles completion result.
+     * Tbsk thbt initibtes locking operbtion bnd hbndles completion result.
      */
-    private class LockTask<A> implements Runnable, Iocp.ResultHandler {
-        private final long position;
-        private final FileLockImpl fli;
-        private final PendingFuture<FileLock,A> result;
+    privbte clbss LockTbsk<A> implements Runnbble, Iocp.ResultHbndler {
+        privbte finbl long position;
+        privbte finbl FileLockImpl fli;
+        privbte finbl PendingFuture<FileLock,A> result;
 
-        LockTask(long position,
+        LockTbsk(long position,
                  FileLockImpl fli,
                  PendingFuture<FileLock,A> result)
         {
@@ -227,47 +227,47 @@ public class WindowsAsynchronousFileChannelImpl
 
         @Override
         public void run() {
-            long overlapped = 0L;
-            boolean pending = false;
+            long overlbpped = 0L;
+            boolebn pending = fblse;
             try {
                 begin();
 
-                // allocate OVERLAPPED structure
-                overlapped = ioCache.add(result);
+                // bllocbte OVERLAPPED structure
+                overlbpped = ioCbche.bdd(result);
 
-                // synchronize on result to avoid race with handler thread
-                // when lock is acquired immediately.
+                // synchronize on result to bvoid rbce with hbndler threbd
+                // when lock is bcquired immedibtely.
                 synchronized (result) {
-                    int n = lockFile(handle, position, fli.size(), fli.isShared(),
-                                     overlapped);
-                    if (n == IOStatus.UNAVAILABLE) {
+                    int n = lockFile(hbndle, position, fli.size(), fli.isShbred(),
+                                     overlbpped);
+                    if (n == IOStbtus.UNAVAILABLE) {
                         // I/O is pending
                         pending = true;
                         return;
                     }
-                    // acquired lock immediately
+                    // bcquired lock immedibtely
                     result.setResult(fli);
                 }
 
-            } catch (Throwable x) {
-                // lock failed or channel closed
-                removeFromFileLockTable(fli);
-                result.setFailure(toIOException(x));
-            } finally {
-                if (!pending && overlapped != 0L)
-                    ioCache.remove(overlapped);
+            } cbtch (Throwbble x) {
+                // lock fbiled or chbnnel closed
+                removeFromFileLockTbble(fli);
+                result.setFbilure(toIOException(x));
+            } finblly {
+                if (!pending && overlbpped != 0L)
+                    ioCbche.remove(overlbpped);
                 end();
             }
 
-            // invoke completion handler
+            // invoke completion hbndler
             Invoker.invoke(result);
         }
 
         @Override
-        public void completed(int bytesTransferred, boolean canInvokeDirect) {
-            // release waiters and invoke completion handler
+        public void completed(int bytesTrbnsferred, boolebn cbnInvokeDirect) {
+            // relebse wbiters bnd invoke completion hbndler
             result.setResult(fli);
-            if (canInvokeDirect) {
+            if (cbnInvokeDirect) {
                 Invoker.invokeUnchecked(result);
             } else {
                 Invoker.invoke(result);
@@ -275,117 +275,117 @@ public class WindowsAsynchronousFileChannelImpl
         }
 
         @Override
-        public void failed(int error, IOException x) {
-            // lock not acquired so remove from lock table
-            removeFromFileLockTable(fli);
+        public void fbiled(int error, IOException x) {
+            // lock not bcquired so remove from lock tbble
+            removeFromFileLockTbble(fli);
 
-            // release waiters
+            // relebse wbiters
             if (isOpen()) {
-                result.setFailure(x);
+                result.setFbilure(x);
             } else {
-                result.setFailure(new AsynchronousCloseException());
+                result.setFbilure(new AsynchronousCloseException());
             }
             Invoker.invoke(result);
         }
     }
 
     @Override
-    <A> Future<FileLock> implLock(final long position,
-                                  final long size,
-                                  final boolean shared,
-                                  A attachment,
-                                  final CompletionHandler<FileLock,? super A> handler)
+    <A> Future<FileLock> implLock(finbl long position,
+                                  finbl long size,
+                                  finbl boolebn shbred,
+                                  A bttbchment,
+                                  finbl CompletionHbndler<FileLock,? super A> hbndler)
     {
-        if (shared && !reading)
-            throw new NonReadableChannelException();
-        if (!shared && !writing)
-            throw new NonWritableChannelException();
+        if (shbred && !rebding)
+            throw new NonRebdbbleChbnnelException();
+        if (!shbred && !writing)
+            throw new NonWritbbleChbnnelException();
 
-        // add to lock table
-        FileLockImpl fli = addToFileLockTable(position, size, shared);
+        // bdd to lock tbble
+        FileLockImpl fli = bddToFileLockTbble(position, size, shbred);
         if (fli == null) {
-            Throwable exc = new ClosedChannelException();
-            if (handler == null)
-                return CompletedFuture.withFailure(exc);
-            Invoker.invoke(this, handler, attachment, null, exc);
+            Throwbble exc = new ClosedChbnnelException();
+            if (hbndler == null)
+                return CompletedFuture.withFbilure(exc);
+            Invoker.invoke(this, hbndler, bttbchment, null, exc);
             return null;
         }
 
-        // create Future and task that will be invoked to acquire lock
+        // crebte Future bnd tbsk thbt will be invoked to bcquire lock
         PendingFuture<FileLock,A> result =
-            new PendingFuture<FileLock,A>(this, handler, attachment);
-        LockTask<A> lockTask = new LockTask<A>(position, fli, result);
-        result.setContext(lockTask);
+            new PendingFuture<FileLock,A>(this, hbndler, bttbchment);
+        LockTbsk<A> lockTbsk = new LockTbsk<A>(position, fli, result);
+        result.setContext(lockTbsk);
 
-        // initiate I/O
-        if (Iocp.supportsThreadAgnosticIo()) {
-            lockTask.run();
+        // initibte I/O
+        if (Iocp.supportsThrebdAgnosticIo()) {
+            lockTbsk.run();
         } else {
-            boolean executed = false;
+            boolebn executed = fblse;
             try {
-                Invoker.invokeOnThreadInThreadPool(this, lockTask);
+                Invoker.invokeOnThrebdInThrebdPool(this, lockTbsk);
                 executed = true;
-            } finally {
+            } finblly {
                 if (!executed) {
-                    // rollback
-                    removeFromFileLockTable(fli);
+                    // rollbbck
+                    removeFromFileLockTbble(fli);
                 }
             }
         }
         return result;
     }
 
-    static final int NO_LOCK = -1;       // Failed to lock
-    static final int LOCKED = 0;         // Obtained requested lock
+    stbtic finbl int NO_LOCK = -1;       // Fbiled to lock
+    stbtic finbl int LOCKED = 0;         // Obtbined requested lock
 
     @Override
-    public FileLock tryLock(long position, long size, boolean shared)
+    public FileLock tryLock(long position, long size, boolebn shbred)
         throws IOException
     {
-        if (shared && !reading)
-            throw new NonReadableChannelException();
-        if (!shared && !writing)
-            throw new NonWritableChannelException();
+        if (shbred && !rebding)
+            throw new NonRebdbbleChbnnelException();
+        if (!shbred && !writing)
+            throw new NonWritbbleChbnnelException();
 
-        // add to lock table
-        final FileLockImpl fli = addToFileLockTable(position, size, shared);
+        // bdd to lock tbble
+        finbl FileLockImpl fli = bddToFileLockTbble(position, size, shbred);
         if (fli == null)
-            throw new ClosedChannelException();
+            throw new ClosedChbnnelException();
 
-        boolean gotLock = false;
+        boolebn gotLock = fblse;
         try {
             begin();
-            // try to acquire the lock
-            int res = nd.lock(fdObj, false, position, size, shared);
+            // try to bcquire the lock
+            int res = nd.lock(fdObj, fblse, position, size, shbred);
             if (res == NO_LOCK)
                 return null;
             gotLock = true;
             return fli;
-        } finally {
+        } finblly {
             if (!gotLock)
-                removeFromFileLockTable(fli);
+                removeFromFileLockTbble(fli);
             end();
         }
     }
 
     @Override
-    protected void implRelease(FileLockImpl fli) throws IOException {
-        nd.release(fdObj, fli.position(), fli.size());
+    protected void implRelebse(FileLockImpl fli) throws IOException {
+        nd.relebse(fdObj, fli.position(), fli.size());
     }
 
     /**
-     * Task that initiates read operation and handles completion result.
+     * Tbsk thbt initibtes rebd operbtion bnd hbndles completion result.
      */
-    private class ReadTask<A> implements Runnable, Iocp.ResultHandler {
-        private final ByteBuffer dst;
-        private final int pos, rem;     // buffer position/remaining
-        private final long position;    // file position
-        private final PendingFuture<Integer,A> result;
+    privbte clbss RebdTbsk<A> implements Runnbble, Iocp.ResultHbndler {
+        privbte finbl ByteBuffer dst;
+        privbte finbl int pos, rem;     // buffer position/rembining
+        privbte finbl long position;    // file position
+        privbte finbl PendingFuture<Integer,A> result;
 
         // set to dst if direct; otherwise set to substituted direct buffer
-        private volatile ByteBuffer buf;
+        privbte volbtile ByteBuffer buf;
 
-        ReadTask(ByteBuffer dst,
+        RebdTbsk(ByteBuffer dst,
                  int pos,
                  int rem,
                  long position,
@@ -398,27 +398,27 @@ public class WindowsAsynchronousFileChannelImpl
             this.result = result;
         }
 
-        void releaseBufferIfSubstituted() {
+        void relebseBufferIfSubstituted() {
             if (buf != dst)
-                Util.releaseTemporaryDirectBuffer(buf);
+                Util.relebseTemporbryDirectBuffer(buf);
         }
 
-        void updatePosition(int bytesTransferred) {
-            // if the I/O succeeded then adjust buffer position
-            if (bytesTransferred > 0) {
+        void updbtePosition(int bytesTrbnsferred) {
+            // if the I/O succeeded then bdjust buffer position
+            if (bytesTrbnsferred > 0) {
                 if (buf == dst) {
                     try {
-                        dst.position(pos + bytesTransferred);
-                    } catch (IllegalArgumentException x) {
-                        // someone has changed the position; ignore
+                        dst.position(pos + bytesTrbnsferred);
+                    } cbtch (IllegblArgumentException x) {
+                        // someone hbs chbnged the position; ignore
                     }
                 } else {
-                    // had to substitute direct buffer
-                    buf.position(bytesTransferred).flip();
+                    // hbd to substitute direct buffer
+                    buf.position(bytesTrbnsferred).flip();
                     try {
                         dst.put(buf);
-                    } catch (BufferOverflowException x) {
-                        // someone has changed the position; ignore
+                    } cbtch (BufferOverflowException x) {
+                        // someone hbs chbnged the position; ignore
                     }
                 }
             }
@@ -427,67 +427,67 @@ public class WindowsAsynchronousFileChannelImpl
         @Override
         public void run() {
             int n = -1;
-            long overlapped = 0L;
-            long address;
+            long overlbpped = 0L;
+            long bddress;
 
-            // Substitute a native buffer if not direct
-            if (dst instanceof DirectBuffer) {
+            // Substitute b nbtive buffer if not direct
+            if (dst instbnceof DirectBuffer) {
                 buf = dst;
-                address = ((DirectBuffer)dst).address() + pos;
+                bddress = ((DirectBuffer)dst).bddress() + pos;
             } else {
-                buf = Util.getTemporaryDirectBuffer(rem);
-                address = ((DirectBuffer)buf).address();
+                buf = Util.getTemporbryDirectBuffer(rem);
+                bddress = ((DirectBuffer)buf).bddress();
             }
 
-            boolean pending = false;
+            boolebn pending = fblse;
             try {
                 begin();
 
-                // allocate OVERLAPPED
-                overlapped = ioCache.add(result);
+                // bllocbte OVERLAPPED
+                overlbpped = ioCbche.bdd(result);
 
-                // initiate read
-                n = readFile(handle, address, rem, position, overlapped);
-                if (n == IOStatus.UNAVAILABLE) {
+                // initibte rebd
+                n = rebdFile(hbndle, bddress, rem, position, overlbpped);
+                if (n == IOStbtus.UNAVAILABLE) {
                     // I/O is pending
                     pending = true;
                     return;
-                } else if (n == IOStatus.EOF) {
+                } else if (n == IOStbtus.EOF) {
                     result.setResult(n);
                 } else {
-                    throw new InternalError("Unexpected result: " + n);
+                    throw new InternblError("Unexpected result: " + n);
                 }
 
-            } catch (Throwable x) {
-                // failed to initiate read
-                result.setFailure(toIOException(x));
-            } finally {
+            } cbtch (Throwbble x) {
+                // fbiled to initibte rebd
+                result.setFbilure(toIOException(x));
+            } finblly {
                 if (!pending) {
-                    // release resources
-                    if (overlapped != 0L)
-                        ioCache.remove(overlapped);
-                    releaseBufferIfSubstituted();
+                    // relebse resources
+                    if (overlbpped != 0L)
+                        ioCbche.remove(overlbpped);
+                    relebseBufferIfSubstituted();
                 }
                 end();
             }
 
-            // invoke completion handler
+            // invoke completion hbndler
             Invoker.invoke(result);
         }
 
         /**
-         * Executed when the I/O has completed
+         * Executed when the I/O hbs completed
          */
         @Override
-        public void completed(int bytesTransferred, boolean canInvokeDirect) {
-            updatePosition(bytesTransferred);
+        public void completed(int bytesTrbnsferred, boolebn cbnInvokeDirect) {
+            updbtePosition(bytesTrbnsferred);
 
-            // return direct buffer to cache if substituted
-            releaseBufferIfSubstituted();
+            // return direct buffer to cbche if substituted
+            relebseBufferIfSubstituted();
 
-            // release waiters and invoke completion handler
-            result.setResult(bytesTransferred);
-            if (canInvokeDirect) {
+            // relebse wbiters bnd invoke completion hbndler
+            result.setResult(bytesTrbnsferred);
+            if (cbnInvokeDirect) {
                 Invoker.invokeUnchecked(result);
             } else {
                 Invoker.invoke(result);
@@ -495,19 +495,19 @@ public class WindowsAsynchronousFileChannelImpl
         }
 
         @Override
-        public void failed(int error, IOException x) {
-            // if EOF detected asynchronously then it is reported as error
+        public void fbiled(int error, IOException x) {
+            // if EOF detected bsynchronously then it is reported bs error
             if (error == ERROR_HANDLE_EOF) {
-                completed(-1, false);
+                completed(-1, fblse);
             } else {
-                // return direct buffer to cache if substituted
-                releaseBufferIfSubstituted();
+                // return direct buffer to cbche if substituted
+                relebseBufferIfSubstituted();
 
-                // release waiters
+                // relebse wbiters
                 if (isOpen()) {
-                    result.setFailure(x);
+                    result.setFbilure(x);
                 } else {
-                    result.setFailure(new AsynchronousCloseException());
+                    result.setFbilure(new AsynchronousCloseException());
                 }
                 Invoker.invoke(result);
             }
@@ -515,68 +515,68 @@ public class WindowsAsynchronousFileChannelImpl
     }
 
     @Override
-    <A> Future<Integer> implRead(ByteBuffer dst,
+    <A> Future<Integer> implRebd(ByteBuffer dst,
                                  long position,
-                                 A attachment,
-                                 CompletionHandler<Integer,? super A> handler)
+                                 A bttbchment,
+                                 CompletionHbndler<Integer,? super A> hbndler)
     {
-        if (!reading)
-            throw new NonReadableChannelException();
+        if (!rebding)
+            throw new NonRebdbbleChbnnelException();
         if (position < 0)
-            throw new IllegalArgumentException("Negative position");
-        if (dst.isReadOnly())
-            throw new IllegalArgumentException("Read-only buffer");
+            throw new IllegblArgumentException("Negbtive position");
+        if (dst.isRebdOnly())
+            throw new IllegblArgumentException("Rebd-only buffer");
 
-        // check if channel is closed
+        // check if chbnnel is closed
         if (!isOpen()) {
-            Throwable exc = new ClosedChannelException();
-            if (handler == null)
-                return CompletedFuture.withFailure(exc);
-            Invoker.invoke(this, handler, attachment, null, exc);
+            Throwbble exc = new ClosedChbnnelException();
+            if (hbndler == null)
+                return CompletedFuture.withFbilure(exc);
+            Invoker.invoke(this, hbndler, bttbchment, null, exc);
             return null;
         }
 
         int pos = dst.position();
         int lim = dst.limit();
-        assert (pos <= lim);
+        bssert (pos <= lim);
         int rem = (pos <= lim ? lim - pos : 0);
 
-        // no space remaining
+        // no spbce rembining
         if (rem == 0) {
-            if (handler == null)
+            if (hbndler == null)
                 return CompletedFuture.withResult(0);
-            Invoker.invoke(this, handler, attachment, 0, null);
+            Invoker.invoke(this, hbndler, bttbchment, 0, null);
             return null;
         }
 
-        // create Future and task that initiates read
+        // crebte Future bnd tbsk thbt initibtes rebd
         PendingFuture<Integer,A> result =
-            new PendingFuture<Integer,A>(this, handler, attachment);
-        ReadTask<A> readTask = new ReadTask<A>(dst, pos, rem, position, result);
-        result.setContext(readTask);
+            new PendingFuture<Integer,A>(this, hbndler, bttbchment);
+        RebdTbsk<A> rebdTbsk = new RebdTbsk<A>(dst, pos, rem, position, result);
+        result.setContext(rebdTbsk);
 
-        // initiate I/O
-        if (Iocp.supportsThreadAgnosticIo()) {
-            readTask.run();
+        // initibte I/O
+        if (Iocp.supportsThrebdAgnosticIo()) {
+            rebdTbsk.run();
         } else {
-            Invoker.invokeOnThreadInThreadPool(this, readTask);
+            Invoker.invokeOnThrebdInThrebdPool(this, rebdTbsk);
         }
         return result;
     }
 
     /**
-     * Task that initiates write operation and handles completion result.
+     * Tbsk thbt initibtes write operbtion bnd hbndles completion result.
      */
-    private class WriteTask<A> implements Runnable, Iocp.ResultHandler {
-        private final ByteBuffer src;
-        private final int pos, rem;     // buffer position/remaining
-        private final long position;    // file position
-        private final PendingFuture<Integer,A> result;
+    privbte clbss WriteTbsk<A> implements Runnbble, Iocp.ResultHbndler {
+        privbte finbl ByteBuffer src;
+        privbte finbl int pos, rem;     // buffer position/rembining
+        privbte finbl long position;    // file position
+        privbte finbl PendingFuture<Integer,A> result;
 
         // set to src if direct; otherwise set to substituted direct buffer
-        private volatile ByteBuffer buf;
+        privbte volbtile ByteBuffer buf;
 
-        WriteTask(ByteBuffer src,
+        WriteTbsk(ByteBuffer src,
                   int pos,
                   int rem,
                   long position,
@@ -589,18 +589,18 @@ public class WindowsAsynchronousFileChannelImpl
             this.result = result;
         }
 
-        void releaseBufferIfSubstituted() {
+        void relebseBufferIfSubstituted() {
             if (buf != src)
-                Util.releaseTemporaryDirectBuffer(buf);
+                Util.relebseTemporbryDirectBuffer(buf);
         }
 
-        void updatePosition(int bytesTransferred) {
-            // if the I/O succeeded then adjust buffer position
-            if (bytesTransferred > 0) {
+        void updbtePosition(int bytesTrbnsferred) {
+            // if the I/O succeeded then bdjust buffer position
+            if (bytesTrbnsferred > 0) {
                 try {
-                    src.position(pos + bytesTransferred);
-                } catch (IllegalArgumentException x) {
-                    // someone has changed the position
+                    src.position(pos + bytesTrbnsferred);
+                } cbtch (IllegblArgumentException x) {
+                    // someone hbs chbnged the position
                 }
             }
         }
@@ -608,68 +608,68 @@ public class WindowsAsynchronousFileChannelImpl
         @Override
         public void run() {
             int n = -1;
-            long overlapped = 0L;
-            long address;
+            long overlbpped = 0L;
+            long bddress;
 
-            // Substitute a native buffer if not direct
-            if (src instanceof DirectBuffer) {
+            // Substitute b nbtive buffer if not direct
+            if (src instbnceof DirectBuffer) {
                 buf = src;
-                address = ((DirectBuffer)src).address() + pos;
+                bddress = ((DirectBuffer)src).bddress() + pos;
             } else {
-                buf = Util.getTemporaryDirectBuffer(rem);
+                buf = Util.getTemporbryDirectBuffer(rem);
                 buf.put(src);
                 buf.flip();
-                // temporarily restore position as we don't know how many bytes
+                // temporbrily restore position bs we don't know how mbny bytes
                 // will be written
                 src.position(pos);
-                address = ((DirectBuffer)buf).address();
+                bddress = ((DirectBuffer)buf).bddress();
             }
 
             try {
                 begin();
 
-                // allocate an OVERLAPPED structure
-                overlapped = ioCache.add(result);
+                // bllocbte bn OVERLAPPED structure
+                overlbpped = ioCbche.bdd(result);
 
-                // initiate the write
-                n = writeFile(handle, address, rem, position, overlapped);
-                if (n == IOStatus.UNAVAILABLE) {
+                // initibte the write
+                n = writeFile(hbndle, bddress, rem, position, overlbpped);
+                if (n == IOStbtus.UNAVAILABLE) {
                     // I/O is pending
                     return;
                 } else {
-                    throw new InternalError("Unexpected result: " + n);
+                    throw new InternblError("Unexpected result: " + n);
                 }
 
-            } catch (Throwable x) {
-                // failed to initiate read:
-                result.setFailure(toIOException(x));
+            } cbtch (Throwbble x) {
+                // fbiled to initibte rebd:
+                result.setFbilure(toIOException(x));
 
-                // release resources
-                if (overlapped != 0L)
-                    ioCache.remove(overlapped);
-                releaseBufferIfSubstituted();
+                // relebse resources
+                if (overlbpped != 0L)
+                    ioCbche.remove(overlbpped);
+                relebseBufferIfSubstituted();
 
-            } finally {
+            } finblly {
                 end();
             }
 
-            // invoke completion handler
+            // invoke completion hbndler
             Invoker.invoke(result);
         }
 
         /**
-         * Executed when the I/O has completed
+         * Executed when the I/O hbs completed
          */
         @Override
-        public void completed(int bytesTransferred, boolean canInvokeDirect) {
-            updatePosition(bytesTransferred);
+        public void completed(int bytesTrbnsferred, boolebn cbnInvokeDirect) {
+            updbtePosition(bytesTrbnsferred);
 
-            // return direct buffer to cache if substituted
-            releaseBufferIfSubstituted();
+            // return direct buffer to cbche if substituted
+            relebseBufferIfSubstituted();
 
-            // release waiters and invoke completion handler
-            result.setResult(bytesTransferred);
-            if (canInvokeDirect) {
+            // relebse wbiters bnd invoke completion hbndler
+            result.setResult(bytesTrbnsferred);
+            if (cbnInvokeDirect) {
                 Invoker.invokeUnchecked(result);
             } else {
                 Invoker.invoke(result);
@@ -677,15 +677,15 @@ public class WindowsAsynchronousFileChannelImpl
         }
 
         @Override
-        public void failed(int error, IOException x) {
-            // return direct buffer to cache if substituted
-            releaseBufferIfSubstituted();
+        public void fbiled(int error, IOException x) {
+            // return direct buffer to cbche if substituted
+            relebseBufferIfSubstituted();
 
-            // release waiters and invoker completion handler
+            // relebse wbiters bnd invoker completion hbndler
             if (isOpen()) {
-                result.setFailure(x);
+                result.setFbilure(x);
             } else {
-                result.setFailure(new AsynchronousCloseException());
+                result.setFbilure(new AsynchronousCloseException());
             }
             Invoker.invoke(result);
         }
@@ -693,65 +693,65 @@ public class WindowsAsynchronousFileChannelImpl
 
     <A> Future<Integer> implWrite(ByteBuffer src,
                                   long position,
-                                  A attachment,
-                                  CompletionHandler<Integer,? super A> handler)
+                                  A bttbchment,
+                                  CompletionHbndler<Integer,? super A> hbndler)
     {
         if (!writing)
-            throw new NonWritableChannelException();
+            throw new NonWritbbleChbnnelException();
         if (position < 0)
-            throw new IllegalArgumentException("Negative position");
+            throw new IllegblArgumentException("Negbtive position");
 
-        // check if channel is closed
+        // check if chbnnel is closed
         if (!isOpen()) {
-           Throwable exc = new ClosedChannelException();
-            if (handler == null)
-                return CompletedFuture.withFailure(exc);
-            Invoker.invoke(this, handler, attachment, null, exc);
+           Throwbble exc = new ClosedChbnnelException();
+            if (hbndler == null)
+                return CompletedFuture.withFbilure(exc);
+            Invoker.invoke(this, hbndler, bttbchment, null, exc);
             return null;
         }
 
         int pos = src.position();
         int lim = src.limit();
-        assert (pos <= lim);
+        bssert (pos <= lim);
         int rem = (pos <= lim ? lim - pos : 0);
 
         // nothing to write
         if (rem == 0) {
-            if (handler == null)
+            if (hbndler == null)
                 return CompletedFuture.withResult(0);
-            Invoker.invoke(this, handler, attachment, 0, null);
+            Invoker.invoke(this, hbndler, bttbchment, 0, null);
             return null;
         }
 
-        // create Future and task to initiate write
+        // crebte Future bnd tbsk to initibte write
         PendingFuture<Integer,A> result =
-            new PendingFuture<Integer,A>(this, handler, attachment);
-        WriteTask<A> writeTask = new WriteTask<A>(src, pos, rem, position, result);
-        result.setContext(writeTask);
+            new PendingFuture<Integer,A>(this, hbndler, bttbchment);
+        WriteTbsk<A> writeTbsk = new WriteTbsk<A>(src, pos, rem, position, result);
+        result.setContext(writeTbsk);
 
-        // initiate I/O
-        if (Iocp.supportsThreadAgnosticIo()) {
-            writeTask.run();
+        // initibte I/O
+        if (Iocp.supportsThrebdAgnosticIo()) {
+            writeTbsk.run();
         } else {
-            Invoker.invokeOnThreadInThreadPool(this, writeTask);
+            Invoker.invokeOnThrebdInThrebdPool(this, writeTbsk);
         }
         return result;
     }
 
-    // -- Native methods --
+    // -- Nbtive methods --
 
-    private static native int readFile(long handle, long address, int len,
-        long offset, long overlapped) throws IOException;
+    privbte stbtic nbtive int rebdFile(long hbndle, long bddress, int len,
+        long offset, long overlbpped) throws IOException;
 
-    private static native int writeFile(long handle, long address, int len,
-        long offset, long overlapped) throws IOException;
+    privbte stbtic nbtive int writeFile(long hbndle, long bddress, int len,
+        long offset, long overlbpped) throws IOException;
 
-    private static native int lockFile(long handle, long position, long size,
-        boolean shared, long overlapped) throws IOException;
+    privbte stbtic nbtive int lockFile(long hbndle, long position, long size,
+        boolebn shbred, long overlbpped) throws IOException;
 
-    private static native void close0(long handle);
+    privbte stbtic nbtive void close0(long hbndle);
 
-    static {
-        IOUtil.load();
+    stbtic {
+        IOUtil.lobd();
     }
 }

@@ -1,157 +1,157 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
 
-package javax.swing;
+pbckbge jbvbx.swing;
 
 
 
-import java.util.*;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.locks.*;
-import java.awt.*;
-import java.awt.event.*;
-import java.io.Serializable;
-import java.io.*;
-import java.security.AccessControlContext;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import javax.swing.event.EventListenerList;
+import jbvb.util.*;
+import jbvb.util.concurrent.btomic.AtomicBoolebn;
+import jbvb.util.concurrent.locks.*;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvb.io.Seriblizbble;
+import jbvb.io.*;
+import jbvb.security.AccessControlContext;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
+import jbvbx.swing.event.EventListenerList;
 
 
 
 /**
- * Fires one or more {@code ActionEvent}s at specified
- * intervals. An example use is an animation object that uses a
- * <code>Timer</code> as the trigger for drawing its frames.
+ * Fires one or more {@code ActionEvent}s bt specified
+ * intervbls. An exbmple use is bn bnimbtion object thbt uses b
+ * <code>Timer</code> bs the trigger for drbwing its frbmes.
  *<p>
- * Setting up a timer
- * involves creating a <code>Timer</code> object,
- * registering one or more action listeners on it,
- * and starting the timer using
- * the <code>start</code> method.
- * For example,
- * the following code creates and starts a timer
- * that fires an action event once per second
- * (as specified by the first argument to the <code>Timer</code> constructor).
- * The second argument to the <code>Timer</code> constructor
- * specifies a listener to receive the timer's action events.
+ * Setting up b timer
+ * involves crebting b <code>Timer</code> object,
+ * registering one or more bction listeners on it,
+ * bnd stbrting the timer using
+ * the <code>stbrt</code> method.
+ * For exbmple,
+ * the following code crebtes bnd stbrts b timer
+ * thbt fires bn bction event once per second
+ * (bs specified by the first brgument to the <code>Timer</code> constructor).
+ * The second brgument to the <code>Timer</code> constructor
+ * specifies b listener to receive the timer's bction events.
  *
  *<pre>
- *  int delay = 1000; //milliseconds
- *  ActionListener taskPerformer = new ActionListener() {
- *      public void actionPerformed(ActionEvent evt) {
- *          <em>//...Perform a task...</em>
+ *  int delby = 1000; //milliseconds
+ *  ActionListener tbskPerformer = new ActionListener() {
+ *      public void bctionPerformed(ActionEvent evt) {
+ *          <em>//...Perform b tbsk...</em>
  *      }
  *  };
- *  new Timer(delay, taskPerformer).start();</pre>
+ *  new Timer(delby, tbskPerformer).stbrt();</pre>
  *
  * <p>
- * {@code Timers} are constructed by specifying both a delay parameter
- * and an {@code ActionListener}. The delay parameter is used
- * to set both the initial delay and the delay between event
- * firing, in milliseconds. Once the timer has been started,
- * it waits for the initial delay before firing its
+ * {@code Timers} bre constructed by specifying both b delby pbrbmeter
+ * bnd bn {@code ActionListener}. The delby pbrbmeter is used
+ * to set both the initibl delby bnd the delby between event
+ * firing, in milliseconds. Once the timer hbs been stbrted,
+ * it wbits for the initibl delby before firing its
  * first <code>ActionEvent</code> to registered listeners.
  * After this first event, it continues to fire events
- * every time the between-event delay has elapsed, until it
+ * every time the between-event delby hbs elbpsed, until it
  * is stopped.
  * <p>
- * After construction, the initial delay and the between-event
- * delay can be changed independently, and additional
- * <code>ActionListeners</code> may be added.
+ * After construction, the initibl delby bnd the between-event
+ * delby cbn be chbnged independently, bnd bdditionbl
+ * <code>ActionListeners</code> mby be bdded.
  * <p>
- * If you want the timer to fire only the first time and then stop,
- * invoke <code>setRepeats(false)</code> on the timer.
+ * If you wbnt the timer to fire only the first time bnd then stop,
+ * invoke <code>setRepebts(fblse)</code> on the timer.
  * <p>
- * Although all <code>Timer</code>s perform their waiting
- * using a single, shared thread
- * (created by the first <code>Timer</code> object that executes),
- * the action event handlers for <code>Timer</code>s
- * execute on another thread -- the event-dispatching thread.
- * This means that the action handlers for <code>Timer</code>s
- * can safely perform operations on Swing components.
- * However, it also means that the handlers must execute quickly
+ * Although bll <code>Timer</code>s perform their wbiting
+ * using b single, shbred threbd
+ * (crebted by the first <code>Timer</code> object thbt executes),
+ * the bction event hbndlers for <code>Timer</code>s
+ * execute on bnother threbd -- the event-dispbtching threbd.
+ * This mebns thbt the bction hbndlers for <code>Timer</code>s
+ * cbn sbfely perform operbtions on Swing components.
+ * However, it blso mebns thbt the hbndlers must execute quickly
  * to keep the GUI responsive.
  *
  * <p>
- * In v 1.3, another <code>Timer</code> class was added
- * to the Java platform: <code>java.util.Timer</code>.
- * Both it and <code>javax.swing.Timer</code>
- * provide the same basic functionality,
- * but <code>java.util.Timer</code>
- * is more general and has more features.
- * The <code>javax.swing.Timer</code> has two features
- * that can make it a little easier to use with GUIs.
- * First, its event handling metaphor is familiar to GUI programmers
- * and can make dealing with the event-dispatching thread
- * a bit simpler.
+ * In v 1.3, bnother <code>Timer</code> clbss wbs bdded
+ * to the Jbvb plbtform: <code>jbvb.util.Timer</code>.
+ * Both it bnd <code>jbvbx.swing.Timer</code>
+ * provide the sbme bbsic functionblity,
+ * but <code>jbvb.util.Timer</code>
+ * is more generbl bnd hbs more febtures.
+ * The <code>jbvbx.swing.Timer</code> hbs two febtures
+ * thbt cbn mbke it b little ebsier to use with GUIs.
+ * First, its event hbndling metbphor is fbmilibr to GUI progrbmmers
+ * bnd cbn mbke debling with the event-dispbtching threbd
+ * b bit simpler.
  * Second, its
- * automatic thread sharing means that you don't have to
- * take special steps to avoid spawning
- * too many threads.
- * Instead, your timer uses the same thread
- * used to make cursors blink,
- * tool tips appear,
- * and so on.
+ * butombtic threbd shbring mebns thbt you don't hbve to
+ * tbke specibl steps to bvoid spbwning
+ * too mbny threbds.
+ * Instebd, your timer uses the sbme threbd
+ * used to mbke cursors blink,
+ * tool tips bppebr,
+ * bnd so on.
  *
  * <p>
- * You can find further documentation
- * and several examples of using timers by visiting
- * <a href="http://docs.oracle.com/javase/tutorial/uiswing/misc/timer.html"
- * target = "_top">How to Use Timers</a>,
- * a section in <em>The Java Tutorial.</em>
- * For more examples and help in choosing between
- * this <code>Timer</code> class and
- * <code>java.util.Timer</code>,
+ * You cbn find further documentbtion
+ * bnd severbl exbmples of using timers by visiting
+ * <b href="http://docs.orbcle.com/jbvbse/tutoribl/uiswing/misc/timer.html"
+ * tbrget = "_top">How to Use Timers</b>,
+ * b section in <em>The Jbvb Tutoribl.</em>
+ * For more exbmples bnd help in choosing between
+ * this <code>Timer</code> clbss bnd
+ * <code>jbvb.util.Timer</code>,
  * see
- * <a href="http://java.sun.com/products/jfc/tsc/articles/timer/"
- * target="_top">Using Timers in Swing Applications</a>,
- * an article in <em>The Swing Connection.</em>
+ * <b href="http://jbvb.sun.com/products/jfc/tsc/brticles/timer/"
+ * tbrget="_top">Using Timers in Swing Applicbtions</b>,
+ * bn brticle in <em>The Swing Connection.</em>
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
- * @see java.util.Timer <code>java.util.Timer</code>
+ * @see jbvb.util.Timer <code>jbvb.util.Timer</code>
  *
  *
- * @author Dave Moore
+ * @buthor Dbve Moore
  * @since 1.2
  */
-@SuppressWarnings("serial")
-public class Timer implements Serializable
+@SuppressWbrnings("seribl")
+public clbss Timer implements Seriblizbble
 {
     /*
-     * NOTE: all fields need to be handled in readResolve
+     * NOTE: bll fields need to be hbndled in rebdResolve
      */
 
     /**
@@ -159,98 +159,98 @@ public class Timer implements Serializable
      */
     protected EventListenerList listenerList = new EventListenerList();
 
-    // The following field strives to maintain the following:
-    //    If coalesce is true, only allow one Runnable to be queued on the
-    //    EventQueue and be pending (ie in the process of notifying the
-    //    ActionListener). If we didn't do this it would allow for a
-    //    situation where the app is taking too long to process the
-    //    actionPerformed, and thus we'ld end up queing a bunch of Runnables
-    //    and the app would never return: not good. This of course implies
-    //    you can get dropped events, but such is life.
-    // notify is used to indicate if the ActionListener can be notified, when
-    // the Runnable is processed if this is true it will notify the listeners.
-    // notify is set to true when the Timer fires and the Runnable is queued.
-    // It will be set to false after notifying the listeners (if coalesce is
+    // The following field strives to mbintbin the following:
+    //    If coblesce is true, only bllow one Runnbble to be queued on the
+    //    EventQueue bnd be pending (ie in the process of notifying the
+    //    ActionListener). If we didn't do this it would bllow for b
+    //    situbtion where the bpp is tbking too long to process the
+    //    bctionPerformed, bnd thus we'ld end up queing b bunch of Runnbbles
+    //    bnd the bpp would never return: not good. This of course implies
+    //    you cbn get dropped events, but such is life.
+    // notify is used to indicbte if the ActionListener cbn be notified, when
+    // the Runnbble is processed if this is true it will notify the listeners.
+    // notify is set to true when the Timer fires bnd the Runnbble is queued.
+    // It will be set to fblse bfter notifying the listeners (if coblesce is
     // true) or if the developer invokes stop.
-    private transient final AtomicBoolean notify = new AtomicBoolean(false);
+    privbte trbnsient finbl AtomicBoolebn notify = new AtomicBoolebn(fblse);
 
-    private volatile int     initialDelay, delay;
-    private volatile boolean repeats = true, coalesce = true;
+    privbte volbtile int     initiblDelby, delby;
+    privbte volbtile boolebn repebts = true, coblesce = true;
 
-    private transient final Runnable doPostEvent;
+    privbte trbnsient finbl Runnbble doPostEvent;
 
-    private static volatile boolean logTimers;
+    privbte stbtic volbtile boolebn logTimers;
 
-    private transient final Lock lock = new ReentrantLock();
+    privbte trbnsient finbl Lock lock = new ReentrbntLock();
 
-    // This field is maintained by TimerQueue.
-    // eventQueued can also be reset by the TimerQueue, but will only ever
-    // happen in applet case when TimerQueues thread is destroyed.
-    // access to this field is synchronized on getLock() lock.
-    transient TimerQueue.DelayedTimer delayedTimer = null;
+    // This field is mbintbined by TimerQueue.
+    // eventQueued cbn blso be reset by the TimerQueue, but will only ever
+    // hbppen in bpplet cbse when TimerQueues threbd is destroyed.
+    // bccess to this field is synchronized on getLock() lock.
+    trbnsient TimerQueue.DelbyedTimer delbyedTimer = null;
 
-    private volatile String actionCommand;
+    privbte volbtile String bctionCommbnd;
 
     /**
-     * Creates a {@code Timer} and initializes both the initial delay and
-     * between-event delay to {@code delay} milliseconds. If {@code delay}
-     * is less than or equal to zero, the timer fires as soon as it
-     * is started. If <code>listener</code> is not <code>null</code>,
-     * it's registered as an action listener on the timer.
+     * Crebtes b {@code Timer} bnd initiblizes both the initibl delby bnd
+     * between-event delby to {@code delby} milliseconds. If {@code delby}
+     * is less thbn or equbl to zero, the timer fires bs soon bs it
+     * is stbrted. If <code>listener</code> is not <code>null</code>,
+     * it's registered bs bn bction listener on the timer.
      *
-     * @param delay milliseconds for the initial and between-event delay
-     * @param listener  an initial listener; can be <code>null</code>
+     * @pbrbm delby milliseconds for the initibl bnd between-event delby
+     * @pbrbm listener  bn initibl listener; cbn be <code>null</code>
      *
-     * @see #addActionListener
-     * @see #setInitialDelay
-     * @see #setRepeats
+     * @see #bddActionListener
+     * @see #setInitiblDelby
+     * @see #setRepebts
      */
-    public Timer(int delay, ActionListener listener) {
+    public Timer(int delby, ActionListener listener) {
         super();
-        this.delay = delay;
-        this.initialDelay = delay;
+        this.delby = delby;
+        this.initiblDelby = delby;
 
         doPostEvent = new DoPostEvent();
 
         if (listener != null) {
-            addActionListener(listener);
+            bddActionListener(listener);
         }
     }
 
     /*
      * The timer's AccessControlContext.
      */
-     private transient volatile AccessControlContext acc =
+     privbte trbnsient volbtile AccessControlContext bcc =
             AccessController.getContext();
 
     /**
-      * Returns the acc this timer was constructed with.
+      * Returns the bcc this timer wbs constructed with.
       */
-     final AccessControlContext getAccessControlContext() {
-       if (acc == null) {
+     finbl AccessControlContext getAccessControlContext() {
+       if (bcc == null) {
            throw new SecurityException(
                    "Timer is missing AccessControlContext");
        }
-       return acc;
+       return bcc;
      }
 
     /**
-     * DoPostEvent is a runnable class that fires actionEvents to
-     * the listeners on the EventDispatchThread, via invokeLater.
+     * DoPostEvent is b runnbble clbss thbt fires bctionEvents to
+     * the listeners on the EventDispbtchThrebd, vib invokeLbter.
      * @see Timer#post
      */
-    class DoPostEvent implements Runnable
+    clbss DoPostEvent implements Runnbble
     {
         public void run() {
             if (logTimers) {
                 System.out.println("Timer ringing: " + Timer.this);
             }
             if(notify.get()) {
-                fireActionPerformed(new ActionEvent(Timer.this, 0, getActionCommand(),
+                fireActionPerformed(new ActionEvent(Timer.this, 0, getActionCommbnd(),
                                                     System.currentTimeMillis(),
                                                     0));
-                if (coalesce) {
-                    cancelEvent();
+                if (coblesce) {
+                    cbncelEvent();
                 }
             }
         }
@@ -261,369 +261,369 @@ public class Timer implements Serializable
     }
 
     /**
-     * Adds an action listener to the <code>Timer</code>.
+     * Adds bn bction listener to the <code>Timer</code>.
      *
-     * @param listener the listener to add
+     * @pbrbm listener the listener to bdd
      *
      * @see #Timer
      */
-    public void addActionListener(ActionListener listener) {
-        listenerList.add(ActionListener.class, listener);
+    public void bddActionListener(ActionListener listener) {
+        listenerList.bdd(ActionListener.clbss, listener);
     }
 
 
     /**
-     * Removes the specified action listener from the <code>Timer</code>.
+     * Removes the specified bction listener from the <code>Timer</code>.
      *
-     * @param listener the listener to remove
+     * @pbrbm listener the listener to remove
      */
     public void removeActionListener(ActionListener listener) {
-        listenerList.remove(ActionListener.class, listener);
+        listenerList.remove(ActionListener.clbss, listener);
     }
 
 
     /**
-     * Returns an array of all the action listeners registered
+     * Returns bn brrby of bll the bction listeners registered
      * on this timer.
      *
-     * @return all of the timer's <code>ActionListener</code>s or an empty
-     *         array if no action listeners are currently registered
+     * @return bll of the timer's <code>ActionListener</code>s or bn empty
+     *         brrby if no bction listeners bre currently registered
      *
-     * @see #addActionListener
+     * @see #bddActionListener
      * @see #removeActionListener
      *
      * @since 1.4
      */
     public ActionListener[] getActionListeners() {
-        return listenerList.getListeners(ActionListener.class);
+        return listenerList.getListeners(ActionListener.clbss);
     }
 
 
     /**
-     * Notifies all listeners that have registered interest for
-     * notification on this event type.
+     * Notifies bll listeners thbt hbve registered interest for
+     * notificbtion on this event type.
      *
-     * @param e the action event to fire
+     * @pbrbm e the bction event to fire
      * @see EventListenerList
      */
     protected void fireActionPerformed(ActionEvent e) {
-        // Guaranteed to return a non-null array
+        // Gubrbnteed to return b non-null brrby
         Object[] listeners = listenerList.getListenerList();
 
-        // Process the listeners last to first, notifying
-        // those that are interested in this event
+        // Process the listeners lbst to first, notifying
+        // those thbt bre interested in this event
         for (int i=listeners.length-2; i>=0; i-=2) {
-            if (listeners[i]==ActionListener.class) {
-                ((ActionListener)listeners[i+1]).actionPerformed(e);
+            if (listeners[i]==ActionListener.clbss) {
+                ((ActionListener)listeners[i+1]).bctionPerformed(e);
             }
         }
     }
 
     /**
-     * Returns an array of all the objects currently registered as
+     * Returns bn brrby of bll the objects currently registered bs
      * <code><em>Foo</em>Listener</code>s
      * upon this <code>Timer</code>.
      * <code><em>Foo</em>Listener</code>s
-     * are registered using the <code>add<em>Foo</em>Listener</code> method.
+     * bre registered using the <code>bdd<em>Foo</em>Listener</code> method.
      * <p>
-     * You can specify the <code>listenerType</code> argument
-     * with a class literal, such as <code><em>Foo</em>Listener.class</code>.
-     * For example, you can query a <code>Timer</code>
-     * instance <code>t</code>
-     * for its action listeners
+     * You cbn specify the <code>listenerType</code> brgument
+     * with b clbss literbl, such bs <code><em>Foo</em>Listener.clbss</code>.
+     * For exbmple, you cbn query b <code>Timer</code>
+     * instbnce <code>t</code>
+     * for its bction listeners
      * with the following code:
      *
-     * <pre>ActionListener[] als = (ActionListener[])(t.getListeners(ActionListener.class));</pre>
+     * <pre>ActionListener[] bls = (ActionListener[])(t.getListeners(ActionListener.clbss));</pre>
      *
      * If no such listeners exist,
-     * this method returns an empty array.
+     * this method returns bn empty brrby.
      *
-     * @param <T> the type of {@code EventListener} class being requested
-     * @param listenerType  the type of listeners requested;
-     *          this parameter should specify an interface
-     *          that descends from <code>java.util.EventListener</code>
-     * @return an array of all objects registered as
+     * @pbrbm <T> the type of {@code EventListener} clbss being requested
+     * @pbrbm listenerType  the type of listeners requested;
+     *          this pbrbmeter should specify bn interfbce
+     *          thbt descends from <code>jbvb.util.EventListener</code>
+     * @return bn brrby of bll objects registered bs
      *          <code><em>Foo</em>Listener</code>s
      *          on this timer,
-     *          or an empty array if no such
-     *          listeners have been added
-     * @exception ClassCastException if <code>listenerType</code> doesn't
-     *          specify a class or interface that implements
-     *          <code>java.util.EventListener</code>
+     *          or bn empty brrby if no such
+     *          listeners hbve been bdded
+     * @exception ClbssCbstException if <code>listenerType</code> doesn't
+     *          specify b clbss or interfbce thbt implements
+     *          <code>jbvb.util.EventListener</code>
      *
      * @see #getActionListeners
-     * @see #addActionListener
+     * @see #bddActionListener
      * @see #removeActionListener
      *
      * @since 1.3
      */
-    public <T extends EventListener> T[] getListeners(Class<T> listenerType) {
+    public <T extends EventListener> T[] getListeners(Clbss<T> listenerType) {
         return listenerList.getListeners(listenerType);
     }
 
     /**
      * Returns the timer queue.
      */
-    private TimerQueue timerQueue() {
-        return TimerQueue.sharedInstance();
+    privbte TimerQueue timerQueue() {
+        return TimerQueue.shbredInstbnce();
     }
 
 
     /**
-     * Enables or disables the timer log. When enabled, a message
+     * Enbbles or disbbles the timer log. When enbbled, b messbge
      * is posted to <code>System.out</code> whenever the timer goes off.
      *
-     * @param flag  <code>true</code> to enable logging
+     * @pbrbm flbg  <code>true</code> to enbble logging
      * @see #getLogTimers
      */
-    public static void setLogTimers(boolean flag) {
-        logTimers = flag;
+    public stbtic void setLogTimers(boolebn flbg) {
+        logTimers = flbg;
     }
 
 
     /**
-     * Returns <code>true</code> if logging is enabled.
+     * Returns <code>true</code> if logging is enbbled.
      *
-     * @return <code>true</code> if logging is enabled; otherwise, false
+     * @return <code>true</code> if logging is enbbled; otherwise, fblse
      * @see #setLogTimers
      */
-    public static boolean getLogTimers() {
+    public stbtic boolebn getLogTimers() {
         return logTimers;
     }
 
 
     /**
-     * Sets the <code>Timer</code>'s between-event delay, the number of milliseconds
-     * between successive action events. This does not affect the initial delay
-     * property, which can be set by the {@code setInitialDelay} method.
+     * Sets the <code>Timer</code>'s between-event delby, the number of milliseconds
+     * between successive bction events. This does not bffect the initibl delby
+     * property, which cbn be set by the {@code setInitiblDelby} method.
      *
-     * @param delay the delay in milliseconds
-     * @see #setInitialDelay
+     * @pbrbm delby the delby in milliseconds
+     * @see #setInitiblDelby
      */
-    public void setDelay(int delay) {
-        if (delay < 0) {
-            throw new IllegalArgumentException("Invalid delay: " + delay);
+    public void setDelby(int delby) {
+        if (delby < 0) {
+            throw new IllegblArgumentException("Invblid delby: " + delby);
         }
         else {
-            this.delay = delay;
+            this.delby = delby;
         }
     }
 
 
     /**
-     * Returns the delay, in milliseconds,
-     * between firings of action events.
+     * Returns the delby, in milliseconds,
+     * between firings of bction events.
      *
-     * @return the delay, in milliseconds, between firings of action events
-     * @see #setDelay
-     * @see #getInitialDelay
+     * @return the delby, in milliseconds, between firings of bction events
+     * @see #setDelby
+     * @see #getInitiblDelby
      */
-    public int getDelay() {
-        return delay;
+    public int getDelby() {
+        return delby;
     }
 
 
     /**
-     * Sets the <code>Timer</code>'s initial delay, the time
-     * in milliseconds to wait after the timer is started
+     * Sets the <code>Timer</code>'s initibl delby, the time
+     * in milliseconds to wbit bfter the timer is stbrted
      * before firing the first event. Upon construction, this
-     * is set to be the same as the between-event delay,
-     * but then its value is independent and remains unaffected
-     * by changes to the between-event delay.
+     * is set to be the sbme bs the between-event delby,
+     * but then its vblue is independent bnd rembins unbffected
+     * by chbnges to the between-event delby.
      *
-     * @param initialDelay the initial delay, in milliseconds
-     * @see #setDelay
+     * @pbrbm initiblDelby the initibl delby, in milliseconds
+     * @see #setDelby
      */
-    public void setInitialDelay(int initialDelay) {
-        if (initialDelay < 0) {
-            throw new IllegalArgumentException("Invalid initial delay: " +
-                                               initialDelay);
+    public void setInitiblDelby(int initiblDelby) {
+        if (initiblDelby < 0) {
+            throw new IllegblArgumentException("Invblid initibl delby: " +
+                                               initiblDelby);
         }
         else {
-            this.initialDelay = initialDelay;
+            this.initiblDelby = initiblDelby;
         }
     }
 
 
     /**
-     * Returns the {@code Timer}'s initial delay.
+     * Returns the {@code Timer}'s initibl delby.
      *
-     * @return the {@code Timer}'s intial delay, in milliseconds
-     * @see #setInitialDelay
-     * @see #setDelay
+     * @return the {@code Timer}'s intibl delby, in milliseconds
+     * @see #setInitiblDelby
+     * @see #setDelby
      */
-    public int getInitialDelay() {
-        return initialDelay;
+    public int getInitiblDelby() {
+        return initiblDelby;
     }
 
 
     /**
-     * If <code>flag</code> is <code>false</code>,
+     * If <code>flbg</code> is <code>fblse</code>,
      * instructs the <code>Timer</code> to send only one
-     * action event to its listeners.
+     * bction event to its listeners.
      *
-     * @param flag specify <code>false</code> to make the timer
-     *             stop after sending its first action event
+     * @pbrbm flbg specify <code>fblse</code> to mbke the timer
+     *             stop bfter sending its first bction event
      */
-    public void setRepeats(boolean flag) {
-        repeats = flag;
+    public void setRepebts(boolebn flbg) {
+        repebts = flbg;
     }
 
 
     /**
-     * Returns <code>true</code> (the default)
+     * Returns <code>true</code> (the defbult)
      * if the <code>Timer</code> will send
-     * an action event
+     * bn bction event
      * to its listeners multiple times.
      *
-     * @return true if the {@code Timer} will send an action event to its
+     * @return true if the {@code Timer} will send bn bction event to its
      *              listeners multiple times
-     * @see #setRepeats
+     * @see #setRepebts
      */
-    public boolean isRepeats() {
-        return repeats;
+    public boolebn isRepebts() {
+        return repebts;
     }
 
 
     /**
-     * Sets whether the <code>Timer</code> coalesces multiple pending
+     * Sets whether the <code>Timer</code> coblesces multiple pending
      * <code>ActionEvent</code> firings.
-     * A busy application may not be able
-     * to keep up with a <code>Timer</code>'s event generation,
-     * causing multiple
-     * action events to be queued.  When processed,
-     * the application sends these events one after the other, causing the
-     * <code>Timer</code>'s listeners to receive a sequence of
-     * events with no delay between them. Coalescing avoids this situation
-     * by reducing multiple pending events to a single event.
+     * A busy bpplicbtion mby not be bble
+     * to keep up with b <code>Timer</code>'s event generbtion,
+     * cbusing multiple
+     * bction events to be queued.  When processed,
+     * the bpplicbtion sends these events one bfter the other, cbusing the
+     * <code>Timer</code>'s listeners to receive b sequence of
+     * events with no delby between them. Coblescing bvoids this situbtion
+     * by reducing multiple pending events to b single event.
      * <code>Timer</code>s
-     * coalesce events by default.
+     * coblesce events by defbult.
      *
-     * @param flag specify <code>false</code> to turn off coalescing
+     * @pbrbm flbg specify <code>fblse</code> to turn off coblescing
      */
-    public void setCoalesce(boolean flag) {
-        boolean old = coalesce;
-        coalesce = flag;
-        if (!old && coalesce) {
-            // We must do this as otherwise if the Timer once notified
-            // in !coalese mode notify will be stuck to true and never
-            // become false.
-            cancelEvent();
+    public void setCoblesce(boolebn flbg) {
+        boolebn old = coblesce;
+        coblesce = flbg;
+        if (!old && coblesce) {
+            // We must do this bs otherwise if the Timer once notified
+            // in !coblese mode notify will be stuck to true bnd never
+            // become fblse.
+            cbncelEvent();
         }
     }
 
 
     /**
-     * Returns {@code true} if the {@code Timer} coalesces
-     * multiple pending action events.
+     * Returns {@code true} if the {@code Timer} coblesces
+     * multiple pending bction events.
      *
-     * @return true if the {@code Timer} coalesces multiple pending
-     *              action events
-     * @see #setCoalesce
+     * @return true if the {@code Timer} coblesces multiple pending
+     *              bction events
+     * @see #setCoblesce
      */
-    public boolean isCoalesce() {
-        return coalesce;
+    public boolebn isCoblesce() {
+        return coblesce;
     }
 
 
     /**
-     * Sets the string that will be delivered as the action command
+     * Sets the string thbt will be delivered bs the bction commbnd
      * in <code>ActionEvent</code>s fired by this timer.
-     * <code>null</code> is an acceptable value.
+     * <code>null</code> is bn bcceptbble vblue.
      *
-     * @param command the action command
+     * @pbrbm commbnd the bction commbnd
      * @since 1.6
      */
-    public void setActionCommand(String command) {
-        this.actionCommand = command;
+    public void setActionCommbnd(String commbnd) {
+        this.bctionCommbnd = commbnd;
     }
 
 
     /**
-     * Returns the string that will be delivered as the action command
-     * in <code>ActionEvent</code>s fired by this timer. May be
-     * <code>null</code>, which is also the default.
+     * Returns the string thbt will be delivered bs the bction commbnd
+     * in <code>ActionEvent</code>s fired by this timer. Mby be
+     * <code>null</code>, which is blso the defbult.
      *
-     * @return the action command used in firing events
+     * @return the bction commbnd used in firing events
      * @since 1.6
      */
-    public String getActionCommand() {
-        return actionCommand;
+    public String getActionCommbnd() {
+        return bctionCommbnd;
     }
 
 
     /**
-     * Starts the <code>Timer</code>,
-     * causing it to start sending action events
+     * Stbrts the <code>Timer</code>,
+     * cbusing it to stbrt sending bction events
      * to its listeners.
      *
      * @see #stop
      */
-     public void start() {
-        timerQueue().addTimer(this, getInitialDelay());
+     public void stbrt() {
+        timerQueue().bddTimer(this, getInitiblDelby());
     }
 
 
     /**
      * Returns {@code true} if the {@code Timer} is running.
      *
-     * @return true if the {@code Timer} is running, false otherwise
-     * @see #start
+     * @return true if the {@code Timer} is running, fblse otherwise
+     * @see #stbrt
      */
-    public boolean isRunning() {
-        return timerQueue().containsTimer(this);
+    public boolebn isRunning() {
+        return timerQueue().contbinsTimer(this);
     }
 
 
     /**
      * Stops the <code>Timer</code>,
-     * causing it to stop sending action events
+     * cbusing it to stop sending bction events
      * to its listeners.
      *
-     * @see #start
+     * @see #stbrt
      */
     public void stop() {
         getLock().lock();
         try {
-            cancelEvent();
+            cbncelEvent();
             timerQueue().removeTimer(this);
-        } finally {
+        } finblly {
             getLock().unlock();
         }
     }
 
 
     /**
-     * Restarts the <code>Timer</code>,
-     * canceling any pending firings and causing
-     * it to fire with its initial delay.
+     * Restbrts the <code>Timer</code>,
+     * cbnceling bny pending firings bnd cbusing
+     * it to fire with its initibl delby.
      */
-    public void restart() {
+    public void restbrt() {
         getLock().lock();
         try {
             stop();
-            start();
-        } finally {
+            stbrt();
+        } finblly {
             getLock().unlock();
         }
     }
 
 
     /**
-     * Resets the internal state to indicate this Timer shouldn't notify
-     * any of its listeners. This does not stop a repeatable Timer from
-     * firing again, use <code>stop</code> for that.
+     * Resets the internbl stbte to indicbte this Timer shouldn't notify
+     * bny of its listeners. This does not stop b repebtbble Timer from
+     * firing bgbin, use <code>stop</code> for thbt.
      */
-    void cancelEvent() {
-        notify.set(false);
+    void cbncelEvent() {
+        notify.set(fblse);
     }
 
 
     void post() {
-         if (notify.compareAndSet(false, true) || !coalesce) {
+         if (notify.compbreAndSet(fblse, true) || !coblesce) {
              AccessController.doPrivileged(new PrivilegedAction<Void>() {
                  public Void run() {
-                     SwingUtilities.invokeLater(doPostEvent);
+                     SwingUtilities.invokeLbter(doPostEvent);
                      return null;
                 }
             }, getAccessControlContext());
@@ -634,25 +634,25 @@ public class Timer implements Serializable
         return lock;
     }
 
-    private void readObject(ObjectInputStream in)
-        throws ClassNotFoundException, IOException
+    privbte void rebdObject(ObjectInputStrebm in)
+        throws ClbssNotFoundException, IOException
     {
-        this.acc = AccessController.getContext();
-        in.defaultReadObject();
+        this.bcc = AccessController.getContext();
+        in.defbultRebdObject();
     }
 
     /*
-     * We have to use readResolve because we can not initialize final
-     * fields for deserialized object otherwise
+     * We hbve to use rebdResolve becbuse we cbn not initiblize finbl
+     * fields for deseriblized object otherwise
      */
-    private Object readResolve() {
-        Timer timer = new Timer(getDelay(), null);
+    privbte Object rebdResolve() {
+        Timer timer = new Timer(getDelby(), null);
         timer.listenerList = listenerList;
-        timer.initialDelay = initialDelay;
-        timer.delay = delay;
-        timer.repeats = repeats;
-        timer.coalesce = coalesce;
-        timer.actionCommand = actionCommand;
+        timer.initiblDelby = initiblDelby;
+        timer.delby = delby;
+        timer.repebts = repebts;
+        timer.coblesce = coblesce;
+        timer.bctionCommbnd = bctionCommbnd;
         return timer;
     }
 }

@@ -1,103 +1,103 @@
 /*
- * Copyright (c) 1995, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.applet;
+pbckbge sun.bpplet;
 
-import java.applet.*;
-import java.awt.*;
-import java.awt.event.*;
-import java.io.*;
-import java.lang.ref.WeakReference;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.net.JarURLConnection;
-import java.net.SocketPermission;
-import java.net.URL;
-import java.security.*;
-import java.util.*;
-import java.util.Locale;
-import sun.awt.AWTAccessor;
-import sun.awt.AppContext;
-import sun.awt.EmbeddedFrame;
-import sun.awt.SunToolkit;
-import sun.misc.MessageUtils;
-import sun.misc.PerformanceLogger;
+import jbvb.bpplet.*;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvb.io.*;
+import jbvb.lbng.ref.WebkReference;
+import jbvb.lbng.reflect.InvocbtionTbrgetException;
+import jbvb.lbng.reflect.Method;
+import jbvb.net.JbrURLConnection;
+import jbvb.net.SocketPermission;
+import jbvb.net.URL;
+import jbvb.security.*;
+import jbvb.util.*;
+import jbvb.util.Locble;
+import sun.bwt.AWTAccessor;
+import sun.bwt.AppContext;
+import sun.bwt.EmbeddedFrbme;
+import sun.bwt.SunToolkit;
+import sun.misc.MessbgeUtils;
+import sun.misc.PerformbnceLogger;
 import sun.misc.Queue;
-import sun.security.util.SecurityConstants;
+import sun.security.util.SecurityConstbnts;
 
 /**
- * Applet panel class. The panel manages and manipulates the
- * applet as it is being loaded. It forks a separate thread in a new
- * thread group to call the applet's init(), start(), stop(), and
+ * Applet pbnel clbss. The pbnel mbnbges bnd mbnipulbtes the
+ * bpplet bs it is being lobded. It forks b sepbrbte threbd in b new
+ * threbd group to cbll the bpplet's init(), stbrt(), stop(), bnd
  * destroy() methods.
  *
- * @author      Arthur van Hoff
+ * @buthor      Arthur vbn Hoff
  */
-@SuppressWarnings("serial") // JDK implementation class
+@SuppressWbrnings("seribl") // JDK implementbtion clbss
 public
-abstract class AppletPanel extends Panel implements AppletStub, Runnable {
+bbstrbct clbss AppletPbnel extends Pbnel implements AppletStub, Runnbble {
 
     /**
-     * The applet (if loaded).
+     * The bpplet (if lobded).
      */
-    Applet applet;
+    Applet bpplet;
 
     /**
-     * Applet will allow initialization.  Should be
-     * set to false if loading a serialized applet
-     * that was pickled in the init=true state.
+     * Applet will bllow initiblizbtion.  Should be
+     * set to fblse if lobding b seriblized bpplet
+     * thbt wbs pickled in the init=true stbte.
      */
-    protected boolean doInit = true;
+    protected boolebn doInit = true;
 
 
     /**
-     * The classloader for the applet.
+     * The clbsslobder for the bpplet.
      */
-    protected AppletClassLoader loader;
+    protected AppletClbssLobder lobder;
 
-    /* applet event ids */
-    public final static int APPLET_DISPOSE = 0;
-    public final static int APPLET_LOAD = 1;
-    public final static int APPLET_INIT = 2;
-    public final static int APPLET_START = 3;
-    public final static int APPLET_STOP = 4;
-    public final static int APPLET_DESTROY = 5;
-    public final static int APPLET_QUIT = 6;
-    public final static int APPLET_ERROR = 7;
+    /* bpplet event ids */
+    public finbl stbtic int APPLET_DISPOSE = 0;
+    public finbl stbtic int APPLET_LOAD = 1;
+    public finbl stbtic int APPLET_INIT = 2;
+    public finbl stbtic int APPLET_START = 3;
+    public finbl stbtic int APPLET_STOP = 4;
+    public finbl stbtic int APPLET_DESTROY = 5;
+    public finbl stbtic int APPLET_QUIT = 6;
+    public finbl stbtic int APPLET_ERROR = 7;
 
-    /* send to the parent to force relayout */
-    public final static int APPLET_RESIZE = 51234;
+    /* send to the pbrent to force relbyout */
+    public finbl stbtic int APPLET_RESIZE = 51234;
 
-    /* sent to a (distant) parent to indicate that the applet is being
-     * loaded or as completed loading
+    /* sent to b (distbnt) pbrent to indicbte thbt the bpplet is being
+     * lobded or bs completed lobding
      */
-    public final static int APPLET_LOADING = 51235;
-    public final static int APPLET_LOADING_COMPLETED = 51236;
+    public finbl stbtic int APPLET_LOADING = 51235;
+    public finbl stbtic int APPLET_LOADING_COMPLETED = 51236;
 
     /**
-     * The current status. One of:
+     * The current stbtus. One of:
      *    APPLET_DISPOSE,
      *    APPLET_LOAD,
      *    APPLET_INIT,
@@ -106,128 +106,128 @@ abstract class AppletPanel extends Panel implements AppletStub, Runnable {
      *    APPLET_DESTROY,
      *    APPLET_ERROR.
      */
-    protected int status;
+    protected int stbtus;
 
     /**
-     * The thread for the applet.
+     * The threbd for the bpplet.
      */
-    protected Thread handler;
+    protected Threbd hbndler;
 
 
     /**
-     * The initial applet size.
+     * The initibl bpplet size.
      */
-    Dimension defaultAppletSize = new Dimension(10, 10);
+    Dimension defbultAppletSize = new Dimension(10, 10);
 
     /**
-     * The current applet size.
+     * The current bpplet size.
      */
     Dimension currentAppletSize = new Dimension(10, 10);
 
-    MessageUtils mu = new MessageUtils();
+    MessbgeUtils mu = new MessbgeUtils();
 
     /**
-     * The thread to use during applet loading
+     * The threbd to use during bpplet lobding
      */
 
-    Thread loaderThread = null;
+    Threbd lobderThrebd = null;
 
     /**
-     * Flag to indicate that a loading has been cancelled
+     * Flbg to indicbte thbt b lobding hbs been cbncelled
      */
-    boolean loadAbortRequest = false;
+    boolebn lobdAbortRequest = fblse;
 
-    /* abstract classes */
-    abstract protected String getCode();
-    abstract protected String getJarFiles();
-    abstract protected String getSerializedObject();
+    /* bbstrbct clbsses */
+    bbstrbct protected String getCode();
+    bbstrbct protected String getJbrFiles();
+    bbstrbct protected String getSeriblizedObject();
 
     @Override
-    abstract public int    getWidth();
+    bbstrbct public int    getWidth();
     @Override
-    abstract public int    getHeight();
-    abstract public boolean hasInitialFocus();
+    bbstrbct public int    getHeight();
+    bbstrbct public boolebn hbsInitiblFocus();
 
-    private static int threadGroupNumber = 0;
+    privbte stbtic int threbdGroupNumber = 0;
 
     protected void setupAppletAppContext() {
         // do nothing
     }
 
     /*
-     * Creates a thread to run the applet. This method is called
-     * each time an applet is loaded and reloaded.
+     * Crebtes b threbd to run the bpplet. This method is cblled
+     * ebch time bn bpplet is lobded bnd relobded.
      */
-    synchronized void createAppletThread() {
-        // Create a thread group for the applet, and start a new
-        // thread to load the applet.
-        String nm = "applet-" + getCode();
-        loader = getClassLoader(getCodeBase(), getClassLoaderCacheKey());
-        loader.grab(); // Keep this puppy around!
+    synchronized void crebteAppletThrebd() {
+        // Crebte b threbd group for the bpplet, bnd stbrt b new
+        // threbd to lobd the bpplet.
+        String nm = "bpplet-" + getCode();
+        lobder = getClbssLobder(getCodeBbse(), getClbssLobderCbcheKey());
+        lobder.grbb(); // Keep this puppy bround!
 
-        // 4668479: Option to turn off codebase lookup in AppletClassLoader
-        // during resource requests. [stanley.ho]
-        String param = getParameter("codebase_lookup");
+        // 4668479: Option to turn off codebbse lookup in AppletClbssLobder
+        // during resource requests. [stbnley.ho]
+        String pbrbm = getPbrbmeter("codebbse_lookup");
 
-        if (param != null && param.equals("false"))
-            loader.setCodebaseLookup(false);
+        if (pbrbm != null && pbrbm.equbls("fblse"))
+            lobder.setCodebbseLookup(fblse);
         else
-            loader.setCodebaseLookup(true);
+            lobder.setCodebbseLookup(true);
 
 
-        ThreadGroup appletGroup = loader.getThreadGroup();
+        ThrebdGroup bppletGroup = lobder.getThrebdGroup();
 
-        handler = new Thread(appletGroup, this, "thread " + nm);
-        // set the context class loader for this thread
+        hbndler = new Threbd(bppletGroup, this, "threbd " + nm);
+        // set the context clbss lobder for this threbd
         AccessController.doPrivileged(new PrivilegedAction<Object>() {
                 @Override
                 public Object run() {
-                    handler.setContextClassLoader(loader);
+                    hbndler.setContextClbssLobder(lobder);
                     return null;
                 }
             });
-        handler.start();
+        hbndler.stbrt();
     }
 
-    void joinAppletThread() throws InterruptedException {
-        if (handler != null) {
-            handler.join();
-            handler = null;
+    void joinAppletThrebd() throws InterruptedException {
+        if (hbndler != null) {
+            hbndler.join();
+            hbndler = null;
         }
     }
 
-    void release() {
-        if (loader != null) {
-            loader.release();
-            loader = null;
+    void relebse() {
+        if (lobder != null) {
+            lobder.relebse();
+            lobder = null;
         }
     }
 
     /**
-     * Construct an applet viewer and start the applet.
+     * Construct bn bpplet viewer bnd stbrt the bpplet.
      */
     public void init() {
         try {
-            // Get the width (if any)
-            defaultAppletSize.width = getWidth();
-            currentAppletSize.width = defaultAppletSize.width;
+            // Get the width (if bny)
+            defbultAppletSize.width = getWidth();
+            currentAppletSize.width = defbultAppletSize.width;
 
-            // Get the height (if any)
-            defaultAppletSize.height = getHeight();
-            currentAppletSize.height = defaultAppletSize.height;
+            // Get the height (if bny)
+            defbultAppletSize.height = getHeight();
+            currentAppletSize.height = defbultAppletSize.height;
 
-        } catch (NumberFormatException e) {
-            // Turn on the error flag and let TagAppletPanel
+        } cbtch (NumberFormbtException e) {
+            // Turn on the error flbg bnd let TbgAppletPbnel
             // do the right thing.
-            status = APPLET_ERROR;
-            showAppletStatus("badattribute.exception");
-            showAppletLog("badattribute.exception");
+            stbtus = APPLET_ERROR;
+            showAppletStbtus("bbdbttribute.exception");
+            showAppletLog("bbdbttribute.exception");
             showAppletException(e);
         }
 
-        setLayout(new BorderLayout());
+        setLbyout(new BorderLbyout());
 
-        createAppletThread();
+        crebteAppletThrebd();
     }
 
     /**
@@ -235,8 +235,8 @@ abstract class AppletPanel extends Panel implements AppletStub, Runnable {
      */
     @Override
     public Dimension minimumSize() {
-        return new Dimension(defaultAppletSize.width,
-                             defaultAppletSize.height);
+        return new Dimension(defbultAppletSize.width,
+                             defbultAppletSize.height);
     }
 
     /**
@@ -248,35 +248,35 @@ abstract class AppletPanel extends Panel implements AppletStub, Runnable {
                              currentAppletSize.height);
     }
 
-    private AppletListener listeners;
+    privbte AppletListener listeners;
 
     /**
      * AppletEvent Queue
      */
-    private Queue<Integer> queue = null;
+    privbte Queue<Integer> queue = null;
 
 
-    synchronized public void addAppletListener(AppletListener l) {
-        listeners = AppletEventMulticaster.add(listeners, l);
+    synchronized public void bddAppletListener(AppletListener l) {
+        listeners = AppletEventMulticbster.bdd(listeners, l);
     }
 
     synchronized public void removeAppletListener(AppletListener l) {
-        listeners = AppletEventMulticaster.remove(listeners, l);
+        listeners = AppletEventMulticbster.remove(listeners, l);
     }
 
     /**
-     * Dispatch event to the listeners..
+     * Dispbtch event to the listeners..
      */
-    public void dispatchAppletEvent(int id, Object argument) {
+    public void dispbtchAppletEvent(int id, Object brgument) {
         //System.out.println("SEND= " + id);
         if (listeners != null) {
-            AppletEvent evt = new AppletEvent(this, id, argument);
-            listeners.appletStateChanged(evt);
+            AppletEvent evt = new AppletEvent(this, id, brgument);
+            listeners.bppletStbteChbnged(evt);
         }
     }
 
     /**
-     * Send an event. Queue it for execution by the handler thread.
+     * Send bn event. Queue it for execution by the hbndler threbd.
      */
     public void sendEvent(int id) {
         synchronized(this) {
@@ -284,570 +284,570 @@ abstract class AppletPanel extends Panel implements AppletStub, Runnable {
                 //System.out.println("SEND0= " + id);
                 queue = new Queue<>();
             }
-            Integer eventId = Integer.valueOf(id);
+            Integer eventId = Integer.vblueOf(id);
             queue.enqueue(eventId);
             notifyAll();
         }
         if (id == APPLET_QUIT) {
             try {
-                joinAppletThread(); // Let the applet event handler exit
-            } catch (InterruptedException e) {
+                joinAppletThrebd(); // Let the bpplet event hbndler exit
+            } cbtch (InterruptedException e) {
             }
 
-            // AppletClassLoader.release() must be called by a Thread
-            // not within the applet's ThreadGroup
-            if (loader == null)
-                loader = getClassLoader(getCodeBase(), getClassLoaderCacheKey());
-            release();
+            // AppletClbssLobder.relebse() must be cblled by b Threbd
+            // not within the bpplet's ThrebdGroup
+            if (lobder == null)
+                lobder = getClbssLobder(getCodeBbse(), getClbssLobderCbcheKey());
+            relebse();
         }
     }
 
     /**
-     * Get an event from the queue.
+     * Get bn event from the queue.
      */
     synchronized AppletEvent getNextEvent() throws InterruptedException {
         while (queue == null || queue.isEmpty()) {
-            wait();
+            wbit();
         }
         Integer eventId = queue.dequeue();
-        return new AppletEvent(this, eventId.intValue(), null);
+        return new AppletEvent(this, eventId.intVblue(), null);
     }
 
-    boolean emptyEventQueue() {
+    boolebn emptyEventQueue() {
         if ((queue == null) || (queue.isEmpty()))
             return true;
         else
-            return false;
+            return fblse;
     }
 
     /**
      * This kludge is specific to get over AccessControlException thrown during
-     * Applet.stop() or destroy() when static thread is suspended.  Set a flag
-     * in AppletClassLoader to indicate that an
-     * AccessControlException for RuntimePermission "modifyThread" or
-     * "modifyThreadGroup" had occurred.
+     * Applet.stop() or destroy() when stbtic threbd is suspended.  Set b flbg
+     * in AppletClbssLobder to indicbte thbt bn
+     * AccessControlException for RuntimePermission "modifyThrebd" or
+     * "modifyThrebdGroup" hbd occurred.
      */
-     private void setExceptionStatus(AccessControlException e) {
+     privbte void setExceptionStbtus(AccessControlException e) {
      Permission p = e.getPermission();
-     if (p instanceof RuntimePermission) {
-         if (p.getName().startsWith("modifyThread")) {
-             if (loader == null)
-                 loader = getClassLoader(getCodeBase(), getClassLoaderCacheKey());
-             loader.setExceptionStatus();
+     if (p instbnceof RuntimePermission) {
+         if (p.getNbme().stbrtsWith("modifyThrebd")) {
+             if (lobder == null)
+                 lobder = getClbssLobder(getCodeBbse(), getClbssLobderCbcheKey());
+             lobder.setExceptionStbtus();
          }
      }
      }
 
     /**
-     * Execute applet events.
-     * Here is the state transition diagram
+     * Execute bpplet events.
+     * Here is the stbte trbnsition dibgrbm
      *
-     *   Note: (XXX) is the action
-     *         APPLET_XXX is the state
-     *  (applet code loaded) --> APPLET_LOAD -- (applet init called)--> APPLET_INIT -- (
-     *   applet start called) --> APPLET_START -- (applet stop called) -->APPLET_STOP --(applet
-     *   destroyed called) --> APPLET_DESTROY -->(applet gets disposed) -->
+     *   Note: (XXX) is the bction
+     *         APPLET_XXX is the stbte
+     *  (bpplet code lobded) --> APPLET_LOAD -- (bpplet init cblled)--> APPLET_INIT -- (
+     *   bpplet stbrt cblled) --> APPLET_START -- (bpplet stop cblled) -->APPLET_STOP --(bpplet
+     *   destroyed cblled) --> APPLET_DESTROY -->(bpplet gets disposed) -->
      *   APPLET_DISPOSE -->....
      *
-     * In the legacy lifecycle model. The applet gets loaded, inited and started. So it stays
-     * in the APPLET_START state unless the applet goes away(refresh page or leave the page).
-     * So the applet stop method called and the applet enters APPLET_STOP state. Then if the applet
-     * is revisited, it will call applet start method and enter the APPLET_START state and stay there.
+     * In the legbcy lifecycle model. The bpplet gets lobded, inited bnd stbrted. So it stbys
+     * in the APPLET_START stbte unless the bpplet goes bwby(refresh pbge or lebve the pbge).
+     * So the bpplet stop method cblled bnd the bpplet enters APPLET_STOP stbte. Then if the bpplet
+     * is revisited, it will cbll bpplet stbrt method bnd enter the APPLET_START stbte bnd stby there.
      *
-     * In the modern lifecycle model. When the applet first time visited, it is same as legacy lifecycle
-     * model. However, when the applet page goes away. It calls applet stop method and enters APPLET_STOP
-     * state and then applet destroyed method gets called and enters APPLET_DESTROY state.
+     * In the modern lifecycle model. When the bpplet first time visited, it is sbme bs legbcy lifecycle
+     * model. However, when the bpplet pbge goes bwby. It cblls bpplet stop method bnd enters APPLET_STOP
+     * stbte bnd then bpplet destroyed method gets cblled bnd enters APPLET_DESTROY stbte.
      *
-     * This code is also called by AppletViewer. In AppletViewer "Restart" menu, the applet is jump from
-     * APPLET_STOP to APPLET_DESTROY and to APPLET_INIT .
+     * This code is blso cblled by AppletViewer. In AppletViewer "Restbrt" menu, the bpplet is jump from
+     * APPLET_STOP to APPLET_DESTROY bnd to APPLET_INIT .
      *
-     * Also, the applet can jump from APPLET_INIT state to APPLET_DESTROY (in Netscape/Mozilla case).
-         * Same as APPLET_LOAD to
-     * APPLET_DISPOSE since all of this are triggered by browser.
+     * Also, the bpplet cbn jump from APPLET_INIT stbte to APPLET_DESTROY (in Netscbpe/Mozillb cbse).
+         * Sbme bs APPLET_LOAD to
+     * APPLET_DISPOSE since bll of this bre triggered by browser.
      *
      *
      */
     @Override
     public void run() {
 
-        Thread curThread = Thread.currentThread();
-        if (curThread == loaderThread) {
-            // if we are in the loader thread, cause
-            // loading to occur.  We may exit this with
-            // status being APPLET_DISPOSE, APPLET_ERROR,
+        Threbd curThrebd = Threbd.currentThrebd();
+        if (curThrebd == lobderThrebd) {
+            // if we bre in the lobder threbd, cbuse
+            // lobding to occur.  We mby exit this with
+            // stbtus being APPLET_DISPOSE, APPLET_ERROR,
             // or APPLET_LOAD
-            runLoader();
+            runLobder();
             return;
         }
 
-        boolean disposed = false;
-        while (!disposed && !curThread.isInterrupted()) {
+        boolebn disposed = fblse;
+        while (!disposed && !curThrebd.isInterrupted()) {
             AppletEvent evt;
             try {
                 evt = getNextEvent();
-            } catch (InterruptedException e) {
-                showAppletStatus("bail");
+            } cbtch (InterruptedException e) {
+                showAppletStbtus("bbil");
                 return;
             }
 
-            //showAppletStatus("EVENT = " + evt.getID());
+            //showAppletStbtus("EVENT = " + evt.getID());
             try {
                 switch (evt.getID()) {
-                  case APPLET_LOAD:
-                      if (!okToLoad()) {
-                          break;
+                  cbse APPLET_LOAD:
+                      if (!okToLobd()) {
+                          brebk;
                       }
-                      // This complexity allows loading of applets to be
-                      // interruptable.  The actual thread loading runs
-                      // in a separate thread, so it can be interrupted
-                      // without harming the applet thread.
-                      // So that we don't have to worry about
-                      // concurrency issues, the main applet thread waits
-                      // until the loader thread terminates.
-                      // (one way or another).
-                      if (loaderThread == null) {
-                          // REMIND: do we want a name?
-                          //System.out.println("------------------- loading applet");
-                          setLoaderThread(new Thread(this));
-                          loaderThread.start();
+                      // This complexity bllows lobding of bpplets to be
+                      // interruptbble.  The bctubl threbd lobding runs
+                      // in b sepbrbte threbd, so it cbn be interrupted
+                      // without hbrming the bpplet threbd.
+                      // So thbt we don't hbve to worry bbout
+                      // concurrency issues, the mbin bpplet threbd wbits
+                      // until the lobder threbd terminbtes.
+                      // (one wby or bnother).
+                      if (lobderThrebd == null) {
+                          // REMIND: do we wbnt b nbme?
+                          //System.out.println("------------------- lobding bpplet");
+                          setLobderThrebd(new Threbd(this));
+                          lobderThrebd.stbrt();
                           // we get to go to sleep while this runs
-                          loaderThread.join();
-                          setLoaderThread(null);
+                          lobderThrebd.join();
+                          setLobderThrebd(null);
                       } else {
-                          // REMIND: issue an error -- this case should never
+                          // REMIND: issue bn error -- this cbse should never
                           // occur.
                       }
-                      break;
+                      brebk;
 
-                  case APPLET_INIT:
-                    // AppletViewer "Restart" will jump from destroy method to
-                    // init, that is why we need to check status w/ APPLET_DESTROY
-                      if (status != APPLET_LOAD && status != APPLET_DESTROY) {
-                          showAppletStatus("notloaded");
-                          break;
+                  cbse APPLET_INIT:
+                    // AppletViewer "Restbrt" will jump from destroy method to
+                    // init, thbt is why we need to check stbtus w/ APPLET_DESTROY
+                      if (stbtus != APPLET_LOAD && stbtus != APPLET_DESTROY) {
+                          showAppletStbtus("notlobded");
+                          brebk;
                       }
-                      applet.resize(defaultAppletSize);
+                      bpplet.resize(defbultAppletSize);
                       if (doInit) {
-                          if (PerformanceLogger.loggingEnabled()) {
-                              PerformanceLogger.setTime("Applet Init");
-                              PerformanceLogger.outputLog();
+                          if (PerformbnceLogger.loggingEnbbled()) {
+                              PerformbnceLogger.setTime("Applet Init");
+                              PerformbnceLogger.outputLog();
                           }
-                          applet.init();
+                          bpplet.init();
                       }
 
-                      //Need the default(fallback) font to be created in this AppContext
+                      //Need the defbult(fbllbbck) font to be crebted in this AppContext
                       Font f = getFont();
                       if (f == null ||
-                          "dialog".equals(f.getFamily().toLowerCase(Locale.ENGLISH)) &&
+                          "diblog".equbls(f.getFbmily().toLowerCbse(Locble.ENGLISH)) &&
                           f.getSize() == 12 && f.getStyle() == Font.PLAIN) {
                           setFont(new Font(Font.DIALOG, Font.PLAIN, 12));
                       }
 
-                      doInit = true;    // allow restarts
+                      doInit = true;    // bllow restbrts
 
-                      // Validate the applet in event dispatch thread
-                      // to avoid deadlock.
+                      // Vblidbte the bpplet in event dispbtch threbd
+                      // to bvoid debdlock.
                       try {
-                          final AppletPanel p = this;
-                          Runnable r = new Runnable() {
+                          finbl AppletPbnel p = this;
+                          Runnbble r = new Runnbble() {
                               @Override
                               public void run() {
-                                  p.validate();
+                                  p.vblidbte();
                               }
                           };
-                          AWTAccessor.getEventQueueAccessor().invokeAndWait(applet, r);
+                          AWTAccessor.getEventQueueAccessor().invokeAndWbit(bpplet, r);
                       }
-                      catch(InterruptedException ie) {
+                      cbtch(InterruptedException ie) {
                       }
-                      catch(InvocationTargetException ite) {
+                      cbtch(InvocbtionTbrgetException ite) {
                       }
 
-                      status = APPLET_INIT;
-                      showAppletStatus("inited");
-                      break;
+                      stbtus = APPLET_INIT;
+                      showAppletStbtus("inited");
+                      brebk;
 
-                  case APPLET_START:
+                  cbse APPLET_START:
                   {
-                      if (status != APPLET_INIT && status != APPLET_STOP) {
-                          showAppletStatus("notinited");
-                          break;
+                      if (stbtus != APPLET_INIT && stbtus != APPLET_STOP) {
+                          showAppletStbtus("notinited");
+                          brebk;
                       }
-                      applet.resize(currentAppletSize);
-                      applet.start();
+                      bpplet.resize(currentAppletSize);
+                      bpplet.stbrt();
 
-                      // Validate and show the applet in event dispatch thread
-                      // to avoid deadlock.
+                      // Vblidbte bnd show the bpplet in event dispbtch threbd
+                      // to bvoid debdlock.
                       try {
-                          final AppletPanel p = this;
-                          final Applet a = applet;
-                          Runnable r = new Runnable() {
+                          finbl AppletPbnel p = this;
+                          finbl Applet b = bpplet;
+                          Runnbble r = new Runnbble() {
                               @Override
                               public void run() {
-                                  p.validate();
-                                  a.setVisible(true);
+                                  p.vblidbte();
+                                  b.setVisible(true);
 
-                                  // Fix for BugTraq ID 4041703.
-                                  // Set the default focus for an applet.
-                                  if (hasInitialFocus()) {
-                                      setDefaultFocus();
+                                  // Fix for BugTrbq ID 4041703.
+                                  // Set the defbult focus for bn bpplet.
+                                  if (hbsInitiblFocus()) {
+                                      setDefbultFocus();
                                   }
                               }
                           };
-                          AWTAccessor.getEventQueueAccessor().invokeAndWait(applet, r);
+                          AWTAccessor.getEventQueueAccessor().invokeAndWbit(bpplet, r);
                       }
-                      catch(InterruptedException ie) {
+                      cbtch(InterruptedException ie) {
                       }
-                      catch(InvocationTargetException ite) {
+                      cbtch(InvocbtionTbrgetException ite) {
                       }
 
-                      status = APPLET_START;
-                      showAppletStatus("started");
-                      break;
+                      stbtus = APPLET_START;
+                      showAppletStbtus("stbrted");
+                      brebk;
                   }
 
-                case APPLET_STOP:
-                    if (status != APPLET_START) {
-                        showAppletStatus("notstarted");
-                        break;
+                cbse APPLET_STOP:
+                    if (stbtus != APPLET_START) {
+                        showAppletStbtus("notstbrted");
+                        brebk;
                     }
-                    status = APPLET_STOP;
+                    stbtus = APPLET_STOP;
 
-                    // Hide the applet in event dispatch thread
-                    // to avoid deadlock.
+                    // Hide the bpplet in event dispbtch threbd
+                    // to bvoid debdlock.
                     try {
-                        final Applet a = applet;
-                        Runnable r = new Runnable() {
+                        finbl Applet b = bpplet;
+                        Runnbble r = new Runnbble() {
                             @Override
                             public void run() {
-                                a.setVisible(false);
+                                b.setVisible(fblse);
                             }
                         };
-                        AWTAccessor.getEventQueueAccessor().invokeAndWait(applet, r);
+                        AWTAccessor.getEventQueueAccessor().invokeAndWbit(bpplet, r);
                     }
-                    catch(InterruptedException ie) {
+                    cbtch(InterruptedException ie) {
                     }
-                    catch(InvocationTargetException ite) {
+                    cbtch(InvocbtionTbrgetException ite) {
                     }
 
 
-                    // During Applet.stop(), any AccessControlException on an involved Class remains in
-                    // the "memory" of the AppletClassLoader.  If the same instance of the ClassLoader is
-                    // reused, the same exception will occur during class loading.  Set the AppletClassLoader's
-                    // exceptionStatusSet flag to allow recognition of what had happened
-                    // when reusing AppletClassLoader object.
+                    // During Applet.stop(), bny AccessControlException on bn involved Clbss rembins in
+                    // the "memory" of the AppletClbssLobder.  If the sbme instbnce of the ClbssLobder is
+                    // reused, the sbme exception will occur during clbss lobding.  Set the AppletClbssLobder's
+                    // exceptionStbtusSet flbg to bllow recognition of whbt hbd hbppened
+                    // when reusing AppletClbssLobder object.
                     try {
-                        applet.stop();
-                    } catch (java.security.AccessControlException e) {
-                        setExceptionStatus(e);
-                        // rethrow exception to be handled as it normally would be.
+                        bpplet.stop();
+                    } cbtch (jbvb.security.AccessControlException e) {
+                        setExceptionStbtus(e);
+                        // rethrow exception to be hbndled bs it normblly would be.
                         throw e;
                     }
-                    showAppletStatus("stopped");
-                    break;
+                    showAppletStbtus("stopped");
+                    brebk;
 
-                case APPLET_DESTROY:
-                    if (status != APPLET_STOP && status != APPLET_INIT) {
-                        showAppletStatus("notstopped");
-                        break;
+                cbse APPLET_DESTROY:
+                    if (stbtus != APPLET_STOP && stbtus != APPLET_INIT) {
+                        showAppletStbtus("notstopped");
+                        brebk;
                     }
-                    status = APPLET_DESTROY;
+                    stbtus = APPLET_DESTROY;
 
-                    // During Applet.destroy(), any AccessControlException on an involved Class remains in
-                    // the "memory" of the AppletClassLoader.  If the same instance of the ClassLoader is
-                    // reused, the same exception will occur during class loading.  Set the AppletClassLoader's
-                    // exceptionStatusSet flag to allow recognition of what had happened
-                    // when reusing AppletClassLoader object.
+                    // During Applet.destroy(), bny AccessControlException on bn involved Clbss rembins in
+                    // the "memory" of the AppletClbssLobder.  If the sbme instbnce of the ClbssLobder is
+                    // reused, the sbme exception will occur during clbss lobding.  Set the AppletClbssLobder's
+                    // exceptionStbtusSet flbg to bllow recognition of whbt hbd hbppened
+                    // when reusing AppletClbssLobder object.
                     try {
-                        applet.destroy();
-                    } catch (java.security.AccessControlException e) {
-                        setExceptionStatus(e);
-                        // rethrow exception to be handled as it normally would be.
+                        bpplet.destroy();
+                    } cbtch (jbvb.security.AccessControlException e) {
+                        setExceptionStbtus(e);
+                        // rethrow exception to be hbndled bs it normblly would be.
                         throw e;
                     }
-                    showAppletStatus("destroyed");
-                    break;
+                    showAppletStbtus("destroyed");
+                    brebk;
 
-                case APPLET_DISPOSE:
-                    if (status != APPLET_DESTROY && status != APPLET_LOAD) {
-                        showAppletStatus("notdestroyed");
-                        break;
+                cbse APPLET_DISPOSE:
+                    if (stbtus != APPLET_DESTROY && stbtus != APPLET_LOAD) {
+                        showAppletStbtus("notdestroyed");
+                        brebk;
                     }
-                    status = APPLET_DISPOSE;
+                    stbtus = APPLET_DISPOSE;
 
                     try {
-                        final Applet a = applet;
-                        Runnable r = new Runnable() {
+                        finbl Applet b = bpplet;
+                        Runnbble r = new Runnbble() {
                             @Override
                             public void run() {
-                                remove(a);
+                                remove(b);
                             }
                         };
-                        AWTAccessor.getEventQueueAccessor().invokeAndWait(applet, r);
+                        AWTAccessor.getEventQueueAccessor().invokeAndWbit(bpplet, r);
                     }
-                    catch(InterruptedException ie)
+                    cbtch(InterruptedException ie)
                     {
                     }
-                    catch(InvocationTargetException ite)
+                    cbtch(InvocbtionTbrgetException ite)
                     {
                     }
-                    applet = null;
-                    showAppletStatus("disposed");
+                    bpplet = null;
+                    showAppletStbtus("disposed");
                     disposed = true;
-                    break;
+                    brebk;
 
-                case APPLET_QUIT:
+                cbse APPLET_QUIT:
                     return;
                 }
-            } catch (Exception e) {
-                status = APPLET_ERROR;
-                if (e.getMessage() != null) {
-                    showAppletStatus("exception2", e.getClass().getName(),
-                                     e.getMessage());
+            } cbtch (Exception e) {
+                stbtus = APPLET_ERROR;
+                if (e.getMessbge() != null) {
+                    showAppletStbtus("exception2", e.getClbss().getNbme(),
+                                     e.getMessbge());
                 } else {
-                    showAppletStatus("exception", e.getClass().getName());
+                    showAppletStbtus("exception", e.getClbss().getNbme());
                 }
                 showAppletException(e);
-            } catch (ThreadDeath e) {
-                showAppletStatus("death");
+            } cbtch (ThrebdDebth e) {
+                showAppletStbtus("debth");
                 return;
-            } catch (Error e) {
-                status = APPLET_ERROR;
-                if (e.getMessage() != null) {
-                    showAppletStatus("error2", e.getClass().getName(),
-                                     e.getMessage());
+            } cbtch (Error e) {
+                stbtus = APPLET_ERROR;
+                if (e.getMessbge() != null) {
+                    showAppletStbtus("error2", e.getClbss().getNbme(),
+                                     e.getMessbge());
                 } else {
-                    showAppletStatus("error", e.getClass().getName());
+                    showAppletStbtus("error", e.getClbss().getNbme());
                 }
                 showAppletException(e);
             }
-            clearLoadAbortRequest();
+            clebrLobdAbortRequest();
         }
     }
 
     /**
-     * Gets most recent focus owner component associated with the given window.
-     * It does that without calling Window.getMostRecentFocusOwner since it
-     * provides its own logic contradicting with setDefautlFocus. Instead, it
-     * calls KeyboardFocusManager directly.
+     * Gets most recent focus owner component bssocibted with the given window.
+     * It does thbt without cblling Window.getMostRecentFocusOwner since it
+     * provides its own logic contrbdicting with setDefbutlFocus. Instebd, it
+     * cblls KeybobrdFocusMbnbger directly.
      */
-    private Component getMostRecentFocusOwnerForWindow(Window w) {
+    privbte Component getMostRecentFocusOwnerForWindow(Window w) {
         Method meth = AccessController.doPrivileged(
             new PrivilegedAction<Method>() {
                 @Override
                 public Method run() {
                     Method meth = null;
                     try {
-                        meth = KeyboardFocusManager.class.getDeclaredMethod(
+                        meth = KeybobrdFocusMbnbger.clbss.getDeclbredMethod(
                                 "getMostRecentFocusOwner",
-                                new Class<?>[]{Window.class});
+                                new Clbss<?>[]{Window.clbss});
                         meth.setAccessible(true);
-                    } catch (Exception e) {
-                        // Must never happen
-                        e.printStackTrace();
+                    } cbtch (Exception e) {
+                        // Must never hbppen
+                        e.printStbckTrbce();
                     }
                     return meth;
                 }
             });
         if (meth != null) {
-            // Meth refers static method
+            // Meth refers stbtic method
             try {
                 return (Component)meth.invoke(null, new Object[] {w});
-            } catch (Exception e) {
-                // Must never happen
-                e.printStackTrace();
+            } cbtch (Exception e) {
+                // Must never hbppen
+                e.printStbckTrbce();
             }
         }
-        // Will get here if exception was thrown or meth is null
+        // Will get here if exception wbs thrown or meth is null
         return w.getMostRecentFocusOwner();
     }
 
     /*
-     * Fix for BugTraq ID 4041703.
-     * Set the focus to a reasonable default for an Applet.
+     * Fix for BugTrbq ID 4041703.
+     * Set the focus to b rebsonbble defbult for bn Applet.
      */
-    private void setDefaultFocus() {
+    privbte void setDefbultFocus() {
         Component toFocus = null;
-        Container parent = getParent();
+        Contbiner pbrent = getPbrent();
 
-        if(parent != null) {
-            if (parent instanceof Window) {
-                toFocus = getMostRecentFocusOwnerForWindow((Window)parent);
-                if (toFocus == parent || toFocus == null) {
-                    toFocus = parent.getFocusTraversalPolicy().
-                        getInitialComponent((Window)parent);
+        if(pbrent != null) {
+            if (pbrent instbnceof Window) {
+                toFocus = getMostRecentFocusOwnerForWindow((Window)pbrent);
+                if (toFocus == pbrent || toFocus == null) {
+                    toFocus = pbrent.getFocusTrbversblPolicy().
+                        getInitiblComponent((Window)pbrent);
                 }
-            } else if (parent.isFocusCycleRoot()) {
-                toFocus = parent.getFocusTraversalPolicy().
-                    getDefaultComponent(parent);
+            } else if (pbrent.isFocusCycleRoot()) {
+                toFocus = pbrent.getFocusTrbversblPolicy().
+                    getDefbultComponent(pbrent);
             }
         }
 
         if (toFocus != null) {
-            if (parent instanceof EmbeddedFrame) {
-                ((EmbeddedFrame)parent).synthesizeWindowActivation(true);
+            if (pbrent instbnceof EmbeddedFrbme) {
+                ((EmbeddedFrbme)pbrent).synthesizeWindowActivbtion(true);
             }
-            // EmbeddedFrame might have focus before the applet was added.
-            // Thus after its activation the most recent focus owner will be
-            // restored. We need the applet's initial focusabled component to
+            // EmbeddedFrbme might hbve focus before the bpplet wbs bdded.
+            // Thus bfter its bctivbtion the most recent focus owner will be
+            // restored. We need the bpplet's initibl focusbbled component to
             // be focused here.
             toFocus.requestFocusInWindow();
         }
     }
 
     /**
-     * Load the applet into memory.
-     * Runs in a seperate (and interruptible) thread from the rest of the
-     * applet event processing so that it can be gracefully interrupted from
-     * things like HotJava.
+     * Lobd the bpplet into memory.
+     * Runs in b seperbte (bnd interruptible) threbd from the rest of the
+     * bpplet event processing so thbt it cbn be grbcefully interrupted from
+     * things like HotJbvb.
      */
-    private void runLoader() {
-        if (status != APPLET_DISPOSE) {
-            showAppletStatus("notdisposed");
+    privbte void runLobder() {
+        if (stbtus != APPLET_DISPOSE) {
+            showAppletStbtus("notdisposed");
             return;
         }
 
-        dispatchAppletEvent(APPLET_LOADING, null);
+        dispbtchAppletEvent(APPLET_LOADING, null);
 
-        // REMIND -- might be cool to visually indicate loading here --
-        // maybe do animation?
-        status = APPLET_LOAD;
+        // REMIND -- might be cool to visublly indicbte lobding here --
+        // mbybe do bnimbtion?
+        stbtus = APPLET_LOAD;
 
-        // Create a class loader
-        loader = getClassLoader(getCodeBase(), getClassLoaderCacheKey());
+        // Crebte b clbss lobder
+        lobder = getClbssLobder(getCodeBbse(), getClbssLobderCbcheKey());
 
-        // Load the archives if present.
-        // REMIND - this probably should be done in a separate thread,
-        // or at least the additional archives (epll).
+        // Lobd the brchives if present.
+        // REMIND - this probbbly should be done in b sepbrbte threbd,
+        // or bt lebst the bdditionbl brchives (epll).
 
         String code = getCode();
 
-        // setup applet AppContext
-        // this must be called before loadJarFiles
+        // setup bpplet AppContext
+        // this must be cblled before lobdJbrFiles
         setupAppletAppContext();
 
         try {
-            loadJarFiles(loader);
-            applet = createApplet(loader);
-        } catch (ClassNotFoundException e) {
-            status = APPLET_ERROR;
-            showAppletStatus("notfound", code);
+            lobdJbrFiles(lobder);
+            bpplet = crebteApplet(lobder);
+        } cbtch (ClbssNotFoundException e) {
+            stbtus = APPLET_ERROR;
+            showAppletStbtus("notfound", code);
             showAppletLog("notfound", code);
             showAppletException(e);
             return;
-        } catch (InstantiationException e) {
-            status = APPLET_ERROR;
-            showAppletStatus("nocreate", code);
-            showAppletLog("nocreate", code);
+        } cbtch (InstbntibtionException e) {
+            stbtus = APPLET_ERROR;
+            showAppletStbtus("nocrebte", code);
+            showAppletLog("nocrebte", code);
             showAppletException(e);
             return;
-        } catch (IllegalAccessException e) {
-            status = APPLET_ERROR;
-            showAppletStatus("noconstruct", code);
+        } cbtch (IllegblAccessException e) {
+            stbtus = APPLET_ERROR;
+            showAppletStbtus("noconstruct", code);
             showAppletLog("noconstruct", code);
             showAppletException(e);
-            // sbb -- I added a return here
+            // sbb -- I bdded b return here
             return;
-        } catch (Exception e) {
-            status = APPLET_ERROR;
-            showAppletStatus("exception", e.getMessage());
+        } cbtch (Exception e) {
+            stbtus = APPLET_ERROR;
+            showAppletStbtus("exception", e.getMessbge());
             showAppletException(e);
             return;
-        } catch (ThreadDeath e) {
-            status = APPLET_ERROR;
-            showAppletStatus("death");
+        } cbtch (ThrebdDebth e) {
+            stbtus = APPLET_ERROR;
+            showAppletStbtus("debth");
             return;
-        } catch (Error e) {
-            status = APPLET_ERROR;
-            showAppletStatus("error", e.getMessage());
+        } cbtch (Error e) {
+            stbtus = APPLET_ERROR;
+            showAppletStbtus("error", e.getMessbge());
             showAppletException(e);
             return;
-        } finally {
-            // notify that loading is no longer going on
-            dispatchAppletEvent(APPLET_LOADING_COMPLETED, null);
+        } finblly {
+            // notify thbt lobding is no longer going on
+            dispbtchAppletEvent(APPLET_LOADING_COMPLETED, null);
         }
 
         // Fixed #4508194: NullPointerException thrown during
-        // quick page switch
+        // quick pbge switch
         //
-        if (applet != null)
+        if (bpplet != null)
         {
-            // Stick it in the frame
-            applet.setStub(this);
-            applet.hide();
-            add("Center", applet);
-            showAppletStatus("loaded");
-            validate();
+            // Stick it in the frbme
+            bpplet.setStub(this);
+            bpplet.hide();
+            bdd("Center", bpplet);
+            showAppletStbtus("lobded");
+            vblidbte();
         }
     }
 
-    protected Applet createApplet(final AppletClassLoader loader) throws ClassNotFoundException,
-                                                                         IllegalAccessException, IOException, InstantiationException, InterruptedException {
-        final String serName = getSerializedObject();
+    protected Applet crebteApplet(finbl AppletClbssLobder lobder) throws ClbssNotFoundException,
+                                                                         IllegblAccessException, IOException, InstbntibtionException, InterruptedException {
+        finbl String serNbme = getSeriblizedObject();
         String code = getCode();
 
-        if (code != null && serName != null) {
-            System.err.println(amh.getMessage("runloader.err"));
+        if (code != null && serNbme != null) {
+            System.err.println(bmh.getMessbge("runlobder.err"));
 //          return null;
-            throw new InstantiationException("Either \"code\" or \"object\" should be specified, but not both.");
+            throw new InstbntibtionException("Either \"code\" or \"object\" should be specified, but not both.");
         }
-        if (code == null && serName == null) {
+        if (code == null && serNbme == null) {
             String msg = "nocode";
-            status = APPLET_ERROR;
-            showAppletStatus(msg);
+            stbtus = APPLET_ERROR;
+            showAppletStbtus(msg);
             showAppletLog(msg);
-            repaint();
+            repbint();
         }
         if (code != null) {
-            applet = (Applet)loader.loadCode(code).newInstance();
+            bpplet = (Applet)lobder.lobdCode(code).newInstbnce();
             doInit = true;
         } else {
-            // serName is not null;
-            try (InputStream is = AccessController.doPrivileged(
-                    (PrivilegedAction<InputStream>)() -> loader.getResourceAsStream(serName));
-                 ObjectInputStream ois = new AppletObjectInputStream(is, loader)) {
+            // serNbme is not null;
+            try (InputStrebm is = AccessController.doPrivileged(
+                    (PrivilegedAction<InputStrebm>)() -> lobder.getResourceAsStrebm(serNbme));
+                 ObjectInputStrebm ois = new AppletObjectInputStrebm(is, lobder)) {
 
-                applet = (Applet) ois.readObject();
-                doInit = false; // skip over the first init
+                bpplet = (Applet) ois.rebdObject();
+                doInit = fblse; // skip over the first init
             }
         }
 
-        // Determine the JDK level that the applet targets.
-        // This is critical for enabling certain backward
-        // compatibility switch if an applet is a JDK 1.1
-        // applet. [stanley.ho]
-        findAppletJDKLevel(applet);
+        // Determine the JDK level thbt the bpplet tbrgets.
+        // This is criticbl for enbbling certbin bbckwbrd
+        // compbtibility switch if bn bpplet is b JDK 1.1
+        // bpplet. [stbnley.ho]
+        findAppletJDKLevel(bpplet);
 
-        if (Thread.interrupted()) {
+        if (Threbd.interrupted()) {
             try {
-                status = APPLET_DISPOSE; // APPLET_ERROR?
-                applet = null;
-                // REMIND: This may not be exactly the right thing: the
-                // status is set by the stop button and not necessarily
+                stbtus = APPLET_DISPOSE; // APPLET_ERROR?
+                bpplet = null;
+                // REMIND: This mby not be exbctly the right thing: the
+                // stbtus is set by the stop button bnd not necessbrily
                 // here.
-                showAppletStatus("death");
-            } finally {
-                Thread.currentThread().interrupt(); // resignal interrupt
+                showAppletStbtus("debth");
+            } finblly {
+                Threbd.currentThrebd().interrupt(); // resignbl interrupt
             }
             return null;
         }
-        return applet;
+        return bpplet;
     }
 
-    protected void loadJarFiles(AppletClassLoader loader) throws IOException,
+    protected void lobdJbrFiles(AppletClbssLobder lobder) throws IOException,
                                                                  InterruptedException {
-        // Load the archives if present.
-        // REMIND - this probably should be done in a separate thread,
-        // or at least the additional archives (epll).
-        String jarFiles = getJarFiles();
+        // Lobd the brchives if present.
+        // REMIND - this probbbly should be done in b sepbrbte threbd,
+        // or bt lebst the bdditionbl brchives (epll).
+        String jbrFiles = getJbrFiles();
 
-        if (jarFiles != null) {
-            StringTokenizer st = new StringTokenizer(jarFiles, ",", false);
-            while(st.hasMoreTokens()) {
+        if (jbrFiles != null) {
+            StringTokenizer st = new StringTokenizer(jbrFiles, ",", fblse);
+            while(st.hbsMoreTokens()) {
                 String tok = st.nextToken().trim();
                 try {
-                    loader.addJar(tok);
-                } catch (IllegalArgumentException e) {
-                    // bad archive name
+                    lobder.bddJbr(tok);
+                } cbtch (IllegblArgumentException e) {
+                    // bbd brchive nbme
                     continue;
                 }
             }
@@ -855,70 +855,70 @@ abstract class AppletPanel extends Panel implements AppletStub, Runnable {
     }
 
     /**
-     * Request that the loading of the applet be stopped.
+     * Request thbt the lobding of the bpplet be stopped.
      */
-    protected synchronized void stopLoading() {
+    protected synchronized void stopLobding() {
         // REMIND: fill in the body
-        if (loaderThread != null) {
-            //System.out.println("Interrupting applet loader thread: " + loaderThread);
-            loaderThread.interrupt();
+        if (lobderThrebd != null) {
+            //System.out.println("Interrupting bpplet lobder threbd: " + lobderThrebd);
+            lobderThrebd.interrupt();
         } else {
-            setLoadAbortRequest();
+            setLobdAbortRequest();
         }
     }
 
 
-    protected synchronized boolean okToLoad() {
-        return !loadAbortRequest;
+    protected synchronized boolebn okToLobd() {
+        return !lobdAbortRequest;
     }
 
-    protected synchronized void clearLoadAbortRequest() {
-        loadAbortRequest = false;
+    protected synchronized void clebrLobdAbortRequest() {
+        lobdAbortRequest = fblse;
     }
 
-    protected synchronized void setLoadAbortRequest() {
-        loadAbortRequest = true;
+    protected synchronized void setLobdAbortRequest() {
+        lobdAbortRequest = true;
     }
 
 
-    private synchronized void setLoaderThread(Thread loaderThread) {
-        this.loaderThread = loaderThread;
+    privbte synchronized void setLobderThrebd(Threbd lobderThrebd) {
+        this.lobderThrebd = lobderThrebd;
     }
 
     /**
-     * Return true when the applet has been started.
+     * Return true when the bpplet hbs been stbrted.
      */
     @Override
-    public boolean isActive() {
-        return status == APPLET_START;
+    public boolebn isActive() {
+        return stbtus == APPLET_START;
     }
 
 
-    private EventQueue appEvtQ = null;
+    privbte EventQueue bppEvtQ = null;
     /**
-     * Is called when the applet wants to be resized.
+     * Is cblled when the bpplet wbnts to be resized.
      */
     @Override
-    public void appletResize(int width, int height) {
+    public void bppletResize(int width, int height) {
         currentAppletSize.width = width;
         currentAppletSize.height = height;
-        final Dimension currentSize = new Dimension(currentAppletSize.width,
+        finbl Dimension currentSize = new Dimension(currentAppletSize.width,
                                                     currentAppletSize.height);
 
-        if(loader != null) {
-            AppContext appCtxt = loader.getAppContext();
-            if(appCtxt != null)
-                appEvtQ = (java.awt.EventQueue)appCtxt.get(AppContext.EVENT_QUEUE_KEY);
+        if(lobder != null) {
+            AppContext bppCtxt = lobder.getAppContext();
+            if(bppCtxt != null)
+                bppEvtQ = (jbvb.bwt.EventQueue)bppCtxt.get(AppContext.EVENT_QUEUE_KEY);
         }
 
-        final AppletPanel ap = this;
-        if (appEvtQ != null){
-            appEvtQ.postEvent(new InvocationEvent(Toolkit.getDefaultToolkit(),
-                                                  new Runnable() {
+        finbl AppletPbnel bp = this;
+        if (bppEvtQ != null){
+            bppEvtQ.postEvent(new InvocbtionEvent(Toolkit.getDefbultToolkit(),
+                                                  new Runnbble() {
                                                       @Override
                                                       public void run() {
-                                                          if (ap != null) {
-                                                              ap.dispatchAppletEvent(
+                                                          if (bp != null) {
+                                                              bp.dispbtchAppletEvent(
                                                                       APPLET_RESIZE,
                                                                       currentSize);
                                                           }
@@ -935,145 +935,145 @@ abstract class AppletPanel extends Panel implements AppletStub, Runnable {
     }
 
     public Applet getApplet() {
-        return applet;
+        return bpplet;
     }
 
     /**
-     * Status line. Called by the AppletPanel to provide
-     * feedback on the Applet's state.
+     * Stbtus line. Cblled by the AppletPbnel to provide
+     * feedbbck on the Applet's stbte.
      */
-    protected void showAppletStatus(String status) {
-        getAppletContext().showStatus(amh.getMessage(status));
+    protected void showAppletStbtus(String stbtus) {
+        getAppletContext().showStbtus(bmh.getMessbge(stbtus));
     }
 
-    protected void showAppletStatus(String status, Object arg) {
-        getAppletContext().showStatus(amh.getMessage(status, arg));
+    protected void showAppletStbtus(String stbtus, Object brg) {
+        getAppletContext().showStbtus(bmh.getMessbge(stbtus, brg));
     }
-    protected void showAppletStatus(String status, Object arg1, Object arg2) {
-        getAppletContext().showStatus(amh.getMessage(status, arg1, arg2));
+    protected void showAppletStbtus(String stbtus, Object brg1, Object brg2) {
+        getAppletContext().showStbtus(bmh.getMessbge(stbtus, brg1, brg2));
     }
 
     /**
-     * Called by the AppletPanel to print to the log.
+     * Cblled by the AppletPbnel to print to the log.
      */
     protected void showAppletLog(String msg) {
-        System.out.println(amh.getMessage(msg));
+        System.out.println(bmh.getMessbge(msg));
     }
 
-    protected void showAppletLog(String msg, Object arg) {
-        System.out.println(amh.getMessage(msg, arg));
-    }
-
-    /**
-     * Called by the AppletPanel to provide
-     * feedback when an exception has happened.
-     */
-    protected void showAppletException(Throwable t) {
-        t.printStackTrace();
-        repaint();
+    protected void showAppletLog(String msg, Object brg) {
+        System.out.println(bmh.getMessbge(msg, brg));
     }
 
     /**
-     * Get caching key for classloader cache
+     * Cblled by the AppletPbnel to provide
+     * feedbbck when bn exception hbs hbppened.
      */
-    public String getClassLoaderCacheKey()
+    protected void showAppletException(Throwbble t) {
+        t.printStbckTrbce();
+        repbint();
+    }
+
+    /**
+     * Get cbching key for clbsslobder cbche
+     */
+    public String getClbssLobderCbcheKey()
     {
         /**
-         * Fixed #4501142: Classloader sharing policy doesn't
-         * take "archive" into account. This will be overridden
-         * by Java Plug-in.                     [stanleyh]
+         * Fixed #4501142: Clbsslobder shbring policy doesn't
+         * tbke "brchive" into bccount. This will be overridden
+         * by Jbvb Plug-in.                     [stbnleyh]
          */
-        return getCodeBase().toString();
+        return getCodeBbse().toString();
     }
 
     /**
-     * The class loaders
+     * The clbss lobders
      */
-    private static HashMap<String, AppletClassLoader> classloaders = new HashMap<>();
+    privbte stbtic HbshMbp<String, AppletClbssLobder> clbsslobders = new HbshMbp<>();
 
     /**
-     * Flush a class loader.
+     * Flush b clbss lobder.
      */
-    public static synchronized void flushClassLoader(String key) {
-        classloaders.remove(key);
+    public stbtic synchronized void flushClbssLobder(String key) {
+        clbsslobders.remove(key);
     }
 
     /**
-     * Flush all class loaders.
+     * Flush bll clbss lobders.
      */
-    public static synchronized void flushClassLoaders() {
-        classloaders = new HashMap<>();
+    public stbtic synchronized void flushClbssLobders() {
+        clbsslobders = new HbshMbp<>();
     }
 
     /**
-     * This method actually creates an AppletClassLoader.
+     * This method bctublly crebtes bn AppletClbssLobder.
      *
-     * It can be override by subclasses (such as the Plug-in)
-     * to provide different classloaders.
+     * It cbn be override by subclbsses (such bs the Plug-in)
+     * to provide different clbsslobders.
      */
-    protected AppletClassLoader createClassLoader(final URL codebase) {
-        return new AppletClassLoader(codebase);
+    protected AppletClbssLobder crebteClbssLobder(finbl URL codebbse) {
+        return new AppletClbssLobder(codebbse);
     }
 
     /**
-     * Get a class loader. Create in a restricted context
+     * Get b clbss lobder. Crebte in b restricted context
      */
-    synchronized AppletClassLoader getClassLoader(final URL codebase, final String key) {
-        AppletClassLoader c = classloaders.get(key);
+    synchronized AppletClbssLobder getClbssLobder(finbl URL codebbse, finbl String key) {
+        AppletClbssLobder c = clbsslobders.get(key);
         if (c == null) {
-            AccessControlContext acc =
-                getAccessControlContext(codebase);
+            AccessControlContext bcc =
+                getAccessControlContext(codebbse);
             c = AccessController.doPrivileged(
-                    new PrivilegedAction<AppletClassLoader>() {
+                    new PrivilegedAction<AppletClbssLobder>() {
                         @Override
-                        public AppletClassLoader run() {
-                            AppletClassLoader ac = createClassLoader(codebase);
-                            /* Should the creation of the classloader be
-                             * within the class synchronized block?  Since
-                             * this class is used by the plugin, take care
-                             * to avoid deadlocks, or specialize
-                             * AppletPanel within the plugin.  It may take
-                             * an arbitrary amount of time to create a
-                             * class loader (involving getting Jar files
-                             * etc.) and may block unrelated applets from
-                             * finishing createAppletThread (due to the
-                             * class synchronization). If
-                             * createAppletThread does not finish quickly,
-                             * the applet cannot process other messages,
-                             * particularly messages such as destroy
-                             * (which timeout when called from the browser).
+                        public AppletClbssLobder run() {
+                            AppletClbssLobder bc = crebteClbssLobder(codebbse);
+                            /* Should the crebtion of the clbsslobder be
+                             * within the clbss synchronized block?  Since
+                             * this clbss is used by the plugin, tbke cbre
+                             * to bvoid debdlocks, or speciblize
+                             * AppletPbnel within the plugin.  It mby tbke
+                             * bn brbitrbry bmount of time to crebte b
+                             * clbss lobder (involving getting Jbr files
+                             * etc.) bnd mby block unrelbted bpplets from
+                             * finishing crebteAppletThrebd (due to the
+                             * clbss synchronizbtion). If
+                             * crebteAppletThrebd does not finish quickly,
+                             * the bpplet cbnnot process other messbges,
+                             * pbrticulbrly messbges such bs destroy
+                             * (which timeout when cblled from the browser).
                              */
-                            synchronized (getClass()) {
-                                AppletClassLoader res = classloaders.get(key);
+                            synchronized (getClbss()) {
+                                AppletClbssLobder res = clbsslobders.get(key);
                                 if (res == null) {
-                                    classloaders.put(key, ac);
-                                    return ac;
+                                    clbsslobders.put(key, bc);
+                                    return bc;
                                 } else {
                                     return res;
                                 }
                             }
                         }
-                    },acc);
+                    },bcc);
         }
         return c;
     }
 
     /**
-     * get the context for the AppletClassLoader we are creating.
-     * the context is granted permission to create the class loader,
-     * connnect to the codebase, and whatever else the policy grants
-     * to all codebases.
+     * get the context for the AppletClbssLobder we bre crebting.
+     * the context is grbnted permission to crebte the clbss lobder,
+     * connnect to the codebbse, bnd whbtever else the policy grbnts
+     * to bll codebbses.
      */
-    private AccessControlContext getAccessControlContext(final URL codebase) {
+    privbte AccessControlContext getAccessControlContext(finbl URL codebbse) {
 
         PermissionCollection perms = AccessController.doPrivileged(
                 new PrivilegedAction<PermissionCollection>() {
                     @Override
                     public PermissionCollection run() {
-                        Policy p = java.security.Policy.getPolicy();
+                        Policy p = jbvb.security.Policy.getPolicy();
                         if (p != null) {
                             return p.getPermissions(new CodeSource(null,
-                                                                   (java.security.cert.Certificate[]) null));
+                                                                   (jbvb.security.cert.Certificbte[]) null));
                         } else {
                             return null;
                         }
@@ -1083,59 +1083,59 @@ abstract class AppletPanel extends Panel implements AppletStub, Runnable {
         if (perms == null)
             perms = new Permissions();
 
-        //XXX: this is needed to be able to create the classloader itself!
+        //XXX: this is needed to be bble to crebte the clbsslobder itself!
 
-        perms.add(SecurityConstants.CREATE_CLASSLOADER_PERMISSION);
+        perms.bdd(SecurityConstbnts.CREATE_CLASSLOADER_PERMISSION);
 
         Permission p;
-        java.net.URLConnection urlConnection = null;
+        jbvb.net.URLConnection urlConnection = null;
         try {
-            urlConnection = codebase.openConnection();
+            urlConnection = codebbse.openConnection();
             p = urlConnection.getPermission();
-        } catch (java.io.IOException ioe) {
+        } cbtch (jbvb.io.IOException ioe) {
             p = null;
         }
 
         if (p != null)
-            perms.add(p);
+            perms.bdd(p);
 
-        if (p instanceof FilePermission) {
+        if (p instbnceof FilePermission) {
 
-            String path = p.getName();
+            String pbth = p.getNbme();
 
-            int endIndex = path.lastIndexOf(File.separatorChar);
+            int endIndex = pbth.lbstIndexOf(File.sepbrbtorChbr);
 
             if (endIndex != -1) {
-                path = path.substring(0, endIndex+1);
+                pbth = pbth.substring(0, endIndex+1);
 
-                if (path.endsWith(File.separator)) {
-                    path += "-";
+                if (pbth.endsWith(File.sepbrbtor)) {
+                    pbth += "-";
                 }
-                perms.add(new FilePermission(path,
-                                             SecurityConstants.FILE_READ_ACTION));
+                perms.bdd(new FilePermission(pbth,
+                                             SecurityConstbnts.FILE_READ_ACTION));
             }
         } else {
-            URL locUrl = codebase;
-            if (urlConnection instanceof JarURLConnection) {
-                locUrl = ((JarURLConnection)urlConnection).getJarFileURL();
+            URL locUrl = codebbse;
+            if (urlConnection instbnceof JbrURLConnection) {
+                locUrl = ((JbrURLConnection)urlConnection).getJbrFileURL();
             }
             String host = locUrl.getHost();
             if (host != null && (host.length() > 0))
-                perms.add(new SocketPermission(host,
-                                               SecurityConstants.SOCKET_CONNECT_ACCEPT_ACTION));
+                perms.bdd(new SocketPermission(host,
+                                               SecurityConstbnts.SOCKET_CONNECT_ACCEPT_ACTION));
         }
 
-        ProtectionDomain domain =
-            new ProtectionDomain(new CodeSource(codebase,
-                                                (java.security.cert.Certificate[]) null), perms);
-        AccessControlContext acc =
-            new AccessControlContext(new ProtectionDomain[] { domain });
+        ProtectionDombin dombin =
+            new ProtectionDombin(new CodeSource(codebbse,
+                                                (jbvb.security.cert.Certificbte[]) null), perms);
+        AccessControlContext bcc =
+            new AccessControlContext(new ProtectionDombin[] { dombin });
 
-        return acc;
+        return bcc;
     }
 
-    public Thread getAppletHandlerThread() {
-        return handler;
+    public Threbd getAppletHbndlerThrebd() {
+        return hbndler;
     }
 
     public int getAppletWidth() {
@@ -1146,177 +1146,177 @@ abstract class AppletPanel extends Panel implements AppletStub, Runnable {
         return currentAppletSize.height;
     }
 
-    public static void changeFrameAppContext(Frame frame, AppContext newAppContext)
+    public stbtic void chbngeFrbmeAppContext(Frbme frbme, AppContext newAppContext)
     {
-        // Fixed #4754451: Applet can have methods running on main
-        // thread event queue.
+        // Fixed #4754451: Applet cbn hbve methods running on mbin
+        // threbd event queue.
         //
-        // The cause of this bug is that the frame of the applet
-        // is created in main thread group. Thus, when certain
-        // AWT/Swing events are generated, the events will be
-        // dispatched through the wrong event dispatch thread.
+        // The cbuse of this bug is thbt the frbme of the bpplet
+        // is crebted in mbin threbd group. Thus, when certbin
+        // AWT/Swing events bre generbted, the events will be
+        // dispbtched through the wrong event dispbtch threbd.
         //
-        // To fix this, we rearrange the AppContext with the frame,
+        // To fix this, we rebrrbnge the AppContext with the frbme,
         // so the proper event queue will be looked up.
         //
-        // Swing also maintains a Frame list for the AppContext,
-        // so we will have to rearrange it as well.
+        // Swing blso mbintbins b Frbme list for the AppContext,
+        // so we will hbve to rebrrbnge it bs well.
 
-        // Check if frame's AppContext has already been set properly
-        AppContext oldAppContext = SunToolkit.targetToAppContext(frame);
+        // Check if frbme's AppContext hbs blrebdy been set properly
+        AppContext oldAppContext = SunToolkit.tbrgetToAppContext(frbme);
 
         if (oldAppContext == newAppContext)
             return;
 
-        // Synchronization on Window.class is needed for locking the
-        // critical section of the window list in AppContext.
-        synchronized (Window.class)
+        // Synchronizbtion on Window.clbss is needed for locking the
+        // criticbl section of the window list in AppContext.
+        synchronized (Window.clbss)
         {
-            WeakReference<Window> weakRef = null;
-            // Remove frame from the Window list in wrong AppContext
+            WebkReference<Window> webkRef = null;
+            // Remove frbme from the Window list in wrong AppContext
             {
-                // Lookup current frame's AppContext
-                @SuppressWarnings("unchecked")
-                Vector<WeakReference<Window>> windowList =
-                    (Vector<WeakReference<Window>>)oldAppContext.get(Window.class);
+                // Lookup current frbme's AppContext
+                @SuppressWbrnings("unchecked")
+                Vector<WebkReference<Window>> windowList =
+                    (Vector<WebkReference<Window>>)oldAppContext.get(Window.clbss);
                 if (windowList != null) {
-                    for (WeakReference<Window> ref : windowList) {
-                        if (ref.get() == frame) {
-                            weakRef = ref;
-                            break;
+                    for (WebkReference<Window> ref : windowList) {
+                        if (ref.get() == frbme) {
+                            webkRef = ref;
+                            brebk;
                         }
                     }
-                    // Remove frame from wrong AppContext
-                    if (weakRef != null)
-                        windowList.remove(weakRef);
+                    // Remove frbme from wrong AppContext
+                    if (webkRef != null)
+                        windowList.remove(webkRef);
                 }
             }
 
-            // Put the frame into the applet's AppContext map
-            SunToolkit.insertTargetMapping(frame, newAppContext);
+            // Put the frbme into the bpplet's AppContext mbp
+            SunToolkit.insertTbrgetMbpping(frbme, newAppContext);
 
-            // Insert frame into the Window list in the applet's AppContext map
+            // Insert frbme into the Window list in the bpplet's AppContext mbp
             {
-                @SuppressWarnings("unchecked")
-                Vector<WeakReference<Window>> windowList =
-                    (Vector<WeakReference<Window>>)newAppContext.get(Window.class);
+                @SuppressWbrnings("unchecked")
+                Vector<WebkReference<Window>> windowList =
+                    (Vector<WebkReference<Window>>)newAppContext.get(Window.clbss);
                 if (windowList == null) {
-                    windowList = new Vector<WeakReference<Window>>();
-                    newAppContext.put(Window.class, windowList);
+                    windowList = new Vector<WebkReference<Window>>();
+                    newAppContext.put(Window.clbss, windowList);
                 }
-                // use the same weakRef here as it is used elsewhere
-                windowList.add(weakRef);
+                // use the sbme webkRef here bs it is used elsewhere
+                windowList.bdd(webkRef);
             }
         }
     }
 
-    // Flag to indicate if applet is targeted for JDK 1.1.
-    private boolean jdk11Applet = false;
+    // Flbg to indicbte if bpplet is tbrgeted for JDK 1.1.
+    privbte boolebn jdk11Applet = fblse;
 
-    // Flag to indicate if applet is targeted for JDK 1.2.
-    private boolean jdk12Applet = false;
+    // Flbg to indicbte if bpplet is tbrgeted for JDK 1.2.
+    privbte boolebn jdk12Applet = fblse;
 
     /**
-     * Determine JDK level of an applet.
+     * Determine JDK level of bn bpplet.
      */
-    private void findAppletJDKLevel(Applet applet)
+    privbte void findAppletJDKLevel(Applet bpplet)
     {
-        // To determine the JDK level of an applet, the
-        // most reliable way is to check the major version
-        // of the applet class file.
+        // To determine the JDK level of bn bpplet, the
+        // most relibble wby is to check the mbjor version
+        // of the bpplet clbss file.
 
-        // synchronized on applet class object, so calling from
-        // different instances of the same applet will be
-        // serialized.
-        Class<?> appletClass = applet.getClass();
+        // synchronized on bpplet clbss object, so cblling from
+        // different instbnces of the sbme bpplet will be
+        // seriblized.
+        Clbss<?> bppletClbss = bpplet.getClbss();
 
-        synchronized(appletClass)  {
-            // Determine if the JDK level of an applet has been
+        synchronized(bppletClbss)  {
+            // Determine if the JDK level of bn bpplet hbs been
             // checked before.
-            Boolean jdk11Target = loader.isJDK11Target(appletClass);
-            Boolean jdk12Target = loader.isJDK12Target(appletClass);
+            Boolebn jdk11Tbrget = lobder.isJDK11Tbrget(bppletClbss);
+            Boolebn jdk12Tbrget = lobder.isJDK12Tbrget(bppletClbss);
 
-            // if applet JDK level has been checked before, retrieve
-            // value and return.
-            if (jdk11Target != null || jdk12Target != null) {
-                jdk11Applet = (jdk11Target == null) ? false : jdk11Target.booleanValue();
-                jdk12Applet = (jdk12Target == null) ? false : jdk12Target.booleanValue();
+            // if bpplet JDK level hbs been checked before, retrieve
+            // vblue bnd return.
+            if (jdk11Tbrget != null || jdk12Tbrget != null) {
+                jdk11Applet = (jdk11Tbrget == null) ? fblse : jdk11Tbrget.boolebnVblue();
+                jdk12Applet = (jdk12Tbrget == null) ? fblse : jdk12Tbrget.boolebnVblue();
                 return;
             }
 
-            String name = appletClass.getName();
+            String nbme = bppletClbss.getNbme();
 
-            // first convert any '.' to '/'
-            name = name.replace('.', '/');
+            // first convert bny '.' to '/'
+            nbme = nbme.replbce('.', '/');
 
-            // append .class
-            final String resourceName = name + ".class";
+            // bppend .clbss
+            finbl String resourceNbme = nbme + ".clbss";
 
-            byte[] classHeader = new byte[8];
+            byte[] clbssHebder = new byte[8];
 
-            try (InputStream is = AccessController.doPrivileged(
-                    (PrivilegedAction<InputStream>) () -> loader.getResourceAsStream(resourceName))) {
+            try (InputStrebm is = AccessController.doPrivileged(
+                    (PrivilegedAction<InputStrebm>) () -> lobder.getResourceAsStrebm(resourceNbme))) {
 
-                // Read the first 8 bytes of the class file
-                int byteRead = is.read(classHeader, 0, 8);
+                // Rebd the first 8 bytes of the clbss file
+                int byteRebd = is.rebd(clbssHebder, 0, 8);
 
-                // return if the header is not read in entirely
-                // for some reasons.
-                if (byteRead != 8)
+                // return if the hebder is not rebd in entirely
+                // for some rebsons.
+                if (byteRebd != 8)
                     return;
             }
-            catch (IOException e)   {
+            cbtch (IOException e)   {
                 return;
             }
 
-            // Check major version in class file header
-            int major_version = readShort(classHeader, 6);
+            // Check mbjor version in clbss file hebder
+            int mbjor_version = rebdShort(clbssHebder, 6);
 
-            // Major version in class file is as follows:
+            // Mbjor version in clbss file is bs follows:
             //   45 - JDK 1.1
             //   46 - JDK 1.2
             //   47 - JDK 1.3
             //   48 - JDK 1.4
             //   49 - JDK 1.5
-            if (major_version < 46)
+            if (mbjor_version < 46)
                 jdk11Applet = true;
-            else if (major_version == 46)
+            else if (mbjor_version == 46)
                 jdk12Applet = true;
 
-            // Store applet JDK level in AppContext for later lookup,
-            // e.g. page switch.
-            loader.setJDK11Target(appletClass, jdk11Applet);
-            loader.setJDK12Target(appletClass, jdk12Applet);
+            // Store bpplet JDK level in AppContext for lbter lookup,
+            // e.g. pbge switch.
+            lobder.setJDK11Tbrget(bppletClbss, jdk11Applet);
+            lobder.setJDK12Tbrget(bppletClbss, jdk12Applet);
         }
     }
 
     /**
-     * Return true if applet is targeted to JDK 1.1.
+     * Return true if bpplet is tbrgeted to JDK 1.1.
      */
-    protected boolean isJDK11Applet()   {
+    protected boolebn isJDK11Applet()   {
         return jdk11Applet;
     }
 
     /**
-     * Return true if applet is targeted to JDK1.2.
+     * Return true if bpplet is tbrgeted to JDK1.2.
      */
-    protected boolean isJDK12Applet()   {
+    protected boolebn isJDK12Applet()   {
         return jdk12Applet;
     }
 
     /**
-     * Read short from byte array.
+     * Rebd short from byte brrby.
      */
-    private int readShort(byte[] b, int off)    {
-        int hi = readByte(b[off]);
-        int lo = readByte(b[off + 1]);
+    privbte int rebdShort(byte[] b, int off)    {
+        int hi = rebdByte(b[off]);
+        int lo = rebdByte(b[off + 1]);
         return (hi << 8) | lo;
     }
 
-    private int readByte(byte b) {
+    privbte int rebdByte(byte b) {
         return ((int)b) & 0xFF;
     }
 
 
-    private static AppletMessageHandler amh = new AppletMessageHandler("appletpanel");
+    privbte stbtic AppletMessbgeHbndler bmh = new AppletMessbgeHbndler("bppletpbnel");
 }

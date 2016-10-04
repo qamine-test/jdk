@@ -1,43 +1,43 @@
 /*
- * Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package com.sun.media.sound;
+pbckbge com.sun.medib.sound;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.RandomAccessFile;
+import jbvb.io.File;
+import jbvb.io.FileNotFoundException;
+import jbvb.io.IOException;
+import jbvb.io.OutputStrebm;
+import jbvb.io.RbndomAccessFile;
 
 /**
- * Resource Interchange File Format (RIFF) stream encoder.
+ * Resource Interchbnge File Formbt (RIFF) strebm encoder.
  *
- * @author Karl Helgason
+ * @buthor Kbrl Helgbson
  */
-public final class RIFFWriter extends OutputStream {
+public finbl clbss RIFFWriter extends OutputStrebm {
 
-    private interface RandomAccessWriter {
+    privbte interfbce RbndomAccessWriter {
 
         public void seek(long chunksizepointer) throws IOException;
 
@@ -56,61 +56,61 @@ public final class RIFFWriter extends OutputStream {
         public void setLength(long i) throws IOException;
     }
 
-    private static class RandomAccessFileWriter implements RandomAccessWriter {
+    privbte stbtic clbss RbndomAccessFileWriter implements RbndomAccessWriter {
 
-        RandomAccessFile raf;
+        RbndomAccessFile rbf;
 
-        RandomAccessFileWriter(File file) throws FileNotFoundException {
-            this.raf = new RandomAccessFile(file, "rw");
+        RbndomAccessFileWriter(File file) throws FileNotFoundException {
+            this.rbf = new RbndomAccessFile(file, "rw");
         }
 
-        RandomAccessFileWriter(String name) throws FileNotFoundException {
-            this.raf = new RandomAccessFile(name, "rw");
+        RbndomAccessFileWriter(String nbme) throws FileNotFoundException {
+            this.rbf = new RbndomAccessFile(nbme, "rw");
         }
 
         public void seek(long chunksizepointer) throws IOException {
-            raf.seek(chunksizepointer);
+            rbf.seek(chunksizepointer);
         }
 
         public long getPointer() throws IOException {
-            return raf.getFilePointer();
+            return rbf.getFilePointer();
         }
 
         public void close() throws IOException {
-            raf.close();
+            rbf.close();
         }
 
         public void write(int b) throws IOException {
-            raf.write(b);
+            rbf.write(b);
         }
 
         public void write(byte[] b, int off, int len) throws IOException {
-            raf.write(b, off, len);
+            rbf.write(b, off, len);
         }
 
         public void write(byte[] bytes) throws IOException {
-            raf.write(bytes);
+            rbf.write(bytes);
         }
 
         public long length() throws IOException {
-            return raf.length();
+            return rbf.length();
         }
 
         public void setLength(long i) throws IOException {
-            raf.setLength(i);
+            rbf.setLength(i);
         }
     }
 
-    private static class RandomAccessByteWriter implements RandomAccessWriter {
+    privbte stbtic clbss RbndomAccessByteWriter implements RbndomAccessWriter {
 
         byte[] buff = new byte[32];
         int length = 0;
         int pos = 0;
         byte[] s;
-        final OutputStream stream;
+        finbl OutputStrebm strebm;
 
-        RandomAccessByteWriter(OutputStream stream) {
-            this.stream = stream;
+        RbndomAccessByteWriter(OutputStrebm strebm) {
+            this.strebm = strebm;
         }
 
         public void seek(long chunksizepointer) throws IOException {
@@ -122,8 +122,8 @@ public final class RIFFWriter extends OutputStream {
         }
 
         public void close() throws IOException {
-            stream.write(buff, 0, length);
-            stream.close();
+            strebm.write(buff, 0, length);
+            strebm.close();
         }
 
         public void write(int b) throws IOException {
@@ -154,72 +154,72 @@ public final class RIFFWriter extends OutputStream {
         public void setLength(long i) throws IOException {
             length = (int) i;
             if (length > buff.length) {
-                int newlen = Math.max(buff.length << 1, length);
+                int newlen = Mbth.mbx(buff.length << 1, length);
                 byte[] newbuff = new byte[newlen];
-                System.arraycopy(buff, 0, newbuff, 0, buff.length);
+                System.brrbycopy(buff, 0, newbuff, 0, buff.length);
                 buff = newbuff;
             }
         }
     }
-    private int chunktype = 0; // 0=RIFF, 1=LIST; 2=CHUNK
-    private RandomAccessWriter raf;
-    private final long chunksizepointer;
-    private final long startpointer;
-    private RIFFWriter childchunk = null;
-    private boolean open = true;
-    private boolean writeoverride = false;
+    privbte int chunktype = 0; // 0=RIFF, 1=LIST; 2=CHUNK
+    privbte RbndomAccessWriter rbf;
+    privbte finbl long chunksizepointer;
+    privbte finbl long stbrtpointer;
+    privbte RIFFWriter childchunk = null;
+    privbte boolebn open = true;
+    privbte boolebn writeoverride = fblse;
 
-    public RIFFWriter(String name, String format) throws IOException {
-        this(new RandomAccessFileWriter(name), format, 0);
+    public RIFFWriter(String nbme, String formbt) throws IOException {
+        this(new RbndomAccessFileWriter(nbme), formbt, 0);
     }
 
-    public RIFFWriter(File file, String format) throws IOException {
-        this(new RandomAccessFileWriter(file), format, 0);
+    public RIFFWriter(File file, String formbt) throws IOException {
+        this(new RbndomAccessFileWriter(file), formbt, 0);
     }
 
-    public RIFFWriter(OutputStream stream, String format) throws IOException {
-        this(new RandomAccessByteWriter(stream), format, 0);
+    public RIFFWriter(OutputStrebm strebm, String formbt) throws IOException {
+        this(new RbndomAccessByteWriter(strebm), formbt, 0);
     }
 
-    private RIFFWriter(RandomAccessWriter raf, String format, int chunktype)
+    privbte RIFFWriter(RbndomAccessWriter rbf, String formbt, int chunktype)
             throws IOException {
         if (chunktype == 0)
-            if (raf.length() != 0)
-                raf.setLength(0);
-        this.raf = raf;
-        if (raf.getPointer() % 2 != 0)
-            raf.write(0);
+            if (rbf.length() != 0)
+                rbf.setLength(0);
+        this.rbf = rbf;
+        if (rbf.getPointer() % 2 != 0)
+            rbf.write(0);
 
         if (chunktype == 0)
-            raf.write("RIFF".getBytes("ascii"));
+            rbf.write("RIFF".getBytes("bscii"));
         else if (chunktype == 1)
-            raf.write("LIST".getBytes("ascii"));
+            rbf.write("LIST".getBytes("bscii"));
         else
-            raf.write((format + "    ").substring(0, 4).getBytes("ascii"));
+            rbf.write((formbt + "    ").substring(0, 4).getBytes("bscii"));
 
-        chunksizepointer = raf.getPointer();
+        chunksizepointer = rbf.getPointer();
         this.chunktype = 2;
         writeUnsignedInt(0);
         this.chunktype = chunktype;
-        startpointer = raf.getPointer();
+        stbrtpointer = rbf.getPointer();
         if (chunktype != 2)
-            raf.write((format + "    ").substring(0, 4).getBytes("ascii"));
+            rbf.write((formbt + "    ").substring(0, 4).getBytes("bscii"));
 
     }
 
     public void seek(long pos) throws IOException {
-        raf.seek(pos);
+        rbf.seek(pos);
     }
 
     public long getFilePointer() throws IOException {
-        return raf.getPointer();
+        return rbf.getPointer();
     }
 
-    public void setWriteOverride(boolean writeoverride) {
+    public void setWriteOverride(boolebn writeoverride) {
         this.writeoverride = writeoverride;
     }
 
-    public boolean getWriteOverride() {
+    public boolebn getWriteOverride() {
         return writeoverride;
     }
 
@@ -231,81 +231,81 @@ public final class RIFFWriter extends OutputStream {
             childchunk = null;
         }
 
-        int bakchunktype = chunktype;
-        long fpointer = raf.getPointer();
-        raf.seek(chunksizepointer);
+        int bbkchunktype = chunktype;
+        long fpointer = rbf.getPointer();
+        rbf.seek(chunksizepointer);
         chunktype = 2;
-        writeUnsignedInt(fpointer - startpointer);
+        writeUnsignedInt(fpointer - stbrtpointer);
 
-        if (bakchunktype == 0)
-            raf.close();
+        if (bbkchunktype == 0)
+            rbf.close();
         else
-            raf.seek(fpointer);
-        open = false;
-        raf = null;
+            rbf.seek(fpointer);
+        open = fblse;
+        rbf = null;
     }
 
     public void write(int b) throws IOException {
         if (!writeoverride) {
             if (chunktype != 2) {
-                throw new IllegalArgumentException(
-                        "Only chunks can write bytes!");
+                throw new IllegblArgumentException(
+                        "Only chunks cbn write bytes!");
             }
             if (childchunk != null) {
                 childchunk.close();
                 childchunk = null;
             }
         }
-        raf.write(b);
+        rbf.write(b);
     }
 
     public void write(byte b[], int off, int len) throws IOException {
         if (!writeoverride) {
             if (chunktype != 2) {
-                throw new IllegalArgumentException(
-                        "Only chunks can write bytes!");
+                throw new IllegblArgumentException(
+                        "Only chunks cbn write bytes!");
             }
             if (childchunk != null) {
                 childchunk.close();
                 childchunk = null;
             }
         }
-        raf.write(b, off, len);
+        rbf.write(b, off, len);
     }
 
-    public RIFFWriter writeList(String format) throws IOException {
+    public RIFFWriter writeList(String formbt) throws IOException {
         if (chunktype == 2) {
-            throw new IllegalArgumentException(
-                    "Only LIST and RIFF can write lists!");
+            throw new IllegblArgumentException(
+                    "Only LIST bnd RIFF cbn write lists!");
         }
         if (childchunk != null) {
             childchunk.close();
             childchunk = null;
         }
-        childchunk = new RIFFWriter(this.raf, format, 1);
+        childchunk = new RIFFWriter(this.rbf, formbt, 1);
         return childchunk;
     }
 
-    public RIFFWriter writeChunk(String format) throws IOException {
+    public RIFFWriter writeChunk(String formbt) throws IOException {
         if (chunktype == 2) {
-            throw new IllegalArgumentException(
-                    "Only LIST and RIFF can write chunks!");
+            throw new IllegblArgumentException(
+                    "Only LIST bnd RIFF cbn write chunks!");
         }
         if (childchunk != null) {
             childchunk.close();
             childchunk = null;
         }
-        childchunk = new RIFFWriter(this.raf, format, 2);
+        childchunk = new RIFFWriter(this.rbf, formbt, 2);
         return childchunk;
     }
 
-    // Write ASCII chars to stream
+    // Write ASCII chbrs to strebm
     public void writeString(String string) throws IOException {
         byte[] buff = string.getBytes();
         write(buff);
     }
 
-    // Write ASCII chars to stream
+    // Write ASCII chbrs to strebm
     public void writeString(String string, int len) throws IOException {
         byte[] buff = string.getBytes();
         if (buff.length > len)
@@ -317,18 +317,18 @@ public final class RIFFWriter extends OutputStream {
         }
     }
 
-    // Write 8 bit signed integer to stream
+    // Write 8 bit signed integer to strebm
     public void writeByte(int b) throws IOException {
         write(b);
     }
 
-    // Write 16 bit signed integer to stream
+    // Write 16 bit signed integer to strebm
     public void writeShort(short b) throws IOException {
         write((b >>> 0) & 0xFF);
         write((b >>> 8) & 0xFF);
     }
 
-    // Write 32 bit signed integer to stream
+    // Write 32 bit signed integer to strebm
     public void writeInt(int b) throws IOException {
         write((b >>> 0) & 0xFF);
         write((b >>> 8) & 0xFF);
@@ -336,7 +336,7 @@ public final class RIFFWriter extends OutputStream {
         write((b >>> 24) & 0xFF);
     }
 
-    // Write 64 bit signed integer to stream
+    // Write 64 bit signed integer to strebm
     public void writeLong(long b) throws IOException {
         write((int) (b >>> 0) & 0xFF);
         write((int) (b >>> 8) & 0xFF);
@@ -348,17 +348,17 @@ public final class RIFFWriter extends OutputStream {
         write((int) (b >>> 56) & 0xFF);
     }
 
-    // Write 8 bit unsigned integer to stream
+    // Write 8 bit unsigned integer to strebm
     public void writeUnsignedByte(int b) throws IOException {
         writeByte((byte) b);
     }
 
-    // Write 16 bit unsigned integer to stream
+    // Write 16 bit unsigned integer to strebm
     public void writeUnsignedShort(int b) throws IOException {
         writeShort((short) b);
     }
 
-    // Write 32 bit unsigned integer to stream
+    // Write 32 bit unsigned integer to strebm
     public void writeUnsignedInt(long b) throws IOException {
         writeInt((int) b);
     }

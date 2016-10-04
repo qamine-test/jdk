@@ -1,43 +1,43 @@
 /*
- * Copyright (c) 2001, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2004, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.reflect;
+pbckbge sun.reflect;
 
-class ClassFileAssembler implements ClassFileConstants {
-    private ByteVector vec;
-    private short cpIdx = 0;
+clbss ClbssFileAssembler implements ClbssFileConstbnts {
+    privbte ByteVector vec;
+    privbte short cpIdx = 0;
 
-    public ClassFileAssembler() {
-        this(ByteVectorFactory.create());
+    public ClbssFileAssembler() {
+        this(ByteVectorFbctory.crebte());
     }
 
-    public ClassFileAssembler(ByteVector vec) {
+    public ClbssFileAssembler(ByteVector vec) {
         this.vec = vec;
     }
 
-    public ByteVector getData() {
+    public ByteVector getDbtb() {
         return vec;
     }
 
@@ -46,60 +46,60 @@ class ClassFileAssembler implements ClassFileConstants {
         return (short) vec.getLength();
     }
 
-    public void emitMagicAndVersion() {
+    public void emitMbgicAndVersion() {
         emitInt(0xCAFEBABE);
         emitShort((short) 0);
         emitShort((short) 49);
     }
 
-    public void emitInt(int val) {
-        emitByte((byte) (val >> 24));
-        emitByte((byte) ((val >> 16) & 0xFF));
-        emitByte((byte) ((val >> 8) & 0xFF));
-        emitByte((byte) (val & 0xFF));
+    public void emitInt(int vbl) {
+        emitByte((byte) (vbl >> 24));
+        emitByte((byte) ((vbl >> 16) & 0xFF));
+        emitByte((byte) ((vbl >> 8) & 0xFF));
+        emitByte((byte) (vbl & 0xFF));
     }
 
-    public void emitShort(short val) {
-        emitByte((byte) ((val >> 8) & 0xFF));
-        emitByte((byte) (val & 0xFF));
+    public void emitShort(short vbl) {
+        emitByte((byte) ((vbl >> 8) & 0xFF));
+        emitByte((byte) (vbl & 0xFF));
     }
 
-    // Support for labels; package-private
-    void emitShort(short bci, short val) {
-        vec.put(bci,     (byte) ((val >> 8) & 0xFF));
-        vec.put(bci + 1, (byte) (val & 0xFF));
+    // Support for lbbels; pbckbge-privbte
+    void emitShort(short bci, short vbl) {
+        vec.put(bci,     (byte) ((vbl >> 8) & 0xFF));
+        vec.put(bci + 1, (byte) (vbl & 0xFF));
     }
 
-    public void emitByte(byte val) {
-        vec.add(val);
+    public void emitByte(byte vbl) {
+        vec.bdd(vbl);
     }
 
-    public void append(ClassFileAssembler asm) {
-        append(asm.vec);
+    public void bppend(ClbssFileAssembler bsm) {
+        bppend(bsm.vec);
     }
 
-    public void append(ByteVector vec) {
+    public void bppend(ByteVector vec) {
         for (int i = 0; i < vec.getLength(); i++) {
             emitByte(vec.get(i));
         }
     }
 
-    /** Keeps track of the current (one-based) constant pool index;
-        incremented after emitting one of the following constant pool
-        entries. Can fetch the current constant pool index for use in
-        later entries.  Index points at the last valid constant pool
-        entry; initially invalid. It is illegal to fetch the constant
-        pool index before emitting at least one constant pool entry. */
+    /** Keeps trbck of the current (one-bbsed) constbnt pool index;
+        incremented bfter emitting one of the following constbnt pool
+        entries. Cbn fetch the current constbnt pool index for use in
+        lbter entries.  Index points bt the lbst vblid constbnt pool
+        entry; initiblly invblid. It is illegbl to fetch the constbnt
+        pool index before emitting bt lebst one constbnt pool entry. */
     public short cpi() {
         if (cpIdx == 0) {
-            throw new RuntimeException("Illegal use of ClassFileAssembler");
+            throw new RuntimeException("Illegbl use of ClbssFileAssembler");
         }
         return cpIdx;
     }
 
-    public void emitConstantPoolUTF8(String str) {
-        // NOTE: can not use str.getBytes("UTF-8") here because of
-        // bootstrapping issues with the character set converters.
+    public void emitConstbntPoolUTF8(String str) {
+        // NOTE: cbn not use str.getBytes("UTF-8") here becbuse of
+        // bootstrbpping issues with the chbrbcter set converters.
         byte[] bytes = UTF8.encode(str);
         emitByte(CONSTANT_Utf8);
         emitShort((short) bytes.length);
@@ -109,301 +109,301 @@ class ClassFileAssembler implements ClassFileConstants {
         cpIdx++;
     }
 
-    public void emitConstantPoolClass(short index) {
-        emitByte(CONSTANT_Class);
+    public void emitConstbntPoolClbss(short index) {
+        emitByte(CONSTANT_Clbss);
         emitShort(index);
         cpIdx++;
     }
 
-    public void emitConstantPoolNameAndType(short nameIndex, short typeIndex) {
-        emitByte(CONSTANT_NameAndType);
-        emitShort(nameIndex);
+    public void emitConstbntPoolNbmeAndType(short nbmeIndex, short typeIndex) {
+        emitByte(CONSTANT_NbmeAndType);
+        emitShort(nbmeIndex);
         emitShort(typeIndex);
         cpIdx++;
     }
 
-    public void emitConstantPoolFieldref
-        (short classIndex, short nameAndTypeIndex)
+    public void emitConstbntPoolFieldref
+        (short clbssIndex, short nbmeAndTypeIndex)
     {
         emitByte(CONSTANT_Fieldref);
-        emitShort(classIndex);
-        emitShort(nameAndTypeIndex);
+        emitShort(clbssIndex);
+        emitShort(nbmeAndTypeIndex);
         cpIdx++;
     }
 
-    public void emitConstantPoolMethodref
-        (short classIndex, short nameAndTypeIndex)
+    public void emitConstbntPoolMethodref
+        (short clbssIndex, short nbmeAndTypeIndex)
     {
         emitByte(CONSTANT_Methodref);
-        emitShort(classIndex);
-        emitShort(nameAndTypeIndex);
+        emitShort(clbssIndex);
+        emitShort(nbmeAndTypeIndex);
         cpIdx++;
     }
 
-    public void emitConstantPoolInterfaceMethodref
-        (short classIndex, short nameAndTypeIndex)
+    public void emitConstbntPoolInterfbceMethodref
+        (short clbssIndex, short nbmeAndTypeIndex)
     {
-        emitByte(CONSTANT_InterfaceMethodref);
-        emitShort(classIndex);
-        emitShort(nameAndTypeIndex);
+        emitByte(CONSTANT_InterfbceMethodref);
+        emitShort(clbssIndex);
+        emitShort(nbmeAndTypeIndex);
         cpIdx++;
     }
 
-    public void emitConstantPoolString(short utf8Index) {
+    public void emitConstbntPoolString(short utf8Index) {
         emitByte(CONSTANT_String);
         emitShort(utf8Index);
         cpIdx++;
     }
 
     //----------------------------------------------------------------------
-    // Opcodes. Keeps track of maximum stack and locals. Make a new
-    // assembler for each piece of assembled code, then append the
-    // result to the previous assembler's class file.
+    // Opcodes. Keeps trbck of mbximum stbck bnd locbls. Mbke b new
+    // bssembler for ebch piece of bssembled code, then bppend the
+    // result to the previous bssembler's clbss file.
     //
 
-    private int stack     = 0;
-    private int maxStack  = 0;
-    private int maxLocals = 0;
+    privbte int stbck     = 0;
+    privbte int mbxStbck  = 0;
+    privbte int mbxLocbls = 0;
 
-    private void incStack() {
-        setStack(stack + 1);
+    privbte void incStbck() {
+        setStbck(stbck + 1);
     }
 
-    private void decStack() {
-        --stack;
+    privbte void decStbck() {
+        --stbck;
     }
 
-    public short getMaxStack() {
-        return (short) maxStack;
+    public short getMbxStbck() {
+        return (short) mbxStbck;
     }
 
-    public short getMaxLocals() {
-        return (short) maxLocals;
+    public short getMbxLocbls() {
+        return (short) mbxLocbls;
     }
 
-    /** It's necessary to be able to specify the number of arguments at
-        the beginning of the method (which translates to the initial
-        value of max locals) */
-    public void setMaxLocals(int maxLocals) {
-        this.maxLocals = maxLocals;
+    /** It's necessbry to be bble to specify the number of brguments bt
+        the beginning of the method (which trbnslbtes to the initibl
+        vblue of mbx locbls) */
+    public void setMbxLocbls(int mbxLocbls) {
+        this.mbxLocbls = mbxLocbls;
     }
 
-    /** Needed to do flow control. Returns current stack depth. */
-    public int getStack() {
-        return stack;
+    /** Needed to do flow control. Returns current stbck depth. */
+    public int getStbck() {
+        return stbck;
     }
 
     /** Needed to do flow control. */
-    public void setStack(int value) {
-        stack = value;
-        if (stack > maxStack) {
-            maxStack = stack;
+    public void setStbck(int vblue) {
+        stbck = vblue;
+        if (stbck > mbxStbck) {
+            mbxStbck = stbck;
         }
     }
 
     ///////////////
-    // Constants //
+    // Constbnts //
     ///////////////
 
-    public void opc_aconst_null() {
-        emitByte(opc_aconst_null);
-        incStack();
+    public void opc_bconst_null() {
+        emitByte(opc_bconst_null);
+        incStbck();
     }
 
-    public void opc_sipush(short constant) {
+    public void opc_sipush(short constbnt) {
         emitByte(opc_sipush);
-        emitShort(constant);
-        incStack();
+        emitShort(constbnt);
+        incStbck();
     }
 
     public void opc_ldc(byte cpIdx) {
         emitByte(opc_ldc);
         emitByte(cpIdx);
-        incStack();
+        incStbck();
     }
 
     /////////////////////////////////////
-    // Local variable loads and stores //
+    // Locbl vbribble lobds bnd stores //
     /////////////////////////////////////
 
-    public void opc_iload_0() {
-        emitByte(opc_iload_0);
-        if (maxLocals < 1) maxLocals = 1;
-        incStack();
+    public void opc_ilobd_0() {
+        emitByte(opc_ilobd_0);
+        if (mbxLocbls < 1) mbxLocbls = 1;
+        incStbck();
     }
 
-    public void opc_iload_1() {
-        emitByte(opc_iload_1);
-        if (maxLocals < 2) maxLocals = 2;
-        incStack();
+    public void opc_ilobd_1() {
+        emitByte(opc_ilobd_1);
+        if (mbxLocbls < 2) mbxLocbls = 2;
+        incStbck();
     }
 
-    public void opc_iload_2() {
-        emitByte(opc_iload_2);
-        if (maxLocals < 3) maxLocals = 3;
-        incStack();
+    public void opc_ilobd_2() {
+        emitByte(opc_ilobd_2);
+        if (mbxLocbls < 3) mbxLocbls = 3;
+        incStbck();
     }
 
-    public void opc_iload_3() {
-        emitByte(opc_iload_3);
-        if (maxLocals < 4) maxLocals = 4;
-        incStack();
+    public void opc_ilobd_3() {
+        emitByte(opc_ilobd_3);
+        if (mbxLocbls < 4) mbxLocbls = 4;
+        incStbck();
     }
 
-    public void opc_lload_0() {
-        emitByte(opc_lload_0);
-        if (maxLocals < 2) maxLocals = 2;
-        incStack();
-        incStack();
+    public void opc_llobd_0() {
+        emitByte(opc_llobd_0);
+        if (mbxLocbls < 2) mbxLocbls = 2;
+        incStbck();
+        incStbck();
     }
 
-    public void opc_lload_1() {
-        emitByte(opc_lload_1);
-        if (maxLocals < 3) maxLocals = 3;
-        incStack();
-        incStack();
+    public void opc_llobd_1() {
+        emitByte(opc_llobd_1);
+        if (mbxLocbls < 3) mbxLocbls = 3;
+        incStbck();
+        incStbck();
     }
 
-    public void opc_lload_2() {
-        emitByte(opc_lload_2);
-        if (maxLocals < 4) maxLocals = 4;
-        incStack();
-        incStack();
+    public void opc_llobd_2() {
+        emitByte(opc_llobd_2);
+        if (mbxLocbls < 4) mbxLocbls = 4;
+        incStbck();
+        incStbck();
     }
 
-    public void opc_lload_3() {
-        emitByte(opc_lload_3);
-        if (maxLocals < 5) maxLocals = 5;
-        incStack();
-        incStack();
+    public void opc_llobd_3() {
+        emitByte(opc_llobd_3);
+        if (mbxLocbls < 5) mbxLocbls = 5;
+        incStbck();
+        incStbck();
     }
 
-    public void opc_fload_0() {
-        emitByte(opc_fload_0);
-        if (maxLocals < 1) maxLocals = 1;
-        incStack();
+    public void opc_flobd_0() {
+        emitByte(opc_flobd_0);
+        if (mbxLocbls < 1) mbxLocbls = 1;
+        incStbck();
     }
 
-    public void opc_fload_1() {
-        emitByte(opc_fload_1);
-        if (maxLocals < 2) maxLocals = 2;
-        incStack();
+    public void opc_flobd_1() {
+        emitByte(opc_flobd_1);
+        if (mbxLocbls < 2) mbxLocbls = 2;
+        incStbck();
     }
 
-    public void opc_fload_2() {
-        emitByte(opc_fload_2);
-        if (maxLocals < 3) maxLocals = 3;
-        incStack();
+    public void opc_flobd_2() {
+        emitByte(opc_flobd_2);
+        if (mbxLocbls < 3) mbxLocbls = 3;
+        incStbck();
     }
 
-    public void opc_fload_3() {
-        emitByte(opc_fload_3);
-        if (maxLocals < 4) maxLocals = 4;
-        incStack();
+    public void opc_flobd_3() {
+        emitByte(opc_flobd_3);
+        if (mbxLocbls < 4) mbxLocbls = 4;
+        incStbck();
     }
 
-    public void opc_dload_0() {
-        emitByte(opc_dload_0);
-        if (maxLocals < 2) maxLocals = 2;
-        incStack();
-        incStack();
+    public void opc_dlobd_0() {
+        emitByte(opc_dlobd_0);
+        if (mbxLocbls < 2) mbxLocbls = 2;
+        incStbck();
+        incStbck();
     }
 
-    public void opc_dload_1() {
-        emitByte(opc_dload_1);
-        if (maxLocals < 3) maxLocals = 3;
-        incStack();
-        incStack();
+    public void opc_dlobd_1() {
+        emitByte(opc_dlobd_1);
+        if (mbxLocbls < 3) mbxLocbls = 3;
+        incStbck();
+        incStbck();
     }
 
-    public void opc_dload_2() {
-        emitByte(opc_dload_2);
-        if (maxLocals < 4) maxLocals = 4;
-        incStack();
-        incStack();
+    public void opc_dlobd_2() {
+        emitByte(opc_dlobd_2);
+        if (mbxLocbls < 4) mbxLocbls = 4;
+        incStbck();
+        incStbck();
     }
 
-    public void opc_dload_3() {
-        emitByte(opc_dload_3);
-        if (maxLocals < 5) maxLocals = 5;
-        incStack();
-        incStack();
+    public void opc_dlobd_3() {
+        emitByte(opc_dlobd_3);
+        if (mbxLocbls < 5) mbxLocbls = 5;
+        incStbck();
+        incStbck();
     }
 
-    public void opc_aload_0() {
-        emitByte(opc_aload_0);
-        if (maxLocals < 1) maxLocals = 1;
-        incStack();
+    public void opc_blobd_0() {
+        emitByte(opc_blobd_0);
+        if (mbxLocbls < 1) mbxLocbls = 1;
+        incStbck();
     }
 
-    public void opc_aload_1() {
-        emitByte(opc_aload_1);
-        if (maxLocals < 2) maxLocals = 2;
-        incStack();
+    public void opc_blobd_1() {
+        emitByte(opc_blobd_1);
+        if (mbxLocbls < 2) mbxLocbls = 2;
+        incStbck();
     }
 
-    public void opc_aload_2() {
-        emitByte(opc_aload_2);
-        if (maxLocals < 3) maxLocals = 3;
-        incStack();
+    public void opc_blobd_2() {
+        emitByte(opc_blobd_2);
+        if (mbxLocbls < 3) mbxLocbls = 3;
+        incStbck();
     }
 
-    public void opc_aload_3() {
-        emitByte(opc_aload_3);
-        if (maxLocals < 4) maxLocals = 4;
-        incStack();
+    public void opc_blobd_3() {
+        emitByte(opc_blobd_3);
+        if (mbxLocbls < 4) mbxLocbls = 4;
+        incStbck();
     }
 
-    public void opc_aaload() {
-        emitByte(opc_aaload);
-        decStack();
+    public void opc_bblobd() {
+        emitByte(opc_bblobd);
+        decStbck();
     }
 
-    public void opc_astore_0() {
-        emitByte(opc_astore_0);
-        if (maxLocals < 1) maxLocals = 1;
-        decStack();
+    public void opc_bstore_0() {
+        emitByte(opc_bstore_0);
+        if (mbxLocbls < 1) mbxLocbls = 1;
+        decStbck();
     }
 
-    public void opc_astore_1() {
-        emitByte(opc_astore_1);
-        if (maxLocals < 2) maxLocals = 2;
-        decStack();
+    public void opc_bstore_1() {
+        emitByte(opc_bstore_1);
+        if (mbxLocbls < 2) mbxLocbls = 2;
+        decStbck();
     }
 
-    public void opc_astore_2() {
-        emitByte(opc_astore_2);
-        if (maxLocals < 3) maxLocals = 3;
-        decStack();
+    public void opc_bstore_2() {
+        emitByte(opc_bstore_2);
+        if (mbxLocbls < 3) mbxLocbls = 3;
+        decStbck();
     }
 
-    public void opc_astore_3() {
-        emitByte(opc_astore_3);
-        if (maxLocals < 4) maxLocals = 4;
-        decStack();
+    public void opc_bstore_3() {
+        emitByte(opc_bstore_3);
+        if (mbxLocbls < 4) mbxLocbls = 4;
+        decStbck();
     }
 
     ////////////////////////
-    // Stack manipulation //
+    // Stbck mbnipulbtion //
     ////////////////////////
 
     public void opc_pop() {
         emitByte(opc_pop);
-        decStack();
+        decStbck();
     }
 
     public void opc_dup() {
         emitByte(opc_dup);
-        incStack();
+        incStbck();
     }
 
     public void opc_dup_x1() {
         emitByte(opc_dup_x1);
-        incStack();
+        incStbck();
     }
 
-    public void opc_swap() {
-        emitByte(opc_swap);
+    public void opc_swbp() {
+        emitByte(opc_swbp);
     }
 
     ///////////////////////////////
@@ -441,31 +441,31 @@ class ClassFileAssembler implements ClassFileConstants {
     public void opc_ifeq(short bciOffset) {
         emitByte(opc_ifeq);
         emitShort(bciOffset);
-        decStack();
+        decStbck();
     }
 
-    /** Control flow with forward-reference BCI. Stack assumes
-        straight-through control flow. */
-    public void opc_ifeq(Label l) {
+    /** Control flow with forwbrd-reference BCI. Stbck bssumes
+        strbight-through control flow. */
+    public void opc_ifeq(Lbbel l) {
         short instrBCI = getLength();
         emitByte(opc_ifeq);
-        l.add(this, instrBCI, getLength(), getStack() - 1);
-        emitShort((short) -1); // Must be patched later
+        l.bdd(this, instrBCI, getLength(), getStbck() - 1);
+        emitShort((short) -1); // Must be pbtched lbter
     }
 
     public void opc_if_icmpeq(short bciOffset) {
         emitByte(opc_if_icmpeq);
         emitShort(bciOffset);
-        setStack(getStack() - 2);
+        setStbck(getStbck() - 2);
     }
 
-    /** Control flow with forward-reference BCI. Stack assumes straight
+    /** Control flow with forwbrd-reference BCI. Stbck bssumes strbight
         control flow. */
-    public void opc_if_icmpeq(Label l) {
+    public void opc_if_icmpeq(Lbbel l) {
         short instrBCI = getLength();
         emitByte(opc_if_icmpeq);
-        l.add(this, instrBCI, getLength(), getStack() - 2);
-        emitShort((short) -1); // Must be patched later
+        l.bdd(this, instrBCI, getLength(), getStbck() - 2);
+        emitShort((short) -1); // Must be pbtched lbter
     }
 
     public void opc_goto(short bciOffset) {
@@ -473,45 +473,45 @@ class ClassFileAssembler implements ClassFileConstants {
         emitShort(bciOffset);
     }
 
-    /** Control flow with forward-reference BCI. Stack assumes straight
+    /** Control flow with forwbrd-reference BCI. Stbck bssumes strbight
         control flow. */
-    public void opc_goto(Label l) {
+    public void opc_goto(Lbbel l) {
         short instrBCI = getLength();
         emitByte(opc_goto);
-        l.add(this, instrBCI, getLength(), getStack());
-        emitShort((short) -1); // Must be patched later
+        l.bdd(this, instrBCI, getLength(), getStbck());
+        emitShort((short) -1); // Must be pbtched lbter
     }
 
     public void opc_ifnull(short bciOffset) {
         emitByte(opc_ifnull);
         emitShort(bciOffset);
-        decStack();
+        decStbck();
     }
 
-    /** Control flow with forward-reference BCI. Stack assumes straight
+    /** Control flow with forwbrd-reference BCI. Stbck bssumes strbight
         control flow. */
-    public void opc_ifnull(Label l) {
+    public void opc_ifnull(Lbbel l) {
         short instrBCI = getLength();
         emitByte(opc_ifnull);
-        l.add(this, instrBCI, getLength(), getStack() - 1);
-        emitShort((short) -1); // Must be patched later
-        decStack();
+        l.bdd(this, instrBCI, getLength(), getStbck() - 1);
+        emitShort((short) -1); // Must be pbtched lbter
+        decStbck();
     }
 
     public void opc_ifnonnull(short bciOffset) {
         emitByte(opc_ifnonnull);
         emitShort(bciOffset);
-        decStack();
+        decStbck();
     }
 
-    /** Control flow with forward-reference BCI. Stack assumes straight
+    /** Control flow with forwbrd-reference BCI. Stbck bssumes strbight
         control flow. */
-    public void opc_ifnonnull(Label l) {
+    public void opc_ifnonnull(Lbbel l) {
         short instrBCI = getLength();
         emitByte(opc_ifnonnull);
-        l.add(this, instrBCI, getLength(), getStack() - 1);
-        emitShort((short) -1); // Must be patched later
-        decStack();
+        l.bdd(this, instrBCI, getLength(), getStbck() - 1);
+        emitShort((short) -1); // Must be pbtched lbter
+        decStbck();
     }
 
     /////////////////////////
@@ -520,152 +520,152 @@ class ClassFileAssembler implements ClassFileConstants {
 
     public void opc_ireturn() {
         emitByte(opc_ireturn);
-        setStack(0);
+        setStbck(0);
     }
 
     public void opc_lreturn() {
         emitByte(opc_lreturn);
-        setStack(0);
+        setStbck(0);
     }
 
     public void opc_freturn() {
         emitByte(opc_freturn);
-        setStack(0);
+        setStbck(0);
     }
 
     public void opc_dreturn() {
         emitByte(opc_dreturn);
-        setStack(0);
+        setStbck(0);
     }
 
-    public void opc_areturn() {
-        emitByte(opc_areturn);
-        setStack(0);
+    public void opc_breturn() {
+        emitByte(opc_breturn);
+        setStbck(0);
     }
 
     public void opc_return() {
         emitByte(opc_return);
-        setStack(0);
+        setStbck(0);
     }
 
     //////////////////////
-    // Field operations //
+    // Field operbtions //
     //////////////////////
 
-    public void opc_getstatic(short fieldIndex, int fieldSizeInStackSlots) {
-        emitByte(opc_getstatic);
+    public void opc_getstbtic(short fieldIndex, int fieldSizeInStbckSlots) {
+        emitByte(opc_getstbtic);
         emitShort(fieldIndex);
-        setStack(getStack() + fieldSizeInStackSlots);
+        setStbck(getStbck() + fieldSizeInStbckSlots);
     }
 
-    public void opc_putstatic(short fieldIndex, int fieldSizeInStackSlots) {
-        emitByte(opc_putstatic);
+    public void opc_putstbtic(short fieldIndex, int fieldSizeInStbckSlots) {
+        emitByte(opc_putstbtic);
         emitShort(fieldIndex);
-        setStack(getStack() - fieldSizeInStackSlots);
+        setStbck(getStbck() - fieldSizeInStbckSlots);
     }
 
-    public void opc_getfield(short fieldIndex, int fieldSizeInStackSlots) {
+    public void opc_getfield(short fieldIndex, int fieldSizeInStbckSlots) {
         emitByte(opc_getfield);
         emitShort(fieldIndex);
-        setStack(getStack() + fieldSizeInStackSlots - 1);
+        setStbck(getStbck() + fieldSizeInStbckSlots - 1);
     }
 
-    public void opc_putfield(short fieldIndex, int fieldSizeInStackSlots) {
+    public void opc_putfield(short fieldIndex, int fieldSizeInStbckSlots) {
         emitByte(opc_putfield);
         emitShort(fieldIndex);
-        setStack(getStack() - fieldSizeInStackSlots - 1);
+        setStbck(getStbck() - fieldSizeInStbckSlots - 1);
     }
 
     ////////////////////////
-    // Method invocations //
+    // Method invocbtions //
     ////////////////////////
 
-    /** Long and double arguments and return types count as 2 arguments;
-        other values count as 1. */
-    public void opc_invokevirtual(short methodIndex,
+    /** Long bnd double brguments bnd return types count bs 2 brguments;
+        other vblues count bs 1. */
+    public void opc_invokevirtubl(short methodIndex,
                                   int numArgs,
-                                  int numReturnValues)
+                                  int numReturnVblues)
     {
-        emitByte(opc_invokevirtual);
+        emitByte(opc_invokevirtubl);
         emitShort(methodIndex);
-        setStack(getStack() - numArgs - 1 + numReturnValues);
+        setStbck(getStbck() - numArgs - 1 + numReturnVblues);
     }
 
-    /** Long and double arguments and return types count as 2 arguments;
-        other values count as 1. */
-    public void opc_invokespecial(short methodIndex,
+    /** Long bnd double brguments bnd return types count bs 2 brguments;
+        other vblues count bs 1. */
+    public void opc_invokespecibl(short methodIndex,
                                   int numArgs,
-                                  int numReturnValues)
+                                  int numReturnVblues)
     {
-        emitByte(opc_invokespecial);
+        emitByte(opc_invokespecibl);
         emitShort(methodIndex);
-        setStack(getStack() - numArgs - 1 + numReturnValues);
+        setStbck(getStbck() - numArgs - 1 + numReturnVblues);
     }
 
-    /** Long and double arguments and return types count as 2 arguments;
-        other values count as 1. */
-    public void opc_invokestatic(short methodIndex,
+    /** Long bnd double brguments bnd return types count bs 2 brguments;
+        other vblues count bs 1. */
+    public void opc_invokestbtic(short methodIndex,
                                  int numArgs,
-                                 int numReturnValues)
+                                 int numReturnVblues)
     {
-        emitByte(opc_invokestatic);
+        emitByte(opc_invokestbtic);
         emitShort(methodIndex);
-        setStack(getStack() - numArgs + numReturnValues);
+        setStbck(getStbck() - numArgs + numReturnVblues);
     }
 
-    /** Long and double arguments and return types count as 2 arguments;
-        other values count as 1. */
-    public void opc_invokeinterface(short methodIndex,
+    /** Long bnd double brguments bnd return types count bs 2 brguments;
+        other vblues count bs 1. */
+    public void opc_invokeinterfbce(short methodIndex,
                                     int numArgs,
                                     byte count,
-                                    int numReturnValues)
+                                    int numReturnVblues)
     {
-        emitByte(opc_invokeinterface);
+        emitByte(opc_invokeinterfbce);
         emitShort(methodIndex);
         emitByte(count);
         emitByte((byte) 0);
-        setStack(getStack() - numArgs - 1 + numReturnValues);
+        setStbck(getStbck() - numArgs - 1 + numReturnVblues);
     }
 
     //////////////////
-    // Array length //
+    // Arrby length //
     //////////////////
 
-    public void opc_arraylength() {
-        emitByte(opc_arraylength);
+    public void opc_brrbylength() {
+        emitByte(opc_brrbylength);
     }
 
     /////////
     // New //
     /////////
 
-    public void opc_new(short classIndex) {
+    public void opc_new(short clbssIndex) {
         emitByte(opc_new);
-        emitShort(classIndex);
-        incStack();
+        emitShort(clbssIndex);
+        incStbck();
     }
 
     ////////////
     // Athrow //
     ////////////
 
-    public void opc_athrow() {
-        emitByte(opc_athrow);
-        setStack(1);
+    public void opc_bthrow() {
+        emitByte(opc_bthrow);
+        setStbck(1);
     }
 
     //////////////////////////////
-    // Checkcast and instanceof //
+    // Checkcbst bnd instbnceof //
     //////////////////////////////
 
-    /** Assumes the checkcast succeeds */
-    public void opc_checkcast(short classIndex) {
-        emitByte(opc_checkcast);
-        emitShort(classIndex);
+    /** Assumes the checkcbst succeeds */
+    public void opc_checkcbst(short clbssIndex) {
+        emitByte(opc_checkcbst);
+        emitShort(clbssIndex);
     }
 
-    public void opc_instanceof(short classIndex) {
-        emitByte(opc_instanceof);
-        emitShort(classIndex);
+    public void opc_instbnceof(short clbssIndex) {
+        emitByte(opc_instbnceof);
+        emitShort(clbssIndex);
     }
 }

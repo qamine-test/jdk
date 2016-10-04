@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2004, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,11 +30,11 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
@@ -45,7 +45,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stddef.h>
-#include <stdarg.h>
+#include <stdbrg.h>
 
 #include "jni.h"
 #include "jvmti.h"
@@ -54,16 +54,16 @@
 extern "C" {
 #endif
 
-void  stdout_message(const char * format, ...);
-void  fatal_error(const char * format, ...);
-char *get_token(char *str, char *seps, char *buf, int max);
-int   interested(char *cname, char *mname,
-                    char *include_list, char *exclude_list);
+void  stdout_messbge(const chbr * formbt, ...);
+void  fbtbl_error(const chbr * formbt, ...);
+chbr *get_token(chbr *str, chbr *seps, chbr *buf, int mbx);
+int   interested(chbr *cnbme, chbr *mnbme,
+                    chbr *include_list, chbr *exclude_list);
 
-void  check_jvmti_error(jvmtiEnv *jvmti, jvmtiError errnum, const char *str);
-void  deallocate(jvmtiEnv *jvmti, void *ptr);
-void *allocate(jvmtiEnv *jvmti, jint len);
-void  add_demo_jar_to_bootclasspath(jvmtiEnv *jvmti, char *demo_name);
+void  check_jvmti_error(jvmtiEnv *jvmti, jvmtiError errnum, const chbr *str);
+void  debllocbte(jvmtiEnv *jvmti, void *ptr);
+void *bllocbte(jvmtiEnv *jvmti, jint len);
+void  bdd_demo_jbr_to_bootclbsspbth(jvmtiEnv *jvmti, chbr *demo_nbme);
 
 #ifdef __cplusplus
 } /* extern "C" */

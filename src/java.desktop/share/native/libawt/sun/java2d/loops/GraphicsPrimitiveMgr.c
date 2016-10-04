@@ -1,127 +1,127 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 #include "jni_util.h"
 #include "jlong.h"
 
-#include "sun_java2d_loops_GraphicsPrimitiveMgr.h"
+#include "sun_jbvb2d_loops_GrbphicsPrimitiveMgr.h"
 
 #include "Region.h"
-#include "GraphicsPrimitiveMgr.h"
-#include "AlphaMacros.h"
+#include "GrbphicsPrimitiveMgr.h"
+#include "AlphbMbcros.h"
 
-static char *InitName = "<init>";
-static char *InitSig =  ("(JLsun/java2d/loops/SurfaceType;"
-                         "Lsun/java2d/loops/CompositeType;"
-                         "Lsun/java2d/loops/SurfaceType;)V");
+stbtic chbr *InitNbme = "<init>";
+stbtic chbr *InitSig =  ("(JLsun/jbvb2d/loops/SurfbceType;"
+                         "Lsun/jbvb2d/loops/CompositeType;"
+                         "Lsun/jbvb2d/loops/SurfbceType;)V");
 
-static char *RegisterName =     "register";
-static char *RegisterSig =      "([Lsun/java2d/loops/GraphicsPrimitive;)V";
+stbtic chbr *RegisterNbme =     "register";
+stbtic chbr *RegisterSig =      "([Lsun/jbvb2d/loops/GrbphicsPrimitive;)V";
 
-static jclass GraphicsPrimitiveMgr;
-static jclass GraphicsPrimitive;
+stbtic jclbss GrbphicsPrimitiveMgr;
+stbtic jclbss GrbphicsPrimitive;
 
-static jmethodID RegisterID;
-static jfieldID pNativePrimID;
-static jfieldID pixelID;
-static jfieldID eargbID;
-static jfieldID clipRegionID;
-static jfieldID compositeID;
-static jfieldID lcdTextContrastID;
-static jfieldID xorPixelID;
-static jfieldID xorColorID;
-static jfieldID alphaMaskID;
-static jfieldID ruleID;
-static jfieldID extraAlphaID;
+stbtic jmethodID RegisterID;
+stbtic jfieldID pNbtivePrimID;
+stbtic jfieldID pixelID;
+stbtic jfieldID ebrgbID;
+stbtic jfieldID clipRegionID;
+stbtic jfieldID compositeID;
+stbtic jfieldID lcdTextContrbstID;
+stbtic jfieldID xorPixelID;
+stbtic jfieldID xorColorID;
+stbtic jfieldID blphbMbskID;
+stbtic jfieldID ruleID;
+stbtic jfieldID extrbAlphbID;
 
-static jfieldID m00ID;
-static jfieldID m01ID;
-static jfieldID m02ID;
-static jfieldID m10ID;
-static jfieldID m11ID;
-static jfieldID m12ID;
+stbtic jfieldID m00ID;
+stbtic jfieldID m01ID;
+stbtic jfieldID m02ID;
+stbtic jfieldID m10ID;
+stbtic jfieldID m11ID;
+stbtic jfieldID m12ID;
 
-static jmethodID getRgbID;
+stbtic jmethodID getRgbID;
 
-static jboolean InitPrimTypes(JNIEnv *env);
-static jboolean InitSurfaceTypes(JNIEnv *env, jclass SurfaceType);
-static jboolean InitCompositeTypes(JNIEnv *env, jclass CompositeType);
+stbtic jboolebn InitPrimTypes(JNIEnv *env);
+stbtic jboolebn InitSurfbceTypes(JNIEnv *env, jclbss SurfbceType);
+stbtic jboolebn InitCompositeTypes(JNIEnv *env, jclbss CompositeType);
 
-jfieldID path2DTypesID;
-jfieldID path2DNumTypesID;
-jfieldID path2DWindingRuleID;
-jfieldID path2DFloatCoordsID;
+jfieldID pbth2DTypesID;
+jfieldID pbth2DNumTypesID;
+jfieldID pbth2DWindingRuleID;
+jfieldID pbth2DFlobtCoordsID;
 jfieldID sg2dStrokeHintID;
 jint sunHints_INTVAL_STROKE_PURE;
 
 /*
- * Class:     sun_java2d_loops_GraphicsPrimitiveMgr
+ * Clbss:     sun_jbvb2d_loops_GrbphicsPrimitiveMgr
  * Method:    initIDs
- * Signature: (Ljava/lang/Class;Ljava/lang/Class;Ljava/lang/Class;Ljava/lang/Class;Ljava/lang/Class;Ljava/lang/Class;Ljava/lang/Class;)V
+ * Signbture: (Ljbvb/lbng/Clbss;Ljbvb/lbng/Clbss;Ljbvb/lbng/Clbss;Ljbvb/lbng/Clbss;Ljbvb/lbng/Clbss;Ljbvb/lbng/Clbss;Ljbvb/lbng/Clbss;)V
  */
 JNIEXPORT void JNICALL
-Java_sun_java2d_loops_GraphicsPrimitiveMgr_initIDs
-    (JNIEnv *env, jclass GPMgr,
-     jclass GP, jclass ST, jclass CT,
-     jclass SG2D, jclass Color, jclass AT,
-     jclass XORComp, jclass AlphaComp,
-     jclass Path2D, jclass Path2DFloat,
-     jclass SHints)
+Jbvb_sun_jbvb2d_loops_GrbphicsPrimitiveMgr_initIDs
+    (JNIEnv *env, jclbss GPMgr,
+     jclbss GP, jclbss ST, jclbss CT,
+     jclbss SG2D, jclbss Color, jclbss AT,
+     jclbss XORComp, jclbss AlphbComp,
+     jclbss Pbth2D, jclbss Pbth2DFlobt,
+     jclbss SHints)
 {
     jfieldID fid;
-    initAlphaTables();
-    GraphicsPrimitiveMgr = (*env)->NewGlobalRef(env, GPMgr);
-    GraphicsPrimitive = (*env)->NewGlobalRef(env, GP);
-    if (GraphicsPrimitiveMgr == NULL || GraphicsPrimitive == NULL) {
-        JNU_ThrowOutOfMemoryError(env, "creating global refs");
+    initAlphbTbbles();
+    GrbphicsPrimitiveMgr = (*env)->NewGlobblRef(env, GPMgr);
+    GrbphicsPrimitive = (*env)->NewGlobblRef(env, GP);
+    if (GrbphicsPrimitiveMgr == NULL || GrbphicsPrimitive == NULL) {
+        JNU_ThrowOutOfMemoryError(env, "crebting globbl refs");
         return;
     }
     if (!InitPrimTypes(env) ||
-        !InitSurfaceTypes(env, ST) ||
+        !InitSurfbceTypes(env, ST) ||
         !InitCompositeTypes(env, CT))
     {
         return;
     }
-    RegisterID = (*env)->GetStaticMethodID(env, GPMgr,
-                                           RegisterName, RegisterSig);
-    pNativePrimID = (*env)->GetFieldID(env, GP, "pNativePrim", "J");
+    RegisterID = (*env)->GetStbticMethodID(env, GPMgr,
+                                           RegisterNbme, RegisterSig);
+    pNbtivePrimID = (*env)->GetFieldID(env, GP, "pNbtivePrim", "J");
     pixelID = (*env)->GetFieldID(env, SG2D, "pixel", "I");
-    eargbID = (*env)->GetFieldID(env, SG2D, "eargb", "I");
+    ebrgbID = (*env)->GetFieldID(env, SG2D, "ebrgb", "I");
     clipRegionID = (*env)->GetFieldID(env, SG2D, "clipRegion",
-                                      "Lsun/java2d/pipe/Region;");
+                                      "Lsun/jbvb2d/pipe/Region;");
     compositeID = (*env)->GetFieldID(env, SG2D, "composite",
-                                     "Ljava/awt/Composite;");
-    lcdTextContrastID =
-        (*env)->GetFieldID(env, SG2D, "lcdTextContrast", "I");
+                                     "Ljbvb/bwt/Composite;");
+    lcdTextContrbstID =
+        (*env)->GetFieldID(env, SG2D, "lcdTextContrbst", "I");
     getRgbID = (*env)->GetMethodID(env, Color, "getRGB", "()I");
     xorPixelID = (*env)->GetFieldID(env, XORComp, "xorPixel", "I");
     xorColorID = (*env)->GetFieldID(env, XORComp, "xorColor",
-                                    "Ljava/awt/Color;");
-    alphaMaskID = (*env)->GetFieldID(env, XORComp, "alphaMask", "I");
-    ruleID = (*env)->GetFieldID(env, AlphaComp, "rule", "I");
-    extraAlphaID = (*env)->GetFieldID(env, AlphaComp, "extraAlpha", "F");
+                                    "Ljbvb/bwt/Color;");
+    blphbMbskID = (*env)->GetFieldID(env, XORComp, "blphbMbsk", "I");
+    ruleID = (*env)->GetFieldID(env, AlphbComp, "rule", "I");
+    extrbAlphbID = (*env)->GetFieldID(env, AlphbComp, "extrbAlphb", "F");
 
 
     m00ID = (*env)->GetFieldID(env, AT, "m00", "D");
@@ -131,37 +131,37 @@ Java_sun_java2d_loops_GraphicsPrimitiveMgr_initIDs
     m11ID = (*env)->GetFieldID(env, AT, "m11", "D");
     m12ID = (*env)->GetFieldID(env, AT, "m12", "D");
 
-    path2DTypesID = (*env)->GetFieldID(env, Path2D, "pointTypes", "[B");
-    path2DNumTypesID = (*env)->GetFieldID(env, Path2D, "numTypes", "I");
-    path2DWindingRuleID = (*env)->GetFieldID(env, Path2D, "windingRule", "I");
-    path2DFloatCoordsID = (*env)->GetFieldID(env, Path2DFloat,
-                                             "floatCoords", "[F");
+    pbth2DTypesID = (*env)->GetFieldID(env, Pbth2D, "pointTypes", "[B");
+    pbth2DNumTypesID = (*env)->GetFieldID(env, Pbth2D, "numTypes", "I");
+    pbth2DWindingRuleID = (*env)->GetFieldID(env, Pbth2D, "windingRule", "I");
+    pbth2DFlobtCoordsID = (*env)->GetFieldID(env, Pbth2DFlobt,
+                                             "flobtCoords", "[F");
     sg2dStrokeHintID = (*env)->GetFieldID(env, SG2D, "strokeHint", "I");
-    fid = (*env)->GetStaticFieldID(env, SHints, "INTVAL_STROKE_PURE", "I");
-    sunHints_INTVAL_STROKE_PURE = (*env)->GetStaticIntField(env, SHints, fid);
+    fid = (*env)->GetStbticFieldID(env, SHints, "INTVAL_STROKE_PURE", "I");
+    sunHints_INTVAL_STROKE_PURE = (*env)->GetStbticIntField(env, SHints, fid);
 }
 
-void GrPrim_RefineBounds(SurfaceDataBounds *bounds, jint transX, jint transY,
-                         jfloat *coords,  jint maxCoords)
+void GrPrim_RefineBounds(SurfbceDbtbBounds *bounds, jint trbnsX, jint trbnsY,
+                         jflobt *coords,  jint mbxCoords)
 {
-    jint xmin, ymin, xmax, ymax;
-    if (maxCoords > 1) {
-        xmin = xmax = transX + (jint)(*coords++ + 0.5);
-        ymin = ymax = transY + (jint)(*coords++ + 0.5);
-        for (;maxCoords > 1; maxCoords -= 2) {
-            jint x = transX + (jint)(*coords++ + 0.5);
-            jint y = transY + (jint)(*coords++ + 0.5);
+    jint xmin, ymin, xmbx, ymbx;
+    if (mbxCoords > 1) {
+        xmin = xmbx = trbnsX + (jint)(*coords++ + 0.5);
+        ymin = ymbx = trbnsY + (jint)(*coords++ + 0.5);
+        for (;mbxCoords > 1; mbxCoords -= 2) {
+            jint x = trbnsX + (jint)(*coords++ + 0.5);
+            jint y = trbnsY + (jint)(*coords++ + 0.5);
             if (xmin > x) xmin = x;
             if (ymin > y) ymin = y;
-            if (xmax < x) xmax = x;
-            if (ymax < y) ymax = y;
+            if (xmbx < x) xmbx = x;
+            if (ymbx < y) ymbx = y;
         }
-        if (++xmax < xmin) xmax--;
-        if (++ymax < ymin) ymax--;
+        if (++xmbx < xmin) xmbx--;
+        if (++ymbx < ymin) ymbx--;
         if (bounds->x1 < xmin) bounds->x1 = xmin;
         if (bounds->y1 < ymin) bounds->y1 = ymin;
-        if (bounds->x2 > xmax) bounds->x2 = xmax;
-        if (bounds->y2 > ymax) bounds->y2 = ymax;
+        if (bounds->x2 > xmbx) bounds->x2 = xmbx;
+        if (bounds->y2 > ymbx) bounds->y2 = ymbx;
     } else {
         bounds->x2 = bounds->x1;
         bounds->y2 = bounds->y1;
@@ -169,28 +169,28 @@ void GrPrim_RefineBounds(SurfaceDataBounds *bounds, jint transX, jint transY,
 }
 
 /*
- * Class:     sun_java2d_loops_GraphicsPrimitiveMgr
- * Method:    registerNativeLoops
- * Signature: ()V
+ * Clbss:     sun_jbvb2d_loops_GrbphicsPrimitiveMgr
+ * Method:    registerNbtiveLoops
+ * Signbture: ()V
  */
 JNIEXPORT void JNICALL
-Java_sun_java2d_loops_GraphicsPrimitiveMgr_registerNativeLoops
-    (JNIEnv *env, jclass GPMgr)
+Jbvb_sun_jbvb2d_loops_GrbphicsPrimitiveMgr_registerNbtiveLoops
+    (JNIEnv *env, jclbss GPMgr)
 {
     RegisterFunc RegisterAnyByte;
-    RegisterFunc RegisterByteBinary1Bit;
-    RegisterFunc RegisterByteBinary2Bit;
-    RegisterFunc RegisterByteBinary4Bit;
+    RegisterFunc RegisterByteBinbry1Bit;
+    RegisterFunc RegisterByteBinbry2Bit;
+    RegisterFunc RegisterByteBinbry4Bit;
     RegisterFunc RegisterByteIndexed;
-    RegisterFunc RegisterByteGray;
-    RegisterFunc RegisterIndex8Gray;
-    RegisterFunc RegisterIndex12Gray;
+    RegisterFunc RegisterByteGrby;
+    RegisterFunc RegisterIndex8Grby;
+    RegisterFunc RegisterIndex12Grby;
     RegisterFunc RegisterAnyShort;
     RegisterFunc RegisterUshort555Rgb;
     RegisterFunc RegisterUshort565Rgb;
     RegisterFunc RegisterUshort4444Argb;
     RegisterFunc RegisterUshort555Rgbx;
-    RegisterFunc RegisterUshortGray;
+    RegisterFunc RegisterUshortGrby;
     RegisterFunc RegisterUshortIndexed;
     RegisterFunc RegisterAny3Byte;
     RegisterFunc RegisterThreeByteBgr;
@@ -206,19 +206,19 @@ Java_sun_java2d_loops_GraphicsPrimitiveMgr_registerNativeLoops
     RegisterFunc RegisterFourByteAbgrPre;
 
     if (!RegisterAnyByte(env) ||
-        !RegisterByteBinary1Bit(env) ||
-        !RegisterByteBinary2Bit(env) ||
-        !RegisterByteBinary4Bit(env) ||
+        !RegisterByteBinbry1Bit(env) ||
+        !RegisterByteBinbry2Bit(env) ||
+        !RegisterByteBinbry4Bit(env) ||
         !RegisterByteIndexed(env) ||
-        !RegisterByteGray(env) ||
-        !RegisterIndex8Gray(env) ||
-        !RegisterIndex12Gray(env) ||
+        !RegisterByteGrby(env) ||
+        !RegisterIndex8Grby(env) ||
+        !RegisterIndex12Grby(env) ||
         !RegisterAnyShort(env) ||
         !RegisterUshort555Rgb(env) ||
         !RegisterUshort565Rgb(env) ||
         !RegisterUshort4444Argb(env) ||
         !RegisterUshort555Rgbx(env) ||
-        !RegisterUshortGray(env) ||
+        !RegisterUshortGrby(env) ||
         !RegisterUshortIndexed(env) ||
         !RegisterAny3Byte(env) ||
         !RegisterThreeByteBgr(env) ||
@@ -237,56 +237,56 @@ Java_sun_java2d_loops_GraphicsPrimitiveMgr_registerNativeLoops
     }
 }
 
-#define _StartOf(T)     ((T *) (&T##s))
+#define _StbrtOf(T)     ((T *) (&T##s))
 #define _NumberOf(T)    (sizeof(T##s) / sizeof(T))
-#define _EndOf(T)       (_StartOf(T) + _NumberOf(T))
+#define _EndOf(T)       (_StbrtOf(T) + _NumberOf(T))
 
-#define PrimTypeStart   _StartOf(PrimitiveType)
+#define PrimTypeStbrt   _StbrtOf(PrimitiveType)
 #define PrimTypeEnd     _EndOf(PrimitiveType)
 
-#define SurfTypeStart   _StartOf(SurfaceType)
-#define SurfTypeEnd     _EndOf(SurfaceType)
+#define SurfTypeStbrt   _StbrtOf(SurfbceType)
+#define SurfTypeEnd     _EndOf(SurfbceType)
 
-#define CompTypeStart   _StartOf(CompositeType)
+#define CompTypeStbrt   _StbrtOf(CompositeType)
 #define CompTypeEnd     _EndOf(CompositeType)
 
 /*
- * This function initializes the global collection of PrimitiveType
- * structures by retrieving the necessary Java Class object and the
- * associated methodID of the necessary constructor.
+ * This function initiblizes the globbl collection of PrimitiveType
+ * structures by retrieving the necessbry Jbvb Clbss object bnd the
+ * bssocibted methodID of the necessbry constructor.
  *
  * See PrimitiveTypes.* below.
  */
-static jboolean InitPrimTypes(JNIEnv *env)
+stbtic jboolebn InitPrimTypes(JNIEnv *env)
 {
-    jboolean ok = JNI_TRUE;
+    jboolebn ok = JNI_TRUE;
     PrimitiveType *pPrimType;
-    jclass cl;
+    jclbss cl;
 
-    for (pPrimType = PrimTypeStart; pPrimType < PrimTypeEnd; pPrimType++) {
-        cl = (*env)->FindClass(env, pPrimType->ClassName);
+    for (pPrimType = PrimTypeStbrt; pPrimType < PrimTypeEnd; pPrimType++) {
+        cl = (*env)->FindClbss(env, pPrimType->ClbssNbme);
         if (cl == NULL) {
             ok = JNI_FALSE;
-            break;
+            brebk;
         }
-        pPrimType->ClassObject = (*env)->NewGlobalRef(env, cl);
+        pPrimType->ClbssObject = (*env)->NewGlobblRef(env, cl);
         pPrimType->Constructor =
-            (*env)->GetMethodID(env, cl, InitName, InitSig);
+            (*env)->GetMethodID(env, cl, InitNbme, InitSig);
 
-        (*env)->DeleteLocalRef(env, cl);
-        if (pPrimType->ClassObject == NULL ||
+        (*env)->DeleteLocblRef(env, cl);
+        if (pPrimType->ClbssObject == NULL ||
             pPrimType->Constructor == NULL)
         {
             ok = JNI_FALSE;
-            break;
+            brebk;
         }
     }
 
     if (!ok) {
-        for (pPrimType = PrimTypeStart; pPrimType < PrimTypeEnd; pPrimType++) {
-            if (pPrimType->ClassObject != NULL) {
-                (*env)->DeleteGlobalRef(env, pPrimType->ClassObject);
-                pPrimType->ClassObject = NULL;
+        for (pPrimType = PrimTypeStbrt; pPrimType < PrimTypeEnd; pPrimType++) {
+            if (pPrimType->ClbssObject != NULL) {
+                (*env)->DeleteGlobblRef(env, pPrimType->ClbssObject);
+                pPrimType->ClbssObject = NULL;
             }
             pPrimType->Constructor = NULL;
         }
@@ -296,48 +296,48 @@ static jboolean InitPrimTypes(JNIEnv *env)
 }
 
 /*
- * This function initializes the global collection of SurfaceType
- * or CompositeType structures by retrieving the corresponding Java
- * object stored as a static field on the Java Class.
+ * This function initiblizes the globbl collection of SurfbceType
+ * or CompositeType structures by retrieving the corresponding Jbvb
+ * object stored bs b stbtic field on the Jbvb Clbss.
  *
- * See SurfaceTypes.* below.
+ * See SurfbceTypes.* below.
  * See CompositeeTypes.* below.
  */
-static jboolean InitSimpleTypes
-    (JNIEnv *env, jclass SimpleClass, char *SimpleSig,
-     SurfCompHdr *pStart, SurfCompHdr *pEnd, jsize size)
+stbtic jboolebn InitSimpleTypes
+    (JNIEnv *env, jclbss SimpleClbss, chbr *SimpleSig,
+     SurfCompHdr *pStbrt, SurfCompHdr *pEnd, jsize size)
 {
-    jboolean ok = JNI_TRUE;
+    jboolebn ok = JNI_TRUE;
     SurfCompHdr *pHdr;
     jfieldID field;
     jobject obj;
 
-    for (pHdr = pStart; pHdr < pEnd; pHdr = PtrAddBytes(pHdr, size)) {
-        field = (*env)->GetStaticFieldID(env,
-                                         SimpleClass,
-                                         pHdr->Name,
+    for (pHdr = pStbrt; pHdr < pEnd; pHdr = PtrAddBytes(pHdr, size)) {
+        field = (*env)->GetStbticFieldID(env,
+                                         SimpleClbss,
+                                         pHdr->Nbme,
                                          SimpleSig);
         if (field == NULL) {
             ok = JNI_FALSE;
-            break;
+            brebk;
         }
-        obj = (*env)->GetStaticObjectField(env, SimpleClass, field);
+        obj = (*env)->GetStbticObjectField(env, SimpleClbss, field);
         if (obj == NULL) {
             ok = JNI_FALSE;
-            break;
+            brebk;
         }
-        pHdr->Object = (*env)->NewGlobalRef(env, obj);
-        (*env)->DeleteLocalRef(env, obj);
+        pHdr->Object = (*env)->NewGlobblRef(env, obj);
+        (*env)->DeleteLocblRef(env, obj);
         if (pHdr->Object == NULL) {
             ok = JNI_FALSE;
-            break;
+            brebk;
         }
     }
 
     if (!ok) {
-        for (pHdr = pStart; pHdr < pEnd; pHdr = PtrAddBytes(pHdr, size)) {
+        for (pHdr = pStbrt; pHdr < pEnd; pHdr = PtrAddBytes(pHdr, size)) {
             if (pHdr->Object != NULL) {
-                (*env)->DeleteGlobalRef(env, pHdr->Object);
+                (*env)->DeleteGlobblRef(env, pHdr->Object);
                 pHdr->Object = NULL;
             }
         }
@@ -346,107 +346,107 @@ static jboolean InitSimpleTypes
     return ok;
 }
 
-static jboolean InitSurfaceTypes(JNIEnv *env, jclass ST)
+stbtic jboolebn InitSurfbceTypes(JNIEnv *env, jclbss ST)
 {
-    return InitSimpleTypes(env, ST, "Lsun/java2d/loops/SurfaceType;",
-                           (SurfCompHdr *) SurfTypeStart,
+    return InitSimpleTypes(env, ST, "Lsun/jbvb2d/loops/SurfbceType;",
+                           (SurfCompHdr *) SurfTypeStbrt,
                            (SurfCompHdr *) SurfTypeEnd,
-                           sizeof(SurfaceType));
+                           sizeof(SurfbceType));
 }
 
-static jboolean InitCompositeTypes(JNIEnv *env, jclass CT)
+stbtic jboolebn InitCompositeTypes(JNIEnv *env, jclbss CT)
 {
-    return InitSimpleTypes(env, CT, "Lsun/java2d/loops/CompositeType;",
-                           (SurfCompHdr *) CompTypeStart,
+    return InitSimpleTypes(env, CT, "Lsun/jbvb2d/loops/CompositeType;",
+                           (SurfCompHdr *) CompTypeStbrt,
                            (SurfCompHdr *) CompTypeEnd,
                            sizeof(CompositeType));
 }
 
 /*
- * This function registers a set of Java GraphicsPrimitive objects
- * based on information stored in an array of NativePrimitive structures.
+ * This function registers b set of Jbvb GrbphicsPrimitive objects
+ * bbsed on informbtion stored in bn brrby of NbtivePrimitive structures.
  */
-jboolean RegisterPrimitives(JNIEnv *env,
-                            NativePrimitive *pPrim,
+jboolebn RegisterPrimitives(JNIEnv *env,
+                            NbtivePrimitive *pPrim,
                             jint NumPrimitives)
 {
-    jarray primitives;
+    jbrrby primitives;
     int i;
 
-    primitives = (*env)->NewObjectArray(env, NumPrimitives,
-                                        GraphicsPrimitive, NULL);
+    primitives = (*env)->NewObjectArrby(env, NumPrimitives,
+                                        GrbphicsPrimitive, NULL);
     if (primitives == NULL) {
         return JNI_FALSE;
     }
 
     for (i = 0; i < NumPrimitives; i++, pPrim++) {
-        jint srcflags, dstflags;
+        jint srcflbgs, dstflbgs;
         jobject prim;
         PrimitiveType *pType = pPrim->pPrimType;
-        SurfaceType *pSrc = pPrim->pSrcType;
+        SurfbceType *pSrc = pPrim->pSrcType;
         CompositeType *pComp = pPrim->pCompType;
-        SurfaceType *pDst = pPrim->pDstType;
+        SurfbceType *pDst = pPrim->pDstType;
 
-        pPrim->funcs.initializer = MapAccelFunction(pPrim->funcs_c.initializer);
+        pPrim->funcs.initiblizer = MbpAccelFunction(pPrim->funcs_c.initiblizer);
 
         /*
-         * Calculate the necessary SurfaceData lock flags for the
-         * source and destination surfaces based on the information
-         * stored in the PrimitiveType, SurfaceType, and CompositeType
-         * structures.  The starting point is the values that are
-         * already stored in the NativePrimitive structure.  These
-         * flags are usually left as 0, but can be filled in by
-         * native primitive loops that have special needs that are
-         * not deducible from their declared attributes.
+         * Cblculbte the necessbry SurfbceDbtb lock flbgs for the
+         * source bnd destinbtion surfbces bbsed on the informbtion
+         * stored in the PrimitiveType, SurfbceType, bnd CompositeType
+         * structures.  The stbrting point is the vblues thbt bre
+         * blrebdy stored in the NbtivePrimitive structure.  These
+         * flbgs bre usublly left bs 0, but cbn be filled in by
+         * nbtive primitive loops thbt hbve specibl needs thbt bre
+         * not deducible from their declbred bttributes.
          */
-        srcflags = pPrim->srcflags;
-        dstflags = pPrim->dstflags;
-        srcflags |= pType->srcflags;
-        dstflags |= pType->dstflags;
-        dstflags |= pComp->dstflags;
-        if (srcflags & SD_LOCK_READ) srcflags |= pSrc->readflags;
-        /* if (srcflags & SD_LOCK_WRITE) srcflags |= pSrc->writeflags; */
-        if (dstflags & SD_LOCK_READ) dstflags |= pDst->readflags;
-        if (dstflags & SD_LOCK_WRITE) dstflags |= pDst->writeflags;
-        pPrim->srcflags = srcflags;
-        pPrim->dstflags = dstflags;
+        srcflbgs = pPrim->srcflbgs;
+        dstflbgs = pPrim->dstflbgs;
+        srcflbgs |= pType->srcflbgs;
+        dstflbgs |= pType->dstflbgs;
+        dstflbgs |= pComp->dstflbgs;
+        if (srcflbgs & SD_LOCK_READ) srcflbgs |= pSrc->rebdflbgs;
+        /* if (srcflbgs & SD_LOCK_WRITE) srcflbgs |= pSrc->writeflbgs; */
+        if (dstflbgs & SD_LOCK_READ) dstflbgs |= pDst->rebdflbgs;
+        if (dstflbgs & SD_LOCK_WRITE) dstflbgs |= pDst->writeflbgs;
+        pPrim->srcflbgs = srcflbgs;
+        pPrim->dstflbgs = dstflbgs;
 
         prim = (*env)->NewObject(env,
-                                 pType->ClassObject,
+                                 pType->ClbssObject,
                                  pType->Constructor,
                                  ptr_to_jlong(pPrim),
                                  pSrc->hdr.Object,
                                  pComp->hdr.Object,
                                  pDst->hdr.Object);
         if (prim == NULL) {
-            break;
+            brebk;
         }
-        (*env)->SetObjectArrayElement(env, primitives, i, prim);
-        (*env)->DeleteLocalRef(env, prim);
+        (*env)->SetObjectArrbyElement(env, primitives, i, prim);
+        (*env)->DeleteLocblRef(env, prim);
         if ((*env)->ExceptionCheck(env)) {
-            break;
+            brebk;
         }
     }
 
     if (i >= NumPrimitives) {
-        /* No error - upcall to GraphicsPrimitiveMgr to register the
+        /* No error - upcbll to GrbphicsPrimitiveMgr to register the
          * new primitives... */
-        (*env)->CallStaticVoidMethod(env, GraphicsPrimitiveMgr, RegisterID,
+        (*env)->CbllStbticVoidMethod(env, GrbphicsPrimitiveMgr, RegisterID,
                                      primitives);
     }
-    (*env)->DeleteLocalRef(env, primitives);
+    (*env)->DeleteLocblRef(env, primitives);
 
     return !((*env)->ExceptionCheck(env));
 }
 
-JNIEXPORT NativePrimitive * JNICALL
-GetNativePrim(JNIEnv *env, jobject gp)
+JNIEXPORT NbtivePrimitive * JNICALL
+GetNbtivePrim(JNIEnv *env, jobject gp)
 {
-    NativePrimitive *pPrim;
+    NbtivePrimitive *pPrim;
 
-    pPrim = (NativePrimitive *) JNU_GetLongFieldAsPtr(env, gp, pNativePrimID);
+    pPrim = (NbtivePrimitive *) JNU_GetLongFieldAsPtr(env, gp, pNbtivePrimID);
     if (pPrim == NULL) {
-        JNU_ThrowInternalError(env, "Non-native Primitive invoked natively");
+        JNU_ThrowInternblError(env, "Non-nbtive Primitive invoked nbtively");
     }
 
     return pPrim;
@@ -454,13 +454,13 @@ GetNativePrim(JNIEnv *env, jobject gp)
 
 JNIEXPORT void JNICALL
 GrPrim_Sg2dGetCompInfo(JNIEnv *env, jobject sg2d,
-                       NativePrimitive *pPrim, CompositeInfo *pCompInfo)
+                       NbtivePrimitive *pPrim, CompositeInfo *pCompInfo)
 {
     jobject comp;
 
     comp = (*env)->GetObjectField(env, sg2d, compositeID);
     (*pPrim->pCompType->getCompInfo)(env, pCompInfo, comp);
-    (*env)->DeleteLocalRef(env, comp);
+    (*env)->DeleteLocblRef(env, comp);
 }
 
 JNIEXPORT jint JNICALL
@@ -470,14 +470,14 @@ GrPrim_CompGetXorColor(JNIEnv *env, jobject comp)
     jint rgb;
 
     color = (*env)->GetObjectField(env, comp, xorColorID);
-    rgb = (*env)->CallIntMethod(env, color, getRgbID);
-    (*env)->DeleteLocalRef(env, color);
+    rgb = (*env)->CbllIntMethod(env, color, getRgbID);
+    (*env)->DeleteLocblRef(env, color);
 
     return rgb;
 }
 
 JNIEXPORT void JNICALL
-GrPrim_Sg2dGetClip(JNIEnv *env, jobject sg2d, SurfaceDataBounds *bounds)
+GrPrim_Sg2dGetClip(JNIEnv *env, jobject sg2d, SurfbceDbtbBounds *bounds)
 {
     jobject clip = (*env)->GetObjectField(env, sg2d, clipRegionID);
     Region_GetBounds(env, clip, bounds);
@@ -490,15 +490,15 @@ GrPrim_Sg2dGetPixel(JNIEnv *env, jobject sg2d)
 }
 
 JNIEXPORT jint JNICALL
-GrPrim_Sg2dGetEaRGB(JNIEnv *env, jobject sg2d)
+GrPrim_Sg2dGetEbRGB(JNIEnv *env, jobject sg2d)
 {
-    return (*env)->GetIntField(env, sg2d, eargbID);
+    return (*env)->GetIntField(env, sg2d, ebrgbID);
 }
 
 JNIEXPORT jint JNICALL
-GrPrim_Sg2dGetLCDTextContrast(JNIEnv *env, jobject sg2d)
+GrPrim_Sg2dGetLCDTextContrbst(JNIEnv *env, jobject sg2d)
 {
-    return (*env)->GetIntField(env, sg2d, lcdTextContrastID);
+    return (*env)->GetIntField(env, sg2d, lcdTextContrbstID);
 }
 
 /*
@@ -508,24 +508,24 @@ JNIEXPORT void JNICALL
 GrPrim_CompGetXorInfo(JNIEnv *env, CompositeInfo *pCompInfo, jobject comp)
 {
     pCompInfo->rule = RULE_Xor;
-    pCompInfo->details.xorPixel = (*env)->GetIntField(env, comp, xorPixelID);
-    pCompInfo->alphaMask = (*env)->GetIntField(env, comp, alphaMaskID);
+    pCompInfo->detbils.xorPixel = (*env)->GetIntField(env, comp, xorPixelID);
+    pCompInfo->blphbMbsk = (*env)->GetIntField(env, comp, blphbMbskID);
 }
 
 /*
- * Helper function for CompositeTypes.AnyAlpha
+ * Helper function for CompositeTypes.AnyAlphb
  */
 JNIEXPORT void JNICALL
-GrPrim_CompGetAlphaInfo(JNIEnv *env, CompositeInfo *pCompInfo, jobject comp)
+GrPrim_CompGetAlphbInfo(JNIEnv *env, CompositeInfo *pCompInfo, jobject comp)
 {
     pCompInfo->rule =
         (*env)->GetIntField(env, comp, ruleID);
-    pCompInfo->details.extraAlpha =
-        (*env)->GetFloatField(env, comp, extraAlphaID);
+    pCompInfo->detbils.extrbAlphb =
+        (*env)->GetFlobtField(env, comp, extrbAlphbID);
 }
 
 JNIEXPORT void JNICALL
-Transform_GetInfo(JNIEnv *env, jobject txform, TransformInfo *pTxInfo)
+Trbnsform_GetInfo(JNIEnv *env, jobject txform, TrbnsformInfo *pTxInfo)
 {
     pTxInfo->dxdx = (*env)->GetDoubleField(env, txform, m00ID);
     pTxInfo->dxdy = (*env)->GetDoubleField(env, txform, m01ID);
@@ -536,7 +536,7 @@ Transform_GetInfo(JNIEnv *env, jobject txform, TransformInfo *pTxInfo)
 }
 
 JNIEXPORT void JNICALL
-Transform_transform(TransformInfo *pTxInfo, jdouble *pX, jdouble *pY)
+Trbnsform_trbnsform(TrbnsformInfo *pTxInfo, jdouble *pX, jdouble *pY)
 {
     jdouble x = *pX;
     jdouble y = *pY;
@@ -546,20 +546,20 @@ Transform_transform(TransformInfo *pTxInfo, jdouble *pX, jdouble *pY)
 }
 
 /*
- * External declarations for the pixelFor helper methods for the various
- * named surface types.  These functions are defined in the various
- * files that contain the loop functions for their type.
+ * Externbl declbrbtions for the pixelFor helper methods for the vbrious
+ * nbmed surfbce types.  These functions bre defined in the vbrious
+ * files thbt contbin the loop functions for their type.
  */
-extern PixelForFunc PixelForByteBinary;
+extern PixelForFunc PixelForByteBinbry;
 extern PixelForFunc PixelForByteIndexed;
-extern PixelForFunc PixelForByteGray;
-extern PixelForFunc PixelForIndex8Gray;
-extern PixelForFunc PixelForIndex12Gray;
+extern PixelForFunc PixelForByteGrby;
+extern PixelForFunc PixelForIndex8Grby;
+extern PixelForFunc PixelForIndex12Grby;
 extern PixelForFunc PixelForUshort555Rgb;
 extern PixelForFunc PixelForUshort555Rgbx;
 extern PixelForFunc PixelForUshort565Rgb;
 extern PixelForFunc PixelForUshort4444Argb;
-extern PixelForFunc PixelForUshortGray;
+extern PixelForFunc PixelForUshortGrby;
 extern PixelForFunc PixelForUshortIndexed;
 extern PixelForFunc PixelForIntArgbPre;
 extern PixelForFunc PixelForIntArgbBm;
@@ -569,58 +569,58 @@ extern PixelForFunc PixelForFourByteAbgr;
 extern PixelForFunc PixelForFourByteAbgrPre;
 
 /*
- * Definition and initialization of the globally accessible PrimitiveTypes.
+ * Definition bnd initiblizbtion of the globblly bccessible PrimitiveTypes.
  */
 struct _PrimitiveTypes PrimitiveTypes = {
-    { "sun/java2d/loops/Blit", SD_LOCK_READ, SD_LOCK_WRITE, NULL, NULL},
-    { "sun/java2d/loops/BlitBg", SD_LOCK_READ, SD_LOCK_WRITE, NULL, NULL},
-    { "sun/java2d/loops/ScaledBlit", SD_LOCK_READ, SD_LOCK_WRITE, NULL, NULL},
-    { "sun/java2d/loops/FillRect", 0, SD_LOCK_WRITE, NULL, NULL},
-    { "sun/java2d/loops/FillSpans", 0, SD_LOCK_PARTIAL_WRITE, NULL, NULL},
-    { "sun/java2d/loops/FillParallelogram", 0, SD_LOCK_PARTIAL_WRITE, NULL, NULL},
-    { "sun/java2d/loops/DrawParallelogram", 0, SD_LOCK_PARTIAL_WRITE, NULL, NULL},
-    { "sun/java2d/loops/DrawLine", 0, SD_LOCK_PARTIAL_WRITE, NULL, NULL},
-    { "sun/java2d/loops/DrawRect", 0, SD_LOCK_PARTIAL_WRITE, NULL, NULL},
-    { "sun/java2d/loops/DrawPolygons", 0, SD_LOCK_PARTIAL_WRITE, NULL, NULL},
-    { "sun/java2d/loops/DrawPath", 0, SD_LOCK_PARTIAL_WRITE, NULL, NULL},
-    { "sun/java2d/loops/FillPath", 0, SD_LOCK_PARTIAL_WRITE, NULL, NULL},
-    { "sun/java2d/loops/MaskBlit", SD_LOCK_READ, SD_LOCK_RD_WR, NULL, NULL},
-    { "sun/java2d/loops/MaskFill", 0, SD_LOCK_RD_WR, NULL, NULL},
-    { "sun/java2d/loops/DrawGlyphList", 0, SD_LOCK_PARTIAL_WRITE |
+    { "sun/jbvb2d/loops/Blit", SD_LOCK_READ, SD_LOCK_WRITE, NULL, NULL},
+    { "sun/jbvb2d/loops/BlitBg", SD_LOCK_READ, SD_LOCK_WRITE, NULL, NULL},
+    { "sun/jbvb2d/loops/ScbledBlit", SD_LOCK_READ, SD_LOCK_WRITE, NULL, NULL},
+    { "sun/jbvb2d/loops/FillRect", 0, SD_LOCK_WRITE, NULL, NULL},
+    { "sun/jbvb2d/loops/FillSpbns", 0, SD_LOCK_PARTIAL_WRITE, NULL, NULL},
+    { "sun/jbvb2d/loops/FillPbrbllelogrbm", 0, SD_LOCK_PARTIAL_WRITE, NULL, NULL},
+    { "sun/jbvb2d/loops/DrbwPbrbllelogrbm", 0, SD_LOCK_PARTIAL_WRITE, NULL, NULL},
+    { "sun/jbvb2d/loops/DrbwLine", 0, SD_LOCK_PARTIAL_WRITE, NULL, NULL},
+    { "sun/jbvb2d/loops/DrbwRect", 0, SD_LOCK_PARTIAL_WRITE, NULL, NULL},
+    { "sun/jbvb2d/loops/DrbwPolygons", 0, SD_LOCK_PARTIAL_WRITE, NULL, NULL},
+    { "sun/jbvb2d/loops/DrbwPbth", 0, SD_LOCK_PARTIAL_WRITE, NULL, NULL},
+    { "sun/jbvb2d/loops/FillPbth", 0, SD_LOCK_PARTIAL_WRITE, NULL, NULL},
+    { "sun/jbvb2d/loops/MbskBlit", SD_LOCK_READ, SD_LOCK_RD_WR, NULL, NULL},
+    { "sun/jbvb2d/loops/MbskFill", 0, SD_LOCK_RD_WR, NULL, NULL},
+    { "sun/jbvb2d/loops/DrbwGlyphList", 0, SD_LOCK_PARTIAL_WRITE |
                                            SD_LOCK_FASTEST, NULL, NULL},
-    { "sun/java2d/loops/DrawGlyphListAA", 0, SD_LOCK_RD_WR | SD_LOCK_FASTEST, NULL, NULL},
-    { "sun/java2d/loops/DrawGlyphListLCD", 0, SD_LOCK_RD_WR | SD_LOCK_FASTEST, NULL, NULL},
-    { "sun/java2d/loops/TransformHelper", SD_LOCK_READ, 0, NULL, NULL}
+    { "sun/jbvb2d/loops/DrbwGlyphListAA", 0, SD_LOCK_RD_WR | SD_LOCK_FASTEST, NULL, NULL},
+    { "sun/jbvb2d/loops/DrbwGlyphListLCD", 0, SD_LOCK_RD_WR | SD_LOCK_FASTEST, NULL, NULL},
+    { "sun/jbvb2d/loops/TrbnsformHelper", SD_LOCK_READ, 0, NULL, NULL}
 };
 
 /*
- * Definition and initialization of the globally accessible SurfaceTypes.
+ * Definition bnd initiblizbtion of the globblly bccessible SurfbceTypes.
  */
-struct _SurfaceTypes SurfaceTypes = {
-    { { "OpaqueColor", NULL}, NULL, 0, 0 },
+struct _SurfbceTypes SurfbceTypes = {
+    { { "OpbqueColor", NULL}, NULL, 0, 0 },
     { { "AnyColor", NULL}, NULL, 0, 0 },
     { { "AnyByte", NULL}, NULL, 0, 0 },
-    { { "ByteBinary1Bit", NULL},
-      PixelForByteBinary, SD_LOCK_LUT, SD_LOCK_INVCOLOR },
-    { { "ByteBinary2Bit", NULL},
-      PixelForByteBinary, SD_LOCK_LUT, SD_LOCK_INVCOLOR },
-    { { "ByteBinary4Bit", NULL},
-      PixelForByteBinary, SD_LOCK_LUT, SD_LOCK_INVCOLOR },
+    { { "ByteBinbry1Bit", NULL},
+      PixelForByteBinbry, SD_LOCK_LUT, SD_LOCK_INVCOLOR },
+    { { "ByteBinbry2Bit", NULL},
+      PixelForByteBinbry, SD_LOCK_LUT, SD_LOCK_INVCOLOR },
+    { { "ByteBinbry4Bit", NULL},
+      PixelForByteBinbry, SD_LOCK_LUT, SD_LOCK_INVCOLOR },
     { { "ByteIndexed", NULL},
       PixelForByteIndexed, SD_LOCK_LUT, SD_LOCK_INVCOLOR },
     { { "ByteIndexedBm", NULL},
       PixelForByteIndexed, SD_LOCK_LUT, SD_LOCK_INVCOLOR },
-    { { "ByteGray", NULL}, PixelForByteGray, 0, 0},
-    { { "Index8Gray", NULL},
-      PixelForIndex8Gray, SD_LOCK_LUT, SD_LOCK_INVGRAY },
-    { { "Index12Gray", NULL},
-      PixelForIndex12Gray, SD_LOCK_LUT, SD_LOCK_INVGRAY },
+    { { "ByteGrby", NULL}, PixelForByteGrby, 0, 0},
+    { { "Index8Grby", NULL},
+      PixelForIndex8Grby, SD_LOCK_LUT, SD_LOCK_INVGRAY },
+    { { "Index12Grby", NULL},
+      PixelForIndex12Grby, SD_LOCK_LUT, SD_LOCK_INVGRAY },
     { { "AnyShort", NULL}, NULL, 0, 0 },
     { { "Ushort555Rgb", NULL}, PixelForUshort555Rgb, 0, 0},
     { { "Ushort555Rgbx", NULL}, PixelForUshort555Rgbx, 0, 0},
     { { "Ushort565Rgb", NULL}, PixelForUshort565Rgb, 0, 0 },
     { { "Ushort4444Argb", NULL}, PixelForUshort4444Argb, 0, 0 },
-    { { "UshortGray", NULL}, PixelForUshortGray, 0, 0},
+    { { "UshortGrby", NULL}, PixelForUshortGrby, 0, 0},
     { { "UshortIndexed", NULL},
       PixelForUshortIndexed, SD_LOCK_LUT, SD_LOCK_INVCOLOR },
     { { "Any3Byte", NULL},  NULL, 0, 0 },
@@ -638,14 +638,14 @@ struct _SurfaceTypes SurfaceTypes = {
 };
 
 /*
- * Definition and initialization of the globally accessible CompositeTypes.
+ * Definition bnd initiblizbtion of the globblly bccessible CompositeTypes.
  */
 struct _CompositeTypes CompositeTypes = {
-    { { "SrcNoEa", NULL}, NULL, 0},
-    { { "SrcOverNoEa", NULL}, NULL, SD_LOCK_RD_WR },
-    { { "SrcOverNoEa", NULL}, NULL, SD_LOCK_PARTIAL_WRITE }, /* SrcOverBmNoEa */
-    { { "Src", NULL}, GrPrim_CompGetAlphaInfo, 0},
-    { { "SrcOver", NULL}, GrPrim_CompGetAlphaInfo, SD_LOCK_RD_WR },
+    { { "SrcNoEb", NULL}, NULL, 0},
+    { { "SrcOverNoEb", NULL}, NULL, SD_LOCK_RD_WR },
+    { { "SrcOverNoEb", NULL}, NULL, SD_LOCK_PARTIAL_WRITE }, /* SrcOverBmNoEb */
+    { { "Src", NULL}, GrPrim_CompGetAlphbInfo, 0},
+    { { "SrcOver", NULL}, GrPrim_CompGetAlphbInfo, SD_LOCK_RD_WR },
     { { "Xor", NULL}, GrPrim_CompGetXorInfo, SD_LOCK_RD_WR },
-    { { "AnyAlpha", NULL}, GrPrim_CompGetAlphaInfo, SD_LOCK_RD_WR },
+    { { "AnyAlphb", NULL}, GrPrim_CompGetAlphbInfo, SD_LOCK_RD_WR },
 };

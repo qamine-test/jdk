@@ -1,476 +1,476 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.security;
+pbckbge jbvb.security;
 
-import java.util.*;
+import jbvb.util.*;
 
-import java.security.Provider.Service;
-import java.security.spec.KeySpec;
-import java.security.spec.InvalidKeySpecException;
+import jbvb.security.Provider.Service;
+import jbvb.security.spec.KeySpec;
+import jbvb.security.spec.InvblidKeySpecException;
 
 import sun.security.util.Debug;
-import sun.security.jca.*;
-import sun.security.jca.GetInstance.Instance;
+import sun.security.jcb.*;
+import sun.security.jcb.GetInstbnce.Instbnce;
 
 /**
- * Key factories are used to convert <I>keys</I> (opaque
- * cryptographic keys of type {@code Key}) into <I>key specifications</I>
- * (transparent representations of the underlying key material), and vice
- * versa.
+ * Key fbctories bre used to convert <I>keys</I> (opbque
+ * cryptogrbphic keys of type {@code Key}) into <I>key specificbtions</I>
+ * (trbnspbrent representbtions of the underlying key mbteribl), bnd vice
+ * versb.
  *
- * <P> Key factories are bi-directional. That is, they allow you to build an
- * opaque key object from a given key specification (key material), or to
- * retrieve the underlying key material of a key object in a suitable format.
+ * <P> Key fbctories bre bi-directionbl. Thbt is, they bllow you to build bn
+ * opbque key object from b given key specificbtion (key mbteribl), or to
+ * retrieve the underlying key mbteribl of b key object in b suitbble formbt.
  *
- * <P> Multiple compatible key specifications may exist for the same key.
- * For example, a DSA public key may be specified using
+ * <P> Multiple compbtible key specificbtions mby exist for the sbme key.
+ * For exbmple, b DSA public key mby be specified using
  * {@code DSAPublicKeySpec} or
- * {@code X509EncodedKeySpec}. A key factory can be used to translate
- * between compatible key specifications.
+ * {@code X509EncodedKeySpec}. A key fbctory cbn be used to trbnslbte
+ * between compbtible key specificbtions.
  *
- * <P> The following is an example of how to use a key factory in order to
- * instantiate a DSA public key from its encoding.
- * Assume Alice has received a digital signature from Bob.
- * Bob also sent her his public key (in encoded format) to verify
- * his signature. Alice then performs the following actions:
+ * <P> The following is bn exbmple of how to use b key fbctory in order to
+ * instbntibte b DSA public key from its encoding.
+ * Assume Alice hbs received b digitbl signbture from Bob.
+ * Bob blso sent her his public key (in encoded formbt) to verify
+ * his signbture. Alice then performs the following bctions:
  *
  * <pre>
  * X509EncodedKeySpec bobPubKeySpec = new X509EncodedKeySpec(bobEncodedPubKey);
- * KeyFactory keyFactory = KeyFactory.getInstance("DSA");
- * PublicKey bobPubKey = keyFactory.generatePublic(bobPubKeySpec);
- * Signature sig = Signature.getInstance("DSA");
+ * KeyFbctory keyFbctory = KeyFbctory.getInstbnce("DSA");
+ * PublicKey bobPubKey = keyFbctory.generbtePublic(bobPubKeySpec);
+ * Signbture sig = Signbture.getInstbnce("DSA");
  * sig.initVerify(bobPubKey);
- * sig.update(data);
- * sig.verify(signature);
+ * sig.updbte(dbtb);
+ * sig.verify(signbture);
  * </pre>
  *
- * <p> Every implementation of the Java platform is required to support the
- * following standard {@code KeyFactory} algorithms:
+ * <p> Every implementbtion of the Jbvb plbtform is required to support the
+ * following stbndbrd {@code KeyFbctory} blgorithms:
  * <ul>
- * <li>{@code DiffieHellman}</li>
+ * <li>{@code DiffieHellmbn}</li>
  * <li>{@code DSA}</li>
  * <li>{@code RSA}</li>
  * </ul>
- * These algorithms are described in the <a href=
- * "{@docRoot}/../technotes/guides/security/StandardNames.html#KeyFactory">
- * KeyFactory section</a> of the
- * Java Cryptography Architecture Standard Algorithm Name Documentation.
- * Consult the release documentation for your implementation to see if any
- * other algorithms are supported.
+ * These blgorithms bre described in the <b href=
+ * "{@docRoot}/../technotes/guides/security/StbndbrdNbmes.html#KeyFbctory">
+ * KeyFbctory section</b> of the
+ * Jbvb Cryptogrbphy Architecture Stbndbrd Algorithm Nbme Documentbtion.
+ * Consult the relebse documentbtion for your implementbtion to see if bny
+ * other blgorithms bre supported.
  *
- * @author Jan Luehe
+ * @buthor Jbn Luehe
  *
  * @see Key
  * @see PublicKey
- * @see PrivateKey
- * @see java.security.spec.KeySpec
- * @see java.security.spec.DSAPublicKeySpec
- * @see java.security.spec.X509EncodedKeySpec
+ * @see PrivbteKey
+ * @see jbvb.security.spec.KeySpec
+ * @see jbvb.security.spec.DSAPublicKeySpec
+ * @see jbvb.security.spec.X509EncodedKeySpec
  *
  * @since 1.2
  */
 
-public class KeyFactory {
+public clbss KeyFbctory {
 
-    private static final Debug debug =
-                        Debug.getInstance("jca", "KeyFactory");
+    privbte stbtic finbl Debug debug =
+                        Debug.getInstbnce("jcb", "KeyFbctory");
 
-    // The algorithm associated with this key factory
-    private final String algorithm;
+    // The blgorithm bssocibted with this key fbctory
+    privbte finbl String blgorithm;
 
     // The provider
-    private Provider provider;
+    privbte Provider provider;
 
-    // The provider implementation (delegate)
-    private volatile KeyFactorySpi spi;
+    // The provider implementbtion (delegbte)
+    privbte volbtile KeyFbctorySpi spi;
 
     // lock for mutex during provider selection
-    private final Object lock = new Object();
+    privbte finbl Object lock = new Object();
 
-    // remaining services to try in provider selection
+    // rembining services to try in provider selection
     // null once provider is selected
-    private Iterator<Service> serviceIterator;
+    privbte Iterbtor<Service> serviceIterbtor;
 
     /**
-     * Creates a KeyFactory object.
+     * Crebtes b KeyFbctory object.
      *
-     * @param keyFacSpi the delegate
-     * @param provider the provider
-     * @param algorithm the name of the algorithm
-     * to associate with this {@code KeyFactory}
+     * @pbrbm keyFbcSpi the delegbte
+     * @pbrbm provider the provider
+     * @pbrbm blgorithm the nbme of the blgorithm
+     * to bssocibte with this {@code KeyFbctory}
      */
-    protected KeyFactory(KeyFactorySpi keyFacSpi, Provider provider,
-                         String algorithm) {
-        this.spi = keyFacSpi;
+    protected KeyFbctory(KeyFbctorySpi keyFbcSpi, Provider provider,
+                         String blgorithm) {
+        this.spi = keyFbcSpi;
         this.provider = provider;
-        this.algorithm = algorithm;
+        this.blgorithm = blgorithm;
     }
 
-    private KeyFactory(String algorithm) throws NoSuchAlgorithmException {
-        this.algorithm = algorithm;
-        List<Service> list = GetInstance.getServices("KeyFactory", algorithm);
-        serviceIterator = list.iterator();
-        // fetch and instantiate initial spi
+    privbte KeyFbctory(String blgorithm) throws NoSuchAlgorithmException {
+        this.blgorithm = blgorithm;
+        List<Service> list = GetInstbnce.getServices("KeyFbctory", blgorithm);
+        serviceIterbtor = list.iterbtor();
+        // fetch bnd instbntibte initibl spi
         if (nextSpi(null) == null) {
             throw new NoSuchAlgorithmException
-                (algorithm + " KeyFactory not available");
+                (blgorithm + " KeyFbctory not bvbilbble");
         }
     }
 
     /**
-     * Returns a KeyFactory object that converts
-     * public/private keys of the specified algorithm.
+     * Returns b KeyFbctory object thbt converts
+     * public/privbte keys of the specified blgorithm.
      *
-     * <p> This method traverses the list of registered security Providers,
-     * starting with the most preferred Provider.
-     * A new KeyFactory object encapsulating the
-     * KeyFactorySpi implementation from the first
-     * Provider that supports the specified algorithm is returned.
+     * <p> This method trbverses the list of registered security Providers,
+     * stbrting with the most preferred Provider.
+     * A new KeyFbctory object encbpsulbting the
+     * KeyFbctorySpi implementbtion from the first
+     * Provider thbt supports the specified blgorithm is returned.
      *
-     * <p> Note that the list of registered providers may be retrieved via
+     * <p> Note thbt the list of registered providers mby be retrieved vib
      * the {@link Security#getProviders() Security.getProviders()} method.
      *
-     * @param algorithm the name of the requested key algorithm.
-     * See the KeyFactory section in the <a href=
-     * "{@docRoot}/../technotes/guides/security/StandardNames.html#KeyFactory">
-     * Java Cryptography Architecture Standard Algorithm Name Documentation</a>
-     * for information about standard algorithm names.
+     * @pbrbm blgorithm the nbme of the requested key blgorithm.
+     * See the KeyFbctory section in the <b href=
+     * "{@docRoot}/../technotes/guides/security/StbndbrdNbmes.html#KeyFbctory">
+     * Jbvb Cryptogrbphy Architecture Stbndbrd Algorithm Nbme Documentbtion</b>
+     * for informbtion bbout stbndbrd blgorithm nbmes.
      *
-     * @return the new KeyFactory object.
+     * @return the new KeyFbctory object.
      *
-     * @exception NoSuchAlgorithmException if no Provider supports a
-     *          KeyFactorySpi implementation for the
-     *          specified algorithm.
+     * @exception NoSuchAlgorithmException if no Provider supports b
+     *          KeyFbctorySpi implementbtion for the
+     *          specified blgorithm.
      *
      * @see Provider
      */
-    public static KeyFactory getInstance(String algorithm)
+    public stbtic KeyFbctory getInstbnce(String blgorithm)
             throws NoSuchAlgorithmException {
-        return new KeyFactory(algorithm);
+        return new KeyFbctory(blgorithm);
     }
 
     /**
-     * Returns a KeyFactory object that converts
-     * public/private keys of the specified algorithm.
+     * Returns b KeyFbctory object thbt converts
+     * public/privbte keys of the specified blgorithm.
      *
-     * <p> A new KeyFactory object encapsulating the
-     * KeyFactorySpi implementation from the specified provider
+     * <p> A new KeyFbctory object encbpsulbting the
+     * KeyFbctorySpi implementbtion from the specified provider
      * is returned.  The specified provider must be registered
      * in the security provider list.
      *
-     * <p> Note that the list of registered providers may be retrieved via
+     * <p> Note thbt the list of registered providers mby be retrieved vib
      * the {@link Security#getProviders() Security.getProviders()} method.
      *
-     * @param algorithm the name of the requested key algorithm.
-     * See the KeyFactory section in the <a href=
-     * "{@docRoot}/../technotes/guides/security/StandardNames.html#KeyFactory">
-     * Java Cryptography Architecture Standard Algorithm Name Documentation</a>
-     * for information about standard algorithm names.
+     * @pbrbm blgorithm the nbme of the requested key blgorithm.
+     * See the KeyFbctory section in the <b href=
+     * "{@docRoot}/../technotes/guides/security/StbndbrdNbmes.html#KeyFbctory">
+     * Jbvb Cryptogrbphy Architecture Stbndbrd Algorithm Nbme Documentbtion</b>
+     * for informbtion bbout stbndbrd blgorithm nbmes.
      *
-     * @param provider the name of the provider.
+     * @pbrbm provider the nbme of the provider.
      *
-     * @return the new KeyFactory object.
+     * @return the new KeyFbctory object.
      *
-     * @exception NoSuchAlgorithmException if a KeyFactorySpi
-     *          implementation for the specified algorithm is not
-     *          available from the specified provider.
+     * @exception NoSuchAlgorithmException if b KeyFbctorySpi
+     *          implementbtion for the specified blgorithm is not
+     *          bvbilbble from the specified provider.
      *
      * @exception NoSuchProviderException if the specified provider is not
      *          registered in the security provider list.
      *
-     * @exception IllegalArgumentException if the provider name is null
+     * @exception IllegblArgumentException if the provider nbme is null
      *          or empty.
      *
      * @see Provider
      */
-    public static KeyFactory getInstance(String algorithm, String provider)
+    public stbtic KeyFbctory getInstbnce(String blgorithm, String provider)
             throws NoSuchAlgorithmException, NoSuchProviderException {
-        Instance instance = GetInstance.getInstance("KeyFactory",
-            KeyFactorySpi.class, algorithm, provider);
-        return new KeyFactory((KeyFactorySpi)instance.impl,
-            instance.provider, algorithm);
+        Instbnce instbnce = GetInstbnce.getInstbnce("KeyFbctory",
+            KeyFbctorySpi.clbss, blgorithm, provider);
+        return new KeyFbctory((KeyFbctorySpi)instbnce.impl,
+            instbnce.provider, blgorithm);
     }
 
     /**
-     * Returns a KeyFactory object that converts
-     * public/private keys of the specified algorithm.
+     * Returns b KeyFbctory object thbt converts
+     * public/privbte keys of the specified blgorithm.
      *
-     * <p> A new KeyFactory object encapsulating the
-     * KeyFactorySpi implementation from the specified Provider
-     * object is returned.  Note that the specified Provider object
-     * does not have to be registered in the provider list.
+     * <p> A new KeyFbctory object encbpsulbting the
+     * KeyFbctorySpi implementbtion from the specified Provider
+     * object is returned.  Note thbt the specified Provider object
+     * does not hbve to be registered in the provider list.
      *
-     * @param algorithm the name of the requested key algorithm.
-     * See the KeyFactory section in the <a href=
-     * "{@docRoot}/../technotes/guides/security/StandardNames.html#KeyFactory">
-     * Java Cryptography Architecture Standard Algorithm Name Documentation</a>
-     * for information about standard algorithm names.
+     * @pbrbm blgorithm the nbme of the requested key blgorithm.
+     * See the KeyFbctory section in the <b href=
+     * "{@docRoot}/../technotes/guides/security/StbndbrdNbmes.html#KeyFbctory">
+     * Jbvb Cryptogrbphy Architecture Stbndbrd Algorithm Nbme Documentbtion</b>
+     * for informbtion bbout stbndbrd blgorithm nbmes.
      *
-     * @param provider the provider.
+     * @pbrbm provider the provider.
      *
-     * @return the new KeyFactory object.
+     * @return the new KeyFbctory object.
      *
-     * @exception NoSuchAlgorithmException if a KeyFactorySpi
-     *          implementation for the specified algorithm is not available
+     * @exception NoSuchAlgorithmException if b KeyFbctorySpi
+     *          implementbtion for the specified blgorithm is not bvbilbble
      *          from the specified Provider object.
      *
-     * @exception IllegalArgumentException if the specified provider is null.
+     * @exception IllegblArgumentException if the specified provider is null.
      *
      * @see Provider
      *
      * @since 1.4
      */
-    public static KeyFactory getInstance(String algorithm, Provider provider)
+    public stbtic KeyFbctory getInstbnce(String blgorithm, Provider provider)
             throws NoSuchAlgorithmException {
-        Instance instance = GetInstance.getInstance("KeyFactory",
-            KeyFactorySpi.class, algorithm, provider);
-        return new KeyFactory((KeyFactorySpi)instance.impl,
-            instance.provider, algorithm);
+        Instbnce instbnce = GetInstbnce.getInstbnce("KeyFbctory",
+            KeyFbctorySpi.clbss, blgorithm, provider);
+        return new KeyFbctory((KeyFbctorySpi)instbnce.impl,
+            instbnce.provider, blgorithm);
     }
 
     /**
-     * Returns the provider of this key factory object.
+     * Returns the provider of this key fbctory object.
      *
-     * @return the provider of this key factory object
+     * @return the provider of this key fbctory object
      */
-    public final Provider getProvider() {
+    public finbl Provider getProvider() {
         synchronized (lock) {
-            // disable further failover after this call
-            serviceIterator = null;
+            // disbble further fbilover bfter this cbll
+            serviceIterbtor = null;
             return provider;
         }
     }
 
     /**
-     * Gets the name of the algorithm
-     * associated with this {@code KeyFactory}.
+     * Gets the nbme of the blgorithm
+     * bssocibted with this {@code KeyFbctory}.
      *
-     * @return the name of the algorithm associated with this
-     * {@code KeyFactory}
+     * @return the nbme of the blgorithm bssocibted with this
+     * {@code KeyFbctory}
      */
-    public final String getAlgorithm() {
-        return this.algorithm;
+    public finbl String getAlgorithm() {
+        return this.blgorithm;
     }
 
     /**
-     * Update the active KeyFactorySpi of this class and return the next
-     * implementation for failover. If no more implemenations are
-     * available, this method returns null. However, the active spi of
-     * this class is never set to null.
+     * Updbte the bctive KeyFbctorySpi of this clbss bnd return the next
+     * implementbtion for fbilover. If no more implemenbtions bre
+     * bvbilbble, this method returns null. However, the bctive spi of
+     * this clbss is never set to null.
      */
-    private KeyFactorySpi nextSpi(KeyFactorySpi oldSpi) {
+    privbte KeyFbctorySpi nextSpi(KeyFbctorySpi oldSpi) {
         synchronized (lock) {
-            // somebody else did a failover concurrently
-            // try that spi now
+            // somebody else did b fbilover concurrently
+            // try thbt spi now
             if ((oldSpi != null) && (oldSpi != spi)) {
                 return spi;
             }
-            if (serviceIterator == null) {
+            if (serviceIterbtor == null) {
                 return null;
             }
-            while (serviceIterator.hasNext()) {
-                Service s = serviceIterator.next();
+            while (serviceIterbtor.hbsNext()) {
+                Service s = serviceIterbtor.next();
                 try {
-                    Object obj = s.newInstance(null);
-                    if (obj instanceof KeyFactorySpi == false) {
+                    Object obj = s.newInstbnce(null);
+                    if (obj instbnceof KeyFbctorySpi == fblse) {
                         continue;
                     }
-                    KeyFactorySpi spi = (KeyFactorySpi)obj;
+                    KeyFbctorySpi spi = (KeyFbctorySpi)obj;
                     provider = s.getProvider();
                     this.spi = spi;
                     return spi;
-                } catch (NoSuchAlgorithmException e) {
+                } cbtch (NoSuchAlgorithmException e) {
                     // ignore
                 }
             }
-            serviceIterator = null;
+            serviceIterbtor = null;
             return null;
         }
     }
 
     /**
-     * Generates a public key object from the provided key specification
-     * (key material).
+     * Generbtes b public key object from the provided key specificbtion
+     * (key mbteribl).
      *
-     * @param keySpec the specification (key material) of the public key.
+     * @pbrbm keySpec the specificbtion (key mbteribl) of the public key.
      *
      * @return the public key.
      *
-     * @exception InvalidKeySpecException if the given key specification
-     * is inappropriate for this key factory to produce a public key.
+     * @exception InvblidKeySpecException if the given key specificbtion
+     * is inbppropribte for this key fbctory to produce b public key.
      */
-    public final PublicKey generatePublic(KeySpec keySpec)
-            throws InvalidKeySpecException {
-        if (serviceIterator == null) {
-            return spi.engineGeneratePublic(keySpec);
+    public finbl PublicKey generbtePublic(KeySpec keySpec)
+            throws InvblidKeySpecException {
+        if (serviceIterbtor == null) {
+            return spi.engineGenerbtePublic(keySpec);
         }
-        Exception failure = null;
-        KeyFactorySpi mySpi = spi;
+        Exception fbilure = null;
+        KeyFbctorySpi mySpi = spi;
         do {
             try {
-                return mySpi.engineGeneratePublic(keySpec);
-            } catch (Exception e) {
-                if (failure == null) {
-                    failure = e;
+                return mySpi.engineGenerbtePublic(keySpec);
+            } cbtch (Exception e) {
+                if (fbilure == null) {
+                    fbilure = e;
                 }
                 mySpi = nextSpi(mySpi);
             }
         } while (mySpi != null);
-        if (failure instanceof RuntimeException) {
-            throw (RuntimeException)failure;
+        if (fbilure instbnceof RuntimeException) {
+            throw (RuntimeException)fbilure;
         }
-        if (failure instanceof InvalidKeySpecException) {
-            throw (InvalidKeySpecException)failure;
+        if (fbilure instbnceof InvblidKeySpecException) {
+            throw (InvblidKeySpecException)fbilure;
         }
-        throw new InvalidKeySpecException
-                ("Could not generate public key", failure);
+        throw new InvblidKeySpecException
+                ("Could not generbte public key", fbilure);
     }
 
     /**
-     * Generates a private key object from the provided key specification
-     * (key material).
+     * Generbtes b privbte key object from the provided key specificbtion
+     * (key mbteribl).
      *
-     * @param keySpec the specification (key material) of the private key.
+     * @pbrbm keySpec the specificbtion (key mbteribl) of the privbte key.
      *
-     * @return the private key.
+     * @return the privbte key.
      *
-     * @exception InvalidKeySpecException if the given key specification
-     * is inappropriate for this key factory to produce a private key.
+     * @exception InvblidKeySpecException if the given key specificbtion
+     * is inbppropribte for this key fbctory to produce b privbte key.
      */
-    public final PrivateKey generatePrivate(KeySpec keySpec)
-            throws InvalidKeySpecException {
-        if (serviceIterator == null) {
-            return spi.engineGeneratePrivate(keySpec);
+    public finbl PrivbteKey generbtePrivbte(KeySpec keySpec)
+            throws InvblidKeySpecException {
+        if (serviceIterbtor == null) {
+            return spi.engineGenerbtePrivbte(keySpec);
         }
-        Exception failure = null;
-        KeyFactorySpi mySpi = spi;
+        Exception fbilure = null;
+        KeyFbctorySpi mySpi = spi;
         do {
             try {
-                return mySpi.engineGeneratePrivate(keySpec);
-            } catch (Exception e) {
-                if (failure == null) {
-                    failure = e;
+                return mySpi.engineGenerbtePrivbte(keySpec);
+            } cbtch (Exception e) {
+                if (fbilure == null) {
+                    fbilure = e;
                 }
                 mySpi = nextSpi(mySpi);
             }
         } while (mySpi != null);
-        if (failure instanceof RuntimeException) {
-            throw (RuntimeException)failure;
+        if (fbilure instbnceof RuntimeException) {
+            throw (RuntimeException)fbilure;
         }
-        if (failure instanceof InvalidKeySpecException) {
-            throw (InvalidKeySpecException)failure;
+        if (fbilure instbnceof InvblidKeySpecException) {
+            throw (InvblidKeySpecException)fbilure;
         }
-        throw new InvalidKeySpecException
-                ("Could not generate private key", failure);
+        throw new InvblidKeySpecException
+                ("Could not generbte privbte key", fbilure);
     }
 
     /**
-     * Returns a specification (key material) of the given key object.
-     * {@code keySpec} identifies the specification class in which
-     * the key material should be returned. It could, for example, be
-     * {@code DSAPublicKeySpec.class}, to indicate that the
-     * key material should be returned in an instance of the
-     * {@code DSAPublicKeySpec} class.
+     * Returns b specificbtion (key mbteribl) of the given key object.
+     * {@code keySpec} identifies the specificbtion clbss in which
+     * the key mbteribl should be returned. It could, for exbmple, be
+     * {@code DSAPublicKeySpec.clbss}, to indicbte thbt the
+     * key mbteribl should be returned in bn instbnce of the
+     * {@code DSAPublicKeySpec} clbss.
      *
-     * @param <T> the type of the key specification to be returned
+     * @pbrbm <T> the type of the key specificbtion to be returned
      *
-     * @param key the key.
+     * @pbrbm key the key.
      *
-     * @param keySpec the specification class in which
-     * the key material should be returned.
+     * @pbrbm keySpec the specificbtion clbss in which
+     * the key mbteribl should be returned.
      *
-     * @return the underlying key specification (key material) in an instance
-     * of the requested specification class.
+     * @return the underlying key specificbtion (key mbteribl) in bn instbnce
+     * of the requested specificbtion clbss.
      *
-     * @exception InvalidKeySpecException if the requested key specification is
-     * inappropriate for the given key, or the given key cannot be processed
-     * (e.g., the given key has an unrecognized algorithm or format).
+     * @exception InvblidKeySpecException if the requested key specificbtion is
+     * inbppropribte for the given key, or the given key cbnnot be processed
+     * (e.g., the given key hbs bn unrecognized blgorithm or formbt).
      */
-    public final <T extends KeySpec> T getKeySpec(Key key, Class<T> keySpec)
-            throws InvalidKeySpecException {
-        if (serviceIterator == null) {
+    public finbl <T extends KeySpec> T getKeySpec(Key key, Clbss<T> keySpec)
+            throws InvblidKeySpecException {
+        if (serviceIterbtor == null) {
             return spi.engineGetKeySpec(key, keySpec);
         }
-        Exception failure = null;
-        KeyFactorySpi mySpi = spi;
+        Exception fbilure = null;
+        KeyFbctorySpi mySpi = spi;
         do {
             try {
                 return mySpi.engineGetKeySpec(key, keySpec);
-            } catch (Exception e) {
-                if (failure == null) {
-                    failure = e;
+            } cbtch (Exception e) {
+                if (fbilure == null) {
+                    fbilure = e;
                 }
                 mySpi = nextSpi(mySpi);
             }
         } while (mySpi != null);
-        if (failure instanceof RuntimeException) {
-            throw (RuntimeException)failure;
+        if (fbilure instbnceof RuntimeException) {
+            throw (RuntimeException)fbilure;
         }
-        if (failure instanceof InvalidKeySpecException) {
-            throw (InvalidKeySpecException)failure;
+        if (fbilure instbnceof InvblidKeySpecException) {
+            throw (InvblidKeySpecException)fbilure;
         }
-        throw new InvalidKeySpecException
-                ("Could not get key spec", failure);
+        throw new InvblidKeySpecException
+                ("Could not get key spec", fbilure);
     }
 
     /**
-     * Translates a key object, whose provider may be unknown or potentially
-     * untrusted, into a corresponding key object of this key factory.
+     * Trbnslbtes b key object, whose provider mby be unknown or potentiblly
+     * untrusted, into b corresponding key object of this key fbctory.
      *
-     * @param key the key whose provider is unknown or untrusted.
+     * @pbrbm key the key whose provider is unknown or untrusted.
      *
-     * @return the translated key.
+     * @return the trbnslbted key.
      *
-     * @exception InvalidKeyException if the given key cannot be processed
-     * by this key factory.
+     * @exception InvblidKeyException if the given key cbnnot be processed
+     * by this key fbctory.
      */
-    public final Key translateKey(Key key) throws InvalidKeyException {
-        if (serviceIterator == null) {
-            return spi.engineTranslateKey(key);
+    public finbl Key trbnslbteKey(Key key) throws InvblidKeyException {
+        if (serviceIterbtor == null) {
+            return spi.engineTrbnslbteKey(key);
         }
-        Exception failure = null;
-        KeyFactorySpi mySpi = spi;
+        Exception fbilure = null;
+        KeyFbctorySpi mySpi = spi;
         do {
             try {
-                return mySpi.engineTranslateKey(key);
-            } catch (Exception e) {
-                if (failure == null) {
-                    failure = e;
+                return mySpi.engineTrbnslbteKey(key);
+            } cbtch (Exception e) {
+                if (fbilure == null) {
+                    fbilure = e;
                 }
                 mySpi = nextSpi(mySpi);
             }
         } while (mySpi != null);
-        if (failure instanceof RuntimeException) {
-            throw (RuntimeException)failure;
+        if (fbilure instbnceof RuntimeException) {
+            throw (RuntimeException)fbilure;
         }
-        if (failure instanceof InvalidKeyException) {
-            throw (InvalidKeyException)failure;
+        if (fbilure instbnceof InvblidKeyException) {
+            throw (InvblidKeyException)fbilure;
         }
-        throw new InvalidKeyException
-                ("Could not translate key", failure);
+        throw new InvblidKeyException
+                ("Could not trbnslbte key", fbilure);
     }
 
 }

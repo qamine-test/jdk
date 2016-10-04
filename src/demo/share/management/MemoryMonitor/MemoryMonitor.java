@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2004, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,122 +30,122 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
 /*
  */
 
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.image.BufferedImage;
-import java.awt.geom.Line2D;
-import java.awt.geom.Rectangle2D;
-import java.util.Date;
-import javax.swing.*;
-import javax.swing.border.EtchedBorder;
-import javax.swing.border.TitledBorder;
-import java.lang.management.*;
+import jbvb.bwt.*;
+import jbvb.bwt.event.*;
+import jbvb.bwt.imbge.BufferedImbge;
+import jbvb.bwt.geom.Line2D;
+import jbvb.bwt.geom.Rectbngle2D;
+import jbvb.util.Dbte;
+import jbvbx.swing.*;
+import jbvbx.swing.border.EtchedBorder;
+import jbvbx.swing.border.TitledBorder;
+import jbvb.lbng.mbnbgement.*;
 /**
- * Demo code which plots the memory usage by all memory pools.
- * The memory usage is sampled at some time interval using
- * java.lang.management API. This demo code is modified based
- * java2d MemoryMonitor demo.
+ * Demo code which plots the memory usbge by bll memory pools.
+ * The memory usbge is sbmpled bt some time intervbl using
+ * jbvb.lbng.mbnbgement API. This demo code is modified bbsed
+ * jbvb2d MemoryMonitor demo.
  */
-public class MemoryMonitor extends JPanel {
+public clbss MemoryMonitor extends JPbnel {
 
-    private static final long serialVersionUID = -3463003810776195761L;
-    static JCheckBox dateStampCB = new JCheckBox("Output Date Stamp");
-    public Surface surf;
-    JPanel controls;
-    boolean doControls;
+    privbte stbtic finbl long seriblVersionUID = -3463003810776195761L;
+    stbtic JCheckBox dbteStbmpCB = new JCheckBox("Output Dbte Stbmp");
+    public Surfbce surf;
+    JPbnel controls;
+    boolebn doControls;
     JTextField tf;
     // Get memory pools.
-    static java.util.List<MemoryPoolMXBean> mpools =
-        ManagementFactory.getMemoryPoolMXBeans();
-    // Total number of memory pools.
-    static int numPools = mpools.size();
+    stbtic jbvb.util.List<MemoryPoolMXBebn> mpools =
+        MbnbgementFbctory.getMemoryPoolMXBebns();
+    // Totbl number of memory pools.
+    stbtic int numPools = mpools.size();
 
     public MemoryMonitor() {
-        setLayout(new BorderLayout());
+        setLbyout(new BorderLbyout());
         setBorder(new TitledBorder(new EtchedBorder(), "Memory Monitor"));
-        add(surf = new Surface());
-        controls = new JPanel();
+        bdd(surf = new Surfbce());
+        controls = new JPbnel();
         controls.setPreferredSize(new Dimension(135,80));
         Font font = new Font("serif", Font.PLAIN, 10);
-        JLabel label = new JLabel("Sample Rate");
-        label.setFont(font);
-        label.setForeground(Color.red);
-        controls.add(label);
+        JLbbel lbbel = new JLbbel("Sbmple Rbte");
+        lbbel.setFont(font);
+        lbbel.setForeground(Color.red);
+        controls.bdd(lbbel);
         tf = new JTextField("1000");
         tf.setPreferredSize(new Dimension(45,20));
-        controls.add(tf);
-        controls.add(label = new JLabel("ms"));
-        label.setFont(font);
-        label.setForeground(Color.red);
-        controls.add(dateStampCB);
-        dateStampCB.setFont(font);
-        addMouseListener(new MouseAdapter() {
+        controls.bdd(tf);
+        controls.bdd(lbbel = new JLbbel("ms"));
+        lbbel.setFont(font);
+        lbbel.setForeground(Color.red);
+        controls.bdd(dbteStbmpCB);
+        dbteStbmpCB.setFont(font);
+        bddMouseListener(new MouseAdbpter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                removeAll();
                if ((doControls = !doControls)) {
                    surf.stop();
-                   add(controls);
+                   bdd(controls);
                } else {
                    try {
-                       surf.sleepAmount = Long.parseLong(tf.getText().trim());
-                   } catch (Exception ex) {}
-                   surf.start();
-                   add(surf);
+                       surf.sleepAmount = Long.pbrseLong(tf.getText().trim());
+                   } cbtch (Exception ex) {}
+                   surf.stbrt();
+                   bdd(surf);
                }
-               validate();
-               repaint();
+               vblidbte();
+               repbint();
             }
         });
     }
 
 
-    public class Surface extends JPanel implements Runnable {
+    public clbss Surfbce extends JPbnel implements Runnbble {
 
-        public Thread thread;
+        public Threbd threbd;
         public long sleepAmount = 1000;
-        public int  usageHistCount = 20000;
-        private int w, h;
-        private BufferedImage bimg;
-        private Graphics2D big;
-        private Font font = new Font("Times New Roman", Font.PLAIN, 11);
-        private int columnInc;
-        private float usedMem[][];
-        private float usedMemMax[]; // Used when max pool size is undefined
-        private int ptNum[];
-        private int ascent, descent;
-        private Rectangle graphOutlineRect = new Rectangle();
-        private Rectangle2D mfRect = new Rectangle2D.Float();
-        private Rectangle2D muRect = new Rectangle2D.Float();
-        private Line2D graphLine = new Line2D.Float();
-        private Color graphColor = new Color(46, 139, 87);
-        private Color mfColor = new Color(0, 100, 0);
-        private String usedStr;
+        public int  usbgeHistCount = 20000;
+        privbte int w, h;
+        privbte BufferedImbge bimg;
+        privbte Grbphics2D big;
+        privbte Font font = new Font("Times New Rombn", Font.PLAIN, 11);
+        privbte int columnInc;
+        privbte flobt usedMem[][];
+        privbte flobt usedMemMbx[]; // Used when mbx pool size is undefined
+        privbte int ptNum[];
+        privbte int bscent, descent;
+        privbte Rectbngle grbphOutlineRect = new Rectbngle();
+        privbte Rectbngle2D mfRect = new Rectbngle2D.Flobt();
+        privbte Rectbngle2D muRect = new Rectbngle2D.Flobt();
+        privbte Line2D grbphLine = new Line2D.Flobt();
+        privbte Color grbphColor = new Color(46, 139, 87);
+        privbte Color mfColor = new Color(0, 100, 0);
+        privbte String usedStr;
 
 
-        public Surface() {
-            setBackground(Color.black);
-            addMouseListener(new MouseAdapter() {
+        public Surfbce() {
+            setBbckground(Color.blbck);
+            bddMouseListener(new MouseAdbpter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
-                    if (thread == null) start(); else stop();
+                    if (threbd == null) stbrt(); else stop();
                 }
             });
-            usedMem = new float[numPools][];
-            usedMemMax = new float[numPools];
+            usedMem = new flobt[numPools][];
+            usedMemMbx = new flobt[numPools];
             for (int i = 0; i < numPools; i++) {
-                usedMemMax[i] = 1024f * 1024f ;
+                usedMemMbx[i] = 1024f * 1024f ;
             }
             ptNum = new int[numPools];
         }
@@ -156,7 +156,7 @@ public class MemoryMonitor extends JPanel {
         }
 
         @Override
-        public Dimension getMaximumSize() {
+        public Dimension getMbximumSize() {
             return getPreferredSize();
         }
 
@@ -167,14 +167,14 @@ public class MemoryMonitor extends JPanel {
 
 
         @Override
-        public void paint(Graphics g) {
+        public void pbint(Grbphics g) {
 
             if (big == null) {
                 return;
             }
 
-            big.setBackground(getBackground());
-            big.clearRect(0,0,w,h);
+            big.setBbckground(getBbckground());
+            big.clebrRect(0,0,w,h);
 
 
             h = h / ((numPools + numPools%2) / 2);
@@ -183,58 +183,58 @@ public class MemoryMonitor extends JPanel {
             int k=0; // index of memory pool.
             for (int i=0; i < 2;i++) {
                for (int j=0; j < (numPools + numPools%2)/ 2; j++) {
-                 plotMemoryUsage(w*i,h*j,w,h,k);
+                 plotMemoryUsbge(w*i,h*j,w,h,k);
                  if (++k >= numPools) {
                     i = 3;
                     j = (numPools + numPools%2)/ 2;
-                    break;
+                    brebk;
                  }
                }
             }
-            g.drawImage(bimg, 0, 0, this);
+            g.drbwImbge(bimg, 0, 0, this);
         }
 
-        public void plotMemoryUsage(int x1, int y1, int x2, int y2, int npool) {
+        public void plotMemoryUsbge(int x1, int y1, int x2, int y2, int npool) {
 
-            MemoryPoolMXBean mp = mpools.get(npool);
-            float usedMemory =  mp.getUsage().getUsed();
-            float totalMemory =  mp.getUsage().getMax();
-            if (totalMemory < 0) { // Max is undefined for this pool
-                if (usedMemory > usedMemMax[npool]) {
-                    usedMemMax[npool] = usedMemory;
+            MemoryPoolMXBebn mp = mpools.get(npool);
+            flobt usedMemory =  mp.getUsbge().getUsed();
+            flobt totblMemory =  mp.getUsbge().getMbx();
+            if (totblMemory < 0) { // Mbx is undefined for this pool
+                if (usedMemory > usedMemMbx[npool]) {
+                    usedMemMbx[npool] = usedMemory;
                 }
-                totalMemory = usedMemMax[npool];
+                totblMemory = usedMemMbx[npool];
             }
 
-            // .. Draw allocated and used strings ..
+            // .. Drbw bllocbted bnd used strings ..
             big.setColor(Color.green);
 
-            // Print Max memory allocated for this memory pool.
-            big.drawString(String.valueOf((int)totalMemory/1024) + "K Max ", x1+4.0f, (float) y1 + ascent+0.5f);
+            // Print Mbx memory bllocbted for this memory pool.
+            big.drbwString(String.vblueOf((int)totblMemory/1024) + "K Mbx ", x1+4.0f, (flobt) y1 + bscent+0.5f);
             big.setColor(Color.yellow);
 
-            // Print the memory pool name.
-            big.drawString(mp.getName(),  x1+x2/2, (float) y1 + ascent+0.5f);
+            // Print the memory pool nbme.
+            big.drbwString(mp.getNbme(),  x1+x2/2, (flobt) y1 + bscent+0.5f);
 
             // Print the memory used by this memory pool.
-            usedStr = String.valueOf((int)usedMemory/1024)
+            usedStr = String.vblueOf((int)usedMemory/1024)
                 + "K used";
             big.setColor(Color.green);
-            big.drawString(usedStr, x1+4, y1+y2-descent);
+            big.drbwString(usedStr, x1+4, y1+y2-descent);
 
-            // Calculate remaining size
-            float ssH = ascent + descent;
-            float remainingHeight = y2 - (ssH*2) - 0.5f;
-            float blockHeight = remainingHeight/10;
-            float blockWidth = 20.0f;
-            float remainingWidth = x2 - blockWidth - 10;
+            // Cblculbte rembining size
+            flobt ssH = bscent + descent;
+            flobt rembiningHeight = y2 - (ssH*2) - 0.5f;
+            flobt blockHeight = rembiningHeight/10;
+            flobt blockWidth = 20.0f;
+            flobt rembiningWidth = x2 - blockWidth - 10;
 
             // .. Memory Free ..
             big.setColor(mfColor);
-            int MemUsage = (int) (((totalMemory - usedMemory) / totalMemory) * 10);
+            int MemUsbge = (int) (((totblMemory - usedMemory) / totblMemory) * 10);
             int i = 0;
-            for ( ; i < MemUsage ; i++) {
-                mfRect.setRect(x1+5,(float) y1+ssH+i*blockHeight,
+            for ( ; i < MemUsbge ; i++) {
+                mfRect.setRect(x1+5,(flobt) y1+ssH+i*blockHeight,
                                 blockWidth, blockHeight-1);
                 big.fill(mfRect);
             }
@@ -242,73 +242,73 @@ public class MemoryMonitor extends JPanel {
             // .. Memory Used ..
             big.setColor(Color.green);
             for ( ; i < 10; i++)  {
-                muRect.setRect(x1+5,(float) y1 + ssH+i*blockHeight,
+                muRect.setRect(x1+5,(flobt) y1 + ssH+i*blockHeight,
                                 blockWidth, blockHeight-1);
                 big.fill(muRect);
             }
 
-            // .. Draw History Graph ..
-            if (remainingWidth <= 30) remainingWidth = (float)30;
-            if (remainingHeight <= ssH) remainingHeight = ssH;
-            big.setColor(graphColor);
-            int graphX = x1+30;
-            int graphY = y1 + (int) ssH;
-            int graphW = (int) remainingWidth;
-            int graphH = (int) remainingHeight;
+            // .. Drbw History Grbph ..
+            if (rembiningWidth <= 30) rembiningWidth = (flobt)30;
+            if (rembiningHeight <= ssH) rembiningHeight = ssH;
+            big.setColor(grbphColor);
+            int grbphX = x1+30;
+            int grbphY = y1 + (int) ssH;
+            int grbphW = (int) rembiningWidth;
+            int grbphH = (int) rembiningHeight;
 
-            graphOutlineRect.setRect(graphX, graphY, graphW, graphH);
-            big.draw(graphOutlineRect);
+            grbphOutlineRect.setRect(grbphX, grbphY, grbphW, grbphH);
+            big.drbw(grbphOutlineRect);
 
-            int graphRow = graphH/10;
+            int grbphRow = grbphH/10;
 
-            // .. Draw row ..
-            for (int j = graphY; j <= graphH+graphY; j += graphRow) {
-                graphLine.setLine(graphX,j,graphX+graphW,j);
-                big.draw(graphLine);
+            // .. Drbw row ..
+            for (int j = grbphY; j <= grbphH+grbphY; j += grbphRow) {
+                grbphLine.setLine(grbphX,j,grbphX+grbphW,j);
+                big.drbw(grbphLine);
             }
 
-            // .. Draw animated column movement ..
-            int graphColumn = graphW/15;
+            // .. Drbw bnimbted column movement ..
+            int grbphColumn = grbphW/15;
 
             if (columnInc == 0) {
-                columnInc = graphColumn;
+                columnInc = grbphColumn;
             }
 
-            for (int j = graphX+columnInc; j < graphW+graphX; j+=graphColumn) {
-                graphLine.setLine(j,graphY,j,graphY+graphH);
-                big.draw(graphLine);
+            for (int j = grbphX+columnInc; j < grbphW+grbphX; j+=grbphColumn) {
+                grbphLine.setLine(j,grbphY,j,grbphY+grbphH);
+                big.drbw(grbphLine);
             }
 
             --columnInc;
 
-            // Plot memory usage by this memory pool.
+            // Plot memory usbge by this memory pool.
             if (usedMem[npool] == null) {
-                usedMem[npool] = new float[usageHistCount];
+                usedMem[npool] = new flobt[usbgeHistCount];
                 ptNum[npool] = 0;
             }
 
-            // save memory usage history.
+            // sbve memory usbge history.
             usedMem[npool][ptNum[npool]] = usedMemory;
 
             big.setColor(Color.yellow);
 
-            int w1; // width of memory usage history.
-            if (ptNum[npool] > graphW) {
-                w1 = graphW;
+            int w1; // width of memory usbge history.
+            if (ptNum[npool] > grbphW) {
+                w1 = grbphW;
             } else {
                 w1 = ptNum[npool];
             }
 
 
-            for (int j=graphX+graphW-w1, k=ptNum[npool]-w1; k < ptNum[npool];
+            for (int j=grbphX+grbphW-w1, k=ptNum[npool]-w1; k < ptNum[npool];
                                                                 k++, j++) {
                  if (k != 0) {
                      if (usedMem[npool][k] != usedMem[npool][k-1]) {
-                         int h1 = (int)(graphY + graphH * ((totalMemory -usedMem[npool][k-1])/totalMemory));
-                         int h2 = (int)(graphY + graphH * ((totalMemory -usedMem[npool][k])/totalMemory));
-                         big.drawLine(j-1, h1, j, h2);
+                         int h1 = (int)(grbphY + grbphH * ((totblMemory -usedMem[npool][k-1])/totblMemory));
+                         int h2 = (int)(grbphY + grbphH * ((totblMemory -usedMem[npool][k])/totblMemory));
+                         big.drbwLine(j-1, h1, j, h2);
                      } else {
-                         int h1 = (int)(graphY + graphH * ((totalMemory -usedMem[npool][k])/totalMemory));
+                         int h1 = (int)(grbphY + grbphH * ((totblMemory -usedMem[npool][k])/totblMemory));
                          big.fillRect(j, h1, 1, 1);
                      }
                  }
@@ -325,59 +325,59 @@ public class MemoryMonitor extends JPanel {
         }
 
 
-        public void start() {
-            thread = new Thread(this);
-            thread.setPriority(Thread.MIN_PRIORITY);
-            thread.setName("MemoryMonitor");
-            thread.start();
+        public void stbrt() {
+            threbd = new Threbd(this);
+            threbd.setPriority(Threbd.MIN_PRIORITY);
+            threbd.setNbme("MemoryMonitor");
+            threbd.stbrt();
         }
 
 
         public synchronized void stop() {
-            thread = null;
+            threbd = null;
             notify();
         }
 
         @Override
         public void run() {
 
-            Thread me = Thread.currentThread();
+            Threbd me = Threbd.currentThrebd();
 
-            while (thread == me && !isShowing() || getSize().width == 0) {
+            while (threbd == me && !isShowing() || getSize().width == 0) {
                 try {
-                    Thread.sleep(500);
-                } catch (InterruptedException e) { return; }
+                    Threbd.sleep(500);
+                } cbtch (InterruptedException e) { return; }
             }
 
-            while (thread == me && isShowing()) {
+            while (threbd == me && isShowing()) {
                 Dimension d = getSize();
                 if (d.width != w || d.height != h) {
                     w = d.width;
                     h = d.height;
-                    bimg = (BufferedImage) createImage(w, h);
-                    big = bimg.createGraphics();
+                    bimg = (BufferedImbge) crebteImbge(w, h);
+                    big = bimg.crebteGrbphics();
                     big.setFont(font);
                     FontMetrics fm = big.getFontMetrics(font);
-                    ascent = fm.getAscent();
+                    bscent = fm.getAscent();
                     descent = fm.getDescent();
                 }
-                repaint();
+                repbint();
                 try {
-                    Thread.sleep(sleepAmount);
-                } catch (InterruptedException e) { break; }
-                if (MemoryMonitor.dateStampCB.isSelected()) {
-                     System.out.println(new Date().toString() + " " + usedStr);
+                    Threbd.sleep(sleepAmount);
+                } cbtch (InterruptedException e) { brebk; }
+                if (MemoryMonitor.dbteStbmpCB.isSelected()) {
+                     System.out.println(new Dbte().toString() + " " + usedStr);
                 }
             }
-            thread = null;
+            threbd = null;
         }
     }
 
 
-    // Test thread to consume memory
-    static class Memeater extends ClassLoader implements Runnable {
+    // Test threbd to consume memory
+    stbtic clbss Memebter extends ClbssLobder implements Runnbble {
         Object y[];
-        public Memeater() {}
+        public Memebter() {}
         @Override
         public void run() {
             y = new Object[10000000];
@@ -386,16 +386,16 @@ public class MemoryMonitor extends JPanel {
                  if (k == 5000000) k=0;
                  y[k++] = new Object();
                  try {
-                     Thread.sleep(20);
-                 } catch (Exception x){}
+                     Threbd.sleep(20);
+                 } cbtch (Exception x){}
 
-                 // to consume perm gen storage
+                 // to consume perm gen storbge
                  try {
-                     // the classes are small so we load 10 at a time
+                     // the clbsses bre smbll so we lobd 10 bt b time
                      for (int i=0; i<10; i++) {
-                        loadNext();
+                        lobdNext();
                      }
-                 } catch (ClassNotFoundException x) {
+                 } cbtch (ClbssNotFoundException x) {
                    // ignore exception
                  }
 
@@ -403,89 +403,89 @@ public class MemoryMonitor extends JPanel {
 
         }
 
-        Class<?> loadNext() throws ClassNotFoundException {
+        Clbss<?> lobdNext() throws ClbssNotFoundException {
 
-            // public class TestNNNNNN extends java.lang.Object{
+            // public clbss TestNNNNNN extends jbvb.lbng.Object{
             // public TestNNNNNN();
             //   Code:
-            //    0:    aload_0
-            //    1:    invokespecial   #1; //Method java/lang/Object."<init>":()V
+            //    0:    blobd_0
+            //    1:    invokespecibl   #1; //Method jbvb/lbng/Object."<init>":()V
             //    4:    return
             // }
 
             int begin[] = {
-                0xca, 0xfe, 0xba, 0xbe, 0x00, 0x00, 0x00, 0x30,
-                0x00, 0x0a, 0x0a, 0x00, 0x03, 0x00, 0x07, 0x07,
+                0xcb, 0xfe, 0xbb, 0xbe, 0x00, 0x00, 0x00, 0x30,
+                0x00, 0x0b, 0x0b, 0x00, 0x03, 0x00, 0x07, 0x07,
                 0x00, 0x08, 0x07, 0x00, 0x09, 0x01, 0x00, 0x06,
                 0x3c, 0x69, 0x6e, 0x69, 0x74, 0x3e, 0x01, 0x00,
                 0x03, 0x28, 0x29, 0x56, 0x01, 0x00, 0x04, 0x43,
                 0x6f, 0x64, 0x65, 0x0c, 0x00, 0x04, 0x00, 0x05,
-                0x01, 0x00, 0x0a, 0x54, 0x65, 0x73, 0x74 };
+                0x01, 0x00, 0x0b, 0x54, 0x65, 0x73, 0x74 };
 
             int end [] = {
                 0x01, 0x00, 0x10,
-                0x6a, 0x61, 0x76, 0x61, 0x2f, 0x6c, 0x61, 0x6e,
-                0x67, 0x2f, 0x4f, 0x62, 0x6a, 0x65, 0x63, 0x74,
+                0x6b, 0x61, 0x76, 0x61, 0x2f, 0x6c, 0x61, 0x6e,
+                0x67, 0x2f, 0x4f, 0x62, 0x6b, 0x65, 0x63, 0x74,
                 0x00, 0x21, 0x00, 0x02, 0x00, 0x03, 0x00, 0x00,
                 0x00, 0x00, 0x00, 0x01, 0x00, 0x01, 0x00, 0x04,
                 0x00, 0x05, 0x00, 0x01, 0x00, 0x06, 0x00, 0x00,
                 0x00, 0x11, 0x00, 0x01, 0x00, 0x01, 0x00, 0x00,
-                0x00, 0x05, 0x2a, 0xb7, 0x00, 0x01, 0xb1, 0x00,
+                0x00, 0x05, 0x2b, 0xb7, 0x00, 0x01, 0xb1, 0x00,
                 0x00, 0x00, 0x00, 0x00, 0x00 };
 
 
             // TestNNNNNN
 
-            String name = "Test" + Integer.toString(count++);
+            String nbme = "Test" + Integer.toString(count++);
 
-            byte value[];
+            byte vblue[];
             try {
-                value = name.substring(4).getBytes("UTF-8");
-            } catch (java.io.UnsupportedEncodingException x) {
+                vblue = nbme.substring(4).getBytes("UTF-8");
+            } cbtch (jbvb.io.UnsupportedEncodingException x) {
                 throw new Error();
             }
 
-            // construct class file
+            // construct clbss file
 
-            int len = begin.length + value.length + end.length;
+            int len = begin.length + vblue.length + end.length;
             byte b[] = new byte[len];
             int pos=0;
             for (int i: begin) {
                 b[pos++] = (byte) i;
             }
-            for (byte v: value) {
+            for (byte v: vblue) {
                 b[pos++] = v;
             }
             for (int e: end) {
                 b[pos++] = (byte) e;
             }
 
-            return defineClass(name, b, 0, b.length);
+            return defineClbss(nbme, b, 0, b.length);
 
         }
-        static int count = 100000;
+        stbtic int count = 100000;
 
     }
 
-    public static void main(String s[]) {
-        final MemoryMonitor demo = new MemoryMonitor();
-        WindowListener l = new WindowAdapter() {
+    public stbtic void mbin(String s[]) {
+        finbl MemoryMonitor demo = new MemoryMonitor();
+        WindowListener l = new WindowAdbpter() {
             @Override
             public void windowClosing(WindowEvent e) {System.exit(0);}
             @Override
-            public void windowDeiconified(WindowEvent e) { demo.surf.start(); }
+            public void windowDeiconified(WindowEvent e) { demo.surf.stbrt(); }
             @Override
             public void windowIconified(WindowEvent e) { demo.surf.stop(); }
         };
-        JFrame f = new JFrame("MemoryMonitor");
-        f.addWindowListener(l);
-        f.getContentPane().add("Center", demo);
-        f.pack();
+        JFrbme f = new JFrbme("MemoryMonitor");
+        f.bddWindowListener(l);
+        f.getContentPbne().bdd("Center", demo);
+        f.pbck();
         f.setSize(new Dimension(400,500));
         f.setVisible(true);
-        demo.surf.start();
-        Thread thr = new Thread(new Memeater());
-        thr.start();
+        demo.surf.stbrt();
+        Threbd thr = new Threbd(new Memebter());
+        thr.stbrt();
     }
 
 }

@@ -1,57 +1,57 @@
 /*
- * Copyright (c) 2005, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 /*
- * $Id: NodeSetData.java,v 1.5 2005/05/10 15:47:42 mullan Exp $
+ * $Id: NodeSetDbtb.jbvb,v 1.5 2005/05/10 15:47:42 mullbn Exp $
  */
-package javax.xml.crypto;
+pbckbge jbvbx.xml.crypto;
 
-import java.util.Iterator;
+import jbvb.util.Iterbtor;
 
 /**
- * An abstract representation of a <code>Data</code> type containing a
- * node-set. The type (class) and ordering of the nodes contained in the set
- * are not defined by this class; instead that behavior should be
- * defined by <code>NodeSetData</code> subclasses.
+ * An bbstrbct representbtion of b <code>Dbtb</code> type contbining b
+ * node-set. The type (clbss) bnd ordering of the nodes contbined in the set
+ * bre not defined by this clbss; instebd thbt behbvior should be
+ * defined by <code>NodeSetDbtb</code> subclbsses.
  *
- * @author Sean Mullan
- * @author JSR 105 Expert Group
+ * @buthor Sebn Mullbn
+ * @buthor JSR 105 Expert Group
  * @since 1.6
  */
-public interface NodeSetData extends Data {
+public interfbce NodeSetDbtb extends Dbtb {
 
     /**
-     * Returns a read-only iterator over the nodes contained in this
-     * <code>NodeSetData</code> in
-     * <a href="http://www.w3.org/TR/1999/REC-xpath-19991116#dt-document-order">
-     * document order</a>. Attempts to modify the returned iterator
-     * via the <code>remove</code> method throw
-     * <code>UnsupportedOperationException</code>.
+     * Returns b rebd-only iterbtor over the nodes contbined in this
+     * <code>NodeSetDbtb</code> in
+     * <b href="http://www.w3.org/TR/1999/REC-xpbth-19991116#dt-document-order">
+     * document order</b>. Attempts to modify the returned iterbtor
+     * vib the <code>remove</code> method throw
+     * <code>UnsupportedOperbtionException</code>.
      *
-     * @return an <code>Iterator</code> over the nodes in this
-     *    <code>NodeSetData</code> in document order
+     * @return bn <code>Iterbtor</code> over the nodes in this
+     *    <code>NodeSetDbtb</code> in document order
      */
-    @SuppressWarnings("rawtypes")
-    Iterator iterator();
+    @SuppressWbrnings("rbwtypes")
+    Iterbtor iterbtor();
 }

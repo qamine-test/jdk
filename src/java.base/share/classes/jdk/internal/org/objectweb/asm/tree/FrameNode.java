@@ -1,48 +1,48 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * ASM: a very small and fast Java bytecode manipulation framework
- * Copyright (c) 2000-2011 INRIA, France Telecom
+ * ASM: b very smbll bnd fbst Jbvb bytecode mbnipulbtion frbmework
+ * Copyright (c) 2000-2011 INRIA, Frbnce Telecom
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- * 3. Neither the name of the copyright holders nor the names of its
- *    contributors may be used to endorse or promote products derived from
- *    this software without specific prior written permission.
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
+ * 1. Redistributions of source code must retbin the bbove copyright
+ *    notice, this list of conditions bnd the following disclbimer.
+ * 2. Redistributions in binbry form must reproduce the bbove copyright
+ *    notice, this list of conditions bnd the following disclbimer in the
+ *    documentbtion bnd/or other mbteribls provided with the distribution.
+ * 3. Neither the nbme of the copyright holders nor the nbmes of its
+ *    contributors mby be used to endorse or promote products derived from
+ *    this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -56,105 +56,105 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
-package jdk.internal.org.objectweb.asm.tree;
+pbckbge jdk.internbl.org.objectweb.bsm.tree;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import jbvb.util.ArrbyList;
+import jbvb.util.Arrbys;
+import jbvb.util.List;
+import jbvb.util.Mbp;
 
-import jdk.internal.org.objectweb.asm.MethodVisitor;
-import jdk.internal.org.objectweb.asm.Opcodes;
+import jdk.internbl.org.objectweb.bsm.MethodVisitor;
+import jdk.internbl.org.objectweb.bsm.Opcodes;
 
 /**
- * A node that represents a stack map frame. These nodes are pseudo instruction
- * nodes in order to be inserted in an instruction list. In fact these nodes
- * must(*) be inserted <i>just before</i> any instruction node <b>i</b> that
- * follows an unconditionnal branch instruction such as GOTO or THROW, that is
- * the target of a jump instruction, or that starts an exception handler block.
- * The stack map frame types must describe the values of the local variables and
- * of the operand stack elements <i>just before</i> <b>i</b> is executed. <br>
+ * A node thbt represents b stbck mbp frbme. These nodes bre pseudo instruction
+ * nodes in order to be inserted in bn instruction list. In fbct these nodes
+ * must(*) be inserted <i>just before</i> bny instruction node <b>i</b> thbt
+ * follows bn unconditionnbl brbnch instruction such bs GOTO or THROW, thbt is
+ * the tbrget of b jump instruction, or thbt stbrts bn exception hbndler block.
+ * The stbck mbp frbme types must describe the vblues of the locbl vbribbles bnd
+ * of the operbnd stbck elements <i>just before</i> <b>i</b> is executed. <br>
  * <br>
- * (*) this is mandatory only for classes whose version is greater than or equal
+ * (*) this is mbndbtory only for clbsses whose version is grebter thbn or equbl
  * to {@link Opcodes#V1_6 V1_6}.
  *
- * @author Eric Bruneton
+ * @buthor Eric Bruneton
  */
-public class FrameNode extends AbstractInsnNode {
+public clbss FrbmeNode extends AbstrbctInsnNode {
 
     /**
-     * The type of this frame. Must be {@link Opcodes#F_NEW} for expanded
-     * frames, or {@link Opcodes#F_FULL}, {@link Opcodes#F_APPEND},
+     * The type of this frbme. Must be {@link Opcodes#F_NEW} for expbnded
+     * frbmes, or {@link Opcodes#F_FULL}, {@link Opcodes#F_APPEND},
      * {@link Opcodes#F_CHOP}, {@link Opcodes#F_SAME} or
-     * {@link Opcodes#F_APPEND}, {@link Opcodes#F_SAME1} for compressed frames.
+     * {@link Opcodes#F_APPEND}, {@link Opcodes#F_SAME1} for compressed frbmes.
      */
     public int type;
 
     /**
-     * The types of the local variables of this stack map frame. Elements of
-     * this list can be Integer, String or LabelNode objects (for primitive,
-     * reference and uninitialized types respectively - see
+     * The types of the locbl vbribbles of this stbck mbp frbme. Elements of
+     * this list cbn be Integer, String or LbbelNode objects (for primitive,
+     * reference bnd uninitiblized types respectively - see
      * {@link MethodVisitor}).
      */
-    public List<Object> local;
+    public List<Object> locbl;
 
     /**
-     * The types of the operand stack elements of this stack map frame. Elements
-     * of this list can be Integer, String or LabelNode objects (for primitive,
-     * reference and uninitialized types respectively - see
+     * The types of the operbnd stbck elements of this stbck mbp frbme. Elements
+     * of this list cbn be Integer, String or LbbelNode objects (for primitive,
+     * reference bnd uninitiblized types respectively - see
      * {@link MethodVisitor}).
      */
-    public List<Object> stack;
+    public List<Object> stbck;
 
-    private FrameNode() {
+    privbte FrbmeNode() {
         super(-1);
     }
 
     /**
-     * Constructs a new {@link FrameNode}.
+     * Constructs b new {@link FrbmeNode}.
      *
-     * @param type
-     *            the type of this frame. Must be {@link Opcodes#F_NEW} for
-     *            expanded frames, or {@link Opcodes#F_FULL},
+     * @pbrbm type
+     *            the type of this frbme. Must be {@link Opcodes#F_NEW} for
+     *            expbnded frbmes, or {@link Opcodes#F_FULL},
      *            {@link Opcodes#F_APPEND}, {@link Opcodes#F_CHOP},
      *            {@link Opcodes#F_SAME} or {@link Opcodes#F_APPEND},
-     *            {@link Opcodes#F_SAME1} for compressed frames.
-     * @param nLocal
-     *            number of local variables of this stack map frame.
-     * @param local
-     *            the types of the local variables of this stack map frame.
-     *            Elements of this list can be Integer, String or LabelNode
-     *            objects (for primitive, reference and uninitialized types
+     *            {@link Opcodes#F_SAME1} for compressed frbmes.
+     * @pbrbm nLocbl
+     *            number of locbl vbribbles of this stbck mbp frbme.
+     * @pbrbm locbl
+     *            the types of the locbl vbribbles of this stbck mbp frbme.
+     *            Elements of this list cbn be Integer, String or LbbelNode
+     *            objects (for primitive, reference bnd uninitiblized types
      *            respectively - see {@link MethodVisitor}).
-     * @param nStack
-     *            number of operand stack elements of this stack map frame.
-     * @param stack
-     *            the types of the operand stack elements of this stack map
-     *            frame. Elements of this list can be Integer, String or
-     *            LabelNode objects (for primitive, reference and uninitialized
+     * @pbrbm nStbck
+     *            number of operbnd stbck elements of this stbck mbp frbme.
+     * @pbrbm stbck
+     *            the types of the operbnd stbck elements of this stbck mbp
+     *            frbme. Elements of this list cbn be Integer, String or
+     *            LbbelNode objects (for primitive, reference bnd uninitiblized
      *            types respectively - see {@link MethodVisitor}).
      */
-    public FrameNode(final int type, final int nLocal, final Object[] local,
-            final int nStack, final Object[] stack) {
+    public FrbmeNode(finbl int type, finbl int nLocbl, finbl Object[] locbl,
+            finbl int nStbck, finbl Object[] stbck) {
         super(-1);
         this.type = type;
         switch (type) {
-        case Opcodes.F_NEW:
-        case Opcodes.F_FULL:
-            this.local = asList(nLocal, local);
-            this.stack = asList(nStack, stack);
-            break;
-        case Opcodes.F_APPEND:
-            this.local = asList(nLocal, local);
-            break;
-        case Opcodes.F_CHOP:
-            this.local = Arrays.asList(new Object[nLocal]);
-            break;
-        case Opcodes.F_SAME:
-            break;
-        case Opcodes.F_SAME1:
-            this.stack = asList(1, stack);
-            break;
+        cbse Opcodes.F_NEW:
+        cbse Opcodes.F_FULL:
+            this.locbl = bsList(nLocbl, locbl);
+            this.stbck = bsList(nStbck, stbck);
+            brebk;
+        cbse Opcodes.F_APPEND:
+            this.locbl = bsList(nLocbl, locbl);
+            brebk;
+        cbse Opcodes.F_CHOP:
+            this.locbl = Arrbys.bsList(new Object[nLocbl]);
+            brebk;
+        cbse Opcodes.F_SAME:
+            brebk;
+        cbse Opcodes.F_SAME1:
+            this.stbck = bsList(1, stbck);
+            brebk;
         }
     }
 
@@ -164,56 +164,56 @@ public class FrameNode extends AbstractInsnNode {
     }
 
     /**
-     * Makes the given visitor visit this stack map frame.
+     * Mbkes the given visitor visit this stbck mbp frbme.
      *
-     * @param mv
-     *            a method visitor.
+     * @pbrbm mv
+     *            b method visitor.
      */
     @Override
-    public void accept(final MethodVisitor mv) {
+    public void bccept(finbl MethodVisitor mv) {
         switch (type) {
-        case Opcodes.F_NEW:
-        case Opcodes.F_FULL:
-            mv.visitFrame(type, local.size(), asArray(local), stack.size(),
-                    asArray(stack));
-            break;
-        case Opcodes.F_APPEND:
-            mv.visitFrame(type, local.size(), asArray(local), 0, null);
-            break;
-        case Opcodes.F_CHOP:
-            mv.visitFrame(type, local.size(), null, 0, null);
-            break;
-        case Opcodes.F_SAME:
-            mv.visitFrame(type, 0, null, 0, null);
-            break;
-        case Opcodes.F_SAME1:
-            mv.visitFrame(type, 0, null, 1, asArray(stack));
-            break;
+        cbse Opcodes.F_NEW:
+        cbse Opcodes.F_FULL:
+            mv.visitFrbme(type, locbl.size(), bsArrby(locbl), stbck.size(),
+                    bsArrby(stbck));
+            brebk;
+        cbse Opcodes.F_APPEND:
+            mv.visitFrbme(type, locbl.size(), bsArrby(locbl), 0, null);
+            brebk;
+        cbse Opcodes.F_CHOP:
+            mv.visitFrbme(type, locbl.size(), null, 0, null);
+            brebk;
+        cbse Opcodes.F_SAME:
+            mv.visitFrbme(type, 0, null, 0, null);
+            brebk;
+        cbse Opcodes.F_SAME1:
+            mv.visitFrbme(type, 0, null, 1, bsArrby(stbck));
+            brebk;
         }
     }
 
     @Override
-    public AbstractInsnNode clone(final Map<LabelNode, LabelNode> labels) {
-        FrameNode clone = new FrameNode();
+    public AbstrbctInsnNode clone(finbl Mbp<LbbelNode, LbbelNode> lbbels) {
+        FrbmeNode clone = new FrbmeNode();
         clone.type = type;
-        if (local != null) {
-            clone.local = new ArrayList<Object>();
-            for (int i = 0; i < local.size(); ++i) {
-                Object l = local.get(i);
-                if (l instanceof LabelNode) {
-                    l = labels.get(l);
+        if (locbl != null) {
+            clone.locbl = new ArrbyList<Object>();
+            for (int i = 0; i < locbl.size(); ++i) {
+                Object l = locbl.get(i);
+                if (l instbnceof LbbelNode) {
+                    l = lbbels.get(l);
                 }
-                clone.local.add(l);
+                clone.locbl.bdd(l);
             }
         }
-        if (stack != null) {
-            clone.stack = new ArrayList<Object>();
-            for (int i = 0; i < stack.size(); ++i) {
-                Object s = stack.get(i);
-                if (s instanceof LabelNode) {
-                    s = labels.get(s);
+        if (stbck != null) {
+            clone.stbck = new ArrbyList<Object>();
+            for (int i = 0; i < stbck.size(); ++i) {
+                Object s = stbck.get(i);
+                if (s instbnceof LbbelNode) {
+                    s = lbbels.get(s);
                 }
-                clone.stack.add(s);
+                clone.stbck.bdd(s);
             }
         }
         return clone;
@@ -221,16 +221,16 @@ public class FrameNode extends AbstractInsnNode {
 
     // ------------------------------------------------------------------------
 
-    private static List<Object> asList(final int n, final Object[] o) {
-        return Arrays.asList(o).subList(0, n);
+    privbte stbtic List<Object> bsList(finbl int n, finbl Object[] o) {
+        return Arrbys.bsList(o).subList(0, n);
     }
 
-    private static Object[] asArray(final List<Object> l) {
+    privbte stbtic Object[] bsArrby(finbl List<Object> l) {
         Object[] objs = new Object[l.size()];
         for (int i = 0; i < objs.length; ++i) {
             Object o = l.get(i);
-            if (o instanceof LabelNode) {
-                o = ((LabelNode) o).getLabel();
+            if (o instbnceof LbbelNode) {
+                o = ((LbbelNode) o).getLbbel();
             }
             objs[i] = o;
         }

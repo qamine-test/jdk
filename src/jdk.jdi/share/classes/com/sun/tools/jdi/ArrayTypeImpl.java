@@ -1,156 +1,156 @@
 /*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.tools.jdi;
+pbckbge com.sun.tools.jdi;
 
 import com.sun.jdi.*;
 
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
+import jbvb.util.List;
+import jbvb.util.ArrbyList;
+import jbvb.util.Iterbtor;
+import jbvb.util.Mbp;
+import jbvb.util.Set;
 
-public class ArrayTypeImpl extends ReferenceTypeImpl
-    implements ArrayType
+public clbss ArrbyTypeImpl extends ReferenceTypeImpl
+    implements ArrbyType
 {
-    protected ArrayTypeImpl(VirtualMachine aVm, long aRef) {
-        super(aVm, aRef);
+    protected ArrbyTypeImpl(VirtublMbchine bVm, long bRef) {
+        super(bVm, bRef);
     }
 
-    public ArrayReference newInstance(int length) {
+    public ArrbyReference newInstbnce(int length) {
         try {
-            return (ArrayReference)JDWP.ArrayType.NewInstance.
-                                       process(vm, this, length).newArray;
-        } catch (JDWPException exc) {
+            return (ArrbyReference)JDWP.ArrbyType.NewInstbnce.
+                                       process(vm, this, length).newArrby;
+        } cbtch (JDWPException exc) {
             throw exc.toJDIException();
         }
     }
 
-    public String componentSignature() {
-        return signature().substring(1); // Just skip the leading '['
+    public String componentSignbture() {
+        return signbture().substring(1); // Just skip the lebding '['
     }
 
-    public String componentTypeName() {
-        JNITypeParser parser = new JNITypeParser(componentSignature());
-        return parser.typeName();
+    public String componentTypeNbme() {
+        JNITypePbrser pbrser = new JNITypePbrser(componentSignbture());
+        return pbrser.typeNbme();
     }
 
-    Type type() throws ClassNotLoadedException {
-        return findType(componentSignature());
+    Type type() throws ClbssNotLobdedException {
+        return findType(componentSignbture());
     }
 
     @Override
-    void addVisibleMethods(Map<String, Method> map, Set<InterfaceType> seenInterfaces) {
-        // arrays don't have methods
+    void bddVisibleMethods(Mbp<String, Method> mbp, Set<InterfbceType> seenInterfbces) {
+        // brrbys don't hbve methods
     }
 
-    public List<Method> allMethods() {
-        return new ArrayList<Method>(0);   // arrays don't have methods
+    public List<Method> bllMethods() {
+        return new ArrbyList<Method>(0);   // brrbys don't hbve methods
     }
 
     /*
-     * Find the type object, if any, of a component type of this array.
-     * The component type does not have to be immediate; e.g. this method
-     * can be used to find the component Foo of Foo[][]. This method takes
-     * advantage of the property that an array and its component must have
-     * the same class loader. Since array set operations don't have an
-     * implicit enclosing type like field and variable set operations,
+     * Find the type object, if bny, of b component type of this brrby.
+     * The component type does not hbve to be immedibte; e.g. this method
+     * cbn be used to find the component Foo of Foo[][]. This method tbkes
+     * bdvbntbge of the property thbt bn brrby bnd its component must hbve
+     * the sbme clbss lobder. Since brrby set operbtions don't hbve bn
+     * implicit enclosing type like field bnd vbribble set operbtions,
      * this method is sometimes needed for proper type checking.
      */
-    Type findComponentType(String signature) throws ClassNotLoadedException {
-        byte tag = (byte)signature.charAt(0);
-        if (PacketStream.isObjectTag(tag)) {
-            // It's a reference type
-            JNITypeParser parser = new JNITypeParser(componentSignature());
-            List<ReferenceType> list = vm.classesByName(parser.typeName());
-            Iterator<ReferenceType> iter = list.iterator();
-            while (iter.hasNext()) {
+    Type findComponentType(String signbture) throws ClbssNotLobdedException {
+        byte tbg = (byte)signbture.chbrAt(0);
+        if (PbcketStrebm.isObjectTbg(tbg)) {
+            // It's b reference type
+            JNITypePbrser pbrser = new JNITypePbrser(componentSignbture());
+            List<ReferenceType> list = vm.clbssesByNbme(pbrser.typeNbme());
+            Iterbtor<ReferenceType> iter = list.iterbtor();
+            while (iter.hbsNext()) {
                 ReferenceType type = iter.next();
-                ClassLoaderReference cl = type.classLoader();
+                ClbssLobderReference cl = type.clbssLobder();
                 if ((cl == null)?
-                         (classLoader() == null) :
-                         (cl.equals(classLoader()))) {
+                         (clbssLobder() == null) :
+                         (cl.equbls(clbssLobder()))) {
                     return type;
                 }
             }
-            // Component class has not yet been loaded
-            throw new ClassNotLoadedException(componentTypeName());
+            // Component clbss hbs not yet been lobded
+            throw new ClbssNotLobdedException(componentTypeNbme());
         } else {
-            // It's a primitive type
-            return vm.primitiveTypeMirror(tag);
+            // It's b primitive type
+            return vm.primitiveTypeMirror(tbg);
         }
     }
 
-    public Type componentType() throws ClassNotLoadedException {
-        return findComponentType(componentSignature());
+    public Type componentType() throws ClbssNotLobdedException {
+        return findComponentType(componentSignbture());
     }
 
-    static boolean isComponentAssignable(Type destination, Type source) {
-        if (source instanceof PrimitiveType) {
-            // Assignment of primitive arrays requires identical
+    stbtic boolebn isComponentAssignbble(Type destinbtion, Type source) {
+        if (source instbnceof PrimitiveType) {
+            // Assignment of primitive brrbys requires identicbl
             // component types.
-            return source.equals(destination);
+            return source.equbls(destinbtion);
         } else {
-            if (destination instanceof PrimitiveType) {
-                return false;
+            if (destinbtion instbnceof PrimitiveType) {
+                return fblse;
             }
 
             ReferenceTypeImpl refSource = (ReferenceTypeImpl)source;
-            ReferenceTypeImpl refDestination = (ReferenceTypeImpl)destination;
-            // Assignment of object arrays requires availability
+            ReferenceTypeImpl refDestinbtion = (ReferenceTypeImpl)destinbtion;
+            // Assignment of object brrbys requires bvbilbbility
             // of widening conversion of component types
-            return refSource.isAssignableTo(refDestination);
+            return refSource.isAssignbbleTo(refDestinbtion);
         }
     }
 
     /*
-     * Return true if an instance of the  given reference type
-     * can be assigned to a variable of this type
+     * Return true if bn instbnce of the  given reference type
+     * cbn be bssigned to b vbribble of this type
      */
-    boolean isAssignableTo(ReferenceType destType) {
-        if (destType instanceof ArrayType) {
+    boolebn isAssignbbleTo(ReferenceType destType) {
+        if (destType instbnceof ArrbyType) {
             try {
-                Type destComponentType = ((ArrayType)destType).componentType();
-                return isComponentAssignable(destComponentType, componentType());
-            } catch (ClassNotLoadedException e) {
-                // One or both component types has not yet been
-                // loaded => can't assign
-                return false;
+                Type destComponentType = ((ArrbyType)destType).componentType();
+                return isComponentAssignbble(destComponentType, componentType());
+            } cbtch (ClbssNotLobdedException e) {
+                // One or both component types hbs not yet been
+                // lobded => cbn't bssign
+                return fblse;
             }
-        } else if (destType instanceof InterfaceType) {
-            // Only valid InterfaceType assignee is Cloneable
-            return destType.name().equals("java.lang.Cloneable");
+        } else if (destType instbnceof InterfbceType) {
+            // Only vblid InterfbceType bssignee is Clonebble
+            return destType.nbme().equbls("jbvb.lbng.Clonebble");
         } else {
-            // Only valid ClassType assignee is Object
-            return destType.name().equals("java.lang.Object");
+            // Only vblid ClbssType bssignee is Object
+            return destType.nbme().equbls("jbvb.lbng.Object");
         }
     }
 
     List<ReferenceType> inheritedTypes() {
-        return new ArrayList<ReferenceType>(0);
+        return new ArrbyList<ReferenceType>(0);
     }
 
     void getModifiers() {
@@ -158,51 +158,51 @@ public class ArrayTypeImpl extends ReferenceTypeImpl
             return;
         }
         /*
-         * For object arrays, the return values for Interface
-         * Accessible.isPrivate(), Accessible.isProtected(),
-         * etc... are the same as would be returned for the
+         * For object brrbys, the return vblues for Interfbce
+         * Accessible.isPrivbte(), Accessible.isProtected(),
+         * etc... bre the sbme bs would be returned for the
          * component type.  Fetch the modifier bits from the
-         * component type and use those.
+         * component type bnd use those.
          *
-         * For primitive arrays, the modifiers are always
+         * For primitive brrbys, the modifiers bre blwbys
          *   VMModifiers.FINAL | VMModifiers.PUBLIC
          *
-         * Reference com.sun.jdi.Accessible.java.
+         * Reference com.sun.jdi.Accessible.jbvb.
          */
         try {
             Type t = componentType();
-            if (t instanceof PrimitiveType) {
+            if (t instbnceof PrimitiveType) {
                 modifiers = VMModifiers.FINAL | VMModifiers.PUBLIC;
             } else {
                 ReferenceType rt = (ReferenceType)t;
                 modifiers = rt.modifiers();
             }
-        } catch (ClassNotLoadedException cnle) {
-            cnle.printStackTrace();
+        } cbtch (ClbssNotLobdedException cnle) {
+            cnle.printStbckTrbce();
         }
     }
 
     public String toString() {
-       return "array class " + name() + " (" + loaderString() + ")";
+       return "brrby clbss " + nbme() + " (" + lobderString() + ")";
     }
 
     /*
-     * Save a pointless trip over the wire for these methods
-     * which have undefined results for arrays.
+     * Sbve b pointless trip over the wire for these methods
+     * which hbve undefined results for brrbys.
      */
-    public boolean isPrepared() { return true; }
-    public boolean isVerified() { return true; }
-    public boolean isInitialized() { return true; }
-    public boolean failedToInitialize() { return false; }
-    public boolean isAbstract() { return false; }
+    public boolebn isPrepbred() { return true; }
+    public boolebn isVerified() { return true; }
+    public boolebn isInitiblized() { return true; }
+    public boolebn fbiledToInitiblize() { return fblse; }
+    public boolebn isAbstrbct() { return fblse; }
 
     /*
-     * Defined always to be true for arrays
+     * Defined blwbys to be true for brrbys
      */
-    public boolean isFinal() { return true; }
+    public boolebn isFinbl() { return true; }
 
     /*
-     * Defined always to be false for arrays
+     * Defined blwbys to be fblse for brrbys
      */
-    public boolean isStatic() { return false; }
+    public boolebn isStbtic() { return fblse; }
 }

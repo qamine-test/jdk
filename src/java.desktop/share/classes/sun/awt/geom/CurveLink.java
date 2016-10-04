@@ -1,67 +1,67 @@
 /*
- * Copyright (c) 1998, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt.geom;
+pbckbge sun.bwt.geom;
 
-final class CurveLink {
+finbl clbss CurveLink {
     Curve curve;
     double ytop;
     double ybot;
-    int etag;
+    int etbg;
 
     CurveLink next;
 
-    public CurveLink(Curve curve, double ystart, double yend, int etag) {
+    public CurveLink(Curve curve, double ystbrt, double yend, int etbg) {
         this.curve = curve;
-        this.ytop = ystart;
+        this.ytop = ystbrt;
         this.ybot = yend;
-        this.etag = etag;
+        this.etbg = etbg;
         if (ytop < curve.getYTop() || ybot > curve.getYBot()) {
-            throw new InternalError("bad curvelink ["+ytop+"=>"+ybot+"] for "+curve);
+            throw new InternblError("bbd curvelink ["+ytop+"=>"+ybot+"] for "+curve);
         }
     }
 
-    public boolean absorb(CurveLink link) {
-        return absorb(link.curve, link.ytop, link.ybot, link.etag);
+    public boolebn bbsorb(CurveLink link) {
+        return bbsorb(link.curve, link.ytop, link.ybot, link.etbg);
     }
 
-    public boolean absorb(Curve curve, double ystart, double yend, int etag) {
-        if (this.curve != curve || this.etag != etag ||
-            ybot < ystart || ytop > yend)
+    public boolebn bbsorb(Curve curve, double ystbrt, double yend, int etbg) {
+        if (this.curve != curve || this.etbg != etbg ||
+            ybot < ystbrt || ytop > yend)
         {
-            return false;
+            return fblse;
         }
-        if (ystart < curve.getYTop() || yend > curve.getYBot()) {
-            throw new InternalError("bad curvelink ["+ystart+"=>"+yend+"] for "+curve);
+        if (ystbrt < curve.getYTop() || yend > curve.getYBot()) {
+            throw new InternblError("bbd curvelink ["+ystbrt+"=>"+yend+"] for "+curve);
         }
-        this.ytop = Math.min(ytop, ystart);
-        this.ybot = Math.max(ybot, yend);
+        this.ytop = Mbth.min(ytop, ystbrt);
+        this.ybot = Mbth.mbx(ybot, yend);
         return true;
     }
 
-    public boolean isEmpty() {
+    public boolebn isEmpty() {
         return (ytop == ybot);
     }
 
@@ -71,9 +71,9 @@ final class CurveLink {
 
     public Curve getSubCurve() {
         if (ytop == curve.getYTop() && ybot == curve.getYBot()) {
-            return curve.getWithDirection(etag);
+            return curve.getWithDirection(etbg);
         }
-        return curve.getSubCurve(ytop, ybot, etag);
+        return curve.getSubCurve(ytop, ybot, etbg);
     }
 
     public Curve getMoveto() {
@@ -100,8 +100,8 @@ final class CurveLink {
         return curve.XforY(ytop);
     }
 
-    public int getEdgeTag() {
-        return etag;
+    public int getEdgeTbg() {
+        return etbg;
     }
 
     public void setNext(CurveLink link) {

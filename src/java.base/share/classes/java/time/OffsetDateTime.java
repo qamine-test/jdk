@@ -1,50 +1,50 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * Copyright (c) 2007-2012, Stephen Colebourne & Michael Nascimento Santos
+ * Copyright (c) 2007-2012, Stephen Colebourne & Michbel Nbscimento Sbntos
  *
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions bre met:
  *
- *  * Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ *  * Redistributions of source code must retbin the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer.
  *
- *  * Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ *  * Redistributions in binbry form must reproduce the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer in the documentbtion
+ *    bnd/or other mbteribls provided with the distribution.
  *
- *  * Neither the name of JSR-310 nor the names of its contributors
- *    may be used to endorse or promote products derived from this software
+ *  * Neither the nbme of JSR-310 nor the nbmes of its contributors
+ *    mby be used to endorse or promote products derived from this softwbre
  *    without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
@@ -59,385 +59,385 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package java.time;
+pbckbge jbvb.time;
 
-import static java.time.temporal.ChronoField.EPOCH_DAY;
-import static java.time.temporal.ChronoField.INSTANT_SECONDS;
-import static java.time.temporal.ChronoField.NANO_OF_DAY;
-import static java.time.temporal.ChronoField.OFFSET_SECONDS;
-import static java.time.temporal.ChronoUnit.FOREVER;
-import static java.time.temporal.ChronoUnit.NANOS;
+import stbtic jbvb.time.temporbl.ChronoField.EPOCH_DAY;
+import stbtic jbvb.time.temporbl.ChronoField.INSTANT_SECONDS;
+import stbtic jbvb.time.temporbl.ChronoField.NANO_OF_DAY;
+import stbtic jbvb.time.temporbl.ChronoField.OFFSET_SECONDS;
+import stbtic jbvb.time.temporbl.ChronoUnit.FOREVER;
+import stbtic jbvb.time.temporbl.ChronoUnit.NANOS;
 
-import java.io.IOException;
-import java.io.ObjectInput;
-import java.io.ObjectOutput;
-import java.io.InvalidObjectException;
-import java.io.ObjectInputStream;
-import java.io.Serializable;
-import java.time.chrono.IsoChronology;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
-import java.time.temporal.ChronoField;
-import java.time.temporal.ChronoUnit;
-import java.time.temporal.Temporal;
-import java.time.temporal.TemporalAccessor;
-import java.time.temporal.TemporalAdjuster;
-import java.time.temporal.TemporalAmount;
-import java.time.temporal.TemporalField;
-import java.time.temporal.TemporalQueries;
-import java.time.temporal.TemporalQuery;
-import java.time.temporal.TemporalUnit;
-import java.time.temporal.UnsupportedTemporalTypeException;
-import java.time.temporal.ValueRange;
-import java.time.zone.ZoneRules;
-import java.util.Comparator;
-import java.util.Objects;
+import jbvb.io.IOException;
+import jbvb.io.ObjectInput;
+import jbvb.io.ObjectOutput;
+import jbvb.io.InvblidObjectException;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.Seriblizbble;
+import jbvb.time.chrono.IsoChronology;
+import jbvb.time.formbt.DbteTimeFormbtter;
+import jbvb.time.formbt.DbteTimePbrseException;
+import jbvb.time.temporbl.ChronoField;
+import jbvb.time.temporbl.ChronoUnit;
+import jbvb.time.temporbl.Temporbl;
+import jbvb.time.temporbl.TemporblAccessor;
+import jbvb.time.temporbl.TemporblAdjuster;
+import jbvb.time.temporbl.TemporblAmount;
+import jbvb.time.temporbl.TemporblField;
+import jbvb.time.temporbl.TemporblQueries;
+import jbvb.time.temporbl.TemporblQuery;
+import jbvb.time.temporbl.TemporblUnit;
+import jbvb.time.temporbl.UnsupportedTemporblTypeException;
+import jbvb.time.temporbl.VblueRbnge;
+import jbvb.time.zone.ZoneRules;
+import jbvb.util.Compbrbtor;
+import jbvb.util.Objects;
 
 /**
- * A date-time with an offset from UTC/Greenwich in the ISO-8601 calendar system,
- * such as {@code 2007-12-03T10:15:30+01:00}.
+ * A dbte-time with bn offset from UTC/Greenwich in the ISO-8601 cblendbr system,
+ * such bs {@code 2007-12-03T10:15:30+01:00}.
  * <p>
- * {@code OffsetDateTime} is an immutable representation of a date-time with an offset.
- * This class stores all date and time fields, to a precision of nanoseconds,
- * as well as the offset from UTC/Greenwich. For example, the value
- * "2nd October 2007 at 13:45.30.123456789 +02:00" can be stored in an {@code OffsetDateTime}.
+ * {@code OffsetDbteTime} is bn immutbble representbtion of b dbte-time with bn offset.
+ * This clbss stores bll dbte bnd time fields, to b precision of nbnoseconds,
+ * bs well bs the offset from UTC/Greenwich. For exbmple, the vblue
+ * "2nd October 2007 bt 13:45.30.123456789 +02:00" cbn be stored in bn {@code OffsetDbteTime}.
  * <p>
- * {@code OffsetDateTime}, {@link java.time.ZonedDateTime} and {@link java.time.Instant} all store an instant
- * on the time-line to nanosecond precision.
- * {@code Instant} is the simplest, simply representing the instant.
- * {@code OffsetDateTime} adds to the instant the offset from UTC/Greenwich, which allows
- * the local date-time to be obtained.
- * {@code ZonedDateTime} adds full time-zone rules.
+ * {@code OffsetDbteTime}, {@link jbvb.time.ZonedDbteTime} bnd {@link jbvb.time.Instbnt} bll store bn instbnt
+ * on the time-line to nbnosecond precision.
+ * {@code Instbnt} is the simplest, simply representing the instbnt.
+ * {@code OffsetDbteTime} bdds to the instbnt the offset from UTC/Greenwich, which bllows
+ * the locbl dbte-time to be obtbined.
+ * {@code ZonedDbteTime} bdds full time-zone rules.
  * <p>
- * It is intended that {@code ZonedDateTime} or {@code Instant} is used to model data
- * in simpler applications. This class may be used when modeling date-time concepts in
- * more detail, or when communicating to a database or in a network protocol.
+ * It is intended thbt {@code ZonedDbteTime} or {@code Instbnt} is used to model dbtb
+ * in simpler bpplicbtions. This clbss mby be used when modeling dbte-time concepts in
+ * more detbil, or when communicbting to b dbtbbbse or in b network protocol.
  *
  * <p>
- * This is a <a href="{@docRoot}/java/lang/doc-files/ValueBased.html">value-based</a>
- * class; use of identity-sensitive operations (including reference equality
- * ({@code ==}), identity hash code, or synchronization) on instances of
- * {@code OffsetDateTime} may have unpredictable results and should be avoided.
- * The {@code equals} method should be used for comparisons.
+ * This is b <b href="{@docRoot}/jbvb/lbng/doc-files/VblueBbsed.html">vblue-bbsed</b>
+ * clbss; use of identity-sensitive operbtions (including reference equblity
+ * ({@code ==}), identity hbsh code, or synchronizbtion) on instbnces of
+ * {@code OffsetDbteTime} mby hbve unpredictbble results bnd should be bvoided.
+ * The {@code equbls} method should be used for compbrisons.
  *
  * @implSpec
- * This class is immutable and thread-safe.
+ * This clbss is immutbble bnd threbd-sbfe.
  *
  * @since 1.8
  */
-public final class OffsetDateTime
-        implements Temporal, TemporalAdjuster, Comparable<OffsetDateTime>, Serializable {
+public finbl clbss OffsetDbteTime
+        implements Temporbl, TemporblAdjuster, Compbrbble<OffsetDbteTime>, Seriblizbble {
 
     /**
-     * The minimum supported {@code OffsetDateTime}, '-999999999-01-01T00:00:00+18:00'.
-     * This is the local date-time of midnight at the start of the minimum date
-     * in the maximum offset (larger offsets are earlier on the time-line).
-     * This combines {@link LocalDateTime#MIN} and {@link ZoneOffset#MAX}.
-     * This could be used by an application as a "far past" date-time.
+     * The minimum supported {@code OffsetDbteTime}, '-999999999-01-01T00:00:00+18:00'.
+     * This is the locbl dbte-time of midnight bt the stbrt of the minimum dbte
+     * in the mbximum offset (lbrger offsets bre ebrlier on the time-line).
+     * This combines {@link LocblDbteTime#MIN} bnd {@link ZoneOffset#MAX}.
+     * This could be used by bn bpplicbtion bs b "fbr pbst" dbte-time.
      */
-    public static final OffsetDateTime MIN = LocalDateTime.MIN.atOffset(ZoneOffset.MAX);
+    public stbtic finbl OffsetDbteTime MIN = LocblDbteTime.MIN.btOffset(ZoneOffset.MAX);
     /**
-     * The maximum supported {@code OffsetDateTime}, '+999999999-12-31T23:59:59.999999999-18:00'.
-     * This is the local date-time just before midnight at the end of the maximum date
-     * in the minimum offset (larger negative offsets are later on the time-line).
-     * This combines {@link LocalDateTime#MAX} and {@link ZoneOffset#MIN}.
-     * This could be used by an application as a "far future" date-time.
+     * The mbximum supported {@code OffsetDbteTime}, '+999999999-12-31T23:59:59.999999999-18:00'.
+     * This is the locbl dbte-time just before midnight bt the end of the mbximum dbte
+     * in the minimum offset (lbrger negbtive offsets bre lbter on the time-line).
+     * This combines {@link LocblDbteTime#MAX} bnd {@link ZoneOffset#MIN}.
+     * This could be used by bn bpplicbtion bs b "fbr future" dbte-time.
      */
-    public static final OffsetDateTime MAX = LocalDateTime.MAX.atOffset(ZoneOffset.MIN);
+    public stbtic finbl OffsetDbteTime MAX = LocblDbteTime.MAX.btOffset(ZoneOffset.MIN);
 
     /**
-     * Gets a comparator that compares two {@code OffsetDateTime} instances
-     * based solely on the instant.
+     * Gets b compbrbtor thbt compbres two {@code OffsetDbteTime} instbnces
+     * bbsed solely on the instbnt.
      * <p>
-     * This method differs from the comparison in {@link #compareTo} in that it
-     * only compares the underlying instant.
+     * This method differs from the compbrison in {@link #compbreTo} in thbt it
+     * only compbres the underlying instbnt.
      *
-     * @return a comparator that compares in time-line order
+     * @return b compbrbtor thbt compbres in time-line order
      *
      * @see #isAfter
      * @see #isBefore
-     * @see #isEqual
+     * @see #isEqubl
      */
-    public static Comparator<OffsetDateTime> timeLineOrder() {
-        return OffsetDateTime::compareInstant;
+    public stbtic Compbrbtor<OffsetDbteTime> timeLineOrder() {
+        return OffsetDbteTime::compbreInstbnt;
     }
 
     /**
-     * Compares this {@code OffsetDateTime} to another date-time.
-     * The comparison is based on the instant.
+     * Compbres this {@code OffsetDbteTime} to bnother dbte-time.
+     * The compbrison is bbsed on the instbnt.
      *
-     * @param datetime1  the first date-time to compare, not null
-     * @param datetime2  the other date-time to compare to, not null
-     * @return the comparator value, negative if less, positive if greater
+     * @pbrbm dbtetime1  the first dbte-time to compbre, not null
+     * @pbrbm dbtetime2  the other dbte-time to compbre to, not null
+     * @return the compbrbtor vblue, negbtive if less, positive if grebter
      */
-    private static int compareInstant(OffsetDateTime datetime1, OffsetDateTime datetime2) {
-        if (datetime1.getOffset().equals(datetime2.getOffset())) {
-            return datetime1.toLocalDateTime().compareTo(datetime2.toLocalDateTime());
+    privbte stbtic int compbreInstbnt(OffsetDbteTime dbtetime1, OffsetDbteTime dbtetime2) {
+        if (dbtetime1.getOffset().equbls(dbtetime2.getOffset())) {
+            return dbtetime1.toLocblDbteTime().compbreTo(dbtetime2.toLocblDbteTime());
         }
-        int cmp = Long.compare(datetime1.toEpochSecond(), datetime2.toEpochSecond());
+        int cmp = Long.compbre(dbtetime1.toEpochSecond(), dbtetime2.toEpochSecond());
         if (cmp == 0) {
-            cmp = datetime1.toLocalTime().getNano() - datetime2.toLocalTime().getNano();
+            cmp = dbtetime1.toLocblTime().getNbno() - dbtetime2.toLocblTime().getNbno();
         }
         return cmp;
     }
 
     /**
-     * Serialization version.
+     * Seriblizbtion version.
      */
-    private static final long serialVersionUID = 2287754244819255394L;
+    privbte stbtic finbl long seriblVersionUID = 2287754244819255394L;
 
     /**
-     * The local date-time.
+     * The locbl dbte-time.
      */
-    private final LocalDateTime dateTime;
+    privbte finbl LocblDbteTime dbteTime;
     /**
      * The offset from UTC/Greenwich.
      */
-    private final ZoneOffset offset;
+    privbte finbl ZoneOffset offset;
 
     //-----------------------------------------------------------------------
     /**
-     * Obtains the current date-time from the system clock in the default time-zone.
+     * Obtbins the current dbte-time from the system clock in the defbult time-zone.
      * <p>
-     * This will query the {@link Clock#systemDefaultZone() system clock} in the default
-     * time-zone to obtain the current date-time.
-     * The offset will be calculated from the time-zone in the clock.
+     * This will query the {@link Clock#systemDefbultZone() system clock} in the defbult
+     * time-zone to obtbin the current dbte-time.
+     * The offset will be cblculbted from the time-zone in the clock.
      * <p>
-     * Using this method will prevent the ability to use an alternate clock for testing
-     * because the clock is hard-coded.
+     * Using this method will prevent the bbility to use bn blternbte clock for testing
+     * becbuse the clock is hbrd-coded.
      *
-     * @return the current date-time using the system clock, not null
+     * @return the current dbte-time using the system clock, not null
      */
-    public static OffsetDateTime now() {
-        return now(Clock.systemDefaultZone());
+    public stbtic OffsetDbteTime now() {
+        return now(Clock.systemDefbultZone());
     }
 
     /**
-     * Obtains the current date-time from the system clock in the specified time-zone.
+     * Obtbins the current dbte-time from the system clock in the specified time-zone.
      * <p>
-     * This will query the {@link Clock#system(ZoneId) system clock} to obtain the current date-time.
-     * Specifying the time-zone avoids dependence on the default time-zone.
-     * The offset will be calculated from the specified time-zone.
+     * This will query the {@link Clock#system(ZoneId) system clock} to obtbin the current dbte-time.
+     * Specifying the time-zone bvoids dependence on the defbult time-zone.
+     * The offset will be cblculbted from the specified time-zone.
      * <p>
-     * Using this method will prevent the ability to use an alternate clock for testing
-     * because the clock is hard-coded.
+     * Using this method will prevent the bbility to use bn blternbte clock for testing
+     * becbuse the clock is hbrd-coded.
      *
-     * @param zone  the zone ID to use, not null
-     * @return the current date-time using the system clock, not null
+     * @pbrbm zone  the zone ID to use, not null
+     * @return the current dbte-time using the system clock, not null
      */
-    public static OffsetDateTime now(ZoneId zone) {
+    public stbtic OffsetDbteTime now(ZoneId zone) {
         return now(Clock.system(zone));
     }
 
     /**
-     * Obtains the current date-time from the specified clock.
+     * Obtbins the current dbte-time from the specified clock.
      * <p>
-     * This will query the specified clock to obtain the current date-time.
-     * The offset will be calculated from the time-zone in the clock.
+     * This will query the specified clock to obtbin the current dbte-time.
+     * The offset will be cblculbted from the time-zone in the clock.
      * <p>
-     * Using this method allows the use of an alternate clock for testing.
-     * The alternate clock may be introduced using {@link Clock dependency injection}.
+     * Using this method bllows the use of bn blternbte clock for testing.
+     * The blternbte clock mby be introduced using {@link Clock dependency injection}.
      *
-     * @param clock  the clock to use, not null
-     * @return the current date-time, not null
+     * @pbrbm clock  the clock to use, not null
+     * @return the current dbte-time, not null
      */
-    public static OffsetDateTime now(Clock clock) {
+    public stbtic OffsetDbteTime now(Clock clock) {
         Objects.requireNonNull(clock, "clock");
-        final Instant now = clock.instant();  // called once
-        return ofInstant(now, clock.getZone().getRules().getOffset(now));
+        finbl Instbnt now = clock.instbnt();  // cblled once
+        return ofInstbnt(now, clock.getZone().getRules().getOffset(now));
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Obtains an instance of {@code OffsetDateTime} from a date, time and offset.
+     * Obtbins bn instbnce of {@code OffsetDbteTime} from b dbte, time bnd offset.
      * <p>
-     * This creates an offset date-time with the specified local date, time and offset.
+     * This crebtes bn offset dbte-time with the specified locbl dbte, time bnd offset.
      *
-     * @param date  the local date, not null
-     * @param time  the local time, not null
-     * @param offset  the zone offset, not null
-     * @return the offset date-time, not null
+     * @pbrbm dbte  the locbl dbte, not null
+     * @pbrbm time  the locbl time, not null
+     * @pbrbm offset  the zone offset, not null
+     * @return the offset dbte-time, not null
      */
-    public static OffsetDateTime of(LocalDate date, LocalTime time, ZoneOffset offset) {
-        LocalDateTime dt = LocalDateTime.of(date, time);
-        return new OffsetDateTime(dt, offset);
+    public stbtic OffsetDbteTime of(LocblDbte dbte, LocblTime time, ZoneOffset offset) {
+        LocblDbteTime dt = LocblDbteTime.of(dbte, time);
+        return new OffsetDbteTime(dt, offset);
     }
 
     /**
-     * Obtains an instance of {@code OffsetDateTime} from a date-time and offset.
+     * Obtbins bn instbnce of {@code OffsetDbteTime} from b dbte-time bnd offset.
      * <p>
-     * This creates an offset date-time with the specified local date-time and offset.
+     * This crebtes bn offset dbte-time with the specified locbl dbte-time bnd offset.
      *
-     * @param dateTime  the local date-time, not null
-     * @param offset  the zone offset, not null
-     * @return the offset date-time, not null
+     * @pbrbm dbteTime  the locbl dbte-time, not null
+     * @pbrbm offset  the zone offset, not null
+     * @return the offset dbte-time, not null
      */
-    public static OffsetDateTime of(LocalDateTime dateTime, ZoneOffset offset) {
-        return new OffsetDateTime(dateTime, offset);
+    public stbtic OffsetDbteTime of(LocblDbteTime dbteTime, ZoneOffset offset) {
+        return new OffsetDbteTime(dbteTime, offset);
     }
 
     /**
-     * Obtains an instance of {@code OffsetDateTime} from a year, month, day,
-     * hour, minute, second, nanosecond and offset.
+     * Obtbins bn instbnce of {@code OffsetDbteTime} from b yebr, month, dby,
+     * hour, minute, second, nbnosecond bnd offset.
      * <p>
-     * This creates an offset date-time with the seven specified fields.
+     * This crebtes bn offset dbte-time with the seven specified fields.
      * <p>
-     * This method exists primarily for writing test cases.
-     * Non test-code will typically use other methods to create an offset time.
-     * {@code LocalDateTime} has five additional convenience variants of the
-     * equivalent factory method taking fewer arguments.
-     * They are not provided here to reduce the footprint of the API.
+     * This method exists primbrily for writing test cbses.
+     * Non test-code will typicblly use other methods to crebte bn offset time.
+     * {@code LocblDbteTime} hbs five bdditionbl convenience vbribnts of the
+     * equivblent fbctory method tbking fewer brguments.
+     * They bre not provided here to reduce the footprint of the API.
      *
-     * @param year  the year to represent, from MIN_YEAR to MAX_YEAR
-     * @param month  the month-of-year to represent, from 1 (January) to 12 (December)
-     * @param dayOfMonth  the day-of-month to represent, from 1 to 31
-     * @param hour  the hour-of-day to represent, from 0 to 23
-     * @param minute  the minute-of-hour to represent, from 0 to 59
-     * @param second  the second-of-minute to represent, from 0 to 59
-     * @param nanoOfSecond  the nano-of-second to represent, from 0 to 999,999,999
-     * @param offset  the zone offset, not null
-     * @return the offset date-time, not null
-     * @throws DateTimeException if the value of any field is out of range, or
-     *  if the day-of-month is invalid for the month-year
+     * @pbrbm yebr  the yebr to represent, from MIN_YEAR to MAX_YEAR
+     * @pbrbm month  the month-of-yebr to represent, from 1 (Jbnubry) to 12 (December)
+     * @pbrbm dbyOfMonth  the dby-of-month to represent, from 1 to 31
+     * @pbrbm hour  the hour-of-dby to represent, from 0 to 23
+     * @pbrbm minute  the minute-of-hour to represent, from 0 to 59
+     * @pbrbm second  the second-of-minute to represent, from 0 to 59
+     * @pbrbm nbnoOfSecond  the nbno-of-second to represent, from 0 to 999,999,999
+     * @pbrbm offset  the zone offset, not null
+     * @return the offset dbte-time, not null
+     * @throws DbteTimeException if the vblue of bny field is out of rbnge, or
+     *  if the dby-of-month is invblid for the month-yebr
      */
-    public static OffsetDateTime of(
-            int year, int month, int dayOfMonth,
-            int hour, int minute, int second, int nanoOfSecond, ZoneOffset offset) {
-        LocalDateTime dt = LocalDateTime.of(year, month, dayOfMonth, hour, minute, second, nanoOfSecond);
-        return new OffsetDateTime(dt, offset);
+    public stbtic OffsetDbteTime of(
+            int yebr, int month, int dbyOfMonth,
+            int hour, int minute, int second, int nbnoOfSecond, ZoneOffset offset) {
+        LocblDbteTime dt = LocblDbteTime.of(yebr, month, dbyOfMonth, hour, minute, second, nbnoOfSecond);
+        return new OffsetDbteTime(dt, offset);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Obtains an instance of {@code OffsetDateTime} from an {@code Instant} and zone ID.
+     * Obtbins bn instbnce of {@code OffsetDbteTime} from bn {@code Instbnt} bnd zone ID.
      * <p>
-     * This creates an offset date-time with the same instant as that specified.
-     * Finding the offset from UTC/Greenwich is simple as there is only one valid
-     * offset for each instant.
+     * This crebtes bn offset dbte-time with the sbme instbnt bs thbt specified.
+     * Finding the offset from UTC/Greenwich is simple bs there is only one vblid
+     * offset for ebch instbnt.
      *
-     * @param instant  the instant to create the date-time from, not null
-     * @param zone  the time-zone, which may be an offset, not null
-     * @return the offset date-time, not null
-     * @throws DateTimeException if the result exceeds the supported range
+     * @pbrbm instbnt  the instbnt to crebte the dbte-time from, not null
+     * @pbrbm zone  the time-zone, which mby be bn offset, not null
+     * @return the offset dbte-time, not null
+     * @throws DbteTimeException if the result exceeds the supported rbnge
      */
-    public static OffsetDateTime ofInstant(Instant instant, ZoneId zone) {
-        Objects.requireNonNull(instant, "instant");
+    public stbtic OffsetDbteTime ofInstbnt(Instbnt instbnt, ZoneId zone) {
+        Objects.requireNonNull(instbnt, "instbnt");
         Objects.requireNonNull(zone, "zone");
         ZoneRules rules = zone.getRules();
-        ZoneOffset offset = rules.getOffset(instant);
-        LocalDateTime ldt = LocalDateTime.ofEpochSecond(instant.getEpochSecond(), instant.getNano(), offset);
-        return new OffsetDateTime(ldt, offset);
+        ZoneOffset offset = rules.getOffset(instbnt);
+        LocblDbteTime ldt = LocblDbteTime.ofEpochSecond(instbnt.getEpochSecond(), instbnt.getNbno(), offset);
+        return new OffsetDbteTime(ldt, offset);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Obtains an instance of {@code OffsetDateTime} from a temporal object.
+     * Obtbins bn instbnce of {@code OffsetDbteTime} from b temporbl object.
      * <p>
-     * This obtains an offset date-time based on the specified temporal.
-     * A {@code TemporalAccessor} represents an arbitrary set of date and time information,
-     * which this factory converts to an instance of {@code OffsetDateTime}.
+     * This obtbins bn offset dbte-time bbsed on the specified temporbl.
+     * A {@code TemporblAccessor} represents bn brbitrbry set of dbte bnd time informbtion,
+     * which this fbctory converts to bn instbnce of {@code OffsetDbteTime}.
      * <p>
-     * The conversion will first obtain a {@code ZoneOffset} from the temporal object.
-     * It will then try to obtain a {@code LocalDateTime}, falling back to an {@code Instant} if necessary.
-     * The result will be the combination of {@code ZoneOffset} with either
-     * with {@code LocalDateTime} or {@code Instant}.
-     * Implementations are permitted to perform optimizations such as accessing
-     * those fields that are equivalent to the relevant objects.
+     * The conversion will first obtbin b {@code ZoneOffset} from the temporbl object.
+     * It will then try to obtbin b {@code LocblDbteTime}, fblling bbck to bn {@code Instbnt} if necessbry.
+     * The result will be the combinbtion of {@code ZoneOffset} with either
+     * with {@code LocblDbteTime} or {@code Instbnt}.
+     * Implementbtions bre permitted to perform optimizbtions such bs bccessing
+     * those fields thbt bre equivblent to the relevbnt objects.
      * <p>
-     * This method matches the signature of the functional interface {@link TemporalQuery}
-     * allowing it to be used as a query via method reference, {@code OffsetDateTime::from}.
+     * This method mbtches the signbture of the functionbl interfbce {@link TemporblQuery}
+     * bllowing it to be used bs b query vib method reference, {@code OffsetDbteTime::from}.
      *
-     * @param temporal  the temporal object to convert, not null
-     * @return the offset date-time, not null
-     * @throws DateTimeException if unable to convert to an {@code OffsetDateTime}
+     * @pbrbm temporbl  the temporbl object to convert, not null
+     * @return the offset dbte-time, not null
+     * @throws DbteTimeException if unbble to convert to bn {@code OffsetDbteTime}
      */
-    public static OffsetDateTime from(TemporalAccessor temporal) {
-        if (temporal instanceof OffsetDateTime) {
-            return (OffsetDateTime) temporal;
+    public stbtic OffsetDbteTime from(TemporblAccessor temporbl) {
+        if (temporbl instbnceof OffsetDbteTime) {
+            return (OffsetDbteTime) temporbl;
         }
         try {
-            ZoneOffset offset = ZoneOffset.from(temporal);
-            LocalDate date = temporal.query(TemporalQueries.localDate());
-            LocalTime time = temporal.query(TemporalQueries.localTime());
-            if (date != null && time != null) {
-                return OffsetDateTime.of(date, time, offset);
+            ZoneOffset offset = ZoneOffset.from(temporbl);
+            LocblDbte dbte = temporbl.query(TemporblQueries.locblDbte());
+            LocblTime time = temporbl.query(TemporblQueries.locblTime());
+            if (dbte != null && time != null) {
+                return OffsetDbteTime.of(dbte, time, offset);
             } else {
-                Instant instant = Instant.from(temporal);
-                return OffsetDateTime.ofInstant(instant, offset);
+                Instbnt instbnt = Instbnt.from(temporbl);
+                return OffsetDbteTime.ofInstbnt(instbnt, offset);
             }
-        } catch (DateTimeException ex) {
-            throw new DateTimeException("Unable to obtain OffsetDateTime from TemporalAccessor: " +
-                    temporal + " of type " + temporal.getClass().getName(), ex);
+        } cbtch (DbteTimeException ex) {
+            throw new DbteTimeException("Unbble to obtbin OffsetDbteTime from TemporblAccessor: " +
+                    temporbl + " of type " + temporbl.getClbss().getNbme(), ex);
         }
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Obtains an instance of {@code OffsetDateTime} from a text string
-     * such as {@code 2007-12-03T10:15:30+01:00}.
+     * Obtbins bn instbnce of {@code OffsetDbteTime} from b text string
+     * such bs {@code 2007-12-03T10:15:30+01:00}.
      * <p>
-     * The string must represent a valid date-time and is parsed using
-     * {@link java.time.format.DateTimeFormatter#ISO_OFFSET_DATE_TIME}.
+     * The string must represent b vblid dbte-time bnd is pbrsed using
+     * {@link jbvb.time.formbt.DbteTimeFormbtter#ISO_OFFSET_DATE_TIME}.
      *
-     * @param text  the text to parse such as "2007-12-03T10:15:30+01:00", not null
-     * @return the parsed offset date-time, not null
-     * @throws DateTimeParseException if the text cannot be parsed
+     * @pbrbm text  the text to pbrse such bs "2007-12-03T10:15:30+01:00", not null
+     * @return the pbrsed offset dbte-time, not null
+     * @throws DbteTimePbrseException if the text cbnnot be pbrsed
      */
-    public static OffsetDateTime parse(CharSequence text) {
-        return parse(text, DateTimeFormatter.ISO_OFFSET_DATE_TIME);
+    public stbtic OffsetDbteTime pbrse(ChbrSequence text) {
+        return pbrse(text, DbteTimeFormbtter.ISO_OFFSET_DATE_TIME);
     }
 
     /**
-     * Obtains an instance of {@code OffsetDateTime} from a text string using a specific formatter.
+     * Obtbins bn instbnce of {@code OffsetDbteTime} from b text string using b specific formbtter.
      * <p>
-     * The text is parsed using the formatter, returning a date-time.
+     * The text is pbrsed using the formbtter, returning b dbte-time.
      *
-     * @param text  the text to parse, not null
-     * @param formatter  the formatter to use, not null
-     * @return the parsed offset date-time, not null
-     * @throws DateTimeParseException if the text cannot be parsed
+     * @pbrbm text  the text to pbrse, not null
+     * @pbrbm formbtter  the formbtter to use, not null
+     * @return the pbrsed offset dbte-time, not null
+     * @throws DbteTimePbrseException if the text cbnnot be pbrsed
      */
-    public static OffsetDateTime parse(CharSequence text, DateTimeFormatter formatter) {
-        Objects.requireNonNull(formatter, "formatter");
-        return formatter.parse(text, OffsetDateTime::from);
+    public stbtic OffsetDbteTime pbrse(ChbrSequence text, DbteTimeFormbtter formbtter) {
+        Objects.requireNonNull(formbtter, "formbtter");
+        return formbtter.pbrse(text, OffsetDbteTime::from);
     }
 
     //-----------------------------------------------------------------------
     /**
      * Constructor.
      *
-     * @param dateTime  the local date-time, not null
-     * @param offset  the zone offset, not null
+     * @pbrbm dbteTime  the locbl dbte-time, not null
+     * @pbrbm offset  the zone offset, not null
      */
-    private OffsetDateTime(LocalDateTime dateTime, ZoneOffset offset) {
-        this.dateTime = Objects.requireNonNull(dateTime, "dateTime");
+    privbte OffsetDbteTime(LocblDbteTime dbteTime, ZoneOffset offset) {
+        this.dbteTime = Objects.requireNonNull(dbteTime, "dbteTime");
         this.offset = Objects.requireNonNull(offset, "offset");
     }
 
     /**
-     * Returns a new date-time based on this one, returning {@code this} where possible.
+     * Returns b new dbte-time bbsed on this one, returning {@code this} where possible.
      *
-     * @param dateTime  the date-time to create with, not null
-     * @param offset  the zone offset to create with, not null
+     * @pbrbm dbteTime  the dbte-time to crebte with, not null
+     * @pbrbm offset  the zone offset to crebte with, not null
      */
-    private OffsetDateTime with(LocalDateTime dateTime, ZoneOffset offset) {
-        if (this.dateTime == dateTime && this.offset.equals(offset)) {
+    privbte OffsetDbteTime with(LocblDbteTime dbteTime, ZoneOffset offset) {
+        if (this.dbteTime == dbteTime && this.offset.equbls(offset)) {
             return this;
         }
-        return new OffsetDateTime(dateTime, offset);
+        return new OffsetDbteTime(dbteTime, offset);
     }
 
     //-----------------------------------------------------------------------
     /**
      * Checks if the specified field is supported.
      * <p>
-     * This checks if this date-time can be queried for the specified field.
-     * If false, then calling the {@link #range(TemporalField) range},
-     * {@link #get(TemporalField) get} and {@link #with(TemporalField, long)}
-     * methods will throw an exception.
+     * This checks if this dbte-time cbn be queried for the specified field.
+     * If fblse, then cblling the {@link #rbnge(TemporblField) rbnge},
+     * {@link #get(TemporblField) get} bnd {@link #with(TemporblField, long)}
+     * methods will throw bn exception.
      * <p>
-     * If the field is a {@link ChronoField} then the query is implemented here.
-     * The supported fields are:
+     * If the field is b {@link ChronoField} then the query is implemented here.
+     * The supported fields bre:
      * <ul>
      * <li>{@code NANO_OF_SECOND}
      * <li>{@code NANO_OF_DAY}
@@ -470,30 +470,30 @@ public final class OffsetDateTime
      * <li>{@code INSTANT_SECONDS}
      * <li>{@code OFFSET_SECONDS}
      * </ul>
-     * All other {@code ChronoField} instances will return false.
+     * All other {@code ChronoField} instbnces will return fblse.
      * <p>
-     * If the field is not a {@code ChronoField}, then the result of this method
-     * is obtained by invoking {@code TemporalField.isSupportedBy(TemporalAccessor)}
-     * passing {@code this} as the argument.
+     * If the field is not b {@code ChronoField}, then the result of this method
+     * is obtbined by invoking {@code TemporblField.isSupportedBy(TemporblAccessor)}
+     * pbssing {@code this} bs the brgument.
      * Whether the field is supported is determined by the field.
      *
-     * @param field  the field to check, null returns false
-     * @return true if the field is supported on this date-time, false if not
+     * @pbrbm field  the field to check, null returns fblse
+     * @return true if the field is supported on this dbte-time, fblse if not
      */
     @Override
-    public boolean isSupported(TemporalField field) {
-        return field instanceof ChronoField || (field != null && field.isSupportedBy(this));
+    public boolebn isSupported(TemporblField field) {
+        return field instbnceof ChronoField || (field != null && field.isSupportedBy(this));
     }
 
     /**
      * Checks if the specified unit is supported.
      * <p>
-     * This checks if the specified unit can be added to, or subtracted from, this date-time.
-     * If false, then calling the {@link #plus(long, TemporalUnit)} and
-     * {@link #minus(long, TemporalUnit) minus} methods will throw an exception.
+     * This checks if the specified unit cbn be bdded to, or subtrbcted from, this dbte-time.
+     * If fblse, then cblling the {@link #plus(long, TemporblUnit)} bnd
+     * {@link #minus(long, TemporblUnit) minus} methods will throw bn exception.
      * <p>
-     * If the unit is a {@link ChronoUnit} then the query is implemented here.
-     * The supported units are:
+     * If the unit is b {@link ChronoUnit} then the query is implemented here.
+     * The supported units bre:
      * <ul>
      * <li>{@code NANOS}
      * <li>{@code MICROS}
@@ -511,19 +511,19 @@ public final class OffsetDateTime
      * <li>{@code MILLENNIA}
      * <li>{@code ERAS}
      * </ul>
-     * All other {@code ChronoUnit} instances will return false.
+     * All other {@code ChronoUnit} instbnces will return fblse.
      * <p>
-     * If the unit is not a {@code ChronoUnit}, then the result of this method
-     * is obtained by invoking {@code TemporalUnit.isSupportedBy(Temporal)}
-     * passing {@code this} as the argument.
+     * If the unit is not b {@code ChronoUnit}, then the result of this method
+     * is obtbined by invoking {@code TemporblUnit.isSupportedBy(Temporbl)}
+     * pbssing {@code this} bs the brgument.
      * Whether the unit is supported is determined by the unit.
      *
-     * @param unit  the unit to check, null returns false
-     * @return true if the unit can be added/subtracted, false if not
+     * @pbrbm unit  the unit to check, null returns fblse
+     * @return true if the unit cbn be bdded/subtrbcted, fblse if not
      */
-    @Override  // override for Javadoc
-    public boolean isSupported(TemporalUnit unit) {
-        if (unit instanceof ChronoUnit) {
+    @Override  // override for Jbvbdoc
+    public boolebn isSupported(TemporblUnit unit) {
+        if (unit instbnceof ChronoUnit) {
             return unit != FOREVER;
         }
         return unit != null && unit.isSupportedBy(this);
@@ -531,121 +531,121 @@ public final class OffsetDateTime
 
     //-----------------------------------------------------------------------
     /**
-     * Gets the range of valid values for the specified field.
+     * Gets the rbnge of vblid vblues for the specified field.
      * <p>
-     * The range object expresses the minimum and maximum valid values for a field.
-     * This date-time is used to enhance the accuracy of the returned range.
-     * If it is not possible to return the range, because the field is not supported
-     * or for some other reason, an exception is thrown.
+     * The rbnge object expresses the minimum bnd mbximum vblid vblues for b field.
+     * This dbte-time is used to enhbnce the bccurbcy of the returned rbnge.
+     * If it is not possible to return the rbnge, becbuse the field is not supported
+     * or for some other rebson, bn exception is thrown.
      * <p>
-     * If the field is a {@link ChronoField} then the query is implemented here.
-     * The {@link #isSupported(TemporalField) supported fields} will return
-     * appropriate range instances.
-     * All other {@code ChronoField} instances will throw an {@code UnsupportedTemporalTypeException}.
+     * If the field is b {@link ChronoField} then the query is implemented here.
+     * The {@link #isSupported(TemporblField) supported fields} will return
+     * bppropribte rbnge instbnces.
+     * All other {@code ChronoField} instbnces will throw bn {@code UnsupportedTemporblTypeException}.
      * <p>
-     * If the field is not a {@code ChronoField}, then the result of this method
-     * is obtained by invoking {@code TemporalField.rangeRefinedBy(TemporalAccessor)}
-     * passing {@code this} as the argument.
-     * Whether the range can be obtained is determined by the field.
+     * If the field is not b {@code ChronoField}, then the result of this method
+     * is obtbined by invoking {@code TemporblField.rbngeRefinedBy(TemporblAccessor)}
+     * pbssing {@code this} bs the brgument.
+     * Whether the rbnge cbn be obtbined is determined by the field.
      *
-     * @param field  the field to query the range for, not null
-     * @return the range of valid values for the field, not null
-     * @throws DateTimeException if the range for the field cannot be obtained
-     * @throws UnsupportedTemporalTypeException if the field is not supported
+     * @pbrbm field  the field to query the rbnge for, not null
+     * @return the rbnge of vblid vblues for the field, not null
+     * @throws DbteTimeException if the rbnge for the field cbnnot be obtbined
+     * @throws UnsupportedTemporblTypeException if the field is not supported
      */
     @Override
-    public ValueRange range(TemporalField field) {
-        if (field instanceof ChronoField) {
+    public VblueRbnge rbnge(TemporblField field) {
+        if (field instbnceof ChronoField) {
             if (field == INSTANT_SECONDS || field == OFFSET_SECONDS) {
-                return field.range();
+                return field.rbnge();
             }
-            return dateTime.range(field);
+            return dbteTime.rbnge(field);
         }
-        return field.rangeRefinedBy(this);
+        return field.rbngeRefinedBy(this);
     }
 
     /**
-     * Gets the value of the specified field from this date-time as an {@code int}.
+     * Gets the vblue of the specified field from this dbte-time bs bn {@code int}.
      * <p>
-     * This queries this date-time for the value of the specified field.
-     * The returned value will always be within the valid range of values for the field.
-     * If it is not possible to return the value, because the field is not supported
-     * or for some other reason, an exception is thrown.
+     * This queries this dbte-time for the vblue of the specified field.
+     * The returned vblue will blwbys be within the vblid rbnge of vblues for the field.
+     * If it is not possible to return the vblue, becbuse the field is not supported
+     * or for some other rebson, bn exception is thrown.
      * <p>
-     * If the field is a {@link ChronoField} then the query is implemented here.
-     * The {@link #isSupported(TemporalField) supported fields} will return valid
-     * values based on this date-time, except {@code NANO_OF_DAY}, {@code MICRO_OF_DAY},
-     * {@code EPOCH_DAY}, {@code PROLEPTIC_MONTH} and {@code INSTANT_SECONDS} which are too
-     * large to fit in an {@code int} and throw a {@code UnsupportedTemporalTypeException}.
-     * All other {@code ChronoField} instances will throw an {@code UnsupportedTemporalTypeException}.
+     * If the field is b {@link ChronoField} then the query is implemented here.
+     * The {@link #isSupported(TemporblField) supported fields} will return vblid
+     * vblues bbsed on this dbte-time, except {@code NANO_OF_DAY}, {@code MICRO_OF_DAY},
+     * {@code EPOCH_DAY}, {@code PROLEPTIC_MONTH} bnd {@code INSTANT_SECONDS} which bre too
+     * lbrge to fit in bn {@code int} bnd throw b {@code UnsupportedTemporblTypeException}.
+     * All other {@code ChronoField} instbnces will throw bn {@code UnsupportedTemporblTypeException}.
      * <p>
-     * If the field is not a {@code ChronoField}, then the result of this method
-     * is obtained by invoking {@code TemporalField.getFrom(TemporalAccessor)}
-     * passing {@code this} as the argument. Whether the value can be obtained,
-     * and what the value represents, is determined by the field.
+     * If the field is not b {@code ChronoField}, then the result of this method
+     * is obtbined by invoking {@code TemporblField.getFrom(TemporblAccessor)}
+     * pbssing {@code this} bs the brgument. Whether the vblue cbn be obtbined,
+     * bnd whbt the vblue represents, is determined by the field.
      *
-     * @param field  the field to get, not null
-     * @return the value for the field
-     * @throws DateTimeException if a value for the field cannot be obtained or
-     *         the value is outside the range of valid values for the field
-     * @throws UnsupportedTemporalTypeException if the field is not supported or
-     *         the range of values exceeds an {@code int}
+     * @pbrbm field  the field to get, not null
+     * @return the vblue for the field
+     * @throws DbteTimeException if b vblue for the field cbnnot be obtbined or
+     *         the vblue is outside the rbnge of vblid vblues for the field
+     * @throws UnsupportedTemporblTypeException if the field is not supported or
+     *         the rbnge of vblues exceeds bn {@code int}
      * @throws ArithmeticException if numeric overflow occurs
      */
     @Override
-    public int get(TemporalField field) {
-        if (field instanceof ChronoField) {
+    public int get(TemporblField field) {
+        if (field instbnceof ChronoField) {
             switch ((ChronoField) field) {
-                case INSTANT_SECONDS:
-                    throw new UnsupportedTemporalTypeException("Invalid field 'InstantSeconds' for get() method, use getLong() instead");
-                case OFFSET_SECONDS:
-                    return getOffset().getTotalSeconds();
+                cbse INSTANT_SECONDS:
+                    throw new UnsupportedTemporblTypeException("Invblid field 'InstbntSeconds' for get() method, use getLong() instebd");
+                cbse OFFSET_SECONDS:
+                    return getOffset().getTotblSeconds();
             }
-            return dateTime.get(field);
+            return dbteTime.get(field);
         }
-        return Temporal.super.get(field);
+        return Temporbl.super.get(field);
     }
 
     /**
-     * Gets the value of the specified field from this date-time as a {@code long}.
+     * Gets the vblue of the specified field from this dbte-time bs b {@code long}.
      * <p>
-     * This queries this date-time for the value of the specified field.
-     * If it is not possible to return the value, because the field is not supported
-     * or for some other reason, an exception is thrown.
+     * This queries this dbte-time for the vblue of the specified field.
+     * If it is not possible to return the vblue, becbuse the field is not supported
+     * or for some other rebson, bn exception is thrown.
      * <p>
-     * If the field is a {@link ChronoField} then the query is implemented here.
-     * The {@link #isSupported(TemporalField) supported fields} will return valid
-     * values based on this date-time.
-     * All other {@code ChronoField} instances will throw an {@code UnsupportedTemporalTypeException}.
+     * If the field is b {@link ChronoField} then the query is implemented here.
+     * The {@link #isSupported(TemporblField) supported fields} will return vblid
+     * vblues bbsed on this dbte-time.
+     * All other {@code ChronoField} instbnces will throw bn {@code UnsupportedTemporblTypeException}.
      * <p>
-     * If the field is not a {@code ChronoField}, then the result of this method
-     * is obtained by invoking {@code TemporalField.getFrom(TemporalAccessor)}
-     * passing {@code this} as the argument. Whether the value can be obtained,
-     * and what the value represents, is determined by the field.
+     * If the field is not b {@code ChronoField}, then the result of this method
+     * is obtbined by invoking {@code TemporblField.getFrom(TemporblAccessor)}
+     * pbssing {@code this} bs the brgument. Whether the vblue cbn be obtbined,
+     * bnd whbt the vblue represents, is determined by the field.
      *
-     * @param field  the field to get, not null
-     * @return the value for the field
-     * @throws DateTimeException if a value for the field cannot be obtained
-     * @throws UnsupportedTemporalTypeException if the field is not supported
+     * @pbrbm field  the field to get, not null
+     * @return the vblue for the field
+     * @throws DbteTimeException if b vblue for the field cbnnot be obtbined
+     * @throws UnsupportedTemporblTypeException if the field is not supported
      * @throws ArithmeticException if numeric overflow occurs
      */
     @Override
-    public long getLong(TemporalField field) {
-        if (field instanceof ChronoField) {
+    public long getLong(TemporblField field) {
+        if (field instbnceof ChronoField) {
             switch ((ChronoField) field) {
-                case INSTANT_SECONDS: return toEpochSecond();
-                case OFFSET_SECONDS: return getOffset().getTotalSeconds();
+                cbse INSTANT_SECONDS: return toEpochSecond();
+                cbse OFFSET_SECONDS: return getOffset().getTotblSeconds();
             }
-            return dateTime.getLong(field);
+            return dbteTime.getLong(field);
         }
         return field.getFrom(this);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Gets the zone offset, such as '+01:00'.
+     * Gets the zone offset, such bs '+01:00'.
      * <p>
-     * This is the offset of the local date-time from UTC/Greenwich.
+     * This is the offset of the locbl dbte-time from UTC/Greenwich.
      *
      * @return the zone offset, not null
      */
@@ -654,182 +654,182 @@ public final class OffsetDateTime
     }
 
     /**
-     * Returns a copy of this {@code OffsetDateTime} with the specified offset ensuring
-     * that the result has the same local date-time.
+     * Returns b copy of this {@code OffsetDbteTime} with the specified offset ensuring
+     * thbt the result hbs the sbme locbl dbte-time.
      * <p>
-     * This method returns an object with the same {@code LocalDateTime} and the specified {@code ZoneOffset}.
-     * No calculation is needed or performed.
-     * For example, if this time represents {@code 2007-12-03T10:30+02:00} and the offset specified is
+     * This method returns bn object with the sbme {@code LocblDbteTime} bnd the specified {@code ZoneOffset}.
+     * No cblculbtion is needed or performed.
+     * For exbmple, if this time represents {@code 2007-12-03T10:30+02:00} bnd the offset specified is
      * {@code +03:00}, then this method will return {@code 2007-12-03T10:30+03:00}.
      * <p>
-     * To take into account the difference between the offsets, and adjust the time fields,
-     * use {@link #withOffsetSameInstant}.
+     * To tbke into bccount the difference between the offsets, bnd bdjust the time fields,
+     * use {@link #withOffsetSbmeInstbnt}.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param offset  the zone offset to change to, not null
-     * @return an {@code OffsetDateTime} based on this date-time with the requested offset, not null
+     * @pbrbm offset  the zone offset to chbnge to, not null
+     * @return bn {@code OffsetDbteTime} bbsed on this dbte-time with the requested offset, not null
      */
-    public OffsetDateTime withOffsetSameLocal(ZoneOffset offset) {
-        return with(dateTime, offset);
+    public OffsetDbteTime withOffsetSbmeLocbl(ZoneOffset offset) {
+        return with(dbteTime, offset);
     }
 
     /**
-     * Returns a copy of this {@code OffsetDateTime} with the specified offset ensuring
-     * that the result is at the same instant.
+     * Returns b copy of this {@code OffsetDbteTime} with the specified offset ensuring
+     * thbt the result is bt the sbme instbnt.
      * <p>
-     * This method returns an object with the specified {@code ZoneOffset} and a {@code LocalDateTime}
-     * adjusted by the difference between the two offsets.
-     * This will result in the old and new objects representing the same instant.
-     * This is useful for finding the local time in a different offset.
-     * For example, if this time represents {@code 2007-12-03T10:30+02:00} and the offset specified is
+     * This method returns bn object with the specified {@code ZoneOffset} bnd b {@code LocblDbteTime}
+     * bdjusted by the difference between the two offsets.
+     * This will result in the old bnd new objects representing the sbme instbnt.
+     * This is useful for finding the locbl time in b different offset.
+     * For exbmple, if this time represents {@code 2007-12-03T10:30+02:00} bnd the offset specified is
      * {@code +03:00}, then this method will return {@code 2007-12-03T11:30+03:00}.
      * <p>
-     * To change the offset without adjusting the local time use {@link #withOffsetSameLocal}.
+     * To chbnge the offset without bdjusting the locbl time use {@link #withOffsetSbmeLocbl}.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param offset  the zone offset to change to, not null
-     * @return an {@code OffsetDateTime} based on this date-time with the requested offset, not null
-     * @throws DateTimeException if the result exceeds the supported date range
+     * @pbrbm offset  the zone offset to chbnge to, not null
+     * @return bn {@code OffsetDbteTime} bbsed on this dbte-time with the requested offset, not null
+     * @throws DbteTimeException if the result exceeds the supported dbte rbnge
      */
-    public OffsetDateTime withOffsetSameInstant(ZoneOffset offset) {
-        if (offset.equals(this.offset)) {
+    public OffsetDbteTime withOffsetSbmeInstbnt(ZoneOffset offset) {
+        if (offset.equbls(this.offset)) {
             return this;
         }
-        int difference = offset.getTotalSeconds() - this.offset.getTotalSeconds();
-        LocalDateTime adjusted = dateTime.plusSeconds(difference);
-        return new OffsetDateTime(adjusted, offset);
+        int difference = offset.getTotblSeconds() - this.offset.getTotblSeconds();
+        LocblDbteTime bdjusted = dbteTime.plusSeconds(difference);
+        return new OffsetDbteTime(bdjusted, offset);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Gets the {@code LocalDateTime} part of this date-time.
+     * Gets the {@code LocblDbteTime} pbrt of this dbte-time.
      * <p>
-     * This returns a {@code LocalDateTime} with the same year, month, day and time
-     * as this date-time.
+     * This returns b {@code LocblDbteTime} with the sbme yebr, month, dby bnd time
+     * bs this dbte-time.
      *
-     * @return the local date-time part of this date-time, not null
+     * @return the locbl dbte-time pbrt of this dbte-time, not null
      */
-    public LocalDateTime toLocalDateTime() {
-        return dateTime;
+    public LocblDbteTime toLocblDbteTime() {
+        return dbteTime;
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Gets the {@code LocalDate} part of this date-time.
+     * Gets the {@code LocblDbte} pbrt of this dbte-time.
      * <p>
-     * This returns a {@code LocalDate} with the same year, month and day
-     * as this date-time.
+     * This returns b {@code LocblDbte} with the sbme yebr, month bnd dby
+     * bs this dbte-time.
      *
-     * @return the date part of this date-time, not null
+     * @return the dbte pbrt of this dbte-time, not null
      */
-    public LocalDate toLocalDate() {
-        return dateTime.toLocalDate();
+    public LocblDbte toLocblDbte() {
+        return dbteTime.toLocblDbte();
     }
 
     /**
-     * Gets the year field.
+     * Gets the yebr field.
      * <p>
-     * This method returns the primitive {@code int} value for the year.
+     * This method returns the primitive {@code int} vblue for the yebr.
      * <p>
-     * The year returned by this method is proleptic as per {@code get(YEAR)}.
-     * To obtain the year-of-era, use {@code get(YEAR_OF_ERA)}.
+     * The yebr returned by this method is proleptic bs per {@code get(YEAR)}.
+     * To obtbin the yebr-of-erb, use {@code get(YEAR_OF_ERA)}.
      *
-     * @return the year, from MIN_YEAR to MAX_YEAR
+     * @return the yebr, from MIN_YEAR to MAX_YEAR
      */
-    public int getYear() {
-        return dateTime.getYear();
+    public int getYebr() {
+        return dbteTime.getYebr();
     }
 
     /**
-     * Gets the month-of-year field from 1 to 12.
+     * Gets the month-of-yebr field from 1 to 12.
      * <p>
-     * This method returns the month as an {@code int} from 1 to 12.
-     * Application code is frequently clearer if the enum {@link Month}
-     * is used by calling {@link #getMonth()}.
+     * This method returns the month bs bn {@code int} from 1 to 12.
+     * Applicbtion code is frequently clebrer if the enum {@link Month}
+     * is used by cblling {@link #getMonth()}.
      *
-     * @return the month-of-year, from 1 to 12
+     * @return the month-of-yebr, from 1 to 12
      * @see #getMonth()
      */
-    public int getMonthValue() {
-        return dateTime.getMonthValue();
+    public int getMonthVblue() {
+        return dbteTime.getMonthVblue();
     }
 
     /**
-     * Gets the month-of-year field using the {@code Month} enum.
+     * Gets the month-of-yebr field using the {@code Month} enum.
      * <p>
      * This method returns the enum {@link Month} for the month.
-     * This avoids confusion as to what {@code int} values mean.
-     * If you need access to the primitive {@code int} value then the enum
-     * provides the {@link Month#getValue() int value}.
+     * This bvoids confusion bs to whbt {@code int} vblues mebn.
+     * If you need bccess to the primitive {@code int} vblue then the enum
+     * provides the {@link Month#getVblue() int vblue}.
      *
-     * @return the month-of-year, not null
-     * @see #getMonthValue()
+     * @return the month-of-yebr, not null
+     * @see #getMonthVblue()
      */
     public Month getMonth() {
-        return dateTime.getMonth();
+        return dbteTime.getMonth();
     }
 
     /**
-     * Gets the day-of-month field.
+     * Gets the dby-of-month field.
      * <p>
-     * This method returns the primitive {@code int} value for the day-of-month.
+     * This method returns the primitive {@code int} vblue for the dby-of-month.
      *
-     * @return the day-of-month, from 1 to 31
+     * @return the dby-of-month, from 1 to 31
      */
-    public int getDayOfMonth() {
-        return dateTime.getDayOfMonth();
+    public int getDbyOfMonth() {
+        return dbteTime.getDbyOfMonth();
     }
 
     /**
-     * Gets the day-of-year field.
+     * Gets the dby-of-yebr field.
      * <p>
-     * This method returns the primitive {@code int} value for the day-of-year.
+     * This method returns the primitive {@code int} vblue for the dby-of-yebr.
      *
-     * @return the day-of-year, from 1 to 365, or 366 in a leap year
+     * @return the dby-of-yebr, from 1 to 365, or 366 in b lebp yebr
      */
-    public int getDayOfYear() {
-        return dateTime.getDayOfYear();
+    public int getDbyOfYebr() {
+        return dbteTime.getDbyOfYebr();
     }
 
     /**
-     * Gets the day-of-week field, which is an enum {@code DayOfWeek}.
+     * Gets the dby-of-week field, which is bn enum {@code DbyOfWeek}.
      * <p>
-     * This method returns the enum {@link DayOfWeek} for the day-of-week.
-     * This avoids confusion as to what {@code int} values mean.
-     * If you need access to the primitive {@code int} value then the enum
-     * provides the {@link DayOfWeek#getValue() int value}.
+     * This method returns the enum {@link DbyOfWeek} for the dby-of-week.
+     * This bvoids confusion bs to whbt {@code int} vblues mebn.
+     * If you need bccess to the primitive {@code int} vblue then the enum
+     * provides the {@link DbyOfWeek#getVblue() int vblue}.
      * <p>
-     * Additional information can be obtained from the {@code DayOfWeek}.
-     * This includes textual names of the values.
+     * Additionbl informbtion cbn be obtbined from the {@code DbyOfWeek}.
+     * This includes textubl nbmes of the vblues.
      *
-     * @return the day-of-week, not null
+     * @return the dby-of-week, not null
      */
-    public DayOfWeek getDayOfWeek() {
-        return dateTime.getDayOfWeek();
+    public DbyOfWeek getDbyOfWeek() {
+        return dbteTime.getDbyOfWeek();
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Gets the {@code LocalTime} part of this date-time.
+     * Gets the {@code LocblTime} pbrt of this dbte-time.
      * <p>
-     * This returns a {@code LocalTime} with the same hour, minute, second and
-     * nanosecond as this date-time.
+     * This returns b {@code LocblTime} with the sbme hour, minute, second bnd
+     * nbnosecond bs this dbte-time.
      *
-     * @return the time part of this date-time, not null
+     * @return the time pbrt of this dbte-time, not null
      */
-    public LocalTime toLocalTime() {
-        return dateTime.toLocalTime();
+    public LocblTime toLocblTime() {
+        return dbteTime.toLocblTime();
     }
 
     /**
-     * Gets the hour-of-day field.
+     * Gets the hour-of-dby field.
      *
-     * @return the hour-of-day, from 0 to 23
+     * @return the hour-of-dby, from 0 to 23
      */
     public int getHour() {
-        return dateTime.getHour();
+        return dbteTime.getHour();
     }
 
     /**
@@ -838,7 +838,7 @@ public final class OffsetDateTime
      * @return the minute-of-hour, from 0 to 59
      */
     public int getMinute() {
-        return dateTime.getMinute();
+        return dbteTime.getMinute();
     }
 
     /**
@@ -847,941 +847,941 @@ public final class OffsetDateTime
      * @return the second-of-minute, from 0 to 59
      */
     public int getSecond() {
-        return dateTime.getSecond();
+        return dbteTime.getSecond();
     }
 
     /**
-     * Gets the nano-of-second field.
+     * Gets the nbno-of-second field.
      *
-     * @return the nano-of-second, from 0 to 999,999,999
+     * @return the nbno-of-second, from 0 to 999,999,999
      */
-    public int getNano() {
-        return dateTime.getNano();
+    public int getNbno() {
+        return dbteTime.getNbno();
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Returns an adjusted copy of this date-time.
+     * Returns bn bdjusted copy of this dbte-time.
      * <p>
-     * This returns an {@code OffsetDateTime}, based on this one, with the date-time adjusted.
-     * The adjustment takes place using the specified adjuster strategy object.
-     * Read the documentation of the adjuster to understand what adjustment will be made.
+     * This returns bn {@code OffsetDbteTime}, bbsed on this one, with the dbte-time bdjusted.
+     * The bdjustment tbkes plbce using the specified bdjuster strbtegy object.
+     * Rebd the documentbtion of the bdjuster to understbnd whbt bdjustment will be mbde.
      * <p>
-     * A simple adjuster might simply set the one of the fields, such as the year field.
-     * A more complex adjuster might set the date to the last day of the month.
-     * A selection of common adjustments is provided in
-     * {@link java.time.temporal.TemporalAdjusters TemporalAdjusters}.
-     * These include finding the "last day of the month" and "next Wednesday".
-     * Key date-time classes also implement the {@code TemporalAdjuster} interface,
-     * such as {@link Month} and {@link java.time.MonthDay MonthDay}.
-     * The adjuster is responsible for handling special cases, such as the varying
-     * lengths of month and leap years.
+     * A simple bdjuster might simply set the one of the fields, such bs the yebr field.
+     * A more complex bdjuster might set the dbte to the lbst dby of the month.
+     * A selection of common bdjustments is provided in
+     * {@link jbvb.time.temporbl.TemporblAdjusters TemporblAdjusters}.
+     * These include finding the "lbst dby of the month" bnd "next Wednesdby".
+     * Key dbte-time clbsses blso implement the {@code TemporblAdjuster} interfbce,
+     * such bs {@link Month} bnd {@link jbvb.time.MonthDby MonthDby}.
+     * The bdjuster is responsible for hbndling specibl cbses, such bs the vbrying
+     * lengths of month bnd lebp yebrs.
      * <p>
-     * For example this code returns a date on the last day of July:
+     * For exbmple this code returns b dbte on the lbst dby of July:
      * <pre>
-     *  import static java.time.Month.*;
-     *  import static java.time.temporal.TemporalAdjusters.*;
+     *  import stbtic jbvb.time.Month.*;
+     *  import stbtic jbvb.time.temporbl.TemporblAdjusters.*;
      *
-     *  result = offsetDateTime.with(JULY).with(lastDayOfMonth());
+     *  result = offsetDbteTime.with(JULY).with(lbstDbyOfMonth());
      * </pre>
      * <p>
-     * The classes {@link LocalDate}, {@link LocalTime} and {@link ZoneOffset} implement
-     * {@code TemporalAdjuster}, thus this method can be used to change the date, time or offset:
+     * The clbsses {@link LocblDbte}, {@link LocblTime} bnd {@link ZoneOffset} implement
+     * {@code TemporblAdjuster}, thus this method cbn be used to chbnge the dbte, time or offset:
      * <pre>
-     *  result = offsetDateTime.with(date);
-     *  result = offsetDateTime.with(time);
-     *  result = offsetDateTime.with(offset);
+     *  result = offsetDbteTime.with(dbte);
+     *  result = offsetDbteTime.with(time);
+     *  result = offsetDbteTime.with(offset);
      * </pre>
      * <p>
-     * The result of this method is obtained by invoking the
-     * {@link TemporalAdjuster#adjustInto(Temporal)} method on the
-     * specified adjuster passing {@code this} as the argument.
+     * The result of this method is obtbined by invoking the
+     * {@link TemporblAdjuster#bdjustInto(Temporbl)} method on the
+     * specified bdjuster pbssing {@code this} bs the brgument.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param adjuster the adjuster to use, not null
-     * @return an {@code OffsetDateTime} based on {@code this} with the adjustment made, not null
-     * @throws DateTimeException if the adjustment cannot be made
+     * @pbrbm bdjuster the bdjuster to use, not null
+     * @return bn {@code OffsetDbteTime} bbsed on {@code this} with the bdjustment mbde, not null
+     * @throws DbteTimeException if the bdjustment cbnnot be mbde
      * @throws ArithmeticException if numeric overflow occurs
      */
     @Override
-    public OffsetDateTime with(TemporalAdjuster adjuster) {
-        // optimizations
-        if (adjuster instanceof LocalDate || adjuster instanceof LocalTime || adjuster instanceof LocalDateTime) {
-            return with(dateTime.with(adjuster), offset);
-        } else if (adjuster instanceof Instant) {
-            return ofInstant((Instant) adjuster, offset);
-        } else if (adjuster instanceof ZoneOffset) {
-            return with(dateTime, (ZoneOffset) adjuster);
-        } else if (adjuster instanceof OffsetDateTime) {
-            return (OffsetDateTime) adjuster;
+    public OffsetDbteTime with(TemporblAdjuster bdjuster) {
+        // optimizbtions
+        if (bdjuster instbnceof LocblDbte || bdjuster instbnceof LocblTime || bdjuster instbnceof LocblDbteTime) {
+            return with(dbteTime.with(bdjuster), offset);
+        } else if (bdjuster instbnceof Instbnt) {
+            return ofInstbnt((Instbnt) bdjuster, offset);
+        } else if (bdjuster instbnceof ZoneOffset) {
+            return with(dbteTime, (ZoneOffset) bdjuster);
+        } else if (bdjuster instbnceof OffsetDbteTime) {
+            return (OffsetDbteTime) bdjuster;
         }
-        return (OffsetDateTime) adjuster.adjustInto(this);
+        return (OffsetDbteTime) bdjuster.bdjustInto(this);
     }
 
     /**
-     * Returns a copy of this date-time with the specified field set to a new value.
+     * Returns b copy of this dbte-time with the specified field set to b new vblue.
      * <p>
-     * This returns an {@code OffsetDateTime}, based on this one, with the value
-     * for the specified field changed.
-     * This can be used to change any supported field, such as the year, month or day-of-month.
-     * If it is not possible to set the value, because the field is not supported or for
-     * some other reason, an exception is thrown.
+     * This returns bn {@code OffsetDbteTime}, bbsed on this one, with the vblue
+     * for the specified field chbnged.
+     * This cbn be used to chbnge bny supported field, such bs the yebr, month or dby-of-month.
+     * If it is not possible to set the vblue, becbuse the field is not supported or for
+     * some other rebson, bn exception is thrown.
      * <p>
-     * In some cases, changing the specified field can cause the resulting date-time to become invalid,
-     * such as changing the month from 31st January to February would make the day-of-month invalid.
-     * In cases like this, the field is responsible for resolving the date. Typically it will choose
-     * the previous valid date, which would be the last valid day of February in this example.
+     * In some cbses, chbnging the specified field cbn cbuse the resulting dbte-time to become invblid,
+     * such bs chbnging the month from 31st Jbnubry to Februbry would mbke the dby-of-month invblid.
+     * In cbses like this, the field is responsible for resolving the dbte. Typicblly it will choose
+     * the previous vblid dbte, which would be the lbst vblid dby of Februbry in this exbmple.
      * <p>
-     * If the field is a {@link ChronoField} then the adjustment is implemented here.
+     * If the field is b {@link ChronoField} then the bdjustment is implemented here.
      * <p>
-     * The {@code INSTANT_SECONDS} field will return a date-time with the specified instant.
-     * The offset and nano-of-second are unchanged.
-     * If the new instant value is outside the valid range then a {@code DateTimeException} will be thrown.
+     * The {@code INSTANT_SECONDS} field will return b dbte-time with the specified instbnt.
+     * The offset bnd nbno-of-second bre unchbnged.
+     * If the new instbnt vblue is outside the vblid rbnge then b {@code DbteTimeException} will be thrown.
      * <p>
-     * The {@code OFFSET_SECONDS} field will return a date-time with the specified offset.
-     * The local date-time is unaltered. If the new offset value is outside the valid range
-     * then a {@code DateTimeException} will be thrown.
+     * The {@code OFFSET_SECONDS} field will return b dbte-time with the specified offset.
+     * The locbl dbte-time is unbltered. If the new offset vblue is outside the vblid rbnge
+     * then b {@code DbteTimeException} will be thrown.
      * <p>
-     * The other {@link #isSupported(TemporalField) supported fields} will behave as per
-     * the matching method on {@link LocalDateTime#with(TemporalField, long) LocalDateTime}.
-     * In this case, the offset is not part of the calculation and will be unchanged.
+     * The other {@link #isSupported(TemporblField) supported fields} will behbve bs per
+     * the mbtching method on {@link LocblDbteTime#with(TemporblField, long) LocblDbteTime}.
+     * In this cbse, the offset is not pbrt of the cblculbtion bnd will be unchbnged.
      * <p>
-     * All other {@code ChronoField} instances will throw an {@code UnsupportedTemporalTypeException}.
+     * All other {@code ChronoField} instbnces will throw bn {@code UnsupportedTemporblTypeException}.
      * <p>
-     * If the field is not a {@code ChronoField}, then the result of this method
-     * is obtained by invoking {@code TemporalField.adjustInto(Temporal, long)}
-     * passing {@code this} as the argument. In this case, the field determines
-     * whether and how to adjust the instant.
+     * If the field is not b {@code ChronoField}, then the result of this method
+     * is obtbined by invoking {@code TemporblField.bdjustInto(Temporbl, long)}
+     * pbssing {@code this} bs the brgument. In this cbse, the field determines
+     * whether bnd how to bdjust the instbnt.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param field  the field to set in the result, not null
-     * @param newValue  the new value of the field in the result
-     * @return an {@code OffsetDateTime} based on {@code this} with the specified field set, not null
-     * @throws DateTimeException if the field cannot be set
-     * @throws UnsupportedTemporalTypeException if the field is not supported
+     * @pbrbm field  the field to set in the result, not null
+     * @pbrbm newVblue  the new vblue of the field in the result
+     * @return bn {@code OffsetDbteTime} bbsed on {@code this} with the specified field set, not null
+     * @throws DbteTimeException if the field cbnnot be set
+     * @throws UnsupportedTemporblTypeException if the field is not supported
      * @throws ArithmeticException if numeric overflow occurs
      */
     @Override
-    public OffsetDateTime with(TemporalField field, long newValue) {
-        if (field instanceof ChronoField) {
+    public OffsetDbteTime with(TemporblField field, long newVblue) {
+        if (field instbnceof ChronoField) {
             ChronoField f = (ChronoField) field;
             switch (f) {
-                case INSTANT_SECONDS: return ofInstant(Instant.ofEpochSecond(newValue, getNano()), offset);
-                case OFFSET_SECONDS: {
-                    return with(dateTime, ZoneOffset.ofTotalSeconds(f.checkValidIntValue(newValue)));
+                cbse INSTANT_SECONDS: return ofInstbnt(Instbnt.ofEpochSecond(newVblue, getNbno()), offset);
+                cbse OFFSET_SECONDS: {
+                    return with(dbteTime, ZoneOffset.ofTotblSeconds(f.checkVblidIntVblue(newVblue)));
                 }
             }
-            return with(dateTime.with(field, newValue), offset);
+            return with(dbteTime.with(field, newVblue), offset);
         }
-        return field.adjustInto(this, newValue);
+        return field.bdjustInto(this, newVblue);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Returns a copy of this {@code OffsetDateTime} with the year altered.
+     * Returns b copy of this {@code OffsetDbteTime} with the yebr bltered.
      * <p>
-     * The time and offset do not affect the calculation and will be the same in the result.
-     * If the day-of-month is invalid for the year, it will be changed to the last valid day of the month.
+     * The time bnd offset do not bffect the cblculbtion bnd will be the sbme in the result.
+     * If the dby-of-month is invblid for the yebr, it will be chbnged to the lbst vblid dby of the month.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param year  the year to set in the result, from MIN_YEAR to MAX_YEAR
-     * @return an {@code OffsetDateTime} based on this date-time with the requested year, not null
-     * @throws DateTimeException if the year value is invalid
+     * @pbrbm yebr  the yebr to set in the result, from MIN_YEAR to MAX_YEAR
+     * @return bn {@code OffsetDbteTime} bbsed on this dbte-time with the requested yebr, not null
+     * @throws DbteTimeException if the yebr vblue is invblid
      */
-    public OffsetDateTime withYear(int year) {
-        return with(dateTime.withYear(year), offset);
+    public OffsetDbteTime withYebr(int yebr) {
+        return with(dbteTime.withYebr(yebr), offset);
     }
 
     /**
-     * Returns a copy of this {@code OffsetDateTime} with the month-of-year altered.
+     * Returns b copy of this {@code OffsetDbteTime} with the month-of-yebr bltered.
      * <p>
-     * The time and offset do not affect the calculation and will be the same in the result.
-     * If the day-of-month is invalid for the year, it will be changed to the last valid day of the month.
+     * The time bnd offset do not bffect the cblculbtion bnd will be the sbme in the result.
+     * If the dby-of-month is invblid for the yebr, it will be chbnged to the lbst vblid dby of the month.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param month  the month-of-year to set in the result, from 1 (January) to 12 (December)
-     * @return an {@code OffsetDateTime} based on this date-time with the requested month, not null
-     * @throws DateTimeException if the month-of-year value is invalid
+     * @pbrbm month  the month-of-yebr to set in the result, from 1 (Jbnubry) to 12 (December)
+     * @return bn {@code OffsetDbteTime} bbsed on this dbte-time with the requested month, not null
+     * @throws DbteTimeException if the month-of-yebr vblue is invblid
      */
-    public OffsetDateTime withMonth(int month) {
-        return with(dateTime.withMonth(month), offset);
+    public OffsetDbteTime withMonth(int month) {
+        return with(dbteTime.withMonth(month), offset);
     }
 
     /**
-     * Returns a copy of this {@code OffsetDateTime} with the day-of-month altered.
+     * Returns b copy of this {@code OffsetDbteTime} with the dby-of-month bltered.
      * <p>
-     * If the resulting {@code OffsetDateTime} is invalid, an exception is thrown.
-     * The time and offset do not affect the calculation and will be the same in the result.
+     * If the resulting {@code OffsetDbteTime} is invblid, bn exception is thrown.
+     * The time bnd offset do not bffect the cblculbtion bnd will be the sbme in the result.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param dayOfMonth  the day-of-month to set in the result, from 1 to 28-31
-     * @return an {@code OffsetDateTime} based on this date-time with the requested day, not null
-     * @throws DateTimeException if the day-of-month value is invalid,
-     *  or if the day-of-month is invalid for the month-year
+     * @pbrbm dbyOfMonth  the dby-of-month to set in the result, from 1 to 28-31
+     * @return bn {@code OffsetDbteTime} bbsed on this dbte-time with the requested dby, not null
+     * @throws DbteTimeException if the dby-of-month vblue is invblid,
+     *  or if the dby-of-month is invblid for the month-yebr
      */
-    public OffsetDateTime withDayOfMonth(int dayOfMonth) {
-        return with(dateTime.withDayOfMonth(dayOfMonth), offset);
+    public OffsetDbteTime withDbyOfMonth(int dbyOfMonth) {
+        return with(dbteTime.withDbyOfMonth(dbyOfMonth), offset);
     }
 
     /**
-     * Returns a copy of this {@code OffsetDateTime} with the day-of-year altered.
+     * Returns b copy of this {@code OffsetDbteTime} with the dby-of-yebr bltered.
      * <p>
-     * The time and offset do not affect the calculation and will be the same in the result.
-     * If the resulting {@code OffsetDateTime} is invalid, an exception is thrown.
+     * The time bnd offset do not bffect the cblculbtion bnd will be the sbme in the result.
+     * If the resulting {@code OffsetDbteTime} is invblid, bn exception is thrown.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param dayOfYear  the day-of-year to set in the result, from 1 to 365-366
-     * @return an {@code OffsetDateTime} based on this date with the requested day, not null
-     * @throws DateTimeException if the day-of-year value is invalid,
-     *  or if the day-of-year is invalid for the year
+     * @pbrbm dbyOfYebr  the dby-of-yebr to set in the result, from 1 to 365-366
+     * @return bn {@code OffsetDbteTime} bbsed on this dbte with the requested dby, not null
+     * @throws DbteTimeException if the dby-of-yebr vblue is invblid,
+     *  or if the dby-of-yebr is invblid for the yebr
      */
-    public OffsetDateTime withDayOfYear(int dayOfYear) {
-        return with(dateTime.withDayOfYear(dayOfYear), offset);
-    }
-
-    //-----------------------------------------------------------------------
-    /**
-     * Returns a copy of this {@code OffsetDateTime} with the hour-of-day altered.
-     * <p>
-     * The date and offset do not affect the calculation and will be the same in the result.
-     * <p>
-     * This instance is immutable and unaffected by this method call.
-     *
-     * @param hour  the hour-of-day to set in the result, from 0 to 23
-     * @return an {@code OffsetDateTime} based on this date-time with the requested hour, not null
-     * @throws DateTimeException if the hour value is invalid
-     */
-    public OffsetDateTime withHour(int hour) {
-        return with(dateTime.withHour(hour), offset);
-    }
-
-    /**
-     * Returns a copy of this {@code OffsetDateTime} with the minute-of-hour altered.
-     * <p>
-     * The date and offset do not affect the calculation and will be the same in the result.
-     * <p>
-     * This instance is immutable and unaffected by this method call.
-     *
-     * @param minute  the minute-of-hour to set in the result, from 0 to 59
-     * @return an {@code OffsetDateTime} based on this date-time with the requested minute, not null
-     * @throws DateTimeException if the minute value is invalid
-     */
-    public OffsetDateTime withMinute(int minute) {
-        return with(dateTime.withMinute(minute), offset);
-    }
-
-    /**
-     * Returns a copy of this {@code OffsetDateTime} with the second-of-minute altered.
-     * <p>
-     * The date and offset do not affect the calculation and will be the same in the result.
-     * <p>
-     * This instance is immutable and unaffected by this method call.
-     *
-     * @param second  the second-of-minute to set in the result, from 0 to 59
-     * @return an {@code OffsetDateTime} based on this date-time with the requested second, not null
-     * @throws DateTimeException if the second value is invalid
-     */
-    public OffsetDateTime withSecond(int second) {
-        return with(dateTime.withSecond(second), offset);
-    }
-
-    /**
-     * Returns a copy of this {@code OffsetDateTime} with the nano-of-second altered.
-     * <p>
-     * The date and offset do not affect the calculation and will be the same in the result.
-     * <p>
-     * This instance is immutable and unaffected by this method call.
-     *
-     * @param nanoOfSecond  the nano-of-second to set in the result, from 0 to 999,999,999
-     * @return an {@code OffsetDateTime} based on this date-time with the requested nanosecond, not null
-     * @throws DateTimeException if the nano value is invalid
-     */
-    public OffsetDateTime withNano(int nanoOfSecond) {
-        return with(dateTime.withNano(nanoOfSecond), offset);
+    public OffsetDbteTime withDbyOfYebr(int dbyOfYebr) {
+        return with(dbteTime.withDbyOfYebr(dbyOfYebr), offset);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Returns a copy of this {@code OffsetDateTime} with the time truncated.
+     * Returns b copy of this {@code OffsetDbteTime} with the hour-of-dby bltered.
      * <p>
-     * Truncation returns a copy of the original date-time with fields
-     * smaller than the specified unit set to zero.
-     * For example, truncating with the {@link ChronoUnit#MINUTES minutes} unit
-     * will set the second-of-minute and nano-of-second field to zero.
+     * The dbte bnd offset do not bffect the cblculbtion bnd will be the sbme in the result.
      * <p>
-     * The unit must have a {@linkplain TemporalUnit#getDuration() duration}
-     * that divides into the length of a standard day without remainder.
-     * This includes all supplied time units on {@link ChronoUnit} and
-     * {@link ChronoUnit#DAYS DAYS}. Other units throw an exception.
-     * <p>
-     * The offset does not affect the calculation and will be the same in the result.
-     * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param unit  the unit to truncate to, not null
-     * @return an {@code OffsetDateTime} based on this date-time with the time truncated, not null
-     * @throws DateTimeException if unable to truncate
-     * @throws UnsupportedTemporalTypeException if the unit is not supported
+     * @pbrbm hour  the hour-of-dby to set in the result, from 0 to 23
+     * @return bn {@code OffsetDbteTime} bbsed on this dbte-time with the requested hour, not null
+     * @throws DbteTimeException if the hour vblue is invblid
      */
-    public OffsetDateTime truncatedTo(TemporalUnit unit) {
-        return with(dateTime.truncatedTo(unit), offset);
+    public OffsetDbteTime withHour(int hour) {
+        return with(dbteTime.withHour(hour), offset);
+    }
+
+    /**
+     * Returns b copy of this {@code OffsetDbteTime} with the minute-of-hour bltered.
+     * <p>
+     * The dbte bnd offset do not bffect the cblculbtion bnd will be the sbme in the result.
+     * <p>
+     * This instbnce is immutbble bnd unbffected by this method cbll.
+     *
+     * @pbrbm minute  the minute-of-hour to set in the result, from 0 to 59
+     * @return bn {@code OffsetDbteTime} bbsed on this dbte-time with the requested minute, not null
+     * @throws DbteTimeException if the minute vblue is invblid
+     */
+    public OffsetDbteTime withMinute(int minute) {
+        return with(dbteTime.withMinute(minute), offset);
+    }
+
+    /**
+     * Returns b copy of this {@code OffsetDbteTime} with the second-of-minute bltered.
+     * <p>
+     * The dbte bnd offset do not bffect the cblculbtion bnd will be the sbme in the result.
+     * <p>
+     * This instbnce is immutbble bnd unbffected by this method cbll.
+     *
+     * @pbrbm second  the second-of-minute to set in the result, from 0 to 59
+     * @return bn {@code OffsetDbteTime} bbsed on this dbte-time with the requested second, not null
+     * @throws DbteTimeException if the second vblue is invblid
+     */
+    public OffsetDbteTime withSecond(int second) {
+        return with(dbteTime.withSecond(second), offset);
+    }
+
+    /**
+     * Returns b copy of this {@code OffsetDbteTime} with the nbno-of-second bltered.
+     * <p>
+     * The dbte bnd offset do not bffect the cblculbtion bnd will be the sbme in the result.
+     * <p>
+     * This instbnce is immutbble bnd unbffected by this method cbll.
+     *
+     * @pbrbm nbnoOfSecond  the nbno-of-second to set in the result, from 0 to 999,999,999
+     * @return bn {@code OffsetDbteTime} bbsed on this dbte-time with the requested nbnosecond, not null
+     * @throws DbteTimeException if the nbno vblue is invblid
+     */
+    public OffsetDbteTime withNbno(int nbnoOfSecond) {
+        return with(dbteTime.withNbno(nbnoOfSecond), offset);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Returns a copy of this date-time with the specified amount added.
+     * Returns b copy of this {@code OffsetDbteTime} with the time truncbted.
      * <p>
-     * This returns an {@code OffsetDateTime}, based on this one, with the specified amount added.
-     * The amount is typically {@link Period} or {@link Duration} but may be
-     * any other type implementing the {@link TemporalAmount} interface.
+     * Truncbtion returns b copy of the originbl dbte-time with fields
+     * smbller thbn the specified unit set to zero.
+     * For exbmple, truncbting with the {@link ChronoUnit#MINUTES minutes} unit
+     * will set the second-of-minute bnd nbno-of-second field to zero.
      * <p>
-     * The calculation is delegated to the amount object by calling
-     * {@link TemporalAmount#addTo(Temporal)}. The amount implementation is free
-     * to implement the addition in any way it wishes, however it typically
-     * calls back to {@link #plus(long, TemporalUnit)}. Consult the documentation
-     * of the amount implementation to determine if it can be successfully added.
+     * The unit must hbve b {@linkplbin TemporblUnit#getDurbtion() durbtion}
+     * thbt divides into the length of b stbndbrd dby without rembinder.
+     * This includes bll supplied time units on {@link ChronoUnit} bnd
+     * {@link ChronoUnit#DAYS DAYS}. Other units throw bn exception.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * The offset does not bffect the cblculbtion bnd will be the sbme in the result.
+     * <p>
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param amountToAdd  the amount to add, not null
-     * @return an {@code OffsetDateTime} based on this date-time with the addition made, not null
-     * @throws DateTimeException if the addition cannot be made
+     * @pbrbm unit  the unit to truncbte to, not null
+     * @return bn {@code OffsetDbteTime} bbsed on this dbte-time with the time truncbted, not null
+     * @throws DbteTimeException if unbble to truncbte
+     * @throws UnsupportedTemporblTypeException if the unit is not supported
+     */
+    public OffsetDbteTime truncbtedTo(TemporblUnit unit) {
+        return with(dbteTime.truncbtedTo(unit), offset);
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Returns b copy of this dbte-time with the specified bmount bdded.
+     * <p>
+     * This returns bn {@code OffsetDbteTime}, bbsed on this one, with the specified bmount bdded.
+     * The bmount is typicblly {@link Period} or {@link Durbtion} but mby be
+     * bny other type implementing the {@link TemporblAmount} interfbce.
+     * <p>
+     * The cblculbtion is delegbted to the bmount object by cblling
+     * {@link TemporblAmount#bddTo(Temporbl)}. The bmount implementbtion is free
+     * to implement the bddition in bny wby it wishes, however it typicblly
+     * cblls bbck to {@link #plus(long, TemporblUnit)}. Consult the documentbtion
+     * of the bmount implementbtion to determine if it cbn be successfully bdded.
+     * <p>
+     * This instbnce is immutbble bnd unbffected by this method cbll.
+     *
+     * @pbrbm bmountToAdd  the bmount to bdd, not null
+     * @return bn {@code OffsetDbteTime} bbsed on this dbte-time with the bddition mbde, not null
+     * @throws DbteTimeException if the bddition cbnnot be mbde
      * @throws ArithmeticException if numeric overflow occurs
      */
     @Override
-    public OffsetDateTime plus(TemporalAmount amountToAdd) {
-        return (OffsetDateTime) amountToAdd.addTo(this);
+    public OffsetDbteTime plus(TemporblAmount bmountToAdd) {
+        return (OffsetDbteTime) bmountToAdd.bddTo(this);
     }
 
     /**
-     * Returns a copy of this date-time with the specified amount added.
+     * Returns b copy of this dbte-time with the specified bmount bdded.
      * <p>
-     * This returns an {@code OffsetDateTime}, based on this one, with the amount
-     * in terms of the unit added. If it is not possible to add the amount, because the
-     * unit is not supported or for some other reason, an exception is thrown.
+     * This returns bn {@code OffsetDbteTime}, bbsed on this one, with the bmount
+     * in terms of the unit bdded. If it is not possible to bdd the bmount, becbuse the
+     * unit is not supported or for some other rebson, bn exception is thrown.
      * <p>
-     * If the field is a {@link ChronoUnit} then the addition is implemented by
-     * {@link LocalDateTime#plus(long, TemporalUnit)}.
-     * The offset is not part of the calculation and will be unchanged in the result.
+     * If the field is b {@link ChronoUnit} then the bddition is implemented by
+     * {@link LocblDbteTime#plus(long, TemporblUnit)}.
+     * The offset is not pbrt of the cblculbtion bnd will be unchbnged in the result.
      * <p>
-     * If the field is not a {@code ChronoUnit}, then the result of this method
-     * is obtained by invoking {@code TemporalUnit.addTo(Temporal, long)}
-     * passing {@code this} as the argument. In this case, the unit determines
-     * whether and how to perform the addition.
+     * If the field is not b {@code ChronoUnit}, then the result of this method
+     * is obtbined by invoking {@code TemporblUnit.bddTo(Temporbl, long)}
+     * pbssing {@code this} bs the brgument. In this cbse, the unit determines
+     * whether bnd how to perform the bddition.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param amountToAdd  the amount of the unit to add to the result, may be negative
-     * @param unit  the unit of the amount to add, not null
-     * @return an {@code OffsetDateTime} based on this date-time with the specified amount added, not null
-     * @throws DateTimeException if the addition cannot be made
-     * @throws UnsupportedTemporalTypeException if the unit is not supported
+     * @pbrbm bmountToAdd  the bmount of the unit to bdd to the result, mby be negbtive
+     * @pbrbm unit  the unit of the bmount to bdd, not null
+     * @return bn {@code OffsetDbteTime} bbsed on this dbte-time with the specified bmount bdded, not null
+     * @throws DbteTimeException if the bddition cbnnot be mbde
+     * @throws UnsupportedTemporblTypeException if the unit is not supported
      * @throws ArithmeticException if numeric overflow occurs
      */
     @Override
-    public OffsetDateTime plus(long amountToAdd, TemporalUnit unit) {
-        if (unit instanceof ChronoUnit) {
-            return with(dateTime.plus(amountToAdd, unit), offset);
+    public OffsetDbteTime plus(long bmountToAdd, TemporblUnit unit) {
+        if (unit instbnceof ChronoUnit) {
+            return with(dbteTime.plus(bmountToAdd, unit), offset);
         }
-        return unit.addTo(this, amountToAdd);
+        return unit.bddTo(this, bmountToAdd);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Returns a copy of this {@code OffsetDateTime} with the specified number of years added.
+     * Returns b copy of this {@code OffsetDbteTime} with the specified number of yebrs bdded.
      * <p>
-     * This method adds the specified amount to the years field in three steps:
+     * This method bdds the specified bmount to the yebrs field in three steps:
      * <ol>
-     * <li>Add the input years to the year field</li>
-     * <li>Check if the resulting date would be invalid</li>
-     * <li>Adjust the day-of-month to the last valid day if necessary</li>
+     * <li>Add the input yebrs to the yebr field</li>
+     * <li>Check if the resulting dbte would be invblid</li>
+     * <li>Adjust the dby-of-month to the lbst vblid dby if necessbry</li>
      * </ol>
      * <p>
-     * For example, 2008-02-29 (leap year) plus one year would result in the
-     * invalid date 2009-02-29 (standard year). Instead of returning an invalid
-     * result, the last valid day of the month, 2009-02-28, is selected instead.
+     * For exbmple, 2008-02-29 (lebp yebr) plus one yebr would result in the
+     * invblid dbte 2009-02-29 (stbndbrd yebr). Instebd of returning bn invblid
+     * result, the lbst vblid dby of the month, 2009-02-28, is selected instebd.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param years  the years to add, may be negative
-     * @return an {@code OffsetDateTime} based on this date-time with the years added, not null
-     * @throws DateTimeException if the result exceeds the supported date range
+     * @pbrbm yebrs  the yebrs to bdd, mby be negbtive
+     * @return bn {@code OffsetDbteTime} bbsed on this dbte-time with the yebrs bdded, not null
+     * @throws DbteTimeException if the result exceeds the supported dbte rbnge
      */
-    public OffsetDateTime plusYears(long years) {
-        return with(dateTime.plusYears(years), offset);
+    public OffsetDbteTime plusYebrs(long yebrs) {
+        return with(dbteTime.plusYebrs(yebrs), offset);
     }
 
     /**
-     * Returns a copy of this {@code OffsetDateTime} with the specified number of months added.
+     * Returns b copy of this {@code OffsetDbteTime} with the specified number of months bdded.
      * <p>
-     * This method adds the specified amount to the months field in three steps:
+     * This method bdds the specified bmount to the months field in three steps:
      * <ol>
-     * <li>Add the input months to the month-of-year field</li>
-     * <li>Check if the resulting date would be invalid</li>
-     * <li>Adjust the day-of-month to the last valid day if necessary</li>
+     * <li>Add the input months to the month-of-yebr field</li>
+     * <li>Check if the resulting dbte would be invblid</li>
+     * <li>Adjust the dby-of-month to the lbst vblid dby if necessbry</li>
      * </ol>
      * <p>
-     * For example, 2007-03-31 plus one month would result in the invalid date
-     * 2007-04-31. Instead of returning an invalid result, the last valid day
-     * of the month, 2007-04-30, is selected instead.
+     * For exbmple, 2007-03-31 plus one month would result in the invblid dbte
+     * 2007-04-31. Instebd of returning bn invblid result, the lbst vblid dby
+     * of the month, 2007-04-30, is selected instebd.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param months  the months to add, may be negative
-     * @return an {@code OffsetDateTime} based on this date-time with the months added, not null
-     * @throws DateTimeException if the result exceeds the supported date range
+     * @pbrbm months  the months to bdd, mby be negbtive
+     * @return bn {@code OffsetDbteTime} bbsed on this dbte-time with the months bdded, not null
+     * @throws DbteTimeException if the result exceeds the supported dbte rbnge
      */
-    public OffsetDateTime plusMonths(long months) {
-        return with(dateTime.plusMonths(months), offset);
+    public OffsetDbteTime plusMonths(long months) {
+        return with(dbteTime.plusMonths(months), offset);
     }
 
     /**
-     * Returns a copy of this OffsetDateTime with the specified number of weeks added.
+     * Returns b copy of this OffsetDbteTime with the specified number of weeks bdded.
      * <p>
-     * This method adds the specified amount in weeks to the days field incrementing
-     * the month and year fields as necessary to ensure the result remains valid.
-     * The result is only invalid if the maximum/minimum year is exceeded.
+     * This method bdds the specified bmount in weeks to the dbys field incrementing
+     * the month bnd yebr fields bs necessbry to ensure the result rembins vblid.
+     * The result is only invblid if the mbximum/minimum yebr is exceeded.
      * <p>
-     * For example, 2008-12-31 plus one week would result in 2009-01-07.
+     * For exbmple, 2008-12-31 plus one week would result in 2009-01-07.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param weeks  the weeks to add, may be negative
-     * @return an {@code OffsetDateTime} based on this date-time with the weeks added, not null
-     * @throws DateTimeException if the result exceeds the supported date range
+     * @pbrbm weeks  the weeks to bdd, mby be negbtive
+     * @return bn {@code OffsetDbteTime} bbsed on this dbte-time with the weeks bdded, not null
+     * @throws DbteTimeException if the result exceeds the supported dbte rbnge
      */
-    public OffsetDateTime plusWeeks(long weeks) {
-        return with(dateTime.plusWeeks(weeks), offset);
+    public OffsetDbteTime plusWeeks(long weeks) {
+        return with(dbteTime.plusWeeks(weeks), offset);
     }
 
     /**
-     * Returns a copy of this OffsetDateTime with the specified number of days added.
+     * Returns b copy of this OffsetDbteTime with the specified number of dbys bdded.
      * <p>
-     * This method adds the specified amount to the days field incrementing the
-     * month and year fields as necessary to ensure the result remains valid.
-     * The result is only invalid if the maximum/minimum year is exceeded.
+     * This method bdds the specified bmount to the dbys field incrementing the
+     * month bnd yebr fields bs necessbry to ensure the result rembins vblid.
+     * The result is only invblid if the mbximum/minimum yebr is exceeded.
      * <p>
-     * For example, 2008-12-31 plus one day would result in 2009-01-01.
+     * For exbmple, 2008-12-31 plus one dby would result in 2009-01-01.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param days  the days to add, may be negative
-     * @return an {@code OffsetDateTime} based on this date-time with the days added, not null
-     * @throws DateTimeException if the result exceeds the supported date range
+     * @pbrbm dbys  the dbys to bdd, mby be negbtive
+     * @return bn {@code OffsetDbteTime} bbsed on this dbte-time with the dbys bdded, not null
+     * @throws DbteTimeException if the result exceeds the supported dbte rbnge
      */
-    public OffsetDateTime plusDays(long days) {
-        return with(dateTime.plusDays(days), offset);
+    public OffsetDbteTime plusDbys(long dbys) {
+        return with(dbteTime.plusDbys(dbys), offset);
     }
 
     /**
-     * Returns a copy of this {@code OffsetDateTime} with the specified number of hours added.
+     * Returns b copy of this {@code OffsetDbteTime} with the specified number of hours bdded.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param hours  the hours to add, may be negative
-     * @return an {@code OffsetDateTime} based on this date-time with the hours added, not null
-     * @throws DateTimeException if the result exceeds the supported date range
+     * @pbrbm hours  the hours to bdd, mby be negbtive
+     * @return bn {@code OffsetDbteTime} bbsed on this dbte-time with the hours bdded, not null
+     * @throws DbteTimeException if the result exceeds the supported dbte rbnge
      */
-    public OffsetDateTime plusHours(long hours) {
-        return with(dateTime.plusHours(hours), offset);
+    public OffsetDbteTime plusHours(long hours) {
+        return with(dbteTime.plusHours(hours), offset);
     }
 
     /**
-     * Returns a copy of this {@code OffsetDateTime} with the specified number of minutes added.
+     * Returns b copy of this {@code OffsetDbteTime} with the specified number of minutes bdded.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param minutes  the minutes to add, may be negative
-     * @return an {@code OffsetDateTime} based on this date-time with the minutes added, not null
-     * @throws DateTimeException if the result exceeds the supported date range
+     * @pbrbm minutes  the minutes to bdd, mby be negbtive
+     * @return bn {@code OffsetDbteTime} bbsed on this dbte-time with the minutes bdded, not null
+     * @throws DbteTimeException if the result exceeds the supported dbte rbnge
      */
-    public OffsetDateTime plusMinutes(long minutes) {
-        return with(dateTime.plusMinutes(minutes), offset);
+    public OffsetDbteTime plusMinutes(long minutes) {
+        return with(dbteTime.plusMinutes(minutes), offset);
     }
 
     /**
-     * Returns a copy of this {@code OffsetDateTime} with the specified number of seconds added.
+     * Returns b copy of this {@code OffsetDbteTime} with the specified number of seconds bdded.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param seconds  the seconds to add, may be negative
-     * @return an {@code OffsetDateTime} based on this date-time with the seconds added, not null
-     * @throws DateTimeException if the result exceeds the supported date range
+     * @pbrbm seconds  the seconds to bdd, mby be negbtive
+     * @return bn {@code OffsetDbteTime} bbsed on this dbte-time with the seconds bdded, not null
+     * @throws DbteTimeException if the result exceeds the supported dbte rbnge
      */
-    public OffsetDateTime plusSeconds(long seconds) {
-        return with(dateTime.plusSeconds(seconds), offset);
+    public OffsetDbteTime plusSeconds(long seconds) {
+        return with(dbteTime.plusSeconds(seconds), offset);
     }
 
     /**
-     * Returns a copy of this {@code OffsetDateTime} with the specified number of nanoseconds added.
+     * Returns b copy of this {@code OffsetDbteTime} with the specified number of nbnoseconds bdded.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param nanos  the nanos to add, may be negative
-     * @return an {@code OffsetDateTime} based on this date-time with the nanoseconds added, not null
-     * @throws DateTimeException if the unit cannot be added to this type
+     * @pbrbm nbnos  the nbnos to bdd, mby be negbtive
+     * @return bn {@code OffsetDbteTime} bbsed on this dbte-time with the nbnoseconds bdded, not null
+     * @throws DbteTimeException if the unit cbnnot be bdded to this type
      */
-    public OffsetDateTime plusNanos(long nanos) {
-        return with(dateTime.plusNanos(nanos), offset);
+    public OffsetDbteTime plusNbnos(long nbnos) {
+        return with(dbteTime.plusNbnos(nbnos), offset);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Returns a copy of this date-time with the specified amount subtracted.
+     * Returns b copy of this dbte-time with the specified bmount subtrbcted.
      * <p>
-     * This returns an {@code OffsetDateTime}, based on this one, with the specified amount subtracted.
-     * The amount is typically {@link Period} or {@link Duration} but may be
-     * any other type implementing the {@link TemporalAmount} interface.
+     * This returns bn {@code OffsetDbteTime}, bbsed on this one, with the specified bmount subtrbcted.
+     * The bmount is typicblly {@link Period} or {@link Durbtion} but mby be
+     * bny other type implementing the {@link TemporblAmount} interfbce.
      * <p>
-     * The calculation is delegated to the amount object by calling
-     * {@link TemporalAmount#subtractFrom(Temporal)}. The amount implementation is free
-     * to implement the subtraction in any way it wishes, however it typically
-     * calls back to {@link #minus(long, TemporalUnit)}. Consult the documentation
-     * of the amount implementation to determine if it can be successfully subtracted.
+     * The cblculbtion is delegbted to the bmount object by cblling
+     * {@link TemporblAmount#subtrbctFrom(Temporbl)}. The bmount implementbtion is free
+     * to implement the subtrbction in bny wby it wishes, however it typicblly
+     * cblls bbck to {@link #minus(long, TemporblUnit)}. Consult the documentbtion
+     * of the bmount implementbtion to determine if it cbn be successfully subtrbcted.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param amountToSubtract  the amount to subtract, not null
-     * @return an {@code OffsetDateTime} based on this date-time with the subtraction made, not null
-     * @throws DateTimeException if the subtraction cannot be made
+     * @pbrbm bmountToSubtrbct  the bmount to subtrbct, not null
+     * @return bn {@code OffsetDbteTime} bbsed on this dbte-time with the subtrbction mbde, not null
+     * @throws DbteTimeException if the subtrbction cbnnot be mbde
      * @throws ArithmeticException if numeric overflow occurs
      */
     @Override
-    public OffsetDateTime minus(TemporalAmount amountToSubtract) {
-        return (OffsetDateTime) amountToSubtract.subtractFrom(this);
+    public OffsetDbteTime minus(TemporblAmount bmountToSubtrbct) {
+        return (OffsetDbteTime) bmountToSubtrbct.subtrbctFrom(this);
     }
 
     /**
-     * Returns a copy of this date-time with the specified amount subtracted.
+     * Returns b copy of this dbte-time with the specified bmount subtrbcted.
      * <p>
-     * This returns an {@code OffsetDateTime}, based on this one, with the amount
-     * in terms of the unit subtracted. If it is not possible to subtract the amount,
-     * because the unit is not supported or for some other reason, an exception is thrown.
+     * This returns bn {@code OffsetDbteTime}, bbsed on this one, with the bmount
+     * in terms of the unit subtrbcted. If it is not possible to subtrbct the bmount,
+     * becbuse the unit is not supported or for some other rebson, bn exception is thrown.
      * <p>
-     * This method is equivalent to {@link #plus(long, TemporalUnit)} with the amount negated.
-     * See that method for a full description of how addition, and thus subtraction, works.
+     * This method is equivblent to {@link #plus(long, TemporblUnit)} with the bmount negbted.
+     * See thbt method for b full description of how bddition, bnd thus subtrbction, works.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param amountToSubtract  the amount of the unit to subtract from the result, may be negative
-     * @param unit  the unit of the amount to subtract, not null
-     * @return an {@code OffsetDateTime} based on this date-time with the specified amount subtracted, not null
-     * @throws DateTimeException if the subtraction cannot be made
-     * @throws UnsupportedTemporalTypeException if the unit is not supported
+     * @pbrbm bmountToSubtrbct  the bmount of the unit to subtrbct from the result, mby be negbtive
+     * @pbrbm unit  the unit of the bmount to subtrbct, not null
+     * @return bn {@code OffsetDbteTime} bbsed on this dbte-time with the specified bmount subtrbcted, not null
+     * @throws DbteTimeException if the subtrbction cbnnot be mbde
+     * @throws UnsupportedTemporblTypeException if the unit is not supported
      * @throws ArithmeticException if numeric overflow occurs
      */
     @Override
-    public OffsetDateTime minus(long amountToSubtract, TemporalUnit unit) {
-        return (amountToSubtract == Long.MIN_VALUE ? plus(Long.MAX_VALUE, unit).plus(1, unit) : plus(-amountToSubtract, unit));
+    public OffsetDbteTime minus(long bmountToSubtrbct, TemporblUnit unit) {
+        return (bmountToSubtrbct == Long.MIN_VALUE ? plus(Long.MAX_VALUE, unit).plus(1, unit) : plus(-bmountToSubtrbct, unit));
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Returns a copy of this {@code OffsetDateTime} with the specified number of years subtracted.
+     * Returns b copy of this {@code OffsetDbteTime} with the specified number of yebrs subtrbcted.
      * <p>
-     * This method subtracts the specified amount from the years field in three steps:
+     * This method subtrbcts the specified bmount from the yebrs field in three steps:
      * <ol>
-     * <li>Subtract the input years from the year field</li>
-     * <li>Check if the resulting date would be invalid</li>
-     * <li>Adjust the day-of-month to the last valid day if necessary</li>
+     * <li>Subtrbct the input yebrs from the yebr field</li>
+     * <li>Check if the resulting dbte would be invblid</li>
+     * <li>Adjust the dby-of-month to the lbst vblid dby if necessbry</li>
      * </ol>
      * <p>
-     * For example, 2008-02-29 (leap year) minus one year would result in the
-     * invalid date 2009-02-29 (standard year). Instead of returning an invalid
-     * result, the last valid day of the month, 2009-02-28, is selected instead.
+     * For exbmple, 2008-02-29 (lebp yebr) minus one yebr would result in the
+     * invblid dbte 2009-02-29 (stbndbrd yebr). Instebd of returning bn invblid
+     * result, the lbst vblid dby of the month, 2009-02-28, is selected instebd.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param years  the years to subtract, may be negative
-     * @return an {@code OffsetDateTime} based on this date-time with the years subtracted, not null
-     * @throws DateTimeException if the result exceeds the supported date range
+     * @pbrbm yebrs  the yebrs to subtrbct, mby be negbtive
+     * @return bn {@code OffsetDbteTime} bbsed on this dbte-time with the yebrs subtrbcted, not null
+     * @throws DbteTimeException if the result exceeds the supported dbte rbnge
      */
-    public OffsetDateTime minusYears(long years) {
-        return (years == Long.MIN_VALUE ? plusYears(Long.MAX_VALUE).plusYears(1) : plusYears(-years));
+    public OffsetDbteTime minusYebrs(long yebrs) {
+        return (yebrs == Long.MIN_VALUE ? plusYebrs(Long.MAX_VALUE).plusYebrs(1) : plusYebrs(-yebrs));
     }
 
     /**
-     * Returns a copy of this {@code OffsetDateTime} with the specified number of months subtracted.
+     * Returns b copy of this {@code OffsetDbteTime} with the specified number of months subtrbcted.
      * <p>
-     * This method subtracts the specified amount from the months field in three steps:
+     * This method subtrbcts the specified bmount from the months field in three steps:
      * <ol>
-     * <li>Subtract the input months from the month-of-year field</li>
-     * <li>Check if the resulting date would be invalid</li>
-     * <li>Adjust the day-of-month to the last valid day if necessary</li>
+     * <li>Subtrbct the input months from the month-of-yebr field</li>
+     * <li>Check if the resulting dbte would be invblid</li>
+     * <li>Adjust the dby-of-month to the lbst vblid dby if necessbry</li>
      * </ol>
      * <p>
-     * For example, 2007-03-31 minus one month would result in the invalid date
-     * 2007-04-31. Instead of returning an invalid result, the last valid day
-     * of the month, 2007-04-30, is selected instead.
+     * For exbmple, 2007-03-31 minus one month would result in the invblid dbte
+     * 2007-04-31. Instebd of returning bn invblid result, the lbst vblid dby
+     * of the month, 2007-04-30, is selected instebd.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param months  the months to subtract, may be negative
-     * @return an {@code OffsetDateTime} based on this date-time with the months subtracted, not null
-     * @throws DateTimeException if the result exceeds the supported date range
+     * @pbrbm months  the months to subtrbct, mby be negbtive
+     * @return bn {@code OffsetDbteTime} bbsed on this dbte-time with the months subtrbcted, not null
+     * @throws DbteTimeException if the result exceeds the supported dbte rbnge
      */
-    public OffsetDateTime minusMonths(long months) {
+    public OffsetDbteTime minusMonths(long months) {
         return (months == Long.MIN_VALUE ? plusMonths(Long.MAX_VALUE).plusMonths(1) : plusMonths(-months));
     }
 
     /**
-     * Returns a copy of this {@code OffsetDateTime} with the specified number of weeks subtracted.
+     * Returns b copy of this {@code OffsetDbteTime} with the specified number of weeks subtrbcted.
      * <p>
-     * This method subtracts the specified amount in weeks from the days field decrementing
-     * the month and year fields as necessary to ensure the result remains valid.
-     * The result is only invalid if the maximum/minimum year is exceeded.
+     * This method subtrbcts the specified bmount in weeks from the dbys field decrementing
+     * the month bnd yebr fields bs necessbry to ensure the result rembins vblid.
+     * The result is only invblid if the mbximum/minimum yebr is exceeded.
      * <p>
-     * For example, 2008-12-31 minus one week would result in 2009-01-07.
+     * For exbmple, 2008-12-31 minus one week would result in 2009-01-07.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param weeks  the weeks to subtract, may be negative
-     * @return an {@code OffsetDateTime} based on this date-time with the weeks subtracted, not null
-     * @throws DateTimeException if the result exceeds the supported date range
+     * @pbrbm weeks  the weeks to subtrbct, mby be negbtive
+     * @return bn {@code OffsetDbteTime} bbsed on this dbte-time with the weeks subtrbcted, not null
+     * @throws DbteTimeException if the result exceeds the supported dbte rbnge
      */
-    public OffsetDateTime minusWeeks(long weeks) {
+    public OffsetDbteTime minusWeeks(long weeks) {
         return (weeks == Long.MIN_VALUE ? plusWeeks(Long.MAX_VALUE).plusWeeks(1) : plusWeeks(-weeks));
     }
 
     /**
-     * Returns a copy of this {@code OffsetDateTime} with the specified number of days subtracted.
+     * Returns b copy of this {@code OffsetDbteTime} with the specified number of dbys subtrbcted.
      * <p>
-     * This method subtracts the specified amount from the days field decrementing the
-     * month and year fields as necessary to ensure the result remains valid.
-     * The result is only invalid if the maximum/minimum year is exceeded.
+     * This method subtrbcts the specified bmount from the dbys field decrementing the
+     * month bnd yebr fields bs necessbry to ensure the result rembins vblid.
+     * The result is only invblid if the mbximum/minimum yebr is exceeded.
      * <p>
-     * For example, 2008-12-31 minus one day would result in 2009-01-01.
+     * For exbmple, 2008-12-31 minus one dby would result in 2009-01-01.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param days  the days to subtract, may be negative
-     * @return an {@code OffsetDateTime} based on this date-time with the days subtracted, not null
-     * @throws DateTimeException if the result exceeds the supported date range
+     * @pbrbm dbys  the dbys to subtrbct, mby be negbtive
+     * @return bn {@code OffsetDbteTime} bbsed on this dbte-time with the dbys subtrbcted, not null
+     * @throws DbteTimeException if the result exceeds the supported dbte rbnge
      */
-    public OffsetDateTime minusDays(long days) {
-        return (days == Long.MIN_VALUE ? plusDays(Long.MAX_VALUE).plusDays(1) : plusDays(-days));
+    public OffsetDbteTime minusDbys(long dbys) {
+        return (dbys == Long.MIN_VALUE ? plusDbys(Long.MAX_VALUE).plusDbys(1) : plusDbys(-dbys));
     }
 
     /**
-     * Returns a copy of this {@code OffsetDateTime} with the specified number of hours subtracted.
+     * Returns b copy of this {@code OffsetDbteTime} with the specified number of hours subtrbcted.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param hours  the hours to subtract, may be negative
-     * @return an {@code OffsetDateTime} based on this date-time with the hours subtracted, not null
-     * @throws DateTimeException if the result exceeds the supported date range
+     * @pbrbm hours  the hours to subtrbct, mby be negbtive
+     * @return bn {@code OffsetDbteTime} bbsed on this dbte-time with the hours subtrbcted, not null
+     * @throws DbteTimeException if the result exceeds the supported dbte rbnge
      */
-    public OffsetDateTime minusHours(long hours) {
+    public OffsetDbteTime minusHours(long hours) {
         return (hours == Long.MIN_VALUE ? plusHours(Long.MAX_VALUE).plusHours(1) : plusHours(-hours));
     }
 
     /**
-     * Returns a copy of this {@code OffsetDateTime} with the specified number of minutes subtracted.
+     * Returns b copy of this {@code OffsetDbteTime} with the specified number of minutes subtrbcted.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param minutes  the minutes to subtract, may be negative
-     * @return an {@code OffsetDateTime} based on this date-time with the minutes subtracted, not null
-     * @throws DateTimeException if the result exceeds the supported date range
+     * @pbrbm minutes  the minutes to subtrbct, mby be negbtive
+     * @return bn {@code OffsetDbteTime} bbsed on this dbte-time with the minutes subtrbcted, not null
+     * @throws DbteTimeException if the result exceeds the supported dbte rbnge
      */
-    public OffsetDateTime minusMinutes(long minutes) {
+    public OffsetDbteTime minusMinutes(long minutes) {
         return (minutes == Long.MIN_VALUE ? plusMinutes(Long.MAX_VALUE).plusMinutes(1) : plusMinutes(-minutes));
     }
 
     /**
-     * Returns a copy of this {@code OffsetDateTime} with the specified number of seconds subtracted.
+     * Returns b copy of this {@code OffsetDbteTime} with the specified number of seconds subtrbcted.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param seconds  the seconds to subtract, may be negative
-     * @return an {@code OffsetDateTime} based on this date-time with the seconds subtracted, not null
-     * @throws DateTimeException if the result exceeds the supported date range
+     * @pbrbm seconds  the seconds to subtrbct, mby be negbtive
+     * @return bn {@code OffsetDbteTime} bbsed on this dbte-time with the seconds subtrbcted, not null
+     * @throws DbteTimeException if the result exceeds the supported dbte rbnge
      */
-    public OffsetDateTime minusSeconds(long seconds) {
+    public OffsetDbteTime minusSeconds(long seconds) {
         return (seconds == Long.MIN_VALUE ? plusSeconds(Long.MAX_VALUE).plusSeconds(1) : plusSeconds(-seconds));
     }
 
     /**
-     * Returns a copy of this {@code OffsetDateTime} with the specified number of nanoseconds subtracted.
+     * Returns b copy of this {@code OffsetDbteTime} with the specified number of nbnoseconds subtrbcted.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param nanos  the nanos to subtract, may be negative
-     * @return an {@code OffsetDateTime} based on this date-time with the nanoseconds subtracted, not null
-     * @throws DateTimeException if the result exceeds the supported date range
+     * @pbrbm nbnos  the nbnos to subtrbct, mby be negbtive
+     * @return bn {@code OffsetDbteTime} bbsed on this dbte-time with the nbnoseconds subtrbcted, not null
+     * @throws DbteTimeException if the result exceeds the supported dbte rbnge
      */
-    public OffsetDateTime minusNanos(long nanos) {
-        return (nanos == Long.MIN_VALUE ? plusNanos(Long.MAX_VALUE).plusNanos(1) : plusNanos(-nanos));
+    public OffsetDbteTime minusNbnos(long nbnos) {
+        return (nbnos == Long.MIN_VALUE ? plusNbnos(Long.MAX_VALUE).plusNbnos(1) : plusNbnos(-nbnos));
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Queries this date-time using the specified query.
+     * Queries this dbte-time using the specified query.
      * <p>
-     * This queries this date-time using the specified query strategy object.
-     * The {@code TemporalQuery} object defines the logic to be used to
-     * obtain the result. Read the documentation of the query to understand
-     * what the result of this method will be.
+     * This queries this dbte-time using the specified query strbtegy object.
+     * The {@code TemporblQuery} object defines the logic to be used to
+     * obtbin the result. Rebd the documentbtion of the query to understbnd
+     * whbt the result of this method will be.
      * <p>
-     * The result of this method is obtained by invoking the
-     * {@link TemporalQuery#queryFrom(TemporalAccessor)} method on the
-     * specified query passing {@code this} as the argument.
+     * The result of this method is obtbined by invoking the
+     * {@link TemporblQuery#queryFrom(TemporblAccessor)} method on the
+     * specified query pbssing {@code this} bs the brgument.
      *
-     * @param <R> the type of the result
-     * @param query  the query to invoke, not null
-     * @return the query result, null may be returned (defined by the query)
-     * @throws DateTimeException if unable to query (defined by the query)
+     * @pbrbm <R> the type of the result
+     * @pbrbm query  the query to invoke, not null
+     * @return the query result, null mby be returned (defined by the query)
+     * @throws DbteTimeException if unbble to query (defined by the query)
      * @throws ArithmeticException if numeric overflow occurs (defined by the query)
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWbrnings("unchecked")
     @Override
-    public <R> R query(TemporalQuery<R> query) {
-        if (query == TemporalQueries.offset() || query == TemporalQueries.zone()) {
+    public <R> R query(TemporblQuery<R> query) {
+        if (query == TemporblQueries.offset() || query == TemporblQueries.zone()) {
             return (R) getOffset();
-        } else if (query == TemporalQueries.zoneId()) {
+        } else if (query == TemporblQueries.zoneId()) {
             return null;
-        } else if (query == TemporalQueries.localDate()) {
-            return (R) toLocalDate();
-        } else if (query == TemporalQueries.localTime()) {
-            return (R) toLocalTime();
-        } else if (query == TemporalQueries.chronology()) {
+        } else if (query == TemporblQueries.locblDbte()) {
+            return (R) toLocblDbte();
+        } else if (query == TemporblQueries.locblTime()) {
+            return (R) toLocblTime();
+        } else if (query == TemporblQueries.chronology()) {
             return (R) IsoChronology.INSTANCE;
-        } else if (query == TemporalQueries.precision()) {
+        } else if (query == TemporblQueries.precision()) {
             return (R) NANOS;
         }
-        // inline TemporalAccessor.super.query(query) as an optimization
-        // non-JDK classes are not permitted to make this optimization
+        // inline TemporblAccessor.super.query(query) bs bn optimizbtion
+        // non-JDK clbsses bre not permitted to mbke this optimizbtion
         return query.queryFrom(this);
     }
 
     /**
-     * Adjusts the specified temporal object to have the same offset, date
-     * and time as this object.
+     * Adjusts the specified temporbl object to hbve the sbme offset, dbte
+     * bnd time bs this object.
      * <p>
-     * This returns a temporal object of the same observable type as the input
-     * with the offset, date and time changed to be the same as this.
+     * This returns b temporbl object of the sbme observbble type bs the input
+     * with the offset, dbte bnd time chbnged to be the sbme bs this.
      * <p>
-     * The adjustment is equivalent to using {@link Temporal#with(TemporalField, long)}
-     * three times, passing {@link ChronoField#EPOCH_DAY},
-     * {@link ChronoField#NANO_OF_DAY} and {@link ChronoField#OFFSET_SECONDS} as the fields.
+     * The bdjustment is equivblent to using {@link Temporbl#with(TemporblField, long)}
+     * three times, pbssing {@link ChronoField#EPOCH_DAY},
+     * {@link ChronoField#NANO_OF_DAY} bnd {@link ChronoField#OFFSET_SECONDS} bs the fields.
      * <p>
-     * In most cases, it is clearer to reverse the calling pattern by using
-     * {@link Temporal#with(TemporalAdjuster)}:
+     * In most cbses, it is clebrer to reverse the cblling pbttern by using
+     * {@link Temporbl#with(TemporblAdjuster)}:
      * <pre>
-     *   // these two lines are equivalent, but the second approach is recommended
-     *   temporal = thisOffsetDateTime.adjustInto(temporal);
-     *   temporal = temporal.with(thisOffsetDateTime);
+     *   // these two lines bre equivblent, but the second bpprobch is recommended
+     *   temporbl = thisOffsetDbteTime.bdjustInto(temporbl);
+     *   temporbl = temporbl.with(thisOffsetDbteTime);
      * </pre>
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param temporal  the target object to be adjusted, not null
-     * @return the adjusted object, not null
-     * @throws DateTimeException if unable to make the adjustment
+     * @pbrbm temporbl  the tbrget object to be bdjusted, not null
+     * @return the bdjusted object, not null
+     * @throws DbteTimeException if unbble to mbke the bdjustment
      * @throws ArithmeticException if numeric overflow occurs
      */
     @Override
-    public Temporal adjustInto(Temporal temporal) {
-        // OffsetDateTime is treated as three separate fields, not an instant
-        // this produces the most consistent set of results overall
-        // the offset is set after the date and time, as it is typically a small
-        // tweak to the result, with ZonedDateTime frequently ignoring the offset
-        return temporal
-                .with(EPOCH_DAY, toLocalDate().toEpochDay())
-                .with(NANO_OF_DAY, toLocalTime().toNanoOfDay())
-                .with(OFFSET_SECONDS, getOffset().getTotalSeconds());
+    public Temporbl bdjustInto(Temporbl temporbl) {
+        // OffsetDbteTime is trebted bs three sepbrbte fields, not bn instbnt
+        // this produces the most consistent set of results overbll
+        // the offset is set bfter the dbte bnd time, bs it is typicblly b smbll
+        // twebk to the result, with ZonedDbteTime frequently ignoring the offset
+        return temporbl
+                .with(EPOCH_DAY, toLocblDbte().toEpochDby())
+                .with(NANO_OF_DAY, toLocblTime().toNbnoOfDby())
+                .with(OFFSET_SECONDS, getOffset().getTotblSeconds());
     }
 
     /**
-     * Calculates the amount of time until another date-time in terms of the specified unit.
+     * Cblculbtes the bmount of time until bnother dbte-time in terms of the specified unit.
      * <p>
-     * This calculates the amount of time between two {@code OffsetDateTime}
-     * objects in terms of a single {@code TemporalUnit}.
-     * The start and end points are {@code this} and the specified date-time.
-     * The result will be negative if the end is before the start.
-     * For example, the amount in days between two date-times can be calculated
-     * using {@code startDateTime.until(endDateTime, DAYS)}.
+     * This cblculbtes the bmount of time between two {@code OffsetDbteTime}
+     * objects in terms of b single {@code TemporblUnit}.
+     * The stbrt bnd end points bre {@code this} bnd the specified dbte-time.
+     * The result will be negbtive if the end is before the stbrt.
+     * For exbmple, the bmount in dbys between two dbte-times cbn be cblculbted
+     * using {@code stbrtDbteTime.until(endDbteTime, DAYS)}.
      * <p>
-     * The {@code Temporal} passed to this method is converted to a
-     * {@code OffsetDateTime} using {@link #from(TemporalAccessor)}.
-     * If the offset differs between the two date-times, the specified
-     * end date-time is normalized to have the same offset as this date-time.
+     * The {@code Temporbl} pbssed to this method is converted to b
+     * {@code OffsetDbteTime} using {@link #from(TemporblAccessor)}.
+     * If the offset differs between the two dbte-times, the specified
+     * end dbte-time is normblized to hbve the sbme offset bs this dbte-time.
      * <p>
-     * The calculation returns a whole number, representing the number of
-     * complete units between the two date-times.
-     * For example, the amount in months between 2012-06-15T00:00Z and 2012-08-14T23:59Z
-     * will only be one month as it is one minute short of two months.
+     * The cblculbtion returns b whole number, representing the number of
+     * complete units between the two dbte-times.
+     * For exbmple, the bmount in months between 2012-06-15T00:00Z bnd 2012-08-14T23:59Z
+     * will only be one month bs it is one minute short of two months.
      * <p>
-     * There are two equivalent ways of using this method.
+     * There bre two equivblent wbys of using this method.
      * The first is to invoke this method.
-     * The second is to use {@link TemporalUnit#between(Temporal, Temporal)}:
+     * The second is to use {@link TemporblUnit#between(Temporbl, Temporbl)}:
      * <pre>
-     *   // these two lines are equivalent
-     *   amount = start.until(end, MONTHS);
-     *   amount = MONTHS.between(start, end);
+     *   // these two lines bre equivblent
+     *   bmount = stbrt.until(end, MONTHS);
+     *   bmount = MONTHS.between(stbrt, end);
      * </pre>
-     * The choice should be made based on which makes the code more readable.
+     * The choice should be mbde bbsed on which mbkes the code more rebdbble.
      * <p>
-     * The calculation is implemented in this method for {@link ChronoUnit}.
+     * The cblculbtion is implemented in this method for {@link ChronoUnit}.
      * The units {@code NANOS}, {@code MICROS}, {@code MILLIS}, {@code SECONDS},
-     * {@code MINUTES}, {@code HOURS} and {@code HALF_DAYS}, {@code DAYS},
+     * {@code MINUTES}, {@code HOURS} bnd {@code HALF_DAYS}, {@code DAYS},
      * {@code WEEKS}, {@code MONTHS}, {@code YEARS}, {@code DECADES},
-     * {@code CENTURIES}, {@code MILLENNIA} and {@code ERAS} are supported.
-     * Other {@code ChronoUnit} values will throw an exception.
+     * {@code CENTURIES}, {@code MILLENNIA} bnd {@code ERAS} bre supported.
+     * Other {@code ChronoUnit} vblues will throw bn exception.
      * <p>
-     * If the unit is not a {@code ChronoUnit}, then the result of this method
-     * is obtained by invoking {@code TemporalUnit.between(Temporal, Temporal)}
-     * passing {@code this} as the first argument and the converted input temporal
-     * as the second argument.
+     * If the unit is not b {@code ChronoUnit}, then the result of this method
+     * is obtbined by invoking {@code TemporblUnit.between(Temporbl, Temporbl)}
+     * pbssing {@code this} bs the first brgument bnd the converted input temporbl
+     * bs the second brgument.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * This instbnce is immutbble bnd unbffected by this method cbll.
      *
-     * @param endExclusive  the end date, exclusive, which is converted to an {@code OffsetDateTime}, not null
-     * @param unit  the unit to measure the amount in, not null
-     * @return the amount of time between this date-time and the end date-time
-     * @throws DateTimeException if the amount cannot be calculated, or the end
-     *  temporal cannot be converted to an {@code OffsetDateTime}
-     * @throws UnsupportedTemporalTypeException if the unit is not supported
+     * @pbrbm endExclusive  the end dbte, exclusive, which is converted to bn {@code OffsetDbteTime}, not null
+     * @pbrbm unit  the unit to mebsure the bmount in, not null
+     * @return the bmount of time between this dbte-time bnd the end dbte-time
+     * @throws DbteTimeException if the bmount cbnnot be cblculbted, or the end
+     *  temporbl cbnnot be converted to bn {@code OffsetDbteTime}
+     * @throws UnsupportedTemporblTypeException if the unit is not supported
      * @throws ArithmeticException if numeric overflow occurs
      */
     @Override
-    public long until(Temporal endExclusive, TemporalUnit unit) {
-        OffsetDateTime end = OffsetDateTime.from(endExclusive);
-        if (unit instanceof ChronoUnit) {
-            end = end.withOffsetSameInstant(offset);
-            return dateTime.until(end.dateTime, unit);
+    public long until(Temporbl endExclusive, TemporblUnit unit) {
+        OffsetDbteTime end = OffsetDbteTime.from(endExclusive);
+        if (unit instbnceof ChronoUnit) {
+            end = end.withOffsetSbmeInstbnt(offset);
+            return dbteTime.until(end.dbteTime, unit);
         }
         return unit.between(this, end);
     }
 
     /**
-     * Formats this date-time using the specified formatter.
+     * Formbts this dbte-time using the specified formbtter.
      * <p>
-     * This date-time will be passed to the formatter to produce a string.
+     * This dbte-time will be pbssed to the formbtter to produce b string.
      *
-     * @param formatter  the formatter to use, not null
-     * @return the formatted date-time string, not null
-     * @throws DateTimeException if an error occurs during printing
+     * @pbrbm formbtter  the formbtter to use, not null
+     * @return the formbtted dbte-time string, not null
+     * @throws DbteTimeException if bn error occurs during printing
      */
-    public String format(DateTimeFormatter formatter) {
-        Objects.requireNonNull(formatter, "formatter");
-        return formatter.format(this);
+    public String formbt(DbteTimeFormbtter formbtter) {
+        Objects.requireNonNull(formbtter, "formbtter");
+        return formbtter.formbt(this);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Combines this date-time with a time-zone to create a {@code ZonedDateTime}
-     * ensuring that the result has the same instant.
+     * Combines this dbte-time with b time-zone to crebte b {@code ZonedDbteTime}
+     * ensuring thbt the result hbs the sbme instbnt.
      * <p>
-     * This returns a {@code ZonedDateTime} formed from this date-time and the specified time-zone.
-     * This conversion will ignore the visible local date-time and use the underlying instant instead.
-     * This avoids any problems with local time-line gaps or overlaps.
-     * The result might have different values for fields such as hour, minute an even day.
+     * This returns b {@code ZonedDbteTime} formed from this dbte-time bnd the specified time-zone.
+     * This conversion will ignore the visible locbl dbte-time bnd use the underlying instbnt instebd.
+     * This bvoids bny problems with locbl time-line gbps or overlbps.
+     * The result might hbve different vblues for fields such bs hour, minute bn even dby.
      * <p>
-     * To attempt to retain the values of the fields, use {@link #atZoneSimilarLocal(ZoneId)}.
-     * To use the offset as the zone ID, use {@link #toZonedDateTime()}.
+     * To bttempt to retbin the vblues of the fields, use {@link #btZoneSimilbrLocbl(ZoneId)}.
+     * To use the offset bs the zone ID, use {@link #toZonedDbteTime()}.
      *
-     * @param zone  the time-zone to use, not null
-     * @return the zoned date-time formed from this date-time, not null
+     * @pbrbm zone  the time-zone to use, not null
+     * @return the zoned dbte-time formed from this dbte-time, not null
      */
-    public ZonedDateTime atZoneSameInstant(ZoneId zone) {
-        return ZonedDateTime.ofInstant(dateTime, offset, zone);
+    public ZonedDbteTime btZoneSbmeInstbnt(ZoneId zone) {
+        return ZonedDbteTime.ofInstbnt(dbteTime, offset, zone);
     }
 
     /**
-     * Combines this date-time with a time-zone to create a {@code ZonedDateTime}
-     * trying to keep the same local date and time.
+     * Combines this dbte-time with b time-zone to crebte b {@code ZonedDbteTime}
+     * trying to keep the sbme locbl dbte bnd time.
      * <p>
-     * This returns a {@code ZonedDateTime} formed from this date-time and the specified time-zone.
-     * Where possible, the result will have the same local date-time as this object.
+     * This returns b {@code ZonedDbteTime} formed from this dbte-time bnd the specified time-zone.
+     * Where possible, the result will hbve the sbme locbl dbte-time bs this object.
      * <p>
-     * Time-zone rules, such as daylight savings, mean that not every time on the
-     * local time-line exists. If the local date-time is in a gap or overlap according to
-     * the rules then a resolver is used to determine the resultant local time and offset.
-     * This method uses {@link ZonedDateTime#ofLocal(LocalDateTime, ZoneId, ZoneOffset)}
-     * to retain the offset from this instance if possible.
+     * Time-zone rules, such bs dbylight sbvings, mebn thbt not every time on the
+     * locbl time-line exists. If the locbl dbte-time is in b gbp or overlbp bccording to
+     * the rules then b resolver is used to determine the resultbnt locbl time bnd offset.
+     * This method uses {@link ZonedDbteTime#ofLocbl(LocblDbteTime, ZoneId, ZoneOffset)}
+     * to retbin the offset from this instbnce if possible.
      * <p>
-     * Finer control over gaps and overlaps is available in two ways.
-     * If you simply want to use the later offset at overlaps then call
-     * {@link ZonedDateTime#withLaterOffsetAtOverlap()} immediately after this method.
+     * Finer control over gbps bnd overlbps is bvbilbble in two wbys.
+     * If you simply wbnt to use the lbter offset bt overlbps then cbll
+     * {@link ZonedDbteTime#withLbterOffsetAtOverlbp()} immedibtely bfter this method.
      * <p>
-     * To create a zoned date-time at the same instant irrespective of the local time-line,
-     * use {@link #atZoneSameInstant(ZoneId)}.
-     * To use the offset as the zone ID, use {@link #toZonedDateTime()}.
+     * To crebte b zoned dbte-time bt the sbme instbnt irrespective of the locbl time-line,
+     * use {@link #btZoneSbmeInstbnt(ZoneId)}.
+     * To use the offset bs the zone ID, use {@link #toZonedDbteTime()}.
      *
-     * @param zone  the time-zone to use, not null
-     * @return the zoned date-time formed from this date and the earliest valid time for the zone, not null
+     * @pbrbm zone  the time-zone to use, not null
+     * @return the zoned dbte-time formed from this dbte bnd the ebrliest vblid time for the zone, not null
      */
-    public ZonedDateTime atZoneSimilarLocal(ZoneId zone) {
-        return ZonedDateTime.ofLocal(dateTime, zone, offset);
+    public ZonedDbteTime btZoneSimilbrLocbl(ZoneId zone) {
+        return ZonedDbteTime.ofLocbl(dbteTime, zone, offset);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Converts this date-time to an {@code OffsetTime}.
+     * Converts this dbte-time to bn {@code OffsetTime}.
      * <p>
-     * This returns an offset time with the same local time and offset.
+     * This returns bn offset time with the sbme locbl time bnd offset.
      *
-     * @return an OffsetTime representing the time and offset, not null
+     * @return bn OffsetTime representing the time bnd offset, not null
      */
     public OffsetTime toOffsetTime() {
-        return OffsetTime.of(dateTime.toLocalTime(), offset);
+        return OffsetTime.of(dbteTime.toLocblTime(), offset);
     }
 
     /**
-     * Converts this date-time to a {@code ZonedDateTime} using the offset as the zone ID.
+     * Converts this dbte-time to b {@code ZonedDbteTime} using the offset bs the zone ID.
      * <p>
-     * This creates the simplest possible {@code ZonedDateTime} using the offset
-     * as the zone ID.
+     * This crebtes the simplest possible {@code ZonedDbteTime} using the offset
+     * bs the zone ID.
      * <p>
-     * To control the time-zone used, see {@link #atZoneSameInstant(ZoneId)} and
-     * {@link #atZoneSimilarLocal(ZoneId)}.
+     * To control the time-zone used, see {@link #btZoneSbmeInstbnt(ZoneId)} bnd
+     * {@link #btZoneSimilbrLocbl(ZoneId)}.
      *
-     * @return a zoned date-time representing the same local date-time and offset, not null
+     * @return b zoned dbte-time representing the sbme locbl dbte-time bnd offset, not null
      */
-    public ZonedDateTime toZonedDateTime() {
-        return ZonedDateTime.of(dateTime, offset);
+    public ZonedDbteTime toZonedDbteTime() {
+        return ZonedDbteTime.of(dbteTime, offset);
     }
 
     /**
-     * Converts this date-time to an {@code Instant}.
+     * Converts this dbte-time to bn {@code Instbnt}.
      * <p>
-     * This returns an {@code Instant} representing the same point on the
-     * time-line as this date-time.
+     * This returns bn {@code Instbnt} representing the sbme point on the
+     * time-line bs this dbte-time.
      *
-     * @return an {@code Instant} representing the same instant, not null
+     * @return bn {@code Instbnt} representing the sbme instbnt, not null
      */
-    public Instant toInstant() {
-        return dateTime.toInstant(offset);
+    public Instbnt toInstbnt() {
+        return dbteTime.toInstbnt(offset);
     }
 
     /**
-     * Converts this date-time to the number of seconds from the epoch of 1970-01-01T00:00:00Z.
+     * Converts this dbte-time to the number of seconds from the epoch of 1970-01-01T00:00:00Z.
      * <p>
-     * This allows this date-time to be converted to a value of the
-     * {@link ChronoField#INSTANT_SECONDS epoch-seconds} field. This is primarily
-     * intended for low-level conversions rather than general application usage.
+     * This bllows this dbte-time to be converted to b vblue of the
+     * {@link ChronoField#INSTANT_SECONDS epoch-seconds} field. This is primbrily
+     * intended for low-level conversions rbther thbn generbl bpplicbtion usbge.
      *
      * @return the number of seconds from the epoch of 1970-01-01T00:00:00Z
      */
     public long toEpochSecond() {
-        return dateTime.toEpochSecond(offset);
+        return dbteTime.toEpochSecond(offset);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Compares this date-time to another date-time.
+     * Compbres this dbte-time to bnother dbte-time.
      * <p>
-     * The comparison is based on the instant then on the local date-time.
-     * It is "consistent with equals", as defined by {@link Comparable}.
+     * The compbrison is bbsed on the instbnt then on the locbl dbte-time.
+     * It is "consistent with equbls", bs defined by {@link Compbrbble}.
      * <p>
-     * For example, the following is the comparator order:
+     * For exbmple, the following is the compbrbtor order:
      * <ol>
      * <li>{@code 2008-12-03T10:30+01:00}</li>
      * <li>{@code 2008-12-03T11:00+01:00}</li>
@@ -1790,111 +1790,111 @@ public final class OffsetDateTime
      * <li>{@code 2008-12-03T12:00+01:00}</li>
      * <li>{@code 2008-12-03T12:30+01:00}</li>
      * </ol>
-     * Values #2 and #3 represent the same instant on the time-line.
-     * When two values represent the same instant, the local date-time is compared
-     * to distinguish them. This step is needed to make the ordering
-     * consistent with {@code equals()}.
+     * Vblues #2 bnd #3 represent the sbme instbnt on the time-line.
+     * When two vblues represent the sbme instbnt, the locbl dbte-time is compbred
+     * to distinguish them. This step is needed to mbke the ordering
+     * consistent with {@code equbls()}.
      *
-     * @param other  the other date-time to compare to, not null
-     * @return the comparator value, negative if less, positive if greater
+     * @pbrbm other  the other dbte-time to compbre to, not null
+     * @return the compbrbtor vblue, negbtive if less, positive if grebter
      */
     @Override
-    public int compareTo(OffsetDateTime other) {
-        int cmp = compareInstant(this, other);
+    public int compbreTo(OffsetDbteTime other) {
+        int cmp = compbreInstbnt(this, other);
         if (cmp == 0) {
-            cmp = toLocalDateTime().compareTo(other.toLocalDateTime());
+            cmp = toLocblDbteTime().compbreTo(other.toLocblDbteTime());
         }
         return cmp;
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Checks if the instant of this date-time is after that of the specified date-time.
+     * Checks if the instbnt of this dbte-time is bfter thbt of the specified dbte-time.
      * <p>
-     * This method differs from the comparison in {@link #compareTo} and {@link #equals} in that it
-     * only compares the instant of the date-time. This is equivalent to using
-     * {@code dateTime1.toInstant().isAfter(dateTime2.toInstant());}.
+     * This method differs from the compbrison in {@link #compbreTo} bnd {@link #equbls} in thbt it
+     * only compbres the instbnt of the dbte-time. This is equivblent to using
+     * {@code dbteTime1.toInstbnt().isAfter(dbteTime2.toInstbnt());}.
      *
-     * @param other  the other date-time to compare to, not null
-     * @return true if this is after the instant of the specified date-time
+     * @pbrbm other  the other dbte-time to compbre to, not null
+     * @return true if this is bfter the instbnt of the specified dbte-time
      */
-    public boolean isAfter(OffsetDateTime other) {
+    public boolebn isAfter(OffsetDbteTime other) {
         long thisEpochSec = toEpochSecond();
         long otherEpochSec = other.toEpochSecond();
         return thisEpochSec > otherEpochSec ||
-            (thisEpochSec == otherEpochSec && toLocalTime().getNano() > other.toLocalTime().getNano());
+            (thisEpochSec == otherEpochSec && toLocblTime().getNbno() > other.toLocblTime().getNbno());
     }
 
     /**
-     * Checks if the instant of this date-time is before that of the specified date-time.
+     * Checks if the instbnt of this dbte-time is before thbt of the specified dbte-time.
      * <p>
-     * This method differs from the comparison in {@link #compareTo} in that it
-     * only compares the instant of the date-time. This is equivalent to using
-     * {@code dateTime1.toInstant().isBefore(dateTime2.toInstant());}.
+     * This method differs from the compbrison in {@link #compbreTo} in thbt it
+     * only compbres the instbnt of the dbte-time. This is equivblent to using
+     * {@code dbteTime1.toInstbnt().isBefore(dbteTime2.toInstbnt());}.
      *
-     * @param other  the other date-time to compare to, not null
-     * @return true if this is before the instant of the specified date-time
+     * @pbrbm other  the other dbte-time to compbre to, not null
+     * @return true if this is before the instbnt of the specified dbte-time
      */
-    public boolean isBefore(OffsetDateTime other) {
+    public boolebn isBefore(OffsetDbteTime other) {
         long thisEpochSec = toEpochSecond();
         long otherEpochSec = other.toEpochSecond();
         return thisEpochSec < otherEpochSec ||
-            (thisEpochSec == otherEpochSec && toLocalTime().getNano() < other.toLocalTime().getNano());
+            (thisEpochSec == otherEpochSec && toLocblTime().getNbno() < other.toLocblTime().getNbno());
     }
 
     /**
-     * Checks if the instant of this date-time is equal to that of the specified date-time.
+     * Checks if the instbnt of this dbte-time is equbl to thbt of the specified dbte-time.
      * <p>
-     * This method differs from the comparison in {@link #compareTo} and {@link #equals}
-     * in that it only compares the instant of the date-time. This is equivalent to using
-     * {@code dateTime1.toInstant().equals(dateTime2.toInstant());}.
+     * This method differs from the compbrison in {@link #compbreTo} bnd {@link #equbls}
+     * in thbt it only compbres the instbnt of the dbte-time. This is equivblent to using
+     * {@code dbteTime1.toInstbnt().equbls(dbteTime2.toInstbnt());}.
      *
-     * @param other  the other date-time to compare to, not null
-     * @return true if the instant equals the instant of the specified date-time
+     * @pbrbm other  the other dbte-time to compbre to, not null
+     * @return true if the instbnt equbls the instbnt of the specified dbte-time
      */
-    public boolean isEqual(OffsetDateTime other) {
+    public boolebn isEqubl(OffsetDbteTime other) {
         return toEpochSecond() == other.toEpochSecond() &&
-                toLocalTime().getNano() == other.toLocalTime().getNano();
+                toLocblTime().getNbno() == other.toLocblTime().getNbno();
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Checks if this date-time is equal to another date-time.
+     * Checks if this dbte-time is equbl to bnother dbte-time.
      * <p>
-     * The comparison is based on the local date-time and the offset.
-     * To compare for the same instant on the time-line, use {@link #isEqual}.
-     * Only objects of type {@code OffsetDateTime} are compared, other types return false.
+     * The compbrison is bbsed on the locbl dbte-time bnd the offset.
+     * To compbre for the sbme instbnt on the time-line, use {@link #isEqubl}.
+     * Only objects of type {@code OffsetDbteTime} bre compbred, other types return fblse.
      *
-     * @param obj  the object to check, null returns false
-     * @return true if this is equal to the other date-time
+     * @pbrbm obj  the object to check, null returns fblse
+     * @return true if this is equbl to the other dbte-time
      */
     @Override
-    public boolean equals(Object obj) {
+    public boolebn equbls(Object obj) {
         if (this == obj) {
             return true;
         }
-        if (obj instanceof OffsetDateTime) {
-            OffsetDateTime other = (OffsetDateTime) obj;
-            return dateTime.equals(other.dateTime) && offset.equals(other.offset);
+        if (obj instbnceof OffsetDbteTime) {
+            OffsetDbteTime other = (OffsetDbteTime) obj;
+            return dbteTime.equbls(other.dbteTime) && offset.equbls(other.offset);
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * A hash code for this date-time.
+     * A hbsh code for this dbte-time.
      *
-     * @return a suitable hash code
+     * @return b suitbble hbsh code
      */
     @Override
-    public int hashCode() {
-        return dateTime.hashCode() ^ offset.hashCode();
+    public int hbshCode() {
+        return dbteTime.hbshCode() ^ offset.hbshCode();
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Outputs this date-time as a {@code String}, such as {@code 2007-12-03T10:15:30+01:00}.
+     * Outputs this dbte-time bs b {@code String}, such bs {@code 2007-12-03T10:15:30+01:00}.
      * <p>
-     * The output will be one of the following ISO-8601 formats:
+     * The output will be one of the following ISO-8601 formbts:
      * <ul>
      * <li>{@code uuuu-MM-dd'T'HH:mmXXXXX}</li>
      * <li>{@code uuuu-MM-dd'T'HH:mm:ssXXXXX}</li>
@@ -1902,52 +1902,52 @@ public final class OffsetDateTime
      * <li>{@code uuuu-MM-dd'T'HH:mm:ss.SSSSSSXXXXX}</li>
      * <li>{@code uuuu-MM-dd'T'HH:mm:ss.SSSSSSSSSXXXXX}</li>
      * </ul>
-     * The format used will be the shortest that outputs the full value of
-     * the time where the omitted parts are implied to be zero.
+     * The formbt used will be the shortest thbt outputs the full vblue of
+     * the time where the omitted pbrts bre implied to be zero.
      *
-     * @return a string representation of this date-time, not null
+     * @return b string representbtion of this dbte-time, not null
      */
     @Override
     public String toString() {
-        return dateTime.toString() + offset.toString();
+        return dbteTime.toString() + offset.toString();
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Writes the object using a
-     * <a href="../../serialized-form.html#java.time.Ser">dedicated serialized form</a>.
-     * @serialData
+     * Writes the object using b
+     * <b href="../../seriblized-form.html#jbvb.time.Ser">dedicbted seriblized form</b>.
+     * @seriblDbtb
      * <pre>
-     *  out.writeByte(10);  // identifies an OffsetDateTime
-     *  // the <a href="../../serialized-form.html#java.time.LocalDateTime">datetime</a> excluding the one byte header
-     *  // the <a href="../../serialized-form.html#java.time.ZoneOffset">offset</a> excluding the one byte header
+     *  out.writeByte(10);  // identifies bn OffsetDbteTime
+     *  // the <b href="../../seriblized-form.html#jbvb.time.LocblDbteTime">dbtetime</b> excluding the one byte hebder
+     *  // the <b href="../../seriblized-form.html#jbvb.time.ZoneOffset">offset</b> excluding the one byte hebder
      * </pre>
      *
-     * @return the instance of {@code Ser}, not null
+     * @return the instbnce of {@code Ser}, not null
      */
-    private Object writeReplace() {
+    privbte Object writeReplbce() {
         return new Ser(Ser.OFFSET_DATE_TIME_TYPE, this);
     }
 
     /**
-     * Defend against malicious streams.
+     * Defend bgbinst mblicious strebms.
      *
-     * @param s the stream to read
-     * @throws InvalidObjectException always
+     * @pbrbm s the strebm to rebd
+     * @throws InvblidObjectException blwbys
      */
-    private void readObject(ObjectInputStream s) throws InvalidObjectException {
-        throw new InvalidObjectException("Deserialization via serialization delegate");
+    privbte void rebdObject(ObjectInputStrebm s) throws InvblidObjectException {
+        throw new InvblidObjectException("Deseriblizbtion vib seriblizbtion delegbte");
     }
 
-    void writeExternal(ObjectOutput out) throws IOException {
-        dateTime.writeExternal(out);
-        offset.writeExternal(out);
+    void writeExternbl(ObjectOutput out) throws IOException {
+        dbteTime.writeExternbl(out);
+        offset.writeExternbl(out);
     }
 
-    static OffsetDateTime readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
-        LocalDateTime dateTime = LocalDateTime.readExternal(in);
-        ZoneOffset offset = ZoneOffset.readExternal(in);
-        return OffsetDateTime.of(dateTime, offset);
+    stbtic OffsetDbteTime rebdExternbl(ObjectInput in) throws IOException, ClbssNotFoundException {
+        LocblDbteTime dbteTime = LocblDbteTime.rebdExternbl(in);
+        ZoneOffset offset = ZoneOffset.rebdExternbl(in);
+        return OffsetDbteTime.of(dbteTime, offset);
     }
 
 }

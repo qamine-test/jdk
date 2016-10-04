@@ -1,49 +1,49 @@
 /*
- * Copyright (c) 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2009, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.net.ftp;
+pbckbge sun.net.ftp;
 
 /**
- * This interface describes a parser for the FtpClient class. Such a parser is
- * used when listing a remote directory to transform text lines like:
- *      drwxr-xr-x      1 user01      ftp   512 Jan 29 23:32 prog
- * into FtpDirEntry instances.
+ * This interfbce describes b pbrser for the FtpClient clbss. Such b pbrser is
+ * used when listing b remote directory to trbnsform text lines like:
+ *      drwxr-xr-x      1 user01      ftp   512 Jbn 29 23:32 prog
+ * into FtpDirEntry instbnces.
  *
- * @see java.net.FtpClient#setFileParser(FtpDirParser)
+ * @see jbvb.net.FtpClient#setFilePbrser(FtpDirPbrser)
  * @since 1.7
  */
-public interface FtpDirParser {
+public interfbce FtpDirPbrser {
 
     /**
-     * Takes one line from a directory listing and returns an FtpDirEntry instance
-     * based on the information contained.
+     * Tbkes one line from b directory listing bnd returns bn FtpDirEntry instbnce
+     * bbsed on the informbtion contbined.
      *
-     * @param line a <code>String</code>, a line sent by the FTP server as a
-     *        result of the LST command.
-     * @return an <code>FtpDirEntry</code> instance.
-     * @see java.net.FtpDirEntry
+     * @pbrbm line b <code>String</code>, b line sent by the FTP server bs b
+     *        result of the LST commbnd.
+     * @return bn <code>FtpDirEntry</code> instbnce.
+     * @see jbvb.net.FtpDirEntry
      */
-    public FtpDirEntry parseLine(String line);
+    public FtpDirEntry pbrseLine(String line);
 }

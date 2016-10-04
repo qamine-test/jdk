@@ -1,226 +1,226 @@
 /*
- * Copyright (c) 1997, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.java.swing.plaf.windows;
+pbckbge com.sun.jbvb.swing.plbf.windows;
 
-import java.awt.*;
+import jbvb.bwt.*;
 
-import javax.swing.plaf.basic.*;
-import javax.swing.plaf.*;
-import javax.swing.*;
-import java.util.Set;
-import java.util.HashSet;
-import java.awt.event.*;
+import jbvbx.swing.plbf.bbsic.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.*;
+import jbvb.util.Set;
+import jbvb.util.HbshSet;
+import jbvb.bwt.event.*;
 
-import static com.sun.java.swing.plaf.windows.TMSchema.*;
-import static com.sun.java.swing.plaf.windows.XPStyle.Skin;
+import stbtic com.sun.jbvb.swing.plbf.windows.TMSchemb.*;
+import stbtic com.sun.jbvb.swing.plbf.windows.XPStyle.Skin;
 
 
 /**
  * Windows rendition of the component.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases.  The current serialization support is appropriate
- * for short term storage or RMI between applications running the same
- * version of Swing.  A future release of Swing will provide support for
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses.  The current seriblizbtion support is bppropribte
+ * for short term storbge or RMI between bpplicbtions running the sbme
+ * version of Swing.  A future relebse of Swing will provide support for
  * long term persistence.
  */
-public class WindowsTabbedPaneUI extends BasicTabbedPaneUI {
+public clbss WindowsTbbbedPbneUI extends BbsicTbbbedPbneUI {
     /**
-     * Keys to use for forward focus traversal when the JComponent is
-     * managing focus.
+     * Keys to use for forwbrd focus trbversbl when the JComponent is
+     * mbnbging focus.
      */
-    private static Set<KeyStroke> managingFocusForwardTraversalKeys;
+    privbte stbtic Set<KeyStroke> mbnbgingFocusForwbrdTrbversblKeys;
 
     /**
-     * Keys to use for backward focus traversal when the JComponent is
-     * managing focus.
+     * Keys to use for bbckwbrd focus trbversbl when the JComponent is
+     * mbnbging focus.
      */
-    private static Set<KeyStroke> managingFocusBackwardTraversalKeys;
+    privbte stbtic Set<KeyStroke> mbnbgingFocusBbckwbrdTrbversblKeys;
 
-    private boolean contentOpaque = true;
+    privbte boolebn contentOpbque = true;
 
-    protected void installDefaults() {
-        super.installDefaults();
-        contentOpaque = UIManager.getBoolean("TabbedPane.contentOpaque");
+    protected void instbllDefbults() {
+        super.instbllDefbults();
+        contentOpbque = UIMbnbger.getBoolebn("TbbbedPbne.contentOpbque");
 
-        // focus forward traversal key
-        if (managingFocusForwardTraversalKeys==null) {
-            managingFocusForwardTraversalKeys = new HashSet<KeyStroke>();
-            managingFocusForwardTraversalKeys.add(KeyStroke.getKeyStroke(KeyEvent.VK_TAB, 0));
+        // focus forwbrd trbversbl key
+        if (mbnbgingFocusForwbrdTrbversblKeys==null) {
+            mbnbgingFocusForwbrdTrbversblKeys = new HbshSet<KeyStroke>();
+            mbnbgingFocusForwbrdTrbversblKeys.bdd(KeyStroke.getKeyStroke(KeyEvent.VK_TAB, 0));
         }
-        tabPane.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, managingFocusForwardTraversalKeys);
-        // focus backward traversal key
-        if (managingFocusBackwardTraversalKeys==null) {
-            managingFocusBackwardTraversalKeys = new HashSet<KeyStroke>();
-            managingFocusBackwardTraversalKeys.add( KeyStroke.getKeyStroke(KeyEvent.VK_TAB, InputEvent.SHIFT_MASK));
+        tbbPbne.setFocusTrbversblKeys(KeybobrdFocusMbnbger.FORWARD_TRAVERSAL_KEYS, mbnbgingFocusForwbrdTrbversblKeys);
+        // focus bbckwbrd trbversbl key
+        if (mbnbgingFocusBbckwbrdTrbversblKeys==null) {
+            mbnbgingFocusBbckwbrdTrbversblKeys = new HbshSet<KeyStroke>();
+            mbnbgingFocusBbckwbrdTrbversblKeys.bdd( KeyStroke.getKeyStroke(KeyEvent.VK_TAB, InputEvent.SHIFT_MASK));
         }
-        tabPane.setFocusTraversalKeys(KeyboardFocusManager.BACKWARD_TRAVERSAL_KEYS, managingFocusBackwardTraversalKeys);
+        tbbPbne.setFocusTrbversblKeys(KeybobrdFocusMbnbger.BACKWARD_TRAVERSAL_KEYS, mbnbgingFocusBbckwbrdTrbversblKeys);
     }
 
-    protected void uninstallDefaults() {
-        // sets the focus forward and backward traversal keys to null
-        // to restore the defaults
-        tabPane.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, null);
-        tabPane.setFocusTraversalKeys(KeyboardFocusManager.BACKWARD_TRAVERSAL_KEYS, null);
-        super.uninstallDefaults();
+    protected void uninstbllDefbults() {
+        // sets the focus forwbrd bnd bbckwbrd trbversbl keys to null
+        // to restore the defbults
+        tbbPbne.setFocusTrbversblKeys(KeybobrdFocusMbnbger.FORWARD_TRAVERSAL_KEYS, null);
+        tbbPbne.setFocusTrbversblKeys(KeybobrdFocusMbnbger.BACKWARD_TRAVERSAL_KEYS, null);
+        super.uninstbllDefbults();
     }
 
-    public static ComponentUI createUI(JComponent c) {
-        return new WindowsTabbedPaneUI();
+    public stbtic ComponentUI crebteUI(JComponent c) {
+        return new WindowsTbbbedPbneUI();
     }
 
-    protected void setRolloverTab(int index) {
+    protected void setRolloverTbb(int index) {
         // Rollover is only supported on XP
         if (XPStyle.getXP() != null) {
-            int oldRolloverTab = getRolloverTab();
-            super.setRolloverTab(index);
-            Rectangle r1 = null;
-            Rectangle r2 = null;
-            if ( (oldRolloverTab >= 0) && (oldRolloverTab < tabPane.getTabCount()) ) {
-                r1 = getTabBounds(tabPane, oldRolloverTab);
+            int oldRolloverTbb = getRolloverTbb();
+            super.setRolloverTbb(index);
+            Rectbngle r1 = null;
+            Rectbngle r2 = null;
+            if ( (oldRolloverTbb >= 0) && (oldRolloverTbb < tbbPbne.getTbbCount()) ) {
+                r1 = getTbbBounds(tbbPbne, oldRolloverTbb);
             }
             if (index >= 0) {
-                r2 = getTabBounds(tabPane, index);
+                r2 = getTbbBounds(tbbPbne, index);
             }
             if (r1 != null) {
                 if (r2 != null) {
-                    tabPane.repaint(r1.union(r2));
+                    tbbPbne.repbint(r1.union(r2));
                 } else {
-                    tabPane.repaint(r1);
+                    tbbPbne.repbint(r1);
                 }
             } else if (r2 != null) {
-                tabPane.repaint(r2);
+                tbbPbne.repbint(r2);
             }
         }
     }
 
-    protected void paintContentBorder(Graphics g, int tabPlacement, int selectedIndex) {
+    protected void pbintContentBorder(Grbphics g, int tbbPlbcement, int selectedIndex) {
         XPStyle xp = XPStyle.getXP();
-        if (xp != null && (contentOpaque || tabPane.isOpaque())) {
-            Skin skin = xp.getSkin(tabPane, Part.TABP_PANE);
+        if (xp != null && (contentOpbque || tbbPbne.isOpbque())) {
+            Skin skin = xp.getSkin(tbbPbne, Pbrt.TABP_PANE);
             if (skin != null) {
-                Insets insets = tabPane.getInsets();
-                // Note: don't call getTabAreaInsets(), because it causes rotation.
-                // Make sure "TabbedPane.tabsOverlapBorder" is set to true in WindowsLookAndFeel
-                Insets tabAreaInsets = UIManager.getInsets("TabbedPane.tabAreaInsets");
+                Insets insets = tbbPbne.getInsets();
+                // Note: don't cbll getTbbArebInsets(), becbuse it cbuses rotbtion.
+                // Mbke sure "TbbbedPbne.tbbsOverlbpBorder" is set to true in WindowsLookAndFeel
+                Insets tbbArebInsets = UIMbnbger.getInsets("TbbbedPbne.tbbArebInsets");
                 int x = insets.left;
                 int y = insets.top;
-                int w = tabPane.getWidth() - insets.right - insets.left;
-                int h = tabPane.getHeight() - insets.top - insets.bottom;
+                int w = tbbPbne.getWidth() - insets.right - insets.left;
+                int h = tbbPbne.getHeight() - insets.top - insets.bottom;
 
-                // Expand area by tabAreaInsets.bottom to allow tabs to overlap onto the border.
-                if (tabPlacement == LEFT || tabPlacement == RIGHT) {
-                    int tabWidth = calculateTabAreaWidth(tabPlacement, runCount, maxTabWidth);
-                    if (tabPlacement == LEFT) {
-                        x += (tabWidth - tabAreaInsets.bottom);
+                // Expbnd breb by tbbArebInsets.bottom to bllow tbbs to overlbp onto the border.
+                if (tbbPlbcement == LEFT || tbbPlbcement == RIGHT) {
+                    int tbbWidth = cblculbteTbbArebWidth(tbbPlbcement, runCount, mbxTbbWidth);
+                    if (tbbPlbcement == LEFT) {
+                        x += (tbbWidth - tbbArebInsets.bottom);
                     }
-                    w -= (tabWidth - tabAreaInsets.bottom);
+                    w -= (tbbWidth - tbbArebInsets.bottom);
                 } else {
-                    int tabHeight = calculateTabAreaHeight(tabPlacement, runCount, maxTabHeight);
-                    if (tabPlacement == TOP) {
-                        y += (tabHeight - tabAreaInsets.bottom);
+                    int tbbHeight = cblculbteTbbArebHeight(tbbPlbcement, runCount, mbxTbbHeight);
+                    if (tbbPlbcement == TOP) {
+                        y += (tbbHeight - tbbArebInsets.bottom);
                     }
-                    h -= (tabHeight - tabAreaInsets.bottom);
+                    h -= (tbbHeight - tbbArebInsets.bottom);
                 }
 
-                paintRotatedSkin(g, skin, tabPlacement, x, y, w, h, null);
+                pbintRotbtedSkin(g, skin, tbbPlbcement, x, y, w, h, null);
                 return;
             }
         }
-        super.paintContentBorder(g, tabPlacement, selectedIndex);
+        super.pbintContentBorder(g, tbbPlbcement, selectedIndex);
     }
 
-    protected void paintTabBackground(Graphics g, int tabPlacement, int tabIndex,
-                                      int x, int y, int w, int h, boolean isSelected ) {
+    protected void pbintTbbBbckground(Grbphics g, int tbbPlbcement, int tbbIndex,
+                                      int x, int y, int w, int h, boolebn isSelected ) {
         if (XPStyle.getXP() == null) {
-            super.paintTabBackground(g, tabPlacement, tabIndex, x, y, w, h, isSelected);
+            super.pbintTbbBbckground(g, tbbPlbcement, tbbIndex, x, y, w, h, isSelected);
         }
     }
 
-    protected void paintTabBorder(Graphics g, int tabPlacement, int tabIndex,
-                                  int x, int y, int w, int h, boolean isSelected ) {
+    protected void pbintTbbBorder(Grbphics g, int tbbPlbcement, int tbbIndex,
+                                  int x, int y, int w, int h, boolebn isSelected ) {
         XPStyle xp = XPStyle.getXP();
         if (xp != null) {
-            Part part;
+            Pbrt pbrt;
 
-            int tabCount = tabPane.getTabCount();
-            int tabRun = getRunForTab(tabCount, tabIndex);
-            if (tabRuns[tabRun] == tabIndex) {
-                part = Part.TABP_TABITEMLEFTEDGE;
-            } else if (tabCount > 1 && lastTabInRun(tabCount, tabRun) == tabIndex) {
-                part = Part.TABP_TABITEMRIGHTEDGE;
+            int tbbCount = tbbPbne.getTbbCount();
+            int tbbRun = getRunForTbb(tbbCount, tbbIndex);
+            if (tbbRuns[tbbRun] == tbbIndex) {
+                pbrt = Pbrt.TABP_TABITEMLEFTEDGE;
+            } else if (tbbCount > 1 && lbstTbbInRun(tbbCount, tbbRun) == tbbIndex) {
+                pbrt = Pbrt.TABP_TABITEMRIGHTEDGE;
                 if (isSelected) {
                     // Align with right edge
-                    if (tabPlacement == TOP || tabPlacement == BOTTOM) {
+                    if (tbbPlbcement == TOP || tbbPlbcement == BOTTOM) {
                         w++;
                     } else {
                         h++;
                     }
                 }
             } else {
-                part = Part.TABP_TABITEM;
+                pbrt = Pbrt.TABP_TABITEM;
             }
 
-            State state = State.NORMAL;
+            Stbte stbte = Stbte.NORMAL;
             if (isSelected) {
-                state = State.SELECTED;
-            } else if (tabIndex == getRolloverTab()) {
-                state = State.HOT;
+                stbte = Stbte.SELECTED;
+            } else if (tbbIndex == getRolloverTbb()) {
+                stbte = Stbte.HOT;
             }
 
-            paintRotatedSkin(g, xp.getSkin(tabPane, part), tabPlacement, x, y, w, h, state);
+            pbintRotbtedSkin(g, xp.getSkin(tbbPbne, pbrt), tbbPlbcement, x, y, w, h, stbte);
         } else {
-            super.paintTabBorder(g, tabPlacement, tabIndex, x, y, w, h, isSelected);
+            super.pbintTbbBorder(g, tbbPlbcement, tbbIndex, x, y, w, h, isSelected);
         }
     }
 
-    private void paintRotatedSkin(Graphics g, Skin skin, int tabPlacement,
-                                  int x, int y, int w, int h, State state) {
-        Graphics2D g2d = (Graphics2D)g.create();
-        g2d.translate(x, y);
-        switch (tabPlacement) {
-           case RIGHT:  g2d.translate(w, 0);
-                        g2d.rotate(Math.toRadians(90.0));
-                        skin.paintSkin(g2d, 0, 0, h, w, state);
-                        break;
+    privbte void pbintRotbtedSkin(Grbphics g, Skin skin, int tbbPlbcement,
+                                  int x, int y, int w, int h, Stbte stbte) {
+        Grbphics2D g2d = (Grbphics2D)g.crebte();
+        g2d.trbnslbte(x, y);
+        switch (tbbPlbcement) {
+           cbse RIGHT:  g2d.trbnslbte(w, 0);
+                        g2d.rotbte(Mbth.toRbdibns(90.0));
+                        skin.pbintSkin(g2d, 0, 0, h, w, stbte);
+                        brebk;
 
-           case LEFT:   g2d.scale(-1.0, 1.0);
-                        g2d.rotate(Math.toRadians(90.0));
-                        skin.paintSkin(g2d, 0, 0, h, w, state);
-                        break;
+           cbse LEFT:   g2d.scble(-1.0, 1.0);
+                        g2d.rotbte(Mbth.toRbdibns(90.0));
+                        skin.pbintSkin(g2d, 0, 0, h, w, stbte);
+                        brebk;
 
-           case BOTTOM: g2d.translate(0, h);
-                        g2d.scale(-1.0, 1.0);
-                        g2d.rotate(Math.toRadians(180.0));
-                        skin.paintSkin(g2d, 0, 0, w, h, state);
-                        break;
+           cbse BOTTOM: g2d.trbnslbte(0, h);
+                        g2d.scble(-1.0, 1.0);
+                        g2d.rotbte(Mbth.toRbdibns(180.0));
+                        skin.pbintSkin(g2d, 0, 0, w, h, stbte);
+                        brebk;
 
-           case TOP:
-           default:     skin.paintSkin(g2d, 0, 0, w, h, state);
+           cbse TOP:
+           defbult:     skin.pbintSkin(g2d, 0, 0, w, h, stbte);
         }
         g2d.dispose();
     }

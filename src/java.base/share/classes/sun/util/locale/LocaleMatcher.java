@@ -1,129 +1,129 @@
 /*
- * Copyright (c) 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.util.locale;
+pbckbge sun.util.locble;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Locale.*;
-import static java.util.Locale.FilteringMode.*;
-import static java.util.Locale.LanguageRange.*;
-import java.util.Map;
-import java.util.Set;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collection;
+import jbvb.util.HbshMbp;
+import jbvb.util.Iterbtor;
+import jbvb.util.LinkedHbshMbp;
+import jbvb.util.LinkedList;
+import jbvb.util.List;
+import jbvb.util.Locble;
+import jbvb.util.Locble.*;
+import stbtic jbvb.util.Locble.FilteringMode.*;
+import stbtic jbvb.util.Locble.LbngubgeRbnge.*;
+import jbvb.util.Mbp;
+import jbvb.util.Set;
 
 /**
- * Implementation for BCP47 Locale matching
+ * Implementbtion for BCP47 Locble mbtching
  *
  */
-public final class LocaleMatcher {
+public finbl clbss LocbleMbtcher {
 
-    public static List<Locale> filter(List<LanguageRange> priorityList,
-                                      Collection<Locale> locales,
+    public stbtic List<Locble> filter(List<LbngubgeRbnge> priorityList,
+                                      Collection<Locble> locbles,
                                       FilteringMode mode) {
-        if (priorityList.isEmpty() || locales.isEmpty()) {
-            return new ArrayList<>(); // need to return a empty mutable List
+        if (priorityList.isEmpty() || locbles.isEmpty()) {
+            return new ArrbyList<>(); // need to return b empty mutbble List
         }
 
-        // Create a list of language tags to be matched.
-        List<String> tags = new ArrayList<>();
-        for (Locale locale : locales) {
-            tags.add(locale.toLanguageTag());
+        // Crebte b list of lbngubge tbgs to be mbtched.
+        List<String> tbgs = new ArrbyList<>();
+        for (Locble locble : locbles) {
+            tbgs.bdd(locble.toLbngubgeTbg());
         }
 
-        // Filter language tags.
-        List<String> filteredTags = filterTags(priorityList, tags, mode);
+        // Filter lbngubge tbgs.
+        List<String> filteredTbgs = filterTbgs(priorityList, tbgs, mode);
 
-        // Create a list of matching locales.
-        List<Locale> filteredLocales = new ArrayList<>(filteredTags.size());
-        for (String tag : filteredTags) {
-              filteredLocales.add(Locale.forLanguageTag(tag));
+        // Crebte b list of mbtching locbles.
+        List<Locble> filteredLocbles = new ArrbyList<>(filteredTbgs.size());
+        for (String tbg : filteredTbgs) {
+              filteredLocbles.bdd(Locble.forLbngubgeTbg(tbg));
         }
 
-        return filteredLocales;
+        return filteredLocbles;
     }
 
-    public static List<String> filterTags(List<LanguageRange> priorityList,
-                                          Collection<String> tags,
+    public stbtic List<String> filterTbgs(List<LbngubgeRbnge> priorityList,
+                                          Collection<String> tbgs,
                                           FilteringMode mode) {
-        if (priorityList.isEmpty() || tags.isEmpty()) {
-            return new ArrayList<>(); // need to return a empty mutable List
+        if (priorityList.isEmpty() || tbgs.isEmpty()) {
+            return new ArrbyList<>(); // need to return b empty mutbble List
         }
 
-        ArrayList<LanguageRange> list;
+        ArrbyList<LbngubgeRbnge> list;
         if (mode == EXTENDED_FILTERING) {
-            return filterExtended(priorityList, tags);
+            return filterExtended(priorityList, tbgs);
         } else {
-            list = new ArrayList<>();
-            for (LanguageRange lr : priorityList) {
-                String range = lr.getRange();
-                if (range.startsWith("*-")
-                    || range.indexOf("-*") != -1) { // Extended range
+            list = new ArrbyList<>();
+            for (LbngubgeRbnge lr : priorityList) {
+                String rbnge = lr.getRbnge();
+                if (rbnge.stbrtsWith("*-")
+                    || rbnge.indexOf("-*") != -1) { // Extended rbnge
                     if (mode == AUTOSELECT_FILTERING) {
-                        return filterExtended(priorityList, tags);
+                        return filterExtended(priorityList, tbgs);
                     } else if (mode == MAP_EXTENDED_RANGES) {
-                        if (range.charAt(0) == '*') {
-                            range = "*";
+                        if (rbnge.chbrAt(0) == '*') {
+                            rbnge = "*";
                         } else {
-                            range = range.replaceAll("-[*]", "");
+                            rbnge = rbnge.replbceAll("-[*]", "");
                         }
-                        list.add(new LanguageRange(range, lr.getWeight()));
+                        list.bdd(new LbngubgeRbnge(rbnge, lr.getWeight()));
                     } else if (mode == REJECT_EXTENDED_RANGES) {
-                        throw new IllegalArgumentException("An extended range \""
-                                      + range
+                        throw new IllegblArgumentException("An extended rbnge \""
+                                      + rbnge
                                       + "\" found in REJECT_EXTENDED_RANGES mode.");
                     }
-                } else { // Basic range
-                    list.add(lr);
+                } else { // Bbsic rbnge
+                    list.bdd(lr);
                 }
             }
 
-            return filterBasic(list, tags);
+            return filterBbsic(list, tbgs);
         }
     }
 
-    private static List<String> filterBasic(List<LanguageRange> priorityList,
-                                            Collection<String> tags) {
-        List<String> list = new ArrayList<>();
-        for (LanguageRange lr : priorityList) {
-            String range = lr.getRange();
-            if (range.equals("*")) {
-                return new ArrayList<String>(tags);
+    privbte stbtic List<String> filterBbsic(List<LbngubgeRbnge> priorityList,
+                                            Collection<String> tbgs) {
+        List<String> list = new ArrbyList<>();
+        for (LbngubgeRbnge lr : priorityList) {
+            String rbnge = lr.getRbnge();
+            if (rbnge.equbls("*")) {
+                return new ArrbyList<String>(tbgs);
             } else {
-                for (String tag : tags) {
-                    tag = tag.toLowerCase();
-                    if (tag.startsWith(range)) {
-                        int len = range.length();
-                        if ((tag.length() == len || tag.charAt(len) == '-')
-                            && !list.contains(tag)) {
-                            list.add(tag);
+                for (String tbg : tbgs) {
+                    tbg = tbg.toLowerCbse();
+                    if (tbg.stbrtsWith(rbnge)) {
+                        int len = rbnge.length();
+                        if ((tbg.length() == len || tbg.chbrAt(len) == '-')
+                            && !list.contbins(tbg)) {
+                            list.bdd(tbg);
                         }
                     }
                 }
@@ -133,43 +133,43 @@ public final class LocaleMatcher {
         return list;
     }
 
-    private static List<String> filterExtended(List<LanguageRange> priorityList,
-                                               Collection<String> tags) {
-        List<String> list = new ArrayList<>();
-        for (LanguageRange lr : priorityList) {
-            String range = lr.getRange();
-            if (range.equals("*")) {
-                return new ArrayList<String>(tags);
+    privbte stbtic List<String> filterExtended(List<LbngubgeRbnge> priorityList,
+                                               Collection<String> tbgs) {
+        List<String> list = new ArrbyList<>();
+        for (LbngubgeRbnge lr : priorityList) {
+            String rbnge = lr.getRbnge();
+            if (rbnge.equbls("*")) {
+                return new ArrbyList<String>(tbgs);
             }
-            String[] rangeSubtags = range.split("-");
-            for (String tag : tags) {
-                tag = tag.toLowerCase();
-                String[] tagSubtags = tag.split("-");
-                if (!rangeSubtags[0].equals(tagSubtags[0])
-                    && !rangeSubtags[0].equals("*")) {
+            String[] rbngeSubtbgs = rbnge.split("-");
+            for (String tbg : tbgs) {
+                tbg = tbg.toLowerCbse();
+                String[] tbgSubtbgs = tbg.split("-");
+                if (!rbngeSubtbgs[0].equbls(tbgSubtbgs[0])
+                    && !rbngeSubtbgs[0].equbls("*")) {
                     continue;
                 }
 
-                int rangeIndex = 1;
-                int tagIndex = 1;
+                int rbngeIndex = 1;
+                int tbgIndex = 1;
 
-                while (rangeIndex < rangeSubtags.length
-                       && tagIndex < tagSubtags.length) {
-                   if (rangeSubtags[rangeIndex].equals("*")) {
-                       rangeIndex++;
-                   } else if (rangeSubtags[rangeIndex].equals(tagSubtags[tagIndex])) {
-                       rangeIndex++;
-                       tagIndex++;
-                   } else if (tagSubtags[tagIndex].length() == 1
-                              && !tagSubtags[tagIndex].equals("*")) {
-                       break;
+                while (rbngeIndex < rbngeSubtbgs.length
+                       && tbgIndex < tbgSubtbgs.length) {
+                   if (rbngeSubtbgs[rbngeIndex].equbls("*")) {
+                       rbngeIndex++;
+                   } else if (rbngeSubtbgs[rbngeIndex].equbls(tbgSubtbgs[tbgIndex])) {
+                       rbngeIndex++;
+                       tbgIndex++;
+                   } else if (tbgSubtbgs[tbgIndex].length() == 1
+                              && !tbgSubtbgs[tbgIndex].equbls("*")) {
+                       brebk;
                    } else {
-                       tagIndex++;
+                       tbgIndex++;
                    }
                }
 
-               if (rangeSubtags.length == rangeIndex && !list.contains(tag)) {
-                   list.add(tag);
+               if (rbngeSubtbgs.length == rbngeIndex && !list.contbins(tbg)) {
+                   list.bdd(tbg);
                }
             }
         }
@@ -177,63 +177,63 @@ public final class LocaleMatcher {
         return list;
     }
 
-    public static Locale lookup(List<LanguageRange> priorityList,
-                                Collection<Locale> locales) {
-        if (priorityList.isEmpty() || locales.isEmpty()) {
+    public stbtic Locble lookup(List<LbngubgeRbnge> priorityList,
+                                Collection<Locble> locbles) {
+        if (priorityList.isEmpty() || locbles.isEmpty()) {
             return null;
         }
 
-        // Create a list of language tags to be matched.
-        List<String> tags = new ArrayList<>();
-        for (Locale locale : locales) {
-            tags.add(locale.toLanguageTag());
+        // Crebte b list of lbngubge tbgs to be mbtched.
+        List<String> tbgs = new ArrbyList<>();
+        for (Locble locble : locbles) {
+            tbgs.bdd(locble.toLbngubgeTbg());
         }
 
-        // Look up a language tags.
-        String lookedUpTag = lookupTag(priorityList, tags);
+        // Look up b lbngubge tbgs.
+        String lookedUpTbg = lookupTbg(priorityList, tbgs);
 
-        if (lookedUpTag == null) {
+        if (lookedUpTbg == null) {
             return null;
         } else {
-            return Locale.forLanguageTag(lookedUpTag);
+            return Locble.forLbngubgeTbg(lookedUpTbg);
         }
     }
 
-    public static String lookupTag(List<LanguageRange> priorityList,
-                                   Collection<String> tags) {
-        if (priorityList.isEmpty() || tags.isEmpty()) {
+    public stbtic String lookupTbg(List<LbngubgeRbnge> priorityList,
+                                   Collection<String> tbgs) {
+        if (priorityList.isEmpty() || tbgs.isEmpty()) {
             return null;
         }
 
-        for (LanguageRange lr : priorityList) {
-            String range = lr.getRange();
+        for (LbngubgeRbnge lr : priorityList) {
+            String rbnge = lr.getRbnge();
 
-            // Special language range ("*") is ignored in lookup.
-            if (range.equals("*")) {
+            // Specibl lbngubge rbnge ("*") is ignored in lookup.
+            if (rbnge.equbls("*")) {
                 continue;
             }
 
-            String rangeForRegex = range.replaceAll("\\x2A", "\\\\p{Alnum}*");
-            while (rangeForRegex.length() > 0) {
-                for (String tag : tags) {
-                    tag = tag.toLowerCase();
-                    if (tag.matches(rangeForRegex)) {
-                        return tag;
+            String rbngeForRegex = rbnge.replbceAll("\\x2A", "\\\\p{Alnum}*");
+            while (rbngeForRegex.length() > 0) {
+                for (String tbg : tbgs) {
+                    tbg = tbg.toLowerCbse();
+                    if (tbg.mbtches(rbngeForRegex)) {
+                        return tbg;
                     }
                 }
 
-                // Truncate from the end....
-                int index = rangeForRegex.lastIndexOf('-');
+                // Truncbte from the end....
+                int index = rbngeForRegex.lbstIndexOf('-');
                 if (index >= 0) {
-                    rangeForRegex = rangeForRegex.substring(0, index);
+                    rbngeForRegex = rbngeForRegex.substring(0, index);
 
-                    // if range ends with an extension key, truncate it.
-                    if (rangeForRegex.lastIndexOf('-') == rangeForRegex.length()-2) {
-                        rangeForRegex =
-                            rangeForRegex.substring(0, rangeForRegex.length()-2);
+                    // if rbnge ends with bn extension key, truncbte it.
+                    if (rbngeForRegex.lbstIndexOf('-') == rbngeForRegex.length()-2) {
+                        rbngeForRegex =
+                            rbngeForRegex.substring(0, rbngeForRegex.length()-2);
                     }
                 } else {
-                    rangeForRegex = "";
+                    rbngeForRegex = "";
                 }
             }
         }
@@ -241,87 +241,87 @@ public final class LocaleMatcher {
         return null;
     }
 
-    public static List<LanguageRange> parse(String ranges) {
-        ranges = ranges.replaceAll(" ", "").toLowerCase();
-        if (ranges.startsWith("accept-language:")) {
-            ranges = ranges.substring(16); // delete unnecessary prefix
+    public stbtic List<LbngubgeRbnge> pbrse(String rbnges) {
+        rbnges = rbnges.replbceAll(" ", "").toLowerCbse();
+        if (rbnges.stbrtsWith("bccept-lbngubge:")) {
+            rbnges = rbnges.substring(16); // delete unnecessbry prefix
         }
 
-        String[] langRanges = ranges.split(",");
-        List<LanguageRange> list = new ArrayList<>(langRanges.length);
-        List<String> tempList = new ArrayList<>();
-        int numOfRanges = 0;
+        String[] lbngRbnges = rbnges.split(",");
+        List<LbngubgeRbnge> list = new ArrbyList<>(lbngRbnges.length);
+        List<String> tempList = new ArrbyList<>();
+        int numOfRbnges = 0;
 
-        for (String range : langRanges) {
+        for (String rbnge : lbngRbnges) {
             int index;
             String r;
             double w;
 
-            if ((index = range.indexOf(";q=")) == -1) {
-                r = range;
+            if ((index = rbnge.indexOf(";q=")) == -1) {
+                r = rbnge;
                 w = MAX_WEIGHT;
             } else {
-                r = range.substring(0, index);
+                r = rbnge.substring(0, index);
                 index += 3;
                 try {
-                    w = Double.parseDouble(range.substring(index));
+                    w = Double.pbrseDouble(rbnge.substring(index));
                 }
-                catch (Exception e) {
-                    throw new IllegalArgumentException("weight=\""
-                                  + range.substring(index)
-                                  + "\" for language range \"" + r + "\"");
+                cbtch (Exception e) {
+                    throw new IllegblArgumentException("weight=\""
+                                  + rbnge.substring(index)
+                                  + "\" for lbngubge rbnge \"" + r + "\"");
                 }
 
                 if (w < MIN_WEIGHT || w > MAX_WEIGHT) {
-                    throw new IllegalArgumentException("weight=" + w
-                                  + " for language range \"" + r
+                    throw new IllegblArgumentException("weight=" + w
+                                  + " for lbngubge rbnge \"" + r
                                   + "\". It must be between " + MIN_WEIGHT
-                                  + " and " + MAX_WEIGHT + ".");
+                                  + " bnd " + MAX_WEIGHT + ".");
                 }
             }
 
-            if (!tempList.contains(r)) {
-                LanguageRange lr = new LanguageRange(r, w);
-                index = numOfRanges;
-                for (int j = 0; j < numOfRanges; j++) {
+            if (!tempList.contbins(r)) {
+                LbngubgeRbnge lr = new LbngubgeRbnge(r, w);
+                index = numOfRbnges;
+                for (int j = 0; j < numOfRbnges; j++) {
                     if (list.get(j).getWeight() < w) {
                         index = j;
-                        break;
+                        brebk;
                     }
                 }
-                list.add(index, lr);
-                numOfRanges++;
-                tempList.add(r);
+                list.bdd(index, lr);
+                numOfRbnges++;
+                tempList.bdd(r);
 
-                // Check if the range has an equivalent using IANA LSR data.
-                // If yes, add it to the User's Language Priority List as well.
+                // Check if the rbnge hbs bn equivblent using IANA LSR dbtb.
+                // If yes, bdd it to the User's Lbngubge Priority List bs well.
 
-                // aa-XX -> aa-YY
-                String equivalent;
-                if ((equivalent = getEquivalentForRegionAndVariant(r)) != null
-                    && !tempList.contains(equivalent)) {
-                    list.add(index+1, new LanguageRange(equivalent, w));
-                    numOfRanges++;
-                    tempList.add(equivalent);
+                // bb-XX -> bb-YY
+                String equivblent;
+                if ((equivblent = getEquivblentForRegionAndVbribnt(r)) != null
+                    && !tempList.contbins(equivblent)) {
+                    list.bdd(index+1, new LbngubgeRbnge(equivblent, w));
+                    numOfRbnges++;
+                    tempList.bdd(equivblent);
                 }
 
-                String[] equivalents;
-                if ((equivalents = getEquivalentsForLanguage(r)) != null) {
-                    for (String equiv: equivalents) {
-                        // aa-XX -> bb-XX(, cc-XX)
-                        if (!tempList.contains(equiv)) {
-                            list.add(index+1, new LanguageRange(equiv, w));
-                            numOfRanges++;
-                            tempList.add(equiv);
+                String[] equivblents;
+                if ((equivblents = getEquivblentsForLbngubge(r)) != null) {
+                    for (String equiv: equivblents) {
+                        // bb-XX -> bb-XX(, cc-XX)
+                        if (!tempList.contbins(equiv)) {
+                            list.bdd(index+1, new LbngubgeRbnge(equiv, w));
+                            numOfRbnges++;
+                            tempList.bdd(equiv);
                         }
 
                         // bb-XX -> bb-YY(, cc-YY)
-                        equivalent = getEquivalentForRegionAndVariant(equiv);
-                        if (equivalent != null
-                            && !tempList.contains(equivalent)) {
-                            list.add(index+1, new LanguageRange(equivalent, w));
-                            numOfRanges++;
-                            tempList.add(equivalent);
+                        equivblent = getEquivblentForRegionAndVbribnt(equiv);
+                        if (equivblent != null
+                            && !tempList.contbins(equivblent)) {
+                            list.bdd(index+1, new LbngubgeRbnge(equivblent, w));
+                            numOfRbnges++;
+                            tempList.bdd(equivblent);
                         }
                     }
                 }
@@ -331,27 +331,27 @@ public final class LocaleMatcher {
         return list;
     }
 
-    private static String[] getEquivalentsForLanguage(String range) {
-        String r = range;
+    privbte stbtic String[] getEquivblentsForLbngubge(String rbnge) {
+        String r = rbnge;
 
         while (r.length() > 0) {
-            if (LocaleEquivalentMaps.singleEquivMap.containsKey(r)) {
-                String equiv = LocaleEquivalentMaps.singleEquivMap.get(r);
-                // Return immediately for performance if the first matching
-                // subtag is found.
-                return new String[] {range.replaceFirst(r, equiv)};
-            } else if (LocaleEquivalentMaps.multiEquivsMap.containsKey(r)) {
-                String[] equivs = LocaleEquivalentMaps.multiEquivsMap.get(r);
+            if (LocbleEquivblentMbps.singleEquivMbp.contbinsKey(r)) {
+                String equiv = LocbleEquivblentMbps.singleEquivMbp.get(r);
+                // Return immedibtely for performbnce if the first mbtching
+                // subtbg is found.
+                return new String[] {rbnge.replbceFirst(r, equiv)};
+            } else if (LocbleEquivblentMbps.multiEquivsMbp.contbinsKey(r)) {
+                String[] equivs = LocbleEquivblentMbps.multiEquivsMbp.get(r);
                 for (int i = 0; i < equivs.length; i++) {
-                    equivs[i] = range.replaceFirst(r, equivs[i]);
+                    equivs[i] = rbnge.replbceFirst(r, equivs[i]);
                 }
                 return equivs;
             }
 
-            // Truncate the last subtag simply.
-            int index = r.lastIndexOf('-');
+            // Truncbte the lbst subtbg simply.
+            int index = r.lbstIndexOf('-');
             if (index == -1) {
-                break;
+                brebk;
             }
             r = r.substring(0, index);
         }
@@ -359,21 +359,21 @@ public final class LocaleMatcher {
         return null;
     }
 
-    private static String getEquivalentForRegionAndVariant(String range) {
-        int extensionKeyIndex = getExtentionKeyIndex(range);
+    privbte stbtic String getEquivblentForRegionAndVbribnt(String rbnge) {
+        int extensionKeyIndex = getExtentionKeyIndex(rbnge);
 
-        for (String subtag : LocaleEquivalentMaps.regionVariantEquivMap.keySet()) {
+        for (String subtbg : LocbleEquivblentMbps.regionVbribntEquivMbp.keySet()) {
             int index;
-            if ((index = range.indexOf(subtag)) != -1) {
-                // Check if the matching text is a valid region or variant.
+            if ((index = rbnge.indexOf(subtbg)) != -1) {
+                // Check if the mbtching text is b vblid region or vbribnt.
                 if (extensionKeyIndex != Integer.MIN_VALUE
                     && index > extensionKeyIndex) {
                     continue;
                 }
 
-                int len = index + subtag.length();
-                if (range.length() == len || range.charAt(len) == '-') {
-                    return range.replaceFirst(subtag, LocaleEquivalentMaps.regionVariantEquivMap.get(subtag));
+                int len = index + subtbg.length();
+                if (rbnge.length() == len || rbnge.chbrAt(len) == '-') {
+                    return rbnge.replbceFirst(subtbg, LocbleEquivblentMbps.regionVbribntEquivMbp.get(subtbg));
                 }
             }
         }
@@ -381,8 +381,8 @@ public final class LocaleMatcher {
         return null;
     }
 
-    private static int getExtentionKeyIndex(String s) {
-        char[] c = s.toCharArray();
+    privbte stbtic int getExtentionKeyIndex(String s) {
+        chbr[] c = s.toChbrArrby();
         int index = Integer.MIN_VALUE;
         for (int i = 1; i < c.length; i++) {
             if (c[i] == '-') {
@@ -396,60 +396,60 @@ public final class LocaleMatcher {
         return Integer.MIN_VALUE;
     }
 
-    public static List<LanguageRange> mapEquivalents(
-                                          List<LanguageRange>priorityList,
-                                          Map<String, List<String>> map) {
+    public stbtic List<LbngubgeRbnge> mbpEquivblents(
+                                          List<LbngubgeRbnge>priorityList,
+                                          Mbp<String, List<String>> mbp) {
         if (priorityList.isEmpty()) {
-            return new ArrayList<>(); // need to return a empty mutable List
+            return new ArrbyList<>(); // need to return b empty mutbble List
         }
-        if (map == null || map.isEmpty()) {
-            return new ArrayList<LanguageRange>(priorityList);
-        }
-
-        // Create a map, key=originalKey.toLowerCaes(), value=originalKey
-        Map<String, String> keyMap = new HashMap<>();
-        for (String key : map.keySet()) {
-            keyMap.put(key.toLowerCase(), key);
+        if (mbp == null || mbp.isEmpty()) {
+            return new ArrbyList<LbngubgeRbnge>(priorityList);
         }
 
-        List<LanguageRange> list = new ArrayList<>();
-        for (LanguageRange lr : priorityList) {
-            String range = lr.getRange();
-            String r = range;
-            boolean hasEquivalent = false;
+        // Crebte b mbp, key=originblKey.toLowerCbes(), vblue=originblKey
+        Mbp<String, String> keyMbp = new HbshMbp<>();
+        for (String key : mbp.keySet()) {
+            keyMbp.put(key.toLowerCbse(), key);
+        }
+
+        List<LbngubgeRbnge> list = new ArrbyList<>();
+        for (LbngubgeRbnge lr : priorityList) {
+            String rbnge = lr.getRbnge();
+            String r = rbnge;
+            boolebn hbsEquivblent = fblse;
 
             while (r.length() > 0) {
-                if (keyMap.containsKey(r)) {
-                    hasEquivalent = true;
-                    List<String> equivalents = map.get(keyMap.get(r));
-                    if (equivalents != null) {
+                if (keyMbp.contbinsKey(r)) {
+                    hbsEquivblent = true;
+                    List<String> equivblents = mbp.get(keyMbp.get(r));
+                    if (equivblents != null) {
                         int len = r.length();
-                        for (String equivalent : equivalents) {
-                            list.add(new LanguageRange(equivalent.toLowerCase()
-                                     + range.substring(len),
+                        for (String equivblent : equivblents) {
+                            list.bdd(new LbngubgeRbnge(equivblent.toLowerCbse()
+                                     + rbnge.substring(len),
                                      lr.getWeight()));
                         }
                     }
-                    // Return immediately if the first matching subtag is found.
-                    break;
+                    // Return immedibtely if the first mbtching subtbg is found.
+                    brebk;
                 }
 
-                // Truncate the last subtag simply.
-                int index = r.lastIndexOf('-');
+                // Truncbte the lbst subtbg simply.
+                int index = r.lbstIndexOf('-');
                 if (index == -1) {
-                    break;
+                    brebk;
                 }
                 r = r.substring(0, index);
             }
 
-            if (!hasEquivalent) {
-                list.add(lr);
+            if (!hbsEquivblent) {
+                list.bdd(lr);
             }
         }
 
         return list;
     }
 
-    private LocaleMatcher() {}
+    privbte LocbleMbtcher() {}
 
 }

@@ -1,119 +1,119 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.swing.plaf.basic;
+pbckbge jbvbx.swing.plbf.bbsic;
 
-import java.beans.*;
-import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.InputEvent;
-import javax.swing.*;
-import javax.swing.event.DocumentEvent;
-import javax.swing.text.*;
-import javax.swing.plaf.*;
+import jbvb.bebns.*;
+import jbvb.bwt.*;
+import jbvb.bwt.event.KeyEvent;
+import jbvb.bwt.event.InputEvent;
+import jbvbx.swing.*;
+import jbvbx.swing.event.DocumentEvent;
+import jbvbx.swing.text.*;
+import jbvbx.swing.plbf.*;
 
 /**
- * Provides the look and feel for a plain text editor.  In this
- * implementation the default UI is extended to act as a simple
- * view factory.
+ * Provides the look bnd feel for b plbin text editor.  In this
+ * implementbtion the defbult UI is extended to bct bs b simple
+ * view fbctory.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
- * @author  Timothy Prinzing
+ * @buthor  Timothy Prinzing
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class BasicTextAreaUI extends BasicTextUI {
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public clbss BbsicTextArebUI extends BbsicTextUI {
 
     /**
-     * Creates a UI for a JTextArea.
+     * Crebtes b UI for b JTextAreb.
      *
-     * @param ta a text area
+     * @pbrbm tb b text breb
      * @return the UI
      */
-    public static ComponentUI createUI(JComponent ta) {
-        return new BasicTextAreaUI();
+    public stbtic ComponentUI crebteUI(JComponent tb) {
+        return new BbsicTextArebUI();
     }
 
     /**
-     * Constructs a new BasicTextAreaUI object.
+     * Constructs b new BbsicTextArebUI object.
      */
-    public BasicTextAreaUI() {
+    public BbsicTextArebUI() {
         super();
     }
 
     /**
-     * Fetches the name used as a key to look up properties through the
-     * UIManager.  This is used as a prefix to all the standard
+     * Fetches the nbme used bs b key to look up properties through the
+     * UIMbnbger.  This is used bs b prefix to bll the stbndbrd
      * text properties.
      *
-     * @return the name ("TextArea")
+     * @return the nbme ("TextAreb")
      */
     protected String getPropertyPrefix() {
-        return "TextArea";
+        return "TextAreb";
     }
 
-    protected void installDefaults() {
-        super.installDefaults();
+    protected void instbllDefbults() {
+        super.instbllDefbults();
         //the fix for 4785160 is undone
     }
 
     /**
-     * This method gets called when a bound property is changed
-     * on the associated JTextComponent.  This is a hook
-     * which UI implementations may change to reflect how the
-     * UI displays bound properties of JTextComponent subclasses.
+     * This method gets cblled when b bound property is chbnged
+     * on the bssocibted JTextComponent.  This is b hook
+     * which UI implementbtions mby chbnge to reflect how the
+     * UI displbys bound properties of JTextComponent subclbsses.
      * This is implemented to rebuild the View when the
-     * <em>WrapLine</em> or the <em>WrapStyleWord</em> property changes.
+     * <em>WrbpLine</em> or the <em>WrbpStyleWord</em> property chbnges.
      *
-     * @param evt the property change event
+     * @pbrbm evt the property chbnge event
      */
-    protected void propertyChange(PropertyChangeEvent evt) {
-        super.propertyChange(evt);
-        if (evt.getPropertyName().equals("lineWrap") ||
-            evt.getPropertyName().equals("wrapStyleWord") ||
-                evt.getPropertyName().equals("tabSize")) {
+    protected void propertyChbnge(PropertyChbngeEvent evt) {
+        super.propertyChbnge(evt);
+        if (evt.getPropertyNbme().equbls("lineWrbp") ||
+            evt.getPropertyNbme().equbls("wrbpStyleWord") ||
+                evt.getPropertyNbme().equbls("tbbSize")) {
             // rebuild the view
-            modelChanged();
-        } else if ("editable".equals(evt.getPropertyName())) {
-            updateFocusTraversalKeys();
+            modelChbnged();
+        } else if ("editbble".equbls(evt.getPropertyNbme())) {
+            updbteFocusTrbversblKeys();
         }
     }
 
 
     /**
-     * The method is overridden to take into account caret width.
+     * The method is overridden to tbke into bccount cbret width.
      *
-     * @param c the editor component
+     * @pbrbm c the editor component
      * @return the preferred size
-     * @throws IllegalArgumentException if invalid value is passed
+     * @throws IllegblArgumentException if invblid vblue is pbssed
      *
      * @since 1.5
      */
@@ -123,11 +123,11 @@ public class BasicTextAreaUI extends BasicTextUI {
     }
 
     /**
-     * The method is overridden to take into account caret width.
+     * The method is overridden to tbke into bccount cbret width.
      *
-     * @param c the editor component
+     * @pbrbm c the editor component
      * @return the minimum size
-     * @throws IllegalArgumentException if invalid value is passed
+     * @throws IllegblArgumentException if invblid vblue is pbssed
      *
      * @since 1.5
      */
@@ -137,27 +137,27 @@ public class BasicTextAreaUI extends BasicTextUI {
     }
 
     /**
-     * Creates the view for an element.  Returns a WrappedPlainView or
-     * PlainView.
+     * Crebtes the view for bn element.  Returns b WrbppedPlbinView or
+     * PlbinView.
      *
-     * @param elem the element
+     * @pbrbm elem the element
      * @return the view
      */
-    public View create(Element elem) {
+    public View crebte(Element elem) {
         Document doc = elem.getDocument();
-        Object i18nFlag = doc.getProperty("i18n"/*AbstractDocument.I18NProperty*/);
-        if ((i18nFlag != null) && i18nFlag.equals(Boolean.TRUE)) {
-            // build a view that support bidi
-            return createI18N(elem);
+        Object i18nFlbg = doc.getProperty("i18n"/*AbstrbctDocument.I18NProperty*/);
+        if ((i18nFlbg != null) && i18nFlbg.equbls(Boolebn.TRUE)) {
+            // build b view thbt support bidi
+            return crebteI18N(elem);
         } else {
             JTextComponent c = getComponent();
-            if (c instanceof JTextArea) {
-                JTextArea area = (JTextArea) c;
+            if (c instbnceof JTextAreb) {
+                JTextAreb breb = (JTextAreb) c;
                 View v;
-                if (area.getLineWrap()) {
-                    v = new WrappedPlainView(elem, area.getWrapStyleWord());
+                if (breb.getLineWrbp()) {
+                    v = new WrbppedPlbinView(elem, breb.getWrbpStyleWord());
                 } else {
-                    v = new PlainView(elem);
+                    v = new PlbinView(elem);
                 }
                 return v;
             }
@@ -165,12 +165,12 @@ public class BasicTextAreaUI extends BasicTextUI {
         return null;
     }
 
-    View createI18N(Element elem) {
-        String kind = elem.getName();
+    View crebteI18N(Element elem) {
+        String kind = elem.getNbme();
         if (kind != null) {
-            if (kind.equals(AbstractDocument.ContentElementName)) {
-                return new PlainParagraph(elem);
-            } else if (kind.equals(AbstractDocument.ParagraphElementName)) {
+            if (kind.equbls(AbstrbctDocument.ContentElementNbme)) {
+                return new PlbinPbrbgrbph(elem);
+            } else if (kind.equbls(AbstrbctDocument.PbrbgrbphElementNbme)) {
                 return new BoxView(elem, View.Y_AXIS);
             }
         }
@@ -178,30 +178,30 @@ public class BasicTextAreaUI extends BasicTextUI {
     }
 
     /**
-     * Returns the baseline.
+     * Returns the bbseline.
      *
      * @throws NullPointerException {@inheritDoc}
-     * @throws IllegalArgumentException {@inheritDoc}
-     * @see javax.swing.JComponent#getBaseline(int, int)
+     * @throws IllegblArgumentException {@inheritDoc}
+     * @see jbvbx.swing.JComponent#getBbseline(int, int)
      * @since 1.6
      */
-    public int getBaseline(JComponent c, int width, int height) {
-        super.getBaseline(c, width, height);
-        Object i18nFlag = ((JTextComponent)c).getDocument().
+    public int getBbseline(JComponent c, int width, int height) {
+        super.getBbseline(c, width, height);
+        Object i18nFlbg = ((JTextComponent)c).getDocument().
                                               getProperty("i18n");
         Insets insets = c.getInsets();
-        if (Boolean.TRUE.equals(i18nFlag)) {
+        if (Boolebn.TRUE.equbls(i18nFlbg)) {
             View rootView = getRootView((JTextComponent)c);
             if (rootView.getViewCount() > 0) {
                 height = height - insets.top - insets.bottom;
-                int baseline = insets.top;
-                int fieldBaseline = BasicHTML.getBaseline(
+                int bbseline = insets.top;
+                int fieldBbseline = BbsicHTML.getBbseline(
                         rootView.getView(0), width - insets.left -
                         insets.right, height);
-                if (fieldBaseline < 0) {
+                if (fieldBbseline < 0) {
                     return -1;
                 }
-                return baseline + fieldBaseline;
+                return bbseline + fieldBbseline;
             }
             return -1;
         }
@@ -210,79 +210,79 @@ public class BasicTextAreaUI extends BasicTextUI {
     }
 
     /**
-     * Returns an enum indicating how the baseline of the component
-     * changes as the size changes.
+     * Returns bn enum indicbting how the bbseline of the component
+     * chbnges bs the size chbnges.
      *
      * @throws NullPointerException {@inheritDoc}
-     * @see javax.swing.JComponent#getBaseline(int, int)
+     * @see jbvbx.swing.JComponent#getBbseline(int, int)
      * @since 1.6
      */
-    public Component.BaselineResizeBehavior getBaselineResizeBehavior(
+    public Component.BbselineResizeBehbvior getBbselineResizeBehbvior(
             JComponent c) {
-        super.getBaselineResizeBehavior(c);
-        return Component.BaselineResizeBehavior.CONSTANT_ASCENT;
+        super.getBbselineResizeBehbvior(c);
+        return Component.BbselineResizeBehbvior.CONSTANT_ASCENT;
     }
 
 
     /**
-     * Paragraph for representing plain-text lines that support
-     * bidirectional text.
+     * Pbrbgrbph for representing plbin-text lines thbt support
+     * bidirectionbl text.
      */
-    static class PlainParagraph extends ParagraphView {
+    stbtic clbss PlbinPbrbgrbph extends PbrbgrbphView {
 
-        PlainParagraph(Element elem) {
+        PlbinPbrbgrbph(Element elem) {
             super(elem);
-            layoutPool = new LogicalView(elem);
-            layoutPool.setParent(this);
+            lbyoutPool = new LogicblView(elem);
+            lbyoutPool.setPbrent(this);
         }
 
-        public void setParent(View parent) {
-            super.setParent(parent);
-            if (parent != null) {
+        public void setPbrent(View pbrent) {
+            super.setPbrent(pbrent);
+            if (pbrent != null) {
                 setPropertiesFromAttributes();
             }
         }
 
         protected void setPropertiesFromAttributes() {
-            Component c = getContainer();
-            if ((c != null) && (! c.getComponentOrientation().isLeftToRight())) {
-                setJustification(StyleConstants.ALIGN_RIGHT);
+            Component c = getContbiner();
+            if ((c != null) && (! c.getComponentOrientbtion().isLeftToRight())) {
+                setJustificbtion(StyleConstbnts.ALIGN_RIGHT);
             } else {
-                setJustification(StyleConstants.ALIGN_LEFT);
+                setJustificbtion(StyleConstbnts.ALIGN_LEFT);
             }
         }
 
         /**
-         * Fetch the constraining span to flow against for
+         * Fetch the constrbining spbn to flow bgbinst for
          * the given child index.
          */
-        public int getFlowSpan(int index) {
-            Component c = getContainer();
-            if (c instanceof JTextArea) {
-                JTextArea area = (JTextArea) c;
-                if (! area.getLineWrap()) {
-                    // no limit if unwrapped
+        public int getFlowSpbn(int index) {
+            Component c = getContbiner();
+            if (c instbnceof JTextAreb) {
+                JTextAreb breb = (JTextAreb) c;
+                if (! breb.getLineWrbp()) {
+                    // no limit if unwrbpped
                     return Integer.MAX_VALUE;
                 }
             }
-            return super.getFlowSpan(index);
+            return super.getFlowSpbn(index);
         }
 
-        protected SizeRequirements calculateMinorAxisRequirements(int axis,
+        protected SizeRequirements cblculbteMinorAxisRequirements(int bxis,
                                                                   SizeRequirements r) {
-            SizeRequirements req = super.calculateMinorAxisRequirements(axis, r);
-            Component c = getContainer();
-            if (c instanceof JTextArea) {
-                JTextArea area = (JTextArea) c;
-                if (! area.getLineWrap()) {
-                    // min is pref if unwrapped
+            SizeRequirements req = super.cblculbteMinorAxisRequirements(bxis, r);
+            Component c = getContbiner();
+            if (c instbnceof JTextAreb) {
+                JTextAreb breb = (JTextAreb) c;
+                if (! breb.getLineWrbp()) {
+                    // min is pref if unwrbpped
                     req.minimum = req.preferred;
                 } else {
                     req.minimum = 0;
                     req.preferred = getWidth();
                     if (req.preferred == Integer.MAX_VALUE) {
-                        // We have been initially set to MAX_VALUE, but we
-                        // don't want this as our preferred.
+                        // We hbve been initiblly set to MAX_VALUE, but we
+                        // don't wbnt this bs our preferred.
                         req.preferred = 100;
                     }
                 }
@@ -291,30 +291,30 @@ public class BasicTextAreaUI extends BasicTextUI {
         }
 
         /**
-         * Sets the size of the view.  If the size has changed, layout
+         * Sets the size of the view.  If the size hbs chbnged, lbyout
          * is redone.  The size is the full size of the view including
-         * the inset areas.
+         * the inset brebs.
          *
-         * @param width the width >= 0
-         * @param height the height >= 0
+         * @pbrbm width the width >= 0
+         * @pbrbm height the height >= 0
          */
-        public void setSize(float width, float height) {
+        public void setSize(flobt width, flobt height) {
             if ((int) width != getWidth()) {
-                preferenceChanged(null, true, true);
+                preferenceChbnged(null, true, true);
             }
             super.setSize(width, height);
         }
 
         /**
-         * This class can be used to represent a logical view for
-         * a flow.  It keeps the children updated to reflect the state
-         * of the model, gives the logical child views access to the
-         * view hierarchy, and calculates a preferred span.  It doesn't
-         * do any rendering, layout, or model/view translation.
+         * This clbss cbn be used to represent b logicbl view for
+         * b flow.  It keeps the children updbted to reflect the stbte
+         * of the model, gives the logicbl child views bccess to the
+         * view hierbrchy, bnd cblculbtes b preferred spbn.  It doesn't
+         * do bny rendering, lbyout, or model/view trbnslbtion.
          */
-        static class LogicalView extends CompositeView {
+        stbtic clbss LogicblView extends CompositeView {
 
-            LogicalView(Element elem) {
+            LogicblView(Element elem) {
                 super(elem);
             }
 
@@ -326,68 +326,68 @@ public class BasicTextAreaUI extends BasicTextUI {
                 return 0;
             }
 
-            protected boolean updateChildren(DocumentEvent.ElementChange ec,
-                                             DocumentEvent e, ViewFactory f) {
-                return false;
+            protected boolebn updbteChildren(DocumentEvent.ElementChbnge ec,
+                                             DocumentEvent e, ViewFbctory f) {
+                return fblse;
             }
 
-            protected void loadChildren(ViewFactory f) {
+            protected void lobdChildren(ViewFbctory f) {
                 Element elem = getElement();
                 if (elem.getElementCount() > 0) {
-                    super.loadChildren(f);
+                    super.lobdChildren(f);
                 } else {
                     View v = new GlyphView(elem);
-                    append(v);
+                    bppend(v);
                 }
             }
 
-            public float getPreferredSpan(int axis) {
+            public flobt getPreferredSpbn(int bxis) {
                 if( getViewCount() != 1 )
-                    throw new Error("One child view is assumed.");
+                    throw new Error("One child view is bssumed.");
 
                 View v = getView(0);
-                return v.getPreferredSpan(axis);
+                return v.getPreferredSpbn(bxis);
             }
 
             /**
-             * Forward the DocumentEvent to the given child view.  This
-             * is implemented to reparent the child to the logical view
-             * (the children may have been parented by a row in the flow
-             * if they fit without breaking) and then execute the superclass
-             * behavior.
+             * Forwbrd the DocumentEvent to the given child view.  This
+             * is implemented to repbrent the child to the logicbl view
+             * (the children mby hbve been pbrented by b row in the flow
+             * if they fit without brebking) bnd then execute the superclbss
+             * behbvior.
              *
-             * @param v the child view to forward the event to.
-             * @param e the change information from the associated document
-             * @param a the current allocation of the view
-             * @param f the factory to use to rebuild if the view has children
-             * @see #forwardUpdate
+             * @pbrbm v the child view to forwbrd the event to.
+             * @pbrbm e the chbnge informbtion from the bssocibted document
+             * @pbrbm b the current bllocbtion of the view
+             * @pbrbm f the fbctory to use to rebuild if the view hbs children
+             * @see #forwbrdUpdbte
              * @since 1.3
              */
-            protected void forwardUpdateToView(View v, DocumentEvent e,
-                                               Shape a, ViewFactory f) {
-                v.setParent(this);
-                super.forwardUpdateToView(v, e, a, f);
+            protected void forwbrdUpdbteToView(View v, DocumentEvent e,
+                                               Shbpe b, ViewFbctory f) {
+                v.setPbrent(this);
+                super.forwbrdUpdbteToView(v, e, b, f);
             }
 
-            // The following methods don't do anything useful, they
-            // simply keep the class from being abstract.
+            // The following methods don't do bnything useful, they
+            // simply keep the clbss from being bbstrbct.
 
-            public void paint(Graphics g, Shape allocation) {
+            public void pbint(Grbphics g, Shbpe bllocbtion) {
             }
 
-            protected boolean isBefore(int x, int y, Rectangle alloc) {
-                return false;
+            protected boolebn isBefore(int x, int y, Rectbngle blloc) {
+                return fblse;
             }
 
-            protected boolean isAfter(int x, int y, Rectangle alloc) {
-                return false;
+            protected boolebn isAfter(int x, int y, Rectbngle blloc) {
+                return fblse;
             }
 
-            protected View getViewAtPoint(int x, int y, Rectangle alloc) {
+            protected View getViewAtPoint(int x, int y, Rectbngle blloc) {
                 return null;
             }
 
-            protected void childAllocation(int index, Rectangle a) {
+            protected void childAllocbtion(int index, Rectbngle b) {
             }
         }
     }

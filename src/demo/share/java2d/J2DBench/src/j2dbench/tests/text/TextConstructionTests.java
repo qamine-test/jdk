@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,55 +30,55 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
 /*
  * (C) Copyright IBM Corp. 2003, All Rights Reserved.
- * This technology is protected by multiple US and International
- * patents. This notice and attribution to IBM may not be removed.
+ * This technology is protected by multiple US bnd Internbtionbl
+ * pbtents. This notice bnd bttribution to IBM mby not be removed.
  */
 
-package j2dbench.tests.text;
+pbckbge j2dbench.tests.text;
 
-import java.awt.Font;
-import java.awt.font.FontRenderContext;
-import java.awt.font.GlyphVector;
-import java.awt.font.TextLayout;
-import java.text.AttributedCharacterIterator;
-import java.text.AttributedString;
-import java.text.Bidi;
-import java.text.CharacterIterator;
-import java.util.Map;
+import jbvb.bwt.Font;
+import jbvb.bwt.font.FontRenderContext;
+import jbvb.bwt.font.GlyphVector;
+import jbvb.bwt.font.TextLbyout;
+import jbvb.text.AttributedChbrbcterIterbtor;
+import jbvb.text.AttributedString;
+import jbvb.text.Bidi;
+import jbvb.text.ChbrbcterIterbtor;
+import jbvb.util.Mbp;
 
 import j2dbench.Group;
 import j2dbench.Result;
 import j2dbench.TestEnvironment;
 
-public abstract class TextConstructionTests extends TextTests {
-    static Group constructroot;
-    static Group constructtestroot;
+public bbstrbct clbss TextConstructionTests extends TextTests {
+    stbtic Group constructroot;
+    stbtic Group constructtestroot;
 
-    public static void init() {
-      // don't even bother with this at all if we don't have Java2 APIs.
-      if (hasGraphics2D) {
-        constructroot = new Group(textroot, "construction", "Construction Benchmarks");
+    public stbtic void init() {
+      // don't even bother with this bt bll if we don't hbve Jbvb2 APIs.
+      if (hbsGrbphics2D) {
+        constructroot = new Group(textroot, "construction", "Construction Benchmbrks");
         constructtestroot = new Group(constructroot, "tests", "Construction Tests");
 
         new GVFromFontString();
-        new GVFromFontChars();
+        new GVFromFontChbrs();
         new GVFromFontCI();
         new GVFromFontGlyphs();
-        new GVFromFontLayout();
+        new GVFromFontLbyout();
         //  new GVClone(); // not public API!
 
         new TLFromFont();
-        new TLFromMap();
+        new TLFromMbp();
         /*
         new TLFromACI();
         new TLClone();
@@ -88,134 +88,134 @@ public abstract class TextConstructionTests extends TextTests {
       }
     }
 
-    public TextConstructionTests(Group parent, String nodeName, String description) {
-        super(parent, nodeName, description);
+    public TextConstructionTests(Group pbrent, String nodeNbme, String description) {
+        super(pbrent, nodeNbme, description);
     }
 
-    public static class TCContext extends G2DContext {
-        char[] chars1;
-        CharacterIterator ci;
+    public stbtic clbss TCContext extends G2DContext {
+        chbr[] chbrs1;
+        ChbrbcterIterbtor ci;
         GlyphVector gv;
         int[] glyphs;
-        int flags;
+        int flbgs;
 
         public void init(TestEnvironment env, Result results) {
             super.init(env, results);
 
-            chars1 = new char[chars.length + 2];
-            System.arraycopy(chars, 0, chars1, 1, chars.length);
-            ci = new ArrayCI(chars1, 1, chars.length);
-            gv = font.createGlyphVector(frc, text);
+            chbrs1 = new chbr[chbrs.length + 2];
+            System.brrbycopy(chbrs, 0, chbrs1, 1, chbrs.length);
+            ci = new ArrbyCI(chbrs1, 1, chbrs.length);
+            gv = font.crebteGlyphVector(frc, text);
             glyphs = gv.getGlyphCodes(0, gv.getNumGlyphs(), null);
-            flags = Bidi.requiresBidi(chars, 0, chars.length)
+            flbgs = Bidi.requiresBidi(chbrs, 0, chbrs.length)
                 ? Font.LAYOUT_LEFT_TO_RIGHT
                 : Font.LAYOUT_RIGHT_TO_LEFT;
         }
     }
 
-    public Context createContext() {
+    public Context crebteContext() {
         return new TCContext();
     }
 
-    public static class GVFromFontString extends TextConstructionTests {
+    public stbtic clbss GVFromFontString extends TextConstructionTests {
         public GVFromFontString() {
-            super(constructtestroot, "gvfromfontstring", "Call Font.createGlyphVector(FRC, String)");
+            super(constructtestroot, "gvfromfontstring", "Cbll Font.crebteGlyphVector(FRC, String)");
         }
 
         public void runTest(Object ctx, int numReps) {
             TCContext tcctx = (TCContext)ctx;
-            final Font font = tcctx.font;
-            final String text = tcctx.text;
-            final FontRenderContext frc = tcctx.frc;
+            finbl Font font = tcctx.font;
+            finbl String text = tcctx.text;
+            finbl FontRenderContext frc = tcctx.frc;
             GlyphVector gv;
             do {
-                gv = font.createGlyphVector(frc, text);
+                gv = font.crebteGlyphVector(frc, text);
             } while (--numReps >= 0);
         }
     }
 
-    public static class GVFromFontChars extends TextConstructionTests {
-        public GVFromFontChars() {
-            super(constructtestroot, "gvfromfontchars", "Call Font.createGlyphVector(FRC, char[])");
+    public stbtic clbss GVFromFontChbrs extends TextConstructionTests {
+        public GVFromFontChbrs() {
+            super(constructtestroot, "gvfromfontchbrs", "Cbll Font.crebteGlyphVector(FRC, chbr[])");
         }
 
         public void runTest(Object ctx, int numReps) {
             TCContext tcctx = (TCContext)ctx;
-            final Font font = tcctx.font;
-            final char[] chars = tcctx.chars;
-            final FontRenderContext frc = tcctx.frc;
+            finbl Font font = tcctx.font;
+            finbl chbr[] chbrs = tcctx.chbrs;
+            finbl FontRenderContext frc = tcctx.frc;
             GlyphVector gv;
             do {
-                gv = font.createGlyphVector(frc, chars);
+                gv = font.crebteGlyphVector(frc, chbrs);
             } while (--numReps >= 0);
         }
     }
 
-    public static class GVFromFontCI extends TextConstructionTests {
+    public stbtic clbss GVFromFontCI extends TextConstructionTests {
         public GVFromFontCI() {
-            super(constructtestroot, "gvfromfontci", "Call Font.createGlyphVector(FRC, CharacterIterator)");
+            super(constructtestroot, "gvfromfontci", "Cbll Font.crebteGlyphVector(FRC, ChbrbcterIterbtor)");
         }
 
         public void runTest(Object ctx, int numReps) {
             TCContext tcctx = (TCContext)ctx;
-            final Font font = tcctx.font;
-            final CharacterIterator ci = tcctx.ci;
-            final FontRenderContext frc = tcctx.frc;
+            finbl Font font = tcctx.font;
+            finbl ChbrbcterIterbtor ci = tcctx.ci;
+            finbl FontRenderContext frc = tcctx.frc;
             GlyphVector gv;
             do {
-                gv = font.createGlyphVector(frc, ci);
+                gv = font.crebteGlyphVector(frc, ci);
             } while (--numReps >= 0);
         }
     }
 
-    public static class GVFromFontGlyphs extends TextConstructionTests {
+    public stbtic clbss GVFromFontGlyphs extends TextConstructionTests {
         public GVFromFontGlyphs() {
-            super(constructtestroot, "gvfromfontglyphs", "Call Font.createGlyphVector(FRC, int[])");
+            super(constructtestroot, "gvfromfontglyphs", "Cbll Font.crebteGlyphVector(FRC, int[])");
         }
 
         public void runTest(Object ctx, int numReps) {
             TCContext tcctx = (TCContext)ctx;
-            final Font font = tcctx.font;
-            final int[] glyphs = tcctx.glyphs;
-            final FontRenderContext frc = tcctx.frc;
+            finbl Font font = tcctx.font;
+            finbl int[] glyphs = tcctx.glyphs;
+            finbl FontRenderContext frc = tcctx.frc;
             GlyphVector gv;
             do {
-                gv = font.createGlyphVector(frc, glyphs);
+                gv = font.crebteGlyphVector(frc, glyphs);
             } while (--numReps >= 0);
         }
     }
 
-    public static class GVFromFontLayout extends TextConstructionTests {
-        public GVFromFontLayout() {
-            super(constructtestroot, "gvfromfontlayout", "Call Font.layoutGlyphVector(...)");
+    public stbtic clbss GVFromFontLbyout extends TextConstructionTests {
+        public GVFromFontLbyout() {
+            super(constructtestroot, "gvfromfontlbyout", "Cbll Font.lbyoutGlyphVector(...)");
         }
 
         public void runTest(Object ctx, int numReps) {
             TCContext tcctx = (TCContext)ctx;
-            final Font font = tcctx.font;
-            final char[] chars = tcctx.chars1;
-            final int start = 1;
-            final int limit = chars.length - 1;
-            final FontRenderContext frc = tcctx.frc;
-            final int flags = tcctx.flags;
+            finbl Font font = tcctx.font;
+            finbl chbr[] chbrs = tcctx.chbrs1;
+            finbl int stbrt = 1;
+            finbl int limit = chbrs.length - 1;
+            finbl FontRenderContext frc = tcctx.frc;
+            finbl int flbgs = tcctx.flbgs;
             GlyphVector gv;
             do {
-                gv = font.layoutGlyphVector(frc, chars, start, limit, flags);
+                gv = font.lbyoutGlyphVector(frc, chbrs, stbrt, limit, flbgs);
             } while (--numReps >= 0);
         }
     }
 
     /*
-     * my bad, clone is not public in GlyphVector!
+     * my bbd, clone is not public in GlyphVector!
 
-    public static class GVClone extends TextConstructionTests {
+    public stbtic clbss GVClone extends TextConstructionTests {
         public GVClone() {
-            super(constructtestroot, "gvclone", "Call GV.clone");
+            super(constructtestroot, "gvclone", "Cbll GV.clone");
         }
 
         public void runTest(Object ctx, int numReps) {
             TCContext tcctx = (TCContext)ctx;
-            final GlyphVector origGV = tcctx.gv;
+            finbl GlyphVector origGV = tcctx.gv;
             GlyphVector gv;
             do {
                 gv = (GlyphVector)origGV.clone();
@@ -224,238 +224,238 @@ public abstract class TextConstructionTests extends TextTests {
     }
     */
 
-    public static class TLFromFont extends TextConstructionTests {
+    public stbtic clbss TLFromFont extends TextConstructionTests {
         public TLFromFont() {
-            super(constructtestroot, "tlfromfont", "TextLayout(String, Font, FRC)");
+            super(constructtestroot, "tlfromfont", "TextLbyout(String, Font, FRC)");
         }
 
         public void runTest(Object ctx, int numReps) {
             TCContext tcctx = (TCContext)ctx;
-            final Font font = tcctx.font;
-            final String text = tcctx.text;
-            final FontRenderContext frc = tcctx.frc;
-            TextLayout tl;
+            finbl Font font = tcctx.font;
+            finbl String text = tcctx.text;
+            finbl FontRenderContext frc = tcctx.frc;
+            TextLbyout tl;
             do {
-                tl = new TextLayout(text, font, frc);
+                tl = new TextLbyout(text, font, frc);
             } while (--numReps >= 0);
         }
     }
 
-    public static class TLMapContext extends G2DContext {
-        Map map;
+    public stbtic clbss TLMbpContext extends G2DContext {
+        Mbp mbp;
 
         public void init(TestEnvironment env, Result results) {
             super.init(env, results);
 
-            map = (Map)env.getModifier(tlmapList);
+            mbp = (Mbp)env.getModifier(tlmbpList);
         }
 
     }
 
-    public static class TLFromMap extends TextConstructionTests {
-        public TLFromMap() {
-            super(constructtestroot, "tlfrommap", "TextLayout(String, Map, FRC)");
+    public stbtic clbss TLFromMbp extends TextConstructionTests {
+        public TLFromMbp() {
+            super(constructtestroot, "tlfrommbp", "TextLbyout(String, Mbp, FRC)");
         }
 
-        public Context createContext() {
-            return new TLMapContext();
+        public Context crebteContext() {
+            return new TLMbpContext();
         }
 
         public void runTest(Object ctx, int numReps) {
-            TLMapContext tlmctx = (TLMapContext)ctx;
-            final String text = tlmctx.text;
-            final FontRenderContext frc = tlmctx.frc;
-            final Map map = tlmctx.map;
-            TextLayout tl;
+            TLMbpContext tlmctx = (TLMbpContext)ctx;
+            finbl String text = tlmctx.text;
+            finbl FontRenderContext frc = tlmctx.frc;
+            finbl Mbp mbp = tlmctx.mbp;
+            TextLbyout tl;
             do {
-                tl = new TextLayout(text, map, frc);
+                tl = new TextLbyout(text, mbp, frc);
             } while (--numReps >= 0);
         }
     }
 
-    public static class ACIContext extends G2DContext {
-        AttributedCharacterIterator aci;
+    public stbtic clbss ACIContext extends G2DContext {
+        AttributedChbrbcterIterbtor bci;
 
         public void init(TestEnvironment env, Result results) {
             super.init(env, results);
 
-            AttributedString astr = new AttributedString(text);
+            AttributedString bstr = new AttributedString(text);
 
         }
     }
 
-    public class TLFromACI extends TextConstructionTests {
+    public clbss TLFromACI extends TextConstructionTests {
         public TLFromACI() {
-            super(constructtestroot, "tlfromaci", "TextLayout(ACI, FRC)");
+            super(constructtestroot, "tlfrombci", "TextLbyout(ACI, FRC)");
         }
 
         public void runTest(Object ctx, int numReps) {
             TCContext tcctx = (TCContext)ctx;
-            final Font font = tcctx.font;
-            final String text = tcctx.text;
-            final FontRenderContext frc = tcctx.frc;
-            TextLayout tl;
+            finbl Font font = tcctx.font;
+            finbl String text = tcctx.text;
+            finbl FontRenderContext frc = tcctx.frc;
+            TextLbyout tl;
             do {
-                tl = new TextLayout(text, font, frc);
+                tl = new TextLbyout(text, font, frc);
             } while (--numReps >= 0);
         }
     }
 
-    public class TLClone extends TextConstructionTests {
+    public clbss TLClone extends TextConstructionTests {
         public TLClone() {
-            super(constructtestroot, "tlclone", "call TextLayout.clone()");
+            super(constructtestroot, "tlclone", "cbll TextLbyout.clone()");
         }
 
         public void runTest(Object ctx, int numReps) {
             TCContext tcctx = (TCContext)ctx;
-            final Font font = tcctx.font;
-            final String text = tcctx.text;
-            final FontRenderContext frc = tcctx.frc;
-            TextLayout tl;
+            finbl Font font = tcctx.font;
+            finbl String text = tcctx.text;
+            finbl FontRenderContext frc = tcctx.frc;
+            TextLbyout tl;
             do {
-                tl = new TextLayout(text, font, frc);
+                tl = new TextLbyout(text, font, frc);
             } while (--numReps >= 0);
         }
     }
 
-    public class TLJustify extends TextConstructionTests {
+    public clbss TLJustify extends TextConstructionTests {
         public TLJustify() {
-            super(constructtestroot, "tljustify", "call TextLayout.getJustifiedLayout(...)");
+            super(constructtestroot, "tljustify", "cbll TextLbyout.getJustifiedLbyout(...)");
         }
 
         public void runTest(Object ctx, int numReps) {
             TCContext tcctx = (TCContext)ctx;
-            final Font font = tcctx.font;
-            final String text = tcctx.text;
-            final FontRenderContext frc = tcctx.frc;
-            TextLayout tl;
+            finbl Font font = tcctx.font;
+            finbl String text = tcctx.text;
+            finbl FontRenderContext frc = tcctx.frc;
+            TextLbyout tl;
             do {
-                tl = new TextLayout(text, font, frc);
+                tl = new TextLbyout(text, font, frc);
             } while (--numReps >= 0);
         }
     }
 
-    public class TLFromLBM extends TextConstructionTests {
+    public clbss TLFromLBM extends TextConstructionTests {
         public TLFromLBM() {
-            super(constructtestroot, "tlfromlbm", "call LineBreakMeasurer.next()");
+            super(constructtestroot, "tlfromlbm", "cbll LineBrebkMebsurer.next()");
         }
 
         public void runTest(Object ctx, int numReps) {
             TCContext tcctx = (TCContext)ctx;
-            final Font font = tcctx.font;
-            final String text = tcctx.text;
-            final FontRenderContext frc = tcctx.frc;
-            TextLayout tl;
+            finbl Font font = tcctx.font;
+            finbl String text = tcctx.text;
+            finbl FontRenderContext frc = tcctx.frc;
+            TextLbyout tl;
             do {
-                tl = new TextLayout(text, font, frc);
+                tl = new TextLbyout(text, font, frc);
             } while (--numReps >= 0);
         }
     }
 
-    public static final class ArrayCI implements CharacterIterator {
-        char[] chars;
+    public stbtic finbl clbss ArrbyCI implements ChbrbcterIterbtor {
+        chbr[] chbrs;
         int off;
-        int max;
+        int mbx;
         int pos;
 
-        ArrayCI(char[] chars, int off, int len) {
-            if (off < 0 || len < 0 || (len > 0 && (chars == null || chars.length - off < len))) {
-                throw new InternalError("bad ArrayCI params");
+        ArrbyCI(chbr[] chbrs, int off, int len) {
+            if (off < 0 || len < 0 || (len > 0 && (chbrs == null || chbrs.length - off < len))) {
+                throw new InternblError("bbd ArrbyCI pbrbms");
             }
-            this.chars = chars;
+            this.chbrs = chbrs;
             this.off = off;
-            this.max = off + len;
+            this.mbx = off + len;
             this.pos = off;
         }
 
     /**
-     * Sets the position to getBeginIndex() and returns the character at that
+     * Sets the position to getBeginIndex() bnd returns the chbrbcter bt thbt
      * position.
-     * @return the first character in the text, or DONE if the text is empty
+     * @return the first chbrbcter in the text, or DONE if the text is empty
      * @see #getBeginIndex()
      */
-        public char first() {
-            if (max > off) {
-                return chars[pos = off];
+        public chbr first() {
+            if (mbx > off) {
+                return chbrs[pos = off];
             }
             return DONE;
         }
 
     /**
      * Sets the position to getEndIndex()-1 (getEndIndex() if the text is empty)
-     * and returns the character at that position.
-     * @return the last character in the text, or DONE if the text is empty
+     * bnd returns the chbrbcter bt thbt position.
+     * @return the lbst chbrbcter in the text, or DONE if the text is empty
      * @see #getEndIndex()
      */
-        public char last() {
-            if (max > off) {
-                return chars[pos = max - 1];
+        public chbr lbst() {
+            if (mbx > off) {
+                return chbrs[pos = mbx - 1];
             }
-            pos = max;
+            pos = mbx;
             return DONE;
         }
 
     /**
-     * Gets the character at the current position (as returned by getIndex()).
-     * @return the character at the current position or DONE if the current
+     * Gets the chbrbcter bt the current position (bs returned by getIndex()).
+     * @return the chbrbcter bt the current position or DONE if the current
      * position is off the end of the text.
      * @see #getIndex()
      */
-        public char current() {
-            return pos == max ? DONE : chars[pos];
+        public chbr current() {
+            return pos == mbx ? DONE : chbrs[pos];
         }
 
 
     /**
-     * Increments the iterator's index by one and returns the character
-     * at the new index.  If the resulting index is greater or equal
-     * to getEndIndex(), the current index is reset to getEndIndex() and
-     * a value of DONE is returned.
-     * @return the character at the new position or DONE if the new
-     * position is off the end of the text range.
+     * Increments the iterbtor's index by one bnd returns the chbrbcter
+     * bt the new index.  If the resulting index is grebter or equbl
+     * to getEndIndex(), the current index is reset to getEndIndex() bnd
+     * b vblue of DONE is returned.
+     * @return the chbrbcter bt the new position or DONE if the new
+     * position is off the end of the text rbnge.
      */
-        public char next() {
-            if (++pos < max) {
-                return chars[pos];
+        public chbr next() {
+            if (++pos < mbx) {
+                return chbrs[pos];
             }
-            pos = max;
+            pos = mbx;
             return DONE;
         }
 
 
     /**
-     * Decrements the iterator's index by one and returns the character
-     * at the new index. If the current index is getBeginIndex(), the index
-     * remains at getBeginIndex() and a value of DONE is returned.
-     * @return the character at the new position or DONE if the current
-     * position is equal to getBeginIndex().
+     * Decrements the iterbtor's index by one bnd returns the chbrbcter
+     * bt the new index. If the current index is getBeginIndex(), the index
+     * rembins bt getBeginIndex() bnd b vblue of DONE is returned.
+     * @return the chbrbcter bt the new position or DONE if the current
+     * position is equbl to getBeginIndex().
      */
-        public char previous() {
+        public chbr previous() {
             if (--pos >= off) {
-                return chars[pos];
+                return chbrs[pos];
             }
             pos = off;
             return DONE;
         }
 
     /**
-     * Sets the position to the specified position in the text and returns that
-     * character.
-     * @param position the position within the text.  Valid values range from
-     * getBeginIndex() to getEndIndex().  An IllegalArgumentException is thrown
-     * if an invalid value is supplied.
-     * @return the character at the specified position or DONE if the specified position is equal to getEndIndex()
+     * Sets the position to the specified position in the text bnd returns thbt
+     * chbrbcter.
+     * @pbrbm position the position within the text.  Vblid vblues rbnge from
+     * getBeginIndex() to getEndIndex().  An IllegblArgumentException is thrown
+     * if bn invblid vblue is supplied.
+     * @return the chbrbcter bt the specified position or DONE if the specified position is equbl to getEndIndex()
      */
-        public char setIndex(int position) {
-            if (position < off || position > max) {
-                throw new IllegalArgumentException("pos: " + position + " off: " + off + " len: " + (max - off));
+        public chbr setIndex(int position) {
+            if (position < off || position > mbx) {
+                throw new IllegblArgumentException("pos: " + position + " off: " + off + " len: " + (mbx - off));
             }
-            return ((pos = position) < max) ? chars[position] : DONE;
+            return ((pos = position) < mbx) ? chbrs[position] : DONE;
         }
 
     /**
-     * Returns the start index of the text.
-     * @return the index at which the text begins.
+     * Returns the stbrt index of the text.
+     * @return the index bt which the text begins.
      */
         public int getBeginIndex() {
             return off;
@@ -463,11 +463,11 @@ public abstract class TextConstructionTests extends TextTests {
 
     /**
      * Returns the end index of the text.  This index is the index of the first
-     * character following the end of the text.
-     * @return the index after the last character in the text
+     * chbrbcter following the end of the text.
+     * @return the index bfter the lbst chbrbcter in the text
      */
         public int getEndIndex() {
-            return max;
+            return mbx;
         }
 
     /**
@@ -479,15 +479,15 @@ public abstract class TextConstructionTests extends TextTests {
         }
 
     /**
-     * Create a copy of this iterator
+     * Crebte b copy of this iterbtor
      * @return A copy of this
      */
         public Object clone() {
             try {
                 return super.clone();
             }
-            catch (Exception e) {
-                return new InternalError();
+            cbtch (Exception e) {
+                return new InternblError();
             }
         }
     }

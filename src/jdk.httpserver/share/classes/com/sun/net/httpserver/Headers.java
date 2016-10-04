@@ -1,75 +1,75 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.net.httpserver;
+pbckbge com.sun.net.httpserver;
 
-import java.util.*;
+import jbvb.util.*;
 
 /**
- * HTTP request and response headers are represented by this class which implements
- * the interface {@link java.util.Map}&lt;
- * {@link java.lang.String},{@link java.util.List}&lt;{@link java.lang.String}&gt;&gt;.
- * The keys are case-insensitive Strings representing the header names and
- * the value associated with each key is a {@link List}&lt;{@link String}&gt; with one
- * element for each occurrence of the header name in the request or response.
+ * HTTP request bnd response hebders bre represented by this clbss which implements
+ * the interfbce {@link jbvb.util.Mbp}&lt;
+ * {@link jbvb.lbng.String},{@link jbvb.util.List}&lt;{@link jbvb.lbng.String}&gt;&gt;.
+ * The keys bre cbse-insensitive Strings representing the hebder nbmes bnd
+ * the vblue bssocibted with ebch key is b {@link List}&lt;{@link String}&gt; with one
+ * element for ebch occurrence of the hebder nbme in the request or response.
  * <p>
- * For example, if a response header instance contains one key "HeaderName" with two values "value1 and value2"
- * then this object is output as two header lines:
+ * For exbmple, if b response hebder instbnce contbins one key "HebderNbme" with two vblues "vblue1 bnd vblue2"
+ * then this object is output bs two hebder lines:
  * <blockquote><pre>
- * HeaderName: value1
- * HeaderName: value2
+ * HebderNbme: vblue1
+ * HebderNbme: vblue2
  * </blockquote></pre>
  * <p>
- * All the normal {@link java.util.Map} methods are provided, but the following
- * additional convenience methods are most likely to be used:
+ * All the normbl {@link jbvb.util.Mbp} methods bre provided, but the following
+ * bdditionbl convenience methods bre most likely to be used:
  * <ul>
- * <li>{@link #getFirst(String)} returns a single valued header or the first value of
- * a multi-valued header.</li>
- * <li>{@link #add(String,String)} adds the given header value to the list for the given key</li>
- * <li>{@link #set(String,String)} sets the given header field to the single value given
- * overwriting any existing values in the value list.
+ * <li>{@link #getFirst(String)} returns b single vblued hebder or the first vblue of
+ * b multi-vblued hebder.</li>
+ * <li>{@link #bdd(String,String)} bdds the given hebder vblue to the list for the given key</li>
+ * <li>{@link #set(String,String)} sets the given hebder field to the single vblue given
+ * overwriting bny existing vblues in the vblue list.
  * </ul><p>
- * All methods in this class accept <code>null</code> values for keys and values. However, null
- * keys will never will be present in HTTP request headers, and will not be output/sent in response headers.
- * Null values can be represented as either a null entry for the key (i.e. the list is null) or
- * where the key has a list, but one (or more) of the list's values is null. Null values are output
- * as a header line containing the key but no associated value.
+ * All methods in this clbss bccept <code>null</code> vblues for keys bnd vblues. However, null
+ * keys will never will be present in HTTP request hebders, bnd will not be output/sent in response hebders.
+ * Null vblues cbn be represented bs either b null entry for the key (i.e. the list is null) or
+ * where the key hbs b list, but one (or more) of the list's vblues is null. Null vblues bre output
+ * bs b hebder line contbining the key but no bssocibted vblue.
  * @since 1.6
  */
 @jdk.Exported
-public class Headers implements Map<String,List<String>> {
+public clbss Hebders implements Mbp<String,List<String>> {
 
-        HashMap<String,List<String>> map;
+        HbshMbp<String,List<String>> mbp;
 
-        public Headers () {map = new HashMap<String,List<String>>(32);}
+        public Hebders () {mbp = new HbshMbp<String,List<String>>(32);}
 
-        /* Normalize the key by converting to following form.
-         * First char upper case, rest lower case.
+        /* Normblize the key by converting to following form.
+         * First chbr upper cbse, rest lower cbse.
          * key is presumed to be ASCII
          */
-        private String normalize (String key) {
+        privbte String normblize (String key) {
             if (key == null) {
                 return null;
             }
@@ -77,108 +77,108 @@ public class Headers implements Map<String,List<String>> {
             if (len == 0) {
                 return key;
             }
-            char[] b = key.toCharArray();
-            if (b[0] >= 'a' && b[0] <= 'z') {
-                b[0] = (char)(b[0] - ('a' - 'A'));
+            chbr[] b = key.toChbrArrby();
+            if (b[0] >= 'b' && b[0] <= 'z') {
+                b[0] = (chbr)(b[0] - ('b' - 'A'));
             }
             for (int i=1; i<len; i++) {
                 if (b[i] >= 'A' && b[i] <= 'Z') {
-                    b[i] = (char) (b[i] + ('a' - 'A'));
+                    b[i] = (chbr) (b[i] + ('b' - 'A'));
                 }
             }
             return new String(b);
         }
 
-        public int size() {return map.size();}
+        public int size() {return mbp.size();}
 
-        public boolean isEmpty() {return map.isEmpty();}
+        public boolebn isEmpty() {return mbp.isEmpty();}
 
-        public boolean containsKey(Object key) {
+        public boolebn contbinsKey(Object key) {
             if (key == null) {
-                return false;
+                return fblse;
             }
-            if (!(key instanceof String)) {
-                return false;
+            if (!(key instbnceof String)) {
+                return fblse;
             }
-            return map.containsKey (normalize((String)key));
+            return mbp.contbinsKey (normblize((String)key));
         }
 
-        public boolean containsValue(Object value) {
-            return map.containsValue(value);
+        public boolebn contbinsVblue(Object vblue) {
+            return mbp.contbinsVblue(vblue);
         }
 
         public List<String> get(Object key) {
-            return map.get(normalize((String)key));
+            return mbp.get(normblize((String)key));
         }
 
         /**
-         * returns the first value from the List of String values
-         * for the given key (if at least one exists).
-         * @param key the key to search for
-         * @return the first string value associated with the key
+         * returns the first vblue from the List of String vblues
+         * for the given key (if bt lebst one exists).
+         * @pbrbm key the key to sebrch for
+         * @return the first string vblue bssocibted with the key
          */
         public String getFirst (String key) {
-            List<String> l = map.get(normalize(key));
+            List<String> l = mbp.get(normblize(key));
             if (l == null) {
                 return null;
             }
             return l.get(0);
         }
 
-        public List<String> put(String key, List<String> value) {
-            return map.put (normalize(key), value);
+        public List<String> put(String key, List<String> vblue) {
+            return mbp.put (normblize(key), vblue);
         }
 
         /**
-         * adds the given value to the list of headers
-         * for the given key. If the mapping does not
-         * already exist, then it is created
-         * @param key the header name
-         * @param value the header value to add to the header
+         * bdds the given vblue to the list of hebders
+         * for the given key. If the mbpping does not
+         * blrebdy exist, then it is crebted
+         * @pbrbm key the hebder nbme
+         * @pbrbm vblue the hebder vblue to bdd to the hebder
          */
-        public void add (String key, String value) {
-            String k = normalize(key);
-            List<String> l = map.get(k);
+        public void bdd (String key, String vblue) {
+            String k = normblize(key);
+            List<String> l = mbp.get(k);
             if (l == null) {
                 l = new LinkedList<String>();
-                map.put(k,l);
+                mbp.put(k,l);
             }
-            l.add (value);
+            l.bdd (vblue);
         }
 
         /**
-         * sets the given value as the sole header value
-         * for the given key. If the mapping does not
-         * already exist, then it is created
-         * @param key the header name
-         * @param value the header value to set.
+         * sets the given vblue bs the sole hebder vblue
+         * for the given key. If the mbpping does not
+         * blrebdy exist, then it is crebted
+         * @pbrbm key the hebder nbme
+         * @pbrbm vblue the hebder vblue to set.
          */
-        public void set (String key, String value) {
+        public void set (String key, String vblue) {
             LinkedList<String> l = new LinkedList<String>();
-            l.add (value);
+            l.bdd (vblue);
             put (key, l);
         }
 
 
         public List<String> remove(Object key) {
-            return map.remove(normalize((String)key));
+            return mbp.remove(normblize((String)key));
         }
 
-        public void putAll(Map<? extends String,? extends List<String>> t)  {
-            map.putAll (t);
+        public void putAll(Mbp<? extends String,? extends List<String>> t)  {
+            mbp.putAll (t);
         }
 
-        public void clear() {map.clear();}
+        public void clebr() {mbp.clebr();}
 
-        public Set<String> keySet() {return map.keySet();}
+        public Set<String> keySet() {return mbp.keySet();}
 
-        public Collection<List<String>> values() {return map.values();}
+        public Collection<List<String>> vblues() {return mbp.vblues();}
 
-        public Set<Map.Entry<String, List<String>>> entrySet() {
-            return map.entrySet();
+        public Set<Mbp.Entry<String, List<String>>> entrySet() {
+            return mbp.entrySet();
         }
 
-        public boolean equals(Object o) {return map.equals(o);}
+        public boolebn equbls(Object o) {return mbp.equbls(o);}
 
-        public int hashCode() {return map.hashCode();}
+        public int hbshCode() {return mbp.hbshCode();}
     }

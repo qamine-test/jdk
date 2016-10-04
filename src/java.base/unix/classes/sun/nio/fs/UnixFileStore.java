@@ -1,72 +1,72 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.nio.fs;
+pbckbge sun.nio.fs;
 
-import java.nio.file.*;
-import java.nio.file.attribute.*;
-import java.nio.channels.*;
-import java.util.*;
-import java.io.IOException;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
+import jbvb.nio.file.*;
+import jbvb.nio.file.bttribute.*;
+import jbvb.nio.chbnnels.*;
+import jbvb.util.*;
+import jbvb.io.IOException;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedAction;
 
 /**
- * Base implementation of FileStore for Unix/like implementations.
+ * Bbse implementbtion of FileStore for Unix/like implementbtions.
  */
 
-abstract class UnixFileStore
+bbstrbct clbss UnixFileStore
     extends FileStore
 {
-    // original path of file that identified file system
-    private final UnixPath file;
+    // originbl pbth of file thbt identified file system
+    privbte finbl UnixPbth file;
 
     // device ID
-    private final long dev;
+    privbte finbl long dev;
 
-    // entry in the mount tab
-    private final UnixMountEntry entry;
+    // entry in the mount tbb
+    privbte finbl UnixMountEntry entry;
 
     // return the device ID where the given file resides
-    private static long devFor(UnixPath file) throws IOException {
+    privbte stbtic long devFor(UnixPbth file) throws IOException {
         try {
             return UnixFileAttributes.get(file, true).dev();
-        } catch (UnixException x) {
+        } cbtch (UnixException x) {
             x.rethrowAsIOException(file);
-            return 0L;  // keep compiler happy
+            return 0L;  // keep compiler hbppy
         }
     }
 
-    UnixFileStore(UnixPath file) throws IOException {
+    UnixFileStore(UnixPbth file) throws IOException {
         this.file = file;
         this.dev = devFor(file);
         this.entry = findMountEntry();
     }
 
     UnixFileStore(UnixFileSystem fs, UnixMountEntry entry) throws IOException {
-        this.file = new UnixPath(fs, entry.dir());
+        this.file = new UnixPbth(fs, entry.dir());
         this.dev = (entry.dev() == 0L) ? devFor(this.file) : entry.dev();
         this.entry = entry;
     }
@@ -74,9 +74,9 @@ abstract class UnixFileStore
     /**
      * Find the mount entry for the file store
      */
-    abstract UnixMountEntry findMountEntry() throws IOException;
+    bbstrbct UnixMountEntry findMountEntry() throws IOException;
 
-    UnixPath file() {
+    UnixPbth file() {
         return file;
     }
 
@@ -89,8 +89,8 @@ abstract class UnixFileStore
     }
 
     @Override
-    public String name() {
-        return entry.name();
+    public String nbme() {
+        return entry.nbme();
     }
 
     @Override
@@ -99,40 +99,40 @@ abstract class UnixFileStore
     }
 
     @Override
-    public boolean isReadOnly() {
-        return entry.isReadOnly();
+    public boolebn isRebdOnly() {
+        return entry.isRebdOnly();
     }
 
-    // uses statvfs to read the file system information
-    private UnixFileStoreAttributes readAttributes() throws IOException {
+    // uses stbtvfs to rebd the file system informbtion
+    privbte UnixFileStoreAttributes rebdAttributes() throws IOException {
         try {
             return UnixFileStoreAttributes.get(file);
-        } catch (UnixException x) {
+        } cbtch (UnixException x) {
             x.rethrowAsIOException(file);
-            return null;    // keep compile happy
+            return null;    // keep compile hbppy
         }
     }
 
     @Override
-    public long getTotalSpace() throws IOException {
-        UnixFileStoreAttributes attrs = readAttributes();
-        return attrs.blockSize() * attrs.totalBlocks();
+    public long getTotblSpbce() throws IOException {
+        UnixFileStoreAttributes bttrs = rebdAttributes();
+        return bttrs.blockSize() * bttrs.totblBlocks();
     }
 
     @Override
-    public long getUsableSpace() throws IOException {
-       UnixFileStoreAttributes attrs = readAttributes();
-       return attrs.blockSize() * attrs.availableBlocks();
+    public long getUsbbleSpbce() throws IOException {
+       UnixFileStoreAttributes bttrs = rebdAttributes();
+       return bttrs.blockSize() * bttrs.bvbilbbleBlocks();
     }
 
     @Override
-    public long getUnallocatedSpace() throws IOException {
-        UnixFileStoreAttributes attrs = readAttributes();
-        return attrs.blockSize() * attrs.freeBlocks();
+    public long getUnbllocbtedSpbce() throws IOException {
+        UnixFileStoreAttributes bttrs = rebdAttributes();
+        return bttrs.blockSize() * bttrs.freeBlocks();
     }
 
     @Override
-    public <V extends FileStoreAttributeView> V getFileStoreAttributeView(Class<V> view)
+    public <V extends FileStoreAttributeView> V getFileStoreAttributeView(Clbss<V> view)
     {
         if (view == null)
             throw new NullPointerException();
@@ -140,125 +140,125 @@ abstract class UnixFileStore
     }
 
     @Override
-    public Object getAttribute(String attribute) throws IOException {
-        if (attribute.equals("totalSpace"))
-            return getTotalSpace();
-        if (attribute.equals("usableSpace"))
-            return getUsableSpace();
-        if (attribute.equals("unallocatedSpace"))
-            return getUnallocatedSpace();
-        throw new UnsupportedOperationException("'" + attribute + "' not recognized");
+    public Object getAttribute(String bttribute) throws IOException {
+        if (bttribute.equbls("totblSpbce"))
+            return getTotblSpbce();
+        if (bttribute.equbls("usbbleSpbce"))
+            return getUsbbleSpbce();
+        if (bttribute.equbls("unbllocbtedSpbce"))
+            return getUnbllocbtedSpbce();
+        throw new UnsupportedOperbtionException("'" + bttribute + "' not recognized");
     }
 
     @Override
-    public boolean supportsFileAttributeView(Class<? extends FileAttributeView> type) {
+    public boolebn supportsFileAttributeView(Clbss<? extends FileAttributeView> type) {
         if (type == null)
             throw new NullPointerException();
-        if (type == BasicFileAttributeView.class)
+        if (type == BbsicFileAttributeView.clbss)
             return true;
-        if (type == PosixFileAttributeView.class ||
-            type == FileOwnerAttributeView.class)
+        if (type == PosixFileAttributeView.clbss ||
+            type == FileOwnerAttributeView.clbss)
         {
             // lookup fstypes.properties
-            FeatureStatus status = checkIfFeaturePresent("posix");
-            // assume supported if UNKNOWN
-            return (status != FeatureStatus.NOT_PRESENT);
+            FebtureStbtus stbtus = checkIfFebturePresent("posix");
+            // bssume supported if UNKNOWN
+            return (stbtus != FebtureStbtus.NOT_PRESENT);
         }
-        return false;
+        return fblse;
     }
 
     @Override
-    public boolean supportsFileAttributeView(String name) {
-        if (name.equals("basic") || name.equals("unix"))
+    public boolebn supportsFileAttributeView(String nbme) {
+        if (nbme.equbls("bbsic") || nbme.equbls("unix"))
             return true;
-        if (name.equals("posix"))
-            return supportsFileAttributeView(PosixFileAttributeView.class);
-        if (name.equals("owner"))
-            return supportsFileAttributeView(FileOwnerAttributeView.class);
-        return false;
+        if (nbme.equbls("posix"))
+            return supportsFileAttributeView(PosixFileAttributeView.clbss);
+        if (nbme.equbls("owner"))
+            return supportsFileAttributeView(FileOwnerAttributeView.clbss);
+        return fblse;
     }
 
     @Override
-    public boolean equals(Object ob) {
+    public boolebn equbls(Object ob) {
         if (ob == this)
             return true;
-        if (!(ob instanceof UnixFileStore))
-            return false;
+        if (!(ob instbnceof UnixFileStore))
+            return fblse;
         UnixFileStore other = (UnixFileStore)ob;
         return (this.dev == other.dev) &&
-               Arrays.equals(this.entry.dir(), other.entry.dir());
+               Arrbys.equbls(this.entry.dir(), other.entry.dir());
     }
 
     @Override
-    public int hashCode() {
-        return (int)(dev ^ (dev >>> 32)) ^ Arrays.hashCode(entry.dir());
+    public int hbshCode() {
+        return (int)(dev ^ (dev >>> 32)) ^ Arrbys.hbshCode(entry.dir());
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder(Util.toString(entry.dir()));
-        sb.append(" (");
-        sb.append(entry.name());
-        sb.append(")");
+        sb.bppend(" (");
+        sb.bppend(entry.nbme());
+        sb.bppend(")");
         return sb.toString();
     }
 
     // -- fstypes.properties --
 
-    private static final Object loadLock = new Object();
-    private static volatile Properties props;
+    privbte stbtic finbl Object lobdLock = new Object();
+    privbte stbtic volbtile Properties props;
 
-    enum FeatureStatus {
+    enum FebtureStbtus {
         PRESENT,
         NOT_PRESENT,
         UNKNOWN;
     }
 
     /**
-     * Returns status to indicate if file system supports a given feature
+     * Returns stbtus to indicbte if file system supports b given febture
      */
-    FeatureStatus checkIfFeaturePresent(String feature) {
+    FebtureStbtus checkIfFebturePresent(String febture) {
         if (props == null) {
-            synchronized (loadLock) {
+            synchronized (lobdLock) {
                 if (props == null) {
                     props = AccessController.doPrivileged(
                         new PrivilegedAction<Properties>() {
                             @Override
                             public Properties run() {
-                                return loadProperties();
+                                return lobdProperties();
                             }});
                 }
             }
         }
 
-        String value = props.getProperty(type());
-        if (value != null) {
-            String[] values = value.split("\\s");
-            for (String s: values) {
-                s = s.trim().toLowerCase();
-                if (s.equals(feature)) {
-                    return FeatureStatus.PRESENT;
+        String vblue = props.getProperty(type());
+        if (vblue != null) {
+            String[] vblues = vblue.split("\\s");
+            for (String s: vblues) {
+                s = s.trim().toLowerCbse();
+                if (s.equbls(febture)) {
+                    return FebtureStbtus.PRESENT;
                 }
-                if (s.startsWith("no")) {
+                if (s.stbrtsWith("no")) {
                     s = s.substring(2);
-                    if (s.equals(feature)) {
-                        return FeatureStatus.NOT_PRESENT;
+                    if (s.equbls(febture)) {
+                        return FebtureStbtus.NOT_PRESENT;
                     }
                 }
             }
         }
-        return FeatureStatus.UNKNOWN;
+        return FebtureStbtus.UNKNOWN;
     }
 
-    private static Properties loadProperties() {
+    privbte stbtic Properties lobdProperties() {
         Properties result = new Properties();
-        String fstypes = System.getProperty("java.home") + "/lib/fstypes.properties";
-        Path file = Paths.get(fstypes);
+        String fstypes = System.getProperty("jbvb.home") + "/lib/fstypes.properties";
+        Pbth file = Pbths.get(fstypes);
         try {
-            try (ReadableByteChannel rbc = Files.newByteChannel(file)) {
-                result.load(Channels.newReader(rbc, "UTF-8"));
+            try (RebdbbleByteChbnnel rbc = Files.newByteChbnnel(file)) {
+                result.lobd(Chbnnels.newRebder(rbc, "UTF-8"));
             }
-        } catch (IOException x) {
+        } cbtch (IOException x) {
         }
         return result;
     }

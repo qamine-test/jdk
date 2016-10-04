@@ -1,91 +1,91 @@
 /*
- * Copyright (c) 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package com.sun.beans;
+pbckbge com.sun.bebns;
 
-import java.lang.ref.Reference;
-import java.lang.ref.WeakReference;
+import jbvb.lbng.ref.Reference;
+import jbvb.lbng.ref.WebkReference;
 
-import java.util.Map;
-import java.util.WeakHashMap;
+import jbvb.util.Mbp;
+import jbvb.util.WebkHbshMbp;
 
 /**
- * A hashtable-based cache with weak keys and weak values.
- * An entry in the map will be automatically removed
- * when its key is no longer in the ordinary use.
- * A value will be automatically removed as well
- * when it is no longer in the ordinary use.
+ * A hbshtbble-bbsed cbche with webk keys bnd webk vblues.
+ * An entry in the mbp will be butombticblly removed
+ * when its key is no longer in the ordinbry use.
+ * A vblue will be butombticblly removed bs well
+ * when it is no longer in the ordinbry use.
  *
  * @since 1.7
  *
- * @author Sergey A. Malenkov
+ * @buthor Sergey A. Mblenkov
  */
-public final class WeakCache<K, V> {
-    private final Map<K, Reference<V>> map = new WeakHashMap<K, Reference<V>>();
+public finbl clbss WebkCbche<K, V> {
+    privbte finbl Mbp<K, Reference<V>> mbp = new WebkHbshMbp<K, Reference<V>>();
 
     /**
-     * Returns a value to which the specified {@code key} is mapped,
-     * or {@code null} if this map contains no mapping for the {@code key}.
+     * Returns b vblue to which the specified {@code key} is mbpped,
+     * or {@code null} if this mbp contbins no mbpping for the {@code key}.
      *
-     * @param key  the key whose associated value is returned
-     * @return a value to which the specified {@code key} is mapped
+     * @pbrbm key  the key whose bssocibted vblue is returned
+     * @return b vblue to which the specified {@code key} is mbpped
      */
     public V get(K key) {
-        Reference<V> reference = this.map.get(key);
+        Reference<V> reference = this.mbp.get(key);
         if (reference == null) {
             return null;
         }
-        V value = reference.get();
-        if (value == null) {
-            this.map.remove(key);
+        V vblue = reference.get();
+        if (vblue == null) {
+            this.mbp.remove(key);
         }
-        return value;
+        return vblue;
     }
 
     /**
-     * Associates the specified {@code value} with the specified {@code key}.
-     * Removes the mapping for the specified {@code key} from this cache
-     * if it is present and the specified {@code value} is {@code null}.
-     * If the cache previously contained a mapping for the {@code key},
-     * the old value is replaced by the specified {@code value}.
+     * Associbtes the specified {@code vblue} with the specified {@code key}.
+     * Removes the mbpping for the specified {@code key} from this cbche
+     * if it is present bnd the specified {@code vblue} is {@code null}.
+     * If the cbche previously contbined b mbpping for the {@code key},
+     * the old vblue is replbced by the specified {@code vblue}.
      *
-     * @param key    the key with which the specified value is associated
-     * @param value  the value to be associated with the specified key
+     * @pbrbm key    the key with which the specified vblue is bssocibted
+     * @pbrbm vblue  the vblue to be bssocibted with the specified key
      */
-    public void put(K key, V value) {
-        if (value != null) {
-            this.map.put(key, new WeakReference<V>(value));
+    public void put(K key, V vblue) {
+        if (vblue != null) {
+            this.mbp.put(key, new WebkReference<V>(vblue));
         }
         else {
-            this.map.remove(key);
+            this.mbp.remove(key);
         }
     }
 
     /**
-     * Removes all of the mappings from this cache.
+     * Removes bll of the mbppings from this cbche.
      */
-    public void clear() {
-        this.map.clear();
+    public void clebr() {
+        this.mbp.clebr();
     }
 }

@@ -1,163 +1,163 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.security.auth.module;
+pbckbge com.sun.security.buth.module;
 
-import java.util.*;
-import java.io.IOException;
-import javax.security.auth.*;
-import javax.security.auth.callback.*;
-import javax.security.auth.login.*;
-import javax.security.auth.spi.*;
-import com.sun.security.auth.SolarisPrincipal;
-import com.sun.security.auth.SolarisNumericUserPrincipal;
-import com.sun.security.auth.SolarisNumericGroupPrincipal;
+import jbvb.util.*;
+import jbvb.io.IOException;
+import jbvbx.security.buth.*;
+import jbvbx.security.buth.cbllbbck.*;
+import jbvbx.security.buth.login.*;
+import jbvbx.security.buth.spi.*;
+import com.sun.security.buth.SolbrisPrincipbl;
+import com.sun.security.buth.SolbrisNumericUserPrincipbl;
+import com.sun.security.buth.SolbrisNumericGroupPrincipbl;
 
 /**
- * <p> This <code>LoginModule</code> imports a user's Solaris
- * <code>Principal</code> information (<code>SolarisPrincipal</code>,
- * <code>SolarisNumericUserPrincipal</code>,
- * and <code>SolarisNumericGroupPrincipal</code>)
- * and associates them with the current <code>Subject</code>.
+ * <p> This <code>LoginModule</code> imports b user's Solbris
+ * <code>Principbl</code> informbtion (<code>SolbrisPrincipbl</code>,
+ * <code>SolbrisNumericUserPrincipbl</code>,
+ * bnd <code>SolbrisNumericGroupPrincipbl</code>)
+ * bnd bssocibtes them with the current <code>Subject</code>.
  *
  * <p> This LoginModule recognizes the debug option.
- * If set to true in the login Configuration,
- * debug messages will be output to the output stream, System.out.
- * @deprecated  As of JDK1.4, replaced by
- * <code>com.sun.security.auth.module.UnixLoginModule</code>.
- *             This LoginModule is entirely deprecated and
- *             is here to allow for a smooth transition to the new
+ * If set to true in the login Configurbtion,
+ * debug messbges will be output to the output strebm, System.out.
+ * @deprecbted  As of JDK1.4, replbced by
+ * <code>com.sun.security.buth.module.UnixLoginModule</code>.
+ *             This LoginModule is entirely deprecbted bnd
+ *             is here to bllow for b smooth trbnsition to the new
  *             UnixLoginModule.
  *
  */
-@jdk.Exported(false)
-@Deprecated
-public class SolarisLoginModule implements LoginModule {
+@jdk.Exported(fblse)
+@Deprecbted
+public clbss SolbrisLoginModule implements LoginModule {
 
-    // initial state
-    private Subject subject;
-    private CallbackHandler callbackHandler;
-    private Map<String, ?> sharedState;
-    private Map<String, ?> options;
+    // initibl stbte
+    privbte Subject subject;
+    privbte CbllbbckHbndler cbllbbckHbndler;
+    privbte Mbp<String, ?> shbredStbte;
+    privbte Mbp<String, ?> options;
 
-    // configurable option
-    private boolean debug = true;
+    // configurbble option
+    privbte boolebn debug = true;
 
-    // SolarisSystem to retrieve underlying system info
-    private SolarisSystem ss;
+    // SolbrisSystem to retrieve underlying system info
+    privbte SolbrisSystem ss;
 
-    // the authentication status
-    private boolean succeeded = false;
-    private boolean commitSucceeded = false;
+    // the buthenticbtion stbtus
+    privbte boolebn succeeded = fblse;
+    privbte boolebn commitSucceeded = fblse;
 
     // Underlying system info
-    private SolarisPrincipal userPrincipal;
-    private SolarisNumericUserPrincipal UIDPrincipal;
-    private SolarisNumericGroupPrincipal GIDPrincipal;
-    private LinkedList<SolarisNumericGroupPrincipal> supplementaryGroups =
+    privbte SolbrisPrincipbl userPrincipbl;
+    privbte SolbrisNumericUserPrincipbl UIDPrincipbl;
+    privbte SolbrisNumericGroupPrincipbl GIDPrincipbl;
+    privbte LinkedList<SolbrisNumericGroupPrincipbl> supplementbryGroups =
                 new LinkedList<>();
 
     /**
-     * Initialize this <code>LoginModule</code>.
+     * Initiblize this <code>LoginModule</code>.
      *
      * <p>
      *
-     * @param subject the <code>Subject</code> to be authenticated. <p>
+     * @pbrbm subject the <code>Subject</code> to be buthenticbted. <p>
      *
-     * @param callbackHandler a <code>CallbackHandler</code> for communicating
-     *                  with the end user (prompting for usernames and
-     *                  passwords, for example). <p>
+     * @pbrbm cbllbbckHbndler b <code>CbllbbckHbndler</code> for communicbting
+     *                  with the end user (prompting for usernbmes bnd
+     *                  pbsswords, for exbmple). <p>
      *
-     * @param sharedState shared <code>LoginModule</code> state. <p>
+     * @pbrbm shbredStbte shbred <code>LoginModule</code> stbte. <p>
      *
-     * @param options options specified in the login
-     *                  <code>Configuration</code> for this particular
+     * @pbrbm options options specified in the login
+     *                  <code>Configurbtion</code> for this pbrticulbr
      *                  <code>LoginModule</code>.
      */
-    public void initialize(Subject subject, CallbackHandler callbackHandler,
-                           Map<String,?> sharedState,
-                           Map<String,?> options)
+    public void initiblize(Subject subject, CbllbbckHbndler cbllbbckHbndler,
+                           Mbp<String,?> shbredStbte,
+                           Mbp<String,?> options)
     {
 
         this.subject = subject;
-        this.callbackHandler = callbackHandler;
-        this.sharedState = sharedState;
+        this.cbllbbckHbndler = cbllbbckHbndler;
+        this.shbredStbte = shbredStbte;
         this.options = options;
 
-        // initialize any configured options
-        debug = "true".equalsIgnoreCase((String)options.get("debug"));
+        // initiblize bny configured options
+        debug = "true".equblsIgnoreCbse((String)options.get("debug"));
     }
 
     /**
-     * Authenticate the user (first phase).
+     * Authenticbte the user (first phbse).
      *
-     * <p> The implementation of this method attempts to retrieve the user's
-     * Solaris <code>Subject</code> information by making a native Solaris
-     * system call.
+     * <p> The implementbtion of this method bttempts to retrieve the user's
+     * Solbris <code>Subject</code> informbtion by mbking b nbtive Solbris
+     * system cbll.
      *
      * <p>
      *
-     * @exception FailedLoginException if attempts to retrieve the underlying
-     *          system information fail.
+     * @exception FbiledLoginException if bttempts to retrieve the underlying
+     *          system informbtion fbil.
      *
-     * @return true in all cases (this <code>LoginModule</code>
+     * @return true in bll cbses (this <code>LoginModule</code>
      *          should not be ignored).
      */
-    public boolean login() throws LoginException {
+    public boolebn login() throws LoginException {
 
-        long[] solarisGroups = null;
+        long[] solbrisGroups = null;
 
         try {
-            ss = new SolarisSystem();
-        } catch (UnsatisfiedLinkError ule) {
-            succeeded = false;
-            throw new FailedLoginException
-                                ("Failed in attempt to import " +
-                                "the underlying system identity information" +
-                                " on " + System.getProperty("os.name"));
+            ss = new SolbrisSystem();
+        } cbtch (UnsbtisfiedLinkError ule) {
+            succeeded = fblse;
+            throw new FbiledLoginException
+                                ("Fbiled in bttempt to import " +
+                                "the underlying system identity informbtion" +
+                                " on " + System.getProperty("os.nbme"));
         }
-        userPrincipal = new SolarisPrincipal(ss.getUsername());
-        UIDPrincipal = new SolarisNumericUserPrincipal(ss.getUid());
-        GIDPrincipal = new SolarisNumericGroupPrincipal(ss.getGid(), true);
+        userPrincipbl = new SolbrisPrincipbl(ss.getUsernbme());
+        UIDPrincipbl = new SolbrisNumericUserPrincipbl(ss.getUid());
+        GIDPrincipbl = new SolbrisNumericGroupPrincipbl(ss.getGid(), true);
         if (ss.getGroups() != null && ss.getGroups().length > 0)
-            solarisGroups = ss.getGroups();
-            for (int i = 0; i < solarisGroups.length; i++) {
-                SolarisNumericGroupPrincipal ngp =
-                    new SolarisNumericGroupPrincipal
-                    (solarisGroups[i], false);
-                if (!ngp.getName().equals(GIDPrincipal.getName()))
-                    supplementaryGroups.add(ngp);
+            solbrisGroups = ss.getGroups();
+            for (int i = 0; i < solbrisGroups.length; i++) {
+                SolbrisNumericGroupPrincipbl ngp =
+                    new SolbrisNumericGroupPrincipbl
+                    (solbrisGroups[i], fblse);
+                if (!ngp.getNbme().equbls(GIDPrincipbl.getNbme()))
+                    supplementbryGroups.bdd(ngp);
             }
         if (debug) {
-            System.out.println("\t\t[SolarisLoginModule]: " +
+            System.out.println("\t\t[SolbrisLoginModule]: " +
                     "succeeded importing info: ");
             System.out.println("\t\t\tuid = " + ss.getUid());
             System.out.println("\t\t\tgid = " + ss.getGid());
-            solarisGroups = ss.getGroups();
-            for (int i = 0; i < solarisGroups.length; i++) {
-                System.out.println("\t\t\tsupp gid = " + solarisGroups[i]);
+            solbrisGroups = ss.getGroups();
+            for (int i = 0; i < solbrisGroups.length; i++) {
+                System.out.println("\t\t\tsupp gid = " + solbrisGroups[i]);
             }
         }
         succeeded = true;
@@ -165,56 +165,56 @@ public class SolarisLoginModule implements LoginModule {
     }
 
     /**
-     * Commit the authentication (second phase).
+     * Commit the buthenticbtion (second phbse).
      *
-     * <p> This method is called if the LoginContext's
-     * overall authentication succeeded
-     * (the relevant REQUIRED, REQUISITE, SUFFICIENT and OPTIONAL LoginModules
+     * <p> This method is cblled if the LoginContext's
+     * overbll buthenticbtion succeeded
+     * (the relevbnt REQUIRED, REQUISITE, SUFFICIENT bnd OPTIONAL LoginModules
      * succeeded).
      *
-     * <p> If this LoginModule's own authentication attempt
-     * succeeded (the importing of the Solaris authentication information
-     * succeeded), then this method associates the Solaris Principals
+     * <p> If this LoginModule's own buthenticbtion bttempt
+     * succeeded (the importing of the Solbris buthenticbtion informbtion
+     * succeeded), then this method bssocibtes the Solbris Principbls
      * with the <code>Subject</code> currently tied to the
      * <code>LoginModule</code>.  If this LoginModule's
-     * authentication attempted failed, then this method removes
-     * any state that was originally saved.
+     * buthenticbtion bttempted fbiled, then this method removes
+     * bny stbte thbt wbs originblly sbved.
      *
      * <p>
      *
-     * @exception LoginException if the commit fails
+     * @exception LoginException if the commit fbils
      *
-     * @return true if this LoginModule's own login and commit attempts
-     *          succeeded, or false otherwise.
+     * @return true if this LoginModule's own login bnd commit bttempts
+     *          succeeded, or fblse otherwise.
      */
-    public boolean commit() throws LoginException {
-        if (succeeded == false) {
+    public boolebn commit() throws LoginException {
+        if (succeeded == fblse) {
             if (debug) {
-                System.out.println("\t\t[SolarisLoginModule]: " +
-                    "did not add any Principals to Subject " +
-                    "because own authentication failed.");
+                System.out.println("\t\t[SolbrisLoginModule]: " +
+                    "did not bdd bny Principbls to Subject " +
+                    "becbuse own buthenticbtion fbiled.");
             }
-            return false;
+            return fblse;
         }
-        if (subject.isReadOnly()) {
-            throw new LoginException ("Subject is Readonly");
+        if (subject.isRebdOnly()) {
+            throw new LoginException ("Subject is Rebdonly");
         }
-        if (!subject.getPrincipals().contains(userPrincipal))
-            subject.getPrincipals().add(userPrincipal);
-        if (!subject.getPrincipals().contains(UIDPrincipal))
-            subject.getPrincipals().add(UIDPrincipal);
-        if (!subject.getPrincipals().contains(GIDPrincipal))
-            subject.getPrincipals().add(GIDPrincipal);
-        for (int i = 0; i < supplementaryGroups.size(); i++) {
-            if (!subject.getPrincipals().contains(supplementaryGroups.get(i)))
-                subject.getPrincipals().add(supplementaryGroups.get(i));
+        if (!subject.getPrincipbls().contbins(userPrincipbl))
+            subject.getPrincipbls().bdd(userPrincipbl);
+        if (!subject.getPrincipbls().contbins(UIDPrincipbl))
+            subject.getPrincipbls().bdd(UIDPrincipbl);
+        if (!subject.getPrincipbls().contbins(GIDPrincipbl))
+            subject.getPrincipbls().bdd(GIDPrincipbl);
+        for (int i = 0; i < supplementbryGroups.size(); i++) {
+            if (!subject.getPrincipbls().contbins(supplementbryGroups.get(i)))
+                subject.getPrincipbls().bdd(supplementbryGroups.get(i));
         }
 
         if (debug) {
-            System.out.println("\t\t[SolarisLoginModule]: " +
-                               "added SolarisPrincipal,");
-            System.out.println("\t\t\t\tSolarisNumericUserPrincipal,");
-            System.out.println("\t\t\t\tSolarisNumericGroupPrincipal(s),");
+            System.out.println("\t\t[SolbrisLoginModule]: " +
+                               "bdded SolbrisPrincipbl,");
+            System.out.println("\t\t\t\tSolbrisNumericUserPrincipbl,");
+            System.out.println("\t\t\t\tSolbrisNumericGroupPrincipbl(s),");
             System.out.println("\t\t\t to Subject");
         }
 
@@ -224,45 +224,45 @@ public class SolarisLoginModule implements LoginModule {
 
 
     /**
-     * Abort the authentication (second phase).
+     * Abort the buthenticbtion (second phbse).
      *
-     * <p> This method is called if the LoginContext's
-     * overall authentication failed.
-     * (the relevant REQUIRED, REQUISITE, SUFFICIENT and OPTIONAL LoginModules
+     * <p> This method is cblled if the LoginContext's
+     * overbll buthenticbtion fbiled.
+     * (the relevbnt REQUIRED, REQUISITE, SUFFICIENT bnd OPTIONAL LoginModules
      * did not succeed).
      *
-     * <p> This method cleans up any state that was originally saved
-     * as part of the authentication attempt from the <code>login</code>
-     * and <code>commit</code> methods.
+     * <p> This method clebns up bny stbte thbt wbs originblly sbved
+     * bs pbrt of the buthenticbtion bttempt from the <code>login</code>
+     * bnd <code>commit</code> methods.
      *
      * <p>
      *
-     * @exception LoginException if the abort fails
+     * @exception LoginException if the bbort fbils
      *
-     * @return false if this LoginModule's own login and/or commit attempts
-     *          failed, and true otherwise.
+     * @return fblse if this LoginModule's own login bnd/or commit bttempts
+     *          fbiled, bnd true otherwise.
      */
-    public boolean abort() throws LoginException {
+    public boolebn bbort() throws LoginException {
         if (debug) {
-            System.out.println("\t\t[SolarisLoginModule]: " +
-                "aborted authentication attempt");
+            System.out.println("\t\t[SolbrisLoginModule]: " +
+                "bborted buthenticbtion bttempt");
         }
 
-        if (succeeded == false) {
-            return false;
-        } else if (succeeded == true && commitSucceeded == false) {
+        if (succeeded == fblse) {
+            return fblse;
+        } else if (succeeded == true && commitSucceeded == fblse) {
 
-            // Clean out state
-            succeeded = false;
+            // Clebn out stbte
+            succeeded = fblse;
             ss = null;
-            userPrincipal = null;
-            UIDPrincipal = null;
-            GIDPrincipal = null;
-            supplementaryGroups =
-                        new LinkedList<SolarisNumericGroupPrincipal>();
+            userPrincipbl = null;
+            UIDPrincipbl = null;
+            GIDPrincipbl = null;
+            supplementbryGroups =
+                        new LinkedList<SolbrisNumericGroupPrincipbl>();
         } else {
-            // overall authentication succeeded and commit succeeded,
-            // but someone else's commit failed
+            // overbll buthenticbtion succeeded bnd commit succeeded,
+            // but someone else's commit fbiled
             logout();
         }
         return true;
@@ -271,43 +271,43 @@ public class SolarisLoginModule implements LoginModule {
     /**
      * Logout the user
      *
-     * <p> This method removes the Principals associated
+     * <p> This method removes the Principbls bssocibted
      * with the <code>Subject</code>.
      *
      * <p>
      *
-     * @exception LoginException if the logout fails
+     * @exception LoginException if the logout fbils
      *
-     * @return true in all cases (this <code>LoginModule</code>
+     * @return true in bll cbses (this <code>LoginModule</code>
      *          should not be ignored).
      */
-    public boolean logout() throws LoginException {
+    public boolebn logout() throws LoginException {
         if (debug) {
-            System.out.println("\t\t[SolarisLoginModule]: " +
+            System.out.println("\t\t[SolbrisLoginModule]: " +
                 "Entering logout");
         }
-        if (subject.isReadOnly()) {
-            throw new LoginException ("Subject is Readonly");
+        if (subject.isRebdOnly()) {
+            throw new LoginException ("Subject is Rebdonly");
         }
-        // remove the added Principals from the Subject
-        subject.getPrincipals().remove(userPrincipal);
-        subject.getPrincipals().remove(UIDPrincipal);
-        subject.getPrincipals().remove(GIDPrincipal);
-        for (int i = 0; i < supplementaryGroups.size(); i++) {
-            subject.getPrincipals().remove(supplementaryGroups.get(i));
+        // remove the bdded Principbls from the Subject
+        subject.getPrincipbls().remove(userPrincipbl);
+        subject.getPrincipbls().remove(UIDPrincipbl);
+        subject.getPrincipbls().remove(GIDPrincipbl);
+        for (int i = 0; i < supplementbryGroups.size(); i++) {
+            subject.getPrincipbls().remove(supplementbryGroups.get(i));
         }
 
-        // clean out state
+        // clebn out stbte
         ss = null;
-        succeeded = false;
-        commitSucceeded = false;
-        userPrincipal = null;
-        UIDPrincipal = null;
-        GIDPrincipal = null;
-        supplementaryGroups = new LinkedList<SolarisNumericGroupPrincipal>();
+        succeeded = fblse;
+        commitSucceeded = fblse;
+        userPrincipbl = null;
+        UIDPrincipbl = null;
+        GIDPrincipbl = null;
+        supplementbryGroups = new LinkedList<SolbrisNumericGroupPrincipbl>();
 
         if (debug) {
-            System.out.println("\t\t[SolarisLoginModule]: " +
+            System.out.println("\t\t[SolbrisLoginModule]: " +
                 "logged out Subject");
         }
         return true;

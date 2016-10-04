@@ -1,390 +1,390 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.util;
+pbckbge jbvb.util;
 
 /**
- * A {@link NavigableSet} implementation based on a {@link TreeMap}.
- * The elements are ordered using their {@linkplain Comparable natural
- * ordering}, or by a {@link Comparator} provided at set creation
+ * A {@link NbvigbbleSet} implementbtion bbsed on b {@link TreeMbp}.
+ * The elements bre ordered using their {@linkplbin Compbrbble nbturbl
+ * ordering}, or by b {@link Compbrbtor} provided bt set crebtion
  * time, depending on which constructor is used.
  *
- * <p>This implementation provides guaranteed log(n) time cost for the basic
- * operations ({@code add}, {@code remove} and {@code contains}).
+ * <p>This implementbtion provides gubrbnteed log(n) time cost for the bbsic
+ * operbtions ({@code bdd}, {@code remove} bnd {@code contbins}).
  *
- * <p>Note that the ordering maintained by a set (whether or not an explicit
- * comparator is provided) must be <i>consistent with equals</i> if it is to
- * correctly implement the {@code Set} interface.  (See {@code Comparable}
- * or {@code Comparator} for a precise definition of <i>consistent with
- * equals</i>.)  This is so because the {@code Set} interface is defined in
- * terms of the {@code equals} operation, but a {@code TreeSet} instance
- * performs all element comparisons using its {@code compareTo} (or
- * {@code compare}) method, so two elements that are deemed equal by this method
- * are, from the standpoint of the set, equal.  The behavior of a set
- * <i>is</i> well-defined even if its ordering is inconsistent with equals; it
- * just fails to obey the general contract of the {@code Set} interface.
+ * <p>Note thbt the ordering mbintbined by b set (whether or not bn explicit
+ * compbrbtor is provided) must be <i>consistent with equbls</i> if it is to
+ * correctly implement the {@code Set} interfbce.  (See {@code Compbrbble}
+ * or {@code Compbrbtor} for b precise definition of <i>consistent with
+ * equbls</i>.)  This is so becbuse the {@code Set} interfbce is defined in
+ * terms of the {@code equbls} operbtion, but b {@code TreeSet} instbnce
+ * performs bll element compbrisons using its {@code compbreTo} (or
+ * {@code compbre}) method, so two elements thbt bre deemed equbl by this method
+ * bre, from the stbndpoint of the set, equbl.  The behbvior of b set
+ * <i>is</i> well-defined even if its ordering is inconsistent with equbls; it
+ * just fbils to obey the generbl contrbct of the {@code Set} interfbce.
  *
- * <p><strong>Note that this implementation is not synchronized.</strong>
- * If multiple threads access a tree set concurrently, and at least one
- * of the threads modifies the set, it <i>must</i> be synchronized
- * externally.  This is typically accomplished by synchronizing on some
- * object that naturally encapsulates the set.
- * If no such object exists, the set should be "wrapped" using the
+ * <p><strong>Note thbt this implementbtion is not synchronized.</strong>
+ * If multiple threbds bccess b tree set concurrently, bnd bt lebst one
+ * of the threbds modifies the set, it <i>must</i> be synchronized
+ * externblly.  This is typicblly bccomplished by synchronizing on some
+ * object thbt nbturblly encbpsulbtes the set.
+ * If no such object exists, the set should be "wrbpped" using the
  * {@link Collections#synchronizedSortedSet Collections.synchronizedSortedSet}
- * method.  This is best done at creation time, to prevent accidental
- * unsynchronized access to the set: <pre>
+ * method.  This is best done bt crebtion time, to prevent bccidentbl
+ * unsynchronized bccess to the set: <pre>
  *   SortedSet s = Collections.synchronizedSortedSet(new TreeSet(...));</pre>
  *
- * <p>The iterators returned by this class's {@code iterator} method are
- * <i>fail-fast</i>: if the set is modified at any time after the iterator is
- * created, in any way except through the iterator's own {@code remove}
- * method, the iterator will throw a {@link ConcurrentModificationException}.
- * Thus, in the face of concurrent modification, the iterator fails quickly
- * and cleanly, rather than risking arbitrary, non-deterministic behavior at
- * an undetermined time in the future.
+ * <p>The iterbtors returned by this clbss's {@code iterbtor} method bre
+ * <i>fbil-fbst</i>: if the set is modified bt bny time bfter the iterbtor is
+ * crebted, in bny wby except through the iterbtor's own {@code remove}
+ * method, the iterbtor will throw b {@link ConcurrentModificbtionException}.
+ * Thus, in the fbce of concurrent modificbtion, the iterbtor fbils quickly
+ * bnd clebnly, rbther thbn risking brbitrbry, non-deterministic behbvior bt
+ * bn undetermined time in the future.
  *
- * <p>Note that the fail-fast behavior of an iterator cannot be guaranteed
- * as it is, generally speaking, impossible to make any hard guarantees in the
- * presence of unsynchronized concurrent modification.  Fail-fast iterators
- * throw {@code ConcurrentModificationException} on a best-effort basis.
- * Therefore, it would be wrong to write a program that depended on this
- * exception for its correctness:   <i>the fail-fast behavior of iterators
+ * <p>Note thbt the fbil-fbst behbvior of bn iterbtor cbnnot be gubrbnteed
+ * bs it is, generblly spebking, impossible to mbke bny hbrd gubrbntees in the
+ * presence of unsynchronized concurrent modificbtion.  Fbil-fbst iterbtors
+ * throw {@code ConcurrentModificbtionException} on b best-effort bbsis.
+ * Therefore, it would be wrong to write b progrbm thbt depended on this
+ * exception for its correctness:   <i>the fbil-fbst behbvior of iterbtors
  * should be used only to detect bugs.</i>
  *
- * <p>This class is a member of the
- * <a href="{@docRoot}/../technotes/guides/collections/index.html">
- * Java Collections Framework</a>.
+ * <p>This clbss is b member of the
+ * <b href="{@docRoot}/../technotes/guides/collections/index.html">
+ * Jbvb Collections Frbmework</b>.
  *
- * @param <E> the type of elements maintained by this set
+ * @pbrbm <E> the type of elements mbintbined by this set
  *
- * @author  Josh Bloch
+ * @buthor  Josh Bloch
  * @see     Collection
  * @see     Set
- * @see     HashSet
- * @see     Comparable
- * @see     Comparator
- * @see     TreeMap
+ * @see     HbshSet
+ * @see     Compbrbble
+ * @see     Compbrbtor
+ * @see     TreeMbp
  * @since   1.2
  */
 
-public class TreeSet<E> extends AbstractSet<E>
-    implements NavigableSet<E>, Cloneable, java.io.Serializable
+public clbss TreeSet<E> extends AbstrbctSet<E>
+    implements NbvigbbleSet<E>, Clonebble, jbvb.io.Seriblizbble
 {
     /**
-     * The backing map.
+     * The bbcking mbp.
      */
-    private transient NavigableMap<E,Object> m;
+    privbte trbnsient NbvigbbleMbp<E,Object> m;
 
-    // Dummy value to associate with an Object in the backing Map
-    private static final Object PRESENT = new Object();
+    // Dummy vblue to bssocibte with bn Object in the bbcking Mbp
+    privbte stbtic finbl Object PRESENT = new Object();
 
     /**
-     * Constructs a set backed by the specified navigable map.
+     * Constructs b set bbcked by the specified nbvigbble mbp.
      */
-    TreeSet(NavigableMap<E,Object> m) {
+    TreeSet(NbvigbbleMbp<E,Object> m) {
         this.m = m;
     }
 
     /**
-     * Constructs a new, empty tree set, sorted according to the
-     * natural ordering of its elements.  All elements inserted into
-     * the set must implement the {@link Comparable} interface.
-     * Furthermore, all such elements must be <i>mutually
-     * comparable</i>: {@code e1.compareTo(e2)} must not throw a
-     * {@code ClassCastException} for any elements {@code e1} and
-     * {@code e2} in the set.  If the user attempts to add an element
-     * to the set that violates this constraint (for example, the user
-     * attempts to add a string element to a set whose elements are
-     * integers), the {@code add} call will throw a
-     * {@code ClassCastException}.
+     * Constructs b new, empty tree set, sorted bccording to the
+     * nbturbl ordering of its elements.  All elements inserted into
+     * the set must implement the {@link Compbrbble} interfbce.
+     * Furthermore, bll such elements must be <i>mutublly
+     * compbrbble</i>: {@code e1.compbreTo(e2)} must not throw b
+     * {@code ClbssCbstException} for bny elements {@code e1} bnd
+     * {@code e2} in the set.  If the user bttempts to bdd bn element
+     * to the set thbt violbtes this constrbint (for exbmple, the user
+     * bttempts to bdd b string element to b set whose elements bre
+     * integers), the {@code bdd} cbll will throw b
+     * {@code ClbssCbstException}.
      */
     public TreeSet() {
-        this(new TreeMap<>());
+        this(new TreeMbp<>());
     }
 
     /**
-     * Constructs a new, empty tree set, sorted according to the specified
-     * comparator.  All elements inserted into the set must be <i>mutually
-     * comparable</i> by the specified comparator: {@code comparator.compare(e1,
-     * e2)} must not throw a {@code ClassCastException} for any elements
-     * {@code e1} and {@code e2} in the set.  If the user attempts to add
-     * an element to the set that violates this constraint, the
-     * {@code add} call will throw a {@code ClassCastException}.
+     * Constructs b new, empty tree set, sorted bccording to the specified
+     * compbrbtor.  All elements inserted into the set must be <i>mutublly
+     * compbrbble</i> by the specified compbrbtor: {@code compbrbtor.compbre(e1,
+     * e2)} must not throw b {@code ClbssCbstException} for bny elements
+     * {@code e1} bnd {@code e2} in the set.  If the user bttempts to bdd
+     * bn element to the set thbt violbtes this constrbint, the
+     * {@code bdd} cbll will throw b {@code ClbssCbstException}.
      *
-     * @param comparator the comparator that will be used to order this set.
-     *        If {@code null}, the {@linkplain Comparable natural
+     * @pbrbm compbrbtor the compbrbtor thbt will be used to order this set.
+     *        If {@code null}, the {@linkplbin Compbrbble nbturbl
      *        ordering} of the elements will be used.
      */
-    public TreeSet(Comparator<? super E> comparator) {
-        this(new TreeMap<>(comparator));
+    public TreeSet(Compbrbtor<? super E> compbrbtor) {
+        this(new TreeMbp<>(compbrbtor));
     }
 
     /**
-     * Constructs a new tree set containing the elements in the specified
-     * collection, sorted according to the <i>natural ordering</i> of its
+     * Constructs b new tree set contbining the elements in the specified
+     * collection, sorted bccording to the <i>nbturbl ordering</i> of its
      * elements.  All elements inserted into the set must implement the
-     * {@link Comparable} interface.  Furthermore, all such elements must be
-     * <i>mutually comparable</i>: {@code e1.compareTo(e2)} must not throw a
-     * {@code ClassCastException} for any elements {@code e1} and
+     * {@link Compbrbble} interfbce.  Furthermore, bll such elements must be
+     * <i>mutublly compbrbble</i>: {@code e1.compbreTo(e2)} must not throw b
+     * {@code ClbssCbstException} for bny elements {@code e1} bnd
      * {@code e2} in the set.
      *
-     * @param c collection whose elements will comprise the new set
-     * @throws ClassCastException if the elements in {@code c} are
-     *         not {@link Comparable}, or are not mutually comparable
+     * @pbrbm c collection whose elements will comprise the new set
+     * @throws ClbssCbstException if the elements in {@code c} bre
+     *         not {@link Compbrbble}, or bre not mutublly compbrbble
      * @throws NullPointerException if the specified collection is null
      */
     public TreeSet(Collection<? extends E> c) {
         this();
-        addAll(c);
+        bddAll(c);
     }
 
     /**
-     * Constructs a new tree set containing the same elements and
-     * using the same ordering as the specified sorted set.
+     * Constructs b new tree set contbining the sbme elements bnd
+     * using the sbme ordering bs the specified sorted set.
      *
-     * @param s sorted set whose elements will comprise the new set
+     * @pbrbm s sorted set whose elements will comprise the new set
      * @throws NullPointerException if the specified sorted set is null
      */
     public TreeSet(SortedSet<E> s) {
-        this(s.comparator());
-        addAll(s);
+        this(s.compbrbtor());
+        bddAll(s);
     }
 
     /**
-     * Returns an iterator over the elements in this set in ascending order.
+     * Returns bn iterbtor over the elements in this set in bscending order.
      *
-     * @return an iterator over the elements in this set in ascending order
+     * @return bn iterbtor over the elements in this set in bscending order
      */
-    public Iterator<E> iterator() {
-        return m.navigableKeySet().iterator();
+    public Iterbtor<E> iterbtor() {
+        return m.nbvigbbleKeySet().iterbtor();
     }
 
     /**
-     * Returns an iterator over the elements in this set in descending order.
+     * Returns bn iterbtor over the elements in this set in descending order.
      *
-     * @return an iterator over the elements in this set in descending order
+     * @return bn iterbtor over the elements in this set in descending order
      * @since 1.6
      */
-    public Iterator<E> descendingIterator() {
-        return m.descendingKeySet().iterator();
+    public Iterbtor<E> descendingIterbtor() {
+        return m.descendingKeySet().iterbtor();
     }
 
     /**
      * @since 1.6
      */
-    public NavigableSet<E> descendingSet() {
-        return new TreeSet<>(m.descendingMap());
+    public NbvigbbleSet<E> descendingSet() {
+        return new TreeSet<>(m.descendingMbp());
     }
 
     /**
-     * Returns the number of elements in this set (its cardinality).
+     * Returns the number of elements in this set (its cbrdinblity).
      *
-     * @return the number of elements in this set (its cardinality)
+     * @return the number of elements in this set (its cbrdinblity)
      */
     public int size() {
         return m.size();
     }
 
     /**
-     * Returns {@code true} if this set contains no elements.
+     * Returns {@code true} if this set contbins no elements.
      *
-     * @return {@code true} if this set contains no elements
+     * @return {@code true} if this set contbins no elements
      */
-    public boolean isEmpty() {
+    public boolebn isEmpty() {
         return m.isEmpty();
     }
 
     /**
-     * Returns {@code true} if this set contains the specified element.
-     * More formally, returns {@code true} if and only if this set
-     * contains an element {@code e} such that
-     * <tt>(o==null&nbsp;?&nbsp;e==null&nbsp;:&nbsp;o.equals(e))</tt>.
+     * Returns {@code true} if this set contbins the specified element.
+     * More formblly, returns {@code true} if bnd only if this set
+     * contbins bn element {@code e} such thbt
+     * <tt>(o==null&nbsp;?&nbsp;e==null&nbsp;:&nbsp;o.equbls(e))</tt>.
      *
-     * @param o object to be checked for containment in this set
-     * @return {@code true} if this set contains the specified element
-     * @throws ClassCastException if the specified object cannot be compared
+     * @pbrbm o object to be checked for contbinment in this set
+     * @return {@code true} if this set contbins the specified element
+     * @throws ClbssCbstException if the specified object cbnnot be compbred
      *         with the elements currently in the set
      * @throws NullPointerException if the specified element is null
-     *         and this set uses natural ordering, or its comparator
+     *         bnd this set uses nbturbl ordering, or its compbrbtor
      *         does not permit null elements
      */
-    public boolean contains(Object o) {
-        return m.containsKey(o);
+    public boolebn contbins(Object o) {
+        return m.contbinsKey(o);
     }
 
     /**
-     * Adds the specified element to this set if it is not already present.
-     * More formally, adds the specified element {@code e} to this set if
-     * the set contains no element {@code e2} such that
-     * <tt>(e==null&nbsp;?&nbsp;e2==null&nbsp;:&nbsp;e.equals(e2))</tt>.
-     * If this set already contains the element, the call leaves the set
-     * unchanged and returns {@code false}.
+     * Adds the specified element to this set if it is not blrebdy present.
+     * More formblly, bdds the specified element {@code e} to this set if
+     * the set contbins no element {@code e2} such thbt
+     * <tt>(e==null&nbsp;?&nbsp;e2==null&nbsp;:&nbsp;e.equbls(e2))</tt>.
+     * If this set blrebdy contbins the element, the cbll lebves the set
+     * unchbnged bnd returns {@code fblse}.
      *
-     * @param e element to be added to this set
-     * @return {@code true} if this set did not already contain the specified
+     * @pbrbm e element to be bdded to this set
+     * @return {@code true} if this set did not blrebdy contbin the specified
      *         element
-     * @throws ClassCastException if the specified object cannot be compared
+     * @throws ClbssCbstException if the specified object cbnnot be compbred
      *         with the elements currently in this set
      * @throws NullPointerException if the specified element is null
-     *         and this set uses natural ordering, or its comparator
+     *         bnd this set uses nbturbl ordering, or its compbrbtor
      *         does not permit null elements
      */
-    public boolean add(E e) {
+    public boolebn bdd(E e) {
         return m.put(e, PRESENT)==null;
     }
 
     /**
      * Removes the specified element from this set if it is present.
-     * More formally, removes an element {@code e} such that
-     * <tt>(o==null&nbsp;?&nbsp;e==null&nbsp;:&nbsp;o.equals(e))</tt>,
-     * if this set contains such an element.  Returns {@code true} if
-     * this set contained the element (or equivalently, if this set
-     * changed as a result of the call).  (This set will not contain the
-     * element once the call returns.)
+     * More formblly, removes bn element {@code e} such thbt
+     * <tt>(o==null&nbsp;?&nbsp;e==null&nbsp;:&nbsp;o.equbls(e))</tt>,
+     * if this set contbins such bn element.  Returns {@code true} if
+     * this set contbined the element (or equivblently, if this set
+     * chbnged bs b result of the cbll).  (This set will not contbin the
+     * element once the cbll returns.)
      *
-     * @param o object to be removed from this set, if present
-     * @return {@code true} if this set contained the specified element
-     * @throws ClassCastException if the specified object cannot be compared
+     * @pbrbm o object to be removed from this set, if present
+     * @return {@code true} if this set contbined the specified element
+     * @throws ClbssCbstException if the specified object cbnnot be compbred
      *         with the elements currently in this set
      * @throws NullPointerException if the specified element is null
-     *         and this set uses natural ordering, or its comparator
+     *         bnd this set uses nbturbl ordering, or its compbrbtor
      *         does not permit null elements
      */
-    public boolean remove(Object o) {
+    public boolebn remove(Object o) {
         return m.remove(o)==PRESENT;
     }
 
     /**
-     * Removes all of the elements from this set.
-     * The set will be empty after this call returns.
+     * Removes bll of the elements from this set.
+     * The set will be empty bfter this cbll returns.
      */
-    public void clear() {
-        m.clear();
+    public void clebr() {
+        m.clebr();
     }
 
     /**
-     * Adds all of the elements in the specified collection to this set.
+     * Adds bll of the elements in the specified collection to this set.
      *
-     * @param c collection containing elements to be added to this set
-     * @return {@code true} if this set changed as a result of the call
-     * @throws ClassCastException if the elements provided cannot be compared
+     * @pbrbm c collection contbining elements to be bdded to this set
+     * @return {@code true} if this set chbnged bs b result of the cbll
+     * @throws ClbssCbstException if the elements provided cbnnot be compbred
      *         with the elements currently in the set
      * @throws NullPointerException if the specified collection is null or
-     *         if any element is null and this set uses natural ordering, or
-     *         its comparator does not permit null elements
+     *         if bny element is null bnd this set uses nbturbl ordering, or
+     *         its compbrbtor does not permit null elements
      */
-    public  boolean addAll(Collection<? extends E> c) {
-        // Use linear-time version if applicable
+    public  boolebn bddAll(Collection<? extends E> c) {
+        // Use linebr-time version if bpplicbble
         if (m.size()==0 && c.size() > 0 &&
-            c instanceof SortedSet &&
-            m instanceof TreeMap) {
+            c instbnceof SortedSet &&
+            m instbnceof TreeMbp) {
             SortedSet<? extends E> set = (SortedSet<? extends E>) c;
-            TreeMap<E,Object> map = (TreeMap<E, Object>) m;
-            Comparator<?> cc = set.comparator();
-            Comparator<? super E> mc = map.comparator();
-            if (cc==mc || (cc != null && cc.equals(mc))) {
-                map.addAllForTreeSet(set, PRESENT);
+            TreeMbp<E,Object> mbp = (TreeMbp<E, Object>) m;
+            Compbrbtor<?> cc = set.compbrbtor();
+            Compbrbtor<? super E> mc = mbp.compbrbtor();
+            if (cc==mc || (cc != null && cc.equbls(mc))) {
+                mbp.bddAllForTreeSet(set, PRESENT);
                 return true;
             }
         }
-        return super.addAll(c);
+        return super.bddAll(c);
     }
 
     /**
-     * @throws ClassCastException {@inheritDoc}
+     * @throws ClbssCbstException {@inheritDoc}
      * @throws NullPointerException if {@code fromElement} or {@code toElement}
-     *         is null and this set uses natural ordering, or its comparator
+     *         is null bnd this set uses nbturbl ordering, or its compbrbtor
      *         does not permit null elements
-     * @throws IllegalArgumentException {@inheritDoc}
+     * @throws IllegblArgumentException {@inheritDoc}
      * @since 1.6
      */
-    public NavigableSet<E> subSet(E fromElement, boolean fromInclusive,
-                                  E toElement,   boolean toInclusive) {
-        return new TreeSet<>(m.subMap(fromElement, fromInclusive,
+    public NbvigbbleSet<E> subSet(E fromElement, boolebn fromInclusive,
+                                  E toElement,   boolebn toInclusive) {
+        return new TreeSet<>(m.subMbp(fromElement, fromInclusive,
                                        toElement,   toInclusive));
     }
 
     /**
-     * @throws ClassCastException {@inheritDoc}
-     * @throws NullPointerException if {@code toElement} is null and
-     *         this set uses natural ordering, or its comparator does
+     * @throws ClbssCbstException {@inheritDoc}
+     * @throws NullPointerException if {@code toElement} is null bnd
+     *         this set uses nbturbl ordering, or its compbrbtor does
      *         not permit null elements
-     * @throws IllegalArgumentException {@inheritDoc}
+     * @throws IllegblArgumentException {@inheritDoc}
      * @since 1.6
      */
-    public NavigableSet<E> headSet(E toElement, boolean inclusive) {
-        return new TreeSet<>(m.headMap(toElement, inclusive));
+    public NbvigbbleSet<E> hebdSet(E toElement, boolebn inclusive) {
+        return new TreeSet<>(m.hebdMbp(toElement, inclusive));
     }
 
     /**
-     * @throws ClassCastException {@inheritDoc}
-     * @throws NullPointerException if {@code fromElement} is null and
-     *         this set uses natural ordering, or its comparator does
+     * @throws ClbssCbstException {@inheritDoc}
+     * @throws NullPointerException if {@code fromElement} is null bnd
+     *         this set uses nbturbl ordering, or its compbrbtor does
      *         not permit null elements
-     * @throws IllegalArgumentException {@inheritDoc}
+     * @throws IllegblArgumentException {@inheritDoc}
      * @since 1.6
      */
-    public NavigableSet<E> tailSet(E fromElement, boolean inclusive) {
-        return new TreeSet<>(m.tailMap(fromElement, inclusive));
+    public NbvigbbleSet<E> tbilSet(E fromElement, boolebn inclusive) {
+        return new TreeSet<>(m.tbilMbp(fromElement, inclusive));
     }
 
     /**
-     * @throws ClassCastException {@inheritDoc}
+     * @throws ClbssCbstException {@inheritDoc}
      * @throws NullPointerException if {@code fromElement} or
-     *         {@code toElement} is null and this set uses natural ordering,
-     *         or its comparator does not permit null elements
-     * @throws IllegalArgumentException {@inheritDoc}
+     *         {@code toElement} is null bnd this set uses nbturbl ordering,
+     *         or its compbrbtor does not permit null elements
+     * @throws IllegblArgumentException {@inheritDoc}
      */
     public SortedSet<E> subSet(E fromElement, E toElement) {
-        return subSet(fromElement, true, toElement, false);
+        return subSet(fromElement, true, toElement, fblse);
     }
 
     /**
-     * @throws ClassCastException {@inheritDoc}
+     * @throws ClbssCbstException {@inheritDoc}
      * @throws NullPointerException if {@code toElement} is null
-     *         and this set uses natural ordering, or its comparator does
+     *         bnd this set uses nbturbl ordering, or its compbrbtor does
      *         not permit null elements
-     * @throws IllegalArgumentException {@inheritDoc}
+     * @throws IllegblArgumentException {@inheritDoc}
      */
-    public SortedSet<E> headSet(E toElement) {
-        return headSet(toElement, false);
+    public SortedSet<E> hebdSet(E toElement) {
+        return hebdSet(toElement, fblse);
     }
 
     /**
-     * @throws ClassCastException {@inheritDoc}
+     * @throws ClbssCbstException {@inheritDoc}
      * @throws NullPointerException if {@code fromElement} is null
-     *         and this set uses natural ordering, or its comparator does
+     *         bnd this set uses nbturbl ordering, or its compbrbtor does
      *         not permit null elements
-     * @throws IllegalArgumentException {@inheritDoc}
+     * @throws IllegblArgumentException {@inheritDoc}
      */
-    public SortedSet<E> tailSet(E fromElement) {
-        return tailSet(fromElement, true);
+    public SortedSet<E> tbilSet(E fromElement) {
+        return tbilSet(fromElement, true);
     }
 
-    public Comparator<? super E> comparator() {
-        return m.comparator();
+    public Compbrbtor<? super E> compbrbtor() {
+        return m.compbrbtor();
     }
 
     /**
@@ -397,16 +397,16 @@ public class TreeSet<E> extends AbstractSet<E>
     /**
      * @throws NoSuchElementException {@inheritDoc}
      */
-    public E last() {
-        return m.lastKey();
+    public E lbst() {
+        return m.lbstKey();
     }
 
-    // NavigableSet API methods
+    // NbvigbbleSet API methods
 
     /**
-     * @throws ClassCastException {@inheritDoc}
+     * @throws ClbssCbstException {@inheritDoc}
      * @throws NullPointerException if the specified element is null
-     *         and this set uses natural ordering, or its comparator
+     *         bnd this set uses nbturbl ordering, or its compbrbtor
      *         does not permit null elements
      * @since 1.6
      */
@@ -415,9 +415,9 @@ public class TreeSet<E> extends AbstractSet<E>
     }
 
     /**
-     * @throws ClassCastException {@inheritDoc}
+     * @throws ClbssCbstException {@inheritDoc}
      * @throws NullPointerException if the specified element is null
-     *         and this set uses natural ordering, or its comparator
+     *         bnd this set uses nbturbl ordering, or its compbrbtor
      *         does not permit null elements
      * @since 1.6
      */
@@ -426,9 +426,9 @@ public class TreeSet<E> extends AbstractSet<E>
     }
 
     /**
-     * @throws ClassCastException {@inheritDoc}
+     * @throws ClbssCbstException {@inheritDoc}
      * @throws NullPointerException if the specified element is null
-     *         and this set uses natural ordering, or its comparator
+     *         bnd this set uses nbturbl ordering, or its compbrbtor
      *         does not permit null elements
      * @since 1.6
      */
@@ -437,9 +437,9 @@ public class TreeSet<E> extends AbstractSet<E>
     }
 
     /**
-     * @throws ClassCastException {@inheritDoc}
+     * @throws ClbssCbstException {@inheritDoc}
      * @throws NullPointerException if the specified element is null
-     *         and this set uses natural ordering, or its comparator
+     *         bnd this set uses nbturbl ordering, or its compbrbtor
      *         does not permit null elements
      * @since 1.6
      */
@@ -451,110 +451,110 @@ public class TreeSet<E> extends AbstractSet<E>
      * @since 1.6
      */
     public E pollFirst() {
-        Map.Entry<E,?> e = m.pollFirstEntry();
+        Mbp.Entry<E,?> e = m.pollFirstEntry();
         return (e == null) ? null : e.getKey();
     }
 
     /**
      * @since 1.6
      */
-    public E pollLast() {
-        Map.Entry<E,?> e = m.pollLastEntry();
+    public E pollLbst() {
+        Mbp.Entry<E,?> e = m.pollLbstEntry();
         return (e == null) ? null : e.getKey();
     }
 
     /**
-     * Returns a shallow copy of this {@code TreeSet} instance. (The elements
-     * themselves are not cloned.)
+     * Returns b shbllow copy of this {@code TreeSet} instbnce. (The elements
+     * themselves bre not cloned.)
      *
-     * @return a shallow copy of this set
+     * @return b shbllow copy of this set
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWbrnings("unchecked")
     public Object clone() {
         TreeSet<E> clone;
         try {
             clone = (TreeSet<E>) super.clone();
-        } catch (CloneNotSupportedException e) {
-            throw new InternalError(e);
+        } cbtch (CloneNotSupportedException e) {
+            throw new InternblError(e);
         }
 
-        clone.m = new TreeMap<>(m);
+        clone.m = new TreeMbp<>(m);
         return clone;
     }
 
     /**
-     * Save the state of the {@code TreeSet} instance to a stream (that is,
-     * serialize it).
+     * Sbve the stbte of the {@code TreeSet} instbnce to b strebm (thbt is,
+     * seriblize it).
      *
-     * @serialData Emits the comparator used to order this set, or
-     *             {@code null} if it obeys its elements' natural ordering
+     * @seriblDbtb Emits the compbrbtor used to order this set, or
+     *             {@code null} if it obeys its elements' nbturbl ordering
      *             (Object), followed by the size of the set (the number of
-     *             elements it contains) (int), followed by all of its
-     *             elements (each an Object) in order (as determined by the
-     *             set's Comparator, or by the elements' natural ordering if
-     *             the set has no Comparator).
+     *             elements it contbins) (int), followed by bll of its
+     *             elements (ebch bn Object) in order (bs determined by the
+     *             set's Compbrbtor, or by the elements' nbturbl ordering if
+     *             the set hbs no Compbrbtor).
      */
-    private void writeObject(java.io.ObjectOutputStream s)
-        throws java.io.IOException {
-        // Write out any hidden stuff
-        s.defaultWriteObject();
+    privbte void writeObject(jbvb.io.ObjectOutputStrebm s)
+        throws jbvb.io.IOException {
+        // Write out bny hidden stuff
+        s.defbultWriteObject();
 
-        // Write out Comparator
-        s.writeObject(m.comparator());
+        // Write out Compbrbtor
+        s.writeObject(m.compbrbtor());
 
         // Write out size
         s.writeInt(m.size());
 
-        // Write out all elements in the proper order.
+        // Write out bll elements in the proper order.
         for (E e : m.keySet())
             s.writeObject(e);
     }
 
     /**
-     * Reconstitute the {@code TreeSet} instance from a stream (that is,
-     * deserialize it).
+     * Reconstitute the {@code TreeSet} instbnce from b strebm (thbt is,
+     * deseriblize it).
      */
-    private void readObject(java.io.ObjectInputStream s)
-        throws java.io.IOException, ClassNotFoundException {
-        // Read in any hidden stuff
-        s.defaultReadObject();
+    privbte void rebdObject(jbvb.io.ObjectInputStrebm s)
+        throws jbvb.io.IOException, ClbssNotFoundException {
+        // Rebd in bny hidden stuff
+        s.defbultRebdObject();
 
-        // Read in Comparator
-        @SuppressWarnings("unchecked")
-            Comparator<? super E> c = (Comparator<? super E>) s.readObject();
+        // Rebd in Compbrbtor
+        @SuppressWbrnings("unchecked")
+            Compbrbtor<? super E> c = (Compbrbtor<? super E>) s.rebdObject();
 
-        // Create backing TreeMap
-        TreeMap<E,Object> tm = new TreeMap<>(c);
+        // Crebte bbcking TreeMbp
+        TreeMbp<E,Object> tm = new TreeMbp<>(c);
         m = tm;
 
-        // Read in size
-        int size = s.readInt();
+        // Rebd in size
+        int size = s.rebdInt();
 
-        tm.readTreeSet(size, s, PRESENT);
+        tm.rebdTreeSet(size, s, PRESENT);
     }
 
     /**
-     * Creates a <em><a href="Spliterator.html#binding">late-binding</a></em>
-     * and <em>fail-fast</em> {@link Spliterator} over the elements in this
+     * Crebtes b <em><b href="Spliterbtor.html#binding">lbte-binding</b></em>
+     * bnd <em>fbil-fbst</em> {@link Spliterbtor} over the elements in this
      * set.
      *
-     * <p>The {@code Spliterator} reports {@link Spliterator#SIZED},
-     * {@link Spliterator#DISTINCT}, {@link Spliterator#SORTED}, and
-     * {@link Spliterator#ORDERED}.  Overriding implementations should document
-     * the reporting of additional characteristic values.
+     * <p>The {@code Spliterbtor} reports {@link Spliterbtor#SIZED},
+     * {@link Spliterbtor#DISTINCT}, {@link Spliterbtor#SORTED}, bnd
+     * {@link Spliterbtor#ORDERED}.  Overriding implementbtions should document
+     * the reporting of bdditionbl chbrbcteristic vblues.
      *
-     * <p>The spliterator's comparator (see
-     * {@link java.util.Spliterator#getComparator()}) is {@code null} if
-     * the tree set's comparator (see {@link #comparator()}) is {@code null}.
-     * Otherwise, the spliterator's comparator is the same as or imposes the
-     * same total ordering as the tree set's comparator.
+     * <p>The spliterbtor's compbrbtor (see
+     * {@link jbvb.util.Spliterbtor#getCompbrbtor()}) is {@code null} if
+     * the tree set's compbrbtor (see {@link #compbrbtor()}) is {@code null}.
+     * Otherwise, the spliterbtor's compbrbtor is the sbme bs or imposes the
+     * sbme totbl ordering bs the tree set's compbrbtor.
      *
-     * @return a {@code Spliterator} over the elements in this set
+     * @return b {@code Spliterbtor} over the elements in this set
      * @since 1.8
      */
-    public Spliterator<E> spliterator() {
-        return TreeMap.keySpliteratorFor(m);
+    public Spliterbtor<E> spliterbtor() {
+        return TreeMbp.keySpliterbtorFor(m);
     }
 
-    private static final long serialVersionUID = -2479143000061671589L;
+    privbte stbtic finbl long seriblVersionUID = -2479143000061671589L;
 }

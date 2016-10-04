@@ -1,318 +1,318 @@
 /*
- * Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jndi.ldap;
+pbckbge com.sun.jndi.ldbp;
 
-import javax.naming.*;
-import javax.naming.directory.*;
-import javax.naming.spi.DirectoryManager;
-import javax.naming.spi.DirStateFactory;
+import jbvbx.nbming.*;
+import jbvbx.nbming.directory.*;
+import jbvbx.nbming.spi.DirectoryMbnbger;
+import jbvbx.nbming.spi.DirStbteFbctory;
 
-import java.io.IOException;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.ObjectStreamClass;
-import java.io.InputStream;
+import jbvb.io.IOException;
+import jbvb.io.ByteArrbyInputStrebm;
+import jbvb.io.ByteArrbyOutputStrebm;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.ObjectOutputStrebm;
+import jbvb.io.ObjectStrebmClbss;
+import jbvb.io.InputStrebm;
 
-import java.util.Base64;
-import java.util.Hashtable;
-import java.util.Vector;
-import java.util.StringTokenizer;
+import jbvb.util.Bbse64;
+import jbvb.util.Hbshtbble;
+import jbvb.util.Vector;
+import jbvb.util.StringTokenizer;
 
-import java.lang.reflect.Proxy;
-import java.lang.reflect.Modifier;
+import jbvb.lbng.reflect.Proxy;
+import jbvb.lbng.reflect.Modifier;
 
 /**
-  * Class containing static methods and constants for dealing with
-  * encoding/decoding JNDI References and Serialized Objects
+  * Clbss contbining stbtic methods bnd constbnts for debling with
+  * encoding/decoding JNDI References bnd Seriblized Objects
   * in LDAP.
-  * @author Vincent Ryan
-  * @author Rosanna Lee
+  * @buthor Vincent Rybn
+  * @buthor Rosbnnb Lee
   */
-final class Obj {
+finbl clbss Obj {
 
-    private Obj () {}; // Make sure no one can create one
+    privbte Obj () {}; // Mbke sure no one cbn crebte one
 
-    // package private; used by Connection
-    static VersionHelper helper = VersionHelper.getVersionHelper();
+    // pbckbge privbte; used by Connection
+    stbtic VersionHelper helper = VersionHelper.getVersionHelper();
 
-    // LDAP attributes used to support Java objects.
-    static final String[] JAVA_ATTRIBUTES = {
-        "objectClass",
-        "javaSerializedData",
-        "javaClassName",
-        "javaFactory",
-        "javaCodeBase",
-        "javaReferenceAddress",
-        "javaClassNames",
-        "javaRemoteLocation"     // Deprecated
+    // LDAP bttributes used to support Jbvb objects.
+    stbtic finbl String[] JAVA_ATTRIBUTES = {
+        "objectClbss",
+        "jbvbSeriblizedDbtb",
+        "jbvbClbssNbme",
+        "jbvbFbctory",
+        "jbvbCodeBbse",
+        "jbvbReferenceAddress",
+        "jbvbClbssNbmes",
+        "jbvbRemoteLocbtion"     // Deprecbted
     };
 
-    static final int OBJECT_CLASS = 0;
-    static final int SERIALIZED_DATA = 1;
-    static final int CLASSNAME = 2;
-    static final int FACTORY = 3;
-    static final int CODEBASE = 4;
-    static final int REF_ADDR = 5;
-    static final int TYPENAME = 6;
+    stbtic finbl int OBJECT_CLASS = 0;
+    stbtic finbl int SERIALIZED_DATA = 1;
+    stbtic finbl int CLASSNAME = 2;
+    stbtic finbl int FACTORY = 3;
+    stbtic finbl int CODEBASE = 4;
+    stbtic finbl int REF_ADDR = 5;
+    stbtic finbl int TYPENAME = 6;
     /**
-     * @deprecated
+     * @deprecbted
      */
-    @Deprecated
-    private static final int REMOTE_LOC = 7;
+    @Deprecbted
+    privbte stbtic finbl int REMOTE_LOC = 7;
 
-    // LDAP object classes to support Java objects
-    static final String[] JAVA_OBJECT_CLASSES = {
-        "javaContainer",
-        "javaObject",
-        "javaNamingReference",
-        "javaSerializedObject",
-        "javaMarshalledObject",
+    // LDAP object clbsses to support Jbvb objects
+    stbtic finbl String[] JAVA_OBJECT_CLASSES = {
+        "jbvbContbiner",
+        "jbvbObject",
+        "jbvbNbmingReference",
+        "jbvbSeriblizedObject",
+        "jbvbMbrshblledObject",
     };
 
-    static final String[] JAVA_OBJECT_CLASSES_LOWER = {
-        "javacontainer",
-        "javaobject",
-        "javanamingreference",
-        "javaserializedobject",
-        "javamarshalledobject",
+    stbtic finbl String[] JAVA_OBJECT_CLASSES_LOWER = {
+        "jbvbcontbiner",
+        "jbvbobject",
+        "jbvbnbmingreference",
+        "jbvbseriblizedobject",
+        "jbvbmbrshblledobject",
     };
 
-    static final int STRUCTURAL = 0;    // structural object class
-    static final int BASE_OBJECT = 1;   // auxiliary java object class
-    static final int REF_OBJECT = 2;    // auxiliary reference object class
-    static final int SER_OBJECT = 3;    // auxiliary serialized object class
-    static final int MAR_OBJECT = 4;    // auxiliary marshalled object class
+    stbtic finbl int STRUCTURAL = 0;    // structurbl object clbss
+    stbtic finbl int BASE_OBJECT = 1;   // buxilibry jbvb object clbss
+    stbtic finbl int REF_OBJECT = 2;    // buxilibry reference object clbss
+    stbtic finbl int SER_OBJECT = 3;    // buxilibry seriblized object clbss
+    stbtic finbl int MAR_OBJECT = 4;    // buxilibry mbrshblled object clbss
 
     /**
-     * Encode an object in LDAP attributes.
-     * Supports binding Referenceable or Reference, Serializable,
-     * and DirContext.
+     * Encode bn object in LDAP bttributes.
+     * Supports binding Referencebble or Reference, Seriblizbble,
+     * bnd DirContext.
      *
-     * If the object supports the Referenceable interface then encode
-     * the reference to the object. See encodeReference() for details.
+     * If the object supports the Referencebble interfbce then encode
+     * the reference to the object. See encodeReference() for detbils.
      *<p>
-     * If the object is serializable, it is stored as follows:
-     * javaClassName
-     *   value: Object.getClass();
-     * javaSerializedData
-     *   value: serialized form of Object (in binary form).
-     * javaTypeName
-     *   value: getTypeNames(Object.getClass());
+     * If the object is seriblizbble, it is stored bs follows:
+     * jbvbClbssNbme
+     *   vblue: Object.getClbss();
+     * jbvbSeriblizedDbtb
+     *   vblue: seriblized form of Object (in binbry form).
+     * jbvbTypeNbme
+     *   vblue: getTypeNbmes(Object.getClbss());
      */
-    private static Attributes encodeObject(char separator,
-        Object obj, Attributes attrs,
-        Attribute objectClass, boolean cloned)
-        throws NamingException {
-            boolean structural =
-                (objectClass.size() == 0 ||
-                    (objectClass.size() == 1 && objectClass.contains("top")));
+    privbte stbtic Attributes encodeObject(chbr sepbrbtor,
+        Object obj, Attributes bttrs,
+        Attribute objectClbss, boolebn cloned)
+        throws NbmingException {
+            boolebn structurbl =
+                (objectClbss.size() == 0 ||
+                    (objectClbss.size() == 1 && objectClbss.contbins("top")));
 
-            if (structural) {
-                objectClass.add(JAVA_OBJECT_CLASSES[STRUCTURAL]);
+            if (structurbl) {
+                objectClbss.bdd(JAVA_OBJECT_CLASSES[STRUCTURAL]);
             }
 
     // References
-            if (obj instanceof Referenceable) {
-                objectClass.add(JAVA_OBJECT_CLASSES[BASE_OBJECT]);
-                objectClass.add(JAVA_OBJECT_CLASSES[REF_OBJECT]);
+            if (obj instbnceof Referencebble) {
+                objectClbss.bdd(JAVA_OBJECT_CLASSES[BASE_OBJECT]);
+                objectClbss.bdd(JAVA_OBJECT_CLASSES[REF_OBJECT]);
                 if (!cloned) {
-                    attrs = (Attributes)attrs.clone();
+                    bttrs = (Attributes)bttrs.clone();
                 }
-                attrs.put(objectClass);
-                return (encodeReference(separator,
-                    ((Referenceable)obj).getReference(),
-                    attrs, obj));
+                bttrs.put(objectClbss);
+                return (encodeReference(sepbrbtor,
+                    ((Referencebble)obj).getReference(),
+                    bttrs, obj));
 
-            } else if (obj instanceof Reference) {
-                objectClass.add(JAVA_OBJECT_CLASSES[BASE_OBJECT]);
-                objectClass.add(JAVA_OBJECT_CLASSES[REF_OBJECT]);
+            } else if (obj instbnceof Reference) {
+                objectClbss.bdd(JAVA_OBJECT_CLASSES[BASE_OBJECT]);
+                objectClbss.bdd(JAVA_OBJECT_CLASSES[REF_OBJECT]);
                 if (!cloned) {
-                    attrs = (Attributes)attrs.clone();
+                    bttrs = (Attributes)bttrs.clone();
                 }
-                attrs.put(objectClass);
-                return (encodeReference(separator, (Reference)obj, attrs, null));
+                bttrs.put(objectClbss);
+                return (encodeReference(sepbrbtor, (Reference)obj, bttrs, null));
 
-    // Serializable Object
-            } else if (obj instanceof java.io.Serializable) {
-                objectClass.add(JAVA_OBJECT_CLASSES[BASE_OBJECT]);
-                if (!(objectClass.contains(JAVA_OBJECT_CLASSES[MAR_OBJECT]) ||
-                    objectClass.contains(JAVA_OBJECT_CLASSES_LOWER[MAR_OBJECT]))) {
-                    objectClass.add(JAVA_OBJECT_CLASSES[SER_OBJECT]);
+    // Seriblizbble Object
+            } else if (obj instbnceof jbvb.io.Seriblizbble) {
+                objectClbss.bdd(JAVA_OBJECT_CLASSES[BASE_OBJECT]);
+                if (!(objectClbss.contbins(JAVA_OBJECT_CLASSES[MAR_OBJECT]) ||
+                    objectClbss.contbins(JAVA_OBJECT_CLASSES_LOWER[MAR_OBJECT]))) {
+                    objectClbss.bdd(JAVA_OBJECT_CLASSES[SER_OBJECT]);
                 }
                 if (!cloned) {
-                    attrs = (Attributes)attrs.clone();
+                    bttrs = (Attributes)bttrs.clone();
                 }
-                attrs.put(objectClass);
-                attrs.put(new BasicAttribute(JAVA_ATTRIBUTES[SERIALIZED_DATA],
-                    serializeObject(obj)));
-                if (attrs.get(JAVA_ATTRIBUTES[CLASSNAME]) == null) {
-                    attrs.put(JAVA_ATTRIBUTES[CLASSNAME],
-                        obj.getClass().getName());
+                bttrs.put(objectClbss);
+                bttrs.put(new BbsicAttribute(JAVA_ATTRIBUTES[SERIALIZED_DATA],
+                    seriblizeObject(obj)));
+                if (bttrs.get(JAVA_ATTRIBUTES[CLASSNAME]) == null) {
+                    bttrs.put(JAVA_ATTRIBUTES[CLASSNAME],
+                        obj.getClbss().getNbme());
                 }
-                if (attrs.get(JAVA_ATTRIBUTES[TYPENAME]) == null) {
+                if (bttrs.get(JAVA_ATTRIBUTES[TYPENAME]) == null) {
                     Attribute tAttr =
-                        LdapCtxFactory.createTypeNameAttr(obj.getClass());
+                        LdbpCtxFbctory.crebteTypeNbmeAttr(obj.getClbss());
                     if (tAttr != null) {
-                        attrs.put(tAttr);
+                        bttrs.put(tAttr);
                     }
                 }
     // DirContext Object
-            } else if (obj instanceof DirContext) {
+            } else if (obj instbnceof DirContext) {
                 // do nothing
             } else {
-                throw new IllegalArgumentException(
-            "can only bind Referenceable, Serializable, DirContext");
+                throw new IllegblArgumentException(
+            "cbn only bind Referencebble, Seriblizbble, DirContext");
             }
-            //      System.err.println(attrs);
-            return attrs;
+            //      System.err.println(bttrs);
+            return bttrs;
     }
 
     /**
-     * Each value in javaCodebase contains a list of space-separated
-     * URLs. Each value is independent; we can pick any of the values
+     * Ebch vblue in jbvbCodebbse contbins b list of spbce-sepbrbted
+     * URLs. Ebch vblue is independent; we cbn pick bny of the vblues
      * so we just use the first one.
-     * @return an array of URL strings for the codebase
+     * @return bn brrby of URL strings for the codebbse
      */
-    private static String[] getCodebases(Attribute codebaseAttr) throws
-        NamingException {
-        if (codebaseAttr == null) {
+    privbte stbtic String[] getCodebbses(Attribute codebbseAttr) throws
+        NbmingException {
+        if (codebbseAttr == null) {
             return null;
         } else {
-            StringTokenizer parser =
-                new StringTokenizer((String)codebaseAttr.get());
+            StringTokenizer pbrser =
+                new StringTokenizer((String)codebbseAttr.get());
             Vector<String> vec = new Vector<>(10);
-            while (parser.hasMoreTokens()) {
-                vec.addElement(parser.nextToken());
+            while (pbrser.hbsMoreTokens()) {
+                vec.bddElement(pbrser.nextToken());
             }
-            String[] answer = new String[vec.size()];
-            for (int i = 0; i < answer.length; i++) {
-                answer[i] = vec.elementAt(i);
+            String[] bnswer = new String[vec.size()];
+            for (int i = 0; i < bnswer.length; i++) {
+                bnswer[i] = vec.elementAt(i);
             }
-            return answer;
+            return bnswer;
         }
     }
 
     /*
-     * Decode an object from LDAP attribute(s).
-     * The object may be a Reference, or a Serialized object.
+     * Decode bn object from LDAP bttribute(s).
+     * The object mby be b Reference, or b Seriblized object.
      *
-     * See encodeObject() and encodeReference() for details on formats
+     * See encodeObject() bnd encodeReference() for detbils on formbts
      * expected.
      */
-    static Object decodeObject(Attributes attrs)
-        throws NamingException {
+    stbtic Object decodeObject(Attributes bttrs)
+        throws NbmingException {
 
-        Attribute attr;
+        Attribute bttr;
 
-        // Get codebase, which is used in all 3 cases.
-        String[] codebases = getCodebases(attrs.get(JAVA_ATTRIBUTES[CODEBASE]));
+        // Get codebbse, which is used in bll 3 cbses.
+        String[] codebbses = getCodebbses(bttrs.get(JAVA_ATTRIBUTES[CODEBASE]));
         try {
-            if ((attr = attrs.get(JAVA_ATTRIBUTES[SERIALIZED_DATA])) != null) {
-                ClassLoader cl = helper.getURLClassLoader(codebases);
-                return deserializeObject((byte[])attr.get(), cl);
-            } else if ((attr = attrs.get(JAVA_ATTRIBUTES[REMOTE_LOC])) != null) {
-                // For backward compatibility only
+            if ((bttr = bttrs.get(JAVA_ATTRIBUTES[SERIALIZED_DATA])) != null) {
+                ClbssLobder cl = helper.getURLClbssLobder(codebbses);
+                return deseriblizeObject((byte[])bttr.get(), cl);
+            } else if ((bttr = bttrs.get(JAVA_ATTRIBUTES[REMOTE_LOC])) != null) {
+                // For bbckwbrd compbtibility only
                 return decodeRmiObject(
-                    (String)attrs.get(JAVA_ATTRIBUTES[CLASSNAME]).get(),
-                    (String)attr.get(), codebases);
+                    (String)bttrs.get(JAVA_ATTRIBUTES[CLASSNAME]).get(),
+                    (String)bttr.get(), codebbses);
             }
 
-            attr = attrs.get(JAVA_ATTRIBUTES[OBJECT_CLASS]);
-            if (attr != null &&
-                (attr.contains(JAVA_OBJECT_CLASSES[REF_OBJECT]) ||
-                    attr.contains(JAVA_OBJECT_CLASSES_LOWER[REF_OBJECT]))) {
-                return decodeReference(attrs, codebases);
+            bttr = bttrs.get(JAVA_ATTRIBUTES[OBJECT_CLASS]);
+            if (bttr != null &&
+                (bttr.contbins(JAVA_OBJECT_CLASSES[REF_OBJECT]) ||
+                    bttr.contbins(JAVA_OBJECT_CLASSES_LOWER[REF_OBJECT]))) {
+                return decodeReference(bttrs, codebbses);
             }
             return null;
-        } catch (IOException e) {
-            NamingException ne = new NamingException();
-            ne.setRootCause(e);
+        } cbtch (IOException e) {
+            NbmingException ne = new NbmingException();
+            ne.setRootCbuse(e);
             throw ne;
         }
     }
 
     /**
-     * Convert a Reference object into several LDAP attributes.
+     * Convert b Reference object into severbl LDAP bttributes.
      *
-     * A Reference is stored as into the following attributes:
-     * javaClassName
-     *   value: Reference.getClassName();
-     * javaFactory
-     *   value: Reference.getFactoryClassName();
-     * javaCodeBase
-     *   value: Reference.getFactoryClassLocation();
-     * javaReferenceAddress
-     *   value: #0#typeA#valA
-     *   value: #1#typeB#valB
-     *   value: #2#typeC##[serialized RefAddr C]
-     *   value: #3#typeD#valD
+     * A Reference is stored bs into the following bttributes:
+     * jbvbClbssNbme
+     *   vblue: Reference.getClbssNbme();
+     * jbvbFbctory
+     *   vblue: Reference.getFbctoryClbssNbme();
+     * jbvbCodeBbse
+     *   vblue: Reference.getFbctoryClbssLocbtion();
+     * jbvbReferenceAddress
+     *   vblue: #0#typeA#vblA
+     *   vblue: #1#typeB#vblB
+     *   vblue: #2#typeC##[seriblized RefAddr C]
+     *   vblue: #3#typeD#vblD
      *
      * where
-     * -  the first character denotes the separator
-     * -  the number following the first separator denotes the position
+     * -  the first chbrbcter denotes the sepbrbtor
+     * -  the number following the first sepbrbtor denotes the position
      *    of the RefAddr within the Reference
      * -  "typeA" is RefAddr.getType()
-     * -  ## denotes that the Base64-encoded form of the non-StringRefAddr
-     *    is to follow; otherwise the value that follows is
+     * -  ## denotes thbt the Bbse64-encoded form of the non-StringRefAddr
+     *    is to follow; otherwise the vblue thbt follows is
      *    StringRefAddr.getContents()
      *
-     * The default separator is the hash character (#).
-     * May provide property for this in future.
+     * The defbult sepbrbtor is the hbsh chbrbcter (#).
+     * Mby provide property for this in future.
      */
 
-    private static Attributes encodeReference(char separator,
-        Reference ref, Attributes attrs, Object orig)
-        throws NamingException {
+    privbte stbtic Attributes encodeReference(chbr sepbrbtor,
+        Reference ref, Attributes bttrs, Object orig)
+        throws NbmingException {
 
         if (ref == null)
-            return attrs;
+            return bttrs;
 
         String s;
 
-        if ((s = ref.getClassName()) != null) {
-            attrs.put(new BasicAttribute(JAVA_ATTRIBUTES[CLASSNAME], s));
+        if ((s = ref.getClbssNbme()) != null) {
+            bttrs.put(new BbsicAttribute(JAVA_ATTRIBUTES[CLASSNAME], s));
         }
 
-        if ((s = ref.getFactoryClassName()) != null) {
-            attrs.put(new BasicAttribute(JAVA_ATTRIBUTES[FACTORY], s));
+        if ((s = ref.getFbctoryClbssNbme()) != null) {
+            bttrs.put(new BbsicAttribute(JAVA_ATTRIBUTES[FACTORY], s));
         }
 
-        if ((s = ref.getFactoryClassLocation()) != null) {
-            attrs.put(new BasicAttribute(JAVA_ATTRIBUTES[CODEBASE], s));
+        if ((s = ref.getFbctoryClbssLocbtion()) != null) {
+            bttrs.put(new BbsicAttribute(JAVA_ATTRIBUTES[CODEBASE], s));
         }
 
-        // Get original object's types if caller has not explicitly
-        // specified other type names
-        if (orig != null && attrs.get(JAVA_ATTRIBUTES[TYPENAME]) != null) {
+        // Get originbl object's types if cbller hbs not explicitly
+        // specified other type nbmes
+        if (orig != null && bttrs.get(JAVA_ATTRIBUTES[TYPENAME]) != null) {
             Attribute tAttr =
-                LdapCtxFactory.createTypeNameAttr(orig.getClass());
+                LdbpCtxFbctory.crebteTypeNbmeAttr(orig.getClbss());
             if (tAttr != null) {
-                attrs.put(tAttr);
+                bttrs.put(tAttr);
             }
         }
 
@@ -320,174 +320,174 @@ final class Obj {
 
         if (count > 0) {
 
-            Attribute refAttr = new BasicAttribute(JAVA_ATTRIBUTES[REF_ADDR]);
+            Attribute refAttr = new BbsicAttribute(JAVA_ATTRIBUTES[REF_ADDR]);
             RefAddr refAddr;
-            Base64.Encoder encoder = null;
+            Bbse64.Encoder encoder = null;
 
             for (int i = 0; i < count; i++) {
                 refAddr = ref.get(i);
 
-                if (refAddr instanceof StringRefAddr) {
-                    refAttr.add(""+ separator + i +
-                        separator +     refAddr.getType() +
-                        separator + refAddr.getContent());
+                if (refAddr instbnceof StringRefAddr) {
+                    refAttr.bdd(""+ sepbrbtor + i +
+                        sepbrbtor +     refAddr.getType() +
+                        sepbrbtor + refAddr.getContent());
                 } else {
                     if (encoder == null)
-                        encoder = Base64.getMimeEncoder();
+                        encoder = Bbse64.getMimeEncoder();
 
-                    refAttr.add(""+ separator + i +
-                        separator + refAddr.getType() +
-                        separator + separator +
-                        encoder.encodeToString(serializeObject(refAddr)));
+                    refAttr.bdd(""+ sepbrbtor + i +
+                        sepbrbtor + refAddr.getType() +
+                        sepbrbtor + sepbrbtor +
+                        encoder.encodeToString(seriblizeObject(refAddr)));
                 }
             }
-            attrs.put(refAttr);
+            bttrs.put(refAttr);
         }
-        return attrs;
+        return bttrs;
     }
 
     /*
-     * A RMI object is stored in the directory as
-     * javaClassName
-     *   value: Object.getClass();
-     * javaRemoteLocation
-     *   value: URL of RMI object (accessed through the RMI Registry)
-     * javaCodebase:
-     *   value: URL of codebase of where to find classes for object
+     * A RMI object is stored in the directory bs
+     * jbvbClbssNbme
+     *   vblue: Object.getClbss();
+     * jbvbRemoteLocbtion
+     *   vblue: URL of RMI object (bccessed through the RMI Registry)
+     * jbvbCodebbse:
+     *   vblue: URL of codebbse of where to find clbsses for object
      *
-     * Return the RMI Location URL itself. This will be turned into
-     * an RMI object when getObjectInstance() is called on it.
-     * %%% Ignore codebase for now. Depend on RMI registry to send code.-RL
-     * @deprecated For backward compatibility only
+     * Return the RMI Locbtion URL itself. This will be turned into
+     * bn RMI object when getObjectInstbnce() is cblled on it.
+     * %%% Ignore codebbse for now. Depend on RMI registry to send code.-RL
+     * @deprecbted For bbckwbrd compbtibility only
      */
-    private static Object decodeRmiObject(String className,
-        String rmiName, String[] codebases) throws NamingException {
-            return new Reference(className, new StringRefAddr("URL", rmiName));
+    privbte stbtic Object decodeRmiObject(String clbssNbme,
+        String rmiNbme, String[] codebbses) throws NbmingException {
+            return new Reference(clbssNbme, new StringRefAddr("URL", rmiNbme));
     }
 
     /*
-     * Restore a Reference object from several LDAP attributes
+     * Restore b Reference object from severbl LDAP bttributes
      */
-    private static Reference decodeReference(Attributes attrs,
-        String[] codebases) throws NamingException, IOException {
+    privbte stbtic Reference decodeReference(Attributes bttrs,
+        String[] codebbses) throws NbmingException, IOException {
 
-        Attribute attr;
-        String className;
-        String factory = null;
+        Attribute bttr;
+        String clbssNbme;
+        String fbctory = null;
 
-        if ((attr = attrs.get(JAVA_ATTRIBUTES[CLASSNAME])) != null) {
-            className = (String)attr.get();
+        if ((bttr = bttrs.get(JAVA_ATTRIBUTES[CLASSNAME])) != null) {
+            clbssNbme = (String)bttr.get();
         } else {
-            throw new InvalidAttributesException(JAVA_ATTRIBUTES[CLASSNAME] +
-                        " attribute is required");
+            throw new InvblidAttributesException(JAVA_ATTRIBUTES[CLASSNAME] +
+                        " bttribute is required");
         }
 
-        if ((attr = attrs.get(JAVA_ATTRIBUTES[FACTORY])) != null) {
-            factory = (String)attr.get();
+        if ((bttr = bttrs.get(JAVA_ATTRIBUTES[FACTORY])) != null) {
+            fbctory = (String)bttr.get();
         }
 
-        Reference ref = new Reference(className, factory,
-            (codebases != null? codebases[0] : null));
+        Reference ref = new Reference(clbssNbme, fbctory,
+            (codebbses != null? codebbses[0] : null));
 
         /*
-         * string encoding of a RefAddr is either:
+         * string encoding of b RefAddr is either:
          *
-         *      #posn#<type>#<address>
+         *      #posn#<type>#<bddress>
          * or
-         *      #posn#<type>##<base64-encoded address>
+         *      #posn#<type>##<bbse64-encoded bddress>
          */
-        if ((attr = attrs.get(JAVA_ATTRIBUTES[REF_ADDR])) != null) {
+        if ((bttr = bttrs.get(JAVA_ATTRIBUTES[REF_ADDR])) != null) {
 
-            String val, posnStr, type;
-            char separator;
-            int start, sep, posn;
-            Base64.Decoder decoder = null;
+            String vbl, posnStr, type;
+            chbr sepbrbtor;
+            int stbrt, sep, posn;
+            Bbse64.Decoder decoder = null;
 
-            ClassLoader cl = helper.getURLClassLoader(codebases);
+            ClbssLobder cl = helper.getURLClbssLobder(codebbses);
 
             /*
-             * Temporary Vector for decoded RefAddr addresses - used to ensure
-             * unordered addresses are correctly re-ordered.
+             * Temporbry Vector for decoded RefAddr bddresses - used to ensure
+             * unordered bddresses bre correctly re-ordered.
              */
             Vector<RefAddr> refAddrList = new Vector<>();
-            refAddrList.setSize(attr.size());
+            refAddrList.setSize(bttr.size());
 
-            for (NamingEnumeration<?> vals = attr.getAll(); vals.hasMore(); ) {
+            for (NbmingEnumerbtion<?> vbls = bttr.getAll(); vbls.hbsMore(); ) {
 
-                val = (String)vals.next();
+                vbl = (String)vbls.next();
 
-                if (val.length() == 0) {
-                    throw new InvalidAttributeValueException(
-                        "malformed " + JAVA_ATTRIBUTES[REF_ADDR] + " attribute - "+
-                        "empty attribute value");
+                if (vbl.length() == 0) {
+                    throw new InvblidAttributeVblueException(
+                        "mblformed " + JAVA_ATTRIBUTES[REF_ADDR] + " bttribute - "+
+                        "empty bttribute vblue");
                 }
-                // first character denotes encoding separator
-                separator = val.charAt(0);
-                start = 1;  // skip over separator
+                // first chbrbcter denotes encoding sepbrbtor
+                sepbrbtor = vbl.chbrAt(0);
+                stbrt = 1;  // skip over sepbrbtor
 
-                // extract position within Reference
-                if ((sep = val.indexOf(separator, start)) < 0) {
-                    throw new InvalidAttributeValueException(
-                        "malformed " + JAVA_ATTRIBUTES[REF_ADDR] + " attribute - " +
-                        "separator '" + separator + "'" + "not found");
+                // extrbct position within Reference
+                if ((sep = vbl.indexOf(sepbrbtor, stbrt)) < 0) {
+                    throw new InvblidAttributeVblueException(
+                        "mblformed " + JAVA_ATTRIBUTES[REF_ADDR] + " bttribute - " +
+                        "sepbrbtor '" + sepbrbtor + "'" + "not found");
                 }
-                if ((posnStr = val.substring(start, sep)) == null) {
-                    throw new InvalidAttributeValueException(
-                        "malformed " + JAVA_ATTRIBUTES[REF_ADDR] + " attribute - " +
+                if ((posnStr = vbl.substring(stbrt, sep)) == null) {
+                    throw new InvblidAttributeVblueException(
+                        "mblformed " + JAVA_ATTRIBUTES[REF_ADDR] + " bttribute - " +
                         "empty RefAddr position");
                 }
                 try {
-                    posn = Integer.parseInt(posnStr);
-                } catch (NumberFormatException nfe) {
-                    throw new InvalidAttributeValueException(
-                        "malformed " + JAVA_ATTRIBUTES[REF_ADDR] + " attribute - " +
-                        "RefAddr position not an integer");
+                    posn = Integer.pbrseInt(posnStr);
+                } cbtch (NumberFormbtException nfe) {
+                    throw new InvblidAttributeVblueException(
+                        "mblformed " + JAVA_ATTRIBUTES[REF_ADDR] + " bttribute - " +
+                        "RefAddr position not bn integer");
                 }
-                start = sep + 1; // skip over position and trailing separator
+                stbrt = sep + 1; // skip over position bnd trbiling sepbrbtor
 
-                // extract type
-                if ((sep = val.indexOf(separator, start)) < 0) {
-                    throw new InvalidAttributeValueException(
-                        "malformed " + JAVA_ATTRIBUTES[REF_ADDR] + " attribute - " +
+                // extrbct type
+                if ((sep = vbl.indexOf(sepbrbtor, stbrt)) < 0) {
+                    throw new InvblidAttributeVblueException(
+                        "mblformed " + JAVA_ATTRIBUTES[REF_ADDR] + " bttribute - " +
                         "RefAddr type not found");
                 }
-                if ((type = val.substring(start, sep)) == null) {
-                    throw new InvalidAttributeValueException(
-                        "malformed " + JAVA_ATTRIBUTES[REF_ADDR] + " attribute - " +
+                if ((type = vbl.substring(stbrt, sep)) == null) {
+                    throw new InvblidAttributeVblueException(
+                        "mblformed " + JAVA_ATTRIBUTES[REF_ADDR] + " bttribute - " +
                         "empty RefAddr type");
                 }
-                start = sep + 1; // skip over type and trailing separator
+                stbrt = sep + 1; // skip over type bnd trbiling sepbrbtor
 
-                // extract content
-                if (start == val.length()) {
+                // extrbct content
+                if (stbrt == vbl.length()) {
                     // Empty content
                     refAddrList.setElementAt(new StringRefAddr(type, null), posn);
-                } else if (val.charAt(start) == separator) {
-                    // Double separators indicate a non-StringRefAddr
-                    // Content is a Base64-encoded serialized RefAddr
+                } else if (vbl.chbrAt(stbrt) == sepbrbtor) {
+                    // Double sepbrbtors indicbte b non-StringRefAddr
+                    // Content is b Bbse64-encoded seriblized RefAddr
 
-                    ++start;  // skip over consecutive separator
-                    // %%% RL: exception if empty after double separator
+                    ++stbrt;  // skip over consecutive sepbrbtor
+                    // %%% RL: exception if empty bfter double sepbrbtor
 
                     if (decoder == null)
-                        decoder = Base64.getMimeDecoder();
+                        decoder = Bbse64.getMimeDecoder();
 
-                    RefAddr ra = (RefAddr)
-                        deserializeObject(
-                            decoder.decode(val.substring(start).getBytes()),
+                    RefAddr rb = (RefAddr)
+                        deseriblizeObject(
+                            decoder.decode(vbl.substring(stbrt).getBytes()),
                             cl);
 
-                    refAddrList.setElementAt(ra, posn);
+                    refAddrList.setElementAt(rb, posn);
                 } else {
-                    // Single separator indicates a StringRefAddr
+                    // Single sepbrbtor indicbtes b StringRefAddr
                     refAddrList.setElementAt(new StringRefAddr(type,
-                        val.substring(start)), posn);
+                        vbl.substring(stbrt)), posn);
                 }
             }
 
-            // Copy to real reference
+            // Copy to rebl reference
             for (int i = 0; i < refAddrList.size(); i++) {
-                ref.add(refAddrList.elementAt(i));
+                ref.bdd(refAddrList.elementAt(i));
             }
         }
 
@@ -495,158 +495,158 @@ final class Obj {
     }
 
     /*
-     * Serialize an object into a byte array
+     * Seriblize bn object into b byte brrby
      */
-    private static byte[] serializeObject(Object obj) throws NamingException {
+    privbte stbtic byte[] seriblizeObject(Object obj) throws NbmingException {
 
         try {
-            ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-            try (ObjectOutputStream serial = new ObjectOutputStream(bytes)) {
-                serial.writeObject(obj);
+            ByteArrbyOutputStrebm bytes = new ByteArrbyOutputStrebm();
+            try (ObjectOutputStrebm seribl = new ObjectOutputStrebm(bytes)) {
+                seribl.writeObject(obj);
             }
 
-            return (bytes.toByteArray());
+            return (bytes.toByteArrby());
 
-        } catch (IOException e) {
-            NamingException ne = new NamingException();
-            ne.setRootCause(e);
+        } cbtch (IOException e) {
+            NbmingException ne = new NbmingException();
+            ne.setRootCbuse(e);
             throw ne;
         }
     }
 
     /*
-     * Deserializes a byte array into an object.
+     * Deseriblizes b byte brrby into bn object.
      */
-    private static Object deserializeObject(byte[] obj, ClassLoader cl)
-        throws NamingException {
+    privbte stbtic Object deseriblizeObject(byte[] obj, ClbssLobder cl)
+        throws NbmingException {
 
         try {
-            // Create ObjectInputStream for deserialization
-            ByteArrayInputStream bytes = new ByteArrayInputStream(obj);
-            try (ObjectInputStream deserial = cl == null ?
-                    new ObjectInputStream(bytes) :
-                    new LoaderInputStream(bytes, cl)) {
-                return deserial.readObject();
-            } catch (ClassNotFoundException e) {
-                NamingException ne = new NamingException();
-                ne.setRootCause(e);
+            // Crebte ObjectInputStrebm for deseriblizbtion
+            ByteArrbyInputStrebm bytes = new ByteArrbyInputStrebm(obj);
+            try (ObjectInputStrebm deseribl = cl == null ?
+                    new ObjectInputStrebm(bytes) :
+                    new LobderInputStrebm(bytes, cl)) {
+                return deseribl.rebdObject();
+            } cbtch (ClbssNotFoundException e) {
+                NbmingException ne = new NbmingException();
+                ne.setRootCbuse(e);
                 throw ne;
             }
-        } catch (IOException e) {
-            NamingException ne = new NamingException();
-            ne.setRootCause(e);
+        } cbtch (IOException e) {
+            NbmingException ne = new NbmingException();
+            ne.setRootCbuse(e);
             throw ne;
         }
     }
 
     /**
-      * Returns the attributes to bind given an object and its attributes.
+      * Returns the bttributes to bind given bn object bnd its bttributes.
       */
-    static Attributes determineBindAttrs(
-        char separator, Object obj, Attributes attrs, boolean cloned,
-        Name name, Context ctx, Hashtable<?,?> env)
-        throws NamingException {
+    stbtic Attributes determineBindAttrs(
+        chbr sepbrbtor, Object obj, Attributes bttrs, boolebn cloned,
+        Nbme nbme, Context ctx, Hbshtbble<?,?> env)
+        throws NbmingException {
 
-        // Call state factories to convert object and attrs
-        DirStateFactory.Result res =
-            DirectoryManager.getStateToBind(obj, name, ctx, env, attrs);
+        // Cbll stbte fbctories to convert object bnd bttrs
+        DirStbteFbctory.Result res =
+            DirectoryMbnbger.getStbteToBind(obj, nbme, ctx, env, bttrs);
         obj = res.getObject();
-        attrs = res.getAttributes();
+        bttrs = res.getAttributes();
 
-        // We're only storing attributes; no further processing required
+        // We're only storing bttributes; no further processing required
         if (obj == null) {
-            return attrs;
+            return bttrs;
         }
 
-        //if object to be bound is a DirContext extract its attributes
-        if ((attrs == null) && (obj instanceof DirContext)) {
+        //if object to be bound is b DirContext extrbct its bttributes
+        if ((bttrs == null) && (obj instbnceof DirContext)) {
             cloned = true;
-            attrs = ((DirContext)obj).getAttributes("");
+            bttrs = ((DirContext)obj).getAttributes("");
         }
 
-        boolean ocNeedsCloning = false;
+        boolebn ocNeedsCloning = fblse;
 
-        // Create "objectClass" attribute
-        Attribute objectClass;
-        if (attrs == null || attrs.size() == 0) {
-            attrs = new BasicAttributes(LdapClient.caseIgnore);
+        // Crebte "objectClbss" bttribute
+        Attribute objectClbss;
+        if (bttrs == null || bttrs.size() == 0) {
+            bttrs = new BbsicAttributes(LdbpClient.cbseIgnore);
             cloned = true;
 
-            // No objectclasses supplied, use "top" to start
-            objectClass = new BasicAttribute("objectClass", "top");
+            // No objectclbsses supplied, use "top" to stbrt
+            objectClbss = new BbsicAttribute("objectClbss", "top");
 
         } else {
-            // Get existing objectclass attribute
-            objectClass = attrs.get("objectClass");
-            if (objectClass == null && !attrs.isCaseIgnored()) {
-                // %%% workaround
-                objectClass = attrs.get("objectclass");
+            // Get existing objectclbss bttribute
+            objectClbss = bttrs.get("objectClbss");
+            if (objectClbss == null && !bttrs.isCbseIgnored()) {
+                // %%% workbround
+                objectClbss = bttrs.get("objectclbss");
             }
 
-            // No objectclasses supplied, use "top" to start
-            if (objectClass == null) {
-                objectClass =  new BasicAttribute("objectClass", "top");
+            // No objectclbsses supplied, use "top" to stbrt
+            if (objectClbss == null) {
+                objectClbss =  new BbsicAttribute("objectClbss", "top");
             } else if (ocNeedsCloning || !cloned) {
-                objectClass = (Attribute)objectClass.clone();
+                objectClbss = (Attribute)objectClbss.clone();
             }
         }
 
-        // convert the supplied object into LDAP attributes
-        attrs = encodeObject(separator, obj, attrs, objectClass, cloned);
+        // convert the supplied object into LDAP bttributes
+        bttrs = encodeObject(sepbrbtor, obj, bttrs, objectClbss, cloned);
 
-        // System.err.println("Determined: " + attrs);
-        return attrs;
+        // System.err.println("Determined: " + bttrs);
+        return bttrs;
     }
 
     /**
-     * An ObjectInputStream that uses a class loader to find classes.
+     * An ObjectInputStrebm thbt uses b clbss lobder to find clbsses.
      */
-    private static final class LoaderInputStream extends ObjectInputStream {
-        private ClassLoader classLoader;
+    privbte stbtic finbl clbss LobderInputStrebm extends ObjectInputStrebm {
+        privbte ClbssLobder clbssLobder;
 
-        LoaderInputStream(InputStream in, ClassLoader cl) throws IOException {
+        LobderInputStrebm(InputStrebm in, ClbssLobder cl) throws IOException {
             super(in);
-            classLoader = cl;
+            clbssLobder = cl;
         }
 
-        protected Class<?> resolveClass(ObjectStreamClass desc) throws
-                IOException, ClassNotFoundException {
+        protected Clbss<?> resolveClbss(ObjectStrebmClbss desc) throws
+                IOException, ClbssNotFoundException {
             try {
-                // %%% Should use Class.forName(desc.getName(), false, classLoader);
-                // except we can't because that is only available on JDK1.2
-                return classLoader.loadClass(desc.getName());
-            } catch (ClassNotFoundException e) {
-                return super.resolveClass(desc);
+                // %%% Should use Clbss.forNbme(desc.getNbme(), fblse, clbssLobder);
+                // except we cbn't becbuse thbt is only bvbilbble on JDK1.2
+                return clbssLobder.lobdClbss(desc.getNbme());
+            } cbtch (ClbssNotFoundException e) {
+                return super.resolveClbss(desc);
             }
         }
 
-         protected Class<?> resolveProxyClass(String[] interfaces) throws
-                IOException, ClassNotFoundException {
-             ClassLoader nonPublicLoader = null;
-             boolean hasNonPublicInterface = false;
+         protected Clbss<?> resolveProxyClbss(String[] interfbces) throws
+                IOException, ClbssNotFoundException {
+             ClbssLobder nonPublicLobder = null;
+             boolebn hbsNonPublicInterfbce = fblse;
 
-             // define proxy in class loader of non-public interface(s), if any
-             Class<?>[] classObjs = new Class<?>[interfaces.length];
-             for (int i = 0; i < interfaces.length; i++) {
-                 Class<?> cl = Class.forName(interfaces[i], false, classLoader);
+             // define proxy in clbss lobder of non-public interfbce(s), if bny
+             Clbss<?>[] clbssObjs = new Clbss<?>[interfbces.length];
+             for (int i = 0; i < interfbces.length; i++) {
+                 Clbss<?> cl = Clbss.forNbme(interfbces[i], fblse, clbssLobder);
                  if ((cl.getModifiers() & Modifier.PUBLIC) == 0) {
-                     if (hasNonPublicInterface) {
-                         if (nonPublicLoader != cl.getClassLoader()) {
-                             throw new IllegalAccessError(
-                                "conflicting non-public interface class loaders");
+                     if (hbsNonPublicInterfbce) {
+                         if (nonPublicLobder != cl.getClbssLobder()) {
+                             throw new IllegblAccessError(
+                                "conflicting non-public interfbce clbss lobders");
                          }
                      } else {
-                         nonPublicLoader = cl.getClassLoader();
-                         hasNonPublicInterface = true;
+                         nonPublicLobder = cl.getClbssLobder();
+                         hbsNonPublicInterfbce = true;
                      }
                  }
-                 classObjs[i] = cl;
+                 clbssObjs[i] = cl;
              }
              try {
-                 return Proxy.getProxyClass(hasNonPublicInterface ?
-                        nonPublicLoader : classLoader, classObjs);
-             } catch (IllegalArgumentException e) {
-                 throw new ClassNotFoundException(null, e);
+                 return Proxy.getProxyClbss(hbsNonPublicInterfbce ?
+                        nonPublicLobder : clbssLobder, clbssObjs);
+             } cbtch (IllegblArgumentException e) {
+                 throw new ClbssNotFoundException(null, e);
              }
          }
 

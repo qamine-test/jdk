@@ -1,120 +1,120 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.management;
+pbckbge com.sun.mbnbgement;
 
-import java.util.List;
-import java.lang.management.PlatformManagedObject;
+import jbvb.util.List;
+import jbvb.lbng.mbnbgement.PlbtformMbnbgedObject;
 
 /**
- * Diagnostic management interface for the HotSpot Virtual Machine.
+ * Dibgnostic mbnbgement interfbce for the HotSpot Virtubl Mbchine.
  *
- * <p>The diagnostic MBean is registered to the platform MBeanServer
- * as are other platform MBeans.
+ * <p>The dibgnostic MBebn is registered to the plbtform MBebnServer
+ * bs bre other plbtform MBebns.
  *
- * <p>The <tt>ObjectName</tt> for uniquely identifying the diagnostic
- * MXBean within an MBeanServer is:
+ * <p>The <tt>ObjectNbme</tt> for uniquely identifying the dibgnostic
+ * MXBebn within bn MBebnServer is:
  * <blockquote>
- *    <tt>com.sun.management:type=HotSpotDiagnostic</tt>
+ *    <tt>com.sun.mbnbgement:type=HotSpotDibgnostic</tt>
  * </blockquote>
 .*
- * It can be obtained by calling the
- * {@link PlatformManagedObject#getObjectName} method.
+ * It cbn be obtbined by cblling the
+ * {@link PlbtformMbnbgedObject#getObjectNbme} method.
  *
- * All methods throw a {@code NullPointerException} if any input argument is
- * {@code null} unless it's stated otherwise.
+ * All methods throw b {@code NullPointerException} if bny input brgument is
+ * {@code null} unless it's stbted otherwise.
  *
- * @see ManagementFactory#getPlatformMXBeans(Class)
+ * @see MbnbgementFbctory#getPlbtformMXBebns(Clbss)
  */
 @jdk.Exported
-public interface HotSpotDiagnosticMXBean extends PlatformManagedObject {
+public interfbce HotSpotDibgnosticMXBebn extends PlbtformMbnbgedObject {
     /**
-     * Dumps the heap to the <tt>outputFile</tt> file in the same
-     * format as the hprof heap dump.
+     * Dumps the hebp to the <tt>outputFile</tt> file in the sbme
+     * formbt bs the hprof hebp dump.
      * <p>
-     * If this method is called remotely from another process,
-     * the heap dump output is written to a file named <tt>outputFile</tt>
-     * on the machine where the target VM is running.  If outputFile is
-     * a relative path, it is relative to the working directory where
-     * the target VM was started.
+     * If this method is cblled remotely from bnother process,
+     * the hebp dump output is written to b file nbmed <tt>outputFile</tt>
+     * on the mbchine where the tbrget VM is running.  If outputFile is
+     * b relbtive pbth, it is relbtive to the working directory where
+     * the tbrget VM wbs stbrted.
      *
-     * @param  outputFile the system-dependent filename
-     * @param  live if <tt>true</tt> dump only <i>live</i> objects
-     *         i.e. objects that are reachable from others
+     * @pbrbm  outputFile the system-dependent filenbme
+     * @pbrbm  live if <tt>true</tt> dump only <i>live</i> objects
+     *         i.e. objects thbt bre rebchbble from others
      * @throws IOException if the <tt>outputFile</tt>
-     *                     cannot be created, opened, or written to.
-     * @throws UnsupportedOperationException if this operation is not supported.
+     *                     cbnnot be crebted, opened, or written to.
+     * @throws UnsupportedOperbtionException if this operbtion is not supported.
      * @throws NullPointerException if <tt>outputFile</tt> is <tt>null</tt>.
      * @throws SecurityException
-     *         If a security manager exists and its {@link
-     *         java.lang.SecurityManager#checkWrite(java.lang.String)}
-     *         method denies write access to the named file
-     *         or the caller does not have ManagmentPermission("control").
+     *         If b security mbnbger exists bnd its {@link
+     *         jbvb.lbng.SecurityMbnbger#checkWrite(jbvb.lbng.String)}
+     *         method denies write bccess to the nbmed file
+     *         or the cbller does not hbve MbnbgmentPermission("control").
      */
-    public void dumpHeap(String outputFile, boolean live) throws java.io.IOException;
+    public void dumpHebp(String outputFile, boolebn live) throws jbvb.io.IOException;
 
     /**
-     * Returns a list of <tt>VMOption</tt> objects for all diagnostic options.
-     * A diagnostic option is a {@link VMOption#isWriteable writeable}
-     * VM option that can be set dynamically mainly for troubleshooting
-     * and diagnosis.
+     * Returns b list of <tt>VMOption</tt> objects for bll dibgnostic options.
+     * A dibgnostic option is b {@link VMOption#isWritebble writebble}
+     * VM option thbt cbn be set dynbmicblly mbinly for troubleshooting
+     * bnd dibgnosis.
      *
-     * @return a list of <tt>VMOption</tt> objects for all diagnostic options.
+     * @return b list of <tt>VMOption</tt> objects for bll dibgnostic options.
      */
-    public java.util.List<VMOption> getDiagnosticOptions();
+    public jbvb.util.List<VMOption> getDibgnosticOptions();
 
     /**
-     * Returns a <tt>VMOption</tt> object for a VM option of the given
-     * name.
+     * Returns b <tt>VMOption</tt> object for b VM option of the given
+     * nbme.
      *
-     * @return a <tt>VMOption</tt> object for a VM option of the given name.
-     * @throws NullPointerException if name is <tt>null</tt>.
-     * @throws IllegalArgumentException if a VM option of the given name
+     * @return b <tt>VMOption</tt> object for b VM option of the given nbme.
+     * @throws NullPointerException if nbme is <tt>null</tt>.
+     * @throws IllegblArgumentException if b VM option of the given nbme
      *                                     does not exist.
      */
-    public VMOption getVMOption(String name);
+    public VMOption getVMOption(String nbme);
 
     /**
-     * Sets a VM option of the given name to the specified value.
-     * The new value will be reflected in a new <tt>VMOption</tt>
+     * Sets b VM option of the given nbme to the specified vblue.
+     * The new vblue will be reflected in b new <tt>VMOption</tt>
      * object returned by the {@link #getVMOption} method or
-     * the {@link #getDiagnosticOptions} method.  This method does
-     * not change the value of this <tt>VMOption</tt> object.
+     * the {@link #getDibgnosticOptions} method.  This method does
+     * not chbnge the vblue of this <tt>VMOption</tt> object.
      *
-     * @param name Name of a VM option
-     * @param value New value of the VM option to be set
+     * @pbrbm nbme Nbme of b VM option
+     * @pbrbm vblue New vblue of the VM option to be set
      *
-     * @throws IllegalArgumentException if the VM option of the given name
+     * @throws IllegblArgumentException if the VM option of the given nbme
      *                                     does not exist.
-     * @throws IllegalArgumentException if the new value is invalid.
-     * @throws IllegalArgumentException if the VM option is not writeable.
-     * @throws NullPointerException if name or value is <tt>null</tt>.
+     * @throws IllegblArgumentException if the new vblue is invblid.
+     * @throws IllegblArgumentException if the VM option is not writebble.
+     * @throws NullPointerException if nbme or vblue is <tt>null</tt>.
      *
-     * @throws  java.lang.SecurityException
-     *     if a security manager exists and the caller does not have
-     *     ManagementPermission("control").
+     * @throws  jbvb.lbng.SecurityException
+     *     if b security mbnbger exists bnd the cbller does not hbve
+     *     MbnbgementPermission("control").
      */
-    public void setVMOption(String name, String value);
+    public void setVMOption(String nbme, String vblue);
 }

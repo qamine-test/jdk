@@ -1,97 +1,97 @@
 /*
- * Copyright (c) 2009, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2009, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package sun.net.ftp;
+pbckbge sun.net.ftp;
 
-import java.net.*;
-import java.io.*;
-import java.util.Date;
-import java.util.List;
-import java.util.Iterator;
+import jbvb.net.*;
+import jbvb.io.*;
+import jbvb.util.Dbte;
+import jbvb.util.List;
+import jbvb.util.Iterbtor;
 
 /**
- * A class that implements the FTP protocol according to
+ * A clbss thbt implements the FTP protocol bccording to
  * RFCs <A href="http://www.ietf.org/rfc/rfc0959.txt">959</A>,
  * <A href="http://www.ietf.org/rfc/rfc2228.txt">2228</A>,
  * <A href="http://www.ietf.org/rfc/rfc2389.txt">2389</A>,
  * <A href="http://www.ietf.org/rfc/rfc2428.txt">2428</A>,
  * <A href="http://www.ietf.org/rfc/rfc3659.txt">3659</A>,
  * <A href="http://www.ietf.org/rfc/rfc4217.txt">4217</A>.
- * Which includes support for FTP over SSL/TLS (aka ftps).
+ * Which includes support for FTP over SSL/TLS (bkb ftps).
  *
- * {@code FtpClient} provides all the functionalities of a typical FTP
- * client, like storing or retrieving files, listing or creating directories.
- * A typical usage would consist of connecting the client to the server,
- * log in, issue a few commands then logout.
- * Here is a code example:
+ * {@code FtpClient} provides bll the functionblities of b typicbl FTP
+ * client, like storing or retrieving files, listing or crebting directories.
+ * A typicbl usbge would consist of connecting the client to the server,
+ * log in, issue b few commbnds then logout.
+ * Here is b code exbmple:
  * <pre>
- * FtpClient cl = FtpClient.create();
- * cl.connect("ftp.gnu.org").login("anonymous", "john.doe@mydomain.com".toCharArray())).changeDirectory("pub/gnu");
- * Iterator&lt;FtpDirEntry&gt; dir = cl.listFiles();
- *     while (dir.hasNext()) {
+ * FtpClient cl = FtpClient.crebte();
+ * cl.connect("ftp.gnu.org").login("bnonymous", "john.doe@mydombin.com".toChbrArrby())).chbngeDirectory("pub/gnu");
+ * Iterbtor&lt;FtpDirEntry&gt; dir = cl.listFiles();
+ *     while (dir.hbsNext()) {
  *         FtpDirEntry f = dir.next();
- *         System.err.println(f.getName());
+ *         System.err.println(f.getNbme());
  *     }
  *     cl.close();
  * }
  * </pre>
- * <p><b>Error reporting:</b> There are, mostly, two families of errors that
- * can occur during an FTP session. The first kind are the network related issues
- * like a connection reset, and they are usually fatal to the session, meaning,
- * in all likelyhood the connection to the server has been lost and the session
- * should be restarted from scratch. These errors are reported by throwing an
- * {@link IOException}. The second kind are the errors reported by the FTP server,
- * like when trying to download a non-existing file for example. These errors
- * are usually non fatal to the session, meaning more commands can be sent to the
- * server. In these cases, a {@link FtpProtocolException} is thrown.</p>
+ * <p><b>Error reporting:</b> There bre, mostly, two fbmilies of errors thbt
+ * cbn occur during bn FTP session. The first kind bre the network relbted issues
+ * like b connection reset, bnd they bre usublly fbtbl to the session, mebning,
+ * in bll likelyhood the connection to the server hbs been lost bnd the session
+ * should be restbrted from scrbtch. These errors bre reported by throwing bn
+ * {@link IOException}. The second kind bre the errors reported by the FTP server,
+ * like when trying to downlobd b non-existing file for exbmple. These errors
+ * bre usublly non fbtbl to the session, mebning more commbnds cbn be sent to the
+ * server. In these cbses, b {@link FtpProtocolException} is thrown.</p>
  * <p>
- * It should be noted that this is not a thread-safe API, as it wouldn't make
- * too much sense, due to the very sequential nature of FTP, to provide a
- * client able to be manipulated from multiple threads.
+ * It should be noted thbt this is not b threbd-sbfe API, bs it wouldn't mbke
+ * too much sense, due to the very sequentibl nbture of FTP, to provide b
+ * client bble to be mbnipulbted from multiple threbds.
  *
  * @since 1.7
  */
-public abstract class FtpClient implements java.io.Closeable {
+public bbstrbct clbss FtpClient implements jbvb.io.Closebble {
 
-    private static final int FTP_PORT = 21;
+    privbte stbtic finbl int FTP_PORT = 21;
 
-    public static enum TransferType {
+    public stbtic enum TrbnsferType {
 
         ASCII, BINARY, EBCDIC
     };
 
     /**
-     * Returns the default FTP port number.
+     * Returns the defbult FTP port number.
      *
      * @return the port number.
      */
-    public static final int defaultPort() {
+    public stbtic finbl int defbultPort() {
         return FTP_PORT;
     }
 
     /**
-     * Creates an instance of FtpClient. The client is not connected to any
+     * Crebtes bn instbnce of FtpClient. The client is not connected to bny
      * server yet.
      *
      */
@@ -99,27 +99,27 @@ public abstract class FtpClient implements java.io.Closeable {
     }
 
     /**
-     * Creates an instance of {@code FtpClient}. The client is not connected to any
+     * Crebtes bn instbnce of {@code FtpClient}. The client is not connected to bny
      * server yet.
      *
-     * @return the created {@code FtpClient}
+     * @return the crebted {@code FtpClient}
      */
-    public static FtpClient create() {
+    public stbtic FtpClient crebte() {
         FtpClientProvider provider = FtpClientProvider.provider();
-        return provider.createFtpClient();
+        return provider.crebteFtpClient();
     }
 
     /**
-     * Creates an instance of FtpClient and connects it to the specified
-     * address.
+     * Crebtes bn instbnce of FtpClient bnd connects it to the specified
+     * bddress.
      *
-     * @param dest the {@code InetSocketAddress} to connect to.
-     * @return The created {@code FtpClient}
-     * @throws IOException if the connection fails
-     * @see #connect(java.net.SocketAddress)
+     * @pbrbm dest the {@code InetSocketAddress} to connect to.
+     * @return The crebted {@code FtpClient}
+     * @throws IOException if the connection fbils
+     * @see #connect(jbvb.net.SocketAddress)
      */
-    public static FtpClient create(InetSocketAddress dest) throws FtpProtocolException, IOException {
-        FtpClient client = create();
+    public stbtic FtpClient crebte(InetSocketAddress dest) throws FtpProtocolException, IOException {
+        FtpClient client = crebte();
         if (dest != null) {
             client.connect(dest);
         }
@@ -127,90 +127,90 @@ public abstract class FtpClient implements java.io.Closeable {
     }
 
     /**
-     * Creates an instance of {@code FtpClient} and connects it to the
-     * specified host on the default FTP port.
+     * Crebtes bn instbnce of {@code FtpClient} bnd connects it to the
+     * specified host on the defbult FTP port.
      *
-     * @param dest the {@code String} containing the name of the host
+     * @pbrbm dest the {@code String} contbining the nbme of the host
      *        to connect to.
-     * @return The created {@code FtpClient}
-     * @throws IOException if the connection fails.
+     * @return The crebted {@code FtpClient}
+     * @throws IOException if the connection fbils.
      * @throws FtpProtocolException if the server rejected the connection
      */
-    public static FtpClient create(String dest) throws FtpProtocolException, IOException {
-        return create(new InetSocketAddress(dest, FTP_PORT));
+    public stbtic FtpClient crebte(String dest) throws FtpProtocolException, IOException {
+        return crebte(new InetSocketAddress(dest, FTP_PORT));
     }
 
     /**
-     * Enables, or disables, the use of the <I>passive</I> mode. In that mode,
-     * data connections are established by having the client connect to the server.
-     * This is the recommended default mode as it will work best through
-     * firewalls and NATs. If set to {@code false} the mode is said to be
-     * <I>active</I> which means the server will connect back to the client
-     * after a PORT command to establish a data connection.
+     * Enbbles, or disbbles, the use of the <I>pbssive</I> mode. In thbt mode,
+     * dbtb connections bre estbblished by hbving the client connect to the server.
+     * This is the recommended defbult mode bs it will work best through
+     * firewblls bnd NATs. If set to {@code fblse} the mode is sbid to be
+     * <I>bctive</I> which mebns the server will connect bbck to the client
+     * bfter b PORT commbnd to estbblish b dbtb connection.
      *
-     * <p><b>Note:</b> Since the passive mode might not be supported by all
-     * FTP servers, enabling it means the client will try to use it. If the
-     * server rejects it, then the client will attempt to fall back to using
-     * the <I>active</I> mode by issuing a {@code PORT} command instead.</p>
+     * <p><b>Note:</b> Since the pbssive mode might not be supported by bll
+     * FTP servers, enbbling it mebns the client will try to use it. If the
+     * server rejects it, then the client will bttempt to fbll bbck to using
+     * the <I>bctive</I> mode by issuing b {@code PORT} commbnd instebd.</p>
      *
-     * @param passive {@code true} to force passive mode.
+     * @pbrbm pbssive {@code true} to force pbssive mode.
      * @return This FtpClient
-     * @see #isPassiveModeEnabled()
+     * @see #isPbssiveModeEnbbled()
      */
-    public abstract FtpClient enablePassiveMode(boolean passive);
+    public bbstrbct FtpClient enbblePbssiveMode(boolebn pbssive);
 
     /**
-     * Tests whether passive mode is enabled.
+     * Tests whether pbssive mode is enbbled.
      *
-     * @return {@code true} if the passive mode has been enabled.
-     * @see #enablePassiveMode(boolean)
+     * @return {@code true} if the pbssive mode hbs been enbbled.
+     * @see #enbblePbssiveMode(boolebn)
      */
-    public abstract boolean isPassiveModeEnabled();
+    public bbstrbct boolebn isPbssiveModeEnbbled();
 
     /**
-     * Sets the default timeout value to use when connecting to the server,
+     * Sets the defbult timeout vblue to use when connecting to the server,
      *
-     * @param timeout the timeout value, in milliseconds, to use for the connect
-     *        operation. A value of zero or less, means use the default timeout.
+     * @pbrbm timeout the timeout vblue, in milliseconds, to use for the connect
+     *        operbtion. A vblue of zero or less, mebns use the defbult timeout.
      *
      * @return This FtpClient
      */
-    public abstract FtpClient setConnectTimeout(int timeout);
+    public bbstrbct FtpClient setConnectTimeout(int timeout);
 
     /**
-     * Returns the current default connection timeout value.
+     * Returns the current defbult connection timeout vblue.
      *
-     * @return the value, in milliseconds, of the current connect timeout.
+     * @return the vblue, in milliseconds, of the current connect timeout.
      * @see #setConnectTimeout(int)
      */
-    public abstract int getConnectTimeout();
+    public bbstrbct int getConnectTimeout();
 
     /**
-     * Sets the timeout value to use when reading from the server,
+     * Sets the timeout vblue to use when rebding from the server,
      *
-     * @param timeout the timeout value, in milliseconds, to use for the read
-     *        operation. A value of zero or less, means use the default timeout.
+     * @pbrbm timeout the timeout vblue, in milliseconds, to use for the rebd
+     *        operbtion. A vblue of zero or less, mebns use the defbult timeout.
      * @return This FtpClient
      */
-    public abstract FtpClient setReadTimeout(int timeout);
+    public bbstrbct FtpClient setRebdTimeout(int timeout);
 
     /**
-     * Returns the current read timeout value.
+     * Returns the current rebd timeout vblue.
      *
-     * @return the value, in milliseconds, of the current read timeout.
-     * @see #setReadTimeout(int)
+     * @return the vblue, in milliseconds, of the current rebd timeout.
+     * @see #setRebdTimeout(int)
      */
-    public abstract int getReadTimeout();
+    public bbstrbct int getRebdTimeout();
 
     /**
      * Set the {@code Proxy} to be used for the next connection.
-     * If the client is already connected, it doesn't affect the current
-     * connection. However it is not recommended to change this during a session.
+     * If the client is blrebdy connected, it doesn't bffect the current
+     * connection. However it is not recommended to chbnge this during b session.
      *
-     * @param p the {@code Proxy} to use, or {@code null} for no proxy.
+     * @pbrbm p the {@code Proxy} to use, or {@code null} for no proxy.
      * @return This FtpClient
      */
-    public abstract FtpClient setProxy(Proxy p);
+    public bbstrbct FtpClient setProxy(Proxy p);
 
     /**
      * Get the proxy of this FtpClient
@@ -219,725 +219,725 @@ public abstract class FtpClient implements java.io.Closeable {
      * if none is used.
      * @see #setProxy(Proxy)
      */
-    public abstract Proxy getProxy();
+    public bbstrbct Proxy getProxy();
 
     /**
-     * Tests whether this client is connected or not to a server.
+     * Tests whether this client is connected or not to b server.
      *
      * @return {@code true} if the client is connected.
      */
-    public abstract boolean isConnected();
+    public bbstrbct boolebn isConnected();
 
     /**
-     * Connects the {@code FtpClient} to the specified destination server.
+     * Connects the {@code FtpClient} to the specified destinbtion server.
      *
-     * @param dest the address of the destination server
+     * @pbrbm dest the bddress of the destinbtion server
      * @return this FtpClient
-     * @throws IOException if connection failed.
-     * @throws SecurityException if there is a SecurityManager installed and it
-     * denied the authorization to connect to the destination.
+     * @throws IOException if connection fbiled.
+     * @throws SecurityException if there is b SecurityMbnbger instblled bnd it
+     * denied the buthorizbtion to connect to the destinbtion.
      * @throws FtpProtocolException
      */
-    public abstract FtpClient connect(SocketAddress dest) throws FtpProtocolException, IOException;
+    public bbstrbct FtpClient connect(SocketAddress dest) throws FtpProtocolException, IOException;
 
     /**
-     * Connects the FtpClient to the specified destination server.
+     * Connects the FtpClient to the specified destinbtion server.
      *
-     * @param dest the address of the destination server
-     * @param timeout the value, in milliseconds, to use as a connection timeout
+     * @pbrbm dest the bddress of the destinbtion server
+     * @pbrbm timeout the vblue, in milliseconds, to use bs b connection timeout
      * @return this FtpClient
-     * @throws IOException if connection failed.
-     * @throws SecurityException if there is a SecurityManager installed and it
-     * denied the authorization to connect to the destination.
+     * @throws IOException if connection fbiled.
+     * @throws SecurityException if there is b SecurityMbnbger instblled bnd it
+     * denied the buthorizbtion to connect to the destinbtion.
      * @throws FtpProtocolException
      */
-    public abstract FtpClient connect(SocketAddress dest, int timeout) throws FtpProtocolException, IOException;
+    public bbstrbct FtpClient connect(SocketAddress dest, int timeout) throws FtpProtocolException, IOException;
 
     /**
-     * Retrieves the address of the FTP server this client is connected to.
+     * Retrieves the bddress of the FTP server this client is connected to.
      *
      * @return the {@link SocketAddress} of the server, or {@code null} if this
      * client is not connected yet.
      */
-    public abstract SocketAddress getServerAddress();
+    public bbstrbct SocketAddress getServerAddress();
 
     /**
-     * Attempts to log on the server with the specified user name and password.
+     * Attempts to log on the server with the specified user nbme bnd pbssword.
      *
-     * @param user The user name
-     * @param password The password for that user
+     * @pbrbm user The user nbme
+     * @pbrbm pbssword The pbssword for thbt user
      * @return this FtpClient
-     * @throws IOException if an error occurred during the transmission
-     * @throws FtpProtocolException if the login was refused by the server
+     * @throws IOException if bn error occurred during the trbnsmission
+     * @throws FtpProtocolException if the login wbs refused by the server
      */
-    public abstract FtpClient login(String user, char[] password) throws FtpProtocolException, IOException;
+    public bbstrbct FtpClient login(String user, chbr[] pbssword) throws FtpProtocolException, IOException;
 
     /**
-     * Attempts to log on the server with the specified user name, password and
-     * account name.
+     * Attempts to log on the server with the specified user nbme, pbssword bnd
+     * bccount nbme.
      *
-     * @param user The user name
-     * @param password The password for that user.
-     * @param account The account name for that user.
+     * @pbrbm user The user nbme
+     * @pbrbm pbssword The pbssword for thbt user.
+     * @pbrbm bccount The bccount nbme for thbt user.
      * @return this FtpClient
-     * @throws IOException if an error occurs during the transmission.
-     * @throws FtpProtocolException if the login was refused by the server
+     * @throws IOException if bn error occurs during the trbnsmission.
+     * @throws FtpProtocolException if the login wbs refused by the server
      */
-    public abstract FtpClient login(String user, char[] password, String account) throws FtpProtocolException, IOException;
+    public bbstrbct FtpClient login(String user, chbr[] pbssword, String bccount) throws FtpProtocolException, IOException;
 
     /**
-     * Closes the current connection. Logs out the current user, if any, by
-     * issuing the QUIT command to the server.
-     * This is in effect terminates the current
-     * session and the connection to the server will be closed.
-     * <p>After a close, the client can then be connected to another server
-     * to start an entirely different session.</P>
+     * Closes the current connection. Logs out the current user, if bny, by
+     * issuing the QUIT commbnd to the server.
+     * This is in effect terminbtes the current
+     * session bnd the connection to the server will be closed.
+     * <p>After b close, the client cbn then be connected to bnother server
+     * to stbrt bn entirely different session.</P>
      *
-     * @throws IOException if an error occurs during transmission
+     * @throws IOException if bn error occurs during trbnsmission
      */
-    public abstract void close() throws IOException;
+    public bbstrbct void close() throws IOException;
 
     /**
      * Checks whether the client is logged in to the server or not.
      *
-     * @return {@code true} if the client has already completed a login.
+     * @return {@code true} if the client hbs blrebdy completed b login.
      */
-    public abstract boolean isLoggedIn();
+    public bbstrbct boolebn isLoggedIn();
 
     /**
-     * Changes to a specific directory on a remote FTP server
+     * Chbnges to b specific directory on b remote FTP server
      *
-     * @param  remoteDirectory path of the directory to CD to.
+     * @pbrbm  remoteDirectory pbth of the directory to CD to.
      * @return this FtpClient
-     * @throws IOException if an error occurs during the transmission.
-     * @throws FtpProtocolException if the command was refused by the server
+     * @throws IOException if bn error occurs during the trbnsmission.
+     * @throws FtpProtocolException if the commbnd wbs refused by the server
      */
-    public abstract FtpClient changeDirectory(String remoteDirectory) throws FtpProtocolException, IOException;
+    public bbstrbct FtpClient chbngeDirectory(String remoteDirectory) throws FtpProtocolException, IOException;
 
     /**
-     * Changes to the parent directory, sending the CDUP command to the server.
+     * Chbnges to the pbrent directory, sending the CDUP commbnd to the server.
      *
      * @return this FtpClient
-     * @throws IOException if an error occurs during the transmission.
-     * @throws FtpProtocolException if the command was refused by the server
+     * @throws IOException if bn error occurs during the trbnsmission.
+     * @throws FtpProtocolException if the commbnd wbs refused by the server
      */
-    public abstract FtpClient changeToParentDirectory() throws FtpProtocolException, IOException;
+    public bbstrbct FtpClient chbngeToPbrentDirectory() throws FtpProtocolException, IOException;
 
     /**
-     * Retrieve the server current working directory using the PWD command.
+     * Retrieve the server current working directory using the PWD commbnd.
      *
-     * @return a {@code String} containing the current working directory
-     * @throws IOException if an error occurs during transmission
-     * @throws FtpProtocolException if the command was refused by the server,
+     * @return b {@code String} contbining the current working directory
+     * @throws IOException if bn error occurs during trbnsmission
+     * @throws FtpProtocolException if the commbnd wbs refused by the server,
      */
-    public abstract String getWorkingDirectory() throws FtpProtocolException, IOException;
+    public bbstrbct String getWorkingDirectory() throws FtpProtocolException, IOException;
 
     /**
-     * Sets the restart offset to the specified value.  That value will be
-     * sent through a {@code REST} command to server before the next file
-     * transfer and has the effect of resuming a file transfer from the
-     * specified point. After the transfer the restart offset is set back to
+     * Sets the restbrt offset to the specified vblue.  Thbt vblue will be
+     * sent through b {@code REST} commbnd to server before the next file
+     * trbnsfer bnd hbs the effect of resuming b file trbnsfer from the
+     * specified point. After the trbnsfer the restbrt offset is set bbck to
      * zero.
      *
-     * @param offset the offset in the remote file at which to start the next
-     *        transfer. This must be a value greater than or equal to zero.
+     * @pbrbm offset the offset in the remote file bt which to stbrt the next
+     *        trbnsfer. This must be b vblue grebter thbn or equbl to zero.
      * @return this FtpClient
-     * @throws IllegalArgumentException if the offset is negative.
+     * @throws IllegblArgumentException if the offset is negbtive.
      */
-    public abstract FtpClient setRestartOffset(long offset);
+    public bbstrbct FtpClient setRestbrtOffset(long offset);
 
     /**
-     * Retrieves a file from the ftp server and writes its content to the specified
-     * {@code OutputStream}.
-     * <p>If the restart offset was set, then a {@code REST} command will be
-     * sent before the {@code RETR} in order to restart the tranfer from the specified
+     * Retrieves b file from the ftp server bnd writes its content to the specified
+     * {@code OutputStrebm}.
+     * <p>If the restbrt offset wbs set, then b {@code REST} commbnd will be
+     * sent before the {@code RETR} in order to restbrt the trbnfer from the specified
      * offset.</p>
-     * <p>The {@code OutputStream} is not closed by this method at the end
-     * of the transfer. </p>
-     * <p>This method will block until the transfer is complete or an exception
+     * <p>The {@code OutputStrebm} is not closed by this method bt the end
+     * of the trbnsfer. </p>
+     * <p>This method will block until the trbnsfer is complete or bn exception
      * is thrown.</p>
      *
-     * @param name a {@code String} containing the name of the file to
+     * @pbrbm nbme b {@code String} contbining the nbme of the file to
      *        retreive from the server.
-     * @param local the {@code OutputStream} the file should be written to.
+     * @pbrbm locbl the {@code OutputStrebm} the file should be written to.
      * @return this FtpClient
-     * @throws IOException if the transfer fails.
-     * @throws FtpProtocolException if the command was refused by the server
-     * @see #setRestartOffset(long)
+     * @throws IOException if the trbnsfer fbils.
+     * @throws FtpProtocolException if the commbnd wbs refused by the server
+     * @see #setRestbrtOffset(long)
      */
-    public abstract FtpClient getFile(String name, OutputStream local) throws FtpProtocolException, IOException;
+    public bbstrbct FtpClient getFile(String nbme, OutputStrebm locbl) throws FtpProtocolException, IOException;
 
     /**
-     * Retrieves a file from the ftp server, using the {@code RETR} command, and
-     * returns the InputStream from the established data connection.
-     * {@link #completePending()} <b>has</b> to be called once the application
-     * is done reading from the returned stream.
-     * <p>If the restart offset was set, then a {@code REST} command will be
-     * sent before the {@code RETR} in order to restart the tranfer from the specified
+     * Retrieves b file from the ftp server, using the {@code RETR} commbnd, bnd
+     * returns the InputStrebm from the estbblished dbtb connection.
+     * {@link #completePending()} <b>hbs</b> to be cblled once the bpplicbtion
+     * is done rebding from the returned strebm.
+     * <p>If the restbrt offset wbs set, then b {@code REST} commbnd will be
+     * sent before the {@code RETR} in order to restbrt the trbnfer from the specified
      * offset.</p>
      *
-     * @param name the name of the remote file
-     * @return the {@link java.io.InputStream} from the data connection
-     * @throws IOException if an error occurred during the transmission.
-     * @throws FtpProtocolException if the command was refused by the server
-     * @see #setRestartOffset(long)
+     * @pbrbm nbme the nbme of the remote file
+     * @return the {@link jbvb.io.InputStrebm} from the dbtb connection
+     * @throws IOException if bn error occurred during the trbnsmission.
+     * @throws FtpProtocolException if the commbnd wbs refused by the server
+     * @see #setRestbrtOffset(long)
      */
-    public abstract InputStream getFileStream(String name) throws FtpProtocolException, IOException;
+    public bbstrbct InputStrebm getFileStrebm(String nbme) throws FtpProtocolException, IOException;
 
     /**
-     * Transfers a file from the client to the server (aka a <I>put</I>)
-     * by sending the STOR command, and returns the {@code OutputStream}
-     * from the established data connection.
+     * Trbnsfers b file from the client to the server (bkb b <I>put</I>)
+     * by sending the STOR commbnd, bnd returns the {@code OutputStrebm}
+     * from the estbblished dbtb connection.
      *
-     * A new file is created at the server site if the file specified does
-     * not already exist.
+     * A new file is crebted bt the server site if the file specified does
+     * not blrebdy exist.
      *
-     * {@link #completePending()} <b>has</b> to be called once the application
-     * is finished writing to the returned stream.
+     * {@link #completePending()} <b>hbs</b> to be cblled once the bpplicbtion
+     * is finished writing to the returned strebm.
      *
-     * @param name the name of the remote file to write.
-     * @return the {@link java.io.OutputStream} from the data connection or
-     *         {@code null} if the command was unsuccessful.
-     * @throws IOException if an error occurred during the transmission.
-     * @throws FtpProtocolException if the command was rejected by the server
+     * @pbrbm nbme the nbme of the remote file to write.
+     * @return the {@link jbvb.io.OutputStrebm} from the dbtb connection or
+     *         {@code null} if the commbnd wbs unsuccessful.
+     * @throws IOException if bn error occurred during the trbnsmission.
+     * @throws FtpProtocolException if the commbnd wbs rejected by the server
      */
-    public OutputStream putFileStream(String name) throws FtpProtocolException, IOException {
-        return putFileStream(name, false);
+    public OutputStrebm putFileStrebm(String nbme) throws FtpProtocolException, IOException {
+        return putFileStrebm(nbme, fblse);
     }
 
     /**
-     * Transfers a file from the client to the server (aka a <I>put</I>)
-     * by sending the STOR or STOU command, depending on the
-     * {@code unique} argument, and returns the {@code OutputStream}
-     * from the established data connection.
-     * {@link #completePending()} <b>has</b> to be called once the application
-     * is finished writing to the stream.
+     * Trbnsfers b file from the client to the server (bkb b <I>put</I>)
+     * by sending the STOR or STOU commbnd, depending on the
+     * {@code unique} brgument, bnd returns the {@code OutputStrebm}
+     * from the estbblished dbtb connection.
+     * {@link #completePending()} <b>hbs</b> to be cblled once the bpplicbtion
+     * is finished writing to the strebm.
      *
-     * A new file is created at the server site if the file specified does
-     * not already exist.
+     * A new file is crebted bt the server site if the file specified does
+     * not blrebdy exist.
      *
-     * If {@code unique} is set to {@code true}, the resultant file
-     * is to be created under a name unique to that directory, meaning
-     * it will not overwrite an existing file, instead the server will
-     * generate a new, unique, file name.
-     * The name of the remote file can be retrieved, after completion of the
-     * transfer, by calling {@link #getLastFileName()}.
+     * If {@code unique} is set to {@code true}, the resultbnt file
+     * is to be crebted under b nbme unique to thbt directory, mebning
+     * it will not overwrite bn existing file, instebd the server will
+     * generbte b new, unique, file nbme.
+     * The nbme of the remote file cbn be retrieved, bfter completion of the
+     * trbnsfer, by cblling {@link #getLbstFileNbme()}.
      *
-     * @param name the name of the remote file to write.
-     * @param unique {@code true} if the remote files should be unique,
-     *        in which case the STOU command will be used.
-     * @return the {@link java.io.OutputStream} from the data connection.
-     * @throws IOException if an error occurred during the transmission.
-     * @throws FtpProtocolException if the command was rejected by the server
+     * @pbrbm nbme the nbme of the remote file to write.
+     * @pbrbm unique {@code true} if the remote files should be unique,
+     *        in which cbse the STOU commbnd will be used.
+     * @return the {@link jbvb.io.OutputStrebm} from the dbtb connection.
+     * @throws IOException if bn error occurred during the trbnsmission.
+     * @throws FtpProtocolException if the commbnd wbs rejected by the server
      */
-    public abstract OutputStream putFileStream(String name, boolean unique) throws FtpProtocolException, IOException;
+    public bbstrbct OutputStrebm putFileStrebm(String nbme, boolebn unique) throws FtpProtocolException, IOException;
 
     /**
-     * Transfers a file from the client to the server (aka a <I>put</I>)
-     * by sending the STOR or STOU command, depending on the
-     * {@code unique} argument. The content of the {@code InputStream}
-     * passed in argument is written into the remote file, overwriting any
-     * existing data.
+     * Trbnsfers b file from the client to the server (bkb b <I>put</I>)
+     * by sending the STOR or STOU commbnd, depending on the
+     * {@code unique} brgument. The content of the {@code InputStrebm}
+     * pbssed in brgument is written into the remote file, overwriting bny
+     * existing dbtb.
      *
-     * A new file is created at the server site if the file specified does
-     * not already exist.
+     * A new file is crebted bt the server site if the file specified does
+     * not blrebdy exist.
      *
-     * If {@code unique} is set to {@code true}, the resultant file
-     * is to be created under a name unique to that directory, meaning
-     * it will not overwrite an existing file, instead the server will
-     * generate a new, unique, file name.
-     * The name of the remote file can be retrieved, after completion of the
-     * transfer, by calling {@link #getLastFileName()}.
+     * If {@code unique} is set to {@code true}, the resultbnt file
+     * is to be crebted under b nbme unique to thbt directory, mebning
+     * it will not overwrite bn existing file, instebd the server will
+     * generbte b new, unique, file nbme.
+     * The nbme of the remote file cbn be retrieved, bfter completion of the
+     * trbnsfer, by cblling {@link #getLbstFileNbme()}.
      *
-     * <p>This method will block until the transfer is complete or an exception
+     * <p>This method will block until the trbnsfer is complete or bn exception
      * is thrown.</p>
      *
-     * @param name the name of the remote file to write.
-     * @param local the {@code InputStream} that points to the data to
-     *        transfer.
+     * @pbrbm nbme the nbme of the remote file to write.
+     * @pbrbm locbl the {@code InputStrebm} thbt points to the dbtb to
+     *        trbnsfer.
      * @return this FtpClient
-     * @throws IOException if an error occurred during the transmission.
-     * @throws FtpProtocolException if the command was rejected by the server
+     * @throws IOException if bn error occurred during the trbnsmission.
+     * @throws FtpProtocolException if the commbnd wbs rejected by the server
      */
-    public FtpClient putFile(String name, InputStream local) throws FtpProtocolException, IOException {
-        return putFile(name, local, false);
+    public FtpClient putFile(String nbme, InputStrebm locbl) throws FtpProtocolException, IOException {
+        return putFile(nbme, locbl, fblse);
     }
 
     /**
-     * Transfers a file from the client to the server (aka a <I>put</I>)
-     * by sending the STOR command. The content of the {@code InputStream}
-     * passed in argument is written into the remote file, overwriting any
-     * existing data.
+     * Trbnsfers b file from the client to the server (bkb b <I>put</I>)
+     * by sending the STOR commbnd. The content of the {@code InputStrebm}
+     * pbssed in brgument is written into the remote file, overwriting bny
+     * existing dbtb.
      *
-     * A new file is created at the server site if the file specified does
-     * not already exist.
+     * A new file is crebted bt the server site if the file specified does
+     * not blrebdy exist.
      *
-     * <p>This method will block until the transfer is complete or an exception
+     * <p>This method will block until the trbnsfer is complete or bn exception
      * is thrown.</p>
      *
-     * @param name the name of the remote file to write.
-     * @param local the {@code InputStream} that points to the data to
-     *        transfer.
-     * @param unique {@code true} if the remote file should be unique
-     *        (i.e. not already existing), {@code false} otherwise.
+     * @pbrbm nbme the nbme of the remote file to write.
+     * @pbrbm locbl the {@code InputStrebm} thbt points to the dbtb to
+     *        trbnsfer.
+     * @pbrbm unique {@code true} if the remote file should be unique
+     *        (i.e. not blrebdy existing), {@code fblse} otherwise.
      * @return this FtpClient
-     * @throws IOException if an error occurred during the transmission.
-     * @throws FtpProtocolException if the command was rejected by the server
-     * @see #getLastFileName()
+     * @throws IOException if bn error occurred during the trbnsmission.
+     * @throws FtpProtocolException if the commbnd wbs rejected by the server
+     * @see #getLbstFileNbme()
      */
-    public abstract FtpClient putFile(String name, InputStream local, boolean unique) throws FtpProtocolException, IOException;
+    public bbstrbct FtpClient putFile(String nbme, InputStrebm locbl, boolebn unique) throws FtpProtocolException, IOException;
 
     /**
-     * Sends the APPE command to the server in order to transfer a data stream
-     * passed in argument and append it to the content of the specified remote
+     * Sends the APPE commbnd to the server in order to trbnsfer b dbtb strebm
+     * pbssed in brgument bnd bppend it to the content of the specified remote
      * file.
      *
-     * <p>This method will block until the transfer is complete or an exception
+     * <p>This method will block until the trbnsfer is complete or bn exception
      * is thrown.</p>
      *
-     * @param name A {@code String} containing the name of the remote file
-     *        to append to.
-     * @param local The {@code InputStream} providing access to the data
-     *        to be appended.
+     * @pbrbm nbme A {@code String} contbining the nbme of the remote file
+     *        to bppend to.
+     * @pbrbm locbl The {@code InputStrebm} providing bccess to the dbtb
+     *        to be bppended.
      * @return this FtpClient
-     * @throws IOException if an error occurred during the transmission.
-     * @throws FtpProtocolException if the command was rejected by the server
+     * @throws IOException if bn error occurred during the trbnsmission.
+     * @throws FtpProtocolException if the commbnd wbs rejected by the server
      */
-    public abstract FtpClient appendFile(String name, InputStream local) throws FtpProtocolException, IOException;
+    public bbstrbct FtpClient bppendFile(String nbme, InputStrebm locbl) throws FtpProtocolException, IOException;
 
     /**
-     * Renames a file on the server.
+     * Renbmes b file on the server.
      *
-     * @param from the name of the file being renamed
-     * @param to the new name for the file
+     * @pbrbm from the nbme of the file being renbmed
+     * @pbrbm to the new nbme for the file
      * @return this FtpClient
-     * @throws IOException if an error occurred during the transmission.
-     * @throws FtpProtocolException if the command was rejected by the server
+     * @throws IOException if bn error occurred during the trbnsmission.
+     * @throws FtpProtocolException if the commbnd wbs rejected by the server
      */
-    public abstract FtpClient rename(String from, String to) throws FtpProtocolException, IOException;
+    public bbstrbct FtpClient renbme(String from, String to) throws FtpProtocolException, IOException;
 
     /**
-     * Deletes a file on the server.
+     * Deletes b file on the server.
      *
-     * @param name a {@code String} containing the name of the file
+     * @pbrbm nbme b {@code String} contbining the nbme of the file
      *        to delete.
      * @return this FtpClient
-     * @throws IOException if an error occurred during the exchange
-     * @throws FtpProtocolException if the command was rejected by the server
+     * @throws IOException if bn error occurred during the exchbnge
+     * @throws FtpProtocolException if the commbnd wbs rejected by the server
      */
-    public abstract FtpClient deleteFile(String name) throws FtpProtocolException, IOException;
+    public bbstrbct FtpClient deleteFile(String nbme) throws FtpProtocolException, IOException;
 
     /**
-     * Creates a new directory on the server.
+     * Crebtes b new directory on the server.
      *
-     * @param name a {@code String} containing the name of the directory
-     *        to create.
+     * @pbrbm nbme b {@code String} contbining the nbme of the directory
+     *        to crebte.
      * @return this FtpClient
-     * @throws IOException if an error occurred during the exchange
-     * @throws FtpProtocolException if the command was rejected by the server
+     * @throws IOException if bn error occurred during the exchbnge
+     * @throws FtpProtocolException if the commbnd wbs rejected by the server
      */
-    public abstract FtpClient makeDirectory(String name) throws FtpProtocolException, IOException;
+    public bbstrbct FtpClient mbkeDirectory(String nbme) throws FtpProtocolException, IOException;
 
     /**
-     * Removes a directory on the server.
+     * Removes b directory on the server.
      *
-     * @param name a {@code String} containing the name of the directory
+     * @pbrbm nbme b {@code String} contbining the nbme of the directory
      *        to remove.
      *
      * @return this FtpClient
-     * @throws IOException if an error occurred during the exchange.
-     * @throws FtpProtocolException if the command was rejected by the server
+     * @throws IOException if bn error occurred during the exchbnge.
+     * @throws FtpProtocolException if the commbnd wbs rejected by the server
      */
-    public abstract FtpClient removeDirectory(String name) throws FtpProtocolException, IOException;
+    public bbstrbct FtpClient removeDirectory(String nbme) throws FtpProtocolException, IOException;
 
     /**
-     * Sends a No-operation command. It's useful for testing the connection
-     * status or as a <I>keep alive</I> mechanism.
+     * Sends b No-operbtion commbnd. It's useful for testing the connection
+     * stbtus or bs b <I>keep blive</I> mechbnism.
      *
      * @return this FtpClient
-     * @throws IOException if an error occurred during the transmission.
-     * @throws FtpProtocolException if the command was rejected by the server
+     * @throws IOException if bn error occurred during the trbnsmission.
+     * @throws FtpProtocolException if the commbnd wbs rejected by the server
      */
-    public abstract FtpClient noop() throws FtpProtocolException, IOException;
+    public bbstrbct FtpClient noop() throws FtpProtocolException, IOException;
 
     /**
-     * Sends the {@code STAT} command to the server.
-     * This can be used while a data connection is open to get a status
-     * on the current transfer, in that case the parameter should be
+     * Sends the {@code STAT} commbnd to the server.
+     * This cbn be used while b dbtb connection is open to get b stbtus
+     * on the current trbnsfer, in thbt cbse the pbrbmeter should be
      * {@code null}.
-     * If used between file transfers, it may have a pathname as argument
-     * in which case it will work as the LIST command except no data
-     * connection will be created.
+     * If used between file trbnsfers, it mby hbve b pbthnbme bs brgument
+     * in which cbse it will work bs the LIST commbnd except no dbtb
+     * connection will be crebted.
      *
-     * @param name an optional {@code String} containing the pathname
-     *        the STAT command should apply to.
+     * @pbrbm nbme bn optionbl {@code String} contbining the pbthnbme
+     *        the STAT commbnd should bpply to.
      * @return the response from the server
-     * @throws IOException if an error occurred during the transmission.
-     * @throws FtpProtocolException if the command was rejected by the server
+     * @throws IOException if bn error occurred during the trbnsmission.
+     * @throws FtpProtocolException if the commbnd wbs rejected by the server
      */
-    public abstract String getStatus(String name) throws FtpProtocolException, IOException;
+    public bbstrbct String getStbtus(String nbme) throws FtpProtocolException, IOException;
 
     /**
-     * Sends the {@code FEAT} command to the server and returns the list of supported
-     * features in the form of strings.
+     * Sends the {@code FEAT} commbnd to the server bnd returns the list of supported
+     * febtures in the form of strings.
      *
-     * The features are the supported commands, like AUTH TLS, PROT or PASV.
-     * See the RFCs for a complete list.
+     * The febtures bre the supported commbnds, like AUTH TLS, PROT or PASV.
+     * See the RFCs for b complete list.
      *
-     * Note that not all FTP servers support that command, in which case
-     * a {@link FtpProtocolException} will be thrown.
+     * Note thbt not bll FTP servers support thbt commbnd, in which cbse
+     * b {@link FtpProtocolException} will be thrown.
      *
-     * @return a {@code List} of {@code Strings} describing the
-     *         supported additional features
-     * @throws IOException if an error occurs during the transmission.
-     * @throws FtpProtocolException if the command is rejected by the server
+     * @return b {@code List} of {@code Strings} describing the
+     *         supported bdditionbl febtures
+     * @throws IOException if bn error occurs during the trbnsmission.
+     * @throws FtpProtocolException if the commbnd is rejected by the server
      */
-    public abstract List<String> getFeatures() throws FtpProtocolException, IOException;
+    public bbstrbct List<String> getFebtures() throws FtpProtocolException, IOException;
 
     /**
-     * Sends the {@code ABOR} command to the server.
-     * <p>It tells the server to stop the previous command or transfer. No action
-     * will be taken if the previous command has already been completed.</p>
-     * <p>This doesn't abort the current session, more commands can be issued
-     * after an abort.</p>
+     * Sends the {@code ABOR} commbnd to the server.
+     * <p>It tells the server to stop the previous commbnd or trbnsfer. No bction
+     * will be tbken if the previous commbnd hbs blrebdy been completed.</p>
+     * <p>This doesn't bbort the current session, more commbnds cbn be issued
+     * bfter bn bbort.</p>
      *
      * @return this FtpClient
-     * @throws IOException if an error occurred during the transmission.
-     * @throws FtpProtocolException if the command was rejected by the server
+     * @throws IOException if bn error occurred during the trbnsmission.
+     * @throws FtpProtocolException if the commbnd wbs rejected by the server
      */
-    public abstract FtpClient abort() throws FtpProtocolException, IOException;
+    public bbstrbct FtpClient bbort() throws FtpProtocolException, IOException;
 
     /**
-     * Some methods do not wait until completion before returning, so this
-     * method can be called to wait until completion. This is typically the case
-     * with commands that trigger a transfer like {@link #getFileStream(String)}.
-     * So this method should be called before accessing information related to
-     * such a command.
-     * <p>This method will actually block reading on the command channel for a
-     * notification from the server that the command is finished. Such a
-     * notification often carries extra information concerning the completion
-     * of the pending action (e.g. number of bytes transfered).</p>
-     * <p>Note that this will return immediately if no command or action
+     * Some methods do not wbit until completion before returning, so this
+     * method cbn be cblled to wbit until completion. This is typicblly the cbse
+     * with commbnds thbt trigger b trbnsfer like {@link #getFileStrebm(String)}.
+     * So this method should be cblled before bccessing informbtion relbted to
+     * such b commbnd.
+     * <p>This method will bctublly block rebding on the commbnd chbnnel for b
+     * notificbtion from the server thbt the commbnd is finished. Such b
+     * notificbtion often cbrries extrb informbtion concerning the completion
+     * of the pending bction (e.g. number of bytes trbnsfered).</p>
+     * <p>Note thbt this will return immedibtely if no commbnd or bction
      * is pending</p>
-     * <p>It should be also noted that most methods issuing commands to the ftp
-     * server will call this method if a previous command is pending.
-     * <p>Example of use:
+     * <p>It should be blso noted thbt most methods issuing commbnds to the ftp
+     * server will cbll this method if b previous commbnd is pending.
+     * <p>Exbmple of use:
      * <pre>
-     * InputStream in = cl.getFileStream("file");
+     * InputStrebm in = cl.getFileStrebm("file");
      * ...
      * cl.completePending();
-     * long size = cl.getLastTransferSize();
+     * long size = cl.getLbstTrbnsferSize();
      * </pre>
-     * On the other hand, it's not necessary in a case like:
+     * On the other hbnd, it's not necessbry in b cbse like:
      * <pre>
-     * InputStream in = cl.getFileStream("file");
-     * // read content
+     * InputStrebm in = cl.getFileStrebm("file");
+     * // rebd content
      * ...
      * cl.close();
      * </pre>
-     * <p>Since {@link #close()} will call completePending() if necessary.</p>
+     * <p>Since {@link #close()} will cbll completePending() if necessbry.</p>
      * @return this FtpClient
-     * @throws IOException if an error occurred during the transfer
-     * @throws FtpProtocolException if the command didn't complete successfully
+     * @throws IOException if bn error occurred during the trbnsfer
+     * @throws FtpProtocolException if the commbnd didn't complete successfully
      */
-    public abstract FtpClient completePending() throws FtpProtocolException, IOException;
+    public bbstrbct FtpClient completePending() throws FtpProtocolException, IOException;
 
     /**
-     * Reinitializes the USER parameters on the FTP server
+     * Reinitiblizes the USER pbrbmeters on the FTP server
      *
      * @return this FtpClient
-     * @throws IOException if an error occurs during transmission
-     * @throws FtpProtocolException if the command fails
+     * @throws IOException if bn error occurs during trbnsmission
+     * @throws FtpProtocolException if the commbnd fbils
      */
-    public abstract FtpClient reInit() throws FtpProtocolException, IOException;
+    public bbstrbct FtpClient reInit() throws FtpProtocolException, IOException;
 
     /**
-     * Changes the transfer type (binary, ascii, ebcdic) and issue the
-     * proper command (e.g. TYPE A) to the server.
+     * Chbnges the trbnsfer type (binbry, bscii, ebcdic) bnd issue the
+     * proper commbnd (e.g. TYPE A) to the server.
      *
-     * @param type the {@code TransferType} to use.
+     * @pbrbm type the {@code TrbnsferType} to use.
      * @return This FtpClient
-     * @throws IOException if an error occurs during transmission.
-     * @throws FtpProtocolException if the command was rejected by the server
+     * @throws IOException if bn error occurs during trbnsmission.
+     * @throws FtpProtocolException if the commbnd wbs rejected by the server
      */
-    public abstract FtpClient setType(TransferType type) throws FtpProtocolException, IOException;
+    public bbstrbct FtpClient setType(TrbnsferType type) throws FtpProtocolException, IOException;
 
     /**
-     * Changes the current transfer type to binary.
-     * This is a convenience method that is equivalent to
-     * {@code setType(TransferType.BINARY)}
+     * Chbnges the current trbnsfer type to binbry.
+     * This is b convenience method thbt is equivblent to
+     * {@code setType(TrbnsferType.BINARY)}
      *
      * @return This FtpClient
-     * @throws IOException if an error occurs during the transmission.
-     * @throws FtpProtocolException if the command was rejected by the server
-     * @see #setType(TransferType)
+     * @throws IOException if bn error occurs during the trbnsmission.
+     * @throws FtpProtocolException if the commbnd wbs rejected by the server
+     * @see #setType(TrbnsferType)
      */
-    public FtpClient setBinaryType() throws FtpProtocolException, IOException {
-        setType(TransferType.BINARY);
+    public FtpClient setBinbryType() throws FtpProtocolException, IOException {
+        setType(TrbnsferType.BINARY);
         return this;
     }
 
     /**
-     * Changes the current transfer type to ascii.
-     * This is a convenience method that is equivalent to
-     * {@code setType(TransferType.ASCII)}
+     * Chbnges the current trbnsfer type to bscii.
+     * This is b convenience method thbt is equivblent to
+     * {@code setType(TrbnsferType.ASCII)}
      *
      * @return This FtpClient
-     * @throws IOException if an error occurs during the transmission.
-     * @throws FtpProtocolException if the command was rejected by the server
-     * @see #setType(TransferType)
+     * @throws IOException if bn error occurs during the trbnsmission.
+     * @throws FtpProtocolException if the commbnd wbs rejected by the server
+     * @see #setType(TrbnsferType)
      */
     public FtpClient setAsciiType() throws FtpProtocolException, IOException {
-        setType(TransferType.ASCII);
+        setType(TrbnsferType.ASCII);
         return this;
     }
 
     /**
-     * Issues a {@code LIST} command to the server to get the current directory
-     * listing, and returns the InputStream from the data connection.
+     * Issues b {@code LIST} commbnd to the server to get the current directory
+     * listing, bnd returns the InputStrebm from the dbtb connection.
      *
-     * <p>{@link #completePending()} <b>has</b> to be called once the application
-     * is finished reading from the stream.</p>
+     * <p>{@link #completePending()} <b>hbs</b> to be cblled once the bpplicbtion
+     * is finished rebding from the strebm.</p>
      *
-     * @param path the pathname of the directory to list, or {@code null}
+     * @pbrbm pbth the pbthnbme of the directory to list, or {@code null}
      *        for the current working directory.
-     * @return the {@code InputStream} from the resulting data connection
-     * @throws IOException if an error occurs during the transmission.
-     * @throws FtpProtocolException if the command was rejected by the server
-     * @see #changeDirectory(String)
+     * @return the {@code InputStrebm} from the resulting dbtb connection
+     * @throws IOException if bn error occurs during the trbnsmission.
+     * @throws FtpProtocolException if the commbnd wbs rejected by the server
+     * @see #chbngeDirectory(String)
      * @see #listFiles(String)
      */
-    public abstract InputStream list(String path) throws FtpProtocolException, IOException;
+    public bbstrbct InputStrebm list(String pbth) throws FtpProtocolException, IOException;
 
     /**
-     * Issues a {@code NLST path} command to server to get the specified directory
-     * content. It differs from {@link #list(String)} method by the fact that
-     * it will only list the file names which would make the parsing of the
-     * somewhat easier.
+     * Issues b {@code NLST pbth} commbnd to server to get the specified directory
+     * content. It differs from {@link #list(String)} method by the fbct thbt
+     * it will only list the file nbmes which would mbke the pbrsing of the
+     * somewhbt ebsier.
      *
-     * <p>{@link #completePending()} <b>has</b> to be called once the application
-     * is finished reading from the stream.</p>
+     * <p>{@link #completePending()} <b>hbs</b> to be cblled once the bpplicbtion
+     * is finished rebding from the strebm.</p>
      *
-     * @param path a {@code String} containing the pathname of the
+     * @pbrbm pbth b {@code String} contbining the pbthnbme of the
      *        directory to list or {@code null} for the current working directory.
-     * @return the {@code InputStream} from the resulting data connection
-     * @throws IOException if an error occurs during the transmission.
-     * @throws FtpProtocolException if the command was rejected by the server
+     * @return the {@code InputStrebm} from the resulting dbtb connection
+     * @throws IOException if bn error occurs during the trbnsmission.
+     * @throws FtpProtocolException if the commbnd wbs rejected by the server
      */
-    public abstract InputStream nameList(String path) throws FtpProtocolException, IOException;
+    public bbstrbct InputStrebm nbmeList(String pbth) throws FtpProtocolException, IOException;
 
     /**
-     * Issues the {@code SIZE [path]} command to the server to get the size of a
+     * Issues the {@code SIZE [pbth]} commbnd to the server to get the size of b
      * specific file on the server.
-     * Note that this command may not be supported by the server. In which
-     * case -1 will be returned.
+     * Note thbt this commbnd mby not be supported by the server. In which
+     * cbse -1 will be returned.
      *
-     * @param path a {@code String} containing the pathname of the
+     * @pbrbm pbth b {@code String} contbining the pbthnbme of the
      *        file.
-     * @return a {@code long} containing the size of the file or -1 if
-     *         the server returned an error, which can be checked with
-     *         {@link #getLastReplyCode()}.
-     * @throws IOException if an error occurs during the transmission.
-     * @throws FtpProtocolException if the command was rejected by the server
+     * @return b {@code long} contbining the size of the file or -1 if
+     *         the server returned bn error, which cbn be checked with
+     *         {@link #getLbstReplyCode()}.
+     * @throws IOException if bn error occurs during the trbnsmission.
+     * @throws FtpProtocolException if the commbnd wbs rejected by the server
      */
-    public abstract long getSize(String path) throws FtpProtocolException, IOException;
+    public bbstrbct long getSize(String pbth) throws FtpProtocolException, IOException;
 
     /**
-     * Issues the {@code MDTM [path]} command to the server to get the modification
-     * time of a specific file on the server.
-     * Note that this command may not be supported by the server, in which
-     * case {@code null} will be returned.
+     * Issues the {@code MDTM [pbth]} commbnd to the server to get the modificbtion
+     * time of b specific file on the server.
+     * Note thbt this commbnd mby not be supported by the server, in which
+     * cbse {@code null} will be returned.
      *
-     * @param path a {@code String} containing the pathname of the file.
-     * @return a {@code Date} representing the last modification time
-     *         or {@code null} if the server returned an error, which
-     *         can be checked with {@link #getLastReplyCode()}.
-     * @throws IOException if an error occurs during the transmission.
-     * @throws FtpProtocolException if the command was rejected by the server
+     * @pbrbm pbth b {@code String} contbining the pbthnbme of the file.
+     * @return b {@code Dbte} representing the lbst modificbtion time
+     *         or {@code null} if the server returned bn error, which
+     *         cbn be checked with {@link #getLbstReplyCode()}.
+     * @throws IOException if bn error occurs during the trbnsmission.
+     * @throws FtpProtocolException if the commbnd wbs rejected by the server
      */
-    public abstract Date getLastModified(String path) throws FtpProtocolException, IOException;
+    public bbstrbct Dbte getLbstModified(String pbth) throws FtpProtocolException, IOException;
 
     /**
-     * Sets the parser used to handle the directory output to the specified
-     * one. By default the parser is set to one that can handle most FTP
-     * servers output (Unix base mostly). However it may be necessary for
-     * and application to provide its own parser due to some uncommon
-     * output format.
+     * Sets the pbrser used to hbndle the directory output to the specified
+     * one. By defbult the pbrser is set to one thbt cbn hbndle most FTP
+     * servers output (Unix bbse mostly). However it mby be necessbry for
+     * bnd bpplicbtion to provide its own pbrser due to some uncommon
+     * output formbt.
      *
-     * @param p The {@code FtpDirParser} to use.
+     * @pbrbm p The {@code FtpDirPbrser} to use.
      * @return this FtpClient
      * @see #listFiles(String)
      */
-    public abstract FtpClient setDirParser(FtpDirParser p);
+    public bbstrbct FtpClient setDirPbrser(FtpDirPbrser p);
 
     /**
-     * Issues a {@code MLSD} command to the server to get the specified directory
-     * listing and applies the internal parser to create an Iterator of
-     * {@link java.net.FtpDirEntry}. Note that the Iterator returned is also a
-     * {@link java.io.Closeable}.
-     * <p>If the server doesn't support the MLSD command, the LIST command is used
-     * instead and the parser set by {@link #setDirParser(java.net.FtpDirParser) }
-     * is used instead.</p>
+     * Issues b {@code MLSD} commbnd to the server to get the specified directory
+     * listing bnd bpplies the internbl pbrser to crebte bn Iterbtor of
+     * {@link jbvb.net.FtpDirEntry}. Note thbt the Iterbtor returned is blso b
+     * {@link jbvb.io.Closebble}.
+     * <p>If the server doesn't support the MLSD commbnd, the LIST commbnd is used
+     * instebd bnd the pbrser set by {@link #setDirPbrser(jbvb.net.FtpDirPbrser) }
+     * is used instebd.</p>
      *
-     * {@link #completePending()} <b>has</b> to be called once the application
-     * is finished iterating through the files.
+     * {@link #completePending()} <b>hbs</b> to be cblled once the bpplicbtion
+     * is finished iterbting through the files.
      *
-     * @param path the pathname of the directory to list or {@code null}
+     * @pbrbm pbth the pbthnbme of the directory to list or {@code null}
      *        for the current working directoty.
-     * @return a {@code Iterator} of files or {@code null} if the
-     *         command failed.
-     * @throws IOException if an error occurred during the transmission
-     * @see #setDirParser(FtpDirParser)
-     * @see #changeDirectory(String)
-     * @throws FtpProtocolException if the command was rejected by the server
+     * @return b {@code Iterbtor} of files or {@code null} if the
+     *         commbnd fbiled.
+     * @throws IOException if bn error occurred during the trbnsmission
+     * @see #setDirPbrser(FtpDirPbrser)
+     * @see #chbngeDirectory(String)
+     * @throws FtpProtocolException if the commbnd wbs rejected by the server
      */
-    public abstract Iterator<FtpDirEntry> listFiles(String path) throws FtpProtocolException, IOException;
+    public bbstrbct Iterbtor<FtpDirEntry> listFiles(String pbth) throws FtpProtocolException, IOException;
 
     /**
-     * Attempts to use Kerberos GSSAPI as an authentication mechanism with the
-     * ftp server. This will issue an {@code AUTH GSSAPI} command, and if
-     * it is accepted by the server, will followup with {@code ADAT}
-     * command to exchange the various tokens until authentication is
+     * Attempts to use Kerberos GSSAPI bs bn buthenticbtion mechbnism with the
+     * ftp server. This will issue bn {@code AUTH GSSAPI} commbnd, bnd if
+     * it is bccepted by the server, will followup with {@code ADAT}
+     * commbnd to exchbnge the vbrious tokens until buthenticbtion is
      * successful. This conforms to Appendix I of RFC 2228.
      *
      * @return this FtpClient
-     * @throws IOException if an error occurs during the transmission.
-     * @throws FtpProtocolException if the command was rejected by the server
+     * @throws IOException if bn error occurs during the trbnsmission.
+     * @throws FtpProtocolException if the commbnd wbs rejected by the server
      */
-    public abstract FtpClient useKerberos() throws FtpProtocolException, IOException;
+    public bbstrbct FtpClient useKerberos() throws FtpProtocolException, IOException;
 
     /**
-     * Returns the Welcome string the server sent during initial connection.
+     * Returns the Welcome string the server sent during initibl connection.
      *
-     * @return a {@code String} containing the message the server
+     * @return b {@code String} contbining the messbge the server
      *         returned during connection or {@code null}.
      */
-    public abstract String getWelcomeMsg();
+    public bbstrbct String getWelcomeMsg();
 
     /**
-     * Returns the last reply code sent by the server.
+     * Returns the lbst reply code sent by the server.
      *
-     * @return the lastReplyCode or {@code null} if none were received yet.
+     * @return the lbstReplyCode or {@code null} if none were received yet.
      */
-    public abstract FtpReplyCode getLastReplyCode();
+    public bbstrbct FtpReplyCode getLbstReplyCode();
 
     /**
-     * Returns the last response string sent by the server.
+     * Returns the lbst response string sent by the server.
      *
-     * @return the message string, which can be quite long, last returned
+     * @return the messbge string, which cbn be quite long, lbst returned
      *         by the server, or {@code null} if no response were received yet.
      */
-    public abstract String getLastResponseString();
+    public bbstrbct String getLbstResponseString();
 
     /**
-     * Returns, when available, the size of the latest started transfer.
-     * This is retreived by parsing the response string received as an initial
-     * response to a {@code RETR} or similar request.
+     * Returns, when bvbilbble, the size of the lbtest stbrted trbnsfer.
+     * This is retreived by pbrsing the response string received bs bn initibl
+     * response to b {@code RETR} or similbr request.
      *
-     * @return the size of the latest transfer or -1 if either there was no
-     *         transfer or the information was unavailable.
+     * @return the size of the lbtest trbnsfer or -1 if either there wbs no
+     *         trbnsfer or the informbtion wbs unbvbilbble.
      */
-    public abstract long getLastTransferSize();
+    public bbstrbct long getLbstTrbnsferSize();
 
     /**
-     * Returns, when available, the remote name of the last transfered file.
-     * This is mainly useful for "put" operation when the unique flag was
-     * set since it allows to recover the unique file name created on the
-     * server which may be different from the one submitted with the command.
+     * Returns, when bvbilbble, the remote nbme of the lbst trbnsfered file.
+     * This is mbinly useful for "put" operbtion when the unique flbg wbs
+     * set since it bllows to recover the unique file nbme crebted on the
+     * server which mby be different from the one submitted with the commbnd.
      *
-     * @return the name the latest transfered file remote name, or
-     *         {@code null} if that information is unavailable.
+     * @return the nbme the lbtest trbnsfered file remote nbme, or
+     *         {@code null} if thbt informbtion is unbvbilbble.
      */
-    public abstract String getLastFileName();
+    public bbstrbct String getLbstFileNbme();
 
     /**
-     * Attempts to switch to a secure, encrypted connection. This is done by
-     * sending the {@code AUTH TLS} command.
-     * <p>See <a href="http://www.ietf.org/rfc/rfc4217.txt">RFC 4217</a></p>
-     * If successful this will establish a secure command channel with the
-     * server, it will also make it so that all other transfers (e.g. a RETR
-     * command) will be done over an encrypted channel as well unless a
-     * {@link #reInit()} command or a {@link #endSecureSession()} command is issued.
-     * <p>This method should be called after a successful {@link #connect(java.net.InetSocketAddress) }
-     * but before calling {@link #login(java.lang.String, char[]) }.</p>
+     * Attempts to switch to b secure, encrypted connection. This is done by
+     * sending the {@code AUTH TLS} commbnd.
+     * <p>See <b href="http://www.ietf.org/rfc/rfc4217.txt">RFC 4217</b></p>
+     * If successful this will estbblish b secure commbnd chbnnel with the
+     * server, it will blso mbke it so thbt bll other trbnsfers (e.g. b RETR
+     * commbnd) will be done over bn encrypted chbnnel bs well unless b
+     * {@link #reInit()} commbnd or b {@link #endSecureSession()} commbnd is issued.
+     * <p>This method should be cblled bfter b successful {@link #connect(jbvb.net.InetSocketAddress) }
+     * but before cblling {@link #login(jbvb.lbng.String, chbr[]) }.</p>
      *
      * @return this FtpCLient
-     * @throws IOException if an error occurred during the transmission.
-     * @throws FtpProtocolException if the command was rejected by the server
+     * @throws IOException if bn error occurred during the trbnsmission.
+     * @throws FtpProtocolException if the commbnd wbs rejected by the server
      * @see #endSecureSession()
      */
-    public abstract FtpClient startSecureSession() throws FtpProtocolException, IOException;
+    public bbstrbct FtpClient stbrtSecureSession() throws FtpProtocolException, IOException;
 
     /**
-     * Sends a {@code CCC} command followed by a {@code PROT C}
-     * command to the server terminating an encrypted session and reverting
-     * back to a non encrypted transmission.
+     * Sends b {@code CCC} commbnd followed by b {@code PROT C}
+     * commbnd to the server terminbting bn encrypted session bnd reverting
+     * bbck to b non encrypted trbnsmission.
      *
      * @return this FtpClient
-     * @throws IOException if an error occurred during transmission.
-     * @throws FtpProtocolException if the command was rejected by the server
-     * @see #startSecureSession()
+     * @throws IOException if bn error occurred during trbnsmission.
+     * @throws FtpProtocolException if the commbnd wbs rejected by the server
+     * @see #stbrtSecureSession()
      */
-    public abstract FtpClient endSecureSession() throws FtpProtocolException, IOException;
+    public bbstrbct FtpClient endSecureSession() throws FtpProtocolException, IOException;
 
     /**
-     * Sends the "Allocate" ({@code ALLO}) command to the server telling it to
-     * pre-allocate the specified number of bytes for the next transfer.
+     * Sends the "Allocbte" ({@code ALLO}) commbnd to the server telling it to
+     * pre-bllocbte the specified number of bytes for the next trbnsfer.
      *
-     * @param size The number of bytes to allocate.
+     * @pbrbm size The number of bytes to bllocbte.
      * @return this FtpClient
-     * @throws IOException if an error occurred during the transmission.
-     * @throws FtpProtocolException if the command was rejected by the server
+     * @throws IOException if bn error occurred during the trbnsmission.
+     * @throws FtpProtocolException if the commbnd wbs rejected by the server
      */
-    public abstract FtpClient allocate(long size) throws FtpProtocolException, IOException;
+    public bbstrbct FtpClient bllocbte(long size) throws FtpProtocolException, IOException;
 
     /**
-     * Sends the "Structure Mount" ({@code SMNT}) command to the server. This let the
-     * user mount a different file system data structure without altering his
-     * login or accounting information.
+     * Sends the "Structure Mount" ({@code SMNT}) commbnd to the server. This let the
+     * user mount b different file system dbtb structure without bltering his
+     * login or bccounting informbtion.
      *
-     * @param struct a {@code String} containing the name of the
+     * @pbrbm struct b {@code String} contbining the nbme of the
      *        structure to mount.
      * @return this FtpClient
-     * @throws IOException if an error occurred during the transmission.
-     * @throws FtpProtocolException if the command was rejected by the server
+     * @throws IOException if bn error occurred during the trbnsmission.
+     * @throws FtpProtocolException if the commbnd wbs rejected by the server
      */
-    public abstract FtpClient structureMount(String struct) throws FtpProtocolException, IOException;
+    public bbstrbct FtpClient structureMount(String struct) throws FtpProtocolException, IOException;
 
     /**
-     * Sends a System ({@code SYST}) command to the server and returns the String
-     * sent back by the server describing the operating system at the
+     * Sends b System ({@code SYST}) commbnd to the server bnd returns the String
+     * sent bbck by the server describing the operbting system bt the
      * server.
      *
-     * @return a {@code String} describing the OS, or {@code null}
-     *         if the operation was not successful.
-     * @throws IOException if an error occurred during the transmission.
-     * @throws FtpProtocolException if the command was rejected by the server
+     * @return b {@code String} describing the OS, or {@code null}
+     *         if the operbtion wbs not successful.
+     * @throws IOException if bn error occurred during the trbnsmission.
+     * @throws FtpProtocolException if the commbnd wbs rejected by the server
      */
-    public abstract String getSystem() throws FtpProtocolException, IOException;
+    public bbstrbct String getSystem() throws FtpProtocolException, IOException;
 
     /**
-     * Sends the {@code HELP} command to the server, with an optional command, like
-     * SITE, and returns the text sent back by the server.
+     * Sends the {@code HELP} commbnd to the server, with bn optionbl commbnd, like
+     * SITE, bnd returns the text sent bbck by the server.
      *
-     * @param cmd the command for which the help is requested or
-     *        {@code null} for the general help
-     * @return a {@code String} containing the text sent back by the
-     *         server, or {@code null} if the command failed.
-     * @throws IOException if an error occurred during transmission
-     * @throws FtpProtocolException if the command was rejected by the server
+     * @pbrbm cmd the commbnd for which the help is requested or
+     *        {@code null} for the generbl help
+     * @return b {@code String} contbining the text sent bbck by the
+     *         server, or {@code null} if the commbnd fbiled.
+     * @throws IOException if bn error occurred during trbnsmission
+     * @throws FtpProtocolException if the commbnd wbs rejected by the server
      */
-    public abstract String getHelp(String cmd) throws FtpProtocolException, IOException;
+    public bbstrbct String getHelp(String cmd) throws FtpProtocolException, IOException;
 
     /**
-     * Sends the {@code SITE} command to the server. This is used by the server
-     * to provide services specific to his system that are essential
-     * to file transfer.
+     * Sends the {@code SITE} commbnd to the server. This is used by the server
+     * to provide services specific to his system thbt bre essentibl
+     * to file trbnsfer.
      *
-     * @param cmd the command to be sent.
+     * @pbrbm cmd the commbnd to be sent.
      * @return this FtpClient
-     * @throws IOException if an error occurred during transmission
-     * @throws FtpProtocolException if the command was rejected by the server
+     * @throws IOException if bn error occurred during trbnsmission
+     * @throws FtpProtocolException if the commbnd wbs rejected by the server
      */
-    public abstract FtpClient siteCmd(String cmd) throws FtpProtocolException, IOException;
+    public bbstrbct FtpClient siteCmd(String cmd) throws FtpProtocolException, IOException;
 }

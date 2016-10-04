@@ -1,45 +1,45 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * Copyright (c) 2012, Stephen Colebourne & Michael Nascimento Santos
+ * Copyright (c) 2012, Stephen Colebourne & Michbel Nbscimento Sbntos
  *
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions bre met:
  *
- *  * Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ *  * Redistributions of source code must retbin the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer.
  *
- *  * Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ *  * Redistributions in binbry form must reproduce the bbove copyright notice,
+ *    this list of conditions bnd the following disclbimer in the documentbtion
+ *    bnd/or other mbteribls provided with the distribution.
  *
- *  * Neither the name of JSR-310 nor the names of its contributors
- *    may be used to endorse or promote products derived from this software
+ *  * Neither the nbme of JSR-310 nor the nbmes of its contributors
+ *    mby be used to endorse or promote products derived from this softwbre
  *    without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
@@ -55,336 +55,336 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package java.time.chrono;
+pbckbge jbvb.time.chrono;
 
-import static java.time.temporal.ChronoField.EPOCH_DAY;
+import stbtic jbvb.time.temporbl.ChronoField.EPOCH_DAY;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InvalidObjectException;
-import java.io.ObjectInputStream;
-import java.io.Serializable;
-import java.security.AccessController;
-import java.security.PrivilegedActionException;
-import java.time.Clock;
-import java.time.DateTimeException;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.format.ResolverStyle;
-import java.time.temporal.ChronoField;
-import java.time.temporal.TemporalAccessor;
-import java.time.temporal.TemporalField;
-import java.time.temporal.ValueRange;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Properties;
+import jbvb.io.File;
+import jbvb.io.FileInputStrebm;
+import jbvb.io.IOException;
+import jbvb.io.InputStrebm;
+import jbvb.io.InvblidObjectException;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.Seriblizbble;
+import jbvb.security.AccessController;
+import jbvb.security.PrivilegedActionException;
+import jbvb.time.Clock;
+import jbvb.time.DbteTimeException;
+import jbvb.time.Instbnt;
+import jbvb.time.LocblDbte;
+import jbvb.time.ZoneId;
+import jbvb.time.formbt.ResolverStyle;
+import jbvb.time.temporbl.ChronoField;
+import jbvb.time.temporbl.TemporblAccessor;
+import jbvb.time.temporbl.TemporblField;
+import jbvb.time.temporbl.VblueRbnge;
+import jbvb.util.Arrbys;
+import jbvb.util.HbshMbp;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.Objects;
+import jbvb.util.Properties;
 
-import sun.util.logging.PlatformLogger;
+import sun.util.logging.PlbtformLogger;
 
 /**
- * The Hijrah calendar is a lunar calendar supporting Islamic calendars.
+ * The Hijrbh cblendbr is b lunbr cblendbr supporting Islbmic cblendbrs.
  * <p>
- * The HijrahChronology follows the rules of the Hijrah calendar system. The Hijrah
- * calendar has several variants based on differences in when the new moon is
- * determined to have occurred and where the observation is made.
- * In some variants the length of each month is
- * computed algorithmically from the astronomical data for the moon and earth and
- * in others the length of the month is determined by an authorized sighting
- * of the new moon. For the algorithmically based calendars the calendar
- * can project into the future.
- * For sighting based calendars only historical data from past
- * sightings is available.
+ * The HijrbhChronology follows the rules of the Hijrbh cblendbr system. The Hijrbh
+ * cblendbr hbs severbl vbribnts bbsed on differences in when the new moon is
+ * determined to hbve occurred bnd where the observbtion is mbde.
+ * In some vbribnts the length of ebch month is
+ * computed blgorithmicblly from the bstronomicbl dbtb for the moon bnd ebrth bnd
+ * in others the length of the month is determined by bn buthorized sighting
+ * of the new moon. For the blgorithmicblly bbsed cblendbrs the cblendbr
+ * cbn project into the future.
+ * For sighting bbsed cblendbrs only historicbl dbtb from pbst
+ * sightings is bvbilbble.
  * <p>
- * The length of each month is 29 or 30 days.
- * Ordinary years have 354 days; leap years have 355 days.
+ * The length of ebch month is 29 or 30 dbys.
+ * Ordinbry yebrs hbve 354 dbys; lebp yebrs hbve 355 dbys.
  *
  * <p>
- * CLDR and LDML identify variants:
- * <table cellpadding="2" summary="Variants of Hijrah Calendars">
- * <thead>
- * <tr class="tableSubHeadingColor">
- * <th class="colFirst" align="left" >Chronology ID</th>
- * <th class="colFirst" align="left" >Calendar Type</th>
- * <th class="colFirst" align="left" >Locale extension, see {@link java.util.Locale}</th>
- * <th class="colLast" align="left" >Description</th>
+ * CLDR bnd LDML identify vbribnts:
+ * <tbble cellpbdding="2" summbry="Vbribnts of Hijrbh Cblendbrs">
+ * <thebd>
+ * <tr clbss="tbbleSubHebdingColor">
+ * <th clbss="colFirst" blign="left" >Chronology ID</th>
+ * <th clbss="colFirst" blign="left" >Cblendbr Type</th>
+ * <th clbss="colFirst" blign="left" >Locble extension, see {@link jbvb.util.Locble}</th>
+ * <th clbss="colLbst" blign="left" >Description</th>
  * </tr>
- * </thead>
+ * </thebd>
  * <tbody>
- * <tr class="altColor">
- * <td>Hijrah-umalqura</td>
- * <td>islamic-umalqura</td>
- * <td>ca-islamic-umalqura</td>
- * <td>Islamic - Umm Al-Qura calendar of Saudi Arabia</td>
+ * <tr clbss="bltColor">
+ * <td>Hijrbh-umblqurb</td>
+ * <td>islbmic-umblqurb</td>
+ * <td>cb-islbmic-umblqurb</td>
+ * <td>Islbmic - Umm Al-Qurb cblendbr of Sbudi Arbbib</td>
  * </tr>
  * </tbody>
- * </table>
- * <p>Additional variants may be available through {@link Chronology#getAvailableChronologies()}.
+ * </tbble>
+ * <p>Additionbl vbribnts mby be bvbilbble through {@link Chronology#getAvbilbbleChronologies()}.
  *
- * <p>Example</p>
+ * <p>Exbmple</p>
  * <p>
- * Selecting the chronology from the locale uses {@link Chronology#ofLocale}
- * to find the Chronology based on Locale supported BCP 47 extension mechanism
- * to request a specific calendar ("ca"). For example,
+ * Selecting the chronology from the locble uses {@link Chronology#ofLocble}
+ * to find the Chronology bbsed on Locble supported BCP 47 extension mechbnism
+ * to request b specific cblendbr ("cb"). For exbmple,
  * </p>
  * <pre>
- *      Locale locale = Locale.forLanguageTag("en-US-u-ca-islamic-umalqura");
- *      Chronology chrono = Chronology.ofLocale(locale);
+ *      Locble locble = Locble.forLbngubgeTbg("en-US-u-cb-islbmic-umblqurb");
+ *      Chronology chrono = Chronology.ofLocble(locble);
  * </pre>
  *
  * @implSpec
- * This class is immutable and thread-safe.
+ * This clbss is immutbble bnd threbd-sbfe.
  *
  * @implNote
- * Each Hijrah variant is configured individually. Each variant is defined by a
- * property resource that defines the {@code ID}, the {@code calendar type},
- * the start of the calendar, the alignment with the
- * ISO calendar, and the length of each month for a range of years.
- * The variants are identified in the {@code calendars.properties} file.
- * The new properties are prefixed with {@code "calendars.hijrah."}:
- * <table cellpadding="2" border="0" summary="Configuration of Hijrah Calendar Variants">
- * <thead>
- * <tr class="tableSubHeadingColor">
- * <th class="colFirst" align="left">Property Name</th>
- * <th class="colFirst" align="left">Property value</th>
- * <th class="colLast" align="left">Description </th>
+ * Ebch Hijrbh vbribnt is configured individublly. Ebch vbribnt is defined by b
+ * property resource thbt defines the {@code ID}, the {@code cblendbr type},
+ * the stbrt of the cblendbr, the blignment with the
+ * ISO cblendbr, bnd the length of ebch month for b rbnge of yebrs.
+ * The vbribnts bre identified in the {@code cblendbrs.properties} file.
+ * The new properties bre prefixed with {@code "cblendbrs.hijrbh."}:
+ * <tbble cellpbdding="2" border="0" summbry="Configurbtion of Hijrbh Cblendbr Vbribnts">
+ * <thebd>
+ * <tr clbss="tbbleSubHebdingColor">
+ * <th clbss="colFirst" blign="left">Property Nbme</th>
+ * <th clbss="colFirst" blign="left">Property vblue</th>
+ * <th clbss="colLbst" blign="left">Description </th>
  * </tr>
- * </thead>
+ * </thebd>
  * <tbody>
- * <tr class="altColor">
- * <td>calendars.hijrah.{ID}</td>
- * <td>The property resource defining the {@code {ID}} variant</td>
- * <td>The property resource is located with the {@code calendars.properties} file</td>
+ * <tr clbss="bltColor">
+ * <td>cblendbrs.hijrbh.{ID}</td>
+ * <td>The property resource defining the {@code {ID}} vbribnt</td>
+ * <td>The property resource is locbted with the {@code cblendbrs.properties} file</td>
  * </tr>
- * <tr class="rowColor">
- * <td>calendars.hijrah.{ID}.type</td>
- * <td>The calendar type</td>
- * <td>LDML defines the calendar type names</td>
+ * <tr clbss="rowColor">
+ * <td>cblendbrs.hijrbh.{ID}.type</td>
+ * <td>The cblendbr type</td>
+ * <td>LDML defines the cblendbr type nbmes</td>
  * </tr>
  * </tbody>
- * </table>
+ * </tbble>
  * <p>
- * The Hijrah property resource is a set of properties that describe the calendar.
- * The syntax is defined by {@code java.util.Properties#load(Reader)}.
- * <table cellpadding="2" summary="Configuration of Hijrah Calendar">
- * <thead>
- * <tr class="tableSubHeadingColor">
- * <th class="colFirst" align="left" > Property Name</th>
- * <th class="colFirst" align="left" > Property value</th>
- * <th class="colLast" align="left" > Description </th>
+ * The Hijrbh property resource is b set of properties thbt describe the cblendbr.
+ * The syntbx is defined by {@code jbvb.util.Properties#lobd(Rebder)}.
+ * <tbble cellpbdding="2" summbry="Configurbtion of Hijrbh Cblendbr">
+ * <thebd>
+ * <tr clbss="tbbleSubHebdingColor">
+ * <th clbss="colFirst" blign="left" > Property Nbme</th>
+ * <th clbss="colFirst" blign="left" > Property vblue</th>
+ * <th clbss="colLbst" blign="left" > Description </th>
  * </tr>
- * </thead>
+ * </thebd>
  * <tbody>
- * <tr class="altColor">
+ * <tr clbss="bltColor">
  * <td>id</td>
- * <td>Chronology Id, for example, "Hijrah-umalqura"</td>
- * <td>The Id of the calendar in common usage</td>
+ * <td>Chronology Id, for exbmple, "Hijrbh-umblqurb"</td>
+ * <td>The Id of the cblendbr in common usbge</td>
  * </tr>
- * <tr class="rowColor">
+ * <tr clbss="rowColor">
  * <td>type</td>
- * <td>Calendar type, for example, "islamic-umalqura"</td>
- * <td>LDML defines the calendar types</td>
+ * <td>Cblendbr type, for exbmple, "islbmic-umblqurb"</td>
+ * <td>LDML defines the cblendbr types</td>
  * </tr>
- * <tr class="altColor">
+ * <tr clbss="bltColor">
  * <td>version</td>
- * <td>Version, for example: "1.8.0_1"</td>
- * <td>The version of the Hijrah variant data</td>
+ * <td>Version, for exbmple: "1.8.0_1"</td>
+ * <td>The version of the Hijrbh vbribnt dbtb</td>
  * </tr>
- * <tr class="rowColor">
- * <td>iso-start</td>
- * <td>ISO start date, formatted as {@code yyyy-MM-dd}, for example: "1900-04-30"</td>
- * <td>The ISO date of the first day of the minimum Hijrah year.</td>
+ * <tr clbss="rowColor">
+ * <td>iso-stbrt</td>
+ * <td>ISO stbrt dbte, formbtted bs {@code yyyy-MM-dd}, for exbmple: "1900-04-30"</td>
+ * <td>The ISO dbte of the first dby of the minimum Hijrbh yebr.</td>
  * </tr>
- * <tr class="altColor">
- * <td>yyyy - a numeric 4 digit year, for example "1434"</td>
- * <td>The value is a sequence of 12 month lengths,
- * for example: "29 30 29 30 29 30 30 30 29 30 29 29"</td>
- * <td>The lengths of the 12 months of the year separated by whitespace.
- * A numeric year property must be present for every year without any gaps.
+ * <tr clbss="bltColor">
+ * <td>yyyy - b numeric 4 digit yebr, for exbmple "1434"</td>
+ * <td>The vblue is b sequence of 12 month lengths,
+ * for exbmple: "29 30 29 30 29 30 30 30 29 30 29 29"</td>
+ * <td>The lengths of the 12 months of the yebr sepbrbted by whitespbce.
+ * A numeric yebr property must be present for every yebr without bny gbps.
  * The month lengths must be between 29-32 inclusive.
  * </td>
  * </tr>
  * </tbody>
- * </table>
+ * </tbble>
  *
  * @since 1.8
  */
-public final class HijrahChronology extends AbstractChronology implements Serializable {
+public finbl clbss HijrbhChronology extends AbstrbctChronology implements Seriblizbble {
 
     /**
-     * The Hijrah Calendar id.
+     * The Hijrbh Cblendbr id.
      */
-    private final transient String typeId;
+    privbte finbl trbnsient String typeId;
     /**
-     * The Hijrah calendarType.
+     * The Hijrbh cblendbrType.
      */
-    private final transient String calendarType;
+    privbte finbl trbnsient String cblendbrType;
     /**
-     * Serialization version.
+     * Seriblizbtion version.
      */
-    private static final long serialVersionUID = 3127340209035924785L;
+    privbte stbtic finbl long seriblVersionUID = 3127340209035924785L;
     /**
-     * Singleton instance of the Islamic Umm Al-Qura calendar of Saudi Arabia.
-     * Other Hijrah chronology variants may be available from
-     * {@link Chronology#getAvailableChronologies}.
+     * Singleton instbnce of the Islbmic Umm Al-Qurb cblendbr of Sbudi Arbbib.
+     * Other Hijrbh chronology vbribnts mby be bvbilbble from
+     * {@link Chronology#getAvbilbbleChronologies}.
      */
-    public static final HijrahChronology INSTANCE;
+    public stbtic finbl HijrbhChronology INSTANCE;
     /**
-     * Flag to indicate the initialization of configuration data is complete.
-     * @see #checkCalendarInit()
+     * Flbg to indicbte the initiblizbtion of configurbtion dbtb is complete.
+     * @see #checkCblendbrInit()
      */
-    private transient volatile boolean initComplete;
+    privbte trbnsient volbtile boolebn initComplete;
     /**
-     * Array of epoch days indexed by Hijrah Epoch month.
-     * Computed by {@link #loadCalendarData}.
+     * Arrby of epoch dbys indexed by Hijrbh Epoch month.
+     * Computed by {@link #lobdCblendbrDbtb}.
      */
-    private transient int[] hijrahEpochMonthStartDays;
+    privbte trbnsient int[] hijrbhEpochMonthStbrtDbys;
     /**
-     * The minimum epoch day of this Hijrah calendar.
-     * Computed by {@link #loadCalendarData}.
+     * The minimum epoch dby of this Hijrbh cblendbr.
+     * Computed by {@link #lobdCblendbrDbtb}.
      */
-    private transient int minEpochDay;
+    privbte trbnsient int minEpochDby;
     /**
-     * The maximum epoch day for which calendar data is available.
-     * Computed by {@link #loadCalendarData}.
+     * The mbximum epoch dby for which cblendbr dbtb is bvbilbble.
+     * Computed by {@link #lobdCblendbrDbtb}.
      */
-    private transient int maxEpochDay;
+    privbte trbnsient int mbxEpochDby;
     /**
      * The minimum epoch month.
-     * Computed by {@link #loadCalendarData}.
+     * Computed by {@link #lobdCblendbrDbtb}.
      */
-    private transient int hijrahStartEpochMonth;
+    privbte trbnsient int hijrbhStbrtEpochMonth;
     /**
-     * The minimum length of a month.
-     * Computed by {@link #createEpochMonths}.
+     * The minimum length of b month.
+     * Computed by {@link #crebteEpochMonths}.
      */
-    private transient int minMonthLength;
+    privbte trbnsient int minMonthLength;
     /**
-     * The maximum length of a month.
-     * Computed by {@link #createEpochMonths}.
+     * The mbximum length of b month.
+     * Computed by {@link #crebteEpochMonths}.
      */
-    private transient int maxMonthLength;
+    privbte trbnsient int mbxMonthLength;
     /**
-     * The minimum length of a year in days.
-     * Computed by {@link #createEpochMonths}.
+     * The minimum length of b yebr in dbys.
+     * Computed by {@link #crebteEpochMonths}.
      */
-    private transient int minYearLength;
+    privbte trbnsient int minYebrLength;
     /**
-     * The maximum length of a year in days.
-     * Computed by {@link #createEpochMonths}.
+     * The mbximum length of b yebr in dbys.
+     * Computed by {@link #crebteEpochMonths}.
      */
-    private transient int maxYearLength;
+    privbte trbnsient int mbxYebrLength;
     /**
      * A reference to the properties stored in
-     * ${java.home}/lib/calendars.properties
+     * ${jbvb.home}/lib/cblendbrs.properties
      */
-    private final transient static Properties calendarProperties;
+    privbte finbl trbnsient stbtic Properties cblendbrProperties;
 
     /**
-     * Prefix of property names for Hijrah calendar variants.
+     * Prefix of property nbmes for Hijrbh cblendbr vbribnts.
      */
-    private static final String PROP_PREFIX = "calendar.hijrah.";
+    privbte stbtic finbl String PROP_PREFIX = "cblendbr.hijrbh.";
     /**
-     * Suffix of property names containing the calendar type of a variant.
+     * Suffix of property nbmes contbining the cblendbr type of b vbribnt.
      */
-    private static final String PROP_TYPE_SUFFIX = ".type";
+    privbte stbtic finbl String PROP_TYPE_SUFFIX = ".type";
 
     /**
-     * Static initialization of the predefined calendars found in the
-     * lib/calendars.properties file.
+     * Stbtic initiblizbtion of the predefined cblendbrs found in the
+     * lib/cblendbrs.properties file.
      */
-    static {
+    stbtic {
         try {
-            calendarProperties = sun.util.calendar.BaseCalendar.getCalendarProperties();
-        } catch (IOException ioe) {
-            throw new InternalError("Can't initialize lib/calendars.properties", ioe);
+            cblendbrProperties = sun.util.cblendbr.BbseCblendbr.getCblendbrProperties();
+        } cbtch (IOException ioe) {
+            throw new InternblError("Cbn't initiblize lib/cblendbrs.properties", ioe);
         }
 
         try {
-            INSTANCE = new HijrahChronology("Hijrah-umalqura");
-            // Register it by its aliases
-            AbstractChronology.registerChrono(INSTANCE, "Hijrah");
-            AbstractChronology.registerChrono(INSTANCE, "islamic");
-        } catch (DateTimeException ex) {
-            // Absence of Hijrah calendar is fatal to initializing this class.
-            PlatformLogger logger = PlatformLogger.getLogger("java.time.chrono");
-            logger.severe("Unable to initialize Hijrah calendar: Hijrah-umalqura", ex);
-            throw new RuntimeException("Unable to initialize Hijrah-umalqura calendar", ex.getCause());
+            INSTANCE = new HijrbhChronology("Hijrbh-umblqurb");
+            // Register it by its blibses
+            AbstrbctChronology.registerChrono(INSTANCE, "Hijrbh");
+            AbstrbctChronology.registerChrono(INSTANCE, "islbmic");
+        } cbtch (DbteTimeException ex) {
+            // Absence of Hijrbh cblendbr is fbtbl to initiblizing this clbss.
+            PlbtformLogger logger = PlbtformLogger.getLogger("jbvb.time.chrono");
+            logger.severe("Unbble to initiblize Hijrbh cblendbr: Hijrbh-umblqurb", ex);
+            throw new RuntimeException("Unbble to initiblize Hijrbh-umblqurb cblendbr", ex.getCbuse());
         }
-        registerVariants();
+        registerVbribnts();
     }
 
     /**
-     * For each Hijrah variant listed, create the HijrahChronology and register it.
-     * Exceptions during initialization are logged but otherwise ignored.
+     * For ebch Hijrbh vbribnt listed, crebte the HijrbhChronology bnd register it.
+     * Exceptions during initiblizbtion bre logged but otherwise ignored.
      */
-    private static void registerVariants() {
-        for (String name : calendarProperties.stringPropertyNames()) {
-            if (name.startsWith(PROP_PREFIX)) {
-                String id = name.substring(PROP_PREFIX.length());
+    privbte stbtic void registerVbribnts() {
+        for (String nbme : cblendbrProperties.stringPropertyNbmes()) {
+            if (nbme.stbrtsWith(PROP_PREFIX)) {
+                String id = nbme.substring(PROP_PREFIX.length());
                 if (id.indexOf('.') >= 0) {
-                    continue;   // no name or not a simple name of a calendar
+                    continue;   // no nbme or not b simple nbme of b cblendbr
                 }
-                if (id.equals(INSTANCE.getId())) {
-                    continue;           // do not duplicate the default
+                if (id.equbls(INSTANCE.getId())) {
+                    continue;           // do not duplicbte the defbult
                 }
                 try {
-                    // Create and register the variant
-                    HijrahChronology chrono = new HijrahChronology(id);
-                    AbstractChronology.registerChrono(chrono);
-                } catch (DateTimeException ex) {
-                    // Log error and continue
-                    PlatformLogger logger = PlatformLogger.getLogger("java.time.chrono");
-                    logger.severe("Unable to initialize Hijrah calendar: " + id, ex);
+                    // Crebte bnd register the vbribnt
+                    HijrbhChronology chrono = new HijrbhChronology(id);
+                    AbstrbctChronology.registerChrono(chrono);
+                } cbtch (DbteTimeException ex) {
+                    // Log error bnd continue
+                    PlbtformLogger logger = PlbtformLogger.getLogger("jbvb.time.chrono");
+                    logger.severe("Unbble to initiblize Hijrbh cblendbr: " + id, ex);
                 }
             }
         }
     }
 
     /**
-     * Create a HijrahChronology for the named variant.
-     * The resource and calendar type are retrieved from properties
-     * in the {@code calendars.properties}.
-     * The property names are {@code "calendar.hijrah." + id}
-     * and  {@code "calendar.hijrah." + id + ".type"}
-     * @param id the id of the calendar
-     * @throws DateTimeException if the calendar type is missing from the properties file.
-     * @throws IllegalArgumentException if the id is empty
+     * Crebte b HijrbhChronology for the nbmed vbribnt.
+     * The resource bnd cblendbr type bre retrieved from properties
+     * in the {@code cblendbrs.properties}.
+     * The property nbmes bre {@code "cblendbr.hijrbh." + id}
+     * bnd  {@code "cblendbr.hijrbh." + id + ".type"}
+     * @pbrbm id the id of the cblendbr
+     * @throws DbteTimeException if the cblendbr type is missing from the properties file.
+     * @throws IllegblArgumentException if the id is empty
      */
-    private HijrahChronology(String id) throws DateTimeException {
+    privbte HijrbhChronology(String id) throws DbteTimeException {
         if (id.isEmpty()) {
-            throw new IllegalArgumentException("calendar id is empty");
+            throw new IllegblArgumentException("cblendbr id is empty");
         }
-        String propName = PROP_PREFIX + id + PROP_TYPE_SUFFIX;
-        String calType = calendarProperties.getProperty(propName);
-        if (calType == null || calType.isEmpty()) {
-            throw new DateTimeException("calendarType is missing or empty for: " + propName);
+        String propNbme = PROP_PREFIX + id + PROP_TYPE_SUFFIX;
+        String cblType = cblendbrProperties.getProperty(propNbme);
+        if (cblType == null || cblType.isEmpty()) {
+            throw new DbteTimeException("cblendbrType is missing or empty for: " + propNbme);
         }
         this.typeId = id;
-        this.calendarType = calType;
+        this.cblendbrType = cblType;
     }
 
     /**
-     * Check and ensure that the calendar data has been initialized.
-     * The initialization check is performed at the boundary between
-     * public and package methods.  If a public calls another public method
-     * a check is not necessary in the caller.
-     * The constructors of HijrahDate call {@link #getEpochDay} or
-     * {@link #getHijrahDateInfo} so every call from HijrahDate to a
-     * HijrahChronology via package private methods has been checked.
+     * Check bnd ensure thbt the cblendbr dbtb hbs been initiblized.
+     * The initiblizbtion check is performed bt the boundbry between
+     * public bnd pbckbge methods.  If b public cblls bnother public method
+     * b check is not necessbry in the cbller.
+     * The constructors of HijrbhDbte cbll {@link #getEpochDby} or
+     * {@link #getHijrbhDbteInfo} so every cbll from HijrbhDbte to b
+     * HijrbhChronology vib pbckbge privbte methods hbs been checked.
      *
-     * @throws DateTimeException if the calendar data configuration is
-     *     malformed or IOExceptions occur loading the data
+     * @throws DbteTimeException if the cblendbr dbtb configurbtion is
+     *     mblformed or IOExceptions occur lobding the dbtb
      */
-    private void checkCalendarInit() {
-        // Keep this short so it can be inlined for performance
-        if (initComplete == false) {
-            loadCalendarData();
+    privbte void checkCblendbrInit() {
+        // Keep this short so it cbn be inlined for performbnce
+        if (initComplete == fblse) {
+            lobdCblendbrDbtb();
             initComplete = true;
         }
     }
@@ -393,11 +393,11 @@ public final class HijrahChronology extends AbstractChronology implements Serial
     /**
      * Gets the ID of the chronology.
      * <p>
-     * The ID uniquely identifies the {@code Chronology}. It can be used to
+     * The ID uniquely identifies the {@code Chronology}. It cbn be used to
      * lookup the {@code Chronology} using {@link Chronology#of(String)}.
      *
      * @return the chronology ID, non-null
-     * @see #getCalendarType()
+     * @see #getCblendbrType()
      */
     @Override
     public String getId() {
@@ -405,385 +405,385 @@ public final class HijrahChronology extends AbstractChronology implements Serial
     }
 
     /**
-     * Gets the calendar type of the Islamic calendar.
+     * Gets the cblendbr type of the Islbmic cblendbr.
      * <p>
-     * The calendar type is an identifier defined by the
-     * <em>Unicode Locale Data Markup Language (LDML)</em> specification.
-     * It can be used to lookup the {@code Chronology} using {@link Chronology#of(String)}.
+     * The cblendbr type is bn identifier defined by the
+     * <em>Unicode Locble Dbtb Mbrkup Lbngubge (LDML)</em> specificbtion.
+     * It cbn be used to lookup the {@code Chronology} using {@link Chronology#of(String)}.
      *
-     * @return the calendar system type; non-null if the calendar has
-     *    a standard type, otherwise null
+     * @return the cblendbr system type; non-null if the cblendbr hbs
+     *    b stbndbrd type, otherwise null
      * @see #getId()
      */
     @Override
-    public String getCalendarType() {
-        return calendarType;
+    public String getCblendbrType() {
+        return cblendbrType;
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Obtains a local date in Hijrah calendar system from the
-     * era, year-of-era, month-of-year and day-of-month fields.
+     * Obtbins b locbl dbte in Hijrbh cblendbr system from the
+     * erb, yebr-of-erb, month-of-yebr bnd dby-of-month fields.
      *
-     * @param era  the Hijrah era, not null
-     * @param yearOfEra  the year-of-era
-     * @param month  the month-of-year
-     * @param dayOfMonth  the day-of-month
-     * @return the Hijrah local date, not null
-     * @throws DateTimeException if unable to create the date
-     * @throws ClassCastException if the {@code era} is not a {@code HijrahEra}
+     * @pbrbm erb  the Hijrbh erb, not null
+     * @pbrbm yebrOfErb  the yebr-of-erb
+     * @pbrbm month  the month-of-yebr
+     * @pbrbm dbyOfMonth  the dby-of-month
+     * @return the Hijrbh locbl dbte, not null
+     * @throws DbteTimeException if unbble to crebte the dbte
+     * @throws ClbssCbstException if the {@code erb} is not b {@code HijrbhErb}
      */
     @Override
-    public HijrahDate date(Era era, int yearOfEra, int month, int dayOfMonth) {
-        return date(prolepticYear(era, yearOfEra), month, dayOfMonth);
+    public HijrbhDbte dbte(Erb erb, int yebrOfErb, int month, int dbyOfMonth) {
+        return dbte(prolepticYebr(erb, yebrOfErb), month, dbyOfMonth);
     }
 
     /**
-     * Obtains a local date in Hijrah calendar system from the
-     * proleptic-year, month-of-year and day-of-month fields.
+     * Obtbins b locbl dbte in Hijrbh cblendbr system from the
+     * proleptic-yebr, month-of-yebr bnd dby-of-month fields.
      *
-     * @param prolepticYear  the proleptic-year
-     * @param month  the month-of-year
-     * @param dayOfMonth  the day-of-month
-     * @return the Hijrah local date, not null
-     * @throws DateTimeException if unable to create the date
+     * @pbrbm prolepticYebr  the proleptic-yebr
+     * @pbrbm month  the month-of-yebr
+     * @pbrbm dbyOfMonth  the dby-of-month
+     * @return the Hijrbh locbl dbte, not null
+     * @throws DbteTimeException if unbble to crebte the dbte
      */
     @Override
-    public HijrahDate date(int prolepticYear, int month, int dayOfMonth) {
-        return HijrahDate.of(this, prolepticYear, month, dayOfMonth);
+    public HijrbhDbte dbte(int prolepticYebr, int month, int dbyOfMonth) {
+        return HijrbhDbte.of(this, prolepticYebr, month, dbyOfMonth);
     }
 
     /**
-     * Obtains a local date in Hijrah calendar system from the
-     * era, year-of-era and day-of-year fields.
+     * Obtbins b locbl dbte in Hijrbh cblendbr system from the
+     * erb, yebr-of-erb bnd dby-of-yebr fields.
      *
-     * @param era  the Hijrah era, not null
-     * @param yearOfEra  the year-of-era
-     * @param dayOfYear  the day-of-year
-     * @return the Hijrah local date, not null
-     * @throws DateTimeException if unable to create the date
-     * @throws ClassCastException if the {@code era} is not a {@code HijrahEra}
+     * @pbrbm erb  the Hijrbh erb, not null
+     * @pbrbm yebrOfErb  the yebr-of-erb
+     * @pbrbm dbyOfYebr  the dby-of-yebr
+     * @return the Hijrbh locbl dbte, not null
+     * @throws DbteTimeException if unbble to crebte the dbte
+     * @throws ClbssCbstException if the {@code erb} is not b {@code HijrbhErb}
      */
     @Override
-    public HijrahDate dateYearDay(Era era, int yearOfEra, int dayOfYear) {
-        return dateYearDay(prolepticYear(era, yearOfEra), dayOfYear);
+    public HijrbhDbte dbteYebrDby(Erb erb, int yebrOfErb, int dbyOfYebr) {
+        return dbteYebrDby(prolepticYebr(erb, yebrOfErb), dbyOfYebr);
     }
 
     /**
-     * Obtains a local date in Hijrah calendar system from the
-     * proleptic-year and day-of-year fields.
+     * Obtbins b locbl dbte in Hijrbh cblendbr system from the
+     * proleptic-yebr bnd dby-of-yebr fields.
      *
-     * @param prolepticYear  the proleptic-year
-     * @param dayOfYear  the day-of-year
-     * @return the Hijrah local date, not null
-     * @throws DateTimeException if the value of the year is out of range,
-     *  or if the day-of-year is invalid for the year
+     * @pbrbm prolepticYebr  the proleptic-yebr
+     * @pbrbm dbyOfYebr  the dby-of-yebr
+     * @return the Hijrbh locbl dbte, not null
+     * @throws DbteTimeException if the vblue of the yebr is out of rbnge,
+     *  or if the dby-of-yebr is invblid for the yebr
      */
     @Override
-    public HijrahDate dateYearDay(int prolepticYear, int dayOfYear) {
-        HijrahDate date = HijrahDate.of(this, prolepticYear, 1, 1);
-        if (dayOfYear > date.lengthOfYear()) {
-            throw new DateTimeException("Invalid dayOfYear: " + dayOfYear);
+    public HijrbhDbte dbteYebrDby(int prolepticYebr, int dbyOfYebr) {
+        HijrbhDbte dbte = HijrbhDbte.of(this, prolepticYebr, 1, 1);
+        if (dbyOfYebr > dbte.lengthOfYebr()) {
+            throw new DbteTimeException("Invblid dbyOfYebr: " + dbyOfYebr);
         }
-        return date.plusDays(dayOfYear - 1);
+        return dbte.plusDbys(dbyOfYebr - 1);
     }
 
     /**
-     * Obtains a local date in the Hijrah calendar system from the epoch-day.
+     * Obtbins b locbl dbte in the Hijrbh cblendbr system from the epoch-dby.
      *
-     * @param epochDay  the epoch day
-     * @return the Hijrah local date, not null
-     * @throws DateTimeException if unable to create the date
+     * @pbrbm epochDby  the epoch dby
+     * @return the Hijrbh locbl dbte, not null
+     * @throws DbteTimeException if unbble to crebte the dbte
      */
-    @Override  // override with covariant return type
-    public HijrahDate dateEpochDay(long epochDay) {
-        return HijrahDate.ofEpochDay(this, epochDay);
+    @Override  // override with covbribnt return type
+    public HijrbhDbte dbteEpochDby(long epochDby) {
+        return HijrbhDbte.ofEpochDby(this, epochDby);
     }
 
     @Override
-    public HijrahDate dateNow() {
-        return dateNow(Clock.systemDefaultZone());
+    public HijrbhDbte dbteNow() {
+        return dbteNow(Clock.systemDefbultZone());
     }
 
     @Override
-    public HijrahDate dateNow(ZoneId zone) {
-        return dateNow(Clock.system(zone));
+    public HijrbhDbte dbteNow(ZoneId zone) {
+        return dbteNow(Clock.system(zone));
     }
 
     @Override
-    public HijrahDate dateNow(Clock clock) {
-        return date(LocalDate.now(clock));
+    public HijrbhDbte dbteNow(Clock clock) {
+        return dbte(LocblDbte.now(clock));
     }
 
     @Override
-    public HijrahDate date(TemporalAccessor temporal) {
-        if (temporal instanceof HijrahDate) {
-            return (HijrahDate) temporal;
+    public HijrbhDbte dbte(TemporblAccessor temporbl) {
+        if (temporbl instbnceof HijrbhDbte) {
+            return (HijrbhDbte) temporbl;
         }
-        return HijrahDate.ofEpochDay(this, temporal.getLong(EPOCH_DAY));
+        return HijrbhDbte.ofEpochDby(this, temporbl.getLong(EPOCH_DAY));
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public ChronoLocalDateTime<HijrahDate> localDateTime(TemporalAccessor temporal) {
-        return (ChronoLocalDateTime<HijrahDate>) super.localDateTime(temporal);
+    @SuppressWbrnings("unchecked")
+    public ChronoLocblDbteTime<HijrbhDbte> locblDbteTime(TemporblAccessor temporbl) {
+        return (ChronoLocblDbteTime<HijrbhDbte>) super.locblDbteTime(temporbl);
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public ChronoZonedDateTime<HijrahDate> zonedDateTime(TemporalAccessor temporal) {
-        return (ChronoZonedDateTime<HijrahDate>) super.zonedDateTime(temporal);
+    @SuppressWbrnings("unchecked")
+    public ChronoZonedDbteTime<HijrbhDbte> zonedDbteTime(TemporblAccessor temporbl) {
+        return (ChronoZonedDbteTime<HijrbhDbte>) super.zonedDbteTime(temporbl);
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public ChronoZonedDateTime<HijrahDate> zonedDateTime(Instant instant, ZoneId zone) {
-        return (ChronoZonedDateTime<HijrahDate>) super.zonedDateTime(instant, zone);
+    @SuppressWbrnings("unchecked")
+    public ChronoZonedDbteTime<HijrbhDbte> zonedDbteTime(Instbnt instbnt, ZoneId zone) {
+        return (ChronoZonedDbteTime<HijrbhDbte>) super.zonedDbteTime(instbnt, zone);
     }
 
     //-----------------------------------------------------------------------
     @Override
-    public boolean isLeapYear(long prolepticYear) {
-        checkCalendarInit();
-        int epochMonth = yearToEpochMonth((int) prolepticYear);
-        if (epochMonth < 0 || epochMonth > maxEpochDay) {
-            throw new DateTimeException("Hijrah date out of range");
+    public boolebn isLebpYebr(long prolepticYebr) {
+        checkCblendbrInit();
+        int epochMonth = yebrToEpochMonth((int) prolepticYebr);
+        if (epochMonth < 0 || epochMonth > mbxEpochDby) {
+            throw new DbteTimeException("Hijrbh dbte out of rbnge");
         }
-        int len = getYearLength((int) prolepticYear);
+        int len = getYebrLength((int) prolepticYebr);
         return (len > 354);
     }
 
     @Override
-    public int prolepticYear(Era era, int yearOfEra) {
-        if (era instanceof HijrahEra == false) {
-            throw new ClassCastException("Era must be HijrahEra");
+    public int prolepticYebr(Erb erb, int yebrOfErb) {
+        if (erb instbnceof HijrbhErb == fblse) {
+            throw new ClbssCbstException("Erb must be HijrbhErb");
         }
-        return yearOfEra;
+        return yebrOfErb;
     }
 
     @Override
-    public HijrahEra eraOf(int eraValue) {
-        switch (eraValue) {
-            case 1:
-                return HijrahEra.AH;
-            default:
-                throw new DateTimeException("invalid Hijrah era");
+    public HijrbhErb erbOf(int erbVblue) {
+        switch (erbVblue) {
+            cbse 1:
+                return HijrbhErb.AH;
+            defbult:
+                throw new DbteTimeException("invblid Hijrbh erb");
         }
     }
 
     @Override
-    public List<Era> eras() {
-        return Arrays.<Era>asList(HijrahEra.values());
+    public List<Erb> erbs() {
+        return Arrbys.<Erb>bsList(HijrbhErb.vblues());
     }
 
     //-----------------------------------------------------------------------
     @Override
-    public ValueRange range(ChronoField field) {
-        checkCalendarInit();
-        if (field instanceof ChronoField) {
+    public VblueRbnge rbnge(ChronoField field) {
+        checkCblendbrInit();
+        if (field instbnceof ChronoField) {
             ChronoField f = field;
             switch (f) {
-                case DAY_OF_MONTH:
-                    return ValueRange.of(1, 1, getMinimumMonthLength(), getMaximumMonthLength());
-                case DAY_OF_YEAR:
-                    return ValueRange.of(1, getMaximumDayOfYear());
-                case ALIGNED_WEEK_OF_MONTH:
-                    return ValueRange.of(1, 5);
-                case YEAR:
-                case YEAR_OF_ERA:
-                    return ValueRange.of(getMinimumYear(), getMaximumYear());
-                case ERA:
-                    return ValueRange.of(1, 1);
-                default:
-                    return field.range();
+                cbse DAY_OF_MONTH:
+                    return VblueRbnge.of(1, 1, getMinimumMonthLength(), getMbximumMonthLength());
+                cbse DAY_OF_YEAR:
+                    return VblueRbnge.of(1, getMbximumDbyOfYebr());
+                cbse ALIGNED_WEEK_OF_MONTH:
+                    return VblueRbnge.of(1, 5);
+                cbse YEAR:
+                cbse YEAR_OF_ERA:
+                    return VblueRbnge.of(getMinimumYebr(), getMbximumYebr());
+                cbse ERA:
+                    return VblueRbnge.of(1, 1);
+                defbult:
+                    return field.rbnge();
             }
         }
-        return field.range();
+        return field.rbnge();
     }
 
     //-----------------------------------------------------------------------
     @Override  // override for return type
-    public HijrahDate resolveDate(Map<TemporalField, Long> fieldValues, ResolverStyle resolverStyle) {
-        return (HijrahDate) super.resolveDate(fieldValues, resolverStyle);
+    public HijrbhDbte resolveDbte(Mbp<TemporblField, Long> fieldVblues, ResolverStyle resolverStyle) {
+        return (HijrbhDbte) super.resolveDbte(fieldVblues, resolverStyle);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Check the validity of a year.
+     * Check the vblidity of b yebr.
      *
-     * @param prolepticYear the year to check
+     * @pbrbm prolepticYebr the yebr to check
      */
-    int checkValidYear(long prolepticYear) {
-        if (prolepticYear < getMinimumYear() || prolepticYear > getMaximumYear()) {
-            throw new DateTimeException("Invalid Hijrah year: " + prolepticYear);
+    int checkVblidYebr(long prolepticYebr) {
+        if (prolepticYebr < getMinimumYebr() || prolepticYebr > getMbximumYebr()) {
+            throw new DbteTimeException("Invblid Hijrbh yebr: " + prolepticYebr);
         }
-        return (int) prolepticYear;
+        return (int) prolepticYebr;
     }
 
-    void checkValidDayOfYear(int dayOfYear) {
-        if (dayOfYear < 1 || dayOfYear > getMaximumDayOfYear()) {
-            throw new DateTimeException("Invalid Hijrah day of year: " + dayOfYear);
+    void checkVblidDbyOfYebr(int dbyOfYebr) {
+        if (dbyOfYebr < 1 || dbyOfYebr > getMbximumDbyOfYebr()) {
+            throw new DbteTimeException("Invblid Hijrbh dby of yebr: " + dbyOfYebr);
         }
     }
 
-    void checkValidMonth(int month) {
+    void checkVblidMonth(int month) {
         if (month < 1 || month > 12) {
-            throw new DateTimeException("Invalid Hijrah month: " + month);
+            throw new DbteTimeException("Invblid Hijrbh month: " + month);
         }
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Returns an array containing the Hijrah year, month and day
-     * computed from the epoch day.
+     * Returns bn brrby contbining the Hijrbh yebr, month bnd dby
+     * computed from the epoch dby.
      *
-     * @param epochDay  the EpochDay
+     * @pbrbm epochDby  the EpochDby
      * @return int[0] = YEAR, int[1] = MONTH, int[2] = DATE
      */
-    int[] getHijrahDateInfo(int epochDay) {
-        checkCalendarInit();    // ensure that the chronology is initialized
-        if (epochDay < minEpochDay || epochDay >= maxEpochDay) {
-            throw new DateTimeException("Hijrah date out of range");
+    int[] getHijrbhDbteInfo(int epochDby) {
+        checkCblendbrInit();    // ensure thbt the chronology is initiblized
+        if (epochDby < minEpochDby || epochDby >= mbxEpochDby) {
+            throw new DbteTimeException("Hijrbh dbte out of rbnge");
         }
 
-        int epochMonth = epochDayToEpochMonth(epochDay);
-        int year = epochMonthToYear(epochMonth);
+        int epochMonth = epochDbyToEpochMonth(epochDby);
+        int yebr = epochMonthToYebr(epochMonth);
         int month = epochMonthToMonth(epochMonth);
-        int day1 = epochMonthToEpochDay(epochMonth);
-        int date = epochDay - day1; // epochDay - dayOfEpoch(year, month);
+        int dby1 = epochMonthToEpochDby(epochMonth);
+        int dbte = epochDby - dby1; // epochDby - dbyOfEpoch(yebr, month);
 
-        int dateInfo[] = new int[3];
-        dateInfo[0] = year;
-        dateInfo[1] = month + 1; // change to 1-based.
-        dateInfo[2] = date + 1; // change to 1-based.
-        return dateInfo;
+        int dbteInfo[] = new int[3];
+        dbteInfo[0] = yebr;
+        dbteInfo[1] = month + 1; // chbnge to 1-bbsed.
+        dbteInfo[2] = dbte + 1; // chbnge to 1-bbsed.
+        return dbteInfo;
     }
 
     /**
-     * Return the epoch day computed from Hijrah year, month, and day.
+     * Return the epoch dby computed from Hijrbh yebr, month, bnd dby.
      *
-     * @param prolepticYear the year to represent, 0-origin
-     * @param monthOfYear the month-of-year to represent, 1-origin
-     * @param dayOfMonth the day-of-month to represent, 1-origin
-     * @return the epoch day
+     * @pbrbm prolepticYebr the yebr to represent, 0-origin
+     * @pbrbm monthOfYebr the month-of-yebr to represent, 1-origin
+     * @pbrbm dbyOfMonth the dby-of-month to represent, 1-origin
+     * @return the epoch dby
      */
-    long getEpochDay(int prolepticYear, int monthOfYear, int dayOfMonth) {
-        checkCalendarInit();    // ensure that the chronology is initialized
-        checkValidMonth(monthOfYear);
-        int epochMonth = yearToEpochMonth(prolepticYear) + (monthOfYear - 1);
-        if (epochMonth < 0 || epochMonth >= hijrahEpochMonthStartDays.length) {
-            throw new DateTimeException("Invalid Hijrah date, year: " +
-                    prolepticYear +  ", month: " + monthOfYear);
+    long getEpochDby(int prolepticYebr, int monthOfYebr, int dbyOfMonth) {
+        checkCblendbrInit();    // ensure thbt the chronology is initiblized
+        checkVblidMonth(monthOfYebr);
+        int epochMonth = yebrToEpochMonth(prolepticYebr) + (monthOfYebr - 1);
+        if (epochMonth < 0 || epochMonth >= hijrbhEpochMonthStbrtDbys.length) {
+            throw new DbteTimeException("Invblid Hijrbh dbte, yebr: " +
+                    prolepticYebr +  ", month: " + monthOfYebr);
         }
-        if (dayOfMonth < 1 || dayOfMonth > getMonthLength(prolepticYear, monthOfYear)) {
-            throw new DateTimeException("Invalid Hijrah day of month: " + dayOfMonth);
+        if (dbyOfMonth < 1 || dbyOfMonth > getMonthLength(prolepticYebr, monthOfYebr)) {
+            throw new DbteTimeException("Invblid Hijrbh dby of month: " + dbyOfMonth);
         }
-        return epochMonthToEpochDay(epochMonth) + (dayOfMonth - 1);
+        return epochMonthToEpochDby(epochMonth) + (dbyOfMonth - 1);
     }
 
     /**
-     * Returns day of year for the year and month.
+     * Returns dby of yebr for the yebr bnd month.
      *
-     * @param prolepticYear a proleptic year
-     * @param month a month, 1-origin
-     * @return the day of year, 1-origin
+     * @pbrbm prolepticYebr b proleptic yebr
+     * @pbrbm month b month, 1-origin
+     * @return the dby of yebr, 1-origin
      */
-    int getDayOfYear(int prolepticYear, int month) {
-        return yearMonthToDayOfYear(prolepticYear, (month - 1));
+    int getDbyOfYebr(int prolepticYebr, int month) {
+        return yebrMonthToDbyOfYebr(prolepticYebr, (month - 1));
     }
 
     /**
-     * Returns month length for the year and month.
+     * Returns month length for the yebr bnd month.
      *
-     * @param prolepticYear a proleptic year
-     * @param monthOfYear a month, 1-origin.
+     * @pbrbm prolepticYebr b proleptic yebr
+     * @pbrbm monthOfYebr b month, 1-origin.
      * @return the length of the month
      */
-    int getMonthLength(int prolepticYear, int monthOfYear) {
-        int epochMonth = yearToEpochMonth(prolepticYear) + (monthOfYear - 1);
-        if (epochMonth < 0 || epochMonth >= hijrahEpochMonthStartDays.length) {
-            throw new DateTimeException("Invalid Hijrah date, year: " +
-                    prolepticYear +  ", month: " + monthOfYear);
+    int getMonthLength(int prolepticYebr, int monthOfYebr) {
+        int epochMonth = yebrToEpochMonth(prolepticYebr) + (monthOfYebr - 1);
+        if (epochMonth < 0 || epochMonth >= hijrbhEpochMonthStbrtDbys.length) {
+            throw new DbteTimeException("Invblid Hijrbh dbte, yebr: " +
+                    prolepticYebr +  ", month: " + monthOfYebr);
         }
         return epochMonthLength(epochMonth);
     }
 
     /**
-     * Returns year length.
-     * Note: The 12th month must exist in the data.
+     * Returns yebr length.
+     * Note: The 12th month must exist in the dbtb.
      *
-     * @param prolepticYear a proleptic year
-     * @return year length in days
+     * @pbrbm prolepticYebr b proleptic yebr
+     * @return yebr length in dbys
      */
-    int getYearLength(int prolepticYear) {
-        return yearMonthToDayOfYear(prolepticYear, 12);
+    int getYebrLength(int prolepticYebr) {
+        return yebrMonthToDbyOfYebr(prolepticYebr, 12);
     }
 
     /**
-     * Return the minimum supported Hijrah year.
+     * Return the minimum supported Hijrbh yebr.
      *
      * @return the minimum
      */
-    int getMinimumYear() {
-        return epochMonthToYear(0);
+    int getMinimumYebr() {
+        return epochMonthToYebr(0);
     }
 
     /**
-     * Return the maximum supported Hijrah ear.
+     * Return the mbximum supported Hijrbh ebr.
      *
      * @return the minimum
      */
-    int getMaximumYear() {
-        return epochMonthToYear(hijrahEpochMonthStartDays.length - 1) - 1;
+    int getMbximumYebr() {
+        return epochMonthToYebr(hijrbhEpochMonthStbrtDbys.length - 1) - 1;
     }
 
     /**
-     * Returns maximum day-of-month.
+     * Returns mbximum dby-of-month.
      *
-     * @return maximum day-of-month
+     * @return mbximum dby-of-month
      */
-    int getMaximumMonthLength() {
-        return maxMonthLength;
+    int getMbximumMonthLength() {
+        return mbxMonthLength;
     }
 
     /**
-     * Returns smallest maximum day-of-month.
+     * Returns smbllest mbximum dby-of-month.
      *
-     * @return smallest maximum day-of-month
+     * @return smbllest mbximum dby-of-month
      */
     int getMinimumMonthLength() {
         return minMonthLength;
     }
 
     /**
-     * Returns maximum day-of-year.
+     * Returns mbximum dby-of-yebr.
      *
-     * @return maximum day-of-year
+     * @return mbximum dby-of-yebr
      */
-    int getMaximumDayOfYear() {
-        return maxYearLength;
+    int getMbximumDbyOfYebr() {
+        return mbxYebrLength;
     }
 
     /**
-     * Returns smallest maximum day-of-year.
+     * Returns smbllest mbximum dby-of-yebr.
      *
-     * @return smallest maximum day-of-year
+     * @return smbllest mbximum dby-of-yebr
      */
-    int getSmallestMaximumDayOfYear() {
-        return minYearLength;
+    int getSmbllestMbximumDbyOfYebr() {
+        return minYebrLength;
     }
 
     /**
-     * Returns the epochMonth found by locating the epochDay in the table. The
-     * epochMonth is the index in the table
+     * Returns the epochMonth found by locbting the epochDby in the tbble. The
+     * epochMonth is the index in the tbble
      *
-     * @param epochDay
-     * @return The index of the element of the start of the month containing the
-     * epochDay.
+     * @pbrbm epochDby
+     * @return The index of the element of the stbrt of the month contbining the
+     * epochDby.
      */
-    private int epochDayToEpochMonth(int epochDay) {
-        // binary search
-        int ndx = Arrays.binarySearch(hijrahEpochMonthStartDays, epochDay);
+    privbte int epochDbyToEpochMonth(int epochDby) {
+        // binbry sebrch
+        int ndx = Arrbys.binbrySebrch(hijrbhEpochMonthStbrtDbys, epochDby);
         if (ndx < 0) {
             ndx = -ndx - 2;
         }
@@ -791,238 +791,238 @@ public final class HijrahChronology extends AbstractChronology implements Serial
     }
 
     /**
-     * Returns the year computed from the epochMonth
+     * Returns the yebr computed from the epochMonth
      *
-     * @param epochMonth the epochMonth
-     * @return the Hijrah Year
+     * @pbrbm epochMonth the epochMonth
+     * @return the Hijrbh Yebr
      */
-    private int epochMonthToYear(int epochMonth) {
-        return (epochMonth + hijrahStartEpochMonth) / 12;
+    privbte int epochMonthToYebr(int epochMonth) {
+        return (epochMonth + hijrbhStbrtEpochMonth) / 12;
     }
 
     /**
-     * Returns the epochMonth for the Hijrah Year.
+     * Returns the epochMonth for the Hijrbh Yebr.
      *
-     * @param year the HijrahYear
-     * @return the epochMonth for the beginning of the year.
+     * @pbrbm yebr the HijrbhYebr
+     * @return the epochMonth for the beginning of the yebr.
      */
-    private int yearToEpochMonth(int year) {
-        return (year * 12) - hijrahStartEpochMonth;
+    privbte int yebrToEpochMonth(int yebr) {
+        return (yebr * 12) - hijrbhStbrtEpochMonth;
     }
 
     /**
-     * Returns the Hijrah month from the epochMonth.
+     * Returns the Hijrbh month from the epochMonth.
      *
-     * @param epochMonth the epochMonth
-     * @return the month of the Hijrah Year
+     * @pbrbm epochMonth the epochMonth
+     * @return the month of the Hijrbh Yebr
      */
-    private int epochMonthToMonth(int epochMonth) {
-        return (epochMonth + hijrahStartEpochMonth) % 12;
+    privbte int epochMonthToMonth(int epochMonth) {
+        return (epochMonth + hijrbhStbrtEpochMonth) % 12;
     }
 
     /**
-     * Returns the epochDay for the start of the epochMonth.
+     * Returns the epochDby for the stbrt of the epochMonth.
      *
-     * @param epochMonth the epochMonth
-     * @return the epochDay for the start of the epochMonth.
+     * @pbrbm epochMonth the epochMonth
+     * @return the epochDby for the stbrt of the epochMonth.
      */
-    private int epochMonthToEpochDay(int epochMonth) {
-        return hijrahEpochMonthStartDays[epochMonth];
+    privbte int epochMonthToEpochDby(int epochMonth) {
+        return hijrbhEpochMonthStbrtDbys[epochMonth];
 
     }
 
     /**
-     * Returns the day of year for the requested HijrahYear and month.
+     * Returns the dby of yebr for the requested HijrbhYebr bnd month.
      *
-     * @param prolepticYear the Hijrah year
-     * @param month the Hijrah month
-     * @return the day of year for the start of the month of the year
+     * @pbrbm prolepticYebr the Hijrbh yebr
+     * @pbrbm month the Hijrbh month
+     * @return the dby of yebr for the stbrt of the month of the yebr
      */
-    private int yearMonthToDayOfYear(int prolepticYear, int month) {
-        int epochMonthFirst = yearToEpochMonth(prolepticYear);
-        return epochMonthToEpochDay(epochMonthFirst + month)
-                - epochMonthToEpochDay(epochMonthFirst);
+    privbte int yebrMonthToDbyOfYebr(int prolepticYebr, int month) {
+        int epochMonthFirst = yebrToEpochMonth(prolepticYebr);
+        return epochMonthToEpochDby(epochMonthFirst + month)
+                - epochMonthToEpochDby(epochMonthFirst);
     }
 
     /**
-     * Returns the length of the epochMonth. It is computed from the start of
-     * the following month minus the start of the requested month.
+     * Returns the length of the epochMonth. It is computed from the stbrt of
+     * the following month minus the stbrt of the requested month.
      *
-     * @param epochMonth the epochMonth; assumed to be within range
-     * @return the length in days of the epochMonth
+     * @pbrbm epochMonth the epochMonth; bssumed to be within rbnge
+     * @return the length in dbys of the epochMonth
      */
-    private int epochMonthLength(int epochMonth) {
-        // The very last entry in the epochMonth table is not the start of a month
-        return hijrahEpochMonthStartDays[epochMonth + 1]
-                - hijrahEpochMonthStartDays[epochMonth];
+    privbte int epochMonthLength(int epochMonth) {
+        // The very lbst entry in the epochMonth tbble is not the stbrt of b month
+        return hijrbhEpochMonthStbrtDbys[epochMonth + 1]
+                - hijrbhEpochMonthStbrtDbys[epochMonth];
     }
 
     //-----------------------------------------------------------------------
-    private static final String KEY_ID = "id";
-    private static final String KEY_TYPE = "type";
-    private static final String KEY_VERSION = "version";
-    private static final String KEY_ISO_START = "iso-start";
+    privbte stbtic finbl String KEY_ID = "id";
+    privbte stbtic finbl String KEY_TYPE = "type";
+    privbte stbtic finbl String KEY_VERSION = "version";
+    privbte stbtic finbl String KEY_ISO_START = "iso-stbrt";
 
     /**
-     * Return the configuration properties from the resource.
+     * Return the configurbtion properties from the resource.
      * <p>
-     * The default location of the variant configuration resource is:
+     * The defbult locbtion of the vbribnt configurbtion resource is:
      * <pre>
-     *   "$java.home/lib/" + resource-name
+     *   "$jbvb.home/lib/" + resource-nbme
      * </pre>
      *
-     * @param resource the name of the calendar property resource
-     * @return a Properties containing the properties read from the resource.
-     * @throws Exception if access to the property resource fails
+     * @pbrbm resource the nbme of the cblendbr property resource
+     * @return b Properties contbining the properties rebd from the resource.
+     * @throws Exception if bccess to the property resource fbils
      */
-    private static Properties readConfigProperties(final String resource) throws Exception {
+    privbte stbtic Properties rebdConfigProperties(finbl String resource) throws Exception {
         try {
             return AccessController
-                    .doPrivileged((java.security.PrivilegedExceptionAction<Properties>)
+                    .doPrivileged((jbvb.security.PrivilegedExceptionAction<Properties>)
                         () -> {
-                        String libDir = System.getProperty("java.home") + File.separator + "lib";
+                        String libDir = System.getProperty("jbvb.home") + File.sepbrbtor + "lib";
                         File file = new File(libDir, resource);
                         Properties props = new Properties();
-                        try (InputStream is = new FileInputStream(file)) {
-                            props.load(is);
+                        try (InputStrebm is = new FileInputStrebm(file)) {
+                            props.lobd(is);
                         }
                         return props;
                     });
-        } catch (PrivilegedActionException pax) {
-            throw pax.getException();
+        } cbtch (PrivilegedActionException pbx) {
+            throw pbx.getException();
         }
     }
 
     /**
-     * Loads and processes the Hijrah calendar properties file for this calendarType.
-     * The starting Hijrah date and the corresponding ISO date are
-     * extracted and used to calculate the epochDate offset.
-     * The version number is identified and ignored.
-     * Everything else is the data for a year with containing the length of each
+     * Lobds bnd processes the Hijrbh cblendbr properties file for this cblendbrType.
+     * The stbrting Hijrbh dbte bnd the corresponding ISO dbte bre
+     * extrbcted bnd used to cblculbte the epochDbte offset.
+     * The version number is identified bnd ignored.
+     * Everything else is the dbtb for b yebr with contbining the length of ebch
      * of 12 months.
      *
-     * @throws DateTimeException if initialization of the calendar data from the
-     *     resource fails
+     * @throws DbteTimeException if initiblizbtion of the cblendbr dbtb from the
+     *     resource fbils
      */
-    private void loadCalendarData() {
+    privbte void lobdCblendbrDbtb() {
         try {
-            String resourceName = calendarProperties.getProperty(PROP_PREFIX + typeId);
-            Objects.requireNonNull(resourceName, "Resource missing for calendar: " + PROP_PREFIX + typeId);
-            Properties props = readConfigProperties(resourceName);
+            String resourceNbme = cblendbrProperties.getProperty(PROP_PREFIX + typeId);
+            Objects.requireNonNull(resourceNbme, "Resource missing for cblendbr: " + PROP_PREFIX + typeId);
+            Properties props = rebdConfigProperties(resourceNbme);
 
-            Map<Integer, int[]> years = new HashMap<>();
-            int minYear = Integer.MAX_VALUE;
-            int maxYear = Integer.MIN_VALUE;
+            Mbp<Integer, int[]> yebrs = new HbshMbp<>();
+            int minYebr = Integer.MAX_VALUE;
+            int mbxYebr = Integer.MIN_VALUE;
             String id = null;
             String type = null;
             String version = null;
-            int isoStart = 0;
-            for (Map.Entry<Object, Object> entry : props.entrySet()) {
+            int isoStbrt = 0;
+            for (Mbp.Entry<Object, Object> entry : props.entrySet()) {
                 String key = (String) entry.getKey();
                 switch (key) {
-                    case KEY_ID:
-                        id = (String)entry.getValue();
-                        break;
-                    case KEY_TYPE:
-                        type = (String)entry.getValue();
-                        break;
-                    case KEY_VERSION:
-                        version = (String)entry.getValue();
-                        break;
-                    case KEY_ISO_START: {
-                        int[] ymd = parseYMD((String) entry.getValue());
-                        isoStart = (int) LocalDate.of(ymd[0], ymd[1], ymd[2]).toEpochDay();
-                        break;
+                    cbse KEY_ID:
+                        id = (String)entry.getVblue();
+                        brebk;
+                    cbse KEY_TYPE:
+                        type = (String)entry.getVblue();
+                        brebk;
+                    cbse KEY_VERSION:
+                        version = (String)entry.getVblue();
+                        brebk;
+                    cbse KEY_ISO_START: {
+                        int[] ymd = pbrseYMD((String) entry.getVblue());
+                        isoStbrt = (int) LocblDbte.of(ymd[0], ymd[1], ymd[2]).toEpochDby();
+                        brebk;
                     }
-                    default:
+                    defbult:
                         try {
-                            // Everything else is either a year or invalid
-                            int year = Integer.valueOf(key);
-                            int[] months = parseMonths((String) entry.getValue());
-                            years.put(year, months);
-                            maxYear = Math.max(maxYear, year);
-                            minYear = Math.min(minYear, year);
-                        } catch (NumberFormatException nfe) {
-                            throw new IllegalArgumentException("bad key: " + key);
+                            // Everything else is either b yebr or invblid
+                            int yebr = Integer.vblueOf(key);
+                            int[] months = pbrseMonths((String) entry.getVblue());
+                            yebrs.put(yebr, months);
+                            mbxYebr = Mbth.mbx(mbxYebr, yebr);
+                            minYebr = Mbth.min(minYebr, yebr);
+                        } cbtch (NumberFormbtException nfe) {
+                            throw new IllegblArgumentException("bbd key: " + key);
                         }
                 }
             }
 
-            if (!getId().equals(id)) {
-                throw new IllegalArgumentException("Configuration is for a different calendar: " + id);
+            if (!getId().equbls(id)) {
+                throw new IllegblArgumentException("Configurbtion is for b different cblendbr: " + id);
             }
-            if (!getCalendarType().equals(type)) {
-                throw new IllegalArgumentException("Configuration is for a different calendar type: " + type);
+            if (!getCblendbrType().equbls(type)) {
+                throw new IllegblArgumentException("Configurbtion is for b different cblendbr type: " + type);
             }
             if (version == null || version.isEmpty()) {
-                throw new IllegalArgumentException("Configuration does not contain a version");
+                throw new IllegblArgumentException("Configurbtion does not contbin b version");
             }
-            if (isoStart == 0) {
-                throw new IllegalArgumentException("Configuration does not contain a ISO start date");
+            if (isoStbrt == 0) {
+                throw new IllegblArgumentException("Configurbtion does not contbin b ISO stbrt dbte");
             }
 
-            // Now create and validate the array of epochDays indexed by epochMonth
-            hijrahStartEpochMonth = minYear * 12;
-            minEpochDay = isoStart;
-            hijrahEpochMonthStartDays = createEpochMonths(minEpochDay, minYear, maxYear, years);
-            maxEpochDay = hijrahEpochMonthStartDays[hijrahEpochMonthStartDays.length - 1];
+            // Now crebte bnd vblidbte the brrby of epochDbys indexed by epochMonth
+            hijrbhStbrtEpochMonth = minYebr * 12;
+            minEpochDby = isoStbrt;
+            hijrbhEpochMonthStbrtDbys = crebteEpochMonths(minEpochDby, minYebr, mbxYebr, yebrs);
+            mbxEpochDby = hijrbhEpochMonthStbrtDbys[hijrbhEpochMonthStbrtDbys.length - 1];
 
-            // Compute the min and max year length in days.
-            for (int year = minYear; year < maxYear; year++) {
-                int length = getYearLength(year);
-                minYearLength = Math.min(minYearLength, length);
-                maxYearLength = Math.max(maxYearLength, length);
+            // Compute the min bnd mbx yebr length in dbys.
+            for (int yebr = minYebr; yebr < mbxYebr; yebr++) {
+                int length = getYebrLength(yebr);
+                minYebrLength = Mbth.min(minYebrLength, length);
+                mbxYebrLength = Mbth.mbx(mbxYebrLength, length);
             }
-        } catch (Exception ex) {
-            // Log error and throw a DateTimeException
-            PlatformLogger logger = PlatformLogger.getLogger("java.time.chrono");
-            logger.severe("Unable to initialize Hijrah calendar proxy: " + typeId, ex);
-            throw new DateTimeException("Unable to initialize HijrahCalendar: " + typeId, ex);
+        } cbtch (Exception ex) {
+            // Log error bnd throw b DbteTimeException
+            PlbtformLogger logger = PlbtformLogger.getLogger("jbvb.time.chrono");
+            logger.severe("Unbble to initiblize Hijrbh cblendbr proxy: " + typeId, ex);
+            throw new DbteTimeException("Unbble to initiblize HijrbhCblendbr: " + typeId, ex);
         }
     }
 
     /**
-     * Converts the map of year to month lengths ranging from minYear to maxYear
-     * into a linear contiguous array of epochDays. The index is the hijrahMonth
-     * computed from year and month and offset by minYear. The value of each
-     * entry is the epochDay corresponding to the first day of the month.
+     * Converts the mbp of yebr to month lengths rbnging from minYebr to mbxYebr
+     * into b linebr contiguous brrby of epochDbys. The index is the hijrbhMonth
+     * computed from yebr bnd month bnd offset by minYebr. The vblue of ebch
+     * entry is the epochDby corresponding to the first dby of the month.
      *
-     * @param minYear The minimum year for which data is provided
-     * @param maxYear The maximum year for which data is provided
-     * @param years a Map of year to the array of 12 month lengths
-     * @return array of epochDays for each month from min to max
+     * @pbrbm minYebr The minimum yebr for which dbtb is provided
+     * @pbrbm mbxYebr The mbximum yebr for which dbtb is provided
+     * @pbrbm yebrs b Mbp of yebr to the brrby of 12 month lengths
+     * @return brrby of epochDbys for ebch month from min to mbx
      */
-    private int[] createEpochMonths(int epochDay, int minYear, int maxYear, Map<Integer, int[]> years) {
-        // Compute the size for the array of dates
-        int numMonths = (maxYear - minYear + 1) * 12 + 1;
+    privbte int[] crebteEpochMonths(int epochDby, int minYebr, int mbxYebr, Mbp<Integer, int[]> yebrs) {
+        // Compute the size for the brrby of dbtes
+        int numMonths = (mbxYebr - minYebr + 1) * 12 + 1;
 
-        // Initialize the running epochDay as the corresponding ISO Epoch day
-        int epochMonth = 0; // index into array of epochMonths
+        // Initiblize the running epochDby bs the corresponding ISO Epoch dby
+        int epochMonth = 0; // index into brrby of epochMonths
         int[] epochMonths = new int[numMonths];
         minMonthLength = Integer.MAX_VALUE;
-        maxMonthLength = Integer.MIN_VALUE;
+        mbxMonthLength = Integer.MIN_VALUE;
 
-        // Only whole years are valid, any zero's in the array are illegal
-        for (int year = minYear; year <= maxYear; year++) {
-            int[] months = years.get(year);// must not be gaps
+        // Only whole yebrs bre vblid, bny zero's in the brrby bre illegbl
+        for (int yebr = minYebr; yebr <= mbxYebr; yebr++) {
+            int[] months = yebrs.get(yebr);// must not be gbps
             for (int month = 0; month < 12; month++) {
                 int length = months[month];
-                epochMonths[epochMonth++] = epochDay;
+                epochMonths[epochMonth++] = epochDby;
 
                 if (length < 29 || length > 32) {
-                    throw new IllegalArgumentException("Invalid month length in year: " + minYear);
+                    throw new IllegblArgumentException("Invblid month length in yebr: " + minYebr);
                 }
-                epochDay += length;
-                minMonthLength = Math.min(minMonthLength, length);
-                maxMonthLength = Math.max(maxMonthLength, length);
+                epochDby += length;
+                minMonthLength = Mbth.min(minMonthLength, length);
+                mbxMonthLength = Mbth.mbx(mbxMonthLength, length);
             }
         }
 
-        // Insert the final epochDay
-        epochMonths[epochMonth++] = epochDay;
+        // Insert the finbl epochDby
+        epochMonths[epochMonth++] = epochDby;
 
         if (epochMonth != epochMonths.length) {
-            throw new IllegalStateException("Did not fill epochMonths exactly: ndx = " + epochMonth
+            throw new IllegblStbteException("Did not fill epochMonths exbctly: ndx = " + epochMonth
                     + " should be " + epochMonths.length);
         }
 
@@ -1030,76 +1030,76 @@ public final class HijrahChronology extends AbstractChronology implements Serial
     }
 
     /**
-     * Parses the 12 months lengths from a property value for a specific year.
+     * Pbrses the 12 months lengths from b property vblue for b specific yebr.
      *
-     * @param line the value of a year property
-     * @return an array of int[12] containing the 12 month lengths
-     * @throws IllegalArgumentException if the number of months is not 12
-     * @throws NumberFormatException if the 12 tokens are not numbers
+     * @pbrbm line the vblue of b yebr property
+     * @return bn brrby of int[12] contbining the 12 month lengths
+     * @throws IllegblArgumentException if the number of months is not 12
+     * @throws NumberFormbtException if the 12 tokens bre not numbers
      */
-    private int[] parseMonths(String line) {
+    privbte int[] pbrseMonths(String line) {
         int[] months = new int[12];
         String[] numbers = line.split("\\s");
         if (numbers.length != 12) {
-            throw new IllegalArgumentException("wrong number of months on line: " + Arrays.toString(numbers) + "; count: " + numbers.length);
+            throw new IllegblArgumentException("wrong number of months on line: " + Arrbys.toString(numbers) + "; count: " + numbers.length);
         }
         for (int i = 0; i < 12; i++) {
             try {
-                months[i] = Integer.valueOf(numbers[i]);
-            } catch (NumberFormatException nfe) {
-                throw new IllegalArgumentException("bad key: " + numbers[i]);
+                months[i] = Integer.vblueOf(numbers[i]);
+            } cbtch (NumberFormbtException nfe) {
+                throw new IllegblArgumentException("bbd key: " + numbers[i]);
             }
         }
         return months;
     }
 
     /**
-     * Parse yyyy-MM-dd into a 3 element array [yyyy, mm, dd].
+     * Pbrse yyyy-MM-dd into b 3 element brrby [yyyy, mm, dd].
      *
-     * @param string the input string
-     * @return the 3 element array with year, month, day
+     * @pbrbm string the input string
+     * @return the 3 element brrby with yebr, month, dby
      */
-    private int[] parseYMD(String string) {
+    privbte int[] pbrseYMD(String string) {
         // yyyy-MM-dd
         string = string.trim();
         try {
-            if (string.charAt(4) != '-' || string.charAt(7) != '-') {
-                throw new IllegalArgumentException("date must be yyyy-MM-dd");
+            if (string.chbrAt(4) != '-' || string.chbrAt(7) != '-') {
+                throw new IllegblArgumentException("dbte must be yyyy-MM-dd");
             }
             int[] ymd = new int[3];
-            ymd[0] = Integer.valueOf(string.substring(0, 4));
-            ymd[1] = Integer.valueOf(string.substring(5, 7));
-            ymd[2] = Integer.valueOf(string.substring(8, 10));
+            ymd[0] = Integer.vblueOf(string.substring(0, 4));
+            ymd[1] = Integer.vblueOf(string.substring(5, 7));
+            ymd[2] = Integer.vblueOf(string.substring(8, 10));
             return ymd;
-        } catch (NumberFormatException ex) {
-            throw new IllegalArgumentException("date must be yyyy-MM-dd", ex);
+        } cbtch (NumberFormbtException ex) {
+            throw new IllegblArgumentException("dbte must be yyyy-MM-dd", ex);
         }
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Writes the Chronology using a
-     * <a href="../../../serialized-form.html#java.time.chrono.Ser">dedicated serialized form</a>.
-     * @serialData
+     * Writes the Chronology using b
+     * <b href="../../../seriblized-form.html#jbvb.time.chrono.Ser">dedicbted seriblized form</b>.
+     * @seriblDbtb
      * <pre>
-     *  out.writeByte(1);     // identifies a Chronology
+     *  out.writeByte(1);     // identifies b Chronology
      *  out.writeUTF(getId());
      * </pre>
      *
-     * @return the instance of {@code Ser}, not null
+     * @return the instbnce of {@code Ser}, not null
      */
     @Override
-    Object writeReplace() {
-        return super.writeReplace();
+    Object writeReplbce() {
+        return super.writeReplbce();
     }
 
     /**
-     * Defend against malicious streams.
+     * Defend bgbinst mblicious strebms.
      *
-     * @param s the stream to read
-     * @throws InvalidObjectException always
+     * @pbrbm s the strebm to rebd
+     * @throws InvblidObjectException blwbys
      */
-    private void readObject(ObjectInputStream s) throws InvalidObjectException {
-        throw new InvalidObjectException("Deserialization via serialization delegate");
+    privbte void rebdObject(ObjectInputStrebm s) throws InvblidObjectException {
+        throw new InvblidObjectException("Deseriblizbtion vib seriblizbtion delegbte");
     }
 }

@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2011, Orbcle bnd/or its bffilibtes. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Redistributions of source code must retbin the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Redistributions in binbry form must reproduce the bbove copyright
+ *     notice, this list of conditions bnd the following disclbimer in the
+ *     documentbtion bnd/or other mbteribls provided with the distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Neither the nbme of Orbcle nor the nbmes of its
+ *     contributors mby be used to endorse or promote products derived
+ *     from this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,281 +30,281 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * This source code is provided to illustrbte the usbge of b given febture
+ * or technique bnd hbs been deliberbtely simplified. Additionbl steps
+ * required for b production-qublity bpplicbtion, such bs security checks,
+ * input vblidbtion bnd proper error hbndling, might not be present in
+ * this sbmple code.
  */
 
 
-package com.sun.jmx.examples.scandir;
+pbckbge com.sun.jmx.exbmples.scbndir;
 
-import com.sun.jmx.examples.scandir.config.DirectoryScannerConfig;
-import com.sun.jmx.examples.scandir.config.ResultRecord;
-import com.sun.jmx.examples.scandir.config.ScanManagerConfig;
-import java.util.LinkedList;
-import java.util.concurrent.BlockingQueue;
-import junit.framework.*;
-import com.sun.jmx.examples.scandir.ScanManagerMXBean.ScanState;
-import static com.sun.jmx.examples.scandir.ScanManagerMXBean.ScanState.*;
-import com.sun.jmx.examples.scandir.ScanManagerTest.Call;
-import java.util.EnumSet;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.TimeUnit;
-import javax.management.AttributeChangeNotification;
-import javax.management.Notification;
-import javax.management.NotificationEmitter;
-import javax.management.NotificationFilter;
-import javax.management.NotificationListener;
+import com.sun.jmx.exbmples.scbndir.config.DirectoryScbnnerConfig;
+import com.sun.jmx.exbmples.scbndir.config.ResultRecord;
+import com.sun.jmx.exbmples.scbndir.config.ScbnMbnbgerConfig;
+import jbvb.util.LinkedList;
+import jbvb.util.concurrent.BlockingQueue;
+import junit.frbmework.*;
+import com.sun.jmx.exbmples.scbndir.ScbnMbnbgerMXBebn.ScbnStbte;
+import stbtic com.sun.jmx.exbmples.scbndir.ScbnMbnbgerMXBebn.ScbnStbte.*;
+import com.sun.jmx.exbmples.scbndir.ScbnMbnbgerTest.Cbll;
+import jbvb.util.EnumSet;
+import jbvb.util.concurrent.LinkedBlockingQueue;
+import jbvb.util.concurrent.TimeUnit;
+import jbvbx.mbnbgement.AttributeChbngeNotificbtion;
+import jbvbx.mbnbgement.Notificbtion;
+import jbvbx.mbnbgement.NotificbtionEmitter;
+import jbvbx.mbnbgement.NotificbtionFilter;
+import jbvbx.mbnbgement.NotificbtionListener;
 
-import static com.sun.jmx.examples.scandir.ScanManagerTest.*;
-import static com.sun.jmx.examples.scandir.TestUtils.*;
-import java.io.File;
-import java.lang.management.ManagementFactory;
-import java.util.List;
+import stbtic com.sun.jmx.exbmples.scbndir.ScbnMbnbgerTest.*;
+import stbtic com.sun.jmx.exbmples.scbndir.TestUtils.*;
+import jbvb.io.File;
+import jbvb.lbng.mbnbgement.MbnbgementFbctory;
+import jbvb.util.List;
 
 /**
- * Unit tests for {@code DirectoryScanner}
+ * Unit tests for {@code DirectoryScbnner}
  *
- * @author Sun Microsystems, 2006 - All rights reserved.
+ * @buthor Sun Microsystems, 2006 - All rights reserved.
  */
-public class DirectoryScannerTest extends TestCase {
+public clbss DirectoryScbnnerTest extends TestCbse {
 
-    public DirectoryScannerTest(String testName) {
-        super(testName);
+    public DirectoryScbnnerTest(String testNbme) {
+        super(testNbme);
     }
 
     protected void setUp() throws Exception {
     }
 
-    protected void tearDown() throws Exception {
+    protected void tebrDown() throws Exception {
     }
 
-    public static Test suite() {
-        TestSuite suite = new TestSuite(DirectoryScannerTest.class);
+    public stbtic Test suite() {
+        TestSuite suite = new TestSuite(DirectoryScbnnerTest.clbss);
 
         return suite;
     }
 
-    private void doTestOperation(
-            DirectoryScannerMXBean proxy,
-            Call op,
-            EnumSet<ScanState> after,
-            String testName)
+    privbte void doTestOperbtion(
+            DirectoryScbnnerMXBebn proxy,
+            Cbll op,
+            EnumSet<ScbnStbte> bfter,
+            String testNbme)
         throws Exception {
-        System.out.println("doTestOperation: "+testName);
+        System.out.println("doTestOperbtion: "+testNbme);
 
-        final LinkedBlockingQueue<Notification> queue =
-                new LinkedBlockingQueue<Notification>();
+        finbl LinkedBlockingQueue<Notificbtion> queue =
+                new LinkedBlockingQueue<Notificbtion>();
 
-        NotificationListener listener = new NotificationListener() {
-            public void handleNotification(Notification notification,
-                        Object handback) {
+        NotificbtionListener listener = new NotificbtionListener() {
+            public void hbndleNotificbtion(Notificbtion notificbtion,
+                        Object hbndbbck) {
                 try {
-                    queue.put(notification);
-                } catch (Exception x) {
-                    System.err.println("Failed to queue notif: "+x);
+                    queue.put(notificbtion);
+                } cbtch (Exception x) {
+                    System.err.println("Fbiled to queue notif: "+x);
                 }
             }
         };
-        NotificationFilter filter = null;
-        Object handback = null;
-        final ScanState before;
-        final NotificationEmitter emitter = (NotificationEmitter)
-                makeNotificationEmitter(proxy,DirectoryScannerMXBean.class);
-        emitter.addNotificationListener(listener, filter, handback);
-        before = proxy.getState();
-        op.call();
+        NotificbtionFilter filter = null;
+        Object hbndbbck = null;
+        finbl ScbnStbte before;
+        finbl NotificbtionEmitter emitter = (NotificbtionEmitter)
+                mbkeNotificbtionEmitter(proxy,DirectoryScbnnerMXBebn.clbss);
+        emitter.bddNotificbtionListener(listener, filter, hbndbbck);
+        before = proxy.getStbte();
+        op.cbll();
         try {
-            final Notification notification =
+            finbl Notificbtion notificbtion =
                     queue.poll(3000,TimeUnit.MILLISECONDS);
-            assertEquals(AttributeChangeNotification.ATTRIBUTE_CHANGE,
-                    notification.getType());
-            assertEquals(AttributeChangeNotification.class,
-                    notification.getClass());
-            assertEquals(getObjectName(proxy),
-                    notification.getSource());
-            AttributeChangeNotification acn =
-                    (AttributeChangeNotification)notification;
-            assertEquals("State",acn.getAttributeName());
-            assertEquals(ScanState.class.getName(),acn.getAttributeType());
-            assertEquals(before,ScanState.valueOf((String)acn.getOldValue()));
-            assertContained(after,ScanState.valueOf((String)acn.getNewValue()));
-            emitter.removeNotificationListener(listener,filter,handback);
-        } finally {
+            bssertEqubls(AttributeChbngeNotificbtion.ATTRIBUTE_CHANGE,
+                    notificbtion.getType());
+            bssertEqubls(AttributeChbngeNotificbtion.clbss,
+                    notificbtion.getClbss());
+            bssertEqubls(getObjectNbme(proxy),
+                    notificbtion.getSource());
+            AttributeChbngeNotificbtion bcn =
+                    (AttributeChbngeNotificbtion)notificbtion;
+            bssertEqubls("Stbte",bcn.getAttributeNbme());
+            bssertEqubls(ScbnStbte.clbss.getNbme(),bcn.getAttributeType());
+            bssertEqubls(before,ScbnStbte.vblueOf((String)bcn.getOldVblue()));
+            bssertContbined(bfter,ScbnStbte.vblueOf((String)bcn.getNewVblue()));
+            emitter.removeNotificbtionListener(listener,filter,hbndbbck);
+        } finblly {
             try {
-                op.cancel();
-            } catch (Exception x) {
-                System.err.println("Failed to cleanup: "+x);
+                op.cbncel();
+            } cbtch (Exception x) {
+                System.err.println("Fbiled to clebnup: "+x);
             }
         }
     }
 
 
     /**
-     * Test of getRootDirectory method, of class com.sun.jmx.examples.scandir.DirectoryScanner.
+     * Test of getRootDirectory method, of clbss com.sun.jmx.exbmples.scbndir.DirectoryScbnner.
      */
     public void testGetRootDirectory() throws Exception {
         System.out.println("getRootDirectory");
 
-       final ScanManagerMXBean manager = ScanManager.register();
+       finbl ScbnMbnbgerMXBebn mbnbger = ScbnMbnbger.register();
         try {
-            final String tmpdir = System.getProperty("java.io.tmpdir");
-            final ScanDirConfigMXBean config = manager.getConfigurationMBean();
-            System.err.println("Configuration MXBean is: " + config);
-            final DirectoryScannerConfig bean =
-                    config.addDirectoryScanner("test",tmpdir,".*",0,0);
-            final String root = bean.getRootDirectory();
+            finbl String tmpdir = System.getProperty("jbvb.io.tmpdir");
+            finbl ScbnDirConfigMXBebn config = mbnbger.getConfigurbtionMBebn();
+            System.err.println("Configurbtion MXBebn is: " + config);
+            finbl DirectoryScbnnerConfig bebn =
+                    config.bddDirectoryScbnner("test",tmpdir,".*",0,0);
+            finbl String root = bebn.getRootDirectory();
             if (root == null)
-                throw new NullPointerException("bean.getRootDirectory()");
-            if (config.getConfiguration().getScan("test").getRootDirectory() == null)
-                throw new NullPointerException("config.getConfig().getScan(\"test\").getRootDirectory()");
-            manager.applyConfiguration(true);
-            final DirectoryScannerMXBean proxy =
-                    manager.getDirectoryScanners().get("test");
-            final File tmpFile =  new File(tmpdir);
-            final File rootFile = new File(proxy.getRootDirectory());
-            assertEquals(tmpFile,rootFile);
-        } catch (Exception x) {
-            x.printStackTrace();
+                throw new NullPointerException("bebn.getRootDirectory()");
+            if (config.getConfigurbtion().getScbn("test").getRootDirectory() == null)
+                throw new NullPointerException("config.getConfig().getScbn(\"test\").getRootDirectory()");
+            mbnbger.bpplyConfigurbtion(true);
+            finbl DirectoryScbnnerMXBebn proxy =
+                    mbnbger.getDirectoryScbnners().get("test");
+            finbl File tmpFile =  new File(tmpdir);
+            finbl File rootFile = new File(proxy.getRootDirectory());
+            bssertEqubls(tmpFile,rootFile);
+        } cbtch (Exception x) {
+            x.printStbckTrbce();
             throw x;
-        } finally {
+        } finblly {
             try {
-                ManagementFactory.getPlatformMBeanServer().
-                        unregisterMBean(ScanManager.SCAN_MANAGER_NAME);
-            } catch (Exception x) {
-                System.err.println("Failed to cleanup: "+x);
+                MbnbgementFbctory.getPlbtformMBebnServer().
+                        unregisterMBebn(ScbnMbnbger.SCAN_MANAGER_NAME);
+            } cbtch (Exception x) {
+                System.err.println("Fbiled to clebnup: "+x);
             }
         }
     }
 
 
     /**
-     * Test of scan method, of class com.sun.jmx.examples.scandir.DirectoryScanner.
+     * Test of scbn method, of clbss com.sun.jmx.exbmples.scbndir.DirectoryScbnner.
      */
-    public void testScan() throws Exception {
-        System.out.println("scan");
+    public void testScbn() throws Exception {
+        System.out.println("scbn");
 
-        final ScanManagerMXBean manager = ScanManager.register();
+        finbl ScbnMbnbgerMXBebn mbnbger = ScbnMbnbger.register();
         try {
-            final String tmpdir = System.getProperty("java.io.tmpdir");
-            final ScanDirConfigMXBean config = manager.getConfigurationMBean();
-            final DirectoryScannerConfig bean =
-                    config.addDirectoryScanner("test1",tmpdir,".*",0,0);
-            config.addDirectoryScanner("test2",tmpdir,".*",0,0);
-            config.addDirectoryScanner("test3",tmpdir,".*",0,0);
-            manager.applyConfiguration(true);
-            final DirectoryScannerMXBean proxy =
-                    manager.getDirectoryScanners().get("test1");
-            final Call op = new Call() {
-                public void call() throws Exception {
-                    final BlockingQueue<Notification> queue =
-                            new LinkedBlockingQueue<Notification>();
-                    final NotificationListener listener = new NotificationListener() {
-                        public void handleNotification(Notification notification,
-                                Object handback) {
+            finbl String tmpdir = System.getProperty("jbvb.io.tmpdir");
+            finbl ScbnDirConfigMXBebn config = mbnbger.getConfigurbtionMBebn();
+            finbl DirectoryScbnnerConfig bebn =
+                    config.bddDirectoryScbnner("test1",tmpdir,".*",0,0);
+            config.bddDirectoryScbnner("test2",tmpdir,".*",0,0);
+            config.bddDirectoryScbnner("test3",tmpdir,".*",0,0);
+            mbnbger.bpplyConfigurbtion(true);
+            finbl DirectoryScbnnerMXBebn proxy =
+                    mbnbger.getDirectoryScbnners().get("test1");
+            finbl Cbll op = new Cbll() {
+                public void cbll() throws Exception {
+                    finbl BlockingQueue<Notificbtion> queue =
+                            new LinkedBlockingQueue<Notificbtion>();
+                    finbl NotificbtionListener listener = new NotificbtionListener() {
+                        public void hbndleNotificbtion(Notificbtion notificbtion,
+                                Object hbndbbck) {
                             try {
-                               queue.put(notification);
-                            } catch (Exception e) {
-                                e.printStackTrace();
+                               queue.put(notificbtion);
+                            } cbtch (Exception e) {
+                                e.printStbckTrbce();
                             }
                         }
                     };
-                    manager.start();
+                    mbnbger.stbrt();
                     while(true) {
-                        final Notification n = queue.poll(10,TimeUnit.SECONDS);
-                        if (n == null) break;
-                        final AttributeChangeNotification at =
-                                (AttributeChangeNotification) n;
-                        if (RUNNING == ScanState.valueOf((String)at.getNewValue()))
-                            break;
+                        finbl Notificbtion n = queue.poll(10,TimeUnit.SECONDS);
+                        if (n == null) brebk;
+                        finbl AttributeChbngeNotificbtion bt =
+                                (AttributeChbngeNotificbtion) n;
+                        if (RUNNING == ScbnStbte.vblueOf((String)bt.getNewVblue()))
+                            brebk;
                         else {
-                            System.err.println("New state: "+(String)at.getNewValue()
+                            System.err.println("New stbte: "+(String)bt.getNewVblue()
                             +" isn't "+RUNNING);
                         }
                     }
-                    assertContained(EnumSet.of(SCHEDULED,RUNNING,COMPLETED),
-                            proxy.getState());
+                    bssertContbined(EnumSet.of(SCHEDULED,RUNNING,COMPLETED),
+                            proxy.getStbte());
                 }
-                public void cancel() throws Exception {
-                    manager.stop();
+                public void cbncel() throws Exception {
+                    mbnbger.stop();
                 }
             };
-            doTestOperation(proxy,op,
+            doTestOperbtion(proxy,op,
                     EnumSet.of(RUNNING,SCHEDULED,COMPLETED),
-                    "scan");
-        } catch (Exception x) {
-            x.printStackTrace();
+                    "scbn");
+        } cbtch (Exception x) {
+            x.printStbckTrbce();
             throw x;
-        } finally {
+        } finblly {
             try {
-                manager.stop();
-            } catch (Exception x) {
-                System.err.println("Failed to stop: "+x);
+                mbnbger.stop();
+            } cbtch (Exception x) {
+                System.err.println("Fbiled to stop: "+x);
             }
             try {
-                ManagementFactory.getPlatformMBeanServer().
-                        unregisterMBean(ScanManager.SCAN_MANAGER_NAME);
-            } catch (Exception x) {
-                System.err.println("Failed to cleanup: "+x);
+                MbnbgementFbctory.getPlbtformMBebnServer().
+                        unregisterMBebn(ScbnMbnbger.SCAN_MANAGER_NAME);
+            } cbtch (Exception x) {
+                System.err.println("Fbiled to clebnup: "+x);
             }
         }
     }
 
     /**
-     * Test of getState method, of class com.sun.jmx.examples.scandir.DirectoryScanner.
+     * Test of getStbte method, of clbss com.sun.jmx.exbmples.scbndir.DirectoryScbnner.
      */
-    public void testGetState() {
-        System.out.println("getState");
+    public void testGetStbte() {
+        System.out.println("getStbte");
 
-        final DirectoryScannerConfig bean =
-                new DirectoryScannerConfig("test");
-        bean.setRootDirectory(System.getProperty("java.io.tmpdir"));
-        final ResultLogManager log = new ResultLogManager();
-        DirectoryScanner instance =
-                new DirectoryScanner(bean,log);
+        finbl DirectoryScbnnerConfig bebn =
+                new DirectoryScbnnerConfig("test");
+        bebn.setRootDirectory(System.getProperty("jbvb.io.tmpdir"));
+        finbl ResultLogMbnbger log = new ResultLogMbnbger();
+        DirectoryScbnner instbnce =
+                new DirectoryScbnner(bebn,log);
 
-        ScanState expResult = STOPPED;
-        ScanState result = instance.getState();
-        assertEquals(STOPPED, result);
-        instance.scan();
-        result = instance.getState();
-        assertEquals(COMPLETED, result);
+        ScbnStbte expResult = STOPPED;
+        ScbnStbte result = instbnce.getStbte();
+        bssertEqubls(STOPPED, result);
+        instbnce.scbn();
+        result = instbnce.getStbte();
+        bssertEqubls(COMPLETED, result);
     }
 
     /**
-     * Test of addNotificationListener method, of class com.sun.jmx.examples.scandir.DirectoryScanner.
+     * Test of bddNotificbtionListener method, of clbss com.sun.jmx.exbmples.scbndir.DirectoryScbnner.
      */
-    public void testAddNotificationListener() throws Exception {
-        System.out.println("addNotificationListener");
+    public void testAddNotificbtionListener() throws Exception {
+        System.out.println("bddNotificbtionListener");
 
-        final ScanManagerMXBean manager = ScanManager.register();
-        final Call op = new Call() {
-            public void call() throws Exception {
-                manager.start();
+        finbl ScbnMbnbgerMXBebn mbnbger = ScbnMbnbger.register();
+        finbl Cbll op = new Cbll() {
+            public void cbll() throws Exception {
+                mbnbger.stbrt();
             }
-            public void cancel() throws Exception {
-                manager.stop();
+            public void cbncel() throws Exception {
+                mbnbger.stop();
             }
         };
         try {
-            final String tmpdir = System.getProperty("java.io.tmpdir");
-            final ScanDirConfigMXBean config = manager.getConfigurationMBean();
-            final DirectoryScannerConfig bean =
-                    config.addDirectoryScanner("test1",tmpdir,".*",0,0);
-            manager.applyConfiguration(true);
-            final DirectoryScannerMXBean proxy =
-                    manager.getDirectoryScanners().get("test1");
-           doTestOperation(proxy,op,
+            finbl String tmpdir = System.getProperty("jbvb.io.tmpdir");
+            finbl ScbnDirConfigMXBebn config = mbnbger.getConfigurbtionMBebn();
+            finbl DirectoryScbnnerConfig bebn =
+                    config.bddDirectoryScbnner("test1",tmpdir,".*",0,0);
+            mbnbger.bpplyConfigurbtion(true);
+            finbl DirectoryScbnnerMXBebn proxy =
+                    mbnbger.getDirectoryScbnners().get("test1");
+           doTestOperbtion(proxy,op,
                             EnumSet.of(RUNNING,SCHEDULED),
-                            "scan");
-        } finally {
+                            "scbn");
+        } finblly {
             try {
-                ManagementFactory.getPlatformMBeanServer().
-                        unregisterMBean(ScanManager.SCAN_MANAGER_NAME);
-            } catch (Exception x) {
-                System.err.println("Failed to cleanup: "+x);
+                MbnbgementFbctory.getPlbtformMBebnServer().
+                        unregisterMBebn(ScbnMbnbger.SCAN_MANAGER_NAME);
+            } cbtch (Exception x) {
+                System.err.println("Fbiled to clebnup: "+x);
             }
         }
     }

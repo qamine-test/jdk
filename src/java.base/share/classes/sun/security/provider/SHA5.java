@@ -1,57 +1,57 @@
 /*
- * Copyright (c) 2002, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.security.provider;
+pbckbge sun.security.provider;
 
-import java.security.*;
-import java.math.BigInteger;
+import jbvb.security.*;
+import jbvb.mbth.BigInteger;
 
-import static sun.security.provider.ByteArrayAccess.*;
+import stbtic sun.security.provider.ByteArrbyAccess.*;
 
 /**
- * This class implements the Secure Hash Algorithm SHA-384 and SHA-512
- * developed by the National Institute of Standards and Technology along
- * with the National Security Agency.
+ * This clbss implements the Secure Hbsh Algorithm SHA-384 bnd SHA-512
+ * developed by the Nbtionbl Institute of Stbndbrds bnd Technology blong
+ * with the Nbtionbl Security Agency.
  *
- * The two algorithms are almost identical. This file contains a base
- * class SHA5 and two nested static subclasses as the classes to be used
- * by the JCA framework.
+ * The two blgorithms bre blmost identicbl. This file contbins b bbse
+ * clbss SHA5 bnd two nested stbtic subclbsses bs the clbsses to be used
+ * by the JCA frbmework.
  *
- * <p>It implements java.security.MessageDigestSpi, and can be used
- * through Java Cryptography Architecture (JCA), as a pluggable
- * MessageDigest implementation.
+ * <p>It implements jbvb.security.MessbgeDigestSpi, bnd cbn be used
+ * through Jbvb Cryptogrbphy Architecture (JCA), bs b pluggbble
+ * MessbgeDigest implementbtion.
  *
  * @since       1.4.2
- * @author      Valerie Peng
- * @author      Andreas Sterbenz
+ * @buthor      Vblerie Peng
+ * @buthor      Andrebs Sterbenz
  */
-abstract class SHA5 extends DigestBase {
+bbstrbct clbss SHA5 extends DigestBbse {
 
-    private static final int ITERATION = 80;
-    // Constants for each round/iteration
-    private static final long[] ROUND_CONSTS = {
+    privbte stbtic finbl int ITERATION = 80;
+    // Constbnts for ebch round/iterbtion
+    privbte stbtic finbl long[] ROUND_CONSTS = {
         0x428A2F98D728AE22L, 0x7137449123EF65CDL, 0xB5C0FBCFEC4D3B2FL,
         0xE9B5DBA58189DBBCL, 0x3956C25BF348B538L, 0x59F111F1B605D019L,
         0x923F82A4AF194F9BL, 0xAB1C5ED5DA6D8118L, 0xD807AA98A3030242L,
@@ -82,186 +82,186 @@ abstract class SHA5 extends DigestBase {
     };
 
     // buffer used by implCompress()
-    private long[] W;
+    privbte long[] W;
 
-    // state of this object
-    private long[] state;
+    // stbte of this object
+    privbte long[] stbte;
 
-    // initial state value. different between SHA-384 and SHA-512
-    private final long[] initialHashes;
+    // initibl stbte vblue. different between SHA-384 bnd SHA-512
+    privbte finbl long[] initiblHbshes;
 
     /**
-     * Creates a new SHA object.
+     * Crebtes b new SHA object.
      */
-    SHA5(String name, int digestLength, long[] initialHashes) {
-        super(name, digestLength, 128);
-        this.initialHashes = initialHashes;
-        state = new long[8];
+    SHA5(String nbme, int digestLength, long[] initiblHbshes) {
+        super(nbme, digestLength, 128);
+        this.initiblHbshes = initiblHbshes;
+        stbte = new long[8];
         W = new long[80];
         implReset();
     }
 
-    final void implReset() {
-        System.arraycopy(initialHashes, 0, state, 0, state.length);
+    finbl void implReset() {
+        System.brrbycopy(initiblHbshes, 0, stbte, 0, stbte.length);
     }
 
-    final void implDigest(byte[] out, int ofs) {
+    finbl void implDigest(byte[] out, int ofs) {
         long bitsProcessed = bytesProcessed << 3;
 
         int index = (int)bytesProcessed & 0x7f;
-        int padLen = (index < 112) ? (112 - index) : (240 - index);
-        engineUpdate(padding, 0, padLen + 8);
+        int pbdLen = (index < 112) ? (112 - index) : (240 - index);
+        engineUpdbte(pbdding, 0, pbdLen + 8);
 
         i2bBig4((int)(bitsProcessed >>> 32), buffer, 120);
         i2bBig4((int)bitsProcessed, buffer, 124);
         implCompress(buffer, 0);
 
-        l2bBig(state, 0, out, ofs, engineGetDigestLength());
+        l2bBig(stbte, 0, out, ofs, engineGetDigestLength());
     }
 
     /**
-     * logical function ch(x,y,z) as defined in spec:
-     * @return (x and y) xor ((complement x) and z)
-     * @param x long
-     * @param y long
-     * @param z long
+     * logicbl function ch(x,y,z) bs defined in spec:
+     * @return (x bnd y) xor ((complement x) bnd z)
+     * @pbrbm x long
+     * @pbrbm y long
+     * @pbrbm z long
      */
-    private static long lf_ch(long x, long y, long z) {
+    privbte stbtic long lf_ch(long x, long y, long z) {
         return (x & y) ^ ((~x) & z);
     }
 
     /**
-     * logical function maj(x,y,z) as defined in spec:
-     * @return (x and y) xor (x and z) xor (y and z)
-     * @param x long
-     * @param y long
-     * @param z long
+     * logicbl function mbj(x,y,z) bs defined in spec:
+     * @return (x bnd y) xor (x bnd z) xor (y bnd z)
+     * @pbrbm x long
+     * @pbrbm y long
+     * @pbrbm z long
      */
-    private static long lf_maj(long x, long y, long z) {
+    privbte stbtic long lf_mbj(long x, long y, long z) {
         return (x & y) ^ (x & z) ^ (y & z);
     }
 
     /**
-     * logical function R(x,s) - right shift
+     * logicbl function R(x,s) - right shift
      * @return x right shift for s times
-     * @param x long
-     * @param s int
+     * @pbrbm x long
+     * @pbrbm s int
      */
-    private static long lf_R(long x, int s) {
+    privbte stbtic long lf_R(long x, int s) {
         return (x >>> s);
     }
 
     /**
-     * logical function S(x,s) - right rotation
-     * @return x circular right shift for s times
-     * @param x long
-     * @param s int
+     * logicbl function S(x,s) - right rotbtion
+     * @return x circulbr right shift for s times
+     * @pbrbm x long
+     * @pbrbm s int
      */
-    private static long lf_S(long x, int s) {
+    privbte stbtic long lf_S(long x, int s) {
         return (x >>> s) | (x << (64 - s));
     }
 
     /**
-     * logical function sigma0(x) - xor of results of right rotations
+     * logicbl function sigmb0(x) - xor of results of right rotbtions
      * @return S(x,28) xor S(x,34) xor S(x,39)
-     * @param x long
+     * @pbrbm x long
      */
-    private static long lf_sigma0(long x) {
+    privbte stbtic long lf_sigmb0(long x) {
         return lf_S(x, 28) ^ lf_S(x, 34) ^ lf_S(x, 39);
     }
 
     /**
-     * logical function sigma1(x) - xor of results of right rotations
+     * logicbl function sigmb1(x) - xor of results of right rotbtions
      * @return S(x,14) xor S(x,18) xor S(x,41)
-     * @param x long
+     * @pbrbm x long
      */
-    private static long lf_sigma1(long x) {
+    privbte stbtic long lf_sigmb1(long x) {
         return lf_S(x, 14) ^ lf_S(x, 18) ^ lf_S(x, 41);
     }
 
     /**
-     * logical function delta0(x) - xor of results of right shifts/rotations
+     * logicbl function deltb0(x) - xor of results of right shifts/rotbtions
      * @return long
-     * @param x long
+     * @pbrbm x long
      */
-    private static long lf_delta0(long x) {
+    privbte stbtic long lf_deltb0(long x) {
         return lf_S(x, 1) ^ lf_S(x, 8) ^ lf_R(x, 7);
     }
 
     /**
-     * logical function delta1(x) - xor of results of right shifts/rotations
+     * logicbl function deltb1(x) - xor of results of right shifts/rotbtions
      * @return long
-     * @param x long
+     * @pbrbm x long
      */
-    private static long lf_delta1(long x) {
+    privbte stbtic long lf_deltb1(long x) {
         return lf_S(x, 19) ^ lf_S(x, 61) ^ lf_R(x, 6);
     }
 
     /**
-     * Compute the hash for the current block.
+     * Compute the hbsh for the current block.
      *
-     * This is in the same vein as Peter Gutmann's algorithm listed in
-     * the back of Applied Cryptography, Compact implementation of
-     * "old" NIST Secure Hash Algorithm.
+     * This is in the sbme vein bs Peter Gutmbnn's blgorithm listed in
+     * the bbck of Applied Cryptogrbphy, Compbct implementbtion of
+     * "old" NIST Secure Hbsh Algorithm.
      */
-    final void implCompress(byte[] buf, int ofs) {
+    finbl void implCompress(byte[] buf, int ofs) {
         b2lBig128(buf, ofs, W);
 
-        // The first 16 longs are from the byte stream, compute the rest of
+        // The first 16 longs bre from the byte strebm, compute the rest of
         // the W[]'s
         for (int t = 16; t < ITERATION; t++) {
-            W[t] = lf_delta1(W[t-2]) + W[t-7] + lf_delta0(W[t-15])
+            W[t] = lf_deltb1(W[t-2]) + W[t-7] + lf_deltb0(W[t-15])
                    + W[t-16];
         }
 
-        long a = state[0];
-        long b = state[1];
-        long c = state[2];
-        long d = state[3];
-        long e = state[4];
-        long f = state[5];
-        long g = state[6];
-        long h = state[7];
+        long b = stbte[0];
+        long b = stbte[1];
+        long c = stbte[2];
+        long d = stbte[3];
+        long e = stbte[4];
+        long f = stbte[5];
+        long g = stbte[6];
+        long h = stbte[7];
 
         for (int i = 0; i < ITERATION; i++) {
-            long T1 = h + lf_sigma1(e) + lf_ch(e,f,g) + ROUND_CONSTS[i] + W[i];
-            long T2 = lf_sigma0(a) + lf_maj(a,b,c);
+            long T1 = h + lf_sigmb1(e) + lf_ch(e,f,g) + ROUND_CONSTS[i] + W[i];
+            long T2 = lf_sigmb0(b) + lf_mbj(b,b,c);
             h = g;
             g = f;
             f = e;
             e = d + T1;
             d = c;
             c = b;
-            b = a;
-            a = T1 + T2;
+            b = b;
+            b = T1 + T2;
         }
-        state[0] += a;
-        state[1] += b;
-        state[2] += c;
-        state[3] += d;
-        state[4] += e;
-        state[5] += f;
-        state[6] += g;
-        state[7] += h;
+        stbte[0] += b;
+        stbte[1] += b;
+        stbte[2] += c;
+        stbte[3] += d;
+        stbte[4] += e;
+        stbte[5] += f;
+        stbte[6] += g;
+        stbte[7] += h;
     }
 
     public Object clone() throws CloneNotSupportedException {
         SHA5 copy = (SHA5) super.clone();
-        copy.state = copy.state.clone();
+        copy.stbte = copy.stbte.clone();
         copy.W = new long[80];
         return copy;
     }
 
     /**
-     * SHA-512 implementation class.
+     * SHA-512 implementbtion clbss.
      */
-    public static final class SHA512 extends SHA5 {
+    public stbtic finbl clbss SHA512 extends SHA5 {
 
-        private static final long[] INITIAL_HASHES = {
-            0x6a09e667f3bcc908L, 0xbb67ae8584caa73bL,
-            0x3c6ef372fe94f82bL, 0xa54ff53a5f1d36f1L,
-            0x510e527fade682d1L, 0x9b05688c2b3e6c1fL,
-            0x1f83d9abfb41bd6bL, 0x5be0cd19137e2179L
+        privbte stbtic finbl long[] INITIAL_HASHES = {
+            0x6b09e667f3bcc908L, 0xbb67be8584cbb73bL,
+            0x3c6ef372fe94f82bL, 0xb54ff53b5f1d36f1L,
+            0x510e527fbde682d1L, 0x9b05688c2b3e6c1fL,
+            0x1f83d9bbfb41bd6bL, 0x5be0cd19137e2179L
         };
 
         public SHA512() {
@@ -270,15 +270,15 @@ abstract class SHA5 extends DigestBase {
     }
 
     /**
-     * SHA-384 implementation class.
+     * SHA-384 implementbtion clbss.
      */
-    public static final class SHA384 extends SHA5 {
+    public stbtic finbl clbss SHA384 extends SHA5 {
 
-        private static final long[] INITIAL_HASHES = {
-            0xcbbb9d5dc1059ed8L, 0x629a292a367cd507L,
-            0x9159015a3070dd17L, 0x152fecd8f70e5939L,
-            0x67332667ffc00b31L, 0x8eb44a8768581511L,
-            0xdb0c2e0d64f98fa7L, 0x47b5481dbefa4fa4L
+        privbte stbtic finbl long[] INITIAL_HASHES = {
+            0xcbbb9d5dc1059ed8L, 0x629b292b367cd507L,
+            0x9159015b3070dd17L, 0x152fecd8f70e5939L,
+            0x67332667ffc00b31L, 0x8eb44b8768581511L,
+            0xdb0c2e0d64f98fb7L, 0x47b5481dbefb4fb4L
         };
 
         public SHA384() {

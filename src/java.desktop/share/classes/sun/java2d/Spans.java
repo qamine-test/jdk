@@ -1,129 +1,129 @@
 /*
- * Copyright (c) 1998, 2000, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2000, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.java2d;
+pbckbge sun.jbvb2d;
 
-import java.util.Comparator;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Vector;
+import jbvb.util.Compbrbtor;
+import jbvb.util.Collections;
+import jbvb.util.Iterbtor;
+import jbvb.util.List;
+import jbvb.util.Vector;
 
 /**
- * Maintains a list of half-open intervals, called Spans.
- * A Span can be tested against the list of Spans
+ * Mbintbins b list of hblf-open intervbls, cblled Spbns.
+ * A Spbn cbn be tested bgbinst the list of Spbns
  * for intersection.
  */
-public class Spans {
+public clbss Spbns {
 
     /**
-     * This class will sort and collapse its span
-     * entries after this many span additions via
-     * the <code>add</code> method.
+     * This clbss will sort bnd collbpse its spbn
+     * entries bfter this mbny spbn bdditions vib
+     * the <code>bdd</code> method.
      */
-    private static final int kMaxAddsSinceSort = 256;
+    privbte stbtic finbl int kMbxAddsSinceSort = 256;
 
     /**
-     * Holds a list of individual
-     * Span instances.
+     * Holds b list of individubl
+     * Spbn instbnces.
      */
-    private List<Span> mSpans = new Vector<>(kMaxAddsSinceSort);
+    privbte List<Spbn> mSpbns = new Vector<>(kMbxAddsSinceSort);
 
     /**
-     * The number of <code>Span</code>
-     * instances that have been added
-     * to this object without a sort
-     * and collapse taking place.
+     * The number of <code>Spbn</code>
+     * instbnces thbt hbve been bdded
+     * to this object without b sort
+     * bnd collbpse tbking plbce.
      */
-    private int mAddsSinceSort = 0;
+    privbte int mAddsSinceSort = 0;
 
-    public Spans() {
+    public Spbns() {
 
     }
 
     /**
-     * Add a span covering the half open interval
-     * including <code>start</code> up to
+     * Add b spbn covering the hblf open intervbl
+     * including <code>stbrt</code> up to
      * but not including <code>end</code>.
      */
-    public void add(float start, float end) {
+    public void bdd(flobt stbrt, flobt end) {
 
-        if (mSpans != null) {
-            mSpans.add(new Span(start, end));
+        if (mSpbns != null) {
+            mSpbns.bdd(new Spbn(stbrt, end));
 
-            if (++mAddsSinceSort >= kMaxAddsSinceSort) {
-                sortAndCollapse();
+            if (++mAddsSinceSort >= kMbxAddsSinceSort) {
+                sortAndCollbpse();
             }
         }
     }
 
     /**
-     * Add a span which covers the entire range.
-     * This call is logically equivalent to
-     * <code>add(Float.NEGATIVE_INFINITY, Float.POSITIVE_INFINITY)</code>
-     * The result of making this call is that
-     * all future <code>add</code> calls are ignored
-     * and the <code>intersects</code> method always
+     * Add b spbn which covers the entire rbnge.
+     * This cbll is logicblly equivblent to
+     * <code>bdd(Flobt.NEGATIVE_INFINITY, Flobt.POSITIVE_INFINITY)</code>
+     * The result of mbking this cbll is thbt
+     * bll future <code>bdd</code> cblls bre ignored
+     * bnd the <code>intersects</code> method blwbys
      * returns true.
      */
-    public void addInfinite() {
-        mSpans = null;
+    public void bddInfinite() {
+        mSpbns = null;
     }
 
     /**
-     * Returns true if the span defined by the half-open
-     * interval from <code>start</code> up to,
+     * Returns true if the spbn defined by the hblf-open
+     * intervbl from <code>stbrt</code> up to,
      * but not including, <code>end</code> intersects
-     * any of the spans defined by this instance.
+     * bny of the spbns defined by this instbnce.
      */
-    public boolean intersects(float start, float end) {
-        boolean doesIntersect;
+    public boolebn intersects(flobt stbrt, flobt end) {
+        boolebn doesIntersect;
 
-        if (mSpans != null) {
+        if (mSpbns != null) {
 
-            /* If we have added any spans since we last
-             * sorted and collapsed our list of spans
-             * then we need to resort and collapse.
+            /* If we hbve bdded bny spbns since we lbst
+             * sorted bnd collbpsed our list of spbns
+             * then we need to resort bnd collbpse.
              */
             if (mAddsSinceSort > 0) {
-                sortAndCollapse();
+                sortAndCollbpse();
             }
 
-            /* The SpanIntersection comparator considers
-             * two spans equal if they intersect. If
-             * the search finds a match then we have an
+            /* The SpbnIntersection compbrbtor considers
+             * two spbns equbl if they intersect. If
+             * the sebrch finds b mbtch then we hbve bn
              * intersection.
              */
-            int found = Collections.binarySearch(mSpans,
-                                                 new Span(start, end),
-                                                 SpanIntersection.instance);
+            int found = Collections.binbrySebrch(mSpbns,
+                                                 new Spbn(stbrt, end),
+                                                 SpbnIntersection.instbnce);
 
             doesIntersect = found >= 0;
 
-        /* The addInfinite() method has been invoked so
-         * everything intersect this instance.
+        /* The bddInfinite() method hbs been invoked so
+         * everything intersect this instbnce.
          */
         } else {
            doesIntersect = true;
@@ -133,65 +133,65 @@ public class Spans {
     }
 
     /**
-     * Sort the spans in ascending order by their
-     * start position. After the spans are sorted
-     * collapse any spans that intersect into a
-     * single span. The result is a sorted,
-     * non-overlapping list of spans.
+     * Sort the spbns in bscending order by their
+     * stbrt position. After the spbns bre sorted
+     * collbpse bny spbns thbt intersect into b
+     * single spbn. The result is b sorted,
+     * non-overlbpping list of spbns.
      */
-    private void sortAndCollapse() {
+    privbte void sortAndCollbpse() {
 
-        Collections.sort(mSpans);
+        Collections.sort(mSpbns);
         mAddsSinceSort = 0;
 
-        Iterator<Span> iter = mSpans.iterator();
+        Iterbtor<Spbn> iter = mSpbns.iterbtor();
 
-        /* Have 'span' start at the first span in
-         * the collection. The collection may be empty
-         * so we're careful.
+        /* Hbve 'spbn' stbrt bt the first spbn in
+         * the collection. The collection mby be empty
+         * so we're cbreful.
          */
-        Span span = null;
-        if (iter.hasNext()) {
-            span = iter.next();
+        Spbn spbn = null;
+        if (iter.hbsNext()) {
+            spbn = iter.next();
         }
 
-        /* Loop over the spans collapsing those that intersect
-         * into a single span.
+        /* Loop over the spbns collbpsing those thbt intersect
+         * into b single spbn.
          */
-        while (iter.hasNext()) {
+        while (iter.hbsNext()) {
 
-            Span nextSpan = iter.next();
+            Spbn nextSpbn = iter.next();
 
-            /* The spans are in ascending start position
-             * order and so the next span's starting point
-             * is either in the span we are trying to grow
-             * or it is beyond the first span and thus the
-             * two spans do not intersect.
+            /* The spbns bre in bscending stbrt position
+             * order bnd so the next spbn's stbrting point
+             * is either in the spbn we bre trying to grow
+             * or it is beyond the first spbn bnd thus the
+             * two spbns do not intersect.
              *
-             * span:    <----------<
-             * nextSpan:        <------         (intersects)
-             * nextSpan:                <------ (doesn't intersect)
+             * spbn:    <----------<
+             * nextSpbn:        <------         (intersects)
+             * nextSpbn:                <------ (doesn't intersect)
              *
-             * If the spans intersect then we'll remove
-             * nextSpan from the list. If nextSpan's
-             * ending was beyond the first's then
+             * If the spbns intersect then we'll remove
+             * nextSpbn from the list. If nextSpbn's
+             * ending wbs beyond the first's then
              * we extend the first.
              *
-             * span:    <----------<
-             * nextSpan:   <-----<              (don't change span)
-             * nextSpan:        <-----------<   (grow span)
+             * spbn:    <----------<
+             * nextSpbn:   <-----<              (don't chbnge spbn)
+             * nextSpbn:        <-----------<   (grow spbn)
              */
 
-            if (span.subsume(nextSpan)) {
+            if (spbn.subsume(nextSpbn)) {
                 iter.remove();
 
-            /* The next span did not intersect the current
-             * span and so it can not be collapsed. Instead
-             * it becomes the start of the next set of spans
-             * to be collapsed.
+            /* The next spbn did not intersect the current
+             * spbn bnd so it cbn not be collbpsed. Instebd
+             * it becomes the stbrt of the next set of spbns
+             * to be collbpsed.
              */
             } else {
-                span = nextSpan;
+                spbn = nextSpbn;
             }
         }
     }
@@ -199,13 +199,13 @@ public class Spans {
     /*
     // For debugging.
 
-    private void printSpans() {
+    privbte void printSpbns() {
         System.out.println("----------");
-        if (mSpans != null) {
-            Iterator<Span> iter = mSpans.iterator();
-            while (iter.hasNext()) {
-                Span span = iter.next();
-                System.out.println(span);
+        if (mSpbns != null) {
+            Iterbtor<Spbn> iter = mSpbns.iterbtor();
+            while (iter.hbsNext()) {
+                Spbn spbn = iter.next();
+                System.out.println(spbn);
             }
         }
         System.out.println("----------");
@@ -214,114 +214,114 @@ public class Spans {
     */
 
     /**
-     * Holds a single half-open interval.
+     * Holds b single hblf-open intervbl.
      */
-    static class Span implements Comparable<Span> {
+    stbtic clbss Spbn implements Compbrbble<Spbn> {
 
         /**
-         * The span includes the starting point.
+         * The spbn includes the stbrting point.
          */
-        private float mStart;
+        privbte flobt mStbrt;
 
         /**
-         * The span goes up to but does not include
+         * The spbn goes up to but does not include
          * the ending point.
          */
-        private float mEnd;
+        privbte flobt mEnd;
 
         /**
-         * Create a half-open interval including
-         * <code>start</code> but not including
+         * Crebte b hblf-open intervbl including
+         * <code>stbrt</code> but not including
          * <code>end</code>.
          */
-        Span(float start, float end) {
-            mStart = start;
+        Spbn(flobt stbrt, flobt end) {
+            mStbrt = stbrt;
             mEnd = end;
         }
 
         /**
-         * Return the start of the <code>Span</code>.
-         * The start is considered part of the
-         * half-open interval.
+         * Return the stbrt of the <code>Spbn</code>.
+         * The stbrt is considered pbrt of the
+         * hblf-open intervbl.
          */
-        final float getStart() {
-            return mStart;
+        finbl flobt getStbrt() {
+            return mStbrt;
         }
 
         /**
-         * Return the end of the <code>Span</code>.
-         * The end is not considered part of the
-         * half-open interval.
+         * Return the end of the <code>Spbn</code>.
+         * The end is not considered pbrt of the
+         * hblf-open intervbl.
          */
-        final float getEnd() {
+        finbl flobt getEnd() {
             return mEnd;
         }
 
         /**
-         * Change the initial position of the
-         * <code>Span</code>.
+         * Chbnge the initibl position of the
+         * <code>Spbn</code>.
          */
-        final void setStart(float start) {
-            mStart = start;
+        finbl void setStbrt(flobt stbrt) {
+            mStbrt = stbrt;
         }
 
         /**
-         * Change the terminal position of the
-         * <code>Span</code>.
+         * Chbnge the terminbl position of the
+         * <code>Spbn</code>.
          */
-        final void setEnd(float end) {
+        finbl void setEnd(flobt end) {
             mEnd = end;
         }
 
         /**
-         * Attempt to alter this <code>Span</code>
-         * to include <code>otherSpan</code> without
-         * altering this span's starting position.
-         * If <code>otherSpan</code> can be so consumed
-         * by this <code>Span</code> then <code>true</code>
+         * Attempt to blter this <code>Spbn</code>
+         * to include <code>otherSpbn</code> without
+         * bltering this spbn's stbrting position.
+         * If <code>otherSpbn</code> cbn be so consumed
+         * by this <code>Spbn</code> then <code>true</code>
          * is returned.
          */
-        boolean subsume(Span otherSpan) {
+        boolebn subsume(Spbn otherSpbn) {
 
-            /* We can only subsume 'otherSpan' if
-             * its starting position lies in our
-             * interval.
+            /* We cbn only subsume 'otherSpbn' if
+             * its stbrting position lies in our
+             * intervbl.
              */
-            boolean isSubsumed = contains(otherSpan.mStart);
+            boolebn isSubsumed = contbins(otherSpbn.mStbrt);
 
-            /* If the other span's starting position
-             * was in our interval and the other span
-             * was longer than this span, then we need
-             * to grow this span to cover the difference.
+            /* If the other spbn's stbrting position
+             * wbs in our intervbl bnd the other spbn
+             * wbs longer thbn this spbn, then we need
+             * to grow this spbn to cover the difference.
              */
-            if (isSubsumed && otherSpan.mEnd > mEnd) {
-                mEnd = otherSpan.mEnd;
+            if (isSubsumed && otherSpbn.mEnd > mEnd) {
+                mEnd = otherSpbn.mEnd;
             }
 
             return isSubsumed;
         }
 
         /**
-         * Return true if the passed in position
-         * lies in the half-open interval defined
-         * by this <code>Span</code>.
+         * Return true if the pbssed in position
+         * lies in the hblf-open intervbl defined
+         * by this <code>Spbn</code>.
          */
-        boolean contains(float pos) {
-            return mStart <= pos && pos < mEnd;
+        boolebn contbins(flobt pos) {
+            return mStbrt <= pos && pos < mEnd;
         }
 
         /**
-         * Rank spans according to their starting
+         * Rbnk spbns bccording to their stbrting
          * position. The end position is ignored
-         * in this ranking.
+         * in this rbnking.
          */
-        public int compareTo(Span otherSpan) {
-            float otherStart = otherSpan.getStart();
+        public int compbreTo(Spbn otherSpbn) {
+            flobt otherStbrt = otherSpbn.getStbrt();
             int result;
 
-            if (mStart < otherStart) {
+            if (mStbrt < otherStbrt) {
                 result = -1;
-            } else if (mStart > otherStart) {
+            } else if (mStbrt > otherStbrt) {
                 result = 1;
             } else {
                 result = 0;
@@ -331,53 +331,53 @@ public class Spans {
         }
 
         public String toString() {
-            return "Span: " + mStart + " to " + mEnd;
+            return "Spbn: " + mStbrt + " to " + mEnd;
         }
 
     }
 
     /**
-     * This class ranks a pair of <code>Span</code>
-     * instances. If the instances intersect they
-     * are deemed equal otherwise they are ranked
-     * by their relative position. Use
-     * <code>SpanIntersection.instance</code> to
-     * get the single instance of this class.
+     * This clbss rbnks b pbir of <code>Spbn</code>
+     * instbnces. If the instbnces intersect they
+     * bre deemed equbl otherwise they bre rbnked
+     * by their relbtive position. Use
+     * <code>SpbnIntersection.instbnce</code> to
+     * get the single instbnce of this clbss.
      */
-    static class SpanIntersection implements Comparator<Span> {
+    stbtic clbss SpbnIntersection implements Compbrbtor<Spbn> {
 
         /**
-         * This class is a Singleton and the following
-         * is the single instance.
+         * This clbss is b Singleton bnd the following
+         * is the single instbnce.
          */
-        static final SpanIntersection instance =
-                                      new SpanIntersection();
+        stbtic finbl SpbnIntersection instbnce =
+                                      new SpbnIntersection();
 
         /**
-         * Only this class can create instances of itself.
+         * Only this clbss cbn crebte instbnces of itself.
          */
-        private SpanIntersection() {
+        privbte SpbnIntersection() {
 
         }
 
-        public int compare(Span span1, Span span2) {
+        public int compbre(Spbn spbn1, Spbn spbn2) {
             int result;
 
-            /* Span 1 is entirely to the left of span2.
-             * span1:   <-----<
-             * span2:            <-----<
+            /* Spbn 1 is entirely to the left of spbn2.
+             * spbn1:   <-----<
+             * spbn2:            <-----<
              */
-            if (span1.getEnd() <= span2.getStart()) {
+            if (spbn1.getEnd() <= spbn2.getStbrt()) {
                 result = -1;
 
-            /* Span 2 is entirely to the right of span2.
-             * span1:                     <-----<
-             * span2:            <-----<
+            /* Spbn 2 is entirely to the right of spbn2.
+             * spbn1:                     <-----<
+             * spbn2:            <-----<
              */
-            } else if (span1.getStart() >= span2.getEnd()) {
+            } else if (spbn1.getStbrt() >= spbn2.getEnd()) {
                 result = 1;
 
-            /* Otherwise they intersect and we declare them equal.
+            /* Otherwise they intersect bnd we declbre them equbl.
             */
             } else {
                 result = 0;

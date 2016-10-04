@@ -1,130 +1,130 @@
 /*
- * Copyright (c) 1999, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2010, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.security.sasl;
+pbckbge com.sun.security.sbsl;
 
-import javax.security.sasl.*;
-import java.security.NoSuchAlgorithmException;
+import jbvbx.security.sbsl.*;
+import jbvb.security.NoSuchAlgorithmException;
 
-import java.util.logging.Logger;
-import java.util.logging.Level;
+import jbvb.util.logging.Logger;
+import jbvb.util.logging.Level;
 
 /**
-  * Implements the CRAM-MD5 SASL client-side mechanism.
+  * Implements the CRAM-MD5 SASL client-side mechbnism.
   * (<A HREF="http://www.ietf.org/rfc/rfc2195.txt">RFC 2195</A>).
-  * CRAM-MD5 has no initial response. It receives bytes from
-  * the server as a challenge, which it hashes by using MD5 and the password.
-  * It concatenates the authentication ID with this result and returns it
-  * as the response to the challenge. At that point, the exchange is complete.
+  * CRAM-MD5 hbs no initibl response. It receives bytes from
+  * the server bs b chbllenge, which it hbshes by using MD5 bnd the pbssword.
+  * It concbtenbtes the buthenticbtion ID with this result bnd returns it
+  * bs the response to the chbllenge. At thbt point, the exchbnge is complete.
   *
-  * @author Vincent Ryan
-  * @author Rosanna Lee
+  * @buthor Vincent Rybn
+  * @buthor Rosbnnb Lee
   */
-final class CramMD5Client extends CramMD5Base implements SaslClient {
-    private String username;
+finbl clbss CrbmMD5Client extends CrbmMD5Bbse implements SbslClient {
+    privbte String usernbme;
 
     /**
-     * Creates a SASL mechanism with client credentials that it needs
-     * to participate in CRAM-MD5 authentication exchange with the server.
+     * Crebtes b SASL mechbnism with client credentibls thbt it needs
+     * to pbrticipbte in CRAM-MD5 buthenticbtion exchbnge with the server.
      *
-     * @param authID A  non-null string representing the principal
-     * being authenticated.
+     * @pbrbm buthID A  non-null string representing the principbl
+     * being buthenticbted.
      *
-     * @param pw A non-null String or byte[]
-     * containing the password. If it is an array, it is first cloned.
+     * @pbrbm pw A non-null String or byte[]
+     * contbining the pbssword. If it is bn brrby, it is first cloned.
      */
-    CramMD5Client(String authID, byte[] pw) throws SaslException {
-        if (authID == null || pw == null) {
-            throw new SaslException(
-                "CRAM-MD5: authentication ID and password must be specified");
+    CrbmMD5Client(String buthID, byte[] pw) throws SbslException {
+        if (buthID == null || pw == null) {
+            throw new SbslException(
+                "CRAM-MD5: buthenticbtion ID bnd pbssword must be specified");
         }
 
-        username = authID;
-        this.pw = pw;  // caller should have already cloned
+        usernbme = buthID;
+        this.pw = pw;  // cbller should hbve blrebdy cloned
     }
 
     /**
-     * CRAM-MD5 has no initial response.
+     * CRAM-MD5 hbs no initibl response.
      */
-    public boolean hasInitialResponse() {
-        return false;
+    public boolebn hbsInitiblResponse() {
+        return fblse;
     }
 
     /**
-     * Processes the challenge data.
+     * Processes the chbllenge dbtb.
      *
-     * The server sends a challenge data using which the client must
-     * compute an MD5-digest with its password as the key.
+     * The server sends b chbllenge dbtb using which the client must
+     * compute bn MD5-digest with its pbssword bs the key.
      *
-     * @param challengeData A non-null byte array containing the challenge
-     *        data from the server.
-     * @return A non-null byte array containing the response to be sent to
+     * @pbrbm chbllengeDbtb A non-null byte brrby contbining the chbllenge
+     *        dbtb from the server.
+     * @return A non-null byte brrby contbining the response to be sent to
      *        the server.
-     * @throws SaslException If platform does not have MD5 support
-     * @throw IllegalStateException if this method is invoked more than once.
+     * @throws SbslException If plbtform does not hbve MD5 support
+     * @throw IllegblStbteException if this method is invoked more thbn once.
      */
-    public byte[] evaluateChallenge(byte[] challengeData)
-        throws SaslException {
+    public byte[] evblubteChbllenge(byte[] chbllengeDbtb)
+        throws SbslException {
 
         // See if we've been here before
         if (completed) {
-            throw new IllegalStateException(
-                "CRAM-MD5 authentication already completed");
+            throw new IllegblStbteException(
+                "CRAM-MD5 buthenticbtion blrebdy completed");
         }
 
-        if (aborted) {
-            throw new IllegalStateException(
-                "CRAM-MD5 authentication previously aborted due to error");
+        if (bborted) {
+            throw new IllegblStbteException(
+                "CRAM-MD5 buthenticbtion previously bborted due to error");
         }
 
-        // generate a keyed-MD5 digest from the user's password and challenge.
+        // generbte b keyed-MD5 digest from the user's pbssword bnd chbllenge.
         try {
-            if (logger.isLoggable(Level.FINE)) {
-                logger.log(Level.FINE, "CRAMCLNT01:Received challenge: {0}",
-                    new String(challengeData, "UTF8"));
+            if (logger.isLoggbble(Level.FINE)) {
+                logger.log(Level.FINE, "CRAMCLNT01:Received chbllenge: {0}",
+                    new String(chbllengeDbtb, "UTF8"));
             }
 
-            String digest = HMAC_MD5(pw, challengeData);
+            String digest = HMAC_MD5(pw, chbllengeDbtb);
 
-            // clear it when we no longer need it
-            clearPassword();
+            // clebr it when we no longer need it
+            clebrPbssword();
 
-            // response is username + " " + digest
-            String resp = username + " " + digest;
+            // response is usernbme + " " + digest
+            String resp = usernbme + " " + digest;
 
             logger.log(Level.FINE, "CRAMCLNT02:Sending response: {0}", resp);
 
             completed = true;
 
             return resp.getBytes("UTF8");
-        } catch (java.security.NoSuchAlgorithmException e) {
-            aborted = true;
-            throw new SaslException("MD5 algorithm not available on platform", e);
-        } catch (java.io.UnsupportedEncodingException e) {
-            aborted = true;
-            throw new SaslException("UTF8 not available on platform", e);
+        } cbtch (jbvb.security.NoSuchAlgorithmException e) {
+            bborted = true;
+            throw new SbslException("MD5 blgorithm not bvbilbble on plbtform", e);
+        } cbtch (jbvb.io.UnsupportedEncodingException e) {
+            bborted = true;
+            throw new SbslException("UTF8 not bvbilbble on plbtform", e);
         }
     }
 }

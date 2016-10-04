@@ -1,89 +1,89 @@
 /*
- * Copyright (c) 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
 /*
  * FUNCTION
- *      mlib_ImageXor      - xor two images    (VIS version)
+ *      mlib_ImbgeXor      - xor two imbges    (VIS version)
  *
  * SYNOPSIS
- *      mlib_status mlib_ImageXor(mlib_image       *dst,
- *                                const mlib_image *src1,
- *                                const mlib_image *src2);
+ *      mlib_stbtus mlib_ImbgeXor(mlib_imbge       *dst,
+ *                                const mlib_imbge *src1,
+ *                                const mlib_imbge *src2);
  *
  * ARGUMENT
- *      dst     pointer to destination image
- *      src1    pointer to first source image
- *      src2    pointer to second source image
+ *      dst     pointer to destinbtion imbge
+ *      src1    pointer to first source imbge
+ *      src2    pointer to second source imbge
  *
  * RESTRICTION
- *      The src1, src2, and dst must be the same type and the same dsize.
- *      They can have 1, 2, 3, or 4 channels.
- *      They can be in MLIB_BYTE, MLIB_SHORT, MLIB_USHORT, MLIB_INT or MLIB_BIT data type.
+ *      The src1, src2, bnd dst must be the sbme type bnd the sbme dsize.
+ *      They cbn hbve 1, 2, 3, or 4 chbnnels.
+ *      They cbn be in MLIB_BYTE, MLIB_SHORT, MLIB_USHORT, MLIB_INT or MLIB_BIT dbtb type.
  *
  * DESCRIPTION
- *      Xor two images for each band:     dst = src1 ^ src2
+ *      Xor two imbges for ebch bbnd:     dst = src1 ^ src2
  */
 
-#include <mlib_image.h>
+#include <mlib_imbge.h>
 
 /***************************************************************/
 
 #if ! defined ( __MEDIALIB_OLD_NAMES )
 #if defined ( __SUNPRO_C )
 
-#pragma weak mlib_ImageXor = __mlib_ImageXor
+#prbgmb webk mlib_ImbgeXor = __mlib_ImbgeXor
 
 #elif defined ( __GNUC__ ) /* defined ( __SUNPRO_C ) */
-  __typeof__ (__mlib_ImageXor) mlib_ImageXor
-    __attribute__ ((weak,alias("__mlib_ImageXor")));
+  __typeof__ (__mlib_ImbgeXor) mlib_ImbgeXor
+    __bttribute__ ((webk,blibs("__mlib_ImbgeXor")));
 
 #else /* defined ( __SUNPRO_C ) */
 
-#error  "unknown platform"
+#error  "unknown plbtform"
 
 #endif /* defined ( __SUNPRO_C ) */
 #endif /* ! defined ( __MEDIALIB_OLD_NAMES ) */
 
 /***************************************************************/
 
-#define VIS_LOGIC(a1, a2) vis_fxor(a1, a2)
+#define VIS_LOGIC(b1, b2) vis_fxor(b1, b2)
 
-#include <mlib_v_ImageLogic.h>
+#include <mlib_v_ImbgeLogic.h>
 
 /***************************************************************/
 
-mlib_status __mlib_ImageXor(mlib_image *dst,
-                            mlib_image *src1,
-                            mlib_image *src2)
+mlib_stbtus __mlib_ImbgeXor(mlib_imbge *dst,
+                            mlib_imbge *src1,
+                            mlib_imbge *src2)
 {
   MLIB_IMAGE_CHECK(src1);
   MLIB_IMAGE_CHECK(src2);
   MLIB_IMAGE_CHECK(dst);
 
-  return mlib_v_ImageLogic(dst, src1, src2);
+  return mlib_v_ImbgeLogic(dst, src1, src2);
 }
 
 /***************************************************************/

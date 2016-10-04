@@ -1,166 +1,166 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.security.sasl.digest;
+pbckbge com.sun.security.sbsl.digest;
 
-import java.security.NoSuchAlgorithmException;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.util.StringTokenizer;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Arrays;
+import jbvb.security.NoSuchAlgorithmException;
+import jbvb.io.ByteArrbyOutputStrebm;
+import jbvb.io.IOException;
+import jbvb.io.UnsupportedEncodingException;
+import jbvb.util.StringTokenizer;
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.Arrbys;
 
-import java.util.logging.Level;
+import jbvb.util.logging.Level;
 
-import javax.security.sasl.*;
-import javax.security.auth.callback.CallbackHandler;
-import javax.security.auth.callback.PasswordCallback;
-import javax.security.auth.callback.NameCallback;
-import javax.security.auth.callback.Callback;
-import javax.security.auth.callback.UnsupportedCallbackException;
+import jbvbx.security.sbsl.*;
+import jbvbx.security.buth.cbllbbck.CbllbbckHbndler;
+import jbvbx.security.buth.cbllbbck.PbsswordCbllbbck;
+import jbvbx.security.buth.cbllbbck.NbmeCbllbbck;
+import jbvbx.security.buth.cbllbbck.Cbllbbck;
+import jbvbx.security.buth.cbllbbck.UnsupportedCbllbbckException;
 
 /**
-  * An implementation of the DIGEST-MD5
-  * (<a href="http://www.ietf.org/rfc/rfc2831.txt">RFC 2831</a>) SASL
-  * (<a href="http://www.ietf.org/rfc/rfc2222.txt">RFC 2222</a>) mechanism.
+  * An implementbtion of the DIGEST-MD5
+  * (<b href="http://www.ietf.org/rfc/rfc2831.txt">RFC 2831</b>) SASL
+  * (<b href="http://www.ietf.org/rfc/rfc2222.txt">RFC 2222</b>) mechbnism.
   *
-  * The DIGEST-MD5 SASL mechanism specifies two modes of authentication.
-  * - Initial Authentication
-  * - Subsequent Authentication - optional, (currently unsupported)
+  * The DIGEST-MD5 SASL mechbnism specifies two modes of buthenticbtion.
+  * - Initibl Authenticbtion
+  * - Subsequent Authenticbtion - optionbl, (currently unsupported)
   *
-  * Required callbacks:
-  * - RealmChoiceCallback
-  *    shows user list of realms server has offered; handler must choose one
+  * Required cbllbbcks:
+  * - ReblmChoiceCbllbbck
+  *    shows user list of reblms server hbs offered; hbndler must choose one
   *    from list
-  * - RealmCallback
-  *    shows user the only realm server has offered or none; handler must
-  *    enter realm to use
-  * - NameCallback
-  *    handler must enter username to use for authentication
-  * - PasswordCallback
-  *    handler must enter password for username to use for authentication
+  * - ReblmCbllbbck
+  *    shows user the only reblm server hbs offered or none; hbndler must
+  *    enter reblm to use
+  * - NbmeCbllbbck
+  *    hbndler must enter usernbme to use for buthenticbtion
+  * - PbsswordCbllbbck
+  *    hbndler must enter pbssword for usernbme to use for buthenticbtion
   *
-  * Environment properties that affect behavior of implementation:
+  * Environment properties thbt bffect behbvior of implementbtion:
   *
-  * javax.security.sasl.qop
-  *    quality of protection; list of auth, auth-int, auth-conf; default is "auth"
-  * javax.security.sasl.strength
-  *    auth-conf strength; list of high, medium, low; default is highest
-  *    available on platform ["high,medium,low"].
-  *    high means des3 or rc4 (128); medium des or rc4-56; low is rc4-40;
-  *    choice of cipher depends on its availablility on platform
-  * javax.security.sasl.maxbuf
-  *    max receive buffer size; default is 65536
-  * javax.security.sasl.sendmaxbuffer
-  *    max send buffer size; default is 65536; (min with server max recv size)
+  * jbvbx.security.sbsl.qop
+  *    qublity of protection; list of buth, buth-int, buth-conf; defbult is "buth"
+  * jbvbx.security.sbsl.strength
+  *    buth-conf strength; list of high, medium, low; defbult is highest
+  *    bvbilbble on plbtform ["high,medium,low"].
+  *    high mebns des3 or rc4 (128); medium des or rc4-56; low is rc4-40;
+  *    choice of cipher depends on its bvbilbblility on plbtform
+  * jbvbx.security.sbsl.mbxbuf
+  *    mbx receive buffer size; defbult is 65536
+  * jbvbx.security.sbsl.sendmbxbuffer
+  *    mbx send buffer size; defbult is 65536; (min with server mbx recv size)
   *
-  * com.sun.security.sasl.digest.cipher
-  *    name a specific cipher to use; setting must be compatible with the
-  *    setting of the javax.security.sasl.strength property.
+  * com.sun.security.sbsl.digest.cipher
+  *    nbme b specific cipher to use; setting must be compbtible with the
+  *    setting of the jbvbx.security.sbsl.strength property.
   *
-  * @see <a href="http://www.ietf.org/rfc/rfc2222.txt">RFC 2222</a>
-  * - Simple Authentication and Security Layer (SASL)
-  * @see <a href="http://www.ietf.org/rfc/rfc2831.txt">RFC 2831</a>
-  * - Using Digest Authentication as a SASL Mechanism
-  * @see <a href="http://java.sun.com/products/jce">Java(TM)
-  * Cryptography Extension 1.2.1 (JCE)</a>
-  * @see <a href="http://java.sun.com/products/jaas">Java(TM)
-  * Authentication and Authorization Service (JAAS)</a>
+  * @see <b href="http://www.ietf.org/rfc/rfc2222.txt">RFC 2222</b>
+  * - Simple Authenticbtion bnd Security Lbyer (SASL)
+  * @see <b href="http://www.ietf.org/rfc/rfc2831.txt">RFC 2831</b>
+  * - Using Digest Authenticbtion bs b SASL Mechbnism
+  * @see <b href="http://jbvb.sun.com/products/jce">Jbvb(TM)
+  * Cryptogrbphy Extension 1.2.1 (JCE)</b>
+  * @see <b href="http://jbvb.sun.com/products/jbbs">Jbvb(TM)
+  * Authenticbtion bnd Authorizbtion Service (JAAS)</b>
   *
-  * @author Jonathan Bruce
-  * @author Rosanna Lee
+  * @buthor Jonbthbn Bruce
+  * @buthor Rosbnnb Lee
   */
-final class DigestMD5Client extends DigestMD5Base implements SaslClient {
-    private static final String MY_CLASS_NAME = DigestMD5Client.class.getName();
+finbl clbss DigestMD5Client extends DigestMD5Bbse implements SbslClient {
+    privbte stbtic finbl String MY_CLASS_NAME = DigestMD5Client.clbss.getNbme();
 
     // Property for specifying cipher explicitly
-    private static final String CIPHER_PROPERTY =
-        "com.sun.security.sasl.digest.cipher";
+    privbte stbtic finbl String CIPHER_PROPERTY =
+        "com.sun.security.sbsl.digest.cipher";
 
-    /* Directives encountered in challenges sent by the server. */
-    private static final String[] DIRECTIVE_KEY = {
-        "realm",      // >= 0 times
-        "qop",        // atmost once; default is "auth"
-        "algorithm",  // exactly once
-        "nonce",      // exactly once
-        "maxbuf",     // atmost once; default is 65536
-        "charset",    // atmost once; default is ISO 8859-1
-        "cipher",     // exactly once if qop is "auth-conf"
-        "rspauth",    // exactly once in 2nd challenge
-        "stale",      // atmost once for in subsequent auth (not supported)
+    /* Directives encountered in chbllenges sent by the server. */
+    privbte stbtic finbl String[] DIRECTIVE_KEY = {
+        "reblm",      // >= 0 times
+        "qop",        // btmost once; defbult is "buth"
+        "blgorithm",  // exbctly once
+        "nonce",      // exbctly once
+        "mbxbuf",     // btmost once; defbult is 65536
+        "chbrset",    // btmost once; defbult is ISO 8859-1
+        "cipher",     // exbctly once if qop is "buth-conf"
+        "rspbuth",    // exbctly once in 2nd chbllenge
+        "stble",      // btmost once for in subsequent buth (not supported)
     };
 
     /* Indices into DIRECTIVE_KEY */
-    private static final int REALM = 0;
-    private static final int QOP = 1;
-    private static final int ALGORITHM = 2;
-    private static final int NONCE = 3;
-    private static final int MAXBUF = 4;
-    private static final int CHARSET = 5;
-    private static final int CIPHER = 6;
-    private static final int RESPONSE_AUTH = 7;
-    private static final int STALE = 8;
+    privbte stbtic finbl int REALM = 0;
+    privbte stbtic finbl int QOP = 1;
+    privbte stbtic finbl int ALGORITHM = 2;
+    privbte stbtic finbl int NONCE = 3;
+    privbte stbtic finbl int MAXBUF = 4;
+    privbte stbtic finbl int CHARSET = 5;
+    privbte stbtic finbl int CIPHER = 6;
+    privbte stbtic finbl int RESPONSE_AUTH = 7;
+    privbte stbtic finbl int STALE = 8;
 
-    private int nonceCount; // number of times nonce has been used/seen
+    privbte int nonceCount; // number of times nonce hbs been used/seen
 
-    /* User-supplied/generated information */
-    private String specifiedCipher;  // cipher explicitly requested by user
-    private byte[] cnonce;        // client generated nonce
-    private String username;
-    private char[] passwd;
-    private byte[] authzidBytes;  // byte repr of authzid
+    /* User-supplied/generbted informbtion */
+    privbte String specifiedCipher;  // cipher explicitly requested by user
+    privbte byte[] cnonce;        // client generbted nonce
+    privbte String usernbme;
+    privbte chbr[] pbsswd;
+    privbte byte[] buthzidBytes;  // byte repr of buthzid
 
     /**
-      * Constructor for DIGEST-MD5 mechanism.
+      * Constructor for DIGEST-MD5 mechbnism.
       *
-      * @param authzid A non-null String representing the principal
-      * for which authorization is being granted..
-      * @param digestURI A non-null String representing detailing the
-      * combined protocol and host being used for authentication.
-      * @param props The possibly null properties to be used by the SASL
-      * mechanism to configure the authentication exchange.
-      * @param cbh The non-null CallbackHanlder object for callbacks
-      * @throws SaslException if no authentication ID or password is supplied
+      * @pbrbm buthzid A non-null String representing the principbl
+      * for which buthorizbtion is being grbnted..
+      * @pbrbm digestURI A non-null String representing detbiling the
+      * combined protocol bnd host being used for buthenticbtion.
+      * @pbrbm props The possibly null properties to be used by the SASL
+      * mechbnism to configure the buthenticbtion exchbnge.
+      * @pbrbm cbh The non-null CbllbbckHbnlder object for cbllbbcks
+      * @throws SbslException if no buthenticbtion ID or pbssword is supplied
       */
-    DigestMD5Client(String authzid, String protocol, String serverName,
-        Map<String, ?> props, CallbackHandler cbh) throws SaslException {
+    DigestMD5Client(String buthzid, String protocol, String serverNbme,
+        Mbp<String, ?> props, CbllbbckHbndler cbh) throws SbslException {
 
-        super(props, MY_CLASS_NAME, 2, protocol + "/" + serverName, cbh);
+        super(props, MY_CLASS_NAME, 2, protocol + "/" + serverNbme, cbh);
 
-        // authzID can only be encoded in UTF8 - RFC 2222
-        if (authzid != null) {
-            this.authzid = authzid;
+        // buthzID cbn only be encoded in UTF8 - RFC 2222
+        if (buthzid != null) {
+            this.buthzid = buthzid;
             try {
-                authzidBytes = authzid.getBytes("UTF8");
+                buthzidBytes = buthzid.getBytes("UTF8");
 
-            } catch (UnsupportedEncodingException e) {
-                throw new SaslException(
-                    "DIGEST-MD5: Error encoding authzid value into UTF-8", e);
+            } cbtch (UnsupportedEncodingException e) {
+                throw new SbslException(
+                    "DIGEST-MD5: Error encoding buthzid vblue into UTF-8", e);
             }
         }
 
@@ -173,299 +173,299 @@ final class DigestMD5Client extends DigestMD5Base implements SaslClient {
    }
 
     /**
-     * DIGEST-MD5 has no initial response
+     * DIGEST-MD5 hbs no initibl response
      *
-     * @return false
+     * @return fblse
      */
-    public boolean hasInitialResponse() {
-        return false;
+    public boolebn hbsInitiblResponse() {
+        return fblse;
     }
 
     /**
-     * Process the challenge data.
+     * Process the chbllenge dbtb.
      *
-     * The server sends a digest-challenge which the client must reply to
-     * in a digest-response. When the authentication is complete, the
+     * The server sends b digest-chbllenge which the client must reply to
+     * in b digest-response. When the buthenticbtion is complete, the
      * completed field is set to true.
      *
-     * @param challengeData A non-null byte array containing the challenge
-     * data from the server.
-     * @return A possibly null byte array containing the response to
+     * @pbrbm chbllengeDbtb A non-null byte brrby contbining the chbllenge
+     * dbtb from the server.
+     * @return A possibly null byte brrby contbining the response to
      * be sent to the server.
      *
-     * @throws SaslException If the platform does not have MD5 digest support
-     * or if the server sends an invalid challenge.
+     * @throws SbslException If the plbtform does not hbve MD5 digest support
+     * or if the server sends bn invblid chbllenge.
      */
-    public byte[] evaluateChallenge(byte[] challengeData) throws SaslException {
+    public byte[] evblubteChbllenge(byte[] chbllengeDbtb) throws SbslException {
 
-        if (challengeData.length > MAX_CHALLENGE_LENGTH) {
-            throw new SaslException(
-                "DIGEST-MD5: Invalid digest-challenge length. Got:  " +
-                challengeData.length + " Expected < " + MAX_CHALLENGE_LENGTH);
+        if (chbllengeDbtb.length > MAX_CHALLENGE_LENGTH) {
+            throw new SbslException(
+                "DIGEST-MD5: Invblid digest-chbllenge length. Got:  " +
+                chbllengeDbtb.length + " Expected < " + MAX_CHALLENGE_LENGTH);
         }
 
-        /* Extract and process digest-challenge */
-        byte[][] challengeVal;
+        /* Extrbct bnd process digest-chbllenge */
+        byte[][] chbllengeVbl;
 
         switch (step) {
-        case 2:
-            /* Process server's first challenge (from Step 1) */
-            /* Get realm, qop, maxbuf, charset, algorithm, cipher, nonce
+        cbse 2:
+            /* Process server's first chbllenge (from Step 1) */
+            /* Get reblm, qop, mbxbuf, chbrset, blgorithm, cipher, nonce
                directives */
-            List<byte[]> realmChoices = new ArrayList<byte[]>(3);
-            challengeVal = parseDirectives(challengeData, DIRECTIVE_KEY,
-                realmChoices, REALM);
+            List<byte[]> reblmChoices = new ArrbyList<byte[]>(3);
+            chbllengeVbl = pbrseDirectives(chbllengeDbtb, DIRECTIVE_KEY,
+                reblmChoices, REALM);
 
             try {
-                processChallenge(challengeVal, realmChoices);
-                checkQopSupport(challengeVal[QOP], challengeVal[CIPHER]);
+                processChbllenge(chbllengeVbl, reblmChoices);
+                checkQopSupport(chbllengeVbl[QOP], chbllengeVbl[CIPHER]);
                 ++step;
-                return generateClientResponse(challengeVal[CHARSET]);
-            } catch (SaslException e) {
+                return generbteClientResponse(chbllengeVbl[CHARSET]);
+            } cbtch (SbslException e) {
                 step = 0;
-                clearPassword();
+                clebrPbssword();
                 throw e; // rethrow
-            } catch (IOException e) {
+            } cbtch (IOException e) {
                 step = 0;
-                clearPassword();
-                throw new SaslException("DIGEST-MD5: Error generating " +
-                    "digest response-value", e);
+                clebrPbssword();
+                throw new SbslException("DIGEST-MD5: Error generbting " +
+                    "digest response-vblue", e);
             }
 
-        case 3:
+        cbse 3:
             try {
                 /* Process server's step 3 (server response to digest response) */
-                /* Get rspauth directive */
-                challengeVal = parseDirectives(challengeData, DIRECTIVE_KEY,
+                /* Get rspbuth directive */
+                chbllengeVbl = pbrseDirectives(chbllengeDbtb, DIRECTIVE_KEY,
                     null, REALM);
-                validateResponseValue(challengeVal[RESPONSE_AUTH]);
+                vblidbteResponseVblue(chbllengeVbl[RESPONSE_AUTH]);
 
 
-                /* Initialize SecurityCtx implementation */
-                if (integrity && privacy) {
-                    secCtx = new DigestPrivacy(true /* client */);
+                /* Initiblize SecurityCtx implementbtion */
+                if (integrity && privbcy) {
+                    secCtx = new DigestPrivbcy(true /* client */);
                 } else if (integrity) {
                     secCtx = new DigestIntegrity(true /* client */);
                 }
 
-                return null; // Mechanism has completed.
-            } finally {
-                clearPassword();
-                step = 0;  // Set to invalid state
+                return null; // Mechbnism hbs completed.
+            } finblly {
+                clebrPbssword();
+                step = 0;  // Set to invblid stbte
                 completed = true;
             }
 
-        default:
-            // No other possible state
-            throw new SaslException("DIGEST-MD5: Client at illegal state");
+        defbult:
+            // No other possible stbte
+            throw new SbslException("DIGEST-MD5: Client bt illegbl stbte");
         }
     }
 
 
    /**
-    * Record information from the challengeVal array into variables/fields.
-    * Check directive values that are multi-valued and ensure that mandatory
-    * directives not missing from the digest-challenge.
+    * Record informbtion from the chbllengeVbl brrby into vbribbles/fields.
+    * Check directive vblues thbt bre multi-vblued bnd ensure thbt mbndbtory
+    * directives not missing from the digest-chbllenge.
     *
-    * @throws SaslException if a sasl is a the mechanism cannot
-    * correcly handle a callbacks or if a violation in the
-    * digest challenge format is detected.
+    * @throws SbslException if b sbsl is b the mechbnism cbnnot
+    * correcly hbndle b cbllbbcks or if b violbtion in the
+    * digest chbllenge formbt is detected.
     */
-    private void processChallenge(byte[][] challengeVal, List<byte[]> realmChoices)
-        throws SaslException, UnsupportedEncodingException {
+    privbte void processChbllenge(byte[][] chbllengeVbl, List<byte[]> reblmChoices)
+        throws SbslException, UnsupportedEncodingException {
 
-        /* CHARSET: optional atmost once */
-        if (challengeVal[CHARSET] != null) {
-            if (!"utf-8".equals(new String(challengeVal[CHARSET], encoding))) {
-                throw new SaslException("DIGEST-MD5: digest-challenge format " +
-                    "violation. Unrecognised charset value: " +
-                    new String(challengeVal[CHARSET]));
+        /* CHARSET: optionbl btmost once */
+        if (chbllengeVbl[CHARSET] != null) {
+            if (!"utf-8".equbls(new String(chbllengeVbl[CHARSET], encoding))) {
+                throw new SbslException("DIGEST-MD5: digest-chbllenge formbt " +
+                    "violbtion. Unrecognised chbrset vblue: " +
+                    new String(chbllengeVbl[CHARSET]));
             } else {
                 encoding = "UTF8";
                 useUTF8 = true;
             }
         }
 
-        /* ALGORITHM: required exactly once */
-        if (challengeVal[ALGORITHM] == null) {
-            throw new SaslException("DIGEST-MD5: Digest-challenge format " +
-                "violation: algorithm directive missing");
-        } else if (!"md5-sess".equals(new String(challengeVal[ALGORITHM], encoding))) {
-            throw new SaslException("DIGEST-MD5: Digest-challenge format " +
-                "violation. Invalid value for 'algorithm' directive: " +
-                challengeVal[ALGORITHM]);
+        /* ALGORITHM: required exbctly once */
+        if (chbllengeVbl[ALGORITHM] == null) {
+            throw new SbslException("DIGEST-MD5: Digest-chbllenge formbt " +
+                "violbtion: blgorithm directive missing");
+        } else if (!"md5-sess".equbls(new String(chbllengeVbl[ALGORITHM], encoding))) {
+            throw new SbslException("DIGEST-MD5: Digest-chbllenge formbt " +
+                "violbtion. Invblid vblue for 'blgorithm' directive: " +
+                chbllengeVbl[ALGORITHM]);
         }
 
-        /* NONCE: required exactly once */
-        if (challengeVal[NONCE] == null) {
-            throw new SaslException("DIGEST-MD5: Digest-challenge format " +
-                "violation: nonce directive missing");
+        /* NONCE: required exbctly once */
+        if (chbllengeVbl[NONCE] == null) {
+            throw new SbslException("DIGEST-MD5: Digest-chbllenge formbt " +
+                "violbtion: nonce directive missing");
         } else {
-            nonce = challengeVal[NONCE];
+            nonce = chbllengeVbl[NONCE];
         }
 
         try {
-            /* REALM: optional, if multiple, stored in realmChoices */
-            String[] realmTokens = null;
+            /* REALM: optionbl, if multiple, stored in reblmChoices */
+            String[] reblmTokens = null;
 
-            if (challengeVal[REALM] != null) {
-                if (realmChoices == null || realmChoices.size() <= 1) {
-                    // Only one realm specified
-                    negotiatedRealm = new String(challengeVal[REALM], encoding);
+            if (chbllengeVbl[REALM] != null) {
+                if (reblmChoices == null || reblmChoices.size() <= 1) {
+                    // Only one reblm specified
+                    negotibtedReblm = new String(chbllengeVbl[REALM], encoding);
                 } else {
-                    realmTokens = new String[realmChoices.size()];
-                    for (int i = 0; i < realmTokens.length; i++) {
-                        realmTokens[i] =
-                            new String(realmChoices.get(i), encoding);
+                    reblmTokens = new String[reblmChoices.size()];
+                    for (int i = 0; i < reblmTokens.length; i++) {
+                        reblmTokens[i] =
+                            new String(reblmChoices.get(i), encoding);
                     }
                 }
             }
 
-            NameCallback ncb = authzid == null ?
-                new NameCallback("DIGEST-MD5 authentication ID: ") :
-                new NameCallback("DIGEST-MD5 authentication ID: ", authzid);
-            PasswordCallback pcb =
-                new PasswordCallback("DIGEST-MD5 password: ", false);
+            NbmeCbllbbck ncb = buthzid == null ?
+                new NbmeCbllbbck("DIGEST-MD5 buthenticbtion ID: ") :
+                new NbmeCbllbbck("DIGEST-MD5 buthenticbtion ID: ", buthzid);
+            PbsswordCbllbbck pcb =
+                new PbsswordCbllbbck("DIGEST-MD5 pbssword: ", fblse);
 
-            if (realmTokens == null) {
-                // Server specified <= 1 realm
-                // If 0, RFC 2831: the client SHOULD solicit a realm from the user.
-                RealmCallback tcb =
-                    (negotiatedRealm == null? new RealmCallback("DIGEST-MD5 realm: ") :
-                        new RealmCallback("DIGEST-MD5 realm: ", negotiatedRealm));
+            if (reblmTokens == null) {
+                // Server specified <= 1 reblm
+                // If 0, RFC 2831: the client SHOULD solicit b reblm from the user.
+                ReblmCbllbbck tcb =
+                    (negotibtedReblm == null? new ReblmCbllbbck("DIGEST-MD5 reblm: ") :
+                        new ReblmCbllbbck("DIGEST-MD5 reblm: ", negotibtedReblm));
 
-                cbh.handle(new Callback[] {tcb, ncb, pcb});
+                cbh.hbndle(new Cbllbbck[] {tcb, ncb, pcb});
 
-                /* Acquire realm from RealmCallback */
-                negotiatedRealm = tcb.getText();
-                if (negotiatedRealm == null) {
-                    negotiatedRealm = "";
+                /* Acquire reblm from ReblmCbllbbck */
+                negotibtedReblm = tcb.getText();
+                if (negotibtedReblm == null) {
+                    negotibtedReblm = "";
                 }
             } else {
-                RealmChoiceCallback ccb = new RealmChoiceCallback(
-                    "DIGEST-MD5 realm: ",
-                    realmTokens,
-                    0, false);
-                cbh.handle(new Callback[] {ccb, ncb, pcb});
+                ReblmChoiceCbllbbck ccb = new ReblmChoiceCbllbbck(
+                    "DIGEST-MD5 reblm: ",
+                    reblmTokens,
+                    0, fblse);
+                cbh.hbndle(new Cbllbbck[] {ccb, ncb, pcb});
 
-                // Acquire realm from RealmChoiceCallback
+                // Acquire reblm from ReblmChoiceCbllbbck
                 int[] selected = ccb.getSelectedIndexes();
                 if (selected == null
                         || selected[0] < 0
-                        || selected[0] >= realmTokens.length) {
-                    throw new SaslException("DIGEST-MD5: Invalid realm chosen");
+                        || selected[0] >= reblmTokens.length) {
+                    throw new SbslException("DIGEST-MD5: Invblid reblm chosen");
                 }
-                negotiatedRealm = realmTokens[selected[0]];
+                negotibtedReblm = reblmTokens[selected[0]];
             }
 
-            passwd = pcb.getPassword();
-            pcb.clearPassword();
-            username = ncb.getName();
+            pbsswd = pcb.getPbssword();
+            pcb.clebrPbssword();
+            usernbme = ncb.getNbme();
 
-        } catch (SaslException se) {
+        } cbtch (SbslException se) {
             throw se;
 
-        } catch (UnsupportedCallbackException e) {
-            throw new SaslException("DIGEST-MD5: Cannot perform callback to " +
-                "acquire realm, authentication ID or password", e);
+        } cbtch (UnsupportedCbllbbckException e) {
+            throw new SbslException("DIGEST-MD5: Cbnnot perform cbllbbck to " +
+                "bcquire reblm, buthenticbtion ID or pbssword", e);
 
-        } catch (IOException e) {
-            throw new SaslException(
-                "DIGEST-MD5: Error acquiring realm, authentication ID or password", e);
+        } cbtch (IOException e) {
+            throw new SbslException(
+                "DIGEST-MD5: Error bcquiring reblm, buthenticbtion ID or pbssword", e);
         }
 
-        if (username == null || passwd == null) {
-            throw new SaslException(
-                "DIGEST-MD5: authentication ID and password must be specified");
+        if (usernbme == null || pbsswd == null) {
+            throw new SbslException(
+                "DIGEST-MD5: buthenticbtion ID bnd pbssword must be specified");
         }
 
-        /* MAXBUF: optional atmost once */
-        int srvMaxBufSize =
-            (challengeVal[MAXBUF] == null) ? DEFAULT_MAXBUF
-            : Integer.parseInt(new String(challengeVal[MAXBUF], encoding));
-        sendMaxBufSize =
-            (sendMaxBufSize == 0) ? srvMaxBufSize
-            : Math.min(sendMaxBufSize, srvMaxBufSize);
+        /* MAXBUF: optionbl btmost once */
+        int srvMbxBufSize =
+            (chbllengeVbl[MAXBUF] == null) ? DEFAULT_MAXBUF
+            : Integer.pbrseInt(new String(chbllengeVbl[MAXBUF], encoding));
+        sendMbxBufSize =
+            (sendMbxBufSize == 0) ? srvMbxBufSize
+            : Mbth.min(sendMbxBufSize, srvMbxBufSize);
     }
 
     /**
-     * Parses the 'qop' directive. If 'auth-conf' is specified by
-     * the client and offered as a QOP option by the server, then a check
+     * Pbrses the 'qop' directive. If 'buth-conf' is specified by
+     * the client bnd offered bs b QOP option by the server, then b check
      * is client-side supported ciphers is performed.
      *
      * @throws IOException
      */
-    private void checkQopSupport(byte[] qopInChallenge, byte[] ciphersInChallenge)
+    privbte void checkQopSupport(byte[] qopInChbllenge, byte[] ciphersInChbllenge)
         throws IOException {
 
-        /* QOP: optional; if multiple, merged earlier */
+        /* QOP: optionbl; if multiple, merged ebrlier */
         String qopOptions;
 
-        if (qopInChallenge == null) {
-            qopOptions = "auth";
+        if (qopInChbllenge == null) {
+            qopOptions = "buth";
         } else {
-            qopOptions = new String(qopInChallenge, encoding);
+            qopOptions = new String(qopInChbllenge, encoding);
         }
 
         // process
         String[] serverQopTokens = new String[3];
-        byte[] serverQop = parseQop(qopOptions, serverQopTokens,
+        byte[] serverQop = pbrseQop(qopOptions, serverQopTokens,
             true /* ignore unrecognized tokens */);
-        byte serverAllQop = combineMasks(serverQop);
+        byte serverAllQop = combineMbsks(serverQop);
 
-        switch (findPreferredMask(serverAllQop, qop)) {
-        case 0:
-            throw new SaslException("DIGEST-MD5: No common protection " +
-                "layer between client and server");
+        switch (findPreferredMbsk(serverAllQop, qop)) {
+        cbse 0:
+            throw new SbslException("DIGEST-MD5: No common protection " +
+                "lbyer between client bnd server");
 
-        case NO_PROTECTION:
-            negotiatedQop = "auth";
-            // buffer sizes not applicable
-            break;
+        cbse NO_PROTECTION:
+            negotibtedQop = "buth";
+            // buffer sizes not bpplicbble
+            brebk;
 
-        case INTEGRITY_ONLY_PROTECTION:
-            negotiatedQop = "auth-int";
+        cbse INTEGRITY_ONLY_PROTECTION:
+            negotibtedQop = "buth-int";
             integrity = true;
-            rawSendSize = sendMaxBufSize - 16;
-            break;
+            rbwSendSize = sendMbxBufSize - 16;
+            brebk;
 
-        case PRIVACY_PROTECTION:
-            negotiatedQop = "auth-conf";
-            privacy = integrity = true;
-            rawSendSize = sendMaxBufSize - 26;
-            checkStrengthSupport(ciphersInChallenge);
-            break;
+        cbse PRIVACY_PROTECTION:
+            negotibtedQop = "buth-conf";
+            privbcy = integrity = true;
+            rbwSendSize = sendMbxBufSize - 26;
+            checkStrengthSupport(ciphersInChbllenge);
+            brebk;
         }
 
-        if (logger.isLoggable(Level.FINE)) {
-            logger.log(Level.FINE, "DIGEST61:Raw send size: {0}",
-                rawSendSize);
+        if (logger.isLoggbble(Level.FINE)) {
+            logger.log(Level.FINE, "DIGEST61:Rbw send size: {0}",
+                rbwSendSize);
         }
      }
 
     /**
-     * Processes the 'cipher' digest-challenge directive. This allows the
-     * mechanism to check for client-side support against the list of
-     * supported ciphers send by the server. If no match is found,
-     * the mechanism aborts.
+     * Processes the 'cipher' digest-chbllenge directive. This bllows the
+     * mechbnism to check for client-side support bgbinst the list of
+     * supported ciphers send by the server. If no mbtch is found,
+     * the mechbnism bborts.
      *
-     * @throws SaslException If an error is encountered in processing
-     * the cipher digest-challenge directive or if no client-side
+     * @throws SbslException If bn error is encountered in processing
+     * the cipher digest-chbllenge directive or if no client-side
      * support is found.
      */
-    private void checkStrengthSupport(byte[] ciphersInChallenge)
+    privbte void checkStrengthSupport(byte[] ciphersInChbllenge)
         throws IOException {
 
-        /* CIPHER: required exactly once if qop=auth-conf */
-        if (ciphersInChallenge == null) {
-            throw new SaslException("DIGEST-MD5: server did not specify " +
-                "cipher to use for 'auth-conf'");
+        /* CIPHER: required exbctly once if qop=buth-conf */
+        if (ciphersInChbllenge == null) {
+            throw new SbslException("DIGEST-MD5: server did not specify " +
+                "cipher to use for 'buth-conf'");
         }
 
-        // First determine ciphers that server supports
-        String cipherOptions = new String(ciphersInChallenge, encoding);
-        StringTokenizer parser = new StringTokenizer(cipherOptions, ", \t\n");
-        int tokenCount = parser.countTokens();
+        // First determine ciphers thbt server supports
+        String cipherOptions = new String(ciphersInChbllenge, encoding);
+        StringTokenizer pbrser = new StringTokenizer(cipherOptions, ", \t\n");
+        int tokenCount = pbrser.countTokens();
         String token = null;
         byte[] serverCiphers = { UNSET,
                                  UNSET,
@@ -474,22 +474,22 @@ final class DigestMD5Client extends DigestMD5Base implements SaslClient {
                                  UNSET };
         String[] serverCipherStrs = new String[serverCiphers.length];
 
-        // Parse ciphers in challenge; mark each that server supports
+        // Pbrse ciphers in chbllenge; mbrk ebch thbt server supports
         for (int i = 0; i < tokenCount; i++) {
-            token = parser.nextToken();
+            token = pbrser.nextToken();
             for (int j = 0; j < CIPHER_TOKENS.length; j++) {
-                if (token.equals(CIPHER_TOKENS[j])) {
+                if (token.equbls(CIPHER_TOKENS[j])) {
                     serverCiphers[j] |= CIPHER_MASKS[j];
-                    serverCipherStrs[j] = token; // keep for replay to server
+                    serverCipherStrs[j] = token; // keep for replby to server
                     logger.log(Level.FINE, "DIGEST62:Server supports {0}", token);
                 }
             }
         }
 
-        // Determine which ciphers are available on client
-        byte[] clntCiphers = getPlatformCiphers();
+        // Determine which ciphers bre bvbilbble on client
+        byte[] clntCiphers = getPlbtformCiphers();
 
-        // Take intersection of server and client supported ciphers
+        // Tbke intersection of server bnd client supported ciphers
         byte inter = 0;
         for (int i = 0; i < serverCiphers.length; i++) {
             serverCiphers[i] &= clntCiphers[i];
@@ -497,33 +497,33 @@ final class DigestMD5Client extends DigestMD5Base implements SaslClient {
         }
 
         if (inter == UNSET) {
-            throw new SaslException(
+            throw new SbslException(
                 "DIGEST-MD5: Client supports none of these cipher suites: " +
                 cipherOptions);
         }
 
-        // now have a clear picture of user / client; client / server
-        // cipher options. Leverage strength array against what is
-        // supported to choose a cipher.
-        negotiatedCipher = findCipherAndStrength(serverCiphers, serverCipherStrs);
+        // now hbve b clebr picture of user / client; client / server
+        // cipher options. Leverbge strength brrby bgbinst whbt is
+        // supported to choose b cipher.
+        negotibtedCipher = findCipherAndStrength(serverCiphers, serverCipherStrs);
 
-        if (negotiatedCipher == null) {
-            throw new SaslException("DIGEST-MD5: Unable to negotiate " +
-                "a strength level for 'auth-conf'");
+        if (negotibtedCipher == null) {
+            throw new SbslException("DIGEST-MD5: Unbble to negotibte " +
+                "b strength level for 'buth-conf'");
         }
-        logger.log(Level.FINE, "DIGEST63:Cipher suite: {0}", negotiatedCipher);
+        logger.log(Level.FINE, "DIGEST63:Cipher suite: {0}", negotibtedCipher);
     }
 
     /**
-     * Steps through the ordered 'strength' array, and compares it with
-     * the 'supportedCiphers' array. The cipher returned represents
-     * the best possible cipher based on the strength preference and the
-     * available ciphers on both the server and client environments.
+     * Steps through the ordered 'strength' brrby, bnd compbres it with
+     * the 'supportedCiphers' brrby. The cipher returned represents
+     * the best possible cipher bbsed on the strength preference bnd the
+     * bvbilbble ciphers on both the server bnd client environments.
      *
-     * @param tokens The array of cipher tokens sent by server
-     * @return The agreed cipher.
+     * @pbrbm tokens The brrby of cipher tokens sent by server
+     * @return The bgreed cipher.
      */
-    private String findCipherAndStrength(byte[] supportedCiphers,
+    privbte String findCipherAndStrength(byte[] supportedCiphers,
         String[] tokens) {
         byte s;
         for (int i = 0; i < strength.length; i++) {
@@ -535,17 +535,17 @@ final class DigestMD5Client extends DigestMD5Base implements SaslClient {
 
                     if (s == supportedCiphers[j] &&
                         (specifiedCipher == null ||
-                            specifiedCipher.equals(tokens[j]))) {
+                            specifiedCipher.equbls(tokens[j]))) {
                         switch (s) {
-                        case HIGH_STRENGTH:
-                            negotiatedStrength = "high";
-                            break;
-                        case MEDIUM_STRENGTH:
-                            negotiatedStrength = "medium";
-                            break;
-                        case LOW_STRENGTH:
-                            negotiatedStrength = "low";
-                            break;
+                        cbse HIGH_STRENGTH:
+                            negotibtedStrength = "high";
+                            brebk;
+                        cbse MEDIUM_STRENGTH:
+                            negotibtedStrength = "medium";
+                            brebk;
+                        cbse LOW_STRENGTH:
+                            negotibtedStrength = "low";
+                            brebk;
                         }
 
                         return tokens[j];
@@ -558,39 +558,39 @@ final class DigestMD5Client extends DigestMD5Base implements SaslClient {
     }
 
     /**
-     * Returns digest-response suitable for an initial authentication.
+     * Returns digest-response suitbble for bn initibl buthenticbtion.
      *
-     * The following are qdstr-val (quoted string values) as per RFC 2831,
-     * which means that any embedded quotes must be escaped.
-     *    realm-value
-     *    nonce-value
-     *    username-value
-     *    cnonce-value
-     *    authzid-value
-     * @returns <tt>digest-response</tt> in a byte array
-     * @throws SaslException if there is an error generating the
-     * response value or the cnonce value.
+     * The following bre qdstr-vbl (quoted string vblues) bs per RFC 2831,
+     * which mebns thbt bny embedded quotes must be escbped.
+     *    reblm-vblue
+     *    nonce-vblue
+     *    usernbme-vblue
+     *    cnonce-vblue
+     *    buthzid-vblue
+     * @returns <tt>digest-response</tt> in b byte brrby
+     * @throws SbslException if there is bn error generbting the
+     * response vblue or the cnonce vblue.
      */
-    private byte[] generateClientResponse(byte[] charset) throws IOException {
+    privbte byte[] generbteClientResponse(byte[] chbrset) throws IOException {
 
-        ByteArrayOutputStream digestResp = new ByteArrayOutputStream();
+        ByteArrbyOutputStrebm digestResp = new ByteArrbyOutputStrebm();
 
         if (useUTF8) {
-            digestResp.write("charset=".getBytes(encoding));
-            digestResp.write(charset);
+            digestResp.write("chbrset=".getBytes(encoding));
+            digestResp.write(chbrset);
             digestResp.write(',');
         }
 
-        digestResp.write(("username=\"" +
-            quotedStringValue(username) + "\",").getBytes(encoding));
+        digestResp.write(("usernbme=\"" +
+            quotedStringVblue(usernbme) + "\",").getBytes(encoding));
 
-        if (negotiatedRealm.length() > 0) {
-            digestResp.write(("realm=\"" +
-                quotedStringValue(negotiatedRealm) + "\",").getBytes(encoding));
+        if (negotibtedReblm.length() > 0) {
+            digestResp.write(("reblm=\"" +
+                quotedStringVblue(negotibtedReblm) + "\",").getBytes(encoding));
         }
 
         digestResp.write("nonce=\"".getBytes(encoding));
-        writeQuotedStringValue(digestResp, nonce);
+        writeQuotedStringVblue(digestResp, nonce);
         digestResp.write('"');
         digestResp.write(',');
 
@@ -598,103 +598,103 @@ final class DigestMD5Client extends DigestMD5Base implements SaslClient {
         digestResp.write(("nc=" +
             nonceCountToHex(nonceCount) + ",").getBytes(encoding));
 
-        cnonce = generateNonce();
+        cnonce = generbteNonce();
         digestResp.write("cnonce=\"".getBytes(encoding));
-        writeQuotedStringValue(digestResp, cnonce);
+        writeQuotedStringVblue(digestResp, cnonce);
         digestResp.write("\",".getBytes(encoding));
         digestResp.write(("digest-uri=\"" + digestUri + "\",").getBytes(encoding));
 
-        digestResp.write("maxbuf=".getBytes(encoding));
-        digestResp.write(String.valueOf(recvMaxBufSize).getBytes(encoding));
+        digestResp.write("mbxbuf=".getBytes(encoding));
+        digestResp.write(String.vblueOf(recvMbxBufSize).getBytes(encoding));
         digestResp.write(',');
 
         try {
             digestResp.write("response=".getBytes(encoding));
-            digestResp.write(generateResponseValue("AUTHENTICATE",
-                digestUri, negotiatedQop, username,
-                negotiatedRealm, passwd, nonce, cnonce,
-                nonceCount, authzidBytes));
+            digestResp.write(generbteResponseVblue("AUTHENTICATE",
+                digestUri, negotibtedQop, usernbme,
+                negotibtedReblm, pbsswd, nonce, cnonce,
+                nonceCount, buthzidBytes));
             digestResp.write(',');
-        } catch (Exception e) {
-            throw new SaslException(
-                "DIGEST-MD5: Error generating response value", e);
+        } cbtch (Exception e) {
+            throw new SbslException(
+                "DIGEST-MD5: Error generbting response vblue", e);
         }
 
-        digestResp.write(("qop=" + negotiatedQop).getBytes(encoding));
+        digestResp.write(("qop=" + negotibtedQop).getBytes(encoding));
 
-        if (negotiatedCipher != null) {
-            digestResp.write((",cipher=\"" + negotiatedCipher + "\"").getBytes(encoding));
+        if (negotibtedCipher != null) {
+            digestResp.write((",cipher=\"" + negotibtedCipher + "\"").getBytes(encoding));
         }
 
-        if (authzidBytes != null) {
-            digestResp.write(",authzid=\"".getBytes(encoding));
-            writeQuotedStringValue(digestResp, authzidBytes);
+        if (buthzidBytes != null) {
+            digestResp.write(",buthzid=\"".getBytes(encoding));
+            writeQuotedStringVblue(digestResp, buthzidBytes);
             digestResp.write("\"".getBytes(encoding));
         }
 
         if (digestResp.size() > MAX_RESPONSE_LENGTH) {
-            throw new SaslException ("DIGEST-MD5: digest-response size too " +
-                "large. Length: "  + digestResp.size());
+            throw new SbslException ("DIGEST-MD5: digest-response size too " +
+                "lbrge. Length: "  + digestResp.size());
         }
-        return digestResp.toByteArray();
+        return digestResp.toByteArrby();
      }
 
 
     /**
      * From RFC 2831, Section 2.1.3: Step Three
-     * [Server] sends a message formatted as follows:
-     *     response-auth = "rspauth" "=" response-value
-     * where response-value is calculated as above, using the values sent in
-     * step two, except that if qop is "auth", then A2 is
+     * [Server] sends b messbge formbtted bs follows:
+     *     response-buth = "rspbuth" "=" response-vblue
+     * where response-vblue is cblculbted bs bbove, using the vblues sent in
+     * step two, except thbt if qop is "buth", then A2 is
      *
-     *  A2 = { ":", digest-uri-value }
+     *  A2 = { ":", digest-uri-vblue }
      *
-     * And if qop is "auth-int" or "auth-conf" then A2 is
+     * And if qop is "buth-int" or "buth-conf" then A2 is
      *
-     *  A2 = { ":", digest-uri-value, ":00000000000000000000000000000000" }
+     *  A2 = { ":", digest-uri-vblue, ":00000000000000000000000000000000" }
      */
-    private void validateResponseValue(byte[] fromServer) throws SaslException {
+    privbte void vblidbteResponseVblue(byte[] fromServer) throws SbslException {
         if (fromServer == null) {
-            throw new SaslException("DIGEST-MD5: Authenication failed. " +
-                "Expecting 'rspauth' authentication success message");
+            throw new SbslException("DIGEST-MD5: Authenicbtion fbiled. " +
+                "Expecting 'rspbuth' buthenticbtion success messbge");
         }
 
         try {
-            byte[] expected = generateResponseValue("",
-                digestUri, negotiatedQop, username, negotiatedRealm,
-                passwd, nonce, cnonce,  nonceCount, authzidBytes);
-            if (!Arrays.equals(expected, fromServer)) {
-                /* Server's rspauth value does not match */
-                throw new SaslException(
-                    "Server's rspauth value does not match what client expects");
+            byte[] expected = generbteResponseVblue("",
+                digestUri, negotibtedQop, usernbme, negotibtedReblm,
+                pbsswd, nonce, cnonce,  nonceCount, buthzidBytes);
+            if (!Arrbys.equbls(expected, fromServer)) {
+                /* Server's rspbuth vblue does not mbtch */
+                throw new SbslException(
+                    "Server's rspbuth vblue does not mbtch whbt client expects");
             }
-        } catch (NoSuchAlgorithmException e) {
-            throw new SaslException(
-                "Problem generating response value for verification", e);
-        } catch (IOException e) {
-            throw new SaslException(
-                "Problem generating response value for verification", e);
+        } cbtch (NoSuchAlgorithmException e) {
+            throw new SbslException(
+                "Problem generbting response vblue for verificbtion", e);
+        } cbtch (IOException e) {
+            throw new SbslException(
+                "Problem generbting response vblue for verificbtion", e);
         }
     }
 
     /**
      * Returns the number of requests (including current request)
-     * that the client has sent in response to nonceValue.
-     * This is 1 the first time nonceValue is seen.
+     * thbt the client hbs sent in response to nonceVblue.
+     * This is 1 the first time nonceVblue is seen.
      *
-     * We don't cache nonce values seen, and we don't support subsequent
-     * authentication, so the value is always 1.
+     * We don't cbche nonce vblues seen, bnd we don't support subsequent
+     * buthenticbtion, so the vblue is blwbys 1.
      */
-    private static int getNonceCount(byte[] nonceValue) {
+    privbte stbtic int getNonceCount(byte[] nonceVblue) {
         return 1;
     }
 
-    private void clearPassword() {
-        if (passwd != null) {
-            for (int i = 0; i < passwd.length; i++) {
-                passwd[i] = 0;
+    privbte void clebrPbssword() {
+        if (pbsswd != null) {
+            for (int i = 0; i < pbsswd.length; i++) {
+                pbsswd[i] = 0;
             }
-            passwd = null;
+            pbsswd = null;
         }
     }
 }

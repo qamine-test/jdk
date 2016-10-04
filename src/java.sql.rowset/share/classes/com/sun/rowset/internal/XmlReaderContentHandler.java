@@ -1,508 +1,508 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.rowset.internal;
+pbckbge com.sun.rowset.internbl;
 
-import java.util.*;
+import jbvb.util.*;
 
-import org.xml.sax.*;
-import org.xml.sax.helpers.*;
+import org.xml.sbx.*;
+import org.xml.sbx.helpers.*;
 
-import java.sql.*;
-import javax.sql.*;
+import jbvb.sql.*;
+import jbvbx.sql.*;
 
-import javax.sql.rowset.*;
+import jbvbx.sql.rowset.*;
 import com.sun.rowset.*;
-import java.io.IOException;
-import java.text.MessageFormat;
+import jbvb.io.IOException;
+import jbvb.text.MessbgeFormbt;
 
 /**
- * The document handler that receives parse events that an XML parser sends while it
- * is parsing an XML document representing a <code>WebRowSet</code> object. The
- * parser sends strings to this <code>XmlReaderContentHandler</code> and then uses
- * these strings as arguments for the <code>XmlReaderContentHandler</code> methods
- * it invokes. The final goal of the SAX parser working with an
- * <code>XmlReaderContentHandler</code> object is to read an XML document that represents
- * a <code>RowSet</code> object.
+ * The document hbndler thbt receives pbrse events thbt bn XML pbrser sends while it
+ * is pbrsing bn XML document representing b <code>WebRowSet</code> object. The
+ * pbrser sends strings to this <code>XmlRebderContentHbndler</code> bnd then uses
+ * these strings bs brguments for the <code>XmlRebderContentHbndler</code> methods
+ * it invokes. The finbl gobl of the SAX pbrser working with bn
+ * <code>XmlRebderContentHbndler</code> object is to rebd bn XML document thbt represents
+ * b <code>RowSet</code> object.
  * <P>
- * A rowset consists of its properties, metadata, and data values. An XML document
- * representating a rowset includes the values in these three categories along with
- * appropriate XML tags to identify them.  It also includes a top-level XML tag for
- * the rowset and three section tags identifying the three categories of values.
+ * A rowset consists of its properties, metbdbtb, bnd dbtb vblues. An XML document
+ * representbting b rowset includes the vblues in these three cbtegories blong with
+ * bppropribte XML tbgs to identify them.  It blso includes b top-level XML tbg for
+ * the rowset bnd three section tbgs identifying the three cbtegories of vblues.
  * <P>
- * The tags in an XML document are hierarchical.
- * This means that the top-level tag, <code>RowSet</code>, is
- * followed by the three sections with appropriate tags, which are in turn each
- * followed by their constituent elements. For example, the <code>properties</code>
- * element will be followed by an element for each of the properties listed in
- * in this <code>XmlReaderContentHandler</code> object's <code>properties</code>
+ * The tbgs in bn XML document bre hierbrchicbl.
+ * This mebns thbt the top-level tbg, <code>RowSet</code>, is
+ * followed by the three sections with bppropribte tbgs, which bre in turn ebch
+ * followed by their constituent elements. For exbmple, the <code>properties</code>
+ * element will be followed by bn element for ebch of the properties listed in
+ * in this <code>XmlRebderContentHbndler</code> object's <code>properties</code>
  * field.  The content of the other two fields, <code>colDef</code>, which lists
- * the rowset's metadata elements, and <code>data</code>, which lists the rowset's data
- * elements, are handled similarly .
+ * the rowset's metbdbtb elements, bnd <code>dbtb</code>, which lists the rowset's dbtb
+ * elements, bre hbndled similbrly .
  * <P>
- * This implementation of <code>XmlReaderContentHandler</code> provides the means for the
- * parser to determine which elements need to have a value set and then to set
- * those values. The methods in this class are all called by the parser; an
- * application programmer never calls them directly.
+ * This implementbtion of <code>XmlRebderContentHbndler</code> provides the mebns for the
+ * pbrser to determine which elements need to hbve b vblue set bnd then to set
+ * those vblues. The methods in this clbss bre bll cblled by the pbrser; bn
+ * bpplicbtion progrbmmer never cblls them directly.
  *
  */
 
-public class XmlReaderContentHandler extends DefaultHandler {
+public clbss XmlRebderContentHbndler extends DefbultHbndler {
 
-    private HashMap <String, Integer> propMap;
-    private HashMap <String, Integer> colDefMap;
-    private HashMap <String, Integer> dataMap;
+    privbte HbshMbp <String, Integer> propMbp;
+    privbte HbshMbp <String, Integer> colDefMbp;
+    privbte HbshMbp <String, Integer> dbtbMbp;
 
-    private HashMap<String,Class<?>> typeMap;
+    privbte HbshMbp<String,Clbss<?>> typeMbp;
 
-    private Vector<Object[]> updates;
-    private Vector<String> keyCols;
+    privbte Vector<Object[]> updbtes;
+    privbte Vector<String> keyCols;
 
-    private String columnValue;
-    private String propertyValue;
-    private String metaDataValue;
+    privbte String columnVblue;
+    privbte String propertyVblue;
+    privbte String metbDbtbVblue;
 
-    private int tag;
-    private int state;
+    privbte int tbg;
+    privbte int stbte;
 
-    private WebRowSetImpl rs;
-    private boolean nullVal;
-    private boolean emptyStringVal;
-    private RowSetMetaData md;
-    private int idx;
-    private String lastval;
-    private String Key_map;
-    private String Value_map;
-    private String tempStr;
-    private String tempUpdate;
-    private String tempCommand;
-    private Object [] upd;
+    privbte WebRowSetImpl rs;
+    privbte boolebn nullVbl;
+    privbte boolebn emptyStringVbl;
+    privbte RowSetMetbDbtb md;
+    privbte int idx;
+    privbte String lbstvbl;
+    privbte String Key_mbp;
+    privbte String Vblue_mbp;
+    privbte String tempStr;
+    privbte String tempUpdbte;
+    privbte String tempCommbnd;
+    privbte Object [] upd;
 
     /**
-     * A list of the properties for a rowset. There is a constant defined to
-     * correspond to each of these properties so that a <code>HashMap</code>
-     * object can be created to map the properties, which are strings, to
-     * the constants, which are integers.
+     * A list of the properties for b rowset. There is b constbnt defined to
+     * correspond to ebch of these properties so thbt b <code>HbshMbp</code>
+     * object cbn be crebted to mbp the properties, which bre strings, to
+     * the constbnts, which bre integers.
      */
-    private String [] properties = {"command", "concurrency", "datasource",
-                            "escape-processing", "fetch-direction", "fetch-size",
-                            "isolation-level", "key-columns", "map",
-                            "max-field-size", "max-rows", "query-timeout",
-                            "read-only", "rowset-type", "show-deleted",
-                            "table-name", "url", "null", "column", "type",
-                            "class", "sync-provider", "sync-provider-name",
+    privbte String [] properties = {"commbnd", "concurrency", "dbtbsource",
+                            "escbpe-processing", "fetch-direction", "fetch-size",
+                            "isolbtion-level", "key-columns", "mbp",
+                            "mbx-field-size", "mbx-rows", "query-timeout",
+                            "rebd-only", "rowset-type", "show-deleted",
+                            "tbble-nbme", "url", "null", "column", "type",
+                            "clbss", "sync-provider", "sync-provider-nbme",
                              "sync-provider-vendor", "sync-provider-version",
-                             "sync-provider-grade","data-source-lock"};
+                             "sync-provider-grbde","dbtb-source-lock"};
 
     /**
-     * A constant representing the tag for the command property.
+     * A constbnt representing the tbg for the commbnd property.
      */
-    private final static int CommandTag = 0;
+    privbte finbl stbtic int CommbndTbg = 0;
 
     /**
-     * A constant representing the tag for the concurrency property.
+     * A constbnt representing the tbg for the concurrency property.
      */
-    private final static int ConcurrencyTag = 1;
+    privbte finbl stbtic int ConcurrencyTbg = 1;
 
     /**
-     * A constant representing the tag for the datasource property.
+     * A constbnt representing the tbg for the dbtbsource property.
      */
-    private final static int DatasourceTag = 2;
+    privbte finbl stbtic int DbtbsourceTbg = 2;
 
     /**
-     * A constant representing the tag for the escape-processing property.
+     * A constbnt representing the tbg for the escbpe-processing property.
      */
-    private final static int EscapeProcessingTag = 3;
+    privbte finbl stbtic int EscbpeProcessingTbg = 3;
 
     /**
-     * A constant representing the tag for the fetch-direction property.
+     * A constbnt representing the tbg for the fetch-direction property.
      */
-    private final static int FetchDirectionTag = 4;
+    privbte finbl stbtic int FetchDirectionTbg = 4;
 
     /**
-     * A constant representing the tag for the fetch-size property.
+     * A constbnt representing the tbg for the fetch-size property.
      */
-    private final static int FetchSizeTag = 5;
+    privbte finbl stbtic int FetchSizeTbg = 5;
 
     /**
-     * A constant representing the tag for the isolation-level property
+     * A constbnt representing the tbg for the isolbtion-level property
      */
-    private final static int IsolationLevelTag = 6;
+    privbte finbl stbtic int IsolbtionLevelTbg = 6;
 
     /**
-     * A constant representing the tag for the key-columns property.
+     * A constbnt representing the tbg for the key-columns property.
      */
-    private final static int KeycolsTag = 7;
+    privbte finbl stbtic int KeycolsTbg = 7;
 
     /**
-     * A constant representing the tag for the map property.
-     * This map is the type map that specifies the custom mapping
-     * for an SQL user-defined type.
+     * A constbnt representing the tbg for the mbp property.
+     * This mbp is the type mbp thbt specifies the custom mbpping
+     * for bn SQL user-defined type.
      */
-    private final static int MapTag = 8;
+    privbte finbl stbtic int MbpTbg = 8;
 
     /**
-     * A constant representing the tag for the max-field-size property.
+     * A constbnt representing the tbg for the mbx-field-size property.
      */
-    private final static int MaxFieldSizeTag = 9;
+    privbte finbl stbtic int MbxFieldSizeTbg = 9;
 
     /**
-     * A constant representing the tag for the max-rows property.
+     * A constbnt representing the tbg for the mbx-rows property.
      */
-    private final static int MaxRowsTag = 10;
+    privbte finbl stbtic int MbxRowsTbg = 10;
 
     /**
-     * A constant representing the tag for the query-timeout property.
+     * A constbnt representing the tbg for the query-timeout property.
      */
-    private final static int QueryTimeoutTag = 11;
+    privbte finbl stbtic int QueryTimeoutTbg = 11;
 
     /**
-     * A constant representing the tag for the read-only property.
+     * A constbnt representing the tbg for the rebd-only property.
      */
-    private final static int ReadOnlyTag = 12;
+    privbte finbl stbtic int RebdOnlyTbg = 12;
 
     /**
-     * A constant representing the tag for the rowset-type property.
+     * A constbnt representing the tbg for the rowset-type property.
      */
-    private final static int RowsetTypeTag = 13;
+    privbte finbl stbtic int RowsetTypeTbg = 13;
 
     /**
-     * A constant representing the tag for the show-deleted property.
+     * A constbnt representing the tbg for the show-deleted property.
      */
-    private final static int ShowDeletedTag = 14;
+    privbte finbl stbtic int ShowDeletedTbg = 14;
 
     /**
-     * A constant representing the tag for the table-name property.
+     * A constbnt representing the tbg for the tbble-nbme property.
      */
-    private final static int TableNameTag = 15;
+    privbte finbl stbtic int TbbleNbmeTbg = 15;
 
     /**
-     * A constant representing the tag for the URL property.
+     * A constbnt representing the tbg for the URL property.
      */
-    private final static int UrlTag = 16;
+    privbte finbl stbtic int UrlTbg = 16;
 
     /**
-     * A constant representing the tag for the null property.
+     * A constbnt representing the tbg for the null property.
      */
-    private final static int PropNullTag = 17;
+    privbte finbl stbtic int PropNullTbg = 17;
 
     /**
-     * A constant representing the tag for the column property.
+     * A constbnt representing the tbg for the column property.
      */
-    private final static int PropColumnTag = 18;
+    privbte finbl stbtic int PropColumnTbg = 18;
 
     /**
-     * A constant representing the tag for the type property.
+     * A constbnt representing the tbg for the type property.
      */
-    private final static int PropTypeTag = 19;
+    privbte finbl stbtic int PropTypeTbg = 19;
 
     /**
-     * A constant representing the tag for the class property.
+     * A constbnt representing the tbg for the clbss property.
      */
-    private final static int PropClassTag = 20;
+    privbte finbl stbtic int PropClbssTbg = 20;
 
     /**
-     * A constant representing the tag for the sync-provider.
+     * A constbnt representing the tbg for the sync-provider.
      */
-    private final static int SyncProviderTag = 21;
+    privbte finbl stbtic int SyncProviderTbg = 21;
 
     /**
-     * A constant representing the tag for the sync-provider
-     * name
+     * A constbnt representing the tbg for the sync-provider
+     * nbme
      */
-    private final static int SyncProviderNameTag = 22;
+    privbte finbl stbtic int SyncProviderNbmeTbg = 22;
 
     /**
-     * A constant representing the tag for the sync-provider
-     * vendor tag.
+     * A constbnt representing the tbg for the sync-provider
+     * vendor tbg.
      */
-    private final static int SyncProviderVendorTag = 23;
+    privbte finbl stbtic int SyncProviderVendorTbg = 23;
 
     /**
-     * A constant representing the tag for the sync-provider
-     * version tag.
+     * A constbnt representing the tbg for the sync-provider
+     * version tbg.
      */
-    private final static int SyncProviderVersionTag = 24;
+    privbte finbl stbtic int SyncProviderVersionTbg = 24;
 
     /**
-     * A constant representing the tag for the sync-provider
-     * grade tag.
+     * A constbnt representing the tbg for the sync-provider
+     * grbde tbg.
      */
-    private final static int SyncProviderGradeTag = 25;
+    privbte finbl stbtic int SyncProviderGrbdeTbg = 25;
 
     /**
-     * A constant representing the tag for the data source lock.
+     * A constbnt representing the tbg for the dbtb source lock.
      */
-    private final static int DataSourceLock = 26;
+    privbte finbl stbtic int DbtbSourceLock = 26;
 
     /**
-     * A listing of the kinds of metadata information available about
-     * the columns in a <code>WebRowSet</code> object.
+     * A listing of the kinds of metbdbtb informbtion bvbilbble bbout
+     * the columns in b <code>WebRowSet</code> object.
      */
-    private String [] colDef = {"column-count", "column-definition", "column-index",
-                        "auto-increment", "case-sensitive", "currency",
-                        "nullable", "signed", "searchable",
-                        "column-display-size", "column-label", "column-name",
-                        "schema-name", "column-precision", "column-scale",
-                        "table-name", "catalog-name", "column-type",
-                        "column-type-name", "null"};
+    privbte String [] colDef = {"column-count", "column-definition", "column-index",
+                        "buto-increment", "cbse-sensitive", "currency",
+                        "nullbble", "signed", "sebrchbble",
+                        "column-displby-size", "column-lbbel", "column-nbme",
+                        "schemb-nbme", "column-precision", "column-scble",
+                        "tbble-nbme", "cbtblog-nbme", "column-type",
+                        "column-type-nbme", "null"};
 
 
     /**
-     * A constant representing the tag for column-count.
+     * A constbnt representing the tbg for column-count.
      */
-    private final static int ColumnCountTag = 0;
+    privbte finbl stbtic int ColumnCountTbg = 0;
 
     /**
-     * A constant representing the tag for column-definition.
+     * A constbnt representing the tbg for column-definition.
      */
-    private final static int ColumnDefinitionTag = 1;
+    privbte finbl stbtic int ColumnDefinitionTbg = 1;
 
     /**
-     * A constant representing the tag for column-index.
+     * A constbnt representing the tbg for column-index.
      */
-    private final static int ColumnIndexTag = 2;
+    privbte finbl stbtic int ColumnIndexTbg = 2;
 
     /**
-     * A constant representing the tag for auto-increment.
+     * A constbnt representing the tbg for buto-increment.
      */
-    private final static int AutoIncrementTag = 3;
+    privbte finbl stbtic int AutoIncrementTbg = 3;
 
     /**
-     * A constant representing the tag for case-sensitive.
+     * A constbnt representing the tbg for cbse-sensitive.
      */
-    private final static int CaseSensitiveTag = 4;
+    privbte finbl stbtic int CbseSensitiveTbg = 4;
 
     /**
-     * A constant representing the tag for currency.
+     * A constbnt representing the tbg for currency.
      */
-    private final static int CurrencyTag = 5;
+    privbte finbl stbtic int CurrencyTbg = 5;
 
     /**
-     * A constant representing the tag for nullable.
+     * A constbnt representing the tbg for nullbble.
      */
-    private final static int NullableTag = 6;
+    privbte finbl stbtic int NullbbleTbg = 6;
 
     /**
-     * A constant representing the tag for signed.
+     * A constbnt representing the tbg for signed.
      */
-    private final static int SignedTag = 7;
+    privbte finbl stbtic int SignedTbg = 7;
 
     /**
-     * A constant representing the tag for searchable.
+     * A constbnt representing the tbg for sebrchbble.
      */
-    private final static int SearchableTag = 8;
+    privbte finbl stbtic int SebrchbbleTbg = 8;
 
     /**
-     * A constant representing the tag for column-display-size.
+     * A constbnt representing the tbg for column-displby-size.
      */
-    private final static int ColumnDisplaySizeTag = 9;
+    privbte finbl stbtic int ColumnDisplbySizeTbg = 9;
 
     /**
-     * A constant representing the tag for column-label.
+     * A constbnt representing the tbg for column-lbbel.
      */
-    private final static int ColumnLabelTag = 10;
+    privbte finbl stbtic int ColumnLbbelTbg = 10;
 
     /**
-     * A constant representing the tag for column-name.
+     * A constbnt representing the tbg for column-nbme.
      */
-    private final static int ColumnNameTag = 11;
+    privbte finbl stbtic int ColumnNbmeTbg = 11;
 
     /**
-     * A constant representing the tag for schema-name.
+     * A constbnt representing the tbg for schemb-nbme.
      */
-    private final static int SchemaNameTag = 12;
+    privbte finbl stbtic int SchembNbmeTbg = 12;
 
     /**
-     * A constant representing the tag for column-precision.
+     * A constbnt representing the tbg for column-precision.
      */
-    private final static int ColumnPrecisionTag = 13;
+    privbte finbl stbtic int ColumnPrecisionTbg = 13;
 
     /**
-     * A constant representing the tag for column-scale.
+     * A constbnt representing the tbg for column-scble.
      */
-    private final static int ColumnScaleTag = 14;
+    privbte finbl stbtic int ColumnScbleTbg = 14;
 
     /**
-     * A constant representing the tag for table-name.
+     * A constbnt representing the tbg for tbble-nbme.
      */
-    private final static int MetaTableNameTag = 15;
+    privbte finbl stbtic int MetbTbbleNbmeTbg = 15;
 
     /**
-     * A constant representing the tag for catalog-name.
+     * A constbnt representing the tbg for cbtblog-nbme.
      */
-    private final static int CatalogNameTag = 16;
+    privbte finbl stbtic int CbtblogNbmeTbg = 16;
 
     /**
-     * A constant representing the tag for column-type.
+     * A constbnt representing the tbg for column-type.
      */
-    private final static int ColumnTypeTag = 17;
+    privbte finbl stbtic int ColumnTypeTbg = 17;
 
     /**
-     * A constant representing the tag for column-type-name.
+     * A constbnt representing the tbg for column-type-nbme.
      */
-    private final static int ColumnTypeNameTag = 18;
+    privbte finbl stbtic int ColumnTypeNbmeTbg = 18;
 
     /**
-     * A constant representing the tag for null.
+     * A constbnt representing the tbg for null.
      */
-    private final static int MetaNullTag = 19;
+    privbte finbl stbtic int MetbNullTbg = 19;
 
-    private String [] data = {"currentRow", "columnValue", "insertRow", "deleteRow", "insdel", "updateRow", "null" , "emptyString"};
+    privbte String [] dbtb = {"currentRow", "columnVblue", "insertRow", "deleteRow", "insdel", "updbteRow", "null" , "emptyString"};
 
-    private final static int RowTag = 0;
-    private final static int ColTag = 1;
-    private final static int InsTag = 2;
-    private final static int DelTag = 3;
-    private final static int InsDelTag = 4;
-    private final static int UpdTag = 5;
-    private final static int NullTag = 6;
-    private final static int EmptyStringTag = 7;
+    privbte finbl stbtic int RowTbg = 0;
+    privbte finbl stbtic int ColTbg = 1;
+    privbte finbl stbtic int InsTbg = 2;
+    privbte finbl stbtic int DelTbg = 3;
+    privbte finbl stbtic int InsDelTbg = 4;
+    privbte finbl stbtic int UpdTbg = 5;
+    privbte finbl stbtic int NullTbg = 6;
+    privbte finbl stbtic int EmptyStringTbg = 7;
 
     /**
-     * A constant indicating the state of this <code>XmlReaderContentHandler</code>
-     * object in which it has not yet been called by the SAX parser and therefore
-     * has no indication of what type of input to expect from the parser next.
+     * A constbnt indicbting the stbte of this <code>XmlRebderContentHbndler</code>
+     * object in which it hbs not yet been cblled by the SAX pbrser bnd therefore
+     * hbs no indicbtion of whbt type of input to expect from the pbrser next.
      * <P>
-     * The state is set to <code>INITIAL</code> at the end of each
-     * section, which allows the sections to appear in any order and
-     * still be parsed correctly (except that metadata must be
-     * set before data values can be set).
+     * The stbte is set to <code>INITIAL</code> bt the end of ebch
+     * section, which bllows the sections to bppebr in bny order bnd
+     * still be pbrsed correctly (except thbt metbdbtb must be
+     * set before dbtb vblues cbn be set).
      */
-    private final static int INITIAL = 0;
+    privbte finbl stbtic int INITIAL = 0;
 
     /**
-     * A constant indicating the state in which this <code>XmlReaderContentHandler</code>
+     * A constbnt indicbting the stbte in which this <code>XmlRebderContentHbndler</code>
      * object expects the next input received from the
-     * SAX parser to be a string corresponding to one of the elements in
+     * SAX pbrser to be b string corresponding to one of the elements in
      * <code>properties</code>.
      */
-    private final static int PROPERTIES = 1;
+    privbte finbl stbtic int PROPERTIES = 1;
 
     /**
-     * A constant indicating the state in which this <code>XmlReaderContentHandler</code>
+     * A constbnt indicbting the stbte in which this <code>XmlRebderContentHbndler</code>
      * object expects the next input received from the
-     * SAX parser to be a string corresponding to one of the elements in
+     * SAX pbrser to be b string corresponding to one of the elements in
      * <code>colDef</code>.
      */
-    private final static int METADATA = 2;
+    privbte finbl stbtic int METADATA = 2;
 
     /**
-     * A constant indicating the state in which this <code>XmlReaderContentHandler</code>
+     * A constbnt indicbting the stbte in which this <code>XmlRebderContentHbndler</code>
      * object expects the next input received from the
-     * SAX parser to be a string corresponding to one of the elements in
-     * <code>data</code>.
+     * SAX pbrser to be b string corresponding to one of the elements in
+     * <code>dbtb</code>.
      */
-    private final static int DATA = 3;
+    privbte finbl stbtic int DATA = 3;
 
-    private  JdbcRowSetResourceBundle resBundle;
+    privbte  JdbcRowSetResourceBundle resBundle;
 
     /**
-     * Constructs a new <code>XmlReaderContentHandler</code> object that will
-     * assist the SAX parser in reading a <code>WebRowSet</code> object in the
-     * format of an XML document. In addition to setting some default values,
-     * this constructor creates three <code>HashMap</code> objects, one for
-     * properties, one for metadata, and one for data.  These hash maps map the
-     * strings sent by the SAX parser to integer constants so that they can be
-     * compared more efficiently in <code>switch</code> statements.
+     * Constructs b new <code>XmlRebderContentHbndler</code> object thbt will
+     * bssist the SAX pbrser in rebding b <code>WebRowSet</code> object in the
+     * formbt of bn XML document. In bddition to setting some defbult vblues,
+     * this constructor crebtes three <code>HbshMbp</code> objects, one for
+     * properties, one for metbdbtb, bnd one for dbtb.  These hbsh mbps mbp the
+     * strings sent by the SAX pbrser to integer constbnts so thbt they cbn be
+     * compbred more efficiently in <code>switch</code> stbtements.
      *
-     * @param r the <code>RowSet</code> object in XML format that will be read
+     * @pbrbm r the <code>RowSet</code> object in XML formbt thbt will be rebd
      */
-    public XmlReaderContentHandler(RowSet r) {
+    public XmlRebderContentHbndler(RowSet r) {
         // keep the rowset we've been given
         rs = (WebRowSetImpl)r;
 
-        // set-up the token maps
-        initMaps();
+        // set-up the token mbps
+        initMbps();
 
-        // allocate the collection for the updates
-        updates = new Vector<>();
+        // bllocbte the collection for the updbtes
+        updbtes = new Vector<>();
 
-        // start out with the empty string
-        columnValue = "";
-        propertyValue = "";
-        metaDataValue = "";
+        // stbrt out with the empty string
+        columnVblue = "";
+        propertyVblue = "";
+        metbDbtbVblue = "";
 
-        nullVal = false;
+        nullVbl = fblse;
         idx = 0;
         tempStr = "";
-        tempUpdate = "";
-        tempCommand = "";
+        tempUpdbte = "";
+        tempCommbnd = "";
 
         try {
            resBundle = JdbcRowSetResourceBundle.getJdbcRowSetResourceBundle();
-        } catch(IOException ioe) {
+        } cbtch(IOException ioe) {
             throw new RuntimeException(ioe);
         }
     }
 
     /**
-     * Creates and initializes three new <code>HashMap</code> objects that map
-     * the strings returned by the SAX parser to <code>Integer</code>
-     * objects.  The strings returned by the parser will match the strings that
-     * are array elements in this <code>XmlReaderContentHandler</code> object's
-     * <code>properties</code>, <code>colDef</code>, or <code>data</code>
-     * fields. For each array element in these fields, there is a corresponding
-     * constant defined. It is to these constants that the strings are mapped.
-     * In the <code>HashMap</code> objects, the string is the key, and the
-     * integer is the value.
+     * Crebtes bnd initiblizes three new <code>HbshMbp</code> objects thbt mbp
+     * the strings returned by the SAX pbrser to <code>Integer</code>
+     * objects.  The strings returned by the pbrser will mbtch the strings thbt
+     * bre brrby elements in this <code>XmlRebderContentHbndler</code> object's
+     * <code>properties</code>, <code>colDef</code>, or <code>dbtb</code>
+     * fields. For ebch brrby element in these fields, there is b corresponding
+     * constbnt defined. It is to these constbnts thbt the strings bre mbpped.
+     * In the <code>HbshMbp</code> objects, the string is the key, bnd the
+     * integer is the vblue.
      * <P>
-     * The purpose of the mapping is to make comparisons faster.  Because comparing
-     * numbers is more efficient than comparing strings, the strings returned
-     * by the parser are mapped to integers, which can then be used in a
-     * <code>switch</code> statement.
+     * The purpose of the mbpping is to mbke compbrisons fbster.  Becbuse compbring
+     * numbers is more efficient thbn compbring strings, the strings returned
+     * by the pbrser bre mbpped to integers, which cbn then be used in b
+     * <code>switch</code> stbtement.
      */
-    private void initMaps() {
+    privbte void initMbps() {
         int items, i;
 
-        propMap = new HashMap<>();
+        propMbp = new HbshMbp<>();
         items = properties.length;
 
         for (i=0;i<items;i++) {
-            propMap.put(properties[i], Integer.valueOf(i));
+            propMbp.put(properties[i], Integer.vblueOf(i));
         }
 
-        colDefMap = new HashMap<>();
+        colDefMbp = new HbshMbp<>();
         items = colDef.length;
 
         for (i=0;i<items;i++) {
-            colDefMap.put(colDef[i], Integer.valueOf(i));
+            colDefMbp.put(colDef[i], Integer.vblueOf(i));
         }
 
-        dataMap = new HashMap<>();
-        items = data.length;
+        dbtbMbp = new HbshMbp<>();
+        items = dbtb.length;
 
         for (i=0;i<items;i++) {
-            dataMap.put(data[i], Integer.valueOf(i));
+            dbtbMbp.put(dbtb[i], Integer.vblueOf(i));
         }
 
-        //Initialize connection map here
-        typeMap = new HashMap<>();
+        //Initiblize connection mbp here
+        typeMbp = new HbshMbp<>();
     }
 
-    public void startDocument() throws SAXException {
+    public void stbrtDocument() throws SAXException {
     }
 
     public void endDocument() throws SAXException {
@@ -510,941 +510,941 @@ public class XmlReaderContentHandler extends DefaultHandler {
 
 
     /**
-     * Sets this <code>XmlReaderContentHandler</code> object's <code>tag</code>
-     * field if the given name is the key for a tag and this object's state
+     * Sets this <code>XmlRebderContentHbndler</code> object's <code>tbg</code>
+     * field if the given nbme is the key for b tbg bnd this object's stbte
      * is not <code>INITIAL</code>.  The field is set
-     * to the constant that corresponds to the given element name.
-     * If the state is <code>INITIAL</code>, the state is set to the given
-     * name, which will be one of the sections <code>PROPERTIES</code>,
-     * <code>METADATA</code>, or <code>DATA</code>.  In either case, this
-     * method puts this document handler in the proper state for calling
+     * to the constbnt thbt corresponds to the given element nbme.
+     * If the stbte is <code>INITIAL</code>, the stbte is set to the given
+     * nbme, which will be one of the sections <code>PROPERTIES</code>,
+     * <code>METADATA</code>, or <code>DATA</code>.  In either cbse, this
+     * method puts this document hbndler in the proper stbte for cblling
      * the method <code>endElement</code>.
      * <P>
-     * If the state is <code>DATA</code> and the tag is <code>RowTag</code>,
-     * <code>DelTag</code>, or <code>InsTag</code>, this method moves the
-     * rowset's cursor to the insert row and sets this
-     * <code>XmlReaderContentHandler</code> object's <code>idx</code>
-     * field to <code>0</code> so that it will be in the proper
-     * state when the parser calls the method <code>endElement</code>.
+     * If the stbte is <code>DATA</code> bnd the tbg is <code>RowTbg</code>,
+     * <code>DelTbg</code>, or <code>InsTbg</code>, this method moves the
+     * rowset's cursor to the insert row bnd sets this
+     * <code>XmlRebderContentHbndler</code> object's <code>idx</code>
+     * field to <code>0</code> so thbt it will be in the proper
+     * stbte when the pbrser cblls the method <code>endElement</code>.
      *
-     * @param lName the name of the element; either (1) one of the array
+     * @pbrbm lNbme the nbme of the element; either (1) one of the brrby
      *        elements in the fields <code>properties</code>,
-     *        <code>colDef</code>, or <code>data</code> or
+     *        <code>colDef</code>, or <code>dbtb</code> or
      *        (2) one of the <code>RowSet</code> elements
-     *        <code>"properties"</code>, <code>"metadata"</code>, or
-     *        <code>"data"</code>
-     * @param attributes <code>org.xml.sax.AttributeList</code> objects that are
-     *             attributes of the named section element; may be <code>null</code>
-     *             if there are no attributes, which is the case for
+     *        <code>"properties"</code>, <code>"metbdbtb"</code>, or
+     *        <code>"dbtb"</code>
+     * @pbrbm bttributes <code>org.xml.sbx.AttributeList</code> objects thbt bre
+     *             bttributes of the nbmed section element; mby be <code>null</code>
+     *             if there bre no bttributes, which is the cbse for
      *             <code>WebRowSet</code> objects
-     * @exception SAXException if a general SAX error occurs
+     * @exception SAXException if b generbl SAX error occurs
      */
-    public void startElement(String uri, String lName, String qName, Attributes attributes) throws SAXException {
-        int tag;
-        String name = "";
+    public void stbrtElement(String uri, String lNbme, String qNbme, Attributes bttributes) throws SAXException {
+        int tbg;
+        String nbme = "";
 
-        name = lName;
+        nbme = lNbme;
 
-        switch (getState()) {
-        case PROPERTIES:
+        switch (getStbte()) {
+        cbse PROPERTIES:
 
-            tempCommand = "";
-            tag = propMap.get(name);
-            if (tag == PropNullTag)
-               setNullValue(true);
+            tempCommbnd = "";
+            tbg = propMbp.get(nbme);
+            if (tbg == PropNullTbg)
+               setNullVblue(true);
             else
-                setTag(tag);
-            break;
-        case METADATA:
-            tag = colDefMap.get(name);
+                setTbg(tbg);
+            brebk;
+        cbse METADATA:
+            tbg = colDefMbp.get(nbme);
 
-            if (tag == MetaNullTag)
-                setNullValue(true);
+            if (tbg == MetbNullTbg)
+                setNullVblue(true);
             else
-                setTag(tag);
-            break;
-        case DATA:
+                setTbg(tbg);
+            brebk;
+        cbse DATA:
 
             /**
-              * This has been added to clear out the values of the previous read
-              * so that we should not add up values of data between different tags
+              * This hbs been bdded to clebr out the vblues of the previous rebd
+              * so thbt we should not bdd up vblues of dbtb between different tbgs
               */
             tempStr = "";
-            tempUpdate = "";
-            if(dataMap.get(name) == null) {
-                tag = NullTag;
-            } else if(dataMap.get(name) == EmptyStringTag) {
-                tag = EmptyStringTag;
+            tempUpdbte = "";
+            if(dbtbMbp.get(nbme) == null) {
+                tbg = NullTbg;
+            } else if(dbtbMbp.get(nbme) == EmptyStringTbg) {
+                tbg = EmptyStringTbg;
             } else {
-                 tag = dataMap.get(name);
+                 tbg = dbtbMbp.get(nbme);
             }
 
-            if (tag == NullTag) {
-                setNullValue(true);
-            } else if(tag == EmptyStringTag) {
-                setEmptyStringValue(true);
+            if (tbg == NullTbg) {
+                setNullVblue(true);
+            } else if(tbg == EmptyStringTbg) {
+                setEmptyStringVblue(true);
             } else {
-                setTag(tag);
+                setTbg(tbg);
 
-                if (tag == RowTag || tag == DelTag || tag == InsTag) {
+                if (tbg == RowTbg || tbg == DelTbg || tbg == InsTbg) {
                     idx = 0;
                     try {
                         rs.moveToInsertRow();
-                    } catch (SQLException ex) {
+                    } cbtch (SQLException ex) {
                         ;
                     }
                 }
             }
 
-            break;
-        default:
-            setState(name);
+            brebk;
+        defbult:
+            setStbte(nbme);
         }
 
     }
 
     /**
-     * Sets the value for the given element if <code>name</code> is one of
-     * the array elements in the fields <code>properties</code>,
-     * <code>colDef</code>, or <code>data</code> and this
-     * <code>XmlReaderContentHandler</code> object's state is not
-     * <code>INITIAL</code>. If the state is <code>INITIAL</code>,
+     * Sets the vblue for the given element if <code>nbme</code> is one of
+     * the brrby elements in the fields <code>properties</code>,
+     * <code>colDef</code>, or <code>dbtb</code> bnd this
+     * <code>XmlRebderContentHbndler</code> object's stbte is not
+     * <code>INITIAL</code>. If the stbte is <code>INITIAL</code>,
      * this method does nothing.
      * <P>
-     * If the state is <code>METADATA</code> and
-     * the argument supplied is <code>"metadata"</code>, the rowset's
-     * metadata is set. If the state is <code>PROPERTIES</code>, the
-     * appropriate property is set using the given name to determine
-     * the appropriate value. If the state is <code>DATA</code> and
-     * the argument supplied is <code>"data"</code>, this method sets
-     * the state to <code>INITIAL</code> and returns.  If the argument
-     * supplied is one of the elements in the field <code>data</code>,
-     * this method makes the appropriate changes to the rowset's data.
+     * If the stbte is <code>METADATA</code> bnd
+     * the brgument supplied is <code>"metbdbtb"</code>, the rowset's
+     * metbdbtb is set. If the stbte is <code>PROPERTIES</code>, the
+     * bppropribte property is set using the given nbme to determine
+     * the bppropribte vblue. If the stbte is <code>DATA</code> bnd
+     * the brgument supplied is <code>"dbtb"</code>, this method sets
+     * the stbte to <code>INITIAL</code> bnd returns.  If the brgument
+     * supplied is one of the elements in the field <code>dbtb</code>,
+     * this method mbkes the bppropribte chbnges to the rowset's dbtb.
      *
-     * @param lName the name of the element; either (1) one of the array
+     * @pbrbm lNbme the nbme of the element; either (1) one of the brrby
      *        elements in the fields <code>properties</code>,
-     *        <code>colDef</code>, or <code>data</code> or
+     *        <code>colDef</code>, or <code>dbtb</code> or
      *        (2) one of the <code>RowSet</code> elements
-     *        <code>"properties"</code>, <code>"metadata"</code>, or
-     *        <code>"data"</code>
+     *        <code>"properties"</code>, <code>"metbdbtb"</code>, or
+     *        <code>"dbtb"</code>
      *
-     * @exception SAXException if a general SAX error occurs
+     * @exception SAXException if b generbl SAX error occurs
      */
-    @SuppressWarnings("fallthrough")
-    public void endElement(String uri, String lName, String qName) throws SAXException {
-        int tag;
+    @SuppressWbrnings("fbllthrough")
+    public void endElement(String uri, String lNbme, String qNbme) throws SAXException {
+        int tbg;
 
-        String name = "";
-        name = lName;
+        String nbme = "";
+        nbme = lNbme;
 
-        switch (getState()) {
-        case PROPERTIES:
-            if (name.equals("properties")) {
-                state = INITIAL;
-                break;
+        switch (getStbte()) {
+        cbse PROPERTIES:
+            if (nbme.equbls("properties")) {
+                stbte = INITIAL;
+                brebk;
             }
 
             try {
-                tag = propMap.get(name);
-                switch (tag) {
-                case KeycolsTag:
+                tbg = propMbp.get(nbme);
+                switch (tbg) {
+                cbse KeycolsTbg:
                     if (keyCols != null) {
                         int i[] = new int[keyCols.size()];
                         for (int j = 0; j < i.length; j++)
-                            i[j] = Integer.parseInt(keyCols.elementAt(j));
+                            i[j] = Integer.pbrseInt(keyCols.elementAt(j));
                         rs.setKeyColumns(i);
                     }
-                    break;
+                    brebk;
 
-                 case PropClassTag:
-                     //Added the handling for Class tags to take care of maps
-                     //Makes an entry into the map upon end of class tag
+                 cbse PropClbssTbg:
+                     //Added the hbndling for Clbss tbgs to tbke cbre of mbps
+                     //Mbkes bn entry into the mbp upon end of clbss tbg
                      try{
-                          typeMap.put(Key_map,sun.reflect.misc.ReflectUtil.forName(Value_map));
+                          typeMbp.put(Key_mbp,sun.reflect.misc.ReflectUtil.forNbme(Vblue_mbp));
 
-                        }catch(ClassNotFoundException ex) {
-                          throw new SAXException(MessageFormat.format(resBundle.handleGetObject("xmlrch.errmap").toString(), ex.getMessage()));
+                        }cbtch(ClbssNotFoundException ex) {
+                          throw new SAXException(MessbgeFormbt.formbt(resBundle.hbndleGetObject("xmlrch.errmbp").toString(), ex.getMessbge()));
                         }
-                      break;
+                      brebk;
 
-                 case MapTag:
-                      //Added the handling for Map to take set the typeMap
-                      rs.setTypeMap(typeMap);
-                      break;
+                 cbse MbpTbg:
+                      //Added the hbndling for Mbp to tbke set the typeMbp
+                      rs.setTypeMbp(typeMbp);
+                      brebk;
 
-                default:
-                    break;
+                defbult:
+                    brebk;
                 }
 
-                if (getNullValue()) {
-                    setPropertyValue(null);
-                    setNullValue(false);
+                if (getNullVblue()) {
+                    setPropertyVblue(null);
+                    setNullVblue(fblse);
                 } else {
-                    setPropertyValue(propertyValue);
+                    setPropertyVblue(propertyVblue);
                 }
-            } catch (SQLException ex) {
-                throw new SAXException(ex.getMessage());
+            } cbtch (SQLException ex) {
+                throw new SAXException(ex.getMessbge());
             }
 
-            // propertyValue need to be reset to an empty string
-            propertyValue = "";
-            setTag(-1);
-            break;
-        case METADATA:
-            if (name.equals("metadata")) {
+            // propertyVblue need to be reset to bn empty string
+            propertyVblue = "";
+            setTbg(-1);
+            brebk;
+        cbse METADATA:
+            if (nbme.equbls("metbdbtb")) {
                 try {
-                    rs.setMetaData(md);
-                    state = INITIAL;
-                } catch (SQLException ex) {
-                    throw new SAXException(MessageFormat.format(resBundle.handleGetObject("xmlrch.errmetadata").toString(), ex.getMessage()));
+                    rs.setMetbDbtb(md);
+                    stbte = INITIAL;
+                } cbtch (SQLException ex) {
+                    throw new SAXException(MessbgeFormbt.formbt(resBundle.hbndleGetObject("xmlrch.errmetbdbtb").toString(), ex.getMessbge()));
                 }
             } else {
                 try {
-                    if (getNullValue()) {
-                        setMetaDataValue(null);
-                        setNullValue(false);
+                    if (getNullVblue()) {
+                        setMetbDbtbVblue(null);
+                        setNullVblue(fblse);
                     } else {
-                        setMetaDataValue(metaDataValue);
+                        setMetbDbtbVblue(metbDbtbVblue);
                     }
-                } catch (SQLException ex) {
-                    throw new SAXException(MessageFormat.format(resBundle.handleGetObject("xmlrch.errmetadata").toString(), ex.getMessage()));
+                } cbtch (SQLException ex) {
+                    throw new SAXException(MessbgeFormbt.formbt(resBundle.hbndleGetObject("xmlrch.errmetbdbtb").toString(), ex.getMessbge()));
 
                 }
-                // metaDataValue needs to be reset to an empty string
-                metaDataValue = "";
+                // metbDbtbVblue needs to be reset to bn empty string
+                metbDbtbVblue = "";
             }
-            setTag(-1);
-            break;
-        case DATA:
-            if (name.equals("data")) {
-                state = INITIAL;
+            setTbg(-1);
+            brebk;
+        cbse DATA:
+            if (nbme.equbls("dbtb")) {
+                stbte = INITIAL;
                 return;
             }
 
-            if(dataMap.get(name) == null) {
-                tag = NullTag;
+            if(dbtbMbp.get(nbme) == null) {
+                tbg = NullTbg;
             } else {
-                 tag = dataMap.get(name);
+                 tbg = dbtbMbp.get(nbme);
             }
-            switch (tag) {
-            case ColTag:
+            switch (tbg) {
+            cbse ColTbg:
                 try {
                     idx++;
-                    if (getNullValue()) {
-                        insertValue(null);
-                        setNullValue(false);
+                    if (getNullVblue()) {
+                        insertVblue(null);
+                        setNullVblue(fblse);
                     } else {
-                        insertValue(tempStr);
+                        insertVblue(tempStr);
                     }
-                    // columnValue now need to be reset to the empty string
-                    columnValue = "";
-                } catch (SQLException ex) {
-                    throw new SAXException(MessageFormat.format(resBundle.handleGetObject("xmlrch.errinsertval").toString(), ex.getMessage()));
+                    // columnVblue now need to be reset to the empty string
+                    columnVblue = "";
+                } cbtch (SQLException ex) {
+                    throw new SAXException(MessbgeFormbt.formbt(resBundle.hbndleGetObject("xmlrch.errinsertvbl").toString(), ex.getMessbge()));
                 }
-                break;
-            case RowTag:
+                brebk;
+            cbse RowTbg:
                 try {
                     rs.insertRow();
                     rs.moveToCurrentRow();
                     rs.next();
 
-                    // Making this as the original to turn off the
-                    // rowInserted flagging
-                    rs.setOriginalRow();
+                    // Mbking this bs the originbl to turn off the
+                    // rowInserted flbgging
+                    rs.setOriginblRow();
 
-                    applyUpdates();
-                } catch (SQLException ex) {
-                    throw new SAXException(MessageFormat.format(resBundle.handleGetObject("xmlrch.errconstr").toString(), ex.getMessage()));
+                    bpplyUpdbtes();
+                } cbtch (SQLException ex) {
+                    throw new SAXException(MessbgeFormbt.formbt(resBundle.hbndleGetObject("xmlrch.errconstr").toString(), ex.getMessbge()));
                 }
-                break;
-            case DelTag:
+                brebk;
+            cbse DelTbg:
                 try {
                     rs.insertRow();
                     rs.moveToCurrentRow();
                     rs.next();
-                    rs.setOriginalRow();
-                    applyUpdates();
+                    rs.setOriginblRow();
+                    bpplyUpdbtes();
                     rs.deleteRow();
-                } catch (SQLException ex) {
-                    throw new SAXException(MessageFormat.format(resBundle.handleGetObject("xmlrch.errdel").toString() , ex.getMessage()));
+                } cbtch (SQLException ex) {
+                    throw new SAXException(MessbgeFormbt.formbt(resBundle.hbndleGetObject("xmlrch.errdel").toString() , ex.getMessbge()));
                 }
-                break;
-            case InsTag:
+                brebk;
+            cbse InsTbg:
                 try {
                     rs.insertRow();
                     rs.moveToCurrentRow();
                     rs.next();
-                    applyUpdates();
-                } catch (SQLException ex) {
-                    throw new SAXException(MessageFormat.format(resBundle.handleGetObject("xmlrch.errinsert").toString() , ex.getMessage()));
+                    bpplyUpdbtes();
+                } cbtch (SQLException ex) {
+                    throw new SAXException(MessbgeFormbt.formbt(resBundle.hbndleGetObject("xmlrch.errinsert").toString() , ex.getMessbge()));
                 }
-                break;
+                brebk;
 
-            case InsDelTag:
+            cbse InsDelTbg:
                 try {
                     rs.insertRow();
                     rs.moveToCurrentRow();
                     rs.next();
-                    rs.setOriginalRow();
-                    applyUpdates();
-                } catch (SQLException ex) {
-                    throw new SAXException(MessageFormat.format(resBundle.handleGetObject("xmlrch.errinsdel").toString() , ex.getMessage()));
+                    rs.setOriginblRow();
+                    bpplyUpdbtes();
+                } cbtch (SQLException ex) {
+                    throw new SAXException(MessbgeFormbt.formbt(resBundle.hbndleGetObject("xmlrch.errinsdel").toString() , ex.getMessbge()));
                 }
-                break;
+                brebk;
 
-             case UpdTag:
+             cbse UpdTbg:
                  try {
-                        if(getNullValue())
+                        if(getNullVblue())
                          {
-                          insertValue(null);
-                          setNullValue(false);
-                         } else if(getEmptyStringValue()) {
-                               insertValue("");
-                               setEmptyStringValue(false);
+                          insertVblue(null);
+                          setNullVblue(fblse);
+                         } else if(getEmptyStringVblue()) {
+                               insertVblue("");
+                               setEmptyStringVblue(fblse);
                          } else {
-                            updates.add(upd);
+                            updbtes.bdd(upd);
                          }
-                 }  catch(SQLException ex) {
-                        throw new SAXException(MessageFormat.format(resBundle.handleGetObject("xmlrch.errupdate").toString() , ex.getMessage()));
+                 }  cbtch(SQLException ex) {
+                        throw new SAXException(MessbgeFormbt.formbt(resBundle.hbndleGetObject("xmlrch.errupdbte").toString() , ex.getMessbge()));
                  }
-                break;
+                brebk;
 
-            default:
-                break;
+            defbult:
+                brebk;
             }
-        default:
-            break;
+        defbult:
+            brebk;
         }
     }
 
-    private void applyUpdates() throws SAXException {
-        // now handle any updates
-        if (updates.size() > 0) {
+    privbte void bpplyUpdbtes() throws SAXException {
+        // now hbndle bny updbtes
+        if (updbtes.size() > 0) {
             try {
                 Object upd[];
-                Iterator<?> i = updates.iterator();
-                while (i.hasNext()) {
+                Iterbtor<?> i = updbtes.iterbtor();
+                while (i.hbsNext()) {
                     upd = (Object [])i.next();
-                    idx = ((Integer)upd[0]).intValue();
+                    idx = ((Integer)upd[0]).intVblue();
 
-                   if(!(lastval.equals(upd[1]))){
-                       insertValue((String)(upd[1]));
+                   if(!(lbstvbl.equbls(upd[1]))){
+                       insertVblue((String)(upd[1]));
                     }
                 }
 
-                rs.updateRow();
-                } catch (SQLException ex) {
-                    throw new SAXException(MessageFormat.format(resBundle.handleGetObject("xmlrch.errupdrow").toString() , ex.getMessage()));
+                rs.updbteRow();
+                } cbtch (SQLException ex) {
+                    throw new SAXException(MessbgeFormbt.formbt(resBundle.hbndleGetObject("xmlrch.errupdrow").toString() , ex.getMessbge()));
                 }
-            updates.removeAllElements();
+            updbtes.removeAllElements();
         }
 
 
     }
 
     /**
-     * Sets a property, metadata, or data value with the characters in
-     * the given array of characters, starting with the array element
-     * indicated by <code>start</code> and continuing for <code>length</code>
-     * number of characters.
+     * Sets b property, metbdbtb, or dbtb vblue with the chbrbcters in
+     * the given brrby of chbrbcters, stbrting with the brrby element
+     * indicbted by <code>stbrt</code> bnd continuing for <code>length</code>
+     * number of chbrbcters.
      * <P>
-     * The SAX parser invokes this method and supplies
-     * the character array, start position, and length parameter values it
-     * got from parsing the XML document.  An application programmer never
+     * The SAX pbrser invokes this method bnd supplies
+     * the chbrbcter brrby, stbrt position, bnd length pbrbmeter vblues it
+     * got from pbrsing the XML document.  An bpplicbtion progrbmmer never
      * invokes this method directly.
      *
-     * @param ch an array of characters supplied by the SAX parser, all or part of
-     *         which will be used to set a value
-     * @param start the position in the given array at which to start
-     * @param length the number of consecutive characters to use
+     * @pbrbm ch bn brrby of chbrbcters supplied by the SAX pbrser, bll or pbrt of
+     *         which will be used to set b vblue
+     * @pbrbm stbrt the position in the given brrby bt which to stbrt
+     * @pbrbm length the number of consecutive chbrbcters to use
      */
-    public void characters(char[] ch, int start, int length) throws SAXException {
+    public void chbrbcters(chbr[] ch, int stbrt, int length) throws SAXException {
         try {
-            switch (getState()) {
-            case PROPERTIES:
-                propertyValue = new String(ch, start, length);
+            switch (getStbte()) {
+            cbse PROPERTIES:
+                propertyVblue = new String(ch, stbrt, length);
 
                 /**
-                  * This has been added for handling of special characters. When special
-                  * characters are encountered the characters function gets called for
-                  * each of the characters so we need to append the value got in the
-                  * previous call as it is the same data present between the start and
-                  * the end tag.
+                  * This hbs been bdded for hbndling of specibl chbrbcters. When specibl
+                  * chbrbcters bre encountered the chbrbcters function gets cblled for
+                  * ebch of the chbrbcters so we need to bppend the vblue got in the
+                  * previous cbll bs it is the sbme dbtb present between the stbrt bnd
+                  * the end tbg.
                   **/
-                tempCommand = tempCommand.concat(propertyValue);
-                propertyValue = tempCommand;
+                tempCommbnd = tempCommbnd.concbt(propertyVblue);
+                propertyVblue = tempCommbnd;
 
-                // Added the following check for handling of type tags in maps
-                if(tag == PropTypeTag)
+                // Added the following check for hbndling of type tbgs in mbps
+                if(tbg == PropTypeTbg)
                 {
-                        Key_map = propertyValue;
+                        Key_mbp = propertyVblue;
                 }
 
-                // Added the following check for handling of class tags in maps
-                else if(tag == PropClassTag)
+                // Added the following check for hbndling of clbss tbgs in mbps
+                else if(tbg == PropClbssTbg)
                 {
-                        Value_map = propertyValue;
+                        Vblue_mbp = propertyVblue;
                 }
-                break;
+                brebk;
 
-            case METADATA:
+            cbse METADATA:
 
-                // The parser will come here after the endElement as there is
-                // "\n" in the after endTag is printed. This will cause a problem
-                // when the data between the tags is an empty string so adding
-                // below condition to take care of that situation.
+                // The pbrser will come here bfter the endElement bs there is
+                // "\n" in the bfter endTbg is printed. This will cbuse b problem
+                // when the dbtb between the tbgs is bn empty string so bdding
+                // below condition to tbke cbre of thbt situbtion.
 
-                if (tag == -1)
+                if (tbg == -1)
                 {
-                        break;
+                        brebk;
                 }
 
-                metaDataValue = new String(ch, start, length);
-                break;
-            case DATA:
-                setDataValue(ch, start, length);
-                break;
-            default:
+                metbDbtbVblue = new String(ch, stbrt, length);
+                brebk;
+            cbse DATA:
+                setDbtbVblue(ch, stbrt, length);
+                brebk;
+            defbult:
                 ;
             }
-        } catch (SQLException ex) {
-            throw new SAXException(resBundle.handleGetObject("xmlrch.chars").toString() + ex.getMessage());
+        } cbtch (SQLException ex) {
+            throw new SAXException(resBundle.hbndleGetObject("xmlrch.chbrs").toString() + ex.getMessbge());
         }
     }
 
-    private void setState(String s) throws SAXException {
-        if (s.equals("webRowSet")) {
-            state = INITIAL;
-        } else if (s.equals("properties")) {
-            if (state != PROPERTIES)
-                state = PROPERTIES;
+    privbte void setStbte(String s) throws SAXException {
+        if (s.equbls("webRowSet")) {
+            stbte = INITIAL;
+        } else if (s.equbls("properties")) {
+            if (stbte != PROPERTIES)
+                stbte = PROPERTIES;
             else
-                state = INITIAL;
-        } else if (s.equals("metadata")) {
-            if (state != METADATA)
-                state = METADATA;
+                stbte = INITIAL;
+        } else if (s.equbls("metbdbtb")) {
+            if (stbte != METADATA)
+                stbte = METADATA;
             else
-                state = INITIAL;
-        } else if (s.equals("data")) {
-            if (state != DATA)
-                state = DATA;
+                stbte = INITIAL;
+        } else if (s.equbls("dbtb")) {
+            if (stbte != DATA)
+                stbte = DATA;
             else
-                state = INITIAL;
+                stbte = INITIAL;
         }
 
     }
 
     /**
-     * Retrieves the current state of this <code>XmlReaderContentHandler</code>
-     * object's rowset, which is stored in the document handler's
-     * <code>state</code> field.
+     * Retrieves the current stbte of this <code>XmlRebderContentHbndler</code>
+     * object's rowset, which is stored in the document hbndler's
+     * <code>stbte</code> field.
      *
-     * @return one of the following constants:
-     *         <code>XmlReaderContentHandler.PROPERTIES</code>
-     *         <code>XmlReaderContentHandler.METADATA</code>
-     *         <code>XmlReaderContentHandler.DATA</code>
-     *         <code>XmlReaderContentHandler.INITIAL</code>
+     * @return one of the following constbnts:
+     *         <code>XmlRebderContentHbndler.PROPERTIES</code>
+     *         <code>XmlRebderContentHbndler.METADATA</code>
+     *         <code>XmlRebderContentHbndler.DATA</code>
+     *         <code>XmlRebderContentHbndler.INITIAL</code>
      */
-    private int getState() {
-        return state;
+    privbte int getStbte() {
+        return stbte;
     }
 
-    private void setTag(int t) {
-        tag = t;
+    privbte void setTbg(int t) {
+        tbg = t;
     }
 
-    private int getTag() {
-        return tag;
+    privbte int getTbg() {
+        return tbg;
     }
 
-    private void setNullValue(boolean n) {
-        nullVal = n;
+    privbte void setNullVblue(boolebn n) {
+        nullVbl = n;
     }
 
-    private boolean getNullValue() {
-        return nullVal;
+    privbte boolebn getNullVblue() {
+        return nullVbl;
     }
 
-    private void setEmptyStringValue(boolean e) {
-        emptyStringVal = e;
+    privbte void setEmptyStringVblue(boolebn e) {
+        emptyStringVbl = e;
     }
 
-    private boolean getEmptyStringValue() {
-        return emptyStringVal;
+    privbte boolebn getEmptyStringVblue() {
+        return emptyStringVbl;
     }
 
-    private String getStringValue(String s) {
+    privbte String getStringVblue(String s) {
          return s;
     }
 
-    private int getIntegerValue(String s) {
-        return Integer.parseInt(s);
+    privbte int getIntegerVblue(String s) {
+        return Integer.pbrseInt(s);
     }
 
-    private boolean getBooleanValue(String s) {
+    privbte boolebn getBoolebnVblue(String s) {
 
-        return Boolean.valueOf(s).booleanValue();
+        return Boolebn.vblueOf(s).boolebnVblue();
     }
 
-    private java.math.BigDecimal getBigDecimalValue(String s) {
-        return new java.math.BigDecimal(s);
+    privbte jbvb.mbth.BigDecimbl getBigDecimblVblue(String s) {
+        return new jbvb.mbth.BigDecimbl(s);
     }
 
-    private byte getByteValue(String s) {
-        return Byte.parseByte(s);
+    privbte byte getByteVblue(String s) {
+        return Byte.pbrseByte(s);
     }
 
-    private short getShortValue(String s) {
-        return Short.parseShort(s);
+    privbte short getShortVblue(String s) {
+        return Short.pbrseShort(s);
     }
 
-    private long getLongValue(String s) {
-        return Long.parseLong(s);
+    privbte long getLongVblue(String s) {
+        return Long.pbrseLong(s);
     }
 
-    private float getFloatValue(String s) {
-        return Float.parseFloat(s);
+    privbte flobt getFlobtVblue(String s) {
+        return Flobt.pbrseFlobt(s);
     }
 
-    private double getDoubleValue(String s) {
-        return Double.parseDouble(s);
+    privbte double getDoubleVblue(String s) {
+        return Double.pbrseDouble(s);
     }
 
-    private byte[] getBinaryValue(String s) {
+    privbte byte[] getBinbryVblue(String s) {
         return s.getBytes();
     }
 
-    private java.sql.Date getDateValue(String s) {
-        return new java.sql.Date(getLongValue(s));
+    privbte jbvb.sql.Dbte getDbteVblue(String s) {
+        return new jbvb.sql.Dbte(getLongVblue(s));
     }
 
-    private java.sql.Time getTimeValue(String s) {
-        return new java.sql.Time(getLongValue(s));
+    privbte jbvb.sql.Time getTimeVblue(String s) {
+        return new jbvb.sql.Time(getLongVblue(s));
     }
 
-    private java.sql.Timestamp getTimestampValue(String s) {
-        return new java.sql.Timestamp(getLongValue(s));
+    privbte jbvb.sql.Timestbmp getTimestbmpVblue(String s) {
+        return new jbvb.sql.Timestbmp(getLongVblue(s));
     }
 
-    private void setPropertyValue(String s) throws SQLException {
-        // find out if we are going to be dealing with a null
-        boolean nullValue = getNullValue();
+    privbte void setPropertyVblue(String s) throws SQLException {
+        // find out if we bre going to be debling with b null
+        boolebn nullVblue = getNullVblue();
 
-        switch(getTag()) {
-        case CommandTag:
-            if (nullValue)
-               ; //rs.setCommand(null);
+        switch(getTbg()) {
+        cbse CommbndTbg:
+            if (nullVblue)
+               ; //rs.setCommbnd(null);
             else
-                rs.setCommand(s);
-            break;
-        case ConcurrencyTag:
-            if (nullValue)
-                throw new SQLException(resBundle.handleGetObject("xmlrch.badvalue").toString());
+                rs.setCommbnd(s);
+            brebk;
+        cbse ConcurrencyTbg:
+            if (nullVblue)
+                throw new SQLException(resBundle.hbndleGetObject("xmlrch.bbdvblue").toString());
             else
-                rs.setConcurrency(getIntegerValue(s));
-            break;
-        case DatasourceTag:
-            if (nullValue)
-                rs.setDataSourceName(null);
+                rs.setConcurrency(getIntegerVblue(s));
+            brebk;
+        cbse DbtbsourceTbg:
+            if (nullVblue)
+                rs.setDbtbSourceNbme(null);
             else
-                rs.setDataSourceName(s);
-            break;
-        case EscapeProcessingTag:
-            if (nullValue)
-                throw new SQLException(resBundle.handleGetObject("xmlrch.badvalue").toString());
+                rs.setDbtbSourceNbme(s);
+            brebk;
+        cbse EscbpeProcessingTbg:
+            if (nullVblue)
+                throw new SQLException(resBundle.hbndleGetObject("xmlrch.bbdvblue").toString());
             else
-                rs.setEscapeProcessing(getBooleanValue(s));
-            break;
-        case FetchDirectionTag:
-            if (nullValue)
-                throw new SQLException(resBundle.handleGetObject("xmlrch.badvalue").toString());
+                rs.setEscbpeProcessing(getBoolebnVblue(s));
+            brebk;
+        cbse FetchDirectionTbg:
+            if (nullVblue)
+                throw new SQLException(resBundle.hbndleGetObject("xmlrch.bbdvblue").toString());
             else
-                rs.setFetchDirection(getIntegerValue(s));
-            break;
-        case FetchSizeTag:
-            if (nullValue)
-                throw new SQLException(resBundle.handleGetObject("xmlrch.badvalue").toString());
+                rs.setFetchDirection(getIntegerVblue(s));
+            brebk;
+        cbse FetchSizeTbg:
+            if (nullVblue)
+                throw new SQLException(resBundle.hbndleGetObject("xmlrch.bbdvblue").toString());
             else
-                rs.setFetchSize(getIntegerValue(s));
-            break;
-        case IsolationLevelTag:
-            if (nullValue)
-                throw new SQLException(resBundle.handleGetObject("xmlrch.badvalue").toString());
+                rs.setFetchSize(getIntegerVblue(s));
+            brebk;
+        cbse IsolbtionLevelTbg:
+            if (nullVblue)
+                throw new SQLException(resBundle.hbndleGetObject("xmlrch.bbdvblue").toString());
             else
-                rs.setTransactionIsolation(getIntegerValue(s));
-            break;
-        case KeycolsTag:
-            break;
-        case PropColumnTag:
+                rs.setTrbnsbctionIsolbtion(getIntegerVblue(s));
+            brebk;
+        cbse KeycolsTbg:
+            brebk;
+        cbse PropColumnTbg:
             if (keyCols == null)
                 keyCols = new Vector<>();
-            keyCols.add(s);
-            break;
-        case MapTag:
-            break;
-        case MaxFieldSizeTag:
-            if (nullValue)
-                throw new SQLException(resBundle.handleGetObject("xmlrch.badvalue").toString());
+            keyCols.bdd(s);
+            brebk;
+        cbse MbpTbg:
+            brebk;
+        cbse MbxFieldSizeTbg:
+            if (nullVblue)
+                throw new SQLException(resBundle.hbndleGetObject("xmlrch.bbdvblue").toString());
             else
-                rs.setMaxFieldSize(getIntegerValue(s));
-            break;
-        case MaxRowsTag:
-            if (nullValue)
-                throw new SQLException(resBundle.handleGetObject("xmlrch.badvalue").toString());
+                rs.setMbxFieldSize(getIntegerVblue(s));
+            brebk;
+        cbse MbxRowsTbg:
+            if (nullVblue)
+                throw new SQLException(resBundle.hbndleGetObject("xmlrch.bbdvblue").toString());
             else
-                rs.setMaxRows(getIntegerValue(s));
-            break;
-        case QueryTimeoutTag:
-            if (nullValue)
-                throw new SQLException(resBundle.handleGetObject("xmlrch.badvalue").toString());
+                rs.setMbxRows(getIntegerVblue(s));
+            brebk;
+        cbse QueryTimeoutTbg:
+            if (nullVblue)
+                throw new SQLException(resBundle.hbndleGetObject("xmlrch.bbdvblue").toString());
             else
-                rs.setQueryTimeout(getIntegerValue(s));
-            break;
-        case ReadOnlyTag:
-            if (nullValue)
-                throw new SQLException(resBundle.handleGetObject("xmlrch.badvalue").toString());
+                rs.setQueryTimeout(getIntegerVblue(s));
+            brebk;
+        cbse RebdOnlyTbg:
+            if (nullVblue)
+                throw new SQLException(resBundle.hbndleGetObject("xmlrch.bbdvblue").toString());
             else
-                rs.setReadOnly(getBooleanValue(s));
-            break;
-        case RowsetTypeTag:
-            if (nullValue) {
-                throw new SQLException(resBundle.handleGetObject("xmlrch.badvalue").toString());
+                rs.setRebdOnly(getBoolebnVblue(s));
+            brebk;
+        cbse RowsetTypeTbg:
+            if (nullVblue) {
+                throw new SQLException(resBundle.hbndleGetObject("xmlrch.bbdvblue").toString());
             } else {
-                //rs.setType(getIntegerValue(s));
-                String strType = getStringValue(s);
+                //rs.setType(getIntegerVblue(s));
+                String strType = getStringVblue(s);
                 int iType = 0;
 
-                if(strType.trim().equals("ResultSet.TYPE_SCROLL_INSENSITIVE")) {
+                if(strType.trim().equbls("ResultSet.TYPE_SCROLL_INSENSITIVE")) {
                    iType = 1004;
-                } else if(strType.trim().equals("ResultSet.TYPE_SCROLL_SENSITIVE"))   {
+                } else if(strType.trim().equbls("ResultSet.TYPE_SCROLL_SENSITIVE"))   {
                    iType = 1005;
-                } else if(strType.trim().equals("ResultSet.TYPE_FORWARD_ONLY")) {
+                } else if(strType.trim().equbls("ResultSet.TYPE_FORWARD_ONLY")) {
                    iType = 1003;
                 }
                 rs.setType(iType);
             }
-            break;
-        case ShowDeletedTag:
-            if (nullValue)
-                throw new SQLException(resBundle.handleGetObject("xmlrch.badvalue").toString());
+            brebk;
+        cbse ShowDeletedTbg:
+            if (nullVblue)
+                throw new SQLException(resBundle.hbndleGetObject("xmlrch.bbdvblue").toString());
             else
-                rs.setShowDeleted(getBooleanValue(s));
-            break;
-        case TableNameTag:
-            if (nullValue)
-                //rs.setTableName(null);
+                rs.setShowDeleted(getBoolebnVblue(s));
+            brebk;
+        cbse TbbleNbmeTbg:
+            if (nullVblue)
+                //rs.setTbbleNbme(null);
                 ;
             else
-                rs.setTableName(s);
-            break;
-        case UrlTag:
-            if (nullValue)
+                rs.setTbbleNbme(s);
+            brebk;
+        cbse UrlTbg:
+            if (nullVblue)
                 rs.setUrl(null);
             else
                 rs.setUrl(s);
-            break;
-        case SyncProviderNameTag:
-            if (nullValue) {
+            brebk;
+        cbse SyncProviderNbmeTbg:
+            if (nullVblue) {
                 rs.setSyncProvider(null);
             } else {
                 String str = s.substring(0,s.indexOf('@')+1);
                 rs.setSyncProvider(str);
             }
-            break;
-        case SyncProviderVendorTag:
+            brebk;
+        cbse SyncProviderVendorTbg:
             // to be implemented
-            break;
-        case SyncProviderVersionTag:
+            brebk;
+        cbse SyncProviderVersionTbg:
             // to be implemented
-            break;
-        case SyncProviderGradeTag:
+            brebk;
+        cbse SyncProviderGrbdeTbg:
             // to be implemented
-            break;
-        case DataSourceLock:
+            brebk;
+        cbse DbtbSourceLock:
             // to be implemented
-            break;
-        default:
-            break;
+            brebk;
+        defbult:
+            brebk;
         }
 
     }
 
-    private void setMetaDataValue(String s) throws SQLException {
-        // find out if we are going to be dealing with a null
-        boolean nullValue = getNullValue();
+    privbte void setMetbDbtbVblue(String s) throws SQLException {
+        // find out if we bre going to be debling with b null
+        boolebn nullVblue = getNullVblue();
 
-        switch (getTag()) {
-        case ColumnCountTag:
-            md = new RowSetMetaDataImpl();
+        switch (getTbg()) {
+        cbse ColumnCountTbg:
+            md = new RowSetMetbDbtbImpl();
             idx = 0;
 
-            if (nullValue) {
-                throw new SQLException(resBundle.handleGetObject("xmlrch.badvalue1").toString());
+            if (nullVblue) {
+                throw new SQLException(resBundle.hbndleGetObject("xmlrch.bbdvblue1").toString());
             } else {
-                md.setColumnCount(getIntegerValue(s));
+                md.setColumnCount(getIntegerVblue(s));
             }
-            break;
-        case ColumnDefinitionTag:
-            break;
-        case ColumnIndexTag:
+            brebk;
+        cbse ColumnDefinitionTbg:
+            brebk;
+        cbse ColumnIndexTbg:
             idx++;
-            break;
-        case AutoIncrementTag:
-            if (nullValue)
-                throw new SQLException(resBundle.handleGetObject("xmlrch.badvalue1").toString());
+            brebk;
+        cbse AutoIncrementTbg:
+            if (nullVblue)
+                throw new SQLException(resBundle.hbndleGetObject("xmlrch.bbdvblue1").toString());
             else
-                md.setAutoIncrement(idx, getBooleanValue(s));
-            break;
-        case CaseSensitiveTag:
-            if (nullValue)
-                throw new SQLException(resBundle.handleGetObject("xmlrch.badvalue1").toString());
+                md.setAutoIncrement(idx, getBoolebnVblue(s));
+            brebk;
+        cbse CbseSensitiveTbg:
+            if (nullVblue)
+                throw new SQLException(resBundle.hbndleGetObject("xmlrch.bbdvblue1").toString());
             else
-                md.setCaseSensitive(idx, getBooleanValue(s));
-            break;
-        case CurrencyTag:
-            if (nullValue)
-                throw new SQLException(resBundle.handleGetObject("xmlrch.badvalue1").toString());
+                md.setCbseSensitive(idx, getBoolebnVblue(s));
+            brebk;
+        cbse CurrencyTbg:
+            if (nullVblue)
+                throw new SQLException(resBundle.hbndleGetObject("xmlrch.bbdvblue1").toString());
             else
-                md.setCurrency(idx, getBooleanValue(s));
-            break;
-        case NullableTag:
-            if (nullValue)
-                throw new SQLException(resBundle.handleGetObject("xmlrch.badvalue1").toString());
+                md.setCurrency(idx, getBoolebnVblue(s));
+            brebk;
+        cbse NullbbleTbg:
+            if (nullVblue)
+                throw new SQLException(resBundle.hbndleGetObject("xmlrch.bbdvblue1").toString());
             else
-                md.setNullable(idx, getIntegerValue(s));
-            break;
-        case SignedTag:
-            if (nullValue)
-                throw new SQLException(resBundle.handleGetObject("xmlrch.badvalue1").toString());
+                md.setNullbble(idx, getIntegerVblue(s));
+            brebk;
+        cbse SignedTbg:
+            if (nullVblue)
+                throw new SQLException(resBundle.hbndleGetObject("xmlrch.bbdvblue1").toString());
             else
-                md.setSigned(idx, getBooleanValue(s));
-            break;
-        case SearchableTag:
-            if (nullValue)
-                throw new SQLException(resBundle.handleGetObject("xmlrch.badvalue1").toString());
+                md.setSigned(idx, getBoolebnVblue(s));
+            brebk;
+        cbse SebrchbbleTbg:
+            if (nullVblue)
+                throw new SQLException(resBundle.hbndleGetObject("xmlrch.bbdvblue1").toString());
             else
-                md.setSearchable(idx, getBooleanValue(s));
-            break;
-        case ColumnDisplaySizeTag:
-            if (nullValue)
-                throw new SQLException(resBundle.handleGetObject("xmlrch.badvalue1").toString());
+                md.setSebrchbble(idx, getBoolebnVblue(s));
+            brebk;
+        cbse ColumnDisplbySizeTbg:
+            if (nullVblue)
+                throw new SQLException(resBundle.hbndleGetObject("xmlrch.bbdvblue1").toString());
             else
-                md.setColumnDisplaySize(idx, getIntegerValue(s));
-            break;
-        case ColumnLabelTag:
-            if (nullValue)
-                md.setColumnLabel(idx, null);
+                md.setColumnDisplbySize(idx, getIntegerVblue(s));
+            brebk;
+        cbse ColumnLbbelTbg:
+            if (nullVblue)
+                md.setColumnLbbel(idx, null);
             else
-                md.setColumnLabel(idx, s);
-            break;
-        case ColumnNameTag:
-            if (nullValue)
-                md.setColumnName(idx, null);
+                md.setColumnLbbel(idx, s);
+            brebk;
+        cbse ColumnNbmeTbg:
+            if (nullVblue)
+                md.setColumnNbme(idx, null);
             else
-                md.setColumnName(idx, s);
+                md.setColumnNbme(idx, s);
 
-            break;
-        case SchemaNameTag:
-            if (nullValue) {
-                md.setSchemaName(idx, null); }
+            brebk;
+        cbse SchembNbmeTbg:
+            if (nullVblue) {
+                md.setSchembNbme(idx, null); }
             else
-                md.setSchemaName(idx, s);
-            break;
-        case ColumnPrecisionTag:
-            if (nullValue)
-                throw new SQLException(resBundle.handleGetObject("xmlrch.badvalue1").toString());
+                md.setSchembNbme(idx, s);
+            brebk;
+        cbse ColumnPrecisionTbg:
+            if (nullVblue)
+                throw new SQLException(resBundle.hbndleGetObject("xmlrch.bbdvblue1").toString());
             else
-                md.setPrecision(idx, getIntegerValue(s));
-            break;
-        case ColumnScaleTag:
-            if (nullValue)
-                throw new SQLException(resBundle.handleGetObject("xmlrch.badvalue1").toString());
+                md.setPrecision(idx, getIntegerVblue(s));
+            brebk;
+        cbse ColumnScbleTbg:
+            if (nullVblue)
+                throw new SQLException(resBundle.hbndleGetObject("xmlrch.bbdvblue1").toString());
             else
-                md.setScale(idx, getIntegerValue(s));
-            break;
-        case MetaTableNameTag:
-            if (nullValue)
-                md.setTableName(idx, null);
+                md.setScble(idx, getIntegerVblue(s));
+            brebk;
+        cbse MetbTbbleNbmeTbg:
+            if (nullVblue)
+                md.setTbbleNbme(idx, null);
             else
-                md.setTableName(idx, s);
-            break;
-        case CatalogNameTag:
-            if (nullValue)
-                md.setCatalogName(idx, null);
+                md.setTbbleNbme(idx, s);
+            brebk;
+        cbse CbtblogNbmeTbg:
+            if (nullVblue)
+                md.setCbtblogNbme(idx, null);
             else
-                md.setCatalogName(idx, s);
-            break;
-        case ColumnTypeTag:
-            if (nullValue)
-                throw new SQLException(resBundle.handleGetObject("xmlrch.badvalue1").toString());
+                md.setCbtblogNbme(idx, s);
+            brebk;
+        cbse ColumnTypeTbg:
+            if (nullVblue)
+                throw new SQLException(resBundle.hbndleGetObject("xmlrch.bbdvblue1").toString());
             else
-                md.setColumnType(idx, getIntegerValue(s));
-            break;
-        case ColumnTypeNameTag:
-            if (nullValue)
-                md.setColumnTypeName(idx, null);
+                md.setColumnType(idx, getIntegerVblue(s));
+            brebk;
+        cbse ColumnTypeNbmeTbg:
+            if (nullVblue)
+                md.setColumnTypeNbme(idx, null);
             else
-                md.setColumnTypeName(idx, s);
-            break;
-        default:
-            //System.out.println("MetaData: Unknown Tag: (" + getTag() + ")");
-            break;
+                md.setColumnTypeNbme(idx, s);
+            brebk;
+        defbult:
+            //System.out.println("MetbDbtb: Unknown Tbg: (" + getTbg() + ")");
+            brebk;
 
         }
     }
 
-    private void setDataValue(char[] ch, int start, int len) throws SQLException {
-        switch (getTag()) {
-        case ColTag:
-            columnValue = new String(ch, start, len);
+    privbte void setDbtbVblue(chbr[] ch, int stbrt, int len) throws SQLException {
+        switch (getTbg()) {
+        cbse ColTbg:
+            columnVblue = new String(ch, stbrt, len);
             /**
-              * This has been added for handling of special characters. When special
-              * characters are encountered the characters function gets called for
-              * each of the characters so we need to append the value got in the
-              * previous call as it is the same data present between the start and
-              * the end tag.
+              * This hbs been bdded for hbndling of specibl chbrbcters. When specibl
+              * chbrbcters bre encountered the chbrbcters function gets cblled for
+              * ebch of the chbrbcters so we need to bppend the vblue got in the
+              * previous cbll bs it is the sbme dbtb present between the stbrt bnd
+              * the end tbg.
               **/
-            tempStr = tempStr.concat(columnValue);
-            break;
-        case UpdTag:
+            tempStr = tempStr.concbt(columnVblue);
+            brebk;
+        cbse UpdTbg:
             upd = new Object[2];
 
             /**
-              * This has been added for handling of special characters. When special
-              * characters are encountered the characters function gets called for
-              * each of the characters so we need to append the value got in the
-              * previous call as it is the same data present between the start and
-              * the end tag.
+              * This hbs been bdded for hbndling of specibl chbrbcters. When specibl
+              * chbrbcters bre encountered the chbrbcters function gets cblled for
+              * ebch of the chbrbcters so we need to bppend the vblue got in the
+              * previous cbll bs it is the sbme dbtb present between the stbrt bnd
+              * the end tbg.
               **/
 
-            tempUpdate = tempUpdate.concat(new String(ch,start,len));
-            upd[0] = Integer.valueOf(idx);
-            upd[1] = tempUpdate;
-            //updates.add(upd);
+            tempUpdbte = tempUpdbte.concbt(new String(ch,stbrt,len));
+            upd[0] = Integer.vblueOf(idx);
+            upd[1] = tempUpdbte;
+            //updbtes.bdd(upd);
 
-            lastval = (String)upd[1];
-            //insertValue(ch, start, len);
-            break;
-        case InsTag:
+            lbstvbl = (String)upd[1];
+            //insertVblue(ch, stbrt, len);
+            brebk;
+        cbse InsTbg:
 
         }
     }
 
-    private void insertValue(String s) throws SQLException {
+    privbte void insertVblue(String s) throws SQLException {
 
-        if (getNullValue()) {
-            rs.updateNull(idx);
+        if (getNullVblue()) {
+            rs.updbteNull(idx);
             return;
         }
 
-        // no longer have to deal with those pesky nulls.
-        int type = rs.getMetaData().getColumnType(idx);
+        // no longer hbve to debl with those pesky nulls.
+        int type = rs.getMetbDbtb().getColumnType(idx);
         switch (type) {
-        case java.sql.Types.BIT:
-            rs.updateBoolean(idx, getBooleanValue(s));
-            break;
-        case java.sql.Types.BOOLEAN:
-            rs.updateBoolean(idx, getBooleanValue(s));
-            break;
-        case java.sql.Types.SMALLINT:
-        case java.sql.Types.TINYINT:
-            rs.updateShort(idx, getShortValue(s));
-            break;
-        case java.sql.Types.INTEGER:
-            rs.updateInt(idx, getIntegerValue(s));
-            break;
-        case java.sql.Types.BIGINT:
-            rs.updateLong(idx, getLongValue(s));
-            break;
-        case java.sql.Types.REAL:
-        case java.sql.Types.FLOAT:
-            rs.updateFloat(idx, getFloatValue(s));
-            break;
-        case java.sql.Types.DOUBLE:
-            rs.updateDouble(idx, getDoubleValue(s));
-            break;
-        case java.sql.Types.NUMERIC:
-        case java.sql.Types.DECIMAL:
-            rs.updateObject(idx, getBigDecimalValue(s));
-            break;
-        case java.sql.Types.BINARY:
-        case java.sql.Types.VARBINARY:
-        case java.sql.Types.LONGVARBINARY:
-            rs.updateBytes(idx, getBinaryValue(s));
-            break;
-        case java.sql.Types.DATE:
-            rs.updateDate(idx,  getDateValue(s));
-            break;
-        case java.sql.Types.TIME:
-            rs.updateTime(idx, getTimeValue(s));
-            break;
-        case java.sql.Types.TIMESTAMP:
-            rs.updateTimestamp(idx, getTimestampValue(s));
-            break;
-        case java.sql.Types.CHAR:
-        case java.sql.Types.VARCHAR:
-        case java.sql.Types.LONGVARCHAR:
-            rs.updateString(idx, getStringValue(s));
-            break;
-        default:
+        cbse jbvb.sql.Types.BIT:
+            rs.updbteBoolebn(idx, getBoolebnVblue(s));
+            brebk;
+        cbse jbvb.sql.Types.BOOLEAN:
+            rs.updbteBoolebn(idx, getBoolebnVblue(s));
+            brebk;
+        cbse jbvb.sql.Types.SMALLINT:
+        cbse jbvb.sql.Types.TINYINT:
+            rs.updbteShort(idx, getShortVblue(s));
+            brebk;
+        cbse jbvb.sql.Types.INTEGER:
+            rs.updbteInt(idx, getIntegerVblue(s));
+            brebk;
+        cbse jbvb.sql.Types.BIGINT:
+            rs.updbteLong(idx, getLongVblue(s));
+            brebk;
+        cbse jbvb.sql.Types.REAL:
+        cbse jbvb.sql.Types.FLOAT:
+            rs.updbteFlobt(idx, getFlobtVblue(s));
+            brebk;
+        cbse jbvb.sql.Types.DOUBLE:
+            rs.updbteDouble(idx, getDoubleVblue(s));
+            brebk;
+        cbse jbvb.sql.Types.NUMERIC:
+        cbse jbvb.sql.Types.DECIMAL:
+            rs.updbteObject(idx, getBigDecimblVblue(s));
+            brebk;
+        cbse jbvb.sql.Types.BINARY:
+        cbse jbvb.sql.Types.VARBINARY:
+        cbse jbvb.sql.Types.LONGVARBINARY:
+            rs.updbteBytes(idx, getBinbryVblue(s));
+            brebk;
+        cbse jbvb.sql.Types.DATE:
+            rs.updbteDbte(idx,  getDbteVblue(s));
+            brebk;
+        cbse jbvb.sql.Types.TIME:
+            rs.updbteTime(idx, getTimeVblue(s));
+            brebk;
+        cbse jbvb.sql.Types.TIMESTAMP:
+            rs.updbteTimestbmp(idx, getTimestbmpVblue(s));
+            brebk;
+        cbse jbvb.sql.Types.CHAR:
+        cbse jbvb.sql.Types.VARCHAR:
+        cbse jbvb.sql.Types.LONGVARCHAR:
+            rs.updbteString(idx, getStringVblue(s));
+            brebk;
+        defbult:
 
         }
 
     }
 
     /**
-     * Throws the given <code>SAXParseException</code> object. This
-     * exception was originally thrown by the SAX parser and is passed
-     * to the method <code>error</code> when the SAX parser invokes it.
+     * Throws the given <code>SAXPbrseException</code> object. This
+     * exception wbs originblly thrown by the SAX pbrser bnd is pbssed
+     * to the method <code>error</code> when the SAX pbrser invokes it.
      *
-     * @param e the <code>SAXParseException</code> object to throw
+     * @pbrbm e the <code>SAXPbrseException</code> object to throw
      */
-    public void error (SAXParseException e) throws SAXParseException {
+    public void error (SAXPbrseException e) throws SAXPbrseException {
             throw e;
     }
 
-    // dump warnings too
+    // dump wbrnings too
     /**
-     * Prints a warning message to <code>System.out</code> giving the line
-     * number and uri for what caused the warning plus a message explaining
-     * the reason for the warning. This method is invoked by the SAX parser.
+     * Prints b wbrning messbge to <code>System.out</code> giving the line
+     * number bnd uri for whbt cbused the wbrning plus b messbge explbining
+     * the rebson for the wbrning. This method is invoked by the SAX pbrser.
      *
-     * @param err a warning generated by the SAX parser
+     * @pbrbm err b wbrning generbted by the SAX pbrser
      */
-    public void warning (SAXParseException err) throws SAXParseException {
-        System.out.println (MessageFormat.format(resBundle.handleGetObject("xmlrch.warning").toString(), new Object[] { err.getMessage(), err.getLineNumber(), err.getSystemId() }));
+    public void wbrning (SAXPbrseException err) throws SAXPbrseException {
+        System.out.println (MessbgeFormbt.formbt(resBundle.hbndleGetObject("xmlrch.wbrning").toString(), new Object[] { err.getMessbge(), err.getLineNumber(), err.getSystemId() }));
     }
 
     /**
      *
      */
-    public void notationDecl(String name, String publicId, String systemId) {
+    public void notbtionDecl(String nbme, String publicId, String systemId) {
 
     }
 
     /**
      *
      */
-    public void unparsedEntityDecl(String name, String publicId, String systemId, String notationName) {
+    public void unpbrsedEntityDecl(String nbme, String publicId, String systemId, String notbtionNbme) {
 
     }
 
    /**
     * Returns the current row of this <code>Rowset</code>object.
-    * The ResultSet's cursor is positioned at the Row which is needed
+    * The ResultSet's cursor is positioned bt the Row which is needed
     *
     * @return the <code>Row</code> object on which the <code>RowSet</code>
-    *           implementation objects's cursor is positioned
+    *           implementbtion objects's cursor is positioned
     */
-    private Row getPresentRow(WebRowSetImpl rs) throws SQLException {
-         //rs.setOriginalRow();
-         // ResultSetMetaData rsmd = rs.getMetaData();
+    privbte Row getPresentRow(WebRowSetImpl rs) throws SQLException {
+         //rs.setOriginblRow();
+         // ResultSetMetbDbtb rsmd = rs.getMetbDbtb();
          // int numCols = rsmd.getColumnCount();
-         // Object vals[] = new Object[numCols];
+         // Object vbls[] = new Object[numCols];
          // for(int j = 1; j<= numCols ; j++){
-         //     vals[j-1] = rs.getObject(j);
+         //     vbls[j-1] = rs.getObject(j);
          // }
-         // return(new Row(numCols, vals));
+         // return(new Row(numCols, vbls));
          return null;
    }
 

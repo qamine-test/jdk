@@ -1,150 +1,150 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 
-package sun.lwawt;
+pbckbge sun.lwbwt;
 
-import java.awt.Dimension;
-import java.awt.Point;
-import java.awt.TextField;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.peer.TextFieldPeer;
+import jbvb.bwt.Dimension;
+import jbvb.bwt.Point;
+import jbvb.bwt.TextField;
+import jbvb.bwt.event.ActionEvent;
+import jbvb.bwt.event.ActionListener;
+import jbvb.bwt.event.FocusEvent;
+import jbvb.bwt.peer.TextFieldPeer;
 
-import javax.swing.*;
-import javax.swing.text.JTextComponent;
+import jbvbx.swing.*;
+import jbvbx.swing.text.JTextComponent;
 
 /**
- * Lightweight implementation of {@link TextFieldPeer}. Delegates most of the
- * work to the {@link JPasswordField}.
+ * Lightweight implementbtion of {@link TextFieldPeer}. Delegbtes most of the
+ * work to the {@link JPbsswordField}.
  */
-final class LWTextFieldPeer
-        extends LWTextComponentPeer<TextField, JPasswordField>
+finbl clbss LWTextFieldPeer
+        extends LWTextComponentPeer<TextField, JPbsswordField>
         implements TextFieldPeer, ActionListener {
 
-    LWTextFieldPeer(final TextField target,
-                    final PlatformComponent platformComponent) {
-        super(target, platformComponent);
+    LWTextFieldPeer(finbl TextField tbrget,
+                    finbl PlbtformComponent plbtformComponent) {
+        super(tbrget, plbtformComponent);
     }
 
     @Override
-    JPasswordField createDelegate() {
-        return new JPasswordFieldDelegate();
+    JPbsswordField crebteDelegbte() {
+        return new JPbsswordFieldDelegbte();
     }
 
     @Override
-    void initializeImpl() {
-        super.initializeImpl();
-        setEchoChar(getTarget().getEchoChar());
-        synchronized (getDelegateLock()) {
-            getDelegate().addActionListener(this);
+    void initiblizeImpl() {
+        super.initiblizeImpl();
+        setEchoChbr(getTbrget().getEchoChbr());
+        synchronized (getDelegbteLock()) {
+            getDelegbte().bddActionListener(this);
         }
     }
 
     @Override
     public JTextComponent getTextComponent() {
-        return getDelegate();
+        return getDelegbte();
     }
 
     @Override
-    public void setEchoChar(final char echoChar) {
-        synchronized (getDelegateLock()) {
-            getDelegate().setEchoChar(echoChar);
-            final boolean cutCopyAllowed;
-            final String focusInputMapKey;
-            if (echoChar != 0) {
-                cutCopyAllowed = false;
-                focusInputMapKey = "PasswordField.focusInputMap";
+    public void setEchoChbr(finbl chbr echoChbr) {
+        synchronized (getDelegbteLock()) {
+            getDelegbte().setEchoChbr(echoChbr);
+            finbl boolebn cutCopyAllowed;
+            finbl String focusInputMbpKey;
+            if (echoChbr != 0) {
+                cutCopyAllowed = fblse;
+                focusInputMbpKey = "PbsswordField.focusInputMbp";
             } else {
                 cutCopyAllowed = true;
-                focusInputMapKey = "TextField.focusInputMap";
+                focusInputMbpKey = "TextField.focusInputMbp";
             }
-            getDelegate().putClientProperty("JPasswordField.cutCopyAllowed", cutCopyAllowed);
-            InputMap inputMap = (InputMap) UIManager.get(focusInputMapKey);
-            SwingUtilities.replaceUIInputMap(getDelegate(), JComponent.WHEN_FOCUSED, inputMap);
+            getDelegbte().putClientProperty("JPbsswordField.cutCopyAllowed", cutCopyAllowed);
+            InputMbp inputMbp = (InputMbp) UIMbnbger.get(focusInputMbpKey);
+            SwingUtilities.replbceUIInputMbp(getDelegbte(), JComponent.WHEN_FOCUSED, inputMbp);
         }
     }
 
     @Override
-    public Dimension getPreferredSize(final int columns) {
+    public Dimension getPreferredSize(finbl int columns) {
         return getMinimumSize(columns);
     }
 
     @Override
-    public Dimension getMinimumSize(final int columns) {
+    public Dimension getMinimumSize(finbl int columns) {
         return getMinimumSize(1, columns);
     }
 
     @Override
-    public void actionPerformed(final ActionEvent e) {
-        postEvent(new ActionEvent(getTarget(), ActionEvent.ACTION_PERFORMED,
+    public void bctionPerformed(finbl ActionEvent e) {
+        postEvent(new ActionEvent(getTbrget(), ActionEvent.ACTION_PERFORMED,
                 getText(), e.getWhen(), e.getModifiers()));
     }
 
     /**
-     * Restoring native behavior. We should sets the selection range to zero,
+     * Restoring nbtive behbvior. We should sets the selection rbnge to zero,
      * when component lost its focus.
      *
-     * @param e the focus event
+     * @pbrbm e the focus event
      */
     @Override
-    void handleJavaFocusEvent(final FocusEvent e) {
+    void hbndleJbvbFocusEvent(finbl FocusEvent e) {
         if (e.getID() == FocusEvent.FOCUS_LOST) {
             // In order to de-select the selection
-            setCaretPosition(0);
+            setCbretPosition(0);
         }
-        super.handleJavaFocusEvent(e);
+        super.hbndleJbvbFocusEvent(e);
     }
 
-    @SuppressWarnings("serial")// Safe: outer class is non-serializable.
-    private final class JPasswordFieldDelegate extends JPasswordField {
+    @SuppressWbrnings("seribl")// Sbfe: outer clbss is non-seriblizbble.
+    privbte finbl clbss JPbsswordFieldDelegbte extends JPbsswordField {
 
-        // Empty non private constructor was added because access to this
-        // class shouldn't be emulated by a synthetic accessor method.
-        JPasswordFieldDelegate() {
+        // Empty non privbte constructor wbs bdded becbuse bccess to this
+        // clbss shouldn't be emulbted by b synthetic bccessor method.
+        JPbsswordFieldDelegbte() {
             super();
         }
 
         @Override
-        public void replaceSelection(String content) {
+        public void replbceSelection(String content) {
             getDocument().removeDocumentListener(LWTextFieldPeer.this);
-            super.replaceSelection(content);
-            // post only one text event in this case
+            super.replbceSelection(content);
+            // post only one text event in this cbse
             postTextEvent();
-            getDocument().addDocumentListener(LWTextFieldPeer.this);
+            getDocument().bddDocumentListener(LWTextFieldPeer.this);
         }
 
         @Override
-        public boolean hasFocus() {
-            return getTarget().hasFocus();
+        public boolebn hbsFocus() {
+            return getTbrget().hbsFocus();
         }
 
         @Override
-        public Point getLocationOnScreen() {
-            return LWTextFieldPeer.this.getLocationOnScreen();
+        public Point getLocbtionOnScreen() {
+            return LWTextFieldPeer.this.getLocbtionOnScreen();
         }
     }
 }

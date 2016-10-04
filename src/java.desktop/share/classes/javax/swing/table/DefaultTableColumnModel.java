@@ -1,101 +1,101 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.swing.table;
+pbckbge jbvbx.swing.tbble;
 
-import javax.swing.*;
-import javax.swing.event.*;
-import java.awt.*;
-import java.util.Vector;
-import java.util.Enumeration;
-import java.util.EventListener;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeEvent;
-import java.io.Serializable;
+import jbvbx.swing.*;
+import jbvbx.swing.event.*;
+import jbvb.bwt.*;
+import jbvb.util.Vector;
+import jbvb.util.Enumerbtion;
+import jbvb.util.EventListener;
+import jbvb.bebns.PropertyChbngeListener;
+import jbvb.bebns.PropertyChbngeEvent;
+import jbvb.io.Seriblizbble;
 import sun.swing.SwingUtilities2;
 
 /**
- * The standard column-handler for a <code>JTable</code>.
+ * The stbndbrd column-hbndler for b <code>JTbble</code>.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Seriblized objects of this clbss will not be compbtible with
+ * future Swing relebses. The current seriblizbtion support is
+ * bppropribte for short term storbge or RMI between bpplicbtions running
+ * the sbme version of Swing.  As of 1.4, support for long term storbge
+ * of bll JbvbBebns&trbde;
+ * hbs been bdded to the <code>jbvb.bebns</code> pbckbge.
+ * Plebse see {@link jbvb.bebns.XMLEncoder}.
  *
- * @author Alan Chung
- * @author Philip Milne
- * @see JTable
+ * @buthor Albn Chung
+ * @buthor Philip Milne
+ * @see JTbble
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class DefaultTableColumnModel implements TableColumnModel,
-                        PropertyChangeListener, ListSelectionListener, Serializable
+@SuppressWbrnings("seribl") // Sbme-version seriblizbtion only
+public clbss DefbultTbbleColumnModel implements TbbleColumnModel,
+                        PropertyChbngeListener, ListSelectionListener, Seriblizbble
 {
 //
-// Instance Variables
+// Instbnce Vbribbles
 //
 
-    /** Array of TableColumn objects in this model */
-    protected Vector<TableColumn> tableColumns;
+    /** Arrby of TbbleColumn objects in this model */
+    protected Vector<TbbleColumn> tbbleColumns;
 
-    /** Model for keeping track of column selections */
+    /** Model for keeping trbck of column selections */
     protected ListSelectionModel selectionModel;
 
-    /** Width margin between each column */
-    protected int columnMargin;
+    /** Width mbrgin between ebch column */
+    protected int columnMbrgin;
 
-    /** List of TableColumnModelListener */
+    /** List of TbbleColumnModelListener */
     protected EventListenerList listenerList = new EventListenerList();
 
-    /** Change event (only one needed) */
-    transient protected ChangeEvent changeEvent = null;
+    /** Chbnge event (only one needed) */
+    trbnsient protected ChbngeEvent chbngeEvent = null;
 
-    /** Column selection allowed in this column model */
-    protected boolean columnSelectionAllowed;
+    /** Column selection bllowed in this column model */
+    protected boolebn columnSelectionAllowed;
 
-    /** A local cache of the combined width of all columns */
-    protected int totalColumnWidth;
+    /** A locbl cbche of the combined width of bll columns */
+    protected int totblColumnWidth;
 
 //
 // Constructors
 //
     /**
-     * Creates a default table column model.
+     * Crebtes b defbult tbble column model.
      */
-    public DefaultTableColumnModel() {
+    public DefbultTbbleColumnModel() {
         super();
 
-        // Initialize local ivars to default
-        tableColumns = new Vector<TableColumn>();
-        setSelectionModel(createSelectionModel());
-        setColumnMargin(1);
-        invalidateWidthCache();
-        setColumnSelectionAllowed(false);
+        // Initiblize locbl ivbrs to defbult
+        tbbleColumns = new Vector<TbbleColumn>();
+        setSelectionModel(crebteSelectionModel());
+        setColumnMbrgin(1);
+        invblidbteWidthCbche();
+        setColumnSelectionAllowed(fblse);
     }
 
 //
@@ -103,127 +103,127 @@ public class DefaultTableColumnModel implements TableColumnModel,
 //
 
     /**
-     *  Appends <code>aColumn</code> to the end of the
-     *  <code>tableColumns</code> array.
-     *  This method also posts the <code>columnAdded</code>
+     *  Appends <code>bColumn</code> to the end of the
+     *  <code>tbbleColumns</code> brrby.
+     *  This method blso posts the <code>columnAdded</code>
      *  event to its listeners.
      *
-     * @param   aColumn         the <code>TableColumn</code> to be added
-     * @exception IllegalArgumentException      if <code>aColumn</code> is
+     * @pbrbm   bColumn         the <code>TbbleColumn</code> to be bdded
+     * @exception IllegblArgumentException      if <code>bColumn</code> is
      *                          <code>null</code>
      * @see     #removeColumn
      */
-    public void addColumn(TableColumn aColumn) {
-        if (aColumn == null) {
-            throw new IllegalArgumentException("Object is null");
+    public void bddColumn(TbbleColumn bColumn) {
+        if (bColumn == null) {
+            throw new IllegblArgumentException("Object is null");
         }
 
-        tableColumns.addElement(aColumn);
-        aColumn.addPropertyChangeListener(this);
-        invalidateWidthCache();
+        tbbleColumns.bddElement(bColumn);
+        bColumn.bddPropertyChbngeListener(this);
+        invblidbteWidthCbche();
 
-        // Post columnAdded event notification
-        fireColumnAdded(new TableColumnModelEvent(this, 0,
+        // Post columnAdded event notificbtion
+        fireColumnAdded(new TbbleColumnModelEvent(this, 0,
                                                   getColumnCount() - 1));
     }
 
     /**
      *  Deletes the <code>column</code> from the
-     *  <code>tableColumns</code> array.  This method will do nothing if
-     *  <code>column</code> is not in the table's columns list.
-     *  <code>tile</code> is called
-     *  to resize both the header and table views.
-     *  This method also posts a <code>columnRemoved</code>
+     *  <code>tbbleColumns</code> brrby.  This method will do nothing if
+     *  <code>column</code> is not in the tbble's columns list.
+     *  <code>tile</code> is cblled
+     *  to resize both the hebder bnd tbble views.
+     *  This method blso posts b <code>columnRemoved</code>
      *  event to its listeners.
      *
-     * @param   column          the <code>TableColumn</code> to be removed
-     * @see     #addColumn
+     * @pbrbm   column          the <code>TbbleColumn</code> to be removed
+     * @see     #bddColumn
      */
-    public void removeColumn(TableColumn column) {
-        int columnIndex = tableColumns.indexOf(column);
+    public void removeColumn(TbbleColumn column) {
+        int columnIndex = tbbleColumns.indexOf(column);
 
         if (columnIndex != -1) {
             // Adjust for the selection
             if (selectionModel != null) {
-                selectionModel.removeIndexInterval(columnIndex,columnIndex);
+                selectionModel.removeIndexIntervbl(columnIndex,columnIndex);
             }
 
-            column.removePropertyChangeListener(this);
-            tableColumns.removeElementAt(columnIndex);
-            invalidateWidthCache();
+            column.removePropertyChbngeListener(this);
+            tbbleColumns.removeElementAt(columnIndex);
+            invblidbteWidthCbche();
 
-            // Post columnAdded event notification.  (JTable and JTableHeader
-            // listens so they can adjust size and redraw)
-            fireColumnRemoved(new TableColumnModelEvent(this,
+            // Post columnAdded event notificbtion.  (JTbble bnd JTbbleHebder
+            // listens so they cbn bdjust size bnd redrbw)
+            fireColumnRemoved(new TbbleColumnModelEvent(this,
                                            columnIndex, 0));
         }
     }
 
     /**
-     * Moves the column and heading at <code>columnIndex</code> to
-     * <code>newIndex</code>.  The old column at <code>columnIndex</code>
-     * will now be found at <code>newIndex</code>.  The column
-     * that used to be at <code>newIndex</code> is shifted
-     * left or right to make room.  This will not move any columns if
-     * <code>columnIndex</code> equals <code>newIndex</code>.  This method
-     * also posts a <code>columnMoved</code> event to its listeners.
+     * Moves the column bnd hebding bt <code>columnIndex</code> to
+     * <code>newIndex</code>.  The old column bt <code>columnIndex</code>
+     * will now be found bt <code>newIndex</code>.  The column
+     * thbt used to be bt <code>newIndex</code> is shifted
+     * left or right to mbke room.  This will not move bny columns if
+     * <code>columnIndex</code> equbls <code>newIndex</code>.  This method
+     * blso posts b <code>columnMoved</code> event to its listeners.
      *
-     * @param   columnIndex                     the index of column to be moved
-     * @param   newIndex                        new index to move the column
-     * @exception IllegalArgumentException      if <code>column</code> or
+     * @pbrbm   columnIndex                     the index of column to be moved
+     * @pbrbm   newIndex                        new index to move the column
+     * @exception IllegblArgumentException      if <code>column</code> or
      *                                          <code>newIndex</code>
-     *                                          are not in the valid range
+     *                                          bre not in the vblid rbnge
      */
     public void moveColumn(int columnIndex, int newIndex) {
         if ((columnIndex < 0) || (columnIndex >= getColumnCount()) ||
             (newIndex < 0) || (newIndex >= getColumnCount()))
-            throw new IllegalArgumentException("moveColumn() - Index out of range");
+            throw new IllegblArgumentException("moveColumn() - Index out of rbnge");
 
-        TableColumn aColumn;
+        TbbleColumn bColumn;
 
-        // If the column has not yet moved far enough to change positions
-        // post the event anyway, the "draggedDistance" property of the
-        // tableHeader will say how far the column has been dragged.
-        // Here we are really trying to get the best out of an
-        // API that could do with some rethinking. We preserve backward
-        // compatibility by slightly bending the meaning of these methods.
+        // If the column hbs not yet moved fbr enough to chbnge positions
+        // post the event bnywby, the "drbggedDistbnce" property of the
+        // tbbleHebder will sby how fbr the column hbs been drbgged.
+        // Here we bre reblly trying to get the best out of bn
+        // API thbt could do with some rethinking. We preserve bbckwbrd
+        // compbtibility by slightly bending the mebning of these methods.
         if (columnIndex == newIndex) {
-            fireColumnMoved(new TableColumnModelEvent(this, columnIndex, newIndex));
+            fireColumnMoved(new TbbleColumnModelEvent(this, columnIndex, newIndex));
             return;
         }
-        aColumn = tableColumns.elementAt(columnIndex);
+        bColumn = tbbleColumns.elementAt(columnIndex);
 
-        tableColumns.removeElementAt(columnIndex);
-        boolean selected = selectionModel.isSelectedIndex(columnIndex);
-        selectionModel.removeIndexInterval(columnIndex,columnIndex);
+        tbbleColumns.removeElementAt(columnIndex);
+        boolebn selected = selectionModel.isSelectedIndex(columnIndex);
+        selectionModel.removeIndexIntervbl(columnIndex,columnIndex);
 
-        tableColumns.insertElementAt(aColumn, newIndex);
-        selectionModel.insertIndexInterval(newIndex, 1, true);
+        tbbleColumns.insertElementAt(bColumn, newIndex);
+        selectionModel.insertIndexIntervbl(newIndex, 1, true);
         if (selected) {
-            selectionModel.addSelectionInterval(newIndex, newIndex);
+            selectionModel.bddSelectionIntervbl(newIndex, newIndex);
         }
         else {
-            selectionModel.removeSelectionInterval(newIndex, newIndex);
+            selectionModel.removeSelectionIntervbl(newIndex, newIndex);
         }
 
-        fireColumnMoved(new TableColumnModelEvent(this, columnIndex,
+        fireColumnMoved(new TbbleColumnModelEvent(this, columnIndex,
                                                                newIndex));
     }
 
     /**
-     * Sets the column margin to <code>newMargin</code>.  This method
-     * also posts a <code>columnMarginChanged</code> event to its
+     * Sets the column mbrgin to <code>newMbrgin</code>.  This method
+     * blso posts b <code>columnMbrginChbnged</code> event to its
      * listeners.
      *
-     * @param   newMargin               the new margin width, in pixels
-     * @see     #getColumnMargin
-     * @see     #getTotalColumnWidth
+     * @pbrbm   newMbrgin               the new mbrgin width, in pixels
+     * @see     #getColumnMbrgin
+     * @see     #getTotblColumnWidth
      */
-    public void setColumnMargin(int newMargin) {
-        if (newMargin != columnMargin) {
-            columnMargin = newMargin;
-            // Post columnMarginChanged event notification.
-            fireColumnMarginChanged();
+    public void setColumnMbrgin(int newMbrgin) {
+        if (newMbrgin != columnMbrgin) {
+            columnMbrgin = newMbrgin;
+            // Post columnMbrginChbnged event notificbtion.
+            fireColumnMbrginChbnged();
         }
     }
 
@@ -232,101 +232,101 @@ public class DefaultTableColumnModel implements TableColumnModel,
 //
 
     /**
-     * Returns the number of columns in the <code>tableColumns</code> array.
+     * Returns the number of columns in the <code>tbbleColumns</code> brrby.
      *
-     * @return  the number of columns in the <code>tableColumns</code> array
+     * @return  the number of columns in the <code>tbbleColumns</code> brrby
      * @see     #getColumns
      */
     public int getColumnCount() {
-        return tableColumns.size();
+        return tbbleColumns.size();
     }
 
     /**
-     * Returns an <code>Enumeration</code> of all the columns in the model.
-     * @return an <code>Enumeration</code> of the columns in the model
+     * Returns bn <code>Enumerbtion</code> of bll the columns in the model.
+     * @return bn <code>Enumerbtion</code> of the columns in the model
      */
-    public Enumeration<TableColumn> getColumns() {
-        return tableColumns.elements();
+    public Enumerbtion<TbbleColumn> getColumns() {
+        return tbbleColumns.elements();
     }
 
     /**
-     * Returns the index of the first column in the <code>tableColumns</code>
-     * array whose identifier is equal to <code>identifier</code>,
-     * when compared using <code>equals</code>.
+     * Returns the index of the first column in the <code>tbbleColumns</code>
+     * brrby whose identifier is equbl to <code>identifier</code>,
+     * when compbred using <code>equbls</code>.
      *
-     * @param           identifier              the identifier object
+     * @pbrbm           identifier              the identifier object
      * @return          the index of the first column in the
-     *                  <code>tableColumns</code> array whose identifier
-     *                  is equal to <code>identifier</code>
-     * @exception       IllegalArgumentException  if <code>identifier</code>
+     *                  <code>tbbleColumns</code> brrby whose identifier
+     *                  is equbl to <code>identifier</code>
+     * @exception       IllegblArgumentException  if <code>identifier</code>
      *                          is <code>null</code>, or if no
-     *                          <code>TableColumn</code> has this
+     *                          <code>TbbleColumn</code> hbs this
      *                          <code>identifier</code>
      * @see             #getColumn
      */
     public int getColumnIndex(Object identifier) {
         if (identifier == null) {
-            throw new IllegalArgumentException("Identifier is null");
+            throw new IllegblArgumentException("Identifier is null");
         }
 
-        Enumeration<TableColumn> enumeration = getColumns();
-        TableColumn aColumn;
+        Enumerbtion<TbbleColumn> enumerbtion = getColumns();
+        TbbleColumn bColumn;
         int index = 0;
 
-        while (enumeration.hasMoreElements()) {
-            aColumn = enumeration.nextElement();
-            // Compare them this way in case the column's identifier is null.
-            if (identifier.equals(aColumn.getIdentifier()))
+        while (enumerbtion.hbsMoreElements()) {
+            bColumn = enumerbtion.nextElement();
+            // Compbre them this wby in cbse the column's identifier is null.
+            if (identifier.equbls(bColumn.getIdentifier()))
                 return index;
             index++;
         }
-        throw new IllegalArgumentException("Identifier not found");
+        throw new IllegblArgumentException("Identifier not found");
     }
 
     /**
-     * Returns the <code>TableColumn</code> object for the column
-     * at <code>columnIndex</code>.
+     * Returns the <code>TbbleColumn</code> object for the column
+     * bt <code>columnIndex</code>.
      *
-     * @param   columnIndex     the index of the column desired
-     * @return  the <code>TableColumn</code> object for the column
-     *                          at <code>columnIndex</code>
+     * @pbrbm   columnIndex     the index of the column desired
+     * @return  the <code>TbbleColumn</code> object for the column
+     *                          bt <code>columnIndex</code>
      */
-    public TableColumn getColumn(int columnIndex) {
-        return tableColumns.elementAt(columnIndex);
+    public TbbleColumn getColumn(int columnIndex) {
+        return tbbleColumns.elementAt(columnIndex);
     }
 
     /**
-     * Returns the width margin for <code>TableColumn</code>.
-     * The default <code>columnMargin</code> is 1.
+     * Returns the width mbrgin for <code>TbbleColumn</code>.
+     * The defbult <code>columnMbrgin</code> is 1.
      *
-     * @return  the maximum width for the <code>TableColumn</code>
-     * @see     #setColumnMargin
+     * @return  the mbximum width for the <code>TbbleColumn</code>
+     * @see     #setColumnMbrgin
      */
-    public int getColumnMargin() {
-        return columnMargin;
+    public int getColumnMbrgin() {
+        return columnMbrgin;
     }
 
     /**
-     * Returns the index of the column that lies at position <code>x</code>,
+     * Returns the index of the column thbt lies bt position <code>x</code>,
      * or -1 if no column covers this point.
      *
-     * In keeping with Swing's separable model architecture, a
-     * TableColumnModel does not know how the table columns actually appear on
-     * screen.  The visual presentation of the columns is the responsibility
-     * of the view/controller object using this model (typically JTable).  The
-     * view/controller need not display the columns sequentially from left to
-     * right.  For example, columns could be displayed from right to left to
-     * accommodate a locale preference or some columns might be hidden at the
-     * request of the user.  Because the model does not know how the columns
-     * are laid out on screen, the given <code>xPosition</code> should not be
-     * considered to be a coordinate in 2D graphics space.  Instead, it should
-     * be considered to be a width from the start of the first column in the
-     * model.  If the column index for a given X coordinate in 2D space is
-     * required, <code>JTable.columnAtPoint</code> can be used instead.
+     * In keeping with Swing's sepbrbble model brchitecture, b
+     * TbbleColumnModel does not know how the tbble columns bctublly bppebr on
+     * screen.  The visubl presentbtion of the columns is the responsibility
+     * of the view/controller object using this model (typicblly JTbble).  The
+     * view/controller need not displby the columns sequentiblly from left to
+     * right.  For exbmple, columns could be displbyed from right to left to
+     * bccommodbte b locble preference or some columns might be hidden bt the
+     * request of the user.  Becbuse the model does not know how the columns
+     * bre lbid out on screen, the given <code>xPosition</code> should not be
+     * considered to be b coordinbte in 2D grbphics spbce.  Instebd, it should
+     * be considered to be b width from the stbrt of the first column in the
+     * model.  If the column index for b given X coordinbte in 2D spbce is
+     * required, <code>JTbble.columnAtPoint</code> cbn be used instebd.
      *
-     * @param  x  the horizontal location of interest
+     * @pbrbm  x  the horizontbl locbtion of interest
      * @return  the index of the column or -1 if no column is found
-     * @see javax.swing.JTable#columnAtPoint
+     * @see jbvbx.swing.JTbble#columnAtPoint
      */
     public int getColumnIndexAtX(int x) {
         if (x < 0) {
@@ -343,14 +343,14 @@ public class DefaultTableColumnModel implements TableColumnModel,
     }
 
     /**
-     * Returns the total combined width of all columns.
-     * @return the <code>totalColumnWidth</code> property
+     * Returns the totbl combined width of bll columns.
+     * @return the <code>totblColumnWidth</code> property
      */
-    public int getTotalColumnWidth() {
-        if (totalColumnWidth == -1) {
-            recalcWidthCache();
+    public int getTotblColumnWidth() {
+        if (totblColumnWidth == -1) {
+            recblcWidthCbche();
         }
-        return totalColumnWidth;
+        return totblColumnWidth;
     }
 
 //
@@ -358,20 +358,20 @@ public class DefaultTableColumnModel implements TableColumnModel,
 //
 
     /**
-     *  Sets the selection model for this <code>TableColumnModel</code>
+     *  Sets the selection model for this <code>TbbleColumnModel</code>
      *  to <code>newModel</code>
-     *  and registers for listener notifications from the new selection
+     *  bnd registers for listener notificbtions from the new selection
      *  model.  If <code>newModel</code> is <code>null</code>,
-     *  an exception is thrown.
+     *  bn exception is thrown.
      *
-     * @param   newModel        the new selection model
-     * @exception IllegalArgumentException      if <code>newModel</code>
+     * @pbrbm   newModel        the new selection model
+     * @exception IllegblArgumentException      if <code>newModel</code>
      *                                          is <code>null</code>
      * @see     #getSelectionModel
      */
     public void setSelectionModel(ListSelectionModel newModel) {
         if (newModel == null) {
-            throw new IllegalArgumentException("Cannot set a null SelectionModel");
+            throw new IllegblArgumentException("Cbnnot set b null SelectionModel");
         }
 
         ListSelectionModel oldModel = selectionModel;
@@ -382,73 +382,73 @@ public class DefaultTableColumnModel implements TableColumnModel,
             }
 
             selectionModel= newModel;
-            newModel.addListSelectionListener(this);
+            newModel.bddListSelectionListener(this);
         }
     }
 
     /**
-     * Returns the <code>ListSelectionModel</code> that is used to
-     * maintain column selection state.
+     * Returns the <code>ListSelectionModel</code> thbt is used to
+     * mbintbin column selection stbte.
      *
-     * @return  the object that provides column selection state.  Or
-     *          <code>null</code> if row selection is not allowed.
+     * @return  the object thbt provides column selection stbte.  Or
+     *          <code>null</code> if row selection is not bllowed.
      * @see     #setSelectionModel
      */
     public ListSelectionModel getSelectionModel() {
         return selectionModel;
     }
 
-    // implements javax.swing.table.TableColumnModel
+    // implements jbvbx.swing.tbble.TbbleColumnModel
     /**
-     * Sets whether column selection is allowed.  The default is false.
-     * @param  flag true if column selection will be allowed, false otherwise
+     * Sets whether column selection is bllowed.  The defbult is fblse.
+     * @pbrbm  flbg true if column selection will be bllowed, fblse otherwise
      */
-    public void setColumnSelectionAllowed(boolean flag) {
-        columnSelectionAllowed = flag;
+    public void setColumnSelectionAllowed(boolebn flbg) {
+        columnSelectionAllowed = flbg;
     }
 
-    // implements javax.swing.table.TableColumnModel
+    // implements jbvbx.swing.tbble.TbbleColumnModel
     /**
-     * Returns true if column selection is allowed, otherwise false.
-     * The default is false.
+     * Returns true if column selection is bllowed, otherwise fblse.
+     * The defbult is fblse.
      * @return the <code>columnSelectionAllowed</code> property
      */
-    public boolean getColumnSelectionAllowed() {
+    public boolebn getColumnSelectionAllowed() {
         return columnSelectionAllowed;
     }
 
-    // implements javax.swing.table.TableColumnModel
+    // implements jbvbx.swing.tbble.TbbleColumnModel
     /**
-     * Returns an array of selected columns.  If <code>selectionModel</code>
-     * is <code>null</code>, returns an empty array.
-     * @return an array of selected columns or an empty array if nothing
+     * Returns bn brrby of selected columns.  If <code>selectionModel</code>
+     * is <code>null</code>, returns bn empty brrby.
+     * @return bn brrby of selected columns or bn empty brrby if nothing
      *                  is selected or the <code>selectionModel</code> is
      *                  <code>null</code>
      */
     public int[] getSelectedColumns() {
         if (selectionModel != null) {
             int iMin = selectionModel.getMinSelectionIndex();
-            int iMax = selectionModel.getMaxSelectionIndex();
+            int iMbx = selectionModel.getMbxSelectionIndex();
 
-            if ((iMin == -1) || (iMax == -1)) {
+            if ((iMin == -1) || (iMbx == -1)) {
                 return new int[0];
             }
 
-            int[] rvTmp = new int[1+ (iMax - iMin)];
+            int[] rvTmp = new int[1+ (iMbx - iMin)];
             int n = 0;
-            for(int i = iMin; i <= iMax; i++) {
+            for(int i = iMin; i <= iMbx; i++) {
                 if (selectionModel.isSelectedIndex(i)) {
                     rvTmp[n++] = i;
                 }
             }
             int[] rv = new int[n];
-            System.arraycopy(rvTmp, 0, rv, 0, n);
+            System.brrbycopy(rvTmp, 0, rv, 0, n);
             return rv;
         }
         return  new int[0];
     }
 
-    // implements javax.swing.table.TableColumnModel
+    // implements jbvbx.swing.tbble.TbbleColumnModel
     /**
      * Returns the number of columns selected.
      * @return the number of columns selected
@@ -456,10 +456,10 @@ public class DefaultTableColumnModel implements TableColumnModel,
     public int getSelectedColumnCount() {
         if (selectionModel != null) {
             int iMin = selectionModel.getMinSelectionIndex();
-            int iMax = selectionModel.getMaxSelectionIndex();
+            int iMbx = selectionModel.getMbxSelectionIndex();
             int count = 0;
 
-            for(int i = iMin; i <= iMax; i++) {
+            for(int i = iMin; i <= iMbx; i++) {
                 if (selectionModel.isSelectedIndex(i)) {
                     count++;
                 }
@@ -473,39 +473,39 @@ public class DefaultTableColumnModel implements TableColumnModel,
 // Listener Support Methods
 //
 
-    // implements javax.swing.table.TableColumnModel
+    // implements jbvbx.swing.tbble.TbbleColumnModel
     /**
-     * Adds a listener for table column model events.
-     * @param x  a <code>TableColumnModelListener</code> object
+     * Adds b listener for tbble column model events.
+     * @pbrbm x  b <code>TbbleColumnModelListener</code> object
      */
-    public void addColumnModelListener(TableColumnModelListener x) {
-        listenerList.add(TableColumnModelListener.class, x);
+    public void bddColumnModelListener(TbbleColumnModelListener x) {
+        listenerList.bdd(TbbleColumnModelListener.clbss, x);
     }
 
-    // implements javax.swing.table.TableColumnModel
+    // implements jbvbx.swing.tbble.TbbleColumnModel
     /**
-     * Removes a listener for table column model events.
-     * @param x  a <code>TableColumnModelListener</code> object
+     * Removes b listener for tbble column model events.
+     * @pbrbm x  b <code>TbbleColumnModelListener</code> object
      */
-    public void removeColumnModelListener(TableColumnModelListener x) {
-        listenerList.remove(TableColumnModelListener.class, x);
+    public void removeColumnModelListener(TbbleColumnModelListener x) {
+        listenerList.remove(TbbleColumnModelListener.clbss, x);
     }
 
     /**
-     * Returns an array of all the column model listeners
+     * Returns bn brrby of bll the column model listeners
      * registered on this model.
      *
-     * @return all of this default table column model's <code>ColumnModelListener</code>s
-     *         or an empty
-     *         array if no column model listeners are currently registered
+     * @return bll of this defbult tbble column model's <code>ColumnModelListener</code>s
+     *         or bn empty
+     *         brrby if no column model listeners bre currently registered
      *
-     * @see #addColumnModelListener
+     * @see #bddColumnModelListener
      * @see #removeColumnModelListener
      *
      * @since 1.4
      */
-    public TableColumnModelListener[] getColumnModelListeners() {
-        return listenerList.getListeners(TableColumnModelListener.class);
+    public TbbleColumnModelListener[] getColumnModelListeners() {
+        return listenerList.getListeners(TbbleColumnModelListener.clbss);
     }
 
 //
@@ -513,201 +513,201 @@ public class DefaultTableColumnModel implements TableColumnModel,
 //
 
     /**
-     * Notifies all listeners that have registered interest for
-     * notification on this event type.  The event instance
-     * is lazily created using the parameters passed into
+     * Notifies bll listeners thbt hbve registered interest for
+     * notificbtion on this event type.  The event instbnce
+     * is lbzily crebted using the pbrbmeters pbssed into
      * the fire method.
-     * @param e  the event received
+     * @pbrbm e  the event received
      * @see EventListenerList
      */
-    protected void fireColumnAdded(TableColumnModelEvent e) {
-        // Guaranteed to return a non-null array
+    protected void fireColumnAdded(TbbleColumnModelEvent e) {
+        // Gubrbnteed to return b non-null brrby
         Object[] listeners = listenerList.getListenerList();
-        // Process the listeners last to first, notifying
-        // those that are interested in this event
+        // Process the listeners lbst to first, notifying
+        // those thbt bre interested in this event
         for (int i = listeners.length-2; i>=0; i-=2) {
-            if (listeners[i]==TableColumnModelListener.class) {
-                // Lazily create the event:
+            if (listeners[i]==TbbleColumnModelListener.clbss) {
+                // Lbzily crebte the event:
                 // if (e == null)
-                //  e = new ChangeEvent(this);
-                ((TableColumnModelListener)listeners[i+1]).
+                //  e = new ChbngeEvent(this);
+                ((TbbleColumnModelListener)listeners[i+1]).
                     columnAdded(e);
             }
         }
     }
 
     /**
-     * Notifies all listeners that have registered interest for
-     * notification on this event type.  The event instance
-     * is lazily created using the parameters passed into
+     * Notifies bll listeners thbt hbve registered interest for
+     * notificbtion on this event type.  The event instbnce
+     * is lbzily crebted using the pbrbmeters pbssed into
      * the fire method.
-     * @param  e  the event received
+     * @pbrbm  e  the event received
      * @see EventListenerList
      */
-    protected void fireColumnRemoved(TableColumnModelEvent e) {
-        // Guaranteed to return a non-null array
+    protected void fireColumnRemoved(TbbleColumnModelEvent e) {
+        // Gubrbnteed to return b non-null brrby
         Object[] listeners = listenerList.getListenerList();
-        // Process the listeners last to first, notifying
-        // those that are interested in this event
+        // Process the listeners lbst to first, notifying
+        // those thbt bre interested in this event
         for (int i = listeners.length-2; i>=0; i-=2) {
-            if (listeners[i]==TableColumnModelListener.class) {
-                // Lazily create the event:
+            if (listeners[i]==TbbleColumnModelListener.clbss) {
+                // Lbzily crebte the event:
                 // if (e == null)
-                //  e = new ChangeEvent(this);
-                ((TableColumnModelListener)listeners[i+1]).
+                //  e = new ChbngeEvent(this);
+                ((TbbleColumnModelListener)listeners[i+1]).
                     columnRemoved(e);
             }
         }
     }
 
     /**
-     * Notifies all listeners that have registered interest for
-     * notification on this event type.  The event instance
-     * is lazily created using the parameters passed into
+     * Notifies bll listeners thbt hbve registered interest for
+     * notificbtion on this event type.  The event instbnce
+     * is lbzily crebted using the pbrbmeters pbssed into
      * the fire method.
-     * @param  e the event received
+     * @pbrbm  e the event received
      * @see EventListenerList
      */
-    protected void fireColumnMoved(TableColumnModelEvent e) {
-        // Guaranteed to return a non-null array
+    protected void fireColumnMoved(TbbleColumnModelEvent e) {
+        // Gubrbnteed to return b non-null brrby
         Object[] listeners = listenerList.getListenerList();
-        // Process the listeners last to first, notifying
-        // those that are interested in this event
+        // Process the listeners lbst to first, notifying
+        // those thbt bre interested in this event
         for (int i = listeners.length-2; i>=0; i-=2) {
-            if (listeners[i]==TableColumnModelListener.class) {
-                // Lazily create the event:
+            if (listeners[i]==TbbleColumnModelListener.clbss) {
+                // Lbzily crebte the event:
                 // if (e == null)
-                //  e = new ChangeEvent(this);
-                ((TableColumnModelListener)listeners[i+1]).
+                //  e = new ChbngeEvent(this);
+                ((TbbleColumnModelListener)listeners[i+1]).
                     columnMoved(e);
             }
         }
     }
 
     /**
-     * Notifies all listeners that have registered interest for
-     * notification on this event type.  The event instance
-     * is lazily created using the parameters passed into
+     * Notifies bll listeners thbt hbve registered interest for
+     * notificbtion on this event type.  The event instbnce
+     * is lbzily crebted using the pbrbmeters pbssed into
      * the fire method.
-     * @param e the event received
+     * @pbrbm e the event received
      * @see EventListenerList
      */
-    protected void fireColumnSelectionChanged(ListSelectionEvent e) {
-        // Guaranteed to return a non-null array
+    protected void fireColumnSelectionChbnged(ListSelectionEvent e) {
+        // Gubrbnteed to return b non-null brrby
         Object[] listeners = listenerList.getListenerList();
-        // Process the listeners last to first, notifying
-        // those that are interested in this event
+        // Process the listeners lbst to first, notifying
+        // those thbt bre interested in this event
         for (int i = listeners.length-2; i>=0; i-=2) {
-            if (listeners[i]==TableColumnModelListener.class) {
-                // Lazily create the event:
+            if (listeners[i]==TbbleColumnModelListener.clbss) {
+                // Lbzily crebte the event:
                 // if (e == null)
-                //  e = new ChangeEvent(this);
-                ((TableColumnModelListener)listeners[i+1]).
-                    columnSelectionChanged(e);
+                //  e = new ChbngeEvent(this);
+                ((TbbleColumnModelListener)listeners[i+1]).
+                    columnSelectionChbnged(e);
             }
         }
     }
 
     /**
-     * Notifies all listeners that have registered interest for
-     * notification on this event type.  The event instance
-     * is lazily created using the parameters passed into
+     * Notifies bll listeners thbt hbve registered interest for
+     * notificbtion on this event type.  The event instbnce
+     * is lbzily crebted using the pbrbmeters pbssed into
      * the fire method.
      * @see EventListenerList
      */
-    protected void fireColumnMarginChanged() {
-        // Guaranteed to return a non-null array
+    protected void fireColumnMbrginChbnged() {
+        // Gubrbnteed to return b non-null brrby
         Object[] listeners = listenerList.getListenerList();
-        // Process the listeners last to first, notifying
-        // those that are interested in this event
+        // Process the listeners lbst to first, notifying
+        // those thbt bre interested in this event
         for (int i = listeners.length-2; i>=0; i-=2) {
-            if (listeners[i]==TableColumnModelListener.class) {
-                // Lazily create the event:
-                if (changeEvent == null)
-                    changeEvent = new ChangeEvent(this);
-                ((TableColumnModelListener)listeners[i+1]).
-                    columnMarginChanged(changeEvent);
+            if (listeners[i]==TbbleColumnModelListener.clbss) {
+                // Lbzily crebte the event:
+                if (chbngeEvent == null)
+                    chbngeEvent = new ChbngeEvent(this);
+                ((TbbleColumnModelListener)listeners[i+1]).
+                    columnMbrginChbnged(chbngeEvent);
             }
         }
     }
 
     /**
-     * Returns an array of all the objects currently registered
-     * as <code><em>Foo</em>Listener</code>s
+     * Returns bn brrby of bll the objects currently registered
+     * bs <code><em>Foo</em>Listener</code>s
      * upon this model.
-     * <code><em>Foo</em>Listener</code>s are registered using the
-     * <code>add<em>Foo</em>Listener</code> method.
+     * <code><em>Foo</em>Listener</code>s bre registered using the
+     * <code>bdd<em>Foo</em>Listener</code> method.
      *
      * <p>
      *
-     * You can specify the <code>listenerType</code> argument
-     * with a class literal,
-     * such as
-     * <code><em>Foo</em>Listener.class</code>.
-     * For example, you can query a
-     * <code>DefaultTableColumnModel</code> <code>m</code>
+     * You cbn specify the <code>listenerType</code> brgument
+     * with b clbss literbl,
+     * such bs
+     * <code><em>Foo</em>Listener.clbss</code>.
+     * For exbmple, you cbn query b
+     * <code>DefbultTbbleColumnModel</code> <code>m</code>
      * for its column model listeners with the following code:
      *
-     * <pre>ColumnModelListener[] cmls = (ColumnModelListener[])(m.getListeners(ColumnModelListener.class));</pre>
+     * <pre>ColumnModelListener[] cmls = (ColumnModelListener[])(m.getListeners(ColumnModelListener.clbss));</pre>
      *
-     * If no such listeners exist, this method returns an empty array.
+     * If no such listeners exist, this method returns bn empty brrby.
      *
-     * @param listenerType the type of listeners requested; this parameter
-     *          should specify an interface that descends from
-     *          <code>java.util.EventListener</code>
-     * @return an array of all objects registered as
+     * @pbrbm listenerType the type of listeners requested; this pbrbmeter
+     *          should specify bn interfbce thbt descends from
+     *          <code>jbvb.util.EventListener</code>
+     * @return bn brrby of bll objects registered bs
      *          <code><em>Foo</em>Listener</code>s on this model,
-     *          or an empty array if no such
-     *          listeners have been added
-     * @exception ClassCastException if <code>listenerType</code>
-     *          doesn't specify a class or interface that implements
-     *          <code>java.util.EventListener</code>
+     *          or bn empty brrby if no such
+     *          listeners hbve been bdded
+     * @exception ClbssCbstException if <code>listenerType</code>
+     *          doesn't specify b clbss or interfbce thbt implements
+     *          <code>jbvb.util.EventListener</code>
      *
      * @see #getColumnModelListeners
      * @since 1.3
      */
-    public <T extends EventListener> T[] getListeners(Class<T> listenerType) {
+    public <T extends EventListener> T[] getListeners(Clbss<T> listenerType) {
         return listenerList.getListeners(listenerType);
     }
 
 //
-// Implementing the PropertyChangeListener interface
+// Implementing the PropertyChbngeListener interfbce
 //
 
-    // PENDING(alan)
-    // implements java.beans.PropertyChangeListener
+    // PENDING(blbn)
+    // implements jbvb.bebns.PropertyChbngeListener
     /**
-     * Property Change Listener change method.  Used to track changes
+     * Property Chbnge Listener chbnge method.  Used to trbck chbnges
      * to the column width or preferred column width.
      *
-     * @param  evt  <code>PropertyChangeEvent</code>
+     * @pbrbm  evt  <code>PropertyChbngeEvent</code>
      */
-    public void propertyChange(PropertyChangeEvent evt) {
-        String name = evt.getPropertyName();
+    public void propertyChbnge(PropertyChbngeEvent evt) {
+        String nbme = evt.getPropertyNbme();
 
-        if (name == "width" || name == "preferredWidth") {
-            invalidateWidthCache();
-            // This is a misnomer, we're using this method
-            // simply to cause a relayout.
-            fireColumnMarginChanged();
+        if (nbme == "width" || nbme == "preferredWidth") {
+            invblidbteWidthCbche();
+            // This is b misnomer, we're using this method
+            // simply to cbuse b relbyout.
+            fireColumnMbrginChbnged();
         }
 
     }
 
 //
-// Implementing ListSelectionListener interface
+// Implementing ListSelectionListener interfbce
 //
 
-    // implements javax.swing.event.ListSelectionListener
+    // implements jbvbx.swing.event.ListSelectionListener
     /**
-     * A <code>ListSelectionListener</code> that forwards
-     * <code>ListSelectionEvents</code> when there is a column
-     * selection change.
+     * A <code>ListSelectionListener</code> thbt forwbrds
+     * <code>ListSelectionEvents</code> when there is b column
+     * selection chbnge.
      *
-     * @param e  the change event
+     * @pbrbm e  the chbnge event
      */
-    public void valueChanged(ListSelectionEvent e) {
-        fireColumnSelectionChanged(e);
+    public void vblueChbnged(ListSelectionEvent e) {
+        fireColumnSelectionChbnged(e);
     }
 
 //
@@ -715,28 +715,28 @@ public class DefaultTableColumnModel implements TableColumnModel,
 //
 
     /**
-     * Creates a new default list selection model.
+     * Crebtes b new defbult list selection model.
      *
-     * @return a newly created default list selection model.
+     * @return b newly crebted defbult list selection model.
      */
-    protected ListSelectionModel createSelectionModel() {
-        return new DefaultListSelectionModel();
+    protected ListSelectionModel crebteSelectionModel() {
+        return new DefbultListSelectionModel();
     }
 
     /**
-     * Recalculates the total combined width of all columns.  Updates the
-     * <code>totalColumnWidth</code> property.
+     * Recblculbtes the totbl combined width of bll columns.  Updbtes the
+     * <code>totblColumnWidth</code> property.
      */
-    protected void recalcWidthCache() {
-        Enumeration<TableColumn> enumeration = getColumns();
-        totalColumnWidth = 0;
-        while (enumeration.hasMoreElements()) {
-            totalColumnWidth += enumeration.nextElement().getWidth();
+    protected void recblcWidthCbche() {
+        Enumerbtion<TbbleColumn> enumerbtion = getColumns();
+        totblColumnWidth = 0;
+        while (enumerbtion.hbsMoreElements()) {
+            totblColumnWidth += enumerbtion.nextElement().getWidth();
         }
     }
 
-    private void invalidateWidthCache() {
-        totalColumnWidth = -1;
+    privbte void invblidbteWidthCbche() {
+        totblColumnWidth = -1;
     }
 
-} // End of class DefaultTableColumnModel
+} // End of clbss DefbultTbbleColumnModel

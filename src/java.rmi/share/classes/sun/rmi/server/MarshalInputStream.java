@@ -1,169 +1,169 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.rmi.server;
+pbckbge sun.rmi.server;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectStreamClass;
-import java.io.StreamCorruptedException;
-import java.net.URL;
-import java.util.*;
-import java.security.AccessControlException;
-import java.security.Permission;
+import jbvb.io.IOException;
+import jbvb.io.InputStrebm;
+import jbvb.io.ObjectInputStrebm;
+import jbvb.io.ObjectStrebmClbss;
+import jbvb.io.StrebmCorruptedException;
+import jbvb.net.URL;
+import jbvb.util.*;
+import jbvb.security.AccessControlException;
+import jbvb.security.Permission;
 
-import java.rmi.server.RMIClassLoader;
-import java.security.PrivilegedAction;
+import jbvb.rmi.server.RMIClbssLobder;
+import jbvb.security.PrivilegedAction;
 
 /**
- * MarshalInputStream is an extension of ObjectInputStream.  When resolving
- * a class, it reads an object from the stream written by a corresponding
- * MarshalOutputStream.  If the class to be resolved is not available
- * locally, from the first class loader on the execution stack, or from the
- * context class loader of the current thread, it will attempt to load the
- * class from the location annotated by the sending MarshalOutputStream.
- * This location object must be a string representing a path of URLs.
+ * MbrshblInputStrebm is bn extension of ObjectInputStrebm.  When resolving
+ * b clbss, it rebds bn object from the strebm written by b corresponding
+ * MbrshblOutputStrebm.  If the clbss to be resolved is not bvbilbble
+ * locblly, from the first clbss lobder on the execution stbck, or from the
+ * context clbss lobder of the current threbd, it will bttempt to lobd the
+ * clbss from the locbtion bnnotbted by the sending MbrshblOutputStrebm.
+ * This locbtion object must be b string representing b pbth of URLs.
  *
- * A new MarshalInputStream should be created to deserialize remote objects or
- * graphs containing remote objects.  Objects are created from the stream
- * using the ObjectInputStream.readObject method.
+ * A new MbrshblInputStrebm should be crebted to deseriblize remote objects or
+ * grbphs contbining remote objects.  Objects bre crebted from the strebm
+ * using the ObjectInputStrebm.rebdObject method.
  *
- * @author      Peter Jones
+ * @buthor      Peter Jones
  */
-public class MarshalInputStream extends ObjectInputStream {
+public clbss MbrshblInputStrebm extends ObjectInputStrebm {
 
     /**
-     * Value of "java.rmi.server.useCodebaseOnly" property,
-     * as cached at class initialization time.
+     * Vblue of "jbvb.rmi.server.useCodebbseOnly" property,
+     * bs cbched bt clbss initiblizbtion time.
      *
-     * The default value is true. That is, the value is true
-     * if the property is absent or is not equal to "false".
-     * The value is only false when the property is present
-     * and is equal to "false".
+     * The defbult vblue is true. Thbt is, the vblue is true
+     * if the property is bbsent or is not equbl to "fblse".
+     * The vblue is only fblse when the property is present
+     * bnd is equbl to "fblse".
      */
-    private static final boolean useCodebaseOnlyProperty =
-        ! java.security.AccessController.doPrivileged(
+    privbte stbtic finbl boolebn useCodebbseOnlyProperty =
+        ! jbvb.security.AccessController.doPrivileged(
             (PrivilegedAction<String>) () -> System.getProperty(
-                "java.rmi.server.useCodebaseOnly", "true"))
-            .equalsIgnoreCase("false");
+                "jbvb.rmi.server.useCodebbseOnly", "true"))
+            .equblsIgnoreCbse("fblse");
 
-    /** table to hold sun classes to which access is explicitly permitted */
-    protected static Map<String, Class<?>> permittedSunClasses
-        = new HashMap<>(3);
+    /** tbble to hold sun clbsses to which bccess is explicitly permitted */
+    protected stbtic Mbp<String, Clbss<?>> permittedSunClbsses
+        = new HbshMbp<>(3);
 
-    /** if true, don't try superclass first in resolveClass() */
-    private boolean skipDefaultResolveClass = false;
+    /** if true, don't try superclbss first in resolveClbss() */
+    privbte boolebn skipDefbultResolveClbss = fblse;
 
-    /** callbacks to make when done() called: maps Object to Runnable */
-    private final Map<Object, Runnable> doneCallbacks
-        = new HashMap<>(3);
+    /** cbllbbcks to mbke when done() cblled: mbps Object to Runnbble */
+    privbte finbl Mbp<Object, Runnbble> doneCbllbbcks
+        = new HbshMbp<>(3);
 
     /**
-     * if true, load classes (if not available locally) only from the
-     * URL specified by the "java.rmi.server.codebase" property.
+     * if true, lobd clbsses (if not bvbilbble locblly) only from the
+     * URL specified by the "jbvb.rmi.server.codebbse" property.
      */
-    private boolean useCodebaseOnly = useCodebaseOnlyProperty;
+    privbte boolebn useCodebbseOnly = useCodebbseOnlyProperty;
 
     /*
      * Fix for 4179055: The remote object services inside the
-     * activation daemon use stubs that are in the package
-     * sun.rmi.server.  Classes for these stubs should be loaded from
-     * the classpath by RMI system code and not by the normal
-     * unmarshalling process as applications should not need to have
-     * permission to access the sun implementation classes.
+     * bctivbtion dbemon use stubs thbt bre in the pbckbge
+     * sun.rmi.server.  Clbsses for these stubs should be lobded from
+     * the clbsspbth by RMI system code bnd not by the normbl
+     * unmbrshblling process bs bpplicbtions should not need to hbve
+     * permission to bccess the sun implementbtion clbsses.
      *
-     * Note: this fix should be redone when API changes may be
-     * integrated
+     * Note: this fix should be redone when API chbnges mby be
+     * integrbted
      *
-     * During parameter unmarshalling RMI needs to explicitly permit
-     * access to three sun.* stub classes
+     * During pbrbmeter unmbrshblling RMI needs to explicitly permit
+     * bccess to three sun.* stub clbsses
      */
-    static {
+    stbtic {
         try {
             String system =
-                "sun.rmi.server.Activation$ActivationSystemImpl_Stub";
+                "sun.rmi.server.Activbtion$ActivbtionSystemImpl_Stub";
             String registry = "sun.rmi.registry.RegistryImpl_Stub";
 
-            permittedSunClasses.put(system, Class.forName(system));
-            permittedSunClasses.put(registry, Class.forName(registry));
+            permittedSunClbsses.put(system, Clbss.forNbme(system));
+            permittedSunClbsses.put(registry, Clbss.forNbme(registry));
 
-        } catch (ClassNotFoundException e) {
-            throw new NoClassDefFoundError("Missing system class: " +
-                                           e.getMessage());
+        } cbtch (ClbssNotFoundException e) {
+            throw new NoClbssDefFoundError("Missing system clbss: " +
+                                           e.getMessbge());
         }
     }
 
     /**
-     * Create a new MarshalInputStream object.
+     * Crebte b new MbrshblInputStrebm object.
      */
-    public MarshalInputStream(InputStream in)
-        throws IOException, StreamCorruptedException
+    public MbrshblInputStrebm(InputStrebm in)
+        throws IOException, StrebmCorruptedException
     {
         super(in);
     }
 
     /**
-     * Returns a callback previously registered via the setDoneCallback
-     * method with given key, or null if no callback has yet been registered
-     * with that key.
+     * Returns b cbllbbck previously registered vib the setDoneCbllbbck
+     * method with given key, or null if no cbllbbck hbs yet been registered
+     * with thbt key.
      */
-    public Runnable getDoneCallback(Object key) {
-        return doneCallbacks.get(key);                 // not thread-safe
+    public Runnbble getDoneCbllbbck(Object key) {
+        return doneCbllbbcks.get(key);                 // not threbd-sbfe
     }
 
     /**
-     * Registers a callback to make when this stream's done() method is
-     * invoked, along with a key for retrieving the same callback instance
-     * subsequently from the getDoneCallback method.
+     * Registers b cbllbbck to mbke when this strebm's done() method is
+     * invoked, blong with b key for retrieving the sbme cbllbbck instbnce
+     * subsequently from the getDoneCbllbbck method.
      */
-    public void setDoneCallback(Object key, Runnable callback) {
-        //assert(!doneCallbacks.contains(key));
-        doneCallbacks.put(key, callback);               // not thread-safe
+    public void setDoneCbllbbck(Object key, Runnbble cbllbbck) {
+        //bssert(!doneCbllbbcks.contbins(key));
+        doneCbllbbcks.put(key, cbllbbck);               // not threbd-sbfe
     }
 
     /**
-     * Indicates that the user of this MarshalInputStream is done reading
-     * objects from it, so all callbacks registered with the setDoneCallback
+     * Indicbtes thbt the user of this MbrshblInputStrebm is done rebding
+     * objects from it, so bll cbllbbcks registered with the setDoneCbllbbck
      * method should now be (synchronously) executed.  When this method
-     * returns, there are no more callbacks registered.
+     * returns, there bre no more cbllbbcks registered.
      *
-     * This method is implicitly invoked by close() before it delegates to
-     * the superclass's close method.
+     * This method is implicitly invoked by close() before it delegbtes to
+     * the superclbss's close method.
      */
     public void done() {
-        Iterator<Runnable> iter = doneCallbacks.values().iterator();
-        while (iter.hasNext()) {                        // not thread-safe
-            Runnable callback = iter.next();
-            callback.run();
+        Iterbtor<Runnbble> iter = doneCbllbbcks.vblues().iterbtor();
+        while (iter.hbsNext()) {                        // not threbd-sbfe
+            Runnbble cbllbbck = iter.next();
+            cbllbbck.run();
         }
-        doneCallbacks.clear();
+        doneCbllbbcks.clebr();
     }
 
     /**
-     * Closes this stream, implicitly invoking done() first.
+     * Closes this strebm, implicitly invoking done() first.
      */
     public void close() throws IOException {
         done();
@@ -171,152 +171,152 @@ public class MarshalInputStream extends ObjectInputStream {
     }
 
     /**
-     * resolveClass is extended to acquire (if present) the location
-     * from which to load the specified class.
-     * It will find, load, and return the class.
+     * resolveClbss is extended to bcquire (if present) the locbtion
+     * from which to lobd the specified clbss.
+     * It will find, lobd, bnd return the clbss.
      */
-    protected Class<?> resolveClass(ObjectStreamClass classDesc)
-        throws IOException, ClassNotFoundException
+    protected Clbss<?> resolveClbss(ObjectStrebmClbss clbssDesc)
+        throws IOException, ClbssNotFoundException
     {
         /*
-         * Always read annotation written by MarshalOutputStream
-         * describing where to load class from.
+         * Alwbys rebd bnnotbtion written by MbrshblOutputStrebm
+         * describing where to lobd clbss from.
          */
-        Object annotation = readLocation();
+        Object bnnotbtion = rebdLocbtion();
 
-        String className = classDesc.getName();
-
-        /*
-         * Unless we were told to skip this consideration, choose the
-         * "default loader" to simulate the default ObjectInputStream
-         * resolveClass mechanism (that is, choose the first non-null
-         * loader on the execution stack) to maximize the likelihood of
-         * type compatibility with calling code.  (This consideration
-         * is skipped during server parameter unmarshalling using the 1.2
-         * stub protocol, because there would never be a non-null class
-         * loader on the stack in that situation anyway.)
-         */
-        ClassLoader defaultLoader =
-            skipDefaultResolveClass ? null : latestUserDefinedLoader();
+        String clbssNbme = clbssDesc.getNbme();
 
         /*
-         * If the "java.rmi.server.useCodebaseOnly" property was true or
-         * useCodebaseOnly() was called or the annotation is not a String,
-         * load from the local loader using the "java.rmi.server.codebase"
-         * URL.  Otherwise, load from a loader using the codebase URL in
-         * the annotation.
+         * Unless we were told to skip this considerbtion, choose the
+         * "defbult lobder" to simulbte the defbult ObjectInputStrebm
+         * resolveClbss mechbnism (thbt is, choose the first non-null
+         * lobder on the execution stbck) to mbximize the likelihood of
+         * type compbtibility with cblling code.  (This considerbtion
+         * is skipped during server pbrbmeter unmbrshblling using the 1.2
+         * stub protocol, becbuse there would never be b non-null clbss
+         * lobder on the stbck in thbt situbtion bnywby.)
          */
-        String codebase = null;
-        if (!useCodebaseOnly && annotation instanceof String) {
-            codebase = (String) annotation;
+        ClbssLobder defbultLobder =
+            skipDefbultResolveClbss ? null : lbtestUserDefinedLobder();
+
+        /*
+         * If the "jbvb.rmi.server.useCodebbseOnly" property wbs true or
+         * useCodebbseOnly() wbs cblled or the bnnotbtion is not b String,
+         * lobd from the locbl lobder using the "jbvb.rmi.server.codebbse"
+         * URL.  Otherwise, lobd from b lobder using the codebbse URL in
+         * the bnnotbtion.
+         */
+        String codebbse = null;
+        if (!useCodebbseOnly && bnnotbtion instbnceof String) {
+            codebbse = (String) bnnotbtion;
         }
 
         try {
-            return RMIClassLoader.loadClass(codebase, className,
-                                            defaultLoader);
-        } catch (AccessControlException e) {
-            return checkSunClass(className, e);
-        } catch (ClassNotFoundException e) {
+            return RMIClbssLobder.lobdClbss(codebbse, clbssNbme,
+                                            defbultLobder);
+        } cbtch (AccessControlException e) {
+            return checkSunClbss(clbssNbme, e);
+        } cbtch (ClbssNotFoundException e) {
             /*
-             * Fix for 4442373: delegate to ObjectInputStream.resolveClass()
-             * to resolve primitive classes.
+             * Fix for 4442373: delegbte to ObjectInputStrebm.resolveClbss()
+             * to resolve primitive clbsses.
              */
             try {
-                if (Character.isLowerCase(className.charAt(0)) &&
-                    className.indexOf('.') == -1)
+                if (Chbrbcter.isLowerCbse(clbssNbme.chbrAt(0)) &&
+                    clbssNbme.indexOf('.') == -1)
                 {
-                    return super.resolveClass(classDesc);
+                    return super.resolveClbss(clbssDesc);
                 }
-            } catch (ClassNotFoundException e2) {
+            } cbtch (ClbssNotFoundException e2) {
             }
             throw e;
         }
     }
 
     /**
-     * resolveProxyClass is extended to acquire (if present) the location
-     * to determine the class loader to define the proxy class in.
+     * resolveProxyClbss is extended to bcquire (if present) the locbtion
+     * to determine the clbss lobder to define the proxy clbss in.
      */
-    protected Class<?> resolveProxyClass(String[] interfaces)
-        throws IOException, ClassNotFoundException
+    protected Clbss<?> resolveProxyClbss(String[] interfbces)
+        throws IOException, ClbssNotFoundException
     {
         /*
-         * Always read annotation written by MarshalOutputStream.
+         * Alwbys rebd bnnotbtion written by MbrshblOutputStrebm.
          */
-        Object annotation = readLocation();
+        Object bnnotbtion = rebdLocbtion();
 
-        ClassLoader defaultLoader =
-            skipDefaultResolveClass ? null : latestUserDefinedLoader();
+        ClbssLobder defbultLobder =
+            skipDefbultResolveClbss ? null : lbtestUserDefinedLobder();
 
-        String codebase = null;
-        if (!useCodebaseOnly && annotation instanceof String) {
-            codebase = (String) annotation;
+        String codebbse = null;
+        if (!useCodebbseOnly && bnnotbtion instbnceof String) {
+            codebbse = (String) bnnotbtion;
         }
 
-        return RMIClassLoader.loadProxyClass(codebase, interfaces,
-                                             defaultLoader);
+        return RMIClbssLobder.lobdProxyClbss(codebbse, interfbces,
+                                             defbultLobder);
     }
 
     /*
-     * Returns the first non-null class loader up the execution stack, or null
-     * if only code from the null class loader is on the stack.
+     * Returns the first non-null clbss lobder up the execution stbck, or null
+     * if only code from the null clbss lobder is on the stbck.
      */
-    private static ClassLoader latestUserDefinedLoader() {
-        return sun.misc.VM.latestUserDefinedLoader();
+    privbte stbtic ClbssLobder lbtestUserDefinedLobder() {
+        return sun.misc.VM.lbtestUserDefinedLobder();
     }
 
     /**
-     * Fix for 4179055: Need to assist resolving sun stubs; resolve
-     * class locally if it is a "permitted" sun class
+     * Fix for 4179055: Need to bssist resolving sun stubs; resolve
+     * clbss locblly if it is b "permitted" sun clbss
      */
-    private Class<?> checkSunClass(String className, AccessControlException e)
+    privbte Clbss<?> checkSunClbss(String clbssNbme, AccessControlException e)
         throws AccessControlException
     {
-        // ensure that we are giving out a stub for the correct reason
+        // ensure thbt we bre giving out b stub for the correct rebson
         Permission perm = e.getPermission();
-        String name = null;
+        String nbme = null;
         if (perm != null) {
-            name = perm.getName();
+            nbme = perm.getNbme();
         }
 
-        Class<?> resolvedClass = permittedSunClasses.get(className);
+        Clbss<?> resolvedClbss = permittedSunClbsses.get(clbssNbme);
 
-        // if class not permitted, throw the SecurityException
-        if ((name == null) ||
-            (resolvedClass == null) ||
-            ((!name.equals("accessClassInPackage.sun.rmi.server")) &&
-            (!name.equals("accessClassInPackage.sun.rmi.registry"))))
+        // if clbss not permitted, throw the SecurityException
+        if ((nbme == null) ||
+            (resolvedClbss == null) ||
+            ((!nbme.equbls("bccessClbssInPbckbge.sun.rmi.server")) &&
+            (!nbme.equbls("bccessClbssInPbckbge.sun.rmi.registry"))))
         {
             throw e;
         }
 
-        return resolvedClass;
+        return resolvedClbss;
     }
 
     /**
-     * Return the location for the class in the stream.  This method can
-     * be overridden by subclasses that store this annotation somewhere
-     * else than as the next object in the stream, as is done by this class.
+     * Return the locbtion for the clbss in the strebm.  This method cbn
+     * be overridden by subclbsses thbt store this bnnotbtion somewhere
+     * else thbn bs the next object in the strebm, bs is done by this clbss.
      */
-    protected Object readLocation()
-        throws IOException, ClassNotFoundException
+    protected Object rebdLocbtion()
+        throws IOException, ClbssNotFoundException
     {
-        return readObject();
+        return rebdObject();
     }
 
     /**
-     * Set a flag to indicate that the superclass's default resolveClass()
-     * implementation should not be invoked by our resolveClass().
+     * Set b flbg to indicbte thbt the superclbss's defbult resolveClbss()
+     * implementbtion should not be invoked by our resolveClbss().
      */
-    void skipDefaultResolveClass() {
-        skipDefaultResolveClass = true;
+    void skipDefbultResolveClbss() {
+        skipDefbultResolveClbss = true;
     }
 
     /**
-     * Disable code downloading except from the URL specified by the
-     * "java.rmi.server.codebase" property.
+     * Disbble code downlobding except from the URL specified by the
+     * "jbvb.rmi.server.codebbse" property.
      */
-    void useCodebaseOnly() {
-        useCodebaseOnly = true;
+    void useCodebbseOnly() {
+        useCodebbseOnly = true;
     }
 }

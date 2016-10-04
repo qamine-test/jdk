@@ -1,168 +1,168 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * Written by Doug Lea with assistance from members of JCP JSR-166
- * Expert Group and released to the public domain, as explained at
- * http://creativecommons.org/publicdomain/zero/1.0/
+ * Written by Doug Leb with bssistbnce from members of JCP JSR-166
+ * Expert Group bnd relebsed to the public dombin, bs explbined bt
+ * http://crebtivecommons.org/publicdombin/zero/1.0/
  */
 
-package java.util.concurrent;
+pbckbge jbvb.util.concurrent;
 
 /**
- * A {@code Future} represents the result of an asynchronous
- * computation.  Methods are provided to check if the computation is
- * complete, to wait for its completion, and to retrieve the result of
- * the computation.  The result can only be retrieved using method
- * {@code get} when the computation has completed, blocking if
- * necessary until it is ready.  Cancellation is performed by the
- * {@code cancel} method.  Additional methods are provided to
- * determine if the task completed normally or was cancelled. Once a
- * computation has completed, the computation cannot be cancelled.
- * If you would like to use a {@code Future} for the sake
- * of cancellability but not provide a usable result, you can
- * declare types of the form {@code Future<?>} and
- * return {@code null} as a result of the underlying task.
+ * A {@code Future} represents the result of bn bsynchronous
+ * computbtion.  Methods bre provided to check if the computbtion is
+ * complete, to wbit for its completion, bnd to retrieve the result of
+ * the computbtion.  The result cbn only be retrieved using method
+ * {@code get} when the computbtion hbs completed, blocking if
+ * necessbry until it is rebdy.  Cbncellbtion is performed by the
+ * {@code cbncel} method.  Additionbl methods bre provided to
+ * determine if the tbsk completed normblly or wbs cbncelled. Once b
+ * computbtion hbs completed, the computbtion cbnnot be cbncelled.
+ * If you would like to use b {@code Future} for the sbke
+ * of cbncellbbility but not provide b usbble result, you cbn
+ * declbre types of the form {@code Future<?>} bnd
+ * return {@code null} bs b result of the underlying tbsk.
  *
  * <p>
- * <b>Sample Usage</b> (Note that the following classes are all
- * made-up.)
+ * <b>Sbmple Usbge</b> (Note thbt the following clbsses bre bll
+ * mbde-up.)
  * <pre> {@code
- * interface ArchiveSearcher { String search(String target); }
- * class App {
+ * interfbce ArchiveSebrcher { String sebrch(String tbrget); }
+ * clbss App {
  *   ExecutorService executor = ...
- *   ArchiveSearcher searcher = ...
- *   void showSearch(final String target)
+ *   ArchiveSebrcher sebrcher = ...
+ *   void showSebrch(finbl String tbrget)
  *       throws InterruptedException {
  *     Future<String> future
- *       = executor.submit(new Callable<String>() {
- *         public String call() {
- *             return searcher.search(target);
+ *       = executor.submit(new Cbllbble<String>() {
+ *         public String cbll() {
+ *             return sebrcher.sebrch(tbrget);
  *         }});
- *     displayOtherThings(); // do other things while searching
+ *     displbyOtherThings(); // do other things while sebrching
  *     try {
- *       displayText(future.get()); // use future
- *     } catch (ExecutionException ex) { cleanup(); return; }
+ *       displbyText(future.get()); // use future
+ *     } cbtch (ExecutionException ex) { clebnup(); return; }
  *   }
  * }}</pre>
  *
- * The {@link FutureTask} class is an implementation of {@code Future} that
- * implements {@code Runnable}, and so may be executed by an {@code Executor}.
- * For example, the above construction with {@code submit} could be replaced by:
+ * The {@link FutureTbsk} clbss is bn implementbtion of {@code Future} thbt
+ * implements {@code Runnbble}, bnd so mby be executed by bn {@code Executor}.
+ * For exbmple, the bbove construction with {@code submit} could be replbced by:
  *  <pre> {@code
- * FutureTask<String> future =
- *   new FutureTask<String>(new Callable<String>() {
- *     public String call() {
- *       return searcher.search(target);
+ * FutureTbsk<String> future =
+ *   new FutureTbsk<String>(new Cbllbble<String>() {
+ *     public String cbll() {
+ *       return sebrcher.sebrch(tbrget);
  *   }});
  * executor.execute(future);}</pre>
  *
- * <p>Memory consistency effects: Actions taken by the asynchronous computation
- * <a href="package-summary.html#MemoryVisibility"> <i>happen-before</i></a>
- * actions following the corresponding {@code Future.get()} in another thread.
+ * <p>Memory consistency effects: Actions tbken by the bsynchronous computbtion
+ * <b href="pbckbge-summbry.html#MemoryVisibility"> <i>hbppen-before</i></b>
+ * bctions following the corresponding {@code Future.get()} in bnother threbd.
  *
- * @see FutureTask
+ * @see FutureTbsk
  * @see Executor
  * @since 1.5
- * @author Doug Lea
- * @param <V> The result type returned by this Future's {@code get} method
+ * @buthor Doug Leb
+ * @pbrbm <V> The result type returned by this Future's {@code get} method
  */
-public interface Future<V> {
+public interfbce Future<V> {
 
     /**
-     * Attempts to cancel execution of this task.  This attempt will
-     * fail if the task has already completed, has already been cancelled,
-     * or could not be cancelled for some other reason. If successful,
-     * and this task has not started when {@code cancel} is called,
-     * this task should never run.  If the task has already started,
-     * then the {@code mayInterruptIfRunning} parameter determines
-     * whether the thread executing this task should be interrupted in
-     * an attempt to stop the task.
+     * Attempts to cbncel execution of this tbsk.  This bttempt will
+     * fbil if the tbsk hbs blrebdy completed, hbs blrebdy been cbncelled,
+     * or could not be cbncelled for some other rebson. If successful,
+     * bnd this tbsk hbs not stbrted when {@code cbncel} is cblled,
+     * this tbsk should never run.  If the tbsk hbs blrebdy stbrted,
+     * then the {@code mbyInterruptIfRunning} pbrbmeter determines
+     * whether the threbd executing this tbsk should be interrupted in
+     * bn bttempt to stop the tbsk.
      *
-     * <p>After this method returns, subsequent calls to {@link #isDone} will
-     * always return {@code true}.  Subsequent calls to {@link #isCancelled}
-     * will always return {@code true} if this method returned {@code true}.
+     * <p>After this method returns, subsequent cblls to {@link #isDone} will
+     * blwbys return {@code true}.  Subsequent cblls to {@link #isCbncelled}
+     * will blwbys return {@code true} if this method returned {@code true}.
      *
-     * @param mayInterruptIfRunning {@code true} if the thread executing this
-     * task should be interrupted; otherwise, in-progress tasks are allowed
+     * @pbrbm mbyInterruptIfRunning {@code true} if the threbd executing this
+     * tbsk should be interrupted; otherwise, in-progress tbsks bre bllowed
      * to complete
-     * @return {@code false} if the task could not be cancelled,
-     * typically because it has already completed normally;
+     * @return {@code fblse} if the tbsk could not be cbncelled,
+     * typicblly becbuse it hbs blrebdy completed normblly;
      * {@code true} otherwise
      */
-    boolean cancel(boolean mayInterruptIfRunning);
+    boolebn cbncel(boolebn mbyInterruptIfRunning);
 
     /**
-     * Returns {@code true} if this task was cancelled before it completed
-     * normally.
+     * Returns {@code true} if this tbsk wbs cbncelled before it completed
+     * normblly.
      *
-     * @return {@code true} if this task was cancelled before it completed
+     * @return {@code true} if this tbsk wbs cbncelled before it completed
      */
-    boolean isCancelled();
+    boolebn isCbncelled();
 
     /**
-     * Returns {@code true} if this task completed.
+     * Returns {@code true} if this tbsk completed.
      *
-     * Completion may be due to normal termination, an exception, or
-     * cancellation -- in all of these cases, this method will return
+     * Completion mby be due to normbl terminbtion, bn exception, or
+     * cbncellbtion -- in bll of these cbses, this method will return
      * {@code true}.
      *
-     * @return {@code true} if this task completed
+     * @return {@code true} if this tbsk completed
      */
-    boolean isDone();
+    boolebn isDone();
 
     /**
-     * Waits if necessary for the computation to complete, and then
+     * Wbits if necessbry for the computbtion to complete, bnd then
      * retrieves its result.
      *
      * @return the computed result
-     * @throws CancellationException if the computation was cancelled
-     * @throws ExecutionException if the computation threw an
+     * @throws CbncellbtionException if the computbtion wbs cbncelled
+     * @throws ExecutionException if the computbtion threw bn
      * exception
-     * @throws InterruptedException if the current thread was interrupted
-     * while waiting
+     * @throws InterruptedException if the current threbd wbs interrupted
+     * while wbiting
      */
     V get() throws InterruptedException, ExecutionException;
 
     /**
-     * Waits if necessary for at most the given time for the computation
-     * to complete, and then retrieves its result, if available.
+     * Wbits if necessbry for bt most the given time for the computbtion
+     * to complete, bnd then retrieves its result, if bvbilbble.
      *
-     * @param timeout the maximum time to wait
-     * @param unit the time unit of the timeout argument
+     * @pbrbm timeout the mbximum time to wbit
+     * @pbrbm unit the time unit of the timeout brgument
      * @return the computed result
-     * @throws CancellationException if the computation was cancelled
-     * @throws ExecutionException if the computation threw an
+     * @throws CbncellbtionException if the computbtion wbs cbncelled
+     * @throws ExecutionException if the computbtion threw bn
      * exception
-     * @throws InterruptedException if the current thread was interrupted
-     * while waiting
-     * @throws TimeoutException if the wait timed out
+     * @throws InterruptedException if the current threbd wbs interrupted
+     * while wbiting
+     * @throws TimeoutException if the wbit timed out
      */
     V get(long timeout, TimeUnit unit)
         throws InterruptedException, ExecutionException, TimeoutException;

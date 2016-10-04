@@ -1,48 +1,48 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
+ * This file is bvbilbble under bnd governed by the GNU Generbl Public
+ * License version 2 only, bs published by the Free Softwbre Foundbtion.
+ * However, the following notice bccompbnied the originbl version of this
  * file:
  *
- * ASM: a very small and fast Java bytecode manipulation framework
- * Copyright (c) 2000-2011 INRIA, France Telecom
+ * ASM: b very smbll bnd fbst Jbvb bytecode mbnipulbtion frbmework
+ * Copyright (c) 2000-2011 INRIA, Frbnce Telecom
  * All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- * 3. Neither the name of the copyright holders nor the names of its
- *    contributors may be used to endorse or promote products derived from
- *    this software without specific prior written permission.
+ * Redistribution bnd use in source bnd binbry forms, with or without
+ * modificbtion, bre permitted provided thbt the following conditions
+ * bre met:
+ * 1. Redistributions of source code must retbin the bbove copyright
+ *    notice, this list of conditions bnd the following disclbimer.
+ * 2. Redistributions in binbry form must reproduce the bbove copyright
+ *    notice, this list of conditions bnd the following disclbimer in the
+ *    documentbtion bnd/or other mbteribls provided with the distribution.
+ * 3. Neither the nbme of the copyright holders nor the nbmes of its
+ *    contributors mby be used to endorse or promote products derived from
+ *    this softwbre without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -56,229 +56,229 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
-package jdk.internal.org.objectweb.asm;
+pbckbge jdk.internbl.org.objectweb.bsm;
 
 /**
- * A non standard class, field, method or code attribute.
+ * A non stbndbrd clbss, field, method or code bttribute.
  *
- * @author Eric Bruneton
- * @author Eugene Kuleshov
+ * @buthor Eric Bruneton
+ * @buthor Eugene Kuleshov
  */
-public class Attribute {
+public clbss Attribute {
 
     /**
-     * The type of this attribute.
+     * The type of this bttribute.
      */
-    public final String type;
+    public finbl String type;
 
     /**
-     * The raw value of this attribute, used only for unknown attributes.
+     * The rbw vblue of this bttribute, used only for unknown bttributes.
      */
-    byte[] value;
+    byte[] vblue;
 
     /**
-     * The next attribute in this attribute list. May be <tt>null</tt>.
+     * The next bttribute in this bttribute list. Mby be <tt>null</tt>.
      */
     Attribute next;
 
     /**
-     * Constructs a new empty attribute.
+     * Constructs b new empty bttribute.
      *
-     * @param type
-     *            the type of the attribute.
+     * @pbrbm type
+     *            the type of the bttribute.
      */
-    protected Attribute(final String type) {
+    protected Attribute(finbl String type) {
         this.type = type;
     }
 
     /**
-     * Returns <tt>true</tt> if this type of attribute is unknown. The default
-     * implementation of this method always returns <tt>true</tt>.
+     * Returns <tt>true</tt> if this type of bttribute is unknown. The defbult
+     * implementbtion of this method blwbys returns <tt>true</tt>.
      *
-     * @return <tt>true</tt> if this type of attribute is unknown.
+     * @return <tt>true</tt> if this type of bttribute is unknown.
      */
-    public boolean isUnknown() {
+    public boolebn isUnknown() {
         return true;
     }
 
     /**
-     * Returns <tt>true</tt> if this type of attribute is a code attribute.
+     * Returns <tt>true</tt> if this type of bttribute is b code bttribute.
      *
-     * @return <tt>true</tt> if this type of attribute is a code attribute.
+     * @return <tt>true</tt> if this type of bttribute is b code bttribute.
      */
-    public boolean isCodeAttribute() {
-        return false;
+    public boolebn isCodeAttribute() {
+        return fblse;
     }
 
     /**
-     * Returns the labels corresponding to this attribute.
+     * Returns the lbbels corresponding to this bttribute.
      *
-     * @return the labels corresponding to this attribute, or <tt>null</tt> if
-     *         this attribute is not a code attribute that contains labels.
+     * @return the lbbels corresponding to this bttribute, or <tt>null</tt> if
+     *         this bttribute is not b code bttribute thbt contbins lbbels.
      */
-    protected Label[] getLabels() {
+    protected Lbbel[] getLbbels() {
         return null;
     }
 
     /**
-     * Reads a {@link #type type} attribute. This method must return a
+     * Rebds b {@link #type type} bttribute. This method must return b
      * <i>new</i> {@link Attribute} object, of type {@link #type type},
-     * corresponding to the <tt>len</tt> bytes starting at the given offset, in
-     * the given class reader.
+     * corresponding to the <tt>len</tt> bytes stbrting bt the given offset, in
+     * the given clbss rebder.
      *
-     * @param cr
-     *            the class that contains the attribute to be read.
-     * @param off
-     *            index of the first byte of the attribute's content in
-     *            {@link ClassReader#b cr.b}. The 6 attribute header bytes,
-     *            containing the type and the length of the attribute, are not
-     *            taken into account here.
-     * @param len
-     *            the length of the attribute's content.
-     * @param buf
-     *            buffer to be used to call {@link ClassReader#readUTF8
-     *            readUTF8}, {@link ClassReader#readClass(int,char[]) readClass}
-     *            or {@link ClassReader#readConst readConst}.
-     * @param codeOff
-     *            index of the first byte of code's attribute content in
-     *            {@link ClassReader#b cr.b}, or -1 if the attribute to be read
-     *            is not a code attribute. The 6 attribute header bytes,
-     *            containing the type and the length of the attribute, are not
-     *            taken into account here.
-     * @param labels
-     *            the labels of the method's code, or <tt>null</tt> if the
-     *            attribute to be read is not a code attribute.
-     * @return a <i>new</i> {@link Attribute} object corresponding to the given
+     * @pbrbm cr
+     *            the clbss thbt contbins the bttribute to be rebd.
+     * @pbrbm off
+     *            index of the first byte of the bttribute's content in
+     *            {@link ClbssRebder#b cr.b}. The 6 bttribute hebder bytes,
+     *            contbining the type bnd the length of the bttribute, bre not
+     *            tbken into bccount here.
+     * @pbrbm len
+     *            the length of the bttribute's content.
+     * @pbrbm buf
+     *            buffer to be used to cbll {@link ClbssRebder#rebdUTF8
+     *            rebdUTF8}, {@link ClbssRebder#rebdClbss(int,chbr[]) rebdClbss}
+     *            or {@link ClbssRebder#rebdConst rebdConst}.
+     * @pbrbm codeOff
+     *            index of the first byte of code's bttribute content in
+     *            {@link ClbssRebder#b cr.b}, or -1 if the bttribute to be rebd
+     *            is not b code bttribute. The 6 bttribute hebder bytes,
+     *            contbining the type bnd the length of the bttribute, bre not
+     *            tbken into bccount here.
+     * @pbrbm lbbels
+     *            the lbbels of the method's code, or <tt>null</tt> if the
+     *            bttribute to be rebd is not b code bttribute.
+     * @return b <i>new</i> {@link Attribute} object corresponding to the given
      *         bytes.
      */
-    protected Attribute read(final ClassReader cr, final int off,
-            final int len, final char[] buf, final int codeOff,
-            final Label[] labels) {
-        Attribute attr = new Attribute(type);
-        attr.value = new byte[len];
-        System.arraycopy(cr.b, off, attr.value, 0, len);
-        return attr;
+    protected Attribute rebd(finbl ClbssRebder cr, finbl int off,
+            finbl int len, finbl chbr[] buf, finbl int codeOff,
+            finbl Lbbel[] lbbels) {
+        Attribute bttr = new Attribute(type);
+        bttr.vblue = new byte[len];
+        System.brrbycopy(cr.b, off, bttr.vblue, 0, len);
+        return bttr;
     }
 
     /**
-     * Returns the byte array form of this attribute.
+     * Returns the byte brrby form of this bttribute.
      *
-     * @param cw
-     *            the class to which this attribute must be added. This
-     *            parameter can be used to add to the constant pool of this
-     *            class the items that corresponds to this attribute.
-     * @param code
+     * @pbrbm cw
+     *            the clbss to which this bttribute must be bdded. This
+     *            pbrbmeter cbn be used to bdd to the constbnt pool of this
+     *            clbss the items thbt corresponds to this bttribute.
+     * @pbrbm code
      *            the bytecode of the method corresponding to this code
-     *            attribute, or <tt>null</tt> if this attribute is not a code
-     *            attributes.
-     * @param len
+     *            bttribute, or <tt>null</tt> if this bttribute is not b code
+     *            bttributes.
+     * @pbrbm len
      *            the length of the bytecode of the method corresponding to this
-     *            code attribute, or <tt>null</tt> if this attribute is not a
-     *            code attribute.
-     * @param maxStack
-     *            the maximum stack size of the method corresponding to this
-     *            code attribute, or -1 if this attribute is not a code
-     *            attribute.
-     * @param maxLocals
-     *            the maximum number of local variables of the method
-     *            corresponding to this code attribute, or -1 if this attribute
-     *            is not a code attribute.
-     * @return the byte array form of this attribute.
+     *            code bttribute, or <tt>null</tt> if this bttribute is not b
+     *            code bttribute.
+     * @pbrbm mbxStbck
+     *            the mbximum stbck size of the method corresponding to this
+     *            code bttribute, or -1 if this bttribute is not b code
+     *            bttribute.
+     * @pbrbm mbxLocbls
+     *            the mbximum number of locbl vbribbles of the method
+     *            corresponding to this code bttribute, or -1 if this bttribute
+     *            is not b code bttribute.
+     * @return the byte brrby form of this bttribute.
      */
-    protected ByteVector write(final ClassWriter cw, final byte[] code,
-            final int len, final int maxStack, final int maxLocals) {
+    protected ByteVector write(finbl ClbssWriter cw, finbl byte[] code,
+            finbl int len, finbl int mbxStbck, finbl int mbxLocbls) {
         ByteVector v = new ByteVector();
-        v.data = value;
-        v.length = value.length;
+        v.dbtb = vblue;
+        v.length = vblue.length;
         return v;
     }
 
     /**
-     * Returns the length of the attribute list that begins with this attribute.
+     * Returns the length of the bttribute list thbt begins with this bttribute.
      *
-     * @return the length of the attribute list that begins with this attribute.
+     * @return the length of the bttribute list thbt begins with this bttribute.
      */
-    final int getCount() {
+    finbl int getCount() {
         int count = 0;
-        Attribute attr = this;
-        while (attr != null) {
+        Attribute bttr = this;
+        while (bttr != null) {
             count += 1;
-            attr = attr.next;
+            bttr = bttr.next;
         }
         return count;
     }
 
     /**
-     * Returns the size of all the attributes in this attribute list.
+     * Returns the size of bll the bttributes in this bttribute list.
      *
-     * @param cw
-     *            the class writer to be used to convert the attributes into
-     *            byte arrays, with the {@link #write write} method.
-     * @param code
+     * @pbrbm cw
+     *            the clbss writer to be used to convert the bttributes into
+     *            byte brrbys, with the {@link #write write} method.
+     * @pbrbm code
      *            the bytecode of the method corresponding to these code
-     *            attributes, or <tt>null</tt> if these attributes are not code
-     *            attributes.
-     * @param len
+     *            bttributes, or <tt>null</tt> if these bttributes bre not code
+     *            bttributes.
+     * @pbrbm len
      *            the length of the bytecode of the method corresponding to
-     *            these code attributes, or <tt>null</tt> if these attributes
-     *            are not code attributes.
-     * @param maxStack
-     *            the maximum stack size of the method corresponding to these
-     *            code attributes, or -1 if these attributes are not code
-     *            attributes.
-     * @param maxLocals
-     *            the maximum number of local variables of the method
-     *            corresponding to these code attributes, or -1 if these
-     *            attributes are not code attributes.
-     * @return the size of all the attributes in this attribute list. This size
-     *         includes the size of the attribute headers.
+     *            these code bttributes, or <tt>null</tt> if these bttributes
+     *            bre not code bttributes.
+     * @pbrbm mbxStbck
+     *            the mbximum stbck size of the method corresponding to these
+     *            code bttributes, or -1 if these bttributes bre not code
+     *            bttributes.
+     * @pbrbm mbxLocbls
+     *            the mbximum number of locbl vbribbles of the method
+     *            corresponding to these code bttributes, or -1 if these
+     *            bttributes bre not code bttributes.
+     * @return the size of bll the bttributes in this bttribute list. This size
+     *         includes the size of the bttribute hebders.
      */
-    final int getSize(final ClassWriter cw, final byte[] code, final int len,
-            final int maxStack, final int maxLocals) {
-        Attribute attr = this;
+    finbl int getSize(finbl ClbssWriter cw, finbl byte[] code, finbl int len,
+            finbl int mbxStbck, finbl int mbxLocbls) {
+        Attribute bttr = this;
         int size = 0;
-        while (attr != null) {
-            cw.newUTF8(attr.type);
-            size += attr.write(cw, code, len, maxStack, maxLocals).length + 6;
-            attr = attr.next;
+        while (bttr != null) {
+            cw.newUTF8(bttr.type);
+            size += bttr.write(cw, code, len, mbxStbck, mbxLocbls).length + 6;
+            bttr = bttr.next;
         }
         return size;
     }
 
     /**
-     * Writes all the attributes of this attribute list in the given byte
+     * Writes bll the bttributes of this bttribute list in the given byte
      * vector.
      *
-     * @param cw
-     *            the class writer to be used to convert the attributes into
-     *            byte arrays, with the {@link #write write} method.
-     * @param code
+     * @pbrbm cw
+     *            the clbss writer to be used to convert the bttributes into
+     *            byte brrbys, with the {@link #write write} method.
+     * @pbrbm code
      *            the bytecode of the method corresponding to these code
-     *            attributes, or <tt>null</tt> if these attributes are not code
-     *            attributes.
-     * @param len
+     *            bttributes, or <tt>null</tt> if these bttributes bre not code
+     *            bttributes.
+     * @pbrbm len
      *            the length of the bytecode of the method corresponding to
-     *            these code attributes, or <tt>null</tt> if these attributes
-     *            are not code attributes.
-     * @param maxStack
-     *            the maximum stack size of the method corresponding to these
-     *            code attributes, or -1 if these attributes are not code
-     *            attributes.
-     * @param maxLocals
-     *            the maximum number of local variables of the method
-     *            corresponding to these code attributes, or -1 if these
-     *            attributes are not code attributes.
-     * @param out
-     *            where the attributes must be written.
+     *            these code bttributes, or <tt>null</tt> if these bttributes
+     *            bre not code bttributes.
+     * @pbrbm mbxStbck
+     *            the mbximum stbck size of the method corresponding to these
+     *            code bttributes, or -1 if these bttributes bre not code
+     *            bttributes.
+     * @pbrbm mbxLocbls
+     *            the mbximum number of locbl vbribbles of the method
+     *            corresponding to these code bttributes, or -1 if these
+     *            bttributes bre not code bttributes.
+     * @pbrbm out
+     *            where the bttributes must be written.
      */
-    final void put(final ClassWriter cw, final byte[] code, final int len,
-            final int maxStack, final int maxLocals, final ByteVector out) {
-        Attribute attr = this;
-        while (attr != null) {
-            ByteVector b = attr.write(cw, code, len, maxStack, maxLocals);
-            out.putShort(cw.newUTF8(attr.type)).putInt(b.length);
-            out.putByteArray(b.data, 0, b.length);
-            attr = attr.next;
+    finbl void put(finbl ClbssWriter cw, finbl byte[] code, finbl int len,
+            finbl int mbxStbck, finbl int mbxLocbls, finbl ByteVector out) {
+        Attribute bttr = this;
+        while (bttr != null) {
+            ByteVector b = bttr.write(cw, code, len, mbxStbck, mbxLocbls);
+            out.putShort(cw.newUTF8(bttr.type)).putInt(b.length);
+            out.putByteArrby(b.dbtb, 0, b.length);
+            bttr = bttr.next;
         }
     }
 }

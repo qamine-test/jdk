@@ -1,69 +1,69 @@
 /*
- * Copyright (c) 2000, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.print;
+pbckbge sun.print;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.Reader;
-import java.io.UnsupportedEncodingException;
+import jbvb.io.IOException;
+import jbvb.io.InputStrebm;
+import jbvb.io.Rebder;
+import jbvb.io.UnsupportedEncodingException;
 
-import java.awt.print.Pageable;
+import jbvb.bwt.print.Pbgebble;
 
-import javax.print.Doc;
-import javax.print.DocFlavor;
-import javax.print.attribute.DocAttributeSet;
-import javax.print.attribute.HashDocAttributeSet;
+import jbvbx.print.Doc;
+import jbvbx.print.DocFlbvor;
+import jbvbx.print.bttribute.DocAttributeSet;
+import jbvbx.print.bttribute.HbshDocAttributeSet;
 
-public class PageableDoc implements Doc {
+public clbss PbgebbleDoc implements Doc {
 
-    private Pageable pageable;
+    privbte Pbgebble pbgebble;
 
-    public PageableDoc(Pageable pageable) {
-       this.pageable = pageable;
+    public PbgebbleDoc(Pbgebble pbgebble) {
+       this.pbgebble = pbgebble;
     }
 
-   public DocFlavor getDocFlavor() {
-       return DocFlavor.SERVICE_FORMATTED.PAGEABLE;
+   public DocFlbvor getDocFlbvor() {
+       return DocFlbvor.SERVICE_FORMATTED.PAGEABLE;
    }
 
    public DocAttributeSet getAttributes() {
-       return new HashDocAttributeSet();
+       return new HbshDocAttributeSet();
    }
 
-   public Object getPrintData() throws IOException {
-      return pageable;
+   public Object getPrintDbtb() throws IOException {
+      return pbgebble;
    }
 
-   public Reader getReaderForText()
+   public Rebder getRebderForText()
       throws UnsupportedEncodingException, IOException {
 
       return null;
    }
 
-   public InputStream getStreamForBytes() throws IOException {
+   public InputStrebm getStrebmForBytes() throws IOException {
       return null;
    }
 }

@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 1999, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2010, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
@@ -28,81 +28,81 @@
 #include "jni.h"
 #include "jni_util.h"
 
-#include "java_lang_reflect_Proxy.h"
+#include "jbvb_lbng_reflect_Proxy.h"
 
-/* defined in libverify.so/verify.dll (src file common/check_format.c) */
-extern jboolean VerifyFixClassname(char *utf_name);
+/* defined in libverify.so/verify.dll (src file common/check_formbt.c) */
+extern jboolebn VerifyFixClbssnbme(chbr *utf_nbme);
 
 /*
- * Class:     java_lang_reflect_Proxy
- * Method:    defineClass0
- * Signature: (Ljava/lang/ClassLoader;Ljava/lang/String;[BII)Ljava/lang/Class;
+ * Clbss:     jbvb_lbng_reflect_Proxy
+ * Method:    defineClbss0
+ * Signbture: (Ljbvb/lbng/ClbssLobder;Ljbvb/lbng/String;[BII)Ljbvb/lbng/Clbss;
  *
- * The implementation of this native static method is a copy of that of
- * the native instance method Java_java_lang_ClassLoader_defineClass0()
- * with the implicit "this" parameter becoming the "loader" parameter.
+ * The implementbtion of this nbtive stbtic method is b copy of thbt of
+ * the nbtive instbnce method Jbvb_jbvb_lbng_ClbssLobder_defineClbss0()
+ * with the implicit "this" pbrbmeter becoming the "lobder" pbrbmeter.
  */
-JNIEXPORT jclass JNICALL
-Java_java_lang_reflect_Proxy_defineClass0(JNIEnv *env,
-                                          jclass ignore,
-                                          jobject loader,
-                                          jstring name,
-                                          jbyteArray data,
+JNIEXPORT jclbss JNICALL
+Jbvb_jbvb_lbng_reflect_Proxy_defineClbss0(JNIEnv *env,
+                                          jclbss ignore,
+                                          jobject lobder,
+                                          jstring nbme,
+                                          jbyteArrby dbtb,
                                           jint offset,
                                           jint length)
 {
     jbyte *body;
-    char *utfName;
-    jclass result = 0;
-    char buf[128];
+    chbr *utfNbme;
+    jclbss result = 0;
+    chbr buf[128];
 
-    if (data == NULL) {
+    if (dbtb == NULL) {
         JNU_ThrowNullPointerException(env, 0);
         return 0;
     }
 
-    /* Work around 4153825. malloc crashes on Solaris when passed a
-     * negative size.
+    /* Work bround 4153825. mblloc crbshes on Solbris when pbssed b
+     * negbtive size.
      */
     if (length < 0) {
-        JNU_ThrowArrayIndexOutOfBoundsException(env, 0);
+        JNU_ThrowArrbyIndexOutOfBoundsException(env, 0);
         return 0;
     }
 
-    body = (jbyte *)malloc(length);
+    body = (jbyte *)mblloc(length);
 
     if (body == 0) {
         JNU_ThrowOutOfMemoryError(env, 0);
         return 0;
     }
 
-    (*env)->GetByteArrayRegion(env, data, offset, length, body);
+    (*env)->GetByteArrbyRegion(env, dbtb, offset, length, body);
 
     if ((*env)->ExceptionOccurred(env))
         goto free_body;
 
-    if (name != NULL) {
-        jsize len = (*env)->GetStringUTFLength(env, name);
-        jsize unicode_len = (*env)->GetStringLength(env, name);
+    if (nbme != NULL) {
+        jsize len = (*env)->GetStringUTFLength(env, nbme);
+        jsize unicode_len = (*env)->GetStringLength(env, nbme);
         if (len >= (jsize)sizeof(buf)) {
-            utfName = malloc(len + 1);
-            if (utfName == NULL) {
+            utfNbme = mblloc(len + 1);
+            if (utfNbme == NULL) {
                 JNU_ThrowOutOfMemoryError(env, NULL);
                 goto free_body;
             }
         } else {
-            utfName = buf;
+            utfNbme = buf;
         }
-        (*env)->GetStringUTFRegion(env, name, 0, unicode_len, utfName);
-        VerifyFixClassname(utfName);
+        (*env)->GetStringUTFRegion(env, nbme, 0, unicode_len, utfNbme);
+        VerifyFixClbssnbme(utfNbme);
     } else {
-        utfName = NULL;
+        utfNbme = NULL;
     }
 
-    result = (*env)->DefineClass(env, utfName, loader, body, length);
+    result = (*env)->DefineClbss(env, utfNbme, lobder, body, length);
 
-    if (utfName && utfName != buf)
-        free(utfName);
+    if (utfNbme && utfNbme != buf)
+        free(utfNbme);
 
  free_body:
     free(body);

@@ -1,120 +1,120 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
-package javax.print.attribute.standard;
+pbckbge jbvbx.print.bttribute.stbndbrd;
 
-import javax.print.attribute.Attribute;
-import javax.print.attribute.DocAttribute;
-import javax.print.attribute.PrintJobAttribute;
-import javax.print.attribute.PrintRequestAttribute;
+import jbvbx.print.bttribute.Attribute;
+import jbvbx.print.bttribute.DocAttribute;
+import jbvbx.print.bttribute.PrintJobAttribute;
+import jbvbx.print.bttribute.PrintRequestAttribute;
 
 /**
- * Class MediaPrintableArea is a printing attribute used to distinguish
- * the printable and non-printable areas of media.
+ * Clbss MedibPrintbbleAreb is b printing bttribute used to distinguish
+ * the printbble bnd non-printbble brebs of medib.
  * <p>
- * The printable area is specified to be a rectangle, within the overall
- * dimensions of a media.
+ * The printbble breb is specified to be b rectbngle, within the overbll
+ * dimensions of b medib.
  * <p>
- * Most printers cannot print on the entire surface of the media, due
- * to printer hardware limitations. This class can be used to query
- * the acceptable values for a supposed print job, and to request an area
- * within the constraints of the printable area to be used in a print job.
+ * Most printers cbnnot print on the entire surfbce of the medib, due
+ * to printer hbrdwbre limitbtions. This clbss cbn be used to query
+ * the bcceptbble vblues for b supposed print job, bnd to request bn breb
+ * within the constrbints of the printbble breb to be used in b print job.
  * <p>
- * To query for the printable area, a client must supply a suitable context.
- * Without specifying at the very least the size of the media being used
- * no meaningful value for printable area can be obtained.
+ * To query for the printbble breb, b client must supply b suitbble context.
+ * Without specifying bt the very lebst the size of the medib being used
+ * no mebningful vblue for printbble breb cbn be obtbined.
  * <p>
- * The attribute is not described in terms of the distance from the edge
- * of the paper, in part to emphasise that this attribute is not independent
- * of a particular media, but must be described within the context of a
- * choice of other attributes. Additionally it is usually more convenient
- * for a client to use the printable area.
+ * The bttribute is not described in terms of the distbnce from the edge
+ * of the pbper, in pbrt to emphbsise thbt this bttribute is not independent
+ * of b pbrticulbr medib, but must be described within the context of b
+ * choice of other bttributes. Additionblly it is usublly more convenient
+ * for b client to use the printbble breb.
  * <p>
- * The hardware's minimum margins is not just a property of the printer,
- * but may be a function of the media size, orientation, media type, and
- * any specified finishings.
+ * The hbrdwbre's minimum mbrgins is not just b property of the printer,
+ * but mby be b function of the medib size, orientbtion, medib type, bnd
+ * bny specified finishings.
  * <code>PrintService</code> provides the method to query the supported
- * values of an attribute in a suitable context :
- * See  {@link javax.print.PrintService#getSupportedAttributeValues(Class,DocFlavor, AttributeSet) PrintService.getSupportedAttributeValues()}
+ * vblues of bn bttribute in b suitbble context :
+ * See  {@link jbvbx.print.PrintService#getSupportedAttributeVblues(Clbss,DocFlbvor, AttributeSet) PrintService.getSupportedAttributeVblues()}
  * <p>
- * The rectangular printable area is defined thus:
- * The (x,y) origin is positioned at the top-left of the paper in portrait
- * mode regardless of the orientation specified in the requesting context.
- * For example a printable area for A4 paper in portrait or landscape
- * orientation will have height {@literal >} width.
+ * The rectbngulbr printbble breb is defined thus:
+ * The (x,y) origin is positioned bt the top-left of the pbper in portrbit
+ * mode regbrdless of the orientbtion specified in the requesting context.
+ * For exbmple b printbble breb for A4 pbper in portrbit or lbndscbpe
+ * orientbtion will hbve height {@literbl >} width.
  * <p>
- * A printable area attribute's values are stored
- * internally as integers in units of micrometers (&#181;m), where 1 micrometer
+ * A printbble breb bttribute's vblues bre stored
+ * internblly bs integers in units of micrometers (&#181;m), where 1 micrometer
  * = 10<SUP>-6</SUP> meter = 1/1000 millimeter = 1/25400 inch. This permits
- * dimensions to be represented exactly to a precision of 1/1000 mm (= 1
- * &#181;m) or 1/100 inch (= 254 &#181;m). If fractional inches are expressed in
+ * dimensions to be represented exbctly to b precision of 1/1000 mm (= 1
+ * &#181;m) or 1/100 inch (= 254 &#181;m). If frbctionbl inches bre expressed in
 
- * negative powers of two, this permits dimensions to be represented exactly to
- * a precision of 1/8 inch (= 3175 &#181;m) but not 1/16 inch (because 1/16 inch
+ * negbtive powers of two, this permits dimensions to be represented exbctly to
+ * b precision of 1/8 inch (= 3175 &#181;m) but not 1/16 inch (becbuse 1/16 inch
 
- * does not equal an integral number of &#181;m).
+ * does not equbl bn integrbl number of &#181;m).
  * <p>
- * <B>IPP Compatibility:</B> MediaPrintableArea is not an IPP attribute.
+ * <B>IPP Compbtibility:</B> MedibPrintbbleAreb is not bn IPP bttribute.
  */
 
-public final class MediaPrintableArea
+public finbl clbss MedibPrintbbleAreb
       implements DocAttribute, PrintRequestAttribute, PrintJobAttribute {
 
-    private int x, y, w, h;
-    private int units;
+    privbte int x, y, w, h;
+    privbte int units;
 
-    private static final long serialVersionUID = -1597171464050795793L;
+    privbte stbtic finbl long seriblVersionUID = -1597171464050795793L;
 
     /**
-     * Value to indicate units of inches (in). It is actually the conversion
-     * factor by which to multiply inches to yield &#181;m (25400).
+     * Vblue to indicbte units of inches (in). It is bctublly the conversion
+     * fbctor by which to multiply inches to yield &#181;m (25400).
      */
-    public static final int INCH = 25400;
+    public stbtic finbl int INCH = 25400;
 
     /**
-     * Value to indicate units of millimeters (mm). It is actually the
-     * conversion factor by which to multiply mm to yield &#181;m (1000).
+     * Vblue to indicbte units of millimeters (mm). It is bctublly the
+     * conversion fbctor by which to multiply mm to yield &#181;m (1000).
      */
-    public static final int MM = 1000;
+    public stbtic finbl int MM = 1000;
 
     /**
-      * Constructs a MediaPrintableArea object from floating point values.
-      * @param x      printable x
-      * @param y      printable y
-      * @param w      printable width
-      * @param h      printable height
-      * @param units  in which the values are expressed.
+      * Constructs b MedibPrintbbleAreb object from flobting point vblues.
+      * @pbrbm x      printbble x
+      * @pbrbm y      printbble y
+      * @pbrbm w      printbble width
+      * @pbrbm h      printbble height
+      * @pbrbm units  in which the vblues bre expressed.
       *
-      * @exception  IllegalArgumentException
+      * @exception  IllegblArgumentException
       *     Thrown if {@code x < 0} or {@code y < 0}
       *     or {@code w <= 0} or {@code h <= 0} or
       *     {@code units < 1}.
       */
-    public MediaPrintableArea(float x, float y, float w, float h, int units) {
+    public MedibPrintbbleAreb(flobt x, flobt y, flobt w, flobt h, int units) {
         if ((x < 0.0) || (y < 0.0) || (w <= 0.0) || (h <= 0.0) ||
             (units < 1)) {
-            throw new IllegalArgumentException("0 or negative value argument");
+            throw new IllegblArgumentException("0 or negbtive vblue brgument");
         }
 
         this.x = (int) (x * units + 0.5f);
@@ -125,22 +125,22 @@ public final class MediaPrintableArea
     }
 
     /**
-      * Constructs a MediaPrintableArea object from integer values.
-      * @param x      printable x
-      * @param y      printable y
-      * @param w      printable width
-      * @param h      printable height
-      * @param units  in which the values are expressed.
+      * Constructs b MedibPrintbbleAreb object from integer vblues.
+      * @pbrbm x      printbble x
+      * @pbrbm y      printbble y
+      * @pbrbm w      printbble width
+      * @pbrbm h      printbble height
+      * @pbrbm units  in which the vblues bre expressed.
       *
-      * @exception  IllegalArgumentException
+      * @exception  IllegblArgumentException
       *     Thrown if {@code x < 0} or {@code y < 0}
       *     or {@code w <= 0} or {@code h <= 0} or
       *     {@code units < 1}.
       */
-    public MediaPrintableArea(int x, int y, int w, int h, int units) {
+    public MedibPrintbbleAreb(int x, int y, int w, int h, int units) {
         if ((x < 0) || (y < 0) || (w <= 0) || (h <= 0) ||
             (units < 1)) {
-            throw new IllegalArgumentException("0 or negative value argument");
+            throw new IllegblArgumentException("0 or negbtive vblue brgument");
         }
         this.x = x * units;
         this.y = y * units;
@@ -150,108 +150,108 @@ public final class MediaPrintableArea
     }
 
     /**
-     * Get the printable area as an array of 4 values in the order
-     * x, y, w, h. The values returned are in the given units.
-     * @param  units
-     *     Unit conversion factor, e.g. {@link #INCH INCH} or
+     * Get the printbble breb bs bn brrby of 4 vblues in the order
+     * x, y, w, h. The vblues returned bre in the given units.
+     * @pbrbm  units
+     *     Unit conversion fbctor, e.g. {@link #INCH INCH} or
      *     {@link #MM MM}.
      *
-     * @return printable area as array of x, y, w, h in the specified units.
+     * @return printbble breb bs brrby of x, y, w, h in the specified units.
      *
-     * @exception  IllegalArgumentException
+     * @exception  IllegblArgumentException
      *     (unchecked exception) Thrown if {@code units < 1}.
      */
-    public float[] getPrintableArea(int units) {
-        return new float[] { getX(units), getY(units),
+    public flobt[] getPrintbbleAreb(int units) {
+        return new flobt[] { getX(units), getY(units),
                              getWidth(units), getHeight(units) };
     }
 
     /**
-     * Get the x location of the origin of the printable area in the
+     * Get the x locbtion of the origin of the printbble breb in the
      * specified units.
-     * @param  units
-     *     Unit conversion factor, e.g. {@link #INCH INCH} or
+     * @pbrbm  units
+     *     Unit conversion fbctor, e.g. {@link #INCH INCH} or
      *     {@link #MM MM}.
      *
-     * @return  x location of the origin of the printable area in the
+     * @return  x locbtion of the origin of the printbble breb in the
      * specified units.
      *
-     * @exception  IllegalArgumentException
+     * @exception  IllegblArgumentException
      *     (unchecked exception) Thrown if {@code units < 1}.
      */
-     public float getX(int units) {
+     public flobt getX(int units) {
         return convertFromMicrometers(x, units);
      }
 
     /**
-     * Get the y location of the origin of the printable area in the
+     * Get the y locbtion of the origin of the printbble breb in the
      * specified units.
-     * @param  units
-     *     Unit conversion factor, e.g. {@link #INCH INCH} or
+     * @pbrbm  units
+     *     Unit conversion fbctor, e.g. {@link #INCH INCH} or
      *     {@link #MM MM}.
      *
-     * @return  y location of the origin of the printable area in the
+     * @return  y locbtion of the origin of the printbble breb in the
      * specified units.
      *
-     * @exception  IllegalArgumentException
+     * @exception  IllegblArgumentException
      *     (unchecked exception) Thrown if {@code units < 1}.
      */
-     public float getY(int units) {
+     public flobt getY(int units) {
         return convertFromMicrometers(y, units);
      }
 
     /**
-     * Get the width of the printable area in the specified units.
-     * @param  units
-     *     Unit conversion factor, e.g. {@link #INCH INCH} or
+     * Get the width of the printbble breb in the specified units.
+     * @pbrbm  units
+     *     Unit conversion fbctor, e.g. {@link #INCH INCH} or
      *     {@link #MM MM}.
      *
-     * @return  width of the printable area in the specified units.
+     * @return  width of the printbble breb in the specified units.
      *
-     * @exception  IllegalArgumentException
+     * @exception  IllegblArgumentException
      *     (unchecked exception) Thrown if {@code units < 1}.
      */
-     public float getWidth(int units) {
+     public flobt getWidth(int units) {
         return convertFromMicrometers(w, units);
      }
 
     /**
-     * Get the height of the printable area in the specified units.
-     * @param  units
-     *     Unit conversion factor, e.g. {@link #INCH INCH} or
+     * Get the height of the printbble breb in the specified units.
+     * @pbrbm  units
+     *     Unit conversion fbctor, e.g. {@link #INCH INCH} or
      *     {@link #MM MM}.
      *
-     * @return  height of the printable area in the specified units.
+     * @return  height of the printbble breb in the specified units.
      *
-     * @exception  IllegalArgumentException
+     * @exception  IllegblArgumentException
      *     (unchecked exception) Thrown if {@code units < 1}.
      */
-     public float getHeight(int units) {
+     public flobt getHeight(int units) {
         return convertFromMicrometers(h, units);
      }
 
     /**
-     * Returns whether this media margins attribute is equivalent to the passed
+     * Returns whether this medib mbrgins bttribute is equivblent to the pbssed
      * in object.
-     * To be equivalent, all of the following conditions must be true:
+     * To be equivblent, bll of the following conditions must be true:
      * <OL TYPE=1>
      * <LI>
      * <CODE>object</CODE> is not null.
      * <LI>
-     * <CODE>object</CODE> is an instance of class MediaPrintableArea.
+     * <CODE>object</CODE> is bn instbnce of clbss MedibPrintbbleAreb.
      * <LI>
-     * The origin and dimensions are the same.
+     * The origin bnd dimensions bre the sbme.
      * </OL>
      *
-     * @param  object  Object to compare to.
+     * @pbrbm  object  Object to compbre to.
      *
-     * @return  True if <CODE>object</CODE> is equivalent to this media margins
-     *          attribute, false otherwise.
+     * @return  True if <CODE>object</CODE> is equivblent to this medib mbrgins
+     *          bttribute, fblse otherwise.
      */
-    public boolean equals(Object object) {
-        boolean ret = false;
-        if (object instanceof MediaPrintableArea) {
-           MediaPrintableArea mm = (MediaPrintableArea)object;
+    public boolebn equbls(Object object) {
+        boolebn ret = fblse;
+        if (object instbnceof MedibPrintbbleAreb) {
+           MedibPrintbbleAreb mm = (MedibPrintbbleAreb)object;
            if (x == mm.x &&  y == mm.y && w == mm.w && h == mm.h) {
                ret = true;
            }
@@ -260,76 +260,76 @@ public final class MediaPrintableArea
     }
 
     /**
-     * Get the printing attribute class which is to be used as the "category"
-     * for this printing attribute value.
+     * Get the printing bttribute clbss which is to be used bs the "cbtegory"
+     * for this printing bttribute vblue.
      * <P>
-     * For class MediaPrintableArea, the category is
-     * class MediaPrintableArea itself.
+     * For clbss MedibPrintbbleAreb, the cbtegory is
+     * clbss MedibPrintbbleAreb itself.
      *
-     * @return  Printing attribute class (category), an instance of class
-     *          {@link java.lang.Class java.lang.Class}.
+     * @return  Printing bttribute clbss (cbtegory), bn instbnce of clbss
+     *          {@link jbvb.lbng.Clbss jbvb.lbng.Clbss}.
      */
-    public final Class<? extends Attribute> getCategory() {
-        return MediaPrintableArea.class;
+    public finbl Clbss<? extends Attribute> getCbtegory() {
+        return MedibPrintbbleAreb.clbss;
     }
 
     /**
-     * Get the name of the category of which this attribute value is an
-     * instance.
+     * Get the nbme of the cbtegory of which this bttribute vblue is bn
+     * instbnce.
      * <P>
-     * For class MediaPrintableArea,
-     * the category name is <CODE>"media-printable-area"</CODE>.
-     * <p>This is not an IPP V1.1 attribute.
+     * For clbss MedibPrintbbleAreb,
+     * the cbtegory nbme is <CODE>"medib-printbble-breb"</CODE>.
+     * <p>This is not bn IPP V1.1 bttribute.
      *
-     * @return  Attribute category name.
+     * @return  Attribute cbtegory nbme.
      */
-    public final String getName() {
-        return "media-printable-area";
+    public finbl String getNbme() {
+        return "medib-printbble-breb";
     }
 
     /**
-     * Returns a string version of this rectangular size attribute in the
+     * Returns b string version of this rectbngulbr size bttribute in the
      * given units.
      *
-     * @param  units
-     *     Unit conversion factor, e.g. {@link #INCH INCH} or
+     * @pbrbm  units
+     *     Unit conversion fbctor, e.g. {@link #INCH INCH} or
      *     {@link #MM MM}.
-     * @param  unitsName
-     *     Units name string, e.g. <CODE>"in"</CODE> or <CODE>"mm"</CODE>. If
-     *     null, no units name is appended to the result.
+     * @pbrbm  unitsNbme
+     *     Units nbme string, e.g. <CODE>"in"</CODE> or <CODE>"mm"</CODE>. If
+     *     null, no units nbme is bppended to the result.
      *
-     * @return  String version of this two-dimensional size attribute.
+     * @return  String version of this two-dimensionbl size bttribute.
      *
-     * @exception  IllegalArgumentException
+     * @exception  IllegblArgumentException
      *     (unchecked exception) Thrown if {@code units < 1}.
      */
-    public String toString(int units, String unitsName) {
-        if (unitsName == null) {
-            unitsName = "";
+    public String toString(int units, String unitsNbme) {
+        if (unitsNbme == null) {
+            unitsNbme = "";
         }
-        float []vals = getPrintableArea(units);
-        String str = "("+vals[0]+","+vals[1]+")->("+vals[2]+","+vals[3]+")";
-        return str + unitsName;
+        flobt []vbls = getPrintbbleAreb(units);
+        String str = "("+vbls[0]+","+vbls[1]+")->("+vbls[2]+","+vbls[3]+")";
+        return str + unitsNbme;
     }
 
     /**
-     * Returns a string version of this rectangular size attribute in mm.
+     * Returns b string version of this rectbngulbr size bttribute in mm.
      */
     public String toString() {
         return(toString(MM, "mm"));
     }
 
     /**
-     * Returns a hash code value for this attribute.
+     * Returns b hbsh code vblue for this bttribute.
      */
-    public int hashCode() {
+    public int hbshCode() {
         return x + 37*y + 43*w + 47*h;
     }
 
-    private static float convertFromMicrometers(int x, int units) {
+    privbte stbtic flobt convertFromMicrometers(int x, int units) {
         if (units < 1) {
-            throw new IllegalArgumentException("units is < 1");
+            throw new IllegblArgumentException("units is < 1");
         }
-        return ((float)x) / ((float)units);
+        return ((flobt)x) / ((flobt)units);
     }
 }

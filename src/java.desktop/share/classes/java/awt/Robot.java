@@ -1,182 +1,182 @@
 /*
- * Copyright (c) 1999, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.awt;
+pbckbge jbvb.bwt;
 
-import java.awt.event.InputEvent;
-import java.awt.event.KeyEvent;
-import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferInt;
-import java.awt.image.DirectColorModel;
-import java.awt.image.Raster;
-import java.awt.image.WritableRaster;
-import java.awt.peer.RobotPeer;
-import java.lang.reflect.InvocationTargetException;
-import sun.awt.AWTPermissions;
-import sun.awt.ComponentFactory;
-import sun.awt.SunToolkit;
-import sun.awt.image.SunWritableRaster;
+import jbvb.bwt.event.InputEvent;
+import jbvb.bwt.event.KeyEvent;
+import jbvb.bwt.imbge.BufferedImbge;
+import jbvb.bwt.imbge.DbtbBufferInt;
+import jbvb.bwt.imbge.DirectColorModel;
+import jbvb.bwt.imbge.Rbster;
+import jbvb.bwt.imbge.WritbbleRbster;
+import jbvb.bwt.peer.RobotPeer;
+import jbvb.lbng.reflect.InvocbtionTbrgetException;
+import sun.bwt.AWTPermissions;
+import sun.bwt.ComponentFbctory;
+import sun.bwt.SunToolkit;
+import sun.bwt.imbge.SunWritbbleRbster;
 
 /**
- * This class is used to generate native system input events
- * for the purposes of test automation, self-running demos, and
- * other applications where control of the mouse and keyboard
- * is needed. The primary purpose of Robot is to facilitate
- * automated testing of Java platform implementations.
+ * This clbss is used to generbte nbtive system input events
+ * for the purposes of test butombtion, self-running demos, bnd
+ * other bpplicbtions where control of the mouse bnd keybobrd
+ * is needed. The primbry purpose of Robot is to fbcilitbte
+ * butombted testing of Jbvb plbtform implementbtions.
  * <p>
- * Using the class to generate input events differs from posting
- * events to the AWT event queue or AWT components in that the
- * events are generated in the platform's native input
- * queue. For example, <code>Robot.mouseMove</code> will actually move
- * the mouse cursor instead of just generating mouse move events.
+ * Using the clbss to generbte input events differs from posting
+ * events to the AWT event queue or AWT components in thbt the
+ * events bre generbted in the plbtform's nbtive input
+ * queue. For exbmple, <code>Robot.mouseMove</code> will bctublly move
+ * the mouse cursor instebd of just generbting mouse move events.
  * <p>
- * Note that some platforms require special privileges or extensions
- * to access low-level input control. If the current platform configuration
- * does not allow input control, an <code>AWTException</code> will be thrown
- * when trying to construct Robot objects. For example, X-Window systems
- * will throw the exception if the XTEST 2.2 standard extension is not supported
- * (or not enabled) by the X server.
+ * Note thbt some plbtforms require specibl privileges or extensions
+ * to bccess low-level input control. If the current plbtform configurbtion
+ * does not bllow input control, bn <code>AWTException</code> will be thrown
+ * when trying to construct Robot objects. For exbmple, X-Window systems
+ * will throw the exception if the XTEST 2.2 stbndbrd extension is not supported
+ * (or not enbbled) by the X server.
  * <p>
- * Applications that use Robot for purposes other than self-testing should
- * handle these error conditions gracefully.
+ * Applicbtions thbt use Robot for purposes other thbn self-testing should
+ * hbndle these error conditions grbcefully.
  *
- * @author      Robi Khan
+ * @buthor      Robi Khbn
  * @since       1.3
  */
-public class Robot {
-    private static final int MAX_DELAY = 60000;
-    private RobotPeer peer;
-    private boolean isAutoWaitForIdle = false;
-    private int autoDelay = 0;
-    private static int LEGAL_BUTTON_MASK = 0;
+public clbss Robot {
+    privbte stbtic finbl int MAX_DELAY = 60000;
+    privbte RobotPeer peer;
+    privbte boolebn isAutoWbitForIdle = fblse;
+    privbte int butoDelby = 0;
+    privbte stbtic int LEGAL_BUTTON_MASK = 0;
 
-    private DirectColorModel screenCapCM = null;
+    privbte DirectColorModel screenCbpCM = null;
 
     /**
-     * Constructs a Robot object in the coordinate system of the primary screen.
+     * Constructs b Robot object in the coordinbte system of the primbry screen.
      *
-     * @throws  AWTException if the platform configuration does not allow
-     * low-level input control.  This exception is always thrown when
-     * GraphicsEnvironment.isHeadless() returns true
-     * @throws  SecurityException if <code>createRobot</code> permission is not granted
-     * @see     java.awt.GraphicsEnvironment#isHeadless
-     * @see     SecurityManager#checkPermission
+     * @throws  AWTException if the plbtform configurbtion does not bllow
+     * low-level input control.  This exception is blwbys thrown when
+     * GrbphicsEnvironment.isHebdless() returns true
+     * @throws  SecurityException if <code>crebteRobot</code> permission is not grbnted
+     * @see     jbvb.bwt.GrbphicsEnvironment#isHebdless
+     * @see     SecurityMbnbger#checkPermission
      * @see     AWTPermission
      */
     public Robot() throws AWTException {
-        if (GraphicsEnvironment.isHeadless()) {
-            throw new AWTException("headless environment");
+        if (GrbphicsEnvironment.isHebdless()) {
+            throw new AWTException("hebdless environment");
         }
-        init(GraphicsEnvironment.getLocalGraphicsEnvironment()
-            .getDefaultScreenDevice());
+        init(GrbphicsEnvironment.getLocblGrbphicsEnvironment()
+            .getDefbultScreenDevice());
     }
 
     /**
-     * Creates a Robot for the given screen device. Coordinates passed
-     * to Robot method calls like mouseMove and createScreenCapture will
-     * be interpreted as being in the same coordinate system as the
-     * specified screen. Note that depending on the platform configuration,
-     * multiple screens may either:
+     * Crebtes b Robot for the given screen device. Coordinbtes pbssed
+     * to Robot method cblls like mouseMove bnd crebteScreenCbpture will
+     * be interpreted bs being in the sbme coordinbte system bs the
+     * specified screen. Note thbt depending on the plbtform configurbtion,
+     * multiple screens mby either:
      * <ul>
-     * <li>share the same coordinate system to form a combined virtual screen</li>
-     * <li>use different coordinate systems to act as independent screens</li>
+     * <li>shbre the sbme coordinbte system to form b combined virtubl screen</li>
+     * <li>use different coordinbte systems to bct bs independent screens</li>
      * </ul>
-     * This constructor is meant for the latter case.
+     * This constructor is mebnt for the lbtter cbse.
      * <p>
-     * If screen devices are reconfigured such that the coordinate system is
-     * affected, the behavior of existing Robot objects is undefined.
+     * If screen devices bre reconfigured such thbt the coordinbte system is
+     * bffected, the behbvior of existing Robot objects is undefined.
      *
-     * @param screen    A screen GraphicsDevice indicating the coordinate
-     *                  system the Robot will operate in.
-     * @throws  AWTException if the platform configuration does not allow
-     * low-level input control.  This exception is always thrown when
-     * GraphicsEnvironment.isHeadless() returns true.
-     * @throws  IllegalArgumentException if <code>screen</code> is not a screen
-     *          GraphicsDevice.
-     * @throws  SecurityException if <code>createRobot</code> permission is not granted
-     * @see     java.awt.GraphicsEnvironment#isHeadless
-     * @see     GraphicsDevice
-     * @see     SecurityManager#checkPermission
+     * @pbrbm screen    A screen GrbphicsDevice indicbting the coordinbte
+     *                  system the Robot will operbte in.
+     * @throws  AWTException if the plbtform configurbtion does not bllow
+     * low-level input control.  This exception is blwbys thrown when
+     * GrbphicsEnvironment.isHebdless() returns true.
+     * @throws  IllegblArgumentException if <code>screen</code> is not b screen
+     *          GrbphicsDevice.
+     * @throws  SecurityException if <code>crebteRobot</code> permission is not grbnted
+     * @see     jbvb.bwt.GrbphicsEnvironment#isHebdless
+     * @see     GrbphicsDevice
+     * @see     SecurityMbnbger#checkPermission
      * @see     AWTPermission
      */
-    public Robot(GraphicsDevice screen) throws AWTException {
+    public Robot(GrbphicsDevice screen) throws AWTException {
         checkIsScreenDevice(screen);
         init(screen);
     }
 
-    private void init(GraphicsDevice screen) throws AWTException {
+    privbte void init(GrbphicsDevice screen) throws AWTException {
         checkRobotAllowed();
-        Toolkit toolkit = Toolkit.getDefaultToolkit();
-        if (toolkit instanceof ComponentFactory) {
-            peer = ((ComponentFactory)toolkit).createRobot(this, screen);
+        Toolkit toolkit = Toolkit.getDefbultToolkit();
+        if (toolkit instbnceof ComponentFbctory) {
+            peer = ((ComponentFbctory)toolkit).crebteRobot(this, screen);
             disposer = new RobotDisposer(peer);
-            sun.java2d.Disposer.addRecord(anchor, disposer);
+            sun.jbvb2d.Disposer.bddRecord(bnchor, disposer);
         }
-        initLegalButtonMask();
+        initLegblButtonMbsk();
     }
 
-    private static synchronized void initLegalButtonMask() {
+    privbte stbtic synchronized void initLegblButtonMbsk() {
         if (LEGAL_BUTTON_MASK != 0) return;
 
-        int tmpMask = 0;
-        if (Toolkit.getDefaultToolkit().areExtraMouseButtonsEnabled()){
-            if (Toolkit.getDefaultToolkit() instanceof SunToolkit) {
-                final int buttonsNumber = ((SunToolkit)(Toolkit.getDefaultToolkit())).getNumberOfButtons();
+        int tmpMbsk = 0;
+        if (Toolkit.getDefbultToolkit().breExtrbMouseButtonsEnbbled()){
+            if (Toolkit.getDefbultToolkit() instbnceof SunToolkit) {
+                finbl int buttonsNumber = ((SunToolkit)(Toolkit.getDefbultToolkit())).getNumberOfButtons();
                 for (int i = 0; i < buttonsNumber; i++){
-                    tmpMask |= InputEvent.getMaskForButton(i+1);
+                    tmpMbsk |= InputEvent.getMbskForButton(i+1);
                 }
             }
         }
-        tmpMask |= InputEvent.BUTTON1_MASK|
+        tmpMbsk |= InputEvent.BUTTON1_MASK|
             InputEvent.BUTTON2_MASK|
             InputEvent.BUTTON3_MASK|
             InputEvent.BUTTON1_DOWN_MASK|
             InputEvent.BUTTON2_DOWN_MASK|
             InputEvent.BUTTON3_DOWN_MASK;
-        LEGAL_BUTTON_MASK = tmpMask;
+        LEGAL_BUTTON_MASK = tmpMbsk;
     }
 
-    /* determine if the security policy allows Robot's to be created */
-    private void checkRobotAllowed() {
-        SecurityManager security = System.getSecurityManager();
+    /* determine if the security policy bllows Robot's to be crebted */
+    privbte void checkRobotAllowed() {
+        SecurityMbnbger security = System.getSecurityMbnbger();
         if (security != null) {
             security.checkPermission(AWTPermissions.CREATE_ROBOT_PERMISSION);
         }
     }
 
-    /* check if the given device is a screen device */
-    private void checkIsScreenDevice(GraphicsDevice device) {
-        if (device == null || device.getType() != GraphicsDevice.TYPE_RASTER_SCREEN) {
-            throw new IllegalArgumentException("not a valid screen device");
+    /* check if the given device is b screen device */
+    privbte void checkIsScreenDevice(GrbphicsDevice device) {
+        if (device == null || device.getType() != GrbphicsDevice.TYPE_RASTER_SCREEN) {
+            throw new IllegblArgumentException("not b vblid screen device");
         }
     }
 
-    private transient Object anchor = new Object();
+    privbte trbnsient Object bnchor = new Object();
 
-    static class RobotDisposer implements sun.java2d.DisposerRecord {
-        private final RobotPeer peer;
+    stbtic clbss RobotDisposer implements sun.jbvb2d.DisposerRecord {
+        privbte finbl RobotPeer peer;
         public RobotDisposer(RobotPeer peer) {
             this.peer = peer;
         }
@@ -187,206 +187,206 @@ public class Robot {
         }
     }
 
-    private transient RobotDisposer disposer;
+    privbte trbnsient RobotDisposer disposer;
 
     /**
-     * Moves mouse pointer to given screen coordinates.
-     * @param x         X position
-     * @param y         Y position
+     * Moves mouse pointer to given screen coordinbtes.
+     * @pbrbm x         X position
+     * @pbrbm y         Y position
      */
     public synchronized void mouseMove(int x, int y) {
         peer.mouseMove(x, y);
-        afterEvent();
+        bfterEvent();
     }
 
     /**
      * Presses one or more mouse buttons.  The mouse buttons should
-     * be released using the {@link #mouseRelease(int)} method.
+     * be relebsed using the {@link #mouseRelebse(int)} method.
      *
-     * @param buttons the Button mask; a combination of one or more
-     * mouse button masks.
+     * @pbrbm buttons the Button mbsk; b combinbtion of one or more
+     * mouse button mbsks.
      * <p>
-     * It is allowed to use only a combination of valid values as a {@code buttons} parameter.
-     * A valid combination consists of {@code InputEvent.BUTTON1_DOWN_MASK},
+     * It is bllowed to use only b combinbtion of vblid vblues bs b {@code buttons} pbrbmeter.
+     * A vblid combinbtion consists of {@code InputEvent.BUTTON1_DOWN_MASK},
      * {@code InputEvent.BUTTON2_DOWN_MASK}, {@code InputEvent.BUTTON3_DOWN_MASK}
-     * and values returned by the
-     * {@link InputEvent#getMaskForButton(int) InputEvent.getMaskForButton(button)} method.
+     * bnd vblues returned by the
+     * {@link InputEvent#getMbskForButton(int) InputEvent.getMbskForButton(button)} method.
      *
-     * The valid combination also depends on a
-     * {@link Toolkit#areExtraMouseButtonsEnabled() Toolkit.areExtraMouseButtonsEnabled()} value as follows:
+     * The vblid combinbtion blso depends on b
+     * {@link Toolkit#breExtrbMouseButtonsEnbbled() Toolkit.breExtrbMouseButtonsEnbbled()} vblue bs follows:
      * <ul>
      * <li> If support for extended mouse buttons is
-     * {@link Toolkit#areExtraMouseButtonsEnabled() disabled} by Java
-     * then it is allowed to use only the following standard button masks:
+     * {@link Toolkit#breExtrbMouseButtonsEnbbled() disbbled} by Jbvb
+     * then it is bllowed to use only the following stbndbrd button mbsks:
      * {@code InputEvent.BUTTON1_DOWN_MASK}, {@code InputEvent.BUTTON2_DOWN_MASK},
      * {@code InputEvent.BUTTON3_DOWN_MASK}.
      * <li> If support for extended mouse buttons is
-     * {@link Toolkit#areExtraMouseButtonsEnabled() enabled} by Java
-     * then it is allowed to use the standard button masks
-     * and masks for existing extended mouse buttons, if the mouse has more then three buttons.
-     * In that way, it is allowed to use the button masks corresponding to the buttons
-     * in the range from 1 to {@link java.awt.MouseInfo#getNumberOfButtons() MouseInfo.getNumberOfButtons()}.
+     * {@link Toolkit#breExtrbMouseButtonsEnbbled() enbbled} by Jbvb
+     * then it is bllowed to use the stbndbrd button mbsks
+     * bnd mbsks for existing extended mouse buttons, if the mouse hbs more then three buttons.
+     * In thbt wby, it is bllowed to use the button mbsks corresponding to the buttons
+     * in the rbnge from 1 to {@link jbvb.bwt.MouseInfo#getNumberOfButtons() MouseInfo.getNumberOfButtons()}.
      * <br>
-     * It is recommended to use the {@link InputEvent#getMaskForButton(int) InputEvent.getMaskForButton(button)}
-     * method to obtain the mask for any mouse button by its number.
+     * It is recommended to use the {@link InputEvent#getMbskForButton(int) InputEvent.getMbskForButton(button)}
+     * method to obtbin the mbsk for bny mouse button by its number.
      * </ul>
      * <p>
-     * The following standard button masks are also accepted:
+     * The following stbndbrd button mbsks bre blso bccepted:
      * <ul>
      * <li>{@code InputEvent.BUTTON1_MASK}
      * <li>{@code InputEvent.BUTTON2_MASK}
      * <li>{@code InputEvent.BUTTON3_MASK}
      * </ul>
      * However, it is recommended to use {@code InputEvent.BUTTON1_DOWN_MASK},
-     * {@code InputEvent.BUTTON2_DOWN_MASK},  {@code InputEvent.BUTTON3_DOWN_MASK} instead.
-     * Either extended {@code _DOWN_MASK} or old {@code _MASK} values
+     * {@code InputEvent.BUTTON2_DOWN_MASK},  {@code InputEvent.BUTTON3_DOWN_MASK} instebd.
+     * Either extended {@code _DOWN_MASK} or old {@code _MASK} vblues
      * should be used, but both those models should not be mixed.
-     * @throws IllegalArgumentException if the {@code buttons} mask contains the mask for extra mouse button
-     *         and support for extended mouse buttons is {@link Toolkit#areExtraMouseButtonsEnabled() disabled} by Java
-     * @throws IllegalArgumentException if the {@code buttons} mask contains the mask for extra mouse button
-     *         that does not exist on the mouse and support for extended mouse buttons is {@link Toolkit#areExtraMouseButtonsEnabled() enabled} by Java
-     * @see #mouseRelease(int)
-     * @see InputEvent#getMaskForButton(int)
-     * @see Toolkit#areExtraMouseButtonsEnabled()
-     * @see java.awt.MouseInfo#getNumberOfButtons()
-     * @see java.awt.event.MouseEvent
+     * @throws IllegblArgumentException if the {@code buttons} mbsk contbins the mbsk for extrb mouse button
+     *         bnd support for extended mouse buttons is {@link Toolkit#breExtrbMouseButtonsEnbbled() disbbled} by Jbvb
+     * @throws IllegblArgumentException if the {@code buttons} mbsk contbins the mbsk for extrb mouse button
+     *         thbt does not exist on the mouse bnd support for extended mouse buttons is {@link Toolkit#breExtrbMouseButtonsEnbbled() enbbled} by Jbvb
+     * @see #mouseRelebse(int)
+     * @see InputEvent#getMbskForButton(int)
+     * @see Toolkit#breExtrbMouseButtonsEnbbled()
+     * @see jbvb.bwt.MouseInfo#getNumberOfButtons()
+     * @see jbvb.bwt.event.MouseEvent
      */
     public synchronized void mousePress(int buttons) {
         checkButtonsArgument(buttons);
         peer.mousePress(buttons);
-        afterEvent();
+        bfterEvent();
     }
 
     /**
-     * Releases one or more mouse buttons.
+     * Relebses one or more mouse buttons.
      *
-     * @param buttons the Button mask; a combination of one or more
-     * mouse button masks.
+     * @pbrbm buttons the Button mbsk; b combinbtion of one or more
+     * mouse button mbsks.
      * <p>
-     * It is allowed to use only a combination of valid values as a {@code buttons} parameter.
-     * A valid combination consists of {@code InputEvent.BUTTON1_DOWN_MASK},
+     * It is bllowed to use only b combinbtion of vblid vblues bs b {@code buttons} pbrbmeter.
+     * A vblid combinbtion consists of {@code InputEvent.BUTTON1_DOWN_MASK},
      * {@code InputEvent.BUTTON2_DOWN_MASK}, {@code InputEvent.BUTTON3_DOWN_MASK}
-     * and values returned by the
-     * {@link InputEvent#getMaskForButton(int) InputEvent.getMaskForButton(button)} method.
+     * bnd vblues returned by the
+     * {@link InputEvent#getMbskForButton(int) InputEvent.getMbskForButton(button)} method.
      *
-     * The valid combination also depends on a
-     * {@link Toolkit#areExtraMouseButtonsEnabled() Toolkit.areExtraMouseButtonsEnabled()} value as follows:
+     * The vblid combinbtion blso depends on b
+     * {@link Toolkit#breExtrbMouseButtonsEnbbled() Toolkit.breExtrbMouseButtonsEnbbled()} vblue bs follows:
      * <ul>
      * <li> If the support for extended mouse buttons is
-     * {@link Toolkit#areExtraMouseButtonsEnabled() disabled} by Java
-     * then it is allowed to use only the following standard button masks:
+     * {@link Toolkit#breExtrbMouseButtonsEnbbled() disbbled} by Jbvb
+     * then it is bllowed to use only the following stbndbrd button mbsks:
      * {@code InputEvent.BUTTON1_DOWN_MASK}, {@code InputEvent.BUTTON2_DOWN_MASK},
      * {@code InputEvent.BUTTON3_DOWN_MASK}.
      * <li> If the support for extended mouse buttons is
-     * {@link Toolkit#areExtraMouseButtonsEnabled() enabled} by Java
-     * then it is allowed to use the standard button masks
-     * and masks for existing extended mouse buttons, if the mouse has more then three buttons.
-     * In that way, it is allowed to use the button masks corresponding to the buttons
-     * in the range from 1 to {@link java.awt.MouseInfo#getNumberOfButtons() MouseInfo.getNumberOfButtons()}.
+     * {@link Toolkit#breExtrbMouseButtonsEnbbled() enbbled} by Jbvb
+     * then it is bllowed to use the stbndbrd button mbsks
+     * bnd mbsks for existing extended mouse buttons, if the mouse hbs more then three buttons.
+     * In thbt wby, it is bllowed to use the button mbsks corresponding to the buttons
+     * in the rbnge from 1 to {@link jbvb.bwt.MouseInfo#getNumberOfButtons() MouseInfo.getNumberOfButtons()}.
      * <br>
-     * It is recommended to use the {@link InputEvent#getMaskForButton(int) InputEvent.getMaskForButton(button)}
-     * method to obtain the mask for any mouse button by its number.
+     * It is recommended to use the {@link InputEvent#getMbskForButton(int) InputEvent.getMbskForButton(button)}
+     * method to obtbin the mbsk for bny mouse button by its number.
      * </ul>
      * <p>
-     * The following standard button masks are also accepted:
+     * The following stbndbrd button mbsks bre blso bccepted:
      * <ul>
      * <li>{@code InputEvent.BUTTON1_MASK}
      * <li>{@code InputEvent.BUTTON2_MASK}
      * <li>{@code InputEvent.BUTTON3_MASK}
      * </ul>
      * However, it is recommended to use {@code InputEvent.BUTTON1_DOWN_MASK},
-     * {@code InputEvent.BUTTON2_DOWN_MASK},  {@code InputEvent.BUTTON3_DOWN_MASK} instead.
-     * Either extended {@code _DOWN_MASK} or old {@code _MASK} values
+     * {@code InputEvent.BUTTON2_DOWN_MASK},  {@code InputEvent.BUTTON3_DOWN_MASK} instebd.
+     * Either extended {@code _DOWN_MASK} or old {@code _MASK} vblues
      * should be used, but both those models should not be mixed.
-     * @throws IllegalArgumentException if the {@code buttons} mask contains the mask for extra mouse button
-     *         and support for extended mouse buttons is {@link Toolkit#areExtraMouseButtonsEnabled() disabled} by Java
-     * @throws IllegalArgumentException if the {@code buttons} mask contains the mask for extra mouse button
-     *         that does not exist on the mouse and support for extended mouse buttons is {@link Toolkit#areExtraMouseButtonsEnabled() enabled} by Java
+     * @throws IllegblArgumentException if the {@code buttons} mbsk contbins the mbsk for extrb mouse button
+     *         bnd support for extended mouse buttons is {@link Toolkit#breExtrbMouseButtonsEnbbled() disbbled} by Jbvb
+     * @throws IllegblArgumentException if the {@code buttons} mbsk contbins the mbsk for extrb mouse button
+     *         thbt does not exist on the mouse bnd support for extended mouse buttons is {@link Toolkit#breExtrbMouseButtonsEnbbled() enbbled} by Jbvb
      * @see #mousePress(int)
-     * @see InputEvent#getMaskForButton(int)
-     * @see Toolkit#areExtraMouseButtonsEnabled()
-     * @see java.awt.MouseInfo#getNumberOfButtons()
-     * @see java.awt.event.MouseEvent
+     * @see InputEvent#getMbskForButton(int)
+     * @see Toolkit#breExtrbMouseButtonsEnbbled()
+     * @see jbvb.bwt.MouseInfo#getNumberOfButtons()
+     * @see jbvb.bwt.event.MouseEvent
      */
-    public synchronized void mouseRelease(int buttons) {
+    public synchronized void mouseRelebse(int buttons) {
         checkButtonsArgument(buttons);
-        peer.mouseRelease(buttons);
-        afterEvent();
+        peer.mouseRelebse(buttons);
+        bfterEvent();
     }
 
-    private void checkButtonsArgument(int buttons) {
+    privbte void checkButtonsArgument(int buttons) {
         if ( (buttons|LEGAL_BUTTON_MASK) != LEGAL_BUTTON_MASK ) {
-            throw new IllegalArgumentException("Invalid combination of button flags");
+            throw new IllegblArgumentException("Invblid combinbtion of button flbgs");
         }
     }
 
     /**
-     * Rotates the scroll wheel on wheel-equipped mice.
+     * Rotbtes the scroll wheel on wheel-equipped mice.
      *
-     * @param wheelAmt  number of "notches" to move the mouse wheel
-     *                  Negative values indicate movement up/away from the user,
-     *                  positive values indicate movement down/towards the user.
+     * @pbrbm wheelAmt  number of "notches" to move the mouse wheel
+     *                  Negbtive vblues indicbte movement up/bwby from the user,
+     *                  positive vblues indicbte movement down/towbrds the user.
      *
      * @since 1.4
      */
     public synchronized void mouseWheel(int wheelAmt) {
         peer.mouseWheel(wheelAmt);
-        afterEvent();
+        bfterEvent();
     }
 
     /**
-     * Presses a given key.  The key should be released using the
-     * <code>keyRelease</code> method.
+     * Presses b given key.  The key should be relebsed using the
+     * <code>keyRelebse</code> method.
      * <p>
-     * Key codes that have more than one physical key associated with them
-     * (e.g. <code>KeyEvent.VK_SHIFT</code> could mean either the
-     * left or right shift key) will map to the left key.
+     * Key codes thbt hbve more thbn one physicbl key bssocibted with them
+     * (e.g. <code>KeyEvent.VK_SHIFT</code> could mebn either the
+     * left or right shift key) will mbp to the left key.
      *
-     * @param   keycode Key to press (e.g. <code>KeyEvent.VK_A</code>)
-     * @throws  IllegalArgumentException if <code>keycode</code> is not
-     *          a valid key
-     * @see     #keyRelease(int)
-     * @see     java.awt.event.KeyEvent
+     * @pbrbm   keycode Key to press (e.g. <code>KeyEvent.VK_A</code>)
+     * @throws  IllegblArgumentException if <code>keycode</code> is not
+     *          b vblid key
+     * @see     #keyRelebse(int)
+     * @see     jbvb.bwt.event.KeyEvent
      */
     public synchronized void keyPress(int keycode) {
         checkKeycodeArgument(keycode);
         peer.keyPress(keycode);
-        afterEvent();
+        bfterEvent();
     }
 
     /**
-     * Releases a given key.
+     * Relebses b given key.
      * <p>
-     * Key codes that have more than one physical key associated with them
-     * (e.g. <code>KeyEvent.VK_SHIFT</code> could mean either the
-     * left or right shift key) will map to the left key.
+     * Key codes thbt hbve more thbn one physicbl key bssocibted with them
+     * (e.g. <code>KeyEvent.VK_SHIFT</code> could mebn either the
+     * left or right shift key) will mbp to the left key.
      *
-     * @param   keycode Key to release (e.g. <code>KeyEvent.VK_A</code>)
-     * @throws  IllegalArgumentException if <code>keycode</code> is not a
-     *          valid key
+     * @pbrbm   keycode Key to relebse (e.g. <code>KeyEvent.VK_A</code>)
+     * @throws  IllegblArgumentException if <code>keycode</code> is not b
+     *          vblid key
      * @see  #keyPress(int)
-     * @see     java.awt.event.KeyEvent
+     * @see     jbvb.bwt.event.KeyEvent
      */
-    public synchronized void keyRelease(int keycode) {
+    public synchronized void keyRelebse(int keycode) {
         checkKeycodeArgument(keycode);
-        peer.keyRelease(keycode);
-        afterEvent();
+        peer.keyRelebse(keycode);
+        bfterEvent();
     }
 
-    private void checkKeycodeArgument(int keycode) {
-        // rather than build a big table or switch statement here, we'll
-        // just check that the key isn't VK_UNDEFINED and assume that the
-        // peer implementations will throw an exception for other bogus
-        // values e.g. -1, 999999
+    privbte void checkKeycodeArgument(int keycode) {
+        // rbther thbn build b big tbble or switch stbtement here, we'll
+        // just check thbt the key isn't VK_UNDEFINED bnd bssume thbt the
+        // peer implementbtions will throw bn exception for other bogus
+        // vblues e.g. -1, 999999
         if (keycode == KeyEvent.VK_UNDEFINED) {
-            throw new IllegalArgumentException("Invalid key code");
+            throw new IllegblArgumentException("Invblid key code");
         }
     }
 
     /**
-     * Returns the color of a pixel at the given screen coordinates.
-     * @param   x       X position of pixel
-     * @param   y       Y position of pixel
+     * Returns the color of b pixel bt the given screen coordinbtes.
+     * @pbrbm   x       X position of pixel
+     * @pbrbm   y       Y position of pixel
      * @return  Color of the pixel
      */
     public synchronized Color getPixelColor(int x, int y) {
@@ -395,197 +395,197 @@ public class Robot {
     }
 
     /**
-     * Creates an image containing pixels read from the screen.  This image does
+     * Crebtes bn imbge contbining pixels rebd from the screen.  This imbge does
      * not include the mouse cursor.
-     * @param   screenRect      Rect to capture in screen coordinates
-     * @return  The captured image
-     * @throws  IllegalArgumentException if <code>screenRect</code> width and height are not greater than zero
-     * @throws  SecurityException if <code>readDisplayPixels</code> permission is not granted
-     * @see     SecurityManager#checkPermission
+     * @pbrbm   screenRect      Rect to cbpture in screen coordinbtes
+     * @return  The cbptured imbge
+     * @throws  IllegblArgumentException if <code>screenRect</code> width bnd height bre not grebter thbn zero
+     * @throws  SecurityException if <code>rebdDisplbyPixels</code> permission is not grbnted
+     * @see     SecurityMbnbger#checkPermission
      * @see     AWTPermission
      */
-    public synchronized BufferedImage createScreenCapture(Rectangle screenRect) {
-        checkScreenCaptureAllowed();
+    public synchronized BufferedImbge crebteScreenCbpture(Rectbngle screenRect) {
+        checkScreenCbptureAllowed();
 
-        checkValidRect(screenRect);
+        checkVblidRect(screenRect);
 
-        BufferedImage image;
-        DataBufferInt buffer;
-        WritableRaster raster;
+        BufferedImbge imbge;
+        DbtbBufferInt buffer;
+        WritbbleRbster rbster;
 
-        if (screenCapCM == null) {
+        if (screenCbpCM == null) {
             /*
              * Fix for 4285201
-             * Create a DirectColorModel equivalent to the default RGB ColorModel,
-             * except with no Alpha component.
+             * Crebte b DirectColorModel equivblent to the defbult RGB ColorModel,
+             * except with no Alphb component.
              */
 
-            screenCapCM = new DirectColorModel(24,
-                                               /* red mask */    0x00FF0000,
-                                               /* green mask */  0x0000FF00,
-                                               /* blue mask */   0x000000FF);
+            screenCbpCM = new DirectColorModel(24,
+                                               /* red mbsk */    0x00FF0000,
+                                               /* green mbsk */  0x0000FF00,
+                                               /* blue mbsk */   0x000000FF);
         }
 
-        // need to sync the toolkit prior to grabbing the pixels since in some
-        // cases rendering to the screen may be delayed
-        Toolkit.getDefaultToolkit().sync();
+        // need to sync the toolkit prior to grbbbing the pixels since in some
+        // cbses rendering to the screen mby be delbyed
+        Toolkit.getDefbultToolkit().sync();
 
         int pixels[];
-        int[] bandmasks = new int[3];
+        int[] bbndmbsks = new int[3];
 
         pixels = peer.getRGBPixels(screenRect);
-        buffer = new DataBufferInt(pixels, pixels.length);
+        buffer = new DbtbBufferInt(pixels, pixels.length);
 
-        bandmasks[0] = screenCapCM.getRedMask();
-        bandmasks[1] = screenCapCM.getGreenMask();
-        bandmasks[2] = screenCapCM.getBlueMask();
+        bbndmbsks[0] = screenCbpCM.getRedMbsk();
+        bbndmbsks[1] = screenCbpCM.getGreenMbsk();
+        bbndmbsks[2] = screenCbpCM.getBlueMbsk();
 
-        raster = Raster.createPackedRaster(buffer, screenRect.width, screenRect.height, screenRect.width, bandmasks, null);
-        SunWritableRaster.makeTrackable(buffer);
+        rbster = Rbster.crebtePbckedRbster(buffer, screenRect.width, screenRect.height, screenRect.width, bbndmbsks, null);
+        SunWritbbleRbster.mbkeTrbckbble(buffer);
 
-        image = new BufferedImage(screenCapCM, raster, false, null);
+        imbge = new BufferedImbge(screenCbpCM, rbster, fblse, null);
 
-        return image;
+        return imbge;
     }
 
-    private static void checkValidRect(Rectangle rect) {
+    privbte stbtic void checkVblidRect(Rectbngle rect) {
         if (rect.width <= 0 || rect.height <= 0) {
-            throw new IllegalArgumentException("Rectangle width and height must be > 0");
+            throw new IllegblArgumentException("Rectbngle width bnd height must be > 0");
         }
     }
 
-    private static void checkScreenCaptureAllowed() {
-        SecurityManager security = System.getSecurityManager();
+    privbte stbtic void checkScreenCbptureAllowed() {
+        SecurityMbnbger security = System.getSecurityMbnbger();
         if (security != null) {
             security.checkPermission(AWTPermissions.READ_DISPLAY_PIXELS_PERMISSION);
         }
     }
 
     /*
-     * Called after an event is generated
+     * Cblled bfter bn event is generbted
      */
-    private void afterEvent() {
-        autoWaitForIdle();
-        autoDelay();
+    privbte void bfterEvent() {
+        butoWbitForIdle();
+        butoDelby();
     }
 
     /**
-     * Returns whether this Robot automatically invokes <code>waitForIdle</code>
-     * after generating an event.
-     * @return Whether <code>waitForIdle</code> is automatically called
+     * Returns whether this Robot butombticblly invokes <code>wbitForIdle</code>
+     * bfter generbting bn event.
+     * @return Whether <code>wbitForIdle</code> is butombticblly cblled
      */
-    public synchronized boolean isAutoWaitForIdle() {
-        return isAutoWaitForIdle;
+    public synchronized boolebn isAutoWbitForIdle() {
+        return isAutoWbitForIdle;
     }
 
     /**
-     * Sets whether this Robot automatically invokes <code>waitForIdle</code>
-     * after generating an event.
-     * @param   isOn    Whether <code>waitForIdle</code> is automatically invoked
+     * Sets whether this Robot butombticblly invokes <code>wbitForIdle</code>
+     * bfter generbting bn event.
+     * @pbrbm   isOn    Whether <code>wbitForIdle</code> is butombticblly invoked
      */
-    public synchronized void setAutoWaitForIdle(boolean isOn) {
-        isAutoWaitForIdle = isOn;
+    public synchronized void setAutoWbitForIdle(boolebn isOn) {
+        isAutoWbitForIdle = isOn;
     }
 
     /*
-     * Calls waitForIdle after every event if so desired.
+     * Cblls wbitForIdle bfter every event if so desired.
      */
-    private void autoWaitForIdle() {
-        if (isAutoWaitForIdle) {
-            waitForIdle();
+    privbte void butoWbitForIdle() {
+        if (isAutoWbitForIdle) {
+            wbitForIdle();
         }
     }
 
     /**
-     * Returns the number of milliseconds this Robot sleeps after generating an event.
+     * Returns the number of milliseconds this Robot sleeps bfter generbting bn event.
      *
-     * @return the delay duration in milliseconds
+     * @return the delby durbtion in milliseconds
      */
-    public synchronized int getAutoDelay() {
-        return autoDelay;
+    public synchronized int getAutoDelby() {
+        return butoDelby;
     }
 
     /**
-     * Sets the number of milliseconds this Robot sleeps after generating an event.
+     * Sets the number of milliseconds this Robot sleeps bfter generbting bn event.
      *
-     * @param  ms the delay duration in milliseconds
-     * @throws IllegalArgumentException If {@code ms}
-     *         is not between 0 and 60,000 milliseconds inclusive
+     * @pbrbm  ms the delby durbtion in milliseconds
+     * @throws IllegblArgumentException If {@code ms}
+     *         is not between 0 bnd 60,000 milliseconds inclusive
      */
-    public synchronized void setAutoDelay(int ms) {
-        checkDelayArgument(ms);
-        autoDelay = ms;
+    public synchronized void setAutoDelby(int ms) {
+        checkDelbyArgument(ms);
+        butoDelby = ms;
     }
 
     /*
-     * Automatically sleeps for the specified interval after event generated.
+     * Autombticblly sleeps for the specified intervbl bfter event generbted.
      */
-    private void autoDelay() {
-        delay(autoDelay);
+    privbte void butoDelby() {
+        delby(butoDelby);
     }
 
     /**
      * Sleeps for the specified time.
-     * To catch any <code>InterruptedException</code>s that occur,
-     * <code>Thread.sleep()</code> may be used instead.
+     * To cbtch bny <code>InterruptedException</code>s thbt occur,
+     * <code>Threbd.sleep()</code> mby be used instebd.
      *
-     * @param  ms time to sleep in milliseconds
-     * @throws IllegalArgumentException if {@code ms}
-     *         is not between 0 and 60,000 milliseconds inclusive
-     * @see java.lang.Thread#sleep
+     * @pbrbm  ms time to sleep in milliseconds
+     * @throws IllegblArgumentException if {@code ms}
+     *         is not between 0 bnd 60,000 milliseconds inclusive
+     * @see jbvb.lbng.Threbd#sleep
      */
-    public synchronized void delay(int ms) {
-        checkDelayArgument(ms);
+    public synchronized void delby(int ms) {
+        checkDelbyArgument(ms);
         try {
-            Thread.sleep(ms);
-        } catch(InterruptedException ite) {
-            ite.printStackTrace();
+            Threbd.sleep(ms);
+        } cbtch(InterruptedException ite) {
+            ite.printStbckTrbce();
         }
     }
 
-    private void checkDelayArgument(int ms) {
+    privbte void checkDelbyArgument(int ms) {
         if (ms < 0 || ms > MAX_DELAY) {
-            throw new IllegalArgumentException("Delay must be to 0 to 60,000ms");
+            throw new IllegblArgumentException("Delby must be to 0 to 60,000ms");
         }
     }
 
     /**
-     * Waits until all events currently on the event queue have been processed.
-     * @throws  IllegalThreadStateException if called on the AWT event dispatching thread
+     * Wbits until bll events currently on the event queue hbve been processed.
+     * @throws  IllegblThrebdStbteException if cblled on the AWT event dispbtching threbd
      */
-    public synchronized void waitForIdle() {
-        checkNotDispatchThread();
-        // post a dummy event to the queue so we know when
-        // all the events before it have been processed
+    public synchronized void wbitForIdle() {
+        checkNotDispbtchThrebd();
+        // post b dummy event to the queue so we know when
+        // bll the events before it hbve been processed
         try {
             SunToolkit.flushPendingEvents();
-            EventQueue.invokeAndWait( new Runnable() {
+            EventQueue.invokeAndWbit( new Runnbble() {
                                             public void run() {
-                                                // dummy implementation
+                                                // dummy implementbtion
                                             }
                                         } );
-        } catch(InterruptedException ite) {
-            System.err.println("Robot.waitForIdle, non-fatal exception caught:");
-            ite.printStackTrace();
-        } catch(InvocationTargetException ine) {
-            System.err.println("Robot.waitForIdle, non-fatal exception caught:");
-            ine.printStackTrace();
+        } cbtch(InterruptedException ite) {
+            System.err.println("Robot.wbitForIdle, non-fbtbl exception cbught:");
+            ite.printStbckTrbce();
+        } cbtch(InvocbtionTbrgetException ine) {
+            System.err.println("Robot.wbitForIdle, non-fbtbl exception cbught:");
+            ine.printStbckTrbce();
         }
     }
 
-    private void checkNotDispatchThread() {
-        if (EventQueue.isDispatchThread()) {
-            throw new IllegalThreadStateException("Cannot call method from the event dispatcher thread");
+    privbte void checkNotDispbtchThrebd() {
+        if (EventQueue.isDispbtchThrebd()) {
+            throw new IllegblThrebdStbteException("Cbnnot cbll method from the event dispbtcher threbd");
         }
     }
 
     /**
-     * Returns a string representation of this Robot.
+     * Returns b string representbtion of this Robot.
      *
-     * @return  the string representation.
+     * @return  the string representbtion.
      */
     public synchronized String toString() {
-        String params = "autoDelay = "+getAutoDelay()+", "+"autoWaitForIdle = "+isAutoWaitForIdle();
-        return getClass().getName() + "[ " + params + " ]";
+        String pbrbms = "butoDelby = "+getAutoDelby()+", "+"butoWbitForIdle = "+isAutoWbitForIdle();
+        return getClbss().getNbme() + "[ " + pbrbms + " ]";
     }
 }

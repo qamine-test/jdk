@@ -1,81 +1,81 @@
 /*
- * Copyright (c) 2005, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2008, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package com.sun.jmx.mbeanserver;
+pbckbge com.sun.jmx.mbebnserver;
 
-import com.sun.jmx.mbeanserver.MBeanIntrospector.MBeanInfoMap;
-import com.sun.jmx.mbeanserver.MBeanIntrospector.PerInterfaceMap;
-import java.lang.annotation.Annotation;
-import java.lang.reflect.GenericArrayType;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-import javax.management.Descriptor;
-import javax.management.ImmutableDescriptor;
-import javax.management.MBeanAttributeInfo;
-import javax.management.MBeanException;
-import javax.management.MBeanOperationInfo;
-import javax.management.MBeanParameterInfo;
-import javax.management.NotCompliantMBeanException;
-import javax.management.openmbean.OpenMBeanAttributeInfoSupport;
-import javax.management.openmbean.OpenMBeanOperationInfoSupport;
-import javax.management.openmbean.OpenMBeanParameterInfo;
-import javax.management.openmbean.OpenMBeanParameterInfoSupport;
-import javax.management.openmbean.OpenType;
+import com.sun.jmx.mbebnserver.MBebnIntrospector.MBebnInfoMbp;
+import com.sun.jmx.mbebnserver.MBebnIntrospector.PerInterfbceMbp;
+import jbvb.lbng.bnnotbtion.Annotbtion;
+import jbvb.lbng.reflect.GenericArrbyType;
+import jbvb.lbng.reflect.InvocbtionTbrgetException;
+import jbvb.lbng.reflect.Method;
+import jbvb.lbng.reflect.PbrbmeterizedType;
+import jbvb.lbng.reflect.Type;
+import jbvbx.mbnbgement.Descriptor;
+import jbvbx.mbnbgement.ImmutbbleDescriptor;
+import jbvbx.mbnbgement.MBebnAttributeInfo;
+import jbvbx.mbnbgement.MBebnException;
+import jbvbx.mbnbgement.MBebnOperbtionInfo;
+import jbvbx.mbnbgement.MBebnPbrbmeterInfo;
+import jbvbx.mbnbgement.NotComplibntMBebnException;
+import jbvbx.mbnbgement.openmbebn.OpenMBebnAttributeInfoSupport;
+import jbvbx.mbnbgement.openmbebn.OpenMBebnOperbtionInfoSupport;
+import jbvbx.mbnbgement.openmbebn.OpenMBebnPbrbmeterInfo;
+import jbvbx.mbnbgement.openmbebn.OpenMBebnPbrbmeterInfoSupport;
+import jbvbx.mbnbgement.openmbebn.OpenType;
 
 /**
- * Introspector for MXBeans.  There is exactly one instance of this class.
+ * Introspector for MXBebns.  There is exbctly one instbnce of this clbss.
  *
  * @since 1.6
  */
-class MXBeanIntrospector extends MBeanIntrospector<ConvertingMethod> {
-    private static final MXBeanIntrospector instance = new MXBeanIntrospector();
+clbss MXBebnIntrospector extends MBebnIntrospector<ConvertingMethod> {
+    privbte stbtic finbl MXBebnIntrospector instbnce = new MXBebnIntrospector();
 
-    static MXBeanIntrospector getInstance() {
-        return instance;
+    stbtic MXBebnIntrospector getInstbnce() {
+        return instbnce;
     }
 
     @Override
-    PerInterfaceMap<ConvertingMethod> getPerInterfaceMap() {
-        return perInterfaceMap;
+    PerInterfbceMbp<ConvertingMethod> getPerInterfbceMbp() {
+        return perInterfbceMbp;
     }
 
     @Override
-    MBeanInfoMap getMBeanInfoMap() {
-        return mbeanInfoMap;
+    MBebnInfoMbp getMBebnInfoMbp() {
+        return mbebnInfoMbp;
     }
 
     @Override
-    MBeanAnalyzer<ConvertingMethod> getAnalyzer(Class<?> mbeanInterface)
-            throws NotCompliantMBeanException {
-        return MBeanAnalyzer.analyzer(mbeanInterface, this);
+    MBebnAnblyzer<ConvertingMethod> getAnblyzer(Clbss<?> mbebnInterfbce)
+            throws NotComplibntMBebnException {
+        return MBebnAnblyzer.bnblyzer(mbebnInterfbce, this);
     }
 
     @Override
-    boolean isMXBean() {
+    boolebn isMXBebn() {
         return true;
     }
 
@@ -85,8 +85,8 @@ class MXBeanIntrospector extends MBeanIntrospector<ConvertingMethod> {
     }
 
     @Override
-    String getName(ConvertingMethod m) {
-        return m.getName();
+    String getNbme(ConvertingMethod m) {
+        return m.getNbme();
     }
 
     @Override
@@ -95,182 +95,182 @@ class MXBeanIntrospector extends MBeanIntrospector<ConvertingMethod> {
     }
 
     @Override
-    Type[] getGenericParameterTypes(ConvertingMethod m) {
-        return m.getGenericParameterTypes();
+    Type[] getGenericPbrbmeterTypes(ConvertingMethod m) {
+        return m.getGenericPbrbmeterTypes();
     }
 
     @Override
-    String[] getSignature(ConvertingMethod m) {
-        return m.getOpenSignature();
+    String[] getSignbture(ConvertingMethod m) {
+        return m.getOpenSignbture();
     }
 
     @Override
     void checkMethod(ConvertingMethod m) {
-        m.checkCallFromOpen();
+        m.checkCbllFromOpen();
     }
 
     @Override
-    Object invokeM2(ConvertingMethod m, Object target, Object[] args,
+    Object invokeM2(ConvertingMethod m, Object tbrget, Object[] brgs,
                     Object cookie)
-            throws InvocationTargetException, IllegalAccessException,
-                   MBeanException {
-        return m.invokeWithOpenReturn((MXBeanLookup) cookie, target, args);
+            throws InvocbtionTbrgetException, IllegblAccessException,
+                   MBebnException {
+        return m.invokeWithOpenReturn((MXBebnLookup) cookie, tbrget, brgs);
     }
 
     @Override
-    boolean validParameter(ConvertingMethod m, Object value, int paramNo,
+    boolebn vblidPbrbmeter(ConvertingMethod m, Object vblue, int pbrbmNo,
                            Object cookie) {
-        if (value == null) {
-            // Null is a valid value for all OpenTypes, even though
-            // OpenType.isValue(null) will return false.  It can always be
-            // matched to the corresponding Java type, except when that
+        if (vblue == null) {
+            // Null is b vblid vblue for bll OpenTypes, even though
+            // OpenType.isVblue(null) will return fblse.  It cbn blwbys be
+            // mbtched to the corresponding Jbvb type, except when thbt
             // type is primitive.
-            Type t = m.getGenericParameterTypes()[paramNo];
-            return (!(t instanceof Class<?>) || !((Class<?>) t).isPrimitive());
+            Type t = m.getGenericPbrbmeterTypes()[pbrbmNo];
+            return (!(t instbnceof Clbss<?>) || !((Clbss<?>) t).isPrimitive());
         } else {
             Object v;
             try {
-                v = m.fromOpenParameter((MXBeanLookup) cookie, value, paramNo);
-            } catch (Exception e) {
-                // Ignore the exception and let MBeanIntrospector.invokeSetter()
-                // throw the initial exception.
+                v = m.fromOpenPbrbmeter((MXBebnLookup) cookie, vblue, pbrbmNo);
+            } cbtch (Exception e) {
+                // Ignore the exception bnd let MBebnIntrospector.invokeSetter()
+                // throw the initibl exception.
                 return true;
             }
-            return isValidParameter(m.getMethod(), v, paramNo);
+            return isVblidPbrbmeter(m.getMethod(), v, pbrbmNo);
         }
     }
 
     @Override
-    MBeanAttributeInfo getMBeanAttributeInfo(String attributeName,
+    MBebnAttributeInfo getMBebnAttributeInfo(String bttributeNbme,
             ConvertingMethod getter, ConvertingMethod setter) {
 
-        final boolean isReadable = (getter != null);
-        final boolean isWritable = (setter != null);
-        final boolean isIs = isReadable && getName(getter).startsWith("is");
+        finbl boolebn isRebdbble = (getter != null);
+        finbl boolebn isWritbble = (setter != null);
+        finbl boolebn isIs = isRebdbble && getNbme(getter).stbrtsWith("is");
 
-        final String description = attributeName;
+        finbl String description = bttributeNbme;
 
-        final OpenType<?> openType;
-        final Type originalType;
-        if (isReadable) {
+        finbl OpenType<?> openType;
+        finbl Type originblType;
+        if (isRebdbble) {
             openType = getter.getOpenReturnType();
-            originalType = getter.getGenericReturnType();
+            originblType = getter.getGenericReturnType();
         } else {
-            openType = setter.getOpenParameterTypes()[0];
-            originalType = setter.getGenericParameterTypes()[0];
+            openType = setter.getOpenPbrbmeterTypes()[0];
+            originblType = setter.getGenericPbrbmeterTypes()[0];
         }
-        Descriptor descriptor = typeDescriptor(openType, originalType);
-        if (isReadable) {
-            descriptor = ImmutableDescriptor.union(descriptor,
+        Descriptor descriptor = typeDescriptor(openType, originblType);
+        if (isRebdbble) {
+            descriptor = ImmutbbleDescriptor.union(descriptor,
                     getter.getDescriptor());
         }
-        if (isWritable) {
-            descriptor = ImmutableDescriptor.union(descriptor,
+        if (isWritbble) {
+            descriptor = ImmutbbleDescriptor.union(descriptor,
                     setter.getDescriptor());
         }
 
-        final MBeanAttributeInfo ai;
-        if (canUseOpenInfo(originalType)) {
-            ai = new OpenMBeanAttributeInfoSupport(attributeName,
+        finbl MBebnAttributeInfo bi;
+        if (cbnUseOpenInfo(originblType)) {
+            bi = new OpenMBebnAttributeInfoSupport(bttributeNbme,
                                                    description,
                                                    openType,
-                                                   isReadable,
-                                                   isWritable,
+                                                   isRebdbble,
+                                                   isWritbble,
                                                    isIs,
                                                    descriptor);
         } else {
-            ai = new MBeanAttributeInfo(attributeName,
-                                        originalTypeString(originalType),
+            bi = new MBebnAttributeInfo(bttributeNbme,
+                                        originblTypeString(originblType),
                                         description,
-                                        isReadable,
-                                        isWritable,
+                                        isRebdbble,
+                                        isWritbble,
                                         isIs,
                                         descriptor);
         }
-        // could also consult annotations for defaultValue,
-        // minValue, maxValue, legalValues
+        // could blso consult bnnotbtions for defbultVblue,
+        // minVblue, mbxVblue, legblVblues
 
-        return ai;
+        return bi;
     }
 
     @Override
-    MBeanOperationInfo getMBeanOperationInfo(String operationName,
-            ConvertingMethod operation) {
-        final Method method = operation.getMethod();
-        final String description = operationName;
-        /* Ideally this would be an empty string, but
-           OMBOperationInfo constructor forbids that.  Also, we
-           could consult an annotation to get a useful
+    MBebnOperbtionInfo getMBebnOperbtionInfo(String operbtionNbme,
+            ConvertingMethod operbtion) {
+        finbl Method method = operbtion.getMethod();
+        finbl String description = operbtionNbme;
+        /* Ideblly this would be bn empty string, but
+           OMBOperbtionInfo constructor forbids thbt.  Also, we
+           could consult bn bnnotbtion to get b useful
            description.  */
 
-        final int impact = MBeanOperationInfo.UNKNOWN;
+        finbl int impbct = MBebnOperbtionInfo.UNKNOWN;
 
-        final OpenType<?> returnType = operation.getOpenReturnType();
-        final Type originalReturnType = operation.getGenericReturnType();
-        final OpenType<?>[] paramTypes = operation.getOpenParameterTypes();
-        final Type[] originalParamTypes = operation.getGenericParameterTypes();
-        final MBeanParameterInfo[] params =
-            new MBeanParameterInfo[paramTypes.length];
-        boolean openReturnType = canUseOpenInfo(originalReturnType);
-        boolean openParameterTypes = true;
-        Annotation[][] annots = method.getParameterAnnotations();
-        for (int i = 0; i < paramTypes.length; i++) {
-            final String paramName = "p" + i;
-            final String paramDescription = paramName;
-            final OpenType<?> openType = paramTypes[i];
-            final Type originalType = originalParamTypes[i];
+        finbl OpenType<?> returnType = operbtion.getOpenReturnType();
+        finbl Type originblReturnType = operbtion.getGenericReturnType();
+        finbl OpenType<?>[] pbrbmTypes = operbtion.getOpenPbrbmeterTypes();
+        finbl Type[] originblPbrbmTypes = operbtion.getGenericPbrbmeterTypes();
+        finbl MBebnPbrbmeterInfo[] pbrbms =
+            new MBebnPbrbmeterInfo[pbrbmTypes.length];
+        boolebn openReturnType = cbnUseOpenInfo(originblReturnType);
+        boolebn openPbrbmeterTypes = true;
+        Annotbtion[][] bnnots = method.getPbrbmeterAnnotbtions();
+        for (int i = 0; i < pbrbmTypes.length; i++) {
+            finbl String pbrbmNbme = "p" + i;
+            finbl String pbrbmDescription = pbrbmNbme;
+            finbl OpenType<?> openType = pbrbmTypes[i];
+            finbl Type originblType = originblPbrbmTypes[i];
             Descriptor descriptor =
-                typeDescriptor(openType, originalType);
-            descriptor = ImmutableDescriptor.union(descriptor,
-                    Introspector.descriptorForAnnotations(annots[i]));
-            final MBeanParameterInfo pi;
-            if (canUseOpenInfo(originalType)) {
-                pi = new OpenMBeanParameterInfoSupport(paramName,
-                                                       paramDescription,
+                typeDescriptor(openType, originblType);
+            descriptor = ImmutbbleDescriptor.union(descriptor,
+                    Introspector.descriptorForAnnotbtions(bnnots[i]));
+            finbl MBebnPbrbmeterInfo pi;
+            if (cbnUseOpenInfo(originblType)) {
+                pi = new OpenMBebnPbrbmeterInfoSupport(pbrbmNbme,
+                                                       pbrbmDescription,
                                                        openType,
                                                        descriptor);
             } else {
-                openParameterTypes = false;
-                pi = new MBeanParameterInfo(
-                    paramName,
-                    originalTypeString(originalType),
-                    paramDescription,
+                openPbrbmeterTypes = fblse;
+                pi = new MBebnPbrbmeterInfo(
+                    pbrbmNbme,
+                    originblTypeString(originblType),
+                    pbrbmDescription,
                     descriptor);
             }
-            params[i] = pi;
+            pbrbms[i] = pi;
         }
 
         Descriptor descriptor =
-            typeDescriptor(returnType, originalReturnType);
-        descriptor = ImmutableDescriptor.union(descriptor,
+            typeDescriptor(returnType, originblReturnType);
+        descriptor = ImmutbbleDescriptor.union(descriptor,
                 Introspector.descriptorForElement(method));
-        final MBeanOperationInfo oi;
-        if (openReturnType && openParameterTypes) {
-            /* If the return value and all the parameters can be faithfully
-             * represented as OpenType then we return an OpenMBeanOperationInfo.
-             * If any of them is a primitive type, we can't.  Compatibility
-             * with JSR 174 means that we must return an MBean*Info where
-             * the getType() is the primitive type, not its wrapped type as
-             * we would get with an OpenMBean*Info.  The OpenType is available
-             * in the Descriptor in either case.
+        finbl MBebnOperbtionInfo oi;
+        if (openReturnType && openPbrbmeterTypes) {
+            /* If the return vblue bnd bll the pbrbmeters cbn be fbithfully
+             * represented bs OpenType then we return bn OpenMBebnOperbtionInfo.
+             * If bny of them is b primitive type, we cbn't.  Compbtibility
+             * with JSR 174 mebns thbt we must return bn MBebn*Info where
+             * the getType() is the primitive type, not its wrbpped type bs
+             * we would get with bn OpenMBebn*Info.  The OpenType is bvbilbble
+             * in the Descriptor in either cbse.
              */
-            final OpenMBeanParameterInfo[] oparams =
-                new OpenMBeanParameterInfo[params.length];
-            System.arraycopy(params, 0, oparams, 0, params.length);
-            oi = new OpenMBeanOperationInfoSupport(operationName,
+            finbl OpenMBebnPbrbmeterInfo[] opbrbms =
+                new OpenMBebnPbrbmeterInfo[pbrbms.length];
+            System.brrbycopy(pbrbms, 0, opbrbms, 0, pbrbms.length);
+            oi = new OpenMBebnOperbtionInfoSupport(operbtionNbme,
                                                    description,
-                                                   oparams,
+                                                   opbrbms,
                                                    returnType,
-                                                   impact,
+                                                   impbct,
                                                    descriptor);
         } else {
-            oi = new MBeanOperationInfo(operationName,
+            oi = new MBebnOperbtionInfo(operbtionNbme,
                                         description,
-                                        params,
+                                        pbrbms,
                                         openReturnType ?
-                                        returnType.getClassName() :
-                                        originalTypeString(originalReturnType),
-                                        impact,
+                                        returnType.getClbssNbme() :
+                                        originblTypeString(originblReturnType),
+                                        impbct,
                                         descriptor);
         }
 
@@ -278,88 +278,88 @@ class MXBeanIntrospector extends MBeanIntrospector<ConvertingMethod> {
     }
 
     @Override
-    Descriptor getBasicMBeanDescriptor() {
-        return new ImmutableDescriptor("mxbean=true",
-                                       "immutableInfo=true");
+    Descriptor getBbsicMBebnDescriptor() {
+        return new ImmutbbleDescriptor("mxbebn=true",
+                                       "immutbbleInfo=true");
     }
 
     @Override
-    Descriptor getMBeanDescriptor(Class<?> resourceClass) {
-        /* We already have immutableInfo=true in the Descriptor
-         * included in the MBeanInfo for the MXBean interface.  This
-         * method is being called for the MXBean *class* to add any
-         * new items beyond those in the interface Descriptor, which
+    Descriptor getMBebnDescriptor(Clbss<?> resourceClbss) {
+        /* We blrebdy hbve immutbbleInfo=true in the Descriptor
+         * included in the MBebnInfo for the MXBebn interfbce.  This
+         * method is being cblled for the MXBebn *clbss* to bdd bny
+         * new items beyond those in the interfbce Descriptor, which
          * currently it does not.
          */
-        return ImmutableDescriptor.EMPTY_DESCRIPTOR;
+        return ImmutbbleDescriptor.EMPTY_DESCRIPTOR;
     }
 
-    private static Descriptor typeDescriptor(OpenType<?> openType,
-                                             Type originalType) {
-        return new ImmutableDescriptor(
+    privbte stbtic Descriptor typeDescriptor(OpenType<?> openType,
+                                             Type originblType) {
+        return new ImmutbbleDescriptor(
             new String[] {"openType",
-                          "originalType"},
+                          "originblType"},
             new Object[] {openType,
-                          originalTypeString(originalType)});
+                          originblTypeString(originblType)});
     }
 
     /**
-     * <p>True if this type can be faithfully represented in an
-     * OpenMBean*Info.</p>
+     * <p>True if this type cbn be fbithfully represented in bn
+     * OpenMBebn*Info.</p>
      *
-     * <p>Compatibility with JSR 174 means that primitive types must be
-     * represented by an MBean*Info whose getType() is the primitive type
-     * string, e.g. "int".  If we used an OpenMBean*Info then this string
-     * would be the wrapped type, e.g. "java.lang.Integer".</p>
+     * <p>Compbtibility with JSR 174 mebns thbt primitive types must be
+     * represented by bn MBebn*Info whose getType() is the primitive type
+     * string, e.g. "int".  If we used bn OpenMBebn*Info then this string
+     * would be the wrbpped type, e.g. "jbvb.lbng.Integer".</p>
      *
-     * <p>Compatibility with JMX 1.2 (including J2SE 5.0) means that arrays
-     * of primitive types cannot use an ArrayType representing an array of
-     * primitives, because that didn't exist in JMX 1.2.</p>
+     * <p>Compbtibility with JMX 1.2 (including J2SE 5.0) mebns thbt brrbys
+     * of primitive types cbnnot use bn ArrbyType representing bn brrby of
+     * primitives, becbuse thbt didn't exist in JMX 1.2.</p>
      */
-    private static boolean canUseOpenInfo(Type type) {
-        if (type instanceof GenericArrayType) {
-            return canUseOpenInfo(
-                ((GenericArrayType) type).getGenericComponentType());
-        } else if (type instanceof Class<?> && ((Class<?>) type).isArray()) {
-            return canUseOpenInfo(
-                ((Class<?>) type).getComponentType());
+    privbte stbtic boolebn cbnUseOpenInfo(Type type) {
+        if (type instbnceof GenericArrbyType) {
+            return cbnUseOpenInfo(
+                ((GenericArrbyType) type).getGenericComponentType());
+        } else if (type instbnceof Clbss<?> && ((Clbss<?>) type).isArrby()) {
+            return cbnUseOpenInfo(
+                ((Clbss<?>) type).getComponentType());
         }
-        return (!(type instanceof Class<?> && ((Class<?>) type).isPrimitive()));
+        return (!(type instbnceof Clbss<?> && ((Clbss<?>) type).isPrimitive()));
     }
 
-    private static String originalTypeString(Type type) {
-        if (type instanceof Class<?>)
-            return ((Class<?>) type).getName();
+    privbte stbtic String originblTypeString(Type type) {
+        if (type instbnceof Clbss<?>)
+            return ((Clbss<?>) type).getNbme();
         else
-            return typeName(type);
+            return typeNbme(type);
     }
 
-    static String typeName(Type type) {
-        if (type instanceof Class<?>) {
-            Class<?> c = (Class<?>) type;
-            if (c.isArray())
-                return typeName(c.getComponentType()) + "[]";
+    stbtic String typeNbme(Type type) {
+        if (type instbnceof Clbss<?>) {
+            Clbss<?> c = (Clbss<?>) type;
+            if (c.isArrby())
+                return typeNbme(c.getComponentType()) + "[]";
             else
-                return c.getName();
-        } else if (type instanceof GenericArrayType) {
-            GenericArrayType gat = (GenericArrayType) type;
-            return typeName(gat.getGenericComponentType()) + "[]";
-        } else if (type instanceof ParameterizedType) {
-            ParameterizedType pt = (ParameterizedType) type;
+                return c.getNbme();
+        } else if (type instbnceof GenericArrbyType) {
+            GenericArrbyType gbt = (GenericArrbyType) type;
+            return typeNbme(gbt.getGenericComponentType()) + "[]";
+        } else if (type instbnceof PbrbmeterizedType) {
+            PbrbmeterizedType pt = (PbrbmeterizedType) type;
             StringBuilder sb = new StringBuilder();
-            sb.append(typeName(pt.getRawType())).append("<");
+            sb.bppend(typeNbme(pt.getRbwType())).bppend("<");
             String sep = "";
-            for (Type t : pt.getActualTypeArguments()) {
-                sb.append(sep).append(typeName(t));
+            for (Type t : pt.getActublTypeArguments()) {
+                sb.bppend(sep).bppend(typeNbme(t));
                 sep = ", ";
             }
-            return sb.append(">").toString();
+            return sb.bppend(">").toString();
         } else
             return "???";
     }
 
-    private final PerInterfaceMap<ConvertingMethod>
-        perInterfaceMap = new PerInterfaceMap<ConvertingMethod>();
+    privbte finbl PerInterfbceMbp<ConvertingMethod>
+        perInterfbceMbp = new PerInterfbceMbp<ConvertingMethod>();
 
-    private static final MBeanInfoMap mbeanInfoMap = new MBeanInfoMap();
+    privbte stbtic finbl MBebnInfoMbp mbebnInfoMbp = new MBebnInfoMbp();
 }

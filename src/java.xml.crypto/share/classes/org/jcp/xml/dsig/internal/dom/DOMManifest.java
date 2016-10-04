@@ -3,37 +3,37 @@
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Licensed to the Apbche Softwbre Foundbtion (ASF) under one
+ * or more contributor license bgreements. See the NOTICE file
+ * distributed with this work for bdditionbl informbtion
+ * regbrding copyright ownership. The ASF licenses this file
+ * to you under the Apbche License, Version 2.0 (the
+ * "License"); you mby not use this file except in complibnce
+ * with the License. You mby obtbin b copy of the License bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.bpbche.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unless required by bpplicbble lbw or bgreed to in writing,
+ * softwbre distributed under the License is distributed on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
+ * specific lbngubge governing permissions bnd limitbtions
  * under the License.
  */
 /*
- * Copyright (c) 2005, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2005, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  */
 /*
- * $Id: DOMManifest.java 1333415 2012-05-03 12:03:51Z coheigea $
+ * $Id: DOMMbnifest.jbvb 1333415 2012-05-03 12:03:51Z coheigeb $
  */
-package org.jcp.xml.dsig.internal.dom;
+pbckbge org.jcp.xml.dsig.internbl.dom;
 
-import javax.xml.crypto.*;
-import javax.xml.crypto.dom.DOMCryptoContext;
-import javax.xml.crypto.dsig.*;
+import jbvbx.xml.crypto.*;
+import jbvbx.xml.crypto.dom.DOMCryptoContext;
+import jbvbx.xml.crypto.dsig.*;
 
-import java.security.Provider;
-import java.util.*;
+import jbvb.security.Provider;
+import jbvb.util.*;
 
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
@@ -41,94 +41,94 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 /**
- * DOM-based implementation of Manifest.
+ * DOM-bbsed implementbtion of Mbnifest.
  *
- * @author Sean Mullan
+ * @buthor Sebn Mullbn
  */
-public final class DOMManifest extends DOMStructure implements Manifest {
+public finbl clbss DOMMbnifest extends DOMStructure implements Mbnifest {
 
-    private final List<Reference> references;
-    private final String id;
+    privbte finbl List<Reference> references;
+    privbte finbl String id;
 
     /**
-     * Creates a <code>DOMManifest</code> containing the specified
-     * list of {@link Reference}s and optional id.
+     * Crebtes b <code>DOMMbnifest</code> contbining the specified
+     * list of {@link Reference}s bnd optionbl id.
      *
-     * @param references a list of one or more <code>Reference</code>s. The list
-     *    is defensively copied to protect against subsequent modification.
-     * @param id the id (may be <code>null</code>
+     * @pbrbm references b list of one or more <code>Reference</code>s. The list
+     *    is defensively copied to protect bgbinst subsequent modificbtion.
+     * @pbrbm id the id (mby be <code>null</code>
      * @throws NullPointerException if <code>references</code> is
      *    <code>null</code>
-     * @throws IllegalArgumentException if <code>references</code> is empty
-     * @throws ClassCastException if <code>references</code> contains any
-     *    entries that are not of type {@link Reference}
+     * @throws IllegblArgumentException if <code>references</code> is empty
+     * @throws ClbssCbstException if <code>references</code> contbins bny
+     *    entries thbt bre not of type {@link Reference}
      */
-    public DOMManifest(List<? extends Reference> references, String id) {
+    public DOMMbnifest(List<? extends Reference> references, String id) {
         if (references == null) {
-            throw new NullPointerException("references cannot be null");
+            throw new NullPointerException("references cbnnot be null");
         }
         this.references =
-            Collections.unmodifiableList(new ArrayList<Reference>(references));
+            Collections.unmodifibbleList(new ArrbyList<Reference>(references));
         if (this.references.isEmpty()) {
-            throw new IllegalArgumentException("list of references must " +
-                "contain at least one entry");
+            throw new IllegblArgumentException("list of references must " +
+                "contbin bt lebst one entry");
         }
         for (int i = 0, size = this.references.size(); i < size; i++) {
-            if (!(this.references.get(i) instanceof Reference)) {
-                throw new ClassCastException
-                    ("references["+i+"] is not a valid type");
+            if (!(this.references.get(i) instbnceof Reference)) {
+                throw new ClbssCbstException
+                    ("references["+i+"] is not b vblid type");
             }
         }
         this.id = id;
     }
 
     /**
-     * Creates a <code>DOMManifest</code> from an element.
+     * Crebtes b <code>DOMMbnifest</code> from bn element.
      *
-     * @param manElem a Manifest element
+     * @pbrbm mbnElem b Mbnifest element
      */
-    public DOMManifest(Element manElem, XMLCryptoContext context,
+    public DOMMbnifest(Element mbnElem, XMLCryptoContext context,
                        Provider provider)
-        throws MarshalException
+        throws MbrshblException
     {
-        Attr attr = manElem.getAttributeNodeNS(null, "Id");
-        if (attr != null) {
-            this.id = attr.getValue();
-            manElem.setIdAttributeNode(attr, true);
+        Attr bttr = mbnElem.getAttributeNodeNS(null, "Id");
+        if (bttr != null) {
+            this.id = bttr.getVblue();
+            mbnElem.setIdAttributeNode(bttr, true);
         } else {
             this.id = null;
         }
 
-        boolean secVal = Utils.secureValidation(context);
+        boolebn secVbl = Utils.secureVblidbtion(context);
 
-        Element refElem = DOMUtils.getFirstChildElement(manElem, "Reference");
-        List<Reference> refs = new ArrayList<Reference>();
-        refs.add(new DOMReference(refElem, context, provider));
+        Element refElem = DOMUtils.getFirstChildElement(mbnElem, "Reference");
+        List<Reference> refs = new ArrbyList<Reference>();
+        refs.bdd(new DOMReference(refElem, context, provider));
 
         refElem = DOMUtils.getNextSiblingElement(refElem);
         while (refElem != null) {
-            String localName = refElem.getLocalName();
-            if (!localName.equals("Reference")) {
-                throw new MarshalException("Invalid element name: " +
-                                           localName + ", expected Reference");
+            String locblNbme = refElem.getLocblNbme();
+            if (!locblNbme.equbls("Reference")) {
+                throw new MbrshblException("Invblid element nbme: " +
+                                           locblNbme + ", expected Reference");
             }
-            refs.add(new DOMReference(refElem, context, provider));
-            if (secVal && (refs.size() > DOMSignedInfo.MAXIMUM_REFERENCE_COUNT)) {
-                String error = "A maxiumum of " + DOMSignedInfo.MAXIMUM_REFERENCE_COUNT + " "
-                    + "references per Manifest are allowed with secure validation";
-                throw new MarshalException(error);
+            refs.bdd(new DOMReference(refElem, context, provider));
+            if (secVbl && (refs.size() > DOMSignedInfo.MAXIMUM_REFERENCE_COUNT)) {
+                String error = "A mbxiumum of " + DOMSignedInfo.MAXIMUM_REFERENCE_COUNT + " "
+                    + "references per Mbnifest bre bllowed with secure vblidbtion";
+                throw new MbrshblException(error);
             }
             refElem = DOMUtils.getNextSiblingElement(refElem);
         }
-        this.references = Collections.unmodifiableList(refs);
+        this.references = Collections.unmodifibbleList(refs);
     }
 
     public String getId() {
         return id;
     }
 
-    @SuppressWarnings("unchecked")
-    static List<Reference> getManifestReferences(Manifest mf) {
+    @SuppressWbrnings("unchecked")
+    stbtic List<Reference> getMbnifestReferences(Mbnifest mf) {
         return mf.getReferences();
     }
 
@@ -136,46 +136,46 @@ public final class DOMManifest extends DOMStructure implements Manifest {
         return references;
     }
 
-    public void marshal(Node parent, String dsPrefix, DOMCryptoContext context)
-        throws MarshalException
+    public void mbrshbl(Node pbrent, String dsPrefix, DOMCryptoContext context)
+        throws MbrshblException
     {
-        Document ownerDoc = DOMUtils.getOwnerDocument(parent);
-        Element manElem = DOMUtils.createElement(ownerDoc, "Manifest",
-                                                 XMLSignature.XMLNS, dsPrefix);
+        Document ownerDoc = DOMUtils.getOwnerDocument(pbrent);
+        Element mbnElem = DOMUtils.crebteElement(ownerDoc, "Mbnifest",
+                                                 XMLSignbture.XMLNS, dsPrefix);
 
-        DOMUtils.setAttributeID(manElem, "Id", id);
+        DOMUtils.setAttributeID(mbnElem, "Id", id);
 
-        // add references
+        // bdd references
         for (Reference ref : references) {
-            ((DOMReference)ref).marshal(manElem, dsPrefix, context);
+            ((DOMReference)ref).mbrshbl(mbnElem, dsPrefix, context);
         }
-        parent.appendChild(manElem);
+        pbrent.bppendChild(mbnElem);
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolebn equbls(Object o) {
         if (this == o) {
             return true;
         }
 
-        if (!(o instanceof Manifest)) {
-            return false;
+        if (!(o instbnceof Mbnifest)) {
+            return fblse;
         }
-        Manifest oman = (Manifest)o;
+        Mbnifest ombn = (Mbnifest)o;
 
-        boolean idsEqual = (id == null ? oman.getId() == null
-                                       : id.equals(oman.getId()));
+        boolebn idsEqubl = (id == null ? ombn.getId() == null
+                                       : id.equbls(ombn.getId()));
 
-        return (idsEqual && references.equals(oman.getReferences()));
+        return (idsEqubl && references.equbls(ombn.getReferences()));
     }
 
     @Override
-    public int hashCode() {
+    public int hbshCode() {
         int result = 17;
         if (id != null) {
-            result = 31 * result + id.hashCode();
+            result = 31 * result + id.hbshCode();
         }
-        result = 31 * result + references.hashCode();
+        result = 31 * result + references.hbshCode();
 
         return result;
     }

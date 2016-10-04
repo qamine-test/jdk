@@ -1,167 +1,167 @@
 /*
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package sun.awt;
+pbckbge sun.bwt;
 
-import java.awt.Container;
-import java.awt.Frame;
-import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.MenuBar;
-import java.awt.MenuComponent;
-import java.awt.Rectangle;
-import java.awt.Toolkit;
-import java.awt.peer.FramePeer;
+import jbvb.bwt.Contbiner;
+import jbvb.bwt.Frbme;
+import jbvb.bwt.Grbphics;
+import jbvb.bwt.Imbge;
+import jbvb.bwt.MenuBbr;
+import jbvb.bwt.MenuComponent;
+import jbvb.bwt.Rectbngle;
+import jbvb.bwt.Toolkit;
+import jbvb.bwt.peer.FrbmePeer;
 
 /**
- * The class provides basic functionality for a lightweight frame
- * implementation. A subclass is expected to provide painting to an
- * offscreen image and access to it. Thus it can be used for lightweight
+ * The clbss provides bbsic functionblity for b lightweight frbme
+ * implementbtion. A subclbss is expected to provide pbinting to bn
+ * offscreen imbge bnd bccess to it. Thus it cbn be used for lightweight
  * embedding.
  *
- * @author Artem Ananiev
- * @author Anton Tarasov
+ * @buthor Artem Anbniev
+ * @buthor Anton Tbrbsov
  */
-@SuppressWarnings("serial")
-public abstract class LightweightFrame extends Frame {
+@SuppressWbrnings("seribl")
+public bbstrbct clbss LightweightFrbme extends Frbme {
 
     /**
-     * Constructs a new, initially invisible {@code LightweightFrame}
-     * instance.
+     * Constructs b new, initiblly invisible {@code LightweightFrbme}
+     * instbnce.
      */
-    public LightweightFrame() {
-        setUndecorated(true);
-        setResizable(true);
-        setEnabled(true);
+    public LightweightFrbme() {
+        setUndecorbted(true);
+        setResizbble(true);
+        setEnbbled(true);
     }
 
     /**
-     * Blocks introspection of a parent window by this child.
+     * Blocks introspection of b pbrent window by this child.
      *
      * @return null
      */
-    @Override public final Container getParent() { return null; }
+    @Override public finbl Contbiner getPbrent() { return null; }
 
-    @Override public Graphics getGraphics() { return null; }
+    @Override public Grbphics getGrbphics() { return null; }
 
-    @Override public final boolean isResizable() { return true; }
+    @Override public finbl boolebn isResizbble() { return true; }
 
-    // Block modification of any frame attributes, since they aren't
-    // applicable for a lightweight frame.
+    // Block modificbtion of bny frbme bttributes, since they bren't
+    // bpplicbble for b lightweight frbme.
 
-    @Override public final void setTitle(String title) {}
-    @Override public final void setIconImage(Image image) {}
-    @Override public final void setIconImages(java.util.List<? extends Image> icons) {}
-    @Override public final void setMenuBar(MenuBar mb) {}
-    @Override public final void setResizable(boolean resizable) {}
-    @Override public final void remove(MenuComponent m) {}
-    @Override public final void toFront() {}
-    @Override public final void toBack() {}
+    @Override public finbl void setTitle(String title) {}
+    @Override public finbl void setIconImbge(Imbge imbge) {}
+    @Override public finbl void setIconImbges(jbvb.util.List<? extends Imbge> icons) {}
+    @Override public finbl void setMenuBbr(MenuBbr mb) {}
+    @Override public finbl void setResizbble(boolebn resizbble) {}
+    @Override public finbl void remove(MenuComponent m) {}
+    @Override public finbl void toFront() {}
+    @Override public finbl void toBbck() {}
 
-    @Override public void addNotify() {
+    @Override public void bddNotify() {
         synchronized (getTreeLock()) {
             if (getPeer() == null) {
-                SunToolkit stk = (SunToolkit)Toolkit.getDefaultToolkit();
+                SunToolkit stk = (SunToolkit)Toolkit.getDefbultToolkit();
                 try {
-                    setPeer(stk.createLightweightFrame(this));
-                } catch (Exception e) {
+                    setPeer(stk.crebteLightweightFrbme(this));
+                } cbtch (Exception e) {
                     throw new RuntimeException(e);
                 }
             }
-            super.addNotify();
+            super.bddNotify();
         }
     }
 
-    private void setPeer(final FramePeer p) {
+    privbte void setPeer(finbl FrbmePeer p) {
         AWTAccessor.getComponentAccessor().setPeer(this, p);
     }
 
     /**
-     * Requests the peer to emulate activation or deactivation of the
-     * frame. Peers should override this method if they are to implement
-     * this functionality.
+     * Requests the peer to emulbte bctivbtion or debctivbtion of the
+     * frbme. Peers should override this method if they bre to implement
+     * this functionblity.
      *
-     * @param activate if <code>true</code>, activates the frame;
-     *                 otherwise, deactivates the frame
+     * @pbrbm bctivbte if <code>true</code>, bctivbtes the frbme;
+     *                 otherwise, debctivbtes the frbme
      */
-    public void emulateActivation(boolean activate) {
-        ((FramePeer)getPeer()).emulateActivation(activate);
+    public void emulbteActivbtion(boolebn bctivbte) {
+        ((FrbmePeer)getPeer()).emulbteActivbtion(bctivbte);
     }
 
     /**
-     * Delegates the focus grab action to the client (embedding) application.
-     * The method is called by the AWT grab machinery.
+     * Delegbtes the focus grbb bction to the client (embedding) bpplicbtion.
+     * The method is cblled by the AWT grbb mbchinery.
      *
-     * @see SunToolkit#grab(java.awt.Window)
+     * @see SunToolkit#grbb(jbvb.bwt.Window)
      */
-    public abstract void grabFocus();
+    public bbstrbct void grbbFocus();
 
     /**
-     * Delegates the focus ungrab action to the client (embedding) application.
-     * The method is called by the AWT grab machinery.
+     * Delegbtes the focus ungrbb bction to the client (embedding) bpplicbtion.
+     * The method is cblled by the AWT grbb mbchinery.
      *
-     * @see SunToolkit#ungrab(java.awt.Window)
+     * @see SunToolkit#ungrbb(jbvb.bwt.Window)
      */
-    public abstract void ungrabFocus();
+    public bbstrbct void ungrbbFocus();
 
     /**
-     * Returns the scale factor of this frame. The default value is 1.
+     * Returns the scble fbctor of this frbme. The defbult vblue is 1.
      *
-     * @return the scale factor
-     * @see #notifyDisplayChanged(int)
+     * @return the scble fbctor
+     * @see #notifyDisplbyChbnged(int)
      */
-    public abstract int getScaleFactor();
+    public bbstrbct int getScbleFbctor();
 
     /**
-     * Called when display of the hosted frame is changed.
+     * Cblled when displby of the hosted frbme is chbnged.
      *
-     * @param scaleFactor the scale factor
+     * @pbrbm scbleFbctor the scble fbctor
      */
-    public abstract void notifyDisplayChanged(int scaleFactor);
+    public bbstrbct void notifyDisplbyChbnged(int scbleFbctor);
 
     /**
-     * Host window absolute bounds.
+     * Host window bbsolute bounds.
      */
-    private int hostX, hostY, hostW, hostH;
+    privbte int hostX, hostY, hostW, hostH;
 
     /**
-     * Returns the absolute bounds of the host (embedding) window.
+     * Returns the bbsolute bounds of the host (embedding) window.
      *
      * @return the host window bounds
      */
-    public Rectangle getHostBounds() {
+    public Rectbngle getHostBounds() {
         if (hostX == 0 && hostY == 0 && hostW == 0 && hostH == 0) {
-            // The client app is probably unaware of the setHostBounds.
-            // A safe fall-back:
+            // The client bpp is probbbly unbwbre of the setHostBounds.
+            // A sbfe fbll-bbck:
             return getBounds();
         }
-        return new Rectangle(hostX, hostY, hostW, hostH);
+        return new Rectbngle(hostX, hostY, hostW, hostH);
     }
 
     /**
-     * Sets the absolute bounds of the host (embedding) window.
+     * Sets the bbsolute bounds of the host (embedding) window.
      */
     public void setHostBounds(int x, int y, int w, int h) {
         hostX = x;

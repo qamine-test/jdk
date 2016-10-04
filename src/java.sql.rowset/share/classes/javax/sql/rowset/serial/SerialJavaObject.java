@@ -1,281 +1,281 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2003, 2014, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package javax.sql.rowset.serial;
+pbckbge jbvbx.sql.rowset.seribl;
 
-import java.io.*;
-import java.lang.reflect.*;
-import java.util.Arrays;
-import java.util.Vector;
-import javax.sql.rowset.RowSetWarning;
-import sun.reflect.CallerSensitive;
+import jbvb.io.*;
+import jbvb.lbng.reflect.*;
+import jbvb.util.Arrbys;
+import jbvb.util.Vector;
+import jbvbx.sql.rowset.RowSetWbrning;
+import sun.reflect.CbllerSensitive;
 import sun.reflect.Reflection;
 import sun.reflect.misc.ReflectUtil;
 
 /**
- * A serializable mapping in the Java programming language of an SQL
- * <code>JAVA_OBJECT</code> value. Assuming the Java object
- * implements the <code>Serializable</code> interface, this class simply wraps the
- * serialization process.
+ * A seriblizbble mbpping in the Jbvb progrbmming lbngubge of bn SQL
+ * <code>JAVA_OBJECT</code> vblue. Assuming the Jbvb object
+ * implements the <code>Seriblizbble</code> interfbce, this clbss simply wrbps the
+ * seriblizbtion process.
  * <P>
- * If however, the serialization is not possible because
- * the Java object is not immediately serializable, this class will
- * attempt to serialize all non-static members to permit the object
- * state to be serialized.
- * Static or transient fields cannot be serialized; an attempt to serialize
- * them will result in a <code>SerialException</code> object being thrown.
+ * If however, the seriblizbtion is not possible becbuse
+ * the Jbvb object is not immedibtely seriblizbble, this clbss will
+ * bttempt to seriblize bll non-stbtic members to permit the object
+ * stbte to be seriblized.
+ * Stbtic or trbnsient fields cbnnot be seriblized; bn bttempt to seriblize
+ * them will result in b <code>SeriblException</code> object being thrown.
  *
- * <h3> Thread safety </h3>
+ * <h3> Threbd sbfety </h3>
  *
- * A SerialJavaObject is not safe for use by multiple concurrent threads.  If a
- * SerialJavaObject is to be used by more than one thread then access to the
- * SerialJavaObject should be controlled by appropriate synchronization.
+ * A SeriblJbvbObject is not sbfe for use by multiple concurrent threbds.  If b
+ * SeriblJbvbObject is to be used by more thbn one threbd then bccess to the
+ * SeriblJbvbObject should be controlled by bppropribte synchronizbtion.
  *
- * @author Jonathan Bruce
+ * @buthor Jonbthbn Bruce
  * @since 1.5
  */
-public class SerialJavaObject implements Serializable, Cloneable {
+public clbss SeriblJbvbObject implements Seriblizbble, Clonebble {
 
     /**
-     * Placeholder for object to be serialized.
+     * Plbceholder for object to be seriblized.
      */
-    private Object obj;
+    privbte Object obj;
 
 
    /**
-    * Placeholder for all fields in the <code>JavaObject</code> being serialized.
+    * Plbceholder for bll fields in the <code>JbvbObject</code> being seriblized.
     */
-    private transient Field[] fields;
+    privbte trbnsient Field[] fields;
 
     /**
-     * Constructor for <code>SerialJavaObject</code> helper class.
+     * Constructor for <code>SeriblJbvbObject</code> helper clbss.
      *
-     * @param obj the Java <code>Object</code> to be serialized
-     * @throws SerialException if the object is found not to be serializable
+     * @pbrbm obj the Jbvb <code>Object</code> to be seriblized
+     * @throws SeriblException if the object is found not to be seriblizbble
      */
-    public SerialJavaObject(Object obj) throws SerialException {
+    public SeriblJbvbObject(Object obj) throws SeriblException {
 
-        // if any static fields are found, an exception
+        // if bny stbtic fields bre found, bn exception
         // should be thrown
 
 
-        // get Class. Object instance should always be available
-        Class<?> c = obj.getClass();
+        // get Clbss. Object instbnce should blwbys be bvbilbble
+        Clbss<?> c = obj.getClbss();
 
-        // determine if object implements Serializable i/f
-        if (!(obj instanceof java.io.Serializable)) {
-            setWarning(new RowSetWarning("Warning, the object passed to the constructor does not implement Serializable"));
+        // determine if object implements Seriblizbble i/f
+        if (!(obj instbnceof jbvb.io.Seriblizbble)) {
+            setWbrning(new RowSetWbrning("Wbrning, the object pbssed to the constructor does not implement Seriblizbble"));
         }
 
-        // can only determine public fields (obviously). If
-        // any of these are static, this should invalidate
-        // the action of attempting to persist these fields
-        // in a serialized form
+        // cbn only determine public fields (obviously). If
+        // bny of these bre stbtic, this should invblidbte
+        // the bction of bttempting to persist these fields
+        // in b seriblized form
         fields = c.getFields();
 
-        if (hasStaticFields(fields)) {
-            throw new SerialException("Located static fields in " +
-                "object instance. Cannot serialize");
+        if (hbsStbticFields(fields)) {
+            throw new SeriblException("Locbted stbtic fields in " +
+                "object instbnce. Cbnnot seriblize");
         }
 
         this.obj = obj;
     }
 
     /**
-     * Returns an <code>Object</code> that is a copy of this <code>SerialJavaObject</code>
+     * Returns bn <code>Object</code> thbt is b copy of this <code>SeriblJbvbObject</code>
      * object.
      *
-     * @return a copy of this <code>SerialJavaObject</code> object as an
-     *         <code>Object</code> in the Java programming language
-     * @throws SerialException if the instance is corrupt
+     * @return b copy of this <code>SeriblJbvbObject</code> object bs bn
+     *         <code>Object</code> in the Jbvb progrbmming lbngubge
+     * @throws SeriblException if the instbnce is corrupt
      */
-    public Object getObject() throws SerialException {
+    public Object getObject() throws SeriblException {
         return this.obj;
     }
 
     /**
-     * Returns an array of <code>Field</code> objects that contains each
-     * field of the object that this helper class is serializing.
+     * Returns bn brrby of <code>Field</code> objects thbt contbins ebch
+     * field of the object thbt this helper clbss is seriblizing.
      *
-     * @return an array of <code>Field</code> objects
-     * @throws SerialException if an error is encountered accessing
-     * the serialized object
-     * @throws  SecurityException  If a security manager, <i>s</i>, is present
-     * and the caller's class loader is not the same as or an
-     * ancestor of the class loader for the class of the
-     * {@linkplain #getObject object} being serialized
-     * and invocation of {@link SecurityManager#checkPackageAccess
-     * s.checkPackageAccess()} denies access to the package
-     * of that class.
-     * @see Class#getFields
+     * @return bn brrby of <code>Field</code> objects
+     * @throws SeriblException if bn error is encountered bccessing
+     * the seriblized object
+     * @throws  SecurityException  If b security mbnbger, <i>s</i>, is present
+     * bnd the cbller's clbss lobder is not the sbme bs or bn
+     * bncestor of the clbss lobder for the clbss of the
+     * {@linkplbin #getObject object} being seriblized
+     * bnd invocbtion of {@link SecurityMbnbger#checkPbckbgeAccess
+     * s.checkPbckbgeAccess()} denies bccess to the pbckbge
+     * of thbt clbss.
+     * @see Clbss#getFields
      */
-    @CallerSensitive
-    public Field[] getFields() throws SerialException {
+    @CbllerSensitive
+    public Field[] getFields() throws SeriblException {
         if (fields != null) {
-            Class<?> c = this.obj.getClass();
-            SecurityManager sm = System.getSecurityManager();
+            Clbss<?> c = this.obj.getClbss();
+            SecurityMbnbger sm = System.getSecurityMbnbger();
             if (sm != null) {
                 /*
-                 * Check if the caller is allowed to access the specified class's package.
-                 * If access is denied, throw a SecurityException.
+                 * Check if the cbller is bllowed to bccess the specified clbss's pbckbge.
+                 * If bccess is denied, throw b SecurityException.
                  */
-                Class<?> caller = sun.reflect.Reflection.getCallerClass();
-                if (ReflectUtil.needsPackageAccessCheck(caller.getClassLoader(),
-                                                        c.getClassLoader())) {
-                    ReflectUtil.checkPackageAccess(c);
+                Clbss<?> cbller = sun.reflect.Reflection.getCbllerClbss();
+                if (ReflectUtil.needsPbckbgeAccessCheck(cbller.getClbssLobder(),
+                                                        c.getClbssLobder())) {
+                    ReflectUtil.checkPbckbgeAccess(c);
                 }
             }
             return c.getFields();
         } else {
-            throw new SerialException("SerialJavaObject does not contain" +
-                " a serialized object instance");
+            throw new SeriblException("SeriblJbvbObject does not contbin" +
+                " b seriblized object instbnce");
         }
     }
 
     /**
-     * The identifier that assists in the serialization of this
-     * <code>SerialJavaObject</code> object.
+     * The identifier thbt bssists in the seriblizbtion of this
+     * <code>SeriblJbvbObject</code> object.
      */
-    static final long serialVersionUID = -1465795139032831023L;
+    stbtic finbl long seriblVersionUID = -1465795139032831023L;
 
     /**
-     * A container for the warnings issued on this <code>SerialJavaObject</code>
-     * object. When there are multiple warnings, each warning is chained to the
-     * previous warning.
+     * A contbiner for the wbrnings issued on this <code>SeriblJbvbObject</code>
+     * object. When there bre multiple wbrnings, ebch wbrning is chbined to the
+     * previous wbrning.
      */
-    Vector<RowSetWarning> chain;
+    Vector<RowSetWbrning> chbin;
 
     /**
-     * Compares this SerialJavaObject to the specified object.
-     * The result is {@code true} if and only if the argument
-     * is not {@code null} and is a {@code SerialJavaObject}
-     * object that is identical to this object
+     * Compbres this SeriblJbvbObject to the specified object.
+     * The result is {@code true} if bnd only if the brgument
+     * is not {@code null} bnd is b {@code SeriblJbvbObject}
+     * object thbt is identicbl to this object
      *
-     * @param  o The object to compare this {@code SerialJavaObject} against
+     * @pbrbm  o The object to compbre this {@code SeriblJbvbObject} bgbinst
      *
-     * @return  {@code true} if the given object represents a {@code SerialJavaObject}
-     *          equivalent to this SerialJavaObject, {@code false} otherwise
+     * @return  {@code true} if the given object represents b {@code SeriblJbvbObject}
+     *          equivblent to this SeriblJbvbObject, {@code fblse} otherwise
      *
      */
-    public boolean equals(Object o) {
+    public boolebn equbls(Object o) {
         if (this == o) {
             return true;
         }
-        if (o instanceof SerialJavaObject) {
-            SerialJavaObject sjo = (SerialJavaObject) o;
-            return obj.equals(sjo.obj);
+        if (o instbnceof SeriblJbvbObject) {
+            SeriblJbvbObject sjo = (SeriblJbvbObject) o;
+            return obj.equbls(sjo.obj);
         }
-        return false;
+        return fblse;
     }
 
     /**
-     * Returns a hash code for this SerialJavaObject. The hash code for a
-     * {@code SerialJavaObject} object is taken as the hash code of
+     * Returns b hbsh code for this SeriblJbvbObject. The hbsh code for b
+     * {@code SeriblJbvbObject} object is tbken bs the hbsh code of
      * the {@code Object} it stores
      *
-     * @return  a hash code value for this object.
+     * @return  b hbsh code vblue for this object.
      */
-    public int hashCode() {
-        return 31 + obj.hashCode();
+    public int hbshCode() {
+        return 31 + obj.hbshCode();
     }
 
     /**
-     * Returns a clone of this {@code SerialJavaObject}.
+     * Returns b clone of this {@code SeriblJbvbObject}.
      *
-     * @return  a clone of this SerialJavaObject
+     * @return  b clone of this SeriblJbvbObject
      */
 
     public Object clone() {
         try {
-            SerialJavaObject sjo = (SerialJavaObject) super.clone();
-            sjo.fields = Arrays.copyOf(fields, fields.length);
-            if (chain != null)
-                sjo.chain = new Vector<>(chain);
+            SeriblJbvbObject sjo = (SeriblJbvbObject) super.clone();
+            sjo.fields = Arrbys.copyOf(fields, fields.length);
+            if (chbin != null)
+                sjo.chbin = new Vector<>(chbin);
             return sjo;
-        } catch (CloneNotSupportedException ex) {
-            // this shouldn't happen, since we are Cloneable
-            throw new InternalError();
+        } cbtch (CloneNotSupportedException ex) {
+            // this shouldn't hbppen, since we bre Clonebble
+            throw new InternblError();
         }
     }
 
     /**
-     * Registers the given warning.
+     * Registers the given wbrning.
      */
-    private void setWarning(RowSetWarning e) {
-        if (chain == null) {
-            chain = new Vector<>();
+    privbte void setWbrning(RowSetWbrning e) {
+        if (chbin == null) {
+            chbin = new Vector<>();
         }
-        chain.add(e);
+        chbin.bdd(e);
     }
 
     /**
-     * readObject is called to restore the state of the {@code SerialJavaObject}
-     * from a stream.
+     * rebdObject is cblled to restore the stbte of the {@code SeriblJbvbObject}
+     * from b strebm.
      */
-    private void readObject(ObjectInputStream s)
-            throws IOException, ClassNotFoundException {
+    privbte void rebdObject(ObjectInputStrebm s)
+            throws IOException, ClbssNotFoundException {
 
-        ObjectInputStream.GetField fields1 = s.readFields();
-        @SuppressWarnings("unchecked")
-        Vector<RowSetWarning> tmp = (Vector<RowSetWarning>)fields1.get("chain", null);
+        ObjectInputStrebm.GetField fields1 = s.rebdFields();
+        @SuppressWbrnings("unchecked")
+        Vector<RowSetWbrning> tmp = (Vector<RowSetWbrning>)fields1.get("chbin", null);
         if (tmp != null)
-            chain = new Vector<>(tmp);
+            chbin = new Vector<>(tmp);
 
         obj = fields1.get("obj", null);
         if (obj != null) {
-            fields = obj.getClass().getFields();
-            if(hasStaticFields(fields))
-                throw new IOException("Located static fields in " +
-                "object instance. Cannot serialize");
+            fields = obj.getClbss().getFields();
+            if(hbsStbticFields(fields))
+                throw new IOException("Locbted stbtic fields in " +
+                "object instbnce. Cbnnot seriblize");
         } else {
-            throw new IOException("Object cannot be null!");
+            throw new IOException("Object cbnnot be null!");
         }
 
     }
 
     /**
-     * writeObject is called to save the state of the {@code SerialJavaObject}
-     * to a stream.
+     * writeObject is cblled to sbve the stbte of the {@code SeriblJbvbObject}
+     * to b strebm.
      */
-    private void writeObject(ObjectOutputStream s)
+    privbte void writeObject(ObjectOutputStrebm s)
             throws IOException {
-        ObjectOutputStream.PutField fields = s.putFields();
+        ObjectOutputStrebm.PutField fields = s.putFields();
         fields.put("obj", obj);
-        fields.put("chain", chain);
+        fields.put("chbin", chbin);
         s.writeFields();
     }
 
     /*
-     * Check to see if there are any Static Fields in this object
+     * Check to see if there bre bny Stbtic Fields in this object
      */
-    private static boolean hasStaticFields(Field[] fields) {
+    privbte stbtic boolebn hbsStbticFields(Field[] fields) {
         for (Field field : fields) {
             if ( field.getModifiers() == Modifier.STATIC) {
                 return true;
             }
         }
-        return false;
+        return fblse;
     }
 }

@@ -1,74 +1,74 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This code is free softwbre; you cbn redistribute it bnd/or modify it
+ * under the terms of the GNU Generbl Public License version 2 only, bs
+ * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
+ * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
+ * by Orbcle in the LICENSE file thbt bccompbnied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * This code is distributed in the hope thbt it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
+ * version 2 for more detbils (b copy is included in the LICENSE file thbt
+ * bccompbnied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should hbve received b copy of the GNU Generbl Public License version
+ * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
+ * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
+ * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
+ * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
  * questions.
  */
 
-package java.security;
+pbckbge jbvb.security;
 
 /**
- * This class defines the <i>Service Provider Interface</i> (<b>SPI</b>)
- * for the {@code SecureRandom} class.
- * All the abstract methods in this class must be implemented by each
- * service provider who wishes to supply the implementation
- * of a cryptographically strong pseudo-random number generator.
+ * This clbss defines the <i>Service Provider Interfbce</i> (<b>SPI</b>)
+ * for the {@code SecureRbndom} clbss.
+ * All the bbstrbct methods in this clbss must be implemented by ebch
+ * service provider who wishes to supply the implementbtion
+ * of b cryptogrbphicblly strong pseudo-rbndom number generbtor.
  *
  *
- * @see SecureRandom
+ * @see SecureRbndom
  * @since 1.2
  */
 
-public abstract class SecureRandomSpi implements java.io.Serializable {
+public bbstrbct clbss SecureRbndomSpi implements jbvb.io.Seriblizbble {
 
-    private static final long serialVersionUID = -2991854161009191830L;
+    privbte stbtic finbl long seriblVersionUID = -2991854161009191830L;
 
     /**
-     * Reseeds this random object. The given seed supplements, rather than
-     * replaces, the existing seed. Thus, repeated calls are guaranteed
-     * never to reduce randomness.
+     * Reseeds this rbndom object. The given seed supplements, rbther thbn
+     * replbces, the existing seed. Thus, repebted cblls bre gubrbnteed
+     * never to reduce rbndomness.
      *
-     * @param seed the seed.
+     * @pbrbm seed the seed.
      */
-    protected abstract void engineSetSeed(byte[] seed);
+    protected bbstrbct void engineSetSeed(byte[] seed);
 
     /**
-     * Generates a user-specified number of random bytes.
+     * Generbtes b user-specified number of rbndom bytes.
      *
-     * <p> If a call to {@code engineSetSeed} had not occurred previously,
-     * the first call to this method forces this SecureRandom implementation
+     * <p> If b cbll to {@code engineSetSeed} hbd not occurred previously,
+     * the first cbll to this method forces this SecureRbndom implementbtion
      * to seed itself.  This self-seeding will not occur if
-     * {@code engineSetSeed} was previously called.
+     * {@code engineSetSeed} wbs previously cblled.
      *
-     * @param bytes the array to be filled in with random bytes.
+     * @pbrbm bytes the brrby to be filled in with rbndom bytes.
      */
-    protected abstract void engineNextBytes(byte[] bytes);
+    protected bbstrbct void engineNextBytes(byte[] bytes);
 
     /**
-     * Returns the given number of seed bytes.  This call may be used to
-     * seed other random number generators.
+     * Returns the given number of seed bytes.  This cbll mby be used to
+     * seed other rbndom number generbtors.
      *
-     * @param numBytes the number of seed bytes to generate.
+     * @pbrbm numBytes the number of seed bytes to generbte.
      *
      * @return the seed bytes.
      */
-     protected abstract byte[] engineGenerateSeed(int numBytes);
+     protected bbstrbct byte[] engineGenerbteSeed(int numBytes);
 }
